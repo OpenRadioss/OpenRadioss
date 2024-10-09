@@ -962,15 +962,15 @@ C------------------------------------------
             VP =  IPM(255,IMAT)
             CALL SIGEPS02C(
      1                  JFT        ,JLT       ,PM       ,EINT     ,THKN     ,
-     2                  OFF        ,SIGY      ,DT1      ,IPLA     ,NEL      ,
+     2                  OFF        ,SIGY      ,DT1C     ,IPLA     ,NEL      ,
      3                  VOL0       ,GS        ,ISRATE   ,THKLYL   ,ETSE     ,
-     4                  NGL        ,EPSPL     ,G_IMP    ,SIGKSI   ,IOFF_DUCT,
+     4                  NGL        ,EPSPDT    ,G_IMP    ,SIGKSI   ,IOFF_DUCT,
      5                  DPLA       ,TSTAR     ,JTHE     ,HARDM    ,EPCHK    ,
      6                  IMAT       ,IPT       ,NPTTOT   ,LBUF%PLA ,OFF_OLD  ,
      7        LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
      8                  SIGNXX     ,SIGNYY    ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      9                  DEPSXX     ,DEPSYY    ,DEPSXY   ,DEPSYZ   ,DEPSZX   ,
-     A                  EPSPXX     ,EPSPYY    ,EPSPXY   ,EPSPYZ   ,EPSPZX   ,
+     A                  EPSPXX     ,EPSPYY    ,EPSPXY   ,EPSPYZ   ,EPSPZX ,
      B                  LBUF%SIGB(IJ1),LBUF%SIGB(IJ2),LBUF%SIGB(IJ3),INLOC  ,VARNL(1,IT),
      C                  VP         ,ASRATE    ,LBUF%OFF ,LBUF%EPSD  ,
      D                  EL_TEMP   ,FHEAT     )
@@ -1066,7 +1066,7 @@ C
        ELSEIF (ILAW == 34) THEN
             CALL SIGEPS34C(
      1        JLT    ,NUPARAM0,NUVAR   ,NFUNC    ,IFUNC   ,
-     2        NPF    ,TF     ,TT       ,DT1    ,UPARAM0    ,
+     2        NPF    ,TF     ,TT     ,DT1C    ,UPARAM0    ,
      3        RHO    ,THKLYL  ,GS     ,
      4        EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ   ,EPSPZX ,
      5        DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ   ,DEPSZX ,
@@ -1078,7 +1078,7 @@ C
             CALL SIGEPS35C(
      1        JLT    ,NUPARAM0,NUVAR   ,NFUNC    ,IFUNC   ,
      2        NPF    ,NPT    ,IPT     ,IFLAG    ,
-     2        TF     ,TT     ,DT1     ,UPARAM0   ,RHO    ,
+     2        TF     ,TT     ,DT1C    ,UPARAM0   ,RHO    ,
      3        AREA   ,EINT   ,THKLYL  ,
      4        EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ   ,EPSPZX ,
      5        DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ   ,DEPSZX ,
@@ -1106,7 +1106,7 @@ C
               CALL SIGEPS36C(
      1          JLT    ,NUVAR   ,NVARTMP  ,NFUNC   ,
      2          IFUNC  ,NPF    ,IFLAG   ,
-     2          TF     ,DT1    ,UPARAM0   ,RHO     ,
+     2          TF     ,DT1C    ,UPARAM0   ,RHO     ,
      3          THKLYL  ,ASRATE   ,
      4          EPSPXX ,EPSPYY ,EPSPXY  ,
      5          DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ   ,DEPSZX ,
@@ -1132,7 +1132,7 @@ C
           ELSEIF (ILAW == 43) THEN
            CALL SIGEPS43C(
      1        JLT    ,NUPARAM0,NUVAR   ,NPF      ,TF      ,
-     2        NFUNC  ,IFUNC  ,ISRATE  ,TT       ,DT1     ,
+     2        NFUNC  ,IFUNC  ,ISRATE  ,TT       ,DT1C    ,
      3        UPARAM0 ,RHO    ,AREA    ,EINT     ,THKLYL  ,
      4        EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ   ,EPSPZX  ,
      5        DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ   ,DEPSZX  ,
@@ -1164,7 +1164,7 @@ C
            CALL SIGEPS45C(
      1        JLT    ,NUPARAM0,NUVAR   ,NFUNC    ,IFUNC  ,
      2        NPF    ,NPT    ,IPT     ,IFLAG    ,
-     2        TF     ,TT     ,DT1     ,UPARAM0   ,RHO    ,
+     2        TF     ,TT     ,DT1C    ,UPARAM0   ,RHO    ,
      3        AREA   ,EINT   ,THKLYL  ,
      4        EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ   ,EPSPZX ,
      5        DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ   ,DEPSZX ,
@@ -1178,7 +1178,7 @@ C
            CALL SIGEPS48C(
      1        JLT    ,NUPARAM0,NUVAR   ,NFUNC   ,IFUNC   ,
      2        NPF    ,NPT    ,IPT  ,IFLAG   ,
-     2        TF     ,TT     ,DT1     ,BUFMAT  ,RHO,
+     2        TF     ,TT     ,DT1C    ,BUFMAT  ,RHO,
      3        AREA   ,EINT   ,THKLYL  ,
      4        EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ   ,EPSPZX ,
      5        DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ   ,DEPSZX ,
@@ -1224,7 +1224,7 @@ C
            CALL SIGEPS56C(
      1        JLT    ,NUPARAM0,NUVAR   ,NFUNC   ,IFUNC   ,
      2        NPF    ,NPT    ,IPT  ,IFLAG   ,
-     2        TF     ,TT     ,DT1     ,BUFMAT  ,RHO,
+     2        TF     ,TT     ,DT1C    ,BUFMAT  ,RHO,
      3        AREA   ,EINT   ,THKLYL  ,
      4        EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ   ,EPSPZX ,
      5        DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ   ,DEPSZX ,
@@ -1239,7 +1239,7 @@ C
            CALL SIGEPS57C(
      1        JLT    ,NUPARAM0,NUVAR   ,NFUNC    ,IFUNC  ,
      2        NPF    ,NPT    ,IPT     ,IFLAG    ,
-     2        TF     ,TT     ,DT1     ,UPARAM0   ,RHO    ,
+     2        TF     ,TT     ,DT1C    ,UPARAM0   ,RHO    ,
      3        AREA   ,EINT   ,THKLYL  ,
      4        EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ   ,EPSPZX ,
      5        DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ   ,DEPSZX ,
@@ -1291,7 +1291,7 @@ c
             CALL SIGEPS60C(
      1        JLT    ,NUPARAM0,NUVAR   ,NFUNC   ,IFUNC   ,
      2        NPF    ,NPT    ,IPT  ,IFLAG   ,
-     2        TF     ,TT     ,DT1     ,BUFMAT  ,RHO,
+     2        TF     ,TT     ,DT1C    ,BUFMAT  ,RHO,
      3        AREA   ,EINT   ,THKLYL   ,
      4        EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ   ,EPSPZX ,
      5        DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ   ,DEPSZX ,
@@ -1308,7 +1308,7 @@ c
             CALL SIGEPS62C(
      1         JLT    , NUPARAM0, NUVAR   , NFUNC , IFUNC , NPF   ,
      2         NPT    , IPT    , IFLAG   ,
-     2         TF     , TT     , DT1     , UPARAM0, RHO  , 
+     2         TF     , TT     , DT1C    , UPARAM0, RHO  , 
      3         AREA   , EINT   , THKLYL  ,
      4         EPSPXX , EPSPYY , EPSPXY  , EPSPYZ, EPSPZX, 
      5         DEPSXX , DEPSYY , DEPSXY  , DEPSYZ, DEPSZX,
@@ -1322,7 +1322,7 @@ c
            CALL SIGEPS63C(
      1   JLT,          NUPARAM0,      NUVAR,        NFUNC,
      2   IFUNC,        NPF,          NPT,          IPT,
-     3   IFLAG,        TF,           TT,           DT1,
+     3   IFLAG,        TF,           TT,           DT1C,
      4   UPARAM0,       RHO,          AREA,         EINT,
      5   THKLYL,       EPSPXX,       EPSPYY,       EPSPXY,
      6   EPSPYZ,       EPSPZX,       DEPSXX,       DEPSYY,
@@ -1341,7 +1341,7 @@ c
            CALL SIGEPS64C(
      1   JLT,          NUPARAM0,      NUVAR,        NFUNC,
      2   IFUNC,        NPF,          NPT,          IPT,
-     3   IFLAG,        TF,           TT,           DT1,
+     3   IFLAG,        TF,           TT,           DT1C,
      4   UPARAM0,       RHO,          AREA,         EINT,
      5   THKLYL,       EPSPXX,       EPSPYY,       EPSPXY,
      6   EPSPYZ,       EPSPZX,       DEPSXX,       DEPSYY,
@@ -1360,7 +1360,7 @@ c
            CALL SIGEPS65C(
      1        JLT    ,NUPARAM0,NUVAR   ,NFUNC   ,IFUNC   ,
      2        NPF    ,NPT    ,IPT,IFLAG   ,
-     2        TF     ,TT     ,DT1     ,BUFMAT  ,RHO,
+     2        TF     ,TT     ,DT1C    ,BUFMAT  ,RHO,
      3        AREA   ,EINT   ,THKLYL   ,
      4        EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ   ,EPSPZX ,
      5        DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ   ,DEPSZX ,
@@ -1392,7 +1392,7 @@ c
            CALL SIGEPS69C(
      1         JLT    , NUPARAM0, NUVAR   , NFUNC , IFUNC , NPF   ,
      2         NPT    , IPT ,
-     2         TF     , TT     , DT1     , BUFMAT, RHO   ,  
+     2         TF     , TT     , DT1C    , BUFMAT, RHO   ,  
      3         AREA   , EINT   , THKLYL  ,
      4         EPSPXX , EPSPYY , EPSPXY  , EPSPYZ, EPSPZX, 
      5         DEPSXX , DEPSYY , DEPSXY  , DEPSYZ, DEPSZX,
@@ -1407,7 +1407,7 @@ c
            CALL SIGEPS71C(
      1   JLT,          NUPARAM0,      NUVAR,        NFUNC,
      2   IFUNC,        NPF,          NPT,          IPT,
-     3   IFLAG,        TF,           TT,           DT1,
+     3   IFLAG,        TF,           TT,           DT1C,
      4   UPARAM0,       RHO,          AREA,         EINT,
      5   THKLYL,       EPSPXX,       EPSPYY,       EPSPXY,
      6   EPSPYZ,       EPSPZX,       DEPSXX,       DEPSYY,
@@ -1434,7 +1434,7 @@ c
           ELSEIF (ILAW == 73) THEN
             CALL SIGEPS73C(
      1   JLT,          NUPARAM0,      NUVAR,        TT,
-     2   DT1,          UPARAM0,       RHO,          AREA,
+     2   DT1C,         UPARAM0,       RHO,          AREA,
      3   EINT,         THKLYL,       EPSPXX,       EPSPYY,
      4   EPSPXY,       EPSPYZ,       EPSPZX,       DEPSXX,
      5   DEPSYY,       DEPSXY,       DEPSYZ,       DEPSZX,
@@ -1494,7 +1494,7 @@ c
             CALL SIGEPS80C(
      1   JLT,          NUPARAM0,      NUVAR,        NFUNC,
      2   IFUNC,        NPF,          NPT,          IPT,
-     3   IFLAG,        TF,           TT,           DT1,
+     3   IFLAG,        TF,           TT,           DT1C,
      4   UPARAM0,       RHO,          AREA,         EINT,
      5   THKLYL,       EPSPXX,       EPSPYY,       EPSPXY,
      6   EPSPYZ,       EPSPZX,       DEPSXX,       DEPSYY,
@@ -1514,7 +1514,7 @@ c
               CALL SIGEPS82C(
      1        JLT    ,NUPARAM0,NUVAR   ,NFUNC  ,IFUNC  , 
      2        NPF    ,NPT    ,IPT     ,IFLAG  ,
-     2        TF     ,TT     ,DT1     ,
+     2        TF     ,TT     ,DT1C    ,
      3        UPARAM0 ,RHO    ,AREA    ,EINT   ,THKLYL,
      4        EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ ,EPSPZX , 
      5        DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ ,DEPSZX ,
@@ -1528,7 +1528,7 @@ c
            CALL SIGEPS85C_VOID(
      1        JLT    ,NUPARAM0,NUVAR   ,NFUNC    ,IFUNC  ,
      2        NPF    ,NPT    ,IPT     ,IFLAG    ,
-     2        TF     ,TT     ,DT1     ,UPARAM0   ,RHO    ,
+     2        TF     ,TT     ,DT1C    ,UPARAM0   ,RHO    ,
      3        AREA   ,EINT   ,THKLYL  ,
      4        EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ   ,EPSPZX ,
      5        DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ   ,DEPSZX ,
@@ -1542,7 +1542,7 @@ c
            CALL SIGEPS86C(
      1        JLT    ,NUPARAM0,NUVAR   ,NFUNC   ,IFUNC   ,
      2        NPF    ,NPT    ,IPT     ,IFLAG   ,
-     2        TF     ,TT     ,DT1     ,UPARAM0  ,RHO,
+     2        TF     ,TT     ,DT1C    ,UPARAM0  ,RHO,
      3        AREA   ,EINT   ,THKLYL  ,
      4        EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ   ,EPSPZX ,
      5        DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ   ,DEPSZX ,
@@ -1558,7 +1558,7 @@ c
             CALL SIGEPS87C(
      1   JLT,          NUPARAM0,      NUVAR,        NFUNC,
      2   IFUNC,        NPF,          TF,           TT,
-     3   DT1 ,         UPARAM0,       UVAR,         RHO,
+     3   DT1C,         UPARAM0,       UVAR,         RHO,
      4   THKLYL,       THKN,         OFF,          EPSPXX,
      5   EPSPYY,       EPSPXY,       EPSPYZ,       EPSPZX,
      6   DEPSXX,       DEPSYY,       DEPSXY,       DEPSYZ,
@@ -1573,7 +1573,7 @@ c
            CALL SIGEPS88C(
      1         JLT    , NUPARAM0, NUVAR   , NFUNC , IFUNC , NPF   ,
      2         NPT    , IPT     ,NGL     , OFF    , ISMSTR   , GS ,   
-     2         TF     , TT     , DT1     , BUFMAT(IADBUF), RHO   ,  
+     2         TF     , TT     , DT1C    , BUFMAT(IADBUF), RHO   ,  
      3         AREA   , EINT   , THKLYL  ,
      4         EPSPXX , EPSPYY , EPSPXY  , EPSPYZ, EPSPZX, 
      5         DEPSXX , DEPSYY , DEPSXY  , DEPSYZ, DEPSZX,
@@ -1608,7 +1608,7 @@ c
 !
             CALL SIGEPS104C(
      1         JLT     ,NGL     ,IPG     ,ILAYER  ,IT      ,NUPARAM0 ,NUVAR    ,
-     2         DT1     ,TT      ,UPARAM0 ,UVAR    ,JTHE    ,RHO      ,TEMPEL   ,
+     2         DT1C    ,TT      ,UPARAM0 ,UVAR    ,JTHE    ,RHO      ,TEMPEL   ,
      3         LBUF%PLA,DPLA    ,SSP     ,LBUF%OFF,LBUF%EPSD,EPSPL   ,GS       ,
      4         DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,THKLYL   ,OFF      ,
      5         LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
@@ -1620,7 +1620,7 @@ c
           ELSEIF (ILAW == 107 )THEN
             CALL SIGEPS107C(
      1         JLT     ,NGL     ,NUPARAM0 ,NUVAR   ,NFUNC   ,IFUNC   ,NPF     ,
-     2         TF      ,DT1     ,TT      ,UPARAM0  ,UVAR    ,JTHE    ,RHO     ,
+     2         TF      ,DT1C    ,TT      ,UPARAM0  ,UVAR    ,JTHE    ,RHO     ,
      3         LBUF%PLA,DPLA    ,SSP     ,LBUF%EPSD,OFF     ,
      4         DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,SHF     ,
      5         LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
@@ -1641,7 +1641,7 @@ c
           ELSEIF (ILAW == 110 )THEN
             CALL SIGEPS110C(
      1         JLT     ,NGL     ,NUPARAM0 ,NUVAR   ,NPF      ,
-     2         TT      ,DT1     ,UPARAM0  ,UVAR    ,JTHE     ,OFF     ,
+     2         TT      ,DT1C    ,UPARAM0  ,UVAR    ,JTHE     ,OFF     ,
      3         GS      ,RHO     ,LBUF%PLA,DPLA    ,EPSP     ,SSP     ,
      4         DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX   ,ASRATE  ,
      5         EPSPXX  ,EPSPYY  ,EPSPXY  ,EPSPYZ  ,EPSPZX   ,
@@ -1654,7 +1654,7 @@ c
           ELSEIF (ILAW == 112 )THEN
             CALL SIGEPS112C(
      1         JLT     ,NGL     ,NUPARAM0 ,NUVAR   ,NFUNC   ,IFUNC   ,NPF     ,
-     2         TF      ,DT1     ,TT      ,UPARAM0  ,UVAR    ,JTHE    ,RHO     ,
+     2         TF      ,DT1C    ,TT      ,UPARAM0  ,UVAR    ,JTHE    ,RHO     ,
      3         LBUF%PLA,DPLA    ,SSP     ,LBUF%EPSD,OFF     ,
      4         DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,SHF     ,
      5         LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
@@ -1676,7 +1676,7 @@ c
           ELSEIF (ILAW == 121 )THEN
             CALL SIGEPS121C(
      1         JLT     ,NGL     ,NUPARAM0 ,NUVAR   ,NFUNC   ,IFUNC   ,NPF     ,
-     2         TF      ,DT1     ,TT      ,UPARAM0  ,UVAR    ,RHO     ,LBUF%PLA,
+     2         TF      ,DT1C    ,TT      ,UPARAM0  ,UVAR    ,RHO     ,LBUF%PLA,
      3         DPLA    ,SSP     ,LBUF%EPSD,GS     ,THKN    ,THKLYL  ,OFF     ,
      5         DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      6         EPSPXX  ,EPSPYY  ,EPSPXY  ,EPSPYZ  ,EPSPZX  ,EPSP    ,EPSPL   ,
@@ -2083,7 +2083,7 @@ c
      2               TT        ,NGL       ,IPG       ,ILAYER    ,IT        ,
      3               SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,
      4               OFF       ,FOFF      ,DMG_FLAG  ,DMG_LOC_SCALE ,
-     5               DFMAX     ,LF_DAMMX  ,TDEL      ,DT1       )
+     5               DFMAX     ,LF_DAMMX  ,TDEL      ,DT1C      )
 c
               CASE (23)     !    Tabulated failure model
                 IF (IXFEM == 0) THEN
@@ -2252,7 +2252,7 @@ c
 c
                 CALL FAIL_GENE1_C(
      1            JLT      ,NUPAR    ,NVARF    ,NFUNC_FAIL,IFUNC_FAIL,
-     2            NPF      ,TF       ,TT       ,DT1      ,UPARAMF  ,IPG      ,
+     2            NPF      ,TF       ,TT       ,DT1C     ,UPARAMF  ,IPG      ,
      3            NGL      ,GBUF%DT  ,EPSPL    ,UVARF    ,OFF      ,    
      4            EPSXX    ,EPSYY    ,EPSXY    ,AREA     ,THKN     ,            
      5            SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   , 
@@ -2263,7 +2263,7 @@ c
               CASE (40)     !    RTCL
 c
                 CALL FAIL_RTCL_C(
-     1            JLT      ,NUPAR    ,NVARF    ,TT       ,DT1      ,UPARAMF  ,
+     1            JLT      ,NUPAR    ,NVARF    ,TT       ,DT1C     ,UPARAMF  ,
      2            SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,MPT      ,
      3            NGL      ,DPLA     ,UVARF    ,OFF      ,DFMAX    ,TDEL     ,
      4            AREA     ,FOFF     ,IGTYP    ,OFFL     ,IPT      ,THK0     )
@@ -2306,7 +2306,7 @@ c
      2            TT        ,NGL       ,IPG       ,ILAYER    ,IT        ,
      3            SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,
      4            OFF       ,FOFF      ,DMG_FLAG  ,DMG_LOC_SCALE ,
-     5            DFMAX     ,LF_DAMMX  ,TDEL      ,DT1       )
+     5            DFMAX     ,LF_DAMMX  ,TDEL      ,DT1C      )
 c
               CASE (45)     !    Tsai-Hill criterion
 c
@@ -2315,7 +2315,7 @@ c
      2            TT        ,NGL       ,IPG       ,ILAYER    ,IT        ,
      3            SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,
      4            OFF       ,FOFF      ,DMG_FLAG  ,DMG_LOC_SCALE ,
-     5            DFMAX     ,LF_DAMMX  ,TDEL      ,DT1       )
+     5            DFMAX     ,LF_DAMMX  ,TDEL      ,DT1C      )
 c
               CASE (46)     !    Hoffman criterion
 c
@@ -2324,7 +2324,7 @@ c
      2            TT        ,NGL       ,IPG       ,ILAYER    ,IT        ,
      3            SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,
      4            OFF       ,FOFF      ,DMG_FLAG  ,DMG_LOC_SCALE ,
-     5            DFMAX     ,LF_DAMMX  ,TDEL      ,DT1       )
+     5            DFMAX     ,LF_DAMMX  ,TDEL      ,DT1C      )
 c
               CASE (47)     !    Maximum strain failure model
 c
@@ -2333,7 +2333,7 @@ c
      2            TT        ,NGL       ,IPG       ,ILAYER    ,IT        ,
      3            EPSXX     ,EPSYY     ,EPSXY     ,EPSYZ     ,EPSZX     ,
      4            OFF       ,FOFF      ,DMG_FLAG  ,DMG_LOC_SCALE ,
-     5            DFMAX     ,LF_DAMMX  ,TDEL      ,DT1       )
+     5            DFMAX     ,LF_DAMMX  ,TDEL      ,DT1C      )
 c
               CASE (48)     !    Orthotropic energy failure model
 c               
