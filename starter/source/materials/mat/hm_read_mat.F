@@ -1323,7 +1323,7 @@ c-----------------------------------------------------------------------
         ENDIF
 c--------------------------------------------      
         ISRATE = MAX(ISRATE, NINT(PARMAT(4)))  ! just in case ...
-        ASRATE = PARMAT(5)*TWO*PI              ! ASRATE = 2*PI*FCUT
+        IF(ILAW/=2)ASRATE = PARMAT(5)*TWO*PI             ! ASRATE = 2*PI*FCUT
 !!        IF (ASRATE == ZERO) ASRATE = EP20
 c--------------------------------------------      
         MATPARAM%ILAW   = ILAW

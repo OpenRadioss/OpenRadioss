@@ -29,9 +29,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE SIGEPS02C(
      1                  JFT      ,JLT      ,PM       ,EINT     ,THK      ,
-     2                  OFF      ,SIGY     ,DT1      ,IPLA     ,NEL      ,
+     2                  OFF      ,SIGY     ,DT1C     ,IPLA     ,NEL      ,
      3                  VOL      ,GS       ,ISRATE   ,THKLYL   ,ETSE     ,
-     4                  NGL      ,EPSP     ,G_IMP    ,SIGKSI   ,IOFF_DUCT,
+     4                  NGL      ,EPSPDT   ,G_IMP    ,SIGKSI   ,IOFF_DUCT,
      5                  DPLA     ,TSTAR    ,JTHE     ,HARDM    ,EPCHK    ,
      6                  IMAT     ,IPT      ,NPTT     ,PLA      ,OFF_OLD  ,
      7                  SIGOXX   ,SIGOYY   ,SIGOXY   ,SIGOYZ   ,SIGOZX   ,
@@ -46,40 +46,59 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
+C   G l o b a l   P a r a m e t e r s
+C-----------------------------------------------
+#include      "mvsiz_p.inc"
+C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: JFT,JLT,IPLA,NEL,JTHE,IPT,NPTT,IMAT,ISRATE,
-     .   INLOC,VP
-      INTEGER, DIMENSION(NEL), INTENT(IN) :: NGL
-      INTEGER, DIMENSION(NEL), INTENT(INOUT) :: IOFF_DUCT
-      my_real, DIMENSION(NEL), INTENT(IN) :: EPSPXX,EPSPYY,EPSPXY,EPSPYZ,
-     .   EPSPZX,EPSP,DEPSXX,DEPSYY,DEPSXY,DEPSYZ,DEPSZX,SIGOXX,
-     .   SIGOYY,SIGOXY,SIGOYZ,SIGOZX,OFF_OLD,DPLANL,GS,THKLYL
-      my_real, INTENT(IN) :: ASRATE,DT1
-      my_real, DIMENSION(NEL), INTENT(INOUT) :: SIGNXX,SIGNYY,SIGNXY,SIGNYZ,
-     .   SIGNZX,SIGBAKXX,SIGBAKYY,SIGBAKXY,PLA,DPLA,TSTAR,ETSE,THK, 
-     .   SIGY,OFF,VOL,HARDM,EPCHK,G_IMP,EPSD
-      my_real, DIMENSION(NPROPM,*), INTENT(IN) :: PM
-      my_real, DIMENSION(NEL,5), INTENT(INOUT) :: SIGKSI
-      my_real, DIMENSION(NEL,2), INTENT(IN)    :: EINT
-      my_real, DIMENSION(NEL)  , INTENT(IN)    :: LOFF
+
+      INTEGER JFT,JLT,IPLA,NEL,IOFC,JTHE,IPT,NPTT,IMAT,ISRATE
+      INTEGER NGL(MVSIZ),IOFF_DUCT(*),INLOC
+      INTEGER, INTENT(IN) :: VP
+      my_real ,DIMENSION(NEL),INTENT(IN) :: EPSPXX,EPSPYY,EPSPXY,EPSPYZ,EPSPZX
+      my_real ,INTENT(IN) :: ASRATE
+      my_real, DIMENSION(NEL), INTENT(IN) :: LOFF
+!---
+C     REAL
+      my_real
+     .   PM(NPROPM,*),EINT(NEL,2),
+     .   OFF(*),SIGY(*),DT1C(*),VOL(*),GS(*),THK(*),
+     .   TSTAR(*),DPLA(*),SIGKSI(MVSIZ,5),ETSE(MVSIZ),
+     .   DEPSXX(MVSIZ),DEPSYY(MVSIZ),DEPSXY(MVSIZ),DEPSYZ(MVSIZ),
+     .   DEPSZX(MVSIZ),PLA(NEL),
+     .   SIGBAKXX(NEL),SIGBAKYY(NEL),SIGBAKXY(NEL),
+     .   SIGOXX(NEL),SIGOYY(NEL),SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL),
+     .   OFF_OLD(MVSIZ),THKLYL(NEL),DPLANL(NEL)
+!
+      my_real
+     .   SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),
+     .   SIGNYZ(NEL),SIGNZX(NEL),EPCHK(MVSIZ),G_IMP(MVSIZ)
+!
+      my_real
+     .   HARDM(MVSIZ),EPSPDT(MVSIZ),EZZ(MVSIZ)
       my_real, DIMENSION(NEL)  , INTENT(INOUT) :: TEMPEL
       my_real, DIMENSION(NEL)  , INTENT(INOUT) :: FHEAT
+      my_real, DIMENSION(NEL)  , INTENT(INOUT) :: EPSD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,ICC,IRTY
-      my_real :: EPMX,CA,CB,CN,RHOCP,CC,
+      INTEGER ICC,IRTY,I,J,NPIF
+C     REAL
+      my_real
+     .   EPMX,CA,CB,CN,CP,CC,
      .   DAV,DEVE1,DEVE2,DEVE3,DEVE4,Z3,Z4,FISOKIN,
-     .   YOUNG,TREF,TMELT,G,A11,A12,NU,YMAX
-      my_real, DIMENSION(NEL) :: EPDR,YLD,EPSDOT,T,EZZ
+     .   EPIF,YOUNG,TI,TM,G,A11,A12,NU,
+     .   YMAX(MVSIZ),PLAP(MVSIZ),
+     .   EPDR(MVSIZ),YLD(MVSIZ),EPSDOT(MVSIZ),
+     .   T(MVSIZ),RHOCP,TREF,TMELT
 !=======================================================================
       ! Variable initialization
-      EZZ(1:NEL) = ZERO
+      EZZ(1:MVSIZ) = ZERO
 !---
       ! Recover material law parameters
       YOUNG  = PM(20,IMAT)
@@ -100,7 +119,7 @@ C-----------------------------------------------
 !
       ! Recover internal variables
       DO I=JFT,JLT              
-        EPDR(I) = MAX(EM20, PM(44,IMAT))      
+        EPDR(I) = MAX(EM20,PM(44,IMAT)*DT1C(I))            
       ENDDO
 !
       IF (IRTY == 1) THEN       ! Zerilli
@@ -127,13 +146,13 @@ C-----------------------------------------------
 !
       IF (VP == 1) THEN 
         DO I=JFT,JLT
-          EPSDOT(I) = EPSD(I) 
+          EPSDOT(I) = EPSD(I)*DT1C(I) 
         ENDDO
       ! -> Total strain rate
       ELSEIF (VP == 2) THEN
         DO I=JFT,JLT  
-          EPSDOT(I) = EPSP(I)  
-          EPSD(I)   = EPSP(I)    
+          EPSDOT(I) = EPSPDT(I) 
+          EPSD(I) = EPSPDT(I)/MAX(DT1C(I),EM20)
         ENDDO   
       ! -> Deviatoric strain rate    
       ELSEIF (VP == 3) THEN
@@ -149,6 +168,7 @@ C-----------------------------------------------
             EPSDOT(I) = ASRATE*EPSDOT(I) + (ONE - ASRATE)*EPSD(I)
           ENDIF
           EPSD(I) = EPSDOT(I)
+          EPSDOT(I) = EPSDOT(I)*DT1C(I)
         ENDDO 
       ENDIF
 !----------------------------
@@ -165,14 +185,14 @@ C-----------------------------------------------
      9            DEPSYZ  ,DEPSZX  ,SIGNXX   ,SIGNYY   ,SIGNXY  ,
      A            SIGNYZ  ,SIGNZX  ,SIGBAKXX ,SIGBAKYY ,SIGBAKXY,
      B            SIGOXX  ,SIGOYY  ,SIGOXY   ,SIGOYZ   ,SIGOZX  ,
-     C            VP      ,EPSPXX  ,EPSPYY   ,EPSPXY  )
+     C            VP      )
 !
 !--------------------------------------------
 !     UPDATE AND FILTER PLASTIC STRAIN RATE
 !--------------------------------------------
       IF (VP == 1) THEN
         DO I=JFT,JLT
-          EPSDOT(I) = DPLA(I)/MAX(EM20,DT1)
+          EPSDOT(I) = DPLA(I)/MAX(EM20,DT1C(I))
           EPSD(I)   = ASRATE*EPSDOT(I) + (ONE - ASRATE)*EPSD(I)
         ENDDO
       ENDIF
