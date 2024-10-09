@@ -128,7 +128,7 @@ c---------------------
           IF(BUFLY%NVAR_EOS==0 .AND. IEOS>0 )BUFLY%NVAR_EOS=ETAG%NVAR
         ENDDO   
       ELSE
-        IF (NLAY > 1) THEN
+        IF (IGTYP == 11 .or. IGTYP == 17 .or. IGTYP == 51 .or. IGTYP == 52 .or. NLAY > 1) THEN
           DO ILAY = 1,NLAY  
             MTAG  => MLAW_TAG(ELBUF_STR%BUFLY(ILAY)%IMAT)
             IF (GBUF%G_GAMA   == 0) GBUF%G_GAMA   = MTAG%G_GAMA                 

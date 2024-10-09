@@ -32,6 +32,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .     UPARAM    ,NGL       ,SIGNXX    ,SIGNYY    ,SIGNXY    ,
      .     UVAR      ,OFF       ,IPT       ,NINDXF    ,INDXF     ,
      .     TDEL      )
+!-----------------------------------------------
+!   M o d u l e s
+!-----------------------------------------------
+      use newman_raju_mod
 C-----------------------------------------------
 c    Test of Ch. Brokmann criterion in glass, taking account for initial
 c    statistically distributed micro cracks
