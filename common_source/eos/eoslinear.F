@@ -26,8 +26,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    eosmain     ../common_source/eos/eosmain.F
       !||====================================================================
       SUBROUTINE EOSLINEAR(IFLAG,NEL, PM   ,OFF  ,EINT ,MU   ,MU2  , 
-     2                     DVOL ,DF   ,VNEW ,MAT  ,PNEW ,DPDM ,
-     3                     DPDE ,THETA,ECOLD)
+     2                     DVOL ,VNEW ,MAT  ,PNEW ,DPDM ,
+     3                     DPDE ,ECOLD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -44,9 +44,8 @@ C-----------------------------------------------
       INTEGER MAT(NEL), IFLAG, NEL
       my_real PM(NPROPM,NUMMAT), 
      .        OFF(NEL) ,EINT(NEL) ,MU(NEL)   , 
-     .        MU2(NEL) ,DVOL(NEL) ,DF(NEL)   ,VNEW(NEL),
-     .        PNEW(NEL),DPDM(NEL) ,DPDE(NEL) ,THETA(NEL),
-     .        ECOLD(NEL)
+     .        MU2(NEL) ,DVOL(NEL) ,VNEW(NEL),
+     .        PNEW(NEL),DPDM(NEL) ,DPDE(NEL) ,ECOLD(NEL)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -107,17 +106,10 @@ C----------------------------------------
         EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
        ENDDO
 C------------------------
-C     COMPUTE TEMPERATURE
-C------------------------
        DO I=1,NEL
         MX     = MAT(I)
         SPH(I) = PM(69,MX)
         PSH(I) = PM(88,MX)
-       ENDDO
-       DO I=1,NEL
-        IF(OFF(I)<1..OR.SPH(I)<=0.) CYCLE
-        THETA(I)=(DF(I)*EINT(I)/VNEW(I)-ECOLD(I))/SPH(I)
-        THETA(I)=MAX(ZERO,THETA(I))
        ENDDO
 C------------------------------------------------
       ELSEIF (IFLAG == 2) THEN
