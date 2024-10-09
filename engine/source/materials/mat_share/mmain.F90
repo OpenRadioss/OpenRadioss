@@ -700,57 +700,57 @@
 ! --------------------------------------------------------
 !    thermal material istrope expansion
 ! --------------------------------------------------------
-          if (iexpan > 0 .and. jthe < 0 .and. tt/=zero ) then
-            if (ismstr==4) then
-              amu(1:nel)  = amu(1:nel) /(amu(1:nel) + one) ! to get amu = 1-rho0/rho
-            endif
-            if(ismstr==2) then
-              do i=1,nel
-                if(abs(lbuf%off(i))<=one)then
-                  amu(i)  = amu(i) /(amu(i) + one)
-                end if
-              enddo
+      if (iexpan > 0 .and. jthe < 0 .and. tt/=zero ) then
+        if (ismstr==4) then
+          amu(1:nel)  = amu(1:nel) /(amu(1:nel) + one) ! to get amu = 1-rho0/rho
+        endif
+        if(ismstr==2) then
+          do i=1,nel
+            if(abs(lbuf%off(i))<=one)then
+              amu(i)  = amu(i) /(amu(i) + one)
             end if
+          enddo
+        end if
 
-            do i=1,nel
-              ifunc_alpha = ipm(219,imat)
-              fscal_alpha = pm(191,imat)
-              tempel0(i)  = lbuf%temp(i)
-              alpha = finter(ifunc_alpha,tempel(i),npf,tf,bidon1)
-              alpha = alpha * fscal_alpha
-              eth(i)= alpha *(tempel(i)-tempel0(i))*off(i)
-              lbuf%forth(i) = lbuf%forth(i) + eth(i)  ! lbuf%forth the total thermal strain over time
-              epsth(i)= three*lbuf%forth(i)
-              dxx(i)  = dxx(i)-eth(i)/dt1
-              dyy(i)  = dyy(i)-eth(i)/dt1
-              dzz(i)  = dzz(i)-eth(i)/dt1
-              dvol(i) = dvol(i)-three*eth(i)*vol_avg(i)
-              amu(i)  = amu(i) + epsth(i)
-              sigkk(i)= lbuf%sig(nel*(1-1)+i)+lbuf%sig(nel*(2-1)+i)+lbuf%sig(nel*(3-1)+i)
-              lbuf%eintth(i) = lbuf%eintth(i)-half*sigkk(i)*eth(i)
-            enddo
-          else
-            epsth(1:nel)= zero
-          endif
+        do i=1,nel
+          ifunc_alpha = ipm(219,imat)
+          fscal_alpha = pm(191,imat)
+          tempel0(i)  = lbuf%temp(i)
+          alpha = finter(ifunc_alpha,tempel(i),npf,tf,bidon1)
+          alpha = alpha * fscal_alpha
+          eth(i)= alpha *(tempel(i)-tempel0(i))*off(i)
+          lbuf%forth(i) = lbuf%forth(i) + eth(i)  ! lbuf%forth the total thermal strain over time
+          epsth(i)= three*lbuf%forth(i)
+          dxx(i)  = dxx(i)-eth(i)/dt1
+          dyy(i)  = dyy(i)-eth(i)/dt1
+          dzz(i)  = dzz(i)-eth(i)/dt1
+          dvol(i) = dvol(i)-three*eth(i)*vol_avg(i)
+          amu(i)  = amu(i) + epsth(i)
+          sigkk(i)= lbuf%sig(nel*(1-1)+i)+lbuf%sig(nel*(2-1)+i)+lbuf%sig(nel*(3-1)+i)
+          lbuf%eintth(i) = lbuf%eintth(i)-half*sigkk(i)*eth(i)
+        enddo
+      else
+        epsth(1:nel)= zero
+      endif
 !
 !-----tstar computation for jonhson cook failure : t* = (t-tref)/(tmelt-tref) => move to JC routine
-          tref  = pm(79, imat)
-          tmelt = pm(80, imat)
-          do i=1,nel
-            tstar(i) = max(zero,(el_temp(i)-tref) / max((tmelt-tref),em20) )
-          enddo
+      tref  = pm(79, imat)
+      tmelt = pm(80, imat)
+      do i=1,nel
+        tstar(i) = max(zero,(el_temp(i)-tref) / max((tmelt-tref),em20) )
+      enddo
 !-----------------------------------
 !     eos part1
 !-----------------------------------
-          eostyp = mat_elem%mat_param(imat)%ieos
-          if (eostyp > 0 .and. mtn /=12 ) then
-            call eosmain(0       ,nel      ,eostyp  ,pm        ,off      ,lbuf%eint,&
-            &lbuf%rho,rho0     ,amu     ,amu2      ,espe     ,&
-            &dvol    ,df       ,voln    ,mat       ,psh      ,&
-            &pnew    ,dpdm     ,dpde    ,lbuf%temp ,ecold    ,&
-            &bufmat  ,lbuf%sig ,lbuf%mu ,mtn       ,pold     ,&
-            &npf     ,tf       ,ebuf%var,nvareos)
-          endif
+      eostyp = mat_elem%mat_param(imat)%ieos
+      if (eostyp > 0 .and. mtn /=12 ) then
+        call eosmain(0       ,nel      ,eostyp  ,pm        ,off      ,lbuf%eint,&
+        &lbuf%rho,rho0     ,amu     ,amu2      ,espe     ,&
+        &dvol    ,df       ,voln    ,mat       ,psh      ,&
+        &pnew    ,dpdm     ,dpde    ,lbuf%temp ,ecold    ,&
+        &bufmat  ,lbuf%sig ,lbuf%mu ,mtn       ,pold     ,&
+        &npf     ,tf       ,ebuf%var,nvareos)
+      endif
 !-----------------------------------
 !     stresses deviatoric/total
 !-----------------------------------
@@ -1012,12 +1012,12 @@
           elseif (mtn == 4) then
             call m4law(&
             &pm,       off,      lbuf%sig, lbuf%pla,&
-            &mat,      lbuf%temp,cxx,      dxx,&
+            &mat,      cxx,      lbuf%vol, dxx,      &
             &dyy,      dzz,      d4,       d5,&
             &d6,       rho0,     dpdm,     lbuf%epsd,&
             &jplasol,  sigy,     defp,     dpla,&
-            &epsp,     tstar,    tempel,   nel,&
-            &jthe)
+            &epsp,     tstar,    el_temp,  nel   , jthe,   &
+            &mat_elem%mat_param(imat)%ieos,fheat )
             if (jsph == 0) then
               call mqviscb(&
               &pm,       off,      lbuf%rho, lbuf%rk,&
