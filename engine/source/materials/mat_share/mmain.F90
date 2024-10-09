@@ -214,6 +214,7 @@
           use mulaw_mod
           use constant_mod
           use dt_mod
+          use sigeps02s_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -838,8 +839,8 @@
 !
           elseif (mtn == 2) then
 !
-            call m2law(&
-            &pm,       off,      lbuf%sig, lbuf%eint,&
+            call sigeps02s(mat_elem%mat_param(imat)     ,&
+            &pm      , off,      lbuf%sig, lbuf%eint,&
             &lbuf%rho, lbuf%qvis,lbuf%pla, lbuf%epsd,&
             &lbuf%vol, stifn,    dt2t,     neltst,&
             &ityptst,  lbuf%off, geo,      pid,&
@@ -850,14 +851,16 @@
             &d5,       d6,       pnew,     psh,&
             &qvis,     ssp_eq,   s1,       s2,&
             &s3,       s4,       s5,       s6,&
-            &sigy,     defp,     dpla,&
+            &sigy,     defp,     dpla,          &
             &epsp,     tstar,    et,       mssa,&
             &dmels,    el_temp,  lbuf%sigb,al_imp,&
             &signor,   conde,    gbuf%dt,  gbuf%g_dt,&
             &nel,      ipm,      rhoref,   rhosp,&
             &ipg,      lbuf%dmg, ity,      jtur,&
             &jthe,     jsph,     ismstr,   jsms,&
-            &lbuf%epsq,npg ,mat_elem%mat_param(imat)%ieos ,dpdm  ,fheat )
+            &lbuf%epsq,npg ,mat_elem%mat_param(imat)%ieos ,dpdm  ,fheat ,   &
+            &mvsiz    ,n_var_pm  ,n_var_ipm ,n_var_geo   ,&
+            &nummat  ,numgeo   ,dt1     ,tt       ,impl_s  )
 !----------------
             if (istrain > 0 .and.&
             &(h3d_strain == 1 .or. th_strain == 1 )) then

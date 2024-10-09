@@ -37,11 +37,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod              ../starter/share/message_module/message_mod.F
       !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
       !||====================================================================
-      SUBROUTINE HM_READ_MAT02(
-     .           UPARAM   ,MAXUPARAM ,NUPARAM  ,NUVAR    ,
-     .           PARMAT   ,IFORM      ,
-     .           UNITAB   ,ID        ,TITR     ,LSUBMODEL,MTAG       ,
-     .           PM       ,IPM       ,ISRATE   ,MAT_PARAM) 
+      SUBROUTINE HM_READ_MAT02(MAT_PARAM ,MTAG     ,PARMAT   ,PM        ,
+     .                         NUVAR     ,IFORM    ,NPROPM   ,ID        ,TITR     ,
+     .                         IOUT      ,ISRATE   ,UNITAB   ,LSUBMODEL )     
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -72,23 +70,17 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "units_c.inc"
-#include      "param_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER, INTENT(IN)    :: ID,MAXUPARAM,IFORM
+      INTEGER, INTENT(IN)    :: ID,IOUT,IFORM
+      INTEGER, INTENT(IN)    :: NPROPM
       INTEGER, INTENT(INOUT) :: ISRATE
-      INTEGER, INTENT(INOUT) :: NUPARAM,NUVAR
-      INTEGER, INTENT(INOUT) :: IPM(NPROPMI)
+      INTEGER, INTENT(INOUT) :: NUVAR
       my_real, INTENT(INOUT) :: PM(NPROPM)     
+      my_real, INTENT(INOUT) :: PARMAT(128)     
       CHARACTER(LEN=NCHARTITLE) ,INTENT(IN) :: TITR
-      TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
-      my_real, DIMENSION(MAXUPARAM), INTENT(INOUT) :: UPARAM
-      my_real, INTENT(INOUT) :: PARMAT(100)
+      TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_),INTENT(INOUT)         :: MTAG
       TYPE(MATPARAM_STRUCT_),INTENT(INOUT)  :: MAT_PARAM
 C-----------------------------------------------
@@ -96,12 +88,14 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
       INTEGER :: I,VP
+      INTEGER :: ICC,ISRAT1,IFLAG,MFLAG
+      INTEGER :: niparam,nuparam,nfunc,ntable
       my_real :: RHOR,RHO0
-      INTEGER ICC,ISRAT1,IFLAG,MFLAG
-      my_real
-     .   YOUNG, ANU, CA, CB, CN, EPSM, SIGM, CC, EPS0, G, E0, C0, C1,PMIN,
-     .   E1MN2, EN1N2, SDSP,C3,C4,RHOCP,TREF,TMELT,M_EXP,FCUT,FISOKIN,CB0,RM,AG,CN0,
-     .   FAC_DENS,FAC_PRES,EPS0_UNIT,FAC_M,FAC_L,FAC_T,ASRATE
+      my_real :: YOUNG,G,BULK,ANU,A11,A12,GFAC
+      my_real :: CA,CB,CN,C3,C4,EPSM,SIGM,CC,EPS0,FCUT,ASRATE,FISOKIN
+      my_real :: RHOCP,TREF,TMELT,TMAX,PMIN,M_EXP
+      my_real :: SDSP,CB0,RM,AG,CN0
+      my_real :: FAC_DENS,FAC_PRES,EPS0_UNIT,FAC_M,FAC_L,FAC_T
       CHARACTER PREDEF*16
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -112,6 +106,7 @@ C-----------------------------------------------
       SIGM    = ZERO
       CC      = ZERO
       EPS0    = ZERO
+      FCUT    = ZERO
       ASRATE  = ZERO
       FISOKIN = ZERO
       YOUNG   = ZERO
@@ -121,7 +116,6 @@ C-----------------------------------------------
       CN      = ZERO
       RHOR    = ZERO
       SDSP    = ZERO
-!
       C3      = ZERO
       C4      = ZERO
       M_EXP   = ZERO
@@ -129,7 +123,7 @@ C-----------------------------------------------
       PMIN    = ZERO
       TMELT   = ZERO
       TREF    = ZERO
-!
+      TMAX    = ZERO
       IFLAG   = 0
       MFLAG   = 0
       ICC     = 0
@@ -185,7 +179,7 @@ C-----------------------------------------------
         CALL HM_GET_FLOATV('EPS_0'    ,EPS0   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_INTV  ('ICC'      ,ICC    ,IS_AVAILABLE, LSUBMODEL) 
         CALL HM_GET_INTV  ('Fsmooth'  ,ISRATE ,IS_AVAILABLE, LSUBMODEL) 
-        CALL HM_GET_FLOATV('Fcut'     ,ASRATE ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('Fcut'     ,FCUT   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         !line-5
         CALL HM_GET_FLOATV('C3'       ,C3      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('C4'       ,C4      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -197,13 +191,14 @@ C-----------------------------------------------
         CALL HM_GET_FLOATV_DIM('RHO_I'      ,FAC_DENS    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       ELSE IF (IFORM==0) THEN  ! Johnson-Cook
         !line-1
-        CALL HM_GET_FLOATV('RHO_I'  ,RHO0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_FLOATV('RHO_O'  ,RHOR     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('RHO_I'  ,RHO0   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('RHO_O'  ,RHOR   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         !line-2
-        CALL HM_GET_FLOATV('E'      ,YOUNG    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_FLOATV('Nu'     ,ANU      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_INTV  ('MAT_VP' ,VP       ,IS_AVAILABLE, LSUBMODEL)
-        CALL HM_GET_INTV  ('Iflag'  ,IFLAG    ,IS_AVAILABLE, LSUBMODEL) 
+        CALL HM_GET_FLOATV('E'      ,YOUNG  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('Nu'     ,ANU    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_INTV  ('MAT_VP' ,VP     ,IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV  ('Iflag'  ,IFLAG  ,IS_AVAILABLE, LSUBMODEL) 
+        CALL HM_GET_FLOATV('Pmin'   ,PMIN   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         !line-3
         IF (IFLAG == 1) THEN
           CALL HM_GET_FLOATV('SIG_Y'        ,CA     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -223,22 +218,21 @@ C-----------------------------------------------
         CALL HM_GET_FLOATV('EPS_DOT_0'      ,EPS0      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_INTV  ('ICC'            ,ICC       ,IS_AVAILABLE, LSUBMODEL) 
         CALL HM_GET_INTV  ('Fsmooth'        ,ISRATE    ,IS_AVAILABLE, LSUBMODEL) 
-        CALL HM_GET_FLOATV('F_cut'          ,ASRATE    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('F_cut'          ,FCUT      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('Chard'          ,FISOKIN   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         !line-5
         CALL HM_GET_FLOATV('m'              ,M_EXP     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('T_melt'         ,TMELT     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('rhoC_p'         ,RHOCP     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('T_r'            ,TREF      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_FLOATV('Pmin'           ,PMIN      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('T_max'          ,TMAX      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         !units for default values
-        CALL HM_GET_FLOATV_DIM('EPS_DOT_0'  ,EPS0_UNIT   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_FLOATV_DIM('E'          ,FAC_PRES    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_FLOATV_DIM('RHO_I'      ,FAC_DENS    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV_DIM('EPS_DOT_0'  ,EPS0_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV_DIM('E'          ,FAC_PRES  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV_DIM('RHO_I'      ,FAC_DENS  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       ENDIF
-      IF(VP==0)VP = 2
-
-      IF(MFLAG == 0) THEN
+!
+      IF (MFLAG == 0) THEN
         ! Exponent must be set to one if equals to zero in the input
         ! in any case (Iflag=0 or Iflag=1)
         IF (CN == ZERO) CN = ONE
@@ -253,18 +247,14 @@ C-----------------------------------------------
           IF (CN > ONE) THEN
             CN = ONE
             CB = (CB0*(ONE+CN0)-CA)/(LOG(1+CN0)-CB0*(1+CN0)/YOUNG-CA/YOUNG)
-            CALL ANCMSG(MSGID=277,
-     .                  MSGTYPE=MSGWARNING,
-     .                  ANMODE=ANINFO_BLIND_1,
+            CALL ANCMSG(MSGID=277, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
      .                  I1=ID, 
      .                  C1=TITR)
           ENDIF
           IF (CN < ZERO .AND. CB < ZERO) THEN
             CN = ZERO
             CB = ZERO          
-            CALL ANCMSG(MSGID=278,
-     .                  MSGTYPE=MSGWARNING,
-     .                  ANMODE=ANINFO_BLIND_1,
+            CALL ANCMSG(MSGID=278, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
      .                  I1=ID, 
      .                  C1=TITR)
           ENDIF
@@ -278,11 +268,7 @@ C-----------------------------------------------
           FAC_DENS = FAC_M/ (FAC_L*FAC_L*FAC_L)
           SELECT CASE (MFLAG)
             CASE(1)                                ! Mild steel
-c!            RHO0  = 7.85d-9          * FAC_DENS
               RHO0  = 7850d0           / FAC_DENS
-              PM(1) = RHO0
-              PM(89)= RHO0
-c!            YOUNG = 210000.0d0       * FAC_PRES
               YOUNG = 210000000000.0d0 / FAC_PRES
               ANU   = 0.3d0
               CA    = 160000000.0d0    / FAC_PRES
@@ -290,8 +276,6 @@ c!            YOUNG = 210000.0d0       * FAC_PRES
               CN    = 0.3257084899598d0
             CASE(2)                                ! HSS steel
               RHO0  = 7850d0           / FAC_DENS
-              PM(1) = RHO0
-              PM(89)= RHO0
               YOUNG = 210000000000.0d0 / FAC_PRES
               ANU   = 0.3d0
               CA    = 300000000.0d0    / FAC_PRES
@@ -299,8 +283,6 @@ c!            YOUNG = 210000.0d0       * FAC_PRES
               CN    = 0.3967613457219d0
             CASE(3)
               RHO0  = 7850d0           / FAC_DENS
-              PM(1) = RHO0
-              PM(89)= RHO0
               YOUNG = 210000000000.0d0 / FAC_PRES
               ANU   = 0.3d0
               CA    = 500000000.0d0    / FAC_PRES
@@ -308,8 +290,6 @@ c!            YOUNG = 210000.0d0       * FAC_PRES
               CN    = 6.4633693574514d-02
             CASE(4)                                   ! Aluminium AA5182
               RHO0  = 2700d0           / FAC_DENS
-              PM(1) = RHO0
-              PM(89)= RHO0
               YOUNG = 70000000000.0d0  / FAC_PRES
               ANU   = 0.33d0
               CA    = 150000000.0d0    / FAC_PRES
@@ -317,8 +297,6 @@ c!            YOUNG = 210000.0d0       * FAC_PRES
               CN    = 0.3719059188570d0
             CASE(5)                                   ! Aluminium AA6082-T6
               RHO0  = 2700d0           / FAC_DENS
-              PM(1) = RHO0
-              PM(89)= RHO0
               YOUNG = 70000000000.0d0  / FAC_PRES
               ANU   = 0.33d0
               CA    = 300000000.0d0    / FAC_PRES
@@ -326,8 +304,6 @@ c!            YOUNG = 210000.0d0       * FAC_PRES
               CN    = 0.3369645584879d0
             CASE(6)                                    ! Plastic PA6GF30  
               RHO0  = 1300d0           / FAC_DENS
-              PM(1) = RHO0
-              PM(89)= RHO0
               YOUNG = 7000000000.0d0   / FAC_PRES
               ANU   = 0.35d0
               CA    = 50000000.0d0     / FAC_PRES
@@ -335,8 +311,6 @@ c!            YOUNG = 210000.0d0       * FAC_PRES
               CN    = 3.8843615080968d-02
             CASE(7)                                    ! GENERIC PP T40
               RHO0  = 1200d0           / FAC_DENS
-              PM(1) = RHO0
-              PM(89)= RHO0
               YOUNG = 4000000000d0     / FAC_PRES
               ANU   = 0.3d0
               CA    = 20000000.0d0     / FAC_PRES
@@ -344,8 +318,6 @@ c!            YOUNG = 210000.0d0       * FAC_PRES
               CN    = 0.1570297693511d0
             CASE DEFAULT                               ! ELSE --> Mild Seel
               RHO0  = 7850d0           / FAC_DENS
-              PM(1) = RHO0
-              PM(89)= RHO0
               YOUNG = 210000000000d0   / FAC_PRES
               ANU   = 0.3d0
               CA    = 160000000.0d0    / FAC_PRES
@@ -354,100 +326,107 @@ c!            YOUNG = 210000.0d0       * FAC_PRES
           END SELECT
         ENDIF
       ENDIF       
-C-----
-      IF(CC > ZERO .AND. EPS0 > ZERO  .AND. ASRATE == ZERO .AND.VP/=1) THEN
-           CALL ANCMSG(MSGID=1220,
-     .                 MSGTYPE=MSGWARNING,
-     .                 ANMODE=ANINFO_BLIND_1,
-     .                 I1=ID, 
-     .                 C1=TITR)
-      ENDIF
-     
-      IF (RHOR==ZERO) RHOR=RHO0
-C-----
-      IF (ANU == HALF) ANU=ZEP499
-C
-      IF (ICC == 0) ICC=1
-      IF (PMIN  == ZERO) PMIN =-EP20
-C
-      IF (EPSM == ZERO) EPSM  = EP20
-      IF (SIGM == ZERO) SIGM  = EP20
+!-----------------------------------------------------------------------
       IF (CC == ZERO)   THEN
         EPS0   = ONE
         ISRATE = 0
       ELSE
         ISRATE = 1
       END IF
-      IF(ANU<=-ONE)  THEN       
+!-----------------------------------------------------------------------
+      ! Invalid values check
+!-----------------------------------------------------------------------
+      IF (CC > ZERO .AND. EPS0 > ZERO .AND. FCUT == ZERO .AND. VP/=1) THEN
+           CALL ANCMSG(MSGID=1220, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
+     .                 I1=ID, 
+     .                 C1=TITR)
+      ENDIF
+!
+      IF (ANU <= -ONE)  THEN       
         CALL ANCMSG(MSGID=300,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=2,I2=ID,C1=TITR)
       ENDIF
-C-----
-      G=YOUNG/(TWO*(ONE + ANU))
-      E0=ZERO
-      C0=ZERO
-      C1=YOUNG/(THREE*(ONE - TWO*ANU))
-      E1MN2=YOUNG/(ONE - ANU**2)
-      EN1N2=ANU*E1MN2
-      SDSP =SQRT(YOUNG/MAX(RHOR,EM20))       
-
-      IF (YOUNG<=ZERO) THEN
+      IF (YOUNG <= ZERO) THEN
         CALL ANCMSG(MSGID=276,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=2,I2=ID,C1=TITR)
       ENDIF
-
-      
+      IF (FISOKIN > ONE .OR. FISOKIN < ZERO) THEN
+        CALL ANCMSG(MSGID=912, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND_1,
+     .              I1=ID,C1='2',
+     .              C2=TITR)
+      END IF
+C
+      IF (CA <= ZERO) THEN
+         CALL ANCMSG(MSGID=301, MSGTYPE=MSGERROR, ANMODE=ANINFO,
+     .               I1=2,
+     .               I2=ID,
+     .               C1=TITR)
+      ENDIF
+      IF (CN > ONE) THEN
+         CALL ANCMSG(MSGID=213, MSGTYPE=MSGERROR, ANMODE=ANINFO,
+     .               I1=2,
+     .               I2=ID,
+     .               C1=TITR)
+      ENDIF
+      IF (EPS0 == ZERO) THEN
+         CALL ANCMSG(MSGID=298, MSGTYPE=MSGERROR, ANMODE=ANINFO,
+     .               I1=2,
+     .               I2=ID,
+     .               C1=TITR)
+      ENDIF
+!-----------------------------------------------------------------------
+      ! Default values
+!-----------------------------------------------------------------------
+      IF (RHOR==ZERO) RHOR=RHO0
+      IF (ANU == HALF) ANU=ZEP499
+      IF (PMIN  == ZERO) PMIN =-EP20
+      IF (EPSM == ZERO) EPSM  = EP20
+      IF (SIGM == ZERO) SIGM  = EP20
+      IF (ICC == 0) ICC=1
+      IF (VP  == 0) VP = 2
       IF (VP == 1) THEN
         ! If plastic strain is chosen, filtering by default
         ISRATE = 1
-        IF (ASRATE == ZERO) ASRATE = 10000.0D0*UNITAB%FAC_T_WORK
-        FCUT   = ASRATE
+        IF (FCUT == ZERO) FCUT = 10000.0D0*UNITAB%FAC_T_WORK
       ELSE
         IF (CC == ZERO)THEN
           EPS0   = ONE
           ISRATE = 0
-          ASRATE = ZERO
-          FCUT   = ASRATE
+          FCUT   = ZERO
         ELSE     
           ISRATE = 1
-          IF (ASRATE == ZERO) ASRATE = EP20
-          FCUT   = ASRATE
+          IF (FCUT == ZERO) FCUT = EP20
         ENDIF
       ENDIF
-
-C-----
-      PM(1) =RHOR
-      PM(89)=RHO0      
-      PM(20)=YOUNG
-      PM(21)=ANU
-      PM(22)=G
-      PM(23)=E0
-      PM(24)=E1MN2
-      PM(25)=EN1N2
-      PM(26)=FIVE
-      PM(26)=PM(26)*ONE_OVER_6
-      PM(27)=SDSP
-      PM(28)=ONE/YOUNG
-      PM(29)=-ANU*PM(28)
-      PM(30)=ONE/G
-      PM(31)=C0
-      PM(32)=C1
-      PM(38)=CA
-      PM(39)=CB
-      PM(40)=CN
-      PM(41)=EPSM
-      PM(42)=SIGM
-      PM(43)=CC
-      PM(44)=EPS0
-      PM(49)=ICC
-
-      IPM(255) = VP   
-
-      PARMAT(4) = ISRATE
-      PARMAT(5) = ASRATE
-      PM(37)= PMIN    ! default pressure cut-off for EOS
-C
+!
       IF (TREF <= ZERO) TREF = THREE100
-c
-C--------------------------------
+      IF (IFORM == 0) THEN  ! Johnson-Cook
+        IF (M_EXP == ZERO) M_EXP = ONE
+        IF (TMELT == ZERO) TMELT = EP20
+        IF (TMAX  == ZERO) TMAX  = EP20
+      END IF
+!-----------------------------------------------------------------------
+      G      = YOUNG/(TWO*(ONE + ANU))
+      BULK   = YOUNG/(THREE*(ONE - TWO*ANU))
+      A11    = YOUNG/(ONE - ANU**2)
+      A12    = ANU*A11
+      SDSP   = SQRT(YOUNG/MAX(RHOR,EM20))
+      GFAC   = TWO*G/(BULK+FOUR_OVER_3*G) ! GFAC : for solid elements time step computation
+      ASRATE = FCUT*TWO*PI
+!-----------------------------------------------------------------------
+      ! used in code outside of material laws
+      PM(24)  = A11
+      PM(25)  = A12
+      PM(27)  = SDSP
+      PM(37)  = PMIN   ! default pressure cut-off for EOS
+      PM(69)  = RHOCP  
+      PM(79)  = TREF   ! initial temperature - still needed in mating to initialize element buffer
+      PM(80)  = TMELT  ! melting temperature - still used in mmain
+      PM(105) = GFAC
+!-----------------------------------------------------------------------
+      PARMAT(4) = ISRATE
+      PARMAT(5) = FCUT
+!-----------------------------------------------------------------------
+      ! Output
+!-----------------------------------------------------------------------
       
       IF(IFORM==0)THEN
         WRITE(IOUT,1010) TRIM(TITR),ID
@@ -512,78 +491,103 @@ C--------------------------------
             WRITE(IOUT,1400)CA,CB,CN,EPSM,SIGM,FISOKIN
           ENDIF
         ENDIF  
-!
-        !        
-        IF (M_EXP == ZERO) M_EXP=ONE
-        IF (TMELT == ZERO) TMELT=EP20
         IF(.NOT.IS_ENCRYPTED .AND. IFORM /= 2)THEN
-         ISRAT1 = 1
-         WRITE(IOUT,1600)VP,CC,EPS0,ICC,ISRAT1,FCUT,M_EXP,TMELT,RHOCP,TREF,PMIN
+          WRITE(IOUT,1600)VP,CC,EPS0,ICC,ISRATE,FCUT,M_EXP,TMELT,RHOCP,TREF,TMAX,PMIN
         ENDIF
-        PM(50) = ZERO    ! flag JC
-        PM(51) = M_EXP
-        PM(80) = TMELT
       ELSE    ! Zerilli
         IF(.NOT.IS_ENCRYPTED .AND. IFORM /= 2)THEN
          WRITE(IOUT,1410)CA,CB,CN,EPSM,SIGM,FISOKIN
-         ISRAT1 = 1
-         WRITE(IOUT,1610)VP,ICC,ISRAT1,FCUT,EPS0,CC,C3,C4,RHOCP,TREF
+         WRITE(IOUT,1610)VP,ICC,ISRATE,FCUT,EPS0,CC,C3,C4,RHOCP,TREF
         ENDIF
-        PM(50)=ONE   ! flag Zerilli
-        PM(51)=C3
-        PM(52)=C4
       ENDIF
+!-----------------------------------------------------------------------
+!     new mat_param storage
+!-----------------------------------------------------------------------
+      if (iform == 1) then   ! Zerilli
+        niparam = 4
+        nuparam = 13
+        nfunc   = 0
+        ntable  = 0
+        mat_param%niparam = niparam
+        mat_param%nuparam = nuparam
+        mat_param%nfunc   = nfunc
+        mat_param%ntable  = ntable
+        allocate (mat_param%iparam(niparam))
+        allocate (mat_param%uparam(nuparam))
+        allocate (mat_param%table(ntable))
+      
+        mat_param%iparam(1) = iform
+        mat_param%iparam(2) = icc
+        mat_param%iparam(3) = vp
+        mat_param%iparam(4) = israte
+!        
+        mat_param%uparam(1) = ca             ! pm(38)
+        mat_param%uparam(2) = cb             ! pm(39)
+        mat_param%uparam(3) = cn             ! pm(40)
+        mat_param%uparam(4) = epsm           ! pm(41)
+        mat_param%uparam(5) = sigm           ! pm(42)
+        mat_param%uparam(6) = cc             ! pm(43)
+        mat_param%uparam(7) = eps0           ! pm(44)
+        mat_param%uparam(8) = fisokin        ! pm(55)
+
+        mat_param%uparam(9) = asrate         ! pm(9)  !! general pm
+        mat_param%uparam(10)= c3             ! pm(51)
+        mat_param%uparam(11)= c4             ! pm(52)
+
+      ! common with heat mat => will be written in mat_param%therm
+        if (rhocp > zero) rhocp = one / rhocp
+        mat_param%uparam(12)= rhocp      ! pm(53) = 1 / rhocp
+        mat_param%uparam(13)= tref       ! pm(79) 
 !
-      IF (RHOCP <= ZERO) THEN
-        PM(53) = ZERO
-      ELSE
-        PM(53) = ONE/RHOCP
-      ENDIF
-      PM(54) = TREF      ! for Zerilli
+      else    ! Johnson-Cook
 !
-      ! same stockage of initial, melting temp and rho_cp as in /heat/mat
-      PM(79) = TREF      ! for J-C
-      PM(80) = TMELT      
-      PM(69) = RHOCP
-C -----------------     
-      PM(55)=FISOKIN
-C      
-      IF (FISOKIN>ONE.OR.FISOKIN<ZERO) THEN
-        CALL ANCMSG(MSGID=912,
-     .              MSGTYPE=MSGERROR,
-     .              ANMODE=ANINFO_BLIND_1,
-     .              I1=ID,C1='2',
-     .              C2=TITR)
-      END IF
-C
-      IF(CA<=ZERO) THEN
-         CALL ANCMSG(MSGID=301,
-     .               MSGTYPE=MSGERROR,
-     .               ANMODE=ANINFO,
-     .               I1=2,
-     .               I2=ID,
-     .               C1=TITR)
-      ENDIF
-      IF(CN>1.) THEN
-         CALL ANCMSG(MSGID=213,
-     .               MSGTYPE=MSGERROR,
-     .               ANMODE=ANINFO,
-     .               I1=2,
-     .               I2=ID,
-     .               C1=TITR)
-      ENDIF
-      IF(EPS0 == ZERO) THEN
-         CALL ANCMSG(MSGID=298,
-     .               MSGTYPE=MSGERROR,
-     .               ANMODE=ANINFO,
-     .               I1=2,
-     .               I2=ID,
-     .               C1=TITR)
-      ENDIF
-C-----------
-C     Formulation for solid elements time step computation.
-      IPM(252)= 2
-      PM(105) = TWO*G/(C1+FOUR_OVER_3*G)
+        niparam = 4
+        nuparam = 15
+        nfunc   = 0
+        ntable  = 0
+!
+        mat_param%niparam = niparam
+        mat_param%nuparam = nuparam
+        mat_param%nfunc   = nfunc
+        mat_param%ntable  = ntable
+        allocate (mat_param%iparam(niparam))
+        allocate (mat_param%uparam(nuparam))
+        allocate (mat_param%table(ntable))
+!        
+        mat_param%iparam(1) = iform          ! pm(50)
+        mat_param%iparam(2) = icc            ! pm(49) 
+        mat_param%iparam(3) = vp             ! ipm(252)
+        mat_param%iparam(4) = israte         ! ipm(3)  !! general pm
+!        
+        mat_param%uparam(1) = ca             ! pm(38)
+        mat_param%uparam(2) = cb             ! pm(39)
+        mat_param%uparam(3) = cn             ! pm(40)
+        mat_param%uparam(4) = epsm           ! pm(41)
+        mat_param%uparam(5) = sigm           ! pm(42)
+        mat_param%uparam(6) = cc             ! pm(43)
+        mat_param%uparam(7) = eps0           ! pm(44)
+        mat_param%uparam(8) = fisokin        ! pm(55)
+        mat_param%uparam(9) = asrate         ! pm(9)  
+
+        ! common with heat mat => will be written in mat_param%therm
+
+        mat_param%uparam(10)= rhocp      ! pm(69) 
+        mat_param%uparam(11)= tref       ! pm(79) 
+        mat_param%uparam(12)= tmelt      ! pm(80) 
+        mat_param%uparam(13)= m_exp      ! pm(51) 
+        mat_param%uparam(14)= tmax       
+        mat_param%uparam(15)= pmin       ! pm(37)     ! default pressure cut-off for eos
+      
+      end if
+
+      ! mat_param common parameters
+!      
+      mat_param%rho   = rhor
+      mat_param%rho0  = rho0
+      mat_param%young = young
+      mat_param%bulk  = bulk
+      mat_param%shear = g
+      mat_param%nu    = anu
 !
 C---- Definition des variables internes (stockage elementaire)
 c
@@ -691,6 +695,7 @@ C-----------
      & 5X,'MELTING TEMPERATURE K . . . . . . . . .=',1PG20.13/,
      & 5X,'SPECIFIC HEAT Rho*Cp. . . . . . . . . .=',1PG20.13/,
      & 5X,'INITIAL TEMPERATURE K . . . . . . . . .=',1PG20.13/,
+     & 5X,'MAXIMAL TEMPERATURE K . . . . . . . . .=',1PG20.13/,
      & 5X,'PRESSURE CUTOFF IN TENSION. . . . . . .=',1PG20.13//)
  1610 FORMAT(
      & 5X,'FLAG FOR STRAIN RATE DEPENDENCY TYPE. .=',I10/,  

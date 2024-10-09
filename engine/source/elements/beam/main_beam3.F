@@ -47,7 +47,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MAT_ELEM_MOD
+      USE MATPARAM_DEF_MOD
       USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -101,7 +101,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,IPID,IPLA,ISRATE,NUPARAM,NFUNC,IADBUF,IFUNC(100)
-      my_real :: AREA,IYY,IZZ,IXX,ASRATE,EPSDI,FACT
+      my_real :: AREA,ASRATE,IYY,IZZ,IXX,EPSDI,FACT
       my_real ,DIMENSION(NEL) :: DPLA,SVM,PRESSURE,DEGMB,DEGFX,DEGSH
 c=======================================================================
       IPID = PID(1)
@@ -170,13 +170,12 @@ c
      .         MAT    ,PID       )
 c
         CASE (2)  ! Johnson-Cook
-          CALL M2LAWP(
-     .         PM     ,FOR        ,MOM      ,EINT      ,GEO      ,        
-     .         OFF    ,ELBUF_STR%GBUF%PLA   ,EXX       ,EXY      ,EXZ      ,
-     .         KXX    ,KYY        ,KZZ      ,AL        ,F1       ,
-     .         F2     ,F3         ,M1       ,M2        ,M3       ,
-     .         NEL    ,MAT        ,PID      ,NGL       ,IPM      ,
-     .         NUMMAT ,NUVAR      ,UVAR     )
+          CALL M2LAWP(MAT_PARAM,ASRATE   ,TIME     ,DTIME    ,NPROPG   ,
+     .                FOR      ,MOM      ,EINT     ,GEO      ,OFF      , 
+     .                ELBUF_STR%GBUF%PLA ,EXX      ,EXY      ,EXZ      ,
+     .                KXX      ,KYY      ,KZZ      ,AL       ,F1       ,
+     .                F2       ,F3       ,M1       ,M2       ,M3       ,
+     .                NEL      ,IPID     ,NGL      ,NUVAR    ,UVAR     )
 c
         CASE (44)  ! Cowper-Symonds
           IADBUF  = IPM(7 ,IMAT)

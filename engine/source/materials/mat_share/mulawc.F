@@ -958,22 +958,20 @@ C------------------------------------------
      3                     DEPSXX    ,DEPSYY   ,DEPSXY   ,DEPSYZ   ,DEPSZX   ,
      4                     THKN      ,THKLYL   ,OFF      ,PM       ,ISMSTR   ,
      5                     EPSXX     ,EPSYY    ,EPSXY    )
+!
           ELSEIF (ILAW == 2) THEN
-            VP =  IPM(255,IMAT)
-            CALL SIGEPS02C(
-     1                  JFT        ,JLT       ,PM       ,EINT     ,THKN     ,
-     2                  OFF        ,SIGY      ,DT1      ,IPLA     ,NEL      ,
-     3                  VOL0       ,GS        ,ISRATE   ,THKLYL   ,ETSE     ,
-     4                  NGL        ,EPSPL     ,G_IMP    ,SIGKSI   ,IOFF_DUCT,
-     5                  DPLA       ,TSTAR     ,JTHE     ,HARDM    ,EPCHK    ,
-     6                  IMAT       ,IPT       ,NPTTOT   ,LBUF%PLA ,OFF_OLD  ,
-     7        LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
-     8                  SIGNXX     ,SIGNYY    ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
-     9                  DEPSXX     ,DEPSYY    ,DEPSXY   ,DEPSYZ   ,DEPSZX   ,
-     A                  EPSPXX     ,EPSPYY    ,EPSPXY   ,EPSPYZ   ,EPSPZX   ,
-     B                  LBUF%SIGB(IJ1),LBUF%SIGB(IJ2),LBUF%SIGB(IJ3),INLOC  ,VARNL(1,IT),
-     C                  VP         ,ASRATE    ,LBUF%OFF ,LBUF%EPSD  ,
-     D                  EL_TEMP   ,FHEAT     )
+            CALL SIGEPS02C(MATPARAM   ,NEL       ,EINT     ,THKN     ,
+     1                     OFF        ,SIGY      ,DT1      ,IPLA     ,                                
+     2                     VOL0       ,GS        ,ISRATE   ,THKLYL   ,ETSE     ,
+     3                     NGL        ,EPSPL     ,G_IMP    ,SIGKSI   ,IOFF_DUCT,
+     4                     DPLA       ,TSTAR     ,JTHE     ,HARDM    ,EPCHK    ,
+     5                     NPTTOT   ,LBUF%PLA ,OFF_OLD  ,
+     6           LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
+     7                     SIGNXX     ,SIGNYY    ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
+     8                     DEPSXX     ,DEPSYY    ,DEPSXY   ,DEPSYZ   ,DEPSZX   ,
+     9                     EPSPXX     ,EPSPYY    ,EPSPXY   ,EPSPYZ   ,EPSPZX   ,
+     A                     LBUF%SIGB(IJ1),LBUF%SIGB(IJ2),LBUF%SIGB(IJ3),INLOC  ,VARNL(1,IT),
+     B                     ASRATE    ,LBUF%OFF ,LBUF%EPSD  ,EL_TEMP  ,FHEAT    )
 !
           ELSEIF (ILAW == 15) THEN
             CALL SIGEPS15C(
