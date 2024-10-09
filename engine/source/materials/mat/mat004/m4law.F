@@ -27,12 +27,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE M4LAW(
      1   PM,      OFF,     SIG,     EPXE,
-     2   MAT,     TEMPER,  SSP,     D1,
+     2   MAT,     SSP,     VOL,     D1,      
      3   D2,      D3,      D4,      D5,
      4   D6,      RHO0,    DPDM,    EPD,
      5   IPLA,    SIGY,    DEFP,    DPLA,
      6   EPSP,    TSTAR,   TEMPEL,  NEL,
-     7   JTHE)
+     7   JTHE,    IEOS ,   FHEAT )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,34 +50,34 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: JTHE
-      INTEGER MAT(MVSIZ),NEL
-C     REAL
-      my_real
-     .   PM(NPROPM,*), OFF(MVSIZ), SIG(NEL,6), EPXE(MVSIZ),
-     .   TEMPER(MVSIZ),SSP(MVSIZ), D1(MVSIZ),    D2(MVSIZ), 
-     .   D3(MVSIZ),    D4(MVSIZ),  D5(MVSIZ),    D6(MVSIZ), 
-     .   RHO0(MVSIZ),  DPDM(MVSIZ),EPD(MVSIZ),   SIGY(MVSIZ),
-     .   DEFP(MVSIZ),  DPLA(MVSIZ),TSTAR(MVSIZ), EPSP(MVSIZ),
-     .   TEMPEL(MVSIZ)
-      INTEGER IPLA
+      INTEGER, INTENT(IN) :: IEOS
+      INTEGER, INTENT(IN) :: NEL
+      INTEGER, INTENT(IN) :: IPLA
+      INTEGER, INTENT(IN) :: MAT(MVSIZ)
+      my_real, INTENT(IN) :: PM(NPROPM,*)
+      my_real, INTENT(IN) :: VOL(NEL)
+      my_real :: SIG(NEL,6)
+      my_real ,DIMENSION(MVSIZ) :: OFF,EPXE,SSP,D1,D2,D3,D4,D5,D6, 
+     .                             RHO0,DPDM,EPD,SIGY,DEFP,DPLA,EPSP
+      my_real ,DIMENSION(MVSIZ) ,INTENT(IN)    :: TSTAR
+      my_real ,DIMENSION(NEl)   ,INTENT(INOUT) :: TEMPEL
+      my_real, DIMENSION(MVSIZ) ,INTENT(INOUT) :: FHEAT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX
-C     REAL
+      INTEGER :: I,MX
+      my_real :: RHOCP,TMAX,CT, CE, CH
       my_real
      .   G(MVSIZ)    ,G1(MVSIZ)   ,G2(MVSIZ)  ,QS(MVSIZ) ,AK(MVSIZ), 
      .   QH(MVSIZ)   ,TMELT(MVSIZ),AJ2(MVSIZ) ,DAV(MVSIZ),P(MVSIZ) ,
-     .   EPMX(MVSIZ) ,THETL(MVSIZ),CA(MVSIZ)  ,CB(MVSIZ) ,CC(MVSIZ), 
+     .   EPMX(MVSIZ) ,CA(MVSIZ)  ,CB(MVSIZ) ,CC(MVSIZ), 
      .   CN(MVSIZ)   ,EPXO(MVSIZ) ,EPDR(MVSIZ),CMX(MVSIZ),SIGMX(MVSIZ),
-     .   SCALE(MVSIZ),THETA(MVSIZ), T0(MVSIZ),
-     .   CT, CE, CH
-C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-C--------------------------------------------------------------
-C
-        
+     .   SCALE(MVSIZ),T0(MVSIZ)
+!=======================================================================
+      MX = MAT(1)
+      TMAX  = PM(47,MX)
+      RHOCP =  PM(69,MX)  
       DO I=1,NEL
-        MX =MAT(I)
         G(I)    =PM(22,MX)
         CA(I)   =PM(38,MX)
         CB(I)   =PM(39,MX)
@@ -87,9 +87,8 @@ C
         CC(I)   =PM(43,MX)
         EPDR(I) =PM(44,MX)
         CMX(I)  =PM(45,MX)
-        THETL(I)=PM(47,MX)
         TMELT(I)=PM(46,MX)
-        T0(I)=PM(79,MX)
+        T0(I)   =PM(79,MX)
       ENDDO
 C
       DO I=1,NEL
@@ -126,35 +125,20 @@ C
      .                +SIG(I,4)**2+SIG(I,5)**2+SIG(I,6)**2
         AJ2(I)=SQRT(THREE*AJ2(I))
       ENDDO
-C-----------------
-C     TEMPERATURE
-C-----------------
-      IF(JTHE >= 0) THEN
-        DO I=1,NEL
-           THETA(I)=TEMPER(I)
-           IF(THETA(I)>T0(I)) TSTAR(I)=(THETA(I)- T0(I))/(TMELT(I)-T0(I))
-        ENDDO
-      ELSE
-        DO I=1,NEL
-           THETA(I)=TEMPEL(I)
-        ENDDO
-      ENDIF
 C-------------------------------
 C     CRITERE
 C-------------------------------
       DO I=1,NEL
-       IF(THETA(I)>=TMELT(I)) THEN
+       CT = ONE
+       IF (TEMPEL(I) >= TMELT(I)) THEN
         AJ2(I)=ZERO
         QH(I)=ZERO
         AK(I)=ZERO
         SCALE(I)=ZERO
         CYCLE
-       ELSEIF(THETA(I)>T0(I)) THEN
-        IF(THETA(I)>THETL(I)) CMX(I)=ONE
-        CT=ONE - TSTAR(I)**CMX(I)
-       ELSE
-        TSTAR(I) = ZERO
-        CT=ONE
+       ELSEIF (TEMPEL(I) > T0(I)) THEN
+         IF (TEMPEL(I) > TMAX) CMX(I)=ONE
+         CT = ONE - TSTAR(I)**CMX(I)
        ENDIF
 C
        IF(EPD(I)<=EPDR(I)) THEN
@@ -242,6 +226,20 @@ C
        SIGY(I)=AK(I)
        DEFP(I)=EPXE(I)
       ENDDO 
-C
+C-----------------
+C     TEMPERATURE
+C-----------------
+      IF (JTHE == 0 .and. IEOS == 18 .and. RHOCP > ZERO) THEN     ! linear EOS
+        DO I=1,NEL
+          TEMPEL(I) = TEMPEL(I) + SIGY(I)*DPLA(I) / RHOCP
+        ENDDO
+      ELSE IF (JTHE /= 0) THEN  ! cumulate thermal load due to plastic work for /heat/mat
+        DO I=1,NEL       
+          FHEAT(I) = FHEAT(I) + SIGY(I)*DPLA(I)*VOL(I)
+        ENDDO
+      ELSE IF (IEOS > 0) THEN       !   nonlinear EOS must calculate temperature itself
+         ! need to send energy increment to EOS fot temperature calculation 
+      END IF
+c----------
       RETURN
       END
