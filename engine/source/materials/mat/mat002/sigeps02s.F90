@@ -544,14 +544,18 @@
 !---------------------------------------------------------
 !     calculate thermal load due to plastic work
 !---------------------------------------------------------
-      if (jthe == 0 .and. rhocpi > zero) then  ! update temperature in adiabatic conditions
-        do i=1,nel       
-          tempel(i) = tempel(i) + sigy(i)*dpla(i) * rhocpi
-        enddo
-      else if (jthe < 0) then  ! cumulate thermal load due to plastic work for /heat/mat
-        do i=1,nel       
-          fheat(i) = fheat(i) + sigy(i)*dpla(i)*vol(i)
-        enddo
+      if (ieos == 0) then
+        if (jthe == 0 .and. rhocpi > zero) then  ! update temperature in adiabatic conditions
+          do i=1,nel       
+            tempel(i) = tempel(i) + sigy(i)*dpla(i) * rhocpi
+          enddo
+        else if (jthe /= 0) then  ! cumulate thermal load due to plastic work for /heat/mat
+          do i=1,nel       
+            fheat(i) = fheat(i) + sigy(i)*dpla(i)*vol(i)
+          enddo
+        end if
+      else
+        ! temperature calculation must be done in eos
       end if
 !---------------------------------------------------------
       ! printout element deletion
