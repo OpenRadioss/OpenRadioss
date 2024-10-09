@@ -636,17 +636,13 @@ C-----------------------------------------------
 
               CASE ( 'SEG' )
                   
-                  ! Surfaces and lignes LIST FROM CLAUSE
+                  ! Surfaces and lines LIST FROM CLAUSE
                   !-----------------------
-                  CALL CREATE_SEG_CLAUSE(
-     .               CLAUSE,  ITABM1  ,J     ,IS_AVAILABLE ,LSUBMODEL)
-
+                  CALL CREATE_SEG_CLAUSE(CLAUSE, ITABM1, J, IS_AVAILABLE, LSUBMODEL)
 
                   ! Line from SURFACE
-!!                  ELTYP_SEG = 0
-                  IF (CLAUSE%NB_SURF_SEG > 0)
-     .            CALL CREATE_LINE_FROM_SURFACE(CLAUSE,KEYSET,OPT_A,OPT_E,DELBUF    ,
-     .                                          .FALSE.)
+                  ! ELTYP_SEG = 0
+                  IF (CLAUSE%NB_SURF_SEG > 0)CALL CREATE_LINE_FROM_SURFACE(CLAUSE,KEYSET,OPT_A,OPT_E,DELBUF,.FALSE.)
 
                   ! Node from SEG (SURF or LINE)
                   CALL CREATE_NODE_FROM_SEG( CLAUSE )
