@@ -36,11 +36,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      9                  DEPSYZ ,DEPSZX ,SIGNXX   ,SIGNYY   ,SIGNXY  ,
      A                  SIGNYZ ,SIGNZX ,SIGBAKXX ,SIGBAKYY ,SIGBAKXY,
      B                  SIGOXX ,SIGOYY ,SIGOXY   ,SIGOYZ   ,SIGOZX  ,
-     C                  VP     ,EPSPXX ,EPSPYY   ,EPSPXY   )
+     C                  VP     )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
+C-----------------------------------------------
+C   G l o b a l   P a r a m e t e r s
+C-----------------------------------------------
+#include      "mvsiz_p.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -48,31 +52,39 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN) :: VP,JFT,JLT,IPLA,IRTY,ISRATE,NEL
-      my_real, DIMENSION(NEL), INTENT(IN) :: EPSPXX,EPSPYY,EPSPXY,
-     .   DEPSXX,DEPSYY,DEPSXY,DEPSYZ,DEPSZX,SIGOXX,SIGOYY,SIGOXY,
-     .   SIGOYZ,SIGOZX,GS,EPDR,TSTAR
-      my_real, DIMENSION(NEL), INTENT(INOUT) :: SIGNXX,SIGNYY,SIGNXY,
-     .   SIGNYZ,SIGNZX,SIGBAKXX,SIGBAKYY,SIGBAKXY,HARDM,EZZ,OFF,
-     .   EPSEQ,ETSE,EPCHK,YLD,EPSP,TEMP,DPLA,GAMA_IMP
-      my_real, DIMENSION(NEL,5), INTENT(INOUT) :: SIGNOR
-      my_real :: Z3,Z4,CC,A1,A2,G,YMAX0,CA0,CB0,CN,YOUNG,NU,FISOKIN
+      INTEGER JFT, JLT, IPLA,IRTY,ISRATE,NEL
+      INTEGER,INTENT(IN) :: VP
+C     REAL
+      my_real
+     .   EZZ(*), OFF(*), EPSEQ(*),TEMP(*),Z3,Z4,
+     .   ETSE(*),GS(*),EPSP(*)
+      my_real
+     .   A1, A2, G, YMAX0, 
+     .   CA0, CB0, CN, YOUNG, YLD(MVSIZ),
+     .   CC, EPDR(MVSIZ), NU, EPCHK(MVSIZ),TSTAR(MVSIZ),
+     .   DPLA(MVSIZ),FISOKIN,GAMA_IMP(*),SIGNOR(MVSIZ,5),
+     .   HARDM(*),DEPSXX(MVSIZ),DEPSYY(MVSIZ),DEPSXY(MVSIZ),DEPSYZ(MVSIZ),
+     .   DEPSZX(MVSIZ),SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),
+     .   SIGNYZ(NEL),SIGNZX(NEL),SIGBAKXX(NEL),SIGBAKYY(NEL),SIGBAKXY(NEL),
+     .   SIGOXX(NEL),SIGOYY(NEL),
+     .   SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ICC,I,J,N,NINDX,INDEX(NEL),NMAX,IKFLG
+      INTEGER ICC
+      INTEGER I, J, N, NINDX, INDEX(MVSIZ), NMAX,IKFLG
 C     REAL
       my_real
-     .   A(NEL), B(NEL)  , DPLA_I(NEL), DPLA_J(NEL), DR(NEL),
-     .   H(NEL), NU1(NEL), NU2(NEL)   , P(NEL)     , Q(NEL), 
-     .   SVM(NEL),CA(NEL), CB(NEL)    , YMAX(NEL)  ,
-     .   SVM2(NEL),YLD2(NEL),HI(NEL)  ,HK(NEL)     ,
-     .   NU11(NEL),NU21(NEL),ANU1(NEL),BNU2(NEL),H2(NEL),
+     .   A(MVSIZ), B(MVSIZ)  , DPLA_I(MVSIZ), DPLA_J(MVSIZ), DR(MVSIZ),
+     .   H(MVSIZ), NU1(MVSIZ), NU2(MVSIZ)   , P(MVSIZ)     , Q(MVSIZ), 
+     .   SVM(MVSIZ),CA(MVSIZ), CB(MVSIZ)    , YMAX(MVSIZ)  ,
+     .   SVM2(MVSIZ),YLD2(MVSIZ),HI(MVSIZ)  ,HK(MVSIZ)     ,LOGEP(MVSIZ),
+     .   NU11(MVSIZ),NU21(MVSIZ),ANU1(MVSIZ),BNU2(MVSIZ),H2(MVSIZ),
      .   ERR,F,DF,PLA_I,P2,Q2,R,S1,S2,S3,YLD_I,NNU1,NNU2,
      .   NU3,NU4,NU5,NU6,SIGZ,PP,AA,BB,C,S11,S22,S12,S1S2,S122,UMR,
-     .   VM2,QQ,SMALL,MT,TM,BETA,AAA ,HKIN,ALPHA
+     .   VM2,QQ,SMALL,MT,TM,BETA,AAA ,HKIN,ALPHA,PLAP1
          
-      DATA NMAX/3/
+      DATA NMAX/3/      
 C------------------------------------------------------------------
       SMALL = EM7
       DO I=JFT,JLT
@@ -111,34 +123,43 @@ C---------------------------
         SIGNYZ(I)=SIGNYZ(I)+GS(I)*DEPSYZ(I)
         SIGNZX(I)=SIGNZX(I)+GS(I)*DEPSZX(I)
       ENDDO
+      DO I=JFT,JLT
+        LOGEP(I) = ZERO
+      ENDDO
 
 C-------------
 C     STRAIN RATE (JOHNSON-COOK, ZERILLI-ARMSTRONG)
 C-------------
       IF (CC /= ZERO) THEN
-        IF (IRTY == 0) THEN
-#include "vectorize.inc" 
+        IF (IRTY == 0) THEN 
           DO I=JFT,JLT
-            IF (ISRATE == 0 .AND. VP == 2) EPSP(I) = 
-     .           MAX(ABS(EPSPXX(I)),ABS(EPSPYY(I)),HALF*ABS(EPSPXY(I)))
-            EPSP(I) = MAX(EPSP(I),EPDR(I))
+            IF (ISRATE == 0.AND.VP == 2) EPSP(I) = 
+     .           MAX( ABS(DEPSXX(I)), ABS(DEPSYY(I)), HALF*ABS(DEPSXY(I)))
+            EPSP(I)  = MAX(EPSP(I),EPDR(I))
+            LOGEP(I) = LOG(EPSP(I)/EPDR(I))
+          ENDDO
+#include "vectorize.inc"
+          DO I=JFT,JLT
             MT = MAX(EM20,Z3)
             IF (TSTAR(I) == ZERO) THEN
-              Q(I) = (ONE + CC * LOG(EPSP(I)/EPDR(I)))
+              Q(I) = (ONE + CC * LOGEP(I))
             ELSE
-              Q(I) = (ONE + CC * LOG(EPSP(I)/EPDR(I)))*
-     .                             (ONE-EXP(MT*LOG(TSTAR(I))))  
+              Q(I) = (ONE + CC * LOGEP(I))*(ONE-EXP(MT*LOG(TSTAR(I))))
             ENDIF
+            Q(I) = MAX(Q(I),EM20)
             CA(I) = CA(I) * Q(I)
             CB(I) = CB(I) * Q(I)
             IF (ICC == 1) YMAX(I) = YMAX(I) * Q(I)
           ENDDO
         ELSEIF (IRTY == 1) THEN   ! Zerilli
           DO I=JFT,JLT
-            IF (ISRATE == 0 .AND.VP == 2) EPSP(I) = 
-     .           MAX(ABS(EPSPXX(I)),ABS(EPSPYY(I)),HALF*ABS(EPSPXY(I)))
+            IF (ISRATE == 0.AND.VP == 2) EPSP(I) = MAX( ABS(DEPSXX(I)),
+     .                   ABS(DEPSYY(I)), HALF*ABS(DEPSXY(I)))
             EPSP(I) = MAX(EPSP(I),EM20)
-            Q(I) = LOG(EPSP(I)/EPDR(I))
+            LOGEP(I) = LOG(EPSP(I)/EPDR(I))
+          ENDDO
+          DO I=JFT,JLT          
+            Q(I) = LOGEP(I)
             Q(I) = CC*EXP((-Z3+Z4 * Q(I))*TEMP(I))
             IF (ICC == 1) YMAX(I)= YMAX(I) + Q(I)
             CA(I) = CA(I) + Q(I)

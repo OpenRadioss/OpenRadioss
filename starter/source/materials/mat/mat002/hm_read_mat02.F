@@ -397,19 +397,27 @@ C-----
       
       IF (VP == 1) THEN
         ! If plastic strain is chosen, filtering by default
-        ISRATE = 1
-        IF (ASRATE == ZERO) ASRATE = 10000.0D0*UNITAB%FAC_T_WORK
-        FCUT   = ASRATE
+        ISRATE    = 1
+        ASRATE    = 10000.0D0*UNITAB%FAC_T_WORK
+        FCUT      = ASRATE
       ELSE
         IF (CC == ZERO)THEN
-          EPS0   = ONE
-          ISRATE = 0
-          ASRATE = ZERO
-          FCUT   = ASRATE
+            EPS0      = ONE
+            ISRATE    = 0
+            ASRATE    = ZERO
+            FCUT      = ASRATE
         ELSE     
-          ISRATE = 1
-          IF (ASRATE == ZERO) ASRATE = EP20
-          FCUT   = ASRATE
+          IF (ASRATE /= ZERO ) THEN
+            ! If a filtering frequency is given by the user
+            ISRATE    = 1
+            FCUT      = ASRATE
+            ASRATE    = ASRATE*TWO*PI 
+          ELSE
+            ! If no filtering frequency is given but the flag is activated
+            ISRATE    = 1 
+            ASRATE    = EP20
+            FCUT      = ASRATE
+          ENDIF
         ENDIF
       ENDIF
 
@@ -438,11 +446,10 @@ C-----
       PM(43)=CC
       PM(44)=EPS0
       PM(49)=ICC
+      PM(9) = ASRATE  
 
       IPM(255) = VP   
 
-      PARMAT(4) = ISRATE
-      PARMAT(5) = ASRATE
       PM(37)= PMIN    ! default pressure cut-off for EOS
 C
       IF (TREF <= ZERO) TREF = THREE100
