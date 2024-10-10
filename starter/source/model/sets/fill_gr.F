@@ -150,6 +150,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
+      LOGICAL LINE_SEG, SURF_SEG
       INTEGER NSEG
       CHARACTER MESS*40
       DATA MESS/'SET SURF GROUP DEFINITION               '/
@@ -157,11 +158,22 @@ C-----------------------------------------------
 !
 !     create new grelem (IGRBRIC, etc) from elems of /SET
 !
-      NSEG = SET%NB_SURF_SEG
+      ! 3D or 2D
+      SURF_SEG = .FALSE.
+      LINE_SEG = .FALSE.
+      NSEG = 0
+      IF(SET%NB_SURF_SEG > 0) THEN
+        !3D case
+        NSEG = SET%NB_SURF_SEG
+        SURF_SEG = .TRUE.
+      ELSEIF(SET%NB_LINE_SEG > 0)THEN
+        !2D case
+        NSEG = SET%NB_LINE_SEG
+        LINE_SEG = .TRUE.
+      ENDIF
       !IF (NSEG == 0) RETURN      ! create a Surface if empty
 !---
       IGRS = IGRS + 1
-
 !
       IGRSURF(IGRS)%ID = SET%SET_ID
       IGRSURF(IGRS)%TITLE = SET%TITLE
@@ -193,12 +205,24 @@ C-----------------------------------------------
         CALL MY_ALLOC(IGRSURF(IGRS)%ELTYP,NSEG)
         CALL MY_ALLOC(IGRSURF(IGRS)%ELEM,NSEG)
 !
-        IGRSURF(IGRS)%NODES(1:NSEG,1) = SET%SURF_NODES(1:NSEG,1)
-        IGRSURF(IGRS)%NODES(1:NSEG,2) = SET%SURF_NODES(1:NSEG,2)
-        IGRSURF(IGRS)%NODES(1:NSEG,3) = SET%SURF_NODES(1:NSEG,3)
-        IGRSURF(IGRS)%NODES(1:NSEG,4) = SET%SURF_NODES(1:NSEG,4)
-        IGRSURF(IGRS)%ELTYP(1:NSEG)   = SET%SURF_ELTYP(1:NSEG)
-        IGRSURF(IGRS)%ELEM(1:NSEG)    = SET%SURF_ELEM(1:NSEG)
+        IF(SURF_SEG)THEN
+          IGRSURF(IGRS)%NODES(1:NSEG,1) = SET%SURF_NODES(1:NSEG,1)
+          IGRSURF(IGRS)%NODES(1:NSEG,2) = SET%SURF_NODES(1:NSEG,2)
+          IGRSURF(IGRS)%NODES(1:NSEG,3) = SET%SURF_NODES(1:NSEG,3)
+          IGRSURF(IGRS)%NODES(1:NSEG,4) = SET%SURF_NODES(1:NSEG,4)
+          IGRSURF(IGRS)%ELTYP(1:NSEG)   = SET%SURF_ELTYP(1:NSEG)
+          IGRSURF(IGRS)%ELEM(1:NSEG)    = SET%SURF_ELEM(1:NSEG)
+        ENDIF
+
+        IF(LINE_SEG)THEN
+          IGRSURF(IGRS)%NODES(1:NSEG,1) = SET%LINE_NODES(1:NSEG,1)
+          IGRSURF(IGRS)%NODES(1:NSEG,2) = SET%LINE_NODES(1:NSEG,2)
+          IGRSURF(IGRS)%NODES(1:NSEG,3) = 0
+          IGRSURF(IGRS)%NODES(1:NSEG,4) = 0
+          IGRSURF(IGRS)%ELTYP(1:NSEG)   = SET%LINE_ELTYP(1:NSEG)
+          IGRSURF(IGRS)%ELEM(1:NSEG)    = SET%LINE_ELEM(1:NSEG)
+        ENDIF
+
       ENDIF ! IF (NSEG > 0)
 
       SET%SET_NSURF_ID = IGRS
