@@ -15,7 +15,7 @@ env:
 jobs:
 
   upd_headers:
-    if: ${{ github.repository_owner == 'OpenRadioss' }}
+    if: ${{ github.repository_owner == 'OpenRadioss' && github.ref == 'refs/heads/main' }}
 
     # DEV ONLY # runs-on: ["dev_update_headers"]
     runs-on: ["update_headers"]
