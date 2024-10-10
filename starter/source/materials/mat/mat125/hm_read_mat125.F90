@@ -149,17 +149,17 @@
       call hm_get_intv  ('LSD_LCID13'  ,ifem22c   ,is_available, lsubmodel)
       call hm_get_intv  ('LSD_LCID3'   ,ifyc     ,is_available, lsubmodel) 
 !card9 - dir 33 tention  only for solid
-      call hm_get_floatv  ('LSD_M33T'    ,em33t      ,is_available, lsubmodel, unitab)
+      call hm_get_floatv  ('LSD_M33T'         ,em33t      ,is_available, lsubmodel, unitab)
       call hm_get_floatv  ('LSD_MAT_ZT'       ,zt         ,is_available, lsubmodel, unitab)
-      call hm_get_floatv  ('MATL58_SLIMT3'   ,slimt3     ,is_available, lsubmodel, unitab)
-      call hm_get_intv ('LSD_LCID22'  ,ifem33t     ,is_available, lsubmodel)
-      call hm_get_intv ('LSD_LCID18'   ,ifzt       ,is_available, lsubmodel)
+      call hm_get_floatv  ('LSD_MAT_SLIMT3'   ,slimt3     ,is_available, lsubmodel, unitab)
+      call hm_get_intv ('LSD_MAT_LCE33T'  ,ifem33t     ,is_available, lsubmodel)
+      call hm_get_intv ('LSD_MAT_LCZT'     ,ifzt       ,is_available, lsubmodel)
 ! card10- dir 33 compression only for solid
-      call hm_get_floatv  ('LSD_M33C'    ,em33c      ,is_available, lsubmodel, unitab)
+      call hm_get_floatv  ('LSD_MAT_E33C'     ,em33c      ,is_available, lsubmodel, unitab)
       call hm_get_floatv  ('LSD_MAT_ZC'       ,zc         ,is_available, lsubmodel, unitab)
-      call hm_get_floatv  ('MATL58_SLIMC3'   ,slimc3     ,is_available, lsubmodel, unitab)
-      call hm_get_intv  ('LSD_LCID21'  ,ifem33c   ,is_available, lsubmodel)
-      call hm_get_intv  ('LSD_LCID17'   ,ifzc     ,is_available, lsubmodel)   
+      call hm_get_floatv  ('LSD_MAT_SLIMC3'   ,slimc3     ,is_available, lsubmodel, unitab)
+      call hm_get_intv  ('LSD_MAT_LCE33C'  ,ifem33c   ,is_available, lsubmodel)
+      call hm_get_intv  ('LSD_MAT_LCZC'   ,ifzc     ,is_available, lsubmodel)   
 !card11 - shear 12 
       call hm_get_floatv  ('MATL58_GAMMA1'   ,gamma     ,is_available, lsubmodel, unitab)
       call hm_get_floatv  ('MATL58_TAU1'     ,tau       ,is_available, lsubmodel, unitab)
@@ -172,27 +172,27 @@
       call hm_get_intv  ('LSD_LCID15'   ,ifems     ,is_available, lsubmodel)
       call hm_get_intv  ('LSD_LCID5'    ,ifsc     ,is_available, lsubmodel)
 !card13 - shear 13 for solid 
-      call hm_get_floatv  ('MATL58_GAMMA2'   ,gamma2     ,is_available, lsubmodel, unitab)
-      call hm_get_floatv  ('MATL58_TAU2'     ,tau2       ,is_available, lsubmodel, unitab)
-      call hm_get_floatv  ('LSD_MS13'        ,ems13      ,is_available, lsubmodel, unitab)
-      call hm_get_floatv  ('LSD_MAT_SC13'    ,sc13       ,is_available, lsubmodel, unitab)
-      call hm_get_floatv  ('MATL58_SLIMS13'  ,slims13    ,is_available, lsubmodel, unitab)
+      call hm_get_floatv  ('LSD_MAT_GAMMA2'   ,gamma2     ,is_available, lsubmodel, unitab)
+      call hm_get_floatv  ('LSD_MAT_TAU2'     ,tau2       ,is_available, lsubmodel, unitab)
+      call hm_get_floatv  ('LSD_MAT_LCSC31'   ,ems13      ,is_available, lsubmodel, unitab)
+      call hm_get_floatv  ('LSD_MAT_SC31'      ,sc13       ,is_available, lsubmodel, unitab)
+      call hm_get_floatv  ('LSD_MAT_SLIMS31'  ,slims13    ,is_available, lsubmodel, unitab)
 !card14 - strain rate dependency (optional)
-      call hm_get_intv  ('LSD_LCID26'  ,ifgamma2   ,is_available, lsubmodel)
-      call hm_get_intv  ('LSD_LCID25'    ,iftau2     ,is_available, lsubmodel)
-      call hm_get_intv  ('LSD_LCID23'     ,ifems13     ,is_available, lsubmodel)
+      call hm_get_intv  ('LSD_MAT_LCGAM2'      ,ifgamma2   ,is_available, lsubmodel)
+      call hm_get_intv  ('LSD_MAT_LCTAU2'      ,iftau2     ,is_available, lsubmodel)
+      call hm_get_intv  ('LSD_MAT_LCGMS31'      ,ifems13     ,is_available, lsubmodel)
       call hm_get_intv  ('LSD_LCID20'      ,ifsc13      ,is_available, lsubmodel)
 !card15- shear 13 for solid 
-      call hm_get_floatv  ('MATL58_GAMMA3'   ,gamma3     ,is_available, lsubmodel, unitab)
-      call hm_get_floatv  ('MATL58_TAU3'     ,tau3       ,is_available, lsubmodel, unitab)
+      call hm_get_floatv  ('LSD_MAT_GAMMA3'   ,gamma3     ,is_available, lsubmodel, unitab)
+      call hm_get_floatv  ('LSD_MAT_TAU3'     ,tau3       ,is_available, lsubmodel, unitab)
       call hm_get_floatv  ('LSD_MS23'        ,ems23      ,is_available, lsubmodel, unitab)
       call hm_get_floatv  ('LSD_MAT_SC23'    ,sc23       ,is_available, lsubmodel, unitab)
-      call hm_get_floatv  ('MATL58_SLIMS23'  ,slims23    ,is_available, lsubmodel, unitab)
+      call hm_get_floatv  ('LSD_MAT_SLIMS23'  ,slims23    ,is_available, lsubmodel, unitab)
 !card16 - strain rate dependency (optional)
-      call hm_get_intv  ('LSD_LCID28'     ,ifgamma3   ,is_available, lsubmodel)
-      call hm_get_intv  ('LSD_LCID27'      ,iftau3     ,is_available, lsubmodel)
-      call hm_get_intv  ('LSD_LCID24'     ,ifems23     ,is_available, lsubmodel)
-      call hm_get_intv  ('LSD_LCID19'      ,ifsc23      ,is_available, lsubmodel)   
+      call hm_get_intv  ('LSD_MAT_LCGAM3'     ,ifgamma3   ,is_available, lsubmodel)
+      call hm_get_intv  ('LSD_MAT_LCTAU3'      ,iftau3     ,is_available, lsubmodel)
+      call hm_get_intv  ('LSD_MAT_LCGMS23'     ,ifems23     ,is_available, lsubmodel)
+      call hm_get_intv  ('LSD_MAT_LCSC23'      ,ifsc23      ,is_available, lsubmodel)   
 !card17    
       call hm_get_floatv  ('LSD_MAT_EPSF'   ,gammaf     ,is_available, lsubmodel, unitab)
       call hm_get_floatv  ('LSD_MAT_EPSF'   ,gammar       ,is_available, lsubmodel, unitab)
@@ -670,7 +670,7 @@
         write(iout,'(5x,a,//)')'confidential data'
       else
         write(iout,1200) rho0
-        write(iout,1300) e1,e2,e3,g12,g23,g13,nu12,nu23,nu13
+        write(iout,1300) e1,e2,e3,g12,g23,g13,nu21,nu32,nu31
         write(iout,1400)  em11t, xt,slimt1,em11c,xc,slimc1
         write(iout,1500)  em22t, yt,slimt2,em22c,yt,slimc2
         write(iout,1600)  em33t, zt,slimt3,em33c,zt,slimc3
@@ -707,10 +707,10 @@
        5x,'young modulus in dir. 3 (matrix) e3 . . . . . . .=',1pg20.13/     &
        5x,'shear modulus in plane 12 g12 . . . . . . . . . .=',1pg20.13/     &
        5x,'shear modulus in plane 23 g23 . . . . . . . . . .=',1pg20.13/     &
-       5x,'shear modulus in plane 31 g13 . . . . . . . . . .=',1pg20.13/     &
-       5x,'poisson ratio in plane 12 nu12. . . . . . . . . .=',1pg20.13/     &
-       5x,'poisson ratio in plane 23 nu23. . . . . . . . . .=',1pg20.13/     &
-       5x,'poisson ratio in plane 31 nu13. . . . . . . . . .=',1pg20.13)
+       5x,'shear modulus in plane 31 g31 . . . . . . . . . .=',1pg20.13/     &
+       5x,'poisson ratio in plane 21 nu21. . . . . . . . . .=',1pg20.13/     &
+       5x,'poisson ratio in plane 32 nu32. . . . . . . . . .=',1pg20.13/     &
+       5x,'poisson ratio in plane 31 nu31. . . . . . . . . .=',1pg20.13)
  1400 format(                                                                     &
        5x,' fiber (dir. 1) parameters   :                            ',/          &
        5x,'---------------------------                               ',/          &
