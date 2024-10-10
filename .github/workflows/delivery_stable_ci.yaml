@@ -596,7 +596,17 @@ jobs:
 
     steps:
 
+      # Set the working dir suffixed with deliv_stable
+      - name: Set workdir 
+        run: |
+          echo "WORKDIR=deliv_stable" >> $GITHUB_ENV
+
+      - name: Create branch oriented WS directory & integration WS
+        run: |
+          mkdir -p ${{ env.WORKDIR }}
+
       - name: Set the release name & clean previous exec
+        working-directory: ${{ env.WORKDIR }}
         run: |
           echo "DATEOFTHETAG=${LAST_STABLE_TAG_NAME#latest-}" >> $GITHUB_ENV
           rm -rf exec todeliver exec_tmp
@@ -605,6 +615,7 @@ jobs:
       - name: Checkout git sources
         uses: actions/checkout@v4
         with:
+          path: ${{ env.WORKDIR }}
           clean: 'false'
           lfs: 'true'
           ref: ${{ env.LAST_STABLE_TAG_NAME }}
@@ -616,20 +627,22 @@ jobs:
           lfs: 'true'
           clean: 'false'
           repository: '${{ secrets.EXTRA_REPOSITORY }}'
-          path: 'EXTRA'
+          path: "${{ env.WORKDIR }}/EXTRA"
           token: '${{ secrets.EXTRA_REPOSITORY_PAT }}'
 
       # Download ALL artifacts
       - name: Download ALL artifacts for packaging
         uses: actions/download-artifact@v4
         with:
-          path: exec_tmp
+          path: "${{ env.WORKDIR }}/exec_tmp"
 
       - name: Check files in exec
+        working-directory: ${{ env.WORKDIR }}
         run: |
           ls -l exec_tmp/
 
       - name: Copy all artifact complex structure into flat files in exec
+        working-directory: ${{ env.WORKDIR }}
         run: |
           echo "List exec_tmp : "
           find exec_tmp -type f
@@ -648,6 +661,7 @@ jobs:
           find exec -type f
 
       - name: Provide ALL binaries
+        working-directory: ${{ env.WORKDIR }}
         run: |
           # Removed lfs hook (not supported in next action, not neeeded)
           rm -f .git/hooks/pre-push
@@ -686,6 +700,7 @@ jobs:
           done 
 
       - name: Set some variables
+        working-directory: ${{ env.WORKDIR }}
         run: |
           echo "LAST_STABLE_COMMIT=$(git rev-list -n 1 ${{ env.LAST_STABLE_TAG_NAME }})" >> $GITHUB_ENV
           echo "LAST_STABLE_COMMIT_MESSAGE=$(git log -1 --format=%B ${{ env.LAST_STABLE_TAG_NAME }})" >> $GITHUB_ENV
@@ -699,6 +714,7 @@ jobs:
           route: GET /repos/${{ github.repository }}/commits/${{ env.LAST_STABLE_COMMIT }}
 
       - name: Counter Download - Update values
+        working-directory: ${{ env.WORKDIR }}
         run: |
             cd /github_download_counter
 
@@ -729,12 +745,13 @@ jobs:
             Commit message:
             ${{ env.LAST_STABLE_COMMIT_MESSAGE }}
           files: |
-            todeliver/*
+            ${{ env.WORKDIR }}/todeliver/*
           clear_attachments: true    
           skip_tag_creation: true 
           target_commit: ${{ env.LAST_STABLE_COMMIT }}
 
       - name: Counter Download - Update/Add entries
+        working-directory: ${{ env.WORKDIR }}
         run: |
             cd /github_download_counter
             github_download_count.py \
@@ -746,6 +763,7 @@ jobs:
               --tag_date ${{ env.DATEOFTHETAG }}
 
       - name: Clean old github release/tag if needed + clean Counter Download
+        working-directory: ${{ env.WORKDIR }}
         run: |
             clean_github_release.py \
               --git_api_url ${{ github.api_url }} \
