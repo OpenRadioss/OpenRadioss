@@ -213,6 +213,7 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "warn_c.inc"
 #include      "com01_c.inc"
+#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -252,6 +253,7 @@ cc      SAVE INIVOXEL, VOXEL
 cc      DATA INIVOXEL /1/
       INTEGER NBX,NBY,NBZ
       INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8
+      my_real :: DDD
 
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -324,6 +326,7 @@ C Work on the reduce box
       ENDIF
 
       AAA = 0.75*AAA
+      DDD = ONE / AAA 
 
       NBX = NINT(AAA*(BMINMA(7)-BMINMA(10)))
       NBY = NINT(AAA*(BMINMA(8)-BMINMA(11)))
@@ -332,14 +335,14 @@ C
       NBX = MAX(NBX,1)
       NBY = MAX(NBY,1)
       NBZ = MAX(NBZ,1)
-     
+c     write(800+ISPMD,*) "BASE : NBX=",NBX," NBY=",NBY," NBZ=",NBZ,1.0D0/AAA
       NBX8=NBX
       NBY8=NBY
       NBZ8=NBZ
       RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
       LVOXEL8 = LVOXEL      
 
-      IF(RES8 > LVOXEL8) THEN
+c     IF(RES8 > LVOXEL8) THEN
         AAA = LVOXEL
         AAA = AAA/((NBX8+2)*(NBY8+2)*(NBZ8+2))
         AAA = AAA**(THIRD)
@@ -349,7 +352,7 @@ C
         NBX = MAX(NBX,1)
         NBY = MAX(NBY,1)
         NBZ = MAX(NBZ,1)
-      ENDIF
+c     ENDIF
       
       NBX8=NBX
       NBY8=NBY
@@ -357,10 +360,14 @@ C
       RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
       
       IF(RES8 > LVOXEL8) THEN
-        NBX = MIN(100,MAX(NBX8,1))
-        NBY = MIN(100,MAX(NBY8,1))
-        NBZ = MIN(100,MAX(NBZ8,1))
+        NBX = MIN(198,MAX(NBX8,1))
+        NBY = MIN(198,MAX(NBY8,1))
+        NBZ = MIN(198,MAX(NBZ8,1))
       ENDIF
+      
+      NBX = MIN(398,MAX(NBX,1))
+      NBY = MIN(398,MAX(NBY,1))
+      NBZ = MIN(398,MAX(NBZ,1))
 
 C     initialisation complete de VOXEL
 C (en // SMP il y a possibilite de redondance de traitement mais no pb)
@@ -380,7 +387,7 @@ C (en // SMP il y a possibilite de redondance de traitement mais no pb)
      9   NIN     ,ITASK    ,BGAPSMX  ,KREMNOD  ,REMNOD  ,
      A   ITAB    ,FLAGREMNODE,DRAD   ,ITIED    ,CAND_F  ,
      B   DGAPLOAD,REMOTE_S_NODE,LIST_REMOTE_S_NODE,
-     C   TOTAL_NB_NRTM)
+     C   TOTAL_NB_NRTM,DDD)
  
  234  CONTINUE
 

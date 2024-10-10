@@ -207,6 +207,7 @@ C     Flux computation
          IAD = ALE_CONNECTIVITY%ee_connect%iad_connect(I)
          NB_FACE = ALE_CONNECTIVITY%ee_connect%iad_connect(I+1) -
      .        ALE_CONNECTIVITY%ee_connect%iad_connect(I)
+          !ajouter les identifiants matériaux des cellules voisines
          I_OLD = I
 C     Face KFACE
          DO KFACE3 = 1, NB_FACE
