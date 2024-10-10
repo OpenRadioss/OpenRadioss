@@ -91,11 +91,11 @@ C-----------------------------------------------
       IDEL=0
       IDEV=0
       SCALE = ZERO
-      IF(ISOLID==1)THEN
+      IF ((ISOLID==1).OR.(ISOLID == 4)) THEN
         IDEL=1
-      ELSEIF(ISOLID==2)THEN
-       IDEV =1
-      END IF
+      ELSEIF ((ISOLID==2).OR.(ISOLID == 3)) THEN
+        IDEV =1
+      ENDIF
 C...
       IF(IDEL==1)THEN
         DO I=1,NEL
@@ -107,7 +107,7 @@ C
       IF(IDEL==1)THEN
        NINDX=0  
        DO I=1,NEL
-        IF(ISOLID==1.AND.OFF(I)==ONE)THEN
+        IF ((ISOLID==1.AND.OFF(I)==ONE).OR.(ISOLID==4))THEN
          IF(DPLA(I)/=ZERO)THEN
            P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
            SXX = SIGNXX(I) - P
@@ -123,11 +123,22 @@ C
            EPSF = MAX(EPSF,EPSF_MIN)
            IF(EPSF>ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF
          ENDIF
-         IF(DFMAX(I)>=ONE.AND.OFF(I)==ONE) THEN
-          OFF(I)=FOUR_OVER_5
-          NINDX=NINDX+1
-          INDX(NINDX)=I
-          TDELE(I) = TIME    
+         IF (DFMAX(I)>=ONE.AND.OFF(I)==ONE) THEN
+          IF (ISOLID == 1) THEN 
+            OFF(I)=FOUR_OVER_5
+            NINDX=NINDX+1
+            INDX(NINDX)=I
+            TDELE(I) = TIME 
+          ELSEIF (ISOLID == 4) THEN
+            DFMAX(I)  = ONE
+            OFF(I)    = ONE 
+            SIGNXX(I) = ZERO
+            SIGNYY(I) = ZERO
+            SIGNZZ(I) = ZERO
+            SIGNXY(I) = ZERO
+            SIGNYZ(I) = ZERO
+            SIGNZX(I) = ZERO 
+          ENDIF
          ENDIF
         ENDIF 
        ENDDO
@@ -144,7 +155,7 @@ Cc deviatoric will be vanished
       IF(IDEV==1)THEN
        NINDX=0 
        DO I=1,NEL 
-        IF(ISOLID==2.AND.OFF(I)==ONE)THEN 
+        IF((ISOLID==2.OR.ISOLID==3).AND.OFF(I)==ONE)THEN 
          IF(DFMAX(I)<ONE.AND.DPLA(I)/=ZERO)THEN
           P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
           SXX = SIGNXX(I) - P
@@ -163,22 +174,40 @@ Cc deviatoric will be vanished
           IF(DFMAX(I)>=ONE.AND.OFF(I)==ONE) THEN
            NINDX=NINDX+1
            INDX(NINDX)=I
-           SIGNXX(I) =   P
-           SIGNYY(I) =   P
-           SIGNZZ(I) =   P
-           SIGNXY(I) = ZERO
-           SIGNYZ(I) = ZERO
-           SIGNZX(I) = ZERO                 
+           IF (ISOLID == 2) THEN 
+            SIGNXX(I) =   P
+            SIGNYY(I) =   P
+            SIGNZZ(I) =   P
+            SIGNXY(I) = ZERO
+            SIGNYZ(I) = ZERO
+            SIGNZX(I) = ZERO       
+           ELSEIF (ISOLID == 3) THEN
+            SIGNXX(I) = MIN(P,ZERO)
+            SIGNYY(I) = MIN(P,ZERO)
+            SIGNZZ(I) = MIN(P,ZERO)
+            SIGNXY(I) = ZERO
+            SIGNYZ(I) = ZERO
+            SIGNZX(I) = ZERO             
+           ENDIF
           ENDIF
 c       
          ELSEIF(DFMAX(I)>=ONE)THEN
           P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
-          SIGNXX(I) =   P
-          SIGNYY(I) =   P
-          SIGNZZ(I) =   P
-          SIGNXY(I) = ZERO
-          SIGNYZ(I) = ZERO
-          SIGNZX(I) = ZERO
+          IF (ISOLID == 2) THEN
+            SIGNXX(I) =   P
+            SIGNYY(I) =   P
+            SIGNZZ(I) =   P
+            SIGNXY(I) = ZERO
+            SIGNYZ(I) = ZERO
+            SIGNZX(I) = ZERO
+          ELSEIF (ISOLID == 3) THEN
+            SIGNXX(I) = MIN(P,ZERO)
+            SIGNYY(I) = MIN(P,ZERO)
+            SIGNZZ(I) = MIN(P,ZERO)
+            SIGNXY(I) = ZERO
+            SIGNYZ(I) = ZERO
+            SIGNZX(I) = ZERO
+          ENDIF
          ENDIF
         ENDIF  
        ENDDO
