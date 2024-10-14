@@ -107,10 +107,7 @@ C-----------------------------------------------
 !
           DO IGS = 1, NSETS
 !---
-            CALL HM_OPTION_READ_KEY(LSUBMODEL,
-     .                              OPTION_ID   = ID,
-     .                              OPTION_TITR = TITLE,
-     .                              KEYWORD2    = KEY)
+            CALL HM_OPTION_READ_KEY(LSUBMODEL,OPTION_ID=ID,OPTION_TITR=TITLE,KEYWORD2=KEY)
             WRITE(VARNAME,'(A)') TRIM(TITLE)
             CALL QAPRINT(TITLE(1:LEN_TRIM(VARNAME)), ID, 0.0_8)
 !---
@@ -395,10 +392,14 @@ C-----------------------------------------------
                   CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ITAB(IGRSURF(IGR)%NODES(N,1)),0.0_8)
                   WRITE(VARNAME,'(A,I0,A,I0,A)') 'SET_',ID,'_'//'SURFACE_SEG_',N,'_NODE_2'
                   CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ITAB(IGRSURF(IGR)%NODES(N,2)),0.0_8)
-                  WRITE(VARNAME,'(A,I0,A,I0,A)') 'SET_',ID,'_'//'SURFACE_SEG_',N,'_NODE_3'
-                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ITAB(IGRSURF(IGR)%NODES(N,3)),0.0_8)
-                  WRITE(VARNAME,'(A,I0,A,I0,A)') 'SET_',ID,'_'//'SURFACE_SEG_',N,'_NODE_4'
-                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ITAB(IGRSURF(IGR)%NODES(N,4)),0.0_8)
+                  IF(IGRSURF(IGR)%NODES(N,3) > 0)THEN
+                    WRITE(VARNAME,'(A,I0,A,I0,A)') 'SET_',ID,'_'//'SURFACE_SEG_',N,'_NODE_3'
+                    CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ITAB(IGRSURF(IGR)%NODES(N,3)),0.0_8)
+                  ENDIF
+                  IF(IGRSURF(IGR)%NODES(N,4) > 0)THEN
+                    WRITE(VARNAME,'(A,I0,A,I0,A)') 'SET_',ID,'_'//'SURFACE_SEG_',N,'_NODE_4'
+                    CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ITAB(IGRSURF(IGR)%NODES(N,4)),0.0_8)
+                  ENDIF
                   WRITE(VARNAME,'(A,I0,A,I0,A)') 'SET_',ID,'_'//'SURFACE_SEG_',N,'_ELTYP'
                   CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IGRSURF(IGR)%ELTYP(N),0.0_8)
                   WRITE(VARNAME,'(A,I0,A,I0,A)') 'SET_',ID,'_'//'SURFACE_SEG_',N,'_ELEM'
