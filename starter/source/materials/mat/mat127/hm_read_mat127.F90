@@ -396,7 +396,7 @@
         write(iout,'(5x,a,//)')'confidential data'
       else
         write(iout,1200) rho0
-        write(iout,1300) e1,e2,e3,g12,g23,g13,nu12,nu23,nu13
+        write(iout,1300) e1,e2,e3,g12,g23,g13,nu21,nu32,nu31
         write(iout,1400)  xt,slimt1,xc,slimc1
         write(iout,1500)  yt,slimt2,yc,slimc2
         write(iout,1700) sc, slims
@@ -426,9 +426,9 @@
        5x,'shear modulus in plane 12 g12 . . . . . . . . . .=',1pg20.13/     &
        5x,'shear modulus in plane 23 g23 . . . . . . . . . .=',1pg20.13/     &
        5x,'shear modulus in plane 31 g13 . . . . . . . . . .=',1pg20.13/     &
-       5x,'poisson ratio in plane 12 nu12. . . . . . . . . .=',1pg20.13/     &
-       5x,'poisson ratio in plane 23 nu23. . . . . . . . . .=',1pg20.13/     &
-       5x,'poisson ratio in plane 31 nu13. . . . . . . . . .=',1pg20.13)
+       5x,'poisson ratio in plane 21 nu21. . . . . . . . . .=',1pg20.13/     &
+       5x,'poisson ratio in plane 32 nu32. . . . . . . . . .=',1pg20.13/     &
+       5x,'poisson ratio in plane 31 nu31. . . . . . . . . .=',1pg20.13)
  1400 format(                                                                     &
        5x,' fiber (dir. 1) parameters   :                            ',/          &
        5x,'---------------------------                               ',/          &
