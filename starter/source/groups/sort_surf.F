@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
       !||====================================================================
-      SUBROUTINE SORT_SURF(IGRSURF,IXS,IXC,IXTG,IXQ)
+      SUBROUTINE SORT_SURF(IGRSURF,IXS,IXC,IXTG,IXQ,IXP,IXR,IXT,KXX,NIXX)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -44,17 +44,25 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXS(NIXS,*),IXC(NIXC,*),IXTG(NIXTG,*),IXQ(NIXQ,*)
-!
-      TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
+      INTEGER,INTENT(IN) :: NIXX !< array size
+      INTEGER,INTENT(IN) :: IXS(NIXS,NUMELS)    !< elem buffer for /BRIC entities
+      INTEGER,INTENT(IN) :: IXC(NIXC,NUMELC)    !< elem buffer for /SHELL entities
+      INTEGER,INTENT(IN) :: IXTG(NIXTG,NUMELTG) !< elem buffer for /SH3N (3d) or /TRIA (2d) entities
+      INTEGER,INTENT(IN) :: IXQ(NIXQ,NUMELQ)    !< elem buffer for /QUAD entities
+      INTEGER,INTENT(IN) :: IXP(NIXP,NUMELP)    !< elem buffer for /BEAM entities
+      INTEGER,INTENT(IN) :: IXR(NIXR,NUMELR)    !< elem buffer for /SPRING entities
+      INTEGER,INTENT(IN) :: IXT(NIXT,NUMELT)    !< elem buffer for /TRUSS entities
+      INTEGER,INTENT(IN) :: KXX(NIXX,NUMELX)    !< elem buffer for /XELEM entities
+      TYPE(SURF_),INTENT(INOUT), DIMENSION(NSURF) :: IGRSURF !< data structure for surfaces
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IAD_L,NN,ELEM,ELEM_G,N1,N2,N3,N4,ITYP,K,
-     *        IADG2,IADIBUF,IT,IAD
+      INTEGER I,J,IAD_L,NN,ELEM,ELEM_G,N1,N2,N3,N4,ITYP,K,IADG2,IADIBUF,IT,IAD
       INTEGER, DIMENSION(:), ALLOCATABLE :: IBUFSSG_TRI,IWORK,INDEX
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ITRI
-
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       ALLOCATE (IWORK(80000))
         
       DO K=1,NSURF
@@ -72,10 +80,22 @@ C-----------------------------------------------
           IBUFSSG_TRI(6*(I-1)+5) = IGRSURF(K)%ELTYP(I)
           IBUFSSG_TRI(6*(I-1)+6) = IGRSURF(K)%ELEM(I)
 
-          ITYP = IGRSURF(K)%ELTYP(I)
           ELEM = IGRSURF(K)%ELEM(I)
+          ITYP = IGRSURF(K)%ELTYP(I)
+          ! ITYP = 0  - surf of segments
+          ! ITYP = 1  - surf of solids
+          ! ITYP = 2  - surf of quads
+          ! ITYP = 3  - surf of SH4N
+          ! ITYP = 4  - line of trusses
+          ! ITYP = 5  - line of beams
+          ! ITYP = 6  - line of springs
+          ! ITYP = 7  - surf of SH3N
+          ! ITYP = 8  - line of XELEM (nstrand element)
+          ! ITYP = 101 - ISOGEOMETRIC
 
           ITRI(1,I) = ITYP
+          ITRI(2,I) = 0
+
           SELECT CASE (ITYP)
             CASE ( 0 ) 
                ITRI(2,I) = 0
@@ -85,24 +105,32 @@ C-----------------------------------------------
                ITRI(2,I) = IXQ(NIXQ,ELEM)
             CASE ( 3 )
                ITRI(2,I) = IXC(NIXC,ELEM)
+            CASE ( 4 )
+               ITRI(2,I) = IXT(NIXT,ELEM)
+            CASE ( 5 )
+               ITRI(2,I) = IXP(NIXP,ELEM)
+            CASE ( 6 )
+               ITRI(2,I) = IXR(NIXR,ELEM)
             CASE ( 7 )
                ITRI(2,I) = IXTG(NIXTG,ELEM)
+            CASE ( 8 )
+               ITRI(2,I) = KXX(NIXX,ELEM)
           END SELECT
 
           INDEX(I) = I 
 
-         ENDDO 
+        ENDDO ! next NN
 
          CALL MY_ORDERS(0,IWORK,ITRI,INDEX,NN,2)
 
          DO I=1,NN
-          IT = INDEX(I)
-          IGRSURF(K)%NODES(I,1) = IBUFSSG_TRI(6*(IT-1)+1)
-          IGRSURF(K)%NODES(I,2) = IBUFSSG_TRI(6*(IT-1)+2)
-          IGRSURF(K)%NODES(I,3) = IBUFSSG_TRI(6*(IT-1)+3)
-          IGRSURF(K)%NODES(I,4) = IBUFSSG_TRI(6*(IT-1)+4)
-          IGRSURF(K)%ELTYP(I)  = IBUFSSG_TRI(6*(IT-1)+5)
-          IGRSURF(K)%ELEM(I)  = IBUFSSG_TRI(6*(IT-1)+6)
+           IT = INDEX(I)
+           IGRSURF(K)%NODES(I,1) = IBUFSSG_TRI(6*(IT-1)+1)
+           IGRSURF(K)%NODES(I,2) = IBUFSSG_TRI(6*(IT-1)+2)
+           IGRSURF(K)%NODES(I,3) = IBUFSSG_TRI(6*(IT-1)+3)
+           IGRSURF(K)%NODES(I,4) = IBUFSSG_TRI(6*(IT-1)+4)
+           IGRSURF(K)%ELTYP(I)  = IBUFSSG_TRI(6*(IT-1)+5)
+           IGRSURF(K)%ELEM(I)  = IBUFSSG_TRI(6*(IT-1)+6)
          ENDDO
 
          DEALLOCATE(IBUFSSG_TRI)
