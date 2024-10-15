@@ -151,59 +151,19 @@
 !-----------------------------
  !     check and default values
  !-----------------------------
-      ! poisson's ratio
-      if (nu21 < zero .or. nu21 >= half) then
-        call ancmsg(msgid=3032,                        &
+      ! poisson's ratio 
+      nu12 = nu21*e1/e2 
+      ! checking poisson's ratio 
+      if(nu12*nu21 >= one ) then
+        call ancmsg(msgid=3068,                        &
                   msgtype=msgerror,                    &
                   anmode=aninfo_blind_2,               &
-                  r1=nu21,                             &
                   i1=mat_id,                           &
                   c1=titr)
-      endif    
-      nu12 = nu21*e1/e2
-      if (nu12 < zero .or. nu12 >= half) then
-        call ancmsg(msgid=3033,                      &                              
-                  msgtype=msgerror,                  &
-                  anmode=aninfo_blind_2,             &
-                  r1=nu12,                           &
-                  i1=mat_id,                         &
-                  c1=titr)   
       endif
-      if (nu32 < zero .or. nu32 >= half) then
-        call ancmsg(msgid=3034,                        &
-                    msgtype=msgerror,                  &
-                    anmode=aninfo_blind_2,             &
-                    r1=nu32,                           &
-                    i1=mat_id,                         &
-                    c1=titr)
-      endif
+      ! to be checked if are used for 3D as nu12 & nu21
       nu23 = nu32*e2/e3
-      if (nu23 < zero .or. nu23 >= half) then
-        call ancmsg(msgid=3035,                     &
-                 msgtype=msgerror,                  &
-                 anmode=aninfo_blind_2,             &
-                 r1=nu23,                           &
-                 i1=mat_id,                         &
-                 c1=titr)
-      endif
-      if (nu31 < zero .or. nu31 >= half) then
-        call ancmsg(msgid=3036,                     &
-                 msgtype=msgerror,                  &
-                 anmode=aninfo_blind_2,             &
-                 r1=nu31,                           &
-                 i1=mat_id,                         &
-                 c1=titr)
-      endif 
       nu13 = nu31*e1/e3
-      if (nu13 < zero .or. nu13 >= half) then
-        call ancmsg(msgid=3037,                     &
-                  msgtype=msgerror,                 &
-                  anmode=aninfo_blind_2,            &
-                  r1=nu13,                          &
-                  i1=mat_id,                        &
-                  c1=titr)
-      endif 
-      ! checking poisson's ratio 
       detc = one - nu12*nu21
       if (detc <= zero) then
         call ancmsg(msgid=307,                        &
