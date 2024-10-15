@@ -111,6 +111,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE DT_MOD
       USE ELBUFDEF_MOD
+      USE SDISTOR_INI_MOD, ONLY : SDISTOR_INI
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -160,7 +161,7 @@ C
      .   DT2T
 C
       my_real
-     .   PM(NPROPM,*),GEO(NPROPG,*),X(*),A(*),V(*),MS(*),W(*), 
+     .   PM(NPROPM,*),GEO(NPROPG,*),X(*),A(*),V(3,*),MS(*),W(*), 
      .   FLUX(6,*),FLU1(*),VEUL(*),FV(*),TF(*),BUFMAT(*),
      .   PARTSAV(*),STIFN(*), FSKY(*),EANI(*),
      .   F11(MVSIZ),F21(MVSIZ),F31(MVSIZ),
@@ -228,7 +229,7 @@ C Variables utilisees en argument par les materiaux.
 C Variables utilisees en argument par les materiaux si SPH uniquement.
       my_real
      .   MUVOID(MVSIZ)
-      INTEGER IOFFS,IFVM22,NN_DEL,IPRES
+      INTEGER IOFFS,IFVM22,NN_DEL,IPRES,ISCTL,ISTAB(MVSIZ)
       my_real
      .   OFFS(MVSIZ),DSV(MVSIZ)
 C-----
@@ -347,6 +348,8 @@ C-----
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF
       INTEGER SZ_IX
+      my_real :: STI_C(MVSIZ),LL(MVSIZ),FLD(MVSIZ),
+     .           CNS2,FQMAX
 c-----------------------------------------------------
       PARAMETER (NLYMAX = 200,IPMAT = 100,IPANG = 200)
 c-----------------------------------------------------
@@ -501,6 +504,7 @@ C       GATHER NODAL VARIABLES AND COMPUTE INTRINSIC ROTATION.
       IF (GEO(190,PID)+GEO(191,PID)+GEO(192,PID)+GEO(192,PID)>ZERO)
      .        NN_DEL=8
       IF (NN_DEL ==0 .AND. DT%IDEL_BRICK>0) NN_DEL=8
+      ISCTL = IGEO(97,PID)
 c
       IF (JCVT == 2 .AND. IOR_TSH  == 0) THEN
         CALL STORTH3(
@@ -574,7 +578,7 @@ c---------------------------
      7   Z7,        Z8,        IXS(1,NF1),IDEG,
      8   NEL)
       END IF                                 
-      IF (NTSHEG > 0) THEN
+      IF (NTSHEG > 0 .AND. ISCTL == 0) THEN
          CALL SDLENSH8(VOLN,LLSH,AREA ,
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
@@ -914,7 +918,7 @@ C
           ENDIF 
         ENDIF 
 C        
-        IF (NTSHEG > 0) THEN
+        IF (NTSHEG > 0 .AND. ISCTL == 0) THEN
           DO I=LFT,LLT
             IF (GBUF%IDT_TSH(I)<=0) CYCLE
             LLSMIN(I) = MIN(LLSMIN(I),DELTAX(I))
@@ -1316,6 +1320,78 @@ C----------------------------
      7   F28,     F31,     F32,     F33,
      8   F34,     F35,     F36,     F37,
      9   F38,     NEL)
+      ENDIF
+C----------------------------
+C     distorsion control  
+C----------------------------
+      IF (ISCTL > 0) THEN
+         ALPHA_E(1:NEL) = ONE  ! incompatibale
+         CALL SDISTOR_INI(                                      
+     1                NEL      ,STI_C    ,NPROPM     ,NUMMAT  ,       
+     2                ISMSTR   ,MXT      ,ISTAB      ,PM      ,       
+     3                GBUF%SIG ,GBUF%RHO ,CXX        ,OFFL    ,       
+     4                GBUF%OFF ,LL       ,VOLG       ,FLD     ,       
+     5                CNS2     ,FQMAX    )
+!      all in global system 
+         IF (ISMSTR == 1.OR.ISMSTR >= 11) 
+     .     CALL S8GET_X3(      
+     .     NC1,      NC2,      NC3,      NC4,
+     .     NC5,      NC6,      NC7,      NC8,
+     .      X1,       X2,       X3,       X4,      
+     .      X5,       X6,       X7,       X8,      
+     .      Y1,       Y2,       Y3,       Y4,      
+     .      Y5,       Y6,       Y7,       Y8,      
+     .      Z1,       Z2,       Z3,       Z4,      
+     .      Z5,       Z6,       Z7,       Z8,      
+     .       X,      XDP,   NUMNOD,     NEL )
+           DO I=1,NEL
+            VX1(I)=V(1,NC1(I))
+            VY1(I)=V(2,NC1(I))
+            VZ1(I)=V(3,NC1(I))
+            VX2(I)=V(1,NC2(I))
+            VY2(I)=V(2,NC2(I))
+            VZ2(I)=V(3,NC2(I))
+            VX3(I)=V(1,NC3(I))
+            VY3(I)=V(2,NC3(I))
+            VZ3(I)=V(3,NC3(I))
+            VX4(I)=V(1,NC4(I))
+            VY4(I)=V(2,NC4(I))
+            VZ4(I)=V(3,NC4(I))
+            VX5(I)=V(1,NC5(I))
+            VY5(I)=V(2,NC5(I))
+            VZ5(I)=V(3,NC5(I))
+            VX6(I)=V(1,NC6(I))
+            VY6(I)=V(2,NC6(I))
+            VZ6(I)=V(3,NC6(I))
+            VX7(I)=V(1,NC7(I))
+            VY7(I)=V(2,NC7(I))
+            VZ7(I)=V(3,NC7(I))
+            VX8(I)=V(1,NC8(I))
+            VY8(I)=V(2,NC8(I))
+            VZ8(I)=V(3,NC8(I))
+           ENDDO
+         CALL S8FOR_DISTOR(
+     .   X1,      X2,      X3,      X4,      
+     .   X5,      X6,      X7,      X8,      
+     .   Y1,      Y2,      Y3,      Y4,      
+     .   Y5,      Y6,      Y7,      Y8,      
+     .   Z1,      Z2,      Z3,      Z4,      
+     .   Z5,      Z6,      Z7,      Z8,      
+     .   VX1,     VX2,     VX3,     VX4,
+     .   VX5,     VX6,     VX7,     VX8,
+     .   VY1,     VY2,     VY3,     VY4,
+     .   VY5,     VY6,     VY7,     VY8,
+     .   VZ1,     VZ2,     VZ3,     VZ4,
+     .   VZ5,     VZ6,     VZ7,     VZ8,
+     .   F11,     F12,     F13,     F14,
+     .   F15,     F16,     F17,     F18,
+     .   F21,     F22,     F23,     F24,
+     .   F25,     F26,     F27,     F28,
+     .   F31,     F32,     F33,     F34,
+     .   F35,     F36,     F37,     F38,
+     .  STIN,   STI_C,   FLD  ,    CNS2,
+     .   LL ,   ISTAB,   FQMAX,     NEL,
+     .   GBUF%EINT_DISTOR, DT1)
       ENDIF
 C----------------------------
       IF(NFILSOL/=0) CALL SFILLOPT(

@@ -95,7 +95,7 @@ C     REAL
       INTEGER IHBE,ISMSTR,IPLAST,ICPRE,ICSTR,IINT,JCVT,
      .   NPG,NPT,NPTR,NPTS,NPTT, ISTRAIN,IET,IHBE_OLD,ID,
      .   NLY
-      INTEGER     IHBE_DS,ISST_DS
+      INTEGER     IHBE_DS,ISST_DS,ICONTROL_D,ICONTROL
       my_real
      .    CVIS,QA,QB,QH,VNS1,VNS2,DTMIN,VDEFMIN,VDEFMAX,ASPMAX,ASPTET 
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
@@ -112,6 +112,7 @@ C---- will branche later
 !--- defaults values      
       IHBE_DS=  DEFAULTS_SOLID%ISOLID
       ISST_DS=  DEFAULTS_SOLID%ISMSTR
+      ICONTROL_D=DEFAULTS_SOLID%ICONTROL
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------
@@ -129,6 +130,7 @@ c      CALL HM_GET_INTV('Istrain',ISTRAIN,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('Inpts_T',NPTT,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('NBP',NPT,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('Iint',IINT,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV('Icontrol',ICONTROL,IS_AVAILABLE,LSUBMODEL)
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------
@@ -254,7 +256,10 @@ c        NPT = NPTR*100+NPTS*10+ NPTT
      .                I2=NPT,
      .                I3=IHBE)
         ENDIF                                              
-      END SELECT      
+      END SELECT 
+!     
+      IF (ICONTROL==0) ICONTROL=ICONTROL_D
+      IF (ICONTROL>1) ICONTROL=0
 C                                 
 C  viscosity
 C
@@ -277,6 +282,7 @@ C igeo(31)  flag for default qa qb for law 70 can be used for other law
       IGEO(15) = IINT                                 
       IGEO(16) = JCVT-1  
       IGEO(30) = NLY
+      IGEO(97) = ICONTROL
 C
       GEO(13)  = CVIS        
       GEO(14)  = QA
@@ -291,10 +297,10 @@ C----------------------
       IF(.NOT.IS_ENCRYPTED)THEN
         IF(IGEO(31) == 1) THEN   
          WRITE(IOUT,1100)IG,IHBE,ISMSTR,IINT,ICSTR,CVIS,QA,QB,
-     .                   DTMIN,ISTRAIN
+     .                   DTMIN,ISTRAIN,ICONTROL
         ELSE
          WRITE(IOUT,1000)IG,IHBE,ISMSTR,IINT,ICSTR,CVIS,QA,QB,
-     .                   DTMIN,ISTRAIN
+     .                   DTMIN,ISTRAIN,ICONTROL
         ENDIF
         IF((VDEFMIN+VDEFMAX+ASPMAX+ASPTET)>ZERO) THEN
           IF (VDEFMAX==ZERO) VDEFMAX=EP10
@@ -342,7 +348,8 @@ C---
      & 5X,'QUADRATIC BULK VISCOSITY. . . . . . . .=',1PG20.13/,
      & 5X,'LINEAR BULK VISCOSITY . . . . . . . . .=',1PG20.13/,
      & 5X,'BRICK MINIMUM TIME STEP................=',1PG20.13/,
-     & 5X,'POST PROCESSING STRAIN FLAG . . . . . .=',I10/)
+     & 5X,'POST PROCESSING STRAIN FLAG . . . . . .=',I10/,
+     & 5X,'SOLID DISTORTION CONTROL FLAG . . . . .=',I10/)
  1099 FORMAT(
      & 5X,'STANDARD THICK SHELL PROPERTY SET'/,
      & 5X,'PROPERTY SET NUMBER . . . . . . . . . .=',I8/,
@@ -363,7 +370,8 @@ C---
      & 5X,'     VISCOSITY (QB) WILL BE USED . . . =',1PG20.13/,
      & 5X,'EXCEPT IN CASE LAW 70 WHERE QB = 0.     ',/,
      & 5X,'BRICK MINIMUM TIME STEP................=',1PG20.13/,
-     & 5X,'POST PROCESSING STRAIN FLAG . . . . . .=',I10/)
+     & 5X,'POST PROCESSING STRAIN FLAG . . . . . .=',I10/,
+     & 5X,'SOLID DISTORTION CONTROL FLAG . . . . .=',I10/)
  1001 FORMAT(
      & 5X,'NUMBER OF INTEGRATION POINTS. .  . .  .=',I3,
      &    ' (',I3,')'/)
