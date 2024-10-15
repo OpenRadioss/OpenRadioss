@@ -84,7 +84,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      G                   IEXPAN   ,IFTHE   ,ICONDN  ,DT     ,SNPC,STF,
      H                   SBUFMAT  ,SVIS    ,NSVOIS  ,IDTMINS,IRESP,
      I                   IDEL7NG  ,IDEL7NOK,MAXFUNC, IMON_MAT, USERL_AVAIL, 
-     J                   heat_meca)
+     J                   heat_meca,XDP    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -95,6 +95,10 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE DT_MOD
       USE ELBUFDEF_MOD
+      USE SDISTOR_INI_MOD, ONLY : SDISTOR_INI
+      USE S6GET_XV_MOD,    ONLY : S6GET_XV
+      USE S6FOR_DISTOR_MOD,ONLY : S6FOR_DISTOR
+      USE S6CHOUR_CTL_MOD ,ONLY : S6CHOUR_CTL
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -151,6 +155,7 @@ C-----------------------------------------------
       my_real, INTENT(INOUT) :: TEMP(NUMNOD),FTHE(IFTHE),FTHESKY(LSKY),
      .   CONDN(ICONDN),CONDNSKY(LSKY)
       my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
+      DOUBLE PRECISION, DIMENSION(3,NUMNOD), INTENT(IN   ) :: XDP
       TYPE (TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (NLOCAL_STR_)  , TARGET                    :: NLOC_DMG 
@@ -238,7 +243,7 @@ C                                                                     12
      .   STIN(MVSIZ),BID(MVSIZ),DSV(MVSIZ),ALPHA_E(MVSIZ),LLSH(MVSIZ)
 C     
       INTEGER PID,MTN0,IPTHK,IPPOS,IPMAT,NLYMAX,MID,IPANG,IOFFS
-      INTEGER MXT0(MVSIZ),NN_DEL,IPRES
+      INTEGER MXT0(MVSIZ),NN_DEL,IPRES,ISCTL,ISTAB(MVSIZ)
       my_real
      .   DIR(MVSIZ,2),SIGN(NEL,6),SHF(MVSIZ),ZT,WT,OFFS(MVSIZ),
      .   RX(MVSIZ), RY(MVSIZ), RZ(MVSIZ),NU1(MVSIZ),FAC(MVSIZ),
@@ -258,6 +263,8 @@ C
       iNTEGER SZ_R1_FREE,SZ_IX
       my_real, DIMENSION(:,:), ALLOCATABLE :: VAR_REG
       my_real, DIMENSION(:), POINTER :: DNL
+      my_real :: STI_C(MVSIZ),LL(MVSIZ),FLD(MVSIZ),
+     .           CNS2,FQMAX,DN
 C-----
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
@@ -381,6 +388,7 @@ C
       MX = MXT(1)
       C1 =PM(32,MX)
       IPRES = MAT_ELEM%MAT_PARAM(MX)%IPRES
+      ISCTL = IGEO(97,PID)
       DO I=1,NEL
         SIGZM(I) = ZERO
         VOLM(I) = ZERO
@@ -438,7 +446,7 @@ C
      A   N5Y,     N6Y,     N1Z,     N2Z,
      B   N3Z,     N4Z,     N5Z,     N6Z,
      C   NEL,     MTN,     JALE,    JEUL)
-      IF (NTSHEG > 0) THEN
+      IF (NTSHEG > 0.AND.ISCTL == 0) THEN
          CALL SDLENSH3N(VOLG,LLSH,AREA , 
      .                  X1, X2, X3, X4, X5, X6,
      .                  Y1, Y2, Y3, Y4, Y5, Y6,
@@ -850,13 +858,30 @@ C-----------------------------
 C Hourglass
 C-----------------------------
       IF ( IMPL_S == 0) THEN
-        CALL S6CHOUR3(GBUF%RHO,VOLG,CXX,
-     .   X1, X2, X3, X3, X4, X5, X6, X6,
-     .   Y1, Y2, Y3, Y3, Y4, Y5, Y6, Y6,
-     .   Z1, Z2, Z3, Z3, Z4, Z5, Z6, Z6,
-     .   VZ1, VZ2, VZ3, VZ3, VZ4, VZ5, VZ6, VZ6,
-     .   F31,F32,F33,F34,F35,F36,
-     .   NU,GBUF%HOURG,OFF,GBUF%VOL,GBUF%EINT,NEL)
+        IF (ISCTL > 0) THEN
+          DN = GEO(13,PID)
+          CALL S6CHOUR_CTL(
+     .      X1,  X2,  X3,  X4,  X5,  X6, 
+     .      Y1,  Y2,  Y3,  Y4,  Y5,  Y6, 
+     .      Z1,  Z2,  Z3,  Z4,  Z5,  Z6, 
+     .     VX1, VX2, VX3, VX4, VX5, VX6,
+     .     VY1, VY2, VY3, VY4, VY5, VY6,
+     .     VZ1, VZ2, VZ3, VZ4, VZ5, VZ6,
+     .     F11, F12, F13, F14, F15, F16,
+     .     F21, F22, F23, F24, F25, F26,
+     .     F31, F32, F33, F34, F35, F36,
+     .     PM,NPROPM, NUMMAT,MTN,MXT,DN,
+     .     GBUF%RHO,VOLG,CXX,GBUF%HOURG,
+     .     OFF,GBUF%VOL,GBUF%EINT,DT1,STIN,NEL)
+        ELSE
+          CALL S6CHOUR3(GBUF%RHO,VOLG,CXX,
+     .     X1, X2, X3, X3, X4, X5, X6, X6,
+     .     Y1, Y2, Y3, Y3, Y4, Y5, Y6, Y6,
+     .     Z1, Z2, Z3, Z3, Z4, Z5, Z6, Z6,
+     .     VZ1, VZ2, VZ3, VZ3, VZ4, VZ5, VZ6, VZ6,
+     .     F31,F32,F33,F34,F35,F36,
+     .     NU,GBUF%HOURG,OFF,GBUF%VOL,GBUF%EINT,NEL)
+        END IF !(ISCTL > 0) THEN
       ENDIF
 C-----------------------------
 C Small strain
@@ -918,6 +943,59 @@ C--------------------------------
      2   R22,     R32,     R13,     R23,
      3   R33,     F16,     F26,     F36,
      4   NEL)
+C----------------------------
+C     distorsion control  
+C----------------------------
+      IF (ISCTL > 0) THEN
+         ALPHA_E(1:NEL) = ONE  
+         CALL SDISTOR_INI(                                      
+     1                NEL      ,STI_C    ,NPROPM     ,NUMMAT  ,       
+     2                ISMSTR   ,MXT      ,ISTAB      ,PM      ,       
+     3                GBUF%SIG ,GBUF%RHO ,CXX        ,OFFG    ,       
+     4                GBUF%OFF ,LL       ,VOLN       ,FLD     ,       
+     5                CNS2     ,FQMAX    )
+!      all in global system 
+        CALL S6GET_XV(                            
+     .                 NC1,      NC2,      NC3,                                
+     .                 NC4,      NC5,      NC6,         
+     .                  X1,       X2,       X3,               
+     .                  X4,       X5,       X6,               
+     .                  Y1,       Y2,       Y3,               
+     .                  Y4,       Y5,       Y6,               
+     .                  Z1,       Z2,       Z3,               
+     .                  Z4,       Z5,       Z6,               
+     .                 VX1,      VX2,      VX3,               
+     .                 VX4,      VX5,      VX6,               
+     .                 VY1,      VY2,      VY3,               
+     .                 VY4,      VY5,      VY6,               
+     .                 VZ1,      VZ2,      VZ3,               
+     .                 VZ4,      VZ5,      VZ6,               
+     .                   X,      XDP,        V,         
+     .              NUMNOD,   ISMSTR,     NEL )
+         CALL S6FOR_DISTOR(
+     .             X1,       X2,       X3,        
+     .             X4,       X5,       X6,        
+     .             Y1,       Y2,       Y3,        
+     .             Y4,       Y5,       Y6,        
+     .             Z1,       Z2,       Z3,        
+     .             Z4,       Z5,       Z6,        
+     .            VX1,      VX2,       X3,        
+     .            VX4,      VX5,       X6,        
+     .            VY1,      VY2,       Y3,        
+     .            VY4,      VY5,       Y6,        
+     .            VZ1,      VZ2,       Z3,        
+     .            VZ4,      VZ5,       Z6,        
+     .            F11,      F12,      F13,       
+     .            F14,      F15,      F16,       
+     .            F21,      F22,      F23,       
+     .            F24,      F25,      F26,       
+     .            F31,      F32,      F33,       
+     .            F34,      F35,      F36,       
+     .           STIN,    STI_C,      FLD,      
+     .           CNS2,      LL ,    ISTAB,   
+     .          FQMAX,GBUF%EINT_DISTOR,DT1,   
+     .           NEL )
+      ENDIF
 C----------------------------
       IF(NFILSOL/=0) CALL S6FILLOPT(
      1   GBUF%FILL,STI,      F11,      F21,

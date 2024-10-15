@@ -94,6 +94,8 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE DT_MOD
       USE ELBUFDEF_MOD
+      USE SDISTOR_INI_MOD, ONLY : SDISTOR_INI
+      USE SHOUR_CTL_MOD,   ONLY : SHOUR_CTL
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -115,7 +117,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN):: SNPC
+      INTEGER, INTENT(IN) :: SNPC
       INTEGER, INTENT(IN) :: STF
       INTEGER, INTENT(IN) :: SBUFMAT
       INTEGER, INTENT(IN) :: NSVOIS
@@ -138,7 +140,7 @@ C-----------------------------------------------
       my_real
      .   DT2T
       my_real
-     .   PM(NPROPM,*),  X(*), A(*), V(*), MS(*), W(*),
+     .   PM(NPROPM,*),  X(*), A(*), V(3,*), MS(*), W(*),
      .   FLUX(6,*),GEO(NPROPG,*),
      .   FLU1(*), VEUL(*), FV(*), TF(*), BUFMAT(*),
      .   PARTSAV(*),STIFN(*), FSKY(*),EANI(*),
@@ -200,7 +202,7 @@ C-----
 C
       INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
      .        NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ)
-      INTEGER IOFFS,G_PLA,G_EPSD,NN_DEL,IPRES
+      INTEGER IOFFS,G_PLA,G_EPSD,NN_DEL,IPRES,ISCTL,ISTAB(MVSIZ)
       my_real
      .   OFFS(MVSIZ)
       my_real
@@ -284,6 +286,8 @@ C-----
       my_real, DIMENSION(:,:), ALLOCATABLE :: VAR_REG
       my_real, DIMENSION(:), POINTER :: DNL
       my_real :: NL_NBNOD
+      my_real :: STI_C(MVSIZ),LL(MVSIZ),FLD(MVSIZ),
+     .           CNS2,FQMAX,DN
 C-----
       my_real
      .  W_GAUSS(9,9),A_GAUSS(9,9),W_NEWTON(9,9),A_NEWTON(9,9)
@@ -467,6 +471,7 @@ C
       IF (NN_DEL ==0 .AND. DT%IDEL_BRICK>0) NN_DEL=8
       MX = MXT(1)
       IPRES = MAT_ELEM%MAT_PARAM(MX)%IPRES
+      ISCTL = IGEO(97,PID)
       DO I=1,NEL
         SIGY(I) = EP30
         SIGYM(I) = EP30
@@ -529,7 +534,7 @@ C
      A   N5Y,     N6Y,     N1Z,     N2Z,
      B   N3Z,     N4Z,     N5Z,     N6Z,
      C   NEL,     MTN,     JALE,    JEUL)
-      IF (NTSHEG > 0) THEN
+      IF (NTSHEG > 0 .AND.ISCTL==0) THEN
          CALL SDLENSH(VOLN,LLSH,AREA ,
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
@@ -587,7 +592,6 @@ C ------------------------------------------------------------------------------
       END IF
 c
        IF (ISORTH > 0) THEN
-         PID=NGEO(1)
          IF (IGTYP == 21) THEN
           CALL SGETDIR3(NEL, RX,RY,RZ,TX,TY,TZ,
      .           R11,R21,R31,R12,R22,R32,GBUF%GAMA,DIR,IREP)
@@ -939,7 +943,32 @@ C-----------------------------
 C-----------------------------
 C Anti hourglass forces
 C-----------------------------
-      CALL SCHOUR3_1(
+      IF (ISCTL > 0) THEN 
+         DN = GEO(13,PID)
+         CALL SHOUR_CTL(
+     .       PM, GBUF%RHO,    OFFG,     VX1,
+     .       VX2,     VX3,     VX4,     VX5,
+     .       VX6,     VX7,     VX8,     VY1,
+     .       VY2,     VY3,     VY4,     VY5,
+     .       VY6,     VY7,     VY8,     VZ1,
+     .       VZ2,     VZ3,     VZ4,     VZ5,
+     .       VZ6,     VZ7,     VZ8,     F11,
+     .       F21,     F31,     F12,     F22,
+     .       F32,     F13,     F23,     F33,
+     .       F14,     F24,     F34,     F15,
+     .       F25,     F35,     F16,     F26,
+     .       F36,     F17,     F27,     F37,
+     .       F18,     F28,     F38,     PX1H1,
+     .       PX1H2,   PX1H3,   PX2H1,   PX2H2,
+     .       PX2H3,   PX3H1,   PX3H2,   PX3H3,
+     .       PX4H1,   PX4H2,   PX4H3,   VOLG,
+     .  GBUF%HOURG,   MTN,      DT1 ,    MXT,     
+     .      CXX, GBUF%EINT,   NPROPM, NUMMAT,
+     .    GBUF%VOL,   DN  ,     STIN,   NEL )
+!         
+          GBUF%EINT(1:NEL) = GBUF%EINT(1:NEL) + EINTM(1:NEL)
+      ELSE
+        CALL SCHOUR3_1(
      1   PM,        GBUF%RHO,  OFFG,      VX1,
      2   VX2,       VX3,       VX4,       VX5,
      3   VX6,       VX7,       VX8,       VY1,
@@ -963,7 +992,8 @@ C-----------------------------
      L   SY0,       JAC5,      GBUF%EINT, EINTM,
      M   GBUF%VOL,  SIGYM,     GBUF%SIG,  MM,
      N   NU,        GBUF%PLA,  ICP,       NEL,
-     O   MTN,       NLAY   )
+     O   MTN,       NLAY)
+      END IF
 C--------------------------------------
 C Balance per part in case of print out
 C--------------------------------------
@@ -989,6 +1019,78 @@ C----------------------------
      7   F28,     F31,     F32,     F33,
      8   F34,     F35,     F36,     F37,
      9   F38,     NEL)
+C----------------------------
+C     distorsion control  
+C----------------------------
+      IF (ISCTL > 0) THEN
+         ALPHA_E(1:NEL) = ONE  ! incompatibale
+         CALL SDISTOR_INI(                                      
+     1                NEL      ,STI_C    ,NPROPM     ,NUMMAT  ,       
+     2                ISMSTR   ,MXT      ,ISTAB      ,PM      ,       
+     3                GBUF%SIG ,GBUF%RHO ,CXX        ,OFFG    ,       
+     4                GBUF%OFF ,LL       ,VOLN       ,FLD     ,       
+     5                CNS2     ,FQMAX    )
+!      all in global system 
+         IF (ISMSTR == 1.OR.ISMSTR >= 11) 
+     .     CALL S8GET_X3(      
+     .     NC1,      NC2,      NC3,      NC4,
+     .     NC5,      NC6,      NC7,      NC8,
+     .      X1,       X2,       X3,       X4,      
+     .      X5,       X6,       X7,       X8,      
+     .      Y1,       Y2,       Y3,       Y4,      
+     .      Y5,       Y6,       Y7,       Y8,      
+     .      Z1,       Z2,       Z3,       Z4,      
+     .      Z5,       Z6,       Z7,       Z8,      
+     .       X,      XDP,   NUMNOD,     NEL )
+           DO I=1,NEL
+            VX1(I)=V(1,NC1(I))
+            VY1(I)=V(2,NC1(I))
+            VZ1(I)=V(3,NC1(I))
+            VX2(I)=V(1,NC2(I))
+            VY2(I)=V(2,NC2(I))
+            VZ2(I)=V(3,NC2(I))
+            VX3(I)=V(1,NC3(I))
+            VY3(I)=V(2,NC3(I))
+            VZ3(I)=V(3,NC3(I))
+            VX4(I)=V(1,NC4(I))
+            VY4(I)=V(2,NC4(I))
+            VZ4(I)=V(3,NC4(I))
+            VX5(I)=V(1,NC5(I))
+            VY5(I)=V(2,NC5(I))
+            VZ5(I)=V(3,NC5(I))
+            VX6(I)=V(1,NC6(I))
+            VY6(I)=V(2,NC6(I))
+            VZ6(I)=V(3,NC6(I))
+            VX7(I)=V(1,NC7(I))
+            VY7(I)=V(2,NC7(I))
+            VZ7(I)=V(3,NC7(I))
+            VX8(I)=V(1,NC8(I))
+            VY8(I)=V(2,NC8(I))
+            VZ8(I)=V(3,NC8(I))
+           ENDDO
+         CALL S8FOR_DISTOR(
+     .   X1,      X2,      X3,      X4,      
+     .   X5,      X6,      X7,      X8,      
+     .   Y1,      Y2,      Y3,      Y4,      
+     .   Y5,      Y6,      Y7,      Y8,      
+     .   Z1,      Z2,      Z3,      Z4,      
+     .   Z5,      Z6,      Z7,      Z8,      
+     .   VX1,     VX2,     VX3,     VX4,
+     .   VX5,     VX6,     VX7,     VX8,
+     .   VY1,     VY2,     VY3,     VY4,
+     .   VY5,     VY6,     VY7,     VY8,
+     .   VZ1,     VZ2,     VZ3,     VZ4,
+     .   VZ5,     VZ6,     VZ7,     VZ8,
+     .   F11,     F12,     F13,     F14,
+     .   F15,     F16,     F17,     F18,
+     .   F21,     F22,     F23,     F24,
+     .   F25,     F26,     F27,     F28,
+     .   F31,     F32,     F33,     F34,
+     .   F35,     F36,     F37,     F38,
+     .  STIN,   STI_C,   FLD  ,    CNS2,
+     .   LL ,   ISTAB,   FQMAX,     NEL,
+     .   GBUF%EINT_DISTOR, DT1)
+      ENDIF
 C----------------------------
       IF(NFILSOL/=0) CALL SFILLOPT(
      1   GBUF%FILL,STI,      F11,      F21,

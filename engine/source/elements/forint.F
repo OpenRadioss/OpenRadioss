@@ -668,7 +668,7 @@ C              6 node penta
      G         IEXPAN,IFTHE ,ICONDN    ,DT      ,SNPC,STF,
      H         SBUFMAT,SVIS,NSVOIS, IDTMINS  ,IRESP, 
      I         IDEL7NG  ,IDEL7NOK,MAXFUNC, IMON_MAT, USERL_AVAIL, 
-     J         heat_meca)
+     J         heat_meca,XDP )
 c
               IF(NSECT>0)THEN
                K0=NSTRF(25)
