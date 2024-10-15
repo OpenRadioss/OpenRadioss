@@ -37,6 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i7normp                           ../engine/source/interfaces/int07/i7curv.F
       !||    inibcs_cy                         ../starter/source/constraints/general/bcs/lecbcscyc.F
       !||    myqsort3d                         ../starter/source/elements/ige3d/searchigeo3d.F
+      !||    nloc_dmg_init                     ../starter/source/materials/fail/nloc_dmg_init.F
       !||    outri                             ../starter/source/materials/time_step/outri.F
       !||    outrin                            ../starter/source/materials/time_step/outri.F
       !||    phase_detection                   ../starter/source/initial_conditions/inivol/phase_detection.F
