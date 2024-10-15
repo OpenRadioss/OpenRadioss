@@ -361,7 +361,7 @@ c-------
             ILAW  = 2  
             CALL HM_READ_MAT02(
      .                       UPARAM ,MAXUPARAM ,NUPARAM  ,NUVAR     ,
-     .                       PARMAT   ,0         ,
+     .                       PARMAT ,0         ,
      .                       UNITAB ,MAT_ID    ,TITR     ,LSUBMODEL ,MTAG    ,
      .                       PM(1,I),IPM(1,I)  ,ISRATE   ,MATPARAM  )
 c-------
@@ -369,7 +369,7 @@ c-------
             ILAW  = 2 
             CALL HM_READ_MAT02(
      .                       UPARAM ,MAXUPARAM ,NUPARAM  ,NUVAR     ,
-     .                       PARMAT   ,1         ,
+     .                       PARMAT ,1         ,
      .                       UNITAB ,MAT_ID    ,TITR     ,LSUBMODEL ,MTAG    ,
      .                       PM(1,I),IPM(1,I)  ,ISRATE   ,MATPARAM  )
 c-------
@@ -1405,7 +1405,7 @@ c
         IPM(3,I)   = ISRATE
 !        
         PM(8,I)    = ISRATE          ! double stockage - a nettoyer
-        IF (PM(9,I) == ZERO) PM(9,I) = ASRATE  ! old mat laws fill it directly
+        IF (PM(9,I) == ZERO.AND.ILAW /=2 ) PM(9,I) = ASRATE    ! old mat laws fill it directly
         PM(19,I)   = ILAW + EM01     ! double stockage - a nettoyer
         PM(70,I)   = JTUR + EM01
         PM(71,I)   = JTHE + EM01
