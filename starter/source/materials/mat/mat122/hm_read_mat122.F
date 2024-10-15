@@ -176,63 +176,36 @@ c
 c-----------------------------
 c     Check and default values
 c-----------------------------
-      ! Poisson's ratio
-      IF (NU12 < ZERO .OR. NU12 >= HALF) THEN
-        CALL ANCMSG(MSGID=3032,
-     .              MSGTYPE=MSGERROR,
-     .              ANMODE=ANINFO_BLIND_2,
-     .              R1=NU12,
-     .              I1=MAT_ID,
-     .              C1=TITR)
-      ENDIF    
-      NU21 = NU12*E2/E1
-      IF (NU21 < ZERO .OR. NU21 >= HALF) THEN
-        CALL ANCMSG(MSGID=3033,
-     .              MSGTYPE=MSGERROR,
-     .              ANMODE=ANINFO_BLIND_2,
-     .              R1=NU21,
-     .              I1=MAT_ID,
-     .              C1=TITR)   
-      ENDIF
-      IF (NU23 < ZERO .OR. NU23 >= HALF) THEN
-        CALL ANCMSG(MSGID=3034,
-     .              MSGTYPE=MSGERROR,
-     .              ANMODE=ANINFO_BLIND_2,
-     .              R1=NU23,
-     .              I1=MAT_ID,
-     .              C1=TITR)
-      ENDIF
-      NU32 = NU23*E3/E2
-      IF (NU32 < ZERO .OR. NU32 >= HALF) THEN
-        CALL ANCMSG(MSGID=3035,
-     .              MSGTYPE=MSGERROR,
-     .              ANMODE=ANINFO_BLIND_2,
-     .              R1=NU32,
-     .              I1=MAT_ID,
-     .              C1=TITR)
-      ENDIF
-      IF (NU31 < ZERO .OR. NU31 >= HALF) THEN
-        CALL ANCMSG(MSGID=3036,
-     .              MSGTYPE=MSGERROR,
-     .              ANMODE=ANINFO_BLIND_2,
-     .              R1=NU31,
-     .              I1=MAT_ID,
-     .              C1=TITR)
-      ENDIF 
-      NU13 = NU31*E1/E3
-      IF (NU13 < ZERO .OR. NU13 >= HALF) THEN
-        CALL ANCMSG(MSGID=3037,
-     .              MSGTYPE=MSGERROR,
-     .              ANMODE=ANINFO_BLIND_2,
-     .              R1=NU13,
-     .              I1=MAT_ID,
-     .              C1=TITR)
-      ENDIF 
       ! Young modulus
+      IF (E2 == ZERO)  E2  = E1
       IF (E3 == ZERO)  E3  = E2
       ! Shear modulus
       IF (G31 == ZERO) G31 = G12
 c
+      ! poisson's ratio
+       NU21 = NU12*E2/E1 
+       NU32 = NU23*E3/E2
+       NU13 = NU31*E1/E3
+      ! checking poisson's ratio 
+      if(NU12*NU21 >= one ) then
+        call ANCMSG(MSGID=3068,                        
+     .             MSGTYPE=MSGERROR,                    
+     .             ANMODE=ANINFO_BLIND_2,               
+     .             I1=MAT_ID ,                          
+     .             C1=TITR)
+      else  if(NU13*NU31 >= one ) then
+        call ANCMSG(MSGID=3069,                        
+     .             MSGTYPE=MSGERROR,                    
+     .             ANMODE=ANINFO_BLIND_2,               
+     .             I1=MAT_ID ,                         
+     .             C1=TITR)
+      else if(NU23*NU32 >= one ) then
+        call ANCMSG(MSGID=3069,                        
+     .             MSGTYPE=MSGERROR,                    
+     .             ANMODE=ANINFO_BLIND_2,               
+     .             I1=MAT_ID ,                          
+     .             C1=TITR)
+      endif 
       ! Checking Poisson's ratio 
       DETC = ONE - NU12*NU21
       IF (DETC <= ZERO) THEN
