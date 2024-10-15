@@ -2590,7 +2590,7 @@ C-----------------------------------------------
              
 
              !Then Monitored Volumes (Pressure,Density,Temperature,Sound Speed)
-             CALL ANIMBALE(I, WA4, MONVOL, VOLMON ,2)
+             CALL ANIMBALE(I, WA4,IS_WRITTEN_NODE, MONVOL, VOLMON ,2)
            ENDIF
 
           !Nodal Potential (/BEM/FLOW)
@@ -6829,7 +6829,7 @@ C
       !||--- uses       -----------------------------------------------------
       !||    fvbag_mod                ../engine/share/modules/fvbag_mod.F
       !||====================================================================
-      SUBROUTINE ANIMBALE(IAN ,WA4 ,MONVOL,VOLMON, IOPT)
+      SUBROUTINE ANIMBALE(IAN ,WA4, IS_WRITTEN_NODE,MONVOL,VOLMON, IOPT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -6854,6 +6854,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IOPT
       ! OPT=1 : write internal nodes (1:NUMNOD)            : calls for /H3D
       ! OPT=2 : write also additional nodes (1:NUMNOD+NNA) : calls for /ANIM
+      INTEGER , INTENT(INOUT) :: IS_WRITTEN_NODE(NUMNOD) 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -6872,6 +6873,7 @@ C-----------------------------------------------
       INTEGER NNS, NBA, NNA, NNI, NTGI,NNT
       INTEGER IFV
 C
+      IS_WRITTEN_NODE(1:NUMNOD) = 0
       K1 = 1
       KK1 = 1
       KIBHOL =1 + NIMV*NVOLU  + LICBAG + LIBAGJET
@@ -6909,6 +6911,7 @@ C pression
                   N1=FVSPMD(IFV)%IBUFA_L(1,N)
                   N2=FVSPMD(IFV)%IBUFA_L(2,N)
                   WA4(N2)=VOLMON(KRA1-1+N1)
+                  IS_WRITTEN_NODE(N2)=1
                ENDDO
              ENDIF
 C
@@ -6916,6 +6919,7 @@ C
                 N1=FVSPMD(IFV)%IBUF_L(1,N)
                 N2=FVSPMD(IFV)%IBUF_L(2,N)
                 WA4(N2)=VOLMON(KR1-1+N1)
+                IS_WRITTEN_NODE(N2)=1
              ENDDO
           ELSEIF (IAN==4) THEN
 C densite
@@ -6928,6 +6932,7 @@ C densite
                   N1=FVSPMD(IFV)%IBUFA_L(1,N)
                   N2=FVSPMD(IFV)%IBUFA_L(2,N)
                   WA4(N2)=VOLMON(KRA2-1+N1)
+                  IS_WRITTEN_NODE(N2)=1
                ENDDO
              ENDIF
 C
@@ -6935,6 +6940,7 @@ C
                 N1=FVSPMD(IFV)%IBUF_L(1,N)
                 N2=FVSPMD(IFV)%IBUF_L(2,N)
                 WA4(N2)=VOLMON(KR2-1+N1)
+                IS_WRITTEN_NODE(N2)=1
              ENDDO
           ELSEIF (IAN==6) THEN
 C temperature
@@ -6947,6 +6953,7 @@ C temperature
                   N1=FVSPMD(IFV)%IBUFA_L(1,N)
                   N2=FVSPMD(IFV)%IBUFA_L(2,N)
                   WA4(N2)=VOLMON(KRA3-1+N1)
+                  IS_WRITTEN_NODE(N2)=1
                ENDDO
              ENDIF
 C
@@ -6954,6 +6961,7 @@ C
                 N1=FVSPMD(IFV)%IBUF_L(1,N)
                 N2=FVSPMD(IFV)%IBUF_L(2,N)
                 WA4(N2)=VOLMON(KR3-1+N1)
+                IS_WRITTEN_NODE(N2)=1
              ENDDO
           ELSEIF (IAN==30) THEN
 C ssp:sound speed
@@ -6966,6 +6974,7 @@ C ssp:sound speed
                   N1=FVSPMD(IFV)%IBUFA_L(1,N)
                   N2=FVSPMD(IFV)%IBUFA_L(2,N)
                   WA4(N2)=VOLMON(KRA8-1+N1)
+                  IS_WRITTEN_NODE(N2)=1
                ENDDO
              ENDIF
 C  
@@ -6973,6 +6982,7 @@ C
                 N1=FVSPMD(IFV)%IBUF_L(1,N)
                 N2=FVSPMD(IFV)%IBUF_L(2,N)
                 WA4(N2)=VOLMON(KR9-1+N1)
+                IS_WRITTEN_NODE(N2)=1
              ENDDO
           ENDIF
         ENDIF
