@@ -1236,7 +1236,13 @@ C--------------error out
      .                      I2=MLN)
             END IF
           ENDIF
-          IF((MLN == 70 .OR. MLN == 77) .AND. ISSN /= 11 .AND. ISSN /= 1) ISSN = 11
+          IF(MLN == 70 .OR. MLN == 77) THEN 
+            IF (ITSH==1) THEN  ! not compatible to total strain
+              ISSN = 1 
+            ELSEIF (ISSN /= 11 .AND. ISSN /= 1) THEN
+              ISSN = 11 
+            END IF
+          ENDIF
 C---------------remove Icpre=11 excepting for certain visco-elastic 34
           IF( ICPRE==1.AND.IKSNOD0 ==8.AND.(JHBE==14.OR.JHBE==17))THEN
 C
