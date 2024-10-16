@@ -20,12 +20,24 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    shour_ctl_mod   ../engine/source/elements/solid/solidez/shour_ctl.F90
+      !||--- called by ------------------------------------------------------
+      !||    szhour_ctl      ../engine/source/elements/solid/solidez/szhour_ctl.F
+      !||====================================================================
       module shour_ctl_mod
       contains
 ! ======================================================================================================================
 ! \brief new hexa hourglass formulation for distordtion control
 ! ======================================================================================================================
 ! ======================================================================================================================
+      !||====================================================================
+      !||    shour_ctl      ../engine/source/elements/solid/solidez/shour_ctl.F90
+      !||--- called by ------------------------------------------------------
+      !||    szhour_ctl     ../engine/source/elements/solid/solidez/szhour_ctl.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod   ../common_source/modules/constant_mod.F
+      !||====================================================================
         subroutine  shour_ctl(                                  &
                              pm,      rho,     off,     vx1,    &
                              vx2,     vx3,     vx4,     vx5,    &
