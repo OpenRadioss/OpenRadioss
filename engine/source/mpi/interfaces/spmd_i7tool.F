@@ -5050,23 +5050,7 @@ C
                 CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                 CALL ARRET(2)
               ENDIF
-C
             ENDIF
-          ENDIF
-C
-          IF(H3D_DATA%N_SCAL_CSE_FRICINT >0)THEN
-            IF(H3D_DATA%N_CSE_FRIC_INTER (I) >0)THEN
-              IERROR = 0
-              ALLOCATE(EFRICFI(I)%P(LENR),STAT=IERROR)
-              IF(IERROR/=0) THEN
-                CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
-                CALL ARRET(2)
-c              ELSEIF(S_EFRICINT >0) THEN ! to be corrected if inters
-c                CALL READ_DB(EFRICFI(I)%P(1),LENR)  
-              ELSE
-                  EFRICFI(I)%P(1:LENR)=ZERO            
-              END IF                   
-            END IF
           ENDIF
 C
           IF(H3D_DATA%N_SCAL_CSE_FRIC >0)THEN
