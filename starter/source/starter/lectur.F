@@ -4000,7 +4000,7 @@ C---  Allocation de FRONTB_R2R
 C ------------------------------------------------
 C Tri des surfaces pour les Airbags et Modif files
 C ------------------------------------------------
-      CALL SORT_SURF(IGRSURF,IXS,IXC,IXTG,IXQ)
+      CALL SORT_SURF(IGRSURF,IXS,IXC,IXTG,IXQ,IXP,IXR,IXT, KXX,NIXX)
 C--------------------------------------------
       CALL PRINTGROUP(
      1                ITAB    ,ITABM1   ,IGRNOD   ,NINICRACK,BUFSF   ,
