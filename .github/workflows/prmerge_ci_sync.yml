@@ -24,7 +24,11 @@ on:
         required: true
       GITLAB_REPO_URL:
         required: true
-
+      GITLAB_SERVBOT_USER:
+        required: true
+      GITLAB_SERVBOT_EMAIL:
+        required: true
+        
 # When pushing in main or merging pull request in main
 #  ${{github.base_ref}} : <empty>
 #  ${{github.ref_name}} : main 

@@ -927,7 +927,8 @@ jobs:
       TO_EMAIL: ${{ secrets.TO_EMAIL }} 
       GITLAB_PAT: "${{ secrets.GITLAB_PAT }}"
       GITLAB_REPO_URL: "${{ secrets.GITLAB_REPO_URL }}"
-      
+      GITLAB_SERVBOT_USER: ${{ secrets.GITLAB_SERVBOT_USER }}
+      GITLAB_SERVBOT_EMAIL: ${{ secrets.GITLAB_SERVBOT_EMAIL }}      
 
   update_counters:
     # DEV ONLY # runs-on: dev_delivery
