@@ -86,7 +86,7 @@ jobs:
           glab auth status
           glab config -h gitlab.com  set git_protocol https
           glab config -h gitlab.com  set user ${{ env.GITLAB_SERVBOT_USER }}
-          git config --global user.email ""${{ env.GITLAB_SERVBOT_EMAIL }}"
+          git config --global user.email "${{ env.GITLAB_SERVBOT_EMAIL }}"
           git config --global user.name "${{ env.GITLAB_SERVBOT_USER }}"
           git config --global credential.helper '!/usr/bin/glab auth git-credential'
 
