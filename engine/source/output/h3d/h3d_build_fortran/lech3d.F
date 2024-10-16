@@ -101,6 +101,7 @@ C-----------------------------------------------
         USE LOADS_MOD
         USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100,NCHARKEY
         USE MATPARAM_DEF_MOD
+        USE TRI7BOX
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -159,6 +160,10 @@ C-----------------------------------------------
      .          IS_MODE,MODE,MODE_MAX,IS_MODE_ALL,NFAIL,NIP_PLY_MAX,NIP_ELEM_MAX
         INTEGER MLW,NEL,NG,JTURB,NLAY,NUVAR,IPLY,IMAT,ISUBSTACK,ID_PLY_TMP
         INTEGER CPT_MOD,NMOD,CPT_LAWID
+        INTEGER IERROR  ! Error value from Allocate
+        INTEGER LENS    ! Size of Remote interface send values
+        INTEGER LENR    ! Size of Remote interface recieve values
+
         INTEGER IBID1,IBID2,IBID3
 
         CHARACTER(LEN=NCHARKEY)::KEY2
@@ -2488,6 +2493,25 @@ c        DO J=1,H3D_DATA%OUTPUT_LIST(I)%N_H3D_PART_LIST
 c          print *,'liste des parts',H3D_DATA%OUTPUT_LIST(I)%H3D_PART_LIST(J)
 c        ENDDO
 c      ENDDO
+
+        IF (H3D_DATA%N_SCAL_CSE_FRICINT > 0)THEN
+          ! Allocate INTERFACE Remote EFRICFI Array
+          DO I=1,NINTER
+            IF(H3D_DATA%N_CSE_FRIC_INTER(I) >0) THEN
+               LENR=0
+               DO P = 1, NSPMD
+                     LENR = LENR + NSNFI(I)%P(P)
+               ENDDO
+               IERROR = 0
+               ALLOCATE(EFRICFI(I)%P(LENR),STAT=IERROR)
+               IF(IERROR/=0) THEN
+                  CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
+                  CALL ARRET(2)
+               ENDIF
+              EFRICFI(I)%P(1:LENR)=ZERO
+            ENDIF
+          ENDDO
+        ENDIF
 C
         DEALLOCATE(H3D_KEYWORD_NODAL_SCALAR)
         DEALLOCATE(H3D_KEYWORD_NODAL_VECTOR)
