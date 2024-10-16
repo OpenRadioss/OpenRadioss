@@ -567,9 +567,8 @@ c        IF (BCFLAGM(LFIELD-1:LFIELD-1)== '1') IBC2M = 1
 c        IF (BCFLAGM(LFIELD  :LFIELD  )== '1') IBC3M = 1
 
         IF (IIMPLICIT>0.AND.INACTI==0) INACTI=-1
-        IF (INACTI/=0.AND.INACTI/=1.AND.INACTI/=-1.AND.INACTI/=3
-     .      .AND.INACTI/=5) THEN
-            IF (INACTI==6) THEN
+        IF (INACTI/=0.AND.INACTI/=-1.AND.INACTI/=5) THEN
+            IF (INACTI>0) THEN
                INACTI = 5
             ELSE
                INACTI = 0
