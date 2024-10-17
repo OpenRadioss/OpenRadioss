@@ -110,7 +110,8 @@ C-----------------------------------------------
       my_real :: VFRAC(MVSIZ,21),DENSFRAC 
 
       TYPE(BUF_EOS_), POINTER :: EBUF
-      INTEGER NVAREOS      
+      INTEGER NVAREOS
+      INTEGER GMID !< global material identifier (multimaterial law)
       
 C-----------------------------------------------
 C     S o u r c e   L i n e s
@@ -848,15 +849,18 @@ C     Compute EINT from pressure
                   NVAREOS = ELBUF_TAB(NG)%BUFLY(1)%NVAR_EOS 
                   CALL SOLVE_EINT(MATID, NFT, NEL, PRES(:, 1), GBUF%EINT, GBUF%RHO, IFIRST, ILAST, ELEM_LIST, 
      .                 IPM, PM, BUFMAT, MLW,NG,0,SUBMAT(1)%TEMP,NPC,PLD, EBUF%VAR, NVAREOS,
-     .                    MAT_PARAM)
+     .                    MAT_PARAM(MATID))
                ELSE IF (MLW == 151) THEN
                   DO IMAT = 1, NBMAT
                      IF (ITY  ==  1) THEN
-                        MATID = MAT_PARAM(IXS(1, 1 + NFT))%MULTIMAT%MID(IMAT)
+                        GMID = IXS(1, 1 + NFT)
+                        MATID = MAT_PARAM(GMID)%MULTIMAT%MID(IMAT)
                      ELSEIF (ITY  ==  2) THEN
-                        MATID = MAT_PARAM(IXQ(1, 1 + NFT))%MULTIMAT%MID(IMAT)
+                        GMID = IXQ(1, 1 + NFT)
+                        MATID = MAT_PARAM(GMID)%MULTIMAT%MID(IMAT)
                      ELSEIF (ITY  ==  7) THEN
-                        MATID = MAT_PARAM(IXTG(1, 1 + NFT))%MULTIMAT%MID(IMAT)
+                        GMID = IXTG(1, 1 + NFT)
+                        MATID = MAT_PARAM(GMID)%MULTIMAT%MID(IMAT)
                      ENDIF
                      SUBMAT(IMAT)%TEMP(1:NEL) => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%TEMP(1:NEL)
                      EBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%EOS(1,1,1)
@@ -864,16 +868,19 @@ C     Compute EINT from pressure
                      CALL SOLVE_EINT(MATID, NFT, NEL, PRES(:, IMAT), ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%EINT, 
      .                    ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%RHO, IFIRST, ILAST, ELEM_LIST, 
      .                    IPM, PM, BUFMAT, MLW, NG,IMAT,SUBMAT(IMAT)%TEMP,NPC,PLD,EBUF%VAR,NVAREOS,
-     .                    MAT_PARAM)
+     .                    MAT_PARAM(MATID))
                   ENDDO
                ELSE
                   DO IMAT = 1, NBMAT
                      IF (ITY  ==  1) THEN
-                        MATID = MAT_PARAM(IXS(1, 1 + NFT))%MULTIMAT%MID(IMAT)
+                        GMID = IXS(1, 1 + NFT)
+                        MATID = MAT_PARAM(GMID)%MULTIMAT%MID(IMAT)
                      ELSEIF (ITY  ==  2) THEN
-                        MATID = MAT_PARAM(IXQ(1, 1 + NFT))%MULTIMAT%MID(IMAT)
+                        GMID = IXQ(1, 1 + NFT)
+                        MATID = MAT_PARAM(GMID)%MULTIMAT%MID(IMAT)
                      ELSEIF (ITY  ==  7) THEN
-                        MATID = MAT_PARAM(IXTG(1, 1 + NFT))%MULTIMAT%MID(IMAT)
+                        GMID = IXTG(1, 1 + NFT)
+                        MATID = MAT_PARAM(GMID)%MULTIMAT%MID(IMAT)
                      ENDIF
                      KPHASE = M51_N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * M51_NVPHAS
                      SUBMAT(IMAT)%TEMP(1:NEL) => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(1+NEL*(16+KPHASE-1) : NEL*(16+KPHASE )) 
@@ -883,7 +890,7 @@ C     Compute EINT from pressure
      .                    ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(1 + NEL * (9 + KPHASE - 1):NEL + NEL * (9 + KPHASE - 1)), 
      .                    IFIRST, ILAST, ELEM_LIST, 
      .                    IPM, PM, BUFMAT, MLW, NG,IMAT,SUBMAT(IMAT)%TEMP,NPC,PLD,EBUF%VAR,NVAREOS,
-     .                    MAT_PARAM)
+     .                    MAT_PARAM(MATID))
                      DO II = IFIRST, ILAST
                         ELEMID = ELEM_LIST(II)
                         RES = EINT(ELEMID - NFT, IMAT)
@@ -962,12 +969,13 @@ C-----------------------------------------------
       INTEGER,INTENT(IN) :: IMAT !debug purpose
       INTEGER,INTENT(IN)::NPC(SNPC)
       my_real,INTENT(IN)::TF(STF)
-      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(IN) :: MAT_PARAM
+      TYPE(MATPARAM_STRUCT_) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: II, ELEMID, EOSTYPE,LOCALID, REMAINING_ELTS, ITER, MAX_ITER
       INTEGER :: MAT(NEL)
+      INTEGER :: IBID(NEL) ! bfrac not used in this context
       my_real :: VOL(NEL), ERROR(NEL), TOL, OFF(NEL), RHOZERO(NEL), RHO0
       my_real :: MU(NEL), DF(NEL), MU2(NEL), ESPE(NEL), DVOL(NEL), PSH(NEL),
      .     SSP(NEL), DPDE(NEL), ECOLD(NEL), PRES(NEL), POLD(NEL)
@@ -983,7 +991,7 @@ C-----------------------------------------------
 C     S o u r c e   L i n e s
 C-----------------------------------------------
 
-      EOSTYPE = MAT_PARAM(MATID)%IEOS  ! should use that except law5 with intenal EOS
+      EOSTYPE = MAT_PARAM%IEOS  ! should use that except law5 with intenal EOS
       EOSTYPE = IPM(4, MATID)
       RHO0 = PM(1, MATID)
 
@@ -1032,7 +1040,8 @@ C-----------------------------------------------
          CALL EOSMAIN(2, NEL, EOSTYPE, PM, OFF, EINT(1:NEL), 
      .        RHO(1:NEL), RHOZERO, MU, MU2, ESPE, 
      .        DVOL, DF, VOL, MAT, PSH, 
-     .        PRES, SSP, DPDE, THETA, ECOLD, BUFMAT, SIG, MUOLD, MLW, POLD, NPC, TF, VAREOS, NVAREOS)
+     .        PRES, SSP, DPDE, THETA, ECOLD, BUFMAT, SIG, MUOLD, MLW, POLD, NPC, TF, VAREOS, NVAREOS, MAT_PARAM,
+     .        IBID)
          
          DO II = IFIRST, ILAST
             ELEMID = ELEM_LIST(II)

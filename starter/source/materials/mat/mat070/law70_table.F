@@ -31,12 +31,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    vw_smooth            ../starter/source/tools/curve/vw_smooth.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================
-      SUBROUTINE LAW70_TABLE(TABLE  ,NFUNC  ,LEN     ,LMAX   ,RATE   ,
-     .                       XI     ,YI     )
-C----------------------------------------------- 
+      SUBROUTINE LAW70_TABLE(TABLE, NFUNC, LENGTH, LMAX, RATE, XI, YI)
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+c     create X,Y vectors for all curves before unifying all abscissas
+C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE TABLE4D_MOD
+      USE TABLE4D_MOD, ONLY : TABLE_4D_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -46,11 +49,11 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NFUNC
       INTEGER ,INTENT(INOUT) :: LMAX
-      INTEGER ,DIMENSION(NFUNC)   :: LEN
+      INTEGER ,DIMENSION(NFUNC) :: LENGTH
       my_real ,DIMENSION(NFUNC) ,INTENT(IN) :: RATE
       my_real ,DIMENSION(LMAX,NFUNC) ,INTENT(IN) :: XI
       my_real ,DIMENSION(LMAX,NFUNC) ,INTENT(IN) :: YI
-      TYPE(TABLE_4D_) ,INTENT(INOUT) ::  TABLE
+      TYPE(TABLE_4D_) ,INTENT(INOUT) :: TABLE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -60,12 +63,12 @@ C-----------------------------------------------
       my_real :: X1,X2,Y1,Y2,DERI
       my_real ,DIMENSION(:)   ,ALLOCATABLE :: XF
       my_real ,DIMENSION(:,:) ,ALLOCATABLE :: YF
-C=======================================================================
-c     create X,Y vectors for all curves before unifying all abscissas
-c--------------------------------------------------------
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       NPTX = 0
       DO I = 1,NFUNC
-        NPTX = NPTX + LEN(I)
+        NPTX = NPTX + LENGTH(I)
       END DO
       ALLOCATE (XF(NPTX))
 c
@@ -79,13 +82,13 @@ c--------------------------------------------------------
 c       unify abscissas
 c--------------------------------------------------------
 c
-        CALL UNIFY_ABSCISSA_2D(NFUNC,LEN,LMAX,NPTX ,XI  ,XF  )
+        CALL UNIFY_ABSCISSA_2D(NFUNC,LENGTH,LMAX,NPTX ,XI  ,XF  )
 c
         ALLOCATE (YF(NPTX,NFUNC))
         DO I = 1,NFUNC
-          CALL TABLE_VALUES_2D(LEN(I) ,NPTX ,XI(1,I) ,YI(1,I) ,XF ,YF(1,I) )
+          CALL TABLE_VALUES_2D(LENGTH(I) ,NPTX ,XI(1,I) ,YI(1,I) ,XF ,YF(1,I) )
         END DO      
-        LEN(1:NFUNC) = NPTX
+        LENGTH(1:NFUNC) = NPTX
 c
 c--------------------------------------------------------
 c       check and correct intersections
@@ -110,7 +113,7 @@ c--------------------------------------------------------
         CALL VW_SMOOTH(NPTX,NPTMAX,XF,YF(1:NPTX,1))
 c
         DO I = 2,NFUNC
-          CALL TABLE_VALUES_2D(LEN(I) ,NPTX ,XI(1,I) ,YI(1,I) ,XF ,YF(1,I) )
+          CALL TABLE_VALUES_2D(LENGTH(I) ,NPTX ,XI(1,I) ,YI(1,I) ,XF ,YF(1,I) )
         END DO      
       END IF
 c--------------------------------------------------------------------------

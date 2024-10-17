@@ -61,6 +61,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,K
       INTEGER :: EOSTYPE, ITER, MAX_ITER, MAT(NEL), REMAINING_ELTS, NBMAT, NVAREOS
+      INTEGER :: IBID(NEL) !bfrac not used int his context
       my_real :: TOL, INCR
       my_real :: FUNC(NEL), DFUNC(NEL), ERROR(NEL), RHOZERO(NEL), RHO(NEL), 
      .           MU(NEL), MU2(NEL), ESPE(NEL), DVOL(NEL), DF(NEL), VOL(NEL), PSH(NEL), 
@@ -155,7 +156,8 @@ C IMAT : relevant for multifluid eos. imat=0 => monomaterial law
      .                DVOL  , DF     , VOL      , MAT    , PSH  , 
      .                PRES  , DPDM   , DPDE     , THETA  , ECOLD, 
      .                BUFMAT, SIG    , MU       , MLW    , POLD ,
-     .                NPF   , TF     , EBUF%VAR , NVAREOS)
+     .                NPF   , TF     , EBUF%VAR , NVAREOS, MAT_PARAM(MATID),
+     .                IBID)
           DO K=1,NEL
             EINT(K)=EINT(K)*DF(K) ! set back to Eint/V
           ENDDO
