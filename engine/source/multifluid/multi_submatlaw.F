@@ -39,7 +39,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4   NPROPM,      NPROPMI,     BUFMAT,      OFF,
      5   THETA,       BURNFRAC,    BURNTIME,    DELTAX,
      6   CURRENT_TIME,SIGOLD,      NPF,         TF,
-     7   VAREOS,      NVAREOS)
+     7   VAREOS,      NVAREOS,     MAT_PARAM)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,6 +67,7 @@ C-----------------------------------------------
       my_real, INTENT(INOUT) :: BURNFRAC(*), BUFMAT(*)
       INTEGER, INTENT(IN) :: NPF(SNPC),NVAREOS
       my_real, INTENT(IN) :: TF(STF),VAREOS(NVAREOS*NEL)
+      TYPE(MATPARAM_STRUCT_), INTENT(IN) :: MAT_PARAM !material data structure
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -161,12 +166,13 @@ C     Burnt fraction
             EOSTYPE      = IPM(4, LOCAL_MATID)
             MUOLD(1:NEL) = MU(1:NEL)
 C     -> FLAG = 2 : compute pressure as a function of rho and e, as well as dpdm and dpde
-            CALL EOSMAIN(2     , NEL   , EOSTYPE   , PM    , OFF  , EINT, 
-     .                   RHO   , RHO0  , MU        , MU2   , ESPE , 
-     .                   DVOL  , DF    , VOL       , MAT   , PSH  , 
-     .                   PRES  , SSP   , DPDE      , THETA , ECOLD, 
-     .                   BUFMAT, SIGOLD, MUOLD     , MATLAW, PRES ,
-     .                   NPF   , TF    , VAREOS    , NVAREOS)
+            CALL EOSMAIN(2     , NEL   , EOSTYPE   , PM     , OFF  , EINT,
+     .                   RHO   , RHO0  , MU        , MU2    , ESPE ,
+     .                   DVOL  , DF    , VOL       , MAT    , PSH  ,
+     .                   PRES  , SSP   , DPDE      , THETA  , ECOLD,
+     .                   BUFMAT, SIGOLD, MUOLD     , MATLAW , PRES ,
+     .                   NPF   , TF    , VAREOS    , NVAREOS, MAT_PARAM,
+     .                   BURNFRAC)
 C     SQUARE sound speed : c^2 = 1/rho0 * dp/dmu
             DO II = 1, NEL
                IF (VOL(II) > ZERO) THEN

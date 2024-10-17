@@ -153,6 +153,7 @@ C  L o c a l   V a r i a b l e s
 C----------------------------------------------------------------
       INTEGER I, ITER, MATS(NEL),IPLA(NEL), MXS, IFLAG1,
      .        IFLAG2, ITEMAX, IMAX, IPLAS, EOSTYP
+      INTEGER IBID(1) !bfrac not used in this context
       my_real
      .   DFS(NEL), MUS(NEL), MU2S(NEL), DPDM(NEL), ECOLD(NEL),
      .   THETA(NEL), DPDE(NEL)
@@ -267,13 +268,13 @@ C--------------
      .             DVOLS  ,DFS    ,VNEWS   ,MATS   ,PSH    ,
      .             PNEW   ,DPDM   ,DPDE    ,THETA  ,ECOLD  ,
      .             BUFMAT ,SIGOLD ,MUOLD   ,75     ,POLD   ,
-     .             NPF    ,TF     ,VAREOS  ,NVAREOS)
+     .             NPF    ,TF     ,VAREOS  ,NVAREOS,IBID)
       CALL EOSMAIN(1      ,NEL    ,EOSTYP  ,PM     ,OFF    ,EINTN ,
      .             RHOS   ,RHOS0  ,MUS     ,MU2S   ,ESPES  ,
      .             DVOLS  ,DFS    ,VNEWS   ,MATS   ,PSH    ,
      .             PNEW   ,DPDM   ,DPDE    ,THETA  ,ECOLD  ,
      .             BUFMAT ,SIGOLD ,MUOLD   ,75     ,POLD   ,
-     .             NPF    ,TF     ,VAREOS  ,NVAREOS)
+     .             NPF    ,TF     ,VAREOS  ,NVAREOS,IBID)
       IF(IFLAG1 == 2) THEN
         DO I=1,NEL
            PNEW(I)=PNEW(I)/ALPHA(I)
@@ -371,13 +372,13 @@ C--------------
      .             DVOLS ,DFS   ,VNEWS  ,MATS  ,PSH   ,
      .             PNEW  ,DPDM  ,DPDE   ,THETA ,ECOLD ,
      .             BUFMAT,SIGOLD,MUOLD  ,75    ,POLD  ,
-     .             NPF   ,TF    ,VAREOS ,NVAREOS)
+     .             NPF   ,TF    ,VAREOS ,NVAREOS,IBID)
       CALL EOSMAIN(1     ,NEL   ,EOSTYP ,PM    ,OFF   ,EINTN ,
      .             RHOS  ,RHOS0 ,MUS    ,MU2S  ,ESPES ,
      .             DVOLS ,DFS   ,VNEWS  ,MATS  ,PSH   ,
      .             PNEW  ,DPDM  ,DPDE   ,THETA ,ECOLD ,
      .             BUFMAT,SIGOLD,MUOLD  ,75    ,POLD  ,
-     .             NPF   ,TF    ,VAREOS ,NVAREOS)
+     .             NPF   ,TF    ,VAREOS ,NVAREOS,IBID)
       IF(IFLAG1 == 2) THEN
         DO I=1,NEL
            PNEW(I)=PNEW(I)/ALPHA(I)

@@ -343,7 +343,7 @@ C-----------------------------------------------
        ENDDO
 
        !computes local coordinates (LB1,LC1) on triangle_1 which minimize the distance from SECONDARY point I.
-       !  I(XI,YI,ZI) is SECONDARY point.
+       !  (XI,YI,ZI) is SECONDARY point.
        !  let (LB1,LV1) be a point of triangle_1  :   0 < LB1 < 1  and  0 < LC1 < 1
        !  find (LB1,LC1) which minimize the distance from SECONDARY point I
        DO I=1,JLT
@@ -367,7 +367,7 @@ C-----------------------------------------------
        ENDDO
 
        !computes local coordinates (LB2,LC2) on triangle_2 which minimize the distance from SECONDARY point I.
-       !  I(XI,YI,ZI) is SECONDARY point.
+       !  (XI,YI,ZI) is SECONDARY point.
        !  let (LB2,LV2) be a point of triangle_2  :   0 < LB2 < 1  and  0 < LC2 < 1
        !  find (LB2,LC2) which minimize the distance from SECONDARY point I
        DO I=1,JLT
@@ -391,7 +391,7 @@ C-----------------------------------------------
        ENDDO
 
        !computes local coordinates (LB3,LC3) on triangle_3 which minimize the distance from SECONDARY point I.
-       !  I(XI,YI,ZI) is SECONDARY point.
+       !  (XI,YI,ZI) is SECONDARY point.
        !  let (LB3,LV3) be a point of triangle_3  :   0 < LB3 < 1  and  0 < LC3 < 1
        !  find (LB3,LC3) which minimize the distance from SECONDARY point I
        DO I=1,JLT
@@ -415,7 +415,7 @@ C-----------------------------------------------
        ENDDO
 
        !computes local coordinates (LB4,LC4) on triangle_4 which minimize the distance from SECONDARY point I.
-       !  I(XI,YI,ZI) is SECONDARY point.
+       !  (XI,YI,ZI) is SECONDARY point.
        !  let (LB4,LV4) be a point of triangle_4  :   0 < LB4 < 1  and  0 < LC4 < 1
        !  find (LB4,LC4) which minimize the distance from SECONDARY point I
        DO I=1,JLT

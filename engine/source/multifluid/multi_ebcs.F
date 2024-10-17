@@ -33,13 +33,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    th_surf_mod           ../common_source/modules/interfaces/th_surf_mod.F
       !||====================================================================
       SUBROUTINE MULTI_EBCS(ITASK, MULTI_FVM, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM,
-     .     FUNC_VALUE, EBCS_TAB,NPF,TF,FSAVSURF,NSURF,TIMESTEP)
+     .     FUNC_VALUE, EBCS_TAB,NPF,TF,FSAVSURF,NSURF,TIMESTEP,MATPARAM, NUMMAT)
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE EBCS_MOD
       USE TH_SURF_MOD , only : TH_SURF_NUM_CHANNEL
+      USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,6 +57,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER,INTENT(IN) :: NUMMAT !< array size
+      TYPE(MATPARAM_STRUCT_), DIMENSION(NUMMAT), INTENT(IN) :: MATPARAM !material data structure
       INTEGER,INTENT(IN) :: NSURF
       my_real,INTENT(INOUT) :: FSAVSURF(TH_SURF_NUM_CHANNEL,NSURF)
       TYPE(MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM
@@ -86,17 +89,17 @@ C     Inlet, outlet boundary condition
               CALL MULTI_INLET_EBCS(ITASK, I, MULTI_FVM, NELEM,
      .           twf%ielem, twf%iface, twf%fvm_inlet_data,
      .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,
-     .           twf%surf_id,NPF,TF,FSAVSURF, TIMESTEP)
+     .           twf%surf_id,NPF,TF,FSAVSURF, TIMESTEP, MATPARAM)
             TYPE IS(t_ebcs_fluxout)
               CALL MULTI_INLET_EBCS(ITASK, I, MULTI_FVM, NELEM,
      .           twf%ielem, twf%iface, twf%fvm_inlet_data,
      .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,
-     .           twf%surf_id,NPF,TF,FSAVSURF,TIMESTEP)
+     .           twf%surf_id,NPF,TF,FSAVSURF,TIMESTEP, MATPARAM)
             TYPE IS(t_ebcs_nrf)
               CALL MULTI_NRF_EBCS(ITASK, I, MULTI_FVM, NELEM,
      .           twf%ielem, twf%iface, twf%fvm_inlet_data,
      .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,
-     .           twf,NPF,TF,FSAVSURF,TIMESTEP)
+     .           twf,NPF,TF,FSAVSURF,TIMESTEP,MATPARAM)
             CLASS DEFAULT
          END SELECT
       ENDDO

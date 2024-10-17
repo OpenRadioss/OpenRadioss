@@ -112,6 +112,7 @@ C-----------------------------------------------
       INTEGER II,IMAT,ILAW,IRUP,MAT_ID,IADD,IFC,FLAG_HE,NFUNC,NFUNCL,NUMTABL,
      .        NPARAM,NUPARF,NFAIL,IR,FLAG_FIT,IFAILG,NORDRE,IALGO,
      .        IADD_VISC , NPARAM_VISC,IVISC,NPRONY,J,ITYPE_VISC,FORM
+      INTEGER :: KK !< loop
       my_real :: GAMA_INF,EMAX
       INTEGER, DIMENSION(NUMMAT)     :: MULLINS,GURSON
       INTEGER, DIMENSION(MAXTAB)     :: TABLE_ID
@@ -213,12 +214,21 @@ c
         IF (NFUNC > 0) THEN 
           CALL MATFUN_USR2SYS(TITR,MAT_ID,NFUNC,IFUNC,FUNC_ID  )
         ENDIF
+
         IF (ILAW /= 73 .and. ILAW /= 74 .and. ILAW /= 80) THEN
           IF (NUMTABL > 0 ) THEN
             TABLE_ID(1:NUMTABL) = IPM(226+1:226+NUMTABL,IMAT)
             CALL MATTAB_USR2SYS(TITR,MAT_ID,NTABLE,TABLE,NUMTABL,ITABLE)
           ENDIF 
-        ENDIF 
+        ENDIF
+
+        ! fill EoS buffer with internal function identifiers (user ids -> internal ids were converted above)
+        IF(MAT_PARAM(IMAT)%EOS%NFUNC > 0)THEN
+          DO KK=1,NFUNC
+            MAT_PARAM(IMAT)%EOS%FUNC(KK) = IPM(10+KK,IMAT)
+          ENDDO
+        ENDIF
+
 c
 c-----------------------------------------------------------------------
         SELECT CASE (ILAW)
