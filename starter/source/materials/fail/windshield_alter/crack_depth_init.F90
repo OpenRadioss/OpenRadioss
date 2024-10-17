@@ -31,11 +31,9 @@
 !Chd|-- calls ---------------
 !Chd|====================================================================
       !||====================================================================
-      !||    crack_depth_init       ../starter/source/materials/fail/windshield_alter/crack_depth_init.F
+      !||    crack_depth_init_mod   ../starter/source/materials/fail/windshield_alter/crack_depth_init.F90
       !||--- called by ------------------------------------------------------
       !||    fail_windshield_init   ../starter/source/materials/fail/windshield_alter/fail_windshield_init.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
       !||====================================================================
       module crack_depth_init_mod
       contains
@@ -45,6 +43,12 @@
 
 ! ========================================================================================
 
+      !||====================================================================
+      !||    crack_depth_init       ../starter/source/materials/fail/windshield_alter/crack_depth_init.F90
+      !||--- called by ------------------------------------------------------
+      !||    fail_windshield_init   ../starter/source/materials/fail/windshield_alter/fail_windshield_init.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       subroutine crack_depth_init(nel,ipt,npt,nuparam,nuvar,uparam,uvar,dfmax,dadv)
 
 !-----------------------------------------------

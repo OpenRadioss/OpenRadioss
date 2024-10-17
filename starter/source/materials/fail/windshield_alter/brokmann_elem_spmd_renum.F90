@@ -26,9 +26,9 @@
 !Chd|-- calls ---------------
 !Chd|====================================================================
       !||====================================================================
-      !||    brokmann_elem_renum_mod   ../starter/source/materials/fail/brokmann/brokmann_elem_spmd_renum.F90
+      !||    brokmann_elem_renum_mod   ../starter/source/materials/fail/windshield_alter/brokmann_elem_spmd_renum.F90
       !||--- called by ------------------------------------------------------
-      !||    lectur                   ../starter/source/starter/lectur.F
+      !||    lectur                    ../starter/source/starter/lectur.F
       !||====================================================================
       module brokmann_elem_renum_mod
       contains
@@ -37,11 +37,11 @@
 ! \details 
 
       !||====================================================================
-      !||    brokmann_elem_renum    ../starter/source/materials/fail/brokmann/brokmann_elem_spmd_renum.F90
+      !||    brokmann_elem_renum       ../starter/source/materials/fail/windshield_alter/brokmann_elem_spmd_renum.F90
       !||--- called by ------------------------------------------------------
-      !||    lectur                ../starter/source/starter/lectur.F
+      !||    lectur                    ../starter/source/starter/lectur.F
       !||--- uses       -----------------------------------------------------
-      !||    reorder_mod           ../starter/share/modules1/reorder_mod.F
+      !||    reorder_mod               ../starter/share/modules1/reorder_mod.F
       !||====================================================================
       subroutine brokmann_elem_renum(fail_brokmann,numelc,numeltg)
 

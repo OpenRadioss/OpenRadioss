@@ -21,15 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    fail_wind_frwave      ../engine/source/materials/fail/alter/fail_wind_frwave.F
+      !||    fail_wind_frwave   ../engine/source/materials/fail/alter/fail_wind_frwave.F
       !||--- called by ------------------------------------------------------
-      !||    mulawc                ../engine/source/materials/mat_share/mulawc.F
-      !||    usermat_shell         ../engine/source/materials/mat_share/usermat_shell.F
+      !||    mulawc             ../engine/source/materials/mat_share/mulawc.F
+      !||    usermat_shell      ../engine/source/materials/mat_share/usermat_shell.F
       !||--- calls      -----------------------------------------------------
-      !||    brokmann_crack_init   ../engine/source/materials/fail/alter/brokmann_crack_init.F
-      !||    fail_brokmann         ../engine/source/materials/fail/alter/fail_brokmann.F
+      !||    fail_brokmann      ../engine/source/materials/fail/alter/fail_brokmann.F
       !||--- uses       -----------------------------------------------------
-      !||    rupture_mod           ../engine/share/modules/rupture_mod.F
+      !||    rupture_mod        ../engine/share/modules/rupture_mod.F
       !||====================================================================
       SUBROUTINE FAIL_WIND_FRWAVE(
      1     NEL       ,NUPARAM   ,NUVAR     ,UPARAM    ,UVAR      ,

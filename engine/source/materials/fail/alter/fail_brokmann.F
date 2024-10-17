@@ -25,7 +25,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    fail_wind_frwave   ../engine/source/materials/fail/alter/fail_wind_frwave.F
       !||--- calls      -----------------------------------------------------
-      !||    newman_raju        ../engine/source/materials/fail/alter/newman_raju.F
+      !||    newman_raju        ../common_source/fail/newman_raju.F90
+      !||--- uses       -----------------------------------------------------
+      !||    newman_raju_mod    ../common_source/fail/newman_raju.F90
       !||====================================================================
       SUBROUTINE FAIL_BROKMANN(
      .     NEL       ,NUPARAM   ,NUVAR     ,TIME      ,TIMESTEP  ,

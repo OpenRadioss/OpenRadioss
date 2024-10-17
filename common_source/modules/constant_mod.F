@@ -26,10 +26,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    anim_nodal_ssp_elems                     ../engine/source/output/anim/generate/anim_nodal_ssp_elems.F90
       !||    bcs_wall_trigger                         ../engine/source/boundary_conditions/bcs_wall_trigger.F90
       !||    brent_algo                               ../common_source/modules/root_finding_algo_mod.F90
+      !||    brokmann_crack_init                      ../starter/source/materials/fail/windshield_alter/brokmann_crack_init.F90
+      !||    brokmann_elem_renum                      ../starter/source/materials/fail/windshield_alter/brokmann_elem_spmd_renum.F90
+      !||    brokmann_random                          ../starter/source/materials/fail/windshield_alter/brokmann_random.F90
       !||    check_sorting_criteria                   ../engine/source/interfaces/intsort/check_sorting_criteria.F90
       !||    chk_shell_offset                         ../starter/source/elements/shell/shell_offset/chk_shell_offset.F90
       !||    clipping_weiler_atherton                 ../common_source/tools/clipping/polygon_clipping_mod.F90
       !||    compute_voxel_dimensions                 ../engine/source/interfaces/intsort/voxel_dimensions.F90
+      !||    crack_depth_init                         ../starter/source/materials/fail/windshield_alter/crack_depth_init.F90
       !||    create_plane_clause                      ../starter/source/model/sets/create_plane_clause.F90
       !||    damping_vref_rby                         ../engine/source/assembly/damping_vref_rby.F90
       !||    damping_vref_rby_stiff                   ../engine/source/assembly/damping_vref_rby_stiff.F90
@@ -81,6 +85,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    mat25_tsaiwu_s                           ../engine/source/materials/mat/mat025/mat25_tsaiwu_s.F90
       !||    mmain                                    ../engine/source/materials/mat_share/mmain.F90
       !||    mulaw                                    ../engine/source/materials/mat_share/mulaw.F90
+      !||    newman_raju                              ../common_source/fail/newman_raju.F90
       !||    offset_nproj                             ../engine/source/interfaces/shell_offset/offset_nproj.F90
       !||    polygon_addpoint                         ../common_source/tools/clipping/polygon_mod.F90
       !||    polygon_create                           ../common_source/tools/clipping/polygon_mod.F90

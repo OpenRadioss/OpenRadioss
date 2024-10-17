@@ -66,7 +66,6 @@
       !||    fail_setoff_c             ../engine/source/materials/fail/fail_setoff_c.F
       !||    fail_setoff_npg_c         ../engine/source/materials/fail/fail_setoff_npg_c.F
       !||    fail_setoff_wind_frwave   ../engine/source/materials/fail/fail_setoff_wind_frwave.F
-      !||    fail_windshield_init      ../starter/source/materials/fail/windshield_alter/fail_windshield_init.F
       !||    forint                    ../engine/source/elements/forint.F
       !||    forintc                   ../engine/source/elements/forintc.F
       !||    forintp                   ../engine/source/elements/forintp.F

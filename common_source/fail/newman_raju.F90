@@ -25,6 +25,12 @@
 !Chd|-- called by -----------
 !Chd|-- calls ---------------
 !Chd|====================================================================
+      !||====================================================================
+      !||    newman_raju_mod       ../common_source/fail/newman_raju.F90
+      !||--- called by ------------------------------------------------------
+      !||    brokmann_crack_init   ../starter/source/materials/fail/windshield_alter/brokmann_crack_init.F90
+      !||    fail_brokmann         ../engine/source/materials/fail/alter/fail_brokmann.F
+      !||====================================================================
       module newman_raju_mod
       contains
 ! ========================================================================================
@@ -32,6 +38,14 @@
 ! \details
 ! ========================================================================================
 
+      !||====================================================================
+      !||    newman_raju           ../common_source/fail/newman_raju.F90
+      !||--- called by ------------------------------------------------------
+      !||    brokmann_crack_init   ../starter/source/materials/fail/windshield_alter/brokmann_crack_init.F90
+      !||    fail_brokmann         ../engine/source/materials/fail/alter/fail_brokmann.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod          ../common_source/modules/constant_mod.F
+      !||====================================================================
       subroutine newman_raju(c,a,t,b,fpi,y)
 
 !-----------------------------------------------

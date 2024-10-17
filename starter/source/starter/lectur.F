@@ -43,6 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    arret                               ../starter/source/system/arret.F
       !||    bcscycmodif_nd                      ../starter/source/elements/solid/solide10/dim_s10edg.F
       !||    bcsmodif_nd                         ../starter/source/elements/solid/solide10/dim_s10edg.F
+      !||    brokmann_elem_renum                 ../starter/source/materials/fail/windshield_alter/brokmann_elem_spmd_renum.F90
       !||    build_addcnel_sub                   ../starter/source/model/mesh/build_addcnel_sub.F
       !||    build_admesh                        ../starter/source/model/remesh/build_admesh.F
       !||    build_cnel                          ../starter/source/model/mesh/build_cnel.F
@@ -463,6 +464,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    yctrl                               ../starter/source/initial_conditions/inista/yctrl.F
       !||--- uses       -----------------------------------------------------
       !||    bpreload_mod                        ../starter/share/modules1/bpreload_mod.F
+      !||    brokmann_elem_renum_mod             ../starter/source/materials/fail/windshield_alter/brokmann_elem_spmd_renum.F90
       !||    chk_shell_offset_mod                ../starter/source/elements/shell/shell_offset/chk_shell_offset.F90
       !||    cluster_mod                         ../starter/share/modules1/cluster_mod.F
       !||    constraint_mod                      ../starter/source/modules/constaint_mod.F90

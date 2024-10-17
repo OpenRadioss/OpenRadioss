@@ -21,15 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    fail_windshield_init   ../starter/source/materials/fail/windshield_alter/fail_windshield_init.F
+      !||    fail_windshield_init      ../starter/source/materials/fail/windshield_alter/fail_windshield_init.F
       !||--- called by ------------------------------------------------------
-      !||    c3init3                ../starter/source/elements/sh3n/coque3n/c3init3.F
-      !||    cbainit3               ../starter/source/elements/shell/coqueba/cbainit3.F
-      !||    cinit3                 ../starter/source/elements/shell/coque/cinit3.F
+      !||    c3init3                   ../starter/source/elements/sh3n/coque3n/c3init3.F
+      !||    cbainit3                  ../starter/source/elements/shell/coqueba/cbainit3.F
+      !||    cinit3                    ../starter/source/elements/shell/coque/cinit3.F
       !||--- calls      -----------------------------------------------------
-      !||    crack_depth_init       ../starter/source/materials/fail/windshield_alter/crack_depth_init.F
-      !||    ngr2usrn               ../starter/source/system/nintrr.F
+      !||    brokmann_crack_init       ../starter/source/materials/fail/windshield_alter/brokmann_crack_init.F90
+      !||    crack_depth_init          ../starter/source/materials/fail/windshield_alter/crack_depth_init.F90
+      !||    ngr2usrn                  ../starter/source/system/nintrr.F
       !||--- uses       -----------------------------------------------------
+      !||    brokmann_crack_init_mod   ../starter/source/materials/fail/windshield_alter/brokmann_crack_init.F90
+      !||    crack_depth_init_mod      ../starter/source/materials/fail/windshield_alter/crack_depth_init.F90
       !||====================================================================
       SUBROUTINE FAIL_WINDSHIELD_INIT(ELBUF_STR,MAT_PARAM,FAIL_BROKMANN,
      .           NEL      ,NFT       ,ITY      ,IGRSH4N  ,IGRSH3N  ,

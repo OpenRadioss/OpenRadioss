@@ -48,6 +48,7 @@
       !||--- uses       -----------------------------------------------------
       !||    fractal_element_neighbor_mod   ../starter/source/materials/fail/fractal/fractal_element_neighbor.F90
       !||    message_mod                    ../starter/share/message_module/message_mod.F
+      !||    stack_mod                      ../starter/share/modules1/stack_mod.F
       !||====================================================================
         subroutine random_walk_dmg(fractal,fail ,                     &
                    ngrshel,ngrsh3n,igrsh4n,igrsh3n,                   &

@@ -45,6 +45,7 @@
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
       !||    message_mod                ../starter/share/message_module/message_mod.F
+      !||    stack_mod                  ../starter/share/modules1/stack_mod.F
       !||====================================================================
         subroutine fractal_element_neighbor(fractal,            &
                    nixc ,ixc ,nixtg ,ixtg ,numelc  ,numeltg ,   &
