@@ -303,7 +303,8 @@ C     Reconstructed density current element
                   CALL COMPUTE_PRESSURE(MATLAW(1), LOCAL_MATID(1), PM, IPM, NPROPM, NPROPMI,
      .                 EINTII, RHOII, PII, SSPII,
      .                 MULTI_FVM%BFRAC(1, I), GBUF%TB(II), GBUF%DELTAX(II), CURRENT_TIME,
-     .                 BUFMAT, GBUF%OFF(II), GBUF%SIG(II+IDX(1):II+IDX(6)), NPF, TF, EBUF%VAR, NVAREOS(1))
+     .                 BUFMAT, GBUF%OFF(II), GBUF%SIG(II+IDX(1):II+IDX(6)), NPF, TF, EBUF%VAR, NVAREOS(1),
+     .                 MATPARAM(LOCAL_MATID(1)) )
                   SSPII = SQRT(SSPII)
 
                ELSE
@@ -345,7 +346,7 @@ C     Global reconstructed density
      .                       PHASE_EINTII(IMAT), PHASE_RHOII(IMAT), PHASE_PRESII(IMAT), PHASE_SSPII(IMAT),
      .                       MULTI_FVM%BFRAC(IMAT, I), GBUF%TB(II), GBUF%DELTAX(II), CURRENT_TIME,
      .                       BUFMAT, LBUFS(IMAT)%LBUF%OFF(II),LBUFS(IMAT)%LBUF%SIG(II+IDX(1):II+IDX(6)), NPF,TF,
-     .                       EBUFS(IMAT)%EBUF%VAR,NVAREOS(IMAT))
+     .                       EBUFS(IMAT)%EBUF%VAR,NVAREOS(IMAT), MATPARAM(LOCAL_MATID(IMAT)))
 C     Global reconstructed pressure
                         PII = PII + PHASE_ALPHAII(IMAT) * PHASE_PRESII(IMAT)
                         EINTII = EINTII + PHASE_ALPHAII(IMAT) * PHASE_EINTII(IMAT)
@@ -402,7 +403,8 @@ C     Reconstructed density adjacent element
                   CALL COMPUTE_PRESSURE(MATLAW(1), LOCAL_MATID(1), PM, IPM, NPROPM, NPROPMI,
      .                 EINTJJ, RHOJJ, PJJ, SSPJJ,
      .                 MULTI_FVM%BFRAC(1, J), GBUF%TB(II), GBUF%DELTAX(II), CURRENT_TIME,
-     .                 BUFMAT, GBUF%OFF(II),GBUF%SIG(II+IDX(1):II+IDX(6)), NPF,TF,EBUF%VAR,NVAREOS(1))
+     .                 BUFMAT, GBUF%OFF(II),GBUF%SIG(II+IDX(1):II+IDX(6)), NPF,TF,EBUF%VAR,NVAREOS(1),
+     .                 MATPARAM(LOCAL_MATID(1)))
                   SSPJJ = SQRT(SSPJJ)
                ELSE
                   RHOJJ = ZERO
@@ -442,7 +444,7 @@ C     Global reconstructed density
      .                       PHASE_EINTJJ(IMAT), PHASE_RHOJJ(IMAT), PHASE_PRESJJ(IMAT), PHASE_SSPJJ(IMAT),
      .                       MULTI_FVM%BFRAC(IMAT, J), GBUF%TB(II), GBUF%DELTAX(II), CURRENT_TIME,
      .                       BUFMAT, LBUFS(IMAT)%LBUF%OFF(II),LBUFS(IMAT)%LBUF%SIG(II+IDX(1):II+IDX(6)),NPF,TF,
-     .                       EBUFS(IMAT)%EBUF%VAR,NVAREOS(IMAT))
+     .                       EBUFS(IMAT)%EBUF%VAR,NVAREOS(IMAT), MATPARAM(LOCAL_MATID(IMAT)))
 C     Global reconstructed pressure
                         PJJ = PJJ + PHASE_ALPHAJJ(IMAT) * PHASE_PRESJJ(IMAT)
                         EINTJJ = EINTJJ + PHASE_ALPHAJJ(IMAT) * PHASE_EINTJJ(IMAT)
@@ -768,14 +770,21 @@ C----------------------
       !||    multi_submatlaw                  ../engine/source/multifluid/multi_submatlaw.F
       !||====================================================================
       SUBROUTINE COMPUTE_PRESSURE(MATLAW, LOCAL_MATID, PM, IPM, NPROPM, NPROPMI, 
-     .     EINT, RHO, PRES, SSP, 
-     .     BURNFRAC, BURNTIME, DELTAX, CURRENT_TIME,
-     .     BUFMAT, OFF, SIG, NPF, TF, VAREOS,NVAREOS)
+     .                            EINT, RHO, PRES, SSP,
+     .                            BURNFRAC, BURNTIME, DELTAX, CURRENT_TIME,
+     .                            BUFMAT, OFF, SIG, NPF, TF, VAREOS,NVAREOS, MAT_PARAM)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "tabsiz_c.inc"
+C-----------------------------------------------
+C     A r g u m e n t s
+C-----------------------------------------------
       INTEGER, INTENT(IN) :: MATLAW, LOCAL_MATID, NPROPM, NPROPMI
       my_real, INTENT(IN) :: PM(NPROPM, *), CURRENT_TIME
       INTEGER, INTENT(IN) :: IPM(NPROPMI, *)
@@ -786,12 +795,17 @@ C-----------------------------------------------
       my_real, INTENT(INOUT) :: EINT, RHO
       INTEGER,INTENT(IN)::NPF(SNPC),NVAREOS
       my_real,INTENT(IN)::TF(STF),VAREOS(NVAREOS*1)
-
+      TYPE(MATPARAM_STRUCT_), INTENT(INOUT) :: MAT_PARAM !material data structure
+C-----------------------------------------------
+C     L o c a l  V a r i a b l e s
+C-----------------------------------------------
       INTEGER :: ITER, MAX_ITER
       my_real :: TOL, ERROR
       my_real :: GRUN, VOL, TEMP
       LOGICAL :: CONT
-      
+C-----------------------------------------------
+C     S o u r c e  L i n e s
+C-----------------------------------------------
       MAX_ITER = 50
       TOL = EM06
       ERROR = ONE
@@ -810,5 +824,6 @@ C     Initialization
      4   NPROPM,      NPROPMI,     BUFMAT,      OFF,
      5   TEMP,        BURNFRAC,    BURNTIME,    DELTAX,
      6   CURRENT_TIME,SIG(1:6),    NPF,         TF,
-     7   VAREOS,      NVAREOS)
+     7   VAREOS,      NVAREOS,     MAT_PARAM)
+
       END SUBROUTINE COMPUTE_PRESSURE
