@@ -742,15 +742,16 @@
 !-----------------------------------
 !     eos part1
 !-----------------------------------
-      eostyp = mat_elem%mat_param(imat)%ieos
-      if (eostyp > 0 .and. mtn /=12 ) then
-        call eosmain(0       ,nel      ,eostyp  ,pm        ,off      ,lbuf%eint,&
-        &lbuf%rho,rho0     ,amu     ,amu2      ,espe     ,&
-        &dvol    ,df       ,voln    ,mat       ,psh      ,&
-        &pnew    ,dpdm     ,dpde    ,lbuf%temp ,ecold    ,&
-        &bufmat  ,lbuf%sig ,lbuf%mu ,mtn       ,pold     ,&
-        &npf     ,tf       ,ebuf%var,nvareos)
-      endif
+          eostyp = mat_elem%mat_param(imat)%ieos
+          if (eostyp > 0 .and. mtn /= 12 ) then
+            call eosmain(0         ,nel      ,eostyp  ,pm        ,off      ,lbuf%eint,&
+                         lbuf%rho  ,rho0     ,amu     ,amu2      ,espe     ,&
+                         dvol      ,df       ,voln    ,mat       ,psh      ,&
+                         pnew      ,dpdm     ,dpde    ,lbuf%temp ,ecold    ,&
+                         bufmat    ,lbuf%sig ,lbuf%mu ,mtn       ,pold     ,&
+                         npf       ,tf       ,ebuf%var,nvareos , mat_elem%mat_param(imat),&
+                         lbuf%bfrac)
+          endif
 !-----------------------------------
 !     stresses deviatoric/total
 !-----------------------------------
@@ -1340,7 +1341,8 @@
             &df,         psh,        pnew,       dpdm,&
             &dpde,       lbuf%rho,   lbuf%temp,  ecold,&
             &bufmat,     npf,        tf,         lbuf%tsaiwu,&
-            &ebuf%var,   nvareos,    jcvt,       jsph)
+            &ebuf%var,   nvareos,    jcvt,       jsph,&
+            &mat_elem%mat_param(imat))
             if (jsph == 0) then
               call mqviscb(&
               &pm,       off,      lbuf%rho, lbuf%rk,&
@@ -1883,11 +1885,12 @@
               pnew(:) = zero
             endif
             call eosmain(1       ,nel      ,eostyp  ,pm       ,off      ,lbuf%eint,&
-            &lbuf%rho,rho0     ,amu     ,amu2     ,espe     ,&
-            &dvol    ,df       ,voln    ,mat      ,psh      ,&
-            &pnew    ,dpdm     ,dpde    ,lbuf%temp,ecold    ,&
-            &bufmat  ,lbuf%sig ,lbuf%mu ,mtn      ,pold     ,&
-            &npf     ,tf       ,ebuf%var,nvareos)
+            &lbuf%rho  ,rho0     ,amu     ,amu2     ,espe     ,&
+            &dvol      ,df       ,voln    ,mat      ,psh      ,&
+            &pnew      ,dpdm     ,dpde    ,lbuf%temp,ecold    ,&
+            &bufmat    ,lbuf%sig ,lbuf%mu ,mtn      ,pold     ,&
+            &npf       ,tf       ,ebuf%var,nvareos , mat_elem%mat_param(imat),&
+            &lbuf%bfrac)
 !
             call eosupda(off  ,lbuf%sig ,lbuf%eint, lbuf%vol ,pnew,nel)
 !

@@ -58,9 +58,8 @@ C=======================================================================
       NUMMAT = MAT_ELEM%NUMMAT
       LENI   = NFIX*NUMMAT
       ALLOCATE (IBUF(LENI) )
-c      
-c     write integer parameters and flags
-c
+
+      ! write integer parameters and flags
       IAD = 0
       DO IMAT = 1,NUMMAT
         IBUF(IAD+ 1) = MAT_ELEM%MAT_PARAM(IMAT)%ILAW 
@@ -74,28 +73,27 @@ c
         IBUF(IAD+ 9) = MAT_ELEM%MAT_PARAM(IMAT)%IVISC
         IBUF(IAD+10) = MAT_ELEM%MAT_PARAM(IMAT)%IEOS
         IBUF(IAD+11) = MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG
-c
+
         IBUF(IAD+12) = MAT_ELEM%MAT_PARAM(IMAT)%COMPRESSIBILITY
         IBUF(IAD+13) = MAT_ELEM%MAT_PARAM(IMAT)%SMSTR
         IBUF(IAD+14) = MAT_ELEM%MAT_PARAM(IMAT)%STRAIN_FORMULATION
         IBUF(IAD+15) = MAT_ELEM%MAT_PARAM(IMAT)%IPRES
         IBUF(IAD+16) = MAT_ELEM%MAT_PARAM(IMAT)%ORTHOTROPY
-c
+
         IBUF(IAD+17) = MAT_ELEM%MAT_PARAM(IMAT)%NLOC
         IBUF(IAD+18) = MAT_ELEM%MAT_PARAM(IMAT)%IFAILWAVE
         IBUF(IAD+19) = MAT_ELEM%MAT_PARAM(IMAT)%IXFEM
-c
+
         IBUF(IAD+20) = MAT_ELEM%MAT_PARAM(IMAT)%NMOD
-c
+
         IAD = IAD + NFIX
       END DO
-c
+
       CALL WRITE_I_C(IBUF,LENI)
       LEN = LEN + LENI
       DEALLOCATE(IBUF)
-c      
-c     write real parameters
-c
+
+      ! write real parameters
       NFIXR = 9
       LENR  = NFIXR*NUMMAT
       IAD   = 0
@@ -115,9 +113,8 @@ c
       CALL WRITE_DB(RBUF ,LENR)
       LEN = LEN + LENR
       DEALLOCATE(RBUF)
-c      
-c     write material title
-c
+
+      ! write material title
       DO IMAT = 1,NUMMAT      
         IF(IMAT < NUMMAT) THEN
           DO I=1,NCHARTITLE
@@ -128,9 +125,8 @@ c
         ENDIF
         CALL WRITE_C_C(NAME,NCHARTITLE)
       END DO
-c           
-c     write material parameter array
-c
+
+      ! write material parameter array
       DO IMAT = 1,NUMMAT      
         NUPARAM = MAT_ELEM%MAT_PARAM(IMAT)%NUPARAM
         NIPARAM = MAT_ELEM%MAT_PARAM(IMAT)%NIPARAM
@@ -142,27 +138,24 @@ c
         END IF      
         LEN = LEN + NUPARAM + NIPARAM
       END DO
-c
-c     write function tables 4D
-c      
+
+      ! write function tables 4D
       DO IMAT = 1,NUMMAT
         NUMTABL = MAT_ELEM%MAT_PARAM(IMAT)%NTABLE
         IF (NUMTABL > 0) THEN
           CALL WRITE_MAT_TABLE(MAT_ELEM%MAT_PARAM(IMAT)%TABLE, NUMTABL, LENI, LENR)
           LEN = LEN + LENI + LENR
         END IF
-      END DO      
-c           
-c     write viscosity model parameters
-c
+      END DO
+
+      ! write viscosity model parameters
       DO IMAT = 1,NUMMAT
         IF (MAT_ELEM%MAT_PARAM(IMAT)%IVISC > 0) THEN
           CALL WRITE_VISCPARAM(MAT_ELEM%MAT_PARAM(IMAT)%VISC,LEN)
         END IF
-      END DO      
-c      
-c     write parameters of failure models per material
-c          
+      END DO
+
+      ! write parameters of failure models per material
       DO IMAT = 1,NUMMAT
         NFAIL = MAT_ELEM%MAT_PARAM(IMAT)%NFAIL
         IF (NFAIL > 0) THEN
@@ -171,9 +164,8 @@ c
           END DO      
         END IF
       END DO   
-c      
-c     write damage modes
-c     
+
+      ! write damage modes
       DO IMAT = 1,NUMMAT
         NMOD = MAT_ELEM%MAT_PARAM(IMAT)%NMOD
         IF (NMOD > 0) THEN
@@ -186,7 +178,7 @@ c
         ENDIF
       ENDDO
 
-      !Write multimaterial buffer
+      ! Write multimaterial buffer
       ALLOCATE (IBUF(21) ) !< mex is 21 submaterials
       ALLOCATE (RBUF(21) )
       DO IMAT = 1,NUMMAT
@@ -203,6 +195,13 @@ c
       DEALLOCATE(IBUF)
       DEALLOCATE(RBUF)
 
-c-----------
+      ! write eos model parameters
+      DO IMAT = 1,NUMMAT
+        IF (MAT_ELEM%MAT_PARAM(IMAT)%IEOS > 0) THEN
+          CALL WRITE_EOSPARAM(MAT_ELEM%MAT_PARAM(IMAT)%EOS)
+        END IF
+      END DO
+
+!-----------
       RETURN
       END

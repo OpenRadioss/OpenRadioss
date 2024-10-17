@@ -34,12 +34,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE MULTI_INLET_EBCS(ITASK, EBCS_ID, MULTI_FVM, NELEM, ELEM_LIST, FACE_LIST, 
      .                            FVM_INLET_DATA, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM,
-     .                            FUNC_VALUE, ID_SURF, NPF,TF,FSAVSURF, TIMESTEP)
+     .                            FUNC_VALUE, ID_SURF, NPF,TF,FSAVSURF, TIMESTEP, MATPARAM)
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE TH_SURF_MOD , only : TH_SURF_NUM_CHANNEL
+      USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -71,6 +72,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: NPF(SNPC), ID_SURF
       my_real, INTENT(IN) :: TF(STF), TIMESTEP
       my_real, INTENT(INOUT) :: FSAVSURF(TH_SURF_NUM_CHANNEL,NSURF)
+      TYPE(MATPARAM_STRUCT_), DIMENSION(NUMMAT),INTENT(IN) :: MATPARAM !material data structure
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -191,7 +193,7 @@ C     VE formulation
      4                    NPROPM,             NPROPMI,                      DUMMY,                   ONE,
      5                    DUMMY,              MULTI_FVM%BFRAC(IMAT,ELEMID), MULTI_FVM%TBURN(ELEMID), DUMMY,
      6                    DUMMY,              DUMMY,                        NPF,                     TF,
-     7                    DUMMY(1),           1)
+     7                    DUMMY(1),           1,                            MATPARAM(LOCAL_MATID(IMAT)))
                   SSPJJ = SSPJJ + PHASE_ALPHAJJ(IMAT) * PHASE_RHOJJ(IMAT) * MAX(EM20, PHASE_SSPJJ(IMAT))
                   PJJ = PJJ + PHASE_PRESJJ(IMAT) * PHASE_ALPHAJJ(IMAT)
                   EINTJJ = EINTJJ + PHASE_ALPHAJJ(IMAT) * PHASE_EINTJJ(IMAT)
@@ -484,7 +486,12 @@ C-----------------------------------------------
       SUBROUTINE SOLVE_EINT(MATLAW  , LOCAL_MATID, PM    , IPM         ,NPROPM, NPROPMI, 
      .                      EINT    , RHO        , PRES  , SSP         , 
      .                      BURNFRAC, BURNTIME   , DELTAX, CURRENT_TIME,
-     .                      BUFMAT  , OFF        , NPF   , TF          ,VAREOS, NVAREOS)
+     .                      BUFMAT  , OFF        , NPF   , TF          ,VAREOS, NVAREOS,
+     .                      MAT_PARAM)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -499,12 +506,17 @@ C-----------------------------------------------
       my_real, INTENT(INOUT) :: OFF
       INTEGER, INTENT(IN) :: NPF(SNPC),NVAREOS
       my_real, INTENT(IN) :: TF(STF),VAREOS(NVAREOS*1)
-
+      TYPE(MATPARAM_STRUCT_), INTENT(IN) :: MAT_PARAM !material data structure
+C-----------------------------------------------
+C     A r g u m e n t s
+C-----------------------------------------------
       INTEGER :: ITER, MAX_ITER
       my_real :: TOL, ERROR
       my_real :: FUNC, DFUNC, PSTAR, GRUN, VOL, INCR, TEMP, PRESK, DUMMY(6)
       LOGICAL :: CONT
-      
+C-----------------------------------------------
+C     S o u r c e   L i n e s
+C-----------------------------------------------
       MAX_ITER = 50
       TOL = EM06
       ERROR = ONE
@@ -526,7 +538,7 @@ C     Initialization
      4   NPROPM,      NPROPMI,     BUFMAT,      OFF,
      5   TEMP,        BURNFRAC,    BURNTIME,    DELTAX,
      6   CURRENT_TIME,DUMMY,       NPF,         TF,
-     7   VAREOS,      NVAREOS)
+     7   VAREOS,      NVAREOS,     MAT_PARAM)
          FUNC = PRESK - PRES
          ERROR  = ABS(FUNC)
          IF (ERROR  <  TOL * (ABS(PRES) + ONE)) THEN

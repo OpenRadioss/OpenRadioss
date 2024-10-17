@@ -294,6 +294,7 @@
       use fail_param_mod
       use names_and_titles_mod
       use multimat_param_mod
+      use eos_param_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !     included files
 !----------------------------------------------------------------------- 
@@ -363,11 +364,50 @@
 
         type (multimat_param_) :: multimat                       !< buffer scpecific to multimaterial laws (51,151) : vfrac and mat internal identifiers
 
-!        type (eos_param_)    :: eos                             !< eos model data structure (to be defined)
+         type (eos_param_)    :: eos                             !< eos model data structure (to be defined)
 !        type (therm_param_)  :: therm                           !< thermal model data structure (to be defined)           
 !        type (submat_)  ,dimension(:) ,allocatable :: submat    !< multi material data structure (to be defined) 
 
+        contains
+          procedure :: destruct => destruct_matparam
+
       end type matparam_struct_
+
+
+
+      contains
+
+        subroutine destruct_matparam(this)
+          implicit none
+          class(matparam_struct_), intent(inout) :: this
+          integer :: i
+
+          if (allocated(this%uparam)) deallocate(this%uparam)
+          if (allocated(this%iparam)) deallocate(this%iparam)
+          if (allocated(this%table)) deallocate(this%table)
+          if (allocated(this%mode)) deallocate(this%mode)
+
+          if(this%nfail > 0)then
+            do i=1,this%nfail
+              call this%fail(i)%destruct
+            end do
+            deallocate(this%fail)
+          end if
+
+          if(this%ivisc > 0)then
+            call this%visc%destruct
+          end if
+
+          if(this%nsubmat > 0)then
+             call this%multimat%destruct
+          end if
+
+          if(this%ieos > 0)then
+            call this%eos%destruct
+          end if
+
+        end subroutine destruct_matparam
+
 !
 !---------------
       end module matparam_def_mod

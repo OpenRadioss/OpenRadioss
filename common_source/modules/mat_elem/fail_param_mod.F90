@@ -174,8 +174,23 @@
         integer ,dimension(:) ,allocatable :: iparam  !< int  value failure parameter table
         integer ,dimension(:) ,allocatable :: ifunc   !< function table in failure models
         integer ,dimension(:) ,allocatable :: table   !< local function tables
-      
-      end type fail_param_   
+
+        contains
+          procedure :: destruct => destruct_fail_param
+
+      end type fail_param_
+
+      contains
+
+        subroutine destruct_fail_param(this)
+          implicit none
+          class(fail_param_) ,intent(inout) :: this
+          if(allocated(this%mode))   deallocate(this%mode)
+          if(allocated(this%uparam)) deallocate(this%uparam)
+          if(allocated(this%iparam)) deallocate(this%iparam)
+          if(allocated(this%ifunc))  deallocate(this%ifunc)
+          if(allocated(this%table))  deallocate(this%table)
+        end subroutine destruct_fail_param
 !
 !---------------
       end module fail_param_mod

@@ -55,7 +55,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE HM_READ_EOS(
      .           MAT_PARAM   ,IPM      ,PM       ,BUFMAT   ,
-     .           BUFLEN      ,IADBUF   ,EOS_TAG  ,UNITAB   ,LSUBMODEL)
+     .           BUFLEN      ,IADBUF   ,EOS_TAG  ,UNITAB   ,LSUBMODEL,
+     .           MLAW_TAG)
 C-----------------------------------------------
 C   A n a l y s e   M o d u l e
 C-----------------------------------------------
@@ -79,6 +80,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(MLAW_TAG_) , DIMENSION(NUMMAT),INTENT(INOUT) :: MLAW_TAG
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER  :: BUFLEN,IADBUF
       INTEGER ,DIMENSION(NPROPMI,NUMMAT) ,INTENT(INOUT) :: IPM
@@ -213,8 +215,9 @@ c---
             CALL HM_READ_EOS_LSZK(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)                                    
 c---
           CASE ('POWDER-BURN')
-            IEOS = 12 
-            !none                        
+            IEOS = 12
+            CALL HM_READ_EOS_POWDERBURN(IOUT,PM(1,IMAT),IPM(1,IMAT),UNITAB,LSUBMODEL,IMIDEOS, MAT_PARAM(IMAT),
+     .                                  NPROPM, NPROPMI, MLAW_TAG(IMAT), EOS_TAG, IEOS  )
 c---
           CASE ('COMPACTION')
             IEOS = 13                          
