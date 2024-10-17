@@ -309,8 +309,8 @@ C-----------------------------------------------
          !--------------------------------------------------!
          CALL EOSLINEAR(
      1                  IFLAG  ,NEL    ,PM     ,OFF    ,EINT  ,MU  ,MU2,
-     2                  DVOL   ,DF     ,VNEW   ,MAT    ,PNEW  ,DPDM,
-     3                  DPDE   ,THETA  ,ECOLD  )
+     2                  DVOL   ,VNEW   ,MAT    ,PNEW  ,DPDM,
+     3                  DPDE   ,ECOLD  )
 
        CASE (19)
          !--------------------------------------------------!
