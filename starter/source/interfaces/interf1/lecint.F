@@ -466,14 +466,18 @@ C Subinter : Case Inter corresponding to id inter
               ISU1 =NOM_OPT(3,NINTER+JSUB)
               ISU2 =NOM_OPT(6,NINTER+JSUB)
               IF(IGR/=0)IPARI(37,NI)=IPARI(37,NI)+IGRNOD(IGR)%NENTITY
-              IPARI(38,NI)=IPARI(38,NI)+IGRSURF(ISU1)%NSEG
               IF(ISU2/=0)THEN
                 IPARI(38,NI)=IPARI(38,NI)+IGRSURF(ISU2)%NSEG
-                IPARI(37,NI)=IPARI(37,NI)+4*IGRSURF(ISU1)%NSEG
                 IPARI(37,NI)=IPARI(37,NI)+4*IGRSURF(ISU2)%NSEG
                 IF(IEDGE/=0)THEN
-                  IPARI(90,NI)=IPARI(90,NI)+4*IGRSURF(ISU1)%NSEG
                   IPARI(90,NI)=IPARI(90,NI)+4*IGRSURF(ISU2)%NSEG
+                END IF
+              END IF
+              IF(ISU1/=0)THEN
+                IPARI(38,NI)=IPARI(38,NI)+IGRSURF(ISU1)%NSEG
+                IPARI(37,NI)=IPARI(37,NI)+4*IGRSURF(ISU1)%NSEG
+                IF(IEDGE/=0)THEN
+                  IPARI(90,NI)=IPARI(90,NI)+4*IGRSURF(ISU1)%NSEG
                 END IF
               END IF
             END IF
