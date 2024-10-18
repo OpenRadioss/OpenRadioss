@@ -83,6 +83,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    multi_fvm_mod             ../common_source/modules/ale/multi_fvm_mod.F
       !||    names_and_titles_mod      ../common_source/modules/names_and_titles_mod.F
       !||    stack_mod                 ../engine/share/modules/stack_mod.F
+      !||    tri7box                   ../engine/share/modules/tri7box.F
       !||====================================================================
       SUBROUTINE LECH3D(GEO,IGEO,IPM,IPART,H3D_DATA,MULTI_FVM,IPARI,IPARG,TAG_SKINS6,
      .                  MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,MDS_NDEPSVAR,
