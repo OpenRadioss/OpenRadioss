@@ -41,7 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3         GAP_S_L ,GAP_M_L ,IGAP     ,GAP        ,DRAD    ,
      4         NREMNODE,NTY     ,IPARI   ,I_MEM_REM   ,GAPM_MX ,
      5         GAPS_MX ,GAPM_L_MX,GAPS_L_MX ,ILEV     ,NBINFLG ,
-     6         MBINFLG ,DGAPLOAD)  
+     6         MBINFLG ,DGAPLOAD,npari)  
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -49,6 +49,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use get_list_remnode_mod , only : get_list_remnode
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,6 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      integer, intent(in) :: npari !< dim of IPARI
       INTEGER IREMNODE, NOINT, NSN, NRTM, NUMNOD,IGAP, NREMNODE ,NTY, I_MEM_REM, ILEV
       INTEGER IRECT(4,NRTM),ITAB(*),NSV(NSN),IPARI(*),NBINFLG(*),MBINFLG(*)
       my_real
@@ -113,44 +115,16 @@ C-----------------------------------------------
       IFIRST=1
       ILAST =NRTM
       I_MEM_REM=1
-      DO WHILE(I_MEM_REM==1)
-        I_MEM_REM=0
-        CALL I7REMNODE_BUILD(IFIRST,ILAST,
-     1         X       ,NRTM    ,IRECT    ,NSV     ,NSN    ,
-     2         ITAB    ,GAP_S   ,GAP_M    ,GAPMIN  ,GAPMAX ,
-     3         GAP_S_L ,GAP_M_L ,IGAP     ,INTBUF_TAB%KREMNODE,INTBUF_TAB%REMNODE ,
-     4         GAP     ,DRAD    ,NREMNODE ,NOD2EXPAND,
-     5         I_MEM_REM,GAPM_MX ,GAPS_MX ,
-     6         GAPM_L_MX ,GAPS_L_MX ,KNOD2SEG,NOD2SEG,TAGSECND,
-     7         GAPSECND ,NODDEL  ,TAGNOD   ,ID_NOD   ,DIST1  ,
-     8         GAPV    ,GAP_S_L_TMP,ITAGSEG ,MINSEG  ,DGAPLOAD)   
-C
-        IF (I_MEM_REM == 1) THEN
-          NREMNODE = NREMNODE + 5*NRTM
-          IF(NREMNODE < 0)THEN
-            IF(NTY == 7)THEN
-              CALL ANCMSG(MSGID=1736,
-     .                MSGTYPE=MSGWARNING,
-     .                ANMODE=ANSTOP,
-     .                I1=NOINT,
-     .                C1=TITR)
-            ELSEIF(NTY ==25)THEN
-              CALL ANCMSG(MSGID=1737,
-     .                MSGTYPE=MSGWARNING,
-     .                ANMODE=ANSTOP,
-     .                I1=NOINT,
-     .                C1=TITR)
-            END IF
-            DO I=IFIRST,ILAST
-C              end Starter properly without restart file.
-               INTBUF_TAB%KREMNODE(I+1)=INTBUF_TAB%KREMNODE(IFIRST) 
-            END DO
-            IREMNODE = IREMNODE + 1
-            CALL MY_EXIT(2)
-          END IF
-          CALL UPGRADE_REMNODE(IPARI,NREMNODE,INTBUF_TAB,NTY)
-        ENDIF
-      END DO
+      intbuf_tab%kremnode(1) = 0
+!$OMP PARALLEL
+      call get_list_remnode(nrtm,igap ,numnod,npari,irect,intbuf_tab%kremnode, 
+     .                      knod2seg,nod2seg,tagsecnd,    
+     .                      ipari,gapmin,gapmax,gap,drad,        
+     .                      gaps_mx,gaps_l_mx,  
+     .                      minseg,dgapload,x,gap_m,              
+     .                      gap_m_l,gapsecnd,gap_s_l_tmp,    
+     .                      intbuf_tab)
+!$OMP END PARALLEL
       IREMNODE = IREMNODE + 1
 C-----------------------------------------------
       IF(NTY==25)THEN
@@ -341,242 +315,6 @@ C-----------------------------------------------
         ENDDO
       END IF
 C-----------------------------------------------
-      RETURN
-      END
-      !||====================================================================
-      !||    i7remnode_build   ../starter/source/interfaces/inter3d1/i7remnode.F
-      !||--- called by ------------------------------------------------------
-      !||    i7remnode         ../starter/source/interfaces/inter3d1/i7remnode.F
-      !||====================================================================
-      SUBROUTINE I7REMNODE_BUILD(IFIRST,ILAST,
-     1         X       ,NRTM    ,IRECT    ,NSV     ,NSN    ,
-     2         ITAB    ,GAP_S   ,GAP_M    ,GAPMIN  ,GAPMAX ,
-     3         GAP_S_L ,GAP_M_L ,IGAP     ,KREMNODE,REMNODE ,
-     4         GAP     ,DRAD    ,NREMNODE ,NOD2EXPAND,
-     5         I_MEM_REM,GAPM_MX ,GAPS_MX ,
-     6         GAPM_L_MX ,GAPS_L_MX ,KNOD2SEG,NOD2SEG,TAGSECND,
-     7         GAPSECND ,NODDEL  ,TAGNOD   ,ID_NOD    ,DIST1  ,
-     8         GAPV    ,GAP_S_L_TMP,ITAGSEG,MINSEG    ,DGAPLOAD)  
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER IFIRST, ILAST, NSN, NRTM, IGAP, NREMNODE , I_MEM_REM
-      INTEGER IRECT(4,*),ITAB(*),NSV(*),KREMNODE(*),REMNODE(*)
-      INTEGER KNOD2SEG(*),NOD2SEG(4*NRTM),NODDEL(*),TAGNOD(*),ID_NOD(*),NOD2EXPAND(*),
-     .        TAGSECND(*),ITAGSEG(NRTM)
-       my_real
-     .        GAPMIN, GAPMAX, GAP, DRAD, GAPM_MX, GAPS_MX, GAPM_L_MX, GAPS_L_MX, MINSEG
-      my_real , INTENT(IN) :: DGAPLOAD
-      my_real
-     .        X(3,*),GAP_S(*),GAP_M(*),GAP_S_L(*),GAP_M_L(*)
-      my_real 
-     .        DIST1(*), GAPV(*), GAPSECND(*), GAP_S_L_TMP(*)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I,J,K,SEG,ISEG,LEVEL,CPT,NBSEG,SEG1,L,CPT1,N,
-     .        NE,CPT_TOTAL,NS,LREMNORMAX
-      INTEGER :: CPTOPER
-      INTEGER, DIMENSION(:), ALLOCATABLE :: LISTSEG,LISTSEGTMP,LISTSEGTOTAL
-      INTEGER :: JMAX,KMAX
-      my_real
-     .        MINDIST,DMAX,DIST,X0,Y0,Z0,X1,Y1,Z1,LMAX
-C-----------------------------------------------
-C  Searching Algorithm Connected nodes : D < SQRT(2.) * GAP
-C-----------------------------------------------
-      CPTOPER   = 0
-      CPT       = 0
-      CPT_TOTAL = 0
-      ALLOCATE(LISTSEG(NRTM),LISTSEGTMP(NRTM),LISTSEGTOTAL(NRTM))
-C
-      DO I=IFIRST,ILAST
-
-        IF(IGAP==0)THEN
-          DMAX  = SQRT(TWO) * MAX(GAP+DGAPLOAD,DRAD)
-        ELSEIF(IGAP==1 .OR. IGAP==2) THEN
-          DMAX  = SQRT(TWO) * MAX(GAP_M(I)+GAPS_MX+DGAPLOAD,DRAD)
-        ELSEIF(IGAP==3) THEN
-          DMAX  = SQRT(TWO) * MAX(MIN(GAP_M(I)+GAPS_MX,GAP_M_L(I)+GAPS_L_MX)+DGAPLOAD,DRAD)
-        END IF
-
-        CPTOPER = 0
-        LEVEL   = 1
-        SEG     = I
-        ITAGSEG(SEG) = LEVEL
-        NBSEG     =1
-        MINDIST   = ZERO
-        JMAX      = 4
-        CPT_TOTAL = 0
-        IF((IRECT(JMAX,SEG) == 0) .OR. IRECT(3,SEG) == IRECT(4,SEG) ) JMAX = 3
-        DO J=1,JMAX
-          TAGNOD(IRECT(J,SEG)) = 1
-          DIST1(IRECT(J,SEG)) = ZERO
-        ENDDO
-        LISTSEG(1)=SEG
-        DO WHILE( (MINDIST + MINSEG) <= DMAX .AND. NBSEG /= 0)
-          LEVEL   = LEVEL + 1
-          MINDIST = EP30
-          CPT     = 0
-
-          DO ISEG=1,NBSEG
-            SEG  = LISTSEG(ISEG)
-
-            JMAX = 4
-            IF((IRECT(JMAX,SEG) == 0) .OR. IRECT(3,SEG) == IRECT(4,SEG) ) JMAX = 3
-
-            TAGNOD(IRECT(1:JMAX,SEG))=2
-            
-            DO J=1,JMAX
-C 
-C             If we already started from this node AT THIS LEVEL
-C             <=> all paths from this node have been explored yet AT THIS LEVEL
-              IF(NOD2EXPAND(IRECT(J,SEG))/=0) CYCLE
-C 
-              NOD2EXPAND(IRECT(J,SEG))=1
-              DO K=KNOD2SEG(IRECT(J,SEG))+1,KNOD2SEG(IRECT(J,SEG)+1)
-                SEG1 = NOD2SEG(K)
-
-                KMAX = 4
-                IF((IRECT(KMAX,SEG1) == 0) .OR. IRECT(3,SEG1) == IRECT(4,SEG1) ) KMAX = 3
-
-                IF(ITAGSEG(SEG1) == 0 .OR. ITAGSEG(SEG1) == LEVEL) THEN
-                  IF(ITAGSEG(SEG1) == 0)THEN
-                    CPT = CPT + 1
-                    LISTSEGTMP(CPT)=SEG1
-                  ENDIF
-                  ITAGSEG(SEG1)=LEVEL
-c 
-                  DO L=1,KMAX
-                    
-                    IF(TAGSECND(IRECT(L,SEG1))== 0 .OR.
-     .                 TAGNOD(IRECT(L,SEG1)) == 2)CYCLE
-
-                    DIST1(IRECT(L,SEG1))=MIN(DIST1(IRECT(L,SEG1)),
-     .                DIST1(IRECT(J,SEG))+
-     .                  SQRT((X(1,IRECT(L,SEG1)) - X(1,IRECT(J,SEG)))**2 + 
-     .                       (X(2,IRECT(L,SEG1)) - X(2,IRECT(J,SEG)))**2 +
-     .                       (X(3,IRECT(L,SEG1)) - X(3,IRECT(J,SEG)))**2 ))
-                    MINDIST=MIN(MINDIST,DIST1(IRECT(L,SEG1)))
-                    IF(TAGNOD(IRECT(L,SEG1)) == 0) THEN
-                      CPTOPER = CPTOPER + 1
-                      TAGNOD(IRECT(L,SEG1)) = 1
-                      ID_NOD(CPTOPER)=IRECT(L,SEG1)
-                    ENDIF 
-
-                    IF(IGAP==1 .OR. IGAP==2)THEN
-                      GAPV(IRECT(L,SEG1))=GAPSECND(IRECT(L,SEG1))+GAP_M(I)
-                      GAPV(IRECT(L,SEG1))=MIN(GAPMAX,GAPV(IRECT(L,SEG1)))
-                      GAPV(IRECT(L,SEG1))=MAX(GAPMIN,GAPV(IRECT(L,SEG1)))
-                      GAPV(IRECT(L,SEG1))=MAX(DRAD,GAPV(IRECT(L,SEG1))+DGAPLOAD)
-                    ELSEIF(IGAP==3)THEN
-                      GAPV(IRECT(L,SEG1))=GAPSECND(IRECT(L,SEG1))+GAP_M(I)
-                      GAPV(IRECT(L,SEG1))= MIN(GAP_S_L_TMP(IRECT(L,SEG1))+GAP_M_L(I)
-     .                                        ,GAPV(IRECT(L,SEG1)))
-                      GAPV(IRECT(L,SEG1))=MIN(GAPMAX,GAPV(IRECT(L,SEG1)))
-                      GAPV(IRECT(L,SEG1))=MAX(GAPMIN,GAPV(IRECT(L,SEG1)))
-                      GAPV(IRECT(L,SEG1))=MAX(DRAD,GAPV(IRECT(L,SEG1))+DGAPLOAD)
-                    END IF
-
-                  ENDDO
-                ENDIF
-                 
-              ENDDO 
-C       
-            ENDDO
-
-            TAGNOD(IRECT(1:4,SEG))=1
-
-          ENDDO
-C
-C         Reset Starting Nodes
-          DO ISEG=1,NBSEG
-            SEG  = LISTSEG(ISEG)
-            JMAX = 4
-            IF((IRECT(JMAX,SEG) == 0) .OR. IRECT(3,SEG) == IRECT(4,SEG) ) JMAX = 3
-            DO J=1,JMAX
-              NOD2EXPAND(IRECT(J,SEG))=0
-            END DO
-          END DO
-C
-          NBSEG     = CPT
-          IF(NBSEG ==0)EXIT
-          DO J=1,CPT
-            LISTSEG(J)    =LISTSEGTMP(J)
-            LISTSEGTMP(J) = 0
-            LISTSEGTOTAL(J+CPT_TOTAL) = LISTSEG(J)
-          ENDDO
-          CPT_TOTAL = CPT_TOTAL + CPT
-
-        ENDDO
-        IF (LEVEL == 1) THEN
-          KREMNODE(I+1) = KREMNODE(I)
-          CYCLE
-        ENDIF
-C
-        DIST1(IRECT(1,I)) = EP30
-        DIST1(IRECT(2,I)) = EP30
-        DIST1(IRECT(3,I)) = EP30
-        DIST1(IRECT(4,I)) = EP30
-C
-        CPT1 = 0 
-        IF(IGAP==0)THEN
-          DO L=1,CPTOPER 
-            IF(DIST1(ID_NOD(L)) <= DMAX)THEN
-              CPT1 = CPT1 + 1
-              NODDEL(CPT1) = ID_NOD(L)
-            ENDIF
-          ENDDO
-        ELSE
-          DO L=1,CPTOPER 
-            IF(DIST1(ID_NOD(L)) <= SQRT(TWO)*GAPV(ID_NOD(L)))THEN
-              CPT1 = CPT1 + 1
-              NODDEL(CPT1) = ID_NOD(L)
-            ENDIF
-          ENDDO
-        END IF
-        IF(KREMNODE(I)+CPT1>NREMNODE) THEN
-C
-C         Go to UPGRADE_REMNODE  ...
-          IFIRST=I
-C
-          DO L=1,CPTOPER
-            DIST1(ID_NOD(L)) = EP30
-          ENDDO
-          DO L=1,CPT_TOTAL
-            TAGNOD(IRECT(1:4, LISTSEGTOTAL(L))) = 0
-            ITAGSEG(LISTSEGTOTAL(L)) = 0
-            LISTSEGTOTAL(L) = 0
-          ENDDO
-          TAGNOD(IRECT(1:4,I)) = 0
-          ITAGSEG(I) = 0
-
-          I_MEM_REM=1
-          RETURN
-        ENDIF
-C
-        KREMNODE(I+1) = KREMNODE(I)+CPT1
-        DO L=1,CPT1
-          REMNODE(KREMNODE(I)+L) = NODDEL(L)
-        ENDDO
-        DO L=1,CPTOPER
-          DIST1(ID_NOD(L)) = EP30
-        ENDDO
-        DO L=1,CPT_TOTAL
-          TAGNOD(IRECT(1:4, LISTSEGTOTAL(L))) = 0
-          ITAGSEG(LISTSEGTOTAL(L)) = 0
-          LISTSEGTOTAL(L)          = 0
-        ENDDO
-        TAGNOD(IRECT(1:4,I)) = 0
-        ITAGSEG(I)           = 0
-
-      ENDDO
-      DEALLOCATE(LISTSEG,LISTSEGTMP,LISTSEGTOTAL)
-
-C
       RETURN
       END
       !||====================================================================
