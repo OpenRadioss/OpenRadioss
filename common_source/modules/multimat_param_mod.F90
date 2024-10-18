@@ -100,6 +100,10 @@
           integer :: nb = 0                                  !< number of submaterial
           integer,allocatable,dimension(:) :: mid            !< material internal identifier for each submaterial
           my_real,allocatable,dimension(:) :: vfrac          !< volume fraction for each submaterial
+
+          contains
+            procedure :: destruct => destruct_multimat_param
+
         END TYPE MULTIMAT_PARAM_
      
         logical :: M20_DISCRETE_FILL = .false.               !< LAW20 global parameters
@@ -107,6 +111,15 @@
         INTEGER :: M51_IFLG6 = 0                             !< LAW51 global parameters
         INTEGER :: M51_lSET_IFLG6 = 0                        !< LAW51 global parameters
         INTEGER :: M51_ILOOP_NRF = 0                         !< LAW51 global parameters
+
+        contains
+
+          subroutine destruct_multimat_param(this)
+            implicit none
+            class(MULTIMAT_PARAM_) :: this
+            if (allocated(this%mid))   deallocate(this%mid)
+            if (allocated(this%vfrac)) deallocate(this%vfrac)
+          end subroutine destruct_multimat_param
 
       END MODULE MULTIMAT_PARAM_MOD
 

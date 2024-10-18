@@ -88,8 +88,23 @@
         integer        ,dimension(:) ,allocatable :: iparam  !< int  value viscosity parameter table
         integer        ,dimension(:) ,allocatable :: func    !< function table in viscosity models
         type(table_4d_),dimension(:) ,allocatable :: table   !< local function tables
-      
-      end type visc_param_   
+
+        contains
+          procedure :: destruct => destruct_visc_param
+
+      end type visc_param_
+
+
+      contains
+
+        subroutine destruct_visc_param(this)
+          implicit none
+          class(visc_param_) ,intent(inout) :: this
+          if(allocated(this%uparam)) deallocate(this%uparam)
+          if(allocated(this%iparam)) deallocate(this%iparam)
+          if(allocated(this%func)) deallocate  (this%func)
+          if(allocated(this%table)) deallocate (this%table)
+        end subroutine destruct_visc_param
 !
 !---------------
       end module visc_param_mod

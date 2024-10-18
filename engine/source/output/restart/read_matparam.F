@@ -60,15 +60,17 @@ C-----------------------------------------------
       INTEGER :: NBSUBMAT, ISUB
       my_real ,DIMENSION(:) ,ALLOCATABLE :: RBUF
 c=======================================================================
-c     read MATPARAM data
+      !read MATPARAM data
+
       NFIX   = 20
       NUMMAT = MAT_ELEM%NUMMAT
       ALLOCATE(MAT_ELEM%MAT_PARAM(NUMMAT))
-c
+
       LEN = NFIX*NUMMAT
       ALLOCATE (IBUF(LEN) )
       CALL READ_I_C(IBUF, LEN)
-c      
+
+      ! write integer parameters and flags
       IAD = 0
       DO IMAT = 1,NUMMAT
         MAT_ELEM%MAT_PARAM(IMAT)%ILAW               = IBUF(IAD+ 1)
@@ -82,25 +84,24 @@ c
         MAT_ELEM%MAT_PARAM(IMAT)%IVISC              = IBUF(IAD+ 9)
         MAT_ELEM%MAT_PARAM(IMAT)%IEOS               = IBUF(IAD+10)
         MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG          = IBUF(IAD+11)
-c
+
         MAT_ELEM%MAT_PARAM(IMAT)%COMPRESSIBILITY    = IBUF(IAD+12)
         MAT_ELEM%MAT_PARAM(IMAT)%SMSTR              = IBUF(IAD+13)
         MAT_ELEM%MAT_PARAM(IMAT)%STRAIN_FORMULATION = IBUF(IAD+14)
         MAT_ELEM%MAT_PARAM(IMAT)%IPRES              = IBUF(IAD+15)
         MAT_ELEM%MAT_PARAM(IMAT)%ORTHOTROPY         = IBUF(IAD+16)
-c
+
         MAT_ELEM%MAT_PARAM(IMAT)%NLOC               = IBUF(IAD+17)
         MAT_ELEM%MAT_PARAM(IMAT)%IFAILWAVE          = IBUF(IAD+18)
         MAT_ELEM%MAT_PARAM(IMAT)%IXFEM              = IBUF(IAD+19)
-c
+
         MAT_ELEM%MAT_PARAM(IMAT)%NMOD               = IBUF(IAD+20)
-c
+
         IAD = IAD + NFIX
       END DO
       DEALLOCATE( IBUF )
-c
-c     read real parameters
-c
+
+      ! read real parameters
       NFIXR = 9
       LENR  = NFIXR*NUMMAT
       ALLOCATE (RBUF(LENR) )
@@ -119,18 +120,16 @@ c
         IAD = IAD + NFIXR
       END DO
       DEALLOCATE (RBUF)
-c
-c     read material title
-c
+
+      ! read material title
       DO IMAT = 1,NUMMAT      
         CALL READ_C_C(NAME,NCHARTITLE)
         DO I=1,NCHARTITLE
           MAT_ELEM%MAT_PARAM(IMAT)%TITLE(I:I) = CHAR(NAME(I))
         END DO
       END DO
-c      
-c     read material parameter array
-c
+
+      ! read material parameter array
       DO IMAT = 1,NUMMAT      
         NUPARAM = MAT_ELEM%MAT_PARAM(IMAT)%NUPARAM
         NIPARAM = MAT_ELEM%MAT_PARAM(IMAT)%NIPARAM
@@ -145,27 +144,24 @@ c
           CALL READ_I_C(MAT_ELEM%MAT_PARAM(IMAT)%IPARAM ,NIPARAM)
         END IF      
       END DO
-c
-c     read material law tables
-c      
+
+      ! read material law tables
       DO IMAT = 1,NUMMAT
         NUMTABL  = MAT_ELEM%MAT_PARAM(IMAT)%NTABLE        
         IF (NUMTABL > 0) THEN
           ALLOCATE (MAT_ELEM%MAT_PARAM(IMAT)%TABLE(NUMTABL))
           CALL READ_MAT_TABLE(MAT_ELEM%MAT_PARAM(IMAT)%TABLE, NUMTABL)
         END IF
-      END DO      
-c           
-c     read viscosity model parameters
-c
+      END DO
+
+      ! read viscosity model parameters
       DO IMAT = 1,NUMMAT
         IF (MAT_ELEM%MAT_PARAM(IMAT)%IVISC > 0) THEN
           CALL READ_VISCPARAM(MAT_ELEM%MAT_PARAM(IMAT)%VISC)
         END IF
-      END DO      
-c      
-c     read parameters of failure models per material
-c          
+      END DO
+
+      ! read parameters of failure models per material
       DO IMAT = 1,NUMMAT
         NFAIL = MAT_ELEM%MAT_PARAM(IMAT)%NFAIL        
         IF (NFAIL > 0) THEN
@@ -174,10 +170,9 @@ c
             CALL READ_FAILPARAM(MAT_ELEM%MAT_PARAM(IMAT)%FAIL(I))
           END DO      
         END IF
-      END DO     
-c      
-c     write damage modes
-c     
+      END DO
+
+      ! write damage modes
       DO IMAT = 1,NUMMAT
         NMOD = MAT_ELEM%MAT_PARAM(IMAT)%NMOD
         IF (NMOD > 0) THEN
@@ -193,7 +188,7 @@ c
         ENDIF
       ENDDO
 
-      !Read multimaterial buffer
+      ! Read multimaterial buffer
       ALLOCATE (IBUF(21) ) !< mex is 21 submaterials
       ALLOCATE (RBUF(21) )
       DO IMAT = 1,NUMMAT
@@ -210,6 +205,12 @@ c
       DEALLOCATE(IBUF)
       DEALLOCATE(RBUF)
 
+      ! read eos model parameters
+      DO IMAT = 1,NUMMAT
+        IF (MAT_ELEM%MAT_PARAM(IMAT)%IEOS > 0) THEN
+          CALL READ_EOSPARAM(MAT_ELEM%MAT_PARAM(IMAT)%EOS)
+        END IF
+      END DO
 
 c-----------
       RETURN

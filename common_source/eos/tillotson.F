@@ -71,7 +71,7 @@ C-----------------------------------------------
      .        MU2(NEL) , ESPE(NEL), DVOL(NEL), DF(NEL)   ,
      .        VNEW(NEL), PNEW(NEL), DPDM(NEL), DPDE(NEL) ,
      .        THETA(NEL),ECOLD(NEL)
-      my_real,INTENT(INOUT) :: VAREOS(NVAREOS*NEL)
+      my_real,INTENT(INOUT) :: VAREOS(NEL,NVAREOS)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -127,7 +127,7 @@ C-----------------------------------------
      .         +ESPE(I)*( BB+(TWO*ESPE(I)/ETA-PP*DF(I)*DF(I))
      .         *PTIB(I)*FACPB/(EZERO(I)*ETA*OMEGA**2) )
         DPDE(I)=BB*ETA
-        VAREOS(I)=REGION
+        VAREOS(I,1)=REGION
        ENDDO
        DO I=1,NEL
         ECOLD(I)=-THREE100*SPH(I)
@@ -187,7 +187,7 @@ C----------------------------------------
         PNEW(I)=(AA +BB*ESPE(I))/(ONE+ BB*DVV)
         PNEW(I)= MAX(PNEW(I),PC(I))*OFF(I)
         EINT(I)= EINT(I) - HALF*DVOL(I)*PNEW(I)
-        VAREOS(I)=REGION
+        VAREOS(I,1)=REGION
        ENDDO
 
        !Temperature
@@ -248,7 +248,7 @@ C
      .              *PTIB(I)*FACPB/(EZERO(I)*ETA*OMEGA**2) )
                DPDE(I)=BB*ETA
             ENDIF
-            VAREOS(I)=REGION
+            VAREOS(I,1)=REGION
          ENDDO        
       ENDIF
       RETURN
