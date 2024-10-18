@@ -76,7 +76,7 @@ C-----------------------------------------------
      .    IINT,JCVT,IP,ISK,IREP,IDSK,ISTRAIN,NLY
       my_real
      .    CVIS,QA,QB,VX,VY,VZ,ANGLE,DTMIN,PUN,VDEFMIN,VDEFMAX,ASPMAX,ASPTET
-      INTEGER J,IHBE_DS,ISST_DS
+      INTEGER J,IHBE_DS,ISST_DS,ICONTROL_D,ICONTROL
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
       CHARACTER(LEN=NCHARTITLE)::IDTITL
 C-----------------------------------------------
@@ -103,6 +103,7 @@ C----------------------
 !--- defaults values      
       IHBE_DS=  DEFAULTS_SOLID%ISOLID
       ISST_DS=  DEFAULTS_SOLID%ISMSTR
+      ICONTROL_D=DEFAULTS_SOLID%ICONTROL
 C      Double stockage temporaire - supprimer GEO(12,I)=IGTYP apres tests
        IGEO( 1)=IG
        IGEO(11)=IGTYP
@@ -123,6 +124,7 @@ C--------------------------------------------------
       CALL HM_GET_INTV('NBP',NPT,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('SKEW_CSID',IDSK,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('Iorth',IREP,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV('Icontrol',ICONTROL,IS_AVAILABLE,LSUBMODEL)
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------
@@ -231,6 +233,9 @@ C
      .                I3=IHBE)
         ENDIF
       END SELECT
+!     
+      IF (ICONTROL==0) ICONTROL=ICONTROL_D
+      IF (ICONTROL>1) ICONTROL=0
 C
 C  viscosity
 C
@@ -293,6 +298,7 @@ C
       IGEO(15) = IINT
       IGEO(16) = JCVT-1
       IGEO(30) = NLY
+      IGEO(97) = ICONTROL
 C
       GEO(1)   = ANGLE
       GEO(7)   = VX
@@ -311,10 +317,10 @@ C----
       IF(.NOT.IS_ENCRYPTED)THEN
         IF(IGEO(31) == 1)THEN
           WRITE(IOUT,1100)IG,IHBE,ISMSTR,NPT,ICSTR,
-     .                  CVIS,QA,QB,DTMIN
+     .                  CVIS,QA,QB,DTMIN,ICONTROL
         ELSE
           WRITE(IOUT,1000)IG,IHBE,ISMSTR,NPT,ICSTR,
-     .                  CVIS,QA,QB,DTMIN
+     .                  CVIS,QA,QB,DTMIN,ICONTROL
         ENDIF
         IF(ISK == 0)THEN
             WRITE(IOUT,1002) GEO(7),GEO(8),GEO(9),IREP,ANGLE
@@ -373,7 +379,8 @@ C---
      & 5X,'HOURGLASS NUMERICAL DAMPING . . . . . .=',1PG20.13/,
      & 5X,'QUADRATIC BULK VISCOSITY. . . . . . . .=',1PG20.13/,
      & 5X,'LINEAR BULK VISCOSITY . . . . . . . . .=',1PG20.13/,
-     & 5X,'BRICK MINIMUM TIME STEP................=',1PG20.13)
+     & 5X,'BRICK MINIMUM TIME STEP................=',1PG20.13/,
+     & 5X,'SOLID DISTORTION CONTROL FLAG . . . . .=',I10/)
  1001 FORMAT(
      & 5X,'ORTHOTROPIC SKEW FRAME. . . . . . . . .=',I10/,
      & 5X,'LOCAL ORTHOTROPY SYSTEM FORMULATION . .=',I10/,
@@ -402,7 +409,8 @@ C---
      & 5X,'DEFAULT VALUE FOR LINEAR BULK . . . . . ',/,
      & 5X,'     VISCOSITY (QB) WILL BE USED . . . =',1PG20.13/,
      & 5X,'EXCEPT IN CASE LAW 70 WHERE QB = 0.     ',/,
-     & 5X,'BRICK MINIMUM TIME STEP................=',1PG20.13/)
+     & 5X,'BRICK MINIMUM TIME STEP................=',1PG20.13/,
+     & 5X,'SOLID DISTORTION CONTROL FLAG . . . . .=',I10/)
  3000 FORMAT(
      & 5X,'SOLID MINIMUM VOLUMETRIC STRAIN........=',1PG20.13/,
      & 5X,'SOLID MAXIMUM VOLUMETRIC STRAIN........=',1PG20.13/,

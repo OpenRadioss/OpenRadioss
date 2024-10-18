@@ -746,6 +746,7 @@ set_source_files_properties( ${source_directory}/source/elements/thickshell/soli
 set_source_files_properties( ${source_directory}/source/elements/thickshell/solide6c/s6rcoor3.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/elements/thickshell/solide6c/s6cforc3.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/elements/thickshell/solide6c/s6cdefo3.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
+set_source_files_properties( ${source_directory}/source/elements/thickshell/solide6c/s6get_xv.F90 PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/elements/thickshell/solidec/scortho3.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/elements/thickshell/solidec/scdefo3.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/elements/thickshell/solidec/sdlensh3n.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )

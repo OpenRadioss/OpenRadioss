@@ -3335,12 +3335,12 @@ C------  IPARG(6,NG)= NPG after elbuf_ini
                IF (NLY ==0) NLY =IINT 
              END SELECT 
             ENDIF  
-           WRITE(IOUT,'(A)') '  Isolid  Ismstr   Icpre     NPT'
-           WRITE(IOUT,'(4I8)')IHBE,Ismstr,ICPRE, NLY
+           WRITE(IOUT,'(A)') '  Isolid  Ismstr   Icpre     NPT ICONTROL'
+           WRITE(IOUT,'(5I8)')IHBE,Ismstr,ICPRE, NLY,ICONTROL
           ELSE
 c2345678+-------+-------+-------+-------+-------+-------+-------+-------+-------+  
 c---1----|----2----|----3----|----4----|----5----|----6----|----7----|----8----|----9----|---10----|
-           WRITE(IOUT,'(A)')'  Isolid  Ismstr   Icpre  Iframe    IHKT Itetra4 Itetra10 IMATVIS,ICONTROL'
+           WRITE(IOUT,'(A)')'  Isolid  Ismstr   Icpre  Iframe    IHKT Itetra4 Itetra10 IMATVIS ICONTROL'
            WRITE(IOUT,'(9I8)')IHBE,Ismstr, Icpre, JCVT,  IHKT ,Itet4, Itet10,IMATVIS,ICONTROL
           END IF
           WRITE(IOUT,'(A)') '--      qa        qb   lamda_v      mu_v         h        dn'
