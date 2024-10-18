@@ -692,7 +692,7 @@ C=======================================================================
           IMS2 = BITGET(MBINFLG(NE),1)
         END IF
 
-        IF(FLAG_REMOVED_NODE)THEN
+        IF(FLAG_REMOVED_NODE .AND. S_REMNODE_E2S > 0)THEN
           K = KREMNODE_E2S(2*(NE-1)+1)
           L = KREMNODE_E2S(2*(NE-1)+2)-1
           DO M=K,L
@@ -793,7 +793,7 @@ C       Reset TAGEDG
          ENDDO    !NEXT IY
         ENDDO     !NEXT IZ 
 
-        IF(FLAG_REMOVED_NODE)THEN
+        IF(FLAG_REMOVED_NODE.AND.S_REMNODE_E2S>0)THEN
           K = KREMNODE_E2S(2*(NE-1)+1)
           L = KREMNODE_E2S(2*(NE-1)+2)-1
           DO M=K,L

@@ -83,6 +83,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    multi_fvm_mod             ../common_source/modules/ale/multi_fvm_mod.F
       !||    names_and_titles_mod      ../common_source/modules/names_and_titles_mod.F
       !||    stack_mod                 ../engine/share/modules/stack_mod.F
+      !||    tri7box                   ../engine/share/modules/tri7box.F
       !||====================================================================
       SUBROUTINE LECH3D(GEO,IGEO,IPM,IPART,H3D_DATA,MULTI_FVM,IPARI,IPARG,TAG_SKINS6,
      .                  MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,MDS_NDEPSVAR,
@@ -101,6 +102,7 @@ C-----------------------------------------------
         USE LOADS_MOD
         USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100,NCHARKEY
         USE MATPARAM_DEF_MOD
+        USE TRI7BOX
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -156,9 +158,14 @@ C-----------------------------------------------
      .          IS_MDSVAR_DEF,NMDSVAR_MAX,IS_MDSVAR,IS_MDSVAR_ALL,IMDSVAR,
      .          IS_MODEL_NPT,IS_MODEL_PLY,IS_MODEL_LAYER,ISKIND,IOUTER,IPEXT,
      .          IS_ID,ID,ID_MAX,IS_ID_ALL,NINEFRIC,N19,IFAIL,CPT_IRUP,CPT_IRUP2,
-     .          IS_MODE,MODE,MODE_MAX,IS_MODE_ALL,NFAIL,NIP_PLY_MAX,NIP_ELEM_MAX
+     .          IS_MODE,MODE,MODE_MAX,IS_MODE_ALL,NFAIL,NIP_PLY_MAX,NIP_ELEM_MAX,
+     .          ITYP
         INTEGER MLW,NEL,NG,JTURB,NLAY,NUVAR,IPLY,IMAT,ISUBSTACK,ID_PLY_TMP
         INTEGER CPT_MOD,NMOD,CPT_LAWID
+        INTEGER IERROR  ! Error value from Allocate
+        INTEGER LENS    ! Size of Remote interface send values
+        INTEGER LENR    ! Size of Remote interface recieve values
+
         INTEGER IBID1,IBID2,IBID3
 
         CHARACTER(LEN=NCHARKEY)::KEY2
@@ -2488,6 +2495,32 @@ c        DO J=1,H3D_DATA%OUTPUT_LIST(I)%N_H3D_PART_LIST
 c          print *,'liste des parts',H3D_DATA%OUTPUT_LIST(I)%H3D_PART_LIST(J)
 c        ENDDO
 c      ENDDO
+
+        IF (H3D_DATA%N_SCAL_CSE_FRICINT > 0)THEN
+          ! Allocate INTERFACE Remote EFRICFI Array
+          DO I=1,NINTER
+            ITYP = IPARI(7,I)
+            IF(ITYP==7.OR.ITYP==10.OR.ITYP==11.OR.
+     +        (ITYP==17.AND.IPARI(33,I)==0).OR.ITYP==20.OR.
+     +         ITYP==22.OR.ITYP==23.OR.ITYP==24.OR.
+     +         ITYP==25)THEN
+
+               IF(H3D_DATA%N_CSE_FRIC_INTER(I) >0) THEN
+                 LENR=0
+                 DO P = 1, NSPMD
+                     LENR = LENR + NSNFI(I)%P(P)
+                 ENDDO
+                 IERROR = 0
+                 ALLOCATE(EFRICFI(I)%P(LENR),STAT=IERROR)
+                 IF(IERROR/=0) THEN
+                    CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
+                    CALL ARRET(2)
+                 ENDIF
+                 EFRICFI(I)%P(1:LENR)=ZERO
+               ENDIF
+            ENDIF
+          ENDDO
+        ENDIF
 C
         DEALLOCATE(H3D_KEYWORD_NODAL_SCALAR)
         DEALLOCATE(H3D_KEYWORD_NODAL_VECTOR)

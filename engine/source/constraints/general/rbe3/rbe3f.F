@@ -297,7 +297,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .     FNS(3),MNS(3),MSS(3),INS(3),STN(3),STR(3),FSUM,MSUM,
-     .     FMAX,SMAX,MMAX,SFD,SMD
+     .     FMAX,SMAX,MMAX,SFD,SMD,F2MAX
       my_real,
      .         DIMENSION(:,:,:),ALLOCATABLE :: FDSTNB ,MDSTNB
 
@@ -352,7 +352,9 @@ C-----IMOD=4  STIFNM might be over_estimated but safe
            SMAX = ZERO
           DO J = 1,3
            FMAX=ABS(FDSTNB(J,1,I))+ABS(FDSTNB(J,2,I))+ABS(FDSTNB(J,3,I))
-           SMAX = MAX(SMAX,FMAX*STN(J))
+           F2MAX=FDSTNB(J,1,I)*FDSTNB(J,1,I)+FDSTNB(J,2,I)*FDSTNB(J,2,I)+
+     .           FDSTNB(J,3,I)*FDSTNB(J,3,I)
+           SMAX = MAX(SMAX,MAX(FMAX,F2MAX)*STN(J))
           ENDDO
            STIFNM(K) = STIFNM(K)+SMAX
         ENDDO
@@ -376,7 +378,9 @@ C     FSUM = FDSTNB(J,J+3,I)
             FSUM = FDSTNB(J,4,I)+FDSTNB(J,5,I)+FDSTNB(J,6,I)
             MSM(K) =MSM(K)+ABS(FSUM)*INS(J)
             FMAX=ABS(FDSTNB(J,4,I))+ABS(FDSTNB(J,5,I))+ABS(FDSTNB(J,6,I))
-            SMAX = MAX(SMAX,FMAX*STR(J))
+            F2MAX=FDSTNB(J,4,I)*FDSTNB(J,4,I)+FDSTNB(J,5,I)*FDSTNB(J,5,I)+
+     .            FDSTNB(J,6,I)*FDSTNB(J,6,I)
+            SMAX = MAX(SMAX,MAX(FMAX,F2MAX)*STR(J))
           ENDDO
                 STIFNM(K) = STIFNM(K)+SMAX
          ENDDO

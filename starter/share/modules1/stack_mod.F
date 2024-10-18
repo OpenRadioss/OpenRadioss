@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    stack_mod                           ../starter/share/modules1/stack_mod.F
       !||--- called by ------------------------------------------------------
+      !||    brokmann_random                     ../starter/source/materials/fail/windshield_alter/brokmann_random.F90
       !||    c3grhead                            ../starter/source/elements/sh3n/coque3n/c3grhead.F
       !||    c3grtails                           ../starter/source/elements/sh3n/coque3n/c3grtails.F
       !||    c3init3                             ../starter/source/elements/sh3n/coque3n/c3init3.F
@@ -41,6 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    corthini                            ../starter/source/elements/shell/coque/corthini.F
       !||    ddsplit                             ../starter/source/restart/ddsplit/ddsplit.F
       !||    elbuf_ini                           ../starter/source/elements/elbuf_init/elbuf_ini.F
+      !||    fractal_element_neighbor            ../starter/source/materials/fail/fractal/fractal_element_neighbor.F90
       !||    hm_read_anim                        ../starter/source/general_controls/engine/hm_read_anim.F
       !||    hm_read_drape                       ../starter/source/properties/composite_options/drape/hm_read_drape.F
       !||    hm_read_inistate_d00                ../starter/source/elements/initia/hm_read_inistate_d00.F
@@ -57,6 +59,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    lecstack_ply                        ../starter/source/properties/composite_options/stack/lecstack_ply.F
       !||    lectur                              ../starter/source/starter/lectur.F
       !||    pre_stackgroup                      ../starter/source/stack/pres_stackgroup.F
+      !||    random_walk_dmg                     ../starter/source/materials/fail/fractal/random_walk_dmg.F90
       !||    shellthk_upd                        ../starter/source/properties/composite_options/drape/shellthk_upd.F
       !||    spmd_anim_ply_init                  ../starter/source/spmd/spmd_anim_ply_init.F
       !||    stack_var_mod                       ../starter/share/modules1/stack_var_mod.F
@@ -64,6 +67,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    stackgroup_drape                    ../starter/source/stack/stackgroup_drape.F
       !||    t3grhead                            ../starter/source/elements/solid_2d/tria/t3grhead.F
       !||    t3grtails                           ../starter/source/elements/solid_2d/tria/t3grtails.F
+      !||    updfail                             ../starter/source/materials/updfail.F90
       !||====================================================================
       MODULE STACK_MOD
 C-----------------------------------------------

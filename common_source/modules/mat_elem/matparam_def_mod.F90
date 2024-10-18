@@ -50,6 +50,7 @@
       !||    eig1                                ../engine/stub/eig1.F
       !||    eigp                                ../engine/stub/eigp.F
       !||    fail_init                           ../starter/source/materials/fail/fail_init.F
+      !||    fail_windshield_init                ../starter/source/materials/fail/windshield_alter/fail_windshield_init.F
       !||    failini                             ../starter/source/elements/solid/solide/failini.F
       !||    fill_buffer_51                      ../starter/source/materials/mat/mat051/fill_buffer_51.F
       !||    fill_buffer_51_0                    ../starter/source/materials/mat/mat051/fill_buffer_51_0.F

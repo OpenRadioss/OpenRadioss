@@ -351,10 +351,12 @@ c
      .                           NUMNOD                 ,AIRBAGS_NODE_ID_SHIFT) 
          ENDIF                        
          !Then Monitored Volumes (Pressure,Density,Temperature,Sound Speed)
-         CALL ANIMBALE(IFUNC, VALUE_NUMNOD_REAL, MONVOL, VOLMON, 1)
+         CALL ANIMBALE(IFUNC, VALUE_NUMNOD_REAL, IS_WRITTEN_NODE , MONVOL, VOLMON, 1)
          DO I=1,NUMNOD
-           VALUE(I)=VALUE_NUMNOD_REAL(I) 
-           IS_WRITTEN_VALUE(I) = IS_WRITTEN_NODE(I)
+           IF(IS_WRITTEN_NODE(I) == 1) THEN
+             VALUE(I) = VALUE_NUMNOD_REAL(I)
+             IS_WRITTEN_VALUE(I) = IS_WRITTEN_NODE(I)
+           ENDIF
          ENDDO
 c
        ENDIF
