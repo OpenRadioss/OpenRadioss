@@ -158,7 +158,8 @@ C-----------------------------------------------
      .          IS_MDSVAR_DEF,NMDSVAR_MAX,IS_MDSVAR,IS_MDSVAR_ALL,IMDSVAR,
      .          IS_MODEL_NPT,IS_MODEL_PLY,IS_MODEL_LAYER,ISKIND,IOUTER,IPEXT,
      .          IS_ID,ID,ID_MAX,IS_ID_ALL,NINEFRIC,N19,IFAIL,CPT_IRUP,CPT_IRUP2,
-     .          IS_MODE,MODE,MODE_MAX,IS_MODE_ALL,NFAIL,NIP_PLY_MAX,NIP_ELEM_MAX
+     .          IS_MODE,MODE,MODE_MAX,IS_MODE_ALL,NFAIL,NIP_PLY_MAX,NIP_ELEM_MAX,
+     .          ITYP
         INTEGER MLW,NEL,NG,JTURB,NLAY,NUVAR,IPLY,IMAT,ISUBSTACK,ID_PLY_TMP
         INTEGER CPT_MOD,NMOD,CPT_LAWID
         INTEGER IERROR  ! Error value from Allocate
@@ -2498,18 +2499,25 @@ c      ENDDO
         IF (H3D_DATA%N_SCAL_CSE_FRICINT > 0)THEN
           ! Allocate INTERFACE Remote EFRICFI Array
           DO I=1,NINTER
-            IF(H3D_DATA%N_CSE_FRIC_INTER(I) >0) THEN
-               LENR=0
-               DO P = 1, NSPMD
+            ITYP = IPARI(7,I)
+            IF(ITYP==7.OR.ITYP==10.OR.ITYP==11.OR.
+     +        (ITYP==17.AND.IPARI(33,I)==0).OR.ITYP==20.OR.
+     +         ITYP==22.OR.ITYP==23.OR.ITYP==24.OR.
+     +         ITYP==25)THEN
+
+               IF(H3D_DATA%N_CSE_FRIC_INTER(I) >0) THEN
+                 LENR=0
+                 DO P = 1, NSPMD
                      LENR = LENR + NSNFI(I)%P(P)
-               ENDDO
-               IERROR = 0
-               ALLOCATE(EFRICFI(I)%P(LENR),STAT=IERROR)
-               IF(IERROR/=0) THEN
-                  CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
-                  CALL ARRET(2)
+                 ENDDO
+                 IERROR = 0
+                 ALLOCATE(EFRICFI(I)%P(LENR),STAT=IERROR)
+                 IF(IERROR/=0) THEN
+                    CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
+                    CALL ARRET(2)
+                 ENDIF
+                 EFRICFI(I)%P(1:LENR)=ZERO
                ENDIF
-              EFRICFI(I)%P(1:LENR)=ZERO
             ENDIF
           ENDDO
         ENDIF
