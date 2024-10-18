@@ -90,12 +90,12 @@
          rho0,e1,e2,e3,g12,g23,g13,nu12,nu21,nu23,nu31,nu13,soft,     &
          em11t,em22t,em33t,em11c,em22c,em33c,ems,ems13,ems23,         &
          xc,xt,yc,yt,zc,zt,sc, sc23,sc13,gamma,tau,gamma2,tau2,       &
-         tau3,gamma3, erods,tsdm, gammar,gammaf,nu32,                 &
+         tau3,gamma3, erods,tsmd, gammar,gammaf,nu32,                 &
          slimt1,slimc1,slimt2,slimc2,slimt3,slimc3,slims,             &
          slims13,slims23, a11,a22,a12,c11,c22,c33,c12,c13,c23,        &
          detc, d11,d22,d33,d12,d13,d23,dmn,dmx,al1c,al1t,al2c,        &
          al2t,al3c,al3t,m1t,m2t,m1c,m2c,m3c,m3t,ef11t,ef11c,          &
-         ef22t,ef22c,ef33t,ef33c,fac,tsmd,g31,                  &
+         ef22t,ef22c,ef33t,ef33c,fac,g31,                             &
           fcut,efs,ms,als,                                            &
          c1,gmax,ssp,nu,young,asrate,ms13,efs13,als13,ms23,           &
          efs23,als23      
@@ -476,7 +476,7 @@
 
       matparam%uparam(44)  = gammaf
       matparam%uparam(45)  = gammar
-      matparam%uparam(46)  = tsdm
+      matparam%uparam(46)  = tsmd
       !
       matparam%uparam(47)  = erods
       !
@@ -657,7 +657,7 @@
         write(iout,2300) ifgamma, iftau,ifems, ifsc
         write(iout,2400) ifgamma2, iftau2,ifems13, ifsc13
         write(iout,2500) ifgamma3, iftau3,ifems23, ifsc23
-        write(iout,2600) gammaf, gammar, tsdm, erods, iferods
+        write(iout,2600) gammaf, gammar, tsmd, erods, iferods
 
         write(iout,2800) fcut
       endif     
