@@ -97,6 +97,7 @@ C-----------------------------------------------
       CHARACTER(LEN=NCHARKEY) :: KEY
       CHARACTER(LEN=NCHARLINE) ERR_MSG
       DATA MESS/'INITIAL VOLUME FRACTION                 '/
+      CHARACTER(LEN=NCHARLINE) :: OUTP_MSG
       LOGICAL IS_ENCRYPTED,IS_AVAILABLE
       LOGICAL DETECTED_ERROR
       LOGICAL :: REQUIRED_2D_POLYGON_CLIPPING ! 2d polygons
@@ -117,7 +118,6 @@ C                                          = 1 ! filling the side against normal
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-
 
       IF (MULTI_FVM%IS_USED)THEN
         NBSUBMAT = MULTI_FVM%NBMAT
@@ -204,7 +204,9 @@ C
             CALL ANCMSG(MSGID=887,MSGTYPE=MSGERROR, ANMODE=ANINFO,I1=ID,C1=TITR,I2=NBMAT_MAX)
           ENDIF
           IF(IREVERSED < 0 .OR. IREVERSED > 1)THEN
-            CALL ANCMSG(MSGID=888,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR)
+            OUTP_MSG = ''
+            OUTP_MSG = 'FILLING OPTION MUST BE 0 OR 1 (0:DEFAULT, 1:REVERSED SURFACE)'
+            CALL ANCMSG(MSGID=888,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR,C2=OUTP_MSG)
           ENDIF
           IF(VFRAC < ZERO .OR. VFRAC > ONE)THEN
             CALL ANCMSG(MSGID=1596,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR)
@@ -218,6 +220,11 @@ C
           ! ICUMU =-1 : subtractive filling (substract the excess from the previous filling
           IF(ICUMU < -1 .OR. ICUMU > 1)THEN
             ICUMU = 0
+          ENDIF
+          IF(N2D == 0 .AND. ICUMU == -1)THEN
+            OUTP_MSG = ''
+            OUTP_MSG = 'ICUMU=-1 NOT COMPATIBLE WITH 3D ANALYSIS (ICUMU SET TO 0)'
+            CALL ANCMSG(MSGID=888,MSGTYPE=MSGWARNING,ANMODE=ANINFO,I1=ID,C1=TITR,C2=OUTP_MSG)
           ENDIF
 
           WRITE(IOUT,'(2X,I10,I10,I9,I6,F20.0)')IDSURF,SUBMAT_ID,IREVERSED,ICUMU,VFRAC
