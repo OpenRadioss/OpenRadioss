@@ -176,6 +176,7 @@ c
                   IF (FAIL_BROKMANN%BROKMANN(II)%IMAT == IMAT) THEN
                     ! tag elements of current group in brokmann element list
                     nindx = 0
+                    indx(1:nel) = 0
                     do kk = 1,fail_brokmann%brokmann(ii)%nelem
                       id = fail_brokmann%brokmann(ii)%brokmann_elem(kk)%id
                       do iel=1,nel
@@ -186,10 +187,12 @@ c
                       end do
                     end do
 !
-                    CALL BROKMANN_CRACK_INIT(NEL  ,IT   ,NPTT ,NUPARAM ,NUVAR,
-     .              MAT_PARAM(IMAT)%FAIL(IFL)%UPARAM    ,FAIL_BROKMANN%BROKMANN(II),
-     .              ELBUF_STR%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC(IFL)%VAR,
-     .              INDX    ,ALDT      ,THK      ,NGL   )
+                    if (nindx > 0) then 
+                      CALL BROKMANN_CRACK_INIT(NEL  ,IT   ,NPTT ,NUPARAM ,NUVAR,
+     .                     MAT_PARAM(IMAT)%FAIL(IFL)%UPARAM    ,FAIL_BROKMANN%BROKMANN(II),
+     .                     ELBUF_STR%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC(IFL)%VAR,
+     .                     INDX    ,THK      ,ALDT      ,NGL   )
+                    end if 
 !
                   END IF
                 END DO

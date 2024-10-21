@@ -6623,7 +6623,7 @@ c-----------------------------------------------------------------------
       !---------------------------------------------------
       ! element renumbering after domdec for /fail/alter + brokmann 
       !---------------------------------------------------
-      call brokmann_elem_renum(fail_brokmann,numelc,numeltg)
+      if (iddlevel==1) call brokmann_elem_renum(fail_brokmann,numelc,numeltg)
 c-----------------------------------------------------------------------
 c     set default material/property parameters by element group
 c-----------------------------------------------------------------------

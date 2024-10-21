@@ -72,7 +72,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      A           MS_LAYERC,ZI_LAYERC,PART_AREA,CPT_ELTENS,
      B           MSZ2C    ,ZPLY     ,ITAGN    ,ITAGE   ,IXFEM   ,
      C           NPF      ,TF       ,XFEM_STR ,ISUBSTACK,STACK  ,
-     D           RNOISE   ,DRAPE    ,SH4ANG  ,GEO_STACK,
+     D           RNOISE   ,DRAPE    ,SH4ANG   ,IDDLEVEL,GEO_STACK,
      E           IGEO_STACK,STRC    ,PERTURB  ,IYLDINI ,ELE_AREA,
      F           NLOC_DMG ,NG       ,GROUP_PARAM, IDRAPE , DRAPEG,
      G           MAT_PARAM,FAIL_FRACTAL,FAIL_BROKMANN)
@@ -119,6 +119,7 @@ C-----------------------------------------------
      .        IGEO(NPROPGI,*), IPM(NPROPMI,*), NSHNOD(*),NPF(*),
      .        SH4TREE(*),IPARG(*),CPT_ELTENS,ITAGN(*),ITAGE(*),
      .        IGEO_STACK(*),PERTURB(NPERTURB)
+      INTEGER ,INTENT(IN) :: IDDLEVEL
       INTEGER *8 I8MI(6,*)
       my_real
      .   PM(NPROPM,*), X(3,*), GEO(NPROPG,*), XMAS(*), IN(*),
@@ -413,7 +414,7 @@ c     set element damage initialized in /FAIL/FRACTAL_DMG
      .       NUMMAT ,NUMELC  ,NEL      ,NFT      ,NGL    ,ITY      )
       ENDIF
 c     tag edge elements in local UVAR for /FAIL/ALTER
-      IF (IFAIL > 0) THEN
+      IF (IFAIL > 0 .and. IDDLEVEL == 1) THEN
         CALL FAIL_WINDSHIELD_INIT(ELBUF_STR,MAT_PARAM,FAIL_BROKMANN,
      .       NEL      ,NFT      ,ITY      ,IGRSH4N  ,IGRSH3N  ,
      .       ALDT     ,THKE     ,NGL      )

@@ -1305,7 +1305,7 @@ C 2D multifluid law
      A             IPARG(1,NG),MS_LAYERC,ZI_LAYERC,PART_AREA,CPT_ELTENS,
      B             MSZ2C    ,ZPLY   ,ITAGN   ,ptr_ITAGE   ,IXFEM  ,
      C             NPC        ,PLD    ,XFEM_TAB,ISUBSTACK ,STACK    ,
-     D             RNOISE     ,DRAPE  ,SH4ANG    ,GEO_STACK,
+     D             RNOISE     ,DRAPE  ,SH4ANG    ,IDDLEVEL,GEO_STACK,
      E             IGEO_STACK ,STRC   ,PERTURB            ,IYLDINI ,ELE_AREA,
      F             NLOC_DMG   ,NG        ,GROUP_PARAM_TAB(NG),IDRAPE,DRAPEG,
      G             MAT_PARAM  ,FAIL_FRACTAL,FAIL_BROKMANN)
@@ -1323,7 +1323,7 @@ C 2D multifluid law
      A      IPM       ,BUFMAT     ,SH4TREE    ,MCP        ,MCPC       ,
      B      TEMP      ,CPT_ELTENS ,PART_AREA  ,ITAGN      ,ptr_ITAGE  ,
      C      IXFEM     ,NPC        ,PLD  ,XFEM_TAB,ISUBSTACK,
-     D      STACK     ,RNOISE     ,DRAPE      ,SH4ANG     ,
+     D      STACK     ,RNOISE     ,DRAPE      ,SH4ANG     ,IDDLEVEL   ,
      E      GEO_STACK,IGEO_STACK  ,STRC       ,PERTURB    ,IYLDINI    ,
      F      ELE_AREA  ,NG         ,GROUP_PARAM_TAB(NG)    ,NLOC_DMG   ,
      G      IDRAPE    ,DRAPEG     ,MAT_PARAM  ,FAIL_FRACTAL,FAIL_BROKMANN)
@@ -1419,7 +1419,7 @@ C 2D multifluid law
      B          CPT_ELTENS,PART_AREA,ptr_ITAGE,ITAGN,IXFEM  ,
      C          NPC     ,PLD     ,SH3TRIM ,XFEM_TAB,
      D          ISUBSTACK , STACK,RNOISE  ,
-     E          DRAPE ,SH3ANG,GEO_STACK,IGEO_STACK,STRTG,
+     E          DRAPE ,SH3ANG,IDDLEVEL,GEO_STACK,IGEO_STACK,STRTG,
      F          PERTURB ,ISH3N,IYLDINI ,ELE_AREA,
      G          NLOC_DMG,NG,GROUP_PARAM_TAB(NG),IDRAPE, 
      H          DRAPEG,MAT_PARAM,FAIL_FRACTAL,FAIL_BROKMANN)

@@ -69,7 +69,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      A                  IPM      ,BUFMAT  ,SH4TREE ,MCP     ,MCPS    ,
      B                  TEMP     ,CPT_ELTENS,PART_AREA,ITAGN,ITAGE   ,
      C                  IXFEM    ,NPF     ,TF      ,XFEM_STR,ISUBSTACK,
-     D                  STACK    ,RNOISE  ,DRAPE  ,SH4ANG  ,
+     D                  STACK    ,RNOISE  ,DRAPE  ,SH4ANG   ,IDDLEVEL,
      E                  GEO_STACK,IGEO_STACK,STRC  ,PERTURB ,IYLDINI ,
      F                  ELE_AREA ,NG      ,GROUP_PARAM      ,NLOC_DMG,
      G                  IDRAPE   ,DRAPEG  ,MAT_PARAM,FAIL_FRACTAL,FAIL_BROKMANN)
@@ -116,6 +116,7 @@ C-----------------------------------------------
      .  PTSHEL(*),IPM(NPROPMI,*), SH4TREE(*),ITAGN(*),ITAGE(*),NPF(*),
      .  ISUBSTACK,IGEO_STACK(*),PERTURB(NPERTURB),NG,IDRAPE
       INTEGER *8 I8MI(6,*)
+      INTEGER ,INTENT(IN) :: IDDLEVEL
       my_real
      .   PM(NPROPM,*), X(3,*), GEO(NPROPG,*), XMAS(*), IN(*),
      .   DTELEM(*), XREFC(4,3,*),THK(*), SIGSH(NSIGSH,*),
@@ -562,7 +563,7 @@ c     set element damage initialized in /FAIL/FRACTAL_DMG
      .       NUMMAT ,NUMELC  ,NEL      ,NFT      ,NGL   ,ITY      )
       ENDIF
 c     tag edge elements in local UVAR for /FAIL/ALTER (XFEM)
-      IF (IFAIL > 0) THEN
+      IF (IFAIL > 0 .and. IDDLEVEL == 1) THEN
         CALL FAIL_WINDSHIELD_INIT(ELBUF_STR,MAT_PARAM,FAIL_BROKMANN,
      .       NEL      ,NFT      ,ITY      ,IGRSH4N  ,IGRSH3N  ,
      .       ALDT     ,THK      ,NGL      )
