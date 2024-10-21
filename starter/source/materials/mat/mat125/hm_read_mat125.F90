@@ -307,6 +307,7 @@
       m1t = one 
       al1c = ep20
       m1c = one 
+      ef11t = zero
       if(e1 > zero ) then
         if(xt > zero )then
           ef11t  = xt/e1
@@ -327,6 +328,7 @@
       m2t = one 
       al2c = ep20
       m2c = one 
+      ef22t = zero
       if(e2 > zero) then
         if(yt > zero )then
           ef22t  = yt/e2
@@ -345,7 +347,8 @@
       al3c = ep20
       m3t = one 
       al3c = ep20
-      m3c = one     
+      m3c = one  
+      ef33t = zero   
       if(e3 > zero) then
         if(zt  > zero )then
           ef33t  = zt/e3
