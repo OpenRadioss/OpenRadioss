@@ -118,7 +118,7 @@
 !        
         if (idebug == 1) then
           do i=1,nelem
-            write(*,'(A,3I6,F18.6)') 'id,old_n,new_n=',tag_id(i),   &
+            write(*,'(A,3I10,F18.6)') 'id,old_n,new_n=',tag_id(i),   &
                        fail_brokmann%brokmann(ifail)%brokmann_elem(i)%elnum,tag_elem(i),&
                        tag_rand(i,1)
           end do
