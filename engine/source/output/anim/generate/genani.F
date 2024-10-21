@@ -6911,7 +6911,6 @@ C pression
                   N1=FVSPMD(IFV)%IBUFA_L(1,N)
                   N2=FVSPMD(IFV)%IBUFA_L(2,N)
                   WA4(N2)=VOLMON(KRA1-1+N1)
-                  IS_WRITTEN_NODE(N2)=1
                ENDDO
              ENDIF
 C
@@ -6932,7 +6931,6 @@ C densite
                   N1=FVSPMD(IFV)%IBUFA_L(1,N)
                   N2=FVSPMD(IFV)%IBUFA_L(2,N)
                   WA4(N2)=VOLMON(KRA2-1+N1)
-                  IS_WRITTEN_NODE(N2)=1
                ENDDO
              ENDIF
 C
@@ -6953,7 +6951,6 @@ C temperature
                   N1=FVSPMD(IFV)%IBUFA_L(1,N)
                   N2=FVSPMD(IFV)%IBUFA_L(2,N)
                   WA4(N2)=VOLMON(KRA3-1+N1)
-                  IS_WRITTEN_NODE(N2)=1
                ENDDO
              ENDIF
 C
@@ -6974,7 +6971,6 @@ C ssp:sound speed
                   N1=FVSPMD(IFV)%IBUFA_L(1,N)
                   N2=FVSPMD(IFV)%IBUFA_L(2,N)
                   WA4(N2)=VOLMON(KRA8-1+N1)
-                  IS_WRITTEN_NODE(N2)=1
                ENDDO
              ENDIF
 C  
