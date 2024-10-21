@@ -43,7 +43,8 @@ jobs:
       GIT_PUSH_SERVBOT_PAT: ${{ secrets.GIT_PUSH_SERVBOT_PAT }}
       GO_PUSH: 0
       GIT_SERVBOT_USER: ${{ secrets.GIT_SERVBOT_USER }}   
-      GIT_SERVBOT_EMAIL: ${{ secrets.GIT_SERVBOT_EMAIL }}   
+      GIT_SERVBOT_EMAIL: ${{ secrets.GIT_SERVBOT_EMAIL }} 
+      HMREADER_TO_EMAIL: ${{ secrets.HMREADER_TO_EMAIL }}
       STATUS_STEP_CHECK_DELIV_COMMIT: 0
       MSG_STEP_CHECK_DELIV_COMMIT: "Some libraries are missing on Jfrog"  
       STATUS_STEP_CHECK_LIBS: 0
@@ -157,15 +158,15 @@ jobs:
           echo "Getting HM Reader files"
           echo "----------"
 
-          # Opensource libs
-          jf rt download ${JF_OPTIONS} --flat=true --recursive --exclusions="*/_com/*" "${{ env.HM_REMOTE_DIR }}/(*)" ${HMREADER_OPENSOURCE_LOCAL_DIR}/{1}
-
           # Force local branch to point on same commit as remote branch, way to restore a correct env if old push failed before
           git fetch origin ${BRANCH_NAME}
           git reset --hard origin/${BRANCH_NAME}
-          # echo "-------checkout"
-          # git branch && git log --pretty=oneline -n 5
-          # echo "-------"      
+          echo "-------checkout"
+          git branch && git log --pretty=oneline -n 5
+          echo "-------"      
+
+          # Opensource libs
+          jf rt download ${JF_OPTIONS} --flat=true --recursive --exclusions="*/_com/*" "${{ env.HM_REMOTE_DIR }}/(*)" ${HMREADER_OPENSOURCE_LOCAL_DIR}/{1}
 
           # Add new files
           git config --global user.email "${{ env.GIT_SERVBOT_EMAIL }}"
@@ -272,6 +273,7 @@ jobs:
             # Send email
             SUBJECT="[ HMREADER LIBS PUSH on OPENRADIOSS ] - Error in CI"
             echo -e "${MAILMSG}" | ${MAIL_COMMAND} -r ${FROM_EMAIL} -s "${SUBJECT}" ${HMREADER_TO_EMAIL}
+            echo -e "${MAILMSG}" | ${MAIL_COMMAND} -r ${FROM_EMAIL} -s "${SUBJECT}" mquinzin@europe.altair.com
 
             # Exit fail to see it as a failure
             exit 1
