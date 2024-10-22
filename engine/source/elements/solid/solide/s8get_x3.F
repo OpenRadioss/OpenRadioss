@@ -23,7 +23,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    s8get_x3   ../engine/source/elements/solid/solide/s8get_x3.F
       !||--- called by ------------------------------------------------------
+      !||    s8cforc3   ../engine/source/elements/thickshell/solide8c/s8cforc3.F
       !||    s8eforc3   ../engine/source/elements/solid/solide8e/s8eforc3.F
+      !||    scforc3    ../engine/source/elements/thickshell/solidec/scforc3.F
       !||    sforc3     ../engine/source/elements/solid/solide/sforc3.F
       !||    szforc3    ../engine/source/elements/solid/solidez/szforc3.F
       !||====================================================================

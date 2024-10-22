@@ -34,6 +34,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    s8cfint_reg            ../engine/source/elements/thickshell/solide8c/s8cfint_reg.F
       !||    s8csigp3               ../engine/source/elements/thickshell/solide8c/s8csigp3.F
       !||    s8etherm               ../engine/source/elements/solid/solide8e/s8etherm.F
+      !||    s8for_distor           ../engine/source/elements/solid/solide/s8for_distor.F
+      !||    s8get_x3               ../engine/source/elements/solid/solide/s8get_x3.F
       !||    s8sav3                 ../engine/source/elements/solid/solide/s8sav3.F
       !||    s8zderi3               ../engine/source/elements/solid/solide8z/s8zderi3.F
       !||    s8zderic3              ../engine/source/elements/solid/solide8z/s8zderic3.F
@@ -47,6 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    scumu3                 ../engine/source/elements/solid/solide/scumu3.F
       !||    scumu3p                ../engine/source/elements/solid/solide/scumu3p.F
       !||    scumualpha             ../engine/source/elements/thickshell/solidec/scumualpha.F
+      !||    sdistor_ini            ../engine/source/elements/solid/solide/sdistror_ini.F90
       !||    sdlen_dege             ../engine/source/elements/solid/solide/sdlen_dege.F
       !||    sdlensh14              ../engine/source/elements/thickshell/solide8c/sdlensh14.F
       !||    sdlensh8               ../engine/source/elements/thickshell/solide8c/sdlensh8.F
@@ -73,6 +76,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
       !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+      !||    sdistor_ini_mod        ../engine/source/elements/solid/solide/sdistror_ini.F90
       !||    sensor_mod             ../engine/share/modules/sensor_mod.F
       !||    table_mod              ../engine/share/modules/table_mod.F
       !||====================================================================

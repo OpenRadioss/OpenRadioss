@@ -20,11 +20,26 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    s6chour_ctl_mod   ../engine/source/elements/thickshell/solide6c/s6chour_ctl.F90
+      !||--- called by ------------------------------------------------------
+      !||    s6cforc3          ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+      !||====================================================================
       module s6chour_ctl_mod
       contains
 ! ======================================================================================================================
 ! \brief new penta6 thick hourglass formulation for distordtion control
 ! ======================================================================================================================
+      !||====================================================================
+      !||    s6chour_ctl     ../engine/source/elements/thickshell/solide6c/s6chour_ctl.F90
+      !||--- called by ------------------------------------------------------
+      !||    s6cforc3        ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    shour_ctl       ../engine/source/elements/solid/solidez/shour_ctl.F90
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod    ../common_source/modules/constant_mod.F
+      !||    shour_ctl_mod   ../engine/source/elements/solid/solidez/shour_ctl.F90
+      !||====================================================================
         subroutine s6chour_ctl(                                  &
             x1,      x2,       x3,      x5,       x6,      x7,   &
             y1,      y2,       y3,      y5,       y6,      y7,   &

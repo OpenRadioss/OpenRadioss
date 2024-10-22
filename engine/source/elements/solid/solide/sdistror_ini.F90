@@ -25,7 +25,10 @@
       !||--- called by ------------------------------------------------------
       !||    s10forc3          ../engine/source/elements/solid/solide10/s10forc3.F
       !||    s4forc3           ../engine/source/elements/solid/solide4/s4forc3.F
+      !||    s6cforc3          ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+      !||    s8cforc3          ../engine/source/elements/thickshell/solide8c/s8cforc3.F
       !||    s8eforc3          ../engine/source/elements/solid/solide8e/s8eforc3.F
+      !||    scforc3           ../engine/source/elements/thickshell/solidec/scforc3.F
       !||    sforc3            ../engine/source/elements/solid/solide/sforc3.F
       !||    szforc3           ../engine/source/elements/solid/solidez/szforc3.F
       !||====================================================================
@@ -39,7 +42,10 @@
       !||--- called by ------------------------------------------------------
       !||    s10forc3       ../engine/source/elements/solid/solide10/s10forc3.F
       !||    s4forc3        ../engine/source/elements/solid/solide4/s4forc3.F
+      !||    s6cforc3       ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+      !||    s8cforc3       ../engine/source/elements/thickshell/solide8c/s8cforc3.F
       !||    s8eforc3       ../engine/source/elements/solid/solide8e/s8eforc3.F
+      !||    scforc3        ../engine/source/elements/thickshell/solidec/scforc3.F
       !||    sforc3         ../engine/source/elements/solid/solide/sforc3.F
       !||    szforc3        ../engine/source/elements/solid/solidez/szforc3.F
       !||--- calls      -----------------------------------------------------

@@ -28,6 +28,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    csmall3                ../engine/source/elements/solid/solide/csmall3.F
       !||    mmain                  ../engine/source/materials/mat_share/mmain.F90
       !||    s8csigp3               ../engine/source/elements/thickshell/solide8c/s8csigp3.F
+      !||    s8for_distor           ../engine/source/elements/solid/solide/s8for_distor.F
+      !||    s8get_x3               ../engine/source/elements/solid/solide/s8get_x3.F
       !||    s8sav3                 ../engine/source/elements/solid/solide/s8sav3.F
       !||    scdefc3                ../engine/source/elements/thickshell/solidec/scdefc3.F
       !||    scdefo3                ../engine/source/elements/thickshell/solidec/scdefo3.F
@@ -42,12 +44,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    scumu3p                ../engine/source/elements/solid/solide/scumu3p.F
       !||    scumualpha             ../engine/source/elements/thickshell/solidec/scumualpha.F
       !||    sczero3                ../engine/source/elements/thickshell/solidec/sczero3.F
+      !||    sdistor_ini            ../engine/source/elements/solid/solide/sdistror_ini.F90
       !||    sdlen3                 ../engine/source/elements/solid/solide/sdlen3.F
       !||    sdlensh                ../engine/source/elements/thickshell/solidec/sdlensh.F
       !||    sdlensh2               ../engine/source/elements/thickshell/solidec/sdlensh2.F
       !||    sfillopt               ../engine/source/elements/solid/solide/sfillopt.F
       !||    sgetdir3               ../engine/source/elements/thickshell/solidec/sgetdir3.F
       !||    sgparav3               ../engine/source/elements/solid/solide/sgparav3.F
+      !||    shour_ctl              ../engine/source/elements/solid/solidez/shour_ctl.F90
       !||    smallb3                ../engine/source/elements/solid/solide/smallb3.F
       !||    srbilan                ../engine/source/elements/solid/solide/srbilan.F
       !||    srcoor3                ../engine/source/elements/solid/solide/srcoor3.F
@@ -62,6 +66,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
       !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+      !||    sdistor_ini_mod        ../engine/source/elements/solid/solide/sdistror_ini.F90
+      !||    shour_ctl_mod          ../engine/source/elements/solid/solidez/shour_ctl.F90
       !||    table_mod              ../engine/share/modules/table_mod.F
       !||====================================================================
       SUBROUTINE SCFORC3(ELBUF_TAB,NG      ,

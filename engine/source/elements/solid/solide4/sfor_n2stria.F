@@ -24,6 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sfor_n2stria   ../engine/source/elements/solid/solide4/sfor_n2stria.F
       !||--- called by ------------------------------------------------------
       !||    s4for_distor   ../engine/source/elements/solid/solide4/s4for_distor.F
+      !||    s6for_distor   ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
       !||--- calls      -----------------------------------------------------
       !||    sfor_n2s3      ../engine/source/elements/solid/solide4/sfor_n2s3.F
       !||====================================================================

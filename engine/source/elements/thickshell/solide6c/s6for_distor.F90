@@ -20,11 +20,28 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    s6for_distor_mod   ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
+      !||--- called by ------------------------------------------------------
+      !||    s6cforc3           ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+      !||====================================================================
       module s6for_distor_mod
       contains
 ! ======================================================================================================================
 ! \brief distortion control for penta6 element
 ! ======================================================================================================================
+      !||====================================================================
+      !||    s6for_distor     ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
+      !||--- called by ------------------------------------------------------
+      !||    s6cforc3         ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+      !||--- calls      -----------------------------------------------------
+      !||    sfor_n2s4        ../engine/source/elements/solid/solide/sfor_n2s4.F
+      !||    sfor_n2stria     ../engine/source/elements/solid/solide4/sfor_n2stria.F
+      !||    sfor_visn6       ../engine/source/elements/thickshell/solide6c/sfor_visn6.F90
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod     ../common_source/modules/constant_mod.F
+      !||    sfor_visn6_mod   ../engine/source/elements/thickshell/solide6c/sfor_visn6.F90
+      !||====================================================================
         subroutine s6for_distor(                                              &
                                 x1,       x2,       x3,                       &      
                                 x4,       x5,       x6,                       &      
