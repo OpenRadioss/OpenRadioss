@@ -33,26 +33,27 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    tri7box                ../starter/share/modules1/tri7box.F
       !||====================================================================
       SUBROUTINE I25BUC_VOX1(
-     1   X     ,IRECT,NSV    ,BUMULT,NSEG    ,
-     2   NMN   ,NRTM ,MWA    ,NSN   ,CAND_E  ,
-     3   CAND_N,GAP  ,NOINT ,I_STOK  ,
+     1   X     ,IRECT,NSV    ,BUMULT,
+     2   NMN   ,NRTM ,NSN   ,INTBUF_TAB  ,
+     3   GAP  ,I_STOK  ,
      4   DIST  ,TZINF,MAXBOX ,MINBOX,MSR     ,   
-     5   STF   ,STFN ,MULTIMP,ISTF  ,IDDLEVEL,
-     6   ITAB  ,GAP_S,GAP_M  ,IGAP  ,GAPMIN  ,
-     7   GAPMAX,INACTI,GAP_S_L,GAP_M_L,I_MEM ,
+     5   STF   ,STFN ,IDDLEVEL,
+     6   GAP_S,GAP_M  ,IGAP  ,GAPMIN  ,
+     7   GAPMAX,INACTI,GAP_S_L,GAP_M_L,
      8   MARGE ,ID   ,TITR   ,NBINFLG,MBINFLG,
      9   ILEV  ,MSEGTYP,GAP_N,BGAPSMX,
      A   IPARTS,KNOD2ELS,NOD2ELS,
-     B   IREMNODE,FLAGREMNODE,KREMNODE,REMNODE,
+     B   KREMNODE,REMNODE,
      C   IXS, IXS10, IXS16, IXS20,ICODE,ISKEW ,
-     D   DRAD ,PEN_OLD,DGAPLOAD,NRTMT,FLAG_REMOVED_NODE,
-     E   IELEM_M )
+     D   DRAD ,DGAPLOAD,NRTMT,FLAG_REMOVED_NODE,
+     E   IELEM_M,nin,npari,ipari )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE TRI7BOX
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      USE INTBUFDEF_MOD 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,19 +67,22 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NMN, NRTM, NSN, NOINT,I_STOK,MULTIMP,ISTF,IGAP,
-     .        INACTI,IREMNODE,FLAGREMNODE,
+      INTEGER NMN, NRTM, NSN, I_STOK,IGAP,
+     .        INACTI,
      .        IPARTS(*), KNOD2ELS(*), NOD2ELS(*)
-      INTEGER IRECT(4,*),NSV(*),NSEG(*),MWA(*),ICODE(*),ISKEW(*)
-      INTEGER CAND_E(*),CAND_N(*),MSR(*),MAXSIZ,IDDLEVEL
-      INTEGER ITAB(*),NBINFLG(*),MBINFLG(*),ILEV,MSEGTYP(*)
+      INTEGER IRECT(4,*),NSV(*),ICODE(*),ISKEW(*)
+      INTEGER MSR(*),IDDLEVEL
+      INTEGER NBINFLG(*),MBINFLG(*),ILEV,MSEGTYP(*)
       INTEGER KREMNODE(*),REMNODE(*)
       INTEGER IXS(*), IXS10(*), IXS16(*), IXS20(*)
       LOGICAL, INTENT(in) :: FLAG_REMOVED_NODE !< flag to remove some S node from the list of candidates
       INTEGER  , INTENT(IN) :: IELEM_M(2,NRTM)
+      integer, intent(in) :: nin !< interface index
+      integer, intent(in) :: npari !< first dim of ipari
+      integer, dimension(npari), intent(inout) :: ipari !< interface data
 C     REAL
       my_real
-     .   STF(*),STFN(*),X(3,*),GAP_S(*),GAP_M(*),PEN_OLD(5,NSN),
+     .   STF(*),STFN(*),X(3,*),GAP_S(*),GAP_M(*),
      .   DIST,BUMULT,GAP,TZINF,MAXBOX,MINBOX,GAPMIN,GAPMAX,
      .   GAP_S_L(*),GAP_M_L(*),MARGE,GAP_N(4,*)
       my_real
@@ -86,13 +90,15 @@ C     REAL
       my_real , INTENT(IN) :: DRAD, DGAPLOAD
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE) :: TITR
-      my_real :: LENGTH_TRESHOLD
+
       INTEGER , INTENT(IN) :: NRTMT
+      type(intbuf_struct_), intent(inout) :: intbuf_tab !< interface data 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, L, I1, I2, N1, N2, N3, N4, I_MEM,N_SOL, ESHIFT, MULNSN
+      INTEGER I, J, L, N1, N2, N3, N4,N_SOL, ESHIFT
       INTEGER IBID, NELS
+      INTEGER,  DIMENSION(:),ALLOCATABLE :: IIX,IIY,IIZ
 C     REAL
       my_real
      .   DX1,DY1,DZ1,
@@ -100,15 +106,15 @@ C     REAL
      .   DX4,DY4,DZ4,
      .   DX6,DY6,DZ6,
      .   DD1,DD2,DD3,DD4,DD,DD0,XMIN,YMIN,ZMIN,
-     .   XMAX,YMAX,ZMAX,TZINF0,MINBOX0,MAXBOX0,GAPSMAX,
-     .   BID,TZINF_ST,MARGE_ST,MARGE_SH,DD_ST,D_MAX,PENSOL,D_MOY,
+     .   XMAX,YMAX,ZMAX,TZINF0,MINBOX0,MAXBOX0,
+     .   BID,TZINF_ST,MARGE_ST,DD_ST,D_MAX,PENSOL,D_MOY,
      .   XYZM(6),BMINMA(6),AAA,LEDGMAX
       my_real,
      .   DIMENSION(:), ALLOCATABLE :: EDGE_L2,EDGE_L2_TMP
       INTEGER TAGP(NPART),IAD,N,IE,IL,IP
       INTEGER, DIMENSION(:), ALLOCATABLE :: NPARTNS,IELEM,LPARTNS
       INTEGER NBX,NBY,NBZ
-      INTEGER, DIMENSION(:), ALLOCATABLE :: IS_LARGE_NODE,LARGE_NODE, TAGNOD
+      INTEGER, DIMENSION(:), ALLOCATABLE :: IS_LARGE_NODE,LARGE_NODE, TAGNOD,LOCAL_NEXT_NOD
       INTEGER :: NB_LARGE_NODES
       INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8
       INTEGER (KIND=8) :: IONE,IHUNDRED !< Integer constants in INTEGER 8 for comparisions
@@ -179,28 +185,7 @@ C calcul de TZINF en fct de la marge et non le contraire
       TZINF = MARGE + MAX(GAP+DGAPLOAD,DRAD)
 C MARGE_ST : marge independante du BUMULT en input pour trouver les memes pene initiales (cas delete ou chgt coord.)
       MARGE_ST = BMUL0*DD
-C--------suppose PEN_ini< DD_ST/2 (half thickness of solids )   
-C     IF (INACTI /=0 ) THEN
-C-------input PENMAX will fix the PENMAX value----- 
-C      IF (PENMAX /= ZERO) THEN
-C       MARGE_ST  = MAX(MARGE_ST,PENMAX)
-C       IF (IDDLEVEL == 1 ) WRITE(IOUT,2400) PENMAX
-C      ELSE
-C       IF (N_SOL>0) THEN
-C        D_MOY  = D_MOY/N_SOL
-C        DD_ST = D_MOY
-C       END IF 
-c       PENSOL  = MIN(HALF*DD_ST,PENSOL)
-C       MARGE_ST  = MAX(MARGE_ST,HALF*DD_ST)
-C--------should also think about shells---- 
-c       PENSOL = MAX(PENSOL,HALF*GAP)
-c       PENMAX = PENSOL
-C       IF (IDDLEVEL == 1 ) WRITE(IOUT,2500) PENMAX
-C      END IF!(PENMAX/=ZERO)
-C     ELSE
-C-----il faut pas eliminer tiny penetration----      
-C      PENMAX = MAX(PENSOL,GAP)
-C     END IF
+
 C Si IDDLEVEL = 0, alors 1er passage ici, avec la MARGE de l'ENGINE pour trouver les memes candidats
       IF(IDDLEVEL==0) MARGE_ST = MARGE
       TZINF_ST = MARGE_ST + MAX(GAP+DGAPLOAD,DRAD)
@@ -318,19 +303,7 @@ C
         NBX = MIN(IHUNDRED,MAX(NBX8,IONE))
         NBY = MIN(IHUNDRED,MAX(NBY8,IONE))
         NBZ = MIN(IHUNDRED,MAX(NBZ8,IONE))
-      END IF
-
-
-C     LENGTH_TRESHOLD = ((XMAX-XMIN)/ (ONE*NBX+2.0))
-C     LENGTH_TRESHOLD = MAX(LENGTH_TRESHOLD,((YMAX-YMIN)/ (ONE*NBY+2.0)))
-C     LENGTH_TRESHOLD = MAX(LENGTH_TRESHOLD,((ZMAX-ZMIN)/ (ONE*NBZ+2.0)))
-cccLEDGE removing       LENGTH_TRESHOLD = ((XMAX-XMIN))
-cccLEDGE removing       LENGTH_TRESHOLD = MAX(LENGTH_TRESHOLD,((YMAX-YMIN)))
-cccLEDGE removing       LENGTH_TRESHOLD = MAX(LENGTH_TRESHOLD,((ZMAX-ZMIN)))
-cccLEDGE removing       LENGTH_TRESHOLD = LENGTH_TRESHOLD / 4.0
-! Heuristic:
-cccLEDGE removing       LENGTH_TRESHOLD = MAX(LENGTH_TRESHOLD,MARGE_ST+BGAPSMX)
-     
+      END IF  
 
 C--------------------------------
 C     Initializations case of IDDLEVEL=0 or INACTI/=5 and INACTI/=-1
@@ -404,18 +377,7 @@ C
             N=NSV(I)
             IF(STFN(I)/=ZERO) THEN
               EDGE_L2(I) = HALF*SQRT(EDGE_L2_TMP(N))
-c              IF(EDGE_L2(I) > LENGTH_TRESHOLD) THEN
-! because of LEDGE_MAX, too many voxcell will be checked 
-! in i24trivox1. In order to avoid that, we deal with large
-! 'nodes' separately. They will be checked versus every segment, but they 
-! will not increase LEDGMAX 
-Cc               WRITE(6,*) "LENGTH_TRESHOLD=",LENGTH_TRESHOLD,EDGE_L2(I)
-c                NB_LARGE_NODES = NB_LARGE_NODES + 1 
-c                IS_LARGE_NODE(I) = 1 
-c                LARGE_NODE(NB_LARGE_NODES) = I
-c              ELSE
-                IF(TAGNOD(N)==1) LEDGMAX=LEDGMAX+EDGE_L2(I)!MAX(LEDGMAX,EDGE_L2(I))
-c              ENDIF
+              IF(TAGNOD(N)==1) LEDGMAX=LEDGMAX+EDGE_L2(I)!MAX(LEDGMAX,EDGE_L2(I))
             END IF
           END DO 
 
@@ -485,7 +447,6 @@ c        END IF
       ELSE
         ALLOCATE(LPARTNS(0))
       END IF
-      I_MEM = 0
 C
 
 C     initialisation complete de VOXEL
@@ -495,30 +456,37 @@ C     initialisation complete de VOXEL
       INIVOXEL = MAX(INIVOXEL,(NBX+2)*(NBY+2)*(NBZ+2)+1)
 C
       ESHIFT=0
-      MULNSN=MULTIMP*NSN
 C
       I_STOK = 0
+
+      ALLOCATE(LOCAL_NEXT_NOD(NSN))
+      ALLOCATE(IIX(NSN))
+      ALLOCATE(IIY(NSN))
+      ALLOCATE(IIZ(NSN))
 C
+!$OMP PARALLEL
       CALL I25TRIVOX1(
-     1   NSN     ,I_MEM   ,IRECT   ,X       ,STF     ,
-     2   STFN    ,XYZM    ,NSV     ,I_STOK  ,CAND_N  ,
-     3   ESHIFT  ,CAND_E  ,MULNSN  ,NOINT   ,BGAPSMX ,
+     1   NSN     ,IRECT   ,X       ,
+     2   STFN    ,XYZM    ,NSV     ,I_STOK  ,
+     3   ESHIFT  ,BGAPSMX ,
      4   VOXEL1  ,NBX     ,NBY     ,NBZ     ,NRTM    ,
-     5   GAP_S   ,GAP_M   ,MARGE_ST,ITAB    ,
+     5   GAP_S   ,GAP_M   ,MARGE_ST,
      6   NBINFLG ,MBINFLG ,ILEV    ,MSEGTYP ,
      7   IGAP    ,GAP_S_L ,GAP_M_L ,EDGE_L2 ,LEDGMAX ,
-     8   IREMNODE,FLAGREMNODE,KREMNODE,REMNODE,INACTI,
+     8   KREMNODE,REMNODE,
      9   IPARTS  ,NPARTNS ,LPARTNS ,IELEM   ,ICODE   ,
      A   ISKEW   ,DRAD, IS_LARGE_NODE, LARGE_NODE, NB_LARGE_NODES,
-     B   PEN_OLD ,DGAPLOAD,NRTMT,FLAG_REMOVED_NODE,
-     C   IELEM_M)
-C
-C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
-C
+     B   DGAPLOAD,NRTMT,FLAG_REMOVED_NODE,
+     C   IELEM_M,LOCAL_NEXT_NOD,IIX,IIY,IIZ,
+     D   intbuf_tab,ipari,nin)
+!$OMP END PARALLEL
+      DEALLOCATE(LOCAL_NEXT_NOD)
+      DEALLOCATE(IIX)
+      DEALLOCATE(IIY)
+      DEALLOCATE(IIZ)
+
       DEALLOCATE(EDGE_L2,NPARTNS,IELEM,LPARTNS)
       DEALLOCATE(IS_LARGE_NODE,LARGE_NODE,TAGNOD)
-C
-      IF(I_MEM==2)RETURN
 C
       IF(NSN/=0)THEN
        WRITE(IOUT,*)' POSSIBLE IMPACT NUMBER, NSN:',I_STOK,NSN
@@ -530,11 +498,6 @@ C
      .             I1=ID,
      .             C1=TITR)
       ENDIF
-C
- 2400 FORMAT(2X,/,'USER-DEFINED(IPEN_MAX)SEARCHING DISTANCE FOR INITIAL PENETRATIONS ',
-     +            1PG20.13,'IS USED',/)
- 2500 FORMAT(2X,/,'COMPUTED SEARCHING DISTANCE FOR INITIAL PENETRATIONS ',1PG20.13,
-     +            'IS USED',/)
 C
       RETURN
       END
@@ -563,11 +526,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IY(4), N, JJ, II, K, NN, KK, IC, IAD,
+      INTEGER N, JJ, II, K, IC, IAD,
      .        NUSER, NUSERM
-C     REAL
-      my_real
-     .   N1, N2, N3, DDS
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------

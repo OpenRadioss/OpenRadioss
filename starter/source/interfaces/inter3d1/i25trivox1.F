@@ -30,22 +30,25 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    tri7box       ../starter/share/modules1/tri7box.F
       !||====================================================================
       SUBROUTINE I25TRIVOX1(
-     1      NSN    ,I_MEM   ,IRECT  ,X       ,STF     ,
-     2      STFN   ,XYZM    ,NSV    ,II_STOK ,CAND_N  ,
-     3      ESHIFT ,CAND_E  ,MULNSN ,NOINT   ,BGAPSMX ,
+     1      NSN    ,IRECT  ,X       ,
+     2      STFN   ,XYZM    ,NSV    ,II_STOK ,
+     3      ESHIFT ,BGAPSMX ,
      4      VOXEL  ,NBX     ,NBY    ,NBZ     ,NRTM    ,
-     5      GAP_S  ,GAP_M   ,MARGE  ,ITAB    ,
+     5      GAP_S  ,GAP_M   ,MARGE  ,
      6      NBINFLG,MBINFLG ,ILEV   ,MSEGTYP ,
      7      IGAP   ,GAP_S_L ,GAP_M_L,EDGE_L2 ,LEDGMAX ,
-     8      IREMNODE,FLAGREMNODE,KREMNODE,REMNODE,INACTI,
+     8      KREMNODE,REMNODE,
      9      IPARTS  ,NPARTNS ,LPARTNS ,IELEM ,ICODE   ,
      A      ISKEW   ,DRAD, IS_LARGE_NODE, LARGE_NODE  ,
-     B      NB_LARGE_NODES,PEN_OLD      , DGAPLOAD,NRTMT,FLAG_REMOVED_NODE,
-     C      IELEM_M)
+     B      NB_LARGE_NODES,DGAPLOAD,NRTMT,FLAG_REMOVED_NODE,
+     C      IELEM_M,LOCAL_NEXT_NOD,IIX,IIY,IIZ,
+     D      intbuf_tab,ipari,nin)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
+      use array_mod 
+      use intbufdef_mod 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,34 +86,31 @@ C     I_STOK       niveau de stockage des couples
 C                                candidats impact    E/S
 C     CAND_N       boites resultats noeuds
 C     CAND_E       adresses des boites resultat elements
-C                  MULNSN = MULTIMP*NSN TAILLE MAX ADMISE MAINTENANT POUR LES
-C                  COUPLES NOEUDS,ELT CANDIDATS
-C     NOINT        NUMERO USER DE L'INTERFACE
 C
 C     PROV_N       CAND_N provisoire (variable static dans i7tri)
 C     PROV_E       CAND_E provisoire (variable static dans i7tri)
 
 C     VOXEL(ix,iy,iz) contient le numero local du premier noeud de
 C                  la boite
-C     NEXT_NOD(i)  noeud suivant dans la meme boite (si /= 0)
+C     LOCAL_NEXT_NOD(i)  noeud suivant dans la meme boite (si /= 0)
 C     LAST_NOD(i)  dernier noeud dans la meme boite (si /= 0)
 C                  utilise uniquement pour aller directement du premier
 C                       noeud au dernier
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER I_MEM,ESHIFT,NSN,NRTM,IGAP,
-     .        MULNSN,NOINT,NBX,NBY,NBZ,
-     .        NSV(*),CAND_N(*),CAND_E(*),
-     .        IRECT(4,*), VOXEL(NBX+2,NBY+2,NBZ+2),II_STOK,ITAB(*),
+      INTEGER ESHIFT,NSN,NRTM,IGAP,
+     .        NBX,NBY,NBZ,
+     .        NSV(*),
+     .        IRECT(4,*), VOXEL(NBX+2,NBY+2,NBZ+2),II_STOK,
      .        NBINFLG(*),MBINFLG(*),ILEV,MSEGTYP(*),
-     .        IREMNODE,FLAGREMNODE,KREMNODE(*),REMNODE(*),
-     .        INACTI, IPARTS(*), NPARTNS(*), LPARTNS(*), ICODE(*), ISKEW(*)
+     .        KREMNODE(*),REMNODE(*),
+     .        IPARTS(*), NPARTNS(*), LPARTNS(*), ICODE(*), ISKEW(*)
       LOGICAL, INTENT(in) :: FLAG_REMOVED_NODE !< flag to remove some S node from the list of candidates
 C     REAL
       my_real
-     .   X(3,*),XYZM(6),STF(*),STFN(*),GAP_S(*),GAP_M(*),
-     .   GAP_S_L(*),GAP_M_L(*), EDGE_L2(*),PEN_OLD(5,NSN)
+     .   X(3,*),XYZM(6),STFN(*),GAP_S(*),GAP_M(*),
+     .   GAP_S_L(*),GAP_M_L(*), EDGE_L2(*)
       my_real
      .   LEDGMAX, MARGE, BGAPSMX
       my_real , INTENT(IN) :: DRAD, DGAPLOAD
@@ -119,42 +119,55 @@ C     REAL
       INTEGER :: NB_LARGE_NODES
       INTEGER , INTENT(IN) :: NRTMT
       INTEGER  , INTENT(IN) :: IELEM_M(2,NRTM), IELEM(NRTM)
-
+      integer, intent(in) :: nin !< interface index
+      INTEGER,  dimension(nsn), intent(inout) :: IIX,IIY,IIZ,LOCAL_NEXT_NOD
+      integer, dimension(npari), intent(inout) :: ipari !< interface data
+      type(intbuf_struct_), intent(inout) :: intbuf_tab !< interface data 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NB_NCN,NB_NCN1,NB_ECN,I,J,DIR,NB_NC,NB_EC,
-     .        N1,N2,N3,N4,NN,NE,K,L,J_STOK,II,JJ,
+      INTEGER I,J,
+     .        NN,NE,K,L,J_STOK,JJ,
      .        PROV_N(MVSIZ),PROV_E(MVSIZ),
-     .        M,NS,
-     .        IEM,IPM,IPS
+     .        M,IEM,IPM,IPS
 C     REAL
       my_real
-     .   DX,DY,DZ,XS,YS,ZS,XX,SX,SY,SZ,S2,
+     .   XS,YS,ZS,SX,SY,SZ,S2,
      .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX,
      .   XX1,XX2,XX3,XX4,YY1,YY2,YY3,YY4,ZZ1,ZZ2,ZZ3,ZZ4,
-     .   D1X,D1Y,D1Z,D2X,D2Y,D2Z,DD1,DD2,D2,A2,GS
+     .   D1X,D1Y,D1Z,D2X,D2Y,D2Z,DD1,DD2,D2,A2
 C
       INTEGER, DIMENSION(:), ALLOCATABLE :: LAST_NOD
-      INTEGER  IX,IY,IZ,NEXT,M1,M2,M3,M4,
+      INTEGER  IX,IY,IZ,M1,M2,M3,M4,
      .         IX1,IY1,IZ1,IX2,IY2,IZ2
-      INTEGER,  DIMENSION(:),ALLOCATABLE :: IIX,IIY,IIZ
       my_real
      .   XMINB,YMINB,ZMINB,XMAXB,YMAXB,ZMAXB,
-     .   XMINE,YMINE,ZMINE,XMAXE,YMAXE,ZMAXE,AAA,NSNM
-      INTEGER FIRST,NEW,LAST
+     .   XMINE,YMINE,ZMINE,XMAXE,YMAXE,ZMAXE,AAA
+      INTEGER FIRST,LAST
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGNOD
-C-----------------------------------------------
-      ALLOCATE(LAST_NOD(NSN))
-      ALLOCATE(TAGNOD(NUMNOD))
-      ALLOCATE(NEXT_NOD(NSN))
-      ALLOCATE(IIX(NSN))
-      ALLOCATE(IIY(NSN))
-      ALLOCATE(IIZ(NSN))
 
-C
-C Phase initiale de construction de BPE et BPN deplacee de I7BUCE => I7TRI
-C
+      integer , external :: omp_get_thread_num,omp_get_num_threads
+      integer :: itask,nthreads
+      integer :: my_old_size,my_address
+      integer :: local_i_stok,multimp
+      integer :: local_cand_n_size,local_cand_e_size
+
+      integer, dimension(:), allocatable, save :: cand_n_size,cand_e_size
+      integer, dimension(:), allocatable, save :: address_cand_n,address_cand_e
+      type(array_type) :: local_cand_n
+      type(array_type) :: local_cand_e
+C-----------------------------------------------
+      ! allocation of local arrays 
+      itask = omp_get_thread_num()
+      nthreads = omp_get_num_threads()
+      local_cand_n_size = size(intbuf_tab%cand_n) / nthreads + 1
+      local_cand_e_size = size(intbuf_tab%cand_e) / nthreads + 1
+      local_i_stok = 0
+      local_cand_n%size_int_array_1d = local_cand_n_size
+      local_cand_e%size_int_array_1d = local_cand_e_size
+      call alloc_1d_array(local_cand_n)
+      call alloc_1d_array(local_cand_e)
+
       XMIN = XYZM(1)
       YMIN = XYZM(2)
       ZMIN = XYZM(3)
@@ -162,13 +175,24 @@ C
       YMAX = XYZM(5)
       ZMAX = XYZM(6)
 
-c     dev future: xminb plus grand que xmin...
       XMINB = XMIN
       YMINB = YMIN
       ZMINB = ZMIN
       XMAXB = XMAX
       YMAXB = YMAX
       ZMAXB = ZMAX
+
+!$OMP MASTER
+      allocate( cand_n_size(nthreads+1),cand_e_size(nthreads+1) )
+      allocate( address_cand_n(nthreads+1),address_cand_e(nthreads+1) )
+      cand_n_size(1:nthreads+1) = 0 
+      cand_e_size(1:nthreads+1) = 0
+      address_cand_n(1:nthreads+1) = 0 
+      address_cand_e(1:nthreads+1) = 0
+      ALLOCATE(LAST_NOD(NSN))
+C
+C Phase initiale de construction de BPE et BPN deplacee de I7BUCE => I7TRI
+C
 
 C=======================================================================
 C 1   mise des noeuds dans les boites
@@ -200,32 +224,36 @@ C elements du processeur
         IF(FIRST == 0)THEN
 c         empty cell
           VOXEL(IIX(I),IIY(I),IIZ(I)) = I ! first
-          NEXT_NOD(I)                 = 0 ! last one
+          LOCAL_NEXT_NOD(I)                 = 0 ! last one
           LAST_NOD(I)                 = 0 ! no last
         ELSEIF(LAST_NOD(FIRST) == 0)THEN
 c         cell containing one node
 c         add as next node
-          NEXT_NOD(FIRST) = I ! next
+          LOCAL_NEXT_NOD(FIRST) = I ! next
           LAST_NOD(FIRST) = I ! last
-          NEXT_NOD(I)     = 0 ! last one
+          LOCAL_NEXT_NOD(I)     = 0 ! last one
         ELSE
 c
 c         jump to the last node of the cell
           LAST = LAST_NOD(FIRST) ! last node in this voxel
-          NEXT_NOD(LAST)  = I ! next
+          LOCAL_NEXT_NOD(LAST)  = I ! next
           LAST_NOD(FIRST) = I ! last
-          NEXT_NOD(I)     = 0 ! last one
+          LOCAL_NEXT_NOD(I)     = 0 ! last one
         ENDIF
       ENDDO
+!$OMP END MASTER
+
+!$OMP BARRIER
+
 C=======================================================================
 C 2   recherche des boites concernant chaque facette
 C     et creation des candidats
 C=======================================================================
+      ALLOCATE( TAGNOD(NUMNOD) )
       TAGNOD(1:NUMNOD) = 0
 C-----------------------------------------------
-      J_STOK = 0
-
-
+      J_STOK = 0      
+!$OMP DO SCHEDULE(guided)
       DO NE=1,NRTM
         IF(IELEM_M(2,NE) /=0) CYCLE
 
@@ -329,7 +357,6 @@ c NO need to communicate in SPMD
             IF(ZS<=ZMINE-AAA)GOTO 400
             IF(ZS>=ZMAXE+AAA)GOTO 400
 
-c               IF(INACTI==5.OR.INACTI==-1)THEN ! Do it for all inacti
             IEM=IELEM(NE)
             IF(IEM/=0)THEN
               IPM=IPARTS(IEM)
@@ -360,14 +387,13 @@ c               END IF
             PROV_E(J_STOK) = NE
             IF(J_STOK == NVSIZ)THEN
               CALL I25STO(
-     1           NVSIZ ,IRECT  ,X     ,NSV   ,II_STOK,
-     2           CAND_N,CAND_E ,MULNSN,NOINT ,MARGE  ,
-     3           I_MEM ,PROV_N ,PROV_E,ESHIFT,NSN   ,
+     1           NVSIZ ,IRECT  ,X     ,NSV   ,local_i_stok,
+     2           local_cand_n,local_cand_e ,MARGE  ,
+     3           PROV_N ,PROV_E,ESHIFT,NSN   ,
      4           NRTM  ,GAP_S  ,GAP_M ,NBINFLG  ,MBINFLG,
-     5           ILEV,MSEGTYP,ITAB  ,IGAP ,GAP_S_L,
+     5           ILEV,MSEGTYP,IGAP ,GAP_S_L,
      6           GAP_M_L,EDGE_L2,ICODE,ISKEW,DRAD ,
      7           DGAPLOAD,NRTMT)
-              IF(I_MEM==2)GOTO 100
               J_STOK = 0
             ENDIF
   400       CONTINUE
@@ -416,7 +442,6 @@ c NO need to communicate in SPMD
                 IF(ZS<=ZMINE-AAA)GOTO 300
                 IF(ZS>=ZMAXE+AAA)GOTO 300
 
-c               IF(INACTI==5.OR.INACTI==-1)THEN Do it for all inacti
                 IEM=IELEM(NE)
                 IF(IEM/=0)THEN
                   IPM=IPARTS(IEM)
@@ -455,20 +480,19 @@ cc             nnr0pelem = nnr0pelem + 1
                 IF(J_STOK == NVSIZ)THEN
 
                   CALL I25STO(
-     1               NVSIZ ,IRECT  ,X     ,NSV   ,II_STOK,
-     2               CAND_N,CAND_E ,MULNSN,NOINT ,MARGE  ,
-     3               I_MEM ,PROV_N ,PROV_E,ESHIFT,NSN   ,
+     1               NVSIZ ,IRECT  ,X     ,NSV   ,local_i_stok,
+     2               local_cand_n,local_cand_e ,MARGE  ,
+     3               PROV_N ,PROV_E,ESHIFT,NSN   ,
      4               NRTM  ,GAP_S  ,GAP_M ,NBINFLG  ,MBINFLG,
-     5               ILEV,MSEGTYP,ITAB  ,IGAP ,GAP_S_L,
+     5               ILEV,MSEGTYP,IGAP ,GAP_S_L,
      6               GAP_M_L,EDGE_L2,ICODE,ISKEW,DRAD ,
      7               DGAPLOAD,NRTMT)
-                  IF(I_MEM==2)GOTO 100
                   J_STOK = 0
                 ENDIF
 
   300           CONTINUE
 
-                JJ = NEXT_NOD(JJ)
+                JJ = LOCAL_NEXT_NOD(JJ)
 
               ENDDO ! WHILE(JJ /= 0)
 
@@ -485,33 +509,80 @@ cc             nnr0pelem = nnr0pelem + 1
         ENDIF
 
       ENDDO
+!$OMP END DO
+
+!$OMP BARRIER
 C-------------------------------------------------------------------------
 C     FIN DU TRI
 C-------------------------------------------------------------------------
       IF(J_STOK/=0)CALL I25STO(
-     1                J_STOK,IRECT  ,X     ,NSV   ,II_STOK,
-     2                CAND_N,CAND_E ,MULNSN,NOINT ,MARGE  ,
-     3                I_MEM ,PROV_N ,PROV_E,ESHIFT,NSN   ,
-     4                NRTM  ,GAP_S  ,GAP_M ,NBINFLG  ,MBINFLG,
-     5                ILEV,MSEGTYP,ITAB  ,IGAP ,GAP_S_L,
-     6                GAP_M_L,EDGE_L2,ICODE,ISKEW,DRAD ,
-     7                DGAPLOAD,NRTMT)
+     1                  J_STOK,IRECT  ,X     ,NSV   ,local_i_stok,
+     2                  local_cand_n,local_cand_e ,MARGE  ,
+     3                  PROV_N ,PROV_E,ESHIFT,NSN   ,
+     4                  NRTM  ,GAP_S  ,GAP_M ,NBINFLG  ,MBINFLG,
+     5                  ILEV,MSEGTYP,IGAP ,GAP_S_L,
+     6                  GAP_M_L,EDGE_L2,ICODE,ISKEW,DRAD ,
+     7                  DGAPLOAD,NRTMT)
 C 4   remise a zero des noeuds dans les boites
 C=======================================================================
-  100 CONTINUE
+      ! save the local number of candidates
+      cand_n_size(itask+1) = local_i_stok
+      cand_e_size(itask+1) = local_i_stok
+!$OMP BARRIER
 
+!$OMP SINGLE
+      ! compute the address for each threads & the total number of candidates
+      address_cand_n(1) = 0
+      address_cand_e(1) = 0
+      ! ------------
+      do i=1,nthreads
+        address_cand_n(i+1) = cand_n_size(i) + address_cand_n(i)
+        address_cand_e(i+1) = cand_e_size(i) + address_cand_e(i)
+
+        cand_n_size(nthreads+1) = cand_n_size(nthreads+1) + cand_n_size(i)
+        cand_e_size(nthreads+1) = cand_e_size(nthreads+1) + cand_e_size(i)
+      enddo
+      ! ------------
+
+      ! ------------
+      ! check the size of global cand_n & cand_e
+      my_old_size = ipari(18)*ipari(23)
+      if(cand_n_size(nthreads+1) > my_old_size) then  ! total number of candidates > size of cand_n/e --> need to extend the 2 arrays
+        multimp = cand_n_size(nthreads+1)/ipari(18) + 1
+        call upgrade_multimp(nin,multimp,intbuf_tab)
+      endif
+      ii_stok = cand_n_size(nthreads+1) ! total number of cand_n/cand_e
+      ! ------------
+!$OMP END SINGLE
+
+      ! ------------
+      my_address = address_cand_n(itask+1) ! get the address for each thread
+      intbuf_tab%cand_n(my_address+1:my_address+local_i_stok) = local_cand_n%int_array_1d(1:local_i_stok) ! save the cand_n into the global array
+      my_address = address_cand_e(itask+1) ! get the address for each thread
+      intbuf_tab%cand_e(my_address+1:my_address+local_i_stok) = local_cand_e%int_array_1d(1:local_i_stok) ! save the cand_e into the global array
+      ! ------------
+
+      call dealloc_1d_array(local_cand_n)
+      call dealloc_1d_array(local_cand_e)
+
+!$OMP BARRIER
+
+
+!$OMP DO SCHEDULE(guided)
       DO I=1,NSN
         IF(IIX(I)/=0)THEN
           VOXEL(IIX(I),IIY(I),IIZ(I))=0
         ENDIF
       ENDDO
+!$OMP END DO
 C
-      DEALLOCATE(NEXT_NOD)
-      DEALLOCATE(IIX)
-      DEALLOCATE(IIY)
-      DEALLOCATE(IIZ)
+!$OMP MASTER
       DEALLOCATE(LAST_NOD)
+      deallocate( cand_n_size,cand_e_size )
+      deallocate( address_cand_n,address_cand_e )
+!$OMP END MASTER
       DEALLOCATE(TAGNOD)
+
 
       RETURN
       END

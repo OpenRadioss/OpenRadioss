@@ -40,7 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1                  PENE ,NX1 ,NY1,NZ1,NX2,
      2                  NY2  ,NZ2 ,NX3,NY3,NZ3,
      3                  NX4  ,NY4 ,NZ4,P1 ,P2 ,
-     4                  P3   ,P4)
+     4                  P3   ,P4,LAST)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -52,6 +52,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: LAST !< last candidat
 C     REAL
       my_real
      .        MARGE, GAPV(*)
@@ -62,10 +63,6 @@ C     REAL
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: NX4,NY4,NZ4
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: P1,P2,P3,P4
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "vect07_c.inc"
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
@@ -73,7 +70,7 @@ C     REAL
       my_real
      .     D1,D2,D3,D4,S2
 C-----------------------------------------------
-       DO I=LFT,LLT
+       DO I=1,LAST
         D1 = SQRT(P1(I))
         P1(I) = MAX(ZERO, GAPV(I) + MARGE - D1)
 C
@@ -87,7 +84,7 @@ C
         P4(I) = MAX(ZERO, GAPV(I) + MARGE - D4)
        ENDDO
 C
-       DO I=LFT,LLT
+       DO I=1,LAST
         PENE(I) = MAX(P1(I),P2(I),P3(I),P4(I))
         if(P1(I)==PENE(I))then
          N1(I) = NX1(I)
@@ -107,7 +104,7 @@ C
          N3(I) = NZ4(I) 
         endif
        ENDDO
-       DO I=LFT,LLT
+       DO I=1,LAST
          S2 = ONE/MAX(EM30,SQRT(N1(I)**2 + N2(I)**2 + N3(I)**2))
          N1(I) = N1(I)*S2
          N2(I) = N2(I)*S2

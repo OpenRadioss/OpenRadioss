@@ -43,7 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5                  NZ2,NX3,NY3,NZ3,NX4,
      6                  NY4,NZ4,P1 ,P2 ,P3 ,
      7                  P4 ,LB1,LB2,LB3,LB4,
-     8                  LC1,LC2,LC3,LC4)
+     8                  LC1,LC2,LC3,LC4,LAST)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,12 +53,9 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "vect07_c.inc"
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: LAST !< last candidat
       INTEGER, DIMENSION(MVSIZ), INTENT(IN) :: IX3,IX4
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: X1,X2,X3,X4
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: Y1,Y2,Y3,Y4
@@ -94,13 +91,13 @@ C     REAL
      .     Z12,Z23,Z34,Z41,ZI0,SZ1,SZ2,SZ3,SZ4,SZ0,
      .     LA, HLA, AAA
 C-----------------------------------------------
-      DO 100 I=LFT,LLT
+      DO 100 I=1,LAST
        X0(I) = FOURTH*(X1(I)+X2(I)+X3(I)+X4(I))
        Y0(I) = FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
        Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I))
  100  CONTINUE
 C
-      DO 200 I=LFT,LLT
+      DO 200 I=1,LAST
        IF(IX3(I)==IX4(I))THEN
          X0(I) = X3(I)
          Y0(I) = Y3(I)
@@ -108,7 +105,7 @@ C
        ENDIF
  200  CONTINUE
 C
-      DO I=LFT,LLT
+      DO I=1,LAST
 C
         X01(I) = X1(I) - X0(I)
         Y01(I) = Y1(I) - Y0(I)
@@ -217,7 +214,7 @@ C
 C
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,LAST
         X12 = X2(I) - X1(I)
         Y12 = Y2(I) - Y1(I)
         Z12 = Z2(I) - Z1(I)
@@ -241,7 +238,7 @@ C       HLA, HLB1, HLC1 necessaires pour triangle angle obtu
         ENDIF
        ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,LAST
         X23 = X3(I) - X2(I)
         Y23 = Y3(I) - Y2(I)
         Z23 = Z3(I) - Z2(I)
@@ -265,7 +262,7 @@ C       HLA, HLB1, HLC1 necessaires pour triangle angle obtu
         ENDIF
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,LAST
         X34 = X4(I) - X3(I)
         Y34 = Y4(I) - Y3(I)
         Z34 = Z4(I) - Z3(I)
@@ -289,7 +286,7 @@ C       HLA, HLB1, HLC1 necessaires pour triangle angle obtu
         ENDIF
        ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,LAST
         X41 = X1(I) - X4(I)
         Y41 = Y1(I) - Y4(I)
         Z41 = Z1(I) - Z4(I)
@@ -313,7 +310,7 @@ C       HLA, HLB1, HLC1 necessaires pour triangle angle obtu
         ENDIF
        ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,LAST
 C
         NX1(I) = XI(I)-(X0(I) + LB1(I)*X01(I) + LC1(I)*X02(I))
         NY1(I) = YI(I)-(Y0(I) + LB1(I)*Y01(I) + LC1(I)*Y02(I))

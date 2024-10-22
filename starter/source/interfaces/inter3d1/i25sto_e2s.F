@@ -45,7 +45,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "comlock.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -115,15 +114,15 @@ C-----------------------------------------------
       ENDDO
       IF(K_STOK==0)RETURN
 C
-#include "lockon.inc"
+
       I_STOK = II_STOK
       IF(I_STOK+K_STOK>MULNSN) THEN
             I_MEM = 2
-#include "lockoff.inc"
+
             RETURN
       ENDIF
       II_STOK   = I_STOK + K_STOK
-#include "lockoff.inc"
+
       IF(INACTI==5)THEN
         DO I=1,J_STOK
           IF(PENE(I)/=ZERO)THEN

@@ -171,9 +171,7 @@ C     /---------------/
 C     /---------------/
 C      CALL MY_BARRIER
 C     /---------------/
-C#include "lockon.inc"
       IF(MYSPATRUE<SPATRUE)SPATRUE=MYSPATRUE
-C#include "lockoff.inc"
 
       RETURN
       END

@@ -32,20 +32,20 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    tri7box      ../starter/share/modules1/tri7box.F
       !||====================================================================
       SUBROUTINE I25STO(
-     1      J_STOK,IRECT  ,X     ,NSV   ,II_STOK,
-     2      CAND_N,CAND_E ,MULNSN,NOINT ,MARGE  ,
-     3      I_MEM ,PROV_N ,PROV_E,ESHIFT,NSN    ,
+     1      J_STOK,IRECT  ,X     ,NSV   ,local_i_stok,
+     2      local_cand_n,local_cand_e ,MARGE  ,
+     3      PROV_N ,PROV_E,ESHIFT,NSN    ,
      4      NRTM  ,GAP_S  ,GAP_M ,NBINFLG,MBINFLG,
-     5      ILEV ,MSEGTYP,ITAB ,IGAP,GAP_S_L,
+     5      ILEV ,MSEGTYP,IGAP,GAP_S_L,
      6      GAP_M_L,EDGE_L2,ICODE,ISKEW,DRAD,
      7      DGAPLOAD,NRTMT)
 C============================================================================
       USE TRI7BOX
+      use array_mod 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "comlock.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -53,11 +53,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER I_MEM, NSN, NRTM, NBINFLG(*),MBINFLG(*),ILEV, IGAP
-      INTEGER J_STOK,MULNSN,NOINT,ESHIFT
-      INTEGER IRECT(4,*),NSV(*),CAND_N(*),CAND_E(*)
-      INTEGER PROV_N(MVSIZ),PROV_E(MVSIZ),II_STOK,MSEGTYP(*),ICODE(*),ISKEW(*),
-     .        ITAB(*)
+      INTEGER NSN, NRTM, NBINFLG(*),MBINFLG(*),ILEV, IGAP
+      INTEGER J_STOK,ESHIFT
+      INTEGER IRECT(4,*),NSV(*)
+      INTEGER PROV_N(MVSIZ),PROV_E(MVSIZ),local_i_stok,MSEGTYP(*),ICODE(*),ISKEW(*)
 C     REAL
       my_real
      .        X(3,*), GAP_S(*), GAP_M(*),
@@ -65,12 +64,17 @@ C     REAL
      .        GAP_S_L(*), GAP_M_L(*), EDGE_L2(*)
       my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       INTEGER , INTENT(IN) :: NRTMT
+
+      type(array_type) :: local_cand_n
+      type(array_type) :: local_cand_e
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K_STOK,I_STOK,N,NE,J,ITYPE,ISH
+      INTEGER I,K_STOK,ITYPE
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        ETYP(MVSIZ), IBC(MVSIZ)
+      integer :: my_old_size,my_size
+      integer, dimension(:), allocatable :: tmp_array_1,tmp_array_2
 C     REAL
       my_real
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
@@ -109,22 +113,27 @@ C-----------------------------------------------
       ENDDO
       IF(K_STOK==0)RETURN
 C
-#include "lockon.inc"
-      I_STOK = II_STOK
-      IF(I_STOK+K_STOK>MULNSN) THEN
-            I_MEM = 2
-#include "lockoff.inc"
-            RETURN
-      ENDIF
-      II_STOK   = I_STOK + K_STOK
-#include "lockoff.inc"
+      if(local_i_stok+k_stok>local_cand_n%size_int_array_1d) then
+        my_old_size = local_cand_n%size_int_array_1d
+        my_size = (my_old_size+k_stok) * 1.25
+        allocate( tmp_array_1( my_size ) )
+        allocate( tmp_array_2( my_size ) )
+        tmp_array_1(1:my_old_size) = local_cand_n%int_array_1d(1:my_old_size)
+        tmp_array_2(1:my_old_size) = local_cand_e%int_array_1d(1:my_old_size)
+        call dealloc_1d_array(local_cand_n)
+        call dealloc_1d_array(local_cand_e)
+        call move_alloc(tmp_array_1,local_cand_n%int_array_1d)
+        call move_alloc(tmp_array_2,local_cand_e%int_array_1d)
+        local_cand_n%size_int_array_1d = my_size
+        local_cand_e%size_int_array_1d = my_size
+      endif
       DO I=1,J_STOK
-        IF(PENE(I)/=ZERO)THEN
-          I_STOK = I_STOK + 1
-          CAND_N(I_STOK) = PROV_N(I)
-          CAND_E(I_STOK) = PROV_E(I)+ESHIFT
-        ENDIF
-      ENDDO
+         IF(PENE(I)/=ZERO)THEN
+           local_i_stok = local_i_stok + 1
+           local_cand_n%int_array_1d(local_i_stok) = PROV_N(I)
+           local_cand_e%int_array_1d(local_i_stok) = PROV_E(I)+ESHIFT
+         ENDIF
+       ENDDO
 C-----------------------------------------------
       RETURN
       END
