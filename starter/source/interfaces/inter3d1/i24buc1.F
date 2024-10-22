@@ -508,7 +508,8 @@ C---------------------------------
      5               IX3    ,IX4    ,NSVG,X1      ,X2    ,
      6               X3     ,X4     ,Y1  ,Y2      ,Y3    ,
      7               Y4     ,Z1     ,Z2  ,Z3      ,Z4    ,
-     8               XI     ,YI     ,ZI  ,STIF    ,DGAPLOAD)
+     8               XI     ,YI     ,ZI  ,STIF    ,DGAPLOAD,
+     9               J_STOK)
         ELSE
          CALL I7COR3(X    ,IRECT,NSV  ,PROV_E ,PROV_N,
      .               STF  ,STFN ,GAPV ,IGAP   ,GAP   ,
@@ -517,7 +518,8 @@ C---------------------------------
      5               IX3    ,IX4    ,NSVG,X1      ,X2    ,
      6               X3     ,X4     ,Y1  ,Y2      ,Y3    ,
      7               Y4     ,Z1     ,Z2  ,Z3      ,Z4    ,
-     8               XI     ,YI     ,ZI  ,STIF    ,DGAPLOAD)
+     8               XI     ,YI     ,ZI  ,STIF    ,DGAPLOAD,
+     9               J_STOK)
         END IF !(NSNE >0) THEN
          CALL I7DST3(IX3,IX4,X1 ,X2 ,X3 ,
      1                  X4 ,Y1 ,Y2 ,Y3 ,Y4 ,
@@ -527,13 +529,13 @@ C---------------------------------
      5                  NZ2,NX3,NY3,NZ3,NX4,
      6                  NY4,NZ4,P1 ,P2 ,P3 ,
      7                  P4 ,LB1,LB2,LB3,LB4,
-     8                  LC1,LC2,LC3,LC4)
+     8                  LC1,LC2,LC3,LC4,J_STOK)
 
          CALL I7PEN3(MARGE_ST,GAPV,N11,N21,N31,
      1                  PENE ,NX1 ,NY1,NZ1,NX2,
      2                  NY2  ,NZ2 ,NX3,NY3,NZ3,
      3                  NX4  ,NY4 ,NZ4,P1 ,P2 ,
-     4                  P3   ,P4)
+     4                  P3   ,P4,J_STOK)
 
          IF (ILEV==2) CALL I24S1S2(PROV_N,PROV_E,NBINFLG,MBINFLG,PENE)
          IF(I_STOK+J_STOK<MULTIMP*NSN) THEN

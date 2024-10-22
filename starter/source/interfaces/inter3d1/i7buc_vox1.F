@@ -38,26 +38,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE I7BUC_VOX1(
      1   X     ,IRECT,NSV    ,BUMULT,NSEG    ,
-     2   NMN   ,NRTM ,MWA    ,NSN   ,CAND_E  ,
-     3   CAND_N,GAP  ,XYZM   ,NOINT ,I_STOK  ,
+     2   NMN   ,NRTM ,MWA    ,NSN   ,
+     3   GAP  ,XYZM   ,NOINT ,I_STOK  ,
      4   DIST  ,TZINF,MSR     ,   
      5   STF   ,STFN ,MULTIMP,ISTF  ,IDDLEVEL,
      6   ITAB  ,GAP_S,GAP_M  ,IGAP  ,GAPMIN  ,
      7   GAPMAX,INACTI,GAP_S_L,GAP_M_L,I_MEM ,
      8   NCONT ,ICURV ,BGAPSMX,ID, TITR,
-     9   DRAD  ,INTERCEP,NUMINT,PROV_N,PROV_E,
-     1   IX11  ,IX12    ,IX13  ,IX14  ,NSVG  ,
-     2   X1    ,X2      ,X3    ,X4    ,Y1    ,
-     3   Y2    ,Y3      ,Y4    ,Z1    ,Z2    ,
-     4   Z3    ,Z4      ,XI    ,YI    ,ZI    ,
-     5   X0    ,Y0      ,Z0    ,NX1   ,NY1   ,
-     6   NZ1   ,NX2     ,NY2   ,NZ2   ,NX3   ,
-     7   NY3   ,NZ3     ,NX4   ,NY4   ,NZ4   ,
-     8   P1    ,P2      ,P3    ,P4    ,LB1   ,
-     9   LB2   ,LB3     ,LB4   ,LC1   ,LC2   ,
-     1   LC3   ,LC4     ,N11   ,N21   ,N31   ,
-     2   STIF  ,PENE    ,IREMNODE,FLAGREMNODE,
-     3   KREMNODE,REMNODE,DGAPLOAD)
+     9   DRAD  ,INTERCEP,NIN,
+     1   IREMNODE,FLAGREMNODE,KREMNODE,REMNODE,
+     2   DGAPLOAD,npari,ipari,intbuf_tab)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -65,6 +55,7 @@ C-----------------------------------------------
       USE TRI7BOX
       USE FRONT_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use intbufdef_mod 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -85,9 +76,9 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NMN, NRTM, NSN, NOINT,I_STOK,MULTIMP,ISTF,IGAP,
-     .        INACTI,I_MEM,NUMINT,IREMNODE,FLAGREMNODE
+     .        INACTI,I_MEM,NIN,IREMNODE,FLAGREMNODE
       INTEGER IRECT(4,*),NSV(*),NSEG(*),MWA(*)
-      INTEGER CAND_E(*),CAND_N(*),MSR(*),IDDLEVEL
+      INTEGER MSR(*),IDDLEVEL
       INTEGER ITAB(*),NCONT,ICURV,KREMNODE(*),REMNODE(*)
       my_real
      .   STF(*),STFN(*),X(3,*),XYZM(6,2),GAP_S(*),GAP_M(*),
@@ -96,23 +87,10 @@ C-----------------------------------------------
       my_real , INTENT(IN) :: DGAPLOAD
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE) :: TITR
-      TYPE(INTERSURFP) :: INTERCEP(3,NINTER) 
-      INTEGER, DIMENSION(MVSIZ), INTENT(INOUT) :: PROV_N, PROV_E,NSVG
-      INTEGER, DIMENSION(MVSIZ), INTENT(INOUT) :: IX11,IX12,IX13,IX14
-      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: X1,X2,X3,X4
-      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: Y1,Y2,Y3,Y4
-      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: Z1,Z2,Z3,Z4
-      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: XI,YI,ZI
-      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: X0,Y0,Z0
-      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: NX1,NY1,NZ1
-      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: NX2,NY2,NZ2
-      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: NX3,NY3,NZ3
-      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: NX4,NY4,NZ4
-      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: P1,P2,P3,P4
-      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: LB1,LB2,LB3,LB4
-      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: LC1,LC2,LC3,LC4
-      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: N11,N21,N31
-      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: STIF,PENE
+      TYPE(INTERSURFP) :: INTERCEP(3,NINTER)
+      integer, intent(in) :: npari
+      integer, dimension(npari), intent(inout) :: ipari !< interface data
+      type(intbuf_struct_), intent(inout) :: intbuf_tab !< interface data 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -121,7 +99,7 @@ C-----------------------------------------------
       INTEGER NBX,NBY,NBZ
       INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8
       INTEGER I, J, K, I_ADD, L, LOC_PROC, N, ISZNSNR,
-     .        N1, N2, N3, N4, NCONTACT,I_BID,J_STOK,I_STOK_OLD,
+     .        N1, N2, N3, N4, NCONTACT,I_BID,I_STOK_OLD,
      .        IX1,IY1,IZ1,IX2,IY2,IZ2,IX,IY,IZ
       my_real
      .         MARGE, AAA,TZINF_ST,MARGE_ST 
@@ -141,6 +119,7 @@ C-----------------------------------------------
      .   XMINE,YMINE,ZMINE,XMAXE,YMAXE,ZMAXE,
      .   XX1,XX2,XX3,XX4,YY1,YY2,YY3,YY4,ZZ1,ZZ2,ZZ3,ZZ4
         my_real, DIMENSION(:), ALLOCATABLE :: CURV_MAX
+      INTEGER,  DIMENSION(:),ALLOCATABLE :: IIX,IIY,IIZ,LOCAL_NEXT_NOD
      
       LOGICAL :: TYPE18
       INTEGER (KIND=8) :: IONE,IHUNDRED !< Integer constants in INTEGER 8 for comparisions
@@ -152,6 +131,10 @@ C-----------------------------------------------
 
       ALLOCATE( INDEX(NRTM) )
       ALLOCATE( CURV_MAX(NRTM) )
+      ALLOCATE(LOCAL_NEXT_NOD(NSN))
+      ALLOCATE(IIX(NSN))
+      ALLOCATE(IIY(NSN))
+      ALLOCATE(IIZ(NSN))
       TYPE18=.FALSE.
       IF(INACTI==7)TYPE18=.TRUE.
 
@@ -239,13 +222,12 @@ C----- BORNES DU DOMAINE
       ZMIN_M=EP30
  100  CONTINUE     
       I_STOK = 0
-      J_STOK = 0
       I_MEM = 0
 C Loop over the domain to improve sorting performance      
       DO LOC_PROC=1,NSPMD
         NRTM_L=0
         DO I=1,NRTM
-          IF(INTERCEP(1,NUMINT)%P(I)==LOC_PROC)THEN
+          IF(INTERCEP(1,NIN)%P(I)==LOC_PROC)THEN
             NRTM_L=NRTM_L+1
             INDEX(NRTM_L)=I
           END IF
@@ -380,10 +362,7 @@ C        indice des voxels occupes par la facette
         DEV_X=SQRT(DEV_X/MAX(4*NRTM_L,1))
         DEV_Y=SQRT(DEV_Y/MAX(4*NRTM_L,1))
         DEV_Z=SQRT(DEV_Z/MAX(4*NRTM_L,1))
-C we keep all in +/- 2 sigma => 95% of the population for normal law distribution
-c      print*,'STAT X, MEAN / DEV:',MEAN_X,DEV_X
-c      print*,'STAT Y, MEAN / DEV:',MEAN_Y,DEV_Y
-c      print*,'STAT Z, MEAN / DEV:',MEAN_Z,DEV_Z      
+C we keep all in +/- 2 sigma => 95% of the population for normal law distribution 
         XMINB=MAX(MEAN_X-2*DEV_X,XMIN)
         YMINB=MAX(MEAN_Y-2*DEV_Y,YMIN)
         ZMINB=MAX(MEAN_Z-2*DEV_Z,ZMIN)
@@ -403,8 +382,6 @@ C Test cas particulier 2D
           ZMINB=ZMIN
           ZMAXB=ZMAX
         END IF        
-c        print*,'R bornes min:',XMINB,YMINB,ZMINB
-c        print*,'R bornes max:',XMAXB,YMAXB,ZMAXB
 
         XYZM(1,1) = XMIN
         XYZM(2,1) = YMIN
@@ -418,48 +395,6 @@ c        print*,'R bornes max:',XMAXB,YMAXB,ZMAXB
         XYZM(4,2) = XMAXB
         XYZM(5,2) = YMAXB
         XYZM(6,2) = ZMAXB
-
-c      I_STOK = 0
-c      J_STOK = 0
-c      I_MEM = 0
-C-----DEBUT DE LA PHASE DE TRI 
-c        AAA = SQRT(NMN /
-c     .           ((XMAX-XMIN)*(YMAX-YMIN)
-c     .           +(YMAX-YMIN)*(ZMAX-ZMIN)
-c     .           +(ZMAX-ZMIN)*(XMAX-XMIN)))
-c        AAA = 0.75*AAA
-c
-c        NBX = NINT(AAA*(XMAX-XMIN))
-c        NBY = NINT(AAA*(YMAX-YMIN))
-c        NBZ = NINT(AAA*(ZMAX-ZMIN))
-c        NBX = MAX(NBX,1)
-c        NBY = MAX(NBY,1)
-c        NBZ = MAX(NBZ,1)     
-c        print *,'intermediate NBx:',NBX,NBY,NBZ,AAA    
-c        NBX8=NBX
-c        NBY8=NBY
-c        NBZ8=NBZ
-c        RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)       
-c        LVOXEL8 = LVOXEL 
-c
-c        IF(RES8 > LVOXEL8) THEN
-c          AAA = LVOXEL
-c          AAA = AAA/((NBX8+2)*(NBY8+2)*(NBZ8+2))
-c          AAA = AAA**(THIRD)
-c          NBX = INT((NBX+2)*AAA)-2
-c          NBY = INT((NBY+2)*AAA)-2
-c          NBZ = INT((NBZ+2)*AAA)-2
-c          NBX = MAX(NBX,1)
-c          NBY = MAX(NBY,1)
-c          NBZ = MAX(NBZ,1)
-c        ENDIF
-c      
-c        NBX8=NBX
-c        NBY8=NBY
-c        NBZ8=NBZ
-c        RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2) 
-c        print *,'original final NBx:',NBX,NBY,NBZ,RES8,AAA    
-
 C
         AAA = SQRT(NMN /
      .           ((XMAXB-XMINB)*(YMAXB-YMINB)
@@ -472,8 +407,7 @@ C
         NBZ = NINT(AAA*(ZMAXB-ZMINB))
         NBX = MAX(NBX,1)
         NBY = MAX(NBY,1)
-        NBZ = MAX(NBZ,1)
-c        print *,'intermediate NBx:',NBX,NBY,NBZ,AAA    
+        NBZ = MAX(NBZ,1)   
     
         NBX8=NBX
         NBY8=NBY
@@ -497,10 +431,6 @@ c        print *,'intermediate NBx:',NBX,NBY,NBZ,AAA
         NBY8=NBY
         NBZ8=NBZ
         RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2) 
-c        print *,'final NBx:',NBX,NBY,NBZ,RES8,AAA    
-        
-        
-c 100  CONTINUE
 
         IF(RES8 > LVOXEL8) THEN
           NBX = MIN(IHUNDRED,MAX(NBX8,IONE))
@@ -508,7 +438,6 @@ c 100  CONTINUE
           NBZ = MIN(IHUNDRED,MAX(NBZ8,IONE))
         ENDIF
 
-c        print *,'init voxel:',NBX,NBY,NBZ,NBX*NBY*NBZ
 C     initialisation complete de VOXEL
         DO I=INIVOXEL,(NBX+2)*(NBY+2)*(NBZ+2)
           VOXEL1(I)=0
@@ -517,28 +446,20 @@ C     initialisation complete de VOXEL
 C------------------
   200 CONTINUE
 C------------------
-C call with NRTM_L
+!$OMP PARALLEL        
         CALL I7TRIVOX1(
      1   NSN      ,I_MEM   ,IRECT    ,X       ,STF     ,
-     2   STFN     ,XYZM    ,NSV      ,CAND_N  ,CAND_E  ,
+     2   STFN     ,XYZM    ,NSV      ,
      3   NCONTACT ,NOINT   ,TZINF_ST ,GAP_S_L ,GAP_M_L ,
      4   VOXEL1   ,NBX     ,NBY      ,NBZ     ,NRTM_L  ,
      5   IGAP     ,GAP     ,GAP_S    ,GAP_M   ,GAPMIN  ,
      6   GAPMAX   ,MARGE_ST,CURV_MAX ,BGAPSMX ,ISTF    ,
-     7   I_STOK   ,MULTIMP ,J_STOK   ,PROV_N  ,PROV_E  ,
+     7   I_STOK   ,NIN,
      8   ID       ,TITR    ,DRAD     ,INDEX   ,
-     1   IX11  ,IX12    ,IX13  ,IX14  ,NSVG   ,
-     2   X1    ,X2      ,X3    ,X4    ,Y1    ,
-     3   Y2    ,Y3      ,Y4    ,Z1    ,Z2    ,
-     4   Z3    ,Z4      ,XI    ,YI    ,ZI    ,
-     5   X0    ,Y0      ,Z0    ,NX1   ,NY1   ,
-     6   NZ1   ,NX2     ,NY2   ,NZ2   ,NX3   ,
-     7   NY3   ,NZ3     ,NX4   ,NY4   ,NZ4   ,
-     8   P1    ,P2      ,P3    ,P4    ,LB1   ,
-     9   LB2   ,LB3     ,LB4   ,LC1   ,LC2   ,
-     1   LC3   ,LC4     ,N11   ,N21   ,N31   ,
-     2   STIF  ,PENE,IREMNODE,FLAGREMNODE,
-     N   KREMNODE,REMNODE,DGAPLOAD)
+     9   IREMNODE,FLAGREMNODE,KREMNODE,REMNODE,
+     1   DGAPLOAD,ipari,intbuf_tab,
+     2   iix,iiy,iiz,local_next_nod )
+!$OMP END PARALLEL
 C------------------
 
         IF (I_MEM == 2)THEN
@@ -563,63 +484,6 @@ C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
           GO TO 100
         ENDIF
 C---------------------------------
-        IF(J_STOK/=0)THEN
-         LFT = 1
-         LLT = J_STOK
-         CALL I7COR3(X    ,IRECT,NSV  ,PROV_E ,PROV_N,
-     .               STF  ,STFN ,GAPV ,IGAP   ,GAP   ,
-     .               GAP_S,GAP_M,ISTF ,GAPMIN ,GAPMAX,
-     .               GAP_S_L,GAP_M_L  ,DRAD   ,IX11,IX12 ,
-     5               IX13   ,IX14   ,NSVG,X1      ,X2    ,
-     6               X3     ,X4     ,Y1  ,Y2      ,Y3    ,
-     7               Y4     ,Z1     ,Z2  ,Z3      ,Z4    ,
-     8               XI     ,YI     ,ZI  ,STIF    ,DGAPLOAD)
-         CALL I7DST3( IX13,IX14,X1 ,X2 ,X3 ,
-     1                  X4 ,Y1 ,Y2 ,Y3 ,Y4 ,
-     2                  Z1 ,Z2 ,Z3 ,Z4 ,XI ,
-     3                  YI ,ZI ,X0 ,Y0 ,Z0 ,
-     4                  NX1,NY1,NZ1,NX2,NY2,
-     5                  NZ2,NX3,NY3,NZ3,NX4,
-     6                  NY4,NZ4,P1 ,P2 ,P3 ,
-     7                  P4 ,LB1,LB2,LB3,LB4,
-     8                  LC1,LC2,LC3,LC4)
-         CALL I7PEN3(MARGE_ST,GAPV,N11,N21,N31,
-     1                  PENE ,NX1 ,NY1,NZ1,NX2,
-     2                  NY2  ,NZ2 ,NX3,NY3,NZ3,
-     3                  NX4  ,NY4 ,NZ4,P1 ,P2 ,
-     4                  P3   ,P4)
-         IF(I_STOK+J_STOK<MULTIMP*NSN) THEN
-          CALL I7CMP3(I_STOK,CAND_E  ,CAND_N,1,PENE,
-     1                PROV_N,PROV_E)
-         ELSE
-          I_BID = 0
-          CALL I7CMP3(I_BID,CAND_E,CAND_N,0,PENE,
-     1                PROV_N,PROV_E)
-          IF(I_STOK+I_BID<MULTIMP*NSN) THEN
-            CALL I7CMP3(I_STOK,CAND_E,CAND_N,1,PENE,
-     1                  PROV_N,PROV_E)
-          ELSE
-            I_MEM = 2
-            I_STOK = 0
-            J_STOK = 0
-            RETURN
-            MARGE_ST = THREE_OVER_4*MARGE_ST
-            TZINF_ST = MARGE_ST + MAX(GAP+DGAPLOAD,DRAD)
-            I_MEM = 0
-C ne pas dimunuer la taille des boite
-            IF(MARGE_ST<EM03) THEN
-              CALL ANCMSG(MSGID=83,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO,
-     .                I1=ID,
-     .                C1=TITR)
-            ENDIF
-            GO TO 100
-          ENDIF
-         ENDIF
-         J_STOK=0
-        ENDIF
-C
       END DO ! end loop over NSPMD domains
       
       IF(.NOT.TYPE18)THEN
@@ -639,5 +503,9 @@ C
 C
       DEALLOCATE( INDEX )
       DEALLOCATE( CURV_MAX )
+      DEALLOCATE(LOCAL_NEXT_NOD)
+      DEALLOCATE(IIX)
+      DEALLOCATE(IIY)
+      DEALLOCATE(IIZ)
       RETURN
       END

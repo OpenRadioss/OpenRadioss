@@ -34,31 +34,25 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE I7TRIVOX1(
      1      NSN    ,I_MEM   ,IRECT    ,X       ,STF     ,
-     2      STFN   ,XYZM    ,NSV      ,CAND_N  ,CAND_E  ,
+     2      STFN   ,XYZM    ,NSV      ,
      3      MULNSN ,NOINT   ,TZINF    ,GAP_S_L ,GAP_M_L ,
      4      VOXEL  ,NBX     ,NBY      ,NBZ     ,NRTM    ,
      5      IGAP   ,GAP     ,GAP_S    ,GAP_M   ,GAPMIN  ,
      6      GAPMAX ,MARGE   ,CURV_MAX ,BGAPSMX ,ISTF    ,
-     7      I_STOK ,MULTIMP ,J_STOK   ,PROV_N  ,PROV_E  ,
+     7      I_STOK ,nin,
      8      ID     ,TITR    ,DRAD     ,INDEX   ,
-     1      IX11  ,IX12    ,IX13  ,IX14  ,NSVG ,
-     2      X1    ,X2      ,X3    ,X4    ,Y1    ,
-     3      Y2    ,Y3      ,Y4    ,Z1    ,Z2    ,
-     4      Z3    ,Z4      ,XI    ,YI    ,ZI    ,
-     5      X0    ,Y0      ,Z0    ,NX1   ,NY1   ,
-     6      NZ1   ,NX2     ,NY2   ,NZ2   ,NX3   ,
-     7      NY3   ,NZ3     ,NX4   ,NY4   ,NZ4   ,
-     8      P1    ,P2      ,P3    ,P4    ,LB1   ,
-     9      LB2   ,LB3     ,LB4   ,LC1   ,LC2   ,
-     1      LC3   ,LC4     ,N11   ,N21   ,N31   ,
-     2      STIF  ,PENE    ,IREMNODE,FLAGREMNODE,
-     3      KREMNODE,REMNODE,DGAPLOAD)
+     9      IREMNODE,FLAGREMNODE,KREMNODE,REMNODE,
+     1      DGAPLOAD,ipari,intbuf_tab,
+     2      iix,iiy,iiz,local_next_nod )
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE MY_ALLOC_MOD
       USE TRI7BOX
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use inter_save_candidate_mod , only : inter_save_candidate
+      use array_mod 
+      use intbufdef_mod 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -75,7 +69,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "vect07_c.inc"
 C-----------------------------------------------
 C   ROLE DE LA ROUTINE:
 C   ===================
@@ -107,7 +100,7 @@ C     PROV_E       CAND_E provisoire (variable static dans i7tri)
 
 C     VOXEL(ix,iy,iz) contient le numero local du premier noeud de
 C                  la boite
-C     NEXT_NOD(i)  noeud suivant dans la meme boite (si /= 0)
+C     LOCAL_NEXT_NOD(i)  noeud suivant dans la meme boite (si /= 0)
 C     LAST_NOD(i)  dernier noeud dans la meme boite (si /= 0)
 C                  utilise uniquement pour aller directement du premier
 C                       noeud au dernier
@@ -118,9 +111,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER I_MEM,NSN,NRTM,
      .        MULNSN,NOINT,IGAP,NBX,NBY,NBZ,IREMNODE,FLAGREMNODE,
-     .        NSV(*),CAND_N(*),CAND_E(*),
-     .        IRECT(4,*), VOXEL(NBX+2,NBY+2,NBZ+2),ISTF,
-     .        I_STOK ,MULTIMP,PROV_N(*),PROV_E(*),J_STOK,
+     .        NSV(NSN),
+     .        IRECT(4,NRTM), VOXEL(NBX+2,NBY+2,NBZ+2),ISTF,
+     .        I_STOK ,J_STOK,
      .        INDEX(*),KREMNODE(*),REMNODE(*)
       my_real
      .   X(3,*),XYZM(6,2),STF(*),STFN(*),GAP_S(*),GAP_M(*),
@@ -128,21 +121,10 @@ C-----------------------------------------------
      .   CURV_MAX(*),GAP_S_L(*),GAP_M_L(*)
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE)::TITR
-      INTEGER, DIMENSION(MVSIZ), INTENT(INOUT) :: IX11,IX12,IX13,IX14,NSVG
-      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: X1,X2,X3,X4
-      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: Y1,Y2,Y3,Y4
-      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: Z1,Z2,Z3,Z4
-      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: XI,YI,ZI
-      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: X0,Y0,Z0
-      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: NX1,NY1,NZ1
-      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: NX2,NY2,NZ2
-      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: NX3,NY3,NZ3
-      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: NX4,NY4,NZ4
-      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: P1,P2,P3,P4
-      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: LB1,LB2,LB3,LB4
-      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: LC1,LC2,LC3,LC4
-      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: N11,N21,N31
-      my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: STIF,PENE
+      integer, intent(in) :: nin !< interface index
+      integer, dimension(npari), intent(inout) :: ipari !< interface data
+      type(intbuf_struct_), intent(inout) :: intbuf_tab !< interface data
+      INTEGER,  dimension(nsn), intent(inout) :: iix,iiy,iiz,local_next_nod
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -156,12 +138,10 @@ C     REAL
      .   XX1,XX2,XX3,XX4,YY1,YY2,YY3,YY4,ZZ1,ZZ2,ZZ3,ZZ4,
      .   D1X,D1Y,D1Z,D2X,D2Y,D2Z,DD1,DD2,D2,A2,GS,GAPV(MVSIZ)
       INTEGER  LAST_NOD(NSN)
-c     .  maxvox, meanvox, ttvox, maxjj, ttjj, numjj, jj1, jj2, jj3,iii,
-c     .  nbbox1,nbin1,nbin2,nbin3
       INTEGER*8 meanjj8
       INTEGER  IX,IY,IZ,NEXT,M1,M2,M3,M4,
      .         IX1,IY1,IZ1,IX2,IY2,IZ2
-      INTEGER,  DIMENSION(:),ALLOCATABLE :: IIX,IIY,IIZ
+      integer, dimension(mvsiz) :: prov_n,prov_e
       my_real
      .   XMINB,YMINB,ZMINB,XMAXB,YMAXB,ZMAXB,
      .   XMINE,YMINE,ZMINE,XMAXE,YMAXE,ZMAXE,AAA,TSTART,TSTOP
@@ -169,17 +149,47 @@ c     .  nbbox1,nbin1,nbin2,nbin3
 c      my_ream
 c     .   maxaaa
       INTEGER FIRST,NEW,LAST,M
-      SAVE IIX,IIY,IIZ
-      INTEGER, DIMENSION(:), ALLOCATABLE ::  TAGNOD
-      INTEGER, DIMENSION(:), ALLOCATABLE ::  TAG
-C-----------------------------------------------
-      CALL MY_ALLOC(TAG,NUMNOD)
-      ALLOCATE(NEXT_NOD(NSN))
-      ALLOCATE(IIX(NSN))
-      ALLOCATE(IIY(NSN))
-      ALLOCATE(IIZ(NSN))
+      INTEGER, DIMENSION(MVSIZ) :: IX11,IX12,IX13,IX14,NSVG
+      my_real, DIMENSION(MVSIZ) :: X1,X2,X3,X4
+      my_real, DIMENSION(MVSIZ) :: Y1,Y2,Y3,Y4
+      my_real, DIMENSION(MVSIZ) :: Z1,Z2,Z3,Z4
+      my_real, DIMENSION(MVSIZ) :: XI,YI,ZI
+      my_real, DIMENSION(MVSIZ) :: X0,Y0,Z0
+      my_real, DIMENSION(MVSIZ) :: NX1,NY1,NZ1
+      my_real, DIMENSION(MVSIZ) :: NX2,NY2,NZ2
+      my_real, DIMENSION(MVSIZ) :: NX3,NY3,NZ3
+      my_real, DIMENSION(MVSIZ) :: NX4,NY4,NZ4
+      my_real, DIMENSION(MVSIZ) :: P1,P2,P3,P4
+      my_real, DIMENSION(MVSIZ) :: LB1,LB2,LB3,LB4
+      my_real, DIMENSION(MVSIZ) :: LC1,LC2,LC3,LC4
+      my_real, DIMENSION(MVSIZ) :: N11,N21,N31
+      my_real, DIMENSION(MVSIZ) :: STIF,PENE
 
-C
+      INTEGER, DIMENSION(:), ALLOCATABLE ::  TAGNOD
+
+      integer , external :: omp_get_thread_num,omp_get_num_threads
+      integer :: itask,nthreads
+      integer :: my_old_size,my_address
+      integer :: local_i_stok,multimp
+      integer :: local_cand_n_size,local_cand_e_size
+
+      integer, save :: i_stok_old
+      integer, dimension(:), allocatable, save :: cand_n_size,cand_e_size
+      integer, dimension(:), allocatable, save :: address_cand_n,address_cand_e
+      type(array_type) :: local_cand_n
+      type(array_type) :: local_cand_e
+C-----------------------------------------------
+      ! allocation of local arrays 
+      itask = omp_get_thread_num()
+      nthreads = omp_get_num_threads()
+      local_cand_n_size = size(intbuf_tab%cand_n) / nthreads
+      local_cand_e_size = size(intbuf_tab%cand_e) / nthreads
+      local_i_stok = 0
+      local_cand_n%size_int_array_1d = local_cand_n_size
+      local_cand_e%size_int_array_1d = local_cand_e_size
+      call alloc_1d_array(local_cand_n)
+      call alloc_1d_array(local_cand_e)
+
       XMIN = XYZM(1,1)
       YMIN = XYZM(2,1)
       ZMIN = XYZM(3,1)
@@ -187,7 +197,6 @@ C
       YMAX = XYZM(5,1)
       ZMAX = XYZM(6,1)
 
-c     dev future: xminb plus grand que xmin...
       XMINB = XYZM(1,2)
       YMINB = XYZM(2,2)
       ZMINB = XYZM(3,2)
@@ -195,18 +204,18 @@ c     dev future: xminb plus grand que xmin...
       YMAXB = XYZM(5,2)
       ZMAXB = XYZM(6,2)
 
-c      XMINB = XMIN
-c      YMINB = YMIN
-c      ZMINB = ZMIN
-c      XMAXB = XMAX
-c      YMAXB = YMAX
-c      ZMAXB = ZMAX
-
-c      print *,NOINT,'before loop:',XMINB,YMINB,ZMINB,XMAXB,YMAXB,ZMAXB
-c      print *,NOINT,'box big:',XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX
 C=======================================================================
 C 1   mise des noeuds dans les boites
 C=======================================================================
+
+!$OMP MASTER
+
+      allocate( cand_n_size(nthreads+1),cand_e_size(nthreads+1) )
+      allocate( address_cand_n(nthreads+1),address_cand_e(nthreads+1) )
+      cand_n_size(1:nthreads+1) = 0 
+      cand_e_size(1:nthreads+1) = 0
+      address_cand_n(1:nthreads+1) = 0 
+      address_cand_e(1:nthreads+1) = 0
 
       DO I=1,NSN
         IIX(I)=0
@@ -250,45 +259,38 @@ C Second test vs reduced Box
         IF(FIRST == 0)THEN
 c         empty cell
           VOXEL(IIX(I),IIY(I),IIZ(I)) = I ! first
-          NEXT_NOD(I)                 = 0 ! last one
+          LOCAL_NEXT_NOD(I)                 = 0 ! last one
           LAST_NOD(I)                 = 0 ! no last
         ELSEIF(LAST_NOD(FIRST) == 0)THEN
 c         cell containing one node
 c         add as next node
-          NEXT_NOD(FIRST) = I ! next
+          LOCAL_NEXT_NOD(FIRST) = I ! next
           LAST_NOD(FIRST) = I ! last
-          NEXT_NOD(I)     = 0 ! last one
+          LOCAL_NEXT_NOD(I)     = 0 ! last one
         ELSE
 c
 c         jump to the last node of the cell
           LAST = LAST_NOD(FIRST) ! last node in this voxel
-          NEXT_NOD(LAST)  = I ! next
+          LOCAL_NEXT_NOD(LAST)  = I ! next
           LAST_NOD(FIRST) = I ! last
-          NEXT_NOD(I)     = 0 ! last one
+          LOCAL_NEXT_NOD(I)     = 0 ! last one
         ENDIF
       ENDDO
+!$OMP END MASTER
+
+!$OMP BARRIER
 C=======================================================================
 C 3   recherche des boites concernant chaque facette
 C     et creation des candidats
 C=======================================================================
 
-c      print*,'loop nrtm',NRTM
-c      maxvox=0
-c      meanvox=0
-c      ttvox=0
-c      maxjj=0
-c      meanjj8=0
-c      ttjj=0
-c      jj1=0
-c      jj2=0
-c      jj3=0
-c      maxaaa=0.
       ALLOCATE(TAGNOD(NUMNOD+NUMFAKENODIGEO))
       TAGNOD(1:NUMNOD+NUMFAKENODIGEO) = 0
-
+      local_i_stok = 0
+      j_stok = 0
+!$OMP DO SCHEDULE(guided)
       DO KK=1,NRTM
         NE=INDEX(KK)
-C on ne retient pas les facettes detruites
         IF(STF(NE) == ZERO)CYCLE
 
         IF(FLAGREMNODE==2.AND.IREMNODE==2)THEN
@@ -305,9 +307,6 @@ C on ne retient pas les facettes detruites
           AAA = MARGE+CURV_MAX(NE)+
      .      MAX(MIN(GAPMAX,MAX(GAPMIN,BGAPSMX+GAP_M(NE)))+DGAPLOAD,DRAD)
         ENDIF
-c        maxaaa=max(maxaaa,aaa)
-c     il est possible d'ameliorer l'algo en decoupant la facette
-c     en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee
 
         M1 = IRECT(1,NE)
         M2 = IRECT(2,NE)
@@ -360,12 +359,9 @@ c        indice des voxels occupes par la facette
           IZ1=INT(MAX(NBZ*(ZMINE-AAA-ZMINB)/(ZMAXB-ZMINB),-ONE))
         ENDIF
 
-
-
         IX1=MAX(1,2+IX1)
         IY1=MAX(1,2+IY1)
         IZ1=MAX(1,2+IZ1)
-
 
         IF( (XMAXE + AAA - XMINB)/(XMAXB-XMINB) > ONE ) THEN
           IX2 = NBX
@@ -387,29 +383,21 @@ c        indice des voxels occupes par la facette
         IY2=MAX(1,2+IY2)
         IZ2=MAX(1,2+IZ2)
 
-c        maxvox = max(maxvox,(IZ2-IZ1)*(IY2-IY1)*(IX2-IX1))
-c        ttvox=ttvox+1
-c        meanvox=meanvox+(IZ2-IZ1)*(IY2-IY1)*(IX2-IX1)
         DO IZ = IZ1,IZ2
           DO IY = IY1,IY2
             DO IX = IX1,IX2
 
               JJ = VOXEL(IX,IY,IZ)
-cc           numjj = 0
 
               DO WHILE(JJ /= 0)
 
                 NN=NSV(JJ)
-C
-cc             numjj=numjj+1
-c
+
                 IF(TAGNOD(NN) == 1 ) GOTO 300
                 IF(NN == M1)GOTO 300
                 IF(NN == M2)GOTO 300
                 IF(NN == M3)GOTO 300
                 IF(NN == M4)GOTO 300
-
-c
 
                 XS = X(1,NN)
                 YS = X(2,NN)
@@ -444,10 +432,6 @@ c    sousestimation de la distance**2 pour elimination de candidats
                 PROV_N(J_STOK) = JJ
                 PROV_E(J_STOK) = NE
                 IF(J_STOK == NVSIZ) THEN
-                  LFT = 1
-                  LLT = NVSIZ
-                  NFT = 0
-                  J_STOK = 0
                   CALL I7COR3(X    ,IRECT,NSV  ,PROV_E ,PROV_N,
      .                        STF  ,STFN ,GAPV ,IGAP   ,GAP   ,
      .                        GAP_S,GAP_M,ISTF ,GAPMIN ,GAPMAX,
@@ -455,7 +439,8 @@ c    sousestimation de la distance**2 pour elimination de candidats
      5                        IX13    ,IX14    ,NSVG,X1     ,X2     ,
      6                        X3     ,X4     ,Y1  ,Y2      ,Y3      ,
      7                        Y4     ,Z1     ,Z2  ,Z3      ,Z4      ,
-     8                        XI     ,YI     ,ZI  ,STIF    ,DGAPLOAD)
+     8                        XI     ,YI     ,ZI  ,STIF    ,DGAPLOAD,
+     9                        J_STOK)
                   CALL I7DST3(IX13,IX14,X1 ,X2 ,X3 ,
      1                 X4 ,Y1 ,Y2 ,Y3 ,Y4 ,
      2                 Z1 ,Z2 ,Z3 ,Z4 ,XI ,
@@ -464,40 +449,20 @@ c    sousestimation de la distance**2 pour elimination de candidats
      5                 NZ2,NX3,NY3,NZ3,NX4,
      6                 NY4,NZ4,P1 ,P2 ,P3 ,
      7                 P4 ,LB1,LB2,LB3,LB4,
-     8                 LC1,LC2,LC3,LC4)
+     8                 LC1,LC2,LC3,LC4,J_STOK)
                   CALL I7PEN3(MARGE,GAPV,N11,N21,N31,
      1                 PENE ,NX1 ,NY1,NZ1,NX2,
      2                 NY2  ,NZ2 ,NX3,NY3,NZ3,
      3                 NX4  ,NY4 ,NZ4,P1 ,P2 ,
-     4                 P3   ,P4)
-                  IF(I_STOK+NVSIZ<MULTIMP*NSN) THEN
-                    CALL I7CMP3(I_STOK,CAND_E  ,CAND_N,1,PENE,
-     1                          PROV_N,PROV_E)
-                  ELSE
-                    I_BID = 0
-                    CALL I7CMP3(I_BID,CAND_E,CAND_N,0,PENE,
-     1                          PROV_N,PROV_E)
-                    IF(I_STOK+I_BID<MULTIMP*NSN) THEN
-                      CALL I7CMP3(I_STOK,CAND_E,CAND_N,1,PENE,
-     1                            PROV_N,PROV_E)
-                    ELSE
-                      I_MEM = 2
-                      J_STOK = 0
-                      I_STOK = 0
-                      GOTO 100
-                    ENDIF
-                  ENDIF
+     4                 P3   ,P4,J_STOK)
+                  call inter_save_candidate( local_i_stok,j_stok,prov_n,prov_e,
+     .                                       pene,local_cand_n,local_cand_e )
+                  J_STOK = 0
                 ENDIF
 
   300           CONTINUE
-                JJ = NEXT_NOD(JJ)
+                JJ = LOCAL_NEXT_NOD(JJ)
               ENDDO ! WHILE(JJ /= 0)
-c            maxjj=max(maxjj,numjj)
-c            meanjj8=meanjj8+numjj
-c            ttjj=ttjj+1
-c            if(numjj>100)jj1=jj1+1
-c            if(numjj>1000)jj2=jj2+1
-c            if(numjj>5000)jj3=jj3+1
             ENDDO
           ENDDO
         ENDDO
@@ -511,32 +476,95 @@ c            if(numjj>5000)jj3=jj3+1
         ENDIF
 
       ENDDO
-
+!$OMP END DO
       DEALLOCATE(TAGNOD)
 
-c     meanjj8=nint(float(meanjj8)/max(1,ttjj))
-c     meanvox=nint(float(meanvox)/max(1,ttvox))
-c     print*,'max tzvar  :',maxaaa
-c     print*,'result nb vox  :',maxvox,meanvox,ttvox
-c     print*,'result nb nodes:',maxjj,meanjj8,ttjj
-c     print*,'result >100 >1000 > 5000:',jj1,jj2,jj3
-C-------------------------------------------------------------------------
-C     FIN DU TRI
-C-------------------------------------------------------------------------
-C=======================================================================
-C 4   remise a zero des noeuds dans les boites
-C=======================================================================
-  100 CONTINUE
+      IF(J_STOK/=0) THEN
+        CALL I7COR3(X    ,IRECT,NSV  ,PROV_E ,PROV_N,
+     .              STF  ,STFN ,GAPV ,IGAP   ,GAP   ,
+     .              GAP_S,GAP_M,ISTF ,GAPMIN ,GAPMAX,
+     .              GAP_S_L,GAP_M_L  ,DRAD   ,IX11,IX12,
+     5              IX13    ,IX14    ,NSVG,X1     ,X2     ,
+     6              X3     ,X4     ,Y1  ,Y2      ,Y3      ,
+     7              Y4     ,Z1     ,Z2  ,Z3      ,Z4      ,
+     8              XI     ,YI     ,ZI  ,STIF    ,DGAPLOAD,
+     9              J_STOK)
+        CALL I7DST3(IX13,IX14,X1 ,X2 ,X3 ,
+     1              X4 ,Y1 ,Y2 ,Y3 ,Y4 ,
+     2              Z1 ,Z2 ,Z3 ,Z4 ,XI ,
+     3              YI ,ZI ,X0 ,Y0 ,Z0 ,
+     4              NX1,NY1,NZ1,NX2,NY2,
+     5              NZ2,NX3,NY3,NZ3,NX4,
+     6              NY4,NZ4,P1 ,P2 ,P3 ,
+     7              P4 ,LB1,LB2,LB3,LB4,
+     8              LC1,LC2,LC3,LC4,J_STOK)
+        CALL I7PEN3(MARGE,GAPV,N11,N21,N31,
+     1              PENE ,NX1 ,NY1,NZ1,NX2,
+     2              NY2  ,NZ2 ,NX3,NY3,NZ3,
+     3              NX4  ,NY4 ,NZ4,P1 ,P2 ,
+     4              P3   ,P4,J_STOK)
+        call inter_save_candidate( local_i_stok,j_stok,prov_n,prov_e,
+     .                             pene,local_cand_n,local_cand_e )
+        J_STOK = 0
+      ENDIF
+
+      ! save the local number of candidates
+      cand_n_size(itask+1) = local_i_stok
+      cand_e_size(itask+1) = local_i_stok
+!$OMP BARRIER
+
+
+!$OMP SINGLE
+      ! compute the address for each threads & the total number of candidates
+      address_cand_n(1) = 0
+      address_cand_e(1) = 0
+      ! ------------
+      do i=1,nthreads
+        address_cand_n(i+1) = cand_n_size(i) + address_cand_n(i) ! address for cand_n
+        address_cand_e(i+1) = cand_e_size(i) + address_cand_e(i) ! address for cand_e
+
+        cand_n_size(nthreads+1) = cand_n_size(nthreads+1) + cand_n_size(i) ! total number of cand_n for this proc
+        cand_e_size(nthreads+1) = cand_e_size(nthreads+1) + cand_e_size(i) ! total number of cand_e for this proc
+      enddo
+      ! ------------
+
+      ! ------------
+      ! check the size of global cand_n & cand_e
+      my_old_size = ipari(18)*ipari(23)
+      i_stok_old = i_stok
+      i_stok =  i_stok + cand_n_size(nthreads+1) ! total number of cand_n/cand_e (= sum( cand_n/e per proc))
+      if(i_stok > my_old_size) then ! total number of candidates > size of cand_n/e --> need to extend the 2 arrays
+        multimp = i_stok/ipari(18) + 1
+        call upgrade_multimp(nin,multimp,intbuf_tab)
+      endif
+      ! ------------
+!$OMP END SINGLE
+
+      ! ------------
+      my_address = i_stok_old + address_cand_n(itask+1) ! get the address for each thread
+      intbuf_tab%cand_n(my_address+1:my_address+local_i_stok) = local_cand_n%int_array_1d(1:local_i_stok) ! save the cand_n into the global array
+      my_address = i_stok_old + address_cand_e(itask+1) ! get the address for each thread
+      intbuf_tab%cand_e(my_address+1:my_address+local_i_stok) = local_cand_e%int_array_1d(1:local_i_stok) ! save the cand_e into the global array
+      ! ------------
+
+
+      call dealloc_1d_array(local_cand_n)
+      call dealloc_1d_array(local_cand_e)
+
+!$OMP BARRIER
+
+!$OMP DO SCHEDULE(guided)
       DO I=1,NSN
         IF(IIX(I)/=0)THEN
           VOXEL(IIX(I),IIY(I),IIZ(I))=0
         ENDIF
       ENDDO
-      DEALLOCATE(NEXT_NOD)
-      DEALLOCATE(IIX)
-      DEALLOCATE(IIY)
-      DEALLOCATE(IIZ)
-      DEALLOCATE(TAG)
+!$OMP END DO
+
+!$OMP MASTER
+      deallocate( cand_n_size,cand_e_size )
+      deallocate( address_cand_n,address_cand_e )
+!$OMP END MASTER
 
       RETURN
       END

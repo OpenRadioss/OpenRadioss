@@ -39,7 +39,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5                  IX3    ,IX4    ,NSVG,X1      ,X2    ,
      6                  X3     ,X4     ,Y1  ,Y2      ,Y3    ,
      7                  Y4     ,Z1     ,Z2  ,Z3      ,Z4    ,
-     8                  XI     ,YI     ,ZI  ,STIF    ,DGAPLOAD)
+     8                  XI     ,YI     ,ZI  ,STIF    ,DGAPLOAD,
+     9                  LAST)
 C============================================================================
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -53,6 +54,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IGAP, IRECT(4,*), NSV(*), CAND_E(*), CAND_N(*),ISTF
+      INTEGER, INTENT(IN) :: LAST !< last candidat
 C     REAL
       my_real
      .        GAP, GAPMIN, GAPMAX,DRAD
@@ -67,17 +69,13 @@ C     REAL
       my_real, DIMENSION(MVSIZ), INTENT(OUT) :: XI,YI,ZI
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: STIF
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "vect07_c.inc"
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IL, L, NN, IG
 C     REAL
 C-----------------------------------------------
 C
-      DO I=LFT,LLT
+      DO I=1,LAST
        IG = NSV(CAND_N(I))
        NSVG(I) = IG
        XI(I) = X(1,IG)
@@ -86,11 +84,11 @@ C
       ENDDO
 C
       IF(IGAP==0)THEN
-        DO I=LFT,LLT
+        DO I=1,LAST
          GAPV(I) = MAX(GAP+DGAPLOAD,DRAD)         
         ENDDO
       ELSE
-        DO I=LFT,LLT
+        DO I=1,LAST
          GAPV(I) = GAP_S(CAND_N(I))+GAP_M(CAND_E(I))
          IF(IGAP == 3)  
      .      GAPV(I)=MIN(GAP_S_L(CAND_N(I))+GAP_M_L(CAND_E(I)),GAPV(I))
@@ -102,12 +100,12 @@ C
       ENDIF
 C
       IF(ISTF/=0)THEN
-        DO I=LFT,LLT
+        DO I=1,LAST
           STIF(I)=STF(CAND_E(I))*STFN(CAND_N(I))
         ENDDO
       ENDIF
 C
-      DO I=LFT,LLT
+      DO I=1,LAST
 C
         L  = CAND_E(I)
 C
@@ -118,7 +116,7 @@ C
 C
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,LAST
 C
         NN=IX1(I)
         X1(I)=X(1,NN)

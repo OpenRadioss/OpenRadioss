@@ -421,7 +421,8 @@ C
      5  IX3    ,IX4    ,NSVG,X1      ,X2    ,
      6  X3     ,X4     ,Y1  ,Y2      ,Y3    ,
      7  Y4     ,Z1     ,Z2  ,Z3      ,Z4    ,
-     8  XI     ,YI     ,ZI  ,STIF    ,BID   )
+     8  XI     ,YI     ,ZI  ,STIF    ,BID   ,
+     9  LLT)
 
        CALL I20DST3(IGAP,INTBUF_TAB%GAP_SH,INTBUF_TAB%CAND_E(1+NFT),INTBUF_TAB%CAND_N(1+NFT),GAPV ,
      2    INTBUF_TAB%VARIABLES(2),INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,INTBUF_TAB%VARIABLES(16),
@@ -441,7 +442,7 @@ C
      1             PENE ,XN1 ,YN1,ZN1,XN2,
      2             YN2  ,ZN2 ,XN3,YN3,ZN3,
      3             XN4  ,YN4 ,ZN4,P1 ,P2 ,
-     4             P3   ,P4)
+     4             P3   ,P4,LLT)
 
        FPENMAX   = INTBUF_TAB%VARIABLES(27)
        CALL I20PWR3A(ITAB  ,INACTI,INTBUF_TAB%CAND_E(1+NFT),INTBUF_TAB%CAND_N(1+NFT),
@@ -479,7 +480,8 @@ C
      5  IX3    ,IX4    ,NSVG,X1      ,X2    ,
      6  X3     ,X4     ,Y1  ,Y2      ,Y3    ,
      7  Y4     ,Z1     ,Z2  ,Z3      ,Z4    ,
-     8  XI     ,YI     ,ZI  ,STIF    ,BID  )
+     8  XI     ,YI     ,ZI  ,STIF    ,BID   ,
+     9  LLT)
 
        CALL I20DST3(IGAP,INTBUF_TAB%GAP_SH,INTBUF_TAB%CAND_E(1+NFT),INTBUF_TAB%CAND_N(1+NFT),GAPV ,
      2     INTBUF_TAB%VARIABLES(2),INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,INTBUF_TAB%VARIABLES(16),
@@ -500,7 +502,7 @@ C
      1             PENE,XN1 ,YN1 ,ZN1 ,XN2,
      2             YN2 ,ZN2 ,XN3 ,YN3 ,ZN3,
      3             XN4 ,YN4 ,ZN4 ,P1  ,P2 ,
-     4             P3  ,P4)
+     4             P3  ,P4,LLT)
 
        CALL I20PWR3(ITAB  ,INACTI,INTBUF_TAB%CAND_E(1+NFT),INTBUF_TAB%CAND_N(1+NFT),INTBUF_TAB%STFA,
      1     INTBUF_TAB%STFM,XANEW,INTBUF_TAB%NSV,IWPENE    ,IWRN        ,
