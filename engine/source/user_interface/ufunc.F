@@ -344,7 +344,11 @@ C
         DY1 = -DY2
         DY2 = TFIP - YY
         IF(DY2>=ZERO.OR.I==NPFIP-2)THEN
-          DERI = (TFI - TFI2) / (TFIP - TFI1)
+          IF (TFIP-TFI1 == ZERO) THEN
+            DERI = ZERO
+          ELSE
+            DERI = (TFI - TFI2) / (TFIP-TFI1)
+          ENDIF  
           IF(DY1<=DY2)THEN
             GET_U_FUNC_INV = TFI2 + DY1 * DERI
           ELSE
