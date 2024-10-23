@@ -25,13 +25,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    get_list_remnode       ../starter/source/interfaces/inter3d1/get_list_remnode.F90
       !||    i25remnor              ../starter/source/interfaces/inter3d1/i7remnode.F
-      !||    i7remnode_build        ../starter/source/interfaces/inter3d1/i7remnode.F
       !||    i7remnode_init         ../starter/source/interfaces/inter3d1/i7remnode.F
-      !||    my_exit                ../starter/source/output/analyse/analyse.c
-      !||    upgrade_remnode        ../starter/source/interfaces/interf1/upgrade_remnode.F
       !||--- uses       -----------------------------------------------------
+      !||    get_list_remnode_mod   ../starter/source/interfaces/inter3d1/get_list_remnode.F90
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE I7REMNODE(

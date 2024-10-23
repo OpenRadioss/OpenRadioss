@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    get_list_remnode_mod   ../starter/source/interfaces/inter3d1/get_list_remnode.F90
+      !||--- called by ------------------------------------------------------
+      !||    i7remnode              ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||====================================================================
       module get_list_remnode_mod
       contains
 ! ======================================================================================================================
@@ -27,6 +32,14 @@
 ! ======================================================================================================================
 !! \brief here is a small description of the routine, [after the header]
 !! \details if needed, more details can be added here
+      !||====================================================================
+      !||    get_list_remnode   ../starter/source/interfaces/inter3d1/get_list_remnode.F90
+      !||--- called by ------------------------------------------------------
+      !||    i7remnode          ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||--- calls      -----------------------------------------------------
+      !||    upgrade_remnode    ../starter/source/interfaces/interf1/upgrade_remnode.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
         subroutine get_list_remnode(nrtm,igap ,numnod,npari,irect,kremnode, &
                                     knod2seg,nod2seg,tagsecnd,   &
                                     ipari,gapmin,gapmax,gap,drad,         &

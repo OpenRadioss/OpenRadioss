@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    upgrade_remnode   ../starter/source/interfaces/interf1/upgrade_remnode.F
+      !||    upgrade_remnode    ../starter/source/interfaces/interf1/upgrade_remnode.F
       !||--- called by ------------------------------------------------------
-      !||    i7remnode         ../starter/source/interfaces/inter3d1/i7remnode.F
-      !||    inint3            ../starter/source/interfaces/inter3d1/inint3.F
-      !||    inintr            ../starter/source/interfaces/interf1/inintr.F
+      !||    get_list_remnode   ../starter/source/interfaces/inter3d1/get_list_remnode.F90
+      !||    inint3             ../starter/source/interfaces/inter3d1/inint3.F
+      !||    inintr             ../starter/source/interfaces/interf1/inintr.F
       !||--- uses       -----------------------------------------------------
-      !||    intbufmod         ../starter/share/modules1/restart_mod.F
+      !||    intbufmod          ../starter/share/modules1/restart_mod.F
       !||====================================================================
       SUBROUTINE UPGRADE_REMNODE(IPARI,NREMNODE,INTBUF_TAB,NTY)
 C-----------------------------------------------
