@@ -479,6 +479,8 @@ c
           EPSPL(I)  = EPSP(I)
           EPSPDT(I) = EPSP(I)*DT1
         END DO
+      ELSE
+        ASRATE = ZERO
       ENDIF
 c-----------------------------------------------------------
 C     LOOP OVER THICKNESS INTEGRATION POINTS (LAYERS)
