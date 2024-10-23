@@ -70,7 +70,8 @@ c
         INTEGER  N_REMOTE_PROC
         my_real  VECTOR(6)
         my_real  ORIENTATION_ANGLE
-        my_real  MATERIAL_FLOW
+        my_real  MATERIAL_FLOW 
+        my_real  MATERIAL_FLOW_OLD        
         my_real  DFS
         my_real  RESIDUAL_LENGTH(2)
         my_real  CURRENT_LENGTH(2)

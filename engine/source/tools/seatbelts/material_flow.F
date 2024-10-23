@@ -136,7 +136,7 @@ C         Computation of friction coefficient
 C
 C----     Effect of material flow --
 C
-          VREL = ABS(SLIPRING(SLIPRING_ID(I))%FRAM(FR_ID(I))%MATERIAL_FLOW)
+          VREL = ABS(SLIPRING(SLIPRING_ID(I))%FRAM(FR_ID(I))%MATERIAL_FLOW_OLD)
 C--       dynamic friction
           IF (SLIPRING(SLIPRING_ID(I))%IFUNC(1) == 0) THEN
             FRICD = SLIPRING(SLIPRING_ID(I))%FRIC
@@ -333,7 +333,7 @@ C
 C         Computation of friction coefficient
 C
 C----     Effect of material flow --
-          VREL = ABS(SLIPRING(SLIPRING_ID(I))%FRAM(FR_ID(I))%MATERIAL_FLOW)
+          VREL = ABS(SLIPRING(SLIPRING_ID(I))%FRAM(FR_ID(I))%MATERIAL_FLOW_OLD)
 C--       dynamic friction
           IF (SLIPRING(SLIPRING_ID(I))%IFUNC(1) == 0) THEN
             FRICD = SLIPRING(SLIPRING_ID(I))%FRIC
@@ -869,34 +869,35 @@ C-----------------------------------------------
       my_real  DD,SOL1,SOL2,AA,BB,CC,EE
 C-----------------------------------------------
 C
-C     Computation of Dl0 for locked retractor
+C      Computation of Dl0 for locked retractor
 C
-C--   equation 1 -> l0 > lmin
+C--    equation 1 -> l0 > lmin
       IF (L0 > EM05) THEN
-         AA = ALPHA
-         BB = ALPHA*L0+BETA+XK*L/L0-FB
-         CC = BETA*L0-FB*L0
-         IF (ABS(AA) > EM20) THEN
+       AA = ALPHA
+       BB = ALPHA*L0+BETA+XK*L/L0-FB
+       CC = BETA*L0-FB*L0
+       IF (ABS(AA) > EM20) THEN
            DD = MAX(EM20,BB*BB-4*AA*CC)
-           SOL1 = (-BB+SQRT(DD))/(2*AA)
-           SOL2 = (-BB-SQRT(DD))/(2*AA)
-           DELTA_LO = SOL1
-         ELSE
-           EE = SIGN(MAX(EM20,ABS(BB)),BB)
-           DELTA_LO = -CC / EE
+         SOL1 = (-BB+SQRT(DD))/(2*AA)
+         SOL2 = (-BB-SQRT(DD))/(2*AA)
+         DELTA_LO = SOL1
+       ELSE
+         EE = SIGN(MAX(EM20,ABS(BB)),BB)
+         DELTA_LO = -CC / EE
          ENDIF
       ELSE
 C--      computation will be done by equation 2           
          DELTA_LO = ZERO
-      ENDIF 
+       ENDIF
 C
-      IF (L0 +  DELTA_LO < LMIN) THEN
+       IF (L0 +  DELTA_LO < LMIN) THEN
 C--      equation 2 -> l0 < lmin
+         BETA = BETA -FB + XK*(L-L0)/MAX(LMIN,L0)
          LMIN = MAX(LMIN,L0)
          BB = ALPHA*LMIN + XK
          EE = SIGN(MAX(EM20,ABS(BB)),BB)
          DELTA_LO = (XK*(L-L0) - BETA*LMIN)/EE
-      ENDIF
+       ENDIF
 
       RETURN
       END
