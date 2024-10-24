@@ -72,7 +72,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      D                  STACK    ,RNOISE  ,DRAPE  ,SH4ANG   ,IDDLEVEL,
      E                  GEO_STACK,IGEO_STACK,STRC  ,PERTURB ,IYLDINI ,
      F                  ELE_AREA ,NG      ,GROUP_PARAM      ,NLOC_DMG,
-     G                  IDRAPE   ,DRAPEG  ,MAT_PARAM,FAIL_FRACTAL,FAIL_BROKMANN)
+     G                  IDRAPE   ,DRAPEG  ,MAT_PARAM,FAIL_FRACTAL,FAIL_BROKMANN,
+     H                  GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -89,6 +90,7 @@ C-----------------------------------------------
       USE FRACTAL_DMG_INIT_mod
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       use brokmann_random_def_mod
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -135,6 +137,7 @@ C-----------------------------------------------
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
       TYPE (FAIL_FRACTAL_)  ,INTENT(IN) :: FAIL_FRACTAL
       TYPE (FAIL_BROKMANN_) ,INTENT(IN) :: FAIL_BROKMANN
+      TYPE (glob_therm_)    ,intent(in) :: glob_therm
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRSHEL) :: IGRSH4N
       TYPE (GROUP_)  , DIMENSION(NGRSH3N) :: IGRSH3N
@@ -288,7 +291,7 @@ C------------
      .            NSHNOD ,STC(NFT+1)     ,SH4TREE   ,MCP    ,MCPS(NFT+1),
      .            TEMP   ,BID            ,BID       ,BID        ,BID,
      .            BID    ,BID            ,ISUBSTACK ,NLAY  ,ELBUF_STR,
-     .            STACK  ,GBUF%THK_I     ,RNOISE    ,DRAPE   ,
+     .            STACK  ,GBUF%THK_I     ,RNOISE    ,DRAPE   ,GLOB_THERM%NINTEMP,
      .            PERTURB,IX1            ,IX2       ,IX3     ,IX4       ,
      .            IDRAPE ,DRAPEG%INDX)
 C-----------------------------------------------

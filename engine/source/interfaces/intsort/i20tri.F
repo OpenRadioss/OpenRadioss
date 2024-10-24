@@ -40,7 +40,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6      INACTI,IFQ    ,CAND_A ,CAND_P   ,IFPEN    ,
      7      NRTM  ,NSNROLD,IGAP   ,GAP      ,GAP_S    ,
      6      GAP_M ,GAPMIN ,GAPMAX ,MARGE    ,CURV_MAX ,
-     7      NIN   ,GAP_SH ,NBINFLG,MBINFLG  ,ISYM     )
+     7      NIN   ,GAP_SH ,NBINFLG,MBINFLG  ,ISYM     ,
+     8      INTHEAT,IDT_THERM,NODADT_THERM)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -123,6 +124,9 @@ C-----------------------------------------------
      .        ADD(2,*),IRECT(4,*), NIN,NBINFLG(*),MBINFLG(*),ISYM,
      .        NSV(*),CAND_N(*),CAND_E(*),CAND_A(*),IFPEN(*),RENUM(*),
      .        II_STOK
+      INTEGER, INTENT(IN) :: INTHEAT
+      INTEGER, INTENT(IN) :: IDT_THERM
+      INTEGER, INTENT(IN) :: NODADT_THERM
 C     REAL
       my_real
      .   XA(3,*),XYZM(6,*),CAND_P(*),STF(*),STFA(*),GAP_S(*),GAP_M(*),
@@ -195,7 +199,7 @@ C En SPMD, pour inacti ou IFQ, retrouve ancienne numerotation des candidats non 
 C
       IF(NSPMD>1.AND.
      +  (INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.IFQ>0)) THEN
-        CALL SPMD_OLDNUMCD(RENUM,OLDNUM,ISZNSNR,NSNROLD)
+        CALL SPMD_OLDNUMCD(RENUM,OLDNUM,ISZNSNR,NSNROLD,INTHEAT,IDT_THERM,NODADT_THERM)
       END IF
 C
       J_STOK = 0

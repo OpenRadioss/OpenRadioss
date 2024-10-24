@@ -47,7 +47,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      A                  C2      ,C3     ,C4     ,INTTH  ,PHIS1    ,
      B                  PHIS2   ,PHIM1  ,PHIM2  ,FTHE  ,FTHESKYI  ,
      C                  CONDINTS1,CONDINTS2,CONDINTM1,CONDINTM2,CONDN,
-     D                  CONDNSKYI,JTASK ,H3D_DATA) 
+     D                  CONDNSKYI,JTASK ,H3D_DATA,NODADT_THERM) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -76,6 +76,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NODADT_THERM
       INTEGER JLT,NRTS,NISKYFI,NIN,INTTH
       INTEGER  ISKY(*),
      .        NOINT,ISECIN, NSTRF(*)
@@ -128,7 +129,7 @@ C
      6                NRTS ,NIN   ,INTTH,PHIS1,PHIS2,
      7                PHIM1,PHIM2 ,FTHE ,CONDINTS1  ,
      8                CONDINTS2,CONDINTM1,CONDINTM2,CONDN ,
-     9                JTASK )             
+     9                JTASK ,NODADT_THERM)             
        ELSE
          CALL I11ASS05(JLT   ,CS_LOC,N1    ,N2   ,M1   ,
      2                 M2    ,HS1   ,HS2   ,HM1  ,HM2  ,
@@ -139,7 +140,7 @@ C
      7                 C2    ,C3    ,C4    ,VISCN,NIN  ,
      8                 INTTH ,PHIS1 ,PHIS2 ,PHIM1,PHIM2,
      9                 FTHE  ,CONDINTS1,CONDINTS2,CONDINTM1,
-     A                 CONDINTM2,CONDN,JTASK)
+     A                 CONDINTM2,CONDN,JTASK,NODADT_THERM)
        END IF
       ELSE
        IF(KDTINT==0)THEN
@@ -151,7 +152,7 @@ C
      6                STIF  ,NRTS   ,NIN   , NOINT,INTTH ,
      7                PHIS1 ,PHIS2  ,PHIM1 ,PHIM2 ,FTHESKYI,
      8                CONDINTS1,CONDINTS2,CONDINTM1,CONDINTM2,
-     A                CONDNSKYI)
+     A                CONDNSKYI,NODADT_THERM)
        ELSE
          CALL I11ASS25(JLT  ,CS_LOC ,N1    ,N2     ,M1    ,
      2                 M2   ,HS1    ,HS2   ,HM1    ,HM2   ,
@@ -162,7 +163,7 @@ C
      7                 C2   ,C3     ,C4    ,NIN    , NOINT,
      8                 INTTH ,PHIS1 ,PHIS2 ,PHIM1  ,PHIM2 ,
      9                 FTHESKYI,CONDINTS1,CONDINTS2,CONDINTM1,
-     A                 CONDINTM2,CONDNSKYI)
+     A                 CONDINTM2,CONDNSKYI,NODADT_THERM)
        END IF
       END IF            
 C
@@ -273,7 +274,7 @@ C
      6                   NRTS ,NIN   ,INTTH ,PHIS1,PHIS2,
      7                   PHIM1,PHIM2 ,FTHE ,CONDINTS1  ,
      8                   CONDINTS2,CONDINTM1,CONDINTM2,CONDN,
-     9                   JTASK )  
+     9                   JTASK ,NODADT_THERM)  
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -293,6 +294,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NODADT_THERM
       INTEGER JLT, NRTS, NIN,INTTH,
      +        CS_LOC(*),
      +        N1(MVSIZ),N2(MVSIZ),M1(MVSIZ),M2(MVSIZ),JTASK
@@ -489,7 +491,7 @@ C
      7                    C2   ,C3    ,C4    ,VISCN,NIN  ,
      8                    INTTH ,PHIS1 ,PHIS2 ,PHIM1,PHIM2,
      9                    FTHE  ,CONDINTS1,CONDINTS2,CONDINTM1,
-     A                    CONDINTM2,CONDN,JTASK)
+     A                    CONDINTM2,CONDN,JTASK,NODADT_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -509,6 +511,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NODADT_THERM
       INTEGER JLT, NRTS, NIN,INTTH ,
      +        CS_LOC(*),
      +        N1(MVSIZ),N2(MVSIZ),M1(MVSIZ),M2(MVSIZ),JTASK
@@ -727,7 +730,7 @@ C
      6                   STIF  ,NRTS   ,NIN   ,NOINT ,INTTH ,
      7                   PHIS1 ,PHIS2  ,PHIM1 ,PHIM2 ,FTHESKYI,
      8                   CONDINTS1,CONDINTS2,CONDINTM1,CONDINTM2,
-     A                   CONDNSKYI)
+     A                   CONDNSKYI,NODADT_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -750,6 +753,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NODADT_THERM
       INTEGER JLT, NRTS,NISKYFI,NIN,NOINT,INTTH ,
      +        CS_LOC(*),ISKY(*),
      +        N1(MVSIZ),N2(MVSIZ),M1(MVSIZ),M2(MVSIZ)
@@ -1002,7 +1006,7 @@ C
      7                    C2    ,C3     ,C4    ,NIN    ,NOINT ,
      8                    INTTH ,PHIS1 ,PHIS2 ,PHIM1  ,PHIM2 ,
      9                    FTHESKYI,CONDINTS1,CONDINTS2,CONDINTM1,
-     A                    CONDINTM2,CONDNSKYI)
+     A                    CONDINTM2,CONDNSKYI,NODADT_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1025,6 +1029,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NODADT_THERM
       INTEGER JLT, NRTS,NISKYFI,NIN,NOINT,INTTH ,
      +        CS_LOC(*),ISKY(*),
      +        N1(MVSIZ),N2(MVSIZ),M1(MVSIZ),M2(MVSIZ)

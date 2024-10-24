@@ -40,7 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6      INACTI ,CAND_A  ,CAND_P   ,IFPEN    ,
      7      NRTM   ,NSNROLD,IGAP    ,GAP      ,GAP_S    ,
      8      GAP_M  ,GAPMIN ,GAPMAX  ,MARGE    ,CURV_MAX ,
-     9      NIN    ,ITASK  ,BGAPSMX )
+     9      NIN    ,ITASK  ,BGAPSMX ,INTHEAT,IDT_THERM,NODADT_THERM)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -104,6 +104,9 @@ C-----------------------------------------------
      .        MULNSN,NOINT,INACTI,NSNR,IGAP,NBX,NBY,NBZ,
      .        NSV(*),CAND_N(*),CAND_E(*),CAND_A(*),IFPEN(*),RENUM(*),
      .        IRECT(4,*), VOXEL(NBX+2,NBY+2,NBZ+2), MSR(*),II_STOK
+      INTEGER, INTENT(IN) :: INTHEAT
+      INTEGER, INTENT(IN) :: IDT_THERM
+      INTEGER, INTENT(IN) :: NODADT_THERM
 C     REAL
       my_real
      .   X(3,*),XYZM(6),CAND_P(*),STF(*),STFN(*),GAP_S(*),GAP_M(*),
@@ -161,7 +164,7 @@ c     dev future: xminb plus grand que xmin...
 
 C En SPMD, retrouve ancienne numerotation des candidats non locaux
       IF(NSPMD>1) THEN
-        CALL SPMD_OLDNUMCD(RENUM,OLDNUM,ISZNSNR,NSNROLD)
+        CALL SPMD_OLDNUMCD(RENUM,OLDNUM,ISZNSNR,NSNROLD,INTHEAT,IDT_THERM,NODADT_THERM)
       END IF
 
 C=======================================================================

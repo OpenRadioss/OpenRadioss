@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5   PY4      ,PZ1      ,PZ2      ,PZ3      ,
      6   PZ4      ,DT1      ,TEMPNC   ,TEL      ,
      7   HEAT     ,FPHI     ,OFFG     ,OFF      ,
-     8   NEL      )
+     8   NEL      ,THEACCFACT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -43,7 +43,6 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "param_c.inc"
-#include      "scr_thermal_c.inc"
 #include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -52,14 +51,14 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IMAT
       INTEGER, INTENT(IN) :: NC1(MVSIZ),NC2(MVSIZ),
      .   NC3(MVSIZ),NC4(MVSIZ),NC5(MVSIZ),NC6(MVSIZ)
-C     REAL
-      my_real, INTENT(IN) ::
-     .   VOL(MVSIZ), PX1(MVSIZ), PY1(MVSIZ),PZ1(MVSIZ),
+      my_real, INTENT(IN) :: THEACCFACT
+      my_real, INTENT(IN) :: DT1
+      my_real, INTENT(IN) :: VOL(MVSIZ), PX1(MVSIZ), PY1(MVSIZ),PZ1(MVSIZ),
      .   PX2(MVSIZ), PY2(MVSIZ), PZ2(MVSIZ),
      .   PX3(MVSIZ), PY3(MVSIZ),PZ3(MVSIZ),
      .   PX4(MVSIZ), PY4(MVSIZ),PZ4(MVSIZ),
      .   TEMPNC(NUMNOD), PM(NPROPM,NUMMAT),
-     .   DT1,HEAT(MVSIZ), TEL(MVSIZ),OFF(MVSIZ),OFFG(MVSIZ)
+     .   HEAT(MVSIZ), TEL(MVSIZ),OFF(MVSIZ),OFFG(MVSIZ)
       my_real, INTENT(INOUT) :: FPHI(MVSIZ,6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

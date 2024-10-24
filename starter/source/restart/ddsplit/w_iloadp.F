@@ -27,7 +27,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||====================================================================
       SUBROUTINE W_ILOADP(
-     .  ILOADP,LLOADP,NODLOCAL,PROC,LLLOADP_L,LEN_IA,P,CEP, ITAB)
+     .  ILOADP,LLOADP,NODLOCAL,PROC,LLLOADP_L,LEN_IA,P,CEP, ITAB,
+     .  NUMCONV,NUMRADIA,NFXFLUX)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -36,10 +37,12 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
-#include      "thermal_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NUMCONV
+      INTEGER ,INTENT(IN) :: NUMRADIA
+      INTEGER ,INTENT(IN) :: NFXFLUX
       INTEGER PROC, LEN_IA, LLLOADP_L,P,
      .        ILOADP(SIZLOADP,*), LLOADP(*),NODLOCAL(*),
      .        CEP(*)

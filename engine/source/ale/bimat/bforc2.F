@@ -79,7 +79,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      B                   H3D_STRAIN ,OUTPUT    ,SZ_BUFVOIS ,SNPC   ,STF      ,SBUFMAT, SVIS,
      C                   NSVOIS     , IRESP    ,IDEL7NOK   ,
      D                   IDTMIN     , MAXFUNC  ,IMON_MAT   ,
-     E                   USERL_AVAIL, heat_meca,impl_s     ,idyna  ,DT       )
+     E                   USERL_AVAIL, impl_s     ,idyna  ,DT       ,
+     F                   GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
@@ -92,6 +93,7 @@ C-----------------------------------------------
       USE OUTPUT_MOD
       USE MAT_ELEM_MOD
       USE DT_MOD
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -127,7 +129,6 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IDYNA
       INTEGER, INTENT(IN) :: USERL_AVAIL
       INTEGER, INTENT(IN) :: IMON_MAT
-      my_real, INTENT(INOUT) :: HEAT_MECA
       INTEGER IC(*), IPARG(NPARG,NGROUP), JPARG(*), IMS(*), NPF(*),IPARTQ(NUMELQ),IPM(*),IGEO(*),ITASK,H3D_STRAIN
       INTEGER NELTST,ITYPTST, IADQ(4,*),GRTH(*),IGRTH(*)
       my_real DT2T
@@ -143,6 +144,7 @@ C-----------------------------------------------
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
       TYPE (DT_), INTENT(IN) :: DT
+      type (glob_therm_) ,intent(inout)   :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -363,12 +365,13 @@ C-----------------------------------------------------
      P   BID,         IPARG(1,NG), IGEO,        BID,
      Q   ITASK,       NLOC_DMG,    VARNL,       MAT_ELEM,
      R   H3D_STRAIN,  JPLASOL,     JSPH,        SZ_BUFVOIS,
-     T           SNPC,STF,SBUFMAT,SVIS,          SZ_IX,
-     U   IRESP,       N2D,         TH_STRAIN,   NGROUP,TT, 
+     T   SNPC,        STF,         SBUFMAT,     GLOB_THERM,
+     .   SVIS,        SZ_IX,       IRESP,
+     .   N2D,         th_strain,   NGROUP       ,TT, 
      .   DT1,         NTABLE,      NUMELQ,      nummat,
      .   numgeo,      numnod,      numels,            
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,
-     .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
+     .   IMON_MAT,    USERL_AVAIL, impl_s,
      .   idyna,       DT         ,BID     )
 C----------------------------------
 C     PETROV-GALERKIN PSEUDO MASSES & ALE MASSES
@@ -580,14 +583,14 @@ C-----------------------------------------------------
      O   TABLE,       BID,         BID,         BID,
      P   BID,         NPARG_BID,       IGEO,        BID,
      Q   ITASK,       NLOC_DMG,    VARNL,       MAT_ELEM,
-     R   TH_STRAIN,   JPLASOL,     JSPH,        SZ_BUFVOIS,
-     S                SNPC,        STF,         SBUFMAT, 
+     R   H3D_STRAIN,  JPLASOL,     JSPH,        SZ_BUFVOIS,
+     S   SNPC,        STF,         SBUFMAT,     GLOB_THERM,
      *   SVIS,        SZ_IX,       IRESP,
-     T   N2D,         TH_STRAIN,   NGROUP,      TT, 
+     T   N2D,         th_strain,   NGROUP,      TT, 
      .   DT1,         NTABLE,      NUMELQ,      nummat,
      .   numgeo,      numnod,      numels,
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,
-     .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
+     .   IMON_MAT,    USERL_AVAIL, impl_s,
      .   idyna,       DT         ,BID )
 C----------------------------------
 C     PETROV-GALERKIN PSEUDO MASSES & MASSES ALE

@@ -54,7 +54,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4       NODNX_SMS,JTASK   ,NB_DST2, MAIN_PROC,
      5       NEWFRONT ,ISENDTO ,IRCVFROM ,NBINTC,
      6       INTLIST ,ISLEN7   ,IRLEN7  ,IRLEN7T  ,ISLEN7T,
-     7       NB_DST1 ,H3D_DATA,   ICODT, ISKEW,PARAMETERS)
+     7       NB_DST1 ,H3D_DATA,   ICODT, ISKEW,PARAMETERS,NODADT_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -83,6 +83,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NSENSOR
+      INTEGER ,INTENT(IN) :: NODADT_THERM
       INTEGER IPARI(NPARI,*), ITAB(*), INTLIST25(*), JTASK,
      .        IAD_ELEM(2,*) ,FR_ELEM(*), IAD_FRNOR(NINTER25,NSPMD+1), FR_NOR(*),
      .        KINET(*), NODNX_SMS(*), NB_DST1(PARASIZ), NB_DST2(PARASIZ)
@@ -467,7 +468,7 @@ C
      2                               IGAP  ,NSNR   ,INTTH   ,ILEV, INTBUF_TAB(NIN), 
      3                               FR_NOR,IAD_FRNOR, SIZBUFS, ITAB, H3D_DATA    ,
      4                               INTFRIC,FLAGREMN,LREMNORMAX,NRTM,IVIS2       ,
-     5                               ISTIF_MSDT,IFSUB_CAREA)
+     5                               ISTIF_MSDT,IFSUB_CAREA,NODADT_THERM)
         ! Passer intbuftab(nin)
 C : Les noeuds qui glissent de P0 vers P1 et qui sont locaux a P1 se trouvent quand
 C : meme dans la structure frontiere *FI(NIN)%P a la position du proc P1

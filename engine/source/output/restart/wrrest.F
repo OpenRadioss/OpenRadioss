@@ -724,7 +724,9 @@ C convection flux
       !||    wrtsqi      ../engine/source/output/tools/wrtsqi.F
       !||    wrtsqr      ../engine/source/output/tools/wrtsqr.F
       !||====================================================================
-      SUBROUTINE CONVWREST(IBCV,FCONV)      
+      SUBROUTINE CONVWREST(IBCV,FCONV,GLOB_THERM)
+
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -740,6 +742,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  IBCV(*)
       my_real FCONV(*)
+      type (glob_therm_) ,intent(in) :: GLOB_THERM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -747,11 +750,11 @@ C--------------------------------------
 C     ECRITURE DES REELS
 C--------------------------------------
       IF (IRFORM/5 <= 1) THEN
-        CALL WRTSQR (FCONV,LFACTHER*NUMCONV,IRFORM)
-        CALL WRTSQI (IBCV,NICONV*NUMCONV,IRFORM)
+        CALL WRTSQR (FCONV,GLOB_THERM%LFACTHER*GLOB_THERM%NUMCONV,IRFORM)
+        CALL WRTSQI (IBCV,GLOB_THERM%NICONV*GLOB_THERM%NUMCONV,IRFORM)
       ELSE
-        CALL WRITE_DB(FCONV,LFACTHER*NUMCONV)
-        CALL WRITE_I_C(IBCV,NICONV*NUMCONV)
+        CALL WRITE_DB(FCONV,GLOB_THERM%LFACTHER*GLOB_THERM%NUMCONV)
+        CALL WRITE_I_C(IBCV,GLOB_THERM%NICONV*GLOB_THERM%NUMCONV)
       ENDIF
       RETURN
       END
@@ -766,7 +769,9 @@ C radiative flux
       !||    wrtsqi       ../engine/source/output/tools/wrtsqi.F
       !||    wrtsqr       ../engine/source/output/tools/wrtsqr.F
       !||====================================================================
-      SUBROUTINE RADIAWREST(IBCR,FRADIA)      
+      SUBROUTINE RADIAWREST(IBCR,FRADIA,GLOB_THERM)    
+            
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -782,6 +787,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  IBCR(*)
       my_real FRADIA(*)
+      type (glob_therm_), intent(in) :: GLOB_THERM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -789,11 +795,11 @@ C--------------------------------------
 C     ECRITURE DES REELS
 C--------------------------------------
       IF (IRFORM/5 <= 1) THEN
-        CALL WRTSQR (FRADIA,LFACTHER*NUMRADIA,IRFORM)
-        CALL WRTSQI (IBCR,NIRADIA*NUMRADIA,IRFORM)
+        CALL WRTSQR (FRADIA,GLOB_THERM%LFACTHER*GLOB_THERM%NUMRADIA,IRFORM)
+        CALL WRTSQI (IBCR,GLOB_THERM%NIRADIA*GLOB_THERM%NUMRADIA,IRFORM)
       ELSE
-        CALL WRITE_DB(FRADIA,LFACTHER*NUMRADIA)
-        CALL WRITE_I_C(IBCR,NIRADIA*NUMRADIA)
+        CALL WRITE_DB(FRADIA,GLOB_THERM%LFACTHER*GLOB_THERM%NUMRADIA)
+        CALL WRITE_I_C(IBCR,GLOB_THERM%NIRADIA*GLOB_THERM%NUMRADIA)
       ENDIF
       RETURN
       END
@@ -808,7 +814,9 @@ C convection flux
       !||    wrtsqi        ../engine/source/output/tools/wrtsqi.F
       !||    wrtsqr        ../engine/source/output/tools/wrtsqr.F
       !||====================================================================
-      SUBROUTINE FXTEMPWREST(IBFT,FBFT)      
+      SUBROUTINE FXTEMPWREST(IBFT,FBFT,GLOB_THERM)
+      
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -824,6 +832,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  IBFT(*)
       my_real FBFT(*)
+      type (glob_therm_) ,intent(in) :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -831,11 +840,11 @@ C--------------------------------------
 C     ECRITURE DES REELS
 C--------------------------------------
       IF (IRFORM/5 <= 1) THEN
-        CALL WRTSQR (FBFT,LFACTHER*NFXTEMP,IRFORM)
-        CALL WRTSQI (IBFT,NIFT*NFXTEMP,IRFORM)
+        CALL WRTSQR (FBFT,GLOB_THERM%LFACTHER*GLOB_THERM%NFXTEMP,IRFORM)
+        CALL WRTSQI (IBFT,GLOB_THERM%NIFT*GLOB_THERM%NFXTEMP,IRFORM)
       ELSE
-        CALL WRITE_DB(FBFT,LFACTHER*NFXTEMP)
-        CALL WRITE_I_C(IBFT,NIFT*NFXTEMP)
+        CALL WRITE_DB(FBFT,GLOB_THERM%LFACTHER*GLOB_THERM%NFXTEMP)
+        CALL WRITE_I_C(IBFT,GLOB_THERM%NIFT*GLOB_THERM%NFXTEMP)
       ENDIF
       RETURN
       END

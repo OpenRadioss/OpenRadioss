@@ -52,7 +52,7 @@ C  |         I10XSAVE                        /intsort/i10xsave.F
      3                  ISENDTO ,IRCVFROM,RETRI   ,IAD_ELEM,FR_ELEM ,
      5                  NRTM_T  ,RENUM   ,NSNFIOLD,ESHIFT  ,NUM_IMP ,
      6                  IND_IMP ,NODNX_SMS,ITAB   ,INTBUF_TAB ,
-     7                  H3D_DATA)
+     7                  H3D_DATA,GLOB_THERM)
 C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -61,6 +61,7 @@ C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE H3D_MOD
       use check_sorting_criteria_mod , only : check_sorting_criteria
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -87,12 +88,12 @@ C-----------------------------------------------
      .         ISENDTO(NINTER+1,*),IRCVFROM(NINTER+1,*),
      .         WEIGHT(*), IAD_ELEM(2,*) ,FR_ELEM(*),
      .         RENUM(NUMNOD), NSNFIOLD(NSPMD), NODNX_SMS(*)
-C     REAL
       my_real
      .   X(*), V(3,*), MS(*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
       TYPE(H3D_DATABASE) :: H3D_DATA
+      TYPE(glob_therm_)  :: GLOB_THERM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -241,7 +242,7 @@ C
      4   NB_N_B   ,ESHIFT      ,BMINMA       ,MWAG     ,ILD          ,
      7   NCONTACT ,NSNROLD     ,INTBUF_TAB%STFNS,NIN      ,IPARI(21)    ,
      8   INTBUF_TAB%GAP_S,NSNR    ,RENUM     ,INTBUF_TAB%STFM(1+ESHIFT),INTBUF_TAB%GAP_M,
-     9   GAPMIN   ,GAPMAX ,I_MEM)
+     9   GAPMIN   ,GAPMAX ,I_MEM,GLOB_THERM%INTHEAT, GLOB_THERM%IDT_THERM, GLOB_THERM%NODADT_THERM)
 C
 C Upgrade MultiMP
       IF (I_MEM == 2)THEN

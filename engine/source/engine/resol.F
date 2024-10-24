@@ -582,7 +582,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      M  T_MONVOL,ID_GLOBAL_VOIS,FACE_VOIS,TAGSLV_RBY,DYNAIN_DATA,FCONT_MAX,EBCS_TAB,DIFFUSION,
      N  KLOADPINTER,LOADPINTER,IN0 ,DGAPLOADINT,DRAPEG,USER_WINDOWS,OUTPUT,INTERFACES,
      O  DT        ,LOADS     , PYTHON, DPL0CLD,VEL0CLD,
-     P  NDAMP_VREL,ID_DAMP_VREL,FR_DAMP_VREL,NDAMP_VREL_RBYG,NAMES_AND_TITLES,UNITAB,LIFLOW,LRFLOW )
+     P  NDAMP_VREL,ID_DAMP_VREL,FR_DAMP_VREL,NDAMP_VREL_RBYG,NAMES_AND_TITLES,UNITAB,LIFLOW,LRFLOW ,
+     R  GLOB_THERM )
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -677,6 +678,7 @@ C-----------------------------------------------
       use init_monvol_omp_structure_mod , only : init_monvol_omp_structure
       USE inivel_dt2_mod ,   only : inivel_dt2
       USE inivel_start_mod , only : inivel_start
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -734,7 +736,6 @@ C-----------------------------------------------
 #include      "inter22.inc"
 #include      "userlib.inc"
 #include      "drape_c.inc"
-#include      "thermal_c.inc"
 C-----------------------------------------------
       COMMON /VGLOB/DMAS,DINER
       my_real DMAS,DINER
@@ -903,6 +904,7 @@ c
       TYPE(MAT_ELEM_)   ,INTENT(INOUT)                   :: MAT_ELEM
       TYPE(PYTHON_)  ,INTENT(INOUT)                      :: PYTHON
       TYPE(NAMES_AND_TITLES_),INTENT(INOUT)              :: NAMES_AND_TITLES !< NAMES_AND_TITLES host the input deck names and titles for outputs
+      type (glob_therm_) ,intent(inout)                  :: glob_therm
 C
       INTEGER ,INTENT(IN) :: NDAMP_VREL,NDAMP_VREL_RBYG
       INTEGER ,INTENT(IN) :: ID_DAMP_VREL(NDAMP_VREL),FR_DAMP_VREL(NSPMD+2,NDAMP_VREL)
@@ -1281,7 +1283,7 @@ C-------------------------------------------------------------------------------
       MSTOP_DT_THERM = 0
       NSENSOR = SENSORS%NSENSOR
 
-      IF(ITHERM_FE>0) THEN
+      IF(GLOB_THERM%ITHERM_FE>0) THEN
         TEMP_SIZ = NUMNOD
       ELSE
         TEMP_SIZ = 0
@@ -1504,11 +1506,11 @@ C Allocation of inverse connectivity array
 C
 C   Working arrays for thermal analysis                                      
 C
-          NODADT_THERM = 0  
-          IF(IDT_THERM == 1) THEN
-            IF(NINTER>0.OR.NODADT>0) NODADT_THERM = 1 ! Flag for nodal thermal time step
+          GLOB_THERM%NODADT_THERM = 0  
+          IF(GLOB_THERM%IDT_THERM == 1) THEN
+            IF(NINTER>0.OR.NODADT>0) GLOB_THERM%NODADT_THERM = 1 ! Flag for nodal thermal time step
           ENDIF
-          IF(IDT_THERM == 1) THEN
+          IF(GLOB_THERM%IDT_THERM == 1) THEN
              ALLOCATE(ICODT0(NUMNOD)) ! Tabs for storing initial kinimatic when thermal time step
              ALLOCATE(ICODR0(NUMNOD))
           ELSE
@@ -1521,7 +1523,7 @@ C
 
           IFTHE  = 1
           ICONDN = 1
-          IF(ITHERM_FE > 0 ) THEN
+          IF(GLOB_THERM%ITHERM_FE > 0 ) THEN
             IF(IPARIT == 3 ) THEN
               IFTHE = NUMNOD+3*NUMNOD*NTHREAD
               ALLOCATE(FTHE(IFTHE), FTHESKY(LSKY))
@@ -1534,7 +1536,7 @@ C
             ENDIF
             ALLOCATE(QFRICINT(NINTER))
             QFRICINT(1:NINTER) = ZERO
-            IF(NODADT_THERM == 1) THEN
+            IF (GLOB_THERM%NODADT_THERM == 1) THEN
                IF(IPARIT == 0 ) THEN
                   ICONDN = NUMNOD*NTHREAD
                   ALLOCATE (CONDN(ICONDN), CONDNSKY(0))
@@ -1553,14 +1555,14 @@ C
             ALLOCATE(CONDN(ICONDN),CONDNSKY(0))
           ENDIF
 C
-          IF(INTHEAT > 0  ) THEN
+          IF (GLOB_THERM%INTHEAT > 0  ) THEN
             IF(IPARIT /= 0 )THEN
               ALLOCATE(FTHESKYI(LSKYI))
               FTHESKYI(1:LSKYI) = 0 
             ELSE
               ALLOCATE(FTHESKYI(0))
             ENDIF
-            IF(NODADT_THERM == 1) THEN  
+            IF (GLOB_THERM%NODADT_THERM == 1) THEN  
               IF(IPARIT /= 0 )THEN
                ALLOCATE(CONDNSKYI(LSKYI))
               ELSE
@@ -2059,7 +2061,7 @@ C save the Python functions into the Python interpreter dictionarry
      .          M51_N0PHAS, M51_NVPHAS, STACK       ,
      .          IPART(K3:K4-1),IPART(K1:K2-1),IPART(K8:K9-1), IPART(K2:K3-1), 
      .          D           , MULTI_FVM ,  
-     .          MAT_ELEM%MAT_PARAM , FANI_CELL)
+     .          MAT_ELEM%MAT_PARAM , FANI_CELL,GLOB_THERM%ITHERM)
 
 
 C========================================================================================
@@ -2148,7 +2150,7 @@ C
      6   TAGSLV_RBY,NFNCA2  ,NFTCA2  ,IN0 ,SORT_COMM,STACK,OUTPUT,
      7   THKE   ,SFR_ELEM  ,SH_OFFSET_TAB,
      8   NEED_COMM_INT25_SOLID_EROSION,COMM_INT25_SOLID_EROSION ,
-     9   ISKWN  ,IFRAME  ,LOADS )
+     9   ISKWN  ,IFRAME  ,LOADS ,GLOB_THERM)
 
 !$OMP END PARALLEL
 C========================================================================================
@@ -2168,12 +2170,12 @@ C===============================================================================
        CALL FAIL_WIND_FRWAVE_INIT(NGROUP)
        ! Check if ALE elements are deactivated to avoid some mpi comm. in the ALE solver
        GLOBAL_ACTIVE_ALE_ELEMENT = .FALSE.
-       CALL CHECK_ALE_COMM(IPARG,ELBUF_TAB,GLOBAL_ACTIVE_ALE_ELEMENT)
+       CALL CHECK_ALE_COMM(IPARG,ELBUF_TAB,GLOBAL_ACTIVE_ALE_ELEMENT,GLOB_THERM%ITHERM)
 C     End Initialisations //
        IF(NADMESH/=0.AND.IDEL7NG>=1) IDEL7NOK = 0
 C     THERMAL TIME STEP : we don t check incompatible kinematic conditions anymore
 c      we constraint all DDLs
-       IF(IDT_THERM == 1) THEN
+       IF (GLOB_THERM%IDT_THERM == 1) THEN
           CALL BCSDTTH_COPY(ICODT, ICODR, ICODT0, ICODR0 ,1 )
        ENDIF
 
@@ -2234,7 +2236,7 @@ C     Multidomains + SPH
       ENDIF
 
 C     THERMAL EXPANSION and IMPTEMP : Initialisation of nodal temperatures
-      IF(NFXTEMP  > 0 .AND. ITHERM_FE > 0.AND.TT==ZERO) THEN
+      IF (GLOB_THERM%NFXTEMP  > 0 .AND. GLOB_THERM%ITHERM_FE > 0.AND.TT==ZERO) THEN
         CALL FIXTEMP(IBFTEMP  ,FBFTEMP    ,TEMP    ,NPC    ,TF  ,
      .       NSENSOR  ,SENSORS%SENSOR_TAB )
       ENDIF
@@ -3142,8 +3144,9 @@ C----------------------------------
 C
         DT1=DT2
         DT2=EP06
+        GLOB_THERM%DT_THERM = EP06
         NT_IMP=0
-        DT_THERM=EP06
+!
       IF(IMPL_S>0) THEN
        IF(NCYCLE>0) THEN
          IF (ISMDISP==1) THEN 
@@ -3273,7 +3276,7 @@ C--------------------------------------------------------
 C-----------------------------------------------
 C      gauges de pression, calcul de la position
 C-----------------------------------------------
-      IF (IALE+IEULER+ITHERM+NUMSPH/=0) THEN
+      IF (IALE+IEULER+GLOB_THERM%ITHERM+NUMSPH/=0) THEN
         IF(NBGAUGE/=0)CALL AGAUGE0(LGAUGE,GAUGE,X,IXC,IGAUP,NGAUP)
       END IF
 C----------------------------------------
@@ -3311,7 +3314,7 @@ C------------------------
 C----------------------------------
 C       FUNCTIONS
 C----------------------------------
-        IF(NFUNCT /= 0.AND.IALE+IEULER+ITHERM+NEBCS>0) THEN
+        IF(NFUNCT /= 0.AND.IALE+IEULER+GLOB_THERM%ITHERM+NEBCS>0) THEN
             CALL TIMFUN(PYTHON,FV, NPC, TF)
             IF(EBCS_TAB%nebcs_loc/=0) THEN
                 !!! Need to "extrapolate values" whenever current time
@@ -3329,7 +3332,7 @@ C-------------------------------------------------------------------
 C       ACTIVATION-DEACTIVATION of groups of elements
 C-------------------------------------------------------------------
         IF (NACTIV>0) THEN
-            IF(ITHERM_FE > 0 .AND. NSPMD > 1 ) THEN
+            IF(GLOB_THERM%ITHERM_FE > 0 .AND. NSPMD > 1 ) THEN
               DO I = 1,NUMNOD
                 MCP(I)   = MCP(I)   * WEIGHT(I)
                 STIFN(I) = STIFN(I) * WEIGHT(I)
@@ -3341,9 +3344,9 @@ C-------------------------------------------------------------------
      .                   IBCV    ,FCONV   ,IBCR    ,FRADIA  ,IGROUPS  ,
      .                   FACTIV  ,TEMP     ,MCP     ,PM      ,MCP_OFF  ,
      .                   IGRBRIC ,IGRQUAD  ,IGRSH4N ,IGRSH3N ,IGRTRUSS ,
-     .                   IGRBEAM ,IGRSPRING)
+     .                   IGRBEAM ,IGRSPRING,GLOB_THERM)
         ELSE
-            IF(ITHERM_FE > 0 .AND. NSPMD > 1 .AND. IPARIT == 0) THEN
+            IF(GLOB_THERM%ITHERM_FE > 0 .AND. NSPMD > 1 .AND. IPARIT == 0) THEN
               DO I = 1,NUMNOD
                 MCP(I)   = MCP(I)   * WEIGHT(I)
               ENDDO
@@ -3455,7 +3458,7 @@ C----------------------------------
            CALL offset_nPROJ(NSPMD,NUMNOD,XYZ,SH_OFFSET_TAB,IPARIT)
         ENDIF  
 !
-        IF( NUMCONV + NUMRADIA > 0 .AND. ITHERM_FE > 0 )THEN
+        IF( GLOB_THERM%NUMCONV + GLOB_THERM%NUMRADIA > 0 .AND. GLOB_THERM%ITHERM_FE > 0 )THEN
 
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
@@ -3465,24 +3468,24 @@ C===============================================================================
 C-------------------------------------------------------------------
 C   BC -- CONVECTION  for heat_transfert by FEM
 C----------------------------------------------
-          IF(NUMCONV > 0 .AND. ITHERM_FE > 0) THEN
+          IF (GLOB_THERM%NUMCONV > 0 .AND. GLOB_THERM%ITHERM_FE > 0) THEN
             IF (IMON>0) CALL STARTIME(4,1)
             IF (IMONM > 0) CALL STARTIME(41,1)
               CALL CONVEC(IBCV  ,FCONV   ,NPC   ,TF   , X     ,
      1                  TEMP    ,NSENSOR,SENSORS%SENSOR_TAB,FTHE, IADS(I87K),
-     2                  FTHESKY, PYTHON)
+     2                  FTHESKY, PYTHON,GLOB_THERM)
             IF (IMONM > 0) CALL STOPTIME(41,1)
             IF (IMON>0) CALL STOPTIME(4,1)
           ENDIF
 C-------------------------------------------------------------------
 C   BC -- RADIATION to environment for heat_transfert by FEM
 C-----------------------------------------------------------
-          IF(NUMRADIA > 0 .AND. ITHERM_FE > 0) THEN
+          IF (GLOB_THERM%NUMRADIA > 0 .AND. GLOB_THERM%ITHERM_FE > 0) THEN
             IF (IMON>0) CALL STARTIME(4,1)
             IF (IMONM > 0) CALL STARTIME(41,1)
             CALL RADIATION(IBCR,   FRADIA, NPC,     TF,   X         ,
      1                     TEMP,   NSENSOR,SENSORS%SENSOR_TAB, FTHE, IADS(I87L),
-     2                     FTHESKY, PYTHON)
+     2                     FTHESKY, PYTHON,GLOB_THERM)
             IF (IMONM > 0) CALL STOPTIME(41,1)
             IF (IMON>0) CALL STOPTIME(4,1)
           ENDIF
@@ -3496,11 +3499,12 @@ C===============================================================================
 C-------------------------------------------------------------------
 C   BC -- THERMAL FLUX  for heat_transfert by FEM
 C-------------------------------------------------
-        IF(NFXFLUX > 0 .AND. ITHERM_FE > 0) THEN
+        IF (GLOB_THERM%NFXFLUX > 0 .AND. GLOB_THERM%ITHERM_FE > 0) THEN
           IF (IMON>0) CALL STARTIME(4,1)
           IF (IMONM > 0) CALL STARTIME(41,1)
           CALL FIXFLUX(IBFFLUX, FBFFLUX,  NPC,  TF,     X,     IXS,
-     1                 NSENSOR,SENSORS%SENSOR_TAB, FTHE, IADS(I87N), FTHESKY, PYTHON)
+     .                 NSENSOR,SENSORS%SENSOR_TAB, FTHE, IADS(I87N), FTHESKY, PYTHON,
+     .                 GLOB_THERM)
           IF (IMONM > 0) CALL STOPTIME(41,1)
           IF (IMON>0) CALL STOPTIME(4,1)
         ENDIF
@@ -3600,7 +3604,7 @@ C---------------------------------------------
 C TETRA4 : SMOOTH FINITE ELEMENT FORMULATIONS
 C---------------------------------------------
       IF(ISFEM >= 1) THEN
-        IF(IALE+IEULER+ITHERM==0) THEN
+        IF(IALE+IEULER+GLOB_THERM%ITHERM==0) THEN
           L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
           CALL S4LAGSFEM(IPARG,IXS,X,V,ELBUF_TAB,VARNOD,
      .                   IAD_ELEM,FR_ELEM,IXS(L1),XDP)
@@ -3660,7 +3664,7 @@ C===============================================================================
      M     LSKYI_SMS_NEW    ,FORNEQS  ,INT7ITIED,IDEL7NOK_SAV,MAXDGAP,
      N     T2FAC_SMS,ICODT,ISKEW ,FSKYN25  ,ADDCSRECT,PROCNOR,
      O     INTER_STRUCT,SORT_COMM,RNUM_SIZ,NATIV_SMS_SIZ,TEMP_SIZ,
-     P     INTERFACES)
+     P     INTERFACES,GLOB_THERM)
 C
 #include "lockon.inc"
         IF(DT2TT<DT2T)THEN
@@ -3685,13 +3689,13 @@ C ----------------------------------------------------
 
       IF(IPARIT >0)THEN
        IF ( NISKY+LSKYI_COUNT > SISKY) THEN
-         CALL REALLOCATE_I_SKYLINE(LSKYI_COUNT,1)
+         CALL REALLOCATE_I_SKYLINE(LSKYI_COUNT,1,GLOB_THERM%INTHEAT,GLOB_THERM%nodadt_therm)
        ENDIF   
 
 C
 C Remote Secnd Nodes
        IF (NSPMD >1)THEN
-         CALL UPGRADE_REM_2RY(IPARI,COUNT_REMSLV,COUNT_REMSLVE)
+         CALL UPGRADE_REM_2RY(IPARI,COUNT_REMSLV,COUNT_REMSLVE,glob_therm%nodadt_therm)
          COUNT_REMSLV(1:NINTER)= 0
          COUNT_REMSLVE(1:NINTER)= 0
        ENDIF
@@ -3785,7 +3789,8 @@ C===============================================================================
      .               IGEO ,IPM      ,SH4TREE,PADMESH,MSC  ,
      .               INC  ,SH3TREE  ,MSTG   ,INTG   ,PTG  ,
      .            ACONTACT,PCONTACT,ERR_THK_SH4,ERR_THK_SH3,MSCND,
-     .               INCND,PM      ,MCP     ,MCPC   ,MCPTG)
+     .               INCND,PM      ,MCP     ,MCPC   ,MCPTG,
+     .            GLOB_THERM%ITHERM_FE)
         NGDONE = 1 
 C       /---------------/
         CALL MY_BARRIER
@@ -3797,7 +3802,7 @@ C       /---------------/
      .                    ELBUF_TAB,NODFTSK  ,NODLTSK,IGEO     ,IPM  ,
      .                    SH4TREE,MSC  ,INC   ,SH3TREE,MSTG    ,
      .                    INTG   ,PTG  ,MSCND ,INCND  ,PM      ,
-     .                    MCP    ,MCPC ,MCPTG )
+     .                    MCP    ,MCPC ,MCPTG ,GLOB_THERM%ITHERM_FE)
 C           /---------------/
             CALL MY_BARRIER
 C           /---------------/
@@ -3814,7 +3819,7 @@ C           /---------------/
           CALL ADMGVID(
      1      IPARG     ,ELBUF_TAB ,FSKY   ,FSKY  ,FTHESKY,
      2      IADS(I87C),IADS(I87G),IFLGADM,IGROUC,NGROUC ,
-     3      CONDNSKY  )
+     3      CONDNSKY  ,GLOB_THERM%NODADT_THERM)
           CALL MY_BARRIER
           NGDONE = 1    
         END IF
@@ -3851,7 +3856,7 @@ C--------------------------------------------------------
 C       ALE flux + forces
 C--------------------------------------------------------
         NEED_COMM_INTER18 = .FALSE.
-        IF (IALE+IEULER+ITHERM/=0.AND.GLOBAL_ACTIVE_ALE_ELEMENT) THEN
+        IF (IALE+IEULER+GLOB_THERM%ITHERM/=0.AND.GLOBAL_ACTIVE_ALE_ELEMENT) THEN
            CALL STARTIME(MACRO_TIMER_ALEMAIN,1) 
 C-----------------------------
 C        SPMD : MS=0 boundary nodes if  weight/=1  (pour amas03)
@@ -3904,8 +3909,8 @@ C
      L          LGRAV                 ,CONDNSKY ,CONDN         ,MS_2D             ,MULTI_FVM                 ,IGRTRUSS        ,
      M          IGRBRIC               ,NLOC_DMG ,ID_GLOBAL_VOIS,FACE_VOIS         ,EBCS_TAB                  ,ALE_CONNECTIVITY,
      N          MAT_ELEM              ,H3D_DATA ,DT            ,OUTPUT            ,NEED_COMM_INTER18         ,IDTMINS         ,
-     O          IDTMIN                ,MAXFUNC  ,IMON_MAT      ,USERL_AVAIL       ,heat_meca                 ,
-     P          impl_s                ,idyna    ,PYTHON        ,MAT_ELEM%MAT_PARAM)
+     O          IDTMIN                ,MAXFUNC  ,IMON_MAT      ,USERL_AVAIL       ,
+     P          impl_s                ,idyna    ,PYTHON        ,MAT_ELEM%MAT_PARAM,GLOB_THERM)
 
            IF(INT22 /=0)  call my_barrier !INTER22in input files  - get also IDT_INT22
 #include "lockon.inc"
@@ -4212,7 +4217,7 @@ C Init var parallel SMP
      H     WA                ,SENSORS%SENSOR_TAB     ,QFRICINT       ,NCONT           ,INDEXCONT       , 
      I     TAGCONT           ,INOD_PXFEM     ,MS_PLY         ,WAGAP           ,ELBUF_TAB       ,
      J     CONDN(IDX_CONDN)  ,CONDNSKYI      ,NV46            ,
-     K     SENSORS%SFSAV     ,SENSORS%FSAV   ,
+     K     SENSORS%SFSAV     ,SENSORS%FSAV   ,GLOB_THERM%NODADT_THERM,GLOB_THERM%THEACCFACT,
      L     ISENSINT          ,NISUBMAX       ,NB25_CANDT      ,NB25_IMPCT      ,
      M     NB25_DST1         ,NB25_DST2      ,IXIG3D         ,KXIG3D          ,WIGE            ,
      N     KNOT              ,IGEO           ,MULTI_FVM      ,H3D_DATA        ,
@@ -4246,7 +4251,7 @@ C Init var parallel SMP
          ENDIF
          IF (IPARIT == 0 .AND. NSPMD > 1 .AND. NTHREAD > 1) THEN
            CALL MY_BARRIER()
-           CALL ASSPARXX(ITSK, INTLIST,NBINTC,IPARI)
+           CALL ASSPARXX(ITSK, INTLIST,NBINTC,IPARI,GLOB_THERM%NODADT_THERM)
          ENDIF
 !$OMP END PARALLEL
 
@@ -4302,7 +4307,7 @@ C
      6         ISLEN7T   ,IRLEN20 ,ISLEN20,IRLEN20T,ISLEN20T,
      7         IRLEN20E  ,ISLEN20E,CONDN  ,1, INTERFACES%INTBUF_TAB  ,
      8         H3D_DATA, MULTI_FVM,TAGNCONT,KLOADPINTER,LOADPINTER,
-     9         LOADP_HYD_INTER,FSAV    ,INTERFACES)
+     9         LOADP_HYD_INTER,FSAV    ,INTERFACES,GLOB_THERM%NODADT_THERM)
            ELSE
 
              CALL SPMD_I7FCOM_PON(
@@ -4311,7 +4316,7 @@ C
      3         IXS       ,IXS(L3)  ,NISKYFIE  ,NBINT20   ,1       , 
      4         INTERFACES%INTBUF_TAB,SFSKYI   ,SISKY     ,H3D_DATA  ,MULTI_FVM ,
      5         TAGNCONT  ,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,FSAV,
-     6         INTERFACES)
+     6         INTERFACES,glob_therm%nodadt_therm)
 
              IF(MULTI_FVM%IS_INT18_LAW151) THEN
               IF(NTHREAD>1) CALL INT18_LAW151_OMP_ACCUMULATION( MULTI_FVM )
@@ -4492,7 +4497,7 @@ C Init var parallel SMP
      L   INOD_CRK     ,IEL_CRK         ,IADC_CRK        ,ELCUTC        ,NODENR        ,
      M   IBORDNODE    ,NODEDGE         ,CRKNODIAD       ,ELBUF_TAB     ,
      N   XFEM_TAB     ,CONDN(IDX_CONDN),CONDNSKY        ,CRKEDGE       ,
-     O   STACK        ,ITAB            ,
+     O   STACK        ,ITAB            ,GLOB_THERM,
      Q   DRAPE_SH4N   ,DRAPE_SH3N      ,SUBSETS, XDP    ,PINCH_DATA%VPINCH   ,
      R   PINCH_DATA%APINCH(1,IDX_PINCH)    ,PINCH_DATA%STIFPINCH(IDX_PINCH)  ,DRAPEG  ,
      S   OUTPUT       ,DT              )     
@@ -4582,7 +4587,7 @@ C
      Y H3D_DATA       ,IFTHE         ,ICONDN      ,DT      ,OUTPUT,
      Z SBUFMAT        ,SNPC          ,STF         ,NODADT  ,DTFAC1,
      . DTMIN1         ,IDTMIN        ,IOUT        ,ISTDO   ,IDTMINS,DTFACS,NSVOIS,
-     . IRESP          ,MAXFUNC       ,USERL_AVAIL ,HEAT_MECA,IMON_MAT,DTMINS)
+     . IRESP          ,MAXFUNC       ,USERL_AVAIL ,GLOB_THERM,IMON_MAT,DTMINS)
 C     
 #include "lockon.inc"
       IF(DT2TT<DT2T)THEN
@@ -4674,8 +4679,8 @@ C----------------------------------
      E    FTHE          ,FTHESKYI       ,SPHG_F6    ,WSMCOMP%BUF     ,SOL2SPH_TYP   ,
      F    MAt_ELEM      ,OUTPUT         ,SPH_IORD1  ,SNPC            ,STF           ,
      G    SBUFMAT       ,NSVOIS         ,IDTMINS    ,IRESP           ,MAXFUNC       ,
-     .    IMON_MAT      ,USERL_AVAIL    ,heat_meca  ,impl_s          ,idyna         ,
-     .    DT            )
+     .    IMON_MAT      ,USERL_AVAIL    ,impl_s          ,idyna         ,
+     .    DT            ,GLOB_THERM )
 #include "lockon.inc"
         IF(DT2TT<DT2T)THEN
           DT2T = DT2TT
@@ -4798,7 +4803,7 @@ C
      6         ISLEN7T   ,IRLEN20 ,ISLEN20 ,IRLEN20T,ISLEN20T,
      7         IRLEN20E  ,ISLEN20E,CONDN   ,2, INTERFACES%INTBUF_TAB,
      8         H3D_DATA, MULTI_FVM,TAGNCONT,KLOADPINTER,LOADPINTER,
-     9         LOADP_HYD_INTER,FSAV    ,INTERFACES)
+     9         LOADP_HYD_INTER,FSAV    ,INTERFACES,glob_therm%nodadt_therm)
            ELSE
 
              CALL SPMD_I7FCOM_PON(
@@ -4873,7 +4878,7 @@ C assemblage Parith/OFF necessaire avant communication frontiere si multi-thread
      1    NTHREAD    ,NUMNOD,NODFTSK,NODLTSK,IRODDL,
      2    NPART    ,PARTFTSK,PARTLTSK ,A      ,AR    ,
      3    PARTSAV  ,STIFN ,STIFR  ,VISCN  , FTHE ,
-     4    ITHERM_FE,STCND ,GREFTSK,GRELTSK ,
+     4    GLOB_THERM%ITHERM_FE,GLOB_THERM%NODADT_THERM,STCND ,GREFTSK,GRELTSK ,
      5    GRESAV   ,NGPE  ,NTHPART ,IALELAG, AFLOW,
      6    DMSPH    ,CONDN ,
      7    PINCH_DATA%APINCH,PINCH_DATA%STIFPINCH)
@@ -4976,9 +4981,9 @@ C===============================================================================
             SIZE = SIZE + 2
           ENDIF
 C
-          IF(ITHERM_FE > 0  )THEN
+          IF(GLOB_THERM%ITHERM_FE > 0  )THEN
             SIZE = SIZE + 3
-            IF(NODADT_THERM == 1 ) SIZE = SIZE + 1
+            IF (GLOB_THERM%NODADT_THERM == 1 ) SIZE = SIZE + 1
           ENDIF
 C
           IF(IALELAG > 0 )THEN
@@ -5024,10 +5029,10 @@ C
           IF(N2D /= 0.AND.ALE%SUB%IFSUBM == 1) SIZE = SIZE + 1
           SIZI = NFSKYI+1
 C
-          IF(ITHERM_FE > 0 )THEN
-           SIZE = SIZE + 1
-           SIZI = SIZI + 1
-            IF(NODADT_THERM == 1 ) THEN
+          IF (GLOB_THERM%ITHERM_FE > 0 )THEN
+            SIZE = SIZE + 1
+            SIZI = SIZI + 1
+            IF (GLOB_THERM%NODADT_THERM == 1 ) THEN
                SIZE = SIZE + 1
                SIZI = SIZI + 1
             ENDIF
@@ -5121,7 +5126,7 @@ C------------------------
      8       DMSPH  ,CONDN   ,CONDNSKY  ,CONDNSKYI,
      9       MS_2D,ICNDS10  ,
      A       STIFND ,FORNEQS ,FORNEQSKY ,NFACNIT,NODFTSK_2,
-     B       NODLTSK_2,FSKY_L)   
+     B       NODLTSK_2,FSKY_L,GLOB_THERM)   
 
 !   ----------------------------------
 !   Accumulation of acceleration for Nlocal option : parith/on
@@ -5162,10 +5167,10 @@ C
         CALL ASSPAR3(
      2       A          ,AR         ,ITSK       ,NODFTSK   ,
      3       NODLTSK    ,STIFN      ,STIFR      ,ITAB      ,FSKY       ,
-     4   FSKY       ,ISKY       ,ADSKY      ,FSKYI     ,
+     4       FSKY       ,ISKY       ,ADSKY      ,FSKYI     ,
      5       WA         ,PARTFTSK   ,PARTLTSK   ,PARTSAV   ,MS         ,
-     6   FTHE       ,FTHESKY    ,FTHESKYI   ,GREFTSK     ,GRELTSK      ,
-     7   GRESAV     )
+     6       FTHE       ,FTHESKY    ,FTHESKYI   ,GREFTSK     ,GRELTSK      ,
+     7       GRESAV     ,GLOB_THERM%ITHERM_FE   ,GLOB_THERM%INTHEAT    )
 
       ELSEIF(IPARIT==3)THEN
 
@@ -5679,7 +5684,7 @@ C===============================================================================
      6         FSAV   ,NPC    ,TF       ,FANI(1,NFT2+1) ,IAD_ELEM,FR_ELEM,
      7         NATIV_SMS,DMINT2,ANIN(NDAMA2+1),NB_FRI2M ,FR_LOCI2M,
      8         DT2T  ,NELTST ,ITYPTST   ,INTERFACES%INTBUF_TAB ,TEMP     ,MCP   ,
-     9         FTHE  ,CONDN  ,
+     9         FTHE  ,CONDN  ,GLOB_THERM,
      A         H3D_DATA,T2FAC_SMS,FANI(1,NFNCA2+1),NPCONT2)
           ENDDO
           IF (IMONM > 0) CALL STOPTIME(28,1)
@@ -5759,7 +5764,7 @@ C----------------------------------------------------------
 C------------------------
 C     test of mass and inertia on main nodes of interf. type 2
 C------------------------
-      IF(TT==ZERO.AND.IALE+IEULER+ITHERM==0)THEN
+      IF(TT==ZERO.AND.IALE+IEULER+GLOB_THERM%ITHERM==0)THEN
 
         NEGMAS=0
 C========================================================================================
@@ -5857,7 +5862,8 @@ C-----------------------------------------------------
         IF (IMON>0) CALL STARTIME(37,1)
           CALL ADMFOR0(IXC, IPART(K3), IXTG, IPART(K8), IPART,
      1                 A  , STIFN    ,    AR, STIFR   ,X    ,
-     2                 SH4TREE,SH3TREE,STCND,     FTHE,CONDN)
+     2                 SH4TREE,SH3TREE,STCND,     FTHE,CONDN,
+     .                 GLOB_THERM%NODADT_THERM,GLOB_THERM%ITHERM_FE)
         IF (IMON>0) CALL STOPTIME(37,1)
       END IF
 C----------------------------------------------------------
@@ -6077,8 +6083,8 @@ C
 C------------------------------------
 C  THERMAL TIME STEP COMPUTATION
 C-----------------------------
-      IF(IDT_THERM == 1)THEN
-         DT2 = DT_THERM
+      IF (GLOB_THERM%IDT_THERM == 1)THEN
+         DT2 = GLOB_THERM%DT_THERM
          DT2T = DT2
       ENDIF
 C
@@ -6120,7 +6126,7 @@ C     IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
      1              NODFTSK,NODLTSK ,NELTSTT,ITYPTSTT   ,ITAB   ,
      2              MS   ,IN    ,STIFN ,STIFR     ,DT2TT   ,
      3              DMAST,DINERT,ANIN,ANIN(NDMA+1),IMSCH  ,
-     4              WEIGHT,A    ,AR    ,IGRNOD    ,
+     4              WEIGHT,A    ,AR    ,IGRNOD    ,glob_therm%nodadt_therm,
      5              ANIN(NDIN+1),RBYM  ,ARBYM ,ARRBYM,WEIGHT_MD,
      6              MCP         ,MCP_OFF,CONDN ,ALE_CONNECTIVITY%NALE  ,H3D_DATA  )
       ELSEIF(IDTMINS/=0)THEN
@@ -6137,7 +6143,7 @@ C     IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
 #include "lockon.inc"
       DMAS  = DMAS  + DMAST
       DINER = DINER + DINERT
-      IF(IDT_THERM == 1)THEN    
+      IF (GLOB_THERM%IDT_THERM == 1)THEN    
         IF(DT2TT<=DT2T)THEN
 C---------Check remaining time for end simulation and correct time step----
 C------------Need to stop computation at Tstop for /DT/THERM----------
@@ -6173,7 +6179,7 @@ C===============================================================================
 C                                     NON PARALLEL SECTION (SMP)
 C========================================================================================  
 C
-       IF(IDT_THERM == 1)THEN
+       IF (GLOB_THERM%IDT_THERM == 1)THEN
          IF(DT2T<DT2)THEN
           NELTS  = NELTST
           ITYPTS = ITYPTST
@@ -6410,7 +6416,7 @@ C processes in charge of the FVMBAGS know NPOLH)
         ENDIF
       ENDIF
 
-        IF(IDT_THERM == 0) DT2= MIN(DT2,1.1*DT2OLD,DTMX)
+        IF (GLOB_THERM%IDT_THERM == 0) DT2= MIN(DT2,1.1*DT2OLD,DTMX)
         IF (IMPL_S==1)  CALL IMP_DT2(DT2)
 
       IF (IMONM > 0) CALL STOPTIME(53,1)
@@ -6979,8 +6985,8 @@ C---
 C--- //  ---------------------------------------
 C       TEMPERATURES COMPUTATION 
 C-----------------------------------------------
-       IF (ITHERM_FE > 0 )
-     .    CALL TEMPUR(TEMP ,MCP,FTHE,NODFTSK,NODLTSK,WEIGHT,MCP_OFF)
+       IF (GLOB_THERM%ITHERM_FE > 0 )
+     .    CALL TEMPUR(TEMP ,MCP,FTHE,NODFTSK,NODLTSK,WEIGHT,MCP_OFF,GLOB_THERM%HEAT_STORED)
 !$OMP END PARALLEL
 
 
@@ -7677,14 +7683,14 @@ C===============================================================================
 C--------------------------
 C         IMPOSED TEMPERATURES 
 C--------------------------
-      IF (NFXTEMP  > 0 .AND. ITHERM_FE > 0) THEN
+      IF (GLOB_THERM%NFXTEMP  > 0 .AND. GLOB_THERM%ITHERM_FE > 0) THEN
         IF (IMON>0) THEN
           CALL STARTIME(6,1)
           CALL STARTIME(4,1)
           IF(IMONM > 0) CALL STARTIME(44,1)
         ENDIF
         CALL FIXTEMP(IBFTEMP  ,FBFTEMP    ,TEMP    ,NPC    ,TF  ,
-     1               NSENSOR  ,SENSORS%SENSOR_TAB)
+     1               NSENSOR  ,SENSORS%SENSOR_TAB,GLOB_THERM)
         IF (IMON>0) THEN
           IF(IMONM > 0) CALL STOPTIME(44,1)
           CALL STOPTIME(4,1)
@@ -7767,7 +7773,7 @@ C===============================================================================
 
           CALL ADMVIT(IXC, IPART(K3), IXTG, IPART(K8), IPART,
      1                ITSK   ,A        , V   , AR       , VR   ,
-     2              SH4TREE,SH3TREE ,TEMP )
+     2              SH4TREE,SH3TREE ,TEMP ,GLOB_THERM%ITHERM_FE)
 
 !$OMP END PARALLEL
 
@@ -8238,7 +8244,7 @@ C===============================================================================
      .          M51_N0PHAS, M51_NVPHAS, STACK       ,
      .          IPART(K3:K4-1),IPART(K1:K2-1) ,IPART(K8:K9-1),IPART(K1:K2-1), 
      .          D           , MULTI_FVM ,  
-     .          MAT_ELEM%MAT_PARAM, FANI_CELL)
+     .          MAT_ELEM%MAT_PARAM, FANI_CELL,GLOB_THERM%ITHERM)
 
 
 C
@@ -8487,7 +8493,7 @@ C Regular animation
      s   LOADP         ,TAGNCONT       ,LOADP_HYD_INTER,FORC           ,DRAPEG        ,
      t   USER_WINDOWS  ,OUTPUT         ,DT             ,OUTPUT%TH%TH_SURF%CHANNELS    ,
      u   TABLE         ,LOADS          ,SFANI          ,IPARIT         ,X_C           ,
-     v   SZ_NPCONT2    ,NPCONT2)
+     v   SZ_NPCONT2    ,NPCONT2        ,GLOB_THERM    )
 C
         IF((MSTOP == 1 .AND. ICTLSTOP == 0) .OR. MSTOP == 2 .OR. DT2<=ZERO)THEN
           CALL SORTIE_ERROR(
@@ -8688,7 +8694,7 @@ C----       10,11,12:ELBUF_C,BUFMAT_C,X_C,13,14:DD,DDR,15,16:X_ac,V_zero,23,24:A
      Y  SENSORS%SFSAV,SENSORS%FSAV,SENSORS%STABSEN,SENSORS%TABSENSOR,DRAPE_SH4N  , DRAPE_SH3N,
      Z  H3D_DATA,MULTI_FVM,IGRBRIC,IGRSH4N,IGRSH3N,IGRBEAM,FORNEQS,MAXDGAP,
      A  NDDL0   ,NNZK0 ,IT_T   ,IMPBUF_TAB,CPTREAC,FTHREAC,NODREAC, DRAPEG,
-     B  INTERFACES,OUTPUT%TH%TH_SURF,DPL0CLD,VEL0CLD,SNPC,STF)
+     B  INTERFACES,OUTPUT%TH%TH_SURF,DPL0CLD,VEL0CLD,SNPC,STF,GLOB_THERM)
 #else 
         WRITE(6,*) __LINE__,"Fatal error: MUMPS required"
         CALL FLUSH(6)
@@ -9254,7 +9260,7 @@ C--- //0 ----------------
         IF (IMON>0) CALL STOPTIME(6,1)
        ENDIF
 
-      IF(IDT_THERM == 1.AND.(TSTOP-TT)<=EM20)THEN    
+      IF (GLOB_THERM%IDT_THERM == 1.AND.(TSTOP-TT)<=EM20)THEN    
          MSTOP_DT_THERM = 1
       ENDIF
        
@@ -9301,7 +9307,7 @@ C--- //0 ----------------
       IF (BOOL_RESTART) THEN
         IF(IMON>0) CALL STARTIME(7,1)
 
-        IF(IDT_THERM == 1)CALL BCSDTTH_COPY(ICODT, ICODR, ICODT0, ICODR0, 2)
+        IF (GLOB_THERM%IDT_THERM == 1)CALL BCSDTTH_COPY(ICODT, ICODR, ICODT0, ICODR0, 2)
 
         CALL BCSN(ICODE,ICODT,ICODR,PARTS0,PARTSAV)
           
@@ -9362,7 +9368,7 @@ C--- //0 ----------------
      .               NERPM      ,IFLOW           ,RFLOW          ,LIFLOW          ,LRFLOW           ,
      .               IMPBUF_TAB ,IMPL_S          ,IMPL_S0        ,MCP             ,TEMP             ,
      .               FORNEQS    ,UNITAB          ,STACK          ,NDRAPE          ,DRAPE_SH3N       ,
-     .               DRAPE_SH4N ,DRAPEG          ,RESTSIZE       ,SKEWS)
+     .               DRAPE_SH4N ,DRAPEG          ,RESTSIZE       ,SKEWS           ,GLOB_THERM       )
         
         ! Restart file size
         IF (MULTIREST >0)THEN
@@ -9529,7 +9535,7 @@ C--- //0 ----------------
            IF(NVOLU > 0)  CALL FVSTATS(MONVOL)
            CALL STOPTIME(1,1)   
             IF(IMONM>0) CALL PRINTIME_INTERF(INTERFACES%INTBUF_TAB,IPARI,INTLIST,NBINTC)
-            CALL PRINTIME(0)
+            CALL PRINTIME(0,GLOB_THERM%ITHERM)
          ELSE
             CALL ADD_ELAPSED_TIME_MON_OFF( )
          ENDIF                  
@@ -9705,18 +9711,19 @@ C
           IF(NVOLU > 0)  CALL FVSTATS(MONVOL)
           CALL STOPTIME(1,1)
             IF(IMONM>0) CALL PRINTIME_INTERF(INTERFACES%INTBUF_TAB,IPARI,INTLIST,NBINTC)
-          CALL PRINTIME(0)
+          CALL PRINTIME(0,GLOB_THERM%ITHERM)
         ELSE
             CALL ADD_ELAPSED_TIME_MON_OFF( )
         ENDIF
-        IF(ITHERM_FE > 0 ) CALL THERMBILAN()
+        IF (GLOB_THERM%ITHERM_FE > 0 ) CALL THERMBILAN(GLOB_THERM)
         CALL TRACE_OUT(3)
 
         DEALLOCATE(WIBEM, WRBEM)
-        IF(ITHERM_FE > 0  ) DEALLOCATE(FTHE,FTHESKY)
-        IF(INTHEAT > 0  )   DEALLOCATE(FTHESKYI)
-        IF(NODADT_THERM > 0  ) DEALLOCATE(CONDN,CONDNSKY)
-        IF(NODADT_THERM > 0.AND.INTHEAT > 0) DEALLOCATE(CONDNSKYI)
+        IF(GLOB_THERM%ITHERM_FE > 0  ) DEALLOCATE(FTHE,FTHESKY)
+        IF(GLOB_THERM%INTHEAT > 0  )   DEALLOCATE(FTHESKYI)
+        IF(GLOB_THERM%NODADT_THERM > 0  ) DEALLOCATE(CONDN,CONDNSKY)
+        IF(GLOB_THERM%NODADT_THERM > 0.AND.GLOB_THERM%INTHEAT > 0) DEALLOCATE(CONDNSKYI)
+!
         DEALLOCATE(VRBYM,VRRBYM,ARBYM,ARRBYM)
         IF(IPLYXFEM > 0) THEN
           DO I=1,NPLYMAX

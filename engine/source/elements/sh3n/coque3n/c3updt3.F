@@ -28,8 +28,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE C3UPDT3(JFT  ,JLT ,F   ,M   ,NVC  ,
      2                   OFFG ,OFF ,STI ,STIR,STIFN,
-     3                   STIFR,IXTG,F11  ,
-     4                   F12  ,F13 ,F21 ,F22 ,F23  ,
+     3                   STIFR,IXTG,NODADT_THERM,
+     4                   F11  ,F12  ,F13 ,F21 ,F22 ,F23  ,
      5                   F31  ,F32 ,F33 ,M11 ,M12  ,
      6                   M13  ,M21 ,M22 ,M23 ,M31  ,
      7                   M32  ,M33 ,JTHE,THEM,FTHE,
@@ -51,6 +51,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NODADT_THERM
       INTEGER JTHE,JFT, JLT, NVC
       INTEGER IXTG(NIXTG,*),MAT(MVSIZ),IPARTTG(*) 
       my_real  
@@ -402,7 +403,8 @@ C-----------
      6                   M13  ,M21 ,M22 ,M23 ,M31  ,
      7                   M32  ,M33 ,JTHE,THEM,FTHESKY,
      8                   EINT ,PM  ,AREA,THK ,PARTSAV,
-     9                   MAT,IPARTTG,CONDNSKY,CONDE  )
+     9                   MAT,IPARTTG,CONDNSKY,CONDE  ,
+     .                   NODADT_THERM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -420,6 +422,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NODADT_THERM
       INTEGER JFT, JLT, IADTG(3,*),JTHE,MAT(MVSIZ),IPARTTG(*)
       my_real
      .   OFFG(*), OFF(*), STI(*), STIR(*), FSKYV(LSKY,8),

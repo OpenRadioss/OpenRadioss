@@ -34,7 +34,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
-      SUBROUTINE HM_PREREAD_RADIATION(IGRSURF,IGRNOD,IGRBRIC,UNITAB,LSUBMODEL)
+      SUBROUTINE HM_PREREAD_RADIATION(IGRSURF,IGRNOD,IGRBRIC,UNITAB,LSUBMODEL,
+     .                                NRADIA ,NUMRADIA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -55,12 +56,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER , INTENT(IN)    :: NRADIA
+      INTEGER , INTENT(INOUT) :: NUMRADIA
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
     
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
+      TYPE (UNIT_TYPE_)  ,INTENT(IN) :: UNITAB 
+      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

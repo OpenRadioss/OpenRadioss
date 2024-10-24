@@ -136,8 +136,6 @@ c----------
       IALE    = 0
       IEULER  = 0
       ITURB   = 0
-      ITHERM_FE = 0  !< flag for temperature allocation at nodes     (lagrangian framework)
-      ITHERM = 0     !< flag for temperature allocation at centroids (ale/euler framework)
 
       PM(1:100,NUMMAT)=ZERO
       MULTI_FVM%NBMAT   = 0 !Initialize number of material in law151  

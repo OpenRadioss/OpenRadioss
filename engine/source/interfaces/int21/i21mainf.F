@@ -56,7 +56,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      B                   CONDNSKYI,DT2T   ,NELTST   ,ITYPTST ,KINET    ,
      C                   FBSAV6  ,ISENSINT,DIMFB    ,NISKYFI ,H3D_DATA ,
      D                   PSKIDS  ,TAGNCONT,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,
-     E                   DGAPLOADINT,S_LOADPINTER,INTEREFRIC )                   
+     E                   DGAPLOADINT,S_LOADPINTER,INTEREFRIC ,NODADT_THERM,THEACCFACT)                   
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -103,7 +103,8 @@ C-----------------------------------------------
       INTEGER  , INTENT(IN) :: KLOADPINTER(NINTER+1),LOADPINTER(S_LOADPINTER),
      .         LOADP_HYD_INTER(NLOADP_HYD)
       INTEGER  , INTENT(IN) :: INTEREFRIC
-C     REAL
+      INTEGER  , INTENT(IN) :: NODADT_THERM
+      my_real  , intent(in) :: theaccfact
       my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
       my_real 
      .   X(*), A(3,*), FSAV(*), V(3,*),
@@ -389,7 +390,7 @@ C
      9                   X3     ,Y3    ,Z3    ,X4    ,Y4    ,
      A                   Z4     ,ITAB  ,NSVG  ,INTBUF_TAB%MSR_L,IX1   ,
      B                   IX2    ,IX3   ,IX4    ,TEMP ,FCOND ,
-     C                   DCOND )      
+     C                   DCOND  ,THEACCFACT)      
           ENDIF 
 C
           IF(IDTMINS==2.OR.IDTMINS_INT/=0)THEN
@@ -426,7 +427,8 @@ C
      E                  PRATIO   ,H3D_DATA%N_SCAL_SKID,PSKIDS ,IPARI(95,NIN),
      F                  TAGNCONT ,KLOADPINTER,LOADPINTER ,LOADP_HYD_INTER,
      G                  DGAPLOADINT,DIST,GAPV,S_LOADPINTER    ,EFRIC_L  ,
-     H                  FHEAT     ,EFRICT ,INTEREFRIC )  
+     H                  FHEAT     ,EFRICT ,INTEREFRIC , 
+     .                  NODADT_THERM)
 C
           IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(20,1)
 C

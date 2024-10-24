@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5   STI,     STIN,    ICP,     OFF,
      6   VOL0,    VOL0G,   G_PLA,   G_EPSD,
      7   EINTTH,  EINTTHM, IEXPAN,  NEL,
-     8   CONDE,   CONDEN,  SVIS)
+     8   CONDE,   CONDEN,  SVIS  ,NODADT_THERM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -52,7 +52,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICP,G_PLA,G_EPSD,IEXPAN,NEL
-C     REAL
+      INTEGER, INTENT(IN) :: NODADT_THERM
       my_real
      .   SIGOR(NEL,6),
      .   VOL(*),QVIS(*),PP(*),

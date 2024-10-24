@@ -104,7 +104,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      H   MAT_ELEM,   H3D_STRAIN, DT,         IDEL7NOK,
      I   SNPC,       STF,        SBUFMAT,    SVIS,
      J   NSVOIS,     IDTMINS,    IDEL7NG,    MAXFUNC,
-     V   USERL_AVAIL,heat_meca,  impl_s,     idyna )
+     V   USERL_AVAIL,GLOB_THERM,  impl_s,     idyna )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -117,6 +117,7 @@ C-----------------------------------------------
       USE DT_MOD
       USE ELBUFDEF_MOD
       USE SDISTOR_INI_MOD, ONLY : SDISTOR_INI
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -157,7 +158,6 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IMPL_S
       INTEGER, INTENT(IN) :: IDYNA
       INTEGER, INTENT(IN) :: USERL_AVAIL
-      my_real, INTENT(INOUT) :: HEAT_MECA
 
       INTEGER IXS(NIXS,*),IPARG(NPARG,NGROUP),NPF(*),IADS(8,*),
      .        IPARTS(*),IXS10(6,*),IADS10(6,*),IPM(*),ITASK,GRTH(*),
@@ -187,6 +187,7 @@ C     REAL
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
       TYPE (SENSORS_)  ,INTENT(IN)    :: SENSORS
       TYPE(DT_)        ,INTENT(INOUT) :: DT
+      type (glob_therm_) ,intent(inout)   :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -650,14 +651,14 @@ C
      P   BID,         IPARG(1,NG), IGEO,        CONDE,
      Q   ITASK,       NLOC_DMG,    VARNL,       MAT_ELEM,
      R   H3D_STRAIN,  JPLASOL,     JSPH,        MVSIZ,
-     *                SNPC,        STF,         SBUFMAT,
+     *   SNPC,        STF,         SBUFMAT,     GLOB_THERM, 
      S   SVIS,        SZ_IX,       IRESP,
-     T   N2D,         TH_STRAIN,   NGROUP,      TT, 
+     T   N2D,         th_strain,   NGROUP,      TT, 
      .   DT1,         NTABLE,      NUMELQ,      nummat,
      .   numgeo,      numnod,      numels,
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,
-     .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
-     .   idyna,       DT,    fheat      )
+     .   IMON_MAT,    USERL_AVAIL, impl_s,
+     .   idyna,       DT,          fheat      )
 C
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)
 C-----------  return to global system    
@@ -703,7 +704,7 @@ C----------------------------
      5   GBUF%EPSD,  GBUF%SIG,   GBUF%EINT,  GBUF%RHO,
      6   GBUF%QVIS,  GBUF%PLA,   WIP(IP,NPT),GBUF%G_PLA,
      7   NEL,        CONDE,      CONDEG,     GBUF%G_EPSD,
-     8   ISRAT,      SVIS)
+     8   ISRAT,      SVIS ,GLOB_THERM%NODADT_THERM)
 C
         DO I=LFT,LLT
          IF (LBUF%OFF(I) > ONE .AND. GBUF%OFF(I) == ONE) THEN
@@ -720,13 +721,15 @@ C
      1           PM,        IMAT,       NC,        VOLN,
      2           PX(1,1,IP),PY(1,1,IP),PZ(1,1,IP),NX(1,1,IP),
      3           DT1,       TEMP,      TEMPEL,    FHEAT,
-     4           THEM,      GBUF%OFF,  LBUF%OFF,  NEL)
+     4           THEM,      GBUF%OFF,  LBUF%OFF,  NEL,
+     5           GLOB_THERM%THEACCFACT)
           ELSE
             CALL S10THERM(
      1           PM,        IMAT,       NC,        VOLN,
      2           PX(1,1,IP),PY(1,1,IP),PZ(1,1,IP),NX(1,1,IP),
      3           DT1,       TEMP,      TEMPEL,    DIE,
-     4           THEM,      GBUF%OFF,  LBUF%OFF,  NEL)
+     4           THEM,      GBUF%OFF,  LBUF%OFF,  NEL,
+     5           GLOB_THERM%THEACCFACT)
           END IF
         ENDIF
 c----------
@@ -737,11 +740,13 @@ c----------
           IF (MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG == 1) THEN
             CALL S4THERM_ITET1(PM   ,IMAT   ,NC   ,NEL  ,
      .                         XX   ,YY     ,ZZ   ,DT1  ,FHEAT ,
-     .                         TEMP ,THEM   ,GBUF%OFF   ,LBUF%OFF)
+     .                         TEMP ,THEM   ,GBUF%OFF   ,LBUF%OFF,
+     .                         GLOB_THERM%THEACCFACT)
           ELSE
             CALL S4THERM_ITET1(PM   ,IMAT   ,NC   ,NEL  ,
      .                         XX   ,YY     ,ZZ   ,DT1  ,DIE ,
-     .                         TEMP ,THEM   ,GBUF%OFF   ,LBUF%OFF)
+     .                         TEMP ,THEM   ,GBUF%OFF   ,LBUF%OFF,
+     .                         GLOB_THERM%THEACCFACT)
           END IF
       ENDIF
 c-----------------------------
@@ -846,7 +851,7 @@ C-----
      3   DELTAX2,   THEM,      FTHE,      AR,
      4   X,         STIFR,     GBUF%SMSTR,CONDN,
      5   CONDEG,    ITAGDN,    NEL,       ISMSTR,
-     6   JTHE,      ISROT)
+     6   JTHE,      ISROT ,GLOB_THERM%NODADT_THERM)
           ELSE
           CALL S10CUMU3P(
      1   GBUF%OFF,  STIG,      FSKY,      FSKY,
@@ -854,7 +859,7 @@ C-----
      3   DELTAX2,   IADS10,    NC,        THEM,
      4   FTHESKY,   AR,        X,         GBUF%SMSTR,
      5   CONDNSKY,  CONDEG,    ITAGDN,    NEL,
-     6   NFT,       ISMSTR,    JTHE,      ISROT)
+     6   NFT,       ISMSTR,    JTHE,      ISROT,GLOB_THERM%NODADT_THERM)
         ENDIF
 c-----
       ENDIF

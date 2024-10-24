@@ -34,7 +34,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
-      SUBROUTINE HM_PREREAD_CONVEC(IGRSURF,IGRNOD,IGRBRIC,UNITAB,LSUBMODEL)
+      SUBROUTINE HM_PREREAD_CONVEC(IGRSURF,IGRNOD,IGRBRIC,UNITAB,LSUBMODEL,
+     .                            NCONVEC ,NUMCONV )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -55,6 +56,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN)    :: NCONVEC
+      INTEGER ,INTENT(INOUT) :: NUMCONV
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF

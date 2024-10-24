@@ -50,7 +50,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4                  IADG       ,SPBUF     ,IPART     ,IPARTSP  ,ISPH3D  ,
      5                  X          ,V         ,W         ,ALE_CONNECTIVITY,
      6                  NERCVOIS   ,NESDVOIS  ,LERCVOIS  ,LESDVOIS ,BUFMAT  ,
-     7                  FANI_CELL  ,MULTI_FVM ,MAT_PARAM )
+     7                  FANI_CELL  ,MULTI_FVM ,MAT_PARAM ,ITHERM   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -94,6 +94,7 @@ C-----------------------------------------------
       INTEGER IPARG(NPARG,*),EL2FA(*),IXS(NIXS,NUMELS),IFUNC,NBF,ISPH3D,
      .        NBPART,IADG(NSPMD,*),IPM(NPROPMI,NUMMAT),
      .        IPART(LIPART1,*),IPARTSP(*),BUF,IGEO(NPROPGI,NUMGEO)
+      INTEGER, INTENT(IN) :: ITHERM
       REAL  WAL(NBF)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
@@ -145,7 +146,8 @@ C-----------------------------------------------
       !     INITIALIZATION IF SCHLIEREN DEFINED               !
       !-------------------------------------------------------!      
       IF(IFUNC==4892)THEN
-        CALL SCHLIEREN_BUFFER_GATHERING(NERCVOIS ,NESDVOIS ,LERCVOIS ,LESDVOIS, IPARG, ELBUF_TAB, MULTI_FVM)
+        CALL SCHLIEREN_BUFFER_GATHERING(NERCVOIS ,NESDVOIS ,LERCVOIS ,LESDVOIS, IPARG, ELBUF_TAB, MULTI_FVM,
+     .                                  ITHERM)
       ENDIF!(IFUNC==4892)
    
 

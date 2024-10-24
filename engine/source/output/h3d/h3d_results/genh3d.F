@@ -201,7 +201,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4                  LLOADP   ,FAC      ,SENSORS     ,TAGNCONT    ,LOADP_HYD_INTER,
      5                  XFRAME   ,FORC     ,AR          ,CSEFRIC     ,CSEFRICG  ,
      6                  CSEFRIC_STAMP,CSEFRICG_STAMP    ,TABLE       ,IFRAME    ,LOADS,
-     7                  DRAPE_SH4N, DRAPE_SH3N, DRAPEG  ,X_C         )
+     7                  DRAPE_SH4N, DRAPE_SH3N, DRAPEG  ,X_C         ,GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -230,6 +230,7 @@ C-----------------------------------------------
         USE MY_ALLOC_MOD
         USE OUTMAX_MOD
         USE DRAPE_MOD
+        use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -339,6 +340,7 @@ C-----------------------------------------------
         my_real ,DIMENSION(3,NUMNOD), INTENT(IN) :: X_C
         TYPE (DRAPE_) , INTENT(IN)  :: DRAPE_SH4N(NUMELC_DRAPE), DRAPE_SH3N(NUMELTG_DRAPE)
         TYPE (DRAPEG_), INTENT(IN)  :: DRAPEG
+        type (glob_therm_), intent(in) :: GLOB_THERM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2134,7 +2136,8 @@ c          IF(ISPMD == 0) print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
      .      IPARTT            ,IPARTS        ,IPARTQ         ,KXSP                         ,IXR                       ,
      .      IXP               ,IXT           ,N_H3D_PART_LIST,INTERFRIC                    ,CSEFRIC                   ,
      .      CSEFRICG          ,CSEFRIC_STAMP ,CSEFRICG_STAMP ,NODAL_SCALAR_FVM             ,AIRBAGS_TOTAL_FVM_IN_H3D_G,
-     .      IS_WRITEN_NODE_FVM,ISPMD         ,FVDATA_P       ,USER_NOD_ID%FVMBAG_SHIFT     ,MULTI_FVM )
+     .      IS_WRITEN_NODE_FVM,ISPMD         ,FVDATA_P       ,USER_NOD_ID%FVMBAG_SHIFT     ,MULTI_FVM ,
+     .      GLOB_THERM%ITHERM_FE)
 
 c
             IF (NSPMD > 1 ) THEN
@@ -2570,7 +2573,7 @@ c         IF(ISPMD == 0)  print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
      .                       NERCVOIS  ,NESDVOIS      ,LERCVOIS     ,LESDVOIS   ,
      .                       STACK     ,SHELL_ID  ,SHELL_ITY     ,
      .                       IS_WRITEN_SHELL,IPARTC ,IPARTTG     ,LAYER        ,IPT        ,
-     .                       ID_PLY     ,IUVAR ,H3D_DATA%OUTPUT_LIST(I)%PART,KEYWORD,
+     .                       ID_PLY     ,IUVAR ,H3D_DATA%OUTPUT_LIST(I)%PART,KEYWORD,GLOB_THERM%ITHERM,
      .                       D          ,MULTI_FVM ,IDMDS        ,IMDSVAR      ,MDS_MATID  ,
      .                       OBJECT_ID  ,MODE      ,MAT_PARAM    )
 
@@ -2736,7 +2739,7 @@ c          IF(ISPMD == 0)  print *,'solid scalar',N_OUTP_DATA,'IFUNC',IFUNC,'INF
      .                      NERCVOIS,NESDVOIS, LERCVOIS,LESDVOIS,
      .                      SOLID_ID  ,SOLID_ITY     ,IPARTS       ,LAYER      ,
      .                      IR        ,IS        ,IT            ,IUVAR        ,H3D_DATA%OUTPUT_LIST(I)%PART,
-     .                      IS_WRITEN_SOLID,INFO1,KEYWORD       ,FANI_CELL    ,
+     .                      IS_WRITEN_SOLID,INFO1,KEYWORD       ,GLOB_THERM%ITHERM,FANI_CELL    ,
      .                      MULTI_FVM, IDMDS         ,IMDSVAR      ,
      .                      OBJECT_ID ,MAT_PARAM ,MODE          )
 c
@@ -2966,7 +2969,7 @@ c         IF(ISPMD == 0)  print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
      .                       NERCVOIS      ,NESDVOIS      ,LERCVOIS     ,LESDVOIS   ,
      .                       QUAD_ID       ,
      .                       IS_WRITEN_QUAD,IPARTQ ,LAYER        , NPART, 
-     .                       IUVAR         ,H3D_DATA%OUTPUT_LIST(I)%PART,KEYWORD,
+     .                       IUVAR         ,H3D_DATA%OUTPUT_LIST(I)%PART,KEYWORD,GLOB_THERM%ITHERM,
      .                       BUFMAT        ,MULTI_FVM ,IR           ,IS           ,IT         ,
      .                       OBJECT_ID     ,MAT_PARAM)
 c

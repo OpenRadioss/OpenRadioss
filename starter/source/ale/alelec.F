@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE ALELEC(
      1      ICODE    ,IXS     , IXQ      , IXC             ,IXT    ,
      2      IXTG     ,PM      , IGEO     , ITAB            ,GEO    ,
-     3      NALE_R2R ,FLAG_R2R, MULTI_FVM, ALE_CONNECTIVITY)
+     3      NALE_R2R ,FLAG_R2R, MULTI_FVM, ALE_CONNECTIVITY,ITHERM )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -64,6 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER,INTENT(IN) :: ITHERM
       INTEGER,INTENT(IN) :: ICODE(*),IXS(3,NUMNOD),IXQ(NIXQ,NUMELQ),IXC(NIXC,NUMELC),IXT(NIXT,NUMELT),IXTG(NIXTG,NUMELTG)
       INTEGER,INTENT(IN) ::  ITAB(NUMNOD), NALE_R2R(*),FLAG_R2R,IGEO(NPROPGI,NUMGEO)
       my_real,INTENT(IN) ::  PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO)

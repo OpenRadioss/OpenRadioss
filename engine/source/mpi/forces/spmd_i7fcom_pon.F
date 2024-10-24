@@ -65,7 +65,7 @@ C
      3                       IXS     ,IXS16  ,NISKYFIE,NBINT20,IFLAG   ,                        
      4                       INTBUF_TAB,SFSKYI,SISKY  ,H3D_DATA,MULTI_FVM  ,                                         
      5                       TAGNCONT  ,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,FSAV,
-     6                       INTERFACES)
+     6                       INTERFACES,NODADT_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -111,6 +111,7 @@ C-----------------------------------------------
      .        TAGNCONT(NLOADP_HYD_INTER,*),KLOADPINTER(*),
      .        LOADPINTER(*),LOADP_HYD_INTER(*),
      .        SFSKYI , SISKY
+      INTEGER, INTENT(IN) :: NODADT_THERM
       my_real
      .        SECFCUM(7,NUMNOD,NSECT), FCONT(3,*)
       my_real, INTENT(INOUT) :: FSAV(NTHVKI,*) 
@@ -1156,7 +1157,7 @@ C ------------------------------------------------------------
         ENDDO
 C
         IF ( NISKY+LSKYI_CT > SISKY) THEN
-           CALL REALLOCATE_I_SKYLINE(LSKYI_CT,3)
+           CALL REALLOCATE_I_SKYLINE(LSKYI_CT,3,GLOB_THERM%INTHEAT,GLOB_THERM%NODADT_THERM)
         ENDIF
 C
 C Reception buffer et decompactage
@@ -1237,7 +1238,7 @@ C type int20 (non edge)
      3                ICODT   ,SECFCUM,NSTRF   ,ICONTACT     ,FCONT  ,
      4                INACTI  ,IADM   ,INTTH   , FTHESKYI    ,CONDNSKYI,
      5                H3D_DATA,NIN    ,TAGNCONT,KLOADPINTER  ,LOADPINTER,
-     6                LOADP_HYD_INTER ,INTCAREA,FSAV(1,NIN)  ,INTERFACES%PARAMETERS)
+     6                LOADP_HYD_INTER ,INTCAREA,FSAV(1,NIN)  ,INTERFACES%PARAMETERS,NODADT_THERM)
                      L = L + NB*LEN
                     ELSE
                      CALL SPMD_FIADD_PON(
@@ -1246,7 +1247,7 @@ C type int20 (non edge)
      3                ICODT   ,SECFCUM,NSTRF   ,ICONTACT     ,FCONT  ,
      4                INACTI  ,IADM   ,INTTH   , FTHESKYI    ,CONDNSKYI,
      5                H3D_DATA,NIN    ,TAGNCONT, KLOADPINTER ,LOADPINTER,
-     6                LOADP_HYD_INTER ,INTCAREA,FSAV(1,NIN)  ,INTERFACES%PARAMETERS)
+     6                LOADP_HYD_INTER ,INTCAREA,FSAV(1,NIN)  ,INTERFACES%PARAMETERS,NODADT_THERM)
                       L = L + NB*LEN7T
                     ENDIF
                     ENDIF ! NSNSI
@@ -1279,7 +1280,7 @@ C type int20 (non edge)
      2                ISKY   ,IBC     ,ISECIN  ,NOINT        ,IBAG   ,
      3                ICODT  ,SECFCUM ,NSTRF   ,ICONTACT     ,FCONT  ,
      4                INTTH  ,FTHESKYI,CONDNSKYI,H3D_DATA    ,NIN    ,TAGNCONT ,
-     5                 KLOADPINTER,LOADPINTER,LOADP_HYD_INTER)
+     5                 KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,NODADT_THERM)
                     L = L + NB*LEN11
                   ELSE
                      CALL SPMD_FIADD11_PON(
@@ -1287,7 +1288,7 @@ C type int20 (non edge)
      2                ISKY   ,IBC     ,ISECIN  ,NOINT        ,IBAG   ,
      3                ICODT  ,SECFCUM ,NSTRF   ,ICONTACT     ,FCONT  ,
      4                INTTH  ,FTHESKYI,CONDNSKYI,H3D_DATA    ,NIN    ,TAGNCONT,
-     5                KLOADPINTER,LOADPINTER,LOADP_HYD_INTER)
+     5                KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,NODADT_THERM)
                     L = L + NB*LEN11T
                   ENDIF
                 ELSEIF(NTY==17)THEN

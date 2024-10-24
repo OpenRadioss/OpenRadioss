@@ -51,7 +51,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      9   FACQ0,   CONDE,   DTEL,    G_DT,
      A   IPM,     RHOREF,  RHOSP,   NEL,
      B   ITY,     ISMSTR,  JTUR,    JTHE,
-     C   JSMS,    NPG   )
+     C   JSMS,    NPG   ,  GLOB_THERM)
 C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -59,6 +59,7 @@ C-----------------------------------------------
       USE I22TRI_MOD
       USE I22BUFBRIC_MOD
       USE ALE_MOD
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -84,7 +85,6 @@ C-----------------------------------------------
 #include      "sms_c.inc"
 #include      "units_c.inc"
 #include      "inter22.inc"
-#include      "scr_thermal_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -103,6 +103,7 @@ C-----------------------------------------------
      .        D1(*), D2(*), D3(*), VOL0(*), MSSA(*), DMELS(*),FACQ0
       my_real, INTENT(IN) :: RHOREF(MVSIZ), RHOSP(MVSIZ)
       my_real, INTENT(INOUT) :: DTEL(MVSIZ)
+      type (glob_therm_) ,intent(inout) :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -637,7 +638,7 @@ C
 C--------------------------
 C     THERMAL TIME STEP
 C--------------------------    
-      IF(JTHE < 0.AND.IDT_THERM == 1)THEN
+      IF (JTHE < 0 .AND. GLOB_THERM%IDT_THERM == 1)THEN
         MT  = MAT(1)
         SPH = PM(69,MT)
         AK1 = PM(75,MT)
@@ -658,9 +659,9 @@ C--------------------------
          ATU = RPR*TMU*RK(I)*RK(I)/(MAX(EM15,RE(I)*VOL(I))*XMU)
          AKK = AKK*(1.+ATU)
         ENDIF
-        AKK = AKK * THEACCFACT
-        DT  = DTFACTHERM*HALF*DELTAX(I)*DELTAX(I)*SPH/MAX(AKK,EM20)
-        IF(DT<DT_THERM.AND.OFF(I)>ZERO.AND.OFFG(I)>ZERO) DT_THERM = DT
+        AKK = AKK * GLOB_THERM%THEACCFACT
+        DT  = GLOB_THERM%DTFACTHERM*HALF*DELTAX(I)*DELTAX(I)*SPH/MAX(AKK,EM20)
+        IF(DT< GLOB_THERM%DT_THERM.AND.OFF(I)>ZERO.AND.OFFG(I)>ZERO) GLOB_THERM%DT_THERM = DT
         CONDE(I) = FOUR*VOL(I)*AKK/(DELTAX(I)*DELTAX(I))
         CONDE(I) = CONDE(I)*OFF(I) 
        ENDDO

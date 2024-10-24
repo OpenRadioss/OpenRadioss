@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7                  M14  ,M21  ,M22 ,M23 ,M24  ,
      8                  M31  ,M32  ,M33 ,M34 ,EINT,
      A                  PARTSAV,MAT,IPARTC,FAC,JTHE,
-     B                  THEM ,FTHE ,CONDN,CONDE)
+     B                  THEM ,FTHE ,CONDN,CONDE,NODADT_THERM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -52,6 +52,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NODADT_THERM
       INTEGER JFT, JLT, NVC,JTHE
       INTEGER IXC(NIXC,MVSIZ),MAT(MVSIZ),IPARTC(*)
 C     REAL
@@ -488,7 +489,7 @@ C
      8                   M31  ,M32  ,M33 ,M34 ,IXC,
      A                   EINT ,PARTSAV,MAT,IPARTC,PM,
      B                   AREA ,THK  ,FAC , JTHE , THEM,
-     C                   FTHESKY,CONDNSKY,CONDE )  
+     C                   FTHESKY,CONDNSKY,CONDE ,NODADT_THERM)  
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -507,8 +508,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C ds 41i 001 13/16/00 +1
-C     INTEGER JFT, JLT, IADC(4,*)
+      INTEGER ,INTENT(IN) :: NODADT_THERM
       INTEGER JFT, JLT, IADC(4,*), JTHE
       INTEGER IXC(NIXC,MVSIZ),MAT(MVSIZ),IPARTC(*)
 C     REAL

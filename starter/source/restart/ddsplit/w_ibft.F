@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    nlocal      ../starter/source/spmd/node/ddtools.F
       !||====================================================================
       SUBROUTINE W_IBFT(IBFT  ,NC  ,NODLOCAL,LEN_IA,
-     .                  NFXTEMP_L,PROC)
+     .                  NFXTEMP_L,PROC,NIFT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -40,6 +40,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NIFT
       INTEGER NC, LEN_IA, PROC, NFXTEMP_L,
      .        IBFT(NIFT,*), NODLOCAL(*)
 C-----------------------------------------------

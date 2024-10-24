@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2   DELTAX,  TF,      NPF,     DT2T,
      3   NELTST,  ITYPTST, IPM,     STI,
      4   VOLN,    MAT,     NGL,     CONDE,
-     5   NEL,     ITY)
+     5   NEL,     ITY,     IDT_THERM,DT_THERM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -52,11 +52,11 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL
       INTEGER, INTENT(IN) :: ITY
+      INTEGER, INTENT(IN) :: IDT_THERM
       INTEGER NPF(*),IPM(NPROPMI,*),MAT(*),NGL(*)
-
       INTEGER NELTST,ITYPTST
-      my_real
-     .   DT2T
+      my_real, INTENT(INOUT) :: DT_THERM
+      my_real :: DT2T
 
       my_real
      .   PM(NPROPM,*), VOLU(*), EINT(*), THETA(*), DELTAX(*), TF(*),

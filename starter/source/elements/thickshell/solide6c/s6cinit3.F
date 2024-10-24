@@ -50,7 +50,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                    DETONATORS,GEO     ,VEUL    ,ALE_CONNECTIVITY,IPARG ,
      .                    DTELEM   ,SIGI    ,NEL     ,SKEW     ,IGEO  ,
      .                    STIFN    ,PARTSAV ,V       ,IPARTS   ,MSS   ,
-     .                    IPART    ,
+     .                    IPART    ,GLOB_THERM,
      .                    SIGSP    ,NSIGI   ,IPM     ,IUSER    ,NSIGS ,
      .                    VOLNOD   ,BVOLNOD ,VNS     ,BNS      ,PTSOL ,
      .                    BUFMAT   ,MCP     ,MCPS    ,MCPSX    ,TEMP  ,
@@ -70,6 +70,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD
       USE DEFAULTS_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -108,6 +109,7 @@ C-----------------------------------------------
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
       TYPE(SOLID_DEFAULTS_), INTENT(IN) :: DEFAULTS_SOLID
+      type (glob_therm_) ,intent(in)      :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -229,7 +231,7 @@ C
       CALL S6CCOOR3(X     ,IXS(1,NF1)   ,GEO  ,NGL  ,MAT  ,PID  ,
      .     RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
      .     E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  ,
-     .     F1X  ,F1Y  ,F1Z  ,F2X  ,F2Y  ,F2Z  ,TEMP0, TEMP, 
+     .     F1X  ,F1Y  ,F1Z  ,F2X  ,F2Y  ,F2Z  ,TEMP0, TEMP,GLOB_THERM%NINTEMP, 
      .     IX1, IX2, IX3, IX4, IX5, IX6, 
      .     X1, X2, X3, X4, X5, X6, 
      .     Y1, Y2, Y3, Y4, Y5, Y6,

@@ -65,7 +65,7 @@
         &   n0phas, nvphas,stack       ,          &
         &   ipartc, iparts, iparttg, ipartq, &
         &   d           , multi_fvm , &
-        &   mat_param, fani_cell)
+        &   mat_param, fani_cell    ,itherm)
 
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Module
@@ -122,6 +122,7 @@
           integer, intent(in) :: npart !< number of partitions
           integer, intent(in) :: n0phas !< law 51 phases
           integer, intent(in) :: nvphas !< law 51 phases
+          integer, intent(in) :: itherm
           my_real, intent(inout) :: x(3,numnod) !< node coordinates
           my_real, intent(inout) :: v(3,numnod) !< node velocities
           my_real, intent(inout) :: w(3,numnod) !< node momenta?
@@ -216,7 +217,7 @@
                 !-------------------------------------------------------!
                 ! /TRIA are 2d solid elements (new entity type derived from SH3N buffer, it is currently managed from h3d_shell_* subroutines. It will change in the future.
                 if(keyword == 'SCHLIEREN' .and. n2d > 0)then
-                  call schlieren_buffer_gathering(nercvois ,nesdvois ,lercvois ,lesdvois, iparg, elbuf_tab, multi_fvm)
+                  call schlieren_buffer_gathering(nercvois ,nesdvois ,lercvois ,lesdvois, iparg, elbuf_tab, multi_fvm,itherm)
                 endif
 
                 call h3d_shell_scalar_1(.true.,                                                     &

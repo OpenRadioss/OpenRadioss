@@ -47,7 +47,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    state_mod        ../common_source/modules/state_mod.F
       !||====================================================================
       SUBROUTINE RDCOMI(TABVINT,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
-     .                  INTER_PARAMETERS,SENSORS,LOADS ,MAT_ELEM,SKEWS)
+     .                  INTER_PARAMETERS,SENSORS,LOADS ,MAT_ELEM,SKEWS,
+     .                  GLOB_THERM )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -70,6 +71,7 @@ C-----------------------------------------------
       USE MAT_ELEM_MOD
       USE DAMP_MOD
       USE SKEW_MOD
+      USE glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,6 +85,7 @@ C-----------------------------------------------
       TYPE (LOADS_)         ,INTENT(INOUT) :: LOADS
       TYPE (MAT_ELEM_)      ,INTENT(INOUT) :: MAT_ELEM
       TYPE (SKEW_)          ,INTENT(INOUT) :: SKEWS
+      TYPE (GLOB_THERM_)    ,INTENT(INOUT) :: GLOB_THERM
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -131,7 +134,6 @@ C-----------------------------------------------
 #include      "inter22.inc"
 #include      "drape_c.inc"
 #include      "ige3d_c.inc"
-#include      "thermal_c.inc"
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -151,7 +153,7 @@ C-----------------------------------------------
       LBUFEL  =TABVINT(9)
       IRODDL  =TABVINT(10)
       IEULER  =TABVINT(11)
-      ITHERM  =TABVINT(12)
+      GLOB_THERM%ITHERM  =TABVINT(12)
       IHSH    =TABVINT(13)
       ITESTV  =TABVINT(14)
       ITURB   =TABVINT(15)
@@ -1013,7 +1015,7 @@ C .dyain files
       DYNAIN_DATA%DYNAIN_CHECK = TABVINT(NEXT)
 C  heat transfer + int7
       NEXT=NEXT+1
-      INTHEAT = TABVINT(NEXT)
+      GLOB_THERM%INTHEAT = TABVINT(NEXT)
 C  xfem
       NEXT=NEXT+1
       NUMELCRK=TABVINT(NEXT)
@@ -1022,7 +1024,7 @@ C  xfem
 C---------------------------------------
 C heat transfer
       NEXT=NEXT+1
-      ITHERM_FE=TABVINT(NEXT)
+      GLOB_THERM%ITHERM_FE=TABVINT(NEXT)
 C Static condensation
       NEXT=NEXT+1
       ISTATCND=TABVINT(NEXT)
@@ -1072,15 +1074,15 @@ c
       NSKYRBMK0 = TABVINT(NEXT)
 C-----------
       NEXT = NEXT + 1
-      NIFT = TABVINT(NEXT)
+      GLOB_THERM%NIFT = TABVINT(NEXT)
       NEXT = NEXT + 1
-      NICONV = TABVINT(NEXT)
+      GLOB_THERM%NICONV = TABVINT(NEXT)
       NEXT   = NEXT + 1
-      LFACTHER = TABVINT(NEXT)
+      GLOB_THERM%LFACTHER = TABVINT(NEXT)
       NEXT   = NEXT + 1
-      NUMCONV = TABVINT(NEXT)
+      GLOB_THERM%NUMCONV = TABVINT(NEXT)
       NEXT   = NEXT + 1
-      NFXTEMP = TABVINT(NEXT)
+      GLOB_THERM%NFXTEMP = TABVINT(NEXT)
 C--------------------------------------
 C stapming : modification of warning messages in engine
       NEXT = NEXT + 1
@@ -1161,14 +1163,14 @@ C--------------------------------------
       NEXT    = NEXT + 1
       IDROT   = TABVINT(NEXT)
       NEXT = NEXT + 1
-      NIRADIA = TABVINT(NEXT)
+      GLOB_THERM%NIRADIA = TABVINT(NEXT)
       NEXT   = NEXT + 1
-      NUMRADIA = TABVINT(NEXT)
+      GLOB_THERM%NUMRADIA = TABVINT(NEXT)
 C--------------------------------------
       NEXT    = NEXT+1
-      NITFLUX = TABVINT(NEXT) 
+      GLOB_THERM%NITFLUX = TABVINT(NEXT) 
       NEXT    = NEXT+1
-      NFXFLUX = TABVINT(NEXT)  
+      GLOB_THERM%NFXFLUX = TABVINT(NEXT)  
 C--------------------------------------
       NEXT = NEXT + 1
       IF(MCHECK/=0)NSMSPCG = TABVINT(NEXT)
@@ -1815,7 +1817,7 @@ C--------------------------------------
       !||    state_mod            ../common_source/modules/state_mod.F
       !||====================================================================
       SUBROUTINE RDCOMR(LMXVREA,TABVREA,DYNAIN_DATA,INTER_PARAMETERS,
-     .                  OUTPUT)
+     .                  OUTPUT,GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1826,6 +1828,7 @@ C-----------------------------------------------
        USE PARAMETERS_MOD
        USE OUTPUT_MOD
        USE MULTIMAT_PARAM_MOD , ONLY : M51_IFLG6
+       USE glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1838,6 +1841,7 @@ C-----------------------------------------------
       TYPE (DYNAIN_DATABASE), INTENT(INOUT) :: DYNAIN_DATA
       TYPE (PARAMETERS_) ,INTENT(INOUT):: INTER_PARAMETERS
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
+      TYPE (glob_therm_) , INTENT(INOUT) :: GLOB_THERM
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -1858,7 +1862,6 @@ C-----------------------------------------------
 #include      "sysunit.inc"
 #include      "statr_c.inc"
 #include      "inter22.inc"
-#include      "thermal_c.inc"
 #include      "itet2_c.inc"
 C-----------------------------------------------
 #include      "ddspmd_c.inc"
@@ -1964,15 +1967,15 @@ c noise
       TPSREF = TABVREA(RVARINT)
 C THERMAL ANALYSIS
       RVARINT = RVARINT + 1
-      HEAT_STORED = TABVREA(RVARINT)
+      GLOB_THERM%HEAT_STORED = TABVREA(RVARINT)
       RVARINT = RVARINT + 1
-      HEAT_MECA   = TABVREA(RVARINT)
+      GLOB_THERM%HEAT_MECA   = TABVREA(RVARINT)
       RVARINT = RVARINT + 1
-      HEAT_CONV   = TABVREA(RVARINT)
+      GLOB_THERM%HEAT_CONV   = TABVREA(RVARINT)
       RVARINT = RVARINT + 1
-      HEAT_RADIA  = TABVREA(RVARINT)
+      GLOB_THERM%HEAT_RADIA  = TABVREA(RVARINT)
       RVARINT = RVARINT + 1
-      HEAT_FFLUX  = TABVREA(RVARINT)
+      GLOB_THERM%HEAT_FFLUX  = TABVREA(RVARINT)
 C   SOL1TNL array
       DO I=0, MAXLAW
         RVARINT = RVARINT + 1

@@ -148,7 +148,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      R   NALE,       D,          IOUTPRT,    NLOC_DMG,
      S   MAT_ELEM,   H3D_STRAIN, DT,         IDEL7NOK,NSVOIS,
      T   SZ_BUFVOIS, SNPC,STF,SBUFMAT,SVIS,IDTMINS,IRESP,
-     U   IDEL7NG,    MAXFUNC,    USERL_AVAIL, heat_meca, 
+     U   IDEL7NG,    MAXFUNC,    USERL_AVAIL, GLOB_THERM, 
      V   impl_s,     idyna)
 C-----------------------------------------------
 C   M o d u l e s
@@ -163,6 +163,7 @@ C-----------------------------------------------
       USE DT_MOD
       USE ELBUFDEF_MOD
       USE SDISTOR_INI_MOD, ONLY : SDISTOR_INI
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -202,7 +203,6 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IMPL_S
       INTEGER, INTENT(IN) :: IDYNA
       INTEGER, INTENT(IN) :: USERL_AVAIL
-      my_real, INTENT(INOUT) :: HEAT_MECA
       INTEGER, DIMENSION(*), INTENT(IN) :: IPARG,IPARTS,NPF,NALE
       INTEGER,INTENT(IN) :: NG,NEL
       INTEGER IXS(NIXS,NUMELS), IADS(8,*),IPM(NPROPMI,NUMMAT),
@@ -247,6 +247,7 @@ C
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
       TYPE (DT_),   INTENT(INOUT) :: DT
+      type (glob_therm_) ,intent(inout)   :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1007,13 +1008,14 @@ C
      P   FQVIS,       IPARG1,      IGEO,        CONDE,
      Q   ITASK,       NLOC_DMG,    VAR_REG,     MAT_ELEM,
      R   H3D_STRAIN,  JPLASOL,     JSPH,        SZ_BUFVOIS,
-     T   SNPC,        STF,         SBUFMAT,     SVIS,SZ_IX,
-     U   IRESP,       N2D,         TH_STRAIN,   NGROUP,TT, 
+     T   SNPC,        STF,         SBUFMAT,     GLOB_THERM,
+     .   SVIS,        SZ_IX,       IRESP,       
+     .   N2D,         th_strain,   NGROUP,TT, 
      .   DT1,         NTABLE,      NUMELQ,      nummat,
      .   numgeo,      numnod,      numels,            
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,
-     .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
-     .   idyna,       DT         ,    fheat      )
+     .   IMON_MAT,    USERL_AVAIL, impl_s,
+     .   idyna,       DT         , fheat      )
 C
       IF (ISMSTR == 12.AND.IDTMIN(1)==3) THEN
         IF (ISM12_11==0.AND.JCVT==0) THEN
@@ -1577,7 +1579,7 @@ C Finite element heat transfert forces
      6         PZ2,     PZ3,     PZ4,     DT1,
      7         TEMP,    TEMPEL,  FHEAT,   THEM,
      8         GBUF%OFF,LBUF%OFF,PARTSAV, IPARTS,
-     9         GBUF%VOL,NEL     ,NUMNOD )
+     9         GBUF%VOL,NEL     ,NUMNOD ,GLOB_THERM%THEACCFACT)
         ELSE
           CALL STHERM(
      1         PM,      IMAT,    VOLN,    NC1,
@@ -1588,7 +1590,7 @@ C Finite element heat transfert forces
      6         PZ2,     PZ3,     PZ4,     DT1,
      7         TEMP,    TEMPEL,  DIE,     THEM,
      8         GBUF%OFF,LBUF%OFF,PARTSAV, IPARTS,
-     9         GBUF%VOL,NEL     ,NUMNOD )
+     9         GBUF%VOL,NEL     ,NUMNOD ,GLOB_THERM%THEACCFACT)
         END IF
       ENDIF
 C
@@ -1721,7 +1723,7 @@ C Assemble internal forces
      F   MY6,     MZ6,     MX7,     MY7,
      G   MZ7,     MX8,     MY8,     MZ8,
      H   THEM,    FTHE,    CONDN,   CONDE,
-     I   NEL,     JTHE,    ISROT,   IPARTSPH)
+     I   NEL,     JTHE,    ISROT,   IPARTSPH,GLOB_THERM%NODADT_THERM)
       ELSE
           CALL SCUMU3P(
      1   GBUF%OFF,STI,     FSKY,    FSKY,
@@ -1742,7 +1744,7 @@ C Assemble internal forces
      G   MZ7,     MX8,     MY8,     MZ8,
      H   THEM,    FTHESKY, CONDNSKY,CONDE,
      I   NEL,     NFT,     JTHE,    ISROT,
-     J   IPARTSPH)
+     J   IPARTSPH,GLOB_THERM%NODADT_THERM)
       ENDIF
 C
       IF(JALE  == 3) THEN   

@@ -43,12 +43,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7  ADDCNE_PXFEM ,INOD_PXFEM ,ITAB   ,FSKYD   ,
      8  DMSPH   ,CONDN,CONDNSKY,CONDNSKYI,MS_2D,ICNDS10 ,
      A  STIFND  ,FORNEQS ,FORNEQSKY,NFACNIT,NODFT_2,
-     B  NODLT_2 ,FSKY_L)
+     B  NODLT_2 ,FSKY_L  ,GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE PLYXFEM_MOD
       USE ALE_MOD
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -87,25 +88,21 @@ C     REAL
      .   CONDNSKYI(LSKYI),MS_2D(*),STIFND(*),FORNEQS(3,*) ,
      .   FORNEQSKY(3*NFACNIT,*)
       my_real, DIMENSION(NISKY), INTENT(INOUT) :: FSKY_L !< working array for FSKY sorting
+      type (glob_therm_) ,intent(inout)   :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER VSIZE, NBCC, NUM7, KM,IL,IPLY,ND
       PARAMETER (VSIZE = 8192)
       PARAMETER (NBCC = 20)
-      INTEGER I,J,K,L,N,NC,IDEB,LB,KK,J1,J2,JJ1,JJ2,NN,
-     .        NL,IFT,ILT,KFT,KLT,
-     .        NISKYFT,NISKYLT,NFSKYFT,NFSKYLT,
-     .        K1,K2,K3,K4,K5,K6,K7,K8,K9,K0,I0,IJK,NF,
-     .        NCT,DIFFADD,NDLT,NDFT,NI,LJ,KKEND,JJ,NSTART,
-     .        KKSTART,KMAX,KSPLIT,IC(NBCC+1),NN_A(VSIZE),IARRAY(VSIZE),
-     .        NFSKYFT_INTPLY,NFSKYLT_INTPLY,
-     .        ITAG, ITAG1,ICHECK,ICHECK1
-      my_real
-     .        FF, FSKYT(NISKY)
+      INTEGER I,J,L,K,N,NC,KK,JJ,JJ1,JJ2,NN,NFSKYFT_INTPLY,NFSKYLT_INTPLY,
+     .        NISKYFT,NISKYLT,NFSKYFT,NFSKYLT,K1,K2,K3,IJK,NF,
+     .        NCT,DIFFADD,NDLT,NDFT,LJ,KKEND,NSTART,KKSTART,KMAX,KSPLIT
+      INTEGER IC(NBCC+1),NN_A(VSIZE),IARRAY(VSIZE)
+      my_real FF, FSKYT(NISKY)
       INTEGER :: VIND_SIZE
       INTEGER, DIMENSION(:), ALLOCATABLE :: VIND1,VIND2,VIND3
-      INTEGER :: CHUNK_NODE,CHUNK_ISKY,CHUNK_NODE_1
+      INTEGER :: CHUNK_NODE,CHUNK_NODE_1
       INTEGER, PARAMETER :: IVSIZE = 32
 C-----------------------------------------------
 C Partie ELEMENT
@@ -154,7 +151,7 @@ C-----------------------------------------------
 !$OMP END SINGLE NOWAIT
 
       ! ------------------------------      
-      IF(ITHERM_FE == 0 ) THEN
+      IF(GLOB_THERM%ITHERM_FE == 0 ) THEN
         ! --------------
         IF(ALE%SUB%IFSUBM==0)THEN
 !$OMP DO SCHEDULE(guided)
@@ -216,7 +213,7 @@ C-----------------------------------------------
       ! ------------------------------ 
       ELSE
         ! --------------
-        IF(NODADT_THERM == 1) THEN
+        IF(GLOB_THERM%NODADT_THERM == 1) THEN
           ! --------------
           IF(ALE%SUB%IFSUBM==0)THEN
 !$OMP DO SCHEDULE(guided)
@@ -282,7 +279,7 @@ C-----------------------------------------------
           ENDIF
           ! --------------
         ! --------------
-        ELSE ! NODADT_THERM/=1
+        ELSE ! GLOB_THERM%NODADT_THERM/=1
           ! --------------
           IF(ALE%SUB%IFSUBM==0)THEN
 !$OMP DO SCHEDULE(guided)
@@ -503,7 +500,7 @@ C-----------------------------------------------
 !$OMP END DO
         ENDDO
 C
-        IF(INTHEAT > 0 ) THEN
+        IF(GLOB_THERM%INTHEAT > 0 ) THEN
 !$OMP SINGLE
           DO I=1,NISKY
             J = ISKY(I)
@@ -513,7 +510,7 @@ C
             FTHESKYI(I) = FSKYT(I)
           ENDDO
 !$OMP END SINGLE
-          IF(NODADT_THERM ==1 ) THEN
+          IF(GLOB_THERM%NODADT_THERM ==1 ) THEN
 !$OMP SINGLE
             DO I=1,NISKY
               J = ISKY(I)
@@ -571,7 +568,7 @@ C   20 valeur seuil pour appel a qsort (20 = NBCC)
 C
 C une seule contribution
 C
-          IF(INTHEAT == 0 ) THEN
+          IF(GLOB_THERM%INTHEAT == 0 ) THEN
             IF(KDTINT==0)THEN
 #include "vectorize.inc"
               DO IJK=1,K1
@@ -596,7 +593,7 @@ C
             ENDIF
 C + la thermique
           ELSE
-            IF(NODADT_THERM == 1) THEN
+            IF(GLOB_THERM%NODADT_THERM == 1) THEN
               IF(KDTINT==0)THEN
 #include "vectorize.inc"
                 DO IJK=1,K1
@@ -690,7 +687,7 @@ C   ANCIEN CODE
 C-----------------------------------------------
 C       TRI DES FORCES D'INTERFACES
 C-----------------------------------------------
-              IF(INTHEAT == 0 ) THEN
+              IF(GLOB_THERM%INTHEAT == 0 ) THEN
                 DO 500 K=JJ1,JJ2-1
                   DO 500 KK=K+1,JJ2
                     DO 500 L=1,NFSKYI
@@ -702,7 +699,7 @@ C-----------------------------------------------
   500           CONTINUE
 C + la thermique
               ELSE
-                IF(NODADT_THERM == 1 ) THEN
+                IF(GLOB_THERM%NODADT_THERM == 1 ) THEN
                   DO  K=JJ1,JJ2-1
                     DO  KK=K+1,JJ2
                       DO  L=1,NFSKYI
@@ -764,7 +761,7 @@ C-----------------------------------------------
 C       ASSEMBLAGE DES FORCES
 C-----------------------------------------------
 
-              IF(INTHEAT == 0 ) THEN
+              IF(GLOB_THERM%INTHEAT == 0 ) THEN
                 IF(KDTINT==0)THEN
                   DO K=JJ1,JJ2
                     A(1,N)  = A(1,N)  + FSKYI(K,1)
@@ -783,7 +780,7 @@ C-----------------------------------------------
                 ENDIF
 C+ la thermique
               ELSE
-                IF(NODADT_THERM == 1) THEN
+                IF(GLOB_THERM%NODADT_THERM == 1) THEN
                   IF(KDTINT==0)THEN
                     DO K=JJ1,JJ2
                       A(1,N)  = A(1,N)  + FSKYI(K,1)
@@ -948,7 +945,7 @@ C L=5
               ENDDO
             ENDIF
 C  + la thermique
-            IF(INTHEAT > 0)THEN
+            IF(GLOB_THERM%INTHEAT > 0)THEN
               KKEND=IC(KSPLIT+1)-1
               DO K=1,KSPLIT-1
                 DO KK=K+1,KSPLIT
@@ -968,7 +965,7 @@ C  + la thermique
                 ENDDO
               ENDDO
 C  + Thermal Time Step
-              IF(NODADT_THERM == 1)THEN
+              IF(GLOB_THERM%NODADT_THERM == 1)THEN
                 KKEND=IC(KSPLIT+1)-1
                 DO K=1,KSPLIT-1
                   DO KK=K+1,KSPLIT
@@ -1038,7 +1035,7 @@ C L=4
             ENDIF
 C
 C --- FILL ARRAY A
-            IF(INTHEAT == 0 ) THEN
+            IF(GLOB_THERM%INTHEAT == 0 ) THEN
               IF(KDTINT==0)THEN
                 DO K=1,KSPLIT
                   KKSTART=IC(K)
@@ -1071,7 +1068,7 @@ C --- FILL ARRAY A
               ENDIF
 C + la thermique
             ELSE
-              IF(NODADT_THERM ==1) THEN
+              IF(GLOB_THERM%NODADT_THERM ==1) THEN
                 IF(KDTINT==0)THEN
                   DO K=1,KSPLIT
                     KKSTART=IC(K)
@@ -1177,7 +1174,7 @@ C --- DO THE REST IN OLD WAY - SUM UP ALL CONTRIBUTIONS PER NODE
               NN=N-1
               JJ1=ADSKYI(NN)
               JJ2=ADSKYI(N)-1
-              IF(INTHEAT == 0 ) THEN
+              IF(GLOB_THERM%INTHEAT == 0 ) THEN
                 DO 501 K=JJ1,JJ2-1
                   DO 501 KK=K+1,JJ2
                     DO 501 L=1,NFSKYI
@@ -1189,7 +1186,7 @@ C --- DO THE REST IN OLD WAY - SUM UP ALL CONTRIBUTIONS PER NODE
   501           CONTINUE
 C + la thermique
               ELSE
-                IF(NODADT_THERM == 1) THEN
+                IF(GLOB_THERM%NODADT_THERM == 1) THEN
                   DO  K=JJ1,JJ2-1
                     DO  KK=K+1,JJ2
                       DO  L=1,NFSKYI
@@ -1247,7 +1244,7 @@ C plyxfem + type 24
                 ENDDO
               ENDIF
 C
-              IF(INTHEAT ==  0 ) THEN
+              IF(GLOB_THERM%INTHEAT ==  0 ) THEN
                 IF(KDTINT==0)THEN
                   DO K=JJ1,JJ2
                     A(1,N) = A(1,N) + FSKYI(K,1)
@@ -1266,7 +1263,7 @@ C
                 ENDIF
 C + la thermique
               ELSE
-                IF(NODADT_THERM == 1) THEN
+                IF(GLOB_THERM%NODADT_THERM == 1) THEN
                   IF(KDTINT==0)THEN
                     DO K=JJ1,JJ2
                       A(1,N) = A(1,N) + FSKYI(K,1)
@@ -1344,14 +1341,14 @@ C-----------------------------------------------
 C       TRI DES FORCES D'INTERFACES (QSORT)
 C-----------------------------------------------
             CALL ASS2SORT(FSKYI,JJ1,JJ2,FSKYT,NFSKYI)
-            IF(INTHEAT >  0) CALL ASS2SORT(FTHESKYI,JJ1,JJ2,FSKYT,1)
-            IF(NODADT_THERM == 1) CALL ASS2SORT(CONDNSKYI,JJ1,JJ2,FSKYT,1)
+            IF(GLOB_THERM%INTHEAT >  0) CALL ASS2SORT(FTHESKYI,JJ1,JJ2,FSKYT,1)
+            IF(GLOB_THERM%NODADT_THERM == 1) CALL ASS2SORT(CONDNSKYI,JJ1,JJ2,FSKYT,1)
             IF(INTPLYXFEM>0)
      .      CALL ASS2SORT_PXFEM(PLYSKYI%FSKYI,JJ1,JJ2,FSKYT,5)
 C-----------------------------------------------
 C       ASSEMBLAGE DES FORCES
 C-----------------------------------------------
-            IF(INTHEAT == 0 ) THEN
+            IF(GLOB_THERM%INTHEAT == 0 ) THEN
               IF(KDTINT==0)THEN
                 DO K=JJ1,JJ2
                   A(1,N)  = A(1,N)  + FSKYI(K,1)
@@ -1370,7 +1367,7 @@ C-----------------------------------------------
               ENDIF
 C  + la thermique
             ELSE
-              IF(NODADT_THERM ==1) THEN
+              IF(GLOB_THERM%NODADT_THERM ==1) THEN
                 IF(KDTINT==0)THEN
                   DO K=JJ1,JJ2
                     A(1,N)  = A(1,N)  + FSKYI(K,1)
@@ -1476,6 +1473,7 @@ C
 
       RETURN
       END SUBROUTINE ASSPAR4
+
       !||====================================================================
       !||    asspari2   ../engine/source/assembly/asspar4.F
       !||--- called by ------------------------------------------------------
@@ -1484,8 +1482,11 @@ C
       SUBROUTINE ASSPARI2(
      1  A    ,AR    ,STIFN  ,STIFR  ,MS  ,
      2  IN   ,FSKYI2,I2SIZE ,ADDCNI2,INDSKY,
-     3  FTHESKYI2,FTHE,CONDNSKYI2,CONDN)
-C----6---------------------------------------------------------------7---------8
+     3  FTHESKYI2,FTHE,CONDNSKYI2,CONDN,GLOB_THERM)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1508,10 +1509,11 @@ C     REAL
       my_real
      .        A(3,*)  ,AR(3,*), STIFN(*), STIFR(*), MS(*), IN(*),
      .        FSKYI2(I2SIZE,*),FTHESKYI2(*),FTHE(*),CONDNSKYI2(*),CONDN(*)
+      type (glob_therm_) ,intent(inout)   :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,N,NC,NCT,IDEB,LB,KK,K1,K2
+      INTEGER K,N,NC,NCT,IDEB,LB,KK,K1,K2
 C-----------------------------------------------
 C Interface type2
 C-----------------------------------------------
@@ -1521,7 +1523,7 @@ C-----------------------------------------------
           NC = NBCOLI2(LB)
           KK = NBVALI2(LB)
           IF (NC==1) THEN
-            IF(INTHEAT == 0 ) THEN
+            IF(GLOB_THERM%INTHEAT == 0 ) THEN
               IF(IRODDL/=0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
@@ -1551,7 +1553,7 @@ C-----------------------------------------------
                 ENDDO
               ENDIF
             ELSE
-              IF(IDT_THERM == 0) THEN
+              IF(GLOB_THERM%IDT_THERM == 0) THEN
                 IF(IRODDL/=0)THEN
 #include "vectorize.inc"
                   DO K1 = IDEB, IDEB+KK-1
@@ -1620,7 +1622,7 @@ C-----------------------------------------------
               ENDIF
             ENDIF
           ELSEIF(NC==2) THEN
-            IF(INTHEAT == 0 ) THEN
+            IF(GLOB_THERM%INTHEAT == 0 ) THEN
               IF(IRODDL/=0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
@@ -1650,7 +1652,7 @@ C-----------------------------------------------
                 ENDDO
               ENDIF
             ELSE
-              IF(IDT_THERM == 0) THEN
+              IF(GLOB_THERM%IDT_THERM == 0) THEN
                 IF(IRODDL/=0)THEN
 #include "vectorize.inc"
                   DO K1 = IDEB, IDEB+KK-1
@@ -1717,7 +1719,7 @@ C-----------------------------------------------
               ENDIF
             ENDIF
           ELSEIF(NC==3) THEN
-            IF(INTHEAT == 0 ) THEN
+            IF(GLOB_THERM%INTHEAT == 0 ) THEN
               IF(IRODDL/=0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
@@ -1762,7 +1764,7 @@ C-----------------------------------------------
                 ENDDO
               ENDIF
             ELSE
-              IF(IDT_THERM ==0 )THEN
+              IF(GLOB_THERM%IDT_THERM ==0 )THEN
                 IF(IRODDL/=0)THEN
 #include "vectorize.inc"
                   DO K1 = IDEB, IDEB+KK-1
@@ -1865,7 +1867,7 @@ C-----------------------------------------------
               ENDIF
             ENDIF
           ELSEIF(NC==4) THEN
-            IF(INTHEAT == 0 ) THEN
+            IF(GLOB_THERM%INTHEAT == 0 ) THEN
               IF(IRODDL/=0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
@@ -1910,7 +1912,7 @@ C-----------------------------------------------
                 ENDDO
               ENDIF
             ELSE
-              IF(IDT_THERM == 0) THEN
+              IF(GLOB_THERM%IDT_THERM == 0) THEN
                 IF(IRODDL/=0)THEN
 #include "vectorize.inc"
                   DO K1 = IDEB, IDEB+KK-1
@@ -2013,7 +2015,7 @@ C-----------------------------------------------
               ENDIF
             ENDIF
           ELSEIF(NC==5) THEN
-            IF(INTHEAT == 0 ) THEN
+            IF(GLOB_THERM%INTHEAT == 0 ) THEN
               IF(IRODDL/=0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
@@ -2073,7 +2075,7 @@ C-----------------------------------------------
                 ENDDO
               ENDIF
             ELSE
-              IF(IDT_THERM == 0 ) THEN
+              IF(GLOB_THERM%IDT_THERM == 0 ) THEN
                 IF(IRODDL/=0)THEN
 #include "vectorize.inc"
                   DO K1 = IDEB, IDEB+KK-1
@@ -2212,7 +2214,7 @@ C-----------------------------------------------
               ENDIF
             ENDIF
           ELSEIF(NC==6) THEN
-            IF(INTHEAT == 0 ) THEN
+            IF(GLOB_THERM%INTHEAT == 0 ) THEN
               IF(IRODDL/=0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
@@ -2272,7 +2274,7 @@ C-----------------------------------------------
                 ENDDO
               ENDIF
             ELSE
-              IF(IDT_THERM == 0 ) THEN
+              IF(GLOB_THERM%IDT_THERM == 0 ) THEN
                 IF(IRODDL/=0)THEN
 #include "vectorize.inc"
                   DO K1 = IDEB, IDEB+KK-1
@@ -2649,7 +2651,7 @@ C-----------------------------------------------
               ENDDO
             ENDIF
           ELSEIF(NC==10) THEN
-            IF(INTHEAT == 0) THEN
+            IF(GLOB_THERM%INTHEAT == 0) THEN
               IF(IRODDL/=0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
@@ -2739,7 +2741,7 @@ C-----------------------------------------------
                 ENDDO
               ENDIF
             ELSE
-              IF(IDT_THERM == 0) THEN
+              IF(GLOB_THERM%IDT_THERM == 0) THEN
                 IF(IRODDL/=0)THEN
 #include "vectorize.inc"
                   DO K1 = IDEB, IDEB+KK-1
@@ -2952,7 +2954,7 @@ C-----------------------------------------------
 
           ELSE
 
-            IF(INTHEAT == 0) THEN
+            IF(GLOB_THERM%INTHEAT == 0) THEN
               IF(IRODDL/=0)THEN
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -2984,7 +2986,7 @@ C-----------------------------------------------
                 ENDDO
               ENDIF
             ELSE
-              IF(IDT_THERM == 0) THEN
+              IF(GLOB_THERM%IDT_THERM == 0) THEN
                 IF(IRODDL/=0)THEN
                   DO K1 = IDEB, IDEB+KK-1
                     N = INDSKY(K1)
@@ -3061,7 +3063,7 @@ C
       ELSE
 C
 C scalaire
-        IF(INTHEAT == 0 ) THEN
+        IF(GLOB_THERM%INTHEAT == 0 ) THEN
           IF(IRODDL/=0)THEN
             DO N = 1, NUMNOD
               NCT = ADDCNI2(N)-1

@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7                                  LPBYL     ,RBYL      ,IBMPC     ,IBMPC2    ,IBMPC3    ,
      8                                  IBMPC4    ,RBMPC     ,LJOINT    ,NNLINK    ,LNLINK,
      9                                  LLINAL    ,LINALE    ,GJBUFI    ,GJBUFR    ,MS        ,
-     9                                  IN        ,FXBIPM    ,FXBFILE_TAB)
+     9                                  IN        ,FXBIPM    ,FXBFILE_TAB,GLOB_THERM)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -46,6 +46,7 @@ C-----------------------------------------------
       USE R2R_MOD
       USE BCS_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,7 +59,6 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "scr17_c.inc"
 #include      "tabsiz_c.inc"
-#include      "thermal_c.inc"
 #include      "sphcom.inc"
 #include      "fxbcom.inc"
 C-----------------------------------------------
@@ -66,6 +66,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NOM_OPT(LNOPT1,SNOM_OPT1), INOM_OPT(SINOM_OPT)
       INTEGER, INTENT(IN) :: ITAB(NUMNOD)
+      TYPE (glob_therm_) ,intent(in) :: glob_therm
 C-----------------------------------------------
 C      NOM_OPT(LNOPT1,SNOM_OPT1) 
 C         * Possibly, NOM_OPT(1) = ID
@@ -118,7 +119,8 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: NIMPDISP,NIMPVEL,NIMPACC
       INTEGER, INTENT(IN) :: NPBY(NNPBY,NRBYKIN), NPBYL(NNPBY,NRBYLAG), 
      .                       LPBY(*), LPBYL(*), IBCSCYC(4,NBCSCYC)
-      INTEGER, INTENT(IN) :: IBFTEMP(NIFT,NFXTEMP), IBFFLUX(NITFLUX,NFXFLUX)
+      INTEGER, INTENT(IN) :: IBFTEMP(GLOB_THERM%NIFT,GLOB_THERM%NFXTEMP)
+      INTEGER, INTENT(IN) :: IBFFLUX(GLOB_THERM%NITFLUX,GLOB_THERM%NFXFLUX)
       INTEGER, INTENT(IN) :: ICODE(NUMNOD), ISKEW(NUMNOD),IBFVEL(NIFV,NFXVEL)
       INTEGER, INTENT(IN) :: IBCSLAG(5,NBCSLAG),NPRW(NRWALL,NNPRW),LPRW(SLPRW)
       INTEGER, INTENT(IN) :: IRBE3(NRBE3L,NRBE3), LRBE3(SLRBE3)
@@ -132,9 +134,9 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IBMPC(NUMMPC),IBMPC2(LMPC),IBMPC3(LMPC),IBMPC4(LMPC)
       my_real, INTENT(IN) ::
      .                       RBY(NRBY,NRBYKIN),RBYL(NRBY,NRBYLAG),FRBE3(6,*),GJBUFR(LKJNR,*),MS(*),IN(*)
-      my_real, INTENT(IN) ::  
-     .                       FBFTEMP(LFACTHER,NFXTEMP), FBFFLUX(LFACTHER,NFXFLUX),
-     .                       FBFVEL(LFXVELR,NFXVEL)
+      my_real, INTENT(IN) :: FBFTEMP(GLOB_THERM%LFACTHER,GLOB_THERM%NFXTEMP)
+      my_real, INTENT(IN) :: FBFFLUX(GLOB_THERM%LFACTHER,GLOB_THERM%NFXFLUX)
+      my_real, INTENT(IN) :: FBFVEL(LFXVELR,NFXVEL)
       my_real, INTENT(IN) ::
      .                       RWBUF(NRWLP,NRWALL)
       my_real, INTENT(IN) ::
@@ -262,7 +264,7 @@ C-----------------------------------------------
 C     /IMPTEMP
 C-----------------------------------------------
       IF (MYQAKEY('/IMPTEMP')) THEN
-        DO MY_CONSTRAINT=1,NFXTEMP
+        DO MY_CONSTRAINT=1,GLOB_THERM%NFXTEMP
 C
 C         Title of the option was not stored in NOM_OPT ... TBD
 C         and Imptemp ID is not stored 
@@ -273,7 +275,7 @@ C         and Imptemp ID is not stored
             CALL QAPRINT('A_IMPTEMP_FAKE_NAME',MY_CONSTRAINT,0.0_8)
           END IF
 C
-          DO I=1,NIFT
+          DO I=1,GLOB_THERM%NIFT
             IF(IBFTEMP(I,MY_CONSTRAINT) /=0)THEN
 C
 C             VARNAME: variable name in ref.extract (without blanks)
@@ -282,7 +284,7 @@ C             VARNAME: variable name in ref.extract (without blanks)
             END IF
           END DO
 C
-          DO I=1,LFACTHER
+          DO I=1,GLOB_THERM%LFACTHER
             IF(FBFTEMP(I,MY_CONSTRAINT)/=ZERO)THEN
 C
 C             VARNAME: variable name in ref.extract (without blanks)
@@ -402,7 +404,7 @@ C-----------------------------------------------
 C     /IMPFLUX
 C-----------------------------------------------
       IF (MYQAKEY('/IMPFLUX')) THEN
-        DO MY_CONSTRAINT=1,NFXFLUX
+        DO MY_CONSTRAINT=1,GLOB_THERM%NFXFLUX
 C
 C         Title of the option was not stored in NOM_OPT ... TBD
 C         and Impflux ID is not stored 
@@ -413,7 +415,7 @@ C         and Impflux ID is not stored
             CALL QAPRINT('A_IMPFLUX_FAKE_NAME',MY_CONSTRAINT,0.0_8)
           END IF
 C
-          DO I=1,NITFLUX
+          DO I=1,GLOB_THERM%NITFLUX
             IF(IBFFLUX(I,MY_CONSTRAINT) /=0)THEN
 C
 C             VARNAME: variable name in ref.extract (without blanks)
@@ -422,7 +424,7 @@ C             VARNAME: variable name in ref.extract (without blanks)
             END IF
           END DO
 C
-          DO I=1,LFACTHER
+          DO I=1,GLOB_THERM%LFACTHER
             IF(FBFFLUX(I,MY_CONSTRAINT)/=ZERO)THEN
 C
 C             VARNAME: variable name in ref.extract (without blanks)

@@ -140,7 +140,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   INTERFACES       ,LOADS      ,MAT_ELEM     ,PYTHON           ,IFLOW      ,
      .                   SKEWS            ,RFLOW      ,LIFLOW       ,LRFLOW           ,IMPL_S0    ,
      .                   MCP              ,TEMP       ,FORNEQS      ,UNITAB           ,NFXFLUX    ,
-     .                   STACK            ,DRAPE_SH4N ,DRAPE_SH3N   ,DRAPEG           ,NDRAPE )
+     .                   STACK            ,DRAPE_SH4N ,DRAPE_SH3N   ,DRAPEG           ,NDRAPE     ,
+     .                   GLOB_THERM       )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -182,6 +183,7 @@ C-----------------------------------------------
       USE DRAPE_MOD
       USE TIME_MOD
       use read_inivel_mod, only : read_inivel
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -242,6 +244,7 @@ C-----------------------------------------------
       TYPE (STACK_PLY)      ,INTENT(INOUT)                 :: STACK
       TYPE(DRAPE_)          ,INTENT(INOUT)                 :: DRAPE_SH3N(NUMELTG_DRAPE),DRAPE_SH4N(NUMELC_DRAPE)
       TYPE(DRAPEG_)         ,INTENT(INOUT)                 :: DRAPEG
+      TYPE(GLOB_THERM_)     ,INTENT(INOUT)                 :: GLOB_THERM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -345,7 +348,7 @@ C       WRITE(6,*) "ITAB = ",ITAB(1:SITAB)
 
         CALL READ_I_C(ALE_CONNECTIVITY%NALE,ALE%GLOBAL%SNALE)
 
-        IF (IALE + IEULER + IALELAG + ITHERM /= 0) THEN
+        IF (IALE + IEULER + IALELAG + GLOB_THERM%ITHERM /= 0) THEN
            CALL READ_I_C(ITMP, 1)
            ALLOCATE(ALE_CONNECTIVITY%ee_connect%iad_connect(ITMP))
            CALL READ_I_C(ALE_CONNECTIVITY%ee_connect%iad_connect, ITMP)
@@ -884,7 +887,7 @@ C--------------------------------------
 C--------------------------------------
 C allocation + lecture struture interface partie entiere
 C--------------------------------------
-        CALL SPMD_INITFI(IPARI,1,H3D_DATA,INTERFACES%PARAMETERS)
+        CALL SPMD_INITFI(IPARI,1,H3D_DATA,INTERFACES%PARAMETERS,GLOB_THERM%IDT_THERM,GLOB_THERM%INTHEAT)
 C
 C--------------------------------------
 C     Lecture + Init Frontiere SPMD pour SPH (partie entiere)
@@ -966,7 +969,7 @@ C-----
 C
 C-----
       CALL RDCOMR(LMXVREA,TABVREA,DYNAIN_DATA,INTERFACES%PARAMETERS,
-     .            OUTPUT)
+     .            OUTPUT,GLOB_THERM)
 C--------------------------------------
 C     READING REALS
 C--------------------------------------
@@ -1217,7 +1220,7 @@ C   ----------------------------------------------------------------------
 
       IF(NADMESH /= 0)THEN
         CALL READ_DB(PADMESH,KPADMESH*NPART)
-        IF(ITHERM_FE > 0)THEN
+        IF(GLOB_THERM%ITHERM_FE > 0)THEN
           CALL READ_DB(MCPC,NUMELC)
           CALL READ_DB(MCPTG,NUMELTG)
         END IF
@@ -1501,7 +1504,7 @@ C--------------------------------------
       IF (IMPL_S0>0) CALL IMPRREST(IMPL_S0)
 
       ! heat  transfer
-      IF(ITHERM_FE > 0   ) THEN
+      IF(GLOB_THERM%ITHERM_FE > 0   ) THEN
         CALL THCRREST(MCP,TEMP)
       ENDIF
 
@@ -1517,10 +1520,10 @@ C--------------------------------------
       IF(IRIGID_MAT > 0) CALL RMATRREST(RBYM,IRBYM, LNRBYM,WEIGHT_RM)
 
       !   thermal bc
-      IF(NUMCONV > 0)  CALL CONVRREST(IBCV, FCONV)
-      IF(NUMRADIA > 0) CALL RADIARREST(IBCR, FRADIA)
-      IF(NFXFLUX > 0)  CALL FXFLUXRREST(IBFFLUX, FBFFLUX)
-      IF(NFXTEMP > 0)  CALL FXTEMPRREST(IBFTEMP, FBFTEMP)
+      IF (GLOB_THERM%NUMCONV > 0)  CALL CONVRREST(IBCV,  FCONV ,GLOB_THERM)
+      IF (GLOB_THERM%NUMRADIA > 0) CALL RADIARREST(IBCR, FRADIA,GLOB_THERM)
+      IF (GLOB_THERM%NFXFLUX > 0)  CALL FXFLUXRREST(IBFFLUX, FBFFLUX,GLOB_THERM)
+      IF (GLOB_THERM%NFXTEMP > 0)  CALL FXTEMPRREST(IBFTEMP, FBFTEMP,GLOB_THERM)
 
       ! PlyXFEM
       IF (IPLYXFEM > 0) THEN
@@ -2643,7 +2646,9 @@ C convection flux
       !||    redsqi      ../engine/source/output/tools/redsqi.F
       !||    redsqr      ../engine/source/output/tools/redsqr.F
       !||====================================================================
-      SUBROUTINE CONVRREST(IBCV, FCONV)
+      SUBROUTINE CONVRREST(IBCV, FCONV,GLOB_THERM)
+      
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2658,8 +2663,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IBCV(*)
-      my_real
-     .        FCONV(*)
+      my_real :: FCONV(*)
+      type (glob_therm_) :: GLOB_THERM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2672,11 +2677,11 @@ C--------------------------------------
 C     READING REALS
 C--------------------------------------
       IF (IRFORM/5<=1) THEN
-        CALL REDSQR (FCONV,LFACTHER*NUMCONV,IRFORM)
-        CALL REDSQI (IBCV,NICONV*NUMCONV,IRFORM)
+        CALL REDSQR (FCONV,GLOB_THERM%LFACTHER*GLOB_THERM%NUMCONV,IRFORM)
+        CALL REDSQI (IBCV,GLOB_THERM%NICONV*GLOB_THERM%NUMCONV,IRFORM)
       ELSE
-        CALL READ_DB(FCONV,LFACTHER*NUMCONV)
-        CALL READ_I_C(IBCV,NICONV*NUMCONV)
+        CALL READ_DB(FCONV,GLOB_THERM%LFACTHER*GLOB_THERM%NUMCONV)
+        CALL READ_I_C(IBCV,GLOB_THERM%NICONV*GLOB_THERM%NUMCONV)
       ENDIF
 C
       RETURN
@@ -2692,7 +2697,9 @@ C radiative flux
       !||    redsqi       ../engine/source/output/tools/redsqi.F
       !||    redsqr       ../engine/source/output/tools/redsqr.F
       !||====================================================================
-      SUBROUTINE RADIARREST(IBCR, FRADIA)
+      SUBROUTINE RADIARREST(IBCR, FRADIA, GLOB_THERM)
+      
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2707,8 +2714,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IBCR(*)
-      my_real
-     .        FRADIA(*)
+      my_real :: FRADIA(*)
+      type (glob_therm_) ,intent(inout) :: GLOB_THERM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2721,11 +2728,11 @@ C--------------------------------------
 C     READING REALS
 C--------------------------------------
       IF (IRFORM/5<=1) THEN
-        CALL REDSQR (FRADIA,LFACTHER*NUMRADIA,IRFORM)
-        CALL REDSQI (IBCR,NIRADIA*NUMRADIA,IRFORM)
+        CALL REDSQR (FRADIA,GLOB_THERM%LFACTHER*GLOB_THERM%NUMRADIA,IRFORM)
+        CALL REDSQI (IBCR,GLOB_THERM%NIRADIA*GLOB_THERM%NUMRADIA,IRFORM)
       ELSE
-        CALL READ_DB(FRADIA,LFACTHER*NUMRADIA)
-        CALL READ_I_C(IBCR,NIRADIA*NUMRADIA)
+        CALL READ_DB(FRADIA,GLOB_THERM%LFACTHER*GLOB_THERM%NUMRADIA)
+        CALL READ_I_C(IBCR,GLOB_THERM%NIRADIA*GLOB_THERM%NUMRADIA)
       ENDIF
 C
       RETURN
@@ -2741,7 +2748,9 @@ C imposed temperature
       !||    redsqi        ../engine/source/output/tools/redsqi.F
       !||    redsqr        ../engine/source/output/tools/redsqr.F
       !||====================================================================
-      SUBROUTINE FXTEMPRREST(IBFTEMP, FBFTEMP)
+      SUBROUTINE FXTEMPRREST(IBFTEMP, FBFTEMP,GLOB_THERM)
+
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2756,8 +2765,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IBFTEMP(*)
-      my_real
-     .        FBFTEMP(*)
+      my_real :: FBFTEMP(*)
+      type (glob_therm_) ,intent(inout) :: GLOB_THERM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2770,11 +2779,11 @@ C--------------------------------------
 C     READING REALS
 C--------------------------------------
       IF (IRFORM/5<=1) THEN
-        CALL REDSQR (FBFTEMP,LFACTHER*NFXTEMP,IRFORM)
-        CALL REDSQI (IBFTEMP,NIFT*NFXTEMP,IRFORM)
+        CALL REDSQR (FBFTEMP,GLOB_THERM%LFACTHER*GLOB_THERM%NFXTEMP,IRFORM)
+        CALL REDSQI (IBFTEMP,GLOB_THERM%NIFT*GLOB_THERM%NFXTEMP,IRFORM)
       ELSE
-        CALL READ_DB(FBFTEMP,LFACTHER*NFXTEMP)
-        CALL READ_I_C(IBFTEMP,NIFT*NFXTEMP)
+        CALL READ_DB(FBFTEMP,GLOB_THERM%LFACTHER*GLOB_THERM%NFXTEMP)
+        CALL READ_I_C(IBFTEMP,GLOB_THERM%NIFT*GLOB_THERM%NFXTEMP)
       ENDIF
 C
       RETURN

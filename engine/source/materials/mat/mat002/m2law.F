@@ -49,7 +49,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      G   NEL,     IPM,     RHOREF,  RHOSP,
      H   IPG,     DMG,     ITY,     JTUR,
      I   JTHE,    JSPH,    ISMSTR,  JSMS,
-     J   PLAP,    NPG ,    IEOS  ,  DPDM ,    FHEAT )
+     J   PLAP,    NPG ,    IEOS  ,  DPDM ,    FHEAT ,   glob_therm)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -101,6 +105,7 @@ C
      .   SIGY(NEL) ,DEFP(NEL),ETSE(NEL), MSSA(NEL), DMELS(NEL), TEMPEL(NEL),
      .   SIGBAK(NEL,6),AL_IMP(NEL),SIGNOR(MVSIZ,6),CONDE(NEL),DTEL(NEL),
      .   RHOREF(NEL)  ,RHOSP(NEL)  
+      type (glob_therm_) ,intent(inout) :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -392,7 +397,7 @@ c-----------------------------------------
      9   FACQ0,   CONDE,   DTEL,    G_DT,
      A   IPM,     RHOREF,  RHOSP,   NEL,
      B   ITY,     ISMSTR,  JTUR,    JTHE,
-     C   JSMS,    NPG)
+     C   JSMS,    NPG   ,   glob_therm)
       ELSE
        CALL MDTSPH(
      1   PM,      OFF,     RHO,     BIDMVSIZ,

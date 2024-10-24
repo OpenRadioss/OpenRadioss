@@ -31,7 +31,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2   IADS,    FX,      FY,      FZ,
      3   IADSP,   NC,      IPERM1,  IPERM2,
      4   NPE,     THEM,    FTHESKY, CONDNSKY,
-     5   CONDEG,  NEL,     NFT,     JTHE)
+     5   CONDEG,  NEL,     NFT,     JTHE    ,
+     6   NODADT_THERM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -52,6 +53,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL
       INTEGER, INTENT(IN) :: NFT
       INTEGER, INTENT(IN) :: JTHE
+      INTEGER, INTENT(IN) :: NODADT_THERM
       INTEGER NPE
       INTEGER IADS(8,*),IADSP(NPE-8,*),NC(MVSIZ,NPE),
      .        IPERM1(NPE),IPERM2(NPE)

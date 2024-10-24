@@ -75,8 +75,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      J   JEUL,        JLAG,        JCVT,        JPLASOL,
      K   JSPH,        SNPC,        STF,         SBUFMAT,
      L   SVIS,        NSVOIS,      IDTMINS,     IRESP,      
-     .   IDEL7NG,     IDEL7NOK,    USERL_AVAIL, heat_meca,
-     .   impl_s,      idyna,       DT         )
+     .   IDEL7NG,     IDEL7NOK,    USERL_AVAIL, 
+     .   impl_s,      idyna,       DT         , GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -88,6 +88,7 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE ELBUFDEF_MOD
       USE DT_MOD
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -129,7 +130,6 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IMPL_S
       INTEGER, INTENT(IN) :: IDYNA
       INTEGER, INTENT(IN) :: USERL_AVAIL
-      my_real, INTENT(INOUT) :: HEAT_MECA
 
       INTEGER LFT,LLT,NEL,NFT,MTN,IGTYP,IFAILURE,NPT,JSMS,
      .        NCTRL,NG,NELTST,ITYPTST,OFFSET,IEXPAN,ITASK,H3D_STRAIN
@@ -151,6 +151,7 @@ C-----------------------------------------------
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
       TYPE(DT_) ,INTENT(IN) :: DT
+      type (glob_therm_) ,intent(inout)   :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -545,13 +546,13 @@ C------------------------------------------------------
      P   BID,         IPARG(1,NG), IGEO,        BID,
      Q   ITASK,       NLOC_DMG,    VARNL,       MAT_ELEM,
      R   H3D_STRAIN,  JPLASOL,     JSPH,        MVSIZ,
-     S                SNPC,        STF,         SBUFMAT,
+     S   SNPC,        STF,         SBUFMAT,     GLOB_THERM,   
      *   SVIS,        SZ_IX,       IRESP,
-     T   N2D,         TH_STRAIN,   NGROUP,      TT, 
+     T   N2D,         th_strain,   NGROUP,      TT, 
      .   DT1,         NTABLE,      NUMELQ,      nummat,
      .   numgeo,      numnod,      numels,
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,
-     .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
+     .   IMON_MAT,    USERL_AVAIL,  impl_s,
      .   idyna,       DT         ,BID   )
 
        CALL SSTRA3(

@@ -55,7 +55,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5                   STIFN ,FSKY ,IADS  ,OFFSET ,IPARTS  ,
      6                   NEL      ,DT2T     ,NELTST ,ITYPTST ,IPM      ,
      7                   ITASK    ,GRESAV   ,GRTH   ,IGRTH   ,MSSA     ,
-     8                   DMELS    ,TABLE    ,IOUTPRT,MAT_ELEM,NG,SVIS       )
+     8                   DMELS    ,TABLE    ,IOUTPRT,MAT_ELEM,NG,SVIS  ,GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -63,6 +63,7 @@ C-----------------------------------------------
       USE MAT_ELEM_MOD         
       USE ALE_CONNECTIVITY_MOD
       USE ELBUFDEF_MOD
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -95,6 +96,7 @@ C     REAL
       TYPE (MAT_ELEM_) ,TARGET ,INTENT(INOUT) :: MAT_ELEM
       TYPE(TTABLE) TABLE(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
+      type (glob_therm_) ,intent(inout)    :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -306,7 +308,7 @@ C-------------------------
      G   FBI,     FBI,     FBI,     FBI,
      H   FBI,     FBI,     FBI,     FBI,
      I   NEL,     NFT,     JTHE,    ISROT,
-     J   IPARTSPH)
+     J   IPARTSPH,GLOB_THERM%NODADT_THERM)
       ENDIF
 C
 C-----------

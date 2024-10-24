@@ -40,7 +40,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6   STFA    ,NIN     ,STF     ,IGAP    ,GAP_S  ,
      7   NSNR    ,NCONT   ,RENUM   ,NSNROLD ,GAP_M  ,
      8   GAPMIN  ,GAPMAX  ,NUM_IMP ,NLN     ,NLG    ,
-     9   GAP_SH  ,NBINFLG ,MBINFLG ,ISYM    ,I_MEM  )
+     9   GAP_SH  ,NBINFLG ,MBINFLG ,ISYM    ,I_MEM  , 
+     .   INTHEAT ,IDT_THERM, NODADT_THERM)
 C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -66,6 +67,9 @@ C-----------------------------------------------
       INTEGER CAND_E(*),CAND_N(*),IFPEN(*),NLG(*)
       INTEGER NCONTACT,ESHIFT,ILD,NB_N_B, IGAP, NCONT,
      .        NBINFLG(*), MBINFLG(*),I_MEM,II_STOK
+      INTEGER, INTENT(IN) :: INTHEAT
+      INTEGER, INTENT(IN) :: IDT_THERM
+      INTEGER, INTENT(IN) :: NODADT_THERM
 C     REAL
       my_real
      .   GAP,TZINF,MAXBOX,MINBOX,
@@ -152,7 +156,8 @@ C
      6   INACTI  ,IFQ     ,MWAG(IP0),CAND_P   ,IFPEN   ,
      7   NRTM    ,NSNROLD ,IGAP     ,GAP      ,GAP_S   ,
      6   GAP_M   ,GAPMIN  ,GAPMAX   ,MARGE    ,CURV_MAX, 
-     7   NIN     ,GAP_SH  ,NBINFLG ,MBINFLG  ,ISYM     )
+     7   NIN     ,GAP_SH  ,NBINFLG ,MBINFLG  ,ISYM     ,
+     8   INTHEAT, IDT_THERM, NODADT_THERM) 
 C
 C     I_MEM = 1 ==> PAS ASSEZ DE MEMOIRE PILE
 C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS

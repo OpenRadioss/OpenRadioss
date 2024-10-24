@@ -61,7 +61,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      C                   SH3TRIM,ISUBSTACK,STACK,RNOISE ,DRAPE,
      D                   SH3ANG,GEO_STACK,IGEO_STACK,STRTG,
      E                   PERTURB,IYLDINI,ELE_AREA,NLOC_DMG,
-     G                   IDRAPE ,DRAPEG,MAT_PARAM)
+     G                   IDRAPE ,DRAPEG,MAT_PARAM,GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -71,6 +71,7 @@ C-----------------------------------------------
       USE GROUP_PARAM_MOD
       USE NLOCAL_REG_MOD   
       USE DRAPE_MOD           
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -110,6 +111,7 @@ C-----------------------------------------------
       TYPE (DRAPE_)  :: DRAPE(NUMELC_DRAPE + NUMELTG_DRAPE)
       TYPE (DRAPEG_) :: DRAPEG
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
+      TYPE (glob_therm_) ,intent(in)      :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -195,7 +197,7 @@ C-----------------------------------------------
      .             ETNOD,NSHNOD,STTG(NFT+1),SH3TREE,MCP   ,
      .             MCPS(NFT+1) , TEMP,SH3TRIM,ISUBSTACK,NLAY,
      .             ELBUF_STR,STACK,GBUF%THK_I,RNOISE,DRAPE ,
-     .             PERTURB,IX1   ,IX2      ,IX3    ,
+     .             PERTURB,IX1   ,IX2      ,IX3    ,GLOB_THERM%NINTEMP,
      .             X2L    ,X3L    ,Y3L   ,IDRAPE , INDX)
 C-----------------------------------------------
       NPT_ALL = 0

@@ -100,7 +100,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      Y                    XEDGE3N     ,SPH2SOL      ,STIFN     ,STIFR     ,DRAPE_SH4N   ,
      Z                    DRAPE_SH3N    ,H3D_DATA     ,SUBSET    ,IGRNOD    ,FCONT_MAX  ,
      a                    FNCONTP2    ,FTCONTP2     ,NDDL0     ,NNZK0     ,IMPBUF_TAB ,
-     b                    DRAPEG      ,MATPARAM_TAB )
+     b                    DRAPEG      ,MATPARAM_TAB ,GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -122,6 +122,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE ANIM_MOD
       USE MATPARAM_DEF_MOD
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -211,6 +212,7 @@ C-----------------------------------------------
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
       TYPE(DRAPEG_)    :: DRAPEG
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MATPARAM_TAB
+      type (glob_therm_) ,intent(inout)       :: glob_therm
 #if defined(MUMPS5) && defined(DNC)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -885,7 +887,7 @@ C
      Y             LESDVOIS   ,CRKEDGE   ,INDX_CRK   ,XEDGE4N     ,XEDGE3N   ,
      Z             STACK      ,SPH2SOL   ,STIFN      ,STIFR       ,IGRNOD    ,
      1             H3D_DATA   ,SUBSET    ,MULTI_FVM  ,RRBID       ,RRBID     ,
-     2             FCONT_MAX  ,FNCONTP2 ,FTCONTP2    )
+     2             FCONT_MAX  ,FNCONTP2 ,FTCONTP2    ,GLOB_THERM  )
          ENDIF
 C
          IF (DTOUTP>ZERO) THEN

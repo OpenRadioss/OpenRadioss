@@ -73,7 +73,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      D                   STACK   ,RNOISE ,DRAPE ,SH3ANG  ,IDDLEVEL,
      E                   GEO_STACK,IGEO_STACK,STRTG,PERTURB ,ISH3N,
      F                   IYLDINI ,ELE_AREA,NLOC_DMG,NG,GROUP_PARAM,
-     G                   IDRAPE , DRAPEG,MAT_PARAM,FAIL_FRACTAL,FAIL_BROKMANN)
+     G                   IDRAPE , DRAPEG,MAT_PARAM,FAIL_FRACTAL,FAIL_BROKMANN,GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -89,6 +89,7 @@ C-----------------------------------------------
       USE FRACTAL_DMG_INIT_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       use brokmann_random_def_mod
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -138,6 +139,7 @@ C     REAL
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
       TYPE (FAIL_FRACTAL_)  ,INTENT(IN) :: FAIL_FRACTAL
       TYPE (FAIL_BROKMANN_) ,INTENT(IN) :: FAIL_BROKMANN
+      TYPE (glob_therm_)    ,intent(in) :: glob_therm
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRSHEL) :: IGRSH4N
       TYPE (GROUP_)  , DIMENSION(NGRSH3N) :: IGRSH3N
@@ -310,7 +312,7 @@ C------------
      .             ETNOD,NSHNOD,STTG(NFT+1)  ,SH3TREE ,MCP   ,
      .             MCPTG(NFT+1),TEMP  ,SH3TRIM,ISUBSTACK,NLAY , 
      .             ELBUF_STR   ,STACK ,GBUF%THK_I,RNOISE,DRAPE,
-     .             PERTURB,IX1   ,IX2      ,IX3    ,
+     .             PERTURB,IX1   ,IX2      ,IX3    ,GLOB_THERM%NINTEMP,
      .             X2L      ,X3L    ,Y3L   ,IDRAPE,INDX)
 C-----------------------------------------------
       CALL C3DERII(LFT,LLT,PM,GEO,PX1G,PY1G,PY2G,

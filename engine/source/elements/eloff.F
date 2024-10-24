@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  IACTIV  ,TIME    ,IFLAG    ,NN      ,ELBUF_TAB,
      .                  X       ,TEMP    ,MCP      ,PM      ,IGROUPS  ,
      .                  MCP_OFF ,IGRBRIC ,IGRQUAD  ,IGRSH4N ,IGRSH3N  ,
-     .                  IGRTRUSS,IGRBEAM ,IGRSPRING)
+     .                  IGRTRUSS,IGRBEAM ,IGRSPRING,ITHERM_FE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -62,6 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: ITHERM_FE
       INTEGER IACTIV(LACTIV,*),IPARG(NPARG,*),
      .   IXS(NIXS,*), IXQ(NIXQ,*),IXC(NIXC,*), 
      .   IXT(NIXT,*),IXP(NIXP,*), IXR(NIXR,*), IXTG(NIXTG,*),
@@ -85,7 +86,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,J,NG,NEL,MLW,NFT,ITY,IGOF,
-     .        ISENS,IGSH,IGSH3,IGBR,IGQU,IGBM,IGTR,IGSP,
+     .        IGSH,IGSH3,IGBR,IGQU,IGBM,IGTR,IGSP,
      .        JTHE, IFORM, ISOLNOD, ITETRA4
       INTEGER NELA,NPTR,NPTS,NPTT,IR,IS,IT,IP,K,KK
       INTEGER INDEX(MVSIZ)

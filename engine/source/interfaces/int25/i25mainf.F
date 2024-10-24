@@ -72,7 +72,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      D                   PCONTACT,TEMP      ,FTHE     ,FTHESKYI,
      E                   PM      ,IPARG ,IAD17   ,MSKYI_SMS  ,ISKYI_SMS,
      F                   NODNX_SMS,MS0  ,INOD_PXFEM,MS_PLY    ,WAGAP  ,
-     G                   FBSAV6   ,ISENSINT,
+     G                   FBSAV6   ,ISENSINT,NODADT_THERM,THEACCFACT,
      H                   DIMFB     ,H3D_DATA,INTBUF_FRIC_TAB  ,NISKYFIE,
      I                   APINCH    ,STIFPINCH,NPC   ,TF       ,CONDN   ,
      J                   CONDNSKYI ,QFRICINT,TAGNCONT,KLOADPINTER,LOADPINTER,
@@ -130,7 +130,9 @@ C-----------------------------------------------
       INTEGER  , INTENT(IN) :: S_LOADPINTER
       INTEGER  , INTENT(IN) :: KLOADPINTER(NINTER+1),LOADPINTER(S_LOADPINTER),
      .         LOADP_HYD_INTER(NLOADP_HYD)
+      INTEGER  , INTENT(IN) :: NODADT_THERM
       INTEGER  , INTENT(IN) :: INTEREFRIC
+      my_real  , INTENT(IN) :: THEACCFACT
       my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
       my_real 
      .        EMINX(*)
@@ -741,7 +743,7 @@ C
      8     Z2     ,X3     ,Y3     ,Z3     ,X4     ,
      9     Y4     ,Z4     ,IX1    ,IX2    ,IX3    ,
      A     IX4    ,PHI    ,PHI1   ,PHI2   ,PHI3   ,
-     B     PHI4   ,PM     ,NSVG   ,ITAB   )
+     B     PHI4   ,PM     ,NSVG   ,ITAB   ,THEACCFACT)
          
          ENDIF
 
@@ -759,7 +761,7 @@ C
      9    FX1         ,FY1      ,FZ1        ,FX2       ,FY2       ,
      A    FZ2         ,FX3      ,FY3        ,FZ3       ,FX4       ,
      B    FY4         ,FZ4      ,FXI        ,FYI       ,FZI       ,
-     F    IFORM       ,CONDINT  ,CONDN      ,CONDNSKYI )
+     F    IFORM       ,CONDINT  ,CONDN      ,CONDNSKYI ,NODADT_THERM)
 
       ENDDO
 C-----------------------------------------------------------------------

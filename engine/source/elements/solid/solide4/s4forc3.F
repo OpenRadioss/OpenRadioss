@@ -101,7 +101,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      H   CONDNSKY,   D,          SENSORS,    IOUTPRT,
      I   MAT_ELEM,   H3D_STRAIN, DT,         IDEL7NOK,NSVOIS,SZ_BUFVOIS,
      *   SNPC,       STF,        SBUFMAT,    SVIS,IDTMINS,IRESP, 
-     *   IDEL7NG,    MAXFUNC,    USERL_AVAIL, heat_meca, 
+     *   IDEL7NG,    MAXFUNC,    USERL_AVAIL, GLOB_THERM, 
      V   impl_s,     idyna)
 C-----------------------------------------------
 C   M o d u l e s
@@ -116,6 +116,7 @@ C-----------------------------------------------
       USE DT_MOD
       USE ELBUFDEF_MOD
       USE SDISTOR_INI_MOD, ONLY : SDISTOR_INI
+      use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -152,7 +153,6 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IMPL_S
       INTEGER, INTENT(IN) :: IDYNA
       INTEGER, INTENT(IN) :: USERL_AVAIL
-      my_real, INTENT(INOUT) :: HEAT_MECA
       INTEGER IXS(NIXS,*), IPARG(NPARG,NGROUP), NPF(*),IADS(8,*),
      .        IPARTS(*),IPM(NPROPMI,*),IGEO(NPROPGI,*),ITASK,
      .        GRTH(*),IGRTH(*),IOUTPRT
@@ -183,6 +183,7 @@ C
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
       TYPE (SENSORS_)  , INTENT(IN) :: SENSORS
       TYPE(DT_),      INTENT(INOUT) :: DT
+      type (glob_therm_) ,intent(inout)   :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -627,13 +628,13 @@ Cpour le fluide en SPMD : BUFVOIS LOI11
      P   BID,         IPARG(1,NG), IGEO,        CONDE,
      Q   ITASK,       NLOC_DMG,    VAR_REG,     MAT_ELEM,
      R   H3D_STRAIN,  JPLASOL,     JSPH,        SZ_BUFVOIS,
-     T                SNPC,        STF,         SBUFMAT,
+     T   SNPC,        STF,         SBUFMAT,     GLOB_THERM,   
      U   SVIS,        SZ_IX,       IRESP,
-     V   N2D,         TH_STRAIN,   NGROUP,      TT, 
+     V   N2D,         th_strain,   NGROUP,      TT, 
      .   DT1,         NTABLE,      NUMELQ,      nummat,
      .   numgeo,      numnod,      numels,
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,
-     .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
+     .   IMON_MAT,    USERL_AVAIL, impl_s,
      .   idyna,       DT,    fheat      )
 c
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)
@@ -778,7 +779,7 @@ C --------------------------
      4         PY2,     PY3,     PY4,     PZ1,
      5         PZ2,     PZ3,     PZ4,     DT1,
      6         TEMP,    TEMPEL,  FHEAT,   THEM,
-     7         GBUF%OFF,LBUF%OFF,NEL)
+     7         GBUF%OFF,LBUF%OFF,NEL,GLOB_THERM%THEACCFACT)
         ELSE
           CALL S4THERM (
      1         PM,      IMAT,    VOLN,    NC1,
@@ -787,7 +788,7 @@ C --------------------------
      4         PY2,     PY3,     PY4,     PZ1,
      5         PZ2,     PZ3,     PZ4,     DT1,
      6         TEMP,    TEMPEL,  DIE,    THEM,
-     7         GBUF%OFF,LBUF%OFF,NEL)
+     7         GBUF%OFF,LBUF%OFF,NEL,GLOB_THERM%THEACCFACT)
         END IF
       
       ENDIF
@@ -860,7 +861,7 @@ C----------------------------
      4   F22,     F32,     F13,     F23,
      5   F33,     F14,     F24,     F34,
      6   THEM,    FTHE,    CONDN,   CONDE,
-     7   NEL,     JTHE)
+     7   NEL,     JTHE,    GLOB_THERM%NODADT_THERM)
       ELSE
         CALL S4CUMU3P(
      1   GBUF%OFF,STI,     FSKY,    FSKY,
@@ -868,7 +869,8 @@ C----------------------------
      3   F12,     F22,     F32,     F13,
      4   F23,     F33,     F14,     F24,
      5   F34,     THEM,    FTHESKY, CONDNSKY,
-     6   CONDE,   NEL,     NFT,     JTHE)
+     6   CONDE,   NEL,     NFT,     JTHE,    
+     7   GLOB_THERM%NODADT_THERM)
       ENDIF
       IF (ALLOCATED(VAR_REG)) DEALLOCATE(VAR_REG)
       RETURN

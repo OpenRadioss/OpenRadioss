@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE ADMGVID(IPARG ,ELBUF_TAB,FSKYV,FSKY  ,FTHESKY,
      .                   IADC  ,IADTG    ,IFLG ,IGROUC,NGROUC ,
-     .                   CONDNSKY )
+     .                   CONDNSKY ,NODADT_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -55,6 +55,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARG(NPARG,*), IADC(4,*),  IADTG(3,*), IGROUC(*),
      .        NGROUC, IFLG
+      INTEGER ,INTENT(IN) :: NODADT_THERM
       my_real
      .   FSKYV(LSKY,8), FSKY(8,LSKY), FTHESKY(*),CONDNSKY(*)
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB

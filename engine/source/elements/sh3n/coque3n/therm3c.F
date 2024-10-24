@@ -26,10 +26,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    c3forc3       ../engine/source/elements/sh3n/coque3n/c3forc3.F
       !||    c3forc3_crk   ../engine/source/elements/xfem/c3forc3_crk.F
       !||====================================================================
-      SUBROUTINE THERM3C(JFT  ,JLT   ,PM   ,MAT   ,THK   ,IXTG , 
-c     2                   X  ,AREA   ,DT1C ,      
-     2                  PX1  ,PY1  ,PY2   ,AREA   ,DT1C ,
-     3                  TEMPNC ,TEL   ,DIE  ,FPHI)
+      SUBROUTINE THERM3C(NEL   ,PM    ,THK   ,IXTG   , 
+     2                   PX1   ,PY1   ,PY2   ,AREA   ,DT     ,
+     3                   TEMPNC,TEMPEL,DHEAT ,FPHI   ,THEACCFACT)
+C-----------------------------------------------
+C  calculates nodal thermic force from heat energy increment
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -42,57 +43,45 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT,MAT(*),IXTG(NIXTG,*)
-C     REAL
-      my_real
-     .   AREA(*), PX1(MVSIZ), PX2(MVSIZ),PY1(MVSIZ), PY2(MVSIZ),
-     .   TEMPNC(*), FPHI(MVSIZ,3), PM(NPROPM,*),DIE(*),
-     .   DT1C(*), THK(*),TEL(*)
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "scr_thermal_c.inc"
+      INTEGER, INTENT(IN) :: NEL 
+      INTEGER, INTENT(IN) :: IXTG(NIXTG,*)
+      my_real ,INTENT(IN) :: THEACCFACT
+      my_real ,INTENT(IN) :: DT
+      my_real :: AREA(NEL), PX1(MVSIZ), PX2(MVSIZ),PY1(MVSIZ), PY2(MVSIZ),
+     .   TEMPNC(*), FPHI(MVSIZ,3), PM(*),DHEAT(NEL),
+     .   THK(NEL),TEMPEL(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,MX
-C     REAL
-      my_real
-     .  CA,CB ,KC ,PHIX,PHIY,A
-C --- calcul de la tempurature au CG 
-        MX  =MAT(JFT)
-        CA = PM(75,MX)
-        CB = PM(76,MX)
-        DO I=JFT,JLT
-
-C 
-C - flux
-C      
-ccc function de forme
+      INTEGER :: I
+      my_real :: CA,CB ,KC,PHIX,PHIY,A
+!===========================================================================
+        CA = PM(75)
+        CB = PM(76)
+!
+        DO I=1,NEL
+cc          ! element form functions
 cc          PX1(I) = HALF*(X(2,IXTG(3,I)) - X(2,IXTG(4,I)))/AREA(I)
 cc          PX2(I) = HALF*(X(2,IXTG(4,I)) - X(2,IXTG(2,I)))/AREA(I)
-C
 cc          PY1(I) = HALF*(X(1,IXTG(4,I)) - X(1,IXTG(3,I)))/AREA(I)
 cc          PY2(I) = HALF*(X(1,IXTG(2,I)) - X(1,IXTG(4,I)))/AREA(I)
           
-
-          KC = (CA + CB*TEL(I))*DT1C(I)/MAX(EM20,AREA(I))*THEACCFACT
+          KC = (CA + CB*TEMPEL(I))*DT / MAX(EM20,AREA(I))*THEACCFACT
           PHIX =  TEMPNC(IXTG(2,I))*PX1(I) - TEMPNC(IXTG(3,I))*PX1(I)
           
-           PHIY =  TEMPNC(IXTG(2,I))*PY1(I) + TEMPNC(IXTG(3,I))*PY2(I) -
+          PHIY =  TEMPNC(IXTG(2,I))*PY1(I)  + TEMPNC(IXTG(3,I))*PY2(I) -
      .            TEMPNC(IXTG(4,I))*(PY1(I) + PY2(I))
 C     
           PHIX = KC*PHIX*THK(I)
           PHIY = KC*PHIY*THK(I)
 C
-C force thermique nodale
+C         nodal thermal force (flux)
 C
-          A = THIRD * DIE(I)
+          A = THIRD * DHEAT(I)
           FPHI(I,1) = A - PHIX*PX1(I) - PHIY*PY1(I)
           FPHI(I,2) = A + PHIX*PX1(I) - PHIY*PY2(I)
           FPHI(I,3) = A + PHIY*(PY1(I)+PY2(I))
        ENDDO
-C 
-      
+!------------       
       RETURN
       END

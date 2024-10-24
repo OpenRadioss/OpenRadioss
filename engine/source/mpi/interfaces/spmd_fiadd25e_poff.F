@@ -39,7 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4       FCONT ,INACTI  ,IADM   ,INTTH  ,FTHE    ,
      5       CONDN ,H3D_DATA, MULTI_FVM,LEDGE,NEDGE  ,
      6       NIN   ,TAGNCONT,KLOADPINTER,LOADPINTER  ,
-     7       LOADP_HYD_INTER)
+     7       LOADP_HYD_INTER,NODADT_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -77,6 +77,7 @@ C-----------------------------------------------
      .        BUFR(LEN,*), A(3,*), STIFN(*), VISCN(*),
      .        SECFCUM(7,NUMNOD,NSECT),
      .        FCONT(3,*),FTHE(*),CONDN(*)
+      INTEGER, INTENT(IN) :: NODADT_THERM
       INTEGER, INTENT(IN) :: NEDGE
       INTEGER, INTENT(IN) :: LEDGE(NLEDGE,NEDGE)
       TYPE(H3D_DATABASE) :: H3D_DATA

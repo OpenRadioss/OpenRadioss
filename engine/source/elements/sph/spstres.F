@@ -59,8 +59,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      9    MAT_ELEM  ,H3D_STRAIN,OUTPUT    ,SNPC      ,STF,
      A    SBUFMAT   ,SVIS,NSVOIS,IDTMINS, IRESP,      
      .    IDEL7NG,   IDEL7NOK,    IDTMIN,     MAXFUNC,LIPART1,
-     .    IMON_MAT,  USERL_AVAIL, heat_meca, impl_s,
-     V    idyna,     DT         )
+     .    IMON_MAT,  USERL_AVAIL, impl_s,
+     V    idyna,     DT         , GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -72,6 +72,7 @@ C-----------------------------------------------
       USE OUTPUT_MOD
       USE ELBUFDEF_MOD
       USE DT_MOD
+      use glob_therm_mod
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -109,7 +110,6 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IDYNA
       INTEGER, INTENT(IN) :: USERL_AVAIL
       INTEGER, INTENT(IN) :: IMON_MAT
-      my_real, INTENT(INOUT) :: HEAT_MECA
       INTEGER KXSP(NISP,*),IXSP(KVOISPH,*),NOD2SP(*),ITAB(*),
      .   IPART(LIPART1,*) ,IPARTSP(*), NPC(*), IPARG(NPARG,*),NG,
      .   NELTST,ITYPTST,NEL,GRTH(*),IGRTH(*) , ISTRAIN,
@@ -126,6 +126,7 @@ C-----------------------------------------------
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
       TYPE (DT_) ,INTENT(IN) :: DT
+      type (glob_therm_) ,intent(inout)   :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -267,13 +268,13 @@ C     LAW 11 uses IELVS=IBIDON and IXS=IBIDON should not be used.
      P   BID,         IPARG(1,NG), IGEO,        BID,
      Q   ITASK,       NLOC_DMG,    VARNL,       MAt_ELEM,
      R   H3D_STRAIN,  JPLASOL,     JSPH,        SZ_R1_FREE,
-     S                SNPC,        STF,         SBUFMAT,
+     S   SNPC,        STF,         SBUFMAT,     GLOB_THERM,
      *   SVIS,        SZ_IX,       IRESP,
-     T   N2D,         TH_STRAIN,   NGROUP,      TT, 
+     T   N2D,         th_strain,   NGROUP,      TT, 
      .   DT1,         NTABLE,      NUMELQ,      nummat,
      .   numgeo,      numnod,      numels,
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,
-     .   IMON_MAT,    USERL_AVAIL, heat_meca,   impl_s,
+     .   IMON_MAT,    USERL_AVAIL, impl_s,
      .   idyna,       DT         , BID   )
 C-----------------------------
       IF(ISTRAIN==1)THEN 
