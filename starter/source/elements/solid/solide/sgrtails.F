@@ -501,7 +501,6 @@ C         PARAMETRE GROUPE
             ITET10  = IGEO(50,PID)
 c
             ISVIS  = IGEO(33,PID)                       
-C   is a material flag   IVISC  = IGEO(34,PID)
             IPARTSPH=IGEO(38,PID)          
 C            
             IF ((ISSN == 10.OR.ISSN == 11).AND.(IGT == 14.OR.IGT == 6)) THEN
@@ -1380,8 +1379,8 @@ C-------
           ISSN = 10
           ENDIF
         ENDIF
-        IVISC = IPM(222,MID)
-        IF(IVISC == 2 .AND. ISSN /=10 .AND. ISSN /=12) THEN
+        IVISC = MATPARAM%IVISC
+        IF (IVISC == 2 .AND. ISSN /=10 .AND. ISSN /=12) THEN
             CALL ANCMSG(MSGID=3018,
      .                      MSGTYPE=MSGWARNING,
      .                      ANMODE=ANINFO_BLIND_2,

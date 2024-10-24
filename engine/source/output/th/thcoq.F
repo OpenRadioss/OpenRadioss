@@ -182,7 +182,7 @@ c
                 ENDDO                     
               ELSE                     
                 DO I=1,NEL             
-            MAT(I)=IXTG(1,NFT+I) 
+                  MAT(I)=IXTG(1,NFT+I) 
                   PID(I)=IXTG(5,NFT+I) 
                 ENDDO                     
               ENDIF                   
@@ -190,28 +190,34 @@ c---
               IF (IGTYP == 11) THEN
                 IPMAT = 100
                 DO N=1,MPT
-            DO I=1,NEL
-                      MATLY = IGEO(IPMAT+N,PID(I))
-                    NUVARV = MAX(NUVARV, IPM(225,MATLY)) 
-                    IF (IPM(222,MATLY) > 0) IVISC = 1
-            ENDDO              
+                  DO I=1,NEL
+                    MATLY = IGEO(IPMAT+N,PID(I))
+                    IF (MATPARAM_TAB(MATLY)%IVISC > 0) THEN
+                      IVISC = 1
+                      NUVARV = MAX(NUVARV, MATPARAM_TAB(IMAT)%VISC%NUVAR)
+                    END IF
+                  ENDDO              
                 ENDDO            
               ELSEIF (IGTYP == 9 .OR. IGTYP == 10) THEN 
                 DO N=1,MPT
                   DO I=1,NEL
                     MATLY=MAT(I)
-                    NUVARV =  MAX(NUVARV, IPM(225,MATLY)) 
-                    IF (IPM(222,MATLY) > 0) IVISC = 1
-            ENDDO              
+                    IF (MATPARAM_TAB(MATLY)%IVISC > 0) THEN
+                      IVISC = 1
+                      NUVARV = MAX(NUVARV, MATPARAM_TAB(IMAT)%VISC%NUVAR)
+                    END IF
+                  ENDDO              
                 ENDDO
               ELSEIF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
                 IPMAT   = 2 + NLAY  
                 DO N=1,NLAY
                   DO I=1,NEL
                     MATLY  = STACK%IGEO(IPMAT+N,ISUBSTACK)
-                    NUVARV = MAX(NUVARV, IPM(225,MATLY)) 
-                    IF (IPM(222,MATLY) > 0) IVISC = 1
-               ENDDO              
+                    IF (MATPARAM_TAB(MATLY)%IVISC > 0) THEN
+                      IVISC = 1
+                      NUVARV = MAX(NUVARV, MATPARAM_TAB(IMAT)%VISC%NUVAR)
+                    END IF
+                  ENDDO              
                 ENDDO
 c
                 IF (ISHPLYXFEM > 0) THEN
@@ -416,7 +422,7 @@ c
                 DO IL = 1,NLAY                                        
                   BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
                   IMAT  = BUFLY%IMAT                          
-                  IVISC = IPM(222,IMAT)    
+                  IVISC = MATPARAM_TAB(IMAT)%IVISC  
                   NPTT  = BUFLY%NPTT
                   IF (IVISC > 0) THEN  
                     K = 30382+(IL-1)*5
