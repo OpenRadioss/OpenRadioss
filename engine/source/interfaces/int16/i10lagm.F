@@ -159,7 +159,7 @@ c
           DO K=1,6
             III(LLT,K+8)=IXS10(K,I10)
           ENDDO
-          DO K=1,10
+          DO K=1,7
             I = III(LLT,K)
             XX(LLT,K)=X(1,I)
             YY(LLT,K)=X(2,I)

@@ -609,7 +609,7 @@ C-----------------------------------------------
       INTEGER CLOCK0
       COMMON /RCLOCK/ELAPSED
       DOUBLE PRECISION ELAPSED
-#if _OPENMP
+#ifdef _OPENMP
       REAL(kind=8) OMP_get_wtime
       external OMP_get_wtime
 #endif
@@ -629,7 +629,7 @@ C-----------------------------------------------
       IF(CLOCK0 < 0 )  CALL SYSTEM_CLOCK(CLOCK0)   !In case of failure
       ELAPSED = ZERO  ! initialisation a zero de l'elapsed time
 
-#if _OPENMP
+#ifdef _OPENMP
         OMP_STARTING_TIME = OMP_GET_WTIME( )
 #endif
 C
@@ -770,14 +770,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-#if _OPENMP
+#ifdef _OPENMP
        REAL(kind=8) OMP_GET_WTIME
        external OMP_GET_WTIME
 #endif
 C
 C pour eviter erreur passage hybrid
       CALL MY_ETIME(TIMER(1,EVENT,ITASK))
-#if _OPENMP
+#ifdef _OPENMP
       OMP_INITIME(EVENT,ITASK) = OMP_GET_WTIME( )
 #else
       CALL SYSTEM_CLOCK(CLOCKINI(EVENT,ITASK))
@@ -919,7 +919,7 @@ C
       INTEGER CLOCK1, CLOCKRATE, NBMAX
       DOUBLE PRECISION  SECS
       REAL(KIND=8) :: OMP_ENDING_TIME
-#if _OPENMP
+#ifdef _OPENMP
        REAL(kind=8) OMP_GET_WTIME
        external OMP_GET_WTIME
 #endif
@@ -930,7 +930,7 @@ C
      .                       TIMER(3,EVENT,ITASK)-TIMER(1,EVENT,ITASK)
       SYSTIME(EVENT,ITASK) = SYSTIME(EVENT,ITASK) +
      .                       TIMER(4,EVENT,ITASK)-TIMER(2,EVENT,ITASK)
-#if _OPENMP
+#ifdef _OPENMP
       OMP_ENDING_TIME = OMP_GET_WTIME( )
       SECS = OMP_ENDING_TIME - OMP_INITIME(EVENT,ITASK)
 #else
@@ -3036,7 +3036,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER CLOCK1, CLOCKRATE, NBMAX
       DOUBLE PRECISION  SECS
-#if _OPENMP
+#ifdef _OPENMP
        REAL(kind=8) :: OMP_ENDING_TIME
        REAL(kind=8) OMP_GET_WTIME
        external OMP_GET_WTIME
@@ -3049,7 +3049,7 @@ C-----------------------------------------------
         CALL SYSTEM_CLOCK(COUNT=CLOCK1, COUNT_RATE=CLOCKRATE,
      +                  COUNT_MAX=NBMAX                   )
       ENDIF
-#if _OPENMP
+#ifdef _OPENMP
       OMP_ENDING_TIME = OMP_GET_WTIME( )
       CLOCK0 = CLOCK1
       ELAPSED = OMP_ENDING_TIME - OMP_STARTING_TIME

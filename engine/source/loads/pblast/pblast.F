@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    th_surf_mod    ../common_source/modules/interfaces/th_surf_mod.F
       !||====================================================================
       SUBROUTINE PBLAST (ILOADP  ,FAC     ,A       , V       ,X       ,
-     1                   IADC    ,FSKY    ,FSKYV   ,LLOADP   ,FEXT    ,
+     1                   IADC    ,FSKY    ,LLOADP   ,FEXT    ,
      2                   ITAB    ,H3D_DATA,TH_SURF  )
 C-----------------------------------------------
 C   M o d u l e s
@@ -68,7 +68,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: ITAB(NUMNOD)
       my_real,INTENT(INOUT) :: FAC(LFACLOAD,NLOADP)
       my_real,INTENT(IN) :: V(3,NUMNOD),X(3,NUMNOD)
-      my_real,INTENT(INOUT) :: A(3,NUMNOD),FSKY(8,SFSKY/8), FSKYV(SFSKY/8,8),FEXT(3,NUMNOD)
+      my_real,INTENT(INOUT) :: A(3,NUMNOD),FSKY(8,SFSKY/8), FEXT(3,NUMNOD)
       TYPE(H3D_DATABASE),INTENT(IN) :: H3D_DATA
       TYPE (TH_SURF_) , INTENT(INOUT) :: TH_SURF
 C-----------------------------------------------
@@ -102,7 +102,7 @@ C-----------------------------------------------,
 C   S o u r c e   C o d e
 C-----------------------------------------------
 !$OMP PARALLEL
-!$OMP+ SHARED(FAC,A,V,X,TFEXT,IADC,FSKY,FSKYV,LLOADP,FEXT,ITAB,H3D_DATA,TT,ILOADP)
+!$OMP+ SHARED(FAC,A,V,X,TFEXT,IADC,FSKY,LLOADP,FEXT,ITAB,H3D_DATA,TT,ILOADP)
 !$OMP+ SHARED(PBLAST_DT,PBLAST_TAB,PBLAST_DATA)
 !$OMP+ PRIVATE(ABAC_ID,ID,DTMIN_LOC,NL,TFEXT_LOC,TA_FIRST,IJK)
 
