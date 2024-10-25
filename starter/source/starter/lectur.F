@@ -1271,6 +1271,10 @@ C------------------------------------------------------------------
       SFNOISE = 0
       ALLOCATE(INOISE(0))
       ALLOCATE(FNOISE(0))
+C------------------------------------------------------------------
+C Initialisation size for INISHCEL
+C------------------------------------------------------------------
+      NUSPHCEL = 0
 C----------------------------------------------
 C     ALLOCATION TO REDUCE STACKSIZE
 C----------------------------------------------
@@ -8186,7 +8190,6 @@ C
 C
       CALL TRACE_OUT1()
 C--------------------------------------------
-      NUSPHCEL = 0
       ! still need for *Y00, *sty files - not yet covered by CFG files (hm_reader)
       IF(IDDLEVEL == 0) CALL YCTRL(IGRBRIC)
 !
