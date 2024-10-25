@@ -328,4 +328,9 @@ Only one %s card is allowed
 ** WARNING IN LS-DYNA IMPORT
 /MESSAGE/200037/DESCRIPTION
 %s (id: %u, name: %s) :  NSID is not defined, Radioss BCS will not be created
+
+/MESSAGE/200038/TITLE
+** WARNING IN LS-DYNA IMPORT
+/MESSAGE/200038/DESCRIPTION
+%s : SET id: %u,  with "_ADD" option is not supported. Use SET without "_ADD" option.
 #------------------------------------------------------------------------------
