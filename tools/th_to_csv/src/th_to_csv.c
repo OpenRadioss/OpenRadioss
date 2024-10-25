@@ -1,21 +1,21 @@
 //Copyright>
 //Copyright> Copyright (C) 1986-2024 Altair Engineering Inc.
 //Copyright>
-//Copyright> Permission is hereby granted, free of charge, to any person obtaining 
-//Copyright> a copy of this software and associated documentation files (the "Software"), 
-//Copyright> to deal in the Software without restriction, including without limitation 
-//Copyright> the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
-//Copyright> sell copies of the Software, and to permit persons to whom the Software is 
+//Copyright> Permission is hereby granted, free of charge, to any person obtaining
+//Copyright> a copy of this software and associated documentation files (the "Software"),
+//Copyright> to deal in the Software without restriction, including without limitation
+//Copyright> the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+//Copyright> sell copies of the Software, and to permit persons to whom the Software is
 //Copyright> furnished to do so, subject to the following conditions:
-//Copyright> 
-//Copyright> The above copyright notice and this permission notice shall be included in all 
+//Copyright>
+//Copyright> The above copyright notice and this permission notice shall be included in all
 //Copyright> copies or substantial portions of the Software.
-//Copyright> 
-//Copyright> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
-//Copyright> IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
-//Copyright> FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
-//Copyright> AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
-//Copyright> WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR 
+//Copyright>
+//Copyright> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//Copyright> IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//Copyright> FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//Copyright> AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+//Copyright> WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
 //Copyright> IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //Copyright>
 
@@ -23,7 +23,9 @@
 // gcc -o th_to_csv.linux64.exe th_to_csv.c
 
 // To launch conversion :
-// th_to_csv.linux64.exe  T01File 
+// th_to_csv.linux64.exe T01File => will write T01File.csv
+// to specify the output file:
+// th_to_csv.linux64.exe T01File OutputFile => will write OutputFile.csv
 
 
 #include <stdio.h>
@@ -74,15 +76,26 @@ int main( int argc, char *argv[] )
     int nbPartVar=0;
     int nbSubsVar=0;
 
-    if (argc == 2)
+    if (argc < 2)
     {
-        printf("\n T01 TO CSV CONVERTER\n\n");
-        printf("FILE    = %s\n", argv[1]);
-        printf("OUTPUT FILE    = %s.csv",argv[1]);
-        printf("\n");
+        printf("ERROR, missing input argument: th-file\n");
+        return 1;
     }
 
-    sprintf(csvFilename,"%s.csv",argv[1]);
+    printf("\n T01 TO CSV CONVERTER\n\n");
+    printf("FILE    = %s\n", argv[1]);
+
+    if (argc == 2)
+    {
+        sprintf(csvFilename,"%s.csv",argv[1]);
+    }
+    else
+    {
+        sprintf(csvFilename,"%s.csv",argv[2]);
+    }
+
+    printf("OUTPUT FILE    = %s\n",csvFilename);
+
     sprintf(t01Filename,"%s",argv[1]);
     sprintf(titleFilename,"%s_TITLES",argv[1]);
 /*-----------------------------
@@ -112,7 +125,7 @@ int main( int argc, char *argv[] )
      END
 -----------------------------*/
     printf(" ** CONVERSION COMPLETED\n");
-    return 0;         
+    return 0;
 }
 
 /***************************************************************************/
@@ -134,7 +147,7 @@ void t01PreRead(char* t01Filename,int *nbglobVar,int *nbPartVar, int *nbSubsVar,
     int *NVAR_THGRP = NULL;
 
 /*-----------------------------
-     PRE READ  
+     PRE READ
 -----------------------------*/
 /*      read temporary file  */
     curfile=fopen(t01Filename,"rb");
@@ -158,7 +171,7 @@ void t01PreRead(char* t01Filename,int *nbglobVar,int *nbPartVar, int *nbSubsVar,
     {
         titleLength = 80;
     }
-    else 
+    else
     {
         titleLength = 40;
     }
@@ -211,17 +224,17 @@ C           2ND RECORD : FAC_MASS,FAC_LENGTH,FAC_TIME */
     NSUBS = *ICODE;
 
     read_i_c(ICODE,1);
-    NTHGRP2  = *ICODE; 
+    NTHGRP2  = *ICODE;
 
     read_i_c(ICODE,1);
-    NGLOB = *ICODE; 
+    NGLOB = *ICODE;
     *nbglobVar = NGLOB;
 
     eor_c_read(length);
 
-    fclose(curfile); 
+    fclose(curfile);
 /*-----------------------------
-     READ DATA  
+     READ DATA
 -----------------------------*/
     NVAR_PART =(int*) malloc(sizeof(int)*NPART_NTHPART);
     NBELEM_THGRP=(int*) malloc(sizeof(int)*NTHGRP2);
@@ -293,10 +306,10 @@ C           2ND RECORD : FAC_MASS,FAC_LENGTH,FAC_TIME */
     NSUBS = *ICODE;
 
     read_i_c(ICODE,1);
-    NTHGRP2  = *ICODE; 
+    NTHGRP2  = *ICODE;
 
     read_i_c(ICODE,1);
-    NGLOB = *ICODE;  
+    NGLOB = *ICODE;
 
     eor_c_read(length);
 
@@ -346,7 +359,7 @@ C           2ND RECORD : FAC_MASS,FAC_LENGTH,FAC_TIME */
         for(i=0;i<NUMMAT;i++){
             eor_c_read(length);
             read_i_c(ICODE,1);
-            read_c_c(CCODE,titleLength); 
+            read_c_c(CCODE,titleLength);
             eor_c_read(length);
         }
     }
@@ -359,7 +372,7 @@ C           2ND RECORD : FAC_MASS,FAC_LENGTH,FAC_TIME */
         for(i=0;i<NUMGEO;i++){
             eor_c_read(length);
             read_i_c(ICODE,1);
-            read_c_c(CCODE,titleLength); 
+            read_c_c(CCODE,titleLength);
             eor_c_read(length);
         }
     }
@@ -450,7 +463,7 @@ C           2ND RECORD : FAC_MASS,FAC_LENGTH,FAC_TIME */
     EndOfFile = 2;
     while (EndOfFile == 2){
 /*-----------------------------
-     TIME   
+     TIME
 -----------------------------*/
         eor_c_read(length);
         read_r_c(RCODE,1);
@@ -546,7 +559,7 @@ void t01Read(char* t01Filename,float *allData,char **ThPartNames,char **ThSubsNa
     int *NVAR_THGRP;
 
 /*-----------------------------
-     PRE READ  
+     PRE READ
 -----------------------------*/
 /*      read temporary file  */
     curfile=fopen(t01Filename,"rb");
@@ -570,7 +583,7 @@ void t01Read(char* t01Filename,float *allData,char **ThPartNames,char **ThSubsNa
     {
         titleLength = 80;
     }
-    else 
+    else
     {
         titleLength = 40;
     }
@@ -624,16 +637,16 @@ C           2ND RECORD : FAC_MASS,FAC_LENGTH,FAC_TIME */
     NSUBS = *ICODE;
 
     read_i_c(ICODE,1);
-    NTHGRP2  = *ICODE; 
+    NTHGRP2  = *ICODE;
 
     read_i_c(ICODE,1);
-    NGLOB = *ICODE;  
+    NGLOB = *ICODE;
 
     eor_c_read(length);
 
-    fclose(curfile); 
+    fclose(curfile);
 /*-----------------------------
-     READ DATA  
+     READ DATA
 -----------------------------*/
     NVAR_PART    = (int*) malloc(sizeof(int)*NPART_NTHPART);
     NBELEM_THGRP = (int*) malloc(sizeof(int)*NTHGRP2);
@@ -704,7 +717,7 @@ C           2ND RECORD : FAC_MASS,FAC_LENGTH,FAC_TIME */
     NSUBS = *ICODE;
 
     read_i_c(ICODE,1);
-    NTHGRP2  = *ICODE; 
+    NTHGRP2  = *ICODE;
 
     read_i_c(ICODE,1);
     NGLOB = *ICODE;
@@ -759,34 +772,34 @@ C           2ND RECORD : FAC_MASS,FAC_LENGTH,FAC_TIME */
                     strcat(ThPartNames[cptThPartNames],"IE");
                     break;
                     case 2:
-                    strcat(ThPartNames[cptThPartNames],"KE");                                         
-                    break;                                                                            
-                    case 3:                                                                               
-                    strcat(ThPartNames[cptThPartNames],"XMOM");                                       
-                    break;                                                                            
-                    case 4:                                                                               
-                    strcat(ThPartNames[cptThPartNames],"YMOM");                                       
-                    break;                                                                            
-                    case 5:                                                                               
-                    strcat(ThPartNames[cptThPartNames],"ZMOM");                                       
-                    break;                                                                            
-                    case 6:                                                                               
-                    strcat(ThPartNames[cptThPartNames],"MASS");                                       
-                    break;                                                                            
-                    case 7:                                                                               
-                    strcat(ThPartNames[cptThPartNames],"HE");                                         
-                    break;                                                                            
-                    case 8:                                                                               
-                    strcat(ThPartNames[cptThPartNames],"TURBKE");                                     
-                    break;                                                                            
-                    case 9:                                                                               
-                    strcat(ThPartNames[cptThPartNames],"XCG");                                        
-                    break;                                                                            
-                    case 10:                                                                              
-                    strcat(ThPartNames[cptThPartNames],"YCG");                                        
-                    break;                                                                            
-                    case 11:                                                                              
-                    strcat(ThPartNames[cptThPartNames],"ZCG");                                        
+                    strcat(ThPartNames[cptThPartNames],"KE");
+                    break;
+                    case 3:
+                    strcat(ThPartNames[cptThPartNames],"XMOM");
+                    break;
+                    case 4:
+                    strcat(ThPartNames[cptThPartNames],"YMOM");
+                    break;
+                    case 5:
+                    strcat(ThPartNames[cptThPartNames],"ZMOM");
+                    break;
+                    case 6:
+                    strcat(ThPartNames[cptThPartNames],"MASS");
+                    break;
+                    case 7:
+                    strcat(ThPartNames[cptThPartNames],"HE");
+                    break;
+                    case 8:
+                    strcat(ThPartNames[cptThPartNames],"TURBKE");
+                    break;
+                    case 9:
+                    strcat(ThPartNames[cptThPartNames],"XCG");
+                    break;
+                    case 10:
+                    strcat(ThPartNames[cptThPartNames],"YCG");
+                    break;
+                    case 11:
+                    strcat(ThPartNames[cptThPartNames],"ZCG");
                     break;
                     case 12:
                     strcat(ThPartNames[cptThPartNames],"XXMOM");
@@ -857,7 +870,7 @@ C           2ND RECORD : FAC_MASS,FAC_LENGTH,FAC_TIME */
         for(i=0;i<NUMMAT;i++){
             eor_c_read(length);
             read_i_c(ICODE,1);
-            read_c_c(CCODE,titleLength); 
+            read_c_c(CCODE,titleLength);
             eor_c_read(length);
         }
     }
@@ -870,7 +883,7 @@ C           2ND RECORD : FAC_MASS,FAC_LENGTH,FAC_TIME */
         for(i=0;i<NUMGEO;i++){
             eor_c_read(length);
             read_i_c(ICODE,1);
-            read_c_c(CCODE,titleLength); 
+            read_c_c(CCODE,titleLength);
             eor_c_read(length);
         }
     }
@@ -929,34 +942,34 @@ C           2ND RECORD : FAC_MASS,FAC_LENGTH,FAC_TIME */
                         strcat(ThSubsNames[cptThSubsNames],"IE");
                         break;
                         case 2:
-                        strcat(ThSubsNames[cptThSubsNames],"KE");                                         
-                        break;                                                                            
-                        case 3:                                                                               
-                        strcat(ThSubsNames[cptThSubsNames],"XMOM");                                       
-                        break;                                                                            
-                        case 4:                                                                               
-                        strcat(ThSubsNames[cptThSubsNames],"YMOM");                                       
-                        break;                                                                            
-                        case 5:                                                                               
-                        strcat(ThSubsNames[cptThSubsNames],"ZMOM");                                       
-                        break;                                                                            
-                        case 6:                                                                               
-                        strcat(ThSubsNames[cptThSubsNames],"MASS");                                       
-                        break;                                                                            
-                        case 7:                                                                               
-                        strcat(ThSubsNames[cptThSubsNames],"HE");                                         
-                        break;                                                                            
-                        case 8:                                                                               
-                        strcat(ThSubsNames[cptThSubsNames],"TURBKE");                                     
-                        break;                                                                            
-                        case 9:                                                                               
-                        strcat(ThSubsNames[cptThSubsNames],"XCG");                                        
-                        break;                                                                            
-                        case 10:                                                                              
-                        strcat(ThSubsNames[cptThSubsNames],"YCG");                                        
-                        break;                                                                            
-                        case 11:                                                                              
-                        strcat(ThSubsNames[cptThSubsNames],"ZCG");                                        
+                        strcat(ThSubsNames[cptThSubsNames],"KE");
+                        break;
+                        case 3:
+                        strcat(ThSubsNames[cptThSubsNames],"XMOM");
+                        break;
+                        case 4:
+                        strcat(ThSubsNames[cptThSubsNames],"YMOM");
+                        break;
+                        case 5:
+                        strcat(ThSubsNames[cptThSubsNames],"ZMOM");
+                        break;
+                        case 6:
+                        strcat(ThSubsNames[cptThSubsNames],"MASS");
+                        break;
+                        case 7:
+                        strcat(ThSubsNames[cptThSubsNames],"HE");
+                        break;
+                        case 8:
+                        strcat(ThSubsNames[cptThSubsNames],"TURBKE");
+                        break;
+                        case 9:
+                        strcat(ThSubsNames[cptThSubsNames],"XCG");
+                        break;
+                        case 10:
+                        strcat(ThSubsNames[cptThSubsNames],"YCG");
+                        break;
+                        case 11:
+                        strcat(ThSubsNames[cptThSubsNames],"ZCG");
                         break;
                         case 12:
                         strcat(ThSubsNames[cptThSubsNames],"XXMOM");
@@ -1079,7 +1092,7 @@ C           2ND RECORD : FAC_MASS,FAC_LENGTH,FAC_TIME */
     EndOfFile = 2;
     while (EndOfFile == 2){
 /*-----------------------------
-     TIME   
+     TIME
 -----------------------------*/
         eor_c_read(length);
         read_r_c(RCODE,1);
@@ -1089,7 +1102,7 @@ C           2ND RECORD : FAC_MASS,FAC_LENGTH,FAC_TIME */
         if (EndOfFile == 1){return;}
               //TIME=*RCODE;
 /*-----------------------------
-     GLOBAL VARIABLES 
+     GLOBAL VARIABLES
 -----------------------------*/
         int nbval=NGLOB;
         for(i=0;i<nbval;i++){
@@ -1117,7 +1130,7 @@ C           2ND RECORD : FAC_MASS,FAC_LENGTH,FAC_TIME */
             if (NVAR_PART_TOT > 0){eor_c_read(length);}
         }
 /*-----------------------------
-     SUBSET VARIABLES 
+     SUBSET VARIABLES
 -----------------------------*/
         if(NVAR_SUBS > 0)
         {
@@ -1140,7 +1153,7 @@ C           2ND RECORD : FAC_MASS,FAC_LENGTH,FAC_TIME */
                     read_r_c(RCODE,1);
                     allData[cptData]=*RCODE;
                     cptData++;
-                    
+
                 }
             }
             eor_c_read(length);
@@ -1169,7 +1182,7 @@ void csvFileWrite(char* csvFilename,char* titleFilename,int *nbglobVar,int *nbPa
 
     FILE *titlesFile=fopen(titleFilename,"r");
     FILE *csvFile=fopen(csvFilename,"w");
-    
+
     tmpImpulse = (float *) malloc(sizeof(float)* *nbTimeStep);
     isImpulse = (int *)    malloc(sizeof(int)*nbData);
 
@@ -1196,7 +1209,7 @@ void csvFileWrite(char* csvFilename,char* titleFilename,int *nbglobVar,int *nbPa
     }
 
     if (!titlesFile)
-    { 
+    {
 
 
         cpt = 0;
@@ -1204,14 +1217,14 @@ void csvFileWrite(char* csvFilename,char* titleFilename,int *nbglobVar,int *nbPa
         {
             fprintf(csvFile,"\"%s \",",ThPartNames[cpt]);
             cpt++;
-        } 
+        }
 
         cpt = 0;
         for(i=1+*nbglobVar+*nbPartVar;i<1+*nbglobVar+*nbPartVar+*nbSubsVar ;i++)
         {
             fprintf(csvFile,"\"%s \",",ThSubsNames[cpt]);
             cpt++;
-        } 
+        }
 
         cpt = 0;
         for(i=1+*nbglobVar+*nbPartVar+*nbSubsVar;i< nbData ;i++)
@@ -1219,24 +1232,24 @@ void csvFileWrite(char* csvFilename,char* titleFilename,int *nbglobVar,int *nbPa
             fprintf(csvFile,"\"%s var %d\"",ThGroupNames[cpt],i);
             if(i < nbData-1) fprintf(csvFile,",");
             cpt++;
-        } 
+        }
     }
     else
-    { 
+    {
 
         cpt = 0;
         for(i=1+*nbglobVar;i<1+*nbglobVar+*nbPartVar ;i++)
         {
             fprintf(csvFile,"\"%s \",",ThPartNames[cpt]);
             cpt++;
-        } 
+        }
 
         cpt = 0;
         for(i=1+*nbglobVar+*nbPartVar;i<1+*nbglobVar+*nbPartVar+*nbSubsVar ;i++)
         {
             fprintf(csvFile,"\"%s \",",ThSubsNames[cpt]);
             cpt++;
-        } 
+        }
 
         cpt = 0;
         for(i=1+*nbglobVar+*nbPartVar+*nbSubsVar;i< nbData ;i++)
@@ -1260,10 +1273,10 @@ void csvFileWrite(char* csvFilename,char* titleFilename,int *nbglobVar,int *nbPa
                 strcmp(buffer,"||FN||    ")==0 || strcmp(buffer,"||F||     ")==0 ||
                 strcmp(buffer,"FXI       ")==0 || strcmp(buffer,"FYI       ")==0 || strcmp(buffer,"FZI       ")==0  ||
                 strcmp(buffer,"MXI       ")==0 || strcmp(buffer,"MYI       ")==0 || strcmp(buffer,"MZI       ")==0)  ||
-                ((strcmp(buffer,"FX        ")==0 || strcmp(buffer,"FY        ")==0 || strcmp(buffer,"FZ        ")==0 ) &&  
+                ((strcmp(buffer,"FX        ")==0 || strcmp(buffer,"FY        ")==0 || strcmp(buffer,"FZ        ")==0 ) &&
                 outpuType != 6) ||
                 ((strcmp(buffer,"F1        ")==0 || strcmp(buffer,"F2        ")==0 || strcmp(buffer,"F3        ")==0 ||
-                    strcmp(buffer,"M1        ")==0 || strcmp(buffer,"M2        ")==0 || strcmp(buffer,"M3        ")==0 ) && 
+                    strcmp(buffer,"M1        ")==0 || strcmp(buffer,"M2        ")==0 || strcmp(buffer,"M3        ")==0 ) &&
                 outpuType == 102) )
             {
                 isImpulse[i]=1;
@@ -1283,7 +1296,7 @@ void csvFileWrite(char* csvFilename,char* titleFilename,int *nbglobVar,int *nbPa
             tmpImpulse[0] = (allData[nbData+i] - allData[i]) /
             (allData[nbData] - allData[0]);
             for(j=1;j<*nbTimeStep-1;j++)
-            { 
+            {
                 tmpImpulse[j] = (allData[nbData*(j+1)+i] - allData[nbData*(j-1)+i]) /
                 (allData[nbData*(j+1)] - allData[nbData*(j-1)]);
             }
@@ -1291,7 +1304,7 @@ void csvFileWrite(char* csvFilename,char* titleFilename,int *nbglobVar,int *nbPa
             (allData[nbData*(*nbTimeStep-1)] - allData[nbData*(*nbTimeStep-2)]);
 
             for(j=0;j<*nbTimeStep;j++)
-            { 
+            {
                 allData[nbData*j + i] = tmpImpulse[j];
             }
         }
@@ -1303,13 +1316,13 @@ void csvFileWrite(char* csvFilename,char* titleFilename,int *nbglobVar,int *nbPa
     for(i=0;i<*cptData-1;i++){
         fprintf(csvFile,"%e",(double)allData[i]);
         if((i+1)%( (*cptData) / *nbTimeStep) == 0 )
-        { 
+        {
             fprintf(csvFile,"\n");
-        } 
+        }
         else
-        { 
+        {
             fprintf(csvFile,",");
-        } 
+        }
     }
 
     fclose(curfile);
@@ -1331,7 +1344,7 @@ int len;
         printf("%c",w[i]);
     }
     printf("%c_\n",w[len-1]);
-} 
+}
 /***************************************************************************/
 void print_c_c_to_char(w,len,title)
 int *w;
@@ -1344,7 +1357,7 @@ char *title;
         sprintf(title++,"%c",w[i]);
     }
     sprintf(title++,"%c",w[len-1]);
-} 
+}
 /***************************************************************************/
 void print_i_c_to_char(w,len,title)
 int *w;
@@ -1352,28 +1365,28 @@ int len;
 char *title;
 {
     sprintf(title,"%d",w[0]);
-} 
+}
 /***************************************************************************/
 void print_i_c(w,len)
 int *w;
 int len;
 {
     printf("ICODE_I_%d_\n",*w);
-} 
+}
 /***************************************************************************/
 void print_r_c(w,len)
 float *w;
 int len;
 {
     printf("ICODE_R_%f_\n",*w);
-} 
+}
 /***************************************************************************/
 void print_db_c(w,len)
 double *w;
 int len;
 {
     printf("ICODE_DB_%g_\n",*w);
-} 
+}
 /***************************************************************************/
 void read_r_c(w,len)
 float *w;
@@ -1407,7 +1420,7 @@ int len;
         int i, j, k, block;
         unsigned char buf[4*BUFLEN_CONV];
 
-        
+
         for(k=0;k<len;k+=BUFLEN_CONV)
         {
             block = ((len-k) < BUFLEN_CONV)?(len-k):BUFLEN_CONV;
@@ -1428,7 +1441,7 @@ int len;
         int len;
         {
             int j;
-            
+
             for(j=0;j<len;j++)
             {
                 if((w[j] = (int) getc(curfile)) == EOF)
@@ -1532,20 +1545,20 @@ int len;
                         unsigned char octet[4];
                         {
                             int result, a, b;
-                            
+
                             result = octet[0];
                             result = (result << 8) + octet[1];
                             result = (result << 8) + octet[2];
                             result = (result << 8) + octet[3];
 /* special 64 bits */
-                            if((result & 0x80000000) ==  0x80000000) 
+                            if((result & 0x80000000) ==  0x80000000)
                             {
                                 a = (-1);
                                 b = 0xFFFFFFFF;
                                 result = result + a - b;
                             }
                             *entier = result;
-                            
+
 } /* end IEEE_ASCII_to_integer */
 /***************************************************************************/
                             void IEEE_ASCII_to_double(real,octet,len)
