@@ -78,7 +78,7 @@ int main( int argc, char *argv[] )
 
     if (argc < 2)
     {
-        printf("ERROR, missing input argument: th-file\n");
+        printf(" ** ERROR: MISSING INPUT ARGUMENT: TH-FILE\n");
         return 1;
     }
 
