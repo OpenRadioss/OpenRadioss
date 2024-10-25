@@ -3425,7 +3425,7 @@ C----------------------------------
           IF (IMON>0) CALL STARTIME(4,1)
           IF (IMONM > 0) CALL STARTIME(41,1)
           CALL PBLAST(ILOADP     ,LOADP      ,A                ,V                ,X      ,
-     1                IADS(I87M) ,FSKY       ,FSKY             ,LLOADP           ,FEXT   ,
+     1                IADS(I87M) ,FSKY       ,LLOADP           ,FEXT   ,
      2                ITAB       ,H3D_DATA   ,OUTPUT%TH%TH_SURF)
           IF (IMONM > 0) CALL STOPTIME(41,1)
           IF (IMON>0) CALL STOPTIME(4,1)

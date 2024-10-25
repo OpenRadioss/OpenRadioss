@@ -54,7 +54,7 @@ C-----------------------------------------------
       COMMON /RCLOCK/ELAPSED
       DOUBLE PRECISION ELAPSED
 
-#if _OPENMP
+#ifdef _OPENMP
        INTEGER OMP_GET_THREAD_NUM, OMP_GET_NUM_THREADS
        EXTERNAL OMP_GET_THREAD_NUM, OMP_GET_NUM_THREADS
        REAL(kind=8) OMP_get_wtime
@@ -74,7 +74,7 @@ C-----------------------------------------------
       CALL SYSTEM_CLOCK(CLOCK0)   ! recuperation du temps de debut dans clock0
       ELAPSED = ZERO  ! initialisation a zero de l'elapsed time
 
-#if _OPENMP
+#ifdef _OPENMP
         OMP_STARTING_TIME = OMP_GET_WTIME( )
 #endif
 
@@ -109,13 +109,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-#if _OPENMP
+#ifdef _OPENMP
        REAL(kind=8) OMP_GET_WTIME
        external OMP_GET_WTIME
 #endif
 C
       CALL MY_ETIME(TIMER(1,EVENT,ITASK))
-#if _OPENMP
+#ifdef _OPENMP
       OMP_INITIME(EVENT,ITASK) = OMP_GET_WTIME( )
 #else
       CALL SYSTEM_CLOCK(CLOCKINI(EVENT,ITASK))
@@ -150,7 +150,7 @@ C-----------------------------------------------
       DOUBLE PRECISION  SECS
       INTEGER CLOCK1, CLOCKRATE, NBMAX
       REAL(KIND=8) :: OMP_ENDING_TIME
-#if _OPENMP
+#ifdef _OPENMP
        REAL(kind=8) OMP_GET_WTIME
        external OMP_GET_WTIME
 #endif
@@ -159,7 +159,7 @@ C-----------------------------------------------
       CPUTIME(EVENT,ITASK) = CPUTIME(EVENT,ITASK) +
      .                       TIMER(3,EVENT,ITASK)-TIMER(1,EVENT,ITASK)
 
-#if _OPENMP
+#ifdef _OPENMP
       OMP_ENDING_TIME = OMP_GET_WTIME( )
       SECS = OMP_ENDING_TIME - OMP_INITIME(EVENT,ITASK)
 #else
@@ -384,7 +384,7 @@ C-----------------------------------------------
         INTEGER CLOCK1, CLOCKRATE, NBMAX
         DOUBLE PRECISION  SECS
         REAL(KIND=8) :: OMP_ENDING_TIME
-#if _OPENMP
+#ifdef _OPENMP
         REAL(kind=8) OMP_GET_WTIME
         external OMP_GET_WTIME
 #endif
@@ -439,14 +439,17 @@ C-----------------------------------------------
         real(kind=8) :: SECS
         real(kind=8) :: OMP_ENDING_TIME
         real(kind=8) :: OMP_GET_WTIME
+#ifdef _OPENMP
         external OMP_GET_WTIME
 C-----------------------------------------------  
-
-
         OMP_ENDING_TIME = OMP_GET_WTIME( )
         SECS = OMP_ENDING_TIME-OMP_STARTING_TIME
 
         ETIME = SECS
+#else
+        SECS = 0
+        ETIME = SECS
+#endif
 
         RETURN
         END SUBROUTINE ELAPSTIME_OMP

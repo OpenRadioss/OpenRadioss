@@ -98,7 +98,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE TABLE_MOD
       USE HM_READ_FRACTAL_DMG_MOD
-      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE, NCHARKEY
 C============================================================================
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -128,7 +128,8 @@ C-----------------------------------------------
       INTEGER I,J,N,IMAT,IFAIL,IFL,ILAW,MAT_ID,FAIL_ID,
      .   ILOC,IRUPT,IFAILWAVE,UNIT_ID,IXFEM,HM_NBFAIL,IUNIT,IFLAGUNIT
       INTEGER ,DIMENSION(:) ,ALLOCATABLE :: FAIL_MAT_NUM
-      CHARACTER KEY*20,MESS*40
+      CHARACTER MESS*40
+      CHARACTER(LEN = NCHARKEY) :: KEY
       CHARACTER(LEN=NCHARTITLE) :: TITR
 C----------------------------------      
       my_real UNITAB_SUB(4)
@@ -277,7 +278,8 @@ c
               UNITAB_SUB(2) = UNITAB%FAC_M(IUNIT)
               UNITAB_SUB(3) = UNITAB%FAC_L(IUNIT)
               UNITAB_SUB(4) = UNITAB%FAC_T(IUNIT)
-              IUSER_KEY = KEY(1:LEN_TRIM(KEY))
+              IUSER_KEY = REPEAT(' ', NCHARLINE)
+              IUSER_KEY(1:LEN_TRIM(KEY)) = KEY(1:LEN_TRIM(KEY))
               CALL INIT_MAT_KEYWORD(MAT_PARAM(IMAT),"TOTAL")
 !
               CALL HM_READ_FAIL_USER(MAT_PARAM(IMAT)%FAIL(IFL), 
@@ -290,7 +292,8 @@ c
               UNITAB_SUB(2) = UNITAB%FAC_M(IUNIT)
               UNITAB_SUB(3) = UNITAB%FAC_L(IUNIT)
               UNITAB_SUB(4) = UNITAB%FAC_T(IUNIT)
-              IUSER_KEY = KEY(1:LEN_TRIM(KEY))
+              IUSER_KEY = REPEAT(' ', NCHARLINE)
+              IUSER_KEY(1:LEN_TRIM(KEY)) = KEY(1:LEN_TRIM(KEY))
               CALL INIT_MAT_KEYWORD(MAT_PARAM(IMAT),"TOTAL")
 !
               CALL HM_READ_FAIL_USER(MAT_PARAM(IMAT)%FAIL(IFL), 
@@ -303,7 +306,8 @@ c
               UNITAB_SUB(2) = UNITAB%FAC_M(IUNIT)
               UNITAB_SUB(3) = UNITAB%FAC_L(IUNIT)
               UNITAB_SUB(4) = UNITAB%FAC_T(IUNIT)
-              IUSER_KEY = KEY(1:LEN_TRIM(KEY))
+              IUSER_KEY = REPEAT(' ', NCHARLINE)
+              IUSER_KEY(1:LEN_TRIM(KEY)) = KEY(1:LEN_TRIM(KEY))
               CALL INIT_MAT_KEYWORD(MAT_PARAM(IMAT),"TOTAL")
 !
               CALL HM_READ_FAIL_USER(MAT_PARAM(IMAT)%FAIL(IFL), 
