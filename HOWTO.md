@@ -100,7 +100,7 @@ OpenMPI is needed to build OpenRadioss with OpenMPI support.
 It is recommended to build and install OpenMPI from OpenMPI website using gcc compiler.
 
 1. Download OpenMPI tarball from  [www.openmpi.org](https://www.open-mpi.org/software/ompi/v4.1)
-   prefered version is [OpenMPI v4.1.2](https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.2.tar.gz)
+   preferred version is [OpenMPI v4.1.2](https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.2.tar.gz)
 
             wget https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.2.tar.gz
 
@@ -181,7 +181,7 @@ ArmFlang 24.04 is recommended to build OpenRadioss. It uses the module system to
 
 **Note:**
 
-* The module system was found not properly configured on some systems. If module command is nout found, add in your  .bashrc shell file:
+* The module system was found to be improperly configured on some systems. If the module command is not found, add in your  .bashrc shell file:
 
       source /etc/profile 
 
@@ -336,7 +336,7 @@ Both are shipped with Visual Studio 2019.
      * Rename it to avoid issues :
 
          Launch cygwin
-         in the shell : move /bin/link.exe in /bin/link_cygwin.exe :
+         in the shell : move /bin/link.exe to /bin/link_cygwin.exe :
          mv /bin/link.exe in /bin/link_cygwin.exe
 
    **Notes:**
@@ -379,7 +379,7 @@ The default for Radioss builds are:
 * Linux with with Gfortran : Optimized for release usage
 * Windows with Intel Compiler : Optimized for release usage
 
-Recommendations for developpers is to build OpenRadioss with :
+Recommendations for developers are to build OpenRadioss with :
 
 * Address Sanitizer for Linux / Gfortran : -debug=asan
 * Check Bounds executable for Windows users : -debug=chkb
@@ -428,7 +428,7 @@ Recommendations for developpers is to build OpenRadioss with :
 
         -no-python : do not link with python
 
-  * `-arch`: you will find the list of possible architectures
+  * `-arch`: lists the available architectures
   * `-prec`: controls the OpenRadioss Floating Point Precision : dp : double Precision - Floats in 64 bits (default),  sp activates the Extended Single Precision Version (32bit)
   * `-static-link`: Runtime libraries are statically linked in Executable (easier when executable is used on different computers).
   * `-debug=[0|1|asan]`: activates debug build (-O0 + usual debug flags).
@@ -512,7 +512,7 @@ Recommendations for developpers is to build OpenRadioss with :
         
          -no-python : do not link with python
 
-  * `-arch`: you will find the list of possible architectures
+  * `-arch`: lists the available architectures
 
   MPI libraries
 
@@ -535,7 +535,7 @@ Recommendations for developpers is to build OpenRadioss with :
   * `-static-link`: Runtime libraries are statically linked in Executable (easier when executable is used on different computers).  
   * `-debug=1`: activates debug build (-O0 + usual debug flags).
   * `-release`: Set build for release (optimized)
-  * `-addflag="list of additionnal flags"`: add compiler flags to usual set for all files
+  * `-addflag="list of additional flags"`: add compiler flags to usual set for all files
 
   Execution Control
 
@@ -587,7 +587,7 @@ Recommendations for developpers is to build OpenRadioss with :
 
         -no-python : do not link with python
 
-  * `-arch`: you will find the list of possible architectures
+  * `-arch`: lists the available architectures
   * `-prec`: controls the OpenRadioss Floating Point Precision : dp : double Precision - Floats in 64 bits (default),  sp activates the Extended Single Precision Version (32bit)
   * `-static-link`: Runtime libraries are statically linked in Executable (easier when executable is used on different computers).
   * `-debug=[0|1|asan]`: activates debug build (-O0 + usual debug flags).
@@ -671,7 +671,7 @@ Recommendations for developpers is to build OpenRadioss with :
         
          -no-python : do not link with python
 
-  * `-arch`: you will find the list of possible architectures
+  * `-arch`: lists the available architectures
 
   MPI libraries
 
@@ -731,7 +731,7 @@ Recommendations for developpers is to build OpenRadioss with :
            -release                            : set build for release (optimized)
 
        Execution control
-           -nt [N,all]        : Run build with N Threads, all : takes all ressources of machine
+           -nt [N,all]        : Run build with N Threads, all : takes all resources of machine
            -verbose           : Verbose build
            -clean             : clean build directory
 
