@@ -122,6 +122,7 @@ C
            IF(D5/=ZERO) EPSF = EPSF * (ONE + D5*TSTAR(I)) ! if d5=0, tsart is not correctly defined
            EPSF = MAX(EPSF,EPSF_MIN)
            IF(EPSF>ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF
+           DFMAX(I) = MIN(ONE,DFMAX(I))
          ENDIF
          IF (DFMAX(I)>=ONE.AND.OFF(I)==ONE) THEN
           IF (ISOLID == 1) THEN 
@@ -171,9 +172,11 @@ Cc deviatoric will be vanished
      .                    *(ONE + D5*TSTAR(I))
           EPSF = MAX(EPSF,EPSF_MIN)
           IF(EPSF>ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF
+          DFMAX(I) = MIN(ONE,DFMAX(I))
           IF(DFMAX(I)>=ONE.AND.OFF(I)==ONE) THEN
            NINDX=NINDX+1
            INDX(NINDX)=I
+           DFMAX(I) = ONE
            IF (ISOLID == 2) THEN 
             SIGNXX(I) =   P
             SIGNYY(I) =   P
@@ -193,6 +196,7 @@ Cc deviatoric will be vanished
 c       
          ELSEIF(DFMAX(I)>=ONE)THEN
           P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
+          DFMAX(I) = ONE
           IF (ISOLID == 2) THEN
             SIGNXX(I) =   P
             SIGNYY(I) =   P
