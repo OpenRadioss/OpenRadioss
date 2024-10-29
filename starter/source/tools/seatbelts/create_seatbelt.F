@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE CREATE_SEATBELT(IXR,ITAB,KNOD2EL1D,NOD2EL1D,IPM,
      .                           X,SENSORS,BUFMAT,PM,GEO,
      .                           IDDLEVEL,KNOD2ELC,NOD2ELC,IXC,IGEO,
-     .                           ISKN    )
+     .                           ISKN    ,TF      ,NPC)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -63,6 +63,8 @@ C-----------------------------------------------
       INTEGER, INTENT(INOUT) :: IGEO(NPROPGI,NUMGEO),ISKN(SISKWN)
       my_real X(3,*),BUFMAT(*),PM(NPROPM,*),GEO(NPROPG,*)
       TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
+      INTEGER ,INTENT(IN) :: NPC(SNPC)
+      my_real ,INTENT(IN) :: TF(STF)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -71,9 +73,10 @@ C-----------------------------------------------
      .        I1,I2,IADBUF,TAG_PRINT,ISENS_LOC(2),IPID,OFFC,OFFR,NB_ELEM,NODE,
      .        NB_2D_SEATBELT,COMPT_BELT_END,COMPT_FRAM,NEXT_NODE,NODE_CUR,COMPT_2D,MID_2D,NODE_LONGI,
      .        IADBUF_2D,FUNC1,FUNC2,ISK,N1,N2,SEATBELT_ELEM_FOUND,IMOV,IECROU,NB_ELEM_1D,NB_BRANCH,
-     .        BRANCH_CPT,NB_ELEM_2D
+     .        BRANCH_CPT,NB_ELEM_2D,J1,NPT,NPT2,STAT,WARNFUNC,SAME_FUNC
       my_real DIST2,LMIN,RHO,XK,XC,AREA,LONGI_DIRECTION(3),EDGE_DIRECTION(3),SCAL,E11,E22,G12,DET,
      .        N12,N21,NU,FSCALE1,FSCALE2,A11,A22,A12,C1,SSP,RHO0,YOUNG,FSCALET,KMAX,A1C,A2C
+      my_real X1,X2,Y1,Y2,SHIFT,DERI,MIN_SLOPE,MIN_SLOPE_ABS,DERI_P
 C
       INTEGER , DIMENSION(:), ALLOCATABLE:: TAG_RES,TAG_SHELL,TAG_NOD,CC_ELEM,CPT_MAT,TAG_MAT_2D,
      .                                      TAG_NOD_SHELL,TAG_NOD_SPRING,FRAM_TAB,TAG_FRAM_SEATBELT,
@@ -86,7 +89,7 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
 C
 C-----------------------------------------------
-C--   Check of sensor (not made in hm_read_slipring or hm_read_retractor as sensor are not yet read)
+C--   Check of sensor and sliprings (not made in hm_read_slipring or hm_read_retractor as sensor are not yet read)
       NB_2D_SEATBELT = 0
 C
       IF (IDDLEVEL == 0) THEN
@@ -111,6 +114,7 @@ C
 C
         DO I=1,NRETRACTOR
           ISENS_LOC(1:2) = 0
+C         check of sensors          
           DO J=1,2
             IF(RETRACTOR(I)%ISENS(J) > 0)THEN
               DO K=1,SENSORS%NSENSOR
@@ -127,6 +131,103 @@ C
               ENDIF
             ENDIF
           ENDDO
+C         check if functions are identical
+          SAME_FUNC = 0
+          IF ((RETRACTOR(I)%IFUNC(1) > 0).AND.(RETRACTOR(I)%IFUNC(2) > 0)) THEN
+            NPT=(NPC(RETRACTOR(I)%IFUNC(1)+1)-NPC(RETRACTOR(I)%IFUNC(1)))/2
+            NPT2=(NPC(RETRACTOR(I)%IFUNC(2)+1)-NPC(RETRACTOR(I)%IFUNC(2)))/2
+            IF (RETRACTOR(I)%IFUNC(1)==RETRACTOR(I)%IFUNC(2)) THEN
+              SAME_FUNC = 1
+            ELSEIF (NPT == NPT2) THEN
+              SAME_FUNC = 1
+              DO  K=1,NPT
+                J1 =2*(K-1)
+                X1 = TF(NPC(RETRACTOR(I)%IFUNC(1))  + J1)
+                Y1 = TF(NPC(RETRACTOR(I)%IFUNC(1))  + J1 + 1)
+                X2 = TF(NPC(RETRACTOR(I)%IFUNC(2))  + J1)
+                Y2 = TF(NPC(RETRACTOR(I)%IFUNC(2))  + J1 + 1)     
+                IF ((X1 /= X2).OR.(Y1 /= Y2)) SAME_FUNC = 0
+              ENDDO           
+            ENDIF
+          ENDIF    
+C         functions are stored in table and in case  of null slope a small slope is added      
+          RETRACTOR(I)%S_TABLE(1:2) = 0    
+          DO J=1,2
+            IF (RETRACTOR(I)%IFUNC(J) > 0) THEN                            
+              NPT=(NPC(RETRACTOR(I)%IFUNC(J)+1)-NPC(RETRACTOR(I)%IFUNC(J)))/2
+              RETRACTOR(I)%S_TABLE(J) = NPT
+              RETRACTOR(I)%TABLE(J)%NDIM = 1 
+              ALLOCATE (RETRACTOR(I)%TABLE(J)%X(1),STAT=stat)  
+              ALLOCATE (RETRACTOR(I)%TABLE(J)%X(1)%VALUES(NPT),STAT=stat) 
+              ALLOCATE (RETRACTOR(I)%TABLE(J)%Y,STAT=stat) 
+              ALLOCATE (RETRACTOR(I)%TABLE(J)%Y%VALUES(NPT),STAT=stat) 
+C             first pass to find minimum slope 
+              MIN_SLOPE = EP20
+              MIN_SLOPE_ABS = EP20
+              WARNFUNC = 0
+              DO  K=2,NPT
+                J1 =2*(K-2)
+                X1 = TF(NPC(RETRACTOR(I)%IFUNC(J))  + J1)
+                Y1 = TF(NPC(RETRACTOR(I)%IFUNC(J))  + J1 + 1)
+                X2 = TF(NPC(RETRACTOR(I)%IFUNC(J))  + J1 + 2)
+                Y2 = TF(NPC(RETRACTOR(I)%IFUNC(J))  + J1 + 3)
+                DERI = (Y2-Y1)/(X2-X1)           
+                IF (ABS(DERI) > EM20) THEN
+                  MIN_SLOPE = MIN(MIN_SLOPE,DERI)
+                  MIN_SLOPE_ABS = MIN(MIN_SLOPE_ABS,ABS(DERI))
+                ELSE
+                  WARNFUNC = 1
+                ENDIF
+              ENDDO 
+C             if slope is zero, error message is issued              
+              IF(WARNFUNC == 1) THEN
+                CALL ANCMSG(MSGID=3073,
+     .                      MSGTYPE=MSGWARNING,
+     .                      ANMODE=ANINFO_BLIND_1,
+     .                      I1=RETRACTOR(I)%ID,
+     .                      I2=NPC(NFUNCT+RETRACTOR(I)%IFUNC(J)+1),
+     .                      R1=EM05*MIN_SLOPE_ABS)
+              ENDIF 
+C             functions must be monotoninc if func1 /= func2 - table_inv is used in material_flow             
+              IF ((SAME_FUNC == 0).and.(MIN_SLOPE<zero)) THEN
+                CALL ANCMSG(MSGID=3071,
+     .                      MSGTYPE=MSGERROR,
+     .                      ANMODE=ANINFO_BLIND_1,
+     .                      I1=RETRACTOR(I)%ID,
+     .                      I2=NPC(NFUNCT+RETRACTOR(I)%IFUNC(J)+1))
+              ENDIF  
+C             functions must be monotoninc if (Fmax > 0 and pretens=1 or 5) or pretens=3 - table_inv is used in material_flow            
+              IF ((((((RETRACTOR(I)%TENS_TYP==1).or.(RETRACTOR(I)%TENS_TYP==5)).and.(RETRACTOR(I)%FORCE>zero)))
+     .            .or.(RETRACTOR(I)%TENS_TYP==3)).and.(MIN_SLOPE<zero)) THEN
+                CALL ANCMSG(MSGID=3072,
+     .                      MSGTYPE=MSGERROR,
+     .                      ANMODE=ANINFO_BLIND_1,
+     .                      I1=RETRACTOR(I)%ID,
+     .                      I2=NPC(NFUNCT+RETRACTOR(I)%IFUNC(J)+1))
+              ENDIF               
+C             second pass to add slope if too small               
+              RETRACTOR(I)%TABLE(J)%X(1)%VALUES(1) = TF(NPC(RETRACTOR(I)%IFUNC(J)))
+              RETRACTOR(I)%TABLE(J)%Y%VALUES(1)    = TF(NPC(RETRACTOR(I)%IFUNC(J))+1)    
+              SHIFT = ZERO
+              DERI_P = ZERO
+              DO  K=2,NPT
+                J1 =2*(K-2)
+                X1 = TF(NPC(RETRACTOR(I)%IFUNC(J))  + J1)
+                Y1 = TF(NPC(RETRACTOR(I)%IFUNC(J))  + J1 + 1) + SHIFT
+                X2 = TF(NPC(RETRACTOR(I)%IFUNC(J))  + J1 + 2)
+                Y2 = TF(NPC(RETRACTOR(I)%IFUNC(J))  + J1 + 3)
+                DERI = (Y2-Y1)/(X2-X1)
+                IF (ABS(DERI) < EM05*MIN_SLOPE_ABS) THEN
+                  SHIFT = SHIFT+EM05*SIGN(MIN_SLOPE_ABS*(X2-X1),DERI_P)
+                ELSE
+                  SHIFT = ZERO
+                ENDIF  
+                RETRACTOR(I)%TABLE(J)%X(1)%VALUES(K) = X2
+                RETRACTOR(I)%TABLE(J)%Y%VALUES(K)    = Y2 + SHIFT
+                DERI_P=DERI
+              ENDDO           
+            ENDIF
+          ENDDO          
         ENDDO
 C
       ENDIF

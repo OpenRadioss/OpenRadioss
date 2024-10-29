@@ -269,6 +269,7 @@ C-----------------------------------------------
       INTEGER :: PYTHON_LEN
       INTEGER, DIMENSION(:), ALLOCATABLE :: BUFFER
       INTEGER :: SKEW_LEN
+      INTEGER :: NPT
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -1417,6 +1418,7 @@ C
         ALLOCATE(RETRACTOR(I)%INACTI_NODE(RETRACTOR(I)%INACTI_NNOD_MAX))
         CALL READ_I_C(RETRACTOR(I)%INACTI_NODE, RETRACTOR(I)%INACTI_NNOD)
         CALL READ_I_C(RETRACTOR(I)%N_REMOTE_PROC, 1)
+        CALL READ_I_C(RETRACTOR(I)%S_TABLE, 2)
         CALL READ_DB(RETRACTOR(I)%VECTOR, 3)
         CALL READ_DB(RETRACTOR(I)%ELEMENT_SIZE, 1)
         CALL READ_DB(RETRACTOR(I)%FORCE, 1)
@@ -1434,6 +1436,18 @@ C
         CALL READ_DB(RETRACTOR(I)%PRETENS_PULL, 1)
         CALL READ_DB(RETRACTOR(I)%PRETENS_PULLMAX, 1)
         CALL READ_DB(RETRACTOR(I)%RET_FORCE, 1)
+        DO J=1,2
+          IF (RETRACTOR(I)%S_TABLE(J) > 0) THEN
+            NPT = RETRACTOR(I)%S_TABLE(J)
+            RETRACTOR(I)%TABLE(J)%NDIM = 1 
+            ALLOCATE (RETRACTOR(I)%TABLE(J)%X(1))  
+            ALLOCATE (RETRACTOR(I)%TABLE(J)%X(1)%VALUES(NPT)) 
+            ALLOCATE (RETRACTOR(I)%TABLE(J)%Y) 
+            ALLOCATE (RETRACTOR(I)%TABLE(J)%Y%VALUES(NPT)) 
+            CALL READ_DB(RETRACTOR(I)%TABLE(J)%X(1)%VALUES(1:NPT),NPT)
+            CALL READ_DB(RETRACTOR(I)%TABLE(J)%Y%VALUES(1:NPT),NPT) 
+          ENDIF  
+        ENDDO
       ENDDO
 C
       IF (N_ANCHOR_REMOTE > 0) THEN

@@ -51,6 +51,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE SEATBELT_MOD
       USE SENSOR_MOD
+      USE retractor_table_inv_mod
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -89,12 +90,12 @@ C-----------------------------------------------
       INTEGER FLAG,NEW_NODE2,NEW_NODE1,FORCE_TENS_TYP,FLAG_NO_COUNT_PULL
       my_real DDFS,BETA,HH,HH2,FRIC,DELTAF,DDV,DT11,FB,F1,F2,DF
       my_real TENS,XSCAL,NORM,PRES,VREL,ALPHA,ALPHA2,VEC1(3),VEC2(3)
-      my_real FRICD,FRICS,XX,DXDY,YY,GET_U_FUNC,GET_U_FUNC_INV,FB2,ANGLE
+      my_real FRICD,FRICS,XX,DXDY,YY,GET_U_FUNC,FB2,ANGLE
       my_real DDX,DDX2,F_LOCK,F_UNLOCK,PRETENS,XX1,XX2,COS_BETA
       my_real OMEGA,EPS1,EPS2,EPSN,FACT
       DOUBLE PRECISION DELTA_LO
 C
-      EXTERNAL GET_U_FUNC,GET_U_FUNC_INV
+      EXTERNAL GET_U_FUNC
 C---------------------------------------------------------
 C
       DT11 = DT1
@@ -527,8 +528,9 @@ C--             Pretensioning with pullin
 C--               Pretensioning deactivated when force is reached
                   IF (F_LOCK > RETRACTOR(RETRACTOR_ID(I))%FORCE) THEN
                     RETRACTOR(RETRACTOR_ID(I))%LOCKED = 1
-                    YY = F_LOCK/RETRACTOR(RETRACTOR_ID(I))%FAC(1)        
-                    XX = GET_U_FUNC_INV(RETRACTOR(RETRACTOR_ID(I))%IFUNC(1),YY)*RETRACTOR(RETRACTOR_ID(I))%FAC(2)
+                    YY = F_LOCK/RETRACTOR(RETRACTOR_ID(I))%FAC(1)
+                    CALL RETRACTOR_TABLE_INV(RETRACTOR(RETRACTOR_ID(I))%TABLE(1),XX,YY)
+                    XX = XX*RETRACTOR(RETRACTOR_ID(I))%FAC(2)
                     RETRACTOR(RETRACTOR_ID(I))%LOCK_PULL = RETRACTOR(RETRACTOR_ID(I))%FAC(2)*XX
                     RETRACTOR(RETRACTOR_ID(I))%PRETENS_ACTIV = -1
                     RETRACTOR(RETRACTOR_ID(I))%PRETENS_PULL = ZERO
@@ -544,8 +546,9 @@ C--             Pretensioning with force -> F = MAX(F_retractor,F_pretens) - sam
                 IF (RETRACTOR(RETRACTOR_ID(I))%PRETENS_PULL > RETRACTOR(RETRACTOR_ID(I))%PULLOUT) THEN
 C--               Pretensioning deactivated when pullout is reached
                   RETRACTOR(RETRACTOR_ID(I))%LOCKED = 1
-                  YY = F_LOCK/RETRACTOR(RETRACTOR_ID(I))%FAC(1)        
-                  XX = GET_U_FUNC_INV(RETRACTOR(RETRACTOR_ID(I))%IFUNC(1),YY)*RETRACTOR(RETRACTOR_ID(I))%FAC(2)
+                  YY = F_LOCK/RETRACTOR(RETRACTOR_ID(I))%FAC(1)
+                  CALL RETRACTOR_TABLE_INV(RETRACTOR(RETRACTOR_ID(I))%TABLE(1),XX,YY)
+                  XX = XX*RETRACTOR(RETRACTOR_ID(I))%FAC(2)
                   RETRACTOR(RETRACTOR_ID(I))%LOCK_PULL = RETRACTOR(RETRACTOR_ID(I))%FAC(2)*XX
                   RETRACTOR(RETRACTOR_ID(I))%PRETENS_ACTIV = -1
                   RETRACTOR(RETRACTOR_ID(I))%PRETENS_PULL = ZERO
@@ -562,9 +565,10 @@ C--             Pretensioning with pullin energy
 C--               Pretensioning deactivated when force is reached
                   IF (F_LOCK > RETRACTOR(RETRACTOR_ID(I))%FORCE) THEN
                     RETRACTOR(RETRACTOR_ID(I))%LOCKED = 1
-                    YY = F_LOCK/RETRACTOR(RETRACTOR_ID(I))%FAC(1)        
-                    XX = GET_U_FUNC_INV(RETRACTOR(RETRACTOR_ID(I))%IFUNC(1),YY)
-                    RETRACTOR(RETRACTOR_ID(I))%LOCK_PULL = RETRACTOR(RETRACTOR_ID(I))%FAC(2)*XX
+                    YY = F_LOCK/RETRACTOR(RETRACTOR_ID(I))%FAC(1)
+                    CALL RETRACTOR_TABLE_INV(RETRACTOR(RETRACTOR_ID(I))%TABLE(1),XX,YY)
+                    XX = XX*RETRACTOR(RETRACTOR_ID(I))%FAC(2)
+                    RETRACTOR(RETRACTOR_ID(I))%LOCK_PULL = XX
                     RETRACTOR(RETRACTOR_ID(I))%PRETENS_ACTIV = -1
                     RETRACTOR(RETRACTOR_ID(I))%PRETENS_PULL = ZERO
                   ENDIF
@@ -591,7 +595,8 @@ C--           Loading --
               ELSEIF (F_LOCK > RETRACTOR(RETRACTOR_ID(I))%LOCK_YIELD_FORCE) THEN
 C--             Loading --  
                 XX = RETRACTOR(RETRACTOR_ID(I))%LOCK_PULL/RETRACTOR(RETRACTOR_ID(I))%FAC(2)
-                YY = GET_U_FUNC(RETRACTOR(RETRACTOR_ID(I))%IFUNC(1),XX,DXDY)*RETRACTOR(RETRACTOR_ID(I))%FAC(1)
+                CALL TABLE_INTERP_DYDX(RETRACTOR(RETRACTOR_ID(I))%TABLE(1),XX,1,YY,DXDY)
+                YY = YY*RETRACTOR(RETRACTOR_ID(I))%FAC(1)
                 DXDY = DXDY * (RETRACTOR(RETRACTOR_ID(I))%FAC(2) / RETRACTOR(RETRACTOR_ID(I))%FAC(1))
                 IF ((FORCE_TENS_TYP == 2).AND.(PRETENS > YY)) THEN
                   YY = PRETENS
@@ -608,12 +613,13 @@ C--             Loading --
 C--             Unloading --
                 IF (RETRACTOR(RETRACTOR_ID(I))%LOCK_OFFSET == ZERO) THEN
                   YY = RETRACTOR(RETRACTOR_ID(I))%LOCK_YIELD_FORCE/RETRACTOR(RETRACTOR_ID(I))%FAC(1)
-                  XX1 = GET_U_FUNC_INV(RETRACTOR(RETRACTOR_ID(I))%IFUNC(1),YY)       
-                  XX2 = GET_U_FUNC_INV(RETRACTOR(RETRACTOR_ID(I))%IFUNC(2),YY)
+                  CALL RETRACTOR_TABLE_INV(RETRACTOR(RETRACTOR_ID(I))%TABLE(1),XX1,YY)
+                  CALL RETRACTOR_TABLE_INV(RETRACTOR(RETRACTOR_ID(I))%TABLE(2),XX2,YY)
                   RETRACTOR(RETRACTOR_ID(I))%LOCK_OFFSET = RETRACTOR(RETRACTOR_ID(I))%FAC(2)*(XX1-XX2)
                 ENDIF
                 XX = (RETRACTOR(RETRACTOR_ID(I))%LOCK_PULL-RETRACTOR(RETRACTOR_ID(I))%LOCK_OFFSET)/RETRACTOR(RETRACTOR_ID(I))%FAC(2)
-                YY = GET_U_FUNC(RETRACTOR(RETRACTOR_ID(I))%IFUNC(2),XX,DXDY)*RETRACTOR(RETRACTOR_ID(I))%FAC(1)
+                CALL TABLE_INTERP_DYDX(RETRACTOR(RETRACTOR_ID(I))%TABLE(2),XX,1,YY,DXDY)
+                YY = YY*RETRACTOR(RETRACTOR_ID(I))%FAC(1)
                 DXDY = DXDY * (RETRACTOR(RETRACTOR_ID(I))%FAC(2) / RETRACTOR(RETRACTOR_ID(I))%FAC(1))
                 IF ((FORCE_TENS_TYP == 2).AND.(PRETENS > YY)) THEN
                   YY = PRETENS
