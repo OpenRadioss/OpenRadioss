@@ -44,8 +44,10 @@
       !||    check_mat_elem_prop_compatibility   ../starter/source/materials/mat/check_mat_elem_prop_compatibility.F
       !||    cinit3                              ../starter/source/elements/shell/coque/cinit3.F
       !||    dfuncc                              ../engine/source/output/anim/generate/dfuncc.F
+      !||    dfuncc_ply                          ../engine/source/output/anim/generate/dfuncc_ply.F
       !||    dfuncs                              ../engine/source/output/anim/generate/dfunc6.F
       !||    dometis                             ../starter/source/spmd/domain_decomposition/grid2mat.F
+      !||    dynain_c_strsg                      ../engine/source/output/dynain/dynain_c_strsg.F
       !||    eig                                 ../engine/stub/eig.F
       !||    eig1                                ../engine/stub/eig1.F
       !||    eigp                                ../engine/stub/eigp.F
@@ -58,6 +60,7 @@
       !||    func_comp                           ../starter/source/materials/mat/mat076/law76_upd.F
       !||    funct_python_update_elements        ../engine/source/tools/curve/funct_python_update_elements.F90
       !||    genani                              ../engine/source/output/anim/generate/genani.F
+      !||    gendynain                           ../engine/source/output/dynain/gendynain.F
       !||    genh3d                              ../engine/source/output/h3d/h3d_results/genh3d.F
       !||    h3d_quad_scalar                     ../engine/source/output/h3d/h3d_results/h3d_quad_scalar.F
       !||    h3d_quad_scalar_1                   ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
@@ -272,6 +275,8 @@
       !||    t3grtails                           ../starter/source/elements/solid_2d/tria/t3grtails.F
       !||    tagnod_r2r_nl                       ../starter/source/coupling/rad2rad/tagnod_r2r_nl.F
       !||    tensorc                             ../engine/source/output/anim/generate/tensorc.F
+      !||    tensorc_crk                         ../engine/source/output/anim/generate/tensorc_crk.F
+      !||    tensorc_ply                         ../engine/source/output/anim/generate/tensorc_ply.F
       !||    thcoq                               ../engine/source/output/th/thcoq.F
       !||    updfail                             ../starter/source/materials/updfail.F90
       !||    updmat                              ../starter/source/materials/updmat.F

@@ -24,8 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sigeps69c   ../engine/source/materials/mat/mat069/sigeps69c.F
       !||--- called by ------------------------------------------------------
       !||    mulawc      ../engine/source/materials/mat_share/mulawc.F
-      !||--- calls      -----------------------------------------------------
-      !||    finter      ../engine/source/tools/curve/finter.F
       !||====================================================================
               SUBROUTINE SIGEPS69C(
      1      NEL    , NUPARAM, NUVAR   ,NPT0   , ILAYER ,

@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    prony_modelc   ../engine/source/materials/mat/mat066/prony_modelc.F
+      !||    prony_modelc   ../engine/source/materials/visc/prony_modelc.F
       !||--- called by ------------------------------------------------------
       !||    mulawc         ../engine/source/materials/mat_share/mulawc.F
       !||====================================================================
