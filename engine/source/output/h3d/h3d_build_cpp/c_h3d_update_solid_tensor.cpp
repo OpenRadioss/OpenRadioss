@@ -94,7 +94,9 @@ void c_h3d_update_solid_tensor_(my_real *TT,int *IH3D, int *ITAB, int *NUMNOD, i
         unsigned int       max_sims = 10;
         unsigned int      sub_count = 1;
         float elem_result[6] = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
-        float elem_result1[6*NNOD]; 
+        float* elem_result1 = nullptr;
+        elem_result1 = new float[6 * NNOD];
+
         for( i = 0; i < 6*NNOD; i++ ) 
         {
              elem_result1[i] = 0.0f;
@@ -242,6 +244,9 @@ void c_h3d_update_solid_tensor_(my_real *TT,int *IH3D, int *ITAB, int *NUMNOD, i
      	    if( !rc ) throw rc;
         }
 
+        // When done, deallocate the memory
+        delete[] elem_result1;
+        elem_result1 = nullptr; // Optional: set pointer to nullptr after deletion
 
     } // end of try
 

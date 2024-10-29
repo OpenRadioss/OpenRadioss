@@ -57,7 +57,7 @@ IF (%1) == () GOTO END_ARG_LOOP
    IF %1==-verbose (
        set verbose=-v
    )
-
+ 
    IF %1==-clean (
        set clean=1
    )
@@ -238,6 +238,12 @@ GOTO END
   echo     -verbose           : Verbose build
   echo     -clean             : clean build directory
   echo.
+  echo  MUMPS library for implicit solver:
+  echo     download MUMPS_5.5.1 at http://ftp.mcs.anl.gov/pub/petsc/externalpackages/MUMPS_5.5.1.tar.gz
+  echo     and uncompress it in extlib directory such that engine/extlib/MUMPS_5.5.1 exists
+  echo.
+
+
 
 :END
 echo.
