@@ -5516,7 +5516,7 @@ C
         CALL CREATE_SEATBELT(IXR,ITAB,KNOD2EL1D,NOD2EL1D,IPM,
      .                       X,SENSORS,BUFMAT,PM,GEO,
      .                       IDDLEVEL,KNOD2ELC,NOD2ELC,IXC,IGEO,
-     .                       ISKWN   )
+     .                       ISKWN   ,TF      ,NPC)
         CALL TRACE_OUT1()
       ENDIF
 C
@@ -11079,6 +11079,14 @@ C
           IF(NRETRACTOR > 0) THEN
             DO I=1,NRETRACTOR
               DEALLOCATE(RETRACTOR(I)%INACTI_NODE)
+              DO J=1,2   
+                IF (RETRACTOR(I)%IFUNC(J) > 0) THEN                                    
+                  DEALLOCATE(RETRACTOR(I)%TABLE(J)%X(1)%VALUES)
+                  DEALLOCATE(RETRACTOR(I)%TABLE(J)%X)
+                  DEALLOCATE(RETRACTOR(I)%TABLE(J)%Y%VALUES)
+                  DEALLOCATE(RETRACTOR(I)%TABLE(J)%Y)
+                ENDIF  
+              ENDDO  
             ENDDO
             DEALLOCATE(RETRACTOR)
           ENDIF

@@ -51,6 +51,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    wrrestp                 ../engine/source/output/restart/wrrestp.F
       !||====================================================================
       MODULE SEATBELT_MOD
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE TABLE_MOD
 C----------------------------------------------------------------------- 
 #include "my_real.inc"
 
@@ -124,6 +128,8 @@ c
         INTEGER  INACTI_NNOD
         INTEGER  INACTI_NNOD_MAX
         INTEGER, DIMENSION(:)   , ALLOCATABLE :: INACTI_NODE
+        INTEGER  S_TABLE(2)
+        TYPE(TTABLE), DIMENSION(2) :: TABLE
         INTEGER  N_REMOTE_PROC
         my_real  VECTOR(3)
         my_real  ELEMENT_SIZE

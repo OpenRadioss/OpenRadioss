@@ -301,6 +301,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: LRFLOW  !< Size of RFLOW
       INTEGER, INTENT(IN), DIMENSION(LIFLOW) :: IFLOW
       INTEGER, INTENT(IN), DIMENSION(LRFLOW) :: RFLOW
+      INTEGER :: NPT
 C-----------------------------------------------
 C     Python interface
 C-----------------------------------------------
@@ -1492,6 +1493,7 @@ C
         CALL WRITE_I_C(RETRACTOR(I)%INACTI_NNOD_MAX, 1)
         CALL WRITE_I_C(RETRACTOR(I)%INACTI_NODE, RETRACTOR(I)%INACTI_NNOD)
         CALL WRITE_I_C(RETRACTOR(I)%N_REMOTE_PROC, 1)
+        CALL WRITE_I_C(RETRACTOR(I)%S_TABLE, 2)
         CALL WRITE_DB(RETRACTOR(I)%VECTOR, 3)
         CALL WRITE_DB(RETRACTOR(I)%ELEMENT_SIZE, 1)
         CALL WRITE_DB(RETRACTOR(I)%FORCE, 1)
@@ -1509,6 +1511,13 @@ C
         CALL WRITE_DB(RETRACTOR(I)%PRETENS_PULL, 1)
         CALL WRITE_DB(RETRACTOR(I)%PRETENS_PULLMAX, 1)
         CALL WRITE_DB(RETRACTOR(I)%RET_FORCE, 1)
+        DO J=1,2
+          IF (RETRACTOR(I)%S_TABLE(J) > 0) THEN
+            NPT = RETRACTOR(I)%S_TABLE(J)
+            CALL WRITE_DB(RETRACTOR(I)%TABLE(J)%X(1)%VALUES(1:NPT),NPT)
+            CALL WRITE_DB(RETRACTOR(I)%TABLE(J)%Y%VALUES(1:NPT),NPT)
+          ENDIF  
+        ENDDO
       ENDDO
 C
       IF (N_ANCHOR_REMOTE > 0) THEN

@@ -53,7 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,OPTIONAL_NODE
+      INTEGER I,J,K,OPTIONAL_NODE,L_TABLE,NPT
 C-----------------------------------------------
 C
       DO I = 1, NSLIPRING
@@ -140,9 +140,10 @@ C
           CALL WRITE_I_C(RETRACTOR(I)%INACTI_NNOD_MAX, 1)
           DO K=1,RETRACTOR(I)%INACTI_NNOD
             CALL WRITE_I_C(NODLOCAL(RETRACTOR(I)%INACTI_NODE(K)), 1)
-          ENDDO
+          ENDDO         
           CALL WRITE_I_C(RETRACTOR(I)%N_REMOTE_PROC, 1)
-          LEN_IA = LEN_IA + 21 + RETRACTOR(I)%INACTI_NNOD
+          CALL WRITE_I_C(RETRACTOR(I)%S_TABLE, 2)
+          LEN_IA = LEN_IA + 23 + RETRACTOR(I)%INACTI_NNOD
           CALL WRITE_DB(RETRACTOR(I)%VECTOR, 3)
           CALL WRITE_DB(RETRACTOR(I)%ELEMENT_SIZE, 1)
           CALL WRITE_DB(RETRACTOR(I)%FORCE, 1)
@@ -160,7 +161,16 @@ C
           CALL WRITE_DB(RETRACTOR(I)%PRETENS_PULL, 1)
           CALL WRITE_DB(RETRACTOR(I)%PRETENS_PULLMAX, 1)
           CALL WRITE_DB(RETRACTOR(I)%RET_FORCE, 1)
-          LEN_AM = LEN_AM + 22
+          L_TABLE = 0
+          DO K=1,2
+            IF (RETRACTOR(I)%S_TABLE(K) > 0) THEN
+              NPT = RETRACTOR(I)%S_TABLE(K)    
+              L_TABLE = L_TABLE + 2*NPT
+              CALL WRITE_DB(RETRACTOR(I)%TABLE(K)%X(1)%VALUES(1:NPT),NPT)
+              CALL WRITE_DB(RETRACTOR(I)%TABLE(K)%Y%VALUES(1:NPT),NPT)
+            ENDIF  
+          ENDDO
+          LEN_AM = LEN_AM + 22 + L_TABLE
         ENDIF
 C
       ENDDO

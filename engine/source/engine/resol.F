@@ -9644,6 +9644,14 @@ C--     Seatblet stuctures deallocation
         IF (NRETRACTOR > 0) THEN
           DO I=1,NRETRACTOR
             DEALLOCATE(RETRACTOR(I)%INACTI_NODE)
+            DO K=1,2   
+              IF (RETRACTOR(I)%IFUNC(K) > 0) THEN                                    
+                DEALLOCATE(RETRACTOR(I)%TABLE(K)%X(1)%VALUES)
+                DEALLOCATE(RETRACTOR(I)%TABLE(K)%X)
+                DEALLOCATE(RETRACTOR(I)%TABLE(K)%Y%VALUES)
+                DEALLOCATE(RETRACTOR(I)%TABLE(K)%Y)
+              ENDIF  
+            ENDDO 
           ENDDO
           DEALLOCATE(RETRACTOR)
         ENDIF
