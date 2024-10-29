@@ -194,7 +194,7 @@ c---
                     MATLY = IGEO(IPMAT+N,PID(I))
                     IF (MATPARAM_TAB(MATLY)%IVISC > 0) THEN
                       IVISC = 1
-                      NUVARV = MAX(NUVARV, MATPARAM_TAB(IMAT)%VISC%NUVAR)
+                      NUVARV = MAX(NUVARV, MATPARAM_TAB(MATLY)%VISC%NUVAR)
                     END IF
                   ENDDO              
                 ENDDO            
@@ -204,7 +204,7 @@ c---
                     MATLY=MAT(I)
                     IF (MATPARAM_TAB(MATLY)%IVISC > 0) THEN
                       IVISC = 1
-                      NUVARV = MAX(NUVARV, MATPARAM_TAB(IMAT)%VISC%NUVAR)
+                      NUVARV = MAX(NUVARV, MATPARAM_TAB(MATLY)%VISC%NUVAR)
                     END IF
                   ENDDO              
                 ENDDO
@@ -215,7 +215,7 @@ c---
                     MATLY  = STACK%IGEO(IPMAT+N,ISUBSTACK)
                     IF (MATPARAM_TAB(MATLY)%IVISC > 0) THEN
                       IVISC = 1
-                      NUVARV = MAX(NUVARV, MATPARAM_TAB(IMAT)%VISC%NUVAR)
+                      NUVARV = MAX(NUVARV, MATPARAM_TAB(MATLY)%VISC%NUVAR)
                     END IF
                   ENDDO              
                 ENDDO
