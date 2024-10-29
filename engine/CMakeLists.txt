@@ -5,6 +5,7 @@
 cmake_minimum_required (VERSION 2.8)
 project (Radioss_Engine)
 
+
 # Verbose
 # -------
 # set (CMAKE_VERBOSE_MAKEFILE on)
@@ -19,7 +20,9 @@ enable_language (CXX)
 # Load Compiler flags
 # --------------------
 if ( NOT DEFINED COM) 
+# Define the URL and extraction directory
 set (cdir "" )
+
 else()
 set (cdir "_c" )
 endif()
@@ -37,15 +40,59 @@ if ( NOT DEFINED COM)
 
 #Fortran source files
 file(GLOB_RECURSE source_files  ${source_directory}/source/*.F ${source_directory}/stub/*.F ${source_directory}/share/*.F  ${source_directory}/../common_source/*.F ${source_directory}/source/*.F90 ${source_directory}/stub/*.F90 ${source_directory}/share/*.F90  ${source_directory}/../common_source/*.F90 ${source_directory}/source/*.f90 ${source_directory}/stub/*.f90 ${source_directory}/share/*.f90  ${source_directory}/../common_source/*.f90 )
-
-
 #C source files
 file(GLOB_RECURSE c_source_files ${source_directory}/source/*.c ${source_directory}/stub/*.c ${source_directory}/share/*.c ${source_directory}/../common_source/*.c )
-
 #C++ source files
 file(GLOB_RECURSE cpp_source_files ${source_directory}/source/*.cpp ${source_directory}/stub/*.cpp ${source_directory}/share/*.cpp ${source_directory}/../common_source/*.cpp )
-
 file(GLOB_RECURSE include_files ${include_directory}/*.inc ${include_directory}/*.h ${source_directory}/../common_source/*.inc ${source_directory}/../common_source/*.h )
+
+# Get the Fortran compiler name
+get_filename_component(Fortran_COMPILER_NAME ${CMAKE_Fortran_COMPILER} NAME)
+
+# Check if the Fortran compiler name contains "ifx" or "ifort"
+string(FIND "${Fortran_COMPILER_NAME}" "ifx" Fortran_COMPILER_CONTAINS_IFX)
+string(FIND "${Fortran_COMPILER_NAME}" "ifort" Fortran_COMPILER_CONTAINS_IFORT)
+
+set(MUMPS_VERSION "5.5.1")
+
+# Double precision & Intel compiler & MPI => automatic build of MUMPS if found in extlib
+if((Fortran_COMPILER_CONTAINS_IFX GREATER -1 OR Fortran_COMPILER_CONTAINS_IFORT GREATER -1) AND NOT "${MPI}" STREQUAL "smp" AND "${precision}" STREQUAL "dp")
+    set(MUMPS_PATH "${CMAKE_CURRENT_LIST_DIR}/extlib/MUMPS_${MUMPS_VERSION}")
+    
+    # Check if the MUMPS folder exists
+    if(EXISTS "${MUMPS_PATH}")
+        set(mumps_root "${MUMPS_PATH}")
+        message(STATUS "mumps_root: ${mumps_root}")
+    else()
+        message(STATUS "MUMPS folder does not exist at ${MUMPS_PATH}")
+        set(mumps_root "")
+    endif()
+    
+    if(DEFINED mumps_root AND NOT "${mumps_root}" STREQUAL "")
+       message(STATUS "MUMPS is enabled")
+       #print the value of mumps_root
+       set(MUMPS_INCLUDE_DIR "${mumps_root}/include")
+       file(WRITE ${MUMPS_INCLUDE_DIR}/mumps_int_def.h "#define MUMPS_INTSIZE32\n")
+       file(GLOB_RECURSE mumps_fortran  ${mumps_root}/src/*.F)
+       list(FILTER mumps_fortran EXCLUDE REGEX ".*/[csz][^/]*\\.F$|.*\\\\[csz][^\\\\]*\\.F$")
+       list(FILTER mumps_fortran EXCLUDE REGEX ".*/src/ve/src/.*")
+       # Print out the contents of mumps_fortran after filtering for verification
+       list(APPEND mumps_fortran ${mumps_root}/src/sol_common.F)
+       file(GLOB_RECURSE mumps_c  ${mumps_root}/src/*.c  ${mumps_root}/PORD/lib/*.c )
+       list(FILTER mumps_c EXCLUDE REGEX ".*/src/ve/src/.*")
+       file(GLOB_RECURSE mumps_include ${mumps_root}/include/*.h  ${mumps_root}/PORD/include/*.h)
+       list(FILTER mumps_include EXCLUDE REGEX ".*/src/ve/src/.*")
+       list(APPEND source_files ${mumps_fortran})
+       #append mumps_c to c_source_files
+       list(APPEND c_source_files ${mumps_c})
+       # append mumps_include to include_files
+       list(APPEND include_files ${mumps_include})
+    endif()
+endif()
+
+
+
+
 
 # Engine name
 set (ex_version "engine")
@@ -245,9 +292,11 @@ endif()
 # make sure that the default is a RELEASE
 if (NOT CMAKE_BUILD_TYPE)
   set (CMAKE_BUILD_TYPE RELEASE CACHE STRING
-      "Choose the type of build, options are: None Debug Release."
+      "Choose the type of build, options are: Non Debug Release."
       FORCE)
 endif (NOT CMAKE_BUILD_TYPE)
+
+
 
 
 add_executable (${EXEC_NAME} ${source_files} ${source_files_common} ${c_source_files} ${cpp_source_files} ${Build_includes_directory}/engine_message_description.inc ${Build_includes_directory}/__foo.inc )

@@ -50,9 +50,14 @@ function my_help()
   echo " -clean             : clean build directory"
   echo " " 
   echo "  MUMPS linear solver: available only for dp, with mpi" 
-  echo " -mumps_root=[path_to_mumps]          : path_to_mumps/lib/libdmumps.a must exist"
-  echo " -scalapack_root=[path to scalapack]  : path_to_scalapack/libscalapack.a must exist" 
-  echo " -lapack_root=[path to lapack]  : path_to_lapack/liblapack.a must exist" 
+  echo "    Linux64 gfortran "
+  echo "     Download and install MUMPS 5.5.1 (go into ./extlib and run get_and_build_mumps.sh)"
+  echo "     -mumps_root=[path_to_mumps]          : path_to_mumps/lib/libdmumps.a must exist"
+  echo "     -scalapack_root=[path to scalapack]  : path_to_scalapack/libscalapack.a must exist" 
+  echo "     -lapack_root=[path to lapack]  : path_to_lapack/liblapack.a must exist" 
+  echo "    Linux64 Intel compilers"
+  echo "      download MUMPS_5.5.1 at http://ftp.mcs.anl.gov/pub/petsc/externalpackages/MUMPS_5.5.1.tar.gz"
+  echo "      and uncompress it in extlib directory such that engine/extlib/MUMPS_5.5.1 exists"
   echo " "
   echo " -no-python : do not link with python"
   echo " " 
@@ -165,8 +170,15 @@ else
 
        if [ "$arg" == "-mumps_root" ]
        then
-        mumps_root=`echo $var|awk -F '=' '{print $2}'`
-        mumps_root="-Dmumps_root=${mumps_root}"
+        #if only one arg : default value for mumps_root is pwd + extlib/MUMPS_5.5.1
+        #if -mumps_root is set, but no value, then default value is pwd + extlib/MUMPS_5.5.1
+        if [ "$var" == "-mumps_root" ]
+        then
+          mumps_root="-Dmumps_root=${PWD}/extlib/MUMPS_5.5.1"
+        else #if -mumps_root is set with a value
+          mumps_root=`echo $var|awk -F '=' '{print $2}'`
+          mumps_root="-Dmumps_root=${mumps_root}"
+        fi
        fi
        if [ "$arg" == "-lapack_root" ]
        then

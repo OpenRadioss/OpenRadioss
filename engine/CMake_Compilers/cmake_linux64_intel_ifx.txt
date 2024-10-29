@@ -33,9 +33,6 @@ set (h3d_inc "-I${source_directory}/../extlib/h3d/includes")
 set (zlib_inc "-I${source_directory}/../extlib/zlib/linux64/include")
 set (zlib_lib "${source_directory}/../extlib/zlib/linux64/lib/libz.a")
 
-if ( NOT DEFINED WITH_LINEAR_ALGEBRA) 
-set ( wo_linalg "-DWITHOUT_LINALG" )
-endif()
 
 #
 # compiler Flags
@@ -81,8 +78,9 @@ else ()
 set(opt_flag "-axSSE3,COMMON-AVX512 -no-fma -O3 -fp-model precise -fimf-use-svml=true -qopenmp")
 set(optc_flag "-axSSE3,COMMON-AVX512 -no-fma -O3 -fp-model precise -fimf-use-svml=true -qopenmp")
 endif()
-# MUMPS
-if(DEFINED mumps_root)
+# MUMPS 
+if(DEFINED mumps_root AND NOT "${mumps_root}" STREQUAL "" )
+    message( STATUS " MUMPS root directory: ${mumps_root}" )
     if ( mpiver STREQUAL "smp")
        message( FATAL_ERROR "\n ERROR: cannot use MUMPS without -mpi=impi" )
     endif()
@@ -93,16 +91,17 @@ if(DEFINED mumps_root)
       set (MKL_IDIR "/opt/intel/oneapi/mkl/latest/include")
       set (MKL_LDIR "/opt/intel/oneapi/mkl/latest/lib/intel64")
     endif()
-    set (MKL_lib "-L${MKL_LDIR} -I${MKL_IDIR} ${MKL_LDIR}/libmk_scalapack_lp64.a -Wl,--start-group ${MKL_LDIR}/libmkl_intel_lp64.a ${MKL_LDIR}/libmkl_intel_thread.a ${MKL_LDIR}/libmkl_core.a ${MKL_LDIR}/libmkl_blacs_intelmpi_lp64.a -Wl,--end-group")
+    set (MKL_lib "-L${MKL_LDIR} -I${MKL_IDIR} ${MKL_LDIR}/libmkl_scalapack_lp64.a -Wl,--start-group ${MKL_LDIR}/libmkl_intel_lp64.a ${MKL_LDIR}/libmkl_intel_thread.a ${MKL_LDIR}/libmkl_core.a ${MKL_LDIR}/libmkl_blacs_intelmpi_lp64.a -Wl,--end-group")
     set(MUMPSLIB "${mumps_root}/lib")
     set(mumps_inc "-I${mumps_root}/include")
-    set(mumps_flag "-Dpord -Dthr_all -DMUMPS5 -DAdd_")
+    set(mumps_flag "-Dpord -Dthr_all -DMUMPS5 -DAdd_  -DMUMPS_ARITH=MUMPS_ARITH_d")
 #   Ordering libraries 
-#   set(mumps_dep_path "${mumps_root}/../")
-#   set(mumps_dep_libs " <path to libraries like Scotch / Parmetis> ")
-    set(mumps_libs "${MUMPSLIB}/libdmumps.a ${MUMPSLIB}/libmumps_common.a ${MUMPSLIB}/libpord.a ${mumps_dep_libs}")
     set(WITH_LINEAR_ALGEBRA "yes")
+    message(STATUS "linear algebra: ${WITH_LINEAR_ALGEBRA}")
     set(opt_flag "${opt_flag} ${mumps_flag} ${mumps_inc}")
+    set(optc_flag "${optc_flag} ${mumps_flag} ${mumps_inc}")
+    message(STATUS "OPT: ${opt_flag}")
+
 endif()
 
 
