@@ -690,8 +690,7 @@ C--          misalignement - warning
      .                   I1=ID,
      .                   C1=TITR,
      .                   I2=IELUSR,
-     .                   C2='SKEW1',
-     .                   C3='SKEW1')    
+     .                   C2='SKEW1')    
 C--          realignement of skew1
              VECT1_UPT(1:3) = EX(1:3)
 C--          z1' = x1'^y1       
@@ -722,8 +721,7 @@ C--          misalignement - warning
      .                   I1=ID,
      .                   C1=TITR,
      .                   I2=IELUSR,
-     .                   C2='SKEW2',
-     .                   C3='SKEW2')            
+     .                   C2='SKEW2')            
 C--          realignement of skew2
              VECT2_UPT(1:3) = EX(1:3)
 C--          z1' = x1'^y1       
