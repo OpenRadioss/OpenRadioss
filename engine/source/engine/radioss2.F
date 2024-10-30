@@ -52,6 +52,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    lf_convert_c_flat            ../engine/source/engine/lf_convert_c.c
       !||    my_getpid                    ../engine/source/system/pid.c
       !||    names_and_title_init         ../common_source/modules/names_and_titles_mod.F
+      !||    omp_get_thread_num           ../engine/source/engine/openmp_stub.F90
       !||    open_c                       ../common_source/tools/input_output/write_routtines.c
       !||    open_f_scratch_file          ../engine/source/system/open_tempfile.F
       !||    printcenter                  ../engine/source/engine/radioss_title.F

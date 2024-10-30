@@ -1565,9 +1565,11 @@ C
        END
 C
       !||====================================================================
-      !||    smp_init   ../engine/source/engine/resol_init.F
+      !||    smp_init             ../engine/source/engine/resol_init.F
       !||--- called by ------------------------------------------------------
-      !||    resol      ../engine/source/engine/resol.F
+      !||    resol                ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    omp_get_thread_num   ../engine/source/engine/openmp_stub.F90
       !||====================================================================
       SUBROUTINE SMP_INIT(
      1   ITSK  ,NODFTSK ,NODLTSK ,NUMNTSK,NDTSK,

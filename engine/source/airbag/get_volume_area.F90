@@ -35,16 +35,18 @@
 !!          * global mpi comm (1 comm for all moniotred volumes)
 !!          * reduction of volume & area 
       !||====================================================================
-      !||    get_volume_area     ../engine/source/airbag/get_volume_area.F90
+      !||    get_volume_area       ../engine/source/airbag/get_volume_area.F90
       !||--- called by ------------------------------------------------------
-      !||    monvol0             ../engine/source/airbag/monvol0.F
+      !||    monvol0               ../engine/source/airbag/monvol0.F
       !||--- calls      -----------------------------------------------------
-      !||    spmd_exch_fr6       ../engine/source/mpi/kinematic_conditions/spmd_exch_fr6.F
-      !||    sum_6_float         ../engine/source/system/parit.F
+      !||    omp_get_num_threads   ../engine/source/engine/openmp_stub.F90
+      !||    omp_get_thread_num    ../engine/source/engine/openmp_stub.F90
+      !||    spmd_exch_fr6         ../engine/source/mpi/kinematic_conditions/spmd_exch_fr6.F
+      !||    sum_6_float           ../engine/source/system/parit.F
       !||--- uses       -----------------------------------------------------
-      !||    constant_mod        ../common_source/modules/constant_mod.F
-      !||    groupdef_mod        ../common_source/modules/groupdef_mod.F
-      !||    monvol_struct_mod   ../engine/share/modules/monvol_struct_mod.F
+      !||    constant_mod          ../common_source/modules/constant_mod.F
+      !||    groupdef_mod          ../common_source/modules/groupdef_mod.F
+      !||    monvol_struct_mod     ../engine/share/modules/monvol_struct_mod.F
       !||====================================================================
         subroutine get_volume_area(ispmd,nspmd,numelc,numeltg, &
                        nvolu,nsurf,intbag,sporo,&

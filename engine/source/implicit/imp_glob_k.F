@@ -2838,20 +2838,21 @@ C
       END
 C
       !||====================================================================
-      !||    imp_glob_khp   ../engine/source/implicit/imp_glob_k.F
+      !||    imp_glob_khp         ../engine/source/implicit/imp_glob_k.F
       !||--- called by ------------------------------------------------------
-      !||    imp_buck       ../engine/source/implicit/imp_buck.F
-      !||    imp_chkm       ../engine/source/implicit/imp_solv.F
-      !||    imp_solv       ../engine/source/implicit/imp_solv.F
+      !||    imp_buck             ../engine/source/implicit/imp_buck.F
+      !||    imp_chkm             ../engine/source/implicit/imp_solv.F
+      !||    imp_solv             ../engine/source/implicit/imp_solv.F
       !||--- calls      -----------------------------------------------------
-      !||    grpreorder     ../engine/source/implicit/imp_glob_k.F
-      !||    imp_glob_k0    ../engine/source/implicit/imp_glob_k.F
-      !||    spmd_max_i     ../engine/source/mpi/implicit/imp_spmd.F
+      !||    grpreorder           ../engine/source/implicit/imp_glob_k.F
+      !||    imp_glob_k0          ../engine/source/implicit/imp_glob_k.F
+      !||    omp_get_thread_num   ../engine/source/engine/openmp_stub.F90
+      !||    spmd_max_i           ../engine/source/mpi/implicit/imp_spmd.F
       !||--- uses       -----------------------------------------------------
-      !||    drape_mod      ../engine/share/modules/drape_mod.F
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    initbuf_mod    ../engine/share/resol/initbuf.F
-      !||    stack_mod      ../engine/share/modules/stack_mod.F
+      !||    drape_mod            ../engine/share/modules/drape_mod.F
+      !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    initbuf_mod          ../engine/share/resol/initbuf.F
+      !||    stack_mod            ../engine/share/modules/stack_mod.F
       !||====================================================================
       SUBROUTINE IMP_GLOB_KHP(
      1    PM        ,GEO       ,IPM       ,IGEO      ,ELBUF     ,

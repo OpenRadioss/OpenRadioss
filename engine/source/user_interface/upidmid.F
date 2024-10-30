@@ -477,7 +477,9 @@ C
       END
 C
       !||====================================================================
-      !||    get_u_task   ../engine/source/user_interface/upidmid.F
+      !||    get_u_task           ../engine/source/user_interface/upidmid.F
+      !||--- calls      -----------------------------------------------------
+      !||    omp_get_thread_num   ../engine/source/engine/openmp_stub.F90
       !||====================================================================
       INTEGER FUNCTION GET_U_TASK()
 C-----------------------------------------------

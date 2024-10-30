@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    resol                 ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
       !||    finter                ../engine/source/tools/curve/finter.F
+      !||    omp_get_thread_num    ../engine/source/engine/openmp_stub.F90
       !||--- uses       -----------------------------------------------------
       !||    python_funct_mod      ../common_source/modules/python_mod.F90
       !||    sensor_mod            ../engine/share/modules/sensor_mod.F

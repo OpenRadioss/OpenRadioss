@@ -6859,26 +6859,28 @@ C------------------------------------------
         RETURN
       END
       !||====================================================================
-      !||    imp_smpini       ../engine/source/implicit/imp_solv.F
+      !||    imp_smpini           ../engine/source/implicit/imp_solv.F
       !||--- called by ------------------------------------------------------
-      !||    b_correct_hp     ../engine/source/implicit/nl_solv.F
-      !||    cp_int_hp        ../engine/source/implicit/produt_v.F
-      !||    cp_real_hp       ../engine/source/implicit/produt_v.F
-      !||    du_ini_hp        ../engine/source/implicit/imp_solv.F
-      !||    frac_d_hp        ../engine/source/implicit/integrator.F
-      !||    frac_dd_hp       ../engine/source/implicit/integrator.F
-      !||    integrator1_hp   ../engine/source/implicit/integrator.F
-      !||    integrator2_hp   ../engine/source/implicit/integrator.F
-      !||    integrator_hp    ../engine/source/implicit/integrator.F
-      !||    integratorl_hp   ../engine/source/implicit/integrator.F
-      !||    lin_solv         ../engine/source/implicit/lin_solv.F
-      !||    mumpslb_hp       ../engine/source/implicit/lin_solv.F
-      !||    produt_hp        ../engine/source/implicit/produt_v.F
-      !||    produt_uhp0      ../engine/source/implicit/produt_v.F
-      !||    vaxpy_hp         ../engine/source/implicit/produt_v.F
-      !||    vscal_hp         ../engine/source/implicit/produt_v.F
-      !||    vscaly_hp        ../engine/source/implicit/produt_v.F
-      !||    zeror_hp         ../engine/source/implicit/produt_v.F
+      !||    b_correct_hp         ../engine/source/implicit/nl_solv.F
+      !||    cp_int_hp            ../engine/source/implicit/produt_v.F
+      !||    cp_real_hp           ../engine/source/implicit/produt_v.F
+      !||    du_ini_hp            ../engine/source/implicit/imp_solv.F
+      !||    frac_d_hp            ../engine/source/implicit/integrator.F
+      !||    frac_dd_hp           ../engine/source/implicit/integrator.F
+      !||    integrator1_hp       ../engine/source/implicit/integrator.F
+      !||    integrator2_hp       ../engine/source/implicit/integrator.F
+      !||    integrator_hp        ../engine/source/implicit/integrator.F
+      !||    integratorl_hp       ../engine/source/implicit/integrator.F
+      !||    lin_solv             ../engine/source/implicit/lin_solv.F
+      !||    mumpslb_hp           ../engine/source/implicit/lin_solv.F
+      !||    produt_hp            ../engine/source/implicit/produt_v.F
+      !||    produt_uhp0          ../engine/source/implicit/produt_v.F
+      !||    vaxpy_hp             ../engine/source/implicit/produt_v.F
+      !||    vscal_hp             ../engine/source/implicit/produt_v.F
+      !||    vscaly_hp            ../engine/source/implicit/produt_v.F
+      !||    zeror_hp             ../engine/source/implicit/produt_v.F
+      !||--- calls      -----------------------------------------------------
+      !||    omp_get_thread_num   ../engine/source/engine/openmp_stub.F90
       !||====================================================================
       SUBROUTINE IMP_SMPINI(
      1   ITSK   ,N1FTSK ,N1LTSK ,N1   )

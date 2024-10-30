@@ -1705,15 +1705,16 @@ C
       END
 C  ------factorized sparse approximate inverse version hybrid SMP inside
       !||====================================================================
-      !||    imp_fsa_invhp   ../engine/source/implicit/imp_fsa_inv.F
+      !||    imp_fsa_invhp        ../engine/source/implicit/imp_fsa_inv.F
       !||--- called by ------------------------------------------------------
-      !||    lin_solvh1      ../engine/source/implicit/lin_solv.F
+      !||    lin_solvh1           ../engine/source/implicit/lin_solv.F
       !||--- calls      -----------------------------------------------------
-      !||    fsa_solv        ../engine/source/implicit/imp_fsa_inv.F
-      !||    my_barrier      ../engine/source/system/machine.F
-      !||    sp_dim          ../engine/source/implicit/imp_fsa_inv.F
+      !||    fsa_solv             ../engine/source/implicit/imp_fsa_inv.F
+      !||    my_barrier           ../engine/source/system/machine.F
+      !||    omp_get_thread_num   ../engine/source/engine/openmp_stub.F90
+      !||    sp_dim               ../engine/source/implicit/imp_fsa_inv.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../engine/share/message_module/message_mod.F
+      !||    message_mod          ../engine/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE IMP_FSA_INVHP(
      1                    NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,   
@@ -1793,16 +1794,17 @@ C
       RETURN
       END
       !||====================================================================
-      !||    imp_fsa_inv2hp   ../engine/source/implicit/imp_fsa_inv.F
+      !||    imp_fsa_inv2hp       ../engine/source/implicit/imp_fsa_inv.F
       !||--- called by ------------------------------------------------------
-      !||    lin_solvih2      ../engine/source/implicit/lin_solv.F
+      !||    lin_solvih2          ../engine/source/implicit/lin_solv.F
       !||--- calls      -----------------------------------------------------
-      !||    fsa_solv         ../engine/source/implicit/imp_fsa_inv.F
-      !||    imp_kfiltr       ../engine/source/implicit/imp_fsa_inv.F
-      !||    my_barrier       ../engine/source/system/machine.F
-      !||    sp_dim           ../engine/source/implicit/imp_fsa_inv.F
+      !||    fsa_solv             ../engine/source/implicit/imp_fsa_inv.F
+      !||    imp_kfiltr           ../engine/source/implicit/imp_fsa_inv.F
+      !||    my_barrier           ../engine/source/system/machine.F
+      !||    omp_get_thread_num   ../engine/source/engine/openmp_stub.F90
+      !||    sp_dim               ../engine/source/implicit/imp_fsa_inv.F
       !||--- uses       -----------------------------------------------------
-      !||    message_mod      ../engine/share/message_module/message_mod.F
+      !||    message_mod          ../engine/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE IMP_FSA_INV2HP(
      1                    NDDL   ,IADK   ,JDIK   ,DIAG_K ,LT_K   ,   

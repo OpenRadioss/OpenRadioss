@@ -229,6 +229,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    nlocal_incr                                  ../engine/source/assembly/nlocal_incr.F
       !||    nlocal_vel                                   ../engine/source/assembly/nlocal_vel.F
       !||    offset_nproj                                 ../engine/source/interfaces/shell_offset/offset_nproj.F90
+      !||    omp_get_thread_num                           ../engine/source/engine/openmp_stub.F90
+      !||    omp_set_num_threads                          ../engine/source/engine/openmp_stub.F90
       !||    pblast                                       ../engine/source/loads/pblast/pblast.F
       !||    pblast_deallocate                            ../common_source/modules/loads/pblast_mod.F
       !||    pfluid                                       ../engine/source/loads/general/pfluid/pfluid.F

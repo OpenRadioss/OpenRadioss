@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    arret                         ../engine/source/system/arret.F
       !||    my_barrier                    ../engine/source/system/machine.F
+      !||    omp_get_thread_num            ../engine/source/engine/openmp_stub.F90
       !||    pblast_parameters__free_air   ../common_source/modules/loads/pblast_mod.F
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod                  ../common_source/modules/groupdef_mod.F
