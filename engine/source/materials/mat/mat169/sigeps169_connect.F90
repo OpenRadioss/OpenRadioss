@@ -88,10 +88,10 @@
 !-----------------------------------------------
 !   l o c a l   v a r i a b l e s
 !-----------------------------------------------
-        integer :: i,ii,k,nindf,tempi,nindxdn,nindxsh
+        integer :: i,ii,k,nindf,tempi,nindxd
         integer :: iel
         integer :: pwrt,pwrs
-        integer ,dimension(nel) :: indxsh,indxdn,indf
+        integer ,dimension(nel) :: indxd,indf
 
         my_real :: young,nu, wave,gcten,gcshr,shrp,sht_sl,taumax,tau_n
         my_real :: dlam, dpla_dlam,shear,dp,g1,g2,sigeq,dtb,norm,nxz,nyz,d0fn,d0fs
@@ -185,108 +185,61 @@
         fyld(i) =  fyld(i) - one        
         uvar(i,6) = fyld(i)
       enddo
-!
-      nindxdn  = 0
-      nindf    = 0
-      nindxsh = 0
-!
+      !
+      !  test of damage initiation
+      !
+      nindxd  = 0
+      nindf   = 0
       do i=1,nel 
         if (fyld(i) >= zero .and. off(i) == one)  then
         
           taumax = shrmax(i) - sht_sl * signzz(i)
-          if (signzz(i) >= tenmax(i) .and. uvar(i,12) == zero) then
-            uvar(i,12) = one
-            nindxdn = nindxdn+1
-            indxdn(nindxdn) = i
-             
-            eps_n0(i)  = epszz(i)
-          
-            if (uvar(i,13)==zero) then 
-              eps_s0(i)  = eps_sh(i)
-              shrmax(i)  = max(strs_tr_sh(i),em6)
-              uvar(i,13) = one
-            endif
-            if (uvar(i,9) == zero) then
-              uvar(i,9) = one
-            end if
-          
-          else if (strs_tr_sh(i) >= taumax .and. uvar(i,13) == zero) then
-            uvar(i,13) = one
-            nindxsh = nindxsh+1
-            indxsh(nindxsh) = i
+          if ((signzz(i) >= tenmax(i) .or.strs_tr_sh(i) >= taumax) .and. uvar(i,9) == zero) then
+            eps_n0(i) = epszz(i)
             eps_s0(i) = eps_sh(i) + dp
-            if (uvar(i,12) == zero) then
-              tenmax(i)  = max(signzz(i),em6)
-              eps_n0(i)  = epszz(i)
-              uvar(i,12) = one
-            endif
-            if (uvar(i,9) == zero) then
-              uvar(i,9) = one
-            end if
-          
-          else
-          
-            if (uvar(i,12) == zero) then
-              eps_n0(i)  = epszz(i)
-              tenmax(i)  = max(signzz(i),em6)
-!              dfn(i) =  two*gcten/tenmax(i) 
-              uvar(i,12) = one
-              nindxdn = nindxdn+1
-              indxdn(nindxdn) = i
-            endif  
-            if (uvar(i,13) == zero) then 
-              eps_s0(i) = eps_sh(i) + dp
-              shrmax(i) = max(strs_tr_sh(i),em6)
-!              dfs(i) = two*gcshr/(one+shrp)/shrmax(i) 
-              uvar(i,13) = one
-              nindxsh = nindxsh+1
-              indxsh(nindxsh) = i
-            endif
-            if (uvar(i,9) == zero) then
-              uvar(i,9) = one
-            end if
-
-          endif 
+            tenmax(i) = max(signzz(i),em6)
+            shrmax(i) = max(strs_tr_sh(i),em6)
+            nindxd = nindxd+1
+            indxd(nindxd) = i
+            uvar(i,9) = one
+          end if         
+        end if         
+      enddo
+!
+      do i=1,nel
+        if (eps_sh(i) > eps_s0(i)) then
+          dmg_s(i) = (eps_sh(i) - eps_s0(i)) / (dfs(i) - eps_s0(i))  
+          dmg_s(i) = max(uvar(i,2),dmg_s(i))
+        end if         
+        if (epszz(i) > eps_n0(i)) then
+          dmg_n(i) = (epszz(i) - eps_n0(i)) / (dfn(i) - eps_n0(i))                 
+          dmg_n(i) = max(uvar(i,1),dmg_n(i))          
+        end if         
+      enddo
+!
+      do i=1,nel
+        if (dmg_n(i) >= one .and. off(i) == one) then 
+          dmg_n(i) = one
+          off(i) = four/five
+          nindf  = nindf + 1
+          indf(nindf) = i        
+        else if (dmg_s(i) >= one .and. off(i) == one) then 
+          dmg_s(i) = one
+          off(i) = four/five
+          nindf   = nindf + 1  
+          indf(nindf) = i    
+        endif 
+        
+        signzz(i) = min(signzz(i), tenmax(i))
+        taumax    = shrmax(i) - sht_sl * signzz(i)
+        strs_tr_sh(i) =  sqrt( signyz(i)**2 + signzx(i)**2)
+        if (strs_tr_sh(i) > taumax) then
+          tau_n     = min(strs_tr_sh(i), taumax)
+          signyz(i) = signyz(i) * tau_n / strs_tr_sh(i)
+          signzx(i) = signzx(i) * tau_n / strs_tr_sh(i) 
         endif 
       enddo
-          !-----------------------------------------------  
-
-      do i=1,nel
-          if (eps_sh(i) > eps_s0(i)) then
-            dmg_s(i) = (eps_sh(i) - eps_s0(i)) / (dfs(i) - eps_s0(i))  
-            dmg_s(i) = max(uvar(i,2),dmg_s(i))
-          end if         
-          if (epszz(i) > eps_n0(i)) then
-            dmg_n(i) = (epszz(i) - eps_n0(i)) / (dfn(i) - eps_n0(i))                 
-            dmg_n(i) = max(uvar(i,1),dmg_n(i))          
-          end if         
-
-          if (dmg_n(i) >= one) then 
-            dmg_n(i) = one
-            off(i) = four/five
-            nindf  = nindf + 1  
-            indf(nindf) = i        
-          endif 
 !
-          if (dmg_s(i) >= one) then 
-            dmg_s(i) = one
-            off(i) = four/five
-            nindf   = nindf + 1  
-            indf(nindf) = i    
-          endif 
-          
-          signzz(i) = min(signzz(i), tenmax(i))
-          taumax    = shrmax(i) - sht_sl * signzz(i)
-          strs_tr_sh(i) =  sqrt( signyz(i)**2 + signzx(i)**2)
-          if (strs_tr_sh(i) > taumax) then
-            tau_n     = min(strs_tr_sh(i), taumax)
-            signyz(i) = signyz(i) * tau_n / strs_tr_sh(i)
-            signzx(i) = signzx(i) * tau_n / strs_tr_sh(i) 
-          endif 
-      enddo
-
-!
-      
       uvar(:,10) = shrmax(:)
       uvar(:,11) = tenmax(:)
       uvar(:,3)  = eps_n0(:)
@@ -311,37 +264,34 @@
         uvar(i,8) = g2
         sigeq     = g1**pwrt + g2**pwrs
         uvar(i,5) = sigeq
-                !write(*,*) ' signzz(i) dmgn = ', i, signzz(i), dmg_n(i)
         fdam_n(i)  = one - dmg_n(i)
-!        print*,'fyld,sigz,fdam=',fyld(i),signzz(i),fdam_n(i)
         signzz(i)  =  signzz(i) * fdam_n(i)
         signyz(i)  =  signyz(i) * (one - dmg_s(i))
         signzx(i)  =  signzx(i) * (one - dmg_s(i))       
       enddo
    
 !-------------------------
-       if (nindxdn > 0) then
-         do ii=1,nindxdn
-           write(iout, 1000) ngl(indxdn(ii)),time
-         enddo
-       end if
-       if (nindxsh > 0) then
-         do ii=1,nindxsh
-           write(iout, 1002) ngl(indxsh(ii)),time
-         enddo
-       end if
-       if (nindf > 0) then
-         do ii=1,nindf
-           write(iout, 1003) ngl(indf(ii)),ipg,time
-           write(iout, 1004) epszz(indf(ii)), eps_sh(indf(ii))
-         enddo
-       end if        
+      if (nindxd > 0) then
+!$OMP CRITICAL
+        do ii=1,nindxd
+          i = indxd(ii)
+          write(iout, 1000) ngl(i),ipg,time
+        enddo
+!$OMP END CRITICAL
+      end if
+      if (nindf > 0) then
+!$OMP CRITICAL
+        do ii=1,nindf
+          i = indf(ii)
+          write(iout, 1003) ngl(i),time
+          write(iout, 1004) epszz(i), eps_sh(i)
+        enddo
+!$OMP END CRITICAL
+      end if        
 !-----------------------------------------------------------------
-    1000 format(1x,'START DAMAGE IN NORMAL DIRECTION IN CONNECTION ELEMENT NUMBER ',i10,1x,' AT TIME :',g11.4) 
-    1002 format(1x,'START DAMAGE IN SHEAR DIRECTION IN CONNECTION ELEMENT NUMBER ',i10,1x,' AT TIME :',g11.4)     
-    1003 format(1x,'FAILURE IN CONNECTION ELEMENT NUMBER ',i10,1x,'INTEGRATION POINT',i10,1x, 'AT TIME :',g11.4)     
+    1000 format(1x,'START DAMAGE IN CONNECTION ELEMENT NUMBER ',i10,1x,'INTEGRATION POINT',i2,1x, 'AT TIME :',g11.4)     
+    1003 format(1x,'FAILURE IN CONNECTION ELEMENT NUMBER ',i10,1x,' AT TIME :',g11.4) 
     1004 format(1x,'ELONGATION IN NORMAL DIRECTION AT FAILURE ',g11.4,1x,'ELONGATION IN TANGENTIAL DIRECTION AT FAILURE',g11.4) 
-!
 !-----------------------------------------------------------------
-     end subroutine sigeps169_connect
-end module sigeps169_connect_mod             
+      end subroutine sigeps169_connect
+      end module sigeps169_connect_mod             
