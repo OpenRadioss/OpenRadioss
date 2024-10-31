@@ -694,7 +694,7 @@ Recommendations for developers are to build OpenRadioss with :
   * `-static-link`: Runtime libraries are statically linked in Executable (easier when executable is used on different computers).  
   * `-debug=1`: activates debug build (-O0 + usual debug flags).
   * `-release`: Set build for release (optimized)
-  * `-addflag="list of additionnal flags"`: add compiler flags to usual set for all files
+  * `-addflag="list of additional flags"`: add compiler flags to usual set for all files
 
   Execution Control
 

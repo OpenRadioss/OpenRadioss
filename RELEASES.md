@@ -1,11 +1,11 @@
-# Radioss stable Relases
+# Radioss Stable Releases
 
-OpenRadioss builds are available in the [Releases area on GitHub](https://github.com/OpenRadioss/OpenRadioss/releases).</p>
+OpenRadioss builds are available in the [Releases area on GitHub](https://github.com/OpenRadioss/OpenRadioss/releases).
 
-* Builds are based on git tag marking a given changelist as stable.
-* 3 builds are available : they are based on the 3 last tags marking OpenRadioss as stable.
+* Builds are based on a git tag marking a given changelist as stable.
+* Three builds are available: they are based on the last three tags marking OpenRadioss as stable.
 
-The build  package contains OpenRadioss binaries for Linux and Windows:
+The build package contains OpenRadioss binaries for Linux and Windows:
 
 ![image](./doc/Builds.png)
 
@@ -15,7 +15,7 @@ Linux builds can be executed on:
 
 * Linux CentOS 7.9 or higher
 * RHEL 7.9 or higher
-* Ubuntu 20,.x or higher...
+* Ubuntu 20.x or higher
 
        ├── COPYRIGHT.md
        ├── exec
@@ -42,21 +42,21 @@ Linux builds can be executed on:
        └── licenses
 
 * The exec directory
-  * starter_linux64_gf : OpenRadioss Starter. Compiler is Gfortran
-  * engine_linux64_gf : OpenRadioss Engine for SMP (Shared Memory Parallelism) runs based on OpenMP. Compiler is Gfortran
-  * engine_linux64_gf_ompi : OpenRadioss Engine for MPI and Hybrid MPI/OpenMP runs. This executable is built against OpenMPI. Compiler is Gfortran
-  * starter_linux64_gf_sp : OpenRadioss Starter "Extended Single Precision Version". Compier is Gfortran
-  * engine_linux64_gf_sp : OpenRadioss Engine  "Extended Single Precision Version" for SMP (Shared Memory parallelism) runs based on OpenMP. Compiler is Gfortran
-  * engine_linux64_gf_ompi_sp : OpenRadioss Engine  "Extended Single Precision Version" for MPI and Hybrid MPI/OpenMP runs. This executable is built against OpenMPI. Compiler is Gfortran
-  * anim_to_vtk_linux64_gf : OpenRadioss animation file to Paraview VTK format converter. Compiler is Gfortran
-  * th_to_csv_linux64_gf : OpenRadioss Time History file to Paraview csv format converter.
+  * starter_linux64_gf: OpenRadioss Starter. Compiler is Gfortran.
+  * engine_linux64_gf: OpenRadioss Engine for SMP (Shared Memory Parallelism) runs based on OpenMP. Compiler is Gfortran.
+  * engine_linux64_gf_ompi: OpenRadioss Engine for MPI and Hybrid MPI/OpenMP runs. This executable is built against OpenMPI. Compiler is Gfortran.
+  * starter_linux64_gf_sp: OpenRadioss Starter "Extended Single Precision Version". Compiler is Gfortran.
+  * engine_linux64_gf_sp: OpenRadioss Engine "Extended Single Precision Version" for SMP (Shared Memory Parallelism) runs based on OpenMP. Compiler is Gfortran.
+  * engine_linux64_gf_ompi_sp: OpenRadioss Engine "Extended Single Precision Version" for MPI and Hybrid MPI/OpenMP runs. This executable is built against OpenMPI. Compiler is Gfortran.
+  * anim_to_vtk_linux64_gf: OpenRadioss animation file to Paraview VTK format converter. Compiler is Gfortran.
+  * th_to_csv_linux64_gf: OpenRadioss Time History file to Paraview CSV format converter.
 * The extlib directory
-  * hm_reader : OpenRadioss reader library. See [OpenRadioss documentation](https://openradioss.atlassian.net/wiki/spaces/OPENRADIOSS/pages/6094849/OpenRadioss+Reader+Radioss+Block+Format)
-  * h3d : library to write OpenRadioss H3D output format.
+  * hm_reader: OpenRadioss reader library. See [OpenRadioss documentation](https://openradioss.atlassian.net/wiki/spaces/OPENRADIOSS/pages/6094849/OpenRadioss+Reader+Radioss+Block+Format).
+  * h3d: Library to write OpenRadioss H3D output format.
 * The hm_cfg_files directory
-  * hm_cfg_files : Configuration files for OpenRadioss input reading.
+  * hm_cfg_files: Configuration files for OpenRadioss input reading.
 * licenses
-  * licenses : Copyright notices for third party tools used in OpenRadioss.
+  * licenses: Copyright notices for third-party tools used in OpenRadioss.
 
 ## The Windows builds
 
@@ -96,19 +96,19 @@ Linux builds can be executed on:
       └── licenses
 
 * The exec directory
-  * starter_win64.exe : OpenRadioss Starter.
-  * engine_win64.exe : OpenRadioss Engine for SMP (Shared Memory Parallelism) runs based on OpenMP.
-  * engine_win64_impi.exe : OpenRadioss Engine for MPI and Hybrid MPI/OpenMP runs. This executable is built against Intel MPI.
-  * starter_win64_sp.exe : OpenRadioss Starter "Extended Single Precision Version".
-  * engine_win64_sp.exe : OpenRadioss Engine  "Extended Single Precision Version" for SMP (Shared Memory parallelism) runs based on OpenMP.
-  * engine_win64_impi_sp.exe : OpenRadioss Engine  "Extended Single Precision Version" for MPI and Hybrid MPI/OpenMP runs. This executable is built against Intel MPI.
-  * anim_to_vtk_win64.exe : OpenRadioss animation file to Paraview VTK format converter. Compiler is Gfortran
-  * th_to_csv_win64.exe : OpenRadioss Time History file to Paraview csv format converter.
+  * starter_win64.exe: OpenRadioss Starter.
+  * engine_win64.exe: OpenRadioss Engine for SMP (Shared Memory Parallelism) runs based on OpenMP.
+  * engine_win64_impi.exe: OpenRadioss Engine for MPI and Hybrid MPI/OpenMP runs. This executable is built against Intel MPI.
+  * starter_win64_sp.exe: OpenRadioss Starter "Extended Single Precision Version".
+  * engine_win64_sp.exe: OpenRadioss Engine "Extended Single Precision Version" for SMP (Shared Memory Parallelism) runs based on OpenMP.
+  * engine_win64_impi_sp.exe: OpenRadioss Engine "Extended Single Precision Version" for MPI and Hybrid MPI/OpenMP runs. This executable is built against Intel MPI.
+  * anim_to_vtk_win64.exe: OpenRadioss animation file to Paraview VTK format converter.
+  * th_to_csv_win64.exe: OpenRadioss Time History file to Paraview CSV format converter.
 * The extlib directory
-  * hm_reader : OpenRadioss reader library. See [OpenRadioss documentation](https://openradioss.atlassian.net/wiki/spaces/OPENRADIOSS/pages/6094849/OpenRadioss+Reader+Radioss+Block+Format)
-  * h3d : library to write OpenRadioss H3D output format.
-  * IntelOneAPI_Runtime : Intel OneAPI Runtime redistribuable libraries for OpenRadioss Starter and OpenRadioss Engine
+  * hm_reader: OpenRadioss reader library. See [OpenRadioss documentation](https://openradioss.atlassian.net/wiki/spaces/OPENRADIOSS/pages/6094849/OpenRadioss+Reader+Radioss+Block+Format).
+  * h3d: Library to write OpenRadioss H3D output format.
+  * IntelOneAPI_Runtime: Intel OneAPI Runtime redistributable libraries for OpenRadioss Starter and OpenRadioss Engine.
 * The hm_cfg_files directory
-  * hm_cfg_files : Configuration files for OpenRadioss input reading.
-* Licenses
-  * licenses : Copyright notices for third party tools used in OpenRadioss.
+  * hm_cfg_files: Configuration files for OpenRadioss input reading.
+* licenses
+  * licenses: Copyright notices for third-party tools used in OpenRadioss.
