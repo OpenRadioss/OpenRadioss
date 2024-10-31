@@ -28,18 +28,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_barrier          ../engine/source/mpi/generic/spmd_barrier.F
       !||    spmd_glob_rsum_poff   ../engine/source/mpi/generic/spmd_glob_rsum_poff.F
       !||====================================================================
-      SUBROUTINE THERMBILAN()
+      SUBROUTINE THERMBILAN(N2D, NCYCLE, IRUN, ITHERM, NSPMD, IOUT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   C o m m o n   B l o c k s
+C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-#include      "thermal_c.inc"
-#include      "units_c.inc"
-#include      "task_c.inc"
-#include      "com01_c.inc"
+      INTEGER N2D, NCYCLE, IRUN, ITHERM, NSPMD, IOUT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
