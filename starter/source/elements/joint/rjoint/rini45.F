@@ -367,7 +367,7 @@ C-----------------------------------------------
       INTEGER NUMEL_KJ,ID_KJ,NNOD2,NNOD_REQ(9),NB_ROT
       my_real PP1,PP2,PP3,PP4,LEN,SCAL,EXMAX
       my_real VECT1_UPT(LSKEW),VECT2_UPT(LSKEW),Q(LSKEW),NR,T(3),
-     .        COSK,SINK,SI2,E,KSI,UMI,ERR
+     .        COSK,SINK,SI2,E,KSI,UMI,ERR,SCAL_SIGN
       DATA  UMI/-1.0/
 C=======================================================================
 C
@@ -672,6 +672,7 @@ C
 C--        only one init angle allowed on X axis
            NB_ROT = 1
 C          check of alignement of skew1
+           SCAL_SIGN = SIGN(ONE,EX(1)*VECT1(1)+EX(2)*VECT1(2)+EX(3)*VECT1(3)) 
            SCAL = ABS(EX(1)*VECT1(1)+EX(2)*VECT1(2)+EX(3)*VECT1(3))      
            IF (SCAL.LT.0.98) THEN
 C--          misalignement - error 
@@ -692,7 +693,7 @@ C--          misalignement - warning
      .                   I2=IELUSR,
      .                   C2='SKEW1')    
 C--          realignement of skew1
-             VECT1_UPT(1:3) = EX(1:3)
+             VECT1_UPT(1:3) = SCAL_SIGN*EX(1:3)
 C--          z1' = x1'^y1       
              VECT1_UPT(7)=VECT1_UPT(2)*VECT1(6)-VECT1_UPT(3)*VECT1(5)
              VECT1_UPT(8)=VECT1_UPT(3)*VECT1(4)-VECT1_UPT(1)*VECT1(6)
@@ -702,7 +703,8 @@ C--          y1' = z1'^x1'
              VECT1_UPT(5)=VECT1_UPT(9)*VECT1_UPT(1)-VECT1_UPT(7)*VECT1_UPT(3)
              VECT1_UPT(6)=VECT1_UPT(7)*VECT1_UPT(2)-VECT1_UPT(8)*VECT1_UPT(1)
              VECT1(1:9) = VECT1_UPT(1:9)             
-           ENDIF  
+           ENDIF
+           SCAL_SIGN = SIGN(ONE,EX(1)*VECT2(1)+EX(2)*VECT2(2)+EX(3)*VECT2(3))   
            SCAL = ABS(EX(1)*VECT2(1)+EX(2)*VECT2(2)+EX(3)*VECT2(3))         
            IF (SCAL.LT.0.98) THEN
 C--          misalignement - error 
@@ -723,7 +725,7 @@ C--          misalignement - warning
      .                   I2=IELUSR,
      .                   C2='SKEW2')            
 C--          realignement of skew2
-             VECT2_UPT(1:3) = EX(1:3)
+             VECT2_UPT(1:3) = SCAL_SIGN*EX(1:3)
 C--          z1' = x1'^y1       
              VECT2_UPT(7)=VECT2_UPT(2)*VECT2(6)-VECT2_UPT(3)*VECT2(5)
              VECT2_UPT(8)=VECT2_UPT(3)*VECT2(4)-VECT2_UPT(1)*VECT2(6)
