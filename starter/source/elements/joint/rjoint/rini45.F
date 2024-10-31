@@ -683,15 +683,17 @@ C--          misalignement - error
      .                   C1=TITR,
      .                   I2=IELUSR,
      .                   C2='SKEW1')
-           ELSEIF ((ONE-SCAL).LT.EM05) THEN
-C--          misalignement - warning       
-             CALL ANCMSG(MSGID=3067,
+           ELSE
+             IF ((ONE-SCAL).GT.EM05) THEN
+C--            misalignement - warning       
+               CALL ANCMSG(MSGID=3067,
      .                   MSGTYPE=MSGWARNING,
      .                   ANMODE=ANINFO_BLIND_2,
      .                   I1=ID,
      .                   C1=TITR,
      .                   I2=IELUSR,
-     .                   C2='SKEW1')    
+     .                   C2='SKEW1')  
+             ENDIF  
 C--          realignement of skew1
              VECT1_UPT(1:3) = SCAL_SIGN*EX(1:3)
 C--          z1' = x1'^y1       
@@ -715,15 +717,17 @@ C--          misalignement - error
      .                   C1=TITR,
      .                   I2=IELUSR,
      .                   C2='SKEW2')
-           ELSEIF ((ONE-SCAL).LT.EM05) THEN
-C--          misalignement - warning       
-             CALL ANCMSG(MSGID=3067,
+           ELSE
+             IF ((ONE-SCAL).GT.EM05) THEN
+C--            misalignement - warning       
+               CALL ANCMSG(MSGID=3067,
      .                   MSGTYPE=MSGWARNING,
      .                   ANMODE=ANINFO_BLIND_2,
      .                   I1=ID,
      .                   C1=TITR,
      .                   I2=IELUSR,
-     .                   C2='SKEW2')            
+     .                   C2='SKEW2')       
+             ENDIF     
 C--          realignement of skew2
              VECT2_UPT(1:3) = SCAL_SIGN*EX(1:3)
 C--          z1' = x1'^y1       
