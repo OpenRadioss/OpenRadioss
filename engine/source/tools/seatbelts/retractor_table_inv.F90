@@ -21,9 +21,9 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    damping_vref_rby_mod   ../engine/source/assembly/damping_vref_rby.F90
+      !||    retractor_table_inv_mod   ../engine/source/tools/seatbelts/retractor_table_inv.F90
       !||--- called by ------------------------------------------------------
-      !||    rbyfor                 ../engine/source/constraints/general/rbody/rbyfor.F
+      !||    material_flow             ../engine/source/tools/seatbelts/material_flow.F
       !||====================================================================
       module retractor_table_inv_mod
       contains
@@ -36,16 +36,16 @@
 !=======================================================================================================================
 !
       !||====================================================================
-      !||    damping_vref_rby            ../engine/source/assembly/damping_vref_rby.F90
+      !||    retractor_table_inv   ../engine/source/tools/seatbelts/retractor_table_inv.F90
       !||--- called by ------------------------------------------------------
-      !||    rbyfor                      ../engine/source/constraints/general/rbody/rbyfor.F
+      !||    material_flow         ../engine/source/tools/seatbelts/material_flow.F
       !||--- calls      -----------------------------------------------------
-      !||    damping_vref_sum6_rby       ../engine/source/assembly/damping_vref_sum6_rby.F90
-      !||    get_u_func                  ../engine/source/user_interface/ufunc.F
+      !||    ancmsg                ../engine/source/output/message/message.F
+      !||    arret                 ../engine/source/system/arret.F
       !||--- uses       -----------------------------------------------------
-      !||    constant_mod                ../common_source/modules/constant_mod.F
-      !||    damping_vref_sum6_rby_mod   ../engine/source/assembly/damping_vref_sum6_rby.F90
-      !||    groupdef_mod                ../common_source/modules/groupdef_mod.F
+      !||    constant_mod          ../common_source/modules/constant_mod.F
+      !||    message_mod           ../engine/share/message_module/message_mod.F
+      !||    table_mod             ../engine/share/modules/table_mod.F
       !||====================================================================
         subroutine retractor_table_inv(table,xx,yy)
 ! ----------------------------------------------------------------------------------------------------------------------

@@ -301,8 +301,6 @@ C---
       END
       !||====================================================================
       !||    get_u_func_inv      ../engine/source/user_interface/ufunc.F
-      !||--- called by ------------------------------------------------------
-      !||    material_flow       ../engine/source/tools/seatbelts/material_flow.F
       !||--- calls      -----------------------------------------------------
       !||    get_var_user_f      ../engine/source/user_interface/eng_callback_c.c
       !||    get_var_user_f_sp   ../engine/source/user_interface/eng_callback_c.c

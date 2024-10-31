@@ -49,6 +49,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    update_slipring         ../engine/source/tools/seatbelts/update_slipring.F
       !||    w_seatbelts             ../starter/source/restart/ddsplit/w_seatbelts.F
       !||    wrrestp                 ../engine/source/output/restart/wrrestp.F
+      !||--- uses       -----------------------------------------------------
+      !||    table_mod               ../engine/share/modules/table_mod.F
       !||====================================================================
       MODULE SEATBELT_MOD
 C-----------------------------------------------

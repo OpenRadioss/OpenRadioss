@@ -83,6 +83,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    r23law114                  ../engine/source/elements/spring/r23law114.F
       !||    r3def3                     ../engine/source/elements/spring/r3def3.F
       !||    resol                      ../engine/source/engine/resol.F
+      !||    retractor_table_inv        ../engine/source/tools/seatbelts/retractor_table_inv.F90
       !||    rforc3                     ../engine/source/elements/spring/rforc3.F
       !||    s10forc3                   ../engine/source/elements/solid/solide10/s10forc3.F
       !||    s16forc3                   ../engine/source/elements/thickshell/solide16/s16forc3.F
@@ -95,6 +96,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    s8sforc3                   ../engine/source/elements/solid/solide8s/s8sforc3.F
       !||    s8zforc3                   ../engine/source/elements/solid/solide8z/s8zforc3.F
       !||    scforc3                    ../engine/source/elements/thickshell/solidec/scforc3.F
+      !||    seatbelt_mod               ../common_source/modules/seatbelt_mod.F
       !||    sforc3                     ../engine/source/elements/solid/solide/sforc3.F
       !||    sigeps107                  ../engine/source/materials/mat/mat107/sigeps107.F
       !||    sigeps107c                 ../engine/source/materials/mat/mat107/sigeps107c.F
