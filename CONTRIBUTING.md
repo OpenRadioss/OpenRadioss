@@ -11,20 +11,20 @@ You must be aware of the [license](./LICENSE.md). We will ask you to sign a **Co
 
 Windows users may want to use [git bash](https://gitforwindows.org/) or [WSL](https://docs.microsoft.com/en-us/windows/wsl/install)
 
-* Create and a github account
+* Create and a GitHub account
 
   * Add an [SSH key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
-  * Review your account setting, in particular: [email](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-user-account/managing-email-preferences/setting-your-commit-email-address), [2FA](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication)
+  * Review your account settings, in particular: [email](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-user-account/managing-email-preferences/setting-your-commit-email-address), [2FA](https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication)
 
-* [fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) the OpenRadioss repository
+* [Fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) the OpenRadioss repository
 * Install [git-lfs](https://git-lfs.github.com/).
-  On Linux, you may need to install some package first:
+  On Linux, you may need to install some packages first:
   
-  On Rhel,CentOS
+  On Rhel, CentOS
 
         sudo yum install git-lfs
 
-  On Ubuntu, debian
+  On Ubuntu, Debian
   
         sudo apt-get install git-lfs
         
@@ -32,8 +32,8 @@ Windows users may want to use [git bash](https://gitforwindows.org/) or [WSL](ht
 
         git lfs install
         
-* [clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) your fork and go into the newly created `OpenRadioss` directory.
-* From your local `OpenRadioss` directory, review your git user name and [email](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-user-account/managing-email-preferences/setting-your-commit-email-address). If you don't want to expose your email address:
+* [Clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) your fork and go into the newly created `OpenRadioss` directory.
+* From your local `OpenRadioss` directory, review your git username and [email](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-user-account/managing-email-preferences/setting-your-commit-email-address). If you don't want to expose your email address:
 
   * Check the boxes `Keep my email addresses private` and  `Block command line pushes that expose my email` [here](https://github.com/settings/emails)
   * Find your `ID+username` [here](https://github.com/settings/emails)
@@ -63,14 +63,14 @@ It is not recommended to push commits directly into your `main` branch. This bra
 * Development, loop over:  
 
   * Open and edit files  
-  * `git status` to see which files has been edited  
+  * `git status` to see which files have been edited  
   * `git add <filename>` each file
   * `git commit -m “<message>”` with a [good](https://openpbs.atlassian.net/wiki/spaces/DG/pages/6193155/How+To+Write+a+Good+Git+Commit+Message) message.
 
 * Review your history: squash your commits, write a meaningful commit message
 
   * `git rebase -i main` provided that your current branch is derived from the `main` branch.
-  * To squash all your commits into your first one: replace `pick` by `squash` on for all your commits except your first one. Do not squash your commits into someone else's commit. Do not embed someone else's commit into your squashed commit.
+  * To squash all your commits into your first one: replace `pick` with `squash` for all your commits except your first one. Do not squash your commits into someone else's commit. Do not embed someone else's commit into your squashed commit.
 
 * Rebase your work on the latest version of OpenRadioss (you can also follow [this](https://openpbs.atlassian.net/wiki/spaces/DG/pages/1183744006/Rebasing+Your+Dev+Branch))
 
