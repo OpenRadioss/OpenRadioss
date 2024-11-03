@@ -169,7 +169,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      G       IXEL     ,ITHK     ,F_DEF    ,ISHPLYXFEM,
      H       ITASK    ,PM_STACK ,ISUBSTACK,STACK     ,TSTAR    ,ALPE     ,
      I       PLY_EXX  ,PLY_EYY  ,PLY_EXY  ,PLY_EXZ   ,PLY_EYZ  ,PLY_F    ,
-     J       VARNL    ,ETIMP    ,NLOC_DMG ,NLAY_MAX  ,LAYNPT_MAX,DT      )
+     J       VARNL    ,ETIMP    ,NLOC_DMG ,NLAY_MAX  ,LAYNPT_MAX,DT      ,
+     K       NCYCLE   ,SNPC     ,STF )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -213,7 +214,7 @@ C-----------------------------------------------
       INTEGER MAT(*),MATLY(*),PID(*),NPF(*),NGL(MVSIZ),INDX(MVSIZ),
      .   IGEO(NPROPGI,*),IPM(NPROPMI,*),ELCRKINI(NXLAYMAX,*),
      .   IPARG(*),FWAVE_EL(NEL)
-      INTEGER, INTENT(IN) :: NLAY_MAX, LAYNPT_MAX
+      INTEGER, INTENT(IN) :: NLAY_MAX, LAYNPT_MAX,SNPC,STF,NCYCLE
       my_real DM
       my_real FOR(NEL,5),MOM(NEL,3),GSTR(NEL,8),THK(*),EINT(JLT,2),OFF(*),
      .   DIR_A(*),DIR_B(*),VISCMX(*),PM(NPROPM,*),THK_LY(NEL,*),
@@ -248,7 +249,7 @@ C-----------------------------------------------
      .   IPTX,ILAYER,IROT,DMG_FLAG,LF_DAMMX,NIPAR,
      .   IGMAT,IPGMAT,NPTT,IPT_ALL,NPTTOT,NUVARV,ILAW,
      .   JOFF,SIZNUL,PLY_ID,ISEQ,PROGRESSIVE_CRACK,
-     .   ORTH_DAMAGE,L_DMG,IPRONY,ISRATE,NVARTMP,INLOC,IDRAPE,VP
+     .   ORTH_DAMAGE,L_DMG,IPRONY,ISRATE,NVARTMP,INLOC,IDRAPE,VP,NPLY_MAX
       INTEGER :: IJ1,IJ2,IJ3,IJ4,IJ5
       INTEGER :: IJ(5),IFLAG(1)
       INTEGER ,DIMENSION(MAXFUNC) :: IFUNC
@@ -270,7 +271,7 @@ c
 c
       my_real :: ZT,DTINV, VOL2,FCUT,ASRATE,EPS_M2,EPS_K2,
      .   R1,R2,R3,S1,S2,S3,R12A,R22A,S12B,S22B,RS1,RS2,RS3,
-     .   T1,T2,T3,PHI,SUM1,SUM2,FACT,R3R3,S3S3, 
+     .   T1,T2,T3,PHI,SUM1,SUM2,FACT,R3R3,S3S3,
      .   BIDON1,BIDON2,BIDON3,BIDON4,BIDON5,RATIO,VV,AA,TRELAX
       my_real  SCALE1(NEL)
       my_real ,DIMENSION(NEL), TARGET :: LE_MAX
@@ -1728,13 +1729,18 @@ C
                SIGOZX(I) =  LBUF%SIG(NEL*(5-1)+I)       
             ENDDO       
             !---
+            NPLY_MAX = NLAY_MAX*LAYNPT_MAX
             CALL SIGEPS127C(
-     1         JLT      ,MATPARAM   ,NUVAR    ,UVAR      ,
-     2         RHO      ,THKN       ,THKLYL   , SHF      ,
-     3         DEPSXX   ,DEPSYY     ,DEPSXY   ,DEPSYZ  ,DEPSZX  ,
-     5         SIGOXX   ,SIGOYY     ,SIGOXY   ,SIGOZX   ,SIGOYZ  ,
-     6         SIGNXX   ,SIGNYY     ,SIGNXY   ,SIGNZX   ,SIGNYZ   ,
-     7         OFF      ,SIGY       ,ETSE     ,SSP  )     
+     1         JLT      ,MATPARAM   ,NUVAR    ,UVAR      , NGL , 
+     2         RHO      ,THKN       ,THKLYL   , SHF      , NCYCLE,
+     4         NFUNC    ,IFUNC      ,NPF      ,TF        ,SNPC  ,
+     5         STF      ,EPSP       ,NPLY_MAX ,
+     5         DEPSXX   ,DEPSYY     ,DEPSXY   ,DEPSYZ  ,DEPSZX  ,
+     6         EPSXX    ,EPSYY      ,EPSXY   , EPSYZ   ,EPSZX   ,
+     7         SIGOXX   ,SIGOYY     ,SIGOXY   ,SIGOZX   ,SIGOYZ  ,
+     8         SIGNXX   ,SIGNYY     ,SIGNXY   ,SIGNZX   ,SIGNYZ   ,
+     9         OFF      ,SIGY       ,ETSE     ,SSP      ,LBUF%DMG ,
+     A         GBUF%DMG )     
 c     
           ELSEIF (ILAW == 158) THEN
 

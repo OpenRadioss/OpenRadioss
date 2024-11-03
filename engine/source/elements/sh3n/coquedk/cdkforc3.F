@@ -78,7 +78,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      J   JTHE,        CONDN,       CONDNSKY,    ISUBSTACK,
      K   STACK,       ITASK,       DRAPE_SH3N,  IPRI,
      L   NLOC_DMG,    INDX_DRAPE,  IGRE,        JTUR,
-     M   DT    )
+     M   DT      ,     NCYCLE   ,  SNPC      ,  STF)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -110,8 +110,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: JTUR
-      INTEGER, INTENT(IN) :: IGRE
+      INTEGER, INTENT(IN) :: JTUR, NCYCLE
+      INTEGER, INTENT(IN) :: IGRE,SNPC ,  STF
       INTEGER JFT, JLT, NVC, MTN,NELTST,ITYPTST,IUN,
      .        NEL,ISTRAIN,IHBE ,ITHK,IOFC,IPLA,NFT,ISMSTR ,
      .        NPT,KFTS,IFAILURE,JSMS,JTHE,ISUBSTACK,ITASK,IPRI
@@ -422,7 +422,8 @@ C----------------------------------------------------------------------------
      N     ISMSTR    ,IR        ,IS        ,NLAY      ,NPT       ,
      O     IBID      ,IBID      ,ISUBSTACK ,STACK     ,
      P     BID       ,ITASK     ,DRAPE_SH3N  ,VAR_REG   ,NLOC_DMG  ,
-     R    INDX_DRAPE ,THKE        ,SEDRAPE     ,NUMEL_DRAPE,DT   )
+     R    INDX_DRAPE ,THKE        ,SEDRAPE     ,NUMEL_DRAPE,DT   ,
+     Q    NCYCLE     ,SNPC      ,  STF)
 C----------------------------------------------------------------------------
 C     THICKNESS CORRECTION 
 C----------------------------

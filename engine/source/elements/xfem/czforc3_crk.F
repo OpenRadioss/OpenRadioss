@@ -82,7 +82,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      M            IADC_CRK,ELCUTC,CRKSKY,SENSORS,IXEL    ,
      N            ISUBSTACK,UXINT_MEAN,UYINT_MEAN,UZINT_MEAN,NLEVXF,
      O            NODEDGE,CRKEDGE, STACK ,DRAPE_SH4N,NLOC_DMG,
-     P            INDX_DRAPE, IGRE, DT   )
+     P            INDX_DRAPE, IGRE, DT   , NCYCLE,SNPC,  STF)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -124,7 +124,7 @@ C-----------------------------------------------
      .        IPM(NPROPMI,*),INDXOF(MVSIZ),ITASK,IEXPAN,GRTH(*),IGRTH(*),
      .        IPARG(*),IXFEM,INOD_CRK(*),IEL_CRK(*),IADC_CRK(4,*),
      .        ELCUTC(2,*),NODEDGE(2,*),INDX_DRAPE(SCDRAPE)
-      INTEGER, INTENT(IN) :: IGRE
+      INTEGER, INTENT(IN) :: IGRE, NCYCLE,SNPC,  STF
 C     REAL OU REAL*8
       my_real
      .   F11(MVSIZ),F12(MVSIZ),F13(MVSIZ),F14(MVSIZ),
@@ -480,7 +480,8 @@ C-----------------------------
      N       ISMSTR    ,IR        ,IS        ,NLAYER    ,NPTT    ,
      O       IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,
      P       BID       ,ITASK     ,DRAPE_SH4N  ,VARNL     ,NLOC_DMG,
-     R       INDX_DRAPE, THKE    ,SEDRAPE     ,NUMEL_DRAPE,DT    )
+     R       INDX_DRAPE, THKE    ,SEDRAPE     ,NUMEL_DRAPE,DT   ,
+     Q       NCYCLE    ,SNPC      ,  STF)
 C-----------------------------
         IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)
 C--------------------------

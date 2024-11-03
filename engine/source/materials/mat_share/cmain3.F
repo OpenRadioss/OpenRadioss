@@ -81,7 +81,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      N           ISMSTR    ,IR        ,IS        ,NLAY      ,NPT        ,
      O           IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,
      P           F_DEF     ,ITASK     ,DRAPE     ,VARNL     ,NLOC_DMG   ,
-     R           INDX_DRAPE,THKE      ,SEDRAPE   ,NUMEL_DRAPE,DT        )
+     R           INDX_DRAPE,THKE      ,SEDRAPE   ,NUMEL_DRAPE,DT        ,
+     Q           NCYCLE    , SNPC     ,STF )
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -117,8 +118,8 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT,NFT,IR,IS,NPT,NG,NPG,NLAY,NEL,MTN,IPLA,IOFC,ITHK,
      .   KFTS,JHBE,IFAILURE,JTHE,IEXPAN,ISHPLYXFEM,ISMSTR,
-     .   IXLAY,IXEL,IXFEM,ISUBSTACK,ITASK  
-      INTEGER ,    INTENT(IN)     ::        SEDRAPE,NUMEL_DRAPE
+     .   IXLAY,IXEL,IXFEM,ISUBSTACK,ITASK , NCYCLE
+      INTEGER ,    INTENT(IN)     ::        SEDRAPE,NUMEL_DRAPE,SNPC,STF
       INTEGER MAT(MVSIZ), PID(MVSIZ), INDXDEL(MVSIZ), NGL(MVSIZ),NPF(*), 
      .   IGEO(NPROPGI,*),IPM(NPROPMI,*),IPARG(*),
      .   A11_IPLY(MVSIZ,*),ELCRKINI(*),FWAVE_EL(NEL)
@@ -311,7 +312,8 @@ c
      G       IXEL    ,ITHK    ,F_DEF   ,ISHPLYXFEM,
      H       ITASK   ,STACK%PM ,ISUBSTACK,STACK ,TSTAR   ,ALPE    ,
      I       PLY_EXX ,PLY_EYY ,PLY_EXY ,PLY_EXZ ,PLY_EYZ ,PLY_F   ,
-     J       VARNL   ,ETIMP   ,NLOC_DMG,NLAY_MAX,LAYNPT_MAX,DT    )
+     J       VARNL   ,ETIMP   ,NLOC_DMG,NLAY_MAX,LAYNPT_MAX,DT    ,
+     K       NCYCLE  ,SNPC    ,STF)
       ENDIF ! IF (NPT == 0) 
 C----------------------------------------------------------------------
       IF (IEXPAN > 0 .AND. JTHE > 0. AND. IDT_THERM==0) THEN

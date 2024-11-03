@@ -121,7 +121,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      Q   CONDN,       CONDNSKY,    ISUBSTACK,   STACK,
      R   DRAPE_SH4N,  NEL,         NLOC_DMG,    VPINCH,
      S   FPINCH,      STIFPINCH,   INDX_DRAPE,  IGRE,
-     T   JTUR,        DT)
+     T   JTUR,        DT       ,    NCYCLE,     SNPC,
+     Y   STF)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -155,7 +156,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: IGRE,JTUR
+      INTEGER, INTENT(IN) :: IGRE,JTUR,NCYCLE,SNPC,STF
       INTEGER JFT,JLT,NFT,NPT,MTN,IPRI,ITHK,NELTST,
      .        ITYPTST ,ISTRAIN,IPLA ,OFFSET,NVC,
      .        IOFC ,IHBE ,KFTS,ISMSTR,IFAILURE,
@@ -751,7 +752,7 @@ C-----------------
      O    IBID      ,IBID      ,ISUBSTACK ,STACK     ,
      P    F_DEF(1,1,NG),ITASK  ,DRAPE_SH4N     ,VAR_REG(1,1),
      Q    PINCH_LOCAL , GBUF%FORPGPINCH(PTFP), GBUF%MOMPGPINCH(PTMP),EZZAVG  ,
-     R    AREAPINCH   )
+     R    AREAPINCH  )
         ELSE
           CALL CMAIN3(
      1    ELBUF_STR ,JFT       ,JLT       ,NFT       ,IPARG      ,
@@ -778,8 +779,9 @@ C-----------------
      M    DIR1_CRK  ,DIR2_CRK  ,LC        ,
      N    ISMSTR    ,IR        ,IS        ,NLAY      ,NPT       ,
      O    IBID      ,IBID      ,ISUBSTACK ,STACK     ,
-     P    F_DEF(1,1,NG),ITASK  ,DRAPE_SH4N     ,VAR_REG(1,1),NLOC_DMG ,
-     R    INDX_DRAPE ,THKE        ,SEDRAPE     ,NUMEL_DRAPE,DT   )        
+     P    F_DEF(1,1,NG),ITASK  ,DRAPE_SH4N,VAR_REG(1,1),NLOC_DMG ,
+     R    INDX_DRAPE ,THKE     ,SEDRAPE   ,NUMEL_DRAPE,DT   ,
+     Q    NCYCLE     ,SNPC     ,STF)        
         ENDIF
 C-----------------
         IF ((ITASK==0).AND.(IMON_MAT == 1)) CALL STOPTIME(35,1)

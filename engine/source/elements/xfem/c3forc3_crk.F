@@ -87,7 +87,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      M   IXEL,        STACK,       ISUBSTACK,   UXINT_MEAN,
      N   UYINT_MEAN,  UZINT_MEAN,  NLEVXF,      NODEDGE,
      O   CRKEDGE,     DRAPE_SH3N,  IPRI,        NLOC_DMG,
-     P   INDX_DRAPE,  IGRE,        DT  )
+     P   INDX_DRAPE,  IGRE,        DT  ,        NCYCLE ,
+     R   SNPC      ,  STF)
 C-----------------------------------------------
       USE TABLE_MOD
       USE CRACKXFEM_MOD
@@ -118,7 +119,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: IGRE
+      INTEGER, INTENT(IN) :: IGRE, NCYCLE,SNPC,STF
       INTEGER JFT,JLT,NVC,MTN,NELTST,ITYPTST,OFFSET,
      .        NEL,ISTRAIN,ISH3N,ICSEN,
      .        ITHK,IOFC,IPLA,NFT,ISMSTR,KFTS,IFAILURE,
@@ -453,7 +454,8 @@ C--------------------------
      P   ISMSTR    ,IR        ,IS        ,NLAYER    ,NPTT      ,
      Q   IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,
      P   BID    ,ITASK        ,DRAPE_SH3N  ,VARNL     ,NLOC_DMG ,
-     R   INDX_DRAPE , THKE    ,SEDRAPE ,NUMEL_DRAPE, DT  )
+     R   INDX_DRAPE , THKE    ,SEDRAPE ,NUMEL_DRAPE, DT  ,
+     Q   NCYCLE     ,SNPC      ,  STF)
 
 C--------------------------
         IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)

@@ -106,7 +106,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      Q   NODEDGE,     CRKNODIAD,   CONDN,       CONDNSKY,
      R   STACK,       ISUBSTACK,   XFEM_STR,    CRKEDGE,
      S   DRAPE_SH4N,  NEL,         NLOC_DMG,    INDX_DRAPE,
-     T   IGRE,        JTUR,        DT           )
+     T   IGRE,        JTUR,        DT,          NCYCLE,
+     Y   SNPC,        STF)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -142,6 +143,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
+      INTEGER , INTENT(IN) :: NCYCLE,SNPC,STF
       INTEGER JFT,JLT,NFT,NPT,MTN,IPRI,ITHK,NELTST,
      .   ITYPTST ,ISTRAIN ,IPLA,NVC,JSMS,ITASK,IEXPAN,IXFEM,
      .   IOFC,IHBE,KFTS,ISMSTR,IFAILURE,JTHE,ISUBSTACK,NEL,N1,N2,N3,N4
@@ -568,7 +570,8 @@ C-----------------------------------------------
      N      ISMSTR    ,IR        ,IS        ,NLAY      ,NPT        ,
      O      IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,
      P      F_DEF     ,ITASK     ,DRAPE_SH4N  ,VAR_REG   ,NLOC_DMG   ,
-     R      INDX_DRAPE,THKE        ,SEDRAPE     ,NUMEL_DRAPE,DT    )
+     R      INDX_DRAPE,THKE      ,SEDRAPE     ,NUMEL_DRAPE,DT    ,
+     Q      NCYCLE    ,SNPC      ,  STF )
 C-----------------------------------------------
 c        
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)
