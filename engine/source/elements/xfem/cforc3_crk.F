@@ -83,7 +83,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      M            SENSORS,IXEL ,STACK   ,
      N            ISUBSTACK,UXINT_MEAN,UYINT_MEAN,UZINT_MEAN,NLEVXF,
      O            NODEDGE,CRKEDGE,DRAPE_SH4N,IPRI  ,NLOC_DMG,INDX_DRAPE, IGRE,
-     P            DT     )
+     P            DT     ,SNPC      ,  STF)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -121,7 +121,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: IGRE
+      INTEGER, INTENT(IN) :: IGRE,SNPC,STF
       INTEGER JFT,JLT,NVC,MTN,NELTST,ITYPTST,OFFSET,
      .   NEL,ISTRAIN,IHBE,ITHK,IOFC,IPLA,NFT,
      .   ISMSTR,KFTS,IFAILURE,IEXPAN,IXEL,NLEVXF,IPRI
@@ -449,7 +449,8 @@ C-----------------------------
      N    ISMSTR    ,IR        ,IS        ,NLAYER    ,NPTT      ,
      O    IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,
      P    BID       ,ITASK     ,DRAPE_SH4N  ,VARNL     ,NLOC_DMG ,
-     R    INDX_DRAPE ,THKE, SEDRAPE  ,NUMEL_DRAPE,DT   )
+     R    INDX_DRAPE ,THKE, SEDRAPE  ,NUMEL_DRAPE,DT   ,
+     Q    NCYCLE     ,SNPC      ,  STF)
 C-----------------------------
         IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)
 C-----------------------------

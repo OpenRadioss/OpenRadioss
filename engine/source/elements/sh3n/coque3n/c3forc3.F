@@ -104,7 +104,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      O   CONDNSKY,    STACK,       ISUBSTACK,   XFEM_STR,
      P   CRKEDGE,     DRAPE_SH3N,  IPRI,        NLOC_DMG,
      Q   xdp,         INDX_DRAPE,  IGRE,        JTUR,
-     R   DT          )
+     R   DT          ,SNPC      ,  STF )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -139,7 +139,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: JTUR
+      INTEGER, INTENT(IN) :: JTUR,SNPC      ,  STF
       INTEGER, INTENT(IN) :: IGRE
       INTEGER JFT, JLT, NVC, MTN,NELTST,ITYPTST, OFFSET,
      .        NEL    ,ISTRAIN,ISH3N , ICSEN,
@@ -530,7 +530,8 @@ C--------------------------
      N   ISMSTR    ,IR        ,IS        ,NLAY      ,NPT       ,
      O   IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,
      P   F_DEF     ,ITASK     ,DRAPE_SH3N  ,VAR_REG   ,NLOC_DMG ,
-     R   INDX_DRAPE,THKE      ,SEDRAPE     ,NUMEL_DRAPE,DT     )
+     R   INDX_DRAPE,THKE      ,SEDRAPE     ,NUMEL_DRAPE,DT     ,
+     Q   NCYCLE    ,SNPC     ,STF)
 C--------------------------
       IF ((IMON_MAT==1).AND.ITASK == 0)CALL STOPTIME(35,1)
 C--------------------------

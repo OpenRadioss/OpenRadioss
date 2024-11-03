@@ -4497,7 +4497,7 @@ C Init var parallel SMP
      O   STACK        ,ITAB            ,
      Q   DRAPE_SH4N   ,DRAPE_SH3N      ,SUBSETS, XDP    ,PINCH_DATA%VPINCH   ,
      R   PINCH_DATA%APINCH(1,IDX_PINCH)    ,PINCH_DATA%STIFPINCH(IDX_PINCH)  ,DRAPEG  ,
-     S   OUTPUT       ,DT              )     
+     S   OUTPUT       ,DT             ,SNPC      ,  STF )     
 #include "lockon.inc"
       IF(DT2TT<DT2T)THEN
          DT2T = DT2TT

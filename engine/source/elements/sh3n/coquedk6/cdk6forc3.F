@@ -74,7 +74,8 @@ cc
      J   IPARG,       SENSORS,     PTG,         JTHE,
      K   CONDN,       CONDNSKY,    ISUBSTACK,   STACK,
      L   ITASK,       DRAPE_SH3N,  IPRI,        NLOC_DMG,
-     M   INDX_DRAPE,  IGRE,        JTUR,        DT   )
+     M   INDX_DRAPE,  IGRE,        JTUR,        DT   ,
+     N   NCYCLE,      SNPC,        STF)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -108,7 +109,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: JTUR
-      INTEGER, INTENT(IN) :: IGRE
+      INTEGER, INTENT(IN) :: IGRE,SNPC,  STF,NCYCLE
       INTEGER JFT, JLT, NVC, MTN,NELTST,ITYPTST,OFFSET,
      .   NEL,ISTRAIN,IHBE ,NPT,KFTS,IUN,
      .   ITHK,IOFC,IPLA,NFT,ISMSTR,IFAILURE,IEXPAN , JSMS , JTHE,
@@ -382,7 +383,8 @@ C----------------------------------------------------------------------------
      N   ISMSTR    ,IR        ,IS        ,NLAY      ,NPT        ,
      O   IBID      ,IBID      ,ISUBSTACK ,STACK     ,
      P   BID       ,ITASK     ,DRAPE_SH3N  ,VAR_REG   ,NLOC_DMG  ,
-     R   INDX_DRAPE,THKE      ,SEDRAPE     ,NUMEL_DRAPE,DT      )
+     R   INDX_DRAPE,THKE      ,SEDRAPE     ,NUMEL_DRAPE,DT      ,
+     Q   NCYCLE    ,SNPC      ,STF )
 C----------------------------------------------------------------------------
 C     FORCES VISCOCITE 
 C----------------------------
