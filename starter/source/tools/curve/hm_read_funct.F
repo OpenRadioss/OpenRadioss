@@ -167,7 +167,7 @@ c
               IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .             MSGTYPE=MSGERROR,
      .             C1='TABLE')
-              ALLOCATE(TABLE(L)%Y,STAT=stat)
+              ALLOCATE(TABLE(L)%Y,STAT=stat) ! Y or Y(1) ?
               IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .             MSGTYPE=MSGERROR,
      .             C1='TABLE')

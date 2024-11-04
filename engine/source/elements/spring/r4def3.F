@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    redef3   ../engine/source/elements/spring/redef3.F
       !||    repla3   ../engine/source/elements/spring/repla3.F
       !||====================================================================
-      SUBROUTINE R4DEF3(
+      SUBROUTINE R4DEF3(PYTHON,
      1   SKEW,    GEO,     FX,      FY,
      2   FZ,      E,       DX,      DY,
      3   DZ,      NPF,     TF,      OFF,
@@ -58,6 +58,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      R   RX0,     RY0,     RZ0,     FX0,
      S   FY0,     FZ0,     XMOM0,   YMOM0,
      T   ZMOM0,   NFT)
+         USE python_funct_mod
+         USE REDEF3_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -81,6 +83,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(python_) :: PYTHON
       INTEGER, INTENT(IN) :: NFT
       INTEGER NPF(*),IGEO(NPROPGI,*),NEL,NGL(*),MGN(*),NUVAR
 C     REAL
@@ -105,7 +108,7 @@ C     REAL
      .   XKR(MVSIZ),VX1(MVSIZ),VX2(MVSIZ),VY1(MVSIZ),VY2(MVSIZ),
      .   VZ1(MVSIZ),VZ2(MVSIZ),UVAR(NUVAR,*),DX0(*),DY0(*),DZ0(*),
      .   RX0(*),RY0(*),RZ0(*),FX0(*),FY0(*),FZ0(*),XMOM0(*),YMOM0(*),ZMOM0(*)
-      DOUBLE PRECISION ALDP(MVSIZ),AL2DP(MVSIZ)
+            DOUBLE PRECISION ALDP(MVSIZ),AL2DP(MVSIZ)
       TARGET :: UVAR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -155,7 +158,6 @@ C
        HX(I) = GEO(141,MGN(I))
        HY(I) = GEO(142,MGN(I))
        HZ(I) = GEO(143,MGN(I))
-
        XH(I)= MAX(HX(I),HY(I),HZ(I))
        XCM(I)= MAX(XC(I),YC(I),ZC(I))
        XCM(I)= XCM(I)+XH(I)
@@ -309,18 +311,17 @@ C-------------------------------
       ELSE 
          XX_OLD => NOT_USED2
       ENDIF 
-      CALL REDEF3(
+      CALL REDEF3(PYTHON,
      1   FX,         XK,         DX,         FXEP,
      2   DXOLD,      DPX,        TF,         NPF,
      3   XC,         OFF,        E6(1,1),    DPX2,
-     4   ANIM,       ANIM_FE(11),POSX,       FR_WAVE,
+     4   ANIM,       ANIM_FE(11),POSX,       
      5   XL0,        DMN,        DMX,        DV,
      6   FF,         LSCALE,     EE,         GF3,
      7   IFUNC3,     YIELDX,     ALDP,       AK,
      8   B,          D,          IECROU,     IFUNC,
      9   IFV,        IFUNC2,     EPLA,       XX_OLD,
-     A   NOT_USED,   NOT_USED,   NOT_USED,   NEL,
-     B   NFT)
+     A   NEL,        NFT )
 C
       DLIM = ZERO
       DO I=1,NEL
@@ -384,18 +385,17 @@ C
 C
       KK = 1 + NUMELR * ANIM_FE(11)
       IF (NUVAR > 0) XX_OLD => UVAR(2,1:NEL)
-      CALL REDEF3(
+      CALL REDEF3(PYTHON,
      1   FY,         YK,         DY,         FYEP,
      2   DYOLD,      DPY,        TF,         NPF,
      3   YC,         OFF,        E6(1,2),    DPY2,
-     4   ANIM(KK),   ANIM_FE(12),POSY,       FR_WAVE,
+     4   ANIM(KK),   ANIM_FE(12),POSY,       
      5   XL0,        DMN,        DMX,        DV,
      6   FF,         LSCALE,     EE,         GF3,
      7   IFUNC3,     YIELDY,     ALDP,       AK,
      8   B,          D,          IECROU,     IFUNC,
      9   IFV,        IFUNC2,     EPLA,       XX_OLD,
-     A   NOT_USED,   NOT_USED,   NOT_USED,   NEL,
-     B   NFT)
+     A   NEL,        NFT)
 C
       DO I=1,NEL
         CC  = GEO(104,MGN(I))
@@ -458,18 +458,17 @@ C
 C
       KK = 1 + NUMELR * (ANIM_FE(11)+ANIM_FE(12))
       IF (NUVAR > 0) XX_OLD => UVAR(3,1:NEL)
-      CALL REDEF3(
+      CALL REDEF3(PYTHON,
      1   FZ,         ZK,         DZ,         FZEP,
      2   DZOLD,      DPZ,        TF,         NPF,
      3   ZC,         OFF,        E6(1,3),    DPZ2,
-     4   ANIM(KK),   ANIM_FE(13),POSZ,       FR_WAVE,
+     4   ANIM(KK),   ANIM_FE(13),POSZ,       
      5   XL0,        DMN,        DMX,        DV,
      6   FF,         LSCALE,     EE,         GF3,
      7   IFUNC3,     YIELDZ,     ALDP,       AK,
      8   B,          D,          IECROU,     IFUNC,
      9   IFV,        IFUNC2,     EPLA,       XX_OLD,
-     A   NOT_USED,   NOT_USED,   NOT_USED,   NEL,
-     B   NFT)
+     A   NEL,        NFT)
 C
       DO I=1,NEL
         CC  = GEO(105,MGN(I))
@@ -575,18 +574,17 @@ C-------------------------------
         DMX(I)  =GEO(72,MGN(I))
       ENDDO
       IF (NUVAR > 0) XX_OLD => UVAR(4,1:NEL)
-      CALL REDEF3(
-     1   XMOM,     XK,       RX,       XMEP,
-     2   DXOLD,    RPX,      TF,       NPF,
-     3   XC,       OFF,      E6(1,4),  RPX2,
-     4   ANIM,     0,        POSXX,    FR_WAVE,
-     5   XL0,      DMN,      DMX,      DV,
-     6   FF,       LSCALE,   EE,       GF3,
-     7   IFUNC3,   YIELDX2,  ALDP,     AK,
-     8   B,        D,        IECROU,   IFUNC,
-     9   IFV,      IFUNC2,   EPLA,     XX_OLD,
-     A   NOT_USED, NOT_USED, NOT_USED, NEL,
-     B   NFT)
+      CALL REDEF3(PYTHON,
+     1   XMOM,       XK,         RX,         XMEP,
+     2   DXOLD,      RPX,        TF,         NPF,
+     3   XC,         OFF,        E6(1,4),    RPX2,
+     4   ANIM,       0,          POSXX,      
+     5   XL0,        DMN,        DMX,        DV,
+     6   FF,         LSCALE,     EE,         GF3,
+     7   IFUNC3,     YIELDX2,    ALDP,       AK,
+     8   B,          D,          IECROU,     IFUNC,
+     9   IFV,        IFUNC2,     EPLA,       XX_OLD,
+     A   NEL,        NFT)
 C
       DO I=1,NEL
         CC  = GEO(106,MGN(I))
@@ -647,18 +645,17 @@ C
         DMX(I)  =GEO(74,MGN(I))
       ENDDO
       IF (NUVAR > 0) XX_OLD => UVAR(5,1:NEL)
-      CALL REDEF3(
-     1   YMOM,     YK,       RY,       YMEP,
-     2   DYOLD,    RPY,      TF,       NPF,
-     3   YC,       OFF,      E6(1,5),  RPY2,
-     4   ANIM,     0,        POSYY,    FR_WAVE,
-     5   XL0,      DMN,      DMX,      DV,
-     6   FF,       LSCALE,   EE,       GF3,
-     7   IFUNC3,   YIELDY2,  ALDP,     AK,
-     8   B,        D,        IECROU,   IFUNC,
-     9   IFV,      IFUNC2,   EPLA,     XX_OLD,
-     A   NOT_USED, NOT_USED, NOT_USED, NEL,
-     B   NFT)
+      CALL REDEF3(PYTHON,
+     1   YMOM,       YK,         RY,         YMEP,
+     2   DYOLD,      RPY,        TF,         NPF,
+     3   YC,         OFF,        E6(1,5),    RPY2,
+     4   ANIM,       0,          POSYY,      
+     5   XL0,        DMN,        DMX,        DV,
+     6   FF,         LSCALE,     EE,         GF3,
+     7   IFUNC3,     YIELDY2,    ALDP,       AK,
+     8   B,          D,          IECROU,     IFUNC,
+     9   IFV,        IFUNC2,     EPLA,       XX_OLD,
+     A   NEL,        NFT )
 C
       DO I=1,NEL
         CC  = GEO(107,MGN(I))
@@ -719,18 +716,17 @@ C
         DMX(I)  =GEO(76,MGN(I))
       ENDDO
       IF (NUVAR > 0) XX_OLD => UVAR(6,1:NEL)
-      CALL REDEF3(
-     1   ZMOM,     ZK,       RZ,       ZMEP,
-     2   DZOLD,    RPZ,      TF,       NPF,
-     3   ZC,       OFF,      E6(1,6),  RPZ2,
-     4   ANIM,     0,        POSZZ,    FR_WAVE,
-     5   XL0,      DMN,      DMX,      DV,
-     6   FF,       LSCALE,   EE,       GF3,
-     7   IFUNC3,   YIELDZ2,  ALDP,     AK,
-     8   B,        D,        IECROU,   IFUNC,
-     9   IFV,      IFUNC2,   EPLA,     XX_OLD,
-     A   NOT_USED, NOT_USED, NOT_USED, NEL,
-     B   NFT)
+      CALL REDEF3(PYTHON,
+     1   ZMOM,       ZK,         RZ,         ZMEP,
+     2   DZOLD,      RPZ,        TF,         NPF,
+     3   ZC,         OFF,        E6(1,6),    RPZ2,
+     4   ANIM,       0,          POSZZ,      
+     5   XL0,        DMN,        DMX,        DV,
+     6   FF,         LSCALE,     EE,         GF3,
+     7   IFUNC3,     YIELDZ2,    ALDP,       AK,
+     8   B,          D,          IECROU,     IFUNC,
+     9   IFV,        IFUNC2,     EPLA,       XX_OLD,
+     A   NEL,        NFT )
 C
       DO I=1,NEL
         CC  = GEO(108,MGN(I))

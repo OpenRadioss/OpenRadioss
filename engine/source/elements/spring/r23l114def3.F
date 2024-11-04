@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    seatbelt_mod     ../common_source/modules/seatbelt_mod.F
       !||    sensor_mod       ../engine/share/modules/sensor_mod.F
       !||====================================================================
-      SUBROUTINE R23L114DEF3(
+      SUBROUTINE R23L114DEF3( PYTHON,
      1   SKEW,                 IPM,                  IGEO,                 MID,
      2   PID,                  GEO,                  UPARAM,               FX,
      3   FY,                   FZ,                   E,                    DX,
@@ -74,7 +74,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE python_funct_mod
+      USE REDEF3_MOD
       USE SEATBELT_MOD
+      USE REDEF_SEATBELT_MOD
       USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -99,6 +102,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(python_) :: PYTHON
       INTEGER, INTENT(IN) :: NFT,NSENSOR
       INTEGER NPF(*),IGEO(NPROPGI,*),NEL,NGL(*),PID(*),MID(*),NUVAR,
      .     IPM(NPROPMI,*),NC1(*),NC2(*),NC3(*),ADD_NODE1(*),ADD_NODE2(*),
@@ -253,7 +257,7 @@ C
       IF (SCODVER >= 101) THEN
         IF (TT == ZERO) THEN
           DO I=1,NEL
-            X0_ERR(I)= ALDP(I)-X0(I)         ! difference entre double et My_real
+            X0_ERR(I)= ALDP(I)-X0(I)         ! difference between double and My_real
           ENDDO
         ENDIF
       ENDIF
@@ -270,7 +274,7 @@ C
 C
       IF (SCODVER >= 101) THEN
         DO I=1,NEL
-          X0DP(I)= X0(I) + X0_ERR(I)         ! difference entre double et My_real
+          X0DP(I)= X0(I) + X0_ERR(I)         ! difference between double and My_real
         ENDDO
       ENDIF
 C---------------------
@@ -376,7 +380,7 @@ C      unloading curve activated only if cross point is passed
         IFUNC3(I)= IPM(10 + IF4 + 1,MID(I))
         IECROU(I)= NINT(UPARAM(IADBUF + I13 + 1))
 C
-C--     parameters scaled fy fram_factor for springs of 2D seatblets
+C--     parameters scaled by fram_factor for springs of 2D seatbelts
         AK(I)    = UPARAM(IADBUF + I1 + 1) * FRAM_FACTOR(I)
         B(I)     = UPARAM(IADBUF + I2 + 1)
         D(I)     = UPARAM(IADBUF + I3 + 1)
@@ -411,7 +415,7 @@ C--           slipring update step3
               IF (SLIPRING_STRAND(I) == 1) THEN
                 LMIN(I) = UPARAM(IADBUF + 119)
                 XL0(I)=MAX(X0DP(I),LMIN(I))
-C--             Loading of internal variables for computation of brin 2 
+C--             Loading of internal variables for computation of strand 2 
                 X02(I) = SLIPRING(J)%FRAM(K)%RESIDUAL_LENGTH(2)
                 FX_B2(I) = SLIPRING(J)%FRAM(K)%INTVAR_STR2(1)
                 DPX_B2(I) = SLIPRING(J)%FRAM(K)%INTVAR_STR2(2)
@@ -424,7 +428,7 @@ C--             Loading of internal variables for computation of brin 2
               ELSEIF (SLIPRING_STRAND(I) == 2) THEN
                 LMIN(I) = UPARAM(IADBUF + 119)
                 XL0(I)=MAX(X0DP(I),LMIN(I))
-C--             Loading of internal variables for computation of brin 2 
+C--             Loading of internal variables for computation of strand 2 
                 X02(I) = SLIPRING(J)%FRAM(K)%RESIDUAL_LENGTH(1)
                 FX_B2(I) = SLIPRING(J)%FRAM(K)%INTVAR_STR1(1)
                 DPX_B2(I) = SLIPRING(J)%FRAM(K)%INTVAR_STR1(2)
@@ -440,7 +444,7 @@ C--           retractor update of mouth element step3
               OFF(I) = ONE
 C
             ELSEIF ((RETRACTOR_ID(I) > 0).AND.(UPDATE_FLAG(I) == -2)) THEN
-C--           retractir update of new entered element step3
+C--           retractor update of new entered element step3
               OFF(I) = ZERO
               UPDATE_FLAG(I) = 0
               X0(I) = ZERO
@@ -492,7 +496,7 @@ C
       IF (NUVAR >=1) COORD_OLD => UVAR(1,1:NEL)
 C
       FLAG = 1
-      CALL REDEF_SEATBELT(
+      CALL REDEF_SEATBELT(PYTHON,
      1   FX,         XK,         DX,         FXEP,
      2   DXOLD,      DPX,        TF,         NPF,
      3   XC,         OFF,        E6(1,1),    ANIM,
@@ -501,7 +505,7 @@ C
      6   IECROU,     IFUNC,      IFUNC2,     COORD_OLD,
      7   FX_MAX,     XK_COMP,    NEL,        INDEX1,
      8   FLAG,       XKP,        EPS_OLD,    FRAM_FACTOR,
-     9   NEL,        NFT)
+     9   NFT)
 C
 
 C
@@ -556,7 +560,7 @@ C--     Computation of stress of 2nd strand for sliprings
         FLAG = 2
         EB(1:MVSIZ) = ZERO
         DXOLDB(1:MVSIZ) = ZERO
-        CALL REDEF_SEATBELT(
+        CALL REDEF_SEATBELT(PYTHON,
      1   FX_B2,      XK,         DX_B2,      FXEP_B2,
      2   DXOLDB,     DPX_B2,     TF,         NPF,
      3   XC,         OFF,        EB,         ANIM,
@@ -565,7 +569,7 @@ C--     Computation of stress of 2nd strand for sliprings
      6   IECROU,     IFUNC,      IFUNC2,     XX_OLD_B2,
      7   FX_MAX,     XK_COMP,    COMPT2,     INDEX_SLIP,
      8   FLAG,       XKP_B2,     EPS_OLD_B2, FRAM_FACTOR,
-     9   NEL,        NFT)
+     9   NFT)
 C
         DO J=1,COMPT2
           I = INDEX_SLIP(J)
@@ -638,7 +642,7 @@ C
             ENDIF
           ENDIF
           IF (IFAIL(I) == 0) THEN
-!         Rupture uniaxiale
+!         Uniaxial rupture
             IF ((XA*DLIM) > ONE) THEN
               OFF(I) = ZERO
               NINDX = NINDX + 1
@@ -646,7 +650,7 @@ C
               IDEL7NOK = 1
             ENDIF
           ELSE
-!         Rupture multiaxiale
+!         Multiaxial rupture
             CRIT(I)= CRIT(I) + XA *(DLIM/XL0(I))**XB
           ENDIF
         ENDIF
@@ -659,7 +663,7 @@ C
         IFUNC2(I)= IPM(10 + IF3 + 2,MID(I))
         IFUNC3(I)= IPM(10 + IF4 + 2,MID(I))
         IECROU(I)= NINT(UPARAM(IADBUF + I13 + 2))
-        IF (IECROU(I) > 0) IFUNC(I) = -1 
+        IF (IECROU(I) > 0) IFUNC(I) = -1 ! But why???? 
         AK(I)    = UPARAM(IADBUF + I1 + 2)
         B(I)     = UPARAM(IADBUF + I2 + 2)
         D(I)     = UPARAM(IADBUF + I3 + 2)
@@ -673,18 +677,17 @@ C
 C
       KK = 1 + NUMELR * ANIM_FE(11)
       IF (NUVAR >= 2) COORD_OLD => UVAR(2,1:NEL)
-      CALL REDEF3(
+      CALL REDEF3(PYTHON,
      1   FY,         YK,         DY,         FYEP,
      2   DYOLD,      DPY,        TF,         NPF,
      3   YC,         OFF,        E6(1,2),    DPY2,
-     4   ANIM(KK),   ANIM_FE(12),POSY,       FR_WAVE,
+     4   ANIM(KK),   ANIM_FE(12),POSY,       
      5   XL0,        DMN,        DMX,        DV,
      6   FF,         LSCALE,     EE,         GF3,
      7   IFUNC3,     YIELDY,     ALDP,       AK,
      8   B,          D,          IECROU,     IFUNC,
      9   IFV,        IFUNC2,     EPLA,       COORD_OLD,
-     A   FX_MAX,     NOT_USED,   NOT_USED,   NEL,
-     B   NFT)
+     A   NEL, NFT, FX_MAX=FX_MAX)
 C
       DO I=1,NEL
         IADBUF   = IPM(7,MID(I)) - 1
@@ -720,7 +723,7 @@ C
             ENDIF
           ENDIF
           IF (IFAIL(I) == 0) THEN
-!         Rupture uniaxiale
+!         Uniaxial rupture
             IF ((XA*DLIM) > ONE) THEN
               OFF(I) = ZERO
               NINDX = NINDX + 1
@@ -728,7 +731,7 @@ C
               IDEL7NOK = 1
             ENDIF
           ELSE
-!         Rupture multiaxiale
+!         Multiaxial rupture
             CRIT(I)= CRIT(I) + XA *(DLIM/XL0(I))**XB
           ENDIF
         ENDIF
@@ -755,18 +758,18 @@ C
 C
       KK = 1 + NUMELR * (ANIM_FE(11)+ANIM_FE(12))
       IF (NUVAR >= 3) COORD_OLD => UVAR(3,1:NEL)
-      CALL REDEF3(
+
+      CALL REDEF3(PYTHON,
      1   FZ,         ZK,         DZ,         FZEP,
      2   DZOLD,      DPZ,        TF,         NPF,
      3   ZC,         OFF,        E6(1,3),    DPZ2,
-     4   ANIM(KK),   ANIM_FE(13),POSZ,       FR_WAVE,
+     4   ANIM(KK),   ANIM_FE(13),POSZ,       
      5   XL0,        DMN,        DMX,        DV,
      6   FF,         LSCALE,     EE,         GF3,
      7   IFUNC3,     YIELDZ,     ALDP,       AK,
      8   B,          D,          IECROU,     IFUNC,
      9   IFV,        IFUNC2,     EPLA,       COORD_OLD,
-     A   FX_MAX,     NOT_USED,   NOT_USED,   NEL,
-     B   NFT)
+     A   NEL, NFT, FX_MAX=FX_MAX)
 C
       DO I=1,NEL
         IADBUF   = IPM(7,MID(I)) - 1
@@ -802,7 +805,7 @@ C
             ENDIF
           ENDIF
           IF (IFAIL(I) == 0) THEN
-!         Rupture uniaxiale
+!         Uniaxial rupture
             IF ((XA*DLIM) > ONE) THEN
               OFF(I) = ZERO
               NINDX = NINDX + 1
@@ -810,7 +813,7 @@ C
               IDEL7NOK = 1
             ENDIF
           ELSE
-!         Rupture multiaxiale
+!         Multiaxial rupture
             CRIT(I)= CRIT(I) + XA *(DLIM/XL0(I))**XB
           ENDIF
         ENDIF
@@ -881,18 +884,18 @@ C-------------------------------
         DMX(I)   = UPARAM(IADBUF + I9 + 4)
       ENDDO
       IF (NUVAR >= 4) COORD_OLD => UVAR(4,1:NEL)
-      CALL REDEF3(
+
+      CALL REDEF3(PYTHON,
      1   XMOM,     XK,       RX,       XMEP,
      2   DXOLD,    RPX,      TF,       NPF,
      3   XC,       OFF,      E6(1,4),  RPX2,
-     4   ANIM,     0,        POSXX,    FR_WAVE,
+     4   ANIM,     0,        POSXX,    
      5   XL0,      DMN,      DMX,      DV,
      6   FF,       LSCALE,   EE,       GF3,
      7   IFUNC3,   YIELDX2,  ALDP,     AK,
      8   B,        D,        IECROU,   IFUNC,
      9   IFV,      IFUNC2,   EPLA,     COORD_OLD,
-     A   MX_MAX,   NOT_USED, NOT_USED, NEL,
-     B   NFT)
+     A   NEL, NFT, FX_MAX=MX_MAX)
 C
       DO I=1,NEL
         IADBUF= IPM(7,MID(I)) - 1
@@ -928,7 +931,7 @@ C
             ENDIF
           ENDIF
           IF (IFAIL(I) == 0) THEN
-!         Rupture uniaxiale
+!         Uniaxial rupture
             IF ((XA*DLIM) > ONE) THEN
               OFF(I)= ZERO
               NINDX = NINDX + 1
@@ -936,7 +939,7 @@ C
               IDEL7NOK = 1
             ENDIF
           ELSE
-!         Rupture multiaxiale
+!         Multiaxial rupture
             CRIT(I)= CRIT(I) + XA *(DLIM/XL0(I))**XB
           ENDIF
         ENDIF
@@ -961,18 +964,18 @@ C
         DMX(I)   = UPARAM(IADBUF + I9 + 5)
       ENDDO
       IF (NUVAR >= 5) COORD_OLD => UVAR(5,1:NEL)
-      CALL REDEF3(
+
+      CALL REDEF3(PYTHON,
      1   YMOM,     YK,       RY,       YMEP,
      2   DYOLD,    RPY,      TF,       NPF,
      3   YC,       OFF,      E6(1,5),  RPY2,
-     4   ANIM,     0,        POSYY,    FR_WAVE,
+     4   ANIM,     0,        POSYY,    
      5   XL0,      DMN,      DMX,      DV,
      6   FF,       LSCALE,   EE,       GF3,
      7   IFUNC3,   YIELDY2,  ALDP,     AK,
      8   B,        D,        IECROU,   IFUNC,
      9   IFV,      IFUNC2,   EPLA,     COORD_OLD,
-     A   MX_MAX,   NOT_USED, NOT_USED, NEL,
-     B   NFT)
+     A   NEL, NFT, FX_MAX=MX_MAX)
 C
       DO I=1,NEL
         IADBUF= IPM(7,MID(I)) - 1
@@ -1008,7 +1011,7 @@ C
             ENDIF
           ENDIF
           IF (IFAIL(I) == 0) THEN
-!         Rupture uniaxiale
+!         Uniaxial rupture
             IF ((XA*DLIM) > 1) THEN
               OFF(I) = ZERO
               NINDX = NINDX + 1
@@ -1016,7 +1019,7 @@ C
               IDEL7NOK = 1
             ENDIF
           ELSE
-!         Rupture multiaxiale
+!         Multiaxial rupture
             CRIT(I)= CRIT(I) + XA *(DLIM/XL0(I))**XB
           ENDIF
         ENDIF
@@ -1041,18 +1044,17 @@ C
         DMX(I)   = UPARAM(IADBUF + I9 + 6)
       ENDDO
       IF (NUVAR >= 6) COORD_OLD => UVAR(6,1:NEL)
-      CALL REDEF3(
+      CALL REDEF3(PYTHON,
      1   ZMOM,     ZK,       RZ,       ZMEP,
      2   DZOLD,    RPZ,      TF,       NPF,
      3   ZC,       OFF,      E6(1,6),  RPZ2,
-     4   ANIM,     0,        POSZZ,    FR_WAVE,
+     4   ANIM,     0,        POSZZ,    
      5   XL0,      DMN,      DMX,      DV,
      6   FF,       LSCALE,   EE,       GF3,
      7   IFUNC3,   YIELDZ2,  ALDP,     AK,
      8   B,        D,        IECROU,   IFUNC,
      9   IFV,      IFUNC2,   EPLA,     COORD_OLD,
-     A   MX_MAX,   NOT_USED, NOT_USED, NEL,
-     B   NFT)
+     A   NEL, NFT, FX_MAX=MX_MAX)
 C
       DO I=1,NEL
         IADBUF= IPM(7,MID(I)) - 1
@@ -1088,7 +1090,7 @@ C
             ENDIF
           ENDIF
           IF (IFAIL(I) == 0) THEN
-!         Rupture uniaxiale
+!         Uniaxial rupture
             IF ((XA*DLIM) > 1) THEN
               OFF(I) = ZERO
               NINDX = NINDX + 1
@@ -1096,7 +1098,7 @@ C
               IDEL7NOK = 1
             ENDIF
           ELSE
-!         Rupture multiaxiale
+!         Multiaxial rupture
             CRIT(I)= CRIT(I) + XA *(DLIM/XL0(I))**XB
           ENDIF
         ENDIF
@@ -1106,7 +1108,7 @@ C
         E(I) = E6(I,1)+E6(I,2)+E6(I,3)+E6(I,4)+E6(I,5)+E6(I,6)
       ENDDO
 C-------------------------------
-C     RUPTURE COUPLEE
+C     COUPLED FAILURE
 C-------------------------------
       DO I=1,NEL
         IADBUF   = IPM(7,MID(I)) - 1
@@ -1135,7 +1137,7 @@ C
 #include "lockoff.inc"
       ENDDO
 C-------------------------------
-C     PLASTICITE COUPLEE
+C     COUPLED PLASTICITY
 C-------------------------------
       CALL REPLA3(
      1   XK,      RPX,     TF,      NPF,

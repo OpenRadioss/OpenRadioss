@@ -99,7 +99,6 @@ C-----------------------------------------------
      .  LOAD,UNLOAD, NTY,IDN,IDT,PN1,PN2,PT1,PT2,KK,
      .  IFRIC1,IFRIC2,IDAMP1,IDAMP2,LOAD0,UNLOAD0,NF2,FUNC,FUND,IOK,ISENS,IMAT,IEOS,
      .  A_FUNC, B_FUNC
-     
       LOGICAL IS_FOUND
 
       INTEGER NINTRI
@@ -736,22 +735,22 @@ C
           IFUNC = IGEO(119,I) !IFUNC3 in lecgeo4
           X_SCALE = GEO(18,I)
           IF (IFUNC /= 0)THEN                       
-            IC1 = NPC(IFUNC)                        
-            IC2 = NPC(IFUNC+1)                      
-            X0 = PLD(IC1)                           
-            EMAX = ZERO                             
-            DO II = IC1,IC2-4,2                     
-               JJ = II+2                            
-               DX = PLD(JJ)   - X0                  
-               DY = PLD(JJ+1) - PLD(II+1)           
-               Y0 =  PLD(II+1)                      
-               Y1 =  PLD(JJ+1)                      
-               DERI = YFAC * X_SCALE * DY / DX                
-               X1 =  PLD(JJ)                        
-               EMAX = MAX(EMAX, DERI)               
-               X0 =  PLD(JJ)                        
-            ENDDO                                   
-            GEO(141,I) =  EMAX                      
+              IC1 = NPC(IFUNC)                        
+              IC2 = NPC(IFUNC+1)                      
+              X0 = PLD(IC1)                           
+              EMAX = ZERO                             
+              DO II = IC1,IC2-4,2                     
+                 JJ = II+2                            
+                 DX = PLD(JJ)   - X0                  
+                 DY = PLD(JJ+1) - PLD(II+1)           
+                 Y0 =  PLD(II+1)                      
+                 Y1 =  PLD(JJ+1)                      
+                 DERI = YFAC * X_SCALE * DY / DX                
+                 X1 =  PLD(JJ)                        
+                 EMAX = MAX(EMAX, DERI)               
+                 X0 =  PLD(JJ)                        
+              ENDDO                                   
+              GEO(141,I) =  EMAX                      
           ENDIF                                     
 
           IF (H == 7)THEN
@@ -762,54 +761,58 @@ C
              NP2  = (NPC(UNLOAD+1)-NPC(UNLOAD)) / 2
              ALPHA1=ZERO  
              ALPHA2=ZERO             
-c---
-             DO 777 J=2,NP1
-               J1=2*(J-2)
-               S1=PLD(NPC(LOAD)+J1)*XSCALE
-               S2=PLD(NPC(LOAD)+J1+2)*XSCALE
-               T1=PLD(NPC(LOAD)+J1+1)
-               T2=PLD(NPC(LOAD)+J1+3)
-               TY=ZERO
-               SX=ZERO
-               IF ( S1<=ZERO .AND.S2> ZERO)ALPHA1=(T2-T1)/(S2-S1)
-               DO K=2,NP2
-                 K1=2*(K-2)
-                 XX1=PLD(NPC(UNLOAD)+K1)*XSCALE
-                 X2 =PLD(NPC(UNLOAD)+K1+2)*XSCALE
-                 YY1=PLD(NPC(UNLOAD)+K1+1)
-                 Y2 =PLD(NPC(UNLOAD)+K1+3)
-                 IF ( XX1<=ZERO .AND.X2> ZERO)ALPHA2=(Y2-YY1)/(X2-XX1)!  passage par zero
-                 IF (Y2>=T1 .AND.YY1<=T2.AND.X2>=S1.AND.XX1<=S2)THEN
-                   DYDX = (Y2-YY1) / (X2-XX1)
-                   DTDS = (T2-T1) / (S2-S1)
-                   IF (DYDX > DTDS) THEN ! intersection des courbes
-                     SX = (T1-YY1-DTDS*S1+DYDX*XX1) / (DYDX-DTDS)
-                     TY =  T1 + DTDS*(SX - S1)
-                   ENDIF 
-                   IF (TY/=ZERO .AND. SX/=ZERO )THEN  
-                    IF (TY>=YY1.AND.TY<=Y2.AND.SX>=XX1.AND.SX<=X2
-     .                      .AND.SX>=S2.AND.TY<=T2)THEN 
+c            IF(NPC(2*NFUNCT+LOAD+1) <0 .OR. NPC(2*NFUNCT+UNLOAD+1) <0)THEN
+             IF(.FALSE.) THEN
+              ! at least one python function
+             ELSE
+               DO 777 J=2,NP1
+                 J1=2*(J-2)
+                 S1=PLD(NPC(LOAD)+J1)*XSCALE
+                 S2=PLD(NPC(LOAD)+J1+2)*XSCALE
+                 T1=PLD(NPC(LOAD)+J1+1)
+                 T2=PLD(NPC(LOAD)+J1+3)
+                 TY=ZERO
+                 SX=ZERO
+                 IF ( S1<=ZERO .AND.S2> ZERO)ALPHA1=(T2-T1)/(S2-S1)
+                 DO K=2,NP2
+                   K1=2*(K-2)
+                   XX1=PLD(NPC(UNLOAD)+K1)*XSCALE
+                   X2 =PLD(NPC(UNLOAD)+K1+2)*XSCALE
+                   YY1=PLD(NPC(UNLOAD)+K1+1)
+                   Y2 =PLD(NPC(UNLOAD)+K1+3)
+                   IF ( XX1<=ZERO .AND.X2> ZERO)ALPHA2=(Y2-YY1)/(X2-XX1)!  passage par zero
+                   IF (Y2>=T1 .AND.YY1<=T2.AND.X2>=S1.AND.XX1<=S2)THEN
+                     DYDX = (Y2-YY1) / (X2-XX1)
+                     DTDS = (T2-T1) / (S2-S1)
+                     IF (DYDX > DTDS) THEN ! intersection des courbes
+                       SX = (T1-YY1-DTDS*S1+DYDX*XX1) / (DYDX-DTDS)
+                       TY =  T1 + DTDS*(SX - S1)
+                     ENDIF 
+                     IF (TY/=ZERO .AND. SX/=ZERO )THEN  
+                      IF (TY>=YY1.AND.TY<=Y2.AND.SX>=XX1.AND.SX<=X2
+     .                        .AND.SX>=S2.AND.TY<=T2)THEN 
            
-                      CALL ANCMSG(MSGID=982,
-     .                            MSGTYPE=MSGERROR,
-     .                            ANMODE=ANINFO_BLIND_1,
-     .                            C1=TITR,
-     .                            I1=UNLOAD0,
-     .                            I2=LOAD0)
-                     GOTO 777         
-                    ENDIF     
-                   ENDIF                                
-                 ENDIF
-               ENDDO
- 777         CONTINUE      
-             IF(ALPHA2>=ALPHA1)THEN
-               CALL ANCMSG(MSGID=982,
-     .                     MSGTYPE=MSGERROR,
-     .                     ANMODE=ANINFO_BLIND_1,
-     .                     C1=TITR,
-     .                     I1=UNLOAD,
-     .                     I2=LOAD)
-             ENDIF
+                        CALL ANCMSG(MSGID=982,
+     .                              MSGTYPE=MSGERROR,
+     .                              ANMODE=ANINFO_BLIND_1,
+     .                              C1=TITR,
+     .                              I1=UNLOAD0,
+     .                              I2=LOAD0)
+                       GOTO 777         
+                      ENDIF     
+                     ENDIF                                
+                   ENDIF
+                 ENDDO
+ 777           CONTINUE      
+               IF(ALPHA2>=ALPHA1)THEN
+                 CALL ANCMSG(MSGID=982,
+     .                       MSGTYPE=MSGERROR,
+     .                       ANMODE=ANINFO_BLIND_1,
+     .                       C1=TITR,
+     .                       I1=UNLOAD,
+     .                       I2=LOAD)
+               ENDIF
+            ENDIF
           ENDIF                             
 c-------
         ELSEIF(IGTYP == 12) THEN
@@ -888,7 +891,7 @@ c
                EMAX = MAX(EMAX, DERI)               
                X0 =  PLD(JJ)                        
             ENDDO                                   
-            GEO(141,I) =  EMAX                      
+            GEO(141,I) =  EMAX        ! slope max 
           ENDIF                                     
 
           IF (H == 7)THEN
@@ -899,53 +902,59 @@ c
              NP2  = (NPC(UNLOAD+1)-NPC(UNLOAD)) / 2
              ALPHA1=ZERO  
              ALPHA2=ZERO             
+c            IF(NPC(2*NFUNCT+LOAD+1) <0 .OR. NPC(2*NFUNCT+UNLOAD+1) <0)THEN
+             IF(.FALSE.) THEN
+              ! at least one python function
+             ELSE
+
 c---
-             DO 778 J=2,NP1
-               J1=2*(J-2)
-               S1=PLD(NPC(LOAD)+J1)*XSCALE
-               S2=PLD(NPC(LOAD)+J1+2)*XSCALE
-               T1=PLD(NPC(LOAD)+J1+1)
-               T2=PLD(NPC(LOAD)+J1+3)
-               TY=ZERO
-               SX=ZERO
-               IF ( S1<=ZERO .AND.S2> ZERO)ALPHA1=(T2-T1)/(S2-S1)
-               DO K=2,NP2
-                 K1=2*(K-2)
-                 XX1=PLD(NPC(UNLOAD)+K1)*XSCALE
-                 X2=PLD(NPC(UNLOAD)+K1+2)*XSCALE
-                 YY1=PLD(NPC(UNLOAD)+K1+1)
-                 Y2=PLD(NPC(UNLOAD)+K1+3)
-                 IF ( XX1<=ZERO .AND.X2> ZERO)ALPHA2=(Y2-YY1)/(X2-XX1)  
-                 IF (Y2>=T1 .AND.YY1<=T2.AND.X2>=S1.AND.XX1<=S2)THEN
-                   DYDX = (Y2-YY1) / (X2-XX1)
-                   DTDS = (T2-T1) / (S2-S1)
-                   IF (DYDX > DTDS) THEN
-                     SX = (T1-YY1-DTDS*S1+DYDX*XX1) / (DYDX-DTDS)
-                     TY =  T1 + DTDS*(SX - S1)
+               DO 778 J=2,NP1
+                 J1=2*(J-2)
+                 S1=PLD(NPC(LOAD)+J1)*XSCALE
+                 S2=PLD(NPC(LOAD)+J1+2)*XSCALE
+                 T1=PLD(NPC(LOAD)+J1+1)
+                 T2=PLD(NPC(LOAD)+J1+3)
+                 TY=ZERO
+                 SX=ZERO
+                 IF ( S1<=ZERO .AND.S2> ZERO)ALPHA1=(T2-T1)/(S2-S1)
+                 DO K=2,NP2
+                   K1=2*(K-2)
+                   XX1=PLD(NPC(UNLOAD)+K1)*XSCALE
+                   X2=PLD(NPC(UNLOAD)+K1+2)*XSCALE
+                   YY1=PLD(NPC(UNLOAD)+K1+1)
+                   Y2=PLD(NPC(UNLOAD)+K1+3)
+                   IF ( XX1<=ZERO .AND.X2> ZERO)ALPHA2=(Y2-YY1)/(X2-XX1)  
+                   IF (Y2>=T1 .AND.YY1<=T2.AND.X2>=S1.AND.XX1<=S2)THEN
+                     DYDX = (Y2-YY1) / (X2-XX1)
+                     DTDS = (T2-T1) / (S2-S1)
+                     IF (DYDX > DTDS) THEN
+                       SX = (T1-YY1-DTDS*S1+DYDX*XX1) / (DYDX-DTDS)
+                       TY =  T1 + DTDS*(SX - S1)
+                     ENDIF
+                     IF (TY/=ZERO .AND. SX/=ZERO )THEN  
+                      IF (TY>=YY1.AND.TY<=Y2.AND.SX>=XX1.AND.SX<=X2
+     .                        .AND.SX>=S2.AND.TY<=T2)THEN 
+                        CALL ANCMSG(MSGID=982,
+     .                              MSGTYPE=MSGERROR,
+     .                              ANMODE=ANINFO_BLIND_1,
+     .                              C1=TITR,
+     .                              I1=UNLOAD,
+     .                              I2=LOAD)
+                       GOTO 778         
+                      ENDIF     
+                     ENDIF                                
                    ENDIF
-                   IF (TY/=ZERO .AND. SX/=ZERO )THEN  
-                    IF (TY>=YY1.AND.TY<=Y2.AND.SX>=XX1.AND.SX<=X2
-     .                      .AND.SX>=S2.AND.TY<=T2)THEN 
-                      CALL ANCMSG(MSGID=982,
-     .                            MSGTYPE=MSGERROR,
-     .                            ANMODE=ANINFO_BLIND_1,
-     .                            C1=TITR,
-     .                            I1=UNLOAD,
-     .                            I2=LOAD)
-                     GOTO 778         
-                    ENDIF     
-                   ENDIF                                
-                 ENDIF
-               ENDDO
- 778         CONTINUE                          
-             IF(ALPHA2>=ALPHA1)THEN
-               CALL ANCMSG(MSGID=982,
-     .                     MSGTYPE=MSGERROR,
-     .                     ANMODE=ANINFO_BLIND_1,
-     .                     C1=TITR,
-     .                     I1=UNLOAD,
-     .                     I2=LOAD)
-             ENDIF
+                 ENDDO
+ 778           CONTINUE                          
+               IF(ALPHA2>=ALPHA1)THEN
+                 CALL ANCMSG(MSGID=982,
+     .                       MSGTYPE=MSGERROR,
+     .                       ANMODE=ANINFO_BLIND_1,
+     .                       C1=TITR,
+     .                       I1=UNLOAD,
+     .                       I2=LOAD)
+               ENDIF
+            ENDIF
           ENDIF                             
 C
         ELSE IF(IGTYP == 7) THEN
@@ -1053,7 +1062,7 @@ c --------
                  EMAX = MAX(EMAX, DERI)             
                  X0 =  PLD(JJ)                      
               ENDDO  
-              GEO(140+J,I) =  EMAX  
+              GEO(140+J,I) =  EMAX ! max slope for ifunc3 
             ENDIF                        
           ENDDO
 C
@@ -1075,59 +1084,65 @@ C
               NP2  = (NPC(UNLOAD+1)-NPC(UNLOAD))*HALF
               ALPHA1=ZERO  
               ALPHA2=ZERO             
+c            IF(NPC(2*NFUNCT+LOAD+1) <0 .OR. NPC(2*NFUNCT+UNLOAD+1) <0)THEN
+              IF(.FALSE.) THEN
+              ! at least one python function
+             ELSE
+
 c---
-              DO JJ=2,NP1
-                J1=2*(JJ-2)
-                S1=PLD(NPC(LOAD)+J1)*XSCALE
-                S2=PLD(NPC(LOAD)+J1+2)*XSCALE
-                T1=PLD(NPC(LOAD)+J1+1)
-                T2=PLD(NPC(LOAD)+J1+3)
-                TY=ZERO
-                SX=ZERO
-                IF ( S1<=ZERO .AND.S2> ZERO)ALPHA1=(T2-T1)/(S2-S1)
-                DO K=2,NP2
-                 K1=2*(K-2)
-                 XX1=PLD(NPC(UNLOAD)+K1)*XSCALE
-                 X2=PLD(NPC(UNLOAD)+K1+2)*XSCALE
-                 YY1=PLD(NPC(UNLOAD)+K1+1)
-                 Y2=PLD(NPC(UNLOAD)+K1+3)
-                 IF ( XX1<=ZERO .AND.X2> ZERO)ALPHA2=(Y2-YY1)/(X2-XX1)  
-                 IF (Y2>=T1 .AND.YY1<=T2.AND.X2>=S1.AND.XX1<=S2)THEN
-                   DYDX = (Y2-YY1) / (X2-XX1)
-                   DTDS = (T2-T1) / (S2-S1)
-                   IF (DYDX > DTDS) THEN
-                     SX = (T1-YY1-DTDS*S1+DYDX*XX1) / (DYDX-DTDS)
-                     TY =  T1 + DTDS*(SX - S1)
+                DO JJ=2,NP1
+                  J1=2*(JJ-2)
+                  S1=PLD(NPC(LOAD)+J1)*XSCALE
+                  S2=PLD(NPC(LOAD)+J1+2)*XSCALE
+                  T1=PLD(NPC(LOAD)+J1+1)
+                  T2=PLD(NPC(LOAD)+J1+3)
+                  TY=ZERO
+                  SX=ZERO
+                  IF ( S1<=ZERO .AND.S2> ZERO)ALPHA1=(T2-T1)/(S2-S1)
+                  DO K=2,NP2
+                   K1=2*(K-2)
+                   XX1=PLD(NPC(UNLOAD)+K1)*XSCALE
+                   X2=PLD(NPC(UNLOAD)+K1+2)*XSCALE
+                   YY1=PLD(NPC(UNLOAD)+K1+1)
+                   Y2=PLD(NPC(UNLOAD)+K1+3)
+                   IF ( XX1<=ZERO .AND.X2> ZERO)ALPHA2=(Y2-YY1)/(X2-XX1)  
+                   IF (Y2>=T1 .AND.YY1<=T2.AND.X2>=S1.AND.XX1<=S2)THEN
+                     DYDX = (Y2-YY1) / (X2-XX1)
+                     DTDS = (T2-T1) / (S2-S1)
+                     IF (DYDX > DTDS) THEN
+                       SX = (T1-YY1-DTDS*S1+DYDX*XX1) / (DYDX-DTDS)
+                       TY =  T1 + DTDS*(SX - S1)
+                     ENDIF
+                     IF (TY/=ZERO .AND. SX/=ZERO )THEN  
+                      IF (TY>=YY1.AND.TY<=Y2.AND.SX>=XX1.AND.SX<=X2
+     .                        .AND.SX>=S2.AND.TY<=T2)THEN 
+                        IF (IGTYP == 8)THEN
+                        ELSE
+                        ENDIF        
+                        CALL ANCMSG(MSGID=982,
+     .                              MSGTYPE=MSGERROR,
+     .                              ANMODE=ANINFO_BLIND_1,
+     .                              C1=TITR,
+     .                              I1=UNLOAD,
+     .                              I2=LOAD)
+                       GOTO 877         
+                      ENDIF     
+                     ENDIF                                
                    ENDIF
-                   IF (TY/=ZERO .AND. SX/=ZERO )THEN  
-                    IF (TY>=YY1.AND.TY<=Y2.AND.SX>=XX1.AND.SX<=X2
-     .                      .AND.SX>=S2.AND.TY<=T2)THEN 
-                      IF (IGTYP == 8)THEN
-                      ELSE
-                      ENDIF        
-                      CALL ANCMSG(MSGID=982,
-     .                            MSGTYPE=MSGERROR,
-     .                            ANMODE=ANINFO_BLIND_1,
-     .                            C1=TITR,
-     .                            I1=UNLOAD,
-     .                            I2=LOAD)
-                     GOTO 877         
-                    ENDIF     
-                   ENDIF                                
-                 ENDIF
+                  ENDDO
                 ENDDO
-              ENDDO
-              IF(ALPHA2>=ALPHA1)THEN
-                IF (IGTYP == 8)THEN
-                ELSE
-                ENDIF        
-                CALL ANCMSG(MSGID=982,
-     .                      MSGTYPE=MSGERROR,
-     .                      ANMODE=ANINFO_BLIND_1,
-     .                      C1=TITR,
-     .                      I1=UNLOAD,
-     .                      I2=LOAD)
-              ENDIF
+                IF(ALPHA2>=ALPHA1)THEN
+                  IF (IGTYP == 8)THEN
+                  ELSE
+                  ENDIF        
+                  CALL ANCMSG(MSGID=982,
+     .                        MSGTYPE=MSGERROR,
+     .                        ANMODE=ANINFO_BLIND_1,
+     .                        C1=TITR,
+     .                        I1=UNLOAD,
+     .                        I2=LOAD)
+                ENDIF
+             ENDIF
            ENDIF      
  877      CONTINUE     
 
@@ -1240,53 +1255,58 @@ c --------
              NP2  = (NPC(UNLOAD+1)-NPC(UNLOAD))*HALF   
              ALPHA1=ZERO  
              ALPHA2=ZERO             
+C            IF(NPC(2*NFUNCT+LOAD+1) <0 .OR. NPC(2*NFUNCT+UNLOAD+1) <0)THEN
+              IF(.FALSE.) THEN
+              ! at least one python function
+             ELSE
 c---
-             DO JJ=2,NP1                                                
-              J1=2*(JJ-2)                                                   
-              S1=PLD(NPC(LOAD)+J1)*XSCALE                                   
-              S2=PLD(NPC(LOAD)+J1+2)*XSCALE                                 
-              T1=PLD(NPC(LOAD)+J1+1)                                        
-              T2=PLD(NPC(LOAD)+J1+3)      
-              TY=ZERO
-              SX=ZERO                                  
-              IF ( S1<=ZERO .AND.S2> ZERO)ALPHA1=(T2-T1)/(S2-S1)            
-              DO K=2,NP2                                                    
-               K1=2*(K-2)                                                   
-               XX1=PLD(NPC(UNLOAD)+K1)*XSCALE                               
-               X2=PLD(NPC(UNLOAD)+K1+2)*XSCALE                              
-               YY1=PLD(NPC(UNLOAD)+K1+1)                                    
-               Y2=PLD(NPC(UNLOAD)+K1+3)                                     
-               IF ( XX1<=ZERO .AND.X2> ZERO)ALPHA2=(Y2-YY1)/(X2-XX1)        
-               IF (Y2>=T1 .AND.YY1<=T2.AND.X2>=S1.AND.XX1<=S2)THEN          
-                 DYDX = (Y2-YY1) / (X2-XX1)                                 
-                 DTDS = (T2-T1) / (S2-S1)                                   
-                 IF (DYDX > DTDS) THEN                                      
-                   SX = (T1-YY1-DTDS*S1+DYDX*XX1) / (DYDX-DTDS)             
-                   TY =  T1 + DTDS*(SX - S1)                                
-                 ENDIF                                                      
-                 IF (TY/=ZERO .AND. SX/=ZERO )THEN                          
-                    IF (TY>=YY1.AND.TY<=Y2.AND.SX>=XX1.AND.SX<=X2
-     .                      .AND.SX>=S2.AND.TY<=T2)THEN 
-                     CALL ANCMSG(MSGID=982,
-     .                           MSGTYPE=MSGERROR,
-     .                           ANMODE=ANINFO_BLIND_1,
-     .                           C1=TITR,
-     .                           I1=UNLOAD,
-     .                           I2=LOAD)
-                    GOTO 888                                                
-                   ENDIF                                                    
-                 ENDIF                                                      
-               ENDIF                                                        
-              ENDDO                                                         
-             ENDDO                                                      
-             IF(ALPHA2>=ALPHA1)THEN   
-               CALL ANCMSG(MSGID=982,
-     .                     MSGTYPE=MSGERROR,
-     .                     ANMODE=ANINFO_BLIND_1,
-     .                     C1=TITR,
-     .                     I1=UNLOAD,
-     .                     I2=LOAD)
-             ENDIF                                                      
+               DO JJ=2,NP1                                                
+                J1=2*(JJ-2)                                                   
+                S1=PLD(NPC(LOAD)+J1)*XSCALE                                   
+                S2=PLD(NPC(LOAD)+J1+2)*XSCALE                                 
+                T1=PLD(NPC(LOAD)+J1+1)                                        
+                T2=PLD(NPC(LOAD)+J1+3)      
+                TY=ZERO
+                SX=ZERO                                  
+                IF ( S1<=ZERO .AND.S2> ZERO)ALPHA1=(T2-T1)/(S2-S1)            
+                DO K=2,NP2                                                    
+                 K1=2*(K-2)                                                   
+                 XX1=PLD(NPC(UNLOAD)+K1)*XSCALE                               
+                 X2=PLD(NPC(UNLOAD)+K1+2)*XSCALE                              
+                 YY1=PLD(NPC(UNLOAD)+K1+1)                                    
+                 Y2=PLD(NPC(UNLOAD)+K1+3)                                     
+                 IF ( XX1<=ZERO .AND.X2> ZERO)ALPHA2=(Y2-YY1)/(X2-XX1)        
+                 IF (Y2>=T1 .AND.YY1<=T2.AND.X2>=S1.AND.XX1<=S2)THEN          
+                   DYDX = (Y2-YY1) / (X2-XX1)                                 
+                   DTDS = (T2-T1) / (S2-S1)                                   
+                   IF (DYDX > DTDS) THEN                                      
+                     SX = (T1-YY1-DTDS*S1+DYDX*XX1) / (DYDX-DTDS)             
+                     TY =  T1 + DTDS*(SX - S1)                                
+                   ENDIF                                                      
+                   IF (TY/=ZERO .AND. SX/=ZERO )THEN                          
+                      IF (TY>=YY1.AND.TY<=Y2.AND.SX>=XX1.AND.SX<=X2
+     .                        .AND.SX>=S2.AND.TY<=T2)THEN 
+                       CALL ANCMSG(MSGID=982,
+     .                             MSGTYPE=MSGERROR,
+     .                             ANMODE=ANINFO_BLIND_1,
+     .                             C1=TITR,
+     .                             I1=UNLOAD,
+     .                             I2=LOAD)
+                      GOTO 888                                                
+                     ENDIF                                                    
+                   ENDIF                                                      
+                 ENDIF                                                        
+                ENDDO                                                         
+               ENDDO                                                      
+               IF(ALPHA2>=ALPHA1)THEN   
+                 CALL ANCMSG(MSGID=982,
+     .                       MSGTYPE=MSGERROR,
+     .                       ANMODE=ANINFO_BLIND_1,
+     .                       C1=TITR,
+     .                       I1=UNLOAD,
+     .                       I2=LOAD)
+               ENDIF                                                      
+             ENDIF
            ENDIF   ! H == 7                                                     
  888     CONTINUE                                                               
 c --------         

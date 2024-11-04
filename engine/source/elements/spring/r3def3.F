@@ -31,12 +31,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    interface_table_mod   ../engine/share/modules/table_mod.F
       !||    table_mod             ../engine/share/modules/table_mod.F
       !||====================================================================
-      SUBROUTINE R3DEF3(
+      SUBROUTINE R3DEF3( PYTHON,
      1   GEO,     F,       AL0,     E,
      2   DL,      NPF,     TF,      OFF,
      3   DPL,     FEP,     DPX2,    DFS,
      4   V,       IXR,     DF,      ANIM,
-     5   IPOS,    FR_WAVE, IGEO,    AL0_ERR,
+     5   IPOS,    IGEO,    AL0_ERR,
      6   X1DP,    X2DP,    X3DP,    YIELD,
      7   TABLE,   INIFRIC, NGL,     MGN,
      8   EX,      EY,      EZ,      XK,
@@ -47,8 +47,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE REDEF3_MOD
       USE TABLE_MOD
       USE INTERFACE_TABLE_MOD
+      USE python_funct_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,6 +74,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(python_), intent(inout) :: PYTHON
       INTEGER, INTENT(IN) :: NFT
       INTEGER, INTENT(IN) :: NEL
       INTEGER NPF(*),IXR(NIXR,*),IGEO(NPROPGI,*),NGL(*),MGN(*),
@@ -80,7 +83,7 @@ C     REAL
       my_real
      .   GEO(NPROPG,*), F(*), AL0(*), E(*), DL(*), TF(*), OFF(*),
      .   DPL(*), FEP(*), DPX2(*),DFS(*),V(3,*),DF(*),ANIM(*),
-     .   IPOS(*),FR_WAVE(*),AL0_ERR(*),YIELD(*),INIFRIC(*),
+     .   IPOS(*),AL0_ERR(*),YIELD(*),INIFRIC(*),
      .   EX(MVSIZ),EY(MVSIZ),EZ(MVSIZ),XK(MVSIZ),
      .   XM(MVSIZ),XC(MVSIZ),AK(MVSIZ),EX2(MVSIZ),EY2(MVSIZ),EZ2(MVSIZ),
      .   UVAR(NUVAR,*),DL0(*)
@@ -110,6 +113,7 @@ C     REAL
      .                 EX2DP(MVSIZ),EY2DP(MVSIZ),EZ2DP(MVSIZ),
      .                 AL1DP(MVSIZ),AL2DP(MVSIZ),ALDP(MVSIZ),
      .                 AL0DP(MVSIZ)
+      my_real :: MAX_SLOPE(MVSIZ)
       my_real ,DIMENSION(:), POINTER :: XX_OLD
       TARGET :: NOT_USED2
 C-----------------------------------------------
@@ -121,8 +125,8 @@ C
         EPLA(I) = ZERO
         IPID = MGN(I)
         XM(I)  =GEO(1,IPID)
-        XK(I)  =GEO(2,IPID)
-        XC(I)  =GEO(3,IPID) 
+        XK(I)  =GEO(2,IPID) ! K?
+        XC(I)  =GEO(3,IPID) ! C? 
         IECROU(I)=NINT(GEO(7,IPID))
         AK(I)    = GEO(10,IPID)
         B(I)     = GEO(11,IPID)
@@ -144,6 +148,7 @@ C
         F_MIN(I) = GEO(138,IPID)
         F_MAX(I) = GEO(139,IPID)
         YSCALF(I)= GEO(140,IPID)
+        MAX_SLOPE(I) = GEO(141,IPID)
       ENDDO
 C
       DO I=1,NEL
@@ -256,18 +261,17 @@ C
       ELSE 
          XX_OLD => NOT_USED2
       ENDIF 
-      CALL REDEF3(
+      CALL REDEF3(PYTHON,
      1   F,          XK,         DL,         FEP,
      2   DLOLD,      DPL,        TF,         NPF,
      3   XC,         OFF,        E,          DPX2,
-     4   ANIM,       ANIM_FE(11),IPOS,       FR_WAVE,
+     4   ANIM,       ANIM_FE(11),IPOS,       
      5   XL0,        DMN,        DMX,        DV,
      6   FF,         LSCALE,     EE,         GF3,
      7   IFUNC3,     YIELD,      ALDP,       AK,
      8   B,          D,          IECROU,     IFUNC,
      9   IFV,        IFUNC2,     EPLA,       XX_OLD,
-     A   NOT_USED,   NOT_USED,   NOT_USED,   NEL,
-     B   NFT)
+     A   NEL, NFT, MAX_SLOPE=MAX_SLOPE)
       NINDX = 0
       DO I=1,NEL
         IF (OFF(I) == ONE .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN
@@ -292,7 +296,9 @@ C
         XM(I)=XM(I)*XL0(I)
         XK(I)=XK(I)/XL0(I)
 C--- for time step compute adding +max slope of h
-        XC(I)=(XC(I)+GEO(141,MGN(I)))/XL0(I)
+C Should it be replaced by the 
+C       XC(I)=(XC(I)+GEO(141,MGN(I)))/XL0(I)
+        XC(I) = (XC(I) + MAX_SLOPE(i)) / XL0(I)
       ENDDO
 C
       DO I=1,NEL

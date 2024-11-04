@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    redef3_law113   ../engine/source/elements/spring/redef3_law113.F
       !||    repla3          ../engine/source/elements/spring/repla3.F
       !||====================================================================
-      SUBROUTINE R23L113DEF3(
+      SUBROUTINE R23L113DEF3(PYTHON,
      1   SKEW,    IPM,     IGEO,    MID,
      2   PID,     GEO,     UPARAM,  FX,
      3   FY,      FZ,      E,       DX,
@@ -57,6 +57,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      Q   VZ1,     VZ2,     NUVAR,   UVAR,
      R   MASS,    DX0,     DY0,     DZ0,
      S   RX0,     RY0,     RZ0,     NFT)
+        USE python_funct_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -80,6 +81,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(python_), intent(inout) :: PYTHON
       INTEGER, INTENT(IN) :: NFT
       INTEGER NPF(*),IGEO(NPROPGI,*),NEL,NGL(*),PID(*),MID(*),NUVAR,
      .     IPM(NPROPMI,*)
@@ -135,6 +137,7 @@ C     REAL
      .     RYAV1, RZAV1, RYAV1P, RZAV1P,ASRATE,NOT_USED
       DOUBLE PRECISION X0DP(MVSIZ)
       my_real ,DIMENSION(:), POINTER :: COORD_OLD
+      LOGICAL :: ANY_PYTHON_FUNCTION
 C-----------------------------------------------
 C
       NOT_USED = ZERO
@@ -330,7 +333,7 @@ C-------------------------------
         DMX(I)   = UPARAM(IADBUF + I9 + 1)
       ENDDO
       IF (NUVAR >=1) COORD_OLD => UVAR(1,1:NEL)
-      CALL REDEF3_LAW113(NEL, NFT ,
+      CALL REDEF3_LAW113(PYTHON, NEL, NFT ,
      .            FX      ,XK      ,DX      ,FXEP       ,DXOLD   ,
      .            DPX     ,TF      ,NPF     ,XC         ,OFF     ,
      .            E6(1,1) ,DPX2    ,ANIM    ,ANIM_FE(11),POSX    ,
@@ -403,7 +406,7 @@ C
 C
       KK = 1 + NUMELR * ANIM_FE(11)
       IF (NUVAR >= 2) COORD_OLD => UVAR(2,1:NEL)
-      CALL REDEF3_LAW113(NEL, NFT ,
+      CALL REDEF3_LAW113(PYTHON, NEL, NFT ,
      .            FY      ,YK     ,DY      ,FYEP       ,DYOLD   ,
      .            DPY     ,TF     ,NPF     ,YC         ,OFF     ,
      .            E6(1,2) ,DPY2   ,ANIM(KK),ANIM_FE(12),POSY    ,
@@ -477,7 +480,7 @@ C
 C
       KK = 1 + NUMELR * (ANIM_FE(11)+ANIM_FE(12))
       IF (NUVAR >= 3) COORD_OLD => UVAR(3,1:NEL)
-      CALL REDEF3_LAW113(NEL, NFT ,
+      CALL REDEF3_LAW113(PYTHON, NEL, NFT ,
      .            FZ      ,ZK     ,DZ      ,FZEP       ,DZOLD   ,
      .            DPZ     ,TF     ,NPF     ,ZC         ,OFF     ,
      .            E6(1,3) ,DPZ2   ,ANIM(KK),ANIM_FE(13),POSZ    ,
@@ -595,7 +598,7 @@ C-------------------------------
         DMX(I)   = UPARAM(IADBUF + I9 + 4)
       ENDDO
       IF (NUVAR >= 4) COORD_OLD => UVAR(4,1:NEL)
-      CALL REDEF3_LAW113(NEL, NFT,
+      CALL REDEF3_LAW113(PYTHON, NEL, NFT,
      .            XMOM    ,XK      ,RX      ,XMEP       ,DXOLD   ,
      .            RPX     ,TF      ,NPF     ,XC         ,OFF     ,
      .            E6(1,4) ,RPX2    ,ANIM    ,0          ,POSXX   ,
@@ -667,7 +670,7 @@ C
         DMX(I)   = UPARAM(IADBUF + I9 + 5)
       ENDDO
       IF (NUVAR >= 5) COORD_OLD => UVAR(5,1:NEL)
-      CALL REDEF3_LAW113(NEL,NFT,
+      CALL REDEF3_LAW113(PYTHON, NEL,NFT,
      .            YMOM    ,YK      ,RY      ,YMEP       ,DYOLD   ,
      .            RPY     ,TF      ,NPF     ,YC         ,OFF     ,
      .            E6(1,5) ,RPY2    ,ANIM    ,0          ,POSYY   ,
@@ -739,7 +742,7 @@ C
         DMX(I)   = UPARAM(IADBUF + I9 + 6)
       ENDDO
       IF (NUVAR >= 6) COORD_OLD => UVAR(6,1:NEL)
-      CALL REDEF3_LAW113(NEL,NFT,
+      CALL REDEF3_LAW113(PYTHON, NEL,NFT,
      .            ZMOM    ,ZK      ,RZ      ,ZMEP       ,DZOLD    ,
      .            RPZ     ,TF      ,NPF     ,ZC         ,OFF      ,
      .            E6(1,6) ,RPZ2    ,ANIM    ,0          ,POSZZ    ,

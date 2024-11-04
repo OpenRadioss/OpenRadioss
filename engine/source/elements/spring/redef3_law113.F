@@ -30,7 +30,7 @@ C----s---1----+----2----+----3----+----4----+----5----+----6----+----7--
       !||    vinter2         ../engine/source/tools/curve/vinter.F
       !||    vinter2dp       ../engine/source/tools/curve/vinter.F
       !||====================================================================
-      SUBROUTINE REDEF3_LAW113(NEL ,NFT,
+      SUBROUTINE REDEF3_LAW113(PYTHON,NEL ,NFT,
      .                  FX      ,XK     ,DX     ,FXEP       ,DXOLD ,
      .                  DPX     ,TF     ,NPF    ,XC         ,OFF   ,
      .                  E       ,DPX2   ,ANIM   ,IANI       ,POS   ,
@@ -39,6 +39,9 @@ C----s---1----+----2----+----3----+----4----+----5----+----6----+----7--
      .                  YIELD    ,AK     ,B     ,D          ,
      .                  IECROU  ,IFUNC  ,IFV    ,IFUNC2     ,IFUNC4 ,
      .                  EPLA    ,XX_OLD   )
+C-----------------------------------------------
+        USE PYTHON_FUNCT_MOD
+        USE VINTER_MIXED_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,8 +61,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t 
 C-----------------------------------------------
+      type(python_), intent(inout) :: PYTHON
       INTEGER, INTENT(IN) :: NPF(SNPC),IANI,NEL, NFT
-      INTEGER, DIMENSION(MVSIZ),INTENT(IN) :: IECROU,IFUNC,IFV,
+      INTEGER, DIMENSION(MVSIZ),INTENT(INOUT) :: IECROU,IFUNC,IFV,
      .                                        IFUNC2,IFUNC3,IFUNC4
 C     REAL
       my_real, DIMENSION(MVSIZ), INTENT(IN):: AK,B,XL0,XK,FF,LSCALE,DMN,
@@ -83,9 +87,6 @@ C-----------------------------------------------
      . JFUNC,JFUNC2,JDMP,JECROU(-1:11),J2DMP,K1,NP1,NP2,
      . I, J, II, INTERP, K, FUNC,FUND,J1,J2FUNC,J3FUNC,J2K
 c     REAL ou REAL*8
-      my_real 
-     .     FINTER 
-      EXTERNAL FINTER
       my_real, DIMENSION(MVSIZ) ::   DDX,FOLD, GX, DXELA, DYD,
      .                               XX, XX2, XX3, YY, YY2, YY3,DYDX,
      .                               DYDX2, DYDX3, DYDXV, DPERM,FMAX,
@@ -98,7 +99,10 @@ c     REAL ou REAL*8
       my_real 
      . DVV, DFAC, DT11, DAMP, DAMM,B1,XI1,XI2,YI1,YI2 ,
      . S1,S2,T1C,T2C,X1,X2,Y1,Y2
+       INTEGER :: PYID
+       LOGICAL :: ANY_PYTHON_FUNCTION
 C=======================================================================
+      ANY_PYTHON_FUNCTION = .FALSE.
       DT11 = DT1
       IF(DT11==ZERO)DT11 = EP30
       DO I=1,NEL
@@ -186,14 +190,30 @@ C
           JPOS(I)  = NINT(POS(1,I))
           JPOS2(I) = NINT(POS(2,I))
           JPOS3(I) = NINT(POS(3,I))
-          
           JFUNC =MAX(1,IFUNC(I))
+          PYID = PYTHON_FUNCT_ID(NFUNCT,JFUNC,NPF)  
+          IF(PYID <=0) THEN ! not python function 
+            JFUNC =MAX(1,IFUNC(I))
+            JAD(I)   = NPF(JFUNC) / 2  + 1
+            JLEN(I)  = NPF(JFUNC+1) / 2  - JAD(I)  - JPOS(I)
+            JLEN3(I) = NPF(JFUNC+1) / 2  - JAD(I)  - JPOS3(I)
+          ELSE
+            ANY_PYTHON_FUNCTION = .TRUE.
+            JAD(i) = -PYID
+            JLEN(i) = -PYID
+            JLEN3(i) = -PYID
+          ENDIF
           JFUNC2=MAX(1,IFUNC2(I))
-          JAD(I)   = NPF(JFUNC) / 2  + 1
-          JAD2(I)  = NPF(JFUNC2) / 2 + 1
-          JLEN(I)  = NPF(JFUNC+1) / 2  - JAD(I)  - JPOS(I)
-          JLEN2(I) = NPF(JFUNC2+1) / 2 - JAD2(I) - JPOS2(I)
-          JLEN3(I) = NPF(JFUNC+1) / 2  - JAD(I)  - JPOS3(I)
+          PYID = PYTHON_FUNCT_ID(NFUNCT, JFUNC2,NPF)
+          IF(PYID <=0) THEN ! not python function
+            JFUNC2=MAX(1,IFUNC2(I))
+            JAD2(I)  = NPF(JFUNC2) / 2 + 1
+            JLEN2(I) = NPF(JFUNC2+1) / 2 - JAD2(I) - JPOS2(I)
+          ELSE 
+            JAD2(i) = -PYID  
+            JLEN2(i) = -PYID
+            ANY_PYTHON_FUNCTION = .TRUE.
+          ENDIF
           XX(I) =ZERO
           XX2(I)=ZERO
           XX3(I)=ZERO  
@@ -298,10 +318,26 @@ C-------------------------------------
 C-------------------------------------
 C       ELASTO PLASTIC (ISTROPIC HARDENING  )
 C-------------------------------------
+      IF(ANY_PYTHON_FUNCTION .AND. JECROU(6) > 0) THEN
+        DO I=1,NEL                                          
+          IF(IFUNC2(i) < 0 ) THEN
+            FUND = -JLEN2(I)           ! Curve ID
+            ! Obtain the derivative directly at FXEP(I)
+            CALL PYTHON_DERIV_FUNCT1D(PYTHON, FUND, FXEP(I), AN3Y0(I))
+            ! Calculate FX(I) and XX(I) based on the derivative
+            FX(I) = FXEP(I) + AN3Y0(I) * DDX(I)
+            XX(I) = SIGN(ABS(XX_OLD(I)), FX(I))
+            XX(I) = XX(I) + DDX(I)
+            INTERP = 0
+          ENDIF
+        ENDDO
+      ENDIF
+
       IF(JECROU(6)== NEL)THEN
         DO I=1,NEL                                          
           FUND = IFUNC2(I)     ! courbe N3 de unload                                                             
-          NP2  = (NPF(FUND+1)-NPF(FUND))*HALF                       
+          IF(JLEN2(I) < 0) CYCLE !if JLEN2(I) < 0, FUNC2 is a python function
+          NP2  = (NPF(FUND+1)-NPF(FUND))/2 
           AN3Y0(I)= ZERO 
           DO  K=2,NP2                                                       
              K1=2*(K-2)                                                
@@ -335,9 +371,10 @@ C
         ENDDO
       ELSEIF(JECROU(6)>0)THEN
         DO I=1,NEL
-         IF(IFUNC(I)/=0.AND.IECROU(I)== 6)THEN
+         IF(JLEN(I) < 0) CYCLE ! python function
+         IF(IFUNC(I) /= 0.AND.IECROU(I)== 6)THEN
           FUND = IFUNC2(I)                                                                  
-          NP2  = (NPF(FUND+1)-NPF(FUND))*HALF                       
+          NP2  = (NPF(FUND+1)-NPF(FUND))/2                       
           AN3Y0(I)= ZERO 
           DO  K=2,NP2                                                       
              K1=2*(K-2)                                                
@@ -397,7 +434,11 @@ C-------------------------------------
         XX3(I) = XX3(I)*LSCALE(I)                   
       ENDDO                          
 C----s---1----+----2----+----3----+----4----+----5----+----6----+----7--
-      IF (IRESP==1) THEN
+      IF(ANY_PYTHON_FUNCTION) THEN
+        IF(INTERP>=1) CALL VINTER_MIXED(PYTHON, TF,JAD,JPOS,JLEN,NEL,XX,DYDX,YY)
+        IF(INTERP>=2) CALL VINTER_MIXED(PYTHON, TF,JAD2,JPOS2,JLEN2,NEL,XX2,DYDX2,YY2)
+        IF(INTERP>=3) CALL VINTER_MIXED(PYTHON, TF,JAD ,JPOS3,JLEN3,NEL,XX3,DYDX3,YY3)
+      ELSEIF (IRESP==1) THEN
         IF(INTERP>=1)
      .      CALL VINTER2DP(TF,JAD ,JPOS ,JLEN ,NEL,XX ,DYDX ,YY)
         IF(INTERP>=2)
@@ -693,8 +734,12 @@ C              y = a (x-x1)^b
 C-------------------------------------
 C        ELASTO PLASTIC (ISOTROPIC HARDENING )
 C-------------------------------------
-      IF(JECROU(6)== NEL )THEN
-        CALL VINTER2(TF,JAD ,JPOS ,JLEN ,NEL ,XX ,DYDX ,YY )
+      IF(JECROU(6) == NEL )THEN
+        if(ANY_PYTHON_FUNCTION) then
+          CALL VINTER_MIXED(PYTHON, TF,JAD,JPOS,JLEN,NEL,XX,DYDX,YY)
+        ELSE
+          CALL VINTER2(TF,JAD ,JPOS ,JLEN ,NEL ,XX ,DYDX ,YY )
+        ENDIF
         DO I=1,NEL
            IF(FX(I)>= ZERO.AND.FX(I)>YIELD(I))THEN
                POS(1,I) = JPOS(I)
@@ -719,7 +764,11 @@ C-- ECR variable for hardening/softening - always incremented with positive valu
            FXEP(I)=FX(I)
         ENDDO
       ELSEIF(JECROU(6)>0)THEN
-        CALL VINTER2(TF,JAD ,JPOS ,JLEN ,NEL ,XX ,DYDX ,YY )
+        if(ANY_PYTHON_FUNCTION) then
+          CALL VINTER_MIXED(PYTHON, TF,JAD,JPOS,JLEN,NEL,XX,DYDX,YY)
+        ELSE
+          CALL VINTER2(TF,JAD ,JPOS ,JLEN ,NEL ,XX ,DYDX ,YY )
+        ENDIF
         DO I=1,NEL
          IF(IFUNC(I)/= 0.AND.IECROU(I)== 6)THEN
            IF(FX(I)>= ZERO.AND.FX(I)>YIELD(I))THEN
@@ -791,13 +840,25 @@ C--------------------------------------------------------------------
       IF(IMPL_S==0.OR.IDYNA>0) THEN
         IF(JDMP>0)THEN
           DO I=1,NEL
-           JPOS(I) = NINT(POS(4,I))
-           JFUNC=MAX(IFV(I),1)
-           JAD(I)  = NPF(JFUNC) / 2 + 1
-           JLEN(I) = NPF(JFUNC+1) / 2 - JAD(I) - JPOS(I)
+            JFUNC=MAX(IFV(I),1)
+            PYID = PYTHON_FUNCT_ID(NFUNCT,JFUNC,NPF)
+            IF(PYID > 0) THEN
+             JPOS(I) = -PYID
+             JAD(I)  = -PYID
+             ANY_PYTHON_FUNCTION = .TRUE.
+            ELSE
+              JPOS(I) = NINT(POS(4,I))
+              JFUNC=MAX(IFV(I),1)
+              JAD(I)  = NPF(JFUNC) / 2 + 1
+              JLEN(I) = NPF(JFUNC+1) / 2 - JAD(I) - JPOS(I)
+            ENDIF
           ENDDO
 C
-          CALL VINTER2(TF,JAD,JPOS,JLEN,NEL ,DVXS,DYDXV,GX)
+          IF(ANY_PYTHON_FUNCTION) THEN
+            CALL VINTER_MIXED(PYTHON, TF,JAD,JPOS,JLEN,NEL,DVXS,DYDXV,GX)
+          ELSE
+            CALL VINTER2(TF,JAD,JPOS,JLEN,NEL ,DVXS,DYDXV,GX)
+          ENDIF
 C
           DO I=1,NEL
             POS(4,I) = JPOS(I)
@@ -806,30 +867,52 @@ C
 c---------------------------G * funct_id_4
         IF(J2DMP>0)THEN
           DO I=1,NEL
-           J2POS(I) = NINT(POS(5,I))
-           J2FUNC=MAX(IFUNC3(I),1)
-           J2AD(I)  = NPF(J2FUNC) / 2 + 1
-           J2LEN(I) = NPF(J2FUNC+1) / 2 - J2AD(I) - J2POS(I)
+            J2FUNC=MAX(IFUNC3(I),1)
+            PYID = PYTHON_FUNCT_ID(NFUNCT,J2FUNC,NPF)
+            IF(PYID > 0) then ! python function
+              J2POS(I) = -PYID
+              J3AD(I)  = -PYID  
+              ANY_PYTHON_FUNCTION = .TRUE.
+            ELSE ! tabulated function
+              J2POS(I) = NINT(POS(5,I))
+              J2FUNC=MAX(IFUNC3(I),1)
+              J2AD(I)  = NPF(J2FUNC) / 2 + 1
+              J2LEN(I) = NPF(J2FUNC+1) / 2 - J2AD(I) - J2POS(I)
+            ENDIF
           ENDDO
-           CALL VINTER2(TF,J2AD,J2POS,J2LEN,NEL,DVXS,DYDXV2,GX2)
-
-         DO I=1,NEL
-           POS(5,I) = J2POS(I)
-         ENDDO
+          IF(ANY_PYTHON_FUNCTION) THEN
+            CALL VINTER_MIXED(PYTHON, TF,J2AD,J2POS,J2LEN,NEL,DVXS,DYDXV2,GX2)
+          ELSE
+            CALL VINTER2(TF,J2AD,J2POS,J2LEN,NEL,DVXS,DYDXV2,GX2)
+          ENDIF
+          DO I=1,NEL
+            POS(5,I) = J2POS(I)
+          ENDDO
         ENDIF
 c---------------------------K * funct_id_5
         IF(J2K > 0)THEN
           DO I=1,NEL
-           J3POS(I) = NINT(POS(6,I))
-           J3FUNC   = MAX(IFUNC4(I),1)
-           J3AD(I)  = NPF(J3FUNC) / 2 + 1
-           J3LEN(I) = NPF(J3FUNC+1) / 2 - J3AD(I) - J3POS(I)
+            J3FUNC   = MAX(IFUNC4(I),1)
+            PYID = PYTHON_FUNCT_ID(NFUNCT,J3FUNC,NPF)
+            IF(PYID > 0) then ! python function
+             J3POS(I) = -PYID
+             J3AD(I)  = -PYID
+             ANY_PYTHON_FUNCTION = .TRUE.
+            ELSE ! TABULATED FUNCTION
+              J3POS(I) = NINT(POS(6,I))
+              J3FUNC   = MAX(IFUNC4(I),1)
+              J3AD(I)  = NPF(J3FUNC) / 2 + 1
+              J3LEN(I) = NPF(J3FUNC+1) / 2 - J3AD(I) - J3POS(I)
+            ENDIF
           ENDDO
-           CALL VINTER2(TF,J3AD,J3POS,J3LEN,NEL,XX,DKDX2,KX2)
-
-         DO I=1,NEL
-           POS(6,I) = J3POS(I)
-         ENDDO
+          IF(ANY_PYTHON_FUNCTION) THEN
+            CALL VINTER_MIXED(PYTHON, TF,J3AD,J3POS,J3LEN,NEL,DVXS,DKDX2,KX2)
+          ELSE
+            CALL VINTER2(TF,J3AD,J3POS,J3LEN,NEL,XX,DKDX2,KX2)
+          ENDIF
+          DO I=1,NEL
+            POS(6,I) = J3POS(I)
+          ENDDO
         ENDIF
 c------------------------- 
         IF(J2K /= NEL)THEN
@@ -854,7 +937,6 @@ c-------------------------
         ENDIF
       
         DO I=1,NEL
-           
           DVV  = MAX(ONE,ABS(DVX(I)/D(I)))
           DFAC = AK(I) + B(I) * LOG(DVV) + EE(I)*GX(I)
           FX(I)= ( DFAC*FX(I) + XC(I)*DVX(I) + GF3(I)*GX2(I) ) *OFF(I)

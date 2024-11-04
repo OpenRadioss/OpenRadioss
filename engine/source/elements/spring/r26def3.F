@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    r26sig    ../engine/source/elements/spring/r26sig.F
       !||====================================================================
-      SUBROUTINE R26DEF3(
+      SUBROUTINE R26DEF3(python,
      1   F,       E,       DL,      AL0,
      2   DV0,     FEP,     DPL2,    IPOS,
      3   GEO,     IGEO,    NPF,     TF,
@@ -36,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6   MGN,     EX,      EY,      EZ,
      7   XK,      XM,      XC,      AK,
      8   NEL,     NFT,     IAD,     CRIT)
+        use python_funct_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,6 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(python_), intent(inout) :: python
       INTEGER, INTENT(IN) :: NFT
       INTEGER, INTENT(INOUT) :: IAD
       INTEGER, INTENT(IN) :: NEL
@@ -141,7 +143,7 @@ C
       ENDDO
 C
 C-----
-      CALL R26SIG(
+      CALL R26SIG(PYTHON,
      1   F,          XK,         DL,         DLOLD,
      2   E,          OFF,        XL0,        TF,
      3   NPF,        ANIM,       ANIM_FE(11),FR_WAVE,

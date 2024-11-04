@@ -468,7 +468,7 @@ C=======================================================================
      .        VFLU_ALE(3,NUMNOD),FANREACT(3,NUMNOD),FANREACR(3,NUMNOD))
 
       ALLOCATE(WGPS(NUMNOD), VGPS(NUMNOD), ITAGPS(NUMNOD))
-       
+      IADG(1:NSPMD,1:SIADG) = 0
        IF (ANIM_PLY > 0)THEN
          NPLYPARTW=NPLYPART
        ELSE

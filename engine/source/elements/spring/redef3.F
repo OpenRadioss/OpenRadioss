@@ -21,6 +21,34 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C----s---1----+----2----+----3----+----4----+----5----+----6----+----7--
+       MODULE REDEF3_MOD
+        CONTAINS
+!! for performance reasons, this function must inlined, because it is called in a loop
+!!      \brief return .true. if the function id corresponds to a python function
+           PURE INTEGER FUNCTION GET_PYTHON_FUNCT_ID(NFUNCT, FUNCT_ID, NPC) RESULT(ID)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     MODULE
+! ----------------------------------------------------------------------------------------------------------------------
+          IMPLICIT NONE
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     ARGUMENTS
+! ----------------------------------------------------------------------------------------------------------------------
+          INTEGER, INTENT(IN) :: NFUNCT
+          INTEGER, INTENT(IN) :: FUNCT_ID !< THE ID OF THE FUNCTION
+          INTEGER, INTENT(IN) :: NPC(3*NFUNCT+1) 
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   LOCAL VARIABLES
+! ----------------------------------------------------------------------------------------------------------------------
+          INTEGER :: I 
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                      BODY
+! ----------------------------------------------------------------------------------------------------------------------
+          I = 0
+          ID = 0
+          IF (FUNCT_ID> 0) I = NPC(2*NFUNCT+FUNCT_ID+1)
+          IF(I < 0) ID = -I
+        END FUNCTION GET_PYTHON_FUNCT_ID 
+
       !||====================================================================
       !||    redef3        ../engine/source/elements/spring/redef3.F
       !||--- called by ------------------------------------------------------
@@ -32,84 +60,160 @@ C----s---1----+----2----+----3----+----4----+----5----+----6----+----7--
       !||    r4def3        ../engine/source/elements/spring/r4def3.F
       !||    r6def3        ../engine/source/elements/spring/r6def3.F
       !||--- calls      -----------------------------------------------------
-      !||    finter        ../engine/source/tools/curve/finter.F
       !||    vinter2       ../engine/source/tools/curve/vinter.F
       !||    vinter2dp     ../engine/source/tools/curve/vinter.F
       !||====================================================================
-      SUBROUTINE REDEF3(
+      SUBROUTINE REDEF3(PYTHON,
      1   FX,      XK,      DX,      FXEP,
      2   DXOLD,   DPX,     TF,      NPF,
      3   XC,      OFF,     E,       DPX2,
-     4   ANIM,    IANI,    POS,     FR_WAVE,
+     4   ANIM,    IANI,    POS,     
      5   XL0,     DMN,     DMX,     DVX,
      6   FF,      LSCALE,  EE,      GF3,
      7   IFUNC3,  YIELD,   ALDP,    AK,
      8   B,       D,       IECROU,  IFUNC,
      9   IFV,     IFUNC2,  EPLA,    XX_OLD,
-     A   FX_MAX,  E_OFFSET,XKC,     NEL,
-     B   NFT)
+     A   NEL, NFT, MAX_SLOPE, FX_MAX,  XKC)
+C-----------------------------------------------
+        USE PYTHON_FUNCT_MOD
+        USE VINTER_MIXED_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "scr05_c.inc"
 #include      "impl1_c.inc"
+#include      "mvsiz_p.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(python_), intent(inout) :: PYTHON
       INTEGER, INTENT(IN) :: NEL
       INTEGER, INTENT(IN) :: NFT
-      INTEGER NPF(*),IANI,IECROU(MVSIZ),IFUNC(MVSIZ),IFV(MVSIZ),
-     .    IFUNC2(MVSIZ)
-C     REAL
-      my_real
-     .   FX(*), XK(*), DX(*), FXEP(*), DXOLD(*), DPX(*), TF(*), XC(*),
-     .   OFF(*), E(*), DPX2(*),ANIM(*),POS(5,*),FR_WAVE(*),
-     .   XL0(*),DMN(*),DMX(*),DVX(*),
-     .   FF(*),LSCALE(*),EE(*),YIELD(*),
-     .   AK(MVSIZ),B(MVSIZ),D(MVSIZ),EPLA(MVSIZ),XX_OLD(*),
-     .   FX_MAX(*),E_OFFSET(*),XKC(*)
-      DOUBLE PRECISION ALDP(*)
+      INTEGER NPF(*)
+      INTEGER IANI
+      INTEGER IECROU(MVSIZ) !< Spring Hardening flag
+C                0: Elastic spring.
+C                1: Nonlinear elastic plastic spring with isotropic hardening.
+C                2: Nonlinear elastic plastic spring with uncoupled hardening.
+C                4: Nonlinear elastic plastic spring with kinematic hardening.
+C                5: Nonlinear elastic plastic spring with nonlinear unloading.
+C                6: Nonlinear elastic plastic spring with isotropic hardening and nonlinear unloading.
+C                7: Nonlinear elastic spring with elastic hystersis.
+C                8: Nonlinear elastic spring with total length function
+      INTEGER IFUNC(MVSIZ)
+      INTEGER IFV(MVSIZ)
+      INTEGER IFUNC2(MVSIZ)
+      my_real FX(*) !< External force? GBUF%FOR
+      my_real XK(MVSIZ)                      
+      my_real DX(*)                
+      my_real FXEP(*) 
+      my_real DXOLD(*) 
+      my_real DPX(*) 
+      my_real TF(*) !< functions
+      my_real XC(*) !<                     
+      my_real OFF(*) !< Offset
+      my_real E(*) !< Young's modulus
+      my_real DPX2(*) !<                       
+      my_real ANIM(*) !< Animation 
+      my_real POS(5,*) !< Position
+      my_real XL0(*) !< Length
+      my_real DMN(*) !<                     
+      my_real DMX(*) !<                     
+      my_real DVX(*) !<                      
+      my_real FF(*) !<               
+      my_real LSCALE(*) !< Length scale
+      my_real EE(*) !< Energy
+      my_real YIELD(*) !< Yield
+      my_real AK(MVSIZ) !<                   
+      my_real B(MVSIZ) !<                   
+      my_real D(MVSIZ) !<                   
+      my_real EPLA(MVSIZ) !<                   
+      my_real XX_OLD(*) !<                   
+      my_real, OPTIONAL :: MAX_SLOPE(MVSIZ) !<
+      my_real, OPTIONAL :: FX_MAX(*) !<                
+      my_real, OPTIONAL :: XKC(*) !<                   
+      DOUBLE PRECISION ALDP(*) !                      
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER
-     . JPOS(MVSIZ), JLEN(MVSIZ),JAD(MVSIZ),
-     . JPOS2(MVSIZ), JLEN2(MVSIZ),JPOS3(MVSIZ), JLEN3(MVSIZ), 
-     . JAD2(MVSIZ),JFUNC,JFUNC2,JDMP,JECROU(-1:11),J2DMP,K1,NP1,NP2,
-     . I, J, II, INTERP, K, IC1(MVSIZ), JLEN4(MVSIZ),FUNC,FUND,J1,
-     . IC2(MVSIZ),IC0(MVSIZ),TMP1(MVSIZ),TMP2(MVSIZ), IFUNC3(MVSIZ),
-     . J2POS(MVSIZ), J2LEN(MVSIZ),J2AD(MVSIZ),J2FUNC,JPOS4(MVSIZ)
+      INTEGER JPOS(MVSIZ)
+      INTEGER JLEN(MVSIZ)
+      INTEGER JAD(MVSIZ)
+      INTEGER JPOS2(MVSIZ)
+      INTEGER JLEN2(MVSIZ)
+      INTEGER JPOS3(MVSIZ)
+      INTEGER JLEN3(MVSIZ)
+      INTEGER JAD2(MVSIZ)
+      INTEGER JFUNC
+      INTEGER JFUNC2
+      INTEGER JDMP
+      INTEGER JECROU(-1:11)
+      INTEGER J2DMP
+      INTEGER K1
+      INTEGER NP2
+      INTEGER I
+      INTEGER II
+      INTEGER INTERP
+      INTEGER K
+!     INTEGER IC1(MVSIZ)
+      INTEGER IC2(MVSIZ)
+      INTEGER FUND
+      INTEGER IFUNC3(MVSIZ)
+      INTEGER J2POS(MVSIZ)
+      INTEGER J2LEN(MVSIZ)
+      INTEGER J2AD(MVSIZ)
+      INTEGER J2FUNC
 c     REAL ou REAL*8
-      my_real 
-     .     FINTER 
-      EXTERNAL FINTER
-      my_real
-     . DDX(MVSIZ),
-     . FOLD(MVSIZ), GX(MVSIZ), DXELA(MVSIZ), 
-     . DYDX(MVSIZ), XX(MVSIZ), XX2(MVSIZ), XX3(MVSIZ), YY(MVSIZ),
-     . YY2(MVSIZ), YY3(MVSIZ), DYDX2(MVSIZ), DYDX3(MVSIZ), 
-     . DYDXV(MVSIZ), DPERM(MVSIZ), XKI, X, XBID, DVV, DFAC, DT11, 
-     . DAMP, DAMM,FMAX(MVSIZ),DVXS(MVSIZ),GF3(MVSIZ),DYDXV2(MVSIZ),
-     . FMAX2,FMIN(MVSIZ),YP0,YP1,YP2,B1,GX2(MVSIZ),FY0(MVSIZ),
-     . XFY0(MVSIZ),YCUT(MVSIZ),XCUT(MVSIZ),XN3FY0(MVSIZ),
-     . UL(MVSIZ),FYIELD(MVSIZ),DPL(MVSIZ),YY22(MVSIZ),XFYN1(MVSIZ),
-     . C1,D1,A2,TMP,T2B1,T2B1PHI,T1M,T2M,T1PHIM,T2PHIM,B2,C2,D2,
-     . T1,T2,T1PHI,T2PHI,FMAXPHI,A1PHI,B1PHI,T1B1,T1B1PHI,DPERMPHI,
-     . ftmp,t1t2,t1t2phi,t1t2b1,t1t2b1phi,XI1,XI2,YI1,YI2,SI1,SI2,TI1,
-     . TI2,S1,S2,T1C,T2C,X1,X2,Y1,Y2,DYDXC,DTDS,SX,TY,DDX_T,DDX_C,
-     . AY0,AN3Y0(MVSIZ),DDPX(MVSIZ),AY1,AYN3,
-     . XFYN33(MVSIZ),XFYN11(MVSIZ),DPX3(MVSIZ),DPX22(MVSIZ),XX22(MVSIZ),
-     . EDECAL2(MVSIZ),EDECAL3(MVSIZ),ECROU(MVSIZ),DDXT,DDXC
+      my_real B1
+      my_real DDX(MVSIZ)
+      my_real FOLD(MVSIZ)
+      my_real GX(MVSIZ)
+      my_real DXELA(MVSIZ)
+      my_real DYDX(MVSIZ)
+      my_real XX(MVSIZ)
+      my_real XX2(MVSIZ)
+      my_real XX3(MVSIZ)
+      my_real YY(MVSIZ)
+      my_real YY2(MVSIZ)
+      my_real YY3(MVSIZ)
+      my_real DYDX2(MVSIZ)
+      my_real DYDX3(MVSIZ)
+      my_real DYDXV(MVSIZ)
+      my_real DPERM(MVSIZ)
+      my_real DVV
+      my_real DFAC
+      my_real DT11
+      my_real DAMP
+      my_real DAMM
+      my_real FMAX(MVSIZ)
+      my_real DVXS(MVSIZ)
+      my_real GF3(MVSIZ)
+      my_real DYDXV2(MVSIZ)
+      my_real FMIN(MVSIZ)
+      my_real GX2(MVSIZ)
+      my_real XI1
+      my_real XI2
+      my_real YI1
+      my_real YI2
+      my_real X1
+      my_real X2
+      my_real Y1
+      my_real Y2
+      my_real AN3Y0(MVSIZ)
+      my_real DDXT
+      my_real DDXC
+
+      INTEGER :: NFUNCT !< total number of functions
+      INTEGER :: PYID1, PYID2 !< Python function ID
+      LOGICAL :: ANY_PYTHON_FUNC !< Any python function?
 C=======================================================================
+      NFUNCT = PYTHON%FUNCT_OFFSET + PYTHON%nb_functs! OFFSET = nb of non-python functions
+      ANY_PYTHON_FUNC = .FALSE.
       DT11 = DT1
       IF(DT11==ZERO)DT11 = EP30
       DO I=1,NEL
@@ -120,18 +224,18 @@ C=======================================================================
         E(I)=E(I)/XL0(I)
       ENDDO
 C
-      DO 80  I=1,NEL
-      FOLD(I)=FX(I)
-      DDX(I)= (DX(I)-DXOLD(I))
-      DVX(I)= DDX(I)/ DT11
-      DVXS(I)= DVX(I)*FF(I)
-   80 CONTINUE
+      DO I=1,NEL
+        FOLD(I)=FX(I)
+        DDX(I)= (DX(I)-DXOLD(I))
+        DVX(I)= DDX(I)/ DT11
+        DVXS(I)= DVX(I)*FF(I)
+      ENDDO
 C
 C
       IF(IANI/=0)THEN
         DO I=1,NEL
           II=I+NFT
-          DAMP=DX(I)/MAX(DMX(I),EM15)
+          DAMP=DX(I)/MAX(DMX(I),EM15) !
           DAMM=DX(I)/MIN(DMN(I),-EM15)
           ANIM(II)=MAX(ANIM(II),DAMP,DAMM)
           ANIM(II)=MIN(ANIM(II),ONE)
@@ -205,14 +309,31 @@ C
           JPOS(I)  = NINT(POS(1,I))
           JPOS2(I) = NINT(POS(2,I))
           JPOS3(I) = NINT(POS(3,I))
-          
-          JFUNC =MAX(1,IFUNC(I))
-          JFUNC2=MAX(1,IFUNC2(I))
-          JAD(I)   = NPF(JFUNC) / 2  + 1
-          JAD2(I)  = NPF(JFUNC2) / 2 + 1
-          JLEN(I)  = NPF(JFUNC+1) / 2  - JAD(I)  - JPOS(I)
-          JLEN2(I) = NPF(JFUNC2+1) / 2 - JAD2(I) - JPOS2(I)
-          JLEN3(I) = NPF(JFUNC+1) / 2  - JAD(I)  - JPOS3(I)
+          PYID1 = GET_PYTHON_FUNCT_ID(NFUNCT, IFUNC(I),NPF)
+          PYID2 = GET_PYTHON_FUNCT_ID(NFUNCT, IFUNC2(I),NPF)
+          IF(PYID1 > 0) THEN 
+            JAD(I) = -PYID1
+            JLEN(I) = -PYID1
+            JLEN3(I) = -PYID1
+            IFUNC(I) = PYID1
+            ANY_PYTHON_FUNC = .TRUE.
+          ELSE 
+            JFUNC =MAX(1,IFUNC(I))
+            JAD(I)   = NPF(JFUNC) / 2  + 1
+            JLEN(I)  = NPF(JFUNC+1) / 2  - JAD(I)  - JPOS(I)
+            JLEN3(I) = NPF(JFUNC+1) / 2  - JAD(I)  - JPOS3(I)
+          ENDIF
+
+          IF(PYID2 > 0) THEN
+            JAD2(I) = -PYID2
+            JLEN2(I) = -PYID2  
+            IFUNC2(I) =  PYID2
+            ANY_PYTHON_FUNC = .TRUE.
+          ELSE
+            JFUNC2=MAX(1,IFUNC2(I))
+            JAD2(I)  = NPF(JFUNC2) / 2 + 1
+            JLEN2(I) = NPF(JFUNC2+1) / 2 - JAD2(I) - JPOS2(I)
+          ENDIF
           XX(I) =ZERO
           XX2(I)=ZERO
           XX3(I)=ZERO  
@@ -221,11 +342,7 @@ C
 C-------------------------------------
 C        NON LINEAIRE ELASTIQUE, F=f(total length)
 C-------------------------------------
-      IF (JECROU(8) == NEL) THEN
-        DO I=1,NEL
-          XX(I) = ALDP(I)
-        ENDDO
-      ELSEIF (JECROU(8) > 0) THEN
+      IF (JECROU(8) > 0) THEN
         DO I=1,NEL
           IF (IECROU(I) == 8) THEN
             XX(I) = ALDP(I)
@@ -235,36 +352,23 @@ C-------------------------------------
         ENDDO
       ENDIF
 C-------------------------------------
-C        NON LINEAIRE ELASTIQUE
-C        NL ELASTO PLASTIQUE (TENSION COMPRESSION DECOUPLEE)
+C        NON LINEAR ELASTIC
+C        NL ELASTO PLASTIC (TENSION COMPRESSION DECOUPLED)
 C-------------------------------------
-      IF(JECROU(0)+JECROU(2)==NEL)THEN
+      IF(JECROU(0)+JECROU(2)>0)THEN
         DO I=1,NEL
-          XX(I)=DX(I)
-        ENDDO
-      ELSEIF(JECROU(0)+JECROU(2)>0)THEN
-        DO I=1,NEL
-          IF(IFUNC(I)/=0.AND.(IECROU(I)==0.OR.IECROU(I)==2))THEN
+          IF(IFUNC(I) /= 0.AND.(IECROU(I)==0.OR.IECROU(I)==2))THEN
             XX(I)=DX(I)
           ENDIF
         ENDDO
       ENDIF
 C-------------------------------------
-C        ELASTO PLASTIQUE (ISOTROPE)
-C        ELASTO PLASTIQUE (TENSION COMPRESSION COUPLEE 6 DOF COUPLES)
+C        ELASTO PLASTIC (ISOTROPIC)
+C        ELASTO PLASTIC (TENSION COMPRESSION COUPLED 6 DOF COUPLES)
 C-------------------------------------
-      IF(JECROU(1)+JECROU(3)==NEL)THEN
+      IF(JECROU(1)+JECROU(3)>0)THEN
         DO I=1,NEL
-           FX(I)=FXEP(I)+XK(I)*DDX(I)
-           IF(FX(I)>=0.)THEN
-             XX(I)=DPX(I)+FX(I)/XK(I)
-           ELSE
-             XX(I)=-DPX(I)+FX(I)/XK(I)
-           ENDIF
-        ENDDO
-      ELSEIF(JECROU(1)+JECROU(3)>0)THEN
-        DO I=1,NEL
-         IF(IFUNC(I)/=0.AND.(IECROU(I)==1.OR.IECROU(I)==3))THEN
+         IF(IFUNC(I) /= 0.AND.(IECROU(I)==1.OR.IECROU(I)==3))THEN
            FX(I)=FXEP(I)+XK(I)*DDX(I)
            IF(FX(I)>=ZERO)THEN
              XX(I)=DPX(I)+FX(I)/XK(I)
@@ -275,17 +379,11 @@ C-------------------------------------
         ENDDO
       ENDIF
 C-------------------------------------
-C        ELASTO PLASTIQUE (ECOUISSAGE CINEMATIQUE)
+C        ELASTO PLASTIC (KINEMATIC HARDENING)
 C-------------------------------------
-      IF(JECROU(4)==NEL)THEN
+      IF(JECROU(4)>0)THEN
         DO I=1,NEL
-           INTERP = MAX(2,INTERP)
-           XX(I) =DX(I)
-           XX2(I)=DX(I)
-        ENDDO
-      ELSEIF(JECROU(4)>0)THEN
-        DO I=1,NEL
-         IF(IFUNC(I)/=0.AND.IECROU(I)==4)THEN
+         IF(IFUNC(I) /= 0.AND.IECROU(I)==4)THEN
            INTERP = MAX(2,INTERP)
            XX(I) =DX(I)
            XX2(I)=DX(I)
@@ -293,28 +391,13 @@ C-------------------------------------
         ENDDO
       ENDIF
 C-------------------------------------
-C        ELASTO PLASTIQUE (TENSION COMPRESSION DECOUPLEE)
-C         (D/R)ECHARGEMENT NON LINEAIRE
-C         DPX = DEPLACEMENT MAXIMUM (ET NON PLASTIQUE)
+C        ELASTO PLASTIC (TENSION COMPRESSION DECOUPLED)
+C         (D/R)NONLINEAR RELOADING
+C         DPX = MAXIMUM DISPLACEMENT (AND NOT PLASTIC)
 C-------------------------------------
-      IF(JECROU(5)==NEL)THEN
+      IF(JECROU(5)>0)THEN
         DO I=1,NEL
-           XX(I)=DX(I)
-           IF(DX(I)>ZERO)THEN
-             INTERP = MAX(3,INTERP)
-             XX2(I)=DPX(I)
-             XX3(I)=DPX(I)
-           ELSEIF(DX(I)<ZERO)THEN
-             INTERP = MAX(3,INTERP)
-             XX2(I)=DPX2(I)
-             XX3(I)=DPX2(I)
-           ELSE
-             INTERP = MAX(1,INTERP)
-           ENDIF
-        ENDDO
-      ELSEIF(JECROU(5)>0)THEN
-        DO I=1,NEL
-         IF(IFUNC(I)/=0.AND.IECROU(I)==5)THEN
+         IF(IFUNC(I) /= 0.AND.IECROU(I)==5)THEN
            XX(I)=DX(I)
            IF(DX(I)>ZERO)THEN
              INTERP = MAX(3,INTERP)
@@ -331,65 +414,44 @@ C-------------------------------------
         ENDDO
       ENDIF
 C-------------------------------------
-C        ELASTO PLASTIQUE (ECOUISSAGE ISOTROPE)
+C        ELASTO PLASTIC (ISOTROPIC HARDENING)
 C-------------------------------------
-      IF(JECROU(6)==NEL)THEN
-        DO I=1,NEL                                          
-          FUND = IFUNC2(I)     ! courbe N3 de unload                                                             
-          NP2  = (NPF(FUND+1)-NPF(FUND))*HALF                       
-          AN3Y0(I)= ZERO 
-          DO  K=2,NP2                                                       
-             K1=2*(K-2)                                                
-             X1=TF(NPF(FUND)+K1)                                       
-             X2=TF(NPF(FUND)+K1+2)                                     
-             Y1=TF(NPF(FUND)+K1+1)                                     
-             Y2=TF(NPF(FUND)+K1+3) 
-             IF((FXEP(I)< Y2.AND.FXEP(I)>=Y1))THEN  
-                AN3Y0(I)=(Y2-Y1)/ (X2-X1)                     
-                XN3FY0(I)=(FXEP(I)-Y1)/AN3Y0(I) + X1   !ABS DE N3  
-                EXIT     
-             ENDIF 
-           ENDDO 
-           IF (AN3Y0(I)== ZERO)THEN ! extrapolation (exterieur aux points de l input)
-             X1=TF(NPF(FUND)+(NP2-2)*2)                                       
-             X2=TF(NPF(FUND)+(NP2-2)*2+2)                                     
-             Y1=TF(NPF(FUND)+(NP2-2)*2+1)                                     
-             Y2=TF(NPF(FUND)+(NP2-2)*2+3) 
-C
-             XI1=TF(NPF(FUND))                                       
-             XI2=TF(NPF(FUND)+2)                                     
-             YI1=TF(NPF(FUND)+1)                                     
-             YI2=TF(NPF(FUND)+3) 
-             IF(FXEP(I)>Y2)AN3Y0(I)=(Y2-Y1)/ (X2-X1) 
-             IF(FXEP(I)<YI1)AN3Y0(I)=(YI2-YI1)/ (XI2-XI1)
-           ENDIF    
-           FX(I)=FXEP(I)+AN3Y0(I)*DDX(I)
-           XX(I)=SIGN(ABS(XX_OLD(I)),FX(I))
-           XX(I)=XX(I)+DDX(I)
-           INTERP=0
-        ENDDO
-      ELSEIF(JECROU(6)>0)THEN
+
+      IF(JECROU(6)>0)THEN
+        IF(ANY_PYTHON_FUNC) THEN
+          DO I=1,NEL                                          
+            IF(IFUNC(I) /= 0.AND.IECROU(I)== 6 .AND. JAD2(I) < 0 )THEN
+            FUND = -JAD2(I)           ! Curve ID
+            ! Obtain the derivative directly at FXEP(I)
+            CALL PYTHON_DERIV_FUNCT1D(PYTHON, FUND, FXEP(I), AN3Y0(I))
+            ! Calculate FX(I) and XX(I) based on the derivative
+            FX(I) = FXEP(I) + AN3Y0(I) * DDX(I)
+            XX(I) = SIGN(ABS(XX_OLD(I)), FX(I))
+            XX(I) = XX(I) + DDX(I)
+            ENDIF
+          ENDDO
+        ENDIF
         DO I=1,NEL
-         IF(IFUNC(I)/=0.AND.IECROU(I)== 6)THEN
+         !if not a python function
+         IF(IFUNC(I) /= 0.AND.IECROU(I)== 6 .AND. JAD2(I) >= 0 )THEN
           FUND = IFUNC2(I)                                                                  
-          NP2  = (NPF(FUND+1)-NPF(FUND))*HALF                       
+          NP2  = (NPF(FUND+1)-NPF(FUND))/2
           AN3Y0(I)= ZERO 
           DO  K=2,NP2                                                       
-             K1=2*(K-2)                                                
+             K1=2*(K-2)
              X1=TF(NPF(FUND)+K1)                                       
              X2=TF(NPF(FUND)+K1+2)                                     
              Y1=TF(NPF(FUND)+K1+1)                                     
              Y2=TF(NPF(FUND)+K1+3) 
              IF((FXEP(I)< Y2.AND.FXEP(I)>=Y1))THEN              
                 AN3Y0(I)=(Y2-Y1)/ (X2-X1)                     
-                XN3FY0(I)=(FXEP(I)-Y1)/AN3Y0(I) + X1   !ABS DE N3  
                 EXIT     
              ENDIF 
            ENDDO 
            IF (AN3Y0(I)== ZERO)THEN
-             X1=TF(NPF(FUND)+(NP2-2)*2)                                       
-             X2=TF(NPF(FUND)+(NP2-2)*2+2)                                     
-             Y1=TF(NPF(FUND)+(NP2-2)*2+1)                                     
+             X1=TF(NPF(FUND)+(NP2-2)*2)
+             X2=TF(NPF(FUND)+(NP2-2)*2+2)
+             Y1=TF(NPF(FUND)+(NP2-2)*2+1)
              Y2=TF(NPF(FUND)+(NP2-2)*2+3) 
 C
              XI1=TF(NPF(FUND))                                       
@@ -408,38 +470,19 @@ C
 c-------------------------------------
 c      ELASTO PLASTIC TWO CURVES FOR LOAD AND UNLOAD
 c-------------------------------------
-      IF(JECROU(7)==NEL)THEN
+      IF(JECROU(7)>0)THEN
+        INTERP = MAX(2,INTERP)
         DO I=1,NEL
-           INTERP = MAX(2,INTERP)
-           XX(I) =DX(I)
-           XX2(I)=DX(I)
-        ENDDO
-      ELSEIF(JECROU(7)>0)THEN
-        DO I=1,NEL
-         IF(IFUNC(I)/=0.AND.IECROU(I)==7)THEN
-           INTERP = MAX(2,INTERP)
+         IF(IFUNC(I) /= 0.AND.IECROU(I)==7)THEN
            XX(I) =DX(I)
            XX2(I)=DX(I)
          ENDIF
         ENDDO
       ENDIF
 C-------------------------------------
-C        ELASTO PERFECLTY PLASTIQUE (ECOUISSAGE ISOTROPE) - input by values
+C        ELASTO PERFECLTY PLASTIC (ISOTROPIC HARDENING) - input by values
 C-------------------------------------
-      IF(JECROU(9)==NEL)THEN
-        DO I=1,NEL                                                              
-          AN3Y0(I)= ZERO
-          IF (ABS(FXEP(I)) > FX_MAX(I)) THEN
-            AN3Y0(I)= ZERO
-          ELSE
-             AN3Y0(I)= XK(I)
-          ENDIF
-C                                                          
-          FX(I)=FXEP(I)+AN3Y0(I)*DDX(I)
-          XX(I)=SIGN(ABS(XX_OLD(I)),FX(I))
-          XX(I)=XX(I)+DDX(I)
-        ENDDO
-      ELSEIF(JECROU(9)>0)THEN
+      IF(JECROU(9)>0)THEN
         DO I=1,NEL
           IF(IECROU(I)== 9) THEN                      
             AN3Y0(I)= ZERO 
@@ -456,62 +499,46 @@ C
         ENDDO
       ENDIF
 C-------------------------------------
-C        ELASTO PLASTIQUE (ECOUISSAGE ISOTROPE) - PERFECLTY PLASTIC IN COMPRESSION
+C        ELASTO PLASTIQUE (ISOTROPIC HARDENING) - PERFECLTY PLASTIC IN COMPRESSION
 C-------------------------------------
-      IF(JECROU(10)==NEL)THEN
-        DO I=1,NEL                                          
-          FUND = IFUNC2(I)     ! courbe N3 de unload                                                             
-          NP2  = (NPF(FUND+1)-NPF(FUND))*HALF                       
-          AN3Y0(I)= ZERO
-          DXELA(I)=DX(I)-DPX(I)
-          IF (((DXELA(I) >= ZERO).OR.(FXEP(I) >= ZERO)).AND.(FUND > 0)) THEN
-C--- Tension - load curve is used
-            DO  K=2,NP2                                                       
-              K1=2*(K-2)                                                
-              X1=TF(NPF(FUND)+K1)                                       
-              X2=TF(NPF(FUND)+K1+2)                                     
-              Y1=TF(NPF(FUND)+K1+1)                                     
-              Y2=TF(NPF(FUND)+K1+3) 
-              IF((FXEP(I)< Y2.AND.FXEP(I)>=Y1))THEN  
-                AN3Y0(I)=(Y2-Y1)/ (X2-X1)                     
-                XN3FY0(I)=(FXEP(I)-Y1)/AN3Y0(I) + X1   !ABS DE N3  
-                EXIT     
-              ENDIF 
-            ENDDO
-C            IF ((I==1).AND.(JECROU(6)>0)) print *,"LL2_A",FXEP(I),AN3Y0(I) 
-            IF (AN3Y0(I)== ZERO)THEN ! extrapolation (exterieur aux points de l input)
-              X1=TF(NPF(FUND)+(NP2-2)*2)                                       
-              X2=TF(NPF(FUND)+(NP2-2)*2+2)                                     
-              Y1=TF(NPF(FUND)+(NP2-2)*2+1)                                     
-              Y2=TF(NPF(FUND)+(NP2-2)*2+3) 
-C
-              XI1=TF(NPF(FUND))                                       
-              XI2=TF(NPF(FUND)+2)                                     
-              YI1=TF(NPF(FUND)+1)                                     
-              YI2=TF(NPF(FUND)+3) 
-              IF(FXEP(I)>Y2)AN3Y0(I)=(Y2-Y1)/ (X2-X1) 
-              IF(FXEP(I)<YI1)AN3Y0(I)=(YI2-YI1)/ (XI2-XI1)
+
+
+      IF(JECROU(10)>0)THEN
+
+         IF(ANY_PYTHON_FUNC) THEN
+           DO I=1,NEL                                          
+             IF(IFUNC(I) /=0 .AND.IECROU(I)== 10 .AND. JAD2(I) < 0)THEN
+              FUND = -JAD2(I)           ! Curve ID
+              AN3Y0(I) = ZERO
+              DXELA(I) = DX(I) - DPX(I)
+              IF (((DXELA(I) >= ZERO) .OR. (FXEP(I) >= ZERO)) .AND. (FUND > 0)) THEN
+                  CALL PYTHON_CALL_FUNCT1D(PYTHON, FUND, FXEP(I), Y1)
+                  CALL PYTHON_DERIV_FUNCT1D(PYTHON, FUND, FXEP(I), AN3Y0(I))
+                  IF (AN3Y0(I) == ZERO) THEN
+                      CALL PYTHON_CALL_FUNCT1D(PYTHON, FUND, FXEP(I), Y1)
+                      IF (FXEP(I) > Y1) THEN
+                          CALL PYTHON_DERIV_FUNCT1D(PYTHON, FUND, FXEP(I) + DDX(I), AN3Y0(I))
+                      ELSE
+                          CALL PYTHON_DERIV_FUNCT1D(PYTHON, FUND, FXEP(I) - DDX(I), AN3Y0(I))
+                      END IF
+                  END IF
+                  IF ((DXELA(I) < ZERO) .AND. (ABS(DDX(I)) > ZERO)) THEN
+                      DDXT = -FXEP(I) / AN3Y0(I)
+                      DDXC = DDX(I) - DDXT
+                      AN3Y0(I) = (DDXT / DDX(I)) * AN3Y0(I) + (DDXC / DDX(I)) * XKC(I)
+                  END IF
+                  IF (DXELA(I) >= ZERO) XX(I) = XX_OLD(I) + DDX(I)
+              ELSE
+                  AN3Y0(I) = XKC(I)
+              END IF
+              FX(I) = FXEP(I) + AN3Y0(I) * DDX(I)
             ENDIF
-C----       Crossing of compression/tension line - mix stiffness computed
-            IF ((DXELA(I) < ZERO).AND.(ABS(DDX(I)) > ZERO)) THEN
-              DDXT = -FXEP(I)/AN3Y0(I)
-              DDXC = DDX(I) - DDXT
-              AN3Y0(I) = (DDXT/DDX(I))*AN3Y0(I) + (DDXC/DDX(I))*XKC(I)
-            ENDIF
-C
-            IF (DXELA(I) >= ZERO) XX(I)=XX_OLD(I)+DDX(I)
-          ELSE
-C--- Compression - perfectly plastic behavior
-            AN3Y0(I)= XKC(I)
-          ENDIF
-          FX(I)=FXEP(I)+AN3Y0(I)*DDX(I)
-          INTERP=0
-        ENDDO
-      ELSEIF(JECROU(10)>0)THEN
+          ENDDO
+        ENDIF
         DO I=1,NEL
-         IF(IFUNC(I)/=0.AND.IECROU(I)== 10)THEN
+         IF(IFUNC(I) /=0 .AND.IECROU(I)== 10 .AND. JAD2(I) > 0)THEN
           FUND = IFUNC2(I)     ! courbe N3 de unload                                                             
-          NP2  = (NPF(FUND+1)-NPF(FUND))*HALF                       
+          NP2  = (NPF(FUND+1)-NPF(FUND))/2
           AN3Y0(I)= ZERO
           DXELA(I)=DX(I)-DPX(I)
           IF (((DXELA(I) >= ZERO).OR.(FXEP(I) >= ZERO)).AND.(FUND > 0)) THEN
@@ -524,12 +551,10 @@ C--- Tension - load curve is used
               Y2=TF(NPF(FUND)+K1+3) 
               IF((FXEP(I)< Y2.AND.FXEP(I)>=Y1))THEN  
                 AN3Y0(I)=(Y2-Y1)/ (X2-X1)                     
-                XN3FY0(I)=(FXEP(I)-Y1)/AN3Y0(I) + X1   !ABS DE N3  
                 EXIT     
               ENDIF 
             ENDDO
-C            IF ((I==1).AND.(JECROU(6)>0)) print *,"LL2_A",FXEP(I),AN3Y0(I) 
-            IF (AN3Y0(I)== ZERO)THEN ! extrapolation (exterieur aux points de l input)
+            IF (AN3Y0(I)== ZERO)THEN ! extrapolation 
               X1=TF(NPF(FUND)+(NP2-2)*2)                                       
               X2=TF(NPF(FUND)+(NP2-2)*2+2)                                     
               Y1=TF(NPF(FUND)+(NP2-2)*2+1)                                     
@@ -561,24 +586,7 @@ C--- Compression - perfectly plastic behavior
 C-------------------------------------
 C        LINEAR ELASTIC in tension - perfleclty palstic in compression (same as 10 without curve)
 C-------------------------------------
-      IF(JECROU(11)==NEL)THEN
-        DO I=1,NEL                                                              
-          AN3Y0(I)= ZERO
-          DXELA(I)=DX(I)-DPX(I)
-          AN3Y0(I)= XK(I)
-          IF ((DXELA(I) >= ZERO).OR.(FXEP(I) >= ZERO)) THEN
-C----       Crossing of compression/tension line - mix stiffness computed
-            IF ((DXELA(I) < ZERO).AND.(ABS(DDX(I)) > ZERO)) THEN
-              DDXT = -FXEP(I)/AN3Y0(I)
-              DDXC = DDX(I) - DDXT
-              AN3Y0(I) = (DDXT/DDX(I))*AN3Y0(I) + (DDXC/DDX(I))*XKC(I)
-            ENDIF
-          ELSE
-            AN3Y0(I)= XKC(I)
-          ENDIF                                                          
-          FX(I)=FXEP(I)+AN3Y0(I)*DDX(I)
-        ENDDO
-      ELSEIF(JECROU(11)>0)THEN
+      IF(JECROU(11)>0)THEN
         DO I=1,NEL
           IF(IECROU(I)== 11) THEN                      
             AN3Y0(I)= ZERO
@@ -607,21 +615,37 @@ C-------------------------------------
         XX3(I) = XX3(I)*LSCALE(I)                   
       ENDDO                          
 C----s---1----+----2----+----3----+----4----+----5----+----6----+----7--
-      IF (IRESP==1) THEN
-        IF(INTERP>=1)
-     .      CALL VINTER2DP(TF,JAD ,JPOS ,JLEN ,NEL,XX ,DYDX ,YY)
-        IF(INTERP>=2)
-     .      CALL VINTER2DP(TF,JAD2,JPOS2,JLEN2,NEL,XX2,DYDX2,YY2)
-        IF(INTERP>=3)
-     .      CALL VINTER2DP(TF,JAD ,JPOS3,JLEN3,NEL,XX3,DYDX3,YY3)
+      IF(ANY_PYTHON_FUNC) THEN
+          IF(INTERP>=1) CALL VINTER_MIXED(PYTHON, TF,JAD,JPOS,JLEN,NEL,XX,DYDX,YY)
+          IF(INTERP>=2) CALL VINTER_MIXED(PYTHON, TF,JAD2,JPOS2,JLEN2,NEL,XX2,DYDX2,YY2)
+          IF(INTERP>=3) CALL VINTER_MIXED(PYTHON, TF,JAD ,JPOS3,JLEN3,NEL,XX3,DYDX3,YY3)
       ELSE
-        IF(INTERP>=1)
-     .      CALL VINTER2(TF,JAD ,JPOS ,JLEN ,NEL,XX ,DYDX ,YY )
-        IF(INTERP>=2)
-     .      CALL VINTER2(TF,JAD2,JPOS2,JLEN2,NEL,XX2,DYDX2,YY2)
-        IF(INTERP>=3)
-     .      CALL VINTER2(TF,JAD ,JPOS3,JLEN3,NEL,XX3,DYDX3,YY3)
+        IF (IRESP==1) THEN
+
+          IF(INTERP>=1) CALL VINTER2DP(TF,JAD ,JPOS ,JLEN ,NEL,XX ,DYDX ,YY)
+          IF(INTERP>=2) CALL VINTER2DP(TF,JAD2,JPOS2,JLEN2,NEL,XX2,DYDX2,YY2)
+          IF(INTERP>=3) CALL VINTER2DP(TF,JAD ,JPOS3,JLEN3,NEL,XX3,DYDX3,YY3)
+        ELSE
+          IF(INTERP>=1) CALL VINTER2(TF,JAD ,JPOS ,JLEN ,NEL,XX ,DYDX ,YY )
+          IF(INTERP>=2) CALL VINTER2(TF,JAD2,JPOS2,JLEN2,NEL,XX2,DYDX2,YY2)
+          IF(INTERP>=3) CALL VINTER2(TF,JAD ,JPOS3,JLEN3,NEL,XX3,DYDX3,YY3)
+        ENDIF
       ENDIF
+
+      IF(PRESENT(MAX_SLOPE)) THEN
+        DO I=1,NEL
+          IF(INTERP >= 1) THEN
+            IF(JLEN(I) < 0) MAX_SLOPE(I) = MAX(MAX_SLOPE(I), TWO*ABS(DYDX(I)))
+          ENDIF
+          IF(INTERP >= 2) THEN
+            IF(JLEN2(I) < 0) MAX_SLOPE(I) = MAX(MAX_SLOPE(I), TWO*ABS(DYDX2(I)))
+          ENDIF
+          IF(INTERP >= 3) THEN
+            IF(JLEN3(I) < 0) MAX_SLOPE(I) = MAX(MAX_SLOPE(I), TWO*ABS(DYDX3(I)))
+          ENDIF
+        ENDDO
+      ENDIF
+
       IF(INTERP>0)THEN
         DO I=1,NEL
           POS(1,I) = JPOS(I)
@@ -632,11 +656,7 @@ C----s---1----+----2----+----3----+----4----+----5----+----6----+----7--
 C-------------------------------------
 C        LINEAIRE ELASTIQUE
 C-------------------------------------
-      IF(JECROU(-1)==NEL)THEN
-        DO I=1,NEL
-           FX(I)=XK(I)*DX(I)
-        ENDDO
-      ELSEIF(JECROU(-1)>0)THEN
+      IF(JECROU(-1)>0)THEN
         DO I=1,NEL
           IF(IFUNC(I)==0)THEN
             FX(I)=XK(I)*DX(I)
@@ -646,11 +666,7 @@ C-------------------------------------
 C-------------------------------------
 C        NON LINEAIRE ELASTIQUE, F = f(total length)
 C-------------------------------------
-      IF (JECROU(8) == NEL)THEN
-        DO I=1,NEL
-          FX(I)=YY(I)
-        ENDDO
-      ELSEIF (JECROU(8) > 0)THEN
+      IF (JECROU(8) > 0)THEN
         DO I=1,NEL
           IF (IECROU(I) == 8) FX(I)=YY(I)
         ENDDO
@@ -658,32 +674,17 @@ C-------------------------------------
 C-------------------------------------
 C        NON LINEAIRE ELASTIQUE
 C-------------------------------------
-      IF(JECROU(0)==NEL)THEN
+      IF(JECROU(0)>0)THEN
         DO I=1,NEL
-           FX(I)=YY(I)
-        ENDDO
-      ELSEIF(JECROU(0)>0)THEN
-        DO I=1,NEL
-           IF(IFUNC(I)/=0.AND.IECROU(I)==0) FX(I)=YY(I)
+           IF(IFUNC(I) > 0 .AND.IECROU(I)==0) FX(I)=YY(I)
         ENDDO
       ENDIF
 C-------------------------------------
 C        ELASTO PLASTIQUE (ISOTROPE)
 C-------------------------------------
-      IF(JECROU(1)==NEL)THEN
+      IF(JECROU(1)>0)THEN
         DO I=1,NEL
-           IF(FX(I)>=ZERO.AND.FX(I)>YY(I))THEN
-             DPX(I)=DPX(I)+(FX(I)-YY(I))/XK(I)
-             FX(I)=YY(I)
-           ELSEIF(FX(I)<ZERO.AND.FX(I)<YY(I))THEN
-             DPX(I)=DPX(I)+(YY(I)-FX(I))/XK(I)
-             FX(I)=YY(I)
-           ENDIF
-           FXEP(I)=FX(I)
-        ENDDO
-      ELSEIF(JECROU(1)>0)THEN
-        DO I=1,NEL
-         IF(IFUNC(I)/=0.AND.IECROU(I)==1)THEN
+         IF(IFUNC(I) /= 0.AND.IECROU(I)==1)THEN
            IF(FX(I)>=ZERO.AND.FX(I)>YY(I))THEN
              DPX(I)=DPX(I)+(FX(I)-YY(I))/XK(I)
              FX(I)=YY(I)
@@ -698,25 +699,9 @@ C-------------------------------------
 C-------------------------------------
 C        ELASTO PLASTIQUE (TENSION COMPRESSION DECOUPLEE)
 C-------------------------------------
-      IF(JECROU(2)==NEL)THEN
+      IF(JECROU(2)>0)THEN
         DO I=1,NEL
-           IF(DX(I)>DPX(I))THEN
-             FX(I)  = XK(I) * (DX(I)-DPX(I))
-             FXEP(I)= YY(I)
-             FX(I)  = MIN(FX(I),FXEP(I))
-             DPX(I) = DX(I) - FX(I) / XK(I) 
-           ELSEIF(DX(I)<DPX2(I))THEN
-             FX(I)   = XK(I) * (DX(I)-DPX2(I))
-             FXEP(I) = YY(I)
-             FX(I)   = MAX(FX(I),FXEP(I))
-             DPX2(I) = DX(I) - FX(I) / XK(I) 
-           ELSE
-             FX(I)   = ZERO
-           ENDIF
-        ENDDO
-      ELSEIF(JECROU(2)>0)THEN
-        DO I=1,NEL
-         IF(IFUNC(I)/=0.AND.IECROU(I)==2)THEN
+         IF(IFUNC(I) /= 0.AND.IECROU(I)==2)THEN
            IF(DX(I)>DPX(I))THEN
              FX(I)  = XK(I) * (DX(I)-DPX(I))
              FXEP(I)= YY(I)
@@ -736,20 +721,9 @@ C-------------------------------------
 C-------------------------------------
 C        ELASTO PLASTIQUE (TENSION COMPRESSION COUPLEE 6 DOF COUPLES)
 C-------------------------------------
-      IF(JECROU(3)==NEL)THEN
+      IF(JECROU(3)>0)THEN
         DO I=1,NEL
-           IF(FX(I)>=ZERO.AND.FX(I)>YY(I))THEN
-               EPLA(I)=EPLA(I)+ABS(YY(I)*(FX(I)-YY(I))/XK(I))
-               FX(I)=YY(I)
-           ELSEIF(FX(I)<ZERO.AND.FX(I)<YY(I))THEN
-               EPLA(I)=EPLA(I)+ABS(YY(I)*(YY(I)-FX(I))/XK(I))
-               FX(I)=YY(I)
-           ENDIF
-           FXEP(I)=FX(I)
-        ENDDO
-      ELSEIF(JECROU(3)>0)THEN
-        DO I=1,NEL
-         IF(IFUNC(I)/=0.AND.IECROU(I)==3)THEN
+         IF(IFUNC(I) /= 0.AND.IECROU(I)==3)THEN
            IF(FX(I)>=ZERO.AND.FX(I)>YY(I))THEN
                EPLA(I)=EPLA(I)+ABS(YY(I)*(FX(I)-YY(I))/XK(I))
                FX(I)=YY(I)
@@ -764,26 +738,9 @@ C-------------------------------------
 C-------------------------------------
 C        ELASTO PLASTIQUE (ECOUISSAGE CINEMATIQUE)
 C-------------------------------------
-      IF(JECROU(4)==NEL)THEN
+      IF(JECROU(4)>0)THEN
         DO I=1,NEL
-          FX(I) = FXEP(I) + XK(I)*DDX(I)
-          IC2(I)= 0
-          IF(FX(I)>YY(I))THEN
-            IC2(I)=1
-            FX(I) = YY(I)
-          ENDIF
-          IF(FX(I)<YY2(I))THEN
-            IC2(I)=2
-            FX(I) = YY2(I)
-          ENDIF
-        ENDDO
-        DO I=1,NEL
-          FXEP(I)=FX(I)
-          DPX(I) = DX(I) - FX(I) / XK(I) 
-        ENDDO
-      ELSEIF(JECROU(4)>0)THEN
-        DO I=1,NEL
-          IF(IFUNC(I)/=0.AND.IECROU(I)==4)THEN
+          IF(IFUNC(I) /= 0.AND.IECROU(I)==4)THEN
             FX(I) = FXEP(I) + XK(I)*DDX(I)
             IC2(I)= 0
             IF(FX(I)>YY(I))THEN
@@ -797,65 +754,20 @@ C-------------------------------------
           ENDIF
         ENDDO
         DO I=1,NEL
-          IF(IFUNC(I)/=0.AND.IECROU(I)==4)THEN
+          IF(IFUNC(I) /= 0.AND.IECROU(I)==4)THEN
             FXEP(I)=FX(I)
             DPX(I) = DX(I) - FX(I) / XK(I) 
           ENDIF
         ENDDO
       ENDIF
 C-------------------------------------
-C        ELASTO PLASTIQUE (TENSION COMPRESSION DECOUPLEE)
-C         (D/R)ECHARGEMENT NON LINEAIRE
-C         DPX = DEPLACEMENT MAXIMUM (ET NON PLASTIQUE)
+C        ELASTO PLASTIC (TENSION COMPRESSION DECOUPLED)
+C         (D/R)NONLINEAR RELOADING
+C         DPX = MAXIMUM DISPLACEMENT (AND NOT PLASTIC)
 C-------------------------------------
-      IF(JECROU(5)==NEL)THEN
+      IF(JECROU(5)>0)THEN
         DO I=1,NEL
-           IF(DX(I)>DPX(I))THEN
-             FX(I)=YY(I)
-             DPX(I) = DX(I)
-           ELSEIF(DX(I)>ZERO)THEN
-             DPERM(I)=MAX(YY2(I),ZERO)
-             TMP1(I) = DPERM(I)
-             IF(DX(I)>DPERM(I).AND.YY3(I)/=ZERO)THEN
-               FMAX(I)=YY3(I)/LSCALE(I)
-               TMP2(I) = FMAX(I)
-               DPERM(I)=MIN(DPERM(I),DPX(I)- FMAX(I) / XK(I))
-               B1 = (DPX(I)-DPERM(I))*XK(I)/FMAX(I)
-               FMIN(I)=FMAX(I)*
-     .          ( (DX(I)-DPERM(I))/(DPX(I)-DPERM(I)) )**B1
-               FMAX(I) = FMAX(I)*(DX(I)-DPERM(I))/(DPX(I)-DPERM(I))
-               FX(I)=FXEP(I)+XK(I)*DDX(I)
-               FX(I)=MAX(FX(I),FMIN(I),ZERO)
-               FX(I)=MIN(FX(I),FMAX(I),YY(I))
-             ELSE
-               FX(I) = ZERO
-             ENDIF
-           ELSEIF(DX(I)<DPX2(I))THEN
-             FX(I)=YY(I)
-             DPX2(I) = DX(I)
-           ELSEIF(DX(I)<ZERO)THEN
-             DPERM(I)=MIN(YY2(I),ZERO)
-             TMP1(I) = DPERM(I)
-             IF(DX(I)<DPERM(I).AND.YY3(I)/=ZERO)THEN
-               FMAX(I)=YY3(I)/LSCALE(I)
-               TMP2(I) = FMAX(I)
-               DPERM(I)=MAX(DPERM(I),DPX2(I)- FMAX(I) / XK(I))
-               B1 = (DPX2(I)-DPERM(I))*XK(I)/FMAX(I)
-               FMIN(I)= FMAX(I)*
-     .             ( (-DX(I)+DPERM(I)) / (-DPX2(I)+DPERM(I)) )**B1
-               FMAX(I) = FMAX(I)*(DX(I)-DPERM(I))/(DPX2(I)-DPERM(I))
-               FX(I)=FXEP(I)+XK(I)*DDX(I)
-               FX(I)=MIN(FX(I),FMIN(I),ZERO)
-               FX(I)=MAX(FX(I),FMAX(I),YY(I))
-             ELSE
-               FX(I) = ZERO
-             ENDIF
-           ENDIF
-           FXEP(I)=FX(I)
-        ENDDO
-      ELSEIF(JECROU(5)>0)THEN
-        DO I=1,NEL
-         IF(IFUNC(I)/=0.AND.IECROU(I)==5)THEN
+         IF(IFUNC(I) /= 0.AND.IECROU(I)==5)THEN
            IF(DX(I)>DPX(I))THEN
              FX(I)=YY(I)
              DPX(I) = DX(I)
@@ -901,37 +813,16 @@ C              y = a (x-x1)^b
         ENDDO
       ENDIF
 C-------------------------------------
-C        ELASTO PLASTIQUE (ECOUISSAGE ISOTROPE)
+C        ELASTO PLASTIC (ISOTROPIC HARDENING)
 C-------------------------------------
-      IF(JECROU(6)==NEL)THEN
-        CALL VINTER2(TF,JAD ,JPOS ,JLEN ,NEL,XX ,DYDX ,YY )
+      IF(JECROU(6)>0)THEN
+        IF(ANY_PYTHON_FUNC) THEN 
+          CALL VINTER_MIXED(PYTHON, TF,JAD,JPOS,JLEN,NEL,XX,DYDX,YY)
+        ELSE
+          CALL VINTER2(TF,JAD ,JPOS ,JLEN ,NEL,XX ,DYDX ,YY )
+        ENDIF
         DO I=1,NEL
-           IF(FX(I)>= ZERO.AND.FX(I)>YIELD(I))THEN
-               POS(1,I) = JPOS(I)
-C-- COMPUTE PLASTIC AND ELASTIC DEFORMATION (TOTAL)    
-               DPX(I)=DPX(I)+(FX(I)-YY(I))/AN3Y0(I)
-               DXELA(I)=DX(I)-DPX(I)
-               FX(I)=YY(I) !H1
-               YIELD(I)=FX(I)
-C-- ECR variable for hardening/softening - always incremented with positive value
-               XX_OLD(I) = XX_OLD(I) + ABS(DDX(I))
-C---FX< O 
-           ELSEIF(FX(I)< ZERO.AND.FX(I)< -YIELD(I))THEN
-               POS(1,I) = JPOS(I)
-C-- COMPUTE PLASTIC AND ELASTIC DEFORMATION (TOTAL)  
-               DPX(I)=DPX(I)+(YY(I)-FX(I))/AN3Y0(I)  
-               DXELA(I)=DX(I)-DPX(I)
-               FX(I)=YY(I)
-               YIELD(I)=-FX(I)
-C-- ECR variable for hardening/softening - always incremented with positive value
-               XX_OLD(I) = XX_OLD(I) + ABS(DDX(I))
-           ENDIF
-           FXEP(I)=FX(I)
-        ENDDO
-      ELSEIF(JECROU(6)>0)THEN
-        CALL VINTER2(TF,JAD ,JPOS ,JLEN ,NEL,XX ,DYDX ,YY )
-        DO I=1,NEL
-         IF(IFUNC(I)/= 0.AND.IECROU(I)== 6)THEN
+         IF(IFUNC(I) /=  0.AND.IECROU(I)== 6)THEN
            IF(FX(I)>= ZERO.AND.FX(I)>YIELD(I))THEN
                POS(1,I) = JPOS(I)
 C-- COMPUTE PLASTIC AND ELASTIC DEFORMATION (TOTAL)    
@@ -958,28 +849,11 @@ C-- ECR variable for hardening/softening - always incremented with positive valu
       ENDIF
 C
 C-------------------------------------
-C        ELASTO PLASTIQUE (!!)
+C        ELASTO PLASTIC (!!)
 C-------------------------------------
-      IF (JECROU(7)==NEL) THEN
+      IF (JECROU(7) > 0) THEN
         DO I=1,NEL
-          FX(I) = FXEP(I) + XK(I)*DDX(I)
-          IF (DX(I)>= DXOLD(I).AND.DX(I)>=0)THEN
-            IF (FX(I)>YY(I)) FX(I) = YY(I) 
-          ELSEIF(DX(I)< DXOLD(I).AND.DX(I)>=0)THEN
-            IF (FX(I)<YY2(I))FX(I) = YY2(I) 
-          ELSEIF(DX(I)>= DXOLD(I).AND.DX(I)<0)THEN
-            IF(FX(I)> YY2(I))FX(I) = YY2(I)            
-          ELSEIF(DX(I)< DXOLD(I).AND.DX(I)<0)THEN
-            IF(FX(I)< YY(I))FX(I) = YY(I)
-          ENDIF
-        ENDDO
-        DO I=1,NEL
-          FXEP(I)= FX(I)
-          DPX(I) = DX(I) - FX(I) / XK(I) 
-        ENDDO
-      ELSEIF (JECROU(7) > 0) THEN
-        DO I=1,NEL
-          IF (IFUNC(I)/=0 .AND. IECROU(I)==7) THEN
+          IF (IFUNC(I) /= 0 .AND. IECROU(I)==7) THEN
             FX(I) = FXEP(I) + XK(I)*DDX(I)
             IF (DX(I)>= DXOLD(I) .AND. DX(I)>=0) THEN
               IF (FX(I)>YY(I)) FX(I) = YY(I)                     
@@ -996,44 +870,11 @@ C-------------------------------------
         ENDDO
       ENDIF
 C-------------------------------------
-C     SEATBELT - ELASTO PERFECLTY PLASTIQUE (ECOUISSAGE ISOTROPE) - input by values
+C     SEATBELT - ELASTO PERFECTLY PLASTIC (ISOTROPIC HARDENING) - input by values
 C-------------------------------------
-      IF(JECROU(9)==NEL)THEN
-        DO I=1,NEL
-C
-           IF (ABS(XK(I)*XX(I)) > FX_MAX(I)) THEN
-             YY(I) =SIGN(FX_MAX(I),XX(I))
-             DYDX = 0
-           ELSE
-             YY(I) = XK(I)*XX(I)
-             DYDX = XK(I) 
-           ENDIF
-C
-           IF(FX(I)>= ZERO.AND.FX(I)>YIELD(I))THEN
-C-- COMPUTE PLASTIC AND ELASTIC DEFORMATION (TOTAL)    
-               DPX(I)=DPX(I)+(FX(I)-YY(I))/AN3Y0(I)
-               DXELA(I)=DX(I)-DPX(I)
-               FX(I)=YY(I) !H1
-               YIELD(I)=FX(I)
-C-- ECR variable for hardening/softening - always incremented with positive value
-               XX_OLD(I) = XX_OLD(I) + ABS(DDX(I))
-C---FX< O 
-           ELSEIF(FX(I)< ZERO.AND.FX(I)< -YIELD(I))THEN
-
-C-- COMPUTE PLASTIC AND ELASTIC DEFORMATION (TOTAL)  
-               DPX(I)=DPX(I)+(YY(I)-FX(I))/AN3Y0(I)  
-               DXELA(I)=DX(I)-DPX(I)
-               FX(I)=YY(I)
-               YIELD(I)=-FX(I)
-C-- ECR variable for hardening/softening - always incremented with positive value
-               XX_OLD(I) = XX_OLD(I) + ABS(DDX(I))
-           ENDIF
-           FXEP(I)=FX(I)
-        ENDDO
-      ELSEIF(JECROU(9)>0)THEN
+      IF(JECROU(9)>0)THEN
         DO I=1,NEL
          IF(IECROU(I)== 9)THEN
-C
            IF (ABS(XK(I)*XX(I)) > FX_MAX(I)) THEN
              YY(I) =SIGN(FX_MAX(I),XX(I))
              DYDX = 0
@@ -1041,9 +882,8 @@ C
              YY(I) = XK(I)*XX(I)
              DYDX = XK(I) 
            ENDIF
-C
            IF(FX(I)>= ZERO.AND.FX(I)>YIELD(I))THEN
-               POS(1,I) = JPOS(I)
+c              POS(1,I) = JPOS(I)
 C-- COMPUTE PLASTIC AND ELASTIC DEFORMATION (TOTAL)    
                DPX(I)=DPX(I)+(FX(I)-YY(I))/AN3Y0(I)
                DXELA(I)=DX(I)-DPX(I)
@@ -1053,7 +893,7 @@ C-- ECR variable for hardening/softening - always incremented with positive valu
                XX_OLD(I) = XX_OLD(I) + ABS(DDX(I))
 C---FX< O 
            ELSEIF(FX(I)< ZERO.AND.FX(I)< -YIELD(I))THEN
-               POS(1,I) = JPOS(I)
+c              POS(1,I) = JPOS(I)
 C-- COMPUTE PLASTIC AND ELASTIC DEFORMATION (TOTAL)  
                DPX(I)=DPX(I)+(YY(I)-FX(I))/AN3Y0(I)  
                DXELA(I)=DX(I)-DPX(I)
@@ -1069,29 +909,14 @@ C-- ECR variable for hardening/softening - always incremented with positive valu
 C-------------------------------------
 C     SEATBELT - ELASTO PLASTIQUE (ECOUISSAGE ISOTROPE) in tension - perfleclty plastic in compression
 C-------------------------------------
-      IF(JECROU(10)==NEL)THEN
-        CALL VINTER2(TF,JAD ,JPOS ,JLEN ,NEL,XX ,DYDX ,YY )
+      IF(JECROU(10)>0)THEN
+        IF(ANY_PYTHON_FUNC) THEN 
+          CALL VINTER_MIXED(PYTHON, TF,JAD,JPOS,JLEN,NEL,XX,DYDX,YY)
+        ELSE
+          CALL VINTER2(TF,JAD ,JPOS ,JLEN ,NEL,XX ,DYDX ,YY )
+        ENDIF
         DO I=1,NEL
-           IF(FX(I)> ZERO.AND.FX(I)>YIELD(I))THEN
-               POS(1,I) = JPOS(I)
-C-- COMPUTE PLASTIC AND ELASTIC DEFORMATION (TOTAL)    
-               DPX(I)=DPX(I)+(FX(I)-YY(I))/AN3Y0(I)
-               FX(I)=YY(I)
-               YIELD(I)=FX(I)
-C-- ECR variable for hardening/softening - always incremented with positive value
-               XX_OLD(I) = XX_OLD(I) + ABS(DDX(I))
-          ELSEIF(FX(I)<= -FX_MAX(I))THEN
-               YY(I) = -FX_MAX(I)
-C-- COMPUTE PLASTIC DEFORMATION (TOTAL)  
-               DPX(I)=DPX(I)+(-YY(I)+FX(I))/AN3Y0(I)
-               FX(I)=YY(I)
-          ENDIF
-          FXEP(I)=FX(I)
-        ENDDO
-      ELSEIF(JECROU(10)>0)THEN
-        CALL VINTER2(TF,JAD ,JPOS ,JLEN ,NEL,XX ,DYDX ,YY )
-        DO I=1,NEL
-         IF(IFUNC(I)/= 0.AND.IECROU(I)== 10)THEN
+         IF(IFUNC(I) /=  0.AND.IECROU(I)== 10)THEN
            IF(FX(I)> ZERO.AND.FX(I)>YIELD(I))THEN
                POS(1,I) = JPOS(I)
 C-- COMPUTE PLASTIC AND ELASTIC DEFORMATION (TOTAL)    
@@ -1113,17 +938,7 @@ C-- COMPUTE PLASTIC DEFORMATION (TOTAL)
 C-------------------------------------
 C     SEATBELT - LINEAR ELASTIC in tension - perfleclty plastic in compression
 C-------------------------------------
-      IF(JECROU(11)==NEL)THEN
-        DO I=1,NEL
-          IF(FX(I)<= -FX_MAX(I))THEN
-            YY(I) = -FX_MAX(I)
-C-- COMPUTE PLASTIC DEFORMATION (TOTAL)  
-            DPX(I)=DPX(I)+(-YY(I)+FX(I))/AN3Y0(I)
-            FX(I)=YY(I)
-          ENDIF
-          FXEP(I)=FX(I)
-        ENDDO
-      ELSEIF(JECROU(11)>0)THEN
+      IF(JECROU(11)>0)THEN
         DO I=1,NEL
           IF(IECROU(I)== 11)THEN
             IF(FX(I)<= -FX_MAX(I))THEN
@@ -1140,15 +955,28 @@ C--------------------------------------------------------------------
 C     NON LINEAR DAMPING
 C--------------------------------------------------------------------
       IF(IMPL_S==0.OR.IDYNA>0) THEN
+!  rentrer un func4 (ou 3)
         IF(JDMP>0)THEN
           DO I=1,NEL
            JPOS(I) = NINT(POS(4,I))
            JFUNC=MAX(IFV(I),1)
-           JAD(I)  = NPF(JFUNC) / 2 + 1
-           JLEN(I) = NPF(JFUNC+1) / 2 - JAD(I) - JPOS(I)
+           PYID1 = GET_PYTHON_FUNCT_ID(NFUNCT,JFUNC,NPF)
+           IF(PYID1>0)THEN
+            !python function
+            JAD(I) = -PYID1
+            JLEN(I)= -PYID1
+            ANY_PYTHON_FUNC = .TRUE.
+           ELSE
+             JAD(I)  = NPF(JFUNC) / 2 + 1
+             JLEN(I) = NPF(JFUNC+1) / 2 - JAD(I) - JPOS(I)
+           ENDIF
           ENDDO
-C
-          CALL VINTER2(TF,JAD,JPOS,JLEN,NEL,DVXS,DYDXV,GX)
+
+          IF(ANY_PYTHON_FUNC) THEN
+            CALL VINTER_MIXED(PYTHON, TF,JAD,JPOS,JLEN,NEL,XX,DYDXV,GX)
+          ELSE
+            CALL VINTER2(TF,JAD,JPOS,JLEN,NEL,DVXS,DYDXV,GX)
+          ENDIF
 C
           DO I=1,NEL
             POS(4,I) = JPOS(I)
@@ -1157,16 +985,27 @@ C
 c---------------------------G * funct_id_4
         IF(J2DMP>0)THEN
           DO I=1,NEL
-           J2POS(I) = NINT(POS(5,I))
-           J2FUNC=MAX(IFUNC3(I),1)
-           J2AD(I)  = NPF(J2FUNC) / 2 + 1
-           J2LEN(I) = NPF(J2FUNC+1) / 2 - J2AD(I) - J2POS(I)
+            J2POS(I) = NINT(POS(5,I))
+            J2FUNC=MAX(IFUNC3(I),1)
+            PYID2 = GET_PYTHON_FUNCT_ID(NFUNCT,J2FUNC,NPF)
+            IF(PYID2>0)THEN
+             !python function
+             J2AD(I) = -PYID2
+             J2LEN(I)= -PYID2
+             ANY_PYTHON_FUNC = .TRUE.
+            ELSE
+              J2AD(I)  = NPF(J2FUNC) / 2 + 1
+              J2LEN(I) = NPF(J2FUNC+1) / 2 - J2AD(I) - J2POS(I)
+            ENDIF
           ENDDO
-           CALL VINTER2(TF,J2AD,J2POS,J2LEN,NEL,DVXS,DYDXV2,GX2)
-
-         DO I=1,NEL
-           POS(5,I) = J2POS(I)
-         ENDDO
+          IF(ANY_PYTHON_FUNC) THEN
+            CALL VINTER_MIXED(PYTHON, TF,J2AD,J2POS,J2LEN,NEL,XX,DYDXV2,GX2)
+          ELSE
+            CALL VINTER2(TF,J2AD,J2POS,J2LEN,NEL,DVXS,DYDXV2,GX2)
+          ENDIF
+          DO I=1,NEL
+            POS(5,I) = J2POS(I)
+          ENDDO
         ENDIF
 c-------------------------        
         IF(JDMP/=NEL)THEN
@@ -1203,3 +1042,4 @@ C
 C----
       RETURN
       END
+      END MODULE 

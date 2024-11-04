@@ -81,7 +81,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sensor_mod          ../engine/share/modules/sensor_mod.F
       !||    table_mod           ../engine/share/modules/table_mod.F
       !||====================================================================
-      SUBROUTINE RFORC3(
+      SUBROUTINE RFORC3(PYTHON,
      1   ELBUF_STR, JFT,       JLT,       NEL,
      2   MTN,       IGEO,      GEO,       IXR,
      3   X,         TABLE,     XDP,       F,
@@ -101,6 +101,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE PYTHON_FUNCT_MOD
       USE ELBUFDEF_MOD
       USE TABLE_MOD
       USE SENSOR_MOD
@@ -127,6 +128,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(python_), INTENT(INOUT) :: PYTHON
       INTEGER, INTENT(INOUT) :: IAD
       INTEGER, INTENT(IN) :: IGRE
       INTEGER, INTENT(IN) :: NFT
@@ -240,11 +242,11 @@ C        spring may be activated by sensor and is actually inactive.
           ENDIF
         ENDDO
 C
-        CALL R1DEF3(
+        CALL R1DEF3(PYTHON,
      1   GEO,                    GBUF%FOR(II(1)),        GBUF%LENGTH(II(1)),     GBUF%EINT,
      2   GBUF%TOTDEPL(II(1)),    NPF,                    TF,                     OFF,
      3   GBUF%DEP_IN_TENS(II(1)),GBUF%FOREP(II(1)),      GBUF%DEP_IN_COMP(II(1)),ANIM,
-     4   GBUF%POSX,              FR_WAVE,                IGEO,                   GBUF%LENGTH_ERR,
+     4   GBUF%POSX,              IGEO,                   GBUF%LENGTH_ERR,
      5   X1DP,                   X2DP,                   V,                      GBUF%YIELD(II(1)),
      6   NGL,                    MGN,                    EX,                     EY,
      7   EZ,                     XK,                     XM,                     XC,
@@ -317,7 +319,7 @@ C          spring may be activated by sensor and is actually inactive.
           ENDIF
         ENDDO
 C
-        CALL R26DEF3(
+        CALL R26DEF3(PYTHON,
      1   GBUF%FOR(II(1)),        GBUF%EINT,              GBUF%TOTDEPL(II(1)),    GBUF%LENGTH(II(1)),
      2   GBUF%DV,                GBUF%FOREP(II(1)),      GBUF%DEP_IN_COMP(II(1)),GBUF%POSX,
      3   GEO,                    IGEO,                   NPF,                    TF,
@@ -383,7 +385,7 @@ C        spring may be activated by sensor and is actually inactive.
           ENDIF
         ENDDO
 C
-        CALL R27DEF3(
+        CALL R27DEF3(PYTHON,
      1   GBUF%FOR(II(1)),    GBUF%EINT,          GBUF%TOTDEPL(II(1)),GBUF%LENGTH(II(1)),
      2   GBUF%POSX,          GEO,                IGEO,               NPF,
      3   TF,                 V,                  OFF,                ANIM,
@@ -453,7 +455,7 @@ C        spring may be activated by sensor and is actually inactive.
           ENDIF
         ENDDO
 C
-        CALL R2DEF3(
+        CALL R2DEF3(PYTHON,
      1   SKEW,                   GEO,                    GBUF%FOR(II(1)),        GBUF%FOR(II(2)),
      2   GBUF%FOR(II(3)),        GBUF%EINT,              GBUF%TOTDEPL(II(1)),    GBUF%TOTDEPL(II(2)),
      3   GBUF%TOTDEPL(II(3)),    NPF,                    TF,                     OFF,
@@ -465,7 +467,7 @@ C
      9   GBUF%ROT_IN_TENS(II(3)),GBUF%MOMEP(II(1)),      GBUF%MOMEP(II(2)),      GBUF%MOMEP(II(3)),
      A   GBUF%ROT_IN_COMP(II(1)),GBUF%ROT_IN_COMP(II(2)),GBUF%ROT_IN_COMP(II(3)),ANIM,
      B   GBUF%POSX,              GBUF%POSY,              GBUF%POSZ,              GBUF%POSXX,
-     C   GBUF%POSYY,             GBUF%POSZZ,             FR_WAVE,                V,
+     C   GBUF%POSYY,             GBUF%POSZZ,             V,
      D   IGEO,                   GBUF%E6,                GBUF%RUPTCRIT,          NEL,
      E   GBUF%LENGTH_ERR,        X1DP,                   X2DP,                   GBUF%YIELD(II(1)),
      F   GBUF%YIELD(II(2)),      GBUF%YIELD(II(3)),      GBUF%YIELD(II(4)),      GBUF%YIELD(II(5)),
@@ -552,12 +554,12 @@ C        spring may be activated by sensor and is actually inactive.
           ENDIF
         ENDDO
 C
-        CALL R3DEF3(
+        CALL R3DEF3(PYTHON,
      1   GEO,                    GBUF%FOR(II(1)),        GBUF%LENGTH(II(1)),     GBUF%EINT,
      2   GBUF%TOTDEPL(II(1)),    NPF,                    TF,                     OFF,
      3   GBUF%DEP_IN_TENS(II(1)),GBUF%FOREP(II(1)),      GBUF%DEP_IN_COMP(II(1)),GBUF%DFS,
      4   V,                      IXR,                    DF,                     ANIM,
-     5   GBUF%POSX,              FR_WAVE,                IGEO,                   GBUF%LENGTH_ERR,
+     5   GBUF%POSX,              IGEO,                   GBUF%LENGTH_ERR,
      6   X1DP,                   X2DP,                   X3DP,                   GBUF%YIELD(II(1)),
      7   TABLE,                  GBUF%INIFRIC,           NGL,                    MGN,
      8   EX,                     EY,                     EZ,                     XK,
@@ -635,7 +637,7 @@ C
      9   RY2,          RZ2,          VX1,          VX2,
      A   VY1,          VY2,          VZ1,          VZ2,
      B   NC1,          NC2,          NEL)
-        CALL R4DEF3(
+        CALL R4DEF3(PYTHON,
      1   SKEW,                   GEO,                    GBUF%FOR(II(1)),        GBUF%FOR(II(2)),
      2   GBUF%FOR(II(3)),        GBUF%EINT,              GBUF%TOTDEPL(II(1)),    GBUF%TOTDEPL(II(2)),
      3   GBUF%TOTDEPL(II(3)),    NPF,                    TF,                     OFF,
@@ -756,7 +758,7 @@ C
      9   RY2,          RZ2,          VX1,          VX2,
      A   VY1,          VY2,          VZ1,          VZ2,
      B   NC1,          NC2,          NEL)
-        CALL R6DEF3(
+        CALL R6DEF3(PYTHON,
      1   SKEW,                   GEO,                    GBUF%FOR(II(1)),        GBUF%FOR(II(2)),
      2   GBUF%FOR(II(3)),        GBUF%EINT,              GBUF%TOTDEPL(II(1)),    GBUF%TOTDEPL(II(2)),
      3   GBUF%TOTDEPL(II(3)),    NPF,                    TF,                     GBUF%OFF,
@@ -768,7 +770,7 @@ C
      9   GBUF%ROT_IN_TENS(II(3)),GBUF%MOMEP(II(1)),      GBUF%MOMEP(II(2)),      GBUF%MOMEP(II(3)),
      A   GBUF%ROT_IN_COMP(II(1)),GBUF%ROT_IN_COMP(II(2)),GBUF%ROT_IN_COMP(II(3)),ANIM,
      B   GBUF%POSX,              GBUF%POSY,              GBUF%POSZ,              GBUF%POSXX,
-     C   GBUF%POSYY,             GBUF%POSZZ,             FR_WAVE,                GBUF%E6,
+     C   GBUF%POSYY,             GBUF%POSZZ,             GBUF%E6,
      D   NEL,                    AL2DP,                  EXX2,                   EYX2,
      E   EZX2,                   EXY2,                   EYY2,                   EZY2,
      F   EXZ2,                   EYZ2,                   EZZ2,                   IGEO,
@@ -849,9 +851,10 @@ C=======================================================================
      7   RZ2,      VX1,      VX2,      VY1,
      8   VY2,      VZ1,      VZ2,      NC1,
      9   NC2,      NEL)
+
         CALL R5DEF3(
      1   AL,                    GBUF%V_REPCVT(II(1):), GBUF%V_REPCVT(II(2):), GBUF%V_REPCVT(II(3):),
-     2   GBUF%VR_REPCVT(II(1):),GBUF%VR_REPCVT(II(2):),GBUF%VR_REPCVT(II(3):),FR_WAVE,
+     2   GBUF%VR_REPCVT(II(1):),GBUF%VR_REPCVT(II(2):),GBUF%VR_REPCVT(II(3):), FR_WAVE,
      3   FR_W_E,                GBUF%EINT,             GBUF%FOR(II(1):),      GBUF%MOM(II(1):),
      4   GBUF%MOM(II(2):),      GBUF%MOM(II(3):),      GBUF%FOR(II(2):),      GBUF%FOR(II(3):),
      5   PARTSAV,               IPARTR,                EXX,                   EYX,

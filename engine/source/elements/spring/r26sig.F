@@ -27,13 +27,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    finter    ../engine/source/tools/curve/finter.F
       !||====================================================================
-      SUBROUTINE R26SIG(
+      SUBROUTINE R26SIG(PYTHON, 
      1   FX,      XK,      DX,      DXOLD,
      2   E,       OFF,     XL0,     TF,
      3   NPF,     ANIM,    IANI,    FR_WAVE,
      4   DMN,     DMX,     IGEO,    GEO,
      5   PID,     DV0,     ALPHA,   NEL,
      6   NFT,     IAD)
+      use python_funct_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -46,6 +47,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(python_), intent(inout) :: python  
       INTEGER, INTENT(IN) :: NEL
       INTEGER, INTENT(IN) :: NFT
       INTEGER, INTENT(INOUT) :: IAD
@@ -72,12 +74,14 @@ C     REAL
      .    FMIN(MVSIZ),FMAX(MVSIZ),XFAC(MVSIZ)
       my_real
      .    DF1,DF2,Y1,Y2,VEL,FAC,DAMP,DAMM,DT11
+      INTEGER :: NFUNCT, PYID
 C-----------------------------------------------
 C   E x t e r n a l
 C-----------------------------------------------
       my_real
      .    finter
 C=======================================================================
+      NFUNCT = PYTHON%funct_offset + PYTHON%nb_functs ! total number of functions = non-python + python
       DT11 = DT1
       IF (DT11 == ZERO) DT11 = EP30
       DO I=1,NEL
@@ -133,19 +137,39 @@ C calcul du y_max
           FUNC1(I) = IGEO(IAD+J1,PID(I))                           
           RATE1(I) = GEO(IAD+100+J1,PID(I))                        
           YFAC1(I) = GEO(IAD+200+J1,PID(I))                        
+          PYID = python_funct_id(NFUNCT,FUNC1(I),NPF)
+          IF(PYID > 0) FUNC1(I) = -PYID
+
           IF (NFUNC(I) > 1)THEN                                    
             J2 = J1+1                                              
             FUNC2(I) = IGEO(IAD+J2,PID(I))                         
             RATE2(I) = GEO(IAD+100+J2,PID(I))                      
             YFAC2(I) = GEO(IAD+200+J2,PID(I))                      
+            PYID = python_funct_id(NFUNCT,FUNC2(I),NPF)
+            IF(PYID > 0) FUNC2(I) = -PYID
 C
-            Y1 = YFAC1(I)*FINTER(FUNC1(I),DL(I)/XFAC(I),NPF,TF,DF1)        
-            Y2 = YFAC2(I)*FINTER(FUNC2(I),DL(I)/XFAC(I),NPF,TF,DF2)         
+            IF(FUNC1(I) >= 0) THEN
+              Y1 = YFAC1(I)*FINTER(FUNC1(I),DL(I)/XFAC(I),NPF,TF,DF1)        
+            ELSE ! python
+              CALL PYTHON_CALL_FUNCT1D(PYTHON, -FUNC1(I),DL(I),Y1)
+              Y1 = Y1*YFAC1(I)
+            ENDIF
+            IF(FUNC2(I) >= 0) THEN
+              Y2 = YFAC2(I)*FINTER(FUNC2(I),DL(I)/XFAC(I),NPF,TF,DF2)         
+            ELSE ! python
+              CALL PYTHON_CALL_FUNCT1D(PYTHON, -FUNC2(I),DL(I),Y2)
+              Y2 = Y2*YFAC2(I)
+            ENDIF
 C                                                                
             FAC     = (DV(I) - RATE1(I))/(RATE2(I) - RATE1(I))     
             FMAX(I) =  -MAX(Y1 + FAC*(Y2 - Y1), EM20)               
           ELSE                                                     
-            FMAX(I) =  -YFAC1(I)*FINTER(FUNC1(I),DL(I)/XFAC(I),NPF,TF,DF1)  
+            IF(FUNC1(I) >= 0) THEN
+              FMAX(I) =  -YFAC1(I)*FINTER(FUNC1(I),DL(I)/XFAC(I),NPF,TF,DF1)  
+            ELSE ! python
+              CALL PYTHON_CALL_FUNCT1D(PYTHON, -FUNC1(I),DL(I),FMAX(I))
+              FMAX(I) = -FMAX(I)*YFAC1(I)  
+             ENDIF
           ENDIF                                                    
 C calcul du y_min  
           J1 = NFUNC(I) + 1                                        
@@ -155,22 +179,42 @@ C calcul du y_min
             IF (DV(I) >= VEL) J1 = NFUNC(I) + J                    
           ENDDO                                                    
           FUNC1(I) = IGEO(IAD+J1,PID(I))                           
+          PYID = python_funct_id(NFUNCT,FUNC1(I),NPF)
+          IF(PYID > 0) FUNC1(I) = -PYID
+
           RATE1(I) = GEO(IAD+100+J1,PID(I))                        
           YFAC1(I) = GEO(IAD+200+J1,PID(I))                        
 C                                                                
           IF (NFUND(I) > 1) THEN                                   
             J2 = J1+1                                              
             FUNC2(I) = IGEO(IAD+J2,PID(I))                         
+            PYID = python_funct_id(NFUNCT,FUNC2(I),NPF)
+            IF(PYID > 0) FUNC2(I) = -PYID
             RATE2(I) = GEO(IAD+100+J2,PID(I))                      
             YFAC2(I) = GEO(IAD+200+J2,PID(I))                      
 C
-            Y1 = YFAC1(I)*FINTER(FUNC1(I),DL(I)/XFAC(I),NPF,TF,DF1)        
-            Y2 = YFAC2(I)*FINTER(FUNC2(I),DL(I)/XFAC(I),NPF,TF,DF2)         
+            IF(FUNC1(I) >= 0) THEN
+              Y1 = YFAC1(I)*FINTER(FUNC1(I),DL(I)/XFAC(I),NPF,TF,DF1)        
+            ELSE ! python
+              CALL PYTHON_CALL_FUNCT1D(PYTHON, -FUNC1(I),DL(I),Y1)
+              Y1 = Y1*YFAC1(I)
+            ENDIF
+            IF(FUNC1(I) >= 0) THEN
+              Y2 = YFAC2(I)*FINTER(FUNC2(I),DL(I)/XFAC(I),NPF,TF,DF2)         
+            ELSE ! python
+              CALL PYTHON_CALL_FUNCT1D(PYTHON, -FUNC2(I),DL(I),Y2)
+              Y2 = Y2*YFAC2(I)
+            ENDIF
             FAC = (DV(I) - RATE1(I))/(RATE2(I) - RATE1(I))         
 c          FMIN(I) = -MAX(Y2 + FAC*(Y1-Y2), EM20)                
             FMIN(I) =  -MAX(Y1 + FAC*(Y2 - Y1), EM20)               
           ELSE                                                     
-            FMIN(I) =  -YFAC1(I)*FINTER(FUNC1(I),DL(I)/XFAC(I),NPF,TF,DF1)  
+            IF(FUNC1(I) >= 0) THEN
+              FMIN(I) =  -YFAC1(I)*FINTER(FUNC1(I),DL(I)/XFAC(I),NPF,TF,DF1)  
+            ELSE ! python
+              CALL PYTHON_CALL_FUNCT1D(PYTHON, -FUNC1(I),DL(I),FMIN(I))
+              FMIN(I) = -FMIN(I)*YFAC1(I)
+            ENDIF
           ENDIF                                                    
 C--------------
           IF (DX(I) < ZERO) THEN             

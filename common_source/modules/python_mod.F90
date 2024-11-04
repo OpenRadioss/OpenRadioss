@@ -69,7 +69,8 @@
         integer, parameter :: max_line_length = 500 !< the maximum length of a line of code of python function
         integer, parameter :: max_num_lines = 1000 !< the maximum number of lines of python function
         integer, parameter :: max_code_length = max_line_length*max_num_lines
-        integer, parameter :: max_variable_length = 100
+        integer, parameter :: max_variable_length = 100 !< the maximum length of a variable name
+        integer, parameter :: funct_python_nsamples = 50 !< number of points to sample the python function
 ! global variable
         integer :: python_error !< true if the starter command line had the option "-python"
 ! use iso_c_binding to bind python_init to cpp_python_init and python_finalize to cpp_python_finalize
@@ -80,6 +81,11 @@
           end subroutine python_initialize
           subroutine python_finalize() bind(c, name="cpp_python_finalize")
           end subroutine python_finalize
+
+          ! run the python code that initializes the environment (if defined as /FUNCT_PYTHON/ with the name initialize_environment) 
+          subroutine python_load_environment() bind(c, name="cpp_python_load_environment")
+          end subroutine python_load_environment
+
           ! add a function to the python dictionary
           subroutine python_register_function(name, code, num_lines) bind(c, name="cpp_python_register_function")
             use iso_c_binding
@@ -97,7 +103,15 @@
             real(kind = c_double), intent(in) :: args(num_args)
             real(kind = c_double), intent(out) :: return_values(num_return)
           end subroutine python_call_function
-          ! a subroutine that check if the function works, and return an nonzero error code if it does not
+          subroutine python_sample_function(name, X, Y, N) bind(c, name="cpp_python_sample_function")
+            use iso_c_binding
+            character(kind=c_char), dimension(*), intent(in) :: name
+            integer(kind=c_int), value, intent(in) :: N !< sample size
+            real(kind=c_double), dimension(N), intent(inout) :: X
+            real(kind=c_double), dimension(N), intent(inout) :: Y
+          end subroutine python_sample_function
+
+          ! a subroutine that checks if the function works, and returns a nonzero error code if it does not
           subroutine python_check_function(name, error) bind(c, name="cpp_python_check_function")
             use iso_c_binding
             character(kind=c_char), dimension(*) :: name
@@ -139,8 +153,6 @@
             integer(kind=c_int), intent(inout) :: nodes_global_ids(*)
           end subroutine python_get_nodes
 
-
-
           !interface for    void cpp_create_node_mapping(int * itab, int *num_nodes)
           subroutine python_create_node_mapping(itab, num_nodes) &
             bind(c, name="cpp_python_create_node_mapping")
@@ -148,6 +160,7 @@
             integer(kind=c_int), intent(in) :: num_nodes
             integer(kind=c_int), intent(in) :: itab(*)
           end subroutine python_create_node_mapping
+
         end interface
         interface python_call_funct1D
           module procedure python_call_funct1D_sp
@@ -158,6 +171,7 @@
           module procedure python_deriv_funct1D_sp
           module procedure python_deriv_funct1D_dp
         end interface python_deriv_funct1D
+
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                               Type definitions
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -183,6 +197,32 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 
       contains
+!! For performance reasons, this function must inlined, because it is called in a loop
+!!      \brief return .TRUE. if the function id corresponds to a Python function
+           integer function python_funct_id(nfunct, funct_id, npc) result(id)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     Module
+! ----------------------------------------------------------------------------------------------------------------------
+!         use python_element_mod, only : element_is_python_funct_id
+          implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          integer, intent(in) :: nfunct
+          integer, intent(in) :: funct_id !< the id of the function
+          integer, intent(in) :: npc(3*nfunct+1) 
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+! ----------------------------------------------------------------------------------------------------------------------
+          integer :: i 
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                      Body
+! ----------------------------------------------------------------------------------------------------------------------
+          i = 0
+          id = 0
+          if (funct_id> 0) i = npc(2*nfunct+funct_id+1)
+          if(i < 0) id = -i
+        end function python_funct_id 
 
 !! \brief serialize python_function into a buffer (for I/O)
       !||====================================================================
@@ -249,8 +289,6 @@
             enddo
           endif
 !         call element_serialize(python%elements%global,buffer(pos:pos+elsize-1),elsize)
-
-
         end subroutine python_serialize
 
 !! \brief deserialize python_function (for I/O)
@@ -359,7 +397,7 @@
 
 
 !! \brief Evaluate the python function
-!! \details the python function is called with one argument and one return value  (double precision version)
+!! \details the python function is called with one argument and one return value (double precision version)
       !||====================================================================
       !||    python_call_funct1d_dp   ../common_source/modules/python_mod.F90
       !||--- calls      -----------------------------------------------------
@@ -388,7 +426,7 @@
         end subroutine
 
 !! \brief Evaluate the python function
-!! \details the python function is called with one argument and one return value  (single precision version)
+!! \details the python function is called with one argument and one return value (single precision version)
       !||====================================================================
       !||    python_call_funct1d_sp   ../common_source/modules/python_mod.F90
       !||--- calls      -----------------------------------------------------
@@ -495,6 +533,86 @@
           y = real(argout,kind(1.0))
         end subroutine
 
+        subroutine python_solve(py, funct_id, root, rhs, tol_f, tol_x, max_iter)
+          implicit none
+# include "my_real.inc"
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          type(python_),               intent(in) :: py        !< The Fortran structure that holds the Python function
+          integer,                     intent(in) :: funct_id  !< The ID of the Python function
+          my_real, intent(inout) :: root                       !< Computed root
+          my_real, intent(in) :: rhs                           !< Right-hand side of the equation f(x) = rhs
+          my_real, intent(in), optional :: tol_f               !< Function value tolerance
+          my_real, intent(in), optional :: tol_x               !< Solution tolerance
+          integer, intent(in), optional :: max_iter            !< Maximum number of iterations
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+! ----------------------------------------------------------------------------------------------------------------------
+          integer :: max_iter_val
+          integer :: iter
+          double precision :: x, fx, dfx, x_prev
+          double precision :: tol_f_val, tol_x_val
+          double precision, parameter :: epsilon = 1.0e-10  !< Small value to prevent NaN
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                      Body
+! ----------------------------------------------------------------------------------------------------------------------
+          ! Set default values for optional arguments
+          tol_f_val = 1.0e-8
+          tol_x_val = 1.0e-8
+          max_iter_val = 10
+          if (present(tol_f)) tol_f_val = tol_f
+          if (present(tol_x)) tol_x_val = tol_x
+          if (present(max_iter)) max_iter_val = max_iter
+        
+          ! Initialize x with the value of root
+          x = root
+          iter = 0
+        
+          do while (iter < max_iter_val)
+            iter = iter + 1
+!$OMP CRITICAL
+            ! Evaluate the function value f(x)
+             call python_call_funct1D_dp(py, funct_id, x, fx)
+            ! Subtract the right-hand side to compute f(x) - rhs
+            fx = fx - rhs
+            ! Evaluate the derivative df(x)/dx
+            call python_deriv_funct1D_dp(py, funct_id, x, dfx)
+!$OMP END CRITICAL
+        
+            ! Check if the function value is sufficiently close to the target
+            if (abs(fx) < tol_f_val) then
+              root = x
+              return
+            end if
+        
+            ! Ensure the derivative is not too small
+            if (abs(dfx) < epsilon) then
+              return
+            end if
+        
+            ! Perform the Newton's step
+            x_prev = x
+            if(abs(dfx) > epsilon) then
+              x = x - fx / dfx
+            else
+              x = x - fx / epsilon
+            endif
+        
+            ! Check if the solution converged
+            if (abs(x - x_prev) < tol_x_val) then
+              root = x
+              return
+            end if
+          end do
+        
+          ! If the loop exits without convergence, return the last value of x
+          root = x
+          return
+        end subroutine python_solve
+  
+
+
 !! \brief update variables known by python functions
       !||====================================================================
       !||    python_update_nodal_entity     ../common_source/modules/python_mod.F90
@@ -585,9 +703,6 @@
           if(present(AR)) call python_update_nodal_entity(numnod,"AR",2, AR)
 
         end subroutine
-
-
-
 
         ! unit test
       !||====================================================================

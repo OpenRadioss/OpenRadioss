@@ -45,10 +45,12 @@
       !||    submodel_mod            ../starter/share/modules1/submodel_mod.F
       !||====================================================================
         subroutine hm_read_funct_python(python,npc,snpc,total_nb_funct,&
-        &lsubmodel,nbsubmod)
+        &lsubmodel,nbsubmod, pld, npts, table, ntable)
+#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      modules
 ! ----------------------------------------------------------------------------------------------------------------------
+          USE TABLE_MOD
           USE MESSAGE_MOD
           USE SUBMODEL_MOD
           USE HM_OPTION_READ_MOD
@@ -65,14 +67,18 @@
           integer, intent(in) :: snpc !< size of npc
           integer, intent(inout) :: npc(snpc) !< array containing the id the /FUNCT , /TABLE and so on...
           integer, intent(inout) :: total_nb_funct !< number of /FUNCT already read
+          integer, intent(in)   ::  npts !< number of points in pld
+          my_real, dimension(npts), intent(inout) :: pld !< data points
+          integer, intent(in) :: ntable !< number of tables
+          type(Ttable), dimension(ntable), intent(inout) :: table
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          character(len=ncharline) :: rline
+          character(len=max_line_length) :: rline
           logical :: is_available
           integer :: nlines
           integer :: nb_funct
-          integer :: i,j,l
+          integer :: i,j,l,ipt
           integer :: func_id
           integer :: position_in_code
           character(kind=c_char, len=:), allocatable :: code
@@ -81,6 +87,8 @@
           double precision :: argin(1), argout(1)
 !         character(len=:), allocatable :: titr !function name
           character(len=nchartitle) :: titr !function name
+          double precision :: XX(funct_python_nsamples)
+          double precision :: YY(funct_python_nsamples)
 
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      body
@@ -101,7 +109,7 @@
             endif
 
             call python_initialize(python_error)
-
+            call python_load_environment()
             call hm_option_start('/FUNCT_PYTHON')
             do i = 1, nb_funct
               !fill code with spaces:
@@ -115,7 +123,7 @@
               if(nlines > 0) then
                 ! create tempo file
                 do j=1,nlines
-                  call hm_get_string_index('arraydatalines', rline, j, ncharline, is_available)
+                  call hm_get_string_index('arraydatalines', rline, j, max_line_length, is_available)
 !              write(6,fmt='(a)') trim(rline)
                   !append trim(rline) to "code"
                   line_len = len_trim(rline)
@@ -142,12 +150,24 @@
                   &ANMODE=ANINFO_BLIND_2,&
                   &I1=func_id)
                 endif
+                table(l)%notable= func_id
+                table(l)%ndim = -1
+                allocate(table(l)%X(1))
+                allocate(table(l)%Y)
+                allocate(table(l)%X(1)%values(funct_python_nsamples))
+                allocate(table(l)%Y%values(funct_python_nsamples))
+                call python_sample_function(python%functs(i)%name,XX,YY,funct_python_nsamples)
 
-!               argin(1) = 2.0D0
-!               call python_call_function(python%functs(i)%name, 1, argin, 1,argout)
-!               write(6,*) "results =",argout(1)
-!               call python_call_funct1D(python,i,argin(1), argout(1))
-!               write(6,*) "results =",argout(1)
+
+                do ipt =1, funct_python_nsamples
+                  !write(6,*) ipt,"X",table(l)%X(1)%values(ipt),"Y",table(l)%Y%values(ipt)
+                  table(l)%X(1)%values(ipt) = XX(ipt)                         
+                  PLD(NPC(L+1)) = table(l)%X(1)%values(ipt)
+                  NPC(L + 1) = NPC(L + 1) + 1 
+                  table(l)%Y%values(ipt) = YY(ipt)
+                  PLD(NPC(l+1)) = table(l)%Y%values(ipt)
+                  NPC(L + 1) = NPC(L + 1) + 1 
+                enddo
               else
               endif
             enddo
