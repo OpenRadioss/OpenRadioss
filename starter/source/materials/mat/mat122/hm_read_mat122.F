@@ -200,7 +200,7 @@ c
      .             I1=MAT_ID ,                         
      .             C1=TITR)
       else if(NU23*NU32 >= one ) then
-        call ANCMSG(MSGID=3069,                        
+        call ANCMSG(MSGID=3070,                        
      .             MSGTYPE=MSGERROR,                    
      .             ANMODE=ANINFO_BLIND_2,               
      .             I1=MAT_ID ,                          
