@@ -39,6 +39,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE python_funct_mod, ONLY : FUNCT_PYTHON_NSAMPLES
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -81,6 +82,9 @@ C======================================================================|
             NTABLE = NTABLE + 1
             CALL HM_GET_INTV('numberofpoints', NPT, IS_AVAILABLE, LSUBMODEL)
             NPTS = NPTS + NPT
+          ELSE
+            NTABLE = NTABLE + 1
+            NPTS = NPTS + FUNCT_PYTHON_NSAMPLES
           ENDIF
         ENDDO
       ENDIF

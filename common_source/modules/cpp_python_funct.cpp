@@ -1,25 +1,25 @@
-//Copyright>    OpenRadioss
-//Copyright>    Copyright (C) 1986-2024 Altair Engineering Inc.
-//Copyright>
-//Copyright>    This program is free software: you can redistribute it and/or modify
-//Copyright>    it under the terms of the GNU Affero General Public License as published by
-//Copyright>    the Free Software Foundation, either version 3 of the License, or
-//Copyright>    (at your option) any later version.
-//Copyright>
-//Copyright>    This program is distributed in the hope that it will be useful,
-//Copyright>    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//Copyright>    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//Copyright>    GNU Affero General Public License for more details.
-//Copyright>
-//Copyright>    You should have received a copy of the GNU Affero General Public License
-//Copyright>    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-//Copyright>
-//Copyright>
-//Copyright>    Commercial Alternative: Altair Radioss Software
-//Copyright>
-//Copyright>    As an alternative to this open-source version, Altair also offers Altair Radioss
-//Copyright>    software under a commercial license.  Contact Altair to discuss further if the
-//Copyright>    commercial version may interest you: https://www.altair.com/radioss/.
+// Copyright>    OpenRadioss
+// Copyright>    Copyright (C) 1986-2024 Altair Engineering Inc.
+// Copyright>
+// Copyright>    This program is free software: you can redistribute it and/or modify
+// Copyright>    it under the terms of the GNU Affero General Public License as published by
+// Copyright>    the Free Software Foundation, either version 3 of the License, or
+// Copyright>    (at your option) any later version.
+// Copyright>
+// Copyright>    This program is distributed in the hope that it will be useful,
+// Copyright>    but WITHOUT ANY WARRANTY; without even the implied warranty of
+// Copyright>    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// Copyright>    GNU Affero General Public License for more details.
+// Copyright>
+// Copyright>    You should have received a copy of the GNU Affero General Public License
+// Copyright>    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+// Copyright>
+// Copyright>
+// Copyright>    Commercial Alternative: Altair Radioss Software
+// Copyright>
+// Copyright>    As an alternative to this open-source version, Altair also offers Altair Radioss
+// Copyright>    software under a commercial license.  Contact Altair to discuss further if the
+// Copyright>    commercial version may interest you: https://www.altair.com/radioss/.
 //
 #ifndef __aarch64__
 #define _GLIBCXX_USE_CXX11_ABI 0
@@ -33,6 +33,8 @@
 #include <set>
 #include <map>
 #include <regex>
+#include <limits>
+#include <iomanip>
 #ifndef PYTHON_DISABLED
 #ifdef _WIN32
 /* Windows includes */
@@ -50,6 +52,7 @@ typedef float my_real;
 #endif
 
 #include "cpp_python_funct.h"
+#include "cpp_python_sampling.h"
 
 // Note on the python library used:
 //
@@ -62,9 +65,8 @@ typedef float my_real;
 HMODULE handle = NULL;
 HMODULE python_exec = NULL;
 #else
-void* handle = nullptr; 
+void *handle = nullptr;
 #endif
-
 
 // global variables
 PyObject *pDict = nullptr;
@@ -121,7 +123,7 @@ void extract_node_uid(const std::string &input)
 
     for (auto i = begin; i != end; ++i)
     {
-	
+
         auto match = *i;
         std::string match_str = match.str();
         size_t underscore_pos = match_str.find('_');
@@ -196,7 +198,6 @@ PyObject *call_python_function(const char *func_name, double *args, int num_args
         if (pValue != nullptr)
         {
             // Function executed successfully
-            // Add your code here to handle the result
         }
         else
         {
@@ -206,9 +207,8 @@ PyObject *call_python_function(const char *func_name, double *args, int num_args
             if (MyErr_Occurred())
             {
                 // Fetch the error
-                PyObject *pType, *pValue, *pTraceback;
+                PyObject *pType = nullptr, *pValue = nullptr, *pTraceback = nullptr;
                 MyErr_Fetch(&pType, &pValue, &pTraceback);
-
                 // Print the error
                 MyErr_Display(pType, pValue, pTraceback);
 
@@ -224,6 +224,36 @@ PyObject *call_python_function(const char *func_name, double *args, int num_args
     std::cout << "ERROR in Python function: cannot call function: " << func_name << std::endl;
     return nullptr;
 }
+// call a python function with a list of arguments
+void call_python_function1D_vectors(const char *func_name, std::vector<double> & X, std::vector<double> & Y)
+{
+    PyObject *pFunc, *pArgs, *pValue;
+    const int num_args = X.size();
+    pFunc = static_cast<PyObject *>(MyDict_GetItemString(pDict, func_name));
+    if (MyCallable_Check(pFunc))
+    {
+        for (size_t i = 0; i < num_args; i++)
+        {
+            pArgs = static_cast<PyObject *>(MyTuple_New(1));
+            MyTuple_SetItem(pArgs, 0, static_cast<PyObject *>(MyFloat_FromDouble(X[i])));
+            pValue = static_cast<PyObject *>(MyObject_CallObject(pFunc, pArgs));
+            My_DecRef(pArgs);
+
+            if (pValue != nullptr)
+            {
+                // Function executed successfully
+                Y[i]= (MyFloat_AsDouble(pValue));
+                My_DecRef(pValue);
+            }
+            else
+            {
+                Y[i] = (std::numeric_limits<double>::infinity());
+            }
+            //std::cout<<"X["<<i<<"] = "<<X[i]<<" Y["<<i<<"] = "<<Y[i]<<std::endl;
+        }
+    }
+}
+
 
 void python_execute_code(const std::string &code)
 {
@@ -350,16 +380,20 @@ void python_load_library()
 #else
 
 // Linux only: try to load the python library at the specified path
-bool try_load_library(const std::string& path) {
+bool try_load_library(const std::string &path)
+{
     bool python_initialized = false;
     handle = dlopen(path.c_str(), RTLD_LAZY);
-    if (handle) {
+    if (handle)
+    {
         std::cout << "Trying python library: " << path << std::endl;
         load_functions(handle, python_initialized);
-        if (python_initialized) {
+        if (python_initialized)
+        {
             std::cout << "INFO: Python library found at " << path << std::endl;
             My_Initialize();
-            if (!My_IsInitialized()) {
+            if (!My_IsInitialized())
+            {
                 std::cout << "ERROR: My_Initialize failed" << std::endl;
                 python_initialized = false;
             }
@@ -392,7 +426,7 @@ void python_load_library()
         if (python_path)
         {
             std::cout << "INFO: searching for python library in PYTHONHOME" << std::endl;
-            std::vector<std::string> possible_dirs = {"/lib64/", "/lib/", "/usr/lib64/", "/usr/lib/","/usr/lib/x86_64-linux-gnu/"};
+            std::vector<std::string> possible_dirs = {"/lib64/", "/lib/", "/usr/lib64/", "/usr/lib/", "/usr/lib/x86_64-linux-gnu/"};
             for (const auto &dir : possible_dirs)
             {
                 std::string dir_path = std::string(python_path) + dir;
@@ -441,7 +475,7 @@ void python_load_library()
     {
         std::string libname = name;
         python_initialized = try_load_library(libname);
-        if(python_initialized)
+        if (python_initialized)
         {
             return;
         }
@@ -471,6 +505,18 @@ extern "C"
             MyRun_SimpleString("import math"); // Import the math module for sin and other functions
             *ierror = 0;
         }
+    }
+    void cpp_python_load_environment()
+    {
+        // std::cout<<"Loading Python environment: "<<std::endl;
+        if (!python_initialized)
+        {
+            return;
+        }
+        const char *code =
+            "if 'initialize_environment' in globals():\n"
+            "    initialize_environment()\n";
+        int result = MyRun_SimpleString(code);
     }
     void cpp_python_finalize()
     {
@@ -589,7 +635,6 @@ extern "C"
             const std::string s = parenthesis_to_underscore(tmp_string);
             extract_node_uid(s);
 
-
             extract_element_keywords(s);
             function_code << s << std::endl; // Add the line to the function code
             i++;                             // Move past the null character
@@ -620,6 +665,11 @@ extern "C"
         {
             return_values[0] = MyFloat_AsDouble(result);
             My_DecRef(result);
+        }
+        else
+        {
+            // returns infinity
+            return_values[0] = std::numeric_limits<double>::infinity();
         }
     }
     // this function checks if a function exists in the python dictionary
@@ -815,10 +865,48 @@ extern "C"
         *uid = p.first;
         // copy variable name
 #ifdef _WIN64
-                strcpy_s(name, max_variable_length, p.second);
+        strcpy_s(name, max_variable_length, p.second);
 #else
         strcpy(name, p.second);
 #endif
+    }
+
+    void cpp_python_sample_function(char *name, my_real *x, my_real *y, int n)
+    {
+        //write the name
+        constexpr size_t N = 10000; // Number of points
+        double x_max = 1e+6;
+        std::vector<double> Xtmp = initial_sampling(x_max,N);
+        std::vector<double> X(2*N, 0.0);
+        double scale = x_max / N;
+
+        // X = -Xtmp(N) .. -Xtmp(1) Xtmp(1) .. Xtmp(N)
+        for (size_t i = 0; i < N; i++)
+        {
+            X[i] = -scale * Xtmp[N - i - 1];
+        }
+        for (size_t i = 0; i < N; i++)
+        {
+            X[i + N] = scale * Xtmp[i];
+        }
+        // I would like to symetrically sample the function around 0, so I will sample the function at -X and X
+        //Y of size N, filled with 0
+        std::vector<double> Y(X.size(), 0.0);
+        // evaluate the function at all X values using cpp_
+        call_python_function1D_vectors(name, X, Y);
+        //Sample the function to get n points:
+        std::vector<double>  new_x = select_points(X,Y,size_t(n));
+        std::vector<double>  new_y(n, 0.0);
+        call_python_function1D_vectors(name, new_x, new_y);
+        //sizes:
+        // copy the values to the output arrays
+        std::cout<<"name: "<<name<<std::endl;
+        for (int i = 0; i < n; i++)
+        {
+            x[i] = static_cast<my_real>(new_x[i]);
+            y[i] = static_cast<my_real>(new_y[i]);
+         std::cout<<x[i]<<" "<<y[i]<<std::endl;
+        }
     }
 
 } // extern "C"
@@ -849,6 +937,10 @@ extern "C"
     {
         std::cout << "ERROR: python not enabled" << std::endl;
     }
+    void cpp_python_sample_function(char *name, my_real *x, my_real *y, int n)
+    {
+        std::cout << "ERROR: python not enabled" << std::endl;
+    }
     void cpp_python_check_function(char *name, int *error)
     {
         //        std::cout << "ERROR: python not enabled" << std::endl;
@@ -858,11 +950,11 @@ extern "C"
     // return the list of nodes (user ids) that are used in the python functions
     void cpp_python_get_nodes(int *nodes_uid_array) {}
     void cpp_python_create_node_mapping(int *itab, int *num_nodes) {}
-    void cpp_python_update_nodal_entity(int numnod, int name_len, char *name, my_real *values){}
-    void cpp_python_update_elemental_entity(char *name, my_real value, int uid){}
-    void cpp_python_get_number_elemental_entities(int *nb){}
-    void cpp_python_get_elemental_entity(int nb, char *name, int *uid){}
-
+    void cpp_python_update_nodal_entity(int numnod, int name_len, char *name, my_real *values) {}
+    void cpp_python_update_elemental_entity(char *name, my_real value, int uid) {}
+    void cpp_python_get_number_elemental_entities(int *nb) {}
+    void cpp_python_get_elemental_entity(int nb, char *name, int *uid) {}
+    void cpp_python_load_environment() {}
 }
 
 #endif

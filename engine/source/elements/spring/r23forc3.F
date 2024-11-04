@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sensor_mod     ../engine/share/modules/sensor_mod.F
       !||    table_mod      ../engine/share/modules/table_mod.F
       !||====================================================================
-      SUBROUTINE R23FORC3(
+      SUBROUTINE R23FORC3(PYTHON,
      1   ELBUF_STR,            JFT,                  JLT,                  NEL,
      2   MTN,                  IGEO,                 GEO,                  IPM,
      3   IXR,                  X,                    TABLE,                XDP,
@@ -55,6 +55,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE python_funct_mod
       USE ELBUFDEF_MOD
       USE TABLE_MOD
       USE H3D_MOD
@@ -75,6 +76,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(python_), intent(inout) :: PYTHON
       INTEGER, INTENT(IN) :: IGRE
       INTEGER, INTENT(IN) :: NFT
       INTEGER, INTENT(IN) :: JSMS
@@ -108,7 +110,7 @@ C=======================================================================
 !
        IF(MTN  == 108) THEN
          ! Like type08 spring
-         CALL R23LAW108(
+         CALL R23LAW108(PYTHON,
      1   ELBUF_STR, JFT,       JLT,       NEL,
      2   MTN,       IGEO,      GEO,       IPM,
      3   IXR,       X,         TABLE,     XDP,
@@ -117,7 +119,7 @@ C=======================================================================
      6   DT2T,      NELTST,    ITYPTST,   STIFN,
      7   STIFR,     MS,        IN,        FSKY,
      8   IADR,      NSENSOR,SENSORS%SENSOR_TAB,OFFSET,    ANIM,
-     9   PARTSAV,   IPARTR,    TANI,      FR_WAVE,
+     9   PARTSAV,   IPARTR,    TANI,      
      A   BUFMAT,    BUFGEO,    PM,        RBY,
      B   FX1,       FX2,       FY1,       FY2,
      C   FZ1,       FZ2,       MX1,       MX2,
@@ -128,7 +130,7 @@ C=======================================================================
        
        ELSEIF(MTN == 113) THEN
          ! Like type13 spring
-         CALL R23LAW113(
+         CALL R23LAW113(PYTHON,
      1   ELBUF_STR, JFT,       JLT,       NEL,
      2   MTN,       IGEO,      GEO,       IPM,
      3   IXR,       X,         TABLE,     XDP,
@@ -148,7 +150,7 @@ C=======================================================================
 
        ELSEIF(MTN == 114) THEN
          ! seatbelt_element
-         CALL R23LAW114(
+         CALL R23LAW114(PYTHON,
      1   ELBUF_STR,            JFT,                  JLT,                  NEL,
      2   MTN,                  IGEO,                 GEO,                  IPM,
      3   IXR,                  X,                    TABLE,                XDP,

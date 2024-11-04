@@ -21,6 +21,8 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C----s---1----+----2----+----3----+----4----+----5----+----6----+----7--
+      MODULE REDEF_SEATBELT_MOD
+       CONTAINS
       !||====================================================================
       !||    redef_seatbelt   ../engine/source/tools/seatbelts/redef_seatbelt.F
       !||--- called by ------------------------------------------------------
@@ -29,7 +31,7 @@ C----s---1----+----2----+----3----+----4----+----5----+----6----+----7--
       !||    get_u_func       ../engine/source/user_interface/ufunc.F
       !||    vinter2          ../engine/source/tools/curve/vinter.F
       !||====================================================================
-      SUBROUTINE REDEF_SEATBELT(
+      SUBROUTINE REDEF_SEATBELT(PYTHON,
      1   FX,         XK,         DX,         FXEP,
      2   DXOLD,      DPX,        TF,         NPF,
      3   XC,         OFF,        E,          ANIM,
@@ -38,7 +40,10 @@ C----s---1----+----2----+----3----+----4----+----5----+----6----+----7--
      6   IECROU,     IFUNC,      IFUNC2,     XX_OLD,
      7   FX_MAX,     XKC,        NEL_LOC,    INDEXA,
      8   FLAG,       XK_TAN,     EPS_OLD,    FRAM_FACTOR,
-     9   NEL,        NFT)
+     9   NFT)
+C-----------------------------------------------
+        USE PYTHON_FUNCT_MOD
+        USE REDEF3_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,7 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NEL
+      TYPE(PYTHON_) :: PYTHON
       INTEGER, INTENT(IN) :: NFT
       INTEGER NPF(*),IECROU(MVSIZ),IFUNC(MVSIZ),IFUNC2(MVSIZ),IANI,
      .        INDEXA(*),NEL_LOC,FLAG
@@ -71,11 +76,14 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER
      . I, K, NP2, FUND, K1, II, JECROU(4), INTERP, JPOS(MVSIZ), JFUNC,
-     . JLEN(MVSIZ),JAD(MVSIZ),J
+     . JLEN(MVSIZ),JAD(MVSIZ),J,JAD2(MVSIZ),JLEN2(MVSIZ )
       my_real
      . X1,X2,Y1,Y2,DT11,AN3Y0(MVSIZ),XN3FY0(MVSIZ),DXELA(MVSIZ),XI1,XI2,YI1,YI2,DDXT,DDXC,
      . XX(MVSIZ),YY(MVSIZ),GET_U_FUNC,DYDX(MVSIZ),DDX(MVSIZ),DVX(MVSIZ),FOLD(MVSIZ),
      . DAMP,DAMM,FXB,XXB,XK_TANSAV(MVSIZ),X1S,X2S
+      INTEGER :: PYID1,PYID2
+      LOGICAL :: ANY_PYTHON_FUNCT
+      INTEGER :: NFUNCT 
 C=======================================================================
 C     Derived from REDEF3
 C     Can be launched on a reduced number of elements (defined by INDEXA)
@@ -83,6 +91,8 @@ C     --> FLAG = 1 : loop on all elements I = J
 C     --> FLAG = 2 : loop only on 2nd strand of elements in slipring - I /= J 
 C        (ALL LOCAL ARRAYS USE J)
 C-----------------------------------------------------------------------
+      NFUNCT = PYTHON%FUNCT_OFFSET + PYTHON%nb_functs! OFFSET = nb of non-python functions
+
       X1S = -HUGE(X1S) 
       X2S = -HUGE(X2S)
       FXB = -HUGE(FXB)
@@ -132,93 +142,83 @@ C
        ENDIF
       ENDDO
 C
+      ANY_PYTHON_FUNCT = .FALSE.
       IF(INTERP>0)THEN
         DO J=1,NEL_LOC
           I = INDEXA(J)
           JPOS(J)  = NINT(POS(I))          
           JFUNC =MAX(1,IFUNC(I))
-          JAD(J)   = NPF(JFUNC) / 2  + 1
-          JLEN(J)  = NPF(JFUNC+1) / 2  - JAD(J)  - JPOS(J)
+          PYID1 = GET_PYTHON_FUNCT_ID(NFUNCT, JFUNC,NPF)
+          IF(PYID1>0)THEN
+            JAD(J) = -PYID1
+            JLEN(J) = -PYID1
+            ANY_PYTHON_FUNCT = .TRUE.
+          ELSE
+            JAD(J)   = NPF(JFUNC) / 2  + 1
+            JLEN(J)  = NPF(JFUNC+1) / 2  - JAD(J)  - JPOS(J)
+          ENDIF
+          PYID2 = GET_PYTHON_FUNCT_ID(NFUNCT, IFUNC2(I),NPF)
+          IF(PYID2 > 0) THEN
+            JAD2(J) = -PYID2
+            JLEN2(J) = -PYID2  
+            ANY_PYTHON_FUNCT = .TRUE.
+          ELSE
+            JAD2(J) = 1
+          ENDIF
           XX(J) =ZERO
         ENDDO
+
       ENDIF
 C
 C-------------------------------------
 C        LINEAR ELASTIC
 C-------------------------------------
-      IF(JECROU(1)==NEL_LOC)THEN
-        DO J=1,NEL_LOC
-          I = INDEXA(J) 
+      DO J=1,NEL_LOC
+        I = INDEXA(J) 
+        IF(IFUNC(I)==0)THEN
           FX(I)=XK(I)*DX(I)
           XK_TAN(I) = XK(I)
-        ENDDO
-      ELSEIF(JECROU(1)>0)THEN
-        DO J=1,NEL
-          I = INDEXA(J) 
-          IF(IFUNC(I)==0)THEN
-            FX(I)=XK(I)*DX(I)
-            XK_TAN(I) = XK(I)
-          ENDIF
-        ENDDO
-      ENDIF            
+        ENDIF
+      ENDDO
 C
 C-------------------------------------
 C        ELASTO PLASTIC (Isotropic hardening) - PERFECTLY PLASTIC IN COMPRESSION
 C-------------------------------------
-      IF(JECROU(2)==NEL_LOC)THEN
-        DO J=1,NEL_LOC
-          I = INDEXA(J)                                          
-          FUND = IFUNC2(I)     ! courbe N3 de unload                                                             
-          NP2  = (NPF(FUND+1)-NPF(FUND))/2                       
-          AN3Y0(J)= ZERO
-          DXELA(J)=DX(I)-DPX(I)
-          IF (((DXELA(J) >= ZERO).OR.(FXEP(I) >= ZERO)).AND.(FUND > 0)) THEN
-C--- Tension - load curve is used
-            DO  K=2,NP2                                                       
-              K1=2*(K-2)                                                
-              X1=TF(NPF(FUND)+K1)                                       
-              X2=TF(NPF(FUND)+K1+2)                                     
-              Y1=TF(NPF(FUND)+K1+1)                                     
-              Y2=TF(NPF(FUND)+K1+3) 
-              IF((FXEP(I)< Y2.AND.FXEP(I)>=Y1))THEN  
-                AN3Y0(J)=(Y2-Y1)/ (X2-X1)                     
-                XN3FY0(I)=(FXEP(I)-Y1)/AN3Y0(J) + X1   !ABS DE N3  
-                EXIT     
-              ENDIF 
-            ENDDO
-C
-            IF (AN3Y0(J)== ZERO)THEN ! extrapolation (outside of input curve points)
-              X1=TF(NPF(FUND)+(NP2-2)*2)                                       
-              X2=TF(NPF(FUND)+(NP2-2)*2+2)                                     
-              Y1=TF(NPF(FUND)+(NP2-2)*2+1)                                     
-              Y2=TF(NPF(FUND)+(NP2-2)*2+3) 
-C
-              XI1=TF(NPF(FUND))                                       
-              XI2=TF(NPF(FUND)+2)                                     
-              YI1=TF(NPF(FUND)+1)                                     
-              YI2=TF(NPF(FUND)+3) 
-              IF(FXEP(I)>Y2)AN3Y0(J)=(Y2-Y1)/ (X2-X1) 
-              IF(FXEP(I)<YI1)AN3Y0(J)=(YI2-YI1)/ (XI2-XI1)
+      IF(JECROU(2)>0)THEN
+        IF(ANY_PYTHON_FUNCT) THEN
+          DO J=1,NEL_LOC
+            I = INDEXA(J)
+            IF(IFUNC2(I)/=0.AND.IECROU(I)== 10 .AND. JAD2(J) < 0 )THEN
+              FUND = -JAD2(J)           ! Curve ID
+              AN3Y0(J) = ZERO
+              DXELA(J) = DX(I) - DPX(I)
+              IF (((DXELA(J) >= ZERO) .OR. (FXEP(I) >= ZERO)) .AND. (FUND > 0)) THEN
+                  CALL PYTHON_CALL_FUNCT1D(PYTHON, FUND, FXEP(I), Y1)
+                  CALL PYTHON_DERIV_FUNCT1D(PYTHON, FUND, FXEP(I), AN3Y0(J))
+                  IF (AN3Y0(J) == ZERO) THEN
+                      CALL PYTHON_CALL_FUNCT1D(PYTHON, FUND, FXEP(I), Y1)
+                      IF (FXEP(I) > Y1) THEN
+                        CALL PYTHON_DERIV_FUNCT1D(PYTHON, FUND, FXEP(I) + DDX(J), AN3Y0(J))
+                      ELSE
+                        CALL PYTHON_DERIV_FUNCT1D(PYTHON, FUND, FXEP(I) - DDX(J), AN3Y0(J))
+                      END IF
+                  END IF
+                  IF((DXELA(J) < ZERO) .AND. (ABS(DDX(J)) > ZERO)) THEN
+                    DDXT = -FXEP(I) / AN3Y0(J)
+                    DDXC = DDX(J) - DDXT
+                    AN3Y0(J) = (DDXT / DDX(J)) * AN3Y0(J) + (DDXC / DDX(J)) * XKC(I)
+                  END IF
+                  IF (DXELA(J) >= ZERO) XX(I) = XX_OLD(I) + DDX(I)
+              ELSE
+                  AN3Y0(J) = XKC(I)
+              END IF
+              FX(I) = FXEP(I) + AN3Y0(J) * DDX(J)
             ENDIF
-C
-C----       Crossing of compression/tension line - mix stiffness computed
-            IF ((DXELA(J) < ZERO).AND.(ABS(DDX(J)) > ZERO)) THEN
-              DDXT = -FXEP(I)/AN3Y0(J)
-              DDXC = DDX(J) - DDXT
-              AN3Y0(J) = (DDXT/DDX(J))*AN3Y0(J) + (DDXC/DDX(J))*XKC(I)
-            ENDIF
-C
-            XX(J)=XX_OLD(I)+DDX(J)
-          ELSE
-C--- Compression - perfectly plastic behavior
-            AN3Y0(J)= XKC(I)
-          ENDIF
-          FX(I)=FXEP(I)+AN3Y0(J)*DDX(J)
-        ENDDO
-      ELSEIF(JECROU(2)>0)THEN
+          ENDDO
+        ENDIF
         DO J=1,NEL_LOC
          I = INDEXA(J)
-         IF(IFUNC(I)/=0.AND.IECROU(I)== 10)THEN
+         IF(IFUNC2(I)/=0.AND.IECROU(I)== 10 .AND. JAD2(J) >= 0)THEN
           FUND = IFUNC2(I)     ! N3 curve for unloading                                                             
           NP2  = (NPF(FUND+1)-NPF(FUND))/2                      
           AN3Y0(J)= ZERO
@@ -270,25 +270,7 @@ C--- Compression - perfectly plastic behavior
 C-------------------------------------
 C        LINEAR ELASTIC in tension - perfleclty palstic in compression (same as 10 without curve)
 C-------------------------------------
-      IF(JECROU(3)==NEL_LOC)THEN
-        DO J=1,NEL_LOC  
-          I = INDEXA(J)                                                            
-          AN3Y0(J)= ZERO
-          DXELA(J)=DX(I)-DPX(I)
-          AN3Y0(J)= XK(I)
-          IF ((DXELA(J) >= ZERO).OR.(FXEP(I) >= ZERO)) THEN
-C----       Crossing of compression/tension line - mix stiffness computed
-            IF ((DXELA(J) < ZERO).AND.(ABS(DDX(J)) > ZERO)) THEN
-              DDXT = -FXEP(I)/AN3Y0(J)
-              DDXC = DDX(J) - DDXT
-              AN3Y0(J) = (DDXT/DDX(J))*AN3Y0(J) + (DDXC/DDX(J))*XKC(I)
-            ENDIF
-          ELSE
-            AN3Y0(J)= XKC(I)
-          ENDIF                                                          
-          FX(I)=FXEP(I)+AN3Y0(J)*DDX(J)
-        ENDDO
-      ELSEIF(JECROU(3)>0)THEN
+      IF(JECROU(3)>0)THEN
         DO J=1,NEL_LOC
           I = INDEXA(J)
           IF(IECROU(I)== 11) THEN                      
@@ -312,102 +294,31 @@ C----       Crossing of compression/tension line - mix stiffness computed
 C-------------------------------------
 C        NON LINEAR ELASTIC in tension with compression and no plasticity in compression - for 2D seatblets only
 C-------------------------------------
-      IF(JECROU(4)==NEL_LOC)THEN
-        DO J=1,NEL_LOC
-          I = INDEXA(J)                                          
-          FUND = IFUNC2(I)     ! courbe N3 de unload                                                             
-          NP2  = (NPF(FUND+1)-NPF(FUND)) / 2                       
-          AN3Y0(J)= ZERO
-          DXELA(J)=DX(I)-DPX(I)
-          XXB = 0
-C---      Tension - load curve is used
-          DO  K=2,NP2                                                       
-            K1=2*(K-2)                                                
-            X1=TF(NPF(FUND)+K1)                                       
-            X2=TF(NPF(FUND)+K1+2)                                     
-            Y1=TF(NPF(FUND)+K1+1)                                     
-            Y2=TF(NPF(FUND)+K1+3) 
-            IF((FXEP(I)< Y2.AND.FXEP(I)>=Y1))THEN  
-              X1S = X1
-              X2S = X2
-              AN3Y0(J)=(Y2-Y1)/ (X2-X1)                     
-              XN3FY0(J)=(FXEP(I)-Y1)/AN3Y0(J) + X1   !ABS DE N3
-              EXIT     
-            ENDIF 
-          ENDDO
-C---      Extrapolation (outside of input curve points)
-          IF (AN3Y0(J)== ZERO)THEN ! 
-            X1=TF(NPF(FUND)+(NP2-2)*2)                                       
-            X2=TF(NPF(FUND)+(NP2-2)*2+2)                                     
-            Y1=TF(NPF(FUND)+(NP2-2)*2+1)                                     
-            Y2=TF(NPF(FUND)+(NP2-2)*2+3) 
-            XI1=TF(NPF(FUND))                                       
-            XI2=TF(NPF(FUND)+2)                                     
-            YI1=TF(NPF(FUND)+1)                                     
-            YI2=TF(NPF(FUND)+3) 
-            IF(FXEP(I)>Y2) THEN
-              AN3Y0(J)=(Y2-Y1)/ (X2-X1) 
-              XN3FY0(J)=(FXEP(I)-Y1)/AN3Y0(J) + X1
-              X1S = X2
-              X2S = EP20 
-            ELSEIF(FXEP(I)<YI1) THEN
-              AN3Y0(J)=(YI2-YI1)/ (XI2-XI1)
-              XN3FY0(J)=(FXEP(I)-YI1)/AN3Y0(J) + XI1 
-              X1S = -EP20
-              X2S = XI1 
-            ENDIF
-            XK_TANSAV(J)=AN3Y0(J)
-          ENDIF
-          XXB =XN3FY0(J)+DDX(J)
-          XK_TANSAV(J)=AN3Y0(J)
-          IF (FXEP(I)==YIELD(I)) DPX(I) = XX_OLD(I) - XN3FY0(J)
-C---      Next point is in another part of the curve
-          IF (XXB< X1S.OR.XXB>X2S) THEN 
-            XK_TANSAV(J)=ZERO       
-            DO  K=2,NP2                                                       
-              K1=2*(K-2)                                                
-              X1=TF(NPF(FUND)+K1)                                       
-              X2=TF(NPF(FUND)+K1+2)                                     
-              Y1=TF(NPF(FUND)+K1+1)                                     
-              Y2=TF(NPF(FUND)+K1+3)
-              IF((XXB < X2.AND.XXB >=X1))THEN  
-                XK_TANSAV(J)=(Y2-Y1)/ (X2-X1)
-                FXB = Y1 + ((Y2-Y1)/(X2-X1))*(XXB-X1)
-                AN3Y0(J)= (FXEP(I)-FXB)/ (XN3FY0(J)-XXB)
-                EXIT     
-              ENDIF 
-            ENDDO
-            IF (XK_TANSAV(J)== ZERO)THEN ! extrapolation (outside of input curve points)
-              X1=TF(NPF(FUND)+(NP2-2)*2)                                       
-              X2=TF(NPF(FUND)+(NP2-2)*2+2)                                     
-              Y1=TF(NPF(FUND)+(NP2-2)*2+1)                                     
-              Y2=TF(NPF(FUND)+(NP2-2)*2+3) 
-              XI1=TF(NPF(FUND))                                       
-              XI2=TF(NPF(FUND)+2)                                     
-              YI1=TF(NPF(FUND)+1)                                     
-              YI2=TF(NPF(FUND)+3) 
-              IF(XXB>X2) THEN
-                XK_TANSAV(J)=(Y2-Y1)/ (X2-X1) 
-                FXB = Y2 + XK_TANSAV(J)*(XXB-X2)
-              ELSEIF(XXB<XI1) THEN
-                XK_TANSAV(J)=(YI2-YI1)/ (XI2-XI1) 
-                FXB = YI1 + XK_TANSAV(J)*(XXB-XI1)
+      IF(JECROU(4)>0)THEN
+
+        IF(ANY_PYTHON_FUNCT) THEN
+            DO J = 1, NEL_LOC
+              I = INDEXA(J)
+              IF (IFUNC(I) /= 0 .AND. IECROU(I) == 12 .AND. JAD2(J) < 0) THEN
+                FUND = -JAD2(J) ! Curve identifier
+                AN3Y0(J) = ZERO
+                DXELA(J) = DX(I) - DPX(I)
+                CALL PYTHON_CALL_FUNCT1D(PYTHON, FUND, FXEP(I), AN3Y0(J))
+                CALL PYTHON_SOLVE(PYTHON, FUND, XN3FY0(J), FXEP(I))
+                XXB = XN3FY0(J) + DDX(J)
+                XK_TANSAV(J) = AN3Y0(J)
+                FX(I) = FXEP(I) + AN3Y0(J) * DDX(J)
+                IF ((FXEP(I) < YIELD(I)) .AND. (FX(I) > YIELD(I))) THEN
+                  XX(J) = DPX(I) + XN3FY0(J) + DDX(J)
+                ELSE
+                  XX(J) = XX_OLD(I) + DDX(J)
+                ENDIF
               ENDIF
-              AN3Y0(J)= (FXEP(I)-FXB)/ (XN3FY0(J)-XXB)
-            ENDIF
-          ENDIF
-          FX(I)=FXEP(I)+AN3Y0(J)*DDX(J)
-          IF ((FXEP(I) < YIELD(I)).AND.(FX(I) > YIELD(I))) THEN
-C----       Crossing of the yield line
-            XX(J)=DPX(I) + XN3FY0(J) + DDX(J)
-          ELSE
-            XX(J)=XX_OLD(I)+DDX(J)
-          ENDIF
-        ENDDO
-      ELSEIF(JECROU(4)>0)THEN
+            ENDDO
+        ENDIF
         DO J=1,NEL_LOC
           I = INDEXA(J)
-          IF(IFUNC(I)/= 0.AND.IECROU(I)== 12)THEN                                           
+          IF(IFUNC2(I)/= 0.AND.IECROU(I)== 12 .AND. JAD2(J) > 0)THEN
             FUND = IFUNC2(I)     ! courbe N3 de unload                                                             
             NP2  = (NPF(FUND+1)-NPF(FUND)) / 2                       
             AN3Y0(J)= ZERO
@@ -509,31 +420,7 @@ C-------------------------------------
 C-------------------------------------
 C     SEATBELT - ELASTO PLASTIQUE (ECOUISSAGE ISOTROPE) in tension - perfleclty plastic in compression
 C-------------------------------------
-      IF(JECROU(2)==NEL_LOC)THEN
-        CALL VINTER2(TF,JAD ,JPOS ,JLEN ,NEL_LOC,XX ,DYDX ,YY )
-        DO J=1,NEL_LOC
-           I = INDEXA(J)
-           IF(FX(I)> ZERO.AND.FX(I)>YIELD(I))THEN
-             POS(I) = JPOS(J)
-C-- COMPUTE PLASTIC AND ELASTIC DEFORMATION (TOTAL)    
-             DPX(I)=DPX(I)+(FX(I)-YY(J))/MAX(EM20,AN3Y0(J))
-             FX(I)=YY(J)
-             YIELD(I)=FX(I)
-C-- ECR variable for hardening/softening - always incremented with positive value
-             XX_OLD(I) = XX_OLD(I) + ABS(DDX(J))
-             XK_TAN(I) = DYDX(J)
-          ELSEIF(FX(I)<= -FX_MAX(I))THEN
-             YY(J) = -FX_MAX(I)
-C-- COMPUTE PLASTIC DEFORMATION (TOTAL)  
-             IF (XKC(I) > ZERO) DPX(I)=DPX(I)+(-YY(J)+FX(I))/MAX(EM20,AN3Y0(J))
-             FX(I)=YY(J)
-             XK_TAN(I) = XK(I)
-          ELSE
-            XK_TAN(I) = AN3Y0(J)
-          ENDIF
-          FXEP(I)=FX(I)
-        ENDDO
-      ELSEIF(JECROU(2)>0)THEN
+      IF(JECROU(2)>0)THEN
         CALL VINTER2(TF,JAD ,JPOS ,JLEN ,NEL_LOC,XX ,DYDX ,YY )
         DO J=1,NEL_LOC
          I = INDEXA(J)
@@ -563,21 +450,7 @@ C-- COMPUTE PLASTIC DEFORMATION (TOTAL)
 C-------------------------------------
 C     SEATBELT - LINEAR ELASTIC in tension - perfleclty plastic in compression
 C-------------------------------------
-      IF(JECROU(3)==NEL_LOC)THEN
-        DO J=1,NEL_LOC
-          I = INDEXA(J)
-          IF(FX(I)<= -FX_MAX(I))THEN
-            YY(J) = -FX_MAX(I)
-C-- COMPUTE PLASTIC DEFORMATION (TOTAL)  
-            IF (XKC(I) > ZERO) DPX(I)=DPX(I)+(-YY(J)+FX(I))/MAX(EM20,AN3Y0(J))
-            FX(I)=YY(J)
-            XK_TAN(I) = XK(I)
-          ELSE
-            XK_TAN(I) = AN3Y0(J)
-          ENDIF
-          FXEP(I)=FX(I)
-        ENDDO
-      ELSEIF(JECROU(3)>0)THEN
+      IF(JECROU(3)>0)THEN
         DO J=1,NEL_LOC
           I = INDEXA(J)
           IF(IECROU(I)== 11)THEN
@@ -597,24 +470,7 @@ C-- COMPUTE PLASTIC DEFORMATION (TOTAL)
 C-------------------------------------
 C     NON LINEAR ELASTIC in tension with compression and no plasticity in compression - for 2D seatblets only
 C-------------------------------------
-      IF(JECROU(4)==NEL_LOC)THEN
-        CALL VINTER2(TF,JAD ,JPOS ,JLEN ,NEL_LOC,XX ,DYDX ,YY )
-        DO J=1,NEL_LOC
-          I = INDEXA(J)
-          IF(FX(I)> ZERO.AND.FX(I)>YIELD(I))THEN
-            POS(I) = JPOS(J)
-C-- COMPUTE PLASTIC AND ELASTIC DEFORMATION (TOTAL)
-            FX(I)=YY(J)
-            YIELD(I)=FX(I)
-C-- ECR variable for hardening/softening - always incremented with positive value
-            XX_OLD(I) = MAX(XX_OLD(I),ABS(XX(J)))
-            XK_TAN(I) = DYDX(J)
-          ELSE
-            XK_TAN(I) = XK_TANSAV(J)
-          ENDIF
-          FXEP(I)=FX(I)
-        ENDDO
-      ELSEIF(JECROU(4)>0)THEN
+      IF(JECROU(4)>0)THEN
         CALL VINTER2(TF,JAD ,JPOS ,JLEN ,NEL_LOC,XX ,DYDX ,YY )
         DO J=1,NEL_LOC
           I = INDEXA(J)
@@ -662,3 +518,4 @@ C
 C----
       RETURN
       END
+      END MODULE

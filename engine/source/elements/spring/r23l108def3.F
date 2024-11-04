@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    redef3        ../engine/source/elements/spring/redef3.F
       !||    repla3        ../engine/source/elements/spring/repla3.F
       !||====================================================================
-      SUBROUTINE R23L108DEF3(
+      SUBROUTINE R23L108DEF3(PYTHON,
      1   IPM,     IGEO,    MID,     PID,
      2   UPARAM,  SKEW,    GEO,     FX,
      3   FY,      FZ,      E,       DX,
@@ -41,7 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      A   RPY,     RPZ,     XMEP,    YMEP,
      B   ZMEP,    RPX2,    RPY2,    RPZ2,
      C   ANIM,    IPOSX,   IPOSY,   IPOSZ,
-     D   IPOSXX,  IPOSYY,  IPOSZZ,  FR_WAVE,
+     D   IPOSXX,  IPOSYY,  IPOSZZ,  
      E   V,       E6,      CRITNEW, NEL,
      F   X0_ERR,  X1DP,    X2DP,    YIELDX,
      G   YIELDY,  YIELDZ,  YIELDX2, YIELDY2,
@@ -55,6 +55,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      O   MASS,    DX0,     DY0,     DZ0,
      P   RX0,     RY0,     RZ0,     IEQUIL,
      Q   SKEW_ID, NFT)
+         USE REDEF3_MOD
+         USE python_funct_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -78,6 +80,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(python_), INTENT(INOUT) :: PYTHON
       INTEGER, INTENT(IN) :: NFT
       INTEGER NPF(*), IGEO(NPROPGI,*),NEL,NGL(*),NC1(*),NC2(*),NUVAR,
      .   IPM(NPROPMI,*),MID(*),PID(*),IEQUIL(*),SKEW_ID(*)     
@@ -89,7 +92,7 @@ C     REAL
      .   ZMOM(*), RX(*), RY(*), RZ(*), RPX(*), RPY(*), RPZ(*), XMEP(*),
      .   YMEP(*), ZMEP(*), DPX2(*), DPY2(*), DPZ2(*), RPX2(*), RPY2(*),
      .   RPZ2(*), ANIM(*),IPOSX(*),IPOSY(*),IPOSZ(*),IPOSXX(*),
-     .   IPOSYY(*),IPOSZZ(*),FR_WAVE(*),V(3,*),
+     .   IPOSYY(*),IPOSZZ(*),V(3,*),
      .   CRITNEW(*),E6(NEL,6),X0_ERR(3,*),YIELDX(*),YIELDY(*) ,
      .   YIELDZ(*),YIELDX2(*),YIELDY2(*),YIELDZ2(*),
      .   EXX(MVSIZ), EYX(MVSIZ), EZX(MVSIZ),
@@ -122,6 +125,7 @@ C     REAL
      .     X21(MVSIZ), Y21(MVSIZ), Z21(MVSIZ),LSCALE(MVSIZ),EE(MVSIZ),
      .     GF3(MVSIZ),HX(MVSIZ), HY(MVSIZ), HZ(MVSIZ),
      .     X0_INI(MVSIZ),Y0_INI(MVSIZ),Z0_INI(MVSIZ)
+      my_real :: MAX_SLOPE(MVSIZ)
       my_real
      .     SX,SY,SZ,XX,YY,ZZ,XKA,YKA,ZKA,AA,BB,CC,X21PHI,Y21PHI,Z21PHI,
      .     ASRATE,DLIM,NOT_USED(2)
@@ -230,7 +234,7 @@ C
         ENDDO
 !
         IF (INISPRI /= 0) THEN
-!  condition nedeed for spring type 8, which are not concerned by /INISPRI,
+!  condition needed for spring type 8, which are not concerned by /INISPRI,
 !  and having initial length /= 0 
           DO I=1,NEL
             IF (X0_INI(I) == ZERO .and. DX0(I) == ZERO) X0_INI(I) = X0DP(I)
@@ -348,18 +352,17 @@ C-------------------------------
          COORD_OLD => NOT_USED
       ENDIF
 
-      CALL REDEF3(
+      CALL REDEF3(PYTHON,
      1   FX,         XK,         DX,         FXEP,
      2   DXOLD,      DPX,        TF,         NPF,
      3   XC,         OFF,        E6(1,1),    DPX2,
-     4   ANIM,       ANIM_FE(11),IPOSX,      FR_WAVE,
+     4   ANIM,       ANIM_FE(11),IPOSX,      
      5   XL0,        DMN,        DMX,        DV,
      6   RSCALE,     LSCALE,     EE,         GF3,
      7   IFUNC3,     YIELDX,     X0DP,       AK,
      8   B,          D,          IECROU,     IFUNC,
      9   IFV,        IFUNC2,     EPLA,       COORD_OLD,
-     A   NOT_USED,   NOT_USED,   NOT_USED,   NEL,
-     B   NFT)
+     A   NEL,        NFT,     MAX_SLOPE)
       DO I=1,NEL
         DLIM = ZERO
         IF (IFAIL2(I) == 0) THEN
@@ -412,18 +415,17 @@ C-------------------------------
          COORD_OLD => NOT_USED
       ENDIF
 
-      CALL REDEF3(
+      CALL REDEF3(PYTHON,
      1   FY,         YK,         DY,         FYEP,
      2   DYOLD,      DPY,        TF,         NPF,
      3   YC,         OFF,        E6(1,2),    DPY2,
-     4   ANIM(KK),   ANIM_FE(12),IPOSY,      FR_WAVE,
+     4   ANIM(KK),   ANIM_FE(12),IPOSY,      
      5   XL0,        DMN,        DMX,        DV,
      6   RSCALE,     LSCALE,     EE,         GF3,
      7   IFUNC3,     YIELDY,     Y0DP,       AK,
      8   B,          D,          IECROU,     IFUNC,
      9   IFV,        IFUNC2,     EPLA,       COORD_OLD,
-     A   NOT_USED,   NOT_USED,   NOT_USED,   NEL,
-     B   NFT)
+     A   NEL,        NFT, MAX_SLOPE)
       DO I=1,NEL
         DLIM = ZERO
         IF (IFAIL2(I) == 0 ) THEN
@@ -474,21 +476,20 @@ C-------------------------------
       ELSE
          COORD_OLD => NOT_USED
       ENDIF
-      CALL REDEF3(
+      CALL REDEF3(PYTHON,
      1   FZ,         ZK,         DZ,         FZEP,
      2   DZOLD,      DPZ,        TF,         NPF,
      3   ZC,         OFF,        E6(1,3),    DPZ2,
-     4   ANIM(KK),   ANIM_FE(13),IPOSZ,      FR_WAVE,
+     4   ANIM(KK),   ANIM_FE(13),IPOSZ,      
      5   XL0,        DMN,        DMX,        DV,
      6   RSCALE,     LSCALE,     EE,         GF3,
      7   IFUNC3,     YIELDZ,     Z0DP,       AK,
      8   B,          D,          IECROU,     IFUNC,
      9   IFV,        IFUNC2,     EPLA,       COORD_OLD,
-     A   NOT_USED,   NOT_USED,   NOT_USED,   NEL,
-     B   NFT)
+     A   NEL,        NFT, MAX_SLOPE)
       DO I=1,NEL
         DLIM = ZERO
-        IF (IFAIL2(I) == 0 ) THEN
+        IF (IFAIL2(I) == 0) THEN
           IF (DZ(I) > ZERO) THEN
             DLIM = DZ(I) / DMX(I)
           ELSE
@@ -581,18 +582,17 @@ C-------------------------------
       ELSE
         COORD_OLD => NOT_USED
       ENDIF
-      CALL REDEF3(
-     1   XMOM,     XK,       RX,       XMEP,
-     2   DXOLD,    RPX,      TF,       NPF,
-     3   XC,       OFF,      E6(1,4),  RPX2,
-     4   ANIM,     0,        IPOSXX,   FR_WAVE,
-     5   XL0,      DMN,      DMX,      DV,
-     6   RSCALE,   LSCALE,   EE,       GF3,
-     7   IFUNC3,   YIELDX2,  X0DP,     AK,
-     8   B,        D,        IECROU,   IFUNC,
-     9   IFV,      IFUNC2,   EPLA,     COORD_OLD,
-     A   NOT_USED, NOT_USED, NOT_USED, NEL,
-     B   NFT)
+      CALL REDEF3(PYTHON,
+     1   XMOM,       XK,         RX,         XMEP,
+     2   DXOLD,      RPX,        TF,         NPF,
+     3   XC,         OFF,        E6(1,4),    RPX2,
+     4   ANIM,       0,          IPOSXX,   
+     5   XL0,        DMN,        DMX,        DV,
+     6   RSCALE,     LSCALE,     EE,         GF3,
+     7   IFUNC3,     YIELDX2,    X0DP,       AK,
+     8   B,          D,          IECROU,     IFUNC,
+     9   IFV,        IFUNC2,     EPLA,       COORD_OLD,
+     A   NEL,        NFT, MAX_SLOPE)
       DO I=1,NEL
         DLIM = ZERO
         IF (IFAIL2(I) == 0) THEN
@@ -644,18 +644,17 @@ C-------------------------------------
         COORD_OLD => NOT_USED
       ENDIF
 
-      CALL REDEF3(
-     1   YMOM,     YK,       RY,       YMEP,
-     2   DYOLD,    RPY,      TF,       NPF,
-     3   YC,       OFF,      E6(1,5),  RPY2,
-     4   ANIM,     0,        IPOSYY,   FR_WAVE,
-     5   XL0,      DMN,      DMX,      DV,
-     6   RSCALE,   LSCALE,   EE,       GF3,
-     7   IFUNC3,   YIELDY2,  Y0DP,     AK,
-     8   B,        D,        IECROU,   IFUNC,
-     9   IFV,      IFUNC2,   EPLA,     COORD_OLD,
-     A   NOT_USED, NOT_USED, NOT_USED, NEL,
-     B   NFT)
+      CALL REDEF3(PYTHON,
+     1   YMOM,       YK,         RY,         YMEP,
+     2   DYOLD,      RPY,        TF,         NPF,
+     3   YC,         OFF,        E6(1,5),    RPY2,
+     4   ANIM,       0,          IPOSYY,   
+     5   XL0,        DMN,        DMX,        DV,
+     6   RSCALE,     LSCALE,     EE,         GF3,
+     7   IFUNC3,     YIELDY2,    Y0DP,       AK,
+     8   B,          D,          IECROU,     IFUNC,
+     9   IFV,        IFUNC2,     EPLA,       COORD_OLD,
+     A   NEL,        NFT, MAX_SLOPE)
       DO I=1,NEL
         DLIM = ZERO
         IF (IFAIL2(I) == 0) THEN
@@ -707,18 +706,17 @@ C-----------------------------------
         COORD_OLD => NOT_USED
       ENDIF
 
-      CALL REDEF3(
-     1   ZMOM,     ZK,       RZ,       ZMEP,
-     2   DZOLD,    RPZ,      TF,       NPF,
-     3   ZC,       OFF,      E6(1,6),  RPZ2,
-     4   ANIM,     0,        IPOSZZ,   FR_WAVE,
-     5   XL0,      DMN,      DMX,      DV,
-     6   RSCALE,   LSCALE,   EE,       GF3,
-     7   IFUNC3,   YIELDZ2,  Z0DP,     AK,
-     8   B,        D,        IECROU,   IFUNC,
-     9   IFV,      IFUNC2,   EPLA,     COORD_OLD,
-     A   NOT_USED, NOT_USED, NOT_USED, NEL,
-     B   NFT)
+      CALL REDEF3(PYTHON,
+     1   ZMOM,       ZK,         RZ,         ZMEP,
+     2   DZOLD,      RPZ,        TF,         NPF,
+     3   ZC,         OFF,        E6(1,6),    RPZ2,
+     4   ANIM,       0,          IPOSZZ,   
+     5   XL0,        DMN,        DMX,        DV,
+     6   RSCALE,     LSCALE,     EE,         GF3,
+     7   IFUNC3,     YIELDZ2,    Z0DP,       AK,
+     8   B,          D,          IECROU,     IFUNC,
+     9   IFV,        IFUNC2,     EPLA,       COORD_OLD,
+     A   NEL,        NFT, MAX_SLOPE)
       DO I=1,NEL
         DLIM = ZERO
         IF (IFAIL2(I) == 0) THEN

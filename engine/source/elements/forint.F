@@ -79,7 +79,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sensor_mod             ../engine/share/modules/sensor_mod.F
       !||    table_mod              ../engine/share/modules/table_mod.F
       !||====================================================================
-      SUBROUTINE FORINT(
+      SUBROUTINE FORINT(PYTHON, 
      1    PM        ,GEO       ,X          ,A         ,AR        ,
      2    V         ,VR        ,MS         ,IN        ,W         ,
      3    ELBUF     ,WA        ,VAL2       ,VEUL      ,FV        ,
@@ -118,6 +118,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE python_funct_mod
       USE INITBUF_MOD
       USE TABLE_MOD
       USE MAT_ELEM_MOD            
@@ -161,6 +162,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(python_), intent(inout) :: PYTHON
       INTEGER IXS(NIXS,*),ITAB(*),FLG_KJ2,
      .   IXQ(NIXQ,*), IXT(NIXT,*), IXP(NIXP,*),
      .   IXR(NIXR,*), IGEO(NPROPGI,NUMGEO),IPARI(NPARI,*),
@@ -1325,7 +1327,7 @@ c
           IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
      .     CALL SENSOR_ENERGY_PART(IPARTR(NF1) ,SUBSET ,IPRI)
          IF(IGTYP == 23) THEN
-              CALL R23FORC3(
+              CALL R23FORC3(PYTHON,
      1   ELBUF_TAB(NG),        JFT,                  JLT,                  NEL,
      2   MTN,                  IGEO,                 GEO,                  IPM,
      3   IXR(1,NF1),           X,                    TABLE,                XDP,
@@ -1344,7 +1346,7 @@ c
      G   JSMS,                 IGRE,                 NFT,               PRELOAD1   ,
      H   STF_F )
          ELSE
-          CALL RFORC3(
+          CALL RFORC3(PYTHON,
      1   ELBUF_TAB(NG),       JFT,                 JLT,                 NEL,
      2   MTN,                 IGEO,                GEO,                 IXR(1,NF1),
      3   X,                   TABLE,               XDP,                 A,

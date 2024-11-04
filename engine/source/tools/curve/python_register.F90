@@ -58,7 +58,7 @@
           use python_spmd_mod, only : python_element_init
           use python_element_mod, only : python_get_number_elemental_entities, python_get_elemental_entity
           use python_funct_mod, only : python_, max_code_length, max_line_length, NAME_LEN, python_create_node_mapping, &
-          & python_register_function, python_initialize
+          & python_register_function, python_initialize, python_load_environment
           use user_id_mod, only : element_user_id
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Implicit None
@@ -168,6 +168,7 @@
           enddo
 
           call python_element_init(py%elements, n, group_id, local_id, user_id)
+          if(py%nb_functs >0 )  call python_load_environment()
           deallocate(code)
           deallocate(user_id)
           deallocate(local_id)

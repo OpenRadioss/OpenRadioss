@@ -41,7 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sensor_mod      ../engine/share/modules/sensor_mod.F
       !||    table_mod       ../engine/share/modules/table_mod.F
       !||====================================================================
-      SUBROUTINE R23LAW114(
+      SUBROUTINE R23LAW114(PYTHON,
      1   ELBUF_STR,            JFT,                  JLT,                  NEL,
      2   MTN,                  IGEO,                 GEO,                  IPM,
      3   IXR,                  X,                    TABLE,                XDP,
@@ -65,6 +65,7 @@ C-----------------------------------------------
       USE TABLE_MOD
       USE H3D_MOD
       USE SENSOR_MOD
+      USE python_funct_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,6 +83,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(python_), intent(in) :: PYTHON
       INTEGER, INTENT(IN) :: IGRE,NSENSOR
       INTEGER, INTENT(IN) :: NFT
       INTEGER, INTENT(IN) :: JSMS
@@ -216,7 +218,7 @@ C
           NUVAR = MAX(NUVAR, NINT(BUFMAT(IADBUF + 4)))
         ENDDO
 !!   is like r4def3 (spring type113)     
-        CALL R23L114DEF3(
+        CALL R23L114DEF3(PYTHON,
      1   SKEW,                   IPM,                    IGEO,                   MID,
      2   PID,                    GEO,                    BUFMAT,                 GBUF%FOR(II(1)),
      3   GBUF%FOR(II(2)),        GBUF%FOR(II(3)),        GBUF%EINT,              GBUF%TOTDEPL(II(1)),

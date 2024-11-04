@@ -31,6 +31,11 @@
 #include <array>
 #include <set>
 #include <array>
+#include <set>
+#include <utility>
+#include <vector> 
+#include <limits>
+#include <cmath>
 #define max_line_length 500
 // the maximum number of lines of python function
 #define max_num_lines 1000
