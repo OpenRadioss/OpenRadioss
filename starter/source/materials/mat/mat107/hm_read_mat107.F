@@ -240,15 +240,15 @@ c---------------------
       ! Default algorithm : Cutting plane
       IF (Ires == 0)  Ires = 2
       ! Poisson's ratio
-      IF (NU21 < ZERO .OR. NU21 >= HALF) THEN
-         CALL ANCMSG(MSGID=49,
-     .               MSGTYPE=MSGERROR,
-     .               ANMODE=ANINFO_BLIND_2,
-     .               R1=NU21,
-     .               I1=MAT_ID,
-     .               C1=TITR)
+       NU12 = NU21*YOUNG1/YOUNG2
+      ! checking poisson's ratio 
+      IF(NU12*NU21 >= ONE ) then
+        CALL ANCMSG(MSGID=3068,                        
+     .             MSGTYPE=MSGERROR,                    
+     .             ANMODE=ANINFO_BLIND_2,               
+     .             I1=MAT_ID ,                          
+     .             C1=TITR)
       ENDIF
-      NU12 = NU21*YOUNG1/YOUNG2
       ! Restriction for positive plastic work
       IF (K1<ZERO) THEN 
          CALL ANCMSG(MSGID=1815,

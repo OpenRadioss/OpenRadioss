@@ -322,33 +322,15 @@ c     Default values
 c---------------------
       ! Default algorithm : Cutting plane
       IF (Ires == 0)  Ires = 2
-      ! Poisson's ratio
-      IF (NU21 < ZERO .OR. NU21 >= HALF) THEN
-         CALL ANCMSG(MSGID=2057,
-     .               MSGTYPE=MSGERROR,
-     .               ANMODE=ANINFO_BLIND_2,
-     .               R1=NU21,
-     .               I1=MAT_ID,
-     .               C1=TITR)
-      ENDIF
+      !Checking Poisson's ratio
       NU12 = NU21*YOUNG1/YOUNG2
-      IF (NU12 < ZERO .OR. NU12 >= HALF) THEN
-         CALL ANCMSG(MSGID=2058,
-     .               MSGTYPE=MSGERROR,
-     .               ANMODE=ANINFO_BLIND_2,
-     .               R1=NU12,
-     .               I1=MAT_ID,
-     .               C1=TITR)
+      IF(NU12*NU21 >= ONE ) then
+        CALL ANCMSG(MSGID=3068,                        
+     .             MSGTYPE=MSGERROR,                    
+     .             ANMODE=ANINFO_BLIND_2,               
+     .             I1=MAT_ID ,                          
+     .             C1=TITR)
       ENDIF
-      ! Checking Poisson's ratio 
-      DETC = ONE - NU12*NU21
-      IF (DETC <= ZERO) THEN
-        CALL ANCMSG(MSGID=307,
-     .              MSGTYPE=MSGERROR,
-     .              ANMODE=ANINFO,
-     .              I1=MAT_ID,
-     .              C1=TITR)
-      ENDIF 
 c
       ! Strain-rate and filtering
       ISRATE    = 0

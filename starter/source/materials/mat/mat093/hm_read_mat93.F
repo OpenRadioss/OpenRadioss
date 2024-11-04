@@ -182,33 +182,7 @@ C
       IF(R23 == ZERO)  R23  = ONE
       IF(R13 == ZERO)  R13  = ONE
 C
-      ! Elastic parameters
-      !   Poisson's ratio
-      IF (NU12 < ZERO .OR. NU12 >= HALF) THEN
-         CALL ANCMSG(MSGID=49,
-     .               MSGTYPE=MSGERROR,
-     .               ANMODE=ANINFO_BLIND_2,
-     .               R1=NU12,
-     .               I1=MAT_ID,
-     .               C1=TITR)
-      ENDIF  
-      IF (NU13 < ZERO .OR. NU13 >= HALF) THEN
-         CALL ANCMSG(MSGID=49,
-     .               MSGTYPE=MSGERROR,
-     .               ANMODE=ANINFO_BLIND_2,
-     .               R1=NU13,
-     .               I1=MAT_ID,
-     .               C1=TITR)
-      ENDIF   
-      IF (NU23 < ZERO .OR. NU23 >= HALF) THEN
-         CALL ANCMSG(MSGID=49,
-     .               MSGTYPE=MSGERROR,
-     .               ANMODE=ANINFO_BLIND_2,
-     .               R1=NU23,
-     .               I1=MAT_ID,
-     .               C1=TITR)
-      ENDIF
-      ! Young modulus
+       ! Young modulus
       IF (E22 == ZERO) E22 = E11
       IF (E33 == ZERO) E33 = E22
       ! Shear modulus
@@ -217,17 +191,28 @@ C
       ! Remaining Poisson's ratio
       NU21 = NU12*E22/E11
       NU31 = NU13*E33/E11  
-      NU32 = NU23*E33/E22    
-C
-      ! Checking Poisson's ratio 
-      DETC = ONE - NU12*NU21
-      IF (DETC <= ZERO) THEN
-        CALL ANCMSG(MSGID=307,
-     .              MSGTYPE=MSGERROR,
-     .              ANMODE=ANINFO,
-     .              I1=MAT_ID,
-     .              C1=TITR)
-      ENDIF 
+      NU32 = NU23*E33/E22  
+      !check stability 
+      ! checking poisson's ratio 
+      if(NU12*NU21 >= one ) then
+        call ANCMSG(MSGID=3068,                        
+     .             MSGTYPE=MSGERROR,                    
+     .             ANMODE=ANINFO_BLIND_2,               
+     .             I1=MAT_ID ,                          
+     .             C1=TITR)
+      else if(NU13*NU31 >= one ) then
+        call ANCMSG(MSGID=3069,                        
+     .             MSGTYPE=MSGERROR,                    
+     .             ANMODE=ANINFO_BLIND_2,               
+     .             I1=MAT_ID ,                         
+     .             C1=TITR)
+      else if(NU23*NU32 >= one ) then
+        call ANCMSG(MSGID=3070,                        
+     .             MSGTYPE=MSGERROR,                    
+     .             ANMODE=ANINFO_BLIND_2,               
+     .             I1=MAT_ID ,                          
+     .             C1=TITR)
+      endif 
 C
       ! Hill coefficient
       A1 = ONE/R11/R11
