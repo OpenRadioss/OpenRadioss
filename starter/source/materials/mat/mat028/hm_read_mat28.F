@@ -94,7 +94,7 @@ C-----------------------------------------------
        my_real 
      . E11,E22,E33,G12,G23,G31,EMX11,EMX22,EMX33,EMX12,EMX23,EMX31,
      . FAC1,FAC2,FAC3,FAC4,FAC5,FAC6,DMIN,DMAX
-      INTEGER I11,I22,I33,I12,I23,I31,IF1,IF2
+      INTEGER I11,I22,I33,I12,I23,I31,IF1,IF2,IMAT
       my_real :: RHOR,RHO0,FAC_UNIT
       LOGICAL :: IS_ENCRYPTED,IS_AVAILABLE
 C-----------------------------------------------
@@ -103,7 +103,8 @@ C-----------------------------------------------
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
       ISRATE=0
-      IMATVIS=0
+      IMATVIS= 0
+      IMAT   = 28
 
 
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
@@ -216,7 +217,7 @@ c--------------------------------------------------
       CALL INIT_MAT_KEYWORD(MATPARAM,"COMPRESSIBLE")
       CALL INIT_MAT_KEYWORD(MATPARAM,"SMALL_STRAIN")
 c--------------------------------------------------
-      WRITE(IOUT,1001) TRIM(TITR),MAT_ID,33
+      WRITE(IOUT,1001) TRIM(TITR),MAT_ID,IMAT
       WRITE(IOUT,1000)
 
       IF(IS_ENCRYPTED)THEN
