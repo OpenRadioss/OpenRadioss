@@ -2547,7 +2547,7 @@
             endif
           elseif (isorth /= 0) then
             if (jcvt == 0) then
-              do 30 i=1,nel
+              do i=1,nel
                 sigl(i,1) = s1(i)*off(i)
                 sigl(i,2) = s2(i)*off(i)
                 sigl(i,3) = s3(i)*off(i)
@@ -2560,7 +2560,8 @@
                 sv4(i)= sv4(i)*off(i)
                 sv5(i)= sv5(i)*off(i)
                 sv6(i)= sv6(i)*off(i)
-30            continue
+              end do
+!
               call mrotens(1,nel,&
               &s1 ,s2 ,s3 ,&
               &s4 ,s5 ,s6 ,&
