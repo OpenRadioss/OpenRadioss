@@ -128,7 +128,7 @@
       !condition on GC
       if(gcten < (tenmax**2/two/young))then
          gcten = tenmax**2/two/young
-          CALL ANCMSG(MSGID=3065,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,     &
+          CALL ANCMSG(MSGID=3074,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,     &
                       I1 = MAT_ID,                                             &
                       C1 = TITR,                                               &
                       C2 = 'GCTEN',                                            &
@@ -142,7 +142,7 @@
          gcshr = limit_sh
          dfs     = (two*gcshr/(one+shrp)/shrmax) 
          dp      = shrp*dfs
-         CALL ANCMSG(MSGID=3066,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,     &
+         CALL ANCMSG(MSGID=3075,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,     &
                      I1 = MAT_ID,                                             &
                      C1 = TITR,                                               &
                      C2 = 'GCSHR',                                            &
