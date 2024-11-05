@@ -676,7 +676,7 @@ C          check of alignement of skew1
            SCAL = ABS(EX(1)*VECT1(1)+EX(2)*VECT1(2)+EX(3)*VECT1(3))      
            IF (SCAL.LT.0.98) THEN
 C--          misalignement - error 
-             CALL ANCMSG(MSGID=3066,
+             CALL ANCMSG(MSGID=3076,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANINFO_BLIND_1,
      .                   I1=ID,
@@ -707,10 +707,10 @@ C--          y1' = z1'^x1'
              VECT1(1:9) = VECT1_UPT(1:9)             
            ENDIF
            SCAL_SIGN = SIGN(ONE,EX(1)*VECT2(1)+EX(2)*VECT2(2)+EX(3)*VECT2(3))   
-           SCAL = ABS(EX(1)*VECT2(1)+EX(2)*VECT2(2)+EX(3)*VECT2(3))         
+           SCAL = ABS(EX(1)*VECT2(1)+EX(2)*VECT2(2)+EX(3)*VECT2(3))       
            IF (SCAL.LT.0.98) THEN
 C--          misalignement - error 
-             CALL ANCMSG(MSGID=3066,
+             CALL ANCMSG(MSGID=3076,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANINFO_BLIND_1,
      .                   I1=ID,
