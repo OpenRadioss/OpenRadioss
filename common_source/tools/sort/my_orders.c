@@ -25,9 +25,7 @@
 
 #define _FCALL
 
-void tri_direct(data,iwork,index,n,irecl,inds)
-int n,irecl;
-unsigned data[],index[],inds[],iwork[];
+void tri_direct(unsigned *data,unsigned *iwork, unsigned *index,int n,int irecl,unsigned *inds)
 {
     /* tri a adressage direct                               */
     /*  0 <= x <= 2^16 - 1                                  */
@@ -63,9 +61,7 @@ unsigned data[],index[],inds[],iwork[];
     }
 
 }
-void my_orders_(mode,iwork,data,index,n,irecl)
-int *mode,*n,*irecl;
-unsigned *iwork,*data,*index;
+void my_orders_(int *mode,unsigned *iwork,unsigned *data,unsigned *index,int *n,int *irecl)
 {
     int i;
     if(*mode == 0){
@@ -80,15 +76,12 @@ unsigned *iwork,*data,*index;
         *mode = -1;
     }
 }
-void _FCALL MY_ORDERS(mode,iwork,data,index,n,irecl)
-int *mode,*iwork,*data,*index,*n,*irecl;
-{my_orders_(mode,iwork,data,index,n,irecl);}
+void _FCALL MY_ORDERS(int *mode,int *iwork,int *data,int *index,int *n,int *irecl)
+{my_orders_(mode,(unsigned*)iwork,(unsigned*)data,(unsigned*)index,n,irecl);}
 
-void my_orders(mode,iwork,data,index,n,irecl)
-int *mode,*iwork,*data,*index,*n,*irecl;
-{my_orders_(mode,iwork,data,index,n,irecl);}
+void my_orders(int *mode,int *iwork,int *data,int *index,int *n,int *irecl)
+{my_orders_(mode,(unsigned*)iwork,(unsigned*)data,(unsigned*)index,n,irecl);}
 
-void my_orders__(mode,iwork,data,index,n,irecl)
-int *mode,*iwork,*data,*index,*n,*irecl;
-{my_orders_(mode,iwork,data,index,n,irecl);}
+void my_orders__(int *mode,int *iwork,int *data,int *index,int *n,int *irecl)
+{my_orders_(mode,(unsigned*)iwork,(unsigned*)data,(unsigned*)index,n,irecl);}
 

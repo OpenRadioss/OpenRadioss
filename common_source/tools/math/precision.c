@@ -27,72 +27,48 @@
 
 #define _FCALL
 
-int _FCALL MY_SHIFTL(a,n)
-int *a,*n;
-{
-        return *a << *n;
-}
-int my_shiftl(a,n)
-int *a,*n;
-{
-        return *a << *n;
-}
-unsigned int my_shiftl_(a,n)
-unsigned int *a,*n;
-{
-        return *a << *n;
-}
-int _FCALL MY_SHIFTR(a,n)
-int *a,*n;
-{
-        return *a >> *n;
-}
-int my_shiftr(a,n)
-int *a,*n;
-{
-        return *a >> *n;
-}
-int my_shiftr_(a,n)
-int *a,*n;
-{
-        return *a >> *n;
-}
-int _FCALL MY_AND(a,b)
-int *a,*b;
-{
-        return *a & *b;
-}
-int my_and(a,b)
-int *a,*b;
-{
-        return *a & *b;
-}
-int my_and_(a,b)
-int *a,*b;
-{
-        return *a & *b;
-}
-int _FCALL MY_OR(a,b)
-int *a,*b;
-{
-        return *a | *b;
-}
-int my_or(a,b)
-int *a,*b;
-{
-        return *a | *b;
-}
-int my_or_(a,b)
-int *a,*b;
-{
-        return *a | *b;
-}
+
+
+int _FCALL MY_SHIFTL(int *a, int *n)
+{ return *a << *n; }
+
+
+int my_shiftl(int *a, int *n)
+{ return *a << *n; }
+
+unsigned int my_shiftl_(int *a,int *n)
+{ return *a << *n; }
+
+int _FCALL MY_SHIFTR( int *a, int *n)
+{ return *a >> *n; }
+
+int my_shiftr(int *a,int *n)
+{ return *a >> *n; }
+
+int my_shiftr_(int *a, int *n)
+{ return *a >> *n; }
+
+int _FCALL MY_AND(int *a, int *b)
+{ return *a & *b; }
+
+int my_and(int *a,int *b)
+{ return *a & *b; }
+
+int my_and_(int *a, int *b)
+{ return *a & *b; }
+
+int _FCALL MY_OR(int *a, int *b)
+{ return *a | *b; }
+
+int my_or(int *a,int *b)
+{ return *a | *b; }
+
+int my_or_(int *a, int *b)
+{ return *a | *b; }
 
 /* routines calcul de la precision flotante minimum */
 
-void floatmin(a,b,flm)
-char *a, *b;
-float *flm;
+void floatmin(int *a, int *b, float *flm)
 {
  int l;
  l = b-a;
@@ -100,9 +76,7 @@ float *flm;
  else *flm=2.2E-16 ;
 }
 
-void floatmin_(a,b,flm)
-char *a, *b;
-float *flm;
+void floatmin_(int *a, int *b, float *flm)
 {
  int l;
  l = b-a;
@@ -110,9 +84,7 @@ float *flm;
  else *flm=2.2E-16 ;
 }
 
-void _FCALL FLOATMIN(a,b,flm)
-char *a, *b;
-float *flm;
+void _FCALL FLOATMIN(int *a, int *b, float *flm)
 {
  int l;
  l = b-a;
@@ -120,9 +92,7 @@ float *flm;
  else *flm=2.2E-16 ;
 }
 
-void floatmin__(a,b,flm)
-char *a, *b;
-float *flm;
+void floatmin__(int *a, int *b, float *flm)
 {
  int l;
  l = b-a;

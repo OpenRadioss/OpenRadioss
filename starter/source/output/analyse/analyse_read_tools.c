@@ -23,6 +23,7 @@
 #include <string.h>
 #include <stdio.h> /* sscanf */
 #include <stdlib.h> /* qsort */
+#include <string.h>
 
 #include "analyse_define.h" /* ANALYSE_SIZE_OF_LINE */ 
 
@@ -95,8 +96,11 @@ char *analyse_read_text_default(char *line, FILE *infile, char *filename, int *l
   analyse_getsize_of_enum (&nb_line, &nb_dataline, infile, filename, linecount_p);
  
   text = (char *)analyse_malloc((nb_dataline*(ANALYSE_SIZE_OF_LINE+1))*sizeof(char));
+#ifdef _WIN64
+  strcpy_s(text, ANALYSE_SIZE_OF_LINE+1,"");
+#else
   strcpy(text, "");
- 
+#endif
   for (i=0; i<nb_dataline; i++)
     {
       if ( analyse_getline(line, infile, filename, linecount_p) == -1)
@@ -108,8 +112,13 @@ char *analyse_read_text_default(char *line, FILE *infile, char *filename, int *l
       analyse_string_fit_start_end(line);
       if (strlen(line) > 0)
         {
-          strcat(text, line);
-          strcat(text, "\\n");
+          #ifdef _WIN64
+             strcat_s(text,ANALYSE_SIZE_OF_LINE+1, line);
+             strcat_s(text,ANALYSE_SIZE_OF_LINE+1, "\\n");
+          #else
+             strcat(text, line);
+             strcat(text, "\\n");
+          #endif
         }
     }
 
@@ -128,7 +137,11 @@ char *analyse_read_text(char *line, FILE *infile, char *filename, int *linecount
   analyse_getsize_of_enum (&nb_line, &nb_dataline, infile, filename, linecount_p);
   
   text = (char *)analyse_malloc((nb_dataline*(ANALYSE_SIZE_OF_LINE+1))*sizeof(char));
-  strcpy(text, "");
+  #ifdef _WIN64
+    strcpy_s(text, ANALYSE_SIZE_OF_LINE+1,"");
+  #else
+    strcpy(text, "");
+  #endif
   
   for (i=0; i<nb_dataline; i++)
     {
@@ -141,9 +154,13 @@ char *analyse_read_text(char *line, FILE *infile, char *filename, int *linecount
       analyse_string_fit_start_end(line);
       if (strlen(line) > 0)
 	{
-	  strcat(text, line);
-/* el41m16 +1	  strcat(text, "\\n"); */
-	  strcat(text, "\n");
+    #ifdef _WIN64
+        strcat_s(text,ANALYSE_SIZE_OF_LINE+1, line);
+        strcat_s(text,ANALYSE_SIZE_OF_LINE+1, "\n");
+    #else
+	      strcat(text, line);
+	      strcat(text, "\n");
+    #endif
 	}
     }
 
@@ -225,7 +242,11 @@ void analyse_stack_error(char *line, FILE *infile, char *infilename, int *lineco
       if (strstr(line, "/ANALYSE/MESSAGE/") != NULL)
 	{
 	  analyse_getkey(3 , line, key);
-	  sscanf(key, "%d", *tab_p+ step );
+    #ifdef _WIN64
+        sscanf_s(key, "%d", *tab_p+ step );
+    #else
+        sscanf(key, "%d", *tab_p+ step );
+    #endif 
 	  step ++;
 	}
     }
@@ -261,13 +282,21 @@ void analyse_stack_check(char *line, FILE *infile, char *infilename, int *lineco
       if (strstr(line, "/ANALYSE/CHECK/GROUP") != NULL) 
 	{
 	  analyse_getkey(4 , line, key);
-	  sscanf(key, "%d", *tab_p+nb_check_group );
+    #ifdef _WIN64
+       sscanf_s(key, "%d", *tab_p+nb_check_group );
+    #else
+       sscanf(key, "%d", *tab_p+nb_check_group );
+    #endif
 	  nb_check_group++;
 	}
       else if (strstr(line, "/ANALYSE/CHECK") != NULL) 
 	{
 	  analyse_getkey(3 , line, key);
-	  sscanf(key, "%d", *tab2_p+nb_check);
+    #ifdef _WIN64
+       sscanf_s(key, "%d", *tab2_p+nb_check);
+    #else
+       sscanf(key, "%d", *tab2_p+nb_check);
+    #endif
 	  nb_check ++;
 	}
     }
