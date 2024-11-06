@@ -523,10 +523,11 @@ C---
 C---
             IEXT=0                                                     
             IF(KEY2(1:3)=='EXT')THEN                                   
-              IEXT=1                                                   
+              IEXT=EXT_SURF                                                   
             ELSEIF(KEY2(1:3)=='ALL')THEN                               
-              IEXT=2                                                   
-            END IF                                                     
+              IEXT=ALL_SURF                                                  
+            END IF
+            IGRSURF(IGS)%EXT_ALL = IEXT                               
 C---
             IF (NUMELS > 0) THEN                                       
               NSEG0 = IGRSURF(IGS)%NSEG                                
@@ -587,7 +588,7 @@ C=======================================================================
           IF (KEY(1:6)=='GRBRIC')THEN                                          
             IF(KEY2(1:3)=='EXT')THEN                                           
               IFRE=0                                                           
-              IEXT=1                                                           
+              IEXT=EXT_SURF                                                           
             END IF                                                             
             IF(KEY2(1:4)=='FREE')THEN                                          
               IFRE=1                                                           
@@ -632,10 +633,11 @@ C=======================================================================
           IF (KEY(1:4)=='PART'.OR.KEY(1:6)=='SUBSET'.OR.     
      .        KEY(1:3)=='MAT' .OR.KEY(1:4)=='PROP') THEN     
             IF(KEY2(1:3)=='EXT')THEN                         
-              IEXT=1                                         
+              IEXT=EXT_SURF                                      
             ELSEIF(KEY2(1:3)=='ALL')THEN                     
-              IEXT=2                                         
-            END IF                                           
+              IEXT=ALL_SURF                                         
+            END IF     
+            IGRSURF(IGS)%EXT_ALL = IEXT                                           
             IF (FLAG == 1) THEN ! NSEG counted at FLAG = 0   
 !             ISOGEO                                         
               NSEG0 = IGRSURF(IGS)%NSEG_IGE                  
@@ -774,10 +776,11 @@ C=======================================================================
           IEXT=0
           IF (KEY(1:6)=='SUBMOD') THEN
             IF(KEY2(1:3)=='EXT')THEN                                               
-              IEXT=1                                                               
+              IEXT=EXT_SURF                                                               
             ELSEIF(KEY2(1:3)=='ALL')THEN                                           
-              IEXT=2                                                               
-            END IF                                                                 
+              IEXT=ALL_SURF                                                               
+            END IF 
+            IGRSURF(IGS)%EXT_ALL = IEXT
 !
             IF (FLAG == 1) THEN ! NSEG counted at FLAG = 0                         
               NSEG0 = IGRSURF(IGS)%NSEG                                            

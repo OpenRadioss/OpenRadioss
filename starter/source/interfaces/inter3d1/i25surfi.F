@@ -93,6 +93,8 @@ C-----------------------------------------------
       INTEGER NLINS,NLINM,LINE1,LINE2,STAT,IL,IG,N,II,IJ,IMIN
       INTEGER NSU1,NLS1,NLS2,NRTM_SH,ETYP,NRTM0,
      .        IMBIN,IM,IDEB,ISN
+      LOGICAL :: NEED_SOLID_EROSION
+      INTEGER :: IDEL,SOLID_SEGMENT  
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -442,10 +444,28 @@ C----------due the fact that NRTM is modified w/ shell seg
         IPARI(6)  = NMN
         IPARI(35) = NLN
         IPARI(42) = NRTM_SH
-        IF(NRTM>NRTM_SH.AND.IPARI(17)/= 0) THEN ! Solid erosion
-          IPARI(100) = 1
-          PARAMETERS%INT25_EROSION_SOLID = 1
+
+        IDEL = IPARI(17) ! get the idel option (/=0 --> erosion is ON)
+        SOLID_SEGMENT = NRTM - NRTM_SH ! get the number of segment linked to a solid element
+        NEED_SOLID_EROSION = .FALSE.
+        ! -------------------
+        ! Solid erosion algorithm is ON if :
+        !  * there at least 1 segment linked to a solid element in the /SURF
+        !  * and if idel is /=0
+        !  * and if the surface of the interface is a /SURF/PART/ALL 
+        IF(IDEL/=0.AND.SOLID_SEGMENT>0) THEN
+          IF(ISU1/=0) THEN
+            IF(IGRSURF(ISU1)%EXT_ALL==2) NEED_SOLID_EROSION = .TRUE.
+          ENDIF
+          IF(ISU2/=0) THEN
+            IF(IGRSURF(ISU2)%EXT_ALL==2) NEED_SOLID_EROSION = .TRUE.
+          ENDIF 
         ENDIF
+        IF(NEED_SOLID_EROSION) THEN ! Solid erosion
+          IPARI(100) = 1 ! solid erosion is ON for this interface
+          PARAMETERS%INT25_EROSION_SOLID = 1 ! global flag for solid erosion
+        ENDIF
+        ! -------------------
       END IF
 
       DEALLOCATE(TAG,TAGS)

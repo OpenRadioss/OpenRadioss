@@ -212,6 +212,7 @@ C-----------------------------------------------
           IGRSURF(IGRS)%NODES(1:NSEG,4) = SET%SURF_NODES(1:NSEG,4)
           IGRSURF(IGRS)%ELTYP(1:NSEG)   = SET%SURF_ELTYP(1:NSEG)
           IGRSURF(IGRS)%ELEM(1:NSEG)    = SET%SURF_ELEM(1:NSEG)
+          IGRSURF(IGRS)%EXT_ALL    = SET%EXT_ALL
         ENDIF
 
         IF(LINE_SEG)THEN
