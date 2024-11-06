@@ -27,8 +27,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||====================================================================
       MODULE SET_MOD
-
         USE SETDEF_MOD
+        ! ------------
+        ! definition of the operators
+        INTEGER, PARAMETER :: SET_ADD = 1 !< add operator
+        INTEGER, PARAMETER :: SET_DELETE = 2 !< delete operator
+        INTEGER, PARAMETER :: SET_INTERSECT = 3 !< intersection operator
+        INTEGER, PARAMETER :: SET_SURF_ALL = 4 !< surf_all operator (not used)
+        INTEGER, PARAMETER :: SET_SURF_EXT = 5 !< surf_ext operator (not used)
+        ! ------------
 ! SET
         TYPE(SET_)    ,TARGET,DIMENSION(:),ALLOCATABLE :: SET
 

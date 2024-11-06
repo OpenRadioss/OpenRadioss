@@ -46,6 +46,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SET_SCRATCH_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARFIELD
+      USE SURF_MOD , ONLY : EXT_SURF,ALL_SURF
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -91,8 +92,9 @@ C=======================================================================
 !
       IAD_SURF = 1
 !------------------
-      IEXT = 1  ! par default (external surface)
-      IF ( OPT_A == 1 )  IEXT = 2 ! all surfaces (internal + external)
+      IEXT = EXT_SURF  ! par default (external surface)
+      IF ( OPT_A == 1 )  IEXT = ALL_SURF ! all surfaces (internal + external)
+      CLAUSE%EXT_ALL = IEXT
 !------------------
 
 !

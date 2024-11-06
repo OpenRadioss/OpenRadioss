@@ -36,13 +36,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      *                NIX     ,IX           ,NIX1    ,IPARTE    ,IPART  ,
      *                ELTREE  ,KLEVTREE     ,KELTREE ,NUMEL     )
 
-#include      "set_def.inc"
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE OPTIONDEF_MOD
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
+      USE SET_MOD , ONLY : SET_ADD 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -149,6 +149,7 @@ C-----------------------------------------------
       USE OPTIONDEF_MOD
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
+      USE SET_MOD , ONLY : SET_ADD,SET_DELETE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

@@ -54,6 +54,7 @@ C-----------------------------------------------
       SET(IGS)%SET_ID = SET_ID
       SET(IGS)%TITLE  = SET_TITLE
       SET(IGS)%SET_TYPE  = ISET_TYPE
+      SET(IGS)%EXT_ALL = 0 ! type of surface : /EXT or /ALL
 !
 !      SET(IGS)%SET_ACTIV = 1         ! SET_ACTIV was already initialized in sort_sets.F, 
                                       ! this permits to treat the /SET/COLLECT, in /SET/COLLECT, only one is active,

@@ -722,6 +722,7 @@ C-----------------------------------------------------------------------
         INTEGER   :: NSEG_IGE    ! Number of iso-surfaces
         INTEGER   :: IAD_IGE    ! Pointer to fictive node in IGA tabulars
         INTEGER   :: SET_GROUP ! need to not printout empty set groups
+        INTEGER   :: EXT_ALL !< /SURF/PART/EXT : = 1, /SURF/PART/ALL : = 2
         INTEGER   :: TYPE ! OPEN / CLOSED surface flag
 !                        SURF_TYPE = 0         : SEGMENTS
 !                        SURF_TYPE = 100       : HYPER-ELLIPSOIDE MADYMO.

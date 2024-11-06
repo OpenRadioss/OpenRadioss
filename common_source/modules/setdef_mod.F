@@ -132,6 +132,7 @@ C-----------------------------------------------------------------------
         INTEGER   :: LINE_SET_FLAG    ! SET line activation flag
         INTEGER   :: NSEG             ! SET surface segments
         INTEGER   :: NSEG_1D          ! SET line/edge segments
+        INTEGER   :: EXT_ALL          ! type of the surface : /EXT or /ALL
 !==============================================================
 !        INTEGER   :: LEVEL ! Hierarchy level
 !                             (FLAG 'SUBLEVEL DONE' FOR SET OF SET)
