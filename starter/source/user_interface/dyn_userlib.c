@@ -543,10 +543,7 @@ void st_userlib_lecguser_(int * igtyp,char * rootn,int* rootlen, int * nuvar,my_
 /* --------------------------------- */
 
 /* WINDOWS */
-void  _FCALL ST_USERLIB_USERMAT(MATNUM,ROOTN, ROOTLEN,UPARAM, MAXUPARAM, NUPARAM, NUVAR, IFUNC, MAXFUNC, MFUNC, PARMAT,UNITAB)
-     int *MATNUM, *ROOTLEN,*MAXUPARAM, *NUPARAM, *NUVAR, *IFUNC, *MAXFUNC, *MFUNC, * UNITAB;
-char * ROOTN;
-my_real*UPARAM, *PARMAT;
+void  _FCALL ST_USERLIB_USERMAT(int *MATNUM, char* ROOTN, int *ROOTLEN,my_real *UPARAM, int *MAXUPARAM, int *NUPARAM, int *NUVAR, int *IFUNC, int *MAXFUNC, int *MFUNC, my_real *PARMAT,int *UNITAB)
 {
 	  if (st_lecm) {
 	    (*st_lecm)(MATNUM, ROOTN, ROOTLEN,UPARAM, MAXUPARAM, NUPARAM, NUVAR, IFUNC, MAXFUNC, MFUNC, PARMAT,UNITAB);
@@ -555,10 +552,7 @@ my_real*UPARAM, *PARMAT;
 
 
 /* LINUX */
-void st_userlib_usermat_(MATNUM,ROOTN, ROOTLEN,UPARAM, MAXUPARAM, NUPARAM, NUVAR, IFUNC, MAXFUNC, MFUNC, PARMAT,UNITAB)
-     int *MATNUM, *ROOTLEN,*MAXUPARAM, *NUPARAM, *NUVAR, *IFUNC, *MAXFUNC, *MFUNC, * UNITAB;
-char * ROOTN;
-my_real*UPARAM, *PARMAT;
+void st_userlib_usermat_(int *MATNUM,char *ROOTN, int *ROOTLEN,my_real *UPARAM,int * MAXUPARAM, int *NUPARAM, int *NUVAR, int *IFUNC,int * MAXFUNC,int * MFUNC, my_real *PARMAT,int *UNITAB)
 {
 	  if (st_lecm) {
 	    (*st_lecm)(MATNUM, ROOTN, ROOTLEN,UPARAM, MAXUPARAM, NUPARAM, NUVAR, IFUNC, MAXFUNC, MFUNC, PARMAT,UNITAB);
@@ -590,10 +584,7 @@ void st_userlib_lecm99_(int * ilaw,char * rootn,int* rootlen, int * iuser_law,my
 /* ------------------ */
 
 /* WINDOWS */
-void _FCALL ST_USERLIB_LECR(RUPTID,ROOTN, ROOTLEN,UPARAM, MAXUPARAM, NUPARAM, NUVAR, IFUNC, MAXFUNC, MFUNC, ID)
-     int *RUPTID, *ROOTLEN,*MAXUPARAM, *NUPARAM, *NUVAR, *IFUNC, *MAXFUNC, *MFUNC, *ID;
-char * ROOTN;
-my_real*UPARAM;
+void _FCALL ST_USERLIB_LECR(int *RUPTID,char *ROOTN, int *ROOTLEN,my_real *UPARAM, int *MAXUPARAM, int *NUPARAM, int *NUVAR, int *IFUNC, int *MAXFUNC, int *MFUNC, int *ID)
 {
 	  if (st_lecr) {
 	    (*st_lecr)(RUPTID, ROOTN, ROOTLEN,UPARAM, MAXUPARAM, NUPARAM, NUVAR, IFUNC, MAXFUNC, MFUNC, ID);
@@ -601,10 +592,7 @@ my_real*UPARAM;
 }
 
 /* LINUX */
-void st_userlib_lecr_(RUPTID,ROOTN, ROOTLEN,UPARAM, MAXUPARAM, NUPARAM, NUVAR, IFUNC, MAXFUNC, MFUNC, ID)
-     int *RUPTID, *ROOTLEN,*MAXUPARAM, *NUPARAM, *NUVAR, *IFUNC, *MAXFUNC, *MFUNC, *ID;
-char * ROOTN;
-my_real*UPARAM;
+void st_userlib_lecr_(int *RUPTID,char *ROOTN, int *ROOTLEN,my_real *UPARAM, int *MAXUPARAM, int *NUPARAM, int *NUVAR, int *IFUNC, int *MAXFUNC, int *MFUNC, int *ID)
 {
 	  if (st_lecr) {
 	    (*st_lecr)(RUPTID, ROOTN, ROOTLEN,UPARAM, MAXUPARAM, NUPARAM, NUVAR, IFUNC, MAXFUNC, MFUNC, ID);
