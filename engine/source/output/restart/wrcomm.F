@@ -2098,7 +2098,12 @@ C  INITIAL MASS IN STARTER
       TABVREA(RVARINT) = ZI_RES
 C
       RVARINT = RVARINT + 1
-      TABVREA(RVARINT) = INTER_PARAMETERS%DT_STIFINT         
+      TABVREA(RVARINT) = INTER_PARAMETERS%DT_STIFINT
+C     KINETIC ENERGY
+      RVARINT = RVARINT + 1
+      TABVREA(RVARINT) = ENCIN
+      RVARINT = RVARINT + 1
+      TABVREA(RVARINT) = ENROT         
 C      
       LVARREA =RVARINT
 C----------------------------------------------------------------
