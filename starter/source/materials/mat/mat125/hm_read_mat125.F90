@@ -84,10 +84,10 @@
  !-----------------------------------------------
       integer fs, ifem11t,ifxc,ifem11c,ifxt,ifem22t,ifyc,ifyt,      &
        ifzt,ifzc,ifem33t,ifem33c, ifems, ifems13,ifsc13,            &
-       ifsc23,ifsc,ifgamma,iferods,ifgamma2,ifgamma3,       &
-       iftau, iftau2,iftau3,ifem22c,ifems23,ilaw,damage
+       ifem23, ifsc23,ifsc,ifgamma,iferods,ifgamma2,ifgamma3,       &
+       iftau, iftau2,iftau3,ifem22c,ifems23,ilaw
       my_real                                                         &
-         rho0,e1,e2,e3,g12,g23,g13,nu12,nu21,nu23,nu31,nu13,soft,     &
+         rho0,e1,e2,e3,g12,g23,nu12,nu21,nu23,nu31,nu13,soft,     &
          em11t,em22t,em33t,em11c,em22c,em33c,ems,ems13,ems23,         &
          xc,xt,yc,yt,zc,zt,sc, sc23,sc13,gamma,tau,gamma2,tau2,       &
          tau3,gamma3, erods,tsmd, gammar,gammaf,nu32,                 &
@@ -96,15 +96,15 @@
          detc, d11,d22,d33,d12,d13,d23,dmn,dmx,al1c,al1t,al2c,        &
          al2t,al3c,al3t,m1t,m2t,m1c,m2c,m3c,m3t,ef11t,ef11c,          &
          ef22t,ef22c,ef33t,ef33c,fac,g31,                             &
-          fcut,efs,ms,als,                                            &
+         fcut,efs,ms,als,                                            &
          c1,gmax,ssp,nu,young,asrate,ms13,efs13,als13,ms23,           &
-         efs23,als23      
+         efs23,als23  ,  &
+         w11,eps,epsm,sig,ef,xt_new,scale,ef11t0,em11t0
       logical :: is_available,is_encrypted
  !=======================================================================
       is_encrypted = .false.
       is_available = .false.
       ilaw         = 125
-      g31         = zero  !is not initialized elsewhere
  !------------------------------------------
       call hm_option_is_encrypted(is_encrypted)
  !------------------------------------------
@@ -119,12 +119,12 @@
 !card3 - shear modulus +
       call hm_get_floatv('LSD_MAT_GAB'   ,g12      ,is_available, lsubmodel, unitab)
       call hm_get_floatv('LSD_MAT_GBC'   ,g23      ,is_available, lsubmodel, unitab)
-      call hm_get_floatv('LSD_MAT_GCA'   ,g13      ,is_available, lsubmodel, unitab)
-!card4 - poisson's ratio
+      call hm_get_floatv('LSD_MAT_GCA'   ,g31      ,is_available, lsubmodel, unitab)
+!card4 -  poisson's ratio
       call hm_get_floatv('LSD_MAT_PRBA'  ,nu21     ,is_available, lsubmodel, unitab)
-      call hm_get_floatv('LSDYNA_PRCB'  ,nu32     ,is_available, lsubmodel, unitab)
-      call hm_get_floatv('LSDYNA_PRCA'  ,nu31     ,is_available, lsubmodel, unitab) 
-!card5 - dir 11 tension 
+      call hm_get_floatv('LSDYNA_PRCB'   ,nu32     ,is_available, lsubmodel, unitab)
+      call hm_get_floatv('LSDYNA_PRCA'   ,nu31     ,is_available, lsubmodel, unitab) 
+!card5 - dir 11 tention 
       call hm_get_floatv  ('LSD_M11T'        ,em11t      ,is_available, lsubmodel, unitab)
       call hm_get_floatv  ('LSD_MAT_XT'      ,xt         ,is_available, lsubmodel, unitab)
       call hm_get_floatv  ('MATL58_SLIMT1'   ,slimt1     ,is_available, lsubmodel, unitab)
@@ -207,8 +207,8 @@
       if (e2 == zero)  e2  = e1
       if (e3 == zero)  e3  = e2
       ! shear modulus
-      if (g13 == zero) g13 = g12
-      if (g23 == zero) g23 = g13
+      if (g31 == zero) g31 = g12
+      if (g23 == zero) g23 = g31
 
       if(nu31 == zero) nu31 = nu21
       if(nu32 == zero) nu32 = nu21
@@ -294,15 +294,14 @@
       allocate (matparam%uparam(matparam%nuparam))
 
       ! number of functions
-      nfunc   = 24
+      nfunc   = 25
       ! number of user variables 
-      nuvar   = 10
+      nuvar   = 6
       ! number of temporary variable for interpolation
       nvartmp = 0
 !     
       ! computing alpha and m for each direction
          ! dir 11 (tension - compression)
-      damage = 0 
       al1t = ep20
       m1t = one 
       al1c = ep20
@@ -315,9 +314,7 @@
           if(em11t == zero) em11t = ONEP2*ef11t
           m1t = -one/log(ef11t/em11t)     
           al1t = m1t*(em11t/ef11t)**m1t
-          damage = 1
         endif 
-      
         if(xc > zero  )then
           ef11c  = xc/e1
           if(em11c <= zero)em11c = ONEP2*ef11c
@@ -379,69 +376,81 @@
       ms23 = -HUGE(ms23)
       als23 = -HUGE(als23)
       efs23 = -HUGE(efs23)
-      if(fs == -1) then
-         ! plane shear 
-        if(g12 > zero ) then
-          if(tau > zero  )then
-            efs  = tau /g12
-            if(gamma <= zero ) gamma = ONEP2*efs 
-            ms = -one/log(efs/gamma) ! one/ln(epsm/epsf)    
-            als = ms*(gamma/efs)**ms
-          else 
-           ! adding error message   
-           fs = 1
-          endif
-         endif   
+      select case(fs)
+       case(0,1)
+         if(g12 > zero .and. sc > zero) then
+            efs  = sc /g12
+            if(ems <= zero ) ems = onep1*efs 
+            ms = -one/log(efs/ems) ! one/ln(epsm/epsf)    
+            als = ms*(ems/efs)**ms
+          endif   
          ! transverse shear 13 (only for solid)
-        ms13 = one
-        als13 = ep20
-        efs13 = zero
-        if(g13 > zero ) then 
-          if( tau2 > zero ) then 
-           efs13  = tau2 /g13
-           if(gamma2 <= 0 ) gamma2 = ONEP2*efs13 
-           ms13 = -one/log(efs13/gamma2) ! one/ln(epsm/epsf)    
-           als13 = ms*(gamma2/efs13)**ms13
-          else 
-           ! adding error message   
-         endif
-        endif   
+          ms13 = one
+          als13 = ep20
+          efs13 = zero
+          if(g31 > zero .and. sc13 > zero ) then 
+              efs13  = sc13 /g31
+              if(ems13 <= 0 ) ems13 = onep1*efs13 
+              ms13 = -one/log(efs13/ems13) ! one/ln(epsm/epsf)    
+             als13 = ms*(ems13/efs13)**ms13
+          endif   
         ! transverse shear 23 (only for solid)
-        ms23 = one
-        als23 = ep20
-        efs23 = zero
-        if(g23 > zero ) then
-          if(tau3 > zero ) then
-           efs23  = tau3 /g23
-           if(gamma2 <= zero) gamma2 = ONEP2*efs23
-           ms23 = -one/log(efs23/gamma3) ! one/ln(epsm/epsf)    
-           als23 = ms23*(gamma3/efs23)**ms23
-         else 
-           ! adding error message   
-         endif 
-       endif  
-
-      endif ! fs = -1
+           ms23 = one
+           als23 = ep20
+           efs23 = zero
+           if(g23 > zero .and. sc23 > zero ) then
+              efs23  = sc23 /g23
+              if(ems23 <= zero) ems23 = ONEP2*efs23
+              ms23 = -one/log(efs23/ems23) ! one/ln(epsm/epsf)    
+              als23 = ms23*(ems23/efs23)**ms23
+           endif  
+      case(-1)
+           if(tau == zero) tau = sc 
+           if(g12 > zero ) then
+              efs  = tau /g12
+              if(gamma <= zero ) gamma = onep1*efs 
+              ms = -one/log(efs/gamma) ! one/ln(epsm/epsf)    
+              als = ms*(gamma/efs)**ms
+           endif   
+         ! transverse shear 13 (only for solid)
+           ms13 = one
+           als13 = ep20
+           efs13 = zero
+           if(g31 > zero ) then 
+             if( tau2  <=  zero ) tau2 = sc13  
+             efs13  = tau2 /g31
+             if(gamma2 <= 0 ) gamma2 = onep1*efs13 
+             ms13 = -one/log(efs13/gamma2) ! one/ln(epsm/epsf)    
+             als13 = ms*(gamma2/efs13)**ms13
+           endif   
+           ! transverse shear 23 (only for solid)
+           ms23 = one
+           als23 = ep20
+           efs23 = zero
+           if(g23 > zero ) then
+              if(tau3 <= zero ) tau3 = sc23 
+              efs23  = tau3 /g23
+              if(gamma2 <= zero) gamma2 = ONEP2*efs23
+              ms23 = -one/log(efs23/gamma3) ! one/ln(epsm/epsf)    
+              als23 = ms23*(gamma3/efs23)**ms23
+            endif  
+      end select  
       if(ems <= gamma) ems = two*gamma
       if(ems13 <= gamma2) ems13 = two*gamma2
       if(ems23 <= gamma3) ems23 = two*gamma3
-
-
       if(sc == zero ) sc = ep10
       if(sc13 == zero) sc13 = ep10
       if(sc23 == zero) sc23 = ep10
       !
-      if(sc <= tau ) sc = two*tau
+        !!if(sc <= tau ) sc = two*tau
       if(sc13 <= tau2) sc13 = two*tau2
       if(sc23 <= tau3) sc23 = two*tau3  
-      if(fs == 2) damage = 0
-
       ! material parameters
       matparam%uparam(1)  = e1
       matparam%uparam(2)  = e2
       matparam%uparam(3)  = e3
       matparam%uparam(4)  = g12
-      matparam%uparam(5)  = g13
+      matparam%uparam(5)  = g31
       matparam%uparam(6)  = g23
       !
       matparam%uparam(8)  = nu12
@@ -518,19 +527,16 @@
       matparam%uparam(67) = efs
       matparam%uparam(68) = ms
       matparam%uparam(69) = als
-
-
+      !
       matparam%uparam(70) = efs13
       matparam%uparam(71) = ms13
       matparam%uparam(72) = als13
-
+      !
       matparam%uparam(73) = efs23
       matparam%uparam(74) = ms23
       matparam%uparam(75) = als23
-      
+      !
       matparam%uparam(76) = fs
-      matparam%uparam(77) = damage
-      
       !
       matparam%uparam(78)  = nu21
       matparam%uparam(79)  = nu31
@@ -553,20 +559,20 @@
       !
       ifunc(13)  = ifgamma
       ifunc(14)  = iftau
-      ifunc(15)  = ifsc
       ifunc(15)  = ifems
+      ifunc(16)  = ifsc
       !
-      ifunc(16)  = ifgamma2
-      ifunc(17)  = iftau2
-      ifunc(18)  = ifsc13
-      ifunc(19)  = ifems13
+      ifunc(17)  = ifgamma2
+      ifunc(18)  = iftau2
+      ifunc(19)  = ifsc13
+      ifunc(20)  = ifems13
       !
-      ifunc(20)  = ifgamma3
-      ifunc(21)  = iftau3
-      ifunc(22)  = ifsc23
-      ifunc(23)  = ifems23
+      ifunc(21)  = ifgamma3
+      ifunc(22)  = iftau3
+      ifunc(23)  = ifsc23
+      ifunc(24)  = ifems23
       !
-      ifunc(24)  = iferods
+      ifunc(25)  = iferods
 !
        nu21   = nu12*e2/e1
        nu    = sqrt(nu12*nu21)
@@ -587,15 +593,18 @@
 !-----------------------------------------
           ! parameters used outside the law
 !-----------------------------------------
-          pm(9)  = asrate            !  mat_param%asrate
-          pm(20) = young               !  mat_param%young
-          pm(21) = nu                !  mat_param%nu
-          pm(22) = max(g12,g12,g23)  !  mat_param%shear
-          pm(24) = a11
-          pm(26) = five_over_6
-          pm(27) = ssp     !  mat_param%ssp
-          pm(32) = c1                !  mat_param%bulk
-
+      ! pm table
+        pm(1)  = rho0
+        pm(89) = rho0
+        !
+        pm(9)  = asrate            !  mat_param%asrate
+        pm(20) = young             !  mat_param%young
+        pm(21) = nu                !  mat_param%nu
+        pm(22) = max(g12,g12,g23)  !  mat_param%shear
+        pm(24) = a11
+        pm(26) = five_over_6
+        pm(27) = ssp               !  mat_param%ssp
+        pm(32) = c1                !  mat_param%bulk
       ! still used in elements
         pm(33) = e1                !  mat_param%e11
         pm(34) = e2                !  mat_param%e22
@@ -605,7 +614,6 @@
         pm(37) = g12               !  mat_param%g12
         pm(38) = g23               !  mat_param%g23
         pm(39) = g31               !  mat_param%g31   
-
           ! parmat table
         israte     = 1
         parmat(1)  = c1
@@ -614,11 +622,6 @@
         parmat(4)  = israte
         parmat(5)  = fcut
         parmat(16) = 1
-!
-      ! pm table
-        pm(1)  = rho0
-        pm(89) = rho0
-      
 !     
       ! mtag variable activation
        mtag%g_pla  = 1
@@ -627,14 +630,14 @@
        mtag%l_epsd = 1
        mtag%g_seq  = 1
        mtag%l_seq  = 1
-       mtag%g_dmg  = 6
+       mtag%g_dmg  = 1
        mtag%l_dmg  = 6
      ! number of output mod
-     ! matparam%nmod = 3
-     ! allocate(matparam%mode(matparam%nmod))
-     ! matparam%mode(1) = "fiber damage"
-     ! matparam%mode(2) = "shear matrix damage"
-     ! matparam%mode(3) = "transverse matrix damage"
+       matparam%nmod = 3
+       allocate(matparam%mode(matparam%nmod))
+       matparam%mode(1) = "fiber damage"
+       matparam%mode(2) = "shear matrix damage"
+       matparam%mode(3) = "transverse matrix damage"
 !
       call init_mat_keyword(matparam ,"ELASTO_PLASTIC")
       !call init_mat_keyword(matparam ,"incremental"   )
@@ -656,7 +659,7 @@
         write(iout,'(5x,a,//)')'confidential data'
       else
         write(iout,1200) rho0
-        write(iout,1300) e1,e2,e3,g12,g23,g13,nu21,nu32,nu31
+        write(iout,1300) e1,e2,e3,g12,g23,g31,nu21,nu32,nu31
         write(iout,1400)  em11t, xt,slimt1,em11c,xc,slimc1
         write(iout,1500)  em22t, yt,slimt2,em22c,yt,slimc2
         write(iout,1600)  em33t, zt,slimt3,em33c,zt,slimc3
