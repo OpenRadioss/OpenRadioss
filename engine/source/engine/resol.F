@@ -2293,7 +2293,9 @@ C ---------------------
       CALL INIT_NODAL_STATE( IPARI,SHOOT_STRUCT,INTERFACES%INTBUF_TAB,IAD_ELEM,FR_ELEM,
      .                       ITAB,ITABM1,GEO,ADDCNEL,CNEL,
      .                       IXS,IXC,IXT,IXP,IXR,IXTG,
-     .                       SIZE_ADDCNEL,SIZE_CNEL )
+     .                       SIZE_ADDCNEL,SIZE_CNEL ,
+     .                       numelsg,numelqg,numelcg,numeltrg,numelpg,
+     .                       numelrg,numeltgg )
       ! -------------------------
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)
@@ -2467,9 +2469,14 @@ C Init var parallel SMP
                 ENDIF
                 IF(CHECK_NEIGH_FLAG_RES > 0 ) THEN
                   call get_neighbour_surface( ispmd,nspmd,ninter25,npari,ninter,  
-     .                                        nbintc,nixs,numnod,numels,s_elem_state,nbddedgt,nbddedg_max,  
-     .                                        elem_state,ipari,intlist,itab,itabm1,newfront,ixs,iad_elem,x,         
+     .                                        nbintc,nixs,nixc,nixtg,numnod,  
+     .                                        numels,numelc,numeltg,s_elem_state, 
+     .                                        nbddedgt,nbddedg_max,  
+     .                                        elem_state,ipari,intlist,itab,itabm1,
+     .                                        newfront,ixs,ixc,ixtg,
+     .                                        iad_elem,x,         
      .                                        interfaces%intbuf_tab,interfaces%spmd_arrays,shoot_struct  )
+
                 ENDIF
               ENDIF
               CALL MY_BARRIER()
@@ -5515,9 +5522,13 @@ C WA local  : utilise de 1 a NUMNOD
                 ENDIF
                IF(CHECK_NEIGH_FLAG_RES > 0 ) THEN
                   call get_neighbour_surface( ispmd,nspmd,ninter25,npari,ninter,  
-     .                                         nbintc,nixs,numnod,numels,s_elem_state,nbddedgt,nbddedg_max,  
-     .                                         elem_state,ipari,intlist,itab,itabm1,newfront,ixs,iad_elem,x,         
-     .                                         interfaces%intbuf_tab,interfaces%spmd_arrays,shoot_struct  )
+     .                                        nbintc,nixs,nixc,nixtg,numnod,  
+     .                                        numels,numelc,numeltg,s_elem_state, 
+     .                                        nbddedgt,nbddedg_max,  
+     .                                        elem_state,ipari,intlist,itab,itabm1,
+     .                                        newfront,ixs,ixc,ixtg,
+     .                                        iad_elem,x,         
+     .                                        interfaces%intbuf_tab,interfaces%spmd_arrays,shoot_struct  )
                ENDIF
               ENDIF
               CALL MY_BARRIER()

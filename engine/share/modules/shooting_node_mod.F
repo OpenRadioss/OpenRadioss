@@ -50,6 +50,23 @@ C   m y _ r e a l
 C-----------------------------------------------
 #include      "my_real.inc"
 C-----------------------------------------------
+        type offset_elem_
+          integer :: sol_up_bound !< upper bound for solid
+          integer :: sol_low_bound !< lower bound for solid
+          integer :: quad_up_bound !< upper bound for quad
+          integer :: quad_low_bound!< lower bound for quad
+          integer :: shell_up_bound !< upper bound for shell
+          integer :: shell_low_bound!< lower bound for shell
+          integer :: truss_up_bound !< upper bound for truss
+          integer :: truss_low_bound!< lower bound for truss
+          integer :: beam_up_bound !< upper bound for beam
+          integer :: beam_low_bound!< lower bound for beam
+          integer :: spring_up_bound !< upper bound for spring
+          integer :: spring_low_bound!< lower bound for spring
+          integer :: shell3n_up_bound !< upper bound for shell3n
+          integer :: shell3n_low_bound!< lower bound for shell3n
+        end type offset_elem_
+
         TYPE working_array
             INTEGER, DIMENSION(:), ALLOCATABLE :: SURF  ! working array for surface
             INTEGER, DIMENSION(:), ALLOCATABLE :: PROC  ! working array for processor            
@@ -125,6 +142,7 @@ C-----------------------------------------------
 
 
             TYPE(remote_elm), DIMENSION(:), ALLOCATABLE :: INTER
+            type(offset_elem_) :: offset_elem !< upper and lower bound
         END TYPE shooting_node_type 
 
 

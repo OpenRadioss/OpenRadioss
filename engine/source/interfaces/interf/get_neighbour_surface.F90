@@ -69,8 +69,12 @@
       !||    update_neighbour_segment_mod      ../engine/source/interfaces/interf/update_neighbour_segment.F90
       !||====================================================================
         subroutine get_neighbour_surface( ispmd,nspmd,ninter25,npari,ninter,  &
-                                          nbintc,nixs,numnod,numels,s_elem_state,nbddedgt,nbddedg_max,  &
-                                          elem_state,ipari,intlist,itab,itabm1,newfront,ixs,iad_elem,x,         &
+                                          nbintc,nixs,nixc,nixtg,numnod,  &
+                                          numels,numelc,numeltrg,s_elem_state, &
+                                          nbddedgt,nbddedg_max,  &
+                                          elem_state,ipari,intlist,itab,itabm1, &
+                                          newfront,ixs,ixc,ixtg,  &
+                                          iad_elem,x,         &
                                           intbuf_tab,spmd_arrays,shoot_struct  )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   modules
@@ -107,8 +111,12 @@
           integer, intent(in) :: ninter !< total number of interface
           integer, intent(in) :: nbintc !< reduced number of interface (without /TYPE02)
           integer, intent(in) :: nixs !< 1rst dim of "ixs" array
-          integer, intent(in) :: numnod !< total number of node
+          integer, intent(in) :: nixc !< 1rst dim of "ixc" array
+          integer, intent(in) :: nixtg !< 1rst dim of "ixtg" array
           integer, intent(in) :: numels !< number of solid element
+          integer, intent(in) :: numelc !< number of shell element
+          integer, intent(in) :: numeltrg !< number of shell3n element
+          integer, intent(in) :: numnod !< total number of node
           integer, intent(in) :: s_elem_state !< dim of elem_state
           integer, intent(inout) :: nbddedgt !< number of frontier edges
           integer, intent(inout) :: nbddedg_max !< number of frontier edges
@@ -119,6 +127,8 @@
           integer, dimension(numnod), intent(in) :: itabm1 !< global to local node id
           integer, dimension(ninter),intent(inout) :: newfront !< flag to force some exchanges related to S nodes between processor (if a S node becomes a shooting node - all interface) / force the collision detection algo if a new segment is activated for the (interface 25 + solid erosion)
           integer, dimension(nixs,numels), intent(in) :: ixs !< solid element data
+          integer, dimension(nixc,numelc), intent(in) :: ixc !< shell element data
+          integer, dimension(nixtg,numeltrg), intent(in) :: ixtg !< shell3n element data
           integer, dimension(2,nspmd+1), intent(in) :: iad_elem !< frontier between processor
           my_real, dimension(3,numnod), intent(in) :: x !< nodal position
           type(intbuf_struct_), dimension(ninter), intent(inout) :: intbuf_tab    !< interface data 
@@ -152,10 +162,8 @@
           integer, dimension(3,nspmd) :: s_buffer_2_size,r_buffer_2_size ! size of s/r buffer
 #ifdef MYREAL8
           integer(kind=8) :: my_integer
-          integer(kind=8) :: my_int_variable   
 #else
           integer(kind=4) :: my_integer
-          integer(kind=4) :: my_int_variable   
 #endif
           my_real :: my_real_variable
           my_real, dimension(:,:), allocatable :: n_normal
@@ -256,15 +264,16 @@
             segment_id = k - shoot_struct%shift_interface(id_inter,1) + 1 ! get the surface id in the nin interface
 
             newfront(nin) = -2
-
             do ijk=1,4
               intbuf_tab(nin)%evoisin(4*(segment_id-1)+ijk) = 0
               intbuf_tab(nin)%proc_mvoisin(4*(segment_id-1)+ijk) = 0
               intbuf_tab(nin)%mvoisin(4*(segment_id-1)+ijk) = 0
             enddo
             ! segment/surface orientation
-            call get_segment_orientation( segment_id,s_elem_state,nixs,numels,numnod, &
-                                            elem_state,ixs,x,intbuf_tab(nin) )
+            call get_segment_orientation( segment_id,s_elem_state,nixs,nixc,nixtg, &
+                                          numels,numelc,numeltrg,numnod, &
+                                          elem_state,ixs,ixc,ixtg,x, &
+                                          intbuf_tab(nin),shoot_struct )
           enddo
 
           ! --------------------------
@@ -331,8 +340,6 @@
               do ijk=1,my_reduced_nb
                 ! segment/surface orientation
                 n_segment_id = my_reduced_list(ijk,1) ! connected segment id
-                call get_segment_orientation( n_segment_id,s_elem_state,nixs,numels,numnod, &
-                                            elem_state,ixs,x,intbuf_tab(nin) )
                 ! compute the normal to the segment "n_segment_id"
                 call get_segment_normal( n_segment_id,segment_node_id,segment_position,n_normal(1,ijk),intbuf_tab(nin),numnod,x )
                 ! find the edge id of n_segment_id
@@ -482,9 +489,9 @@
           ! remote proc checks if there are some remote connected segments
           ! exchange of data : remote proc --> local proc + other remote proc - new segment id + list of remote connected segment 
           call spmd_exch_neighbour_segment(nspmd,ispmd, &
-                                           ninter,numnod,nixs,numels,s_elem_state, &
+                                           ninter,numnod, &
                                            s_buffer_size,r_buffer_size,s_buffer_2_size,r_buffer_2_size,&
-                                           iad_elem,itabm1,ixs,elem_state,x, &
+                                           iad_elem,itabm1,x, &
                                            s_buffer,r_buffer,s_buffer_2,r_buffer_2, &
                                            intbuf_tab,shoot_struct)
           ! --------------------------
