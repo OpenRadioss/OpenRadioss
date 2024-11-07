@@ -45,7 +45,6 @@
       !||    get_segment_edge                         ../engine/source/interfaces/interf/get_segment_edge.F90
       !||    get_segment_interface_id                 ../engine/source/interfaces/interf/get_segment_interface_id.F90
       !||    get_segment_normal                       ../engine/source/interfaces/interf/get_segment_normal.F90
-      !||    get_segment_orientation                  ../engine/source/interfaces/interf/get_segment_orientation.F90
       !||    sysfus2                                  ../engine/source/system/sysfus.F
       !||--- uses       -----------------------------------------------------
       !||    array_mod                                ../common_source/modules/array_mod.F
@@ -53,12 +52,11 @@
       !||    get_segment_edge_mod                     ../engine/source/interfaces/interf/get_segment_edge.F90
       !||    get_segment_interface_id_mod             ../engine/source/interfaces/interf/get_segment_interface_id.F90
       !||    get_segment_normal_mod                   ../engine/source/interfaces/interf/get_segment_normal.F90
-      !||    get_segment_orientation_mod              ../engine/source/interfaces/interf/get_segment_orientation.F90
       !||    shooting_node_mod                        ../engine/share/modules/shooting_node_mod.F
       !||====================================================================
-        subroutine get_neighbour_surface_from_remote_proc( ninter,numnod,nspmd,nixs,numels,s_elem_state,  &
+        subroutine get_neighbour_surface_from_remote_proc( ninter,numnod,nspmd,  &
                                                              size_r_buffer,nb_r_segment,s_buffer_2_size, &
-                                                             elem_state,ixs,itabm1,r_buffer,s_buffer_2, &
+                                                             itabm1,r_buffer,s_buffer_2, &
                                                              x,intbuf_tab,shoot_struct ,&
                                                              ispmd,proc_id_0 )
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -68,7 +66,6 @@
           use intbufdef_mod , only : intbuf_struct_
           use shooting_node_mod , only : shooting_node_type
           use get_segment_interface_id_mod , only : get_segment_interface_id
-          use get_segment_orientation_mod , only : get_segment_orientation
           use get_segment_normal_mod , only : get_segment_normal
           use get_segment_edge_mod , only : get_segment_edge
           use array_mod , only : array_type,alloc_my_real_1d_array,dealloc_my_real_1d_array
@@ -88,13 +85,8 @@
           integer, intent(in) :: nspmd !< total number of mpi tasks
           integer, intent(in) :: size_r_buffer !< size of r_buffer
           integer, intent(in) :: nb_r_segment !< number of new remote segment
-          integer, intent(in) :: nixs !< 1rst dim of "ixs" array
-          integer, intent(in) :: numels !< number of solid element
-          integer, intent(in) :: s_elem_state !< dim of elem_state
           integer, intent(in) :: proc_id_0 !< S processor id
           integer, intent(in) :: ispmd !< current processor id
-          integer, dimension(nixs,numels), intent(in) :: ixs !< solid element data
-          logical, dimension(s_elem_state), intent(in) :: elem_state !< state of the element : on or off
           integer, dimension(3,nspmd), intent(inout) :: s_buffer_2_size !< size of s_buffer_2
           integer, dimension(numnod), intent(in) :: itabm1 !< global to local node id
           my_real, dimension(size_r_buffer) :: r_buffer !< mpi buffer (rcv)
@@ -225,8 +217,6 @@
             do ijk=1,my_reduced_nb
               ! segment/surface orientation
               n_segment_id = my_reduced_list(ijk,1) ! connected segment id
-              call get_segment_orientation( n_segment_id,s_elem_state,nixs,numels,numnod, &
-                                            elem_state,ixs,x,intbuf_tab(nin) )
               ! compute the normal to the segment "n_segment_id"
               call get_segment_normal( n_segment_id,segment_node_id,segment_position,n_normal(1,ijk),intbuf_tab(nin),numnod,x )
               ! find the edge id of n_segment_id

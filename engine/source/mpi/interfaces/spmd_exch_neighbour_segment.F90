@@ -66,9 +66,9 @@
       !||    spmd_mod                                     ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
         subroutine spmd_exch_neighbour_segment(nspmd,ispmd, &
-                                                ninter,numnod,nixs,numels,s_elem_state, &
+                                                ninter,numnod, &
                                                 s_buffer_size,r_buffer_size,s_buffer_2_size,r_buffer_2_size,&
-                                                iad_elem,itabm1,ixs,elem_state,x, &
+                                                iad_elem,itabm1,x, &
                                                 s_buffer,r_buffer,s_buffer_2,r_buffer_2, &
                                                 intbuf_tab,shoot_struct)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -97,17 +97,12 @@
           integer, intent(in) :: ispmd !< processor id
           integer, intent(in) :: ninter !< number of interface
           integer, intent(in) :: numnod !< number of node
-          integer, intent(in) :: nixs !< 1rst dim of "ixs" array
-          integer, intent(in) :: numels !< number of solid element
-          integer, intent(in) :: s_elem_state !< dim of elem_state
           integer, dimension(2,nspmd), intent(inout) :: s_buffer_size !< size of S buffer
           integer, dimension(2,nspmd), intent(inout) :: r_buffer_size !< size of R buffer
           integer, dimension(3,nspmd), intent(inout) :: s_buffer_2_size !< size of S buffer
           integer, dimension(3,nspmd), intent(inout) :: r_buffer_2_size !< size of R buffer
           integer, dimension(2,nspmd+1), intent(in) :: iad_elem !< frontier between processor
           integer, dimension(numnod), intent(in) :: itabm1 !< global to local node id
-          integer, dimension(nixs,numels), intent(in) :: ixs !< solid element data
-          logical, dimension(s_elem_state), intent(in) :: elem_state !< state of the element : on or off
           my_real, dimension(3,numnod), intent(in) :: x !< nodal position
           type(array_type), dimension(nspmd), intent(inout) :: s_buffer !< mpi buffer (send)
           type(array_type), dimension(nspmd), intent(inout) :: r_buffer !< mpi buffer (rcv)
@@ -223,9 +218,9 @@
             do i=1,recv_nb_2
                 call spmd_waitany(recv_nb_2, request_r_2, my_index, status_mpi)
                 proc_id = index_r_proc_2(my_index)
-                call get_neighbour_surface_from_remote_proc( ninter,numnod,nspmd,nixs,numels,s_elem_state,  &
+                call get_neighbour_surface_from_remote_proc( ninter,numnod,nspmd,  &
                                                              r_buffer_size(1,proc_id),r_buffer_size(2,proc_id),s_buffer_2_size, &
-                                                             elem_state,ixs,itabm1,r_buffer(proc_id)%my_real_array_1d,s_buffer_2, &
+                                                             itabm1,r_buffer(proc_id)%my_real_array_1d,s_buffer_2, &
                                                              x,intbuf_tab,shoot_struct ,&
                                                              ispmd,proc_id )
             enddo

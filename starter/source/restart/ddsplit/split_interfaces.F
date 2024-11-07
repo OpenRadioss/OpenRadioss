@@ -2708,8 +2708,10 @@ c     .                            TAG_II_E2E)
           ENDIF
 
           CALL SPLIT_SEG_IELEM(INTBUF_TAB(NI)%IELEM_M,INTBUF_TAB(NI)%PROC_MVOISIN, INTBUF_TAB(NI)%MVOISIN,NRTM,
-     .                           NRTM_L               ,TAG_SEGM                   ,CEP                    ,CEL  ,
-     .                           IDEL25_SOLID         ,INTERCEP(1,NI)             ,PROC                  ,NUMELS)
+     .                         NRTM_L ,TAG_SEGM ,CEP,CEL  ,
+     .                         IDEL25_SOLID,INTERCEP(1,NI),PROC,NUMELS,
+     .                         NUMELQ    ,NUMELC         ,NUMELT   ,NUMELP    ,
+     .                         NUMELR    ,NUMELTG)
 
 c split and write on disk floating arrays 
 

@@ -37,7 +37,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         SUBROUTINE INIT_NODAL_STATE( IPARI,SHOOT_STRUCT,INTBUF_TAB,IAD_ELEM,FR_ELEM,
      .                               ITAB,ITABM1,GEO,ADDCNEL,CNEL,
      .                               IXS,IXC,IXT,IXP,IXR,IXTG,
-     .                               SIZE_ADDCNEL,SIZE_CNEL )
+     .                               SIZE_ADDCNEL,SIZE_CNEL,
+     .                               numelsg,numelqg,numelcg,numeltrg,numelpg,
+     .                               numelrg,numeltgg )
 !$COMMENT
 !       INIT_NODAL_STATE description
 !           initialization of structures for the new shooting node algo    
@@ -80,23 +82,30 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        INTEGER, INTENT(in) :: SIZE_ADDCNEL,SIZE_CNEL ! array size : cnel & addcnel
+        INTEGER, INTENT(in) :: SIZE_ADDCNEL,SIZE_CNEL !< array size : cnel & addcnel
+        integer, intent(in) :: numelsg !< global number of solid
+        integer, intent(in) :: numelqg !< global number of quad
+        integer, intent(in) :: numelcg !< global number of shell
+        integer, intent(in) :: numeltrg !< global number of truss
+        integer, intent(in) :: numelpg !< global number of beam
+        integer, intent(in) :: numelrg !< global number of spring
+        integer, intent(in) :: numeltgg !< global number of shell3n
         INTEGER, DIMENSION(NPARI,NINTER), INTENT(in) :: IPARI
-        INTEGER, DIMENSION(2,NSPMD+1), INTENT(in) :: IAD_ELEM  ! adress for frontier node
-        INTEGER, DIMENSION(SFR_ELEM), INTENT(in) :: FR_ELEM    ! frontier node id 
-        TYPE(shooting_node_type), INTENT(inout) :: SHOOT_STRUCT ! structure for shooting node algo
-        TYPE(INTBUF_STRUCT_), DIMENSION(NINTER), INTENT(inout) :: INTBUF_TAB    ! interface data
-        INTEGER, DIMENSION(NUMNOD), INTENT(in) :: ITAB ! array to convert local id to global id
-        INTEGER, DIMENSION(NUMNOD), INTENT(in) :: ITABM1    ! array of global id
-        my_real, DIMENSION(NPROPG,NUMGEO), INTENT(in) :: GEO
-        INTEGER, DIMENSION(0:SIZE_ADDCNEL), INTENT(in) :: ADDCNEL ! address for the CNEL array
-        INTEGER, DIMENSION(0:SIZE_CNEL), INTENT(in) :: CNEL ! connectivity node --> element
-        INTEGER, DIMENSION(NIXS,NUMELS),TARGET, INTENT(in) :: IXS   ! solid array
-        INTEGER, DIMENSION(NIXC,NUMELC),TARGET, INTENT(in) :: IXC   ! shell array
-        INTEGER, DIMENSION(NIXT,NUMELT),TARGET, INTENT(in) :: IXT! truss array
-        INTEGER, DIMENSION(NIXP,NUMELP),TARGET, INTENT(in) :: IXP! beam array
-        INTEGER, DIMENSION(NIXR,NUMELR),TARGET, INTENT(in) :: IXR! spring array
-        INTEGER, DIMENSION(NIXTG,NUMELTG),TARGET, INTENT(in) :: IXTG! triangle array
+        INTEGER, DIMENSION(2,NSPMD+1), INTENT(in) :: IAD_ELEM  !< adress for frontier node
+        INTEGER, DIMENSION(SFR_ELEM), INTENT(in) :: FR_ELEM    !< frontier node id 
+        TYPE(shooting_node_type), INTENT(inout) :: SHOOT_STRUCT !< structure for shooting node algo
+        TYPE(INTBUF_STRUCT_), DIMENSION(NINTER), INTENT(inout) :: INTBUF_TAB    !< interface data
+        INTEGER, DIMENSION(NUMNOD), INTENT(in) :: ITAB !< array to convert local id to global id
+        INTEGER, DIMENSION(NUMNOD), INTENT(in) :: ITABM1    !< array of global id
+        my_real, DIMENSION(NPROPG,NUMGEO), INTENT(in) :: GEO !< property data
+        INTEGER, DIMENSION(0:SIZE_ADDCNEL), INTENT(in) :: ADDCNEL !< address for the CNEL array
+        INTEGER, DIMENSION(0:SIZE_CNEL), INTENT(in) :: CNEL !< connectivity node --> element
+        INTEGER, DIMENSION(NIXS,NUMELS),TARGET, INTENT(in) :: IXS   !< solid array
+        INTEGER, DIMENSION(NIXC,NUMELC),TARGET, INTENT(in) :: IXC   !< shell array
+        INTEGER, DIMENSION(NIXT,NUMELT),TARGET, INTENT(in) :: IXT !< truss array
+        INTEGER, DIMENSION(NIXP,NUMELP),TARGET, INTENT(in) :: IXP !< beam array
+        INTEGER, DIMENSION(NIXR,NUMELR),TARGET, INTENT(in) :: IXR !< spring array
+        INTEGER, DIMENSION(NIXTG,NUMELTG),TARGET, INTENT(in) :: IXTG !<triangle array
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -133,6 +142,32 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NSPMD) :: R_SIZE_BUFFER_MAIN,R_SIZE_BUFFER_SECOND
 
 C-----------------------------------------------
+        ! --------------------------------
+        ! Upper & lower bound, only used by the erosion of solid element + /TYPE25
+        ! to get the kind of element (solid,shell or shell3n)
+        ! --------------------------------
+        ! solid
+        shoot_struct%offset_elem%sol_low_bound = 0
+        shoot_struct%offset_elem%sol_up_bound = numelsg
+        ! quad
+        shoot_struct%offset_elem%quad_low_bound = shoot_struct%offset_elem%sol_up_bound + 1
+        shoot_struct%offset_elem%quad_up_bound = shoot_struct%offset_elem%sol_up_bound + numelqg
+        ! shell
+        shoot_struct%offset_elem%shell_low_bound = shoot_struct%offset_elem%quad_up_bound + 1
+        shoot_struct%offset_elem%shell_up_bound = shoot_struct%offset_elem%quad_up_bound + numelcg
+        ! truss
+        shoot_struct%offset_elem%truss_low_bound = shoot_struct%offset_elem%shell_up_bound + 1
+        shoot_struct%offset_elem%truss_up_bound = shoot_struct%offset_elem%shell_up_bound + numeltrg
+        ! beam
+        shoot_struct%offset_elem%beam_low_bound = shoot_struct%offset_elem%truss_up_bound + 1
+        shoot_struct%offset_elem%beam_up_bound = shoot_struct%offset_elem%truss_up_bound + numelpg
+        ! spring
+        shoot_struct%offset_elem%spring_low_bound = shoot_struct%offset_elem%truss_up_bound + 1
+        shoot_struct%offset_elem%spring_up_bound = shoot_struct%offset_elem%truss_up_bound + numelrg
+        ! shell3n
+        shoot_struct%offset_elem%shell3n_low_bound = shoot_struct%offset_elem%spring_up_bound + 1
+        shoot_struct%offset_elem%shell3n_up_bound = shoot_struct%offset_elem%spring_up_bound + numeltgg
+        ! --------------------------------        
 
         ALLOCATE( BUFFER_SECOND(NSPMD) )
         ALLOCATE( BUFFER_MAIN(NSPMD) )
