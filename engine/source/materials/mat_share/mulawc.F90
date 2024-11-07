@@ -1838,10 +1838,14 @@
                call sigeps125c(&
                &jlt      ,matparam   ,nuvar    ,uvar      ,&
                &rho      ,thkn       ,thklyl   , shf      ,&
-               &epsxx    ,epsyy      ,epsxy    ,epsyz    ,epszx   ,&
-               &sigoxx   ,sigoyy                                  ,&
-               &signxx   ,signyy     ,signxy   ,signzx   ,signyz  ,&
-               &off      ,sigy       ,etse     ,ssp  )
+               &nfunc    ,ifunc      ,npf      ,tf        ,snpc    ,&
+               &stf      ,epsp                                     ,&
+               &depsxx   ,depsyy     ,depsxy                       ,&
+               &epsxx    ,epsyy      ,epsxy    ,epsyz    ,epszx    ,&
+               &sigoxx   ,sigoyy     ,sigoxy                       ,&
+               &signxx   ,signyy     ,signxy   ,signzx   ,signyz   ,&
+               &off      ,sigy       ,etse     ,ssp ,lbuf%dmg ,&
+                &gbuf%dmg  ,lbuf%off  )
 !
               elseif (ilaw == 127) then
                 ! ---
@@ -1864,7 +1868,7 @@
                 &sigoxx   ,sigoyy     ,sigoxy   ,sigozx   ,sigoyz   ,&
                 &signxx   ,signyy     ,signxy   ,signzx   ,signyz   ,&
                 &off      ,sigy       ,etse     ,ssp      ,lbuf%dmg ,&
-                  gbuf%dmg  ,lbuf%off)
+                &gbuf%dmg  ,lbuf%off)
 !
               elseif (ilaw == 128) then
                 sigoxx(1:nel) = lbuf%sig(1:nel)
