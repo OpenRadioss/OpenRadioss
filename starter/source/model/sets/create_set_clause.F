@@ -341,6 +341,7 @@ C=======================================================================
       !||--- calls      -----------------------------------------------------
       !||    insert_clause_in_set   ../starter/source/model/sets/insert_clause_in_set.F
       !||--- uses       -----------------------------------------------------
+      !||    set_mod                ../starter/share/modules1/set_mod.F
       !||====================================================================
       SUBROUTINE CREATE_SET_CLAUSE(SET,
      .                             SETL,SETL_SIZE,

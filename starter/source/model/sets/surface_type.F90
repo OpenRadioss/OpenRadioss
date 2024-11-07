@@ -20,12 +20,25 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    surface_type_mod       ../starter/source/model/sets/surface_type.F90
+      !||--- called by ------------------------------------------------------
+      !||    insert_clause_in_set   ../starter/source/model/sets/insert_clause_in_set.F
+      !||====================================================================
       module surface_type_mod
       contains
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
 !! \brief get the kind of surface : /EXT or /ALL
+      !||====================================================================
+      !||    surface_type           ../starter/source/model/sets/surface_type.F90
+      !||--- called by ------------------------------------------------------
+      !||    insert_clause_in_set   ../starter/source/model/sets/insert_clause_in_set.F
+      !||--- uses       -----------------------------------------------------
+      !||    set_mod                ../starter/share/modules1/set_mod.F
+      !||    surf_mod               ../starter/share/modules1/surf_mod.F
+      !||====================================================================
         subroutine surface_type( empty_condition,clause_operator,clause,set )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

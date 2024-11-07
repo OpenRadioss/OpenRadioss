@@ -21,9 +21,23 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    set_mod      ../starter/share/modules1/set_mod.F
+      !||    set_mod                 ../starter/share/modules1/set_mod.F
       !||--- called by ------------------------------------------------------
-      !||    lectur       ../starter/source/starter/lectur.F
+      !||    create_set_clause       ../starter/source/model/sets/create_set_clause.F
+      !||    create_set_collect      ../starter/source/model/sets/create_setcol_clause.F
+      !||    create_setcol_clause    ../starter/source/model/sets/create_setcol_clause.F
+      !||    elt_box                 ../starter/source/model/sets/fill_clause_elt_box.F
+      !||    fill_clause_elt_box     ../starter/source/model/sets/fill_clause_elt_box.F
+      !||    fill_clause_node_box    ../starter/source/model/sets/fill_clause_node_box.F
+      !||    fill_clause_rbody_box   ../starter/source/model/sets/fill_clause_rbody_box.F
+      !||    insert_clause_in_set    ../starter/source/model/sets/insert_clause_in_set.F
+      !||    lectur                  ../starter/source/starter/lectur.F
+      !||    node_box                ../starter/source/model/sets/fill_clause_node_box.F
+      !||    rbody_box               ../starter/source/model/sets/fill_clause_rbody_box.F
+      !||    set_merge_simple        ../starter/source/model/sets/set_merge_simple.F
+      !||    set_operator            ../starter/source/model/sets/set_operator.F
+      !||    sort_set                ../starter/source/model/sets/sort_sets.F
+      !||    surface_type            ../starter/source/model/sets/surface_type.F90
       !||--- uses       -----------------------------------------------------
       !||====================================================================
       MODULE SET_MOD

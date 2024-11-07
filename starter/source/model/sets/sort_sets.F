@@ -38,6 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F
       !||    mapping_option_mod       ../starter/share/modules1/dichotomy_mod.F
+      !||    set_mod                  ../starter/share/modules1/set_mod.F
       !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE SORT_SET (LSUBMODEL ,MAP_TABLES, SET_LIST ,SET,CLAUSE)

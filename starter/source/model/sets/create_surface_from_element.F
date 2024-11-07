@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    surface_buffer                ../starter/source/model/sets/surface_buffer.F
       !||--- uses       -----------------------------------------------------
       !||    message_mod                   ../starter/share/message_module/message_mod.F
+      !||    surf_mod                      ../starter/share/modules1/surf_mod.F
       !||====================================================================
       SUBROUTINE CREATE_SURFACE_FROM_ELEMENT(
      .                       IXS       ,IXS10    ,SH4TREE   ,SH3TREE   ,IXC       ,

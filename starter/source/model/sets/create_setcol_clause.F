@@ -351,6 +351,7 @@ C=======================================================================
       !||--- calls      -----------------------------------------------------
       !||    insert_clause_in_set   ../starter/source/model/sets/insert_clause_in_set.F
       !||--- uses       -----------------------------------------------------
+      !||    set_mod                ../starter/share/modules1/set_mod.F
       !||====================================================================
       SUBROUTINE CREATE_SETCOL_CLAUSE(SET,
      *                                SETL,SETL_SIZE,
@@ -442,6 +443,7 @@ C-----------------------------------------------
       !||--- calls      -----------------------------------------------------
       !||    insert_clause_in_set   ../starter/source/model/sets/insert_clause_in_set.F
       !||--- uses       -----------------------------------------------------
+      !||    set_mod                ../starter/share/modules1/set_mod.F
       !||====================================================================
       SUBROUTINE CREATE_SET_COLLECT(SET       ,SET_ID   ,IGS   ,SETCOL_ARRAY ,ARRAY_SIZE,
      *                              IXS       ,IXS10    ,IXS20     ,IXS16     ,IXQ    ,

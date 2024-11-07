@@ -33,9 +33,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    create_node_from_element      ../starter/source/model/sets/create_node_from_element.F
       !||    create_surface_from_element   ../starter/source/model/sets/create_surface_from_element.F
       !||    set_merge_simple              ../starter/source/model/sets/set_merge_simple.F
+      !||    surface_type                  ../starter/source/model/sets/surface_type.F90
       !||--- uses       -----------------------------------------------------
       !||    hm_option_read_mod            ../starter/share/modules1/hm_option_read_mod.F
       !||    message_mod                   ../starter/share/message_module/message_mod.F
+      !||    set_mod                       ../starter/share/modules1/set_mod.F
+      !||    surface_type_mod              ../starter/source/model/sets/surface_type.F90
       !||====================================================================
       SUBROUTINE INSERT_CLAUSE_IN_SET(SET       ,CLAUSE   ,CLAUSE_OPERATOR,
      .                                IXS       ,IXS10    ,IXS20     ,IXS16     ,IXQ    ,

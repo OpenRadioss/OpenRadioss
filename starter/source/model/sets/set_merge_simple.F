@@ -32,6 +32,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    rbody_box                  ../starter/source/model/sets/fill_clause_rbody_box.F
       !||    sort_set                   ../starter/source/model/sets/sort_sets.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    set_mod                    ../starter/share/modules1/set_mod.F
       !||====================================================================
       SUBROUTINE SET_MERGE_SIMPLE( SET_ENTITY,    NB_SET_ENTITY,
      *                             CLAUSE_ENTITY, NB_CLAUSE_ENTITY,

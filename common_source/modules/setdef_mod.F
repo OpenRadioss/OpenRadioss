@@ -100,6 +100,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    st_qaprint_driver                  ../starter/source/output/qaprint/st_qaprint_driver.F
       !||    st_qaprint_set                     ../starter/source/output/qaprint/st_qaprint_set.F
       !||    surface_buffer                     ../starter/source/model/sets/surface_buffer.F
+      !||    surface_type                       ../starter/source/model/sets/surface_type.F90
       !||    tag_node_from_part_sphcel          ../starter/source/model/sets/tag_node_from_part_sphcel.F90
       !||--- uses       -----------------------------------------------------
       !||    names_and_titles_mod               ../common_source/modules/names_and_titles_mod.F

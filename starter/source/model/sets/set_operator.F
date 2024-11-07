@@ -24,6 +24,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    set_operator   ../starter/source/model/sets/set_operator.F
       !||--- called by ------------------------------------------------------
       !||    hm_set         ../starter/source/model/sets/hm_set.F
+      !||--- uses       -----------------------------------------------------
+      !||    set_mod        ../starter/share/modules1/set_mod.F
       !||====================================================================
       SUBROUTINE SET_OPERATOR( OPT_D, OPT_O,OPT_G,
      *                         OPT_B, OPT_A,OPT_E,

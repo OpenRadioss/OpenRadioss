@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    set_merge_simple        ../starter/source/model/sets/set_merge_simple.F
       !||--- uses       -----------------------------------------------------
       !||    message_mod             ../starter/share/message_module/message_mod.F
+      !||    set_mod                 ../starter/share/modules1/set_mod.F
       !||====================================================================
       SUBROUTINE FILL_CLAUSE_RBODY_BOX( IBOX   ,X  ,SKEW  ,SET_TITLE ,KEYSET,
      *                                 BOXLIST, BOXLIST_SIZE,
@@ -111,6 +112,7 @@ C-------
       !||    simple_rbody_box        ../starter/source/model/sets/simple_rbody_box.F
       !||--- uses       -----------------------------------------------------
       !||    message_mod             ../starter/share/message_module/message_mod.F
+      !||    set_mod                 ../starter/share/modules1/set_mod.F
       !||====================================================================
       RECURSIVE SUBROUTINE RBODY_BOX( IB  ,
      *                     IBOX ,X  ,SKEW  ,SET_TITLE ,KEYSET,
