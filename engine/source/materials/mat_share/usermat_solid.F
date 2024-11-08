@@ -1595,7 +1595,7 @@ C
           SIGV(I,6) = SVIS(I,6)
         ENDDO
       ENDIF 
-      IF (IVISC > 0) THEN
+      IF (MAT_ELEM%MAT_PARAM(MAT(1))%IVISC >  0) THEN
         DO I=1,NEL 
           SVISC(I,1) = SVIS(I,1)
           SVISC(I,2) = SVIS(I,2)

@@ -3536,6 +3536,8 @@ C-----------------------------------------------
 C   S o u r c e   C o d e
 C-----------------------------------------------
           !finding index for UFC table (Figure 2-7) using bijection.
+          Phi_I = 1 
+          LAMBDA = ZERO
           Z1_ = HALF
                 !finding index for UFC table (Figure 2-15) using bijection.
           IF(Z > 0.5 .AND. Z < 400.) then

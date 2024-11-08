@@ -47,6 +47,7 @@ C-----------------------------------------------
       my_real TF(*),DERI,XX,DX,DERI1,DERI2,DERI3,DX1,DX2,DIV0,DIV,
      . XX_FIRST,XX_LAST
 C-----------------------------------------------
+      FINTER_SMOOTH = ZERO
 !
 !  smooth interpolation
 !
