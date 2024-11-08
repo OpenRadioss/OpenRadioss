@@ -165,6 +165,8 @@ C
       IF(((ANIM_N(IAD_GPS+400+1) == 1) .OR. (ANIM_N(IAD_GPS+400+2) == 1) .OR. 
      .   (ANIM_N(IAD_GPS+400+3) == 1) .OR. (ANIM_N(IAD_GPS+400+4) == 1) .OR. 
      .   (ANIM_N(IAD_GPS+400+5) == 1) .OR. (ANIM_N(IAD_GPS+400+6) == 1)) )THEN
+        MX = MAT(1)
+        NU=PM(21,MX)
         NU1 =TWO/(ONE-NU)
        DO I=1,NEL
         JR_1(I) = ONE/MAX(EM20,JR(I))
