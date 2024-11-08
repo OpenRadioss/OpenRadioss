@@ -149,7 +149,9 @@
 
       ii = currentPoint%id_edge
       kk = currentPoint%id_point
-
+      num_pt_on_edge = 2
+      size_ = 0
+      iorient = -1
       if(icur_list == 1)then
         size_ = size1
         iorient = list1(ii)%iorient(kk)

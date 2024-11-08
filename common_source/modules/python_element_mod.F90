@@ -164,6 +164,7 @@
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
           element%n = buffer(1)
+          pos = 1
           ! allocate the arrays
           if(allocated(element%keyword)) deallocate(element%keyword)
           if(allocated(element%user_ids)) deallocate(element%user_ids)

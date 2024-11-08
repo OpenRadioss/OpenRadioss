@@ -46,6 +46,8 @@ C-----------------------------------------------
 #include      "implicit_f.inc"
       INTEGER IFUNC,NPF(*),I
       my_real TF(*),ABC,DERI,XX,DX1,DX2
+
+      FINTER = 0
 C
       DX2 = TF(NPF(IFUNC)) - XX
 C
