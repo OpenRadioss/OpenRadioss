@@ -99,9 +99,10 @@
          ! Slenderness limits
          slimt1, slimc1, slimt2, slimc2, slims,                               &
          ! Matrix coefficients
-         a11, a22, a12, c11, c22, c33, c12, c13, c23, detc,                   &
+         a11, a22, a12, c11, c22, c33, c12, c13, c23, detc,  c21,c32,c31 ,     &
          ! Inverse matrix elements
-         d11, d22, d33, d12, d13, d23, dmn, dmx,                              &
+         d11, d22, d33, d12, d13, d23, d21,d32,d31, invd ,                     &
+         e2_mod, nu12_mod, nu31_mod, nu13_mod, nu23_mod,                       &
          ! Cut-off frequency
          fcut
       logical :: is_available,is_encrypted
@@ -180,9 +181,6 @@
       ! shear modulus
       if (g13 == zero) g13 = g12
       if (g23 == zero) g23 = g13
-        ! ratio poisson's
-      if(nu31 == zero) nu31 = nu21
-      if(nu32 == zero) nu32 = nu21
 !-----------------------------
  !     check and default values
  !-----------------------------
@@ -212,40 +210,61 @@
       a11 = e1*fac
       a12 = nu21*a11
       a22 = e2*fac
-      ! compliance matrix for 3d
-      c11 = one/e1
-      c22 = one/e2
-      c33 = one/e3
-      c12 =-nu12/e1
-      c13 =-nu31/e3
-      c23 =-nu23/e2      
-      ! checking input
-      detc= c11*c22*c33-c11*c23*c23-c12*c12*c33+c12*c13*c23      &
-            +c13*c12*c23-c13*c22*c13
+      ! compliance matrix for 3 
+      if(ti > 0) then
+         e2_mod = e1
+         nu12_mod = nu21
+         nu31_mod = nu32
+         nu13_mod = nu31_mod*e1/e3
+         nu23_mod = nu13_mod
+      else
+         e2_mod  = e2
+         nu12_mod = nu12
+         nu31_mod = nu31
+         nu13_mod = nu13
+         nu23_mod = nu23
+      endif
+      c11 = one / e1
+      c22 = one / e2_mod
+      c33 = one / e3
+      c12 = -nu21 / e2_mod
+      c13 = -nu31_mod / e3 
+      c21 = -nu12_mod / e1
+      c23 = -nu32 / e3 
+      c31 = -nu13_mod / e1 
+      c32 = -nu23_mod / e2_mod 
+     ! Calculate the determinant
+      detc = c11 * (c22 * c33 - c23 * c32) - &
+                   c12 * (c21 * c33 - c23 * c31) + &
+                   c13 * (c21 * c32 - c22 * c31)
+      ! Ensure the determinant is not zero
       if(detc <= zero) then
          call ancmsg(msgid=307,                                  &
                     msgtype=msgerror,                            &     
                     anmode=aninfo,                               &
                     i1=mat_id,                                   &
                     c1=titr) 
-      endif
-      ! 3d elastic matrix
-      d11  = (c22*c33-c23*c23)/detc
-      d12  =-(c12*c33-c13*c23)/detc
-      d13  = (c12*c23-c13*c22)/detc
-      d22  = (c11*c33-c13*c13)/detc
-      d23  =-(c11*c23-c13*c12)/detc
-      d33  = (c11*c22-c12*c12)/detc  
-      dmn  = min(d11*d22 -d12**2, d11*d33 - d13**2, d22*d33 - d23**2 )      
-      dmx  = max(d11,d22,d33)
-! 
+       endif
+      ! Calculate the inverse determinant
+       invd = 1.0 / detc
+      ! ! 3d elastic matrix
+      d11 =  invd * (c22 * c33 - c23 * c32)
+      d12 = -invd * (c12 * c33 - c13 * c32)
+      d13 =  invd * (c12 * c23 - c13 * c22)
+      d22 =  invd * (c11 * c33 - c13 * c31)
+      d23 = -invd * (c11 * c23 - c13 * c21)
+      d33 =  invd * (c11 * c22 - c12 * c21)
+      !
+      !!d21 = -invd * (c21 * c33 - c23 * c31)
+      !!d31 =  invd * (c21 * c32 - c22 * c31)
+      !!d32 = -invd * (c11 * c32 - c12 * c31)
       ! default strain rate cutoff frequency
       if (fcut == zero) fcut = 5000.0d0*unitab%fac_t_work
  !--------------------------
  !     filling buffer tables
  !-------------------------- 
       ! number of material parameters
-      matparam%nuparam = 40
+      matparam%nuparam = 49
       matparam%niparam  = 3
 
       allocate (matparam%uparam(matparam%nuparam))
@@ -339,6 +358,22 @@
       matparam%uparam(38)  = yfac_yt
       matparam%uparam(39)  = yfac_yc
       matparam%uparam(40)  = yfac_sc    
+      !
+      matparam%uparam(41)  = d11
+      matparam%uparam(42)  = d22
+      matparam%uparam(43)  = d33
+      matparam%uparam(44)  = d12
+      matparam%uparam(45)  = d13 
+      matparam%uparam(46)  = d23 
+      if(ti > 0) then  ! only used by solid an thick shell
+        matparam%uparam(47)  = half*e1/(one + nu21)
+        matparam%uparam(48)  = g23 
+        matparam%uparam(49)  = g23 
+      else
+        matparam%uparam(47)  = g12
+        matparam%uparam(48)  = g13
+        matparam%uparam(49)  = g23
+      endif
       ! integer flag
       matparam%iparam(1)  = twoway
       matparam%iparam(2)  = ti
@@ -350,9 +385,8 @@
       ifunc(4)  = ifyc
       ifunc(5)  = ifsc
       !
-       nu21   = nu12*e2/e1
-       nu    = sqrt(nu12*nu21)
-       detc  = one - nu12*nu21
+       nu    = min(sqrt(nu12*nu21), sqrt(nu13*nu31), sqrt(nu23*nu32))
+       detc  = one - nu*nu
        young = max(e1,e2,e3)
        c1    = third*young/(one - two*nu)
        a11   = max(e1,e2,e3)/detc
@@ -378,24 +412,23 @@
        pm(27) = ssp     !  mat_param%ssp
        pm(32) = a11                !  max(e1,e2,e3)/detc
       ! still used in elements
-        pm(33) = e1                !  mat_param%e11
-        pm(34) = e2                !  mat_param%e22
-        pm(186)= e2                !  mat_param%e33
-        pm(35) = nu12              !  mat_param%n12
-        pm(36) = nu21              !  mat_param%n21
-        pm(37) = g12               !  mat_param%g12
-        pm(38) = g23               !  mat_param%g23
-        pm(39) = g31               !  mat_param%g31   
-
+       pm(33) = e1                !  mat_param%e11
+       pm(34) = e2                !  mat_param%e22
+       pm(186)= e2                !  mat_param%e33
+       pm(35) = nu12              !  mat_param%n12
+       pm(36) = nu21              !  mat_param%n21
+       pm(37) = g12               !  mat_param%g12
+       pm(38) = g23               !  mat_param%g23
+       pm(39) = g31               !  mat_param%g31   
           ! parmat table
         israte     = 1
-        parmat(1)  = a11
+        parmat(1)  =  a11
         parmat(2)  = young
-        parmat(3)  = nu
+        parmat(3)  = nu 
         parmat(4)  = israte
         parmat(5)  = fcut
         parmat(16) = 1
-!
+! 
       ! pm table
         pm(1)  = rho0
         pm(89) = rho0
@@ -408,7 +441,7 @@
        mtag%g_seq  = 1
        mtag%l_seq  = 1
        mtag%g_dmg  = 1
-       mtag%l_dmg  = 6
+       mtag%l_dmg  = 8
      ! number of output mod
       matparam%nmod = 5
       allocate(matparam%mode(matparam%nmod))
@@ -420,12 +453,13 @@
 !
       call init_mat_keyword(matparam ,"ELASTO_PLASTIC")
       call init_mat_keyword(matparam ,"incremental"   )
-      call init_mat_keyword(matparam ,"TOTAL"   )
       call init_mat_keyword(matparam ,"HOOK")
       call init_mat_keyword(matparam ,"ORTHOTROPIC")
 !
       ! properties compatibility
       call init_mat_keyword(matparam,"SHELL_ORTHOTROPIC")
+      call init_mat_keyword(matparam,"SOLID_ORTHOTROPIC")
+      call init_mat_keyword(matparam,"SOLID_ALL")
 !------------------------- 
 !     parameters printout
 !-------------------------- 

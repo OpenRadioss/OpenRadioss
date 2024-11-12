@@ -893,7 +893,8 @@ C Anti hourglass forces
      O   SIGO,          ICP,           LBUF%PLA,      IMATVIS,
      P   ET,            R3_DAM,        NEL,           GAMA,
      Q   BUFMAT(IADBUF),GBUF%STRHG,    LBUF%STRA,     ISTRAIN,
-     R   MTN,           ISMSTR,        JLAG,          IINT)
+     R   MTN,           ISMSTR,        JLAG,          IINT,
+     S   MAT_ELEM%MAT_PARAM(IMAT) )
 C
       ELSE
       CALL SZHOUR3(

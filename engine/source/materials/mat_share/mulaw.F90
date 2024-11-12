@@ -219,6 +219,7 @@
       use sigeps100_mod
       use sigeps125_mod
       use sigeps126_mod
+      use sigeps127_mod
       use prop_param_mod
       use dt_mod
       use glob_therm_mod
@@ -634,7 +635,7 @@
               wyy(i)=zero
               wzz(i)=zero
             enddo
-!
+!             
           elseif ( mtn==68 ) then
 !---------------------------
 ! global nonsymmetric orthotropic tensor
@@ -1983,6 +1984,16 @@
             &epsd     ,lbuf%dmg ,ssp      ,off      ,inloc    ,&
             &varnl    ,l_planl  ,lbuf%planl)
 !
+         elseif (mtn == 127) then 
+            call sigeps127(&
+            &nel      ,nuvar    ,uvar     ,matparam ,rho0 , tt          ,&
+            &nfunc    ,ifunc    ,snpc     ,npf      ,stf      ,tf       ,&
+            &de1      ,de2      ,de3      ,de4      ,de5      ,de6      ,&
+            &es1      ,es2      ,es3      ,es4      ,es5      ,es6      ,&
+            &so1      ,so2      ,so3      ,so4      ,so5      ,so6      ,&
+            &s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,&
+            &epsd     ,off      ,ssp      ,lbuf%dmg ,ngl )
+!            
           elseif (mtn == 187) then !barlat 2000
             call sigeps187(nel   ,npar  ,nuvar ,nfunc ,ifunc ,&
             &npf   ,tf    ,tt    ,dt1   ,uparam0,&
