@@ -1,0 +1,351 @@
+!copyright>        openradioss
+!copyright>        copyright (c) 1986-2023 altair engineering inc.
+!copyright>
+!copyright>        this program is free software: you can redistribute it and/or modify
+!copyright>        it under the terms of the gnu affero general public license as published by
+!copyright>        the free software foundation, either version 3 of the license, or
+!copyright>        (at your option) any later version.
+!copyright>
+!copyright>        this program is distributed in the hope that it will be useful,
+!copyright>        but without any warranty; without even the implied warranty of
+!copyright>        merchantability or fitness for a particular purpose.  see the
+!copyright>        gnu affero general public license for more details.
+!copyright>
+!copyright>        you should have received a copy of the gnu affero general public license
+!copyright>        along with this program.  if not, see <https://www.gnu.org/licenses/>.
+!copyright>
+!copyright>
+!copyright>        commercial alternative: altair radioss software
+!copyright>
+!copyright>        as an alternative to this open-source version, altair also offers altair radioss
+!copyright>        software under a commercial license.  contact altair to discuss further if the
+!copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+! ==================================================================================================
+
+      module hm_read_mat128_mod
+      contains
+  
+      !||====================================================================
+      !||    hm_read_mat128      ../starter/source/materials/mat/mat128/hm_read_mat128.F90
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_mat              ../starter/source/materials/mat/hm_read_mat.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                   ../starter/source/output/message/message.F
+      !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
+      !||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+      !||    init_mat_keyword         ../starter/source/materials/mat/init_mat_keyword.F
+      !||--- uses       -----------------------------------------------------
+      !||    elbuftag_mod             ../starter/share/modules1/elbuftag_mod.F
+      !||    message_mod              ../starter/share/message_module/message_mod.F
+      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+      !||====================================================================
+
+      subroutine hm_read_mat128(                                       &
+                 mat_param,mtag     ,parmat   ,nuvar    ,nvartmp  ,    &
+                 ntable   ,table    ,mat_id   ,titr     ,iout     ,    &
+                 unitab   ,lsubmodel)                      
+
+!! \brief read and store input parameters of material law 128
+
+  ! ---------------------------------------------------------------------------------
+  !                modules
+  ! ---------------------------------------------------------------------------------
+      use elbuftag_mod
+      use matparam_def_mod
+      use table_mod
+      use unitab_mod
+      use submodel_mod
+      use constant_mod , only : pi,zero,half,three_half,one,two,three,four_over_3
+      use constant_mod , only : infinity,ep20
+      use mat_table_copy_mod
+!-----------------------------------------------
+!   I m p l i c i t   T y p e s
+!-----------------------------------------------
+      implicit none
+!-----------------------------------------------
+!   included files
+! ----------------------------------------------
+#include "my_real.inc"
+!-----------------------------------------------
+!   D u m m y   a r g u m e n t s
+!-----------------------------------------------
+      integer                     ,intent(in)     :: mat_id
+      integer                     ,intent(in)     :: iout
+      integer                     ,intent(in)     :: ntable
+      integer                     ,intent(out)    :: nuvar 
+      integer                     ,intent(out)    :: nvartmp
+      character(len=nchartitle)   ,intent(in)     :: titr
+      my_real, dimension(128)     ,intent(inout)  :: parmat        
+      type(ttable) ,dimension(ntable) ,intent(in) :: table
+      type(unit_type_)           ,intent(in)      :: unitab 
+      type(matparam_struct_)     ,intent(inout)   :: mat_param
+      type(mlaw_tag_)            ,intent(inout)   :: mtag
+      type(submodel_data), dimension(nsubmod),intent(in) :: lsubmodel
+!-----------------------------------------------
+!   L o c a l   V a r i a b l e s
+!-----------------------------------------------
+      logical :: is_available,is_encrypted
+      integer :: i,j,ilaw,func_id,ndim,npt,nepsd,ierr
+      my_real :: rho0,young,shear,bulk,nu
+      my_real :: qr1,qr2,qx1,qx2,cr1,cr2,cx1,cx2
+      my_real :: r00,r45,r90,rr          
+      my_real :: epsp_ref,cc,cp        
+      my_real :: sigy,lam,cii,cij
+      my_real :: ff,gg,hh,ll,mm,nn
+      my_real :: fcut,asrate,xfac,yfac
+      my_real :: epsp_unit,pres_unit
+!-----------------------------------------------
+!   S o u r c e   L i n e s 
+!===============================================================================    
+      is_encrypted = .false.
+      is_available = .false.
+      ilaw  = 128
+!-----------------------------------------------             
+      call hm_option_is_encrypted(is_encrypted)
+!-----------------------------------------------
+!
+      ! line1  Density
+      call hm_get_floatv('MAT_RHO'        ,rho0    ,is_available, lsubmodel, unitab)
+      ! line 2
+      call hm_get_floatv('LAW128_E'       ,young   ,is_available, lsubmodel, unitab)
+      call hm_get_floatv('LAW128_NU'      ,nu      ,is_available, lsubmodel, unitab)
+      call hm_get_floatv('LAW128_SIGY'    ,sigy    ,is_available, lsubmodel, unitab)
+      ! line 3
+      call hm_get_intv  ('LAW128_ITAB'    ,func_id ,is_available, lsubmodel)     
+      call hm_get_floatv('LAW128_FACY'    ,yfac    ,is_available, lsubmodel, unitab)
+      call hm_get_floatv('LAW128_FACX'    ,xfac    ,is_available, lsubmodel, unitab)
+      ! line 4
+      call hm_get_floatv('LAW128_QR1'     ,qr1     ,is_available, lsubmodel, unitab)
+      call hm_get_floatv('LAW128_CR1'     ,cr1     ,is_available, lsubmodel, unitab)
+      call hm_get_floatv('LAW128_QR2'     ,qr2     ,is_available, lsubmodel, unitab)
+      call hm_get_floatv('LAW128_CR2'     ,cr2     ,is_available, lsubmodel, unitab)
+      ! line 5
+      call hm_get_floatv('LAW128_QX1'     ,qx1     ,is_available, lsubmodel, unitab)
+      call hm_get_floatv('LAW128_CX1'     ,cx1     ,is_available, lsubmodel, unitab)
+      call hm_get_floatv('LAW128_QX2'     ,qx2     ,is_available, lsubmodel, unitab)
+      call hm_get_floatv('LAW128_CX2'     ,cx2     ,is_available, lsubmodel, unitab)
+      ! line 6 
+      call hm_get_floatv('LAW128_EPSP0'   ,epsp_ref,is_available, lsubmodel, unitab)
+      call hm_get_floatv('LAW128_CP'      ,cp      ,is_available, lsubmodel, unitab)
+      ! line 7 
+      call hm_get_floatv('LAW128_R00'     ,r00     ,is_available, lsubmodel, unitab)
+      call hm_get_floatv('LAW128_R45'     ,r45     ,is_available, lsubmodel, unitab)
+      call hm_get_floatv('LAW128_R90'     ,r90     ,is_available, lsubmodel, unitab)
+
+      ! line 8 
+      call hm_get_floatv('LAW128_F'       ,ff     ,is_available, lsubmodel, unitab)
+      call hm_get_floatv('LAW128_G'       ,gg     ,is_available, lsubmodel, unitab)
+      call hm_get_floatv('LAW128_H'       ,hh     ,is_available, lsubmodel, unitab)
+
+      !line 9 
+      call hm_get_floatv('LAW128_L'       ,ll     ,is_available, lsubmodel, unitab)
+      call hm_get_floatv('LAW128_M'       ,mm     ,is_available, lsubmodel, unitab)
+      call hm_get_floatv('LAW128_N'       ,nn     ,is_available, lsubmodel, unitab)
+!
+      ! stress and strain rate units
+      call hm_get_floatv_dim('LAW128_FACX' ,epsp_unit  ,is_available, lsubmodel, unitab)
+      call hm_get_floatv_dim('LAW128_FACY' ,pres_unit  ,is_available, lsubmodel, unitab)
+!---------------------------------------------------------------------------------------
+      !  DEFAULT VALUES
+!---------------------------------------------------------------------------------------
+      if (r00 == zero .or. r90 == zero) then   ! use Hill parameters
+        if (ff   == zero) ff   = half
+        if (gg   == zero) gg   = half
+        if (hh   == zero) hh   = half
+        if (ll   == zero) ll   = three_half
+        if (mm   == zero) mm   = three_half
+        if (nn   == zero) nn   = three_half
+      else                                     ! use Lankford coefficients
+        rr = (r00 + r45*two + r90)
+        hh = rr / (one + rr)
+        gg = hh / r00
+        ff = hh / r90
+        nn = (ff + gg) * (r45 + half)
+      end if
+      if (sigy == zero) sigy = infinity
+!
+      shear = young / (two * (one + nu))
+      bulk  = young / (three*(one - two*nu))
+      lam   = young*nu / (one+nu) / (one - two*nu)
+      cii   = lam + shear*two
+      cij   = lam      
+!      
+      if (epsp_ref > zero) then
+        cc = one / epsp_ref
+      else
+        cc = zero
+      end if              
+!      
+      if (yfac == zero) yfac = one * pres_unit
+      if (xfac == zero) xfac = one * epsp_unit
+      xfac = one / xfac
+!
+      fcut   = 1.044*unitab%fac_t_work
+      asrate = two*pi*fcut
+!
+!-------------------------------------
+      nuvar   = 1
+      nvartmp = 0
+      mat_param%nfunc  = 0
+      mat_param%ntable = 0
+!-------------------------------------
+      ! create local function table in case of tabulated yield function input
+!-------------------------------------
+      if (func_id > 0) then
+        allocate (mat_param%table(1))           ! allocate material table array
+        mat_param%ntable  = 1
+        mat_param%table(1)%notable = func_id
+        call mat_table_copy(mat_param ,ntable ,table  ,ierr  )
+        if (ierr == 0) then
+          cc = zero
+          cp = zero ! Cowper-Symonds strain rate is not used with tabulated input          
+          ndim = mat_param%table(1)%ndim 
+          nvartmp = ndim
+          ! apply scale factors to strain rate and yield values
+          if (ndim == 1) then
+            npt = size(mat_param%table(1)%x(1)%values)
+            do i=1,npt
+              mat_param%table(1)%y1d(1:npt) = yfac*mat_param%table(1)%y1d(1:npt)
+            end do
+          else if (ndim == 2) then
+            npt   = size(mat_param%table(1)%x(1)%values)
+            nepsd = size(mat_param%table(1)%x(2)%values)
+            do j=1,nepsd
+              mat_param%table(1)%x(2)%values(j) = xfac*mat_param%table(1)%x(2)%values(j)
+              do i=1,npt
+                mat_param%table(1)%y2d(i,j) = yfac*mat_param%table(1)%y2d(i,j)
+              end do
+            end do
+          end if
+        end if
+      end if
+!          
+!-------------------------------------
+      mat_param%niparam = 0
+      mat_param%nuparam = 18
+      allocate (mat_param%iparam(mat_param%niparam))
+      allocate (mat_param%uparam(mat_param%nuparam))
+!-------------------------------------
+      mat_param%uparam(1)  = sigy 
+      mat_param%uparam(2)  = qr1  
+      mat_param%uparam(3)  = cr1  
+      mat_param%uparam(4)  = qr2  
+      mat_param%uparam(5)  = cr2  
+      mat_param%uparam(6)  = qx1
+      mat_param%uparam(7)  = cx1
+      mat_param%uparam(8)  = qx2
+      mat_param%uparam(9)  = cx2
+      mat_param%uparam(10) = cc      
+      mat_param%uparam(11) = cp       
+      mat_param%uparam(12) = ff   
+      mat_param%uparam(13) = gg   
+      mat_param%uparam(14) = hh   
+      mat_param%uparam(15) = ll   
+      mat_param%uparam(16) = mm   
+      mat_param%uparam(17) = nn   
+      mat_param%uparam(18) = asrate
+!-------------------------------------
+      ! mat_param common parameters
+
+      mat_param%rho   = rho0
+      mat_param%rho0  = rho0
+      mat_param%young = young
+      mat_param%bulk  = bulk
+      mat_param%shear = shear
+      mat_param%nu    = nu
+!-------------------------------------
+      ! PARMAT transfer table
+
+      parmat(1)  = bulk
+      parmat(2)  = young
+      parmat(3)  = nu
+      parmat(16) = 1
+      parmat(17) = (one-two*nu)/(one-nu)  !   2G / (bulk + G*4/3)
+!-------------------------------------
+      ! Element buffer variable activation      
+
+      mtag%g_thk  = 1
+      mtag%g_pla  = 1
+      mtag%l_pla  = 1
+      mtag%g_seq  = 1
+      mtag%l_seq  = 1
+      mtag%g_epsd = 1
+      mtag%l_epsd = 1
+!-------------------------------------
+      ! mterial model keywords
+
+      call init_mat_keyword(mat_param,"ELASTO_PLASTIC")       
+      call init_mat_keyword(mat_param,"INCREMENTAL")       
+      call init_mat_keyword(mat_param,"LARGE_STRAIN")       
+      call init_mat_keyword(mat_param,"HOOK")       
+      call init_mat_keyword(mat_param,"ORTHOTROPIC")       
+
+      ! property compatibility  
+      call init_mat_keyword(mat_param,"SHELL_ORTHOTROPIC")       
+      call init_mat_keyword(mat_param,"SOLID_ORTHOTROPIC")       
+      call init_mat_keyword(mat_param,"SPH")       
+!-------------------------------------------------------------------------------
+!     Parameters printout
+!-------------------------------------------------------------------------------
+      write(iout,1050) trim(titr),mat_id,ilaw
+      write(iout,1000)
+      if (is_encrypted) then
+        write(iout,'(5x,a,//)')'CONFIDENTIAL DATA'
+      else
+        if (func_id > 0) then
+          write(iout,1100) rho0,young,nu,                      &
+                           func_id,ff,gg,hh,ll,mm,nn 
+        else
+          write(iout,1200) rho0,young,nu,sigy,                 &
+                           qr1,cr1,qr2,cr2,qx1,cx1,qx2,cx2,    &
+                           cc,cp,ff,gg,hh,ll,mm,nn 
+        endif       
+      endif       
+!-------------------------------------------------------------------------------
+      return
+!-----------
+ 1000 format(                                                                &
+      5x,a,/,                                                                & 
+      5x,40h  ELASTOPLASTIC ORTHOTROPIC HILL MATERIAL,/,                     & 
+      5x,40h  -----------------------------------   ,//)           
+ 1050 format(/                                                               &
+      5x,a,/,                                                                &
+      5x,'MATERIAL NUMBER . . . . . . . . . . . . .=',i10/,                  &
+      5x,'MATERIAL LAW. . . . . . . . . . . . . . .=',i10/)       
+ 1100 format(                                                                & 
+      5x,'INITIAL DENSITY. . . . . . . . . . . . . . . . . . .=',1pg20.13/,  &  
+      5x,'YOUNG MODULUS. . . . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
+      5x,'POISSON RATIO. . . . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
+      5x,'TABULATED YIELD STRESS FUNCTION ID . . . . . . . . .=',i10     /,  &
+      5x,'YIELD PARAMETER F. . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
+      5x,'YIELD PARAMETER G. . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
+      5x,'YIELD PARAMETER H. . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
+      5x,'YIELD PARAMETER L. . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
+      5x,'YIELD PARAMETER M. . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
+      5x,'YIELD PARAMETER N. . . . . . . . . . . . . . . . . .=',1pg20.13/)
+ 1200 format(                                                                & 
+      5x,'INITIAL DENSITY. . . . . . . . . . . . . . . . . . .=',1pg20.13/,  &  
+      5x,'YOUNG MODULUS. . . . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
+      5x,'POISSON RATIO. . . . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
+      5x,'INITIAL YIELD STRESS . . . . . . . . . . . . . . . .=',1pg20.13/,  &
+      5x,'ISOTROPIC HARDENING PARAMETER QR1. . . . . . . . . .=',1pg20.13/,  &
+      5x,'ISOTROPIC HARDENING PARAMETER CR1. . . . . . . . . .=',1pg20.13/,  &
+      5x,'ISOTROPIC HARDENING PARAMETER QR2. . . . . . . . . .=',1pg20.13/,  &
+      5x,'ISOTROPIC HARDENING PARAMETER CR2. . . . . . . . . .=',1pg20.13/,  &
+      5x,'KINEMATIC HARDENING PARAMETER QX1. . . . . . . . . .=',1pg20.13/,  &
+      5x,'KINEMATIC HARDENING PARAMETER CX1. . . . . . . . . .=',1pg20.13/,  &
+      5x,'KINEMATIC HARDENING PARAMETER QX2. . . . . . . . . .=',1pg20.13/,  &
+      5x,'KINEMATIC HARDENING PARAMETER CX2. . . . . . . . . .=',1pg20.13/,  &
+      5x,'COWPER-SYMONDS STRAIN RATE PARAMETER CC. . . . . . .=',1pg20.13/,  &
+      5x,'COWPER-SYMONDS STRAIN RATE EXPONENT CP . . . . . . .=',1pg20.13/,  &
+      5x,'YIELD PARAMETER F. . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
+      5x,'YIELD PARAMETER G. . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
+      5x,'YIELD PARAMETER H. . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
+      5x,'YIELD PARAMETER L. . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
+      5x,'YIELD PARAMETER M. . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
+      5x,'YIELD PARAMETER N. . . . . . . . . . . . . . . . . .=',1pg20.13/)
+!----------------------------------
+      end subroutine hm_read_mat128
+!    
+      end module hm_read_mat128_mod
