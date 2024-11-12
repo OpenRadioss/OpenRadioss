@@ -20,32 +20,37 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+!===============================================================================
+
 module mulawc_mod
 contains
-!! \brief routine to compute the material laws for shell elements
+
+! \brief routine to compute the material laws for shell elements
+!===============================================================================
+
 subroutine mulawc(elbuf_str ,&
-   & jft      ,jlt      ,nel      ,pm        ,for      ,mom      , &
-   & gstr     ,thk      ,eint     ,off       ,dir_a    ,dir_b    , &
-   & mat      ,area     ,exx      ,eyy       ,exy      ,exz      , &
-   & eyz      ,kxx      ,kyy      ,kxy       ,geo      ,thk_ly   , &
-   & pid      ,tf       ,npf      ,mtn       ,dt1c     ,dm       , &
-   & bufmat   ,ssp      ,rho      ,viscmx    ,ipla     ,iofc     , &
-   & indx     ,ngl      ,thkly    ,matly     ,zcfac    ,mat_elem , &
-   & shf      ,gs       ,sigy     ,thk0      ,epsp     ,           &
-   & posly    ,igeo     ,ipm      ,failwave  ,fwave_el ,           &
-   & ifailure ,aldt     ,tempel   ,die       ,fheat    ,           &
-   & table     ,ixfem   ,elcrkini ,                                &
-   & sensors  ,ng       ,idt_therm,theaccfact,                     &
-   & dir1_crk ,dir2_crk ,iparg    ,jhbe      ,ismstr   ,jthe     , &
-   & tensx    ,ir       ,is       ,nlay      ,npt      ,ixlay    , &
-   & ixel     ,ithk     ,f_def    ,ishplyxfem                    , &
-   & itask    ,isubstack,stack     ,tstar    ,alpe               , &
-   & ply_exx  ,ply_eyy  ,ply_exy  ,ply_exz   ,ply_eyz  ,ply_f    , &
-   & varnl    ,etimp    ,nloc_dmg ,nlay_max  ,laynpt_max,dt      , &
-   & ncycle   ,snpc     ,stf      ,impl_s    ,imconv    ,npropgi , &
-   & npropmi  ,npropm   ,npropg   ,imon_mat  ,numgeo    ,          &
-   & numstack ,dt1      ,tt       ,nxlaymax  ,idel7nok  ,userl_avail,&
-   & maxfunc  ,nummat   ,varnl_npttot,sbufmat  ,sdir_a   ,sdir_b ,nparg)
+   & jft      ,jlt      ,nel      ,pm        ,for      ,mom      ,        &
+   & gstr     ,thk      ,eint     ,off       ,dir_a    ,dir_b    ,        &
+   & mat      ,area     ,exx      ,eyy       ,exy      ,exz      ,        &
+   & eyz      ,kxx      ,kyy      ,kxy       ,geo      ,thk_ly   ,        &
+   & pid      ,tf       ,npf      ,mtn       ,dt1c     ,dm       ,        &
+   & bufmat   ,ssp      ,rho      ,viscmx    ,ipla     ,iofc     ,        &
+   & indx     ,ngl      ,thkly    ,matly     ,zcfac    ,mat_elem ,        &
+   & shf      ,gs       ,sigy     ,thk0      ,epsp     ,                  &
+   & posly    ,igeo     ,ipm      ,failwave  ,fwave_el ,                  &
+   & ifailure ,aldt     ,tempel   ,die       ,fheat    ,                  &
+   & table     ,ixfem   ,elcrkini ,                                       &
+   & sensors  ,ng       ,idt_therm,theaccfact,                            &
+   & dir1_crk ,dir2_crk ,iparg    ,jhbe      ,ismstr   ,jthe     ,        &
+   & tensx    ,ir       ,is       ,nlay      ,npt      ,ixlay    ,        &
+   & ixel     ,ithk     ,f_def    ,ishplyxfem                    ,        &
+   & itask    ,isubstack,stack    ,tstar     ,alpe               ,        &
+   & ply_exx  ,ply_eyy  ,ply_exy  ,ply_exz   ,ply_eyz  ,ply_f    ,        &
+   & varnl    ,etimp    ,nloc_dmg ,nlay_max  ,laynpt_max,dt      ,        &
+   & ncycle   ,snpc     ,stf      ,impl_s    ,imconv   ,npropgi  ,        &
+   & npropmi  ,npropm   ,npropg   ,imon_mat  ,numgeo   ,                  &
+   & numstack ,dt1      ,tt       ,nxlaymax  ,idel7nok ,userl_avail,      &
+   & maxfunc  ,nummat   ,varnl_npttot,sbufmat,sdir_a   ,sdir_b ,nparg)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -59,6 +64,7 @@ subroutine mulawc(elbuf_str ,&
       use sensor_mod
       use sigeps125c_mod
       use sigeps127c_mod
+      use sigeps128c_mod
       use elbufdef_mod
       use dt_mod
       use file_descriptor_mod
@@ -68,7 +74,7 @@ subroutine mulawc(elbuf_str ,&
 ! ----------------------------------------------------------------------------------------------------------------------
       implicit none
 #include "my_real.inc"
-#include      "comlock.inc"
+#include "comlock.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1688,11 +1694,11 @@ subroutine mulawc(elbuf_str ,&
                ! ---
                do i=jft,jlt
                   ! ij(k) = nel*(k-1)
-                  sigoxx(i) =  lbuf%sig(nel*(1-1)+i)
-                  sigoyy(i) =  lbuf%sig(nel*(2-1)+i)
-                  sigoxy(i) =  lbuf%sig(nel*(3-1)+i)
-                  sigoyz(i) =  lbuf%sig(nel*(4-1)+i)
-                  sigozx(i) =  lbuf%sig(nel*(5-1)+i)
+                  sigoxx(i) = lbuf%sig(nel*(1-1)+i)
+                  sigoyy(i) = lbuf%sig(nel*(2-1)+i)
+                  sigoxy(i) = lbuf%sig(nel*(3-1)+i)
+                  sigoyz(i) = lbuf%sig(nel*(4-1)+i)
+                  sigozx(i) = lbuf%sig(nel*(5-1)+i)
                enddo
                !---
                call sigeps127c(&
@@ -1707,8 +1713,23 @@ subroutine mulawc(elbuf_str ,&
                &off      ,sigy       ,etse     ,ssp      ,lbuf%dmg ,&
                gbuf%dmg  ,lbuf%off)
 !
+            elseif (ilaw == 128) then
+               sigoxx(1:nel) = lbuf%sig(1:nel)
+               sigoyy(1:nel) = lbuf%sig(nel+1:nel*2)
+               sigoxy(1:nel) = lbuf%sig(nel*2+1:nel*3)
+               sigoyz(1:nel) = lbuf%sig(nel*3+1:nel*4)
+               sigozx(1:nel) = lbuf%sig(nel*4+1:nel*5)
+!
+               call sigeps128c(mat_elem%mat_param(imat),                     &
+                    nel      ,nuvar    ,nvartmp  ,uvar     ,vartmp   ,dt1 ,  &
+                    depsxx   ,depsyy   ,depsxy   ,depsyz   ,depszx   ,       &
+                    sigoxx   ,sigoyy   ,sigoxy   ,sigoyz   ,sigozx   ,       &
+                    signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,       &
+                    ssp      ,thkn     ,lbuf%pla ,dpla     ,epsp     ,       &
+                    off      ,etse     ,thklyl   ,shf      ,sigy     ,       &
+                    hardm    ,lbuf%seq )
+!
             elseif (ilaw == 158) then
-
                call sigeps158c(&
                &jlt       ,nuparam   ,nuvar     ,nfunc     ,ifunc     ,&
                &npf       ,tf        ,tt        ,dt1       ,uparam    ,&

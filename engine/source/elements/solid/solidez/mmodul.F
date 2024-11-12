@@ -33,11 +33,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE MMODUL(JFT     ,JLT     ,PM    ,MAT    ,MTN    ,
      .                  GAMA    ,UPARAM  ,CC    ,CG     ,G33    ,
-     .                  matparam)
-!---------------------------------------------- -
-!   M o d u l e s
-!-----------------------------------------------     
-         use matparam_def_mod 
+     .                  mat_param)
+! ---------------------------------------------------------------------------------
+!                modules
+! ---------------------------------------------------------------------------------
+      use matparam_def_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,8 +59,7 @@ C     REAL
       my_real
      .   PM(NPROPM,*),CC(MVSIZ,3,3),UPARAM(*),
      .   GAMA(MVSIZ,6),CG(MVSIZ,3,3),G33(MVSIZ,3,3)
-
-      type(matparam_struct_)  , intent(in) :: matparam
+      type(matparam_struct_)  , intent(in) :: mat_param
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -217,7 +216,7 @@ C----- w/o armature :--> isotropic
          G3(I,3)   = UPARAM(12)
         ENDDO
         CALL MSTIFORTHV(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
-     .                  QG     ,CC    ,G3  ,G33  ,CG     )        
+     .                  QG     ,CC    ,G3  ,G33  ,CG     )  
        ELSEIF (MTN==107) THEN
         DO I=JFT,JLT
           MX = MAT(I)
@@ -270,18 +269,35 @@ C----- w/o armature :--> isotropic
      .                  QG     ,CC    ,G3  ,G33  ,CG     )   
       ELSEIF (MTN == 127) THEN     
         DO I=JFT,JLT
-          CC(I,1,1) = matparam%uparam(41)
-          CC(I,2,2) = matparam%uparam(42)
-          CC(I,3,3) = matparam%uparam(43)
-          CC(I,1,2) = matparam%uparam(44)
-          CC(I,2,3) = matparam%uparam(46)
-          CC(I,1,3) = matparam%uparam(45)
-          G3(I,1)   = matparam%uparam(47)
-          G3(I,2)   = matparam%uparam(48)
-          G3(I,3)   = matparam%uparam(49)
+          CC(I,1,1) = mat_param%uparam(41)
+          CC(I,2,2) = mat_param%uparam(42)
+          CC(I,3,3) = mat_param%uparam(43)
+          CC(I,1,2) = mat_param%uparam(44)
+          CC(I,2,3) = mat_param%uparam(46)
+          CC(I,1,3) = mat_param%uparam(45)
+          G3(I,1)   = mat_param%uparam(47)
+          G3(I,2)   = mat_param%uparam(48)
+          G3(I,3)   = mat_param%uparam(49)
         ENDDO
         CALL MSTIFORTHV(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
      .                  QG     ,CC    ,G3  ,G33  ,CG     ) 
+
+      ELSEIF (MTN == 128) THEN
+        NU    = MAT_PARAM%NU
+        LAMDA = THREE*NU*MAT_PARAM%BULK/(ONE+NU)
+        DO I=JFT,JLT
+         CC(I,1,1) = LAMDA + TWO*MAT_PARAM%SHEAR
+         CC(I,2,2) = CC(I,1,1)
+         CC(I,3,3) = CC(I,1,1)
+         CC(I,1,2) = LAMDA
+         CC(I,2,3) = LAMDA
+         CC(I,1,3) = LAMDA
+         G3(I,1)   = MAT_PARAM%SHEAR
+         G3(I,2)   = MAT_PARAM%SHEAR
+         G3(I,3)   = MAT_PARAM%SHEAR
+        ENDDO
+        CALL MSTIFORTHV(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
+     .                  QG     ,CC    ,G3  ,G33  ,CG     )       
 
        ELSE
 C----------warring out isotrope effective       
