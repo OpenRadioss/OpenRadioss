@@ -62,11 +62,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      O   SIGOLD,   ICP,      DEFP,     MATVIS,
      P   ET,       D_MAX,    NEL,      GAMA,
      Q   UPARAM,   STRHG,    STRAIN,   ISTRAIN,
-     R   MTN,      ISMSTR,   JLAG,     IINT)
+     R   MTN,      ISMSTR,   JLAG,     IINT ,
+     S   matparam  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
+      use matparam_def_mod 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -113,6 +115,7 @@ C-----------------------------------------------
      .   UPARAM(*),GAMA(MVSIZ,6)
       INTEGER MAT(*),PID(*),IPARTS(*),ICP,MATVIS
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
+      type(matparam_struct_)  , intent(in) :: matparam
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -159,7 +162,7 @@ C +++ MAT Visco-----
       RHO0=PM(1,MX)
       NU=PM(21,MX)
       CALL MMODUL(1     ,NEL     ,PM    ,MAT    ,MTN    ,
-     .            GAMA    ,UPARAM  ,CC    ,CG     ,G33    )
+     .            GAMA    ,UPARAM  ,CC    ,CG     ,G33  , matparam )
       DO I=1,NEL
        GM = THIRD*(G33(I,1,1)+G33(I,2,2)+G33(I,3,3))
        GG(I)=HALF*RHO0*CXX(I)*CXX(I)*(ONE -TWO*NU)/(ONE-NU)

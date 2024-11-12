@@ -30,7 +30,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    mstiforthv   ../engine/source/elements/solid/solidez/mstiforthv.F
       !||====================================================================
       SUBROUTINE MMODUL(JFT     ,JLT     ,PM    ,MAT    ,MTN    ,
-     .                  GAMA    ,UPARAM  ,CC    ,CG     ,G33    )
+     .                  GAMA    ,UPARAM  ,CC    ,CG     ,G33    ,
+     .                  matparam)
+!---------------------------------------------- -
+!   M o d u l e s
+!-----------------------------------------------     
+         use matparam_def_mod 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -52,6 +57,8 @@ C     REAL
       my_real
      .   PM(NPROPM,*),CC(MVSIZ,3,3),UPARAM(*),
      .   GAMA(MVSIZ,6),CG(MVSIZ,3,3),G33(MVSIZ,3,3)
+
+      type(matparam_struct_)  , intent(in) :: matparam
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -259,6 +266,21 @@ C----- w/o armature :--> isotropic
         ENDDO
         CALL MSTIFORTHV(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
      .                  QG     ,CC    ,G3  ,G33  ,CG     )   
+      ELSEIF (MTN == 127) THEN     
+        DO I=JFT,JLT
+          CC(I,1,1) = matparam%uparam(41)
+          CC(I,2,2) = matparam%uparam(42)
+          CC(I,3,3) = matparam%uparam(43)
+          CC(I,1,2) = matparam%uparam(44)
+          CC(I,2,3) = matparam%uparam(46)
+          CC(I,1,3) = matparam%uparam(45)
+          G3(I,1)   = matparam%uparam(47)
+          G3(I,2)   = matparam%uparam(48)
+          G3(I,3)   = matparam%uparam(49)
+        ENDDO
+        CALL MSTIFORTHV(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
+     .                  QG     ,CC    ,G3  ,G33  ,CG     ) 
+
        ELSE
 C----------warring out isotrope effective       
         DO I=JFT,JLT

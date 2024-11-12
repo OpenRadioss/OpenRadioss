@@ -103,7 +103,7 @@
           my_real, dimension(nel), intent(inout) :: signzx !< new stress zx 
           my_real, dimension(nel), intent(inout) :: ssp !< sound speed
           my_real, dimension(nel), intent(inout) :: off !< element deletion flag
-          my_real, dimension(nel,6), intent(inout) ::  dmg 
+          my_real, dimension(nel,8), intent(inout) ::  dmg 
           my_real, dimension(nel), intent(inout) ::  dmg_g 
           my_real, dimension(nel), intent(inout) :: offply !< ply element deletion flag
 !-----------------------------------------------
@@ -125,28 +125,28 @@
       !
       logical :: abit_t,abit_c,abit_s,abit_check
 !!======================================================================
-       e1    = mat_param%uparam(1)   ! Young's modulus in the longitudinal direction (1-direction)
-       e2    = mat_param%uparam(2)   ! Young's modulus in the transverse direction (2-direction)
-       g12   = mat_param%uparam(4)   ! Shear modulus in the plane of the fibers (1-2 plane)
-       g13   = mat_param%uparam(5)   ! Shear modulus in the 1-3 plane
-       g23   = mat_param%uparam(6)   ! Shear modulus in the 2-3 plane
-       nu12  = mat_param%uparam(7)   ! Poisson's ratio for strain in the 2-direction when stressed in the 1-direction
-       nu21  = mat_param%uparam(8)   ! Poisson's ratio for strain in the 1-direction when stressed in the 2-direction
+      e1    = mat_param%uparam(1)   ! Young's modulus in the longitudinal direction (1-direction)
+      e2    = mat_param%uparam(2)   ! Young's modulus in the transverse direction (2-direction)
+      g12   = mat_param%uparam(4)   ! Shear modulus in the plane of the fibers (1-2 plane)
+      g13   = mat_param%uparam(5)   ! Shear modulus in the 1-3 plane
+      g23   = mat_param%uparam(6)   ! Shear modulus in the 2-3 plane
+      nu12  = mat_param%uparam(7)   ! Poisson's ratio for strain in the 2-direction when stressed in the 1-direction
+      nu21  = mat_param%uparam(8)   ! Poisson's ratio for strain in the 1-direction when stressed in the 2-direction
       ! Fiber direction properties
-       xt0    = mat_param%uparam(13) ! Tensile strength in the fiber direction (1-direction)
-       slimt1 = mat_param%uparam(14)  ! Slope of the tensile stress-strain curve in the fiber direction
-       xc0    = mat_param%uparam(15) ! Compressive strength in the fiber direction (1-direction)
-       slimc1 = mat_param%uparam(16)  ! Slope of the compressive stress-strain curve in the fiber direction
+      xt0    = mat_param%uparam(13) ! Tensile strength in the fiber direction (1-direction)
+      slimt1 = mat_param%uparam(14)  ! Slope of the tensile stress-strain curve in the fiber direction
+      xc0    = mat_param%uparam(15) ! Compressive strength in the fiber direction (1-direction)
+      slimc1 = mat_param%uparam(16)  ! Slope of the compressive stress-strain curve in the fiber direction
       ! Matrix direction properties
-       yt0    = mat_param%uparam(17) ! Tensile strength in the transverse direction (2-direction)
-       slimt2 = mat_param%uparam(18)  ! Slope of the tensile stress-strain curve in the transverse direction
-       yc0    = mat_param%uparam(19)  ! Compressive strength in the transverse direction (2-direction)
-       slimc2 = mat_param%uparam(20)  ! Slope of the compressive stress-strain curve in the transverse direction
+      yt0    = mat_param%uparam(17) ! Tensile strength in the transverse direction (2-direction)
+      slimt2 = mat_param%uparam(18)  ! Slope of the tensile stress-strain curve in the transverse direction
+      yc0    = mat_param%uparam(19)  ! Compressive strength in the transverse direction (2-direction)
+      slimc2 = mat_param%uparam(20)  ! Slope of the compressive stress-strain curve in the transverse direction
       ! Shear properties
-       sc0    = mat_param%uparam(21) ! Shear strength
-       slims = mat_param%uparam(22) ! Slope of the shear stress-strain curve
-       fbrt  = mat_param%uparam(23) ! reduced fiber 
-       ycfac = mat_param%uparam(24) ! reduced compression strength
+      sc0    = mat_param%uparam(21) ! Shear strength
+      slims = mat_param%uparam(22) ! Slope of the shear stress-strain curve
+      fbrt  = mat_param%uparam(23) ! reduced fiber 
+      ycfac = mat_param%uparam(24) ! reduced compression strength
 
       dfailt = mat_param%uparam(25)  ! Failure strain in tension
       dfailc = mat_param%uparam(26)  ! Failure strain in compression
@@ -173,7 +173,7 @@
       ! strain rate dependency of strength
         ! xt
       if(ifunc(1) /= 0) then
-        ipos(1:nel) = 0
+        ipos(1:nel) = 1
         iad (1:nel) = npf(ifunc(1)) / 2 + 1
         ilen(1:NEL) = npf(ifunc(1)+1) / 2 - iad(1:nel) - ipos(1:nel)
         CALL vinter(tf,iad,ipos,ilen,nel,epsp,dydx,xt) 
@@ -183,7 +183,7 @@
       endif 
       ! xc     
       if(ifunc(2) /= 0) then
-        ipos(1:nel) = 0
+        ipos(1:nel) = 1
         iad (1:nel) = npf(ifunc(2)) / 2 + 1
         ilen(1:NEL) = npf(ifunc(2)+1) / 2 - iad(1:nel) - ipos(1:nel)
         call vinter(tf,iad,ipos,ilen,nel,epsp,dydx,xc) 
@@ -193,7 +193,7 @@
       endif
       ! yt    
       if(ifunc(3) /= 0) then
-           ipos(1:nel) = 0
+           ipos(1:nel) = 1
            iad (1:nel) = npf(ifunc(3)) / 2 + 1
            ilen(1:NEL) = npf(ifunc(3)+1) / 2 - iad(1:nel) - ipos(1:nel)
            call vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yt) 
@@ -203,7 +203,7 @@
       endif  
        ! yc    
       if(ifunc(4) /= 0) then
-           ipos(1:nel) = 0
+           ipos(1:nel) = 1
            iad (1:nel) = npf(ifunc(4)) / 2 + 1
            ilen(1:NEL) = npf(ifunc(4)+1) / 2 - iad(1:nel) - ipos(1:nel)
            call vinter(tf,iad,ipos,ilen,nel,epsp,dydx,yc) 
@@ -213,7 +213,7 @@
       endif
        ! sc shaer    
       if(ifunc(5) /= 0) then
-           ipos(1:nel) = 0
+           ipos(1:nel) = 1
            iad (1:nel) = npf(ifunc(5)) / 2 + 1
            ilen(1:NEL) = npf(ifunc(5)+1) / 2 - iad(1:nel) - ipos(1:nel)
            call vinter(tf,iad,ipos,ilen,nel,epsp,dydx,sc) 
@@ -241,12 +241,12 @@
                 off(i) =  four_over_5
               endif 
            endif
-       enddo 
+      enddo 
 !! ------!!---------------------------------           
        ! no deleted element
-       ndex = 0
+      ndex = 0
        ! Failure based on  chang-chang model
-       if(dfailt == zero) then
+      if(dfailt == zero) then
           do i=1,nel
                 if(dmg(i,1) == one .or. off(i) < one ) cycle
                 ! Update compressive strength if damage in matrix is complete
@@ -299,9 +299,9 @@
                       if(abs(signxy(i)) >= sc(i) ) dmg(i,6 ) = one 
                endif  
           end do ! nel 
-        endif ! dfailt == zero
+      endif ! dfailt == zero
        ! criteria based on strain
-       if (dfailt > zero )then
+      if (dfailt > zero )then
           do  i=1,nel
               if(dmg(i,1) == one .or. off(i) < one ) cycle
               ! failure based on max strain 
@@ -327,12 +327,12 @@
                 signxy(i) = sigoxy(i) + g12*depsxy(i)
                 signzx(i) = sigozx(i) + shf(i)*g13*depszx(i) 
                 signyz(i) = sigoyz(i) + shf(i)*g23*depsyz(i) 
-                 if(signxx(i) >= xt(i) ) then
+                if(signxx(i) >= xt(i) ) then
                     dmg(i,2) = one
-                 elseif(signxx(i) <=  -xc(i)) then
+                elseif(signxx(i) <=  -xc(i)) then
                     dmg(i,3) = one 
-                 endif 
-                  if(signyy(i) >= yt(i) ) then
+                endif 
+                if(signyy(i) >= yt(i) ) then
                     dmg(i,4) = one
                  elseif(signyy(i) <= -yc(i)) then
                     dmg(i,5) = one 
@@ -342,8 +342,9 @@
                  index(ndex) = I  
               endif
           enddo
-       endif   
+      endif   
        ! 
+#include "vectorize.inc"                         
        do n=1,ndex
              i= index(n)
              !!
