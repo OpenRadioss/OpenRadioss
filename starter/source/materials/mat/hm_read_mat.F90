@@ -20,9 +20,7 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-module HM_READ_MAT_MOD
-contains
-
+! =================================================================================================
 !! \brief Read materials cards
       !||====================================================================
       !||    hm_read_mat               ../starter/source/materials/mat/hm_read_mat.F90
@@ -162,16 +160,22 @@ contains
       !||    submodel_mod              ../starter/share/modules1/submodel_mod.F
       !||    table_mod                 ../starter/share/modules1/table_mod.F
       !||====================================================================
+! --------------------------------------------------------------------------------------------------
+      module hm_read_mat_mod
+      contains
+! --------------------------------------------------------------------------------------------------
+!! \brief Read materials cards
+! --------------------------------------------------------------------------------------------------
              subroutine hm_read_mat(                                      &
    &                    mat_param   ,mlaw_tag    ,eos_tag     ,bufmat    ,&
    &                    buflen      ,iadbuf      ,ipm         ,pm        ,&
    &                    multi_fvm   ,unitab      ,lsubmodel   ,table     ,&
    &                    sbufmat     ,npropmi     ,npropm      ,trimat    ,&
    &                    ialelag     ,ntable      ,nummat      ,hm_nummat ,&
-   &                    ltitr       ,userl_avail,mat_number )
-! ----------------------------------------------------------------------------------------------------------------------
+   &                    ltitr       ,userl_avail ,mat_number  )
+! --------------------------------------------------------------------------------------------------
 !                                                   Modules
-! ----------------------------------------------------------------------------------------------------------------------
+! --------------------------------------------------------------------------------------------------
       use constant_mod
       use file_descriptor_mod
       use unitab_mod
@@ -188,17 +192,18 @@ contains
       use hm_read_mat125_mod
       use hm_read_mat126_mod
       use hm_read_mat127_mod
-      use names_and_titles_mod , only : nchartitle, ncharline
-      use reader_old_mod , only : key0
-      use multimat_param_mod , only : m51_ssp0max, m51_lc0max, m51_tcp_ref, m51_lset_iflg6, m20_discrete_fill
-! ----------------------------------------------------------------------------------------------------------------------
+      use hm_read_mat128_mod
+      use names_and_titles_mod ,only : nchartitle, ncharline
+      use reader_old_mod     ,only : key0
+      use multimat_param_mod ,only : m51_ssp0max,m51_lc0max,m51_tcp_ref,m51_lset_iflg6,m20_discrete_fill
+! -------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
-! ----------------------------------------------------------------------------------------------------------------------
+! -------------------------------------------------------------------------------------------------------
       implicit none
 #include "my_real.inc"
-! ----------------------------------------------------------------------------------------------------------------------
+! -------------------------------------------------------------------------------------------------------
 !                                                   Arguments
-! ----------------------------------------------------------------------------------------------------------------------
+! -------------------------------------------------------------------------------------------------------
       integer, intent(in)                  :: sbufmat
       integer, intent(in)                  :: npropmi
       integer, intent(in)                  :: npropm
@@ -218,15 +223,16 @@ contains
       !
       my_real ,dimension(npropm ,nummat), intent(inout) :: pm
       my_real ,dimension(sbufmat), intent(inout)        :: bufmat
+      type(ttable) ,dimension(ntable) ,intent(in)       :: table
 
       type(mlaw_tag_), target, dimension(nummat),intent(inout)    :: mlaw_tag
       type(eos_tag_) , target, dimension(0:maxeos) ,intent(inout) :: eos_tag
       type(multi_fvm_struct),intent(inout)                        :: multi_fvm
       type(matparam_struct_) ,dimension(nummat) ,intent(inout)    :: mat_param
       target :: mat_param
-! ----------------------------------------------------------------------------------------------------------------------
+! -----------------------------------------------------------------------------
 !                                                   Local variables
-! ----------------------------------------------------------------------------------------------------------------------
+! -----------------------------------------------------------------------------
       integer i,j,mat_id,uid,ilaw,jale,jtur,jthe,&
       &imatvis,israte,iuser_law,nfunc,numtabl,nuparam,nuvar,nvartmp,&
       &maxuparam,maxfunc,maxtabl,iunit,iflagunit,k
@@ -246,12 +252,11 @@ contains
       type(ulawbuf) :: userbuf
       type(matparam_struct_) , pointer :: matparam
       type(mlaw_tag_) ,pointer         :: mtag
-      type(ttable) table(ntable)
 !-----------------------------------------------
       data mess/'MATERIAL DEFINITION                     '/
-! ----------------------------------------------------------------------------------------------------------------------
+! -----------------------------------------------------------------------------
 !                                                   Body
-! ----------------------------------------------------------------------------------------------------------------------
+! -----------------------------------------------------------------------------
 
       allocate( uparam(maxuparam) )
 
@@ -1164,6 +1169,13 @@ contains
             &pm(1,i)  ,lsubmodel,israte   ,mat_id   ,titr     ,&
             &matparam ,nvartmp  )
 !-------
+          case ('LAW128')
+            ilaw = 128
+            call hm_read_mat128(                                &
+            matparam ,mtag     ,parmat   ,nuvar    ,nvartmp  ,  &
+            ntable   ,table    ,mat_id   ,titr     ,iout     ,  &
+            unitab   ,lsubmodel)                      
+!-------
           case ('LAW151','MULTIFLUID')
             ilaw  = 151
             multi_fvm%is_used = .true.
@@ -1452,8 +1464,8 @@ contains
             pm(1,i) = rhor
          endif
 !
-         if (ilaw/=0 .and. ilaw/=20 .and. ilaw/=51 .and. ilaw/=151 .and.&
-         &ilaw/=108 .and. ilaw /= 999) then
+         if (ilaw/=0   .and. ilaw/=20 .and. ilaw/=51 .and. ilaw/=151 .and.&
+             ilaw/=108 .and. ilaw /= 999) then
             if (rho0 <= zero) then
                call ancmsg(msgid=683, msgtype=msgerror, anmode=aninfo,&
                &i1=mat_id,&
