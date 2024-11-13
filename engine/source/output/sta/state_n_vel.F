@@ -87,14 +87,22 @@ C-----------------------------------------------
            IF(NODTAG(I) /= 0) THEN
              IF (IZIPSTRS == 0) THEN
                WRITE(IUGEO,'(2I10,1P3E20.9)') ITAB(I),0,(V(J,I),J=1,3)
-               IF (IRODDL /= 0) WRITE(IUGEO,'(20X,1P3E20.9)') (VR(J,I),J=1,3)
+               IF (IRODDL == 0)THEN
+                 WRITE(IUGEO,'(20X)')
+               ELSE
+                 WRITE(IUGEO,'(20X,1P3E20.9)') (VR(J,I),J=1,3)
+               END IF
              ELSE
                ! Write STATE File in GZIP format
                WRITE(LINE,'(2I10,1P3E20.9)')  ITAB(I),0,(V(J,I),J=1,3)
                LEN_LINE=LEN_TRIM(LINE)
                CALL STRS_TXT50(LINE,LEN_LINE)
 
-               IF (IRODDL /= 0) THEN
+               IF (IRODDL == 0) THEN
+                 WRITE(LINE,'(20X)')
+                 LEN_LINE=LEN_TRIM(LINE)
+                 CALL STRS_TXT50(LINE,LEN_LINE)
+               ELSE
                  WRITE(LINE,'(20X,1P3E20.9)')(VR(J,I),J=1,3)
                  LEN_LINE=LEN_TRIM(LINE)
                  CALL STRS_TXT50(LINE,LEN_LINE)
@@ -108,14 +116,22 @@ C-----------------------------------------------
           IF(NODTAGLOB(I) /= 0)THEN
              IF (IZIPSTRS == 0) THEN
                WRITE(IUGEO,'(2I10,1P3E20.9)') ITABG(I),0,(VG(J,I),J=1,3)
-               IF (IRODDL /= 0) WRITE(IUGEO,'(20X,1P3E20.9)') (VRG(J,I),J=1,3)
+               IF (IRODDL == 0) THEN
+                 WRITE(IUGEO,'(20X)')
+               ELSE
+                 WRITE(IUGEO,'(20X,1P3E20.9)') (VRG(J,I),J=1,3)
+               END IF
              ELSE
                ! Write STATE File in GZIP format
                WRITE(LINE,'(2I10,1P3E20.9)')  ITABG(I),0,(VG(J,I),J=1,3)
                LEN_LINE=LEN_TRIM(LINE)
                CALL STRS_TXT50(LINE,LEN_LINE)
 
-               IF (IRODDL /= 0) THEN
+               IF (IRODDL == 0) THEN
+                 WRITE(LINE,'(20X)')
+                 LEN_LINE=LEN_TRIM(LINE)
+                 CALL STRS_TXT50(LINE,LEN_LINE)
+               ELSE
                  WRITE(LINE,'(20X,1P3E20.9)')          (VRG(J,I),J=1,3)
                  LEN_LINE=LEN_TRIM(LINE)
                  CALL STRS_TXT50(LINE,LEN_LINE)
