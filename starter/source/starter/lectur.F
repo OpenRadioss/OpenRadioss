@@ -2407,12 +2407,10 @@ c       complete mlaw_tag for new void materials
           MAT_ELEM%MAT_PARAM(1:NUMMAT) => MPARAM_R2R(1:NUMMAT)
           MAT_ELEM%NUMMAT = NUMMAT
           DEALLOCATE(MTAG_INI)
-          DO I=1,NUMMAT
-            CALL MPARAM_INI(I)%DESTRUCT()
-            CALL MPARAM_R2R(I)%DESTRUCT()
-          ENDDO
-          DEALLOCATE(MPARAM_INI)
-          DEALLOCATE(MPARAM_R2R)
+          IF(ALLOCATED(MPARAM_INI))THEN
+            DO I=1,NUMMAT0 ; CALL MPARAM_INI(I)%DESTRUCT() ; ENDDO
+            DEALLOCATE(MPARAM_INI)
+          ENDIF
         ENDIF
       ELSE
         ALLOCATE(TAG_PART(0),IPART_R2R(4,0))
@@ -11109,6 +11107,11 @@ C
             DEALLOCATE(RETRACTOR)
           ENDIF
           IF((IPART_STACK > 0 .OR. IPART_PCOMPP > 0) .AND. NDRAPE > 0) DEALLOCATE(IWORK_T)
+
+          IF(ALLOCATED(MPARAM_R2R))THEN
+            DO I=1,NUMMAT  ; CALL MPARAM_R2R(I)%DESTRUCT() ; ENDDO
+            DEALLOCATE(MPARAM_R2R)
+          ENDIF
 
           ! -----------------------------------------
           ! deallocation of constraint_struct
