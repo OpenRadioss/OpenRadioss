@@ -91,6 +91,12 @@ C-----------------------------------------------
       ILAY = 1
 C-----------------------------------------------
       ML = 0
+      MFT = -HUGE(MFT)
+      KTY = -HUGE(KTY)
+      KLT = -HUGE(KLT)
+      IFORM = -HUGE(IFORM)
+      IVOI = -HUGE(IVOI)
+      ISUB_BIJ(1:4) = -HUGE(ISUB_BIJ(1))
       DO I=1,NEL
        II     = I+NFT
        IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)

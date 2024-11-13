@@ -408,7 +408,7 @@ c----------------------------
      .    FINTER58
       EXTERNAL FINTER58
 c----------------------------------------------- 
-
+      
       NITER = 5
       YC  = ZERO      ! initialization
       LC  = ONE + EC
@@ -456,6 +456,7 @@ C-----------------------------------------------
       my_real 
      .    ABC,DERI,XX,DX1,DX2,XC(NPT),YC(NPT)
 C-----------------------------------------------
+        FINTER58 = ZERO
 C
         DX2 = XC(1) - XX
         DO 100 I=2,NPT

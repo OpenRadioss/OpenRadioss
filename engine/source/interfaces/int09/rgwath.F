@@ -80,6 +80,14 @@ C-----------------------------------------------
       DOUBLE PRECISION 
      .   FRWL6(6,6)
 C
+      M1 = 0
+      M2 = 0
+      M3 = 0
+      I = 0     
+      N = 0
+      N1 = 0
+      N2 = 0
+      N3 = 0
       IF(MSR==0)THEN
        XWL=RWL(4)
        YWL=RWL(5)

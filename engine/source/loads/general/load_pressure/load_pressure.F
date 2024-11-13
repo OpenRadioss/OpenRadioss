@@ -103,7 +103,9 @@ C     This subroutine is applying pressure load to
 C      a defined surface on dynamic zones which is not in contact
 C---------------------------------------------------------------------
       TFEXTT = ZERO
-
+      FX = ZERO
+      FY = ZERO
+      FZ = ZERO
       IANIM  = ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT+
      .         ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT
 C

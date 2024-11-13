@@ -906,6 +906,7 @@ C-----------------------------------------------
       my_real 
      .       DX1,DX,R(2),UNR(2)
 C-----------------------------------------------
+      R(1:2) = HUGE(R(1))
       NDIM=TABLE%NDIM
       IF( SIZE(XX) < NDIM )THEN
         CALL ANCMSG(MSGID=36,ANMODE=ANINFO,

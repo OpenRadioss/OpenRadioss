@@ -233,7 +233,22 @@ C=========================================================================
         IBID1 = 0
         IBID2 = 0
         IBID3 = 0
-        
+        CPT_LAWID = 0
+        CPT_MOD = 0
+        ID_MAX = 0
+        IR_MAX = 0
+        IS_MAX = 0
+        IT_MAX = 0
+        MODE_MAX = 0
+        NIP_MAX = 0
+        NIP_ELEM_MAX = 0
+        NPLY_MAX = 0
+        NMDSVAR_MAX = 0
+        NUVAR_MAX = 0
+        ALLOCATE(MODNAME(1,1))
+        MODNAME(1,1) = ' '
+        ISH_NPT0 = 0
+
 c
         H3D_DATA%IPART_SELECT = 0
         IS_SCALAR = 0

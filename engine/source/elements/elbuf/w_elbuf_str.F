@@ -109,6 +109,9 @@ C-----------------------------------------------
       TYPE(L_BUFEL_DIR_) , POINTER :: LBUF_DIR
 C=======================================================================
       NPG = 0
+      NPTTOT = 0
+      NULLIFY(BUFLY)
+      L_VOL0DP = 0
       DO NG=1,NGROUP
 c----
           ITY    = IPARG(5,NG)

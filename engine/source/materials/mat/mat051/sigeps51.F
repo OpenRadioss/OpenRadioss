@@ -281,6 +281,12 @@ C
       DATA ICF3D/1,4,3,2,3,4,8,7,5,6,7,8,1,2,6,5,2,3,7,6,1,5,8,4/
       DATA ICF2D/1,2,2,3,3,4,4,1/
 C
+      IFORM = HUGE(IFORM)
+      IX1 = HUGE(IX1) 
+      IX2 = HUGE(IX2)
+      IX3 = HUGE(IX3)
+      IX4 = HUGE(IX4)
+      ML = HUGE(ML)
       IF(TIMESTEP>ZERO)THEN
         UNDT = ONE/TIMESTEP
       ELSE

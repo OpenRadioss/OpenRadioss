@@ -108,6 +108,7 @@
     integer ii, jj
     logical is_found
     is_found = .false.
+    out_edge_pos = -HUGE(out_edge_pos)
     do ii=1,list_size
       do jj=2,List_Edge(ii)%numpoints-1
         if(List_Edge(ii)%point_id(jj) == point_id)then
@@ -314,6 +315,7 @@
           numPtmax = num_points_1*num_points_2
           point_id = 0
           iStatus = 0
+          kk_bis = 0
 
           ! init. list 1 (Clipped polygon)
           allocate(list_edges_1(num_edges_1))

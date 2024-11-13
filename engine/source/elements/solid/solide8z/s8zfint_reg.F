@@ -98,6 +98,8 @@ C-----------------------------------------------
       ! Coefficient for non-local stability to take into account damping
       my_real, PARAMETER :: CDAMP = 0.7D0
 C=======================================================================
+      NULLIFY(MASS)
+      NULLIFY(MASS0)
       L2     = NLOC_DMG%LEN(IMAT)**2
       XI     = NLOC_DMG%DAMP(IMAT)
       NNOD   = NLOC_DMG%NNOD

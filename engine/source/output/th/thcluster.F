@@ -70,6 +70,8 @@ C-----------------------------------------------
         my_real :: XM,YM,ZM,NORM,SX,SY,SZ,TX,TY,TZ,FS,FN,MB,MT
         my_real ,DIMENSION(3) :: VX,VY,VN,X1,FLOC,MLOC
 C=======================================================================
+      FLOC(1:3) = ZERO
+      MLOC(1:3) = ZERO
       II = -1
       WA(1:NN*NVAR) = ZERO
       DO J=IAD,IAD+NN-1

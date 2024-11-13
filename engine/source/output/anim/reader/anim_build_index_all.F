@@ -65,6 +65,12 @@ C-----------------------------------------------
      .   IUS,IPT,IGTYP,NPT,NPTS,NPTR,NPTT,NPTT_PLY,CPtPLY,NMAX,IGTYP15,
      .   IDX,NIPMAX_BEAM, NIPMAX_SOL,ICSTR,N14R,N14S,N14T
 C-------------------------------------------
+      NIPMAX = 0
+      NIPMAX_BEAM = 0
+      NIPMAX_SOL = 0
+      NPTS = 1
+      NPTT = 0
+      NPTT_PLY = 0
       IF (MCHECK == 0) THEN
         ALLOCATE (SENSORS%ANIM(SENSORS%NANIM))
         SENSORS%ANIM(:) = 0

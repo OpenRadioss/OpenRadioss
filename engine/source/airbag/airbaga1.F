@@ -93,9 +93,18 @@ C-----------------------------------------------
       my_real FINTER 
       EXTERNAL FINTER
 C-----------------------------------------------
+      FTEMP = ZERO
       PEXT     =RVOLU(3)
       POLD     =RVOLU(12)
       R_IGC1   =PM(27,IVOLU(66))
+      TBAG_OLD = ZERO
+      FMASS = ZERO
+      AREA = ZERO
+      DV = ZERO 
+      I_GAS = 0
+      QOLD = ZERO
+      VOLD = ZERO
+      ROT = ZERO
 C------------------------
       DO IV=1,NVENT
         IDEF   = IBAGHOL(1,IV)

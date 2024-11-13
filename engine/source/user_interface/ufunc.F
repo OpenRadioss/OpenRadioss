@@ -181,6 +181,7 @@ C
       my_real 
      .    ABC,DERI,XX,DX1,DX2,TFI,TFI1,TFI2,TFIP,VAL
 C-----------------------------------------------
+        GET_U_FUNC = ZERO
         CALL GET_VAR_USER_I(5,IFUNC,NPFI)
         CALL GET_VAR_USER_I(5,IFUNC+1,NPFIP)
         IF (IRESP==1) THEN
@@ -317,6 +318,7 @@ C
       my_real 
      .    ABC,YY,DERI,DY1,DY2,TFI,TFI1,TFI2,TFIP,VAL
 C-----------------------------------------------
+      GET_U_FUNC_INV = ZERO
       CALL GET_VAR_USER_I(5,IFUNC,NPFI)
       CALL GET_VAR_USER_I(5,IFUNC+1,NPFIP)
       IF (IRESP==1) THEN

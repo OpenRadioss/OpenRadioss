@@ -68,6 +68,7 @@ C     REAL
       TYPE(BUF_MAT_) ,POINTER :: MBUF  
 C=======================================================================
       IL_OLD = -1
+      VALUE = ZERO
       DO IC=1,NUMEL
        IL = NC(5,IC)
        IF(IL/=IL_OLD)THEN

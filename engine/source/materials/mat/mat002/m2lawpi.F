@@ -88,6 +88,7 @@ C=======================================================================
       EPIF = ZERO
       SHFACT = FIVE_OVER_6
 !
+      Z4 = ZERO
       DO I=1,3
         II(I) = NEL*(I-1)
       ENDDO
@@ -103,6 +104,7 @@ C---
         Z4    = PM(52,IMAT)                    
         CP    = PM(53,IMAT)                    
         TREF  = PM(54,IMAT)                    
+        TMELT = 0
       END IF             
 !
       ICC  = NINT(PM(49,IMAT))              

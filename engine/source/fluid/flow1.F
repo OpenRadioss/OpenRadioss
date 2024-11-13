@@ -51,6 +51,8 @@ C-----------------------------------------------
 C
       IADI=0
       IADR=0
+      II4 = 0
+      II6 = 0
       DO N=1,NFLOW
          ITYP=IFLOW(IADI+2)
          IF (ITYP==3) THEN

@@ -140,6 +140,7 @@ c
       CJC        = UPARAM(5)
       RATE_SCALE = UPARAM(6)
       NANGLE     = INT(UPARAM(7))
+      FRATE = -HUGE(FRATE)
       ! -> Allocation of factors
       ALLOCATE(Q_X11(NANGLE),Q_X12(NANGLE),Q_X13(NANGLE),
      .         Q_X21(NANGLE),Q_X22(NANGLE),Q_X23(NANGLE))

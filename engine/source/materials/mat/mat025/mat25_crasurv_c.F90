@@ -774,6 +774,9 @@
               else if (t1(i) <= -sigyc1) then
                 wpla1 = wplamxc1(i)
                 id =-1
+              else 
+                wpla1 = ep20
+                id = 0
               endif
 !
               if (wpla1 < wplamx(i)) then

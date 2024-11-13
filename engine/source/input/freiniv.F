@@ -68,6 +68,7 @@ C-----------------------------------------------
       K=0
       IOS = 0
       IKEY=KINIV
+      M = 0
       DO N=1,NINIV
        READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,1X,A,1X,I5,25X,I10)',
      .        ERR=9990)KEY2,KEY3,K3,NBC

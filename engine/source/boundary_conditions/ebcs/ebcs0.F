@@ -80,6 +80,8 @@ C
 C-----------------------------------------------
       IRHO = EBCS%irho
       IENER = EBCS%iener
+      KLT = 0
+      MFT = 0
       IF(IRHO>0)THEN
         RHO=EBCS%rho*FV(IRHO)
       ELSE

@@ -97,6 +97,8 @@ c      target must be allocated
 C=======================================================================                                                
         ITY = IPARG(5,NG)
         INLOC = IPARG(78,NG)
+        LY_SIGPT = 0
+        LY_PLAPT = 0
         IF (ITY == 1 .OR. ITY == 2 .OR. ITY == 51 .OR.
      .      ITY == 3 .OR. ITY == 7 .OR.
      .      ITY == 4 .OR. ITY == 5 .OR. ITY == 6 .OR. ITY == 100) THEN
@@ -119,6 +121,9 @@ c-------------------------------------------------
             ENDDO
             IF (NPT == 0) NPTTOT = NPT
           ELSEIF (ITY == 4 .OR. ITY == 5 .OR. ITY == 6 .OR. ITY == 100) THEN
+            NPG = 0
+            NPTTOT = 0
+          ELSE 
             NPG = 0
             NPTTOT = 0
           ENDIF

@@ -83,6 +83,7 @@ C-----------------------------------------------
       INTEGER :: ISMOOTH
 
 C=======================================================================
+      ISMOOTH = 0
       S1 = NUMNOD
       IFUNC_OLD = 0
       TS_OLD = ZERO
@@ -237,7 +238,7 @@ C---------------------
             EMISIG= FRADIA(3,NL)
             IF(IFUNC_OLD /= IFUNC .OR. TS_OLD /= TS) THEN
               IF (IFUNC > 0) ISMOOTH = NPC(2*NFUNCT+IFUNC+1)
-              IF(ISMOOTH < 0) THEN
+              IF(ISMOOTH < 0 .AND. IFUNC > 0) THEN
                 CALL PYTHON_CALL_FUNCT1D(PYTHON, -ISMOOTH,TS*FCX, T_INF)
               ELSE
                 T_INF = FINTER(IFUNC,TS*FCX,NPC,TF,DYDX)

@@ -775,6 +775,7 @@ C
                  CENTROID_DEPTH =                  (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3))/THREE)
                  CENTROID_DEPTH = CENTROID_DEPTH + (XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3))/THREE)
                  CENTROID_DEPTH = CENTROID_DEPTH + (XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3))/THREE)
+                 ISMOOTH = 0
                  IF (FUN_HSP > 0) ISMOOTH = NPC(2*NFUNCT+FUN_HSP+1)
                  IF(ISMOOTH < 0) THEN
                    CALL PYTHON_CALL_FUNCT1D(PYTHON, -ISMOOTH,(CENTROID_DEPTH-XFRAME(9+DIR_HSP,IFRA1))*FCX , AA)
@@ -976,6 +977,7 @@ C-----------------------------------
                  CENTROID_DEPTH =          (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))/FOUR)
                  CENTROID_DEPTH = CENTROID_DEPTH+(XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))/FOUR)
                  CENTROID_DEPTH = CENTROID_DEPTH+(XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))/FOUR)
+                 ISMOOTH = 0
                  IF (FUN_HSP > 0) ISMOOTH = NPC(2*NFUNCT+FUN_HSP+1)
                  IF(ISMOOTH < 0) THEN
                    CALL PYTHON_CALL_FUNCT1D(PYTHON, -ISMOOTH,(CENTROID_DEPTH-XFRAME(9+DIR_HSP,IFRA1))*FCX , AA)
@@ -1152,6 +1154,7 @@ C
                  CENTROID_DEPTH =                (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3))/THREE)
                  CENTROID_DEPTH = CENTROID_DEPTH+(XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3))/THREE)
                  CENTROID_DEPTH = CENTROID_DEPTH+(XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3))/THREE)
+                 ISMOOTH = 0
                  IF (FUN_HSP > 0) ISMOOTH = NPC(2*NFUNCT+FUN_HSP+1)
                  IF(ISMOOTH < 0) THEN
                    CALL PYTHON_CALL_FUNCT1D(PYTHON, -ISMOOTH,(CENTROID_DEPTH-XFRAME(9+DIR_HSP,IFRA1))*FCX , AA)

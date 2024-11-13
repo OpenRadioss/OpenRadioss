@@ -74,6 +74,8 @@ C-----------------------------------------------
       INTEGER :: ITY, NFT, NEL, NG, NUMEL_SPMD
       LOGICAL :: IDBG 
       INTEGER :: IAD, IAD2, LGTH, LGTH2
+      NB_FACE = 0
+      NUMEL_SPMD = 0
 
       DO NG = ITASK + 1, NGROUP, NTHREAD
          MATLAW = IPARG(1, NG)

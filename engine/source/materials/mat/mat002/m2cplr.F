@@ -86,6 +86,7 @@ C     REAL
          
       DATA NMAX/3/      
 C------------------------------------------------------------------
+      NINDX = 0
       SMALL = EM7
       DO I=JFT,JLT
         ETSE(I) = ONE

@@ -90,6 +90,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
+      NPG = 0
+      NPTTOT = 0
       DO NG = 1,NGROUP                                                 
        ITY = IPARG(5,NG)    
        INLOC = IPARG(78,NG) ! Non-local regularization flag                                                        
@@ -115,6 +117,9 @@ C-----------------------------------------------
           ENDDO
           IF (NPT == 0) NPTTOT = NPT
         ELSEIF (ITY == 4 .OR. ITY == 5 .OR. ITY == 6 .OR. ITY == 100) THEN
+          NPG = 0
+          NPTTOT = 0
+        ELSE
           NPG = 0
           NPTTOT = 0
         ENDIF

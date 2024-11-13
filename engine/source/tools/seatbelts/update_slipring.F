@@ -85,6 +85,9 @@ C-    UPDATE OF SLIPRING
 C----------------------------------------------------------
 C----------------------------------------------------------
 C
+      S_SLIPRING = -HUGE(S_SLIPRING)
+      STRAND = 0
+      FLOW_DIRECTION = -HUGE(FLOW_DIRECTION)
       FLAG_SLIPRING_L = FLAG_SLIPRING_UPDATE
       IF (((N_SEATBELT_2D > 0).AND.(NCYCLE==0)).OR.(FLAG_SLIPRING_UPDATE /= 0).OR.
      .     (FLAG_RETRACTOR_UPDATE /= 0)) THEN

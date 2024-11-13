@@ -136,6 +136,11 @@ C-----Nj : KSI,ETA,ZETA
      6 -1               , 1               , 1               /
 C======================================================================= 
 C------not available w/ S16,S20
+      IR = 0 
+      IS = 0
+      IT = 0
+      N1 = ZERO
+      ILAY = -HUGE(ILAY)
       ALPHA = ZEP1381966
       BETA  = ZEP5854102
       EVAR(1:6,1:20,1:MVSIZ)=ZERO

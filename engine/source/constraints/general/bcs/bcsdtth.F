@@ -56,6 +56,7 @@ C=======================================================================
        JWARN2 = 0
        IK(1:9) = 0
        NK(1:9,1:NUMNOD) = 0
+       I = -HUGE(I)
        DO N=1,NUMNOD 
          IF(ICODT(N)/=7.OR.ICODR(N)/=7) THEN
           
@@ -79,6 +80,7 @@ C=======================================================================
 
           ENDIF
          ELSE
+        !bug here? is the value of I correct?
         NKK=ITF(KINET(N))+IRB(KINET(N))+IRB2(KINET(N))+IRBM(KINET(N))+
      .     IWL(KINET(I))+IVF(KINET(I))+IRV(KINET(I))+IJO(KINET(I))+
      .     IRLK(KINET(I))

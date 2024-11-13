@@ -82,6 +82,7 @@ C----------------------
 C     DECOMPTE DES ELEMENTS PAR NOEUD
 C     POUR ENERGIE DE FROTTEMENT
 C----------------------
+      I = 0
       DO 100 IE=1,NE
         II  = NELW(IE)/10
         IFA = NELW(IE) - 10*II

@@ -61,11 +61,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NL, N1, ISK, N2, N3, N4, N5, J,IXST,
-     .        IAD ,NP ,NP0 ,NPRES ,N,NSKIN_I,NSKINP0,IERR,SHIFT
+     .        IAD ,NP ,NP0 ,NPRES ,N,NSKIN_I,NSKINP0,SHIFT
       INTEGER, DIMENSION(:,:), ALLOCATABLE  :: IRECT
       INTEGER, DIMENSION(:), ALLOCATABLE  :: ITAGN
 C=======================================================================
-       ALLOCATE(IRECT(4,NUMSKINP),ITAGN(NUMNOD),STAT=IERR)
+       ALLOCATE(IRECT(4,MAX(1,NUMSKINP)),ITAGN(MAX(1,NUMNOD)))
 C
          ITAGN = 0         
          NP = 0

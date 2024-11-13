@@ -90,6 +90,7 @@ C-----------------------------------------------
       INTEGER I,II,J,K,L,N1,N2,N3,N4,N5,N6,N7,N8,
      .        L_NLOC,NDDL,NDNOD,NINDX6,INDX6(NEL),
      .        NINDX8,INDX8(NEL)
+      INTEGER :: NODA_DT
       INTEGER, DIMENSION(:), ALLOCATABLE   ::
      .   POS1,POS2,POS3,POS4,POS5,POS6,POS7,POS8
       my_real 
@@ -152,6 +153,7 @@ C-----------------------------------------------
      9 0.491001129763160,0.735741735638020,0.936320479015252,
      9 1.               /
 C=======================================================================
+      NODA_DT = NODADT
 c 
       ! Recover non-local parameters
       L2     = NLOC_DMG%LEN(IMAT)**2 !< Squared internal length 
@@ -180,7 +182,7 @@ c
       ! Local variables initialization
       LC(1:NEL) = ZERO              
       ! For nodal timestep
-      IF (NODADT > 0) THEN
+      IF (NODA_DT > 0) THEN
         ! Non-local nodal stifness
         ALLOCATE(STI1(NEL,NLAY),STI2(NEL,NLAY),STI3(NEL,NLAY),STI4(NEL,NLAY),
      .           STI5(NEL,NLAY),STI6(NEL,NLAY),STI7(NEL,NLAY),STI8(NEL,NLAY))
@@ -188,6 +190,10 @@ c
         MASS =>  NLOC_DMG%MASS(1:L_NLOC)
         ! Initial non-local mass
         MASS0 => NLOC_DMG%MASS0(1:L_NLOC)
+      ELSE
+        NULLIFY(MASS,MASS0)
+        ALLOCATE(STI1(1,1),STI2(1,1),STI3(1,1),STI4(1,1),
+     .          STI5(1,1),STI6(1,1),STI7(1,1),STI8(1,1))
       ENDIF
       ! Current timestep non-local velocities
       VNL  => NLOC_DMG%VNL(1:L_NLOC)
@@ -283,9 +289,14 @@ c
 c
         ! Allocation of the velocities predictor
         NDDL = NLAY
-        IF (NODADT > 0) THEN 
+        IF (NODA_DT > 0) THEN 
           ALLOCATE(STIFNLTH(NEL,NDDL+1))
           ALLOCATE(DTN(NEL,NDDL+1))
+        ELSE
+          ALLOCATE(DTN(1,1))
+          DTN = EP20
+          ALLOCATE(STIFNLTH(1,1))
+          STIFNLTH = EP20
         ENDIF
         NDNOD = NDDL+1
 c 
@@ -300,7 +311,7 @@ c
             ! Resetting non-local forces
             FNLTH(I,K) = ZERO
             ! Resetting non-local nodal stiffness
-            IF (NODADT > 0) THEN
+            IF (NODA_DT > 0) THEN
               STIFNLTH(I,K) = EM20
             ENDIF
           ENDDO
@@ -338,7 +349,7 @@ c
      .                                - NTH2*VAR_REG(I,K))*HALF*WS(K,NDDL)*VOL(I)  
 c
             ! Computation of non-local nodal stiffness
-            IF (NODADT > 0) THEN 
+            IF (NODA_DT > 0) THEN 
               STIFNLTH(I,K)   = STIFNLTH(I,K)   + MAX(ABS(K1)+ABS(K12),ABS(K12)+ABS(K2))*HALF*WS(K,NDDL)*VOL(I)
               STIFNLTH(I,K+1) = STIFNLTH(I,K+1) + MAX(ABS(K1)+ABS(K12),ABS(K12)+ABS(K2))*HALF*WS(K,NDDL)*VOL(I)            
             ENDIF
@@ -347,7 +358,7 @@ c
         ENDDO
 c       
         ! Updating non-local mass with /DT/NODA
-        IF (NODADT > 0) THEN 
+        IF (NODA_DT > 0) THEN 
 C
           ! Initial computation of the nodal timestep
           DTNOD = EP20
@@ -432,7 +443,7 @@ c
             ! Computing the product NtN*VNL
             NTN_VNL = (VNL(POS1(I)+K-1) + VNL(POS2(I)+K-1) + VNL(POS3(I)+K-1) + VNL(POS4(I)+K-1)
      .              +  VNL(POS5(I)+K-1) + VNL(POS6(I)+K-1) + VNL(POS7(I)+K-1) + VNL(POS8(I)+K-1)) / NTN8
-            IF (NODADT > 0) THEN 
+            IF (NODA_DT > 0) THEN 
               NTN_VNL = MIN(SQRT(MASS(POS1(I)+K-1)/MASS0(POS1(I)+K-1)), 
      .                      SQRT(MASS(POS2(I)+K-1)/MASS0(POS2(I)+K-1)), 
      .                      SQRT(MASS(POS3(I)+K-1)/MASS0(POS3(I)+K-1)), 
@@ -495,7 +506,7 @@ c
             F8(I,K) = A + B8
 c
             ! Computing nodal equivalent stiffness
-            IF (NODADT > 0) THEN 
+            IF (NODA_DT > 0) THEN 
               STI1(I,K) = (ABS(L2*BTB11(I)  + ONE/NTN8) + ABS(L2*BTB12(I)  + ONE/NTN8) + ABS(L2*BTB13(I)  + ONE/NTN8) +
      .                     ABS(L2*BTB14(I)  + ONE/NTN8) + ABS(-L2*BTB13(I) + ONE/NTN8) + ABS(-L2*BTB14(I) + ONE/NTN8) +
      .                     ABS(-L2*BTB11(I) + ONE/NTN8) + ABS(-L2*BTB12(I) + ONE/NTN8))*VOL(I)*WS(K,NLAY)*HALF
@@ -528,7 +539,7 @@ c
             ! Initial element characteristic length
             LC(I) = (VOL0(I)*WS(K,NLAY)*HALF)**THIRD  
 c
-            IF (NODADT > 0) THEN
+            IF (NODA_DT > 0) THEN
               ! Non-local absorbing forces
               F1(I,K) = SQRT(MASS(POS1(I)+K-1)/MASS0(POS1(I)+K-1))*ZETA*SSPNL*HALF*
      .                       (VNL(POS1(I)+K-1)+VNL0(POS1(I)+K-1))*(THREE/FOUR)*(LC(I)**2)
@@ -586,7 +597,7 @@ c
             ! Computing the product NtN*VNL
             NTN_VNL = (VNL(POS1(I)+K-1) + VNL(POS2(I)+K-1) + VNL(POS3(I)+K-1) + 
      .                 VNL(POS4(I)+K-1) + VNL(POS5(I)+K-1) + VNL(POS6(I)+K-1)) / NTN6
-            IF (NODADT > 0) THEN 
+            IF (NODA_DT > 0) THEN 
               NTN_VNL = (SQRT(MASS(POS1(I)+K-1)/MASS0(POS1(I)+K-1))*VNL(POS1(I)+K-1) + 
      .                   SQRT(MASS(POS2(I)+K-1)/MASS0(POS2(I)+K-1))*VNL(POS2(I)+K-1) + 
      .                   SQRT(MASS(POS3(I)+K-1)/MASS0(POS3(I)+K-1))*VNL(POS3(I)+K-1) + 
@@ -637,7 +648,7 @@ c
             F6(I,K) = A + B6
 c
             ! Computing nodal equivalent stiffness
-            IF (NODADT > 0) THEN 
+            IF (NODA_DT > 0) THEN 
               STI1(I,K) = (ABS(L2*BTB11(I)  + ONE/NTN6) + ABS(L2*BTB12(I)  + ONE/NTN6) + 
      .                     ABS(L2*BTB13(I)  + ONE/NTN6) + ABS(-L2*BTB13(I) + ONE/NTN6) +
      .                     ABS(-L2*BTB12(I) + ONE/NTN6) + ABS(-L2*BTB11(I) + ONE/NTN6))*VOL(I)*WS(K,NLAY)*HALF
@@ -663,7 +674,7 @@ c
             ! Initial element characteristic length
             LC(I) = (VOL0(I)*WS(K,NLAY)*HALF)**THIRD  
 c
-            IF (NODADT > 0) THEN
+            IF (NODA_DT > 0) THEN
               ! Non-local absorbing forces
               F1(I,K) = SQRT(MASS(POS1(I)+K-1)/MASS0(POS1(I)+K-1))*ZETA*SSPNL*HALF*
      .                       (VNL(POS1(I)+K-1)+VNL0(POS1(I)+K-1))*(TWO*THIRD)*(LC(I)**2)
@@ -705,7 +716,7 @@ c
       IF (IPARIT == 0) THEN 
         ! Recovering non-local internal forces
         FNL => NLOC_DMG%FNL(1:L_NLOC,ITASK+1)                       ! Non-local forces
-        IF (NODADT > 0) STIFNL => NLOC_DMG%STIFNL(1:L_NLOC,ITASK+1) ! Non-local equivalent nodal stiffness
+c       IF (NODA_DT > 0) STIFNL => NLOC_DMG%STIFNL(1:L_NLOC,ITASK+1) ! Non-local equivalent nodal stiffness
 c        
         ! Loop over non-local degrees of freedom
         DO K=1,NLAY
@@ -722,19 +733,19 @@ c
             FNL(POS6(I)+K-1) = FNL(POS6(I)+K-1) - F6(I,K)
             FNL(POS7(I)+K-1) = FNL(POS7(I)+K-1) - F7(I,K)
             FNL(POS8(I)+K-1) = FNL(POS8(I)+K-1) - F8(I,K)     
-            IF (NODADT > 0) THEN
+            IF (NODA_DT > 0) THEN
               ! Spectral radius of stiffness matrix
               MAXSTIF = MAX(STI1(I,K),STI2(I,K),STI3(I,K),STI4(I,K),
      .                      STI5(I,K),STI6(I,K),STI7(I,K),STI8(I,K))
               ! Computing nodal stiffness
-              STIFNL(POS1(I)+K-1) = STIFNL(POS1(I)+K-1) + MAXSTIF
-              STIFNL(POS2(I)+K-1) = STIFNL(POS2(I)+K-1) + MAXSTIF
-              STIFNL(POS3(I)+K-1) = STIFNL(POS3(I)+K-1) + MAXSTIF
-              STIFNL(POS4(I)+K-1) = STIFNL(POS4(I)+K-1) + MAXSTIF
-              STIFNL(POS5(I)+K-1) = STIFNL(POS5(I)+K-1) + MAXSTIF
-              STIFNL(POS6(I)+K-1) = STIFNL(POS6(I)+K-1) + MAXSTIF
-              STIFNL(POS7(I)+K-1) = STIFNL(POS7(I)+K-1) + MAXSTIF
-              STIFNL(POS8(I)+K-1) = STIFNL(POS8(I)+K-1) + MAXSTIF
+              NLOC_DMG%STIFNL(POS1(I)+K-1,ITASK+1) = NLOC_DMG%STIFNL(POS1(I)+K-1,ITASK+1) + MAXSTIF
+              NLOC_DMG%STIFNL(POS2(I)+K-1,ITASK+1) = NLOC_DMG%STIFNL(POS2(I)+K-1,ITASK+1) + MAXSTIF
+              NLOC_DMG%STIFNL(POS3(I)+K-1,ITASK+1) = NLOC_DMG%STIFNL(POS3(I)+K-1,ITASK+1) + MAXSTIF
+              NLOC_DMG%STIFNL(POS4(I)+K-1,ITASK+1) = NLOC_DMG%STIFNL(POS4(I)+K-1,ITASK+1) + MAXSTIF
+              NLOC_DMG%STIFNL(POS5(I)+K-1,ITASK+1) = NLOC_DMG%STIFNL(POS5(I)+K-1,ITASK+1) + MAXSTIF
+              NLOC_DMG%STIFNL(POS6(I)+K-1,ITASK+1) = NLOC_DMG%STIFNL(POS6(I)+K-1,ITASK+1) + MAXSTIF
+              NLOC_DMG%STIFNL(POS7(I)+K-1,ITASK+1) = NLOC_DMG%STIFNL(POS7(I)+K-1,ITASK+1) + MAXSTIF
+              NLOC_DMG%STIFNL(POS8(I)+K-1,ITASK+1) = NLOC_DMG%STIFNL(POS8(I)+K-1,ITASK+1) + MAXSTIF
             ENDIF
           ENDDO
 c
@@ -749,17 +760,17 @@ c
             FNL(POS4(I)+K-1) = FNL(POS4(I)+K-1) - F4(I,K)
             FNL(POS5(I)+K-1) = FNL(POS5(I)+K-1) - F5(I,K)
             FNL(POS6(I)+K-1) = FNL(POS6(I)+K-1) - F6(I,K)  
-            IF (NODADT > 0) THEN
+            IF (NODA_DT > 0) THEN
               ! Spectral radius of stiffness matrix
               MAXSTIF = MAX(STI1(I,K),STI2(I,K),STI3(I,K),
      .                      STI4(I,K),STI5(I,K),STI6(I,K))
               ! Computing nodal stiffness
-              STIFNL(POS1(I)+K-1) = STIFNL(POS1(I)+K-1) + MAXSTIF
-              STIFNL(POS2(I)+K-1) = STIFNL(POS2(I)+K-1) + MAXSTIF
-              STIFNL(POS3(I)+K-1) = STIFNL(POS3(I)+K-1) + MAXSTIF
-              STIFNL(POS4(I)+K-1) = STIFNL(POS4(I)+K-1) + MAXSTIF
-              STIFNL(POS5(I)+K-1) = STIFNL(POS5(I)+K-1) + MAXSTIF
-              STIFNL(POS6(I)+K-1) = STIFNL(POS6(I)+K-1) + MAXSTIF
+              NLOC_DMG%STIFNL(POS1(I)+K-1,ITASK+1) = NLOC_DMG%STIFNL(POS1(I)+K-1,ITASK+1) + MAXSTIF
+              NLOC_DMG%STIFNL(POS2(I)+K-1,ITASK+1) = NLOC_DMG%STIFNL(POS2(I)+K-1,ITASK+1) + MAXSTIF
+              NLOC_DMG%STIFNL(POS3(I)+K-1,ITASK+1) = NLOC_DMG%STIFNL(POS3(I)+K-1,ITASK+1) + MAXSTIF
+              NLOC_DMG%STIFNL(POS4(I)+K-1,ITASK+1) = NLOC_DMG%STIFNL(POS4(I)+K-1,ITASK+1) + MAXSTIF
+              NLOC_DMG%STIFNL(POS5(I)+K-1,ITASK+1) = NLOC_DMG%STIFNL(POS5(I)+K-1,ITASK+1) + MAXSTIF
+              NLOC_DMG%STIFNL(POS6(I)+K-1,ITASK+1) = NLOC_DMG%STIFNL(POS6(I)+K-1,ITASK+1) + MAXSTIF
             ENDIF
           ENDDO
         ENDDO
@@ -775,42 +786,42 @@ c
             II = I + NFT
 c
             ! Spectral radius of stiffness matrix
-            IF (NODADT > 0) THEN
+            IF (NODA_DT > 0) THEN
               MAXSTIF = MAX(STI1(I,J),STI2(I,J),STI3(I,J),STI4(I,J),
      .                      STI5(I,J),STI6(I,J),STI7(I,J),STI8(I,J))
             ENDIF
 c            
             K = NLOC_DMG%IADS(1,II)
             NLOC_DMG%FSKY(K,J) = -F1(I,J)
-            IF (NODADT > 0) NLOC_DMG%STSKY(K,J) = MAXSTIF
+            IF (NODA_DT > 0) NLOC_DMG%STSKY(K,J) = MAXSTIF
 c
             K = NLOC_DMG%IADS(2,II)
             NLOC_DMG%FSKY(K,J) = -F2(I,J)
-            IF (NODADT > 0) NLOC_DMG%STSKY(K,J) = MAXSTIF
+            IF (NODA_DT > 0) NLOC_DMG%STSKY(K,J) = MAXSTIF
 c
             K = NLOC_DMG%IADS(3,II)
             NLOC_DMG%FSKY(K,J) = -F3(I,J)
-            IF (NODADT > 0) NLOC_DMG%STSKY(K,J) = MAXSTIF
+            IF (NODA_DT > 0) NLOC_DMG%STSKY(K,J) = MAXSTIF
 c
             K = NLOC_DMG%IADS(4,II)
             NLOC_DMG%FSKY(K,J) = -F4(I,J)
-            IF (NODADT > 0) NLOC_DMG%STSKY(K,J) = MAXSTIF
+            IF (NODA_DT > 0) NLOC_DMG%STSKY(K,J) = MAXSTIF
 c
             K = NLOC_DMG%IADS(5,II)
             NLOC_DMG%FSKY(K,J) = -F5(I,J)
-            IF (NODADT > 0) NLOC_DMG%STSKY(K,J) = MAXSTIF
+            IF (NODA_DT > 0) NLOC_DMG%STSKY(K,J) = MAXSTIF
 c
             K = NLOC_DMG%IADS(6,II)
             NLOC_DMG%FSKY(K,J) = -F6(I,J)
-            IF (NODADT > 0) NLOC_DMG%STSKY(K,J) = MAXSTIF
+            IF (NODA_DT > 0) NLOC_DMG%STSKY(K,J) = MAXSTIF
 c
             K = NLOC_DMG%IADS(7,II)
             NLOC_DMG%FSKY(K,J) = -F7(I,J)
-            IF (NODADT > 0) NLOC_DMG%STSKY(K,J) = MAXSTIF
+            IF (NODA_DT > 0) NLOC_DMG%STSKY(K,J) = MAXSTIF
 c
             K = NLOC_DMG%IADS(8,II)
             NLOC_DMG%FSKY(K,J) = -F8(I,J)
-            IF (NODADT > 0) NLOC_DMG%STSKY(K,J) = MAXSTIF
+            IF (NODA_DT > 0) NLOC_DMG%STSKY(K,J) = MAXSTIF
 c
           ENDDO
 c
@@ -820,34 +831,34 @@ c
             II = I + NFT
 c
             ! Spectral radius of stiffness matrix
-            IF (NODADT > 0) THEN
+            IF (NODA_DT > 0) THEN
               MAXSTIF = MAX(STI1(I,J),STI2(I,J),STI3(I,J),
      .                      STI4(I,J),STI5(I,J),STI6(I,J))
             ENDIF
 c            
             K = NLOC_DMG%IADS(1,II)
             NLOC_DMG%FSKY(K,J) = -F1(I,J)
-            IF (NODADT > 0) NLOC_DMG%STSKY(K,J) = MAXSTIF
+            IF (NODA_DT > 0) NLOC_DMG%STSKY(K,J) = MAXSTIF
 c
             K = NLOC_DMG%IADS(2,II)
             NLOC_DMG%FSKY(K,J) = -F2(I,J)
-            IF (NODADT > 0) NLOC_DMG%STSKY(K,J) = MAXSTIF
+            IF (NODA_DT > 0) NLOC_DMG%STSKY(K,J) = MAXSTIF
 c
             K = NLOC_DMG%IADS(3,II)
             NLOC_DMG%FSKY(K,J) = -F3(I,J)
-            IF (NODADT > 0) NLOC_DMG%STSKY(K,J) = MAXSTIF
+            IF (NODA_DT > 0) NLOC_DMG%STSKY(K,J) = MAXSTIF
 c
             K = NLOC_DMG%IADS(5,II)
             NLOC_DMG%FSKY(K,J) = -F4(I,J)
-            IF (NODADT > 0) NLOC_DMG%STSKY(K,J) = MAXSTIF
+            IF (NODA_DT > 0) NLOC_DMG%STSKY(K,J) = MAXSTIF
 c
             K = NLOC_DMG%IADS(6,II)
             NLOC_DMG%FSKY(K,J) = -F5(I,J)
-            IF (NODADT > 0) NLOC_DMG%STSKY(K,J) = MAXSTIF
+            IF (NODA_DT > 0) NLOC_DMG%STSKY(K,J) = MAXSTIF
 c
             K = NLOC_DMG%IADS(7,II)
             NLOC_DMG%FSKY(K,J) = -F6(I,J)
-            IF (NODADT > 0) NLOC_DMG%STSKY(K,J) = MAXSTIF
+            IF (NODA_DT > 0) NLOC_DMG%STSKY(K,J) = MAXSTIF
 c
           ENDDO
         ENDDO
@@ -856,7 +867,7 @@ c
       !-----------------------------------------------------------------------
       ! Computing non-local timestep
       !-----------------------------------------------------------------------
-      IF (NODADT == 0) THEN
+      IF (NODA_DT == 0) THEN
         DO I = 1,NEL
           ! If the element is not broken, normal computation
           IF (OFF(I)/=ZERO) THEN

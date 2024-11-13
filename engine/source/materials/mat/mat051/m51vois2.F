@@ -85,6 +85,13 @@ C-----------------------------------------------
       DATA ICF/1,2,2,3,3,4,4,1/
       ILAY = 1
 C-----------------------------------------------
+      IFORM = -HUGE(IFORM)
+      ML = 0
+      IVOI = -HUGE(IVOI)
+      ISUB_BIJ(1:4) = -HUGE(ISUB_BIJ(1))
+      KTY = -HUGE(KTY)
+      KLT = -HUGE(KLT)
+      MFT = -HUGE(MFT)
       DO I=1,NEL
        II     = I+NFT
        IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
@@ -121,7 +128,7 @@ C-----------------------------------------------
        ENDDO
 
        IF(ML == 51 .AND. IFORM<=1)THEN
-         IX1 = IXQ(ICF(1,J)+1,II)
+         IX1 = IXQ(ICF(1,J)+1,II) 
          IX2 = IXQ(ICF(2,J)+1,II)
          XN   = ZERO
          YN   = (-X(3,IX2)+X(3,IX1))

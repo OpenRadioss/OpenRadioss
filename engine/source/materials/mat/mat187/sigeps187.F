@@ -209,6 +209,7 @@ c    UVAR5  =IPOS
 c    UVAR6  =H
 c-----------------------------------------------
 C
+      YLDP  = ZERO
       E     =  UPARAM(1)  
       NU    =  UPARAM(2)  
       G     = UPARAM(23)

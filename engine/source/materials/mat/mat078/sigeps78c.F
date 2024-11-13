@@ -111,6 +111,10 @@ C     UVAR(I,2)     = r : RADIUS OF G_SIGMA (RNIH)
 C     UVAR(I,3)     = a = B + R - YIELD     (AYU) 
 C     UVAR(I,4)     = Yld Stress
 C=======================================================================
+      NORM_SP = -HUGE(NORM_SP)
+      NORMXX = -HUGE(NORMXX)
+      NORMYY = -HUGE(NORMYY)
+      NORMXY = -HUGE(NORMXY)
       !=======================================================================
       ! - INITIALISATION OF COMPUTATION ON TIME STEP
       !=======================================================================

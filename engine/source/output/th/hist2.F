@@ -200,6 +200,26 @@ C-----------------------------------------------
       THISC = THIS0
       THISC_DOUBLE = THIS0
       SEEK_ID = IUNIT-29
+      IXX = ZERO
+      IYY = ZERO
+      IZZ = ZERO
+      IXY = ZERO
+      IYZ = ZERO
+      IZX = ZERO
+      JXX = ZERO
+      JYY = ZERO
+      JZZ = ZERO
+      IZX = ZERO
+      JXY = ZERO
+      JZX = ZERO
+      XXMOM = ZERO
+      YYMOM = ZERO
+      ZZMOM = ZERO
+      XCG = ZERO
+      YCG = ZERO
+      ZCG = ZERO
+      AA = ZERO
+
       IF (IUNIT == 3) SEEK_ID = 1                   
 C--------Multidomains : control of time history for subdomains-----------
       IF ((IRAD2R==1).AND.(R2R_SIU==1)) THEN

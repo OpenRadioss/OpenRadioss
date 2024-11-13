@@ -60,6 +60,7 @@ C-----------------------------------------------
       INTEGER :: IEQUI
       my_real :: MIN_TVENT
 C-----------------------------------------------
+      PRES = -HUGE(PRES)
       MIN_TVENT = EP30
       DO II = 1, NVENT
          MIN_TVENT = MIN(MIN_TVENT, RBAGHOL(3, II))
@@ -98,6 +99,7 @@ C------------------------
       CV = RVOLU(19)
       DV     =VOL-VOLD
       TEMPERATURE = ZERO
+      ENERGY = ZERO
 C
       IF(IDEF==1)THEN
         PRES  = PEXT
