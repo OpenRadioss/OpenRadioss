@@ -102,6 +102,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    s6chour_ctl                              ../engine/source/elements/thickshell/solide6c/s6chour_ctl.F90
       !||    s6for_distor                             ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
       !||    sdistor_ini                              ../engine/source/elements/solid/solide/sdistror_ini.F90
+      !||    select_s2s                               ../starter/source/interfaces/inter3d1/select_s2s.F90
       !||    sfor_visn6                               ../engine/source/elements/thickshell/solide6c/sfor_visn6.F90
       !||    sh_offset_jonct_chk                      ../starter/source/elements/shell/shell_offset/sh_offset_jonkt_chk.F90
       !||    sh_offset_nproj                          ../starter/source/elements/shell/shell_offset/shell_offset_nproj.F90

@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i20surfi                     ../starter/source/interfaces/inter3d1/i20surfi.F
       !||    i24surfi                     ../starter/source/interfaces/inter3d1/i24surfi.F
       !||    i25surfi                     ../starter/source/interfaces/inter3d1/i25surfi.F
+      !||    i2_surfi_dim                 ../starter/source/interfaces/inter3d1/i2_surfi_dim.F90
       !||    ingrbric                     ../starter/source/interfaces/interf1/ingrbric.F
       !||    ingrbric_dx                  ../starter/source/interfaces/interf1/ingrbric_dx.F
       !||    ingrbric_nodes               ../starter/source/interfaces/interf1/ingrbric_nodes.F
@@ -43,6 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    nintri                       ../starter/source/system/nintrr.F
       !||    presegmt                     ../starter/source/interfaces/interf1/presegmt.F
       !||--- uses       -----------------------------------------------------
+      !||    i2_surfi_dim_mod             ../starter/source/interfaces/inter3d1/i2_surfi_dim.F90
       !||    message_mod                  ../starter/share/message_module/message_mod.F
       !||    r2r_mod                      ../starter/share/modules1/r2r_mod.F
       !||====================================================================

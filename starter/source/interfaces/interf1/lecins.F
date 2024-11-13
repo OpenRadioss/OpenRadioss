@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i20surfi               ../starter/source/interfaces/inter3d1/i20surfi.F
       !||    i24surfi               ../starter/source/interfaces/inter3d1/i24surfi.F
       !||    i25surfi               ../starter/source/interfaces/inter3d1/i25surfi.F
+      !||    i2_surfi               ../starter/source/interfaces/inter3d1/i2_surfi.F90
       !||    ingrbric               ../starter/source/interfaces/interf1/ingrbric.F
       !||    ingrbric_centroids     ../starter/source/interfaces/interf1/ingrbric_centroids.F
       !||    ingrbric_nodes         ../starter/source/interfaces/interf1/ingrbric_nodes.F
@@ -42,6 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    insurfigeo             ../starter/source/interfaces/interf1/insurfigeo.F
       !||    nsegmt                 ../starter/source/interfaces/interf1/nsegmt.F
       !||--- uses       -----------------------------------------------------
+      !||    i2_surfi_mod           ../starter/source/interfaces/inter3d1/i2_surfi.F90
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE LECINS(IPARI   ,ITAB       ,PM       ,IPM       ,BUFMAT  ,

@@ -124,6 +124,7 @@ C
       !||    removeic                 ../starter/source/interfaces/inter3d1/i24tools.F
       !||    removeic1                ../starter/source/interfaces/inter3d1/i24tools.F
       !||    seg_opp                  ../starter/source/interfaces/inter3d1/i24tools.F
+      !||    select_s2s               ../starter/source/interfaces/inter3d1/select_s2s.F90
       !||    sh_offset_jonct_chk      ../starter/source/elements/shell/shell_offset/sh_offset_jonkt_chk.F90
       !||    voisin2                  ../starter/source/interfaces/inter3d1/i24tools.F
       !||====================================================================

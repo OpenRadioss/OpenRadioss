@@ -20,12 +20,26 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    i2_surfi_mod   ../starter/source/interfaces/inter3d1/i2_surfi.F90
+      !||--- called by ------------------------------------------------------
+      !||    lecins         ../starter/source/interfaces/interf1/lecins.F
+      !||====================================================================
       module i2_surfi_mod
       contains
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
 !! \brief this subroutine doing the initialization of the interface type2 w/ input surf/surf
+      !||====================================================================
+      !||    i2_surfi         ../starter/source/interfaces/inter3d1/i2_surfi.F90
+      !||--- called by ------------------------------------------------------
+      !||    lecins           ../starter/source/interfaces/interf1/lecins.F
+      !||--- calls      -----------------------------------------------------
+      !||    select_s2s       ../starter/source/interfaces/inter3d1/select_s2s.F90
+      !||--- uses       -----------------------------------------------------
+      !||    select_s2s_mod   ../starter/source/interfaces/inter3d1/select_s2s.F90
+      !||====================================================================
         subroutine i2_surfi(                                                 &
                          npari   ,ipari   ,nsurf   ,igrsurf ,                &
                          nsn     ,nsv     ,nrtm    ,irect   ,                &

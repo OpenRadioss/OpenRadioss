@@ -342,6 +342,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i24sti3                           ../starter/source/interfaces/inter3d1/i24sti3.F
       !||    i24surfi                          ../starter/source/interfaces/inter3d1/i24surfi.F
       !||    i25surfi                          ../starter/source/interfaces/inter3d1/i25surfi.F
+      !||    i2_surfi                          ../starter/source/interfaces/inter3d1/i2_surfi.F90
+      !||    i2_surfi_dim                      ../starter/source/interfaces/inter3d1/i2_surfi_dim.F90
       !||    i2chk3                            ../starter/source/interfaces/inter3d1/i2chk3.F
       !||    i3sti3                            ../starter/source/interfaces/inter3d1/i3sti3.F
       !||    i7mainf                           ../engine/source/interfaces/int07/i7mainf.F
