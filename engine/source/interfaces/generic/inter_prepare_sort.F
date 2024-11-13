@@ -127,6 +127,10 @@ C-----------------------------------------------
         integer :: nsn, nsnr, nrtm, nmn
         integer :: DUMMY(1)
 !   ----------------------------------------
+        nsn = 0
+        nsnr = 0
+        nrtm = 0
+        nmn = 0
 
         ! -----------------------------
         ! compute the min/max position 

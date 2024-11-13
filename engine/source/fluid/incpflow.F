@@ -161,6 +161,7 @@ C-----------------------------------------------
       VV = ZERO
       PA = ZERO
 C      
+      IFREE = -HUGE(IFREE)
       IFORM=IFLOW(13)
       ILVOUT=IFLOW(17)
 C Subcycling

@@ -116,11 +116,25 @@ c
         A12 = AC(1) - F1 * AC(3)
         A21 = AB(2) - F2 * AB(3)
         A22 = AC(2) - F2 * AC(3)
+      ELSE
+        F1 = 0
+        F2 = 0 
+        B1 = 0
+        B2 = 0
+        A11 = 0
+        A12 = 0
+        A21 = 0
+        A22 = 0
       END IF
 c
       DET = A11*A22 - A12*A21
-      R   = (A22 * B1 - A12 * B2) / DET
-      S   = (A11 * B2 - A21 * B1) / DET
+      IF(DET .NE. ZERO) THEN
+        R   = (A22 * B1 - A12 * B2) / DET
+        S   = (A11 * B2 - A21 * B1) / DET
+      ELSE
+        R = 0
+        S = 0
+      END IF
       ! P = projection of axe origin N1 on ABC plane following direction DIR
       P(1)= A(1) + R*AB(1) + S*AC(1)
       P(2)= A(2) + R*AB(2) + S*AC(2)

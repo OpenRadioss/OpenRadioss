@@ -68,6 +68,7 @@ C     than the size of FVDATA, since FVDATA is build before switches to
 C     UP
       K1 = 1
       NFVBAG_MAX=0
+      I = -HUGE(I)
       DO N=1,NVOLU
          ITYP=MONVOL(K1-1+2)
          IF (ITYP==6.OR.ITYP==8) THEN

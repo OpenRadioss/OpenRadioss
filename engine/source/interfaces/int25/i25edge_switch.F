@@ -71,6 +71,8 @@ C-----------------------------------------------
       INTEGER :: NEDG,NEDGFT,NEDGLT
       INTEGER :: IRM,IEDG,JRM,JEDG 
       my_real :: S1,S2
+      S1 = -HUGE(S1)
+      S2 = -HUGE(S2)
       IF(IEDGE/=0)THEN
 C
         NEDGFT= 1+(JTASK-1)*NEDGE/ NTHREAD

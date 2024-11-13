@@ -154,6 +154,10 @@
           my_real finter, finter_smooth
           external finter,finter_smooth
 ! ----------------------------------------------------------------------------------------------------------------------
+          nx = -huge(nx)
+          ny = -huge(ny)
+          nz = -huge(nz)
+          idir = 0
           sixth  = one_over_6
           tfexc  = zero
           tfextt = zero

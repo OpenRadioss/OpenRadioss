@@ -174,6 +174,11 @@ C=======================================================================
         MASS =>  NLOC_DMG%MASS(1:L_NLOC)
         ! Initial non-local mass
         MASS0 => NLOC_DMG%MASS0(1:L_NLOC)
+      ELSE
+       NULLIFY(MASS)
+       NULLIFY(MASS0)
+       ALLOCATE(STI1(1,1),STI2(1,1),STI3(1,1),
+     .           STI4(1,1),STI5(1,1),STI6(1,1))
       ENDIF
       VNL  => NLOC_DMG%VNL(1:L_NLOC)
       VNL0 => NLOC_DMG%VNL_OLD(1:L_NLOC)
@@ -273,6 +278,11 @@ c
         IF (NODADT > 0) THEN 
           ALLOCATE(STIFNLTH(NEL,NDDL+1))
           ALLOCATE(DTN(NEL,NDDL+1))
+        ELSE
+          ALLOCATE(DTN(1,1))
+          ALLOCATE(STIFNLTH(1,1))
+          DTN(1,1) = EP20
+          STIFNLTH(1,1) = EP20
         ENDIF
         NDNOD = NDDL+1
 c 

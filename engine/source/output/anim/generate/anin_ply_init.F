@@ -49,7 +49,7 @@ C-----------------------------------------------
 
       BINF=1
       BSUP=SIZE
-
+      EMPL = 0
       IF (PLYNOD(IPLY)%NODES(BINF)==NODID)THEN
         EMPL=BINF
         GOTO 100
@@ -115,6 +115,7 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I,BINF,BSUP,MILIEU,SIZE,EMPL,TAILLE
 C-----------------------------------------------
+      EMPL = 0
       SIZE=PLYNOD(IPLY)%PLYNUMNODS
 
       BINF=1
@@ -187,7 +188,7 @@ C-----------------------------------------------
       INTEGER I,BINF,BSUP,MILIEU,SIZE,EMPL,TAILLE
 C-----------------------------------------------
       SIZE=PLYSHELL(IPLY)%PLYNUMSHELL
-
+      EMPL = 0
       BINF=1
       BSUP=SIZE
 

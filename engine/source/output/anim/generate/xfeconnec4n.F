@@ -72,6 +72,8 @@ c     Re-build phantom element connectivities
 C-----------------------------------------------
       IXEL = MOD(ILEV-1, NXEL) + 1
       ILAY = (ILEV-IXEL)/NXEL  + 1
+      p1 = 0 
+      p2 = 0
 c
       DO I=JFT,JLT       
         XIN(1,I) = ZERO  

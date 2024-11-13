@@ -130,6 +130,8 @@
 !  if need update in case of FVM
        iupdate = 0 
        t_kin = zero
+       sens_id = -HUGE(sens_id)
+       tstart = -HUGE(tstart)
        do n =1,ninivelt 
          itype = inivel_t(n)%itype
          if (itype /=5 ) cycle 

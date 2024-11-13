@@ -88,6 +88,7 @@ C
       CPT1=0
       CPT20=0
       CPT21=0
+      J = 0
 C
       DO I = 1,NINIV
        READ (IIN,'(3I10,F20.0)') N1,N2,IDIR,VV

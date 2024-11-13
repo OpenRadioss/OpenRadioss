@@ -68,6 +68,8 @@ C        LLL(LAG_NKF)  : I = LLL(IK)
 C        JLL(LAG_NKF)  : J = JLL(IK)
 C======================================================================|
       KF = 0
+      NN = 0
+      S3 = -HUGE(S3)
       DO I=1,NUMMPC
         HH = ZERO
         R  = ZERO

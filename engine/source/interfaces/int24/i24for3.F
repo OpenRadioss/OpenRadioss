@@ -243,6 +243,7 @@ C
       EXTERNAL BITGET
 C-----------------------------------------------
       DTMINI=ZERO
+      FAC = ZERO
       IF (IRESP==1) THEN
         PREC = FIVEEM4
         TINY = EM15

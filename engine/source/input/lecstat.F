@@ -69,6 +69,7 @@ C-----------------------------------------------
      .        NFAIL,NG,ITY,NFT,IPRT
       INTEGER MAT_CHECKED(NUMMAT)
 C-----------------------------------------------
+      IPRT = 0
       IF (NSTATPRT /= 0) THEN
         MAT_CHECKED = 0
         DO I=1,NSTATPRT

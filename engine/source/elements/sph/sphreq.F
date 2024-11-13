@@ -66,6 +66,7 @@ C-----------------------------------------------
       my_real
      .       DBOITEX,DBOITEY,DBOITEZ,XI,YI,ZI,NN,XX(12),DPS_OLD
 C-----------------------------------------------
+      DPS_OLD = -HUGE(DPS_OLD)
 C     if more than 1 box, each box size >= DBUCS
 C     NBOX=MAX(IUN,INT((XBMAX-XBMIN)/DBUCS))
 C     NBOY=MAX(IUN,INT((YBMAX-YBMIN)/DBUCS))

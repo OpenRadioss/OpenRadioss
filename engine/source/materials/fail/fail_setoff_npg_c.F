@@ -98,6 +98,7 @@ c     THK_LY     Ratio of layer thickness / element thickness
 c     THK        Total element thickness
 C=======================================================================
 c 
+      IMAT = 1
       !=================================================================
       ! RECOVER PARAMETERS AND INITIALIZATION
       !=================================================================

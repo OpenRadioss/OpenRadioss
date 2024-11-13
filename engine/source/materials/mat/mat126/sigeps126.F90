@@ -116,6 +116,7 @@
           ! - INITIALISATION OF COMPUTATION ON TIME STEP
           !=======================================================================
           ! Recovering integer model parameter
+          nindx = -huge(nindx)
           idel  = matparam%iparam(1)
           ! Recovering real model parameters
           g     = matparam%uparam(1)

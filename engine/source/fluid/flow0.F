@@ -122,6 +122,16 @@ C     IR9  -> PS     : scattered pressure
 C     IR10 -> PTI    : incident pressure time integral
 C     IR11 -> CMAT   : Matrice C (nel >= nelmax)
 C-----------------------------------------------------------------------------------
+      II1 = 1
+      II2 = 1
+      II3 = 1
+      II4 = 1
+      II5 = 1
+      II6 = 1
+      II7 = 1
+      II8 = 1
+      II9 = 1
+      II10= 1
       IPINT=0
       IF ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.
      .   MANIM==4 .OR.MANIM==5 .OR.MANIM==6 .OR.MANIM==7.OR.

@@ -638,6 +638,9 @@
               elseif(t1(i) <= -sigyc1) then
                 wpla1 = wplamxc1(i)
                 id =-1
+              else
+                wpla1 = ep20
+                id = -HUGE(id)
               endif
 !
               if(wpla1 < wplamx(i)) then

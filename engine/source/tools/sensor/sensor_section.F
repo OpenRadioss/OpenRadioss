@@ -64,6 +64,10 @@ c
       PARAMETER (INFINITY = 1.0E20)
 C=======================================================================
       IF (SENSOR%STATUS == 1) RETURN   ! already activated
+      FF = ZERO
+      FX = ZERO
+      FY = ZERO
+      FZ = ZERO
 c
       TSTART  = SENSOR%TSTART
       TMIN    = SENSOR%TMIN

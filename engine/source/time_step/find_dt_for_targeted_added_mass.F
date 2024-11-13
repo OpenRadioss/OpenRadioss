@@ -91,6 +91,7 @@ C---  Condensed nodes of TETRA10 are excluded
         TAGN(ND) = -1
       ENDDO 
 C
+      IGROUP = 0
       IF (IGRP_USR < 0) THEN
         DO I=1,NGRNOD
           IF (-IGRP_USR==IGRNOD(I)%ID) IGROUP = I

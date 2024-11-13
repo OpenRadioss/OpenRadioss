@@ -82,6 +82,7 @@ c---
      .            3, 2, 6, 7,
      .            4, 3, 7, 8,
      .            2, 5, 9, 6/
+       I = 0
 C----------------------
 C     DECOMPTE DES ELEMENTS PAR NOEUD
 C     POUR ENERGIE DE FROTTEMENT

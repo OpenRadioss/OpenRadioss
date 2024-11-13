@@ -89,6 +89,27 @@ C-----------------------------------------------
 C=======================================================================
 C     COORDONNEES (GLOBAL)
 C-----------------------
+      X1 = ZERO
+      X2 = ZERO
+      X3 = ZERO
+      X4 = ZERO
+      Y1 = ZERO
+      Y2 = ZERO
+      Y3 = ZERO
+      Y4 = ZERO
+      AREA1 = ZERO
+      AREA2 = ZERO
+      AREA3 = ZERO
+      NX1 = 0
+      NX2 = 0
+      NX3 = 0
+      NX4 = 0
+      NM = 0
+      NP = 0
+      p1 = 0
+      p2 = 0
+      pp1 = 0
+      pp2 = 0
       DO I=JFT,JLT
         X1G(I)=X(1,IXC(2,I+NFT))
         Y1G(I)=X(2,IXC(2,I+NFT))

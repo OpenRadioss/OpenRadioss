@@ -83,7 +83,9 @@ C     --> FLAG = 1 : loop on all elements I = J
 C     --> FLAG = 2 : loop only on 2nd strand of elements in slipring - I /= J 
 C        (ALL LOCAL ARRAYS USE J)
 C-----------------------------------------------------------------------
-C
+      X1S = -HUGE(X1S) 
+      X2S = -HUGE(X2S)
+      FXB = -HUGE(FXB)
       DT11 = DT1
       IF(DT11==ZERO)DT11 = EP30
 C

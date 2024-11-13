@@ -112,6 +112,7 @@ C-----------------------------------------------
 C     B e g i n n i n g   o f   s u b r o u t i n e
 C-----------------------------------------------
       IDBG = .FALSE.
+      NULLIFY(IX)
 
       PSHIFT = MULTI_FVM%PRES_SHIFT
 
@@ -130,7 +131,7 @@ C-----------------------------------------------
 C     QUADS
                IX => IXQ(1:NIXQ, 1 + NFT:NEL + NFT)
                NIX = NIXQ
-            ELSEIF (ITY == 7) THEN
+            ELSE !IF (ITY == 7) THEN
 C     TRIANGLES
                IX => IXTG(1:NIXTG, 1 + NFT:NEL + NFT)
                NIX = NIXTG
@@ -148,7 +149,11 @@ C     Global buffer of the current group
             IF (NBMAT == 1) THEN
                LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1, 1, 1)
                IMAT = 1
-               LOCAL_MATID = MATPARAM(IX(1,1))%MULTIMAT%MID(IMAT)
+               IF(ASSOCIATED(IX)) THEN
+                 LOCAL_MATID = MATPARAM(IX(1,1))%MULTIMAT%MID(IMAT)
+               ELSE
+                 LOCAL_MATID = 1
+               ENDIF
                MATLAW = MATPARAM(LOCAL_MATID)%ILAW
                PRES => MULTI_FVM%PRES(1 + NFT : NEL + NFT)
                SSP  => MULTI_FVM%SOUND_SPEED(1 + NFT : NEL + NFT)
@@ -263,7 +268,11 @@ C     Number of elements that have not converged
                ENDDO
 C     Loop over the fluid layers
                DO IMAT = 1, NBMAT
-                  LOCAL_MATID = MATPARAM(IX(1,1))%MULTIMAT%MID(IMAT)
+                  IF(ASSOCIATED(IX)) THEN 
+                    LOCAL_MATID = MATPARAM(IX(1,1))%MULTIMAT%MID(IMAT)
+                  ELSE
+                    LOCAL_MATID = 1
+                  ENDIF
                   MATLAW = MATPARAM(LOCAL_MATID)%ILAW
                   PRES => PRESWT(1:NEL, IMAT)
                   SSP  => SSPWT(1:NEL, IMAT)
@@ -432,7 +441,11 @@ C                           IF (ALPHAWT(II, IMAT) /= ZERO .AND. GRUN(II, IMAT) /
                   ENDIF
 C     Equation of state call
                   DO IMAT = 1, NBMAT
-                     LOCAL_MATID = MATPARAM(IX(1,1))%MULTIMAT%MID(IMAT)
+                     IF(ASSOCIATED(IX)) THEN 
+                       LOCAL_MATID = MATPARAM(IX(1,1))%MULTIMAT%MID(IMAT)
+                     ELSE
+                       LOCAL_MATID = 1
+                     ENDIF
                      MATLAW = MATPARAM(LOCAL_MATID)%ILAW
                      PRES => PRESWT(1:NEL, IMAT)
                      SSP  => SSPWT(1:NEL, IMAT)
@@ -465,7 +478,7 @@ C     Compute EOS
                IF (REMAINING_ELTS /= 0 .AND. IDBG) THEN
                   PRINT*, "*** CV PB IN PRESSURE EQUILIBRIUM", " CYCLE", NCYCLE, "GROUPE", NG
                   DO II = 1, NEL
-                     IF (CV_INDICATOR(II) == 0) THEN
+                  IF (CV_INDICATOR(II) == 0 .AND. ASSOCIATED(IX)) THEN
                         WRITE(*, '(A,I10,A,I10)') "LOCAL_ID ", II + NFT, " GLOBAL_ID ", IX(NIX, II)
                         DO IMAT = 1, NBMAT
                            WRITE(*,*) "MAT ", IMAT, ", alph : ", ALPHAWT(II, IMAT), ", PRES : ", PRESWT(II, IMAT)
@@ -481,7 +494,11 @@ C     ----------------------------------------------
 
 C     Loop over the fluid layers
                DO IMAT = 1, NBMAT
-                  LOCAL_MATID = MATPARAM(IX(1,1))%MULTIMAT%MID(IMAT)
+                  IF(ASSOCIATED(IX)) THEN 
+                    LOCAL_MATID = MATPARAM(IX(1,1))%MULTIMAT%MID(IMAT)
+                  ELSE
+                    LOCAL_MATID = 1
+                  ENDIF
                   MATLAW = MATPARAM(LOCAL_MATID)%ILAW
                   PRES => PRESWT(1:NEL, IMAT)
                   SSP  => SSPWT(1:NEL, IMAT)
@@ -618,7 +635,11 @@ C     Compute New energies
                         ENDIF
                      ENDDO  ! II = 1, NEL
 C     Call equation of state for the submaterial
-                     LOCAL_MATID = MATPARAM(IX(1,1))%MULTIMAT%MID(IMAT)
+                     IF(ASSOCIATED(IX)) THEN
+                       LOCAL_MATID = MATPARAM(IX(1,1))%MULTIMAT%MID(IMAT)  
+                     ELSE
+                       LOCAL_MATID = 1
+                     ENDIF
                      MATLAW = MATPARAM(LOCAL_MATID)%ILAW
                      SSP  => SSPWT(1:NEL, IMAT)
                      VOL  => VOLWT(1:NEL, IMAT)
@@ -669,7 +690,12 @@ C     Store final values
                   MULTI_FVM%PHASE_RHO(IMAT, 1 + NFT : NEL + NFT) = RHOWT(1:NEL, IMAT)
 C     Pressure
                   MULTI_FVM%PHASE_PRES(IMAT, 1 + NFT : NEL + NFT) = PRESWT(1:NEL, IMAT)
-                  LOCAL_MATID = MATPARAM(IX(1,1))%MULTIMAT%MID(IMAT)
+                  IF(ASSOCIATED(IX)) THEN
+                    LOCAL_MATID = MATPARAM(IX(1,1))%MULTIMAT%MID(IMAT)  
+                  ELSE
+                    LOCAL_MATID = 1
+                  ENDIF
+
                   MATLAW = MATPARAM(LOCAL_MATID)%ILAW
 C     Global Pressure: volumic fraction ponderation
                   DO II = 1, NEL

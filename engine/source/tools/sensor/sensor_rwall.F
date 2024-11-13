@@ -71,6 +71,10 @@ c
       FMAX  = SENSOR%RPARAM(2) 
       ICRIT = 0
       ACTI  = 0
+      FF = ZERO
+      FX = ZERO
+      FY = ZERO
+      FZ = ZERO
 c
       ISECT = TABS(NSECT+RW_ID+1)-TABS(NSECT+RW_ID)
       N5 = RW_ID + 4*NRWALL

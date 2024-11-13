@@ -79,9 +79,8 @@ C     REAL
       DOUBLE PRECISION 
      .   FRWL6_L(7,6)
 C-----------------------------------------------
-      IF(IRESP==1)THEN
-        PREC=EM07
-      END IF
+      PREC=EM07
+      AX = ONE
       ICONT=0
       CALL MY_BARRIER
 !       We need an OMP barrier here because each thread initializes 

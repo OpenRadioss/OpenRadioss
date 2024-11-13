@@ -79,6 +79,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C INITIALIALISATION DES COEFFICIENTS DU FILTRE
 C-----------------------------------------------
+      NE = 0 
       TOL=EM01
       IF(IMACH/=3.OR.ISPMD==0) THEN
         IUNIT=IUNOI

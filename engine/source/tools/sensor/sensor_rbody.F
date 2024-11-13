@@ -87,7 +87,7 @@ c
      .     + FBSAV6(3,3,ISECT) + FBSAV6(3,4,ISECT)
      .     + FBSAV6(3,5,ISECT) + FBSAV6(3,6,ISECT)
         FF = SQRT(FX*FX + FY*FY + FZ*FZ) 
-      ELSEIF (IDIR == 2) THEN
+      ELSE !IF (IDIR == 2) THEN
         FX = FBSAV6(4,1,ISECT) + FBSAV6(4,2,ISECT)
      .     + FBSAV6(4,3,ISECT) + FBSAV6(4,4,ISECT)
      .     + FBSAV6(4,5,ISECT) + FBSAV6(4,6,ISECT)

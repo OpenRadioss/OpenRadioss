@@ -92,6 +92,17 @@ C
        ENDIF
        FI0 = FI
 C
+       I = 1
+       MX = 1
+       NULLIFY(GBUF)
+       TE =ZERO
+       TSCAL = ZERO
+       VOL = ZERO
+       Z1 = ZERO
+       Z2 = ZERO
+       Z3 = ZERO
+       Z4 = ZERO
+       ZZ = ZERO
        JSMS=0
 C------------------------------------------------------------
        DO 200 IL=1,NL

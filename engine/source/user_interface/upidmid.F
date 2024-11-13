@@ -201,6 +201,7 @@ C-----------------------------------------------
 C     GEO(I,J)  == LOCA(ISH3+I+(J-1)*NPROPG)
 C     BUFGEO(I) == LOCA(ISH4+I)
 C
+      GET_U_PNU = 0
       DEPLA=K-1+(IP-1)*NPROPG
       IF (IRESP==1) THEN
         CALL GET_VAR_USER_F_SP(3,DEPLA,NV)
