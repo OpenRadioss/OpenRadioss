@@ -631,7 +631,7 @@ C
 C-------------------------------
 C         INCREMENT DE DEFORMATIONS 
 C-------------------------------
-          IF (ILAW == 58 .or. ILAW == 158) THEN
+          IF (ILAW == 58 .or. ILAW == 158 .OR. ILAW == 127) THEN
              SIGNXX(1:MVSIZ) = ZERO
              SIGNYY(1:MVSIZ) = ZERO
              SIGNXY(1:MVSIZ) = ZERO
@@ -908,7 +908,7 @@ C--------   - [F]=[F_DEF]+[1]; [B]=[F][F]^t strain-----
                 TENS(I,2)= GSTR(I,2)+ZT*GSTR(I,7)
                 TENS(I,3)= HALF*(GSTR(I,3)+ZT*GSTR(I,8))
                 TENS(I,4)= HALF*GSTR(I,4)
-                TENS(I,5)= HALF*GSTR(I,5)          
+                TENS(I,5)= HALF*GSTR(I,5)       
               ENDDO
             END IF!(ISMSTR==10)
 C
@@ -1735,7 +1735,7 @@ C
             !---
             NPLY_MAX = NLAY_MAX*LAYNPT_MAX
             CALL SIGEPS127C(
-     1         JLT      ,MATPARAM   ,NUVAR    ,UVAR      , NGL , 
+     1         JLT      ,MATPARAM   ,NUVAR    ,UVAR      , 
      2         RHO      ,THKN       ,THKLYL   , SHF      , NCYCLE,
      4         NFUNC    ,IFUNC      ,NPF      ,TF        ,SNPC  ,
      5         STF      ,EPSP       ,NPLY_MAX ,
@@ -1744,7 +1744,7 @@ C
      7         SIGOXX   ,SIGOYY     ,SIGOXY   ,SIGOZX   ,SIGOYZ  ,
      8         SIGNXX   ,SIGNYY     ,SIGNXY   ,SIGNZX   ,SIGNYZ   ,
      9         OFF      ,SIGY       ,ETSE     ,SSP      ,LBUF%DMG ,
-     A         GBUF%DMG )     
+     A         GBUF%DMG  )     
 c     
           ELSEIF (ILAW == 158) THEN
 

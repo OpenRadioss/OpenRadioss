@@ -42,7 +42,7 @@
       !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||====================================================================
          SUBROUTINE sigeps127c(                                   &
-           nel     ,mat_param  , nuvar   ,uvar    ,      ngl,     &
+           nel     ,mat_param  , nuvar   ,uvar    ,               &
            rho     ,thk       ,thkly     ,shf     ,  ncycle ,     &
            nfunc   ,ifunc     ,npf       ,tf      ,  snpc   ,     &
            stf     , epsp     ,nply_max  ,                        &
@@ -51,7 +51,7 @@
            sigoxx  ,sigoyy     ,sigoxy  ,sigozx ,sigoyz ,         &
            signxx  ,signyy     ,signxy  ,signzx   ,signyz  ,      &
            off     ,sigy       ,etse    ,ssp      ,dmg     ,      &
-           dmg_g ) 
+           dmg_g    ) 
 !---------------------------------------------- -
 !   M o d u l e s
 !-----------------------------------------------
@@ -69,7 +69,6 @@
           integer, intent(in) :: nel !< number of elements in the group
           integer, intent(in) :: nuvar !< number of user variables
           integer, intent(in) :: ncycle !< number of cycle
-          integer, dimension(nel), intent(in) :: ngl !< element number
           integer, intent(in) :: nfunc  !< number of function
           integer, intent(in) :: snpc  !< 
           integer, intent(in) :: stf  !< 
@@ -101,11 +100,11 @@
           my_real, dimension(nel), intent(in) :: sigoxy !< old stress xy 
           my_real, dimension(nel), intent(in) :: sigoyz !< old stress yz 
           my_real, dimension(nel), intent(in) :: sigozx !< old stress zx 
-          my_real, dimension(nel), intent(out) :: signxx !< new stress xx 
-          my_real, dimension(nel), intent(out) :: signyy !< new stress yy
-          my_real, dimension(nel), intent(out) :: signxy !< new stress xy 
-          my_real, dimension(nel), intent(out) :: signyz !< new stress yz 
-          my_real, dimension(nel), intent(out) :: signzx !< new stress zx 
+          my_real, dimension(nel), intent(inout) :: signxx !< new stress xx 
+          my_real, dimension(nel), intent(inout) :: signyy !< new stress yy
+          my_real, dimension(nel), intent(inout) :: signxy !< new stress xy 
+          my_real, dimension(nel), intent(inout) :: signyz !< new stress yz 
+          my_real, dimension(nel), intent(inout) :: signzx !< new stress zx 
           my_real, dimension(nel), intent(inout) :: ssp !< sound speed
           my_real, dimension(nel), intent(inout) :: off !< element deletion flag
           my_real, dimension(nel,6), intent(inout) ::  dmg 
@@ -157,7 +156,7 @@
       dfailm = mat_param%uparam(27)  ! Failure strain in matrix
       dfails = mat_param%uparam(28)  ! Failure strain in shear
       efs    = mat_param%uparam(29)  ! Effective strain
-      ratio  = mat_param%uparam(29)   ! ratio for deletion of elt
+      ratio  = mat_param%uparam(30)   ! ratio for deletion of elt
 
       beta  = mat_param%uparam(31)  ! Coefficient for chang-chang
       alpha = mat_param%uparam(32)  ! coefficient for nonlinear 
@@ -228,9 +227,8 @@
       ! Reduction of stress ply and checking the deletion of element
        ndex = 0
       do i=1,nel
-          if(off(i) < one) then
-            off(i)=off(i)*four_over_5
-            if(off(i) < em02) off(i) = zero 
+          if(off(i) < one ) then
+              off(i) = zero 
           elseif(dmg(i,1) == one ) then
               ndel_ply = nint(dmg_g(i))
               ncy0 = nint(uvar(i,1))
@@ -384,8 +382,6 @@
                     signyy(i) = slimt2*yt(i)
                     signxx(i) = sigoxx(i)
                     signxy(i) = sigoxy(i)
-                    if(ngl(i) == -12)then
-                    endif
                   elseif(dmg(i,5) == one  .and. signyy(i) <= -slimc2*yc(i)) then
                     signyy(i) = - slimc2*yc(i)
                     signxx(i) = sigoxx(i)

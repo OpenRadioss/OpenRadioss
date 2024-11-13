@@ -282,6 +282,7 @@
       ! failure parameters 
       if(dfailc == zero) dfailc = ep10
       if(dfailm == zero) dfailm = ep10
+      if(dfails == zero) dfails = ep10
       if(efs == zero) efs  = ep10
       if(ncyred == 0) ncyred = 100
       if(ratio <= zero .or. ratio > one ) ratio = one
@@ -354,7 +355,7 @@
        detc  = one - nu12*nu21
        young = max(e1,e2,e3)
        c1    = third*young/(one - two*nu)
-       a11    = max(e1,e2,e3)/detc
+       a11   = max(e1,e2,e3)/detc
        gmax  = max(g12,g23,g31)
        ssp   = sqrt(max(a11,gmax)/ rho0)
        asrate = two*pi*fcut
@@ -369,14 +370,13 @@
           ! parameters used outside the law
 !-----------------------------------------
        pm(9)  = asrate            !  mat_param%asrate
-       pm(20) = young               !  mat_param%young
+       pm(20) = young             !  mat_param%young
        pm(21) = nu                !  mat_param%nu
        pm(22) = max(g12,g12,g23)  !  mat_param%shear
        pm(24) = a11
        pm(26) = five_over_6
        pm(27) = ssp     !  mat_param%ssp
-       pm(32) = c1                !  mat_param%bulk
-
+       pm(32) = a11                !  max(e1,e2,e3)/detc
       ! still used in elements
         pm(33) = e1                !  mat_param%e11
         pm(34) = e2                !  mat_param%e22
@@ -389,7 +389,7 @@
 
           ! parmat table
         israte     = 1
-        parmat(1)  = c1
+        parmat(1)  = a11
         parmat(2)  = young
         parmat(3)  = nu
         parmat(4)  = israte
