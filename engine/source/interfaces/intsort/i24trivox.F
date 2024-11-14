@@ -179,7 +179,7 @@ c!!!!!!!!!!!!!!! A VERIFIER !!!!!!!!!!!!!!!
 C En SPMD, pour IFQ, retrouve ancienne numerotation des candidats non locaux
 c INUTIL POUR INT 24 !!!!!!!!!!!!!!!!!
       IF(NSPMD>1) THEN
-        CALL SPMD_OLDNUMCD(RENUM,OLDNUM,ISZNSNR,NSNR,INTHEAT,IDT_THERM,NODADT_THERM)
+        CALL SPMD_OLDNUMCD(RENUM,OLDNUM,ISZNSNR,NSNROLD,INTHEAT,IDT_THERM,NODADT_THERM)
       END IF
 
 C=======================================================================
