@@ -47,6 +47,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    upgrade_multimp              ../common_source/interf/upgrade_multimp.F
       !||--- uses       -----------------------------------------------------
       !||    check_sorting_criteria_mod   ../engine/source/interfaces/intsort/check_sorting_criteria.F90
+      !||    glob_therm_mod               ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
       !||    inter_sorting_mod            ../engine/share/modules/inter_sorting_mod.F
       !||    message_mod                  ../engine/share/message_module/message_mod.F

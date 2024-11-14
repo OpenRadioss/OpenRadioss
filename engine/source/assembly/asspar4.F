@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    order_v          ../engine/source/assembly/asspar2.F
       !||--- uses       -----------------------------------------------------
       !||    ale_mod          ../common_source/modules/ale/ale_mod.F
+      !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    plyxfem_mod      ../engine/share/modules/plyxfem_mod.F
       !||====================================================================
       SUBROUTINE ASSPAR4(
@@ -1475,9 +1476,11 @@ C
       END SUBROUTINE ASSPAR4
 
       !||====================================================================
-      !||    asspari2   ../engine/source/assembly/asspar4.F
+      !||    asspari2         ../engine/source/assembly/asspar4.F
       !||--- called by ------------------------------------------------------
-      !||    intti1     ../engine/source/interfaces/interf/intti1.F
+      !||    intti1           ../engine/source/interfaces/interf/intti1.F
+      !||--- uses       -----------------------------------------------------
+      !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||====================================================================
       SUBROUTINE ASSPARI2(
      1  A    ,AR    ,STIFN  ,STIFR  ,MS  ,

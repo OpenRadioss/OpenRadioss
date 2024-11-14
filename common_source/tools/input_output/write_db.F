@@ -118,6 +118,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    write_data_vel            ../common_source/modules/boundary_conditions/ebcs_mod.F
       !||    write_db_debug            ../starter/source/output/tools/write_debug.F
       !||    write_elgroup_param       ../engine/source/output/restart/write_elgroup_param.F
+      !||    write_eosparam            ../engine/source/output/restart/write_eosparam.F90
       !||    write_failparam           ../engine/source/output/restart/write_failparam.F
       !||    write_inivel              ../engine/source/output/restart/write_inivel.F90
       !||    write_intbuf              ../engine/source/output/restart/write_intbuf.F

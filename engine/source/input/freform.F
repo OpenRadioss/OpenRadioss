@@ -73,6 +73,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    check_mod                ../common_source/modules/check_mod.F
       !||    dt_mod                   ../engine/source/modules/dt_mod.F
       !||    fvbag_mod                ../engine/share/modules/fvbag_mod.F
+      !||    glob_therm_mod           ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    h3d_mod                  ../engine/share/modules/h3d_mod.F
       !||    message_mod              ../engine/share/message_module/message_mod.F
       !||    metric_mod               ../common_source/modules/interfaces/metric_mod.F

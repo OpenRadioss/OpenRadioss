@@ -40,6 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    damping_vref_sum6_rby                    ../engine/source/assembly/damping_vref_sum6_rby.F90
       !||    defbeam_sect_new                         ../starter/source/properties/beam/defbeam_sect_new.F90
       !||    dim_shell_offsetp                        ../starter/source/elements/shell/shell_offset/dim_shell_offsetp.F90
+      !||    dttherm                                  ../engine/source/time_step/dttherm.F90
       !||    eosexponential                           ../common_source/eos/eosexponential.F90
       !||    fill_voxel_local                         ../engine/source/interfaces/intsort/fill_voxel.F90
       !||    fill_voxel_local_partial                 ../engine/source/interfaces/intsort/fill_voxel.F90
@@ -58,10 +59,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    get_segment_normal                       ../engine/source/interfaces/interf/get_segment_normal.F90
       !||    get_segment_orientation                  ../engine/source/interfaces/interf/get_segment_orientation.F90
       !||    get_volume_area                          ../engine/source/airbag/get_volume_area.F90
+      !||    glob_therm_init                          ../starter/source/constraints/thermic/glob_therm_init.F90
       !||    h3d_quad_scalar_1                        ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
       !||    hm_preread_inivel                        ../starter/source/initial_conditions/general/inivel/hm_preread_inivel.F90
       !||    hm_read_bcs_wall                         ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
       !||    hm_read_eos_exponential                  ../starter/source/materials/eos/hm_read_eos_exponential.F90
+      !||    hm_read_eos_powderburn                   ../starter/source/materials/eos/hm_read_eos_powderburn.F90
       !||    hm_read_fractal_dmg                      ../starter/source/materials/fail/fractal/hm_read_fractal_dmg.F90
       !||    hm_read_mat125                           ../starter/source/materials/mat/mat125/hm_read_mat125.F90
       !||    hm_read_mat126                           ../starter/source/materials/mat/mat126/hm_read_mat126.F90
@@ -94,6 +97,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    polygon_list_destroy                     ../common_source/tools/clipping/polygon_mod.F90
       !||    polygon_setclockwise                     ../common_source/tools/clipping/polygon_clipping_mod.F90
       !||    polygon_zeroing                          ../common_source/tools/clipping/polygon_mod.F90
+      !||    powder_burn                              ../common_source/eos/powder_burn.F
       !||    preload_axial                            ../engine/source/elements/spring/preload_axial.F90
       !||    random_walk_dmg                          ../starter/source/materials/fail/fractal/random_walk_dmg.F90
       !||    read_mat25_crasurv                       ../starter/source/materials/mat/mat025/read_mat25_crasurv.F90

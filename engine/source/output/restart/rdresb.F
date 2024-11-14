@@ -106,6 +106,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    drape_mod              ../engine/share/modules/drape_mod.F
       !||    ebcs_mod               ../common_source/modules/boundary_conditions/ebcs_mod.F
       !||    ecnd_mod               ../engine/share/modules/ecdn_mod.F
+      !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    h3d_mod                ../engine/share/modules/h3d_mod.F
       !||    intstamp_glob_mod      ../engine/share/modules/intstamp_glob_mod.F
       !||    loads_mod              ../common_source/modules/loads/loads_mod.F
@@ -2654,14 +2655,16 @@ C
 C
 C convection flux
       !||====================================================================
-      !||    convrrest   ../engine/source/output/restart/rdresb.F
+      !||    convrrest        ../engine/source/output/restart/rdresb.F
       !||--- called by ------------------------------------------------------
-      !||    rdresb      ../engine/source/output/restart/rdresb.F
+      !||    rdresb           ../engine/source/output/restart/rdresb.F
       !||--- calls      -----------------------------------------------------
-      !||    read_db     ../common_source/tools/input_output/read_db.F
-      !||    read_i_c    ../common_source/tools/input_output/write_routtines.c
-      !||    redsqi      ../engine/source/output/tools/redsqi.F
-      !||    redsqr      ../engine/source/output/tools/redsqr.F
+      !||    read_db          ../common_source/tools/input_output/read_db.F
+      !||    read_i_c         ../common_source/tools/input_output/write_routtines.c
+      !||    redsqi           ../engine/source/output/tools/redsqi.F
+      !||    redsqr           ../engine/source/output/tools/redsqr.F
+      !||--- uses       -----------------------------------------------------
+      !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||====================================================================
       SUBROUTINE CONVRREST(IBCV, FCONV,GLOB_THERM)
       
@@ -2705,14 +2708,16 @@ C
       END
 C radiative flux
       !||====================================================================
-      !||    radiarrest   ../engine/source/output/restart/rdresb.F
+      !||    radiarrest       ../engine/source/output/restart/rdresb.F
       !||--- called by ------------------------------------------------------
-      !||    rdresb       ../engine/source/output/restart/rdresb.F
+      !||    rdresb           ../engine/source/output/restart/rdresb.F
       !||--- calls      -----------------------------------------------------
-      !||    read_db      ../common_source/tools/input_output/read_db.F
-      !||    read_i_c     ../common_source/tools/input_output/write_routtines.c
-      !||    redsqi       ../engine/source/output/tools/redsqi.F
-      !||    redsqr       ../engine/source/output/tools/redsqr.F
+      !||    read_db          ../common_source/tools/input_output/read_db.F
+      !||    read_i_c         ../common_source/tools/input_output/write_routtines.c
+      !||    redsqi           ../engine/source/output/tools/redsqi.F
+      !||    redsqr           ../engine/source/output/tools/redsqr.F
+      !||--- uses       -----------------------------------------------------
+      !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||====================================================================
       SUBROUTINE RADIARREST(IBCR, FRADIA, GLOB_THERM)
       
@@ -2756,14 +2761,16 @@ C
       END
 C imposed temperature
       !||====================================================================
-      !||    fxtemprrest   ../engine/source/output/restart/rdresb.F
+      !||    fxtemprrest      ../engine/source/output/restart/rdresb.F
       !||--- called by ------------------------------------------------------
-      !||    rdresb        ../engine/source/output/restart/rdresb.F
+      !||    rdresb           ../engine/source/output/restart/rdresb.F
       !||--- calls      -----------------------------------------------------
-      !||    read_db       ../common_source/tools/input_output/read_db.F
-      !||    read_i_c      ../common_source/tools/input_output/write_routtines.c
-      !||    redsqi        ../engine/source/output/tools/redsqi.F
-      !||    redsqr        ../engine/source/output/tools/redsqr.F
+      !||    read_db          ../common_source/tools/input_output/read_db.F
+      !||    read_i_c         ../common_source/tools/input_output/write_routtines.c
+      !||    redsqi           ../engine/source/output/tools/redsqi.F
+      !||    redsqr           ../engine/source/output/tools/redsqr.F
+      !||--- uses       -----------------------------------------------------
+      !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||====================================================================
       SUBROUTINE FXTEMPRREST(IBFTEMP, FBFTEMP,GLOB_THERM)
 

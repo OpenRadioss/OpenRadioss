@@ -97,6 +97,9 @@
 
       contains
 
+      !||====================================================================
+      !||    destruct_visc_param   ../common_source/modules/mat_elem/visc_param_mod.F90
+      !||====================================================================
         subroutine destruct_visc_param(this)
           implicit none
           class(visc_param_) ,intent(inout) :: this

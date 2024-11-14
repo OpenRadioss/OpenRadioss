@@ -21,11 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    radiatoff      ../engine/source/constraints/thermic/radiatoff.F
+      !||    radiatoff        ../engine/source/constraints/thermic/radiatoff.F
       !||--- called by ------------------------------------------------------
-      !||    desacti        ../engine/source/elements/desacti.F
+      !||    desacti          ../engine/source/elements/desacti.F
       !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||====================================================================
       SUBROUTINE RADIATOFF(IBCR, FRADIA, IPARG, IGROUPS, IXS, ELBUF_TAB,GLOB_THERM)
 C-----------------------------------------------

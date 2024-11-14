@@ -36,6 +36,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    nsvis_stab       ../engine/source/elements/solid/solide10/nsvis_stab.F
       !||    nsvis_stab11     ../engine/source/elements/solid/solidez/nsvis_stab11.F
       !||    nsvis_stab18     ../engine/source/elements/solid/solide8e/nsvis_stab18.F
+      !||--- uses       -----------------------------------------------------
+      !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||====================================================================
       SUBROUTINE M1LAWTOT(
      1   PM,      OFF,     SIG,     EINT,

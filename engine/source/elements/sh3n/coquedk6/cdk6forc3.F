@@ -40,12 +40,14 @@ cc
       !||    cmain3           ../engine/source/materials/mat_share/cmain3.F
       !||    cncoef3          ../engine/source/elements/sh3n/coquedk/cncoef3.F
       !||    cndt3            ../engine/source/elements/sh3n/coquedk/cndt3.F
-      !||    dttherm          ../engine/source/elements/sh3n/coquedk/dttherm.F
+      !||    dttherm          ../engine/source/time_step/dttherm.F90
       !||--- uses       -----------------------------------------------------
       !||    drape_mod        ../engine/share/modules/drape_mod.F
       !||    dt_mod           ../engine/source/modules/dt_mod.F
+      !||    dttherm_mod      ../engine/source/time_step/dttherm.F90
       !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    failwave_mod     ../common_source/modules/failwave_mod.F
+      !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    mat_elem_mod     ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    nlocal_reg_mod   ../common_source/modules/nlocal_reg_mod.F
       !||    sensor_mod       ../engine/share/modules/sensor_mod.F

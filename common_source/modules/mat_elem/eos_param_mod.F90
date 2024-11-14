@@ -21,6 +21,16 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
+      !||====================================================================
+      !||    eos_param_mod          ../common_source/modules/mat_elem/eos_param_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    matparam_def_mod       ../common_source/modules/mat_elem/matparam_def_mod.F90
+      !||    read_eosparam          ../engine/source/output/restart/read_eosparam.F90
+      !||    write_eosparam         ../engine/source/output/restart/write_eosparam.F90
+      !||--- uses       -----------------------------------------------------
+      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||    table4d_mod            ../common_source/modules/table4d_mod.F
+      !||====================================================================
       module eos_param_mod
 
 ! ======================================================================================================================
@@ -56,6 +66,9 @@
 
       contains
 
+      !||====================================================================
+      !||    destruct_eos_param   ../common_source/modules/mat_elem/eos_param_mod.F90
+      !||====================================================================
         subroutine destruct_eos_param(this)
           implicit none
           class(eos_param_) ,intent(inout) :: this

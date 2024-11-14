@@ -31,6 +31,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    arret                        ../engine/source/system/arret.F
       !||    eosmain                      ../common_source/eos/eosmain.F
+      !||--- uses       -----------------------------------------------------
+      !||    matparam_def_mod             ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||====================================================================
       SUBROUTINE MULTI_SUBMATLAW(
      1   IFLAG,       MATLAW,      LOCAL_MATID, NEL,

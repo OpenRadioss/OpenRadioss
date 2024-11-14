@@ -22,11 +22,11 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C
       !||====================================================================
-      !||    w_pon           ../starter/source/restart/ddsplit/w_pon.F
+      !||    w_pon            ../starter/source/restart/ddsplit/w_pon.F
       !||--- called by ------------------------------------------------------
-      !||    ddsplit         ../starter/source/restart/ddsplit/ddsplit.F
+      !||    ddsplit          ../starter/source/restart/ddsplit/ddsplit.F
       !||--- calls      -----------------------------------------------------
-      !||    nlocal          ../starter/source/spmd/node/ddtools.F
+      !||    nlocal           ../starter/source/spmd/node/ddtools.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================
       SUBROUTINE W_PON(

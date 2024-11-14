@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    qaprint               ../common_source/qa/qa_out_mod.F
       !||--- uses       -----------------------------------------------------
       !||    dt_mod                ../engine/source/modules/dt_mod.F
+      !||    glob_therm_mod        ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    message_mod           ../engine/share/message_module/message_mod.F
       !||    qa_out_mod            ../common_source/qa/qa_out_mod.F
       !||====================================================================

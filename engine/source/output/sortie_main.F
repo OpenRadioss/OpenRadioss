@@ -66,6 +66,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    fvbag_mod                ../engine/share/modules/fvbag_mod.F
       !||    fvmbag_meshcontrol_mod   ../common_source/modules/airbag/fvmbag_meshcontrol_mod.F
       !||    genani_mod               ../engine/source/output/anim/generate/genani.F
+      !||    glob_therm_mod           ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    groupdef_mod             ../common_source/modules/groupdef_mod.F
       !||    h3d_mod                  ../engine/share/modules/h3d_mod.F
       !||    inoutfile_mod            ../common_source/modules/inoutfile_mod.F

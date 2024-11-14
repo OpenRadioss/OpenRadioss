@@ -114,6 +114,9 @@
 
         contains
 
+      !||====================================================================
+      !||    destruct_multimat_param   ../common_source/modules/multimat_param_mod.F90
+      !||====================================================================
           subroutine destruct_multimat_param(this)
             implicit none
             class(MULTIMAT_PARAM_) :: this

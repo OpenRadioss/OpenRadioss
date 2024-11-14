@@ -29,16 +29,17 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
          INTEGER :: INTDONE
       END MODULE
       !||====================================================================
-      !||    asspar2       ../engine/source/assembly/asspar2.F
+      !||    asspar2          ../engine/source/assembly/asspar2.F
       !||--- calls      -----------------------------------------------------
-      !||    ass2sort      ../engine/source/assembly/ass2sort.F
-      !||    idp_free      ../engine/source/system/machine.F
-      !||    idp_lock      ../engine/source/system/machine.F
-      !||    my_barrier    ../engine/source/system/machine.F
-      !||    order_v       ../engine/source/assembly/asspar2.F
+      !||    ass2sort         ../engine/source/assembly/ass2sort.F
+      !||    idp_free         ../engine/source/system/machine.F
+      !||    idp_lock         ../engine/source/system/machine.F
+      !||    my_barrier       ../engine/source/system/machine.F
+      !||    order_v          ../engine/source/assembly/asspar2.F
       !||--- uses       -----------------------------------------------------
-      !||    ale_mod       ../common_source/modules/ale/ale_mod.F
-      !||    asspar2_mod   ../engine/source/assembly/asspar2.F
+      !||    ale_mod          ../common_source/modules/ale/ale_mod.F
+      !||    asspar2_mod      ../engine/source/assembly/asspar2.F
+      !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||====================================================================
       SUBROUTINE ASSPAR2( 
      2   A          ,AR         ,ITASK      ,NODFT     ,

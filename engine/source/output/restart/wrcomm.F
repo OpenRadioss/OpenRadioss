@@ -33,6 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    anim_mod         ../common_source/modules/output/anim_mod.F
       !||    damp_mod         ../engine/share/modules/damp_mod.F
       !||    drape_mod        ../engine/share/modules/drape_mod.F
+      !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    h3d_mod          ../engine/share/modules/h3d_mod.F
       !||    loads_mod        ../common_source/modules/loads/loads_mod.F
       !||    multi_fvm_mod    ../common_source/modules/ale/multi_fvm_mod.F
@@ -1755,6 +1756,7 @@ c-----------
       !||--- uses       -----------------------------------------------------
       !||    ale_mod              ../common_source/modules/ale/ale_mod.F
       !||    anim_mod             ../common_source/modules/output/anim_mod.F
+      !||    glob_therm_mod       ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    multimat_param_mod   ../common_source/modules/multimat_param_mod.F90
       !||    output_mod           ../common_source/modules/output/output_mod.F90
       !||    outputs_mod          ../common_source/modules/outputs_mod.F

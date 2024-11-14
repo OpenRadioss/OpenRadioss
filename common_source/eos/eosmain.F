@@ -21,34 +21,36 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    eosmain           ../common_source/eos/eosmain.F
+      !||    eosmain            ../common_source/eos/eosmain.F
       !||--- called by ------------------------------------------------------
-      !||    inigrav_eos       ../starter/source/initial_conditions/inigrav/inigrav_eos.F
-      !||    m12law            ../engine/source/materials/mat/mat012/m12law.F
-      !||    mmain             ../engine/source/materials/mat_share/mmain.F90
-      !||    multi_submatlaw   ../engine/source/multifluid/multi_submatlaw.F
-      !||    sigeps75          ../engine/source/materials/mat/mat075/sigeps75.F
-      !||    solve_eint        ../engine/source/multifluid/multi_inlet_ebcs.F
+      !||    inigrav_eos        ../starter/source/initial_conditions/inigrav/inigrav_eos.F
+      !||    m12law             ../engine/source/materials/mat/mat012/m12law.F
+      !||    mmain              ../engine/source/materials/mat_share/mmain.F90
+      !||    multi_submatlaw    ../engine/source/multifluid/multi_submatlaw.F
+      !||    sigeps75           ../engine/source/materials/mat/mat075/sigeps75.F
+      !||    solve_eint         ../engine/source/multifluid/multi_inlet_ebcs.F
       !||--- calls      -----------------------------------------------------
-      !||    compaction        ../common_source/eos/compaction.F
-      !||    eosexponential    ../common_source/eos/eosexponential.F90
-      !||    eoslinear         ../common_source/eos/eoslinear.F
-      !||    eospolyno         ../common_source/eos/eospolyno.F
-      !||    gruneisen         ../common_source/eos/gruneisen.F
-      !||    idealgas          ../common_source/eos/idealgas.F
-      !||    idealgas_vt       ../common_source/eos/idealgas_vt.F
-      !||    jwl               ../common_source/eos/jwl.F
-      !||    lszk              ../common_source/eos/lszk.F
-      !||    murnaghan         ../common_source/eos/murnaghan.F
-      !||    nasg              ../common_source/eos/nasg.F
-      !||    noble_abel        ../common_source/eos/noble_abel.F
-      !||    osborne           ../common_source/eos/osborne.F
-      !||    powder_burn       ../common_source/eos/powder_burn.F
-      !||    puff              ../common_source/eos/puff.F
-      !||    sesame            ../common_source/eos/sesame.F
-      !||    stiffgas          ../common_source/eos/stiffgas.F
-      !||    tabulated         ../common_source/eos/tabulated.F
-      !||    tillotson         ../common_source/eos/tillotson.F
+      !||    compaction         ../common_source/eos/compaction.F
+      !||    eosexponential     ../common_source/eos/eosexponential.F90
+      !||    eoslinear          ../common_source/eos/eoslinear.F
+      !||    eospolyno          ../common_source/eos/eospolyno.F
+      !||    gruneisen          ../common_source/eos/gruneisen.F
+      !||    idealgas           ../common_source/eos/idealgas.F
+      !||    idealgas_vt        ../common_source/eos/idealgas_vt.F
+      !||    jwl                ../common_source/eos/jwl.F
+      !||    lszk               ../common_source/eos/lszk.F
+      !||    murnaghan          ../common_source/eos/murnaghan.F
+      !||    nasg               ../common_source/eos/nasg.F
+      !||    noble_abel         ../common_source/eos/noble_abel.F
+      !||    osborne            ../common_source/eos/osborne.F
+      !||    powder_burn        ../common_source/eos/powder_burn.F
+      !||    puff               ../common_source/eos/puff.F
+      !||    sesame             ../common_source/eos/sesame.F
+      !||    stiffgas           ../common_source/eos/stiffgas.F
+      !||    tabulated          ../common_source/eos/tabulated.F
+      !||    tillotson          ../common_source/eos/tillotson.F
+      !||--- uses       -----------------------------------------------------
+      !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||====================================================================
       SUBROUTINE EOSMAIN(IFLAG ,NEL   ,EOSTYP ,PM      ,OFF      ,EINT  ,
      2                   RHO   ,RHO0  ,MU     ,MU2     ,ESPE     ,

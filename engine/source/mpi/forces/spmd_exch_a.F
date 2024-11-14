@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
       !||    acceleration_dp_mod   ../engine/share/modules/acceleration_dp_mod.F
+      !||    glob_therm_mod        ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    h3d_mod               ../engine/share/modules/h3d_mod.F
       !||====================================================================
       SUBROUTINE SPMD_EXCH_A(

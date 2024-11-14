@@ -768,6 +768,8 @@ C----------------------
       !||    multi_muscl_fluxes_computation   ../engine/source/multifluid/multi_muscl_fluxes_computation.F
       !||--- calls      -----------------------------------------------------
       !||    multi_submatlaw                  ../engine/source/multifluid/multi_submatlaw.F
+      !||--- uses       -----------------------------------------------------
+      !||    matparam_def_mod                 ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||====================================================================
       SUBROUTINE COMPUTE_PRESSURE(MATLAW, LOCAL_MATID, PM, IPM, NPROPM, NPROPMI, 
      .                            EINT, RHO, PRES, SSP,

@@ -195,6 +195,7 @@ c
       !||    crackxfem_mod          ../engine/share/modules/crackxfem_mod.F
       !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    fvbag_mod              ../engine/share/modules/fvbag_mod.F
+      !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    groupdef_mod           ../common_source/modules/groupdef_mod.F
       !||    h3d_mod                ../engine/share/modules/h3d_mod.F
       !||    inoutfile_mod          ../common_source/modules/inoutfile_mod.F

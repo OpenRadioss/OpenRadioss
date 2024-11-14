@@ -152,6 +152,7 @@
       !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
       !||    constant_mod           ../common_source/modules/constant_mod.F
       !||    dt_mod                 ../engine/source/modules/dt_mod.F
+      !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    message_mod            ../engine/share/message_module/message_mod.F
       !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F

@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    s4volume              ../engine/source/elements/solid/solide4/s4volume.F
       !||    s8evolume             ../engine/source/elements/solid/solide8e/s8evolume.F
       !||--- uses       -----------------------------------------------------
+      !||    glob_therm_mod        ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    python_funct_mod      ../common_source/modules/python_mod.F90
       !||    sensor_mod            ../engine/share/modules/sensor_mod.F
       !||====================================================================

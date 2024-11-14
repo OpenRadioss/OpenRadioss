@@ -48,6 +48,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_eos_noble_abel      ../starter/source/materials/eos/hm_read_eos_noble_abel.F
       !||    hm_read_eos_osborne         ../starter/source/materials/eos/hm_read_eos_osborne.F
       !||    hm_read_eos_polynomial      ../starter/source/materials/eos/hm_read_eos_polynomial.F
+      !||    hm_read_eos_powderburn      ../starter/source/materials/eos/hm_read_eos_powderburn.F90
       !||    hm_read_eos_puff            ../starter/source/materials/eos/hm_read_eos_puff.F
       !||    hm_read_eos_sesame          ../starter/source/materials/eos/hm_read_eos_sesame.F
       !||    hm_read_eos_stiffened_gas   ../starter/source/materials/eos/hm_read_eos_stiffened_gas.F

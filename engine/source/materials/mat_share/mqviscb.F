@@ -36,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    usermat_solid    ../engine/source/materials/mat_share/usermat_solid.F
       !||--- uses       -----------------------------------------------------
       !||    ale_mod          ../common_source/modules/ale/ale_mod.F
+      !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    i22bufbric_mod   ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||    i22tri_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||====================================================================

@@ -51,6 +51,7 @@ C
       !||    spmd_fiadd_pon         ../engine/source/mpi/interfaces/spmd_i7tool.F
       !||--- uses       -----------------------------------------------------
       !||    fskyi_mod              ../engine/share/modules/restart_mod.F
+      !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    groupdef_mod           ../common_source/modules/groupdef_mod.F
       !||    h3d_mod                ../engine/share/modules/h3d_mod.F
       !||    heat_mod               ../engine/share/modules/heat_mod.F

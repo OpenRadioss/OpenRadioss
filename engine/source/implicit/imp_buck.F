@@ -57,6 +57,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    dsgraph_mod            ../engine/share/modules/dsgraph_mod.F
       !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    genani_mod             ../engine/source/output/anim/generate/genani.F
+      !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    groupdef_mod           ../common_source/modules/groupdef_mod.F
       !||    h3d_mod                ../engine/share/modules/h3d_mod.F
       !||    imp_workg              ../engine/share/modules/impbufdef_mod.F

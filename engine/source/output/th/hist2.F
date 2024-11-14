@@ -61,6 +61,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    cluster_mod             ../engine/share/modules/cluster_mod.F
       !||    ebcs_mod                ../common_source/modules/boundary_conditions/ebcs_mod.F
       !||    elbufdef_mod            ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    glob_therm_mod          ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    groupdef_mod            ../common_source/modules/groupdef_mod.F
       !||    matparam_def_mod        ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||    multi_fvm_mod           ../common_source/modules/ale/multi_fvm_mod.F

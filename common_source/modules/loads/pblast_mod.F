@@ -291,6 +291,7 @@ C-----------------------------------------------
       !||    write_db               ../common_source/tools/input_output/write_db.F
       !||    write_i_c              ../common_source/tools/input_output/write_routtines.c
       !||--- uses       -----------------------------------------------------
+      !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    message_mod            ../engine/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE PBLAST_WRITE_STARTER(PBLAST_TAB,GLOB_THERM,PROC,CEP)

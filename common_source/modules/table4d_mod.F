@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    asso_qplas76c       ../engine/source/materials/mat/mat076/asso_qplas76c.F
       !||    condamage           ../engine/source/materials/mat/mat190/condamage.F
       !||    conversion          ../engine/source/materials/mat/mat190/conversion.F
+      !||    eos_param_mod       ../common_source/modules/mat_elem/eos_param_mod.F90
       !||    fail_param_mod      ../common_source/modules/mat_elem/fail_param_mod.F90
       !||    law50_table         ../starter/source/materials/mat/mat050/law50_table.F90
       !||    law70_table         ../starter/source/materials/mat/mat070/law70_table.F

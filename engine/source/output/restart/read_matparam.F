@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    read_c_c               ../common_source/tools/input_output/write_routtines.c
       !||    read_db                ../common_source/tools/input_output/read_db.F
+      !||    read_eosparam          ../engine/source/output/restart/read_eosparam.F90
       !||    read_failparam         ../engine/source/output/restart/read_failparam.F
       !||    read_i_c               ../common_source/tools/input_output/write_routtines.c
       !||    read_mat_table         ../engine/source/materials/tools/read_mat_table.F

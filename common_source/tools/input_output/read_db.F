@@ -70,6 +70,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    read_data_valvout    ../common_source/modules/boundary_conditions/ebcs_mod.F
       !||    read_data_vel        ../common_source/modules/boundary_conditions/ebcs_mod.F
       !||    read_elgroup_param   ../engine/source/output/restart/read_elgroup_param.F
+      !||    read_eosparam        ../engine/source/output/restart/read_eosparam.F90
       !||    read_failparam       ../engine/source/output/restart/read_failparam.F
       !||    read_inivel          ../engine/source/output/restart/read_inivel.F90
       !||    read_mat_table       ../engine/source/materials/tools/read_mat_table.F

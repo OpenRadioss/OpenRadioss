@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    rdcomi                 ../engine/source/output/restart/rdcomm.F
       !||    read_i_c               ../common_source/tools/input_output/write_routtines.c
       !||--- uses       -----------------------------------------------------
+      !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    h3d_mod                ../engine/share/modules/h3d_mod.F
       !||    loads_mod              ../common_source/modules/loads/loads_mod.F
       !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
@@ -188,17 +189,18 @@ C
       END
 
       !||====================================================================
-      !||    iniresa         ../engine/source/output/restart/rdresa.F
+      !||    iniresa          ../engine/source/output/restart/rdresa.F
       !||--- called by ------------------------------------------------------
-      !||    radioss2        ../engine/source/engine/radioss2.F
+      !||    radioss2         ../engine/source/engine/radioss2.F
       !||--- calls      -----------------------------------------------------
-      !||    nvar            ../engine/source/input/nvar.F
+      !||    nvar             ../engine/source/input/nvar.F
       !||--- uses       -----------------------------------------------------
-      !||    ale_mod         ../common_source/modules/ale/ale_mod.F
-      !||    aleanim_mod     ../engine/share/modules/aleanim_mod.F
-      !||    h3d_mod         ../engine/share/modules/h3d_mod.F
-      !||    message_mod     ../engine/share/message_module/message_mod.F
-      !||    pinchtype_mod   ../common_source/modules/pinchtype_mod.F
+      !||    ale_mod          ../common_source/modules/ale/ale_mod.F
+      !||    aleanim_mod      ../engine/share/modules/aleanim_mod.F
+      !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
+      !||    h3d_mod          ../engine/share/modules/h3d_mod.F
+      !||    message_mod      ../engine/share/message_module/message_mod.F
+      !||    pinchtype_mod    ../common_source/modules/pinchtype_mod.F
       !||====================================================================
       SUBROUTINE INIRESA(H3D_DATA,PINCH_DATA,GLOB_THERM)
 C-----------------------------------------------

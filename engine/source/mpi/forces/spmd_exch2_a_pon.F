@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    crackxfem_mod          ../engine/share/modules/crackxfem_mod.F
       !||    fskyi_mod              ../engine/share/modules/restart_mod.F
+      !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    h3d_mod                ../engine/share/modules/h3d_mod.F
       !||    heat_mod               ../engine/share/modules/heat_mod.F
       !||    plyxfem_mod            ../engine/share/modules/plyxfem_mod.F

@@ -21,14 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    fxfluxrrest   ../engine/source/constraints/thermic/fxfluxrrest.F
+      !||    fxfluxrrest      ../engine/source/constraints/thermic/fxfluxrrest.F
       !||--- called by ------------------------------------------------------
-      !||    rdresb        ../engine/source/output/restart/rdresb.F
+      !||    rdresb           ../engine/source/output/restart/rdresb.F
       !||--- calls      -----------------------------------------------------
-      !||    read_db       ../common_source/tools/input_output/read_db.F
-      !||    read_i_c      ../common_source/tools/input_output/write_routtines.c
-      !||    redsqi        ../engine/source/output/tools/redsqi.F
-      !||    redsqr        ../engine/source/output/tools/redsqr.F
+      !||    read_db          ../common_source/tools/input_output/read_db.F
+      !||    read_i_c         ../common_source/tools/input_output/write_routtines.c
+      !||    redsqi           ../engine/source/output/tools/redsqi.F
+      !||    redsqr           ../engine/source/output/tools/redsqr.F
+      !||--- uses       -----------------------------------------------------
+      !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||====================================================================
       SUBROUTINE FXFLUXRREST(IBFFLUX, FBFFLUX, GLOB_THERM)
 

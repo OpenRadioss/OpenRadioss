@@ -443,6 +443,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    funct_python_update_elements_mod             ../engine/source/tools/curve/funct_python_update_elements.F90
       !||    fvbag_mod                                    ../engine/share/modules/fvbag_mod.F
       !||    get_neighbour_surface_mod                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
+      !||    glob_therm_mod                               ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    groupdef_mod                                 ../common_source/modules/groupdef_mod.F
       !||    h3d_mod                                      ../engine/share/modules/h3d_mod.F
       !||    heat_mod                                     ../engine/share/modules/heat_mod.F

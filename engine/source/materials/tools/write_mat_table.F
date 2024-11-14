@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    write_mat_table   ../engine/source/materials/tools/write_mat_table.F
       !||--- called by ------------------------------------------------------
+      !||    write_eosparam    ../engine/source/output/restart/write_eosparam.F90
       !||    write_matparam    ../engine/source/output/restart/write_matparam.F
       !||    write_viscparam   ../engine/source/output/restart/write_viscparam.F
       !||--- calls      -----------------------------------------------------

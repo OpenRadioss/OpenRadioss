@@ -21,9 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    powder_burn   ../common_source/eos/powder_burn.F
+      !||    powder_burn        ../common_source/eos/powder_burn.F
       !||--- called by ------------------------------------------------------
-      !||    eosmain       ../common_source/eos/eosmain.F
+      !||    eosmain            ../common_source/eos/eosmain.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod       ../common_source/modules/constant_mod.F
+      !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||====================================================================
       SUBROUTINE POWDER_BURN    (
      1                            IFLAG , NEL    ,PM    ,OFF  , EINT  ,MU          ,MU2 ,

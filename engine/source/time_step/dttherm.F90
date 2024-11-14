@@ -21,14 +21,14 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    dttherm     ../engine/source/elements/sh3n/coquedk/dttherm.F
+      !||    dttherm_mod   ../engine/source/time_step/dttherm.F90
       !||--- called by ------------------------------------------------------
-      !||    c3forc3     ../engine/source/elements/sh3n/coque3n/c3forc3.F
-      !||    cbaforc3    ../engine/source/elements/shell/coqueba/cbaforc3.F
-      !||    cdk6forc3   ../engine/source/elements/sh3n/coquedk6/cdk6forc3.F
-      !||    cdkforc3    ../engine/source/elements/sh3n/coquedk/cdkforc3.F
-      !||    cforc3      ../engine/source/elements/shell/coque/cforc3.F
-      !||    czforc3     ../engine/source/elements/shell/coquez/czforc3.F
+      !||    c3forc3       ../engine/source/elements/sh3n/coque3n/c3forc3.F
+      !||    cbaforc3      ../engine/source/elements/shell/coqueba/cbaforc3.F
+      !||    cdk6forc3     ../engine/source/elements/sh3n/coquedk6/cdk6forc3.F
+      !||    cdkforc3      ../engine/source/elements/sh3n/coquedk/cdkforc3.F
+      !||    cforc3        ../engine/source/elements/shell/coque/cforc3.F
+      !||    czforc3       ../engine/source/elements/shell/coquez/czforc3.F
       !||====================================================================
       module dttherm_mod
       contains
@@ -37,6 +37,19 @@
 !! \brief calculates thermal time step
 !! \details 
 ! ======================================================================================================================
+      !||====================================================================
+      !||    dttherm          ../engine/source/time_step/dttherm.F90
+      !||--- called by ------------------------------------------------------
+      !||    c3forc3          ../engine/source/elements/sh3n/coque3n/c3forc3.F
+      !||    cbaforc3         ../engine/source/elements/shell/coqueba/cbaforc3.F
+      !||    cdk6forc3        ../engine/source/elements/sh3n/coquedk6/cdk6forc3.F
+      !||    cdkforc3         ../engine/source/elements/sh3n/coquedk/cdkforc3.F
+      !||    cforc3           ../engine/source/elements/shell/coque/cforc3.F
+      !||    czforc3          ../engine/source/elements/shell/coquez/czforc3.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod     ../common_source/modules/constant_mod.F
+      !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
+      !||====================================================================
       subroutine dttherm(nel     ,pm      ,npropm  ,glob_therm,            &
                          jtur    ,tempel  ,vol0    ,rho       ,            &
                          lc      ,off     ,conde   ,re        ,rk      )

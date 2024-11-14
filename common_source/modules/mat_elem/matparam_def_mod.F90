@@ -43,6 +43,7 @@
       !||    cgrtails                            ../starter/source/elements/shell/coque/cgrtails.F
       !||    check_mat_elem_prop_compatibility   ../starter/source/materials/mat/check_mat_elem_prop_compatibility.F
       !||    cinit3                              ../starter/source/elements/shell/coque/cinit3.F
+      !||    compute_pressure                    ../engine/source/multifluid/multi_muscl_fluxes_computation.F
       !||    dfuncc                              ../engine/source/output/anim/generate/dfuncc.F
       !||    dfuncc_ply                          ../engine/source/output/anim/generate/dfuncc_ply.F
       !||    dfuncs                              ../engine/source/output/anim/generate/dfunc6.F
@@ -51,6 +52,7 @@
       !||    eig                                 ../engine/stub/eig.F
       !||    eig1                                ../engine/stub/eig1.F
       !||    eigp                                ../engine/stub/eigp.F
+      !||    eosmain                             ../common_source/eos/eosmain.F
       !||    fail_init                           ../starter/source/materials/fail/fail_init.F
       !||    fail_windshield_init                ../starter/source/materials/fail/windshield_alter/fail_windshield_init.F
       !||    failini                             ../starter/source/elements/solid/solide/failini.F
@@ -71,6 +73,7 @@
       !||    h3d_solid_scalar_1                  ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
       !||    hist2                               ../engine/source/output/th/hist2.F
       !||    hm_read_eos                         ../starter/source/materials/eos/hm_read_eos.F
+      !||    hm_read_eos_powderburn              ../starter/source/materials/eos/hm_read_eos_powderburn.F90
       !||    hm_read_fail                        ../starter/source/materials/fail/hm_read_fail.F
       !||    hm_read_inistate_d00                ../starter/source/elements/initia/hm_read_inistate_d00.F
       !||    hm_read_mat                         ../starter/source/materials/mat/hm_read_mat.F
@@ -216,6 +219,7 @@
       !||    law77_upd                           ../starter/source/materials/mat/mat077/law77_upd.F
       !||    lec_inistate                        ../starter/source/elements/initia/lec_inistate.F
       !||    lech3d                              ../engine/source/output/h3d/h3d_build_fortran/lech3d.F
+      !||    m12law                              ../engine/source/materials/mat/mat012/m12law.F
       !||    m20dcod                             ../starter/source/system/fsdcod.F
       !||    m25law                              ../engine/source/materials/mat/mat025/m25law.F
       !||    mat25_crasurv_c                     ../engine/source/materials/mat/mat025/mat25_crasurv_c.F90
@@ -224,14 +228,19 @@
       !||    mat25_tsaiwu_s                      ../engine/source/materials/mat/mat025/mat25_tsaiwu_s.F90
       !||    mat_elem_mod                        ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    mulaw                               ../engine/source/materials/mat_share/mulaw.F90
+      !||    multi_ebcs                          ../engine/source/multifluid/multi_ebcs.F
+      !||    multi_inlet_ebcs                    ../engine/source/multifluid/multi_inlet_ebcs.F
       !||    multi_muscl_fluxes_computation      ../engine/source/multifluid/multi_muscl_fluxes_computation.F
+      !||    multi_nrf_ebcs                      ../engine/source/multifluid/multi_nrf_ebcs.F
       !||    multi_pressure_equilibrium          ../engine/source/multifluid/multi_pressure_equilibrium.F
+      !||    multi_submatlaw                     ../engine/source/multifluid/multi_submatlaw.F
       !||    multi_timeevolution                 ../engine/source/multifluid/multi_timeevolution.F
       !||    multifluid_init2                    ../starter/source/multifluid/multifluid_init2.F
       !||    multifluid_init2t                   ../starter/source/multifluid/multifluid_init2t.F
       !||    multifluid_init3                    ../starter/source/multifluid/multifluid_init3.F
       !||    multifluid_init3t                   ../starter/source/multifluid/multifluid_init3t.F
       !||    pgrtails                            ../starter/source/elements/beam/pgrtails.F
+      !||    powder_burn                         ../common_source/eos/powder_burn.F
       !||    qgrhead                             ../starter/source/elements/solid_2d/quad/qgrhead.F
       !||    qgrtails                            ../starter/source/elements/solid_2d/quad/qgrtails.F
       !||    r2r_group                           ../starter/source/coupling/rad2rad/r2r_group.F
@@ -281,6 +290,7 @@
       !||    updfail                             ../starter/source/materials/updfail.F90
       !||    updmat                              ../starter/source/materials/updmat.F
       !||--- uses       -----------------------------------------------------
+      !||    eos_param_mod                       ../common_source/modules/mat_elem/eos_param_mod.F90
       !||    fail_param_mod                      ../common_source/modules/mat_elem/fail_param_mod.F90
       !||    multimat_param_mod                  ../common_source/modules/multimat_param_mod.F90
       !||    names_and_titles_mod                ../common_source/modules/names_and_titles_mod.F
@@ -377,6 +387,9 @@
 
       contains
 
+      !||====================================================================
+      !||    destruct_matparam   ../common_source/modules/mat_elem/matparam_def_mod.F90
+      !||====================================================================
         subroutine destruct_matparam(this)
           implicit none
           class(matparam_struct_), intent(inout) :: this

@@ -324,6 +324,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    rdresa                             ../engine/source/output/restart/rdresa.F
       !||    rdresb                             ../engine/source/output/restart/rdresb.F
       !||    read_dynain                        ../engine/source/output/dynain/read_dynain.F
+      !||    read_eosparam                      ../engine/source/output/restart/read_eosparam.F90
       !||    read_matparam                      ../engine/source/output/restart/read_matparam.F
       !||    read_msgfile                       ../engine/source/output/message/read_msgfile.F
       !||    read_sensors                       ../engine/source/output/restart/read_sensors.F

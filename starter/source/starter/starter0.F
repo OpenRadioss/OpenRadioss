@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    contrl                            ../starter/source/starter/contrl.F
       !||    execargcheck                      ../starter/source/starter/execargcheck.F
       !||    get_file_name_info                ../starter/source/system/get_file_name_info.F
+      !||    glob_therm_init                   ../starter/source/constraints/thermic/glob_therm_init.F90
       !||    hm_convert_2d_elements_seatbelt   ../starter/source/devtools/hm_reader/hm_convert_2d_elements_seatbelt.F
       !||    hm_convert_fail_tab               ../starter/source/devtools/hm_reader/hm_convert_fail_tab.F
       !||    hm_convert_inter_type19           ../starter/source/devtools/hm_reader/hm_convert_inter_type19.F
@@ -62,6 +63,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    defaults_mod                      ../starter/source/modules/defaults_mod.F90
       !||    detonators_mod                    ../starter/share/modules1/detonators_mod.F
+      !||    glob_therm_init_mod               ../starter/source/constraints/thermic/glob_therm_init.F90
       !||    message_mod                       ../starter/share/message_module/message_mod.F
       !||    submodel_mod                      ../starter/share/modules1/submodel_mod.F
       !||    user_interface_mod                ../starter/share/modules1/user_interface_mod.F

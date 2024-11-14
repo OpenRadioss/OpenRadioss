@@ -28,7 +28,6 @@ C
       !||    dswrest         ../starter/source/restart/ddsplit/wrrest.F
       !||    eigwrest        ../starter/source/restart/ddsplit/wrrest.F
       !||    fxbwrestp       ../starter/source/restart/ddsplit/wrrest.F
-      !||    fxtempwrest     ../starter/source/restart/ddsplit/wrrest.F
       !||    nfwrest         ../starter/source/restart/ddsplit/wrrest.F
       !||    plyxfem_wrest   ../starter/source/restart/ddsplit/wrrest.F
       !||    rigmatwrest     ../starter/source/restart/ddsplit/wrrest.F

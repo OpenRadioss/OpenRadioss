@@ -38,6 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_exch_a_int2h       ../engine/source/mpi/forces/spmd_exch_a_int2h.F
       !||    spmd_exch_a_int2h_ams   ../engine/source/mpi/forces/spmd_exch_a_int2h_ams.F
       !||--- uses       -----------------------------------------------------
+      !||    glob_therm_mod          ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    h3d_mod                 ../engine/share/modules/h3d_mod.F
       !||====================================================================
       SUBROUTINE INTTI1(

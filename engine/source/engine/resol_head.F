@@ -39,6 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ebcs_mod               ../common_source/modules/boundary_conditions/ebcs_mod.F
       !||    eig_mod                ../engine/share/modules/eig_mod.F
       !||    fxb_mod                ../engine/share/modules/fxb_mod.F
+      !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    groupdef_mod           ../common_source/modules/groupdef_mod.F
       !||    h3d_mod                ../engine/share/modules/h3d_mod.F
       !||    intbuf_fric_mod        ../common_source/modules/interfaces/intbuf_fric_mod.F90

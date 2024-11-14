@@ -21,14 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    m12law    ../engine/source/materials/mat/mat012/m12law.F
+      !||    m12law             ../engine/source/materials/mat/mat012/m12law.F
       !||--- called by ------------------------------------------------------
-      !||    mmain     ../engine/source/materials/mat_share/mmain.F90
+      !||    mmain              ../engine/source/materials/mat_share/mmain.F90
       !||--- calls      -----------------------------------------------------
-      !||    eosmain   ../common_source/eos/eosmain.F
-      !||    m14ama    ../engine/source/materials/mat/mat014/m14ama.F
-      !||    m14ftg    ../engine/source/materials/mat/mat014/m14ftg.F
-      !||    m14gtf    ../engine/source/materials/mat/mat014/m14gtf.F
+      !||    eosmain            ../common_source/eos/eosmain.F
+      !||    m14ama             ../engine/source/materials/mat/mat014/m14ama.F
+      !||    m14ftg             ../engine/source/materials/mat/mat014/m14ftg.F
+      !||    m14gtf             ../engine/source/materials/mat/mat014/m14gtf.F
+      !||--- uses       -----------------------------------------------------
+      !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||====================================================================
       SUBROUTINE M12LAW(
      1   PM,        OFF,       SIG,       EINT,

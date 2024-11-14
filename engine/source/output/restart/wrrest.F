@@ -715,14 +715,16 @@ C--------------------------------------
 C
 C convection flux 
       !||====================================================================
-      !||    convwrest   ../engine/source/output/restart/wrrest.F
+      !||    convwrest        ../engine/source/output/restart/wrrest.F
       !||--- called by ------------------------------------------------------
-      !||    wrrestp     ../engine/source/output/restart/wrrestp.F
+      !||    wrrestp          ../engine/source/output/restart/wrrestp.F
       !||--- calls      -----------------------------------------------------
-      !||    write_db    ../common_source/tools/input_output/write_db.F
-      !||    write_i_c   ../common_source/tools/input_output/write_routtines.c
-      !||    wrtsqi      ../engine/source/output/tools/wrtsqi.F
-      !||    wrtsqr      ../engine/source/output/tools/wrtsqr.F
+      !||    write_db         ../common_source/tools/input_output/write_db.F
+      !||    write_i_c        ../common_source/tools/input_output/write_routtines.c
+      !||    wrtsqi           ../engine/source/output/tools/wrtsqi.F
+      !||    wrtsqr           ../engine/source/output/tools/wrtsqr.F
+      !||--- uses       -----------------------------------------------------
+      !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||====================================================================
       SUBROUTINE CONVWREST(IBCV,FCONV,GLOB_THERM)
 
@@ -760,14 +762,16 @@ C--------------------------------------
       END
 C radiative flux 
       !||====================================================================
-      !||    radiawrest   ../engine/source/output/restart/wrrest.F
+      !||    radiawrest       ../engine/source/output/restart/wrrest.F
       !||--- called by ------------------------------------------------------
-      !||    wrrestp      ../engine/source/output/restart/wrrestp.F
+      !||    wrrestp          ../engine/source/output/restart/wrrestp.F
       !||--- calls      -----------------------------------------------------
-      !||    write_db     ../common_source/tools/input_output/write_db.F
-      !||    write_i_c    ../common_source/tools/input_output/write_routtines.c
-      !||    wrtsqi       ../engine/source/output/tools/wrtsqi.F
-      !||    wrtsqr       ../engine/source/output/tools/wrtsqr.F
+      !||    write_db         ../common_source/tools/input_output/write_db.F
+      !||    write_i_c        ../common_source/tools/input_output/write_routtines.c
+      !||    wrtsqi           ../engine/source/output/tools/wrtsqi.F
+      !||    wrtsqr           ../engine/source/output/tools/wrtsqr.F
+      !||--- uses       -----------------------------------------------------
+      !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||====================================================================
       SUBROUTINE RADIAWREST(IBCR,FRADIA,GLOB_THERM)    
             
@@ -805,14 +809,16 @@ C--------------------------------------
       END
 C convection flux 
       !||====================================================================
-      !||    fxtempwrest   ../engine/source/output/restart/wrrest.F
+      !||    fxtempwrest      ../engine/source/output/restart/wrrest.F
       !||--- called by ------------------------------------------------------
-      !||    wrrestp       ../engine/source/output/restart/wrrestp.F
+      !||    wrrestp          ../engine/source/output/restart/wrrestp.F
       !||--- calls      -----------------------------------------------------
-      !||    write_db      ../common_source/tools/input_output/write_db.F
-      !||    write_i_c     ../common_source/tools/input_output/write_routtines.c
-      !||    wrtsqi        ../engine/source/output/tools/wrtsqi.F
-      !||    wrtsqr        ../engine/source/output/tools/wrtsqr.F
+      !||    write_db         ../common_source/tools/input_output/write_db.F
+      !||    write_i_c        ../common_source/tools/input_output/write_routtines.c
+      !||    wrtsqi           ../engine/source/output/tools/wrtsqi.F
+      !||    wrtsqr           ../engine/source/output/tools/wrtsqr.F
+      !||--- uses       -----------------------------------------------------
+      !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||====================================================================
       SUBROUTINE FXTEMPWREST(IBFT,FBFT,GLOB_THERM)
       

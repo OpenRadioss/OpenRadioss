@@ -21,21 +21,21 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    pinit3         ../starter/source/elements/beam/pinit3.F
+      !||    pinit3           ../starter/source/elements/beam/pinit3.F
       !||--- called by ------------------------------------------------------
-      !||    initia         ../starter/source/elements/initia/initia.F
+      !||    initia           ../starter/source/elements/initia/initia.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg         ../starter/source/output/message/message.F
-      !||    bsigini        ../starter/source/elements/beam/bsigini.F
-      !||    buserini       ../starter/source/elements/beam/buserini.F
-      !||    dt1lawp        ../starter/source/elements/beam/dt1lawp.F
-      !||    pcoori         ../starter/source/elements/beam/pcoori.F
-      !||    peveci         ../starter/source/elements/beam/peveci.F
-      !||    pibuf3         ../starter/source/elements/beam/pibuf3.F
-      !||    pmass          ../starter/source/elements/beam/pmass.F
+      !||    ancmsg           ../starter/source/output/message/message.F
+      !||    bsigini          ../starter/source/elements/beam/bsigini.F
+      !||    buserini         ../starter/source/elements/beam/buserini.F
+      !||    dt1lawp          ../starter/source/elements/beam/dt1lawp.F
+      !||    pcoori           ../starter/source/elements/beam/pcoori.F
+      !||    peveci           ../starter/source/elements/beam/peveci.F
+      !||    pibuf3           ../starter/source/elements/beam/pibuf3.F
+      !||    pmass            ../starter/source/elements/beam/pmass.F
       !||--- uses       -----------------------------------------------------
-      !||    bpreload_mod   ../starter/share/modules1/bpreload_mod.F
-      !||    message_mod    ../starter/share/message_module/message_mod.F
+      !||    bpreload_mod     ../starter/share/modules1/bpreload_mod.F
+      !||    message_mod      ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE PINIT3(ELBUF_STR,
      1                  STP      ,IC      ,PM      ,X       ,GEO   ,

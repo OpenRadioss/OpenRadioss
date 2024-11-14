@@ -700,6 +700,7 @@ C
       !||    imp_intdt        ../engine/source/implicit/imp_int_k.F
       !||    imp_tripi        ../engine/source/implicit/imp_int_k.F
       !||--- uses       -----------------------------------------------------
+      !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    groupdef_mod     ../common_source/modules/groupdef_mod.F
       !||    h3d_mod          ../engine/share/modules/h3d_mod.F
       !||    multi_fvm_mod    ../common_source/modules/ale/multi_fvm_mod.F
@@ -1072,6 +1073,7 @@ C
       !||    spmd_ifront       ../engine/source/mpi/interfaces/spmd_ifront.F
       !||    spmd_sd_xv        ../engine/source/mpi/nodes/spmd_sd_xv.F
       !||--- uses       -----------------------------------------------------
+      !||    glob_therm_mod    ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    groupdef_mod      ../common_source/modules/groupdef_mod.F
       !||    h3d_mod           ../engine/share/modules/h3d_mod.F
       !||    multi_fvm_mod     ../common_source/modules/ale/multi_fvm_mod.F

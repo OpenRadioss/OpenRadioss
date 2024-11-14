@@ -21,18 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    m24law         ../engine/source/materials/mat/mat024/m24law.F
+      !||    m24law           ../engine/source/materials/mat/mat024/m24law.F
       !||--- called by ------------------------------------------------------
-      !||    mmain          ../engine/source/materials/mat_share/mmain.F90
+      !||    mmain            ../engine/source/materials/mat_share/mmain.F90
       !||--- calls      -----------------------------------------------------
-      !||    conc24         ../engine/source/materials/mat/mat024/conc24.F
-      !||    m24anim        ../engine/source/materials/mat/mat024/m24anim.F
-      !||    m24dmax        ../engine/source/materials/mat/mat024/m24dmax.F
-      !||    mdtsph         ../engine/source/materials/mat_share/mdtsph.F
-      !||    mnsvis         ../engine/source/materials/mat_share/mnsvis.F
-      !||    mqviscb        ../engine/source/materials/mat_share/mqviscb.F
+      !||    conc24           ../engine/source/materials/mat/mat024/conc24.F
+      !||    m24anim          ../engine/source/materials/mat/mat024/m24anim.F
+      !||    m24dmax          ../engine/source/materials/mat/mat024/m24dmax.F
+      !||    mdtsph           ../engine/source/materials/mat_share/mdtsph.F
+      !||    mnsvis           ../engine/source/materials/mat_share/mnsvis.F
+      !||    mqviscb          ../engine/source/materials/mat_share/mqviscb.F
       !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||====================================================================
       SUBROUTINE M24LAW(
      1   LBUF,    PM,      OFF,     SIG,

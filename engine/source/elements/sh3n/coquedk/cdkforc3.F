@@ -42,14 +42,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    cncoef3             ../engine/source/elements/sh3n/coquedk/cncoef3.F
       !||    cndt3               ../engine/source/elements/sh3n/coquedk/cndt3.F
       !||    dtcdk_reg           ../engine/source/elements/sh3n/coquedk/dtcdk_reg.F
-      !||    dttherm             ../engine/source/elements/sh3n/coquedk/dttherm.F
+      !||    dttherm             ../engine/source/time_step/dttherm.F90
       !||    set_failwave_nod3   ../engine/source/materials/fail/failwave/set_failwave_nod3.F
       !||    set_failwave_sh3n   ../engine/source/materials/fail/failwave/upd_failwave_sh3n.F
       !||--- uses       -----------------------------------------------------
       !||    drape_mod           ../engine/share/modules/drape_mod.F
       !||    dt_mod              ../engine/source/modules/dt_mod.F
+      !||    dttherm_mod         ../engine/source/time_step/dttherm.F90
       !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    failwave_mod        ../common_source/modules/failwave_mod.F
+      !||    glob_therm_mod      ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    mat_elem_mod        ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    nlocal_reg_mod      ../common_source/modules/nlocal_reg_mod.F
       !||    sensor_mod          ../engine/share/modules/sensor_mod.F

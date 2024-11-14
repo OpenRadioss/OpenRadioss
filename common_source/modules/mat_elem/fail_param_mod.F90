@@ -182,6 +182,9 @@
 
       contains
 
+      !||====================================================================
+      !||    destruct_fail_param   ../common_source/modules/mat_elem/fail_param_mod.F90
+      !||====================================================================
         subroutine destruct_fail_param(this)
           implicit none
           class(fail_param_) ,intent(inout) :: this

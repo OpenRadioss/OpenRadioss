@@ -112,6 +112,7 @@
       !||    r2r_void_1d                        ../starter/source/coupling/rad2rad/r2r_void.F
       !||    rcheckmass                         ../starter/source/elements/spring/rcheckmass.F
       !||    read_box_box                       ../starter/source/model/box/read_box_box.F
+      !||    read_eosparam                      ../engine/source/output/restart/read_eosparam.F90
       !||    read_impdisp                       ../starter/source/constraints/general/impvel/read_impdisp.F
       !||    read_rwall                         ../starter/source/constraints/general/rwall/read_rwall.F
       !||    read_viscparam                     ../engine/source/output/restart/read_viscparam.F

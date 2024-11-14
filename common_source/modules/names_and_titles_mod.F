@@ -111,6 +111,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    elegror                           ../starter/source/groups/elegror.F
       !||    elstagboxbox                      ../starter/source/model/box/boxbox.F
       !||    elt_box                           ../starter/source/model/sets/fill_clause_elt_box.F
+      !||    eos_param_mod                     ../common_source/modules/mat_elem/eos_param_mod.F90
       !||    facebox                           ../starter/source/model/box/bigbox.F
       !||    fail_param_mod                    ../common_source/modules/mat_elem/fail_param_mod.F90
       !||    fill_buffer_51                    ../starter/source/materials/mat/mat051/fill_buffer_51.F
@@ -832,6 +833,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    read_dfs_detpoint                 ../starter/source/initial_conditions/detonation/read_dfs_detpoint.F
       !||    read_dfs_wave_shaper              ../starter/source/initial_conditions/detonation/read_dfs_wave_shaper.F
       !||    read_ebcs                         ../starter/source/boundary_conditions/ebcs/read_ebcs.F
+      !||    read_eosparam                     ../engine/source/output/restart/read_eosparam.F90
       !||    read_euler_mat                    ../starter/source/materials/ale/read_euler_mat.F
       !||    read_failparam                    ../engine/source/output/restart/read_failparam.F
       !||    read_h3dtmax_key                  ../starter/source/starter/contrl.F
@@ -964,6 +966,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    w_subset_str                      ../engine/source/output/restart/w_subset_str.F
       !||    w_surf_str                        ../engine/source/output/restart/w_surf_str.F
       !||    wciusc2                           ../engine/source/input/wciusc2.F
+      !||    write_eosparam                    ../engine/source/output/restart/write_eosparam.F90
       !||    write_failparam                   ../engine/source/output/restart/write_failparam.F
       !||    write_i_c_debug                   ../starter/source/output/tools/write_debug.F
       !||    write_matparam                    ../engine/source/output/restart/write_matparam.F

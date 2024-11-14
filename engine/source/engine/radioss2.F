@@ -97,6 +97,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    dt_mod                       ../engine/source/modules/dt_mod.F
       !||    dynlib_mod                   ../engine/share/modules/dynlib_mod.F
       !||    ebcs_mod                     ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||    glob_therm_mod               ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    group_mod                    ../engine/share/modules/group_mod.F
       !||    groupdef_mod                 ../common_source/modules/groupdef_mod.F
       !||    h3d_mod                      ../engine/share/modules/h3d_mod.F

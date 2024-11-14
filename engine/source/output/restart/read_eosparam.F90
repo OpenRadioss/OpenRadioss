@@ -20,6 +20,21 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    read_eosparam          ../engine/source/output/restart/read_eosparam.F90
+      !||--- called by ------------------------------------------------------
+      !||    read_matparam          ../engine/source/output/restart/read_matparam.F
+      !||--- calls      -----------------------------------------------------
+      !||    read_c_c               ../common_source/tools/input_output/write_routtines.c
+      !||    read_db                ../common_source/tools/input_output/read_db.F
+      !||    read_i_c               ../common_source/tools/input_output/write_routtines.c
+      !||    read_mat_table         ../engine/source/materials/tools/read_mat_table.F
+      !||--- uses       -----------------------------------------------------
+      !||    eos_param_mod          ../common_source/modules/mat_elem/eos_param_mod.F90
+      !||    message_mod            ../engine/share/message_module/message_mod.F
+      !||    my_alloc_mod           ../common_source/tools/memory/my_alloc.F90
+      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||====================================================================
       SUBROUTINE READ_EOSPARAM(EOS)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
