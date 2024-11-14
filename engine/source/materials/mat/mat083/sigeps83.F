@@ -229,24 +229,21 @@ c-----------------------------------------------------------------------------
               FACN = TWO*AN*YOUNG(IEL)
               FACT = TWO*AS*SHEAR
               DO ITER= 1,NITER
-                FPRIM = -FACN*SIGNZZ(IEL)*NZZ - FACT*(SIGNYZ(IEL)*NYZ + SIGNZX(IEL)*NZX)
-                FPRIM = FPRIM -TWO*FYIELD(IEL)
                               
                 DSZZ = -FACN*SIGNZZ(IEL)*NZZ
                 DSYZ = -FACT*SIGNYZ(IEL)*NYZ
                 DSZX = -FACT*SIGNZX(IEL)*NZX
                 DYLD = -TWO*FYIELD(IEL)*HYIELD(IEL)
                 FPRIM = DSZZ + DSYZ + DSZX + DYLD
-
-                DEP(IEL) = DEP(IEL) - PHI / FPRIM
-
-                SIGNZZ(IEL) = SIGTRZZ(IEL) - YOUNG(IEL)*DEP(IEL) * NZZ
-                SIGNYZ(IEL) = SIGTRYZ(IEL) - SHEAR*DEP(IEL) * NYZ
-                SIGNZX(IEL) = SIGTRZX(IEL) - SHEAR*DEP(IEL) * NZX
-
-                FYIELD(IEL) = YLD0 + HYIELD(IEL)*DEP(IEL)
-                SIG_EFF = AN * SIGNZZ(IEL)** 2 + AS * (SIGNYZ(IEL)**2 + SIGNZX(IEL)**2)
-                PHI     = SIG_EFF - FYIELD(IEL)**2    ! yield criterion function
+                IF(FPRIM .NE. ZERO) THEN
+                  DEP(IEL) = DEP(IEL) - PHI / FPRIM
+                  SIGNZZ(IEL) = SIGTRZZ(IEL) - YOUNG(IEL)*DEP(IEL) * NZZ
+                  SIGNYZ(IEL) = SIGTRYZ(IEL) - SHEAR*DEP(IEL) * NYZ
+                  SIGNZX(IEL) = SIGTRZX(IEL) - SHEAR*DEP(IEL) * NZX
+                  FYIELD(IEL) = YLD0 + HYIELD(IEL)*DEP(IEL)
+                  SIG_EFF = AN * SIGNZZ(IEL)** 2 + AS * (SIGNYZ(IEL)**2 + SIGNZX(IEL)**2)
+                  PHI     = SIG_EFF - FYIELD(IEL)**2    ! yield criterion function
+                ENDIF
               ENDDO  
               DEP(IEL) = MAX(ZERO, DEP(IEL))*OFF(IEL)
               PLA(IEL) = PLA(IEL) + DEP(IEL)
@@ -277,15 +274,15 @@ c--------------
                 DYLD = -TWO*FYIELD(IEL)*HYIELD(IEL)
                 FPRIM = DSZZ + DSYZ + DSZX + DYLD
 
-                DEP(IEL) = DEP(IEL) - PHI / FPRIM
-
-                SIGNZZ(IEL) = SIGTRZZ(IEL) - YOUNG(IEL)*DEP(IEL) * NZZ
-                SIGNYZ(IEL) = SIGTRYZ(IEL) - SHEAR*DEP(IEL) * NYZ
-                SIGNZX(IEL) = SIGTRZX(IEL) - SHEAR*DEP(IEL) * NZX
-
-                FYIELD(IEL) = YLD0 + HYIELD(IEL)*DEP(IEL)
-                SIG_EFF = AN * SIGNZZ(IEL)** 2 + AS * (SIGNYZ(IEL)**2 + SIGNZX(IEL)**2)
-                PHI     = SIG_EFF - FYIELD(IEL)**2    ! yield criterion function
+                IF(FPRIM .NE. ZERO) THEN
+                  DEP(IEL) = DEP(IEL) - PHI / FPRIM
+                  SIGNZZ(IEL) = SIGTRZZ(IEL) - YOUNG(IEL)*DEP(IEL) * NZZ
+                  SIGNYZ(IEL) = SIGTRYZ(IEL) - SHEAR*DEP(IEL) * NYZ
+                  SIGNZX(IEL) = SIGTRZX(IEL) - SHEAR*DEP(IEL) * NZX
+                  FYIELD(IEL) = YLD0 + HYIELD(IEL)*DEP(IEL)
+                  SIG_EFF = AN * SIGNZZ(IEL)** 2 + AS * (SIGNYZ(IEL)**2 + SIGNZX(IEL)**2)
+                  PHI     = SIG_EFF - FYIELD(IEL)**2    ! yield criterion function
+                ENDIF
               ENDDO  
               DEP(IEL) = MAX(ZERO, DEP(IEL))*OFF(IEL)
               PLA(IEL) = PLA(IEL) + DEP(IEL)
@@ -308,14 +305,14 @@ c
                 DSZX = -FACT*SIGNZX(IEL)*NZX
                 DYLD = -TWO*FYIELD(IEL)*HYIELD(IEL)
                 FPRIM = DSYZ + DSZX + DYLD
-
-                DEP(IEL) = DEP(IEL) - PHI / FPRIM
-                SIGNYZ(IEL) = SIGTRYZ(IEL) - SHEAR*DEP(IEL) * NYZ
-                SIGNZX(IEL) = SIGTRZX(IEL) - SHEAR*DEP(IEL) * NZX
-
-                FYIELD(IEL) = YLD0 + HYIELD(IEL)*DEP(IEL)
-                SIG_EFF = AS * (SIGNYZ(IEL)**2 + SIGNZX(IEL)**2)
-                PHI     = SIG_EFF - FYIELD(IEL)**2    ! yield criterion function
+                IF(FPRIM .NE. ZERO) THEN
+                  DEP(IEL) = DEP(IEL) - PHI / FPRIM
+                  SIGNYZ(IEL) = SIGTRYZ(IEL) - SHEAR*DEP(IEL) * NYZ
+                  SIGNZX(IEL) = SIGTRZX(IEL) - SHEAR*DEP(IEL) * NZX
+                  FYIELD(IEL) = YLD0 + HYIELD(IEL)*DEP(IEL)
+                  SIG_EFF = AS * (SIGNYZ(IEL)**2 + SIGNZX(IEL)**2)
+                  PHI     = SIG_EFF - FYIELD(IEL)**2    ! yield criterion function
+                ENDIF
               ENDDO  
               DEP(IEL) = MAX(ZERO, DEP(IEL))*OFF(IEL)
               PLA(IEL) = PLA(IEL) + DEP(IEL)
@@ -354,17 +351,16 @@ c------------------------
                 DSZX = -FACT*NZX*SZX*SVMT**(BETA-TWO) 
                 DYLD = -BETA*HYIELD(IEL)*FYIELD(IEL)**(BETA-ONE)
                 FPRIM = DSZZ + DSYZ + DSZX + DYLD
-
-                DEP(IEL) = DEP(IEL) - PHI / FPRIM
-
-                SIGNZZ(IEL) = SIGTRZZ(IEL) - YOUNG(IEL)*DEP(IEL) * NZZ
-                SIGNYZ(IEL) = SIGTRYZ(IEL) - SHEAR*DEP(IEL) * NYZ
-                SIGNZX(IEL) = SIGTRZX(IEL) - SHEAR*DEP(IEL) * NZX
-                FYIELD(IEL) = MAX(ZERO, YLD0 + HYIELD(IEL)*DEP(IEL))
-
-                SVMT = SQRT(SIGNYZ(IEL)**2 + SIGNZX(IEL)**2)
-                SIG_EFF = AN * ABS(SIGNZZ(IEL))**BETA + AS * SVMT**BETA 
-                PHI     = SIG_EFF - FYIELD(IEL)**BETA
+                IF(FPRIM .NE. ZERO) THEN
+                  DEP(IEL) = DEP(IEL) - PHI / FPRIM
+                  SIGNZZ(IEL) = SIGTRZZ(IEL) - YOUNG(IEL)*DEP(IEL) * NZZ
+                  SIGNYZ(IEL) = SIGTRYZ(IEL) - SHEAR*DEP(IEL) * NYZ
+                  SIGNZX(IEL) = SIGTRZX(IEL) - SHEAR*DEP(IEL) * NZX
+                  FYIELD(IEL) = MAX(ZERO, YLD0 + HYIELD(IEL)*DEP(IEL))
+                  SVMT = SQRT(SIGNYZ(IEL)**2 + SIGNZX(IEL)**2)
+                  SIG_EFF = AN * ABS(SIGNZZ(IEL))**BETA + AS * SVMT**BETA 
+                  PHI     = SIG_EFF - FYIELD(IEL)**BETA
+                ENDIF
               ENDDO
               DEP(IEL) = MAX(ZERO, DEP(IEL))*OFF(IEL)
               PLA(IEL) = PLA(IEL) + DEP(IEL)
@@ -401,17 +397,16 @@ c
                 DSZX = -FACT*NZX*SZX*SVMT**(BETA-TWO)    
                 DYLD = -BETA*HYIELD(IEL)*FYIELD(IEL)**(BETA-ONE)
                 FPRIM = DSZZ + DSYZ + DSZX + DYLD
-
-                DEP(IEL) = DEP(IEL) - PHI / FPRIM
-
-                SIGNZZ(IEL) = SIGTRZZ(IEL) - YOUNG(IEL)*DEP(IEL) * NZZ
-                SIGNYZ(IEL) = SIGTRYZ(IEL) - SHEAR*DEP(IEL) * NYZ
-                SIGNZX(IEL) = SIGTRZX(IEL) - SHEAR*DEP(IEL) * NZX
-                FYIELD(IEL) = MAX(ZERO, YLD0 + HYIELD(IEL)*DEP(IEL))
-
-                SVMT = SQRT(SIGNYZ(IEL)**2 + SIGNZX(IEL)**2)
-                SIG_EFF = AN * ABS(SIGNZZ(IEL))**BETA + AS * SVMT**BETA 
-                PHI     = SIG_EFF - FYIELD(IEL)**BETA
+                IF(FPRIM .NE. ZERO) THEN
+                  DEP(IEL) = DEP(IEL) - PHI / FPRIM
+                  SIGNZZ(IEL) = SIGTRZZ(IEL) - YOUNG(IEL)*DEP(IEL) * NZZ
+                  SIGNYZ(IEL) = SIGTRYZ(IEL) - SHEAR*DEP(IEL) * NYZ
+                  SIGNZX(IEL) = SIGTRZX(IEL) - SHEAR*DEP(IEL) * NZX
+                  FYIELD(IEL) = MAX(ZERO, YLD0 + HYIELD(IEL)*DEP(IEL))
+                  SVMT = SQRT(SIGNYZ(IEL)**2 + SIGNZX(IEL)**2)
+                  SIG_EFF = AN * ABS(SIGNZZ(IEL))**BETA + AS * SVMT**BETA 
+                  PHI     = SIG_EFF - FYIELD(IEL)**BETA
+                ENDIF
               ENDDO  
               DEP(IEL) = MAX(ZERO, DEP(IEL))*OFF(IEL)
               PLA(IEL) = PLA(IEL) + DEP(IEL)
@@ -439,16 +434,15 @@ c
                 DSZX = -FACT*NZX*SZX*SVMT**(BETA-TWO)   
                 DYLD = -BETA*HYIELD(IEL)*FYIELD(IEL)**(BETA-ONE)
                 FPRIM = DSYZ + DSZX + DYLD
-
-                DEP(IEL) = DEP(IEL) - PHI / FPRIM
-
-                SIGNYZ(IEL) = SIGTRYZ(IEL) - SHEAR*DEP(IEL) * NYZ
-                SIGNZX(IEL) = SIGTRZX(IEL) - SHEAR*DEP(IEL) * NZX
-                FYIELD(IEL) = YLD0 + HYIELD(IEL)*DEP(IEL)
-
-                SVMT = SQRT(SIGNYZ(IEL)**2 + SIGNZX(IEL)**2)
-                SIG_EFF = AS * SVMT**BETA 
-                PHI     = SIG_EFF - FYIELD(IEL)**BETA
+                IF(FPRIM .NE. ZERO) THEN
+                  DEP(IEL) = DEP(IEL) - PHI / FPRIM
+                  SIGNYZ(IEL) = SIGTRYZ(IEL) - SHEAR*DEP(IEL) * NYZ
+                  SIGNZX(IEL) = SIGTRZX(IEL) - SHEAR*DEP(IEL) * NZX
+                  FYIELD(IEL) = YLD0 + HYIELD(IEL)*DEP(IEL)
+                  SVMT = SQRT(SIGNYZ(IEL)**2 + SIGNZX(IEL)**2)
+                  SIG_EFF = AS * SVMT**BETA 
+                  PHI     = SIG_EFF - FYIELD(IEL)**BETA
+                ENDIF
               ENDDO  
               DEP(IEL) = MAX(ZERO, DEP(IEL))*OFF(IEL)
               PLA(IEL) = PLA(IEL) + DEP(IEL)
