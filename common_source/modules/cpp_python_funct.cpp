@@ -33,8 +33,8 @@
 #include <set>
 #include <map>
 #include <regex>
-#include <limits>
 #include <iomanip>
+#include <limits>
 #ifndef PYTHON_DISABLED
 #ifdef _WIN32
 /* Windows includes */
@@ -54,6 +54,7 @@ typedef float my_real;
 
 #include "cpp_python_funct.h"
 #include "cpp_python_sampling.h"
+#include "python_signal.h"
 
 // Note on the python library used:
 //
@@ -72,13 +73,16 @@ void *handle = nullptr;
 // global variables
 PyObject *pDict = nullptr;
 bool python_initialized = false;
+// Persistent Python dictionary
 
 // user ids of the nodes that are used in the python functions
 std::set<int> nodes_uid;
 // mapping between user ids and local ids
 std::map<int, int> nodes_uid_to_local_id;
-
 KeywordPairs element_variables;
+static PyObject *persistent_dict = nullptr;
+static PyObject *persistent_arg = nullptr;
+
 
 template <std::size_t N>
 std::string element_parenthesis_to_underscore(const std::string &input, const std::array<const char *, N> &keywords)
@@ -179,6 +183,107 @@ void load_functions(T h, bool &python_initialized)
     load_function(h, "PyErr_Fetch", MyErr_Fetch, python_initialized);
     load_function(h, "PyErr_Display", MyErr_Display, python_initialized);
     load_function(h, "PyErr_Occurred", MyErr_Occurred, python_initialized);
+    load_function(h, "PyObject_Str", MyObject_Str, python_initialized);
+    load_function(h, "PyUnicode_AsUTF8", MyUnicode_AsUTF8, python_initialized);
+    load_function(h, "PyDict_New", MyDict_New, python_initialized);
+    load_function(h, "PyList_New", MyList_New, python_initialized);
+    load_function(h, "PyList_SetItem", MyList_SetItem, python_initialized);
+}
+
+
+void exit_with_message(const char *message)
+{
+    std::cout << message << std::endl;
+    std::cerr << message << std::endl;
+    My_Finalize();
+    exit(1);
+}
+
+void python_signal_handler(int signum) {
+    std::cout << "[PYTHON] Caught signal " << signum << std::endl;
+    std::cerr << "[PYTHON] Caught signal " << signum << std::endl;
+    //How to flush the output buffers before exiting
+    std::cout << std::flush;
+    std::cerr << std::flush;
+    std::cerr.flush();
+    std::cout.flush();
+    //My_Finalize();
+    std::exit(signum);
+}
+
+
+// Call a Python function with a persistent dictionary as its only argument
+PyObject *call_python_function_with_state(const char *func_name)
+{
+    PyObject *pFunc, *pValue;
+    activate_signal_handling(python_signal_handler);
+    // Retrieve the Python function from the module dictionary
+    pFunc = static_cast<PyObject *>(MyDict_GetItemString(pDict, func_name));
+    if (MyCallable_Check(pFunc))
+    {
+        // Initialize persistent dictionary on the first call
+        if (!persistent_dict)
+        {
+            persistent_dict = MyDict_New();
+            if (!persistent_dict)
+            {
+                std::cout << "ERROR: Failed to create persistent dictionary." << std::endl;
+                return nullptr;
+            }
+            // Create a tuple to hold the single dictionary argument
+            persistent_arg = static_cast<PyObject *>(MyTuple_New(1)); // Only 1 argument: the dictionary
+            if (!persistent_arg)
+            {
+                std::cout << "ERROR: Failed to create argument tuple." << std::endl;
+                return nullptr;
+            }
+
+            MyTuple_SetItem(persistent_arg, 0, persistent_dict); // Borrowed reference to persistent_dict Is this the problem????
+        }
+
+        // Set the dictionary in the tuple
+
+        // Call the Python function
+        pValue = static_cast<PyObject *>(MyObject_CallObject(pFunc, persistent_arg)); // segmentation fault here
+
+        if (pValue != nullptr)
+        {
+            // Function executed successfully
+            // Optionally handle the result (if required)
+        }
+        else
+        {
+            // Handle Python exception
+            std::string func_name_str(func_name);
+            std::cout << "ERROR in Python function " << func_name_str << ": function execution failed" << std::endl;
+            if (MyErr_Occurred())
+            {
+                // Fetch the error details
+                PyObject *pType, *pValue, *pTraceback;
+                MyErr_Fetch(&pType, &pValue, &pTraceback);
+                if (pType)
+                    std::cout << "[PYTHON] " << MyUnicode_AsUTF8(MyObject_Str(pType)) << std::endl;
+                if (pValue)
+                    std::cout << "[PYTHON] " << MyUnicode_AsUTF8(MyObject_Str(pValue)) << std::endl;
+                if (pTraceback)
+                    std::cout << "[PYTHON]: " << MyUnicode_AsUTF8(MyObject_Str(pTraceback)) << std::endl;
+
+                // Print the error
+                //MyErr_Display(pType, pValue, pTraceback);
+
+                // Decrement reference counts for error objects
+                My_DecRef(pType);
+                My_DecRef(pValue);
+                My_DecRef(pTraceback);
+                exit_with_message("ERROR: Python function failed");
+            }
+        }
+        restore_default_signal_handling();
+        return pValue;
+    }
+
+    std::cout << "ERROR in Python function: cannot call function: " << func_name << std::endl;
+    return nullptr;
 }
 
 // call a python function with a list of arguments
@@ -210,13 +315,20 @@ PyObject *call_python_function(const char *func_name, double *args, int num_args
                 // Fetch the error
                 PyObject *pType = nullptr, *pValue = nullptr, *pTraceback = nullptr;
                 MyErr_Fetch(&pType, &pValue, &pTraceback);
-                // Print the error
-                MyErr_Display(pType, pValue, pTraceback);
+                if (pType)
+                    std::cout<<"[PYTHON]"<< MyUnicode_AsUTF8(MyObject_Str(pType)) << std::endl;
+                if (pValue)
+                    std::cout<<"[PYTHON]"<< MyUnicode_AsUTF8(MyObject_Str(pValue)) << std::endl;
+                if (pTraceback)
+                    std::cout<<"[PYTHON]"<< MyUnicode_AsUTF8(MyObject_Str(pTraceback)) << std::endl;
 
+                // Print the error
+                //MyErr_Display(pType, pValue, pTraceback);
                 // Decrement reference counts for the error objects
                 My_DecRef(pType);
                 My_DecRef(pValue);
                 My_DecRef(pTraceback);
+                exit_with_message("ERROR: Python function failed");
             }
         }
 
@@ -484,11 +596,16 @@ void python_load_library()
 }
 #endif
 
+
 // C++ functions that can be called from Fortran
 extern "C"
 {
     void cpp_python_initialize(int *ierror)
     {
+        if (python_initialized)
+        { // already initialized
+            return;
+        }
         // if ierror = 1 on entry, then "-python" is missing from the starter command line, and we will not execute any python code
         if (*ierror == 1)
             return;
@@ -666,11 +783,25 @@ extern "C"
         {
             return_values[0] = MyFloat_AsDouble(result);
             My_DecRef(result);
-        }
-        else
+        } else 
         {
-            // returns infinity
-            return_values[0] = std::numeric_limits<double>::infinity();
+            exit_with_message("ERROR: Python function failed");
+        }
+    }
+
+    void cpp_python_call_function_with_state(char *name, double *return_values)
+    {
+        if (!python_initialized)
+        {
+            return;
+        }
+        PyObject *result = call_python_function_with_state(name);
+        if (result)
+        {
+            *return_values = MyFloat_AsDouble(result);
+            My_DecRef(result);
+        } else {
+            exit_with_message("ERROR: Python function failed");
         }
     }
     // this function checks if a function exists in the python dictionary
@@ -789,6 +920,96 @@ extern "C"
             }
         }
     }
+    // update the global variable sensors from the input arrays
+    void cpp_python_update_sensors(int *types, int *uids, int *statuses, double *results, int *num_sensors)
+    {
+        //std::cout << "[PYTHON] update sensors" << std::endl;
+        constexpr int sensor_python = 40;    // PYTHON
+        constexpr int sensor_energy = 14;    // ENERGY
+        constexpr int sensor_time = 0;       // TIME
+        constexpr int sensor_accel = 1;      // ACCE
+        constexpr int sensor_dist = 2;       // DISP
+        constexpr int sensor_sens = 3;       // SENS
+        constexpr int sensor_and = 4;        // AND
+        constexpr int sensor_or = 5;         // OR
+        constexpr int sensor_inter = 6;      // INTER
+        constexpr int sensor_rwall = 7;      // RWALL
+        constexpr int sensor_not = 8;        // NOT
+        constexpr int sensor_vel = 9;        // VEL
+        constexpr int sensor_gauge = 10;     // GAUGE
+        constexpr int sensor_rbody = 11;     // RBODY
+        constexpr int sensor_sect = 12;      // SECT
+        constexpr int sensor_work = 13;      // WORK
+        constexpr int sensor_dist_surf = 15; // DIST_SURF
+        constexpr int sensor_hic = 16;       // HIC
+        constexpr int sensor_temp = 17;      // TEMP
+        // create a python dictionary with associating type to name
+        const std::map<int, std::string> sensor_type_to_name = {
+            {sensor_python, "PYTHON"},
+            {sensor_energy, "ENERGY"},
+            {sensor_time, "TIME"},
+            {sensor_accel, "ACCE"},
+            {sensor_dist, "DIST"},
+            {sensor_sens, "SENS"},
+            {sensor_and, "AND"},
+            {sensor_or, "OR"},
+            {sensor_inter, "INTER"},
+            {sensor_rwall, "RWALL"},
+            {sensor_not, "NOT"},
+            {sensor_vel, "VEL"},
+            {sensor_gauge, "GAUGE"},
+            {sensor_rbody, "RBODY"},
+            {sensor_sect, "SECT"},
+            {sensor_work, "WORK"},
+            {sensor_dist_surf, "DIST_SURF"},
+            {sensor_hic, "HIC"},
+            {sensor_temp, "TEMP"}};
+
+        if (!python_initialized)
+        {
+            return;
+        }
+        std::ostringstream oss;
+        oss << std::setprecision(std::numeric_limits<double>::max_digits10) << std::hexfloat;
+        oss << "sensors = { \n";
+        for (int i = 0; i < *num_sensors; i++)
+        {
+            int type = types[i];
+            int uid = uids[i];
+            int status = statuses[i];
+            oss << "    " << uid << " : { 'type' : '" << sensor_type_to_name.at(type) << "', 'status' : " << status;
+            // depending on the type, the results are different
+            if (type == sensor_energy)
+            { // Eint = results[2*(i-1)], Ekin = results[2*(i-1)+1]
+                oss << ", 'Eint' :  float.fromhex('" << results[2 * i] << "'), 'Ekin' : float.fromhex('" << results[2 * i + 1] << "') ";
+            }
+            else if (type == sensor_inter || type == sensor_rwall)
+            { // Force = results[2*(i-1)]
+                oss << ", 'Force' :  float.fromhex('" << results[2 * i] << "') ";
+            }
+            else if (type == sensor_dist || type == sensor_dist_surf)
+            {
+                oss << ", 'Distance' :  float.fromhex('" << results[2 * i] << "') ";
+            }
+            else if (type == sensor_gauge)
+            {
+                oss << ", 'Pressure' :  float.fromhex('" << results[2 * i] << "') ";
+            }
+            if (i < *num_sensors - 1)
+            {
+                oss << "},\n";
+            }
+            else
+            {
+                oss << "}\n";
+            }
+        }
+        oss << "\n}";
+
+        std::string code = oss.str();
+        // std::cout<< "Generated code: "<<code<<std::endl;
+        python_execute_code(code);
+    }
 
     // values is an array of size (3*numnod) containing the values of the nodal entities
     void cpp_python_update_nodal_entity(int numnod, int name_len, char *name, my_real *values)
@@ -901,12 +1122,10 @@ extern "C"
         call_python_function1D_vectors(name, new_x, new_y);
         //sizes:
         // copy the values to the output arrays
-        std::cout<<"name: "<<name<<std::endl;
         for (int i = 0; i < n; i++)
         {
             x[i] = static_cast<my_real>(new_x[i]);
             y[i] = static_cast<my_real>(new_y[i]);
-         std::cout<<x[i]<<" "<<y[i]<<std::endl;
         }
     }
 
@@ -942,6 +1161,10 @@ extern "C"
     {
         std::cout << "ERROR: python not enabled" << std::endl;
     }
+    void cpp_python_call_function_with_state(char *name)
+    {
+        std::cout << "ERROR: python not enabled" << std::endl;
+    }
     void cpp_python_check_function(char *name, int *error)
     {
         //        std::cout << "ERROR: python not enabled" << std::endl;
@@ -956,6 +1179,7 @@ extern "C"
     void cpp_python_get_number_elemental_entities(int *nb) {}
     void cpp_python_get_elemental_entity(int nb, char *name, int *uid) {}
     void cpp_python_load_environment() {}
+    void cpp_python_update_sensors(int types, int *uids, int *statuses, double *results, int *num_sensors){}
 }
 
 #endif

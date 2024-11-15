@@ -2047,27 +2047,6 @@ c  Equivalent nodal force
 
 
 C========================================================================================
-C Initialize SENSORS & communication buffers.
-C Play Time & Logical sensors.
-C Reinitialise sensor variables defined in /SENS/RESET
-
-       K1=1+LIPART1*(NPART+NTHPART)+2*9*(NPART+NTHPART)
-       K2=K1+NUMELS
-       K3=K2+NUMELQ
-       K4=K3+NUMELC
-       K5=K4+NUMELT
-       K6=K5+NUMELP
-       K7=K6+NUMELR
-       K8=K7
-       K9=K8+NUMELTG
-       K10=K9+NUMELX
-       K11=K10+NUMSPH
-       K12=K11+NUMELIG3D
-
-       CALL SENSOR_INIT(SUBSETS,IPARG,NGROUC,
-     .                  IPART(K3),IPART(K8),IPART(K1),IPART(K2),IPART(K4),
-     .                  IPART(K5) ,IPART(K6),SENSORS,TT ,DT2 ,IOUT )
-C========================================================================================
 
 C save the Python functions into the Python interpreter dictionarry
        CALL PYTHON_REGISTER(PYTHON,ITAB,NUMNOD,
@@ -2105,6 +2084,27 @@ C save the Python functions into the Python interpreter dictionarry
      .          IPART(K3:K4-1),IPART(K1:K2-1),IPART(K8:K9-1), IPART(K2:K3-1), 
      .          D           , MULTI_FVM ,  
      .          MAT_ELEM%MAT_PARAM , FANI_CELL,GLOB_THERM%ITHERM)
+
+C========================================================================================
+C Initialize SENSORS & communication buffers.
+C Play Time & Logical sensors.
+C Reinitialise sensor variables defined in /SENS/RESET
+
+       K1=1+LIPART1*(NPART+NTHPART)+2*9*(NPART+NTHPART)
+       K2=K1+NUMELS
+       K3=K2+NUMELQ
+       K4=K3+NUMELC
+       K5=K4+NUMELT
+       K6=K5+NUMELP
+       K7=K6+NUMELR
+       K8=K7
+       K9=K8+NUMELTG
+       K10=K9+NUMELX
+       K11=K10+NUMSPH
+       K12=K11+NUMELIG3D
+       CALL SENSOR_INIT(SUBSETS,IPARG,NGROUC,
+     .                  IPART(K3),IPART(K8),IPART(K1),IPART(K2),IPART(K4),
+     .                  IPART(K5) ,IPART(K6),SENSORS,TT ,DT2 ,IOUT, PYTHON )
 
 
 C========================================================================================
@@ -6850,7 +6850,7 @@ c
           CALL SENSOR_BASE(SENSORS  ,NSENSOR   ,TT        ,DT2       ,
      .         XSENS     ,IPARI     ,PARTSAV2  ,GAUGE     ,FSAV      ,
      .         X         ,V         ,A         ,ACCELM    ,NPRW      ,
-     .         SUBSETS   ,IGRSURF   ,IGRNOD    )
+     .         SUBSETS   ,IGRSURF   ,IGRNOD    ,PYTHON)
 c
           ! check activation condition of logical sensors hierarchy
           CALL SENSOR_LOGICAL(NSENSOR,SENSORS%SENSOR_TAB)
@@ -6859,7 +6859,7 @@ c
 
         GOTO 111
 
-      ENDIF
+      ENDIF !
 C-----------------------------
 C       Non pure thermal case 
 C-----------------------------
@@ -8150,7 +8150,7 @@ c
         CALL SENSOR_BASE(SENSORS  ,NSENSOR   ,TT        ,DT2       ,
      .       XSENS     ,IPARI     ,PARTSAV2  ,GAUGE     ,FSAV      ,
      .       X         ,V         ,A         ,ACCELM    ,NPRW      ,
-     .       SUBSETS   ,IGRSURF   ,IGRNOD    )
+     .       SUBSETS   ,IGRSURF   ,IGRNOD    ,PYTHON)
 c       
         ! check activation condition of logical sensor hierarchy
         CALL SENSOR_LOGICAL(NSENSOR,SENSORS%SENSOR_TAB)

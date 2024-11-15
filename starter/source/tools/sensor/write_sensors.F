@@ -37,6 +37,7 @@ C-----------------------------------------------
      .                        ISENBUF, LSENBUF, NSENPARR, NSENPARI, LOGICAL_SENSOR_COUNT
       USE WRITE_MOD, ONLY : WRITE_INTEGER
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      USE PYTHON_FUNCT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -146,6 +147,9 @@ c
 
             CALL WRITE_DB(SENSOR%FLOAT_USERPARAM,NSENPARR)
             CALL WRITE_DB(SENSOR%FLOAT_USERBUF,LSENBUF)
+          ENDIF
+          IF(TYP == 40) THEN
+            CALL WRITE_INTEGER(SENSOR%PYTHON_FUNCTION_ID)
           ENDIF
 c
         END DO

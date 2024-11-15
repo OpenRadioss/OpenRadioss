@@ -1962,6 +1962,7 @@ C--------------------------------------------
       ERR_CATEGORY='FUNCTIONS & TABLES'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
 c
+      PYTHON%nb_functs = 0
       IF(NFUNCT > 0 .OR. NTABLE > 0) THEN
 C
 C NTABLE = NFUNCT + ...
@@ -4943,7 +4944,7 @@ c
       CALL SENSOR_USER_INIT()
       ! -------------
 c
-      CALL HM_READ_SENSORS(
+      CALL HM_READ_SENSORS(PYTHON,
      .     SENSORS   ,LACCELM  ,ITABM1    ,IPART     ,LGAUGE    ,
      .     SUBSETS   ,NSETS    ,IGRSURF   ,IGRNOD    ,BUFSF     ,
      .     SKEW      ,ISKWN    ,UNITAB    ,LSUBMODEL ,HM_NSENSOR)

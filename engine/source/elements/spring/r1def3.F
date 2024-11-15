@@ -250,7 +250,7 @@ C
         XK(I)=XK(I)/XL0(I)
 C--- for time step compute adding +max slope of h
 C       XC(I)=(XC(I)+GEO(141,MGN(I)))/XL0(I)
-        XC(I)=(XC(I)+MAX_SLOPE(I))/XL0(I)
+          XC(I)=(XC(I)+MAX_SLOPE(I))/XL0(I)
 
 
 ! sinon derivée au point courrant 

@@ -648,20 +648,6 @@ C----s---1----+----2----+----3----+----4----+----5----+----6----+----7--
         ENDIF
       ENDIF
 
-      IF(PRESENT(MAX_SLOPE)) THEN
-        DO I=1,NEL
-          IF(INTERP >= 1) THEN
-            IF(JLEN(I) < 0) MAX_SLOPE(I) = MAX(MAX_SLOPE(I), TWO*ABS(DYDX(I)))
-          ENDIF
-          IF(INTERP >= 2) THEN
-            IF(JLEN2(I) < 0) MAX_SLOPE(I) = MAX(MAX_SLOPE(I), TWO*ABS(DYDX2(I)))
-          ENDIF
-          IF(INTERP >= 3) THEN
-            IF(JLEN3(I) < 0) MAX_SLOPE(I) = MAX(MAX_SLOPE(I), TWO*ABS(DYDX3(I)))
-          ENDIF
-        ENDDO
-      ENDIF
-
       IF(INTERP>0)THEN
         DO I=1,NEL
           POS(1,I) = JPOS(I)
@@ -1016,6 +1002,15 @@ c---------------------------G * funct_id_4
           ENDDO
           IF(ANY_PYTHON_FUNC) THEN
             CALL VINTER_MIXED(PYTHON, TF,J2AD,J2POS,J2LEN,NEL,XX,DYDXV2,GX2)
+            IF(PRESENT(MAX_SLOPE)) THEN
+              DO I=1,NEL
+                J2POS(I) = NINT(POS(5,I))
+                J2FUNC=MAX(IFUNC3(I),1)
+                PYID2 = GET_PYTHON_FUNCT_ID(NFUNCT,J2FUNC,NPF)
+                IF(PYID2>0) MAX_SLOPE(I) = MAX(MAX_SLOPE(I), TWO*ABS(DYDXV2(I)))
+              ENDDO
+            ENDIF
+ 
           ELSE
             CALL VINTER2(TF,J2AD,J2POS,J2LEN,NEL,DVXS,DYDXV2,GX2)
           ENDIF

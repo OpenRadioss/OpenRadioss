@@ -87,6 +87,15 @@ c---------------------------------------------------------------
       FUNC = IFUNC(1)
       IF (FUNC > 0 ) THEN     
         NPT=(NPC(FUNC+1)-NPC(FUNC))/2
+
+        IF ( NPC(2*NFUNCT+FUNC+1) < 0) THEN
+          CALL ANCMSG(MSGID=3079, ! incompatible with python functions 
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  I1=MAT_ID,
+     .                  C1=TITR,
+     .                  I2=NPC(NFUNCT+FUNC+1))
+        ENDIF
         DO  J=2,NPT
            J1 =2*(J-2)
            X1 = PLD(NPC(FUNC)  + J1)
@@ -121,6 +130,15 @@ C
       IF3 = 12
       FUNC_UL = IFUNC(IF3+1)
       IF (FUNC_UL  > 0 ) THEN     
+        IF ( NPC(2*NFUNCT+FUNC_UL+1) < 0) THEN
+          CALL ANCMSG(MSGID=3079, ! incompatible with python functions 
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  I1=MAT_ID,
+     .                  C1=TITR,
+     .                  I2=NPC(NFUNCT+FUNC_UL+1))
+        ENDIF
+
         NPT=(NPC(FUNC_UL +1)-NPC(FUNC_UL ))/2
         DO  J=2,NPT
            J1 =2*(J-2)

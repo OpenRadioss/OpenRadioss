@@ -119,6 +119,7 @@ c
      .         FBSAV6(6,5,ISECT)+FBSAV6(6,6,ISECT)
           FF = SQRT(FX*FX + FY*FY + FZ*FZ) 
         ENDIF
+        SENSOR%RESULTS(1) = FF
 c
         IF (FF < FMIN .OR. FF > FMAX .OR. IDIR == 0) ICRIT = 1
 c  

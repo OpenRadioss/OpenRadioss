@@ -268,10 +268,10 @@ C--   If H=6 - addditional internal variables must be stored in UVAR -  - GEO(25
       ENDIF
 C                       
       IGEO(3)   = ISENS
-      IGEO(101) = IFUNC                     
-      IGEO(102) = IFV                       
-      IGEO(103) = IFUNC2
-      IGEO(119) = IFUNC3
+      IGEO(101) = IFUNC ! FUN_A1                     
+      IGEO(102) = IFV    ! FUN_B1                   
+      IGEO(103) = IFUNC2 ! FUN_C1
+      IGEO(119) = IFUNC3 ! FUN_D1
 
 C----------------------
 C FROM LECGEO - GENERAL

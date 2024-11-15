@@ -134,6 +134,14 @@
           end subroutine python_sample_function
 
           ! a subroutine that checks if the function works, and returns a nonzero error code if it does not
+          subroutine python_call_function_with_state(name, return_value) &
+            bind(c, name="cpp_python_call_function_with_state") ! def: my_sensor(state_dictionary):
+            use iso_c_binding
+            character(kind=c_char), dimension(*), intent(in) :: name !< intent in
+            real(kind = c_double), intent(out) :: return_value
+          end subroutine python_call_function_with_state
+
+          ! a subroutine that check if the function works, and return an nonzero error code if it does not
           subroutine python_check_function(name, error) bind(c, name="cpp_python_check_function")
             use iso_c_binding
             character(kind=c_char), dimension(*) :: name
@@ -175,6 +183,17 @@
             integer(kind=c_int), intent(inout) :: nodes_global_ids(*)
           end subroutine python_get_nodes
 
+          subroutine python_update_sensors(types, uids, statuses, results, nsensor) &
+            bind(c, name="cpp_python_update_sensors")
+            use iso_c_binding
+            integer(kind=c_int), intent(in) :: types(*)
+            integer(kind=c_int), intent(in) :: uids(*)
+            integer(kind=c_int), intent(in) :: statuses(*)
+            real(kind=c_double), intent(in) :: results(*)
+            integer(kind=c_int), intent(in) :: nsensor
+          end subroutine python_update_sensors
+
+
           !interface for    void cpp_create_node_mapping(int * itab, int *num_nodes)
           subroutine python_create_node_mapping(itab, num_nodes) &
             bind(c, name="cpp_python_create_node_mapping")
@@ -211,9 +230,11 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !! \brief the python structure: it contains the python functions
         type python_
-          type(python_function), dimension(:), allocatable :: functs !< the python functions
+          type(python_function), dimension(:), allocatable:: functs !< the python functions
           integer :: funct_offset !< the local id of the python function starts after the id of other kind of functions
           integer :: nb_functs !< the number of python functions
+          integer :: sensor_offset !< the local id of the python sensor starts after the id of other kind of sensors
+          integer :: nb_sensors !< the number of python sensors
           type(python_element) :: elements !< element quantities requested from Python code
         end type python_
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -248,6 +269,34 @@
           if (funct_id> 0) i = npc(2*nfunct+funct_id+1)
           if(i < 0) id = -i
         end function python_funct_id 
+
+      !! \brief copy a python function
+      subroutine copy_python_function(src, dest)
+          implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          type(python_function), intent(in) :: src !< the source python function
+          type(python_function), intent(out) :: dest !< the destination python function
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                      Body
+! ----------------------------------------------------------------------------------------------------------------------
+          ! Allocate and copy allocatable components
+          allocate(dest%name(size(src%name)))
+          allocate(dest%code(size(src%code)))
+          dest%name = src%name
+          dest%code = src%code
+      
+          ! Copy scalar components
+          dest%len_name = src%len_name
+          dest%len_code = src%len_code
+          dest%num_lines = src%num_lines
+          dest%num_args = src%num_args
+          dest%num_return = src%num_return
+          dest%user_id = src%user_id
+      end subroutine copy_python_function
+
+
 
 !! \brief serialize python_function into a buffer (for I/O)
       !||====================================================================

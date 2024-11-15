@@ -50,10 +50,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE SENSOR_BASE(SENSORS  ,NSENSOR   ,TIME      ,TIMESTEP  ,
      .           XSENS     ,IPARI     ,PARTSAV2  ,GAUGE     ,FSAV      ,
      .           X         ,V         ,A         ,ACC       ,NPRW      ,
-     .           SUBSET    ,IGRSURF   ,IGRNOD    )
+     .           SUBSET    ,IGRSURF   ,IGRNOD    ,PYTHON)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE PYTHON_FUNCT_MOD
+      USE SENSOR_PYTHON_MOD
       USE GROUPDEF_MOD
       USE SENSOR_MOD
       USE MESSAGE_MOD
@@ -85,16 +87,23 @@ C-----------------------------------------------
       TYPE(SURF_)    ,DIMENSION(NSURF)  ,INTENT(IN) :: IGRSURF
       TYPE(GROUP_)   ,DIMENSION(NGRNOD) ,INTENT(IN) :: IGRNOD
       TYPE (SENSORS_) ,INTENT(INOUT) :: SENSORS
+      TYPE(PYTHON_), INTENT(INOUT) :: PYTHON
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER TYP,ISENS,SENS_ID,SIZE,STABS,SFSAV
       CHARACTER(LEN=256) :: OPTION
+      LOGICAL :: ANY_PYTHON_SENSOR
+      INTEGER, DIMENSION(:), ALLOCATABLE :: UIDS
+      DOUBLE PRECISION, DIMENSION(:,:), ALLOCATABLE :: RESULTS
+      INTEGER, DIMENSION(:), ALLOCATABLE :: STATUSES
+      INTEGER, DIMENSION(:), ALLOCATABLE :: TYPES
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 C     this routine checks activation condition of all basic sensor types
 C=======================================================================
+      ANY_PYTHON_SENSOR = .FALSE.
       STABS   = SENSORS%STABSEN 
       SFSAV   = SENSORS%SFSAV
 c--------------------------------------------------
@@ -102,10 +111,9 @@ c     Parallel loop over sensor list
 c--------------------------------------------------
 
 !$OMP PARALLEL DO PRIVATE(ISENS,TYP)
-
 c--------------------------------------------------
       DO ISENS = 1,NSENSOR
-
+        SENSORS%SENSOR_TAB(ISENS)%RESULTS(SENSOR_RESULT_SIZE) = ZERO
         TYP = SENSORS%SENSOR_TAB(ISENS)%TYPE
 C--------------------------------
 C       SENSOR - TIME
@@ -256,7 +264,6 @@ c--------------------------------
         ELSEIF (TYP == 31) THEN
 c--------------------------------
 c       USER SENSOR TYPE 31
-
           SENS_ID  = SENSORS%SENSOR_TAB(ISENS)%SENS_ID
 
           IF (USERL_AVAIL==1) THEN
@@ -270,15 +277,43 @@ c       USER SENSOR TYPE 31
               CALL ARRET(2)
              ! ----------------
           ENDIF
-
+       ELSEIF (TYP == SENSOR_TYPE_PYTHON) THEN
+c         CALL SENSOR_PYTHON(SENSORS%SENSOR_TAB(ISENS) )
+         ANY_PYTHON_SENSOR = .TRUE.
        ENDIF  ! TYP 
 c----
       END DO  ! ISENS
 c--------------------------------------------------
 c     END of parallel loop
-
 !$OMP END PARALLEL DO
-
+c--------------------------------------------------
+      IF(PYTHON%NB_FUNCTS > 0) THEN
+        ALLOCATE(UIDS(NSENSOR))
+        ALLOCATE(RESULTS(SENSOR_RESULT_SIZE,NSENSOR))
+        ALLOCATE(STATUSES(NSENSOR))
+        ALLOCATE(TYPES(NSENSOR))
+        DO ISENS = 1,NSENSOR
+          TYP = SENSORS%SENSOR_TAB(ISENS)%TYPE
+          TYPES(ISENS) = TYP
+          UIDS(ISENS) = SENSORS%SENSOR_TAB(ISENS)%SENS_ID
+          STATUSES(ISENS) = SENSORS%SENSOR_TAB(ISENS)%STATUS 
+          RESULTS(1:SENSOR_RESULT_SIZE,ISENS) = SENSORS%SENSOR_TAB(ISENS)%RESULTS(1:SENSOR_RESULT_SIZE)
+        END DO  ! ISENS
+        CALL PYTHON_UPDATE_SENSORS(TYPES,UIDS,STATUSES,RESULTS,NSENSOR)
+        DEALLOCATE(TYPES)
+        DEALLOCATE(UIDS)
+        DEALLOCATE(RESULTS)
+        DEALLOCATE(STATUSES)
+      ENDIF
+      IF (ANY_PYTHON_SENSOR) THEN
+        DO ISENS = 1,NSENSOR
+          TYP = SENSORS%SENSOR_TAB(ISENS)%TYPE
+          IF (TYP == SENSOR_TYPE_PYTHON) THEN
+            CALL SENSOR_PYTHON(SENSORS%SENSOR_TAB(ISENS))
+          ENDIF  ! TYP 
+        END DO  ! ISENS
+      ENDIF
+c
 c--------------------------------------------------
       IF (STABS > 0) SENSORS%FSAV(1:12,1:6,1:SFSAV) = ZERO
 

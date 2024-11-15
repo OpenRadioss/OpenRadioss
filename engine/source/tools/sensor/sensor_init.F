@@ -35,10 +35,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         SUBROUTINE SENSOR_INIT( SUBSET,IPARG,NGROUC,
      .                          IPARTC,IPARTTG,IPARTS,IPARTQ,IPARTT,
      .                          IPARTP,IPARTR,SENSORS,TIME  ,TIMESTEP,
-     .                          IOUT  )
+     .                          IOUT ,PYTHON)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+        USE SENSOR_PYTHON_MOD
+        USE PYTHON_FUNCT_MOD
         USE GROUPDEF_MOD
         USE SENSOR_MOD
 C-----------------------------------------------
@@ -66,6 +68,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(*), TARGET, INTENT(IN) :: IPARTT,IPARTP,IPARTR
       INTEGER, DIMENSION(NPARG,*), INTENT(IN) :: IPARG
       TYPE (SENSORS_) ,INTENT(INOUT) :: SENSORS
+      TYPE(PYTHON_), INTENT(INOUT) :: PYTHON
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -84,7 +87,12 @@ C-----------------------------------------------
       INTEGER :: SURF_DIST_SENSOR,ENERGY_SENSOR,SENSOR_TEMP
       INTEGER, DIMENSION(SENSORS%NSENSOR) :: INDX_SURF_DIST_SENSOR,INDX_ENERGY,INDX_TEMP
       INTEGER :: SIZE_COMM17_MIN_MAX,SIZE_COMM17_MEAN
-
+      LOGICAL :: ANY_PYTHON_SENSOR
+      INTEGER, DIMENSION(:), ALLOCATABLE :: UIDS
+      INTEGER, DIMENSION(:), ALLOCATABLE :: STATUSES
+      INTEGER, DIMENSION(:), ALLOCATABLE :: TYPES
+      DOUBLE PRECISION, DIMENSION(:,:), ALLOCATABLE :: RESULTS
+      INTEGER :: ISENS
 !   *********************************************
 !       In 1 element group : 1 or several PART 
 !          --> one or several /SENSOR linked to the PARTs
@@ -113,6 +121,7 @@ c=======================================================================
       COMM_SENS14%BOOL = .FALSE.
       COMM_SENS16%BOOL = .FALSE.
       COMM_SENS17%BOOL = .FALSE.
+      ANY_PYTHON_SENSOR = .FALSE.
 
       COMM_SENS14%BUFFER_SIZE_MIN_MAX = 0
       COMM_SENS14%BUFFER_SIZE_MEAN = 0
@@ -133,6 +142,7 @@ c
       !   -----------------------------------------
       !   count the number of sensors by type
       DO K=1,NSENSOR
+          SENSORS%SENSOR_TAB(K)%RESULTS(1:SENSOR_RESULT_SIZE) = ZERO
           TYP = SENSORS%SENSOR_TAB(K)%TYPE
           !   -------------------- 
           IF (TYP==14) THEN
@@ -433,6 +443,8 @@ c----------------------------------------------------------------------
         SENSORS%NRESET = 0
       ENDIF
 
+      
+
 C ---------------------------------------------------------------------
 C Play Sensors which could be active at TT=0
 c----------------------------------------------------------------------
@@ -443,6 +455,9 @@ c----------------------------------------------------------------------
             IF (TYP == 0) THEN 
               CALL SENSOR_TIME(SENSORS%SENSOR_TAB(I) ,TIME   ,TIMESTEP)
             ENDIF
+            IF( TYP == SENSOR_TYPE_PYTHON ) THEN
+              ANY_PYTHON_SENSOR = .TRUE.
+            ENDIF
         ENDDO
      
         ! Logical Sensors can be active at TT=0
@@ -450,6 +465,34 @@ c----------------------------------------------------------------------
       ELSE
         LOGICAL_SENSOR_COUNT=0
       ENDIF
+
+      IF(PYTHON%NB_FUNCTS > 0) THEN
+        ALLOCATE(UIDS(NSENSOR))
+        ALLOCATE(RESULTS(SENSOR_RESULT_SIZE,NSENSOR))
+        ALLOCATE(STATUSES(NSENSOR))
+        ALLOCATE(TYPES(NSENSOR))
+        DO ISENS = 1,NSENSOR
+          TYP = SENSORS%SENSOR_TAB(ISENS)%TYPE
+          TYPES(ISENS) = TYP
+          UIDS(ISENS) = SENSORS%SENSOR_TAB(ISENS)%SENS_ID
+          STATUSES(ISENS) = SENSORS%SENSOR_TAB(ISENS)%STATUS 
+          RESULTS(1:SENSOR_RESULT_SIZE,ISENS) = SENSORS%SENSOR_TAB(ISENS)%RESULTS(1:SENSOR_RESULT_SIZE)
+        END DO  ! ISENS
+        CALL PYTHON_UPDATE_SENSORS(TYPES,UIDS,STATUSES,RESULTS,NSENSOR)
+        DEALLOCATE(TYPES)
+        DEALLOCATE(UIDS)
+        DEALLOCATE(RESULTS)
+        DEALLOCATE(STATUSES)
+      ENDIF
+      IF (ANY_PYTHON_SENSOR) THEN
+        DO ISENS = 1,NSENSOR
+          TYP = SENSORS%SENSOR_TAB(ISENS)%TYPE
+          IF (TYP == SENSOR_TYPE_PYTHON) THEN
+            CALL SENSOR_PYTHON(SENSORS%SENSOR_TAB(ISENS))
+          ENDIF  ! TYP 
+        END DO  ! ISENS
+      ENDIF
+
 c-----------------------------------------------------------------------      
 100   FORMAT(' SENSOR NUMBER ',I10,' ,IS RESET TO THE INITIAL STATE')
 c-----------

@@ -1080,7 +1080,7 @@ C--------------------------------------
 
         CALL READ_DB(GAUGE,LLGAUGE*NBGAUGE)
 
-        CALL READ_SENSORS(SENSORS)
+        CALL READ_SENSORS(SENSORS, PYTHON)
 
         CALL READ_DB(FBVEL,SFBVEL)
 
