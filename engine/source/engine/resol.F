@@ -2241,7 +2241,7 @@ C     Multidomains + SPH
 C     THERMAL EXPANSION and IMPTEMP : Initialisation of nodal temperatures
       IF (GLOB_THERM%NFXTEMP  > 0 .AND. GLOB_THERM%ITHERM_FE > 0.AND.TT==ZERO) THEN
         CALL FIXTEMP(IBFTEMP  ,FBFTEMP    ,TEMP    ,NPC    ,TF  ,
-     .       NSENSOR  ,SENSORS%SENSOR_TAB )
+     .       NSENSOR  ,SENSORS%SENSOR_TAB,GLOB_THERM )
       ENDIF
 C ---------------------
 C Allocating Array for PCONT2 - average normal

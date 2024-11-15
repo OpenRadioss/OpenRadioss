@@ -126,7 +126,7 @@ C-----------------------------------------------
       my_real,INTENT(INOUT) :: BFRAC(NEL)
       INTEGER,INTENT(IN)::NPF(SNPC)
       my_real,INTENT(IN)::TF(STF)
-      TYPE(MATPARAM_STRUCT_), INTENT(INOUT) :: MAT_PARAM !material data structure
+      TYPE(MATPARAM_STRUCT_), INTENT(IN) :: MAT_PARAM !material data structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

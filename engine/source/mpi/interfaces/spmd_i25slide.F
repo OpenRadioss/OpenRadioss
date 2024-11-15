@@ -364,7 +364,7 @@ C-----------------------------------------------
      .        NB_SLID(NSPMD), ! NB of new sliding secnd nodes
      .        ITAB(*)
       INTEGER, INTENT(INOUT) :: NSNR
-      INTEGER, INTENT(INOUT) :: NODADT_THERM
+      INTEGER, INTENT(IN) :: NODADT_THERM
       INTEGER, INTENT(IN) :: ISTIF_MSDT,IFSUB_CAREA
       INTEGER IAD_FRNOR(NINTER25,NSPMD+1),FR_NOR(*)
       TYPE(H3D_DATABASE) :: H3D_DATA
