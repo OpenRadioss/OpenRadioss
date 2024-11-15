@@ -593,6 +593,7 @@ jobs:
       DELIVERY_NB_RELEASES_TO_KEEP: 3
       DELIVERY_TAG_PREFIX: 'latest-'
       OPENRADIOSS_MAINDIR_NAME: 'OpenRadioss'
+      OPENRADIOSS_GUI: 'TOOLS/openradioss_gui'
 
     steps:
 
@@ -628,6 +629,16 @@ jobs:
           clean: 'false'
           repository: '${{ secrets.EXTRA_REPOSITORY }}'
           path: "${{ env.WORKDIR }}/EXTRA"
+          token: '${{ secrets.EXTRA_REPOSITORY_PAT }}'
+
+      # Get OpenRadioss gui in Tools repository
+      - name: Checkout git Tools sources
+        uses: actions/checkout@v4
+        with:
+          lfs: 'true'
+          clean: 'false'
+          repository: '${{ secrets.TOOLS_REPOSITORY }}'
+          path: "${{ env.WORKDIR }}/TOOLS"
           token: '${{ secrets.EXTRA_REPOSITORY_PAT }}'
 
       # Download ALL artifacts
@@ -679,6 +690,12 @@ jobs:
             if test -d EXTRA/${os}
             then
               cp -a EXTRA/${os}/* todeliver/${os}/${{ env.OPENRADIOSS_MAINDIR_NAME }}/
+            fi
+
+            # Get OpenRadioss gui from Tools repository
+            if test -d ${OPENRADIOSS_GUI}
+            then
+              cp -a ${OPENRADIOSS_GUI} todeliver/${os}/${{ env.OPENRADIOSS_MAINDIR_NAME }}/
             fi
 
             cp -a hm_cfg_files todeliver/${os}/${{ env.OPENRADIOSS_MAINDIR_NAME }}/
