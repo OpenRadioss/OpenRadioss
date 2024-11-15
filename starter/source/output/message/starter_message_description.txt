@@ -15390,6 +15390,17 @@ Parameter ALPHA should be lower than square root of 2/3 (0.8164965809)
    %i1="/INTER"
    Spotflag= %d IS NOT COMPATIBLE WITH SURFACE TO SURFACE INPUT, Secondary surf_id= %d is ignored
 
+
+/MESSAGE/3079/TITLE
+** ERROR IN MATERIAL LAW
+
+/MESSAGE/3079/DESCRIPTION
+   -- MATERIAL ID:	%d
+   -- MATERIAL TITLE: %s
+   -- FUNCTION ID: %d
+   NOT COMPATIBLE WITH PYTHON FUNCTION                                                                                                    
+
+
 /MESSAGE/9998/TITLE
 ** MESSAGE WITH NO CATEGORY
 /MESSAGE/9999/TITLE

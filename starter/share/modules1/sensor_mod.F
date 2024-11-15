@@ -112,6 +112,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
         USE NAMES_AND_TITLES_MOD , ONLY : nchartitle
+        USE SENSOR_COMMON_MOD
 C-----------------------------------------------
 C   m y _ r e a l
 C-----------------------------------------------
@@ -119,46 +120,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D e r i v e d   T y p e   D e f i n i t i o n s
 C-----------------------------------------------
-      INTEGER KSENS_CUR
-      INTEGER ISENBUF
-      INTEGER LSENBUF
-      INTEGER NSENPARI
-      INTEGER NSENPARR
-      INTEGER ISENPARI
-      INTEGER ISENPARR
-      PARAMETER (ISENBUF=20)
-      PARAMETER (LSENBUF=101)
-      PARAMETER (NSENPARI=12)
-      PARAMETER (NSENPARR=20)
-      PARAMETER (ISENPARI=3)
-      PARAMETER (ISENPARR=203)
-
-
-      TYPE SENSOR_STR_
-        INTEGER :: TYPE        !   sensor type 
-        INTEGER :: SENS_ID     !   sensor User ID
-        INTEGER :: STATUS      !   sensor status
-                               !          = 0   : deactivated
-                               !          = 1   : activated at TSTART
-        CHARACTER(LEN = nchartitle) :: TITLE
-        my_real :: TCRIT       !   time when activation criterion is met
-        my_real :: TMIN        !   time duration of crit value before activation
-        my_real :: TDELAY      !   time delay before activation (after Tmin)
-        my_real :: TSTART      !   time when sensor is finally activated (for output)
-        my_real :: VALUE       !   actual sensor value
-        INTEGER :: NPARI       !   number of constant integer parameters
-        INTEGER :: NPARR       !   number of constant real value parameters
-        INTEGER :: NVAR        !   number of internal variables
-        INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IPARAM  !  integer parameter array
-        my_real ,DIMENSION(:) ,ALLOCATABLE :: RPARAM  !  real parameter array
-        my_real ,DIMENSION(:) ,ALLOCATABLE :: VAR     !  internal variables array
-        ! User Sensor buffers
-        INTEGER ,DIMENSION(:) ,ALLOCATABLE :: INTEGER_USERBUF    !  Buffer to store integer variables
-        my_real ,DIMENSION(:) ,ALLOCATABLE :: FLOAT_USERBUF      !  Buffer to store user variables.
-        INTEGER ,DIMENSION(:) ,ALLOCATABLE :: INTEGER_USERPARAM  !  Buffer to store integer variables
-        my_real ,DIMENSION(:) ,ALLOCATABLE :: FLOAT_USERPARAM    !  Buffer to store user variables.
-      END TYPE SENSOR_STR_
-
+      INTEGER :: KSENS_CUR
 
       TYPE SENSOR_USER_STRUCT_
         LOGICAL :: IS_USED          ! boolean, true if a user sensor is activated
@@ -174,32 +136,6 @@ C-----------------------------------------------
 c
       INTEGER LOGICAL_SENSOR_COUNT
       INTEGER, DIMENSION(:),ALLOCATABLE :: LOGICAL_SENSORS_LIST
-      
-      
-      ! -----------------------------------
-      !  Main sensor data structure    
-      ! -----------------------------------
-      TYPE SENSORS_
-      
-        INTEGER :: NSENSOR
-        INTEGER :: STABSEN
-        INTEGER :: SFSAV
-        INTEGER :: NSTOP
-        INTEGER :: NSTAT
-        INTEGER :: NOUTP
-        INTEGER :: NANIM
-
-
-        TYPE (SENSOR_STR_) ,DIMENSION(:)     ,ALLOCATABLE :: SENSOR_TAB
-            
-        DOUBLE PRECISION   ,DIMENSION(:,:,:) ,ALLOCATABLE :: FSAV  ! smpd communication array for "force" sensors
-        INTEGER            ,DIMENSION(:)     ,ALLOCATABLE :: TABSENSOR  
-
-      END TYPE SENSORS_
-
-      
-      
-      
 c--------------------------
       END MODULE SENSOR_MOD
 

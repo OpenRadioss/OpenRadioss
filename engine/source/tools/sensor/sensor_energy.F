@@ -178,6 +178,8 @@ c---------------------------------------------------------
         ICRIT = 1                   
         IFLAG = 4               
       ENDIF
+      SENSOR%RESULTS(1) = EINT
+      SENSOR%RESULTS(2) = EKIN
 c      
       IF (SENSOR%TCRIT + TMIN > TT) THEN
         IF (ICRIT == 0) THEN

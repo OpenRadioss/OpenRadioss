@@ -55,7 +55,7 @@ C Local Variables
 C----------------------------------------------------------
       INTEGER I,J,NGAUGE,IGAU,ICRIT
 c
-      my_real :: PMIN,TMIN,TSTART,TDELAY,INFINITY
+      my_real :: PMIN,TMIN,TSTART,TDELAY,INFINITY,MAXP
       PARAMETER (INFINITY = 1.0E20)
 C=======================================================================
       IF (SENSOR%STATUS == 1) RETURN   ! already activated
@@ -64,6 +64,7 @@ c
       NGAUGE = SENSOR%IPARAM(1)
 
       J = 0
+      MAXP = - INFINITY
       DO I = 1,NGAUGE
         ICRIT  = 0
         IGAU   = SENSOR%IPARAM(I+1)
@@ -71,6 +72,7 @@ c
         TMIN   = SENSOR%RPARAM(J+2)
         TSTART = SENSOR%RPARAM(J+3)
         IF (ABS(GAUGE(30,IGAU)) > PMIN) ICRIT  = 1
+        IF(ABS(GAUGE(30,IGAU)) > MAXP) MAXP = ABS(GAUGE(30,IGAU))
 c----------------------------------------------------------------
 c       check activation status
 c----------------------------------------------------------------
@@ -97,6 +99,7 @@ c
         ENDIF
         J = J + 3
       END DO
+      SENSOR%RESULTS(1) = MAXP
 c-----------------------------------------------------------------------      
 1100  FORMAT(' SENSOR NUMBER ',I10,' ,ACTIVATED AT TIME ',1PE12.5)
 1200  FORMAT('      TARGET PRESSURE = ',1PE12.5,/

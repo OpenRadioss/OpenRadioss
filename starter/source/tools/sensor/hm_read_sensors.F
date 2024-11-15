@@ -59,13 +59,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    submodel_mod            ../starter/share/modules1/submodel_mod.F
       !||    surf_mod                ../starter/share/modules1/surf_mod.F
       !||====================================================================
-      SUBROUTINE HM_READ_SENSORS(
+      SUBROUTINE HM_READ_SENSORS(PYTHON,
      .           SENSORS   ,LACCELM   ,ITABM1    ,IPART     ,LGAUGE    ,
      .           SUBSET    ,NSETS     ,IGRSURF   ,IGRNOD    ,BUFSF     ,
      .           SKEW      ,ISKWN     ,UNITAB    ,LSUBMODEL ,HM_NSENS  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE PYTHON_FUNCT_MOD
       USE MY_ALLOC_MOD  
       USE UNITAB_MOD
       USE MESSAGE_MOD
@@ -75,6 +76,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE SENSOR_MOD
       USE HM_OPTION_READ_MOD
+      USE READ_SENSOR_PYTHON_MOD, ONLY : READ_SENSOR_PYTHON
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -90,6 +92,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(PYTHON_), intent(inout) :: PYTHON
       INTEGER ,INTENT(IN)  :: NSETS
       INTEGER ,INTENT(OUT) :: HM_NSENS
       INTEGER ,DIMENSION(*)   ,INTENT(IN) :: ITABM1
@@ -116,13 +119,23 @@ C-----------------------------------------------
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER KEY*40,MESS*40
       INTEGER ,DIMENSION(:) ,ALLOCATABLE   :: SID
-      TYPE (SENSOR_STR_)    ,POINTER :: SENSOR_PTR
+      TYPE(PYTHON_FUNCTION), DIMENSION(:), ALLOCATABLE :: temp
       DATA MESS/'SENSOR DEFINITION                       '/
 C=======================================================================
 c     Initialize sensor data structure
 c---------------------------------------------
       CALL HM_OPTION_COUNT('/SENSOR', HM_NSENS)
-
+      CALL HM_OPTION_COUNT('/SENSOR/PYTHON', NS)
+      IF(NS > 0) THEN
+        call python_initialize(python_error)
+        if(.not. allocated(python%functs)) then 
+          allocate(python%functs(ns))
+        else
+          allocate(temp(PYTHON%nb_functs + NS))
+          temp(1:PYTHON%nb_functs) = PYTHON%functs
+          CALL MOVE_ALLOC(from=temp,to=PYTHON%functs)
+        endif
+      END IF
       IF (HM_NSENS > 0) THEN
         WRITE(ISTDO,'(A)')' .. SENSORS'
         WRITE (IOUT,'(///,A)')'          SENSORS'
@@ -141,7 +154,6 @@ c
 c---------------------------------------------------
 c
       DO ISEN = 1,HM_NSENS
-        SENSOR_PTR => SENSORS%SENSOR_TAB(ISEN)
 c            
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                          OPTION_ID   = SENS_ID,
@@ -169,86 +181,89 @@ c-----------------------
         SELECT CASE(KEY)
 c-----------------------
           CASE ('TIME' ,'TYPE0')
-            CALL READ_SENSOR_TIME(SENSOR_PTR ,SENS_ID  ,UNITAB   ,LSUBMODEL)  
+            CALL READ_SENSOR_TIME(SENSORS%SENSOR_TAB(ISEN) ,SENS_ID  ,UNITAB   ,LSUBMODEL)  
 c
           CASE ('ACCE' ,'TYPE1')
-            CALL READ_SENSOR_ACC(SENSOR_PTR ,SENS_ID  ,TITR     , 
+            CALL READ_SENSOR_ACC(SENSORS%SENSOR_TAB(ISEN) ,SENS_ID  ,TITR     , 
      .           LACCELM  ,UNITAB   ,LSUBMODEL)  
 c
           CASE ('DIST' ,'TYPE2')
-            CALL READ_SENSOR_DISP(SENSOR_PTR ,SENS_ID  ,
+            CALL READ_SENSOR_DISP(SENSORS%SENSOR_TAB(ISEN) ,SENS_ID  ,
      .           ITABM1   ,UNITAB   ,LSUBMODEL)   
 c
           CASE ('SENS' ,'TYPE3')
-            CALL READ_SENSOR_SENS(SENSOR_PTR ,SENS_ID  ,UNITAB   ,LSUBMODEL)
+            CALL READ_SENSOR_SENS(SENSORS%SENSOR_TAB(ISEN) ,SENS_ID  ,UNITAB   ,LSUBMODEL)
 c
           CASE ('AND' ,'TYPE4')
-            CALL READ_SENSOR_AND(SENSOR_PTR ,SENS_ID  ,UNITAB   ,LSUBMODEL)
+            CALL READ_SENSOR_AND(SENSORS%SENSOR_TAB(ISEN) ,SENS_ID  ,UNITAB   ,LSUBMODEL)
 c
           CASE ('OR' ,'TYPE5')
-            CALL READ_SENSOR_OR(SENSOR_PTR ,SENS_ID  ,UNITAB   ,LSUBMODEL)
+            CALL READ_SENSOR_OR(SENSORS%SENSOR_TAB(ISEN) ,SENS_ID  ,UNITAB   ,LSUBMODEL)
 c
           CASE ('INTER' ,'TYPE6')
-            CALL READ_SENSOR_CONTACT(SENSOR_PTR ,SENS_ID  ,TITR     ,
+            CALL READ_SENSOR_CONTACT(SENSORS%SENSOR_TAB(ISEN) ,SENS_ID  ,TITR     ,
      .           UNITAB   ,LSUBMODEL)
 c
           CASE ('RWALL' ,'TYPE7')
-            CALL READ_SENSOR_RWALL(SENSOR_PTR ,SENS_ID  ,TITR     ,
+            CALL READ_SENSOR_RWALL(SENSORS%SENSOR_TAB(ISEN) ,SENS_ID  ,TITR     ,
      .           UNITAB   ,LSUBMODEL)
 c
           CASE ('NOT' ,'TYPE8')
-            CALL READ_SENSOR_NOT(SENSOR_PTR ,SENS_ID  ,UNITAB   ,LSUBMODEL)
+            CALL READ_SENSOR_NOT(SENSORS%SENSOR_TAB(ISEN) ,SENS_ID  ,UNITAB   ,LSUBMODEL)
 c
           CASE ('VEL' ,'TYPE9')
-            CALL READ_SENSOR_VEL(SENSOR_PTR ,SENS_ID  ,
+            CALL READ_SENSOR_VEL(SENSORS%SENSOR_TAB(ISEN) ,SENS_ID  ,
      .           ITABM1   ,UNITAB   ,LSUBMODEL)   
 c
           CASE ('GAUGE' ,'TYPE10')            
-            CALL READ_SENSOR_GAUGE(SENSOR_PTR ,SENS_ID  ,TITR     ,
+            CALL READ_SENSOR_GAUGE(SENSORS%SENSOR_TAB(ISEN) ,SENS_ID  ,TITR     ,
      .           LGAUGE   ,UNITAB   ,LSUBMODEL)
 c
           CASE ('RBODY' ,'TYPE11')
-            CALL READ_SENSOR_RBODY(SENSOR_PTR ,SENS_ID  ,TITR     ,
+            CALL READ_SENSOR_RBODY(SENSORS%SENSOR_TAB(ISEN) ,SENS_ID  ,TITR     ,
      .           UNITAB   ,LSUBMODEL)
 c
           CASE ('SECT' ,'TYPE12')
-            CALL READ_SENSOR_SECT(SENSOR_PTR ,SENS_ID  ,TITR     ,
+            CALL READ_SENSOR_SECT(SENSORS%SENSOR_TAB(ISEN) ,SENS_ID  ,TITR     ,
      .           UNITAB   ,LSUBMODEL)
 c
           CASE ('WORK' ,'TYPE13')
-            CALL READ_SENSOR_WORK(SENSOR_PTR ,SENS_ID  ,
+            CALL READ_SENSOR_WORK(SENSORS%SENSOR_TAB(ISEN) ,SENS_ID  ,
      .           ITABM1   ,UNITAB   ,LSUBMODEL)   
 c
           CASE ('ENERGY' ,'TYPE14')
-            CALL READ_SENSOR_ENERGY(SENSOR_PTR ,SENS_ID  ,TITR     ,
+            CALL READ_SENSOR_ENERGY(SENSORS%SENSOR_TAB(ISEN) ,SENS_ID  ,TITR     ,
      .           IPART   ,SUBSET   ,UNITAB  ,LSUBMODEL)
 c
           CASE ('DIST_SURF' ,'TYPE15')
-            CALL READ_SENSOR_DIST_SURF(SENSOR_PTR ,SENS_ID  ,
+            CALL READ_SENSOR_DIST_SURF(SENSORS%SENSOR_TAB(ISEN) ,SENS_ID  ,
      .           ITABM1   ,UNITAB   ,LSUBMODEL)   
 c
           CASE ('HIC' ,'TYPE16')
-            CALL READ_SENSOR_HIC(SENSOR_PTR ,SENS_ID  ,TITR     , 
+            CALL READ_SENSOR_HIC(SENSORS%SENSOR_TAB(ISEN) ,SENS_ID  ,TITR     , 
      .           LACCELM  ,UNITAB   ,LSUBMODEL)  
 c
           CASE ('TEMP')
-            CALL READ_SENSOR_TEMP(SENSOR_PTR  ,SENS_ID     ,TITR     , 
+            CALL READ_SENSOR_TEMP(SENSORS%SENSOR_TAB(ISEN)  ,SENS_ID     ,TITR     , 
      .           IGRNOD   ,UNITAB   ,LSUBMODEL)   
 c
           CASE ('NIC_NIJ')
             CALL READ_SENSOR_NIC(
-     .           SENSOR_PTR  ,SENS_ID    ,TITR     ,ISKWN    , 
+     .           SENSORS%SENSOR_TAB(ISEN)  ,SENS_ID    ,TITR     ,ISKWN    , 
      .           UNITAB      ,LSUBMODEL  )   
 c
           CASE ('USER1' ,'USER2','USER3')
 
-            SENSOR_PTR%TSTART = INFINITY
+            SENSORS%SENSOR_TAB(ISEN)%TSTART = INFINITY
 
             CALL READ_SENSOR_USER(HM_NSENS ,ISEN    ,TITR,
      .           UNITAB    ,LSUBMODEL      ,KEY     ,UNIT_ID ,SENS_ID ,
-     .           SENSOR_PTR)
-            SENSOR_PTR%SENS_ID = SENS_ID
-c---
+     .           SENSORS%SENSOR_TAB(ISEN))
+            SENSORS%SENSOR_TAB(ISEN)%SENS_ID = SENS_ID
+          CASE('PYTHON')
+            CALL READ_SENSOR_PYTHON(PYTHON,
+     .           SENSORS%SENSOR_TAB(ISEN)  ,SENS_ID    , LSUBMODEL  )   
+
           CASE DEFAULT
             CALL ANCMSG(MSGID=43, ANMODE=ANINFO, MSGTYPE=MSGERROR,
      .                  C2=KEY(1:LEN_TRIM(KEY)),
@@ -256,7 +271,7 @@ c---
      .                  C1=TITR)        
         END SELECT 
 c
-        SENSOR_PTR%TITLE = TITR
+        SENSORS%SENSOR_TAB(ISEN)%TITLE = TITR
 c-----------------
       END DO  ! NSENSOR
 c-------------------------------------

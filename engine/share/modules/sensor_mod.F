@@ -230,6 +230,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    names_and_titles_mod               ../common_source/modules/names_and_titles_mod.F
       !||====================================================================
       MODULE SENSOR_MOD
+      USE  SENSOR_COMMON_MOD
       USE NAMES_AND_TITLES_MOD, ONLY:NCHARTITLE
 !$COMMENT
 !       SENSOR_MOD :
@@ -246,43 +247,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     fixed array sizes
 C-----------------------------------------------
-      INTEGER ,PARAMETER :: ISENBUF  = 20
-      INTEGER ,PARAMETER :: LSENBUF  = 101
-      INTEGER ,PARAMETER :: NSENPARI = 12
-      INTEGER ,PARAMETER :: NSENPARR = 20
-      INTEGER ,PARAMETER :: ISENPARI = 3
-      INTEGER ,PARAMETER :: ISENPARR = 203
       INTEGER ,PARAMETER :: MX_SENS  = 50000 !used only in sensor list in engine options /STOP, /OUTP...
 
 C-----------------------------------------------
 C   D e r i v e d   T y p e   D e f i n i t i o n s
 C-----------------------------------------------
-
-      TYPE SENSOR_STR_
-        INTEGER :: TYPE        !   sensor type 
-        INTEGER :: SENS_ID     !   sensor User ID
-        INTEGER :: STATUS      !   sensor status
-                               !          = 0   : deactivated
-                               !          = 1   : activated at TSTART
-        CHARACTER(LEN = NCHARTITLE) :: TITLE
-        my_real :: TCRIT       !   time when activation criterion is met
-        my_real :: TMIN        !   time duration of crit value before activation
-        my_real :: TDELAY      !   time delay before activation (after Tmin)
-        my_real :: TSTART      !   time when sensor is finally activated (for output)
-        my_real :: VALUE       !   actual sensor value
-        INTEGER :: NPARI       !   number of constant integer parameters
-        INTEGER :: NPARR       !   number of constant real value parameters
-        INTEGER :: NVAR        !   number of internal variables
-        INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IPARAM  !  integer parameter array
-        my_real ,DIMENSION(:) ,ALLOCATABLE :: RPARAM  !  real parameter array
-        my_real ,DIMENSION(:) ,ALLOCATABLE :: VAR     !  internal variables array
-        ! User Sensor buffers
-        INTEGER ,DIMENSION(:) ,ALLOCATABLE :: INTEGER_USERBUF    !  Buffer to store integer variables
-        my_real ,DIMENSION(:) ,ALLOCATABLE :: FLOAT_USERBUF      !  Buffer to store user variables.
-        INTEGER ,DIMENSION(:) ,ALLOCATABLE :: INTEGER_USERPARAM  !  Buffer to store integer variables
-        my_real ,DIMENSION(:) ,ALLOCATABLE :: FLOAT_USERPARAM    !  Buffer to store user variables.
-      END TYPE SENSOR_STR_
-c
       ! -----------------------------------
       TYPE SUB_SENSOR_TYPE
         INTEGER :: PART     !   id of the part
@@ -327,47 +296,6 @@ c
       INTEGER LOGICAL_SENSOR_COUNT
       INTEGER, DIMENSION(:),ALLOCATABLE :: LOGICAL_SENSORS_LIST
       
-      ! -----------------------------------
-      !  Main sensor data structure    
-      ! -----------------------------------
-      TYPE SENSORS_
-      
-        INTEGER :: NSENSOR
-        INTEGER :: STABSEN
-        INTEGER :: SFSAV
-        INTEGER :: NSTOP
-        INTEGER :: NSTAT
-        INTEGER :: NOUTP
-        INTEGER :: NANIM
-        INTEGER :: NRESET
-        INTEGER :: ANIM_ID
-        INTEGER :: STOP_NSTH      !< /STOP/LSENSOR - Write time history file
-        INTEGER :: STOP_NSANIM    !< /STOP/LSENSOR - Write animation file
-        INTEGER :: STOP_NSSTAT    !< /STOP/LSENSOR - Write State file
-        INTEGER :: STOP_NSOUTP    !< /STOP/LSENSOR - Write State file   
-        INTEGER :: STOP_NSH3D     !< /STOP/LSENSOR - Write h3d state
-        INTEGER :: STOP_NSABF     !< /STOP/LSENSOR - Write abf file
-        my_real :: ANIM_DT
-
-        TYPE (SENSOR_STR_) ,DIMENSION(:) ,ALLOCATABLE :: SENSOR_TAB
-
-        INTEGER            ,DIMENSION(:) ,ALLOCATABLE :: STOP
-        INTEGER            ,DIMENSION(:) ,ALLOCATABLE :: STAT
-        INTEGER            ,DIMENSION(:) ,ALLOCATABLE :: OUTP
-        INTEGER            ,DIMENSION(:) ,ALLOCATABLE :: ANIM
-        INTEGER            ,DIMENSION(:) ,ALLOCATABLE :: RESET
-        INTEGER            ,DIMENSION(:) ,ALLOCATABLE :: STOP_TMP
-        INTEGER            ,DIMENSION(:) ,ALLOCATABLE :: OUTP_TMP
-        INTEGER            ,DIMENSION(:) ,ALLOCATABLE :: STAT_TMP
-        INTEGER            ,DIMENSION(:) ,ALLOCATABLE :: ANIM_TMP
-
-        INTEGER, DIMENSION(:) ,ALLOCATABLE :: TABSENSOR  
-        DOUBLE PRECISION ,DIMENSION(:,:,:) ,ALLOCATABLE :: FSAV  ! smpd communication array for "force" sensors
-            
-      END TYPE SENSORS_
-
-      ! -----------------------------------
-     
 
       END MODULE SENSOR_MOD
 

@@ -122,6 +122,9 @@ c
             CALL WRITE_DB (SENSOR%FLOAT_USERBUF,LSENBUF)
 
           ENDIF
+          IF(TYP == 40 ) THEN
+            CALL WRITE_I_C(SENSOR%PYTHON_FUNCTION_ID,1)
+          ENDIF
         END DO
 c
 c--------------------------------------

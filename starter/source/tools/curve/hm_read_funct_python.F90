@@ -86,6 +86,7 @@
           integer :: line_len
           integer :: error,error_old
           double precision :: argin(1), argout(1)
+
 !         character(len=:), allocatable :: titr !function name
           character(len=nchartitle) :: titr !function name
           double precision :: XX(funct_python_nsamples)
@@ -158,7 +159,6 @@
                 allocate(table(l)%X(1)%values(funct_python_nsamples))
                 allocate(table(l)%Y%values(funct_python_nsamples))
                 call python_sample_function(python%functs(i)%name,XX,YY,funct_python_nsamples)
-
 
                 do ipt =1, funct_python_nsamples
                   !write(6,*) ipt,"X",table(l)%X(1)%values(ipt),"Y",table(l)%Y%values(ipt)
