@@ -113,6 +113,7 @@
         pid   = ixc(nixc-1,i)
         igtyp = igeo(11,pid)
         if (igtyp == 11) then
+          npt = igeo(4,pid)
           do ipt = 1,npt
             imat = igeo(100+ipt,pid)
             if (imat == brokmann%imat) then
@@ -151,6 +152,7 @@
         pid   = ixtg(nixtg-1,i)
         igtyp = igeo(11,pid)
         if (igtyp == 11) then
+          npt    = igeo(4,pid)
           do ipt = 1,npt
             imat = igeo(100+ipt,pid)
             if (imat == brokmann%imat) then
