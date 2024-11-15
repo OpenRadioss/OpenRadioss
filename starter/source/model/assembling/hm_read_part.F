@@ -108,7 +108,7 @@ C MODIFIED ARGUMENT
       TYPE(MULTI_FVM_STRUCT),INTENT(INOUT)::MULTI_FVM     
       TYPE(MLAW_TAG_) , DIMENSION(NUMMAT) , INTENT(INOUT) :: MLAW_TAG      
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
-      type (glob_therm_) ,intent(in)      :: glob_therm
+      type (glob_therm_) ,intent(inout)      :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

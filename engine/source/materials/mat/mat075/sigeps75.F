@@ -268,13 +268,15 @@ C--------------
      .             DVOLS  ,DFS    ,VNEWS   ,MATS   ,PSH    ,
      .             PNEW   ,DPDM   ,DPDE    ,THETA  ,ECOLD  ,
      .             BUFMAT ,SIGOLD ,MUOLD   ,75     ,POLD   ,
-     .             NPF    ,TF     ,VAREOS  ,NVAREOS,IBID)
+     .             NPF    ,TF     ,VAREOS  ,NVAREOS,MAT_PARAM,
+     .             IBID)
       CALL EOSMAIN(1      ,NEL    ,EOSTYP  ,PM     ,OFF    ,EINTN ,
      .             RHOS   ,RHOS0  ,MUS     ,MU2S   ,ESPES  ,
      .             DVOLS  ,DFS    ,VNEWS   ,MATS   ,PSH    ,
      .             PNEW   ,DPDM   ,DPDE    ,THETA  ,ECOLD  ,
      .             BUFMAT ,SIGOLD ,MUOLD   ,75     ,POLD   ,
-     .             NPF    ,TF     ,VAREOS  ,NVAREOS,IBID)
+     .             NPF    ,TF     ,VAREOS  ,NVAREOS,MAT_PARAM,
+     .             IBID)
       IF(IFLAG1 == 2) THEN
         DO I=1,NEL
            PNEW(I)=PNEW(I)/ALPHA(I)

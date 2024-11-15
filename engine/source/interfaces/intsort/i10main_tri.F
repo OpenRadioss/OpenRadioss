@@ -94,7 +94,7 @@ C-----------------------------------------------
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
       TYPE(H3D_DATABASE) :: H3D_DATA
-      TYPE(glob_therm_)  :: GLOB_THERM
+      TYPE(glob_therm_),INTENT(IN)  :: GLOB_THERM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
