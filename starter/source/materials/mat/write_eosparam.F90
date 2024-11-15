@@ -57,6 +57,7 @@
       INTEGER :: I,IAD,NFIX,NUPARAM,NIPARAM,NUMTABL,NUMFUNC
       INTEGER ,DIMENSION(NCHARTITLE) :: NAME
       INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IBUF
+      INTEGER :: LENI, LENR
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -88,25 +89,23 @@
       CALL WRITE_C_C(NAME,NCHARTITLE)
       
       ! write eos parameter array
-      NUPARAM = EOS%NUPARAM
-      NIPARAM = EOS%NIPARAM
-      IF (NUPARAM > 0) THEN
+      IF (EOS%NUPARAM > 0) THEN
         CALL WRITE_DB(EOS%UPARAM ,NUPARAM)
       END IF      
-      IF (NIPARAM > 0) THEN
+      IF (EOS%NIPARAM > 0) THEN
         CALL WRITE_I_C(EOS%IPARAM ,NIPARAM)
       END IF      
 
       ! write eos law function
-      NUMFUNC  = EOS%NFUNC
-      IF (NUMFUNC > 0) THEN
+      IF (EOS%NFUNC > 0) THEN
         CALL WRITE_I_C(EOS%FUNC, NUMFUNC)
       END IF
       
       ! write eos law tables
-      NUMTABL  = EOS%NTABLE
-      IF (NUMTABL > 0) THEN
-        CALL WRITE_MAT_TABLE(EOS%TABLE, NUMTABL)
+      IF (EOS%NTABLE > 0) THEN
+        LENI=0
+        LENR=0
+        CALL WRITE_MAT_TABLE(EOS%TABLE, NUMTABL, LENI, LENR)
       END IF
 !-----------
       RETURN

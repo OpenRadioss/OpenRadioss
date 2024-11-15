@@ -98,6 +98,7 @@ C
      7        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
 C
         IF(JEUL  == 1) CYCLE
+        IF(JLAG == 1) CYCLE
         IF(ISROT <= 2) CYCLE
         LFT=1
         NEL = LLT

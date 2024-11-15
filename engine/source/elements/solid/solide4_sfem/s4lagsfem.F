@@ -62,11 +62,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXS(NIXS,*),IPARG(NPARG,*),IAD_ELEM(2,*),FR_ELEM(*),
-     .        IXS10(6,NUMELS10)
-C     REAL
-      my_real
-     .   X(*),VARNOD(*),V(*)
+      INTEGER IXS(NIXS,*),IPARG(NPARG,*),IAD_ELEM(2,*),FR_ELEM(*),IXS10(6,NUMELS10)
+      my_real X(*),VARNOD(*),V(*)
       DOUBLE PRECISION , DIMENSION(SXDP), INTENT(IN) :: XDP     
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
 C-----------------------------------------------
@@ -74,15 +71,13 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NG, I, J, I1, I2, I3, I4, K, LENR,NEL,NNOD,ICPRE,IBID,IP
       INTEGER NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ),NC4(MVSIZ),NC(MVSIZ,10)
-      my_real
-     .   VOL0(MVSIZ),VOLG(MVSIZ)
+      my_real VOL0(MVSIZ),VOLG(MVSIZ)
 
-      DOUBLE PRECISION
-     .   VOL06(6,MVSIZ), VARNOD6(6,2*NUMNOD)      
-C
+      DOUBLE PRECISION VOL06(6,MVSIZ), VARNOD6(6,2*NUMNOD)
+
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
-C
+
       VARNOD(1:2*NUMNOD)      = ZERO
       VARNOD6(1:6,1:2*NUMNOD) = ZERO
       VOL06(1:6,1:MVSIZ)      = ZERO
@@ -90,7 +85,7 @@ C
 C---------------------------------------------------
 C     COMPUTE NODAL VOLUME FOR ALL TETRAHEDRON
 C---------------------------------------------------
-C Boucle parallele dynamique SMP
+C SMP loop
 C
       DO NG = 1,NGROUP
         IF(IPARG(8, NG)==1) CYCLE
@@ -104,13 +99,14 @@ C
      5        NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
      6        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
-C
+
         IF(JEUL  == 1) CYCLE
+        IF(JALE == 1) CYCLE
         IF(NNOD==4 .AND. ISROT /= 3) CYCLE
         IF(ICPRE==0.AND.(NNOD==10.OR.(NNOD==4.AND.ISROT == 1))) CYCLE
         LFT=1
         NEL = LLT
-C
+
         DO I=LFT,LLT
          J=I+NFT
          NC1(I)=IXS(2,J)
@@ -118,13 +114,13 @@ C
          NC3(I)=IXS(7,J)
          NC4(I)=IXS(6,J)
         ENDDO
-C
+
         GBUF => ELBUF_TAB(NG)%GBUF
         IF(NNOD==4 .AND.ISROT == 3) THEN
           CALL S4VOLNOD3(
-     1   VARNOD6, X,       NC1,     NC2,
-     2   NC3,     NC4,     GBUF%OFF,XDP,
-     3   NEL,     ISMSTR)
+     1                   VARNOD6, X,       NC1,     NC2,
+     2                   NC3,     NC4,     GBUF%OFF,XDP,
+     3                   NEL,     ISMSTR)
           IF(IRESP==1)THEN
            LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
            DO I=LFT,LLT
@@ -145,9 +141,9 @@ C
           END IF !(IRESP==1)THEN
 C-----for small strain elements
           CALL S4VOLNOD_SM(
-     1   VARNOD6,   V,         NC1,       NC2,
-     2   NC3,       NC4,       VOL0,      GBUF%AMU,
-     3   GBUF%OFF,  GBUF%SMSTR,NEL,       ISMSTR)
+     1                     VARNOD6,   V,         NC1,       NC2,
+     2                     NC3,       NC4,       VOL0,      GBUF%AMU,
+     3                     GBUF%OFF,  GBUF%SMSTR,NEL,       ISMSTR)
           !Parith-On treatment
           CALL FOAT_TO_6_FLOAT(LFT  ,LLT  ,VOL0 ,VOL06 )
           DO I=LFT,LLT      
@@ -180,9 +176,9 @@ C-----T10 large strain first
           IF (ISMSTR==10) THEN
             NPT = 4 
             CALL S10VOLNODT3(
-     1   ELBUF_TAB(NG),VARNOD6,      X,            NC,
-     2   GBUF%OFF,     GBUF%SMSTR,   XDP,          NEL,
-     3   NPT)
+     1                       ELBUF_TAB(NG),VARNOD6,      X,            NC,
+     2                       GBUF%OFF,     GBUF%SMSTR,   XDP,          NEL,
+     3                       NPT)
             IBID = 1
             DO IP=1,NPT
               LBUF => ELBUF_TAB(NG)%BUFLY(IBID)%LBUF(IP,IBID,IBID)
@@ -202,9 +198,9 @@ C-----T10 large strain first
             END DO !IP=1,NPT
           ELSE
             CALL S10VOLNOD3(
-     1   VARNOD6, X,       NC,      GBUF%OFF,
-     2   VOLG,    XDP,     NEL,     NPT,
-     3   ISMSTR)
+     1                      VARNOD6, X,       NC,      GBUF%OFF,
+     2                      VOLG,    XDP,     NEL,     NPT,
+     3                      ISMSTR)
             DO I=LFT,LLT
              IF(GBUF%OFF(I) == ZERO) THEN
                VOL0(I)=ZERO
@@ -232,14 +228,13 @@ C-----T10 large strain first
 
       ENDDO !DO=1,NG
 
-c EXCHANGE
+c SPMD EXCHANGE
       IF(NSPMD>1)THEN
         LENR = 2*(IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1))
-        CALL SPMD_EXCH_VOL(VARNOD6(1,1),VARNOD6(1,NUMNOD+1),IAD_ELEM,
-     .                     FR_ELEM, LENR )  
+        CALL SPMD_EXCH_VOL(VARNOD6(1,1),VARNOD6(1,NUMNOD+1),IAD_ELEM,FR_ELEM,LENR )
       ENDIF
 
-C Routine assembly PARITH/ON
+C PARITH/ON assembly
       DO I=1,NUMNOD
 
         J=I+NUMNOD
@@ -256,6 +251,6 @@ C Routine assembly PARITH/ON
         ENDIF
       ENDDO
 
-C
+C-----------------------------------------------
       RETURN
       END

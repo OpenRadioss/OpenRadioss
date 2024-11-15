@@ -223,11 +223,11 @@ c
         ENDIF
 
         ! fill EoS buffer with internal function identifiers (user ids -> internal ids were converted above)
-        IF(MAT_PARAM(IMAT)%EOS%NFUNC > 0)THEN
-          DO KK=1,NFUNC
-            MAT_PARAM(IMAT)%EOS%FUNC(KK) = IPM(10+KK,IMAT)
-          ENDDO
-        ENDIF
+        IF(.NOT.ALLOCATED(MAT_PARAM(IMAT)%EOS%FUNC)) ALLOCATE(MAT_PARAM(IMAT)%EOS%FUNC(NFUNC))
+        DO KK=1,NFUNC
+          MAT_PARAM(IMAT)%EOS%FUNC(KK) = IPM(10+KK,IMAT)
+        ENDDO
+
 
 c
 c-----------------------------------------------------------------------
