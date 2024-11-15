@@ -48,11 +48,11 @@
       
       type eos_param_
         character(len=nchartitle) :: title = ''  !< eos model input name
-        integer     :: nuparam                   !< number of real value paraameters
-        integer     :: niparam                   !< number of int value parameters
-        integer     :: nuvar                     !< number of internal state variables
-        integer     :: nfunc                     !< number of local functions in material
-        integer     :: ntable                    !< number of local function tables
+        integer :: nuparam                       !< number of real value paraameters
+        integer :: niparam                       !< number of int value parameters
+        integer :: nuvar                         !< number of internal state variables
+        integer :: nfunc                         !< number of local functions in material
+        integer :: ntable                        !< number of local function tables
         
         my_real        ,dimension(:) ,allocatable :: uparam  !< real value eos parameter table
         integer        ,dimension(:) ,allocatable :: iparam  !< int  value eos parameter table
