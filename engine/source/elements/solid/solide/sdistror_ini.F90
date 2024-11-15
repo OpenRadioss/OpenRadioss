@@ -101,11 +101,10 @@
          mu=zep05
          mx = imat(1)
          nu =pm(21,mx)
+         fqmax = ep02
          if (nu > 0.48999) then 
-             fqmax = ep02
              f_nu = em02
          else 
-             fqmax = ep03
              f_nu = one
          end if
          c1 = pm(107,mx)+onep333*pm(22,mx)
