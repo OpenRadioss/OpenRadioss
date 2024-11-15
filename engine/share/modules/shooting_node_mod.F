@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
       !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
       !||    get_segment_interface_id                 ../engine/source/interfaces/interf/get_segment_interface_id.F90
+      !||    get_segment_orientation                  ../engine/source/interfaces/interf/get_segment_orientation.F90
       !||    init_nodal_state                         ../engine/source/interfaces/interf/init_nodal_state.F
       !||    resol                                    ../engine/source/engine/resol.F
       !||    spmd_exch_deleted_surf_edge              ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
