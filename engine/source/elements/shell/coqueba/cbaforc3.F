@@ -855,11 +855,11 @@ C--------------------------
 C
       IF (JTHE /= 0) THEN
         IF (MAT_ELEM%MAT_PARAM(MAT(1))%HEAT_FLAG == 1) THEN
-          CALL CBATHERM(JFT   ,JLT   ,PM(1,IMAT)     ,THK0  ,IXC     ,
+          CALL CBATHERM(JFT   ,JLT   ,PM(1,MAT(1))     ,THK0  ,IXC     ,
      .                  BM    ,AREA  ,DT1C(1)   ,TEMP    ,TEMPEL,FHEAT   , 
      .                  NPLAT ,IPLAT,THEM    ,GLOB_THERM%THEACCFACT) 
         ELSE
-          CALL CBATHERM(JFT   ,JLT   ,PM(1,IMAT)     ,THK0  ,IXC     ,
+          CALL CBATHERM(JFT   ,JLT   ,PM(1,MAT(1))     ,THK0  ,IXC     ,
      .                  BM    ,AREA  ,DT1C(1)   ,TEMP    ,TEMPEL,DIE     , 
      .                  NPLAT ,IPLAT,THEM    ,GLOB_THERM%THEACCFACT) 
         END IF

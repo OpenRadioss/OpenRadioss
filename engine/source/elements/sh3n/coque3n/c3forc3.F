@@ -250,8 +250,6 @@ C-----
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      DTIME = DT1C(1)
-
       GBUF   => ELBUF_STR%GBUF
       IDRAPE = ELBUF_STR%IDRAPE
       IBID   = 0
@@ -603,6 +601,7 @@ C-------------------------
 c     SHELL THERMICS 
 C--------------------------
       IF (JTHE /= 0) THEN
+        DTIME = DT1C(1)
         IF (MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG == 1) THEN
           CALL THERM3C(NEL   ,PM(1,IMAT)      ,THK0  ,IXTG    ,
      .                 PX1   ,PY1   ,PY2    ,AREA    ,DTIME ,
