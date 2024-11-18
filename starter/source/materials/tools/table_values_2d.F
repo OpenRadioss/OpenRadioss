@@ -28,6 +28,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
        SUBROUTINE TABLE_VALUES_2D(LEN,NPTF,XI,YI,XF,YF)
 C-----------------------------------------------
+!   M o d u l e s 
+C-----------------------------------------------
+      use constant_mod ,only : em20
+C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 c   use common abscissa vector to calculate new interpolated function values
