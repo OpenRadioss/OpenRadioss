@@ -81,6 +81,7 @@ c
       SCALEFAC = MATPARAM%UPARAM(5)  
 c
       ! Table number 1 - Loading function
+      STIFFINI = ZERO
       IF (FUN_1 > 0) THEN
         TABLE_MAT(1)%NOTABLE = FUN_1
         NDIM = TABLE(FUN_1)%NDIM
@@ -123,9 +124,9 @@ c
         END IF
 c
         ! Compute initial slope
-        STIFFINI = ZERO
         DO I = 1,NPT-1
           DX = TABLE_MAT(1)%X(1)%VALUES(I+1) - TABLE_MAT(1)%X(1)%VALUES(I)
+          DY = -HUGE(DY)
           IF (NDIM == 1) THEN
             DY = TABLE_MAT(1)%Y1D(I+1) - TABLE_MAT(1)%Y1D(I)  
           ELSEIF (NDIM == 2) THEN

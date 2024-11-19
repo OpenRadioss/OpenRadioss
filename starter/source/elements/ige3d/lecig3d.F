@@ -145,6 +145,7 @@ c
         IREC=KOPTAD(KCUR)-1 
         I = 0
         INOD_IGE = FIRSTNOD_ISOGEO
+        IDS=0
         DO WHILE( I < NUMELIG3D0 )              
          IREC=IREC+1                        
          READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE

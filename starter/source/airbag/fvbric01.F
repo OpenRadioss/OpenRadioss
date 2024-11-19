@@ -147,6 +147,8 @@ C     Pyramide
             NNODE = 5
             REDIR => REDIRPY(1:5)
          CASE DEFAULT
+            NNODE = -HUGE(NNODE)
+            REDIR => NULL()
             CALL ARRET(2)
          END SELECT
          DO KK = 1, NNODE

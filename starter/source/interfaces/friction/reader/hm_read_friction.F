@@ -116,6 +116,7 @@ C
        NSET = 0
        NCOUPLE = 0
 C
+       LENF = 0
        IF(IFLAG==0 ) THEN 
           ORTHFRIC = 0
        ELSE
@@ -283,7 +284,7 @@ C
           FLAGP2 = 0  
           FLAGGRP1 = 0  
           FLAGGRP2 = 0  
-
+          N1 = -HUGE(N1)
           IF(IPART1/=0)THEN
             DO N=1,NPART
                IF(IPART1 == IPART(4,N))THEN
@@ -303,7 +304,8 @@ C
             ENDIF
           ENDIF
 C
-          IF(IPART2/=0)THEN
+          N2 = -HUGE(N2)
+          IF(IPART2/=0)THEN            
              DO N=1,NPART
                 IF(IPART2 == IPART(4,N))THEN
                   FLAGP2 = 1 
@@ -644,6 +646,7 @@ C
                      IP = GRPN1
                   ELSE
                      IPP = GRPN1
+                     IP = GRPN2
                   ENDIF
 
                   NSET = NSET + 1

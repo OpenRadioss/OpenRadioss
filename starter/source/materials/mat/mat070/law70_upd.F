@@ -195,6 +195,8 @@ c
           IC2 = NPC(FUNC_N+1) - 2
           IPT = 0
           IZERO = 0
+          S2 = ZERO
+          T2 = ZERO
           DO J = IC1,IC2-2,2
             S1 = PLD(J)
             S2 = PLD(J+2)
@@ -330,6 +332,8 @@ c------------------------------------
       END DO
       X1 = MAT_PARAM%TABLE(LOAD)%X(1)%VALUES(K-1)
       X2 = MAT_PARAM%TABLE(LOAD)%X(1)%VALUES(K)
+      Y1 = -HUGE(Y1)
+      Y2 = -HUGE(Y2)
       IF (MAT_PARAM%TABLE(LOAD)%NDIM == 1) THEN
         Y1 = MAT_PARAM%TABLE(LOAD)%Y1D(K-1)
         Y2 = MAT_PARAM%TABLE(LOAD)%Y1D(K)

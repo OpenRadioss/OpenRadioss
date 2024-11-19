@@ -113,7 +113,8 @@ C-----------------------------------------------
 C           OFF                                                           
 C-----------------------------------------------                        
             GBUF => ELBUF_TAB(NG)%GBUF
-            DO I=LFT,LLT                                                  
+            DO I=LFT,LLT                 
+              OFF = HUGE(OFF)                                 
               IF (MLW/=0 .AND. MLW/=13) OFF = ELBUF_TAB(NG)%GBUF%OFF(I)
               IOFF(EL2FA(N_FA+I)) = NINT(MIN(OFF,ONE))
             ENDDO                                                         

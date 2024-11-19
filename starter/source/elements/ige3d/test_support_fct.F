@@ -76,6 +76,9 @@ c
       ELSEIF(DIR==3) THEN
         DIRTANG1 = 1
         DIRTANG2 = 2
+      ELSE
+        DIRTANG1 = -HUGE(DIRTANG1)
+        DIRTANG2 = -HUGE(DIRTANG2)
       ENDIF
 c
 C----------------------------------------------------------------------

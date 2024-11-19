@@ -1714,6 +1714,7 @@ C
                ENDDO
 C
                XSMIN1=EP30
+               KSMIN=-HUGE(KSMIN)
                DO K=1,NSEC
                   IF (XSEC(K)<XSMIN1) THEN
                      XSMIN1=XSEC(K)

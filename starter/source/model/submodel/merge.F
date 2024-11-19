@@ -349,6 +349,7 @@ C
 C
 C ---recherche cnode par boite tt d'abord
 C
+                  DVOIS = HUGE(DVOIS)
                   DO IBZ=1,NBZ+1
                      DO KP= NPCZ(IBZ-1)+1,NPCZ(IBZ) 
                        NC =IPCZ(KP) 

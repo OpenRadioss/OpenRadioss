@@ -179,6 +179,10 @@ C-----------------------------------------------
                 FIRST = 2
                 NODE_NUMBER = 3
                 IXP => IXTG(1:NODE_NUMBER+1,NFT+1:NFT+NEL)
+            ELSE
+                FIRST = -HUGE(FIRST)
+                NODE_NUMBER = -HUGE(NODE_NUMBER)
+                IXP => NULL()
             ENDIF
             ! ---------------
 

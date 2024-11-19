@@ -150,6 +150,8 @@ C
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                           C1='XNUM_RNOISE')
+      ELSE
+        ALLOCATE(XNUM_RNOISE(0,0))
       ENDIF
 C
 C phase 1 : domain decomposition
@@ -439,6 +441,7 @@ C
       DO 300 N=1,ND
        NFT = 0
        DO P = 1, NSPMD
+        ICPT10 = -HUGE(ICPT10)
         NGP(P)=0
         NEL = DD_IAD(P+1,NSPGROUP+N)-DD_IAD(P,NSPGROUP+N)
         IF (NEL>0) THEN
@@ -1606,9 +1609,7 @@ C-----------
      .                  PRMOD=MSG_PRINT)
 c-----
       DEALLOCATE(INDEXS2)
-      IF (NPERTURB > 0) THEN
-        IF (ALLOCATED(XNUM_RNOISE)) DEALLOCATE(XNUM_RNOISE) 
-      ENDIF
+      IF (ALLOCATED(XNUM_RNOISE)) DEALLOCATE(XNUM_RNOISE) 
 c------------------------------------------------------------
  1010 FORMAT(//,
      + 7X,'8-NODE ELEMENT GROUPS'/

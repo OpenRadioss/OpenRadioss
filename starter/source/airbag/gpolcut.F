@@ -181,6 +181,7 @@ C Segments des trous
       NHOL_OLD=NHOL
       NHOL=0
       DO I=1,NHOL_OLD
+         II = I+1
          ICUT=0
          NSEG_INI=NSEG
          DO J=IADHOL(I),IADHOL(I+1)-1

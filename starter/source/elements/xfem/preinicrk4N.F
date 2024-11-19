@@ -222,6 +222,9 @@ C
 C
                 NOD1 = NODEDGE(1,IEDGE)
                 NOD2 = NODEDGE(2,IEDGE)
+                IFI(1:2) = 0
+                p1 = 0
+                p2 = 0  
                 IF(NOD1 == N(r) .and. NOD2 == N(dd(r)))THEN
                   IFI(1) = ISIGN0(r)
                   IFI(2) = ISIGN0(dd(r))

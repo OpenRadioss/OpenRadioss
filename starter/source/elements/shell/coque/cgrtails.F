@@ -166,6 +166,8 @@ C
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                           C1='XNUM_RNOISE')
+      ELSE
+        ALLOCATE(XNUM_RNOISE(0,0))
       ENDIF
 C
       IPTUN = 1
@@ -1128,9 +1130,7 @@ C-----------
  1001 FORMAT(12(1X,I10))
 cc 1002 FORMAT(/6X,'BUFFER LENGTH : ',I10 )
 C
-      IF (NPERTURB > 0) THEN
-        IF (ALLOCATED(XNUM_RNOISE)) DEALLOCATE(XNUM_RNOISE) 
-      ENDIF
+      IF (ALLOCATED(XNUM_RNOISE)) DEALLOCATE(XNUM_RNOISE) 
 C
 
       DEALLOCATE(INDEXS2)

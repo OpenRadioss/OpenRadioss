@@ -224,6 +224,7 @@ C
 C  npt
 C
       NLY = 0
+      IP = 0
       SELECT CASE (IHBE)
       CASE(15)                                             
 c        NPT = NPTT

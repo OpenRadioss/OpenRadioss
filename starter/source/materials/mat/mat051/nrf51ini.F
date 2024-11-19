@@ -170,6 +170,7 @@ C=======================================================================
           UVAR(I,4)            =  P0_NRF  ! default initialization for corner elems
           IAD1 = ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
           LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(IE+1) - IAD1
+          IVMAT = ZERO
           DO J=1,LGTH
             IEV = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + J - 1)
             IF(IEV == 0)CYCLE

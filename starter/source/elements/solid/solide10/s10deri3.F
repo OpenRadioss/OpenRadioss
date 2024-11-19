@@ -89,6 +89,10 @@ C-----------------------------------------------
         ALPH = HALF
         BETA  = ONE_OVER_6
         W = NINE_OVER_20
+      ELSE
+        ALPH = -HUGE(ALPH)
+        BETA  = -HUGE(BETA)
+        W = -HUGE(W)
       ENDIF
       A4 = FOUR * ALPH
       B4 = FOUR * BETA

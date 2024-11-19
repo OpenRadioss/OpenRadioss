@@ -164,6 +164,7 @@ C
       NREFSTA = NXREF
       NXREF = 0
       IMAS_DS = DEFAULTS%SOLID%IMAS
+      DTX(1:MVSIZ) = ZERO
       IF (ITY == 1.AND. ISMSTR == 10) ISMSTR = 4
 C-----------------------------------------------
       IF (ITY == 1.AND. ISOLNOD == 4)THEN

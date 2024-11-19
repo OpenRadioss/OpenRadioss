@@ -105,18 +105,19 @@ C-----------------------------------------------
             IF(ITY == 1) THEN
                 FIRST = 1
                 NODE_NUMBER = 8
-!                IX(1:NODE_NUMBER+1,1:NEL) => IXS(1:NODE_NUMBER+1,NFT+1:NFT+NEL)
                 IX => IXS(1:NODE_NUMBER+1,NFT+1:NFT+NEL)
             ELSEIF(ITY == 2) THEN
                 FIRST = 2
                 NODE_NUMBER = 4
-!                IX(1:NODE_NUMBER+1,1:NEL) => IXQ(1:NODE_NUMBER+1,NFT+1:NFT+NEL)
                 IX => IXQ(1:NODE_NUMBER+1,NFT+1:NFT+NEL)
             ELSEIF(ITY == 7) THEN
                 FIRST = 2
                 NODE_NUMBER = 3
-!                IX(1:NODE_NUMBER+1,1:NEL) => IXTG(1:NODE_NUMBER+1,NFT+1:NFT+NEL)
                 IX => IXTG(1:NODE_NUMBER+1,NFT+1:NFT+NEL)
+            ELSE
+                FIRST = -HUGE(FIRST)
+                NODE_NUMBER = -HUGE(NODE_NUMBER)
+                IX => NULL()
             ENDIF
             ! ---------------
 
