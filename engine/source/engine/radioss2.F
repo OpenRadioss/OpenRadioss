@@ -1037,11 +1037,10 @@ C
      .            SENSORS        ,EBCS_TAB   ,DYNAIN_DATA   ,USER_WINDOWS     ,OUTPUT    ,
      .            INTERFACES     ,LOADS      ,MAT_ELEM      ,PYTHON           ,IFLOW     ,
      .            SKEWS          ,RFLOW      ,LIFLOW        ,LRFLOW           ,IMPL_S0   ,
-     .            MCP            ,TEMP       ,FORNEQS       ,UNITAB,GLOB_THERM%NFXFLUX   ,
+     .            MCP            ,TEMP       ,FORNEQS       ,UNITAB,
      .            STACK          ,DRAPE_SH4N ,DRAPE_SH3N    ,DRAPEG           ,NDRAPE ,
      .            GLOB_THERM     )
-
-       ! Close restart file
+      ! Close restart file
        CALL CLOSE_C
        ! --------------------------------------------------------------------------------------------
       IF (NSPMD > 1)  CALL SPMD_RST_CHECK()

@@ -140,7 +140,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   SENSORS          ,EBCS_TAB   ,DYNAIN_DATA  ,USER_WINDOWS     ,OUTPUT     ,
      .                   INTERFACES       ,LOADS      ,MAT_ELEM     ,PYTHON           ,IFLOW      ,
      .                   SKEWS            ,RFLOW      ,LIFLOW       ,LRFLOW           ,IMPL_S0    ,
-     .                   MCP              ,TEMP       ,FORNEQS      ,UNITAB           ,NFXFLUX    ,
+     .                   MCP              ,TEMP       ,FORNEQS      ,UNITAB           ,
      .                   STACK            ,DRAPE_SH4N ,DRAPE_SH3N   ,DRAPEG           ,NDRAPE     ,
      .                   GLOB_THERM       )
 C-----------------------------------------------
@@ -257,7 +257,6 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IMPL_S0
       my_real, INTENT(INOUT) :: MCP(NUMNOD)
       my_real, INTENT(INOUT) :: TEMP(NUMNOD)
-      INTEGER, INTENT(INOUT) :: NFXFLUX
       INTEGER, INTENT(IN) :: NDRAPE
       INTEGER  IDUMM(MVSIZ)
       INTEGER  I,J,LMXVREA, LEN,MY_ILEN,MY_RLEN,ISTAT,II,NS_DIFF
