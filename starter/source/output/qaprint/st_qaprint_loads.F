@@ -188,7 +188,9 @@ C-----------------------------------------------
       OK_QA = MYQAKEY('/LOAD/PFLUID') .OR. MYQAKEY('/LOAD/PBLAST') .OR. MYQAKEY('/LOAD/PRESSURE') 
       
       IF (OK_QA) THEN
-
+          !output pressure only
+        IOPT_FIRST = 0
+        IOPT_LAST = 0
         IF(MYQAKEY('/LOAD/PFLUID'))THEN
           !output pfluid only
           IOPT_FIRST = 1

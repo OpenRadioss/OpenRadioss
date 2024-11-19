@@ -148,7 +148,7 @@ C IMAT : relevant for multifluid eos. imat=0 => monomaterial law
          ITER = ITER + 1
          DO K = 1, NEL
             MU(K) = RHO(K) / RHOZERO(K) - ONE
-            DF(K) = RHOZERO(I) / RHO(K)
+            DF(K) = RHOZERO(K) / RHO(K)
             EINT(K) = EINT(K) / DF(K) !with IFLAG==2 we need ESPE=Df*EINT
          ENDDO
          CALL EOSMAIN(2     , NEL    , EOSTYPE  , PM     , OFF  , EINT, 

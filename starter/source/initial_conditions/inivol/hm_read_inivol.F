@@ -141,6 +141,7 @@ C-----------------------------------------------
       ENDIF    
       
       !---ALLOCATION
+      STAT = 0
       IF(.NOT.ALLOCATED(INIVOL))ALLOCATE (INIVOL(SINIVOL) ,STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='INIVOL')
 

@@ -707,6 +707,7 @@ C------
           ENDIF
 C------
           ! Variable for Eint_distor
+          ICONTROL = -HUGE(ICONTROL)
           IF (ITY == 1 ) THEN
             ICONTROL = IGEO(97,IPID)
             IF (ICONTROL==1) GBUF%G_EINT_DISTOR = 1
@@ -772,12 +773,14 @@ c           Allocate thermal stress and Thermal internal energy
             IF(IUFACYLD == 1.AND.(MLW==36.OR.MLW==87))BUFLY%L_FAC_YLD = 1
 C---- only useful with the law where P=Bulk*AMU(rho,rho0) but not do the distinc here         
             IF(ITY == 1) BUFLY%L_VOL0DP = 1
+            IF ((ISORTH == 1).AND.(IGTYP == 34)) THEN
+              BUFLY%L_SIGL = 6
+            ENDIF
           ENDDO
 C
 C         Orthotropic SPH properties
           IF ((ISORTH == 1).AND.(IGTYP == 34)) THEN
             GBUF%G_GAMA = 6
-            BUFLY%L_SIGL = 6
           ENDIF
 C
 c        Bolt Preloading

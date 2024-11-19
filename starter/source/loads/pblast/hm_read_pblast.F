@@ -214,7 +214,7 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
       !init tables
       CALL PBLAST_INIT_TABLES(PBLAST_DATA)
-
+      tmp(1:3) = HUGE(tmp(1))
       !Init.
       PBLAST_DT%TA_INF = EP20
       NUMSEG = 0
@@ -583,6 +583,9 @@ C-----------------------------------------------
            Ny_SURF=ZERO
            Nz_SURF=ZERO
            ZC = ZERO
+           Base_X = ZERO
+           Base_y = ZERO
+           Base_z = ZERO
         ENDIF
 
         !check that DEtonation Point belongs the ground

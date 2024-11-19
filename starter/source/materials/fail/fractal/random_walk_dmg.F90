@@ -222,9 +222,11 @@
         if (debug==1) print*,'    ',fractal%random_walk(iel)%id
       else
         random_target = .false.
+        igr4n_target = -HUGE(igr4n_target)
         if (target_gsh4_id > 0) then
           igr4n_target = ngr2usrn(target_gsh4_id,igrsh4n,ngrshel,nb_sh4)
         end if
+        igr3n_target = -HUGE(igr3n_target)
         if (target_gsh3_id > 0) then
           igr3n_target = ngr2usrn(target_gsh3_id,igrsh3n,ngrsh3n,nb_sh3)
         end if

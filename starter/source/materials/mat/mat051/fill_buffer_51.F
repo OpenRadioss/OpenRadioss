@@ -329,6 +329,16 @@ C-----------------------------------------------
                  PSH    = PM_(88)
                  T0     = PM_(35)
                CASE DEFAULT
+                 RHO    = -HUGE(RHO)
+                 E0     = -HUGE(E0)
+                 C0     = -HUGE(C0)
+                 C1     = -HUGE(C1)
+                 C2     = -HUGE(C2)
+                 C3     = -HUGE(C3)
+                 C4     = -HUGE(C4)
+                 C5     = -HUGE(C5)
+                 PSH    = -HUGE(PSH)
+                 T0     = -HUGE(T0)
             END SELECT
             !----update PSH
             IDX_PSH_TAB = IDX_PSH_TAB + 1

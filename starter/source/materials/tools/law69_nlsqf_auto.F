@@ -130,6 +130,7 @@ C=======================================================================
       JCHECK = 2  ! stating Criteria 
       IFUNCS = 1
       LMSTOP =0
+      ERRAVE_MIN = HUGE(ERRAVE_MIN)
       DO WHILE(IFIT_SUCCESS == 0 )  ! f
         IF(IEND_ITER <= 1) THEN
           DO I=1,NMUAL 

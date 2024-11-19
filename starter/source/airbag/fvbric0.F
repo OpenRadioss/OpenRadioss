@@ -148,7 +148,10 @@ C     PYRAMIDE indirection
 !   tetra
            NG = IBUF(I)
          ENDIF
-         TFAC(1:12, I) = 0
+         TFAC(1:12, I) = 0 
+         NNO= -HUGE(NNO)
+         NTYPE= -HUGE(NTYPE)
+         REDIR => NULL()
          IF (IXS(9,NG) == IXS(6,NG).AND.IXS(8,NG) == IXS(7,NG).AND.
      .        IXS(5,NG) == IXS(4,NG).AND.IXS(3,NG) == IXS(2,NG)) THEN
             NNO=4               !TETRAEDRE
@@ -311,7 +314,9 @@ C     Loop over the adjacent elements
                      FAC2 => FAC5(1:4, 1:5)
                      NOD2 => NOD5(1:5)
                   CASE DEFAULT
-C     ERROR
+                     REDIR2 => NULL()
+                     FAC2 => NULL()
+                     NOD2 => NULL()
                   END SELECT
                   
                   DO K2 = 1, NNO2

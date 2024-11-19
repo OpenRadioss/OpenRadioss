@@ -108,6 +108,11 @@
             nale_sum_expected = npt
             expected_type = chain1
             unexpected_type = chain2
+          case default 
+            nale_expected = 0
+            nale_sum_expected = 0
+            expected_type = ''
+            unexpected_type = ''
         end select
 
         do iseg=1,nseg

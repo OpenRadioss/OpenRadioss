@@ -181,6 +181,7 @@ card6 - Strain-rate computation
       CALL HM_GET_INTV  ('MAT_TAB_TEMP'  ,TAB_TEMP ,IS_AVAILABLE, LSUBMODEL)
 card7 - Yield criterion parameters
       ! Classical Vegter yield locus
+      NANGLE = 0
       IF (Icrit == 1) THEN     
         CALL HM_GET_INTV('MAT_refanglemax',NANGLE,IS_AVAILABLE,LSUBMODEL)
         IF (NANGLE > 10) THEN 

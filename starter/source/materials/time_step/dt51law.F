@@ -82,7 +82,8 @@ c-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      DO I=LFT,LLT
+      IFLG(1) = ZERO
+      DO I=1,LLT
         IADBUF   = IPM(7,MAT(I))
         UPARAM   =>BUFMAT(IADBUF:IADBUF+280)
         AV1(I)   = UPARAM(04)  

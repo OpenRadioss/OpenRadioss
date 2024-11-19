@@ -106,7 +106,11 @@ C=======================================================================
 
         !centroid at cell
         ESEG=IELEM(IS)                                                                                   
-        !get density                                                                                     
+        !get density  
+        MFT = 0       
+        ITY = 0  
+        ISOLNOD = 0
+        KLT = 0                                                            
         DO NG=1,NGROUP                                                                                   
           KTY = IPARG(5,NG)                                                                              
           KLT = IPARG(2,NG)                                                                              

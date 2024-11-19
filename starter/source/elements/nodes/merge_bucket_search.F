@@ -152,6 +152,7 @@ C--     destinations are cnodes (NN2 = NUMCNOD)
           NOBCZ(N) =INT( (X(3,NN)-ZMIN)/DBUC)
         ENDDO
       ELSE
+        ITABC => NULL()
 C--     destinations are nodes
         DO I=1,NN2 
           N = LIST2(I)       
@@ -357,6 +358,7 @@ C
 C
 C ---recherche cnode par boite tt d'abord
 C
+                  DVOIS = HUGE(DVOIS)
                   DO IBZ=1,NBZ+1
                      DO KP= NPCZ(IBZ-1)+1,NPCZ(IBZ) 
                        IF(IPCZ(KP) > 0) THEN

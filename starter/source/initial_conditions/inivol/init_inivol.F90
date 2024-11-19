@@ -219,6 +219,8 @@
               ity     = iparg(5,ng)
               isolnod = iparg(28,ng)
               invol   = iparg(53,ng)
+              imat = 0
+              i15_= 0
               if(ity == 1)then
                 if (isolnod /= 4 .and. isolnod /= 8) cycle
                 imat = ixs(1,1+nft)
@@ -369,6 +371,7 @@
                 vfrac     = vfrac/ep9
                 icumu     = inivol(ii)%container(idc)%icumu
                 nsegsurf  = igrsurf(idsurf)%nseg
+                i15_ = 0
                 if(ity == 1)then
                   i15_=i15a
                 elseif(n2d > 0)then
@@ -416,6 +419,8 @@
             elseif(n2d > 0 .and. ity /= 7 .and. ity /= 2)then
               cycle
             endif
+            i15_ = 0
+            imid = 0
             if(ity == 1)then
               i15_=i15a
               imid = ixs(1,1+nft)

@@ -227,6 +227,7 @@ C-----------------------------------------------
             end select
 
          CASE DEFAULT
+           TYP = 0
            CALL ANCMSG(MSGID = 1602, MSGTYPE = MSGERROR, ANMODE = ANINFO,
      .          I1 = ID, C1 = TRIM(TITR), C2 = "\'"//TRIM(KEY)//"\'"//" IS NOT A VALID KEYWORD FOR EBCS OPTIONS")
          END SELECT  
@@ -234,6 +235,7 @@ C-----------------------------------------------
          EBCS_TAB%tab(II)%poly%ebcs_id = ID
 !     Get surface id
          CALL HM_GET_INTV('entityid', SURF_ID, IS_AVAILABLE, LSUBMODEL)
+         JJ = -HUGE(JJ)
          IF (SURF_ID > 0) THEN
             EBCS_TAB%tab(II)%poly%surf_id = 0
             DO JJ = 1, NSURF

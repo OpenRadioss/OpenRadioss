@@ -656,6 +656,9 @@ C---------- Fill of fram structure
 C
             DO J=1,NFRAM
 C
+              NODE1 = -HUGE(NODE1)
+              NODE2 = -HUGE(NODE2)
+              NODE3 = -HUGE(NODE3)
               NODE_ID = IGRNOD(GRN_LOC)%ENTITY(J)
               SLIPRING(I)%FRAM(J)%ANCHOR_NODE = NODE_ID
               SLIPRING(I)%FRAM(J)%ORIENTATION_NODE = 0

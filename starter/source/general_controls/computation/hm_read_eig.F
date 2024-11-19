@@ -214,6 +214,7 @@ C=====================================================================
       IADB=1
       IADF=1
       CALL HM_OPTION_START('/EIG')
+      IRCM = 0
       DO IE=1,NEIG
         ITAG(1:NUMNOD)=0
         CALL HM_OPTION_READ_KEY(LSUBMODEL,

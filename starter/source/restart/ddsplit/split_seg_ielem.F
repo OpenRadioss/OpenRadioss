@@ -89,6 +89,7 @@ C ----------------------------------------
         K=TAG_SEG(I) ! get the segment id
         IE1 = IELEM_M(1,K) ! get the element id (element of the segment)
         ! ----------------
+        IEL1 = 0
         ! convert the global element id to local element id (local to the processor)
         IF(IE1 <= NUMELS) THEN ! segment is connected to a solid
            IEL1 = CEL(IE1)

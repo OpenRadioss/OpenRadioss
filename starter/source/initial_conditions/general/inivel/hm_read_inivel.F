@@ -149,6 +149,10 @@ C-----------------------------------------------
       IDIR = 0
       KROT = 0
       NOD_COUNT = 0
+      IDGRBRICK_LOC = 0
+      IDGRQUAD_LOC  = 0
+      IDGRTRIA_LOC  = 0
+
       CALL HM_OPTION_COUNT('/INIVEL'    , NINIVEL_TOTAL)
       CALL HM_OPTION_COUNT('/INIVEL/FVM', NINIVEL_FVM)
 C--------------------------------------------------
@@ -325,6 +329,12 @@ C--------------------------------------------------
             KROT = 1
             IF (ID_NODE > 0) THEN
               IF (ISK > 0) THEN
+                V1 = -HUGE(V1)
+                V2 = -HUGE(V2)
+                V3 = -HUGE(V3)
+                V4 = -HUGE(V4)
+                V5 = -HUGE(V5)
+                V6 = -HUGE(V6)
                 DO J=0,NUMSKW+MIN(IUN,NSPCOND)*NUMSPH+NSUBMOD
                   IF (ISK == ISKN(4,J+1)) THEN
                     ISK=J+1
@@ -402,6 +412,9 @@ C
             V3 = VL3
           ENDIF 
         ENDIF
+        IDGRBRICK_LOC = -1
+        IDGRQUAD_LOC  = -1
+        IDGRTRIA_LOC  = -1
 
         IF (ITYPE == 5) THEN
            IF (.NOT. MULTI_FVM%IS_USED) THEN

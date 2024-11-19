@@ -171,6 +171,7 @@ C         message
 C---------------------------------------------------------
 C Element connectivities, material number, property number
 C---------------------------------------------------------
+        MAT(1) = 0
         DO I=1,NEL
           N=NFT+I
           MAT(I)=IXS(1,N)

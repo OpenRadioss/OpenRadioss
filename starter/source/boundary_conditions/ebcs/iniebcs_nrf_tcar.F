@@ -72,7 +72,9 @@ C-----------------------------------------------
 
        SSP0 = ZERO
        TAGMAT(1:NUMMAT) = 0
-       
+       NELS = -HUGE(NELS)
+       NIX = -HUGE(NIX)        
+       IX => NULL()
        IF(NUMELS>0)THEN
          NELS = NUMELS
          NIX=NIXS
@@ -84,7 +86,7 @@ C-----------------------------------------------
        ELSEIF(N2D /=0 .AND. NUMELTG >0)THEN
          NELS = NUMELTG
          NIX=NIXTG
-         IX => IXTG(1:NIX, 1:NELS)         
+         IX => IXTG(1:NIX, 1:NELS)    
        ENDIF
        
        !-----------------------------!

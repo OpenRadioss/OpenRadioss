@@ -263,9 +263,10 @@ C
 C
             IF(SUB_ID /= 0)
      .        CALL SUBROTPOINT(XX(J),YY(J),ZZ(J),RTRANS,SUB_ID,LSUBMODEL)
-            IF (NSUBDOM==0) NN = USR2SYS(ID(J),ITABM1,MESS,PARTID)
             IF (NSUBDOM>0) THEN
               NN = R2R_SYS(ID(J),ITABM1,MESS)
+            ELSE
+              NN = USR2SYS(ID(J),ITABM1,MESS,PARTID)
             ENDIF     
             IF(IDDLEVEL == 0.AND.IPRI >= 5) WRITE(IOUT,'(5X,I10,5X,1P3G20.13)') ID(J),XX(J),YY(J),ZZ(J)
             TAGNOD(NN) = 1

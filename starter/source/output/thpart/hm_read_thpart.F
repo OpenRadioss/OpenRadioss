@@ -124,6 +124,9 @@ C        5 BEAM,
 C        6 SPRINGS,
 C        7 SHELL_3N
 
+        ITYP = 0
+        IGR = 0
+
         IF (TYP(1:6) == 'GRBRIC') THEN
           ITYP = 1
           IGR = NINTRIGR(GR,IGRBRIC,NGRBRIC)

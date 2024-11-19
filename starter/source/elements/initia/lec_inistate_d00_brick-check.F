@@ -131,6 +131,9 @@ C
          NLY = NPTT
          IF (NLY ==0) NLY =IINT 
          NPTD00 = NLY*NPTR*NPTS
+        CASE DEFAULT 
+         NLY = -HUGE(NLY)
+         NPTD00 = -HUGE(NPTD00)
        END SELECT
 C
 C  Number of layers

@@ -99,7 +99,8 @@ C-----------------------------------------------
          IGAS = 4
          IMOLE = 1
       CASE DEFAULT
-         
+         IGAS = 0
+         IMOLE = 0         
       END SELECT
 
       FAC = ONE

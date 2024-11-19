@@ -308,6 +308,7 @@
       al1c = ep20
       m1c = one 
       ef11t = zero
+      ef11c = -HUGE(ef11c)
       if(e1 > zero ) then
         if(xt > zero )then
           ef11t  = xt/e1
@@ -329,6 +330,8 @@
       al2c = ep20
       m2c = one 
       ef22t = zero
+      ef22c = -HUGE(ef22c)
+      al2t = -HUGE(al2t)
       if(e2 > zero) then
         if(yt > zero )then
           ef22t  = yt/e2
@@ -349,6 +352,8 @@
       al3c = ep20
       m3c = one  
       ef33t = zero   
+      al3t = -HUGE(al3t)
+      ef33c = -HUGE(ef33c)
       if(e3 > zero) then
         if(zt  > zero )then
           ef33t  = zt/e3
@@ -365,9 +370,15 @@
           al3c = m3c*(em33c/ef33c)**m3c
         endif
       endif 
-       ms = one
-       als = ep20
-       efs = zero
+      ms = one
+      als = ep20
+      efs = zero
+      ms13 = -HUGE(ms13)
+      als13 = -HUGE(als13)
+      efs13 = -HUGE(efs13)
+      ms23 = -HUGE(ms23)
+      als23 = -HUGE(als23)
+      efs23 = -HUGE(efs23)
       if(fs == -1) then
          ! plane shear 
         if(g12 > zero ) then

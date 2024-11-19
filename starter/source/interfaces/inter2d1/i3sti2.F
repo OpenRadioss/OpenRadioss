@@ -166,6 +166,7 @@ c
          AREAS(I) = ZERO
           DO J= KNOD2ELQ(NSVS(I))+1,KNOD2ELQ(NSVS(I)+1)
             IE = NOD2ELQ(J)
+            LIN = -HUGE(LIN)
             DO L=1,4 
               IF(IXQ(LINES(1,L)+1,IE) ==NSVS(I)) THEN
                  LIN = L

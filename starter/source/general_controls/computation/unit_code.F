@@ -90,6 +90,10 @@ C        Read, skip trailing spaces
            CUNIT=FIELD(J3:J3)
            CFAC(1:2)=FIELD(J1:J2)
          ELSE          
+           J1 = -HUGE(J1)
+           J2 = -HUGE(J2)
+           CUNIT=''
+           CFAC(1:2)=''
            IERR1=0
          ENDIF 
 C---
@@ -139,7 +143,8 @@ C---
             FAC=EP20*TEN
         CASE ('Y ')
             FAC=EP20*EP04
-        CASE DEFAULT       
+        CASE DEFAULT      
+            FAC=-HUGE(FAC) 
             IERR1=0
         END SELECT                                           
 *       L'unite SI de masse est le kg et pas le g

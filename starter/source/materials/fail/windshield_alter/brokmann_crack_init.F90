@@ -167,6 +167,7 @@
       end if
       betai = one / beta_drb
 !
+      pf = -HUGE(pf)
       if (p_switch == 1) then
         p0 = zero
         pf = one - p_scale

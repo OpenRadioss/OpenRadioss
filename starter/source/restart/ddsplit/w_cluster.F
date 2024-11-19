@@ -126,6 +126,7 @@ c-----
 c
         DO J = 1,NEL
           ID = CLUSTER(II)%ELEM(J)
+          K = 0
           DO NG = 1,NGROUP
             NELG = IPARG(2,NG)
             NFT  = IPARG(3,NG)

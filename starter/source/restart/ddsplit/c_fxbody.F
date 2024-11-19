@@ -221,6 +221,10 @@ c initially was set in starter0, but re-set here for multi threading compatibili
       IFXM_L = 27000
       IFXS_L = 28000 
       NELS_L  = 0
+      NELC_L = 0
+      NELT_L = 0
+      NELP_L = 0
+      NELTG_L = 0
 
 
       WRITE(CIT,'(I4.4)')ITASK
