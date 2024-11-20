@@ -37,14 +37,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1      NSN    ,I_MEM   ,IRECT    ,X       ,STF     ,
      2      STFN   ,XYZM    ,NSV      ,
      3      MULNSN ,NOINT   ,TZINF    ,GAP_S_L ,GAP_M_L ,
-     4      VOXEL  ,NBX     ,NBY      ,NBZ     ,NRTM    ,
+     4      VOXEL  ,NBX     ,NBY      ,NBZ     ,NRTM_L    ,
      5      IGAP   ,GAP     ,GAP_S    ,GAP_M   ,GAPMIN  ,
      6      GAPMAX ,MARGE   ,CURV_MAX ,BGAPSMX ,ISTF    ,
      7      I_STOK ,nin,
      8      ID     ,TITR    ,DRAD     ,INDEX   ,
      9      IREMNODE,FLAGREMNODE,KREMNODE,REMNODE,
      1      DGAPLOAD,ipari,intbuf_tab,
-     2      iix,iiy,iiz,local_next_nod )
+     2      iix,iiy,iiz,local_next_nod,nrtm )
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -106,11 +106,13 @@ C     LAST_NOD(i)  dernier noeud dans la meme boite (si /= 0)
 C                  utilise uniquement pour aller directement du premier
 C                       noeud au dernier
 C     INDEX        index of IRECTM active for this domain
-C     NRTM         number of active segments for this domain
+C     NRTM_L         number of active segments for this domain
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER I_MEM,NSN,NRTM,
+      integer, intent(in) :: nrtm !< number of segment
+      integer, intent(in) :: nrtm_l !< number of segment on the current proc
+      INTEGER I_MEM,NSN,
      .        MULNSN,NOINT,IGAP,NBX,NBY,NBZ,IREMNODE,FLAGREMNODE,
      .        NSV(NSN),
      .        IRECT(4,NRTM), VOXEL(NBX+2,NBY+2,NBZ+2),ISTF,
@@ -290,7 +292,7 @@ C=======================================================================
       local_i_stok = 0
       j_stok = 0
 !$OMP DO SCHEDULE(guided)
-      DO KK=1,NRTM
+      DO KK=1,NRTM_L
         NE=INDEX(KK)
         IF(STF(NE) == ZERO)CYCLE
 

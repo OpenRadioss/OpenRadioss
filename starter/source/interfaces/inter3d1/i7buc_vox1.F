@@ -454,7 +454,7 @@ C------------------
      8   ID       ,TITR    ,DRAD     ,INDEX   ,
      9   IREMNODE,FLAGREMNODE,KREMNODE,REMNODE,
      1   DGAPLOAD,ipari,intbuf_tab,
-     2   iix,iiy,iiz,local_next_nod )
+     2   iix,iiy,iiz,local_next_nod,nrtm )
 !$OMP END PARALLEL
 C------------------
 
