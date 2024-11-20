@@ -21,20 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    i7pen3       ../starter/source/interfaces/inter3d1/i7pen3.F
+      !||    i7pen3      ../starter/source/interfaces/inter3d1/i7pen3.F
       !||--- called by ------------------------------------------------------
-      !||    i20ini3      ../starter/source/interfaces/inter3d1/i20ini3.F
-      !||    i21buc1      ../starter/source/interfaces/inter3d1/i21buc3.F
-      !||    i21tri       ../starter/source/interfaces/inter3d1/i21tri.F
-      !||    i23buc1      ../starter/source/interfaces/inter3d1/i23buc3.F
-      !||    i23tri       ../starter/source/interfaces/inter3d1/i23tri.F
-      !||    i24buc1      ../starter/source/interfaces/inter3d1/i24buc1.F
-      !||    i24tri       ../starter/source/interfaces/inter3d1/i24tri.F
-      !||    i7buc1       ../starter/source/interfaces/inter3d1/i7buc1.F
-      !||    i7buc_vox1   ../starter/source/interfaces/inter3d1/i7buc_vox1.F
-      !||    i7tri        ../starter/source/interfaces/inter3d1/i7tri.F
-      !||    i7trivox1    ../starter/source/interfaces/inter3d1/i7trivox1.F
-      !||    inint3       ../starter/source/interfaces/inter3d1/inint3.F
+      !||    i20ini3     ../starter/source/interfaces/inter3d1/i20ini3.F
+      !||    i21buc1     ../starter/source/interfaces/inter3d1/i21buc3.F
+      !||    i21tri      ../starter/source/interfaces/inter3d1/i21tri.F
+      !||    i23buc1     ../starter/source/interfaces/inter3d1/i23buc3.F
+      !||    i23tri      ../starter/source/interfaces/inter3d1/i23tri.F
+      !||    i24buc1     ../starter/source/interfaces/inter3d1/i24buc1.F
+      !||    i24tri      ../starter/source/interfaces/inter3d1/i24tri.F
+      !||    i7buc1      ../starter/source/interfaces/inter3d1/i7buc1.F
+      !||    i7tri       ../starter/source/interfaces/inter3d1/i7tri.F
+      !||    i7trivox1   ../starter/source/interfaces/inter3d1/i7trivox1.F
+      !||    inint3      ../starter/source/interfaces/inter3d1/inint3.F
       !||====================================================================
       SUBROUTINE I7PEN3(MARGE,GAPV,N1 ,N2 ,N3 ,
      1                  PENE ,NX1 ,NY1,NZ1,NX2,

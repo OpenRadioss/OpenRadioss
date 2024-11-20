@@ -66,18 +66,16 @@ C     CAS DECHARGEMENT
       END
       
       !||====================================================================
-      !||    i7cmp3       ../starter/source/interfaces/inter3d1/i7cmp3.F
+      !||    i7cmp3    ../starter/source/interfaces/inter3d1/i7cmp3.F
       !||--- called by ------------------------------------------------------
-      !||    i21buc1      ../starter/source/interfaces/inter3d1/i21buc3.F
-      !||    i21tri       ../starter/source/interfaces/inter3d1/i21tri.F
-      !||    i23buc1      ../starter/source/interfaces/inter3d1/i23buc3.F
-      !||    i23tri       ../starter/source/interfaces/inter3d1/i23tri.F
-      !||    i24buc1      ../starter/source/interfaces/inter3d1/i24buc1.F
-      !||    i24tri       ../starter/source/interfaces/inter3d1/i24tri.F
-      !||    i7buc1       ../starter/source/interfaces/inter3d1/i7buc1.F
-      !||    i7buc_vox1   ../starter/source/interfaces/inter3d1/i7buc_vox1.F
-      !||    i7tri        ../starter/source/interfaces/inter3d1/i7tri.F
-      !||    i7trivox1    ../starter/source/interfaces/inter3d1/i7trivox1.F
+      !||    i21buc1   ../starter/source/interfaces/inter3d1/i21buc3.F
+      !||    i21tri    ../starter/source/interfaces/inter3d1/i21tri.F
+      !||    i23buc1   ../starter/source/interfaces/inter3d1/i23buc3.F
+      !||    i23tri    ../starter/source/interfaces/inter3d1/i23tri.F
+      !||    i24buc1   ../starter/source/interfaces/inter3d1/i24buc1.F
+      !||    i24tri    ../starter/source/interfaces/inter3d1/i24tri.F
+      !||    i7buc1    ../starter/source/interfaces/inter3d1/i7buc1.F
+      !||    i7tri     ../starter/source/interfaces/inter3d1/i7tri.F
       !||====================================================================
       SUBROUTINE I7CMP3(I_STOK,CAND_E  ,CAND_N, IFLAG,PENE,
      1                  PROV_N,PROV_E)

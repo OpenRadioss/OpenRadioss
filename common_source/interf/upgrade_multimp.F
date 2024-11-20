@@ -31,7 +31,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i23main_tri       ../engine/source/interfaces/intsort/i23main_tri.F
       !||    i24main_tri       ../engine/source/interfaces/intsort/i24main_tri.F
       !||    i25main_tri       ../engine/source/interfaces/intsort/i25main_tri.F
+      !||    i25trivox1        ../starter/source/interfaces/inter3d1/i25trivox1.F
       !||    i7main_tri        ../engine/source/interfaces/intsort/i7main_tri.F
+      !||    i7trivox1         ../starter/source/interfaces/inter3d1/i7trivox1.F
       !||    inintr            ../starter/source/interfaces/interf1/inintr.F
       !||    inintr_thkvar     ../starter/source/interfaces/interf1/inintr_thkvar.F
       !||    inter_sort_07     ../engine/source/interfaces/int07/inter_sort_07.F

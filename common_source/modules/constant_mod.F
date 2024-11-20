@@ -81,6 +81,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    inter7_collision_detection               ../engine/source/interfaces/intsort/inter7_collision_detection.F90
       !||    inter7_filter_cand                       ../engine/source/interfaces/intsort/inter7_filter_cand.F90
       !||    inter7_penetration                       ../engine/source/interfaces/intsort/inter7_penetration.F90
+      !||    inter_save_candidate                     ../starter/source/interfaces/inter3d1/inter_save_candidate.F90
       !||    inter_sh_offset_ini                      ../engine/source/interfaces/shell_offset/inter_offset_ini.F90
       !||    jwl_eos_delta                            ../engine/source/materials/mat/mat041/jwl_eos_mod.F90
       !||    mat25_crasurv_c                          ../engine/source/materials/mat/mat025/mat25_crasurv_c.F90

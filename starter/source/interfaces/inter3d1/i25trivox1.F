@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    i25trivox1    ../starter/source/interfaces/inter3d1/i25trivox1.F
+      !||    i25trivox1         ../starter/source/interfaces/inter3d1/i25trivox1.F
       !||--- called by ------------------------------------------------------
-      !||    i25buc_vox1   ../starter/source/interfaces/inter3d1/i25buc_vox1.F
+      !||    i25buc_vox1        ../starter/source/interfaces/inter3d1/i25buc_vox1.F
       !||--- calls      -----------------------------------------------------
-      !||    i25sto        ../starter/source/interfaces/inter3d1/i25sto.F
+      !||    i25sto             ../starter/source/interfaces/inter3d1/i25sto.F
       !||--- uses       -----------------------------------------------------
-      !||    tri7box       ../starter/share/modules1/tri7box.F
+      !||    tri7box            ../starter/share/modules1/tri7box.F
       !||====================================================================
       SUBROUTINE I25TRIVOX1(
      1      NSN    ,IRECT  ,X       ,

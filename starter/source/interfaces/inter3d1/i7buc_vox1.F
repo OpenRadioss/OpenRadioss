@@ -26,10 +26,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    inint3                 ../starter/source/interfaces/inter3d1/inint3.F
       !||--- calls      -----------------------------------------------------
       !||    ancmsg                 ../starter/source/output/message/message.F
-      !||    i7cmp3                 ../starter/source/interfaces/inter3d1/i7cmp3.F
-      !||    i7cor3                 ../starter/source/interfaces/inter3d1/i7cor3.F
-      !||    i7dst3                 ../starter/source/interfaces/inter3d1/i7dst3.F
-      !||    i7pen3                 ../starter/source/interfaces/inter3d1/i7pen3.F
       !||    i7trivox1              ../starter/source/interfaces/inter3d1/i7trivox1.F
       !||--- uses       -----------------------------------------------------
       !||    front_mod              ../starter/share/modules1/front_mod.F
