@@ -116,7 +116,8 @@
       integer :: iter
       integer :: iStatus                                                         !< return code from CLipping Algorithm
       integer :: prod_tag !< product of tag for point of elem mesh               !prod > 0 => elem indise the polygon
-                                                                                 !sum = 0 => elem outside the polygon
+      integer :: sum_tag                                                         !sum = 0 => elem outside the polygon
+
       logical :: is_quad, is_tria, is_inside
       logical :: is_reversed
       logical :: debug
@@ -306,12 +307,18 @@
                   node_id(2) =  ixq(3,ielg)
                   node_id(3) =  ixq(4,ielg)
                   node_id(4) =  ixq(5,ielg)
-                  prod_tag = itag_n(node_id(1))*itag_n(node_id(2))*itag_n(node_id(3))*itag_n(node_id(4))
-                  if(prod_tag > 0)then
-                    !elem is inside (may be considered as outside if is_reversed is true)
+                  sum_tag = itag_n(node_id(1))+itag_n(node_id(2))+itag_n(node_id(3))+itag_n(node_id(4))
+                  if(sum_tag == 4 .or. sum_tag == 0)then
+                    !sum_tag == 4 : elem is inside  (may be considered as outside if is_reversed is true)
+                    !sum_tag == 0 : elem is outside (may be considered as inside if is_reversed is true)
                     if(icumu == 0)kvol_2d_polygons(isubmat,ielg) = zero
                     ratio = one
-                    if(is_reversed) ratio=zero
+                    ! reversed option (Iopt)
+                    if(is_reversed .and. sum_tag == 4)then
+                       ratio=zero
+                    elseif(.not.is_reversed .and. sum_tag == 0)then
+                       ratio=zero
+                    end if
                     kvol_2d_polygons(isubmat,ielg) = kvol_2d_polygons(isubmat,ielg) + ratio*vfrac !100% inside
                     ! if added volume ratio makes that sum is > 1, then substract from previous filling
                     if(icumu == -1)then
@@ -349,11 +356,17 @@
                   node_id(1) =  ixq(2,ielg)
                   node_id(2) =  ixq(3,ielg)
                   node_id(3) =  ixq(4,ielg)
-                  prod_tag = itag_n(node_id(1))*itag_n(node_id(2))*itag_n(node_id(3))
-                  if(prod_tag > 0)then
-                    !elem is inside  (may be considered as outside if is_reversed is true)
+                  sum_tag = itag_n(node_id(1))+itag_n(node_id(2))+itag_n(node_id(3))
+                  if(sum_tag == 3 .or. sum_tag == 0)then
+                    !sum_tag == 3 : elem is inside  (may be considered as outside if is_reversed is true)
+                    !sum_tag == 0 : elem is outside (may be considered as inside if is_reversed is true)
                     ratio = one
-                    if(is_reversed) ratio=zero
+                    ! reversed option (Iopt)
+                    if(is_reversed .and. prod_tag > 0)then
+                       ratio=zero
+                    elseif(.not.is_reversed .and. sum_tag == 0)then
+                       ratio=zero
+                    end if
                     if(icumu == 0)kvol_2d_polygons(isubmat,ielg) = zero
                     kvol_2d_polygons(isubmat,ielg) = kvol_2d_polygons(isubmat,ielg) + ratio*vfrac !100% inside
                     ! if added volume ratio makes that sum is > 1, then substract from previous filling
