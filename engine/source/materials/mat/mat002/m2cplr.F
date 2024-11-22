@@ -25,9 +25,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    sigeps02c   ../engine/source/materials/mat/mat002/sigeps02c.F
       !||====================================================================
-      SUBROUTINE M2CPLR(NEL    ,EZZ    ,OFF      ,EPSEQ    ,
-     2                  IPLA   ,TEMP   ,Z3       ,Z4       ,
-     3                  IRTY   ,ETSE   ,GS       ,EPSP     ,
+      SUBROUTINE M2CPLR(NEL    ,EZZ    ,OFF      ,PLA    ,
+     2                  IPLA   ,TEMP   ,C3       ,C4       ,
+     3                  IFORM  ,ETSE   ,GS       ,EPSP     ,
      4                  ISRATE ,YLD    ,G        ,A1       ,A2      ,
      5                  NU     ,CA0    ,CB0      ,CN       ,YMAX0   ,
      6                  EPCHK  ,YOUNG  ,CC       ,EPDR     ,ICC     ,
@@ -52,17 +52,37 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real, DIMENSION(NEL), INTENT(IN) :: EPSPXX,EPSPYY,EPSPXY,
-     .   DEPSXX,DEPSYY,DEPSXY,DEPSYZ,DEPSZX,SIGOXX,SIGOYY,SIGOXY,
-     .   SIGOYZ,SIGOZX,GS,TSTAR
-      my_real, DIMENSION(NEL), INTENT(INOUT) :: SIGNXX,SIGNYY,SIGNXY,
-     .   SIGNYZ,SIGNZX,SIGBAKXX,SIGBAKYY,SIGBAKXY,HARDM,EZZ,OFF,
-     .   EPSEQ,ETSE,EPCHK,YLD,EPSP,TEMP,DPLA,GAMA_IMP
+      INTEGER ,INTENT(IN) :: NEL
+      INTEGER ,INTENT(IN) :: IPLA
+      INTEGER ,INTENT(IN) :: IFORM
+      INTEGER ,INTENT(IN) :: ISRATE
+      INTEGER ,INTENT(IN) :: ICC
+      INTEGER ,INTENT(IN) :: VP
+      my_real ,INTENT(IN) :: C3,C4
+      my_real ,INTENT(IN) :: G
+      my_real ,INTENT(IN) :: NU
+      my_real ,INTENT(IN) :: A1
+      my_real ,INTENT(IN) :: A2
+      my_real ,INTENT(IN) :: CA0
+      my_real ,INTENT(IN) :: CB0
+      my_real ,INTENT(IN) :: CN
+      my_real ,INTENT(IN) :: YMAX0
+      my_real ,INTENT(IN) :: YOUNG
+      my_real ,INTENT(IN) :: CC
+      my_real ,INTENT(IN) :: EPDR
+      my_real ,INTENT(IN) :: FISOKIN
+      my_real, DIMENSION(NEL), INTENT(IN) :: DEPSXX,DEPSYY,DEPSXY,DEPSYZ,DEPSZX
+      my_real, DIMENSION(NEL), INTENT(IN) :: SIGOXX,SIGOYY,SIGOXY,SIGOYZ,SIGOZX
+      my_real, DIMENSION(NEL), INTENT(IN) :: GS
+      my_real, DIMENSION(NEL), INTENT(IN) :: TSTAR
+      my_real, DIMENSION(NEL), INTENT(INOUT) :: SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX
+      my_real, DIMENSION(NEL), INTENT(INOUT) :: SIGBAKXX,SIGBAKYY,SIGBAKXY,HARDM,EZZ,OFF,
+     .   PLA,ETSE,EPCHK,YLD,EPSP,TEMP,DPLA,GAMA_IMP
       my_real, DIMENSION(NEL,5), INTENT(INOUT) :: SIGNOR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: ICC,I,J,N,NINDX,INDEX(NEL),NMAX,IKFLG
+      INTEGER :: I,J,N,NINDX,INDEX(NEL),NMAX,IKFLG
       my_real :: ERR,F,DF,PLA_I,P2,Q2,R,S1,S2,S3,YLD_I,NNU1,NNU2,
      .   NU3,NU4,NU5,NU6,SIGZ,PP,AA,BB,C,S11,S22,S12,S1S2,S122,UMR,
      .   VM2,QQ,SMALL,MT,TM,BETA,AAA ,HKIN,ALPHA
@@ -71,6 +91,7 @@ C-----------------------------------------------
      .   SVM(NEL),CA(NEL), CB(NEL)    , YMAX(NEL)  ,
      .   SVM2(NEL),YLD2(NEL),HI(NEL)  ,HK(NEL)     ,
      .   NU11(NEL),NU21(NEL),ANU1(NEL),BNU2(NEL),H2(NEL)
+      my_real, DIMENSION(NEL) :: LOGEP
          
       DATA NMAX/3/      
 C------------------------------------------------------------------
@@ -113,7 +134,7 @@ C---------------------------
         SIGNYZ(I)=SIGNYZ(I)+GS(I)*DEPSYZ(I)
         SIGNZX(I)=SIGNZX(I)+GS(I)*DEPSZX(I)
       ENDDO
-      DO I=JFT,JLT
+      DO I=1,NEL
         LOGEP(I) = ZERO
       ENDDO
 
@@ -121,74 +142,51 @@ C-------------
 C     STRAIN RATE (JOHNSON-COOK, ZERILLI-ARMSTRONG)
 C-------------
       IF (CC /= ZERO) THEN
-<<<<<<< HEAD
-        IF (IRTY == 0) THEN 
-          DO I=JFT,JLT
-            IF (ISRATE == 0.AND.VP == 2) EPSP(I) = 
+        IF (IFORM == 0) THEN 
+          DO I=1,NEL
+            IF (ISRATE == 0 .AND. VP == 2) EPSP(I) = 
      .           MAX( ABS(DEPSXX(I)), ABS(DEPSYY(I)), HALF*ABS(DEPSXY(I)))
-            EPSP(I)  = MAX(EPSP(I),EPDR(I))
-            LOGEP(I) = LOG(EPSP(I)/EPDR(I))
+            EPSP(I)  = MAX(EPSP(I),EPDR)
+            LOGEP(I) = LOG(EPSP(I)/EPDR)
           ENDDO
 #include "vectorize.inc"
-          DO I=JFT,JLT
-            MT = MAX(EM20,Z3)
+          DO I=1,NEL
+            MT = MAX(EM20,C3)
             IF (TSTAR(I) == ZERO) THEN
               Q(I) = (ONE + CC * LOGEP(I))
             ELSE
               Q(I) = (ONE + CC * LOGEP(I))*(ONE-EXP(MT*LOG(TSTAR(I))))
-=======
-        IF (IRTY == 0) THEN
-#include "vectorize.inc" 
-          DO I= 1,NEL
-            IF (ISRATE == 0 .AND. VP == 2) EPSP(I) = 
-     .           MAX(ABS(EPSPXX(I)),ABS(EPSPYY(I)),HALF*ABS(EPSPXY(I)))
-            EPSP(I) = MAX(EPSP(I),EPDR)
-            MT = MAX(EM20,Z3)
-            IF (TSTAR(I) == ZERO) THEN
-              Q(I) = (ONE + CC * LOG(EPSP(I)/EPDR))
-            ELSE
-              Q(I) = (ONE + CC * LOG(EPSP(I)/EPDR))*
-     .                             (ONE-EXP(MT*LOG(TSTAR(I))))  
->>>>>>> 6b873ea17 (update sigeps02c)
             ENDIF
             Q(I) = MAX(Q(I),EM20)
             CA(I) = CA(I) * Q(I)
             CB(I) = CB(I) * Q(I)
             IF (ICC == 1) YMAX(I) = YMAX(I) * Q(I)
           ENDDO
-        ELSEIF (IRTY == 1) THEN   ! Zerilli
-<<<<<<< HEAD
-          DO I=JFT,JLT
+        ELSEIF (IFORM == 1) THEN   ! Zerilli
+          DO I=1,NEL
             IF (ISRATE == 0.AND.VP == 2) EPSP(I) = MAX( ABS(DEPSXX(I)),
      .                   ABS(DEPSYY(I)), HALF*ABS(DEPSXY(I)))
             EPSP(I) = MAX(EPSP(I),EM20)
-            LOGEP(I) = LOG(EPSP(I)/EPDR(I))
+            LOGEP(I) = LOG(EPSP(I)/EPDR)
           ENDDO
-          DO I=JFT,JLT          
+          DO I=1,NEL          
             Q(I) = LOGEP(I)
-=======
-          DO I= 1,NEL
-            IF (ISRATE == 0 .AND.VP == 2) EPSP(I) = 
-     .           MAX(ABS(EPSPXX(I)),ABS(EPSPYY(I)),HALF*ABS(EPSPXY(I)))
-            EPSP(I) = MAX(EPSP(I),EM20)
-            Q(I) = LOG(EPSP(I)/EPDR)
->>>>>>> 6b873ea17 (update sigeps02c)
-            Q(I) = CC*EXP((-Z3+Z4 * Q(I))*TEMP(I))
+            Q(I) = CC*EXP((-C3+C4 * Q(I))*TEMP(I))
             IF (ICC == 1) YMAX(I)= YMAX(I) + Q(I)
             CA(I) = CA(I) + Q(I)
           ENDDO
-        ENDIF ! IRTY
+        ENDIF ! IFORM
       ENDIF ! IF (CC /= ZERO)
 C-----------------------------------
 C     YIELD
 C-----------------------------------
       DO I= 1,NEL
         DPLA(I) = ZERO
-        IF (EPSEQ(I) == ZERO) THEN
+        IF (PLA(I) == ZERO) THEN
            YLD(I)= CA(I)
         ELSE
            BETA = CB(I)*(ONE-FISOKIN)
-           YLD(I)= CA(I)+BETA*EXP(CN*LOG(EPSEQ(I)))
+           YLD(I)= CA(I)+BETA*EXP(CN*LOG(PLA(I)))
         ENDIF
         YLD(I)= MIN(YLD(I),YMAX(I))
       ENDDO
@@ -216,12 +214,12 @@ C projection radiale
             DPLA(I) =  OFF(I) * MAX(ZERO,(SVM(I)-YLD(I))/YOUNG)
             S1=HALF*(SIGNXX(I)+SIGNYY(I))
             EZZ(I) = DPLA(I) * S1 /YLD(I)
-            EPSEQ(I) = EPSEQ(I) + DPLA(I)
-            EPCHK(I) = MAX(EPSEQ(I),EPCHK(I))     
+            PLA(I) = PLA(I) + DPLA(I)
+            EPCHK(I) = MAX(PLA(I),EPCHK(I))     
             IF (YLD(I) >=YMAX(I)) THEN
               H(I)=ZERO
             ELSE
-              H(I)=CN*CB(I)*EXP((CN-ONE)*LOG(EPSEQ(I)+SMALL))
+              H(I)=CN*CB(I)*EXP((CN-ONE)*LOG(PLA(I)+SMALL))
             ENDIF
             ETSE(I)= H(I)/(H(I)+YOUNG)
           ENDIF
@@ -275,7 +273,7 @@ C---------------------------
           IF (YLD(I) >= YMAX(I)) THEN
             H(I)=ZERO
           ELSE
-            H(I)=CN*CB(I)*EXP((CN-ONE)*LOG(EPSEQ(I)+SMALL))
+            H(I)=CN*CB(I)*EXP((CN-ONE)*LOG(PLA(I)+SMALL))
           ENDIF
           DPLA_J(I)=(SVM(I)-YLD(I))/(THREE*G+H(I))
           ETSE(I)= H(I)/(H(I)+YOUNG)
@@ -290,7 +288,7 @@ C-----just keep at least old performance--to update H(I) inside iteration for im
             DO J=1,NINDX
               I=INDEX(J)
               DPLA_I(I)=DPLA_J(I)
-              PLA_I =EPSEQ(I)+DPLA_I(I)
+              PLA_I =PLA(I)+DPLA_I(I)
               DPLA(I) = DPLA_J(I)
               IF (PLA_I == ZERO) THEN
                 YLD_I =MIN(YMAX(I),CA(I))
@@ -334,7 +332,7 @@ C----------kinematic&mix hardening
             DO J=1,NINDX
               I=INDEX(J)
               DPLA_I(I)=DPLA_J(I)
-              PLA_I =EPSEQ(I)+DPLA_I(I)
+              PLA_I =PLA(I)+DPLA_I(I)
               DPLA(I) = DPLA_J(I)
               BETA = ONE-FISOKIN
               IF (PLA_I == ZERO) THEN
@@ -365,8 +363,8 @@ C------------------------------------------
 #include "vectorize.inc" 
         DO J=1,NINDX
           I=INDEX(J)
-          EPSEQ(I) = EPSEQ(I) + DPLA_I(I)
-          EPCHK(I) = MAX(EPSEQ(I),EPCHK(I))
+          PLA(I) = PLA(I) + DPLA_I(I)
+          EPCHK(I) = MAX(PLA(I),EPCHK(I))
           S1=(SIGNXX(I)+SIGNYY(I))*P(I)
           S2=(SIGNXX(I)-SIGNYY(I))*Q(I)
           SIGNXX(I)=HALF*(S1+S2)
@@ -408,7 +406,7 @@ C-------------
             IF (YLD(I) >= YMAX(I)) THEN
               H(I)=ZERO
             ELSE
-              H(I)=CN*CB(I)*EXP((CN-ONE)*LOG(EPSEQ(I)+SMALL))
+              H(I)=CN*CB(I)*EXP((CN-ONE)*LOG(PLA(I)+SMALL))
             ENDIF
             ETSE(I)= H(I)/(H(I)+YOUNG)
 C
@@ -421,7 +419,7 @@ C
             SIGNYY(I)=S2
             SIGNXY(I)=S3
             DPLA(I) = OFF(I)*(SVM(I)-YLD(I))/(THREE*G+H(I))
-            EPSEQ(I) = EPSEQ(I) + DPLA(I)
+            PLA(I) = PLA(I) + DPLA(I)
 C
             YLD(I) =YLD(I)+H(I)*DPLA(I)
           END DO ! DO J=1,NINDX
@@ -449,7 +447,7 @@ C------------------------------------------
           DO I = 1,NEL
             IF (DPLA(I) > ZERO) THEN
 c ...... Parameter d(gama)
-              PLA_I =EPSEQ(I)
+              PLA_I =PLA(I)
               BETA = ONE-FISOKIN
               YLD(I) =MIN(YMAX(I),CA(I)+BETA*CB(I)*EXP(CN*LOG(PLA_I)))
               GAMA_IMP(I)= THREE_HALF*DPLA(I)/YLD(I)
@@ -474,7 +472,7 @@ C------------------------------------------
 #include "vectorize.inc" 
           DO J=1,NINDX
             I=INDEX(J)
-            PLA_I =EPSEQ(I)
+            PLA_I =PLA(I)
             BETA = ONE-FISOKIN
 C------YLD, H(I) should not be updated----
             IF (PLA_I == ZERO) THEN

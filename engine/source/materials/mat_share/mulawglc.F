@@ -327,7 +327,7 @@ C-------------------------------------------
      7                 MOMNYY  ,MOMNXY  )
       ELSEIF (MTN == 2) THEN
         CALL SIGEPS02G(ELBUF_STR,MAT_PARAM,
-     1                 JFT     ,JLT     ,PM      ,FOR     ,MOM     ,
+     1                 JFT     ,JLT     ,FOR     ,MOM     ,
      2                 THKN    ,EINT    ,OFF     ,DT1C    ,ISRATE  ,
      3                 ASRATE  ,VOL0    ,
      4                 THK0    ,GS      ,EPSP    ,IOFC    ,KFTS    ,

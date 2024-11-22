@@ -59,13 +59,14 @@
                  nel,     ipm,     rhoref,  rhosp,                 &
                  ipg,     dmg,     ity,     jtur,                  &
                  jthe,    jsph,    ismstr,  jsms,                  &
-                 plap,    npg ,    ieos  ,  dpdm ,    fheat   ,    &
+                 plap,    npg ,    ieos  ,  dpdm ,    fheat   ,glob_therm,    &
                  mvsiz   ,n_var_pm ,n_var_ipm ,n_var_geo   ,       &
                  nummat  ,numgeo   ,dt1     ,time     ,impl_s  )
 !-----------------------------------------------
 !   M o d u l e s
 !-----------------------------------------------
       use matparam_def_mod
+      use glob_therm_mod
       use constant_mod ,only : half,one,zero,two,third,two_third,three,four
       use constant_mod ,only : em15,em20,ep20,onep333
 ! ----------------------------------------------------------------------------------
@@ -121,6 +122,7 @@
       my_real, dimension(mvsiz) ,intent(in)    :: dpdm
       my_real, dimension(mvsiz) ,intent(inout) :: fheat
       type (matparam_struct_)   ,intent(in)    :: mat_param
+      type (glob_therm_)        ,intent(inout) :: glob_therm
 !-----------------------------------------------
 !   L o c a l   v a r i a b l e s
 !-----------------------------------------------
@@ -403,7 +405,7 @@
              facq0,   conde,   dtel,    g_dt,        &
              ipm,     rhoref,  rhosp,   nel,         &
              ity,     ismstr,  jtur,    jthe,        &
-             jsms,    npg)
+             jsms,    npg   ,glob_therm )
       else
         call mdtsph(                                 &
              pm,      off,     rho,     bidmvsiz,    &

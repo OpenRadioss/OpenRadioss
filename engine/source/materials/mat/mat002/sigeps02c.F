@@ -130,16 +130,14 @@ C-----------------------------------------------
       ! Old filtered value already stored in EPSD
 !
       IF (VP == 1) THEN 
-<<<<<<< HEAD
-        DO I=JFT,JLT
-          EPSDOT(I) = EPSD(I)*DT1C(I) 
-        ENDDO
-      ! -> Total strain rate
-      ELSEIF (VP == 2) THEN
-        DO I=JFT,JLT  
-          EPSDOT(I) = EPSPDT(I) 
-          EPSD(I) = EPSPDT(I)/MAX(DT1C(I),EM20)
-=======
+!        DO I=JFT,JLT
+!          EPSDOT(I) = EPSD(I)*DT1 
+!        ENDDO
+!      ! -> Total strain rate
+!      ELSEIF (VP == 2) THEN
+!        DO I=JFT,JLT  
+!          EPSDOT(I) = EPSPDT(I) 
+!          EPSD(I) = EPSPDT(I)/MAX(DT1,EM20)
         DO I=1,NEL
           EPSDOT(I) = EPSD(I) 
         ENDDO
@@ -148,7 +146,6 @@ C-----------------------------------------------
         DO I=1,NEL  
           EPSDOT(I) = EPSP(I)  
           EPSD(I)   = EPSP(I)    
->>>>>>> a32dfb8d0 (update vraiment sigeps02c)
         ENDDO   
       ! -> Deviatoric strain rate    
       ELSEIF (VP == 3) THEN
@@ -164,7 +161,7 @@ C-----------------------------------------------
             EPSDOT(I) = ASRATE*EPSDOT(I) + (ONE - ASRATE)*EPSD(I)
           ENDIF
           EPSD(I) = EPSDOT(I)
-          EPSDOT(I) = EPSDOT(I)*DT1C(I)
+          EPSDOT(I) = EPSDOT(I)*DT1
         ENDDO 
       ENDIF
       ! Variable initialization
@@ -189,13 +186,8 @@ C-----------------------------------------------
 !     UPDATE AND FILTER PLASTIC STRAIN RATE
 !--------------------------------------------
       IF (VP == 1) THEN
-<<<<<<< HEAD
-        DO I=JFT,JLT
-          EPSDOT(I) = DPLA(I)/MAX(EM20,DT1C(I))
-=======
         DO I=1,NEL
-          EPSDOT(I) = DPLA(I)/MAX(EM20,DT1)
->>>>>>> a32dfb8d0 (update vraiment sigeps02c)
+          EPSDOT(I) = DPLA(I) / MAX(EM20,DT1)
           EPSD(I)   = ASRATE*EPSDOT(I) + (ONE - ASRATE)*EPSD(I)
         ENDDO
       ENDIF

@@ -864,7 +864,7 @@
             &jthe,     jsph,     ismstr,   jsms,&
             &lbuf%epsq,npg ,mat_elem%mat_param(imat)%ieos ,dpdm  ,fheat ,glob_therm, &
             &mvsiz    ,n_var_pm  ,n_var_ipm ,n_var_geo   ,&
-            &nummat  ,numgeo   ,dt1     ,tt       ,impl_s  )
+            &nummat  ,numgeo   ,dt1     ,tt     ,impl_s  )
 !----------------
             if (istrain > 0 .and.&
             &(h3d_strain == 1 .or. th_strain == 1 )) then
