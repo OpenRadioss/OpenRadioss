@@ -2950,7 +2950,8 @@ C------ one routine for EIG
      Q                   XEDGE3N     ,STACK        ,SPH2SOL   ,STIFN      ,STIFR    ,
      R                   DRAPE_SH4N    , DRAPE_SH3N    ,H3D_DATA  ,SUBSETS    ,IGRNOD   ,
      S                   FCONT_MAX   ,FANI(1,NFNCA2+1),FANI(1,NFTCA2+1), ALE_CONNECTIVITY ,
-     T                   ITASK       ,NDDL0        ,NNZK0     ,IMPBUF_TAB , DRAPEG)
+     T                   ITASK       ,NDDL0        ,NNZK0     ,IMPBUF_TAB , DRAPEG,
+     U                   GLOB_THERM)
 #endif
         DT2 = MAX(EM20,TSTOP-TT)
         MSTOP=2
