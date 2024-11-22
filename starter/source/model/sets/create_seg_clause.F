@@ -98,7 +98,7 @@ C-----------------------------------------------
         CALL HM_GET_INT_ARRAY_2INDEXES('ids4' ,NOD_4 ,JCLAUSE ,I,IS_AVAILABLE,LSUBMODEL)
         NODSYS_1 = SET_USRTOS(NOD_1,ITABM1,NUMNOD)
         IF (NODSYS_1 == 0) THEN
-           ! Node was not found. Issue a Warning & Skip.
+           ! Node was not found. Issue an error.
            CALL ANCMSG(MSGID=1903,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                             I1 = CLAUSE%SET_ID,
      .                             I2=SEG_ID,
@@ -111,7 +111,7 @@ C-----------------------------------------------
 
         NODSYS_2 = SET_USRTOS(NOD_2,ITABM1,NUMNOD)
         IF (NODSYS_2 == 0) THEN
-           ! Node was not found. Issue a Warning & Skip.
+          ! Node was not found. Issue an error.
            CALL ANCMSG(MSGID=1903,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                             I1 = CLAUSE%SET_ID,
      .                             I2=SEG_ID,
@@ -121,14 +121,20 @@ C-----------------------------------------------
         ELSE
           NODSYS_2 = ITABM1(NODSYS_2,2)
         ENDIF
-
-        NODSYS_3 = SET_USRTOS(NOD_3,ITABM1,NUMNOD)
-        NODSYS_4 = SET_USRTOS(NOD_4,ITABM1,NUMNOD)
-        IF (NODSYS_3 == 0 .AND. NODSYS_4 == 0) LINE_SEG = 1 ! Line SEG
+        
+        LINE_SEG = 0
+        IF (NOD_3 == 0 .AND. NOD_4 == 0) THEN
+          LINE_SEG = 1 ! Line SEG
+          NODSYS_3 = 0
+          NODSYS_4 = 0
+        ELSE
+          NODSYS_3 = SET_USRTOS(NOD_3,ITABM1,NUMNOD)
+          NODSYS_4 = SET_USRTOS(NOD_4,ITABM1,NUMNOD)
+        ENDIF
 
         IF (LINE_SEG == 0) THEN! Surf SEG --> continue Node check existence
           IF (NODSYS_3 == 0) THEN
-            ! Node was not found. Issue a Warning & Skip.
+            ! Node was not found. Issue an error.
             CALL ANCMSG(MSGID=1903,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                             I1 = CLAUSE%SET_ID,
      .                             I2=SEG_ID,
@@ -136,11 +142,25 @@ C-----------------------------------------------
      .                             C1=TRIM(CLAUSE%TITLE),
      .                             C2='NODE')
           ELSE
+            ! Node found
             NODSYS_3 = ITABM1(NODSYS_3,2)
           ENDIF
 
-!         correction to allow for 3 noded surface (triangle)
-          IF (NODSYS_4 == 0) NODSYS_4 = NODSYS_3
+          IF (NOD_4 == 0) THEN 
+            ! correction to allow for 3 noded surface (triangle)
+              NODSYS_4 = NODSYS_3
+          ELSE IF (NODSYS_4 == 0) THEN
+            ! Node was not found. Issue an error.
+            CALL ANCMSG(MSGID=1903,ANMODE=ANINFO,MSGTYPE=MSGERROR,
+     .                             I1 = CLAUSE%SET_ID,
+     .                             I2=SEG_ID,
+     .                             I3=NOD_4,
+     .                             C1=TRIM(CLAUSE%TITLE),
+     .                             C2='NODE')
+          ELSE IF (NODSYS_4 /= 0) THEN
+            ! Node found
+              NODSYS_4 =  ITABM1(NODSYS_4,2)
+          ENDIF
 
         ENDIF ! IF (LINE_SEG == 0)
 
