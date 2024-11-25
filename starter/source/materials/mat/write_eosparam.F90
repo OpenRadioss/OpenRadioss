@@ -105,7 +105,7 @@
       IF (EOS%NTABLE > 0) THEN
         LENI=0
         LENR=0
-        CALL WRITE_MAT_TABLE(EOS%TABLE, NUMTABL, LENI, LENR)
+        CALL WRITE_MAT_TABLE(EOS%TABLE, NUMTABL)
       END IF
 !-----------
       RETURN

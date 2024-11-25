@@ -251,12 +251,16 @@
           integer, intent(in) :: tag !< Tag of the the MPI call
           integer, intent(in) :: ierr !< error of the MPI call
 ! ----------------------------------------------------------------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+! ----------------------------------------------------------------------------------------------------------------------
+          integer :: ierror
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
 #ifdef MPI
           if(ierr /= MPI_SUCCESS) then
             write(6,*) 'MPI error: ', ierr,' at ',tag
-            call MPI_Abort(MPI_COMM_WORLD, ierr)
+            call MPI_Abort(MPI_COMM_WORLD, ierr,ierror)
           end if
 #ifdef DEBUG_SPMD
           write(6,*) 'Exiting MPI call: ', tag

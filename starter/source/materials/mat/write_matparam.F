@@ -144,7 +144,7 @@ C=======================================================================
       DO IMAT = 1,NUMMAT
         NUMTABL = MAT_ELEM%MAT_PARAM(IMAT)%NTABLE
         IF (NUMTABL > 0) THEN
-          CALL WRITE_MAT_TABLE(MAT_ELEM%MAT_PARAM(IMAT)%TABLE, NUMTABL, LENI, LENR)
+          CALL WRITE_MAT_TABLE(MAT_ELEM%MAT_PARAM(IMAT)%TABLE, NUMTABL)
           LEN = LEN + LENI + LENR
         END IF
       END DO
