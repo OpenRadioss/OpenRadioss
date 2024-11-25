@@ -160,7 +160,7 @@ C-----------------------------------------------
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
       TYPE (DT_), INTENT(IN) :: DT
-      type(glob_therm_)  ,intent(in)    :: glob_therm
+      type(glob_therm_)  ,intent(inout)    :: glob_therm
       TYPE (SPH_WORK_),INTENT(INOUT) :: SPH_WORK
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

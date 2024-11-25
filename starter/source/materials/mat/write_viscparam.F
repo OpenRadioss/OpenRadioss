@@ -96,7 +96,7 @@ c     write viscosity law tables if necessary
 c
       NUMTABL  = VISC%NTABLE
       IF (NUMTABL > 0) THEN
-        CALL WRITE_MAT_TABLE(VISC%TABLE, NUMTABL, LENI,  LENR)
+        CALL WRITE_MAT_TABLE(VISC%TABLE, NUMTABL)
         LEN = LEN + NFIX + LENI + LENR
       END IF
 c-----------
