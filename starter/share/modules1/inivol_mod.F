@@ -63,8 +63,6 @@ C-----------------------------------------------
           INTEGER   :: IREVERSED ! Filling option parameter for filling action (inside or outside the container) 
                        ! 0 ! filling the side along normal direction 
                        ! 1 ! filling the side against normal direction
-          LOGICAL   :: REQUIRED_MONTE_CARLO_METHOD
-          LOGICAL   :: REQUIRED_2D_POLYGON_CLIPPING
         END TYPE CONTAINER_
         
 C-----------------------------------------------
@@ -75,9 +73,8 @@ C-----------------------------------------------
           INTEGER :: PART_ID
           INTEGER :: SIZE
           INTEGER :: NUM_CONTAINER
-          LOGICAL :: REQUIRED_MONTE_CARLO_METHOD   !set to true if at least one container is using this method
-          LOGICAL :: REQUIRED_2D_POLYGON_CLIPPING  !set to true if at least one container is using this method
           TYPE (CONTAINER_) ,DIMENSION(:) ,ALLOCATABLE :: CONTAINER
+          my_real :: XYZ(6) !global min,max
         END TYPE INIVOL_STRUCT_
 
 C-----------------------------------------------
