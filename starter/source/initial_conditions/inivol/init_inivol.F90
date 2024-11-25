@@ -25,8 +25,8 @@
 ! ======================================================================================================================
 !! \brief Initial volume fraction are here computed.
 !! \details INIVOL option allow to fill a given submaterial inside or outside a given user surface
-!! \details two methodes are available : MONTE CARLO (statistical) for 3d surface & 2d/3d ellipsoids -> KVOL(:,:) is filled consequently
-!! \details                              POLYGONAL CLIPPING (exact)  2d polygonal surfaces (/SURF/SEG) -> KVOL_2d_polyg is added to KVOL
+!! \details two methodes are available : MONTE CARLO (statistical) for 3d surface & 2d/3d super-ellipsoids
+!! \details                              POLYGONAL CLIPPING (exact)  2d polygonal surfaces (/SURF/SEG)
 !! \details  both methods may be exist in the same INIVOL option depending on the type of provided surface (surf_id)
 !! \details when all surfaces of INIVOL option are treated then volume fraction are adjested (KVOL) so that remaining space is filled with submaterial #1
 
@@ -48,22 +48,22 @@
       !||--- uses       -----------------------------------------------------
       !||    inivol_def_mod                 ../starter/share/modules1/inivol_mod.F
       !||====================================================================
-      subroutine init_inivol(    num_inivol,   inivol,   nsurf, igrsurf, &
-                                nparg     ,   ngroup,   iparg,  numnod, npart,&
+      subroutine init_inivol(   num_inivol,   inivol,   nsurf,    igrsurf, &
+                                nparg     ,   ngroup,   iparg,     numnod, npart,&
                                 numels    ,     nixs,     ixs,&
                                 numeltg   ,    nixtg,    ixtg,&
                                 numelq    ,     nixq,     ixq,&
                                 x         , nbsubmat,    kvol,&
-                                elbuf_tab ,  numels8,   xrefs, glob_therm,  &
-                                n2d       ,multi_fvm,  sipart, ipart  , &
-                                i15a      ,     i15b,    i15h, sbufmat, bufmat,&
-                                npropmi   ,   nummat,     ipm,  sbufsf, bufsf,&
-                                npropg    ,   numgeo,     geo,   mvsiz, skvol , itab, &
+                                elbuf_tab ,  numels8,   xrefs, glob_therm, &
+                                n2d       ,multi_fvm,  sipart,      ipart, &
+                                i15a      ,     i15b,    i15h,    sbufmat, bufmat,&
+                                npropmi   ,   nummat,     ipm,     sbufsf, bufsf,&
+                                npropg    ,   numgeo,     geo,      mvsiz, skvol , itab, &
                                 mat_param)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-      use constant_mod , only : zero, ep9
+      use constant_mod , only : zero, ep9, ep20
       use array_mod , only : array_type, alloc_1d_array, dealloc_1d_array, dealloc_3d_array
       use inivol_def_mod , only : inivol_struct_
       use groupdef_mod , only : surf_
@@ -117,10 +117,10 @@
       integer, dimension(:,:), allocatable :: nsoltosf,nbip,inphase
       integer, dimension(:), allocatable :: knod2surf
       integer ntrace0,ntrace,nnod2surf,nsegsurf
-      integer stat, ng, nf1, nf1_2d, nel, mtn
+      integer stat, ng, nf1, nel, mtn
       integer :: ifrac,idp,idc,idsurf,ireversed,jmid
       integer ::nb_container,nseg_swift_surf,nseg_used,nsurf_invol,imat,NUMEL_TOT,ICUMU,I15_,nuvar,nft
-      integer :: ity,isolnod,invol,ii,iad,isize_inivol,sipart_
+      integer :: ity,isolnod,invol,ii,kk,iad,isize_inivol,sipart_
       integer :: imid
       my_real, dimension(3) :: size_cell ! cell's size in x/y/z direction
       my_real, dimension(:,:), allocatable :: dis
@@ -128,43 +128,57 @@
       my_real, dimension(6) :: min_max_position ! min/max position
       my_real, dimension(:), allocatable :: nod_norm
       my_real :: vfrac
+      my_real :: GLOBAL_xyz(6)
       type(buf_mat_) ,pointer :: mbuf
       type(array_type), dimension(:), allocatable :: cell ! voxcell
       type(array_type), dimension(:), allocatable :: nodal_phase ! phase of node
-      my_real, allocatable, dimension(:,:) :: kvol_2d_polyg
-      logical required_monte_carlo_method
-      logical required_2d_polygon_clipping
+      logical :: bool
+
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
       if (num_inivol > 0) then
-        ntrace0 = 3
-        ntrace0 = 2*ntrace0+1
-        ntrace  = ntrace0**3
-        allocate( cell_position(3,numnod) )
-        allocate( list_ale_node(numnod) )
 
         !initialize volume fractions
-        !MONTE CARLO METHOD
         kvol(1:nbsubmat,1:skvol/nbsubmat) = zero
 
-        !initialize 2d volume fractions
-        !POLYGONAL CLIPPING METHOD
-        required_2d_polygon_clipping = .false.
-        do ii=1,num_inivol
-          if( inivol(ii)%required_2d_polygon_clipping ) required_2d_polygon_clipping = .true.
-        end do
-        if(required_2d_polygon_clipping)then;
-          allocate(kvol_2d_polyg(nbsubmat,numelq+numeltg)); kvol_2d_polyg(:,:) = zero
-        else
-          allocate(kvol_2d_polyg(1,1)); kvol_2d_polyg(:,:) = zero
+        !init.
+        if(n2d == 0)then
+          ntrace0 = 3
+          ntrace0 = 2*ntrace0+1
+          ntrace  = ntrace0**3
+          allocate( cell_position(3,numnod) )
+          allocate( list_ale_node(numnod) )
         end if
+
+        !pre-treatment 2D for /SURF/PLANE
+        !  (a box is created to encapsulate the domain related to infinite plane)
+        if(n2d > 0)then
+          GLOBAL_xyz(2:3) = +ep20
+          GLOBAL_xyz(5:6) = -ep20
+          bool = .false.
+          do ii=1,num_inivol
+            do idc=1, inivol(ii)%num_container
+              idsurf = inivol(ii)%container(idc)%surf_id
+              if(igrsurf(idsurf)%type == 200)then
+                bool = .true.
+                do kk=1,numnod
+                   GLOBAL_xyz(2)=min(GLOBAL_xyz(2),x(2,kk))
+                   GLOBAL_xyz(3)=min(GLOBAL_xyz(3),x(3,kk))
+                   GLOBAL_xyz(5)=max(GLOBAL_xyz(5),x(2,kk))
+                   GLOBAL_xyz(6)=max(GLOBAL_xyz(6),x(3,kk))
+                end do
+                exit
+              end if
+              if(bool)exit
+            end do
+          enddo
+        end if
+         !------------
 
         ! MAIN LOOP OVER INIVOL OPTIONS
         do ii=1,num_inivol
 
-          required_monte_carlo_method = inivol(ii)%required_monte_carlo_method
-          required_2d_polygon_clipping = inivol(ii)%required_2d_polygon_clipping
           ifrac = inivol(ii)%id
           nb_container = inivol(ii)%num_container
           idp = inivol(ii)%part_id
@@ -176,22 +190,19 @@
           ! POLYGON CLIPPING
           !    /SURF/SEG must define a polygon (chechked by reader hm_read_inivol.F)
           !----------------------------------------------------------------------------!
-          if(required_2d_polygon_clipping)then
+          if(n2d > 0)then
             do idc=1,nb_container
-              if(.not. inivol(ii)%container(idc)%required_2d_polygon_clipping)cycle
               idsurf   = inivol(ii)%container(idc)%surf_id
               nsegsurf = igrsurf(idsurf)%nseg
-              if (igrsurf(idsurf)%type == 0 ) then
                 ! 2D LINE OF SEGMENTS (/SURF/SEG)
-                CALL init_inivol_2d_polygons(   ii        ,      idc,   mat_param  ,          &
-                                                num_inivol,   inivol,   nsurf      , igrsurf, &
-                                                nparg     ,   ngroup,   iparg      ,  numnod, &
-                                                numeltg   ,    nixtg,    ixtg      ,          &
-                                                numelq    ,     nixq,     ixq      ,          &
-                                                x         , nbsubmat, kvol_2d_polyg,  nummat, &
-                                                sipart    ,    ipart,                         &
+                CALL init_inivol_2d_polygons(   ii        ,      idc,  mat_param  ,  GLOBAL_xyz,  &
+                                                num_inivol,   inivol,      nsurf  ,     igrsurf, &
+                                                nparg     ,   ngroup,      iparg  ,      numnod, &
+                                                numeltg   ,    nixtg,       ixtg  ,              &
+                                                numelq    ,     nixq,        ixq  ,              &
+                                                x         , nbsubmat,       kvol  ,      nummat, &
+                                                sipart    ,    ipart,      bufsf  ,      sbufsf, &
                                                 i15b      ,    i15h ,    itab      )
-              end if
             end do
           end if
 
@@ -199,7 +210,7 @@
           ! MONTE CARLO METHOD (LEGACY METHOD)
           !   3D surfaces, planes, ellipsoids
           !----------------------------------------------------------------------------!
-          IF(required_monte_carlo_method)then
+          if(n2d == 0)then
 
             allocate(iphase(inivol(ii)%size),stat=stat) ; iphase(:) = 0
             allocate(nbip(nbsubmat,numel_tot),stat=stat) ; nbip(:,:) = 0
@@ -253,7 +264,6 @@
             knod2surf(1:numnod+1) = 0
             nseg_used = 0
             do idc=1,nb_container
-              if(inivol(ii)%container(idc)%required_2d_polygon_clipping)cycle
               idsurf   = inivol(ii)%container(idc)%surf_id
               nsegsurf = igrsurf(idsurf)%nseg
               if (igrsurf(idsurf)%type /= 101 .and. igrsurf(idsurf)%type /= 200 .and. ivolsurf(idsurf) == 0) then
@@ -313,7 +323,6 @@
             itagsurf(1:nsurf) = 0
             nseg_swift_surf = 0
             do idc=1,nb_container
-              if(inivol(ii)%container(idc)%required_2d_polygon_clipping)cycle
               call alloc_1d_array(nodal_phase(idc))
               nodal_phase(idc)%int_array_1d(1:numnod) = 0
               idsurf    = inivol(ii)%container(idc)%surf_id
@@ -353,7 +362,7 @@
               invol   = iparg(53,ng)
               if (invol <=  0) cycle
               if (mtn /= 51 .and. mtn /= 151) cycle
-              if(n2d ==0 .and. ity /= 1)then
+              if(n2d == 0 .and. ity /= 1)then
                 cycle
               elseif(n2d > 0 .and. ity /= 7 .and. ity /= 2)then
                 cycle
@@ -363,7 +372,6 @@
               inphase(1:ntrace,1:nel) = 1
               numel_tot= max(numeltg,max(numels,numelq))
               do idc=1,nb_container
-                if(inivol(ii)%container(idc)%required_2d_polygon_clipping)cycle
                 idsurf    = inivol(ii)%container(idc)%surf_id
                 jmid      = inivol(ii)%container(idc)%submat_id
                 ireversed = inivol(ii)%container(idc)%ireversed
@@ -401,10 +409,11 @@
               deallocate(inphase)
             enddo ! next ng=1,ngroup
 !---
-          ENDIF
+          endif ! (n2d == 0)
 
 
-!------------- FINAL CHECK - AND FILL REMAINING RATIO WITH SUBMAT #1
+!------------- FINAL CHECK + FILL REMAINING RATIO WITH PREVALENT SUBMATERIAL
+!                SET VOLUME FRACTION IN MATERIAL BUFFERS OF ALE MULTIMATERIAL LAWS
           do ng=1,ngroup
             mtn     = iparg(1,ng)
             nel     = iparg(2,ng)
@@ -414,7 +423,7 @@
             invol   = iparg(53,ng)
             if (invol <=  0) cycle
             if (mtn /= 51 .and. mtn /= 151) cycle
-            if(n2d ==0 .and. ity /= 1)then
+            if(n2d == 0 .and. ity /= 1)then
               cycle
             elseif(n2d > 0 .and. ity /= 7 .and. ity /= 2)then
               cycle
@@ -438,12 +447,10 @@
             mbuf  => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
             nuvar =  elbuf_tab(ng)%bufly(1)%nvar_mat
             nf1   =  nft+1
-            nf1_2d = max(1,min(nf1,numeltg+numelq)) !kvol_2d_polyg  allocated to 1 when n2d=0
-            if (.not. required_2d_polygon_clipping) nf1_2d = 1
             call inivol_set( &
                              mbuf%var  , nuvar      , nel        , kvol(1,nf1)             , mtn                         , &
-                             elbuf_tab , ng         , nbsubmat   , multi_fvm               , required_2d_polygon_clipping, &
-                             idp       , ipart(i15_), nft        , kvol_2d_polyg(1,nf1_2d) , imid                        , &
+                             elbuf_tab , ng         , nbsubmat   , multi_fvm               , &
+                             idp       , ipart(i15_), nft        , imid                    , &
                              mat_param    )
           enddo ! next ng=1,ngroup
 !-------------
@@ -462,14 +469,9 @@
           if(allocated(segtosurf))deallocate(segtosurf)
 !---
         enddo ! next ii=1,num_inivol
-        deallocate( cell_position )
-        deallocate( list_ale_node )
+        if(allocated(cell_position))deallocate( cell_position )
+        if(allocated(list_ale_node))deallocate( list_ale_node )
 
-      else
-        allocate(iphase(0),nbip(0,0),itagnsol(0),knod2surf(0),part_fill(0),ivolsurf(0))
-        allocate(swiftsurf(0),nsoltosf(0,0),inod2surf(0),dis(0,0),nod_norm(0),segtosurf(0))
       endif ! if (num_inivol > 0)
-
-      if(allocated(kvol_2d_polyg))deallocate(kvol_2d_polyg)
 
     end subroutine init_inivol

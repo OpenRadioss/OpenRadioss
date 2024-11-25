@@ -114,8 +114,6 @@ contains
       character(len=ncharline) :: outp_msg
       logical is_encrypted,is_available
       logical detected_error
-      logical :: required_2d_polygon_clipping ! 2d polygons
-      logical :: required_monte_carlo_method  ! 3d discretized surface, infinita plane, ellipsoids
 !-----------------------------------------------
 !   c o m m e n t s
 !-----------------------------------------------
@@ -201,8 +199,6 @@ contains
          inivol(igs)%title = titr(1:len_trim(titr))
          inivol(igs)%num_container = nlin
          inivol(igs)%part_id = part_id
-         inivol(igs)%required_monte_carlo_method = .false.
-         inivol(igs)%required_2d_polygon_clipping = .false.
          allocate(inivol(igs)%container(nlin))
 
          write(iout, '(A)') "     surf_ID SUBMAT_ID IREVERSED     ICUMU               VFRAC"
@@ -280,8 +276,6 @@ contains
                   enddo
                endif
 
-               required_2d_polygon_clipping = .false.
-               required_monte_carlo_method = .false.
                if(isu > 0 .and. nn > 1 .and. n2d /= 0)then
                   !test surface closure (closed polygon)
                   if(igrsurf(isu)%nodes(1,1) /= igrsurf(isu)%nodes(nn,2)) then
@@ -298,9 +292,7 @@ contains
                   if(detected_error)then
                      call ancmsg(msgid=3064,msgtype=msgerror,anmode=aninfo,i1=id,i2=igrsurf(isu)%id,c1=titr)
                   endif
-                  required_2d_polygon_clipping = .true.
                elseif(isu > 0)then
-                  required_monte_carlo_method = .true.
                   if(isu > 0 .and. nn <= 2 .and. n2d /= 0 .and. srftyp == 0)then
                      call ancmsg(msgid=3064,msgtype=msgerror,anmode=aninfo,i1=id,i2=igrsurf(isu)%id,c1=titr) !not enough points to define a polygon
                   endif
@@ -311,10 +303,6 @@ contains
                inivol(igs)%container(kk)%ireversed = ireversed
                inivol(igs)%container(kk)%vfrac = int(vfrac*ep9)
                inivol(igs)%container(kk)%icumu = icumu
-               inivol(igs)%container(kk)%required_monte_carlo_method = required_monte_carlo_method
-               inivol(igs)%container(kk)%required_2d_polygon_clipping = required_2d_polygon_clipping
-               if(required_monte_carlo_method)  inivol(igs)%required_monte_carlo_method = .true.
-               if(required_2d_polygon_clipping) inivol(igs)%required_2d_polygon_clipping = .true.
 !
                if(n2d == 0 .and. fac == 0)then
                   call ancmsg(msgid=890,msgtype=msgerror,anmode=aninfo,i1=id,c1=titr)

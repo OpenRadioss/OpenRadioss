@@ -28,8 +28,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod          ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE INIVOL_SET(UVAR     , NUVAR , NEL     , KVOL         , MLW                         ,
-     .                      ELBUF_TAB, NG    , NBSUBMAT, MULTI_FVM    , REQUIRED_2D_POLYGON_CLIPPING,
-     .                      IDP      , IPART , NFT     , KVOL_2D_POLYG, IMID,
+     .                      ELBUF_TAB, NG    , NBSUBMAT, MULTI_FVM    ,
+     .                      IDP      , IPART , NFT     , IMID,
      .                      MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
@@ -56,11 +56,9 @@ C-----------------------------------------------
       INTEGER,INTENT(IN)                 :: IMID
       INTEGER,INTENT(IN)                 :: NEL, NUVAR, MLW, NG, NBSUBMAT,IDP,IPART(*),NFT
       my_real,INTENT(INOUT)              :: KVOL(NBSUBMAT,NEL)
-      my_real,INTENT(INOUT)              :: KVOL_2D_POLYG(NBSUBMAT,NEL)
       my_real,INTENT(INOUT)              :: UVAR(NEL,NUVAR)
       TYPE(MULTI_FVM_STRUCT),INTENT(IN)  :: MULTI_FVM
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP),INTENT(INOUT) :: ELBUF_TAB
-      LOGICAL,INTENT(IN) :: REQUIRED_2D_POLYGON_CLIPPING
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -78,15 +76,6 @@ C-----------------------------------------------
       ! DETERMINE DEFAULT SUBMAT ID
       vfrac0(1:nbsubmat) = MAT_PARAM(IMID)%MULTIMAT%VFRAC(1:NBSUBMAT)
       default_SUBMAT_id(1:NEL) = MAX(1, MAXLOC(vfrac0,1))
-
-      !---ADD CONTRIBUTION FROM 2D POLYGONAL CLIPPING
-      IF(REQUIRED_2D_POLYGON_CLIPPING) THEN
-        DO I=1,NEL
-          DO IMAT=1,NBSUBMAT
-            KVOL(IMAT,I) = KVOL(IMAT,I) + KVOL_2D_POLYG(IMAT,I)
-          ENDDO
-        ENDDO
-      ENDIF
 
       !---CHECK UNOCCUPIPED SUBVOLUME AND FILL WITH DEFAULT PHASE IF SUM(vfrac>1) display an error message.
       DO I=1,NEL

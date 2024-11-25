@@ -38,18 +38,18 @@
       !||    inivol_def_mod             ../starter/share/modules1/inivol_mod.F
       !||====================================================================
       subroutine init_inivol_2D_polygons( &
-                                i_inivol  ,      idc,           mat_param,            &
-                                NUM_INIVOL,   inivol,               nsurf,   igrsurf, &
-                                nparg     ,   ngroup,               iparg,    numnod, &
-                                numeltg   ,    nixtg,                ixtg,            &
-                                numelq    ,     nixq,                 ixq,            &
-                                x         , nbsubmat,    kvol_2d_polygons,    nummat, &
-                                sipart    ,    ipart,                                 &
+                                i_inivol  ,      idc,           mat_param, GLOBAL_xyz, &
+                                NUM_INIVOL,   inivol,               nsurf,    igrsurf, &
+                                nparg     ,   ngroup,               iparg,     numnod, &
+                                numeltg   ,    nixtg,                ixtg,             &
+                                numelq    ,     nixq,                 ixq,             &
+                                x         , nbsubmat,                kvol,     nummat, &
+                                sipart    ,    ipart,               bufsf,     sbufsf, &
                                 i15b      ,    i15h ,                itab)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-      use constant_mod , only : zero, em10, em06, em02, fourth, third, one, ep9, ep20
+      use constant_mod , only : zero, em20, em10, em06, em02, fourth, third, half, one, two, pi, ep9, ep10, ep20
       use array_mod , only : array_type, alloc_1d_array, dealloc_1d_array, dealloc_3d_array
       use inivol_def_mod , only : inivol_struct_
       use groupdef_mod , only : surf_
@@ -76,8 +76,11 @@
       integer,intent(in) :: iparg(nparg,ngroup)                                !< buffer for elem groups
       integer,intent(in) :: i15b,i15h                                          !< indexes for ipart array
       integer,intent(in) :: ipart(sipart)                                      !< buffer for parts
+      integer,intent(in) :: sbufsf                                             !< buffer size for surfaces
       my_real, intent(in) :: x(3,numnod)                                       !< node coordinates
-      my_real,intent(inout) :: kvol_2d_polygons(nbsubmat,numelq+numeltg)       !< 2d volume fractions (for polygon clipping)
+      my_real,intent(inout) :: kvol(nbsubmat,numelq+numeltg)                   !< volume fractions (for polygon clipping)
+      my_real,intent(in) :: bufsf(sbufsf)                                      !< buffer for surfaces
+      my_real,intent(in) :: GLOBAL_xyz(6)                                      !< global min,max (/surf/plane)
       type (inivol_struct_), dimension(NUM_INIVOL), intent(inout) :: inivol    !< inivol data structure
       type (surf_), dimension(nsurf), intent(in) :: igrsurf                    !< surface buffer
       integer,intent(in) :: itab(numnod)                                       !< user identifier for nodes
@@ -90,11 +93,17 @@
       my_real XYZ(6)                                                             !<box size xmin ymin zmin, xmax ymax zmax (box encompassing the user polygon)
       my_real xyz_elem(6)                                                        !<box size for current elem
       my_real :: coor_node(2:3)                                                  !< temporary point
-      my_real DLy, DLz                                                           !< element of length for margin estimation
+      my_real DL, DLy, DLz                                                       !< element of length for margin estimation
       my_real :: sumvf                                                           !< sum of volume fractions
       my_real :: vf_to_substract
       my_real :: vfrac0(nbsubmat)                                                !< volume fraction (initial def from material law)
       my_real :: tol
+      my_real :: YP1,ZP1,YP2,ZP2                                                 !< planar surface definition
+      my_real :: normal(3), tangent(3)                                           !< normal and tangent to the planar surface
+      my_real :: bb,cc,nn,yg,zg                                                  !< superellipse surface definition
+      my_real skw(9)                                                             !< skew data for superell transformation
+      my_real :: tmp(3)                                                          !< temporary array
+      my_real :: theta
 
       integer :: iadbuf                                                          !< index for buffer bufmat
       integer nsegsurf                                                           !< number of segments for a given 2d surface
@@ -117,6 +126,8 @@
       integer :: iStatus                                                         !< return code from CLipping Algorithm
       integer :: prod_tag !< product of tag for point of elem mesh               !prod > 0 => elem indise the polygon
       integer :: sum_tag                                                         !sum = 0 => elem outside the polygon
+      integer :: iad0                                                            !< index for buffer bufsf
+      integer :: npt_superellipse                                                !< number of points for superellipse
 
       logical :: is_quad, is_tria, is_inside
       logical :: is_reversed
@@ -145,23 +156,125 @@
           !---  polygon box (box used in a pre criterion to select relevant nodes with low CPU cost)
           xyz(1:3) = ep20
           xyz(4:6) = -ep20
-          call polygon_create( user_polygon, nsegsurf+1)
-          user_polygon%numpoint = nsegsurf + 1
-          user_polygon%area = zero
-          do iseg = 1,nsegsurf
-            inod1 = igrsurf(idsurf)%nodes(iseg, 1)
-            inod2 = igrsurf(idsurf)%nodes(iseg, 2)
-            user_polygon%point(iseg)%y = x(2,inod1)
-            user_polygon%point(iseg)%z = x(3,inod1)
-            xyz(2) = min (xyz(2), x(2,inod1))
-            xyz(2) = min (xyz(2), x(2,inod2))
-            xyz(3) = min (xyz(3), x(3,inod1))
-            xyz(3) = min (xyz(3), x(3,inod2))
-            xyz(5) = max (xyz(5), x(2,inod1))
-            xyz(5) = max (xyz(5), x(2,inod2))
-            xyz(6) = max (xyz(6), x(3,inod1))
-            xyz(6) = max (xyz(6), x(3,inod2))
-          end do
+          ! SURF_TYPE = 0         : SEGMENTS
+          ! SURF_TYPE = 100       : SUPER-ELLIPSOIDE MADYMO.
+          ! SURF_TYPE = 101       : SUPER-ELLIPSOIDE RADIOSS.
+          ! SURF_TYPE = 200       : INFINITE PLANE
+          if (igrsurf(idsurf)%type == 0 ) then
+            call polygon_create( user_polygon, nsegsurf+1)
+            user_polygon%numpoint = nsegsurf + 1
+            user_polygon%area = zero
+            do iseg = 1,nsegsurf
+              inod1 = igrsurf(idsurf)%nodes(iseg, 1)
+              inod2 = igrsurf(idsurf)%nodes(iseg, 2)
+              user_polygon%point(iseg)%y = x(2,inod1)
+              user_polygon%point(iseg)%z = x(3,inod1)
+              xyz(2) = min (xyz(2), x(2,inod1))
+              xyz(3) = min (xyz(3), x(3,inod1))
+              xyz(5) = max (xyz(5), x(2,inod1))
+              xyz(6) = max (xyz(6), x(3,inod1))
+            end do
+
+          elseif(igrsurf(idsurf)%type == 200)then
+            iad0 = igrsurf(idsurf)%iad_bufr
+            !xp1 = bufsf(iad0+1)
+            yp1 = bufsf(iad0+2)
+            zp1 = bufsf(iad0+3)
+            !xp2 = bufsf(iad0+4)
+            yp2 = bufsf(iad0+5)
+            zp2 = bufsf(iad0+6)
+            !tolerance (in order to avoid degenerated case)
+            DL=one !do not use vectos in plane definition, n=(1,0,0) and n=(1e20,0,0) would define same plane but provides unreliable tolerances
+            DL=-two*em06*DL
+            yp1 = yp1 + DL
+            zp1 = zp1 + DL
+            !normal vector
+            normal(1)=0
+            normal(2)=yp2-yp1
+            normal(3)=zp2-zp1
+            !normalized normal
+            DL = max(em20,sqrt(normal(2)*normal(2)+normal(3)*normal(3)))
+            normal(2)=normal(2)/DL
+            normal(3)=normal(3)/DL
+            !tangent vector
+            tangent(1)=0
+            tangent(2)=normal(3)
+            tangent(3)=-normal(2)
+            !building corresponding polygon (box)
+            call polygon_create( user_polygon, 4+1)
+            user_polygon%numpoint = 4 + 1
+            user_polygon%area = zero
+            DL=(one+fourth)*max(abs(GLOBAL_xyz(5)-GLOBAL_xyz(2)),abs(GLOBAL_xyz(6)-GLOBAL_xyz(3)))
+            user_polygon%point(1)%y = YP1 + half*DL*tangent(2)
+            user_polygon%point(1)%z = ZP1 + half*DL*tangent(3)
+            user_polygon%point(2)%y = user_polygon%point(1)%y + DL*normal(2)
+            user_polygon%point(2)%z = user_polygon%point(1)%z + DL*normal(3)
+            user_polygon%point(3)%y = user_polygon%point(2)%y - DL*tangent(2)
+            user_polygon%point(3)%z = user_polygon%point(2)%z - DL*tangent(3)
+            user_polygon%point(4)%y = user_polygon%point(3)%y - DL*normal(2)
+            user_polygon%point(4)%z = user_polygon%point(3)%z - DL*normal(3)
+            nsegsurf = 4
+            xyz(2) = min(user_polygon%point(1)%y,user_polygon%point(2)%y,user_polygon%point(3)%y,user_polygon%point(4)%y)
+            xyz(3) = min(user_polygon%point(1)%z,user_polygon%point(2)%z,user_polygon%point(3)%z,user_polygon%point(4)%z)
+            xyz(5) = max(user_polygon%point(1)%y,user_polygon%point(2)%y,user_polygon%point(3)%y,user_polygon%point(4)%y)
+            xyz(6) = max(user_polygon%point(1)%z,user_polygon%point(2)%z,user_polygon%point(3)%z,user_polygon%point(4)%z)
+            if(debug)then
+              print *, "box (/surf/plane)"
+              write (*,FMT='(A,3F45.35)') "  *createnode ",0.0,user_polygon%point(1)%y ,user_polygon%point(1)%z
+              write (*,FMT='(A,3F45.35)') "  *createnode ",0.0,user_polygon%point(2)%y ,user_polygon%point(2)%z
+              write (*,FMT='(A,3F45.35)') "  *createnode ",0.0,user_polygon%point(3)%y ,user_polygon%point(3)%z
+              write (*,FMT='(A,3F45.35)') "  *createnode ",0.0,user_polygon%point(4)%y ,user_polygon%point(4)%z
+            endif
+
+          elseif(igrsurf(idsurf)%type == 101)then
+            iad0 = igrsurf(idsurf)%iad_bufr
+            !aa = bufsf(iad0+1)
+            bb = bufsf(iad0+2)
+            cc = bufsf(iad0+3)
+            !xg = bufsf(iad0+4)
+            yg = bufsf(iad0+5)
+            zg = bufsf(iad0+6)
+            bb=bb*(one-em10)
+            cc=cc*(one-em10)
+            !skw(1)=bufsf(iad0+7)
+            skw(2)=bufsf(iad0+8)
+            skw(3)=bufsf(iad0+9)
+            !skw(4)=bufsf(iad0+10)
+            skw(5)=bufsf(iad0+11)
+            skw(6)=bufsf(iad0+12)
+            !skw(7)=bufsf(iad0+13)
+            skw(8)=bufsf(iad0+14)
+            skw(9)=bufsf(iad0+15)
+            nn=bufsf(iad0+36)
+
+            !tolerance
+            DL=two*max(bb,cc)
+            DL=em06*DL
+            yp1 = yp1 + DL
+            zp1 = zp1 + DL
+
+            !super-ellipse discretization (in order to avoid degenerated case)
+            npt_superellipse = 256
+            call polygon_create( user_polygon, npt_superellipse+1)
+            user_polygon%numpoint = npt_superellipse + 1
+            user_polygon%area = zero
+            if(debug)write(*,*)"building super-ellipse"
+            tmp(1) = two*pi/npt_superellipse
+            do ii=1,npt_superellipse
+              theta = tmp(1)*ii
+              tmp(2) = bb * sign(one,cos(theta)) * (abs(cos(theta)))**(two/nn)
+              tmp(3) = cc * sign(one,sin(theta)) * (abs(sin(theta)))**(two/nn)
+              user_polygon%point(ii)%y = yg + skw(5)*tmp(2) + skw(6)*tmp(3)
+              user_polygon%point(ii)%z = zg + skw(8)*tmp(2) + skw(9)*tmp(3)
+              xyz(2) = min (xyz(2), user_polygon%point(ii)%y)
+              xyz(3) = min (xyz(3), user_polygon%point(ii)%z)
+              xyz(5) = max (xyz(5), user_polygon%point(ii)%y)
+              xyz(6) = max (xyz(6), user_polygon%point(ii)%z)
+              if(debug)write (*,FMT='(A,3F45.35)') "  *createnode ",0.0,user_polygon%point(ii)%y ,user_polygon%point(ii)%z
+            end do
+            nsegsurf = npt_superellipse
+
+          end if
           !last node
           user_polygon%point(nsegsurf+1)%y = user_polygon%point(1)%y
           user_polygon%point(nsegsurf+1)%z = user_polygon%point(1)%z
@@ -311,32 +424,33 @@
                   if(sum_tag == 4 .or. sum_tag == 0)then
                     !sum_tag == 4 : elem is inside  (may be considered as outside if is_reversed is true)
                     !sum_tag == 0 : elem is outside (may be considered as inside if is_reversed is true)
-                    if(icumu == 0)kvol_2d_polygons(isubmat,ielg) = zero
-                    ratio = one
                     ! reversed option (Iopt)
                     if(is_reversed .and. sum_tag == 4)then
-                       ratio=zero
+                       cycle
                     elseif(.not.is_reversed .and. sum_tag == 0)then
-                       ratio=zero
+                       cycle
+                    else
                     end if
-                    kvol_2d_polygons(isubmat,ielg) = kvol_2d_polygons(isubmat,ielg) + ratio*vfrac !100% inside
+                     ratio = one
+                     if(icumu == 0)kvol(isubmat,ielg) = zero
+                     kvol(isubmat,ielg) = kvol(isubmat,ielg) + ratio*vfrac !100% inside
                     ! if added volume ratio makes that sum is > 1, then substract from previous filling
                     if(icumu == -1)then
-                      sumvf = sum(kvol_2d_polygons(1:nbsubmat,ielg))
+                      sumvf = sum(kvol(1:nbsubmat,ielg))
                       if (sumvf > one)then
                         if(idc == 1)then
                           ! substract from existing submat (default one)
                           ! pre-condition : sum (vf)= 1.0
                           isubmat_to_substract = max(1,maxloc(vfrac0(1:nbsubmat),1))
                           vf_to_substract = sumvf-one
-                          kvol_2d_polygons(isubmat_to_substract,ielg) = &
-                            kvol_2d_polygons(isubmat_to_substract,ielg) - vf_to_substract * vfrac0(isubmat_to_substract)
+                          kvol(isubmat_to_substract,ielg) = &
+                            kvol(isubmat_to_substract,ielg) - vf_to_substract * vfrac0(isubmat_to_substract)
                         elseif(idc > 1)then
                          ! substract from previous step
                          isubmat_to_substract = inivol(i_inivol)%container(idc-1)%submat_id
                          vf_to_substract = sumvf-one
-                         vf_to_substract = min(vf_to_substract, kvol_2d_polygons(isubmat_to_substract,ielg))
-                         kvol_2d_polygons(isubmat_to_substract,ielg) = kvol_2d_polygons(isubmat_to_substract,ielg)-vf_to_substract
+                         vf_to_substract = min(vf_to_substract, kvol(isubmat_to_substract,ielg))
+                         kvol(isubmat_to_substract,ielg) = kvol(isubmat_to_substract,ielg)-vf_to_substract
                         end if
                       end if
                     end if
@@ -360,32 +474,32 @@
                   if(sum_tag == 3 .or. sum_tag == 0)then
                     !sum_tag == 3 : elem is inside  (may be considered as outside if is_reversed is true)
                     !sum_tag == 0 : elem is outside (may be considered as inside if is_reversed is true)
-                    ratio = one
                     ! reversed option (Iopt)
                     if(is_reversed .and. prod_tag > 0)then
-                       ratio=zero
+                       cycle
                     elseif(.not.is_reversed .and. sum_tag == 0)then
-                       ratio=zero
+                       cycle
                     end if
-                    if(icumu == 0)kvol_2d_polygons(isubmat,ielg) = zero
-                    kvol_2d_polygons(isubmat,ielg) = kvol_2d_polygons(isubmat,ielg) + ratio*vfrac !100% inside
+                    ratio = one
+                    if(icumu == 0)kvol(isubmat,ielg) = zero
+                    kvol(isubmat,ielg) = kvol(isubmat,ielg) + ratio*vfrac !100% inside
                     ! if added volume ratio makes that sum is > 1, then substract from previous filling
                     if(icumu == -1)then
-                      sumvf = sum(kvol_2d_polygons(1:nbsubmat,ielg))
+                      sumvf = sum(kvol(1:nbsubmat,ielg))
                       if (sumvf > one)then
                         if(idc == 1)then
                           ! substract from existing submat (default one)
                           ! pre-condition : sum (vf)= 1.0
                           isubmat_to_substract = max(1,maxloc(vfrac0(1:nbsubmat),1))
                           vf_to_substract = sumvf-one
-                          kvol_2d_polygons(isubmat_to_substract,ielg) = &
-                            kvol_2d_polygons(isubmat_to_substract,ielg) - vf_to_substract * vfrac0(isubmat_to_substract)
+                          kvol(isubmat_to_substract,ielg) = &
+                            kvol(isubmat_to_substract,ielg) - vf_to_substract * vfrac0(isubmat_to_substract)
                         elseif(idc > 1)then
                          ! substract from previous step
                          isubmat_to_substract = inivol(i_inivol)%container(idc-1)%submat_id
                          vf_to_substract = sumvf-one
-                         vf_to_substract = min(vf_to_substract, kvol_2d_polygons(isubmat_to_substract,ielg))
-                         kvol_2d_polygons(isubmat_to_substract,ielg) = kvol_2d_polygons(isubmat_to_substract,ielg)-vf_to_substract
+                         vf_to_substract = min(vf_to_substract, kvol(isubmat_to_substract,ielg))
+                         kvol(isubmat_to_substract,ielg) = kvol(isubmat_to_substract,ielg)-vf_to_substract
                         end if
                       end if
                     end if
@@ -462,58 +576,72 @@
 
             if (result_list_polygon%num_polygons > 0)then
               ! clipped area > 0 => elem is partially inside the user polygon
-              if(icumu == 0)kvol_2d_polygons(isubmat,ielg) = zero
+              if(icumu == 0)kvol(isubmat,ielg) = zero
               do ipoly=1,result_list_polygon%num_polygons
                 call polygon_SetClockWise( result_list_polygon%polygon(ipoly) )
                 ratio = result_list_polygon%polygon(ipoly)%area / elem_polygon%area !partially inside
                 if(is_reversed)ratio = one - ratio
-                kvol_2d_polygons(isubmat,ielg) = kvol_2d_polygons(isubmat,ielg) + vfrac * ratio
+                kvol(isubmat,ielg) = kvol(isubmat,ielg) + vfrac * ratio
                 ! if added volume ratio makes that sum is > 1, then substract from previous filling
                 if(icumu == -1)then
-                  sumvf = sum(kvol_2d_polygons(1:nbsubmat,ielg))
+                  sumvf = sum(kvol(1:nbsubmat,ielg))
                   if (sumvf > one)then
                     if(idc == 1)then
                       ! substract from existing submat (default one)
                       ! pre-condition : sum (vf)= 1.0
                       isubmat_to_substract = max(1,maxloc(vfrac0(1:nbsubmat),1))
                       vf_to_substract = sumvf-one
-                      kvol_2d_polygons(isubmat_to_substract,ielg) = &
-                        kvol_2d_polygons(isubmat_to_substract,ielg) - vf_to_substract * vfrac0(isubmat_to_substract)
+                      kvol(isubmat_to_substract,ielg) = &
+                        kvol(isubmat_to_substract,ielg) - vf_to_substract * vfrac0(isubmat_to_substract)
                     elseif(idc > 1)then
                      ! substract from previous step
                      isubmat_to_substract = inivol(i_inivol)%container(idc-1)%submat_id
                      vf_to_substract = sumvf-one
-                     vf_to_substract = min(vf_to_substract, kvol_2d_polygons(isubmat_to_substract,ielg))
-                     kvol_2d_polygons(isubmat_to_substract,ielg) = kvol_2d_polygons(isubmat_to_substract,ielg)-vf_to_substract
+                     vf_to_substract = min(vf_to_substract, kvol(isubmat_to_substract,ielg))
+                     kvol(isubmat_to_substract,ielg) = kvol(isubmat_to_substract,ielg)-vf_to_substract
                     end if
                   end if
                 end if
-                if(debug)print *, "isubmat,quad partially inside",isubmat,ixq(7,ielg),kvol_2d_polygons(isubmat,ielg)
+                if(debug)print *, "isubmat,quad partially inside",isubmat,ixq(7,ielg),kvol(isubmat,ielg)
               enddo
             else
-              !no clipped area => elem is outside the user polygon
-              !elem is outside  (may be considered as inside if is_reversed is true)
-              ratio = zero
-              if(is_reversed) ratio=one
-              if(icumu == 0)kvol_2d_polygons(isubmat,ielg) = zero
-              kvol_2d_polygons(isubmat,ielg) = kvol_2d_polygons(isubmat,ielg) + ratio*vfrac !0% inside
+               ! degenerated case. Check if elem is fully outside/inside by testing centroid.
+              point%y=fourth*sum(elem_polygon%point(1:4)%y)
+              point%z=fourth*sum(elem_polygon%point(1:4)%z)
+              is_inside = polygon_is_point_inside (user_polygon, point)
+              if(is_inside)then
+                !centroid inside user polygon
+                !quad is fully inside but clipping algorithm had at least one node on user polygon vertice
+              else
+                !centroid outside user polygon
+                !quad is fully outside but clipping algorithm had at least one node on user polygon vertice
+              end if
+              if(is_inside.and.is_reversed) then
+                ratio=one
+              elseif(.not.is_inside .and. is_reversed)then
+                ratio=one
+              else
+                cycle !nothing to do
+              end if
+              if(icumu == 0)kvol(isubmat,ielg) = zero
+              kvol(isubmat,ielg) = kvol(isubmat,ielg) + ratio*vfrac !0% inside
               ! if added volume ratio makes that sum is > 1, then substract from previous filling
               if(icumu == -1)then
-                sumvf = sum(kvol_2d_polygons(1:nbsubmat,ielg))
+                sumvf = sum(kvol(1:nbsubmat,ielg))
                 if (sumvf > one)then
                   if(idc == 1)then
                     ! substract from existing submat (default one)
                     ! pre-condition : sum (vf)= 1.0
                     isubmat_to_substract = max(1,maxloc(vfrac0(1:nbsubmat),1))
                     vf_to_substract = sumvf-one
-                    kvol_2d_polygons(isubmat_to_substract,ielg) = &
-                      kvol_2d_polygons(isubmat_to_substract,ielg) - vf_to_substract * vfrac0(isubmat_to_substract)
+                    kvol(isubmat_to_substract,ielg) = &
+                      kvol(isubmat_to_substract,ielg) - vf_to_substract * vfrac0(isubmat_to_substract)
                   elseif(idc > 1)then
                    ! substract from previous step
                    isubmat_to_substract = inivol(i_inivol)%container(idc-1)%submat_id
                    vf_to_substract = sumvf-one
-                   vf_to_substract = min(vf_to_substract, kvol_2d_polygons(isubmat_to_substract,ielg))
-                   kvol_2d_polygons(isubmat_to_substract,ielg) = kvol_2d_polygons(isubmat_to_substract,ielg)-vf_to_substract
+                   vf_to_substract = min(vf_to_substract, kvol(isubmat_to_substract,ielg))
+                   kvol(isubmat_to_substract,ielg) = kvol(isubmat_to_substract,ielg)-vf_to_substract
                   end if
                 end if
               end if
@@ -567,58 +695,72 @@
 
             if (result_list_polygon%num_polygons > 0)then
               ! clipped area > 0 => elem is partially inside the user polygon
-              if(icumu == 0)kvol_2d_polygons(isubmat,ielg) = zero
+              if(icumu == 0)kvol(isubmat,ielg) = zero
               do ipoly=1,result_list_polygon%num_polygons
                 call polygon_SetClockWise( result_list_polygon%polygon(ipoly) )
                 ratio = result_list_polygon%polygon(ipoly)%area / elem_polygon%area !partially inside
                 if(is_reversed)ratio = one - ratio
-                kvol_2d_polygons(isubmat,ielg) = kvol_2d_polygons(isubmat,ielg) + vfrac * ratio
-                if(debug)print *, "isubmat,quad partially inside",isubmat,ixq(7,ielg),kvol_2d_polygons(isubmat,ielg)
+                kvol(isubmat,ielg) = kvol(isubmat,ielg) + vfrac * ratio
+                if(debug)print *, "isubmat,quad partially inside",isubmat,ixq(7,ielg),kvol(isubmat,ielg)
               enddo
               ! if added volume ratio makes that sum is > 1, then substract from previous filling
               if(icumu == -1)then
-                sumvf = sum(kvol_2d_polygons(1:nbsubmat,ielg))
+                sumvf = sum(kvol(1:nbsubmat,ielg))
                 if (sumvf > one)then
                   if(idc == 1)then
                     ! substract from existing submat (default one)
                     ! pre-condition : sum (vf)= 1.0
                     isubmat_to_substract = max(1,maxloc(vfrac0(1:nbsubmat),1))
                     vf_to_substract = sumvf-one
-                    kvol_2d_polygons(isubmat_to_substract,ielg) = &
-                      kvol_2d_polygons(isubmat_to_substract,ielg) - vf_to_substract * vfrac0(isubmat_to_substract)
+                    kvol(isubmat_to_substract,ielg) = &
+                      kvol(isubmat_to_substract,ielg) - vf_to_substract * vfrac0(isubmat_to_substract)
                   elseif(idc > 1)then
                    ! substract from previous step
                    isubmat_to_substract = inivol(i_inivol)%container(idc-1)%submat_id
                    vf_to_substract = sumvf-one
-                   vf_to_substract = min(vf_to_substract, kvol_2d_polygons(isubmat_to_substract,ielg))
-                   kvol_2d_polygons(isubmat_to_substract,ielg) = kvol_2d_polygons(isubmat_to_substract,ielg)-vf_to_substract
+                   vf_to_substract = min(vf_to_substract, kvol(isubmat_to_substract,ielg))
+                   kvol(isubmat_to_substract,ielg) = kvol(isubmat_to_substract,ielg)-vf_to_substract
                   end if
                 end if
               end if
             else
-              !no clipped area => elem is outside the user polygon
-              !elem is outside  (may be considered as inside if is_reversed is true)
-              ratio = zero
-              if(is_reversed) ratio=one
-              if(icumu == 0)kvol_2d_polygons(isubmat,ielg) = zero
-              kvol_2d_polygons(isubmat,ielg) = kvol_2d_polygons(isubmat,ielg) + ratio*vfrac !0% inside
+               ! degenerated case. Check if elem is fully outside/inside by testing centroid.
+              point%y=third*sum(elem_polygon%point(1:4)%y)
+              point%z=third*sum(elem_polygon%point(1:4)%z)
+              is_inside = polygon_is_point_inside (user_polygon, point)
+              if(is_inside)then
+                !centroid inside user polygon
+                !quad is fully inside but clipping algorithm had at least one node on user polygon vertice
+              else
+                !centroid outside user polygon
+                !quad is fully outside but clipping algorithm had at least one node on user polygon vertice
+              end if
+              if(is_inside.and.is_reversed) then
+                ratio=one
+              elseif(.not.is_inside .and. is_reversed)then
+                ratio=one
+              else
+                cycle !nothing to do
+              end if
+              if(icumu == 0)kvol(isubmat,ielg) = zero
+              kvol(isubmat,ielg) = kvol(isubmat,ielg) + ratio*vfrac !0% inside
               ! if added volume ratio makes that sum is > 1, then substract from previous filling
               if(icumu == -1)then
-                sumvf = sum(kvol_2d_polygons(1:nbsubmat,ielg))
+                sumvf = sum(kvol(1:nbsubmat,ielg))
                 if (sumvf > one)then
                   if(idc == 1)then
                     ! substract from existing submat (default one)
                     ! pre-condition : sum (vf)= 1.0
                     isubmat_to_substract = max(1,maxloc(vfrac0(1:nbsubmat),1))
                     vf_to_substract = sumvf-one
-                    kvol_2d_polygons(isubmat_to_substract,ielg) = &
-                      kvol_2d_polygons(isubmat_to_substract,ielg) - vf_to_substract * vfrac0(isubmat_to_substract)
+                    kvol(isubmat_to_substract,ielg) = &
+                      kvol(isubmat_to_substract,ielg) - vf_to_substract * vfrac0(isubmat_to_substract)
                   elseif(idc > 1)then
                    ! substract from previous step
                    isubmat_to_substract = inivol(i_inivol)%container(idc-1)%submat_id
                    vf_to_substract = sumvf-one
-                   vf_to_substract = min(vf_to_substract, kvol_2d_polygons(isubmat_to_substract,ielg))
-                   kvol_2d_polygons(isubmat_to_substract,ielg) = kvol_2d_polygons(isubmat_to_substract,ielg)-vf_to_substract
+                   vf_to_substract = min(vf_to_substract, kvol(isubmat_to_substract,ielg))
+                   kvol(isubmat_to_substract,ielg) = kvol(isubmat_to_substract,ielg)-vf_to_substract
                   end if
                 end if
               end if
