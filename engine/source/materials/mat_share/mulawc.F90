@@ -341,17 +341,17 @@ subroutine mulawc(elbuf_str ,&
       dmg_flag = 0
       trelax   = zero
 !
-      degmb(jft:jlt) = for(jft:jlt,1)*exx(jft:jlt)+for(jft:jlt,2)*eyy(jft:jlt)&
-      &+ for(jft:jlt,3)*exy(jft:jlt)+for(jft:jlt,4)*eyz(jft:jlt)&
-      &+ for(jft:jlt,5)*exz(jft:jlt)
-      degfx(jft:jlt) = mom(jft:jlt,1)*kxx(jft:jlt)+mom(jft:jlt,2)*kyy(jft:jlt)&
-      &+ mom(jft:jlt,3)*kxy(jft:jlt)
+      degmb(jft:jlt) = for(jft:jlt,1)*exx(jft:jlt)+for(jft:jlt,2)*eyy(jft:jlt)  &
+      &            + for(jft:jlt,3)*exy(jft:jlt)+for(jft:jlt,4)*eyz(jft:jlt)    &
+      &            + for(jft:jlt,5)*exz(jft:jlt)
+      degfx(jft:jlt) = mom(jft:jlt,1)*kxx(jft:jlt)+mom(jft:jlt,2)*kyy(jft:jlt)  &
+      &            + mom(jft:jlt,3)*kxy(jft:jlt)
 !
       if (flag_law1 .or. flag_law25) then
          if (npt == 1) then
-            degmb(jft:jlt) = for(jft:jlt,1)*exx(jft:jlt)+for(jft:jlt,2)*eyy(jft:jlt)+&
-            &for(jft:jlt,3)*exy(jft:jlt)+for(jft:jlt,4)*eyz(jft:jlt)+&
-            &for(jft:jlt,5)*exz(jft:jlt)
+            degmb(jft:jlt) = for(jft:jlt,1)*exx(jft:jlt)+for(jft:jlt,2)*eyy(jft:jlt)+   &
+      &                      for(jft:jlt,3)*exy(jft:jlt)+for(jft:jlt,4)*eyz(jft:jlt)+   &
+      &                      for(jft:jlt,5)*exz(jft:jlt)
             degfx(jft:jlt) = zero
          endif
       endif
@@ -420,17 +420,17 @@ subroutine mulawc(elbuf_str ,&
       if (israte == 1) then
 #include "vectorize.inc"
          do i=jft,jlt
-            eps_k2 = (kxx(i)*kxx(i)+kyy(i)*kyy(i)+kxx(i)*kyy(i)&
-            &+ fourth*kxy(i)*kxy(i)) *thk(i)*thk(i)*one_over_9
-            eps_m2 = four_over_3*(exx(i)*exx(i)+eyy(i)*eyy(i)+exx(i)*eyy(i)&
-            &+ fourth*exy(i)*exy(i))
+            eps_k2 = (kxx(i)*kxx(i)+kyy(i)*kyy(i)+kxx(i)*kyy(i)              &
+   &               + fourth*kxy(i)*kxy(i)) *thk(i)*thk(i)*one_over_9
+            eps_m2 = four_over_3*(exx(i)*exx(i)+eyy(i)*eyy(i)+exx(i)*eyy(i)  &
+   &               + fourth*exy(i)*exy(i))
             epsp_loc(i) = sqrt(eps_k2 + eps_m2)*dt_inv(i)
          end do
       else if (israte > 1) then
 #include "vectorize.inc"
          do i=jft,jlt
             eps_m2  = four_over_3*(exx(i)*exx(i)+eyy(i)*eyy(i)+exx(i)*eyy(i)&
-            &+ fourth*exy(i)*exy(i))
+   &                + fourth*exy(i)*exy(i))
             epsp_loc(i) = sqrt(eps_m2)*dt_inv(i)
          end do
       endif
@@ -475,7 +475,7 @@ subroutine mulawc(elbuf_str ,&
          nuvarv = bufly%nvar_visc
          iseq   = bufly%l_seq
          iadbuf = max(1,ipm(7,imat))
-         nuparam0=  ipm(9,imat)                    ! old uparam stored in bufmat
+         nuparam0=  ipm(9,imat)                      ! old uparam stored in bufmat
          uparam0 => bufmat(iadbuf:iadbuf+nuparam0-1) ! old uparam stored in bufmat
          nfunc  = ipm(10,imat)
          numtabl= ipm(226,imat)
@@ -486,8 +486,8 @@ subroutine mulawc(elbuf_str ,&
          uparam   => mat_elem%mat_param(imat)%uparam
          iparam   => mat_elem%mat_param(imat)%iparam
 
-         if (igtyp == 11 .or. igtyp == 16 .or. igtyp == 17 .or.&
-         &igtyp == 51 .or. igtyp == 52) then
+         if (igtyp == 11 .or. igtyp == 16 .or. igtyp == 17 .or.    &
+&            igtyp == 51 .or. igtyp == 52) then
             if (ilaw == 58 .or. ilaw == 158 .or. ilaw == 88) nfunc = ipm(10,imat)+ipm(6,imat)
          endif
          do i=1,nfunc
@@ -516,12 +516,12 @@ subroutine mulawc(elbuf_str ,&
                fbuf => bufly%fail(ir,is,it)
                do ifl = 1, nfail      ! loop over fail models in current layer
                   irupt  =  fbuf%floc(ifl)%ilawf
-                  if(irupt== 4.or.irupt== 5.or.irupt== 6.or.irupt==7.or.&
-                  &irupt==10.or.irupt==24.or.irupt==34.or.irupt==39.or.&
-                  &irupt==43.or.irupt==47) flag_eps=.true.
+                  if(irupt== 4.or.irupt== 5.or.irupt== 6.or.irupt==7.or.   &
+   &                 irupt==10.or.irupt==24.or.irupt==34.or.irupt==39.or.  &
+   &                 irupt==43.or.irupt==47 ) flag_eps=.true.
 
-                  if(irupt== 4.or.irupt== 5.or.irupt== 6.or.&
-                  &irupt==14.or.irupt==24) flag_epsp=.true.
+                  if(irupt== 4.or.irupt== 5.or.irupt== 6.or.               &
+   &                 irupt==14.or.irupt==24) flag_epsp=.true.
                enddo
             enddo
          endif
@@ -614,7 +614,7 @@ subroutine mulawc(elbuf_str ,&
                !       ismstr=10 + foam laws
                !       -----------
                if (ismstr==10 .and. (mtn == 1 .or. mtn == 42 .or.&
-               &mtn == 69.or. mtn == 71 .or. mtn == 88)) then
+  &                                  mtn == 69.or. mtn == 71 .or. mtn == 88)) then
                   do i=jft,jlt
                      zt=posly(i,ipt) *thk0(i)
                      depsxx(i)=exx(i)+zt*kxx(i)
@@ -1448,11 +1448,11 @@ subroutine mulawc(elbuf_str ,&
             elseif (ilaw == 80) then
                if (israte == 0) then
                   do i=jft,jlt
-                     eps_k2 = (kxx(i)*kxx(i)+kyy(i)*kyy(i)+kxx(i)*kyy(i)&
-                     &+ fourth*kxy(i)*kxy(i)) *thk(i)*thk(i)*one_over_9
-                     eps_m2 = four_over_3*(exx(i)*exx(i)+eyy(i)*eyy(i)+exx(i)*eyy(i)&
-                     &+ fourth*exy(i)*exy(i))
-                     dtinv  = dt_inv(i)!dt1c(i)/max(dt1c(i)**2,em20)
+                     eps_k2 = (kxx(i)*kxx(i)+kyy(i)*kyy(i)+kxx(i)*kyy(i)             &
+  &                         + fourth*kxy(i)*kxy(i)) *thk(i)*thk(i)*one_over_9
+                     eps_m2 = four_over_3*(exx(i)*exx(i)+eyy(i)*eyy(i)+exx(i)*eyy(i) &
+  &                         + fourth*exy(i)*exy(i))
+                     dtinv  = dt_inv(i)                   !dt1c(i)/max(dt1c(i)**2,em20)
                      epsp(i) = sqrt(eps_m2+eps_k2)*dtinv
                      epspl(i) = epsp(i)
                   enddo
@@ -1695,6 +1695,7 @@ subroutine mulawc(elbuf_str ,&
                   sigozx(i) =  lbuf%sig(nel*(5-1)+i)
                enddo
                !---
+               nply_max = nlay_max*laynpt_max
                call sigeps127c(&
                &jlt      ,matparam   ,nuvar    ,uvar      ,         &
                &rho      ,thkn       ,thklyl   ,shf       ,ncycle  ,&
@@ -1927,7 +1928,7 @@ subroutine mulawc(elbuf_str ,&
                      else
                         ! ----------------
                         ! error to be printed & exit
-                        option='/fail/user2 - shell '
+                        option='/FAIL/USER2 - SHELL '
                         size=len_trim(option)
                         call ancmsg(msgid=257,c1=option(1:size),anmode=aninfo)
                         call arret(2)
@@ -1956,7 +1957,7 @@ subroutine mulawc(elbuf_str ,&
                      else
                         ! ----------------
                         ! error to be printed & exit
-                        option='/fail/user3 - shell '
+                        option='/FAIL/USER3 - SHELL '
                         size=len_trim(option)
                         call ancmsg(msgid=257,c1=option(1:size),anmode=aninfo)
                         call arret(2)
@@ -2038,7 +2039,7 @@ subroutine mulawc(elbuf_str ,&
                    case (14)     !    hashin failure model
                      do i=jft,jlt
                         epsp(i) = max(abs(epspxx(i)),abs(epspyy(i)),&
-                        &abs(epspxy(i)),em20)
+  &                                   abs(epspxy(i)),em20)
                      enddo
                      call fail_hashin_c(&
                      &nel       ,nupar     ,nvarf     ,uparamf   ,uvarf      ,&
@@ -2528,7 +2529,7 @@ subroutine mulawc(elbuf_str ,&
 !         facteurs pour coques b.l. (zeng&combescure)
 !-----------------------------------------------
             if (ilaw /= 2  .and. ilaw /= 15 .and. ilaw /= 22 .and.&
-            &ilaw /= 25 .and. ilaw /= 27 .and. ilaw /= 32) then  ! for law25 it is done inside sigeps25c.f
+  &             ilaw /= 25 .and. ilaw /= 27 .and. ilaw /= 32) then  ! for law25 it is done inside sigeps25c.f
                if(flag_zcfac) then
                   zcfac(jft:jlt,1) = zcfac(jft:jlt,1) + etse(jft:jlt) * thkly(jpos:jpos+jlt-1)
                   zcfac(jft:jlt,2) = min(etse(jft:jlt),zcfac(jft:jlt,2))

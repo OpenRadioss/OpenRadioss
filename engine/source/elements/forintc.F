@@ -567,7 +567,8 @@ C----6---------------------------------------------------------------7--
      J          JTHE,                                  CONDN,                CONDNSKY,        ISUBSTACK,
      K          STACK,                                 ITASK,                DRAPE_SH3N,      IPRI,
      L          NLOC_DMG,                              DRAPEG%INDX_SH3N,     IGRE,            JTUR,
-     M          DT      ,NCYCLE,                       SNPC,                 STF ,        GLOB_THERM  ,                              NXLAYMAX,             IDEL7NOK,        USERL_AVAIL,
+     M          DT,                                    NCYCLE,               SNPC,             STF,       
+     M          GLOB_THERM  ,                          NXLAYMAX,             IDEL7NOK,        USERL_AVAIL,
      M          MAXFUNC,                               SBUFMAT )
      
             ELSE

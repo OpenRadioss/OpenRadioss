@@ -239,7 +239,7 @@ subroutine mulaw8(                                    &
       nfunc   = ipm(10,imat)
       nuvar   = bufly%nvar_mat
       nvartmp = bufly%nvartmp
-      uparam0  => bufmat(iadbuf:iadbuf+npar)
+      uparam0  => bufmat(iadbuf:iadbuf+npar-1)
       dmg_flag = bufly%l_dmgscl
 !
       do j=1,6
