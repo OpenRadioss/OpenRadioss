@@ -228,6 +228,7 @@ c
       MTAG%L_EPSD = 1
       MTAG%L_EPE  = 3
       MTAG%L_DMG  = 1
+      MTAG%G_DMG  = 1
 c
       ! MATPARAM keywords
       CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
