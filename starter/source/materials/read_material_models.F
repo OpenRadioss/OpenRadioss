@@ -29,7 +29,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_eos            ../starter/source/materials/eos/hm_read_eos.F
       !||    hm_read_fail           ../starter/source/materials/fail/hm_read_fail.F
       !||    hm_read_leak           ../starter/source/airbag/hm_read_leak.F
-      !||    hm_read_mat            ../starter/source/materials/mat/hm_read_mat.F
       !||    hm_read_nonlocal       ../starter/source/materials/nonlocal/hm_read_nonlocal.F
       !||    hm_read_therm          ../starter/source/materials/therm/hm_read_therm.F
       !||    hm_read_therm_stress   ../starter/source/materials/therm/hm_read_therm_stress.F
@@ -44,7 +43,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    elbuftag_mod           ../starter/share/modules1/elbuftag_mod.F
       !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
-      !||    hm_read_mat_mod        ../starter/source/materials/mat/hm_read_mat.F
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||    table_mod              ../starter/share/modules1/table_mod.F

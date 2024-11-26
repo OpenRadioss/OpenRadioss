@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    fail_wierzbicki_c   ../engine/source/materials/fail/wierzbicki/fail_wierzbicki_c.F
       !||--- called by ------------------------------------------------------
-      !||    mulawc              ../engine/source/materials/mat_share/mulawc.F
       !||    usermat_shell       ../engine/source/materials/mat_share/usermat_shell.F
       !||====================================================================
       SUBROUTINE FAIL_WIERZBICKI_C(

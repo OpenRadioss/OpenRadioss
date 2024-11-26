@@ -21,13 +21,13 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    prop_param_mod         ../common_source/modules/mat_elem/prop_param_mod.F90
+      !||    sph_work_mod   ../common_source/modules/mat_elem/sph_work.F90
       !||--- called by ------------------------------------------------------
-      !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
-      !||    mulaw                  ../engine/source/materials/mat_share/mulaw.F90
-      !||--- uses       -----------------------------------------------------
-      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
-      !||    ply_param_mod          ../common_source/modules/mat_elem/ply_param_mod.F90
+      !||    forintp        ../engine/source/elements/forintp.F
+      !||    resol          ../engine/source/engine/resol.F
+      !||    sphprep        ../engine/source/elements/sph/sphprep.F
+      !||    splissv        ../engine/source/elements/sph/splissv.F
+      !||    sponfv         ../engine/source/elements/sph/sponfv.F
       !||====================================================================
       module sph_work_mod
 !=======================================================================================      
@@ -63,6 +63,14 @@
 !                                                   init_sph_work
 ! ======================================================================================================================
 
+      !||====================================================================
+      !||    allocate_sph_work   ../common_source/modules/mat_elem/sph_work.F90
+      !||--- called by ------------------------------------------------------
+      !||    resol               ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    my_alloc_mod        ../common_source/tools/memory/my_alloc.F90
+      !||====================================================================
          subroutine allocate_sph_work(sph_work,                              &
        &                              flag_wreduce,size_wreduce,             &
        &                              flag_sol_to_sph, size_itag,            &

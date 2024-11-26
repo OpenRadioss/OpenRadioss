@@ -26,9 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ebcs_main            ../engine/source/boundary_conditions/ebcs/ebcs_main.F
       !||--- uses       -----------------------------------------------------
       !||    ale_mod              ../common_source/modules/ale/ale_mod.F
-      !||    ebcs_mod             ../common_source/modules/boundary_conditions/ebcs_mod.F
       !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    multi_fvm_mod        ../common_source/modules/ale/multi_fvm_mod.F
       !||    multimat_param_mod   ../common_source/modules/multimat_param_mod.F90
       !||    segvar_mod           ../engine/share/modules/segvar_mod.F
       !||    th_surf_mod          ../common_source/modules/interfaces/th_surf_mod.F

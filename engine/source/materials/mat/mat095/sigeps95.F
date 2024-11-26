@@ -424,10 +424,9 @@ C
       RETURN
       END
       !||====================================================================
-      !||    rottoloc    ../engine/source/materials/mat/mat095/sigeps95.F
+      !||    rottoloc   ../engine/source/materials/mat/mat095/sigeps95.F
       !||--- called by ------------------------------------------------------
-      !||    sigeps100   ../engine/source/materials/mat/mat100/sigeps100.F
-      !||    sigeps95    ../engine/source/materials/mat/mat095/sigeps95.F
+      !||    sigeps95   ../engine/source/materials/mat/mat095/sigeps95.F
       !||====================================================================
       SUBROUTINE ROTTOLOC(NEL,FP,
      .                         R1X, R1Y, R1Z,R2X,R2Y,R2Z,R3X,R3Y,R3Z)
@@ -486,7 +485,6 @@ C-----------
       !||====================================================================
       !||    rottoglob   ../engine/source/materials/mat/mat095/sigeps95.F
       !||--- called by ------------------------------------------------------
-      !||    sigeps100   ../engine/source/materials/mat/mat100/sigeps100.F
       !||    sigeps95    ../engine/source/materials/mat/mat095/sigeps95.F
       !||====================================================================
       SUBROUTINE ROTTOGLOB(NEL,FP,

@@ -184,7 +184,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_inimap2d                    ../starter/source/initial_conditions/inimap/hm_read_inimap2d.F
       !||    hm_read_initemp                     ../starter/source/initial_conditions/thermic/hm_read_initemp.F
       !||    hm_read_inivel                      ../starter/source/initial_conditions/general/inivel/hm_read_inivel.F
-      !||    hm_read_inivol                      ../starter/source/initial_conditions/inivol/hm_read_inivol.F
       !||    hm_read_interfaces                  ../starter/source/interfaces/reader/hm_read_interfaces.F
       !||    hm_read_intsub                      ../starter/source/output/subinterface/hm_read_intsub.F
       !||    hm_read_lines                       ../starter/source/groups/hm_read_lines.F
@@ -487,7 +486,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    inimap1d_mod                        ../starter/share/modules1/inimap1d_mod.F
       !||    inimap2d_mod                        ../starter/share/modules1/inimap2d_mod.F
       !||    inivol_def_mod                      ../starter/share/modules1/inivol_mod.F
-      !||    inivol_interf_mod                   ../starter/share/modules1/inivol_mod.F
       !||    intbufmod                           ../starter/share/modules1/restart_mod.F
       !||    intbufscratch_mod                   ../starter/source/interfaces/interf1/intbufscratch_mod.F
       !||    inter_cand_mod                      ../starter/share/modules1/inter_cand_mod.F

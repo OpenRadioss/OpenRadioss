@@ -470,7 +470,6 @@ C
       !||--- uses       -----------------------------------------------------
       !||    anim_mod           ../common_source/modules/output/anim_mod.F
       !||    h3d_mod            ../engine/share/modules/h3d_mod.F
-      !||    multi_fvm_mod      ../common_source/modules/ale/multi_fvm_mod.F
       !||    parameters_mod     ../common_source/modules/interfaces/parameters_mod.F
       !||====================================================================
       SUBROUTINE SPMD_FIADD_POFF(

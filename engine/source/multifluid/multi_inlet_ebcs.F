@@ -30,7 +30,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    solve_eint         ../engine/source/multifluid/multi_inlet_ebcs.F
       !||--- uses       -----------------------------------------------------
       !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||    multi_fvm_mod      ../common_source/modules/ale/multi_fvm_mod.F
       !||    th_surf_mod        ../common_source/modules/interfaces/th_surf_mod.F
       !||====================================================================
       SUBROUTINE MULTI_INLET_EBCS(ITASK, EBCS_ID, MULTI_FVM, NELEM, ELEM_LIST, FACE_LIST, 

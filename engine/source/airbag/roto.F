@@ -70,7 +70,6 @@ C
       !||--- called by ------------------------------------------------------
       !||    mat25_crasurv_c   ../engine/source/materials/mat/mat025/mat25_crasurv_c.F90
       !||    mat25_tsaiwu_c    ../engine/source/materials/mat/mat025/mat25_tsaiwu_c.F90
-      !||    mulawc            ../engine/source/materials/mat_share/mulawc.F
       !||    usermat_shell     ../engine/source/materials/mat_share/usermat_shell.F
       !||====================================================================
       SUBROUTINE ROTOV(JFT,JLT,SIG,DIR,NEL)

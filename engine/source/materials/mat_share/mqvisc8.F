@@ -26,7 +26,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    m1law8    ../engine/source/materials/mat/mat001/m1law8.F
       !||    m2law8    ../engine/source/materials/mat/mat002/m2law8.F
       !||    meos8     ../engine/source/materials/mat_share/meos8.F
-      !||    mulaw8    ../engine/source/materials/mat_share/mulaw8.F
       !||====================================================================
       SUBROUTINE MQVISC8(
      1   PM,      OFF,     RHO,     RK,

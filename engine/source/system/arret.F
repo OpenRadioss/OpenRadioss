@@ -80,7 +80,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    enrichc_ini                      ../engine/source/elements/xfem/enrichc_ini.F
       !||    enrichtg_ini                     ../engine/source/elements/xfem/enrichtg_ini.F
       !||    err_mem                          ../engine/source/implicit/lin_solv.F
-      !||    err_thk                          ../engine/source/elements/shell/err_thk.F
       !||    err_tpu                          ../engine/source/materials/mat/mat101/sigeps101.F
       !||    error_alloc                      ../engine/source/system/error_alloc.F
       !||    eulro2                           ../engine/source/ale/euler2d/eulro2.F
@@ -254,8 +253,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    m13law                           ../engine/source/materials/mat/mat013/m13law.F
       !||    mmain                            ../engine/source/materials/mat_share/mmain.F90
       !||    mulaw                            ../engine/source/materials/mat_share/mulaw.F90
-      !||    mulaw8                           ../engine/source/materials/mat_share/mulaw8.F
-      !||    mulawc                           ../engine/source/materials/mat_share/mulawc.F
       !||    multi_allocate                   ../engine/source/multifluid/multi_allocate.F
       !||    multi_fluxes_computation         ../engine/source/multifluid/multi_fluxes_computation.F
       !||    multi_i18_force_pon              ../engine/source/interfaces/int18/multi_i18_force_pon.F
@@ -269,7 +266,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    pblast_1                         ../engine/source/loads/pblast/pblast_1.F
       !||    pblast_2                         ../engine/source/loads/pblast/pblast_2.F
       !||    pblast_3                         ../engine/source/loads/pblast/pblast_3.F
-      !||    pblast_load                      ../common_source/modules/loads/pblast_mod.F
       !||    phelpinfo                        ../engine/source/engine/execargcheck.F
       !||    prec_solv                        ../engine/source/implicit/prec_solv.F
       !||    projecig3d                       ../engine/source/elements/ige3d/projecig3d.F
@@ -322,8 +318,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sp_static                        ../engine/source/implicit/imp_fsa_inv.F
       !||    spadah                           ../engine/source/elements/sph/spadah.F
       !||    spbuc3                           ../engine/source/elements/sph/spbuc3.F
-      !||    sphprep                          ../engine/source/elements/sph/sphprep.F
-      !||    splissv                          ../engine/source/elements/sph/splissv.F
       !||    spmd_cell_exchange               ../engine/source/mpi/generic/spmd_cell_exchange.F
       !||    spmd_cell_size_exchange          ../engine/source/mpi/interfaces/spmd_cell_size_exchange.F
       !||    spmd_check_tag                   ../engine/source/mpi/ams/spmd_check_tag.F

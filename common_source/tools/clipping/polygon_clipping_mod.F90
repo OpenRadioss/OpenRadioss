@@ -24,7 +24,6 @@
       !||    polygon_clipping_mod      ../common_source/tools/clipping/polygon_clipping_mod.F90
       !||--- called by ------------------------------------------------------
       !||    init_inivol_2d_polygons   ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
-      !||    points_array_reindex      ../common_source/tools/sort/array_reindex.F90
       !||--- uses       -----------------------------------------------------
       !||    polygon_mod               ../common_source/tools/clipping/polygon_mod.F90
       !||====================================================================
@@ -240,7 +239,7 @@
       !||--- calls      -----------------------------------------------------
       !||    integer_array_reindex            ../common_source/tools/sort/array_reindex.F90
       !||    nextpoint                        ../common_source/tools/clipping/polygon_clipping_mod.F90
-      !||    points_array_reindex             ../common_source/tools/sort/array_reindex.F90
+      !||    points_array_reindex             ../common_source/tools/clipping/polygon_clipping_mod.F90
       !||    polygon_addpoint                 ../common_source/tools/clipping/polygon_mod.F90
       !||    polygon_create                   ../common_source/tools/clipping/polygon_mod.F90
       !||    real_insertion_sort_with_index   ../common_source/tools/sort/insertion_sort.F90
@@ -790,11 +789,9 @@
 !! \details              index = (/4 3 2 1/)
 !! \details      result will be  (/ P4 P3 P2 P1 /)
       !||====================================================================
-      !||    points_array_reindex       ../common_source/tools/sort/array_reindex.F90
+      !||    points_array_reindex       ../common_source/tools/clipping/polygon_clipping_mod.F90
       !||--- called by ------------------------------------------------------
       !||    clipping_weiler_atherton   ../common_source/tools/clipping/polygon_clipping_mod.F90
-      !||--- uses       -----------------------------------------------------
-      !||    polygon_clipping_mod       ../common_source/tools/clipping/polygon_clipping_mod.F90
       !||====================================================================
       subroutine points_array_reindex(array, index, n)
         implicit none

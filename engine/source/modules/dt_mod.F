@@ -37,6 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    czforc3_crk           ../engine/source/elements/xfem/czforc3_crk.F
       !||    eng_qaprint_driver    ../engine/source/output/qaprint/eng_qaprint_driver.F
       !||    eng_qaprint_dtinput   ../engine/source/output/qaprint/eng_qaprint_dtinput.F
+      !||    fail_gene1_c          ../engine/source/materials/fail/gene1/fail_gene1_c.F
       !||    forint                ../engine/source/elements/forint.F
       !||    forintc               ../engine/source/elements/forintc.F
       !||    forintp               ../engine/source/elements/forintp.F
@@ -46,7 +47,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    lectur                ../engine/source/input/lectur.F
       !||    mmain                 ../engine/source/materials/mat_share/mmain.F90
       !||    mulaw                 ../engine/source/materials/mat_share/mulaw.F90
-      !||    mulawc                ../engine/source/materials/mat_share/mulawc.F
       !||    pforc3                ../engine/source/elements/beam/pforc3.F
       !||    q4forc2               ../engine/source/elements/solid_2d/quad4/q4forc2.F
       !||    qforc2                ../engine/source/elements/solid_2d/quad/qforc2.F

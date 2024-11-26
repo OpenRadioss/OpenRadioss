@@ -202,7 +202,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_inistate_d00              ../starter/source/elements/initia/hm_read_inistate_d00.F
       !||    hm_read_initemp                   ../starter/source/initial_conditions/thermic/hm_read_initemp.F
       !||    hm_read_inivel                    ../starter/source/initial_conditions/general/inivel/hm_read_inivel.F
-      !||    hm_read_inivol                    ../starter/source/initial_conditions/inivol/hm_read_inivol.F
       !||    hm_read_inject1                   ../starter/source/properties/injector/hm_read_inject1.F
       !||    hm_read_inject2                   ../starter/source/properties/injector/hm_read_inject2.F
       !||    hm_read_interfaces                ../starter/source/interfaces/reader/hm_read_interfaces.F
@@ -214,7 +213,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_link                      ../starter/source/constraints/rigidlink/hm_read_rlink.F
       !||    hm_read_load_centri               ../starter/source/loads/general/load_centri/hm_read_load_centri.F
       !||    hm_read_load_pressure             ../starter/source/loads/general/load_pressure/hm_read_load_pressure.F
-      !||    hm_read_mat                       ../starter/source/materials/mat/hm_read_mat.F
       !||    hm_read_mat100                    ../starter/source/materials/mat/mat100/hm_read_mat100.F
       !||    hm_read_mat109                    ../starter/source/materials/mat/mat109/hm_read_mat109.F
       !||    hm_read_mat36                     ../starter/source/materials/mat/mat036/hm_read_mat36.F

@@ -514,7 +514,6 @@ C
       !||====================================================================
       !||    putsignorc3     ../engine/source/elements/shell/coqueba/cmatc3.F
       !||--- called by ------------------------------------------------------
-      !||    mulawc          ../engine/source/materials/mat_share/mulawc.F
       !||    usermat_shell   ../engine/source/materials/mat_share/usermat_shell.F
       !||--- uses       -----------------------------------------------------
       !||    imp_ktan        ../engine/share/modules/impbufdef_mod.F

@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    fail_changchang_c   ../engine/source/materials/fail/changchang/fail_changchang_c.F
       !||--- called by ------------------------------------------------------
-      !||    mulawc              ../engine/source/materials/mat_share/mulawc.F
       !||    usermat_shell       ../engine/source/materials/mat_share/usermat_shell.F
       !||====================================================================
       SUBROUTINE FAIL_CHANGCHANG_C(

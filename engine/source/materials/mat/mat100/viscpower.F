@@ -25,8 +25,6 @@ C output: the creep strain increment DGAMMA
 C-----------------------------------------------
       !||====================================================================
       !||    viscpower   ../engine/source/materials/mat/mat100/viscpower.F
-      !||--- called by ------------------------------------------------------
-      !||    sigeps100   ../engine/source/materials/mat/mat100/sigeps100.F
       !||====================================================================
         SUBROUTINE VISCPOWER ( NEL, TBNORM,  A1,EXPM ,EXPN,GAMMAOLD, DGAMMA ) !POWER LAW
 C-----------------------------------------------

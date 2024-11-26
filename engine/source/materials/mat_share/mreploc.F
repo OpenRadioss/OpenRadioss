@@ -26,7 +26,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    m25law          ../engine/source/materials/mat/mat025/m25law.F
       !||    mmain           ../engine/source/materials/mat_share/mmain.F90
       !||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
-      !||    mulaw8          ../engine/source/materials/mat_share/mulaw8.F
       !||    usermat_solid   ../engine/source/materials/mat_share/usermat_solid.F
       !||====================================================================
       SUBROUTINE MREPLOC(

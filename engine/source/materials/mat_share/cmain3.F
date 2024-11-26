@@ -36,7 +36,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    delamination     ../engine/source/properties/composite_options/stack/delamination.F
       !||    finter           ../engine/source/tools/curve/finter.F
       !||    layini           ../engine/source/elements/shell/coque/layini.F
-      !||    mulawc           ../engine/source/materials/mat_share/mulawc.F
       !||    mulawglc         ../engine/source/materials/mat_share/mulawglc.F
       !||    put_etfac        ../engine/source/elements/solid/solide8z/put_etfac.F
       !||    startime         ../engine/source/system/timer.F
@@ -49,7 +48,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    failwave_mod     ../common_source/modules/failwave_mod.F
       !||    mat_elem_mod     ../common_source/modules/mat_elem/mat_elem_mod.F90
-      !||    mulawc_mod       ../engine/source/materials/mat_share/mulawc.F
       !||    nlocal_reg_mod   ../common_source/modules/nlocal_reg_mod.F
       !||    sensor_mod       ../engine/share/modules/sensor_mod.F
       !||    stack_mod        ../engine/share/modules/stack_mod.F

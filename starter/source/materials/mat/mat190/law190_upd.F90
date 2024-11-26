@@ -20,19 +20,8 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
- !||====================================================================
- !||    law190_upd_mod   ../starter/source/materials/mat/mat190/law190_upd.F
- !||--- called by ------------------------------------------------------
- !||    updmat           ../starter/source/materials/updmat.F
- !||====================================================================
 module law190_upd_mod
 contains
-   !||====================================================================
-   !||    law190_upd         ../starter/source/materials/mat/mat190/law190_upd.F
-   !||--- called by ------------------------------------------------------
-   !||    updmat             ../starter/source/materials/updmat.F
-   !||--- uses       -----------------------------------------------------
-   !||====================================================================
 !! \brief update material law 190
 subroutine law190_upd(  matparam ,numtabl ,itable   ,table    ,pm ,  &
    &                    npropm   ,ntable )

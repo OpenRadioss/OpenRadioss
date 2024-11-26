@@ -25,7 +25,6 @@ C This subroutines computes C(NEL,3,3) which is the product [C] = [A][A]T
       !||    prodaat     ../engine/source/materials/tools/prodAAT.F
       !||--- called by ------------------------------------------------------
       !||    calcmatb    ../engine/source/materials/mat/mat100/calcmatb.F
-      !||    sigeps100   ../engine/source/materials/mat/mat100/sigeps100.F
       !||    sigeps111   ../engine/source/materials/mat/mat111/sigeps111.F
       !||    sigeps42    ../engine/source/materials/mat/mat042/sigeps42.F
       !||    sigeps95    ../engine/source/materials/mat/mat095/sigeps95.F

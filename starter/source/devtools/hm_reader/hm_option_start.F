@@ -117,7 +117,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_inistate_d00              ../starter/source/elements/initia/hm_read_inistate_d00.F
       !||    hm_read_initemp                   ../starter/source/initial_conditions/thermic/hm_read_initemp.F
       !||    hm_read_inivel                    ../starter/source/initial_conditions/general/inivel/hm_read_inivel.F
-      !||    hm_read_inivol                    ../starter/source/initial_conditions/inivol/hm_read_inivol.F
       !||    hm_read_interfaces                ../starter/source/interfaces/reader/hm_read_interfaces.F
       !||    hm_read_intsub                    ../starter/source/output/subinterface/hm_read_intsub.F
       !||    hm_read_ioflag                    ../starter/source/general_controls/inputoutput/hm_read_ioflag.F
@@ -127,7 +126,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_link                      ../starter/source/constraints/rigidlink/hm_read_rlink.F
       !||    hm_read_load_centri               ../starter/source/loads/general/load_centri/hm_read_load_centri.F
       !||    hm_read_load_pressure             ../starter/source/loads/general/load_pressure/hm_read_load_pressure.F
-      !||    hm_read_mat                       ../starter/source/materials/mat/hm_read_mat.F
       !||    hm_read_merge                     ../starter/source/constraints/general/merge/hm_read_merge.F
       !||    hm_read_merge_node                ../starter/source/elements/reader/hm_read_merge_node.F
       !||    hm_read_move_funct                ../starter/source/tools/curve/hm_read_move_funct.F

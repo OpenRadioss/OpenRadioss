@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    fail_tab_c            ../engine/source/materials/fail/tabulated/fail_tab_c.F
       !||--- called by ------------------------------------------------------
-      !||    mulawc                ../engine/source/materials/mat_share/mulawc.F
       !||    usermat_shell         ../engine/source/materials/mat_share/usermat_shell.F
       !||--- calls      -----------------------------------------------------
       !||    finter                ../engine/source/tools/curve/finter.F

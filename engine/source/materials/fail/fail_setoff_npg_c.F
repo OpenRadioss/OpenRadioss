@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    fail_setoff_npg_c   ../engine/source/materials/fail/fail_setoff_npg_c.F
       !||--- called by ------------------------------------------------------
-      !||    mulawc              ../engine/source/materials/mat_share/mulawc.F
       !||    usermat_shell       ../engine/source/materials/mat_share/usermat_shell.F
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90

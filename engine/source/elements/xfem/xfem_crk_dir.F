@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    xfem_crk_dir    ../engine/source/elements/xfem/xfem_crk_dir.F
       !||--- called by ------------------------------------------------------
-      !||    mulawc          ../engine/source/materials/mat_share/mulawc.F
       !||    usermat_shell   ../engine/source/materials/mat_share/usermat_shell.F
       !||====================================================================
       SUBROUTINE XFEM_CRK_DIR(NEL   ,ILAY  ,IXFEM   ,ELCRKINI,

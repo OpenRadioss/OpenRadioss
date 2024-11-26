@@ -22,8 +22,6 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
       !||    sigeps110c               ../engine/source/materials/mat/mat110/sigeps110c.F
-      !||--- called by ------------------------------------------------------
-      !||    mulawc                   ../engine/source/materials/mat_share/mulawc.F
       !||--- calls      -----------------------------------------------------
       !||    sigeps110c_lite_newton   ../engine/source/materials/mat/mat110/sigeps110c_lite_newton.F
       !||    sigeps110c_lite_nice     ../engine/source/materials/mat/mat110/sigeps110c_lite_nice.F

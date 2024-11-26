@@ -26,15 +26,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    resol               ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
       !||    admthke             ../engine/source/model/remesh/admthke.F
-      !||    ancmsg              ../engine/source/output/message/message.F
-      !||    arret               ../engine/source/system/arret.F
       !||    my_barrier          ../engine/source/system/machine.F
       !||    spmd_exch_nodarea   ../engine/source/mpi/anim/spmd_exch_nodarea.F
       !||    startimeg           ../engine/source/system/timer.F
       !||    stoptimeg           ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    err_thk_mod         ../engine/source/elements/shell/err_thk.F
       !||    message_mod         ../engine/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE ERR_THK(

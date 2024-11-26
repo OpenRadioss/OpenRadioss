@@ -115,7 +115,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    redef3                     ../engine/source/elements/spring/redef3.F
       !||    redef3_law113              ../engine/source/elements/spring/redef3_law113.F
       !||    ruptint2                   ../engine/source/interfaces/interf/ruptint2.F
-      !||    sigeps100                  ../engine/source/materials/mat/mat100/sigeps100.F
       !||    sigeps101                  ../engine/source/materials/mat/mat101/sigeps101.F
       !||    sigeps105                  ../engine/source/materials/mat/mat105/sigeps105.F
       !||    sigeps106                  ../engine/source/materials/mat/mat106/sigeps106.F

@@ -29,7 +29,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    initbuf_mod           ../engine/share/resol/initbuf.F
-      !||    multi_fvm_mod         ../common_source/modules/ale/multi_fvm_mod.F
       !||====================================================================
       SUBROUTINE MULTI_UPDATE_GLOBAL(NG, ELBUF_TAB, IPARG, ITASK, MULTI_FVM, 
      .     PARTSAV, IPARTS, GRESAV, IGRTH, GRTH, VOLNEW, PRED, TIMESTEP)

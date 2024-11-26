@@ -34,10 +34,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ebcs7           ../engine/source/boundary_conditions/ebcs/ebcs7.F
       !||    ebcs_vol2seg    ../engine/source/boundary_conditions/ebcs/ebcs_vol2seg.F
       !||--- uses       -----------------------------------------------------
-      !||    ebcs_mod        ../common_source/modules/boundary_conditions/ebcs_mod.F
       !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
-      !||    multi_fvm_mod   ../common_source/modules/ale/multi_fvm_mod.F
       !||    th_surf_mod     ../common_source/modules/interfaces/th_surf_mod.F
       !||====================================================================
       SUBROUTINE EBCS_MAIN(IGRSURF,SEGVAR,VOLMON,A,V,W,X,

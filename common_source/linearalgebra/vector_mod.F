@@ -92,7 +92,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !     ***************     !
 
       !||====================================================================
-      !||    create   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||    create   ../common_source/linearalgebra/vector_mod.F
       !||====================================================================
       subroutine create(this, nn)
 C-----------------------------------------------
@@ -110,7 +110,7 @@ C-----------------------------------------------
 !     *********************     !
 
       !||====================================================================
-      !||    destroy   ../common_source/modules/boundary_conditions/ebcs_mod.F
+      !||    destroy   ../common_source/linearalgebra/vector_mod.F
       !||====================================================================
       subroutine destroy(this)
 C-----------------------------------------------

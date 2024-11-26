@@ -30,7 +30,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    order_v          ../engine/source/assembly/asspar2.F
       !||--- uses       -----------------------------------------------------
       !||    ale_mod          ../common_source/modules/ale/ale_mod.F
-      !||    asspar2_mod      ../engine/source/assembly/asspar2.F
       !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||====================================================================
       SUBROUTINE ASSPAR2( 

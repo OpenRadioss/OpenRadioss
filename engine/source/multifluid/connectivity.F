@@ -28,7 +28,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    arret                  ../engine/source/system/arret.F
       !||--- uses       -----------------------------------------------------
       !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F
       !||====================================================================
       SUBROUTINE BUILD_CONNECTIVITY(ITASK, MULTI_FVM, ALE_CONNECTIVITY, IPARG)
 C-----------------------------------------------

@@ -24,7 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sigeps41                ../engine/source/materials/mat/mat041/sigeps41.F
       !||--- called by ------------------------------------------------------
       !||    mulaw                   ../engine/source/materials/mat_share/mulaw.F90
-      !||    mulaw8                  ../engine/source/materials/mat_share/mulaw8.F
       !||--- calls      -----------------------------------------------------
       !||    burn_fraction_ireac1    ../engine/source/materials/mat/mat041/sigeps41.F
       !||    burn_fraction_ireac2    ../engine/source/materials/mat/mat041/sigeps41.F

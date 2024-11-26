@@ -21,7 +21,7 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    rbmerge_mod     ../starter/source/constraints/general/merge/hm_read_merge.F
+      !||    rbmerge_mod     ../starter/source/constraints/general/merge/rbmerge_type.F90
       !||--- called by ------------------------------------------------------
       !||    hm_read_merge   ../starter/source/constraints/general/merge/hm_read_merge.F
       !||    rb_explore      ../starter/source/constraints/general/merge/hm_read_merge.F

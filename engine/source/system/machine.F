@@ -178,10 +178,10 @@ C=======================================================================
       !||    mortho_gs                        ../engine/source/implicit/produt_v.F
       !||    multi_timeevolution              ../engine/source/multifluid/multi_timeevolution.F
       !||    nlocal_dtnoda                    ../engine/source/time_step/nlocal_dtnoda.F
-      !||    pblast                           ../engine/source/loads/pblast/pblast.F
       !||    pblast_1                         ../engine/source/loads/pblast/pblast_1.F
       !||    pblast_2                         ../engine/source/loads/pblast/pblast_2.F
       !||    pblast_3                         ../engine/source/loads/pblast/pblast_3.F
+      !||    pblast_load_computation          ../engine/source/loads/pblast/pblast.F
       !||    prec5h_solv                      ../engine/source/implicit/prec_solv.F
       !||    prec5hc_solv                     ../engine/source/implicit/prec_solv.F
       !||    prec_solvgh                      ../engine/source/implicit/prec_solv.F

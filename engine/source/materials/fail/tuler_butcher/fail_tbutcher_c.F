@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    fail_tbutcher_c   ../engine/source/materials/fail/tuler_butcher/fail_tbutcher_c.F
       !||--- called by ------------------------------------------------------
-      !||    mulawc            ../engine/source/materials/mat_share/mulawc.F
       !||    usermat_shell     ../engine/source/materials/mat_share/usermat_shell.F
       !||====================================================================
       SUBROUTINE FAIL_TBUTCHER_C(

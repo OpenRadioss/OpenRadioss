@@ -26,14 +26,13 @@ C INVFPO = INVERSE (FP)
 C FE = F * INVFPO
 C MATB = FE * FET 
       !||====================================================================
-      !||    calcmatb    ../engine/source/materials/mat/mat100/calcmatb.F
+      !||    calcmatb   ../engine/source/materials/mat/mat100/calcmatb.F
       !||--- called by ------------------------------------------------------
-      !||    sigeps100   ../engine/source/materials/mat/mat100/sigeps100.F
-      !||    sigeps95    ../engine/source/materials/mat/mat095/sigeps95.F
+      !||    sigeps95   ../engine/source/materials/mat/mat095/sigeps95.F
       !||--- calls      -----------------------------------------------------
-      !||    kmatinv3    ../engine/source/materials/tools/kmatinv.F
-      !||    prodaat     ../engine/source/materials/tools/prodAAT.F
-      !||    prodmat     ../engine/source/materials/tools/prodmat.F
+      !||    kmatinv3   ../engine/source/materials/tools/kmatinv.F
+      !||    prodaat    ../engine/source/materials/tools/prodAAT.F
+      !||    prodmat    ../engine/source/materials/tools/prodmat.F
       !||====================================================================
        SUBROUTINE CALCMATB (NEL, F, FP, MATB)    
 C-----------------------------------------------

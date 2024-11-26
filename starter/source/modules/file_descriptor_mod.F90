@@ -21,8 +21,7 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    starter_file_descriptor_mod                  ../starter/source/modules/defaults_mod.F90
-      !||--- called by ------------------------------------------------------
+      !||    file_descriptor_mod   ../starter/source/modules/file_descriptor_mod.F90
       !||====================================================================
       module file_descriptor_mod
       !=======================================================================================================================

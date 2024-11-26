@@ -30,7 +30,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    inter_sorting_mod    ../engine/share/modules/inter_sorting_mod.F
       !||    inter_struct_mod     ../engine/share/modules/inter_struct_mod.F
-      !||    multi_fvm_mod        ../common_source/modules/ale/multi_fvm_mod.F
       !||====================================================================
         SUBROUTINE INTER_COLOR_VOXEL(ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,IPARI,INTBUF_TAB,
      .                               X,INTER_STRUCT,SORT_COMM)

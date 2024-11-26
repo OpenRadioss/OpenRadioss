@@ -22,8 +22,6 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
       !||    sigeps52c             ../engine/source/materials/mat/mat052/sigeps52c.F
-      !||--- called by ------------------------------------------------------
-      !||    mulawc                ../engine/source/materials/mat_share/mulawc.F
       !||--- calls      -----------------------------------------------------
       !||    finter                ../engine/source/tools/curve/finter.F
       !||    table_interp          ../engine/source/tools/curve/table_tools.F

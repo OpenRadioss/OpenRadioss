@@ -35,7 +35,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    inter_sorting_mod       ../engine/share/modules/inter_sorting_mod.F
       !||    inter_struct_mod        ../engine/share/modules/inter_struct_mod.F
       !||    metric_mod              ../common_source/modules/interfaces/metric_mod.F
-      !||    multi_fvm_mod           ../common_source/modules/ale/multi_fvm_mod.F
       !||    sensor_mod              ../engine/share/modules/sensor_mod.F
       !||====================================================================
         SUBROUTINE INTER_SORT( ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,RETRI,IPARI,

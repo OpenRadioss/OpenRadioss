@@ -36,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    message_mod            ../engine/share/message_module/message_mod.F
       !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||    read_eosparam_mod      ../engine/source/output/restart/read_eosparam.F90
       !||====================================================================
       SUBROUTINE READ_MATPARAM(MAT_ELEM)
 C-----------------------------------------------

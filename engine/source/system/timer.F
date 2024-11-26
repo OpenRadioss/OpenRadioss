@@ -690,8 +690,6 @@ C
       !||    mmain                     ../engine/source/materials/mat_share/mmain.F90
       !||    mmain8                    ../engine/source/materials/mat_share/mmain8.F
       !||    mulaw                     ../engine/source/materials/mat_share/mulaw.F90
-      !||    mulaw8                    ../engine/source/materials/mat_share/mulaw8.F
-      !||    mulawc                    ../engine/source/materials/mat_share/mulawc.F
       !||    multi_muscl_gradients     ../engine/source/multifluid/multi_muscl_gradients.F
       !||    prec_solvh                ../engine/source/implicit/prec_solv.F
       !||    produt_h                  ../engine/source/implicit/produt_v.F
@@ -841,8 +839,6 @@ C pour eviter erreur passage hybrid
       !||    mmain                     ../engine/source/materials/mat_share/mmain.F90
       !||    mmain8                    ../engine/source/materials/mat_share/mmain8.F
       !||    mulaw                     ../engine/source/materials/mat_share/mulaw.F90
-      !||    mulaw8                    ../engine/source/materials/mat_share/mulaw8.F
-      !||    mulawc                    ../engine/source/materials/mat_share/mulawc.F
       !||    multi_muscl_gradients     ../engine/source/multifluid/multi_muscl_gradients.F
       !||    prec_solvh                ../engine/source/implicit/prec_solv.F
       !||    rbyfor                    ../engine/source/constraints/general/rbody/rbyfor.F

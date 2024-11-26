@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    fail_tsaiwu_c   ../engine/source/materials/fail/tsaiwu/fail_tsaiwu_c.F
       !||--- called by ------------------------------------------------------
-      !||    mulawc          ../engine/source/materials/mat_share/mulawc.F
       !||    usermat_shell   ../engine/source/materials/mat_share/usermat_shell.F
       !||====================================================================
       SUBROUTINE FAIL_TSAIWU_C(

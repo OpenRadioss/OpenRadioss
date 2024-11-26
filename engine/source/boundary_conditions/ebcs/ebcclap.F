@@ -30,7 +30,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ebcvit5    ../engine/source/boundary_conditions/ebcs/ebcvit5.F
       !||    ebcvit7    ../engine/source/boundary_conditions/ebcs/ebcvit7.F
       !||--- uses       -----------------------------------------------------
-      !||    ebcs_mod   ../common_source/modules/boundary_conditions/ebcs_mod.F
       !||====================================================================
       SUBROUTINE EBCCLAP(V, A, FV, EBCS_TAB)
       USE EBCS_MOD

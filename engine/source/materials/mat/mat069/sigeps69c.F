@@ -22,8 +22,6 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
       !||    sigeps69c   ../engine/source/materials/mat/mat069/sigeps69c.F
-      !||--- called by ------------------------------------------------------
-      !||    mulawc      ../engine/source/materials/mat_share/mulawc.F
       !||====================================================================
               SUBROUTINE SIGEPS69C(
      1      NEL    , NUPARAM, NUVAR   ,NPT0   , ILAYER ,

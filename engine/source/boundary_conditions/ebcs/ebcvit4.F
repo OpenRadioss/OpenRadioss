@@ -25,7 +25,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    ebcclap    ../engine/source/boundary_conditions/ebcs/ebcclap.F
       !||--- uses       -----------------------------------------------------
-      !||    ebcs_mod   ../common_source/modules/boundary_conditions/ebcs_mod.F
       !||====================================================================
       SUBROUTINE EBCVIT4(V, A, LISTE, NOD, FV, RESO, LA, EBCS)
       USE EBCS_MOD

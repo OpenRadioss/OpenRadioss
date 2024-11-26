@@ -25,7 +25,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    mmain           ../engine/source/materials/mat_share/mmain.F90
       !||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
-      !||    mulaw8          ../engine/source/materials/mat_share/mulaw8.F
       !||    usermat_solid   ../engine/source/materials/mat_share/usermat_solid.F
       !||====================================================================
        SUBROUTINE FAIL_VISUAL_S(

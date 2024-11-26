@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    dichotomic_search_r_asc        ../common_source/tools/search/dichotomic_search_r_asc.F
       !||--- called by ------------------------------------------------------
-      !||    pblast_parameters__air_burst   ../common_source/modules/loads/pblast_mod.F
       !||====================================================================
       FUNCTION DICHOTOMIC_SEARCH_R_ASC(VAL, ARRAY, LEN)
 C-----------------------------------------------

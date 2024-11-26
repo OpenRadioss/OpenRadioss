@@ -24,7 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    init_mat_keyword      ../starter/source/materials/mat/init_mat_keyword.F
       !||--- called by ------------------------------------------------------
       !||    hm_read_fail          ../starter/source/materials/fail/hm_read_fail.F
-      !||    hm_read_mat           ../starter/source/materials/mat/hm_read_mat.F
       !||    hm_read_mat00         ../starter/source/materials/mat/mat000/hm_read_mat00.F
       !||    hm_read_mat01         ../starter/source/materials/mat/mat001/hm_read_mat01.F
       !||    hm_read_mat02         ../starter/source/materials/mat/mat002/hm_read_mat02.F

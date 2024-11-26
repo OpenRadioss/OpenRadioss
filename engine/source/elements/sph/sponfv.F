@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    weight0        ../engine/source/elements/sph/weight.F
       !||    weight1        ../engine/source/elements/sph/weight.F
       !||--- uses       -----------------------------------------------------
-      !||    mod_splissv    ../engine/source/elements/sph/splissv.F
+      !||    sph_work_mod   ../common_source/modules/mat_elem/sph_work.F90
       !||    sphbox         ../engine/share/modules/sphbox.F
       !||====================================================================
       SUBROUTINE SPONFV(X ,V        ,A       ,D       ,MS      ,

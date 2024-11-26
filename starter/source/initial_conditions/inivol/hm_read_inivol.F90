@@ -22,27 +22,6 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 module hm_read_inivol_mod
 contains
-   !||====================================================================
-   !||    hm_read_inivol             ../starter/source/initial_conditions/inivol/hm_read_inivol.F
-   !||--- called by ------------------------------------------------------
-   !||    lectur                     ../starter/source/starter/lectur.F
-   !||--- calls      -----------------------------------------------------
-   !||    ancmsg                     ../starter/source/output/message/message.F
-   !||    hm_get_float_array_index   ../starter/source/devtools/hm_reader/hm_get_float_array_index.F
-   !||    hm_get_int_array_index     ../starter/source/devtools/hm_reader/hm_get_int_array_index.F
-   !||    hm_get_intv                ../starter/source/devtools/hm_reader/hm_get_intv.F
-   !||    hm_option_is_encrypted     ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
-   !||    hm_option_read_key         ../starter/source/devtools/hm_reader/hm_option_read_key.F
-   !||    hm_option_start            ../starter/source/devtools/hm_reader/hm_option_start.F
-   !||    hm_sz_r2r                  ../starter/source/coupling/rad2rad/routines_r2r.F
-   !||    trace_in1                  ../starter/source/system/trace_back.F
-   !||--- uses       -----------------------------------------------------
-   !||    hm_option_read_mod         ../starter/share/modules1/hm_option_read_mod.F
-   !||    inivol_def_mod             ../starter/share/modules1/inivol_mod.F
-   !||    message_mod                ../starter/share/message_module/message_mod.F
-   !||    r2r_mod                    ../starter/share/modules1/r2r_mod.F
-   !||    submodel_mod               ../starter/share/modules1/submodel_mod.F
-   !||====================================================================
    !! \brief Read the initial volume option
    subroutine hm_read_inivol(inivol, kvol, igrsurf, ipart, multi_fvm, bufmat, &
    &                         ipm, nbsubmat, lsubmodel, unitab,                &

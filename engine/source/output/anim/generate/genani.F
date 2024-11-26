@@ -21,15 +21,6 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    genani_mod    ../engine/source/output/anim/generate/genani.F
-      !||--- called by ------------------------------------------------------
-      !||    eig           ../engine/stub/eig.F
-      !||    eig1          ../engine/stub/eig1.F
-      !||    eigp          ../engine/stub/eigp.F
-      !||    imp_buck      ../engine/source/implicit/imp_buck.F
-      !||    sortie_main   ../engine/source/output/sortie_main.F
-      !||====================================================================c 
-      !||====================================================================
       !||    genani                 ../engine/source/output/anim/generate/genani.F
       !||--- called by ------------------------------------------------------
       !||    imp_buck               ../engine/source/implicit/imp_buck.F
@@ -198,7 +189,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    inoutfile_mod          ../common_source/modules/inoutfile_mod.F
       !||    matparam_def_mod       ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||    message_mod            ../engine/share/message_module/message_mod.F
-      !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F
       !||    plyxfem_mod            ../engine/share/modules/plyxfem_mod.F
       !||    stack_mod              ../engine/share/modules/stack_mod.F
       !||====================================================================

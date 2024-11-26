@@ -20,23 +20,6 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
- !||====================================================================
- !||    pblast_mod            ../common_source/modules/loads/pblast_mod.F
- !||--- called by ------------------------------------------------------
- !||    ddsplit               ../starter/source/restart/ddsplit/ddsplit.F
- !||    h3d_pre_skin_scalar   ../engine/source/output/h3d/h3d_results/h3d_skin_scalar.F
- !||    h3d_skin_vector       ../engine/source/output/h3d/h3d_results/h3d_skin_vector.F
- !||    hm_preread_pblast     ../starter/source/loads/pblast/hm_preread_pblast.F
- !||    hm_read_pblast        ../starter/source/loads/pblast/hm_read_pblast.F
- !||    pblast                ../engine/source/loads/pblast/pblast.F
- !||    pblast_1              ../engine/source/loads/pblast/pblast_1.F
- !||    pblast_2              ../engine/source/loads/pblast/pblast_2.F
- !||    pblast_3              ../engine/source/loads/pblast/pblast_3.F
- !||    rdresb                ../engine/source/output/restart/rdresb.F
- !||    resol                 ../engine/source/engine/resol.F
- !||    resol_init            ../engine/source/engine/resol_init.F
- !||    wrrestp               ../engine/source/output/restart/wrrestp.F
- !||====================================================================
 MODULE PBLAST_MOD
 
 #include "my_real.inc"
@@ -120,17 +103,6 @@ MODULE PBLAST_MOD
 
 contains
 
-   !||====================================================================
-   !||    pblast_load   ../common_source/modules/loads/pblast_mod.f
-   !||--- called by ------------------------------------------------------
-   !||    rdresb        ../engine/source/output/restart/rdresb.f
-   !||--- calls      -----------------------------------------------------
-   !||    arret         ../engine/source/system/arret.f
-   !||    read_db       ../common_source/tools/input_output/read_db.f
-   !||    read_i_c      ../common_source/tools/input_output/write_routtines.c
-   !||--- uses       -----------------------------------------------------
-   !||    message_mod   ../engine/share/message_module/message_mod.f
-   !||====================================================================
    subroutine pblast_load(pblast)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -215,13 +187,6 @@ contains
       return
    end
 
-   !||====================================================================
-   !||    PBLAST_ALLOC_ERROR   ../common_source/modules/loads/pblast_mod.F
-   !||--- called by ------------------------------------------------------
-   !||    resol               ../engine/source/engine/resol.F
-   !||--- uses       -----------------------------------------------------
-   !||    message_mod         ../engine/share/message_module/message_mod.F
-   !||====================================================================
    ! ======================================================================================================================
    !! \brief : Write Error message in case of memory allocation error
    !! \details
@@ -243,13 +208,6 @@ contains
       call arret(2)
    end
 
-   !||====================================================================
-   !||    pblast_deallocate   ../common_source/modules/loads/pblast_mod.f
-   !||--- called by ------------------------------------------------------
-   !||    resol               ../engine/source/engine/resol.f
-   !||--- uses       -----------------------------------------------------
-   !||    message_mod         ../engine/share/message_module/message_mod.f
-   !||====================================================================
    subroutine pblast_deallocate(pblast)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -300,17 +258,6 @@ contains
    end
 
 
-   !||====================================================================
-   !||    pblast_write_starter   ../common_source/modules/loads/pblast_mod.f
-   !||--- called by ------------------------------------------------------
-   !||    ddsplit                ../starter/source/restart/ddsplit/ddsplit.f
-   !||--- calls      -----------------------------------------------------
-   !||    write_db               ../common_source/tools/input_output/write_db.f
-   !||    write_i_c              ../common_source/tools/input_output/write_routtines.c
-   !||--- uses       -----------------------------------------------------
-   !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.f90
-   !||    message_mod            ../engine/share/message_module/message_mod.f
-   !||====================================================================
    subroutine pblast_write_starter(pblast,glob_therm,proc,cep,scep,&
    &                               numelc,numeltg,numels,          &
    &                               numelq,numelt,numelp,           &
@@ -419,16 +366,6 @@ contains
    end
 
 
-   !||====================================================================
-   !||    pblast_write_engine   ../common_source/modules/loads/pblast_mod.f
-   !||--- called by ------------------------------------------------------
-   !||    wrrestp               ../engine/source/output/restart/wrrestp.f
-   !||--- calls      -----------------------------------------------------
-   !||    write_db              ../common_source/tools/input_output/write_db.f
-   !||    write_i_c             ../common_source/tools/input_output/write_routtines.c
-   !||--- uses       -----------------------------------------------------
-   !||    message_mod           ../engine/share/message_module/message_mod.f
-   !||====================================================================
    subroutine pblast_write_engine(pblast)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -499,12 +436,6 @@ type (pblast_) :: pblast
       return
    end
 
-   !||====================================================================
-   !||    pblast_init_tables   ../common_source/modules/loads/pblast_mod.f
-   !||--- called by ------------------------------------------------------
-   !||    hm_read_pblast       ../starter/source/loads/pblast/hm_read_pblast.f
-   !||    rdresb               ../engine/source/output/restart/rdresb.f
-   !||====================================================================
    subroutine pblast_init_tables(pblast_data)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
@@ -3278,14 +3209,6 @@ type (pblast_) :: pblast
 
 
 
-   !||====================================================================
-   !||    pblast_parameters__free_air   ../common_source/modules/loads/pblast_mod.f
-   !||--- called by ------------------------------------------------------
-   !||    hm_read_pblast                ../starter/source/loads/pblast/hm_read_pblast.f
-   !||    pblast_1                      ../engine/source/loads/pblast/pblast_1.f
-   !||--- uses       -----------------------------------------------------
-   !||    message_mod                   ../engine/share/message_module/message_mod.f
-   !||====================================================================
 !! \ this subroutine is returning blast characteristic parameters {p_inci,p_refl,ta,t0,decay_inci,decay_refl}
 !! \ to build a blast time history. parameters are determined from free air model
    subroutine pblast_parameters__free_air( pblast,z, w13, tdet,          &
@@ -3517,14 +3440,6 @@ type (pblast_) :: pblast
    end subroutine pblast_parameters__free_air
 
 
-   !||====================================================================
-   !||    pblast_parameters__surface_burst   ../common_source/modules/loads/pblast_mod.f
-   !||--- called by ------------------------------------------------------
-   !||    hm_read_pblast                     ../starter/source/loads/pblast/hm_read_pblast.f
-   !||    pblast_2                           ../engine/source/loads/pblast/pblast_2.f
-   !||--- uses       -----------------------------------------------------
-   !||    message_mod                        ../engine/share/message_module/message_mod.f
-   !||====================================================================
 !! \ this subroutine is returning blast characteristic parameters {p_inci,p_refl,ta,t0,decay_inci,decay_refl}
 !! \ to build a blast time history. parameters are determined from surface burst model
    subroutine pblast_parameters__surface_burst(  pblast,z, w13, tdet,         &
@@ -3725,18 +3640,6 @@ type (pblast_) :: pblast
    end subroutine pblast_parameters__surface_burst
 
 
-   !||====================================================================
-   !||    pblast_parameters__air_burst   ../common_source/modules/loads/pblast_mod.f
-   !||--- called by ------------------------------------------------------
-   !||    hm_read_pblast                 ../starter/source/loads/pblast/hm_read_pblast.f
-   !||    pblast_3                       ../engine/source/loads/pblast/pblast_3.f
-   !||--- calls      -----------------------------------------------------
-   !||    dichotomic_search_r_asc        ../common_source/tools/search/dichotomic_search_r_asc.f
-   !||    dichotomic_search_r_desc       ../common_source/tools/search/dichotomic_search_r_desc.f
-   !||--- uses       -----------------------------------------------------
-   !||    message_mod                    ../engine/share/message_module/message_mod.f
-   !||    names_and_titles_mod           ../common_source/modules/names_and_titles_mod.f
-   !||====================================================================
 !! \ this subroutine is returning blast characteristic parameters {p_inci,p_refl,ta,t0,decay_inci,decay_refl}
 !! \to build a blast time history. parameters are determined from surface burst model
    subroutine pblast_parameters__air_burst( pblast,z_struct, zc, zg, angle_g, w13, tdet, &

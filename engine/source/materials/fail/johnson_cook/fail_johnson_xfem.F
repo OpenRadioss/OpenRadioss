@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    fail_johnson_xfem   ../engine/source/materials/fail/johnson_cook/fail_johnson_xfem.F
       !||--- called by ------------------------------------------------------
-      !||    mulawc              ../engine/source/materials/mat_share/mulawc.F
       !||    usermat_shell       ../engine/source/materials/mat_share/usermat_shell.F
       !||--- uses       -----------------------------------------------------
       !||    crackxfem_mod       ../engine/share/modules/crackxfem_mod.F

@@ -25,8 +25,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    resol                ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg               ../engine/source/output/message/message.F
-      !||    arret                ../engine/source/system/arret.F
       !||    my_barrier           ../engine/source/system/machine.F
       !||    soltosph_on1         ../engine/source/elements/sph/soltosph_on1.F
       !||    soltosph_on12        ../engine/source/elements/sph/soltosph_on1.F
@@ -56,8 +54,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    groupdef_mod         ../common_source/modules/groupdef_mod.F
       !||    message_mod          ../engine/share/message_module/message_mod.F
-      !||    mod_sphprep          ../engine/source/elements/sph/sphprep.F
       !||    sph_struct_mod       ../engine/share/modules/sph_struct_mod.F
+      !||    sph_work_mod         ../common_source/modules/mat_elem/sph_work.F90
       !||====================================================================
       SUBROUTINE SPHPREP(
      1    PM      ,GEO     ,X       ,V       ,MS      ,

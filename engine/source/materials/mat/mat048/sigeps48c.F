@@ -22,8 +22,6 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
       !||    sigeps48c   ../engine/source/materials/mat/mat048/sigeps48c.F
-      !||--- called by ------------------------------------------------------
-      !||    mulawc      ../engine/source/materials/mat_share/mulawc.F
       !||====================================================================
       SUBROUTINE SIGEPS48C(
      1     NEL0    ,NUPARAM,NUVAR   ,MFUNC   ,KFUNC  ,

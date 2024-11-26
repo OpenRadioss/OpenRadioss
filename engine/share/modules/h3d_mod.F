@@ -232,10 +232,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    monvol0                                      ../engine/source/airbag/monvol0.F
       !||    multi_allocate                               ../engine/source/multifluid/multi_allocate.F
       !||    pbilan                                       ../engine/source/elements/beam/pbilan.F
-      !||    pblast                                       ../engine/source/loads/pblast/pblast.F
       !||    pblast_1                                     ../engine/source/loads/pblast/pblast_1.F
       !||    pblast_2                                     ../engine/source/loads/pblast/pblast_2.F
       !||    pblast_3                                     ../engine/source/loads/pblast/pblast_3.F
+      !||    pblast_load_computation                      ../engine/source/loads/pblast/pblast.F
       !||    pfluid                                       ../engine/source/loads/general/pfluid/pfluid.F
       !||    pforc3                                       ../engine/source/elements/beam/pforc3.F
       !||    pressure_cyl                                 ../engine/source/loads/general/load_pcyl/pressure_cyl.F

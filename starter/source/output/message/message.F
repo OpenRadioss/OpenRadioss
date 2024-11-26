@@ -235,7 +235,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_inistate_d00                ../starter/source/elements/initia/hm_read_inistate_d00.F
       !||    hm_read_initemp                     ../starter/source/initial_conditions/thermic/hm_read_initemp.F
       !||    hm_read_inivel                      ../starter/source/initial_conditions/general/inivel/hm_read_inivel.F
-      !||    hm_read_inivol                      ../starter/source/initial_conditions/inivol/hm_read_inivol.F
       !||    hm_read_inject1                     ../starter/source/properties/injector/hm_read_inject1.F
       !||    hm_read_inject2                     ../starter/source/properties/injector/hm_read_inject2.F
       !||    hm_read_inter_lagdt_type07          ../starter/source/interfaces/int07/hm_read_inter_lagdt_type07.F
@@ -268,7 +267,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_link                        ../starter/source/constraints/rigidlink/hm_read_rlink.F
       !||    hm_read_load_centri                 ../starter/source/loads/general/load_centri/hm_read_load_centri.F
       !||    hm_read_load_pressure               ../starter/source/loads/general/load_pressure/hm_read_load_pressure.F
-      !||    hm_read_mat                         ../starter/source/materials/mat/hm_read_mat.F
       !||    hm_read_mat01                       ../starter/source/materials/mat/mat001/hm_read_mat01.F
       !||    hm_read_mat02                       ../starter/source/materials/mat/mat002/hm_read_mat02.F
       !||    hm_read_mat03                       ../starter/source/materials/mat/mat003/hm_read_mat03.F
@@ -814,7 +812,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    soltosphv4                          ../starter/source/elements/sph/soltosph.F
       !||    soltosphv8                          ../starter/source/elements/sph/soltosph.F
       !||    sort_logical_sensors                ../starter/source/tools/sensor/sort_logical_sensors.F
-      !||    spgrhead                            ../starter/source/elements/sph/spgrhead.F
       !||    spgrtails                           ../starter/source/elements/sph/spgrtails.F
       !||    sphdcod                             ../starter/source/elements/sph/sphdcod.F
       !||    split_cand_i20                      ../starter/source/restart/ddsplit/inter_tools.F

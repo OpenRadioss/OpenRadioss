@@ -65,7 +65,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    lectur                 ../engine/source/input/lectur.F
       !||    mmain                  ../engine/source/materials/mat_share/mmain.F90
       !||    mulaw                  ../engine/source/materials/mat_share/mulaw.F90
-      !||    mulawc                 ../engine/source/materials/mat_share/mulawc.F
       !||    nloc_dmg_init          ../starter/source/materials/fail/nloc_dmg_init.F
       !||    nlocal_acc             ../engine/source/assembly/nlocal_acc.F
       !||    nlocal_dtnoda          ../engine/source/time_step/nlocal_dtnoda.F

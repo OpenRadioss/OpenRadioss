@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    read_eosparam_mod   ../engine/source/output/restart/read_eosparam.F90
+      !||--- called by ------------------------------------------------------
+      !||    read_matparam       ../engine/source/output/restart/read_matparam.F
+      !||====================================================================
       module read_eosparam_mod
       contains
       !||====================================================================

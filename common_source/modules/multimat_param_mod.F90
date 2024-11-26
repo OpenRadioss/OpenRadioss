@@ -44,14 +44,12 @@
       !||    h3d_shell_scalar_1               ../engine/source/output/h3d/h3d_results/h3d_shell_scalar_1.F
       !||    h3d_solid_scalar_1               ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
       !||    h3d_sph_scalar                   ../engine/source/output/h3d/h3d_results/h3d_sph_scalar.F
-      !||    hm_read_mat                      ../starter/source/materials/mat/hm_read_mat.F
       !||    hm_read_mat20                    ../starter/source/materials/mat/mat020/hm_read_mat20.F
       !||    hm_read_mat51                    ../starter/source/materials/mat/mat051/hm_read_mat51.F
       !||    i22datainit                      ../engine/source/interfaces/int22/i22datainit.F
       !||    i22err3                          ../starter/source/interfaces/inter3d1/i22err3.F
       !||    ini_inimap1d                     ../starter/source/initial_conditions/inimap/ini_inimap1d.F
       !||    inigrav_m51                      ../starter/source/initial_conditions/inigrav/inigrav_m51.F
-      !||    inimul                           ../starter/source/ale/bimat/inimul.F
       !||    initia                           ../starter/source/elements/initia/initia.F
       !||    inivol_set                       ../starter/source/initial_conditions/inivol/inivol_set.F
       !||    m51init                          ../starter/source/materials/mat/mat051/m51init.F

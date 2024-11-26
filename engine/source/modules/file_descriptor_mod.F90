@@ -21,12 +21,10 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-      !||====================================================================
-      !||    file_descriptor_mod
-      !||--- called by ------------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
 !! \brief  Module intent is to provide a common location for all file descriptors
+      !||====================================================================
+      !||    file_descriptor_mod   ../engine/source/modules/file_descriptor_mod.F90
+      !||====================================================================
         module file_descriptor_mod
     
            integer, parameter :: istdo=6

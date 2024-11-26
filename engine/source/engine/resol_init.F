@@ -83,13 +83,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    inter_sh_offset_ini_mod    ../engine/source/interfaces/shell_offset/inter_offset_ini.F90
       !||    inter_sh_offset_mod        ../engine/source/modules/interfaces/sh_offset_mod.F90
       !||    inter_sorting_mod          ../engine/share/modules/inter_sorting_mod.F
-      !||    loads_mod                  ../common_source/modules/loads/loads_mod.F
       !||    nloc_count_solnod_mod      ../engine/source/elements/solid/solide/nloc_count_solnod.F90
       !||    nlocal_reg_mod             ../common_source/modules/nlocal_reg_mod.F
       !||    outmax_mod                 ../common_source/modules/outmax_mod.F
       !||    output_mod                 ../common_source/modules/output/output_mod.F90
       !||    outputs_mod                ../common_source/modules/outputs_mod.F
-      !||    pblast_mod                 ../common_source/modules/loads/pblast_mod.F
       !||    pinchtype_mod              ../common_source/modules/pinchtype_mod.F
       !||    plyxfem_mod                ../engine/share/modules/plyxfem_mod.F
       !||    sensor_mod                 ../engine/share/modules/sensor_mod.F

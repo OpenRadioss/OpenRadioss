@@ -40,7 +40,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    m2law8              ../engine/source/materials/mat/mat002/m2law8.F
       !||    m3law8              ../engine/source/materials/mat/mat003/m3law8.F
       !||    meos8               ../engine/source/materials/mat_share/meos8.F
-      !||    mulaw8              ../engine/source/materials/mat_share/mulaw8.F
       !||    nvar                ../engine/source/input/nvar.F
       !||    put_etfac           ../engine/source/elements/solid/solide8z/put_etfac.F
       !||    startime            ../engine/source/system/timer.F
@@ -48,7 +47,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    mat_elem_mod        ../common_source/modules/mat_elem/mat_elem_mod.F90
-      !||    mulaw8_mod          ../engine/source/materials/mat_share/mulaw8.F
       !||    table_mod           ../engine/share/modules/table_mod.F
       !||====================================================================
       SUBROUTINE MMAIN8(PM     ,GEO      ,ELBUF_STR,MAT_ELEM ,

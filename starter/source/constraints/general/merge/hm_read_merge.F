@@ -41,7 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F
       !||    message_mod              ../starter/share/message_module/message_mod.F
-      !||    rbmerge_mod              ../starter/source/constraints/general/merge/hm_read_merge.F
+      !||    rbmerge_mod              ../starter/source/constraints/general/merge/rbmerge_type.F90
       !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_MERGE(
@@ -575,7 +575,7 @@ C-----------------------------------------------
       !||    hm_read_merge   ../starter/source/constraints/general/merge/hm_read_merge.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    rbmerge_mod     ../starter/source/constraints/general/merge/hm_read_merge.F
+      !||    rbmerge_mod     ../starter/source/constraints/general/merge/rbmerge_type.F90
       !||====================================================================
       RECURSIVE SUBROUTINE RBTAG2DOWN(IDRB,TAG2,RBMERGE,
      .                                FLAG_BOUCLE,TABBOUCLE,IDBOUCLE)
@@ -635,7 +635,7 @@ C-----------------------------------------------
       !||    hm_read_merge   ../starter/source/constraints/general/merge/hm_read_merge.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    rbmerge_mod     ../starter/source/constraints/general/merge/hm_read_merge.F
+      !||    rbmerge_mod     ../starter/source/constraints/general/merge/rbmerge_type.F90
       !||====================================================================
       RECURSIVE SUBROUTINE RBLEVELDOWN(NPBY,RBMERGE,IDRB,LEVEL)
 C-----------------------------------------------
@@ -696,7 +696,7 @@ C
       !||    spmdset                ../starter/source/constraints/general/rbody/spmdset.F
       !||--- uses       -----------------------------------------------------
       !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    rbmerge_mod            ../starter/source/constraints/general/merge/hm_read_merge.F
+      !||    rbmerge_mod            ../starter/source/constraints/general/merge/rbmerge_type.F90
       !||====================================================================
       SUBROUTINE TRIRBMERGE(RBMERGE,NPBY   ,LPBY    ,SLRBODY,
      .                      RBY    ,NOM_OPT,ITAB    ,IBGR   ,IGRV   )
@@ -991,7 +991,7 @@ C
       !||    trirbmerge    ../starter/source/constraints/general/merge/hm_read_merge.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    rbmerge_mod   ../starter/source/constraints/general/merge/hm_read_merge.F
+      !||    rbmerge_mod   ../starter/source/constraints/general/merge/rbmerge_type.F90
       !||====================================================================
       RECURSIVE SUBROUTINE RB_EXPLORE(IDRB,RBMERGE,PILE,IDPILE)
 C-----------------------------------------------
@@ -1044,7 +1044,7 @@ C
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
       !||    message_mod    ../starter/share/message_module/message_mod.F
-      !||    rbmerge_mod    ../starter/source/constraints/general/merge/hm_read_merge.F
+      !||    rbmerge_mod    ../starter/source/constraints/general/merge/rbmerge_type.F90
       !||====================================================================
       SUBROUTINE RETRIRBY(NPBY ,LPBY ,RBY ,NOM_OPT)
 C-----------------------------------------------

@@ -22,8 +22,6 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
       !||    sigeps19c    ../engine/source/materials/mat/mat019/sigeps19c.F
-      !||--- called by ------------------------------------------------------
-      !||    mulawc       ../engine/source/materials/mat_share/mulawc.F
       !||--- uses       -----------------------------------------------------
       !||    sensor_mod   ../engine/share/modules/sensor_mod.F
       !||====================================================================

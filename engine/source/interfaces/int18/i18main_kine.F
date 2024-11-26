@@ -39,7 +39,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    anim_mod                     ../common_source/modules/output/anim_mod.F
       !||    array_mod                    ../common_source/modules/array_mod.F
       !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
-      !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F
       !||    tri7box                      ../engine/share/modules/tri7box.F
       !||====================================================================
       SUBROUTINE I18MAIN_KINE_1(IPARI,INTBUF_TAB,X      ,V       ,
@@ -509,7 +508,6 @@ C
       !||--- uses       -----------------------------------------------------
       !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
       !||    message_mod            ../engine/share/message_module/message_mod.F
-      !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F
       !||====================================================================
       SUBROUTINE I18MAIN_KINE_I(NIN,IPARI,INTBUF_TAB      ,X        ,
      2      STIFN    ,V         ,A          ,MS           ,NMN      ,

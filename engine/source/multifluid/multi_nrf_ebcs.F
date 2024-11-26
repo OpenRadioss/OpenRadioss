@@ -28,9 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    arret              ../engine/source/system/arret.F
       !||    multi_submatlaw    ../engine/source/multifluid/multi_submatlaw.F
       !||--- uses       -----------------------------------------------------
-      !||    ebcs_mod           ../common_source/modules/boundary_conditions/ebcs_mod.F
       !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||    multi_fvm_mod      ../common_source/modules/ale/multi_fvm_mod.F
       !||    th_surf_mod        ../common_source/modules/interfaces/th_surf_mod.F
       !||====================================================================
       SUBROUTINE MULTI_NRF_EBCS(ITASK, EBCS_ID, MULTI_FVM, NELEM, ELEM_LIST, FACE_LIST, 

@@ -76,7 +76,6 @@
       !||    hm_read_eos_powderburn              ../starter/source/materials/eos/hm_read_eos_powderburn.F90
       !||    hm_read_fail                        ../starter/source/materials/fail/hm_read_fail.F
       !||    hm_read_inistate_d00                ../starter/source/elements/initia/hm_read_inistate_d00.F
-      !||    hm_read_mat                         ../starter/source/materials/mat/hm_read_mat.F
       !||    hm_read_mat00                       ../starter/source/materials/mat/mat000/hm_read_mat00.F
       !||    hm_read_mat01                       ../starter/source/materials/mat/mat001/hm_read_mat01.F
       !||    hm_read_mat02                       ../starter/source/materials/mat/mat002/hm_read_mat02.F
@@ -209,7 +208,6 @@
       !||    inivol_set                          ../starter/source/initial_conditions/inivol/inivol_set.F
       !||    law104_upd                          ../starter/source/materials/mat/mat104/law104_upd.F
       !||    law158_upd                          ../starter/source/materials/mat/mat158/law158_upd.F
-      !||    law190_upd                          ../starter/source/materials/mat/mat190/law190_upd.F
       !||    law19_upd                           ../starter/source/materials/mat/mat019/law19_upd.F90
       !||    law42_upd                           ../starter/source/materials/mat/mat042/law42_upd.F
       !||    law50_upd                           ../starter/source/materials/mat/mat050/law50_upd.F90

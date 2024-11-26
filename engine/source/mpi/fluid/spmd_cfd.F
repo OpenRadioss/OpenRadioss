@@ -2008,7 +2008,6 @@ C
       !||    startime         ../engine/source/system/timer.F
       !||    stoptime         ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
-      !||    ebcs_mod         ../common_source/modules/boundary_conditions/ebcs_mod.F
       !||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
       SUBROUTINE SPMD_INIT_EBCS(V,ISIZXV,IAD_ELEM,FR_ELEM,EBCS_TAB)

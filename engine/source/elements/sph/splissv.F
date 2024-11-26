@@ -21,18 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    mod_splissv   ../engine/source/elements/sph/splissv.F
-      !||--- called by ------------------------------------------------------
-      !||    splissv       ../engine/source/elements/sph/splissv.F
-      !||    sponfv        ../engine/source/elements/sph/sponfv.F
-      !||====================================================================
-      !||====================================================================
       !||    splissv               ../engine/source/elements/sph/splissv.F
       !||--- called by ------------------------------------------------------
       !||    resol                 ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg                ../engine/source/output/message/message.F
-      !||    arret                 ../engine/source/system/arret.F
       !||    foat_to_6_float       ../engine/source/system/parit.F
       !||    my_barrier            ../engine/source/system/machine.F
       !||    spmd_exch_a_sol2sph   ../engine/source/mpi/elements/spmd_sph.F
@@ -43,7 +35,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    message_mod           ../engine/share/message_module/message_mod.F
-      !||    mod_splissv           ../engine/source/elements/sph/splissv.F
+      !||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
+      !||    sph_work_mod          ../common_source/modules/mat_elem/sph_work.F90
       !||    sphbox                ../engine/share/modules/sphbox.F
       !||====================================================================
       SUBROUTINE SPLISSV(

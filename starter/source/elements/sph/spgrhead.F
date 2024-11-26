@@ -25,11 +25,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    lectur             ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg             ../starter/source/output/message/message.F
       !||    get_u_geo          ../starter/source/user_interface/uaccess.F
       !||--- uses       -----------------------------------------------------
       !||    message_mod        ../starter/share/message_module/message_mod.F
-      !||    mod_spgrhead       ../starter/source/elements/sph/spgrhead.F
       !||====================================================================
       SUBROUTINE SPGRHEAD(KXSP    ,IXSP    ,IPARG     ,PM  ,IPART,
      2                    IPARTSP ,EADD    ,CEPSP     ,ND  ,IPM  ,

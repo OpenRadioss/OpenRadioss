@@ -20,33 +20,8 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
- !||====================================================================
- !||    sigeps100_mod   ../engine/source/materials/mat/mat100/sigeps100.F
- !||--- called by ------------------------------------------------------
- !||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
- !||====================================================================
 module sigeps100_mod
 contains
-   !||====================================================================
-   !||    sigeps100     ../engine/source/materials/mat/mat100/sigeps100.F
-   !||--- called by ------------------------------------------------------
-   !||    mulaw         ../engine/source/materials/mat_share/mulaw.F90
-   !||--- calls      -----------------------------------------------------
-   !||    calcmatb      ../engine/source/materials/mat/mat100/calcmatb.F
-   !||    finter        ../engine/source/tools/curve/finter.F
-   !||    kmatinv3      ../engine/source/materials/tools/kmatinv.F
-   !||    neo_hook_t    ../engine/source/materials/mat/mat100/neo_hook_t.F
-   !||    polystress2   ../engine/source/materials/mat/mat100/sigpoly.F
-   !||    prodaat       ../engine/source/materials/tools/prodAAT.F
-   !||    prodmat       ../engine/source/materials/tools/prodmat.F
-   !||    rottoglob     ../engine/source/materials/mat/mat095/sigeps95.F
-   !||    rottoloc      ../engine/source/materials/mat/mat095/sigeps95.F
-   !||    sigaboyce     ../engine/source/materials/mat/mat100/sigaboyce.F
-   !||    vinter        ../engine/source/tools/curve/vinter.F
-   !||    viscbb        ../engine/source/materials/mat/mat100/viscbb.F
-   !||    viscpower     ../engine/source/materials/mat/mat100/viscpower.F
-   !||    viscsinh      ../engine/source/materials/mat/mat100/viscsinh.F
-   !||====================================================================
 !! \brief Compute the stress and plasticity for a material model 100 for Brick elements
    subroutine sigeps100(                                                   &
    &                    nel    , nuparam, nuvar   , nfunc  , ifunc ,       &

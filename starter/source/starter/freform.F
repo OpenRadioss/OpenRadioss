@@ -568,7 +568,6 @@ C=======================================================================
       !||    hm_read_inter_struct         ../starter/source/interfaces/reader/hm_read_inter_struct.F
       !||    hm_read_intsub               ../starter/source/output/subinterface/hm_read_intsub.F
       !||    hm_read_link                 ../starter/source/constraints/rigidlink/hm_read_rlink.F
-      !||    hm_read_mat                  ../starter/source/materials/mat/hm_read_mat.F
       !||    hm_read_merge                ../starter/source/constraints/general/merge/hm_read_merge.F
       !||    hm_read_mpc                  ../starter/source/constraints/general/mpc/hm_read_mpc.F
       !||    hm_read_nbcs                 ../starter/source/constraints/general/bcs/hm_read_nbcs.F

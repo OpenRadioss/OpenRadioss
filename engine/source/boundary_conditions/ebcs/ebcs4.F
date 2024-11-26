@@ -25,7 +25,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    ebcs_main    ../engine/source/boundary_conditions/ebcs/ebcs_main.F
       !||--- uses       -----------------------------------------------------
-      !||    ebcs_mod     ../common_source/modules/boundary_conditions/ebcs_mod.F
       !||    segvar_mod   ../engine/share/modules/segvar_mod.F
       !||====================================================================
       SUBROUTINE EBCS4(NSEG,ISEG,SEGVAR,

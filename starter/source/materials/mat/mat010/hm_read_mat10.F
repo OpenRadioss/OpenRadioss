@@ -22,8 +22,6 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
       !||    hm_read_mat10            ../starter/source/materials/mat/mat010/hm_read_mat10.F
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_mat              ../starter/source/materials/mat/hm_read_mat.F
       !||--- calls      -----------------------------------------------------
       !||    ancmsg                   ../starter/source/output/message/message.F
       !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F

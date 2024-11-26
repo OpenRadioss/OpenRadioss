@@ -27,7 +27,6 @@ C This subroutines computes C(NEL,3,3) which is the product [C] = [A][B]
       !||    calcmatb      ../engine/source/materials/mat/mat100/calcmatb.F
       !||    polystress2   ../engine/source/materials/mat/mat100/sigpoly.F
       !||    polystrest2   ../engine/source/materials/mat/mat100/sigpoly.F
-      !||    sigeps100     ../engine/source/materials/mat/mat100/sigeps100.F
       !||    sigeps42      ../engine/source/materials/mat/mat042/sigeps42.F
       !||    sigeps95      ../engine/source/materials/mat/mat095/sigeps95.F
       !||====================================================================

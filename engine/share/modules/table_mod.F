@@ -69,8 +69,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    mmain                      ../engine/source/materials/mat_share/mmain.F90
       !||    mmain8                     ../engine/source/materials/mat_share/mmain8.F
       !||    mulaw                      ../engine/source/materials/mat_share/mulaw.F90
-      !||    mulaw8                     ../engine/source/materials/mat_share/mulaw8.F
-      !||    mulawc                     ../engine/source/materials/mat_share/mulawc.F
       !||    mulawglc                   ../engine/source/materials/mat_share/mulawglc.F
       !||    mulawglcpinch              ../engine/source/elements/shell/coqueba/mulawglcpinch.F
       !||    press_seg3                 ../engine/source/loads/general/load_pcyl/press_seg3.F

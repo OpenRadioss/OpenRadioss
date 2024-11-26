@@ -20,23 +20,8 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
- !||====================================================================
- !||    h3d_oned_scalar_mod   ../engine/source/output/h3d/h3d_results/h3d_oned_scalar.F
- !||--- called by ------------------------------------------------------
- !||    genh3d                ../engine/source/output/h3d/h3d_results/genh3d.F
- !||====================================================================
 module h3d_oned_scalar_mod
 contains
-   !||====================================================================
-   !||    h3d_oned_scalar        ../engine/source/output/h3d/h3d_results/h3d_oned_scalar.F
-   !||--- called by ------------------------------------------------------
-   !||    genh3d                 ../engine/source/output/h3d/h3d_results/genh3d.F
-   !||--- calls      -----------------------------------------------------
-   !||    h3d_write_scalar       ../engine/source/output/h3d/h3d_results/h3d_write_scalar.F
-   !||--- uses       -----------------------------------------------------
-   !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
-   !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
-   !||====================================================================
 !! \brief fill the scalar values for the 1D elements
    subroutine h3d_oned_scalar(  elbuf_tab      , iparg    , geo   , ixt     ,            &
                              &  ixp            , ixr      , pm    , anim    ,            &

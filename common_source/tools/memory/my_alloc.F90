@@ -24,6 +24,7 @@
       !||    my_alloc_mod                       ../common_source/tools/memory/my_alloc.F90
       !||--- called by ------------------------------------------------------
       !||    add_mass_stat                      ../starter/source/tools/admas/add_mass_stat.F
+      !||    allocate_sph_work                  ../common_source/modules/mat_elem/sph_work.F90
       !||    allocbuf_auto                      ../engine/source/elements/elbuf/allocbuf_auto.F
       !||    boxtagn                            ../starter/source/model/box/bigbox.F
       !||    c3grhead                           ../starter/source/elements/sh3n/coque3n/c3grhead.F
@@ -66,7 +67,6 @@
       !||    hm_read_box                        ../starter/source/model/box/hm_read_box.F
       !||    hm_read_grpart                     ../starter/source/groups/hm_read_grpart.F
       !||    hm_read_inicrack                   ../starter/source/initial_conditions/inicrack/hm_read_inicrack.F
-      !||    hm_read_inivol                     ../starter/source/initial_conditions/inivol/hm_read_inivol.F
       !||    hm_read_lines                      ../starter/source/groups/hm_read_lines.F
       !||    hm_read_merge                      ../starter/source/constraints/general/merge/hm_read_merge.F
       !||    hm_read_pcyl                       ../starter/source/loads/general/load_pcyl/hm_read_pcyl.F
@@ -121,6 +121,7 @@
       !||    remn_i2op                          ../starter/source/interfaces/inter3d1/i7remnode.F
       !||    remn_i2op_edg25                    ../starter/source/interfaces/int25/i25remlin.F
       !||    remn_self24                        ../starter/source/interfaces/inter3d1/remn_self24.F
+      !||    resol                              ../engine/source/engine/resol.F
       !||    restalloc                          ../engine/source/output/restart/arralloc.F
       !||    retrirby                           ../starter/source/constraints/general/merge/hm_read_merge.F
       !||    ri2_int24p_ini                     ../starter/source/interfaces/inter3d1/i7remnode.F
@@ -133,6 +134,7 @@
       !||    solid_surface_buffer               ../starter/source/model/sets/solid_surface_buffer.F
       !||    spgrhead                           ../starter/source/elements/sph/spgrhead.F
       !||    spgrtails                          ../starter/source/elements/sph/spgrtails.F
+      !||    splissv                            ../engine/source/elements/sph/splissv.F
       !||    spmd_glob_fsum9                    ../engine/source/mpi/interfaces/spmd_th.F
       !||    spmd_userwi_rest                   ../starter/source/user_interface/user_windows_tools.F
       !||    st_qaprint_element                 ../starter/source/output/qaprint/st_qaprint_element.F

@@ -84,9 +84,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    fill_surf_ellipse                  ../starter/source/model/sets/fill_gr_surf_ellipse.F
       !||    fill_surf_plane                    ../starter/source/model/sets/fill_gr_surf_plane.F90
       !||    fractal_element_neighbor           ../starter/source/materials/fail/fractal/fractal_element_neighbor.F90
-      !||    hm_read_inivol                     ../starter/source/initial_conditions/inivol/hm_read_inivol.F
       !||    hm_set                             ../starter/source/model/sets/hm_set.F
-      !||    inivol_interf_mod                  ../starter/share/modules1/inivol_mod.F
       !||    insert_clause_in_set               ../starter/source/model/sets/insert_clause_in_set.F
       !||    lectur                             ../engine/source/input/lectur.F
       !||    line_buffer                        ../starter/source/model/sets/line_buffer.F

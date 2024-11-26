@@ -22,8 +22,6 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
       !||    sigeps01c   ../engine/source/materials/mat/mat001/sigeps01c.F
-      !||--- called by ------------------------------------------------------
-      !||    mulawc      ../engine/source/materials/mat_share/mulawc.F
       !||====================================================================
       SUBROUTINE SIGEPS01C(JFT       ,JLT      ,NEL      ,IMAT     ,GS       ,
      1                     SIGOXX    ,SIGOYY   ,SIGOXY   ,SIGOYZ   ,SIGOZX   ,

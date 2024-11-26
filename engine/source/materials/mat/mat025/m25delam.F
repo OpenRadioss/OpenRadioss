@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    m25delam        ../engine/source/materials/mat/mat025/m25delam.F
       !||--- called by ------------------------------------------------------
-      !||    mulawc          ../engine/source/materials/mat_share/mulawc.F
       !||    usermat_shell   ../engine/source/materials/mat_share/usermat_shell.F
       !||====================================================================
       SUBROUTINE M25DELAM(JFT,JLT,PM,GSTR,DAMDL,MAT,NGL,NEL)

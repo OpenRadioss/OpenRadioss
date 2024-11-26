@@ -34,7 +34,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    groupdef_mod           ../common_source/modules/groupdef_mod.F
       !||    h3d_mod                ../engine/share/modules/h3d_mod.F
-      !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F
       !||    stack_mod              ../engine/share/modules/stack_mod.F
       !||====================================================================
       SUBROUTINE EIGCOND(GRAPHE      , EIGIPM    , EIGRPM  , IKC0      , NDDL0       ,

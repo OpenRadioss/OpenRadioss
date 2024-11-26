@@ -29,7 +29,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ancmsg         ../engine/source/output/message/message.F
       !||    arret          ../engine/source/system/arret.F
       !||--- uses       -----------------------------------------------------
-      !||    admerr_mod     ../engine/source/model/remesh/admerr.F
       !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    message_mod    ../engine/share/message_module/message_mod.F
       !||====================================================================

@@ -46,7 +46,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_inject1          ../starter/source/properties/injector/hm_read_inject1.F
       !||    hm_read_inject2          ../starter/source/properties/injector/hm_read_inject2.F
       !||    hm_read_inter_type10     ../starter/source/interfaces/int10/hm_read_inter_type10.F
-      !||    hm_read_mat              ../starter/source/materials/mat/hm_read_mat.F
       !||    hm_read_mat00            ../starter/source/materials/mat/mat000/hm_read_mat00.F
       !||    hm_read_mat02            ../starter/source/materials/mat/mat002/hm_read_mat02.F
       !||    hm_read_mat03            ../starter/source/materials/mat/mat003/hm_read_mat03.F
