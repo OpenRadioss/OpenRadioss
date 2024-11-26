@@ -230,7 +230,7 @@ contains
             if(ilaw == 51)then
                iadbuf = ipm((imat-1)*npropmi + 7)!ipm(7,imat)
                nuparam= ipm((imat-1)*npropmi + 9)!ipm(9,imat)
-               uparam => bufmat(iadbuf:iadbuf+nuparam)
+               uparam => bufmat(iadbuf:iadbuf+nuparam-1)
                submat_id=uparam(276+submat_id)
             endif
 
