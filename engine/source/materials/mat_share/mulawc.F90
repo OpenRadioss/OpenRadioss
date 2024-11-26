@@ -214,7 +214,7 @@ subroutine mulawc(elbuf_str ,&
       &iptx,ilayer,irot,dmg_flag,lf_dammx,nipar,&
       &igmat,ipgmat,nptt,ipt_all,npttot,nuvarv,ilaw,&
       &joff,siznul,ply_id,iseq,progressive_crack,&
-      &orth_damage,l_dmg,iprony,israte,nvartmp,inloc,idrape,vp,nply_max
+      &orth_damage,l_dmg,iprony,israte,nvartmp,inloc,idrape,vp
       integer :: ij1,ij2,ij3,ij4,ij5
       integer :: ij(5),iflag(1)
       integer ,dimension(maxfunc) :: ifunc
@@ -1685,7 +1685,7 @@ subroutine mulawc(elbuf_str ,&
                &off      ,sigy       ,etse     ,ssp  )
 !
             elseif (ilaw == 127) then
-               !---
+               ! ---
                do i=jft,jlt
                   ! ij(k) = nel*(k-1)
                   sigoxx(i) =  lbuf%sig(nel*(1-1)+i)
@@ -1695,12 +1695,11 @@ subroutine mulawc(elbuf_str ,&
                   sigozx(i) =  lbuf%sig(nel*(5-1)+i)
                enddo
                !---
-               nply_max = nlay_max*laynpt_max
                call sigeps127c(&
                &jlt      ,matparam   ,nuvar    ,uvar      ,         &
                &rho      ,thkn       ,thklyl   ,shf       ,ncycle  ,&
                &nfunc    ,ifunc      ,npf      ,tf        ,snpc    ,&
-               &stf      ,epsp       ,nply_max                     ,&
+               &stf      ,epsp       ,npttot                       ,&
                &depsxx   ,depsyy     ,depsxy   ,depsyz   ,depszx   ,&
                &epsxx    ,epsyy      ,epsxy    ,epsyz    ,epszx    ,&
                &sigoxx   ,sigoyy     ,sigoxy   ,sigozx   ,sigoyz   ,&
