@@ -906,8 +906,7 @@ C-----------------------------------------------------------------------
      2    INTBUF_TAB(NIN)%IRTLS,INTBUF_TAB(NIN)%CSTM,INTBUF_TAB(NIN)%IRTLOS,INTBUF_TAB(NIN)%VARIABLES(2),NMN,
      3    ITAB      ,IWPENE    ,ID,TITR)
        ENDIF
-       CALL I9BCS_CHECK(ICODE, SICODE, NSN, INTBUF_TAB(NIN)%NSV, SITAB, ITAB, NOINT, TITR, NTY,
-     .                  INTBUF_TAB(NIN)%S_ILOCS, INTBUF_TAB(NIN)%ILOCS )
+       CALL I9BCS_CHECK(ICODE, SICODE, NSN, INTBUF_TAB(NIN)%NSV, INTBUF_TAB(NIN)%S_ILOCS, INTBUF_TAB(NIN)%ILOCS )
 C-----------------------------------------------------------------------
       ELSEIF(NTY==10) THEN
 C-----------------------------------------------------------------------

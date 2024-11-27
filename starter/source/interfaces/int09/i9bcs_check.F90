@@ -34,12 +34,11 @@
       !||--- uses       -----------------------------------------------------
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
-        subroutine i9bcs_check(icode, sicode, nsn , nsv, sitab, itab, interf_uid, title, nty, siloc, iloc)
+        subroutine i9bcs_check(icode, sicode, nsn , nsv, siloc, iloc)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use message_mod
-          use names_and_titles_mod , only : nchartitle
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -51,15 +50,11 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer,                  intent(in) :: siloc, sitab, sicode    !< the size of arrays ITAB and ICODE
-          integer,                  intent(in) :: itab(sitab)             !< user node identifiers
+          integer,                  intent(in) :: siloc, sicode    !< the size of array ICODE
           integer,                  intent(in) :: icode(sicode)           !< bcs codes for nodes
           integer,                  intent(in) :: iloc(siloc)             !< working array for interface type9
           integer,                  intent(in) :: nsn                     !< number of secnd nodes
           integer,                  intent(in) :: nsv(nsn)                !< list of secnd nodes
-          integer,                  intent(in) :: interf_uid              !< interface user id
-          integer,                  intent(in) :: nty                     !< interface type
-          character(len=nchartitle),intent(in) :: title                   !< interface title
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -95,7 +90,6 @@
                if(num_bcs == 4)then
                  ! bcs check also in engine, since engine options /bcs, /bcsr may update nodal bcs
                  !call ancmsg(msgid=3065, anmode = aninfo, msgtype = msgerror, i1=interf_uid, i2=nty, i3=itab(inod), c1=title)
-                 print *, interf_uid,title,itab(inod),nty
                  exit
                else
                  num_bcs=num_bcs+1
