@@ -66,6 +66,7 @@ C-----------------------------------------------
       IF (OK_QA) THEN
         DO MY_MAT=1,NUMMAT-1 ! Do not write global material
           CALL FRETITL2(TITR,IPM(NPROPMI-LTITR+1,MY_MAT),LTITR)
+          TITR = MAT_ELEM%MAT_PARAM(MY_MAT)%TITLE
 
 C         Le Titr du MAT sert de nom de la variable dans le ref.extract , suivi de l'ID du MAT 
 C         2 MATs peuvent avoir le meme titre

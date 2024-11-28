@@ -22,8 +22,9 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 module HM_READ_MAT_MOD
 contains
+
 !! \brief Read materials cards
-subroutine hm_read_mat(                                                   &
+             subroutine hm_read_mat(                                      &
    &                    mat_param   ,mlaw_tag    ,eos_tag     ,bufmat    ,&
    &                    buflen      ,iadbuf      ,ipm         ,pm        ,&
    &                    multi_fvm   ,unitab      ,lsubmodel   ,table     ,&
@@ -163,11 +164,11 @@ subroutine hm_read_mat(                                                   &
             endif
          enddo
          if (uid > 0 .and. iflagunit == 0) then
-            call ancmsg(msgid=659,anmode=aninfo,msgtype=msgerror,&
-            &i2=uid,i1=mat_id,&
-            &C1='MATERIAL',&
-            &C2='MATERIAL',&
-            &C3='TITR')
+            call ancmsg(msgid=659,anmode=aninfo,msgtype=msgerror, &
+            &           i2=uid,i1=mat_id,                         &
+            &           C1='MATERIAL',                            &
+            &           C2='MATERIAL',                            &
+            &           C3='TITR')
          endif
 !----
          call fretitl(titr,ipm(npropmi-ltitr+1,i),ltitr)
@@ -1265,22 +1266,34 @@ subroutine hm_read_mat(                                                   &
          ipm(2,i)   = ilaw
          ipm(3,i)   = israte
 !
-         pm(8,i)    = israte          ! double stockage - a nettoyer
          if (pm(9,i) == zero.and.ilaw /=2 ) pm(9,i) = asrate    ! old mat laws fill it directly
+
+
+
          pm(19,i)   = ilaw + em01     ! double stockage - a nettoyer
          pm(70,i)   = jtur + em01
          pm(71,i)   = jthe + em01
          pm(72,i)   = jale + em01
+
+
          ipm(217,i) = iuser_law
 !---------------------------------------------------------
 !
          if (matparam%rho   > zero) pm(1 ,i) = matparam%rho
          if (matparam%rho0  > zero) pm(89,i) = matparam%rho0
 !
+         if (matparam%rho  == zero) matparam%rho  = pm(1 ,i)
+         if (matparam%rho0 == zero) matparam%rho0 = pm(89,i)
+!
          if (matparam%young == zero) matparam%young = pm(20,i)
          if (matparam%nu    == zero) matparam%nu    = pm(21,i)
          if (matparam%shear == zero) matparam%shear = pm(22,i)
          if (matparam%bulk  == zero) matparam%bulk  = pm(32,i)
+!
+         if (pm(20,i) == zero) pm(20,i) = matparam%young
+         if (pm(21,i) == zero) pm(21,i) = matparam%nu   
+         if (pm(22,i) == zero) pm(22,i) = matparam%shear
+         if (pm(32,i) == zero) pm(32,i) = matparam%bulk 
 !
          ! to be defined
          ! if (matparam%stiff_contact == zero) matparam%stiff_contact = pm(?,i)
