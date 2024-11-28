@@ -27,7 +27,7 @@ contains
    &                         ipm, nbsubmat, lsubmodel, unitab,                &
    &                         n2d ,numeltg,numels,numelq,nummat,               &
    &                         npart,nsurf,lipart1,npropmi,sipart,sinivol,      &
-   &                         nsubdom,sbufmat  )
+   &                         nsubdom,sbufmat, igrnod, ngrnod )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -74,25 +74,26 @@ contains
       integer,intent(inout) :: sinivol    !< length of inivol commputed
       integer,intent(in) :: nsubdom       !< number of subdomains (rad2rad)
       integer,intent(in) :: ipart(sipart) !< part data
-      ! real arrays
+      integer,intent(in) :: ngrnod        !< number of group (array igrnod)
       my_real,intent(in),target :: bufmat(sbufmat) !< buffer for material data
+      type (group_), dimension(ngrnod) :: igrnod !< data structure for groups of nodes  (ininvol compatible with ordered list of nodes in 2d)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      integer i,j,ip,id,part_id,jrec,igs,part_user_id,idsurf
-      integer submat_id,ireversed,ncont,nlin,isu,nn,jj,nintmax,ityp,numel_tot
-      integer srftyp,fac,k,icumu,imat,iadbuf,nuparam,isubmat,stat,kk,n_r2r
+      integer j,ip,id,part_id,igs,part_user_id,idset
+      integer submat_id,ireversed,nlin,isu,nseg,nintmax,ityp,numel_tot
+      integer surf_type,grnsorted,nb_compat_surf,icumu,imat,iadbuf,nuparam,stat,kk,n_r2r
       integer nbmat_max
       my_real vfrac,ilaw
       my_real, dimension(:),pointer :: uparam
       character(len=nchartitle) :: titr
       character mess*40
-      character(len=ncharkey) :: key
       character(len=ncharline) err_msg
       data mess/'INITIAL VOLUME FRACTION                 '/
       character(len=ncharline) :: outp_msg
       logical is_encrypted,is_available
       logical detected_error
+      logical isSURF, isGRNOD
 !-----------------------------------------------
 !   c o m m e n t s
 !-----------------------------------------------
@@ -148,20 +149,15 @@ contains
       igs=0
       nintmax = 3
       n_r2r = 0
-!
       do igs=1,num_inivol
-!
          if (nsubdom > 0) then
             n_r2r = n_r2r + 1
             if(tag_inivol(n_r2r) == 0) call hm_sz_r2r(tag_inivol,n_r2r,lsubmodel)
          endif
-
          call hm_option_read_key(lsubmodel, option_id=id, option_titr=titr)
          call hm_get_intv('secondarycomponentlist', part_user_id, is_available, lsubmodel)
          call hm_get_intv('NIP', nlin, is_available, lsubmodel)
-
          write(iout, 1001) titr, id, part_user_id
-
          part_id = 0
          !search part_id
          do j=1,npart
@@ -182,7 +178,7 @@ contains
 
          write(iout, '(A)') "     surf_ID SUBMAT_ID IREVERSED     ICUMU               VFRAC"
          do kk=1,nlin
-            call hm_get_int_array_index('SETSURFID_ARR', idsurf,kk, is_available, lsubmodel)
+            call hm_get_int_array_index('SETSURFID_ARR', idset,kk, is_available, lsubmodel)
             call hm_get_int_array_index('ALE_PHASE', submat_id,kk, is_available, lsubmodel)
             call hm_get_int_array_index('fill_opt_arr', ireversed,kk, is_available, lsubmodel)
             call hm_get_int_array_index('ICUMU', icumu,kk, is_available, lsubmodel)
@@ -217,79 +213,143 @@ contains
                call ancmsg(msgid=888,msgtype=msgwarning,anmode=aninfo,i1=id,c1=titr,c2=outp_msg)
             endif
 
-            write(iout,'(2X,I10,I10,I9,I6,F20.0)')idsurf,submat_id,ireversed,icumu,vfrac
+            write(iout,'(2X,I10,I10,I9,I6,F20.0)')idset,submat_id,ireversed,icumu,vfrac
 
+            !check multimaterial compatibility
             imat = ipart(lipart1*(part_id-1)+1)
             ilaw = ipm((imat-1)*npropmi + 2)     !ipm(2,imat)
             if(ilaw/=51 .and. ilaw/=151)then
+               !INIVOL OPTION IS ONLY COMPATIBLE WITH MULTIMATERIAL LAWS 51 and 151
                call ancmsg(msgid=821, msgtype=msgerror, anmode=aninfo, i1=id, c1=titr)
             endif
-
             !!get bijective application to retrieve internal order of submaterial.
             !! (internally & historically submat4 is explosive submaterial)
             if(ilaw == 51)then
                iadbuf = ipm((imat-1)*npropmi + 7)!ipm(7,imat)
                nuparam= ipm((imat-1)*npropmi + 9)!ipm(9,imat)
                uparam => bufmat(iadbuf:iadbuf+nuparam-1)
-               submat_id=uparam(276+submat_id)
+               submat_id=nint(uparam(276+submat_id))
             endif
 
+            !chek id for user surface (2d & 3d)
             isu=0
-            nn =0
+            nseg=0
+            surf_type=-1 
             do j=1,nsurf
-               if (idsurf == igrsurf(j)%id) then
+               if (idset == igrsurf(j)%id) then
                   isu=j
-                  nn = igrsurf(isu)%nseg
+                  nseg = igrsurf(isu)%nseg
+                  surf_type=igrsurf(isu)%type
+                  isSURF = .TRUE.
+                  isGRNOD = .FALSE.
                   exit
                end if
             enddo
-            fac = 0
+
+            !check compatibility with surface types
+            nb_compat_surf = 0
             if (isu > 0) then
-               srftyp=igrsurf(isu)%type
-               if(srftyp == 101 .or. srftyp == 200) then
-                  fac = 1
+               if(surf_type == 101 .or. surf_type == 200) then
+                     !   IGRSURF(IGS)%TYPE      ::  OPEN / CLOSED surface flag
+                     !                           SURF_TYPE = 0         : SEGMENTS
+                     !                           SURF_TYPE = 100       : HYPER-ELLIPSOIDE MADYMO.
+                     !                           SURF_TYPE = 101       : HYPER-ELLIPSOIDE RADIOSS.
+                     !                           SURF_TYPE = 200       : INFINITE PLANE               
+                 nb_compat_surf = nb_compat_surf + 1
                else
-                  do j=1,nn
+                  do j=1,nseg
                      ityp=igrsurf(isu)%eltyp(j)
-                     if(ityp==0 .or. ityp==3 .or. ityp==7) fac = fac + 1
+                     !   IGRSURF(IGS)%ELTYP(J)   :: type of element attached to the segment of the surface
+                     !                           ITYP = 0  - surf of segments
+                     !                           ITYP = 1  - surf of solids
+                     !                           ITYP = 2  - surf of quads
+                     !                           ITYP = 3  - surf of SH4N
+                     !                           ITYP = 4  - line of trusses
+                     !                           ITYP = 5  - line of beams
+                     !                           ITYP = 6  - line of springs
+                     !                           ITYP = 7  - surf of SH3N
+                     !                           ITYP = 8  - line of XELEM (nstrand element)
+                     !                           ITYP = 101 - ISOGEOMETRIQUE                     
+                     if(ityp == 0)then; nb_compat_surf = nb_compat_surf + 1; exit; endif
+                     if(n2d == 0 .and. (ityp == 0 .or. ityp==3 .or. ityp==7))then; nb_compat_surf = nb_compat_surf + 1; exit; endif
+                     if(n2d > 0 .and. (ityp==0))then; nb_compat_surf = nb_compat_surf + 1; exit; endif
                   enddo
                endif
+            endif
 
-               if(isu > 0 .and. nn > 1 .and. n2d /= 0)then
+            !check id for user ordered list of node (2d only)
+            if (isu == 0 .and. n2d > 0)then   !allow /GRNOD/NODENS to define a polygon
+              do j=1,ngrnod
+                 if (idset == igrnod(j)%id .and. igrnod(j)%sorted == 1) then
+                   isu=j
+                   nseg = igrnod(isu)%nentity
+                   grnsorted=1
+                   nb_compat_surf = nb_compat_surf + 1
+                   isSURF = .FALSE.
+                   isGRNOD = .TRUE.
+                   exit
+                 end if
+              enddo
+            end if
+
+            !---   discretized surface - storage in data structure
+            inivol(igs)%container(kk)%surf_id = 0
+            inivol(igs)%container(kk)%grnod_id = 0
+            if(isSURF)inivol(igs)%container(kk)%surf_id = isu
+            if(isGRNOD)inivol(igs)%container(kk)%grnod_id = isu
+            inivol(igs)%container(kk)%submat_id = submat_id
+            inivol(igs)%container(kk)%ireversed = ireversed
+            inivol(igs)%container(kk)%vfrac = int(vfrac*ep9)
+            inivol(igs)%container(kk)%icumu = icumu
+
+            !check polygon from user definition
+            if(isu > 0 .and. n2d > 0 .and. isSURF)then
+               !--- check polygon (2d)
+               if(isu > 0 .and. nseg > 1 )then
                   !test surface closure (closed polygon)
-                  if(igrsurf(isu)%nodes(1,1) /= igrsurf(isu)%nodes(nn,2)) then
-                     call ancmsg(msgid=3063,msgtype=msgerror,anmode=aninfo,i1=id,i2=igrsurf(isu)%id,c1=titr)
+                  if(igrsurf(isu)%nodes(1,1) /= igrsurf(isu)%nodes(nseg,2)) then
+                     !LIST OF SEGMENTS MUST BE CLOSED TO GET A WELL DEFINED POLYGON.
+                     call ancmsg(msgid=3063,msgtype=msgwarning,anmode=aninfo,i1=id,i2=igrsurf(isu)%id,c1=titr)
+                     !automatic closure will ensure a closed polygon when building polygons
                   endif
                   !test polygon definition --- (last point of current segment is first point of next one : otherwise set detected_error to .true.
                   detected_error=.false.
-                  do j=1,nn-1
+                  do j=1,nseg-1
                      if(igrsurf(isu)%nodes(j,2) /= igrsurf(isu)%nodes(j+1,1))then
                         detected_error = .true.
                         exit
                      endif
                   enddo
                   if(detected_error)then
+                     !LIST OF SEGMENTS IS NOT DEFINING A POLYGON. CHECK NODE IDENTIFIERS AND ORDER
                      call ancmsg(msgid=3064,msgtype=msgerror,anmode=aninfo,i1=id,i2=igrsurf(isu)%id,c1=titr)
                   endif
                elseif(isu > 0)then
-                  if(isu > 0 .and. nn <= 2 .and. n2d /= 0 .and. srftyp == 0)then
+                  if(isu > 0 .and. nseg <= 2 .and. n2d /= 0 .and. surf_type == 0)then
+                     !LIST OF SEGMENTS IS NOT DEFINING A POLYGON. CHECK NODE IDENTIFIERS AND ORDER
                      call ancmsg(msgid=3064,msgtype=msgerror,anmode=aninfo,i1=id,i2=igrsurf(isu)%id,c1=titr) !not enough points to define a polygon
                   endif
                endif
-               !---   discretized surface
-               inivol(igs)%container(kk)%surf_id = isu
-               inivol(igs)%container(kk)%submat_id = submat_id
-               inivol(igs)%container(kk)%ireversed = ireversed
-               inivol(igs)%container(kk)%vfrac = int(vfrac*ep9)
-               inivol(igs)%container(kk)%icumu = icumu
-!
-               if(n2d == 0 .and. fac == 0)then
+               if(nb_compat_surf == 0)then
                   call ancmsg(msgid=890,msgtype=msgerror,anmode=aninfo,i1=id,c1=titr)
-               elseif(n2d > 0 .and. srftyp /=0 .and. srftyp /=101 .and. srftyp /= 200)then
+               elseif(n2d > 0 .and. surf_type /=0 .and. surf_type /=101 .and. surf_type /= 200)then
                   call ancmsg(msgid=2012,msgtype=msgerror,anmode=aninfo,i1=id,c1=titr)
                endif
-            else  ! isu == 0
-               call ancmsg(msgid=889,msgtype=msgerror,anmode=aninfo,i1=id,c1=titr,i2=idsurf)
+            elseif(isGRNOD .and. n2d > 0)then
+              !nothing to check. There is a list of ordered nodes from which segment will be built, ensuring a closed polygon
+            endif
+
+            !surface or polygon not found
+            if(isu == 0)then
+               if(n2d == 0)then
+                 !SURFACE ID=[idset] DOES NOT EXIST
+                 err_msg = "SURFACE"
+                 call ancmsg(msgid=889,msgtype=msgerror,anmode=aninfo,i1=id,c1=titr,i2=idset)
+               elseif(n2d > 0)then
+                 !ORDERED LIST ID=[idset] DOES NOT EXIST
+                 err_msg = "SURFACE OR ORDERED LIST OF NODES"
+                 call ancmsg(msgid=889,msgtype=msgerror,anmode=aninfo,i1=id,c1=titr,i2=idset)
+               end if
             endif
          enddo   !next line
          write(iout,'(A//)')

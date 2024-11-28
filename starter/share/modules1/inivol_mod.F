@@ -55,6 +55,7 @@ C   D e r i v e d   T y p e   D e f i n i t i o n s
 C-----------------------------------------------
         TYPE CONTAINER_
           INTEGER   :: SURF_ID
+          INTEGER   :: GRNOD_ID
           INTEGER   :: SUBMAT_ID  ! Phase of the multi-material ALE to fill the Part
           my_real   :: VFRAC     ! Filling ratio
           INTEGER   :: ICUMU     ! Flag for cumulate volume filling

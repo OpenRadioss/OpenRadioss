@@ -5248,7 +5248,7 @@ C--------------------------------------------
      *                    IPM, NBSUBMAT, LSUBMODEL, UNITAB,
      *                    N2D ,NUMELTG,NUMELS,NUMELQ,NUMMAT,
      *                    NPART,NSURF,LIPART1,NPROPMI,SIPART,SINIVOL,
-     *                    NSUBDOM,SBUFMAT)
+     *                    NSUBDOM,SBUFMAT,IGRNOD,NGRNOD)
 C--------------------------------------------
 C     Surfaces fictives IGE
 C--------------------------------------------

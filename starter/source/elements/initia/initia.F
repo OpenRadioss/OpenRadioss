@@ -1652,8 +1652,8 @@ C-----------------------------------------------------
 C Option /INIVOL
 C-----------------------------------------------------
       CALL INIT_INIVOL(  NUM_INIVOL,  inivol,   nsurf, igrsurf,
-     .                   nparg    ,   ngroup,   iparg,  numnod, npart,
-     .                   numels   ,     nixs,     ixs,
+     .                   nparg    ,   ngroup,   iparg,  numnod,  npart,
+     .                   numels   ,     nixs,     ixs,  igrnod, ngrnod,
      .                   numeltg  ,    nixtg,    ixtg,
      .                   numelq   ,     nixq,     ixq,
      .                   x        , nbsubmat,    kvol,
@@ -1661,8 +1661,8 @@ C-----------------------------------------------------
      .                   n2d      ,multi_fvm,  sipart, ipart  ,
      .                   i15a     ,i15b     ,    i15h, sbufmat,  bufmat,
      .                   npropmi  ,nummat   ,     ipm,  sbufsf,   bufsf,
-     .                   npropg   ,numgeo   ,     geo, mvsiz  ,   skvol,    itab,
-     .                   mat_param)
+     .                   npropg   ,numgeo   ,     geo, mvsiz  ,   skvol,
+     .                   itab     ,mat_param)
 C---------------------------------
 C  Gravity (after INIVOL)
 C---------------------------------
