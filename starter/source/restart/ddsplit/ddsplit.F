@@ -2765,6 +2765,10 @@ c
       CALL WRITE_MATPARAM(MAT_ELEM,LEN)
 C     LEN_AM = LEN_AM + LEN !LEN is corrupted by uninitialized variable
 C     in write_matparam
+C--------------------------------------------
+C global thermal parameters
+C--------------------------------------------
+!      CALL WRITE_GLOB_THERM(MAT_ELEM,LEN)
 C--------------------------------------
 C ELGROUP_PARAM
 C--------------------------------------
