@@ -50,10 +50,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE READ_MATERIAL_MODELS(
      .             MAT_ELEM    ,MLAW_TAG ,FAIL_TAG ,EOS_TAG  ,
      .             BUFMAT      ,BUFLEN   ,IPM      ,PM       ,UNITAB   ,
-     .             MULTI_FVM   ,FAILWAVE ,NLOC_DMG ,LSUBMODEL,
-     .             TABLE       ,NPC      ,LTITR,
-     .             MAT20_DISCRETE_FILL,
-     .             USERL_AVAIL ,MAT_NUMBER)
+     .             MULTI_FVM   ,FAILWAVE ,NLOC_DMG ,LSUBMODEL,TABLE    ,
+     .             LTITR       ,MAT20_DISCRETE_FILL,USERL_AVAIL,MAT_NUMBER  )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -78,6 +76,7 @@ C-----------------------------------------------
       USE TABLE_MOD
       USE MAT_ELEM_MOD
       USE HM_READ_MAT_MOD
+      use hm_read_therm_stress_mod
 c-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -100,7 +99,6 @@ C-----------------------------------------------
       INTEGER, INTENT(INOUT) :: MAT_NUMBER
       LOGICAL, INTENT(INOUT) :: MAT20_DISCRETE_FILL
       INTEGER :: BUFLEN
-      INTEGER,INTENT(IN) :: NPC(SNPC)
       INTEGER ,DIMENSION(NPROPMI,NUMMAT), INTENT(INOUT) :: IPM
       my_real ,DIMENSION(NPROPM ,NUMMAT), INTENT(INOUT) :: PM
       my_real ,DIMENSION(SBUFMAT)       , INTENT(INOUT) :: BUFMAT
@@ -119,7 +117,6 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ::  I,J,K,N,IADBUF,ILAW
       LOGICAL IS_ENCRYPTED, IS_AVAILABLE
-      my_real ::  T0,SPH,AS,BS,T1,AL,BL
       INTEGER IFUNC(MAXFUNC)
       CHARACTER MESS*40
 C-----------------------------------------------
@@ -162,7 +159,7 @@ c-------------------------------------------------------------------
      .     MAT_ELEM%MAT_PARAM       ,MLAW_TAG    ,EOS_TAG     ,BUFMAT      ,
      .     BUFLEN      ,IADBUF      ,IPM         ,PM          ,
      .     MULTI_FVM   ,UNITAB      ,LSUBMODEL   ,TABLE       ,
-     .     SBUFMAT     ,NPROPMI     ,NPROPM      , TRIMAT,
+     .     SBUFMAT     ,NPROPMI     ,NPROPM      ,TRIMAT      ,
      .     IALELAG     ,NTABLE      ,NUMMAT      ,HM_NUMMAT   ,
      .     LTITR       ,USERL_AVAIL,MAT_NUMBER)
 
@@ -214,7 +211,8 @@ c-------------------------------------------------------------------
 c-------------------------------------------------------------------
 c     /THERM/STRESS : thermal expansion
 c-------------------------------------------------------------------
-      CALL HM_READ_THERM_STRESS(MLAW_TAG, IPM, PM, UNITAB, LSUBMODEL)
+      CALL HM_READ_THERM_STRESS(NUMMAT   ,MAT_ELEM%MAT_PARAM,MLAW_TAG, UNITAB, LSUBMODEL, 
+     .                          IOUT     ,NPROPM   ,NPROPMI   ,IPM      ,PM     )
 
 c-------------------------------------------------------------------
 c     /NONLOCAL : Non-local regularization
