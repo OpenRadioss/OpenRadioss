@@ -37,7 +37,7 @@ jobs:
         - /etc/localtime:/etc/localtime:ro
  
     env:
-      HW_SOLVER_PREFIX: "hwsolvers/radioss"
+      HW_SOLVER_PREFIX: ${{ secrets.JFROG_DELIVERY_RADIOSS_REPO }}
       HMREADER_PREFIX: "hm_reader"
       # Needed by gh auth
       GIT_PUSH_SERVBOT_PAT: ${{ secrets.GIT_PUSH_SERVBOT_PAT }}
