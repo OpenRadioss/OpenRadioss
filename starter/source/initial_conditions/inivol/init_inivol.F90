@@ -48,25 +48,25 @@
       !||--- uses       -----------------------------------------------------
       !||    inivol_def_mod                 ../starter/share/modules1/inivol_mod.F
       !||====================================================================
-      subroutine init_inivol(   num_inivol,   inivol,   nsurf,    igrsurf, &
-                                nparg     ,   ngroup,   iparg,     numnod, npart,&
-                                numels    ,     nixs,     ixs,&
+      subroutine init_inivol(   num_inivol,   inivol,   nsurf,    igrsurf,        &
+                                nparg     ,   ngroup,   iparg,     numnod,  npart,&
+                                numels    ,     nixs,     ixs,     igrnod, ngrnod,&
                                 numeltg   ,    nixtg,    ixtg,&
                                 numelq    ,     nixq,     ixq,&
                                 x         , nbsubmat,    kvol,&
                                 elbuf_tab ,  numels8,   xrefs, glob_therm, &
                                 n2d       ,multi_fvm,  sipart,      ipart, &
                                 i15a      ,     i15b,    i15h,    sbufmat, bufmat,&
-                                npropmi   ,   nummat,     ipm,     sbufsf, bufsf,&
-                                npropg    ,   numgeo,     geo,      mvsiz, skvol , itab, &
-                                mat_param)
+                                npropmi   ,   nummat,     ipm,     sbufsf,  bufsf,&
+                                npropg    ,   numgeo,     geo,      mvsiz,  skvol,  &
+                                itab      ,mat_param)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
       use constant_mod , only : zero, ep9, ep20
       use array_mod , only : array_type, alloc_1d_array, dealloc_1d_array, dealloc_3d_array
       use inivol_def_mod , only : inivol_struct_
-      use groupdef_mod , only : surf_
+      use groupdef_mod , only : surf_, group_
       use elbufdef_mod , only : elbuf_struct_, buf_mat_
       use multi_fvm_mod , only : multi_fvm_struct
       use matparam_def_mod , only : matparam_struct_
@@ -90,6 +90,7 @@
       integer,intent(in) :: i15a,i15b,i15h                                                        !< indexes for ipart array
       integer,intent(in) :: ipart(sipart)                                                         !< buffer for parts
       integer,intent(in) :: ipm(npropmi,nummat)                                                   !< material data (integers)
+      integer,intent(in) :: ngrnod                                                                !< array size igrnod
       my_real, intent(in) :: x(3,numnod)                                                          !< coordinates
       my_real :: xrefs(8,3,numels8)                                                               !<
       my_real, intent(inout) :: kvol(nbsubmat,skvol/nbsubmat)                                     !< inivol working array
@@ -103,6 +104,7 @@
       integer,intent(in) :: itab(numnod)
       type (matparam_struct_) ,dimension(nummat) ,intent(in) :: mat_param
       type (glob_therm_) ,intent(in) :: glob_therm
+      type (group_)  , dimension(ngrnod)  :: igrnod                                               !< data structure for group of nodes
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -195,11 +197,11 @@
               idsurf   = inivol(ii)%container(idc)%surf_id
               nsegsurf = igrsurf(idsurf)%nseg
                 ! 2D LINE OF SEGMENTS (/SURF/SEG)
-                CALL init_inivol_2d_polygons(   ii        ,      idc,  mat_param  ,  GLOBAL_xyz,  &
+                CALL init_inivol_2d_polygons(   ii        ,      idc,  mat_param  ,  GLOBAL_xyz, &
                                                 num_inivol,   inivol,      nsurf  ,     igrsurf, &
                                                 nparg     ,   ngroup,      iparg  ,      numnod, &
-                                                numeltg   ,    nixtg,       ixtg  ,              &
-                                                numelq    ,     nixq,        ixq  ,              &
+                                                numeltg   ,    nixtg,       ixtg  ,      igrnod, &
+                                                numelq    ,     nixq,        ixq  ,      ngrnod, &
                                                 x         , nbsubmat,       kvol  ,      nummat, &
                                                 sipart    ,    ipart,      bufsf  ,      sbufsf, &
                                                 i15b      ,    i15h ,    itab      )

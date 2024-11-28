@@ -41,8 +41,8 @@
                                 i_inivol  ,      idc,           mat_param, GLOBAL_xyz, &
                                 NUM_INIVOL,   inivol,               nsurf,    igrsurf, &
                                 nparg     ,   ngroup,               iparg,     numnod, &
-                                numeltg   ,    nixtg,                ixtg,             &
-                                numelq    ,     nixq,                 ixq,             &
+                                numeltg   ,    nixtg,                ixtg,     igrnod, &
+                                numelq    ,     nixq,                 ixq,     ngrnod, &
                                 x         , nbsubmat,                kvol,     nummat, &
                                 sipart    ,    ipart,               bufsf,     sbufsf, &
                                 i15b      ,    i15h ,                itab)
@@ -52,7 +52,7 @@
       use constant_mod , only : zero, em20, em10, em06, em02, fourth, third, half, one, two, pi, ep9, ep10, ep20
       use array_mod , only : array_type, alloc_1d_array, dealloc_1d_array, dealloc_3d_array
       use inivol_def_mod , only : inivol_struct_
-      use groupdef_mod , only : surf_
+      use groupdef_mod , only : surf_, group_
       use elbufdef_mod , only : elbuf_struct_, buf_mat_
       use multi_fvm_mod , only : MULTI_FVM_STRUCT
       use polygon_clipping_mod
@@ -77,6 +77,7 @@
       integer,intent(in) :: i15b,i15h                                          !< indexes for ipart array
       integer,intent(in) :: ipart(sipart)                                      !< buffer for parts
       integer,intent(in) :: sbufsf                                             !< buffer size for surfaces
+      integer,intent(in) :: ngrnod                                             !< array size igrnod
       my_real, intent(in) :: x(3,numnod)                                       !< node coordinates
       my_real,intent(inout) :: kvol(nbsubmat,numelq+numeltg)                   !< volume fractions (for polygon clipping)
       my_real,intent(in) :: bufsf(sbufsf)                                      !< buffer for surfaces
@@ -85,6 +86,7 @@
       type (surf_), dimension(nsurf), intent(in) :: igrsurf                    !< surface buffer
       integer,intent(in) :: itab(numnod)                                       !< user identifier for nodes
       type(matparam_struct_) ,dimension(nummat) ,intent(in) :: mat_param       !< modern buffer for material laws
+      type (group_)  , dimension(ngrnod)  :: igrnod                            !< data structure for groups of nodes
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -107,10 +109,11 @@
 
       integer :: iadbuf                                                          !< index for buffer bufmat
       integer nsegsurf                                                           !< number of segments for a given 2d surface
+      integer npoints                                                            !< number of points for ordered list of nodes
       integer ng,nel,mtn,imat,icumu,I15_,nft,ity,isolnod,invol,iad,part_id,idp   !< local variables
       integer iseg                                                               !< loop over segments
-      integer ii                                                                 !< various loops
-      integer :: idsurf,ireversed,isubmat                                        !< user parameter for /INIVOL option (current container)
+      integer ii,ipt                                                             !< various loops
+      integer :: idsurf,idgrnod,ireversed,isubmat                                !< user parameter for /INIVOL option (current container)
       integer :: inod1, inod2                                                    !< node identifier of current segment
       integer, allocatable, dimension (:) :: list_quad, list_tria                !<list of elements to retain
       integer icur_q, icur_t                                                     !< cursor for array indexes (quad and tria)
@@ -141,12 +144,16 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           ! /INIVOL parameters
           idsurf    = inivol(i_inivol)%container(idc)%surf_id
+          idgrnod   =  inivol(i_inivol)%container(idc)%grnod_id  !2d : ordered list of nodes
           isubmat   = inivol(i_inivol)%container(idc)%submat_id
           ireversed = inivol(i_inivol)%container(idc)%ireversed
           vfrac     = inivol(i_inivol)%container(idc)%vfrac
           vfrac     = vfrac/ep9
           icumu     = inivol(i_inivol)%container(idc)%icumu
-          nsegsurf  = igrsurf(idsurf)%nseg
+          nsegsurf  = 0
+          npoints   = 0
+          if(idsurf > 0) nsegsurf = igrsurf(idsurf)%nseg
+          if(idgrnod > 0) npoints = igrnod(idgrnod)%nentity
           part_id   = inivol(i_inivol)%part_id
           is_reversed = .false. ; if(ireversed == 1)is_reversed = .true.
 
@@ -160,121 +167,152 @@
           ! SURF_TYPE = 100       : SUPER-ELLIPSOIDE MADYMO.
           ! SURF_TYPE = 101       : SUPER-ELLIPSOIDE RADIOSS.
           ! SURF_TYPE = 200       : INFINITE PLANE
-          if (igrsurf(idsurf)%type == 0 ) then
-            call polygon_create( user_polygon, nsegsurf+1)
-            user_polygon%numpoint = nsegsurf + 1
-            user_polygon%area = zero
-            do iseg = 1,nsegsurf
-              inod1 = igrsurf(idsurf)%nodes(iseg, 1)
-              inod2 = igrsurf(idsurf)%nodes(iseg, 2)
-              user_polygon%point(iseg)%y = x(2,inod1)
-              user_polygon%point(iseg)%z = x(3,inod1)
-              xyz(2) = min (xyz(2), x(2,inod1))
-              xyz(3) = min (xyz(3), x(3,inod1))
-              xyz(5) = max (xyz(5), x(2,inod1))
-              xyz(6) = max (xyz(6), x(3,inod1))
-            end do
+          if(idsurf > 0)then
+            if (igrsurf(idsurf)%type == 0 ) then
+             ! POLYGON DEFINED WITH USER SEGMENTS
+             !building polygon
+             call polygon_create( user_polygon, nsegsurf+1+1)   !+1 in case of automatic closure
+             user_polygon%numpoint = nsegsurf + 1
+             user_polygon%area = zero
+             do iseg = 1,nsegsurf
+               inod1 = igrsurf(idsurf)%nodes(iseg, 1)
+               inod2 = igrsurf(idsurf)%nodes(iseg, 2)
+               user_polygon%point(iseg)%y = x(2,inod1)
+               user_polygon%point(iseg)%z = x(3,inod1)
+               xyz(2) = min (xyz(2), x(2,inod1))
+               xyz(3) = min (xyz(3), x(3,inod1))
+               xyz(5) = max (xyz(5), x(2,inod1))
+               xyz(6) = max (xyz(6), x(3,inod1))
+             end do
+             !automatic closure (if needed)
+             if( igrsurf(idsurf)%nodes(1, 1) /= igrsurf(idsurf)%nodes(nsegsurf, 2) )then
+               user_polygon%point(nsegsurf+1)%y = x(2,1)
+               user_polygon%point(nsegsurf+1)%z = x(3,1)
+               xyz(2) = min (xyz(2), x(2,inod1))
+               xyz(3) = min (xyz(3), x(3,inod1))
+               xyz(5) = max (xyz(5), x(2,inod1))
+               xyz(6) = max (xyz(6), x(3,inod1))
+             end if
 
-          elseif(igrsurf(idsurf)%type == 200)then
-            iad0 = igrsurf(idsurf)%iad_bufr
-            !xp1 = bufsf(iad0+1)
-            yp1 = bufsf(iad0+2)
-            zp1 = bufsf(iad0+3)
-            !xp2 = bufsf(iad0+4)
-            yp2 = bufsf(iad0+5)
-            zp2 = bufsf(iad0+6)
-            !tolerance (in order to avoid degenerated case)
-            DL=one !do not use vectos in plane definition, n=(1,0,0) and n=(1e20,0,0) would define same plane but provides unreliable tolerances
-            DL=-two*em06*DL
-            yp1 = yp1 + DL
-            zp1 = zp1 + DL
-            !normal vector
-            normal(1)=0
-            normal(2)=yp2-yp1
-            normal(3)=zp2-zp1
-            !normalized normal
-            DL = max(em20,sqrt(normal(2)*normal(2)+normal(3)*normal(3)))
-            normal(2)=normal(2)/DL
-            normal(3)=normal(3)/DL
-            !tangent vector
-            tangent(1)=0
-            tangent(2)=normal(3)
-            tangent(3)=-normal(2)
-            !building corresponding polygon (box)
-            call polygon_create( user_polygon, 4+1)
-            user_polygon%numpoint = 4 + 1
-            user_polygon%area = zero
-            DL=(one+fourth)*max(abs(GLOBAL_xyz(5)-GLOBAL_xyz(2)),abs(GLOBAL_xyz(6)-GLOBAL_xyz(3)))
-            user_polygon%point(1)%y = YP1 + half*DL*tangent(2)
-            user_polygon%point(1)%z = ZP1 + half*DL*tangent(3)
-            user_polygon%point(2)%y = user_polygon%point(1)%y + DL*normal(2)
-            user_polygon%point(2)%z = user_polygon%point(1)%z + DL*normal(3)
-            user_polygon%point(3)%y = user_polygon%point(2)%y - DL*tangent(2)
-            user_polygon%point(3)%z = user_polygon%point(2)%z - DL*tangent(3)
-            user_polygon%point(4)%y = user_polygon%point(3)%y - DL*normal(2)
-            user_polygon%point(4)%z = user_polygon%point(3)%z - DL*normal(3)
-            nsegsurf = 4
-            xyz(2) = min(user_polygon%point(1)%y,user_polygon%point(2)%y,user_polygon%point(3)%y,user_polygon%point(4)%y)
-            xyz(3) = min(user_polygon%point(1)%z,user_polygon%point(2)%z,user_polygon%point(3)%z,user_polygon%point(4)%z)
-            xyz(5) = max(user_polygon%point(1)%y,user_polygon%point(2)%y,user_polygon%point(3)%y,user_polygon%point(4)%y)
-            xyz(6) = max(user_polygon%point(1)%z,user_polygon%point(2)%z,user_polygon%point(3)%z,user_polygon%point(4)%z)
-            if(debug)then
-              print *, "box (/surf/plane)"
-              write (*,FMT='(A,3F45.35)') "  *createnode ",0.0,user_polygon%point(1)%y ,user_polygon%point(1)%z
-              write (*,FMT='(A,3F45.35)') "  *createnode ",0.0,user_polygon%point(2)%y ,user_polygon%point(2)%z
-              write (*,FMT='(A,3F45.35)') "  *createnode ",0.0,user_polygon%point(3)%y ,user_polygon%point(3)%z
-              write (*,FMT='(A,3F45.35)') "  *createnode ",0.0,user_polygon%point(4)%y ,user_polygon%point(4)%z
-            endif
+            elseif(igrsurf(idsurf)%type == 200)then
+              iad0 = igrsurf(idsurf)%iad_bufr
+              !xp1 = bufsf(iad0+1)
+              yp1 = bufsf(iad0+2)
+              zp1 = bufsf(iad0+3)
+              !xp2 = bufsf(iad0+4)
+              yp2 = bufsf(iad0+5)
+              zp2 = bufsf(iad0+6)
+              !tolerance (in order to avoid degenerated case)
+              DL=one !do not use vectos in plane definition, n=(1,0,0) and n=(1e20,0,0) would define same plane but provides unreliable tolerances
+              DL=-two*em06*DL
+              yp1 = yp1 + DL
+              zp1 = zp1 + DL
+              !normal vector
+              normal(1)=0
+              normal(2)=yp2-yp1
+              normal(3)=zp2-zp1
+              !normalized normal
+              DL = max(em20,sqrt(normal(2)*normal(2)+normal(3)*normal(3)))
+              normal(2)=normal(2)/DL
+              normal(3)=normal(3)/DL
+              !tangent vector
+              tangent(1)=0
+              tangent(2)=normal(3)
+              tangent(3)=-normal(2)
+              !building corresponding polygon (box)
+              call polygon_create( user_polygon, 4+1)
+              user_polygon%numpoint = 4 + 1
+              user_polygon%area = zero
+              DL=(one+fourth)*max(abs(GLOBAL_xyz(5)-GLOBAL_xyz(2)),abs(GLOBAL_xyz(6)-GLOBAL_xyz(3)))
+              user_polygon%point(1)%y = YP1 + half*DL*tangent(2)
+              user_polygon%point(1)%z = ZP1 + half*DL*tangent(3)
+              user_polygon%point(2)%y = user_polygon%point(1)%y + DL*normal(2)
+              user_polygon%point(2)%z = user_polygon%point(1)%z + DL*normal(3)
+              user_polygon%point(3)%y = user_polygon%point(2)%y - DL*tangent(2)
+              user_polygon%point(3)%z = user_polygon%point(2)%z - DL*tangent(3)
+              user_polygon%point(4)%y = user_polygon%point(3)%y - DL*normal(2)
+              user_polygon%point(4)%z = user_polygon%point(3)%z - DL*normal(3)
+              nsegsurf = 4
+              xyz(2) = min(user_polygon%point(1)%y,user_polygon%point(2)%y,user_polygon%point(3)%y,user_polygon%point(4)%y)
+              xyz(3) = min(user_polygon%point(1)%z,user_polygon%point(2)%z,user_polygon%point(3)%z,user_polygon%point(4)%z)
+              xyz(5) = max(user_polygon%point(1)%y,user_polygon%point(2)%y,user_polygon%point(3)%y,user_polygon%point(4)%y)
+              xyz(6) = max(user_polygon%point(1)%z,user_polygon%point(2)%z,user_polygon%point(3)%z,user_polygon%point(4)%z)
+              if(debug)then
+                print *, "box (/surf/plane)"
+                write (*,FMT='(A,3F45.35)') "  *createnode ",0.0,user_polygon%point(1)%y ,user_polygon%point(1)%z
+                write (*,FMT='(A,3F45.35)') "  *createnode ",0.0,user_polygon%point(2)%y ,user_polygon%point(2)%z
+                write (*,FMT='(A,3F45.35)') "  *createnode ",0.0,user_polygon%point(3)%y ,user_polygon%point(3)%z
+                write (*,FMT='(A,3F45.35)') "  *createnode ",0.0,user_polygon%point(4)%y ,user_polygon%point(4)%z
+              endif
 
-          elseif(igrsurf(idsurf)%type == 101)then
-            iad0 = igrsurf(idsurf)%iad_bufr
-            !aa = bufsf(iad0+1)
-            bb = bufsf(iad0+2)
-            cc = bufsf(iad0+3)
-            !xg = bufsf(iad0+4)
-            yg = bufsf(iad0+5)
-            zg = bufsf(iad0+6)
-            bb=bb*(one-em10)
-            cc=cc*(one-em10)
-            !skw(1)=bufsf(iad0+7)
-            skw(2)=bufsf(iad0+8)
-            skw(3)=bufsf(iad0+9)
-            !skw(4)=bufsf(iad0+10)
-            skw(5)=bufsf(iad0+11)
-            skw(6)=bufsf(iad0+12)
-            !skw(7)=bufsf(iad0+13)
-            skw(8)=bufsf(iad0+14)
-            skw(9)=bufsf(iad0+15)
-            nn=bufsf(iad0+36)
+            elseif(igrsurf(idsurf)%type == 101)then
+              iad0 = igrsurf(idsurf)%iad_bufr
+              !aa = bufsf(iad0+1)
+              bb = bufsf(iad0+2)
+              cc = bufsf(iad0+3)
+              !xg = bufsf(iad0+4)
+              yg = bufsf(iad0+5)
+              zg = bufsf(iad0+6)
+              bb=bb*(one-em10)
+              cc=cc*(one-em10)
+              !skw(1)=bufsf(iad0+7)
+              skw(2)=bufsf(iad0+8)
+              skw(3)=bufsf(iad0+9)
+              !skw(4)=bufsf(iad0+10)
+              skw(5)=bufsf(iad0+11)
+              skw(6)=bufsf(iad0+12)
+              !skw(7)=bufsf(iad0+13)
+              skw(8)=bufsf(iad0+14)
+              skw(9)=bufsf(iad0+15)
+              nn=bufsf(iad0+36)
 
-            !tolerance
-            DL=two*max(bb,cc)
-            DL=em06*DL
-            yp1 = yp1 + DL
-            zp1 = zp1 + DL
+              !tolerance
+              DL=two*max(bb,cc)
+              DL=em06*DL
+              yp1 = yp1 + DL
+              zp1 = zp1 + DL
 
-            !super-ellipse discretization (in order to avoid degenerated case)
-            npt_superellipse = 256
-            call polygon_create( user_polygon, npt_superellipse+1)
-            user_polygon%numpoint = npt_superellipse + 1
-            user_polygon%area = zero
-            if(debug)write(*,*)"building super-ellipse"
-            tmp(1) = two*pi/npt_superellipse
-            do ii=1,npt_superellipse
-              theta = tmp(1)*ii
-              tmp(2) = bb * sign(one,cos(theta)) * (abs(cos(theta)))**(two/nn)
-              tmp(3) = cc * sign(one,sin(theta)) * (abs(sin(theta)))**(two/nn)
-              user_polygon%point(ii)%y = yg + skw(5)*tmp(2) + skw(6)*tmp(3)
-              user_polygon%point(ii)%z = zg + skw(8)*tmp(2) + skw(9)*tmp(3)
-              xyz(2) = min (xyz(2), user_polygon%point(ii)%y)
-              xyz(3) = min (xyz(3), user_polygon%point(ii)%z)
-              xyz(5) = max (xyz(5), user_polygon%point(ii)%y)
-              xyz(6) = max (xyz(6), user_polygon%point(ii)%z)
-              if(debug)write (*,FMT='(A,3F45.35)') "  *createnode ",0.0,user_polygon%point(ii)%y ,user_polygon%point(ii)%z
-            end do
-            nsegsurf = npt_superellipse
+              !super-ellipse discretization (in order to avoid degenerated case)
+              npt_superellipse = 256
+              call polygon_create( user_polygon, npt_superellipse+1)
+              user_polygon%numpoint = npt_superellipse + 1
+              user_polygon%area = zero
+              if(debug)write(*,*)"building super-ellipse"
+              tmp(1) = two*pi/npt_superellipse
+              do ii=1,npt_superellipse
+                theta = tmp(1)*ii
+                tmp(2) = bb * sign(one,cos(theta)) * (abs(cos(theta)))**(two/nn)
+                tmp(3) = cc * sign(one,sin(theta)) * (abs(sin(theta)))**(two/nn)
+                user_polygon%point(ii)%y = yg + skw(5)*tmp(2) + skw(6)*tmp(3)
+                user_polygon%point(ii)%z = zg + skw(8)*tmp(2) + skw(9)*tmp(3)
+                xyz(2) = min (xyz(2), user_polygon%point(ii)%y)
+                xyz(3) = min (xyz(3), user_polygon%point(ii)%z)
+                xyz(5) = max (xyz(5), user_polygon%point(ii)%y)
+                xyz(6) = max (xyz(6), user_polygon%point(ii)%z)
+                if(debug)write (*,FMT='(A,3F45.35)') "  *createnode ",0.0,user_polygon%point(ii)%y ,user_polygon%point(ii)%z
+              end do
+              nsegsurf = npt_superellipse
 
-          end if
+            endif ! igrsurf(idsurf)%type
+
+          elseif(idgrnod > 0)then
+             ! ORDERED LIST OF NODES (2d only, pre-condition only verified by Reader)
+             !building polygon
+             call polygon_create( user_polygon, npoints+1)   !+1 in case of automatic closure
+             user_polygon%numpoint = npoints+1
+             user_polygon%area = zero
+             nsegsurf = npoints
+             do ipt = 1, igrnod(idgrnod)%nentity
+               inod1 = igrnod(idgrnod)%entity(ipt)
+               user_polygon%point(ipt)%y = x(2,inod1)
+               user_polygon%point(ipt)%z = x(3,inod1)
+               xyz(2) = min (xyz(2), x(2,inod1))
+               xyz(3) = min (xyz(3), x(3,inod1))
+               xyz(5) = max (xyz(5), x(2,inod1))
+               xyz(6) = max (xyz(6), x(3,inod1))
+             end do
+          end if ! idsurf>0 or idgrnod>0
+
           !last node
           user_polygon%point(nsegsurf+1)%y = user_polygon%point(1)%y
           user_polygon%point(nsegsurf+1)%z = user_polygon%point(1)%z
