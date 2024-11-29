@@ -38,6 +38,7 @@
 #ifndef PYTHON_DISABLED
 #ifdef _WIN32
 /* Windows includes */
+#define NOMINMAX
 #include <windows.h>
 #else
 #include <dlfcn.h>
