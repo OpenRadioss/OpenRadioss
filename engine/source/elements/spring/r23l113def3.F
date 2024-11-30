@@ -21,12 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    r23l113def3     ../engine/source/elements/spring/r23l113def3.F
+      !||    r23l113def3        ../engine/source/elements/spring/r23l113def3.F
       !||--- called by ------------------------------------------------------
-      !||    r23law113       ../engine/source/elements/spring/r23law113.F
+      !||    r23law113          ../engine/source/elements/spring/r23law113.F
       !||--- calls      -----------------------------------------------------
-      !||    redef3_law113   ../engine/source/elements/spring/redef3_law113.F
-      !||    repla3          ../engine/source/elements/spring/repla3.F
+      !||    redef3_law113      ../engine/source/elements/spring/redef3_law113.F
+      !||    repla3             ../engine/source/elements/spring/repla3.F
+      !||--- uses       -----------------------------------------------------
+      !||    python_funct_mod   ../common_source/modules/python_mod.F90
       !||====================================================================
       SUBROUTINE R23L113DEF3(PYTHON,
      1   SKEW,    IPM,     IGEO,    MID,

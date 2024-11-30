@@ -20,12 +20,27 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    vinter_mixed_mod   ../engine/source/tools/curve/vinter_mixed.F90
+      !||--- called by ------------------------------------------------------
+      !||    redef3             ../engine/source/elements/spring/redef3.F
+      !||    redef3_law113      ../engine/source/elements/spring/redef3_law113.F
+      !||====================================================================
       module vinter_mixed_mod
       contains
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
 !! \brief  interpolate a table of values, or evaluate a python function
+      !||====================================================================
+      !||    vinter_mixed           ../engine/source/tools/curve/vinter_mixed.F90
+      !||--- called by ------------------------------------------------------
+      !||    redef3                 ../engine/source/elements/spring/redef3.F
+      !||    redef3_law113          ../engine/source/elements/spring/redef3_law113.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    python_funct_mod       ../common_source/modules/python_mod.F90
+      !||====================================================================
         subroutine vinter_mixed(python, tf,iad,ipos ,ilen,nel0,x,dydx,y)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

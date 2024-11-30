@@ -22,13 +22,16 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C----s---1----+----2----+----3----+----4----+----5----+----6----+----7--
       !||====================================================================
-      !||    redef3_law113   ../engine/source/elements/spring/redef3_law113.F
+      !||    redef3_law113          ../engine/source/elements/spring/redef3_law113.F
       !||--- called by ------------------------------------------------------
-      !||    r23l113def3     ../engine/source/elements/spring/r23l113def3.F
+      !||    r23l113def3            ../engine/source/elements/spring/r23l113def3.F
       !||--- calls      -----------------------------------------------------
-      !||    finter          ../engine/source/tools/curve/finter.F
-      !||    vinter2         ../engine/source/tools/curve/vinter.F
-      !||    vinter2dp       ../engine/source/tools/curve/vinter.F
+      !||    vinter2                ../engine/source/tools/curve/vinter.F
+      !||    vinter2dp              ../engine/source/tools/curve/vinter.F
+      !||    vinter_mixed           ../engine/source/tools/curve/vinter_mixed.F90
+      !||--- uses       -----------------------------------------------------
+      !||    python_funct_mod       ../common_source/modules/python_mod.F90
+      !||    vinter_mixed_mod       ../engine/source/tools/curve/vinter_mixed.F90
       !||====================================================================
       SUBROUTINE REDEF3_LAW113(PYTHON,NEL ,NFT,
      .                  FX      ,XK     ,DX     ,FXEP       ,DXOLD ,

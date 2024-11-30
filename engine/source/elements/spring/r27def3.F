@@ -21,11 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    r27def3   ../engine/source/elements/spring/r27def3.F
+      !||    r27def3               ../engine/source/elements/spring/r27def3.F
       !||--- called by ------------------------------------------------------
-      !||    rforc3    ../engine/source/elements/spring/rforc3.F
+      !||    rforc3                ../engine/source/elements/spring/rforc3.F
       !||--- calls      -----------------------------------------------------
-      !||    finter    ../engine/source/tools/curve/finter.F
+      !||    finter                ../engine/source/tools/curve/finter.F
+      !||--- uses       -----------------------------------------------------
+      !||    python_funct_mod      ../common_source/modules/python_mod.F90
       !||====================================================================
       SUBROUTINE R27DEF3(PYTHON,
      1   F,       E,       DL,      AL0,

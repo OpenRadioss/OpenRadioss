@@ -112,8 +112,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    r26sig                     ../engine/source/elements/spring/r26sig.F
       !||    r27def3                    ../engine/source/elements/spring/r27def3.F
       !||    radiation                  ../engine/source/constraints/thermic/radiation.F
-      !||    redef3                     ../engine/source/elements/spring/redef3.F
-      !||    redef3_law113              ../engine/source/elements/spring/redef3_law113.F
       !||    ruptint2                   ../engine/source/interfaces/interf/ruptint2.F
       !||    sigeps101                  ../engine/source/materials/mat/mat101/sigeps101.F
       !||    sigeps105                  ../engine/source/materials/mat/mat105/sigeps105.F

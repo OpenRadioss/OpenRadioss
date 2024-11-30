@@ -21,15 +21,24 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 C----s---1----+----2----+----3----+----4----+----5----+----6----+----7--
+      !||====================================================================
+      !||    redef_seatbelt_mod   ../engine/source/tools/seatbelts/redef_seatbelt.F
+      !||--- called by ------------------------------------------------------
+      !||    r23l114def3          ../engine/source/elements/spring/r23l114def3.F
+      !||====================================================================
       MODULE REDEF_SEATBELT_MOD
        CONTAINS
       !||====================================================================
-      !||    redef_seatbelt   ../engine/source/tools/seatbelts/redef_seatbelt.F
+      !||    redef_seatbelt         ../engine/source/tools/seatbelts/redef_seatbelt.F
       !||--- called by ------------------------------------------------------
-      !||    r23l114def3      ../engine/source/elements/spring/r23l114def3.F
+      !||    r23l114def3            ../engine/source/elements/spring/r23l114def3.F
       !||--- calls      -----------------------------------------------------
-      !||    get_u_func       ../engine/source/user_interface/ufunc.F
-      !||    vinter2          ../engine/source/tools/curve/vinter.F
+      !||    get_u_func             ../engine/source/user_interface/ufunc.F
+      !||    python_solve           ../common_source/modules/python_mod.F90
+      !||    vinter2                ../engine/source/tools/curve/vinter.F
+      !||--- uses       -----------------------------------------------------
+      !||    python_funct_mod       ../common_source/modules/python_mod.F90
+      !||    redef3_mod             ../engine/source/elements/spring/redef3.F
       !||====================================================================
       SUBROUTINE REDEF_SEATBELT(PYTHON,
      1   FX,         XK,         DX,         FXEP,

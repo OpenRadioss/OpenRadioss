@@ -21,11 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    r26def3   ../engine/source/elements/spring/r26def3.F
+      !||    r26def3            ../engine/source/elements/spring/r26def3.F
       !||--- called by ------------------------------------------------------
-      !||    rforc3    ../engine/source/elements/spring/rforc3.F
+      !||    rforc3             ../engine/source/elements/spring/rforc3.F
       !||--- calls      -----------------------------------------------------
-      !||    r26sig    ../engine/source/elements/spring/r26sig.F
+      !||    r26sig             ../engine/source/elements/spring/r26sig.F
+      !||--- uses       -----------------------------------------------------
+      !||    python_funct_mod   ../common_source/modules/python_mod.F90
       !||====================================================================
       SUBROUTINE R26DEF3(python,
      1   F,       E,       DL,      AL0,

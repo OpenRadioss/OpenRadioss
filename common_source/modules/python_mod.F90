@@ -38,6 +38,7 @@
       !||    force                          ../engine/source/loads/general/force.F90
       !||    forcefingeo                    ../engine/source/loads/general/forcefingeo.F
       !||    forcepinch                     ../engine/source/loads/general/forcepinch.F
+      !||    forint                         ../engine/source/elements/forint.F
       !||    funct_python_update_elements   ../engine/source/tools/curve/funct_python_update_elements.F90
       !||    gravit                         ../engine/source/loads/general/grav/gravit.F
       !||    gravit_fvm_fem                 ../engine/source/loads/general/grav/gravit_fvm_fem.F
@@ -49,16 +50,37 @@
       !||    lag_multp                      ../engine/source/tools/lagmul/lag_mult.F
       !||    lectur                         ../engine/source/input/lectur.F
       !||    load_pressure                  ../engine/source/loads/general/load_pressure/load_pressure.F
+      !||    nbfunct                        ../starter/source/tools/curve/nbfunc.F
       !||    pfluid                         ../engine/source/loads/general/pfluid/pfluid.F
       !||    python_duplicate_nodes         ../starter/source/spmd/domain_decomposition/python_duplicate_nodes.F90
       !||    python_register                ../engine/source/tools/curve/python_register.F90
+      !||    r1def3                         ../engine/source/elements/spring/r1def3.F
+      !||    r23forc3                       ../engine/source/elements/spring/r23forc3.F
+      !||    r23l108def3                    ../engine/source/elements/spring/r23l108def3.F
+      !||    r23l113def3                    ../engine/source/elements/spring/r23l113def3.F
+      !||    r23l114def3                    ../engine/source/elements/spring/r23l114def3.F
+      !||    r23law108                      ../engine/source/elements/spring/r23law108.F
+      !||    r23law113                      ../engine/source/elements/spring/r23law113.F
+      !||    r23law114                      ../engine/source/elements/spring/r23law114.F
+      !||    r26def3                        ../engine/source/elements/spring/r26def3.F
+      !||    r26sig                         ../engine/source/elements/spring/r26sig.F
+      !||    r27def3                        ../engine/source/elements/spring/r27def3.F
+      !||    r2def3                         ../engine/source/elements/spring/r2def3.F
+      !||    r3def3                         ../engine/source/elements/spring/r3def3.F
+      !||    r4def3                         ../engine/source/elements/spring/r4def3.F
+      !||    r6def3                         ../engine/source/elements/spring/r6def3.F
       !||    radiation                      ../engine/source/constraints/thermic/radiation.F
       !||    radioss2                       ../engine/source/engine/radioss2.F
       !||    rdresb                         ../engine/source/output/restart/rdresb.F
+      !||    redef3                         ../engine/source/elements/spring/redef3.F
+      !||    redef3_law113                  ../engine/source/elements/spring/redef3_law113.F
+      !||    redef_seatbelt                 ../engine/source/tools/seatbelts/redef_seatbelt.F
       !||    resol                          ../engine/source/engine/resol.F
       !||    resol_head                     ../engine/source/engine/resol_head.F
+      !||    rforc3                         ../engine/source/elements/spring/rforc3.F
       !||    rgwal1                         ../engine/source/ale/grid/rgwal1.F
       !||    timfun                         ../engine/source/tools/curve/timfun.F
+      !||    vinter_mixed                   ../engine/source/tools/curve/vinter_mixed.F90
       !||    wrrestp                        ../engine/source/output/restart/wrrestp.F
       !||--- uses       -----------------------------------------------------
       !||    python_element_mod             ../common_source/modules/python_element_mod.F90
@@ -199,6 +221,9 @@
       contains
 !! For performance reasons, this function must inlined, because it is called in a loop
 !!      \brief return .TRUE. if the function id corresponds to a Python function
+      !||====================================================================
+      !||    python_funct_id   ../common_source/modules/python_mod.F90
+      !||====================================================================
            integer function python_funct_id(nfunct, funct_id, npc) result(id)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Module
@@ -400,6 +425,8 @@
 !! \details the python function is called with one argument and one return value (double precision version)
       !||====================================================================
       !||    python_call_funct1d_dp   ../common_source/modules/python_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    python_solve             ../common_source/modules/python_mod.F90
       !||--- calls      -----------------------------------------------------
       !||====================================================================
         subroutine python_call_funct1D_dp(py, funct_id, x, y)
@@ -460,6 +487,7 @@
       !||    python_deriv_funct1d_dp   ../common_source/modules/python_mod.F90
       !||--- called by ------------------------------------------------------
       !||    python_deriv_funct1d_sp   ../common_source/modules/python_mod.F90
+      !||    python_solve              ../common_source/modules/python_mod.F90
       !||--- calls      -----------------------------------------------------
       !||====================================================================
         subroutine python_deriv_funct1D_dp(py, funct_id, x, y)
@@ -533,6 +561,14 @@
           y = real(argout,kind(1.0))
         end subroutine
 
+      !||====================================================================
+      !||    python_solve              ../common_source/modules/python_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    redef_seatbelt            ../engine/source/tools/seatbelts/redef_seatbelt.F
+      !||--- calls      -----------------------------------------------------
+      !||    python_call_funct1d_dp    ../common_source/modules/python_mod.F90
+      !||    python_deriv_funct1d_dp   ../common_source/modules/python_mod.F90
+      !||====================================================================
         subroutine python_solve(py, funct_id, root, rhs, tol_f, tol_x, max_iter)
           implicit none
 # include "my_real.inc"

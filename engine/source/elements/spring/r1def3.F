@@ -21,11 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    r1def3   ../engine/source/elements/spring/r1def3.F
+      !||    r1def3             ../engine/source/elements/spring/r1def3.F
       !||--- called by ------------------------------------------------------
-      !||    rforc3   ../engine/source/elements/spring/rforc3.F
+      !||    rforc3             ../engine/source/elements/spring/rforc3.F
       !||--- calls      -----------------------------------------------------
-      !||    redef3   ../engine/source/elements/spring/redef3.F
+      !||    redef3             ../engine/source/elements/spring/redef3.F
+      !||--- uses       -----------------------------------------------------
+      !||    python_funct_mod   ../common_source/modules/python_mod.F90
+      !||    redef3_mod         ../engine/source/elements/spring/redef3.F
       !||====================================================================
       SUBROUTINE R1DEF3(PYTHON,
      1   GEO,     F,       AL0,     E,

@@ -29,6 +29,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    table_interp          ../engine/source/tools/curve/table_tools.F
       !||--- uses       -----------------------------------------------------
       !||    interface_table_mod   ../engine/share/modules/table_mod.F
+      !||    python_funct_mod      ../common_source/modules/python_mod.F90
+      !||    redef3_mod            ../engine/source/elements/spring/redef3.F
       !||    table_mod             ../engine/share/modules/table_mod.F
       !||====================================================================
       SUBROUTINE R3DEF3( PYTHON,
