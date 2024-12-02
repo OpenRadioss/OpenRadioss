@@ -260,6 +260,8 @@ C
         IGTYP=IGEO_STACK(11,I)
         NUMS= NUMGEO_STACK(NUMGEO + I)
         IF(IGTYP == 52) THEN
+          ! Initialization of stack thickness
+          GEO_STACK(1,I) = ZERO
           !--- generalizing ZSHIFT ! kepp only IPOS= 2 as before
           IPOS =IGEO_STACK(99,I) 
           ZSHIFT = GEO_STACK(199, I)
@@ -289,6 +291,8 @@ C tag if the ply is in the  stack
      .                    I1=IGEO_STACK(1,NUMSTACK + K), I2= IGEO_STACK(1,IDS), I3= IGEO_STACK(1,I),
      .                    C1=TITR1, C2='PLY')
                     ENDIF
+C update stack thicness
+                    GEO_STACK(1,I) = GEO_STACK(1,I) + GEO_STACK(1,NUMSTACK + K)
                   lFOUND = .TRUE.
                   EXIT
                 ENDIF
