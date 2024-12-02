@@ -650,6 +650,8 @@ C
         IGTYP=IGEO(11,CPT)
         NUMS= NUMGEO_STACK(CPT)
         IF (IGTYP == 17 .OR. IGTYP == 51 ) THEN
+          ! Initialization of stack thickness
+          GEO(1,CPT) = ZERO
 C--- generalizing ZSHIFT ! kepp only IPOS= 2 as before
           IPOS =IGEO(99,CPT) 
           ZSHIFT = GEO(199, CPT)
@@ -676,6 +678,8 @@ C number of stack where ply is attached
                      IGEO(42   ,K) = NSTACK
 C stack whe e ply is belong                  
                      IGEO(200 + NSTACK ,K) = CPT
+C update ply thickness
+                     GEO(1,CPT) = GEO(1,CPT) + GEO(1,K)
                      GOTO 100
                    ENDIF
                  ENDDO
