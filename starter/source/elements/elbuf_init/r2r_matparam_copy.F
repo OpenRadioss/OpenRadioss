@@ -64,10 +64,6 @@ c
         MATPARAM_TAB(I)%NFAIL              = NFAIL
         MATPARAM_TAB(I)%IVISC              = MATPARAM_INI(I)%IVISC
         MATPARAM_TAB(I)%IEOS               = MATPARAM_INI(I)%IEOS
-        MATPARAM_TAB(I)%ITHERM             = MATPARAM_INI(I)%ITHERM
-        MATPARAM_TAB(I)%IEXPAN             = MATPARAM_INI(I)%IEXPAN
-        MATPARAM_TAB(I)%IALE               = MATPARAM_INI(I)%IALE
-        MATPARAM_TAB(I)%ITURB              = MATPARAM_INI(I)%ITURB
         MATPARAM_TAB(I)%HEAT_FLAG          = MATPARAM_INI(I)%HEAT_FLAG
         MATPARAM_TAB(I)%COMPRESSIBILITY    = MATPARAM_INI(I)%COMPRESSIBILITY
         MATPARAM_TAB(I)%SMSTR              = MATPARAM_INI(I)%SMSTR
@@ -151,27 +147,13 @@ c
         ALLOCATE(MATPARAM_TAB(I)%MULTIMAT%VFRAC(NBMAT))
         IF (NBMAT > 0) THEN
           DO IMAT=1,NBMAT
-            MATPARAM_TAB(I)%MULTIMAT%MID(IMAT)   = MATPARAM_INI(I)%MULTIMAT%MID(IMAT)
+            MATPARAM_TAB(I)%MULTIMAT%MID(IMAT) = MATPARAM_INI(I)%MULTIMAT%MID(IMAT)
             MATPARAM_TAB(I)%MULTIMAT%VFRAC(IMAT) = MATPARAM_INI(I)%MULTIMAT%VFRAC(IMAT)
           END DO  ! IMAT
         ENDIF
-!
-        IF (MATPARAM_TAB(I)%ITHERM > 0 .or. MATPARAM_TAB(I)%IEXPAN > 0) THEN
-          MATPARAM_TAB(I)%THERM%iform       = MATPARAM_INI(I)%THERM%iform      
-          MATPARAM_TAB(I)%THERM%tref        = MATPARAM_INI(I)%THERM%tref         
-          MATPARAM_TAB(I)%THERM%tmelt       = MATPARAM_INI(I)%THERM%tmelt      
-          MATPARAM_TAB(I)%THERM%rhocp       = MATPARAM_INI(I)%THERM%rhocp      
-          MATPARAM_TAB(I)%THERM%as          = MATPARAM_INI(I)%THERM%as         
-          MATPARAM_TAB(I)%THERM%bs          = MATPARAM_INI(I)%THERM%bs         
-          MATPARAM_TAB(I)%THERM%al          = MATPARAM_INI(I)%THERM%al         
-          MATPARAM_TAB(I)%THERM%bl          = MATPARAM_INI(I)%THERM%bl         
-          MATPARAM_TAB(I)%THERM%efrac       = MATPARAM_INI(I)%THERM%efrac      
-          MATPARAM_TAB(I)%THERM%func_thexp  = MATPARAM_INI(I)%THERM%func_thexp 
-          MATPARAM_TAB(I)%THERM%scale_thexp = MATPARAM_INI(I)%THERM%scale_thexp
-        END IF
-      ENDDO
-!
+
         ! copy of matparam between subdomains must be completed with further evolution of MATPARAM structure
+      ENDDO
 c
 c     Fill matparam for additional rad2rad void materials
 c
@@ -186,10 +168,6 @@ c
         MATPARAM_TAB(I)%NFAIL              = 0
         MATPARAM_TAB(I)%IVISC              = 0
         MATPARAM_TAB(I)%IEOS               = 0
-        MATPARAM_TAB(I)%ITHERM             = 0
-        MATPARAM_TAB(I)%IEXPAN             = 0
-        MATPARAM_TAB(I)%IALE               = 0
-        MATPARAM_TAB(I)%ITURB              = 0
         MATPARAM_TAB(I)%HEAT_FLAG          = 0
         MATPARAM_TAB(I)%COMPRESSIBILITY    = 0
         MATPARAM_TAB(I)%SMSTR              = 0
