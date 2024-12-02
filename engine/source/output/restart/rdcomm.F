@@ -298,7 +298,7 @@ C Empty field           = TABVINT(47)
       SNODGLOB  = TABVINT(147)
       SNBRCVOIS = TABVINT(148)
       SNBSDVOIS = TABVINT(149)
-      SLNRCVOIS = TABVINT(150)
+      SLNRCVOIS = TABVINT(150) ! NRCVOIS
       SLNSDVOIS = TABVINT(151)
       SNERCVOIS = TABVINT(152)
       SNESDVOIS = TABVINT(153)
@@ -313,6 +313,16 @@ C Empty field           = TABVINT(47)
 C-----
 C   siz of real arrays
 C
+C     TABVINT(162) = 3*(NUMNOD_L+NRCVVOIS_L)
+C     TABVINT(163) = 3*(NUMNOD_L+NRCVVOIS_L)
+C     TABVINT(164) = 3*(NUMNOD_L+NRCVVOIS_L)
+C     TABVINT(165) = 3*NUMNOD_L*IRODDL
+c     IF(ISECUT > 0 .OR. IISROT > 0 .OR. IMPOSE_DR /= 0 .OR. IDROT > 0)THEN
+c       TABVINT(166) = 3*NUMNOD_L*IRODDL
+c     ELSE
+c       TABVINT(166) = 0
+c     ENDIF
+
       SX        = TABVINT(162)
       SD        = TABVINT(163)
       SV        = TABVINT(164)
@@ -321,8 +331,8 @@ C
       STHKE     = TABVINT(167)
       SDAMPR    = TABVINT(168)
       SDAMP     = TABVINT(169)
-      SMS       = TABVINT(170)
-      SIN       = TABVINT(171)
+      SMS       = TABVINT(170) ! NUMNOD
+      SIN       = TABVINT(171) ! NUMNOD * IRODDL
       STF       = TABVINT(172)
       SPM       = TABVINT(173)
       SSKEW     = TABVINT(174)
@@ -334,13 +344,13 @@ C
       SBUFSF    = TABVINT(180)
       SRBMPC    = TABVINT(181)
       SGJBUFR   = TABVINT(182)
-      SW        = TABVINT(183)
+      SW        = TABVINT(183) ! IALE > 0 => 3 * NUMNOD
       SVEUL     = TABVINT(184)
       SFILL     = TABVINT(185)
       SDFILL    = TABVINT(186)
       SALPH     = TABVINT(187)
-      SWB       = TABVINT(188)
-      SDSAVE    = TABVINT(189)
+      SWB       = TABVINT(188) !  0 or 3 * NUMNOD or 4 * NUMNOD
+      SDSAVE    = TABVINT(189) !  0 or 3 * NUMNOD 
       !         = TABVINT(190)
       SASAVE    = TABVINT(191)
       !         = TABVINT(192)
@@ -354,7 +364,7 @@ C
       SFORC     = TABVINT(203)
       SVEL      = TABVINT(204)
       SFSAV     = TABVINT(205)
-      SFZERO    = TABVINT(206)
+      SFZERO    = TABVINT(206) !3*NUMNOD or 12 *(NUMELC+NUMELTG/)
       SXLAS     = TABVINT(207)
       SREBCS    = TABVINT(208)
       SACCELM   = TABVINT(209)
@@ -388,7 +398,7 @@ C
 C-----1
       NUMMAT =TABVINT(238)
       MAT_ELEM%NUMMAT = NUMMAT
-      NUMNOD =TABVINT(239)
+      NUMNOD =TABVINT(239) ! NUMNOD
       NUMSKW =TABVINT(240)
       NUMBCS =TABVINT(241)
       NANALY =TABVINT(242)

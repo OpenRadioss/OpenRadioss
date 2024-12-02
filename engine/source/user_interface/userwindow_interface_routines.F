@@ -242,7 +242,8 @@ C-----------------------------------------------
         DO I=1,USER_WINDOWS%N_USERNODS
           ND = USER_WINDOWS%USERNODS(I)
           INTERNAL_ID(I)=ND
-          USER_ID(I)=ITAB(ND)
+!         USER_ID(I)=ITAB(ND)
+          USER_ID(i) = 0
         ENDDO      
       ENDIF
       END
