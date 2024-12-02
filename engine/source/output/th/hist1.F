@@ -43,7 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    th_mod                 ../engine/share/modules/th_mod.F
       !||====================================================================
              SUBROUTINE HIST1(FILNAM,IFIL ,NTHGRP2,LONG ,
-     2                 IWA  ,PM     ,GEO  ,IPART,
+     2                 PM     ,GEO  ,IPART,
      3                 SUBSET,ITHGRP,ITHBUF,IGEO ,
      4                 IPM  ,IPARTH ,NPARTH ,NVPARTH ,
      5                 NVSUBTH ,ITTYP,ITHFLAG,ITHVAR,IFILTITL,
@@ -81,7 +81,6 @@ C-----------------------------------------------
       INTEGER,INTENT(IN)                     :: SITHBUF  ! Size of ithbuf
       INTEGER,INTENT(IN), DIMENSION(SITHBUF) :: ITHBUF   ! Time history buffer
       INTEGER 
-     .   IWA(*),
      .   IPART(LIPART1,*),IPM(NPROPMI,*),IGEO(NPROPGI,*),
      .   ITHGRP(NITHGR,*), IFIL,
      .   NTHGRP2, LONG,
@@ -111,6 +110,7 @@ C     REAL
       INTEGER :: LEN_TMP_NAME, TITLSUM
       INTEGER, DIMENSION(20) :: TEXT
       CHARACTER(len=2148) :: TMP_NAME
+      INTEGER, dimension(:), allocatable :: IWA
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -286,6 +286,7 @@ C       2EME RECORD : FAC_MASS,FAC_LENGTH,FAC_TIME
         ENDIF
       END IF      
 C-------HIERARCHY INFO------------
+      ALLOCATE(IWA(6))
       IWA(1)=NPART+NTHPART
       IWA(2)=NUMMAT
       IWA(3)=NUMGEO
@@ -304,12 +305,22 @@ c
         IWA(6)= NGLOBTH
       ENDIF
 c
+      
       CALL WRTDES(IWA,IWA,6,ITTYP,0)
-       
-      DO I=1,IWA(6)
+      J = IWA(6)
+      IF(ALLOCATED(IWA)) DEALLOCATE(IWA) 
+      ALLOCATE(IWA(NGLOBTH)) 
+      DO I=1,J      
           IWA(I)=I
       ENDDO
+
       IF(IUNIT == IUHIS) CALL WRTDES(IWA,IWA,NGLOBTH,ITTYP,0)     
+      NVAR = 0
+      DO N=1,NPART+NTHPART
+        NVAR=MAX(NVAR,IPARTH(NVPARTH,N))
+      ENDDO
+      IF(ALLOCATED(IWA)) DEALLOCATE(IWA)
+      ALLOCATE(IWA(NVAR))
 C-------PART DESCRIPTION------------
       DO N=1,NPART+NTHPART
         NVAR=IPARTH(NVPARTH,N)
@@ -430,6 +441,12 @@ C-------GEO DESCRIPTION------------
         ENDIF
       ENDDO
 C-------HIERARCHY DESCRIPTION------------
+      IF(ALLOCATED(IWA)) DEALLOCATE(IWA)
+      NVAR = 0
+      DO N=1,NSUBS
+        NVAR=MAX(NVAR,SUBSET(N)%NVARTH(ITHFLAG))
+      ENDDO
+      ALLOCATE(IWA(NVAR))
       DO N=1,NSUBS
 !!        NVAR=ISUBTH(NVSUBTH,N)
 !!        IAD =ISUBTH(NVSUBTH+1,N)
@@ -495,7 +512,6 @@ C-------HIERARCHY DESCRIPTION------------
           IWA(II)=ITHBUF(I)
         ENDDO
         IF(NVAR/=0)CALL WRTDES(IWA,IWA,NVAR,ITTYP,0)
-        
       ENDDO
 C-------TH GROUP------------
         DO N=1,NTHGRP2
@@ -584,6 +600,8 @@ C (nstrands elements are treated as a spring group)
         ENDIF
       ENDDO
 C-------TH GROUP + 1 section fluide------------
+      IF(ALLOCATED(IWA)) DEALLOCATE(IWA)
+      ALLOCATE(IWA(6))
       IF(NSECT==0.AND.NSFLSW/=0) THEN
         NVAR=6
         TITL='FLUID SECTION'
@@ -656,5 +674,6 @@ C
 C
       IF(TH_TITLES == 1) CLOSE(IFILTITL)
 C
+      DEALLOCATE(IWA)
       RETURN
       END

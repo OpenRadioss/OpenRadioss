@@ -136,10 +136,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   SKEWS            ,RFLOW      ,LIFLOW       ,LRFLOW           ,IMPL_S0    ,
      .                   MCP              ,TEMP       ,FORNEQS      ,UNITAB           ,
      .                   STACK            ,DRAPE_SH4N ,DRAPE_SH3N   ,DRAPEG           ,NDRAPE     ,
-     .                   GLOB_THERM       ,PBLAST)
+     .                   GLOB_THERM       ,PBLAST, ELEMENT, NODES)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE connectivity_mod
+      USE nodal_arrays_mod
       USE PYTHON_FUNCT_MOD
       USE RESTMOD
       USE INTSTAMP_GLOB_MOD
@@ -243,9 +245,8 @@ C-----------------------------------------------
       TYPE(DRAPEG_)         ,INTENT(INOUT)                 :: DRAPEG
       TYPE(GLOB_THERM_)     ,INTENT(INOUT)                 :: GLOB_THERM
       TYPE(PBLAST_)         ,INTENT(INOUT)                 :: PBLAST
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
+      TYPE(connectivity_)   ,INTENT(INOUT)                 :: ELEMENT
+      TYPE(nodal_arrays_)   ,INTENT(INOUT)                 :: NODES
       INTEGER, INTENT(IN) :: LIFLOW
       INTEGER, INTENT(IN) :: LRFLOW
       my_real, INTENT(INOUT) :: FORNEQS(3,NUMNOD)
@@ -255,6 +256,9 @@ C-----------------------------------------------
       my_real, INTENT(INOUT) :: MCP(NUMNOD)
       my_real, INTENT(INOUT) :: TEMP(NUMNOD)
       INTEGER, INTENT(IN) :: NDRAPE
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
       INTEGER  IDUMM(MVSIZ)
       INTEGER  I,J,LMXVREA, LEN,MY_ILEN,MY_RLEN,ISTAT,II,NS_DIFF
       PARAMETER (LMXVREA=1000+30*MAXLAW+30)
@@ -293,11 +297,11 @@ C
 
         CALL READ_I_C(MAIN_PROC,SWEIGHT)
 
-        CALL READ_I_C(WEIGHT,SWEIGHT)
+        CALL READ_I_C(NODES%WEIGHT,SWEIGHT)
 
-        CALL READ_I_C(ICODE,SICODE)
+        CALL READ_I_C(NODES%ICODE,SICODE)
 
-        CALL READ_I_C(ISKEW,SISKEW)
+        CALL READ_I_C(NODES%ISKEW,SISKEW)
 
         CALL READ_I_C(ISKWN,SISKWN)
 
@@ -330,7 +334,14 @@ C
 
         CALL READ_I_C(IXQ,SIXQ)
 
-        CALL READ_I_C(IXC,SIXC)
+        CALL READ_I_C(ELEMENT%shell%ixc,SIXC)
+        DO I = 1, SIXC / NIXC ! loop over the number of shell
+          element%shell%nodes(1:4,I) = ELEMENT%shell%ixc(2:5, I)
+          element%shell%pid(I) = ELEMENT%shell%ixc(6, I)
+          element%shell%matid(I) = ELEMENT%shell%ixc(1, I)
+          element%shell%user_id(I) = ELEMENT%shell%ixc(7, I)
+        ENDDO
+
 
         CALL READ_I_C(IXT,SIXT)
 
@@ -338,9 +349,9 @@ C
 
         CALL READ_I_C(IXR,SIXR)
 
-        CALL READ_I_C(ITAB,SITAB)
-C       WRITE(6,*) "ITAB = ",ITAB(1:SITAB)
-        CALL READ_I_C(ITABM1,SITABM1)
+        CALL READ_I_C(NODES%ITAB,SITAB)
+
+        CALL READ_I_C(NODES%ITABM1,SITABM1)
 
         CALL READ_I_C(GJBUFI,SGJBUFI)
 
@@ -764,7 +775,7 @@ C
 
         CALL READ_I_C(LLAGF,SLLAGF)
 C
-        WEIGHT_MD = WEIGHT
+        NODES%WEIGHT_MD = NODES%WEIGHT
 
 C
         IF(ICRACK3D > 0)THEN
@@ -972,15 +983,11 @@ C-----
 C--------------------------------------
 C     READING REALS
 C--------------------------------------
-        CALL READ_DB(X,SX)
-
-        CALL READ_DB(D,SD)
-
-        CALL READ_DB(V,SV)
-
-        CALL READ_DB(VR,SVR)
-
-        CALL READ_DB(DR,SDR)
+        CALL READ_DB(NODES%X,SX)
+        CALL READ_DB(NODES%D,SD)
+        CALL READ_DB(NODES%V,SV)
+        CALL READ_DB(NODES%VR,SVR)
+        CALL READ_DB(NODES%DR,SDR)
 
         CALL READ_DB(THKE,STHKE)
 
@@ -988,13 +995,13 @@ C--------------------------------------
 
         CALL READ_DB(DAMP,SDAMP)
 
-        CALL READ_DB(MS,SMS)
+        CALL READ_DB(NODES%MS,SMS)
 
         IF (N2D >0) THEN
             CALL READ_DB(MS_2D,NUMNOD)
         ENDIF
 
-        CALL READ_DB(IN,SIN)
+        CALL READ_DB(NODES%IN,SIN)
 
         CALL READ_DB(TF,STF)
 
@@ -1148,10 +1155,10 @@ c      IF(NNOISE>0.AND.IRUNN>1)THEN
 
        IF (IRESP == 1) THEN
          IF (IRXDP == 1) THEN
-              CALL READ_DPDB(XDP,3*NUMNOD)
-              CALL READ_DPDB(DDP,3*NUMNOD)
+              CALL READ_DPDB(NODES%XDP,3*NUMNOD)
+              CALL READ_DPDB(NODES%DDP,3*NUMNOD)
          ELSE
-           CALL FILLXDP(X,XDP,D,DDP)
+           CALL FILLXDP(NODES%X,NODES%XDP,NODES%D,NODES%DDP)
 C next restart, XDP will be on restart head !
            IRXDP=1
          ENDIF
@@ -1292,8 +1299,8 @@ C--------------------------------------
       END IF
 C-------------
 C     always
-      CALL READ_DB(MS0,NUMNOD)
-      CALL READ_DB(IN0,SIN)
+      CALL READ_DB(NODES%MS0,NUMNOD)
+      CALL READ_DB(NODES%IN0,SIN)
       IF(IDTMINS_OLD==1) THEN
         CALL READ_DB(ADMSMS,NUMNOD)
       ELSEIF(IDTMINS_OLD==2) THEN

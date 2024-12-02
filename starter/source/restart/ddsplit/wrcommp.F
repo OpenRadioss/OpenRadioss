@@ -418,6 +418,11 @@ C -------- Tailles des tableaux flottants --------
       TABVINT(163) = 3*(NUMNOD_L+NRCVVOIS_L)
       TABVINT(164) = 3*(NUMNOD_L+NRCVVOIS_L)
       TABVINT(165) = 3*NUMNOD_L*IRODDL
+C     SX        = TABVINT(162)
+C     SD        = TABVINT(163)
+C     SV        = TABVINT(164)
+C     SVR       = TABVINT(165)
+C     SDR       = TABVINT(166)
       IF(ISECUT > 0 .OR. IISROT > 0 .OR. IMPOSE_DR /= 0 .OR. IDROT > 0)THEN
         TABVINT(166) = 3*NUMNOD_L*IRODDL
       ELSE

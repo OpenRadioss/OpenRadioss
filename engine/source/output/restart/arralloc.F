@@ -61,7 +61,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    stack_mod              ../engine/share/modules/stack_mod.F
       !||    trimat_mod             ../engine/share/modules/trimat.F
       !||====================================================================
-      SUBROUTINE RESTALLOC(MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,INTERFACES,SKEWS,
+      SUBROUTINE RESTALLOC(ELEMENT, NODES,MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,INTERFACES,SKEWS,
      .                     GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
@@ -96,6 +96,8 @@ C-----------------------------------------------
       USE SKEW_MOD
       USE MY_ALLOC_MOD
       use glob_therm_mod
+      USE connectivity_mod
+      USE nodal_arrays_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -126,6 +128,8 @@ C-----------------------------------------------
 #include      "inter18.inc"
 #include      "stati_c.inc"
 C-----------------------------------------------
+      TYPE(connectivity_) :: ELEMENT
+      TYPE(NODAL_ARRAYS_) :: NODES
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE(PINCH) :: PINCH_DATA
@@ -146,14 +150,17 @@ C   -----------------------------------------------
 C             allocations entieres 
 C   -----------------------------------------------
 
-C       
-        ALLOCATE (ICODE(SICODE),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        ICODE = 0
+        CALL ALLOCATE_NODAL_ARRAYS(NODES, NUMNOD, NTHREAD, IRODDL, IPARIT, 
+     .      ISECUT, IISROTS, IMPOSE_DR, IDROT, NRCVVOIS, SICODT)
 
-        ALLOCATE (ISKEW(SISKEW),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        ISKEW = 0
+C       
+c       ALLOCATE (ICODE(SICODE),STAT=IERR)
+c       IF (IERR/=0) GOTO 1000
+c       ICODE = 0
+
+c       ALLOCATE (ISKEW(SISKEW),STAT=IERR)
+c       IF (IERR/=0) GOTO 1000
+c       ISKEW = e
 
         ALLOCATE (ISKWN(SISKWN),STAT=IERR)
         IF (IERR/=0) GOTO 1000
@@ -200,8 +207,13 @@ C
         IXQ = 0  
 
         ALLOCATE (IXC(SIXC),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
+        ALLOCATE(ELEMENT%shell%ixc(NIXC,SIXC/NIXC))
+        ALLOCATE(ELEMENT%shell%nodes(4,SIXC/NIXC))
+        ALLOCATE(ELEMENT%shell%pid(SIXC/NIXC))
+        ALLOCATE(ELEMENT%shell%matid(SIXC/NIXC))
+        ALLOCATE(ELEMENT%shell%user_id(SIXC/NIXC))
         IXC = 0  
+        ELEMENT%shell%ixc = 0
 
         ALLOCATE (IXT(SIXT),STAT=IERR)
         IF (IERR/=0) GOTO 1000
@@ -215,13 +227,13 @@ C
         IF (IERR/=0) GOTO 1000
         IXR = 0  
 
-        ALLOCATE (ITAB(SITAB),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        ITAB = 0  
+c       ALLOCATE (ITAB(SITAB),STAT=IERR)
+c       IF (IERR/=0) GOTO 1000
+c       ITAB = 0  
 
-        ALLOCATE (ITABM1(SITABM1),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        ITABM1 = 0
+c       ALLOCATE (ITABM1(SITABM1),STAT=IERR)
+c       IF (IERR/=0) GOTO 1000
+c       ITABM1 = 0
 
         ALLOCATE (GJBUFI(SGJBUFI),STAT=IERR)
         IF (IERR/=0) GOTO 1000
@@ -704,13 +716,13 @@ C
         IF (IERR/=0) GOTO 1000
         MAIN_PROC = 0 
 
-        ALLOCATE (WEIGHT(SWEIGHT),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        WEIGHT = 0 
+c       ALLOCATE (WEIGHT(SWEIGHT),STAT=IERR)
+c       IF (IERR/=0) GOTO 1000
+c       WEIGHT = 0 
 
-        ALLOCATE (WEIGHT_MD(SWEIGHT),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        WEIGHT_MD = 0 
+c       ALLOCATE (WEIGHT_MD(SWEIGHT),STAT=IERR)
+c       IF (IERR/=0) GOTO 1000
+c       WEIGHT_MD = 0 
 
         ALLOCATE (NEWFRONT(SNEWFRONT),STAT=IERR)
         IF (IERR/=0) GOTO 1000
@@ -785,13 +797,13 @@ C
         IF (IERR/=0) GOTO 1000
         LLAGF = 0 
 
-        ALLOCATE (ICODT(SICODT),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        ICODT = 0 
+!       ALLOCATE (ICODT(SICODT),STAT=IERR)
+!       IF (IERR/=0) GOTO 1000
+!       ICODT = 0 
 
-        ALLOCATE (ICODR(SICODR),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        ICODR = 0 
+!       ALLOCATE (ICODR(SICODR),STAT=IERR)
+!       IF (IERR/=0) GOTO 1000
+!       ICODR = 0 
 
         ALLOCATE (ISKY(SISKY),STAT=IERR)
         IF (IERR/=0) GOTO 1000
@@ -996,26 +1008,26 @@ C
 C   -----------------------------------------------
 C             allocations flottantes
 C   -----------------------------------------------
+!        ALLOCATE (X(SX),STAT=IERR)
+!        IF (IERR/=0) GOTO 1000
+!        X = 0 
 
-        ALLOCATE (X(SX),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        X = 0 
+!        ALLOCATE (D(SD),STAT=IERR)
+!        IF (IERR/=0) GOTO 1000
+!        D = 0 
 
-        ALLOCATE (D(SD),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        D = 0 
+!        ALLOCATE (V(SV),STAT=IERR)
+!        IF (IERR/=0) GOTO 1000
+!        V = 0 
 
-        ALLOCATE (V(SV),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        V = 0 
+!        ALLOCATE (VR(SVR),STAT=IERR)
+!        IF (IERR/=0) GOTO 1000
+!        VR = 0
 
-        ALLOCATE (VR(SVR),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        VR = 0
+!        ALLOCATE (DR(SDR),STAT=IERR)
+!        IF (IERR/=0) GOTO 1000
+!        DR = 0
 
-        ALLOCATE (DR(SDR),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        DR = 0
 
         ALLOCATE (THKE(STHKE),STAT=IERR)
         IF (IERR/=0) GOTO 1000
@@ -1029,13 +1041,13 @@ C   -----------------------------------------------
         IF (IERR/=0) GOTO 1000
         DAMP = 0 
 
-        ALLOCATE (MS(SMS),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        MS = 0 
-
-        ALLOCATE (IN(SIN),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        IN = 0
+!        ALLOCATE (MS(SMS),STAT=IERR)
+!        IF (IERR/=0) GOTO 1000
+!        MS = 0 
+!
+!        ALLOCATE (IN(SIN),STAT=IERR)
+!        IF (IERR/=0) GOTO 1000
+!        IN = 0
 
         ALLOCATE (TF(STF),STAT=IERR)
         IF (IERR/=0) GOTO 1000
@@ -1260,25 +1272,25 @@ C
         IF (IERR/=0) GOTO 1000
         FV = 0 
 
-        ALLOCATE (A(SA),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        A = 0  
-
-        ALLOCATE (AR(SAR),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        AR = 0 
-
-        ALLOCATE (STIFN(SSTIFN),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        STIFN = 0 
-
-        ALLOCATE (VISCN(SVISCN),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        VISCN = 0 
-
-        ALLOCATE (STIFR(SSTIFR),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        STIFR = 0 
+!        ALLOCATE (A(SA),STAT=IERR)
+!        IF (IERR/=0) GOTO 1000
+!        A = 0  
+!
+!        ALLOCATE (AR(SAR),STAT=IERR)
+!        IF (IERR/=0) GOTO 1000
+!        AR = 0 
+!
+!        ALLOCATE (STIFN(SSTIFN),STAT=IERR)
+!        IF (IERR/=0) GOTO 1000
+!        STIFN = 0 
+!
+!        ALLOCATE (VISCN(SVISCN),STAT=IERR)
+!        IF (IERR/=0) GOTO 1000
+!        VISCN = 0 
+!
+!        ALLOCATE (STIFR(SSTIFR),STAT=IERR)
+!        IF (IERR/=0) GOTO 1000
+!        STIFR = 0 
 
         ALLOCATE (PARTSAV(SPARTSAV),STAT=IERR)
         IF (IERR/=0) GOTO 1000
@@ -1619,8 +1631,8 @@ C
            ALLOCATE(WAGAP(0),STAT=IERR)
          ENDIF   
 C--------------------------------------------
-         ALLOCATE(MS0(NUMNOD),STAT=IERR)
-         ALLOCATE(IN0(SIN),STAT=IERR)
+c        ALLOCATE(MS0(NUMNOD),STAT=IERR)
+c        ALLOCATE(IN0(SIN),STAT=IERR)
          IF(IDTMINS_OLD==1) THEN
            ALLOCATE(ADMSMS(NUMNOD),STAT=IERR)
            IF (IERR/=0) GOTO 1000
@@ -1968,7 +1980,8 @@ C
         IF (IERR/=0) GOTO 1000
         KNOT = ZERO
 
-        ALLOCATE (WIGE(NUMNOD),STAT=IERR)
+C       ALLOCATE (WIGE(NUMNOD),STAT=IERR)
+        ALLOCATE( WIGE(1), STAT=IERR)
         IF (IERR/=0) GOTO 1000
         WIGE = ZERO
 

@@ -239,7 +239,7 @@ C-----------------------------------------------
      .   ACCELM(LLACCELM,*),BUFSF(*),RDATA(*),BUFMAT(*),BUFGEO(*),
      .   SPBUF(*),RIVET(*),XFRAME(NXFRAME,*),ZI_PLY(*),VGAZ(*)
       my_real
-     .   PM(NPROPM,*),D(*),V(*),W(*),ELBUF(*),WA(*),X(*),GEO(*),
+     .   PM(NPROPM,*),D(3,NUMNOD),V(*),W(*),ELBUF(*),WA(*),X(3,*),GEO(*),
      .   MS(*), A(3,*), CONT(3,*),XCUT(*),FINT(*),EANI(*),
      .   FEXT(3,*) ,FOPT(6,*),ANIN(*),RWBUF(*),TANI(*),
      .   AR(3,*),TF(*),FCONT_MAX(*)

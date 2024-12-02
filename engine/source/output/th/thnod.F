@@ -66,7 +66,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(NITHGR,*), INTENT(in) :: ITHGRP
       INTEGER ,intent(in) :: ITHERM_FE
       my_real
-     .   WA(*),X(3,*),D(3,*),V(3,*),A(3,*),VR(3,*),AR(3,*),
+     .   WA(*),X(3,*),D(3,NUMNOD),V(3,*),A(3,*),VR(3,*),AR(3,*),
      .   SKEW(LSKEW,*),XFRAME(NXFRAME,*),TEMP(*),FTHREAC(6,*),
      .   DR(3,*)
       TYPE(PINCH) :: PINCH_DATA
