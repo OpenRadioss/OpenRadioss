@@ -136,10 +136,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   SKEWS            ,RFLOW      ,LIFLOW       ,LRFLOW           ,IMPL_S0    ,
      .                   MCP              ,TEMP       ,FORNEQS      ,UNITAB           ,
      .                   STACK            ,DRAPE_SH4N ,DRAPE_SH3N   ,DRAPEG           ,NDRAPE     ,
-     .                   GLOB_THERM       ,PBLAST)
+     .                   GLOB_THERM       ,PBLAST, ELEMENT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE connectivity_mod
       USE PYTHON_FUNCT_MOD
       USE RESTMOD
       USE INTSTAMP_GLOB_MOD
@@ -243,9 +244,7 @@ C-----------------------------------------------
       TYPE(DRAPEG_)         ,INTENT(INOUT)                 :: DRAPEG
       TYPE(GLOB_THERM_)     ,INTENT(INOUT)                 :: GLOB_THERM
       TYPE(PBLAST_)         ,INTENT(INOUT)                 :: PBLAST
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
+      TYPE(connectivity_)   ,INTENT(INOUT)                 :: ELEMENT
       INTEGER, INTENT(IN) :: LIFLOW
       INTEGER, INTENT(IN) :: LRFLOW
       my_real, INTENT(INOUT) :: FORNEQS(3,NUMNOD)
@@ -255,6 +254,9 @@ C-----------------------------------------------
       my_real, INTENT(INOUT) :: MCP(NUMNOD)
       my_real, INTENT(INOUT) :: TEMP(NUMNOD)
       INTEGER, INTENT(IN) :: NDRAPE
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
       INTEGER  IDUMM(MVSIZ)
       INTEGER  I,J,LMXVREA, LEN,MY_ILEN,MY_RLEN,ISTAT,II,NS_DIFF
       PARAMETER (LMXVREA=1000+30*MAXLAW+30)
@@ -330,7 +332,14 @@ C
 
         CALL READ_I_C(IXQ,SIXQ)
 
-        CALL READ_I_C(IXC,SIXC)
+        CALL READ_I_C(ELEMENT%shell%ixc,SIXC)
+        DO I = 1, SIXC / NIXC ! loop over the number of shell
+          element%shell%nodes(1:4,I) = ELEMENT%shell%ixc(2:5, I)
+          element%shell%pid(I) = ELEMENT%shell%ixc(6, I)
+          element%shell%matid(I) = ELEMENT%shell%ixc(1, I)
+          element%shell%user_id(I) = ELEMENT%shell%ixc(7, I)
+        ENDDO
+
 
         CALL READ_I_C(IXT,SIXT)
 

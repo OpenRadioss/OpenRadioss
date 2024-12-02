@@ -61,7 +61,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    stack_mod              ../engine/share/modules/stack_mod.F
       !||    trimat_mod             ../engine/share/modules/trimat.F
       !||====================================================================
-      SUBROUTINE RESTALLOC(MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,INTERFACES,SKEWS,
+      SUBROUTINE RESTALLOC(ELEMENT,MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,INTERFACES,SKEWS,
      .                     GLOB_THERM)
 C-----------------------------------------------
 C   M o d u l e s
@@ -96,6 +96,7 @@ C-----------------------------------------------
       USE SKEW_MOD
       USE MY_ALLOC_MOD
       use glob_therm_mod
+      USE connectivity_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -126,6 +127,7 @@ C-----------------------------------------------
 #include      "inter18.inc"
 #include      "stati_c.inc"
 C-----------------------------------------------
+      TYPE(connectivity_) :: ELEMENT
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE(PINCH) :: PINCH_DATA
@@ -200,6 +202,10 @@ C
         IXQ = 0  
 
         ALLOCATE (IXC(SIXC),STAT=IERR)
+        ALLOCATE(ELEMENT%shell%ixc(NIXC,SIXC/NIXC))
+        ALLOCATE(ELEMENT%shell%nodes(4,SIXC/NIXC))
+        ALLOCATE(ELEMENT%shell%pid(SIXC/NIXC))
+        ALLOCATE(ELEMENT%shell%matid(SIXC/NIXC))
         IF (IERR/=0) GOTO 1000
         IXC = 0  
 

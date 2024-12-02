@@ -176,6 +176,7 @@ C-----------------------------------------------
       USE SKEW_MOD
       use glob_therm_mod
       use PBLAST_MOD
+      use connectivity_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -328,6 +329,7 @@ C MDS Table
 C----------------------------------------------------------------------------------
       TYPE(NAMES_AND_TITLES_) :: NAMES_AND_TITLES  !< NAMES_AND_TITLES host the input deck names and titles for outputs
       TYPE(UNIT_TYPE_) :: UNITAB !< units conversion
+      TYPE(connectivity_) :: element 
 C------------------------------------------------------------------
 C to build a IBM PARALLEL version
 C In starter : define install parameter nspmd 
@@ -921,7 +923,7 @@ C
       CALL ALE_CONNECTIVITY%ALE_CONNECTIVITY_INIT()
 
       ! Most of arrays from Restart
-      CALL RESTALLOC(MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,INTERFACES,SKEWS,GLOB_THERM)
+      CALL RESTALLOC(element,MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,INTERFACES,SKEWS,GLOB_THERM)
 
       ! Initialization
       IGEO = 0
@@ -1034,7 +1036,7 @@ C
      .            SKEWS          ,RFLOW      ,LIFLOW        ,LRFLOW           ,IMPL_S0   ,
      .            MCP            ,TEMP       ,FORNEQS       ,UNITAB,
      .            STACK          ,DRAPE_SH4N ,DRAPE_SH3N    ,DRAPEG           ,NDRAPE ,
-     .            GLOB_THERM     ,PBLAST)
+     .            GLOB_THERM     ,PBLAST, ELEMENT)
       ! Close restart file
        CALL CLOSE_C
        ! --------------------------------------------------------------------------------------------
@@ -2159,7 +2161,7 @@ C---------------------------------------------------------------------
          ITASK=0
          IRUNN_BIS = IRUNN
 
-         CALL RESOL_HEAD(ITASK        ,AF              ,IAF             ,IDATA      ,RDATA,XDP ,
+         CALL RESOL_HEAD(ELEMENT, ITASK        ,AF              ,IAF             ,IDATA      ,RDATA,XDP ,
      .                   GRAPHE       ,IFLOW           ,RFLOW           ,MCP        ,TEMP      ,
      .                   STACK        ,IRUNN_BIS       ,
      .                   MULTI_FVM    ,H3D_DATA        ,SUBSETS    ,IGRNOD    ,

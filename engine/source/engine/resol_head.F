@@ -61,7 +61,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    unitab_mod             ../common_source/modules/unitab_mod.F
       !||    user_windows_mod       ../common_source/modules/user_windows_mod.F
       !||====================================================================
-      SUBROUTINE RESOL_HEAD(
+      SUBROUTINE RESOL_HEAD( ELEMENT,
      .           ITASK       ,AF          ,IAF            ,IDATA      ,RDATA,XDP       ,
      .           GRAPHE      ,IFLOW       ,RFLOW          ,MCP        ,TEMP            ,
      .           STACK       ,IRUNN_BIS   ,
@@ -77,6 +77,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE connectivity_mod
       USE RESTMOD
       USE DSGRAPH_MOD
       USE TABLE_GLOB_MOD
@@ -127,6 +128,7 @@ C------------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(connectivity_), intent(inout) :: ELEMENT 
       INTEGER, INTENT(IN) :: LIFLOW  !< Size of IFLOW
       INTEGER, INTENT(IN) :: LRFLOW  !< Size of RFLOW
 
@@ -198,10 +200,10 @@ C-----------------------------------------------
       ITRACE(2)=NTHREAD
       CALL TRACE_IN(2,ITRACE,ZERO)
 C
-      CALL RESOL(
+      CALL RESOL(ELEMENT,
      .  AF              ,IAF            ,
      1  ICODE           ,ISKEW          ,ISKWN          ,NETH           ,IPART          ,NOM_OPT     ,KXX              ,IXX       ,
-     2  IXTG            ,IXS            ,IXQ            ,IXC            ,IXT            ,IXP         ,IXR       ,
+     2  IXTG            ,IXS            ,IXQ            ,IXT            ,IXP         ,IXR       ,
      3                   ITAB           ,ITABM1         ,IFILL          ,MAT_ELEM       ,
      4  IMS             ,NPC            ,IBCL           ,
      5  IBFV            ,IECRAN         ,ILAS           ,LACCELM        ,NNLINK         ,LNLINK      ,
