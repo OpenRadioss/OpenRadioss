@@ -32,9 +32,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    debug_mod       ../engine/share/modules/debug_mod.F
       !||====================================================================
-      SUBROUTINE CHECK_NAN_ACC(NCYCLE,A,AR)
-
-      USE DEBUG_MOD
+      SUBROUTINE CHECK_NAN_ACC(NCYCLE,NODES)
+      USE nodal_arrays_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -51,7 +50,7 @@ C   D u m m y   A r g u m e n t s
 C----------------------------------------------
 !       REAL ou REAL*8
         INTEGER, INTENT(IN) :: NCYCLE
-        my_real, DIMENSION(3,NUMNOD), INTENT(IN) :: A,AR
+        TYPE(nodal_arrays_), INTENT(IN) :: NODES
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
 !       NCYCLE : integer, current cycle
 !       A : my_real ; dimension=NUMNOD
@@ -72,38 +71,34 @@ C-----------------------------------------------
 !       check if a NaN appears in A/AR arrays
 !       
 !       CHECK_NAN_ACC organization :
-!       - at T=0, need to initialize the ITAB_DEBUG array in order to
-!         print the global node ID
 !       - check if a NaN appears in A/AR arrays 
 !       - if a NaN is present, print the ID node, the processor and
 !         the cycle and then stop the run with MSTOP=1
 !$ENDCOMMENT
 
-        IF(.NOT.ALLOCATED(ITAB_DEBUG)) CALL PREPARE_DEBUG()
-
         BOOL_NAN = .FALSE.
         DO N=1,NUMNOD
-                IF(MY_ISNAN(A(1,N)).OR.MY_ISNAN(A(2,N)).OR.MY_ISNAN(A(3,N))) THEN
+                IF(MY_ISNAN(NODES%A(1,N)).OR.MY_ISNAN(NODES%A(2,N)).OR.MY_ISNAN(NODES%A(3,N))) THEN
                         WRITE(IOUT,1000) ISPMD,NCYCLE
-                        WRITE(IOUT,1001) N,ITAB_DEBUG(N)
-                        WRITE(IOUT,1002) A(1,N),A(2,N),A(3,N)
+                        WRITE(IOUT,1001) N,NODES%ITAB(N)
+                        WRITE(IOUT,1002) NODES%A(1,N),NODES%A(2,N),NODES%A(3,N)
 
                         WRITE(ISTDO,1000) ISPMD,NCYCLE
-                        WRITE(ISTDO,1001) N,ITAB_DEBUG(N)
-                        WRITE(ISTDO,1002) A(1,N),A(2,N),A(3,N)
+                        WRITE(ISTDO,1001) N,NODES%ITAB(N)
+                        WRITE(ISTDO,1002) NODES%A(1,N),NODES%A(2,N),NODES%A(3,N)
 
 
                         BOOL_NAN = .TRUE.
                 ENDIF
 
-                IF(MY_ISNAN(AR(1,N)).OR.MY_ISNAN(AR(2,N)).OR.MY_ISNAN(AR(3,N))) THEN
+                IF(MY_ISNAN(NODES%AR(1,N)).OR.MY_ISNAN(NODES%AR(2,N)).OR.MY_ISNAN(NODES%AR(3,N))) THEN
                         WRITE(IOUT,1003) ISPMD,NCYCLE
-                        WRITE(IOUT,1001) N,ITAB_DEBUG(N)
-                        WRITE(IOUT,1004) AR(1,N),AR(2,N),AR(3,N)
+                        WRITE(IOUT,1001) N,NODES%ITAB(N)
+                        WRITE(IOUT,1004) NODES%AR(1,N),NODES%AR(2,N),NODES%AR(3,N)
 
                         WRITE(ISTDO,1003) ISPMD,NCYCLE
-                        WRITE(ISTDO,1001) N,ITAB_DEBUG(N)
-                        WRITE(ISTDO,1004) AR(1,N),AR(2,N),AR(3,N)
+                        WRITE(ISTDO,1001) N,NODES%ITAB(N)
+                        WRITE(ISTDO,1004) NODES%AR(1,N),NODES%AR(2,N),NODES%AR(3,N)
 
                         BOOL_NAN = .TRUE.
                 ENDIF

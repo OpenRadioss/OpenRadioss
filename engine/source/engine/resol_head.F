@@ -61,7 +61,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    unitab_mod             ../common_source/modules/unitab_mod.F
       !||    user_windows_mod       ../common_source/modules/user_windows_mod.F
       !||====================================================================
-      SUBROUTINE RESOL_HEAD(
+      SUBROUTINE RESOL_HEAD( ELEMENT, NODES,
      .           ITASK       ,AF          ,IAF            ,IDATA      ,RDATA,XDP       ,
      .           GRAPHE      ,IFLOW       ,RFLOW          ,MCP        ,TEMP            ,
      .           STACK       ,IRUNN_BIS   ,
@@ -77,6 +77,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE connectivity_mod
+      use nodal_arrays_mod
       USE RESTMOD
       USE DSGRAPH_MOD
       USE TABLE_GLOB_MOD
@@ -127,6 +129,8 @@ C------------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      type(connectivity_), intent(inout) :: ELEMENT 
+      type(nodal_arrays_), intent(inout) :: NODES
       INTEGER, INTENT(IN) :: LIFLOW  !< Size of IFLOW
       INTEGER, INTENT(IN) :: LRFLOW  !< Size of RFLOW
 
@@ -198,39 +202,39 @@ C-----------------------------------------------
       ITRACE(2)=NTHREAD
       CALL TRACE_IN(2,ITRACE,ZERO)
 C
-      CALL RESOL(
+      CALL RESOL(ELEMENT,NODES,
      .  AF              ,IAF            ,
-     1  ICODE           ,ISKEW          ,ISKWN          ,NETH           ,IPART          ,NOM_OPT     ,KXX              ,IXX       ,
-     2  IXTG            ,IXS            ,IXQ            ,IXC            ,IXT            ,IXP         ,IXR       ,
-     3                   ITAB           ,ITABM1         ,IFILL          ,MAT_ELEM       ,
+     1  ISKWN          ,NETH           ,IPART          ,NOM_OPT     ,KXX              ,IXX       ,
+     2  IXTG            ,IXS            ,IXQ            ,IXT            ,IXP         ,IXR       ,
+     3  IFILL          ,MAT_ELEM       ,
      4  IMS             ,NPC            ,IBCL           ,
      5  IBFV            ,IECRAN         ,ILAS           ,LACCELM        ,NNLINK         ,LNLINK      ,
      6  IPARG           ,DD_IAD         ,IGRV           ,IEXLNK         ,KINET       ,
      7  IPARI           ,NPRW           ,ICONX          ,NPBY           ,
      8  LPBY            ,LRIVET         ,NSTRF          ,LJOINT         ,NODPOR         ,MONVOL      ,IAD_ELEM  ,
-     9  FR_ELEM         ,WEIGHT         ,MAIN_PROC      ,ICODT          ,ICODR          ,ADSKY       ,IADS             ,ILINK     ,
+     9  FR_ELEM         ,MAIN_PROC      ,ADSKY       ,IADS             ,ILINK     ,
      A  LLINK           ,LINALE         ,NEFLSW         ,NNFLSW         ,ICUT           ,CLUSTER     ,
      B  ITASK           ,IAF(IF01)      ,
-     C  X               ,D              ,V              ,VR             ,DR             ,THKE        ,DAMP             ,MS        ,
-     D  IN              ,PM             ,SKEWS          ,GEO            ,EANI           ,BUFMAT      ,BUFGEO           ,BUFSF     ,
+     C  THKE        ,DAMP               ,
+     D  PM             ,SKEWS          ,GEO            ,EANI           ,BUFMAT      ,BUFGEO           ,BUFSF     ,
      E  W               ,VEUL           ,FILL           ,DFILL          ,ALPH           ,WB          ,DSAVE            ,ASAVE     ,
      .  MSNF            , 
      F  TF              ,FORC           ,VEL            ,FSAV           ,FZERO          ,XLAS        ,ACCELM           ,
      G  GRAV            ,FR_WAVE        ,FAILWAVE       ,PARTS0         ,ELBUF          ,RWBUF       ,SENSORS,
      H  RWSAV           ,RBY            ,RIVET          ,SECBUF         ,VOLMON         ,LAMBDA      ,
-     I  WA              ,FV             ,A              ,AR             ,STIFN          ,STIFR       ,PARTSAV          ,FSKY      ,
+     I  WA              ,FV             ,PARTSAV          ,FSKY      ,
      J  UWA             ,VAL2           ,PHI            ,SEGVAR         ,R              ,CRFLSW      ,
      K  FLSW            ,FANI           ,XCUT           ,ANIN           ,TANI           ,SECFCUM     ,AF(MF01),
      L  IDATA           ,RDATA          ,
      M  IFRAME          ,KXSP           ,IXSP           ,NOD2SP         ,ISPSYM         ,ISPCOND     ,
      N  XFRAME          ,SPBUF          ,XSPSYM         ,VSPSYM         ,PV             ,
-     O  FSAVD           ,IBVEL          ,LBVEL          ,WASPH          ,XDP            ,W16         ,
+     O  FSAVD           ,IBVEL          ,LBVEL          ,WASPH          ,W16         ,
      P  ISPHIO          ,LPRTSPH        ,LONFSPH        ,VSPHIO         ,FBVEL          ,LAGBUF      ,IBCSLAG,
      Q  IACTIV          ,DAMPR          ,GJBUFI         ,GJBUFR         ,RBMPC          ,IBMPC       ,SPHVELN,
      T  NBRCVOIS        ,NBSDVOIS       ,LNRCVOIS       ,LNSDVOIS       ,NERCVOIS       ,NESDVOIS    ,LERCVOIS         ,
      U  LESDVOIS        ,NPSEGCOM       ,LSEGCOM        ,NPORGEO        ,FSKYM          ,
      V  IXTG1           ,NPBYL          ,LPBYL          ,RBYL           ,IGEO           ,IPM         ,
-     W  VISCN           ,MADPRT         ,MADSH4         ,MADSH3         ,MADSOL         ,MADNOD      ,MADFAIL          ,
+     W  MADPRT         ,MADSH4         ,MADSH3         ,MADSOL         ,MADNOD      ,MADFAIL          ,
      X  IAD_RBY         ,FR_RBY         ,FR_WALL        ,PROCNE         ,IAD_RBY2       ,
      Y  FR_RBY2         ,IAD_I2M        ,FR_I2M         ,ADDCNI2        ,PROCNI2        ,IADI2       ,FR_MV            ,
      Z  IADMV2          ,FR_LL          ,FR_RL          ,IADCJ          ,
@@ -251,7 +255,7 @@ C
      r  IBCV            ,FCONV          ,IBFTEMP        ,FBFTEMP        ,IRBE3          ,LRBE3       ,FRBE3            ,
      s  IAD_RBE3M       ,FR_RBE3M       ,FR_RBE3MP      ,IAD_RBYM       ,FR_RBYM,
      t  WEIGHT_RM       ,MS_PLY         ,ZI_PLY         ,INOD_PXFEM     ,IEL_PXFEM      ,IADC_PXFEM  ,
-     u  ADSKY_PXFEM     ,ICODE_PLY      ,ICODT_PLY      ,ISKEW_PLY      ,MS0            ,ADMSMS      ,
+     u  ADSKY_PXFEM     ,ICODE_PLY      ,ICODT_PLY      ,ISKEW_PLY      ,ADMSMS      ,
      v  MADCLNOD        ,NOM_SECT       ,MCPC           ,MCPTG          ,DMELC          ,DMELTG      ,MSSA             ,
      w  DMELS           ,MSTR           ,DMELTR         ,MSP            ,DMELP          ,MSRT        ,DMELRT           ,
      x  IBCR            ,FRADIA         ,RES_SMS        ,TABLE          ,IRBE2          ,LRBE2       ,IAD_RBE2         ,
@@ -263,7 +267,7 @@ C
      4  IBC_PLY         ,DMINT2         ,IBORDNODE      ,
      5  MAT_ELEM%ELBUF  ,POR            ,NODEDGE        ,IAD_EDGE       ,
      6  FR_EDGE         ,FR_NBEDGE      ,CRKNODIAD      ,LGAUGE         ,GAUGE          ,
-     7  IGAUP           ,NGAUP          ,NODLEVXF       ,DD_R2R_ELEM    ,WEIGHT_MD      ,
+     7  IGAUP           ,NGAUP          ,NODLEVXF       ,DD_R2R_ELEM    ,
      8  NODGLOBXFE      ,SPH2SOL        ,SOL2SPH        ,IRST           ,FSKYD          ,
      9  DMSPH           ,WAGAP          ,MAT_ELEM%XFEM_TAB,ELCUTC       ,NODENR         ,
      A  KXFENOD2ELC     ,ENRTAG         ,
@@ -272,14 +276,14 @@ C
      D  CPUTIME_MP_GLOB ,CPUTIME_MP     ,TAB_UMP        ,POIN_UMP       ,SOL2SPH_TYP    ,
      E  IRUNN_BIS       ,ADDCSRECT      ,IAD_FRNOR      ,FR_NOR         ,PROCNOR        ,
      F  INTERFACES%SPMD_ARRAYS%IAD_FREDG,INTERFACES%SPMD_ARRAYS%FR_EDG  ,DRAPE_SH4N     ,DRAPE_SH3N     ,TAB_MAT        , 
-     G  NATIV0_SMS      ,MULTI_FVM      ,DDP            ,SEGQUADFR      ,MS_2D          ,
+     G  NATIV0_SMS      ,MULTI_FVM      ,SEGQUADFR      ,MS_2D          ,
      H  H3D_DATA        ,SUBSETS        ,IGRNOD         ,IGRBRIC        ,
      I  IGRQUAD         ,IGRSH4N        ,IGRSH3N        ,IGRTRUSS       ,IGRBEAM        ,
      J  IGRSPRING       ,IGRPART        ,IGRSURF        ,FORNEQS        ,
      K  NLOC_DMG        ,ISKWP_L        ,KNOTLOCPC      ,KNOTLOCEL      ,PINCH_DATA     ,TAG_SKINS6  ,ALE_CONNECTIVITY ,
      L  XCELL           , XFACE         ,NE_NERCVOIS    ,NE_NESDVOIS    ,NE_LERCVOIS    ,NE_LESDVOIS ,IBCSCYC          ,LBCSCYC   ,
      M  T_MONVOL        ,ID_GLOBAL_VOIS ,FACE_VOIS      ,TAGSLV_RBY     ,DYNAIN_DATA    ,FCONT_MAX   ,EBCS_TAB         ,DIFFUSION ,
-     N  KLOADPINTER     ,LOADPINTER     ,IN0            ,DGAPLOADINT    ,DRAPEG         ,USER_WINDOWS ,OUTPUT          ,INTERFACES,
+     N  KLOADPINTER     ,LOADPINTER     ,DGAPLOADINT    ,DRAPEG         ,USER_WINDOWS ,OUTPUT          ,INTERFACES,
      O  DT              ,LOADS          ,PYTHON         ,DPL0CLD        ,VEL0CLD        ,
      P  NDAMP_VREL      ,ID_DAMP_VREL   ,FR_DAMP_VREL   ,NDAMP_VREL_RBYG,NAMES_AND_TITLES,UNITAB,LIFLOW,LRFLOW,
      R  GLOB_THERM      ,PBLAST)

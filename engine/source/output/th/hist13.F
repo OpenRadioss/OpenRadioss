@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
       !||====================================================================
       SUBROUTINE HIST13(IPARG ,IXS  ,IXQ  ,IXC    ,IXT    ,
-     2                  IXP   ,IXR  ,IWA  ,ITAB   ,PM     ,
+     2                  IXP   ,IXR  ,ITAB   ,PM     ,
      3                  NPBY  ,IXTG ,IRFE ,LACCELM,
      4                  IPARI ,IPART,ITHGRP ,ITHBUF,CHRUN_OLD,NAMES_AND_TITLES)
 C=======================================================================
@@ -67,7 +67,7 @@ C-----------------------------------------------
       INTEGER IRFE
       INTEGER IPARG(NPARG,*), IXS(NIXS,*), IXQ(NIXQ,*),
      .   IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*), IXR(NIXR,*),
-     .   IXTG(NIXTG,*), IWA(*), ITAB(*),
+     .   IXTG(NIXTG,*),ITAB(*),
      .   IPARI(NPARI,*),LACCELM(3,*),IPART(LIPART1,*), NPBY(NNPBY,*),
      .   ITHGRP(NITHGR,*), ITHBUF(*)
 
@@ -88,6 +88,7 @@ C-----------------------------------------------
       CHARACTER(len=2148) :: TMP_NAME
       INTEGER, DIMENSION(20) :: TEXT
       INTEGER  NGLV, NMTV, NINV, NRWV, NRBV, NNODV, NSCV, NELQV, NELSV, NELCV, NELTV, NELPV, NELRV, NELTGV, NELURV
+      INTEGER, dimension(:), allocatable :: IWA
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -169,6 +170,8 @@ C
 C
       IF(NSMAT/=0.AND.INVSTR<40) THEN
 C  009        DO N=1,NPART
+        IF(ALLOCATED(IWA)) DEALLOCATE(IWA)
+        ALLOCATE(IWA(NUMMAT))
         DO N=1,NUMMAT-1
            IWA(N)=0
         ENDDO
@@ -202,6 +205,8 @@ C      NELV=22
       NELURV=12
 C
 C
+      IF(ALLOCATED(IWA)) DEALLOCATE(IWA)
+      ALLOCATE(IWA(35))
       IWA(1) =NGLV
       IWA(2) =NSMAT
       IWA(3) =NMTV
@@ -240,7 +245,8 @@ C
       IWA(35)=NACCELV
       IUNIT=IUHIS
       CALL WRTDES(IWA,IWA,35,ITFORM,0)
-C
+      IF(ALLOCATED(IWA)) DEALLOCATE(IWA)
+      ALLOCATE(IWA(2*NUMMAT + NPART))
       IF(NSMAT/=0) THEN
         IF(INVSTR<40) THEN
 C  009          DO N=1,NPART
@@ -273,7 +279,9 @@ C
         CALL WRTDES(IWA,IWA,NSMAT,ITFORM,0)
       ENDIF
 C--------------------------------
+       IF(ALLOCATED(IWA)) DEALLOCATE(IWA)
        IF(NINTERS/=0) THEN
+        ALLOCATE(IWA(NINTERS))
         II=0
         DO N=1,NTHGRP
           ITYP=ITHGRP(2,N)
@@ -291,16 +299,21 @@ C--------------------------------
        ENDIF
 C
        IF(NRWALL /= 0) THEN
+        IF(ALLOCATED(IWA)) DEALLOCATE(IWA)
+        ALLOCATE(IWA(NRWALL))
         II=0
         DO I=1,NRWALL
             II=II+1
             IWA(II)=II
         ENDDO
         CALL WRTDES(IWA,IWA,NRWALL,ITFORM,0)
+        DEALLOCATE(IWA)
        ENDIF
 C
 C--------------------------------
       IF(NSRBY/=0) THEN
+        IF(ALLOCATED(IWA)) DEALLOCATE(IWA)
+        ALLOCATE(IWA(NSRBY))
         II=0
         DO N=1,NTHGRP
           ITYP=ITHGRP(2,N)
@@ -320,6 +333,8 @@ c              IWA(II)=ITHBUF(J)
 C--------------------------------
 C
        IF(NSECT/=0) THEN
+        IF(ALLOCATED(IWA)) DEALLOCATE(IWA)
+        ALLOCATE(IWA(NSECT))
         II=0
         DO I=1,NSECT
             II=II+1
@@ -327,6 +342,8 @@ C
         ENDDO
         CALL WRTDES(IWA,IWA,NSECT,ITFORM,0)
        ELSEIF(NSFLSW/=0) THEN
+        IF(ALLOCATED(IWA)) DEALLOCATE(IWA)
+        ALLOCATE(IWA(NSFLSW))
         II=0
         DO I=1,NSFLSW
             II=II+1
@@ -336,6 +353,8 @@ C
        ENDIF
 C
        IF(NJOINT/=0) THEN
+        IF(ALLOCATED(IWA)) DEALLOCATE(IWA)
+        ALLOCATE(IWA(NJOINT))
         II=0
         DO I=1,NJOINT
             II=II+1
@@ -345,6 +364,8 @@ C
        ENDIF
 C
        IF(NRBAG+NVOLU/=0) THEN
+        IF(ALLOCATED(IWA)) DEALLOCATE(IWA)
+        ALLOCATE(IWA(NRBAG+NVOLU))
         II=0
         DO I=1,NRBAG+NVOLU
             II=II+1
@@ -355,6 +376,8 @@ C
 C
 C--------------------------------
       IF(NACCELM/=0) THEN
+        IF(ALLOCATED(IWA)) DEALLOCATE(IWA)
+        ALLOCATE(IWA(NACCELM))
        DO N=1,NACCELM
          IWA(N)=LACCELM(2,N)
        ENDDO
@@ -371,14 +394,46 @@ C
             DO J=IAD,IAD+NN-1
               I=ITHBUF(J)
               II=II+1
+c             IWA(II)=ITAB(I)
+            ENDDO
+          ENDIF
+        ENDDO
+        IF(ALLOCATED(IWA)) DEALLOCATE(IWA)
+        ALLOCATE(IWA(II))
+        II=0
+        DO N=1,NTHGRP
+          ITYP=ITHGRP(2,N)
+          NN  =ITHGRP(4,N)
+          IAD =ITHGRP(5,N)
+          IF(ITYP==0)THEN
+            DO J=IAD,IAD+NN-1
+              I=ITHBUF(J)
+              II=II+1
               IWA(II)=ITAB(I)
             ENDDO
           ENDIF
         ENDDO
+
         CALL WRTDES(IWA,IWA,II,ITFORM,0)
       ENDIF
 C
       IF (NSELS>0) THEN
+        II=0
+        DO N=1,NTHGRP
+          ITYP=ITHGRP(2,N)
+          NN  =ITHGRP(4,N)
+          IAD =ITHGRP(5,N)
+          IF(ITYP==1)THEN
+            DO J=IAD,IAD+NN-1
+              I=ITHBUF(J)
+              MTN=NINT(PM(19,IXS(1,I)))
+              II=II+1
+              II=II+1
+            ENDDO
+          ENDIF
+        ENDDO
+        IF(ALLOCATED(IWA)) DEALLOCATE(IWA)
+        ALLOCATE(IWA(II))
         II=0
         DO N=1,NTHGRP
           ITYP=ITHGRP(2,N)
@@ -415,10 +470,45 @@ C
             ENDDO
           ENDIF
         ENDDO
+        IF(ALLOCATED(IWA)) DEALLOCATE(IWA)
+        ALLOCATE(IWA(II))
+        II=0
+        DO N=1,NTHGRP
+          ITYP=ITHGRP(2,N)
+          NN  =ITHGRP(4,N)
+          IAD =ITHGRP(5,N)
+          IF(ITYP==2)THEN
+            DO J=IAD,IAD+NN-1
+              I=ITHBUF(J)
+              MTN=NINT(PM(19,IXQ(1,I)))
+              II=II+1
+              IWA(II)=IXQ(NIXQ,I)
+              II=II+1
+              IWA(II)=MTN
+            ENDDO
+          ENDIF
+        ENDDO
+
         CALL WRTDES(IWA,IWA,II,ITFORM,0)
       ENDIF
 C
       IF (NSELC>0) THEN
+        II=0
+        DO N=1,NTHGRP
+          ITYP=ITHGRP(2,N)
+          NN  =ITHGRP(4,N)
+          IAD =ITHGRP(5,N)
+          IF(ITYP==3)THEN
+            DO J=IAD,IAD+NN-1
+              I=ITHBUF(J)
+              MTN=NINT(PM(19,IXC(1,I)))
+              II=II+1
+              II=II+1
+            ENDDO
+          ENDIF
+        ENDDO
+        IF(ALLOCATED(IWA)) DEALLOCATE(IWA)
+        ALLOCATE(IWA(II))
         II=0
         DO N=1,NTHGRP
           ITYP=ITHGRP(2,N)
@@ -455,10 +545,45 @@ C
             ENDDO
           ENDIF
         ENDDO
+        IF(ALLOCATED(IWA)) DEALLOCATE(IWA)
+        ALLOCATE(IWA(II))
+        II=0
+        DO N=1,NTHGRP
+          ITYP=ITHGRP(2,N)
+          NN  =ITHGRP(4,N)
+          IAD =ITHGRP(5,N)
+          IF(ITYP==7)THEN
+            DO J=IAD,IAD+NN-1
+              I=ITHBUF(J)
+              MTN=NINT(PM(19,IXTG(1,I)))
+              II=II+1
+              IWA(II)=IXTG(NIXTG,I)
+              II=II+1
+              IWA(II)=MTN
+            ENDDO
+          ENDIF
+        ENDDO
+ 
         CALL WRTDES(IWA,IWA,II,ITFORM,0)
       ENDIF
 C
       IF (NSELT>0) THEN
+        II=0
+        DO N=1,NTHGRP
+          ITYP=ITHGRP(2,N)
+          NN  =ITHGRP(4,N)
+          IAD =ITHGRP(5,N)
+          IF(ITYP==4)THEN
+            DO J=IAD,IAD+NN-1
+              I=ITHBUF(J)
+              MTN=NINT(PM(19,IXT(1,I)))
+              II=II+1
+              II=II+1
+            ENDDO
+          ENDIF
+        ENDDO
+        IF(ALLOCATED(IWA)) DEALLOCATE(IWA)
+        ALLOCATE(IWA(II))
         II=0
         DO N=1,NTHGRP
           ITYP=ITHGRP(2,N)
@@ -489,16 +614,54 @@ C
               I=ITHBUF(J)
               MTN=NINT(PM(19,IXP(1,I)))
               II=II+1
+              II=II+1
+            ENDDO
+          ENDIF
+        ENDDO
+        IF(ALLOCATED(IWA)) DEALLOCATE(IWA)
+        ALLOCATE(IWA(II))
+        II=0
+        DO N=1,NTHGRP
+          ITYP=ITHGRP(2,N)
+          NN  =ITHGRP(4,N)
+          IAD =ITHGRP(5,N)
+          IF(ITYP==5)THEN
+            DO J=IAD,IAD+NN-1
+              I=ITHBUF(J)
+              MTN=NINT(PM(19,IXP(1,I)))
+              II=II+1
               IWA(II)=IXP(NIXP,I)
               II=II+1
               IWA(II)=MTN
             ENDDO
           ENDIF
         ENDDO
+
         CALL WRTDES(IWA,IWA,II,ITFORM,0)
       ENDIF
 C
       IF (NSELR>0) THEN
+        II=0
+        DO N=1,NTHGRP
+          ITYP=ITHGRP(2,N)
+          NN  =ITHGRP(4,N)
+          IAD =ITHGRP(5,N)
+          IF(ITYP==6)THEN
+            DO J=IAD,IAD+NN-1
+              I=ITHBUF(J)
+              II=II+1
+              II=II+1
+            ENDDO
+          ELSEIF(ITYP==100) THEN
+            DO J=IAD,IAD+NN-1
+              I=ITHBUF(J)
+              II=II+1
+              II=II+1
+            ENDDO
+          ENDIF
+        ENDDO
+        IF(ALLOCATED(IWA)) DEALLOCATE(IWA)
+        ALLOCATE(IWA(II))
         II=0
         DO N=1,NTHGRP
           ITYP=ITHGRP(2,N)
