@@ -115,7 +115,8 @@ C-----------------------------------------------
      .          N,K,K1,K2,JTURB,
      .          OFFSET,IHBE,NPG, MPT,IPT,IADR,IPMAT,
      .          ISUBSTACK,ITHK,ID_PLY,IOK,N1,N2,N3,N4,
-     .          IMAT,IU(4),NFRAC,IPOS,ITRIMAT,NS,IAD2,IDRAPE,NLAY_FAIL,ILAY0,SUBMATLAW
+     .          IMAT,IU(4),NFRAC,IPOS,ITRIMAT,NS,IAD2,IDRAPE,NLAY_FAIL,ILAY0,SUBMATLAW,
+     .          TAG, MLW_LAY
         INTEGER PID(MVSIZ),MAT(MVSIZ),MATLY(MVSIZ*100),FAILG(100,MVSIZ),
      .          IPLY,
      .          IOK_PART(MVSIZ),JJ(5),NPGT,IUVAR,
@@ -2778,129 +2779,113 @@ C--------------------------------------------------
 C--------------------------------------------------
             ELSE IF (KEYWORD == 'FAIL') THEN   ! FAIL
 C--------------------------------------------------
-              IF ((MLW == 25.OR.MLW == 15).AND.(IGTYP == 10.
-     .            OR.IGTYP == 11.OR.IGTYP == 17.OR.IGTYP == 51
-     .                                         .OR. IGTYP == 52)) THEN
-                FAILG = 0
-                DO I=1,NEL
-                  DAM1(I)=ZERO
-                  DAM2(I)=ZERO
-                  WPLA(I)=ZERO
-                  FAIL(I)=ZERO
-                END DO
-                IF(ITY == 3)THEN
-                  DO I=1,NEL
-                    MAT(I)=IXC(1,NFT+I)
-                    PID(I)=IXC(6,NFT+I)
-                  END DO
-                ELSE
-                  DO I=1,NEL
-                    MAT(I)=IXTG(1,NFT+I)
-                    PID(I)=IXTG(5,NFT+I)
-                  END DO
-                END IF
-                IF (IGTYP == 11) THEN
-                  IPMAT = 100
-                  DO N=1,NPT
-                    IADR = (N-1)*NEL
+             IF (IGTYP == 10. OR.IGTYP == 11.OR.IGTYP == 17.OR.IGTYP == 51 .OR. 
+     .          IGTYP == 52) THEN
+                    FAILG = 0
                     DO I=1,NEL
-                      J = IADR+I
-                      MATLY(J) = IGEO(IPMAT+N,PID(I))
+                      DAM1(I)=ZERO
+                      DAM2(I)=ZERO
+                      WPLA(I)=ZERO
+                      FAIL(I)=ZERO
                     END DO
-                  END DO
-                ELSEIF (IGTYP == 10) THEN
-                  DO N=1,NPT
-                    IADR = (N-1)*NEL
-                    DO I=1,NEL
-                      J = IADR+I
-                      MATLY(J)=MAT(I)
-                    END DO
-                  END DO
-                ELSEIF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
-                  IPMAT = 2 + NLAY
-                  DO N=1,NLAY
-                    IADR = (N-1)*NEL
-                    DO I=1,NEL
-                      J = IADR+I
-                      MATLY(J) = STACK%IGEO(IPMAT+N,ISUBSTACK)
-                    END DO
-                  END DO
-                END IF
 c
-                IF (IHBE == 11) THEN
-                  DO IL=1,NLAY
-                    NPTT = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
-                    BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
-                    IMAT = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
-                    IADR = (IL-1)*NEL
-                    DO IT=1,NPTT
-                      DO I=1,NEL
-                        WPLA(I) = ZERO
-                      ENDDO
-                      DO IR=1,NPTR
-                        DO IS=1,NPTS
-                          LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
-                          DO I=1,NEL
-                            J = IADR + I
-                            IF (MLW == 25) THEN 
-                              DAM1(I)=LBUF%DMG(JJ(1)+I)
-                              DAM2(I)=LBUF%DMG(JJ(2)+I)
-                            ELSEIF (MLW == 15) THEN
-                              DAM1(I)=LBUF%DAM(JJ(1)+I)
-                              DAM2(I)=LBUF%DAM(JJ(2)+I)
-                            ENDIF
-                            WPLA(I) = WPLA(I) + ABS(LBUF%PLA(I))/NPG
-                            DMAX(I) = PM(64,IMAT)
-                            WPMAX(I)= PM(41,IMAT)
-                            IF (DAM1(I) >= DMAX(I).OR.DAM2(I) >= DMAX(I)
-     .                          .OR.WPLA(I) < ZERO.OR.WPLA(I) >= WPMAX(I))
-     .                          FAILG(IL,I) = FAILG(IL,I) + 1
-                            IF (FAILG(IL,I) == NPG ) THEN
-                              FAIL(I) = FAIL(I) + ONE
-                              FAILG(IL,I) = NPG + 1
-                            ENDIF
+                    IF (IHBE == 11) THEN
+                        DO IL=1,NLAY
+                          NPTT = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
+                          BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
+                          IMAT = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
+                          IADR = (IL-1)*NEL
+                          MLW_LAY = ELBUF_TAB(NG)%BUFLY(IL)%ILAW
+                          DO IT=1,NPTT
+                              DO I=1,NEL
+                                WPLA(I) = ZERO
+                              ENDDO
+                              TAG = 0
+                              DO IR=1,NPTR
+                                DO IS=1,NPTS
+                                    LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
+                                    DO I=1,NEL
+                                        J = IADR + I
+                                        IF (MLW_LAY == 25) THEN 
+                                          DAM1(I)=LBUF%DMG(JJ(1)+I)
+                                          DAM2(I)=LBUF%DMG(JJ(2)+I)
+                                          WPLA(I) = WPLA(I) + ABS(LBUF%PLA(I))/NPG
+                                          DMAX(I) = PM(64,IMAT)
+                                          WPMAX(I)= PM(41,IMAT)
+                                          IF (DAM1(I) >= DMAX(I).OR.DAM2(I) >= DMAX(I)
+     .                                      .OR.WPLA(I) < ZERO.OR.WPLA(I) >= WPMAX(I))
+     .                                             FAILG(IL,I) = FAILG(IL,I) + 1
+                                          IF (FAILG(IL,I) == NPG ) THEN
+                                             FAIL(I) = FAIL(I) + ONE
+                                             FAILG(IL,I) = NPG + 1
+                                          ENDIF
+                                        ELSEIF (MLW_LAY == 15) THEN
+                                           DAM1(I)=LBUF%DAM(JJ(1)+I)
+                                           DAM2(I)=LBUF%DAM(JJ(2)+I)
+                                           WPLA(I) = WPLA(I) + ABS(LBUF%PLA(I))/NPG
+                                           DMAX(I) = PM(64,IMAT)
+                                           WPMAX(I)= PM(41,IMAT)
+                                           IF (DAM1(I) >= DMAX(I).OR.DAM2(I) >= DMAX(I)
+     .                                      .OR.WPLA(I) < ZERO.OR.WPLA(I) >= WPMAX(I))
+     .                                             FAILG(IL,I) = FAILG(IL,I) + 1
+                                           IF (FAILG(IL,I) == NPG ) THEN
+                                             FAIL(I) = FAIL(I) + ONE
+                                             FAILG(IL,I) = NPG + 1
+                                           ENDIF
+                                       ELSE !   available law127. save info in lbuf%off
+                                           IF(LBUF%OFF(I) < ONE) TAG= 1
+                                       ENDIF  
+                                    ENDDO
+                                  ENDDO
+                                  FAIL(I) = FAIL(I) + TAG !  only one plan integration is off
+                              ENDDO
                           ENDDO
+                        ENDDO  !  DO IL=1,NLAY
+                        DO  I=1,NEL
+                            VALUE(I) = FAIL(I)
+                            IS_WRITTEN_VALUE(I) = 1
                         ENDDO
-                      ENDDO
-                    ENDDO
-                  ENDDO  !  DO IL=1,NLAY
-                  DO  I=1,NEL
-                    VALUE(I) = FAIL(I)
-                    IS_WRITTEN_VALUE(I) = 1
-                  ENDDO
-                ELSE
-                  DO IL=1,NLAY
-                    NPTT = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
-                    BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
-                    IMAT = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
-                    IADR = (IL-1)*NEL
-                    DO IT=1,NPTT
-                      LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(1,1,IT)
-                      DO I=1,NEL
-                        J = IADR + I
-                        IF (MLW == 25) THEN 
-                          DAM1(I)=LBUF%DMG(JJ(1)+I)
-                          DAM2(I)=LBUF%DMG(JJ(2)+I)
-                        ELSEIF (MLW == 15) THEN
-                          DAM1(I)=LBUF%DAM(JJ(1)+I)
-                          DAM2(I)=LBUF%DAM(JJ(2)+I)
-                        ENDIF
-                        WPLA(I) = ABS(LBUF%PLA(I))
-                        DMAX(I) = PM(64,IMAT)
-                        WPMAX(I)= PM(41,IMAT)
-                        IF (DAM1(I) >= DMAX(I).OR.DAM2(I) >= DMAX(I).OR.
-     .                       WPLA(I) < ZERO.OR.WPLA(I) >= WPMAX(I))
-     .                   FAIL(I) = FAIL(I) + ONE
-                      ENDDO
-                    ENDDO
-                  ENDDO  !  DO IL=1,NLAY
-                  DO  I=1,NEL
-                    VALUE(I) = FAIL(I)
-                    IS_WRITTEN_VALUE(I) = 1
-                  ENDDO
-                ENDIF
-c
-              ENDIF ! MLW , IGTYP
+                   ELSE
+                        DO IL=1,NLAY
+                            NPTT = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
+                            BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
+                            IMAT = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
+                            IADR = (IL-1)*NEL
+                            MLW_LAY = ELBUF_TAB(NG)%BUFLY(IL)%ILAW
+                            DO IT=1,NPTT
+                                LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(1,1,IT)
+                                DO I=1,NEL
+                                   J = IADR + I
+                                  IF (MLW_LAY == 25) THEN 
+                                     DAM1(I)=LBUF%DMG(JJ(1)+I)
+                                     DAM2(I)=LBUF%DMG(JJ(2)+I)
+                                     WPLA(I) = ABS(LBUF%PLA(I))
+                                     DMAX(I) = PM(64,IMAT)
+                                     WPMAX(I)= PM(41,IMAT)
+                                     IF (DAM1(I) >= DMAX(I).OR.DAM2(I) >= DMAX(I).OR.
+     .                                 WPLA(I) < ZERO.OR.WPLA(I) >= WPMAX(I))
+     .                                FAIL(I) = FAIL(I) + ONE
+                                  ELSEIF (MLW_LAY == 15) THEN
+                                     DAM1(I)=LBUF%DAM(JJ(1)+I)
+                                     DAM2(I)=LBUF%DAM(JJ(2)+I)
+                                     WPLA(I) = ABS(LBUF%PLA(I))
+                                     DMAX(I) = PM(64,IMAT)
+                                     WPMAX(I)= PM(41,IMAT)
+                                     IF (DAM1(I) >= DMAX(I).OR.DAM2(I) >= DMAX(I).OR.
+     .                                 WPLA(I) < ZERO.OR.WPLA(I) >= WPMAX(I))
+     .                                 FAIL(I) = FAIL(I) + ONE
+                                  ELSE  !  available law127. save info in lbuf%off
+                                    IF(LBUF%OFF(I) < ONE) FAIL(I) = FAIL(I) + 1
+                                  ENDIF
+                                ENDDO
+                            ENDDO
+                        ENDDO  !  DO IL=1,NLAY
+                        DO  I=1,NEL
+                            VALUE(I) = FAIL(I)
+                            IS_WRITTEN_VALUE(I) = 1
+                        ENDDO
+                      ENDIF  
+              ENDIF ! IGTYP
 C--------------------------------------------------
             ELSE IF (KEYWORD == 'DAMA') THEN
 C--------------------------------------------------
@@ -3487,7 +3472,7 @@ c
               ENDIF ! IFAILURE
 C
 C for outp of dam inside law25
-C
+CMATLY
               IF(MLW == 25 .AND. (IGTYP == 10 .OR. IGTYP == 11 .OR.
      .           IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 )) THEN
                 IF(ITY == 3)THEN
