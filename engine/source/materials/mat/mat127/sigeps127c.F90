@@ -47,7 +47,7 @@
            sigoxx  ,sigoyy     ,sigoxy  ,sigozx ,sigoyz ,         &
            signxx  ,signyy     ,signxy  ,signzx   ,signyz  ,      &
            off     ,sigy       ,etse    ,ssp      ,dmg     ,      &
-           dmg_g    ) 
+           dmg_g   ,offply   ) 
 !---------------------------------------------- -
 !   M o d u l e s
 !-----------------------------------------------
@@ -105,6 +105,7 @@
           my_real, dimension(nel), intent(inout) :: off !< element deletion flag
           my_real, dimension(nel,6), intent(inout) ::  dmg 
           my_real, dimension(nel), intent(inout) ::  dmg_g 
+          my_real, dimension(nel), intent(inout) :: offply !< ply element deletion flag
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
@@ -271,6 +272,7 @@
                          dmg(i,1) = one  ! set ply off 
                          dmg_g(i) = dmg_g(i) + one 
                          uvar(i,1) = ncycle 
+                         offply(i) = zero
                       endif  
                 elseif(dmg(i,3) == zero ) then
                       efc = (signxx(i)/xc(i))**2
@@ -315,6 +317,7 @@
                  dmg(i,1) = one 
                  uvar(i,1) = ncycle 
                  dmg_g(i) = dmg_g(i) + one
+                 offply(i) = zero
               else
               ! computing new stress 
                 d = (one - nu12*nu21)

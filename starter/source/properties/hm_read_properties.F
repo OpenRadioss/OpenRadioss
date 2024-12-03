@@ -629,6 +629,9 @@ c----   Shells
           PROP_TAG(IGTYP)%G_STRPG  = 8
 C
           IF((IGTYP == 11 .OR. IGTYP == 17 ) )  PROP_TAG(IGTYP)%LY_DMG = 2
+          IF (IGTYP == 9  .OR. IGTYP == 10 .OR. IGTYP == 11 .OR.
+     .        IGTYP == 16 .OR. IGTYP == 17 .OR. IGTYP == 51 .OR.
+     .        IGTYP == 52 ) PROP_TAG(IGTYP)%L_OFF = 1
         ENDIF
 C
       ENDDO

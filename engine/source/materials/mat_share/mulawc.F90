@@ -1705,7 +1705,7 @@ subroutine mulawc(elbuf_str ,&
                &sigoxx   ,sigoyy     ,sigoxy   ,sigozx   ,sigoyz   ,&
                &signxx   ,signyy     ,signxy   ,signzx   ,signyz   ,&
                &off      ,sigy       ,etse     ,ssp      ,lbuf%dmg ,&
-               gbuf%dmg)
+               gbuf%dmg  ,lbuf%off)
 !
             elseif (ilaw == 158) then
 
