@@ -1855,7 +1855,7 @@ C
                     I = LPBY(J+K)
                     DO IJK = ADSKY(I),ADSKY(I+1)-1
                         CC2 = IJK
-                        NUMG2 = CNE(CC2)
+                        NUMG2 = ABS(CNE(CC2))
                         NUMBER_OF_ELEMENT_RBODY = NUMBER_OF_ELEMENT_RBODY + 1
                         LIST_ELEMENT_RBODY( NUMBER_OF_ELEMENT_RBODY ) = NUMG2
                         BOOL_RBODY=.TRUE.
@@ -1865,7 +1865,7 @@ C
                 !   main node
                 DO IJK = ADSKY(M),ADSKY(M+1)-1
                     CC2 = IJK
-                    NUMG2 = CNE(CC2)
+                    NUMG2 = ABS(CNE(CC2))
                     NUMBER_OF_ELEMENT_RBODY = NUMBER_OF_ELEMENT_RBODY + 1
                     LIST_ELEMENT_RBODY( NUMBER_OF_ELEMENT_RBODY ) = NUMG2
                 ENDDO
