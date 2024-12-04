@@ -210,8 +210,9 @@ C
         ALLOCATE(ELEMENT%shell%nodes(4,SIXC/NIXC))
         ALLOCATE(ELEMENT%shell%pid(SIXC/NIXC))
         ALLOCATE(ELEMENT%shell%matid(SIXC/NIXC))
-        IF (IERR/=0) GOTO 1000
+        ALLOCATE(ELEMENT%shell%user_id(SIXC/NIXC))
         IXC = 0  
+        ELEMENT%shell%ixc = 0
 
         ALLOCATE (IXT(SIXT),STAT=IERR)
         IF (IERR/=0) GOTO 1000

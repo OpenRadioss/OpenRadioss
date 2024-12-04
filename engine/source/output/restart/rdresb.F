@@ -335,6 +335,10 @@ C
         CALL READ_I_C(IXQ,SIXQ)
 
         CALL READ_I_C(ELEMENT%shell%ixc,SIXC)
+        ALLOCATE(ELEMENT%shell%nodes(4, SIXC/NIXC))
+        ALLOCATE(ELEMENT%shell%pid(SIXC/NIXC))
+        ALLOCATE(ELEMENT%shell%matid(SIXC/NIXC))
+        ALLOCATE(ELEMENT%shell%user_id(SIXC/NIXC))
         DO I = 1, SIXC / NIXC ! loop over the number of shell
           element%shell%nodes(1:4,I) = ELEMENT%shell%ixc(2:5, I)
           element%shell%pid(I) = ELEMENT%shell%ixc(6, I)
