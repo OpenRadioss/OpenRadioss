@@ -43,7 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2  IRCVFROM,DT2T   ,NELTST ,ITYPTST ,ITAB   ,
      3  XSLV    ,XMSR   ,VSLV   ,VMSR    ,INTLIST,
      4  NBINTC  ,SIZE_T ,SENSOR_TAB,DELTA_PMAX_GAP,
-     5  INTBUF_TAB,DELTA_PMAX_GAP_NODE,IDEL7NOK_SAV,MAXDGAP)
+     5  INTBUF_TAB,DELTA_PMAX_GAP_NODE,IDEL7NOK_SAV,MAXDGAP, V )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -70,6 +70,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      my_real, intent(in) :: V(3,NUMNOD)
       INTEGER, INTENT(INOUT) :: ERRORS !< number of errors (vmaxdt too high, ...)
       INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER IPARI(NPARI,*),
@@ -85,7 +86,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL, DIMENSION(NINTER) :: FORCE_COMPUTATION
-      INTEGER I,J,KK,IGN,IGE,
+      INTEGER I,J,KK,IGN,IGE,JJ, NSN, NMN,
      .        IAD,K,N,IADD,ICOMP,NTY,NME,NMES,NMET,
      .        NBNEW, LISTNEW(NBINTC), ISENS, INTERACT,DELTA_PMAX_GAP_NOD
       my_real
@@ -381,7 +382,9 @@ c (no need to communicate VMAXDT in SPMD)
 
          INTBUF_TAB(I)%VARIABLES(5) = DIST0
 
-         IF(VMAXDT > TEN * MARGE0) THEN
+
+
+         IF(VMAXDT > FIVE * MARGE0) THEN
            ! assuming that MARGE0 is identical on all processors
            ERRORS = ERRORS + 1
            IF(ISPMD == 0) THEN
@@ -390,6 +393,33 @@ c (no need to communicate VMAXDT in SPMD)
              WRITE(IOUT,'(A,I10)') "ERROR: NODAL VELOCITY IS TOO HIGH
      . FOR INTERFACE",IPARI(15,I) 
            ENDIF
+           NSN = IPARI(5,I)
+           NMN = IPARI(6,I)
+           DO JJ=1,NSN
+             J=INTBUF_TAB(I)%NSV(JJ)
+             IF(INTBUF_TAB(I)%STFNS(JJ)/=ZERO .AND. J<=NUMNOD .AND. J > 0) THEN
+               VX = V(1,J) 
+               VY = V(2,J) 
+               VZ = V(3,J) 
+               D1 = SQRT(VX**2+VY**2+VZ**2)
+               IF(D1 > FIVE * MARGE0 /TWO) THEN
+                 WRITE(ISTDO,*) "ERROR: NODAL VELOCITY IS TOO HIGH FOR NODE",ITAB(J),D1
+               ENDIF
+             ENDIF
+           END DO
+           DO JJ=1,NMN
+             J=INTBUF_TAB(I)%MSR(JJ)
+             IF(J>0 .AND. J <= NUMNOD) THEN
+               VX = V(1,J) 
+               VY = V(2,J) 
+               VZ = V(3,J) 
+               D1 = SQRT(VX**2+VY**2+VZ**2)
+               IF(D1 > FIVE * MARGE0 /TWO ) THEN
+                 WRITE(ISTDO,*) "ERROR: NODAL VELOCITY IS TOO HIGH FOR NODE",ITAB(J),D1
+               ENDIF
+             ENDIF
+           ENDDO
+           INTBUF_TAB(I)%VARIABLES(24) = MARGE0
          ENDIF
 
 
