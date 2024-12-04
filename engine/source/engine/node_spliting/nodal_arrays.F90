@@ -32,6 +32,7 @@
             integer :: numnod
             integer :: max_numnod
             integer, dimension(:), allocatable :: itab !< node user id , itabm1, max_id_user_globaux
+            integer, dimension(:), allocatable :: ITABM1 !< node user id , itabm1, max_id_user_globaux
             integer, dimension(:), allocatable :: IKINE !< node kinematic id
             integer, dimension(:), allocatable :: WEIGHT !< node weight : 1 = owned by current proc, 0 = ghost
             my_real, dimension(:,:), allocatable :: A !< accelerations: 3 x numnod (x nthreads if parith/off)
@@ -110,6 +111,7 @@
             call my_alloc(arrays%DDP,numnod)
             call my_alloc(arrays%XDP,numnod)
             call my_alloc(arrays%WEIGHT,numnod)
+            call my_alloc(arrays%ITABM1,2*numnod)
 
             if(iparith == 0) then
               call my_alloc(arrays%A,3,numnod*nthreads)
@@ -123,6 +125,28 @@
               call my_alloc(arrays%VISCN,numnod)
             endif               
             arrays%numnod = numnod
+            ! initialization to 0
+            arrays%itab = 0
+            arrays%IKINE = 0
+            arrays%V = 0
+            arrays%X = 0
+            arrays%D = 0
+            arrays%VR = 0
+            arrays%DR = 0
+            arrays%MS = 0
+            arrays%IN = 0
+            arrays%STIFN = 0
+            arrays%MS0 = 0
+            arrays%IN0 = 0
+            arrays%DDP = 0
+            arrays%XDP = 0
+            arrays%WEIGHT = 0
+            arrays%ITABM1 = 0
+            arrays%A = 0
+            arrays%AR = 0
+            arrays%STIFR = 0
+            arrays%VISCN = 0
+
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine allocate_nodal_arrays
 !! \brief extend nodal arrays                                                              
@@ -166,6 +190,7 @@
               call extend_array(arrays%DDP, size(arrays%DDP), arrays%max_numnod)
               call extend_array(arrays%XDP, size(arrays%XDP), arrays%max_numnod)
               call extend_array(arrays%WEIGHT, size(arrays%WEIGHT), arrays%max_numnod)
+              call extend_array(arrays%ITABM1, size(arrays%ITABM1), 2*arrays%max_numnod)
              
               if(arrays%iparith == 0) then
                 call extend_array(arrays%A,3,size(arrays%A,2),3,arrays%max_numnod*arrays%nthreads)

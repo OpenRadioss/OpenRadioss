@@ -297,7 +297,7 @@ C
 
         CALL READ_I_C(MAIN_PROC,SWEIGHT)
 
-        CALL READ_I_C(WEIGHT,SWEIGHT)
+        CALL READ_I_C(NODES%WEIGHT,SWEIGHT)
 
         CALL READ_I_C(ICODE,SICODE)
 
@@ -349,9 +349,9 @@ C
 
         CALL READ_I_C(IXR,SIXR)
 
-        CALL READ_I_C(ITAB,SITAB)
+        CALL READ_I_C(NODES%ITAB,SITAB)
 C       WRITE(6,*) "ITAB = ",ITAB(1:SITAB)
-        CALL READ_I_C(ITABM1,SITABM1)
+        CALL READ_I_C(NODES%ITABM1,SITABM1)
 
         CALL READ_I_C(GJBUFI,SGJBUFI)
 
@@ -983,15 +983,11 @@ C-----
 C--------------------------------------
 C     READING REALS
 C--------------------------------------
-        CALL READ_DB(X,SX)
-
-        CALL READ_DB(D,SD)
-
-        CALL READ_DB(V,SV)
-
-        CALL READ_DB(VR,SVR)
-
-        CALL READ_DB(DR,SDR)
+        CALL READ_DB(NODES%X,SX)
+        CALL READ_DB(NODES%D,SD)
+        CALL READ_DB(NODES%V,SV)
+        CALL READ_DB(NODES%VR,SVR)
+        CALL READ_DB(NODES%DR,SDR)
 
         CALL READ_DB(THKE,STHKE)
 
@@ -999,13 +995,13 @@ C--------------------------------------
 
         CALL READ_DB(DAMP,SDAMP)
 
-        CALL READ_DB(MS,SMS)
+        CALL READ_DB(NODES%MS,SMS)
 
         IF (N2D >0) THEN
             CALL READ_DB(MS_2D,NUMNOD)
         ENDIF
 
-        CALL READ_DB(IN,SIN)
+        CALL READ_DB(NODES%IN,SIN)
 
         CALL READ_DB(TF,STF)
 
@@ -1159,10 +1155,10 @@ c      IF(NNOISE>0.AND.IRUNN>1)THEN
 
        IF (IRESP == 1) THEN
          IF (IRXDP == 1) THEN
-              CALL READ_DPDB(XDP,3*NUMNOD)
-              CALL READ_DPDB(DDP,3*NUMNOD)
+              CALL READ_DPDB(NODES%XDP,3*NUMNOD)
+              CALL READ_DPDB(NODES%DDP,3*NUMNOD)
          ELSE
-           CALL FILLXDP(X,XDP,D,DDP)
+           CALL FILLXDP(NODES%X,NODES%XDP,NODES%D,DDP)
 C next restart, XDP will be on restart head !
            IRXDP=1
          ENDIF
@@ -1303,8 +1299,8 @@ C--------------------------------------
       END IF
 C-------------
 C     always
-      CALL READ_DB(MS0,NUMNOD)
-      CALL READ_DB(IN0,SIN)
+      CALL READ_DB(NODES%MS0,NUMNOD)
+      CALL READ_DB(NODES%IN0,SIN)
       IF(IDTMINS_OLD==1) THEN
         CALL READ_DB(ADMSMS,NUMNOD)
       ELSEIF(IDTMINS_OLD==2) THEN

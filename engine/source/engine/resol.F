@@ -504,7 +504,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE RESOL(ELEMENT, NODES, AF,IAF,
      1  ICODE  ,ISKEW  ,ISKWN   ,NETH   ,IPART  ,NOM_OPT,KXX    ,IXX    ,
      2  IXTG   ,IXS     ,IXQ    ,IXT    ,IXP    ,IXR    ,
-     3  ITABM1  ,IFILL  ,MAT_ELEM,
+     3  IFILL  ,MAT_ELEM,
      4  IMS    ,NPC    ,IBCL    ,
      5  IBFV   ,IDUM   ,LAS     ,LACCELM,NNLINK ,LNLINK ,
      6  IPARG  ,DD_IAD  ,IGRV   ,IEXLNK ,KINET  ,
@@ -764,7 +764,7 @@ C-----------------------------------------------
      .   ADSKY(*),IADS(*),LACCELM(3,*),DD_IAD(NSPMD+1,*),FR_ELEM(*),
      .   IAD_ELEM(2,*),IAD_RBY(*),FR_RBY(*),NNLINK(10,*),LNLINK(*),
      .   IAF(*),IGRV(*),MAIN_PROC(*),WEIGHT_MD(*),
-     .   KXX(NIXX,*),IXX(*),IEXLNK(NR2R,*),ITABM1(*),
+     .   KXX(NIXX,*),IXX(*),IEXLNK(NR2R,*),
      .   IFRAME(LISKN,*),KXSP(NISP,*),IXSP(*),NOD2SP(*),
      .   ISPCOND(NISPCOND,*),ISPSYM(NSPCOND,*),IBVEL(NBVELP,*),LBVEL(*),
      .   ISPHIO(NISPHIO,*),LPRTSPH(*),LONFSPH(*),LAGBUF(*),IBCSLAG(*),
@@ -2125,7 +2125,7 @@ C
         N1 =  1 + NUMNOD + ITSK*NUMNOD*3
         CALL RESOL_INIT(
      1   ITSK     ,IADS(LL1),IADS(LL2),IADS(LL3),FR_NBCC  ,
-     2   ISENDTO  ,IRCVFROM ,IAD_ELEM ,FR_ELEM  ,ITABM1   ,
+     2   ISENDTO  ,IRCVFROM ,IAD_ELEM ,FR_ELEM  ,NODES%ITABM1   ,
      3   IPARI    ,IPARG    ,NODES%ITAB     ,IXS(L1)  ,IXS(L2)  ,
      4   I13A     ,I13B     ,I13C     ,I13D     ,I13E     ,
      5   I13F     ,I13G     ,I13H     ,I13I     ,I15A     ,
@@ -2330,7 +2330,7 @@ C ---------------------
       ! initialization of SHOOT_STRUCT for 
       ! the deactivation node algo
       CALL INIT_NODAL_STATE( IPARI,SHOOT_STRUCT,INTERFACES%INTBUF_TAB,IAD_ELEM,FR_ELEM,
-     .                       NODES%ITAB,ITABM1,GEO,ADDCNEL,CNEL,
+     .                       NODES%ITAB,NODES%ITABM1,GEO,ADDCNEL,CNEL,
      .                       IXS,ELEMENT%SHELL%IXC,IXT,IXP,IXR,IXTG,
      .                       SIZE_ADDCNEL,SIZE_CNEL ,
      .                       numelsg,numelqg,numelcg,numeltrg,numelpg,
@@ -2442,7 +2442,7 @@ C Init var parallel SMP
      1       GEO        ,IXS       ,IXS(L1)   ,IXS(L1)   ,IXS(L3)  ,IXQ    ,
      2       ELEMENT%SHELL%IXC         ,IXT      ,IXP       ,IXR       ,IXTG     ,
      3       WA(NUMNOD+1),NODFTSK  ,NODLTSK   ,IPARG     ,ELBUF    ,ITSK   ,
-     4       WA(NWAFTSK) ,IXTG1    ,IAD_ELEM  ,FR_ELEM   ,NODES%ITAB     ,ITABM1 ,
+     4       WA(NWAFTSK) ,IXTG1    ,IAD_ELEM  ,FR_ELEM   ,NODES%ITAB     ,NODES%ITABM1 ,
      5       ADDCNEL     ,CNEL     ,KXSP      ,ELBUF_TAB ,TAGEL    ,IEXLNK , 
      6       IGRNOD      ,DD_R2R   ,DD_R2R_ELEM,SDD_R2R_ELEM,IDEL7NOK_SAV ,
      7       IDEL7NOK_R2R,TAGTRIMC,TAGTRIMTG,S_ELEM_STATE,ELEM_STATE,
@@ -2471,7 +2471,7 @@ C Init var parallel SMP
           ! exchange of surfaces (ie. 4 nodes) to deactivate and deactivation
           ! ONLY FOR LOCAL SURFACE / REMOTE ELEMENT
           IF(NSPMD>1) THEN 
-            IF(ITSK==0) CALL SPMD_EXCH_DELETED_SURF_EDGE( IAD_ELEM,ITABM1,SHOOT_STRUCT,INTERFACES%INTBUF_TAB,NEWFRONT,
+            IF(ITSK==0) CALL SPMD_EXCH_DELETED_SURF_EDGE( IAD_ELEM,NODES%ITABM1,SHOOT_STRUCT,INTERFACES%INTBUF_TAB,NEWFRONT,
      .                           IPARI,GEO,
      .                           IXS,ELEMENT%SHELL%IXC,IXT,IXP,IXR,IXTG,IXS(L1),
      .                           ADDCNEL,CNEL,WA(NWAFTSK),TAGEL )
@@ -2518,7 +2518,7 @@ C Init var parallel SMP
      .                                        NBINTC,NIXS,NIXC,NIXTG,NUMNOD,  
      .                                        NUMELS,NUMELC,NUMELTG,S_ELEM_STATE, 
      .                                        NBDDEDGT,NBDDEDG_MAX,  
-     .                                        ELEM_STATE,IPARI,INTLIST,NODES%ITAB,ITABM1,
+     .                                        ELEM_STATE,IPARI,INTLIST,NODES%ITAB,NODES%ITABM1,
      .                                        NEWFRONT,IXS,ELEMENT%SHELL%IXC,IXTG,
      .                                        IAD_ELEM,NODES%X,         
      .                                        INTERFACES%INTBUF_TAB,INTERFACES%SPMD_ARRAYS,SHOOT_STRUCT  )
@@ -2534,7 +2534,7 @@ C Init var parallel SMP
      1       IPARI   ,GEO         ,IXS      ,IXQ         ,ELEMENT%SHELL%IXC     ,IXT       ,
      2       IXP     ,IXR         ,IXTG     ,WA(NUMNOD+1),IPARG   ,ITSK      ,
      3       NEWFRONT,WA(NWAFTSK) ,NODES%MS       ,NODES%IN          ,ANIN(NDMA+1),NODES%ITAB  ,
-     4       ITABM1  ,ADDCNEL     , CNEL    ,INDIDEL     ,NINDEX1 ,NINDEX2   ,
+     4       NODES%ITABM1  ,ADDCNEL     , CNEL    ,INDIDEL     ,NINDEX1 ,NINDEX2   ,
      5       NINDEX3 ,NINDEX4     ,TAGEL    ,INT24USE    ,IBUFSEGLO ,INDSEGLO,
      6       IBUFIDEL ,INTERFACES%INTBUF_TAB,IAD_ELEM)
 
@@ -3082,7 +3082,7 @@ C-------------------------------
         CALL SAV_BUF_POINT(SKEWS%SKEW,10)
         CALL SAV_BUF_POINT(LACCELM,11)
         CALL SAV_BUF_POINT(ACCELM,12)
-        CALL SAV_BUF_POINT(ITABM1,13)
+        CALL SAV_BUF_POINT(NODES%ITABM1,13)
         CALL SAV_BUF_POINT(NODES%X,14)
         CALL SAV_BUF_POINT(NODES%D,15)
         CALL SAV_BUF_POINT(NODES%V,16)
@@ -3465,7 +3465,7 @@ C
             IF(IMONM > 0) CALL STARTIME(44,1)
           ENDIF
           CALL FORCEFINGEO(IBFV ,NPC    ,TF      ,NODES%A    ,NODES%V    ,NODES%X     ,
-     2                     VEL  ,SENSORS%SENSOR_TAB ,FSKY ,FEXT ,ITABM1,
+     2                     VEL  ,SENSORS%SENSOR_TAB ,FSKY ,FEXT ,NODES%ITABM1,
      3                     H3D_DATA,NSENSOR,PYTHON)
           IF(IMON>0) THEN
             IF(IMONM > 0) CALL STOPTIME(44,1)
@@ -4017,7 +4017,7 @@ C
      D          IPARI                 ,SEGVAR   ,NODES%ITAB          ,ISKWN             ,DIFFUSION                 ,IRESP           ,
      E          VOLMON                ,FSAV     ,IGRSURF       ,NELTSA            ,
      F          ITYPTSA               ,NODES%WEIGHT   ,NPSEGCOM      ,LSEGCOM           ,IPM                       ,IGEO            ,
-     G          ITABM1                ,LENQMV   ,NV46          ,NODES%A                 ,GRESAV                    ,
+     G          NODES%ITABM1                ,LENQMV   ,NV46          ,NODES%A                 ,GRESAV                    ,
      H          GRTH                  ,IGRTH    ,LGAUGE        ,GAUGE             ,MSSA                      ,
      I          DMELS                 ,IGAUP    ,NGAUP         ,TABLE             ,NODES%MS0                       ,
      J          NODES%XDP                   ,IGRNOD   ,VARNOD        ,FSKYI             ,ISKY                      ,
@@ -5607,7 +5607,7 @@ C WA local  : utilise de 1 a NUMNOD
      1       GEO        ,IXS       ,IXS(L1)   ,IXS(L1)   ,IXS(L3)  ,IXQ    ,
      2       ELEMENT%SHELL%IXC         ,IXT      ,IXP       ,IXR       ,IXTG     ,
      3       WA(NUMNOD+1),NODFTSK  ,NODLTSK   ,IPARG     ,ELBUF    ,ITSK   ,
-     4       WA(NWAFTSK) ,IXTG1    ,IAD_ELEM  ,FR_ELEM   ,NODES%ITAB     ,ITABM1 ,
+     4       WA(NWAFTSK) ,IXTG1    ,IAD_ELEM  ,FR_ELEM   ,NODES%ITAB     ,NODES%ITABM1 ,
      5       ADDCNEL     ,CNEL     ,KXSP      ,ELBUF_TAB ,TAGEL    ,IEXLNK , 
      6       IGRNOD      ,DD_R2R   ,DD_R2R_ELEM,SDD_R2R_ELEM,IDEL7NOK_SAV  ,
      7       IDEL7NOK_R2R,TAGTRIMC,TAGTRIMTG,S_ELEM_STATE,ELEM_STATE,
@@ -5636,7 +5636,7 @@ C WA local  : utilise de 1 a NUMNOD
           ! exchange of surfaces (ie. 4 nodes) to deactivate and deactivation
           ! ONLY FOR LOCAL SURFACE / REMOTE ELEMENT
           IF(NSPMD>1) THEN 
-            IF(ITSK==0) CALL SPMD_EXCH_DELETED_SURF_EDGE( IAD_ELEM,ITABM1,SHOOT_STRUCT,INTERFACES%INTBUF_TAB,NEWFRONT,
+            IF(ITSK==0) CALL SPMD_EXCH_DELETED_SURF_EDGE( IAD_ELEM,NODES%ITABM1,SHOOT_STRUCT,INTERFACES%INTBUF_TAB,NEWFRONT,
      .                           IPARI,GEO,
      .                           IXS,ELEMENT%SHELL%IXC,IXT,IXP,IXR,IXTG,IXS(L1),
      .                           ADDCNEL,CNEL,WA(NWAFTSK),TAGEL )
@@ -5685,7 +5685,7 @@ C WA local  : utilise de 1 a NUMNOD
      .                                        NBINTC,NIXS,NIXC,NIXTG,NUMNOD,  
      .                                        NUMELS,NUMELC,NUMELTG,S_ELEM_STATE, 
      .                                        NBDDEDGT,NBDDEDG_MAX,  
-     .                                        ELEM_STATE,IPARI,INTLIST,NODES%ITAB,ITABM1,
+     .                                        ELEM_STATE,IPARI,INTLIST,NODES%ITAB,NODES%ITABM1,
      .                                        NEWFRONT,IXS,ELEMENT%SHELL%IXC,IXTG,
      .                                        IAD_ELEM,NODES%X,         
      .                                        INTERFACES%INTBUF_TAB,INTERFACES%SPMD_ARRAYS,SHOOT_STRUCT  )
@@ -5702,7 +5702,7 @@ C WA local  : utilise de 1 a NUMNOD
      1       IPARI   ,GEO         ,IXS      ,IXQ         ,ELEMENT%SHELL%IXC     ,IXT       ,
      2       IXP     ,IXR         ,IXTG     ,WA(NUMNOD+1),IPARG   ,ITSK      ,
      3       NEWFRONT,WA(NWAFTSK) ,NODES%MS       ,NODES%IN          ,ANIN(NDMA+1),NODES%ITAB  ,
-     4       ITABM1  ,ADDCNEL     , CNEL    ,INDIDEL     ,NINDEX1 ,NINDEX2   ,
+     4       NODES%ITABM1  ,ADDCNEL     , CNEL    ,INDIDEL     ,NINDEX1 ,NINDEX2   ,
      5       NINDEX3 ,NINDEX4     ,TAGEL    ,INT24USE    ,IBUFSEGLO ,INDSEGLO,
      6       IBUFIDEL ,INTERFACES%INTBUF_TAB,IAD_ELEM)
 
@@ -5712,7 +5712,7 @@ C WA local  : utilise de 1 a NUMNOD
           CALL CHKLOAD(
      1       IBCL    ,IXS     ,IXQ         ,ELEMENT%SHELL%IXC    ,IXT        ,IXP     ,
      2       IXR     ,IXTG    ,WA(NUMNOD+1),ITSK   ,WA(NWAFTSK),NODES%ITAB    ,
-     3       ITABM1  ,ADDCNEL ,CNEL        ,TAGEL  ,IPARG      ,GEO     ,
+     3       NODES%ITABM1  ,ADDCNEL ,CNEL        ,TAGEL  ,IPARG      ,GEO     ,
      4       IBUFPDEL,NINDEXPDEL,NINDEXP   ,NPRESLOAD,LOADP_TAGDEL      ,
      5       ILOADP  ,LLOADP  ,IAD_ELEM)
 
@@ -5980,7 +5980,7 @@ C===============================================================================
           CALL RBYSENS(
      1     IPARG,IPARI       ,NODES%MS    ,NODES%IN   ,
      2     IXS  ,IXQ  ,ELEMENT%SHELL%IXC   ,IXT   ,IXP  ,
-     3     IXR  ,SKEWS%SKEW ,NODES%ITAB  ,ITABM1,ISKWN,
+     3     IXR  ,SKEWS%SKEW ,NODES%ITAB  ,NODES%ITABM1,ISKWN,
      4     NPBY ,WA   ,LPBY  ,FSKY  ,NSENSOR,
      5     RBY  ,NODES%X    ,NODES%V     ,NODES%VR    ,IXTG ,
      6     IGRV ,LGRAV,SENSORS%SENSOR_TAB,NODES%A     ,NODES%AR   ,
@@ -7777,7 +7777,7 @@ C--------------------------
                CALL FIXFINGEO(IBFV   ,NODES%A     ,NODES%V      ,NPC    ,TF     ,
      2                      VEL    ,NODES%MS    ,NODES%X      ,NODES%D      ,SENSORS%SENSOR_TAB ,
      3                      NODES%WEIGHT,CPTREAC,NODREAC,PTR_SMS,NSENSOR    ,
-     4                      FTHREAC,ITABM1,NODES%ITAB   )
+     4                      FTHREAC,NODES%ITABM1,NODES%ITAB   )
              ENDIF
 C
              IF(IMON>0) THEN
@@ -8518,7 +8518,7 @@ C
      D   IPARI      ,SEGVAR   ,NODES%ITAB       ,ISKWN        ,
      E   FSAV     ,
      F   NODES%WEIGHT     ,NPSEGCOM ,LSEGCOM    ,IPM          ,IGEO           ,
-     G   ITABM1   ,NV46       )
+     G   NODES%ITABM1   ,NV46       )
   
 !$OMP END PARALLEL
       ENDIF
@@ -8867,7 +8867,7 @@ C===============================================================================
 #if defined(MUMPS5) 
          CALL IMP_CHKM(
      1  ICODE  ,ISKEW  ,ISKWN  ,IPART  ,IXTG   ,IXS    ,IXQ    ,
-     2  ELEMENT%SHELL%IXC    ,IXT    ,IXP    ,IXR    ,IXTG1          ,NODES%ITAB   ,ITABM1 ,
+     2  ELEMENT%SHELL%IXC    ,IXT    ,IXP    ,IXR    ,IXTG1          ,NODES%ITAB   ,NODES%ITABM1 ,
      3  NPC    ,IBCL   ,IBFV   ,SENSORS%SENSOR_TAB,NNLINK ,LNLINK ,IPARG  ,IGRV   ,
      4  IPARI  ,INTERFACES%INTBUF_TAB,NPRW   ,ICONX  ,NPBY,LPBY   ,LRIVET ,
      5  NSTRF  ,LJOINT ,ICODT  ,ICODR  ,ISKY  ,ADSKY,IADS(I87J),
@@ -8899,7 +8899,7 @@ C----       10,11,12:ELBUF_C,BUFMAT_C,X_C,13,14:DD,DDR,15,16:X_ac,V_zero,23,24:A
 #if defined(MUMPS5) 
         CALL IMP_SOLV(
      1  ICODE  ,ISKEW  ,ISKWN  ,IPART  ,IXTG   ,IXS    ,IXQ    ,
-     2  ELEMENT%SHELL%IXC    ,IXT    ,IXP    ,IXR    ,IXTG1          ,NODES%ITAB   ,ITABM1 ,
+     2  ELEMENT%SHELL%IXC    ,IXT    ,IXP    ,IXR    ,IXTG1          ,NODES%ITAB   ,NODES%ITABM1 ,
      3  NPC    ,IBCL   ,IBFV   ,SENSORS%SENSOR_TAB,NNLINK ,LNLINK ,IPARG  ,IGRV   ,
      4  IPARI  ,INTERFACES%INTBUF_TAB,NPRW   ,ICONX  ,NPBY,LPBY   ,LRIVET ,
      5  NSTRF  ,LJOINT ,ICODT  ,ICODR  ,ISKY  ,ADSKY,IADS(I87J),
