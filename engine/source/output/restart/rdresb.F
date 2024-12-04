@@ -136,11 +136,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   SKEWS            ,RFLOW      ,LIFLOW       ,LRFLOW           ,IMPL_S0    ,
      .                   MCP              ,TEMP       ,FORNEQS      ,UNITAB           ,
      .                   STACK            ,DRAPE_SH4N ,DRAPE_SH3N   ,DRAPEG           ,NDRAPE     ,
-     .                   GLOB_THERM       ,PBLAST, ELEMENT)
+     .                   GLOB_THERM       ,PBLAST, ELEMENT, NODES)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE connectivity_mod
+      USE nodal_arrays_mod
       USE PYTHON_FUNCT_MOD
       USE RESTMOD
       USE INTSTAMP_GLOB_MOD
@@ -245,6 +246,7 @@ C-----------------------------------------------
       TYPE(GLOB_THERM_)     ,INTENT(INOUT)                 :: GLOB_THERM
       TYPE(PBLAST_)         ,INTENT(INOUT)                 :: PBLAST
       TYPE(connectivity_)   ,INTENT(INOUT)                 :: ELEMENT
+      TYPE(nodal_arrays_)   ,INTENT(INOUT)                 :: NODES
       INTEGER, INTENT(IN) :: LIFLOW
       INTEGER, INTENT(IN) :: LRFLOW
       my_real, INTENT(INOUT) :: FORNEQS(3,NUMNOD)
