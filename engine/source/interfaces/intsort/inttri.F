@@ -621,6 +621,7 @@ C
 C
 C Partie non parallele smt
 C
+      ERRORS = 0 
 !$OMP SINGLE
 
       IF (IMONM > 0) THEN
@@ -635,13 +636,12 @@ C
 C
 C Communication critere de tri
 C
-      ERRORS = 0 
       CALL INTCRIT(
      1    ERRORS, IPARI   ,NEWFRONT ,ISENDTO  ,NSENSOR  , 
      2    IRECVFROM ,DT2T    ,NELTST  ,ITYPTST  ,ITAB      ,
      3    XSLV      ,XMSR    ,VSLV    ,VMSR     ,INTLIST   ,
      4    NBINTC    ,SIZE_T  ,SENSORS%SENSOR_TAB,DELTA_PMAX_GAP,
-     5    INTBUF_TAB,DELTA_PMAX_GAP_NODE,IDEL7NOK_SAV,MAXDGAP)
+     5    INTBUF_TAB,DELTA_PMAX_GAP_NODE,IDEL7NOK_SAV,MAXDGAP,V)
 
 
 C
@@ -666,7 +666,6 @@ C
 
 C Fin Partie non parallele smt
 !$OMP END SINGLE
-      IF(ERRORS > 0) RETURN
 
       IF(IMPL_S/=1)THEN
 
