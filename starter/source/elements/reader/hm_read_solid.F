@@ -104,7 +104,7 @@ C-----------------------------------------------
       INTEGER I, J, MT, MLAW, JTUR, I1, I2, INEW,I10,I20,I16
       INTEGER IC,IC1,IC2,IC3,IC4,IPID,ID,IDS,N,JC,NSPHDIR,STAT
       INTEGER FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,NUMELS_READ,
-     .        IOUTN, IERROR, INDEX_PART
+     .        IOUTN, IERROR, INDEX_PART,IXS10_SAV(6)
       my_real
      .   BID 
       CHARACTER MESS*40, MESS2*40
@@ -348,7 +348,20 @@ C
         IXS(5,I)=IXS(3,I)
         IXS(4,I)=IXS(3,I)
         IXS(3,I)=IXS(2,I)
-        ISOLNOD(I)=10   
+        ISOLNOD(I)=10
+        IF (CHECKVOLUME_4N(X ,IXS(1,I)) < ZERO) THEN
+            IC2=IXS(6,I)
+            IC4=IXS(4,I)
+            IXS10_SAV(1:6) = IXS10(1:6,I10) 
+            IXS(4,I)=IC2
+            IXS(6,I)=IC4
+            IXS(5,I)=IC2
+            IXS(9,I)=IC4                     
+            IXS10(1,I10) = IXS10_SAV(4) 
+            IXS10(2,I10) = IXS10_SAV(6) 
+            IXS10(4,I10) = IXS10_SAV(1) 
+            IXS10(6,I10) = IXS10_SAV(2)
+        END IF
       ENDDO
 C--------------------------------------------------
 C      READING BRIC20 INPUTS IN HM STRUCTURE
