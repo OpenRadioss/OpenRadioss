@@ -742,7 +742,10 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
       INTEGER AVAIL_MEM,ESTIM_MEM
       INTEGER ORDERING_METHOD,METIS,PORD,AUTOMATIC 
+      INTEGER :: TLEN
+      LOGICAL :: IS_OOC_AUTORIZED
 
+      IS_OOC_AUTORIZED = .FALSE.   
 ! Only the testing here, initializations are removed into IMP_MUMPS1
 
       IF (ITASK==1) THEN
@@ -787,7 +790,15 @@ C We increase again by 20pc
 C Out-of-core
            ESTIM_MEM = INT(MUMPS_PAR%INFOG(26) * 1.2d0)
          ENDIF
-         MUMPS_PAR%ICNTL(23) = MIN(AVAIL_MEM,ESTIM_MEM)
+
+
+         IF(IS_OOC_AUTORIZED .AND. ESTIM_MEM > AVAIL_MEM) THEN
+           MUMPS_PAR%ICNTL(22) = 1
+           MUMPS_PAR%ICNTL(23) = ESTIM_MEM
+           CALL TMPENVF(MUMPS_PAR%OOC_TMPDIR,TLEN)
+         ELSE
+           MUMPS_PAR%ICNTL(23) = MIN(AVAIL_MEM,ESTIM_MEM)
+         ENDIF
 
 C Factorisation
          MUMPS_PAR%JOB=2
@@ -857,6 +868,8 @@ c          CALL STARTIME(98,1)
            CALL DMUMPS(MUMPS_PAR)
 c          CALL STOPTIME(98,1)
          ENDIF ! Recovering from error
+
+
 
        IF (MUMPS_PAR%INFOG(1)<0) THEN
 c         WRITE(IOUT,*) 'Warning: failed to solve linear system '
