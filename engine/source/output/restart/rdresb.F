@@ -335,10 +335,6 @@ C
         CALL READ_I_C(IXQ,SIXQ)
 
         CALL READ_I_C(ELEMENT%shell%ixc,SIXC)
-        ALLOCATE(ELEMENT%shell%nodes(4, SIXC/NIXC))
-        ALLOCATE(ELEMENT%shell%pid(SIXC/NIXC))
-        ALLOCATE(ELEMENT%shell%matid(SIXC/NIXC))
-        ALLOCATE(ELEMENT%shell%user_id(SIXC/NIXC))
         DO I = 1, SIXC / NIXC ! loop over the number of shell
           element%shell%nodes(1:4,I) = ELEMENT%shell%ixc(2:5, I)
           element%shell%pid(I) = ELEMENT%shell%ixc(6, I)
@@ -354,7 +350,7 @@ C
         CALL READ_I_C(IXR,SIXR)
 
         CALL READ_I_C(NODES%ITAB,SITAB)
-C       WRITE(6,*) "ITAB = ",ITAB(1:SITAB)
+
         CALL READ_I_C(NODES%ITABM1,SITABM1)
 
         CALL READ_I_C(GJBUFI,SGJBUFI)
@@ -779,7 +775,7 @@ C
 
         CALL READ_I_C(LLAGF,SLLAGF)
 C
-        WEIGHT_MD = WEIGHT
+        WEIGHT_MD = NODES%WEIGHT
 
 C
         IF(ICRACK3D > 0)THEN

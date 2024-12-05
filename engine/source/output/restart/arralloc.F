@@ -230,9 +230,9 @@ c       ALLOCATE (ITAB(SITAB),STAT=IERR)
 c       IF (IERR/=0) GOTO 1000
 c       ITAB = 0  
 
-        ALLOCATE (ITABM1(SITABM1),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        ITABM1 = 0
+c       ALLOCATE (ITABM1(SITABM1),STAT=IERR)
+c       IF (IERR/=0) GOTO 1000
+c       ITABM1 = 0
 
         ALLOCATE (GJBUFI(SGJBUFI),STAT=IERR)
         IF (IERR/=0) GOTO 1000
@@ -715,9 +715,9 @@ C
         IF (IERR/=0) GOTO 1000
         MAIN_PROC = 0 
 
-        ALLOCATE (WEIGHT(SWEIGHT),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        WEIGHT = 0 
+c       ALLOCATE (WEIGHT(SWEIGHT),STAT=IERR)
+c       IF (IERR/=0) GOTO 1000
+c       WEIGHT = 0 
 
         ALLOCATE (WEIGHT_MD(SWEIGHT),STAT=IERR)
         IF (IERR/=0) GOTO 1000
@@ -1631,8 +1631,8 @@ C
            ALLOCATE(WAGAP(0),STAT=IERR)
          ENDIF   
 C--------------------------------------------
-         ALLOCATE(MS0(NUMNOD),STAT=IERR)
-         ALLOCATE(IN0(SIN),STAT=IERR)
+c        ALLOCATE(MS0(NUMNOD),STAT=IERR)
+c        ALLOCATE(IN0(SIN),STAT=IERR)
          IF(IDTMINS_OLD==1) THEN
            ALLOCATE(ADMSMS(NUMNOD),STAT=IERR)
            IF (IERR/=0) GOTO 1000

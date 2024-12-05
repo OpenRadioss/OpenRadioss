@@ -938,33 +938,33 @@ C
         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
         CALL ARRET(2)
       ENDIF
-C
-      ! Single Precision version : XDP = X in Double :
-      IF (IRESP==1) THEN
-        SXDP = 3*NUMNOD
-        ALLOCATE(XDP(SXDP),STAT=IXDP)
-        IF(IXDP/=0) THEN
-          CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
-          CALL ARRET(2)
-        ENDIF
-        ALLOCATE(DDP(3*NUMNOD),STAT=IXDP)
-        IF(IXDP/=0) THEN
-          CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
-          CALL ARRET(2)
-        ENDIF
-      ELSE
-        SXDP = 3
-        ALLOCATE(XDP(SXDP),STAT=IXDP)
-        IF(IXDP/=0) THEN
-          CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
-          CALL ARRET(2)
-        ENDIF
-        ALLOCATE(DDP(1),STAT=IXDP)
-        IF(IXDP/=0) THEN
-          CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
-          CALL ARRET(2)
-        ENDIF
-      ENDIF
+
+!     ! Single Precision version : XDP = X in Double :
+!     IF (IRESP==1) THEN
+!       SXDP = 3*NUMNOD
+!       ALLOCATE(XDP(SXDP),STAT=IXDP)
+!       IF(IXDP/=0) THEN
+!         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
+!         CALL ARRET(2)
+!       ENDIF
+!       ALLOCATE(DDP(3*NUMNOD),STAT=IXDP)
+!       IF(IXDP/=0) THEN
+!         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
+!         CALL ARRET(2)
+!       ENDIF
+!     ELSE
+!       SXDP = 3
+!       ALLOCATE(XDP(SXDP),STAT=IXDP)
+!       IF(IXDP/=0) THEN
+!         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
+!         CALL ARRET(2)
+!       ENDIF
+!       ALLOCATE(DDP(1),STAT=IXDP)
+!       IF(IXDP/=0) THEN
+!         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
+!         CALL ARRET(2)
+!       ENDIF
+!     ENDIF
 
       ! Monvol / Airbag
       ALLOCATE(T_MONVOL(NVOLU))
@@ -1330,7 +1330,7 @@ C--------------------------------------------
      .            C1='(/DT/.../AMS)')
             CALL ARRET(2)
           ENDIF
-          IF(MCHECK==0)DIAG_SMS(1:NUMNOD)=MS(1:NUMNOD)
+          IF(MCHECK==0)DIAG_SMS(1:NUMNOD)=NODES%MS(1:NUMNOD)
         ENDIF
       ELSEIF(IDTMINS==2)THEN
         IF(IDTMINS_OLD /= 2)THEN
@@ -1350,7 +1350,7 @@ C--------------------------------------------
           DMELP (1:NUMELP)=ZERO
           DMELRT(1:NUMELR)=ZERO
           DMINT2(1:4*I2NSN25)=ZERO
-          DIAG_SMS(1:NUMNOD)=MS(1:NUMNOD)
+          DIAG_SMS(1:NUMNOD)=NODES%MS(1:NUMNOD)
         ENDIF
         IF(IDTMINS_OLD /= 1 .AND. IDTMINS_OLD /= 2)THEN
           ALLOCATE(RES_SMS(3*NUMNOD),STAT=IERR)
@@ -1369,7 +1369,7 @@ C--------------------------------------------
      .            C1='(/DT/.../AMS)')
             CALL ARRET(2)
           ENDIF
-          DIAG_SMS(1:NUMNOD)=MS(1:NUMNOD)
+          DIAG_SMS(1:NUMNOD)=NODES%MS(1:NUMNOD)
         END IF
       END IF
       IF(.NOT.ALLOCATED(ADMSMS))ALLOCATE(ADMSMS(0))
@@ -1414,7 +1414,7 @@ C-----------------------------------------------------
       IF(MCHECK==0)THEN
         CALL SWITCH_TO_DTNODA(
      .                    IXR      ,GEO      ,PM       ,IPARG    ,MAT_ELEM%ELBUF,
-     .                    MS       ,IN       ,ITAB     ,IGEO     ,IPM    ,
+     .                    NODES%MS       ,NODES%IN       ,NODES%ITAB     ,IGEO     ,IPM    ,
      .                    BUFMAT   ,IPART    ,IGRNOD   ,IGRPART)
       END IF
 C------------------------------------------------
@@ -1451,15 +1451,15 @@ C     engine file reading
 C------------------------------------------------
       CALL TRACE_IN(16,2,ZERO)
       CALL LECTUR(  ICODE ,  ISKEW ,  ISKWN ,  IXTG  ,   IXS ,
-     2              IXQ ,    IXC ,    IXT ,    IXP ,     IXR ,
-     3              ITAB ,   ITABM1  ,NPC,     IPARG,    IGRV ,
+     2              IXQ ,    ELEMENT%SHELL%IXC ,    IXT ,    IXP ,     IXR ,
+     3              NODES%ITAB ,   NODES%ITABM1  ,NPC,     IPARG,    IGRV ,
      4              LGRAV   ,IPARI,
      5              NPBY ,   LPBY    ,ILINK,   LLINK  ,LINALE ,
      6              NEFLSW , NNFLSW , ICUT ,   IAF(IF01),
-     7              X  ,     V  ,     VR  ,    MS   ,IN  ,
+     7              NODES%X  ,NODES%V,  NODES%VR, NODES%MS   ,NODES%IN  ,
      8              SKEWS%SKEW  ,TF       ,RBY  ,
      9              WA  ,CRFLSW  ,XCUT  ,ANIN  ,DAMPR  ,
-     A              IGRNOD ,KXSP,WEIGHT ,FR_RBY2 ,FR_RL,
+     A              IGRNOD ,KXSP,NODES%WEIGHT ,FR_RBY2 ,FR_RL,
      B              PARTSAV,IPART,PM,
      C              MONVOL ,VOLMON, IPART_STATE,GEO,TABLE,
      D              IFRAME,XFRAME,MAT_ELEM%ELBUF,IGEO,INTERFACES%INTBUF_TAB,
@@ -1505,7 +1505,7 @@ C------------------------------------------------
       IF (NUMELTG6>0) THEN
         CALL CDK6BC3(ICODT ,ISKEW,ISKWN,IXTG  ,
      1                  IXTG1   ,NPBY,
-     2                  X ,SKEWS%SKEW)
+     2                  NODES%X ,SKEWS%SKEW)
       ENDIF
 C
 C bcs rigid material
@@ -1798,8 +1798,8 @@ C   Multiple th files
         ELSE
           WRITE(CHR_OLD,'(I2.2)')IRUNN
           CALL HIST13(
-     1           IPARG ,IXS ,IXQ ,IXC ,IXT ,
-     2           IXP ,IXR ,WA  ,ITAB ,PM  ,
+     1           IPARG ,IXS ,IXQ ,ELEMENT%SHELL%IXC ,IXT ,
+     2           IXP ,IXR ,WA  ,NODES%ITAB ,PM  ,
      3           NPBYL ,IXTG ,IRFE    ,LACCELM ,
      4           IPARI ,IPART ,OUTPUT%TH%ITHGRP ,OUTPUT%TH%ITHBUF ,CHR_OLD,NAMES_AND_TITLES)
         ENDIF
@@ -2130,7 +2130,7 @@ c
 #endif
         ENDIF
       ENDIF
-      CALL INIT_TH0( IPARG,MAT_ELEM%ELBUF,IGEO,IXR,OUTPUT%TH,WEIGHT)
+      CALL INIT_TH0( IPARG,MAT_ELEM%ELBUF,IGEO,IXR,OUTPUT%TH,NODES%WEIGHT)
       CALL TRACE_OUT(18)
 C---------------------------------------------------------------------
 #ifdef DNC
@@ -2152,8 +2152,8 @@ C Send Data / Fem Structures
         K10=K9+NUMELX
         K11=K10+NUMSPH
         CALL RAD_INIT_MADCPL(IPART, PM, GEO, ITAB,
-     *                       X,     MS,
-     *                       IXC ,IXTG ,IXS ,
+     *                       NODES%X,  NODES%MS,
+     *                       ELEMENT%SHELL%IXC ,IXTG ,IXS ,
      *                       IPART(K3),IPART(K8),IPART(K1),
      *                       MADPRT,   MADCLNOD,  MADSH4,  MADSH3,
      *                       MADSOL )

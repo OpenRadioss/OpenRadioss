@@ -1280,8 +1280,8 @@ C Uncomment for Debug - ITAB is copied in Debug Module.
 C-----------------------------------------------------------------------------------
         LOGICAL :: modified_coordinates !< true if non conform pointer usage is detected
 C-----------------------------------------------------------------------------------
-
-      CALL PREPARE_DEBUG()
+      modified_coordinates = .FALSE.
+      CALL PREPARE_DEBUG(NODES%ITAB,NUMNOD)
       BOOL_RESTART = .TRUE.
       STATE_H3D = 0 
       STATE_ANIM = 0
@@ -9603,7 +9603,7 @@ C--- //0 ----------------
         CALL ELAPSTIME(SECS)
         GLOBAL_COMP_TIME%ENGINE_TIME(GLOBAL_COMP_TIME%RUN_NBR) = SECS
 
-        CALL WRRESTP(AF         ,IAF             ,NODES%XDP            ,ICH             ,ADSKY            ,
+        CALL WRRESTP(NODES, AF         ,IAF      ,ICH             ,ADSKY            ,
      .               ELBUF_TAB  ,XFEM_TAB        ,INTERFACES%INTBUF_TAB     ,MULTI_FVM       ,MAT_ELEM         ,
      .               H3D_DATA   ,INTERFACES%INTBUF_FRIC_TAB ,SUBSETS        ,PINCH_DATA      ,ALE_CONNECTIVITY ,
      .               T_MONVOL   ,SENSORS         , EBCS_TAB      ,DYNAIN_DATA     ,USER_WINDOWS     ,

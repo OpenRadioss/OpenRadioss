@@ -60,7 +60,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .      IBCSLAG,
      .      IPART,   NOM_OPT, NPC,      IXTG,    IXTG1,
      .      IXS,     IXQ,     IXC,      IXT,     IXP,     IXR,
-     .      ITAB,    ITABM1,  GJBUFI,   
+     .      GJBUFI,   
      .      IFILL,   IMS,     ISUBS,
      .      KXX,     IXX,      KXSP,    IXSP,    NOD2SP,
      .      ISPSYM,  ISPCOND, ISPHIO,   LPRTSPH, LONFSPH, IBCL,
@@ -93,7 +93,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .      IADCJ,     IAD_RBM,  IAD_RBM2, IAD_SEC,    IAD_CUT,   FR_ELEM, 
      .      FR_RBY,    FR_WALL,  FR_RBY2,  FR_I2M,     FR_MV,    FR_LL, 
      .      FR_CJ,     FR_RBM,   FR_RBM2,  FR_SEC,     FR_CUT,    RG_CUT, 
-     .      FR_MAD,    FR_I18,   WEIGHT,   NEWFRONT,   NODGLOB,   NBRCVOIS, 
+     .      FR_MAD,    FR_I18,   NEWFRONT,   NODGLOB,   NBRCVOIS, 
      .      LNRCVOIS,  NBSDVOIS, LNSDVOIS, NERCVOIS,   LERCVOIS,  NESDVOIS, 
      .      LESDVOIS,  NPSEGCOM, LSEGCOM,  NPORGEO, 
      .      LNODPOR,   ICODT,    ICODR,    ADSKY,      PROCNE,
@@ -115,8 +115,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
         my_real , 
      .    DIMENSION(:), ALLOCATABLE :: 
-     .      X,       D,       V,       VR,      DR,      THKE,
-     .      DAMPR,   DAMP,    MS,      IN,      TF,      PM, 
+!    .      X,       D,       V,       VR,      DR,      THKE,
+     .      THKE,
+     .      DAMPR,   DAMP,    TF,      PM, 
      .      XFRAME,  GEO,     EANI,    BUFMAT,  BUFGEO,
      .      BUFSF,   RBMPC,   GJBUFR,  W,       VEUL,    FILL, 
      .      DFILL,   ALPH,    WB,      DSAVE,   ASAVE, 
@@ -127,20 +128,20 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .      ELBUF,   
      .      RWBUF,   RWSAV,   RBY,     RBYL,    
      .      RIVET,   SECBUF,  VOLMON,  LAMBDA,  WA,      FV, 
-     .      A,       AR,      STIFN,   VISCN,   STIFR,   PARTSAV,
+     .      PARTSAV,
      .      FSKY,    FSKYM,   FSKYD,   UWA,     VAL2,    PHI,
      .      R,       ESTIF,   CRFLSW,  FLSW,    FANI,
      .      XCUT,    ANIN,    TANI,    SECFCUM, WASPH, 
      .      W16,     DRETRIO, LBVRS,   PV,      RCONX  , RCONTACT,
      .      ACONTACT,PCONTACT,
      .      FACTIV,           RBYM,    FRBE3 ,
-     .      MS_PLY,  ZI_PLY,  MS0,     ADMSMS,  DMELC,   DMELTG,
+     .      MS_PLY,  ZI_PLY,  ADMSMS,  DMELC,   DMELTG,
      .      MSSA,    DMELS,   MSTR,    DMELTR,  MSP,     DMELP,
      .      MSRT,    DMELRT,  RES_SMS, PHIE,    MSF,
      .      CFIELD,  MSZ2,    DIAG_SMS,LOADP,   DMINT2,
      .      POR,     GAUGE,   WAGAP   ,RTHBUF,  KNOT,
      .      WIGE,    RDRAPE,  TAB_MAT, MS_2D ,KNOTLOCPC,KNOTLOCEL,
-     .      FCONT_MAX,IN0  ,  DGAPLOADINT,DPL0CLD,VEL0CLD
+     .      FCONT_MAX,DGAPLOADINT,DPL0CLD,VEL0CLD
         
       my_real, 
      .    DIMENSION(:, :), ALLOCATABLE :: XCELL
