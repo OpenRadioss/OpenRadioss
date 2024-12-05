@@ -43,6 +43,7 @@
       !||    gravit                         ../engine/source/loads/general/grav/gravit.F
       !||    gravit_fvm_fem                 ../engine/source/loads/general/grav/gravit_fvm_fem.F
       !||    hm_read_funct_python           ../starter/source/tools/curve/hm_read_funct_python.F90
+      !||    hm_read_sensors                ../starter/source/tools/sensor/hm_read_sensors.F
       !||    incpflow                       ../engine/source/fluid/incpflow.F
       !||    lag_fxv                        ../engine/source/tools/lagmul/lag_fxv.F
       !||    lag_fxvp                       ../engine/source/tools/lagmul/lag_fxv.F
@@ -72,6 +73,8 @@
       !||    radiation                      ../engine/source/constraints/thermic/radiation.F
       !||    radioss2                       ../engine/source/engine/radioss2.F
       !||    rdresb                         ../engine/source/output/restart/rdresb.F
+      !||    read_sensor_python             ../starter/source/tools/sensor/hm_read_sensor_python.F90
+      !||    read_sensors                   ../engine/source/output/restart/read_sensors.F
       !||    redef3                         ../engine/source/elements/spring/redef3.F
       !||    redef3_law113                  ../engine/source/elements/spring/redef3_law113.F
       !||    redef_seatbelt                 ../engine/source/tools/seatbelts/redef_seatbelt.F
@@ -79,8 +82,13 @@
       !||    resol_head                     ../engine/source/engine/resol_head.F
       !||    rforc3                         ../engine/source/elements/spring/rforc3.F
       !||    rgwal1                         ../engine/source/ale/grid/rgwal1.F
+      !||    sensor_base                    ../engine/source/tools/sensor/sensor_base.F
+      !||    sensor_common_mod              ../common_source/modules/sensor_common_mod.F90
+      !||    sensor_init                    ../engine/source/tools/sensor/sensor_init.F
+      !||    sensor_python                  ../engine/source/tools/sensor/sensor_python.F90
       !||    timfun                         ../engine/source/tools/curve/timfun.F
       !||    vinter_mixed                   ../engine/source/tools/curve/vinter_mixed.F90
+      !||    write_sensors                  ../engine/source/output/restart/write_sensors.F
       !||    wrrestp                        ../engine/source/output/restart/wrrestp.F
       !||--- uses       -----------------------------------------------------
       !||    python_element_mod             ../common_source/modules/python_element_mod.F90
@@ -271,6 +279,12 @@
         end function python_funct_id 
 
       !! \brief copy a python function
+      !||====================================================================
+      !||    copy_python_function   ../common_source/modules/python_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    read_sensor_python     ../starter/source/tools/sensor/hm_read_sensor_python.F90
+      !||    read_sensors           ../engine/source/output/restart/read_sensors.F
+      !||====================================================================
       subroutine copy_python_function(src, dest)
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -429,6 +443,7 @@
       !||--- called by ------------------------------------------------------
       !||    hm_read_funct_python       ../starter/source/tools/curve/hm_read_funct_python.F90
       !||    python_funct_test          ../common_source/modules/python_mod.F90
+      !||    read_sensor_python         ../starter/source/tools/sensor/hm_read_sensor_python.F90
       !||--- calls      -----------------------------------------------------
       !||====================================================================
         subroutine python_funct_init(funct, code, len_code, num_lines)

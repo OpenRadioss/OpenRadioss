@@ -20,6 +20,14 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    sensor_common_mod      ../common_source/modules/sensor_common_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    sensor_mod             ../engine/share/modules/sensor_mod.F
+      !||--- uses       -----------------------------------------------------
+      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||    python_funct_mod       ../common_source/modules/python_mod.F90
+      !||====================================================================
       module sensor_common_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

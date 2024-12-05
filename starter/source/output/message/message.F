@@ -754,6 +754,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    read_sensor_contact                 ../starter/source/tools/sensor/read_sensor_contact.F
       !||    read_sensor_gauge                   ../starter/source/tools/sensor/read_sensor_gauge.F
       !||    read_sensor_hic                     ../starter/source/tools/sensor/read_sensor_hic.F
+      !||    read_sensor_python                  ../starter/source/tools/sensor/hm_read_sensor_python.F90
       !||    read_sensor_rbody                   ../starter/source/tools/sensor/read_sensor_rbody.F
       !||    read_sensor_rwall                   ../starter/source/tools/sensor/read_sensor_rwall.F
       !||    read_sensor_sect                    ../starter/source/tools/sensor/read_sensor_sect.F

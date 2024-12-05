@@ -41,6 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_thgrki_vent          ../starter/source/output/th/hm_thgrki_vent.F
       !||    hm_thvarc               ../starter/source/output/th/hm_read_thvarc.F
       !||    hm_thvarvent            ../starter/source/output/th/hm_thvarent.F
+      !||    read_sensor_python      ../starter/source/tools/sensor/hm_read_sensor_python.F90
       !||    read_sensor_user        ../starter/source/tools/sensor/read_sensor_user.F
       !||    sort_set                ../starter/source/model/sets/sort_sets.F
       !||    st_qaprint_set          ../starter/source/output/qaprint/st_qaprint_set.F

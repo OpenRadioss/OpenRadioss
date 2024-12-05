@@ -847,6 +847,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    read_sensor_gauge                 ../starter/source/tools/sensor/read_sensor_gauge.F
       !||    read_sensor_hic                   ../starter/source/tools/sensor/read_sensor_hic.F
       !||    read_sensor_nic                   ../starter/source/tools/sensor/read_sensor_nic.F
+      !||    read_sensor_python                ../starter/source/tools/sensor/hm_read_sensor_python.F90
       !||    read_sensor_rbody                 ../starter/source/tools/sensor/read_sensor_rbody.F
       !||    read_sensor_rwall                 ../starter/source/tools/sensor/read_sensor_rwall.F
       !||    read_sensor_sect                  ../starter/source/tools/sensor/read_sensor_sect.F
@@ -887,6 +888,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    scinit3                           ../starter/source/elements/thickshell/solidec/scinit3.F
       !||    scmorth3                          ../starter/source/elements/thickshell/solidec/scmorth3.F
       !||    section_init                      ../engine/source/tools/sect/section_init.F
+      !||    sensor_common_mod                 ../common_source/modules/sensor_common_mod.F90
       !||    sensor_mod                        ../engine/share/modules/sensor_mod.F
       !||    set_admesh                        ../starter/source/model/remesh/set_admesh.F
       !||    set_init                          ../starter/source/model/sets/set_init.F

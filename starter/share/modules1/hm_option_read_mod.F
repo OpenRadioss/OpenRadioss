@@ -380,6 +380,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    read_sensor_nic                   ../starter/source/tools/sensor/read_sensor_nic.F
       !||    read_sensor_not                   ../starter/source/tools/sensor/read_sensor_not.F
       !||    read_sensor_or                    ../starter/source/tools/sensor/read_sensor_or.F
+      !||    read_sensor_python                ../starter/source/tools/sensor/hm_read_sensor_python.F90
       !||    read_sensor_rbody                 ../starter/source/tools/sensor/read_sensor_rbody.F
       !||    read_sensor_rwall                 ../starter/source/tools/sensor/read_sensor_rwall.F
       !||    read_sensor_sect                  ../starter/source/tools/sensor/read_sensor_sect.F

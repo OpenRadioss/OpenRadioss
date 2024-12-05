@@ -25,6 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    rdresb                 ../engine/source/output/restart/rdresb.F
       !||--- calls      -----------------------------------------------------
+      !||    copy_python_function   ../common_source/modules/python_mod.F90
       !||    fretitl2               ../engine/source/input/freform.F
       !||    nvar                   ../engine/source/input/nvar.F
       !||    read_db                ../common_source/tools/input_output/read_db.F
@@ -33,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    message_mod            ../engine/share/message_module/message_mod.F
       !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||    python_funct_mod       ../common_source/modules/python_mod.F90
       !||    sensor_mod             ../engine/share/modules/sensor_mod.F
       !||====================================================================
       SUBROUTINE READ_SENSORS(SENSORS,PYTHON)

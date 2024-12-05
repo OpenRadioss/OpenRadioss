@@ -183,6 +183,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sensor_nic                         ../engine/source/tools/sensor/sensor_nic.F
       !||    sensor_not                         ../engine/source/tools/sensor/sensor_not.F
       !||    sensor_or                          ../engine/source/tools/sensor/sensor_or.F
+      !||    sensor_python                      ../engine/source/tools/sensor/sensor_python.F90
       !||    sensor_rbody                       ../engine/source/tools/sensor/sensor_rbody.F
       !||    sensor_rwall                       ../engine/source/tools/sensor/sensor_rwall.F
       !||    sensor_section                     ../engine/source/tools/sensor/sensor_section.F
@@ -224,10 +225,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    wrcomi                             ../engine/source/output/restart/wrcomm.F
       !||    write_sensors                      ../engine/source/output/restart/write_sensors.F
       !||    wrrestp                            ../engine/source/output/restart/wrrestp.F
-      !||--- calls      -----------------------------------------------------
-      !||    nvar                               ../engine/source/input/nvar.F
       !||--- uses       -----------------------------------------------------
       !||    names_and_titles_mod               ../common_source/modules/names_and_titles_mod.F
+      !||    sensor_common_mod                  ../common_source/modules/sensor_common_mod.F90
       !||====================================================================
       MODULE SENSOR_MOD
       USE  SENSOR_COMMON_MOD

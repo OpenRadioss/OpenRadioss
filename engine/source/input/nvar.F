@@ -94,7 +94,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    outp_c_s                  ../engine/source/output/sty/outp_c_s.F
       !||    read_sensors              ../engine/source/output/restart/read_sensors.F
       !||    sensor_hic                ../engine/source/tools/sensor/sensor_hic.F
-      !||    sensor_mod                ../engine/share/modules/sensor_mod.F
       !||    spmd_fxb_for_pon          ../engine/source/mpi/kinematic_conditions/spmd_fxb_for_pon.F
       !||    stat_c_auxf               ../engine/source/output/sta/stat_c_auxf.F
       !||    stat_c_fail               ../engine/source/output/sta/stat_c_fail.F

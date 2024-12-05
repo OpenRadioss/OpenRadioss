@@ -35,6 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sensor_gauge            ../engine/source/tools/sensor/sensor_gauge.F
       !||    sensor_hic              ../engine/source/tools/sensor/sensor_hic.F
       !||    sensor_nic              ../engine/source/tools/sensor/sensor_nic.F
+      !||    sensor_python           ../engine/source/tools/sensor/sensor_python.F90
       !||    sensor_rbody            ../engine/source/tools/sensor/sensor_rbody.F
       !||    sensor_rwall            ../engine/source/tools/sensor/sensor_rwall.F
       !||    sensor_section          ../engine/source/tools/sensor/sensor_section.F
@@ -45,7 +46,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod            ../common_source/modules/groupdef_mod.F
       !||    message_mod             ../engine/share/message_module/message_mod.F
+      !||    python_funct_mod        ../common_source/modules/python_mod.F90
       !||    sensor_mod              ../engine/share/modules/sensor_mod.F
+      !||    sensor_python_mod       ../engine/source/tools/sensor/sensor_python.F90
       !||====================================================================
       SUBROUTINE SENSOR_BASE(SENSORS  ,NSENSOR   ,TIME      ,TIMESTEP  ,
      .           XSENS     ,IPARI     ,PARTSAV2  ,GAUGE     ,FSAV      ,

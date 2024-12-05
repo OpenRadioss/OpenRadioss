@@ -21,16 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    sensor_init      ../engine/source/tools/sensor/sensor_init.F
+      !||    sensor_init             ../engine/source/tools/sensor/sensor_init.F
       !||--- called by ------------------------------------------------------
-      !||    resol            ../engine/source/engine/resol.F
+      !||    resol                   ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
-      !||    quicksort_i      ../common_source/tools/sort/quicksort.F
-      !||    sensor_logical   ../engine/source/tools/sensor/sensor_logical.F
-      !||    sensor_time      ../engine/source/tools/sensor/sensor_time.F
+      !||    quicksort_i             ../common_source/tools/sort/quicksort.F
+      !||    sensor_logical          ../engine/source/tools/sensor/sensor_logical.F
+      !||    sensor_python           ../engine/source/tools/sensor/sensor_python.F90
+      !||    sensor_time             ../engine/source/tools/sensor/sensor_time.F
       !||--- uses       -----------------------------------------------------
-      !||    groupdef_mod     ../common_source/modules/groupdef_mod.F
-      !||    sensor_mod       ../engine/share/modules/sensor_mod.F
+      !||    groupdef_mod            ../common_source/modules/groupdef_mod.F
+      !||    python_funct_mod        ../common_source/modules/python_mod.F90
+      !||    sensor_mod              ../engine/share/modules/sensor_mod.F
+      !||    sensor_python_mod       ../engine/source/tools/sensor/sensor_python.F90
       !||====================================================================
         SUBROUTINE SENSOR_INIT( SUBSET,IPARG,NGROUC,
      .                          IPARTC,IPARTTG,IPARTS,IPARTQ,IPARTT,

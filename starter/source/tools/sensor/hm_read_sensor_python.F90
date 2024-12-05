@@ -21,27 +21,25 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    read_funct_python_mod   ../starter/source/tools/curve/hm_read_funct_python.F90
+      !||    read_sensor_python_mod   ../starter/source/tools/sensor/hm_read_sensor_python.F90
       !||--- called by ------------------------------------------------------
-      !||    lectur                  ../starter/source/starter/lectur.F
+      !||    hm_read_sensors          ../starter/source/tools/sensor/hm_read_sensors.F
       !||====================================================================
       module read_sensor_python_mod                
       contains
 !! \details Read the python function defined by /FUNCT_PYTHON/
       !||====================================================================
-      !||    hm_read_funct_python    ../starter/source/tools/curve/hm_read_funct_python.F90
+      !||    read_sensor_python      ../starter/source/tools/sensor/hm_read_sensor_python.F90
       !||--- called by ------------------------------------------------------
-      !||    lectur                  ../starter/source/starter/lectur.F
+      !||    hm_read_sensors         ../starter/source/tools/sensor/hm_read_sensors.F
       !||--- calls      -----------------------------------------------------
       !||    ancmsg                  ../starter/source/output/message/message.F
       !||    hm_get_intv             ../starter/source/devtools/hm_reader/hm_get_intv.F
       !||    hm_get_string_index     ../starter/source/devtools/hm_reader/hm_get_string_index.F
-      !||    hm_option_count         ../starter/source/devtools/hm_reader/hm_option_count.F
-      !||    hm_option_read_key      ../starter/source/devtools/hm_reader/hm_option_read_key.F
-      !||    hm_option_start         ../starter/source/devtools/hm_reader/hm_option_start.F
       !||--- uses       -----------------------------------------------------
       !||    hm_option_read_mod      ../starter/share/modules1/hm_option_read_mod.F
       !||    message_mod             ../starter/share/message_module/message_mod.F
+      !||    sensor_mod              ../starter/share/modules1/sensor_mod.F
       !||    submodel_mod            ../starter/share/modules1/submodel_mod.F
       !||====================================================================
         subroutine read_sensor_python(python,sensor_ptr ,sens_id  ,lsubmodel )
