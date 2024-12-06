@@ -1410,7 +1410,8 @@ C---- Tabulated failure model version 2
      3          NGL      ,EL_LEN   ,DPLA     ,EPSP1    ,UVARF    ,     
      5          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,               
      6          EL_TEMP  ,OFF      ,DFMAX    ,TDEL     ,LBUF%DMGSCL,
-     7          GBUF%UELR,IPG      ,NPG      ,LBUF%OFF ,NTABL_FAIL,ITABL_FAIL) 
+     7          GBUF%UELR,IPG      ,NPG      ,LBUF%OFF ,NTABL_FAIL,ITABL_FAIL,
+     8          GBUF%NOFF,VOLN     )
 c
           ELSEIF (IRUPT == 42) THEN                                      
 C---- Inievo failure model

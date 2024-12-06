@@ -2492,7 +2492,8 @@
                 &ngl      ,el_len   ,dpla     ,epsp     ,uvarf    ,&
                 &ss1      ,ss2      ,ss3      ,ss4      ,ss5      ,ss6      ,&
                 &tempel   ,off      ,dfmax    ,tdel     ,lbuf%dmgscl,&
-                &gbuf%uelr,ipg      ,npg      ,lbuf%off ,ntabl_fail,itabl_fail)
+                &gbuf%uelr,ipg      ,npg      ,lbuf%off ,ntabl_fail,itabl_fail,&
+                gbuf%noff,voln      )
 !
               elseif (irupt == 42) then
 !---- inievo failure model
