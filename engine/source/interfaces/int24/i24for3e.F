@@ -702,7 +702,7 @@ C-----------
       !||--- uses       -----------------------------------------------------
       !||====================================================================
       SUBROUTINE I24E2E_FICTIVE_NODES_UPDATE(INTLIST,NBINTC,IPARI,INTBUF_TAB,
-     *            X,V,MS,ITAB)
+     *            X,V,MS,ITAB,XYZ,NUMNOD,NSH_OFFSET)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -722,9 +722,10 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       INTEGER INTLIST(*),NBINTC
+      INTEGER, INTENT(IN) :: NUMNOD,NSH_OFFSET
       INTEGER IPARI(NPARI,*),ITAB(*)
       my_real
-     *    X(3,*),V(3,*),MS(3,*)
+     *    X(3,*),V(3,*),MS(3,*),XYZ(3,NUMNOD)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -744,7 +745,11 @@ C-----------------------------------------------
 
 C Move XFIC & VFIC to another place for SPMD coherency
             NFIC = 3   
-            CALL I24XVFIC_UPD(IPARI(1,N),INTBUF_TAB(N),X   ,V ,NFIC  ,ITAB)
+           IF (NSH_OFFSET>0) THEN 
+            CALL I24XVFIC_UPD(IPARI(1,N),INTBUF_TAB(N),XYZ   ,V ,NFIC  ,ITAB) 
+           ELSE
+              CALL I24XVFIC_UPD(IPARI(1,N),INTBUF_TAB(N),X   ,V ,NFIC  ,ITAB)
+           END IF
 
 C Move fictive Mass node computation to another place for SPMD coherency
 
