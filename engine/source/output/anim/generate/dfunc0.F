@@ -42,7 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4                  IPARTSP  , ALE_CONNECTIVITY ,IXQ       ,IPM     ,
      5                  X        , V                ,W         ,ITHERM  ,
      6                  NERCVOIS , NESDVOIS         ,LERCVOIS  ,LESDVOIS, 
-     7                  BUFMAT   , MULTI_FVM)
+     7                  BUFMAT   , MULTI_FVM        ,KXSP      ,DEFAULT_OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -76,6 +76,7 @@ C-----------------------------------------------
      .        NBPART,IADG(NSPMD,*),IPART(LIPART1,*),IPARTSP(*),
      .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),IXQ(NIXQ,NUMELQ),IPM(NPROPMI,NUMMAT)
       INTEGER, INTENT(IN) :: ITHERM
+      INTEGER, INTENT(IN) :: KXSP(NISP,NUMSPH),DEFAULT_OUTPUT
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
@@ -118,13 +119,22 @@ C-----------------------------------------------
 C-----------------------------------------------
         IF (ITY == 51) THEN
 C-----------------------------------------------
-C       PARTICULES SPH.
+C       SPH PARTICLES
+C          DEFAULT_OUTPUT = 1 -> diameter always printed
+C          DEFAULT_OUTPUT = 2 -> nb of neighbours always printed
 C-----------------------------------------------
           IF(IFUNC == 0)THEN
-            DO I=LFT,LLT
-             N = I + NFT
-             FUNC(EL2FA(NN1+N)) = SPBUF(1,N)
-            ENDDO
+            IF (DEFAULT_OUTPUT == 1) THEN
+              DO I=LFT,LLT
+                N = I + NFT
+                FUNC(EL2FA(NN1+N)) = SPBUF(1,N)
+              ENDDO
+            ELSEIF (DEFAULT_OUTPUT == 2) THEN
+              DO I=LFT,LLT
+                N = I + NFT
+                FUNC(EL2FA(NN1+N)) = KXSP(4,N)
+              ENDDO  
+            ENDIF  
           ELSE
            GBUF => ELBUF_TAB(NG)%GBUF
            LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
@@ -532,7 +542,7 @@ c-----------TILLOTSON
                   EVAR(I) = EBUF%VAR(I)
                 ENDDO
               ENDIF 
-              FUNC(EL2FA(NN1+NFT+1:NN1+NFT+NEL)) = EVAR(1:NEL)                       
+              FUNC(EL2FA(NN1+NFT+1:NN1+NFT+NEL)) = EVAR(1:NEL)               
 c-----------
            ELSE
             DO I=LFT,LLT

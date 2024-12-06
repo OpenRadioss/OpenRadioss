@@ -454,6 +454,7 @@ C
       LOGICAL :: CONDITION
       INTEGER :: IS_WRITTEN_NODE_FVM(AIRBAGS_TOTAL_FVM_IN_H3D)
       INTEGER :: IS_WRITTEN_NODE(NUMNOD)
+      INTEGER :: DEFAULT_OUTPUT
 C=======================================================================
       ALLOCATE(WAFT(SWAFT)   , MAS(SMAS)     , XNORM(SXNORM) ,
      .         XMASS1(SMASS1), XMASS2(SMASS2), XMASS3(SMASS3),
@@ -3167,7 +3168,7 @@ C  en spmd localement NBF = 0 mais pas la somme sur pi !
      .                  IPM       ,IGEO        ,THKE          ,ERR_THK_SH4  ,ERR_THK_SH3,
      .                  INVERT    ,X           ,V             ,W            ,ALE_CONNECTIVITY,
      .                  NV46      ,NERCVOIS    ,NESDVOIS      ,LERCVOIS     ,LESDVOIS   ,
-     .                  STACK     ,BUFMAT      ,MULTI_FVM     ,MAT_PARAM    )
+     .                  STACK     ,BUFMAT      ,MULTI_FVM     ,MAT_PARAM)
             IF(NCUTS>0)
      .      CALL CUTFUNCE(ICBUF,NELCUT,ELBUF_TAB,IFUNC,IPARG,PM,IXS)
             IF (ISPMD==0) THEN
@@ -6223,7 +6224,7 @@ C-----------------------------------------------
       IF (ISPMD==0) THEN
         CALL WRITE_I_C(NUMSPHG+MAXPJET,1)
         CALL WRITE_I_C(NBPART,1)
-        CALL WRITE_I_C(NSE_ANI+1,1)
+        CALL WRITE_I_C(NSE_ANI+2,1)
         CALL WRITE_I_C(NST_ANI,1)
       ENDIF
 C-----------------------------------------------
@@ -6284,8 +6285,9 @@ C   FUNC TEXT
 C-----------------------------------------------
       IF (ISPMD==0) THEN
        CTEXT(81)=0
-C     diameter is compulsory.
+C      diameter and nb of neighbours are compulsory.
        CALL ANI_TXT('Diameter',8)
+       CALL ANI_TXT('Number of neighbours',20)
 C
        IF(ANIM_SE(1)==1) CALL ANI_TXT('Plastic Strain',14)
        IF(ANIM_SE(2)==1) CALL ANI_TXT('Density',7)
@@ -6394,26 +6396,40 @@ C
        IF(ANIM_SE(4937)==1) CALL ANI_TXT('Element Time Step',17)
        IF(ANIM_SE(4959)==1) CALL ANI_TXT('AMS selection',13)    
        IF(ANIM_SE(4965)==1) CALL ANI_TXT('Element status',14) 
-       IF(ANIM_SE(4895)==1)CALL ANI_TXT('Equiv stress',12)
-       IF(ANIM_SE(5172)==1)CALL ANI_TXT('Region identifier in p,v diagram',32)
+       IF(ANIM_SE(4895)==1) CALL ANI_TXT('Equiv stress',12)
+       IF(ANIM_SE(5172)==1) CALL ANI_TXT('Region identifier in p,v diagram',32)
       ENDIF
 C-----------------------------------------------
 C   ELEMENT FUNC (SPH)
 C-----------------------------------------------
       NNN = NUMSPH+MAXPJET
-      DO I = 0,MX_ANI
+C
+C     Default output for SPH - diameter + nb of neignbours
+      DO I = 1,2
+        IFUNC = 0
+        DEFAULT_OUTPUT = I
+        CALL DFUNC0(ELBUF_TAB ,WAFT            ,IFUNC    ,IPARG   ,
+     2              MAS       ,PM              ,EL2FA    ,NNN     ,
+     3              NBPART    ,IADG            ,SPBUF    ,IPART   ,
+     4              IPARTSP   ,ALE_CONNECTIVITY,IXQ      ,IPM     ,
+     5              X         ,V               ,W        ,GLOB_THERM%ITHERM,
+     6              NERCVOIS  ,NESDVOIS        ,LERCVOIS ,LESDVOIS,
+     7              BUFMAT    ,MULTI_FVM       ,KXSP     ,DEFAULT_OUTPUT)
+      ENDDO
+C      
+C     other output for SPH
+      DO I = 1,MX_ANI
         IFUNC = I
-        CONDITION = (IFUNC == 0) 
-        IF(IFUNC > 0) CONDITION = CONDITION .OR. (ANIM_SE(I) == 1)
-        IF(CONDITION) THEN
+        DEFAULT_OUTPUT = 0
+        IF(ANIM_SE(I) == 1) THEN
           CALL DFUNC0(ELBUF_TAB ,WAFT            ,IFUNC    ,IPARG   ,
      2                MAS       ,PM              ,EL2FA    ,NNN     ,
      3                NBPART    ,IADG            ,SPBUF    ,IPART   ,
      4                IPARTSP   ,ALE_CONNECTIVITY,IXQ      ,IPM     ,
      5                X         ,V               ,W        ,GLOB_THERM%ITHERM,
      6                NERCVOIS  ,NESDVOIS        ,LERCVOIS ,LESDVOIS,
-     7                BUFMAT    ,MULTI_FVM)
-        ENDIF
+     7                BUFMAT    ,MULTI_FVM       ,KXSP     ,DEFAULT_OUTPUT)
+        ENDIF 
       ENDDO
 C-----------------------------------------------
 C   3D TENSOR TEXT
