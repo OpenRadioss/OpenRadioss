@@ -159,7 +159,7 @@ C-----------------------------------------------
      .          IS_MODEL_NPT,IS_MODEL_PLY,IS_MODEL_LAYER,ISKIND,IOUTER,IPEXT,
      .          IS_ID,ID,ID_MAX,IS_ID_ALL,NINEFRIC,N19,IFAIL,CPT_IRUP,CPT_IRUP2,
      .          IS_MODE,MODE,MODE_MAX,IS_MODE_ALL,NFAIL,NIP_PLY_MAX,NIP_ELEM_MAX,
-     .          ITYP
+     .          ITYP,ID_DEF,NBC,DUM,NDEF
         INTEGER MLW,NEL,NG,JTURB,NLAY,NUVAR,IPLY,IMAT,ISUBSTACK,ID_PLY_TMP
         INTEGER CPT_MOD,NMOD,CPT_LAWID
         INTEGER IERROR  ! Error value from Allocate
@@ -168,6 +168,7 @@ C-----------------------------------------------
 
         INTEGER IBID1,IBID2,IBID3
 
+        CHARACTER(LEN=NCHARKEY)::KEY0
         CHARACTER(LEN=NCHARKEY)::KEY2
         CHARACTER(LEN=NCHARKEY)::KEY3
         CHARACTER(LEN=NCHARKEY)::KEY4
@@ -423,6 +424,33 @@ C
         CALL H3D_LIST_QUAD_TENSOR(H3D_KEYWORD_QUAD_TENSOR, GEO, IGEO, H3D_NUM_KEY%QUAD_TENSOR)
 C
         CALL H3D_LIST_QUAD_VECTOR(H3D_KEYWORD_QUAD_VECTOR, GEO, IGEO, H3D_NUM_KEY%QUAD_VECTOR)
+C--------------------------------------------------
+C BUILD DEFAULT OUTPUTS FOR SPH
+C--------------------------------------------------
+        IF ((NUMSPHG > 0).and.(H3D_DATA%DTH3D0 > ZERO)) THEN
+          NDEF = 2    
+C         Check if /H3D/SPH/DIAMETER is already defined in input file         
+          DO ID_INPUT=1,H3D_DATA%N_INPUT_H3D
+            KEY2 = H3D_DATA%INPUT_LIST(ID_INPUT)%KEY2
+            KEY3 = H3D_DATA%INPUT_LIST(ID_INPUT)%KEY3
+            IF ((KEY2=='ELEM').or.(KEY2=='SPH').AND.(KEY3=='DIAMETER')) NDEF = 1
+          ENDDO
+          DO ID_DEF=1,NDEF
+            NBC = 0
+            KEY2 = 'SPH'
+            IF (ID_DEF==1) THEN
+              KEY3 = 'NEIGHBOURS'
+            ELSEIF (ID_DEF==2) THEN
+              KEY3 = 'DIAMETER'
+            ENDIF 
+            KEY4 =''
+            KEY5 =''
+            KEY6 =''
+            KEY7 =''
+            KEY8 =''
+            CALL CREATE_H3D_INPUT(H3D_DATA,DUM,DUM,DUM,NBC,KEY0,KEY2,KEY3,KEY4,KEY5,KEY6,KEY7,KEY8)
+          ENDDO  
+        ENDIF
 C--------------------------------------------------
 C BUILD OUTPUTS
 C--------------------------------------------------
