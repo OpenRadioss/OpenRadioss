@@ -22,6 +22,8 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
       !||    file_descriptor_mod   ../starter/source/modules/file_descriptor_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_mat           ../starter/source/materials/mat/hm_read_mat.F90
       !||====================================================================
       module file_descriptor_mod
       !=======================================================================================================================

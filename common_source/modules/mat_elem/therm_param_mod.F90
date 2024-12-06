@@ -22,11 +22,11 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
       !||====================================================================
-      !||    therm_param_mod         ../common_source/modules/mat_elem/therm_param_mod.F90
+      !||    therm_param_mod    ../common_source/modules/mat_elem/therm_param_mod.F90
       !||--- called by ------------------------------------------------------
-      !||    matparam_def_mod       ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||--- uses       -----------------------------------------------------
-      !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
+      !||    read_thermparam    ../engine/source/output/restart/read_thermparam.F90
+      !||    write_thermparam   ../engine/source/output/restart/write_thermparam.F90
       !||====================================================================
       module therm_param_mod
 

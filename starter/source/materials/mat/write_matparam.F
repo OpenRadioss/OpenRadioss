@@ -28,8 +28,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    write_eosparam         ../starter/source/materials/mat/write_eosparam.F90
       !||    write_failparam        ../starter/source/materials/fail/write_failparam.F
       !||    write_mat_table        ../starter/source/materials/tools/write_mat_table.F
+      !||    write_thermparam       ../starter/source/materials/mat/write_thermparam.F90
       !||    write_viscparam        ../starter/source/materials/mat/write_viscparam.F
       !||--- uses       -----------------------------------------------------
+      !||    write_therpmaram_mod   ../starter/source/materials/mat/write_thermparam.F90
       !||====================================================================
       SUBROUTINE WRITE_MATPARAM(MAT_ELEM,LEN)
 C-----------------------------------------------

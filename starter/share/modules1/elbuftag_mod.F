@@ -46,6 +46,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_inject1          ../starter/source/properties/injector/hm_read_inject1.F
       !||    hm_read_inject2          ../starter/source/properties/injector/hm_read_inject2.F
       !||    hm_read_inter_type10     ../starter/source/interfaces/int10/hm_read_inter_type10.F
+      !||    hm_read_mat              ../starter/source/materials/mat/hm_read_mat.F90
       !||    hm_read_mat00            ../starter/source/materials/mat/mat000/hm_read_mat00.F
       !||    hm_read_mat02            ../starter/source/materials/mat/mat002/hm_read_mat02.F
       !||    hm_read_mat03            ../starter/source/materials/mat/mat003/hm_read_mat03.F
@@ -192,7 +193,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_prop_user        ../starter/source/properties/user_spring_solid/hm_read_prop_user.F
       !||    hm_read_properties       ../starter/source/properties/hm_read_properties.F
       !||    hm_read_stack            ../starter/source/stack/hm_read_stack.F
-      !||    hm_read_therm_stress     ../starter/source/materials/therm/hm_read_therm_stress.F
+      !||    hm_read_therm_stress     ../starter/source/materials/therm/hm_read_therm_stress.F90
       !||    hm_read_visc             ../starter/source/materials/visc/hm_read_visc.F
       !||    ini_eos_vars             ../starter/source/elements/elbuf_init/ini_eos_vars.F
       !||    ini_mlaw_vars            ../starter/source/elements/elbuf_init/ini_mlaw_vars.F

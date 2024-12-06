@@ -76,6 +76,7 @@
       !||    hm_read_eos_powderburn              ../starter/source/materials/eos/hm_read_eos_powderburn.F90
       !||    hm_read_fail                        ../starter/source/materials/fail/hm_read_fail.F
       !||    hm_read_inistate_d00                ../starter/source/elements/initia/hm_read_inistate_d00.F
+      !||    hm_read_mat                         ../starter/source/materials/mat/hm_read_mat.F90
       !||    hm_read_mat00                       ../starter/source/materials/mat/mat000/hm_read_mat00.F
       !||    hm_read_mat01                       ../starter/source/materials/mat/mat001/hm_read_mat01.F
       !||    hm_read_mat02                       ../starter/source/materials/mat/mat002/hm_read_mat02.F
@@ -190,6 +191,7 @@
       !||    hm_read_mat_99                      ../starter/source/materials/mat/matuser/hm_read_mat_user_99.F
       !||    hm_read_nonlocal                    ../starter/source/materials/nonlocal/hm_read_nonlocal.F
       !||    hm_read_therm                       ../starter/source/materials/therm/hm_read_therm.F
+      !||    hm_read_therm_stress                ../starter/source/materials/therm/hm_read_therm_stress.F90
       !||    hm_read_visc                        ../starter/source/materials/visc/hm_read_visc.F
       !||    imp_buck                            ../engine/source/implicit/imp_buck.F
       !||    ini_inimap1d                        ../starter/source/initial_conditions/inimap/ini_inimap1d.F
@@ -293,6 +295,7 @@
       !||    multimat_param_mod                  ../common_source/modules/multimat_param_mod.F90
       !||    names_and_titles_mod                ../common_source/modules/names_and_titles_mod.F
       !||    table4d_mod                         ../common_source/modules/table4d_mod.F
+      !||    therm_param_mod                     ../common_source/modules/mat_elem/therm_param_mod.F90
       !||    visc_param_mod                      ../common_source/modules/mat_elem/visc_param_mod.F90
       !||====================================================================
       module matparam_def_mod

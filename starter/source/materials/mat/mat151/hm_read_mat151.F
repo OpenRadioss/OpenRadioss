@@ -23,6 +23,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C     ..... FOR DEMO  ......
       !||====================================================================
       !||    hm_read_mat151             ../starter/source/materials/mat/mat151/hm_read_mat151.F
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_mat                ../starter/source/materials/mat/hm_read_mat.F90
       !||--- calls      -----------------------------------------------------
       !||    ancmsg                     ../starter/source/output/message/message.F
       !||    hm_get_float_array_index   ../starter/source/devtools/hm_reader/hm_get_float_array_index.F

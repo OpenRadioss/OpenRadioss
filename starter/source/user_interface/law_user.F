@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    law_user         ../starter/source/user_interface/law_user.F
       !||--- called by ------------------------------------------------------
+      !||    hm_read_mat      ../starter/source/materials/mat/hm_read_mat.F90
       !||    hm_read_mat_99   ../starter/source/materials/mat/matuser/hm_read_mat_user_99.F
       !||====================================================================
       MODULE LAW_USER

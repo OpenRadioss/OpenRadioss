@@ -22,6 +22,8 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
       !||    hm_read_mat127_mod   ../starter/source/materials/mat/mat127/hm_read_mat127.F90
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_mat          ../starter/source/materials/mat/hm_read_mat.F90
       !||====================================================================
       module hm_read_mat127_mod
       contains
@@ -31,6 +33,8 @@
 ! ======================================================================================================================
       !||====================================================================
       !||    hm_read_mat127           ../starter/source/materials/mat/mat127/hm_read_mat127.F90
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_mat              ../starter/source/materials/mat/hm_read_mat.F90
       !||--- calls      -----------------------------------------------------
       !||    ancmsg                   ../starter/source/output/message/message.F
       !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F

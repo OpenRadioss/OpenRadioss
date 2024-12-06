@@ -310,6 +310,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_link                      ../starter/source/constraints/rigidlink/hm_read_rlink.F
       !||    hm_read_load_centri               ../starter/source/loads/general/load_centri/hm_read_load_centri.F
       !||    hm_read_load_pressure             ../starter/source/loads/general/load_pressure/hm_read_load_pressure.F
+      !||    hm_read_mat                       ../starter/source/materials/mat/hm_read_mat.F90
       !||    hm_read_mat00                     ../starter/source/materials/mat/mat000/hm_read_mat00.F
       !||    hm_read_mat01                     ../starter/source/materials/mat/mat001/hm_read_mat01.F
       !||    hm_read_mat02                     ../starter/source/materials/mat/mat002/hm_read_mat02.F
@@ -548,7 +549,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_table2_0                  ../starter/source/tools/curve/hm_read_table2_0.F
       !||    hm_read_table2_1                  ../starter/source/tools/curve/hm_read_table2_1.F
       !||    hm_read_therm                     ../starter/source/materials/therm/hm_read_therm.F
-      !||    hm_read_therm_stress              ../starter/source/materials/therm/hm_read_therm_stress.F
+      !||    hm_read_therm_stress              ../starter/source/materials/therm/hm_read_therm_stress.F90
       !||    hm_read_thgrki                    ../starter/source/output/th/hm_read_thgrki.F
       !||    hm_read_thgrki_rbody              ../starter/source/output/th/hm_read_thgrki_rbody.F
       !||    hm_read_thgrne                    ../starter/source/output/th/hm_read_thgrne.F

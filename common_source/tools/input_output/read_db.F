@@ -65,6 +65,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    read_nloc_struct     ../engine/source/output/restart/read_nloc_struct.F
       !||    read_pcyl            ../engine/source/output/restart/read_pcyl.F
       !||    read_sensors         ../engine/source/output/restart/read_sensors.F
+      !||    read_thermparam      ../engine/source/output/restart/read_thermparam.F90
       !||    read_units           ../common_source/comm/write_units.F
       !||    read_viscparam       ../engine/source/output/restart/read_viscparam.F
       !||    rmatrrest            ../engine/source/output/restart/rdresb.F

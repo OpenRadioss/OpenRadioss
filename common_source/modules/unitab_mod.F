@@ -188,6 +188,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_lines                   ../starter/source/groups/hm_read_lines.F
       !||    hm_read_load_centri             ../starter/source/loads/general/load_centri/hm_read_load_centri.F
       !||    hm_read_load_pressure           ../starter/source/loads/general/load_pressure/hm_read_load_pressure.F
+      !||    hm_read_mat                     ../starter/source/materials/mat/hm_read_mat.F90
       !||    hm_read_mat00                   ../starter/source/materials/mat/mat000/hm_read_mat00.F
       !||    hm_read_mat01                   ../starter/source/materials/mat/mat001/hm_read_mat01.F
       !||    hm_read_mat02                   ../starter/source/materials/mat/mat002/hm_read_mat02.F
@@ -407,7 +408,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_table2_0                ../starter/source/tools/curve/hm_read_table2_0.F
       !||    hm_read_table2_1                ../starter/source/tools/curve/hm_read_table2_1.F
       !||    hm_read_therm                   ../starter/source/materials/therm/hm_read_therm.F
-      !||    hm_read_therm_stress            ../starter/source/materials/therm/hm_read_therm_stress.F
+      !||    hm_read_therm_stress            ../starter/source/materials/therm/hm_read_therm_stress.F90
       !||    hm_read_tria                    ../starter/source/elements/reader/hm_read_tria.F
       !||    hm_read_unit                    ../starter/source/general_controls/computation/hm_read_unit.F
       !||    hm_read_upwind                  ../starter/source/general_controls/computation/hm_read_upwind.F

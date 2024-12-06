@@ -76,7 +76,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_table1                    ../starter/source/tools/curve/hm_read_table.F
       !||    hm_read_table2                    ../starter/source/tools/curve/hm_read_table.F
       !||    hm_read_therm                     ../starter/source/materials/therm/hm_read_therm.F
-      !||    hm_read_therm_stress              ../starter/source/materials/therm/hm_read_therm_stress.F
+      !||    hm_read_therm_stress              ../starter/source/materials/therm/hm_read_therm_stress.F90
       !||    hm_read_thgrou                    ../starter/source/output/th/hm_read_thgrou.F
       !||    hm_read_unit                      ../starter/source/general_controls/computation/hm_read_unit.F
       !||    hm_read_upwind                    ../starter/source/general_controls/computation/hm_read_upwind.F

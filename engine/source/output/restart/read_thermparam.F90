@@ -26,15 +26,23 @@
 !! \brief read therm_param data structure from restart file
 !! \details
       !||====================================================================
-      !||    read_thermparam        
+      !||    read_therpmaram_mod   ../engine/source/output/restart/read_thermparam.F90
       !||--- called by ------------------------------------------------------
-      !||    read_matparam        
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
+      !||    read_matparam         ../engine/source/output/restart/read_matparam.F
       !||====================================================================
       module read_therpmaram_mod
       contains
 
+      !||====================================================================
+      !||    read_thermparam   ../engine/source/output/restart/read_thermparam.F90
+      !||--- called by ------------------------------------------------------
+      !||    read_matparam     ../engine/source/output/restart/read_matparam.F
+      !||--- calls      -----------------------------------------------------
+      !||    read_db           ../common_source/tools/input_output/read_db.F
+      !||    read_i_c          ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    therm_param_mod   ../common_source/modules/mat_elem/therm_param_mod.F90
+      !||====================================================================
       subroutine read_thermparam(therm)
 ! --------------------------------------------------------------------------------------------------
 !                                                   Modules

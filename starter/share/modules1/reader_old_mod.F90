@@ -47,6 +47,7 @@
       !||    hm_read_grav               ../starter/source/loads/general/grav/hm_read_grav.F
       !||    hm_read_inter_type24       ../starter/source/interfaces/int24/hm_read_inter_type24.F
       !||    hm_read_lines              ../starter/source/groups/hm_read_lines.F
+      !||    hm_read_mat                ../starter/source/materials/mat/hm_read_mat.F90
       !||    hm_read_mat10              ../starter/source/materials/mat/mat010/hm_read_mat10.F
       !||    hm_read_mat29_31           ../starter/source/materials/mat/matuser/hm_read_mat_user29_31.F
       !||    hm_read_mat_99             ../starter/source/materials/mat/matuser/hm_read_mat_user_99.F

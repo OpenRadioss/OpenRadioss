@@ -25,12 +25,16 @@
 
       !||====================================================================
       !||    hm_read_mat169_arup_mod   ../starter/source/materials/mat/mat169/hm_read_mat169.F90
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_mat               ../starter/source/materials/mat/hm_read_mat.F90
       !||====================================================================
       module hm_read_mat169_arup_mod
       contains
   
       !||====================================================================
       !||    hm_read_mat169_arup      ../starter/source/materials/mat/mat169/hm_read_mat169.F90
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_mat              ../starter/source/materials/mat/hm_read_mat.F90
       !||--- calls      -----------------------------------------------------
       !||    ancmsg                   ../starter/source/output/message/message.F
       !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F

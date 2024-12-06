@@ -44,6 +44,7 @@
       !||    h3d_shell_scalar_1               ../engine/source/output/h3d/h3d_results/h3d_shell_scalar_1.F
       !||    h3d_solid_scalar_1               ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
       !||    h3d_sph_scalar                   ../engine/source/output/h3d/h3d_results/h3d_sph_scalar.F
+      !||    hm_read_mat                      ../starter/source/materials/mat/hm_read_mat.F90
       !||    hm_read_mat20                    ../starter/source/materials/mat/mat020/hm_read_mat20.F
       !||    hm_read_mat51                    ../starter/source/materials/mat/mat051/hm_read_mat51.F
       !||    i22datainit                      ../engine/source/interfaces/int22/i22datainit.F

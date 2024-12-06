@@ -21,31 +21,33 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    read_material_models   ../starter/source/materials/read_material_models.F
+      !||    read_material_models       ../starter/source/materials/read_material_models.F
       !||--- called by ------------------------------------------------------
-      !||    lectur                 ../starter/source/starter/lectur.F
+      !||    lectur                     ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
-      !||    fill_buffer_51_0       ../starter/source/materials/mat/mat051/fill_buffer_51_0.F
-      !||    hm_read_eos            ../starter/source/materials/eos/hm_read_eos.F
-      !||    hm_read_fail           ../starter/source/materials/fail/hm_read_fail.F
-      !||    hm_read_leak           ../starter/source/airbag/hm_read_leak.F
-      !||    hm_read_nonlocal       ../starter/source/materials/nonlocal/hm_read_nonlocal.F
-      !||    hm_read_therm          ../starter/source/materials/therm/hm_read_therm.F
-      !||    hm_read_therm_stress   ../starter/source/materials/therm/hm_read_therm_stress.F
-      !||    hm_read_visc           ../starter/source/materials/visc/hm_read_visc.F
-      !||    ini_eos_vars           ../starter/source/elements/elbuf_init/ini_eos_vars.F
-      !||    ini_mat_elem           ../starter/source/materials/mat/ini_mat_elem.F
-      !||    ini_mlaw_vars          ../starter/source/elements/elbuf_init/ini_mlaw_vars.F
-      !||    multi_check_eos        ../starter/source/multifluid/multi_check_eos.F
-      !||    multi_check_psh        ../starter/source/multifluid/multi_check_psh.F
-      !||    read_ale_mat           ../starter/source/materials/ale/read_ale_mat.F
-      !||    read_euler_mat         ../starter/source/materials/ale/read_euler_mat.F
+      !||    fill_buffer_51_0           ../starter/source/materials/mat/mat051/fill_buffer_51_0.F
+      !||    hm_read_eos                ../starter/source/materials/eos/hm_read_eos.F
+      !||    hm_read_fail               ../starter/source/materials/fail/hm_read_fail.F
+      !||    hm_read_leak               ../starter/source/airbag/hm_read_leak.F
+      !||    hm_read_mat                ../starter/source/materials/mat/hm_read_mat.F90
+      !||    hm_read_nonlocal           ../starter/source/materials/nonlocal/hm_read_nonlocal.F
+      !||    hm_read_therm              ../starter/source/materials/therm/hm_read_therm.F
+      !||    hm_read_therm_stress       ../starter/source/materials/therm/hm_read_therm_stress.F90
+      !||    hm_read_visc               ../starter/source/materials/visc/hm_read_visc.F
+      !||    ini_eos_vars               ../starter/source/elements/elbuf_init/ini_eos_vars.F
+      !||    ini_mat_elem               ../starter/source/materials/mat/ini_mat_elem.F
+      !||    ini_mlaw_vars              ../starter/source/elements/elbuf_init/ini_mlaw_vars.F
+      !||    multi_check_eos            ../starter/source/multifluid/multi_check_eos.F
+      !||    multi_check_psh            ../starter/source/multifluid/multi_check_psh.F
+      !||    read_ale_mat               ../starter/source/materials/ale/read_ale_mat.F
+      !||    read_euler_mat             ../starter/source/materials/ale/read_euler_mat.F
       !||--- uses       -----------------------------------------------------
-      !||    elbuftag_mod           ../starter/share/modules1/elbuftag_mod.F
-      !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
-      !||    table_mod              ../starter/share/modules1/table_mod.F
+      !||    elbuftag_mod               ../starter/share/modules1/elbuftag_mod.F
+      !||    hm_option_read_mod         ../starter/share/modules1/hm_option_read_mod.F
+      !||    hm_read_therm_stress_mod   ../starter/source/materials/therm/hm_read_therm_stress.F90
+      !||    message_mod                ../starter/share/message_module/message_mod.F
+      !||    submodel_mod               ../starter/share/modules1/submodel_mod.F
+      !||    table_mod                  ../starter/share/modules1/table_mod.F
       !||====================================================================
       SUBROUTINE READ_MATERIAL_MODELS(
      .             MAT_ELEM    ,MLAW_TAG ,FAIL_TAG ,EOS_TAG  ,
