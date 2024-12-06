@@ -65,7 +65,7 @@ c-----------------------------------------------
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SPH_SCALAR(I)%KEY3  = 'DIAMETER'
-      H3D_KEYWORD_SPH_SCALAR(I)%TEXT1  = 'Diameter'
+      H3D_KEYWORD_SPH_SCALAR(I)%TEXT1  = 'Diameter'   
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SPH_SCALAR(I)%KEY3  = 'EPSP'
@@ -228,8 +228,10 @@ c-----------------------------------------------
       H3D_KEYWORD_SPH_SCALAR(I)%TEXT1   = 'Failure'
       H3D_KEYWORD_SPH_SCALAR(I)%COMMENT = 'Damage of current failure criterion'
 c-----------------------------------------------
-
-
+      I = I + 1
+      H3D_KEYWORD_SPH_SCALAR(I)%KEY3   = 'NEIGHBOURS'
+      H3D_KEYWORD_SPH_SCALAR(I)%TEXT1  = 'Number of Neighbours'         
+c-----------------------------------------------
 
       NKEY=I
       END
