@@ -29,6 +29,10 @@
             integer :: iroddl
             integer :: iparith
             integer :: nthreads
+            integer :: nrcvvois !< ALE ghost nodes in SPMD
+            logical :: used_dr
+
+
             integer :: numnod
             integer :: max_numnod
             integer, dimension(:), allocatable :: itab !< node user id , itabm1, max_id_user_globaux
@@ -38,18 +42,22 @@
             my_real, dimension(:,:), allocatable :: A !< accelerations: 3 x numnod (x nthreads if parith/off)
             my_real, dimension(:,:), allocatable :: AR !< accelerations
             my_real, dimension(:,:), allocatable :: V !< velocities
-            my_real, dimension(:,:), allocatable :: X !< coordinates
-            my_real, dimension(:,:), allocatable :: D !< displacements
-            my_real, dimension(:,:), allocatable :: VR !<velocities
-            my_real, dimension(:,:), allocatable :: DR !< displacements
-            my_real, dimension(:), allocatable :: MS !< mass               
-            my_real, dimension(:), allocatable :: IN !< inertia
+            my_real, dimension(:,:), allocatable :: X !< coordinates 3*(NUMNOD+NRCVVOIS)
+            my_real, dimension(:,:), allocatable :: D !< displacements 3*(NUMNOD+NRCVVOIS)
+            my_real, dimension(:,:), allocatable :: VR !<velocities 3*(NUMNOD*IRODDL)
+!     IF(ISECUT > 0 .OR. IISROT > 0 .OR. IMPOSE_DR /= 0 .OR. IDROT > 0) SDR = 3*NUMNOD_L*IRODDL
+!     ELSE SDR = 0
+!     ENDIF      
+            my_real, dimension(:,:), allocatable :: DR !< displacements (SRD) 
+            my_real, dimension(:), allocatable :: MS !< mass     (numnod)          
+            my_real, dimension(:), allocatable :: IN !< inertia * IRODDL
             my_real, dimension(:), allocatable :: STIFN !< nodal stiffness
             my_real, dimension(:), allocatable :: STIFR !< numnod*iroddl(* nthreads)
             my_real, dimension(:), allocatable :: MS0 !< initial mass
             my_real, dimension(:), allocatable :: IN0 !< initial inertia
-            my_real, dimension(:), allocatable :: VISCN !< nodal  3
+            my_real, dimension(:), allocatable :: VISCN !< nodal 
 
+            ! 3*NUMNOD if IRESP == 1, else 3
             double precision, dimension(:), allocatable :: DDP !< double precision D 
             double precision, dimension(:), allocatable :: XDP !< double precision X  
         end type nodal_arrays_
@@ -68,7 +76,8 @@
 !                                                   procedures
 ! ======================================================================================================================
 !! \brief Allocate nodal arrays                                                              
-        subroutine allocate_nodal_arrays(arrays, numnod, nthreads, iroddl, iparith)
+  subroutine allocate_nodal_arrays(arrays, numnod, nthreads, iroddl, iparith, &
+           isecut, iisrot, impose_dr, idrot, nrcvvois)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -89,6 +98,11 @@
             integer, intent(in) :: nthreads !< number of OpenMP threads
             integer, intent(in) :: iroddl !< number of degrees of freedom per node
             integer, intent(in) :: iparith !< numerical reproducibility (/PARITH option) (0: off, 1: on)
+            integer, intent(in) :: isecut !< number of sections
+            integer, intent(in) :: iisrot !< number of isotropic rotations
+            integer, intent(in) :: impose_dr !< impose DR
+            integer, intent(in) :: idrot !< number of discrete rotations
+            integer, intent(in) :: nrcvvois !< ALE ghost nodes in SPMD
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -96,20 +110,32 @@
             arrays%iparith = iparith
             arrays%nthreads = nthreads
             arrays%max_numnod = numnod
+            arrays%nrcvvois = nrcvvois
+            IF(ISECUT > 0 .OR. IISROT > 0 .OR. IMPOSE_DR /= 0 .OR. IDROT > 0) THEN
+              call my_alloc(arrays%DR,3,numnod*iroddl)
+              arrays%used_dr = .true.
+            else
+              arrays%used_dr = .false.
+              call my_alloc(arrays%DR,3,0)
+            endif
             call my_alloc(arrays%itab,numnod)
             call my_alloc(arrays%IKINE,numnod)
-            call my_alloc(arrays%V,3,numnod)
-            call my_alloc(arrays%X,3,numnod)
-            call my_alloc(arrays%D,3,numnod)
-            call my_alloc(arrays%VR,3,numnod)
-            call my_alloc(arrays%DR,3,numnod)
+            call my_alloc(arrays%V,3,numnod + nrcvvois)
+            call my_alloc(arrays%X,3,numnod + nrcvvois)
+            call my_alloc(arrays%D,3,numnod + nrcvvois)
+            call my_alloc(arrays%VR,3,numnod*iroddl)
             call my_alloc(arrays%MS,numnod)
-            call my_alloc(arrays%IN,numnod)
+            call my_alloc(arrays%IN,numnod*iroddl)
             call my_alloc(arrays%STIFN,numnod)
             call my_alloc(arrays%MS0,numnod)
-            call my_alloc(arrays%IN0,numnod)
+            call my_alloc(arrays%IN0,numnod*iroddl)
+#ifdef MYREAL4
             call my_alloc(arrays%DDP,numnod)
             call my_alloc(arrays%XDP,numnod)
+#else
+            call my_alloc(arrays%DDP,1)
+            call my_alloc(arrays%XDP,1)
+#endif
             call my_alloc(arrays%WEIGHT,numnod)
             call my_alloc(arrays%ITABM1,2*numnod)
 
@@ -177,18 +203,25 @@
               arrays%max_numnod = max(arrays%max_numnod, numnod+1)
               call extend_array(arrays%itab,size(arrays%itab), arrays%max_numnod)
               call extend_array(arrays%IKINE, size(arrays%IKINE), arrays%max_numnod)
-              call extend_array(arrays%V, 3, size(arrays%V, 2), 3, arrays%max_numnod)
-              call extend_array(arrays%X, 3, size(arrays%X, 2), 3, arrays%max_numnod)
-              call extend_array(arrays%D, 3, size(arrays%D, 2), 3, arrays%max_numnod)
-              call extend_array(arrays%VR,3, size(arrays%VR,2), 3, arrays%max_numnod)
-              call extend_array(arrays%DR,3, size(arrays%DR,2), 3, arrays%max_numnod)
+              call extend_array(arrays%V, 3, size(arrays%V, 2), 3, arrays%max_numnod + arrays%nrcvvois)
+              call extend_array(arrays%X, 3, size(arrays%X, 2), 3, arrays%max_numnod + arrays%nrcvvois)
+              call extend_array(arrays%D, 3, size(arrays%D, 2), 3, arrays%max_numnod + arrays%nrcvvois)
+              if(arrays%iroddl >0) then
+                call extend_array(arrays%VR,3, size(arrays%VR,2), 3, arrays%max_numnod)
+                call extend_array(arrays%VR,3, size(arrays%VR,2), 3, arrays%max_numnod)
+                call extend_array(arrays%IN, size(arrays%IN), arrays%max_numnod)
+                call extend_array(arrays%IN0, size(arrays%IN0), arrays%max_numnod)
+              endif
+              if(arrays%used_dr) then
+                call extend_array(arrays%DR,3, size(arrays%DR,2), 3, arrays%max_numnod)
+              endif
               call extend_array(arrays%MS, size(arrays%MS), arrays%max_numnod)
-              call extend_array(arrays%IN, size(arrays%IN), arrays%max_numnod)
               call extend_array(arrays%STIFN, size(arrays%STIFN), arrays%max_numnod)
               call extend_array(arrays%MS0, size(arrays%MS0), arrays%max_numnod)
-              call extend_array(arrays%IN0, size(arrays%IN0), arrays%max_numnod)
+#ifdef MYREAL4
               call extend_array(arrays%DDP, size(arrays%DDP), arrays%max_numnod)
               call extend_array(arrays%XDP, size(arrays%XDP), arrays%max_numnod)
+#endif
               call extend_array(arrays%WEIGHT, size(arrays%WEIGHT), arrays%max_numnod)
               call extend_array(arrays%ITABM1, size(arrays%ITABM1), 2*arrays%max_numnod)
              

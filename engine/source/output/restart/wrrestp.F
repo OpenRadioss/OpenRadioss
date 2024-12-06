@@ -134,7 +134,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    write_inivel_mod       ../engine/source/output/restart/write_inivel.F90
       !||    xfem2vars_mod          ../engine/share/modules/xfem2vars_mod.F
       !||====================================================================
-      SUBROUTINE WRRESTP(NODES, AF         ,IAF      ,ICH       ,ADDCNE,
+      SUBROUTINE WRRESTP(ELEMENTS, NODES, AF         ,IAF      ,ICH       ,ADDCNE,
      .                   ELBUF_TAB  ,XFEM_TAB        ,INTBUF_TAB ,MULTI_FVM   ,MAT_ELEM         ,
      .                   H3D_DATA   ,INTBUF_FRIC_TAB ,SUBSET     ,PINCH_DATA  ,ALE_CONNECTIVITY ,
      .                   T_MONVOL   ,SENSORS         ,EBCS_TAB   ,DYNAIN_DATA ,USER_WINDOWS     ,
@@ -150,6 +150,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE RESTMOD
       USE nodal_arrays_mod
+      USE connectivity_mod
       USE INTSTAMP_GLOB_MOD
       USE SMS_MOD
       USE TABLE_GLOB_MOD
@@ -205,6 +206,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(nodal_arrays_) :: NODES
+      TYPE(connectivity_) :: ELEMENTS
       INTEGER, INTENT(IN) :: NDRAPE
       INTEGER, INTENT(IN) :: IMPL_S
       INTEGER, INTENT(IN) :: IMPL_S0
@@ -499,7 +501,7 @@ C--------------------------------------
 
         CALL WRITE_I_C(IXQ,SIXQ)
 
-        CALL WRITE_I_C(IXC,SIXC)
+        CALL WRITE_I_C(ELEMENTS%SHELL%IXC,SIXC)
 
         CALL WRITE_I_C(IXT,SIXT)
 

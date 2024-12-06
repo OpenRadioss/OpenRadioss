@@ -1278,9 +1278,9 @@ C-------------------------------------------------------------------------------
 C-----------------------------------------------------------------------------------       
 C Uncomment for Debug - ITAB is copied in Debug Module.
 C-----------------------------------------------------------------------------------
-        LOGICAL :: modified_coordinates !< true if non conform pointer usage is detected
+        LOGICAL :: MODIFIED_COORDINATES !< true if non conform pointer usage is detected
 C-----------------------------------------------------------------------------------
-      modified_coordinates = .FALSE.
+      MODIFIED_COORDINATES = .FALSE.
       CALL PREPARE_DEBUG(NODES%ITAB,NUMNOD)
       BOOL_RESTART = .TRUE.
       STATE_H3D = 0 
@@ -2943,14 +2943,7 @@ C
             NE_IMP=>IMPBUF_TAB%CAND_E 
            IND_IMP=>IMPBUF_TAB%INDSUBT
 
-              ! X_A=>RESHAPE(X,[3 * NUMNOD])
-              ! X_C=>RESHAPE(X,[3 * NUMNOD])
-              IF(ALLOCATED(X_A))DEALLOCATE(X_A)
-              IF(ALLOCATED(X_C))DEALLOCATE(X_C)
-              ALLOCATE(X_A(3*NUMNOD),X_C(3*NUMNOD))
-               X_A = RESHAPE(NODES%X,[3 * NUMNOD])
-               X_C = RESHAPE(NODES%X,[3 * NUMNOD])
-               modified_coordinates = .TRUE.
+               MODIFIED_COORDINATES = .FALSE.
                FEXT_IMP=>IMPBUF_TAB%AC
                R_IMP=>IMPBUF_TAB%R_IMP
            ALLOCATE(FAC_K(0), IPIV_K(0))
@@ -3012,6 +3005,7 @@ C------ one routine for EIG
        END IF !IF (NEIG>0) THEN
 #endif
       ELSE
+         MODIFIED_COORDINATES = .FALSE.
          IMPL_S0 = 0
          IMP_DUM(1)=0
          NS_IMP => IMP_DUM 
@@ -3025,7 +3019,7 @@ C------ one routine for EIG
            IF(ALLOCATED(X_A)) DEALLOCATE(X_A)
            ALLOCATE(X_A(3*NUMNOD))          
            X_A = RESHAPE(NODES%X,[3 * NUMNOD])
-           modified_coordinates = .TRUE.
+           MODIFIED_COORDINATES = .TRUE.
          ELSE  
          ENDIF  
       END IF !IF (IMPL_S==1.OR.NEIG>0) THEN
@@ -3223,7 +3217,7 @@ C
            ALLOCATE(X_A(size(IMPBUF_TAB%X_A)))
            X_A = IMPBUF_TAB%X_A
            X_C = IMPBUF_TAB%X_A
-           modified_coordinates = .TRUE.
+           MODIFIED_COORDINATES = .TRUE.
          END IF
         IF (IMON>0) CALL STARTIME(5,1)
         CALL IMP_FANIE(FANI  ,FEXT_IMP,NFIA  ,NFEA  ,NODFT ,NODLT,
@@ -3596,7 +3590,7 @@ C-------------------------------------------------
           SPORO = NUMELC+NUMELTG+IBAGSURF
 C
           N=1+NINTER+NRWALL+NRBODY+NSECT+NJOINT+NRBAG
-           if(modified_coordinates) then
+           IF(MODIFIED_COORDINATES) THEN
            CALL MONVOL0(
      1      MONVOL     ,VOLMON     ,X_A            ,NODES%A         ,
      2      NPC        ,TF         ,NODES%V              ,WA        ,
@@ -3607,7 +3601,7 @@ C
      7      PM         ,IPM        ,IPART          ,IPART(K3) ,
      8      IPART(K8)  ,IGROUPC    ,IGROUPTG       ,FEXT      ,
      9      1          ,H3D_DATA   ,T_MONVOL,frontier_global_mv)
-            else 
+            ELSE 
           CALL MONVOL0(
      1      MONVOL     ,VOLMON     ,NODES%X              ,NODES%A         ,
      2      NPC        ,TF         ,NODES%V              ,WA        ,
@@ -3618,7 +3612,7 @@ C
      7      PM         ,IPM        ,IPART          ,IPART(K3) ,
      8      IPART(K8)  ,IGROUPC    ,IGROUPTG       ,FEXT      ,
      9      1          ,H3D_DATA   ,T_MONVOL,frontier_global_mv)
-            endif
+            ENDIF
           CALL TRACE_OUT(11)
         IF (IMONM > 0) CALL STOPTIME(50,1)
         ENDIF
@@ -3723,7 +3717,7 @@ C===============================================================================
         NELTSTT = NELTST
         ITYPTSTT= ITYPTST
         ITSK = OMP_GET_THREAD_NUM()
-        IF(modified_coordinates) then
+        IF(MODIFIED_COORDINATES) THEN
            CALL INTTRI(
      1     IPARI   ,X_C     ,W     , INTER_ERRORS,
      2     NODES%V       ,NODES%MS      ,NODES%IN      ,IAD_ELEM  ,
@@ -4176,7 +4170,7 @@ C----------------------------------------
         ELSE
          IADISK   = 1
         ENDIF
-        if(modified_coordinates) then
+        IF(MODIFIED_COORDINATES) THEN
         CALL INTFOP8(
      1      IPARI  ,X_C     ,NODES%A(1,1) ,
      2      ICODT  ,FSAV    ,WA(1),NODES%V         ,NODES%MS             ,
@@ -4187,7 +4181,7 @@ C----------------------------------------
      7      NS_IMP(IADISK),NE_IMP(IADISK),NT_IMP  ,SENSORS%SENSOR_TAB,INTERFACES%INTBUF_TAB ,
      8      H3D_DATA      ,PSKIDS      ,TAGNCONT,KLOADPINTER,LOADPINTER,
      9      LOADP_HYD_INTER)
-        else
+        ELSE
         CALL INTFOP8(
      1      IPARI  ,NODES%X       ,NODES%A(1,1) ,
      2      ICODT  ,FSAV    ,WA(1),NODES%V         ,NODES%MS             ,
@@ -4198,7 +4192,7 @@ C----------------------------------------
      7      NS_IMP(IADISK),NE_IMP(IADISK),NT_IMP  ,SENSORS%SENSOR_TAB,INTERFACES%INTBUF_TAB ,
      8      H3D_DATA      ,PSKIDS      ,TAGNCONT,KLOADPINTER,LOADPINTER,
      9      LOADP_HYD_INTER)
-        endif
+        ENDIF
 
         IF(DT2TT<DT2T)THEN
           DT2T = DT2TT
@@ -4326,7 +4320,7 @@ C Init var parallel SMP
          IF(NDTSK>ICONDN)IDX_CONDN = 1
          IDX_PINCH = NDTSK
          IF(NPINCH == 0 )IDX_PINCH = 1
-           if(modified_coordinates) then 
+         IF(MODIFIED_COORDINATES) THEN 
            CALL INTFOP2(
      1     IPARI             ,X_C            ,NODES%A(1,NDTSK)     ,IGROUPS         ,ALE_CONNECTIVITY,
      2     ICODT             ,FSAV           ,NODES%V              ,NODES%MS              ,DT2TT           ,
@@ -4896,8 +4890,8 @@ C
      .                GAUGE    , IGEO,    GEO,         PM,                  IPM,
      .                IPARG    , IGROUPTG,IGROUPC,     ELBUF_TAB,           FEXT,
      .                2        , H3D_DATA,NODES%ITAB,        NODES%WEIGHT)
-           if(modified_coordinates) then
-           CALL MONVOL0(
+           IF(MODIFIED_COORDINATES) THEN
+            CALL MONVOL0(
      1      MONVOL     ,VOLMON     ,X_A            ,NODES%A         ,
      2      NPC        ,TF         ,NODES%V              ,WA        ,
      3      FSAV(1,N)  ,NSENSOR    ,SENSORS%SENSOR_TAB ,IGRSURF   ,
@@ -4907,8 +4901,8 @@ C
      7      PM         ,IPM        ,IPART          ,IPART(K3) ,
      8      IPART(K8)  ,IGROUPC    ,IGROUPTG       ,FEXT      ,
      9      2          ,H3D_DATA   ,T_MONVOL,frontier_global_mv)
-           else
-           CALL MONVOL0(
+           ELSE
+            CALL MONVOL0(
      1      MONVOL     ,VOLMON     ,NODES%X            ,NODES%A         ,
      2      NPC        ,TF         ,NODES%V              ,WA        ,
      3      FSAV(1,N)  ,NSENSOR    ,SENSORS%SENSOR_TAB ,IGRSURF   ,
@@ -4918,7 +4912,7 @@ C
      7      PM         ,IPM        ,IPART          ,IPART(K3) ,
      8      IPART(K8)  ,IGROUPC    ,IGROUPTG       ,FEXT      ,
      9      2          ,H3D_DATA   ,T_MONVOL,frontier_global_mv)
-            endif
+            ENDIF
           CALL TRACE_OUT(11)
         IF (IMONM > 0) CALL STOPTIME(50,1)
         ENDIF
@@ -5368,7 +5362,7 @@ C===============================================================================
 
 !       -------------------------------------------
 !       check if a NaN appears in acc vectors (only available with /DEBUG/NAN option)
-      IF( DEBUG(MACRO_DEBUG_NAN)/=0 )CALL CHECK_NAN_ACC(NCYCLE,NODES%A,NODES%AR)
+      IF( DEBUG(MACRO_DEBUG_NAN)/=0 )CALL CHECK_NAN_ACC(NCYCLE,NODES)
 !       write *.adb files for NON-LOCAL option
       IF (DEBUG(MACRO_DEBUG_ACC)==1.AND.(NLOC_DMG%IMOD>0)) THEN
         IF (ISPMD==0) THEN
@@ -5724,6 +5718,7 @@ C WA local  : utilise de 1 a NUMNOD
         ENDIF
       ENDIF
 
+!     call extend_nodal_arrays(nodes,numnod+10)
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)
 C========================================================================================
@@ -8621,8 +8616,8 @@ C Regular animation
         ENDIF
 
 
-        if(modified_coordinates) then
-        CALL SORTIE_MAIN(
+        IF(MODIFIED_COORDINATES) THEN
+         CALL SORTIE_MAIN(
      1   PM            ,NODES%D              ,NODES%V              ,ALE_CONNECTIVITY          ,W             ,
      2   ELBUF         ,IPARG          ,IXS            ,IXQ            ,ELEMENT%SHELL%IXC           ,
      3   IXT           ,IXP            ,IXR            ,IXTG           ,WA            ,
@@ -8672,7 +8667,7 @@ C Regular animation
      t   USER_WINDOWS  ,OUTPUT         ,DT             ,OUTPUT%TH%TH_SURF%CHANNELS    ,
      u   TABLE         ,LOADS          ,SFANI          ,IPARIT         ,X_C           ,
      v   SZ_NPCONT2    ,NPCONT2        ,GLOB_THERM     ,PBLAST)
-        else
+        ELSE
        CALL SORTIE_MAIN(
      1   PM            ,NODES%D              ,NODES%V              ,ALE_CONNECTIVITY          ,W             ,
      2   ELBUF         ,IPARG          ,IXS            ,IXQ            ,ELEMENT%SHELL%IXC           ,
@@ -8723,9 +8718,7 @@ C Regular animation
      t   USER_WINDOWS  ,OUTPUT         ,DT             ,OUTPUT%TH%TH_SURF%CHANNELS    ,
      u   TABLE         ,LOADS          ,SFANI          ,IPARIT         ,NODES%X           ,
      v   SZ_NPCONT2    ,NPCONT2        ,GLOB_THERM     ,PBLAST)
-
-
-        endif
+        ENDIF
 C
         IF((MSTOP == 1 .AND. ICTLSTOP == 0) .OR. MSTOP == 2 .OR. DT2<=ZERO)THEN
           CALL SORTIE_ERROR(
@@ -9448,7 +9441,7 @@ C mass & velocity
         L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
         L2 = L1+6*NUMELS10
         L3 = L2+12*NUMELS20
-        if(modified_coordinates) then
+        IF(MODIFIED_COORDINATES) THEN
           CALL SPMD_I7XVCOM2(
      1     IPARI   ,X_A    ,NODES%V       ,NODES%MS      ,
      2     IMSCH   ,I2MSCH ,DT2PREV ,INTLIST ,NBINTC  ,
@@ -9458,7 +9451,7 @@ C mass & velocity
      6     IRLEN20 ,ISLEN20,IRLEN20T,ISLEN20T,IRLEN20E,
      7     ISLEN20E,NODES%IKINE  ,DIAG_SMS,SENSORS%SENSOR_TAB,INTERFACES%INTBUF_TAB ,INT24E2EUSE,
      8     FORNEQS ,MULTI_FVM,INTERFACES)
-         else
+         ELSE
           CALL SPMD_I7XVCOM2(
      1     IPARI   ,NODES%X    ,NODES%V       ,NODES%MS      ,
      2     IMSCH   ,I2MSCH ,DT2PREV ,INTLIST ,NBINTC  ,
@@ -9468,8 +9461,7 @@ C mass & velocity
      6     IRLEN20 ,ISLEN20,IRLEN20T,ISLEN20T,IRLEN20E,
      7     ISLEN20E,NODES%IKINE  ,DIAG_SMS,SENSORS%SENSOR_TAB,INTERFACES%INTBUF_TAB ,INT24E2EUSE,
      8     FORNEQS ,MULTI_FVM,INTERFACES)
-
-        endif
+        ENDIF
         IF (IMONM > 0) CALL STOPTIME(23,1)
         IF (IMON>0) CALL STOPTIME(13,1)
         ENDIF
@@ -9603,7 +9595,7 @@ C--- //0 ----------------
         CALL ELAPSTIME(SECS)
         GLOBAL_COMP_TIME%ENGINE_TIME(GLOBAL_COMP_TIME%RUN_NBR) = SECS
 
-        CALL WRRESTP(NODES, AF         ,IAF      ,ICH             ,ADSKY            ,
+        CALL WRRESTP(ELEMENT, NODES, AF         ,IAF      ,ICH             ,ADSKY            ,
      .               ELBUF_TAB  ,XFEM_TAB        ,INTERFACES%INTBUF_TAB     ,MULTI_FVM       ,MAT_ELEM         ,
      .               H3D_DATA   ,INTERFACES%INTBUF_FRIC_TAB ,SUBSETS        ,PINCH_DATA      ,ALE_CONNECTIVITY ,
      .               T_MONVOL   ,SENSORS         , EBCS_TAB      ,DYNAIN_DATA     ,USER_WINDOWS     ,

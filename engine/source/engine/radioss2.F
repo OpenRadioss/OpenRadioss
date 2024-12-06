@@ -331,7 +331,7 @@ C-------------------------------------------------------------------------------
       TYPE(NAMES_AND_TITLES_) :: NAMES_AND_TITLES  !< NAMES_AND_TITLES host the input deck names and titles for outputs
       TYPE(UNIT_TYPE_) :: UNITAB !< units conversion
       TYPE(connectivity_) :: element 
-      TYPE(nodal_arrays_) :: nodes 
+      TYPE(nodal_arrays_), target :: nodes 
 C------------------------------------------------------------------
 C to build a IBM PARALLEL version
 C In starter : define install parameter nspmd 
@@ -488,6 +488,7 @@ C Initialize ProcessID variable for scratch filesqq
 C--------------------------------------------------
 C Radioss userlibraries initialization
 C--------------------------------------------------
+        user_interface_nodes => NODES ! should be done only if user_interface is used
         IF(GOT_USERL_ALTNAME==1)THEN
           DLIBFILE(1:LEN_USERL_ALTNAME)=USERL_ALTNAME(1:LEN_USERL_ALTNAME)
           DLIBFILE_SIZE=LEN_USERL_ALTNAME
@@ -1582,7 +1583,7 @@ C------------------------------------------------
           IFILTITL = IUTITLHIS
           ITHFLAG = 10
           CALL HIST1( FILNAMTH ,IFIL              ,NTHGRP            ,LONG,
-     2                 WA      ,PM                ,GEO               ,IPART,
+     2                 PM                ,GEO               ,IPART,
      3                 SUBSETS ,OUTPUT%TH%ITHGRP  ,OUTPUT%TH%ITHBUF  ,IGEO,
      4                 IPM     ,IPART   ,LIPART1  ,8,
      5                 12      ,ITFORM  ,ITHFLAG ,ITHVAR,
@@ -1605,7 +1606,7 @@ C   Multiple th files
               IFILTITL = IUTITLHI(1)
               ITHFLAG = 1
               CALL HIST1( FILNAMTH ,IFIL              ,NTHGRP1(1)        ,LONG ,
-     2                    WA       ,PM                ,GEO               ,IPART,
+     2                    PM                ,GEO               ,IPART,
      3                    SUBSETS  ,OUTPUT%TH%ITHGRPA ,OUTPUT%TH%ITHBUFA ,IGEO ,
      4                    IPM      ,IPART(1+LIPART1*(NPART+NTHPART)) ,2  ,1    ,
      5                    1       ,AFORM(1)           ,ITHFLAG       ,ITHVAR,
@@ -1628,7 +1629,7 @@ C   Multiple th files
               IFILTITL = IUTITLHI(2)
               ITHFLAG = 2
               CALL HIST1(FILNAMTH,IFIL              ,NTHGRP1(2)        ,LONG,
-     2                   WA      ,PM                ,GEO               ,IPART ,
+     2                   PM                ,GEO               ,IPART ,
      3                   SUBSETS ,OUTPUT%TH%ITHGRPB ,OUTPUT%TH%ITHBUFB ,IGEO ,
      4                   IPM     ,IPART(1+LIPART1*(NPART+NTHPART)+2*(NPART+NTHPART)),2,1,
      5                   1       ,AFORM(2)          ,ITHFLAG          ,ITHVAR,
@@ -1651,7 +1652,7 @@ C   Multiple th files
               IFILTITL = IUTITLHI(3)
               ITHFLAG = 3
               CALL HIST1(FILNAMTH ,IFIL             ,NTHGRP1(3)        ,LONG,
-     2                   WA       ,PM               ,GEO               ,IPART ,
+     2                   PM               ,GEO               ,IPART ,
      3                   SUBSETS ,OUTPUT%TH%ITHGRPC ,OUTPUT%TH%ITHBUFC ,IGEO ,
      4                   IPM     ,IPART(1+LIPART1*(NPART+NTHPART)+4*(NPART+NTHPART)) ,2 ,1,
      5                   1       ,AFORM(3)          ,ITHFLAG           ,ITHVAR,
@@ -1674,7 +1675,7 @@ C   Multiple th files
               IFIL= IUNIT
               ITHFLAG = 4
               CALL HIST1(FILNAMTH,IFIL,NTHGRP1(4),LONG,
-     2                   WA  ,PM  ,GEO ,IPART ,
+     2                   PM  ,GEO ,IPART ,
      3                   SUBSETS ,OUTPUT%TH%ITHGRPD ,OUTPUT%TH%ITHBUFD ,IGEO,
      4                   IPM     ,IPART(1+LIPART1*(NPART+NTHPART)+6*(NPART+NTHPART)) ,2 ,1,
      5                   1       ,AFORM(4)          ,ITHFLAG           ,ITHVAR,
@@ -1697,7 +1698,7 @@ C   Multiple th files
               IFILTITL = IUTITLHI(5)
               ITHFLAG = 5
               CALL HIST1(FILNAMTH,IFIL              ,NTHGRP1(5)        ,LONG,
-     2                   WA      ,PM                ,GEO               ,IPART,
+     2                   PM                ,GEO               ,IPART,
      3                   SUBSETS ,OUTPUT%TH%ITHGRPE ,OUTPUT%TH%ITHBUFE ,IGEO,
      4                   IPM     ,IPART(1+LIPART1*(NPART+NTHPART)+8*(NPART+NTHPART)),2,1,
      5                   1       ,AFORM(5)          ,ITHFLAG           ,ITHVAR,
@@ -1720,7 +1721,7 @@ C   Multiple th files
               IFILTITL = IUTITLHI(6)
               ITHFLAG = 6
               CALL HIST1(FILNAMTH,IFIL              ,NTHGRP1(6)        ,LONG,
-     2                   WA      ,PM                ,GEO               ,IPART ,
+     2                   PM                ,GEO               ,IPART ,
      3                   SUBSETS ,OUTPUT%TH%ITHGRPF ,OUTPUT%TH%ITHBUFF ,IGEO ,
      4                   IPM     ,IPART(1+LIPART1*(NPART+NTHPART)+10*(NPART+NTHPART)),2,1,
      5                   1       ,AFORM(6)          ,ITHFLAG           ,ITHVAR,
@@ -1743,7 +1744,7 @@ C   Multiple th files
               IFILTITL = IUTITLHI(7)
               ITHFLAG = 7
               CALL HIST1(FILNAMTH,IFIL              ,NTHGRP1(7)        ,LONG,
-     2                   WA      ,PM                ,GEO               ,IPART ,
+     2                   PM                ,GEO               ,IPART ,
      3                   SUBSETS ,OUTPUT%TH%ITHGRPG ,OUTPUT%TH%ITHBUFG ,IGEO ,
      4                   IPM,IPART(1+LIPART1*(NPART+NTHPART)+12*(NPART+NTHPART)),2,1,
      5                   1       ,AFORM(7)          ,ITHFLAG           ,ITHVAR,
@@ -1766,7 +1767,7 @@ C   Multiple th files
               IFILTITL = IUTITLHI(8)
               ITHFLAG = 8
               CALL HIST1(FILNAMTH ,IFIL              ,NTHGRP1(8),LONG,
-     2                   WA       ,PM                ,GEO               ,IPART,
+     2                   PM                ,GEO               ,IPART,
      3                   SUBSETS  ,OUTPUT%TH%ITHGRPH ,OUTPUT%TH%ITHBUFH ,IGEO,
      4                   IPM      ,IPART(1+LIPART1*(NPART+NTHPART)+14*(NPART+NTHPART)),2,1,
      5                   1       ,AFORM(8)           ,ITHFLAG           ,ITHVAR,
@@ -1789,7 +1790,7 @@ C   Multiple th files
               IFILTITL = IUTITLHI(9)
               ITHFLAG = 9
               CALL HIST1(FILNAMTH,IFIL,NTHGRP1(9),LONG,
-     2                   WA  ,PM  ,GEO ,IPART ,
+     2                   PM  ,GEO ,IPART ,
      3                   SUBSETS ,OUTPUT%TH%ITHGRPI ,OUTPUT%TH%ITHBUFI ,IGEO,
      4                   IPM     ,IPART(1+LIPART1*(NPART+NTHPART)+16*(NPART+NTHPART)),2,1,
      5                   1       ,AFORM(9)          ,ITHFLAG           ,ITHVAR,
@@ -1799,7 +1800,7 @@ C   Multiple th files
           WRITE(CHR_OLD,'(I2.2)')IRUNN
           CALL HIST13(
      1           IPARG ,IXS ,IXQ ,ELEMENT%SHELL%IXC ,IXT ,
-     2           IXP ,IXR ,WA  ,NODES%ITAB ,PM  ,
+     2           IXP ,IXR ,NODES%ITAB ,PM  ,
      3           NPBYL ,IXTG ,IRFE    ,LACCELM ,
      4           IPARI ,IPART ,OUTPUT%TH%ITHGRP ,OUTPUT%TH%ITHBUF ,CHR_OLD,NAMES_AND_TITLES)
         ENDIF

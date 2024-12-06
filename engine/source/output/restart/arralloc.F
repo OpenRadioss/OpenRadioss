@@ -150,7 +150,8 @@ C   -----------------------------------------------
 C             allocations entieres 
 C   -----------------------------------------------
 
-        CALL ALLOCATE_NODAL_ARRAYS(NODES, NUMNOD, NTHREAD, IRODDL, IPARIT)
+        CALL ALLOCATE_NODAL_ARRAYS(NODES, NUMNOD, NTHREAD, IRODDL, IPARIT, 
+     .      ISECUT, IISROTS, IMPOSE_DR, IDROT, NRCVVOIS)
 
 C       
         ALLOCATE (ICODE(SICODE),STAT=IERR)
@@ -1007,7 +1008,6 @@ C
 C   -----------------------------------------------
 C             allocations flottantes
 C   -----------------------------------------------
-
 !        ALLOCATE (X(SX),STAT=IERR)
 !        IF (IERR/=0) GOTO 1000
 !        X = 0 
