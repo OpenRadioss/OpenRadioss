@@ -41,7 +41,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3     NGL      ,ALDT     ,DPLA     ,EPSP     ,UVAR     ,     
      4     SIGNXX   ,SIGNYY   ,SIGNZZ   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,            
      5     TEMP     ,OFF      ,DFMAX    ,TDELE    ,DMG_SCALE,
-     6     UELR     ,IPG      ,NPG      ,LOFF     ,NTABLF   ,ITABLF)   
+     6     UELR     ,IPG      ,NPG      ,LOFF     ,NTABLF   ,ITABLF   ,
+     7     NOFF     ,VOLN     )   
 C---------+---------+---+---+--------------------------------------------
       USE TABLE_MOD
       USE INTERFACE_TABLE_MOD
@@ -62,11 +63,13 @@ C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL,NUPARAM,NUVAR,NGL(NEL),NPG,IPG,NTABLF
       INTEGER, DIMENSION(NTABLF) ,INTENT(IN) :: ITABLF
+      INTEGER, INTENT(INOUT) :: NOFF(NEL)
       my_real, INTENT(IN) ::
      .        TIME,UPARAM(NUPARAM),ALDT(NEL),
      .        DPLA(NEL),EPSP(NEL),TEMP(NEL),
      .        SIGNXX(NEL),SIGNYY(NEL),SIGNZZ(NEL),
-     .        SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL)
+     .        SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL),
+     .        VOLN(NEL)
       my_real, INTENT(INOUT) :: 
      .        UVAR(NEL,NUVAR),DFMAX(NEL),TDELE(NEL),
      .        DMG_SCALE(NEL),OFF(NEL),UELR(NEL),
@@ -90,7 +93,7 @@ C-----------------------------------------------
       my_real 
      .        FCRIT  ,DN,DCRIT,ECRIT,EXP_REF,EXPO,EL_REF,
      .        SR_REF1,FSCALE_EL,SHRF,BIAXF  ,SR_REF2,
-     .        FSCALE_SR,CJC,FSCALE_DLIM,TEMP_REF, FSCALE_TEMP
+     .        FSCALE_SR,CJC,FSCALE_DLIM,TEMP_REF, FSCALE_TEMP, VOLFRAC
       my_real
      .        LAMBDA,FAC,DF,INST(NEL)  ,DC(NEL)     ,L0(NEL)     ,
      .        TRIAX(NEL)  ,XI(NEL)     ,EPSF(NEL)   ,EPSL(NEL)   ,
@@ -124,6 +127,7 @@ C!--------------------------------------------------------------
       FSCALE_TEMP   = UPARAM(20)
       LOG_SCALE1    = NINT(UPARAM(21))
       LOG_SCALE2    = NINT(UPARAM(22))
+      VOLFRAC       = UPARAM(23)
 c
       ITAB_EPSF = ITABLF(1)
       ITAB_INST = ITABLF(2)
@@ -387,12 +391,20 @@ c
           IF (DFMAX(I) >= ONE) THEN 
             NINDX       = NINDX + 1
             INDX(NINDX) = I
-            UELR(I)     = UELR(I) + ONE
+            NOFF(I)     = NOFF(I) + 1
             LOFF(I)     = ZERO
-            IF (NINT(UELR(I)) >= FAILIP) THEN 
-              OFF(I)    = ZERO
-              TDELE(I)  = TIME
-            ENDIF
+            UELR(I)     = UELR(I) + VOLN(I)
+            IF ((NPG > 1).AND.(VOLFRAC > ZERO)) THEN 
+              IF (UELR(I)/(NPG*VOLN(I)) >= VOLFRAC) THEN 
+                OFF(I)    = ZERO
+                TDELE(I)  = TIME
+              ENDIF
+            ELSE
+              IF (NOFF(I) >= FAILIP) THEN 
+                OFF(I)    = ZERO
+                TDELE(I)  = TIME
+              ENDIF
+            ENDIF           
           ENDIF
 c
           ! Compute the controle necking instability damage

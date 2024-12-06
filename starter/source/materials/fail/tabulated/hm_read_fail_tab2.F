@@ -73,7 +73,7 @@ C-----------------------------------------------
      .            IFUN_EXP,ITAB_SIZE,IREG,IFUN_RATE,IFUN_DLIM,IFUN_TEMP  
       my_real  :: FCRIT,PTHKFAIL,DN,DCRIT,ECRIT,EXP_REF,EXPO,EL_REF,SR_REF1,
      .            FSCALE_EL,SHRF,BIAXF,SR_REF2,FSCALE_SR,CJC,FSCALE_DLIM,
-     .            LENGTH_UNIT,RATE_UNIT,TEMP_REF,FSCALE_TEMP,TEMP_UNIT
+     .            LENGTH_UNIT,RATE_UNIT,TEMP_REF,FSCALE_TEMP,TEMP_UNIT,VOLFRAC
 C-----------------------------------------------
       LOGICAL    ::     IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
@@ -91,6 +91,7 @@ Card1
       CALL HM_GET_FLOATV ('FCRIT'       ,FCRIT       ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
       CALL HM_GET_INTV   ('FAILIP'      ,FAILIP      ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV ('PTHK'        ,PTHKFAIL    ,IS_AVAILABLE,LSUBMODEL,UNITAB) 
+      CALL HM_GET_FLOATV ('VOLFRAC'     ,VOLFRAC     ,IS_AVAILABLE,LSUBMODEL,UNITAB) 
 Card2 
       CALL HM_GET_FLOATV ('N'           ,DN          ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV ('DCRIT'       ,DCRIT       ,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -165,13 +166,23 @@ C-------------------------------------------------------------------------------
       IF (PTHKFAIL == ZERO) PTHKFAIL = EM06
       PTHKFAIL = MIN(PTHKFAIL, ONE)
       PTHKFAIL = MAX(PTHKFAIL,-ONE)
+
+      VOLFRAC = MIN(VOLFRAC,ONE)
+      VOLFRAC = MAX(VOLFRAC,ZERO)
+
+      IF (VOLFRAC > ZERO) THEN  
+        CALL ANCMSG(MSGID=3080, MSGTYPE=MSGINFO, ANMODE=ANINFO_BLIND,
+     .              I1=MAT_ID,
+     .              C1=TITR)
+      ENDIF    
+
 C--------------------------------------------------------------------------------
 C     Filling buffer tables
 C--------------------------------------------------------------------------------
       FAIL%KEYWORD = 'TAB2' 
       FAIL%IRUPT   = IRUPT 
       FAIL%FAIL_ID = FAIL_ID 
-      FAIL%NUPARAM = 22
+      FAIL%NUPARAM = 23
       FAIL%NIPARAM = 0
       FAIL%NUVAR   = 3
       FAIL%NFUNC   = 4
@@ -206,6 +217,7 @@ c
       FAIL%UPARAM(20) = FSCALE_TEMP
       FAIL%UPARAM(21) = 0             ! Flag 1 for logarithmic scale in strain rate dependency
       FAIL%UPARAM(22) = 0             ! Flag 2 for logarithmic scale in strain rate dependency
+      FAIL%UPARAM(23) = VOLFRAC     
 c
       FAIL%IFUNC(1) = IFUN_EXP
       FAIL%IFUNC(2) = IFUN_RATE
@@ -272,7 +284,7 @@ c-----------------------------------------------------------------------
           WRITE(IOUT,1018) IFUN_DLIM,FSCALE_DLIM
         ENDIF 
         ! Element deletion control parameters
-        WRITE(IOUT,1019) FAILIP,PTHKFAIL
+        WRITE(IOUT,1019) FAILIP,PTHKFAIL,VOLFRAC
         WRITE(IOUT,1022)
       ENDIF  ! IS_ENCRYPTED             
 c-----------------------------------------------------------------------
@@ -355,7 +367,8 @@ c-----------------------------------------------------------------------
      & 5X,'NUMBER OF FAILED INTG. POINTS PRIOR TO SOLID DELETION . =',I10/,
      & 5X,'SHELL ELEMENT DELETION PARAMETER PTHICKFAIL  . . . . . .=',1PG20.13,/,
      & 5X,'  > 0.0 : FRACTION OF FAILED THICKNESS                   ',/,
-     & 5X,'  < 0.0 : FRACTION OF FAILED INTG. POINTS OR LAYERS      ',/) 
+     & 5X,'  < 0.0 : FRACTION OF FAILED INTG. POINTS OR LAYERS      ',/,
+     & 5X,'FAILED VOLUME FRACTION PRIOR TO SOLID DELETION . . . .  =',1PG20.13/) 
  1020 FORMAT(
      & 5X,'                                                         ',/,
      & 5X,'TEMPERATURE SCALING DEFINITION:                          ',/,
