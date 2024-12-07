@@ -709,6 +709,7 @@ C
       !||    lag_mult_sdp      ../engine/source/tools/lagmul/lag_mult_solv.F
       !||--- calls      -----------------------------------------------------
       !||    imp_errmumps      ../engine/source/implicit/imp_solv.F
+      !||    tmpenvf           ../engine/source/system/tmpenv_c.c
       !||====================================================================
       SUBROUTINE SPMD_MUMPS_EXEC(MUMPS_PAR, ITASK)
 C-----------------------------------------------
