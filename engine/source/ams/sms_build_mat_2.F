@@ -58,11 +58,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      I             NPRW ,LPRW    ,FR_WALL  ,NRWL_SMS ,RBY           ,
      J             X    ,A       ,AR       ,IN       ,V             ,
      K             VR   ,IRBE2   ,LRBE2    ,IRBE3    ,LRBE3         ,
-     L             IAD_RBE3M ,FR_RBE3M,NATIV_SMS,T2MAIN_SMS,T2FAC_SMS)
+     L             IAD_RBE3M ,FR_RBE3M,NATIV_SMS,T2MAIN_SMS,T2FAC_SMS,
+     M             MSKYI_FI_SMS, LIST_SMS,LIST_RMS,SZ_mw6,MW6)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MOD_SMS_WORK
       USE INTSTAMP_MOD
       USE MESSAGE_MOD
       USE ELBUFDEF_MOD 
@@ -121,6 +121,12 @@ C-----------------------------------------------
      .        DMELS(*), DMELTR(*), DMELP(*), DMELRT(*), EV(*),
      .        DMINT2(4,*), RBY(NRBY,*), X(3,*), A(3,*), AR(3,*), IN(*),
      .        V(3,*), VR(3,*),T2FAC_SMS(*)
+      my_real,dimension(fr_rms(nspmd+1)),intent(inout) :: MSKYI_FI_SMS
+      integer,dimension(fr_sms(nspmd+1)),intent(inout) :: LIST_SMS
+      integer,dimension(fr_rms(nspmd+1)),intent(inout) :: LIST_RMS
+      integer,intent(in) :: SZ_mw6
+      my_real,dimension(6,SZ_mw6),intent(inout) :: MW6
+
       TYPE(INTSTAMP_DATA) INTSTAMP(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
@@ -176,24 +182,8 @@ C
      .                C1='(/DT/.../AMS)')
           CALL ARRET(2)
         ENDIF
-        IF(ITASK==0)THEN
-          ALLOCATE(MW6(6,NUMNOD),STAT=IERROR)
-          IF(IERROR/=0) THEN
-            CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
-     .                  C1='(/DT/.../AMS)')
-            CALL ARRET(2)
-          ENDIF
-        END IF
       END IF
-      IF(ITASK==0)THEN
-        ALLOCATE(LIST_SMS(FR_SMS(NSPMD+1)),LIST_RMS(FR_RMS(NSPMD+1)),
-     .        MSKYI_FI_SMS(FR_RMS(NSPMD+1)),STAT=IERROR)
-        IF(IERROR/=0) THEN
-          CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
-     .                C1='(/DT/.../AMS)')
-          CALL ARRET(2)
-        ENDIF
-      ENDIF
+
 C
       NODXI_SMS(NODFT:NODLT)=NODNX_SMS(NODFT:NODLT)
 C
@@ -1568,10 +1558,8 @@ C----
      D           LRBE3   ,IAD_RBE3M,FR_RBE3M )
 C 
 
-      IF(ITASK==0)DEALLOCATE(LIST_SMS,LIST_RMS,MSKYI_FI_SMS)
       IF(IPARIT/=0)THEN
         DEALLOCATE(IMV, MV, MV6)
-        IF(ITASK==0)DEALLOCATE(MW6)
       END IF
 c-----------
       RETURN

@@ -52,7 +52,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      E   GRESAV,               GRTH,                 IGRTH,                MSRT,
      F   DMELRT,               FLAG_SLIPRING_UPDATE, FLAG_RETRACTOR_UPDATE,H3D_DATA,
      G   JSMS,                 IGRE,                 NFT,                  PRELD1,
-     H   STF_F )
+     H   STF_F,                STF,                  SANIN,                IRESP,
+     I   SNPC )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -78,6 +79,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       type(python_), intent(inout) :: PYTHON
+      INTEGER, INTENT(IN) :: STF  !< Size of TF
+      INTEGER, INTENT(IN) :: SANIN !< Size of ANIM
+      INTEGER, INTENT(IN) :: IRESP  !< Single precision flag
+      INTEGER, INTENT(IN) :: SNPC   !< Size of NPF
       INTEGER, INTENT(IN) :: IGRE
       INTEGER, INTENT(IN) :: NFT
       INTEGER, INTENT(IN) :: JSMS
@@ -86,9 +91,9 @@ C-----------------------------------------------
      .        NEL,MTN,GRTH(*),IGRTH(*),FLG_KJ2,IPM(NPROPMI,*),FLAG_SLIPRING_UPDATE,
      .        FLAG_RETRACTOR_UPDATE
       my_real DT2T ,
-     .   GEO(NPROPG,*),X(*),F(*),TF(*),SKEW(LSKEW,*),FSKY(*),
+     .   GEO(NPROPG,*),X(*),F(*),TF(STF),SKEW(LSKEW,*),FSKY(*),
      .   VR(*), V(*), AR(*), STIFN(*),STIFR(*),MS(*), IN(*),
-     .   ANIM(*),PARTSAV(*),TANI(15,*),
+     .   ANIM(SANIN),PARTSAV(*),TANI(15,*),
      .   FR_WAVE(*),BUFMAT(*),BUFGEO(*),PM(*),RBY(*),
      .   FX1(MVSIZ),FY1(MVSIZ),FZ1(MVSIZ),
      .   FX2(MVSIZ),FY2(MVSIZ),FZ2(MVSIZ),
@@ -127,7 +132,8 @@ C=======================================================================
      D   MY1,       MY2,       MZ1,       MZ2,
      E   GRESAV,    GRTH,      IGRTH,     MSRT,
      F   DMELRT,    H3D_DATA,  JSMS,      IGRE,
-     G   NFT)
+     G   NFT,       STF,       SANIN,     IRESP,
+     H   SNPC)
        
        ELSEIF(MTN == 113) THEN
          ! Like type13 spring
@@ -147,7 +153,7 @@ C=======================================================================
      D   MY1,       MY2,       MZ1,       MZ2,
      E   GRESAV,    GRTH,      IGRTH,     MSRT,
      F   DMELRT,    H3D_DATA,  JSMS,      IGRE,
-     G   NFT,       PRELD1,    STF_F )
+     G   NFT,       PRELD1,    STF_F,     STF )
 
        ELSEIF(MTN == 114) THEN
          ! seatbelt_element
@@ -167,7 +173,8 @@ C=======================================================================
      D   MY1,                  MY2,                  MZ1,                  MZ2,
      E   GRESAV,               GRTH,                 IGRTH,                MSRT,
      F   DMELRT,               FLAG_SLIPRING_UPDATE, FLAG_RETRACTOR_UPDATE,H3D_DATA,
-     G   JSMS,                 IGRE,                 NFT,                  NSENSOR)
+     G   JSMS,                 IGRE,                 NFT,                  NSENSOR,
+     H   STF,                  SANIN,                IRESP,                SNPC )
  
        ENDIF
 C-----------------------------------------------       

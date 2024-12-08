@@ -20,29 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    mod_sms_work       ../engine/source/ams/sms_mass_scale_2.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_build_mat_2    ../engine/source/ams/sms_build_mat_2.F
-      !||    sms_encin_2        ../engine/source/ams/sms_encin_2.F
-      !||    sms_mass_scale_2   ../engine/source/ams/sms_mass_scale_2.F
-      !||====================================================================
-      module MOD_SMS_WORK
-      implicit none
-#include      "my_real.inc"
-      my_real
-     .       , DIMENSION(:,:), ALLOCATABLE :: CJWORK, FREA, 
-     .         ARWORK,PR,ZR,YR
-      INTEGER, DIMENSION(:), ALLOCATABLE :: IRWL_WORK
-C-----
-      INTEGER, DIMENSION(:), ALLOCATABLE :: LIST_SMS,LIST_RMS
-      my_real
-     .       , DIMENSION(:), ALLOCATABLE :: MSKYI_FI_SMS
-      my_real
-     .       , DIMENSION(:,:), ALLOCATABLE :: VFI
-      DOUBLE PRECISION
-     .       , DIMENSION(:,:), ALLOCATABLE :: MW6
-      END MODULE MOD_SMS_WORK
+
       !||====================================================================
       !||    sms_mass_scale_2   ../engine/source/ams/sms_mass_scale_2.F
       !||--- called by ------------------------------------------------------
@@ -103,12 +81,12 @@ C-----
      O        LRBE3      ,FRBE3    ,IAD_RBE3M ,FR_RBE3M ,FR_RBE3MP,
      P        RRBE3      ,RRBE3_PON,PREC_SMS3 ,DIAG_SMS3,IAD_RBY  ,
      Q        FR_RBY6    ,RBY6     ,R3SIZE ,BETATE      ,IBCSCYC  ,
-     R        LBCSCYC  )
+     R        LBCSCYC    ,MSKYI_FI_SMS, LIST_SMS,LIST_RMS,CJWORK  ,
+     S        FREA       ,IRWL_WORK,VFI,sz_mw6,MW6)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TIMER_MOD
-      USE MOD_SMS_WORK
       USE INTSTAMP_MOD
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
@@ -175,6 +153,16 @@ C-----------------------------------------------
      .    FRBE3(*), RRBE3(*), PREC_SMS3(3,*), DIAG_SMS3(3,*),BETATE
       DOUBLE PRECISION FRL6(*), FNL6(*), FRWL6(*), RRBE3_PON(*)
       DOUBLE PRECISION RBY6(8,6,NRBYKIN)
+      my_real,dimension(fr_rms(nspmd+1)),intent(inout) :: MSKYI_FI_SMS
+      integer,dimension(fr_sms(nspmd+1)),intent(inout) :: LIST_SMS
+      integer,dimension(fr_rms(nspmd+1)),intent(inout) :: LIST_RMS
+      my_real, DIMENSION(18,NJOINT),intent(inout):: CJWORK
+      my_real, DIMENSION(3,NUMNOD),intent(inout):: FREA
+      integer, dimension(SLPRW),intent(inout):: IRWL_WORK
+      my_real, DIMENSION(3,FR_RMS(NSPMD+1)+FR_SMS(NSPMD+1) ), intent(inout):: VFI
+      integer, intent(in) :: sz_mw6
+      my_real,dimension(6,sz_mw6),intent(inout) :: MW6
+
       TYPE(INTSTAMP_DATA) INTSTAMP(*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
 C-----------------------------------------------
@@ -204,19 +192,6 @@ C-----
      .       , DIMENSION(:,:), ALLOCATABLE :: MV6
       EXTERNAL NGR2USR
 C-----------------------------------------------
-      IF(ITASK==0)THEN
-        ALLOCATE(CJWORK(18,NJOINT),
-     .     FREA(3,NUMNOD), IRWL_WORK(SLPRW),
-     .           STAT=IERROR)
-        IF(IERROR/=0) THEN
-          CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
-     .          C1='(/DT/.../AMS)')
-          CALL ARRET(2)
-        ENDIF
-      END IF
-C
-      CALL MY_BARRIER
-C
       FREA(1:3,NODFT:NODLT)=ZERO
 C
       IF(IPARIT/=0)THEN
@@ -236,25 +211,7 @@ C
      .                C1='(/DT/.../AMS)')
           CALL ARRET(2)
         ENDIF
-        IF(ITASK==0)THEN
-          ALLOCATE(MW6(6,3*NUMNOD),STAT=IERROR)
-          IF(IERROR/=0) THEN
-            CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
-     .                  C1='(/DT/.../AMS)')
-            CALL ARRET(2)
-          ENDIF
-        END IF
       END IF
-      IF(ITASK==0)THEN
-        ALLOCATE(LIST_SMS(FR_SMS(NSPMD+1)),LIST_RMS(FR_RMS(NSPMD+1)),
-     .        MSKYI_FI_SMS(FR_RMS(NSPMD+1)),
-     .        VFI(3,FR_RMS(NSPMD+1)+FR_SMS(NSPMD+1)),STAT=IERROR)
-        IF(IERROR/=0) THEN
-          CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
-     .                C1='(/DT/.../AMS)')
-          CALL ARRET(2)
-        ENDIF
-      ENDIF
 C
       IF(NSPMD > 1)THEN
         IF(ITASK==0)THEN
@@ -871,11 +828,8 @@ C
 C
       CALL MY_BARRIER
 C
-      IF(ITASK==0) DEALLOCATE(CJWORK, FREA, IRWL_WORK, 
-     .      LIST_SMS,LIST_RMS,MSKYI_FI_SMS,VFI)
       IF(IPARIT/=0)THEN
         DEALLOCATE(IMV, MV, MV6)
-        IF(ITASK==0)DEALLOCATE(MW6)
       END IF
 C
       RETURN

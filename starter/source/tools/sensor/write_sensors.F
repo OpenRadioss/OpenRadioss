@@ -33,8 +33,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE SENSOR_MOD , ONLY : SENSORS_, SENSOR_STR_, LOGICAL_SENSORS_LIST, 
-     .                        ISENBUF, LSENBUF, NSENPARR, NSENPARI, LOGICAL_SENSOR_COUNT
+      USE SENSOR_MOD , ONLY : SENSORS_, SENSOR_STR_,
+     .                        ISENBUF, LSENBUF, NSENPARR, NSENPARI
       USE WRITE_MOD, ONLY : WRITE_INTEGER
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE PYTHON_FUNCT_MOD
@@ -157,8 +157,8 @@ c---------------------------------------
 c       Write Logical sensor index array
 c---------------------------------------
 
-        CALL WRITE_INTEGER(LOGICAL_SENSOR_COUNT)
-        CALL WRITE_I_C(LOGICAL_SENSORS_LIST,LOGICAL_SENSOR_COUNT)
+        CALL WRITE_INTEGER(SENSORS%LOGICAL_SENSOR_COUNT)
+        CALL WRITE_I_C(SENSORS%LOGICAL_SENSORS_LIST,SENSORS%LOGICAL_SENSOR_COUNT)
 
 c---------------------------------------
 c       Write spmd/PON exchange arrays

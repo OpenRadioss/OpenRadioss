@@ -153,7 +153,7 @@ C     REAL
       TYPE (NLOCAL_STR_),  TARGET :: NLOC_DMG
       TYPE (DRAPE_), DIMENSION (NUMELTG_DRAPE):: DRAPE_SH3N
       TYPE (MAT_ELEM_)   ,INTENT(INOUT) :: MAT_ELEM
-      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
+      TYPE (SENSORS_) ,INTENT(INOUT) :: SENSORS
       TYPE (DT_), INTENT(IN) :: DT
       type (glob_therm_) ,intent(inout) :: glob_therm
 C-----------------------------------------------
@@ -568,7 +568,7 @@ c      IFLAG=MOD(NCYCLE,NCPRI)
      5   GRTH,       IGRTH,      OFF,        IBID,
      6   IBID,       IBID,       IBID,       IBID,
      7   IBID,       GBUF%EINTTH,ITASK,      MAT,
-     8   GBUF%VOL,   ACTIFXFEM,  IGRE)
+     8   GBUF%VOL,   ACTIFXFEM,  IGRE,SENSORS)
 c
       IF (IPARIT == 0) THEN
         CALL C3UPDT3(JFT  ,JLT  ,F   ,M   ,NVC  ,

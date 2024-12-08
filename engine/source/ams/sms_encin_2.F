@@ -62,12 +62,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      D        LRBE3    ,FRBE3    ,IAD_RBE3M,FR_RBE3M  ,FR_RBE3MP ,
      E        RRBE3    ,RRBE3_PON,IAD_RBY  ,FR_RBY6   ,RBY6      ,
      F        LPBY     ,TAGMSR_RBY_SMS,R3SIZE,NODII_SMS,INDX2_SMS,
-     G        IBCSCYC  ,LBCSCYC  ,OUTPUT)
+     G        IBCSCYC  ,LBCSCYC  ,OUTPUT, MSKYI_FI_SMS,LIST_SMS,
+     H        LIST_RMS ,VFI,sz_mw6,mw6)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TIMER_MOD
-      USE MOD_SMS_WORK
       USE INTSTAMP_MOD
       USE MESSAGE_MOD
       USE SENSOR_MOD
@@ -115,6 +115,12 @@ C-----------------------------------------------
      .    XFRAME(NXFRAME,*),LTI_SMS(*), MSKYI_SMS(*),FTHREAC(6,*),
      .    AR(3,*), VR(3,*), DR(3,*), IN(*), RBY(NRBY,*),
      .    FRBE3(*), RRBE3(*)
+      my_real,dimension(fr_rms(nspmd+1)),intent(inout) :: MSKYI_FI_SMS
+      integer,dimension(fr_sms(nspmd+1)),intent(inout) :: LIST_SMS
+      integer,dimension(fr_rms(nspmd+1)),intent(inout) :: LIST_RMS
+      my_real, DIMENSION(3,FR_RMS(NSPMD+1)+FR_SMS(NSPMD+1) ), intent(inout):: VFI
+      integer,intent(in) :: SZ_mw6
+      my_real,dimension(6,SZ_mw6),intent(inout) :: MW6
       DOUBLE PRECISION RRBE3_PON(*)
       DOUBLE PRECISION RBY6(8,6,NRBYKIN)
       TYPE(INTSTAMP_DATA) INTSTAMP(*)
@@ -164,25 +170,7 @@ C
      .                C1='(/DT/.../AMS)')
           CALL ARRET(2)
         ENDIF
-        IF(ITASK==0)THEN
-          ALLOCATE(MW6(6,3*NUMNOD),STAT=IERROR)
-          IF(IERROR/=0) THEN
-            CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
-     .                  C1='(/DT/.../AMS)')
-            CALL ARRET(2)
-          ENDIF
-        END IF
       END IF
-      IF(ITASK==0)THEN
-        ALLOCATE(LIST_SMS(FR_SMS(NSPMD+1)),LIST_RMS(FR_RMS(NSPMD+1)),
-     .        MSKYI_FI_SMS(FR_RMS(NSPMD+1)),
-     .        VFI(3,FR_RMS(NSPMD+1)+FR_SMS(NSPMD+1)),STAT=IERROR)
-        IF(IERROR/=0) THEN
-          CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
-     .                C1='(/DT/.../AMS)')
-          CALL ARRET(2)
-        ENDIF
-      ENDIF
 C
       IF(NSPMD > 1)THEN
         IF(ITASK==0)THEN
@@ -395,11 +383,8 @@ C
 C
       END IF
 C
-      IF(ITASK==0)DEALLOCATE(LIST_SMS,LIST_RMS,
-     .        MSKYI_FI_SMS,VFI)
       IF(IPARIT/=0)THEN
         DEALLOCATE(IMV, MV, MV6)
-        IF(ITASK==0)DEALLOCATE(MW6)
       END IF
 C
 C     fin section //

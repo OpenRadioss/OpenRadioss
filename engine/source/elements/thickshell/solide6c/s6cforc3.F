@@ -94,7 +94,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      G                   IEXPAN   ,IFTHE   ,ICONDN  ,DT     ,SNPC,STF,
      H                   SBUFMAT  ,SVIS    ,NSVOIS  ,IDTMINS,IRESP,
      I                   IDEL7NG  ,IDEL7NOK,MAXFUNC, IMON_MAT, USERL_AVAIL, 
-     J                   GLOB_THERM,XDP    )
+     J                   GLOB_THERM,XDP,SENSORS    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -111,6 +111,7 @@ C-----------------------------------------------
       USE S6FOR_DISTOR_MOD,ONLY : S6FOR_DISTOR
       USE S6CHOUR_CTL_MOD ,ONLY : S6CHOUR_CTL
       use glob_therm_mod
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -175,6 +176,7 @@ C-----------------------------------------------
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
       TYPE(DT_)  , INTENT(INOUT)                      :: DT
       type (glob_therm_) ,intent(inout)   :: glob_therm
+      type (sensors_),INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -910,7 +912,8 @@ C--------------------------------------
      .       VGXA, VGYA, VGZA, VGA2, VOLG,IPARTS,
      .       GRESAV,GRTH,IGRTH,GBUF%OFF,IEXPAN,GBUF%EINTTH,
      .       GBUF%FILL, XGXA, XGYA, XGZA,XGXA2,XGYA2,XGZA2,
-     .       XGXYA,XGYZA,XGZXA,ITASK,IPARG(1,NG),GBUF%OFF)
+     .       XGXYA,XGYZA,XGZXA,ITASK,IPARG(1,NG),GBUF%OFF,
+     .       SENSORS)
       ENDIF
 C--------------------------------
 C Convected frame to global frame

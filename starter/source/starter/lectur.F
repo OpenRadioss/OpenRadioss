@@ -527,7 +527,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE LECTUR(MULTI_FVM                   ,LSUBMODEL          ,IS_DYNA         ,DETONATORS   ,EBCS_TAB,
      .                  SEATBELT_CONVERTED_ELEMENTS ,NB_SEATBELT_SHELLS ,NB_DYNA_INCLUDE ,USER_WINDOWS ,OUTPUT  ,
-     .                  MAT_ELEM,NAMES_AND_TITLES,DEFAULTS,glob_therm,pblast)
+     .                  MAT_ELEM,NAMES_AND_TITLES,DEFAULTS,glob_therm,pblast,
+     .                  SENSOR_USER_STRUCT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -649,6 +650,7 @@ C-----------------------------------------------
       TYPE(DEFAULTS_),INTENT(INOUT)         :: DEFAULTS
       type(glob_therm_) ,intent(inout)      :: glob_therm
       TYPE(PBLAST_),INTENT(INOUT)           :: PBLAST
+      TYPE(SENSOR_USER_STRUCT_)              :: SENSOR_USER_STRUCT
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -4945,13 +4947,14 @@ C--------------------------------------------
 c
       ! -------------
       ! size initialization for user sensor
-      CALL SENSOR_USER_INIT()
+      CALL SENSOR_USER_INIT(SENSOR_USER_STRUCT)
       ! -------------
 c
       CALL HM_READ_SENSORS(PYTHON,
      .     SENSORS   ,LACCELM  ,ITABM1    ,IPART     ,LGAUGE    ,
      .     SUBSETS   ,NSETS    ,IGRSURF   ,IGRNOD    ,BUFSF     ,
-     .     SKEW      ,ISKWN    ,UNITAB    ,LSUBMODEL ,HM_NSENSOR)
+     .     SKEW      ,ISKWN    ,UNITAB    ,LSUBMODEL ,HM_NSENSOR,
+     .     SENSOR_USER_STRUCT)
       ! -----------------
       ! check if a user sensor is used with a list of node
       ! convert the list of User node ID into Local node ID
@@ -10356,7 +10359,8 @@ C
      F    IBFV   ,IBCSCYC ,LBCSCYC,R_SKEW    ,IPM,
      G    SENSORS,SCEP    ,EBCS_TAB,LOADS,IFRAME,
      H    GLOB_THERM%NICONV ,GLOB_THERM%NIRADIA ,GLOB_THERM%NITFLUX,
-     I    GLOB_THERM%NUMCONV,GLOB_THERM%NUMRADIA,GLOB_THERM%NFXFLUX)
+     I    GLOB_THERM%NUMCONV,GLOB_THERM%NUMRADIA,GLOB_THERM%NFXFLUX,
+     J    SENSOR_USER_STRUCT)
 
 C      ELSE
 C       mise a 1 de front i.e. tous les noeuds sur Proc1, poids 1
@@ -11236,7 +11240,7 @@ C
       IF(ALLOCATED(ALEA))  DEALLOCATE(ALEA)
       IF(ALLOCATED(IRAND)) DEALLOCATE(IRAND)
       IF(ALLOCATED(SENSORS%SENSOR_TAB)) DEALLOCATE(SENSORS%SENSOR_TAB )
-      IF(ALLOCATED(LOGICAL_SENSORS_LIST)) DEALLOCATE(LOGICAL_SENSORS_LIST)
+      IF(ALLOCATED(SENSORS%LOGICAL_SENSORS_LIST)) DEALLOCATE(SENSORS%LOGICAL_SENSORS_LIST)
 C
       CALL EBCS_TAB%destroy()
       IF(NINIMAP1D > 0 .AND. .NOT. MULTI_FVM%IS_USED) THEN

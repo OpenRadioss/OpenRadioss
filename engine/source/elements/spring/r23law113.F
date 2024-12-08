@@ -59,7 +59,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      D   MY1,       MY2,       MZ1,       MZ2,
      E   GRESAV,    GRTH,      IGRTH,     MSRT,
      F   DMELRT,    H3D_DATA,  JSMS,      IGRE,
-     G   NFT,       PRELD1,    STF_F)
+     G   NFT,       PRELD1,    STF_F,     STF)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -87,6 +87,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(python_), intent(inout) :: PYTHON
+      INTEGER, INTENT(IN) :: STF  !< Size of TF
       INTEGER, INTENT(IN) :: IGRE,NSENSOR
       INTEGER, INTENT(IN) :: NFT
       INTEGER, INTENT(IN) :: JSMS
@@ -94,7 +95,7 @@ C-----------------------------------------------
      .        IGEO(NPROPGI,*),JFT,JLT,NELTST ,ITYPTST,OFFSET,
      .        NEL,MTN,GRTH(*),IGRTH(*),FLG_KJ2,IPM(NPROPMI,*)
       my_real DT2T ,
-     .   GEO(NPROPG,*),X(*),F(*),TF(*),SKEW(LSKEW,*),FSKY(*),
+     .   GEO(NPROPG,*),X(*),F(*),TF(STF),SKEW(LSKEW,*),FSKY(*),
      .   VR(*), V(*), AR(*), STIFN(*),STIFR(*),MS(*), IN(*),
      .   ANIM(*),PARTSAV(*),TANI(15,*),
      .   FR_WAVE(*),BUFMAT(*),BUFGEO(*),PM(*),RBY(*),

@@ -187,7 +187,7 @@ C-----------------------------------------------
       TYPE (NLOCAL_STR_)   ,TARGET :: NLOC_DMG 
       TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE 
       TYPE (DRAPE_), DIMENSION(NUMELTG_DRAPE)   :: DRAPE_SH3N
-      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
+      TYPE (SENSORS_) ,INTENT(INOUT) :: SENSORS
       TYPE (MAT_ELEM_),INTENT(INOUT) :: MAT_ELEM
       TYPE (GROUP_PARAM_) :: GROUP_PARAM
       TYPE (DT_), INTENT(IN) :: DT
@@ -589,7 +589,7 @@ c      IFLAG=MOD(NCYCLE,NCPRI)
      5   GRTH,       IGRTH,      OFF,        IBID,
      6   IBID,       IBID,       IBID,       IBID,
      7   IEXPAN,     GBUF%EINTTH,ITASK,      MAT,
-     8   GBUF%VOL,   ACTIFXFEM,  IGRE)
+     8   GBUF%VOL,   ACTIFXFEM,  IGRE,SENSORS)
 C----------------------------
 C     INTERNAL FORCES
 C----------------------------

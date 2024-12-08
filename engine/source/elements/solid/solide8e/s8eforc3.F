@@ -223,7 +223,7 @@ C
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
-      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
+      TYPE (SENSORS_) ,INTENT(INOUT) :: SENSORS
       TYPE(DT_),    INTENT(INOUT) :: DT
       type (glob_therm_) ,intent(inout)   :: glob_therm
 C-----------------------------------------------
@@ -1879,13 +1879,13 @@ C--------------------------
      .                  X1, X2, X3, X4, X5, X6, X7, X8,
      .                  Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .                  Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
-     .                  ITASK,IPARG(1,NG))
+     .                  ITASK,IPARG(1,NG),SENSORS)
            ELSE
              CALL SRBILAN(PARTSAV,GBUF%EINT,GBUF%RHO,GBUF%RK,GBUF%VOL,
      .       VGXA, VGYA, VGZA, VGA2, VOLG,IPARTS,
      .       GRESAV,GRTH,IGRTH,GBUF%OFF,IEXPAN,GBUF%EINTTH,
      .       GBUF%FILL,XGXA, XGYA, XGZA,
-     .       XGXA2,XGYA2,XGZA2,XGXYA,XGYZA,XGZXA,ITASK,IPARG(1,NG))
+     .       XGXA2,XGYA2,XGZA2,XGXYA,XGYZA,XGZXA,ITASK,IPARG(1,NG),SENSORS)
            ENDIF
       ENDIF
 C----------------------------

@@ -796,7 +796,7 @@ C--------------------------------------------------
         CALL LECTUR(
      .       MULTI_FVM                   ,LSUBMODEL         ,IS_DYNA          ,DETONATORS   ,EBCS_TAB,
      .       SEATBELT_CONVERTED_ELEMENTS ,NB_SEATBELT_SHELLS,NB_DYNA_INCLUDE  ,USER_WINDOWS ,OUTPUT  ,
-     .       MAT_ELEM,NAMES_AND_TITLES,DEFAULTS,glob_therm,PBLAST)
+     .       MAT_ELEM,NAMES_AND_TITLES,DEFAULTS,glob_therm,PBLAST,SENSOR_USER_STRUCT)
 
 c       stop CPU timer for lectur
         CALL STOPTIME(2,1)

@@ -166,7 +166,7 @@ C-----------------------------------------------
       TYPE (DRAPE_) :: DRAPE_SH3N(NUMELTG_DRAPE)
       TYPE (MAT_ELEM_)   ,INTENT(INOUT) :: MAT_ELEM
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
-      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
+      TYPE (SENSORS_) ,INTENT(INOUT) :: SENSORS
       TYPE (DT_), INTENT(IN) :: DT
       type (glob_therm_) ,intent(inout)   :: glob_therm
 C-----------------------------------------------
@@ -508,7 +508,7 @@ c        IFLAG = MOD(NCYCLE,NCPRI)
      5   GRTH,     IGRTH,    OFF,      IXFEM2,
      6   ILEV,     IEL_CRK,  IADTG_CRK,NFT,
      7   IEXPAN,   EINTTH,   ITASK,    MAT,
-     8   GBUF%VOL, ACTIFXFEM,IGRE)
+     8   GBUF%VOL, ACTIFXFEM,IGRE,SENSORS)
 C----------------------------
 C     FORCES INTERNES
 C----------------------------

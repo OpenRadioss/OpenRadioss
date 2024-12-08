@@ -206,7 +206,7 @@ C     REAL OU REAL*8
       TYPE (NLOCAL_STR_), TARGET :: NLOC_DMG 
       TYPE (DRAPE_)  :: DRAPE_SH4N(NUMELC_DRAPE)
       TYPE (MAT_ELEM_),INTENT(INOUT) :: MAT_ELEM
-      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
+      TYPE (SENSORS_) ,INTENT(INOUT) :: SENSORS
       TYPE (DT_) ,INTENT(IN) :: DT
       type (glob_therm_) ,intent(inout)   :: glob_therm
 C-----------------------------------------------
@@ -1001,7 +1001,7 @@ C--------------------------
      A   Y2G,        Y3G,        Y4G,        Z1G,
      B   Z2G,        Z3G,        Z4G,        IBID,
      C   IEXPAN,     GBUF%EINTTH,ITASK,      GBUF%VOL,
-     D   ACTIFXFEM,  IGRE)
+     D   ACTIFXFEM,  IGRE,SENSORS)
 C----------------------------
 C     CALCUL  DT
 C----------------------------

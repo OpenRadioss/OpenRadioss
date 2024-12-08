@@ -73,7 +73,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      Y   SENSOR_TAB,           UINER,                FR_ID,                FRAM_FACTOR,
      Z   EPS_OLD,              FX_B2,                DPX_B2,               YIELDX_B2,
      1   XX_OLD_B2,            FXEP_B2,              POSX_B2,              EPS_OLD_B2,
-     2   NFT      ,            NSENSOR               )
+     2   NFT      ,            NSENSOR,              STF,                  SANIN,
+     3   IRESP,                SNPC)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -106,6 +107,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(python_) :: PYTHON
+      INTEGER, INTENT(IN) :: STF !< Size of TF
+      INTEGER, INTENT(IN) :: SANIN !< Size of ANIM
+      INTEGER, INTENT(IN) :: IRESP !< Single response flag
+      INTEGER, INTENT(IN) :: SNPC   !< Size of NPF
       INTEGER, INTENT(IN) :: NFT,NSENSOR
       INTEGER NPF(*),IGEO(NPROPGI,*),NEL,NGL(*),PID(*),MID(*),NUVAR,
      .     IPM(NPROPMI,*),NC1(*),NC2(*),NC3(*),ADD_NODE1(*),ADD_NODE2(*),
@@ -114,11 +119,11 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   SKEW(LSKEW,*), GEO(NPROPG,*), FX(*), FY(*), FZ(*), E(*), DX(*),
-     .   DY(*), DZ(*), TF(*), OFF(*), DPX(*), DPY(*), DPZ(*), FXEP(*),
+     .   DY(*), DZ(*), TF(STF), OFF(*), DPX(*), DPY(*), DPZ(*), FXEP(*),
      .   FYEP(*), FZEP(*), X0(*), Y0(*), Z0(*), XMOM(*), YMOM(*),
      .   ZMOM(*), RX(*), RY(*), RZ(*), RPX(*), RPY(*), RPZ(*), XMEP(*),
      .   YMEP(*), ZMEP(*), DPX2(*), DPY2(*), DPZ2(*),RPX2(*), RPY2(*),
-     .   RPZ2(*),ANIM(*),POSX(*),POSY(*),POSZ(*),POSXX(*),
+     .   RPZ2(*),ANIM(SANIN),POSX(*),POSY(*),POSZ(*),POSXX(*),
      .   POSYY(*),POSZZ(*),FR_WAVE(*),E6(NEL,6),
      .   EXX2(MVSIZ), EYX2(MVSIZ), EZX2(MVSIZ),
      .   EXY2(MVSIZ), EYY2(MVSIZ), EZY2(MVSIZ),
@@ -508,7 +513,8 @@ C
      6   IECROU,     IFUNC,      IFUNC2,     COORD_OLD,
      7   FX_MAX,     XK_COMP,    NEL,        INDEX1,
      8   FLAG,       XKP,        EPS_OLD,    FRAM_FACTOR,
-     9   NFT)
+     9   NFT,        SNPC,       STF,        SANIN,      
+     A   DT1,        impl_s,     idyna)
 C
 
 C
@@ -572,7 +578,8 @@ C--     Computation of stress of 2nd strand for sliprings
      6   IECROU,     IFUNC,      IFUNC2,     XX_OLD_B2,
      7   FX_MAX,     XK_COMP,    COMPT2,     INDEX_SLIP,
      8   FLAG,       XKP_B2,     EPS_OLD_B2, FRAM_FACTOR,
-     9   NFT)
+     9   NFT,        SNPC,       STF,        SANIN,      
+     A   DT1,        impl_s,     idyna)
 C
         DO J=1,COMPT2
           I = INDEX_SLIP(J)
@@ -690,7 +697,9 @@ C
      7   IFUNC3,     YIELDY,     ALDP,       AK,
      8   B,          D,          IECROU,     IFUNC,
      9   IFV,        IFUNC2,     EPLA,       COORD_OLD,
-     A   NEL, NFT, FX_MAX=FX_MAX)
+     A   NEL, NFT,   STF,        SANIN,      DT1,
+     B   IRESP,      IMPL_S,     IDYNA,      SNPC,
+     C   FX_MAX=FX_MAX)
 C
       DO I=1,NEL
         IADBUF   = IPM(7,MID(I)) - 1
@@ -772,7 +781,9 @@ C
      7   IFUNC3,     YIELDZ,     ALDP,       AK,
      8   B,          D,          IECROU,     IFUNC,
      9   IFV,        IFUNC2,     EPLA,       COORD_OLD,
-     A   NEL, NFT, FX_MAX=FX_MAX)
+     A   NEL, NFT,   STF,        SANIN,      DT1,
+     B   IRESP,      IMPL_S,     IDYNA,      SNPC,
+     C   FX_MAX=FX_MAX)
 C
       DO I=1,NEL
         IADBUF   = IPM(7,MID(I)) - 1
@@ -898,7 +909,9 @@ C-------------------------------
      7   IFUNC3,   YIELDX2,  ALDP,     AK,
      8   B,        D,        IECROU,   IFUNC,
      9   IFV,      IFUNC2,   EPLA,     COORD_OLD,
-     A   NEL, NFT, FX_MAX=MX_MAX)
+     A   NEL, NFT, STF,      SANIN,    DT1,
+     B   IRESP,    IMPL_S,   IDYNA,    SNPC,
+     C   FX_MAX=MX_MAX)
 C
       DO I=1,NEL
         IADBUF= IPM(7,MID(I)) - 1
@@ -978,7 +991,9 @@ C
      7   IFUNC3,   YIELDY2,  ALDP,     AK,
      8   B,        D,        IECROU,   IFUNC,
      9   IFV,      IFUNC2,   EPLA,     COORD_OLD,
-     A   NEL, NFT, FX_MAX=MX_MAX)
+     A   NEL, NFT, STF,      SANIN,    DT1,
+     B   IRESP,    IMPL_S,   IDYNA,    SNPC,
+     C   FX_MAX=MX_MAX)
 C
       DO I=1,NEL
         IADBUF= IPM(7,MID(I)) - 1
@@ -1057,7 +1072,9 @@ C
      7   IFUNC3,   YIELDZ2,  ALDP,     AK,
      8   B,        D,        IECROU,   IFUNC,
      9   IFV,      IFUNC2,   EPLA,     COORD_OLD,
-     A   NEL, NFT, FX_MAX=MX_MAX)
+     A   NEL, NFT, STF,      SANIN,    DT1,
+     B   IRESP,    IMPL_S,   IDYNA,    SNPC,
+     C   FX_MAX=MX_MAX)
 C
       DO I=1,NEL
         IADBUF= IPM(7,MID(I)) - 1

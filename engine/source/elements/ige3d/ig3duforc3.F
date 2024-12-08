@@ -78,7 +78,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      K   JSPH,        SNPC,        STF,         SBUFMAT,
      L   SVIS,        NSVOIS,      IDTMINS,     IRESP,      
      .   IDEL7NG,     IDEL7NOK,    USERL_AVAIL, 
-     .   impl_s,      idyna,       DT         , GLOB_THERM)
+     .   impl_s,      idyna,       DT         , GLOB_THERM,
+     .   SENSORS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -92,6 +93,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE DT_MOD
       use glob_therm_mod
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -156,6 +158,7 @@ C-----------------------------------------------
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
       TYPE(DT_) ,INTENT(IN) :: DT
       type (glob_therm_) ,intent(inout)   :: glob_therm
+      type (sensors_),INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -617,7 +620,8 @@ C------------------------------------------------------
            CALL IGE3DBILAN(PARTSAV,GBUF%EINT,GBUF%RHO,VOLG,
      .                     VX, VY, VZ,IPARTS,GBUF%VOL,
      .                     GRESAV,GRTH,IGRTH,
-     .                     XX, YY, ZZ, NCTRL,ITASK,IPARG(1,NG))
+     .                     XX, YY, ZZ, NCTRL,ITASK,IPARG(1,NG),
+     .                     SENSORS)
       ENDIF
 
 C--------------------------------------------
