@@ -283,7 +283,7 @@ c----------------------------------------------------------------------
 c     Logical sensors : AND, OR, NOT, SENS - create a dependency order
 c----------------------------------------------------------------------
 
-      CALL SORT_LOGICAL_SENSORS(SENSOR_TAB,NSENSOR)
+      CALL SORT_LOGICAL_SENSORS(SENSORS)
 
 c----------------------------------------------------------------------
 c     Allocate sensor arrays for PARITH_ON/SMPD exchange

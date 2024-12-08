@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    sensor_mod          ../starter/share/modules1/sensor_mod.F
       !||====================================================================
-        SUBROUTINE SENSOR_USER_ALLOC(ALREADY_DONE)
+        SUBROUTINE SENSOR_USER_ALLOC(ALREADY_DONE,SENSOR_USER_STRUCT)
 !$COMMENT
 !       SENSOR_USER_ALLOC description
 !       allocation of array for user sensor
@@ -50,6 +50,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         LOGICAL, INTENT(inout) :: ALREADY_DONE
+        TYPE(sensor_user_struct_), INTENT(inout) :: SENSOR_USER_STRUCT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

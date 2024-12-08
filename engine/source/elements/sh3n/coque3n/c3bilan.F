@@ -40,7 +40,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5   GRTH,     IGRTH,    OFF,      IXFEM,
      6   ILEV,     IEL_CRK,  IADTG_CRK,NFT1,
      7   IEXPAN,   EINTTH,   ITASK,    MAT,
-     8   GVOL,     ACTIFXFEM,IGRE)
+     8   GVOL,     ACTIFXFEM,IGRE,SENSORS)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+       USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,6 +73,7 @@ C     REAL
      .   RHO(MVSIZ), VOL00(MVSIZ),X(3,*),VR(3,*) ,THK02(*),AREA(*),
      .   GRESAV(*), OFF(*),EINTTH(*)
       my_real, INTENT(IN) :: GVOL(MVSIZ)
+      type (sensors_),INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -475,7 +480,7 @@ C
         ENDIF
       ENDDO
 C 
-      CALL SENSOR_ENERGY_BILAN(JFT,JLT,EI,EK,OFF,IPARTTG,ITASK) 
+      CALL SENSOR_ENERGY_BILAN(JFT,JLT,EI,EK,OFF,IPARTTG,ITASK,SENSORS) 
 C---
       RETURN
       END

@@ -70,7 +70,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      G           SBUFMAT  ,SNPC     ,STF      ,NUMMAT   ,
      H           NUMGEO   ,IOUT     ,ISTDO    ,IDEL7NOK ,
      I           IDYNA    ,IMCONV   ,IMPL_S   ,MAT_PARAM,
-     J           PRELD1   ,STF_F    ,DT       )
+     J           PRELD1   ,STF_F    ,DT       ,SENSORS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -79,6 +79,7 @@ C-----------------------------------------------
       USE PRELOAD_AXIAL_MOD
       USE ELBUFDEF_MOD
       USE DT_MOD
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -128,6 +129,7 @@ C
       TYPE (H3D_DATABASE) :: H3D_DATA
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
       TYPE (DT_), INTENT(IN) :: DT
+      type (sensors_),INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -310,7 +312,7 @@ C--------------------------
      8   VY1G,     VY2G,     VZ1G,     VZ2G,
      9   X1,       X2,       Y1,       Y2,
      A   Z1,       Z2,       ITASK,    H3D_DATA,
-     B   IGRE)
+     B   IGRE,     SENSORS)
 C-------------------------
 C     /PRELOAD/AXIAL
 C-------------------------

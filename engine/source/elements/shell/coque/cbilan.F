@@ -47,7 +47,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      A   Y2G,      Y3G,      Y4G,      Z1G,
      B   Z2G,      Z3G,      Z4G,      IXFEM,
      C   IEXPAN,   EINTTH,   ITASK,    GVOL,
-     D   ACTIFXFEM,IGRE)
+     D   ACTIFXFEM,IGRE,SENSORS)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -82,6 +85,7 @@ C     REAL
      .   VL1(MVSIZ,3),VL2(MVSIZ,3),VL3(MVSIZ,3),VL4(MVSIZ,3),
      .   VRL1(MVSIZ,3),VRL2(MVSIZ,3),VRL3(MVSIZ,3),VRL4(MVSIZ,3)
       my_real, INTENT(IN) :: GVOL(MVSIZ)
+      type (sensors_),INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -471,7 +475,7 @@ C
         ENDIF
       ENDDO
 C
-      CALL SENSOR_ENERGY_BILAN(JFT,JLT,EI,EK,OFF,IPARTC,ITASK)      
+      CALL SENSOR_ENERGY_BILAN(JFT,JLT,EI,EK,OFF,IPARTC,ITASK,SENSORS)      
 C---
       RETURN
       END

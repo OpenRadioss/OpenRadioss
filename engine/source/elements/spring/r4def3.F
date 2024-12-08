@@ -60,7 +60,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      Q   UVAR,    DX0,     DY0,     DZ0,
      R   RX0,     RY0,     RZ0,     FX0,
      S   FY0,     FZ0,     XMOM0,   YMOM0,
-     T   ZMOM0,   NFT)
+     T   ZMOM0,   NFT,     STF,     SANIN,
+     U   IRESP,   SNPC)
          USE python_funct_mod
          USE REDEF3_MOD
 C-----------------------------------------------
@@ -88,15 +89,19 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       type(python_) :: PYTHON
       INTEGER, INTENT(IN) :: NFT
-      INTEGER NPF(*),IGEO(NPROPGI,*),NEL,NGL(*),MGN(*),NUVAR
+      INTEGER, INTENT(IN) :: STF !< Size of TF
+      INTEGER, INTENT(IN) :: SANIN !< Size of ANIM
+      INTEGER, INTENT(IN) :: IRESP !< Single Precision flag
+      INTEGER, INTENT(IN) :: SNPC   !< Size of NPF
+      INTEGER NPF(SNPC),IGEO(NPROPGI,*),NEL,NGL(*),MGN(*),NUVAR
 C     REAL
       my_real
      .   SKEW(LSKEW,*), GEO(NPROPG,*), FX(*), FY(*), FZ(*), E(*), DX(*),
-     .   DY(*), DZ(*), TF(*), OFF(*), DPX(*), DPY(*), DPZ(*), FXEP(*),
+     .   DY(*), DZ(*), TF(STF), OFF(*), DPX(*), DPY(*), DPZ(*), FXEP(*),
      .   FYEP(*), FZEP(*), X0(*), Y0(*), Z0(*), XMOM(*), YMOM(*),
      .   ZMOM(*), RX(*), RY(*), RZ(*), RPX(*), RPY(*), RPZ(*), XMEP(*),
      .   YMEP(*), ZMEP(*), DPX2(*), DPY2(*), DPZ2(*),RPX2(*), RPY2(*),
-     .   RPZ2(*),ANIM(*),POSX(*),POSY(*),POSZ(*),POSXX(*),
+     .   RPZ2(*),ANIM(SANIN),POSX(*),POSY(*),POSZ(*),POSXX(*),
      .   POSYY(*),POSZZ(*),FR_WAVE(*),E6(NEL,6),
      .   EXX2(MVSIZ), EYX2(MVSIZ), EZX2(MVSIZ),
      .   EXY2(MVSIZ), EYY2(MVSIZ), EZY2(MVSIZ),
@@ -324,7 +329,9 @@ C-------------------------------
      7   IFUNC3,     YIELDX,     ALDP,       AK,
      8   B,          D,          IECROU,     IFUNC,
      9   IFV,        IFUNC2,     EPLA,       XX_OLD,
-     A   NEL,        NFT )
+     A   NEL,        NFT,        STF,        SANIN ,
+     B   DT1,        IRESP,      IMPL_S,     IDYNA,
+     C   SNPC)
 C
       DLIM = ZERO
       DO I=1,NEL
@@ -398,8 +405,10 @@ C
      7   IFUNC3,     YIELDY,     ALDP,       AK,
      8   B,          D,          IECROU,     IFUNC,
      9   IFV,        IFUNC2,     EPLA,       XX_OLD,
-     A   NEL,        NFT)
-C
+     A   NEL,        NFT,        STF,        SANIN,
+     B   DT1,        IRESP,      IMPL_S,     IDYNA,
+     C   SNPC)
+
       DO I=1,NEL
         CC  = GEO(104,MGN(I))
         CN  = GEO(110,MGN(I))
@@ -471,7 +480,9 @@ C
      7   IFUNC3,     YIELDZ,     ALDP,       AK,
      8   B,          D,          IECROU,     IFUNC,
      9   IFV,        IFUNC2,     EPLA,       XX_OLD,
-     A   NEL,        NFT)
+     A   NEL,        NFT,        STF,        SANIN ,
+     B   DT1,        IRESP,      IMPL_S,     IDYNA,
+     C   SNPC)
 C
       DO I=1,NEL
         CC  = GEO(105,MGN(I))
@@ -587,7 +598,9 @@ C-------------------------------
      7   IFUNC3,     YIELDX2,    ALDP,       AK,
      8   B,          D,          IECROU,     IFUNC,
      9   IFV,        IFUNC2,     EPLA,       XX_OLD,
-     A   NEL,        NFT)
+     A   NEL,        NFT,        STF,        SANIN,
+     B   DT1,        IRESP,      IMPL_S,     IDYNA,
+     C   SNPC)
 C
       DO I=1,NEL
         CC  = GEO(106,MGN(I))
@@ -658,7 +671,9 @@ C
      7   IFUNC3,     YIELDY2,    ALDP,       AK,
      8   B,          D,          IECROU,     IFUNC,
      9   IFV,        IFUNC2,     EPLA,       XX_OLD,
-     A   NEL,        NFT )
+     A   NEL,        NFT,        STF,        SANIN,
+     B   DT1,        IRESP,      IMPL_S,     IDYNA,
+     C   SNPC)
 C
       DO I=1,NEL
         CC  = GEO(107,MGN(I))
@@ -729,7 +744,9 @@ C
      7   IFUNC3,     YIELDZ2,    ALDP,       AK,
      8   B,          D,          IECROU,     IFUNC,
      9   IFV,        IFUNC2,     EPLA,       XX_OLD,
-     A   NEL,        NFT )
+     A   NEL,        NFT,        STF,        SANIN,
+     B   DT1,        IRESP,      IMPL_S,     IDYNA,
+     C   SNPC)
 C
       DO I=1,NEL
         CC  = GEO(108,MGN(I))

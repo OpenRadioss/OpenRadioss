@@ -58,7 +58,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      D   MY1,                  MY2,                  MZ1,                  MZ2,
      E   GRESAV,               GRTH,                 IGRTH,                MSRT,
      F   DMELRT,               FLAG_SLIPRING_UPDATE, FLAG_RETRACTOR_UPDATE,H3D_DATA,
-     G   JSMS,                 IGRE,                 NFT,                  NSENSOR )
+     G   JSMS,                 IGRE,                 NFT,                  NSENSOR,
+     h   STF,                  SANIN ,               IRESP,                SNPC)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -85,6 +86,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       type(python_), intent(in) :: PYTHON
+      INTEGER, INTENT(IN) :: STF !< Size of TF
+      INTEGER, INTENT(IN) :: SANIN !< Size of ANIM
+      INTEGER, INTENT(IN) :: IRESP !< Single Precision flag
+      INTEGER, INTENT(IN) :: SNPC   !< Size of NPF
       INTEGER, INTENT(IN) :: IGRE,NSENSOR
       INTEGER, INTENT(IN) :: NFT
       INTEGER, INTENT(IN) :: JSMS
@@ -93,7 +98,7 @@ C-----------------------------------------------
      .        NEL,MTN,GRTH(*),IGRTH(*),FLG_KJ2,IPM(NPROPMI,*),FLAG_SLIPRING_UPDATE,
      .        FLAG_RETRACTOR_UPDATE
       my_real DT2T ,
-     .   GEO(NPROPG,*),X(*),F(*),TF(*),SKEW(LSKEW,*),FSKY(*),
+     .   GEO(NPROPG,*),X(*),F(*),TF(STF),SKEW(LSKEW,*),FSKY(*),
      .   VR(*), V(*), AR(*), STIFN(*),STIFR(*),MS(*), IN(*),
      .   ANIM(*),PARTSAV(*),TANI(15,*),
      .   FR_WAVE(*),BUFMAT(*),BUFGEO(*),PM(*),RBY(*),
@@ -256,7 +261,8 @@ C
      Y   SENSOR_TAB,             GBUF%INTVAR(II(1)),     GBUF%SLIPRING_FRAM_ID,  GBUF%FRAM_FACTOR,
      Z   GBUF%INTVAR(II(2)),     GBUF%INTVAR(II(3)),     GBUF%INTVAR(II(4)),     GBUF%INTVAR(II(5)),
      1   GBUF%INTVAR(II(6)),     GBUF%INTVAR(II(7)),     GBUF%INTVAR(II(8)),     GBUF%INTVAR(II(9)),
-     2   NFT               ,     NSENSOR)
+     2   NFT               ,     NSENSOR,                STF,                    SANIN,
+     3   IRESP,                  SNPC)
 C
         DO I=JFT,JLT
           IF (GBUF%UPDATE(I) == -1) THEN

@@ -81,7 +81,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      C                   NSVOIS     , IRESP    ,IDEL7NOK   ,
      D                   IDTMIN     , MAXFUNC  ,IMON_MAT   ,
      E                   USERL_AVAIL, impl_s     ,idyna  ,DT       ,
-     F                   GLOB_THERM)
+     F                   GLOB_THERM,SENSORS)
 C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
@@ -95,6 +95,7 @@ C-----------------------------------------------
       USE MAT_ELEM_MOD
       USE DT_MOD
       use glob_therm_mod
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -146,6 +147,7 @@ C-----------------------------------------------
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
       TYPE (DT_), INTENT(IN) :: DT
       type (glob_therm_) ,intent(inout)   :: glob_therm
+      type (sensors_),INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -433,7 +435,7 @@ C--------------------------
      5   EHOU,     BID,      BID,      BID,
      6   BID,      GRESAV,   GRTH,     IGRTH,
      7   IBID,     BID,      ITASK,    NEL,
-     8   JTUR,     JCVT,     IGRE)
+     8   JTUR,     JCVT,     IGRE,     SENSORS)
 C
 C--------------------
 C     INTERNAL FORCES
@@ -653,7 +655,7 @@ c
      5   EHOU,     BID,      BID,      BID,
      6   BID,      GRESAV,   GRTH,     IGRTH,
      7   IBID,     BID,      ITASK,    NEL,
-     8   JTUR,     JCVT,     IGRE)
+     8   JTUR,     JCVT,     IGRE,     SENSORS)
 C--------------------
 C       INTERNAL FORCES
 C--------------------

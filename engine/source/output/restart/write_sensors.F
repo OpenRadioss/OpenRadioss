@@ -131,8 +131,8 @@ c--------------------------------------
 c       Write Logical sensor index array
 c--------------------------------------
 
-        CALL WRITE_I_C(LOGICAL_SENSOR_COUNT,1)
-        CALL WRITE_I_C(LOGICAL_SENSORS_LIST,LOGICAL_SENSOR_COUNT)
+        CALL WRITE_I_C(SENSORS%LOGICAL_SENSOR_COUNT,1)
+        CALL WRITE_I_C(SENSORS%LOGICAL_SENSORS_LIST,SENSORS%LOGICAL_SENSOR_COUNT)
 c
 c--------------------------------------
 c       Write spmd/PON exchange arrays

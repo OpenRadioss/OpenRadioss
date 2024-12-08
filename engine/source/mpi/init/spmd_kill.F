@@ -47,11 +47,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER INFO,LOC_PROC,I
+      INTEGER INFO,LOC_PROC,I,IERROR
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      CALL MPI_ABORT(MPI_COMM_WORLD,ICODE)
+      CALL MPI_ABORT(MPI_COMM_WORLD,ICODE,IERROR)
       CALL MY_EXIT(ICODE)
 
       RETURN

@@ -59,7 +59,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(nodal_arrays_), INTENT(INOUT) :: NODES
+      TYPE(nodal_arrays_), INTENT(IN) :: NODES
       INTEGER IXS(NIXS,*), IXQ(NIXQ,*), IXC(NIXC,*), IXP(NIXP,*),
      .        IXR(NIXR,*), IXT(NIXT,*), TAGEL(*),
      .        IXTG(NIXTG,*), IPARG(NPARG,*),
