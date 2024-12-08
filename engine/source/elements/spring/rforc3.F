@@ -98,7 +98,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      D   MY2,       MZ1,       MZ2,       GRESAV,
      E   GRTH,      IGRTH,     MSRT,      DMELRT,
      F   ITASK,     H3D_DATA,  JSMS,      NFT,
-     G   IAD,       IGRE,      PRELD1,    STF_F)
+     G   IAD,       IGRE,      PRELD1,    STF_F,
+     H   STF,       SANIN,     IRESP,     IMPL_S,
+     I   IDYNA,     SNPC)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -130,17 +132,23 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(python_), INTENT(INOUT) :: PYTHON
+      INTEGER, INTENT(IN) :: STF    !< Size of TF
+      INTEGER, INTENT(IN) :: SANIN  !< Size of ANIM
+      INTEGER, INTENT(IN) :: IRESP  !< Single precision flag
+      INTEGER, INTENT(IN) :: IMPL_S !< Implicit solver flag
+      INTEGER, INTENT(IN) :: IDYNA  !< Dynamic condensation flag
+      INTEGER, INTENT(IN) :: SNPC   !< Size of NPF
       INTEGER, INTENT(INOUT) :: IAD
       INTEGER, INTENT(IN) :: IGRE
       INTEGER, INTENT(IN) :: NFT
-      INTEGER IXR(NIXR,*), NPF(*),IADR(3,*),IPARTR(*),
+      INTEGER IXR(NIXR,*), NPF(SNPC),IADR(3,*),IPARTR(*),
      .        IGEO(NPROPGI,*),JFT,JLT,NELTST ,ITYPTST,OFFSET,
      .        NEL,MTN,GRTH(*),IGRTH(*),FLG_KJ2,ITASK
       INTEGER, INTENT(IN) :: JSMS
       my_real DT2T ,
-     .   GEO(NPROPG,*),X(*),F(*),TF(*),SKEW(LSKEW,*),FSKY(*),
+     .   GEO(NPROPG,*),X(*),F(*),TF(STF),SKEW(LSKEW,*),FSKY(*),
      .   VR(*), V(3,*), AR(*), STIFN(*),STIFR(*),MS(*), IN(*),
-     .   ANIM(*),PARTSAV(*),TANI(15,*),
+     .   ANIM(SANIN),PARTSAV(*),TANI(15,*),
      .   FR_WAVE(*),BUFMAT(*),BUFGEO(*),PM(*),RBY(*),
      .   FX1(MVSIZ),FY1(MVSIZ),FZ1(MVSIZ),
      .   FX2(MVSIZ),FY2(MVSIZ),FZ2(MVSIZ),
@@ -153,7 +161,7 @@ C-----------------------------------------------
 C
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE(H3D_DATABASE) :: H3D_DATA
-      TYPE (SENSORS_) , INTENT(IN) :: SENSORS
+      TYPE (SENSORS_) , INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -252,7 +260,8 @@ C
      6   NGL,                    MGN,                    EX,                     EY,
      7   EZ,                     XK,                     XM,                     XC,
      8   AK,                     NC1,                    NC2,                    NUVAR,
-     9   GBUF%VAR,               GBUF%DEFINI,            NEL,                    NFT)
+     9   GBUF%VAR,               GBUF%DEFINI,            NEL,                    NFT,STF,
+     A   SANIN,                  IRESP,                  SNPC)
 C
         DO I=JFT,JLT
           IF (GBUF%OFF(I) /= -TEN .AND. OFF(I) < ONE) GBUF%OFF(I) = OFF(I)
@@ -269,7 +278,7 @@ C
      2   V,                 IPARTR,            GBUF%LENGTH(II(1)),GRESAV,
      3   GRTH,              IGRTH,             GBUF%OFF,          NC1,
      4   NC2,               X,                 VR,                ITASK,
-     5   NEL,               IGRE)
+     5   NEL,               IGRE,              SENSORS)
         CALL R1TORS(
      1   GBUF%FOR(II(1)),TANI,           H3D_DATA,       NEL)
 !        
@@ -345,7 +354,7 @@ C
      2   V,                 IPARTR,            GBUF%LENGTH(II(1)),GRESAV,
      3   GRTH,              IGRTH,             GBUF%OFF,          NC1,
      4   NC2,               X,                 VR,                ITASK,
-     5   NEL,               IGRE)
+     5   NEL,               IGRE,              SENSORS)
         CALL R1TORS(
      1   GBUF%FOR(II(1)),TANI,           H3D_DATA,       NEL)
 !        
@@ -410,7 +419,7 @@ C
      2   V,                 IPARTR,            GBUF%LENGTH(II(1)),GRESAV,
      3   GRTH,              IGRTH,             GBUF%OFF,          NC1,
      4   NC2,               X,                 VR,                ITASK,
-     5   NEL,               IGRE)
+     5   NEL,               IGRE,              SENSORS)
         CALL R1TORS(
      1   GBUF%FOR(II(1)),TANI,           H3D_DATA,       NEL)
 !        
@@ -481,7 +490,8 @@ C
      M   XCM,                    NC1,                    NC2,                    NUVAR,
      N   GBUF%VAR,               GBUF%DEFINI(II(1)),     GBUF%DEFINI(II(2)),     GBUF%DEFINI(II(3)),
      O   GBUF%DEFINI(II(4)),     GBUF%DEFINI(II(5)),     GBUF%DEFINI(II(6)),     IEQUIL,
-     P   GBUF%SKEW_ID,           NFT)
+     P   GBUF%SKEW_ID,           NFT,                    STF,                    SANIN,
+     Q   IRESP,                  SNPC)
 C
         DO I=JFT,JLT
           IF (GBUF%OFF(I) /= -TEN .AND. OFF(I) < ONE) GBUF%OFF(I) = OFF(I)
@@ -502,7 +512,7 @@ C
      2   V,        IPARTR,   BID,      GRESAV,
      3   GRTH,     IGRTH,    GBUF%OFF, NC1,
      4   NC2,      X,        VR,       ITASK,
-     5   NEL,      IGRE)
+     5   NEL,      IGRE,SENSORS)
         CALL R2TORS(
      1   GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),GBUF%MOM(II(1)),
      2   GBUF%MOM(II(2)),GBUF%MOM(II(3)),TANI,           H3D_DATA,
@@ -567,7 +577,8 @@ C
      9   XM,                     XC,                     AK,                     EX2,
      A   EY2,                    EZ2,                    NC1,                    NC2,
      B   NC3,                    NUVAR,                  GBUF%VAR,               GBUF%DEFINI,
-     C   NEL,                    NFT)
+     C   NEL,                    NFT,                    STF,                    SANIN,
+     D   IRESP,                  SNPC)
 c
         DO I=JFT,JLT
           IF (GBUF%OFF(I) /= -TEN .AND. OFF(I) < ONE) GBUF%OFF(I) = OFF(I)
@@ -584,7 +595,7 @@ c
      2   V,                 IPARTR,            GBUF%LENGTH(II(1)),GRESAV,
      3   GRTH,              IGRTH,             NC1,               NC2,
      4   NC3,               X,                 VR,                ITASK,
-     5   NEL,               IGRE)
+     5   NEL,               IGRE,SENSORS)
         CALL R3TORS(
      1   GBUF%FOR(II(1)),DF,             TANI,           H3D_DATA,
      2   NEL)
@@ -667,7 +678,8 @@ C
      Q   GBUF%VAR,               GBUF%DEFINI(II(1)),     GBUF%DEFINI(II(2)),     GBUF%DEFINI(II(3)),
      R   GBUF%DEFINI(II(4)),     GBUF%DEFINI(II(5)),     GBUF%DEFINI(II(6)),     GBUF%FORINI(II(1)),
      S   GBUF%FORINI(II(2)),     GBUF%FORINI(II(3)),     GBUF%FORINI(II(4)),     GBUF%FORINI(II(5)),
-     T   GBUF%FORINI(II(6)),     NFT)
+     T   GBUF%FORINI(II(6)),     NFT,                    STF,                    SANIN,
+     U   IRESP,                  SNPC)
 C
         DO I=JFT,JLT
           IF (GBUF%OFF(I) /= -TEN .AND. OFF(I) < ONE) GBUF%OFF(I) = OFF(I)
@@ -684,7 +696,7 @@ C
      2   V,                 IPARTR,            GBUF%LENGTH(II(1)),GRESAV,
      3   GRTH,              IGRTH,             GBUF%OFF,          NC1,
      4   NC2,               X,                 VR,                ITASK,
-     5   NEL,               IGRE)
+     5   NEL,               IGRE,SENSORS)
         CALL R4TORS(
      1   GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),GBUF%MOM(II(1)),
      2   GBUF%MOM(II(2)),GBUF%MOM(II(3)),TANI,           AL,
@@ -785,7 +797,9 @@ C
      N   GBUF%VAR,               GBUF%DEFINI(II(1)),     GBUF%DEFINI(II(2)),     GBUF%DEFINI(II(3)),
      O   GBUF%DEFINI(II(4)),     GBUF%DEFINI(II(5)),     GBUF%DEFINI(II(6)),     GBUF%FORINI(II(1)),
      P   GBUF%FORINI(II(2)),     GBUF%FORINI(II(3)),     GBUF%FORINI(II(4)),     GBUF%FORINI(II(5)),
-     Q   GBUF%FORINI(II(6)),     GBUF%RUPTCRIT,          NFT)
+     Q   GBUF%FORINI(II(6)),     GBUF%RUPTCRIT,          NFT,                    STF,
+     R   SANIN,                  IRESP,                  IMPL_S,                 IDYNA,
+     S   SNPC)
 C
         DO I=JFT,JLT
           IF (GBUF%OFF(I) /= -TEN .AND. OFF(I) < ONE) GBUF%OFF(I) = OFF(I)
@@ -803,7 +817,7 @@ C
      2   V,                 IPARTR,            GBUF%LENGTH(II(1)),GRESAV,
      3   GRTH,              IGRTH,             GBUF%OFF,          NC1,
      4   NC2,               X,                 VR,                ITASK,
-     5   NEL,               IGRE)
+     5   NEL,               IGRE,              SENSORS)
         CALL R4TORS(
      1   GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),GBUF%MOM(II(1)),
      2   GBUF%MOM(II(2)),GBUF%MOM(II(3)),TANI,           AL,
@@ -1001,7 +1015,7 @@ C
      2   V,        IPARTR,   UINER,    X,
      3   VR,       GRESAV,   GRTH,     IGRTH,
      4   NC1,      NC2,      ITASK,    IAD,
-     5   IGRE,     NFT,      NEL)
+     5   IGRE,     NFT,      NEL,SENSORS)
         CALL R4TORS(
      1   GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),GBUF%MOM(II(1)),
      2   GBUF%MOM(II(2)),GBUF%MOM(II(3)),TANI,           AL,
@@ -1101,7 +1115,7 @@ C
      2   V,        IPARTR,   UINER,    X,
      3   VR,       GRESAV,   GRTH,     IGRTH,
      4   NC1,      NC2,      ITASK,    IAD,
-     5   IGRE,     NFT,      NEL)
+     5   IGRE,     NFT,      NEL,      SENSORS)
         CALL R4TORS(
      1   GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),GBUF%MOM(II(1)),
      2   GBUF%MOM(II(2)),GBUF%MOM(II(3)),TANI,           AL,
@@ -1234,7 +1248,7 @@ C
      2   V,        IPARTR,   UINER,    X,
      3   VR,       GRESAV,   GRTH,     IGRTH,
      4   NC1,      NC2,      ITASK,    IAD,
-     5   IGRE,     NFT,      NEL)
+     5   IGRE,     NFT,      NEL,      SENSORS)
         CALL R4TORS(
      1   GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),GBUF%MOM(II(1)),
      2   GBUF%MOM(II(2)),GBUF%MOM(II(3)),TANI,           AL,
@@ -1332,7 +1346,7 @@ C
      2   V,        IPARTR,   UINER,    X,
      3   VR,       GRESAV,   GRTH,     IGRTH,
      4   NC1,      NC2,      ITASK,    IAD,
-     5   IGRE,     NFT,      NEL)
+     5   IGRE,     NFT,      NEL,SENSORS)
         CALL R4TORS(
      1   GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),GBUF%MOM(II(1)),
      2   GBUF%MOM(II(2)),GBUF%MOM(II(3)),TANI,           AL,
@@ -1430,7 +1444,7 @@ C
      2   V,        IPARTR,   UINER,    X,
      3   VR,       GRESAV,   GRTH,     IGRTH,
      4   NC1,      NC2,      ITASK,    IAD,
-     5   IGRE,     NFT,      NEL)
+     5   IGRE,     NFT,      NEL,SENSORS)
         CALL R4TORS(
      1   GBUF%FOR(II(1)),GBUF%FOR(II(2)),GBUF%FOR(II(3)),GBUF%MOM(II(1)),
      2   GBUF%MOM(II(2)),GBUF%MOM(II(3)),TANI,           AL,

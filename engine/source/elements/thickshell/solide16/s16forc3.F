@@ -79,7 +79,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      J                    STF      ,SBUFMAT,SVIS,NSVOIS,IDTMINS,IRESP,      
      .                    IDEL7NG,     IDEL7NOK,    IDTMIN,     MAXFUNC, 
      .                    IMON_MAT ,USERL_AVAIL, GLOB_THERM,     impl_s,
-     V                    idyna)
+     V                    idyna,SENSORS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -92,6 +92,7 @@ C-----------------------------------------------
       USE DT_MOD
       USE ELBUFDEF_MOD
       use glob_therm_mod
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -165,6 +166,7 @@ C-----------------------------------------------
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
       TYPE(DT_), INTENT(INOUT) :: DT
       type (glob_therm_) ,intent(inout)   :: glob_therm
+      type (sensors_),INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -724,7 +726,7 @@ C
      .             VX     ,VY       ,VZ      ,IPARTS     ,GRESAV    ,
      .             GRTH   ,IGRTH    ,IEXPAN  ,GBUF%EINTTH, GBUF%FILL,
      .             XX     ,YY       ,ZZ      ,ITASK      ,IPARG(1,NG),
-     .             GBUF%OFF)
+     .             GBUF%OFF,SENSORS)
       ENDIF
 C
 c-----------------------------

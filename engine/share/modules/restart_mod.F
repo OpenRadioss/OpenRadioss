@@ -53,10 +53,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       USE SPHBOX
       USE FAILWAVE_MOD
       USE NLOCAL_REG_MOD
-      USE nodal_arrays_mod
 #include "my_real.inc"
 
-        TYPE(nodal_arrays_), pointer :: user_interface_nodes 
         INTEGER , DIMENSION(:), ALLOCATABLE :: 
      .      ISKWN,   IFRAME,  NETH,  
      .      IBCSLAG,

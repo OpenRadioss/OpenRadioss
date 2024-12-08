@@ -92,7 +92,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      F                    IGEO     ,XDP    ,VOLN    ,CONDN   ,CONDNSKY,
      G                    D        ,IOUTPRT,MAT_ELEM,H3D_STRAIN,SNPC,STF,
      H                    SBUFMAT  ,SVIS,NSVOIS,IDTMINS,IRESP,IDTMIN,MAXFUNC,
-     I                    USERL_AVAIL,DT  ,GLOB_THERM)
+     I                    USERL_AVAIL,DT  ,GLOB_THERM,SENSORS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -106,6 +106,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE DT_MOD
       use glob_therm_mod
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -175,6 +176,7 @@ C
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
       TYPE (DT_), INTENT(IN) :: DT
       type (glob_therm_) ,intent(inout)   :: glob_therm
+      type (sensors_),INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1019,13 +1021,13 @@ C--------------------------
      .                  X1, X2, X3, X4, X5, X6, X7, X8,
      .                  Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .                  Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
-     .                  ITASK,IPARG(1,NG))
+     .                  ITASK,IPARG(1,NG),SENSORS)
            ELSE
              CALL SRBILAN(PARTSAV,GBUF%EINT,GBUF%RHO,GBUF%RK,GBUF%VOL,
      .       VGXA, VGYA, VGZA, VGA2, VOLG,IPARTS,
      .       GRESAV,GRTH,IGRTH,GBUF%OFF,IEXPAN,GBUF%EINTTH,
      .       GBUF%FILL, XGXA, XGYA, XGZA,
-     .       XGXA2,XGYA2,XGZA2,XGXYA,XGYZA,XGZXA,ITASK,IPARG(1,NG))
+     .       XGXA2,XGYA2,XGZA2,XGXYA,XGYZA,XGZXA,ITASK,IPARG(1,NG),SENSORS)
            ENDIF
       ENDIF
 C----------------------------

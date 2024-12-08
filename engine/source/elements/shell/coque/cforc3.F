@@ -187,7 +187,7 @@ C
       TYPE (NLOCAL_STR_), TARGET :: NLOC_DMG
       TYPE (DRAPE_) , DIMENSION(NUMELC_DRAPE) :: DRAPE_SH4N
       TYPE (OUTPUT_)     ,INTENT(INOUT) :: OUTPUT !< output structure
-      TYPE (SENSORS_)    ,INTENT(IN)    :: SENSORS
+      TYPE (SENSORS_)    ,INTENT(INOUT) :: SENSORS
       TYPE (MAT_ELEM_)   ,INTENT(INOUT) :: MAT_ELEM
       TYPE (GROUP_PARAM_),INTENT(IN)    :: GROUP_PARAM
       TYPE (DT_), INTENT(IN) :: DT
@@ -628,7 +628,7 @@ c      IFLAG=MOD(NCYCLE,NCPRI)
      A   Y2G,        Y3G,        Y4G,        Z1G,
      B   Z2G,        Z3G,        Z4G,        IBID,
      C   IEXPAN,     GBUF%EINTTH,ITASK,      GBUF%VOL,
-     D   ACTIFXFEM,  IGRE)
+     D   ACTIFXFEM,  IGRE,SENSORS)
        ENDIF
 C--------------------------
 C     PAS DE TEMPS

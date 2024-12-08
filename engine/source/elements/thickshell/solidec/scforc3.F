@@ -91,7 +91,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      G                   CONDN    ,CONDNSKY,ITASK    ,IOUTPRT ,MAT_ELEM ,
      H                   H3D_STRAIN,DT,SNPC ,STF,SBUFMAT,SVIS,NSVOIS,IDTMINS,
      I                   IRESP    ,IDEL7NG  ,IDEL7NOK,MAXFUNC,IMON_MAT,
-     J                   USERL_AVAIL, GLOB_THERM, impl_s,     idyna) 
+     J                   USERL_AVAIL, GLOB_THERM, impl_s,     idyna,SENSORS) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -106,6 +106,7 @@ C-----------------------------------------------
       USE SDISTOR_INI_MOD, ONLY : SDISTOR_INI
       USE SHOUR_CTL_MOD,   ONLY : SHOUR_CTL
       use glob_therm_mod
+      use sensor_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -172,6 +173,7 @@ C-----------------------------------------------
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
       TYPE(DT_), INTENT(INOUT) :: DT
       type (glob_therm_) ,intent(inout)   :: glob_therm
+      type (sensors_),INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1013,7 +1015,7 @@ C--------------------------------------
      .                  VGXA   ,VGYA     ,VGZA    ,VGA2    ,VOLG    ,
      .                  IPARTS ,GRESAV   ,GRTH    ,IGRTH   ,GBUF%OFF,
      .                  IEXPAN ,GBUF%EINTTH,GBUF%FILL, XGXA, XGYA, XGZA,
-     .                  XGXA2,XGYA2,XGZA2,XGXYA,XGYZA,XGZXA,ITASK,IPARG(1,NG))
+     .                  XGXA2,XGYA2,XGZA2,XGXYA,XGYZA,XGZXA,ITASK,IPARG(1,NG),SENSORS)
       ENDIF
 C
 C----------------------------

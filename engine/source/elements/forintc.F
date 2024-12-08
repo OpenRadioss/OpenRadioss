@@ -180,7 +180,7 @@ C     REAL
       TYPE (SUBSET_) , DIMENSION(NSUBS) :: SUBSET
       TYPE (DRAPE_)    :: DRAPE_SH4N(NUMELC_DRAPE),DRAPE_SH3N(NUMELTG_DRAPE)
       TYPE (DRAPEG_)               :: DRAPEG
-      TYPE (SENSORS_) ,INTENT(IN) ,TARGET :: SENSORS
+      TYPE (SENSORS_) ,INTENT(INOUT) ,TARGET :: SENSORS
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
       TYPE (DT_) ,INTENT(IN) :: DT
@@ -234,7 +234,7 @@ C
       DO IG = 1, NGROUC
 C
             NG = IGROUC(IG)
-            NGR_SENSOR = NG
+            SENSORS%NGR_SENSOR(ITASK+1) = NG
             NGR_FAIL_WIND = NG
             IF (IPARG(1, NG) == 151) THEN !  Debranchement loi 151
                CYCLE
@@ -310,7 +310,7 @@ C--      Reduction factor computation for seatbelts in sliprings
          ENDIF
 C
          IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
-     .    CALL SENSOR_ENERGY_PART(IPARTC(NF1) ,SUBSET ,IPRI)
+     .    CALL SENSOR_ENERGY_PART(IPARTC(NF1) ,SUBSET ,IPRI,SENSORS,ITASK)
           IF (JHBE >= 11.AND.JHBE <= 19) THEN
               
             CALL CBAFORC3(TIMERS,
@@ -516,7 +516,7 @@ C----6---------------------------------------------------------------7--
         ELSEIF(ITY==7)THEN
           IOFC = 0
           IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
-     .       CALL SENSOR_ENERGY_PART(IPARTTG(NF1) ,SUBSET ,IPRI)
+     .       CALL SENSOR_ENERGY_PART(IPARTTG(NF1) ,SUBSET ,IPRI,SENSORS,ITASK)
           IF (ICNOD == 6) THEN
             NFT1 = NF1-NUMELTG+NUMELTG6
             CALL CDK6FORC3(TIMERS,

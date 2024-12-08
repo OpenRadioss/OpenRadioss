@@ -47,7 +47,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    sensor_mod            ../engine/share/modules/sensor_mod.F
       !||====================================================================
-      SUBROUTINE SENSOR_ENERGY_BILAN(JFT,JLT,EI,EK,OFF,IPART,ITASK)
+      SUBROUTINE SENSOR_ENERGY_BILAN(JFT,JLT,EI,EK,OFF,IPART,ITASK,SENSORS)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -70,16 +73,19 @@ C-----------------------------------------------
 C     REAL
       my_real, DIMENSION(*), INTENT(in) :: EI,EK
       my_real, DIMENSION(*), INTENT(in) :: OFF
+      type (sensors_),INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,MX,II,J,IC,NEL,IJK
       INTEGER :: K,IPART_SENS,LOCAL_INDEX
       my_real, DIMENSION(MVSIZ,2) :: FSTPARIT   
+      INTEGER :: NGR_SENSOR
 C-----------------------------------------------
+      NGR_SENSOR=SENSORS%NGR_SENSOR(ITASK+1)
       IF(IPARIT>0) THEN
-         IF(SENS_GROUP(NGR_SENSOR)%NUM_PART>0) THEN
-            IF(SENS_GROUP(NGR_SENSOR)%NUM_PART==1) THEN
+         IF(SENSORS%SENS_GROUP(NGR_SENSOR)%NUM_PART>0) THEN
+            IF(SENSORS%SENS_GROUP(NGR_SENSOR)%NUM_PART==1) THEN
                 DO I=JFT,JLT
                     IF( OFF(I)/=ZERO ) THEN
                         FSTPARIT(I,1) = EI(I)
@@ -90,14 +96,14 @@ C-----------------------------------------------
                     ENDIF
                 ENDDO
                 NEL = JLT-JFT+1
-                K = SENS_GROUP(NGR_SENSOR)%PART(1,3)    !   id of the sensor
+                K = SENSORS%SENS_GROUP(NGR_SENSOR)%PART(1,3)    !   id of the sensor
                 IJK = ITASK+1
-                CALL SUM_6_FLOAT(1,NEL,FSTPARIT(1,1),SENSOR_STRUCT(K)%FBSAV6_SENS(1,1,IJK),2)
-                CALL SUM_6_FLOAT(1,NEL,FSTPARIT(1,2),SENSOR_STRUCT(K)%FBSAV6_SENS(2,1,IJK),2)
-            ELSEIF(SENS_GROUP(NGR_SENSOR)%NUM_PART>1) THEN
+                CALL SUM_6_FLOAT(1,NEL,FSTPARIT(1,1),SENSORS%SENSOR_STRUCT(K)%FBSAV6_SENS(1,1,IJK),2)
+                CALL SUM_6_FLOAT(1,NEL,FSTPARIT(1,2),SENSORS%SENSOR_STRUCT(K)%FBSAV6_SENS(2,1,IJK),2)
+            ELSEIF(SENSORS%SENS_GROUP(NGR_SENSOR)%NUM_PART>1) THEN
 
-               DO J=1,SENS_GROUP(NGR_SENSOR)%NUM_PART
-                    IPART_SENS = SENS_GROUP(NGR_SENSOR)%PART(J,1)   !   id of the part linked to the sensor
+               DO J=1,SENSORS%SENS_GROUP(NGR_SENSOR)%NUM_PART
+                    IPART_SENS = SENSORS%SENS_GROUP(NGR_SENSOR)%PART(J,1)   !   id of the part linked to the sensor
                     LOCAL_INDEX = 0     
                     DO I=JFT,JLT
                         MX=IPART(I)
@@ -108,10 +114,10 @@ C-----------------------------------------------
                         ENDIF
                     ENDDO
 
-                    K = SENS_GROUP(NGR_SENSOR)%PART(J,3)   !   id of the sensor
+                    K = SENSORS%SENS_GROUP(NGR_SENSOR)%PART(J,3)   !   id of the sensor
                     IJK = ITASK+1
-                    CALL SUM_6_FLOAT(1,LOCAL_INDEX,FSTPARIT(1,1),SENSOR_STRUCT(K)%FBSAV6_SENS(1,1,IJK),2)
-                    CALL SUM_6_FLOAT(1,LOCAL_INDEX,FSTPARIT(1,2),SENSOR_STRUCT(K)%FBSAV6_SENS(2,1,IJK),2)
+                    CALL SUM_6_FLOAT(1,LOCAL_INDEX,FSTPARIT(1,1),SENSORS%SENSOR_STRUCT(K)%FBSAV6_SENS(1,1,IJK),2)
+                    CALL SUM_6_FLOAT(1,LOCAL_INDEX,FSTPARIT(1,2),SENSORS%SENSOR_STRUCT(K)%FBSAV6_SENS(2,1,IJK),2)
                 ENDDO
             ENDIF
          ENDIF

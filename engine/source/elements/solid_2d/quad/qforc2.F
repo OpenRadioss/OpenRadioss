@@ -78,7 +78,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      D                  SVIS       ,NSVOIS      ,IRESP       ,TT       ,DT1         ,
      .                  IDEL7NOK   ,IDTMIN      ,MAXFUNC     ,
      .                  IMON_MAT   ,USERL_AVAIL ,impl_s   ,idyna       ,
-     .                  DT         ,GLOB_THERM)
+     .                  DT         ,GLOB_THERM,SENSORS)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -128,6 +128,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE DT_MOD
       use glob_therm_mod
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -174,6 +175,7 @@ C-----------------------------------------------
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
       TYPE (DT_), INTENT(IN) :: DT
       type (glob_therm_) ,intent(inout)   :: glob_therm
+      type (sensors_),INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -464,7 +466,7 @@ c
      5   EHOU,       R22,        R23,        R32,
      6   R33,        GRESAV,     GRTH,       IGRTH,
      7   IBIDON(1),  GBUF%EINTTH,ITASK,      NEL,
-     8   JTUR,       JCVT,       IGRE)
+     8   JTUR,       JCVT,       IGRE,SENSORS)
         ENDIF
         RETURN
       ENDIF
@@ -557,7 +559,7 @@ c
      5   EHOU,       R22,        R23,        R32,
      6   R33,        GRESAV,     GRTH,       IGRTH,
      7   IBIDON(1),  GBUF%EINTTH,ITASK,      NEL,
-     8   JTUR,       JCVT,       IGRE)
+     8   JTUR,       JCVT,       IGRE,SENSORS)
       ENDIF
 C
 C------------------------

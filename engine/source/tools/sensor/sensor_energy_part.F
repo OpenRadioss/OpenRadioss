@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    groupdef_mod         ../common_source/modules/groupdef_mod.F
       !||    sensor_mod           ../engine/share/modules/sensor_mod.F
       !||====================================================================
-      SUBROUTINE SENSOR_ENERGY_PART(IPART ,SUBSET ,IPRI)
+      SUBROUTINE SENSOR_ENERGY_PART(IPART ,SUBSET ,IPRI,SENSORS,ITASK)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -46,14 +46,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER,INTENT(IN) :: ITASK
       INTEGER IPART(*),IPRI
       TYPE (SUBSET_) , DIMENSION(NSUBS) :: SUBSET
+      TYPE (SENSORS_), INTENT(IN) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,TYP,IPRT,ISUBS,NP,J,JJ
+      INTEGER :: NGR_SENSOR
 C-----------------------------------------------
-        IF(SENS_GROUP(NGR_SENSOR)%NUM_PART>0) IPRI = 1
+        NGR_SENSOR = SENSORS%ngr_sensor(ITASK+1)
+        IF(SENSORS%SENS_GROUP(NGR_SENSOR)%NUM_PART>0) IPRI = 1
 C-----------
       RETURN
       END

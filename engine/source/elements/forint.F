@@ -116,7 +116,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      Y    H3D_DATA  ,IFTHE     ,ICONDN     ,DT        ,OUTPUT,
      Z    SBUFMAT   ,SNPC      ,STF        ,NODADT    ,DTFAC1,
      .    DTMIN1    ,IDTMIN    ,IOUT       ,ISTDO     ,IDTMINS,DTFACS,NSVOIS,
-     *    IRESP     ,MAXFUNC   ,USERL_AVAIL,GLOB_THERM,IMON_MAT,DTMINS)
+     *    IRESP     ,MAXFUNC   ,USERL_AVAIL,GLOB_THERM,IMON_MAT,DTMINS,SANIN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -185,6 +185,7 @@ C-----------------------------------------------
      .   ICONTACT(*),IFOAM(*),KXIG3D(NIXIG3D,*),IXIG3D(*),
      .   IGRV(*),LGRAV(*),
      .   TAGPRT_SMS(*),ITAGND(*),NALE(*),FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE
+      INTEGER ,INTENT(IN) :: SANIN
       INTEGER ,INTENT(IN) :: SBUFMAT
       INTEGER ,INTENT(IN) :: SNPC
       INTEGER ,INTENT(IN) :: STF
@@ -222,7 +223,7 @@ C-----------------------------------------------
       TYPE (SUBSET_) , DIMENSION(NSUBS) :: SUBSET
       TYPE(H3D_DATABASE) :: H3D_DATA
       INTEGER, INTENT(IN) :: IFTHE, ICONDN
-      TYPE (SENSORS_) ,INTENT(IN) ,TARGET :: SENSORS
+      TYPE (SENSORS_) ,INTENT(INOUT) ,TARGET :: SENSORS
       TYPE (DT_) ,  INTENT(INOUT) :: DT
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
       INTEGER, INTENT(IN) :: NODADT,IDTMIN(102)
@@ -308,7 +309,7 @@ C
 c------------------------
       DO IG = 1, NGROUNC
         NG = IGROUNC(IG)         
-        NGR_SENSOR = NG   
+        SENSORS%NGR_SENSOR(ITASK+1) = NG   
 C       temporarily used to avoid pass KTBUF_STR everywhere
         NG_IMP = NG
 
@@ -369,7 +370,7 @@ C----6---------------------------------------------------------------7---------8
           ENDIF                            
 !
           IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
-     .     CALL SENSOR_ENERGY_PART(IPARTS(NF1) ,SUBSET ,IPRI)
+     .     CALL SENSOR_ENERGY_PART(IPARTS(NF1) ,SUBSET ,IPRI,SENSORS,ITASK)
 C---------
           IF(ISOLNOD==4.AND.(ISROT==0.OR.ISROT==3))THEN                            
 C---------
@@ -536,7 +537,7 @@ c
      M   SNPC,                STF,                 SBUFMAT,             SVIS,
      N   IDTMINS,             NSVOIS,              IRESP,               IDEL7NG,
      O   IDTMIN,              MAXFUNC,             IMON_MAT,            USERL_AVAIL,
-     .   GLOB_THERM,  impl_s,  idyna)
+     .   GLOB_THERM,  impl_s,  idyna,              SENSORS)
 c
               IF(NSECT>0)THEN
                K0=NSTRF(25)
@@ -624,7 +625,7 @@ C-------------------------
      J         STF      ,SBUFMAT  ,SVIS,NSVOIS,IDTMINS,IRESP,      
      .         IDEL7NG,     IDEL7NOK,    IDTMIN,      MAXFUNC, 
      .         IMON_MAT ,USERL_AVAIL, GLOB_THERM,     impl_s,
-     V         idyna)   
+     V         idyna,SENSORS)   
 c
               IF(NSECT>0)THEN
 
@@ -678,7 +679,7 @@ C              6 node penta
      G         IEXPAN,IFTHE ,ICONDN    ,DT      ,SNPC,STF,
      H         SBUFMAT,SVIS,NSVOIS, IDTMINS  ,IRESP, 
      I         IDEL7NG  ,IDEL7NOK,MAXFUNC, IMON_MAT, USERL_AVAIL, 
-     J         GLOB_THERM,XDP )
+     J         GLOB_THERM,XDP,SENSORS )
 c
               IF(NSECT>0)THEN
                K0=NSTRF(25)
@@ -728,7 +729,7 @@ C              8 node hexa
      G         CONDN    ,CONDNSKY ,ITASK   ,IPRI        ,MAT_ELEM  ,
      H         IBID     ,DT       ,SNPC    ,STF         ,SBUFMAT   ,
      I         SVIS     ,NSVOIS   , IDTMINS,IRESP,IDEL7NG  ,IDEL7NOK,MAXFUNC,IMON_MAT,
-     J         USERL_AVAIL, GLOB_THERM, impl_s,     idyna)
+     J         USERL_AVAIL, GLOB_THERM, impl_s,     idyna,SENSORS)
 C
             IF (NSECT > 0)THEN
               K0=NSTRF(25)
@@ -779,7 +780,7 @@ C------------------------- Isolid=19 for Salim
      F         IGEO       ,XDP      ,VOLN      ,CONDN    ,CONDNSKY   ,
      G         D          ,IPRI     ,MAT_ELEM ,IBID,SNPC,STF,SBUFMAT,
      H         SVIS       ,NSVOIS   ,IDTMINS  ,IRESP,IDTMIN,MAXFUNC ,
-     I         USERL_AVAIL,DT       ,GLOB_THERM)
+     I         USERL_AVAIL,DT       ,GLOB_THERM,SENSORS)
             ELSE
 C-------------------------
 C             SOLID HE8<->HE8
@@ -988,7 +989,7 @@ C----6---------------------------------------------------------------7---------8
           ELSEIF(IGTYP>=29)THEN
 !
             IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
-     .       CALL SENSOR_ENERGY_PART(IPARTS(NF1) ,SUBSET ,IPRI)
+     .       CALL SENSOR_ENERGY_PART(IPARTS(NF1) ,SUBSET ,IPRI,SENSORS,ITASK)
 C-------------------------
 C           USER SOLID PROPERTY
 C-------------------------
@@ -1115,7 +1116,7 @@ C-------------------------
      6      NEL          ,DT2T     ,NELTST   ,ITYPTST   ,IPM        ,           
      7      ITASK        ,GRESAV   ,GRTH     ,IGRTH(NF1),MSSA(NF1)  ,           
      8      DMELS(NF1)   ,TABLE,IPRI     ,MAT_ELEM,NG  ,SVIS ,GLOB_THERM,
-     9      SNPC         ,NUMGEO         ,SBUFMAT      ,STF,NTABLE)     
+     9      SNPC         ,NUMGEO         ,SBUFMAT      ,STF,NTABLE,SENSORS)     
                                                  
             IF (NSECT > 0)THEN
                K0=NSTRF(25)
@@ -1150,7 +1151,7 @@ C----6---------------------------------------------------------------7---------8
              OFF_IGRTH = NUMELS
 !
           IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
-     .     CALL SENSOR_ENERGY_PART(IPARTQ(NF1) ,SUBSET ,IPRI)
+     .     CALL SENSOR_ENERGY_PART(IPARTQ(NF1) ,SUBSET ,IPRI,SENSORS,ITASK)
           IF(JHBE==17 .OR. (N2D==1.AND.JHBE==22)) THEN
           
             CALL Q4FORC2(TIMERS,
@@ -1167,7 +1168,7 @@ C----6---------------------------------------------------------------7---------8
      B        STF,SBUFMAT,SVIS,NSVOIS,IDTMINS,IRESP,TT,DT1,      
      .        IDEL7NG,     IDEL7NOK,    IDTMIN,      MAXFUNC,IMON_MAT,
      V        USERL_AVAIL, impl_s,     idyna,
-     .        DT         , GLOB_THERM)
+     .        DT         , GLOB_THERM,SENSORS)
           ELSE
 
             CALL QFORC2(TIMERS, ELBUF_TAB,NG   ,
@@ -1184,7 +1185,7 @@ C----6---------------------------------------------------------------7---------8
      D        SVIS,NSVOIS,IRESP,TT,DT1,      
      .        IDEL7NOK,    IDTMIN,     MAXFUNC,  
      .        IMON_MAT,USERL_AVAIL, impl_s,     idyna,
-     .        DT      ,GLOB_THERM)
+     .        DT      ,GLOB_THERM,SENSORS)
 
           ENDIF
 C----6---------------------------------------------------------------7---------8
@@ -1204,7 +1205,7 @@ C
           END IF
 !
           IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
-     .     CALL SENSOR_ENERGY_PART(IPARTT(NF1) ,SUBSET ,IPRI)
+     .     CALL SENSOR_ENERGY_PART(IPARTT(NF1) ,SUBSET ,IPRI,SENSORS,ITASK)
 c
           CALL TFORC3(
      1   ELBUF_TAB(NG),       JFT,                 JLT,                 PM,
@@ -1218,7 +1219,7 @@ c
      9   IPRI,                IPM,                 NPC,                 TF,
      A   ITASK,               H3D_DATA,            NFT,                 MTN,
      B   JSMS,                IGRE,                PRELOAD1,            STF_F,
-     C   DT)
+     C   DT,                  SENSORS)
 C
              IF (NSECT > 0) THEN
               K0=NSTRF(25)
@@ -1264,7 +1265,7 @@ C
           END IF
 !
           IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
-     .      CALL SENSOR_ENERGY_PART(IPARTP(NF1) ,SUBSET ,IPRI)
+     .      CALL SENSOR_ENERGY_PART(IPARTP(NF1) ,SUBSET ,IPRI,SENSORS,ITASK)
 c
           CALL PFORC3(
      1         ELBUF_TAB(NG),JFT                 ,JLT           ,NEL        ,
@@ -1285,7 +1286,7 @@ c
      G         SBUFMAT      ,SNPC                ,STF           ,NUMMAT     ,
      H         NUMGEO       ,IOUT                ,ISTDO         ,IDEL7NOK   ,
      I         IDYNA        ,IMCONV              ,IMPL_S        ,MAT_ELEM%MAT_PARAM,
-     J         PRELOAD1     ,STF_F               ,DT            )
+     J         PRELOAD1     ,STF_F               ,DT            ,SENSORS)
 C 
              IF (NSECT > 0) THEN
               K0=NSTRF(25)
@@ -1331,7 +1332,7 @@ c
              PRELOAD1 =ZERO
           END IF
           IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
-     .     CALL SENSOR_ENERGY_PART(IPARTR(NF1) ,SUBSET ,IPRI)
+     .     CALL SENSOR_ENERGY_PART(IPARTR(NF1) ,SUBSET ,IPRI,SENSORS,ITASK)
          IF(IGTYP == 23) THEN
               CALL R23FORC3(PYTHON,
      1   ELBUF_TAB(NG),        JFT,                  JLT,                  NEL,
@@ -1349,8 +1350,9 @@ c
      D   MY(1,1),              MY(1,2),              MZ(1,1),              MZ(1,2),
      E   GRESAV,               GRTH,                 IGRTH(OFF_IGRTH+NF1), MSRT(NF1),
      F   DMELRT(NF1),          FLAG_SLIPRING_UPDATE, FLAG_RETRACTOR_UPDATE,H3D_DATA,
-     G   JSMS,                 IGRE,                 NFT,               PRELOAD1   ,
-     H   STF_F )
+     G   JSMS,                 IGRE,                 NFT,                  PRELOAD1   ,
+     H   STF_F,                STF,                  SANIN,                IRESP,
+     I   SNPC )
          ELSE
           CALL RFORC3(PYTHON,
      1   ELBUF_TAB(NG),       JFT,                 JLT,                 NEL,
@@ -1368,7 +1370,9 @@ c
      D   MY(1,2),             MZ(1,1),             MZ(1,2),             GRESAV,
      E   GRTH,                IGRTH(OFF_IGRTH+NF1),MSRT(NF1),           DMELRT(NF1),
      F   ITASK,               H3D_DATA,            JSMS,                NFT,
-     G   IAD,                 IGRE                ,PRELOAD1 ,           STF_F )
+     G   IAD,                 IGRE,                PRELOAD1 ,           STF_F ,
+     H   STF,                 SANIN,               IRESP,               IMPL_S,
+     I   IDYNA,               SNPC)
              
          ENDIF
 C
@@ -1412,7 +1416,7 @@ c              K = 1+2*(NSECT+NRBODY+NRWALL)
             PZ = IGEO(43,IPARG(62,NG))
 !
           IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
-     .     CALL SENSOR_ENERGY_PART(IPARTS(NF1) ,SUBSET ,IPRI)
+     .     CALL SENSOR_ENERGY_PART(IPARTS(NF1) ,SUBSET ,IPRI,SENSORS,ITASK)
 
             CALL IG3DUFORC3(TIMERS,
      1   ELBUF_TAB,           NG,                  JFT,                 JLT,
@@ -1437,7 +1441,8 @@ c              K = 1+2*(NSECT+NRBODY+NRWALL)
      K   JSPH,                SNPC,                STF,                 SBUFMAT,
      L   SVIS,                NSVOIS,              IDTMINS,             IRESP,      
      M   IDEL7NG,             IDEL7NOK,            USERL_AVAIL,         
-     .   impl_s,              idyna,               DT,                  GLOB_THERM)
+     .   impl_s,              idyna,               DT,                  GLOB_THERM,
+     .   SENSORS)
 
         ENDIF
             IF (IDDW>0) CALL STOPTIMEG(NG)

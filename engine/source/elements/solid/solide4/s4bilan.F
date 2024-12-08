@@ -33,7 +33,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .   VZ1, VZ2, VZ3, VZ4, VNEW,IPARTS,GRESAV,
      .   GRTH,IGRTH,IEXPAN,EINTTH,FILL ,
      .   X1, X2, X3, X4, Y1, Y2, Y3, Y4, 
-     .   Z1, Z2, Z3, Z4,ITASK,IPARG,OFFG)
+     .   Z1, Z2, Z3, Z4,ITASK,IPARG,OFFG,SENSORS)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,6 +68,7 @@ C     REAL
       INTEGER IEXPAN,ITASK,
      .  IPARTS(*),GRTH(*),IGRTH(*),IPARG(*)
       my_real, INTENT(IN) :: OFFG(MVSIZ)
+      type (sensors_),INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -222,7 +227,7 @@ C
         ENDIF
       ENDDO
 C
-      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF_L,IPARTS,ITASK) 
+      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF_L,IPARTS,ITASK,SENSORS) 
 C
       RETURN
       END

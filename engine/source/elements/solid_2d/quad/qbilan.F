@@ -38,7 +38,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5   EHOU,    R22,     R23,     R32,
      6   R33,     GRESAV,  GRTH,    IGRTH,
      7   IEXPAN,  EINTTH,  ITASK,   NEL,
-     8   JTUR,    JCVT,    IGRE)
+     8   JTUR,    JCVT,    IGRE,SENSORS)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,6 +69,7 @@ C-----------------------------------------------
      .   EINTTH(*)
       INTEGER IEXPAN,ITASK,
      .   IPARTQ(*),GRTH(*),IGRTH(*)
+      type (sensors_),INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -153,7 +158,7 @@ C-----------------------------------------------
         EI(I) = EINT(I)*VOL(I)*OFF(I)
         EK(I) = XMAS(I)*VA2(I)*ONE_OVER_8
       ENDDO
-      CALL SENSOR_ENERGY_BILAN(1,NEL,EI,EK,OFF,IPARTQ,ITASK)  
+      CALL SENSOR_ENERGY_BILAN(1,NEL,EI,EK,OFF,IPARTQ,ITASK,SENSORS)  
 
       RETURN
       END

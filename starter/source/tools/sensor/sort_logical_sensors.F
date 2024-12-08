@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||    sensor_mod             ../starter/share/modules1/sensor_mod.F
       !||====================================================================
-      SUBROUTINE SORT_LOGICAL_SENSORS(SENSOR_TAB,NSENSOR)
+      SUBROUTINE SORT_LOGICAL_SENSORS(SENSORS)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -67,8 +67,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NSENSOR
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
+      TYPE (SENSORS_),INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -77,17 +76,17 @@ C-----------------------------------------------
       INTEGER DEP_LIST(2),NUM_ITEM
       INTEGER,DIMENSION(:),ALLOCATABLE :: SORTED_SENSORS
 C-----------------------------------------------
-      LOGICAL_SENSOR_COUNT = 0
+      SENSORS%LOGICAL_SENSOR_COUNT = 0
 
-      ALLOCATE(SORTED_SENSORS(NSENSOR))
+      ALLOCATE(SORTED_SENSORS(SENSORS%NSENSOR))
 
-      DO I=1,NSENSOR
+      DO I=1,SENSORS%NSENSOR
 
-         SELECT CASE(SENSOR_TAB(I)%TYPE)
+         SELECT CASE(SENSORS%SENSOR_TAB(I)%TYPE)
 
             CASE ( SENS_SENS )
-                       DEP_LIST(1) = SENSOR_TAB(I)%IPARAM(1)
-                       DEP_LIST(2) = SENSOR_TAB(I)%IPARAM(2)
+                       DEP_LIST(1) = SENSORS%SENSOR_TAB(I)%IPARAM(1)
+                       DEP_LIST(2) = SENSORS%SENSOR_TAB(I)%IPARAM(2)
 
                        IF(DEP_LIST(2) == 0 )THEN               ! /SENSOR/SENS can have SENSOR2 non existent.
                            NUM_ITEM = 1 
@@ -96,30 +95,30 @@ C-----------------------------------------------
                        ENDIF
 
                        CALL SET_GRAPH_ADD_SET(I, DEP_LIST,NUM_ITEM)
-                       LOGICAL_SENSOR_COUNT = LOGICAL_SENSOR_COUNT +1
+                       SENSORS%LOGICAL_SENSOR_COUNT = SENSORS%LOGICAL_SENSOR_COUNT +1
                        ! print*,I,'-- SENS --',SENSOR_TAB(I)%IPARAM(1),SENSOR_TAB(I)%IPARAM(2)
 
             CASE ( SENS_AND )
-                       DEP_LIST(1) = SENSOR_TAB(I)%IPARAM(1)
-                       DEP_LIST(2) = SENSOR_TAB(I)%IPARAM(2)
+                       DEP_LIST(1) = SENSORS%SENSOR_TAB(I)%IPARAM(1)
+                       DEP_LIST(2) = SENSORS%SENSOR_TAB(I)%IPARAM(2)
                        NUM_ITEM = 2 
                        CALL SET_GRAPH_ADD_SET(I, DEP_LIST,NUM_ITEM)
-                       LOGICAL_SENSOR_COUNT = LOGICAL_SENSOR_COUNT +1
+                       SENSORS%LOGICAL_SENSOR_COUNT = SENSORS%LOGICAL_SENSOR_COUNT +1
                        ! print*,I,'-- AND --',SENSOR_TAB(I)%IPARAM(1),SENSOR_TAB(I)%IPARAM(2)
 
             CASE ( SENS_OR )
-                       DEP_LIST(1) = SENSOR_TAB(I)%IPARAM(1)
-                       DEP_LIST(2) = SENSOR_TAB(I)%IPARAM(2)
+                       DEP_LIST(1) = SENSORS%SENSOR_TAB(I)%IPARAM(1)
+                       DEP_LIST(2) = SENSORS%SENSOR_TAB(I)%IPARAM(2)
                        NUM_ITEM = 2 
                        CALL SET_GRAPH_ADD_SET(I, DEP_LIST,NUM_ITEM)
-                       LOGICAL_SENSOR_COUNT = LOGICAL_SENSOR_COUNT +1
+                       SENSORS%LOGICAL_SENSOR_COUNT = SENSORS%LOGICAL_SENSOR_COUNT +1
                        ! print*,I,'--  OR --',SENSOR_TAB(I)%IPARAM(1),SENSOR_TAB(I)%IPARAM(2)
 
             CASE ( SENS_NOT )
-                       DEP_LIST(1) = SENSOR_TAB(I)%IPARAM(1)
+                       DEP_LIST(1) = SENSORS%SENSOR_TAB(I)%IPARAM(1)
                        NUM_ITEM = 1
                        CALL SET_GRAPH_ADD_SET(I, DEP_LIST,NUM_ITEM)
-                       LOGICAL_SENSOR_COUNT = LOGICAL_SENSOR_COUNT +1
+                       SENSORS%LOGICAL_SENSOR_COUNT = SENSORS%LOGICAL_SENSOR_COUNT +1
                        ! print*,I,'-- NOT --',SENSOR_TAB(I)%IPARAM(1)
 
            CASE DEFAULT
@@ -140,21 +139,21 @@ C-----------------------------------------------
          CALL ANCMSG(MSGID=2095,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=-IERROR)
       ENDIF
 
-      ALLOCATE (LOGICAL_SENSORS_LIST(LOGICAL_SENSOR_COUNT))
+      ALLOCATE (SENSORS%LOGICAL_SENSORS_LIST(SENSORS%LOGICAL_SENSOR_COUNT))
       SENS_COUNT=0
 
 
       ! Create index table with logical sensors only
       ! ---------------------------------------------
-      DO I=1,NSENSOR
+      DO I=1,SENSORS%NSENSOR
         J = SORTED_SENSORS(I)
-        SENS_TYPE = SENSOR_TAB(J)%TYPE
+        SENS_TYPE = SENSORS%SENSOR_TAB(J)%TYPE
 
         IF( SENS_TYPE == SENS_SENS .OR. SENS_TYPE == SENS_AND .OR. 
      *      SENS_TYPE == SENS_OR   .OR. SENS_TYPE == SENS_NOT ) THEN
 
             SENS_COUNT = SENS_COUNT + 1
-            LOGICAL_SENSORS_LIST(SENS_COUNT) = J
+            SENSORS%LOGICAL_SENSORS_LIST(SENS_COUNT) = J
             ! print*,'>',LOGICAL_SENSORS_LIST(SENS_COUNT),'-',SENSOR_TAB(J)%SENS_ID
         ENDIF
       ENDDO

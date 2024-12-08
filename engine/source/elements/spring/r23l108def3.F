@@ -57,7 +57,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      N   NC1,     NC2,     NUVAR,   UVAR,
      O   MASS,    DX0,     DY0,     DZ0,
      P   RX0,     RY0,     RZ0,     IEQUIL,
-     Q   SKEW_ID, NFT)
+     Q   SKEW_ID, NFT,     STF,     SANIN,
+     R   IRESP,   SNPC)
          USE REDEF3_MOD
          USE python_funct_mod
 C-----------------------------------------------
@@ -84,17 +85,21 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       type(python_), INTENT(INOUT) :: PYTHON
+      INTEGER, INTENT(IN) :: STF  !< Size of TF
+      INTEGER, INTENT(IN) :: SANIN !< Size of ANIM
+      INTEGER, INTENT(IN) :: IRESP !< Single precision flag
+      INTEGER, INTENT(IN) :: SNPC   !< Size of NPF
       INTEGER, INTENT(IN) :: NFT
       INTEGER NPF(*), IGEO(NPROPGI,*),NEL,NGL(*),NC1(*),NC2(*),NUVAR,
      .   IPM(NPROPMI,*),MID(*),PID(*),IEQUIL(*),SKEW_ID(*)     
 C     REAL
       my_real
      .   SKEW(LSKEW,*), GEO(NPROPG,*), FX(*), FY(*), FZ(*), E(*), DX(*),
-     .   DY(*), DZ(*), TF(*), OFF(*), DPX(*), DPY(*), DPZ(*), FXEP(*),
+     .   DY(*), DZ(*), TF(STF), OFF(*), DPX(*), DPY(*), DPZ(*), FXEP(*),
      .   FYEP(*), FZEP(*), X0(*), Y0(*), Z0(*), XMOM(*), YMOM(*),
      .   ZMOM(*), RX(*), RY(*), RZ(*), RPX(*), RPY(*), RPZ(*), XMEP(*),
      .   YMEP(*), ZMEP(*), DPX2(*), DPY2(*), DPZ2(*), RPX2(*), RPY2(*),
-     .   RPZ2(*), ANIM(*),IPOSX(*),IPOSY(*),IPOSZ(*),IPOSXX(*),
+     .   RPZ2(*), ANIM(SANIN),IPOSX(*),IPOSY(*),IPOSZ(*),IPOSXX(*),
      .   IPOSYY(*),IPOSZZ(*),V(3,*),
      .   CRITNEW(*),E6(NEL,6),X0_ERR(3,*),YIELDX(*),YIELDY(*) ,
      .   YIELDZ(*),YIELDX2(*),YIELDY2(*),YIELDZ2(*),
@@ -365,7 +370,9 @@ C-------------------------------
      7   IFUNC3,     YIELDX,     X0DP,       AK,
      8   B,          D,          IECROU,     IFUNC,
      9   IFV,        IFUNC2,     EPLA,       COORD_OLD,
-     A   NEL,        NFT,     MAX_SLOPE)
+     A   NEL,        NFT,        STF,        SANIN,
+     B   DT1,        IRESP,      IMPL_S,     IDYNA,
+     C   SNPC,       MAX_SLOPE)
       DO I=1,NEL
         DLIM = ZERO
         IF (IFAIL2(I) == 0) THEN
@@ -428,7 +435,9 @@ C-------------------------------
      7   IFUNC3,     YIELDY,     Y0DP,       AK,
      8   B,          D,          IECROU,     IFUNC,
      9   IFV,        IFUNC2,     EPLA,       COORD_OLD,
-     A   NEL,        NFT, MAX_SLOPE)
+     A   NEL,        NFT,        STF,        SANIN,
+     B   DT1,        IRESP,      IMPL_S,     IDYNA,
+     C   SNPC,       MAX_SLOPE)
       DO I=1,NEL
         DLIM = ZERO
         IF (IFAIL2(I) == 0 ) THEN
@@ -489,7 +498,9 @@ C-------------------------------
      7   IFUNC3,     YIELDZ,     Z0DP,       AK,
      8   B,          D,          IECROU,     IFUNC,
      9   IFV,        IFUNC2,     EPLA,       COORD_OLD,
-     A   NEL,        NFT, MAX_SLOPE)
+     A   NEL,        NFT,        STF,        SANIN,
+     B   DT1,        IRESP,      IMPL_S,     IDYNA,
+     C   SNPC,       MAX_SLOPE)
       DO I=1,NEL
         DLIM = ZERO
         IF (IFAIL2(I) == 0) THEN
@@ -595,7 +606,9 @@ C-------------------------------
      7   IFUNC3,     YIELDX2,    X0DP,       AK,
      8   B,          D,          IECROU,     IFUNC,
      9   IFV,        IFUNC2,     EPLA,       COORD_OLD,
-     A   NEL,        NFT, MAX_SLOPE)
+     A   NEL,        NFT,        STF,        SANIN,
+     B   DT1,        IRESP,      IMPL_S,     IDYNA,
+     C   SNPC,       MAX_SLOPE)
       DO I=1,NEL
         DLIM = ZERO
         IF (IFAIL2(I) == 0) THEN
@@ -657,7 +670,9 @@ C-------------------------------------
      7   IFUNC3,     YIELDY2,    Y0DP,       AK,
      8   B,          D,          IECROU,     IFUNC,
      9   IFV,        IFUNC2,     EPLA,       COORD_OLD,
-     A   NEL,        NFT, MAX_SLOPE)
+     A   NEL,        NFT,        STF,        SANIN,
+     B   DT1,        IRESP,      IMPL_S,     IDYNA,
+     C   SNPC,       MAX_SLOPE)
       DO I=1,NEL
         DLIM = ZERO
         IF (IFAIL2(I) == 0) THEN
@@ -719,7 +734,9 @@ C-----------------------------------
      7   IFUNC3,     YIELDZ2,    Z0DP,       AK,
      8   B,          D,          IECROU,     IFUNC,
      9   IFV,        IFUNC2,     EPLA,       COORD_OLD,
-     A   NEL,        NFT, MAX_SLOPE)
+     A   NEL,        NFT,        STF,        SANIN,
+     B   DT1,        IRESP,      IMPL_S,     IDYNA,
+     C   SNPC,       MAX_SLOPE)
       DO I=1,NEL
         DLIM = ZERO
         IF (IFAIL2(I) == 0) THEN

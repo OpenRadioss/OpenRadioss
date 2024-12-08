@@ -1142,7 +1142,16 @@ C-------------------------------------------------------------------------------
 C AMS
       INTEGER LSKYI_SMS_NEW
       INTEGER, ALLOCATABLE, DIMENSION(:,:) :: T2MAIN_SMS
-      my_real, DIMENSION(:),ALLOCATABLE :: T2FAC_SMS         
+      my_real, DIMENSION(:),ALLOCATABLE :: T2FAC_SMS
+      my_real, DIMENSION(:), ALLOCATABLE :: MSKYI_FI_SMS
+      INTEGER, DIMENSION(:),ALLOCATABLE :: LIST_SMS
+      INTEGER, DIMENSION(:),ALLOCATABLE :: LIST_RMS
+      my_real, DIMENSION(:,:), ALLOCATABLE :: CJWORK
+      my_real, DIMENSION(:,:), ALLOCATABLE :: FREA
+      INTEGER, DIMENSION(:), ALLOCATABLE :: IRWL_WORK
+      my_real, DIMENSION(:,:), ALLOCATABLE :: SMS_VFI
+      my_real, DIMENSION(:,:), ALLOCATABLE :: MW6
+      integer sz_mw6
 C-----------------------------------------------------------------------------------
 C     FVMBAG: switch to UP
       INTEGER :: NFVBAG0 
@@ -2109,7 +2118,7 @@ C Reinitialise sensor variables defined in /SENS/RESET
        K12=K11+NUMELIG3D
        CALL SENSOR_INIT(SUBSETS,IPARG,NGROUC,
      .                  IPART(K3),IPART(K8),IPART(K1),IPART(K2),IPART(K4),
-     .                  IPART(K5) ,IPART(K6),SENSORS,TT ,DT2 ,IOUT, PYTHON )
+     .                  IPART(K5) ,IPART(K6),SENSORS,TT ,DT2 ,IOUT, PYTHON ,NTHREAD)
 
 
 C========================================================================================
@@ -4692,7 +4701,7 @@ C
      Y H3D_DATA       ,IFTHE         ,ICONDN      ,DT      ,OUTPUT,
      Z SBUFMAT        ,SNPC          ,STF         ,NODADT  ,DTFAC1,
      . DTMIN1         ,IDTMIN        ,IOUT        ,ISTDO   ,IDTMINS,DTFACS,NSVOIS,
-     . IRESP          ,MAXFUNC       ,USERL_AVAIL ,GLOB_THERM,IMON_MAT,DTMINS)
+     . IRESP          ,MAXFUNC       ,USERL_AVAIL ,GLOB_THERM,IMON_MAT,DTMINS,SANIN)
 C     
 #include "lockon.inc"
       IF(DT2TT<DT2T)THEN
@@ -6067,7 +6076,24 @@ C
         IF(NSPMD > 1)THEN
           CALL SPMD_NLIST_SMS(FR_SMS,FR_RMS)
         END IF
+        IF (ALLOCATED(MSKYI_FI_SMS)) DEALLOCATE(MSKYI_FI_SMS)
+        IF (ALLOCATED(LIST_SMS)) DEALLOCATE(LIST_SMS)
+        IF (ALLOCATED(LIST_RMS)) DEALLOCATE(LIST_RMS)
+        IF (ALLOCATED(LIST_RMS)) DEALLOCATE(LIST_RMS)
+        IF (ALLOCATED(SMS_VFI)) DEALLOCATE(SMS_VFI)
+         CALL MY_ALLOC(MSKYI_FI_SMS,FR_RMS(NSPMD+1))
+        CALL MY_ALLOC(LIST_SMS,FR_SMS(NSPMD+1))
+        CALL MY_ALLOC(LIST_RMS,FR_RMS(NSPMD+1))
+        CALL MY_ALLOC( SMS_VFI,3,FR_RMS(NSPMD+1)+FR_SMS(NSPMD+1) )
 
+        IF (ALLOCATED(MW6)) DEALLOCATE(MW6) 
+        if (IPARIT /=0) then
+          sz_mw6 = 3*NUMNOD
+          CALL MY_ALLOC(MW6,6,sz_mw6)
+        else
+          sz_mw6 = 1
+          CALL MY_ALLOC(MW6,6,1)
+        endif
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
         ITSK = OMP_GET_THREAD_NUM()
         NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
@@ -6095,7 +6121,8 @@ C
      I             NPRW  ,LPRW    ,FR_WALL   ,NRWL_SMS      ,RBY      ,
      J             NODES%X     ,NODES%A       ,NODES%AR        ,NODES%IN            ,NODES%V        ,
      K             NODES%VR    ,IRBE2   ,LRBE2     ,IRBE3         ,LRBE3    ,
-     L             IAD_RBE3M ,FR_RBE3M ,NATIV_SMS,T2MAIN_SMS,T2FAC_SMS)
+     L             IAD_RBE3M ,FR_RBE3M ,NATIV_SMS,T2MAIN_SMS,T2FAC_SMS,
+     M             MSKYI_FI_SMS, LIST_SMS,LIST_RMS,SZ_mw6,MW6)
 c
 !$OMP END PARALLEL
 
@@ -6751,6 +6778,10 @@ C===============================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
+        CALL MY_ALLOC(CJWORK,18,NJOINT)
+        CALL MY_ALLOC(FREA,3,NUMNOD)
+        CALL MY_ALLOC(IRWL_WORK,SLPRW)
+
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
         ITSK = OMP_GET_THREAD_NUM()
         NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
@@ -6781,9 +6812,15 @@ C===============================================================================
      N        NMRBE2   ,R2SIZE    ,IRBE3    ,LRBE3      ,FRBE3    ,
      O        IAD_RBE3M ,FR_RBE3M,FR_RBE3MP ,RRBE3      ,RRBE3_PON,
      P        PREC_SMS3 ,DIAG_SMS3,IAD_RBY  ,FR_RBY6    ,RBY6     ,
-     Q        R3SIZE    ,BETATE   ,IBCSCYC    ,LBCSCYC)
+     Q        R3SIZE    ,BETATE   ,IBCSCYC    ,LBCSCYC,
+     R        MSKYI_FI_SMS, LIST_SMS,LIST_RMS,CJWORK,FREA,
+     S        IRWL_WORK,SMS_VFI,sz_mw6,MW6)
 
 !$OMP END PARALLEL
+
+        IF (ALLOCATED(CJWORK)) DEALLOCATE(CJWORK)
+        IF (ALLOCATED(FREA)) DEALLOCATE(FREA)
+        IF (ALLOCATED(IRWL_WORK)) DEALLOCATE(IRWL_WORK)
 
         IF (IMON>0) CALL STOPTIME(TIMERS,39)
 
@@ -6917,19 +6954,22 @@ c
           CALL SENSOR_ENER_SAV(NSENSOR,SENSORS%SENSOR_TAB ,PARTSAV ,PARTSAV2)
           ! -------------------------------
           ! pre-computation and mpi communication for type 16 sensor
-          IF (COMM_SENS16%BOOL) THEN
-             CALL SENSOR_DIST_SURF0(NSENSOR,SENSORS%SENSOR_TAB,NODES%X,IGRSURF)
+          IF (SENSORS%COMM_SENS16%BOOL) THEN
+             CALL SENSOR_DIST_SURF0(NSENSOR,SENSORS%SENSOR_TAB,NODES%X,
+     *                              IGRSURF,SENSORS%COMM_SENS16)
           ENDIF
           ! -------------------------------
           ! pre-computation and mpi communication for type 17 sensor
-          IF(COMM_SENS17%BOOL) THEN
-             CALL SENSOR_TEMP0(NSENSOR,SENSORS%SENSOR_TAB,IGRNOD,TEMP,NODES%WEIGHT)
+          IF(SENSORS%COMM_SENS17%BOOL) THEN
+             CALL SENSOR_TEMP0(NSENSOR,SENSORS%SENSOR_TAB,IGRNOD,TEMP,NODES%WEIGHT,SENSORS%COMM_SENS17,
+     *                         SENSORS%SENSOR_STRUCT)
           ENDIF
           ! -------------------------------
           IF (NSPMD > 1) THEN
             CALL SENSOR_SPMD(SENSORS%SENSOR_TAB,IPARI   ,NPRW     ,ISENSP  ,NSENSP  ,
      .                   XSENS     ,NODES%X       ,ACCELM   ,IACCP   ,NACCP   ,
-     .                   GAUGE     ,IGAUP   ,NGAUP    ,PARTSAV2,NSENSOR )
+     .                   GAUGE     ,IGAUP   ,NGAUP    ,PARTSAV2,NSENSOR,
+     .                   SENSORS%COMM_SENS14,SENSORS%SENSOR_STRUCT)
           ENDIF      
 c
           ! check activation condition of base sensors
@@ -6939,7 +6979,7 @@ c
      .         SUBSETS   ,IGRSURF   ,IGRNOD    , PYTHON)
 c
           ! check activation condition of logical sensors hierarchy
-          CALL SENSOR_LOGICAL(NSENSOR,SENSORS%SENSOR_TAB)
+          CALL SENSOR_LOGICAL(SENSORS)
 
         ENDIF
 
@@ -8215,19 +8255,22 @@ c
         CALL SENSOR_ENER_SAV(NSENSOR,SENSORS%SENSOR_TAB,PARTSAV ,PARTSAV2)
 
         ! pre-computation and mpi communication for type 16 sensor
-        IF (COMM_SENS16%BOOL) THEN
-          CALL SENSOR_DIST_SURF0(NSENSOR,SENSORS%SENSOR_TAB,NODES%X,IGRSURF)
+        IF (SENSORS%COMM_SENS16%BOOL) THEN
+          CALL SENSOR_DIST_SURF0(NSENSOR,SENSORS%SENSOR_TAB,NODES%X,
+     *                           IGRSURF,SENSORS%COMM_SENS16)
         ENDIF
 
         ! pre-computation and mpi communication for type 17 sensor
-        IF (COMM_SENS17%BOOL) THEN
-          CALL SENSOR_TEMP0(NSENSOR,SENSORS%SENSOR_TAB,IGRNOD,TEMP,NODES%WEIGHT)
+        IF (SENSORS%COMM_SENS17%BOOL) THEN
+          CALL SENSOR_TEMP0(NSENSOR,SENSORS%SENSOR_TAB,IGRNOD,TEMP,NODES%WEIGHT,SENSORS%COMM_SENS17,
+     *                      SENSORS%SENSOR_STRUCT)
         ENDIF
 
         IF (NSPMD > 1) THEN
           CALL SENSOR_SPMD(SENSORS%SENSOR_TAB,IPARI ,NPRW      ,ISENSP    ,NSENSP    ,
      .                 XSENS     ,NODES%X       ,ACCELM   ,IACCP     ,NACCP     ,
-     .                 GAUGE     ,IGAUP   ,NGAUP    ,PARTSAV2  ,NSENSOR   ) 
+     .                 GAUGE     ,IGAUP   ,NGAUP    ,PARTSAV2  ,NSENSOR,
+     .                 SENSORS%COMM_SENS14,SENSORS%SENSOR_STRUCT  ) 
         ENDIF
 c       
         ! check activation condition of base sensors
@@ -8237,7 +8280,7 @@ c
      .       SUBSETS   ,IGRSURF   ,IGRNOD    ,PYTHON)
 c       
         ! check activation condition of logical sensor hierarchy
-        CALL SENSOR_LOGICAL(NSENSOR,SENSORS%SENSOR_TAB)
+        CALL SENSOR_LOGICAL(SENSORS)
 
       ENDIF  !  NSENSOR > 0
 C========================================================================================
@@ -8430,7 +8473,8 @@ C--------------------------------------------------
      D        LRBE3    ,FRBE3    ,IAD_RBE3M,FR_RBE3M  ,FR_RBE3MP ,
      E        RRBE3    ,RRBE3_PON,IAD_RBY  ,FR_RBY6   ,RBY6      ,
      F        LPBY     ,TAGMSR_RBY_SMS,R3SIZE,NODII_SMS,INDX2_SMS,
-     G        IBCSCYC  ,LBCSCYC ,OUTPUT)
+     G        IBCSCYC  ,LBCSCYC ,OUTPUT, MSKYI_FI_SMS,LIST_SMS,
+     H        LIST_RMS ,SMS_VFI,sz_mw6,mw6)
 
 !$OMP END PARALLEL
 
@@ -8439,7 +8483,7 @@ C--------------------------------------------------
        END IF
       END IF
 C---
-      NISKY_SMS=0     
+      NISKY_SMS=0
       
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)

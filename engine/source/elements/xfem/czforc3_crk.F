@@ -166,7 +166,7 @@ C     REAL OU REAL*8
       TYPE (DRAPE_) , DIMENSION(NUMELC_DRAPE) :: DRAPE_SH4N
       TYPE (MAT_ELEM_)   ,INTENT(INOUT) :: MAT_ELEM
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
-      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
+      TYPE (SENSORS_) ,INTENT(INOUT) :: SENSORS
       TYPE (DT_), INTENT(IN) :: DT
       type (glob_therm_) ,intent(inout)   :: glob_therm
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
@@ -523,7 +523,7 @@ C--------------------------
      A   Y2G,      Y3G,      Y4G,      Z1G,
      B   Z2G,      Z3G,      Z4G,      IXFEM2,
      C   IEXPAN,   EINTTH,   ITASK,    GBUF%VOL,
-     D   ACTIFXFEM,IGRE)
+     D   ACTIFXFEM,IGRE,SENSORS)
 C
         CALL CNDT3(
      1             JFT    ,JLT    ,OFF    , DT2T   ,AMU   ,

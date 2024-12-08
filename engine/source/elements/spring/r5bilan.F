@@ -33,7 +33,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2   V,       IPARTR,  UINER,   X,
      3   VR,      GRESAV,  GRTH,    IGRTH,
      4   NC1,     NC2,     ITASK,   IAD,
-     5   IGRE,    NFT,     NEL)
+     5   IGRE,    NFT,     NEL,     SENSORS)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,6 +65,7 @@ C     REAL
       my_real
      .   UMAS(*),EINT(*),PARTSAV(NPSAV,*),V(3,*),VR(3,*),X(3,*),
      .   UINER(MVSIZ),GRESAV(*)
+      type (sensors_),INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -212,7 +217,7 @@ C COQUE          PARTSAV(21,MX)=PARTSAV(21,MX) + REI(I)
         ENDDO
       ENDIF
       OFF(1:MVSIZ) = ONE
-      CALL SENSOR_ENERGY_BILAN(1,NEL,EINT,EK,OFF,IPARTR,ITASK)  
+      CALL SENSOR_ENERGY_BILAN(1,NEL,EINT,EK,OFF,IPARTR,ITASK,SENSORS)  
 C---
       RETURN
       END

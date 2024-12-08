@@ -154,10 +154,10 @@ c
 c--------------------------------------
 c       Read Logical sensor index array
 c
-        CALL READ_I_C(LOGICAL_SENSOR_COUNT,1)
+        CALL READ_I_C(SENSORS%LOGICAL_SENSOR_COUNT,1)
 
-        ALLOCATE(LOGICAL_SENSORS_LIST(LOGICAL_SENSOR_COUNT))
-        CALL READ_I_C(LOGICAL_SENSORS_LIST,LOGICAL_SENSOR_COUNT)
+        ALLOCATE(SENSORS%LOGICAL_SENSORS_LIST(SENSORS%LOGICAL_SENSOR_COUNT))
+        CALL READ_I_C(SENSORS%LOGICAL_SENSORS_LIST,SENSORS%LOGICAL_SENSOR_COUNT)
 c
 c--------------------------------------
 c       Read spmd/PON exchange arrays

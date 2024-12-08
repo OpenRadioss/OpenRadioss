@@ -184,7 +184,7 @@ C-----------------------------------------------
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
-      TYPE (SENSORS_)  ,INTENT(IN)    :: SENSORS
+      TYPE (SENSORS_)  ,INTENT(INOUT) :: SENSORS
       TYPE(DT_)        ,INTENT(INOUT) :: DT
       type (glob_therm_) ,intent(inout)   :: glob_therm
 C-----------------------------------------------
@@ -685,7 +685,7 @@ C--------------------------
            CALL S10BILAN(PARTSAV,LBUF%EINT,LBUF%RHO,LBUF%RK,LBUF%VOL,
      .                   VX, VY, VZ,NX(1,1,IP),VOLN,IPARTS,
      .                   GRESAV,GRTH,IGRTH,IEXPAN,LBUF%EINTTH,
-     .                   GBUF%FILL,XX,YY,ZZ,ITASK,IPARG(1,NG),GBUF%OFF)
+     .                   GBUF%FILL,XX,YY,ZZ,ITASK,IPARG(1,NG),GBUF%OFF,SENSORS)
         ENDIF
 C-------------------------
         IF (CNS2>ZERO)

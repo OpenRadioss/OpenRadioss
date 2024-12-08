@@ -249,7 +249,7 @@ C
       INTEGER :: IGRV(*), LGRAV(*)
       my_real :: AGRAV(*),SKEW(LSKEW,*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
-      TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
+      TYPE (SENSORS_) ,INTENT(INOUT) :: SENSORS
       TYPE (DT_),   INTENT(INOUT) :: DT
       type (glob_therm_) ,intent(inout)   :: glob_therm
 C-----------------------------------------------
@@ -1098,13 +1098,13 @@ C
      .                  X1, X2, X3, X4, X5, X6, X7, X8,
      .                  Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .                  Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
-     .                  ITASK,IPARG1)
+     .                  ITASK,IPARG1,SENSORS)
           ELSE
             CALL SRBILAN(PARTSAV,EINT,GBUF%RHO,GBUF%RK,GBUF%VOL, 
      .                   VGXA, VGYA, VGZA, VGA2, VOLN,IPARTS,
      .                   GRESAV,GRTH,IGRTH,GBUF%OFF,IEXPAN,GBUF%EINTTH,
      .                   GBUF%FILL,XGXA, XGYA, XGZA,
-     .                   XGXA2,XGYA2,XGZA2,XGXYA,XGYZA,XGZXA,ITASK,IPARG1)
+     .                   XGXA2,XGYA2,XGZA2,XGXYA,XGYZA,XGZXA,ITASK,IPARG1,SENSORS)
           ENDIF
         ENDIF
         RETURN
@@ -1409,13 +1409,13 @@ C Energy, momentum, mass balance by part in case of print-out
      .                  X1, X2, X3, X4, X5, X6, X7, X8,
      .                  Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .                  Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
-     .                  ITASK,IPARG1)
+     .                  ITASK,IPARG1,SENSORS)
            ELSE
             CALL SRBILAN(PARTSAV,EINT    ,GBUF%RHO,GBUF%RK,GBUF%VOL ,
      .                   VGXA   ,VGYA    ,VGZA    ,VGA2    ,VOLN     ,
      .                   IPARTS ,GRESAV  ,GRTH    ,IGRTH   ,GBUF%OFF ,
      .                   IEXPAN ,GBUF%EINTTH,GBUF%FILL,XGXA, XGYA, XGZA,
-     .                   XGXA2,XGYA2,XGZA2,XGXYA,XGYZA,XGZXA,ITASK,IPARG1)
+     .                   XGXA2,XGYA2,XGZA2,XGXYA,XGYZA,XGZXA,ITASK,IPARG1,SENSORS)
            ENDIF
       ENDIF
 C

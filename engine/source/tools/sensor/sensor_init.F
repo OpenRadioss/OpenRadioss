@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         SUBROUTINE SENSOR_INIT( SUBSET,IPARG,NGROUC,
      .                          IPARTC,IPARTTG,IPARTS,IPARTQ,IPARTT,
      .                          IPARTP,IPARTR,SENSORS,TIME  ,TIMESTEP,
-     .                          IOUT ,PYTHON)
+     .                          IOUT ,PYTHON,NTASK)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -46,6 +46,7 @@ C-----------------------------------------------
         USE PYTHON_FUNCT_MOD
         USE GROUPDEF_MOD
         USE SENSOR_MOD
+        USE my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,6 +73,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(NPARG,*), INTENT(IN) :: IPARG
       TYPE (SENSORS_) ,INTENT(INOUT) :: SENSORS
       TYPE(PYTHON_), INTENT(INOUT) :: PYTHON
+      INTEGER, INTENT(IN) :: NTASK
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -121,19 +123,22 @@ C-----------------------------------------------
 !       %PART(:,3): id of the sensor       |   3   |   67    |
 !
 c=======================================================================
-      COMM_SENS14%BOOL = .FALSE.
-      COMM_SENS16%BOOL = .FALSE.
-      COMM_SENS17%BOOL = .FALSE.
+      ! Allocate SENSORS%ngr_sensor
+      CALL MY_ALLOC(SENSORS%NGR_SENSOR,NTASK)
+C
+      SENSORS%COMM_SENS14%BOOL = .FALSE.
+      SENSORS%COMM_SENS16%BOOL = .FALSE.
+      SENSORS%COMM_SENS17%BOOL = .FALSE.
       ANY_PYTHON_SENSOR = .FALSE.
 
-      COMM_SENS14%BUFFER_SIZE_MIN_MAX = 0
-      COMM_SENS14%BUFFER_SIZE_MEAN = 0
+      SENSORS%COMM_SENS14%BUFFER_SIZE_MIN_MAX = 0
+      SENSORS%COMM_SENS14%BUFFER_SIZE_MEAN = 0
 
-      COMM_SENS16%BUFFER_SIZE_MIN_MAX = 0
-      COMM_SENS16%BUFFER_SIZE_MEAN = 0
+      SENSORS%COMM_SENS16%BUFFER_SIZE_MIN_MAX = 0
+      SENSORS%COMM_SENS16%BUFFER_SIZE_MEAN = 0
 
-      COMM_SENS17%BUFFER_SIZE_MIN_MAX = 0
-      COMM_SENS17%BUFFER_SIZE_MEAN = 0
+      SENSORS%COMM_SENS17%BUFFER_SIZE_MIN_MAX = 0
+      SENSORS%COMM_SENS17%BUFFER_SIZE_MEAN = 0
 c
       SURF_DIST_SENSOR = 0
       ENERGY_SENSOR    = 0
@@ -171,26 +176,26 @@ c
       ENDDO
       !   -----------------------------------------
       !   activation of the mpi communication
-      IF (ENERGY_SENSOR>0) COMM_SENS14%BOOL = .TRUE.
-      COMM_SENS14%NUM_SENS = ENERGY_SENSOR   
+      IF (ENERGY_SENSOR>0) SENSORS%COMM_SENS14%BOOL = .TRUE.
+      SENSORS%COMM_SENS14%NUM_SENS = ENERGY_SENSOR   
 
-      IF (SURF_DIST_SENSOR>0) COMM_SENS16%BOOL = .TRUE.
-      COMM_SENS16%NUM_SENS = SURF_DIST_SENSOR 
+      IF (SURF_DIST_SENSOR>0) SENSORS%COMM_SENS16%BOOL = .TRUE.
+      SENSORS%COMM_SENS16%NUM_SENS = SURF_DIST_SENSOR 
 
-      IF (SENSOR_TEMP>0) COMM_SENS17%BOOL = .TRUE.
-      COMM_SENS17%NUM_SENS = SENSOR_TEMP
+      IF (SENSOR_TEMP>0) SENSORS%COMM_SENS17%BOOL = .TRUE.
+      SENSORS%COMM_SENS17%NUM_SENS = SENSOR_TEMP
 
       !   ---------------------
       !   ENERGY SENSOR
       IF (IPARIT>0) THEN
-         ALLOCATE( COMM_SENS14%ID_SENS(ENERGY_SENSOR) )
-         IF(ENERGY_SENSOR>0) COMM_SENS14%ID_SENS(1:ENERGY_SENSOR) = INDX_ENERGY(1:ENERGY_SENSOR)
-         ALLOCATE( SENS_GROUP(NGROUP) )
-         SENS_GROUP(1:NGROUP)%NUM_PART = 0
-         ALLOCATE( SENSOR_STRUCT(NSENSOR) )
-         SENSOR_STRUCT(:)%TYP = 0     !   type of part : subset (=2) or not (=1)
-         SENSOR_STRUCT(:)%PART = 0    !   part id
-         SENSOR_STRUCT(:)%NB_SUB = 0  !   number of subset
+         ALLOCATE( SENSORS%COMM_SENS14%ID_SENS(ENERGY_SENSOR) )
+         IF(ENERGY_SENSOR>0) SENSORS%COMM_SENS14%ID_SENS(1:ENERGY_SENSOR) = INDX_ENERGY(1:ENERGY_SENSOR)
+         ALLOCATE( SENSORS%SENS_GROUP(NGROUP) )
+         SENSORS%SENS_GROUP(1:NGROUP)%NUM_PART = 0
+         ALLOCATE( SENSORS%SENSOR_STRUCT(NSENSOR) )
+         SENSORS%SENSOR_STRUCT(:)%TYP = 0     !   type of part : subset (=2) or not (=1)
+         SENSORS%SENSOR_STRUCT(:)%PART = 0    !   part id
+         SENSORS%SENSOR_STRUCT(:)%NB_SUB = 0  !   number of subset
 
          IF(ENERGY_SENSOR>0) THEN
              !   -----------------------------------------
@@ -204,16 +209,16 @@ c
                     ISUBS  = SENSORS%SENSOR_TAB(K)%IPARAM(2)
                     IF(IPART>0) THEN
                     !   only one part per sensor
-                        SENSOR_STRUCT(K)%TYP = 1
-                        SENSOR_STRUCT(K)%PART = IPART !   part id
+                        SENSORS%SENSOR_STRUCT(K)%TYP = 1
+                        SENSORS%SENSOR_STRUCT(K)%PART = IPART !   part id
                     ELSEIF(ISUBS>0) THEN
                     !   several subparts per sensor
-                        SENSOR_STRUCT(K)%TYP = 2
+                      SENSORS%SENSOR_STRUCT(K)%TYP = 2
                         NP = SUBSET(ISUBS)%NTPART   !   number of part 
-                        SENSOR_STRUCT(K)%NB_SUB = NP
-                        ALLOCATE( SENSOR_STRUCT(K)%SUB(NP) )
+                        SENSORS%SENSOR_STRUCT(K)%NB_SUB = NP
+                        ALLOCATE( SENSORS%SENSOR_STRUCT(K)%SUB(NP) )
                         DO J=1,NP
-                          SENSOR_STRUCT(K)%SUB(J)%PART = SUBSET(ISUBS)%TPART(J) ! part id
+                          SENSORS%SENSOR_STRUCT(K)%SUB(J)%PART = SUBSET(ISUBS)%TPART(J) ! part id
                         ENDDO
                     ENDIF    
                     !   -------------------                                   
@@ -278,7 +283,7 @@ c
                       ENDIF
                     ENDDO
 
-                    SENS_GROUP(NG)%NUM_PART = -NUMBER_PART_GROUP       !   number of part in one groupe
+                    SENSORS%SENS_GROUP(NG)%NUM_PART = -NUMBER_PART_GROUP       !   number of part in one groupe
                   !   count the number of sensor for a element group 
                     ALLOCATE( BOOL_SENSOR(ENERGY_SENSOR) )
                     BOOL_SENSOR(1:ENERGY_SENSOR) = .TRUE.
@@ -288,13 +293,13 @@ c
                       IPART = INDX_PART(IJK)
                       DO I=1,ENERGY_SENSOR
                         K = INDX_ENERGY(I)
-                        IF(SENSOR_STRUCT(K)%TYP == 1) THEN
-                              IF(SENSOR_STRUCT(K)%PART == IPART) THEN
+                        IF(SENSORS%SENSOR_STRUCT(K)%TYP == 1) THEN
+                              IF(SENSORS%SENSOR_STRUCT(K)%PART == IPART) THEN
                                   NUMBER_SENSOR_PER_GROUP = NUMBER_SENSOR_PER_GROUP + 1
                               ENDIF
-                        ELSEIF(SENSOR_STRUCT(K)%TYP == 2) THEN
-                            DO J=1,SENSOR_STRUCT(K)%NB_SUB
-                              IF(BOOL_SENSOR(I).AND.SENSOR_STRUCT(K)%SUB(J)%PART == IPART) THEN
+                        ELSEIF(SENSORS%SENSOR_STRUCT(K)%TYP == 2) THEN
+                            DO J=1,SENSORS%SENSOR_STRUCT(K)%NB_SUB
+                              IF(BOOL_SENSOR(I).AND.SENSORS%SENSOR_STRUCT(K)%SUB(J)%PART == IPART) THEN
                                   NUMBER_SENSOR_PER_GROUP = NUMBER_SENSOR_PER_GROUP + 1
                                   BOOL_SENSOR(I)=.FALSE.
                               ENDIF                                     
@@ -306,14 +311,14 @@ c
                     ! total size of SENS_GROUP(NG)%PART
                     TOT_NUMBER_PART_GROUP = NUMBER_PART_GROUP * NUMBER_SENSOR_PER_GROUP
 
-                    ALLOCATE( SENS_GROUP(NG)%PART(TOT_NUMBER_PART_GROUP,3) )
-                    SENS_GROUP(NG)%PART(1:TOT_NUMBER_PART_GROUP,1:3) = 0
+                    ALLOCATE( SENSORS%SENS_GROUP(NG)%PART(TOT_NUMBER_PART_GROUP,3) )
+                    SENSORS%SENS_GROUP(NG)%PART(1:TOT_NUMBER_PART_GROUP,1:3) = 0
 
                     KJI = 0
                     DO IJK=1,NUMBER_PART_GROUP
                       DO I=1,NUMBER_SENSOR_PER_GROUP
                       KJI = KJI + 1
-                      SENS_GROUP(NG)%PART(KJI,1) = -INDX_PART(IJK)!   part id
+                      SENSORS%SENS_GROUP(NG)%PART(KJI,1) = -INDX_PART(IJK)!   part id
                       ENDDO
                     ENDDO
 
@@ -329,30 +334,30 @@ c
                       NUMBER_SENSOR = 0
                       DO I=1,ENERGY_SENSOR
                         K = INDX_ENERGY(I)
-                        IF(SENSOR_STRUCT(K)%TYP == 1) THEN
+                        IF(SENSORS%SENSOR_STRUCT(K)%TYP == 1) THEN
                           IF(CHECK_BOOL(I,IJK)<0) THEN !   check if already done (loop over the part of an element group!!!)
-                              IF(SENSOR_STRUCT(K)%PART == IPART) THEN
+                              IF(SENSORS%SENSOR_STRUCT(K)%PART == IPART) THEN
                                   KJI = KJI + 1
                                   !   number of group per part for a given sensor
-                                  SENSOR_STRUCT(K)%NUM_GROUP_PART = SENSOR_STRUCT(K)%NUM_GROUP_PART + 1
-                                  SENS_GROUP(NG)%PART(KJI,2) = 1    !   type of energy sensor
-                                  SENS_GROUP(NG)%PART(KJI,3) = K   !   index of the current sensor
+                                  SENSORS%SENSOR_STRUCT(K)%NUM_GROUP_PART = SENSORS%SENSOR_STRUCT(K)%NUM_GROUP_PART + 1
+                                  SENSORS%SENS_GROUP(NG)%PART(KJI,2) = 1    !   type of energy sensor
+                                  SENSORS%SENS_GROUP(NG)%PART(KJI,3) = K   !   index of the current sensor
 
-                                  SENS_GROUP(NG)%PART(KJI,1) = ABS(SENS_GROUP(NG)%PART(KJI,1))
+                                  SENSORS%SENS_GROUP(NG)%PART(KJI,1) = ABS(SENSORS%SENS_GROUP(NG)%PART(KJI,1))
                                   CHECK_BOOL(I,IJK) = ABS(CHECK_BOOL(I,IJK))
                                   BOOL = .TRUE.
                               ENDIF
                           ENDIF
-                        ELSEIF(SENSOR_STRUCT(K)%TYP == 2) THEN
+                        ELSEIF(SENSORS%SENSOR_STRUCT(K)%TYP == 2) THEN
                           IF(CHECK_BOOL(I,IJK)<0) THEN !   check if already done (loop over the part of an element group!!!)
-                            DO J=1,SENSOR_STRUCT(K)%NB_SUB
-                              IF(SENSOR_STRUCT(K)%SUB(J)%PART == IPART) THEN
+                            DO J=1,SENSORS%SENSOR_STRUCT(K)%NB_SUB
+                              IF(SENSORS%SENSOR_STRUCT(K)%SUB(J)%PART == IPART) THEN
                                   KJI = KJI + 1
                                   !   number of group per subpart
-                                  SENSOR_STRUCT(K)%NUM_GROUP_PART = SENSOR_STRUCT(K)%NUM_GROUP_PART + 1
-                                  SENS_GROUP(NG)%PART(KJI,2) = 2    !   type of energy sensor
-                                  SENS_GROUP(NG)%PART(KJI,3) = K   !   index of the current sensor
-                                  SENS_GROUP(NG)%PART(KJI,1) = ABS(SENS_GROUP(NG)%PART(KJI,1))
+                                  SENSORS%SENSOR_STRUCT(K)%NUM_GROUP_PART = SENSORS%SENSOR_STRUCT(K)%NUM_GROUP_PART + 1
+                                  SENSORS%SENS_GROUP(NG)%PART(KJI,2) = 2    !   type of energy sensor
+                                  SENSORS%SENS_GROUP(NG)%PART(KJI,3) = K   !   index of the current sensor
+                                  SENSORS%SENS_GROUP(NG)%PART(KJI,1) = ABS(SENSORS%SENS_GROUP(NG)%PART(KJI,1))
                                   CHECK_BOOL(I,IJK) = ABS(CHECK_BOOL(I,IJK))
                                   BOOL = .TRUE.
                               ENDIF                                     
@@ -362,7 +367,7 @@ c
                       ENDDO
                     ENDDO
 
-                    IF(BOOL) SENS_GROUP(NG)%NUM_PART = KJI       !   number of part in one groupe * number of sensor        
+                    IF(BOOL) SENSORS%SENS_GROUP(NG)%NUM_PART = KJI       !   number of part in one groupe * number of sensor        
                     DEALLOCATE( CHECK_BOOL )             
                   ENDIF
              ENDDO
@@ -370,47 +375,47 @@ c
              !   allocation of FBSAV6 double precision array (parith/on array)
              DO I=1,ENERGY_SENSOR
                   K = INDX_ENERGY(I)
-                  ALLOCATE( SENSOR_STRUCT(K)%FBSAV6_SENS(2,6,NTHREAD) )
-                  SENSOR_STRUCT(K)%FBSAV6_SENS(1:2,1:6,1:NTHREAD) = ZERO
+                  ALLOCATE( SENSORS%SENSOR_STRUCT(K)%FBSAV6_SENS(2,6,NTHREAD) )
+                  SENSORS%SENSOR_STRUCT(K)%FBSAV6_SENS(1:2,1:6,1:NTHREAD) = ZERO
              ENDDO    
              !   -----------------------------------------           
          ENDIF
       ELSE
-        ALLOCATE( SENS_GROUP(0) )
-        ALLOCATE( SENSOR_STRUCT(0) )
-        ALLOCATE( COMM_SENS14%ID_SENS(0) )
+        ALLOCATE( SENSORS%SENS_GROUP(0) )
+        ALLOCATE( SENSORS%SENSOR_STRUCT(0) )
+        ALLOCATE( SENSORS%COMM_SENS14%ID_SENS(0) )
       ENDIF
 
       !   ---------------------
       !   DISTANCE TO SURFACE SENSOR
-      ALLOCATE( COMM_SENS16%ID_SENS(SURF_DIST_SENSOR) )
+      ALLOCATE( SENSORS%COMM_SENS16%ID_SENS(SURF_DIST_SENSOR) )
       IF(SURF_DIST_SENSOR>0) THEN
-          COMM_SENS16%ID_SENS(1:SURF_DIST_SENSOR) = INDX_SURF_DIST_SENSOR(1:SURF_DIST_SENSOR)
+          SENSORS%COMM_SENS16%ID_SENS(1:SURF_DIST_SENSOR) = INDX_SURF_DIST_SENSOR(1:SURF_DIST_SENSOR)
       ENDIF
       !   ---------------------
       !   SENSOR TEMPERATURE
       SIZE_COMM17_MIN_MAX = 0
       SIZE_COMM17_MEAN = 0
-      ALLOCATE( COMM_SENS17%ID_SENS(SENSOR_TEMP) )
+      ALLOCATE( SENSORS%COMM_SENS17%ID_SENS(SENSOR_TEMP) )
       IF (SENSOR_TEMP > 0) THEN
           DO I=1,SENSOR_TEMP
               K = INDX_TEMP(I)
-              COMM_SENS17%ID_SENS(I) = K
+              SENSORS%COMM_SENS17%ID_SENS(I) = K
               !   Temp max and min : 1 data per sensor
               SIZE_COMM17_MIN_MAX = SIZE_COMM17_MIN_MAX + 1
               !   Temp mean  : 6 data per sensor (parith/on) / 1 data per sensor (parith/off) 
               IF (IPARIT>0) THEN
-                  ALLOCATE( SENSOR_STRUCT(K)%FBSAV6_SENS(1,6,1) )
-                  SENSOR_STRUCT(K)%FBSAV6_SENS(1,1:6,1:1) = ZERO
+                  ALLOCATE( SENSORS%SENSOR_STRUCT(K)%FBSAV6_SENS(1,6,1) )
+                  SENSORS%SENSOR_STRUCT(K)%FBSAV6_SENS(1,1:6,1:1) = ZERO
                   SIZE_COMM17_MEAN = SIZE_COMM17_MEAN + 6
               ELSE
-                  ALLOCATE( SENSOR_STRUCT(K)%FBSAV6_SENS(1,1,1) )
-                  SENSOR_STRUCT(K)%FBSAV6_SENS(1,1,1) = ZERO
+                  ALLOCATE( SENSORS%SENSOR_STRUCT(K)%FBSAV6_SENS(1,1,1) )
+                  SENSORS%SENSOR_STRUCT(K)%FBSAV6_SENS(1,1,1) = ZERO
                   SIZE_COMM17_MEAN = SIZE_COMM17_MEAN + 1
               ENDIF
           ENDDO    
-          COMM_SENS17%BUFFER_SIZE_MIN_MAX = SIZE_COMM17_MIN_MAX
-          COMM_SENS17%BUFFER_SIZE_MEAN    = SIZE_COMM17_MEAN
+          SENSORS%COMM_SENS17%BUFFER_SIZE_MIN_MAX = SIZE_COMM17_MIN_MAX
+          SENSORS%COMM_SENS17%BUFFER_SIZE_MEAN    = SIZE_COMM17_MEAN
       ENDIF
       !   ---------------------
 
@@ -464,9 +469,9 @@ c----------------------------------------------------------------------
         ENDDO
      
         ! Logical Sensors can be active at TT=0
-        CALL SENSOR_LOGICAL(NSENSOR,SENSORS%SENSOR_TAB)
+        CALL SENSOR_LOGICAL(SENSORS)
       ELSE
-        LOGICAL_SENSOR_COUNT=0
+        SENSORS%LOGICAL_SENSOR_COUNT=0
       ENDIF
 
       IF(PYTHON%NB_FUNCTS > 0) THEN

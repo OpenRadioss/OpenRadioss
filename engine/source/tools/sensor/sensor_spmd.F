@@ -38,7 +38,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE SENSOR_SPMD(SENSOR_TAB,IPARI  ,NPRW   ,ISENSP  ,NSENSP    ,
      .                   XSENS     ,X      ,ACCELM ,IACCP   ,NACCP     ,
-     .                   GAUGE     ,IGAUP  ,NGAUP  ,PARTSAV2,NSENSOR   )
+     .                   GAUGE     ,IGAUP  ,NGAUP  ,PARTSAV2,NSENSOR,
+     .                   COMM_SENS14,SENSOR_STRUCT   )
 C-----------------------------------------------
 C   SPMD sensor update routine
 C-----------------------------------------------
@@ -68,6 +69,8 @@ C-----------------------------------------------
       my_real XSENS(12,*), X(3,*),
      .        ACCELM(LLACCELM,*), GAUGE(LLGAUGE,*),PARTSAV2(2,*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      type(sensor_comm),INTENT(INOUT) :: COMM_SENS14
+      type(sensor_type),DIMENSION(NSENSOR),INTENT(INOUT) :: SENSOR_STRUCT(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

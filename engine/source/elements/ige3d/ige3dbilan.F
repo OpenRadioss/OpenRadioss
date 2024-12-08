@@ -32,7 +32,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE IGE3DBILAN(PARTSAV,EINT,RHO,VOL,
      .                      VX, VY, VZ,IPARTS,VOL0,
      .                      GRESAV,GRTH,IGRTH,
-     .                      X, Y, Z,NCP,ITASK,IPARG)
+     .                      X, Y, Z,NCP,ITASK,IPARG,SENSORS)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE SENSOR_MOD
 C----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,6 +60,7 @@ C     REAL
      .  VX(MVSIZ,*),VY(MVSIZ,*),VZ(MVSIZ,*),
      .  VOL(*),GRESAV(*),
      .  X(MVSIZ,*),Y(MVSIZ,*),Z(MVSIZ,*)
+      type (sensors_),INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -216,7 +221,7 @@ C
       DO I=LFT,LLT
         OFF_L(I) = ONE
       ENDDO
-      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF_L,IPARTS,ITASK) 
+      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF_L,IPARTS,ITASK,SENSORS) 
 C
 C-----------
       RETURN
