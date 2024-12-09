@@ -100,26 +100,26 @@
 !     count eos models using cfg files
 !--------------------------------------------------
 !      
-      call hm_option_count('/therm_stress',ntherm_st)
+      call hm_option_count('/THERM_STRESS',ntherm_st)
 !
 !--------------------------------------------------
 !     start browsing /therm_stress models
 !--------------------------------------------------
 !
-      call hm_option_start('/therm_stress')
+      call hm_option_start('/THERM_STRESS')
 !
 !--------------------------------------------------
       do ith = 1,ntherm_st
 !
         call hm_option_read_key(lsubmodel, option_id = mat_id , option_titr = titr , keyword2 = key )
 
-        if (key(1:3) == 'mat') then   
-          call hm_get_intv  ('funct_id'      ,ifunc_alpha    ,is_available, lsubmodel) 
-          call hm_get_floatv('cload_scale_y' ,fscal_alpha    ,is_available, lsubmodel, unitab)
+        if (key(1:3) == 'MAT') then   
+          call hm_get_intv  ('FUNCT_ID'      ,ifunc_alpha    ,is_available, lsubmodel) 
+          call hm_get_floatv('CLOAD_SCALE_Y' ,fscal_alpha    ,is_available, lsubmodel, unitab)
 
           if (fscal_alpha == zero) fscal_alpha=one
           do imat=1,nummat-1
-            if (mat_id == mat_param(i)%mat_id) then
+            if (mat_id == mat_param(imat)%mat_id) then
               titr = mat_param(imat)%title
               ilaw = mat_param(imat)%ilaw
               jthe = mat_param(imat)%itherm
