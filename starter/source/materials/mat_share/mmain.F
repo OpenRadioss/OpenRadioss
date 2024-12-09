@@ -94,7 +94,7 @@ C-----
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(BUF_MAT_) ,POINTER :: MBUF  
 C=======================================================================
-      IF (MTN >= 28 .AND. MTN /= 49) THEN
+      IF (MTN >= 28 .AND. MTN /= 49.OR.MTN ==1) THEN
         GBUF  => ELBUF_STR%GBUF
         LBUF  => ELBUF_STR%BUFLY(1)%LBUF(1,1,1)
         MBUF  => ELBUF_STR%BUFLY(1)%MAT(1,1,1)
