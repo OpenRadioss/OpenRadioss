@@ -156,7 +156,7 @@ C--------------------------------------------------
       IF (NXREF > 0 .AND. JLAG/=0 .AND. JSPH==0)THEN
 
         IF(MTN /= 35 .AND.MTN /= 38 .AND. MTN /= 42 .AND.
-     .     MTN /= 70 .AND. MTN /= 90)THEN
+     .     MTN /= 70 .AND. MTN /= 90.AND. MTN /= 1)THEN
           NITRS=NITSAV
 C         message moved to hm_read_xref
           RETURN
