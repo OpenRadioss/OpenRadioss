@@ -1011,7 +1011,7 @@ C----
      .        NMRBE2,R2SIZE,NINT7
       INTEGER, DIMENSION(:),POINTER :: NS_IMP,NE_IMP,IND_IMP
       TYPE (IMPBUF_STRUCT_), TARGET :: IMPBUF_TAB
-      my_real, DIMENSION(:)  , POINTER :: X_A,FEXT_IMP,R_IMP 
+      my_real, DIMENSION(:)  , POINTER :: FEXT_IMP,R_IMP 
       my_real
      .   TTMP,DMCP(NUMGEO)
       data TTMP /0.0/
@@ -1300,7 +1300,7 @@ C-------------------------------------------------------------------------------
       ENDIF
       FLG_KJ2 = 0
       I_EXCH_FLG_RAZ = 0
-      NULLIFY(X_A) 
+!      NULLIFY(X_A) 
 !      NULLIFY(X_C) 
       NELTST  = 0
       ITYPTST = 0
@@ -3035,6 +3035,7 @@ C------ one routine for EIG
          NE_IMP => IMP_DUM 
          IND_IMP=> IMP_DUM
          NUM_IMP=0
+         ISMDISP=0
       END IF !IF (IMPL_S==1.OR.NEIG>0) THEN
 C------------------------------------------------------
 C  Fin Implicit [MONO THREAD]
@@ -4965,8 +4966,9 @@ C
      .                GAUGE    , IGEO,    GEO,         PM,                  IPM,
      .                IPARG    , IGROUPTG,IGROUPC,     ELBUF_TAB,           FEXT,
      .                2        , H3D_DATA,ITAB,        WEIGHT)
+          IF (IMPL_S > 0 .AND. ISMDISP >0) THEN
            CALL MONVOL0(
-     1      MONVOL     ,VOLMON     ,X_A            ,A         ,
+     1      MONVOL     ,VOLMON     ,IMPBUF_TAB%X_A ,A         ,
      2      NPC        ,TF         ,V              ,WA        ,
      3      FSAV(1,N)  ,NSENSOR    ,SENSORS%SENSOR_TAB ,IGRSURF   ,
      4      FR_MV      ,IADS(I87I) ,SICONTACT,SPORO           ,
@@ -4975,6 +4977,18 @@ C
      7      PM         ,IPM        ,IPART          ,IPART(K3) ,
      8      IPART(K8)  ,IGROUPC    ,IGROUPTG       ,FEXT      ,
      9      2          ,H3D_DATA   ,T_MONVOL,frontier_global_mv)
+          ELSE
+           CALL MONVOL0(
+     1      MONVOL     ,VOLMON     ,X              ,A         ,
+     2      NPC        ,TF         ,V              ,WA        ,
+     3      FSAV(1,N)  ,NSENSOR    ,SENSORS%SENSOR_TAB ,IGRSURF   ,
+     4      FR_MV      ,IADS(I87I) ,SICONTACT,SPORO           ,
+     5      FSKY       ,ICONTACT   ,WA(N0)         ,IPARG     ,
+     6      ELBUF_TAB  ,GEO        ,IGEO           ,
+     7      PM         ,IPM        ,IPART          ,IPART(K3) ,
+     8      IPART(K8)  ,IGROUPC    ,IGROUPTG       ,FEXT      ,
+     9      2          ,H3D_DATA   ,T_MONVOL,frontier_global_mv)
+          ENDIF
 
 
           CALL TRACE_OUT(11)
