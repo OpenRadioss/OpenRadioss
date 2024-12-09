@@ -593,7 +593,9 @@ jobs:
       DELIVERY_NB_RELEASES_TO_KEEP: 3
       DELIVERY_TAG_PREFIX: 'latest-'
       OPENRADIOSS_MAINDIR_NAME: 'OpenRadioss'
-      OPENRADIOSS_GUI: 'TOOLS/openradioss_gui'
+      OPENRADIOSS_GUI: 'openradioss_gui'
+      OPENRADIOSS_GUI_TOOLS: 'TOOLS/openradioss_gui'
+      OPENRADIOSS_INP2RAD: 'TOOLS/inp2rad/inp2rad/inp2rad.py'
 
     steps:
 
@@ -693,9 +695,14 @@ jobs:
             fi
 
             # Get OpenRadioss gui from Tools repository
-            if test -d ${OPENRADIOSS_GUI}
+            if test -d ${{ env.OPENRADIOSS_GUI_TOOLS}}
             then
-              cp -a ${OPENRADIOSS_GUI} todeliver/${os}/${{ env.OPENRADIOSS_MAINDIR_NAME }}/
+              cp -a ${{ env.OPENRADIOSS_GUI_TOOLS}} todeliver/${os}/${{ env.OPENRADIOSS_MAINDIR_NAME }}/
+              if test -f ${{ env.OPENRADIOSS_INP2RAD}}
+              then
+                echo "Copying inp2rad ${{ env.OPENRADIOSS_INP2RAD}} todeliver/${os}/${{ env.OPENRADIOSS_MAINDIR_NAME }}/${{ env.OPENRADIOSS_GUI }}/" 
+                cp -a ${{ env.OPENRADIOSS_INP2RAD}} todeliver/${os}/${{ env.OPENRADIOSS_MAINDIR_NAME }}/${{ env.OPENRADIOSS_GUI }}/
+              fi
             fi
 
             cp -a hm_cfg_files todeliver/${os}/${{ env.OPENRADIOSS_MAINDIR_NAME }}/
