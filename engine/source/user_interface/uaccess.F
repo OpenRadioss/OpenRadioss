@@ -767,7 +767,7 @@ C-----------------------------------------------
       !||====================================================================
       SUBROUTINE MAT_SOLID_GET_NOD_X(USER_X)
 C---------+---------+---+---+--------------------------------------------
-      USE RESTMOD
+      USE RESTMOD 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -799,9 +799,9 @@ C-----------------------------------------------
          ND8=IXS(NIXS*(ELEM-1)+9)
 C         
          IF(ND1 > 0)THEN 
-            USER_X(I,1,1)=X(3*(ND1-1)+1)
-            USER_X(I,1,2)=X(3*(ND1-1)+2)
-            USER_X(I,1,3)=X(3*(ND1-1)+3)
+            USER_X(I,1,1)=user_interface_nodes%X(1,ND1)
+            USER_X(I,1,2)=user_interface_nodes%X(2,ND1)
+            USER_X(I,1,3)=user_interface_nodes%X(3,ND1)
          ELSE
             USER_X(I,1,1)=ZERO
             USER_X(I,1,2)=ZERO
@@ -809,9 +809,9 @@ C
          ENDIF  
 C
          IF(ND2 > 0)THEN 
-            USER_X(I,2,1)=X(3*(ND2-1)+1)
-            USER_X(I,2,2)=X(3*(ND2-1)+2)
-            USER_X(I,2,3)=X(3*(ND2-1)+3)
+            USER_X(I,2,1)=user_interface_nodes%X(1,ND2)
+            USER_X(I,2,2)=user_interface_nodes%X(2,ND2)
+            USER_X(I,2,3)=user_interface_nodes%X(3,ND2)
          ELSE
             USER_X(I,2,1)=ZERO
             USER_X(I,2,2)=ZERO
@@ -819,9 +819,9 @@ C
          ENDIF  
 C
          IF(ND3 > 0)THEN 
-            USER_X(I,3,1)=X(3*(ND3-1)+1)
-            USER_X(I,3,2)=X(3*(ND3-1)+2)
-            USER_X(I,3,3)=X(3*(ND3-1)+3)
+            USER_X(I,3,1)=user_interface_nodes%X(1,ND3)
+            USER_X(I,3,2)=user_interface_nodes%X(2,ND3)
+            USER_X(I,3,3)=user_interface_nodes%X(3,ND3)
          ELSE
             USER_X(I,3,1)=ZERO
             USER_X(I,3,2)=ZERO
@@ -829,9 +829,9 @@ C
          ENDIF   
 C
          IF(ND4 > 0)THEN 
-            USER_X(I,4,1)=X(3*(ND4-1)+1)
-            USER_X(I,4,2)=X(3*(ND4-1)+2)
-            USER_X(I,4,3)=X(3*(ND4-1)+3)
+            USER_X(I,4,1)=user_interface_nodes%X(1,ND4)
+            USER_X(I,4,2)=user_interface_nodes%X(2,ND4)
+            USER_X(I,4,3)=user_interface_nodes%X(3,ND4)
          ELSE
             USER_X(I,4,1)=ZERO
             USER_X(I,4,2)=ZERO
@@ -839,9 +839,9 @@ C
          ENDIF   
 C
          IF(ND5 > 0)THEN 
-            USER_X(I,5,1)=X(3*(ND5-1)+1)
-            USER_X(I,5,2)=X(3*(ND5-1)+2)
-            USER_X(I,5,3)=X(3*(ND5-1)+3)
+            USER_X(I,5,1)=user_interface_nodes%X(1,ND5)
+            USER_X(I,5,2)=user_interface_nodes%X(2,ND5)
+            USER_X(I,5,3)=user_interface_nodes%X(3,ND5)
          ELSE
             USER_X(I,5,1)=ZERO
             USER_X(I,5,2)=ZERO
@@ -849,9 +849,9 @@ C
          ENDIF  
 C
          IF(ND6 > 0)THEN 
-            USER_X(I,6,1)=X(3*(ND6-1)+1)
-            USER_X(I,6,2)=X(3*(ND6-1)+2)
-            USER_X(I,6,3)=X(3*(ND6-1)+3)
+            USER_X(I,6,1)=user_interface_nodes%X(1,ND6)
+            USER_X(I,6,2)=user_interface_nodes%X(2,ND6)
+            USER_X(I,6,3)=user_interface_nodes%X(3,ND6)
          ELSE
             USER_X(I,6,1)=ZERO
             USER_X(I,6,2)=ZERO
@@ -859,9 +859,9 @@ C
          ENDIF  
 C
          IF(ND7 > 0)THEN 
-            USER_X(I,7,1)=X(3*(ND7-1)+1)
-            USER_X(I,7,2)=X(3*(ND7-1)+2)
-            USER_X(I,7,3)=X(3*(ND7-1)+3)
+            USER_X(I,7,1)=user_interface_nodes%X(1,ND7)
+            USER_X(I,7,2)=user_interface_nodes%X(2,ND7)
+            USER_X(I,7,3)=user_interface_nodes%X(3,ND7)
          ELSE
             USER_X(I,7,1)=ZERO
             USER_X(I,7,2)=ZERO
@@ -869,9 +869,9 @@ C
          ENDIF   
 C
          IF(ND8 > 0)THEN 
-            USER_X(I,8,1)=X(3*(ND8-1)+1)
-            USER_X(I,8,2)=X(3*(ND8-1)+2)
-            USER_X(I,8,3)=X(3*(ND8-1)+3)
+            USER_X(I,8,1)=user_interface_nodes%X(1,ND8)
+            USER_X(I,8,2)=user_interface_nodes%X(2,ND8)
+            USER_X(I,8,3)=user_interface_nodes%X(3,ND8)
          ELSE
             USER_X(I,8,1)=ZERO
             USER_X(I,8,2)=ZERO
@@ -922,9 +922,9 @@ C-----------------------------------------------
          ND8=IXS(NIXS*(ELEM-1)+9)
 C         
          IF(ND1 > 0)THEN 
-            USER_V(I,1,1)=V(3*(ND1-1)+1)
-            USER_V(I,1,2)=V(3*(ND1-1)+2)
-            USER_V(I,1,3)=V(3*(ND1-1)+3)
+            USER_V(I,1,1)=user_interface_nodes%V(1,ND1)
+            USER_V(I,1,2)=user_interface_nodes%V(2,ND1)
+            USER_V(I,1,3)=user_interface_nodes%V(3,ND1)
          ELSE
             USER_V(I,1,1)=ZERO
             USER_V(I,1,2)=ZERO
@@ -932,9 +932,9 @@ C
          ENDIF  
 C
          IF(ND2 > 0)THEN 
-            USER_V(I,2,1)=V(3*(ND2-1)+1)
-            USER_V(I,2,2)=V(3*(ND2-1)+2)
-            USER_V(I,2,3)=V(3*(ND2-1)+3)
+            USER_V(I,2,1)=user_interface_nodes%V(1,ND2)
+            USER_V(I,2,2)=user_interface_nodes%V(2,ND2)
+            USER_V(I,2,3)=user_interface_nodes%V(3,ND2)
          ELSE
             USER_V(I,2,1)=ZERO
             USER_V(I,2,2)=ZERO
@@ -942,9 +942,9 @@ C
          ENDIF  
 C
          IF(ND3 > 0)THEN 
-            USER_V(I,3,1)=V(3*(ND3-1)+1)
-            USER_V(I,3,2)=V(3*(ND3-1)+2)
-            USER_V(I,3,3)=V(3*(ND3-1)+3)
+            USER_V(I,3,1)=user_interface_nodes%V(1,ND3)
+            USER_V(I,3,2)=user_interface_nodes%V(2,ND3)
+            USER_V(I,3,3)=user_interface_nodes%V(3,ND3)
          ELSE
             USER_V(I,3,1)=ZERO
             USER_V(I,3,2)=ZERO
@@ -952,9 +952,9 @@ C
          ENDIF   
 C
          IF(ND4 > 0)THEN 
-            USER_V(I,4,1)=V(3*(ND4-1)+1)
-            USER_V(I,4,2)=V(3*(ND4-1)+2)
-            USER_V(I,4,3)=V(3*(ND4-1)+3)
+            USER_V(I,4,1)=user_interface_nodes%V(1,ND4)
+            USER_V(I,4,2)=user_interface_nodes%V(2,ND4)
+            USER_V(I,4,3)=user_interface_nodes%V(3,ND4)
          ELSE
             USER_V(I,4,1)=ZERO
             USER_V(I,4,2)=ZERO
@@ -962,9 +962,9 @@ C
          ENDIF   
 C
          IF(ND5 > 0)THEN 
-            USER_V(I,5,1)=V(3*(ND5-1)+1)
-            USER_V(I,5,2)=V(3*(ND5-1)+2)
-            USER_V(I,5,3)=V(3*(ND5-1)+3)
+            USER_V(I,5,1)=user_interface_nodes%V(1,ND5)
+            USER_V(I,5,2)=user_interface_nodes%V(2,ND5)
+            USER_V(I,5,3)=user_interface_nodes%V(3,ND5)
          ELSE
             USER_V(I,5,1)=ZERO
             USER_V(I,5,2)=ZERO
@@ -972,9 +972,9 @@ C
          ENDIF  
 C
          IF(ND6 > 0)THEN 
-            USER_V(I,6,1)=V(3*(ND6-1)+1)
-            USER_V(I,6,2)=V(3*(ND6-1)+2)
-            USER_V(I,6,3)=V(3*(ND6-1)+3)
+            USER_V(I,6,1)=user_interface_nodes%V(1,ND6)
+            USER_V(I,6,2)=user_interface_nodes%V(2,ND6)
+            USER_V(I,6,3)=user_interface_nodes%V(3,ND6)
          ELSE
             USER_V(I,6,1)=ZERO
             USER_V(I,6,2)=ZERO
@@ -982,9 +982,9 @@ C
          ENDIF  
 C
          IF(ND7 > 0)THEN 
-            USER_V(I,7,1)=V(3*(ND7-1)+1)
-            USER_V(I,7,2)=V(3*(ND7-1)+2)
-            USER_V(I,7,3)=V(3*(ND7-1)+3)
+            USER_V(I,7,1)=user_interface_nodes%V(1,ND7)
+            USER_V(I,7,2)=user_interface_nodes%V(2,ND7)
+            USER_V(I,7,3)=user_interface_nodes%V(3,ND7)
          ELSE
             USER_V(I,7,1)=ZERO
             USER_V(I,7,2)=ZERO
@@ -992,9 +992,9 @@ C
          ENDIF   
 C
          IF(ND8 > 0)THEN 
-            USER_V(I,8,1)=V(3*(ND8-1)+1)
-            USER_V(I,8,2)=V(3*(ND8-1)+2)
-            USER_V(I,8,3)=V(3*(ND8-1)+3)
+            USER_V(I,8,1)=user_interface_nodes%V(1,ND8)
+            USER_V(I,8,2)=user_interface_nodes%V(2,ND8)
+            USER_V(I,8,3)=user_interface_nodes%V(3,ND8)
          ELSE
             USER_V(I,8,1)=ZERO
             USER_V(I,8,2)=ZERO
