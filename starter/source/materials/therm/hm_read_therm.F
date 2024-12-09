@@ -177,9 +177,6 @@ c--------------------------------------------------
             CALL ANCMSG(MSGID=765, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
      &                  I1=MAT_ID, C3=TITR, I2=MAT_ID, I3=MAT_ID)
           ENDIF
-          IF (RHO_CP == ZERO) RHO_CP = PM(69,IMAT)  ! MAT_PARAM(IMAT)%THERM%RHOCP
-          IF (TREF   == ZERO) TREF   = PM(79,IMAT)  ! MAT_PARAM(IMAT)%THERM%T0
-          IF (TMELT  == ZERO) TMELT  = PM(80,IMAT)  ! MAT_PARAM(IMAT)%THERM%TMELT
 c--------------------------------------------------
 c       Specific Case : law73
 c--------------------------------------------------
