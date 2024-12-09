@@ -158,11 +158,13 @@
               endif
               ! check if strain rate dependency tables are in logarithmic scale
               if (nint(mat_param(imat)%fail(ir)%uparam(9)) == 1) then
-                if (table(mat_param(imat)%fail(ir)%table(3))%ndim == 2) then
-                  if (table(mat_param(imat)%fail(ir)%table(3))%x(2)%values(1) < zero) then 
-                    mat_param(imat)%fail(ir)%uparam(21) = 1
-                  endif
-                endif 
+                if (mat_param(imat)%fail(ir)%table(3) > 0) then
+                  if (table(mat_param(imat)%fail(ir)%table(3))%ndim == 2) then
+                    if (table(mat_param(imat)%fail(ir)%table(3))%x(2)%values(1) < zero) then 
+                      mat_param(imat)%fail(ir)%uparam(21) = 1
+                    endif
+                  endif 
+                endif
               endif
               if (mat_param(imat)%fail(ir)%ifunc(2) > 0) then
                 if (table(mat_param(imat)%fail(ir)%ifunc(2))%x(1)%values(1) < zero) then 
