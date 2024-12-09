@@ -269,8 +269,8 @@
               !tolerance
               DL=two*max(bb,cc)
               DL=em06*DL
-              yp1 = yp1 + DL
-              zp1 = zp1 + DL
+              yg = yg + DL
+              zg = zg + DL
 
               !super-ellipse discretization (in order to avoid degenerated case)
               npt_superellipse = 256
