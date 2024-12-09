@@ -53,6 +53,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MATPARAM_DEF_MOD
+      USE sigeps01_mod, only : sigeps01
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -215,7 +216,14 @@ C     .                   R21,R22,R23,
 C     .                   R31,R32,R33)
 C          ENDIF
 C ====================================================================
-      IF(MTN==35)THEN
+      IF(MTN==1)THEN
+          CALL SIGEPS01(LLT ,PM(1,IMAT),NPROPM, RHO,RHO0,ISMSTR,
+     .                  DE1 ,DE2 ,DE3 ,DE4  ,DE5  ,DE6 ,
+     .                  ES1 ,ES2 ,ES3 ,ES4  ,ES5  ,ES6 ,
+     .                  SO1 ,SO2 ,SO3 ,SO4  ,SO5  ,SO6 ,
+     .                  S1  ,S2  ,S3  ,S4   ,S5   ,S6  ,
+     .                  SSP ,VIS )
+      ELSEIF(MTN==35)THEN
           CALL SIGEPS35(LLT ,NPAR,NUVAR,NFUNC,IFUNC,
      .                  NPF ,TF  ,TIME,TIMESTEP,BUFMAT(IADBUF),
      .                  RHO0,RHO ,VOLN,EINT,
