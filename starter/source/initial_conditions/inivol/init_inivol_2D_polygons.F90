@@ -160,6 +160,8 @@
           ! debug output
           debug=.false.
 
+          if(debug)print *, "inivol title, container id ", trim(inivol(i_inivol)%title)," : " , idc
+
           !---  polygon box (box used in a pre criterion to select relevant nodes with low CPU cost)
           xyz(1:3) = ep20
           xyz(4:6) = -ep20
@@ -578,7 +580,7 @@
             ! already oriented Y->Z
             call polygon_SetClockWise( elem_polygon )  !cen be removed if we already computed the area, then just set %area=...
              if(debug)then
-              write (*,*)"  current elem  "
+              write (*,*)"  current elem  ", ixq(7,ielg)
               !HM TCL SCRIPT TO CHECK ELEM ON SCREEN
               write (*,FMT='(A,3F45.35)') "  *createnode ",0.0,elem_polygon%point(1)%y ,elem_polygon%point(1)%z
               write (*,FMT='(A,3F45.35)') "  *createnode ",0.0,elem_polygon%point(2)%y ,elem_polygon%point(2)%z
