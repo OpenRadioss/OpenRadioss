@@ -1,4 +1,6 @@
-# What is OpenRadioss?
+# OpenRadioss
+
+## What is OpenRadioss?
 
 **Altair® Radioss®** is an industry-proven analysis solution that helps users evaluate and optimize product performance for highly nonlinear problems under dynamic loadings. For more than 30 years, organizations have used Altair Radioss to streamline and optimize the digital design process, replace costly physical tests with quick and efficient simulation, and speed up design optimization iterations.
 
@@ -10,13 +12,13 @@ For more information on the OpenRadioss project, please visit [www.openradioss.o
 
 If you have any questions about OpenRadioss, please feel free to contact <webmaster@openradioss.org>.
 
-# How to Use OpenRadioss
+## How to Use OpenRadioss
 
 * [How to Build OpenRadioss](HOWTO.md)
 * [How to Run OpenRadioss](INSTALL.md)
 * [OpenRadioss Stable Releases](RELEASES.md)
 
-# Community and Ways to Participate
+## Community and Ways to Participate
 
 `git` and `git-lfs` are needed to clone the OpenRadioss repository.
 
@@ -28,14 +30,25 @@ Community Manager
 Marian Bulla
 <communitymanager@openradioss.org>  
 
-# Post Processing tools
+## OpenRadioss GUI
 
-Tools are available to convert Radioss formats to VTK and CSV
+Launch OpenRadioss using the [openradioss_gui](doc/openradioss_gui.md) tool
 
-* [Animation files to VTK](https://github.com/OpenRadioss/OpenRadioss/tree/main/tools/anim_to_vtk)
-* [Time History file](https://github.com/OpenRadioss/OpenRadioss/tree/main/tools/th_to_csv)
+## Input Deck Support
 
-# Resources
+* .rad file native Radioss format, read in Starter
+* .k, .key LS-Dyna format. Native support in Starter.
+* .inp : Abaqus and other solver. Converter with [.inp format to Radioss (.rad) format converter](https://github.com/OpenRadioss/Tools/tree/main/input_converters/inp2rad)
+
+## Post Processing tools
+
+Tools are available to convert Radioss formats to VTK, CSV or d3plot
+
+* [Animation files to VTK](https://github.com/OpenRadioss/Tools/tree/main/output_converters/anim_to_vtk)
+* [Time History file](https://github.com/OpenRadioss/Tools/tree/main/output_converters/th_to_csv)
+* Animation to d3plot converter can be found on [Vortex-CAE GitHub repository](https://github.com/Vortex-CAE/Vortex-Radioss)
+
+## Resources
 
 Online Help Documentation:
 
