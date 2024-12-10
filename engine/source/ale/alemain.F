@@ -84,30 +84,30 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    th_surf_mod                  ../common_source/modules/interfaces/th_surf_mod.F
       !||====================================================================
       SUBROUTINE ALEMAIN(
-     1         PM          ,GEO         ,X             ,A          ,AR                ,V               ,
-     2         MS          ,WA          ,ELBUF_TAB     ,BUFMAT     ,PARTSAV           ,TF              ,
-     3         VAL2        ,VEUL        ,FV            ,STIFN      ,FSKY              ,EANI            ,
-     4         PHI         ,FILL        ,DFILL         ,ALPH       ,SKEW              ,W               ,
-     5         D           ,DSAVE       ,ASAVE         ,DT2T       ,DT2SAVE           ,XCELL           ,
-     6         IPARG       ,NPC         ,IXS           ,IXQ        ,IXTG              ,IADS            ,
-     7         IFILL       ,NODPOR      ,ICODT         ,ISKEW      ,IMS               ,IADQ            ,
-     8         NELTST      ,ITYPTST     ,IPART         ,IPARTS     ,IPARTQ            ,ITASK           ,
-     A         NODFT       ,NODLT       ,NBRCVOIS      ,TEMP       ,FSAVSURF          ,
-     B         NBSDVOIS    ,LNRCVOIS    ,LNSDVOIS      ,NERCVOIS   ,NESDVOIS          ,LERCVOIS        ,
-     C         LESDVOIS    ,ISIZXV      ,IAD_ELEM      ,FR_ELEM    ,FSKYM             ,MSNF            ,
-     D         IPARI       ,SEGVAR      ,ITAB          ,ISKWN      ,DIFFUSION         ,IRESP           ,
-     E         VOLMON      ,FSAV        ,IGRSURF       ,NELTSA     ,
-     F         ITYPTSA     ,WEIGHT      ,NPSEGCOM      ,LSEGCOM    ,IPM               ,IGEO            ,
-     G         ITABM1      ,LENQMV      ,NV46          ,AGLOB      ,GRESAV            ,
-     H         GRTH        ,IGRTH       ,LGAUGE        ,GAUGE      ,MSSA              ,
-     I         DMELS       ,IGAUP       ,NGAUP         ,TABLE      ,MS0               ,
-     J         XDP         ,IGRNOD      ,VARNOD        ,FSKYI      ,ISKY              ,
-     K         INTBUF_TAB  ,IXT         ,IGRV          ,AGRAV      ,SENSORS           ,
-     L         LGRAV       ,CONDNSKY    ,CONDN         ,MS_2D      ,MULTI_FVM         ,IGRTRUSS        ,
-     M         IGRBRIC     ,NLOC_DMG    ,ID_GLOBAL_VOIS,FACE_VOIS  ,EBCS_TAB          ,ALE_CONNECTIVITY,
-     N         MAT_ELEM    ,H3D_DATA    ,DT            ,OUTPUT     ,NEED_COMM_INTER18 ,IDTMINS         ,
-     O         IDTMIN      ,MAXFUNC     ,IMON_MAT      ,USERL_AVAIL,
-     P         impl_s      ,idyna       ,PYTHON        ,MATPARAM   ,GLOB_THERM  )
+     1         PM          ,GEO         ,X               ,A          ,AR                ,V               ,
+     2         MS          ,WA          ,ELBUF_TAB       ,BUFMAT     ,PARTSAV           ,TF              ,
+     3         VAL2        ,VEUL        ,FV              ,STIFN      ,FSKY              ,EANI            ,
+     4         PHI         ,FILL        ,DFILL           ,ALPH       ,SKEW              ,W               ,
+     5         D           ,DSAVE       ,ASAVE           ,DT2T       ,DT2SAVE           ,XCELL           ,
+     6         IPARG       ,NPC         ,IXS             ,IXQ        ,IXTG              ,IADS            ,
+     7         IFILL       ,NODPOR      ,ICODT           ,ISKEW      ,IMS               ,IADQ            ,
+     8         NELTST      ,ITYPTST     ,IPART           ,IPARTS     ,IPARTQ            ,ITASK           ,
+     A         NODFT       ,NODLT       ,NBRCVOIS        ,TEMP       ,FSAVSURF          ,
+     B         NBSDVOIS    ,LNRCVOIS    ,LNSDVOIS        ,NERCVOIS   ,NESDVOIS          ,LERCVOIS        ,
+     C         LESDVOIS    ,ISIZXV      ,IAD_ELEM        ,FR_ELEM    ,FSKYM             ,MSNF            ,
+     D         IPARI       ,SEGVAR      ,ITAB            ,ISKWN      ,DIFFUSION         ,IRESP           ,
+     E         VOLMON      ,FSAV        ,IGRSURF         ,NELTSA     ,
+     F         ITYPTSA     ,WEIGHT      ,NPSEGCOM        ,LSEGCOM    ,IPM               ,IGEO            ,
+     G         ITABM1      ,LENQMV      ,NV46            ,AGLOB      ,GRESAV            ,
+     H         GRTH        ,IGRTH       ,LGAUGE          ,GAUGE      ,MSSA              ,
+     I         DMELS       ,IGAUP       ,NGAUP           ,TABLE      ,MS0               ,
+     J         XDP         ,IGRNOD      ,SFEM_NODVAR     ,FSKYI      ,ISKY              ,S_SFEM_NODVAR,
+     K         INTBUF_TAB  ,IXT         ,IGRV            ,AGRAV      ,SENSORS           ,
+     L         LGRAV       ,CONDNSKY    ,CONDN           ,MS_2D      ,MULTI_FVM         ,IGRTRUSS        ,
+     M         IGRBRIC     ,NLOC_DMG    ,ID_GLOBAL_VOIS  ,FACE_VOIS  ,EBCS_TAB          ,ALE_CONNECTIVITY,
+     N         MAT_ELEM    ,H3D_DATA    ,DT              ,OUTPUT     ,NEED_COMM_INTER18 ,IDTMINS         ,
+     O         IDTMIN      ,MAXFUNC     ,IMON_MAT        ,USERL_AVAIL,
+     P         impl_s      ,idyna       ,PYTHON          ,MATPARAM   ,GLOB_THERM  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -168,6 +168,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER,INTENT(IN) :: S_SFEM_NODVAR
       TYPE(MATPARAM_STRUCT_),DIMENSION(NUMMAT),INTENT(IN) :: MATPARAM !< material buffer
       INTEGER, INTENT(IN):: IRESP
       integer,dimension(102) :: IDTMIN
@@ -206,7 +207,7 @@ C-----------------------------------------------
      .        DT2T, DT2SAVE,
      .        AGLOB(3,*),GAUGE(LLGAUGE,*),MS0(*),
      .        MSNF(*),VOLMON(*),FSAV(NTHVKI,*),GRESAV(*),
-     .        MSSA(*), DMELS(*),VARNOD(*),FSKYI(LSKYI,NFSKYI),
+     .        MSSA(*), DMELS(*),SFEM_NODVAR(S_SFEM_NODVAR),FSKYI(LSKYI,NFSKYI),
      .        AGRAV(*),CONDN(*),CONDNSKY(*),MS_2D(*),TEMP(*)
      
       TYPE(t_segvar) :: SEGVAR
@@ -772,7 +773,7 @@ C
          !---------------------------------------------
 !$OMP SINGLE
           IF(ISFEM >= 1) THEN
-            CALL S4ALESFEM(IPARG,IXS,X,ELBUF_TAB,VARNOD,PM,IAD_ELEM,FR_ELEM)
+            CALL S4ALESFEM(IPARG,IXS,X,ELBUF_TAB,SFEM_NODVAR,S_SFEM_NODVAR,PM,IAD_ELEM,FR_ELEM)
           ENDIF
 !$OMP END SINGLE
 
@@ -837,13 +838,13 @@ C
      D                  ISTRA,           ITASK,           BID,             BID,
      E                  BID,             IBID,            GRESAV,          GRTH,
      F                  IGRTH,           MSSA,            DMELS,           TABLE,
-     G                  XDP,             VARNOD,          VOLN,            BID,
+     G                  XDP,             SFEM_NODVAR,     VOLN,            BID,
      H                  BID,             D,               SENSORS,         IOUTPRT,
      I                  MAT_ELEM,        IBID,            DT,              IDEL7NOK,
      J                  NSVOIS,          SZ_BUFVOIS,      SNPC,            STF,
      K                  SBUFMAT,         SVIS,            IDTMINS,         IRESP, 
      *                  IDEL7NG,         MAXFUNC,         USERL_AVAIL,     GLOB_THERM, 
-     V                  impl_s,     idyna)
+     V                  impl_s,          idyna,           S_SFEM_NODVAR)
 C
                  ELSEIF (ITY == 1 .AND. ISOLNOD /= 4) THEN
                   NULLIFY(pQMV); 
@@ -1014,13 +1015,13 @@ C     ALE ON / OFF
      D                  ISTRA,           ITASK,           BID,             BID,
      E                  BID,             IBID,            GRESAV,          GRTH,
      F                  IGRTH,           MSSA,            DMELS,           TABLE,
-     G                  XDP,             BID,             VOLN,            BID,
+     G                  XDP,             SFEM_NODVAR,     VOLN,            BID,
      H                  BID,             D,               SENSORS,         IOUTPRT,
      I                  MAT_ELEM,        IBID,            DT,              IDEL7NOK,
      J                  NSVOIS,          SZ_BUFVOIS,      SNPC,            STF,
      K                  SBUFMAT,         SVIS,            IDTMINS,         IRESP, 
      *                  IDEL7NG,         MAXFUNC,         USERL_AVAIL,     GLOB_THERM, 
-     V                  impl_s,          idyna)
+     V                  impl_s,          idyna,           S_SFEM_NODVAR)
 
                  ELSEIF(ITY == 1 .AND. ISOLNOD /= 4)THEN
                   NULLIFY(pQMV); 

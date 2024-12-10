@@ -86,26 +86,27 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    table_mod              ../engine/share/modules/table_mod.F
       !||====================================================================
       SUBROUTINE S10FORC3(
-     1   ELBUF_TAB,  NG,         PM,         GEO,
-     2   IXS,        X,          A,          V,
-     3   MS,         W,          FLUX,       FLU1,
-     4   VEUL,       FV,         ALE_CONNECT,IPARG,
-     5   TF,         NPF,        BUFMAT,     PARTSAV,
-     6   NLOC_DMG,   DT2T,       NELTST,     ITYPTST,
-     7   STIFN,      FSKY,       IADS,       OFFSET,
-     8   EANI,       IPARTS,     IXS10,      IADS10,
-     9   NEL,        FX,         FY,         FZ,
-     A   AR,         VR,         DR,         IPM,
-     B   ISTRAIN,    ISOLNOD,    ITASK,      TEMP,
-     C   FTHE,       FTHESKY,    IEXPAN,     STIFR,
-     D   D,          GRESAV,     GRTH,       IGRTH,
-     E   TABLE,      MSSA,       DMELS,      IGEO,
-     F   XDP,        VOLN,       CONDN,      CONDNSKY,
-     G   VARNOD,     ITAGDN,     SENSORS,    IOUTPRT,
-     H   MAT_ELEM,   H3D_STRAIN, DT,         IDEL7NOK,
-     I   SNPC,       STF,        SBUFMAT,    SVIS,
-     J   NSVOIS,     IDTMINS,    IDEL7NG,    MAXFUNC,
-     V   USERL_AVAIL,GLOB_THERM,  impl_s,     idyna )
+     1   ELBUF_TAB,       NG,         PM,         GEO,
+     2   IXS,             X,          A,          V,
+     3   MS,              W,          FLUX,       FLU1,
+     4   VEUL,            FV,         ALE_CONNECT,IPARG,
+     5   TF,              NPF,        BUFMAT,     PARTSAV,
+     6   NLOC_DMG,        DT2T,       NELTST,     ITYPTST,
+     7   STIFN,           FSKY,       IADS,       OFFSET,
+     8   EANI,            IPARTS,     IXS10,      IADS10,
+     9   NEL,             FX,         FY,         FZ,
+     A   AR,              VR,         DR,         IPM,
+     B   ISTRAIN,         ISOLNOD,    ITASK,      TEMP,
+     C   FTHE,            FTHESKY,    IEXPAN,     STIFR,
+     D   D,               GRESAV,     GRTH,       IGRTH,
+     E   TABLE,           MSSA,       DMELS,      IGEO,
+     F   XDP,             VOLN,       CONDN,      CONDNSKY,
+     G   SFEM_NODVAR,     ITAGDN,     SENSORS,    IOUTPRT,
+     H   MAT_ELEM,        H3D_STRAIN, DT,         IDEL7NOK,
+     I   SNPC,            STF,        SBUFMAT,    SVIS,
+     J   NSVOIS,          IDTMINS,    IDEL7NG,    MAXFUNC,
+     V   USERL_AVAIL,     GLOB_THERM, impl_s,     idyna  ,
+     W   S_SFEM_NODVAR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -148,6 +149,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: S_SFEM_NODVAR
       INTEGER, INTENT(INOUT) :: IDEL7NOK
       INTEGER, INTENT(IN) :: SNPC
       INTEGER, INTENT(IN) :: STF
@@ -159,27 +161,20 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IMPL_S
       INTEGER, INTENT(IN) :: IDYNA
       INTEGER, INTENT(IN) :: USERL_AVAIL
-
       INTEGER IXS(NIXS,*),IPARG(NPARG,NGROUP),NPF(*),IADS(8,*),
      .        IPARTS(*),IXS10(6,*),IADS10(6,*),IPM(*),ITASK,GRTH(*),
      .        IGRTH(*),IGEO(NPROPGI,*),IOUTPRT,H3D_STRAIN
       INTEGER NELTST,ITYPTST,OFFSET,NEL,NG,ISTRAIN,ISOLNOD,IEXPAN,ITAGDN(*)      
-C     REAL
-
-      DOUBLE PRECISION 
-     .   XDP(3,*)
+      DOUBLE PRECISION  XDP(3,*)
       
-      my_real
-     .   DT2T
-      my_real
-     .   PM(NPROPM,*), GEO(NPROPG,*), X(*), A(*), V(3,*), MS(*), W(*),
-     .   FLUX(6,*),FLU1(*), VEUL(*), FV(*), TF(*), 
-     .   BUFMAT(*),PARTSAV(*),STIFN(*), FSKY(*),EANI(*),
-     .   AR(*),VR(*) ,DR(*) ,STIFR(*),D(*), MSSA(*)  ,DMELS(*)
-      my_real
-     .   FX(MVSIZ,10),FY(MVSIZ,10),FZ(MVSIZ,10),
-     .   TEMP(*), FTHE(*), FTHESKY(*),GRESAV(*),VOLN(MVSIZ),CONDN(*),
-     .   CONDNSKY(*),VARNOD(SVARNOD)
+      my_real DT2T
+      my_real PM(NPROPM,*), GEO(NPROPG,*), X(*), A(*), V(3,*), MS(*), W(*),
+     .        FLUX(6,*),FLU1(*), VEUL(*), FV(*), TF(*),
+     .        BUFMAT(*),PARTSAV(*),STIFN(*), FSKY(*),EANI(*),
+     .        AR(*),VR(*) ,DR(*) ,STIFR(*),D(*), MSSA(*)  ,DMELS(*)
+      my_real FX(MVSIZ,10),FY(MVSIZ,10),FZ(MVSIZ,10),
+     .        TEMP(*), FTHE(*), FTHESKY(*),GRESAV(*),VOLN(MVSIZ),CONDN(*),
+     .        CONDNSKY(*),SFEM_NODVAR(S_SFEM_NODVAR)
       my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
       TYPE(TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
@@ -208,20 +203,20 @@ C-----
      . VDX(MVSIZ), VDY(MVSIZ), VDZ(MVSIZ),SSP_EQ(MVSIZ),AIRE(MVSIZ),
      . CONDE(MVSIZ),CONDEG(MVSIZ), VOLG(MVSIZ), JACGM(MVSIZ)
 C-----
-C Variables utilisees en argument par les materiaux.
+C Arrays for material laws
       my_real
      .   STI(MVSIZ),
      .   WXX(MVSIZ) , WYY(MVSIZ) , WZZ(MVSIZ),
      .   WXXG(MVSIZ) , WYYG(MVSIZ) , WZZG(MVSIZ)
-C Variables utilisees en argument par les materiaux si SPH uniquement.
+C Arrays for material laws (sph only)
       my_real
      .   MUVOID(MVSIZ)
 C-----
-C     Variables void MMAIN 
+C     void MMAIN
       my_real
      . SIGY(MVSIZ),ET(MVSIZ),GAMA(MVSIZ,6),
      . R1_FREE(MVSIZ),R3_FREE(MVSIZ),R4_FREE(MVSIZ)
-C Variables utilisees dans les routines solides uniquement (en arguments).
+C For solid elements
       INTEGER NC(MVSIZ,10),ICP,MX,IPLAW1
 
       DOUBLE PRECISION
@@ -521,7 +516,7 @@ C-----------------------------
       IF(ICP >0 .AND. ISMSTR/=10) THEN
          DO I=LFT,LLT
           IF(GBUF%OFF(I) == ZERO) CYCLE
-          SUM=VARNOD(NC(I,1))+VARNOD(NC(I,2))+VARNOD(NC(I,3))+VARNOD(NC(I,4))
+          SUM=SFEM_NODVAR(NC(I,1))+SFEM_NODVAR(NC(I,2))+SFEM_NODVAR(NC(I,3))+SFEM_NODVAR(NC(I,4))
           JACGM(I)=FOURTH*SUM
          ENDDO
       ENDIF
@@ -555,7 +550,7 @@ C
            IF (ISMSTR==10) THEN
              DO I=LFT,LLT
                IF(GBUF%OFF(I) == ZERO) CYCLE
-               JACGM(I)=VARNOD(NC(I,IP))
+               JACGM(I)=SFEM_NODVAR(NC(I,IP))
              ENDDO
            END IF
            CALL S10_ICP(

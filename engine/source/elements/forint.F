@@ -107,9 +107,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      P    DF        ,WF        ,FFSKY      ,AFGLOB    ,NBSDVOIS  ,
      Q    NERCVOIS  ,NESDVOIS  ,LERCVOIS   ,LESDVOIS  ,PHI1      ,
      R    PHI2      ,MSF       ,NODFT      ,NODLT     ,
-     S    FLG_KJ2   ,POR       ,ICONTACT   ,IFOAM     ,VARNOD    ,
+     S    FLG_KJ2   ,POR       ,ICONTACT   ,IFOAM     ,SFEM_NODVAR,
      T    KXIG3D    ,IXIG3D    ,KNOT       ,WIGE      ,CONDN     ,
-     U    CONDNSKY  ,
+     U    CONDNSKY  ,S_SFEM_NODVAR,
      V    TAGPRT_SMS,ITAGND    ,MS_2D      ,NALE      ,STRESSMEAN,
      W    KNOTLOCPC ,KNOTLOCEL ,SUBSET     ,FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE,
      Y    H3D_DATA  ,IFTHE     ,ICONDN     ,DT        ,OUTPUT,
@@ -163,6 +163,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: S_SFEM_NODVAR
       type(python_), intent(inout) :: PYTHON
       INTEGER IXS(NIXS,*),ITAB(*),FLG_KJ2,
      .   IXQ(NIXQ,*), IXT(NIXT,*), IXP(NIXP,*),
@@ -208,7 +209,7 @@ C-----------------------------------------------
      .   GRESAV(*), MSSA(*), DMELS(*), MSTR(*), DMELTR(*),
      .   MSP(*), DMELP(*), MSRT(*), DMELRT(*),VF(3,*),AF(3,*),FFSKY(*),
      .   PHI1(*),PHI2(*),DF(3,*),WF(3,*),MSF(*),AFGLOB(3,*),
-     .   POR(*) ,VARNOD(*),KNOT(*),WIGE(*),CONDN(*),CONDNSKY(*),AGRAV(*),
+     .   POR(*) ,SFEM_NODVAR(S_SFEM_NODVAR),KNOT(*),WIGE(*),CONDN(*),CONDNSKY(*),AGRAV(*),
      .   MS_2D(*),STRESSMEAN(6,*),KNOTLOCPC(*),KNOTLOCEL(*)
       DOUBLE PRECISION XDP(3,*)
       TYPE(TTABLE) TABLE(*)
@@ -370,27 +371,27 @@ C---------
           IF(ISOLNOD==4.AND.(ISROT==0.OR.ISROT==3))THEN                            
 C---------
             CALL S4FORC3(
-     1   ELBUF_TAB,  NG,         PM,         GEO,
-     2   IXS,        X,          A,          V,
-     3   MS,         W,          WA,         VAL2,
-     4   VEUL,       FV,         ALE_CONNECT,IPARG,
-     5   TF,         NPC,        BUFMAT,     PARTSAV,
-     6   NLOC_DMG,   DT2T,       NELTST,     ITYPTST,
-     7   STIFN,      FSKY,       IADS,       OFFSET,
-     8   EANI,       IPARTS(NF1),FX(1,1),    FY(1,1),
-     9   FZ(1,1),    FX(1,2),    FY(1,2),    FZ(1,2),
-     A   FX(1,3),    FY(1,3),    FZ(1,3),    FX(1,4),
-     B   FY(1,4),    FZ(1,4),    NEL,        FSKYM,
-     C   MSNF,       IPM,        IGEO,       BID,
-     D   ISTRA,      ITASK,      TEMP,       FTHE,
-     E   FTHESKY,    IEXPAN,     GRESAV,     GRTH,
-     F   IGRTH(NF1), MSSA(NF1),  DMELS(NF1), TABLE,
-     G   XDP,        VARNOD,     VOLN,       CONDN,
-     H   CONDNSKY,   D,          SENSORS,    IPRI,
-     I   MAT_ELEM,   IBID,       DT,         IDEL7NOK,NSVOIS,SBID,
-     *   SNPC,       STF,        SBUFMAT,    SVIS,IDTMINS,IRESP,
-     *   IDEL7NG,    MAXFUNC,    USERL_AVAIL, GLOB_THERM, 
-     V   impl_s,     idyna)
+     1   ELBUF_TAB,  NG,              PM,         GEO,
+     2   IXS,        X,               A,          V,
+     3   MS,         W,               WA,         VAL2,
+     4   VEUL,       FV,              ALE_CONNECT,IPARG,
+     5   TF,         NPC,             BUFMAT,     PARTSAV,
+     6   NLOC_DMG,   DT2T,            NELTST,     ITYPTST,
+     7   STIFN,      FSKY,            IADS,       OFFSET,
+     8   EANI,       IPARTS(NF1),     FX(1,1),    FY(1,1),
+     9   FZ(1,1),    FX(1,2),         FY(1,2),    FZ(1,2),
+     A   FX(1,3),    FY(1,3),         FZ(1,3),    FX(1,4),
+     B   FY(1,4),    FZ(1,4),         NEL,        FSKYM,
+     C   MSNF,       IPM,             IGEO,       BID,
+     D   ISTRA,      ITASK,           TEMP,       FTHE,
+     E   FTHESKY,    IEXPAN,          GRESAV,     GRTH,
+     F   IGRTH(NF1), MSSA(NF1),       DMELS(NF1), TABLE,
+     G   XDP,        SFEM_NODVAR,     VOLN,       CONDN,
+     H   CONDNSKY,   D,               SENSORS,    IPRI,
+     I   MAT_ELEM,   IBID,            DT,         IDEL7NOK,NSVOIS,SBID,
+     *   SNPC,       STF,             SBUFMAT,    SVIS,IDTMINS,IRESP,
+     *   IDEL7NG,    MAXFUNC,         USERL_AVAIL, GLOB_THERM,
+     V   impl_s,     idyna,           S_SFEM_NODVAR)
 C
             IF (NSECT > 0) THEN 
               K0=NSTRF(25)                                             
@@ -436,11 +437,12 @@ c---------
      D   D,                   GRESAV,              GRTH,                IGRTH(OFF_IGRTH+NF1),
      E   TABLE,               MSSA(NF1),           DMELS(NF1),          IGEO,
      F   XDP,                 VOLN,                CONDN,               CONDNSKY,
-     G   VARNOD,              ITAGND,              SENSORS,             IPRI,
+     G   SFEM_NODVAR,         ITAGND,              SENSORS,             IPRI,
      H   MAT_ELEM,            IBID,                DT,                  IDEL7NOK,
      I   SNPC,                STF,                 SBUFMAT,             SVIS,
      J   NSVOIS,              IDTMINS,             IDEL7NG,             MAXFUNC ,     
-     V   USERL_AVAIL,         GLOB_THERM,          impl_s,              idyna )
+     V   USERL_AVAIL,         GLOB_THERM,          impl_s,              idyna ,
+     W   S_SFEM_NODVAR)
 c
             IF(NSECT>0)THEN 
               K0=NSTRF(25)                                             
