@@ -83,27 +83,27 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    table_mod              ../engine/share/modules/table_mod.F
       !||====================================================================
       SUBROUTINE S4FORC3(
-     1   ELBUF_TAB,  NG,         PM,         GEO,
-     2   IXS,        X,          A,          V,
-     3   MS,         W,          FLUX,       FLU1,
-     4   VEUL,       FV,         ALE_CONNECT,IPARG,
-     5   TF,         NPF,        BUFMAT,     PARTSAV,
-     6   NLOC_DMG,   DT2T,       NELTST,     ITYPTST,
-     7   STIFN,      FSKY,       IADS,       OFFSET,
-     8   EANI,       IPARTS,     F11,        F21,
-     9   F31,        F12,        F22,        F32,
-     A   F13,        F23,        F33,        F14,
-     B   F24,        F34,        NEL,        FSKYM,
-     C   MSNF,       IPM,        IGEO,       BUFVOIS,
-     D   ISTRAIN,    ITASK,      TEMP,       FTHE,
-     E   FTHESKY,    IEXPAN,     GRESAV,     GRTH,
-     F   IGRTH,      MSSA,       DMELS,      TABLE,
-     G   XDP,        VARNOD,     VOLN,       CONDN,
-     H   CONDNSKY,   D,          SENSORS,    IOUTPRT,
-     I   MAT_ELEM,   H3D_STRAIN, DT,         IDEL7NOK,NSVOIS,SZ_BUFVOIS,
-     *   SNPC,       STF,        SBUFMAT,    SVIS,IDTMINS,IRESP, 
-     *   IDEL7NG,    MAXFUNC,    USERL_AVAIL, GLOB_THERM, 
-     V   impl_s,     idyna)
+     1   ELBUF_TAB,  NG,               PM,         GEO,
+     2   IXS,        X,                A,          V,
+     3   MS,         W,                FLUX,       FLU1,
+     4   VEUL,       FV,               ALE_CONNECT,IPARG,
+     5   TF,         NPF,              BUFMAT,     PARTSAV,
+     6   NLOC_DMG,   DT2T,             NELTST,     ITYPTST,
+     7   STIFN,      FSKY,             IADS,       OFFSET,
+     8   EANI,       IPARTS,           F11,        F21,
+     9   F31,        F12,              F22,        F32,
+     A   F13,        F23,              F33,        F14,
+     B   F24,        F34,              NEL,        FSKYM,
+     C   MSNF,       IPM,              IGEO,       BUFVOIS,
+     D   ISTRAIN,    ITASK,            TEMP,       FTHE,
+     E   FTHESKY,    IEXPAN,           GRESAV,     GRTH,
+     F   IGRTH,      MSSA,             DMELS,      TABLE,
+     G   XDP,        SFEM_NODVAR,      VOLN,       CONDN,
+     H   CONDNSKY,   D,                SENSORS,    IOUTPRT,
+     I   MAT_ELEM,   H3D_STRAIN,       DT,         IDEL7NOK,NSVOIS,SZ_BUFVOIS,
+     *   SNPC,       STF,              SBUFMAT,    SVIS,IDTMINS,IRESP,
+     *   IDEL7NG,    MAXFUNC,          USERL_AVAIL, GLOB_THERM,
+     V   impl_s,     idyna,            S_SFEM_NODVAR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -141,6 +141,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN)    :: S_SFEM_NODVAR
       INTEGER, INTENT(IN)    :: SNPC
       INTEGER, INTENT(IN)    :: STF
       INTEGER, INTENT(IN)    :: NSVOIS
@@ -175,7 +176,7 @@ C
      .   F13(MVSIZ),F23(MVSIZ),F33(MVSIZ),
      .   F14(MVSIZ),F24(MVSIZ),F34(MVSIZ),D(*),
      .   TEMP(*), FTHE(*), FTHESKY(*),GRESAV(*), MSSA(*), DMELS(*), VOLN(MVSIZ)
-      my_real MSNF(*),VARNOD(*),CONDN(*),CONDNSKY(*),BUFVOIS(6,*)
+      my_real MSNF(*),SFEM_NODVAR(S_SFEM_NODVAR),CONDN(*),CONDNSKY(*),BUFVOIS(6,*)
       my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
       TYPE(TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
@@ -406,7 +407,7 @@ C!!!!!!calcul local rep for ISMSTR 10 to 11 (offg>un)
          ENDIF
       ENDIF
 C
-      IF(JALE+JLAG/=0)THEN
+      IF(JALE+JLAG /= 0)THEN
        IF (ISMSTR /= 11) THEN
 C!!!!!!also add exception for ismstr10+offg>un
         CALL S4DERI3(
@@ -489,20 +490,20 @@ C-----------------------------------------------------
       IF(JLAG > 0.AND.ISROT == 3) THEN
         RHO_0 = PM(1,MXT(1))
         CALL S4VOLN_M(
-     1   VARNOD,      NC1,         NC2,         NC3,
-     2   NC4,         MXT,         GBUF%OFF,    GBUF%RHO,
-     3   RHO_0,       MFXX,        MFXY,        MFXZ,
-     4   MFYX,        MFYY,        MFYZ,        MFZX,
-     5   MFZY,        MFZZ,        GBUF%VOL,    VOLN,
-     6   LBUF%VOL0DP, VOLDP,       GBUF%AMU,    DXX,
-     7   DYY,         DZZ,         MAT_ELEM%MAT_PARAM,NEL,
-     8   ISMSTR)
+     1   SFEM_NODVAR,      NC1,         NC2,         NC3,
+     2   NC4,              MXT,         GBUF%OFF,    GBUF%RHO,
+     3   RHO_0,            MFXX,        MFXY,        MFXZ,
+     4   MFYX,             MFYY,        MFYZ,        MFZX,
+     5   MFZY,             MFZZ,        GBUF%VOL,    VOLN,
+     6   LBUF%VOL0DP,      VOLDP,       GBUF%AMU,    DXX,
+     7   DYY,              DZZ,         MAT_ELEM%MAT_PARAM,NEL,
+     8   ISMSTR,           S_SFEM_NODVAR)
       ENDIF
-      IF(JALE > 0.AND.ISROT == 3.AND.MTN /= 37.AND.MTN /= 51.AND.
-     .   MTN /= 18.AND.MTN /= 11) THEN
+      IF(JALE > 0 .AND. ISROT == 3 .AND. MTN /= 37 .AND. MTN /= 51 .AND.
+     .   MTN /= 18 .AND. MTN /= 11) THEN
         DO I=LFT,LLT
          IF(OFF(I) /= 0) THEN
-         SUM=VARNOD(NC1(I))+VARNOD(NC2(I))+VARNOD(NC3(I))+VARNOD(NC4(I))
+         SUM=SFEM_NODVAR(NC1(I))+SFEM_NODVAR(NC2(I))+SFEM_NODVAR(NC3(I))+SFEM_NODVAR(NC4(I))
          VOLN(I)=FOURTH*SUM*GBUF%RHO(I)/PM(1,MXT(I))
          ENDIF
         ENDDO
@@ -751,7 +752,7 @@ C
      N   MTN)
       ENDIF
 
-        IF(JEUL+JALE/=0) CALL CHECK_OFF_ALE(F11,F21,F31,F12,F22,
+        IF(JEUL+JALE /= 0) CALL CHECK_OFF_ALE(F11,F21,F31,F12,F22,
      1                           F32,F13,F23,F33,F14,
      2                           F24,F34,BID,BID,BID,
      3                           BID,BID,BID,BID,BID,

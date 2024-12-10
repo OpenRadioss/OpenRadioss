@@ -981,21 +981,17 @@ C----
       SAVE DRETRI, XSEC, LISENDP, LIRECVP, ISENDP, IRECVP,
      .     CNEL, ADDCNEL, ADDTMPL, IPARTL, NPARTL, LINDIDEL, LBUFIDEL,
      .     LBUFSEGLO
-      my_real
-     .   DT2T,
-     .   DT2SAVE,  MAS, BB, TFEXC,TREST,DTREST,
-     .   DMAST, DINERT, FACTB,DAMPT,
-     .   XSENS(12,SENSORS%NSENSOR),DAMPA3
-      my_real
-     .   FXBMVN(LENCP),FXBSV(LENLM),FXBSE(15*NFXBODY),DXANCG(3,NUMNOD),
-     .   FXBMCD(LENMCD),FXBFP(LENVAR),FXBFC(LENLM),FXBEFW(NFXBODY),
-     .   FXBEDP(NFXBODY),FXBGRP(LENVAR),FXBGRW(NFXBODY)
-      my_real
-     .   DT2PREV, DTMIN1_SAVE, TARGET_DT
+      my_real DT2T,
+     .        DT2SAVE,  MAS, BB, TFEXC,TREST,DTREST,
+     .        DMAST, DINERT, FACTB,DAMPT,
+     .        XSENS(12,SENSORS%NSENSOR),DAMPA3
+      my_real FXBMVN(LENCP),FXBSV(LENLM),FXBSE(15*NFXBODY),DXANCG(3,NUMNOD),
+     .        FXBMCD(LENMCD),FXBFP(LENVAR),FXBFC(LENLM),FXBEFW(NFXBODY),
+     .        FXBEDP(NFXBODY),FXBGRP(LENVAR),FXBGRW(NFXBODY)
+      my_real DT2PREV, DTMIN1_SAVE, TARGET_DT
       SAVE IMSCH, I2MSCH, ISMSCH
       SAVE DT2PREV
-      SAVE
-     .     NFIA, NFEA, NFOA, NDMA, NDIN, NDMA2,
+      SAVE NFIA, NFEA, NFOA, NDMA, NDIN, NDMA2,
      .     I13A,I13B,I13C,I13D,I13E,I13F,I13G,I13H,I13I,
      .     I15A,I15B,I15C,I15D,I15E,I15F,I15G,I15H,I15I,I15J,I15K,
      .     I87A,I87B,I87C,I87D,I87E,I87F,I87G,I87H,I87I,I87J,I87K,I87L,
@@ -1005,26 +1001,21 @@ C----
      .        LIF,NNDL,IT,NMC2,LI13,DIRUL(NFXVEL),NUM_IMP1(NINTER),
      .        FR_RBE2M(SFR_RBE2),R2SIZE,
      .        NUM_IMPL(NINTER,NTHREAD), I_OPT_STOK(NINTER),IT_T,NTMP
-      INTEGER
-     .        IER1,NDS,IBUCK,NMRBE2,NTHOLD
-      SAVE
-     .        NMRBE2,R2SIZE,NINT7
+      INTEGER IER1,NDS,IBUCK,NMRBE2,NTHOLD
+      SAVE NMRBE2,R2SIZE,NINT7
       INTEGER, DIMENSION(:),POINTER :: NS_IMP,NE_IMP,IND_IMP
       TYPE (IMPBUF_STRUCT_), TARGET :: IMPBUF_TAB
-      my_real, DIMENSION(:)  , POINTER :: FEXT_IMP,R_IMP 
-      my_real
-     .   TTMP,DMCP(NUMGEO)
+      my_real, DIMENSION(:)  , POINTER :: FEXT_IMP,R_IMP
+      my_real TTMP,DMCP(NUMGEO)
       data TTMP /0.0/
       INTEGER LWIBEM, LWRBEM, IERROR, IERROR2, INTER_ERRORS
       INTEGER, DIMENSION(:), ALLOCATABLE :: WIBEM
-      my_real
-     .       , DIMENSION(:), ALLOCATABLE :: WRBEM
+      my_real, DIMENSION(:), ALLOCATABLE :: WRBEM
       SAVE LWIBEM, LWRBEM, WIBEM, WRBEM
       INTEGER NKCOND, NDDLG, NRP, NCP, NKCOND_INI, NT_IMP_OLD
       INTEGER LWIFLOW, LWRFLOW
       INTEGER, DIMENSION(:), ALLOCATABLE :: WIFLOW
-      my_real
-     .       , DIMENSION(:), ALLOCATABLE :: WRFLOW
+      my_real, DIMENSION(:), ALLOCATABLE :: WRFLOW
       SAVE LWIFLOW, LWRFLOW, WIFLOW, WRFLOW
       INTEGER SIZ, R2R_ON
       INTEGER, DIMENSION(:), ALLOCATABLE :: CDDLP
@@ -1033,7 +1024,7 @@ C----
 #endif
       INTEGER IFVMESH
 C
-      my_real ,DIMENSION(:,:), ALLOCATABLE :: MADCLFRECV,PARTSAV2
+      my_real, DIMENSION(:,:), ALLOCATABLE :: MADCLFRECV,PARTSAV2
 C
       INTEGER MADYMO_DEL,MADYMO_DEL_GLOBAL
       INTEGER, DIMENSION(:),  ALLOCATABLE ::MAD_TAG_SOL, MAD_TAG_SH,MAD_TAG_TG,MAD_FAIL_ELEMENTS
@@ -1050,10 +1041,8 @@ C OpenMP specific
       EXTERNAL OMP_GET_THREAD_NUM
       INTEGER, DIMENSION(:), ALLOCATABLE :: IBUFIDEL, INDIDEL,RENUM,IBUFSEGLO,
      .                                      INDSEGLO
-      my_real
-     .        DT2TT,D_TSTART,D_TSTOP
-      my_real
-     .        XSLV(18,NINTER),XMSR(12,NINTER),
+      my_real DT2TT,D_TSTART,D_TSTOP
+      my_real XSLV(18,NINTER),XMSR(12,NINTER),
      .        VSLV(6,NINTER),VMSR(6,NINTER),
      .        SIZE_T(NINTER)
 C End OpenMP specific
@@ -1062,35 +1051,31 @@ C Parith/ON specific
       DOUBLE PRECISION
      .        RBY6(8,6,NRBYKIN),FRL6(15,6,NRLINK),FNL6(15,6,NLINK),
      .        FRWL6(7,6,NRWALL),RBYM6(6,6,NRBYM),SPHG_F6(4,6,NBGAUGE)
-      my_real
-     .        FRL(4,NRLINK), FNL(4,NLINK)
+      my_real FRL(4,NRLINK), FNL(4,NLINK)
       INTEGER NGRTH,NELEM
       INTEGER RESTSIZE
 C End Parith/ON specific
       INTEGER FR_SMS(NSPMD+1), FR_RMS(NSPMD+1)
       INTEGER, POINTER, DIMENSION(:) :: PTR_SMS
       INTEGER NMT0,IROTG,NMT,NMP
-      my_real
-     .      , DIMENSION(:), ALLOCATABLE :: RRBE3
-      DOUBLE PRECISION
-     .      , DIMENSION(:), ALLOCATABLE :: RRBE3_PON
+      my_real, DIMENSION(:), ALLOCATABLE :: RRBE3
+      DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE :: RRBE3_PON
       INTEGER, DIMENSION(:), ALLOCATABLE :: IKINE
-      my_real
-     .      , DIMENSION(:), ALLOCATABLE :: STK_SN,STK_SR,FEXT,
-     .         FCLUSTER,MCLUSTER
+      my_real, DIMENSION(:), ALLOCATABLE :: STK_SN,STK_SR,FEXT,FCLUSTER,MCLUSTER
       INTEGER LNZM
       INTEGER, DIMENSION(:),ALLOCATABLE :: INT18ADD,TAGPENE
       INTEGER, DIMENSION(:),ALLOCATABLE :: IDAMP_RDOF_TAB
-      my_real,
-     .         DIMENSION(:,:),ALLOCATABLE :: MTF, CAND_SAV
+      my_real, DIMENSION(:,:),ALLOCATABLE :: MTF, CAND_SAV
       INTEGER FLG_DTNODAMP
-      my_real
-     .       DT3
+      my_real DT3
       INTEGER  IGROUPFLG(2)
       INTEGER, DIMENSION(:),ALLOCATABLE :: IGROUPC,IGROUPTG,IGROUPS
       INTEGER  IOLDSECT
-      my_real
-     .      ,  DIMENSION(:),ALLOCATABLE :: VARNOD
+
+      ! TETRA4 : SMOOTH FINITE ELEMENT FORMULATIONS
+      my_real, DIMENSION(:),ALLOCATABLE :: SFEM_NODVAR     !lagrange framework
+      my_real, DIMENSION(:),ALLOCATABLE :: SFEM_NODVAR_ALE !ALE framework
+      INTEGER S_SFEM_NODVAR ! same size for ALE and Lagrange frameworks
 C-----------------------------------------------------------------------------------
 C Parith/OFF + AMS
       INTEGER, DIMENSION(:),ALLOCATABLE :: UNCOMP_FR,FR_LOC, 
@@ -1300,7 +1285,7 @@ C-------------------------------------------------------------------------------
       ENDIF
       FLG_KJ2 = 0
       I_EXCH_FLG_RAZ = 0
-!      NULLIFY(X_A) 
+!      NULLIFY(X_A)
 !      NULLIFY(X_C) 
       NELTST  = 0
       ITYPTST = 0
@@ -2568,12 +2553,16 @@ C Init var parallel SMP
 !$OMP END PARALLEL
           CALL DEALLOC_SHOOT_INTER( SHOOT_STRUCT )
         ENDIF
+
+
+      ! TETRA4 : SMOOTH FINITE ELEMENT FORMULATIONS
       IF(ISFEM >= 1) THEN
-        SVARNOD = 2*NUMNOD
+        S_SFEM_NODVAR = 2*NUMNOD
       ELSE
-        SVARNOD = 1
+        S_SFEM_NODVAR = 1
       ENDIF
-      ALLOCATE(VARNOD(SVARNOD))
+      ALLOCATE(SFEM_NODVAR(S_SFEM_NODVAR))
+      ALLOCATE(SFEM_NODVAR_ALE(S_SFEM_NODVAR))
 
 C========================================================================================
 C                                    NON PARALLEL SECTION (SMP)
@@ -3694,7 +3683,9 @@ C---------------------------------------------
       IF(ISFEM >= 1) THEN
         IF(GLOB_THERM%ITHERM == 0)THEN
           L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
-          CALL S4LAGSFEM(IPARG,IXS,X,V,ELBUF_TAB,VARNOD,IAD_ELEM,FR_ELEM,IXS(L1),XDP)
+          CALL S4LAGSFEM(IPARG, IXS, X, V, ELBUF_TAB, SFEM_NODVAR, S_SFEM_NODVAR,
+     .                   IAD_ELEM, FR_ELEM, IXS(L1), XDP, SXDP,
+     .                   NUMNOD, SFR_ELEM , NSPMD, NUMELS, NUMELS8, NUMELS10,  NPARG, NGROUP, IRESP)
         ENDIF
       ENDIF
 
@@ -4032,30 +4023,30 @@ C     Init var parallel SMP
            ITYPTSTT = ITYPTST
 C     
            CALL ALEMAIN(
-     1          PM                    ,GEO      ,X             ,A(1,NDTSK)        ,AR(1,NDTSK)               ,V               ,
-     2          MS                    ,WA       ,ELBUF_TAB     ,BUFMAT            ,PARTSAV(IPMTSK)           ,TF              ,
-     3          VAL2                  ,VEUL     ,FV            ,STIFN(NDTSK)      ,FSKY                      ,EANI            ,
-     4          PHI                   ,FILL     ,DFILL         ,ALPH              ,SKEWS%SKEW                ,W               ,
-     5          D                     ,DSAVE    ,ASAVE         ,DT2TT             ,DT2SAVE                   ,XCELL           ,
-     6          IPARG                 ,NPC      ,IXS           ,IXQ               ,IXTG                      ,IADS            ,
-     7          IFILL                 ,NODPOR   ,ICODT         ,ISKEW             ,IMS                       ,IADS(I87B)      ,
-     8          NELTSTT               ,ITYPTSTT ,IPART         ,IPART(K1)         ,IPART(K2)                 ,ITSK            ,
-     A          NODFTSK               ,NODLTSK  ,NBRCVOIS      ,TEMP              ,OUTPUT%TH%TH_SURF%CHANNELS,
-     B          NBSDVOIS              ,LNRCVOIS ,LNSDVOIS      ,NERCVOIS          ,NESDVOIS                  ,LERCVOIS        ,
-     C          LESDVOIS              ,ISIZXV   ,IAD_ELEM      ,FR_ELEM           ,FSKYM                     ,MSNF            ,
-     D          IPARI                 ,SEGVAR   ,ITAB          ,ISKWN             ,DIFFUSION                 ,IRESP           ,
-     E          VOLMON                ,FSAV     ,IGRSURF       ,NELTSA            ,
-     F          ITYPTSA               ,WEIGHT   ,NPSEGCOM      ,LSEGCOM           ,IPM                       ,IGEO            ,
-     G          ITABM1                ,LENQMV   ,NV46          ,A                 ,GRESAV                    ,
-     H          GRTH                  ,IGRTH    ,LGAUGE        ,GAUGE             ,MSSA                      ,
-     I          DMELS                 ,IGAUP    ,NGAUP         ,TABLE             ,MS0                       ,
-     J          XDP                   ,IGRNOD   ,VARNOD        ,FSKYI             ,ISKY                      ,
-     K          INTERFACES%INTBUF_TAB ,IXT      ,IGRV          ,AGRV              ,SENSORS                   ,
-     L          LGRAV                 ,CONDNSKY ,CONDN         ,MS_2D             ,MULTI_FVM                 ,IGRTRUSS        ,
-     M          IGRBRIC               ,NLOC_DMG ,ID_GLOBAL_VOIS,FACE_VOIS         ,EBCS_TAB                  ,ALE_CONNECTIVITY,
-     N          MAT_ELEM              ,H3D_DATA ,DT            ,OUTPUT            ,NEED_COMM_INTER18         ,IDTMINS         ,
-     O          IDTMIN                ,MAXFUNC  ,IMON_MAT      ,USERL_AVAIL       ,
-     P          impl_s                ,idyna    ,PYTHON        ,MAT_ELEM%MAT_PARAM,GLOB_THERM)
+     1          PM                    ,GEO      ,X                   ,A(1,NDTSK)        ,AR(1,NDTSK)               ,V               ,
+     2          MS                    ,WA       ,ELBUF_TAB           ,BUFMAT            ,PARTSAV(IPMTSK)           ,TF              ,
+     3          VAL2                  ,VEUL     ,FV                  ,STIFN(NDTSK)      ,FSKY                      ,EANI            ,
+     4          PHI                   ,FILL     ,DFILL               ,ALPH              ,SKEWS%SKEW                ,W               ,
+     5          D                     ,DSAVE    ,ASAVE               ,DT2TT             ,DT2SAVE                   ,XCELL           ,
+     6          IPARG                 ,NPC      ,IXS                 ,IXQ               ,IXTG                      ,IADS            ,
+     7          IFILL                 ,NODPOR   ,ICODT               ,ISKEW             ,IMS                       ,IADS(I87B)      ,
+     8          NELTSTT               ,ITYPTSTT ,IPART               ,IPART(K1)         ,IPART(K2)                 ,ITSK            ,
+     A          NODFTSK               ,NODLTSK  ,NBRCVOIS            ,TEMP              ,OUTPUT%TH%TH_SURF%CHANNELS,
+     B          NBSDVOIS              ,LNRCVOIS ,LNSDVOIS            ,NERCVOIS          ,NESDVOIS                  ,LERCVOIS        ,
+     C          LESDVOIS              ,ISIZXV   ,IAD_ELEM            ,FR_ELEM           ,FSKYM                     ,MSNF            ,
+     D          IPARI                 ,SEGVAR   ,ITAB                ,ISKWN             ,DIFFUSION                 ,IRESP           ,
+     E          VOLMON                ,FSAV     ,IGRSURF             ,NELTSA            ,
+     F          ITYPTSA               ,WEIGHT   ,NPSEGCOM            ,LSEGCOM           ,IPM                       ,IGEO            ,
+     G          ITABM1                ,LENQMV   ,NV46                ,A                 ,GRESAV                    ,
+     H          GRTH                  ,IGRTH    ,LGAUGE              ,GAUGE             ,MSSA                      ,
+     I          DMELS                 ,IGAUP    ,NGAUP               ,TABLE             ,MS0                       ,
+     J          XDP                   ,IGRNOD   ,SFEM_NODVAR_ALE     ,FSKYI             ,ISKY                      ,S_SFEM_NODVAR,
+     K          INTERFACES%INTBUF_TAB ,IXT      ,IGRV                ,AGRV              ,SENSORS                   ,
+     L          LGRAV                 ,CONDNSKY ,CONDN               ,MS_2D             ,MULTI_FVM                 ,IGRTRUSS        ,
+     M          IGRBRIC               ,NLOC_DMG ,ID_GLOBAL_VOIS      ,FACE_VOIS         ,EBCS_TAB                  ,ALE_CONNECTIVITY,
+     N          MAT_ELEM              ,H3D_DATA ,DT                  ,OUTPUT            ,NEED_COMM_INTER18         ,IDTMINS         ,
+     O          IDTMIN                ,MAXFUNC  ,IMON_MAT            ,USERL_AVAIL       ,
+     P          impl_s                ,idyna    ,PYTHON              ,MAT_ELEM%MAT_PARAM,GLOB_THERM)
 
            IF(INT22 /=0)  call my_barrier !INTER22in input files  - get also IDT_INT22
 #include "lockon.inc"
@@ -4808,9 +4799,9 @@ C
      P DFLOW          ,WFLOW         ,FFSKY       ,AFLOW      ,NBSDVOIS        ,
      Q NERCVOIS       ,NESDVOIS      ,LERCVOIS    ,LESDVOIS   ,PHI             ,
      R PHIE           ,MSF           ,NODFTSK     ,NODLTSK    ,
-     S FLG_KJ2        ,POR           ,IFOAM_CONT  ,IFOAM      ,VARNOD          ,
+     S FLG_KJ2        ,POR           ,IFOAM_CONT  ,IFOAM      ,SFEM_NODVAR     ,
      T KXIG3D         ,IXIG3D        ,KNOT        ,WIGE       ,CONDN(IDX_CONDN),
-     U CONDNSKY       ,
+     U CONDNSKY       ,S_SFEM_NODVAR,
      V TAGPRT_SMS     ,ITAGND        ,MS_2D       ,ALE_CONNECTIVITY%NALE       ,STRESSMEAN      ,
      W KNOTLOCPC      ,KNOTLOCEL     ,SUBSETS     ,FLAG_SLIPRING_UPDATE, FLAG_RETRACTOR_UPDATE  ,
      Y H3D_DATA       ,IFTHE         ,ICONDN      ,DT      ,OUTPUT,
@@ -9960,7 +9951,8 @@ C--- //0 ----------------
          IF(ALLOCATED(IGROUPTG))DEALLOCATE(IGROUPTG) 
          IF(ALLOCATED(IGROUPS))DEALLOCATE(IGROUPS) 
          IF(ALLOCATED(GRESAV))DEALLOCATE(GRESAV)                             
-         IF(ALLOCATED(VARNOD))DEALLOCATE(VARNOD)
+         IF(ALLOCATED(SFEM_NODVAR))DEALLOCATE(SFEM_NODVAR)
+         IF(ALLOCATED(SFEM_NODVAR_ALE))DEALLOCATE(SFEM_NODVAR_ALE)
          IF(ALLOCATED(PARTSAV2))DEALLOCATE(PARTSAV2)                             
          IF(IMON>0) THEN     
            IF(NVOLU > 0)  CALL FVSTATS(MONVOL)
