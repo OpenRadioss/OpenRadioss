@@ -414,47 +414,51 @@
           endif ! (n2d == 0)
 
 
-!------------- FINAL CHECK + FILL REMAINING RATIO WITH PREVALENT SUBMATERIAL
-!                SET VOLUME FRACTION IN MATERIAL BUFFERS OF ALE MULTIMATERIAL LAWS
-          do ng=1,ngroup
-            mtn     = iparg(1,ng)
-            nel     = iparg(2,ng)
-            nft     = iparg(3,ng)
-            ity     = iparg(5,ng)
-            isolnod = iparg(28,ng)
-            invol   = iparg(53,ng)
-            if (invol <=  0) cycle
-            if (mtn /= 51 .and. mtn /= 151) cycle
-            if(n2d == 0 .and. ity /= 1)then
-              cycle
-            elseif(n2d > 0 .and. ity /= 7 .and. ity /= 2)then
-              cycle
-            endif
-            i15_ = 0
-            imid = 0
-            if(ity == 1)then
-              i15_=i15a
-              imid = ixs(1,1+nft)
-            elseif(n2d > 0)then
-              if(ity == 7)then
-                i15_=i15h
-                imid = ixtg(1,1+nft)
-              elseif(ity == 2)then
-                i15_=i15b
-                imid = ixq(1,1+nft)
-              else
-                i15_=0
-             endif
-            endif
-            mbuf  => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
-            nuvar =  elbuf_tab(ng)%bufly(1)%nvar_mat
-            nf1   =  nft+1
-            call inivol_set( &
-                             mbuf%var  , nuvar      , nel        , kvol(1,nf1)             , mtn                         , &
-                             elbuf_tab , ng         , nbsubmat   , multi_fvm               , &
-                             idp       , ipart(i15_), nft        , imid                    , &
-                             mat_param    )
-          enddo ! next ng=1,ngroup
+!--------FINAL CHECK + FILL REMAINING RATIO WITH PREVALENT SUBMATERIAL
+!        SET VOLUME FRACTION IN MATERIAL BUFFERS OF ALE MULTIMATERIAL LAWS
+!         -- 3d : after each inivol loop (legacy method)
+!         -- 2d : after the end of inivol looop (polygon clipping)
+          if(n2d == 0 .or. ii == num_inivol)then
+            do ng=1,ngroup
+              mtn     = iparg(1,ng)
+              nel     = iparg(2,ng)
+              nft     = iparg(3,ng)
+              ity     = iparg(5,ng)
+              isolnod = iparg(28,ng)
+              invol   = iparg(53,ng)
+              if (invol <=  0) cycle
+              if (mtn /= 51 .and. mtn /= 151) cycle
+              if(n2d == 0 .and. ity /= 1)then
+                cycle
+              elseif(n2d > 0 .and. ity /= 7 .and. ity /= 2)then
+                cycle
+              endif
+              i15_ = 0
+              imid = 0
+              if(ity == 1)then
+                i15_=i15a
+                imid = ixs(1,1+nft)
+              elseif(n2d > 0)then
+                if(ity == 7)then
+                  i15_=i15h
+                  imid = ixtg(1,1+nft)
+                elseif(ity == 2)then
+                  i15_=i15b
+                  imid = ixq(1,1+nft)
+                else
+                  i15_=0
+               endif
+              endif
+              mbuf  => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
+              nuvar =  elbuf_tab(ng)%bufly(1)%nvar_mat
+              nf1   =  nft+1
+              call inivol_set( &
+                               mbuf%var  , nuvar      , nel        , kvol(1,nf1)             , mtn                         , &
+                               elbuf_tab , ng         , nbsubmat   , multi_fvm               , &
+                               idp       , ipart(i15_), nft        , imid                    , &
+                               mat_param    )
+            enddo ! next ng=1,ngroup
+          end if
 !-------------
 
           if(allocated(iphase))   deallocate(iphase)
