@@ -176,6 +176,8 @@ C-----------------------------------------------
       USE SKEW_MOD
       use glob_therm_mod
       use PBLAST_MOD
+      use connectivity_mod
+      use nodal_arrays_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -328,6 +330,8 @@ C MDS Table
 C----------------------------------------------------------------------------------
       TYPE(NAMES_AND_TITLES_) :: NAMES_AND_TITLES  !< NAMES_AND_TITLES host the input deck names and titles for outputs
       TYPE(UNIT_TYPE_) :: UNITAB !< units conversion
+      TYPE(connectivity_) :: element 
+      TYPE(nodal_arrays_), target :: nodes 
 C------------------------------------------------------------------
 C to build a IBM PARALLEL version
 C In starter : define install parameter nspmd 
@@ -484,6 +488,7 @@ C Initialize ProcessID variable for scratch filesqq
 C--------------------------------------------------
 C Radioss userlibraries initialization
 C--------------------------------------------------
+        user_interface_nodes => NODES ! should be done only if user_interface is used
         IF(GOT_USERL_ALTNAME==1)THEN
           DLIBFILE(1:LEN_USERL_ALTNAME)=USERL_ALTNAME(1:LEN_USERL_ALTNAME)
           DLIBFILE_SIZE=LEN_USERL_ALTNAME
@@ -921,7 +926,7 @@ C
       CALL ALE_CONNECTIVITY%ALE_CONNECTIVITY_INIT()
 
       ! Most of arrays from Restart
-      CALL RESTALLOC(MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,INTERFACES,SKEWS,GLOB_THERM)
+      CALL RESTALLOC(ELEMENT,NODES,MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,INTERFACES,SKEWS,GLOB_THERM)
 
       ! Initialization
       IGEO = 0
@@ -934,33 +939,33 @@ C
         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
         CALL ARRET(2)
       ENDIF
-C
-      ! Single Precision version : XDP = X in Double :
-      IF (IRESP==1) THEN
-        SXDP = 3*NUMNOD
-        ALLOCATE(XDP(SXDP),STAT=IXDP)
-        IF(IXDP/=0) THEN
-          CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
-          CALL ARRET(2)
-        ENDIF
-        ALLOCATE(DDP(3*NUMNOD),STAT=IXDP)
-        IF(IXDP/=0) THEN
-          CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
-          CALL ARRET(2)
-        ENDIF
-      ELSE
-        SXDP = 3
-        ALLOCATE(XDP(SXDP),STAT=IXDP)
-        IF(IXDP/=0) THEN
-          CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
-          CALL ARRET(2)
-        ENDIF
-        ALLOCATE(DDP(1),STAT=IXDP)
-        IF(IXDP/=0) THEN
-          CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
-          CALL ARRET(2)
-        ENDIF
-      ENDIF
+
+!     ! Single Precision version : XDP = X in Double :
+!     IF (IRESP==1) THEN
+!       SXDP = 3*NUMNOD
+!       ALLOCATE(XDP(SXDP),STAT=IXDP)
+!       IF(IXDP/=0) THEN
+!         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
+!         CALL ARRET(2)
+!       ENDIF
+!       ALLOCATE(DDP(3*NUMNOD),STAT=IXDP)
+!       IF(IXDP/=0) THEN
+!         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
+!         CALL ARRET(2)
+!       ENDIF
+!     ELSE
+!       SXDP = 3
+!       ALLOCATE(XDP(SXDP),STAT=IXDP)
+!       IF(IXDP/=0) THEN
+!         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
+!         CALL ARRET(2)
+!       ENDIF
+!       ALLOCATE(DDP(1),STAT=IXDP)
+!       IF(IXDP/=0) THEN
+!         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
+!         CALL ARRET(2)
+!       ENDIF
+!     ENDIF
 
       ! Monvol / Airbag
       ALLOCATE(T_MONVOL(NVOLU))
@@ -1034,7 +1039,7 @@ C
      .            SKEWS          ,RFLOW      ,LIFLOW        ,LRFLOW           ,IMPL_S0   ,
      .            MCP            ,TEMP       ,FORNEQS       ,UNITAB,
      .            STACK          ,DRAPE_SH4N ,DRAPE_SH3N    ,DRAPEG           ,NDRAPE ,
-     .            GLOB_THERM     ,PBLAST)
+     .            GLOB_THERM     ,PBLAST, ELEMENT, NODES)
       ! Close restart file
        CALL CLOSE_C
        ! --------------------------------------------------------------------------------------------
@@ -1326,7 +1331,7 @@ C--------------------------------------------
      .            C1='(/DT/.../AMS)')
             CALL ARRET(2)
           ENDIF
-          IF(MCHECK==0)DIAG_SMS(1:NUMNOD)=MS(1:NUMNOD)
+          IF(MCHECK==0)DIAG_SMS(1:NUMNOD)=NODES%MS(1:NUMNOD)
         ENDIF
       ELSEIF(IDTMINS==2)THEN
         IF(IDTMINS_OLD /= 2)THEN
@@ -1346,7 +1351,7 @@ C--------------------------------------------
           DMELP (1:NUMELP)=ZERO
           DMELRT(1:NUMELR)=ZERO
           DMINT2(1:4*I2NSN25)=ZERO
-          DIAG_SMS(1:NUMNOD)=MS(1:NUMNOD)
+          DIAG_SMS(1:NUMNOD)=NODES%MS(1:NUMNOD)
         ENDIF
         IF(IDTMINS_OLD /= 1 .AND. IDTMINS_OLD /= 2)THEN
           ALLOCATE(RES_SMS(3*NUMNOD),STAT=IERR)
@@ -1365,7 +1370,7 @@ C--------------------------------------------
      .            C1='(/DT/.../AMS)')
             CALL ARRET(2)
           ENDIF
-          DIAG_SMS(1:NUMNOD)=MS(1:NUMNOD)
+          DIAG_SMS(1:NUMNOD)=NODES%MS(1:NUMNOD)
         END IF
       END IF
       IF(.NOT.ALLOCATED(ADMSMS))ALLOCATE(ADMSMS(0))
@@ -1410,7 +1415,7 @@ C-----------------------------------------------------
       IF(MCHECK==0)THEN
         CALL SWITCH_TO_DTNODA(
      .                    IXR      ,GEO      ,PM       ,IPARG    ,MAT_ELEM%ELBUF,
-     .                    MS       ,IN       ,ITAB     ,IGEO     ,IPM    ,
+     .                    NODES%MS       ,NODES%IN       ,NODES%ITAB     ,IGEO     ,IPM    ,
      .                    BUFMAT   ,IPART    ,IGRNOD   ,IGRPART)
       END IF
 C------------------------------------------------
@@ -1446,16 +1451,16 @@ C------------------------------------------------
 C     engine file reading
 C------------------------------------------------
       CALL TRACE_IN(16,2,ZERO)
-      CALL LECTUR(  ICODE ,  ISKEW ,  ISKWN ,  IXTG  ,   IXS ,
-     2              IXQ ,    IXC ,    IXT ,    IXP ,     IXR ,
-     3              ITAB ,   ITABM1  ,NPC,     IPARG,    IGRV ,
+      CALL LECTUR(  NODES%ICODE ,  NODES%ISKEW ,  ISKWN ,  IXTG  ,   IXS ,
+     2              IXQ ,    ELEMENT%SHELL%IXC ,    IXT ,    IXP ,     IXR ,
+     3              NODES%ITAB ,   NODES%ITABM1  ,NPC,     IPARG,    IGRV ,
      4              LGRAV   ,IPARI,
      5              NPBY ,   LPBY    ,ILINK,   LLINK  ,LINALE ,
      6              NEFLSW , NNFLSW , ICUT ,   IAF(IF01),
-     7              X  ,     V  ,     VR  ,    MS   ,IN  ,
+     7              NODES%X  ,NODES%V,  NODES%VR, NODES%MS   ,NODES%IN  ,
      8              SKEWS%SKEW  ,TF       ,RBY  ,
      9              WA  ,CRFLSW  ,XCUT  ,ANIN  ,DAMPR  ,
-     A              IGRNOD ,KXSP,WEIGHT ,FR_RBY2 ,FR_RL,
+     A              IGRNOD ,KXSP,NODES%WEIGHT ,FR_RBY2 ,FR_RL,
      B              PARTSAV,IPART,PM,
      C              MONVOL ,VOLMON, IPART_STATE,GEO,TABLE,
      D              IFRAME,XFRAME,MAT_ELEM%ELBUF,IGEO,INTERFACES%INTBUF_TAB,
@@ -1496,18 +1501,18 @@ C------------------------------------------------
            ANIM_CE(10254) = 1
            ANIM_CE(10255) = 1
         ENDIF
-      CALL BCS0 (ICODE,ICODT,ICODR, ICODE_PLY, ICODT_PLY,IBC_PLY)
+      CALL BCS0 (NODES%ICODE,NODES%ICODT,NODES%ICODR, ICODE_PLY, ICODT_PLY,IBC_PLY)
       IT = 1
       IF (NUMELTG6>0) THEN
-        CALL CDK6BC3(ICODT ,ISKEW,ISKWN,IXTG  ,
+        CALL CDK6BC3(NODES%ICODT ,NODES%ISKEW,ISKWN,IXTG  ,
      1                  IXTG1   ,NPBY,
-     2                  X ,SKEWS%SKEW)
+     2                  NODES%X ,SKEWS%SKEW)
       ENDIF
 C
 C bcs rigid material
 C
       IF(IRIGID_MAT > 0)
-     .   CALL CONDRMAT(ICODT,ICODR, IRBYM, LNRBYM,ICODRBYM)
+     .   CALL CONDRMAT(NODES%ICODT,NODES%ICODR, IRBYM, LNRBYM,ICODRBYM)
 
 C
       CALL TRACE_IN(18,0,ZERO)
@@ -1578,7 +1583,7 @@ C------------------------------------------------
           IFILTITL = IUTITLHIS
           ITHFLAG = 10
           CALL HIST1( FILNAMTH ,IFIL              ,NTHGRP            ,LONG,
-     2                 WA      ,PM                ,GEO               ,IPART,
+     2                 PM                ,GEO               ,IPART,
      3                 SUBSETS ,OUTPUT%TH%ITHGRP  ,OUTPUT%TH%ITHBUF  ,IGEO,
      4                 IPM     ,IPART   ,LIPART1  ,8,
      5                 12      ,ITFORM  ,ITHFLAG ,ITHVAR,
@@ -1601,7 +1606,7 @@ C   Multiple th files
               IFILTITL = IUTITLHI(1)
               ITHFLAG = 1
               CALL HIST1( FILNAMTH ,IFIL              ,NTHGRP1(1)        ,LONG ,
-     2                    WA       ,PM                ,GEO               ,IPART,
+     2                    PM                ,GEO               ,IPART,
      3                    SUBSETS  ,OUTPUT%TH%ITHGRPA ,OUTPUT%TH%ITHBUFA ,IGEO ,
      4                    IPM      ,IPART(1+LIPART1*(NPART+NTHPART)) ,2  ,1    ,
      5                    1       ,AFORM(1)           ,ITHFLAG       ,ITHVAR,
@@ -1624,7 +1629,7 @@ C   Multiple th files
               IFILTITL = IUTITLHI(2)
               ITHFLAG = 2
               CALL HIST1(FILNAMTH,IFIL              ,NTHGRP1(2)        ,LONG,
-     2                   WA      ,PM                ,GEO               ,IPART ,
+     2                   PM                ,GEO               ,IPART ,
      3                   SUBSETS ,OUTPUT%TH%ITHGRPB ,OUTPUT%TH%ITHBUFB ,IGEO ,
      4                   IPM     ,IPART(1+LIPART1*(NPART+NTHPART)+2*(NPART+NTHPART)),2,1,
      5                   1       ,AFORM(2)          ,ITHFLAG          ,ITHVAR,
@@ -1647,7 +1652,7 @@ C   Multiple th files
               IFILTITL = IUTITLHI(3)
               ITHFLAG = 3
               CALL HIST1(FILNAMTH ,IFIL             ,NTHGRP1(3)        ,LONG,
-     2                   WA       ,PM               ,GEO               ,IPART ,
+     2                   PM               ,GEO               ,IPART ,
      3                   SUBSETS ,OUTPUT%TH%ITHGRPC ,OUTPUT%TH%ITHBUFC ,IGEO ,
      4                   IPM     ,IPART(1+LIPART1*(NPART+NTHPART)+4*(NPART+NTHPART)) ,2 ,1,
      5                   1       ,AFORM(3)          ,ITHFLAG           ,ITHVAR,
@@ -1670,7 +1675,7 @@ C   Multiple th files
               IFIL= IUNIT
               ITHFLAG = 4
               CALL HIST1(FILNAMTH,IFIL,NTHGRP1(4),LONG,
-     2                   WA  ,PM  ,GEO ,IPART ,
+     2                   PM  ,GEO ,IPART ,
      3                   SUBSETS ,OUTPUT%TH%ITHGRPD ,OUTPUT%TH%ITHBUFD ,IGEO,
      4                   IPM     ,IPART(1+LIPART1*(NPART+NTHPART)+6*(NPART+NTHPART)) ,2 ,1,
      5                   1       ,AFORM(4)          ,ITHFLAG           ,ITHVAR,
@@ -1693,7 +1698,7 @@ C   Multiple th files
               IFILTITL = IUTITLHI(5)
               ITHFLAG = 5
               CALL HIST1(FILNAMTH,IFIL              ,NTHGRP1(5)        ,LONG,
-     2                   WA      ,PM                ,GEO               ,IPART,
+     2                   PM                ,GEO               ,IPART,
      3                   SUBSETS ,OUTPUT%TH%ITHGRPE ,OUTPUT%TH%ITHBUFE ,IGEO,
      4                   IPM     ,IPART(1+LIPART1*(NPART+NTHPART)+8*(NPART+NTHPART)),2,1,
      5                   1       ,AFORM(5)          ,ITHFLAG           ,ITHVAR,
@@ -1716,7 +1721,7 @@ C   Multiple th files
               IFILTITL = IUTITLHI(6)
               ITHFLAG = 6
               CALL HIST1(FILNAMTH,IFIL              ,NTHGRP1(6)        ,LONG,
-     2                   WA      ,PM                ,GEO               ,IPART ,
+     2                   PM                ,GEO               ,IPART ,
      3                   SUBSETS ,OUTPUT%TH%ITHGRPF ,OUTPUT%TH%ITHBUFF ,IGEO ,
      4                   IPM     ,IPART(1+LIPART1*(NPART+NTHPART)+10*(NPART+NTHPART)),2,1,
      5                   1       ,AFORM(6)          ,ITHFLAG           ,ITHVAR,
@@ -1739,7 +1744,7 @@ C   Multiple th files
               IFILTITL = IUTITLHI(7)
               ITHFLAG = 7
               CALL HIST1(FILNAMTH,IFIL              ,NTHGRP1(7)        ,LONG,
-     2                   WA      ,PM                ,GEO               ,IPART ,
+     2                   PM                ,GEO               ,IPART ,
      3                   SUBSETS ,OUTPUT%TH%ITHGRPG ,OUTPUT%TH%ITHBUFG ,IGEO ,
      4                   IPM,IPART(1+LIPART1*(NPART+NTHPART)+12*(NPART+NTHPART)),2,1,
      5                   1       ,AFORM(7)          ,ITHFLAG           ,ITHVAR,
@@ -1762,7 +1767,7 @@ C   Multiple th files
               IFILTITL = IUTITLHI(8)
               ITHFLAG = 8
               CALL HIST1(FILNAMTH ,IFIL              ,NTHGRP1(8),LONG,
-     2                   WA       ,PM                ,GEO               ,IPART,
+     2                   PM                ,GEO               ,IPART,
      3                   SUBSETS  ,OUTPUT%TH%ITHGRPH ,OUTPUT%TH%ITHBUFH ,IGEO,
      4                   IPM      ,IPART(1+LIPART1*(NPART+NTHPART)+14*(NPART+NTHPART)),2,1,
      5                   1       ,AFORM(8)           ,ITHFLAG           ,ITHVAR,
@@ -1785,7 +1790,7 @@ C   Multiple th files
               IFILTITL = IUTITLHI(9)
               ITHFLAG = 9
               CALL HIST1(FILNAMTH,IFIL,NTHGRP1(9),LONG,
-     2                   WA  ,PM  ,GEO ,IPART ,
+     2                   PM  ,GEO ,IPART ,
      3                   SUBSETS ,OUTPUT%TH%ITHGRPI ,OUTPUT%TH%ITHBUFI ,IGEO,
      4                   IPM     ,IPART(1+LIPART1*(NPART+NTHPART)+16*(NPART+NTHPART)),2,1,
      5                   1       ,AFORM(9)          ,ITHFLAG           ,ITHVAR,
@@ -1794,8 +1799,8 @@ C   Multiple th files
         ELSE
           WRITE(CHR_OLD,'(I2.2)')IRUNN
           CALL HIST13(
-     1           IPARG ,IXS ,IXQ ,IXC ,IXT ,
-     2           IXP ,IXR ,WA  ,ITAB ,PM  ,
+     1           IPARG ,IXS ,IXQ ,ELEMENT%SHELL%IXC ,IXT ,
+     2           IXP ,IXR ,NODES%ITAB ,PM  ,
      3           NPBYL ,IXTG ,IRFE    ,LACCELM ,
      4           IPARI ,IPART ,OUTPUT%TH%ITHGRP ,OUTPUT%TH%ITHBUF ,CHR_OLD,NAMES_AND_TITLES)
         ENDIF
@@ -2126,7 +2131,7 @@ c
 #endif
         ENDIF
       ENDIF
-      CALL INIT_TH0( IPARG,MAT_ELEM%ELBUF,IGEO,IXR,OUTPUT%TH,WEIGHT)
+      CALL INIT_TH0( IPARG,MAT_ELEM%ELBUF,IGEO,IXR,OUTPUT%TH,NODES%WEIGHT)
       CALL TRACE_OUT(18)
 C---------------------------------------------------------------------
 #ifdef DNC
@@ -2148,8 +2153,8 @@ C Send Data / Fem Structures
         K10=K9+NUMELX
         K11=K10+NUMSPH
         CALL RAD_INIT_MADCPL(IPART, PM, GEO, ITAB,
-     *                       X,     MS,
-     *                       IXC ,IXTG ,IXS ,
+     *                       NODES%X,  NODES%MS,
+     *                       ELEMENT%SHELL%IXC ,IXTG ,IXS ,
      *                       IPART(K3),IPART(K8),IPART(K1),
      *                       MADPRT,   MADCLNOD,  MADSH4,  MADSH3,
      *                       MADSOL )
@@ -2159,7 +2164,7 @@ C---------------------------------------------------------------------
          ITASK=0
          IRUNN_BIS = IRUNN
 
-         CALL RESOL_HEAD(ITASK        ,AF              ,IAF             ,IDATA      ,RDATA,XDP ,
+         CALL RESOL_HEAD(ELEMENT, NODES, ITASK        ,AF              ,IAF             ,IDATA      ,RDATA,XDP ,
      .                   GRAPHE       ,IFLOW           ,RFLOW           ,MCP        ,TEMP      ,
      .                   STACK        ,IRUNN_BIS       ,
      .                   MULTI_FVM    ,H3D_DATA        ,SUBSETS    ,IGRNOD    ,

@@ -134,7 +134,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    write_inivel_mod       ../engine/source/output/restart/write_inivel.F90
       !||    xfem2vars_mod          ../engine/share/modules/xfem2vars_mod.F
       !||====================================================================
-      SUBROUTINE WRRESTP(AF         ,IAF      ,XDP        ,ICH       ,ADDCNE,
+      SUBROUTINE WRRESTP(ELEMENTS, NODES, AF         ,IAF      ,ICH       ,ADDCNE,
      .                   ELBUF_TAB  ,XFEM_TAB        ,INTBUF_TAB ,MULTI_FVM   ,MAT_ELEM         ,
      .                   H3D_DATA   ,INTBUF_FRIC_TAB ,SUBSET     ,PINCH_DATA  ,ALE_CONNECTIVITY ,
      .                   T_MONVOL   ,SENSORS         ,EBCS_TAB   ,DYNAIN_DATA ,USER_WINDOWS     ,
@@ -149,6 +149,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE RESTMOD
+      USE nodal_arrays_mod
+      USE connectivity_mod
       USE INTSTAMP_GLOB_MOD
       USE SMS_MOD
       USE TABLE_GLOB_MOD
@@ -203,6 +205,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(nodal_arrays_) :: NODES
+      TYPE(connectivity_) :: ELEMENTS
       INTEGER, INTENT(IN) :: NDRAPE
       INTEGER, INTENT(IN) :: IMPL_S
       INTEGER, INTENT(IN) :: IMPL_S0
@@ -214,7 +218,6 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: FORNEQS(3,NUMNOD)
       INTEGER IAF(*),ICH,ADDCNE(*)
       my_real  AF(*)
-      DOUBLE PRECISION XDP(*)
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP)      :: ELBUF_TAB
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP,NXEL) :: XFEM_TAB
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
@@ -467,11 +470,11 @@ C--------------------------------------
 
         CALL WRITE_I_C(MAIN_PROC,SWEIGHT)
 
-        CALL WRITE_I_C(WEIGHT,SWEIGHT)
+        CALL WRITE_I_C(NODES%WEIGHT,SWEIGHT)
 
-        CALL WRITE_I_C(ICODE,SICODE)
+        CALL WRITE_I_C(NODES%ICODE,SICODE)
 
-        CALL WRITE_I_C(ISKEW,SISKEW)
+        CALL WRITE_I_C(NODES%ISKEW,SISKEW)
 
         CALL WRITE_I_C(ISKWN,SISKWN)
 
@@ -498,7 +501,7 @@ C--------------------------------------
 
         CALL WRITE_I_C(IXQ,SIXQ)
 
-        CALL WRITE_I_C(IXC,SIXC)
+        CALL WRITE_I_C(ELEMENTS%SHELL%IXC,SIXC)
 
         CALL WRITE_I_C(IXT,SIXT)
 
@@ -506,9 +509,9 @@ C--------------------------------------
 
         CALL WRITE_I_C(IXR,SIXR)
 
-        CALL WRITE_I_C(ITAB,SITAB)
+        CALL WRITE_I_C(NODES%ITAB,SITAB)
 
-        CALL WRITE_I_C(ITABM1,SITABM1)
+        CALL WRITE_I_C(NODES%ITABM1,SITABM1)
 
         CALL WRITE_I_C(GJBUFI,SGJBUFI)
 
@@ -1052,15 +1055,15 @@ C--------------------------------------
 C--------------------------------------
 C     ECRITURE DES REELS
 C--------------------------------------
-         CALL WRITE_DB(X,SX)
+         CALL WRITE_DB(NODES%X,SX)
 
-         CALL WRITE_DB(D,SD)
+         CALL WRITE_DB(NODES%D,SD)
 
-         CALL WRITE_DB(V,SV)
+         CALL WRITE_DB(NODES%V,SV)
 
-         CALL WRITE_DB(VR,SVR)
+         CALL WRITE_DB(NODES%VR,SVR)
 
-         CALL WRITE_DB(DR,SDR)
+         CALL WRITE_DB(NODES%DR,SDR)
 
          CALL WRITE_DB(THKE,STHKE)
 
@@ -1068,13 +1071,13 @@ C--------------------------------------
 
          CALL WRITE_DB(DAMP,SDAMP)
 
-         CALL WRITE_DB(MS,SMS)
+         CALL WRITE_DB(NODES%MS,SMS)
 
          IF (N2D >0) THEN
            CALL WRITE_DB(MS_2D,NUMNOD)
          ENDIF
 
-         CALL WRITE_DB(IN,SIN)
+         CALL WRITE_DB(NODES%IN,SIN)
 
          CALL WRITE_DB(TF,STF)
 
@@ -1244,15 +1247,15 @@ C   on ramene PARTSAV sur le proc et on met a zero les autres
 C-----
 C  Save A, AR to Restart RAD2MD
       IF (IRESMD==1) THEN
-        CALL WRITE_DB(A,3*NUMNOD)
-        CALL WRITE_DB(AR,3*NUMNOD)
+        CALL WRITE_DB(NODES%A,3*NUMNOD)
+        CALL WRITE_DB(NODES%AR,3*NUMNOD)
 C    Save PARTSAV.
         CALL WRITE_DB(PARTSAV,NPSAV*NPART)
       ENDIF
 C
       IF (IRESP == 1) THEN
-        CALL WRITE_DPDB(XDP,3*NUMNOD)
-        CALL WRITE_DPDB(DDP,3*NUMNOD)
+        CALL WRITE_DPDB(NODES%XDP,3*NUMNOD)
+        CALL WRITE_DPDB(NODES%DDP,3*NUMNOD)
       ENDIF
 C besoin pour les check restart
 C on a besoin car les restart sont les memes des check restart
@@ -1369,8 +1372,8 @@ C--------------------------------------
         CALL INTFRIC_WRESTR(INTBUF_FRIC_TAB,NINTERFRIC)
       END IF
 C--------------------------------------
-        CALL WRITE_DB(MS0,NUMNOD)
-        CALL WRITE_DB(IN0,SIN)
+        CALL WRITE_DB(NODES%MS0,NUMNOD)
+        CALL WRITE_DB(NODES%IN0,SIN)
         IF(IDTMINS==1)THEN
           CALL WRITE_DB(ADMSMS,NUMNOD)
         ELSEIF(IDTMINS==2)THEN
