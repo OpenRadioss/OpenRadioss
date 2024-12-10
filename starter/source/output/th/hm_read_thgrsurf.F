@@ -57,7 +57,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE GROUPDEF_MOD , only : SURF_
-      USE MESSAGE_MOD , only : ANCMSG, aninfo_blind_1, MSGERROR
+      USE MESSAGE_MOD , only : ANCMSG, aninfo_blind_1, MSGERROR, MSGWARNING
       USE SUBMODEL_MOD , only : SUBMODEL_DATA, NSUBMOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMW_I_A
@@ -156,7 +156,7 @@ C
           ENDIF
           IF(N == 0)THEN
             CALL FRETITL2(TITR,ITHGRP(NITHGR-LTITR+1),LTITR)
-            CALL ANCMSG(MSGID=257, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND_1, I1=ITHGRP(1), I2=IDS, C1=TITR, C2=KEY)
+            CALL ANCMSG(MSGID=257, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1, I1=ITHGRP(1), I2=IDS, C1=TITR, C2=KEY)
           ENDIF             
         ENDDO !next K
 C
