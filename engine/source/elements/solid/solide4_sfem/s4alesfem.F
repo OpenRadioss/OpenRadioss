@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    initbuf_mod       ../engine/share/resol/initbuf.F
       !||====================================================================
-      SUBROUTINE S4ALESFEM(IPARG,IXS,X,ELBUF_TAB,VARNOD,PM,
+      SUBROUTINE S4ALESFEM(IPARG,IXS,X,ELBUF_TAB,TETRA_NODAL_VAR, S_TETRA_NODAL_VAR,PM,
      .                     IAD_ELEM,FR_ELEM)
 C-----------------------------------------------
 C   M o d u l e s
@@ -58,10 +58,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER,INTENT(IN) :: S_TETRA_NODAL_VAR
       INTEGER IXS(NIXS,*),IPARG(NPARG,*),IAD_ELEM(2,*),FR_ELEM(*)
-C     REAL
-      my_real
-     .   X(*),VARNOD(*),PM(NPROPM,*)
+      my_real X(*),TETRA_NODAL_VAR(S_TETRA_NODAL_VAR),PM(NPROPM,*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -69,15 +68,13 @@ C-----------------------------------------------
       INTEGER NG, I, J, I1, I2, I3, I4, K, LENR,NEL
       INTEGER NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ),NC4(MVSIZ)
       INTEGER MAT(MVSIZ)
-      my_real
-     .   MASS(MVSIZ)
+      my_real MASS(MVSIZ)
 
-      DOUBLE PRECISION
-     .   VARNOD6(6,2*NUMNOD), MASS6(6,MVSIZ)
+      DOUBLE PRECISION VARNOD6(6,2*NUMNOD), MASS6(6,MVSIZ)
 C
       TYPE(G_BUFEL_) ,POINTER :: GBUF
 C
-      VARNOD(1:2*NUMNOD)      = ZERO
+      TETRA_NODAL_VAR(1:2*NUMNOD) = ZERO
       VARNOD6(1:6,1:2*NUMNOD) = ZERO
       MASS(1:MVSIZ)           = ZERO
       MASS6(1:6,1:MVSIZ)      = ZERO
@@ -141,7 +138,7 @@ C
       ENDDO !DO=1,NG
 
 c EXCHANGE
-      IF(NSPMD>1)THEN
+      IF(NSPMD > 1)THEN
         LENR = 2*(IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1))
         CALL SPMD_EXCH_VOL(VARNOD6(1,1),VARNOD6(1,NUMNOD+1),IAD_ELEM,
      .                     FR_ELEM, LENR )  
@@ -153,14 +150,14 @@ C Routine assembly PARITH/ON
          J=I+NUMNOD
          DO K=1,6
           !VOLNOD
-           VARNOD(I)        = VARNOD(I)        + VARNOD6(K,I) 
-          !VARNOD
-           VARNOD(I+NUMNOD) = VARNOD(I+NUMNOD) + VARNOD6(K,I+NUMNOD)          
+           TETRA_NODAL_VAR(I)        = TETRA_NODAL_VAR(I)        + VARNOD6(K,I)
+          !TETRA_NODAL_VAR
+           TETRA_NODAL_VAR(I+NUMNOD) = TETRA_NODAL_VAR(I+NUMNOD) + VARNOD6(K,I+NUMNOD)
          ENDDO
 
-         !RHO0/RHO -> VARNOD
-         IF(VARNOD(J)/=0)THEN
-           VARNOD(I)=VARNOD(I)/VARNOD(J)
+         !RHO0/RHO -> TETRA_NODAL_VAR
+         IF(TETRA_NODAL_VAR(J) /= 0)THEN
+           TETRA_NODAL_VAR(I)=TETRA_NODAL_VAR(I)/TETRA_NODAL_VAR(J)
          ENDIF
       ENDDO
 C
