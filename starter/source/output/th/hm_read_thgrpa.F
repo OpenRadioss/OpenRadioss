@@ -234,7 +234,7 @@ c
           ENDDO  
 C
           IF (N == 0) THEN
-            CALL ANCMSG(MSGID=257, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND_1,
+            CALL ANCMSG(MSGID=257, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
      .                  I1=TH_ID,
      .                  C1=TITR,
      .                  C2=KEY,

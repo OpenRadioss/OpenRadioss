@@ -154,7 +154,7 @@ C
             IF (N == 0) THEN
               CALL FRETITL2(TITR,ITHGRP(NITHGR-LTITR+1),LTITR)
               CALL ANCMSG(MSGID=257,
-     .                    MSGTYPE=MSGERROR,
+     .                    MSGTYPE=MSGWARNING,
      .                    ANMODE=ANINFO_BLIND_1,
      .                    I1=ITHGRP(1),
      .                    C1=TITR,
