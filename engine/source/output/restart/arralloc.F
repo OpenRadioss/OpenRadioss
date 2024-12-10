@@ -154,13 +154,13 @@ C   -----------------------------------------------
      .      ISECUT, IISROTS, IMPOSE_DR, IDROT, NRCVVOIS, SICODT)
 
 C       
-        ALLOCATE (ICODE(SICODE),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        ICODE = 0
+c       ALLOCATE (ICODE(SICODE),STAT=IERR)
+c       IF (IERR/=0) GOTO 1000
+c       ICODE = 0
 
-        ALLOCATE (ISKEW(SISKEW),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        ISKEW = 0
+c       ALLOCATE (ISKEW(SISKEW),STAT=IERR)
+c       IF (IERR/=0) GOTO 1000
+c       ISKEW = e
 
         ALLOCATE (ISKWN(SISKWN),STAT=IERR)
         IF (IERR/=0) GOTO 1000
@@ -720,9 +720,9 @@ c       ALLOCATE (WEIGHT(SWEIGHT),STAT=IERR)
 c       IF (IERR/=0) GOTO 1000
 c       WEIGHT = 0 
 
-        ALLOCATE (WEIGHT_MD(SWEIGHT),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        WEIGHT_MD = 0 
+c       ALLOCATE (WEIGHT_MD(SWEIGHT),STAT=IERR)
+c       IF (IERR/=0) GOTO 1000
+c       WEIGHT_MD = 0 
 
         ALLOCATE (NEWFRONT(SNEWFRONT),STAT=IERR)
         IF (IERR/=0) GOTO 1000

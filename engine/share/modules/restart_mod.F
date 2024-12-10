@@ -58,7 +58,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
         TYPE(nodal_arrays_), pointer :: user_interface_nodes 
         INTEGER , DIMENSION(:), ALLOCATABLE :: 
-     .      ICODE,   ISKEW,    ISKWN,   IFRAME,  NETH,  
+     .      ISKWN,   IFRAME,  NETH,  
      .      IBCSLAG,
      .      IPART,   NOM_OPT, NPC,      IXTG,    IXTG1,
      .      IXS,     IXQ,     IXC,      IXT,     IXP,     IXR,
@@ -109,7 +109,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .      FR_RBE3MP ,FR_RBYM,  FR_RBYM2, IAD_RBYM   ,IAD_RBYM2, IADRBMK,
      .      ICODE_PLY ,ICODT_PLY,ISKEW_PLY,IAD_RBE2   ,FR_RBE2,
      .      LCFIELD   ,LLOADP,
-     .      IAD_EDGE  ,FR_EDGE,  FR_NBEDGE,IGAUP      ,NGAUP,     NODLEVXF,WEIGHT_MD,
+     .      IAD_EDGE  ,FR_EDGE,  FR_NBEDGE,IGAUP      ,NGAUP,     NODLEVXF,
      .      NODGLOBXFE,ELCUTC,   NODENR,   KXFENOD2ELC,ENRTAG,
      .      TABSENSOR ,ADDCSRECT,FR_NOR,   IAD_FRNOR  , PROCNOR,    
      .      IDRAPE,   NATIV0_SMS , SEGQUADFR,ISKWP_L, NE_NERCVOIS,  

@@ -472,9 +472,9 @@ C--------------------------------------
 
         CALL WRITE_I_C(NODES%WEIGHT,SWEIGHT)
 
-        CALL WRITE_I_C(ICODE,SICODE)
+        CALL WRITE_I_C(NODES%ICODE,SICODE)
 
-        CALL WRITE_I_C(ISKEW,SISKEW)
+        CALL WRITE_I_C(NODES%ISKEW,SISKEW)
 
         CALL WRITE_I_C(ISKWN,SISKWN)
 

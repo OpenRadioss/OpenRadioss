@@ -204,7 +204,7 @@ C-----------------------------------------------
 C
       CALL RESOL(ELEMENT,NODES,
      .  AF              ,IAF            ,
-     1  ICODE           ,ISKEW          ,ISKWN          ,NETH           ,IPART          ,NOM_OPT     ,KXX              ,IXX       ,
+     1  ISKWN          ,NETH           ,IPART          ,NOM_OPT     ,KXX              ,IXX       ,
      2  IXTG            ,IXS            ,IXQ            ,IXT            ,IXP         ,IXR       ,
      3  IFILL          ,MAT_ELEM       ,
      4  IMS             ,NPC            ,IBCL           ,
@@ -267,7 +267,7 @@ C
      4  IBC_PLY         ,DMINT2         ,IBORDNODE      ,
      5  MAT_ELEM%ELBUF  ,POR            ,NODEDGE        ,IAD_EDGE       ,
      6  FR_EDGE         ,FR_NBEDGE      ,CRKNODIAD      ,LGAUGE         ,GAUGE          ,
-     7  IGAUP           ,NGAUP          ,NODLEVXF       ,DD_R2R_ELEM    ,WEIGHT_MD      ,
+     7  IGAUP           ,NGAUP          ,NODLEVXF       ,DD_R2R_ELEM    ,
      8  NODGLOBXFE      ,SPH2SOL        ,SOL2SPH        ,IRST           ,FSKYD          ,
      9  DMSPH           ,WAGAP          ,MAT_ELEM%XFEM_TAB,ELCUTC       ,NODENR         ,
      A  KXFENOD2ELC     ,ENRTAG         ,

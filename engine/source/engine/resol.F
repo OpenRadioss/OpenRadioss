@@ -502,7 +502,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    xfem2vars_mod                                ../engine/share/modules/xfem2vars_mod.F
       !||====================================================================
       SUBROUTINE RESOL(ELEMENT, NODES, AF,IAF,
-     1  ICODE  ,ISKEW  ,ISKWN   ,NETH   ,IPART  ,NOM_OPT,KXX    ,IXX    ,
+     1  ISKWN   ,NETH   ,IPART  ,NOM_OPT,KXX    ,IXX    ,
      2  IXTG   ,IXS     ,IXQ    ,IXT    ,IXP    ,IXR    ,
      3  IFILL  ,MAT_ELEM,
      4  IMS    ,NPC    ,IBCL    ,
@@ -565,7 +565,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4  IBC_PLY ,DMINT2  ,IBORDNODE,
      5  ELBUF_TAB,POR    ,NODEDGE  ,IAD_EDGE, 
      6  FR_EDGE  ,FR_NBEDGE,CRKNODIAD,LGAUGE ,GAUGE  ,
-     7  IGAUP    ,NGAUP  ,NODLEVXF,DD_R2R_ELEM, WEIGHT_MD,
+     7  IGAUP    ,NGAUP  ,NODLEVXF,DD_R2R_ELEM, 
      8  NODGLOBXFE,SPH2SOL ,SOL2SPH ,IRST ,FSKYD  ,
      9  DMSPH     ,WAGAP   ,XFEM_TAB,ELCUTC  ,NODENR  ,
      A  KXFENOD2ELC,ENRTAG,
@@ -749,7 +749,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ITASK
-      INTEGER  ICODE(*), ISKEW(*), ISKWN(LISKN,*), NETH(*),
+      INTEGER  ISKWN(LISKN,*), NETH(*),
      .   IPART(*),NOM_OPT(LNOPT1,*),IXS(*),
      .   IXQ(NIXQ,*), IXT(NIXT,*), IXP(NIXP,*),
      .   IXR(NIXR,*),IXTG(NIXTG,*), IXTG1(4,*),
@@ -763,7 +763,7 @@ C-----------------------------------------------
      .   NODPOR(*),ICUT(*) , INOISE(*),MONVOL(*),
      .   ADSKY(*),IADS(*),LACCELM(3,*),DD_IAD(NSPMD+1,*),FR_ELEM(*),
      .   IAD_ELEM(2,*),IAD_RBY(*),FR_RBY(*),NNLINK(10,*),LNLINK(*),
-     .   IAF(*),IGRV(*),MAIN_PROC(*),WEIGHT_MD(*),
+     .   IAF(*),IGRV(*),MAIN_PROC(*),
      .   KXX(NIXX,*),IXX(*),IEXLNK(NR2R,*),
      .   IFRAME(LISKN,*),KXSP(NISP,*),IXSP(*),NOD2SP(*),
      .   ISPCOND(NISPCOND,*),ISPSYM(NSPCOND,*),IBVEL(NBVELP,*),LBVEL(*),
@@ -922,7 +922,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL LOUT
       CHARACTER FILNAM*100
-      INTEGER NODFT, NODLT,  I, N,  
+      INTEGER NODFT, NODLT,  I,J, N,  
      .   K1, K2, K3, K4, K5, K6, K7, K8, K9, K10, K11, K, ISK,
      .   N0, N1, NN,  NNOD, NSENSOR,
      .   ISYNC, 
@@ -1274,6 +1274,11 @@ C-------------------------------------------------------------------------------
         my_real, DIMENSION(:), ALLOCATABLE :: admerr_AREA_SH3
 C-----------------------------------------------------------------------------------       
         type(SPH_WORK_) :: SPH_WORK   ! working Areas for SPLISSV and SPHPREP
+C        integer :: fail_counter
+C        integer, parameter, dimension(8) :: FAIL_ELEMENT = (/ 10648, 10649, 10656, 10657, 10624, 10625, 10632, 10633 /)
+C        integer, parameter, dimension(9) :: FAIL_NODES= (/ 10653, 11092, 10669, 11121, 10668, 11118, 10667, 11031, 10623 /)
+
+c        fail_counter = 0
 C-----------------------------------------------------------------------------------       
 C Uncomment for Debug - ITAB is copied in Debug Module.
 C-----------------------------------------------------------------------------------
@@ -2176,7 +2181,7 @@ C
      s   IADSDP_CRK,IADRCP_CRK ,INT24USE,NDAMA2    ,
      t   IGROUPC  ,IGROUPTG ,IGROUPS   ,IGROUPFLG ,DMINT2  ,IRBKIN_L ,
      u   NRBYKIN_L,KINDRBY  ,ELBUF_TAB ,SENSORS ,DD_R2R_ELEM,
-     v   SDD_R2R_ELEM,KINET, WEIGHT_MD ,DMSPH   ,IOLDSECT,LBUFSEGLO,
+     v   SDD_R2R_ELEM,KINET, NODES%WEIGHT_MD ,DMSPH   ,IOLDSECT,LBUFSEGLO,
      w   INTERFACES%INTBUF_TAB  ,NUMSPH_GLO_R2R, FLG_SPHINOUT_R2R,I15K,
      y   CONDN       ,CONDNSKY,KXFENOD2ELC  ,ELCUTC ,NODEDGE,
      z   IAD_EDGE ,CRKNODIAD,FR_EDGE     ,FR_NBEDGE ,NODLEVXF,
@@ -2989,7 +2994,7 @@ C------ one routine for EIG
      1                   EIGIPM      , EIGRPM      , NODES%MS        ,NODES%IN         , EIGIBUF   ,
      2                   NODES%X           ,IXTG1        ,TF         , NPC       , FR_WAVE   ,
      3                   W16         , WA        ,
-     4                   NODES%ICODT       , NODES%ICODR       , ISKEW     ,IBFV       , VEL       ,
+     4                   NODES%ICODT       , NODES%ICODR       , NODES%ISKEW     ,IBFV       , VEL       ,
      4                   NODES%V           , NODES%A           , ELBUF    , IXS       , IXQ     ,
      5                   ELEMENT%SHELL%IXC         , IXT         , IXP      , IXR       , IXTG    ,
      6                   PM          , GEO         , FANI     , ICUT      , SKEWS%SKEW    ,
@@ -3008,7 +3013,7 @@ C------ one routine for EIG
      J                   FSAV(1,NFNCA+1),FSAV(1,NFTCA+1), TEMP      , THKE    ,
      K                   ERR_THK_SH4 , ERR_THK_SH3 , IRBE2    , IRBE3     ,LRBE2    ,
      L                   LRBE3       , FRBE3    ,FR_RBE2  , FR_RBE3M  , IAD_RBE2,
-     M                   WEIGHT_MD   , CLUSTER     , FCLUSTER , MCLUSTER  , XFEM_TAB,
+     M                   NODES%WEIGHT_MD   , CLUSTER     , FCLUSTER , MCLUSTER  , XFEM_TAB,
      O                   W           , NV46     , NERCVOIS  , NESDVOIS,
      P                   LERCVOIS    , LESDVOIS    ,CRKEDGE   , INDX_CRK  , XEDGE4N ,
      Q                   XEDGE3N     ,STACK        ,SPH2SOL   ,NODES%STIFN      ,NODES%STIFR    ,
@@ -3670,7 +3675,7 @@ C
         LRECV2 = IAD_SEC(4,NSPMD+1)
           CALL SPMD_EXCH_SEC(NSTRF ,NODES%X      ,NODES%MS    ,NODES%WEIGHT,XSEC  ,
      2                       FR_SEC,IAD_SEC,LSEND1,LRECV1,LSEND2,
-     3                       LRECV2,WEIGHT_MD)
+     3                       LRECV2,NODES%WEIGHT_MD)
         END IF
 C----------------------------------------------------------
 C       INTER/TYPE21 ROTATION
@@ -3740,7 +3745,7 @@ C===============================================================================
      K     INTERFACES%SPMD_ARRAYS%IAD_FREDG,INTERFACES%SPMD_ARRAYS%FR_EDG,MAIN_PROC,NATIV_SMS,I_OPT_STOK ,
      L     MULTI_FVM,IPARG  ,ELBUF_TAB, H3D_DATA, T2MAIN_SMS,
      M     LSKYI_SMS_NEW    ,FORNEQS  ,INT7ITIED,IDEL7NOK_SAV,MAXDGAP,
-     N     T2FAC_SMS,NODES%ICODT,ISKEW ,FSKYN25  ,ADDCSRECT,PROCNOR,
+     N     T2FAC_SMS,NODES%ICODT,NODES%ISKEW ,FSKYN25  ,ADDCSRECT,PROCNOR,
      O     INTER_STRUCT,SORT_COMM,RNUM_SIZ,NATIV_SMS_SIZ,TEMP_SIZ,
      P     INTERFACES,GLOB_THERM)
         ELSEIF (IMPL_S > 0 .AND. ISMDISP >0) THEN
@@ -3767,7 +3772,7 @@ C===============================================================================
      K     INTERFACES%SPMD_ARRAYS%IAD_FREDG,INTERFACES%SPMD_ARRAYS%FR_EDG,MAIN_PROC,NATIV_SMS,I_OPT_STOK ,
      L     MULTI_FVM,IPARG  ,ELBUF_TAB, H3D_DATA, T2MAIN_SMS,
      M     LSKYI_SMS_NEW    ,FORNEQS  ,INT7ITIED,IDEL7NOK_SAV,MAXDGAP,
-     N     T2FAC_SMS,NODES%ICODT,ISKEW ,FSKYN25  ,ADDCSRECT,PROCNOR,
+     N     T2FAC_SMS,NODES%ICODT,NODES%ISKEW ,FSKYN25  ,ADDCSRECT,PROCNOR,
      O     INTER_STRUCT,SORT_COMM,RNUM_SIZ,NATIV_SMS_SIZ,TEMP_SIZ,
      P     INTERFACES,GLOB_THERM)
         ELSE
@@ -3794,7 +3799,7 @@ C===============================================================================
      K     INTERFACES%SPMD_ARRAYS%IAD_FREDG,INTERFACES%SPMD_ARRAYS%FR_EDG,MAIN_PROC,NATIV_SMS,I_OPT_STOK ,
      L     MULTI_FVM,IPARG  ,ELBUF_TAB, H3D_DATA, T2MAIN_SMS,
      M     LSKYI_SMS_NEW    ,FORNEQS  ,INT7ITIED,IDEL7NOK_SAV,MAXDGAP,
-     N     T2FAC_SMS,NODES%ICODT,ISKEW ,FSKYN25  ,ADDCSRECT,PROCNOR,
+     N     T2FAC_SMS,NODES%ICODT,NODES%ISKEW ,FSKYN25  ,ADDCSRECT,PROCNOR,
      O     INTER_STRUCT,SORT_COMM,RNUM_SIZ,NATIV_SMS_SIZ,TEMP_SIZ,
      P     INTERFACES,GLOB_THERM)
         ENDIF
@@ -4028,7 +4033,7 @@ C
      4          PHI                   ,FILL     ,DFILL         ,ALPH              ,SKEWS%SKEW                ,W,
      5          NODES%D                     ,DSAVE    ,ASAVE         ,DT2TT             ,DT2SAVE                   ,XCELL,
      6          IPARG                 ,NPC      ,IXS           ,IXQ               ,IXTG                      ,IADS,
-     7          IFILL                 ,NODPOR   ,NODES%ICODT         ,ISKEW             ,IMS                       ,IADS(I87B)      ,
+     7          IFILL                 ,NODPOR   ,NODES%ICODT         ,NODES%ISKEW             ,IMS                       ,IADS(I87B)      ,
      8          NELTSTT               ,ITYPTSTT ,IPART         ,IPART(K1)         ,IPART(K2)                 ,ITSK            ,
      A          NODFTSK               ,NODLTSK  ,NBRCVOIS      ,TEMP              ,OUTPUT%TH%TH_SURF%CHANNELS,
      B          NBSDVOIS              ,LNRCVOIS ,LNSDVOIS      ,NERCVOIS          ,NESDVOIS                  ,LERCVOIS        ,
@@ -5797,9 +5802,58 @@ C WA local  : utilise de 1 a NUMNOD
         ENDIF
       ENDIF
 
-c     call extend_nodal_arrays(nodes,numnod+1)
-c     nodes%itab(numnod+1) = 1000000
-c     numnod = numnod + 1
+ 
+C      if(TT > 1.D0 * (fail_counter+1.0) .AND. fail_counter < 8 ) then
+C        fail_counter = fail_counter + 1
+C        call extend_nodal_arrays(nodes,numnod+1)
+C        do i = 1, numnod
+C          if(nodes%itab(i) == FAIL_NODES(fail_counter)) then
+C              write(6,*) 'splitting node ',i
+C              nodes%X(1,numnod+1) = nodes%X(1,i)
+C              nodes%X(2,numnod+1) = nodes%X(2,i)
+C              nodes%X(3,numnod+1) = nodes%X(3,i)
+C              nodes%V(1,numnod+1) = nodes%V(1,i)
+C              nodes%V(2,numnod+1) = nodes%V(2,i)
+C              nodes%V(3,numnod+1) = nodes%V(3,i)
+C              nodes%A(1,numnod+1) = nodes%A(1,i)
+C              nodes%A(2,numnod+1) = nodes%A(2,i)
+C              nodes%A(3,numnod+1) = nodes%A(3,i)
+C              if(nodes%iroddl > 0) then
+C                nodes%AR(1:3,numnod+1) = nodes%AR(1:3,i)
+C                nodes%IN(numnod+1) = nodes%IN(i)
+C              endif
+C              nodes%MS(numnod+1) = nodes%MS(i) / 2.0D0
+C              nodes%MS(i) = nodes%MS(i) / 2.0D0
+C              nodes%STIFN(numnod+1) = nodes%STIFN(i)
+C              nodes%VISCN(numnod+1) = nodes%VISCN(i)
+C              nodes%WEIGHT(numnod+1) = 1
+C              nodes%WEIGHT_MD(numnod+1) = nodes%WEIGHT_MD(i)
+C              nodes%MS0(numnod+1) = nodes%MS0(i) / 2.0D0
+C              nodes%ITABM1(numnod+1) = FAIL_NODES(fail_counter) !10010653
+C              nodes%ITABM1(2*numnod+2) = i
+C              nodes%ICODT(numnod+1) = 0
+C              nodes%ICODE(numnod+1) = nodes%ICODE(i)
+C            endif
+C        end do
+C        nodes%itab(numnod+1) = FAIL_NODES(fail_counter) + 10000000 !10010653
+C        nodes%ITABM1(numnod+2:2*(numnod+1)) = nodes%ITABM1(numnod+1:2*numnod)
+C        do i = 1, NUMELC
+C          do N = 1, FAIL_COUNTER 
+C          if(element%shell%ixc(NIXC,i) == FAIL_ELEMENT(N)) then
+C            write(6,*) "Element ",i,"user id = ",element%shell%ixc(NIXC,i)
+C            do j = 2, 5
+C              write(6,*) "node ",j,"user id = ",nodes%ITAB(element%shell%ixc(j,i))
+C               if(nodes%ITAB(element%shell%ixc(j,i)) == FAIL_NODES(fail_counter)) then
+C                 write(6,*) nodes%ITAB(element%shell%ixc(i,j)),nodes%itab(numnod+1)
+C                 element%shell%ixc(j,i) = numnod+1
+C                endif
+C             enddo
+C           endif 
+C           enddo
+C        enddo
+C        numnod = numnod + 1
+C        numnodg= numnodg+1
+C      endif
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)
 C========================================================================================
@@ -5905,7 +5959,7 @@ C        /---------------/
           CALL MY_BARRIER
 C        /---------------/
           CALL I18MAIN_KINE_1(IPARI,INTERFACES%INTBUF_TAB,NODES%X       ,NODES%V       ,
-     2             NODES%A          ,ISKEW     ,SKEWS%SKEW     ,NODES%ICODT   ,WA      ,
+     2             NODES%A          ,NODES%ISKEW     ,SKEWS%SKEW     ,NODES%ICODT   ,WA      ,
      3             NODES%MS         ,NODES%ITAB      ,ITSK+1   ,KINET   ,NODES%STIFN   ,
      4             MTF        ,CAND_SAV  ,INT18ADD ,IAD_ELEM,FR_ELEM ,
      5             TAGPENE    ,H3D_DATA  ,MULTI_FVM,ALE_CONNECTIVITY%NE_CONNECT,XCELL,XCELL_REMOTE)
@@ -6073,7 +6127,7 @@ C===============================================================================
      1      RBY      ,NODES%A      ,NODES%AR     ,NODES%X    ,NODES%VR            ,
      2      FSAV     ,NODES%IN     ,NODES%STIFN  ,NODES%STIFR,FANI(1,1+NFOA),
      3      LPBY     ,NPBY   ,NODES%WEIGHT ,NODES%MS   ,NODES%V             ,
-     4      IGRSURF  ,BUFSF  ,NODES%ICODR  ,ISKEW,SKEWS%SKEW    ,
+     4      IGRSURF  ,BUFSF  ,NODES%ICODR  ,NODES%ISKEW,SKEWS%SKEW    ,
      5      KINDRBY  ,IAD_RBY,FR_RBY6,RBY6 ,IRBKIN_L      ,
      6      NRBYKIN_L,NATIV_SMS,SENSORS%SFSAV,SENSORS%FSAV,SENSORS%STABSEN     ,
      7      SENSORS%TABSENSOR,NODREAC,FTHREAC,CPTREAC     ,DAMPR,
@@ -6289,7 +6343,7 @@ C  FIND TARGET_DT FOR DEFINED % OF ADDED MASS
 C----------------------------------------------------------
       IF ((NCYCLE==0).AND.(IDT_PERCENT_ADDMASS > 0).AND.(IDTMIN(11)==3.OR.IDTMIN(11)==8)) THEN
         CALL FIND_DT_FOR_TARGETED_ADDED_MASS(NODES%MS,NODES%STIFN,DTFAC1(11),IDTGR(11),TARGET_DT,
-     .                                       PERCENT_ADDMASS,PERCENT_ADDMASS_OLD,MASS0_START,WEIGHT_MD,IGRNOD,
+     .                                       PERCENT_ADDMASS,PERCENT_ADDMASS_OLD,MASS0_START,NODES%WEIGHT_MD,IGRNOD,
      .                                       ICNDS10)
         DTMIN1(11) = MAX(DTMIN1(11),TARGET_DT)
       ELSEIF ((IDT_PERCENT_ADDMASS == 2).AND.(IDTMIN(11) == 8)) THEN
@@ -6377,7 +6431,7 @@ C     IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
      2              NODES%MS   ,NODES%IN    ,NODES%STIFN ,NODES%STIFR     ,DT2TT   ,
      3              DMAST,DINERT,ANIN,ANIN(NDMA+1),IMSCH  ,
      4              NODES%WEIGHT,NODES%A    ,NODES%AR    ,IGRNOD    ,glob_therm%nodadt_therm,
-     5              ANIN(NDIN+1),RBYM  ,ARBYM ,ARRBYM,WEIGHT_MD,
+     5              ANIN(NDIN+1),RBYM  ,ARBYM ,ARRBYM,NODES%WEIGHT_MD,
      6              MCP         ,MCP_OFF,CONDN ,ALE_CONNECTIVITY%NALE  ,H3D_DATA  )
       ELSEIF(IDTMINS/=0)THEN
         CALL DTNODAMS(
@@ -6486,7 +6540,7 @@ C Init var parallel SMP
         ITYPTSTT= ITYPTST
 
         CALL ALESUB2(
-     1     ALE_CONNECTIVITY%NALE   ,NODES%V      ,DSAVE  ,NODES%ICODT  ,ISKEW,
+     1     ALE_CONNECTIVITY%NALE   ,NODES%V      ,DSAVE  ,NODES%ICODT  ,NODES%ISKEW,
      2     SKEWS%SKEW    ,ASAVE ,NODES%A      ,NODES%D      ,NELTSTT,
      3     ITYPTSTT,ITSK  ,NODFTSK,NODLTSK,DT2SAVE,
      4     NODES%STIFN   ,DT2TT ,NELTSA ,ITYPTSA,NELTS  ,
@@ -6859,7 +6913,7 @@ C===============================================================================
         CALL SMS_MASS_SCALE_2(
      1        ITSK     ,NODFTSK   ,NODLTSK  ,NODII_SMS ,INDX2_SMS ,
      2        NODXI_SMS,NODES%MS        ,NODES%MS0      ,NODES%A         ,NODES%ICODT     ,
-     3        NODES%ICODR    ,ISKEW     ,SKEWS%SKEW,JAD_SMS   ,JDI_SMS   ,
+     3        NODES%ICODR    ,NODES%ISKEW     ,SKEWS%SKEW,JAD_SMS   ,JDI_SMS   ,
      4        LT_SMS   ,X_SMS     ,P_SMS    ,Z_SMS     ,Y_SMS     ,
      5        PREC_SMS ,INDX1_SMS ,DIAG_SMS ,IAD_ELEM  ,FR_ELEM   ,
      6        NODES%WEIGHT   ,NPBY      ,LPBY      ,
@@ -6954,7 +7008,7 @@ C-----------------------------------------------
      1        NSTRF,NODES%D,NODES%DR,NODES%V,NODES%VR,FSAV(1,1+NINTER+NRWALL+NRBODY),
      2        SECFCUM,NODES%A             ,NODES%AR    ,SECBUF,NODES%MS      ,NODES%IN     ,
      3        NODES%X      ,FANI(1,NFOA+1),NODES%WEIGHT,XSEC  ,IAD_ELEM,FR_ELEM,
-     4        RG_CUT ,IAD_CUT       ,FR_CUT,WEIGHT_MD,IOLDSECT,
+     4        RG_CUT ,IAD_CUT       ,FR_CUT,NODES%WEIGHT_MD,IOLDSECT,
      5        SENSORS%STABSEN,SENSORS%SFSAV,SENSORS%TABSENSOR,SENSORS%FSAV)
             IF(IMON>0) CALL STOPTIME(7,1)
           ENDIF
@@ -6976,9 +7030,9 @@ C===============================================================================
 
           CALL RBYCOR(
      1         RBY ,NODES%X   ,NODES%V    ,NODES%VR     ,SKEWS%SKEW    ,FSAV     ,
-     2         LPBY,NPBY,ISKEW,NODES%ITAB   ,NODES%WEIGHT  ,NODES%A        ,
+     2         LPBY,NPBY,NODES%ISKEW,NODES%ITAB   ,NODES%WEIGHT  ,NODES%A        ,
      3         NODES%AR  ,NODES%MS  ,NODES%IN   ,KINDRBY,IRBKIN_L,NRBYKIN_L ,
-     4         WEIGHT_MD,MS_2D)         
+     4         NODES%WEIGHT_MD,MS_2D)         
 !$OMP     END PARALLEL
 
           IF(IMON>0) CALL STOPTIME(4,1)
@@ -6994,8 +7048,8 @@ C
 
 !$OMP PARALLEL
             CALL RBE2COR(IRBE2 ,LRBE2 ,NODES%X    ,NODES%V     ,NODES%VR    ,
-     2                   SKEWS%SKEW  ,ISKEW ,NODES%ITAB ,NODES%WEIGHT,NODES%A     ,
-     3                   NODES%AR    ,NODES%MS0   ,NODES%IN   ,WEIGHT_MD)
+     2                   SKEWS%SKEW  ,NODES%ISKEW ,NODES%ITAB ,NODES%WEIGHT,NODES%A     ,
+     3                   NODES%AR    ,NODES%MS0   ,NODES%IN   ,NODES%WEIGHT_MD)
 !$OMP     END PARALLEL
 
           IF(IMON>0) CALL STOPTIME(4,1)
@@ -7506,7 +7560,7 @@ C----------------------
               CALL STARTIME(2,1)
             ENDIF
             CALL INTAL1(IPARI,NODES%X    ,NODES%V ,
-     2                  NODES%A    ,ISKEW           ,SKEWS%SKEW            ,NODES%ICODT,WA,
+     2                  NODES%A    ,NODES%ISKEW           ,SKEWS%SKEW            ,NODES%ICODT,WA,
      3                  NODES%MS   ,NODES%ITAB            ,FSAV            ,INTERFACES%INTBUF_TAB ,
      4                  FANI ,FANI(1,NFNCA+1) ,FANI(1,NFTCA+1) ,H3D_DATA   )
             IF (IMON>0) THEN
@@ -7532,7 +7586,7 @@ C        /---------------/
           CALL MY_BARRIER
 C        /---------------/
           CALL I18MAIN_KINE_2(IPARI,INTERFACES%INTBUF_TAB,NODES%X  ,NODES%V  ,
-     2                  NODES%A    ,ISKEW,SKEWS%SKEW ,NODES%ICODT,WA,
+     2                  NODES%A    ,NODES%ISKEW,SKEWS%SKEW ,NODES%ICODT,WA,
      3                  NODES%MS   ,NODES%ITAB ,FSAV ,ITSK+1,KINET,
      4                  NODES%STIFN,MTF  ,CAND_SAV,FANI,INT18ADD,
      5                  IAD_ELEM,FR_ELEM,H3D_DATA )
@@ -7567,7 +7621,7 @@ C-------------------------------
         IF (IMON>0) CALL STARTIME(4,1)
         IF (IMONM > 0) CALL STARTIME(42,1)
 
-        CALL THBCS(NODFT  ,NODLT  ,NODES%ICODT  ,NODES%ICODR,ISKEW,
+        CALL THBCS(NODFT  ,NODLT  ,NODES%ICODT  ,NODES%ICODR,NODES%ISKEW,
      2             SKEWS%SKEW   ,NODES%A      ,NODES%AR     ,NODES%MS   ,NODES%IN   ,
      3             FTHREAC,NODREAC,CPTREAC)
 
@@ -7579,7 +7633,7 @@ C===============================================================================
         ITSK = OMP_GET_THREAD_NUM()
         NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
         NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
-        CALL BCS10(NODFTSK,NODLTSK  ,NODES%ICODT  ,NODES%ICODR,ISKEW,
+        CALL BCS10(NODFTSK,NODLTSK  ,NODES%ICODT  ,NODES%ICODR,NODES%ISKEW,
      2             SKEWS%SKEW   ,NODES%A        ,NODES%AR     ,NODES%MS   ,NODES%V    ,
      3             NODES%VR     )
 C---
@@ -7822,9 +7876,9 @@ C--------------------------
              IF (IMON>0) CALL STARTIME(6,1)
              IF (IMONM > 0) CALL STARTIME(49,1)
              IF (NS10E>0) THEN
-               CALL STATIC(VMD,NODES%VR,NODES%A,NODES%AR,NODES%MS,NODES%IN,IGRNOD,WEIGHT_MD)
+               CALL STATIC(VMD,NODES%VR,NODES%A,NODES%AR,NODES%MS,NODES%IN,IGRNOD,NODES%WEIGHT_MD)
              ELSE
-               CALL STATIC(NODES%V,NODES%VR,NODES%A,NODES%AR,NODES%MS,NODES%IN,IGRNOD,WEIGHT_MD)
+               CALL STATIC(NODES%V,NODES%VR,NODES%A,NODES%AR,NODES%MS,NODES%IN,IGRNOD,NODES%WEIGHT_MD)
              END IF
              IF (IMONM > 0) CALL STOPTIME(49,1)
              IF (IMON>0) CALL STOPTIME(6,1)
@@ -7910,14 +7964,14 @@ C         Obsolete
      1     NODES%X           ,NODES%A        ,NODES%V      ,RWBUF   ,LPRW,
      2     NPRW        ,NODES%MS       ,FSAV(1,NINTER+1),FR_WALL ,
      3     FANI(1,1+NFOA+2*(NSECT+NRBODY)),
-     4     RWSAV       ,NODES%WEIGHT   ,FRWL6   ,NODXI_SMS, WEIGHT_MD,
+     4     RWSAV       ,NODES%WEIGHT   ,FRWL6   ,NODXI_SMS, NODES%WEIGHT_MD,
      5     SENSORS%SFSAV,SENSORS%FSAV,SENSORS%STABSEN,SENSORS%TABSENSOR)
         ELSE
             CALL RGWAL0(
      1     NODES%X           ,NODES%A        ,NODES%V      ,RWBUF   ,LPRW,
      2     NPRW        ,NODES%MS       ,FSAV(1,NINTER+1),FR_WALL ,
      3     FANI(1,1+NFOA+2*(NSECT+NRBODY)),
-     4     RWSAV       ,NODES%WEIGHT   ,FRWL6   ,NATIV_SMS, WEIGHT_MD,
+     4     RWSAV       ,NODES%WEIGHT   ,FRWL6   ,NATIV_SMS, NODES%WEIGHT_MD,
      5     SENSORS%SFSAV,SENSORS%FSAV,SENSORS%STABSEN,SENSORS%TABSENSOR)
         ENDIF
 
@@ -7954,7 +8008,7 @@ C---------------
      1        NSTRF,NODES%D,NODES%DR,NODES%V,NODES%VR,FSAV(1,1+NINTER+NRWALL+NRBODY),
      2        SECFCUM,NODES%A             ,NODES%AR    ,SECBUF,NODES%MS      ,NODES%IN     ,
      3        NODES%X      ,FANI(1,NFOA+1),NODES%WEIGHT,XSEC  ,IAD_ELEM,FR_ELEM,
-     4        RG_CUT ,IAD_CUT       ,FR_CUT,WEIGHT_MD,IOLDSECT,
+     4        RG_CUT ,IAD_CUT       ,FR_CUT,NODES%WEIGHT_MD,IOLDSECT,
      5        SENSORS%STABSEN,SENSORS%SFSAV,SENSORS%TABSENSOR ,SENSORS%FSAV  )
           IF(IMON>0) CALL STOPTIME(7,1)
         ENDIF
@@ -7996,7 +8050,7 @@ C===============================================================================
         NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
         NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
 
-        CALL BCS10(NODFTSK,NODLTSK ,NODES%ICODT  ,NODES%ICODR,ISKEW,
+        CALL BCS10(NODFTSK,NODLTSK ,NODES%ICODT  ,NODES%ICODR,NODES%ISKEW,
      2               SKEWS%SKEW ,NODES%A      ,NODES%AR     ,NODES%MS   ,NODES%V    ,
      3               NODES%VR  )
 
@@ -8051,7 +8105,7 @@ C // --------------------------
 
         CALL RBYVIT(
      1    RBY    ,NODES%X       ,NODES%V        ,NODES%VR   ,SKEWS%SKEW ,
-     2    FSAV   ,LPBY    ,NPBY     ,ISKEW,NODES%ITAB ,
+     2    FSAV   ,LPBY    ,NPBY     ,NODES%ISKEW,NODES%ITAB ,
      3    NODES%WEIGHT ,NODES%A       ,NODES%AR       ,NODES%MS   ,NODES%IN   ,
      4    KINDRBY,IRBKIN_L,NRBYKIN_L,NODREAC,FTHREAC,
      5    FREAC  )
@@ -8281,16 +8335,16 @@ C implicit barrier on end do
       IF(NRBYKIN>0)THEN
             CALL RBYCOR(
      1        RBY ,NODES%X   ,NODES%V    ,NODES%VR     ,SKEWS%SKEW    ,FSAV     ,
-     2        LPBY,NPBY,ISKEW,NODES%ITAB   ,NODES%WEIGHT  ,NODES%A        ,
+     2        LPBY,NPBY,NODES%ISKEW,NODES%ITAB   ,NODES%WEIGHT  ,NODES%A        ,
      3        NODES%AR  ,NODES%MS  ,NODES%IN   ,KINDRBY,IRBKIN_L,NRBYKIN_L,
-     4        WEIGHT_MD,MS_2D)
+     4        NODES%WEIGHT_MD,MS_2D)
       ENDIF
 C---------RBE2      
       IF(NRBE2>0)THEN
 C                                     
             CALL RBE2COR(IRBE2 ,LRBE2 ,NODES%X    ,NODES%V     ,NODES%VR    ,
-     2                   SKEWS%SKEW  ,ISKEW ,NODES%ITAB ,NODES%WEIGHT,NODES%A     ,
-     3                   NODES%AR    ,NODES%MS0   ,NODES%IN   ,WEIGHT_MD)
+     2                   SKEWS%SKEW  ,NODES%ISKEW ,NODES%ITAB ,NODES%WEIGHT,NODES%A     ,
+     3                   NODES%AR    ,NODES%MS0   ,NODES%IN   ,NODES%WEIGHT_MD)
       ENDIF
 !$OMP END PARALLEL
 C========================================================================================
@@ -8522,7 +8576,7 @@ C--------------------------------------------------
      2        NODES%MS       ,JAD_SMS  ,JDI_SMS  ,LT_SMS    ,INDX1_SMS,
      3        DIAG_SMS ,IAD_ELEM ,FR_ELEM  ,NODES%WEIGHT    ,NODES%V        ,
      4        NODES%A        ,X_SMS    ,Y_SMS    ,Z_SMS     ,XMOM_SMS ,
-     5        NODES%ICODT    ,NODES%ICODR    ,ISKEW    ,SKEWS%SKEW      ,IBFV      ,
+     5        NODES%ICODT    ,NODES%ICODR    ,NODES%ISKEW    ,SKEWS%SKEW      ,IBFV      ,
      6        VEL      ,NPC      ,TF       ,NODES%X         ,NODES%D         ,
      7        SENSORS  ,IFRAME   ,XFRAME    ,JADI_SMS ,
      8        JDII_SMS ,LTI_SMS  ,ISKYI_SMS ,MSKYI_SMS ,FR_SMS   ,
@@ -8586,7 +8640,7 @@ C
      4   SKEWS%SKEW       ,W        ,
      5   NODES%D          ,DT2TT    ,DT2SAVE    ,ALE_CONNECTIVITY        ,
      6   IPARG      ,NPC      ,IXS        ,IXQ          ,IADS           ,IADS(I87B),
-     7   ALE_CONNECTIVITY%NALE       ,ISKEW    ,
+     7   ALE_CONNECTIVITY%NALE       ,NODES%ISKEW    ,
      8   NELTSTT    ,ITYPTSTT ,IPART      ,IPART(K1)    ,IPART(K2)      ,ITSK      ,
      A   NODFTSK    ,NODLTSK  ,NBRCVOIS   ,
      B   NBSDVOIS   ,LNRCVOIS ,LNSDVOIS   ,NERCVOIS     ,NESDVOIS       ,LERCVOIS  ,
@@ -8733,14 +8787,14 @@ C Regular animation
      e   VFLOW         ,FCONTG         ,FNCONTG        ,FTCONTG        ,FREAC         ,
      f   INOD_CRK      ,IEL_CRK        ,ELCUTC         ,IADC_CRK       ,ANIN(NDAMA2+1),
      g   RES_SMS       ,SENSORS        ,
-     h   QFRICINT      ,IGAUP          ,NGAUP          ,WEIGHT_MD      ,NCONT         ,
+     h   QFRICINT      ,IGAUP          ,NGAUP          ,NODES%WEIGHT_MD      ,NCONT         ,
      i   INDEXCONT     ,NODGLOBXFE     ,NODEDGE        ,XFEM_TAB       ,
      j   NV46          ,RTHBUF         ,KXIG3D         ,IXIG3D         ,KNOT          ,
      k   WIGE          ,NERCVOIS       ,NESDVOIS       ,LERCVOIS       ,LESDVOIS      , 
-     l   CRKEDGE       ,STACK          ,ISPHIO         ,VSPHIO         ,ICODE         ,
+     l   CRKEDGE       ,STACK          ,ISPHIO         ,VSPHIO         ,NODES%ICODE         ,
      m   INDX_CRK      ,XEDGE4N        ,XEDGE3N        ,SPH2SOL        ,STIFN_TMP     ,
      n   STIFR_TMP     ,DRAPE_SH4N     ,DRAPE_SH3N      ,MS_2D          ,MULTI_FVM     ,
-     o   SEGQUADFR     ,H3D_DATA       ,ISKEW          ,PSKIDS         ,ISKWP         ,
+     o   SEGQUADFR     ,H3D_DATA       ,NODES%ISKEW          ,PSKIDS         ,ISKWP         ,
      p   KNOTLOCPC     ,KNOTLOCEL      ,PINCH_DATA     ,TAG_SKINS6     ,IRUNN_BIS     ,
      q   TF            ,NPC            ,DYNAIN_DATA    ,FCONT_MAX      ,MDS_MATID     ,
      r   FANI(1,NFNCA2+1),FANI(1,NFTCA2+1),IBCL        ,ILOADP         ,LLOADP        ,
@@ -8785,14 +8839,14 @@ C Regular animation
      e   VFLOW         ,FCONTG         ,FNCONTG        ,FTCONTG        ,FREAC         ,
      f   INOD_CRK      ,IEL_CRK        ,ELCUTC         ,IADC_CRK       ,ANIN(NDAMA2+1),
      g   RES_SMS       ,SENSORS        ,
-     h   QFRICINT      ,IGAUP          ,NGAUP          ,WEIGHT_MD      ,NCONT         ,
+     h   QFRICINT      ,IGAUP          ,NGAUP          ,NODES%WEIGHT_MD      ,NCONT         ,
      i   INDEXCONT     ,NODGLOBXFE     ,NODEDGE        ,XFEM_TAB       ,
      j   NV46          ,RTHBUF         ,KXIG3D         ,IXIG3D         ,KNOT          ,
      k   WIGE          ,NERCVOIS       ,NESDVOIS       ,LERCVOIS       ,LESDVOIS      , 
-     l   CRKEDGE       ,STACK          ,ISPHIO         ,VSPHIO         ,ICODE         ,
+     l   CRKEDGE       ,STACK          ,ISPHIO         ,VSPHIO         ,NODES%ICODE         ,
      m   INDX_CRK      ,XEDGE4N        ,XEDGE3N        ,SPH2SOL        ,STIFN_TMP     ,
      n   STIFR_TMP     ,DRAPE_SH4N     ,DRAPE_SH3N      ,MS_2D          ,MULTI_FVM     ,
-     o   SEGQUADFR     ,H3D_DATA       ,ISKEW          ,PSKIDS         ,ISKWP         ,
+     o   SEGQUADFR     ,H3D_DATA       ,NODES%ISKEW          ,PSKIDS         ,ISKWP         ,
      p   KNOTLOCPC     ,KNOTLOCEL      ,PINCH_DATA     ,TAG_SKINS6     ,IRUNN_BIS     ,
      q   TF            ,NPC            ,DYNAIN_DATA    ,FCONT_MAX      ,MDS_MATID     ,
      r   FANI(1,NFNCA2+1),FANI(1,NFTCA2+1),IBCL        ,ILOADP         ,LLOADP        ,
@@ -8838,14 +8892,14 @@ C Regular animation
      e   VFLOW         ,FCONTG         ,FNCONTG        ,FTCONTG        ,FREAC         ,
      f   INOD_CRK      ,IEL_CRK        ,ELCUTC         ,IADC_CRK       ,ANIN(NDAMA2+1),
      g   RES_SMS       ,SENSORS        ,
-     h   QFRICINT      ,IGAUP          ,NGAUP          ,WEIGHT_MD      ,NCONT         ,
+     h   QFRICINT      ,IGAUP          ,NGAUP          ,NODES%WEIGHT_MD      ,NCONT         ,
      i   INDEXCONT     ,NODGLOBXFE     ,NODEDGE        ,XFEM_TAB       ,
      j   NV46          ,RTHBUF         ,KXIG3D         ,IXIG3D         ,KNOT          ,
      k   WIGE          ,NERCVOIS       ,NESDVOIS       ,LERCVOIS       ,LESDVOIS      , 
-     l   CRKEDGE       ,STACK          ,ISPHIO         ,VSPHIO         ,ICODE         ,
+     l   CRKEDGE       ,STACK          ,ISPHIO         ,VSPHIO         ,NODES%ICODE         ,
      m   INDX_CRK      ,XEDGE4N        ,XEDGE3N        ,SPH2SOL        ,STIFN_TMP     ,
      n   STIFR_TMP     ,DRAPE_SH4N     ,DRAPE_SH3N      ,MS_2D          ,MULTI_FVM     ,
-     o   SEGQUADFR     ,H3D_DATA       ,ISKEW          ,PSKIDS         ,ISKWP         ,
+     o   SEGQUADFR     ,H3D_DATA       ,NODES%ISKEW          ,PSKIDS         ,ISKWP         ,
      p   KNOTLOCPC     ,KNOTLOCEL      ,PINCH_DATA     ,TAG_SKINS6     ,IRUNN_BIS     ,
      q   TF            ,NPC            ,DYNAIN_DATA    ,FCONT_MAX      ,MDS_MATID     ,
      r   FANI(1,NFNCA2+1),FANI(1,NFTCA2+1),IBCL        ,ILOADP         ,LLOADP        ,
@@ -8995,7 +9049,7 @@ C===============================================================================
       IF (IMP_CHK > 0) THEN
 #if defined(MUMPS5) 
          CALL IMP_CHKM(
-     1  ICODE  ,ISKEW  ,ISKWN  ,IPART  ,IXTG   ,IXS    ,IXQ    ,
+     1  NODES%ICODE  ,NODES%ISKEW  ,ISKWN  ,IPART  ,IXTG   ,IXS    ,IXQ    ,
      2  ELEMENT%SHELL%IXC    ,IXT    ,IXP    ,IXR    ,IXTG1          ,NODES%ITAB   ,NODES%ITABM1 ,
      3  NPC    ,IBCL   ,IBFV   ,SENSORS%SENSOR_TAB,NNLINK ,LNLINK ,IPARG  ,IGRV   ,
      4  IPARI  ,INTERFACES%INTBUF_TAB,NPRW   ,ICONX  ,NPBY,LPBY   ,LRIVET ,
@@ -9012,7 +9066,7 @@ C===============================================================================
      M  FANI(1,1+NFOA+2*(NSECT+NRBODY)),RWSAV  ,FSAVD ,
      N  DIRUL  ,LGRAV  ,IRBE3  ,LRBE3  ,FRBE3  ,
      O  FRWL6  ,IRBE2  ,LRBE2 ,ICFIELD,LCFIELD,CFIELD,ELBUF_TAB,
-     P  WEIGHT_MD, STACK,SENSORS%SFSAV,SENSORS%FSAV,SENSORS%STABSEN,SENSORS%TABSENSOR,DRAPE_SH4N  , 
+     P  NODES%WEIGHT_MD, STACK,SENSORS%SFSAV,SENSORS%FSAV,SENSORS%STABSEN,SENSORS%TABSENSOR,DRAPE_SH4N  , 
      Q  DRAPE_SH3N,H3D_DATA ,NDDL0,NNZK0,IMPBUF_TAB,CPTREAC,FTHREAC,NODREAC,
      R  DRAPEG ,OUTPUT%TH%TH_SURF,DPL0CLD,VEL0CLD,SNPC,STF)
          MSTOP=2
@@ -9027,7 +9081,7 @@ C-----reel : 1,2,3,4:DIAG_K,LT_K,DIAG_M,LT_M,5,6:LB,DB,7:BKUD,8,9:D_IMP,DR_IMP
 C----       10,11,12:ELBUF_C,BUFMAT_C,X_C,13,14:DD,DDR,15,16:X_ac,V_zero,23,24:AC,ACR
 #if defined(MUMPS5) 
         CALL IMP_SOLV(
-     1  ICODE  ,ISKEW  ,ISKWN  ,IPART  ,IXTG   ,IXS    ,IXQ    ,
+     1  NODES%ICODE  ,NODES%ISKEW  ,ISKWN  ,IPART  ,IXTG   ,IXS    ,IXQ    ,
      2  ELEMENT%SHELL%IXC    ,IXT    ,IXP    ,IXR    ,IXTG1          ,NODES%ITAB   ,NODES%ITABM1 ,
      3  NPC    ,IBCL   ,IBFV   ,SENSORS%SENSOR_TAB,NNLINK ,LNLINK ,IPARG  ,IGRV   ,
      4  IPARI  ,INTERFACES%INTBUF_TAB,NPRW   ,ICONX  ,NPBY,LPBY   ,LRIVET ,
@@ -9051,7 +9105,7 @@ C----       10,11,12:ELBUF_C,BUFMAT_C,X_C,13,14:DD,DDR,15,16:X_ac,V_zero,23,24:A
      T  IRLEN20E,ISLEN20E,IRBE3,LRBE3  ,FRBE3  ,FR_I2M,IAD_I2M,FR_RBE3M,
      U  IAD_RBE3M,FRWL6,IRBE2  ,LRBE2,INTBUF_TAB_CP,
      W  NODES%IKINE  ,DIAG_SMS,ICFIELD,LCFIELD,CFIELD,COUNT_REMSLV,
-     X  COUNT_REMSLVE,ELBUF_TAB,ELBUF_IMP,NODES%XDP,WEIGHT_MD , STACK  ,        
+     X  COUNT_REMSLVE,ELBUF_TAB,ELBUF_IMP,NODES%XDP,NODES%WEIGHT_MD , STACK  ,        
      Y  SENSORS%SFSAV,SENSORS%FSAV,SENSORS%STABSEN,SENSORS%TABSENSOR,DRAPE_SH4N  , DRAPE_SH3N,
      Z  H3D_DATA,MULTI_FVM,IGRBRIC,IGRSH4N,IGRSH3N,IGRBEAM,FORNEQS,MAXDGAP,
      A  NDDL0   ,NNZK0 ,IT_T   ,IMPBUF_TAB,CPTREAC,FTHREAC,NODREAC, DRAPEG,
@@ -9073,7 +9127,7 @@ C
      4 IXR,            IXTG,            IXTG1,     IPARG,
      5 TF,             NPC,             FR_WAVE,   W16,            BUFMAT,
      6 THKE,           BUFGEO,          NSENSOR,   SENSORS%SENSOR_TAB,RBY,
-     7 SKEWS%SKEW,     WA,                NODES%ICODT,   NODES%ICODR,         ISKEW,
+     7 SKEWS%SKEW,     WA,                NODES%ICODT,   NODES%ICODR,         NODES%ISKEW,
      9 IBFV,           VEL,             LPBY,      NPBY,           ITAB,
      A NODES%WEIGHT,         NODES%MS,       NODES%IN,        IPARI,    INTERFACES%INTBUF_TAB,
      B IMPBUF_TAB%X_A, ITSK ,    
@@ -9092,7 +9146,7 @@ C
      Q FSAV           ,FSAVD          , RWSAV     ,NODES%AR        ,     IRBE3   ,
      R LRBE3          ,FRBE3          , FR_I2M    ,IAD_I2M   ,     FR_RBE3M,
      S IAD_RBE3M      ,FRWL6          , IBCL      ,FORC      ,     IRBE2   ,
-     T LRBE2          ,IAD_RBE2       , FR_RBE2   ,WEIGHT_MD,
+     T LRBE2          ,IAD_RBE2       , FR_RBE2   ,NODES%WEIGHT_MD,
      U CLUSTER        ,FCLUSTER       , MCLUSTER  ,XFEM_TAB  ,
      V ALE_CONNECTIVITY    ,W              , NV46      ,NERCVOIS  ,     NESDVOIS ,
      W LERCVOIS       ,LESDVOIS       ,CRKEDGE    ,STACK     ,SENSORS%SFSAV   ,
@@ -9108,7 +9162,7 @@ C
      4 IXR,            IXTG,            IXTG1,     IPARG,
      5 TF,             NPC,             FR_WAVE,   W16,            BUFMAT,
      6 THKE,           BUFGEO,          NSENSOR,   SENSORS%SENSOR_TAB,RBY,
-     7 SKEWS%SKEW,     WA,                NODES%ICODT,   NODES%ICODR,         ISKEW,
+     7 SKEWS%SKEW,     WA,                NODES%ICODT,   NODES%ICODR,         NODES%ISKEW,
      9 IBFV,           VEL,             LPBY,      NPBY,           ITAB,
      A WEIGHT,         MS,              IN,        IPARI,    INTERFACES%INTBUF_TAB,
      B X  ,           ITSK ,    
@@ -9127,7 +9181,7 @@ C
      Q FSAV           ,FSAVD          , RWSAV     ,NODES%AR        ,     IRBE3   ,
      R LRBE3          ,FRBE3          , FR_I2M    ,IAD_I2M   ,     FR_RBE3M,
      S IAD_RBE3M      ,FRWL6          , IBCL      ,FORC      ,     IRBE2   ,
-     T LRBE2          ,IAD_RBE2       , FR_RBE2   ,WEIGHT_MD,
+     T LRBE2          ,IAD_RBE2       , FR_RBE2   ,NODES%WEIGHT_MD,
      U CLUSTER        ,FCLUSTER       , MCLUSTER  ,XFEM_TAB  ,
      V ALE_CONNECTIVITY    ,W              , NV46      ,NERCVOIS  ,     NESDVOIS ,
      W LERCVOIS       ,LESDVOIS       ,CRKEDGE    ,STACK     ,SENSORS%SFSAV   ,
@@ -9375,7 +9429,7 @@ C===============================================================================
      4         NODES%A               ,TF            ,RWBUF       ,
      5         DT2SAVE         , PYTHON, 
      6         IPARG           ,IXS           ,IXQ         ,NODPOR      ,
-     7         ISKEW           ,NODES%ICODT         ,ELBUF_TAB   ,
+     7         NODES%ISKEW           ,NODES%ICODT         ,ELBUF_TAB   ,
      8         NPC             ,LINALE        ,NPRW        ,LAS         ,
      9         IPARI           ,NODFTSK       ,NODLTSK     ,ITSK        ,
      A         IAD_ELEM        ,FR_ELEM       ,NBRCVOIS    ,NBSDVOIS    ,LNRCVOIS   ,
@@ -9728,7 +9782,7 @@ C--- //0 ----------------
 
         IF (GLOB_THERM%IDT_THERM == 1)CALL BCSDTTH_COPY(NODES%ICODT, NODES%ICODR, ICODT0, ICODR0, 2)
 
-        CALL BCSN(ICODE,NODES%ICODT,NODES%ICODR,PARTS0,PARTSAV)
+        CALL BCSN(NODES%ICODE,NODES%ICODT,NODES%ICODR,PARTS0,PARTSAV)
           
         IF (INT24USE == 1)THEN
            ! E2E Update Fictive Node Position, Velocity, Mass

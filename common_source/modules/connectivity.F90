@@ -33,10 +33,10 @@
 !       INTEGER, PARAMETER :: NIXUR = 6
         type shell_
           ! old storage of shells
-          integer, dimension(:,:), allocatable :: ixc !< ixs(1,i) : Material ID of the i-th shell element
-                                                      !< ixs(2:5,i) :  nodes of the i-th shell element
-                                                      !< ixs(6,i) :  PID of the i-th shell element 
-                                                      !< ixs(7,i) :  user id of the shell element
+          integer, dimension(:,:), allocatable :: ixc !< ixc(1,i) : Material ID of the i-th shell element
+                                                      !< ixc(2:5,i) :  nodes of the i-th shell element
+                                                      !< ixc(6,i) :  PID of the i-th shell element 
+                                                      !< ixc(7,i) :  user id of the shell element
          ! new storage of shells
           integer, dimension(:,:), allocatable :: nodes !< nodes(1:4,i) :  nodes of the i-th shell element
           integer, dimension(:), allocatable :: pid !< pid(i) :  PID of the i-th shell element

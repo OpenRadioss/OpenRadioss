@@ -40,8 +40,11 @@
             integer, dimension(:), allocatable :: ITABM1 !< node user id , itabm1, max_id_user_globaux
             integer, dimension(:), allocatable :: IKINE !< node kinematic id
             integer, dimension(:), allocatable :: WEIGHT !< node weight : 1 = owned by current proc, 0 = ghost
+            integer, dimension(:), allocatable :: WEIGHT_MD !< r2r weight, but allways allocated
             integer, dimension(:), allocatable :: ICODT !< SICODT=NUMNOD+2*NUMNOD*MAX(IALE,IEULER,IALELAG)
             integer, dimension(:), allocatable :: ICODR !< NUMNOD * IRODDL
+            integer, dimension(:), allocatable :: ISKEW
+            integer, dimension(:), allocatable :: ICODE
             my_real, dimension(:,:), allocatable :: A !< accelerations: 3 x numnod (x nthreads if parith/off)
             my_real, dimension(:,:), allocatable :: AR !< accelerations
             my_real, dimension(:,:), allocatable :: V !< velocities
@@ -132,6 +135,8 @@
             call my_alloc(arrays%IN,numnod*iroddl)
             call my_alloc(arrays%MS0,numnod)
             call my_alloc(arrays%IN0,numnod*iroddl)
+            call my_alloc(arrays%ISKEW,numnod)
+            call my_alloc(arrays%ICODE,numnod)
 #ifdef MYREAL4
             call my_alloc(arrays%DDP,numnod)
             call my_alloc(arrays%XDP,numnod)
@@ -140,6 +145,7 @@
             call my_alloc(arrays%XDP,1)
 #endif
             call my_alloc(arrays%WEIGHT,numnod)
+            call my_alloc(arrays%WEIGHT_MD,numnod)
             call my_alloc(arrays%ITABM1,2*numnod)
 
             if(iparith == 0) then
@@ -170,9 +176,12 @@
             arrays%STIFN = 0
             arrays%MS0 = 0
             arrays%IN0 = 0
+            arrays%ISKEW = 0
+            arrays%ICODE = 0
             arrays%DDP = 0
             arrays%XDP = 0
             arrays%WEIGHT = 0
+            arrays%WEIGHT_MD = 0
             arrays%ITABM1 = 0
             arrays%A = 0
             arrays%AR = 0
@@ -214,6 +223,10 @@
               call extend_array(arrays%V, 3, size(arrays%V, 2), 3, arrays%max_numnod + arrays%nrcvvois)
               call extend_array(arrays%X, 3, size(arrays%X, 2), 3, arrays%max_numnod + arrays%nrcvvois)
               call extend_array(arrays%D, 3, size(arrays%D, 2), 3, arrays%max_numnod + arrays%nrcvvois)
+              call extend_array(arrays%iskew, size(arrays%iskew), arrays%max_numnod)
+              arrays%iskew(arrays%numnod + 1:) = 0
+              call extend_array(arrays%ICODE, size(arrays%ICODE), arrays%max_numnod)
+              arrays%ICODE(arrays%numnod + 1:) = 0
               if(arrays%iroddl >0) then
                 call extend_array(arrays%VR,3, size(arrays%VR,2), 3, arrays%max_numnod)
                 call extend_array(arrays%VR,3, size(arrays%VR,2), 3, arrays%max_numnod)
@@ -233,6 +246,7 @@
               call extend_array(arrays%XDP, size(arrays%XDP), arrays%max_numnod)
 #endif
               call extend_array(arrays%WEIGHT, size(arrays%WEIGHT), arrays%max_numnod)
+              call extend_array(arrays%WEIGHT_MD, size(arrays%WEIGHT_MD), arrays%max_numnod)
               call extend_array(arrays%ITABM1, size(arrays%ITABM1), 2*arrays%max_numnod)
              
               if(arrays%iparith == 0) then

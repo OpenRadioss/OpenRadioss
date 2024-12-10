@@ -1451,7 +1451,7 @@ C------------------------------------------------
 C     engine file reading
 C------------------------------------------------
       CALL TRACE_IN(16,2,ZERO)
-      CALL LECTUR(  ICODE ,  ISKEW ,  ISKWN ,  IXTG  ,   IXS ,
+      CALL LECTUR(  NODES%ICODE ,  NODES%ISKEW ,  ISKWN ,  IXTG  ,   IXS ,
      2              IXQ ,    ELEMENT%SHELL%IXC ,    IXT ,    IXP ,     IXR ,
      3              NODES%ITAB ,   NODES%ITABM1  ,NPC,     IPARG,    IGRV ,
      4              LGRAV   ,IPARI,
@@ -1501,10 +1501,10 @@ C------------------------------------------------
            ANIM_CE(10254) = 1
            ANIM_CE(10255) = 1
         ENDIF
-      CALL BCS0 (ICODE,NODES%ICODT,NODES%ICODR, ICODE_PLY, ICODT_PLY,IBC_PLY)
+      CALL BCS0 (NODES%ICODE,NODES%ICODT,NODES%ICODR, ICODE_PLY, ICODT_PLY,IBC_PLY)
       IT = 1
       IF (NUMELTG6>0) THEN
-        CALL CDK6BC3(NODES%ICODT ,ISKEW,ISKWN,IXTG  ,
+        CALL CDK6BC3(NODES%ICODT ,NODES%ISKEW,ISKWN,IXTG  ,
      1                  IXTG1   ,NPBY,
      2                  NODES%X ,SKEWS%SKEW)
       ENDIF
