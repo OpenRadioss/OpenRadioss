@@ -151,7 +151,7 @@ C-----------------------------------------------
      .   FSCAL_ALPHA,ETH(MVSIZ),DEINTTH,ALPHA,DF,VL12(MVSIZ),DTINV
 C
       my_real ::  KC,PHIX, CA,CB, AREA, FPHI(MVSIZ,2),DIE(MVSIZ)
-      my_real ::  SIGX,FXINV,RR
+      my_real ,DIMENSION(NEL) ::  SIGX,SAPT
       my_real ,DIMENSION(:) ,POINTER :: UVAR
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
@@ -321,13 +321,15 @@ C-------------------------
            ENDDO
            CALL PRELOAD_AXIAL(NEL,PRELD1,GBUF%BPRELD,VL12,STF_F,F1 )
            IF (IGTYP == 18) THEN
+             SAPT(1:NEL)=ZERO
              DO IPT = 1,NPT        
                DO I=1,NEL
-                 FXINV =  GBUF%FOR(I)/MAX(GBUF%FOR(I)**2,EM20)  
-                 RR = F1(I)*FXINV
-                 SIGX  = ELBUF_STR%BUFLY(1)%LBUF(1,1,IPT)%SIG(I)*RR 
-                 ELBUF_STR%BUFLY(1)%LBUF(1,1,IPT)%SIG(I) = SIGX 
+                 SAPT(I) = SAPT(I) + GEO(400+IPT,PID(I))    
                ENDDO
+             ENDDO
+             SIGX(1:NEL) = F1(1:NEL)/SAPT(1:NEL)
+             DO IPT = 1,NPT        
+               ELBUF_STR%BUFLY(1)%LBUF(1,1,IPT)%SIG(1:NEL) = SIGX(1:NEL) 
              ENDDO
            END IF
            GBUF%FOR(1:NEL) = F1(1:NEL) 
