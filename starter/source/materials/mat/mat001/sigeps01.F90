@@ -20,11 +20,24 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    sigeps01_mod   ../starter/source/materials/mat/mat001/sigeps01.F90
+      !||--- called by ------------------------------------------------------
+      !||    mulaw          ../starter/source/materials/mat_share/mulaw.F
+      !||====================================================================
       module sigeps01_mod
       contains
 ! ===============================================================================================================
 !  \brief elastic material in starter with both incremental&total formulation
 ! ===============================================================================================================  
+      !||====================================================================
+      !||    sigeps01       ../starter/source/materials/mat/mat001/sigeps01.F90
+      !||--- called by ------------------------------------------------------
+      !||    mulaw          ../starter/source/materials/mat_share/mulaw.F
+      !||--- calls      -----------------------------------------------------
+      !||    valpvecdp      ../starter/source/materials/tools/matrix.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
         subroutine sigeps01(                                          &
           nel     ,pm      , npropm  , rho   , rho0  , ismstr,        &
           depsxx  , depsyy , depszz  , depsxy, depsyz, depszx,        &
