@@ -428,7 +428,7 @@ C  update of lam_3
    
 C stocked value           
         UVAR(1:NEL,4) = EV(1:NEL,3)
-Commpute stress after convergency           
+Compute stress after convergency           
            ! RVT = RV(I)**(-BETA*AL(K))
 ! if rv > 0 --> pui = exp(-beta * ln(ev))
 ! else pui = 0 

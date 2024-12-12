@@ -121,7 +121,7 @@ C---- element center
          PENMIN(1:NEL) = GAP_MIN*LL(1:NEL)
          PENREF(1:NEL) = GAP_MAX*LL(1:NEL)
 !         MARGE(1:NEL) = TWO*GAP_MAX*LL(1:NEL)
-C---- seg 1 : 1,2,3 (normal will be towords to inside)
+C---- seg 1 : 1,2,3 (normal will be towards inside)
          CALL SFOR_N2STRIA(XC,      YC,     ZC, 
      .                     X1,      X2,     X3,
      .                     Y1,      Y2,     Y3,
@@ -181,7 +181,7 @@ C---- seg 4 : 1,3,4
      .                    LL ,  IFCTL,   NEL ,
      .                  E_DISTOR, DT1 )
         NCTL = NCTL + IFCTL
-C---- force assembalge and STI update (dt)
+C---- force assemblage and STI update (dt)
         IF (NCTL >0) THEN
           DO I=1,NEL
              IF (STI_C(I)==ZERO) CYCLE

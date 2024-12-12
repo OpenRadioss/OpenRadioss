@@ -1328,7 +1328,7 @@ C----------------------------
      9   F38,     NEL)
       ENDIF
 C----------------------------
-C     distorsion control  
+C     distortion control  
 C----------------------------
       IF (ISCTL > 0) THEN
          ALPHA_E(1:NEL) = ONE  ! incompatibale

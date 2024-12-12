@@ -1788,7 +1788,7 @@ c general case
                 IF(IEDGE4 >0)THEN
 C Local Node : 0, local sleeping node : -1 or E2E Node : 1
 C Local sleeping nodes are nodes which are not candidated but stays
-C in E2E IRTS Secnd surface. Thay must be shipped, but removed from sorting
+C in E2E IRTS Secnd surface. They must be shipped, but removed from sorting
 C IBUF(8,ND) ->ISEDGE_FI
                   IF(TAG_SN(NOD)<0)THEN
                       IBUF(P)%p(L2+8) = -1

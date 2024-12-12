@@ -76,8 +76,8 @@
           my_real, dimension(nel), intent(in) :: rho !< material density
           my_real, dimension(nel), intent(inout) :: sigy !< yield stress
           my_real, dimension(nel), intent(inout) :: shf !< shear factor correction 
-          my_real, dimension(nel), intent(in)    :: thkly !< ply thikness  
-          my_real, dimension(nel), intent(inout)    :: thk !< element thikness  
+          my_real, dimension(nel), intent(in)    :: thkly !< ply thickness  
+          my_real, dimension(nel), intent(inout)    :: thk !< element thickness  
           my_real, dimension(stf), intent(in) :: tf
           my_real, dimension(nel), intent(in) :: epsp !<  equiv. strain rate
           my_real, dimension(nel), intent(inout) :: etse !< ratio of rigidity  
@@ -170,7 +170,7 @@
       ncyred = mat_param%iparam(3)  
       
       ! yc_over_sc= fourth*(yc/sc)**2  !
-      ! strain rate dependency of strenght
+      ! strain rate dependency of strength
         ! xt
       if(ifunc(1) /= 0) then
         ipos(1:nel) = 0
@@ -361,7 +361,7 @@
              a11       = max(e1,e2)/(one - nu12**2) 
              a11       = max(e1,e2)
              ssp(i) = sqrt(a11/rho(i))
-             sigy(i)    = min(slimt1*xt(i),slimt2*yt(i), slimc1*xc(i),slimc2*yc(i)) ! to ckeck
+             sigy(i)    = min(slimt1*xt(i),slimt2*yt(i), slimc1*xc(i),slimc2*yc(i)) ! to check
             ! computation of the thickness variation 
               limit_sig=  zero
               if(check(i) >= zero) then ! loading 

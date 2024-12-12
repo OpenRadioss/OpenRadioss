@@ -810,7 +810,7 @@ C-----------!!!-seperate LBUF%SIGL=LBUF%SIG,w/ npt>0 ISM12_11
          END IF !(IOFFS == 1) THEN
        END IF 
 C----------------------------
-C     distorsion control  
+C     distortion control  
 C----------------------------
       IF (ISCTL > 0) THEN
          OFFG(1:NEL) = MIN(OFF(1:NEL),ABS(GBUF%OFF(1:NEL))) ! no offg for tetra10 

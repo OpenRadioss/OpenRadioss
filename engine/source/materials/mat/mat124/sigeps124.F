@@ -587,7 +587,7 @@ c
             !     -> Derivative of FP with respect to KAP
             DFP_DKAP = DFP_DQH1*DQH1_DKAP + DFP_DQH2*DQH2_DKAP
             DFP_DKAP = MIN(DFP_DKAP,ZERO)
-            !     -> Computation of RH and XSIH parameters + Euclidian norm of derivative 
+            !     -> Computation of RH and XSIH parameters + Euclidean norm of derivative 
             RH = -(SIGM(I)/FC(I)) - THIRD
             IF (RH >= ZERO) THEN 
               XSIH = AH-(AH-BH)*EXP(-RH/CH)

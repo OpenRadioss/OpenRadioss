@@ -204,8 +204,8 @@ c
 c    -- end of computation of pressure-scaling factor --
 c
 c
-c    -- store eqivalent plastic strain at the beginning of time-step
-c    -- store "fractional" eqivalent plastic strain
+c    -- store equivalent plastic strain at the beginning of time-step
+c    -- store "fractional" equivalent plastic strain
 c
        DO I=1,NEL
          PLA0(I) = PLA(I)
@@ -247,7 +247,7 @@ c          -- von Mises stress at elastic predictor --
 c
 c
 c          -- COMPARE VM with PREVIOUS TIME-STEP YIELD STRESS --
-c          -- YLD is already muliplied by PFAC (at pressure)
+c          -- YLD is already multiplied by PFAC (at pressure)
 c
             IF( VM > YLD(I) )then ! .. plastically active process
 c

@@ -404,7 +404,7 @@ C----------------------------
 
         CALL MY_BARRIER
 
-        !   load **_GLOBAL global variables into loacl ones
+        !   load **_GLOBAL global variables into local ones
         INER = INER_GLOBAL
         AX = AX_GLOBAL
         AY = AY_GLOBAL

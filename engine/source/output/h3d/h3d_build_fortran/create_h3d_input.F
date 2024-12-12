@@ -108,7 +108,7 @@ c        print *,'ds la construct du read_input',H3D_DATA%INPUT_LIST(H3D_DATA%N_
 c      ENDDO
 c
 C-------------------------------------------------- 
-C SEARCH Keywords for Actication of some output computation
+C SEARCH Keywords for Activation of some output computation
 C-------------------------------------------------- 
       IS_CHAR_KEY3 = 1
       IS_EMPTY_KEY3 = 1

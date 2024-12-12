@@ -1454,7 +1454,7 @@ C------------
           IF(J > I)THEN
             JI=JSM_SMS(IJ)
             IF(LT_SMS(IJ)==ZERO.OR.LT_SMS(JI)==ZERO)THEN
-c IJ or JI ask for resetting connexion to 0
+c IJ or JI ask for resetting connection to 0
               LT_SMS(IJ)=ZERO
               LT_SMS(JI)=ZERO
             ELSE

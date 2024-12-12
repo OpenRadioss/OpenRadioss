@@ -954,7 +954,7 @@ C--------------------------------
      3   R33,     F16,     F26,     F36,
      4   NEL)
 C----------------------------
-C     distorsion control  
+C     distortion control  
 C----------------------------
       IF (ISCTL > 0) THEN
          ALPHA_E(1:NEL) = ONE  

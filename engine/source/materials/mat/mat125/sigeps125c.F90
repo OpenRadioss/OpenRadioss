@@ -64,8 +64,8 @@
           my_real, dimension(nel), intent(in) :: rho !< material density
           my_real, dimension(nel), intent(inout) :: sigy !< yield stress
           my_real, dimension(nel), intent(inout) :: shf !< shear factor correction 
-          my_real, dimension(nel), intent(inout) :: thk !< shell thikness 
-          my_real, dimension(nel), intent(in)    :: thkly !< ply thikness  
+          my_real, dimension(nel), intent(inout) :: thk !< shell thickness 
+          my_real, dimension(nel), intent(in)    :: thkly !< ply thickness  
           my_real, dimension(nel), intent(inout) :: etse !< ratio of rigidity  
           my_real, dimension(nel), intent(in) :: sigoxx !< old stress xx 
           my_real, dimension(nel), intent(in) :: sigoyy !< old stress yy

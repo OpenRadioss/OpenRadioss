@@ -488,7 +488,7 @@
 !                                                  WRAPPER
 ! ======================================================================================================================
 !   The remaining subroutines are wrappers for the MPI subroutines.
-!   They are not ment to be called directely, but through the interfaces defined above.
+!   They are not meant to be called directly, but through the interfaces defined above.
 !   See MPI documentation for the meaning of the arguments.
 ! ======================================================================================================================
       !||====================================================================

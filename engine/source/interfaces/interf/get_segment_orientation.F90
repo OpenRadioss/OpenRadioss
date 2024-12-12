@@ -97,7 +97,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   external functions
 ! ----------------------------------------------------------------------------------------------------------------------
-! [ external functions must be kept to mimimum ]
+! [ external functions must be kept to minimum ]
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -115,7 +115,7 @@
           list(:) = 0
           need_orientation = .false.
           ! -----------------
-          ! find the kinf of element : solid, shell or shell3n
+          ! find the kind of element : solid, shell or shell3n
           ! for solid : elem_id = elem_id - 0
           ! for shell : elem_id = elem_id - global number of solid + quad
           ! for shell3n : elem_id = elem_id - global number of solid + quad + shell + truss + beam + spring

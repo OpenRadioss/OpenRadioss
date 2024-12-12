@@ -1018,7 +1018,7 @@
             signzx(i) = sig(i,5)
           enddo
 !-------------------------------------------------------------------
-!     stress rotation - back to local element coordinate sysyem
+!     stress rotation - back to local element coordinate system
 !-----------------------------
           do i=1,nel
             sige(i,1) = sig(i,1)

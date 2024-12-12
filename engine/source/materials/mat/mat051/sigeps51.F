@@ -2759,7 +2759,7 @@ C=======================================================================
 
 !
 C=======================================================================
-C CALCULTATION OF CONSISTENT DENSITY WITH PRESSURE
+C CALCULATION OF CONSISTENT DENSITY WITH PRESSURE
 C IF ONE MATERIAL IS NOT PRESENT
 C=======================================================================
 C----------------------------

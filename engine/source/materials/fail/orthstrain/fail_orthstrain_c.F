@@ -474,7 +474,7 @@ c------------------------
       END IF              
 c-----------------------------------------------------------------------
 c     Damage stress reduction
-c     damage / diretion is equal to the max of damages par mode in the same direction
+c     damage / direction is equal to the max of damages par mode in the same direction
 c-----------------------------------------------------------------------
       IF (DMG_FLAG == 1) THEN   ! scalar damage applied to nodal force contribution
         DO I=1, NEL

@@ -969,7 +969,7 @@ C----------------------
         ENDIF
         IF(NINTER+NEXMAD/=0.AND.ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT > 0)THEN
             IF(SFANI >0)CALL ANICON0(CONT,NUMNOD)
-            !law151 reaction forces can be output only with H3D (not ANIM files since vectores are at element centroids)
+            !law151 reaction forces can be output only with H3D (not ANIM files since vectors are at element centroids)
             IF (MULTI_FVM%IS_USED .AND. H3D_DATA%N_VECT_CONT > 0)CALL ANICON0(FANI_CELL%F18,NUMELS+NUMELQ) !/H3D/ELEM/VECT/CONT
         ENDIF
         IF(NINTSTAMP/=0.AND.ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0)THEN
@@ -1989,7 +1989,7 @@ C /TH/SURF quantities reset to 0 expect for massflow (airbags)
       ENDIF 
       
       ! -----------------------
-      ! need to re-initialize PARTSAV array after any th/abf file writting
+      ! need to re-initialize PARTSAV array after any th/abf file writing
       IF(ISPMD==0) THEN
         ! ---------
         ! check if an abf file was written

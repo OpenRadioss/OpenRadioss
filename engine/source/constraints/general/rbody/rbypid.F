@@ -581,7 +581,7 @@ C-----------------------
 C----------------------------------------
 C       Test for elimination of the group
 C----------------------------------------
-C Imcompatible with gap option in truss property
+C Incompatible with gap option in truss property
 C        IGOF = 1
 C        DO I = 1,NEL
 C         IF(ELBUF(IAD + I) /= ZERO) IGOF=0

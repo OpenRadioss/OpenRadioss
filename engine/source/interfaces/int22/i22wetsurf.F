@@ -454,7 +454,7 @@ c      ENDDO
 !                         +  \                                 +
 !                         +   \                                +
 !                         +    \                               +             8 real cuts from polyedra
-!                         +     \ ICUT=1                       +            +6 fictious cuts from closed surface hypothesis
+!                         +     \ ICUT=1                       +            +6 fictitious cuts from closed surface hypothesis
 !                         +      \                             +
 !                         +       \                            +
 !                         +        \                           +

@@ -1901,7 +1901,7 @@ C----------------------------
      9   F38,     NEL)
       ENDIF
 C----------------------------
-C     distorsion control  
+C     distortion control  
 C----------------------------
       IF (ISCTL > 0) THEN
          CALL SDISTOR_INI(                                      

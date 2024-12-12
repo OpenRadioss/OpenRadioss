@@ -133,7 +133,7 @@
           type (th_surf_) , intent(inout) :: th_surf           !< Time history / surface
           ! Inout / output
           type(skew_), intent(inout) :: skews                  !< Skews structure
-          my_real, intent(inout) :: fsky(8,lsky)               !< skyline vector : Strore forces for PARITH/ON
+          my_real, intent(inout) :: fsky(8,lsky)               !< skyline vector : Store forces for PARITH/ON
           my_real, intent(inout) :: a(3,numnod)                !< node accelerations
           my_real, intent(inout) :: ar(3,numnod)               !< node rotational accelerations
           my_real, intent(inout) :: fext(3,numnod)             !< nodal external work

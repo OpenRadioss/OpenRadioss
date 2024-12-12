@@ -165,7 +165,7 @@ C-----------------------------------------------
         INTEGER CPT_MOD,NMOD,CPT_LAWID
         INTEGER IERROR  ! Error value from Allocate
         INTEGER LENS    ! Size of Remote interface send values
-        INTEGER LENR    ! Size of Remote interface recieve values
+        INTEGER LENR    ! Size of Remote interface receive values
 
         INTEGER IBID1,IBID2,IBID3
 

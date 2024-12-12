@@ -114,7 +114,7 @@ C=======================================================================
         ENDIF
       ENDDO
       !-------------------------------------------!
-      ! Remote Lagrangian Domain Bounds Recieving !
+      ! Remote Lagrangian Domain Bounds Receiving !
       !-------------------------------------------!
       NBIRECV=0
       DO P = 1, NSPMD

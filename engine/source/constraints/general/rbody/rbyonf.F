@@ -552,7 +552,7 @@ C
       ENDDO
 C-------------------------------------------
 C     4. Loop over other rby in case of elts activation
-C        - in case of hierachy of rby elt is activated only
+C        - in case of hierarchy of rby elt is activated only
 C        - if all rbys are deactivated
 C-------------------------------------------
       IF(ELT_ACTIV == 1)THEN

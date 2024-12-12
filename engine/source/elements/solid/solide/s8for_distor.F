@@ -165,7 +165,7 @@ C---- element center
          PENMIN(1:NEL) = GAP_MIN*LL(1:NEL)
          PENREF(1:NEL) = GAP_MAX*LL(1:NEL)
          MARGE(1:NEL) = TWO*GAP_MAX*LL(1:NEL)
-C---- seg 1 : 2,1,4, 3 normal towords to outside like tetra
+C---- seg 1 : 2,1,4, 3 normal towards outside like tetra
          CALL SFOR_N2S4(   XC,      YC,     ZC,   STIF,     
      .                     X2,     X1,     X4,     X3,
      .                     Y2,     Y1,     Y4,     Y3,
@@ -249,7 +249,7 @@ C---- seg 6 : 5,6,7,8
      .                  STI_C,   NEL ,    VC ,E_DISTOR,
      .                    DT1)
          NCTL = NCTL + IFCTL
-C---- force assembalge and STI update (dt)
+C---- force assemblage and STI update (dt)
           DO I=1,NEL
              FCX = ONE_OVER_8*FORC_N(I,1)
              FCY = ONE_OVER_8*FORC_N(I,2)

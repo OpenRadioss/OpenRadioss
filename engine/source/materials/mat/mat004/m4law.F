@@ -238,7 +238,7 @@ C-----------------
           FHEAT(I) = FHEAT(I) + SIGY(I)*DPLA(I)*VOL(I)
         ENDDO
       ELSE IF (IEOS > 0) THEN       !   nonlinear EOS must calculate temperature itself
-         ! need to send energy increment to EOS fot temperature calculation 
+         ! need to send energy increment to EOS for temperature calculation 
       END IF
 c----------
       RETURN
