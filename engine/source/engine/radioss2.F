@@ -2152,7 +2152,7 @@ C Send Data / Fem Structures
         K9=K8+NUMELTG
         K10=K9+NUMELX
         K11=K10+NUMSPH
-        CALL RAD_INIT_MADCPL(IPART, PM, GEO, ITAB,
+        CALL RAD_INIT_MADCPL(IPART, PM, GEO, NODES%ITAB,
      *                       NODES%X,  NODES%MS,
      *                       ELEMENT%SHELL%IXC ,IXTG ,IXS ,
      *                       IPART(K3),IPART(K8),IPART(K1),
