@@ -21,206 +21,6 @@ env:
 
 jobs:
 
-  build_tools_linux:
-    if: ${{ github.repository_owner == 'OpenRadioss' }}
-    # DEV ONLY # runs-on: ["linux64","dev_pmci"] 
-    runs-on: ["linux64","prmerge_ci"]
-    continue-on-error: true
-    container: 
-      image: fr-qafactorydev.europe.altair.com/build-linux64_gf:cos8-ompi411-devts11
-      credentials: 
-        username: ${{secrets.DOCKER_REGISTRY_USER}}
-        password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
-      volumes: 
-        - /etc/localtime:/etc/localtime:ro
- 
-    env:
-      STATUS_BUILD: 0
-      os: linux64
-
-    steps:
-
-      # Set the working dir suffixed with branch name
-      - name: Set workdir 
-        run: |
-          echo "WORKDIR=latest" >> $GITHUB_ENV
-
-      - name: Create branch oriented WS directory & integration WS
-        run: |
-          mkdir -p ${{ env.WORKDIR }}
-
-      - name: Clean local exe dir
-        working-directory: ${{ env.WORKDIR }}
-        run: |
-          rm -rf exec
-          md5sum exec/* || echo "Nothing in exec/" 
-
-      # Get last git modifications, don't clean before (way to keep persistent obj files)
-      - name: Checkout git sources
-        uses: actions/checkout@v4
-        with:
-          path: ${{ env.WORKDIR }}
-          clean: 'false'
-          lfs: 'true'
-          ref: ${{ env.LAST_STABLE_TAG_NAME }}
-
-      - name: Running builds
-        working-directory: ${{ env.WORKDIR }}
-        run: |
-          mkdir exec
-          source /home/adminqa/.bashrc
-
-          cmd="./build.bash"
-          echo "========================================="
-          echo "--  BUILD tools for anim_to_vtk (${{ env.os }}) --"   
-          echo "--  $cmd --"   
-          echo "========================================="
-
-          cd tools/anim_to_vtk/${{ env.os }}
-          eval $cmd
-
-          cmd="./build.bash"
-          echo "========================================="
-          echo "--  BUILD tools for anim_to_vtk (${{ env.os }}) --"   
-          echo "--  $cmd --"   
-          echo "========================================="
-
-          cd ../../th_to_csv/${{ env.os }}
-          eval $cmd
-
-          # Set correct end of step status (if not an email will be sent)
-          echo "STATUS_BUILD=1" >> $GITHUB_ENV
-
-      - name: Managing step execution
-        if: ${{ always() }}
-        run: |
-
-          MAILMSG="Some error(s) has(ve) been raised during workflow execution:\n\n"
-          echo -e "\n#### STATUS_STEP_BUILD ${{ env.os }} ###"
-          if [ "$STATUS_BUILD" = 0 ]
-          then
-            echo -e "Status\t[ \033[31;2;1mFAILED\033[0m ]" 
-            MAILMSG="The build tools ${{ env.os }} has failed \n"
-
-            # Send email 
-
-            # Setting SMTP server (docker host)
-            DOCKER_HOST=`/sbin/ip route|awk '/default/ { print $3 }'`
-            echo "set smtp=smtp://${DOCKER_HOST}:25" >> /etc/mail.rc 
-
-            # Print message in log 
-            echo -e $MAILMSG
-
-            # Send email
-            echo -e "$MAILMSG" | Mail -r $FROM_EMAIL -s "Error in Github CI repo ${{ github.repository }} ($(git rev-list -n 1 ${{ env.LAST_STABLE_TAG_NAME }}))" $TO_EMAIL
-
-          else
-            echo -e "Status\t[ \033[32;2;1mOK\033[0m ]"
-          fi
-
-      # Upload artifact
-      - name: Upload built artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: tools-${{ env.os }}
-          path: ${{ env.WORKDIR }}/exec
-
-  build_tools_windows_no_container:
-    if: ${{ github.repository_owner == 'OpenRadioss' }}
-    # DEV ONLY # runs-on: ["win64","dev_pmci"]
-    runs-on: ["win64","build","prmerge_ci"]
-    continue-on-error: true
- 
-    env:
-      STATUS_BUILD: 0
-      os: win64
-
-    steps:
-
-      # Set the working dir suffixed with branch name
-      - name: Set workdir 
-        shell: cmd
-        run: >
-          call C:\cygwin64\bin\bash --login -c "
-          echo \"WORKDIR=lastest\" >> $GITHUB_ENV;
-          "
-      - name: Create branch oriented WS directory & integration WS (WIN64)
-        shell: cmd
-        run: >
-          call C:\cygwin64\bin\bash --login -c "
-          cd %cd:\=/%;
-          mkdir -p ${{ env.WORKDIR }};
-          "
-
-      - name: Clean local exe dir
-        working-directory: ${{ env.WORKDIR }}
-        shell: cmd
-        run: >
-          call C:\cygwin64\bin\bash --login -c "
-          cd %cd:\=/%;
-          rm -rf exec;
-          "
-
-      # Get last git modifications, don't clean before (way to keep persistent obj files)
-      - name: Checkout git sources
-        uses: actions/checkout@v4
-        with:
-          path: ${{ env.WORKDIR }}
-          clean: 'false'
-          lfs: 'true'
-          ref: ${{ env.LAST_STABLE_TAG_NAME }}
-
-      - name: Running builds
-        working-directory: ${{ env.WORKDIR }}
-        shell: cmd
-        run: >
-          call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat" intel64 vs2019 && C:\cygwin64\bin\bash --login -c "
-          cd %cd:\=/%;
-          mkdir exec;
-          cmd=\"./build.bat\";
-          echo \"=========================================\";
-          echo \"--  BUILD tools for anim_to_vtk (${{ env.os }}) --\";
-          echo \"--  $cmd --\";
-          echo \"=========================================\";
-          cd tools/anim_to_vtk/${{ env.os }};
-          eval $cmd || exit 1;
-          cmd=\"./build.bat\";
-          echo \"=========================================\";
-          echo \"--  BUILD tools for anim_to_vtk (${{ env.os }}) --\";
-          echo \"--  $cmd --\";
-          echo \"=========================================\";
-          cd ../../th_to_csv/${{ env.os }};
-          eval $cmd || exit 1;
-          echo \"STATUS_BUILD=1\" >> $GITHUB_ENV;
-          "
-
-      - name: Managing step execution
-        if: ${{ always() }}
-        # Running cygwin from powershell or cmd => neither identation nor comment !
-        shell: cmd
-        run: >
-          call C:\cygwin64\bin\bash --login -c "
-          MAILMSG=\"Some error(s) has(ve) been raised during workflow execution:\n\n\";
-          echo -e \"\n#### STATUS_STEP_BUILD ${{ env.os }} ###\";
-          if [ ${{ env.STATUS_BUILD }} = 0 ];
-          then
-          echo -e \"Status\t[ \033[31;2;1mFAILED\033[0m ]\";
-          MAILMSG+=\"The build tools ${{ env.os }} has failed \n\";
-          echo -e $MAILMSG;
-          echo -e \"$MAILMSG\" | Email -f $FROM_EMAIL -s \"Error in Github CI repo ${{ github.repository }} ($(git rev-list -n 1 ${{ env.LAST_STABLE_TAG_NAME }}))\" -r $MAIL_RELAY $TO_EMAIL;
-          exit 1;
-          else
-          echo -e \"Status\t[ \033[32;2;1mOK\033[0m ]\";
-          fi;   
-          "
-
-      # Upload artifact
-      - name: Upload built artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: tools-${{ env.os }}
-          path: ${{ env.WORKDIR }}/exec
-
   build_linux:
     if: ${{ github.repository_owner == 'OpenRadioss' }}
     # DEV ONLY # runs-on: ["${{ matrix.build }}","dev_pmci"]
@@ -574,7 +374,7 @@ jobs:
         if: ${{ always() && env.CLOSE_BRANCH == 1 && steps.close_branch_build.outputs.status != 200 }} 
 
   delivery:
-    needs: [build_linux,build_windows_no_container,build_tools_linux,build_tools_windows_no_container]
+    needs: [build_linux,build_windows_no_container]
     # DEV ONLY # runs-on: dev_delivery
     runs-on: delivery    
     container: 
@@ -594,8 +394,13 @@ jobs:
       DELIVERY_TAG_PREFIX: 'latest-'
       OPENRADIOSS_MAINDIR_NAME: 'OpenRadioss'
       OPENRADIOSS_GUI: 'openradioss_gui'
-      OPENRADIOSS_GUI_TOOLS: 'TOOLS/openradioss_gui'
-      OPENRADIOSS_INP2RAD: 'TOOLS/inp2rad/inp2rad/inp2rad.py'
+      TOOLS_OPENRADIOSS_GUI: 'TOOLS/openradioss_gui'
+      TOOLS_INP2RAD: 'TOOLS/input_converters/inp2rad/inp2rad/inp2rad.py'
+      CI: 'true'  # if true, disables interactive prompts and progress bar  
+      JFROG_CLI_AVOID_NEW_VERSION_WARNING: "true"
+      JFROG_CLI_LOG_LEVEL: "ERROR"
+      JF_OPTIONS: "--url=${{ secrets.JFROG_DELIVERY_URL }} --user=${{ secrets.JFROG_DELIVERY_USER }} --password=${{ secrets.JFROG_DELIVERY_TOKEN }}"
+      JF_TOOLS_OUTPUT_CONVERTERS: "${{ secrets.JFROG_DELIVERY_RADIOSS_REPO }}/OpenRadioss_Tools/output_converters"
 
     steps:
 
@@ -694,16 +499,18 @@ jobs:
               cp -a EXTRA/${os}/* todeliver/${os}/${{ env.OPENRADIOSS_MAINDIR_NAME }}/
             fi
 
-            # Get OpenRadioss gui from Tools repository
-            if test -d ${{ env.OPENRADIOSS_GUI_TOOLS}}
+            # Get OpenRadioss gui from Tools repository and inp2rad
+            if test -d ${{ env.TOOLS_OPENRADIOSS_GUI}}
             then
-              cp -a ${{ env.OPENRADIOSS_GUI_TOOLS}} todeliver/${os}/${{ env.OPENRADIOSS_MAINDIR_NAME }}/
-              if test -f ${{ env.OPENRADIOSS_INP2RAD}}
+              cp -a ${{ env.TOOLS_OPENRADIOSS_GUI}} todeliver/${os}/${{ env.OPENRADIOSS_MAINDIR_NAME }}/
+              if test -f ${{ env.TOOLS_INP2RAD}}
               then
-                echo "Copying inp2rad ${{ env.OPENRADIOSS_INP2RAD}} todeliver/${os}/${{ env.OPENRADIOSS_MAINDIR_NAME }}/${{ env.OPENRADIOSS_GUI }}/" 
-                cp -a ${{ env.OPENRADIOSS_INP2RAD}} todeliver/${os}/${{ env.OPENRADIOSS_MAINDIR_NAME }}/${{ env.OPENRADIOSS_GUI }}/
-              fi
+                cp -a ${{ env.TOOLS_INP2RAD}} todeliver/${os}/${{ env.OPENRADIOSS_MAINDIR_NAME }}/${{ env.OPENRADIOSS_GUI }}/
+              fi            
             fi
+
+            # Get some output converters from Tools repository
+            jf rt download ${JF_OPTIONS} "${JF_TOOLS_OUTPUT_CONVERTERS}/${os}/*" todeliver/${os}/${{ env.OPENRADIOSS_MAINDIR_NAME }}/exec/ --flat=true
 
             cp -a hm_cfg_files todeliver/${os}/${{ env.OPENRADIOSS_MAINDIR_NAME }}/
 
