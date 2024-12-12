@@ -227,9 +227,9 @@ c     A rendre compatible : IF(EPSPV(I) == ZERO) EPSPV(I)=UPARAM(8)! EPSVINI
 C-----------------------------------------------
 C     ELASTIC SOLUTION
 C------------------------------------------
-C for practical reason (ALE) Note the followings :
+C for practical reason (ALE) Note the following :
 C - SIGO and SIGN are the skeleton stress tensors (effective stress)
-C - Pore presure U goes into SIGV and is stored into AUX UVAR (I,5)
+C - Pore pressure U goes into SIGV and is stored into AUX UVAR (I,5)
 C
       IF (IFUNC(1) > 0)THEN
         DO I=1,NEL 

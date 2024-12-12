@@ -74,7 +74,7 @@
           integer,                                   intent(in) :: lipart1                     !< size for array definition part array
           integer,                                   intent(inout) :: stat_numelsph            !< number of sphcell written
           integer,                                   intent(inout) :: stat_numelsph_g          !< global number of sphcell written
-          integer,                                   intent(in) :: lengsph                     !< lenght of work array
+          integer,                                   intent(in) :: lengsph                     !< length of work array
           integer,                                   intent(inout) :: nspmd                    !< number of mpi domains
           integer,                                   intent(in) :: itab(numnod)                !< array for user nodes Ids
           integer,                                   intent(in) :: ipart(lipart1,npart)        !< array for parts

@@ -43,7 +43,7 @@ C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 C   This subroutine defines & writes nodal sound speed requested by Engine keyword /H3D/NODA/SSP
-C      application :  /MONVOL/FVMBAG* (sound spped from polyhedra, specific buffer).
+C      application :  /MONVOL/FVMBAG* (sound speed from polyhedra, specific buffer).
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------

@@ -419,7 +419,7 @@ C       WRITE(6,*) __FILE__,__LINE__,ISPMD,I-1
           IF(ISPMD /= I-1) THEN
            J = NB_SECND_RECV(I)
            IF(J > 0) THEN
-           ! if ISPMD recieves secnds from proc I
+           ! if ISPMD receives secnds from proc I
            ! then find out if one these secnds is ISECND
            ! using user ids.
            DO K = L,L+J-1 
@@ -743,7 +743,7 @@ C   I n f o r m a t i o n s
 C-----------------------------------------------
 C   This routine communicates secnd variables  
 C   (- Flag = 1 : Send) Commented                                     
-C   (- Flag = 2 : Recieve) Commented
+C   (- Flag = 2 : Receive) Commented
 C   - Flag = 3 : Synchrone 
 C-----------------------------------------------
 C   M o d u l e s

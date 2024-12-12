@@ -328,7 +328,7 @@ C
                 CALL GET_MASS_RBY_C(IDP,NNG,GRNOD,MS,IN,X,NPBY,NRBODY,RBY,NNPBY,NRBY)
                 CALL R2R_RBY(NNG,ITAB,GRNOD,X,MS,IN,NPBY,RBY,XDP,1,WEIGHT)
               ELSEIF (NLLNK(IEX)==1) THEN
-C---------- Coupling of non local dof - mass not modifed -
+C---------- Coupling of non local dof - mass not modified -
                 CALL SEND_IBUF_C(IDP,1)
               ELSE
                 CALL GET_MASS_C(IDP,NNG,GRNOD,MS,IN)

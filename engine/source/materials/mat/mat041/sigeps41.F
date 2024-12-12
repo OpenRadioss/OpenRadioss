@@ -65,7 +65,7 @@ C     GROWTH TERM   : rateg = G1 * (1.-F)**b * F**d * pres**y  , if P>0
 C
 C   *** IREAC = 2 ***
 C   EXTENDED 3-TERM-MODEL   --> dF/dT = IGNITION TERM + GROWTH TERM 1 + GROWTH TERM 2
-C        IGNITION TERM :  ratei = I * (1.-F+tol)**b * abs(etar-1.-ccrit)**x     , if 0<f<Figmax & P>0 & compression thresold (etar-1>=ccrit)
+C        IGNITION TERM :  ratei = I * (1.-F+tol)**b * abs(etar-1.-ccrit)**x     , if 0<f<Figmax & P>0 & compression threshold (etar-1>=ccrit)
 C        GROWTH TERM 1 : rateg1 = G1 * (1.-F+tol)**c * (F+tol)**d * pres**y     , if 0<f<FG1max & P>0
 C        GROWTH TERM 2 : rateg2 = G2 * (1.-F+tol)**e * (F+tol)**g * pres**z     , if FG2min<f<1 & P>0
 C
@@ -388,7 +388,7 @@ C-----------------------------------------------
       cburn = ZERO
       if (pres <= ZERO) return              !no rate to calculate for material expansion
       if (artvisc >= (cappa*pres)) return   !
-      if (fc == ONE) return                 !everything alread reacted, 100% products, Fc remains 1.00
+      if (fc == ONE) return                 !everything already reacted, 100% products, Fc remains 1.00
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -420,7 +420,7 @@ C   D e s c r i p t i o n
 C-----------------------------------------------
 C   *** IREAC = 2 ***
 C   EXTENDED 3-TERM-MODEL   --> dF/dT = IGNITION TERM + GROWTH TERM 1 + GROWTH TERM 2
-C        IGNITION TERM :  ratei = I * (1.-F+tol)**b * abs(etar-1.-ccrit)**x     , if 0<f<Figmax & P>0 & compression thresold (etar-1>=ccrit)
+C        IGNITION TERM :  ratei = I * (1.-F+tol)**b * abs(etar-1.-ccrit)**x     , if 0<f<Figmax & P>0 & compression threshold (etar-1>=ccrit)
 C        GROWTH TERM 1 : rateg1 = G1 * (1.-F+tol)**c * (F+tol)**d * pres**y , if 0<f<FG1max & P>0
 C        GROWTH TERM 2 : rateg2 = G2 * (1.-F+tol)**e * (F+tol)**g * pres**z     , if FG2min<f<1 & P>0
 c
@@ -506,7 +506,7 @@ C   D e s c r i p t i o n
 C-----------------------------------------------
 c  fc massic fraction (F function) ;
 c  beta : volume fraction of reagent (unreacted explosive)
-c  T,v,fc knwon : find beta such as Pr=Pp  (hypothesis : equilibrium between two phase for system closure)
+c  T,v,fc known : find beta such as Pr=Pp  (hypothesis : equilibrium between two phase for system closure)
 c  Iterative method : iterate on b value until delta = Pp-Pr < eps
 c
 c  input : vol_rel, etar, etap, fc, tmp
@@ -603,7 +603,7 @@ c
 c   pressure
       pres = (preac+pprod)*HALF
 c
-c   local derrivatives
+c   local derivatives
       transr = bthr / beta
       transp = bthp / (ONE - beta)
       trans = transr*etar + transp*etap

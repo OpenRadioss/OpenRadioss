@@ -93,7 +93,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   external functions
 ! ----------------------------------------------------------------------------------------------------------------------
-! [ external functions must be kept to mimimum ]
+! [ external functions must be kept to minimum ]
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -113,7 +113,7 @@
               nbddedg = 0           
               ni25=ni25+1           
               do i=1,nrtm  
-                if(intbuf_tab(nin)%stfm(i)>zero ) then ! neighboor external surfaces      
+                if(intbuf_tab(nin)%stfm(i)>zero ) then ! neighbor external surfaces      
                   do j=1,4
                     k = intbuf_tab(nin)%mvoisin(4*(i-1)+j)
                     if(k<0)then
@@ -148,7 +148,7 @@
               nbddedg = 0           
               ni25=ni25+1           
               do i = 1, nrtm  
-                if(intbuf_tab(nin)%stfm(i)>zero ) then ! neighboor external surfaces
+                if(intbuf_tab(nin)%stfm(i)>zero ) then ! neighbor external surfaces
                   do j = 1,4
                     k = intbuf_tab(nin)%mvoisin(4*(i-1)+j)
                     if(k<0)then

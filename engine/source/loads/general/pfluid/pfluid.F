@@ -45,7 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C----------------------------------------------- 
-C This subroutine is modeling a pressure load on given strucutral faces (4 or 3 nodes). 
+C This subroutine is modeling a pressure load on given structural faces (4 or 3 nodes). 
 C The pressure load results into a normal force at face centroid. This normal force is then expanded to the nodes composing the face.
 C
 C ILOADP     : Integer array related to /LOAD/PBLAST option
@@ -63,7 +63,7 @@ C WEIGHT     : -
 C TFEXC      : -
 C IADC       : (Parith/on only) contains index to be used with FSKY array
 C FSKY       : (Parith/on only) Nodal force    (directly apply as a nodal acceleration in A array in case of Parith/off)
-C LLOADP     : array used to retieve nodes N1,N2,N3,N4 of the structural face to be loaded
+C LLOADP     : array used to retrieve nodes N1,N2,N3,N4 of the structural face to be loaded
 C FEXT       : storage of nodal forces for animation purpose (/ANIM/VECT/FEXT)
 C H3D_DATA   : data structure for H3D parameters
 C
@@ -275,7 +275,7 @@ C---------------------------------------
      +                          +FZ*(V(3,N1)+V(3,N2)+V(3,N3)+V(3,N4)))
      
 #include "lockon.inc"
-              !/PARITH/OFF: force is direcctly added in A array. It will be dividedby nodal mass later
+              !/PARITH/OFF: force is directly added in A array. It will be divided by nodal mass later
               !-node_1
               A(1,N1)=A(1,N1)+FX                                                                   
               A(2,N1)=A(2,N1)+FY                                                                   
@@ -445,7 +445,7 @@ C
      
 
 #include "lockon.inc"
-              !/PARITH/OFF: force is direcctly added in A array. It will be dividedby nodal mass later
+              !/PARITH/OFF: force is directly added in A array. It will be dividedby nodal mass later
               !-node_1
               A(1,N1)=A(1,N1)+FX                                                                    
               A(2,N1)=A(2,N1)+FY                                                                    

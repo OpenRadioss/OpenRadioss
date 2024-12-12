@@ -114,7 +114,7 @@
           allocate(group_id(nelem))
           allocate(character(kind=c_char, len=max_code_length) :: code)
 
-          ierror = 0 ! if python error = 1 => python_initialize will do nothing, because python is not avaiable
+          ierror = 0 ! if python error = 1 => python_initialize will do nothing, because python is not available
           ! i.e. starter without -python option
           if(py%nb_functs>0) call python_initialize(ierror)
 

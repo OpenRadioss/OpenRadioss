@@ -85,10 +85,10 @@
           integer, intent (in   )                          :: iparit           !< flag P/ON
           integer, intent (in   ) ,dimension(nparg,ngroup) :: iparg            !< elem group array
           integer, intent (in   ) ,dimension(2,nspmd+1)    :: iad_elem         !< index array for comm
-          integer, intent (in   ) ,dimension(sfr_elem)     :: fr_elem          !< comm node arry
+          integer, intent (in   ) ,dimension(sfr_elem)     :: fr_elem          !< comm node array
           integer, intent (in   ) ,dimension(nixc,numelc)  :: ixc              !< shell 4n connectivity
           integer, intent (in   ),dimension(nixtg,numeltg) :: ixtg             !< shell 3n connectivity
-          my_real, intent (in   ),dimension(numelc+numeltg):: thke             !< initial thikness
+          my_real, intent (in   ),dimension(numelc+numeltg):: thke             !< initial thickness
           my_real, intent (in   ),dimension(npropg,numgeo) :: geo              !< property array
           type (elbuf_struct_), target, dimension(ngroup)  :: elbuf_tab        !< el_buf struct_
           type (sh_offset_)                                :: sh_offset_tab    !< offset struct_

@@ -789,7 +789,7 @@ C Stiffness based on masses and time step
              RSHIFT = RSHIFT + 1
           ENDIF
 C
-C CAREA ouptut in TH (case of NISUB)
+C CAREA output in TH (case of NISUB)
           IF(IFSUB_CAREA > 0) THEN
              NBLOCAL = 0
              DO J = 1, NN

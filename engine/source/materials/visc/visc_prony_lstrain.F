@@ -54,9 +54,9 @@ C EPSPXX  | NEL     | F | R | STRAIN RATE XX
 C EPSPYY  | NEL     | F | R | STRAIN RATE YY
 C ...     |         |   |   |
 C ...     |         |   |   |
-C VISC    | NEL*6   | F | W | VISCOUS  STRESS 
+C VISC    | NEL*6   | F | W | VISCOUS STRESS 
 C ...     |         |   |   |
-C VISCMAX | NEL     | F | W | MAXIMUN DAMPING MODULUS(NEEDED FOR TIME STEP)
+C VISCMAX | NEL     | F | W | MAXIMUM DAMPING MODULUS(NEEDED FOR TIME STEP)
 C---------+---------+---+---+--------------------------------------------
 C UVAR    |NEL*NUVAR| F |R/W| USER ELEMENT VARIABLE ARRAY
 C---------+---------+---+---+--------------------------------------------

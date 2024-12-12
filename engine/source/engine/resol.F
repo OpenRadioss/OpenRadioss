@@ -3055,7 +3055,7 @@ C------------------------------------------------------
       KSPH23 =KSPH22+MIN(IUN,NSPHIO)*3*NUMSPH
       KSPACTIV=1
       IF(NSPHSOL==0)THEN
-C     pointer to list of paticles to be sorted (to be sorted == active)
+C     pointer to list of particles to be sorted (to be sorted == active)
         KSP2SORT=1
       ELSE
 C     to be sorted > active

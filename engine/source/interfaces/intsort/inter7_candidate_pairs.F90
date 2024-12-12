@@ -184,7 +184,7 @@
 !$OMP BARRIER
 
 ! The global bounding box contains all the nodes
-! Some nodes may by higly distant from the impact zone
+! Some nodes may by highly distant from the impact zone
 ! The domain is subdivided in cells (voxel)
 ! All the cells have the sime size, except the first and the last one in each direction
 

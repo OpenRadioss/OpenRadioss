@@ -2922,7 +2922,7 @@ C-----------------------------
          ANIM_N(15) = 1
          ANIM_N(16) = 1
        ELSEIF(KEY3(1:5)=='SCHLI')THEN
-         ANIM_N(17) = 0 !currently unpluged
+         ANIM_N(17) = 0 !currently unplugged
        ELSEIF(KEY3(1:5)=='STIFR')THEN
          ANIM_N(18) = 1  
        ELSEIF(KEY3(1:4)=='STIF')THEN

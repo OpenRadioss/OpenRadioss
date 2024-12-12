@@ -1621,7 +1621,7 @@ C Transform forces from convected frame to global frame
         ENDIF 
       ENDIF
 C----------------------------
-C     distorsion control  
+C     distortion control  
 C----------------------------
       IF (ISCTL > 0) THEN
          CALL SDISTOR_INI(                                      

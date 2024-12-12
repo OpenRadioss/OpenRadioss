@@ -400,7 +400,7 @@ C
          DP        = ALP*(SIG(I,1)+PN)
          VO(I)     = VN(I)
          P(I)      = -SIG(I,1)+DP+DU
-         SSP_EQ(I) = RHOC / RHO0(I) !adjacent value can also be output but recquires SPMD treatment.
+         SSP_EQ(I) = RHOC / RHO0(I) !adjacent value can also be output but requires SPMD treatment.
          
         !-------------------------------------------!
         ! CAS   4  NON REFLECTING BOUNDARY          !
@@ -453,7 +453,7 @@ C
          SSP       = PM(97,MX)/RHO0(I)
          VO(I)     = VO(I)+ALP*(PV(I)-VO(I))
          P(I)      = SSP*(RHOV(I)*VN(I)-VIMP(I))+VO(I)
-         SSP_EQ(I) = SSP !adjacent value can also be output but recquires SPMD treatment.
+         SSP_EQ(I) = SSP !adjacent value can also be output but requires SPMD treatment.
         ENDIF
       ENDDO !next I
 

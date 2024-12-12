@@ -1027,7 +1027,7 @@ C----------------------------
      8   F34,     F35,     F36,     F37,
      9   F38,     NEL)
 C----------------------------
-C     distorsion control  
+C     distortion control  
 C----------------------------
       IF (ISCTL > 0) THEN
          ALPHA_E(1:NEL) = ONE  ! incompatibale

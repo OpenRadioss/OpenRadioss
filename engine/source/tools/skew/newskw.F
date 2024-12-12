@@ -435,7 +435,7 @@ C-----------------------------------------------
 !         if ISKWP(N+A) = -local proc, N+1 is local to 
 !         the processor and the comm is not mandatory 
 !         if LAG MULT method is used, need to always 
-!         communicate the SKEW arraies
+!         communicate the SKEW arrays
 !$ENDCOMMENT
 
 !       initialization

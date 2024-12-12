@@ -168,7 +168,7 @@
          penmin(1:nel) = gap_min*ll(1:nel)
          penref(1:nel) = gap_max*ll(1:nel)
          marge(1:nel) = two*gap_max*ll(1:nel)
-!---- seg 1 : 1,3,2 (normal should be towords to outside)
+!---- seg 1 : 1,3,2 (normal should be towards outside)
          call sfor_n2stria(xc,      yc,     zc,                                &
                            x1,      x3,     x2,                                &
                            y1,      y3,     y2,                                &
@@ -183,7 +183,7 @@
                           ll  ,  ifctl,   nel ,                                &
                         e_distor, dt1 )                                        
          nctl = nctl + ifctl                                                   
-!---- seg 2 : 4,5,6 (normal will be towords to outside)                         
+!---- seg 2 : 4,5,6 (normal will be towards outside)                         
          call sfor_n2stria(xc,      yc,     zc,                                &
                            x4,      x5,     x6,                                &
                            y4,      y5,     y6,                                &
@@ -198,7 +198,7 @@
                           ll  ,  ifctl,   nel ,                                &
                         e_distor, dt1 )
          nctl = nctl + ifctl
-!---- seg 3 : 1,2,5,4 (normal will be towords to outside)
+!---- seg 3 : 1,2,5,4 (normal will be towards outside)
          call sfor_n2s4(  xc,      yc,     zc,   stif,                         & 
                           x1,      x2,     x5,     x4,                         &
                           y1,      y2,     y5,     y4,                         &
@@ -240,7 +240,7 @@
                         sti_c,    nel ,    vc ,e_distor,                       &
                           dt1)
          nctl = nctl + ifctl
-!---- force assembalge and sti update (dt)
+!---- force assemblage and sti update (dt)
           do i=1,nel
              fcx = one_over_6*forc_n(i,1)
              fcy = one_over_6*forc_n(i,2)

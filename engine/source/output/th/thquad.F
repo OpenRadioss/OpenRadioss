@@ -446,7 +446,7 @@ C               Temperature
               ENDIF
 C
 C------------------------------------------------------------------------------
-C       TH tab filling with stain in element and per intergation point
+C       TH tab filling with stain in element and per integration point
 C              EPSXIJK,EPSYIJK,EPSZIJK,EPSXYIJK,EPSXZIJK,EPSYZIIJK => WWA(239060)
 C              EPSXX,EPSYY,EPSZZ,EPSXY,EPSXZ,EPSYZ  =>  WWA(1618)
 C              L_EPSXX,L_EPSYY,L_EPSZZ,L_EPSXY,LEPSXZ,LEPSYZ  => WWA(239030)

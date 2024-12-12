@@ -494,7 +494,7 @@ C
         INTEGER ITMP,MODE
 
         TYPE USER_NOD_ID_
-          !VIRTUAL NODES MANAGMENT
+          !VIRTUAL NODES MANAGEMENT
           !some option are writing virtual entities in H3D files. it requires to generate nodes which must have identifiers.
           !
           !  +-----------------USER NODE IDENTIFIERS----------------------------------------------+

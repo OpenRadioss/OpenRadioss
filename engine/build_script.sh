@@ -352,7 +352,7 @@ then
       source ../CMake_Compilers_c/cmake_${arch}_compilers.sh
     else
       echo "-- Error: -arch=${arch} does not exist"
-      echo "-- See help bellow"
+      echo "-- See help below"
       echo " " 
       my_help
       exit 1
@@ -363,7 +363,7 @@ else
       source ../CMake_Compilers/cmake_${arch}_compilers.sh
     else
       echo "-- Error: -arch=${arch} does not exist"
-      echo "-- See help bellow"
+      echo "-- See help below"
       echo " " 
       my_help
       exit 1

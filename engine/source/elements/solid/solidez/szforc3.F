@@ -1128,7 +1128,7 @@ C Transform forces from convected frame to global frame
      8   F34,     F35,     F36,     F37,
      9   F38,     NEL)
 C----------------------------
-C     distorsion control  
+C     distortion control  
 C----------------------------
       IF (ISCTL > 0) THEN  ! think about degenerated element
          CALL SDISTOR_INI(                                      

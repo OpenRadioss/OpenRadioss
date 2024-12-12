@@ -329,10 +329,10 @@ C-----------------------------------------------
 
           ELSE
 
-            Z_struct = HZ*FAC_L_bb/W13 ! scaled value in same unit system as harcoded tables {g,cm,mus,Mbar}
+            Z_struct = HZ*FAC_L_bb/W13 ! scaled value in same unit system as hardcoded tables {g,cm,mus,Mbar}
 
             !Scaled Height of Charge
-            ZC = HC * FAC_L_bb/W13! scaled value in same unit system as harcoded tables {g,cm,mus,Mbar}
+            ZC = HC * FAC_L_bb/W13! scaled value in same unit system as hardcoded tables {g,cm,mus,Mbar}
             ZC = ZC/FAC_UNIT   ! ft/lb**0.3333  (fig 2-13 : 10 plots, one for a given ZC value)
 
             !Horizontal Distance between Charge and Centroid : LG
@@ -344,7 +344,7 @@ C-----------------------------------------------
             tmp(2) = (ProjZ(2)-ProjDet(2))
             tmp(3) = (ProjZ(3)-ProjDet(3))
             LG = SQRT(TMP(1)*TMP(1)+TMP(2)*TMP(2)+TMP(3)*TMP(3))
-            ZG = LG*FAC_L_bb/W13     !scaled horizontal distance (ground) ; same unit system as harcoded tables {g,cm,mus,Mbar}
+            ZG = LG*FAC_L_bb/W13     !scaled horizontal distance (ground) ; same unit system as hardcoded tables {g,cm,mus,Mbar}
 
             !Angle of structural face (mach wave is planar wave)
             cos_theta = (ProjDet(1)-ProjZ(1))*Nx +  (ProjDet(2)-ProjZ(2))*Ny + (ProjDet(3)-ProjZ(3))*Nz

@@ -2814,7 +2814,7 @@ C-----------------------------------------------
         END DO
       END DO
 C
-C followin i11for3 process on secondary nodes
+C following i11for3 process on secondary nodes
 C
       IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
      .   ((TT>=TANIM .AND. TT<=TANIM_STOP).OR.TT>=TOUTP.OR.(TT>=H3D_DATA%TH3D.AND.TT<=H3D_DATA%TH3D_STOP).OR.

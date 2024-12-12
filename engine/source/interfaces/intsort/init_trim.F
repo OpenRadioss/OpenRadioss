@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE INIT_TRIM(NINTER)
 C Initialize arrays that are use to decide if bounding boxes
-C of each interfaces should be trimed or not
+C of each interfaces should be trimmed or not
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------

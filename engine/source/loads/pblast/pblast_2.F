@@ -361,7 +361,7 @@ C-----------------------------------------------
         ELSE! => IZ_UPDATE=1
 
           !use wave parameters from Starter
-          Z = ZERO ! ZG not used here since all wave characteritics are stored.
+          Z = ZERO ! ZG not used here since all wave characteristics are stored.
           cos_theta = PBLAST%PBLAST_TAB(IL)%cos_theta(I)
           P_inci = PBLAST%PBLAST_TAB(IL)%P_inci(I)
           P_refl = PBLAST%PBLAST_TAB(IL)%P_refl(I)

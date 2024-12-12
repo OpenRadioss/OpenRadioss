@@ -88,7 +88,7 @@ C-----------------------------------------------
             INTEGER, DIMENSION(:), ALLOCATABLE :: SEC_NODE_ID ! ID of secondary nodes in each interface
             ! ------------------------------
             ! main node array
-            INTEGER :: MAX_PROC_NB      ! maximun number of processor
+            INTEGER :: MAX_PROC_NB      ! maximum number of processor
             INTEGER :: SIZE_M_NODE_PROC ! size of M_NODE_PROC
             INTEGER, DIMENSION(:), ALLOCATABLE :: SHIFT_M_NODE_PROC ! shift to point to M_NODE_PROC array & number of processor per node
             INTEGER, DIMENSION(:), ALLOCATABLE :: M_NODE_PROC       ! list of processor per node

@@ -99,7 +99,7 @@ C-----------------------------------------------
         NODL = (1 + ITASK) * NUMNOD / NTHREAD 
 
         !   1:NUMNOD --> classical x/v/mass
-        X_APPEND(1:3,NODF:NODL) = X(1:3,NODF:NODL) !strcture nodes must also be updated
+        X_APPEND(1:3,NODF:NODL) = X(1:3,NODF:NODL) !structure nodes must also be updated
         V_APPEND(1:3,NODF:NODL) = V(1:3,NODF:NODL)
         MASS_APPEND(NODF:NODL) = MS(NODF:NODL)
         KINET_APPEND(NODF:NODL) = KINET(NODF:NODL)

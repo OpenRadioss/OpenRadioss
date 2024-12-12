@@ -102,7 +102,7 @@ C  239549     VZ     Z-VELOCITY (MEAN VALUE FOR STAGGERED SCHEME, CELL VALUE FOR
 C  239550     SSP    SOUND SPEED
 C  239551     MACH   MACH NUMBER
 C
-C  labels are detialed in Reader subroutine : hm_read_thgrou.F
+C  labels are detailed in Reader subroutine : hm_read_thgrou.F
 C
 C-----------------------------------------------
 C   M o d u l e s
@@ -931,7 +931,7 @@ c
               ENDIF
 C------------------------------------------------------------------------------
 C                 2- TH tab filling with stresses  and stain in element
-C                           and per intergation point
+C                           and per integration point
 C                    *** Property Type22: output SIG_IK_J =>  WA(120338)
 C                                                EPS_IK_J =>  WA(1646)
 C                    *** Solid 16 nodes, 20nodes, 8 nodes (KHBE 14,17), 8 nodes and 6 nodes

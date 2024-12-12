@@ -415,7 +415,7 @@ c
       !   ---------------------
 
 C ---------------------------------------------------------------------
-C   Reinitalize sensors defined in /SENS/RESET
+C   Reinitialize sensors defined in /SENS/RESET
 c----------------------------------------------------------------------
       IF (NSENSOR > 0 ) THEN
         IF (SENSORS%NRESET == NSENSOR) THEN

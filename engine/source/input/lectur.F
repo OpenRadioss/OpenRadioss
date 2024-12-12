@@ -1326,7 +1326,7 @@ C-----------------------
           IF(MCHECK == 0)WRITE (IOUT,'(5I10)') (NLEC(II),II=1,K)
         ENDIF
         IF(NSPMD > 1) THEN
-          ! required treatments to retrieve delted elems in correct order
+          ! required treatments to retrieve deleted elems in correct order
           IWIOUT = 0
           IF (ISPMD /= 0) CALL SPMD_CHKW(IWIOUT,IOUT)
           CALL SPMD_GLOB_ISUM9(IWIOUT,1)
@@ -1385,7 +1385,7 @@ C-----------------------
          IF(MCHECK == 0)WRITE (IOUT,'(5I10)') (NLEC(II),II=1,K)
        ENDIF
        IF(NSPMD > 1) THEN
-          ! required treatments to retrieve delted elems in correct order
+          ! required treatments to retrieve deleted elems in correct order
          IWIOUT = 0
          IF (ISPMD /= 0) CALL SPMD_CHKW(IWIOUT,IOUT)
          CALL SPMD_GLOB_ISUM9(IWIOUT,1)
@@ -1439,7 +1439,7 @@ C-----------------------
          IF(MCHECK == 0)WRITE (IOUT,'(5I10)') (NLEC(II),II=1,K)
        ENDIF
        IF(NSPMD > 1) THEN
-          ! required treatments to retrieve delted elems in correct order
+          ! required treatments to retrieve deleted elems in correct order
          IWIOUT = 0
          IF (ISPMD /= 0) CALL SPMD_CHKW(IWIOUT,IOUT)
          CALL SPMD_GLOB_ISUM9(IWIOUT,1)
@@ -1493,7 +1493,7 @@ C-----------------------
          IF(MCHECK == 0) WRITE (IOUT,'(5I10)') (NLEC(II),II=1,K)
        ENDIF
        IF(NSPMD > 1) THEN
-          ! required treatments to retrieve delted elems in correct order
+          ! required treatments to retrieve deleted elems in correct order
          IWIOUT = 0
          IF (ISPMD /= 0) CALL SPMD_CHKW(IWIOUT,IOUT)
          CALL SPMD_GLOB_ISUM9(IWIOUT,1)
@@ -1547,7 +1547,7 @@ C-----------------------
          IF(MCHECK == 0)WRITE (IOUT,'(5I10)') (NLEC(II),II=1,K)
        ENDIF
        IF(NSPMD > 1) THEN
-          ! required treatments to retrieve delted elems in correct order
+          ! required treatments to retrieve deleted elems in correct order
          IWIOUT = 0
          IF (ISPMD /= 0) CALL SPMD_CHKW(IWIOUT,IOUT)
          CALL SPMD_GLOB_ISUM9(IWIOUT,1)
@@ -1601,7 +1601,7 @@ C-----------------------
          IF(MCHECK == 0) WRITE (IOUT,'(5I10)') (NLEC(II),II=1,K)
        ENDIF
        IF(NSPMD > 1) THEN
-          ! required treatments to retrieve delted elems in correct order
+          ! required treatments to retrieve deleted elems in correct order
          IWIOUT = 0
          IF (ISPMD /= 0) CALL SPMD_CHKW(IWIOUT,IOUT)
          CALL SPMD_GLOB_ISUM9(IWIOUT,1)
@@ -1655,7 +1655,7 @@ C-----------------------
          IF(MCHECK == 0) WRITE (IOUT,'(5I10)') (NLEC(II),II=1,K)
        ENDIF
        IF(NSPMD > 1) THEN
-          ! required treatments to retrieve delted elems in correct order
+          ! required treatments to retrieve deleted elems in correct order
          IWIOUT = 0
          IF (ISPMD /= 0) CALL SPMD_CHKW(IWIOUT,IOUT)
          CALL SPMD_GLOB_ISUM9(IWIOUT,1)
@@ -1708,7 +1708,7 @@ C           number of the related group :
          IF(MCHECK == 0)WRITE (IOUT,'(5I10)') (NLECSPH(II),II=1,K)
        END IF
        IF(NSPMD > 1) THEN
-          ! required treatments to retrieve delted elems in correct order
+          ! required treatments to retrieve deleted elems in correct order
          IWIOUT = 0
          IF (ISPMD /= 0) CALL SPMD_CHKW(IWIOUT,IOUT)
          CALL SPMD_GLOB_ISUM9(IWIOUT,1)

@@ -85,7 +85,7 @@ c
       IF (ILOC > 0) THEN
 c
         IF (R2R_SIU > 0) THEN
-C--       multidomains - origianl nummat is used
+C--       multidomains - original nummat is used
           MATSIZE = NUMMAT0 
         ELSE
           MATSIZE = NUMMAT 
