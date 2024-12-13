@@ -59,10 +59,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
-      INTEGER IXS(SIXS),IXQ(SIXQ),IXTG(SIXTG), IVOLU(NIMV,*)
+      INTEGER,INTENT(IN),TARGET :: IXS(NIXS,SIXS/NIXS),IXQ(NIXQ,SIXQ/NIXQ),IXTG(NIXTG,SIXTG/NIXTG)
+      INTEGER, INTENT(IN) :: IVOLU(NIMV,*)
       LOGICAL, INTENT(IN) :: MULTI_FVM_IS_USED
       INTEGER, INTENT(INOUT) :: EBCS_TAG_CELL_SPMD(NUMELQ+NUMELTG+NUMELS)
-      my_real PM(NPROPM,NUMMAT),X(SX)
+      my_real,INTENT(IN) :: PM(NPROPM,NUMMAT),X(SX)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
       TYPE(t_ebcs_tab), TARGET, INTENT(INOUT) :: EBCS_TAB
       INTEGER,INTENT(IN) :: IFLAG, IGEO(NPROPGI,NUMGEO)
@@ -74,8 +75,14 @@ C-----------------------------------------------
       INTEGER I,TYP,ID,ISU,NSEG,IDSU,K1,SENS,VOLU,J,KK,LENMWA,ERR,ICELL
       INTEGER :: SIZ
       CLASS (T_EBCS), POINTER :: EBCS
+      INTEGER :: JALE_FROM_MAT, JALE_FROM_PROP, IS_ALE_EULER  !< ALE/EULER framwork flag
+      INTEGER IMID, IPID !< material and property iid
+      INTEGER, DIMENSION(:, :), POINTER :: IX
+      INTEGER :: NIX
 C=======================================================================
-      EBCS_TAG_CELL_SPMD(1:NUMELQ+NUMELTG+NUMELS)=0 
+      EBCS_TAG_CELL_SPMD(1:NUMELQ+NUMELTG+NUMELS)=0
+      NULLIFY(IX)
+      NIX = 0
       IF (N2D == 0) THEN
          LENMWA = NUMNOD+2+8*NUMELS
          ALLOCATE(MWA(LENMWA),  STAT=ERR)
@@ -83,20 +90,26 @@ C=======================================================================
             CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='EBCS')
          ENDIF      
          CALL ICINVS(8, NUMELS, NIXS, IXS, MWA, MWA(1+(2+NUMNOD)))
+          IX => IXS(1:NIXS, 1:NUMELS)
+          NIX = NIXS
       ELSEIF (NUMELQ /= 0) THEN
          LENMWA = NUMNOD + 2 + 4 * NUMELQ
          ALLOCATE(MWA(LENMWA), STAT=ERR)
          IF(ERR /= 0) THEN
             CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='EBCS')
          ENDIF      
-         CALL ICINVS(4, NUMELQ, NIXQ, IXQ, MWA, MWA(1+(2+NUMNOD))) 
+         CALL ICINVS(4, NUMELQ, NIXQ, IXQ, MWA, MWA(1+(2+NUMNOD)))
+         IX => IXQ(1:NIXQ, 1:NUMELQ)
+         NIX = NIXQ
       ELSEIF (NUMELTG /= 0 .AND. MULTI_FVM_IS_USED) THEN
          LENMWA = NUMNOD + 2 + 3 * NUMELTG
          ALLOCATE(MWA(LENMWA), STAT=ERR)
          IF(ERR /= 0) THEN
             CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='EBCS')
          ENDIF      
-         CALL ICINVS(3, NUMELTG, NIXTG, IXTG, MWA, MWA(1+(2+NUMNOD)))          
+         CALL ICINVS(3, NUMELTG, NIXTG, IXTG, MWA, MWA(1+(2+NUMNOD)))
+         IX => IXTG(1:NIXTG, 1:NUMELTG)
+         NIX = NIXTG
       ENDIF
 
       DO I = 1, NEBCS
@@ -313,7 +326,25 @@ C=======================================================================
             ENDDO                                                
             !-------------------------------------------------   
                                                                  
-          ENDIF                                                  
+          ENDIF
+
+          ! check that based element has ALE or EULER framework
+          DO KK=1,EBCS%NB_ELEM
+            ICELL = EBCS%IELEM(KK)
+            IMID=IX(1,ICELL)
+            IPID=IX(NIX-1,ICELL)
+            JALE_FROM_MAT = INT(PM(72,IMID))
+            JALE_FROM_PROP = IGEO(62,IPID)
+            IS_ALE_EULER = JALE_FROM_MAT + JALE_FROM_PROP
+            IF(IS_ALE_EULER == 0)THEN
+              !error message
+              CALL ANCMSG(MSGID=1602,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1 = EBCS%ebcs_id,C1 = TRIM(ebcs%title),
+     .                    C2 = "EBCS ARE ONLY COMPATIBLE WITH ALE OR EULER FRAMEWORK")
+              exit
+            ENDIF
+          ENDDO
+
+
                        
         ENDIF
       ENDDO

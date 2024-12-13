@@ -22,6 +22,7 @@
 !opyright>        commercial version may interest you: https://www.altair.com/radioss/.
 MODULE EBCS_MOD
    USE MULTI_FVM_MOD
+   USE NAMES_AND_TITLES_MOD , only : nchartitle
 #include "my_real.inc"
 
 
@@ -38,6 +39,7 @@ MODULE EBCS_MOD
 !     Generic ebcs type
 !     -----------------
    type, public :: t_ebcs
+      character(len=nchartitle) :: title = ''
       integer :: type = -1
       integer :: ebcs_id = -1
       integer :: surf_id = -1

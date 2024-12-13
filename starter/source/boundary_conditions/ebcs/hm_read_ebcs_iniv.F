@@ -76,6 +76,8 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
 
+      EBCS%title = TRIM(TITR)
+
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
       CALL HM_GET_INTV('entityid',  SURF  ,IS_AVAILABLE,LSUBMODEL)
 

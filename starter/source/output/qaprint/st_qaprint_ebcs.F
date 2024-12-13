@@ -62,6 +62,7 @@ C-----------------------------------------------
       IF (OK_QA) THEN
          DO II = 1, NEBCS
             EBCS => EBCS_TAB%tab(ii)%poly
+            CALL QAPRINT(EBCS%title,0,0.0_8)
             CALL QAPRINT('EBCS ID ',EBCS%ebcs_id,0.0_8)
             CALL QAPRINT('EBCS TYPE ',EBCS%type,0.0_8)
             CALL QAPRINT('EBCS SURF_ID ',EBCS%surf_id,0.0_8)

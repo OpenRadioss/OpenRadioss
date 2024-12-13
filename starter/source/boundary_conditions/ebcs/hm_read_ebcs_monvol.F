@@ -77,6 +77,8 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
 
+      EBCS%title = TRIM(TITR)
+
       IFLAGUNIT=0
       DO J=1,UNITAB%NUNITS                                              
         IF (UNITAB%UNIT_ID(J) == UID) THEN    
