@@ -4013,6 +4013,8 @@ C     Init var parallel SMP
            DT2TT    = DT2T
            NELTSTT  = NELTST
            ITYPTSTT = ITYPTST
+           IF(IPARIT == 1) NDTSK = 1 
+
 C     
            CALL ALEMAIN(
      1          PM                    ,GEO      ,NODES%X       ,NODES%A(1,NDTSK)  ,NODES%AR(1,NDTSK) ,NODES%V ,
@@ -4262,6 +4264,7 @@ C Init var parallel SMP
         ELSE
          IADISK   = 1
         ENDIF
+        IF(IPARIT == 1) NDTSK = 1 
 
         CALL INTFOP1(
      1      IPARI  ,NODES%X       ,NODES%A(1,NDTSK) ,
@@ -4350,7 +4353,7 @@ C Init var parallel SMP
          IF(NDTSK>ICONDN)IDX_CONDN = 1
          IDX_PINCH = NDTSK
          IF(NPINCH == 0 )IDX_PINCH = 1
-       
+         IF(IPARIT == 1) NDTSK = 1 
          IF (SH_OFFSET_TAB%nnsh_oset>0) THEN
            CALL INTFOP2(
      1     IPARI             ,XYZ            ,NODES%A(1,NDTSK)     ,IGROUPS         ,ALE_CONNECTIVITY,
@@ -4686,6 +4689,7 @@ C Init var parallel SMP
       IF(NDTSK>ICONDN)IDX_CONDN=1
       IDX_PINCH = NDTSK
       IF(NPINCH == 0 )IDX_PINCH = 1
+      IF(IPARIT == 1) NDTSK = 1 
       CALL FORINTC(
      1   PM           ,GEO             ,NODES%X               ,NODES%A(1,NDTSK)     ,NODES%AR(1,NDTSK)  ,
      2   NODES%V            ,NODES%VR              ,NODES%MS              ,NODES%IN             ,NLOC_DMG     , 
@@ -4755,6 +4759,8 @@ C Init var parallel SMP
      1   ITSK  ,NODFTSK  ,NODLTSK  ,NUMNTSK,NDTSK,
      2   IPMTSK,PARTFTSK ,PARTLTSK ,NWAFTSK,IGMTSK  ,
      3      GREFTSK,GRELTSK)
+      IF(IPARIT == 1) NDTSK = 1 
+
       DT2TT = DT2T
       NELTSTT = NELTST
       ITYPTSTT= ITYPTST
@@ -4832,6 +4838,7 @@ C Init var parallel SMP
      2   IPMTSK,PARTFTSK,PARTLTSK,NWAFTSK,IGMTSK  ,
      3      GREFTSK,GRELTSK)
 
+
         CALL SPHPREP(
      1    PM      ,GEO     ,NODES%X       ,NODES%V       ,NODES%MS      ,
      2    ELBUF_TAB,WA      ,TF      ,BUFMAT  ,PARTSAV ,
@@ -4870,6 +4877,7 @@ C Init var parallel SMP
         
         IAD_GREL = 1
         IF(IGRELEM == 1)IAD_GREL = K10-K1+1       
+        IF(IPARIT == 1) NDTSK = 1 
 
 C----------------------------------
 C       SPH: Internal forces 
@@ -8568,7 +8576,7 @@ C Init var parallel SMP
         DT2TT    = DT2T
         NELTSTT  = NELTST
         ITYPTSTT = ITYPTST
-C
+        IF(IPARIT == 1) NDTSK = 1 
         CALL ALEFVM_MAIN(
      1   PM         ,GEO      ,NODES%X          ,NODES%A(1,NDTSK)   ,NODES%AR(1,NDTSK)    ,NODES%V         ,
      2   NODES%MS         ,WA       ,ELBUF_TAB  ,BUFMAT       ,PARTSAV(IPMTSK),TF        ,
