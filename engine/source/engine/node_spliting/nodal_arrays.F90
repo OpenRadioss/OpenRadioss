@@ -20,6 +20,21 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    nodal_arrays_mod   ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||--- called by ------------------------------------------------------
+      !||    check_nan_acc      ../engine/source/output/outfile/check_nan_acc.F
+      !||    radioss2           ../engine/source/engine/radioss2.F
+      !||    rdresb             ../engine/source/output/restart/rdresb.F
+      !||    resol              ../engine/source/engine/resol.F
+      !||    resol_head         ../engine/source/engine/resol_head.F
+      !||    restalloc          ../engine/source/output/restart/arralloc.F
+      !||    restmod            ../engine/share/modules/restart_mod.F
+      !||    wrrestp            ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
+      !||====================================================================
       module nodal_arrays_mod
 #include "my_real.inc"
         implicit none
@@ -194,6 +209,12 @@
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine allocate_nodal_arrays
 !! \brief extend nodal arrays                                                              
+      !||====================================================================
+      !||    extend_nodal_arrays   ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    extend_array_mod      ../common_source/tools/memory/extend_array.F90
+      !||====================================================================
         subroutine extend_nodal_arrays(arrays, numnod)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

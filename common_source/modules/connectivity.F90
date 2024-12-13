@@ -22,6 +22,16 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 
+      !||====================================================================
+      !||    connectivity_mod   ../common_source/modules/connectivity.F90
+      !||--- called by ------------------------------------------------------
+      !||    radioss2           ../engine/source/engine/radioss2.F
+      !||    rdresb             ../engine/source/output/restart/rdresb.F
+      !||    resol              ../engine/source/engine/resol.F
+      !||    resol_head         ../engine/source/engine/resol_head.F
+      !||    restalloc          ../engine/source/output/restart/arralloc.F
+      !||    wrrestp            ../engine/source/output/restart/wrrestp.F
+      !||====================================================================
       module connectivity_mod
 !       INTEGER, PARAMETER :: NIXS = 11
 !       INTEGER, PARAMETER :: NIXC = 7

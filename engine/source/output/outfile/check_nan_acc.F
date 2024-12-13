@@ -22,15 +22,14 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
       !||====================================================================
-      !||    check_nan_acc   ../engine/source/output/outfile/check_nan_acc.F
+      !||    check_nan_acc      ../engine/source/output/outfile/check_nan_acc.F
       !||--- called by ------------------------------------------------------
-      !||    resol           ../engine/source/engine/resol.F
+      !||    resol              ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
-      !||    my_isnan        ../engine/source/system/my_isnan.F
-      !||    prepare_debug   ../engine/share/modules/debug_mod.F
-      !||    spmd_barrier    ../engine/source/mpi/generic/spmd_barrier.F
+      !||    my_isnan           ../engine/source/system/my_isnan.F
+      !||    spmd_barrier       ../engine/source/mpi/generic/spmd_barrier.F
       !||--- uses       -----------------------------------------------------
-      !||    debug_mod       ../engine/share/modules/debug_mod.F
+      !||    nodal_arrays_mod   ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||====================================================================
       SUBROUTINE CHECK_NAN_ACC(NCYCLE,NODES)
       USE nodal_arrays_mod

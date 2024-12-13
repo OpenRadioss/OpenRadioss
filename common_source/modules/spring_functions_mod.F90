@@ -21,6 +21,9 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
+      !||====================================================================
+      !||    spring_functions_mod   ../common_source/modules/spring_functions_mod.F90
+      !||====================================================================
        module spring_functions_mod
 #include "my_real.inc"
 #include "mvsiz_p.inc"

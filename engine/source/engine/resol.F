@@ -425,6 +425,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    bcs_mod                                      ../common_source/modules/boundary_conditions/bcs_mod.F90
       !||    check_mod                                    ../common_source/modules/check_mod.F
       !||    cluster_mod                                  ../engine/share/modules/cluster_mod.F
+      !||    connectivity_mod                             ../common_source/modules/connectivity.F90
       !||    crackxfem_mod                                ../engine/share/modules/crackxfem_mod.F
       !||    debug_chksm_mod                              ../engine/source/mpi/output/spmd_flush_accel.F
       !||    diffusion_mod                                ../engine/share/modules/diffusion_mod.F
@@ -469,6 +470,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    my_alloc_mod                                 ../common_source/tools/memory/my_alloc.F90
       !||    names_and_titles_mod                         ../common_source/modules/names_and_titles_mod.F
       !||    nlocal_reg_mod                               ../common_source/modules/nlocal_reg_mod.F
+      !||    nodal_arrays_mod                             ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||    offset_nproj_mod                             ../engine/source/interfaces/shell_offset/offset_nproj.F90
       !||    outmax_mod                                   ../common_source/modules/outmax_mod.F
       !||    output_mod                                   ../common_source/modules/output/output_mod.F90

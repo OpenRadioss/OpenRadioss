@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
       !||    cluster_mod            ../engine/share/modules/cluster_mod.F
+      !||    connectivity_mod       ../common_source/modules/connectivity.F90
       !||    damp_mod               ../engine/share/modules/damp_mod.F
       !||    diffusion_mod          ../engine/share/modules/diffusion_mod.F
       !||    drape_mod              ../engine/share/modules/drape_mod.F
@@ -45,6 +46,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    monvol_struct_mod      ../engine/share/modules/monvol_struct_mod.F
       !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
+      !||    nodal_arrays_mod       ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||    output_mod             ../common_source/modules/output/output_mod.F90
       !||    pinchtype_mod          ../common_source/modules/pinchtype_mod.F
       !||    python_funct_mod       ../common_source/modules/python_mod.F90

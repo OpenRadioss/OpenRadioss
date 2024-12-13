@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    debug_mod                ../engine/share/modules/debug_mod.F
       !||--- called by ------------------------------------------------------
-      !||    check_nan_acc            ../engine/source/output/outfile/check_nan_acc.F
       !||    i24ass2                  ../engine/source/interfaces/int24/i24for3.F
       !||    i24cor3                  ../engine/source/interfaces/int24/i24cor3.F
       !||    i24ispt2_ini_opttri      ../engine/source/interfaces/int24/i24cor3.F
@@ -212,11 +211,9 @@ C     (s2 << 16) | s1
       !||====================================================================
       !||    prepare_debug   ../engine/share/modules/debug_mod.F
       !||--- called by ------------------------------------------------------
-      !||    check_nan_acc   ../engine/source/output/outfile/check_nan_acc.F
       !||    resol           ../engine/source/engine/resol.F
       !||--- uses       -----------------------------------------------------
       !||    debug_mod       ../engine/share/modules/debug_mod.F
-      !||    restmod         ../engine/share/modules/restart_mod.F
       !||====================================================================
       SUBROUTINE PREPARE_DEBUG(ITAB,NUMNOD)
         USE DEBUG_MOD

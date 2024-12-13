@@ -28,7 +28,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    get_user_window_nodes   ../engine/source/user_interface/userwindow_interface_routines.F
       !||    mat_solid_get_nod_v     ../engine/source/user_interface/uaccess.F
       !||    mat_solid_get_nod_x     ../engine/source/user_interface/uaccess.F
-      !||    prepare_debug           ../engine/share/modules/debug_mod.F
       !||    radioss2                ../engine/source/engine/radioss2.F
       !||    rdresb                  ../engine/source/output/restart/rdresb.F
       !||    read_joint              ../engine/source/output/restart/read_joint.F
@@ -46,6 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    cluster_mod             ../engine/share/modules/cluster_mod.F
       !||    failwave_mod            ../common_source/modules/failwave_mod.F
       !||    nlocal_reg_mod          ../common_source/modules/nlocal_reg_mod.F
+      !||    nodal_arrays_mod        ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||    sphbox                  ../engine/share/modules/sphbox.F
       !||====================================================================
       MODULE RESTMOD

@@ -100,6 +100,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    alefvm_mod             ../common_source/modules/ale/alefvm_mod.F
       !||    bcs_mod                ../common_source/modules/boundary_conditions/bcs_mod.F90
       !||    cluster_mod            ../engine/share/modules/cluster_mod.F
+      !||    connectivity_mod       ../common_source/modules/connectivity.F90
       !||    damp_mod               ../engine/share/modules/damp_mod.F
       !||    drape_mod              ../engine/share/modules/drape_mod.F
       !||    ecnd_mod               ../engine/share/modules/ecdn_mod.F
@@ -110,6 +111,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod            ../engine/share/message_module/message_mod.F
       !||    monvol_struct_mod      ../engine/share/modules/monvol_struct_mod.F
       !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+      !||    nodal_arrays_mod       ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||    outmax_mod             ../common_source/modules/outmax_mod.F
       !||    output_mod             ../common_source/modules/output/output_mod.F90
       !||    outputs_mod            ../common_source/modules/outputs_mod.F
