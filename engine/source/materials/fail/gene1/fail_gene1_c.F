@@ -210,57 +210,72 @@ c
       ! - LOOP OVER THE ELEMENT TO COMPUTE THE STRESSES AND STRAINS
       !====================================================================       
       DO I=1,NEL
-c       
-        ! ----------------------------------------------------------------------------------------
-        ! Computation of volumetric strain, effective strain, shear strain and principal strains
-        ! ----------------------------------------------------------------------------------------
-        !  -> computation of principal strains
-        E12 = HALF*EPSXY(I)
-        S1  = HALF*(EPSXX(I) + EPSYY(I))
-        S2  = HALF*(EPSXX(I) - EPSYY(I))
-        Q   = SQRT(S2**2 + E12**2)
-        E11(I) = S1 + Q
-        E22(I) = S1 - Q
-        IF (E22(I) >= E11(I)) THEN
-          R_INTER = E22(I)
-          E22(I)  = E11(I)
-          E11(I)  = R_INTER
-        ENDIF
-        !  -> computation of volumetric strain
-        VOL_STRAIN(I) = E11(I) + E22(I)
-        !  -> computation of effective strain
-        DAV = (EPSXX(I)+EPSYY(I))*THIRD
-        E1D = EPSXX(I) - DAV
-        E2D = EPSYY(I) - DAV
-        E3D = - DAV
-        E4D = HALF*EPSXY(I)
-        EFF_STRAIN(I) = E1D**2 + E2D**2 + E3D**3 + TWO*(E4D**2)
-        EFF_STRAIN(I) = SQRT(TWO_THIRD*EFF_STRAIN(I))
 c
-        ! --------------------------------------------------------------------------
-        ! Computation of hydrostatic stress, Von Mises stress and principal stresses
-        ! --------------------------------------------------------------------------
-        !  -> pressure stress (positive in compression)
-        P(I)   = -THIRD*(SIGNXX(I) + SIGNYY(I))
-        !  -> equivalent stress of Von Mises
-        SXX    = SIGNXX(I) + P(I)
-        SYY    = SIGNYY(I) + P(I)
-        SZZ    = P(I)
-        SVM(I) = SQRT(SIGNXX(I)*SIGNXX(I) + SIGNYY(I)*SIGNYY(I)
-     .           - SIGNXX(I)*SIGNYY(I) + THREE*SIGNXY(I)*SIGNXY(I))
-        TRIAX(I) = -P(I)/MAX(SVM(I),EM20)
-        !  -> computing the principal stresses
-        S1     = HALF*(SIGNXX(I) + SIGNYY(I))
-        S2     = HALF*(SIGNXX(I) - SIGNYY(I))
-        Q      = SQRT(S2**2 + SIGNXY(I)**2)
-        S11(I) = S1 + Q
-        S22(I) = S1 - Q 
-        IF (S22(I) >= S11(I)) THEN
-          R_INTER = S22(I)
-          S22(I)  = S11(I)
-          S11(I)  = R_INTER
+        ! For active element or Gauss point
+        IF ((UVAR(I,5) == ONE).AND.(OFF(I)==ONE)) THEN
+          ! ----------------------------------------------------------------------------------------
+          ! Computation of volumetric strain, effective strain, shear strain and principal strains
+          ! ----------------------------------------------------------------------------------------
+          !  -> computation of principal strains
+          E12 = HALF*EPSXY(I)
+          S1  = HALF*(EPSXX(I) + EPSYY(I))
+          S2  = HALF*(EPSXX(I) - EPSYY(I))
+          Q   = SQRT(S2**2 + E12**2)
+          E11(I) = S1 + Q
+          E22(I) = S1 - Q
+          IF (E22(I) >= E11(I)) THEN
+            R_INTER = E22(I)
+            E22(I)  = E11(I)
+            E11(I)  = R_INTER
+          ENDIF
+          !  -> computation of volumetric strain
+          VOL_STRAIN(I) = E11(I) + E22(I)
+          !  -> computation of effective strain
+          DAV = (EPSXX(I)+EPSYY(I))*THIRD
+          E1D = EPSXX(I) - DAV
+          E2D = EPSYY(I) - DAV
+          E3D = - DAV
+          E4D = HALF*EPSXY(I)
+          EFF_STRAIN(I) = E1D**2 + E2D**2 + E3D**3 + TWO*(E4D**2)
+          EFF_STRAIN(I) = SQRT(TWO_THIRD*EFF_STRAIN(I))
+c
+          ! --------------------------------------------------------------------------
+          ! Computation of hydrostatic stress, Von Mises stress and principal stresses
+          ! --------------------------------------------------------------------------
+          !  -> pressure stress (positive in compression)
+          P(I)   = -THIRD*(SIGNXX(I) + SIGNYY(I))
+          !  -> equivalent stress of Von Mises
+          SXX    = SIGNXX(I) + P(I)
+          SYY    = SIGNYY(I) + P(I)
+          SZZ    = P(I)
+          SVM(I) = SQRT(SIGNXX(I)*SIGNXX(I) + SIGNYY(I)*SIGNYY(I)
+     .             - SIGNXX(I)*SIGNYY(I) + THREE*SIGNXY(I)*SIGNXY(I))
+          TRIAX(I) = -P(I)/MAX(SVM(I),EM20)
+          !  -> computing the principal stresses
+          S1     = HALF*(SIGNXX(I) + SIGNYY(I))
+          S2     = HALF*(SIGNXX(I) - SIGNYY(I))
+          Q      = SQRT(S2**2 + SIGNXY(I)**2)
+          S11(I) = S1 + Q
+          S22(I) = S1 - Q 
+          IF (S22(I) >= S11(I)) THEN
+            R_INTER = S22(I)
+            S22(I)  = S11(I)
+            S11(I)  = R_INTER
+          ENDIF
+c
+        ! For broken element or Gauss point
+        ELSE
+          E11(I) = ZERO
+          E22(I) = ZERO
+          VOL_STRAIN(I) = ZERO
+          EFF_STRAIN(I) = ZERO
+          P(I) = ZERO
+          SVM(I) = ZERO
+          TRIAX(I) = ZERO
+          S11(I) = ZERO
+          S22(I) = ZERO
         ENDIF
-c       
+c
       ENDDO
 c
       !  -> Forming limit diagram

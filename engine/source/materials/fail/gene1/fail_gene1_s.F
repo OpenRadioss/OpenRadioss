@@ -228,102 +228,120 @@ c
       !====================================================================       
       DO I=1,NEL
 c       
-        ! ----------------------------------------------------------------------------------------
-        ! Computation of volumetric strain, effective strain, shear strain and principal strains
-        ! ----------------------------------------------------------------------------------------
-        !  -> computation of tensiorial strain
-        E1  = EPSXX(I)
-        E2  = EPSYY(I)
-        E3  = EPSZZ(I)
-        E4  = HALF*EPSXY(I)
-        E5  = HALF*EPSYZ(I)
-        E6  = HALF*EPSZX(I)
-        !  -> computation of strain tensor invariants
-        E42 = E4*E4
-        E52 = E5*E5
-        E62 = E6*E6
-        I1  = E1 + E2 + E3
-        I2  = E1*E2 + E2*E3 + E3*E1 - E4*E4 - E5*E5 - E6*E6
-        I3  = E1*E2*E3 - E1*E52 - E2*E62 - E3*E42 + TWO*E4*E5*E6
-        !  -> computation of principal strains
-        Q   = (THREE*I2 - I1*I1)/NINE
-        R   = (TWO*I1*I1*I1-NINE*I1*I2+TWENTY7*I3)/CINQUANTE4     ! (2*I3^3-9*I1*I2+27*I3)/54  
-        R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),ONE)
-        PHI = ACOS(MAX(R_INTER,-ONE))
-        E11(I) = TWO*SQRT(-Q)*COS(PHI/THREE)+THIRD*I1
-        E22(I) = TWO*SQRT(-Q)*COS((PHI+TWO*PI)/THREE)+THIRD*I1
-        E33(I) = TWO*SQRT(-Q)*COS((PHI+FOUR*PI)/THREE)+THIRD*I1
-        IF (E11(I) < E22(I)) THEN 
-          R_INTER = E11(I)
-          E11(I)  = E22(I)
-          E22(I)  = R_INTER
-        ENDIF 
-        IF (E22(I) < E33(I))THEN
-          R_INTER = E22(I)
-          E22(I)  = E33(I)
-          E33(I)  = R_INTER
-        ENDIF
-        IF (E11(I) < E22(I))THEN
-          R_INTER = E11(I)
-          E11(I)  = E22(I)
-          E22(I)  = R_INTER
-        ENDIF
-        !  -> computation of volumetric strain
-        VOL_STRAIN(I) = E11(I) + E22(I) + E33(I)
+        ! For active element or Gauss point
+        IF ((UVAR(I,5) == ONE).AND.(OFF(I)==ONE)) THEN
+          ! ----------------------------------------------------------------------------------------
+          ! Computation of volumetric strain, effective strain, shear strain and principal strains
+          ! ----------------------------------------------------------------------------------------
+          !  -> computation of tensiorial strain
+          E1  = EPSXX(I)
+          E2  = EPSYY(I)
+          E3  = EPSZZ(I)
+          E4  = HALF*EPSXY(I)
+          E5  = HALF*EPSYZ(I)
+          E6  = HALF*EPSZX(I)
+          !  -> computation of strain tensor invariants
+          E42 = E4*E4
+          E52 = E5*E5
+          E62 = E6*E6
+          I1  = E1 + E2 + E3
+          I2  = E1*E2 + E2*E3 + E3*E1 - E4*E4 - E5*E5 - E6*E6
+          I3  = E1*E2*E3 - E1*E52 - E2*E62 - E3*E42 + TWO*E4*E5*E6
+          !  -> computation of principal strains
+          Q   = (THREE*I2 - I1*I1)/NINE
+          R   = (TWO*I1*I1*I1-NINE*I1*I2+TWENTY7*I3)/CINQUANTE4     ! (2*I3^3-9*I1*I2+27*I3)/54  
+          R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),ONE)
+          PHI = ACOS(MAX(R_INTER,-ONE))
+          E11(I) = TWO*SQRT(-Q)*COS(PHI/THREE)+THIRD*I1
+          E22(I) = TWO*SQRT(-Q)*COS((PHI+TWO*PI)/THREE)+THIRD*I1
+          E33(I) = TWO*SQRT(-Q)*COS((PHI+FOUR*PI)/THREE)+THIRD*I1
+          IF (E11(I) < E22(I)) THEN 
+            R_INTER = E11(I)
+            E11(I)  = E22(I)
+            E22(I)  = R_INTER
+          ENDIF 
+          IF (E22(I) < E33(I))THEN
+            R_INTER = E22(I)
+            E22(I)  = E33(I)
+            E33(I)  = R_INTER
+          ENDIF
+          IF (E11(I) < E22(I))THEN
+            R_INTER = E11(I)
+            E11(I)  = E22(I)
+            E22(I)  = R_INTER
+          ENDIF
+          !  -> computation of volumetric strain
+          VOL_STRAIN(I) = E11(I) + E22(I) + E33(I)
 c       
-        !  -> computation of effective strain
-        DAV = (EPSXX(I)+EPSYY(I)+EPSZZ(I))*THIRD
-        E1D = EPSXX(I) - DAV
-        E2D = EPSYY(I) - DAV
-        E3D = EPSZZ(I) - DAV
-        E4D = HALF*EPSXY(I)
-        E5D = HALF*EPSYZ(I)
-        E6D = HALF*EPSZX(I)
-        EFF_STRAIN(I) = E1D**2 + E2D**2 + E3D**3 + TWO*(E4D**2 + E5D**2 + E6D**2)
-        EFF_STRAIN(I) = SQRT(TWO_THIRD*EFF_STRAIN(I))
+          !  -> computation of effective strain
+          DAV = (EPSXX(I)+EPSYY(I)+EPSZZ(I))*THIRD
+          E1D = EPSXX(I) - DAV
+          E2D = EPSYY(I) - DAV
+          E3D = EPSZZ(I) - DAV
+          E4D = HALF*EPSXY(I)
+          E5D = HALF*EPSYZ(I)
+          E6D = HALF*EPSZX(I)
+          EFF_STRAIN(I) = E1D**2 + E2D**2 + E3D**3 + TWO*(E4D**2 + E5D**2 + E6D**2)
+          EFF_STRAIN(I) = SQRT(TWO_THIRD*EFF_STRAIN(I))
 c
-        ! --------------------------------------------------------------------------
-        ! Computation of hydrostatic stress, Von Mises stress and principal stresses
-        ! --------------------------------------------------------------------------
-        !  -> pressure stress (positive in compression)
-        P(I)   = -THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
-        !  -> equivalent stress of Von Mises
-        SXX    = SIGNXX(I) + P(I)
-        SYY    = SIGNYY(I) + P(I)
-        SZZ    = SIGNZZ(I) + P(I)
-        SVM(I) = HALF*(SXX**2 + SYY**2 + SZZ**2)
-     .        + SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2
-        SVM(I) = SQRT(THREE*SVM(I))
-        TRIAX(I) = -P(I)/MAX(SVM(I),EM20)
-        !  -> computing the principal stresses
-        I1 = SIGNXX(I)+SIGNYY(I)+SIGNZZ(I)
-        I2 = SIGNXX(I)*SIGNYY(I)+SIGNYY(I)*SIGNZZ(I)+SIGNZZ(I)*SIGNXX(I)-
-     .       SIGNXY(I)*SIGNXY(I)-SIGNZX(I)*SIGNZX(I)-SIGNYZ(I)*SIGNYZ(I)
-        I3 = SIGNXX(I)*SIGNYY(I)*SIGNZZ(I)-SIGNXX(I)*SIGNYZ(I)*SIGNYZ(I)-
-     .       SIGNYY(I)*SIGNZX(I)*SIGNZX(I)-SIGNZZ(I)*SIGNXY(I)*SIGNXY(I)+
-     .       TWO*SIGNXY(I)*SIGNZX(I)*SIGNYZ(I)
-        Q  = (THREE*I2 - I1*I1)/NINE
-        R  = (TWO*I1*I1*I1-NINE*I1*I2+TWENTY7*I3)/CINQUANTE4     ! (2*I3^3-9*I1*I2+27*I3)/54
-        R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),ONE)
-        PSI = ACOS(MAX(R_INTER,-ONE))
-        S11(I) = TWO*SQRT(-Q)*COS(PSI/THREE)+THIRD*I1
-        S22(I) = TWO*SQRT(-Q)*COS((PSI+TWO*PI)/THREE)+THIRD*I1
-        S33(I) = TWO*SQRT(-Q)*COS((PSI+FOUR*PI)/THREE)+THIRD*I1
-        IF (S11(I) < S22(I)) THEN 
-          R_INTER = S11(I)
-          S11(I)  = S22(I)
-          S22(I)  = R_INTER
-        ENDIF 
-        IF (S22(I) < S33(I)) THEN
-          R_INTER = S22(I)
-          S22(I)  = S33(I)
-          S33(I)  = R_INTER
+          ! --------------------------------------------------------------------------
+          ! Computation of hydrostatic stress, Von Mises stress and principal stresses
+          ! --------------------------------------------------------------------------
+          !  -> pressure stress (positive in compression)
+          P(I)   = -THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
+          !  -> equivalent stress of Von Mises
+          SXX    = SIGNXX(I) + P(I)
+          SYY    = SIGNYY(I) + P(I)
+          SZZ    = SIGNZZ(I) + P(I)
+          SVM(I) = HALF*(SXX**2 + SYY**2 + SZZ**2)
+     .          + SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2
+          SVM(I) = SQRT(THREE*SVM(I))
+          TRIAX(I) = -P(I)/MAX(SVM(I),EM20)
+          !  -> computing the principal stresses
+          I1 = SIGNXX(I)+SIGNYY(I)+SIGNZZ(I)
+          I2 = SIGNXX(I)*SIGNYY(I)+SIGNYY(I)*SIGNZZ(I)+SIGNZZ(I)*SIGNXX(I)-
+     .         SIGNXY(I)*SIGNXY(I)-SIGNZX(I)*SIGNZX(I)-SIGNYZ(I)*SIGNYZ(I)
+          I3 = SIGNXX(I)*SIGNYY(I)*SIGNZZ(I)-SIGNXX(I)*SIGNYZ(I)*SIGNYZ(I)-
+     .         SIGNYY(I)*SIGNZX(I)*SIGNZX(I)-SIGNZZ(I)*SIGNXY(I)*SIGNXY(I)+
+     .         TWO*SIGNXY(I)*SIGNZX(I)*SIGNYZ(I)
+          Q  = (THREE*I2 - I1*I1)/NINE
+          R  = (TWO*I1*I1*I1-NINE*I1*I2+TWENTY7*I3)/CINQUANTE4     ! (2*I3^3-9*I1*I2+27*I3)/54
+          R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),ONE)
+          PSI = ACOS(MAX(R_INTER,-ONE))
+          S11(I) = TWO*SQRT(-Q)*COS(PSI/THREE)+THIRD*I1
+          S22(I) = TWO*SQRT(-Q)*COS((PSI+TWO*PI)/THREE)+THIRD*I1
+          S33(I) = TWO*SQRT(-Q)*COS((PSI+FOUR*PI)/THREE)+THIRD*I1
+          IF (S11(I) < S22(I)) THEN 
+            R_INTER = S11(I)
+            S11(I)  = S22(I)
+            S22(I)  = R_INTER
+          ENDIF 
+          IF (S22(I) < S33(I)) THEN
+            R_INTER = S22(I)
+            S22(I)  = S33(I)
+            S33(I)  = R_INTER
+          ENDIF
+          IF (S11(I) < S22(I)) THEN
+            R_INTER = S11(I)
+            S11(I)  = S22(I)
+            S22(I)  = R_INTER
+          ENDIF
+c
+        ! For broken element or Gauss point        
+        ELSE
+          E11(I) = ZERO
+          E22(I) = ZERO
+          E33(I) = ZERO
+          VOL_STRAIN(I) = ZERO
+          EFF_STRAIN(I) = ZERO
+          P(I) = ZERO
+          SVM(I) = ZERO
+          TRIAX(I) = ZERO
+          S11(I) = ZERO
+          S22(I) = ZERO
+          S33(I) = ZERO
         ENDIF
-        IF (S11(I) < S22(I)) THEN
-          R_INTER = S11(I)
-          S11(I)  = S22(I)
-          S22(I)  = R_INTER
-        ENDIF
+c
       ENDDO
 c
       !  -> Forming limit diagram
