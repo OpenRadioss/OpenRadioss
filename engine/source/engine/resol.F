@@ -2107,7 +2107,6 @@ C Init var parallel SMP
      2   IPMTSK,PARTFTSK,PARTLTSK,NWAFTSK,IGMTSK  ,
      3      GREFTSK,GRELTSK)
 C
-        N1 =  1 + NUMNOD + ITSK*NUMNOD*3
         CALL RESOL_INIT(
      1   ITSK     ,IADS(LL1),IADS(LL2),IADS(LL3),FR_NBCC  ,
      2   ISENDTO  ,IRCVFROM ,IAD_ELEM ,FR_ELEM  ,NODES%ITABM1   ,
@@ -2129,9 +2128,9 @@ C
      I   I87H     ,I87I     ,I87J     ,I87K     ,
      J   I15J     ,KXX      ,
      K   SECBUF   ,SECFCUM  ,NSTRF    ,IGRNOD   ,IEXLNK   ,
-     L   XFRAME   ,NODES%A(1,N1)  ,NODES%AR(1,N1) ,NODES%STIFN(N1),NODES%STIFR(N1),
+     L   XFRAME   ,
      M   FSKYM    ,IXTG1    ,IBCL     ,NODES%VISCN    ,DD_R2R   ,
-     O   NODES%VISCN(N1),ELBUF    ,IPART    ,MADPRT   ,MADSH4   ,
+     O   ELBUF    ,IPART    ,MADPRT   ,MADSH4   ,
      P   MADSH3   ,MADSOL   ,MADNOD   ,MADFAIL  ,IGEO     ,
      Q   INTLIST  ,NBINTC   ,PROCNE   ,NISKYFI  ,NODES%WEIGHT   ,
      R   ISIZXV   ,ILENXV   ,ADDCNI2  ,PROCNI2  ,IAD_I2M  ,
