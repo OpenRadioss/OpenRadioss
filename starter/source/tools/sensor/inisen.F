@@ -280,7 +280,7 @@ c---
       ENDDO
 c
 c----------------------------------------------------------------------
-c     Logical sensors : AND, OR, NOT, SENS - create a dependancy order
+c     Logical sensors : AND, OR, NOT, SENS - create a dependency order
 c----------------------------------------------------------------------
 
       CALL SORT_LOGICAL_SENSORS(SENSOR_TAB,NSENSOR)

@@ -144,7 +144,7 @@ C-----------------------------------------------
                 NEXT_OPERATION = .true.
                 ! -----------------------
                 ! find the processors where the nodes are defined
-                ! if the nodes are on 2 or more processors, neet to choose the main processor
+                ! if the nodes are on 2 or more processors, need to choose the main processor
                 ! (main processor is the processor that will compute the surface in the engine)
                 DO K=2,NUMBER_NODE
                     NODE_ID = LOADS%LOAD_CYL(I)%SEGNOD(J,K)

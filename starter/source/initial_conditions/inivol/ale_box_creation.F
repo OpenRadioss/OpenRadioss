@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !       creation of a grid with (NB_CELL_X,NB_CELL_Y,NB_CELL_Z) cells
 !       
 !       ALE_BOX_CREATION organization :
-!       - a direction is choosen 
+!       - a direction is chosen 
 !       - the number of cell in this direction is computed
 !       - then the number of cell in other directions are computed
 !$ENDCOMMENT

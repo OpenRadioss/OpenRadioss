@@ -105,7 +105,7 @@ C=======================================================================
 C-----hide and removed flags:
       IPLAST = 2                              
       ID = IG
-C---- will branche later     
+C---- will branch later     
       ICPRE = 0  
       ISTRAIN =1 
       JCVT = 0

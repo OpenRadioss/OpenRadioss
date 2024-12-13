@@ -273,7 +273,7 @@ C----
       GEO(139) = FMAX
       GEO(140) = YSCALEF
       IGEO(3) = ISENS
-C--   If H=6 - addditional internal variables must be stored in UVAR -  - GEO(25) = NUVAR
+C--   If H=6 - additional internal variables must be stored in UVAR -  - GEO(25) = NUVAR
       IF (IECROU == 6) THEN
         GEO(25) = 1
       ENDIF

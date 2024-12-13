@@ -262,7 +262,7 @@ C------------------------
       GEO(16) = DX                          
       GEO(80) = IFL                         
       GEO(93) = ILENG
-C--   If H=6 - addditional internal variables must be stored in UVAR -  - GEO(25) = NUVAR
+C--   If H=6 - additional internal variables must be stored in UVAR -  - GEO(25) = NUVAR
       IF (IECROU == 6) THEN
         GEO(25) = 1
       ENDIF

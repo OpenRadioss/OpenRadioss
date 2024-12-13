@@ -102,7 +102,7 @@ class Adjacency
     {
         size_t root = 0;
 
-        // pick next avaiable root
+        // pick next available root
         for (root = lower_bound; root < _N; root++)
         {
             if (mask[root] == -1)

@@ -55,10 +55,10 @@
 ! ----------------------------------------------------------------------------------------------------------------------
         integer, intent(in) :: ipri                                                  !< flag from /IOFLAG input option
         integer, intent(in) :: ngrnod, numnod                                        !< sizes for array definition
-        type (group_), dimension(ngrnod), target :: igrnod                           !< data buffer for gorup of nodes
+        type (group_), dimension(ngrnod), target :: igrnod                           !< data buffer for group of nodes
         TYPE(t_ale_connectivity) :: ale_connectivity                                 !< data buffer for ale connectivities
         type(multi_fvm_struct), intent(inout) :: multi_fvm                           !< data buffer for collocated scheme (multifluid law 151)
-        integer, intent(in) :: nixs,nixq,nixtg                                       !<  size for array definition (elem connectivities)
+        integer, intent(in) :: nixs,nixq,nixtg                                       !< size for array definition (elem connectivities)
         integer, intent(in) :: numels,numelq,numeltg                                 !< size for array definition (elem connectivities)
         integer, intent(in) :: ixs(nixs,numels),ixq(nixq,numelq),ixtg(nixtg,numeltg) !< data for elems connectivities
         integer, intent(in) :: n2d                                                   !< flag for 2d/3d analysis
@@ -310,7 +310,7 @@
               do jj=1,ipos
                 ie = bcs%wall(ii)%list%elem(jj)
                 iv = adjacent_elem(jj)
-                ! convert intenal ids (ie,iv) into user ids
+                ! convert internal ids (ie,iv) into user ids
                 if(n2d==0)then
                   ie = ixs(nixs,ie)
                   iv = ixs(nixs,iv)

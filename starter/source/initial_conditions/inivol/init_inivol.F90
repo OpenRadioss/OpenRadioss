@@ -24,10 +24,10 @@
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !! \brief Initial volume fraction are here computed.
-!! \details INIVOL option allow to fill a given submaterial inside or outside a given user surface
-!! \details two methodes are available : MONTE CARLO (statistical) for 3d surface & 2d/3d super-ellipsoids
-!! \details                              POLYGONAL CLIPPING (exact)  2d polygonal surfaces (/SURF/SEG)
-!! \details  both methods may be exist in the same INIVOL option depending on the type of provided surface (surf_id)
+!! \details INIVOL option allows to fill a given submaterial inside or outside a given user surface
+!! \details two methods are available : MONTE CARLO (statistical) for 3d surface & 2d/3d super-ellipsoids
+!! \details                             POLYGONAL CLIPPING (exact) for 2d polygonal surfaces (/SURF/SEG)
+!! \details both methods may exist in the same INIVOL option depending on the type of provided surface (surf_id)
 !! \details when all surfaces of INIVOL option are treated then volume fraction are adjested (KVOL) so that remaining space is filled with submaterial #1
 
       !||====================================================================
@@ -96,7 +96,7 @@
       my_real, intent(inout) :: kvol(nbsubmat,skvol/nbsubmat)                                     !< inivol working array
       my_real,intent(in) :: bufsf(sbufsf)                                                         !< buffer
       my_real,intent(in) :: bufmat(sbufmat)                                                       !< material buffer
-      my_real,intent(in) ::  geo(npropg,numgeo)                                                   !< propery buffer (real parameters)
+      my_real,intent(in) :: geo(npropg,numgeo)                                                    !< property buffer (real parameters)
       type (elbuf_struct_), target, dimension(ngroup), intent(in) :: elbuf_tab                    !< elem buffer
       type (multi_fvm_struct),intent(in) :: multi_fvm                                             !< buffer for colocated scheme (law151)
       type (inivol_struct_), dimension(NUM_INIVOL), intent(inout) :: inivol                       !< inivol data structure
@@ -190,7 +190,7 @@
 
           !----------------------------------------------------------------------------!
           ! POLYGON CLIPPING
-          !    /SURF/SEG must define a polygon (chechked by reader hm_read_inivol.F)
+          !    /SURF/SEG must define a polygon (checked by reader hm_read_inivol.F)
           !----------------------------------------------------------------------------!
           if(n2d > 0)then
             do idc=1,nb_container
@@ -417,7 +417,7 @@
 !--------FINAL CHECK + FILL REMAINING RATIO WITH PREVALENT SUBMATERIAL
 !        SET VOLUME FRACTION IN MATERIAL BUFFERS OF ALE MULTIMATERIAL LAWS
 !         -- 3d : after each inivol loop (legacy method)
-!         -- 2d : after the end of inivol looop (polygon clipping)
+!         -- 2d : after the end of inivol loop (polygon clipping)
           if(n2d == 0 .or. ii == num_inivol)then
             do ng=1,ngroup
               mtn     = iparg(1,ng)

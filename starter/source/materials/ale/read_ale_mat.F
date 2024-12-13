@@ -40,7 +40,7 @@ C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 C  This subroutine is reading keyword /ALE/MAT
-C  and setting corresponding parameters in materail buffer (PM array)
+C  and setting corresponding parameters in material buffer (PM array)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------

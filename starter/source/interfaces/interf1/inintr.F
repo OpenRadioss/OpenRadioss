@@ -473,7 +473,7 @@ C
                 TAG(INTBUF_TAB(N)%NSV(I)) = 0
               ENDDO
               IF( abs(NSN - NMN) < NSN / 50 .AND. abs(NMN - CPT) < NMN/50) THEN
-! Heursitic to find auto-impacting interface 
+! Heuristic to find auto-impacting interface 
                  CONDITION(N) = .TRUE.
                  avg_stiff(N) = 0.0D0
                  DO I = 1,NRTM 

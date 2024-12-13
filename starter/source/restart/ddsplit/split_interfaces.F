@@ -208,8 +208,8 @@ c     .        RCONT
 C ----------------------------------------
 !      NODLOCAL24 is used for interface /TYPE24 or /TYPE25
 !      value of NODLOCAL24 : 1-->NUMNOD NODLOCAL24 = NODLOCAL
-!                          NUMNOD+1-->end NODLOCAL24 = interface dependant
-!      NODLOCAL is local to each domain, so it is interface independant
+!                          NUMNOD+1-->end NODLOCAL24 = interface dependent
+!      NODLOCAL is local to each domain, so it is interface independent
 !      for each NI interface, flush NODLOCAL24(NUMNOD+1-->end) to 0 is not
 !      necessary but for a future development, I flushed it
 !            

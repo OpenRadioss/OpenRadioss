@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
-!> \brief Writting TH/SURF tabs in restart file
+!> \brief Writing TH/SURF tabs in restart file
 !! \details  /PLOAD option
 
       !||====================================================================
@@ -54,7 +54,7 @@ C-----------------------------------------------
       INTEGER , INTENT(IN) :: NUMNOD   ,NIBCLD ,NCONLD   ,LEN_CEP  !< Parameters for size tables ( number of nodes,number of parameters in IBCL tab, number of pload, size of CEP)
       INTEGER , INTENT(IN) :: OFF               !< Index in table CEP
       INTEGER , INTENT(IN) :: PROC              !< Processor
-      INTEGER , INTENT(INOUT) :: LEN_IA            !< Lenght of integer tables written in restart
+      INTEGER , INTENT(INOUT) :: LEN_IA            !< Length of integer tables written in restart
       INTEGER , INTENT(IN) :: IBCL(NIBCLD,NCONLD)   !< list of segments where pressure /PLOAD is applied 
       INTEGER , INTENT(IN) :: NODLOCAL(NUMNOD)   !< table of local nodes
       INTEGER , INTENT(IN) :: CEP(LEN_CEP)          !< Proc to which belong the element
@@ -69,7 +69,7 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
 
 C-----------------------------------------------
-C         Writting TH/SURF tabs in restart file
+C         Writing TH/SURF tabs in restart file
 C          /PLOAD option
 C-----------------------------------------------
 

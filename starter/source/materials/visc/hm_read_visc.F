@@ -145,7 +145,7 @@ c--------------------------------------------
             WRITE(IOUT,1000) TRIM(KEY),MAT_ID
 c
             IMATVIS = IPM(216,I)
-            CALL INIT_MAT_KEYWORD(MAT_PARAM(IMAT),"VISC") ! flag campatibility
+            CALL INIT_MAT_KEYWORD(MAT_PARAM(IMAT),"VISC") ! flag compatibility
 c--------------------------------------------      
             IF (KEY(1:5) == 'PRONY')THEN 
 c           -----------------------------------   

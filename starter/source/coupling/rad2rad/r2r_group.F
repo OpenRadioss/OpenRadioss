@@ -453,7 +453,7 @@ C-----------Storage inside buffer------------------------------------C
                   ENDIF
                 ENDDO
               ELSE
-C-----------Nodes in link type 4 + nlocal dof -> aditional link------C
+C-----------Nodes in link type 4 + nlocal dof -> additional link-----C
 C-----------Node coupled only if nl material on both sides ----------C
                 DO J=1,NUMNOD
                   IF ((TAG_NLOCAL(J)==1).AND.(TAGNO(J+NPART+NUMNOD) == N+1)) THEN

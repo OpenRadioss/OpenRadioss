@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE INGRBRIC(MSN,BRICS, MSV, IXS, NBRIC, PM,S_MSV ,IGEO)
 C-----------------------------------------------------------------------
 C This subroutine lists all brick in the /GRBRICK
-C (for example it is used with /inter/type22 which recquires a grbrick_id)
+C (for example it is used with /inter/type22 which requires a grbrick_id)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------

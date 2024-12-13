@@ -105,7 +105,7 @@ card4
       CALL HM_GET_FLOATV('CFC'       ,CFC       ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 c
 c--------------------------------------------------
-c     Check input and defaul values
+c     Check input and default values
 c--------------------------------------------------
       IF (F_DIR(1:1) == 'X' .or. F_DIR(1:1) == 'x') IDIR1 = 1
       IF (F_DIR(1:1) == 'Y' .or. F_DIR(1:1) == 'y') IDIR1 = 2

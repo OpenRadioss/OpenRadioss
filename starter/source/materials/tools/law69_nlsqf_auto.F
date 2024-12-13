@@ -91,7 +91,7 @@ C-----------------------------------------------
       !!     we don't want to check, because invalid initial point
       !!     could converge to valid point
       ICHECK_GUESS = 0
-      !!    if enforce mu(i) < mu(i+1) in generating initial gess
+      !!    if enforce mu(i) < mu(i+1) in generating initial guess
       !!    we don't need this anymore since we are using random numbers 
       !!    instead of loop through all
       !!    the combinations

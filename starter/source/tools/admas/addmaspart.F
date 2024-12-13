@@ -75,7 +75,7 @@ C=======================================================================
 !
         CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
 !
-! ckeck for type 4 and 7 :
+! check for type 4 and 7 :
 ! if AMAS (replacing mass) < MSP (structured mass of concerned parts or list of parts)
         IF (ITYPE == 4) THEN
           MSP = ZERO ! structured mass of liste of parts

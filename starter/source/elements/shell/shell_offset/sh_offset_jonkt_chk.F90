@@ -33,7 +33,7 @@
 ! ======================================================================================================================
 !
 !=======================================================================================================================
-!!\brief This subroutine check the joinction shell and tag to remove some in prjection
+!!\brief This subroutine check the junction shell and tag to remove some in projection
 !=======================================================================================================================
       !||====================================================================
       !||    sh_offset_jonct_chk   ../starter/source/elements/shell/shell_offset/sh_offset_jonkt_chk.F90
@@ -113,7 +113,7 @@
             enddo
           enddo
 !---------------------------------------
-!       check max-jonction number
+!       check max-junction number
 !---------------------------------------
           nl_max = 0
           l = 1
@@ -140,7 +140,7 @@
           end do
           if (nl_max>=3) then
 !---------------------------------------
-!       check T-jonction
+!       check T-junction
 !---------------------------------------
             nl = 0
             l = 1
@@ -200,7 +200,7 @@
                     ichange(iem) = -ichange(iem)
                   end if
                   nl = nl + 1
-!!   jonction more than 3, elem will be tagged
+!!   junction more than 3, elem will be tagged
                   if (nl_max>3) then
                     do j=l+2,l+nl_max-2
                       li  = index(j)

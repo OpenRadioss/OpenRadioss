@@ -1249,7 +1249,7 @@ C---------------remove Icpre=11 excepting for certain visco-elastic 34
           IF( ICPRE==1.AND.IKSNOD0 ==8.AND.(JHBE==14.OR.JHBE==17))THEN
 C
             IF(MLN == 34 )THEN
-C---------- no warnning message as ICPRE = 11 is the internal flag 
+C---------- no warning message as ICPRE = 11 is the internal flag 
                ICPRE = 11
                IGEO(13, PID) = 11
             END IF

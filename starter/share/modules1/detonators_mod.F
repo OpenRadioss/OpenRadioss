@@ -85,7 +85,7 @@ C-----------------------------------------------
           my_real :: XDET
           my_real :: YDET
           my_real :: ZDET
-          !optionnal list of nodes
+          !optional list of nodes
           INTEGER :: GRNOD_ID
           INTEGER :: NNOD
           INTEGER,DIMENSION(:),ALLOCATABLE :: NODLIST

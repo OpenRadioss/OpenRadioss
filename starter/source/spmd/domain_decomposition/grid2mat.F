@@ -2187,7 +2187,7 @@ C RSB METIS
       
 
       IF(ICFSI > 0 .AND.  ICFSI < ICELEM) THEN 
-! the order in DMIN,DMAX is independant of the order of constraints
+! the order in DMIN,DMAX is independent of the order of constraints
         MAIN_TARGET = 7
       ELSE
         MAIN_TARGET = 1

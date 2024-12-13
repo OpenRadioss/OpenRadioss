@@ -563,7 +563,7 @@ C-----------------------------------------------
       IF (MYQAKEY('/RWALL')) THEN
         IF (NRWALL > 0) THEN
 C          
-!     Sort by ID to ensure internal order independant output
+!     Sort by ID to ensure internal order independent output
           POSI(1) = 1
           DO I = 1, NRWALL
             IDS(I)    = NOM_OPT(LNOPT1*INOM_OPT(5)+1,I)
@@ -930,7 +930,7 @@ C-----------------------------------------------
       IF (MYQAKEY('/FXBODY')) THEN
         IF (NFXBODY > 0) THEN 
 C          
-!     Sort by ID to ensure internal order independant output
+!     Sort by ID to ensure internal order independent output
           DO I = 1, NFXBODY
             IDSFX(I)    = FXBIPM(1,I)
             IDXFX(I)    = I

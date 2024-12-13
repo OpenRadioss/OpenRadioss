@@ -251,7 +251,7 @@ C-----------------------------------------------
          ENDDO
        ENDDO
 
-       !SPLINE LENGTHES
+       !SPLINE LENGTHS
        DO I=1,NSEG
          LOCAL_PT(1,1:3)=PTR(1+I-1,1:3)
          LOCAL_PT(2,1:3)=PTR(1+I+0,1:3)

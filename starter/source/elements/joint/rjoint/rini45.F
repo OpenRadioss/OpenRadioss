@@ -524,7 +524,7 @@ C--     control of axis's length
              ENDIF              
       ELSEIF ((NNOD>=4).AND.(JTYP/=5)) THEN
 C-----------------------------------------------      
-C---    General case : skew computed wit 3rd and 4th node
+C---    General case : skew computed with 3rd and 4th node
 C-----------------------------------------------
              N1 = NN(1)
              N2 = NN(3)

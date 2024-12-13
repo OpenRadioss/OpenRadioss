@@ -179,7 +179,7 @@ void cpp_count_candidates(int *nbCand, int *sizeM, int *cepM, int *localIdM, int
                                 }
                                 // convert set into vector 
                                 secondaryRemotes[oneD].assign(secondarySet.begin(),secondarySet.end());
-                                // sort the vector - not needed since set are aumatically sorted
+                                // sort the vector - not needed since set is automatically sorted
                                 // would be needed if set was replaced by unordered_set
                                 // std::sort(secondaryRemotes[oneD].begin(),secondaryRemotes[oneD].end();
                                 secondaryRemoteCount[oneD] = secondaryRemotes[oneD].size();

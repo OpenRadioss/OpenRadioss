@@ -276,7 +276,7 @@ C----
       GEO(39)=ONE/LSCALE
       GEO(65)=DN
       GEO(66)=DX
-C--   If H=6 - addditional internal variables must be stored in UVAR -  - GEO(25) = NUVAR
+C--   If H=6 - additional internal variables must be stored in UVAR -  - GEO(25) = NUVAR
       IF (IECROU == 6) THEN
         GEO(25) = 6
       ENDIF
@@ -425,7 +425,7 @@ C----
       GEO(174)=ONE/LSCALE
       GEO(67) =DN
       GEO(68) =DX
-C--   If H=6 - addditional internal variables must be stored in UVAR -  - GEO(25) = NUVAR
+C--   If H=6 - additional internal variables must be stored in UVAR -  - GEO(25) = NUVAR
       IF (IECROU == 6) THEN
         GEO(25) = 6
       ENDIF
@@ -591,7 +591,7 @@ C----
       GEO(176)=ONE/LSCALE
       GEO(71) =DN
       GEO(72) =DX
-C--   If H=6 - addditional internal variables must be stored in UVAR -  - GEO(25) = NUVAR
+C--   If H=6 - additional internal variables must be stored in UVAR -  - GEO(25) = NUVAR
       IF (IECROU == 6) THEN
         GEO(25) = 6
       ENDIF
@@ -739,7 +739,7 @@ C----
       GEO(177)=ONE/LSCALE
       GEO(73)=DN
       GEO(74)=DX
-C--   If H=6 - addditional internal variables must be stored in UVAR -  - GEO(25) = NUVAR
+C--   If H=6 - additional internal variables must be stored in UVAR -  - GEO(25) = NUVAR
       IF (IECROU == 6) THEN
         GEO(25) = 6
       ENDIF

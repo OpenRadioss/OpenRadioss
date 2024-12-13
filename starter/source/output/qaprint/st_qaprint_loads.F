@@ -555,7 +555,7 @@ C-----------------------------------------------
       IF (MYQAKEY('/SPH/INOUT')) THEN
         IF (NSPHIO > 0) THEN 
 C        
-!     Sort by ID to ensure internal order independant output
+!     Sort by ID to ensure internal order independent output
           DO I = 1, NSPHIO
             IDS(I) = ISPHIO(NISPHIO,I)
             IDX(I) = I

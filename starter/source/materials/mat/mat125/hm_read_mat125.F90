@@ -388,7 +388,7 @@
             ms = -one/log(efs/gamma) ! one/ln(epsm/epsf)    
             als = ms*(gamma/efs)**ms
           else 
-           ! adding error messsage   
+           ! adding error message   
            fs = 1
           endif
          endif   
@@ -403,7 +403,7 @@
            ms13 = -one/log(efs13/gamma2) ! one/ln(epsm/epsf)    
            als13 = ms*(gamma2/efs13)**ms13
           else 
-           ! adding error messsage   
+           ! adding error message   
          endif
         endif   
         ! transverse shear 23 (only for solid)
@@ -417,7 +417,7 @@
            ms23 = -one/log(efs23/gamma3) ! one/ln(epsm/epsf)    
            als23 = ms23*(gamma3/efs23)**ms23
          else 
-           ! adding error messsage   
+           ! adding error message   
          endif 
        endif  
 

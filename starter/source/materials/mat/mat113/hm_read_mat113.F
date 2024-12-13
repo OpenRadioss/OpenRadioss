@@ -463,7 +463,7 @@ C     for interface stifness
       CHECK(11,2)  = XK
       CHECK(12,2)  = XC
       CHECK(13,2)  = IECROU+PUN
-C--   If H=6 - addditional internal variables must be stored in UVAR - 
+C--   If H=6 - additional internal variables must be stored in UVAR - 
       IF (IECROU == 6) THEN
         UPARAM(4) = 6
       ENDIF
@@ -638,7 +638,7 @@ CC     for interface stifness
       CHECK(11,3)  = XK
       CHECK(12,3)  = XC
       CHECK(13,3)  = IECROU+PUN      
-C--   If H=6 - addditional internal variables must be stored in UVAR 
+C--   If H=6 - additional internal variables must be stored in UVAR 
       IF (IECROU == 6) THEN
        UPARAM(4) = 6
       ENDIF
@@ -814,7 +814,7 @@ C
       CHECK(11,4)  = XK
       CHECK(12,4)  = XC
       CHECK(13,4)  = IECROU+PUN
-C--   If H=6 - addditional internal variables must be stored in UVAR - 
+C--   If H=6 - additional internal variables must be stored in UVAR - 
       IF (IECROU == 6) THEN
         UPARAM(4) = 6
       ENDIF
@@ -971,7 +971,7 @@ C----
       UPARAM(I11 + 5)  = XK
       UPARAM(I12 + 5)  = XC
       UPARAM(I13 + 5)  = IECROU+PUN  
-C--   If H=6 - addditional internal variables must be stored in UVAR - 
+C--   If H=6 - additional internal variables must be stored in UVAR - 
       IF (IECROU == 6) THEN
          UPARAM(4) = 6
       ENDIF
@@ -1158,7 +1158,7 @@ C---
       CHECK(11,6)  = XK
       CHECK(12,6)  = XC
       CHECK(13,6)  = IECROU+PUN
-C--   If H=6 - addditional internal variables must be stored in UVAR - 
+C--   If H=6 - additional internal variables must be stored in UVAR - 
       IF (IECROU == 6) THEN
         UPARAM(4) = 6
       ENDIF

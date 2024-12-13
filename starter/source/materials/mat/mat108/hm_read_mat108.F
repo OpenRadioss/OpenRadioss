@@ -423,7 +423,7 @@ C----
 C     for interface stifness
       PM(192) = XK       
       !!
-C--   If H=6 - addditional internal variables must be stored in UVAR - 
+C--   If H=6 - additional internal variables must be stored in UVAR - 
       IF (IECROU == 6) THEN
         UPARAM(4) = 6
       ENDIF
@@ -567,7 +567,7 @@ C----
 C     for interface stifness
       PM(193) = XK       
       !!
-C--   If H=6 - addditional internal variables must be stored in UVAR 
+C--   If H=6 - additional internal variables must be stored in UVAR 
       IF (IECROU == 6) THEN
        UPARAM(4) = 6
       ENDIF
@@ -711,7 +711,7 @@ C
       UPARAM(I11 + 4)  = XK
       UPARAM(I12 + 4)  = XC
       UPARAM(I13 + 4)  = IECROU+PUN
-C--   If H=6 - addditional internal variables must be stored in UVAR - 
+C--   If H=6 - additional internal variables must be stored in UVAR - 
       IF (IECROU == 6) THEN
         UPARAM(4) = 6
       ENDIF
@@ -851,7 +851,7 @@ C----
       UPARAM(I11 + 5)  = XK
       UPARAM(I12 + 5)  = XC
       UPARAM(I13 + 5)  = IECROU+PUN  
-C--   If H=6 - addditional internal variables must be stored in UVAR - 
+C--   If H=6 - additional internal variables must be stored in UVAR - 
       IF (IECROU == 6) THEN
          UPARAM(4) = 6
       ENDIF
@@ -993,7 +993,7 @@ C---
       UPARAM(I13 + 6)  = IECROU+PUN  
 !!      
       NUPARAM = NUPARAM + 6*14
-C--   If H=6 - addditional internal variables must be stored in UVAR - 
+C--   If H=6 - additional internal variables must be stored in UVAR - 
       IF (IECROU == 6) THEN
         UPARAM(4) = 6
       ENDIF

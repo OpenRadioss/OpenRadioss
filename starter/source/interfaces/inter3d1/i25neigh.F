@@ -77,7 +77,7 @@ C-----------------------------------------------
      .   X(3,*), EDG_COS
       CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER  , INTENT(IN) :: IDEL_SOLID         ! solid erosion
-      INTEGER  , INTENT(IN) :: IELEM_M(2,NRTM)    ! elements connected to the segment ( espacially solid)
+      INTEGER  , INTENT(IN) :: IELEM_M(2,NRTM)    ! elements connected to the segment (especially solid)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -240,7 +240,7 @@ C--------------------------------------------
 C--------------------------------------------
 C------------------------------------------------------
 C        Solid erosion : 
-C        if internal segments of solids are defined : need to to buid ADMSR for all NRTM 
+C        if internal segments of solids are defined : need to build ADMSR for all NRTM 
 C        Store all segments connected to the same edge for solid segments
 C-----------------------------------------------------
       IF(IDEL_SOLID > 0) THEN  

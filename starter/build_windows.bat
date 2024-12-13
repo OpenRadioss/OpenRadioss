@@ -212,7 +212,7 @@ GOTO END_STARTER
   echo     -release                            : set build for release (optimized)
   echo.
   echo Execution control 
-  echo     -nt=[N,all]        : Run build with N Threads, all : takes all ressources of machine
+  echo     -nt=[N,all]        : Run build with N Threads, all : consumes all resources of machine
   echo     -verbose           : Verbose build
   echo     -clean             : clean build directory
   echo.
