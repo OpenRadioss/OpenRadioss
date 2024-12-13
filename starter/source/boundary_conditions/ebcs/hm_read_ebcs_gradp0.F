@@ -88,7 +88,7 @@ C-----------------------------------------------
       R2=ZERO
       ENER=ZERO
 
-      
+      EBCS%title = TRIM(TITR)
       EBCS%HAS_IELEM = .TRUE. 
 
 

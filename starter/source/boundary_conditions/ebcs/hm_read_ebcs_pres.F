@@ -92,6 +92,8 @@ C-----------------------------------------------
       VX=ZERO
       VY=ZERO
       VZ=ZERO
+
+      EBCS%title = TRIM(TITR)
       
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
       CALL HM_GET_INTV('entityid',  SURF  ,IS_AVAILABLE,LSUBMODEL)
