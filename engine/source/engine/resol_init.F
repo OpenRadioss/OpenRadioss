@@ -114,9 +114,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      I  I87H    ,I87I     ,I87J    ,I87K      ,
      J  I15J    ,KXX      ,
      K  SECBUF  ,SECFCUM  ,NSTRF   ,IGRNOD    ,IEXLNK    ,
-     L  XFRAME  ,I8A      ,I8AR    ,I8STIFN   ,I8STIFR   ,
+     L  XFRAME  ,
      M  FSKYM   ,IXTG1    ,IB      ,VISCN     ,DD_R2R    ,
-     O  I8VISCN ,ELBUF    ,IPART   ,MADPRT    ,MADSH4    ,
+     O           ELBUF    ,IPART   ,MADPRT    ,MADSH4    ,
      P  MADSH3  ,MADSOL   ,MADNOD  ,MADFAIL   ,IGEO      ,
      Q  INTLIST ,NBINTC   ,PROCNE  ,NISKYFI   ,WEIGHT    ,
      R  ISIZXV  ,ILENXV   ,ADDCNI2 ,PROCNI2   ,IAD_I2M   ,
@@ -308,9 +308,9 @@ C-----------------------------------------------
      .   FXBFP(*), FXBEFW(*), FXBEDP(*), FXBGRP(*), FXBGRW(*),IN0(*)
       my_real
      .   THKE(NUMELC+NUMELTG)
-      INTEGER*8 
-     .  I8A(3,3,*),I8AR(3,3,*),I8STIFN(3,*),I8STIFR(3,*),
-     .  I8VISCN(3,*)
+c     INTEGER*8 
+c    .  I8A(3,3,*),I8AR(3,3,*),I8STIFN(3,*),I8STIFR(3,*),
+c    .  I8VISCN(3,*)
 C
 
       LOGICAL, INTENT(inout) :: NEED_COMM_INT25_SOLID_EROSION !< boolean, true if the proc needs to comm some values related to interface type 25 with solid erosion
@@ -584,43 +584,7 @@ C------------------------
 C      PARAL. ARITH.
 C------------------------
         IF(IPARIT==3) THEN
-          DO I=1,NUMNOD
-            I8A(1,1,I) = 0
-            I8A(2,1,I) = 0
-            I8A(3,1,I) = 0
-            I8A(1,2,I) = 0
-            I8A(2,2,I) = 0
-            I8A(3,2,I) = 0
-            I8A(1,3,I) = 0
-            I8A(2,3,I) = 0
-            I8A(3,3,I) = 0
-            I8STIFN(1,I) = 0
-            I8STIFN(2,I) = 0
-            I8STIFN(3,I) = 0
-          ENDDO
-          IF(IRODDL/=0)THEN
-           DO I=1,NUMNOD
-            I8AR(1,1,I) = 0
-            I8AR(2,1,I) = 0
-            I8AR(3,1,I) = 0
-            I8AR(1,2,I) = 0
-            I8AR(2,2,I) = 0
-            I8AR(3,2,I) = 0
-            I8AR(1,3,I) = 0
-            I8AR(2,3,I) = 0
-            I8AR(3,3,I) = 0
-            I8STIFR(1,I) = 0
-            I8STIFR(2,I) = 0
-            I8STIFR(3,I) = 0
-           ENDDO
-          ENDIF
-          IF(KDTINT/=0)THEN
-           DO I=1,NUMNOD
-            I8VISCN(1,I) = 0
-            I8VISCN(2,I) = 0
-            I8VISCN(3,I) = 0
-           ENDDO
-          ENDIF
+          write(6,*) 'Non supported /PARITH option'
         ELSEIF(IPARIT/=0) THEN
 C
 C parith/on
