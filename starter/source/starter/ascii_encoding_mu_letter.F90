@@ -30,7 +30,7 @@
 !! \details  {key3,key4,key5} is working unit system
 !! \details      (ISO 8859, Latin, Windows) : greek letter \mu has decimal code 181
 !! \details      (UTF-8)                    : greek letter \mu has double octet (0xC2):194 (0XB5):181
-!! \details  conditionnal test is then : ( iachar(key(1:1))==181  .or. (iachar(key(1:1))==194 .AND. iachar(key(2:2))==181) )
+!! \details  conditional test is then : ( iachar(key(1:1))==181  .or. (iachar(key(1:1))==194 .AND. iachar(key(2:2))==181) )
       !||====================================================================
       !||    ascii_encoding_mu_letter   ../starter/source/starter/ascii_encoding_mu_letter.F90
       !||--- called by ------------------------------------------------------

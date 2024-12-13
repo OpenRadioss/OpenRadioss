@@ -331,7 +331,7 @@ C
              ENDDO
           ENDDO    
           DEALLOCATE (ITRI)
-          !! sorting dependenping on numebr of slice = int point by ply for Type51
+          !! sorting depending on number of slice = int point by ply for Type51
           NS_TOTAL     = 0
           NS_SUB       = 0
           !!  
@@ -642,7 +642,7 @@ C #####################################################"
            NFIRST1    = 0
            NLAST1     = 0 
          ENDIF 
-          !! sorting dependenping on numebr of number & type of ply 
+          !! sorting depending on number of number & type of ply 
          DO I = 1,NSH
            INDX(I) = I
            II = INDX_SH(I)
@@ -676,7 +676,7 @@ C
              ENDDO
           ENDDO    
           DEALLOCATE (ITRI)
-          !! sorting dependenping on numebr of slice by ply = int point by ply for Type51
+          !! sorting depending on number of slice by ply = int point by ply for Type51
           NS_TOTAL     = 0
           NS_SUB       = 0
           !!  

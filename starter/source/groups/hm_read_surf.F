@@ -745,7 +745,7 @@ C------------/SURF/PART/EXT FOR QUADS --------------------
             IF (FLAG == 0) THEN                                                                                               
               IGRSURF(IGS)%NSEG = NSEG                                                                                        
               IGRSURF(IGS)%NSEG_IGE = NSEGIGE                                                                                 
-              NUMFAKENODIGEO=NUMFAKENODIGEO+16*NSEGIGE/9 ! same functionnality as IADTABIGE
+              NUMFAKENODIGEO=NUMFAKENODIGEO+16*NSEGIGE/9 ! same functionality as IADTABIGE
             ENDIF                                                                                                             
           ENDIF                                                                                                               
 C reset BUFTMP to 0 (only where it was set to 1/-1)
@@ -1057,9 +1057,9 @@ C
             IGRSURF(IGS)%IAD_BUFR = MAD                                      
             MFI=MFI+43                                                       
             CALL HM_GET_INTV  ('MDELLIPS' ,REFMAD,IS_AVAILABLE,LSUBMODEL)                                                            
-            !ID MaDyMo of entity which imposes the surface movment          
+            !ID MaDyMo of entity which imposes the surface movement          
             IGRSURF(IGS)%ID_MADYMO = REFMAD                                  
-            !Madymo syst id of entity which imposes the surface movment    
+            !Madymo syst id of entity which imposes the surface movement    
             !(computed in Radioss Engine, when receiving Datas from MaDyMo).  
             IGRSURF(IGS)%NB_MADYMO = 0                                       
             MAD=MAD+43                                                       

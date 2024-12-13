@@ -149,7 +149,7 @@
       nb_sh4 = 0
       nb_sh3 = 0
       if (start_gsh4_id + start_gsh3_id == 0) then  ! empty starting element groups
-        ! starting elements are choosen randomly for each random walker
+        ! starting elements are chosen randomly for each random walker
         random_start = .true.
         nstart = fractal%nelem
         allocate (start_group(nstart))

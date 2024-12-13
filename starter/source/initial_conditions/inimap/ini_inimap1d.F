@@ -991,7 +991,7 @@ C-----------------------------------------------
 C     S o u r c e   L i n e s
 C-----------------------------------------------
 
-      EOSTYPE = MAT_PARAM%IEOS  ! should use that except law5 with intenal EOS
+      EOSTYPE = MAT_PARAM%IEOS  ! should use that except law5 with internal EOS
       EOSTYPE = IPM(4, MATID)
       RHO0 = PM(1, MATID)
 

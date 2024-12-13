@@ -68,7 +68,7 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: iseg               !< segment loop
-          integer :: node_iid(4)        !< intenal node identifiers
+          integer :: node_iid(4)        !< internal node identifiers
           integer :: node_uid(4)        !< user node identifiers
           integer :: nale_expected      !< when checking 'ALE' side nale_expected is 1, and 0 for 'LAG' side
           integer :: nale_sum_expected  !< sum of nale values for each node composing the segment

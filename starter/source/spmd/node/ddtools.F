@@ -510,7 +510,7 @@ C--------------------------------------------------------------
             ENDIF
           ENDDO
           ! symmetric allocation of arrays of size *nb main nodes in common* 
-          ! betwwen proc P and proc Q
+          ! between proc P and proc Q
           DO P = 1,NSPMD
              DO Q = P+1,NSPMD
               NM_SHARED = S_FRONT8(P,Q)

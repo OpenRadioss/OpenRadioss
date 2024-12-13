@@ -188,7 +188,7 @@
                     if((irect(kmax,seg1) == 0) .or. irect(3,seg1) == irect(4,seg1) ) kmax = 3 ! number of node of the segment "seg1"
 
                     if(itagseg(seg1) == 0 .or. itagseg(seg1) == level) then ! the segment was not already treated
-                      if(itagseg(seg1) == 0)then ! add the segement "seg1" to the list of segment
+                      if(itagseg(seg1) == 0)then ! add the segment "seg1" to the list of segment
                         cpt = cpt + 1 ! number of new segment to be checked
                         listsegtmp(cpt)=seg1 ! list of new segment to be checked
                       endif

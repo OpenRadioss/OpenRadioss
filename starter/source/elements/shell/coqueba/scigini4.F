@@ -461,7 +461,7 @@ C----------unlike QEPH, SIGSH can't be updated w/ reduced dim
                        CALL CG2LSIG(
      7                 E1X(I) ,E2X(I),E3X(I),E1Y(I),E2Y(I),E3Y(I),
      8                 E1Z(I) ,E2Z(I),E3Z(I),S6   )
-C---------no transvers shear for DKT
+C---------no transverse shear for DKT
                       IF (NPG<4) S6(4:5)=ZERO 
                        CALL LOC2ORTH(S6,DIR_A,DIR_B,JJ,ILAW,IGTYP,NEL)
                        LBUF%SIG(KK(1:5)+I) = S6(1:5)

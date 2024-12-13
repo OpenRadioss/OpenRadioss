@@ -101,7 +101,7 @@ C----------------------------------------------------------
                 ENDIF
              ENDIF
           ENDDO
-C---- ISTIF_DT flag to compute inital time step if no contact time step is set -----
+C---- ISTIF_DT flag to compute initial time step if no contact time step is set -----
           FLAGDT = 0
           DO N=1,NINTER
              NTY = IPARI(7,N)

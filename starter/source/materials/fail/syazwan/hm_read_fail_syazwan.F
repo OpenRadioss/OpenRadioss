@@ -215,7 +215,7 @@ C--------------------------------------------------
       IF (MAX_DAM == ZERO) MAX_DAM = ONE
       MAX_DAM = MIN(MAX_DAM,ONE)
       MAX_DAM = MAX(MAX_DAM,ZERO)
-      ! Plastic strain at instability valye (N_VAL)
+      ! Plastic strain at instability value (N_VAL)
       IF(INST==1 .AND. N_VAL==ZERO) THEN
         N_VAL = FOURTH
       ENDIF

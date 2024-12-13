@@ -122,7 +122,7 @@
       integer :: inod                                                            !< local node 1:4 (quad) or 1:3 (tria)
       integer, allocatable, dimension(:) :: itag_n                               !< tag to mark relevant nodes
       integer :: node_id(1:4)                                                    !< mesh elem connectivity
-      integer ipoly                                                              !< curent polygon (loop)
+      integer ipoly                                                              !< current polygon (loop)
       integer :: isubmat_to_substract
       integer :: mid                                                             !< material internal identifier
       integer :: iter

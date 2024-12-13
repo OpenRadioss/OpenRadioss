@@ -56,7 +56,7 @@ C-----------------------------------------------
       INTEGER ISOLNOD,PART_FILL(*)
       INTEGER,INTENT(IN) :: IXQ(NIXQ,NUMELQ) !< quad connectivity buffer
       INTEGER,INTENT(IN) :: IXTG(NIXTG,NUMELTG) !< triangles connectivity buffer
-      INTEGER, INTENT(IN) :: ITYP !< elem types of the current group (quad, tirangles, hexa,)
+      INTEGER, INTENT(IN) :: ITYP !< elem types of the current group (quad, triangles, hexa,)
       my_real KVOL(NBSUBMAT,NEL)      !< volume fractions
       my_real UPARAM(NUPARAM)
       INTEGER,INTENT(IN) :: MLW !< material law (type)

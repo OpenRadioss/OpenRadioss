@@ -294,7 +294,7 @@ C----
       GEO(3)  = XK / A
       GEO(4)  = XC
       GEO(7)  = IECROU+PUN
-C--   If H=6 - addditional internal variables must be stored in UVAR -  - GEO(25) = NUVAR
+C--   If H=6 - additional internal variables must be stored in UVAR -  - GEO(25) = NUVAR
       IF (IECROU == 6) THEN
         GEO(25) = 6
       ENDIF
@@ -449,7 +449,7 @@ C----
       GEO(10) = XK / A
       GEO(11) = XC
       GEO(14) = IECROU+PUN
-C--   If H=6 - addditional internal variables must be stored in UVAR -  - GEO(25) = NUVAR
+C--   If H=6 - additional internal variables must be stored in UVAR -  - GEO(25) = NUVAR
       IF (IECROU == 6) THEN
         GEO(25) = 6
       ENDIF
@@ -604,7 +604,7 @@ C----
       GEO(15) = XK / A
       GEO(16) = XC
       GEO(18) = IECROU+PUN
-C--   If H=6 - addditional internal variables must be stored in UVAR -  - GEO(25) = NUVAR
+C--   If H=6 - additional internal variables must be stored in UVAR -  - GEO(25) = NUVAR
       IF (IECROU == 6) THEN
         GEO(25) = 6
       ENDIF
@@ -776,7 +776,7 @@ C----
       GEO(19)  = XK / A
       GEO(20)  = XC
       GEO(22)  = IECROU+PUN
-C--   If H=6 - addditional internal variables must be stored in UVAR -  - GEO(25) = NUVAR
+C--   If H=6 - additional internal variables must be stored in UVAR -  - GEO(25) = NUVAR
       IF (IECROU == 6) THEN
         GEO(25) = 6
       ENDIF
@@ -929,7 +929,7 @@ C----
       GEO(23)  = XK / A
       GEO(24)  = XC
       GEO(26)  = IECROU+PUN
-C--   If H=6 - addditional internal variables must be stored in UVAR -  - GEO(25) = NUVAR
+C--   If H=6 - additional internal variables must be stored in UVAR -  - GEO(25) = NUVAR
       IF (IECROU == 6) THEN
         GEO(25) = 6
       ENDIF
@@ -1082,7 +1082,7 @@ C----
       GEO(27)  = XK / A
       GEO(28)  = XC
       GEO(30)  = IECROU+PUN
-C--   If H=6 - addditional internal variables must be stored in UVAR -  - GEO(25) = NUVAR
+C--   If H=6 - additional internal variables must be stored in UVAR -  - GEO(25) = NUVAR
       IF (IECROU == 6) THEN
         GEO(25) = 6
       ENDIF

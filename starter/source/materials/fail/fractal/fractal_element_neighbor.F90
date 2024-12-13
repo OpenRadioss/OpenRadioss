@@ -72,8 +72,8 @@
 !-----------------------------------------------
       integer             ,intent(in)    :: numelc             !< total number of 4n shells
       integer             ,intent(in)    :: numeltg            !< total number of 3n shells
-      integer             ,intent(in)    :: nixc               !< size of 4n shell conectivity table
-      integer             ,intent(in)    :: nixtg              !< size of 3n shell conectivity table
+      integer             ,intent(in)    :: nixc               !< size of 4n shell connectivity table
+      integer             ,intent(in)    :: nixtg              !< size of 3n shell connectivity table
       integer ,intent(in)                :: numgeo             !< total number of element properties
       integer ,intent(in)                :: npropgi            !< parameter size of numgeo
       integer ,dimension(npropgi,numgeo),intent(in)   :: igeo  !< property parameter table

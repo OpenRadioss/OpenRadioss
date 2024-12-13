@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
-C   Sort AND, OR NOT sensors with their dependancies
+C   Sort AND, OR NOT sensors with their dependencies
 C-----------------------------------------------
 C   DUMMY ARGUMENTS DESCRIPTION:
 C   ===================
@@ -89,7 +89,7 @@ C-----------------------------------------------
                        DEP_LIST(1) = SENSOR_TAB(I)%IPARAM(1)
                        DEP_LIST(2) = SENSOR_TAB(I)%IPARAM(2)
 
-                       IF(DEP_LIST(2) == 0 )THEN               ! /SENSOR/SENS can have SENSOR2 non existant.
+                       IF(DEP_LIST(2) == 0 )THEN               ! /SENSOR/SENS can have SENSOR2 non existent.
                            NUM_ITEM = 1 
                        ELSE
                            NUM_ITEM = 2 
@@ -133,7 +133,7 @@ C-----------------------------------------------
       CALL SET_GRAPH_SORT(SORTED_SENSORS, IERROR)
       CALL SET_GRAPH_CLEAN()
 
-      ! When IERROR is negative, a Sensor has a circular dependancy.
+      ! When IERROR is negative, a Sensor has a circular dependency.
       ! IERROR is set to -ID of Sensor.
       ! -------------------------------------------------------------
       IF (IERROR < 0)THEN

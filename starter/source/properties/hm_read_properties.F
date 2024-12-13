@@ -655,7 +655,7 @@ C
         IF (IGTYP == 17 .OR. IGTYP == 51 ) THEN
           ! Initialization of stack thickness
           GEO(1,CPT) = ZERO
-C--- generalizing ZSHIFT ! kepp only IPOS= 2 as before
+C--- generalizing ZSHIFT ! keep only IPOS= 2 as before
           IPOS =IGEO(99,CPT) 
           ZSHIFT = GEO(199, CPT)
           IF(IPOS == 0 )THEN                         
@@ -679,7 +679,7 @@ C number of stack where ply is attached
                      NSTACK = IGEO(42,K)
                      NSTACK = NSTACK +  1
                      IGEO(42   ,K) = NSTACK
-C stack whe e ply is belong                  
+C stack where ply belongs                  
                      IGEO(200 + NSTACK ,K) = CPT
 C update ply thickness
                      GEO(1,CPT) = GEO(1,CPT) + GEO(1,K)

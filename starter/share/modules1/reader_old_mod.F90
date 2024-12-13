@@ -21,7 +21,7 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
  !! \brief Direct Reader (old reader) parameters
-!! \details current Reader is based on librairy. Direct Reader (Fortran READ statment) is only related to limited specific cases
+!! \details current Reader is based on library. Direct Reader (Fortran READ statement) is only related to limited specific cases
       !||====================================================================
       !||    reader_old_mod             ../starter/share/modules1/reader_old_mod.F90
       !||--- called by ------------------------------------------------------

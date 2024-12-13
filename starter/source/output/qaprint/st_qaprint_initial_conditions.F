@@ -226,7 +226,7 @@ C-----------------------------------------------
 C      
         IF (NINIGRAV > 0) THEN 
 C          
-!         Sort by ID to ensure internal order independant output
+!         Sort by ID to ensure internal order independent output
           DO I = 1, NINIGRAV
             IDS(I)    = INIGRV(4,I)
             IDX(I)    = I
@@ -283,7 +283,7 @@ C-----------------------------------------------
 C      
         IF (NINICRACK > 0) THEN
 C        
-!         Sort by ID to ensure internal order independant output
+!         Sort by ID to ensure internal order independent output
           DO I = 1, NINICRACK
             IDS2(I) = INICRACK(I)%ID
             IDX2(I) = I

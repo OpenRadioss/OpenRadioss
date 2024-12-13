@@ -113,7 +113,7 @@ C     REAL
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE) :: TITR
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
-      TYPE(INTER_CAND_), INTENT(inout) :: INTER_CAND !< struture of pair of candidate
+      TYPE(INTER_CAND_), INTENT(inout) :: INTER_CAND !< structure of pair of candidate
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

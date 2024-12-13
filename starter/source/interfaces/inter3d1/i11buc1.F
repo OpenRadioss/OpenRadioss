@@ -100,7 +100,7 @@ C
       my_real :: XMIN,YMIN,ZMIN,XTMP
       my_real :: BMINMA(6)
       my_real :: DD,DX1,DY1,DZ1,DD1,MARGE_ST,TZINF_ST
-C Initializeing constant
+C Initializing constant
       IONE=1
       IHUNDRED=100
 C-----------------------------------------------

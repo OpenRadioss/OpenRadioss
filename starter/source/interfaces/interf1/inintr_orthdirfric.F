@@ -110,7 +110,7 @@ C----
                      ENDIF
                      IF(IE > 0) THEN
                         IPORTH = PFRICORTH(IP)
-C---1st Case : orthotropic directions are defined in /FRITION/ORIENTATION for part IP
+C---1st Case : orthotropic directions are defined in /FRICTION/ORIENTATION for part IP
 
                         IF(IPORTH >0) THEN 
 c

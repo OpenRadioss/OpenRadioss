@@ -270,7 +270,7 @@ C-----------------------------------------------------
         ! if ity/=0 --> use the CEP array
         ! if ity=0 --> compute the union of processor list of the 4 nodes
         !              merge the processor lists in 1 list
-        !              if there are several processor in the merged list, need to find the processor with the highest occurence
+        !              if there are several processor in the merged list, need to find the processor with the highest occurrence
         DO IS=1,NSURF
             IF(.NOT.ALREADY_DONE(IS)) THEN
                  IGRSURF_PROC(IS,1:NSPMD)%NSEG = 0

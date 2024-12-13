@@ -70,8 +70,8 @@ contains
       integer,intent(in) :: npart         !< number of parts
       integer,intent(in) :: nsurf         !< number of surfaces
       integer,intent(in) :: lipart1       !< length of ipart
-      integer,intent(in) :: npropmi       !< first dimention of ipm
-      integer,intent(inout) :: sinivol    !< length of inivol commputed
+      integer,intent(in) :: npropmi       !< first dimension of ipm
+      integer,intent(inout) :: sinivol    !< length of inivol computed
       integer,intent(in) :: nsubdom       !< number of subdomains (rad2rad)
       integer,intent(in) :: ipart(sipart) !< part data
       integer,intent(in) :: ngrnod        !< number of group (array igrnod)
@@ -198,7 +198,7 @@ contains
                call ancmsg(msgid=1596,msgtype=msgerror,anmode=aninfo,i1=id,c1=titr)
             endif
 
-            ! vfrac \in [0,1] is optionnal. no value means that isubmat is filling 100% inside the surface.
+            ! vfrac \in [0,1] is optional. no value means that isubmat is filling 100% inside the surface.
             if(vfrac == zero)vfrac=one
 
             ! icumu = 1 : additive filling
@@ -231,7 +231,7 @@ contains
                submat_id=nint(uparam(276+submat_id))
             endif
 
-            !chek id for user surface (2d & 3d)
+            !check id for user surface (2d & 3d)
             isu=0
             nseg=0
             surf_type=-1 

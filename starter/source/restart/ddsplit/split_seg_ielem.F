@@ -61,10 +61,10 @@ C-----------------------------------------------
 
       INTEGER  , INTENT(IN) :: IDEL_SOLID   !< solid eroosion flag
       INTEGER  , INTENT(IN) :: IELEM_M(2,NRTM) !< elements connected to main segments 
-      INTEGER  , INTENT(IN) :: TAG_SEG(NRTM_L)   !< local seg to global segement
+      INTEGER  , INTENT(IN) :: TAG_SEG(NRTM_L)   !< local seg to global segment
       INTEGER  , INTENT(IN) :: CEP(*),CEL(*)     !< arrays of proc of elements and local number of element
       INTEGER  , INTENT(IN) :: MVOISIN(4,NRTM)   !< neighbhoors of main segments 
-      INTEGER  , INTENT(INOUT) :: PROC_MVOISIN(4,NRTM) !< procs of neighbhoors of main segments : to be build
+      INTEGER  , INTENT(INOUT) :: PROC_MVOISIN(4,NRTM) !< procs of neighbhoors of main segments : to be built
       TYPE(INTERSURFP)     :: INTERCEP !< procs of main segments
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -80,7 +80,7 @@ C ----------------------------------------
       OFFSET_SHELL=NUMELS+NUMELQ
       OFFSET_SHELL3N=OFFSET_SHELL+NUMELC+NUMELT+NUMELP+NUMELR
       ! ---------------------
-      ! loop over the segment of the currect proc
+      ! loop over the segment of the current proc
       ! a segment can be connected to :
       !  * a solid --> no offset
       !  * a shell --> offset = global number of solid+quad, ielem_ m = local shell id + offset

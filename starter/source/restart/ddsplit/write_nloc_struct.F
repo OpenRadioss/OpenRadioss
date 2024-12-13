@@ -239,7 +239,7 @@ c
         HEAD(8) = LCNENL_L
 C
         IF (NSUBDOM > 0) THEN
-C--       multidomains - origianl nummat is used
+C--       multidomains - original nummat is used
           MATSIZE = NUMMAT0 
         ELSE
           MATSIZE = NUMMAT 

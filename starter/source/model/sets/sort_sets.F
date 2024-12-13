@@ -250,7 +250,7 @@ C-----------------------------------------------
 
             IF (SET(IGS)%SET_ACTIV==1 ) THEN
 
-              DO J=1,MAP_TABLES%NSET_COLLECT             ! Find all SET with same ID but "inactive" / set them as dependant from this SET.
+              DO J=1,MAP_TABLES%NSET_COLLECT             ! Find all SET with same ID but "inactive" / set them as dependent from this SET.
 
                  ID = MAP_TABLES%ISETCOLM(J,1)
                  IG = MAP_TABLES%ISETCOLM(J,2)

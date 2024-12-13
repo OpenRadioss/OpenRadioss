@@ -210,7 +210,7 @@ C--------------------------------------------------
 C
           CALL DEFBEAM_SECT_NEW(GEO,NPROPG,ISECT,INTR,INTR_MAX,NIP,AREA,L,NB_DIM)        
 C
-C         Checl of max intr
+C         Check of max intr
           IF (INTR > INTR_MAX) THEN
             CALL ANCMSG(MSGID=3060,
      .                  MSGTYPE=MSGERROR,

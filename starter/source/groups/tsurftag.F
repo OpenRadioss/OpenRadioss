@@ -88,7 +88,7 @@ C-----------Search Element Tetra 10 containing the facet N1 N2 N3---------------
                   IE10=IE-NUMELS8
                ELSEIF(IXS(FACES(K,J),IE)==N1.AND.IXS(FACES(K+1,J),IE)==N3.AND.
      .                IXS(FACES(K+2,J),IE)==N2 ) THEN
-                  IORD = -1  ! opposit order than defined in Faces
+                  IORD = -1  ! opposite order than defined in Faces
                   ELEM = IE
                   FACET = J
                   IE10=IE-NUMELS8

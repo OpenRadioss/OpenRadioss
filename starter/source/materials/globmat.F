@@ -231,7 +231,7 @@ C
               PM_STACK (7 ,IS) = A11R
               PM_STACK(8 ,IS) = C1  
               PM_STACK (9 ,IS) = SSP
-C used fo    r QEPH     
+C used for QEPH     
               PM_STACK(10,IS) = SQRT(G)
               PM_STACK(11,IS) = SQRT(A11)
               PM_STACK(12,IS) = SQRT(A12)

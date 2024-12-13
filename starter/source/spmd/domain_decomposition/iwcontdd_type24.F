@@ -37,10 +37,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !       IWCONTDD_TYPE24 organization :
 !           for S node :
 !            * check if the node is a real node or a "fictive node"
-!            * for "fictive" node --> find hte id of the 2 real nodes
-!            * add the weith to the S node
+!            * for "fictive" node --> find the id of the 2 real nodes
+!            * add the weight to the S node
 !           for M node :
-!            * add the weith to the M node
+!            * add the weight to the M node
 !$ENDCOMMENT
         USE INTBUFDEF_MOD 
 C-----------------------------------------------

@@ -181,10 +181,10 @@
               end do
             end if
           end do
-!--- check jonctions- tag elements not used in nodal normal,thk compute
+!--- check jnuctions- tag elements not used in nodal normal,thk compute
           call sh_offset_jonct_chk(nshel    ,ixnneoset   ,x     ,numnod ,          &
                                   idnneoset ,sh_oset )
-! reduce again dim nshel after jonction check
+! reduce again dim nshel after junction check
           nshel = 0
           do i = 1,nneoset_g
             ie = idnneoset(i)
@@ -198,7 +198,7 @@
           nneoset_g = nshel
 ! compute nodal thk
           call sh_offset_setn(nshel,numnod,ixnneoset,sh_oset,shoset_n,intag)
-! compute nodal normal & do proection
+! compute nodal normal & do protection
           call sh_offset_nproj(nshel,ixnneoset,numnod,x  ,shoset_n,intag)
           if (defaults_shell%ioffset==1) then
             do i = 1,nshel
