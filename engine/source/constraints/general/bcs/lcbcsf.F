@@ -68,8 +68,6 @@ C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER SYSFUS2
 C     REAL
-      my_real
-     .   SYSFUS
 C-----------------------------------------------
 C
       DATA MESS/'BOUNDARY CONDITIONS                     '/

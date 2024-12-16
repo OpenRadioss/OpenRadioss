@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    shooting_node_mod           ../engine/share/modules/shooting_node_mod.F
       !||====================================================================
         SUBROUTINE INIT_NODAL_STATE( IPARI,SHOOT_STRUCT,INTBUF_TAB,IAD_ELEM,FR_ELEM,
-     .                               ITAB,ITABM1,GEO,ADDCNEL,CNEL,
+     .                               ITAB,NODES,GEO,ADDCNEL,CNEL,
      .                               IXS,IXC,IXT,IXP,IXR,IXTG,
      .                               SIZE_ADDCNEL,SIZE_CNEL,
      .                               numelsg,numelqg,numelcg,numeltrg,numelpg,
@@ -57,7 +57,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !           - the number of surface where the node is defined
 !           - the list of surface where the node is defined
 !$ENDCOMMENT
-
+        USE nodal_arrays_mod
         USE INTBUFDEF_MOD  
         USE SHOOTING_NODE_MOD
         USE ARRAY_MOD
@@ -96,7 +96,7 @@ C-----------------------------------------------
         TYPE(shooting_node_type), INTENT(inout) :: SHOOT_STRUCT !< structure for shooting node algo
         TYPE(INTBUF_STRUCT_), DIMENSION(NINTER), INTENT(inout) :: INTBUF_TAB    !< interface data
         INTEGER, DIMENSION(NUMNOD), INTENT(in) :: ITAB !< array to convert local id to global id
-        INTEGER, DIMENSION(NUMNOD), INTENT(in) :: ITABM1    !< array of global id
+        type(nodal_arrays_), INTENT(INOUT) :: NODES !< nodal data
         my_real, DIMENSION(NPROPG,NUMGEO), INTENT(in) :: GEO !< property data
         INTEGER, DIMENSION(0:SIZE_ADDCNEL), INTENT(in) :: ADDCNEL !< address for the CNEL array
         INTEGER, DIMENSION(0:SIZE_CNEL), INTENT(in) :: CNEL !< connectivity node --> element
@@ -735,14 +735,14 @@ C-----------------------------------------------
             DO I=1,NSPMD
                 IF(R_BUFFER_MAIN(I)%SIZE_INT_ARRAY_1D>0) THEN
                     CALL COUNT_REMOTE_NB_ELEM_EDGE( R_BUFFER_MAIN(I)%SIZE_INT_ARRAY_1D,R_BUFFER_MAIN(I)%INT_ARRAY_1D,
-     .                                              GEO,IXS,IXC,IXT,IXP,IXR,IXTG,ADDCNEL,ITABM1,CNEL,CHUNK)
+     .                                              GEO,IXS,IXC,IXT,IXP,IXR,IXTG,ADDCNEL,NODES,CNEL,CHUNK)
                     CALL MPI_ISEND( R_BUFFER_MAIN(I)%INT_ARRAY_1D,R_BUFFER_MAIN(I)%SIZE_INT_ARRAY_1D,
      .                             MPI_INTEGER,IT_SPMD(I),MSGTYP,MPI_COMM_WORLD,REQUEST_S2(I),IERROR )     
    
                 ENDIF
                 IF(R_BUFFER_SECOND(I)%SIZE_INT_ARRAY_1D>0) THEN
                     CALL COUNT_REMOTE_NB_ELEM_EDGE( R_BUFFER_SECOND(I)%SIZE_INT_ARRAY_1D,R_BUFFER_SECOND(I)%INT_ARRAY_1D,
-     .                                              GEO,IXS,IXC,IXT,IXP,IXR,IXTG,ADDCNEL,ITABM1,CNEL,CHUNK)
+     .                                              GEO,IXS,IXC,IXT,IXP,IXR,IXTG,ADDCNEL,NODES,CNEL,CHUNK)
                     CALL MPI_ISEND( R_BUFFER_SECOND(I)%INT_ARRAY_1D,R_BUFFER_SECOND(I)%SIZE_INT_ARRAY_1D,
      .                             MPI_INTEGER,IT_SPMD(I),MSGTYP,MPI_COMM_WORLD,REQUEST_S3(I),IERROR )
                 ENDIF

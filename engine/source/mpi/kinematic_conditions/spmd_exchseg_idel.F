@@ -31,12 +31,12 @@ C
       !||====================================================================
       SUBROUTINE SPMD_EXCHSEG_IDEL(
      1    BUFS  ,LBUFS ,IXS    ,IXC    ,IXTG   ,
-     2    IXQ   ,IPARG ,ITAGL  ,ITABM1 ,TAGEL  ,
+     2    IXQ   ,IPARG ,ITAGL  ,NODES,TAGEL  ,
      3    IRSIZE,IRECV ,CNEL   ,ADDCNEL,OFC    ,
      4    OFT   ,OFTG  ,OFUR   ,OFR    ,OFP    ,
      5    OFQ   ,LINDEX,IXP    ,IXR    ,IXT    ,
      6    GEO   ,IAD_ELEM)
-
+       USE nodal_arrays_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,9 +57,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(nodal_arrays_), INTENT(INOUT) :: NODES
       INTEGER IXS(NIXS,*), IXQ(NIXQ,*), IXC(NIXC,*), IXP(NIXP,*),
      .        IXR(NIXR,*), IXT(NIXT,*), TAGEL(*),
-     .        IXTG(NIXTG,*), IPARG(NPARG,*), ITABM1(*),
+     .        IXTG(NIXTG,*), IPARG(NPARG,*),
      .        BUFS(*),ITAGL(*), IRECV(*), CNEL(0:*), ADDCNEL(0:*),
      .        IRSIZE, LBUFS, OFC, OFT, OFTG, OFUR, OFR, OFP, LINDEX,
      .        OFQ
@@ -82,10 +83,6 @@ C-----------------------------------------------
 
       DATA MSGOFF2/188/
       DATA MSGOFF3/189/
-C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
-C-----------------------------------------------
-      INTEGER SYSFUS2
 C-----------------------------------------------    
       ALLOCATE(BUFR(IRSIZE))
       LOC_PROC = ISPMD+1
@@ -133,17 +130,17 @@ C
           IRECV(I)=0
 
           DO NN = 1, NBEL
-             N1 = SYSFUS2(BUFR(IDEB+4*(NN-1)+1),ITABM1,NUMNOD)
+             N1 = GET_LOCAL_NODE_ID(NODES, BUFR(IDEB+4*(NN-1)+1))
              BUFR(NN+IOFF) = 0
              IF(N1/=0) THEN
 
-              N2 = SYSFUS2(BUFR(IDEB+4*(NN-1)+2),ITABM1,NUMNOD)
+              N2 = GET_LOCAL_NODE_ID(NODES, BUFR(IDEB+4*(NN-1)+2))
               IF(N2/=0) THEN
 
-               N3 = SYSFUS2(BUFR(IDEB+4*(NN-1)+3),ITABM1,NUMNOD)
+               N3 = GET_LOCAL_NODE_ID(NODES, BUFR(IDEB+4*(NN-1)+3))
                IF(N3/=0) THEN
 
-                N4 = SYSFUS2(BUFR(IDEB+4*(NN-1)+4),ITABM1,NUMNOD)
+                N4 = GET_LOCAL_NODE_ID(NODES, BUFR(IDEB+4*(NN-1)+4))
                 IF(N4/=0) THEN
 
                  DO J=ADDCNEL(N1),ADDCNEL(N1+1)-1

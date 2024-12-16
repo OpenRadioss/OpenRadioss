@@ -2441,11 +2441,11 @@ C Init var parallel SMP
      2   IPMTSK,PARTFTSK,PARTLTSK,NWAFTSK,IGMTSK  ,
      3      GREFTSK,GRELTSK)
 
-          CALL TAGOFF3N(
+          CALL TAGOFF3N(NODES,
      1       GEO        ,IXS       ,IXS(L1)   ,IXS(L1)   ,IXS(L3)  ,IXQ    ,
      2       ELEMENT%SHELL%IXC         ,IXT      ,IXP       ,IXR       ,IXTG     ,
      3       WA(NUMNOD+1),NODFTSK  ,NODLTSK   ,IPARG     ,ELBUF    ,ITSK   ,
-     4       WA(NWAFTSK) ,IXTG1    ,IAD_ELEM  ,FR_ELEM   ,NODES%ITAB     ,NODES%ITABM1 ,
+     4       WA(NWAFTSK) ,IXTG1    ,IAD_ELEM  ,FR_ELEM   ,NODES%ITAB     ,
      5       ADDCNEL     ,CNEL     ,KXSP      ,ELBUF_TAB ,TAGEL    ,IEXLNK , 
      6       IGRNOD      ,DD_R2R   ,DD_R2R_ELEM,SDD_R2R_ELEM,IDEL7NOK_SAV ,
      7       IDEL7NOK_R2R,TAGTRIMC,TAGTRIMTG,S_ELEM_STATE,ELEM_STATE,
@@ -2474,7 +2474,7 @@ C Init var parallel SMP
           ! exchange of surfaces (ie. 4 nodes) to deactivate and deactivation
           ! ONLY FOR LOCAL SURFACE / REMOTE ELEMENT
           IF(NSPMD>1) THEN 
-            IF(ITSK==0) CALL SPMD_EXCH_DELETED_SURF_EDGE( IAD_ELEM,NODES%ITABM1,SHOOT_STRUCT,INTERFACES%INTBUF_TAB,NEWFRONT,
+            IF(ITSK==0) CALL SPMD_EXCH_DELETED_SURF_EDGE( IAD_ELEM,NODES,SHOOT_STRUCT,INTERFACES%INTBUF_TAB,NEWFRONT,
      .                           IPARI,GEO,
      .                           IXS,ELEMENT%SHELL%IXC,IXT,IXP,IXR,IXTG,IXS(L1),
      .                           ADDCNEL,CNEL,WA(NWAFTSK),TAGEL )
@@ -2532,7 +2532,7 @@ C Init var parallel SMP
           ENDIF
           ! ---------------------
 
-          CALL CHKSTFN3N(
+          CALL CHKSTFN3N(NODES,
      1       IPARI   ,GEO         ,IXS      ,IXQ         ,ELEMENT%SHELL%IXC     ,IXT       ,
      2       IXP     ,IXR         ,IXTG     ,WA(NUMNOD+1),IPARG   ,ITSK      ,
      3       NEWFRONT,WA(NWAFTSK) ,NODES%MS       ,NODES%IN          ,ANIN(NDMA+1),NODES%ITAB  ,
@@ -5531,11 +5531,11 @@ C WA global : utilise de NUMNOD+1 a 3*NUMNOD
 C WA local  : utilise de 1 a NUMNOD
 
         IF ((IDEL7NG>=1.AND.IDEL7NOK==1).OR.(PDEL>0.AND.IDEL7NOK==1)) THEN
-          CALL TAGOFF3N(
+          CALL TAGOFF3N(NODES,
      1       GEO        ,IXS       ,IXS(L1)   ,IXS(L1)   ,IXS(L3)  ,IXQ    ,
      2       ELEMENT%SHELL%IXC         ,IXT      ,IXP       ,IXR       ,IXTG     ,
      3       WA(NUMNOD+1),NODFTSK  ,NODLTSK   ,IPARG     ,ELBUF    ,ITSK   ,
-     4       WA(NWAFTSK) ,IXTG1    ,IAD_ELEM  ,FR_ELEM   ,NODES%ITAB     ,NODES%ITABM1 ,
+     4       WA(NWAFTSK) ,IXTG1    ,IAD_ELEM  ,FR_ELEM   ,NODES%ITAB     ,
      5       ADDCNEL     ,CNEL     ,KXSP      ,ELBUF_TAB ,TAGEL    ,IEXLNK , 
      6       IGRNOD      ,DD_R2R   ,DD_R2R_ELEM,SDD_R2R_ELEM,IDEL7NOK_SAV  ,
      7       IDEL7NOK_R2R,TAGTRIMC,TAGTRIMTG,S_ELEM_STATE,ELEM_STATE,
@@ -5564,7 +5564,7 @@ C WA local  : utilise de 1 a NUMNOD
           ! exchange of surfaces (ie. 4 nodes) to deactivate and deactivation
           ! ONLY FOR LOCAL SURFACE / REMOTE ELEMENT
           IF(NSPMD>1) THEN 
-            IF(ITSK==0) CALL SPMD_EXCH_DELETED_SURF_EDGE( IAD_ELEM,NODES%ITABM1,SHOOT_STRUCT,INTERFACES%INTBUF_TAB,NEWFRONT,
+            IF(ITSK==0) CALL SPMD_EXCH_DELETED_SURF_EDGE( IAD_ELEM,NODES,SHOOT_STRUCT,INTERFACES%INTBUF_TAB,NEWFRONT,
      .                           IPARI,GEO,
      .                           IXS,ELEMENT%SHELL%IXC,IXT,IXP,IXR,IXTG,IXS(L1),
      .                           ADDCNEL,CNEL,WA(NWAFTSK),TAGEL )
@@ -5626,7 +5626,7 @@ C WA local  : utilise de 1 a NUMNOD
         ENDIF
 
         IF (IDEL7NG>=1.AND.IDEL7NOK==1) THEN
-          CALL CHKSTFN3N(
+          CALL CHKSTFN3N(NODES,
      1       IPARI   ,GEO         ,IXS      ,IXQ         ,ELEMENT%SHELL%IXC     ,IXT       ,
      2       IXP     ,IXR         ,IXTG     ,WA(NUMNOD+1),IPARG   ,ITSK      ,
      3       NEWFRONT,WA(NWAFTSK) ,NODES%MS       ,NODES%IN          ,ANIN(NDMA+1),NODES%ITAB  ,
