@@ -352,6 +352,8 @@ C
         CALL READ_I_C(IXR,SIXR)
 
         CALL READ_I_C(NODES%ITAB,SITAB)
+        ! Create the map from global to local ids
+        CALL INIT_GLOBAL_ID(NODES,NUMNOD)
 
         CALL READ_I_C(NODES%ITABM1,SITABM1)
 

@@ -28,7 +28,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ancmsg          ../engine/source/output/message/message.F
       !||    arret           ../engine/source/system/arret.F
       !||    sav_buf_point   ../engine/source/user_interface/eng_callback_c.c
-      !||    sysfus          ../engine/source/system/sysfus.F
       !||    xanim28         ../engine/source/elements/xelem/xanim28.F
       !||    xanim29         ../engine/source/output/anim/generate/xanim29.F
       !||    xanim30         ../engine/source/output/anim/generate/xanim30.F
@@ -99,8 +98,6 @@ C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
 C     REAL
-      my_real
-     .   SYSFUS
 C-----------------------------------------------
       DATA MESS/'MULTI-PURPOSE ELEMENT DISCRETIZATION    '/
 C-----------------------------------------------

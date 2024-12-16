@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    shooting_node_mod             ../engine/share/modules/shooting_node_mod.F
       !||====================================================================
-        SUBROUTINE FIND_EDGE_FROM_REMOTE_PROC(SHOOT_STRUCT,NB_EDGE,LIST_NODE,INTBUF_TAB,ITABM1,
+        SUBROUTINE FIND_EDGE_FROM_REMOTE_PROC(SHOOT_STRUCT,NB_EDGE,LIST_NODE,INTBUF_TAB,NODES,
      .                                        NEWFRONT,IPARI,GEO,
      .                                        IXS,IXC,IXT,IXP,IXR,IXTG,IXS10,
      .                                        ADDCNEL,CNEL,TAG_NODE,TAG_ELEM )
@@ -44,6 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !           local procs find the local edge/interfaces 
 !           local procs deactivate the edge from the interfaces     
 !$ENDCOMMENT
+        USE nodal_arrays_mod
         USE INTBUFDEF_MOD   
         USE SHOOTING_NODE_MOD
 C-----------------------------------------------
@@ -59,9 +60,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+        TYPE(nodal_arrays_), INTENT(inout) :: NODES
         INTEGER, INTENT(in) :: NB_EDGE   ! number of "edge" (ie. 2 nodes)
         INTEGER, DIMENSION(2*NB_EDGE), INTENT(in) :: LIST_NODE   ! list of 2 nodes
-        INTEGER, DIMENSION(NUMNOD), INTENT(in) :: ITABM1    ! array of global id
         TYPE(shooting_node_type), INTENT(inout) :: SHOOT_STRUCT ! structure for shooting node algo  
         TYPE(INTBUF_STRUCT_), DIMENSION(NINTER), INTENT(inout) :: INTBUF_TAB    ! interface data         
          INTEGER, DIMENSION(NINTER), INTENT(inout) :: NEWFRONT   !< flag to force some exchanges related to S nodes between processor (if a S node becomes a shooting node - all interface) / force the collision detection algo if a new segment is activated for the (interface 25 + solid erosion)
@@ -94,7 +95,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-        INTEGER SYSFUS2 
 C-----------------------------------------------
         ALLOCATE( LIST_EDGE_R_PROC(4*NB_EDGE) )
         NB_EDGE_R_PROC_M = 0
@@ -110,7 +110,7 @@ C-----------------------------------------------
         DO I=1,NB_EDGE
             GLOBAL_NODE(1:2) = LIST_NODE( (I-1)*2+1:(I-1)*2+2)
             DO J=1,2
-                LOCAL_NODE(J) = SYSFUS2(GLOBAL_NODE(J),ITABM1,NUMNOD)
+                LOCAL_NODE(J) = GET_LOCAL_NODE_ID(NODES,GLOBAL_NODE(J))
             ENDDO
             ! ------------------
             ! MAIN NODE
@@ -156,7 +156,7 @@ C-----------------------------------------------
         DO I=1,NB_EDGE
             GLOBAL_NODE(1:2) = LIST_NODE( (I-1)*2+1:(I-1)*2+2)
             DO J=1,2
-                LOCAL_NODE(J) = SYSFUS2(GLOBAL_NODE(J),ITABM1,NUMNOD)
+                LOCAL_NODE(J) = GET_LOCAL_NODE_ID(NODES,GLOBAL_NODE(J))
             ENDDO
             ! ------------------
             ! SECONDARY NODE

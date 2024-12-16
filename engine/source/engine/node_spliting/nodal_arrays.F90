@@ -34,10 +34,12 @@
       !||====================================================================
       module nodal_arrays_mod
 #include "my_real.inc"
+        use iso_c_binding, only: C_PTR
         implicit none
         integer, parameter :: padding = 5 !< percentage of padding for reallocation
 
         type nodal_arrays_
+            type(C_PTR) :: loc2glob
             integer :: iroddl
             integer :: iparith
             integer :: nthreads
@@ -48,7 +50,7 @@
 
             integer :: numnod
             integer :: max_numnod
-            integer, dimension(:), allocatable :: ITAB !< node user id , itabm1, max_id_user_globaux
+            integer, dimension(:), allocatable :: ITAB !< node user id, max_id_user_globaux
             integer, dimension(:), allocatable :: ITABM1 !< node user id , itabm1, max_id_user_globaux
             integer, dimension(:), allocatable :: IKINE !< node kinematic id
             integer, dimension(:), allocatable :: WEIGHT !< node weight : 1 = owned by current proc, 0 = ghost
@@ -204,7 +206,6 @@
               call my_alloc(arrays%STIFR,numnod)
               call my_alloc(arrays%VISCN,numnod)
               call my_alloc(arrays%STIFN,numnod)
-
             endif               
             arrays%numnod = numnod
             ! initialization to 0
@@ -263,8 +264,14 @@
             type(nodal_arrays_) :: arrays
             integer, intent(in) :: numnod !< new number of nodes
 ! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+! ----------------------------------------------------------------------------------------------------------------------
+            integer :: old_numnod
+            integer :: i
+! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
+            old_numnod = arrays%numnod
             arrays%numnod = numnod
             if(numnod > arrays%max_numnod) then
               arrays%max_numnod = int(numnod * (1.0D0 + padding/100.0D0)) 
@@ -298,7 +305,6 @@
               call extend_array(arrays%WEIGHT, size(arrays%WEIGHT), arrays%max_numnod)
               call extend_array(arrays%WEIGHT_MD, size(arrays%WEIGHT_MD), arrays%max_numnod)
               call extend_array(arrays%ITABM1, size(arrays%ITABM1), 2*arrays%max_numnod)
-             
               if(arrays%iparith == 0) then
                 call extend_array(arrays%A,3,size(arrays%A,2),3,arrays%max_numnod*arrays%nthreads)
                 call extend_array(arrays%AR,3,size(arrays%AR,2),3,arrays%max_numnod*arrays%nthreads)
@@ -312,7 +318,71 @@
                 call extend_array(arrays%VISCN,size(arrays%VISCN) ,arrays%max_numnod)
               endif               
             endif
+            ! ITABM1 is of size 2*arrays%max_numnod, but only the first 2*arrays%numnod elements are used
+            ! When adding an element, the second half have to be shifted
+            ! ITABM1 is used in SYSFUS2, that should be replaced by a hash table
+            do i = numnod, 1, -1
+              arrays%ITABM1(2 * numnod - i + 1) = arrays%ITABM1(2 * old_numnod - i + 1)
+              ! i = 1 ; arrays%ITABM1(2 * numnod) = arrays%ITABM1(2 * old_numnod)
+              ! i = numnod ; arrays%ITABM1(numnod+1) = arrays%ITABM1(old_numnod+1)
+            end do
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine extend_nodal_arrays
+
+
+!! \brief extend nodal arrays                                                              
+        subroutine init_global_id(arrays, numnod)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Modules
+! ----------------------------------------------------------------------------------------------------------------------
+          use umap_mod
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+          implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Included files
+! ----------------------------------------------------------------------------------------------------------------------
+#include "my_real.inc"
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+            type(nodal_arrays_) :: arrays
+            integer, intent(in) :: numnod !< new number of nodes
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+! ----------------------------------------------------------------------------------------------------------------------
+            integer :: i
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Body
+! ----------------------------------------------------------------------------------------------------------------------
+            arrays%loc2glob = create_umap()
+            call reserve_capacity(arrays%loc2glob, numnod)
+            do i = 1, numnod
+              call add_entry_umap(arrays%loc2glob, arrays%itab(i), i)
+            end do
+        end subroutine init_global_id
+
+
+        function get_local_node_id(arrays, global_id) result(local_id)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Modules
+! ----------------------------------------------------------------------------------------------------------------------
+          use umap_mod
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+          implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+            type(nodal_arrays_) :: arrays !< nodal arrays
+            integer, intent(in) :: global_id !< global id
+            integer :: local_id !< local id or 0
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Body
+! ----------------------------------------------------------------------------------------------------------------------
+            local_id = get_value_umap(arrays%loc2glob, global_id, 0)
+        end function get_local_node_id
 
       end module nodal_arrays_mod 
