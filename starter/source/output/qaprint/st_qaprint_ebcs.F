@@ -36,6 +36,7 @@ C-----------------------------------------------
         USE ALE_EBCS_MOD
         USE RESTMOD
         USE EBCS_MOD
+        USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -52,6 +53,7 @@ C-----------------------------------------------
       INTEGER :: II, JJ
       DOUBLE PRECISION :: TMPVAL
       CLASS(t_ebcs), POINTER :: EBCS
+      CHARACTER(LEN=NCHARTITLE) :: TITLE
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -62,7 +64,12 @@ C-----------------------------------------------
       IF (OK_QA) THEN
          DO II = 1, NEBCS
             EBCS => EBCS_TAB%tab(ii)%poly
-            CALL QAPRINT(EBCS%title,0,0.0_8)
+            TITLE = EBCS%title
+            IF(LEN_TRIM(TITLE) /= 0)THEN
+              CALL QAPRINT(EBCS%title,0,0.0_8)
+            ELSE
+              CALL QAPRINT('EBCS_FAKE_TITLE',0,0.0_8)
+            ENDIF
             CALL QAPRINT('EBCS ID ',EBCS%ebcs_id,0.0_8)
             CALL QAPRINT('EBCS TYPE ',EBCS%type,0.0_8)
             CALL QAPRINT('EBCS SURF_ID ',EBCS%surf_id,0.0_8)
