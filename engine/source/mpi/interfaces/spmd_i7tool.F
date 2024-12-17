@@ -3418,7 +3418,7 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, P, NSN, NMN, ITYP, IGAP, IERROR, IERROR1, LENS, LENR,
      .        LSKYFI, INACTI, NBINTC, LENI, J,INTTH, K, L,IEDGE4 ,INTFRIC ,
-     .        FLAGREMN ,SIZREMNORFI, IVIS2 ,INTNITSCHE,ITIED
+     .        FLAGREMN ,SIZREMNORFI, IVIS2 ,INTNITSCHE,ITIED,IPSTIF
       INTEGER :: LENR_EDGE,LENS_EDGE
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -3645,7 +3645,11 @@ C INT 25
         IERROR = IERROR + IERROR1
         ALLOCATE (ISKEW_FI(NINTER),STAT=IERROR1)
         IERROR = IERROR + IERROR1
-        IF(PARAMETERS%ISTIF_DT > 0) THEN
+        IPSTIF = 0
+        DO I = 1,NINTER
+          IF(IPARI(97,I) > 0) IPSTIF = IPSTIF + IPARI(97,I)
+        END DO
+        IF(PARAMETERS%ISTIF_DT > 0 .OR. IPSTIF>0 ) THEN
            ALLOCATE(STIF_MSDT_FI(NINTER))
            ALLOCATE(STIFE_MSDT_FI(NINTER))
         ENDIF
@@ -3858,7 +3862,7 @@ C INT25
           NULLIFY(CANDF_SI(I)%P)
           NULLIFY(ISKEW_FI(I)%P)
           NULLIFY(ICODT_FI(I)%P)
-          IF(PARAMETERS%ISTIF_DT > 0) THEN
+          IF(PARAMETERS%ISTIF_DT > 0 .OR. IPARI(97,I)>0 ) THEN
              NULLIFY(STIF_MSDT_FI(I)%P)
              NULLIFY(STIFE_MSDT_FI(I)%P)
           ENDIF
