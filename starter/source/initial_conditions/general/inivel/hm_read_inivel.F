@@ -249,7 +249,7 @@ C--------------------------------------------------
             INIVEL_T(NINIT)%GENERAL%VX = VL1
             INIVEL_T(NINIT)%GENERAL%VY = VL2
             INIVEL_T(NINIT)%GENERAL%VZ = VL3
-            INIVEL_T(NINIT)%GENERAL%SENSOR_ID = SENS_ID
+            INIVEL_T(NINIT)%GENERAL%SENSOR_ID = SENSID
             INIVEL_T(NINIT)%GENERAL%TSTART = TSTART
           END IF
 
@@ -285,7 +285,7 @@ C--------------------------------------------------
             INIVEL_T(NINIT)%AXIS%VY = VL2
             INIVEL_T(NINIT)%AXIS%VZ = VL3
             INIVEL_T(NINIT)%AXIS%VR = VRA
-            INIVEL_T(NINIT)%AXIS%SENSOR_ID = SENS_ID
+            INIVEL_T(NINIT)%AXIS%SENSOR_ID = SENSID
             INIVEL_T(NINIT)%AXIS%TSTART = TSTART
           END IF
 
@@ -310,7 +310,7 @@ C--------------------------------------------------
             INIVEL_T(NINIT)%FVM%VX = VL1
             INIVEL_T(NINIT)%FVM%VY = VL2
             INIVEL_T(NINIT)%FVM%VZ = VL3
-            INIVEL_T(NINIT)%FVM%SENSOR_ID = SENS_ID
+            INIVEL_T(NINIT)%FVM%SENSOR_ID = SENSID
             INIVEL_T(NINIT)%FVM%TSTART = TSTART
           END IF
          !---READER /INIVEL/NODE (6)
