@@ -621,7 +621,6 @@ C
 C
 C Partie non parallele smt
 C
-      ERRORS = 0 
 !$OMP SINGLE
 
       IF (IMONM > 0) THEN

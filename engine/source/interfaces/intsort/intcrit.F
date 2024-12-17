@@ -89,6 +89,7 @@ C-----------------------------------------------
       INTEGER I,J,KK,IGN,IGE,JJ, NSN, NMN,
      .        IAD,K,N,IADD,ICOMP,NTY,NME,NMES,NMET,
      .        NBNEW, LISTNEW(NBINTC), ISENS, INTERACT,DELTA_PMAX_GAP_NOD
+      INTEGER :: JMAX
       my_real
      .        XX,XY,XZ,DIST0,VX,VY,VZ,GAPINF,VV,DTI,VMAXDT,
      .        STARTT, STOPT, MINBOX,TZINFL,GAPSUP,PMAX_GAP,
@@ -395,15 +396,17 @@ c (no need to communicate VMAXDT in SPMD)
            ENDIF
            NSN = IPARI(5,I)
            NMN = IPARI(6,I)
+           D1 = ZERO
+           JMAX = 1
            DO JJ=1,NSN
              J=INTBUF_TAB(I)%NSV(JJ)
              IF(INTBUF_TAB(I)%STFNS(JJ)/=ZERO .AND. J<=NUMNOD .AND. J > 0) THEN
                VX = V(1,J) 
                VY = V(2,J) 
                VZ = V(3,J) 
-               D1 = SQRT(VX**2+VY**2+VZ**2)
-               IF(D1 > FIVE * MARGE0 /TWO) THEN
-                 WRITE(ISTDO,*) "ERROR: NODAL VELOCITY IS TOO HIGH FOR NODE",ITAB(J),D1
+               IF( SQRT(VX**2+VY**2+VZ**2) > D1) THEN
+                 D1 = SQRT(VX**2+VY**2+VZ**2)
+                 JMAX = J
                ENDIF
              ENDIF
            END DO
@@ -413,16 +416,18 @@ c (no need to communicate VMAXDT in SPMD)
                VX = V(1,J) 
                VY = V(2,J) 
                VZ = V(3,J) 
-               D1 = SQRT(VX**2+VY**2+VZ**2)
-               IF(D1 > FIVE * MARGE0 /TWO ) THEN
-                 WRITE(ISTDO,*) "ERROR: NODAL VELOCITY IS TOO HIGH FOR NODE",ITAB(J),D1
+               IF( SQRT(VX**2+VY**2+VZ**2) > D1) THEN
+                 D1 = SQRT(VX**2+VY**2+VZ**2)
+                 JMAX = J
                ENDIF
              ENDIF
            ENDDO
+           IF(D1 > FIVE * MARGE0 /TWO ) THEN
+             WRITE(ISTDO,*) "ERROR: NODAL VELOCITY IS TOO HIGH FOR NODE",ITAB(JMAX),D1
+             WRITE(IOUT,*) "ERROR: NODAL VELOCITY IS TOO HIGH FOR NODE",ITAB(JMAX),D1
+           ENDIF
            INTBUF_TAB(I)%VARIABLES(24) = MARGE0
          ENDIF
-
-
 
 
          IF(DIST0<=ZERO.OR.KFORSMS/=0.OR.FORCE_COMPUTATION(I)) THEN

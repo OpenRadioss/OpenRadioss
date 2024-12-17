@@ -3694,6 +3694,7 @@ C===============================================================================
         ELSE
           CALL ASSIGN_PTRX(ptrX,NODES%X,NUMNOD)
         ENDIF
+        INTER_ERRORS = 0
 
 !$OMP PARALLEL PRIVATE(ITSK,DT2TT,NELTSTT,ITYPTSTT)
         DT2TT = DT2T
