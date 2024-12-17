@@ -57,6 +57,7 @@
             integer :: nrcvvois !< ALE ghost nodes in SPMD
             logical :: used_dr
             integer :: sicodt_fac !< size of ICODT
+            integer :: max_uid !< maximum user id
 
 
             integer :: numnod
@@ -349,7 +350,7 @@
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
       !||====================================================================
-        subroutine init_global_id(arrays, numnod)
+        subroutine init_global_node_id(arrays, numnod)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -375,11 +376,14 @@
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
             arrays%loc2glob = create_umap()
+            arrays%max_uid = 0
             call reserve_capacity(arrays%loc2glob, numnod)
             do i = 1, numnod
+              arrays%max_uid = max(arrays%max_uid, arrays%itab(i))
               call add_entry_umap(arrays%loc2glob, arrays%itab(i), i)
             end do
-        end subroutine init_global_id
+
+        end subroutine init_global_node_id
 
 
       !||====================================================================

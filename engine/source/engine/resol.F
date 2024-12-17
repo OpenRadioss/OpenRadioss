@@ -593,6 +593,7 @@ C   M o d u l e s
 C----------------------------------------------- 
       USE CONNECTIVITY_MOD
       USE NODAL_ARRAYS_MOD
+      USE detach_node_mod
       USE DSGRAPH_MOD
       USE ERROR_MOD
       USE RESOLSAV_MOD
@@ -1265,7 +1266,13 @@ C-------------------------------------------------------------------------------
 C-----------------------------------------------------------------------------------       
         type(SPH_WORK_) :: SPH_WORK   ! working Areas for SPLISSV and SPHPREP
 C-----------------------------------------------------------------------------------       
-C Uncomment for Debug - ITAB is copied in Debug Module.
+C         Node Spliting 
+C        integer :: fail_counter
+C        integer, dimension(8) :: FAIL_ELEMENT ! (/ 10648, 10649, 10656, 10657, 10624, 10625, 10632, 10633 /)
+C        integer, dimension(9) :: FAIL_NODES ! (/ 10653, 11092, 10669, 11121, 10668, 11118, 10667, 11031, 10623 /)
+C        fail_counter = 0
+C        FAIL_ELEMENT = (/ 10648, 10649, 10656, 10657, 10624, 10625, 10632, 10633 /) 
+C        FAIL_NODES = (/ 10653, 11092, 10669, 11121, 10668, 11118, 10667, 11031, 10623 /)
 C-----------------------------------------------------------------------------------
 C-----------------------------------------------------------------------------------
       CALL PREPARE_DEBUG(NODES%ITAB,NUMNOD)
@@ -5652,6 +5659,28 @@ C WA local  : utilise de 1 a NUMNOD
           CALL DEALLOC_SHOOT_INTER( SHOOT_STRUCT )
         ENDIF
       ENDIF
+c ========================================================================================
+C                                     node splitting
+c     if(TT > 1D0 * (fail_counter+1.0) .AND. fail_counter < 9 ) then
+c       write(6,*) "DETACHING NODE"
+c       fail_counter = fail_counter + 1
+c        if(fail_counter == 1) then 
+c           ! The first time, convert global IDs into local IDs
+c           do i = 1, 9
+c             write(6,*) "FAIL_NODES(i) = ", FAIL_NODES(i), " get_local_node_id(NODES,FAIL_NODES(i)) = ", get_local_node_id(NODES,FAIL_NODES(i))
+c             FAIL_NODES(i) = get_local_node_id(NODES,FAIL_NODES(i))
+c             write(6,*) "Check:",NODES%ITAB(FAIL_NODES(i))
+c           enddo
+c           do i = 1, 8
+c             write(6,*) "FAIL_ELEMENT(i) = ", FAIL_ELEMENT(i), " get_local_shell_id(ELEMENT%SHELL,FAIL_ELEMENT(i)) = ", get_local_shell_id(ELEMENT%SHELL,FAIL_ELEMENT(i))
+c             FAIL_ELEMENT(i) = get_local_shell_id(ELEMENT%SHELL,FAIL_ELEMENT(i))
+c             write(6,*) "Check:",ELEMENT%SHELL%IXC(7,FAIL_ELEMENT(i))
+c           enddo
+c        endif
+c       call detach_node_from_shells(nodes, FAIL_NODES(fail_counter) ,element,FAIL_ELEMENT,8)
+c       numnod = numnod + 1
+c       if(ispmd == 0) numnodg = numnodg + 1
+c     endif
 
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)

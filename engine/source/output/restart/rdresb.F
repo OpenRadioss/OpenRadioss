@@ -344,7 +344,7 @@ C
           element%shell%matid(I) = ELEMENT%shell%ixc(1, I)
           element%shell%user_id(I) = ELEMENT%shell%ixc(7, I)
         ENDDO
-
+        CALL INIT_GLOBAL_SHELL_ID(ELEMENT%SHELL)
 
         CALL READ_I_C(IXT,SIXT)
 
@@ -354,7 +354,7 @@ C
 
         CALL READ_I_C(NODES%ITAB,SITAB)
         ! Create the map from global to local ids
-        CALL INIT_GLOBAL_ID(NODES,NUMNOD)
+        CALL INIT_GLOBAL_NODE_ID(NODES,NUMNOD)
 
         CALL READ_I_C(NODES%ITABM1,SITABM1)
 
