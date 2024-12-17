@@ -747,6 +747,7 @@ C-----------------------------------------------
       LOGICAL :: IS_OOC_AUTORIZED
 
       IS_OOC_AUTORIZED = .FALSE.   
+      IF(M_OCORE == -1) IS_OOC_AUTORIZED = .TRUE.
 ! Only the testing here, initializations are removed into IMP_MUMPS1
 
       IF (ITASK==1) THEN
