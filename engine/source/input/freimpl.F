@@ -300,6 +300,8 @@ C----------------------------
 C-------0 default 1 :MMD  2 :metis       
         ELSEIF(KEY3(1:5)=='OUTCO')THEN
              M_OCORE=1
+        ELSEIF(KEY3(1:5)=='AUTOC')THEN
+             M_OCORE=-1
         ELSE
           GOTO 9990
         ENDIF
