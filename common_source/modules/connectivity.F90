@@ -33,6 +33,7 @@
       !||    wrrestp            ../engine/source/output/restart/wrrestp.F
       !||====================================================================
       module connectivity_mod
+         use iso_c_binding
 !       INTEGER, PARAMETER :: NIXS = 11
 !       INTEGER, PARAMETER :: NIXC = 7
 !       INTEGER, PARAMETER :: NIXQ = 7
@@ -52,6 +53,7 @@
           integer, dimension(:), allocatable :: pid !< pid(i) :  PID of the i-th shell element
           integer, dimension(:), allocatable :: matid !< matid(i) :  Material ID of the i-th shell element
           integer, dimension(:), allocatable :: user_id !< user_id(i) :  user id of the shell element
+          type(C_PTR) :: loc2glob
         end type shell_
         type solid_
           ! old storage of solids
@@ -64,10 +66,69 @@
           integer, dimension(:), allocatable :: pid !< pid(i) :  PID of the i-th solid element
           integer, dimension(:), allocatable :: matid !< matid(i) :  Material ID of the i-th solid element
           integer, dimension(:), allocatable :: user_id !< user_id(i) :  user id of the solid element
+          type(C_PTR) :: loc2glob
         end type solid_
 
         type connectivity_
           type(shell_) :: shell
           type(solid_) :: solid
         end type connectivity_ 
+        contains 
+
+!! \brief extend nodal arrays                                                              
+        subroutine init_global_shell_id(shell)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Modules
+! ----------------------------------------------------------------------------------------------------------------------
+          use umap_mod
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+          implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Included files
+! ----------------------------------------------------------------------------------------------------------------------
+#include "my_real.inc"
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+            type(shell_) :: shell!< connectivity of elements
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+! ----------------------------------------------------------------------------------------------------------------------
+            integer :: i
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Body
+! ----------------------------------------------------------------------------------------------------------------------
+            shell%loc2glob = create_umap()
+            call reserve_capacity(shell%loc2glob, size(shell%user_id))
+            do i = 1, size(shell%user_id)
+              call add_entry_umap(shell%loc2glob, shell%user_id(i), i)
+            end do
+
+        end subroutine init_global_shell_id
+
+
+        function get_local_shell_id(shell, global_id) result(local_id)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Modules
+! ----------------------------------------------------------------------------------------------------------------------
+          use umap_mod
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+          implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+            type(shell_) :: shell!< nodal arrays
+            integer, intent(in) :: global_id !< global id
+            integer :: local_id !< local id or 0
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Body
+! ----------------------------------------------------------------------------------------------------------------------
+            local_id = get_value_umap(shell%loc2glob, global_id, 0)
+        end function get_local_shell_id
+
+
       end module
