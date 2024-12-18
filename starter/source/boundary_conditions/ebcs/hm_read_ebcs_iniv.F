@@ -106,7 +106,7 @@ C-----------------------------------------------
            WRITE(IOUT,1104)SURF,NSEG,RHO,C,LCAR
         ENDIF
        
-        
+        EBCS%title = TITR
         EBCS%c = C
         EBCS%rho = RHO
         EBCS%lcar = LCAR

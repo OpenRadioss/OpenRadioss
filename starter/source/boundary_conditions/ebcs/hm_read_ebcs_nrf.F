@@ -101,7 +101,8 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('tcar_vf',  TCAR_VF ,IS_AVAILABLE,LSUBMODEL,UNITAB) 
       
       IF(TCAR_VF == ZERO)TCAR_VF = INFINITY
-      
+
+      EBCS%TITLE = TITR
       EBCS%tcar_p = TCAR_P  
       EBCS%tcar_vf = TCAR_VF
       EBCS%HAS_IELEM = .TRUE. 
