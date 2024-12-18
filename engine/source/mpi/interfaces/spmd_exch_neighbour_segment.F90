@@ -68,7 +68,7 @@
         subroutine spmd_exch_neighbour_segment(nspmd,ispmd, &
                                                 ninter,numnod, &
                                                 s_buffer_size,r_buffer_size,s_buffer_2_size,r_buffer_2_size,&
-                                                iad_elem,itabm1,x, &
+                                                iad_elem,nodes,x, &
                                                 s_buffer,r_buffer,s_buffer_2,r_buffer_2, &
                                                 intbuf_tab,shoot_struct)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -79,6 +79,7 @@
           use shooting_node_mod , only : shooting_node_type
           use get_neighbour_surface_from_remote_proc_mod , only : get_neighbour_surface_from_remote_proc
           use array_mod , only : array_type,alloc_my_real_1d_array,dealloc_my_real_1d_array
+          use nodal_arrays_mod, only : get_local_node_id, nodal_arrays_
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -102,7 +103,7 @@
           integer, dimension(3,nspmd), intent(inout) :: s_buffer_2_size !< size of S buffer
           integer, dimension(3,nspmd), intent(inout) :: r_buffer_2_size !< size of R buffer
           integer, dimension(2,nspmd+1), intent(in) :: iad_elem !< frontier between processor
-          integer, dimension(numnod), intent(in) :: itabm1 !< global to local node id
+          type(nodal_arrays_), intent(in) :: nodes !< nodal arrays
           my_real, dimension(3,numnod), intent(in) :: x !< nodal position
           type(array_type), dimension(nspmd), intent(inout) :: s_buffer !< mpi buffer (send)
           type(array_type), dimension(nspmd), intent(inout) :: r_buffer !< mpi buffer (rcv)
@@ -220,7 +221,7 @@
                 proc_id = index_r_proc_2(my_index)
                 call get_neighbour_surface_from_remote_proc( ninter,numnod,nspmd,  &
                                                              r_buffer_size(1,proc_id),r_buffer_size(2,proc_id),s_buffer_2_size, &
-                                                             itabm1,r_buffer(proc_id)%my_real_array_1d,s_buffer_2, &
+                                                             nodes,r_buffer(proc_id)%my_real_array_1d,s_buffer_2, &
                                                              x,intbuf_tab,shoot_struct ,&
                                                              ispmd,proc_id )
             enddo

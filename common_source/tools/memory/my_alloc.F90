@@ -400,7 +400,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           real, dimension(:), allocatable, intent(inout) :: a !< The allocated array
           integer, intent(in) :: n !< The size of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -434,7 +434,7 @@
           real, dimension(:,:), allocatable, intent(inout) :: a !< The allocated array
           integer, intent(in) :: n !< The first dimension of the array
           integer, intent(in) :: m !< The second dimension of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -468,7 +468,7 @@
           integer, intent(in) :: l !< The first dimension of the array
           integer, intent(in) :: m !< The second dimension of the array
           integer, intent(in) :: n !< The third dimension of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -505,7 +505,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           double precision, dimension(:), allocatable, intent(inout) :: a !< The allocated array
           integer, intent(in) :: n !< The size of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -539,7 +539,7 @@
           double precision, dimension(:,:), allocatable, intent(inout) :: a !< The allocated array
           integer, intent(in) :: n !< The first dimension of the array
           integer, intent(in) :: m !< The second dimension of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -573,7 +573,7 @@
           integer, intent(in) :: l !< The first dimension of the array
           integer, intent(in) :: m !< The second dimension of the array
           integer, intent(in) :: n !< The third dimension of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -611,7 +611,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, dimension(:), allocatable, intent(inout) :: a !< The allocated array
           integer, intent(in) :: n !< The size of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -645,7 +645,7 @@
           integer, dimension(:,:), allocatable, intent(inout) :: a !< The allocated array
           integer, intent(in) :: n !< The first dimension of the array
           integer, intent(in) :: m !< The second dimension of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -680,7 +680,7 @@
           integer, intent(in) :: l !< The first dimension of the array
           integer, intent(in) :: m !< The second dimension of the array
           integer, intent(in) :: n !< The third dimension of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -717,7 +717,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           real, dimension(:), pointer, intent(inout) :: a !< The allocated array
           integer, intent(in) :: n !< The size of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -751,7 +751,7 @@
           real, dimension(:,:), pointer, intent(inout) :: a !< The allocated array
           integer, intent(in) :: n !< The first dimension of the array
           integer, intent(in) :: m !< The second dimension of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -785,7 +785,7 @@
           integer, intent(in) :: l !< The first dimension of the array
           integer, intent(in) :: m !< The second dimension of the array
           integer, intent(in) :: n !< The third dimension of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -822,7 +822,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           double precision, dimension(:), pointer, intent(inout) :: a !< The allocated array
           integer, intent(in) :: n !< The size of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -856,7 +856,7 @@
           double precision, dimension(:,:), pointer, intent(inout) :: a !< The allocated array
           integer, intent(in) :: n !< The first dimension of the array
           integer, intent(in) :: m !< The second dimension of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -890,7 +890,7 @@
           integer, intent(in) :: l !< The first dimension of the array
           integer, intent(in) :: m !< The second dimension of the array
           integer, intent(in) :: n !< The third dimension of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -928,7 +928,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, dimension(:), pointer, intent(inout) :: a !< The allocated array
           integer, intent(in) :: n !< The size of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -962,7 +962,7 @@
           integer, dimension(:,:), pointer, intent(inout) :: a !< The allocated array
           integer, intent(in) :: n !< The first dimension of the array
           integer, intent(in) :: m !< The second dimension of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -997,7 +997,7 @@
           integer, intent(in) :: l !< The first dimension of the array
           integer, intent(in) :: m !< The second dimension of the array
           integer, intent(in) :: n !< The third dimension of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -1037,7 +1037,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           real, dimension(:), allocatable, intent(inout) :: a !< The allocated array
           integer(8), intent(in) :: n !< The size of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -1071,7 +1071,7 @@
           real, dimension(:,:), allocatable, intent(inout) :: a !< The allocated array
           integer(8), intent(in) :: n !< The first dimension of the array
           integer(8), intent(in) :: m !< The second dimension of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -1105,7 +1105,7 @@
           integer(8), intent(in) :: l !< The first dimension of the array
           integer(8), intent(in) :: m !< The second dimension of the array
           integer(8), intent(in) :: n !< The third dimension of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -1142,7 +1142,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           double precision, dimension(:), allocatable, intent(inout) :: a !< The allocated array
           integer(8), intent(in) :: n !< The size of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -1176,7 +1176,7 @@
           double precision, dimension(:,:), allocatable, intent(inout) :: a !< The allocated array
           integer(8), intent(in) :: n !< The first dimension of the array
           integer(8), intent(in) :: m !< The second dimension of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -1210,7 +1210,7 @@
           integer(8), intent(in) :: l !< The first dimension of the array
           integer(8), intent(in) :: m !< The second dimension of the array
           integer(8), intent(in) :: n !< The third dimension of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -1248,7 +1248,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, dimension(:), allocatable, intent(inout) :: a !< The allocated array
           integer(8), intent(in) :: n !< The size of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -1282,7 +1282,7 @@
           integer, dimension(:,:), allocatable, intent(inout) :: a !< The allocated array
           integer(8), intent(in) :: n !< The first dimension of the array
           integer(8), intent(in) :: m !< The second dimension of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -1317,7 +1317,7 @@
           integer(8), intent(in) :: l !< The first dimension of the array
           integer(8), intent(in) :: m !< The second dimension of the array
           integer(8), intent(in) :: n !< The third dimension of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -1353,7 +1353,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           real, dimension(:), pointer, intent(inout) :: a !< The allocated array
           integer(8), intent(in) :: n !< The size of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -1387,7 +1387,7 @@
           real, dimension(:,:), pointer, intent(inout) :: a !< The allocated array
           integer(8), intent(in) :: n !< The first dimension of the array
           integer(8), intent(in) :: m !< The second dimension of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -1421,7 +1421,7 @@
           integer(8), intent(in) :: l !< The first dimension of the array
           integer(8), intent(in) :: m !< The second dimension of the array
           integer(8), intent(in) :: n !< The third dimension of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -1458,7 +1458,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           double precision, dimension(:), pointer, intent(inout) :: a !< The allocated array
           integer(8), intent(in) :: n !< The size of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -1492,7 +1492,7 @@
           double precision, dimension(:,:), pointer, intent(inout) :: a !< The allocated array
           integer(8), intent(in) :: n !< The first dimension of the array
           integer(8), intent(in) :: m !< The second dimension of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -1526,7 +1526,7 @@
           integer(8), intent(in) :: l !< The first dimension of the array
           integer(8), intent(in) :: m !< The second dimension of the array
           integer(8), intent(in) :: n !< The third dimension of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -1564,7 +1564,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, dimension(:), pointer, intent(inout) :: a !< The allocated array
           integer(8), intent(in) :: n !< The size of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -1598,7 +1598,7 @@
           integer, dimension(:,:), pointer, intent(inout) :: a !< The allocated array
           integer(8), intent(in) :: n !< The first dimension of the array
           integer(8), intent(in) :: m !< The second dimension of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -1633,7 +1633,7 @@
           integer(8), intent(in) :: l !< The first dimension of the array
           integer(8), intent(in) :: m !< The second dimension of the array
           integer(8), intent(in) :: n !< The third dimension of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -1669,7 +1669,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           logical, dimension(:), allocatable, intent(inout) :: a !< The allocated array
           integer, intent(in) :: n !< The size of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -1703,7 +1703,7 @@
           logical, dimension(:,:), allocatable, intent(inout) :: a !< The allocated array
           integer, intent(in) :: n !< The first dimension of the array
           integer, intent(in) :: m !< The second dimension of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -1737,7 +1737,7 @@
           integer, intent(in) :: l !< The first dimension of the array
           integer, intent(in) :: m !< The second dimension of the array
           integer, intent(in) :: n !< The third dimension of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -1770,7 +1770,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           logical, dimension(:), pointer, intent(inout) :: a !< The allocated array
           integer, intent(in) :: n !< The size of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -1804,7 +1804,7 @@
           logical, dimension(:,:), pointer, intent(inout) :: a !< The allocated array
           integer, intent(in) :: n !< The first dimension of the array
           integer, intent(in) :: m !< The second dimension of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -1838,7 +1838,7 @@
           integer, intent(in) :: l !< The first dimension of the array
           integer, intent(in) :: m !< The second dimension of the array
           integer, intent(in) :: n !< The third dimension of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -1874,7 +1874,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           logical, dimension(:), allocatable, intent(inout) :: a !< The allocated array
           integer(8), intent(in) :: n !< The size of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -1908,7 +1908,7 @@
           logical, dimension(:,:), allocatable, intent(inout) :: a !< The allocated array
           integer(8), intent(in) :: n !< The first dimension of the array
           integer(8), intent(in) :: m !< The second dimension of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -1942,7 +1942,7 @@
           integer(8), intent(in) :: l !< The first dimension of the array
           integer(8), intent(in) :: m !< The second dimension of the array
           integer(8), intent(in) :: n !< The third dimension of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -1975,7 +1975,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           logical, dimension(:), pointer, intent(inout) :: a !< The allocated array
           integer(8), intent(in) :: n !< The size of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -2009,7 +2009,7 @@
           logical, dimension(:,:), pointer, intent(inout) :: a !< The allocated array
           integer(8), intent(in) :: n !< The first dimension of the array
           integer(8), intent(in) :: m !< The second dimension of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -2043,7 +2043,7 @@
           integer(8), intent(in) :: l !< The first dimension of the array
           integer(8), intent(in) :: m !< The second dimension of the array
           integer(8), intent(in) :: n !< The third dimension of the array
-          character(len=len_error_message), optional, intent(in) :: msg !< The error message to print if the allocation fails
+          character(len=*), optional, intent(in) :: msg !< The error message to print if the allocation fails
           integer, optional, intent(out) :: stat !< The error code returned by the allocation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables

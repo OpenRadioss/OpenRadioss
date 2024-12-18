@@ -519,7 +519,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6  IPARG  ,DD_IAD  ,IGRV   ,IEXLNK ,KINET  ,
      7  IPARI  ,        NPRW    ,ICONX  ,NPBY   ,
      8  LPBY   ,LRIVET ,NSTRF   ,LJOINT ,NODPOR ,MONVOL ,IAD_ELEM,
-     9  FR_ELEM,MAIN_PROC,ADSKY  ,IADS   ,ILINK  ,
+     9  FR_ELEM,MAIN_PROC,ILINK  ,
      A  LLINK  ,LINALE ,NEFLSW  ,NNFLSW ,ICUT   ,CLUSTER,
      B          ITASK  ,INOISE  ,
      C  THKE   ,DAMP      ,
@@ -529,7 +529,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      F  TF     ,FORC   ,VEL     ,FSAV   ,FZERO  ,XLAS   ,ACCELM ,
      G  AGRV   ,FR_WAVE,FAILWAVE,PARTS0 ,ELBUF  ,RWBUF  ,SENSORS,
      H  RWSAV  ,RBY     ,RIVET  ,SECBUF ,VOLMON ,LAMBDA ,
-     I  WA     ,FV     ,PARTSAV,FSKY
+     I  WA     ,FV     ,PARTSAV
      J         ,UWA    ,VAL2    ,PHI    ,SEGVAR ,R      ,CRFLSW ,
      K  FLSW   ,FANI   ,XCUT    ,ANIN   ,TANI   ,SECFCUM,BUFNOIS,
      L  IDATA  ,RDATA   ,
@@ -539,7 +539,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      P  ISPHIO ,LPRTSPH,LONFSPH ,VSPHIO ,FBVEL  ,LAGBUF ,IBCSLAG,
      Q  IACTIV ,DAMPR  ,GJBUFI  ,GJBUFR , RBMPC , IBMPC ,SPHVELN,
      T  NBRCVOIS,NBSDVOIS,LNRCVOIS,LNSDVOIS,NERCVOIS,NESDVOIS,LERCVOIS,
-     U  LESDVOIS,NPSEGCOM,LSEGCOM ,NPORGEO ,FSKYM   ,
+     U  LESDVOIS,NPSEGCOM,LSEGCOM ,NPORGEO ,
      V  IXTG1   ,NPBYL   ,LPBYL   ,RBYL    ,IGEO    ,IPM     ,
      W  MADPRT  ,MADSH4  ,MADSH3  ,MADSOL  ,MADNOD  ,MADFAIL ,
      X  IAD_RBY ,FR_RBY  ,FR_WALL ,PROCNE  ,IAD_RBY2,
@@ -551,7 +551,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      d  FXBLM   ,FXBFLS  ,FXBDLS  ,FXBDEP  ,FXBVIT  ,FXBACC  ,FXBELM  ,
      e  FXBSIG  ,FXBGRVI ,FXBGRVR ,EIGIPM  ,EIGIBUF ,EIGRPM  ,
      f  LNODPOR ,
-     g  FR_I18  ,IADSDP  ,IADRCP  ,GRAPHE  ,IFLOW   ,RFLOW   ,
+     g  FR_I18  ,GRAPHE  ,IFLOW   ,RFLOW   ,
      h  LGRAV   ,DD_R2R  ,FASOLFR ,FR_LAGF ,
      j  LLAGF   ,LPRW    ,ICONTACT,RCONTACT,SH4TREE ,SH3TREE ,
      k  IPADMESH,PADMESH ,MSC     ,MSTG    ,INC     ,INTG    ,PTG     ,
@@ -574,8 +574,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4  IBC_PLY ,DMINT2  ,IBORDNODE,
      5  ELBUF_TAB,POR    ,NODEDGE  ,IAD_EDGE, 
      6  FR_EDGE  ,FR_NBEDGE,CRKNODIAD,LGAUGE ,GAUGE  ,
-     7  IGAUP    ,NGAUP  ,NODLEVXF,DD_R2R_ELEM,
-     8  NODGLOBXFE,SPH2SOL ,SOL2SPH ,IRST ,FSKYD  ,
+     7  IGAUP    ,NGAUP  ,NODLEVXF,DD_R2R_ELEM, 
+     8  NODGLOBXFE,SPH2SOL ,SOL2SPH ,IRST ,
      9  DMSPH     ,WAGAP   ,XFEM_TAB,ELCUTC  ,NODENR  ,
      A  KXFENOD2ELC,ENRTAG,
      B  RTHBU    F,KXIG3D ,IXIG3D ,KNOT, WIGE,
@@ -774,7 +774,7 @@ C-----------------------------------------------
      .   LRIVET(*), NSTRF(*), LJOINT(*),  ILINK(*),
      .   LLINK(*), LINALE(*), NEFLSW(*), NNFLSW(*),
      .   NODPOR(*),ICUT(*) , INOISE(*),MONVOL(*),
-     .   ADSKY(*),IADS(*),LACCELM(3,*),DD_IAD(NSPMD+1,*),FR_ELEM(*),
+     .   LACCELM(3,*),DD_IAD(NSPMD+1,*),FR_ELEM(*),
      .   IAD_ELEM(2,*),IAD_RBY(*),FR_RBY(*),NNLINK(10,*),LNLINK(*),
      .   IAF(*),IGRV(*),MAIN_PROC(*),
      .   KXX(NIXX,*),IXX(*),IEXLNK(NR2R,*),
@@ -786,7 +786,7 @@ C-----------------------------------------------
      .   NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*), NPORGEO(*),
      .   NPSEGCOM(*), LSEGCOM(*), IGEO(NPROPGI,*),
      .   IPM(NPROPMI,*),MADPRT(*), MADSH4(*), MADSH3(*), MADSOL(*),
-     .   MADNOD(*),MADFAIL(*), IADSDP(*), IADRCP(*),
+     .   MADNOD(*),MADFAIL(*), 
      .   PROCNE(*), FR_WALL(*),IAD_RBY2(*),
      .   FR_RBY2(*),IAD_I2M(*),FR_I2M(*),ADDCNI2(*),PROCNI2(*),IADI2(*),
      .   FR_MV(*), IADMV2(*),  FR_LL(*),  FR_RL(*),
@@ -834,18 +834,18 @@ C-----------------------------------------------
      .   R(3,*)    ,CRFLSW(*),FLSW(*),
      .   FANI(3,*) ,UWA(*)    ,PARTSAV(*)   ,
      .   DSAVE(3,*),ASAVE(3,*),XCUT(*)   ,ANIN(*)    ,BUFNOIS(*),
-     .   FSKY(8,*),ACCELM(LLACCELM,*),
+     .   ACCELM(LLACCELM,*),
      .   TANI(*),VOLMON(*),EANI(*),AGRV(*), THKE(*), BUFSF(*),AF(*),
      .   SECBUF(*),SECFCUM(7,NUMNOD,NSECT),LAMBDA(*), 
      .   FR_WAVE(*),PARTS0(*),BUFGEO(*),
      .   SPBUF(NSPBUF,*),XFRAME(NXFRAME,*),
      .   WASPH(*),W16(*),VSPHIO(*),FBVEL(*),DAMPR(NRDAMP,*),
      .   RDATA(*),PV(*),FSAVD(NTHVKI,*),GJBUFR(LKJNR,*),RBMPC(*),
-     .   SPHVELN(*),RBYL(NRBY,*),FSKYM(*), MSNF(*),
+     .   SPHVELN(*),RBYL(NRBY,*), MSNF(*),
      .   FXBRPM(*), FXBMOD(*), FXBGLM(*), FXBCPM(*), FXBCPS(*),
      .   FXBLM(*),  FXBFLS(*), FXBDLS(*), FXBDEP(*), FXBVIT(*),
      .   FXBACC(*), FXBSIG(*), FXBGRVR(*), EIGRPM(NERPM,*),  
-     .   FSKYD(*), DMSPH(*),KNOT(*),WIGE(*),MS_2D(*),
+     .   DMSPH(*),KNOT(*),WIGE(*),MS_2D(*),
      .   KNOTLOCPC(*),KNOTLOCEL(*),XCELL(*),XFACE(*),FCONT_MAX(3,*)
       my_real
      .   RFLOW(*), RCONTACT(*),
@@ -1050,10 +1050,11 @@ C OpenMP specific
      .        PARTFTSK, PARTLTSK, NWAFTSK, I16TSK,
      .        NELTSTT, ITYPTSTT,IGMTSK,NGROUC, NGROUNC,
      .        IGROUC(NGROUP), IGROUNC(NGROUP),
-     .        NSNFIOLD(NSPMD),ADSKYI(0:NUMNOD+1),
+     .        NSNFIOLD(NSPMD),
      .        KINDRBY(NRBYKIN), NINDEX1(NINTER), NINDEX2(NINTER),
      .        NINDEX3(NINTER), NINDEX4(NINTER), KINDRBYM(NRBYM),
      .        OMP_GET_THREAD_NUM,IADISK,RNUM_SIZ,RNS,NINDEXP,NI,LENC,ITHOUT
+      INTEGER, DIMENSION(:), ALLOCATABLE :: ADSKYI !(0:NUMNOD+1),
       EXTERNAL OMP_GET_THREAD_NUM
       INTEGER, DIMENSION(:), ALLOCATABLE :: IBUFIDEL, INDIDEL,RENUM,IBUFSEGLO,
      .                                      INDSEGLO
@@ -1276,16 +1277,17 @@ C-------------------------------------------------------------------------------
 C-----------------------------------------------------------------------------------       
         type(SPH_WORK_) :: SPH_WORK   ! working Areas for SPLISSV and SPHPREP
 C-----------------------------------------------------------------------------------       
-C         Node Spliting 
-C        integer :: fail_counter
-C        integer, dimension(8) :: FAIL_ELEMENT ! (/ 10648, 10649, 10656, 10657, 10624, 10625, 10632, 10633 /)
-C        integer, dimension(9) :: FAIL_NODES ! (/ 10653, 11092, 10669, 11121, 10668, 11118, 10667, 11031, 10623 /)
-C        fail_counter = 0
-C        FAIL_ELEMENT = (/ 10648, 10649, 10656, 10657, 10624, 10625, 10632, 10633 /) 
-C        FAIL_NODES = (/ 10653, 11092, 10669, 11121, 10668, 11118, 10667, 11031, 10623 /)
+C         Node Spliting (hardcoded example) 
+c        integer :: fail_counter
+c        integer, dimension(8) :: FAIL_ELEMENT ! (/ 10648, 10649, 10656, 10657, 10624, 10625, 10632, 10633 /)
+c        integer, dimension(9) :: FAIL_NODES ! (/ 10653, 11092, 10669, 11121, 10668, 11118, 10667, 11031, 10623 /)
+c        fail_counter = 0
+c        FAIL_ELEMENT = (/ 10648, 10649, 10656, 10657, 10624, 10625, 10632, 10633 /) 
+c        FAIL_NODES = (/ 10653, 11092, 10669, 11121, 10668, 11118, 10667, 11031, 10623 /)
 C-----------------------------------------------------------------------------------
 C-----------------------------------------------------------------------------------
       CALL PREPARE_DEBUG(NODES%ITAB,NUMNOD)
+      ALLOCATE(ADSKYI(0:NUMNOD+1))
       BOOL_RESTART = .TRUE.
       STATE_H3D = 0 
       STATE_ANIM = 0
@@ -1383,7 +1385,7 @@ C
         NUMSPH_GLO_R2R = 0
         FLG_SPHINOUT_R2R = 0  
 
-        CALL ASSINIT(ADSKY,IAD_ELEM,FR_ELEM,PROCNE,LISENDP,LIRECVP)
+        CALL ASSINIT(ELEMENT%PON%ADSKY,IAD_ELEM,FR_ELEM,PROCNE,LISENDP,LIRECVP)
         IF(IPLYXFEM > 0 )
      .    CALL ASSINIT_PXFEM(ADSKY_PXFEM,INOD_PXFEM,IAD_ELEM,FR_ELEM,
      .                       PROCNE_PXFEM,LISENDP_PXFEM,LIRECVP_PXFEM)
@@ -1409,8 +1411,8 @@ C
         ALLOCATE(DRETRI(5*NINTER))
         ALLOCATE(XSEC(3*4*NSECT))
         ALLOCATE(IRBKIN_L(NRBYKIN))       
-        ALLOCATE(ISENDP(MIN(LISENDP,1):LISENDP))
-        ALLOCATE(IRECVP(MIN(LIRECVP,1):LIRECVP))
+        ALLOCATE(ELEMENT%PON%ISENDP(MIN(LISENDP,1):LISENDP))
+        ALLOCATE(ELEMENT%PON%IRECVP(MIN(LIRECVP,1):LIRECVP))
         ALLOCATE(ISENDP_PXFEM(MIN(LISENDP_PXFEM,1):LISENDP_PXFEM))
         ALLOCATE(IRECVP_PXFEM(MIN(LIRECVP_PXFEM,1):LIRECVP_PXFEM))
         ALLOCATE(ISENDP_CRK(MIN(LISENDP_CRK,1):LISENDP_CRK))
@@ -2081,11 +2083,11 @@ C save the Python functions into the Python interpreter dictionarry
      .          ELEMENT%SHELL%IXC         ,IXTG      , IXS, IXQ, PM          ,BUFMAT     ,
      .          EANI,  
      .          IPM         ,IGEO      ,THKE      ,ERR_THK_SH4 ,ERR_THK_SH3,  
-     .          NODES%X           ,NODES%V         ,W           ,ALE_CONNECTIVITY,
+     .          NODES                  ,W           ,ALE_CONNECTIVITY,  
      .          NERCVOIS    ,NESDVOIS  ,LERCVOIS    ,LESDVOIS,  
      .          M51_N0PHAS, M51_NVPHAS, STACK       ,
      .          IPART(K3:K4-1),IPART(K1:K2-1),IPART(K8:K9-1), IPART(K2:K3-1), 
-     .          NODES%D           , MULTI_FVM ,
+     .          MULTI_FVM ,  
      .          MAT_ELEM%MAT_PARAM , FANI_CELL,GLOB_THERM%ITHERM)
 
 C========================================================================================
@@ -2127,7 +2129,7 @@ C Init var parallel SMP
      3      GREFTSK,GRELTSK)
 C
         CALL RESOL_INIT(
-     1   ITSK     ,IADS(LL1),IADS(LL2),IADS(LL3),FR_NBCC  ,
+     1   ITSK     ,FR_NBCC  ,
      2   ISENDTO  ,IRCVFROM ,IAD_ELEM ,FR_ELEM  ,NODES%ITABM1   ,
      3   IPARI    ,IPARG    ,NODES%ITAB     ,IXS(L1)  ,IXS(L2)  ,
      4   I13A     ,I13B     ,I13C     ,I13D     ,I13E     ,
@@ -2138,8 +2140,8 @@ C
      9   NFIA     ,NFEA     ,NFOA     ,NDMA     ,NDMA2    ,
      A   NODFTSK  ,NODLTSK  ,NDTSK    ,NUMNTSK  ,IXS(L3)  ,
      B   IXS      ,IXQ      ,ELEMENT%SHELL%IXC      ,IXT      ,IXP      ,
-     C   IXR      ,IXTG     ,ADSKY    ,IADS     ,NODES%IKINE    ,
-     D   FSKY     ,NODES%A        ,NODES%AR       ,NODES%V        ,NODES%VR       ,
+     C   IXR      ,IXTG     ,ELEMENT%PON, NODES%IKINE    ,
+     D   NODES%A        ,NODES%AR       ,NODES%V        ,NODES%VR       ,
      E   NODES%X        ,NODES%D        ,NODES%MS       ,NODES%IN ,NODES%STIFN    ,
      F   NODES%STIFR    ,DMAS     ,DINER    ,FANI     ,ANIN     ,
      G             WA       ,UWA      ,PM       ,GEO      ,
@@ -2148,15 +2150,15 @@ C
      J   I15J     ,KXX      ,
      K   SECBUF   ,SECFCUM  ,NSTRF    ,IGRNOD   ,IEXLNK   ,
      L   XFRAME   ,
-     M   FSKYM    ,IXTG1    ,IBCL     ,NODES%VISCN    ,DD_R2R   ,
+     M   IXTG1    ,IBCL     ,NODES%VISCN    ,DD_R2R   ,
      O   ELBUF    ,IPART    ,MADPRT   ,MADSH4   ,
      P   MADSH3   ,MADSOL   ,MADNOD   ,MADFAIL  ,IGEO     ,
      Q   INTLIST  ,NBINTC   ,PROCNE   ,NISKYFI  ,NODES%WEIGHT   ,
      R   ISIZXV   ,ILENXV   ,ADDCNI2  ,PROCNI2  ,IAD_I2M  ,
      S   FR_I2M   ,FR_NBCCI2,I2SIZE   ,FR_MAD   ,LWIBEM   ,
      T   LWRBEM   ,FXBFP    ,FXBEFW   ,FXBEDP   ,FXBGRP   ,
-     U   FXBGRW   ,NDIN     ,IADSDP   ,IADRCP   ,ISENDP   ,
-     V   IRECVP   ,ISLEN7   ,IRLEN7   ,ISLEN11  ,IRLEN11  ,
+     U   FXBGRW   ,NDIN    ,
+     V   ISLEN7   ,IRLEN7   ,ISLEN11  ,IRLEN11  ,
      W   LWIFLOW  ,LWRFLOW  ,IFLOW    ,ADDCNEL  ,CNEL     ,
      X   ADDTMPL  ,IPARTL   ,NPARTL   ,NFNCA    ,NFTCA    ,
      Y   I15ATH   ,I35ATH   ,IPM      ,SH4TREE  ,IPADMESH ,
@@ -2198,10 +2200,11 @@ C
      9   ISKWN  ,IFRAME  ,LOADS ,GLOB_THERM,PBLAST)
 
 !$OMP END PARALLEL
+       IF (ALEMUSCL_Param%IALEMUSCL == 0) DEALLOCATE(ADDTMPL)
 C========================================================================================
 C                                  NON PARALLEL SECTION (SMP)
 C========================================================================================
-       CALL SPLIT_ASSPAR4(ADSKY,NUMNOD,NTHREAD,NODFT_ASSPAR,NODLT_ASSPAR,SADSKY)
+       CALL SPLIT_ASSPAR4(ELEMENT%PON%ADSKY,NUMNOD,NTHREAD,NODFT_ASSPAR,NODLT_ASSPAR,ELEMENT%PON%SADSKY)
 !  shell offset for contact (penalty), should use XYZ instead of X to take into account the offset
        IF (SH_OFFSET_TAB%NNSH_OSET > 0 .AND. IMPL_S==0) THEN
            ALLOCATE(XYZ(3,NUMNOD))
@@ -2538,7 +2541,7 @@ C Init var parallel SMP
      .                                        NBINTC,NIXS,NIXC,NIXTG,NUMNOD,  
      .                                        NUMELS,NUMELC,NUMELTG,S_ELEM_STATE, 
      .                                        NBDDEDGT,NBDDEDG_MAX,  
-     .                                        ELEM_STATE,IPARI,INTLIST,NODES%ITAB,NODES%ITABM1,
+     .                                        ELEM_STATE,IPARI,INTLIST,NODES,
      .                                        NEWFRONT,IXS,ELEMENT%SHELL%IXC,IXTG,
      .                                        IAD_ELEM,ptrX,
      .                                        INTERFACES%INTBUF_TAB,INTERFACES%SPMD_ARRAYS,SHOOT_STRUCT  )
@@ -3406,7 +3409,7 @@ C-------------------------------------------------------------------
             ENDIF
             CALL DESACTI(IXS     ,IXQ     ,ELEMENT%SHELL%IXC     ,IXP     ,IXT      ,
      .                   IXR     ,IXTG    ,IPARG   ,IACTIV  ,
-     .                   NSENSOR ,SENSORS%SENSOR_TAB,FSKY    ,NODES%X       ,ELBUF_TAB,
+     .                   NSENSOR ,SENSORS%SENSOR_TAB,ELEMENT%PON%FSKY    ,NODES%X       ,ELBUF_TAB,
      .                   IBCV    ,FCONV   ,IBCR    ,FRADIA  ,IGROUPS  ,
      .                   FACTIV  ,TEMP     ,MCP     ,PM      ,MCP_OFF  ,
      .                   IGRBRIC ,IGRQUAD  ,IGRSH4N ,IGRSH3N ,IGRTRUSS ,
@@ -3431,8 +3434,8 @@ C-------------------------------------------------------------------
      1               NIBCLD  ,IBCL     ,LFACCLD  ,FORC     ,SNPC                      ,
      2               NPC     ,STF      ,TF       ,NODES%A        ,NODES%V                         ,
      3               NODES%X       ,SKEWS    ,NODES%AR                        ,
-     4               NODES%VR      ,NSENSOR  ,SENSORS%SENSOR_TAB ,TFEXC                     ,IADS(I87J) ,
-     5               LSKY    ,FSKY     ,FEXT     ,H3D_DATA ,CPTREAC                   ,
+     4               NODES%VR      ,NSENSOR  ,SENSORS%SENSOR_TAB ,TFEXC          ,ELEMENT%PON%IAD_CONLD ,
+     5               LSKY    ,ELEMENT%PON%FSKY     ,FEXT     ,H3D_DATA ,CPTREAC                   ,
      6               FTHREAC ,NODREAC  ,OUTPUT%TH%TH_SURF  ,
      7               DPL0CLD ,VEL0CLD  ,NODES%D        ,NODES%DR       ,NCONLD                    ,
      8               NUMNOD  ,NFUNCT   ,ANIM_V   ,OUTP_V                    ,
@@ -3442,8 +3445,8 @@ C
         IF (NPINCH > 0) THEN
           CALL FORCEPINCH(IBCL   ,FORC    ,NPC    ,TF      ,NODES%A         ,
      2                    NODES%V      ,NODES%X       ,SKEWS%SKEW   ,NODES%AR      ,NODES%VR        ,
-     3                    NSENSOR,SENSORS%SENSOR_TAB ,NODES%WEIGHT ,TFEXC   ,IADS(I87J),
-     4                    FSKY   , FSKY   ,FEXT   ,H3D_DATA,
+     3                    NSENSOR,SENSORS%SENSOR_TAB ,NODES%WEIGHT ,TFEXC   ,ELEMENT%PON%IAD_CONLD,
+     4                    ELEMENT%PON%FSKY   , ELEMENT%PON%FSKY   ,FEXT   ,H3D_DATA,
      5                    PINCH_DATA%APINCH, PINCH_DATA%VPINCH, PYTHON)  
         ENDIF
 C
@@ -3459,7 +3462,7 @@ C
             IF(IMONM > 0) CALL STARTIME(TIMERS,44)
           ENDIF
           CALL FORCEFINGEO(IBFV ,NPC    ,TF      ,NODES%A    ,NODES%V    ,NODES%X     ,
-     2                     VEL  ,SENSORS%SENSOR_TAB ,FSKY ,FEXT ,NODES%ITABM1,
+     2                     VEL  ,SENSORS%SENSOR_TAB ,ELEMENT%PON%FSKY ,FEXT ,NODES%ITABM1,
      3                     H3D_DATA,NSENSOR,PYTHON)
           IF(IMON>0) THEN
             IF(IMONM > 0) CALL STOPTIME(TIMERS,44)
@@ -3477,8 +3480,8 @@ C-------------------------------------------------------------------
 !$OMP PARALLEL
           CALL PFLUID(ILOADP  ,LOADP             ,NPC        ,TF         ,NODES%A         ,
      2                NODES%V       ,NODES%X                 ,XFRAME     ,NODES%MS         ,
-     3                NSENSOR ,SENSORS%SENSOR_TAB,TFEXC      ,IADS(I87M) ,
-     4                FSKY    ,FSKY              ,LLOADP     ,FEXT       ,H3D_DATA  ,
+     3                NSENSOR ,SENSORS%SENSOR_TAB,TFEXC      ,ELEMENT%PON%IAD_LOADP ,
+     4                ELEMENT%PON%FSKY    ,ELEMENT%PON%FSKY              ,LLOADP     ,FEXT       ,H3D_DATA  ,
      5                OUTPUT%TH%TH_SURF, PYTHON)
 !$OMP END PARALLEL
         IF (IMONM > 0) CALL STOPTIME(TIMERS,41)
@@ -3494,7 +3497,7 @@ C----------------------------------
           IF (IMON>0) CALL STARTIME(TIMERS,TIMER_KIN)
           IF (IMONM > 0) CALL STARTIME(TIMERS,41)
           CALL PBLAST_LOAD_COMPUTATION(PBLAST,ILOADP     ,LOADP      ,NODES%A                ,NODES%V                ,NODES%X      ,
-     1                IADS(I87M) ,FSKY       ,LLOADP           ,FEXT   ,
+     1                ELEMENT%PON%IAD_LOADP ,ELEMENT%PON%FSKY       ,LLOADP           ,FEXT   ,
      2                NODES%ITAB       ,H3D_DATA   ,OUTPUT%TH%TH_SURF)
           IF (IMONM > 0) CALL STOPTIME(TIMERS,41)
           IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
@@ -3514,7 +3517,7 @@ C----------------------------------
           CALL PRESSURE_CYL(
      .         LOADS     ,TABLE     ,SENSORS%NSENSOR,SENSORS%SENSOR_TAB,IFRAME    ,
      .         DT1       ,NODES%X         ,NODES%V         ,NODES%A         ,FEXT      ,
-     .         H3D_DATA  ,CPTREAC   ,FTHREAC   ,NODREAC   ,FSKY      )
+     .         H3D_DATA  ,CPTREAC   ,FTHREAC   ,NODREAC   ,ELEMENT%PON%FSKY      )
         ENDIF  
 !-------------------------------------------------------------------
 !       offset projection for contact ! add smp // after
@@ -3538,7 +3541,7 @@ C----------------------------------------------
             IF (IMON>0) CALL STARTIME(TIMERS,TIMER_KIN)
             IF (IMONM > 0) CALL STARTIME(TIMERS,41)
               CALL CONVEC(IBCV  ,FCONV   ,NPC   ,TF   , NODES%X     ,
-     1                  TEMP    ,NSENSOR,SENSORS%SENSOR_TAB,FTHE, IADS(I87K),
+     1                  TEMP    ,NSENSOR,SENSORS%SENSOR_TAB,FTHE, ELEMENT%PON%IAD_CONV,
      2                  FTHESKY, PYTHON,GLOB_THERM)
             IF (IMONM > 0) CALL STOPTIME(TIMERS,41)
             IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
@@ -3550,7 +3553,7 @@ C-----------------------------------------------------------
             IF (IMON>0) CALL STARTIME(TIMERS,TIMER_KIN)
             IF (IMONM > 0) CALL STARTIME(TIMERS,41)
             CALL RADIATION(IBCR,   FRADIA, NPC,     TF,   NODES%X         ,
-     1                     TEMP,   NSENSOR,SENSORS%SENSOR_TAB, FTHE, IADS(I87L),
+     1                     TEMP,   NSENSOR,SENSORS%SENSOR_TAB, FTHE, ELEMENT%PON%IAD_RADIA,
      2                     FTHESKY, PYTHON,GLOB_THERM)
             IF (IMONM > 0) CALL STOPTIME(TIMERS,41)
             IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
@@ -3569,7 +3572,7 @@ C-------------------------------------------------
           IF (IMON>0) CALL STARTIME(TIMERS,TIMER_KIN)
           IF (IMONM > 0) CALL STARTIME(TIMERS,41)
           CALL FIXFLUX(IBFFLUX, FBFFLUX,  NPC,  TF,     NODES%X,     IXS,
-     .                 NSENSOR,SENSORS%SENSOR_TAB, FTHE, IADS(I87N), FTHESKY, PYTHON,
+     .              NSENSOR,SENSORS%SENSOR_TAB, FTHE, ELEMENT%PON%IAD_FXFLUX, FTHESKY, PYTHON,
      .                 GLOB_THERM)
           IF (IMONM > 0) CALL STOPTIME(TIMERS,41)
           IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
@@ -3599,8 +3602,8 @@ C
      1      MONVOL     ,VOLMON     ,ptrX ,NODES%A   ,
      2      NPC        ,TF         ,NODES%V        ,WA        ,
      3      FSAV(1,N)  ,NSENSOR    ,SENSORS%SENSOR_TAB ,IGRSURF   ,
-     4      FR_MV      ,IADS(I87I) ,SICONTACT,SPORO           ,
-     5      FSKY       ,ICONTACT   ,WA(N0)         ,IPARG     ,
+     4      FR_MV      ,ELEMENT%PON%IAD_MV ,SICONTACT,SPORO           ,
+     5      ELEMENT%PON%FSKY       ,ICONTACT   ,WA(N0)         ,IPARG     ,
      6      ELBUF_TAB  ,GEO        ,IGEO           ,
      7      PM         ,IPM        ,IPART          ,IPART(K3) ,
      8      IPART(K8)  ,IGROUPC    ,IGROUPTG       ,FEXT      ,
@@ -3898,8 +3901,8 @@ C           /---------------/
           END IF
           IFLGADM=1
           CALL ADMGVID(
-     1      IPARG     ,ELBUF_TAB ,FSKY   ,FSKY  ,FTHESKY,
-     2      IADS(I87C),IADS(I87G),IFLGADM,IGROUC,NGROUC ,
+     1      IPARG     ,ELBUF_TAB ,ELEMENT%PON%FSKY   ,ELEMENT%PON%FSKY  ,FTHESKY,
+     2      ELEMENT%PON%IADC,ELEMENT%PON%IAD_TG,IFLGADM,IGROUC,NGROUC ,
      3      CONDNSKY  ,GLOB_THERM%NODADT_THERM)
           CALL MY_BARRIER
           NGDONE = 1    
@@ -3972,15 +3975,15 @@ C
            CALL ALEMAIN(TIMERS,
      1          PM                    ,GEO      ,NODES%X       ,NODES%A(1,NDTSK)  ,NODES%AR(1,NDTSK) ,NODES%V ,
      2          NODES%MS              ,WA       ,ELBUF_TAB     ,BUFMAT            ,PARTSAV(IPMTSK)     ,TF,
-     3          VAL2                  ,VEUL     ,FV            ,NODES%STIFN(NDTSK),FSKY                ,EANI,
+     3          VAL2                  ,VEUL     ,FV            ,NODES%STIFN(NDTSK),ELEMENT%PON%FSKY                ,EANI,
      4          PHI                   ,FILL     ,DFILL         ,ALPH              ,SKEWS%SKEW          ,W,
      5          NODES%D               ,DSAVE    ,ASAVE         ,DT2TT             ,DT2SAVE             ,XCELL,
-     6          IPARG                 ,NPC      ,IXS           ,IXQ               ,IXTG                ,IADS,
-     7          IFILL                 ,NODPOR   ,NODES%ICODT   ,NODES%ISKEW       ,IMS ,IADS(I87B)     ,
+     6          IPARG                 ,NPC      ,IXS           ,IXQ,   IXTG             ,ELEMENT%PON%IADS,
+     7          IFILL                 ,NODPOR   ,NODES%ICODT   ,NODES%ISKEW       ,IMS ,ELEMENT%PON%IADQ     ,
      8          NELTSTT               ,ITYPTSTT ,IPART         ,IPART(K1)         ,IPART(K2)           ,ITSK    ,
      A          NODFTSK               ,NODLTSK  ,NBRCVOIS      ,TEMP              ,OUTPUT%TH%TH_SURF%CHANNELS,
      B          NBSDVOIS              ,LNRCVOIS ,LNSDVOIS      ,NERCVOIS          ,NESDVOIS           ,LERCVOIS  ,
-     C          LESDVOIS              ,ISIZXV   ,IAD_ELEM      ,FR_ELEM           ,FSKYM              ,MSNF      ,
+     C          LESDVOIS              ,ISIZXV   ,IAD_ELEM      ,FR_ELEM           ,ELEMENT%PON%FSKYM              ,MSNF      ,
      D          IPARI                 ,SEGVAR   ,NODES%ITAB    ,ISKWN             ,DIFFUSION          ,IRESP,
      E          VOLMON                ,FSAV     ,IGRSURF       ,NELTSA            ,
      F          ITYPTSA               ,NODES%WEIGHT ,NPSEGCOM  ,LSEGCOM           ,IPM                ,IGEO,
@@ -4050,10 +4053,10 @@ C----------------------------------
      1    PM        ,GEO       ,NODES%X         ,NODES%A         ,NODES%AR        ,
      2    NODES%V         ,NODES%VR        ,NODES%MS        ,NODES%IN        ,W         ,
      3    ELBUF                ,VAL2      ,VEUL      ,FV        ,
-     4    NODES%STIFN     ,NODES%STIFR     ,FSKY      ,TF        ,BUFMAT    ,
+     4    NODES%STIFN     ,NODES%STIFR     ,ELEMENT%PON%FSKY      ,TF        ,BUFMAT    ,
      5    PARTSAV   ,FANI(1,NFOA+1),FSAV  ,
      6    SKEWS%SKEW,DT2T      ,
-     7    IADS      ,IPARG     ,NPC       ,IXS       ,
+     7    ELEMENT%PON%IADS      ,IPARG     ,NPC       ,IXS       ,
      8    NELTST    ,ITYPTST   ,IPART     ,IPART(K1) ,NODES%ITAB      ,
      9    FSKYI     ,BUFGEO    ,KXX       ,IXX       ,ISKY      ,
      A    IPART(K9) ,GRESAV    ,GRTH      ,
@@ -4576,17 +4579,17 @@ C Init var parallel SMP
       IF(IPARIT == 1) NDTSK = 1 
       CALL FORINTC(TIMERS,
      1   PM           ,GEO             ,NODES%X               ,NODES%A(1,NDTSK)     ,NODES%AR(1,NDTSK)  ,
-     2   NODES%V            ,NODES%VR              ,NODES%MS              ,NODES%IN             ,NLOC_DMG     ,
-     3   WA(NWAFTSK)  ,NODES%STIFN(NDTSK)    ,NODES%STIFR(NDTSK)    ,FSKY           ,CRKSKY       ,
-     4   TF           ,BUFMAT          ,PARTSAV(IPMTSK) ,NODES%D              ,MAT_ELEM     ,
-     5   NODES%DR           ,EANI            ,TANI            ,FANI(1,NFOA+1) ,
+     2   NODES%V            ,NODES%VR              ,NODES%MS              ,NODES%IN             ,NLOC_DMG     , 
+     3   WA(NWAFTSK)  ,NODES%STIFN(NDTSK)    ,NODES%STIFR(NDTSK)    ,ELEMENT%PON%FSKY           ,CRKSKY       , 
+     4   TF           ,BUFMAT          ,PARTSAV(IPMTSK) ,NODES%D              ,MAT_ELEM     , 
+     5   NODES%DR           ,EANI            ,TANI            ,FANI(1,NFOA+1) ,      
      6   FSAV         ,SENSORS         ,SKEWS%SKEW      ,ANIN(NDMA2+1)  ,FAILWAVE     ,
-     7   DT2TT        ,THKE            ,BUFGEO          ,IADS(I87C)     ,IADS(I87G)   , 
-     8   IPARG        ,NPC             ,ELEMENT%SHELL%IXC             ,IXTG           ,NELTSTT      ,
+     7   DT2TT        ,THKE            ,BUFGEO          ,ELEMENT%PON%IADC     ,ELEMENT%PON%IAD_TG   , 
+     8   IPARG        ,NPC             ,ELEMENT%SHELL%IXC             ,IXTG           ,NELTSTT      , 
      9   IPARI        ,ITYPTSTT        ,NSTRF           ,        
      A   IPART        ,IPART(K3)       ,IPART(K8)       ,SECFCUM        ,                  
      B   FSAVD        ,MAT_ELEM%GROUP_PARAM , 
-     E   FZERO        ,IXTG1           ,IADS(LLT1)      ,IGEO           ,IPM          ,
+     E   FZERO        ,IXTG1           ,ELEMENT%PON%IAD_TG6      ,IGEO           ,IPM          ,
      F   MADFAIL      ,XSEC            ,ITSK            ,MCP          ,
      G   TEMP         ,FTHE(IDX_FTHE)  ,FTHESKY         ,
      H   MS_PLY       ,ZI_PLY          ,INOD_PXFEM      ,XEDGE4N       ,XEDGE3N       ,
@@ -4658,21 +4661,21 @@ C
      1 PM             ,GEO           ,NODES%X           ,NODES%A(1,NDTSK) ,NODES%AR(1,NDTSK)     ,
      2 NODES%V              ,NODES%VR            ,NODES%MS          ,NODES%IN         ,W               ,
      3 ELBUF          ,WA(NWAFTSK)   ,VAL2        ,VEUL       ,FV              ,
-     4 NODES%STIFN(NDTSK)   ,NODES%STIFR(NDTSK)  ,FSKY        ,TF         ,BUFMAT          ,
+     4 NODES%STIFN(NDTSK)   ,NODES%STIFR(NDTSK)  ,ELEMENT%PON%FSKY        ,TF         ,BUFMAT          ,
      5 PARTSAV(IPMTSK),NODES%D             ,NODES%DR          ,EANI       ,ELBUF_TAB       ,
      6 TANI           ,FANI(1,NFOA+1),FSAV        ,SENSORS    ,NLOC_DMG        ,
      7 SKEWS%SKEW     ,ANIN(NDMA2+1) ,DT2TT       ,BUFGEO     ,NODES%ITAB            ,
-     8 IADS           ,IADS(I87B)    ,IADS(I87D)  ,IADS(I87E) ,MAT_ELEM        ,
-     9 IADS(I87F)     ,IPARG         ,ALE_CONNECTIVITY,NPC    ,
+     8 ELEMENT%PON%IADS    ,ELEMENT%PON%IADQ    ,ELEMENT%PON%IAD_TRUSS  ,ELEMENT%PON%IAD_BEAM ,MAT_ELEM        ,
+     9 ELEMENT%PON%IAD_SPRING     ,IPARG         ,ALE_CONNECTIVITY,NPC    ,
      A IXS            ,IXQ           ,IXT         ,IXP        ,
      B IXR            ,NELTSTT       ,IPARI       ,
      C ITYPTSTT       ,NSTRF         ,IPART       ,
      D IPART(K1)      ,IPART(K2)     ,IPART(K4)   ,IPART(K5)  ,
      E IPART(K6)      ,IPART(K7)     ,FR_WAVE     ,RBY           ,
-     F IADS(I87H)     ,SECFCUM       ,AGRV        ,IGRV       ,LGRAV           ,
+     F SECFCUM        ,AGRV        ,IGRV       ,LGRAV           ,
      G IXS(L1)        ,
-     H IXS(L2)        ,IADS(LL1)     ,IADS(LL2)   ,IXS(L3)    ,IADS(LL3)       ,
-     I W16(I16TSK)    ,FSKYM         ,MSNF        ,IGEO       ,IPM             ,
+     H IXS(L2)        ,ELEMENT%PON%IADS10     ,ELEMENT%PON%IADS20   ,IXS(L3)    ,ELEMENT%PON%IADS16       ,
+     I W16(I16TSK)    ,ELEMENT%PON%FSKYM         ,MSNF        ,IGEO       ,IPM             ,
      J XSEC           ,ITSK          ,TEMP           ,
      K FTHE(IDX_FTHE) ,FTHESKY                    ,IGROUNC    ,NGROUNC         ,
      M GRESAV(IGMTSK) ,GRTH          ,IGRTH       ,NODES%XDP        ,MSSA            ,
@@ -4733,7 +4736,7 @@ C Init var parallel SMP
      7    ISPHIO  ,VSPHIO  ,IGRSURF ,NODES%D        ,
      8    SPHVELN ,ITSK    ,NODES%XDP     ,IBUFSSG_IO,LGAUGE  ,
      9    GAUGE   ,NGROUNC ,IGROUNC ,SOL2SPH ,SPH2SOL   ,
-     A    IXS     ,IADS    ,ADSKY   ,FSKYD   ,DMSPH(NDTSK),
+     A    IXS     ,ELEMENT%PON%IADS    ,ELEMENT%PON%ADSKY   ,ELEMENT%PON%FSKYD   ,DMSPH(NDTSK),
      B    WASPH(KSPACTIV),ICONTACT_OLD,OFF_SPH_R2R,WSMCOMP,IRUNN_BIS,
      C    SPH_IORD1,SPH_WORK)
 !$OMP END PARALLEL
@@ -4767,11 +4770,11 @@ C----------------------------------
 C       SPH: Internal forces 
 C----------------------------------
         CALL FORINTP(TIMERS,
-     1    PM            ,GEO            ,NODES%X          ,NODES%A(1,NDTSK)      ,NODES%V             ,
-     2    NODES%MS            ,W              ,ELBUF_TAB  ,WA              ,FV            ,
-     3    NODES%STIFN(NDTSK)  ,TF             ,BUFMAT     ,PARTSAV(IPMTSK) ,NLOC_DMG      ,
-     4    FSAV          ,DT2TT          ,IADS       ,IPARG           ,NPC           ,  
-     5    NELTSTT       ,ITYPTSTT       ,IPART      ,NODES%ITAB            ,ISKY          ,
+     1    PM            ,GEO            ,NODES%X          ,NODES%A(1,NDTSK)      ,NODES%V             ,   
+     2    NODES%MS            ,W              ,ELBUF_TAB  ,WA              ,FV            , 
+     3    NODES%STIFN(NDTSK)  ,TF             ,BUFMAT     ,PARTSAV(IPMTSK) ,NLOC_DMG      ,    
+     4    FSAV          ,DT2TT          ,ELEMENT%PON%IADS       ,IPARG           ,NPC           ,  
+     5    NELTSTT       ,ITYPTSTT       ,IPART      ,NODES%ITAB            ,ISKY          ,  
      6    BUFGEO        ,FSKYI          ,XFRAME     ,KXSP            ,IXSP          ,  
      7    NOD2SP        ,IPART(K10)     ,SPBUF      ,ISPCOND         ,ISPSYM        ,  
      8    XSPSYM%BUF    ,VSPSYM%BUF     ,                 
@@ -4779,7 +4782,7 @@ C----------------------------------
      A    VSPHIO        ,SPHVELN        ,ITSK       ,IPM             ,GRESAV(IGMTSK),
      B    GRTH          ,IGRTH(IAD_GREL),TABLE      ,LGAUGE          ,GAUGE         ,
      C    NGROUNC       ,IGROUNC        ,IXS        ,IRST            ,SOL2SPH       ,
-     D    SPH2SOL       ,FSKY           ,FSKY       ,IGEO            ,TEMP          ,
+     D    SPH2SOL       ,ELEMENT%PON%FSKY           ,ELEMENT%PON%FSKY       ,IGEO            ,TEMP          ,
      E    FTHE          ,FTHESKYI       ,SPHG_F6    ,WSMCOMP%BUF     ,SOL2SPH_TYP   ,
      F    MAt_ELEM      ,OUTPUT         ,SPH_IORD1  ,SNPC            ,STF           ,
      G    SBUFMAT       ,NSVOIS         ,IDTMINS    ,IRESP           ,MAXFUNC       ,
@@ -4850,8 +4853,8 @@ C
      1      MONVOL     ,VOLMON     ,ptrX           ,NODES%A    ,
      2      NPC        ,TF         ,NODES%V              ,WA   ,
      3      FSAV(1,N)  ,NSENSOR    ,SENSORS%SENSOR_TAB ,IGRSURF   ,
-     4      FR_MV      ,IADS(I87I) ,SICONTACT,SPORO           ,
-     5      FSKY       ,ICONTACT   ,WA(N0)         ,IPARG     ,
+     4      FR_MV      ,ELEMENT%PON%IAD_MV ,SICONTACT,SPORO           ,
+     5      ELEMENT%PON%FSKY       ,ICONTACT   ,WA(N0)         ,IPARG     ,
      6      ELBUF_TAB  ,GEO        ,IGEO           ,
      7      PM         ,IPM        ,IPART          ,IPART(K3) ,
      8      IPART(K8)  ,IGROUPC    ,IGROUPTG       ,FEXT      ,
@@ -4950,7 +4953,7 @@ C
           IF (IMONM > 0) CALL STARTIME(TIMERS,41)
             CALL LOAD_PRESSURE (ILOADP    ,LOADP     ,LLOADP  ,NPC    ,TF       ,
      2                          NODES%A         ,NODES%V         ,NODES%X       ,SKEWS%SKEW   ,SENSORS%SENSOR_TAB,
-     3                          IADS(I87M),FSKY      ,FANI(1,1+NFEA),TAGNCONT ,NSENSOR   ,
+     3                          ELEMENT%PON%IAD_LOADP,ELEMENT%PON%FSKY      ,FANI(1,1+NFEA),TAGNCONT ,NSENSOR   ,
      4                          LOADP_HYD_INTER,H3D_DATA , PYTHON, 
      5                          NPRESLOAD ,LOADP_TAGDEL,OUTPUT%TH%TH_SURF,PBLAST)
 
@@ -5063,9 +5066,9 @@ C====== Nitsche equivalent nodal force computation FORNEQS ===========
             CALL ASSIGN_PTRX(ptrX,NODES%X,NUMNOD)
           ENDIF
           CALL  I24NITSCHFOR3 (IPARI   ,INTERFACES%INTBUF_TAB,IPARIT  ,STRESSMEAN ,
-     2                        INTLIST ,NBINTC     ,ptrX     ,IADS       ,
+     2                        INTLIST ,NBINTC     ,ptrX,ELEMENT%PON%IADS,
      3                        FORNEQS ,FORNEQSKY  ,NODES%ITAB    ,IXS        ,
-     4                        IADS(LL1),IADS(LL2) ,IADS(LL3),NFACNIT   )
+     4                        ELEMENT%PON%IADS10,ELEMENT%PON%IADS20 ,ELEMENT%PON%IADS16,NFACNIT   )
         ENDIF
        ENDIF
 
@@ -5184,13 +5187,13 @@ C
           IF(H3D_DATA%N_VECT_PCONT_MAX /=0.AND.NINTSTAMP==0) LENC = LENC+6*LENI
 
           CALL SPMD_EXCH2_A_PON(
-     1     IAD_ELEM    ,FR_ELEM   ,ADSKY   ,PROCNE    ,FR_NBCC     ,
-     2     LENGTH        ,LENR      ,LENS    ,FSKY      ,FSKY        ,
-     3     FSKYM       ,ALE%SUB%IFSUBM    ,SIZI    ,LENI      ,IADSDP      ,
-     4     IADRCP      ,ISENDP    ,IRECVP  ,FFSKY     ,PROCNE_PXFEM,
+     1     IAD_ELEM    ,FR_ELEM   ,ELEMENT%PON%ADSKY   ,PROCNE    ,FR_NBCC     ,
+     2     LENGTH        ,LENR      ,LENS    ,ELEMENT%PON%FSKY      ,ELEMENT%PON%FSKY        ,
+     3     ELEMENT%PON%FSKYM       ,ALE%SUB%IFSUBM    ,SIZI    ,LENI      ,ELEMENT%PON%IADSDP      ,
+     4     ELEMENT%PON%IADRCP      ,ELEMENT%PON%ISENDP    ,ELEMENT%PON%IRECVP  ,FFSKY     ,PROCNE_PXFEM,
      5     FR_NBCC1    ,IADSDP_PXFEM,IADRCP_PXFEM     ,ISENDP_PXFEM,
      6     IRECVP_PXFEM,LENR1     ,LENS1   ,IADSDP_CRK,IADRCP_CRK  ,
-     7     ISENDP_CRK  ,IRECVP_CRK,FSKYD   ,CRKNODIAD ,CRKSKY      ,
+     7     ISENDP_CRK  ,IRECVP_CRK,ELEMENT%PON%FSKYD   ,CRKNODIAD ,CRKSKY      ,
      8     FORNEQSKY   ,NFACNIT  ,LENC     , FANI     ,H3D_DATA    ,
      9     FANI(1,NFNCA+1),FANI(1,NFTCA+1) ,GLOB_THERM)
 C
@@ -5230,14 +5233,13 @@ C===============================================================================
 C------------------------
 C Assembly Parith/ON spmd+multi-thread
 C------------------------
-        CALL ASSPAR4(
-     1       NODES%A      ,NODES%AR      ,NODES%STIFN  ,NODES%STIFR       ,NODES%MS    ,
-     2       FSKY   ,FSKY    ,ADSKY  ,ADSKY(IAD1B),FSKYM ,
-     3       MSNF   ,ISKY    ,FSKYI  ,NODES%VISCN       ,FTHE  ,
+        CALL ASSPAR4(NODES,
+     2       ELEMENT%PON%FSKY   ,ELEMENT%PON%FSKY    ,ELEMENT%PON%ADSKY  ,ELEMENT%PON%FSKYM ,
+     3       MSNF   ,ISKY    ,FSKYI  ,FTHE  ,
      4       FTHESKY,FTHESKYI,NODFTSK,NODLTSK     ,ADSKYI,
      5       PARTSAV,PARTFTSK ,PARTLTSK ,ITSK     ,GREFTSK ,
      6       GRELTSK  ,GRESAV   ,AFLOW    ,FFSKY    ,MSF   ,
-     7       ADSKY_PXFEM, INOD_PXFEM    ,NODES%ITAB     ,FSKYD ,
+     7       ADSKY_PXFEM, INOD_PXFEM    ,ELEMENT%PON%FSKYD ,
      8       DMSPH  ,CONDN   ,CONDNSKY  ,CONDNSKYI,
      9       MS_2D,ICNDS10  ,
      A       STIFND ,FORNEQS ,FORNEQSKY ,NFACNIT,NODFTSK_2,
@@ -5281,8 +5283,8 @@ C         /---------------/
 C
         CALL ASSPAR3(
      2       NODES%A          ,NODES%AR         ,ITSK       ,NODFTSK   ,
-     3       NODLTSK    ,NODES%STIFN      ,NODES%STIFR      ,NODES%ITAB      ,FSKY       ,
-     4       FSKY       ,ISKY       ,ADSKY      ,FSKYI     ,
+     3       NODLTSK    ,NODES%STIFN      ,NODES%STIFR      ,NODES%ITAB      ,ELEMENT%PON%FSKY       ,
+     4       ELEMENT%PON%FSKY       ,ISKY       ,ELEMENT%PON%ADSKY      ,FSKYI     ,
      5       WA         ,PARTFTSK   ,PARTLTSK   ,PARTSAV   ,NODES%MS         ,
      6       FTHE       ,FTHESKY    ,FTHESKYI   ,GREFTSK     ,GRELTSK      ,
      7       GRESAV     ,GLOB_THERM%ITHERM_FE   ,GLOB_THERM%INTHEAT    )
@@ -5630,7 +5632,7 @@ C WA local  : utilise de 1 a NUMNOD
      .                                        NBINTC,NIXS,NIXC,NIXTG,NUMNOD,
      .                                        NUMELS,NUMELC,NUMELTG,S_ELEM_STATE,
      .                                        NBDDEDGT,NBDDEDG_MAX,
-     .                                        ELEM_STATE,IPARI,INTLIST,NODES%ITAB,NODES%ITABM1,
+     .                                        ELEM_STATE,IPARI,INTLIST,NODES,
      .                                        NEWFRONT,IXS,ELEMENT%SHELL%IXC,IXTG,
      .                                        IAD_ELEM,NODES%X,
      .                                        INTERFACES%INTBUF_TAB,INTERFACES%SPMD_ARRAYS,SHOOT_STRUCT  )
@@ -5687,6 +5689,11 @@ c             write(6,*) "Check:",ELEMENT%SHELL%IXC(7,FAIL_ELEMENT(i))
 c           enddo
 c        endif
 c       call detach_node_from_shells(nodes, FAIL_NODES(fail_counter) ,element,FAIL_ELEMENT,8)
+c       if(iparit == 1) then
+c         call update_pon_shells(element, 8, FAIL_ELEMENT, numnod+1, FAIL_NODES(fail_counter))
+c         DEALLOCATE(ADSKYI)
+c         ALLOCATE(ADSKYI(0:numnod+2))
+c       endif
 c       numnod = numnod + 1
 c       if(ispmd == 0) numnodg = numnodg + 1
 c     endif
@@ -5949,7 +5956,7 @@ C===============================================================================
      1     IPARG,IPARI       ,NODES%MS    ,NODES%IN   ,
      2     IXS  ,IXQ  ,ELEMENT%SHELL%IXC   ,IXT   ,IXP  ,
      3     IXR  ,SKEWS%SKEW ,NODES%ITAB  ,NODES%ITABM1,ISKWN,
-     4     NPBY ,WA   ,LPBY  ,FSKY  ,NSENSOR,
+     4     NPBY ,WA   ,LPBY  ,ELEMENT%PON%FSKY  ,NSENSOR,
      5     RBY  ,NODES%X    ,NODES%V     ,NODES%VR    ,IXTG ,
      6     IGRV ,LGRAV,SENSORS%SENSOR_TAB,NODES%A     ,NODES%AR   ,
      7     FSAV  ,NODES%STIFN ,NODES%STIFR,FANI(1,1+NFOA),NODES%WEIGHT,
@@ -6382,7 +6389,7 @@ C Init var parallel SMP
      2     SKEWS%SKEW    ,ASAVE ,NODES%A      ,NODES%D      ,NELTSTT,
      3     ITYPTSTT,ITSK  ,NODFTSK,NODLTSK,DT2SAVE,
      4     NODES%STIFN   ,DT2TT ,NELTSA ,ITYPTSA,NELTS  ,
-     5     NODES%WEIGHT ,FSKY   ,FSKY   )
+     5     NODES%WEIGHT ,ELEMENT%PON%FSKY   ,ELEMENT%PON%FSKY   )
 
 #include "lockon.inc"
         IF(DT2TT<DT2T)THEN
@@ -8381,11 +8388,11 @@ C===============================================================================
      .          ELEMENT%SHELL%IXC,IXTG, IXS  ,IXQ ,PM          ,BUFMAT     ,
      .          EANI,  
      .          IPM         ,IGEO      ,THKE      ,ERR_THK_SH4 ,ERR_THK_SH3,  
-     .          NODES%X           ,NODES%V         ,W           ,ALE_CONNECTIVITY,
+     .          NODES         ,W           ,ALE_CONNECTIVITY,  
      .          NERCVOIS    ,NESDVOIS  ,LERCVOIS    ,LESDVOIS,  
      .          M51_N0PHAS, M51_NVPHAS, STACK       ,
      .          IPART(K3:K4-1),IPART(K1:K2-1) ,IPART(K8:K9-1),IPART(K1:K2-1), 
-     .          NODES%D           , MULTI_FVM ,
+     .          MULTI_FVM ,  
      .          MAT_ELEM%MAT_PARAM, FANI_CELL,GLOB_THERM%ITHERM)
 
 
@@ -8472,15 +8479,15 @@ C Init var parallel SMP
         CALL ALEFVM_MAIN(
      1   PM         ,GEO      ,NODES%X          ,NODES%A(1,NDTSK)   ,NODES%AR(1,NDTSK)    ,NODES%V         ,
      2   NODES%MS         ,WA       ,ELBUF_TAB  ,BUFMAT       ,PARTSAV(IPMTSK),TF        ,
-     3   VEUL       ,FV       ,FSKY       ,NODES%VR           ,
+     3   VEUL       ,FV       ,ELEMENT%PON%FSKY       ,NODES%VR           ,
      4   SKEWS%SKEW       ,W        ,
      5   NODES%D          ,DT2TT    ,DT2SAVE    ,ALE_CONNECTIVITY        ,
-     6   IPARG      ,NPC      ,IXS        ,IXQ          ,IADS           ,IADS(I87B),
+     6   IPARG      ,NPC      ,IXS        ,IXQ          ,ELEMENT%PON%IADS ,ELEMENT%PON%IADQ,
      7   ALE_CONNECTIVITY%NALE       ,NODES%ISKEW    ,
      8   NELTSTT    ,ITYPTSTT ,IPART      ,IPART(K1)    ,IPART(K2)      ,ITSK      ,
      A   NODFTSK    ,NODLTSK  ,NBRCVOIS   ,
      B   NBSDVOIS   ,LNRCVOIS ,LNSDVOIS   ,NERCVOIS     ,NESDVOIS       ,LERCVOIS  ,
-     C   LESDVOIS   ,ISIZXV   ,IAD_ELEM   ,FR_ELEM      ,FSKYM          ,MSNF      ,
+     C   LESDVOIS   ,ISIZXV   ,IAD_ELEM   ,FR_ELEM      ,ELEMENT%PON%FSKYM          ,MSNF      ,
      D   IPARI      ,SEGVAR   ,NODES%ITAB       ,ISKWN        ,
      E   FSAV     ,
      F   NODES%WEIGHT     ,NPSEGCOM ,LSEGCOM    ,IPM          ,IGEO           ,
@@ -8791,14 +8798,14 @@ C===============================================================================
      2  ELEMENT%SHELL%IXC    ,IXT    ,IXP    ,IXR    ,IXTG1          ,NODES%ITAB   ,NODES%ITABM1 ,
      3  NPC    ,IBCL   ,IBFV   ,SENSORS%SENSOR_TAB,NNLINK ,LNLINK ,IPARG  ,IGRV   ,
      4  IPARI  ,INTERFACES%INTBUF_TAB,NPRW   ,ICONX  ,NPBY,LPBY   ,LRIVET ,
-     5  NSTRF  ,LJOINT ,NODES%ICODT  ,NODES%ICODR  ,ISKY  ,ADSKY,IADS(I87J),
+     5  NSTRF  ,LJOINT ,NODES%ICODT  ,NODES%ICODR  ,ISKY  ,ELEMENT%PON%ADSKY,ELEMENT%PON%IAD_CONLD,
      6  ILINK  ,LLINK  ,NODES%WEIGHT         ,ITASK ,IBVEL  ,LBVEL  ,FBVEL  ,
      7  NODES%X      ,NODES%D      ,NODES%V      ,NODES%VR     ,NODES%DR     ,THKE   ,DAMP   ,NODES%MS     ,
      8  NODES%IN     ,PM     ,SKEWS%SKEW   ,GEO    ,EANI   ,BUFMAT ,BUFGEO ,BUFSF  ,
      9  TF     ,FORC   ,VEL    ,FSAV   ,AGRV   ,FR_WAVE,PARTS0 ,
      A  ELBUF  ,RBY   ,RIVET,FR_ELEM,IAD_ELEM,NSENSOR,
-     B  WA     ,     NODES%A      ,NODES%AR     ,NODES%STIFN  ,NODES%STIFR  ,PARTSAV,FSKY   ,
-     C  FSKYI  ,IFRAME ,XFRAME ,W16    ,IACTIV ,FSKYM  ,IGEO   ,IPM    ,
+     B  WA     ,     NODES%A      ,NODES%AR     ,NODES%STIFN  ,NODES%STIFR  ,PARTSAV,ELEMENT%PON%FSKY   ,
+     C  FSKYI  ,IFRAME ,XFRAME ,W16    ,IACTIV ,ELEMENT%PON%FSKYM  ,IGEO   ,IPM    ,
      D  TFEXT  ,NODFT  ,NODLT  ,NT_IMP ,NUM_IMP,NS_IMP ,NE_IMP ,IND_IMP,
      L  IT     ,RWBUF  ,LPRW    ,FR_WALL,NBINTC ,INTLIST,
      M  FANI(1,1+NFOA+2*(NSECT+NRBODY)),RWSAV  ,FSAVD ,
@@ -8823,14 +8830,14 @@ C----       10,11,12:ELBUF_C,BUFMAT_C,X_C,13,14:DD,DDR,15,16:X_ac,V_zero,23,24:A
      2  ELEMENT%SHELL%IXC    ,IXT    ,IXP    ,IXR    ,IXTG1          ,NODES%ITAB   ,NODES%ITABM1 ,
      3  NPC    ,IBCL   ,IBFV   ,SENSORS%SENSOR_TAB,NNLINK ,LNLINK ,IPARG  ,IGRV   ,
      4  IPARI  ,INTERFACES%INTBUF_TAB,NPRW   ,ICONX  ,NPBY,LPBY   ,LRIVET ,
-     5  NSTRF  ,LJOINT ,NODES%ICODT  ,NODES%ICODR  ,ISKY  ,ADSKY,IADS(I87J),
+     5  NSTRF  ,LJOINT ,NODES%ICODT  ,NODES%ICODR  ,ISKY  ,ELEMENT%PON%ADSKY,ELEMENT%PON%IAD_CONLD,
      6  ILINK  ,LLINK  ,NODES%WEIGHT         ,ITASK ,IBVEL  ,LBVEL  ,FBVEL  ,
      7  NODES%X      ,NODES%D      ,NODES%V      ,NODES%VR     ,NODES%DR     ,THKE   ,DAMP   ,NODES%MS     ,
      8  NODES%IN     ,PM     ,SKEWS   ,GEO    ,EANI   ,BUFMAT ,BUFGEO ,BUFSF  ,
      9  TF     ,FORC   ,VEL    ,FSAV   ,AGRV   ,FR_WAVE,PARTS0 ,
      A  ELBUF  ,RBY   ,RIVET,FR_ELEM,IAD_ELEM,
-     B  WA     ,NODES%A      ,NODES%AR     ,NODES%STIFN  ,NODES%STIFR  ,PARTSAV,FSKY   ,
-     C  FSKYI  ,IFRAME ,XFRAME ,W16    ,IACTIV ,FSKYM  ,IGEO   ,IPM    ,
+     B  WA     ,NODES%A      ,NODES%AR     ,NODES%STIFN  ,NODES%STIFR  ,PARTSAV,ELEMENT%PON%FSKY   ,
+     C  FSKYI  ,IFRAME ,XFRAME ,W16    ,IACTIV ,ELEMENT%PON%FSKYM  ,IGEO   ,IPM    ,
      D  TFEXT  ,NODFT  ,NODLT  ,NT_IMP ,NUM_IMP,NS_IMP ,NE_IMP ,IND_IMP,
      L  IT     ,RWBUF  ,LPRW   ,FR_WALL,NBINTC ,INTLIST,
      M  FANI(1,1+NFOA+2*(NSECT+NRBODY)),RWSAV  ,FSAVD ,
@@ -9139,9 +9146,9 @@ C===============================================================================
      8         NPC             ,LINALE        ,NPRW        ,LAS         ,
      9         IPARI           ,NODFTSK       ,NODLTSK     ,ITSK        ,
      A         IAD_ELEM        ,FR_ELEM       ,NBRCVOIS    ,NBSDVOIS    ,LNRCVOIS   ,
-     B         LNSDVOIS        ,NODES%WEIGHT        ,ADSKY       ,FSKY        ,IADS       ,
+     B         LNSDVOIS        ,NODES%WEIGHT        ,ELEMENT%PON%ADSKY,ELEMENT%PON%FSKY,ELEMENT%PON%IADS,
      C         FR_WALL         ,NPORGEO       ,PROCNE      ,
-     D         FR_NBCC         ,IADS(I87B)    ,NODES%XDP         ,IGRNOD      ,
+     D         FR_NBCC         ,ELEMENT%PON%IADQ    ,NODES%XDP         ,IGRNOD      ,
      E         NODES%DR              ,INTERFACES%INTBUF_TAB    ,NODES%ITAB        ,MULTI_FVM   ,
      F         ALE_CONNECTIVITY,NODES%DDP           ,NE_NERCVOIS ,NE_NESDVOIS ,
      G         NE_LERCVOIS     ,NE_LESDVOIS   ,XCELL       ,XFACE      )
@@ -9527,7 +9534,7 @@ C--- //0 ----------------
         CALL ELAPSTIME(TIMERS,SECS)
         GLOBAL_COMP_TIME%ENGINE_TIME(GLOBAL_COMP_TIME%RUN_NBR) = SECS
 
-        CALL WRRESTP(ELEMENT, NODES, AF         ,IAF      ,ICH             ,ADSKY            ,
+        CALL WRRESTP(ELEMENT, NODES, AF         ,IAF      ,ICH             ,ELEMENT%PON%ADSKY            ,
      .               ELBUF_TAB  ,XFEM_TAB        ,INTERFACES%INTBUF_TAB     ,MULTI_FVM       ,MAT_ELEM         ,
      .               H3D_DATA   ,INTERFACES%INTBUF_FRIC_TAB ,SUBSETS        ,PINCH_DATA      ,ALE_CONNECTIVITY ,
      .               T_MONVOL   ,SENSORS         , EBCS_TAB      ,DYNAIN_DATA     ,USER_WINDOWS     ,
@@ -9661,8 +9668,8 @@ C--- //0 ----------------
          IF(ALLOCATED(IRBKIN_L))DEALLOCATE(IRBKIN_L)
          IF(ALLOCATED(ICODT0))DEALLOCATE (ICODT0)
          IF(ALLOCATED(ICODR0))DEALLOCATE(ICODR0)
-         IF(ALLOCATED(ISENDP))DEALLOCATE(ISENDP)
-         IF(ALLOCATED(IRECVP))DEALLOCATE(IRECVP)
+         IF(ALLOCATED(ELEMENT%PON%ISENDP))DEALLOCATE(ISENDP)
+         IF(ALLOCATED(ELEMENT%PON%IRECVP))DEALLOCATE(ELEMENT%PON%IRECVP)
          IF(ALLOCATED(IRECVP_PXFEM))DEALLOCATE(IRECVP_PXFEM)
          IF(ALLOCATED(ISENDP_CRK))DEALLOCATE(ISENDP_CRK)
          IF(ALLOCATED(IRECVP_CRK))DEALLOCATE(IRECVP_CRK)      
@@ -9753,7 +9760,7 @@ C /KILL
         IF(ALLOCATED(XSEC))DEALLOCATE(XSEC)
         IF(ALLOCATED(IRBKIN_L))DEALLOCATE(IRBKIN_L)
         IF(ALLOCATED(ISENDP))DEALLOCATE(ISENDP)
-        IF(ALLOCATED(IRECVP))DEALLOCATE(IRECVP)
+        IF(ALLOCATED(ELEMENT%PON%IRECVP))DEALLOCATE(ELEMENT%PON%IRECVP)
         IF(ALLOCATED(IRECVP_PXFEM))DEALLOCATE(IRECVP_PXFEM)
         IF(ALLOCATED(ISENDP_CRK))DEALLOCATE(ISENDP_CRK)
         IF(ALLOCATED(IRECVP_CRK))DEALLOCATE(IRECVP_CRK)
