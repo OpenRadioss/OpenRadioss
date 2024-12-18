@@ -345,6 +345,7 @@ C
       !-------------------------------------------
       ! /TH/PART
       !-------------------------------------------
+      !HM_NTHPART: total number of /TH/PART in 0000.rad
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/PART' ,HM_NTHPART)
       IF (HM_NTHPART > 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/PART')

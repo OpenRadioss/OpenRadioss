@@ -70,7 +70,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,N,TH_ID,PART_ID,NVAR,ITYP,NUMOBJ
-      CHARACTER(LEN=NCHARKEY)::KEY
+      CHARACTER(LEN=NCHARKEY)::KEY,FLAG_ALL
       CHARACTER(LEN=NCHARTITLE)::TITR
       LOGICAL :: IS_AVAILABLE
 C-----------------------------------------------
@@ -82,7 +82,64 @@ C=======================================================================
       ITYP = 1001     ! type /th/part
 
       ! read option header
-      CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=TH_ID, OPTION_TITR=TITR, KEYWORD2=KEY)   
+      CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=TH_ID, OPTION_TITR=TITR, KEYWORD2=KEY, KEYWORD3=FLAG_ALL)   
+
+      IF (FLAG_ALL(1:3) == 'ALL') THEN !The new keyword for part-time-history: /TH/PART/ALL/...  
+
+      ! Number of variables counted in input line
+      CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL) 
+c
+      ! Total number of stored variables
+      IF (NVAR > 0) THEN
+        NVAR = HM_THVARC(VARPA,NVARPA,ITHBUF(IAD),VARG,NVARG,IVARPAG,NVARPA,TH_ID,TITR,LSUBMODEL)
+      END IF
+c
+      IF (NVAR == 0) THEN
+          CALL ANCMSG(MSGID=1109, MSGTYPE=MSGERROR , ANMODE=ANINFO_BLIND_1,
+     .         I1=TH_ID,
+     .         C1=TITR )
+      ELSE IF (KEY(1:4) == 'PART') THEN
+
+           ! Number of Object (Part) IDs
+           !CALL HM_GET_INTV('idsmax',NUMOBJ,IS_AVAILABLE,LSUBMODEL)
+           NUMOBJ = NUMTHPART
+           
+           DO K = 1,NUMOBJ
+            
+             !CALL HM_GET_INT_ARRAY_INDEX('ids',PART_ID,K,IS_AVAILABLE,LSUBMODEL)        
+             PART_ID = IPASU(4,K)           
+
+             IF (NSUBDOM > 0) THEN 
+               IF (R2R_EXIST(ITYP,PART_ID) == 0) CYCLE
+             ENDIF
+             N = 0
+
+             DO J = 1,NUMTHPART
+             IF (PART_ID == IPASU(4,J))THEN
+               N = J
+               TAGP = TAGP+1
+               PATHID(TAGP) = PART_ID
+               EXIT
+              ENDIF  
+             ENDDO
+C
+          IF (N == 0) THEN
+            CALL ANCMSG(MSGID=1610, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
+     .                  I1=TH_ID,
+     .                  C1=TITR ,
+     .                  C2=KEY  ,
+     .                  I2=PART_ID  )
+          ELSE
+            IPARTH(NVPARTH,N)  = NVAR
+            IPARTH(NVPARTH+1,N)= IAD
+          ENDIF                    
+        ENDDO  ! NUMOBJ
+      END IF   ! NVAR > 0
+c
+      IAD = IAD + NVAR
+      IFI = IFI + NVAR
+
+      ELSE 
 c
       ! Number of variables counted in input line
       CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL) 
@@ -97,24 +154,24 @@ c
      .         I1=TH_ID,
      .         C1=TITR )
       ELSE IF (KEY(1:4) == 'PART') THEN
-      
-        ! Number of Object (Part) IDs
-        CALL HM_GET_INTV('idsmax',NUMOBJ,IS_AVAILABLE,LSUBMODEL)
-        
-        DO K = 1,NUMOBJ
-          CALL HM_GET_INT_ARRAY_INDEX('ids',PART_ID,K,IS_AVAILABLE,LSUBMODEL) 
-          IF (NSUBDOM > 0) THEN 
-            IF (R2R_EXIST(ITYP,PART_ID) == 0) CYCLE
-          ENDIF
-          N = 0
-          DO J = 1,NUMTHPART
-            IF (PART_ID == IPASU(4,J))THEN
-              N = J
-              TAGP = TAGP+1
-              PATHID(TAGP) = PART_ID
-              EXIT
-            ENDIF  
-          ENDDO
+
+           ! Number of Object (Part) IDs
+           CALL HM_GET_INTV('idsmax',NUMOBJ,IS_AVAILABLE,LSUBMODEL)
+
+           DO K = 1,NUMOBJ
+                  CALL HM_GET_INT_ARRAY_INDEX('ids',PART_ID,K,IS_AVAILABLE,LSUBMODEL)                   
+             IF (NSUBDOM > 0) THEN 
+               IF (R2R_EXIST(ITYP,PART_ID) == 0) CYCLE
+             ENDIF
+             N = 0
+             DO J = 1,NUMTHPART
+             IF (PART_ID == IPASU(4,J))THEN
+               N = J
+               TAGP = TAGP+1
+               PATHID(TAGP) = PART_ID
+               EXIT
+              ENDIF  
+             ENDDO
 C
           IF (N == 0) THEN
             CALL ANCMSG(MSGID=1610, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
@@ -125,12 +182,13 @@ C
           ELSE
             IPARTH(NVPARTH,N)  = NVAR
             IPARTH(NVPARTH+1,N)= IAD
-          ENDIF           
-        ENDDO  ! NUMOBJ 
+          ENDIF                    
+        ENDDO  ! NUMOBJ
       END IF   ! NVAR > 0
 c
       IAD = IAD + NVAR
       IFI = IFI + NVAR
+      ENDIF  !FLAG_ALL(1:3) == 'ALL'
 c-----------
       RETURN
       END

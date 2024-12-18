@@ -2720,11 +2720,18 @@ C          frame numbers user -> internal
       !-------------------------------------------
       ! /TH/PART
       !-------------------------------------------
+
+      ! HM_NTHPART: Number of /TH/PART in 0000.rad for OUTPUT
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/PART' ,HM_NTHPART)  
       IF (HM_NTHPART > 0) THEN 
         CALL HM_OPTION_START(TRIM(THFILE)//'/PART') 
+      ! HM_NTHGRP: Number of /TH/ Group in 0000.rad          
         HM_NTHGRP = HM_NTHGRP + HM_NTHPART
-        NUMTHPART = NPART + NTHPART
+      ! NUMTHPART: Total number of PART defined by /PART et /THPART  
+      ! NPART: Number of PART defined by /PART in 0000.rad for Part definition
+      ! NTHPART: Number of PART defined by /THPART in 0000.rad for Part definition   
+        NUMTHPART = NPART + NTHPART 
+      ! TAGP: Total number of PART for the TIME history output                       
         DO I = 1, HM_NTHPART
           CALL HM_READ_THGRPA(
      .         IPART    ,LIPART1  ,ITHBUF  ,IAD      ,IFI       ,
