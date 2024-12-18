@@ -72,7 +72,7 @@
                                           nbintc,nixs,nixc,nixtg,numnod,  &
                                           numels,numelc,numeltrg,s_elem_state, &
                                           nbddedgt,nbddedg_max,  &
-                                          elem_state,ipari,intlist,itab,itabm1, &
+                                          elem_state,ipari,intlist,nodes, &
                                           newfront,ixs,ixc,ixtg,  &
                                           iad_elem,x,         &
                                           intbuf_tab,spmd_arrays,shoot_struct  )
@@ -93,6 +93,7 @@
           use spmd_exch_neighbour_segment_mod , only : spmd_exch_neighbour_segment
           use update_neighbour_segment_mod , only : update_neighbour_segment
           use spmd_arrays_mod , only : spmd_arrays_
+          use nodal_arrays_mod, only : nodal_arrays_
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -123,8 +124,7 @@
           logical, dimension(s_elem_state), intent(in) :: elem_state !< state of the element : on or off
           integer, dimension(npari,ninter), intent(in) :: ipari !< interface data
           integer, dimension(nbintc), intent(in) :: intlist
-          integer, dimension(numnod), intent(in) :: itab !< local to global node id array
-          integer, dimension(numnod), intent(in) :: itabm1 !< global to local node id
+          type(nodal_arrays_) :: nodes !< nodal arrays                                                                              
           integer, dimension(ninter),intent(inout) :: newfront !< flag to force some exchanges related to S nodes between processor (if a S node becomes a shooting node - all interface) / force the collision detection algo if a new segment is activated for the (interface 25 + solid erosion)
           integer, dimension(nixs,numels), intent(in) :: ixs !< solid element data
           integer, dimension(nixc,numelc), intent(in) :: ixc !< shell element data
@@ -403,9 +403,9 @@
                 s_buffer(proc_id)%my_real_array_1d(my_offset+2) = transfer(my_integer,my_real_variable) ! local segment id
 
 
-                my_integer = itab(node_id_1)
+                my_integer = nodes%itab(node_id_1)
                 s_buffer(proc_id)%my_real_array_1d(my_offset+3) = transfer(my_integer,my_real_variable) ! node id 
-                my_integer = itab(node_id_2)
+                my_integer = nodes%itab(node_id_2)
                 s_buffer(proc_id)%my_real_array_1d(my_offset+4) = transfer(my_integer,my_real_variable) ! node id 
 
                 my_integer = nin
@@ -491,7 +491,7 @@
           call spmd_exch_neighbour_segment(nspmd,ispmd, &
                                            ninter,numnod, &
                                            s_buffer_size,r_buffer_size,s_buffer_2_size,r_buffer_2_size,&
-                                           iad_elem,itabm1,x, &
+                                           iad_elem,nodes,x, &
                                            s_buffer,r_buffer,s_buffer_2,r_buffer_2, &
                                            intbuf_tab,shoot_struct)
           ! --------------------------
@@ -506,7 +506,7 @@
           ! exchange between processor to update the frontier 
           if(nspmd>1) call spmd_update_frontier_int25( ispmd,nspmd,ninter25,npari,ninter,nbintc, &
                                                        numnod,nbddedgt,nbddedg_max, &
-                                                       ipari,intlist,itab,  &
+                                                       ipari,intlist,nodes%itab,  &
                                                        intbuf_tab,spmd_arrays )
           ! --------------------------
 
