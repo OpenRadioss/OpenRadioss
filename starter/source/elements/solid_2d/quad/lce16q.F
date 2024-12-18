@@ -54,12 +54,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXQ(NIXQ,*), ISEL(*), IPOINT(2,*), ITAB(*),
+      INTEGER IXQ(NIXQ,NUMELQ), ISEL(*), IPOINT(2,*), ITAB(*),
      .    ITABM1(*), ICODE(*),IPARTQ(*),
-     .    IPM(NPROPMI,*),IGEO(NPROPGI,*)
-C     REAL
-      my_real
-     .   PM(NPROPM,*)
+     .    IPM(NPROPMI,NUMMAT),IGEO(NPROPGI,NUMGEO)
+      my_real PM(NPROPM,NUMMAT)
 C-----------------------------------------------
       TYPE (GROUP_)  ,DIMENSION(NGRQUAD)  :: IGRQUAD
 C-----------------------------------------------
@@ -99,7 +97,7 @@ C----------------------------------------------------
 C     CLASSEMENT DES ELEMENTS PAR LOI DE MATERIAU
 C----------------------------------------------------
       CALL REORDR(IXQ   ,NIXQ   ,NUMELQ ,PM     ,IPOINT ,
-     .            IPARTQ,NGRQUAD,IGRQUAD)
+     .            IPARTQ,NGRQUAD,IGRQUAD,NUMMAT)
 C
       I1=1
       I2=MIN0(50,NUMELQ)

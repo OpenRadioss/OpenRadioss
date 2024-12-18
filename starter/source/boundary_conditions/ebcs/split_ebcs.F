@@ -97,7 +97,7 @@ C-----------------------------------------------
         DO I=1,LOCAL_NEBCS
             EBCS_ID = LIST_OTHER_EBCS(I)
             ! check if a surface is associated to the ebcs
-            IF(EBCS_TAB_LOC_2%tab(I)%poly%surf_id>0) THEN
+            IF(EBCS_TAB_LOC_2%tab(I)%poly%surf_id > 0) THEN
                 SURF_ID = EBCS_TAB_LOC_2%tab(I)%poly%surf_id ! surface id
                 NSEG = IGRSURF(SURF_ID)%NSEG ! number of surface
                 ! --------------
@@ -133,7 +133,7 @@ C-----------------------------------------------
                 ! --------------
                 ALLOCATE( LIST_NODE_2(LOCAL_SEG,4) )
                 LIST_NODE_2(1:LOCAL_SEG,1:4) = LIST_NODE(1:LOCAL_SEG,1:4)
-                CALL EBCS_TAB_LOC_2%tab(I)%poly%set_nodes_elems(LOCAL_SEG, NUMNOD, LIST_NODE_2)
+                CALL EBCS_TAB_LOC_2%tab(I)%poly%set_nodes_elems(LOCAL_SEG, NUMNOD, LIST_NODE_2) ! faces <-> nodes
                 DEALLOCATE( LIST_NODE,LIST_NODE_2 )
             ENDIF
         ENDDO

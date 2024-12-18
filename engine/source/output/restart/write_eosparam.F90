@@ -62,15 +62,15 @@
       INTEGER :: I,IAD,NFIX,NUPARAM,NIPARAM,NUMTABL,NUMFUNC
       INTEGER ,DIMENSION(NCHARTITLE) :: NAME
       INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IBUF
+      my_real ,DIMENSION(:), ALLOCATABLE :: RBUF
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
+      !INTEGER parameters
       NFIX = 5
       ALLOCATE (IBUF(NFIX + 1))
-
       IAD = 1
       IBUF(IAD) = NFIX
-
       IAD = IAD+1
         IBUF(IAD) = EOS%NUPARAM
       IAD = IAD+1
@@ -82,8 +82,22 @@
       IAD = IAD+1
         IBUF(IAD) = EOS%NTABLE
       IAD = IAD+1
-
       CALL WRITE_I_C(IBUF,NFIX+1)
+      DEALLOCATE(IBUF)
+
+      !REAL parameter
+      NFIX = 2
+      ALLOCATE(IBUF(1))
+      IBUF(1) = NFIX !size
+      ALLOCATE (RBUF(NFIX))
+      IAD = 1
+        RBUF(IAD) = EOS%CV
+      IAD = IAD+1
+        RBUF(IAD) = EOS%CP
+      IAD = IAD+1
+      CALL WRITE_I_C(IBUF,1)
+      CALL WRITE_DB_C(RBUF,NFIX)
+      DEALLOCATE(RBUF)
       DEALLOCATE(IBUF)
 
       ! write eos model title

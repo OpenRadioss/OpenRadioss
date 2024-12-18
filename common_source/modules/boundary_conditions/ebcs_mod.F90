@@ -39,12 +39,12 @@ MODULE EBCS_MOD
 !     Generic ebcs type
 !     -----------------
    type, public :: t_ebcs
-      character(len=nchartitle) :: title = ''
       integer :: type = -1
       integer :: ebcs_id = -1
       integer :: surf_id = -1
       integer :: nb_node = 0                              !<     number of nodes
       integer :: nb_elem = 0                              !<     number of elements
+      character(len=nchartitle) :: title =''              !<     user title
       integer, dimension(:), allocatable :: node_list     !<     node list
       integer, dimension(:, :), allocatable :: elem_list  !<     element list
       integer, dimension(:), allocatable :: ielem         !<     Id of the attached element (local id)
@@ -234,6 +234,18 @@ MODULE EBCS_MOD
       procedure, pass :: read_data => read_data_nrf
    end type t_ebcs_nrf
 
+!     type = 11 /EBCS/PROPERGOL
+!     ----------------------
+      type, public, extends(t_ebcs) :: t_ebcs_propergol
+      integer :: sensor_id=0, submat_id=1
+      my_real :: a = 0., n = 0., q = 0., rho0s=0.
+      integer :: ffunc_id=0, gfunc_id=0, hfunc_id=0
+      my_real :: fscaleX=1.0, fscaleY=1.0, gscaleX=1.0, gscaleY=0., hscaleX=1.0, hscaleY=1.0
+      type(fvm_inlet_data_struct) :: fvm_inlet_data
+      contains
+      procedure, pass :: write_data => write_data_propergol
+      procedure, pass :: read_data => read_data_propergol
+      end type t_ebcs_propergol
 
 !     ----------------------
 !     Polymorphic variable (points to a specific ebcs type)
@@ -250,7 +262,7 @@ MODULE EBCS_MOD
       integer, dimension(:), allocatable :: my_typ
       logical, dimension(:), allocatable :: need_to_compute
       logical :: is_created = .false.
-      integer :: nebcs_loc = 0, nebcs_fvm = 0, nebcs_nrf = 0
+      integer :: nebcs_loc = 0, nebcs_fvm = 0, nebcs_parallel = 0, nebcs_propergol = 0
    contains
       procedure, pass :: create, destroy, write_type_data, create_from_types
       procedure, nopass :: read_type_data
@@ -355,6 +367,9 @@ contains
              case (10) ! /EBCS/NRF
                allocate (t_ebcs_nrf :: this%tab(ii)%poly)
                this%tab(ii)%poly%type = 10
+             case (11) ! /EBCS/PROPERGOL
+               allocate (t_ebcs_propergol :: this%tab(ii)%poly)
+               this%tab(ii)%poly%type = 11
              case default
                print*, "EBCS type ", type, " unrecognized"
             end select
@@ -1371,8 +1386,6 @@ contains
 
       my_real, dimension(2) :: real_data
 
-      call write_i_c(this%nbmat, 1)
-      leni = leni + 1
       real_data(1) = this%tcar_p
       real_data(2) = this%tcar_vf
       call write_db_array(real_data, 2)
@@ -1407,9 +1420,7 @@ contains
    subroutine read_data_nrf(this)
       implicit none
       class (t_ebcs_nrf), intent(inout) :: this
-      integer :: itmp
 
-      call read_i_c(this%nbmat, 1)
       call read_db(this%tcar_p, 1)
       call read_db(this%tcar_vf, 1)
       !if(this%nbmat > 0)then
@@ -1430,5 +1441,99 @@ contains
          call read_db_array(this%fvm_inlet_data%val_pres, 21)
       endif
    end subroutine read_data_nrf
+
+!     /EBCS/PROPERGOL
+!     -------------
+
+      subroutine write_data_propergol(this, leni, lenr)
+      implicit none
+      class (t_ebcs_propergol), intent(inout) :: this
+      integer, intent(inout) :: leni, lenr
+      integer, dimension(5) :: integer_data
+      my_real, dimension(10) :: real_data
+
+      integer_data(1) = this%sensor_id
+      integer_data(2) = this%ffunc_id
+      integer_data(3) = this%gfunc_id
+      integer_data(4) = this%hfunc_id
+      integer_data(5) = this%submat_id
+
+      real_data(1)  = this%a
+      real_data(2)  = this%n
+      real_data(3)  = this%q
+      real_data(4)  = this%rho0s
+      real_data(5)  = this%fscaleX
+      real_data(6)  = this%fscaleY
+      real_data(7)  = this%gscaleX
+      real_data(8)  = this%gscaleY
+      real_data(9)  = this%hscaleX
+      real_data(10) = this%hscaleY
+
+      call write_i_array_c(integer_data, 5)
+      leni = leni + 5
+
+      call write_db_array(real_data, 10)
+      lenr = lenr + 10
+      if(this%is_multifluid)then
+        call write_i_c(this%fvm_inlet_data%vector_velocity, 1)
+        leni = leni + 1
+        call write_i_c(this%fvm_inlet_data%formulation, 1)
+        leni = leni + 1
+        call write_i_array_c(this%fvm_inlet_data%func_vel, 3)
+        leni = leni + 3
+        call write_i_array_c(this%fvm_inlet_data%func_alpha, 21)
+        leni = leni + 21
+        call write_i_array_c(this%fvm_inlet_data%func_rho, 21)
+        leni = leni + 21
+        call write_i_array_c(this%fvm_inlet_data%func_pres, 21)
+        leni = leni + 21
+
+        call write_db_array(this%fvm_inlet_data%val_vel, 3)
+        lenr = lenr + 3
+        call write_db_array(this%fvm_inlet_data%val_alpha, 21)
+        lenr = lenr + 21
+        call write_db_array(this%fvm_inlet_data%val_rho, 21)
+        lenr = lenr + 21
+        call write_db_array(this%fvm_inlet_data%val_pres, 21)
+        lenr = lenr + 21
+      endif
+      end subroutine write_data_propergol
+
+      subroutine read_data_propergol(this)
+      implicit none
+      class (t_ebcs_propergol), intent(inout) :: this
+
+      call read_i_c(this%sensor_id, 1)
+      call read_i_c(this%ffunc_id, 1)
+      call read_i_c(this%gfunc_id, 1)
+      call read_i_c(this%hfunc_id, 1)
+      call read_i_c(this%submat_id, 1)
+
+      call read_db(this%a, 1)
+      call read_db(this%n, 1)
+      call read_db(this%q, 1)
+      call read_db(this%rho0s, 1)
+      call read_db(this%fscaleX, 1)
+      call read_db(this%fscaleY, 1)
+      call read_db(this%gscaleX, 1)
+      call read_db(this%gscaleY, 1)
+      call read_db(this%hscaleX, 1)
+      call read_db(this%hscaleY, 1)
+
+      if(this%is_multifluid)then
+        call read_i_c(this%fvm_inlet_data%vector_velocity, 1)
+        call read_i_c(this%fvm_inlet_data%formulation, 1)
+        call read_i_array_c(this%fvm_inlet_data%func_vel, 3)
+        call read_i_array_c(this%fvm_inlet_data%func_alpha, 21)
+        call read_i_array_c(this%fvm_inlet_data%func_rho, 21)
+        call read_i_array_c(this%fvm_inlet_data%func_pres, 21)
+
+        call read_db_array(this%fvm_inlet_data%val_vel, 3)
+        call read_db_array(this%fvm_inlet_data%val_alpha, 21)
+        call read_db_array(this%fvm_inlet_data%val_rho, 21)
+        call read_db_array(this%fvm_inlet_data%val_pres, 21)
+      endif
+      end subroutine read_data_propergol
+
 
 end module ebcs_mod
