@@ -183,6 +183,7 @@ C-----------------------------------------------
 !        CALL EBCNODE(IEBCS(K1),NSEG,IGRSURF(ISU)%NODES,NOD)
 !        K2=K1+NOD
 !        CALL EBCRECT(IEBCS(K1),NSEG,IGRSURF(ISU)%NODES,NOD,IEBCS(K2))
+        EBCS%title = TITR
         EBCS%ipres = IPRES
         EBCS%irho = IRHO
         EBCS%iener = IENER

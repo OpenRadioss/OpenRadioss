@@ -120,7 +120,8 @@ C-----------------------------------------------
       ELSE
          WRITE(IOUT,1008)ID,TRIM(TITR),MONVOL,SURF,SENS,NSEG
       ENDIF
-      
+
+      EBCS%title = TITR
       EBCS%monvol_id = MONVOL
       EBCS%sensor_id = SENS
       

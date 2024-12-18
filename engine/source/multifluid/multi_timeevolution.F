@@ -283,7 +283,8 @@ C---------------------
       IF (EBCS_TAB%nebcs_fvm > 0) THEN
          CALL MY_BARRIER
          CALL MULTI_EBCS(ITASK, MULTI_FVM, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE, 
-     .        EBCS_TAB,NPF,TF,FSAVSURF,NSURF,TIMESTEP,MATPARAM, NUMMAT)
+     .        EBCS_TAB,NPF,TF,FSAVSURF,NSURF,TIMESTEP,
+     .        NUMELS, NUMELQ, NUMELTG, NUMNOD, NCYCLE, NUMMAT, MATPARAM)
          CALL MY_BARRIER
       ENDIF
 C     ------------------------- 

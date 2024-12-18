@@ -31,7 +31,7 @@ C
       !||    format_mod             ../starter/share/modules1/format_mod.F90
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
-      SUBROUTINE I1TID2(X,IRECT,CRST,MSR,NSV,ILOC,IRTL,NSN,ITAB,ID,TITR)
+      SUBROUTINE I1TID2(X,IRECT,CRST,MSR,NSV,ILOC,IRTL,NSN,ITAB,ID,TITR,NUMNOD)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -50,9 +50,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER,INTENT(IN) :: NUMNOD
       INTEGER NSN
-      INTEGER IRECT(4,*), MSR(*), NSV(*), ILOC(*), IRTL(*), ITAB(*)
-      my_real X(3,*), CRST(2,*)
+      INTEGER IRECT(4,*), MSR(*), NSV(*), ILOC(*), IRTL(*), ITAB(NUMNOD)
+      my_real X(3,NUMNOD), CRST(2,*)
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
@@ -106,7 +107,7 @@ C-----------------------------------------------
         ! ** ERROR TIED INTERFACE: SECND NODE OUTSIDE main SEGMENT
         CALL ANCMSG(MSGID=81,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR)
       ENDIF
-
+C-----------------------------------------------
       RETURN
 
       END

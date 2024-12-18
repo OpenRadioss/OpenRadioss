@@ -631,18 +631,18 @@ C--------------------------------------
         ! EBCS option
         CALL WRITE_I_C(EBCS_TAB%nebcs, 1) ! total number of EBCS
         CALL WRITE_I_C(EBCS_TAB%nebcs_fvm, 1) ! number of multifluid ebcs
-        CALL WRITE_I_C(EBCS_TAB%nebcs_nrf, 1) ! number of /NRF ebcs
+        CALL WRITE_I_C(EBCS_TAB%nebcs_parallel, 1) ! number of parallel ebcs
         CALL WRITE_I_C(EBCS_TAB%nebcs_loc, 1) ! number of other ebcs
         LENI = 0
         LENR = 0
         IF (EBCS_TAB%nebcs > 0) THEN
-            ! write the type of /EBCS ( /EBCS/NRF --> typ = 10)
+            ! write the type of /EBCS ( /EBCS/NRF --> typ = 10) ( /EBCS/PROPERGOL --> typ = 11)
             CALL WRITE_I_C(EBCS_TAB%my_typ,EBCS_TAB%nebcs)
         ENDIF
         ! -------------
         ! write the data of /EBCS options
-        IF (EBCS_TAB%nebcs_loc +EBCS_TAB%nebcs_nrf + EBCS_TAB%nebcs_fvm> 0) THEN
-           DO II = 1, EBCS_TAB%nebcs_fvm + EBCS_TAB%nebcs_loc + EBCS_TAB%nebcs_nrf
+        IF (EBCS_TAB%nebcs_loc +EBCS_TAB%nebcs_parallel +  EBCS_TAB%nebcs_fvm> 0) THEN
+           DO II = 1, EBCS_TAB%nebcs_fvm + EBCS_TAB%nebcs_loc + EBCS_TAB%nebcs_parallel
               CALL EBCS_TAB%tab(II)%poly%write_common_data(leni, lenr)
               CALL EBCS_TAB%tab(II)%poly%write_data(leni, lenr)
            ENDDO
@@ -949,9 +949,9 @@ C
       ENDIF
       ! ---------------
       ! ebcs option : adress of FSKY array
-      IF(EBCS_TAB%nebcs_nrf>0) THEN
+      IF(EBCS_TAB%nebcs_parallel>0) THEN
         DO I=1,EBCS_TAB%nebcs
-                IF(EBCS_TAB%my_typ(I)==10) THEN
+                IF(EBCS_TAB%my_typ(I)==10 .or. EBCS_TAB%my_typ(I)==11) THEN
                     MY_SIZE = EBCS_TAB%tab(I)%poly%nb_elem
                     CALL WRITE_I_C(EBCS_PARITHON(I)%ELEM_ADRESS,4*MY_SIZE)
                 ENDIF

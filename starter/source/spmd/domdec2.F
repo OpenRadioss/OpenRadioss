@@ -132,6 +132,7 @@ C-----------------------------------------------
       TYPE(T_EBCS_TAB), INTENT(INOUT) :: EBCS_TAB ! ebcs data structure
       TYPE (LOADS_), INTENT(INOUT) :: LOADS ! load data structure
       INTEGER ,DIMENSION(LISKN,NUMFRAM+1)   ,INTENT(IN) :: IFRAME ! frame data structure
+      LOGICAL IS_EBCS_PARALLEL
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -1567,21 +1568,23 @@ C--------------------------------------
 !   ------------
       IF(NEBCS>0) THEN
         DO I=1,NEBCS
-            IF(EBCS_TAB%tab(I)%poly%type==10) THEN
-                SURF_ID = EBCS_TAB%tab(I)%poly%surf_id ! surface id
-                NUMBER_NODE = 4
-                IF(N2D/=0) NUMBER_NODE = 2
-                ! ------------
-                ! loop over the elements of the EBCS
-                DO J=1,EBCS_TAB%tab(I)%poly%nb_elem
-                    ! loop over the 4 nodes of the surfaces
-                    DO IJK=1,NUMBER_NODE
-                        NODE_ID = IGRSURF(SURF_ID)%NODES(J,IJK) + 1 
-                        ADSKY(NODE_ID) = ADSKY(NODE_ID) + 1
-                    ENDDO
+          IS_EBCS_PARALLEL = .FALSE.
+          IF(EBCS_TAB%tab(I)%poly%type == 10 .or. EBCS_TAB%tab(I)%poly%type == 11)IS_EBCS_PARALLEL=.TRUE.
+          IF(IS_EBCS_PARALLEL) THEN
+            SURF_ID = EBCS_TAB%tab(I)%poly%surf_id ! surface id
+            NUMBER_NODE = 4
+            IF(N2D/=0) NUMBER_NODE = 2
+            ! ------------
+            ! loop over the elements of the EBCS
+            DO J=1,EBCS_TAB%tab(I)%poly%nb_elem
+                ! loop over the 4 nodes of the surfaces
+                DO IJK=1,NUMBER_NODE
+                    NODE_ID = IGRSURF(SURF_ID)%NODES(J,IJK) + 1
+                    ADSKY(NODE_ID) = ADSKY(NODE_ID) + 1
                 ENDDO
-                ! ------------
-            ENDIF
+            ENDDO
+            ! ------------
+          ENDIF
         ENDDO
       ENDIF
 !   -------------------------------------
@@ -2092,6 +2095,7 @@ C-----------------------------------------------
       INTEGER :: SURF_ID ! surface id
       INTEGER :: LOCAL_SEGMENT,NUMBER_SEGMENT ! number of segment for /LOAD
       INTEGER :: PROC_ID ! processor id
+      LOGICAL :: IS_EBCS_PARALLEL
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -2756,24 +2760,26 @@ C-----------------------------------------------
 !   ------------
       IF(NEBCS>0) THEN
         DO I=1,NEBCS
-            IF(EBCS_TAB%tab(I)%poly%type==10) THEN
-                SURF_ID = EBCS_TAB%tab(I)%poly%surf_id ! surface id
-                NUMBER_NODE = 4
-                IF(N2D/=0) NUMBER_NODE = 2
-                
-                ! ------------
-                ! loop over the elements of the EBCS
-                DO J=1,EBCS_TAB%tab(I)%poly%nb_elem
-                    ! loop over the 4 nodes of the surfaces
-                    ELEM_ID = EBCS_TAB%tab(I)%poly%ielem(J) ! element id
-                    DO IJK=1,NUMBER_NODE
-                        NODE_ID = IGRSURF(SURF_ID)%NODES(J,IJK) ! node id
-                        CNE(ADSKY(NODE_ID)) = ELEM_ID ! element id
-                        ADSKY(NODE_ID) = ADSKY(NODE_ID) + 1
-                    ENDDO
+          IS_EBCS_PARALLEL = .FALSE.
+          IF(EBCS_TAB%tab(I)%poly%type == 10 .or. EBCS_TAB%tab(I)%poly%type == 11)IS_EBCS_PARALLEL=.TRUE.
+          IF(IS_EBCS_PARALLEL) THEN
+            SURF_ID = EBCS_TAB%tab(I)%poly%surf_id ! surface id
+            NUMBER_NODE = 4
+            IF(N2D /= 0) NUMBER_NODE = 2
+
+            ! ------------
+            ! loop over the elements of the EBCS
+            DO J=1,EBCS_TAB%tab(I)%poly%nb_elem
+                ! loop over the 4 nodes of the surfaces
+                ELEM_ID = EBCS_TAB%tab(I)%poly%ielem(J) ! element id
+                DO IJK=1,NUMBER_NODE
+                    NODE_ID = IGRSURF(SURF_ID)%NODES(J,IJK) ! node id
+                    CNE(ADSKY(NODE_ID)) = ELEM_ID ! element id
+                    ADSKY(NODE_ID) = ADSKY(NODE_ID) + 1
                 ENDDO
-                ! ------------
-            ENDIF
+            ENDDO
+            ! ------------
+          ENDIF
         ENDDO
       ENDIF
 !   -------------------------------------

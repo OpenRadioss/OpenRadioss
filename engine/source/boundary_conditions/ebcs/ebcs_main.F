@@ -41,8 +41,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    th_surf_mod     ../common_source/modules/interfaces/th_surf_mod.F
       !||====================================================================
       SUBROUTINE EBCS_MAIN(IGRSURF,SEGVAR,VOLMON,A,V,W,X,
-     .                     FSAV,FV,WA,MS,STIFN,IPARG,ELBUF_TAB,EBCS_TAB,MULTI_FVM,IXQ,IXS,IXTG,
-     .                     ITAB,NALE,FSKY,FSAVSURF)
+     .                     FSAV,FV,WA,MS,MSNF,WEIGHT,STIFN,IPARG,ELBUF_TAB,EBCS_TAB,MULTI_FVM,IXQ,IXS,IXTG,
+     .                     ITAB,NALE,FSKY,FSAVSURF,TIME,DT1,
+     .                     NSENSOR,SENSOR_TAB,PYTHON,
+     .                     NPC, TF ,SNPC, STF)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -51,6 +53,8 @@ C-----------------------------------------------
       USE EBCS_MOD
       USE MULTI_FVM_MOD
       USE TH_SURF_MOD , only : TH_SURF_NUM_CHANNEL
+      USE SENSOR_MOD, ONLY : SENSOR_STR_
+      USE PYTHON_FUNCT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,16 +69,24 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      my_real,INTENT(IN) :: DT1 !time step
+      my_real,INTENT(IN) :: TIME !simulation time
       my_real,INTENT(INOUT) :: FSAVSURF(TH_SURF_NUM_CHANNEL,NSURF)
       INTEGER IPARG(NPARG,NGROUP)
       INTEGER,INTENT(IN) :: IXQ(NIXQ,NUMELQ),IXS(NIXS,NUMELS),IXTG(NIXTG,NUMELTG),ITAB(NUMNOD),NALE(NUMNOD)
       my_real VOLMON(*),SEGVAR(*),V(3,NUMNOD),W(3,NUMNOD),A(3,NUMNOD),X(3,NUMNOD),FSAV(NTHVKI,*),
-     .        FV(*),WA(*),MS(NUMNOD),STIFN(NUMNOD)
+     .        FV(*),WA(*),STIFN(NUMNOD)
+      my_real,intent(inout) :: MS(NUMNOD),MSNF(NUMNOD),weight(numnod)
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
       TYPE(t_ebcs_tab), TARGET, INTENT(INOUT) :: EBCS_TAB
       TYPE(MULTI_FVM_STRUCT),INTENT(IN) :: MULTI_FVM
       my_real, DIMENSION(8,LSKY), INTENT(INOUT) :: FSKY ! acceleration array for parith/on option
+      INTEGER,INTENT(IN) :: NSENSOR
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
+      TYPE (PYTHON_), INTENT(IN) :: PYTHON
+      INTEGER,INTENT(IN) :: SNPC, STF
+      INTEGER,INTENT(IN) :: NPC(SNPC), tf(STF)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -87,7 +99,7 @@ C-----------------------------------------------
 
       !/TH/SURF (RESET)
       DO I = 1, NEBCS
-         IF(.NOT.EBCS_TAB%need_to_compute(I)) CYCLE
+         IF(.NOT.EBCS_TAB%need_to_compute(I)) CYCLE     !EBCS may be on domain 0 only depending on ebcs type
          EBCS => EBCS_TAB%tab(i)%poly
          HAS_TH = EBCS%has_th
          IF(HAS_TH)THEN
@@ -164,16 +176,28 @@ C-----------------------------------------------
      .             twf%ro0,twf%en0,
      .             twf%la,MS,STIFN,twf,IPARG,ELBUF_TAB,MULTI_FVM,IXQ,IXS,IXTG,
      .             ITAB, NALE, EBCS_PARITHON(I)%ELEM_ADRESS,FSKY,FSAVSURF)
-            end select  
+             end select
+         ELSE IF (TYP == 11) THEN
+            select type (twf => EBCS)
+             type is (t_ebcs_propergol)
+              call ebcs11(nseg,twf%iseg,segvar,
+     .                    v,w,x,
+     .                    twf%node_list,nod,twf%elem_list,twf%ielem,twf%iface,
+     .                    twf%la,ms,stifn,twf,iparg,elbuf_tab,ixq,ixs,ixtg,
+     .                    fsavsurf,time,iparit,dt1,
+     .                    numels, numelq, numeltg,numnod, nparg, ngroup, nixs, nixq, nixtg, nsurf, iale, n2d,
+     .                    nfunct, npc, tf ,snpc, stf, python,
+     .                    nsensor, sensor_tab)
+            end select
          ELSE IF (TYP == 100) THEN
             SELECT TYPE(EBCS)
             TYPE IS (t_ebcs_monvol)
               VOLU = EBCS%monvol_id
-              CALL EBCS_VOL2SEG(NSEG,IGRSURF(ISU)%NODES,EBCS%iseg,SEGVAR,
-     .             A,V,X,VOLMON(NRVOLU*(VOLU-1)+1),FSAV(1,VOLU))
+              CALL EBCS_VOL2SEG(NSEG,IGRSURF(ISU)%NODES,EBCS%iseg,SEGVAR,A,V,X,VOLMON(NRVOLU*(VOLU-1)+1),FSAV(1,VOLU))
               END SELECT
          ENDIF
       ENDDO
+
 c-----------
       RETURN
       END

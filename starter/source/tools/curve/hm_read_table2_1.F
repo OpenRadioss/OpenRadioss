@@ -282,7 +282,7 @@ C
           i1 = JPERM2(j-1)
           i2 = JPERM2(j)
           if (x1 == x2) then
-            CALL ANCMSG(MSGID=3081, MSGTYPE=MSGERROR, ANMODE=ANINFO, 
+            CALL ANCMSG(MSGID=3082, MSGTYPE=MSGERROR, ANMODE=ANINFO, 
      .                  I1=ID,C1=TITR, I2=IDFUN(i1),I3=IDFUN(i2))                            
           end if
           x1 = x2

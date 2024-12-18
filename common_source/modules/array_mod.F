@@ -253,4 +253,45 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             RETURN
             END SUBROUTINE DEALLOC_MY_REAL_1D_ARRAY
             ! ----------------------------
+
+
+
+      !||====================================================================
+      !||    alloc_my_real_1d_array                   ../common_source/modules/array_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
+      !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+      !||    spmd_exch_inter_18                       ../engine/source/mpi/interfaces/spmd_exch_inter_18.F
+      !||    spmd_exch_neighbour_segment              ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
+      !||====================================================================
+            SUBROUTINE ALLOC_MY_REAL_2D_ARRAY(THIS)
+#include "implicit_f.inc"
+
+            TYPE(array_type), INTENT(inout) :: THIS
+
+            ALLOCATE( THIS%MY_REAL_ARRAY_2D( THIS%SIZE_MY_REAL_ARRAY_2D(1),THIS%SIZE_MY_REAL_ARRAY_2D(2) ) )
+
+            RETURN
+            END SUBROUTINE ALLOC_MY_REAL_2D_ARRAY
+            ! ----------------------------
+            ! ----------------------------
+      !||====================================================================
+      !||    dealloc_my_real_1d_array                 ../common_source/modules/array_mod.F
+      !||--- called by ------------------------------------------------------
+      !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
+      !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+      !||    spmd_exch_inter_18                       ../engine/source/mpi/interfaces/spmd_exch_inter_18.F
+      !||====================================================================
+            SUBROUTINE DEALLOC_MY_REAL_2D_ARRAY(THIS)
+#include "implicit_f.inc"
+
+            TYPE(array_type), INTENT(inout) :: THIS
+
+            DEALLOCATE( THIS%MY_REAL_ARRAY_2D )
+
+            RETURN
+            END SUBROUTINE DEALLOC_MY_REAL_2D_ARRAY
+            ! ----------------------------
+
+
         END MODULE ARRAY_MOD

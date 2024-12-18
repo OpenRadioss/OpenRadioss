@@ -153,6 +153,7 @@ C-----------------------------------------------
               EXIT
            ENDIF
         ENDDO
+        EBCS%title = TITR
         EBCS%ipres = IPRES
         EBCS%irho = IRHO
         EBCS%iener = IENER
