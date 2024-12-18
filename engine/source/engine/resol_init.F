@@ -95,7 +95,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    stack_mod                  ../engine/share/modules/stack_mod.F
       !||====================================================================
       SUBROUTINE RESOL_INIT(
-     1  ITASK   ,IADS10   ,IADS20  ,IADS16    ,FR_NBCC   ,
+     1  ITASK   ,FR_NBCC   ,
      2  ISENDTO ,IRCVFROM ,IAD_ELEM,FR_ELEM   ,ITABM1    ,
      3  IPARI   ,IPARG    ,ITAB    ,IXS10     ,IXS20     ,
      4  I13A    ,I13B     ,I13C    ,I13D      ,I13E      ,
@@ -106,8 +106,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      9  NFIA    ,NFEA     ,NFOA    ,NDMA      ,NDMA2     ,
      A  NODFT   ,NODLT    ,NDTASK  ,NUMNTHREAD  ,IXS16     ,
      B  IXS     ,IXQ      ,IXC     ,IXT       ,IXP       ,
-     C  IXR     ,IXTG     ,ADSKY   ,IADS      ,IKINE     ,
-     D  FSKY    ,A        ,AR      ,V         ,VR        ,
+     C  IXR     ,IXTG     ,PON, IKINE     ,
+     D  A        ,AR      ,V         ,VR        ,
      E  X       ,D        ,MS      ,IN        ,STIFN     ,
      F  STIFR   ,DMAS     ,DINER   ,FANI      ,ANIN      ,
      G           WA       ,UWA     ,PM        ,GEO       ,
@@ -116,15 +116,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      J  I15J    ,KXX      ,
      K  SECBUF  ,SECFCUM  ,NSTRF   ,IGRNOD    ,IEXLNK    ,
      L  XFRAME  ,
-     M  FSKYM   ,IXTG1    ,IB      ,VISCN     ,DD_R2R    ,
+     M  IXTG1    ,IB      ,VISCN     ,DD_R2R    ,
      O           ELBUF    ,IPART   ,MADPRT    ,MADSH4    ,
      P  MADSH3  ,MADSOL   ,MADNOD  ,MADFAIL   ,IGEO      ,
      Q  INTLIST ,NBINTC   ,PROCNE  ,NISKYFI   ,WEIGHT    ,
      R  ISIZXV  ,ILENXV   ,ADDCNI2 ,PROCNI2   ,IAD_I2M   ,
      S  FR_I2M  ,FR_NBCCI2,I2SIZE  ,FR_MAD    ,LWIBEM    ,
      T  LWRBEM  ,FXBFP    ,FXBEFW  ,FXBEDP    ,FXBGRP    ,
-     U  FXBGRW  ,NDIN     ,IADSDP  ,IADRCP    ,ISENDP    ,
-     V  IRECVP  ,ISLEN7   ,IRLEN7  ,ISLEN11   ,IRLEN11   ,
+     U  FXBGRW  ,NDIN     ,
+     V  ISLEN7   ,IRLEN7  ,ISLEN11   ,IRLEN11   ,
      W  LWIFLOW ,LWRFLOW  ,IFLOW   ,ADDCNEL   ,CNEL      ,
      X  ADDTMPL ,IPARTL   ,NPARTL  ,NFNCA     ,NFTCA     ,
      Y  I15ATH  ,I35ATH   ,IPM     ,SH4TREE   ,IPADMESH  ,
@@ -194,6 +194,7 @@ C-----------------------------------------------
       USE inivel_init_mod ,  only: inivel_init
       use glob_therm_mod
       use spmd_xv_inter_type1_mod , only : is_present_inter1
+      USE parith_on_mod, only: element_pon_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -233,6 +234,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(element_pon_) :: PON
       INTEGER ITASK, NBINTC, NODFT, NODLT, LINDIDEL, LBUFIDEL,
      .        NUMNTHREAD, NDTASK, NFIA, NFEA, NFOA ,NDMA, NFNCA, NFTCA,
      .        NDMA2,NDIN,N1,N2,N3,IGTYP,NPARTL,NGROUC,NGROUNC,
@@ -247,19 +249,19 @@ C-----------------------------------------------
      .        INT18KINE,INT24USE,NDAMA2, NRBYKIN_L,IOLDSECT,LBUFIDEL24,
      .        TABMP_L,TAGTRIMC(*),TAGTRIMTG(*), SLLOADP,SFR_ELEM
       INTEGER 
-     .        IXS(NIXS,*),IXS10(6,*) ,IXS20(12,*),IADS10(6,*),
-     .        IADS20(12,*),IXS16(6,*) ,IADS16(12,*), IGEO(NPROPGI,*),
+     .        IXS(NIXS,*),IXS10(6,*) ,IXS20(12,*),
+     .        IXS16(6,*) , IGEO(NPROPGI,*),
      .        IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
      .        IXR(NIXR,*), IXTG(NIXTG,*), IXTG1(4,*),
-     .        ITAB(*), IPARG(NPARG,*), IPARI(NPARI,*), ADSKY(*),
-     .        IADS(*), IEXLNK(NR2R,*),
+     .        ITAB(*), IPARG(NPARG,*), IPARI(NPARI,*),
+     .        IEXLNK(NR2R,*),
      .        WEIGHT(*), NSTRF(*), IB(NIBCLD,*), ITABM1(*),
      .        MONVOL(*),KXX(NIXX,*),ISENDTO(NINTER+1,NSPMD+1),
      .        FR_NBCC(2,NSPMD+1), IAD_ELEM(2,NSPMD+1) ,FR_ELEM(*),
      .        IRCVFROM(NINTER+1,NSPMD+1), INTLIST(NINTER), PROCNE(*),
      .        NISKYFI(*),ADDCNI2(*),PROCNI2(*),IAD_I2M(*),FR_I2M(*),
-     .        FR_NBCCI2(*), IPART(*), IADSDP(*), IADRCP(*),
-     .        ISENDP(*),IRECVP(*),DD_R2R(NSPMD+1,*),IPARTL(*),
+     .        FR_NBCCI2(*), IPART(*), 
+     .        DD_R2R(NSPMD+1,*),IPARTL(*),
      .        MADPRT(*), MADSH4(*), MADSH3(*), MADSOL(*), MADNOD(*),
      .        MADFAIL(*), FR_MAD(5,*), LWIBEM, LWRBEM, LWIFLOW, LWRFLOW,
      .        IFLOW(*), ADDCNEL(0:*), CNEL(0:*), ADDTMPL(0:*),
@@ -295,8 +297,8 @@ C-----------------------------------------------
      .   X(3,*), D(3,*), V(3,*), VR(3,*),
      .   MS(*), IN(*),  WA(*),  A(3,*), AR(3,*),
      .   FANI(3,*), UWA(*), STIFN(*),  STIFR(*),
-     .   ANIN(*), FSKY(*),PARTSAV(NPSAV,*),PARTS0(*),
-     .   DMAS, DINER     , FSKYM(*),
+     .   ANIN(*), PARTSAV(NPSAV,*),PARTS0(*),
+     .   DMAS, DINER     ,
      .   PM(NPROPM,*)    , GEO(NPROPG,*), 
      .   VISCN(*),
      .   SECBUF(*),SECFCUM(7,NUMNOD,NSECT),XFRAME(NXFRAME,*),
@@ -597,10 +599,10 @@ C
             IAD1 = 1
           ENDIF
           CALL ASSADD2(
-     1       ADSKY   ,ADSKY(IAD1),FSKY  ,FSKYM    ,IAD_ELEM     ,
+     1       PON%ADSKY   ,PON%ADSKY(IAD1),PON%FSKY  ,PON%FSKYM    ,IAD_ELEM     ,
      2       FR_ELEM ,FR_NBCC    ,PROCNE,NISKYFI  ,ADDCNI2      ,
      3       PROCNI2 ,IAD_I2M    ,FR_I2M,FR_NBCCI2,ADDCNI2(IAD1),
-     4       IADSDP  ,IADRCP     ,ISENDP,IRECVP   ,FTHESKY      ,
+     4       PON%IADSDP  ,PON%IADRCP     ,PON%ISENDP,PON%IRECVP   ,FTHESKY      ,
      5       NISKYFIE,INOD_PXFEM ,ADSKY_PXFEM,PROCNE_PXFEM,
      6       ISENDP_PXFEM,IRECVP_PXFEM ,IADSDP_PXFEM,IADRCP_PXFEM,
      7       FR_NBCC1,INOD_CRKXFEM,ADSKY_CRKXFEM,PROCNE_CRKXFEM,
@@ -968,8 +970,8 @@ C----------------------------------------------------------
       IF(NADMESH/=0)THEN
         IFLGADM=0
         CALL ADMGVID(
-     1    IPARG     ,ELBUF_TAB ,FSKY   ,FSKY  ,FTHESKY,
-     2    IADS(I87C),IADS(I87G),IFLGADM,IGROUC,NGROUC,
+     1    IPARG     ,ELBUF_TAB ,PON%FSKY   ,PON%FSKY  ,FTHESKY,
+     2    PON%IADC,PON%IAD_TG,IFLGADM,IGROUC,NGROUC,
      3    CONDNSKY  ,GLOB_THERM%NODADT_THERM)
       END IF
 C

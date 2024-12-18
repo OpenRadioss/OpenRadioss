@@ -35,7 +35,8 @@
       !||--- uses       -----------------------------------------------------
       !||====================================================================
       module connectivity_mod
-         use iso_c_binding
+        use iso_c_binding
+        USE parith_on_mod
 !       INTEGER, PARAMETER :: NIXS = 11
 !       INTEGER, PARAMETER :: NIXC = 7
 !       INTEGER, PARAMETER :: NIXQ = 7
@@ -74,6 +75,7 @@
         type connectivity_
           type(shell_) :: shell
           type(solid_) :: solid
+          type(element_pon_) :: pon
         end type connectivity_ 
         contains 
 

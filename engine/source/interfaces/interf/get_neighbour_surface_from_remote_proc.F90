@@ -56,7 +56,7 @@
       !||====================================================================
         subroutine get_neighbour_surface_from_remote_proc( ninter,numnod,nspmd,  &
                                                              size_r_buffer,nb_r_segment,s_buffer_2_size, &
-                                                             itabm1,r_buffer,s_buffer_2, &
+                                                             nodes,r_buffer,s_buffer_2, &
                                                              x,intbuf_tab,shoot_struct ,&
                                                              ispmd,proc_id_0 )
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -69,6 +69,7 @@
           use get_segment_normal_mod , only : get_segment_normal
           use get_segment_edge_mod , only : get_segment_edge
           use array_mod , only : array_type,alloc_my_real_1d_array,dealloc_my_real_1d_array
+          use nodal_arrays_mod, only : get_local_node_id, nodal_arrays_
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -88,7 +89,8 @@
           integer, intent(in) :: proc_id_0 !< S processor id
           integer, intent(in) :: ispmd !< current processor id
           integer, dimension(3,nspmd), intent(inout) :: s_buffer_2_size !< size of s_buffer_2
-          integer, dimension(numnod), intent(in) :: itabm1 !< global to local node id
+!         integer, dimension(numnod), intent(in) :: itabm1 !< global to local node id
+          type(nodal_arrays_), intent(in) :: nodes !< nodal arrays
           my_real, dimension(size_r_buffer) :: r_buffer !< mpi buffer (rcv)
           my_real, dimension(3,numnod), intent(in) :: x !< nodal position
           type(intbuf_struct_), dimension(ninter), intent(inout) :: intbuf_tab    !< interface data 
@@ -130,7 +132,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   external functions
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer , external :: dichotomic_search_i_asc,sysfus2
+          integer , external :: dichotomic_search_i_asc
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -179,8 +181,11 @@
             global_node_id_1 = list_r_segment(i,2)
             global_node_id_2 = list_r_segment(i,3)
             nin = list_r_segment(i,4)
-            local_node_id_1 = sysfus2(global_node_id_1,itabm1,numnod) ! convert the global node id to local
-            local_node_id_2 = sysfus2(global_node_id_2,itabm1,numnod) ! convert the global node id to local
+!            local_node_id_1 = sysfus2(global_node_id_1,itabm1,numnod) ! convert the global node id to local
+!            local_node_id_2 = sysfus2(global_node_id_2,itabm1,numnod) ! convert the global node id to local
+            local_node_id_1 = get_local_node_id(nodes,global_node_id_1)
+            local_node_id_2 = get_local_node_id(nodes,global_node_id_2)
+
             ! ------
             ! 1srt node
             nb_surface_1 = shoot_struct%shift_m_node_surf(local_node_id_1+1) - shoot_struct%shift_m_node_surf(local_node_id_1)   ! get the number of surface for the node "node_id_1"
