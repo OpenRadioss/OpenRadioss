@@ -27,8 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    lce16s3        ../starter/source/elements/reader/hm_read_solid.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================
-      SUBROUTINE REORDR(IX    ,NX     ,NEL    ,PM     ,IPOINT ,
-     .                  IPARTS,NGRELE ,IGRELEM)
+      SUBROUTINE REORDR(IX, NX, NEL, PM, IPOINT, IPARTS, NGRELE, IGRELEM, NUMMAT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -45,9 +44,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NX, NEL,NGRELE
-      INTEGER IX(NX,*), IPOINT(2,*),IPARTS(*)
-      my_real PM(NPROPM,*)
+      INTEGER :: NX, NEL,NGRELE
+      INTEGER :: IX(NX,NEL), IPOINT(2,*),IPARTS(*)
+      INTEGER, INTENT(IN) :: NUMMAT
+      my_real :: PM(NPROPM,NUMMAT)
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRELE) :: IGRELEM
 C-----------------------------------------------
@@ -55,15 +55,14 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IADR(0:MAXLAW+1), NL, M, I, MLAWP1, MT, MLAW, J,K,N,IAD
 C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
+C   S o u r c e   L i n e s
 C-----------------------------------------------
       NL=MAXLAW
-C
       DO M=0,NL+1
         IADR(M)=0
       ENDDO
 C---------------------------------------
-C     CALCUL DU NOMBRE D'ELEMENT PAR LOI
+C     NUMBER OF ELEMS FOR EACH MATERIAL LAW
 C---------------------------------------
       DO I=1,NEL
        IF(IX(1,I)<0) THEN
@@ -75,8 +74,8 @@ C---------------------------------------
        IADR(MLAWP1)=IADR(MLAWP1)+1
       ENDDO
 C------------------------------------------
-C     CALCUL DE L'ADRESSE D'ELEMENT PAR LOI
-C     SKIP DE LA LOI 11 MIS A LA FIN
+C     ELEM ADDRESSE FOR EACH MATERIAL LAW
+C     SKIPPING LAW11
 C------------------------------------------
       IADR(11+1)=0
       DO M=1,NL
@@ -84,7 +83,7 @@ C------------------------------------------
       ENDDO
       IADR(11)=IADR(NL+1)+IADR(NL)
 C--------------------------------------------------
-C     CALCUL DU POINTEUR D'ELEMENTS CLASSES PAR LOI
+C     CALL POINTER FOR EACH MLW
 C--------------------------------------------------
       DO I=1,NEL
         IF(IX(1,I)<0) THEN
@@ -97,7 +96,7 @@ C--------------------------------------------------
         IPOINT(1,I)=IADR(MLAW)
       END DO
 C------------------------------------------
-C     PERMUTATION DES ELEMENTS PAR LOI
+C     PERUMTATING ELEMS USING LAWS
 C------------------------------------------
       DO J=1,NX
         DO I=1,NEL
@@ -108,7 +107,7 @@ C------------------------------------------
         END DO
       ENDDO
 C------------------------------------------
-C     PERMUTATION DES PARTS
+C     PERMUTATING PARTS
 C------------------------------------------
       DO I=1,NEL
         IPOINT(2,I)=IPARTS(I)
@@ -117,15 +116,14 @@ C------------------------------------------
         IPARTS(IPOINT(1,I))=IPOINT(2,I)
       ENDDO
 C------------------------------------------
-C     RENUMEROTATION DES ELEMENTS DANS LES GROUPES
+C     RRENUMBERING ELEMS INSIDE GROUPS
 C------------------------------------------
       DO K=1,NGRELE
         N = IGRELEM(K)%NENTITY
         DO I=1,N
-          IF (IGRELEM(K)%ENTITY(I)<=NEL)
-     .        IGRELEM(K)%ENTITY(I) = IPOINT(1,IGRELEM(K)%ENTITY(I))
+          IF (IGRELEM(K)%ENTITY(I)<=NEL)IGRELEM(K)%ENTITY(I) = IPOINT(1,IGRELEM(K)%ENTITY(I))
         ENDDO
       ENDDO
-C
+C------------------------------------------
       RETURN
       END

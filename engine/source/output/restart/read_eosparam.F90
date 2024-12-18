@@ -66,23 +66,32 @@
       INTEGER ,DIMENSION(NCHARTITLE) :: NAME
       INTEGER ,DIMENSION(1) :: ILEN
       INTEGER ,DIMENSION(:), ALLOCATABLE :: IBUF
+      my_real ,DIMENSION(:), ALLOCATABLE :: RBUF
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-      ! read eos model parameters
+      ! read eos model parameters (integer)
       call read_i_c(ilen, 1)
       len = ilen(1)
       allocate (ibuf(len) )
       call read_i_c(ibuf, len)
-      
       iad = 0
       iad = iad+1 ; eos%nuparam = ibuf(iad)
       iad = iad+1 ; eos%niparam = ibuf(iad)
       iad = iad+1 ; eos%nuvar   = ibuf(iad)
       iad = iad+1 ; eos%nfunc   = ibuf(iad)
       iad = iad+1 ; eos%ntable  = ibuf(iad)
-
       deallocate( ibuf )
+
+      ! read eos model parameters (real)
+      call read_i_c(ilen, 1)
+      len = ilen(1)
+      allocate (rbuf(len))
+      call read_db_c(rbuf, len)
+      iad = 0
+      iad = iad+1 ; eos%cv = rbuf(iad)
+      iad = iad+1 ; eos%cp = rbuf(iad)
+      deallocate( rbuf )
       
       ! read material title                      
       call read_c_c(name,nchartitle)             
