@@ -26,6 +26,7 @@
       !||    add_mass_stat                      ../starter/source/tools/admas/add_mass_stat.F
       !||    allocate_sph_work                  ../common_source/modules/mat_elem/sph_work.F90
       !||    allocbuf_auto                      ../engine/source/elements/elbuf/allocbuf_auto.F
+      !||    assign_ptrx                        ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||    boxtagn                            ../starter/source/model/box/bigbox.F
       !||    c3grhead                           ../starter/source/elements/sh3n/coque3n/c3grhead.F
       !||    c3grtails                          ../starter/source/elements/sh3n/coque3n/c3grtails.F
@@ -101,7 +102,6 @@
       !||    lectur                             ../engine/source/input/lectur.F
       !||    monvol_check_delete_duplicated     ../starter/source/airbag/monvol_check_delete_duplicated.F
       !||    nloc_dmg_init                      ../starter/source/materials/fail/nloc_dmg_init.F
-      !||    nodal_arrays_mod                   ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||    outri                              ../starter/source/materials/time_step/outri.F
       !||    outrin                             ../starter/source/materials/time_step/outri.F
       !||    pre_i2                             ../starter/source/interfaces/inter3d1/i7remnode.F

@@ -21,13 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    mmodul       ../engine/source/elements/solid/solidez/mmodul.F
+      !||    mmodul             ../engine/source/elements/solid/solidez/mmodul.F
       !||--- called by ------------------------------------------------------
-      !||    szhour3_or   ../engine/source/elements/solid/solidez/szhour3_or.F
+      !||    szhour3_or         ../engine/source/elements/solid/solidez/szhour3_or.F
       !||--- calls      -----------------------------------------------------
-      !||    c33stif2el   ../engine/source/elements/solid/solidez/c33stif2el.F
-      !||    gettransv    ../engine/source/elements/solid/solidez/gettransv.F
-      !||    mstiforthv   ../engine/source/elements/solid/solidez/mstiforthv.F
+      !||    c33stif2el         ../engine/source/elements/solid/solidez/c33stif2el.F
+      !||    gettransv          ../engine/source/elements/solid/solidez/gettransv.F
+      !||    mstiforthv         ../engine/source/elements/solid/solidez/mstiforthv.F
+      !||--- uses       -----------------------------------------------------
+      !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||====================================================================
       SUBROUTINE MMODUL(JFT     ,JLT     ,PM    ,MAT    ,MTN    ,
      .                  GAMA    ,UPARAM  ,CC    ,CG     ,G33    ,

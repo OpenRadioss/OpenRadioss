@@ -21,19 +21,20 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    szhour3_or     ../engine/source/elements/solid/solidez/szhour3_or.F
+      !||    szhour3_or         ../engine/source/elements/solid/solidez/szhour3_or.F
       !||--- called by ------------------------------------------------------
-      !||    szforc3        ../engine/source/elements/solid/solidez/szforc3.F
+      !||    szforc3            ../engine/source/elements/solid/solidez/szforc3.F
       !||--- calls      -----------------------------------------------------
-      !||    gfhour_or      ../engine/source/elements/solid/solidez/gfhour_or.F
-      !||    mdama24        ../engine/source/elements/solid/solidez/mdama24.F
-      !||    mmod_norm      ../engine/source/elements/solid/solidez/mmod_norm.F
-      !||    mmodul         ../engine/source/elements/solid/solidez/mmodul.F
-      !||    szetfac        ../engine/source/elements/solid/solidez/szetfac.F
-      !||    szstrainhg     ../engine/source/elements/solid/solidez/szstrainhg.F
-      !||    szsvm_or       ../engine/source/elements/solid/solidez/szsvm_or.F
+      !||    gfhour_or          ../engine/source/elements/solid/solidez/gfhour_or.F
+      !||    mdama24            ../engine/source/elements/solid/solidez/mdama24.F
+      !||    mmod_norm          ../engine/source/elements/solid/solidez/mmod_norm.F
+      !||    mmodul             ../engine/source/elements/solid/solidez/mmodul.F
+      !||    szetfac            ../engine/source/elements/solid/solidez/szetfac.F
+      !||    szstrainhg         ../engine/source/elements/solid/solidez/szstrainhg.F
+      !||    szsvm_or           ../engine/source/elements/solid/solidez/szsvm_or.F
       !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||====================================================================
       SUBROUTINE SZHOUR3_OR(
      1   ELBUF_STR,PM,       RHO,      OFF,

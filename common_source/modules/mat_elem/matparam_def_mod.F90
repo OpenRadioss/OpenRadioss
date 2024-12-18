@@ -227,6 +227,7 @@
       !||    mat25_tsaiwu_c                      ../engine/source/materials/mat/mat025/mat25_tsaiwu_c.F90
       !||    mat25_tsaiwu_s                      ../engine/source/materials/mat/mat025/mat25_tsaiwu_s.F90
       !||    mat_elem_mod                        ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    mmodul                              ../engine/source/elements/solid/solidez/mmodul.F
       !||    mulaw                               ../engine/source/materials/mat_share/mulaw.F90
       !||    multi_ebcs                          ../engine/source/multifluid/multi_ebcs.F
       !||    multi_inlet_ebcs                    ../engine/source/multifluid/multi_inlet_ebcs.F
@@ -260,6 +261,7 @@
       !||    sigeps125                           ../engine/source/materials/mat/mat125/sigeps125.F90
       !||    sigeps125c                          ../engine/source/materials/mat/mat125/sigeps125c.F90
       !||    sigeps126                           ../engine/source/materials/mat/mat126/sigeps126.F90
+      !||    sigeps127                           ../engine/source/materials/mat/mat127/sigeps127.F90
       !||    sigeps127c                          ../engine/source/materials/mat/mat127/sigeps127c.F90
       !||    sigeps190                           ../engine/source/materials/mat/mat190/sigeps190.F
       !||    sigeps25c                           ../engine/source/materials/mat/mat025/sigeps25c.F
@@ -280,6 +282,7 @@
       !||    stat_inimap2d_file_spmd             ../engine/source/output/sta/stat_inimap2d_file_spmd.F
       !||    stat_inimap2d_spmd                  ../engine/source/output/sta/stat_inimap2d_spmd.F
       !||    suinit3                             ../starter/source/elements/elbuf_init/suinit3.F
+      !||    szhour3_or                          ../engine/source/elements/solid/solidez/szhour3_or.F
       !||    t3grhead                            ../starter/source/elements/solid_2d/tria/t3grhead.F
       !||    t3grtails                           ../starter/source/elements/solid_2d/tria/t3grtails.F
       !||    tagnod_r2r_nl                       ../starter/source/coupling/rad2rad/tagnod_r2r_nl.F

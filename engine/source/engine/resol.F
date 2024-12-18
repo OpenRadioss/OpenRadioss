@@ -49,6 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ams_prepare_poff_assembly                    ../engine/source/mpi/ams/spmd_sms.F
       !||    ancmsg                                       ../engine/source/output/message/message.F
       !||    arret                                        ../engine/source/system/arret.F
+      !||    assign_ptrx                                  ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||    assinit                                      ../engine/source/assembly/assadd2.F
       !||    assinit_crkxfem                              ../engine/source/assembly/assadd2.F
       !||    assinit_pxfem                                ../engine/source/assembly/assadd2.F

@@ -36,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    no_asso_lplas76c           ../engine/source/materials/mat/mat076/no_asso_lplas76c.F
       !||    no_asso_plas76             ../engine/source/materials/mat/mat076/no_asso_plas76.F
       !||    no_asso_qplas76c           ../engine/source/materials/mat/mat076/no_asso_qplas76c.F
+      !||    sigeps127                  ../engine/source/materials/mat/mat127/sigeps127.F90
       !||    sigeps127c                 ../engine/source/materials/mat/mat127/sigeps127c.F90
       !||    sigeps187                  ../engine/source/materials/mat/mat187/sigeps187.F
       !||    sigeps36                   ../engine/source/materials/mat/mat036/sigeps36.F

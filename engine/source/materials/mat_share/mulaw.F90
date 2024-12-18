@@ -95,6 +95,7 @@
       !||    sigeps124              ../engine/source/materials/mat/mat124/sigeps124.F
       !||    sigeps125              ../engine/source/materials/mat/mat125/sigeps125.F90
       !||    sigeps126              ../engine/source/materials/mat/mat126/sigeps126.F90
+      !||    sigeps127              ../engine/source/materials/mat/mat127/sigeps127.F90
       !||    sigeps187              ../engine/source/materials/mat/mat187/sigeps187.F
       !||    sigeps190              ../engine/source/materials/mat/mat190/sigeps190.F
       !||    sigeps28               ../engine/source/materials/mat/mat028/sigeps28.F
@@ -158,6 +159,7 @@
       !||    prop_param_mod         ../common_source/modules/mat_elem/prop_param_mod.F90
       !||    sigeps125_mod          ../engine/source/materials/mat/mat125/sigeps125.F90
       !||    sigeps126_mod          ../engine/source/materials/mat/mat126/sigeps126.F90
+      !||    sigeps127_mod          ../engine/source/materials/mat/mat127/sigeps127.F90
       !||    table_mod              ../engine/share/modules/table_mod.F
       !||====================================================================
         subroutine mulaw(&

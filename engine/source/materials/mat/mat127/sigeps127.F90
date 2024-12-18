@@ -23,7 +23,7 @@
       !||====================================================================
       !||    sigeps127_mod   ../engine/source/materials/mat/mat127/sigeps127.F90
       !||--- called by ------------------------------------------------------
-      !||    mulawc           ../engine/source/materials/mat_share/mulawc.F
+      !||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
       !||====================================================================
       module sigeps127_mod
         contains
@@ -32,9 +32,11 @@
   ! \details Material law  Dedicated to composite application. 
   ! ======================================================================================================================
       !||====================================================================
-      !||    sigeps127         ../engine/source/materials/mat/mat127/sigeps127.F90
+      !||    sigeps127          ../engine/source/materials/mat/mat127/sigeps127.F90
       !||--- called by ------------------------------------------------------
-      !||    mulaw            ../engine/source/materials/mat_share/mulaw.F
+      !||    mulaw              ../engine/source/materials/mat_share/mulaw.F90
+      !||--- calls      -----------------------------------------------------
+      !||    vinter             ../engine/source/tools/curve/vinter.F
       !||--- uses       -----------------------------------------------------
       !||    constant_mod       ../common_source/modules/constant_mod.F
       !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90

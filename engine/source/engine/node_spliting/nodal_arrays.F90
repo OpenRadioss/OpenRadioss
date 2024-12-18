@@ -31,9 +31,6 @@
       !||    restalloc          ../engine/source/output/restart/arralloc.F
       !||    restmod            ../engine/share/modules/restart_mod.F
       !||    wrrestp            ../engine/source/output/restart/wrrestp.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
       !||====================================================================
       module nodal_arrays_mod
 #include "my_real.inc"
@@ -94,6 +91,14 @@
 !                                                   procedures
 ! ======================================================================================================================
        !\details Assign the pointer to the coordinates
+      !||====================================================================
+      !||    assign_ptrx    ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||--- called by ------------------------------------------------------
+      !||    resol          ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    my_alloc_mod   ../common_source/tools/memory/my_alloc.F90
+      !||====================================================================
         subroutine assign_ptrX(ptrX, X, numnod)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

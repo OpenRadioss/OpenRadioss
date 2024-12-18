@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    st_qaprint_ebcs     ../starter/source/output/qaprint/st_qaprint_ebcs.F
+      !||    st_qaprint_ebcs        ../starter/source/output/qaprint/st_qaprint_ebcs.F
       !||--- called by ------------------------------------------------------
-      !||    st_qaprint_driver   ../starter/source/output/qaprint/st_qaprint_driver.F
+      !||    st_qaprint_driver      ../starter/source/output/qaprint/st_qaprint_driver.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    restmod             ../starter/share/modules1/restart_mod.F
+      !||    restmod                ../starter/share/modules1/restart_mod.F
       !||====================================================================
       SUBROUTINE ST_QAPRINT_EBCS(EBCS_TAB)
 C-----------------------------------------------
