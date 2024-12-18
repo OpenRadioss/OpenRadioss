@@ -243,6 +243,10 @@ c------------------------------
       MTAG%L_SEQ  = 1
 c------------------------------        
       ! MATPARAM keywords     
+      CALL INIT_MAT_KEYWORD(MATPARAM,"ELASTO_PLASTIC")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"INCREMENTAL")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"LARGE_STRAIN") 
+!
       CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
       CALL INIT_MAT_KEYWORD(MATPARAM,"ORTHOTROPIC")
 C

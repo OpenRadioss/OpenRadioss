@@ -198,6 +198,9 @@ C-----------------------------------------------
       MTAG%G_TEMP  = 1
       MTAG%L_TEMP  = 1
 
+      CALL INIT_MAT_KEYWORD(MATPARAM,"ELASTO_PLASTIC")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"INCREMENTAL")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"LARGE_STRAIN") 
       ! Material compatibility with /EOS
       CALL INIT_MAT_KEYWORD(MATPARAM,"EOS")
 
