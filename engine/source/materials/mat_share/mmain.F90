@@ -375,7 +375,7 @@
           integer ibidon1,ibidon2,ibidon3,ibidon4                     ! Dummy arguments
           integer i,ipg,nuvar,nparam,nfunc,ifunc_alpha,ilaw,imat,&
           &        nvarf,nfail,ntabl_fail,ir,irupt,ivisc,eostyp,npts,nptt,nptr,npg,  &
-          &        isvis,mx,nvartmp,nlay,inloc,iselect,ibpreld,nvareos,nvarvis
+          &        isvis,nvartmp,nlay,inloc,iselect,ibpreld,nvareos,nvarvis
           integer ifunc(maxfunc)
 
           ! Float/Double
@@ -1165,11 +1165,11 @@
 !----------------
 !
           elseif (mtn == 5) then
-            call m5law(pm   ,lbuf%sig ,lbuf%eint  ,lbuf%rho ,psh       ,&
-            &p0   ,lbuf%tb  ,lbuf%bfrac ,voln     ,deltax    ,&
-            &mat  ,nel      ,cxx        ,df       ,&
-            &er1v ,er2v     ,wdr1v      ,wdr2v    ,w1        ,&
-            &rho0, amu)
+            call m5law(pm    ,lbuf%sig ,lbuf%eint  ,lbuf%rho ,psh    ,&
+            &          p0    ,lbuf%tb  ,lbuf%bfrac ,voln     ,deltax ,&
+            &          mat   ,nel      ,cxx        ,df       ,        &
+            &          er1v  ,er2v     ,wdr1v      ,wdr2v    ,w1     ,&
+            &          rho0  ,amu      ,nummat     ,tt     )
             if (jsph == 0) then
               call mqviscb(&
               &pm,       off,      lbuf%rho, lbuf%rk,&
