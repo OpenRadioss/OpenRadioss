@@ -175,6 +175,9 @@ C-----------------------------------------------
         IEOS   = 18   ! Linear EOS is used by default 
       ENDIF                                                                                        
 !
+      CALL INIT_MAT_KEYWORD(MAT_PARAM,"ELASTO_PLASTIC")
+      CALL INIT_MAT_KEYWORD(MAT_PARAM,"INCREMENTAL")
+      CALL INIT_MAT_KEYWORD(MAT_PARAM,"LARGE_STRAIN") 
       MAT_PARAM%IEOS = IEOS
       IPM(4)        = IEOS  ! keep this temporarily for output and fluid sections
      
