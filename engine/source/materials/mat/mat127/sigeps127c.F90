@@ -110,8 +110,8 @@
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
       integer ::  fs, i,damage,updat,updat1,updat2,nkey,                  &
-                  ncyred, n,ndex,twoway, ncy0,ndel_ply
-      integer , dimension(nel) :: index,iad,ipos,ilen
+                  ncyred, n,ndex,twoway, ncy0,ndel_ply,ndex0
+      integer , dimension(nel) :: index,iad,ipos,ilen,index0
       my_real                                                             &
         e1, e2, nu12, nu21, xt0, slimt1, xc0, slimc1,                     &
         yt0, slimt2, yc0, slimc2s, sc0, d, damt, damc,                    &
@@ -222,33 +222,32 @@
            sc(1:nel) = sc0
       endif
       ! Reduction of stress ply and checking the deletion of element
-       ndex = 0
+      ndex0 = 0
       do i=1,nel
           if(off(i) < one ) then
               off(i) = zero 
           elseif(dmg(i,1) == one ) then
               ndel_ply = nint(dmg_g(i))
-              ncy0 = nint(uvar(i,1))
-              scale = one - (ncycle - ncy0)/ncyred 
-              scale = max(scale, zero)
-              signxx(i) = sigoxx(i)*scale
-              signyy(i) = sigoyy(i)*scale 
-              signxy(i) = sigoxy(i)*scale
-              signyz(i) = sigoyz(i)*scale
-              signzx(i) = sigozx(i)*scale 
+              signxx(i) = zero
+              signyy(i) = zero
+              signxy(i) = zero
+              signyz(i) = zero
+              signzx(i) = zero
               del_ratio= ndel_ply/nply_max 
               if( ndel_ply == nply_max .or. del_ratio >= ratio) then
                 off(i) =  four_over_5
               endif 
+           else
+              ndex0 = ndex0 + 1
+              index0(ndex0) = i     
            endif
       enddo 
 !! ------!!---------------------------------           
-       ! no deleted element
-      ndex = 0
+       ndex = 0 
        ! Failure based on  chang-chang model
       if(dfailt == zero) then
-          do i=1,nel
-                if(dmg(i,1) == one .or. off(i) < one ) cycle
+          do n=1,ndex0
+                i=index0(n)
                 ! Update compressive strength if damage in matrix is complete
                 if(dmg(i,5) == one ) then
                  xc(i) = ycfac*yc(i)! 
@@ -263,8 +262,6 @@
                 signzx(i) = sigozx(i) + shf(i)*g13*depszx(i) 
                 signyz(i) = sigoyz(i) + shf(i)*g23*depsyz(i) 
                 ! Fiber failure
-                dft = dmg(i,2) 
-                dfc = dmg(i,3)
                 if(signxx(i) >= zero .and. dmg(i,2)  == zero ) then
                      eft = (signxx(i)/xt(i))**2  + beta*(signxy(i)/sc(i))**2 
                      if( eft >= one) then
@@ -274,7 +271,7 @@
                          uvar(i,1) = ncycle 
                          offply(i) = zero
                       endif  
-                elseif(dmg(i,3) == zero ) then
+                elseif(signxx(i) < zero .and. dmg(i,3) == zero ) then
                       efc = (signxx(i)/xc(i))**2
                       if(efc >= one) dmg(i,3) = one
                endif
@@ -292,62 +289,92 @@
                        emc = fourth*(signyy(i)/sc(i))**2  + (yc_over_sc - one)*signyy(i)/yc(i) + (signxy(i)/sc(i))**2 
                        if(emc >= one) dmg(i,5)= one 
                endif 
-               if(dmg(i,2) == zero )then
-                      ndex = ndex + 1
-                      index(ndex) = I  
-                      ! shear
-                      if(abs(signxy(i)) >= sc(i) ) dmg(i,6 ) = one 
-               endif  
+               if(abs(signxy(i)) >= sc(i) ) dmg(i,6 ) = one 
+               ! failur based on effetive strain
+                eps_ef =  two_third* (epsxx(i)**2 + epsyy(i)**2 + epsxy(i)**2 ) 
+                eps_ef = sqrt(eps_ef) 
+                if(eps_ef >= efs .and. offply(i) == one ) then
+                  dmg(i,1) = one 
+                  uvar(i,1) = ncycle 
+                  dmg_g(i) = dmg_g(i) + one
+                  offply(i) = zero
+                endif  
+                if(offply(i) > zero )then
+                    ndex = ndex + 1
+                    index(ndex) = i
+                else      
+                    signxx(i) = zero
+                    signyy(i) = zero
+                    signxy(i) = zero
+                    signzx(i) = zero
+                    signyz(i) = zero
+                endif  
           end do ! nel 
       endif ! dfailt == zero
        ! criteria based on strain
       if (dfailt > zero )then
-          do  i=1,nel
-              if(dmg(i,1) == one .or. off(i) < one ) cycle
-              ! failure based on max strain 
-              if(dmg(i,5) == one ) then
+          do n=1,ndex0
+                i=index0(n)
+              !  ! Update compressive strength if damage in matrix is complete
+                if(dmg(i,5) == one ) then
                  xc(i) = ycfac*yc(i)! 
                  xt(i) = fbrt*xt(i)
-              endif    
-              eps_ef =  two_third* (epsxx(i)**2 + epsyy(i)**2 + epsxy(i)**2 ) 
-              eps_ef = sqrt(eps_ef) 
-              if(epsxx(i) >= dfailt .or. epsxx(i) <= dfailc .or.                    &
+                endif   
+                eps_ef =  two_third* (epsxx(i)**2 + epsyy(i)**2 + epsxy(i)**2 ) 
+                eps_ef = sqrt(eps_ef) 
+                if(epsxx(i) >= dfailt .or. epsxx(i) <= dfailc .or.                    &
                 abs(epsyy(i)) >= dfailm .or. abs(epsxy(i)) >= dfails  .or. eps_ef >= efs  ) then
                  !! off(i) = four_over_5
-                 dmg(i,1) = one 
-                 uvar(i,1) = ncycle 
-                 dmg_g(i) = dmg_g(i) + one
-                 offply(i) = zero
-              else
+                   dmg(i,1) = one 
+                   uvar(i,1) = ncycle 
+                   dmg_g(i) = dmg_g(i) + one
+                   offply(i) = zero
+                   signxx(i) = zero
+                   signyy(i) = zero
+                   signxy(i) = zero
+                   signzx(i) = zero
+                   signyz(i) = zero
+                else
               ! computing new stress 
-                d = (one - nu12*nu21)
-                invd = one/d
-                signxx(i) = sigoxx(i) + invd*(e1*depsxx(i) + nu21*e1*depsyy(i))
-                signyy(i) = sigoyy(i) + invd*(nu12*e2*depsxx(i)+ e2*depsyy(i))
-                signxy(i) = sigoxy(i) + g12*depsxy(i)
-                signzx(i) = sigozx(i) + shf(i)*g13*depszx(i) 
-                signyz(i) = sigoyz(i) + shf(i)*g23*depsyz(i) 
-                if(signxx(i) >= xt(i) ) then
-                    dmg(i,2) = one
-                elseif(signxx(i) <=  -xc(i)) then
-                    dmg(i,3) = one 
-                endif 
-                if(signyy(i) >= yt(i) ) then
-                    dmg(i,4) = one
-                 elseif(signyy(i) <= -yc(i)) then
-                    dmg(i,5) = one 
-                 endif  
-                 if(abs(signxy(i)) >= sc(i) ) dmg(i,6 ) = one 
-                 ndex = ndex + 1
-                 index(ndex) = I  
-              endif
+                   d = (one - nu12*nu21)
+                   invd = one/d
+                   signxx(i) = sigoxx(i) + invd*(e1*depsxx(i) + nu21*e1*depsyy(i))
+                   signyy(i) = sigoyy(i) + invd*(nu12*e2*depsxx(i)+ e2*depsyy(i))
+                   signxy(i) = sigoxy(i) + g12*depsxy(i)
+                   signzx(i) = sigozx(i) + shf(i)*g13*depszx(i) 
+                   signyz(i) = sigoyz(i) + shf(i)*g23*depsyz(i) 
+                !
+                   if(signxx(i) >= zero .and. dmg(i,2)  == zero ) then
+                     eft = (signxx(i)/xt(i))**2  + beta*(signxy(i)/sc(i))**2 
+                     if( eft >= one) dmg(i,2) = one  ! 
+                   elseif(signxx(i) < zero .and. dmg(i,3) == zero ) then
+                      efc = (signxx(i)/xc(i))**2
+                      if(efc >= one) dmg(i,3) = one
+                   endif
+                   ! matrix failure 
+                   if(signyy(i) >= zero  .and. dmg(i,4) == zero ) then
+                        scale = half/g12
+                        tau2 = signxy(i)**2
+                        sc2  = sc(i)**2
+                        tau_bar = scale*tau2 + three_over_4*alpha*tau2**2
+                        tau_bar = tau_bar/(scale*sc2 + three_over_4*alpha*sc2**2)
+                        emt = (signyy(i)/yt(i))**2  + tau_bar
+                       if( emt >= one) dmg(i,4) = one 
+                   elseif(signyy(i) < zero .and. dmg(i,5) == zero) then
+                       yc_over_sc  = fourth*(yc(i)/sc(i))**2
+                       emc = fourth*(signyy(i)/sc(i))**2  + (yc_over_sc - one)*signyy(i)/yc(i) + (signxy(i)/sc(i))**2 
+                       if(emc >= one) dmg(i,5)= one 
+                   endif 
+                   if(abs(signxy(i)) >= sc(i) ) dmg(i,6 ) = one 
+                   ndex = ndex + 1
+                   index(ndex) = i 
+                endif
           enddo
       endif   
        ! 
 #include "vectorize.inc"                         
        do n=1,ndex
              i= index(n)
-             !!
              deint = half*(depsxx(i)*(signxx(i) + sigoxx(i))  +                                     &
                            depsyy(i)*(signyy(i) + sigoyy(i))) +                                    &
                            depsxy(i)*(signxy(i) + sigoxy(i)) 
@@ -361,7 +388,7 @@
              etse(i)   = one
              a11       = max(e1,e2)/(one - nu12**2) 
              a11       = max(e1,e2)
-             ssp(i) = sqrt(a11/rho(i))
+             ssp(i)    = sqrt(a11/rho(i))
              sigy(i)    = min(slimt1*xt(i),slimt2*yt(i), slimc1*xc(i),slimc2*yc(i)) ! to check
             ! computation of the thickness variation 
               limit_sig=  zero
