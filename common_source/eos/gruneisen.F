@@ -25,9 +25,18 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    eosmain     ../common_source/eos/eosmain.F
       !||====================================================================
-      SUBROUTINE GRUNEISEN(IFLAG,NEL,PM   ,OFF  ,EINT ,MU   ,MU2 , 
-     2                     ESPE ,DVOL ,DF   ,VNEW ,MAT  ,RHO0,
-     3                     PNEW ,DPDM ,DPDE ,THETA,ECOLD)
+      SUBROUTINE GRUNEISEN(IFLAG , NEL    ,PM   ,OFF   ,EINT  ,MU   ,MU2 ,
+     2                     ESPE  , DVOL   ,DF   ,VNEW  ,MAT   ,RHO0,
+     3                     PNEW  , DPDM   ,DPDE ,THETA ,ECOLD ,PSH,
+     4                     NUMMAT, NPROPM)
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C Mie-Gruneisen Equation of State
+C
+C     STAGGERED SCHEME : IFLG=0 : sound speed derivatives
+C                        IFLG=1 : P[n+1] and EINT[n+1]
+C    COLLOCATED SCHEME : IFLG=2 : P[n+1] and sound speed derivatives
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -36,38 +45,43 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
-#include      "param_c.inc"
-#include      "com04_c.inc"
-#include      "com06_c.inc"
-#include      "com08_c.inc"
-#include      "vect01_c.inc"
-#include      "scr06_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER MAT(NEL), IFLAG, NEL
-      my_real PM(NPROPM,NUMMAT), 
-     .        OFF(NEL)  ,EINT(NEL) ,MU(NEL)   , 
-     .        MU2(NEL)  ,ESPE(NEL) ,DVOL(NEL) ,DF(NEL)  , 
-     .        VNEW(NEL) ,RHO0(NEL) ,PNEW(NEL) ,DPDM(NEL),
-     .        DPDE(NEL) ,THETA(NEL),ECOLD(NEL)
+      INTEGER,INTENT(IN) :: NUMMAT            !< number of material laws  (size for PM array)
+      INTEGER,INTENT(IN) :: NPROPM            !< size for PM array
+      INTEGER,INTENT(IN) :: IFLAG             !< flag for the operation (staggered scheme IFLAG=0,1 ; collocated scheme IFLAG=2)
+      INTEGER,INTENT(IN) :: NEL               !< number of elements in the current group
+      INTEGER,INTENT(IN) :: MAT(NEL)          !< material identifier of each element
+      my_real,INTENT(IN) :: PM(NPROPM,NUMMAT) !< material buffer
+      my_real,INTENT(IN) :: OFF(NEL)          !< OFF=1 if element is active, OFF=0 if element is inactive
+      my_real,INTENT(IN) :: MU(NEL)           !< volumetric strain : rho/rho0-1
+      my_real,INTENT(IN) :: MU2(NEL)          !< MU**2 IF MU > 0 , 0 otherwise
+      my_real,INTENT(IN) :: ESPE(NEL)         !< specific internal energy
+      my_real,INTENT(IN)  :: DVOL(NEL)        !< volume change
+      my_real,INTENT(IN) :: VNEW(NEL)         !< current volume
+      my_real,INTENT(IN) :: RHO0(NEL)         !< reference density
+      my_real,INTENT(IN) :: DF(NEL)           !< relative volume (v/v0 = rho0/rho)
+      my_real,INTENT(INOUT) :: EINT(NEL)      !< internal energy
+      my_real,INTENT(INOUT) :: ECOLD(NEL)     !< cold internal energy for temperature model
+      my_real,INTENT(INOUT) :: PSH(NEL)       !< pressure shift (for relative pressure modeling)
+      my_real,INTENT(INOUT) :: PNEW(NEL)      !< current pressure      my_real,INTENT(INOUT) :: ECOLD(NEL)     !< cold internal energy (for temperature calculation)
+      my_real,INTENT(INOUT) :: THETA(NEL)     !< temperature
+      my_real,INTENT(INOUT) :: DPDE(NEL)      !< partial derivative dP/dE where E=Eint/V0
+      my_real,INTENT(INOUT) :: DPDM(NEL)      !< total derivative : DP/Dmu = dPdmu + dPdE* P/(1+mu)**2
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX
-      my_real
-     .   AA, BB, DVV, FF, FG, FAC, XX, DFF, DFG, FAC1, PP, ETA
-      my_real
-     .   CC(MVSIZ),S1(MVSIZ),S2(MVSIZ),S3(MVSIZ),G0(MVSIZ),GA(MVSIZ),
-     .   PC(MVSIZ),SPH(MVSIZ)
-C--------------------------------------------------------------------
-      IF(IFLAG == 0) THEN
-C-----------------------------------------
-C     COMPUTE BULK MODULUS FOR SOUND SPEED
-C     COMPUTE COLD COMPRESSION ENERGY
-C-----------------------------------------
+      my_real AA, BB, DVV, FF, FG, FAC, XX, DFF, DFG, FAC1, PP, ETA
+      my_real CC(MVSIZ),S1(MVSIZ),S2(MVSIZ),S3(MVSIZ),G0(MVSIZ),GA(MVSIZ),PC(MVSIZ),SPH(MVSIZ)
+C-----------------------------------------------
+C   B o d y
+C-----------------------------------------------
+      IF(IFLAG == 0) THEN !--- SOUND SPEED DERIVATIVE (DPDE is partial derivative, DPDM is total derivative)
+       ! user parameters
        DO I=1,NEL
-        MX    = MAT(I)
+        MX = MAT(I)
         CC(I) = PM(33,MX)
         S1(I) = PM(34,MX)
         S2(I) = PM(160,MX)
@@ -75,9 +89,11 @@ C-----------------------------------------
         G0(I) = PM(35,MX)
         GA(I) = PM(36,MX)
         PC(I) = PM(37,MX)
-        SPH(I)= PM(69,MX)
+        SPH(I) = PM(69,MX)
+        PSH(I) = PM(88,MX)
        ENDDO
-C
+
+       ! Derivative
        DO I=1,NEL
         FAC=ONE
         FAC1=ONE
@@ -87,34 +103,31 @@ C
          FG=ONE-(S1(I)-ONE+S2(I)*XX+S3(I)*XX*XX)*MU(I)
          FAC=FF/(FG*FG)
          DFF=ONE-HALF*G0(I)-GA(I)*MU(I)
-         DFG=ONE-S1(I)+XX*(-TWO*S2(I)+XX*(S2(I)-THREE*S3(I))
-     .      +TWO*S3(I)*XX*XX)
+         DFG=ONE-S1(I)+XX*(-TWO*S2(I)+XX*(S2(I)-THREE*S3(I))+TWO*S3(I)*XX*XX)
          FAC1=FAC*(ONE+MU(I)*(DFF/FF-TWO*DFG/FG))
         ENDIF
-C
         AA=FAC*RHO0(I)*CC(I)*CC(I)*MU(I)
         BB=G0(I)+GA(I)*MU(I)
-        PP=MAX(AA+BB*ESPE(I),PC(I))*OFF(I)
+        PP=MAX(AA+BB*ESPE(I),PC(I))*OFF(I) ! total pressure need for sound speed calculation (=> no pressure shift)
         DPDM(I)=FAC1*RHO0(I)*CC(I)*CC(I)+PP*DF(I)*DF(I)*BB+GA(I)*ESPE(I)
         DPDE(I)=BB
        ENDDO
-C
+
+       ! Temperature
        DO I=1,NEL
         ECOLD(I)=-THREE100*SPH(I)
         IF(MU(I)>ZERO) THEN
           XX  = MU(I)/(ONE+MU(I))
           ETA=ONE+MU(I)
-          ECOLD(I)=ECOLD(I)*EXP((G0(I)-GA(I))*XX)*ETA**GA(I)+
-     .             HALF*RHO0(I)*CC(I)*CC(I)*MU2(I)
+          ECOLD(I)=ECOLD(I)*EXP((G0(I)-GA(I))*XX)*ETA**GA(I)+HALF*RHO0(I)*CC(I)*CC(I)*MU2(I)
         ENDIF
        ENDDO
-C
-      ELSEIF(IFLAG == 1) THEN
-C----------------------------------------
-C     UPDATE PRESSURE AND INTERNAL ENERGY
-C----------------------------------------
+
+C-----------------------------------------------
+      ELSEIF(IFLAG == 1) THEN  !--- P[n+1] and EINT[n+1]
+       ! user parameters
        DO I=1,NEL
-        MX    = MAT(I)
+        MX = MAT(I)
         CC(I) = PM(33,MX)
         S1(I) = PM(34,MX)
         S2(I) = PM(160,MX)
@@ -122,8 +135,11 @@ C----------------------------------------
         G0(I) = PM(35,MX)
         GA(I) = PM(36,MX)
         PC(I) = PM(37,MX)
+        PSH(I) = PM(88,MX)
        ENDDO
-C
+
+       ! Pressure P[n+1]
+       ! Internal Energy Eint[n+1] (2nd order integration requires P[n+1])
        DO I=1,NEL
         FAC=ONE
         IF(MU(I) > ZERO) THEN
@@ -137,34 +153,40 @@ C
         DVV=HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
         PNEW(I)=(AA+BB*ESPE(I))/(ONE+BB*DVV)
         PNEW(I)= MAX(PNEW(I),PC(I))*OFF(I)
-        EINT(I)=EINT(I) - HALF*DVOL(I)*PNEW(I)
+        EINT(I)=EINT(I) - HALF*DVOL(I)*PNEW(I) !total pressure for energy integration
+        PNEW(I) = PNEW(I) - PSH(I)
        ENDDO
-C------------------------
-C     COMPUTE TEMPERATURE
-C------------------------
+
+       !Temperature
        DO I=1,NEL
-        MX     =MAT(I)
-        SPH(I) =PM(69,MX)
+        MX = MAT(I)
+        SPH(I) = PM(69,MX)
        ENDDO
        DO I=1,NEL
         XX=-ECOLD(I)
-        IF(VNEW(I)>EM15)XX=DF(I)*EINT(I)/VNEW(I)-ECOLD(I)
-        IF(OFF(I)<ONE.OR.SPH(I)<=ZERO.OR.XX<ZERO) CYCLE
+        IF(VNEW(I) > EM15)XX=DF(I)*EINT(I)/VNEW(I)-ECOLD(I)
+        IF(OFF(I) < ONE .OR. SPH(I) <= ZERO .OR. XX < ZERO) CYCLE
         THETA(I)=XX/SPH(I)
        ENDDO
-       ELSEIF(IFLAG == 2) THEN
+
+C-----------------------------------------------
+       ELSEIF(IFLAG == 2) THEN  !--- collocated scheme (law151)
+
+          ! user parameters
           DO I=1, NEL
-             MX    =MAT(I)
-             CC(I) =PM(33,MX)
-             S1(I) =PM(34,MX)
-             S2(I) =PM(160,MX)
-             S3(I) =PM(161,MX)
-             G0(I) =PM(35,MX)
-             GA(I) =PM(36,MX)
-             PC(I) =PM(37,MX)
-             SPH(I)=PM(69,MX)
+             MX = MAT(I)
+             CC(I) = PM(33,MX)
+             S1(I) = PM(34,MX)
+             S2(I) = PM(160,MX)
+             S3(I) = PM(161,MX)
+             G0(I) = PM(35,MX)
+             GA(I) = PM(36,MX)
+             PC(I) = PM(37,MX)
+             SPH(I) = PM(69,MX)
+             PSH(I) = PM(88,MX)
           ENDDO
-C     
+
+          ! pressure and sound speed derivatives
           DO I=1, NEL
              IF (VNEW(I) > ZERO) THEN
                 FAC=ONE
@@ -175,18 +197,19 @@ C
                    FG=ONE-(S1(I)-ONE+S2(I)*XX+S3(I)*XX*XX)*MU(I)
                    FAC=FF/(FG*FG)
                    DFF=ONE-HALF*G0(I)-GA(I)*MU(I)
-                   DFG=ONE-S1(I)+XX*(-TWO*S2(I)+XX*(S2(I)-THREE*S3(I))
-     .                  +TWO*S3(I)*XX*XX)
+                   DFG=ONE-S1(I)+XX*(-TWO*S2(I)+XX*(S2(I)-THREE*S3(I))+TWO*S3(I)*XX*XX)
                    FAC1=FAC*(ONE+MU(I)*(DFF/FF-TWO*DFG/FG))
                 ENDIF
-C     
                 AA=FAC*RHO0(I)*CC(I)*CC(I)*MU(I)
                 BB=G0(I)+GA(I)*MU(I)
                 PNEW(I)=MAX(AA+BB*ESPE(I),PC(I))*OFF(I)
                 DPDM(I)=FAC1*RHO0(I)*CC(I)*CC(I)+PNEW(I)*DF(I)*DF(I)*BB+GA(I)*ESPE(I)
                 DPDE(I)=BB
+                PNEW(I) = PNEW(I) - PSH(I)
              ENDIF
           ENDDO
+
       ENDIF
+C-----------------------------------------------
       RETURN
       END
