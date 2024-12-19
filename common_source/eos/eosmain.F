@@ -177,7 +177,8 @@ C-----------------------------------------------
          CALL GRUNEISEN(
      1                  IFLAG  ,NEL    ,PM     ,OFF    ,EINT  ,MU  ,MU2, 
      2                  ESPE   ,DVOL   ,DF     ,VNEW   ,MAT   ,RHO0,
-     3                  PNEW   ,DPDM   ,DPDE   ,THETA  ,ECOLD )
+     3                  PNEW   ,DPDM   ,DPDE   ,THETA  ,ECOLD ,PSH ,
+     4                  NUMMAT ,NPROPM)
 
        CASE (3)
          !--------------------------------------------------!

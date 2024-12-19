@@ -69,9 +69,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real :: C, S1, S2, S3, GAMA0, A, E0, RHO0,RHOI,RHOR,FAC_L,FAC_T
-      my_real :: FAC_M,FAC_C,MU,MU2,MU3,MUP1,NUM,DENOM,FAC1,DPDMU,PP,BB,AA
+      my_real :: C, S1, S2, S3, GAMA0, A, E0, RHO0,RHOI,RHOR
+      my_real :: MU,MU2,FAC1,DPDMU,PP,BB,AA
       my_real :: MU0, DF, SSP0, G0, FAC, FF, FG, XX, DFF, DFG
+      my_real :: PSH !< pressure shift
+      my_real :: P0  !< initial pressure
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE, IS_AVAILABLE_RHO0
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -90,9 +92,25 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('GAMMA',GAMA0, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('MAT_A', A, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('R0E0', E0, IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('P0', P0, IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('PSH', PSH, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('Refer_Rho', RHO0 ,IS_AVAILABLE_RHO0,LSUBMODEL,UNITAB)
 
       IF(A == ZERO) A=GAMA0
+
+
+      IF(P0 < ZERO)THEN
+         CALL ANCMSG(MSGID=67,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=IMIDEOS,
+     .               C1='/EOS/GRUNEISEN',
+     .               C2='INITIAL PRESSURE MUST BE STRICTLY POSITIVE (TOTAL PRESSURE). USE PSH PARAMETER TO SHIFT THE PRESSURE')
+      ENDIF
+
+      IF(P0 > ZERO .AND. E0 /= ZERO)THEN
+         CALL ANCMSG(MSGID=67,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=IMIDEOS,
+     .               C1='/EOS/GRUNEISEN',
+     .               C2='INITIAL PRESSURE PROVIDED. E0 IS CONSEQUENTLY REDEFINED SUCH AS P(RHO0,E0)=P0')
+      ENDIF
+
 
       RHOR = PM(1)
       RHOI = PM(89)
@@ -104,19 +122,8 @@ C-----------------------------------------------
         RHO0=RHOR                   
       ENDIF
 
-      PM(23)  = E0
-      PM(32)  = PM(1)*C*C
-      PM(33)  = C
-      PM(34)  = S1
-      PM(35)  = GAMA0      
-      PM(36)  = A
-      PM(160) = S2
-      PM(161) = S3
-      IF(PM(79)==ZERO)PM(79)=THREE100
-
       !COMPUTE INITIAL PRESSURE FOR PM(31)->SIG(1:3,*)
       !SSP0
-      
       IF(RHOI == ZERO)THEN
         MU0 = ZERO ! error 683 already displayed
       ELSE
@@ -126,52 +133,68 @@ C-----------------------------------------------
           MU0 = ZERO ! error 683 already displayed
         ENDIF
       ENDIF
-      
+      ! Internal Energy (if P0 is provided, calculate E0 consequently)
+      IF(P0 > ZERO)THEN
+        E0 = (P0-RHO0*C*C*MU0)/(GAMA0+a*MU0)
+      ENDIF
+      !Relative volume
       IF(RHOI /= ZERO)THEN
         DF = RHOR/RHOI
       ELSE
         DF = ZERO
       ENDIF
-
+      !pressure
       MU2=MU0*MU0
-      PP=PM(31)    
       SSP0 = ZERO 
       G0 = PM(22)
       RHOI = PM(89) 
-        FAC=ONE
-        FAC1=ONE
-        IF(MU0>0)THEN
-         XX= MU0/(ONE+MU0)
-         FF=ONE+(ONE-HALF*GAMA0)*MU0-HALF*A*MU2
-         FG=ONE-(S1-ONE+S2*XX+S3*XX*XX)*MU0
-         FAC=FF/(FG*FG)
-         DFF=ONE-HALF*GAMA0-A*MU0
-         DFG=ONE-S1+XX*(-TWO*S2+XX*(S2-THREE*S3)+TWO*S3*XX*XX)
-         FAC1=FAC*(ONE+MU0*(DFF/FF-TWO*DFG/FG))        
-        ENDIF       
-        AA=FAC*RHOR*C*C*MU0
-        BB=GAMA0+A*MU0
-        PP=MAX(AA+BB*E0,PM(37))
-        DPDMU=FAC1*RHOI*C*C+PP*DF*DF*BB+A*E0
+      FAC=ONE
+      FAC1=ONE
+      IF(MU0>0)THEN
+       XX= MU0/(ONE+MU0)
+       FF=ONE+(ONE-HALF*GAMA0)*MU0-HALF*A*MU2
+       FG=ONE-(S1-ONE+S2*XX+S3*XX*XX)*MU0
+       FAC=FF/(FG*FG)
+       DFF=ONE-HALF*GAMA0-A*MU0
+       DFG=ONE-S1+XX*(-TWO*S2+XX*(S2-THREE*S3)+TWO*S3*XX*XX)
+       FAC1=FAC*(ONE+MU0*(DFF/FF-TWO*DFG/FG))
+      ENDIF
+      AA=FAC*RHOR*C*C*MU0
+      BB=GAMA0+A*MU0
+      PP=MAX(AA+BB*E0,PM(37))
+      !derivatives and sound speed
+      DPDMU=FAC1*RHOI*C*C+PP*DF*DF*BB+A*E0
       DPDMU=MAX(ZERO,DPDMU)
-      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
-      PM(27)=SSP0
-      PM(31) = PP     
-      PM(104) = PP       
+      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR)
+
+      ! Storage in Material Buffer PM
+      PM(23)  = E0
+      PM(32)  = PM(1)*C*C
+      PM(33)  = C
+      PM(34)  = S1
+      PM(35)  = GAMA0
+      PM(36)  = A
+      PM(88)  = PSH
+      PM(160) = S2
+      PM(161) = S3
+      IF(PM(79)==ZERO)PM(79)=THREE100
+      PM(27) = SSP0
+      PM(31) = PP - PSH
+      PM(104) = PP - PSH
       
       WRITE(IOUT,1000)
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-        WRITE(IOUT,1500)C,S1,S2,S3,GAMA0,A,E0,PM(31)
+        WRITE(IOUT,1500)C,S1,S2,S3,GAMA0,A,E0,PP,PSH,PP-PSH
         IF(IS_AVAILABLE_RHO0)WRITE(IOUT,1501)PM(1)
       ENDIF
 
       RETURN
       
  1000 FORMAT(
-     & 5X,'  GRUNEISEN EOS     ',/,
-     & 5X,'  --------------     ',/)
+     & 5X,'  MIE-GRUNEISEN EOS     ',/,
+     & 5X,'  -----------------     ',/)
  1500 FORMAT(
      & 5X,'C . . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'S1. . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
@@ -180,7 +203,9 @@ C-----------------------------------------------
      & 5X,'GAMA0 . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'A . . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'INITIAL INTERNAL ENERGY PER UNIT VOLUME .=',1PG20.13/,
-     & 5X,'INITIAL PRESSURE . .  . . . . . . . . . .=',1PG20.13)
+     & 5X,'INITIAL PRESSURE . .  . . . . . . . . . .=',1PG20.13/,
+     & 5X,'PRESSURE SHIFT . . .  . . . . . . . . . .=',1PG20.13/,
+     & 5X,'INITIAL PRESSURE (SHIFTED)  . . . . . . .=',1PG20.13)
  1501 FORMAT(     
      & 5X,'EOS REFERENCE DENSITY . . . . . . . . . .=',1PG20.13)
  
