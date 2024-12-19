@@ -303,7 +303,7 @@
       if(dfailm == zero) dfailm = ep10
       if(dfails == zero) dfails = ep10
       if(efs == zero) efs  = ep10
-      if(ncyred == 0) ncyred = 100
+      if(ncyred == 0) ncyred = 1
       if(ratio <= zero .or. ratio > one ) ratio = one
       ! outp damage parameters
       if(epsf == zero) epsf= ep10
@@ -489,7 +489,7 @@
        5x,'material number. . . . . . . . . . . . =',i10/,                   &
        5x,'material law . . . . . . . . . . . . . =',i10/)
  1050 format                                                                 &
-      (5x,'material model : laminated composite ',/,                         &
+      (5x,'material model : enhanced composite ',/,                         &
        5x,'----------------------------------',/)
  1200 format(                                                                &
        5x,'initial density . . . . . . . . . . . . . . . . .=',1pg20.13/) 

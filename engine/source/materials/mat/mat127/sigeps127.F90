@@ -276,9 +276,8 @@
       enddo ! ndex       
        ! check the Failure. It's  based on  chang-chang model
       ndx_fail = 0
-      if(dfailt == zero) then
-          select case (twoway) 
-            case(0) ! one fiber direction 
+      select case (twoway) 
+        case(0) ! one fiber direction 
 #include "vectorize.inc"                  
               do n=1,ndex
                 i= index(n)
@@ -290,14 +289,7 @@
                 ! Fiber failure
                 if(signxx(i) >= zero .and. dmg(i,2)  == zero ) then
                      eft = (signxx(i)/xt(i))**2  + beta*(signxy(i)/sc(i))**2 
-                     if( eft >= one) then
-                         dmg(i,2) = one  ! 
-                         uvar(i,1) = one 
-                         dmg(i,1) = one ! failure in the integration pt 
-                         off(i) = four_over_5
-                         ndx_fail = ndx_fail + 1
-                         indx_fail(ndx_fail) = i
-                      endif  
+                     if( eft >= one) dmg(i,2) = one  ! 
                 elseif(dmg(i,3) == zero ) then
                       efc = (signxx(i)/xc(i))**2
                       if(efc >= one) dmg(i,3) = one
@@ -331,7 +323,6 @@
                        if(emc >= one) dmg(i,8)= one 
                endif 
                if(abs(signxy(i)) >= sc(i) ) dmg(i,6 ) = one 
-               if(ngl(i) == -1 .and. time > zero) stop ! 
               end do ! ndex 
             case(1)  ! two fiber direction
 #include "vectorize.inc"                              
@@ -341,16 +332,11 @@
                 if(dmg(i,8) == one ) then
                  xc(i) = ycfac*yc(i)! 
                  xt(i) = fbrt*xt(i)
-                endif   
+                endif  
                 ! Fiber failure dir a
                 if(signxx(i) >= zero .and. dmg(i,2)  == zero ) then
                      eft = (signxx(i)/xt(i))**2  + beta*(signxy(i)/sc(i))**2 
-                     if( eft >= one) then
-                         dmg(i,2) = one  ! 
-                         dmg(i,1) = one  !  failure in the integration pt 
-                         off(i) = four_over_5
-                         uvar(i,1) = one 
-                      endif  
+                     if( eft >= one) dmg(i,2) = one  ! 
                 elseif(dmg(i,3) == zero ) then
                       efc = (signxx(i)/xc(i))**2
                       if(efc >= one) dmg(i,3) = one
@@ -358,86 +344,90 @@
                 ! Fiber failure dir b
                 if(signyy(i) >= zero .and. dmg(i,4)  == zero ) then
                       eft = (signyy(i)/yt(i))**2  + beta*(signxy(i)/sc(i))**2 
-                      if( eft >= one) then
-                         dmg(i,4) = one  ! 
-                         dmg(i,1) = one  !  failure in the integration pt 
-                         off(i)  = four_over_5
-                         uvar(i,1) = one
-                      endif  
+                      if( eft >= one) dmg(i,4) = one  
                 elseif(dmg(i,5) == zero ) then
                       efc = (signyy(i)/yc(i))**2
                       if(efc >= one) dmg(i,5) = one
                 endif
-               ! matrix failure dir c
-               if(signzz(i) >= zero  .and. dmg(i,7) == zero ) then
-                        scale = half/g12
-                        tau2 = signxy(i)**2
-                        sc2  = sc(i)**2
-                        tau_bar = scale*tau2 + three_over_4*alpha*tau2**2
-                        tau_bar = tau_bar/(scale*sc2 + three_over_4*alpha*sc2**2)
-                        emt = (signzz(i)/yt(i))**2  + tau_bar
-                       if( emt >= one) dmg(i,7) = one 
-                elseif(signzz(i) < zero .and. dmg(i,8) == zero) then
-                       yc_over_sc  = fourth*(yc(i)/sc(i))**2
-                       emc = fourth*(signzz(i)/sc(i))**2  + (yc_over_sc - one)*signzz(i)/yc(i) + (signxy(i)/sc(i))**2 
-                       if(emc >= one) dmg(i,8)= one 
-                endif 
+               ! matrix failure only on shear 
                 if(abs(signxy(i)) >= sc(i) ) dmg(i,6 ) = one 
-                if(off(i) == four_over_5) then
-                     ndx_fail = ndx_fail + 1
-                     indx_fail(ndx_fail) = i
-                endif
+                ! failur based on effective strain
               end do ! ndex 
-            end select ! twoway     
-        endif ! dfailt == zero
-       ! criteria based on strain
+            end select ! twoway    
+      ! failure criteria 
       ndx_fail = 0
       if (dfailt > zero )then
-#include "vectorize.inc"                        
+          select case (twoway)
+            case(0) ! one fiber direction
               do n=1,ndex
                 i= index(n) 
                 ! failure based on max strain 
-                if(dmg(i,5) == one ) then  ! add condition on the matix direction 
-                 xc(i) = ycfac*yc(i)! 
-                 xt(i) = fbrt*xt(i)
-                endif    
                 eps_ef =  two_third* (epsxx(i)**2 + epsyy(i)**2 + epsxy(i)**2 ) 
                 eps_ef = sqrt(eps_ef) 
                 if(epsxx(i) >= dfailt .or. epsxx(i) <= dfailc .or.  abs(epszz(i)) >=dfailm .or.    &
                     abs(epsyy(i)) >= dfailm .or. abs(epsxy(i)) >= dfails  .or. eps_ef >= efs  ) then
-                    dmg(i,1) = one 
+                     dmg(i,1) = one 
                      off(i) = four_over_5
                      ndx_fail = ndx_fail + 1
                      indx_fail(ndx_fail) = i
                      uvar(i,1) = one  
-                else
-                  !  fiber direction checking strengh
-                    if(signxx(i) >= xt(i) ) then
-                      dmg(i,2) = one
-                    elseif(signxx(i) <=  -xc(i)) then
-                      dmg(i,3) = one 
-                    endif 
-                   !  matrix  direction checking strengh direction b 
-                    if(signyy(i) >= yt(i) ) then
-                       dmg(i,4) = one
-                    elseif(signyy(i) <= -yc(i)) then
-                       dmg(i,5) = one 
-                    endif  
-                  !  matrix  direction checking max strengh direction c 
-                    if(signzz(i) >= yt(i) ) then
-                      dmg(i,7) = one
-                    elseif(signzz(i) <= -yc(i)) then
-                      dmg(i,8) = one 
-                    endif  
-                    if(abs(signxy(i)) >= sc(i) ) dmg(i,6 ) = one 
-                endif
-              end do ! nel   
+                 endif  
+              end do   
+            case(1) ! two fiber direction
+              do n=1,ndex
+                i= index(n) 
+                ! failure based on max strain 
+                eps_ef =  two_third* (epsxx(i)**2 + epsyy(i)**2 + epsxy(i)**2 ) 
+                eps_ef = sqrt(eps_ef) 
+                if(epsxx(i) >= dfailt .or. epsxx(i) <= dfailc .or.                    &
+                   epsyy(i) >= dfailt .or. epsyy(i) <= dfailc .or.                    &
+                   abs(epszz(i)) >=dfailm .or. eps_ef >= efs  ) then
+                     dmg(i,1) = one 
+                     off(i) = four_over_5
+                     ndx_fail = ndx_fail + 1
+                     indx_fail(ndx_fail) = i
+                     uvar(i,1) = one  
+                 endif  
+              end do   
+          end select 
+      else ! dfailt = zero
+         select case (twoway) 
+            case(0) ! one fiber direction
+              do n=1,ndex
+                i= index(n) 
+                ! failure based on max strain 
+                eps_ef =  two_third* (epsxx(i)**2 + epsyy(i)**2 + epsxy(i)**2 ) 
+                eps_ef = sqrt(eps_ef) 
+                if(eps_ef >= efs  .or. dmg(i,2) == one ) then
+                     dmg(i,1) = one 
+                     off(i) = four_over_5
+                     ndx_fail = ndx_fail + 1
+                     indx_fail(ndx_fail) = i
+                     uvar(i,1) = one  
+                 endif  
+              end do   
+            case(1) ! two fiber direction
+              do n=1,ndex
+                i= index(n) 
+                ! failure based on max strain 
+                eps_ef =  two_third* (epsxx(i)**2 + epsyy(i)**2 + epsxy(i)**2 ) 
+                eps_ef = sqrt(eps_ef) 
+                if(eps_ef >= efs  .or.           & 
+                   dmg(i,2) == one .or. dmg(4,i) == one  ) then
+                     dmg(i,1) = one 
+                     off(i) = four_over_5
+                     ndx_fail = ndx_fail + 1
+                     indx_fail(ndx_fail) = i
+                     uvar(i,1) = one  
+                 endif  
+              end do   
+          end select 
       endif   
        ! 
 #include "vectorize.inc"                         
       do n=1,ndex
               i= index(n)
-               ! computation of the thickness variation 
+               !
               limit_sig=  zero
                 ! fiber direction a
               if(dmg(i,2) == one .and. &
