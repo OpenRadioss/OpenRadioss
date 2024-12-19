@@ -1752,3 +1752,4 @@ set_source_files_properties( ${source_directory}/../common_source/modules/interf
 set_source_files_properties( ${source_directory}/source/mpi/nodes/spmd_exch_vnpon.F90 PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/../common_source/tools/input_output/write_db.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/../common_source/tools/input_output/read_db.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
+set_source_files_properties( ${source_directory}/source/mpi/nodes/spmd_sd_xv_inter1.F90 PROPERTIES COMPILE_FLAGS "${legacy_flags}" )

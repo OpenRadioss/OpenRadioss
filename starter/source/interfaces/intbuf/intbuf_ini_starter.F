@@ -453,7 +453,7 @@ C----   size integers arrays
             INTBUF_TAB(NIN)%S_IRTLM  = NSN    
             INTBUF_TAB(NIN)%S_ILOCS  = NSN    
             INTBUF_TAB(NIN)%S_NSEGM  = 1+NMN  
-            INTBUF_TAB(NIN)%S_NRT    = NMT    
+            INTBUF_TAB(NIN)%S_NRT    = NMT
 
 C----   size real arrays 
             INTBUF_TAB(NIN)%S_STFAC     = 1 
