@@ -27,7 +27,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    ancmsg            ../engine/source/output/message/message.F
       !||    spmd_glob_isum9   ../engine/source/mpi/interfaces/spmd_th.F
-      !||    sysfus            ../engine/source/system/sysfus.F
       !||    sysfus2           ../engine/source/system/sysfus.F
       !||--- uses       -----------------------------------------------------
       !||    message_mod       ../engine/share/message_module/message_mod.F

@@ -542,6 +542,7 @@ C
       !||--- calls      -----------------------------------------------------
       !||    exch_tagel_c         ../engine/source/coupling/rad2rad/rad2rad_c.c
       !||    get_ibuf_c           ../engine/source/coupling/rad2rad/rad2rad_c.c
+      !||    get_local_node_id    ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||    get_shmbuf_c         ../engine/source/coupling/rad2rad/rad2rad_c.c
       !||    my_barrier           ../engine/source/system/machine.F
       !||    r2r_exch_itag        ../engine/source/coupling/rad2rad/r2r_exchange.F
@@ -553,10 +554,10 @@ C
       !||    spmd_exch_r2r_itag   ../engine/source/mpi/r2r/spmd_r2r.F
       !||    spmd_ibcast          ../engine/source/mpi/generic/spmd_ibcast.F
       !||    spmd_r2r_tagel       ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    sysfus2              ../engine/source/system/sysfus.F
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    groupdef_mod         ../common_source/modules/groupdef_mod.F
+      !||    nodal_arrays_mod     ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||    rad2r_mod            ../engine/share/modules/rad2r.F
       !||    remesh_mod           ../engine/share/modules/remesh_mod.F
       !||    shooting_node_mod    ../engine/share/modules/shooting_node_mod.F
@@ -1260,9 +1261,9 @@ C
       !||    setmsr3             ../engine/source/interfaces/interf/chkstfn3.F
       !||    spmd_exchmsr_idel   ../engine/source/mpi/interfaces/spmd_exchmsr_idel.F
       !||    spmd_init_idel      ../engine/source/mpi/interfaces/spmd_init_idel.F
-      !||    sysfus2             ../engine/source/system/sysfus.F
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    nodal_arrays_mod    ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||====================================================================
       SUBROUTINE CHKSTFN3N(NODES,
      1    IPARI   ,GEO     ,IXS    ,IXQ       ,IXC      ,IXT     ,

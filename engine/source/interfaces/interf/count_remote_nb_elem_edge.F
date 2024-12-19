@@ -25,7 +25,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    init_nodal_state            ../engine/source/interfaces/interf/init_nodal_state.F
       !||--- calls      -----------------------------------------------------
-      !||    sysfus2                     ../engine/source/system/sysfus.F
+      !||    get_local_node_id           ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||--- uses       -----------------------------------------------------
+      !||    nodal_arrays_mod            ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||====================================================================
         SUBROUTINE COUNT_REMOTE_NB_ELEM_EDGE( SIZE_BUFFER,BUFFER,GEO,IXS,IXC,
      .                                 IXT,IXP,IXR,IXTG,ADDCNEL,NODES,CNEL,CHUNK)

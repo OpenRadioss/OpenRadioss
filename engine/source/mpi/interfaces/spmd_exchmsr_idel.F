@@ -26,7 +26,9 @@ C
       !||--- called by ------------------------------------------------------
       !||    chkstfn3n           ../engine/source/interfaces/interf/chkstfn3.F
       !||--- calls      -----------------------------------------------------
-      !||    sysfus2             ../engine/source/system/sysfus.F
+      !||    get_local_node_id   ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||--- uses       -----------------------------------------------------
+      !||    nodal_arrays_mod    ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||====================================================================
       SUBROUTINE SPMD_EXCHMSR_IDEL(
      1    BUFS  ,LBUFS,IXS    ,IXC    ,IXTG   ,

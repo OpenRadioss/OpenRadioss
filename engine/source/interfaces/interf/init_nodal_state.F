@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    myqsort_int                 ../common_source/tools/sort/myqsort_int.F
       !||--- uses       -----------------------------------------------------
       !||    array_mod                   ../common_source/modules/array_mod.F
+      !||    nodal_arrays_mod            ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||    shooting_node_mod           ../engine/share/modules/shooting_node_mod.F
       !||====================================================================
         SUBROUTINE INIT_NODAL_STATE( IPARI,SHOOT_STRUCT,INTBUF_TAB,IAD_ELEM,FR_ELEM,

@@ -27,7 +27,9 @@ C
       !||--- called by ------------------------------------------------------
       !||    chkload             ../engine/source/interfaces/chkload.F
       !||--- calls      -----------------------------------------------------
-      !||    sysfus2             ../engine/source/system/sysfus.F
+      !||    get_local_node_id   ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||--- uses       -----------------------------------------------------
+      !||    nodal_arrays_mod    ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||====================================================================
       SUBROUTINE SPMD_EXCHSEG_IDEL(
      1    BUFS  ,LBUFS ,IXS    ,IXC    ,IXTG   ,

@@ -26,8 +26,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_exch_deleted_surf_edge     ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
       !||--- calls      -----------------------------------------------------
       !||    check_surface_state             ../engine/source/interfaces/interf/check_surface_state.F
-      !||    sysfus2                         ../engine/source/system/sysfus.F
+      !||    get_local_node_id               ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||--- uses       -----------------------------------------------------
+      !||    nodal_arrays_mod                ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||    shooting_node_mod               ../engine/share/modules/shooting_node_mod.F
       !||====================================================================
         SUBROUTINE FIND_SURFACE_FROM_REMOTE_PROC(SHOOT_STRUCT,NB_SURFACE,LIST_NODE,INTBUF_TAB,NODES,

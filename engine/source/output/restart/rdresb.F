@@ -45,6 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    fxtemprrest            ../engine/source/output/restart/rdresb.F
       !||    group_ini              ../engine/source/groups/group_ini.F
       !||    imprrest               ../engine/source/output/restart/rdresb.F
+      !||    init_global_id         ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||    intbuf_ini             ../common_source/interf/intbuf_ini.F
       !||    intfric_rresti         ../common_source/modules/interfaces/intbuf_fric_mod.F90
       !||    intfric_rrestr         ../common_source/modules/interfaces/intbuf_fric_mod.F90

@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    find_surface_from_remote_proc   ../engine/source/interfaces/interf/find_surface_from_remote_proc.F
       !||--- uses       -----------------------------------------------------
       !||    array_mod                       ../common_source/modules/array_mod.F
+      !||    nodal_arrays_mod                ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||    shooting_node_mod               ../engine/share/modules/shooting_node_mod.F
       !||====================================================================
         SUBROUTINE SPMD_EXCH_DELETED_SURF_EDGE( IAD_ELEM,NODES,SHOOT_STRUCT,INTBUF_TAB,NEWFRONT,
