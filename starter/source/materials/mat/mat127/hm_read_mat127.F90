@@ -303,7 +303,7 @@
       if(dfailm == zero) dfailm = ep10
       if(dfails == zero) dfails = ep10
       if(efs == zero) efs  = ep10
-      if(ncyred == 0) ncyred = 100
+      if(ncyred == 0) ncyred = 1
       if(ratio <= zero .or. ratio > one ) ratio = one
       ! outp damage parameters
       if(epsf == zero) epsf= ep10
