@@ -54,6 +54,7 @@ C-----------------------------------------------
       USE SEATBELT_MOD
       USE SENSOR_MOD
       USE retractor_table_inv_mod
+      USE retractor_table_inv2_mod
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -592,7 +593,6 @@ C--           Loading --
                 RETRACTOR(RETRACTOR_ID(I))%LOCK_PULL_SAV = ZERO
               ENDIF  
               IF (RETRACTOR(RETRACTOR_ID(I))%LOCKED_FREEZE == 1) THEN
-                 RETRACTOR(RETRACTOR_ID(I))%LOCK_YIELD_FORCE = ZERO
                  FLAG_NO_COUNT_PULL = 1
               ELSEIF (F_LOCK > RETRACTOR(RETRACTOR_ID(I))%LOCK_YIELD_FORCE) THEN
 C--             Loading --  
@@ -615,7 +615,7 @@ C--             Loading --
 C--             Unloading --
                 IF (RETRACTOR(RETRACTOR_ID(I))%LOCK_OFFSET == ZERO) THEN
                   YY = RETRACTOR(RETRACTOR_ID(I))%LOCK_YIELD_FORCE/RETRACTOR(RETRACTOR_ID(I))%FAC(1)
-                  CALL RETRACTOR_TABLE_INV(RETRACTOR(RETRACTOR_ID(I))%TABLE(1),XX1,YY)
+                  CALL RETRACTOR_TABLE_INV2(RETRACTOR(RETRACTOR_ID(I))%TABLE(1),XX1,YY,RETRACTOR(RETRACTOR_ID(I))%LOCK_PULL)
                   CALL RETRACTOR_TABLE_INV(RETRACTOR(RETRACTOR_ID(I))%TABLE(2),XX2,YY)
                   RETRACTOR(RETRACTOR_ID(I))%LOCK_OFFSET = RETRACTOR(RETRACTOR_ID(I))%FAC(2)*(XX1-XX2)
                 ENDIF
@@ -631,7 +631,7 @@ C--             Unloading --
                 ENDIF 
                 CALL SOLVE_DELTA_L02(DELTA_LO,DXDY,YY,XK(I),ALDP(I),AL0DP(I),LMIN(I),FB)
                 EPSN = (ALDP(I)-AL0DP(I)-DELTA_LO)/MAX(LMIN(I),AL0DP(I)+DELTA_LO)
-                FB = FX(I) + XK(I)*(EPSN-EPS1) 
+                FB = FX(I) + XK(I)*(EPSN-EPS1)
               ENDIF
             ENDIF
 C
@@ -690,7 +690,10 @@ C--                 rest of lockpull - counted from time of locking
             ENDIF
 C
             IF (FLAG_NO_COUNT_PULL == 0) THEN
-              IF ((RETRACTOR(RETRACTOR_ID(I))%LOCKED == 1).OR.(FLAG_SENSOR_LOCK == 1)) THEN
+              IF ((RETRACTOR(RETRACTOR_ID(I))%LOCKED == 0).AND.(FLAG_SENSOR_LOCK == 1)) THEN
+C--             Pullin after sensor activation and before locking not counted -> Lock_pull > 0                
+                RETRACTOR(RETRACTOR_ID(I))%LOCK_PULL = MAX(ZERO,RETRACTOR(RETRACTOR_ID(I))%LOCK_PULL + DELTA_LO)
+              ELSEIF ((RETRACTOR(RETRACTOR_ID(I))%LOCKED == 1).OR.(FLAG_SENSOR_LOCK == 1)) THEN
                 RETRACTOR(RETRACTOR_ID(I))%LOCK_PULL = RETRACTOR(RETRACTOR_ID(I))%LOCK_PULL + DELTA_LO
               ELSE
                 RETRACTOR(RETRACTOR_ID(I))%LOCK_PULL = ZERO
@@ -892,7 +895,7 @@ C--    equation 1 -> l0 > lmin
        ELSE
          EE = SIGN(MAX(EM20,ABS(BB)),BB)
          DELTA_LO = -CC / EE
-         ENDIF
+       ENDIF
       ELSE
 C--      computation will be done by equation 2           
          DELTA_LO = ZERO

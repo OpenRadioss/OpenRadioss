@@ -25,7 +25,7 @@
       !||--- called by ------------------------------------------------------
       !||    material_flow             ../engine/source/tools/seatbelts/material_flow.F
       !||====================================================================
-      module retractor_table_inv_mod
+      module retractor_table_inv2_mod
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -47,12 +47,12 @@
       !||    message_mod           ../engine/share/message_module/message_mod.F
       !||    table_mod             ../engine/share/modules/table_mod.F
       !||====================================================================
-        subroutine retractor_table_inv(table,xx,yy)
+        subroutine retractor_table_inv2(table,xx,yy,xx_prev)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use table_mod , only: TTABLE
-          use constant_mod , only: one,zero
+          use constant_mod , only: one,zero,ep20
           use message_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
@@ -68,16 +68,19 @@
           type(TTABLE),                              intent(in) :: TABLE                       !< local table of retractor
           my_real,                                  intent(out) :: xx                          !< abcissa
           my_real,                                   intent(in) :: yy                          !< ordinate
+          my_real,                                   intent(in) :: xx_prev                     !< last abcissa
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: ndim, ipos, nxk, i
-          my_real :: r, dy2, unr
+          my_real :: r, dy2, unr, xx_temp, error
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
 !          
-!         works only for monotonic increasing tables - null slope ine table treated in starter for retractors        
+!         works only for monotonic increasing tables - null slope ine table treated in starter for retractors  
+!         similar as retractor_table_inv but for non monotonic table
+!         will return solution that is the closest to last known solution xx_prev                
 !         
           ndim = table%ndim
           if (ndim > 1) then
@@ -88,23 +91,24 @@
           ipos = 1
           r = one
           nxk = size(table%x(1)%values)
-!  
+!
+          error = ep20 
           do i = 2, nxk
-            dy2 = table%y%values(i) - yy            
-            if (dy2 >= zero .or. i == nxk) then
+!            dy2 = table%y%values(i) - yy
+!            if (dy2 >= zero .or. i == nxk) then
+            if (((yy >= table%y%values(i-1)).and.(yy <= table%y%values(i))).or.  &
+                ((yy >= table%y%values(i)).and.(yy <= table%y%values(i-1)))) then
               ipos = i - 1
-              if (table%y%values(i) == table%y%values(i - 1)) then
-                r = one
-              else  
-                r = (table%y%values(i) - yy) / (table%y%values(i) - table%y%values(i - 1))
-              endif  
-              exit
+              r = (table%y%values(i) - yy) / (table%y%values(i) - table%y%values(i - 1))
+              unr = one - r
+              xx_temp = r * table%x(1)%values(ipos) + unr * table%x(1)%values(ipos + 1)
+              if (abs(xx_temp - xx_prev) < error) then
+                xx = xx_temp
+                error = abs(xx_temp - xx_prev)
+              end if
             endif
           end do
-          unr = one - r
-!
-          xx = r * table%x(1)%values(ipos) + unr * table%x(1)%values(ipos + 1)
 !
 ! ----------------------------------------------------------------------------------------------------------------------
-        end subroutine retractor_table_inv
-      end module retractor_table_inv_mod
+        end subroutine retractor_table_inv2
+      end module retractor_table_inv2_mod
