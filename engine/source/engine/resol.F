@@ -2329,7 +2329,7 @@ C ---------------------
       ! initialization of SHOOT_STRUCT for 
       ! the deactivation node algo
       CALL INIT_NODAL_STATE( IPARI,SHOOT_STRUCT,INTERFACES%INTBUF_TAB,IAD_ELEM,FR_ELEM,
-     .                       NODES%ITAB,NODES%ITABM1,GEO,ADDCNEL,CNEL,
+     .                       NODES%ITAB,NODES,GEO,ADDCNEL,CNEL,
      .                       IXS,ELEMENT%SHELL%IXC,IXT,IXP,IXR,IXTG,
      .                       SIZE_ADDCNEL,SIZE_CNEL ,
      .                       numelsg,numelqg,numelcg,numeltrg,numelpg,
@@ -5641,7 +5641,7 @@ C WA local  : utilise de 1 a NUMNOD
           CALL CHKLOAD(
      1       IBCL    ,IXS     ,IXQ         ,ELEMENT%SHELL%IXC    ,IXT        ,IXP     ,
      2       IXR     ,IXTG    ,WA(NUMNOD+1),ITSK   ,WA(NWAFTSK),NODES%ITAB    ,
-     3       NODES%ITABM1  ,ADDCNEL ,CNEL        ,TAGEL  ,IPARG      ,GEO     ,
+     3       NODES  ,ADDCNEL ,CNEL        ,TAGEL  ,IPARG      ,GEO     ,
      4       IBUFPDEL,NINDEXPDEL,NINDEXP   ,NPRESLOAD,LOADP_TAGDEL      ,
      5       ILOADP  ,LLOADP  ,IAD_ELEM)
 
