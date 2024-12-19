@@ -1548,6 +1548,17 @@
                     is_written_value(i) = 1
                   enddo
                 endif
+!--------------------------------------------------
+              elseif(keyword == 'VSTRAIN') then
+!--------------------------------------------------
+                do i=1,nel
+                  mt = ixq(1,i+nft)
+                  if(pm(89,mt) > zero)then
+                    value(i) = gbuf%rho(i) / pm(89,mt) - one
+                    is_written_value(i) = 1
+                  end if
+                enddo
+!--------------------------------------------------
               endif  ! keyword
 !--------------------------------------------------
               if(called_from_python) then
