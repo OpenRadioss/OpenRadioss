@@ -232,6 +232,11 @@ c-----------------------------------------------
       H3D_KEYWORD_SPH_SCALAR(I)%KEY3   = 'NEIGHBOURS'
       H3D_KEYWORD_SPH_SCALAR(I)%TEXT1  = 'Number of Neighbours'         
 c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_SPH_SCALAR(I)%KEY3  = 'VSTRAIN'
+      H3D_KEYWORD_SPH_SCALAR(I)%TEXT1  = 'Volumetric Strain'
+      H3D_KEYWORD_SPH_SCALAR(I)%COMMENT  = 'mu=rho/rho0-1'
+c-----------------------------------------------
 
       NKEY=I
       END
