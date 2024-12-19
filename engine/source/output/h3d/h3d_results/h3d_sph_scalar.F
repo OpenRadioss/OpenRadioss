@@ -588,12 +588,22 @@ C--------------------------------------------------
                  DO I=1,NEL
                    VALUE(I) = KXSP(4,NFT+I) 
                    IS_WRITTEN_VALUE(I) = 1  
-                 ENDDO                                                                        
+                 ENDDO
+!--------------------------------------------------
+              ELSEIF(KEYWORD == 'VSTRAIN') then
+!--------------------------------------------------
+                DO I=1,NEL
+                  IPRT = IPARTSP(N)
+                  MT = IPART(1,IPRT)
+                  IF(PM(89,MT) > ZERO)THEN
+                    VALUE(I) = GBUF%RHO(I) / PM(89,MT) - ONE
+                    IS_WRITTEN_VALUE(I) = 1
+                  END IF
+                ENDDO
 C-------------------------------------------------- 
               ENDIF   ! IFUNC
 C-------------------------------------------------- 
-              CALL H3D_WRITE_SCALAR(IOK_PART,IS_WRITTEN_SPH,SPH_SCALAR,NEL,OFFSET,NFT,
-     .           VALUE,IS_WRITTEN_VALUE)
+              CALL H3D_WRITE_SCALAR(IOK_PART,IS_WRITTEN_SPH,SPH_SCALAR,NEL,OFFSET,NFT,VALUE,IS_WRITTEN_VALUE)
             ENDIF
           ENDIF
        ENDIF

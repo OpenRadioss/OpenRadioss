@@ -930,7 +930,7 @@ C-------------------------------------
               ENDDO
 c------------------------------------ Tillotson Region id
               ! /ANIM/ELEM/TILLOTSON
-            ELSEIF( IFUNC == 14596 + 4*MX_PLY_ANIM ) THEN
+            ELSEIF( IFUNC == 15898 + 4*MX_PLY_ANIM ) THEN
               DO I=LFT,LLT
                 FUNC(EL2FA(NN3+NFT+I)) = ZERO
               ENDDO 
@@ -978,7 +978,58 @@ c------------------------------------ Tillotson Region id
                     FUNC(EL2FA(NN3+NFT+I)) = EBUF%VAR(I)
                   ENDDO
                 ENDIF
-              ENDIF              
+              ENDIF
+
+c------------------------------------ Volumetric Strain (VSTRAIN)
+            ELSEIF( IFUNC == 15899 + 4*MX_PLY_ANIM  ) THEN
+              DO I=LFT,LLT
+                FUNC(EL2FA(NN3+NFT+I)) = ZERO
+              ENDDO
+              IF(ITY == 2)THEN
+                MT = IXQ(1,NFT+1)
+              ELSEIF(ITY == 7 .AND. N2D > 0)THEN
+                MT = IXTG(1,NFT+1)
+              ENDIF
+              IF(PM(89,MT) > ZERO)THEN
+                DO I=LFT,LLT
+                  FUNC(EL2FA(NN3+NFT+I)) = GBUF%RHO(I) / PM(89,MT) - ONE
+                ENDDO
+              ENDIF
+
+           ELSEIF(IFUNC >= 14999+4*MX_PLY_ANIM+1 .AND. IFUNC <= 14999+4*MX_PLY_ANIM+21 )THEN
+              EVAR(LFT:LLT) = ZERO
+              ISUBMAT = IFUNC-(14999+4*MX_PLY_ANIM)
+                IF(ITY ==2)THEN
+                  MT = IXQ(1,1+NFT)
+                ELSEIF(ITY == 7 .AND. N2D > 0)THEN
+                  MT = IXTG(1,1+NFT)
+                ENDIF
+              IF(MLW == 151)THEN
+                MT = MAT_PARAM(MT)%MULTIMAT%MID(ISUBMAT)
+                DO I=LFT,LLT
+                  EVAR(I) = MULTI_FVM%RHO(I + NFT)  / PM(89,MT) - ONE
+                ENDDO
+              ELSEIF(MLW == 51)THEN
+                   ISUBMAT = IFUNC - 5173
+                   !bijection for iform=12
+                   IADBUF = IPM(7,MT)
+                   NUPARAM= IPM(9,MT)
+                   UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
+                   ISUBMAT = UPARAM(276+ISUBMAT) !bijective order
+                   IUS=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS
+                   !
+                   LLT       = IPARG(2,NG)
+                   IPOS      = 20
+                   K         = LLT * ((IUS )+IPOS-1)
+                   MT = MAT_PARAM(MT)%MULTIMAT%MID(ISUBMAT)
+                   DO I=LFT,LLT
+                     EVAR(I) = MBUF%VAR(K+I) / PM(89,MT) - ONE
+                   ENDDO
+              ENDIF
+              DO I = LFT,LLT
+                FUNC(EL2FA(NN3+NFT+I)) = EVAR(I)
+              ENDDO
+
 c------------------------------------ 
             ELSE                                                      
               DO  I=LFT,LLT                                           

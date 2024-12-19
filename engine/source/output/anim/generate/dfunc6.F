@@ -1610,9 +1610,7 @@ C
 
 c------------------------------------ Tillotson Region id
             ELSEIF( IFUNC == 5172 ) THEN
-              DO I=LFT,LLT
-                EVAR(I) = ZERO
-              ENDDO 
+              EVAR(1:NEL) = ZERO
               MT = IXS(1,NFT+1)
               IF (MLW == 151) THEN 
                 NLAY = ELBUF_TAB(NG)%NLAY 
@@ -1658,7 +1656,45 @@ c------------------------------------ Tillotson Region id
                   ENDDO
                 ENDIF
               ENDIF
-                       
+
+c------------------------------------ Volumetric Strain (VSTRAIN)
+            ELSEIF( IFUNC == 5173 ) THEN
+              EVAR(1:NEL) = ZERO
+              MT = IXS(1,NFT+1)
+              IF(PM(89,MT) > ZERO)THEN
+                DO I=1,NEL
+                  EVAR(I) = GBUF%RHO(I) / PM(89,MT) - ONE
+                ENDDO
+              ENDIF
+
+           ELSEIF(IFUNC >= 5173+1 .AND. IFUNC <= 5173+21)THEN
+              EVAR(1:NEL) = ZERO
+              ISUBMAT = IFUNC-5173
+              IF(MLW == 151)THEN
+                MT = IXS(1,1+NFT)
+                MT = MAT_PARAM(MT)%MULTIMAT%MID(ISUBMAT)
+                DO I=1,NEL
+                  EVAR(I) = MULTI_FVM%RHO(I + NFT)  / PM(89,MT) - ONE
+                ENDDO
+              ELSEIF(MLW == 51)THEN
+                   ISUBMAT   = IFUNC - 5173
+                   !bijection for iform=12
+                   IMAT = IXS(1,NFT+1)
+                   IADBUF = IPM(7,IMAT)
+                   NUPARAM= IPM(9,IMAT)
+                   UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
+                   ISUBMAT = UPARAM(276+ISUBMAT) !bijective order
+                   IUS=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS
+                   !
+                   LLT       = IPARG(2,NG)
+                   IPOS      = 20
+                   K         = LLT * ((IUS )+IPOS-1)
+                   MT = IXS(1,1+NFT)
+                   MT = MAT_PARAM(MT)%MULTIMAT%MID(ISUBMAT)
+                   DO I=LFT,LLT
+                     EVAR(I) = MBUF%VAR(K+I) / PM(89,MT) - ONE
+                   ENDDO
+              ENDIF
 c------------------------------------ 
               !OTHER IFUNC VALUES
               ELSE 

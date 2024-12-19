@@ -528,9 +528,7 @@ c-----------OFF
              ENDIF
 c-----------TILLOTSON             
            ELSEIF(IFUNC == 5172)THEN   !/ANIM/ELEM/TILLOTSON
-              DO I=LFT,NEL
-                EVAR(I) = ZERO
-              ENDDO 
+              EVAR(1:NEL) = ZERO
               N=1+NFT
               IPRT=IPARTSP(N)
               MT=IPART(1,IPRT)                                                        
@@ -542,7 +540,24 @@ c-----------TILLOTSON
                   EVAR(I) = EBUF%VAR(I)
                 ENDDO
               ENDIF 
-              FUNC(EL2FA(NN1+NFT+1:NN1+NFT+NEL)) = EVAR(1:NEL)               
+              FUNC(EL2FA(NN1+NFT+1:NN1+NFT+NEL)) = EVAR(1:NEL)
+
+c-----------VOLUMETRIC STRAIN (VSTRAIN)
+           ELSEIF(IFUNC == 5173)THEN   !/ANIM/ELEM/VSTRAIN
+              EVAR(1:NEL) = ZERO
+              IPRT=IPARTSP(1+NFT)
+              MT=IPART(1,IPRT)
+              IF(PM(89,MT) > ZERO)THEN
+              DO  I=1,NEL
+                EVAR(I) = GBUF%RHO(I) / PM(89,MT) - ONE
+              ENDDO
+              ENDIF
+              FUNC(EL2FA(NN1+NFT+1:NN1+NFT+NEL)) = EVAR(1:NEL)
+
+           ELSEIF(IFUNC >= 5173+1 .AND. IFUNC <= 5173+21)THEN   !/ANIM/ELEM/VSTRAIN
+              EVAR(1:NEL) = ZERO
+              FUNC(EL2FA(NN1+NFT+1:NN1+NFT+NEL)) = EVAR(1:NEL)
+              !submaterial modeling not compatible with sph (output 0.0 for VSTRAIN/[i])
 c-----------
            ELSE
             DO I=LFT,LLT
