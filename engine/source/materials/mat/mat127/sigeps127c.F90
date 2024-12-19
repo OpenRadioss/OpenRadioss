@@ -292,12 +292,21 @@
                        emc = fourth*(signyy(i)/sc(i))**2  + (yc_over_sc - one)*signyy(i)/yc(i) + (signxy(i)/sc(i))**2 
                        if(emc >= one) dmg(i,5)= one 
                endif 
-               if(dmg(i,2) == zero )then
+               ! failur based on effetive strain
+                eps_ef =  two_third* (epsxx(i)**2 + epsyy(i)**2 + epsxy(i)**2 ) 
+                eps_ef = sqrt(eps_ef) 
+                if(eps_ef >= efs .and. offply(i) == one ) then
+                  dmg(i,1) = one 
+                  uvar(i,1) = ncycle 
+                  dmg_g(i) = dmg_g(i) + one
+                  offply(i) = zero
+                endif  
+                if(offply(i) > zero )then
                       ndex = ndex + 1
                       index(ndex) = I  
                       ! shear
                       if(abs(signxy(i)) >= sc(i) ) dmg(i,6 ) = one 
-               endif  
+                endif  
           end do ! nel 
       endif ! dfailt == zero
        ! criteria based on strain
