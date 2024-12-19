@@ -101,11 +101,11 @@ c
             KMAX  = MAX(KMAX, SLOPE)
           END DO
 c
-c         check intersection with loading curve
+c         check intersection with loading curve        
           CALL TABLE_INTERS(TABLE,FUNC,FUND,FSCALE1,FSCALE2,XINT,YINT)
 c
           IF (XINT == ZERO .or. YINT == ZERO) THEN
-            CALL ANCMSG(MSGID=1716 ,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_2,
+            CALL ANCMSG(MSGID=3081 ,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_2,
      .                  I1 = MAT_ID,
      .                  I2 = TABLE_ID(1),                                               
      .                  I3 = TABLE_ID(2),                                              

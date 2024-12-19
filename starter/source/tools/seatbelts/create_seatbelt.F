@@ -151,7 +151,7 @@ C         check if functions are identical
             ENDIF
           ENDIF    
 C         functions are stored in table and in case  of null slope a small slope is added      
-          RETRACTOR(I)%S_TABLE(1:2) = 0    
+          RETRACTOR(I)%S_TABLE(1:2) = 0   
           DO J=1,2
             IF (RETRACTOR(I)%IFUNC(J) > 0) THEN                            
               NPT=(NPC(RETRACTOR(I)%IFUNC(J)+1)-NPC(RETRACTOR(I)%IFUNC(J)))/2
@@ -222,10 +222,12 @@ C             second pass to add slope if too small
                 ELSE
                   SHIFT = ZERO
                 ENDIF  
+C               small slope not added for unload curve
+                IF (J==2) SHIFT=ZERO
                 RETRACTOR(I)%TABLE(J)%X(1)%VALUES(K) = X2
                 RETRACTOR(I)%TABLE(J)%Y%VALUES(K)    = Y2 + SHIFT
                 DERI_P=DERI
-              ENDDO           
+              ENDDO
             ENDIF
           ENDDO          
         ENDDO
