@@ -20,7 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-C     ..... FOR DEMO  ......
       !||====================================================================
       !||    hm_read_mat151             ../starter/source/materials/mat/mat151/hm_read_mat151.F
       !||--- called by ------------------------------------------------------
@@ -38,27 +37,14 @@ C     ..... FOR DEMO  ......
       !||    submodel_mod               ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_MAT151( MTAG, PM, IPM, ID, TITR, MULTI_FVM, UNITAB, LSUBMODEL, MATPARAM )
-C     ..... FOR DEMO  ......
-C-----------------------------------------------
-C   ROUTINE DESCRIPTION :
-C   ===================
-C   READ MAT LAW151 WITH HM READER ( TO BE COMPLETED )
-C-----------------------------------------------
-C   DUMMY ARGUMENTS DESCRIPTION:
-C   ===================
-C
-C     NAME            DESCRIPTION                         
-C
-C     ..... A FAIRE  ......
-C     ............   
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
       USE MESSAGE_MOD
-      USE MULTI_FVM_MOD       
-      USE SUBMODEL_MOD 
+      USE MULTI_FVM_MOD
+      USE SUBMODEL_MOD
       USE INIVOL_DEF_MOD
       USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
@@ -77,12 +63,12 @@ C-----------------------------------------------
       CHARACTER(LEN=NCHARTITLE) ,INTENT(IN) :: TITR
       INTEGER,INTENT(INOUT) :: IPM(NPROPMI)
       INTEGER,INTENT(IN) :: ID
-      my_real,INTENT(INOUT) :: PM(NPROPM)      
-      TYPE (UNIT_TYPE_),INTENT(IN) :: UNITAB       
-      TYPE(MLAW_TAG_),INTENT(INOUT) :: MTAG      
+      my_real,INTENT(INOUT) :: PM(NPROPM)
+      TYPE (UNIT_TYPE_),INTENT(IN) :: UNITAB
+      TYPE(MLAW_TAG_),INTENT(INOUT) :: MTAG
       TYPE(MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM
       TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(NSUBMOD)
-      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM 
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -93,7 +79,7 @@ C-----------------------------------------------
       my_real :: VFRAC(21)
       INTEGER :: IMID(21)
 C-----------------------------------------------
-C     B e g i n n i n g   o f   s u b r o u t i n e
+C     B o d y
 C-----------------------------------------------
       IS_AVAILABLE = .FALSE.
       NBMAT = 0
@@ -105,24 +91,21 @@ C-----------------------------------------------
          CALL ANCMSG(MSGID = 87, MSGTYPE = MSGERROR, ANMODE = ANINFO)
       ENDIF
 
-C     Store number of materials
+      ! Storing number of materials
       IPM(20) = NBMAT
       PM(20) = NBMAT + EM01
       MATPARAM%MULTIMAT%NB = NBMAT
       ! Multimaterial data
       IF(.NOT.ALLOCATED(MATPARAM%multimat%vfrac))ALLOCATE(MATPARAM%multimat%vfrac(NBMAT))
       IF(.NOT.ALLOCATED(MATPARAM%multimat%mid))  ALLOCATE(MATPARAM%multimat%mid(NBMAT))
-      
 
-C     Reading submaterial IDS and corresponding volumic fractions
+      ! Reading submaterial IDS and corresponding volumic fractions
       SUM_FRAC_VOL = ZERO
       DO II = 1, NBMAT
          CALL HM_GET_INT_ARRAY_INDEX('MAT_ID_ARRAY',MAT_ID,II,IS_AVAILABLE,LSUBMODEL)
          CALL HM_GET_FLOAT_ARRAY_INDEX('VOL_FRAC_ARRAY',FRAC_VOL,II,IS_AVAILABLE,LSUBMODEL,UNITAB)
          IPM(20 + II) = MAT_ID
-         MATPARAM%MULTIMAT%MID(II) = MAT_ID
          PM(20 + II) = FRAC_VOL
-         MATPARAM%MULTIMAT%VFRAC(II) = FRAC_VOL
          IMID(II) = MAT_ID
          VFRAC(II) = FRAC_VOL
          SUM_FRAC_VOL = SUM_FRAC_VOL + FRAC_VOL
@@ -134,6 +117,8 @@ C     Reading submaterial IDS and corresponding volumic fractions
             ENDIF
          ENDIF
       ENDDO
+
+      ! Warning and Error messages
       IF (SUM_FRAC_VOL /= ONE) THEN
          IF (NUM_INIVOL == 0) THEN
             CALL ANCMSG(MSGID = 1512, MSGTYPE = MSGERROR, ANMODE = ANINFO, C1 = "ERROR", I1 = ID, R1 = SUM_FRAC_VOL)
@@ -141,11 +126,12 @@ C     Reading submaterial IDS and corresponding volumic fractions
             CALL ANCMSG(MSGID = 1512, MSGTYPE = MSGWARNING, ANMODE = ANINFO, C1 = "WARNING", I1 = ID, R1 = SUM_FRAC_VOL)
             IF(SUM_FRAC_VOL == ZERO)THEN
               PM(20 + 1) = ONE  !default submaterial is submat #1
-              MATPARAM%MULTIMAT%VFRAC(1) = ONE
+              VFRAC(1) = ONE
             ENDIF
          ENDIF
       ENDIF
 
+      ! Material Buffer
       MTAG%L_FRAC = 1
       MTAG%G_DELTAX = 1
       MTAG%L_DELTAX = 1
@@ -153,7 +139,6 @@ C     Reading submaterial IDS and corresponding volumic fractions
       MTAG%L_RHO = 1
 
       ! MATPARAM keywords
-
       CALL INIT_MAT_KEYWORD(MATPARAM,"INCOMPRESSIBLE")
 
       ! Material compatibility with /EOS option
@@ -169,6 +154,7 @@ C     Reading submaterial IDS and corresponding volumic fractions
       MATPARAM%multimat%vfrac(1:NBMAT) = VFRAC(1:NBMAT)
       MATPARAM%multimat%mid(1:NBMAT) = IMID(1:NBMAT)
 
+      ! Starter listing output
       WRITE(IOUT,1000) NBMAT
       DO II = 1, NBMAT
          WRITE(IOUT, 1010) MATPARAM%multimat%mid(II), MATPARAM%multimat%vfrac(II)
