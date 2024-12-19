@@ -182,7 +182,7 @@ c
 !     Initialization
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
-      L      =NFUNCT
+      L = NFUNCT
 C----------------------------
 C HIGHER ORDERS TABLES
 C----------------------------
@@ -197,8 +197,8 @@ C----------------------------
 C----------------------------
 C /FUNCT/TABLE/1/id, NDIM>1
 C----------------------------
-      IF(NTABLE1> 0) THEN
-       CALL HM_READ_TABLE2_1(NTABLE,NTABLE1, TABLE,L ,NFUNCT , UNITAB, LSUBMODEL)      
+      IF (NTABLE1> 0) THEN
+       CALL HM_READ_TABLE2_1(NTABLE,NTABLE1, TABLE, L ,NFUNCT , UNITAB, LSUBMODEL)      
       ENDIF
 C-------------------------------------
 C Recherche des ID doubles (functions & tables)
