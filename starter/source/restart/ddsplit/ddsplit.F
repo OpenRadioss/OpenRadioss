@@ -791,10 +791,11 @@ C
       INTEGER, DIMENSION(:), ALLOCATABLE :: NE_LERCVOIS  !(NE_NERVOIS)
       INTEGER, DIMENSION(:), ALLOCATABLE :: NE_LESDVOIS  !(NE_NESVOIS)
       INTEGER :: II, JJ, NEBCS_FVM, IPT, ITMP
-      INTEGER :: NEBCS_NRF,OTHER_NEBCS
-      INTEGER, DIMENSION(NEBCS) :: LIST_EBCS_NRF,LIST_OTHER_EBCS
+      INTEGER :: NEBCS_PARALLEL,OTHER_NEBCS
+      INTEGER, DIMENSION(NEBCS) :: LIST_EBCS_PARALLEL,LIST_OTHER_EBCS
       TYPE(t_ebcs_tab) :: EBCS_TAB_LOC,EBCS_TAB_LOC_2
       TYPE(t_connectivity_ext1) :: ee_connect_l
+      LOGICAL :: IS_EBCS_PARALLEL
 C-----------------------------------------------
       TYPE(SEATBELT_REMOTE_NODES_STRUCT) ANCHOR_REMOTE_L,ANCHOR_REMOTE_SEND_L
 C-----------------------------------------------
@@ -954,17 +955,19 @@ C--------------------------------------
       ALLOCATE(IEBCS_LISTDP0_L(0))
       EBCS_TAB_LOC%nebcs_fvm = 0
       NEBCS_FVM = 0
-      NEBCS_NRF = 0
+      NEBCS_PARALLEL = 0
       OTHER_NEBCS = 0
       IF (NEBCS > 0) THEN
 ! Workaround for issues with Polymorphic types with some compilers
 !$OMP CRITICAL
          DO II = 1, NEBCS
+            IS_EBCS_PARALLEL = .FALSE.
+            IF(EBCS_TAB%tab(II)%poly%type==10 .or. EBCS_TAB%tab(II)%poly%type==11) IS_EBCS_PARALLEL=.TRUE.
             IF (EBCS_TAB%tab(II)%poly%is_multifluid) THEN
                NEBCS_FVM = NEBCS_FVM + 1
-            ELSEIF(EBCS_TAB%tab(II)%poly%type==10) THEN
-                NEBCS_NRF = NEBCS_NRF + 1
-                LIST_EBCS_NRF(NEBCS_NRF) = II
+            ELSEIF(IS_EBCS_PARALLEL) THEN
+                NEBCS_PARALLEL = NEBCS_PARALLEL + 1
+                LIST_EBCS_PARALLEL(NEBCS_PARALLEL) = II
             ELSEIF(P==1) THEN
                 OTHER_NEBCS = OTHER_NEBCS + 1
                 LIST_OTHER_EBCS(OTHER_NEBCS) = II
@@ -975,12 +978,12 @@ C--------------------------------------
          EBCS_TAB_LOC%nebcs_fvm = NEBCS_FVM
 
          ! allocation of EBCS type nrf
-         EBCS_TAB_LOC_2%nebcs_nrf = NEBCS_NRF
+         EBCS_TAB_LOC_2%nebcs_parallel = NEBCS_PARALLEL
+         CALL EBCS_TAB_LOC_2%create(NEBCS_PARALLEL)
          EBCS_TAB_LOC_2%nebcs_loc = OTHER_NEBCS
-         CALL EBCS_TAB_LOC_2%create(NEBCS_NRF)
          EBCS_TAB_LOC_2%nebcs_fvm = 0
          ! --------------------
-         ! mode 0 : count the number of entity/element
+         ! mode 0 : count the number of entity/element  (if %has_ielem == .true.)
          CALL C_IEBCS(IXS, IXQ, IXTG,
      .        NUMELS, NUMELQ, NUMELTG,
      .        NEBCS, CEP, NUMELS + NUMELQ + NUMELTG,
@@ -1009,7 +1012,7 @@ C        ALLOCATE
 
 
          NEBCS_FVM = 0
-         NEBCS_NRF = 0
+         NEBCS_PARALLEL = 0
          IPT = 1
         ! --------------------
         ! loop over the ebcs, 3 cases :
@@ -1018,6 +1021,9 @@ C        ALLOCATE
         ! (3) other ebcs  : sequential --> all the elements/nodes of the ebcs are on main processor
         ! for cases (1) & (2) : need to convert global id into local processor id
          DO II = 1, NEBCS
+            IS_EBCS_PARALLEL = .FALSE.
+            IF(EBCS_TAB%tab(II)%poly%type == 10 .OR. EBCS_TAB%tab(II)%poly%type == 11 )IS_EBCS_PARALLEL = .TRUE.
+
             ! ------------
             ! multifluid ebcs
             IF (EBCS_TAB%tab(II)%poly%is_multifluid) THEN
@@ -1044,22 +1050,22 @@ C        ALLOCATE
                   IPT = IPT + 1
                ENDDO
             ! ------------
-            ! /NRF ebcs
-            ELSEIF(EBCS_TAB%tab(II)%poly%type==10) THEN
-               NEBCS_NRF = NEBCS_NRF + 1
-               ALLOCATE(EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly, source = EBCS_TAB%tab(II)%poly)   
+            ! parallel ebcs : /NRF /PROPERGOL
+            ELSEIF(IS_EBCS_PARALLEL)THEN
+               NEBCS_PARALLEL = NEBCS_PARALLEL + 1
+               ALLOCATE(EBCS_TAB_LOC_2%tab(NEBCS_PARALLEL)%poly, source = EBCS_TAB%tab(II)%poly)
                IF(EBCS_TAB%tab(II)%poly%has_ielem) THEN     
-                    EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%nb_elem = IEBCS_NELEM_L(II)
-                    IF (ALLOCATED(EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%iface)) THEN
-                       DEALLOCATE(EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%iface)
+                    EBCS_TAB_LOC_2%tab(NEBCS_PARALLEL)%poly%nb_elem = IEBCS_NELEM_L(II)
+                    IF (ALLOCATED(EBCS_TAB_LOC_2%tab(NEBCS_PARALLEL)%poly%iface)) THEN
+                       DEALLOCATE(EBCS_TAB_LOC_2%tab(NEBCS_PARALLEL)%poly%iface)
                     ENDIF
-                    EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%nb_elem = IEBCS_NELEM_L(II)
-                    ALLOCATE(EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%iface(IEBCS_NELEM_L(II)))
+                    EBCS_TAB_LOC_2%tab(NEBCS_PARALLEL)%poly%nb_elem = IEBCS_NELEM_L(II)
+                    ALLOCATE(EBCS_TAB_LOC_2%tab(NEBCS_PARALLEL)%poly%iface(IEBCS_NELEM_L(II)))
                     DO JJ = 1, IEBCS_NELEM_L(II)
-                       EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%ielem(JJ) = IEBCS_LISTELEM_L(IPT)
-                       EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%iface(JJ) = IEBCS_LISTFAC_L(IPT)
-                       IF(EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%has_dp0) THEN
-                          EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%dp0(JJ) = IEBCS_LISTDP0_L(IPT)
+                       EBCS_TAB_LOC_2%tab(NEBCS_PARALLEL)%poly%ielem(JJ) = IEBCS_LISTELEM_L(IPT)
+                       EBCS_TAB_LOC_2%tab(NEBCS_PARALLEL)%poly%iface(JJ) = IEBCS_LISTFAC_L(IPT)
+                       IF(EBCS_TAB_LOC_2%tab(NEBCS_PARALLEL)%poly%has_dp0) THEN
+                          EBCS_TAB_LOC_2%tab(NEBCS_PARALLEL)%poly%dp0(JJ) = IEBCS_LISTDP0_L(IPT)
                        ENDIF
                        IPT = IPT + 1
                     ENDDO
@@ -1089,9 +1095,8 @@ C        ALLOCATE
          ENDDO
 
         ! --------------------
-        ! additional computation for /NRF ebcs
-         CALL SPLIT_EBCS(P,NEBCS_NRF,LIST_EBCS_NRF,SCEL,CEP,IGRSURF,
-     .                   CEL,EBCS_TAB,EBCS_TAB_LOC_2)
+        ! additional computation for /NRF ebcs  (ids : global -> local)
+         CALL SPLIT_EBCS(P,NEBCS_PARALLEL,LIST_EBCS_PARALLEL,SCEL,CEP,IGRSURF,CEL,EBCS_TAB,EBCS_TAB_LOC_2)
         ! --------------------
 !$OMP END CRITICAL
       ENDIF
@@ -1490,7 +1495,7 @@ C--------------------------------------
 C counts flux convec
 C--------------------------------------
       NCONV_L = 0
-      IF (GLOB_THERM%NUMCONV > 0) 
+      IF (GLOB_THERM%NUMCONV > 0)
      .    CALL C_ICONV(IBCV,CEP,P-1,NCONV_L,GLOB_THERM%NUMCONV,GLOB_THERM%NICONV)
 C--------------------------------------
 C counts radiative fluxes              
@@ -2170,7 +2175,7 @@ C--------------------------------------
       NEBCS_FVM = 0
       CALL WRITE_I_C(NEBCS, 1) ! total number of /EBCS
       CALL WRITE_I_C(EBCS_TAB_LOC%nebcs_fvm, 1) ! multifluid ebcs number
-      CALL WRITE_I_C(NEBCS_NRF, 1)  ! /NRF ebcs number
+      CALL WRITE_I_C(NEBCS_PARALLEL, 1)  ! /NRF or /PROPERGOL ebcs number
       CALL WRITE_I_C(OTHER_NEBCS, 1) ! other ebcs
       ! ---------------
       ! common data 
@@ -2195,22 +2200,24 @@ C--------------------------------------
 
       ! ---------------
       ! other ebcs
-      NEBCS_NRF = 0
+      NEBCS_PARALLEL = 0
       DO II = 1, NEBCS
         ! ---------------
         ! NRF ebcs
-        IF(.NOT.EBCS_TAB%tab(ii)%poly%is_multifluid.AND.EBCS_TAB%tab(ii)%poly%type==10) THEN
-            NEBCS_NRF = NEBCS_NRF + 1
-            DO JJ = 1, EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%nb_node
-                IF( NODLOCAL(EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%node_list(jj)) > 0 .AND.
-     .              NODLOCAL(EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%node_list(jj)) <= NUMNOD ) THEN
-                    EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%node_list(JJ) =
-     .               NODLOCAL(EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%node_list(JJ))                
+        IS_EBCS_PARALLEL = .FALSE.
+        IF(EBCS_TAB%tab(ii)%poly%type==10 .OR. EBCS_TAB%tab(ii)%poly%type==11)IS_EBCS_PARALLEL=.TRUE.
+        IF(.NOT.EBCS_TAB%tab(ii)%poly%is_multifluid .AND. IS_EBCS_PARALLEL) THEN
+            NEBCS_PARALLEL = NEBCS_PARALLEL + 1
+            DO JJ = 1, EBCS_TAB_LOC_2%tab(NEBCS_PARALLEL)%poly%nb_node
+                IF( NODLOCAL(EBCS_TAB_LOC_2%tab(NEBCS_PARALLEL)%poly%node_list(jj)) > 0 .AND.
+     .              NODLOCAL(EBCS_TAB_LOC_2%tab(NEBCS_PARALLEL)%poly%node_list(jj)) <= NUMNOD ) THEN
+                    EBCS_TAB_LOC_2%tab(NEBCS_PARALLEL)%poly%node_list(JJ) =
+     .               NODLOCAL(EBCS_TAB_LOC_2%tab(NEBCS_PARALLEL)%poly%node_list(JJ))
                 ENDIF
             ENDDO
             IF (.NOT. EBCS_TAB%tab(ii)%poly%is_multifluid) THEN
-                CALL EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%write_common_data(LEN_IA, LEN_AM)
-                CALL EBCS_TAB_LOC_2%tab(NEBCS_NRF)%poly%write_data(LEN_IA, LEN_AM)
+                CALL EBCS_TAB_LOC_2%tab(NEBCS_PARALLEL)%poly%write_common_data(LEN_IA, LEN_AM)
+                CALL EBCS_TAB_LOC_2%tab(NEBCS_PARALLEL)%poly%write_data(LEN_IA, LEN_AM)
             ENDIF
         ! ---------------
         ! other ebcs
@@ -2554,7 +2561,7 @@ C--------------------------------------
      N      CRKNODIAD ,INTBUF_TAB,NUMELIG3D_L,KXIG3D,IXIG3D,
      O      IBFFLUX   ,NFXFLUX_L ,CEPCND  ,CELCND   ,ADDCNCND    ,
      P      CNCND     ,NS10E_L   ,ICNDS10 ,LCNCND_L ,ITAGND ,IGRSURF,
-     Q      IGRSURF_PROC ,NEBCS_NRF, EBCS_TAB_LOC_2,
+     Q      IGRSURF_PROC ,NEBCS_PARALLEL, EBCS_TAB_LOC_2,
      R      NUMBER_LOAD_CYL,LOADS,LOADS_PER_PROC,GLOB_THERM)
 
       ! -------------------
@@ -2634,7 +2641,7 @@ C ICFIELD
 C--------------------------------------
       IF (NLOADC>0)CALL W_ICFIELD(ICFIELD,LCFIELD,NODLOCAL,P-1,LLCFIELD_L,LEN_IA,P,NUMNOD_L)
       IF (NLOADP>0)CALL W_ILOADP(ILOADP,LLOADP,NODLOCAL,P-1,LLLOADP_L,LEN_IA,P,CEP,ITAB,
-     .    GLOB_THERM%NUMCONV,GLOB_THERM%NUMRADIA,GLOB_THERM%NFXFLUX)         
+     .    GLOB_THERM%NUMCONV,GLOB_THERM%NUMRADIA,GLOB_THERM%NFXFLUX)
 C--------------------------------------------
 C LOAD/PBLAST
 C--------------------------------------------

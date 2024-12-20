@@ -192,6 +192,7 @@ C-----------------------------------------------
       USE LOADS_MOD 
       USE inivel_init_mod ,  only: inivel_init
       use glob_therm_mod
+      use spmd_xv_inter_type1_mod , only : is_present_inter1
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -751,12 +752,15 @@ C NUMMPC + NFVLAG : ok (parallele SPMD)
        END IF
 
 C-----------------------
+C INTERFACE TYPE 1
+C-----------------------
+      IS_PRESENT_INTER1 = -1
+C-----------------------
 C INTERFACE TYPE 18 KINE
 C-----------------------
        INT18KINE=0
        DO I=1, NINTER
-         IF(IPARI(7,I)==7.and.
-     *          IPARI(34,I)==-2.and.IPARI(22,I)==7)THEN
+         IF(IPARI(7,I) == 7 .AND. IPARI(34,I) == -2 .AND. IPARI(22,I) == 7)THEN
            INT18KINE=1
          ENDIF
        ENDDO

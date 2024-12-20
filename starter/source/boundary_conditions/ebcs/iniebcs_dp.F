@@ -68,8 +68,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: NodeLOC(4),I,NG,IS,KSEG,NodeG(8),ESEG,EAD,KTY,KLT,MFT,II(6),ISOLNOD,ITY,IP
-      my_real :: ORIENT, FAC, X13,Y13,Z13,X24,Y24,Z24, NX,NY,NZ,S,VN,P,DPDV,ZF(3),ZC(3),VEC(3),RHO ,DIST,GRAV0
+      INTEGER :: NodeLOC(4),NG,IS,KSEG,NodeG(8),ESEG,EAD,KTY,KLT,MFT,ISOLNOD,ITY,IP
+      my_real :: ORIENT, FAC,ZF(3),ZC(3),VEC(3),RHO ,DIST,GRAV0
       my_real :: NGX,NGY,NGZ                       
       TYPE(G_BUFEL_)  ,POINTER :: GBUF  
       LOGICAL IS_TRIA   
