@@ -149,7 +149,7 @@
 
                 s = delta
                 delta = d
-                ! check if interpolation is good enought
+                ! check if interpolation is good enough
                 if ( (two*r3>=(three*length*r1-abs(new_tol*r1)) ).or.( r3>=abs(half*s*r1) ) ) then
                   delta = length
                   d = delta

@@ -81,7 +81,7 @@ void solver_stacksize(){
 
 	// No API on gfortran or ArmFlang
 	// Grab the value from the environment variable OMP_STACKSIZE and postrpocess it
-	// tp have a value in MB or K,M,G if expresed like this
+	// tp have a value in MB or K,M,G if expressed like this
 	const char* env_stack_size = std::getenv("OMP_STACKSIZE");
 
 	if ( env_stack_size == NULL) {
@@ -92,20 +92,15 @@ void solver_stacksize(){
 
 		if (last_char == 'G' || last_char == 'g' || last_char == 'M' || last_char == 'm' || last_char == 'K' || last_char == 'k'){   // Value is set in KB or MB or GB
 			char *stack_size = strdup(env_stack_size);
-			if(stack_size == NULL){
-				str_stack = "0 MB";
-			} else {
-				stack_size[strlen(stack_size)-1] = '\0';
-				try{                                               // Try to convert value in Integer - if Rubish print 0 as OMP_STACKSIZE
-					int stack_size_int = std::stoi(stack_size);
-					str_stack = std::to_string(stack_size_int)+" "+last_char+"B";
-				}
-				catch (...){                                      // Cannot convert 
-					str_stack = "0 MB";
-				}
-				free(stack_size);
+			stack_size[strlen(stack_size)-1] = '\0';
+			try{                                               // Try to convert value in Integer - if Rubish print 0 as OMP_STACKSIZE
+				int stack_size_int = std::stoi(stack_size);
+				str_stack = std::to_string(stack_size_int)+" "+last_char+"B";
 			}
-		}else{                                             // Value is set in KBytes / Read & tey to convert in MB
+			catch (...){                                      // Cannot convert 
+				str_stack = "0 MB";
+			}
+		}else{                                             // Value is set in KBytes / Read & try to convert in MB
 			try{
 				int stack_size_int = std::stoi(env_stack_size)/1024;
 				str_stack = std::to_string(stack_size_int)+" MB";
@@ -172,7 +167,7 @@ void solver_stacksize(){
 
 extern "C" {
 	// get solver stacksize : return the stacksize stored in the global variable omp_stacksize
-	// stacksize : output string must be allocted
+	// stacksize : output string must be allocated
 	// len : length of the output string : must be at least 128
 	void get_solver_stacksize(char* stsize, int* stsize_len, char *omp_stsize,int * omp_stsize_len){
 #ifdef _WIN64
