@@ -161,7 +161,7 @@ my $sensitivity_stats_for_email = $saved_files_dir.'/QA_ALL_sens_stats_n_samplin
 # XXXXXX integrate solver run manager in RD QA
 # We can run binaries through hwsolver tcl script either in one pass (non reg is done against ref.extract file)
 # => use --hwsolvermanager option
-# or in 2 passes (one std run one trhough the hwsolver script) strict non reg
+# or in 2 passes (one std run one through the hwsolver script) strict non reg
 # => use --self_reference="-hwsolvermanager ...""
 my $hwsolvermanager = 0;
 my $hwsolvermanager_args;

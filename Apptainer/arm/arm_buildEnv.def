@@ -10,7 +10,7 @@ procps environment-modules which nano python3
 
 ln -s /usr/bin/python3 /usr/bin/python
 
-echo "Downlaoding Arm compiler and performance libraries"
+echo "Downloading Arm compiler and performance libraries"
 cd /opt
 wget -q -c --read-timeout=15 --show-progress -O arm-compiler-for-linux_22.1_RHEL-8_aarch64.tar "https://developer.arm.com/-/media/Files/downloads/hpc/arm-compiler-for-linux/22-1/arm-compiler-for-linux_22.1_RHEL-8_aarch64.tar?rev=d7be1f977ef848c2873e1f2a1fb8482f&revision=d7be1f97-7ef8-48c2-873e-1f2a1fb8482f"
 tar -xvf arm-compiler-for-linux_22.1_RHEL-8_aarch64.tar

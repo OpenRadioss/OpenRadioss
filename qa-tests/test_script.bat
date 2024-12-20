@@ -142,7 +142,7 @@ GOTO END
   echo -type=[default,pon] : test type
   echo                       -type=default : test suite with numerical results verification
   echo                       -type=pon     : check parallel arithmetic
-  echo -pon_run="MPIxThreds,..." : komma separated list of #mpix#threads
+  echo -pon_run="MPIxThreds,..." : comma separated list of #mpix#threads
   echo. 
   echo -arch=arch          : Set the executable architecture.
   echo                       -arch=built_in (Default) :

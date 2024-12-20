@@ -42,7 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
 ! [ no comment on the same line as #include #define #ifdef, #endif ]
-! [ my_real.inc must be includeed, it was included in "implicit_f.inc"]
+! [ my_real.inc must be included, it was included in "implicit_f.inc"]
 #include "my_real.inc"
 ! [ generally spealing, #include is forbidden, there are only few exceptions:]
 #include "nchar_c.inc"
@@ -53,7 +53,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          type(intbuf_struct),                intent(in) :: intbuf_tab!< intent(in) and intent(inout) are madatory
+          type(intbuf_struct),                intent(in) :: intbuf_tab!< intent(in) and intent(inout) are mandatory
           integer,                            intent(in) :: buffer_size !< the size of the buffer
           integer,                            intent(in) :: buffer(buffer_size) !< the buffer
           integer,                            intent(in) :: acceleration_size !< the size of array must appear before the array
@@ -66,7 +66,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   External functions
 ! ----------------------------------------------------------------------------------------------------------------------
-! [ external functions must be kept to mimimum]
+! [ external functions must be kept to minimum]
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
