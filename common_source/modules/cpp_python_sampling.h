@@ -189,7 +189,7 @@ std::vector<double> select_points(const std::vector<double>& x, const std::vecto
     for (size_t i = 0; i < n-1; ++i) {
         density[i] = std::sqrt(curvature[i] * (x[i+1] - x[i]));  // Use sqrt(curvature)
     }
-    // get the maximum desinty
+    // get the maximum density
     long double max_density = *std::max_element(density.begin(), density.end());
     // density = density + 0.001*max_density
     for (size_t i = 0; i < n; ++i) {

@@ -95,11 +95,11 @@ C---------------------------------------------
                                                                !
           END TYPE TH_SURF_
 
-          INTEGER, PARAMETER :: TH_SURF_NUM_CHANNEL = 6        !< number ot /TH/SURF channels : AREA, VELOCITY, MASSFLOW, P A, MASS
+          INTEGER, PARAMETER :: TH_SURF_NUM_CHANNEL = 6        !< number of /TH/SURF channels : AREA, VELOCITY, MASSFLOW, P A, MASS
 
         CONTAINS
 
-!> \brief Writting TH/SURF tabs in restart file 
+!> \brief Writing TH/SURF tabs in restart file 
 
       !||====================================================================
       !||    thsurf_write_restart   ../common_source/modules/interfaces/th_surf_mod.F
@@ -121,7 +121,7 @@ C-----------------------------------------------
       TYPE (TH_SURF_) , INTENT(IN) :: TH_SURF
       INTEGER , INTENT(IN) :: IFLAG
 C-----------------------------------------------
-C         Writting TH/SURF tabs in restart file
+C         Writing TH/SURF tabs in restart file
 C-----------------------------------------------
 
       CALL WRITE_I_C(TH_SURF%IOK,1)
