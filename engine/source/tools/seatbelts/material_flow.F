@@ -21,20 +21,22 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    material_flow             ../engine/source/tools/seatbelts/material_flow.F
+      !||    material_flow              ../engine/source/tools/seatbelts/material_flow.F
       !||--- called by ------------------------------------------------------
-      !||    r23l114def3               ../engine/source/elements/spring/r23l114def3.F
+      !||    r23l114def3                ../engine/source/elements/spring/r23l114def3.F
       !||--- calls      -----------------------------------------------------
-      !||    get_u_func                ../engine/source/user_interface/ufunc.F
-      !||    retractor_table_inv       ../engine/source/tools/seatbelts/retractor_table_inv.F90
-      !||    solve_delta_l0            ../engine/source/tools/seatbelts/material_flow.F
-      !||    solve_delta_l02           ../engine/source/tools/seatbelts/material_flow.F
-      !||    table_interp_dydx         ../engine/source/tools/curve/table_tools.F
+      !||    get_u_func                 ../engine/source/user_interface/ufunc.F
+      !||    retractor_table_inv        ../engine/source/tools/seatbelts/retractor_table_inv.F90
+      !||    retractor_table_inv2       ../engine/source/tools/seatbelts/retractor_table_inv2.F90
+      !||    solve_delta_l0             ../engine/source/tools/seatbelts/material_flow.F
+      !||    solve_delta_l02            ../engine/source/tools/seatbelts/material_flow.F
+      !||    table_interp_dydx          ../engine/source/tools/curve/table_tools.F
       !||--- uses       -----------------------------------------------------
-      !||    elbufdef_mod              ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    retractor_table_inv_mod   ../engine/source/tools/seatbelts/retractor_table_inv.F90
-      !||    seatbelt_mod              ../common_source/modules/seatbelt_mod.F
-      !||    sensor_mod                ../engine/share/modules/sensor_mod.F
+      !||    elbufdef_mod               ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    retractor_table_inv2_mod   ../engine/source/tools/seatbelts/retractor_table_inv2.F90
+      !||    retractor_table_inv_mod    ../engine/source/tools/seatbelts/retractor_table_inv.F90
+      !||    seatbelt_mod               ../common_source/modules/seatbelt_mod.F
+      !||    sensor_mod                 ../engine/share/modules/sensor_mod.F
       !||====================================================================
       SUBROUTINE MATERIAL_FLOW(DFS,DFS_OLD,ALDP,SLIPRING_STRAND,XK,
      1                         OFF,AL0,AL02,LMIN,UPDATE_FLAG,

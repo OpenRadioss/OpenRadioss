@@ -224,6 +224,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    resol                        ../engine/source/engine/resol.F
       !||    restalloc                    ../engine/source/output/restart/arralloc.F
       !||    retractor_table_inv          ../engine/source/tools/seatbelts/retractor_table_inv.F90
+      !||    retractor_table_inv2         ../engine/source/tools/seatbelts/retractor_table_inv2.F90
       !||    rforc3                       ../engine/source/elements/spring/rforc3.F
       !||    rgbodv                       ../engine/source/constraints/general/rbody/rgbodv.F
       !||    s10deri3                     ../engine/source/elements/solid/solide10/s10deri3.F
