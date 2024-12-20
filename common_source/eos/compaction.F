@@ -37,7 +37,6 @@ C
 C Iform : formulation flag for unload behavior
 C          1 : constant unload modulus (DEFAULT)
 C          2 : unload modulus increases with compaction from C1 to BUNL in [MU_MIN,MU_MAX]
-C         10 : legacy behvior (fixed with iform=1) (not documented)
 C
 C  MU_MIN : elastic behavior up to this limit
 C  MU_MAX : elastic behavior above this limit
@@ -75,7 +74,7 @@ C-----------------------------------------------
       INTEGER I, MX, IFORM
       my_real :: P0,PSH(MVSIZ),GAMMA,T0,E0,SPH,AA, BB,TFEXTT, DVV, PP, AR0B, B(MVSIZ),PNE1,RHO0(MVSIZ),PFRAC
       my_real :: C0,C1,C2,C3,BUNL,MU_OLD(MVSIZ),MU_MAX,PEN1,P(MVSIZ),P_
-      my_real :: BULK2(MVSIZ),BULK(MVSIZ),ALPHA,MUMIN
+      my_real :: ALPHA,MUMIN
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -96,8 +95,6 @@ C-----------------------------------------------
        IFORM      = NINT(PM(48,MX))
        
        TFEXTT       = ZERO
-       BULK(1:NEL)  = BUNL
-       BULK2(1:NEL) = BUNL
        
       !----------------------------------------------------------------!
       !  COMPACTION EOS                                                !
@@ -126,19 +123,7 @@ C-----------------------------------------------
           PNE1 = P_-(MU_OLD(I)-MU(I))*B(I)
           IF(MU_OLD(I) > MUMIN) P(I) = MIN(PNE1, P(I))
           P(I) = MAX(P(I),PFRAC)  *OFF(I)
-        ENDDO !next I  
-      !--- legacy behavior ---! 
-      ELSEIF(IFORM == 10)THEN    
-        DO I=1,NEL
-          IF(MU_OLD(I) < ZERO)BULK(I)  = C1 
-          IF(MU(I) < ZERO)    BULK2(I) = C1
-          PNE1 = POLD(I)+PSH(I)+MU(I)*BULK2(I)-MU_OLD(I)*BULK(I)
-          P(I)    = C0+C1*MU(I)+C2*MU2(I)+C3*MU2(I)*MU(I)
-          IF(MU(I) < MU_MAX) P(I) = MIN(P(I),PNE1) 
-          P(I) = MAX(P(I),PFRAC)  *OFF(I) 
-          !B(I) = MAX(BULK(I),BULK2(I))
-          B(I) = BULK(I)
-        ENDDO !next I            
+        ENDDO !next I
       ENDIF
       !----------------------------------------------------------------!
       !  SOUND SPEED                                                   !
@@ -157,10 +142,8 @@ C-----------------------------------------------
       ENDDO !next I     
       DO I=1,NEL
         ECOLD(I)=-THREE100*SPH
-        !IF(MU(I) > ZERO) ECOLD(I)=
       ENDDO
 
-      
 
       IF(IFLAG == 1) THEN
         !----------------------------------------------------------------!
@@ -171,20 +154,10 @@ C-----------------------------------------------
         ENDDO !next I 
         !----------------------------------------------------------------!
         !  FRACTURE  - MU_OLD                                            !
-        !----------------------------------------------------------------!      
-        IF(IFORM == 10)THEN
-          DO I=1,NEL
-            IF(P(I) <= PFRAC)THEN
-              MU_OLD(I) =MU_OLD(I)+(PFRAC-POLD(I)-PSH(I))/BULK2(I)  
-            ELSE
-              MU_OLD(I)= MU(I)
-            ENDIF
-          ENDDO !next I
-        ELSEIF(IFORM <= 2)THEN   !iform=1,2
-          DO I=1,NEL
-            IF(MU(I) > MU_OLD(I)) MU_OLD(I) = MIN(MU_MAX,MU(I))
-          ENDDO !next I 
-        ENDIF
+        !----------------------------------------------------------------!
+        DO I=1,NEL
+          IF(MU(I) > MU_OLD(I)) MU_OLD(I) = MIN(MU_MAX,MU(I))
+        ENDDO !next I
         !----------------------------------------------------------------!
         !  OUTPUT                                                        !
         !----------------------------------------------------------------!      
@@ -194,7 +167,6 @@ C-----------------------------------------------
         ENDDO !next I     
          DO I=1,NEL
            ECOLD(I)=-THREE100*SPH
-           !IF(MU(I) > ZERO) ECOLD(I)=
          ENDDO
         !----------------------------------------------------------------!
         !  PRESSURE WORK                                                 !
@@ -210,20 +182,10 @@ C-----------------------------------------------
       ELSEIF(IFLAG == 2) THEN
         !----------------------------------------------------------------!
         !  FRACTURE  - MU_OLD                                            !
-        !----------------------------------------------------------------!      
-        IF(IFORM == 10)THEN
-          DO I=1,NEL
-            IF(P(I) <= PFRAC)THEN
-              MU_OLD(I) =MU_OLD(I)+(PFRAC-POLD(I)-PSH(I))/BULK2(I)  
-            ELSE
-              MU_OLD(I)= MU(I)
-            ENDIF
-          ENDDO !next I
-        ELSEIF(IFORM <= 2)THEN  !iform=1,2
-          DO I=1,NEL
-            IF(MU(I) > MU_OLD(I)) MU_OLD(I) = MIN(MU_MAX,MU(I))
-          ENDDO !next I 
-        ENDIF
+        !----------------------------------------------------------------!
+        DO I=1,NEL
+          IF(MU(I) > MU_OLD(I)) MU_OLD(I) = MIN(MU_MAX,MU(I))
+        ENDDO !next I
         !----------------------------------------------------------------!
         !  OUTPUT                                                        !
         !----------------------------------------------------------------!      
