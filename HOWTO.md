@@ -195,7 +195,7 @@ OpenMPI is needed to build OpenRadioss with OpenMPI support.
 It is recommended to build and install OpenMPI from OpenMPI website using gcc compiler.
 
 1. Download OpenMPI tarball from  [www.openmpi.org](https://www.open-mpi.org/software/ompi/v4.1)
-   prefered version is [OpenMPI v4.1.2](https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.2.tar.gz)
+   preferred version is [OpenMPI v4.1.2](https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.2.tar.gz)
 
             wget https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.2.tar.gz
 
@@ -319,7 +319,7 @@ Both are shipped with Visual Studio 2019.
    * In cygwin Install Directory : Choose Cygwin directory.
          It is recommended to use the Default directory
    * In Local Download Directory, Choose the download directory
-   * In Internet Connexion : Choose System parameters
+   * In Internet Connection : Choose System parameters
    * In Download site menu : choose the repository server nearest to your location.
    * In the Package Menu :
      * Choose make
@@ -765,7 +765,7 @@ Recommendations for developers are to build OpenRadioss with :
           -release                            : set build for release (optimized)
           
        Execution control
-          -nt [N,all]        : Run build with N Threads, all : takes all ressources of machine
+          -nt [N,all]        : Run build with N Threads, all : consumes all resources of machine
           -verbose           : Verbose build
           -clean             : clean build directory
 

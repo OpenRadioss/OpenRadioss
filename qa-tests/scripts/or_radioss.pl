@@ -955,7 +955,7 @@ sub set_vars() {
         }
         # XXXXXX integrate solver run manager in RD QA
         # We can run binaries through hwsolver tcl script either in one pass (non reg is done against ref.extract file)
-        # or in 2 passes (one std run one trhough the hwsolver script) strict non reg
+        # or in 2 passes (one std run one through the hwsolver script) strict non reg
         elsif ($my_arg =~ /^-starter$/ and $hwsolvermanager and $selfref_pass == 2) {
           # Remove possible previous CHECK_DATA file, because the presence generates an error with script
           # Found CHECK_DATA file, specify option -checkpoint or remove CHECK_DATA file
