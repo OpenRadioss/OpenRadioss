@@ -50,7 +50,7 @@
           subroutine python_get_elemental_entity(nb,name,uid) bind(c,name="cpp_python_get_elemental_entity")
             use iso_c_binding
             integer(kind=c_int), value, intent(in) :: nb
-            integer(kind=c_int), intent(inout) :: uid !< retuns the user id of the nth variable found in the python code
+            integer(kind=c_int), intent(inout) :: uid !< returns the user id of the nth variable found in the python code
             character(kind=c_char), dimension(100), intent(inout) :: name !< variable name, as defined in H3D keyword
           end subroutine
         end interface

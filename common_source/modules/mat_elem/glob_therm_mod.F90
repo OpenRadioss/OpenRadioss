@@ -207,7 +207,7 @@
         my_real     :: theaccfact    !< thermal model acceleration factor
         my_real     :: dtfactherm    !< thermal time step reduction factor
 !
-        my_real     :: heat_meca     !< cumulated mecanical heat flux
+        my_real     :: heat_meca     !< cumulated mechanical heat flux
         my_real     :: heat_conv     !< cumulated convection heat flux
         my_real     :: heat_radia    !< cumulated radiation heat flux
         my_real     :: heat_fflux    !< cumulated fixed heat flux      

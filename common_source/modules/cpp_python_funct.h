@@ -241,7 +241,7 @@ struct ComparePairs {
 };
 using KeywordPairs = std::set<std::pair<int, const char*>, ComparePairs>;
 
-// Get a pair of keyword, id from an index: is ineficient but called only at initialization
+// Get a pair of keyword, id from an index: is inefficient but called only at initialization
 KeywordPair get_keyword_pair(const KeywordPairs& keywordPairs, size_t n) {
     if (n >= keywordPairs.size()) {
         std::cout<<"ERROR: Out of range access in elemental value for Python function."<<std::endl;
