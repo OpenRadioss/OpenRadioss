@@ -123,8 +123,7 @@ C-----------------------------------------------
 
       !IFORM=1 : CONSTANT unload modulus BUNL (DEFAULT)
       !IFORM=2 : LINEAR uload modulus from C1 to BUNL
-      !IFORM=10 : legacy formulation law10 (slope change when mu<0) 
-      IF(IFORM /= 1 .AND. IFORM /= 2 .AND. IFORM /= 10)THEN 
+      IF(IFORM /= 1 .AND. IFORM /= 2)THEN
         IFORM=1 !default     
         IOUTP=0
       ENDIF
@@ -173,10 +172,8 @@ C-----------------------------------------------
       !SSP0
       SSP0 = ZERO 
       G0 = PM(22)
-      RHOI = PM(89) 
-        IF(IFORM == 10)THEN    
-            BB = BULK
-        ELSEIF(IFORM == 1)THEN
+      RHOI = PM(89)
+        IF(IFORM == 1)THEN
             BB=BUNL 
         ELSEIF(IFORM == 2)THEN
           ALPHA = ONE
@@ -200,9 +197,7 @@ C-----------------------------------------------
         WRITE(IOUT,1500)C0,C1,C2,C3,PSH,BUNL,MUMIN,MUMAX
         IF(IS_AVAILABLE_RHO0)WRITE(IOUT,1503)PM(1)
         IF(IOUTP == 1)THEN
-          IF(IFORM==10)THEN
-             WRITE(IOUT,1510)
-          ELSEIF(IFORM==1)THEN
+          IF(IFORM==1)THEN
              WRITE(IOUT,1501)
           ELSEIF(IFORM==2)THEN
              WRITE(IOUT,1502)
@@ -222,9 +217,7 @@ C-----------------------------------------------
      & 5X,'PRESSURE SHIFT. . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'BUNL : UNLOADING MODULUS. . . . . . . . . .=',1PG20.13/,
      & 5X,'MU_MIN : ELASTIC LIMIT. . . . . . . . . . .=',1PG20.13/,
-     & 5X,'MU_MAX : MAXIMUM COMPACTION . . . . . . . .=',1PG20.13)    
- 1510 FORMAT(
-     & 5X,'LEGACY FORMULATION'/)
+     & 5X,'MU_MAX : MAXIMUM COMPACTION . . . . . . . .=',1PG20.13)
  1501 FORMAT(
      & 5X,'CONSTANT UNLOAD MODULUS'/)
  1502 FORMAT(
