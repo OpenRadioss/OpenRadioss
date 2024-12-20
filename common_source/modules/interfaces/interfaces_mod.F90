@@ -73,7 +73,7 @@ module interfaces_mod
 !   -------------------------
 
 !----------------------------------------------
-!   global interfaces stucture
+!   global interfaces structure
 !---------------------------------------------
    type interfaces_
       type(intbuf_struct_),dimension(:),allocatable :: intbuf_tab

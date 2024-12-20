@@ -37,7 +37,7 @@ C
 C Iform : formulation flag for unload behavior
 C          1 : constant unload modulus (DEFAULT)
 C          2 : unload modulus increases with compaction from C1 to BUNL in [MU_MIN,MU_MAX]
-C         10 : legacy behvior (fixed with iform=1) (not documented)
+C         10 : legacy behavior (fixed with iform=1) (not documented)
 C
 C  MU_MIN : elastic behavior up to this limit
 C  MU_MAX : elastic behavior above this limit

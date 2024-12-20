@@ -399,7 +399,7 @@
 
               !ADDING INTERSECTION POINT ON list_edges_1
               icur_1 = icur_1 + 1 ; list_edges_1(ii)%alpha(icur_1) = alpha ;  !alpha \in ]0,1[ : position on edge
-              !storing interection point
+              !storing intersection point
               list_edges_1(ii)%coor(icur_1)%y = tmpPoint%y
               list_edges_1(ii)%coor(icur_1)%z = tmpPoint%z
               list_edges_1(ii)%point_id(icur_1) = total_int_pt
@@ -507,7 +507,7 @@
             !find first intersection points which is entering
             if (list_edges_1(ii)%numpoints == 2) cycle ! numpoints = 2 => 2 endpoints only
             do kk=2,list_edges_1(ii)%numpoints-1 !num_inter_pt : intersection points without endpoints
-              if(list_edges_1(ii)%iorient(kk) /= 1)cycle !first point is first vertice (first enpoint) : not an intersection point
+              if(list_edges_1(ii)%iorient(kk) /= 1)cycle !first point is first vertice (first endpoint) : not an intersection point
               numEnteringPoints1 = numEnteringPoints1 + 1
               pointer_entering_points_1(numEnteringPoints1)%id_edge = ii
               pointer_entering_points_1(numEnteringPoints1)%id_point = kk
@@ -521,7 +521,7 @@
             !find first intersection points which is leaving
             if (list_edges_1(ii)%numpoints == 2) cycle ! numpoints = 2 => 2 endpoints only
             do kk=2,list_edges_1(ii)%numpoints-1 !num_inter_pt : intersection points without endpoints
-              if(list_edges_1(ii)%iorient(kk) /= -1)cycle !first point is first vertice (first enpoint) : not an intersection point
+              if(list_edges_1(ii)%iorient(kk) /= -1)cycle !first point is first vertice (first endpoint) : not an intersection point
               numLeavingPoints1 = numLeavingPoints1 + 1
               pointer_leaving_points_1(numLeavingPoints1)%id_edge = ii
               pointer_leaving_points_1(numLeavingPoints1)%id_point = kk
@@ -535,7 +535,7 @@
             !find first intersection points which is leaving
             if (list_edges_2(jj)%numpoints == 2) cycle ! numpoints = 2 => 2 endpoints only
             do kk=2,list_edges_2(jj)%numpoints-1 !num_inter_pt : intersection points without endpoints
-              if(list_edges_2(jj)%iorient(kk) /= -1)cycle !first point is first vertice (first enpoint) : not an intersection point
+              if(list_edges_2(jj)%iorient(kk) /= -1)cycle !first point is first vertice (first endpoint) : not an intersection point
               numLeavingPoints2 = numLeavingPoints2 + 1
               pointer_leaving_points_2(numLeavingPoints2)%id_edge = jj
               pointer_leaving_points_2(numLeavingPoints2)%id_point = kk
@@ -743,7 +743,7 @@
           my_real dy,dz
           my_real lambda
           my_real tol
-          logical cond1, cond2  !< conditionnal test to determine the final result
+          logical cond1, cond2  !< conditional test to determine the final result
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------

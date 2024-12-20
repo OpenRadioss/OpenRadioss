@@ -209,11 +209,11 @@ extern "C"
 
   void  _FCALL set_graph_sort_(int * dependancy_list, int * check){
     //  ---------------------------------------------------------------------------------
-    //  Sort the sets according to their dependancy
+    //  Sort the sets according to their dependency
     //  Child SET are placed before Parent SET.
     //  ---------------------------------------------------------------------------------
     //  OUTPUT
-    //    int * dependancy_list    : sorted dependancy list
+    //    int * dependancy_list    : sorted dependency list
     //    int * check              : check flag - 0=ok  -SET=circular dependancy on SET
     //   --------------------------------------------------------------------------------
     *check = 0;

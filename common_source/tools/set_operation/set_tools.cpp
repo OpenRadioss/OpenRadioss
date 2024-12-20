@@ -143,7 +143,7 @@ extern "C" {
     *result_size = fin-result;
   }
 /* -----------------------------------------------------------------------------------------------------
-    count_member_list : count the number of appeareance of union_list's members in the merged_list
+    count_member_list : count the number of appearances of union_list's members in the merged_list
    -----------------------------------------------------------------------------------------------------
     int * union_list : input - size=size_union_list
     int * size_union_list : input - size of union_list

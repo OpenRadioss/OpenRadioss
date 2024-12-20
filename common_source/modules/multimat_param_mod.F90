@@ -87,7 +87,7 @@
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
 ! [ no comment on the same line as #include #define #ifdef, #endif ]
-! [ my_real.inc must be includeed, it was included in "implicit_f.inc"]
+! [ my_real.inc must be included, it was included in "implicit_f.inc"]
 #include "my_real.inc"      
         INTEGER, PARAMETER :: M51_N0PHAS = 04
         INTEGER, PARAMETER :: M51_NVPHAS = 23
