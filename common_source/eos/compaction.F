@@ -37,7 +37,6 @@ C
 C Iform : formulation flag for unload behavior
 C          1 : constant unload modulus (DEFAULT)
 C          2 : unload modulus increases with compaction from C1 to BUNL in [MU_MIN,MU_MAX]
-C         10 : legacy behvior (fixed with iform=1) (not documented)
 C
 C  MU_MIN : elastic behavior up to this limit
 C  MU_MAX : elastic behavior above this limit
@@ -126,19 +125,7 @@ C-----------------------------------------------
           PNE1 = P_-(MU_OLD(I)-MU(I))*B(I)
           IF(MU_OLD(I) > MUMIN) P(I) = MIN(PNE1, P(I))
           P(I) = MAX(P(I),PFRAC)  *OFF(I)
-        ENDDO !next I  
-      !--- legacy behavior ---! 
-      ELSEIF(IFORM == 10)THEN    
-        DO I=1,NEL
-          IF(MU_OLD(I) < ZERO)BULK(I)  = C1 
-          IF(MU(I) < ZERO)    BULK2(I) = C1
-          PNE1 = POLD(I)+PSH(I)+MU(I)*BULK2(I)-MU_OLD(I)*BULK(I)
-          P(I)    = C0+C1*MU(I)+C2*MU2(I)+C3*MU2(I)*MU(I)
-          IF(MU(I) < MU_MAX) P(I) = MIN(P(I),PNE1) 
-          P(I) = MAX(P(I),PFRAC)  *OFF(I) 
-          !B(I) = MAX(BULK(I),BULK2(I))
-          B(I) = BULK(I)
-        ENDDO !next I            
+        ENDDO !next I
       ENDIF
       !----------------------------------------------------------------!
       !  SOUND SPEED                                                   !
@@ -157,10 +144,8 @@ C-----------------------------------------------
       ENDDO !next I     
       DO I=1,NEL
         ECOLD(I)=-THREE100*SPH
-        !IF(MU(I) > ZERO) ECOLD(I)=
       ENDDO
 
-      
 
       IF(IFLAG == 1) THEN
         !----------------------------------------------------------------!
