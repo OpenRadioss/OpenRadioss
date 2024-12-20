@@ -225,13 +225,13 @@ def compare(words,reference,results,test_json,default_tol,prec):
 # ----------------------------------------------------------------------------------
 # compare:
 # words       : Explicit cycke keywords from Engine output file
-# reference   : ref_extract file in form of Dictionnary
+# reference   : ref_extract file in form of Dictionary
 # results     : last explicit cycle result in form of Dictionary
 # test.json   : Json test file with Tolerance information if exist in directory
 # default_tol : Default tolerance as in constants.json file
 # prec        : run Precision : 'dp' for double Precision, 'sp' for single Precision
 # ----------------------------
-# Main comparision fonction 
+# Main comparison function 
 # Compare the results / Compute Tolerances
 # Print the Errors.
 # ----------------------------------------------------------------------------------
@@ -271,8 +271,8 @@ def compare(words,reference,results,test_json,default_tol,prec):
           Zero_tol = float(default_tol['Zero_tolerance'])
 
         # Zero_tol is close to the precision in Single or Double Precision.
-        # Bellow this value digits are no more meaningfull.
-        # skip if Both are bellow the precision or if the diff is also bellow.
+        # Below this value digits are no more meaningful.
+        # skip if Both are below the precision or if the diff is also below.
         #
         # Magic : diff < 2* Zero_tol for very small numbers
         if not( (abs(ref) < Zero_tol and abs(res) < Zero_tol ) or diff < 2*Zero_tol ):

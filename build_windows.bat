@@ -162,7 +162,7 @@ GOTO END
   echo     -debug=[0,1]                        : debug version 0 no debug flags (default), 1 usual debug flag )
   echo.
   echo Execution control 
-  echo     -nt [N,all]        : Run build with N Threads, all : takes all ressources of machine
+  echo     -nt [N,all]        : Run build with N Threads, all : consumes all resources of machine
   echo     -verbose           : Verbose build
   echo     -clean             : clean build directory
   echo.

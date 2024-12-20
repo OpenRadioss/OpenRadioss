@@ -134,7 +134,7 @@ def set_or_variables():
   set_variable('RAD_H3D_PATH',rad_h3d_path)
 
   #
-  # PATH/LD_LIBRARY_PATH : add parth to extlib in PATH
+  # PATH/LD_LIBRARY_PATH : add path to extlib in PATH
   #
   if arch == 'win64':
     path=os.getenv('PATH')
