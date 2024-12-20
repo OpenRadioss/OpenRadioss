@@ -1229,9 +1229,9 @@
         type (buf_eos_)  , dimension(:,:,:)  , pointer :: eos  
         type (buf_visc_) , dimension(:,:,:)  , pointer :: visc  
         type (buf_poro_) , dimension(:,:,:)  , pointer :: poro  
-        type (buf_xfem_) , dimension(:)      , pointer :: xfem        ! xfem (nxel)
-        type (l_bufel_dir_) , dimension(:)  , pointer :: lbuf_dir   ! local direction by int point in the tickness for slice)
-      end type buf_lay_
+        type (buf_xfem_) , dimension(:)      , pointer :: xfem      ! xfem (nxel)
+        type (l_bufel_dir_) , dimension(:)  , pointer :: lbuf_dir   ! local direction by int point in the thickness for slice)
+      end type buf_lay_h
 !
 !--------------------       
 ! 

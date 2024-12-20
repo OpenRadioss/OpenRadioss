@@ -81,7 +81,7 @@ std::string str_stack;
 
    // No API on gfortran or ArmFlang
    // Grab the value from the environment variable OMP_STACKSIZE and postrpocess it
-   // tp have a value in MB or K,M,G if expresed like this
+   // tp have a value in MB or K,M,G if expressed like this
    const char* env_stack_size = std::getenv("OMP_STACKSIZE");
 
    if ( env_stack_size == NULL) {
@@ -100,7 +100,7 @@ std::string str_stack;
        catch (...){                                      // Cannot convert 
            str_stack = "0 MB";
        }
-  }else{                                             // Value is set in KBytes / Read & tey to convert in MB
+  }else{                                             // Value is set in KBytes / Read & try to convert in MB
     try{
        int stack_size_int = std::stoi(env_stack_size)/1024;
        str_stack = std::to_string(stack_size_int)+" MB";
@@ -167,7 +167,7 @@ str_stack = std::string("0");
 
 extern "C" {
     // get solver stacksize : return the stacksize stored in the global variable omp_stacksize
-    // stacksize : output string must be allocted
+    // stacksize : output string must be allocated
     // len : length of the output string : must be at least 128
     void get_solver_stacksize(char* stsize, int* stsize_len, char *omp_stsize,int * omp_stsize_len){
 #ifdef _WIN64

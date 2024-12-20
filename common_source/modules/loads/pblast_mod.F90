@@ -3957,7 +3957,7 @@ type(pblast_) :: pblast
       bound1=log10(pblast%pblast_data%pso(idx1))
       bound2=log10(pblast%pblast_data%pso(idx2))
       lambda = (log10(pra)-bound1) / (bound2-bound1)
-      !!deduce z (may be usefull for debug)
+      !!deduce z (may be useful for debug)
       !---bound1 = log10(pblast_data%rw3(idx1))
       !---bound2 = log10(pblast_data%rw3(idx2))
       !---logres =  (one-lambda)*bound1+lambda*bound2
@@ -3981,7 +3981,7 @@ type(pblast_) :: pblast
       bound1=log10(pblast%pblast_data%iso(idx1))
       bound2=log10(pblast%pblast_data%iso(idx2))
       lambda = (log10(ira)-bound1) / (bound2-bound1)
-      !deduce z (may be usefull for debug)
+      !deduce z (may be useful for debug)
       !---bound1 = log10(pblast_data%rw3(idx1))
       !---bound2 = log10(pblast_data%rw3(idx2))
       !---logres =  (one-lambda)*bound1+lambda*bound2

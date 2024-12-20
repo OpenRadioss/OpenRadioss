@@ -979,12 +979,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       MODULE NAMES_AND_TITLES_MOD
 C-----------------------------------------------
             ! Global parameters for strings
-            INTEGER, PARAMETER :: NCHARKEY      = 20                      ! Max lengts of KEY input
+            INTEGER, PARAMETER :: NCHARKEY      = 20                      ! Max lengths of KEY input
             INTEGER, PARAMETER :: NCHARLINE     = 500                     ! Line read & write for Starter. Includes & titles can have up to 500 chars
             INTEGER, PARAMETER :: NCHARLINE100  = 100                     ! Line Read & write for Engine. Must be kept at size 100
             INTEGER, PARAMETER :: NCHARTITLE    = 500                     ! Titles / and path
             INTEGER, PARAMETER :: LINE120       = 120                     ! Line of size 120 / exists in some parts of code
-            INTEGER, PARAMETER :: NCHARFIELD    = 20                      ! lengts of a field for Float input storage / 20
+            INTEGER, PARAMETER :: NCHARFIELD    = 20                      ! lengths of a field for Float input storage / 20
             ! Parameters for NAMES_AND_TITLES type
             INTEGER, PARAMETER :: LTITLE        = 100
             INTEGER, PARAMETER :: LROOTNAME     = 80

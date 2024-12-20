@@ -179,7 +179,7 @@ void _FCALL FILE_INIT()
 
 void open_c(int *ifil,int *len,int *mod)
 //! --------------------------------------------------
-//! Opens a file accoding to mod. 
+//! Opens a file according to mod. 
 //! ifil : filename stored as integer Ascii values
 //! len : size of ifil
 //! mod=
@@ -211,7 +211,7 @@ void open_c(int *ifil,int *len,int *mod)
   compress_write_buffer[cur_nf]=NULL;          // Intermediate buffer to store the data to compress
   compress_buffer_length[cur_nf]=0;            // Size of data to compress
 
-  if (*mod == 1 || *mod == 4 || *mod == 7){    // Open Read : 4 & 7 are gziped
+  if (*mod == 1 || *mod == 4 || *mod == 7){    // Open Read : 4 & 7 are gzipped
 
      if (*mod !=1){                            // unzip
       #ifdef _WIN64
@@ -246,7 +246,7 @@ void open_c(int *ifil,int *len,int *mod)
        }
      }
   }
-  if (*mod==0 || *mod == 3 ||*mod==6 ){    // Open Write : 0 unzipped 3 & 6 are gziped
+  if (*mod==0 || *mod == 3 ||*mod==6 ){    // Open Write : 0 unzipped 3 & 6 are gzipped
      if(*mod!=0){                          //  zip
      #ifdef _WIN64
          strcat_s(filnam,*len+10,".gz");
@@ -855,7 +855,7 @@ void read_i_array_c_(int *w, int *len)
 
 // -------------------------------------------------------------------------------------
 void read_c_c(int *w, int *len)
-//! Read an caracter array coded in ASCII/INT format
+//! Read an character array coded in ASCII/INT format
 //! -------------------------------------------------
 //! w, input : integer array to read
 //! len, intput : Integer, size
@@ -922,9 +922,9 @@ int Compress_Buffer(unsigned char* input, int inputSize, unsigned char* output, 
 //! Compress Buffer : Takes a character array, return it as gzipped array
 //! ----------------------------------------------------------------------
 //! input : input character array
-//! inputSize : lenght of this array
-//! output : gziped array
-//! outputSize: zise of outout array
+//! inputSize : length of this array
+//! output : gzipped array
+//! outputSize: size of output array
 //! ----------------------------------------------------------------------
     z_stream zs;
     zs.zalloc = Z_NULL;
@@ -948,7 +948,7 @@ int Compress_Buffer(unsigned char* input, int inputSize, unsigned char* output, 
 
 // -------------------------------------------------------------------------------------
 void write_buffer(unsigned char *buf,int type_size,int length){
-//! write Buffer : writes a buffer either direct or gziped.
+//! write Buffer : writes a buffer either direct or gzipped.
 //! When Gzip : stores it in a buffer of COMP_BUFFER_SIZE
 //! When Buffer Full : gzip it & write
 //! ----------------------------------------------------------------------

@@ -55,7 +55,7 @@ module eosexponential_mod
 ! ----------------------------------------------------------------------------------------------------------------------
       integer,intent(in) :: npropm , nummat          !< size for pm array
       integer,intent(in) :: mat(nel)                 !< material identifiers for elems 1 to nel
-      integer,intent(in) :: IFLAG                    !< flag mentionning what need to be computed
+      integer,intent(in) :: IFLAG                    !< flag mentioning what needs to be computed
       integer,intent(in) :: NEL                      !< number of elems in group (current group size)
       my_real, intent(in) :: time                    !< simulation current time
       my_real, intent(in) :: pm(npropm,nummat)       !< parameters of all materials

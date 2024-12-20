@@ -307,7 +307,7 @@ PyObject *call_python_function(const char *func_name, double *args, int num_args
         }
         else
         {
-            //  convet func_name to a string
+            //  convert func_name to a string
             std::string func_name_str(func_name);
             std::cout << "ERROR in Python function " << func_name_str << ": function execution failed" << std::endl;
             if (MyErr_Occurred())
@@ -401,7 +401,7 @@ std::string extract_function_name(const std::string &signature)
 // Search for the Python library in the directory specified by the environment variable RAD_PYTHON_PATH
 // If not found, look for PYTHONHOME and search for the library in PYTHONHOME/lib
 #ifdef _WIN32
-// Wndows version
+// Windows version
 void python_load_library()
 {
     python_initialized = true;
@@ -1111,7 +1111,7 @@ extern "C"
         {
             X[i + N] = scale * Xtmp[i];
         }
-        // I would like to symetrically sample the function around 0, so I will sample the function at -X and X
+        // I would like to symmetrically sample the function around 0, so I will sample the function at -X and X
         //Y of size N, filled with 0
         std::vector<double> Y(X.size(), 0.0);
         // evaluate the function at all X values using cpp_
