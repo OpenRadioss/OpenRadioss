@@ -162,15 +162,17 @@
           do ii=1,num_inivol
             do idc=1, inivol(ii)%num_container
               idsurf = inivol(ii)%container(idc)%surf_id
-              if(igrsurf(idsurf)%type == 200)then
-                bool = .true.
-                do kk=1,numnod
-                   GLOBAL_xyz(2)=min(GLOBAL_xyz(2),x(2,kk))
-                   GLOBAL_xyz(3)=min(GLOBAL_xyz(3),x(3,kk))
-                   GLOBAL_xyz(5)=max(GLOBAL_xyz(5),x(2,kk))
-                   GLOBAL_xyz(6)=max(GLOBAL_xyz(6),x(3,kk))
-                end do
-                exit
+              if(idsurf > 0)then
+                if(igrsurf(idsurf)%type == 200)then
+                  bool = .true.
+                  do kk=1,numnod
+                     GLOBAL_xyz(2)=min(GLOBAL_xyz(2),x(2,kk))
+                     GLOBAL_xyz(3)=min(GLOBAL_xyz(3),x(3,kk))
+                     GLOBAL_xyz(5)=max(GLOBAL_xyz(5),x(2,kk))
+                     GLOBAL_xyz(6)=max(GLOBAL_xyz(6),x(3,kk))
+                  end do
+                  exit
+                end if
               end if
               if(bool)exit
             end do
@@ -194,8 +196,6 @@
           !----------------------------------------------------------------------------!
           if(n2d > 0)then
             do idc=1,nb_container
-              idsurf   = inivol(ii)%container(idc)%surf_id
-              nsegsurf = igrsurf(idsurf)%nseg
                 ! 2D LINE OF SEGMENTS (/SURF/SEG)
                 CALL init_inivol_2d_polygons(   ii        ,      idc,  mat_param  ,  GLOBAL_xyz, &
                                                 num_inivol,   inivol,      nsurf  ,     igrsurf, &
