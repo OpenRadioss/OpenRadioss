@@ -73,7 +73,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_fail_wilkins      ../starter/source/materials/fail/wilkins/hm_read_fail_wilkins.F
       !||    hm_read_fractal_dmg       ../starter/source/materials/fail/fractal/hm_read_fractal_dmg.F90
       !||    hm_read_mullins_or        ../starter/source/materials/fail/mullins_or/hm_read_fail_mullins_or.F
-      !||    init_mat_keyword          ../starter/source/materials/mat/init_mat_keyword.F
       !||--- uses       -----------------------------------------------------
       !||    elbuftag_mod              ../starter/share/modules1/elbuftag_mod.F
       !||    hm_option_read_mod        ../starter/share/modules1/hm_option_read_mod.F
