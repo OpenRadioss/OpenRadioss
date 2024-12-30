@@ -2720,6 +2720,7 @@ C          frame numbers user -> internal
       !-------------------------------------------
       ! /TH/PART
       !-------------------------------------------
+      !HM_NTHPART: total number of /TH/PART in 0000.rad
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/PART' ,HM_NTHPART)  
       IF (HM_NTHPART > 0) THEN 
         CALL HM_OPTION_START(TRIM(THFILE)//'/PART') 
@@ -2736,11 +2737,14 @@ C          frame numbers user -> internal
       !-------------------------------------------
       ! /TH/SUBS
       !-------------------------------------------
+      !HM_NTHSUBS: total number of /TH/SUBS in 0000.rad
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/SUBS' ,HM_NTHSUBS)
       IF (HM_NTHSUBS > 0) THEN 
         CALL HM_OPTION_START(TRIM(THFILE)//'/SUBS') 
         HM_NTHGRP = HM_NTHGRP + HM_NTHSUBS
+        ! HM_NTHGRP: Number of /TH/ Group in 0000.rad   
         DO I = 1, HM_NTHSUBS
+        ! TAGS: Total number of SUBS for the TIME history output   
           CALL HM_READ_THGRPA_SUB(
      .         IAD      ,IFI      ,ITHBUF   ,NVARPA   ,VARPA    ,
      .         VARPAG   ,NVARPAG  ,IVARPAG  ,PATHID   ,
@@ -2871,9 +2875,11 @@ C          frame numbers user -> internal
       !-------------------------------------------
       ! /TH/GAUGE
       !-------------------------------------------
+      !HM_NTHGAUGE: total number of /TH/GAUGE in 0000.rad
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/GAUGE' ,HM_NTHGAUGE)
       IF (HM_NTHGAUGE > 0) THEN 
         CALL HM_OPTION_START(TRIM(THFILE)//'/GAUGE')
+        ! HM_NTHGRP: Number of /TH/ Group in 0000.rad   
         HM_NTHGRP = HM_NTHGRP + HM_NTHGAUGE
         DO I = 1, HM_NTHGAUGE
           TITR = ''   

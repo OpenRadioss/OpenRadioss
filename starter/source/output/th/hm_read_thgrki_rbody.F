@@ -80,7 +80,7 @@ C-----------------------------------------------
         INTEGER J,JJ, I,ISU,ID,NNE,NOSYS,J10(10),NTOT,KK,IER,
      .          OK,IGRS,NSU,K,L,JREC,CONT,IAD0,IADV,NTRI,
      .          IFITMP,IADFIN,NVAR,M,N,IAD1,IAD2,ISK,IPROC,
-     .          IDSMAX,IDS,
+     .          IDSMAX,IDS,IDS_OBJ1,
      .        TAG(NUM),IRB
         CHARACTER, DIMENSION(10) :: VAR
         LOGICAL :: IS_AVAILABLE
@@ -121,119 +121,238 @@ c
 c
           ! Number of Objects IDs
           CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)  
-c
-          ! Filling tables
-          ITHGRP(6) = NVAR
-          ITHGRP(7) = IAD
-          IAD       = IAD+NVAR
-          IFI       = IFI+NVAR
-          NNE       = IDSMAX
-          !ITHGRP(4) = NNE
-          ITHGRP(5) = IAD
-          IAD2      = IAD+3*NNE
-          ITHGRP(8) = IAD2
-          CALL ZEROIN(IAD,IAD+43*NNE-1,ITHBUF)
-          NNE = 0  
-          TAG(:)=0  
-C
-          ! Loop over Objects IDs
-          DO K = 1,IDSMAX
-            CALL HM_GET_INT_ARRAY_INDEX('ids',IDS,K,IS_AVAILABLE,LSUBMODEL) 
-            IF (NSUBDOM > 0) THEN 
-              IF (R2R_EXIST(ITYP,IDS) == 0) CYCLE
-            ENDIF
-            IF(IDS==0)CYCLE !skip empty object
-            !check then if object_id does exist
-            N = 0
-            DO J = 1,NUM
-              IF (IDS == NOM_OPT(1,INOPT1+J)) THEN
-                N   = J
-                EXIT
+          CALL HM_GET_INT_ARRAY_INDEX('ids',IDS_OBJ1,1,IS_AVAILABLE,LSUBMODEL) 
+
+          IF(IDSMAX > 0 .AND. IDS_OBJ1 == 0) THEN 
+            ! Filling tables
+            ITHGRP(6) = NVAR
+            ITHGRP(7) = IAD
+            IAD       = IAD+NVAR
+            IFI       = IFI+NVAR
+            NNE       = IDSMAX
+            !ITHGRP(4) = NNE
+            ITHGRP(5) = IAD
+            IAD2      = IAD+3*NNE
+            ITHGRP(8) = IAD2
+            CALL ZEROIN(IAD,IAD+43*NNE-1,ITHBUF)
+            NNE = 0  
+            TAG(:)=0  
+            IDSMAX = NUM
+C  
+            ! Loop over Objects IDs
+            DO K = 1,IDSMAX
+              IDS = NOM_OPT(1,INOPT1+K)
+              IF (NSUBDOM > 0) THEN 
+                IF (R2R_EXIST(ITYP,IDS) == 0) CYCLE
               ENDIF
-            ENDDO
-            IF (N == 0) THEN
-              CALL FRETITL2(TITR,ITHGRP(NITHGR-LTITR+1),LTITR)
-              CALL ANCMSG(MSGID=257,
+              IF(IDS==0)CYCLE !skip empty object
+              !check then if object_id does exist
+              N = 0
+              DO J = 1,NUM
+                IF (IDS == NOM_OPT(1,INOPT1+J)) THEN
+                  N   = J
+                  EXIT
+                ENDIF
+              ENDDO
+              IF (N == 0) THEN
+                CALL FRETITL2(TITR,ITHGRP(NITHGR-LTITR+1),LTITR)
+                CALL ANCMSG(MSGID=257,
      .                    MSGTYPE=MSGWARNING,
      .                    ANMODE=ANINFO_BLIND_1,
      .                    I1=ITHGRP(1),
      .                    C1=TITR,
      .                    C2=KEY,
      .                    I2=IDS)
-            ELSE
-              IF(NPBY(12,N) /= 0) THEN 
-                IRB=NPBY(13,N)
-                IF(TAG(IRB) == 0) THEN
+              ELSE
+                IF(NPBY(12,N) /= 0) THEN 
+                  IRB=NPBY(13,N)
+                  IF(TAG(IRB) == 0) THEN
+                    NNE=NNE+1
+                    NSNE=NSNE+1
+                    ITHBUF(IAD)=IRB
+                    IAD=IAD+1
+                    TAG(IRB)=1
+                  ENDIF
+                ELSEIF(TAG(N) == 0) THEN
                   NNE=NNE+1
                   NSNE=NSNE+1
-                  ITHBUF(IAD)=IRB
+                  ITHBUF(IAD)=N
                   IAD=IAD+1
-                  TAG(IRB)=1
+                  TAG(N)=1
                 ENDIF
-              ELSEIF(TAG(N) == 0) THEN
-                NNE=NNE+1
-                NSNE=NSNE+1
-                ITHBUF(IAD)=N
-                IAD=IAD+1
-                TAG(N)=1
-              ENDIF
-            ENDIF           
-          ENDDO
-C
-          IAD       = ITHGRP(5)
-          ITHGRP(4) = NNE
-          IAD2      = IAD+3*NNE
-          ITHGRP(8) = IAD2
-          IFI       = IFI+3*NNE+40*NNE   
-cc
-          CALL HORD(ITHBUF(IAD),NNE)
-C
-          DO I = 1,NNE
-            N = ITHBUF(IAD)
-            ITHBUF(IAD+2*NNE) = NOM_OPT(1,INOPT1+N)
-            DO J = 1,40
-              ITHBUF(IAD2+J-1)=NOM_OPT(J+LNOPT1-LTITR,INOPT1+N)
+              ENDIF           
             ENDDO
-            IAD=IAD+1
-            IAD2=IAD2+40
-          ENDDO    
 C
-          IAD = IAD2
+            IAD       = ITHGRP(5)
+            ITHGRP(4) = NNE
+            IAD2      = IAD+3*NNE
+            ITHGRP(8) = IAD2
+            IFI       = IFI+3*NNE+40*NNE   
+cc
+            CALL HORD(ITHBUF(IAD),NNE)
+C
+            DO I = 1,NNE
+              N = ITHBUF(IAD)
+              ITHBUF(IAD+2*NNE) = NOM_OPT(1,INOPT1+N)
+              DO J = 1,40
+                ITHBUF(IAD2+J-1)=NOM_OPT(J+LNOPT1-LTITR,INOPT1+N)
+              ENDDO
+              IAD=IAD+1
+              IAD2=IAD2+40
+            ENDDO    
+C
+            IAD = IAD2
 C
 C=======================================================================
 C ABF FILES
 C=======================================================================
-          NVAR = ITHGRP(6)
-          IAD0 = ITHGRP(7)
-          ITHGRP(9) = NVARABF
-          DO J = IAD0,IAD0+NVAR-1
-            DO K = 1,10
-              ITHVAR((ITHGRP(9)+(J-IAD0)-1)*10+K) = ICHAR(VARE(ITHBUF(J))(K:K))
+            NVAR = ITHGRP(6)
+            IAD0 = ITHGRP(7)
+            ITHGRP(9) = NVARABF
+            DO J = IAD0,IAD0+NVAR-1
+              DO K = 1,10
+                ITHVAR((ITHGRP(9)+(J-IAD0)-1)*10+K) = ICHAR(VARE(ITHBUF(J))(K:K))
+              ENDDO
             ENDDO
-          ENDDO
-          NVARABF = NVARABF + NVAR
+            NVARABF = NVARABF + NVAR
 C=======================================================================
 C PRINTOUT
 C=======================================================================
-          IF(IPRI<1) RETURN
+            IF(IPRI<1) RETURN
 C
-          N = ITHGRP(4)
-          IAD1 = ITHGRP(5)
-          NVAR=ITHGRP(6)
-          IAD0=ITHGRP(7)
-          IAD2=ITHGRP(8)
-          WRITE(IOUT,'(//)')
-          CALL FRETITL2(TITR,ITHGRP(NITHGR-LTITR+1),LTITR)
-          WRITE(IOUT,'(A,I10,3A,I3,A,I5,2A)')' TH GROUP:',ITHGRP(1),',',TRIM(TITR),',',NVAR,' VAR',N, KEY,':'
-          WRITE(IOUT,'(A)')' -------------------'
-          WRITE(IOUT,'(10A10)')(VARE(ITHBUF(J)),J=IAD0,IAD0+NVAR-1)
-          WRITE(IOUT,'(3A)')'    ',KEY,'        NAME '
-          DO K=IAD1,IAD1+N-1
-             CALL FRETITL2(TITR,ITHBUF(IAD2),40)
-             IAD2=IAD2+40
-             WRITE(IOUT,FMT=FMW_I_A)NOM_OPT(1,INOPT1+ITHBUF(K)),TITR(1:40)
-          ENDDO
+            N = ITHGRP(4)
+            IAD1 = ITHGRP(5)
+            NVAR=ITHGRP(6)
+            IAD0=ITHGRP(7)
+            IAD2=ITHGRP(8)
+            WRITE(IOUT,'(//)')
+            CALL FRETITL2(TITR,ITHGRP(NITHGR-LTITR+1),LTITR)
+            WRITE(IOUT,'(A,I10,3A,I3,A,I5,2A)')' TH GROUP:',ITHGRP(1),',',TRIM(TITR),',',NVAR,' VAR',N, KEY,':'
+            WRITE(IOUT,'(A)')' -------------------'
+            WRITE(IOUT,'(10A10)')(VARE(ITHBUF(J)),J=IAD0,IAD0+NVAR-1)
+            WRITE(IOUT,'(3A)')'    ',KEY,'        NAME '
+            DO K=IAD1,IAD1+N-1
+               CALL FRETITL2(TITR,ITHBUF(IAD2),40)
+               IAD2=IAD2+40
+               WRITE(IOUT,FMT=FMW_I_A)NOM_OPT(1,INOPT1+ITHBUF(K)),TITR(1:40)
+            ENDDO
+C           
+
+          ELSE
+c
+            ! Filling tables
+            ITHGRP(6) = NVAR
+            ITHGRP(7) = IAD
+            IAD       = IAD+NVAR
+            IFI       = IFI+NVAR
+            NNE       = IDSMAX
+            !ITHGRP(4) = NNE
+            ITHGRP(5) = IAD
+            IAD2      = IAD+3*NNE
+            ITHGRP(8) = IAD2
+            CALL ZEROIN(IAD,IAD+43*NNE-1,ITHBUF)
+            NNE = 0  
+            TAG(:)=0  
+C  
+            ! Loop over Objects IDs
+            DO K = 1,IDSMAX
+              CALL HM_GET_INT_ARRAY_INDEX('ids',IDS,K,IS_AVAILABLE,LSUBMODEL) 
+              IF (NSUBDOM > 0) THEN 
+                IF (R2R_EXIST(ITYP,IDS) == 0) CYCLE
+              ENDIF
+              IF(IDS==0)CYCLE !skip empty object
+              !check then if object_id does exist
+              N = 0
+              DO J = 1,NUM
+                IF (IDS == NOM_OPT(1,INOPT1+J)) THEN
+                  N   = J
+                  EXIT
+                ENDIF
+              ENDDO
+              IF (N == 0) THEN
+                CALL FRETITL2(TITR,ITHGRP(NITHGR-LTITR+1),LTITR)
+                CALL ANCMSG(MSGID=257,
+     .                    MSGTYPE=MSGWARNING,
+     .                    ANMODE=ANINFO_BLIND_1,
+     .                    I1=ITHGRP(1),
+     .                    C1=TITR,
+     .                    C2=KEY,
+     .                    I2=IDS)
+              ELSE
+                IF(NPBY(12,N) /= 0) THEN 
+                  IRB=NPBY(13,N)
+                  IF(TAG(IRB) == 0) THEN
+                    NNE=NNE+1
+                    NSNE=NSNE+1
+                    ITHBUF(IAD)=IRB
+                    IAD=IAD+1
+                    TAG(IRB)=1
+                  ENDIF
+                ELSEIF(TAG(N) == 0) THEN
+                  NNE=NNE+1
+                  NSNE=NSNE+1
+                  ITHBUF(IAD)=N
+                  IAD=IAD+1
+                  TAG(N)=1
+                ENDIF
+              ENDIF           
+            ENDDO
 C
-        ENDIF
+            IAD       = ITHGRP(5)
+            ITHGRP(4) = NNE
+            IAD2      = IAD+3*NNE
+            ITHGRP(8) = IAD2
+            IFI       = IFI+3*NNE+40*NNE   
+cc
+            CALL HORD(ITHBUF(IAD),NNE)
+C
+            DO I = 1,NNE
+              N = ITHBUF(IAD)
+              ITHBUF(IAD+2*NNE) = NOM_OPT(1,INOPT1+N)
+              DO J = 1,40
+                ITHBUF(IAD2+J-1)=NOM_OPT(J+LNOPT1-LTITR,INOPT1+N)
+              ENDDO
+              IAD=IAD+1
+              IAD2=IAD2+40
+            ENDDO    
+C
+            IAD = IAD2
+C
+C=======================================================================
+C ABF FILES
+C=======================================================================
+            NVAR = ITHGRP(6)
+            IAD0 = ITHGRP(7)
+            ITHGRP(9) = NVARABF
+            DO J = IAD0,IAD0+NVAR-1
+              DO K = 1,10
+                ITHVAR((ITHGRP(9)+(J-IAD0)-1)*10+K) = ICHAR(VARE(ITHBUF(J))(K:K))
+              ENDDO
+            ENDDO
+            NVARABF = NVARABF + NVAR
+C=======================================================================
+C PRINTOUT
+C=======================================================================
+            IF(IPRI<1) RETURN
+C
+            N = ITHGRP(4)
+            IAD1 = ITHGRP(5)
+            NVAR=ITHGRP(6)
+            IAD0=ITHGRP(7)
+            IAD2=ITHGRP(8)
+            WRITE(IOUT,'(//)')
+            CALL FRETITL2(TITR,ITHGRP(NITHGR-LTITR+1),LTITR)
+            WRITE(IOUT,'(A,I10,3A,I3,A,I5,2A)')' TH GROUP:',ITHGRP(1),',',TRIM(TITR),',',NVAR,' VAR',N, KEY,':'
+            WRITE(IOUT,'(A)')' -------------------'
+            WRITE(IOUT,'(10A10)')(VARE(ITHBUF(J)),J=IAD0,IAD0+NVAR-1)
+            WRITE(IOUT,'(3A)')'    ',KEY,'        NAME '
+            DO K=IAD1,IAD1+N-1
+               CALL FRETITL2(TITR,ITHBUF(IAD2),40)
+               IAD2=IAD2+40
+               WRITE(IOUT,FMT=FMW_I_A)NOM_OPT(1,INOPT1+ITHBUF(K)),TITR(1:40)
+            ENDDO
+C
+          ENDIF !IDSMAX > 0
+        ENDIF !IF (NVAR == 0)
         RETURN
       END
