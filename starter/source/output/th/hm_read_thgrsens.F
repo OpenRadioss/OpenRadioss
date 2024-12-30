@@ -86,7 +86,7 @@ C-----------------------------------------------
       INTEGER J,JJ, I,ISU,ID,NNE,NOSYS,NTOT,KK,IER,
      .        OK,IGRS,NSU,K,L,JREC,CONT,IAD0,IADV,NTRI,
      .        IFITMP,IADFIN,NVAR,M,N,IAD1,IAD2,ISK,IPROC,ITITLE(LTITR),
-     .        IDS,IDSMAX
+     .        IDS,IDSMAX,IDS_OBJ1
       CHARACTER(LEN=NCHARTITLE) :: TITR,ID_TXT
       LOGICAL, DIMENSION(:), ALLOCATABLE :: FOUND
       LOGICAL IS_AVAILABLE
@@ -114,124 +114,242 @@ c
         IGS = IGS - 1
         ITHGRP(1:NITHGR) = 0
 c
-      ELSE  ! NVAR > 0
+      ELSE  ! NVAR > 0 
 c
         NVAR = HM_THVARC(VARE,NVARE,ITHBUF(IAD),VARG,NVARG,IVARG,NVALL,ID,TITR ,LSUBMODEL)                       
         ! Number of Objects IDs
         CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)  
-c
-          ! Filling tables
-        ITHGRP(6) = NVAR
-        ITHGRP(7) = IAD
-        IAD       = IAD + NVAR
-        IFI       = IFI + NVAR
-        NNE       = IDSMAX
-        ITHGRP(4 )= NNE
-        ITHGRP(5) = IAD
-        IAD2      = IAD + 3*NNE
-        ITHGRP(8) = IAD2
-        CALL ZEROIN(IAD,IAD + 43*NNE-1,ITHBUF)      
-        ALLOCATE (FOUND(SENSORS%NSENSOR))
-        FOUND(1:SENSORS%NSENSOR) = .FALSE.
-        NNE = 0
-C
-        DO K = 1,IDSMAX
-          CALL HM_GET_INT_ARRAY_INDEX('ids',IDS,K,IS_AVAILABLE,LSUBMODEL) 
+        CALL HM_GET_INT_ARRAY_INDEX('ids',IDS_OBJ1,1,IS_AVAILABLE,LSUBMODEL) 
 
-          ! Loop over Objects IDs
-          IF (IDS > 0) THEN
-            IF (NSUBDOM > 0) THEN
-                       IF (R2R_EXIST(ITYP,IDS) == 0) CYCLE
-                     ENDIF
-c
-            N = 0
-            DO J=1,SENSORS%NSENSOR
-              IF (IDS == SENSORS%SENSOR_TAB(J)%SENS_ID) THEN
-                N = J
-                EXIT
+        IF (IDSMAX > 0 .AND. IDS_OBJ1 == 0) THEN 
+          ! Filling tables
+          ITHGRP(6) = NVAR
+          ITHGRP(7) = IAD
+          IAD       = IAD + NVAR
+          IFI       = IFI + NVAR
+          NNE       = IDSMAX
+          ITHGRP(4 )= NNE
+          ITHGRP(5) = IAD
+          IAD2      = IAD + 3*NNE
+          ITHGRP(8) = IAD2
+          CALL ZEROIN(IAD,IAD + 43*NNE-1,ITHBUF)      
+          ALLOCATE (FOUND(SENSORS%NSENSOR))
+          FOUND(1:SENSORS%NSENSOR) = .FALSE.
+          NNE = 0
+C
+          IDSMAX = SENSORS%NSENSOR
+          DO K = 1,IDSMAX
+            IDS = SENSORS%SENSOR_TAB(K)%SENS_ID
+            ! Loop over Objects IDs
+            IF (IDS > 0) THEN
+              IF (NSUBDOM > 0) THEN
+                         IF (R2R_EXIST(ITYP,IDS) == 0) CYCLE
               ENDIF
-            ENDDO
-            IF (N == 0) THEN
-               CALL FRETITL2(TITR,ITHGRP(NITHGR-LTITR+1),LTITR)
-               CALL ANCMSG(MSGID=257, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
+c
+              N = 0
+              DO J=1,SENSORS%NSENSOR
+                IF (IDS == SENSORS%SENSOR_TAB(J)%SENS_ID) THEN
+                  N = J
+                  EXIT
+                ENDIF
+              ENDDO
+              IF (N == 0) THEN
+                 CALL FRETITL2(TITR,ITHGRP(NITHGR-LTITR+1),LTITR)
+                 CALL ANCMSG(MSGID=257, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
      .                     I1=ITHGRP(1),
      .                     C1=TITR,
      .                     C2=KEY,
      .                     I2=IDS)
-            ELSE
-              IF (.NOT. FOUND(N)) THEN
-                NNE  = NNE + 1
-                NSNE = NSNE+1
-                ITHBUF(IAD) = N
-                IAD = IAD+1
-                FOUND(N) = .TRUE.
-              ELSE 
-                CALL FRETITL2(TITR,ITHGRP(NITHGR-LTITR+1),LTITR)
-                CALL ANCMSG(MSGID=256, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
+              ELSE
+                IF (.NOT. FOUND(N)) THEN
+                  NNE  = NNE + 1
+                  NSNE = NSNE+1
+                  ITHBUF(IAD) = N
+                  IAD = IAD+1
+                  FOUND(N) = .TRUE.
+                ELSE 
+                  CALL FRETITL2(TITR,ITHGRP(NITHGR-LTITR+1),LTITR)
+                  CALL ANCMSG(MSGID=256, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
      .                      I1=ITHGRP(1),
      .                      C1=TITR,
      .                      C2=KEY,
      .                      I2=IDS)             
+                ENDIF
               ENDIF
-            ENDIF
-          ENDIF           
-        ENDDO
+            ENDIF           
+          ENDDO
 c-----------------------------------------------------------------------
-        ITHGRP(4) = NNE
-        IAD2      = ITHGRP(5)+3*NNE
-        ITHGRP(8) = IAD2
-        IFI       = IFI+3*NNE+40*NNE
-        IAD       = ITHGRP(5)     
+          ITHGRP(4) = NNE
+          IAD2      = ITHGRP(5)+3*NNE
+          ITHGRP(8) = IAD2
+          IFI       = IFI+3*NNE+40*NNE
+          IAD       = ITHGRP(5)     
 c
-        DEALLOCATE(FOUND)
+          DEALLOCATE(FOUND)
 c
-        CALL HORD(ITHBUF(IAD),NNE)
+          CALL HORD(ITHBUF(IAD),NNE)
 C
-        DO I=1,NNE
-          N = ITHBUF(IAD)
-          ITHBUF(IAD+2*NNE) = SENSORS%SENSOR_TAB(N)%SENS_ID
-          TITR = SENSORS%SENSOR_TAB(N)%TITLE
+          DO I=1,NNE
+            N = ITHBUF(IAD)
+            ITHBUF(IAD+2*NNE) = SENSORS%SENSOR_TAB(N)%SENS_ID
+            TITR = SENSORS%SENSOR_TAB(N)%TITLE
 
-          CALL FRETITL(TITR,ITHBUF(IAD2),40)
+            CALL FRETITL(TITR,ITHBUF(IAD2),40)
 
-          IAD = IAD + 1
-          IAD2= IAD2+ 40
-        ENDDO
+            IAD = IAD + 1
+            IAD2= IAD2+ 40
+          ENDDO
 C
-        IAD = IAD2
+          IAD = IAD2
 C
 C=======================================================================
 C ABF FILES
 C=======================================================================
-        NVAR=ITHGRP(6)
-        IAD0=ITHGRP(7)
-        ITHGRP(9)=NVARABF
-        DO J=IAD0,IAD0+NVAR-1
-          DO K=1,10
-            ITHVAR((ITHGRP(9)+(J-IAD0)-1)*10+K)=ICHAR(VARE(ITHBUF(J))(K:K))
+          NVAR=ITHGRP(6)
+          IAD0=ITHGRP(7)
+          ITHGRP(9)=NVARABF
+          DO J=IAD0,IAD0+NVAR-1
+            DO K=1,10
+              ITHVAR((ITHGRP(9)+(J-IAD0)-1)*10+K)=ICHAR(VARE(ITHBUF(J))(K:K))
+            ENDDO
           ENDDO
-        ENDDO
-        NVARABF = NVARABF + NVAR
+          NVARABF = NVARABF + NVAR
 C=======================================================================
 C PRINTOUT
 C=======================================================================
-        N = ITHGRP(4)
-        IAD1 = ITHGRP(5)
-        NVAR=ITHGRP(6)
-        IAD0=ITHGRP(7)
-        IAD2=ITHGRP(8)
-        WRITE(IOUT,'(//)')
-        CALL FRETITL2(TITR,ITHGRP(NITHGR-LTITR+1),LTITR)
-        WRITE(IOUT,'(A,I10,3A,I3,A,I5,2A)')' TH GROUP:',ITHGRP(1),',',TRIM(TITR),',',NVAR,' VAR',N, KEY,':'
-        WRITE(IOUT,'(A)')' -------------------'
-        WRITE(IOUT,'(10A10)')(VARE(ITHBUF(J)),J=IAD0,IAD0+NVAR-1)
-        WRITE(IOUT,'(3A)')'    ',KEY,'        NAME '
-        DO K=IAD1,IAD1+N-1
-           CALL FRETITL2(TITR,ITHBUF(IAD2),40)
-           IAD2=IAD2+40
-           WRITE(IOUT,FMT=FMW_I_A) SENSORS%SENSOR_TAB(ITHBUF(K))%SENS_ID,TITR(1:40)
-        ENDDO
+          N = ITHGRP(4)
+          IAD1 = ITHGRP(5)
+          NVAR=ITHGRP(6)
+          IAD0=ITHGRP(7)
+          IAD2=ITHGRP(8)
+          WRITE(IOUT,'(//)')
+          CALL FRETITL2(TITR,ITHGRP(NITHGR-LTITR+1),LTITR)
+          WRITE(IOUT,'(A,I10,3A,I3,A,I5,2A)')' TH GROUP:',ITHGRP(1),',',TRIM(TITR),',',NVAR,' VAR',N, KEY,':'
+          WRITE(IOUT,'(A)')' -------------------'
+          WRITE(IOUT,'(10A10)')(VARE(ITHBUF(J)),J=IAD0,IAD0+NVAR-1)
+          WRITE(IOUT,'(3A)')'    ',KEY,'        NAME '
+          DO K=IAD1,IAD1+N-1
+             CALL FRETITL2(TITR,ITHBUF(IAD2),40)
+             IAD2=IAD2+40
+             WRITE(IOUT,FMT=FMW_I_A) SENSORS%SENSOR_TAB(ITHBUF(K))%SENS_ID,TITR(1:40)
+          ENDDO
 C
+
+        ELSE
+c
+          ! Filling tables
+          ITHGRP(6) = NVAR
+          ITHGRP(7) = IAD
+          IAD       = IAD + NVAR
+          IFI       = IFI + NVAR
+          NNE       = IDSMAX
+          ITHGRP(4 )= NNE
+          ITHGRP(5) = IAD
+          IAD2      = IAD + 3*NNE
+          ITHGRP(8) = IAD2
+          CALL ZEROIN(IAD,IAD + 43*NNE-1,ITHBUF)      
+          ALLOCATE (FOUND(SENSORS%NSENSOR))
+          FOUND(1:SENSORS%NSENSOR) = .FALSE.
+          NNE = 0
+C
+          DO K = 1,IDSMAX
+            CALL HM_GET_INT_ARRAY_INDEX('ids',IDS,K,IS_AVAILABLE,LSUBMODEL) 
+
+            ! Loop over Objects IDs
+            IF (IDS > 0) THEN
+              IF (NSUBDOM > 0) THEN
+                         IF (R2R_EXIST(ITYP,IDS) == 0) CYCLE
+              ENDIF
+c
+              N = 0
+              DO J=1,SENSORS%NSENSOR
+                IF (IDS == SENSORS%SENSOR_TAB(J)%SENS_ID) THEN
+                  N = J
+                  EXIT
+                ENDIF
+              ENDDO
+              IF (N == 0) THEN
+                 CALL FRETITL2(TITR,ITHGRP(NITHGR-LTITR+1),LTITR)
+                 CALL ANCMSG(MSGID=257, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
+     .                     I1=ITHGRP(1),
+     .                     C1=TITR,
+     .                     C2=KEY,
+     .                     I2=IDS)
+              ELSE
+                IF (.NOT. FOUND(N)) THEN
+                  NNE  = NNE + 1
+                  NSNE = NSNE+1
+                  ITHBUF(IAD) = N
+                  IAD = IAD+1
+                  FOUND(N) = .TRUE.
+                ELSE 
+                  CALL FRETITL2(TITR,ITHGRP(NITHGR-LTITR+1),LTITR)
+                  CALL ANCMSG(MSGID=256, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
+     .                      I1=ITHGRP(1),
+     .                      C1=TITR,
+     .                      C2=KEY,
+     .                      I2=IDS)             
+                ENDIF
+              ENDIF
+            ENDIF           
+          ENDDO
+c-----------------------------------------------------------------------
+          ITHGRP(4) = NNE
+          IAD2      = ITHGRP(5)+3*NNE
+          ITHGRP(8) = IAD2
+          IFI       = IFI+3*NNE+40*NNE
+          IAD       = ITHGRP(5)     
+c
+          DEALLOCATE(FOUND)
+c
+          CALL HORD(ITHBUF(IAD),NNE)
+C
+          DO I=1,NNE
+            N = ITHBUF(IAD)
+            ITHBUF(IAD+2*NNE) = SENSORS%SENSOR_TAB(N)%SENS_ID
+            TITR = SENSORS%SENSOR_TAB(N)%TITLE
+
+            CALL FRETITL(TITR,ITHBUF(IAD2),40)
+
+            IAD = IAD + 1
+            IAD2= IAD2+ 40
+          ENDDO
+C
+          IAD = IAD2
+C
+C=======================================================================
+C ABF FILES
+C=======================================================================
+          NVAR=ITHGRP(6)
+          IAD0=ITHGRP(7)
+          ITHGRP(9)=NVARABF
+          DO J=IAD0,IAD0+NVAR-1
+            DO K=1,10
+              ITHVAR((ITHGRP(9)+(J-IAD0)-1)*10+K)=ICHAR(VARE(ITHBUF(J))(K:K))
+            ENDDO
+          ENDDO
+          NVARABF = NVARABF + NVAR
+C=======================================================================
+C PRINTOUT
+C=======================================================================
+          N = ITHGRP(4)
+          IAD1 = ITHGRP(5)
+          NVAR=ITHGRP(6)
+          IAD0=ITHGRP(7)
+          IAD2=ITHGRP(8)
+          WRITE(IOUT,'(//)')
+          CALL FRETITL2(TITR,ITHGRP(NITHGR-LTITR+1),LTITR)
+          WRITE(IOUT,'(A,I10,3A,I3,A,I5,2A)')' TH GROUP:',ITHGRP(1),',',TRIM(TITR),',',NVAR,' VAR',N, KEY,':'
+          WRITE(IOUT,'(A)')' -------------------'
+          WRITE(IOUT,'(10A10)')(VARE(ITHBUF(J)),J=IAD0,IAD0+NVAR-1)
+          WRITE(IOUT,'(3A)')'    ',KEY,'        NAME '
+          DO K=IAD1,IAD1+N-1
+             CALL FRETITL2(TITR,ITHBUF(IAD2),40)
+             IAD2=IAD2+40
+             WRITE(IOUT,FMT=FMW_I_A) SENSORS%SENSOR_TAB(ITHBUF(K))%SENS_ID,TITR(1:40)
+          ENDDO
+C
+        END IF ! IDSMAX > 0 .AND. IDS_OBJ1 == 0
       ENDIF  ! NVAR > 0
 c-----------
       RETURN

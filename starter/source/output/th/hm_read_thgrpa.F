@@ -69,7 +69,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N,TH_ID,PART_ID,NVAR,ITYP,NUMOBJ
+      INTEGER I,J,K,N,TH_ID,PART_ID,NVAR,ITYP,NUMOBJ,PART_ID_OBJ1
       CHARACTER(LEN=NCHARKEY)::KEY
       CHARACTER(LEN=NCHARTITLE)::TITR
       LOGICAL :: IS_AVAILABLE
@@ -97,36 +97,75 @@ c
      .         I1=TH_ID,
      .         C1=TITR )
       ELSE IF (KEY(1:4) == 'PART') THEN
-      
+
         ! Number of Object (Part) IDs
-        CALL HM_GET_INTV('idsmax',NUMOBJ,IS_AVAILABLE,LSUBMODEL)
+        CALL HM_GET_INTV('idsmax',NUMOBJ,IS_AVAILABLE,LSUBMODEL) 
+        CALL HM_GET_INT_ARRAY_INDEX('ids',PART_ID_OBJ1,1,IS_AVAILABLE,LSUBMODEL) 
         
-        DO K = 1,NUMOBJ
-          CALL HM_GET_INT_ARRAY_INDEX('ids',PART_ID,K,IS_AVAILABLE,LSUBMODEL) 
-          IF (NSUBDOM > 0) THEN 
-            IF (R2R_EXIST(ITYP,PART_ID) == 0) CYCLE
-          ENDIF
-          N = 0
-          DO J = 1,NUMTHPART
-            IF (PART_ID == IPASU(4,J))THEN
-              N = J
-              TAGP = TAGP+1
-              PATHID(TAGP) = PART_ID
-              EXIT
-            ENDIF  
-          ENDDO
+        IF (NUMOBJ > 0 .AND. PART_ID_OBJ1 == 0) THEN
+
+            NUMOBJ = NUMTHPART
+            
+            DO K = 1,NUMOBJ
+              PART_ID = IPASU(4,K)
+              IF (NSUBDOM > 0) THEN 
+                IF (R2R_EXIST(ITYP,PART_ID) == 0) CYCLE
+              ENDIF
+              N = 0
+              DO J = 1,NUMTHPART
+                IF (PART_ID == IPASU(4,J))THEN
+                  N = J
+                  TAGP = TAGP+1
+                  PATHID(TAGP) = PART_ID
+                  EXIT
+                ENDIF  
+              ENDDO
+C  
+              IF (N == 0) THEN
+                CALL ANCMSG(MSGID=1610, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
+     .                        I1=TH_ID,
+     .                        C1=TITR ,
+     .                        C2=KEY  ,
+     .                        I2=PART_ID  )
+              ELSE
+                IPARTH(NVPARTH,N)  = NVAR
+                IPARTH(NVPARTH+1,N)= IAD
+              ENDIF           
+            ENDDO  ! NUMOBJ 
+
+        ELSE  
+      
+            ! Number of Object (Part) IDs
+            CALL HM_GET_INTV('idsmax',NUMOBJ,IS_AVAILABLE,LSUBMODEL)
+        
+            DO K = 1,NUMOBJ
+              CALL HM_GET_INT_ARRAY_INDEX('ids',PART_ID,K,IS_AVAILABLE,LSUBMODEL) 
+              IF (NSUBDOM > 0) THEN 
+                IF (R2R_EXIST(ITYP,PART_ID) == 0) CYCLE
+              ENDIF
+              N = 0
+              DO J = 1,NUMTHPART
+                IF (PART_ID == IPASU(4,J))THEN
+                  N = J
+                  TAGP = TAGP+1
+                  PATHID(TAGP) = PART_ID
+                  EXIT
+                ENDIF  
+              ENDDO
 C
-          IF (N == 0) THEN
-            CALL ANCMSG(MSGID=1610, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
-     .                  I1=TH_ID,
-     .                  C1=TITR ,
-     .                  C2=KEY  ,
-     .                  I2=PART_ID  )
-          ELSE
-            IPARTH(NVPARTH,N)  = NVAR
-            IPARTH(NVPARTH+1,N)= IAD
-          ENDIF           
-        ENDDO  ! NUMOBJ 
+              IF (N == 0) THEN
+                CALL ANCMSG(MSGID=1610, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
+     .                      I1=TH_ID,
+     .                      C1=TITR ,
+     .                      C2=KEY  ,
+     .                      I2=PART_ID  )
+              ELSE
+                IPARTH(NVPARTH,N)  = NVAR
+                IPARTH(NVPARTH+1,N)= IAD
+              ENDIF           
+            ENDDO  ! NUMOBJ 
+         ENDIF   !NUMOBJ > 0 || PART_ID_OBJ1 == 0
+
       END IF   ! NVAR > 0
 c
       IAD = IAD + NVAR
@@ -185,7 +224,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,N,TH_ID,SUBS_ID,NVAR,ITYP,NUMOBJ
+      INTEGER I,J,K,N,TH_ID,SUBS_ID,NVAR,ITYP,NUMOBJ,SUBS_ID_OBJ1
       CHARACTER(LEN=NCHARTITLE)::TITR
       CHARACTER(LEN=NCHARKEY)::KEY
       LOGICAL :: IS_AVAILABLE
@@ -215,36 +254,70 @@ c
      .         C1=TITR )
       ELSE IF (KEY(1:4) == 'SUBS') THEN
 c
-        ! Number of Object (Part) IDs
+        ! Number of Object (SUBS) IDs
         CALL HM_GET_INTV('idsmax',NUMOBJ,IS_AVAILABLE,LSUBMODEL) 
-c
-        DO K = 1,NUMOBJ
-          CALL HM_GET_INT_ARRAY_INDEX('ids',SUBS_ID,K,IS_AVAILABLE,LSUBMODEL) 
-          IF (NSUBDOM > 0) THEN 
-            IF (R2R_EXIST(ITYP,SUBS_ID) == 0) CYCLE
-          ENDIF
-          N = 0
-          DO J = 1,NSUBS
-            IF (SUBS_ID == SUBSET(J)%ID)THEN
-              N = J
-              TAGS = TAGS+1
-              SUTHID(TAGS)= SUBS_ID
-              EXIT
-            ENDIF  
-          ENDDO  
+        CALL HM_GET_INT_ARRAY_INDEX('ids',SUBS_ID_OBJ1,1,IS_AVAILABLE,LSUBMODEL) 
+        
+        IF (NUMOBJ > 0 .AND. SUBS_ID_OBJ1 == 0) THEN
+          NUMOBJ = NSUBS
+          DO K = 1,NUMOBJ
+            SUBS_ID = SUBSET(K)%ID
+            IF (NSUBDOM > 0) THEN 
+              IF (R2R_EXIST(ITYP,SUBS_ID) == 0) CYCLE
+            ENDIF
+            N = 0
+            DO J = 1,NSUBS
+              IF (SUBS_ID == SUBSET(J)%ID)THEN
+                N = J
+                TAGS = TAGS+1
+                SUTHID(TAGS)= SUBS_ID
+                EXIT
+              ENDIF  
+            ENDDO  
 C
-          IF (N == 0) THEN
-            CALL ANCMSG(MSGID=257, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
-     .                  I1=TH_ID,
-     .                  C1=TITR,
-     .                  C2=KEY,
-     .                  I2=SUBS_ID)
-            NVAR = 0
-          ELSE
-            SUBSET(N)%NVARTH(ITHFLAG) = NVAR
-            SUBSET(N)%THIAD = IAD
-          ENDIF      
-        ENDDO  ! NUMOBJ 
+            IF (N == 0) THEN
+              CALL ANCMSG(MSGID=257, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
+     .                    I1=TH_ID,
+     .                    C1=TITR,
+     .                    C2=KEY,
+     .                    I2=SUBS_ID)
+              NVAR = 0
+            ELSE
+              SUBSET(N)%NVARTH(ITHFLAG) = NVAR
+              SUBSET(N)%THIAD = IAD
+            ENDIF      
+          ENDDO  ! NUMOBJ 
+          
+        ELSE
+c
+          DO K = 1,NUMOBJ
+            CALL HM_GET_INT_ARRAY_INDEX('ids',SUBS_ID,K,IS_AVAILABLE,LSUBMODEL) 
+            IF (NSUBDOM > 0) THEN 
+              IF (R2R_EXIST(ITYP,SUBS_ID) == 0) CYCLE
+            ENDIF
+            N = 0
+            DO J = 1,NSUBS
+              IF (SUBS_ID == SUBSET(J)%ID)THEN
+                N = J
+                TAGS = TAGS+1
+                SUTHID(TAGS)= SUBS_ID
+                EXIT
+              ENDIF  
+            ENDDO  
+C
+            IF (N == 0) THEN
+              CALL ANCMSG(MSGID=257, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
+     .                    I1=TH_ID,
+     .                    C1=TITR,
+     .                    C2=KEY,
+     .                    I2=SUBS_ID)
+              NVAR = 0
+            ELSE
+              SUBSET(N)%NVARTH(ITHFLAG) = NVAR
+              SUBSET(N)%THIAD = IAD
+            ENDIF      
+          ENDDO  ! NUMOBJ 
+        ENDIF   !NUMOBJ > 0 || SUBS_ID_OBJ1 == 0
       END IF   ! NVAR > 0
 c
       IAD = IAD + NVAR
