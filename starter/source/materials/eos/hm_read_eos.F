@@ -204,7 +204,7 @@ c---
 c---
           CASE ('IDEAL-GAS','IDEAL-GAS-VE')
             IEOS = 7      
-            CALL HM_READ_EOS_IDEAL_GAS(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)                                
+            CALL HM_READ_EOS_IDEAL_GAS(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS,MAT_PARAM(IMAT))
 c---
           CASE ('MURNAGHAN')
             IEOS = 8                          

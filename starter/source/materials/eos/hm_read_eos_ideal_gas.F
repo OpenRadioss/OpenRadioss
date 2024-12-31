@@ -32,13 +32,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod              ../starter/share/message_module/message_mod.F
       !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
       !||====================================================================
-      SUBROUTINE HM_READ_EOS_IDEAL_GAS(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
+      SUBROUTINE HM_READ_EOS_IDEAL_GAS(IOUT,PM,UNITAB,IUNIT,LSUBMODEL,IMIDEOS,MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
+      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -63,6 +64,7 @@ C-----------------------------------------------
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
       INTEGER,INTENT(IN) :: IMIDEOS
+      TYPE(MATPARAM_STRUCT_),INTENT(INOUT) :: MAT_PARAM
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -147,6 +149,9 @@ C-----------------------------------------------
       PM(31) = P0-PSH
       PM(79) = T0
       PM(104)=P0-PSH
+
+      MAT_PARAM%EOS%Cv = Cv
+      MAT_PARAM%EOS%Cp = GAMMA * Cv
       
       !SSP0
       SSP0 = ZERO 
