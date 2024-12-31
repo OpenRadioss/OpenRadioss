@@ -95,7 +95,7 @@ C-----------------------------------------------
         INTEGER :: I_AM_HERE
         LOGICAL, DIMENSION(NSURF) :: ALREADY_DONE
         LOGICAL, DIMENSION(:), ALLOCATABLE :: I_NEED_IT
-        TYPE(array_type), DIMENSION(:), ALLOCATABLE :: PROC_LIST_PER_NODE
+        TYPE(array_type_int_1d), DIMENSION(:), ALLOCATABLE :: PROC_LIST_PER_NODE
 
         INTEGER :: UP_BOUND
         INTEGER :: INDEX_PROC,NUMBER_PROC
