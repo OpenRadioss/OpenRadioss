@@ -79,7 +79,7 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NSPMD) :: PROC_ARRAY
         LOGICAL, DIMENSION(:), ALLOCATABLE :: BOOL
         INTEGER, DIMENSION(:), ALLOCATABLE :: TEMP_ARRAY
-        TYPE(array_type), DIMENSION(:), ALLOCATABLE :: LOCAL_ARRAY
+        TYPE(array_type_int_1d), DIMENSION(:), ALLOCATABLE :: LOCAL_ARRAY
         INTEGER :: NB_LOCAL_ARRAY
         INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX_LOCAL_ARRAY
 C-----------------------------------------------
