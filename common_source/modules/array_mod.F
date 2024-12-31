@@ -52,6 +52,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !       ARRAY_MOD description
 !           allocation & dealloaction of arrays (1d/2d/3d)
 !       ARRAY_MOD organization
+!       DO NOT ALLOCATE LARGE ARRAYS OF TYPE(array_type) if only a few elements are needed
+!        SIZE(array_type) == 1248 bytes (ifx) or 1152 bytes (gfortran)
 !$ENDCOMMENT
 
         TYPE array_type
@@ -83,6 +85,20 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             REAL(kind=4), DIMENSION(:,:), ALLOCATABLE :: SP_ARRAY_2D
             REAL(kind=4), DIMENSION(:,:,:), ALLOCATABLE :: SP_ARRAY_3D
         END TYPE array_type
+        TYPE array_type_int_1d
+            INTEGER :: SIZE_INT_ARRAY_1D
+            INTEGER, DIMENSION(:), ALLOCATABLE :: INT_ARRAY_1D
+        END TYPE array_type_int_1d
+
+        interface alloc_1d_array
+            MODULE PROCEDURE alloc_1d_array_full
+            MODULE PROCEDURE alloc_int_1d_array 
+        end interface
+        interface dealloc_1d_array
+            MODULE PROCEDURE dealloc_1d_array_full
+            MODULE PROCEDURE dealloc_int_1d_array
+        end interface
+
 
         CONTAINS
             ! ----------------------------
@@ -97,7 +113,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    init_nodal_state              ../engine/source/interfaces/interf/init_nodal_state.F
       !||    spmd_exch_deleted_surf_edge   ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
       !||====================================================================
-            SUBROUTINE ALLOC_1D_ARRAY(THIS)
+            SUBROUTINE ALLOC_1D_ARRAY_FULL(THIS)
             IMPLICIT NONE
 
             TYPE(array_type), INTENT(inout) :: THIS
@@ -106,6 +122,17 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
             RETURN
             END SUBROUTINE 
+
+            SUBROUTINE ALLOC_INT_1D_ARRAY(THIS)
+            IMPLICIT NONE
+
+            TYPE(array_type_int_1d), INTENT(inout) :: THIS
+
+            ALLOCATE( THIS%INT_ARRAY_1D( THIS%SIZE_INT_ARRAY_1D ) )
+
+            RETURN
+            END SUBROUTINE 
+ 
             ! ----------------------------
       !||====================================================================
       !||    alloc_2d_array               ../common_source/modules/array_mod.F
@@ -152,7 +179,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    inter_save_candidate          ../starter/source/interfaces/inter3d1/inter_save_candidate.F90
       !||    spmd_exch_deleted_surf_edge   ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
       !||====================================================================
-            SUBROUTINE DEALLOC_1D_ARRAY(THIS)
+            SUBROUTINE DEALLOC_1D_ARRAY_FULL(THIS)
             IMPLICIT NONE
 
             TYPE(array_type), INTENT(inout) :: THIS
@@ -162,6 +189,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             RETURN
             END SUBROUTINE 
             ! ----------------------------
+           SUBROUTINE DEALLOC_INT_1D_ARRAY(THIS)
+            IMPLICIT NONE
+
+            TYPE(array_type_int_1d), INTENT(inout) :: THIS
+
+            DEALLOCATE( THIS%INT_ARRAY_1D )
+
+            RETURN
+            END SUBROUTINE 
+  
       !||====================================================================
       !||    dealloc_2d_array             ../common_source/modules/array_mod.F
       !||--- called by ------------------------------------------------------

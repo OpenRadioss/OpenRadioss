@@ -65,8 +65,8 @@ C     REAL
       my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       INTEGER , INTENT(IN) :: NRTMT
 
-      type(array_type) :: local_cand_n
-      type(array_type) :: local_cand_e
+      type(array_type_int_1d) :: local_cand_n
+      type(array_type_int_1d) :: local_cand_e
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

@@ -154,8 +154,8 @@ C
 
       integer, dimension(:), allocatable, save :: cand_n_size,cand_e_size
       integer, dimension(:), allocatable, save :: address_cand_n,address_cand_e
-      type(array_type) :: local_cand_n
-      type(array_type) :: local_cand_e
+      type(array_type_int_1d) :: local_cand_n
+      type(array_type_int_1d) :: local_cand_e
 C-----------------------------------------------
       ! allocation of local arrays 
       itask = omp_get_thread_num()
