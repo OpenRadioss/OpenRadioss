@@ -760,10 +760,8 @@ c          ENDIF
      .                    PRMOD=MSG_CUMU)
               ISMST = 2
             ENDIF
-            IF (MLN /=42 .AND. MLN /=69 .AND. MLN /=88) THEN  ! 
-              CALL ANCMSG(MSGID=3020,
-     .                    ANMODE=ANINFO,
-     .                    MSGTYPE=MSGWARNING,
+            IF (MLN /=42 .AND. MLN /=69 .AND. MLN /=88 .and. MLN /= 99) THEN
+              CALL ANCMSG(MSGID=3020, ANMODE=ANINFO, MSGTYPE=MSGWARNING,
      .                    I1=ID,
      .                    C1=TITR,
      .                    I2=MLN,
