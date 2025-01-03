@@ -49,7 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    mat_elem_mod        ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    table_mod           ../engine/share/modules/table_mod.F
       !||====================================================================
-      SUBROUTINE MMAIN8(PM     ,GEO      ,ELBUF_STR,MAT_ELEM ,
+      SUBROUTINE MMAIN8(TIMERS, PM     ,GEO      ,ELBUF_STR,MAT_ELEM ,
      2                  IX     ,IPARG    ,V        ,TF       ,
      3                  NPF    ,BUFMAT   ,STIFN    ,X        ,D1      ,
      4                  D2     ,D3       ,D4       ,D5       ,D6      ,
@@ -65,6 +65,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE TIMER_MOD
       USE TABLE_MOD
       USE MAT_ELEM_MOD         
       USE MULAW8_MOD
@@ -89,6 +90,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(TIMER_), INTENT(INOUT) :: TIMERS
       INTEGER, INTENT(IN) :: SNPC
       INTEGER, INTENT(IN) :: NUMGEO
       INTEGER, INTENT(IN) :: SBUFMAT
@@ -206,7 +208,7 @@ c     user-type laws
           NUVAR  = MAX(NUVAR,IPM(8,MAT(I)))  
         ENDDO
 c
-        CALL MULAW8(
+        CALL MULAW8(TIMERS,
      1   1,        NEL,      MTN,
      2   NPT,      D1,       D2,       D3,
      3   D4,       D5,       D6,       PM,
@@ -234,7 +236,7 @@ C-----
 C---------------------------
 C       Failure Model 
 C --------------------------
-      IF ((ITASK==0).AND.((IMON_MAT==1)))CALL STARTIME(121,1)
+      IF ((ITASK==0).AND.((IMON_MAT==1)))CALL STARTIME(TIMERS,121)
       IF (IFAILURE == 1)THEN
         IF (MTN < 28) THEN
         IMAT = MAT(1)
@@ -364,7 +366,7 @@ c
        ENDIF
       ENDIF
 
-      IF ((ITASK==0).AND.((IMON_MAT==1)))CALL STOPTIME(121,1)
+      IF ((ITASK==0).AND.((IMON_MAT==1)))CALL STOPTIME(TIMERS,121)
       IF (IMPL_S>0) CALL PUT_ETFAC(NEL     ,ET    ,MTN  )
 
       IF(BUFLY%L_SSP /=0 )THEN

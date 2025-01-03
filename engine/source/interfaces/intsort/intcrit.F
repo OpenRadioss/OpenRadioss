@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sensor_mod                   ../engine/share/modules/sensor_mod.F
       !||    tri7box                      ../engine/share/modules/tri7box.F
       !||====================================================================
-      SUBROUTINE INTCRIT(
+      SUBROUTINE INTCRIT(TIMERS,
      1  ERRORS, IPARI  ,NEWFRONT,ISENDTO,NSENSOR ,
      2  IRCVFROM,DT2T   ,NELTST ,ITYPTST ,ITAB   ,
      3  XSLV    ,XMSR   ,VSLV   ,VMSR    ,INTLIST,
@@ -47,13 +47,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE TIMER_MOD
       USE INTBUFDEF_MOD  
       USE INTERFACE_MODIFICATION_MOD
       USE SENSOR_MOD
+      USE TRI7BOX
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-        USE TRI7BOX
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -70,6 +71,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(TIMER_) :: TIMERS
       my_real, intent(in) :: V(3,NUMNOD)
       INTEGER, INTENT(INOUT) :: ERRORS !< number of errors (vmaxdt too high, ...)
       INTEGER ,INTENT(IN) :: NSENSOR
@@ -160,12 +162,12 @@ C
 C Communication si SPMD
 C
       IF(NSPMD>1)THEN
-        IF (IMONM > 0) CALL STARTIME(27,1)
+        IF (IMONM > 0) CALL STARTIME(TIMERS,27)
         CALL SPMD_SYNC_MMXG2(
      1    ISENDTO,IRCVFROM,NEWFRONT,XSLV  ,XMSR  ,
      2    VSLV   ,VMSR    ,LISTNEW ,NBNEW ,TZINF ,
      3    SIZE_T ,IPARI , DELTA_PMAX_GAP  ,MAXDGAP)
-        IF (IMONM > 0) CALL STOPTIME(27,1)
+        IF (IMONM > 0) CALL STOPTIME(TIMERS,27)
       END IF
 C
       DO KK=1,NBNEW

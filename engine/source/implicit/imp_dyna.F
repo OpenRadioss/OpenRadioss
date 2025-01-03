@@ -850,7 +850,7 @@ C---estimation a(t=0)----
         NCL_MAX = 0
         IF (TT==DT2) TT = ZERO
         IF(NCONLD/=0) THEN
-          IF (IMON>0) CALL STARTIME(4,ITASK+1)
+!         IF (IMON>0 .AND. ITASK == 0) CALL STARTIME(TIMERS,4)
           CALL FORCE_IMP(IBCL    ,FORC       ,SNPC       ,NPC        ,TF         ,
      2                   DY_A    ,V          ,X          ,SKEWS      ,
      3                   DY_AR   ,VR         ,NSENSOR    ,SENSOR_TAB ,TFEXC      ,
@@ -866,7 +866,7 @@ C---estimation a(t=0)----
             IF (TMP>ZERO) NCL_MAX = NCL_MAX + 1
           ENDDO
          ENDIF
-          IF (IMON>0) CALL STOPTIME(4,ITASK+1)
+!         IF (IMON>0 .AND. ITASK == 0) CALL STOPTIME(TIMERS,4)
         ENDIF
         IF (NSPMD>1) THEN
          CALL SPMD_MAX_I(NCL_MAX)
@@ -881,12 +881,12 @@ C---estimation a(t=0)----
          ENDIF
         ENDIF
         IF(NGRAV/=0) THEN
-          IF (IMON>0) CALL STARTIME(4,ITASK+1)
+!         IF (IMON>0 .AND. ITASK == 0) CALL STARTIME(TIMERS,4)
           CALL GRAVIT_IMP(IGRV  ,AGRV  ,NPC   ,TF    ,DY_A,
      2                    V     ,X     ,SKEWS%SKEW  ,MS,TFEXC,
      3                    NSENSOR,SENSOR_TAB,WEIGHT,LGRAV,ITASK,
      4                    NRBYAC,IRBYAC,NPBY  ,RBY    )
-          IF (IMON>0) CALL STOPTIME(4,ITASK+1)
+!         IF (IMON>0 .AND. ITASK == 0) CALL STOPTIME(TIMERS,4)
         ENDIF
          DO N=NODFT,NODLT
           IF(MS(N)>0.) THEN
@@ -1047,7 +1047,7 @@ C-----------------------------------------------
 C--------------------------------
        DUMMY_FEXT=ZERO
 C--------------------------------
-       IF (IMON>0) CALL STARTIME(4,ITASK+1)
+!      IF (IMON>0 .AND. ITASK ==0) CALL STARTIME(TIMERS,4)
         IF(NCONLD/=0) THEN
           CALL FORCE_IMP( IBCL    ,FORC    ,SNPC       ,NPC        ,TF         ,
      2                    A       ,V       ,X          ,SKEWS      ,
@@ -1108,7 +1108,7 @@ C----------DY_DAM has been already condensed---
 C     DY_EDAMP will added in Eint instead of W_ext (as explicit)
 C     which makes high error (energy) in case of high Rayleigh damping
         ENDIF
-       IF (IMON>0) CALL STOPTIME(4,ITASK+1)
+!      IF (IMON>0 .AND. ITASK == 0) CALL STOPTIME(TIMERS,4)
 C
       RETURN
       END

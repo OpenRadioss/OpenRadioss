@@ -57,7 +57,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    tri25ebox                   ../engine/share/modules/tri25ebox.F
       !||    tri7box                     ../engine/share/modules/tri7box.F
       !||====================================================================
-      SUBROUTINE I25MAINF(
+      SUBROUTINE I25MAINF(TIMERS,
      1                   IPARI  ,INTBUF_TAB         ,X        ,A      ,
      2                   ICODT  ,FSAV    ,V         ,MS       ,DT2T   ,
      3                   NELTST ,ITYPTST ,ITAB      ,STIFN    ,FSKYI  ,
@@ -82,6 +82,7 @@ C=======================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE TIMER_MOD
       USE INTBUFDEF_MOD
       USE TRI7BOX
       USE H3D_MOD
@@ -115,6 +116,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(TIMER_) :: TIMERS
       INTEGER NELTST,ITYPTST,NIN,NEWFRONT,
      .        NSTRF(*),
      .        NRTMDIM, IAD17, IPARSENS
@@ -659,12 +661,12 @@ C
           IPARI(29,NIN) = 1
 C
           IF (DEBUG(3)>=1) NB_IMPCT = NB_IMPCT + JLT_NEW
-          IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(20,1) 
+          IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(TIMERS,20) 
 
 C-------------------------------------------------------------------------------
 C Friction model : computation of friction coefficients based on Material of connected Parts
 C-------------------------------------------------------------------------------
-        IF(JTASK==1) CALL STARTIME(MACRO_TIMER_FRIC,1)
+        IF(JTASK==1) CALL STARTIME(TIMERS,MACRO_TIMER_FRIC)
           JJ = 0
           IF(IORTHFRIC > 0) THEN
             CALL FRICTIONPARTS_MODEL_ORTHO(
@@ -690,7 +692,7 @@ C-------------------------------------------------------------------------------
      6       TEMP           , H1          ,H2               ,H3           ,H4          ,
      7       IX1            , IX2         ,IX3              ,IX4          ,IFORM       ) 
           ENDIF
-        IF(JTASK==1) CALL STOPTIME(MACRO_TIMER_FRIC,1)
+        IF(JTASK==1) CALL STOPTIME(TIMERS,MACRO_TIMER_FRIC)
 
           CALL I25FOR3(
      1  JLT          ,A         ,V            ,IBC         ,ICODT    ,
@@ -728,7 +730,7 @@ C-------------------------------------------------------------------------------
      E  INTBUF_TAB%TYPSUB,IPARI(40,NIN),NINLOADP,DGAPLOADINT,S_LOADPINTER,
      F  DIST        ,DGAPLOADPMAX,INTEREFRIC  ,INTCAREA   ,INTERFACES%PARAMETERS)
 C
-          IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(20,1)
+          IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(TIMERS,20)
 
         IF(INTTH > 0) THEN
 
@@ -903,12 +905,12 @@ C         preparation candidats retenus
      G      DGAPLOADPMAX)
 
 C
-          IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(20,1)
+          IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(TIMERS,20)
 
 
           JLT = JLT_NEW
           IF(JLT_NEW/=0) THEN
-            IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(20,1)
+            IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(TIMERS,20)
             IPARI(29,NIN) = 1
             IF (DEBUG(3)>=1) NB_IMPCT = NB_IMPCT + JLT
 
@@ -956,7 +958,7 @@ C-------------------------------------------------------------------------------
      J TAGNCONT   ,KLOADPINTER  ,LOADPINTER ,LOADP_HYD_INTER, INTBUF_TAB%TYPSUB,
      K STARTT     ,NINLOADP,DGAPLOADINT,S_LOADPINTER)
 
-            IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(20,1)
+            IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(TIMERS,20)
 
 
 
@@ -1086,7 +1088,7 @@ C
 
           JLT=JLT_NEW
           IF(JLT_NEW/=0) THEN
-            IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(20,1)
+            IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(TIMERS,20)
             IPARI(29,NIN) = 1
             IF (DEBUG(3)>=1) NB_IMPCT = NB_IMPCT + JLT
 
@@ -1136,7 +1138,7 @@ C-------------------------------------------------------------------------------
      K TAGNCONT   ,KLOADPINTER  ,LOADPINTER ,LOADP_HYD_INTER,INTBUF_TAB%TYPSUB,
      O STARTT     ,NINLOADP,DGAPLOADINT,S_LOADPINTER)
 
-            IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(20,1)
+            IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(TIMERS,20)
           ENDIF
         ENDDO
  

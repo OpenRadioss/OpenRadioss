@@ -71,7 +71,6 @@ C-----------------------------------------------
 C
 C Updating Phi on adjacent elements
 C
-      CALL STARTIME(MACRO_TIMER_SPMDCFD,1)
 
       LOC_PROC = ISPMD+1
       IDEB = 0
@@ -128,7 +127,6 @@ C
         ENDIF
       ENDDO
 C
-      CALL STOPTIME(MACRO_TIMER_SPMDCFD,1)
 
 #endif
       RETURN

@@ -30,12 +30,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    startime          ../engine/source/system/timer.F
       !||    stoptime          ../engine/source/system/timer.F
       !||====================================================================
-      SUBROUTINE RMATFORP(
+      SUBROUTINE RMATFORP(TIMERS,
      1   A       ,AR       ,X        ,VR     ,IN     ,
      2   STIFN   ,STIFR    ,IRBY     ,LNRBY  ,RBY    , 
      3   ICODRBY ,WEIGHT   ,MS       ,V      ,FR_RBM ,
      4   IAD_RBY ,ARBY    ,VRBY     ,ARRBY   ,VRRBY  ,
      5   KIND    ,RBYM6   )
+        USE TIMER_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,6 +51,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(TIMER_), INTENT(INOUT) :: TIMERS
       INTEGER FR_RBM(*),IAD_RBY(*),
      .        ICODRBY(2,*),WEIGHT(*),LNRBY(*),IRBY(NIRBYM,*),
      .        KIND(NRBYM)
@@ -92,13 +94,13 @@ C-------------------------------------
 
         IF (NSPMD > 1) THEN
 !$OMP SINGLE
-          IF (IMON>0) CALL STARTIME(11,1)
+          IF (IMON>0) CALL STARTIME(TIMERS,11)
 C
 C Comm non multi-thread
 C
           CALL SPMD_EXCH_A_RM6(
      1         IAD_RBY,FR_RBM,IAD_RBY(NSPMD+1),RBYM6 )
-          IF (IMON>0) CALL STOPTIME(11,1)
+          IF (IMON>0) CALL STOPTIME(TIMERS,11)
 !$OMP END SINGLE
 
         END IF

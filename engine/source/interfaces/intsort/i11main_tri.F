@@ -46,7 +46,7 @@ C  |         I10XSAVE                        /intsort/i10xsave.F
       !||    message_mod                  ../engine/share/message_module/message_mod.F
       !||    tri7box                      ../engine/share/modules/tri7box.F
       !||====================================================================
-      SUBROUTINE I11MAIN_TRI(
+      SUBROUTINE I11MAIN_TRI(TIMERS,
      1                  IPARI   ,X       ,V       ,
      2                  MS      ,NIN   ,ITASK   ,WEIGHT  ,ISENDTO ,
      3                  IRCVFROM,RETRI ,IAD_ELEM,FR_ELEM ,ITAB    ,
@@ -56,6 +56,7 @@ C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE TIMER_MOD
       USE MESSAGE_MOD
       USE TRI7BOX
       USE INTBUFDEF_MOD
@@ -81,6 +82,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(TIMER_), INTENT(IN) :: TIMERS
       INTEGER, INTENT(IN) :: ITASK
       INTEGER NIN , RETRI, NRTM_T, ESHIFT
       INTEGER IPARI(NPARI,NINTER),  ITAB(*),
@@ -245,7 +247,7 @@ C
 
         CALL MY_BARRIER
 
-        IF (IMONM > 0 .AND. ITASK == 0) CALL STARTIME(26,1)
+        IF (IMONM > 0 .AND. ITASK == 0) CALL STARTIME(TIMERS,26)
 
         CALL SPMD_TRI11VOX0(
      1      X        ,BMINMA  ,IPARI(21,NIN),NRTM_T  , INTBUF_TAB%STFM(1+ESHIFT),
@@ -253,11 +255,12 @@ C
      3      INTBUF_TAB%VARIABLES(13) ,INTBUF_TAB%VARIABLES(7),DRAD,DGAPLOAD)
  
         CALL MY_BARRIER
-        IF (IMONM > 0 .AND. ITASK == 0) CALL STOPTIME(26,1)
+        IF (IMONM > 0 .AND. ITASK == 0) CALL STOPTIME(TIMERS,26)
         IF(ITASK==0)THEN
 C
 C recuperation des noeuds remote NSNR stockes dans XREM
 C    
+        IF (IMONM > 0 .AND. ITASK == 0) CALL STARTIME(TIMERS,25)
           CALL SPMD_TRI11VOX(
      1 INTBUF_TAB%IRECTS,NRTS     ,X              ,V         ,MS           ,
      2 BMINMA           ,WEIGHT   ,INTBUF_TAB%STFS,NIN       ,ISENDTO      ,
@@ -266,6 +269,8 @@ C
      5 NODNX_SMS        ,INTBUF_TAB%GAP_SL,NSNFIOLD,IFORM        ,IPARI(47,NIN),
      6 INTBUF_TAB%IELEC,INTBUF_TAB%AREAS ,TEMP     ,IPARI(36,NIN),INTBUF_TAB%ADDSUBS,
      7 INTBUF_TAB%LISUBS,IPARI(72,NIN),INTBUF_TAB%IPARTFRICS,INTBUF_TAB%INFLG_SUBS)
+        IF (IMONM > 0 .AND. ITASK == 0) CALL STOPTIME(TIMERS,25)
+
 
 c 300      continue
 C
@@ -406,7 +411,7 @@ C--------------------------------------------------------------
       IF(NSPMD>1)THEN
 C mono tache
 !$OMP SINGLE
-        IF (IMONM > 0) CALL STARTIME(26,1)
+        IF (IMONM > 0) CALL STARTIME(TIMERS,26)
 C
         INTBUF_TAB%VARIABLES(5) = -INTBUF_TAB%VARIABLES(5)
         CALL SPMD_TRI11GAT(
@@ -417,7 +422,7 @@ C
 C sauvegarde des candidats additionnels dans IPARI(24)
         IPARI(24,NIN) = NRTSR
 C
-        IF (IMONM > 0) CALL STOPTIME(26,1)
+        IF (IMONM > 0) CALL STOPTIME(TIMERS,26)
 !$OMP END SINGLE
       ENDIF
 

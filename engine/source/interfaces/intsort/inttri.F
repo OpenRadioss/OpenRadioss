@@ -98,7 +98,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sensor_mod                ../engine/share/modules/sensor_mod.F
       !||    tri7box                   ../engine/share/modules/tri7box.F
       !||====================================================================
-      SUBROUTINE INTTRI(
+      SUBROUTINE INTTRI(TIMERS,
      1       IPARI    ,X       ,W       , ERRORS, 
      2       V        ,MS      ,IN      ,IAD_ELEM ,
      3       FR_ELEM  ,VR      ,ISENDTO ,IRECVFROM,
@@ -128,6 +128,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE TIMER_MOD
       USE ELBUFDEF_MOD  
       USE INTSTAMP_MOD
       USE TRI7BOX
@@ -168,6 +169,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(TIMER_), INTENT(inout) :: TIMERS
       INTEGER, INTENT(INOUT) :: ERRORS !< number of interfaces that could not be sorted
       INTEGER, INTENT(in) :: NODNX_SMS_SIZ
       INTEGER IPARI(NPARI,*), IXS(*), IXS16(*), IXS20(*),
@@ -257,11 +259,11 @@ C Single region
 
       IF (IMONM > 0) THEN
         IF(IMONM == 2 .AND. NSPMD > 1)THEN
-          CALL STARTIME(56,1)
+          CALL STARTIME(TIMERS,56)
           CALL SPMD_BARRIER()
-          CALL STOPTIME(56,1)
+          CALL STOPTIME(TIMERS,56)
         END IF 
-        CALL STARTIME(15,1)
+        CALL STARTIME(TIMERS,15)
       ENDIF
      
       !Init variable globale interface
@@ -427,7 +429,7 @@ C       Cyle 1 : update secondary and main nodal masses
 C
 C Critere de retri interface
 C
-      IF(ITASK==0)CALL STARTIME(120,1)
+      IF(ITASK==0)CALL STARTIME(TIMERS,120)
       DO KK=1,NBINTC
         N      = INTLIST(KK)
         NTY    = IPARI(7,N)
@@ -625,18 +627,18 @@ C
 !$OMP SINGLE
 
       IF (IMONM > 0) THEN
-        CALL STOPTIME(15,1)
+        CALL STOPTIME(TIMERS,15)
         IF(IMONM == 2 .AND. NSPMD > 1)THEN
-          CALL STARTIME(57,1)
+          CALL STARTIME(TIMERS,57)
           CALL SPMD_BARRIER()
-          CALL STOPTIME(57,1)
+          CALL STOPTIME(TIMERS,57)
         END IF 
-        CALL STARTIME(16,1)
+        CALL STARTIME(TIMERS,16)
        ENDIF 
 C
 C Communication critere de tri
 C
-      CALL INTCRIT(
+      CALL INTCRIT(TIMERS,
      1    ERRORS, IPARI   ,NEWFRONT ,ISENDTO  ,NSENSOR  , 
      2    IRECVFROM ,DT2T    ,NELTST  ,ITYPTST  ,ITAB      ,
      3    XSLV      ,XMSR    ,VSLV    ,VMSR     ,INTLIST   ,
@@ -655,8 +657,8 @@ C (barriere par interface)
       END IF
 C
       IF (IMONM > 0) THEN
-        CALL STOPTIME(16,1)
-        CALL STARTIME(17,1)
+        CALL STOPTIME(TIMERS,16)
+        CALL STARTIME(TIMERS,17)
       ENDIF
 
       IF(TT>ZERO.AND.INT7ITIED/=0) THEN
@@ -677,7 +679,7 @@ C Fin Partie non parallele smt
        ENDIF
       ENDIF
 
-      IF(ITASK==0)CALL STOPTIME(120,1) 
+      IF(ITASK==0)CALL STOPTIME(TIMERS,120) 
 
 
       RETRI = 0
@@ -724,7 +726,7 @@ C Fin Partie non parallele smt
      .                               TEMP_SIZ )
             ! -----------
             ! sorting computation
-            CALL INTER_SORT( ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,RETRI,IPARI,
+            CALL INTER_SORT(TIMERS, ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,RETRI,IPARI,
      1                       NSENSOR,ISENDTO,IRECVFROM,INTBUF_TAB,X,ITAB,
      2                       RENUM,NSNFIOLD,MULTI_FVM,H3D_DATA,SENSORS%SENSOR_TAB,
      3                       INTER_STRUCT,SORT_COMM ,RENUM_SIZ,GLOB_THERM)
@@ -791,7 +793,7 @@ c-----------------------------------------------------------------------
             PTR_MS => MS(1:NUMNOD)
             PTR_KINET => KINET(1:NUMNOD)
           ENDIF
-       CALL I7MAIN_TRI(
+       CALL I7MAIN_TRI(TIMERS,
      1 IPARI   ,PTR_X   ,PTR_V   ,
      2 PTR_MS  ,N            ,ITASK        ,WAG     ,WEIGHT  ,
      3 ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM ,
@@ -804,7 +806,7 @@ c-----------------------------------------------------------------------
           NRTM_T = IPARI(4,N)/NTHREAD
           ESHIFT = ITASK*NRTM_T
           IF(ITASK==NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
-          CALL I10MAIN_TRI(
+          CALL I10MAIN_TRI(TIMERS,
      1 npari     ,IPARI(1,N),X       ,V         ,
      2 MS        ,N            ,ITASK        ,WAG     ,WEIGHT    ,
      3 ISENDTO   ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM   ,
@@ -817,7 +819,7 @@ c-----------------------------------------------------------------------
           NRTM_T = IPARI(4,N)/NTHREAD
           ESHIFT = ITASK*NRTM_T
           IF(ITASK==NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
-          CALL I11MAIN_TRI(
+          CALL I11MAIN_TRI(TIMERS,
      1 IPARI      ,X       ,V        ,
      2 MS         ,N            ,ITASK        ,WEIGHT  ,ISENDTO  ,
      3 IRECVFROM  ,RETRI        ,IAD_ELEM     ,FR_ELEM ,ITAB     ,
@@ -847,7 +849,7 @@ C
             NME_T = NME/NTHREAD
             ESHIFT = ITASK*NME_T
             IF(ITASK==NTHREAD-1)NME_T=NME-(NTHREAD-1)*(NME/NTHREAD)
-            CALL I17MAIN_TRI(
+            CALL I17MAIN_TRI(TIMERS,
      1 IPARI       ,INTBUF_TAB(N),X       ,N       ,
      2 ITASK       ,IGRBRIC      ,NME     ,NMES    ,
      3 EMINX(IAD17),IXS          ,IXS16        ,IXS20   ,WEIGHT  ,
@@ -860,7 +862,7 @@ c-----------------------------------------------------------------------
           NRTM_T = IPARI(4,N)/NTHREAD
           ESHIFT = ITASK*NRTM_T
           IF(ITASK==NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
-          CALL I20MAIN_TRI(
+          CALL I20MAIN_TRI(TIMERS,
      1 IPARI   ,X       ,V       ,
      2 MS      ,N            ,ITASK        ,WAG     ,WEIGHT  ,
      3 ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM ,
@@ -873,7 +875,7 @@ c-----------------------------------------------------------------------
           NRTM_T = IPARI(4,N)/NTHREAD
           ESHIFT = ITASK*NRTM_T
           IF(ITASK==NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
-          CALL I22MAIN_TRI(
+          CALL I22MAIN_TRI(TIMERS,
      1                     IPARI       ,X            ,V            ,
      2                     MS          ,N            ,ITASK        ,WAG            ,WEIGHT       ,
      3                     ISENDTO     ,IRECVFROM    ,RETRI        ,IAD_ELEM       ,FR_ELEM      ,
@@ -923,7 +925,7 @@ c-----------------------------------------------------------------------
           NRTM_T = IPARI(4,N)/NTHREAD
           ESHIFT = ITASK*NRTM_T
           IF(ITASK==NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
-          CALL I23MAIN_TRI(
+          CALL I23MAIN_TRI(TIMERS,
      1 IPARI   ,X            ,INTBUF_TAB(N),V       ,
      2 MS      ,N            ,ITASK        ,WAG     ,WEIGHT  ,
      3 ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM ,
@@ -947,7 +949,7 @@ c          IF(ITASK==NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
          XE(NNOD3+1:(NNOD3+NSNE3)) = INTBUF_TAB(N)%XFIC(1:NSNE3)
          VE(NNOD3+1:(NNOD3+NSNE3)) = INTBUF_TAB(N)%VFIC(1:NSNE3)
 !$OMP END SINGLE
-         CALL I24MAIN_TRI(
+         CALL I24MAIN_TRI(TIMERS,
      1 IPARI   ,XE      ,VE  ,INTBUF_TAB(N),
      2 MS      ,N            ,ITASK        ,WAG     ,WEIGHT  ,
      3 ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM ,
@@ -956,7 +958,7 @@ c          IF(ITASK==NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
      6 H3D_DATA,T2MAIN_SMS ,FORNEQS      ,T2FAC_SMS,INTERFACES%PARAMETERS,
      7 GLOB_THERM%INTHEAT,GLOB_THERM%IDT_THERM,GLOB_THERM%NODADT_THERM)
         ELSE
-       CALL I24MAIN_TRI(
+       CALL I24MAIN_TRI(TIMERS,
      1 IPARI   ,X       ,V   ,INTBUF_TAB(N),
      2 MS      ,N            ,ITASK        ,WAG     ,WEIGHT  ,
      3 ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM ,
@@ -976,7 +978,7 @@ c-----------------------------------------------------------------------
           SSHIFT = ITASK*NRTM_T
           IF(ITASK==NTHREAD-1)NRTM_T=(IPARI(4,N)-IPARI(42,N))
      +                                -(NTHREAD-1)*NRTM_T
-          CALL I25MAIN_TRI(
+          CALL I25MAIN_TRI(TIMERS,
      1      IPARI   ,X       ,V   ,INTBUF_TAB(N),
      2      MS      ,N            ,ITASK        ,WEIGHT  ,
      3      ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM ,
@@ -1003,7 +1005,7 @@ C
           ENDIF
           IF(TT>=TS)THEN
             RETRI21(N) = 0
-            CALL I21MAIN_TRI(
+            CALL I21MAIN_TRI(TIMERS,
      1          IPARI   ,X       ,N            ,
      2          ITASK  ,WEIGHT   ,RETRI21(N)   ,IDUM    ,IDUM    ,
      3          INTSTAMP(KK) ,WAG,INTBUF_TAB(N),nspmd)
@@ -1054,7 +1056,7 @@ C-----------------------------------------------------------------------
             PTR_MS => MS(1:NUMNOD)
             PTR_KINET => KINET(1:NUMNOD)
           ENDIF
-      CALL I7MAIN_TRI(
+      CALL I7MAIN_TRI(TIMERS,
      1 IPARI   ,PTR_X   ,PTR_V   ,
      2 PTR_MS  ,N            ,ITASK        ,WAG     ,WEIGHT  ,
      3 ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM ,
@@ -1080,7 +1082,7 @@ C-------  KINET,MS used for commu remot secnd, for the moment no need.
          XE(NNOD3+1:(NNOD3+NSNE3)) = INTBUF_TAB(N)%XFIC(1:NSNE3)
          VE(NNOD3+1:(NNOD3+NSNE3)) = INTBUF_TAB(N)%VFIC(1:NSNE3)
 !$OMP END SINGLE
-       CALL I24MAIN_TRI(
+       CALL I24MAIN_TRI(TIMERS,
      1 IPARI   ,XE      ,VE      ,INTBUF_TAB(N),
      2 MS      ,N            ,ITASK        ,WAG     ,WEIGHT  ,
      3 ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM ,
@@ -1090,7 +1092,7 @@ C-------  KINET,MS used for commu remot secnd, for the moment no need.
      7 GLOB_THERM%INTHEAT,GLOB_THERM%IDT_THERM,GLOB_THERM%NODADT_THERM)
             IADI = IADI+NUM_IMP(N)
         ELSE
-       CALL I24MAIN_TRI(
+       CALL I24MAIN_TRI(TIMERS,
      1 IPARI   ,X       ,V       ,INTBUF_TAB(N),
      2 MS      ,N            ,ITASK        ,WAG     ,WEIGHT  ,
      3 ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM ,
@@ -1112,7 +1114,7 @@ c-----------------------------------------------------------------------
           IF(ITASK==NTHREAD-1)NRTM_T=(IPARI(4,N)-IPARI(42,N))
      +                                -(NTHREAD-1)*NRTM_T
 C-------  KINET,MS used for commu remot secnd, for the moment no need.   
-          CALL I25MAIN_TRI(
+          CALL I25MAIN_TRI(TIMERS,
      1      IPARI   ,X       ,V       ,INTBUF_TAB(N),
      2      MS      ,N            ,ITASK        ,WEIGHT  ,
      3      ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM ,
@@ -1127,7 +1129,7 @@ C-----------------------------------------------------------------------
           NRTM_T = IPARI(4,N)/NTHREAD
           ESHIFT = ITASK*NRTM_T
           IF(ITASK==NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
-          CALL I10MAIN_TRI(
+          CALL I10MAIN_TRI(TIMERS,
      1 npari     ,IPARI(1,N),X       ,V         ,
      2 MS        ,N            ,ITASK        ,WAG     ,WEIGHT    ,
      3 ISENDTO   ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM   ,
@@ -1141,7 +1143,7 @@ C-----------------------------------------------------------------------
           NRTM_T = IPARI(4,N)/NTHREAD
           ESHIFT = ITASK*NRTM_T
           IF(ITASK==NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
-          CALL I11MAIN_TRI(
+          CALL I11MAIN_TRI(TIMERS,
      1 IPARI      ,X       ,V        ,
      2 MS         ,N            ,ITASK        ,WEIGHT  ,ISENDTO  ,
      3 IRECVFROM  ,RETRI        ,IAD_ELEM     ,FR_ELEM ,ITAB     ,
@@ -1158,7 +1160,7 @@ C-----------------------------------------------------------------------
             NME_T = NME/NTHREAD
             ESHIFT = ITASK*NME_T
             IF(ITASK==NTHREAD-1)NME_T=NME-(NTHREAD-1)*(NME/NTHREAD)
-            CALL I17MAIN_TRI(
+            CALL I17MAIN_TRI(TIMERS,
      1 IPARI       ,INTBUF_TAB(N),X       ,N       ,
      2 ITASK       ,IGRBRIC      ,NME     ,NMES    ,
      3 EMINX(IAD17),IXS          ,IXS16        ,IXS20   ,WEIGHT  ,
@@ -1172,7 +1174,7 @@ C-----------------------------------------------------------------------
           NRTM_T = IPARI(4,N)/NTHREAD
           ESHIFT = ITASK*NRTM_T
           IF(ITASK==NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
-          CALL I20MAIN_TRI(
+          CALL I20MAIN_TRI(TIMERS,
      1 IPARI   ,X       ,V       ,
      2 MS      ,N            ,ITASK        ,WAG     ,WEIGHT  ,
      3 ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM ,
@@ -1194,18 +1196,18 @@ C=======================================================================
 C     OPTIMISATION DU TRI A CHAQUE CYCLE, T25
 C=======================================================================
       IF(NINTER25 /= 0)THEN
-        IF(ITASK == 0) CALL STOPTIME(17,1)
+        IF(ITASK == 0) CALL STOPTIME(TIMERS,17)
 
         IF(IDEL7NOK_SAV/=0)THEN
-          IF(ITASK == 0) CALL STOPTIME(2,1)  
-          IF(ITASK == 0) CALL STARTIME(8,1)  
-          CALL I25MAIN_FREE(ITASK, IPARI  ,INTBUF_TAB ,INTLIST25, ISENDTO,
+          IF(ITASK == 0) CALL STOPTIME(TIMERS,2)  
+          IF(ITASK == 0) CALL STARTIME(TIMERS,8)  
+          CALL I25MAIN_FREE(TIMERS,ITASK, IPARI  ,INTBUF_TAB ,INTLIST25, ISENDTO,
      2                      IRECVFROM)
 C
           CALL MY_BARRIER()
 C
-          IF(ITASK == 0) CALL STARTIME(2,1)  
-          IF(ITASK == 0) CALL STOPTIME(8,1)  
+          IF(ITASK == 0) CALL STARTIME(TIMERS,2)  
+          IF(ITASK == 0) CALL STOPTIME(TIMERS,8)  
         END IF
 
         DO KK=1,NINTER25
@@ -1248,9 +1250,9 @@ C       il FAUT garder une barriere avant i25main_norm !!!
         CALL MY_BARRIER
 C
         IF (IMON>0 .AND. ITASK==0) THEN
-          CALL STOPTIME(2,1)  
-          CALL STARTIME(8,1)  
-          CALL STARTIME(MACRO_TIMER_T25NORM,1)  
+          CALL STOPTIME(TIMERS,2)  
+          CALL STARTIME(TIMERS,8)  
+          CALL STARTIME(TIMERS,MACRO_TIMER_T25NORM)  
         ENDIF
 
         CALL I25MAIN_NORM(
@@ -1261,8 +1263,8 @@ C
 
        CALL MY_BARRIER
        IF (IMON>0 .AND. ITASK==0) THEN
-         CALL STOPTIME(MACRO_TIMER_T25NORM,1)
-         CALL STARTIME(MACRO_TIMER_T25STFE,1)
+         CALL STOPTIME(TIMERS,MACRO_TIMER_T25NORM)
+         CALL STARTIME(TIMERS,MACRO_TIMER_T25STFE)
        ENDIF
        
 !$OMP SINGLE
@@ -1283,18 +1285,18 @@ C           Also needed in SMP for resetting STFE !
 
 C
         IF (IMON>0 .AND. ITASK==0) THEN
-          CALL STOPTIME(MACRO_TIMER_T25STFE,1)
-          CALL STOPTIME(8,1)  
-          CALL STARTIME(2,1)  
+          CALL STOPTIME(TIMERS,MACRO_TIMER_T25STFE)
+          CALL STOPTIME(TIMERS,8)  
+          CALL STARTIME(TIMERS,2)  
         END IF
 
 C=======================================================================
         CALL MY_BARRIER
 C
         IF (IMON>0 .AND. ITASK==0) THEN
-          CALL STOPTIME(2,1) 
-          CALL STARTIME(8,1)  
-          CALL STARTIME(MACRO_TIMER_T25SLIDING,1)
+          CALL STOPTIME(TIMERS,2) 
+          CALL STARTIME(TIMERS,8)  
+          CALL STARTIME(TIMERS,MACRO_TIMER_T25SLIDING)
         END IF 
 C
 C statistique interface
@@ -1317,12 +1319,12 @@ C
         CALL MY_BARRIER
 C
         IF (IMON>0 .AND. ITASK==0) THEN
-          CALL STOPTIME(MACRO_TIMER_T25SLIDING,1)
-          CALL STOPTIME(8,1)  
-          CALL STARTIME(2,1)  
+          CALL STOPTIME(TIMERS,MACRO_TIMER_T25SLIDING)
+          CALL STOPTIME(TIMERS,8)  
+          CALL STARTIME(TIMERS,2)  
         END IF
 
-        IF(ITASK == 0) CALL STARTIME(17,1)
+        IF(ITASK == 0) CALL STARTIME(TIMERS,17)
 C
       END IF
       ! end : old sorting algorithm 
@@ -1346,18 +1348,18 @@ C Partie non parallele
 C
 !$OMP SINGLE
       IF (IMONM > 0) THEN
-        CALL STOPTIME(17,1)
+        CALL STOPTIME(TIMERS,17)
         IF(IMONM == 2 .AND. NSPMD > 1)THEN
-          CALL STARTIME(58,1)
+          CALL STARTIME(TIMERS,58)
           CALL SPMD_BARRIER()
-          CALL STOPTIME(58,1)
+          CALL STOPTIME(TIMERS,58)
         END IF
       END IF 
       IF (NSPMD > 1 .AND. (RETRI == 1 .OR. NINTER25 > 0 ) ) THEN        
 C
 C Communication after sorting
 C
-        IF (IMONM > 0) CALL STARTIME(18,1)
+        IF (IMONM > 0) CALL STARTIME(TIMERS,18)
         CALL SPMD_IFRONT(
      1    IPARI   ,NEWFRONT,ISENDTO ,IRECVFROM,
      2    NSENSOR ,NBINTC  ,INTLIST ,ISLEN7  ,IRLEN7   ,
@@ -1372,10 +1374,10 @@ C
         ENDIF
          
 C Fin Partie non parallele
-        IF (IMONM > 0) CALL STOPTIME(18,1)
+        IF (IMONM > 0) CALL STOPTIME(TIMERS,18)
       ENDIF
 C
-      IF (IMONM > 0)  CALL STARTIME(19,1)
+      IF (IMONM > 0)  CALL STARTIME(TIMERS,19)
 !$OMP END SINGLE
 C
 C=======================================================================
@@ -1511,7 +1513,7 @@ C
          ENDIF
         IF(TT>=TS)THEN          ! INTERFACE SENSOR IS ACTIVATED
 C
-          CALL I21MAIN_OPT_TRI(
+          CALL I21MAIN_OPT_TRI(TIMERS,
      1      IPARI     ,INTBUF_TAB(N),N   ,ITASK  ,
      2      INTSTAMP(KK),NB_STOK_N,NB_JLT)
 C
@@ -1545,7 +1547,7 @@ C
       CALL MY_BARRIER()
 C
 !$OMP SINGLE
-      IF (IMONM > 0) CALL STOPTIME(19,1)
+      IF (IMONM > 0) CALL STOPTIME(TIMERS,19)
       IF (NSNE_MAX>0 ) DEALLOCATE(XE,VE)
 !$OMP END SINGLE  
 
@@ -1563,8 +1565,8 @@ C       il FAUT garder une barriere apres i25main_opt_tri !!!
         CALL MY_BARRIER()
 C
         IF (IMON>0 .AND. ITASK==0) THEN
-          CALL STOPTIME(2,1) 
-          CALL STARTIME(8,1)  
+          CALL STOPTIME(TIMERS,2) 
+          CALL STARTIME(TIMERS,8)  
         END IF 
       
         CALL I25MAIND_2(
@@ -1575,8 +1577,8 @@ C
 C       CALL MY_BARRIER() ! Barrier vs timer only     
 C
         IF (IMON>0 .AND. ITASK==0) THEN
-          CALL STOPTIME(8,1)  
-          CALL STARTIME(2,1)
+          CALL STOPTIME(TIMERS,8)  
+          CALL STARTIME(TIMERS,2)
         END IF
 C
       END IF
@@ -1591,7 +1593,7 @@ C
 C
 C Communication apres retri
 C
-        IF (IMONM > 0) CALL STARTIME(18,1)
+        IF (IMONM > 0) CALL STARTIME(TIMERS,18)
 
         CALL SPMD_IFRONT(
      1    IPARI   ,NEWFRONT,ISENDTO ,IRECVFROM,
@@ -1609,7 +1611,7 @@ C
 
 
 C Fin Partie non parallele
-        IF (IMONM > 0) CALL STOPTIME(18,1)
+        IF (IMONM > 0) CALL STOPTIME(TIMERS,18)
 
       ENDIF
 

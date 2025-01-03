@@ -706,7 +706,7 @@ C
       !||    multi_fvm_mod    ../common_source/modules/ale/multi_fvm_mod.F90
       !||    sensor_mod       ../engine/share/modules/sensor_mod.F
       !||====================================================================
-      SUBROUTINE IMP_INTTD0(
+      SUBROUTINE IMP_INTTD0(TIMERS,
      1       IPARI ,INTBUF_TAB     ,X       ,D       ,
      2       MS    ,ITAB   ,IN    ,D_IMP   ,DR_IMP  ,
      3       IMSCH ,I2MSCH ,ISIZXV,ILENXV  ,IGRBRIC ,
@@ -723,6 +723,7 @@ C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE TIMER_MOD
       USE INTBUFDEF_MOD
       USE H3D_MOD
       USE MULTI_FVM_MOD
@@ -746,6 +747,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(TIMER_) :: TIMERS
       INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER IPARI(NPARI,*), ITAB(*),
      .        NEWFRONT(*),NBINTC,INTLIST(*),
@@ -864,7 +866,7 @@ C
      2  INTBUF_TAB(N)%STFNS,X_TMP       ,D_IMP   ,DR_IMP       ,V     ,
      3  VR           ,FAC          ,FAC1         )
         ENDIF
-        CALL IMP_TRIPI(
+        CALL IMP_TRIPI(TIMERS,
      1       IPARI ,INTBUF_TAB,X_TMP   ,D       ,
      2       V     ,MS     ,ITAB ,VR      ,IN      ,
      3       IMSCH ,I2MSCH ,ISIZXV,ILENXV ,IGRBRIC ,
@@ -1079,7 +1081,7 @@ C
       !||    multi_fvm_mod     ../common_source/modules/ale/multi_fvm_mod.F90
       !||    sensor_mod        ../engine/share/modules/sensor_mod.F
       !||====================================================================
-      SUBROUTINE IMP_TRIPI(
+      SUBROUTINE IMP_TRIPI(TIMERS,
      1       IPARI ,INTBUF_TAB   ,X       ,D       ,
      2       V     ,MS     ,ITAB ,VR      ,IN      ,
      3       IMSCH ,I2MSCH ,ISIZXV,ILENXV ,IGRBRIC ,
@@ -1096,6 +1098,7 @@ C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE TIMER_MOD
       USE INTBUFDEF_MOD
       USE H3D_MOD
       USE MULTI_FVM_MOD
@@ -1118,6 +1121,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(TIMER_) :: TIMERS
       INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER IPARI(NPARI,*), ITAB(*),
      .        NEWFRONT(*),NBINTC,INTLIST(*),IKINE(*),
@@ -1204,7 +1208,7 @@ C
           ENDIF
 C
           IF(TT>=TS) THEN  ! If interface is activated
-            CALL I7MAIN_TRI(
+            CALL I7MAIN_TRI(TIMERS,
      1 IPARI   ,X       ,V         ,
      2 MS      ,N            ,ITASK        ,WAG     ,WEIGHT    ,
      3 ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM   ,
@@ -1214,7 +1218,7 @@ C
          ENDIF
         ELSEIF(NTY==10)THEN
 C 
-          CALL I10MAIN_TRI(
+          CALL I10MAIN_TRI(TIMERS,
      1 npari     ,IPARI(1,N),X       ,V         ,
      2 MS        ,N            ,ITASK        ,WAG     ,WEIGHT    ,
      3 ISENDTO   ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM   ,
@@ -1231,7 +1235,7 @@ C
          ENDIF
 C
          IF(TT>=TS) THEN  ! If interface is activated
-          CALL I11MAIN_TRI(
+          CALL I11MAIN_TRI(TIMERS,
      1 IPARI      ,X       ,V        ,
      2 MS         ,N            ,ITASK        ,WEIGHT  ,ISENDTO  ,
      3 IRECVFROM  ,RETRI        ,IAD_ELEM     ,FR_ELEM ,ITAB     ,
@@ -1241,7 +1245,7 @@ C
 
         ELSEIF(NTY == 20)THEN
 C 
-          CALL I20MAIN_TRI(
+          CALL I20MAIN_TRI(TIMERS,
      1 IPARI   ,X       ,V       ,
      2 MS      ,N            ,ITASK        ,WAG     ,WEIGHT  ,
      3 ISENDTO ,IRECVFROM    ,RETRI        ,IAD_ELEM,FR_ELEM ,

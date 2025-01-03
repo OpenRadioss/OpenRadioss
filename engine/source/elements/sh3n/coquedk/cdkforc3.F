@@ -58,7 +58,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    stack_mod           ../engine/share/modules/stack_mod.F
       !||    table_mod           ../engine/share/modules/table_mod.F
       !||====================================================================
-      SUBROUTINE CDKFORC3(
+      SUBROUTINE CDKFORC3(TIMERS,
      1   ELBUF_STR,   JFT,         JLT,         PM,
      2   IXTG,        X,           F,           M,
      3   V,           R,           FAILWAVE,    NVC,
@@ -97,6 +97,7 @@ C-----------------------------------------------
       USE DT_MOD
       use glob_therm_mod
       use dttherm_mod
+      USE TIMER_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -116,6 +117,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(TIMER_) ,INTENT(INOUT) :: TIMERS
       INTEGER,INTENT(IN)    :: USERL_AVAIL ! Flag for User libraries availability
       INTEGER,INTENT(IN)    :: MAXFUNC     ! Maximum number of functions
       INTEGER,INTENT(INOUT) :: IDEL7NOK    ! Element deletion flag for IDEL flag in contact interfaces
@@ -418,7 +420,7 @@ c-------------------------------------------
          ENDDO
        ENDIF
 C----------------------------------------------------------------------------
-       CALL CMAIN3(
+       CALL CMAIN3(TIMERS,
      1     ELBUF_STR ,JFT       ,JLT       ,NFT       ,IPARG      ,
      2     NEL       ,MTN       ,IPLA      ,ITHK      ,GROUP_PARAM,
      3     PM        ,GEO       ,NPF       ,TF        ,BUFMAT     ,

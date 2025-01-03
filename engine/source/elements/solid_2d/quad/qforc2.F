@@ -63,7 +63,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
       !||    table_mod              ../engine/share/modules/table_mod.F
       !||====================================================================
-      SUBROUTINE QFORC2(ELBUF_TAB  ,NG          ,
+      SUBROUTINE QFORC2(TIMERS, ELBUF_TAB  ,NG          ,
      1                  PM         ,GEO         ,IC          ,X        ,A           ,
      2                  V          ,MS          ,W           ,FLUX     ,FLU1        ,
      3                  VEUL       ,ALE_CONNECT ,IPARG       ,NLOC_DMG ,
@@ -117,6 +117,7 @@ c  I   IGEO                geometrical property integer data
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE TIMER_MOD
       USE MMAIN_MOD
       USE TABLE_MOD
       USE MAT_ELEM_MOD
@@ -140,6 +141,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(TIMER_), INTENT(INOUT) :: TIMERS
       my_real, INTENT(IN) :: DT1
       my_real, INTENT(IN) :: TT
       INTEGER,INTENT(IN) :: SNPC
@@ -405,7 +407,7 @@ c
       IPTS = 1
       IPTT = 1
 c
-      CALL MMAIN(
+      CALL MMAIN(TIMERS,
      1   ELBUF_TAB,   NG,          PM,          GEO,
      2                ALE_CONNECT, IC,          IPARG,
      3   V,           TF,          NPF,         BUFMAT,

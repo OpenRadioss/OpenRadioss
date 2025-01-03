@@ -61,7 +61,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
       !||    table_mod              ../engine/share/modules/table_mod.F
       !||====================================================================
-      SUBROUTINE Q4FORC2(PM    ,GEO    ,IC     ,X     ,A      ,
+      SUBROUTINE Q4FORC2(TIMERS, PM    ,GEO    ,IC     ,X     ,A      ,
      2                   V     ,MS     ,W      ,FLUX  ,FLU1  ,
      3                   VEUL   ,FV     ,ALE_CONNECT ,IPARG  ,NLOC_DMG,
      4                   ELBUF_TAB,TF  ,NPF    ,BUFMAT,PARTSAV,
@@ -78,6 +78,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE TIMER_MOD
       USE MMAIN_MOD
       USE TABLE_MOD
       USE MAT_ELEM_MOD            
@@ -105,6 +106,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(TIMER_), INTENT(INOUT) :: TIMERS
       my_real, INTENT(IN) :: DT1
       my_real, INTENT(IN) :: TT
       INTEGER, INTENT(IN) :: SNPC
@@ -544,7 +546,7 @@ C       COPY OLD STRESS AND DO NECESSARY TREATMENT
      3   NEL,     JCVT)
 C
 C       UPDATE STRESS
-        CALL MMAIN(
+        CALL MMAIN(TIMERS,
      1   ELBUF_TAB,   NG,          PM,          GEO,
      2                ALE_CONNECT, IC,          IPARG,
      3   V,           TF,          NPF,         BUFMAT,

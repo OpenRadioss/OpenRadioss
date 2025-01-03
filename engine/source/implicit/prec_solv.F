@@ -691,9 +691,7 @@ C
 C----------------------
       CALL MY_BARRIER
        IF (ITASK==0.AND.NSPMD>1) THEN
-         IF(IMONM > 0) CALL STARTIME(66,1)
          CALL SPMD_SUMF_V(Z)
-         IF(IMONM > 0) CALL STOPTIME(66,1)
        END IF
       ENDIF
 C--------------------------------------------

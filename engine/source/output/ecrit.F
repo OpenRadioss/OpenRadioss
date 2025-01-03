@@ -42,7 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sensor_mod          ../engine/share/modules/sensor_mod.F
       !||    state_mod           ../common_source/modules/state_mod.F
       !||====================================================================
-      SUBROUTINE ECRIT(PARTSAV    ,MS        ,V        ,IN       ,R          ,
+      SUBROUTINE ECRIT(TIMERS,PARTSAV    ,MS        ,V        ,IN       ,R          ,
      2                 DMAS       ,WEIGHT    ,ENINTOT  ,EKINTOT  ,
      3                 A          ,AR        ,FXBIPM   ,FXBRPM   ,MONVOL     ,
      4                 XMOM_SMS   ,SENSORS   ,QFRICINT ,IPARI    ,WEIGHT_MD  ,
@@ -51,6 +51,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE TIMER_MOD
       USE IMP_DYNA
       USE MESSAGE_MOD
       USE MULTI_FVM_MOD
@@ -92,6 +93,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(TIMER_), INTENT(INOUT) :: TIMERS ! for /MON
       INTEGER IFLAG
       INTEGER WEIGHT(NUMNOD),FXBIPM(NBIPM,*),
      .        IPARI(NPARI,NINTER),WEIGHT_MD(NUMNOD)
@@ -165,7 +167,7 @@ C--------Multidomains : control of time history for subdomains-----------
         ENDDO
       ENDIF
 C get and reset elapsed time
-      IF(IMON > 0) CALL ELAPSTIME(ETIME)
+      IF(IMON > 0) CALL ELAPSTIME(TIMERS,ETIME)
       IF(IPRI/=0.AND.ITHIS/=0.AND.
      .   INFO<=0.AND.ISTAT==0
      .   .AND.NTH==0.AND.NANIM==0 .AND.
