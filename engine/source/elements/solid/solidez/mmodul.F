@@ -172,7 +172,7 @@ C----- w/o armature :--> isotropic
         ENDDO
         CALL MSTIFORTHV(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
      .                  QG     ,CC    ,G3  ,G33  ,CG     ) 
-       ELSEIF (MTN==28.OR.MTN==50.OR.MTN==68) THEN
+       ELSEIF (MTN==28.OR.MTN==68) THEN
         DO I=JFT,JLT
          MX  =MAT(I)
          CC(I,1,1) = UPARAM(1)
@@ -187,6 +187,20 @@ C----- w/o armature :--> isotropic
         ENDDO
         CALL MSTIFORTHV(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
      .                  QG     ,CC    ,G3  ,G33  ,CG     ) 
+       ELSEIF (MTN == 50) THEN
+         DO I=JFT,JLT
+           CC(I,1,1) = mat_param%uparam(1)
+           CC(I,2,2) = mat_param%uparam(2)
+           CC(I,3,3) = mat_param%uparam(3)
+           CC(I,1,2) = ZERO
+           CC(I,2,3) = ZERO
+           CC(I,1,3) = ZERO
+           G3(I,1)   = mat_param%uparam(4)
+           G3(I,2)   = mat_param%uparam(5)
+           G3(I,3)   = mat_param%uparam(6)
+         ENDDO
+         CALL MSTIFORTHV(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
+     .                   QG     ,CC    ,G3  ,G33  ,CG     ) 
        ELSEIF (MTN==53) THEN
         DO I=JFT,JLT
          MX  =MAT(I)

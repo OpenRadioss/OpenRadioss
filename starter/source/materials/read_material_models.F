@@ -118,9 +118,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ::  I,J,K,N,IADBUF,ILAW
-      LOGICAL IS_ENCRYPTED, IS_AVAILABLE
-      INTEGER IFUNC(MAXFUNC)
+      INTEGER :: IADBUF,ILAW
       CHARACTER MESS*40
 C-----------------------------------------------
       DATA IADBUF /1/

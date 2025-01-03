@@ -195,22 +195,22 @@
       use matparam_def_mod
       use hm_option_read_mod
       use table_mod
+      use hm_read_mat50_mod
       use hm_read_mat81_mod
-      use hm_read_mat169_arup_mod
       use hm_read_mat125_mod
       use hm_read_mat126_mod
       use hm_read_mat127_mod
       use hm_read_mat128_mod
+      use hm_read_mat169_arup_mod
       use names_and_titles_mod ,only : nchartitle, ncharline
       use reader_old_mod     ,only : key0
       use multimat_param_mod ,only : m51_ssp0max,m51_lc0max,m51_tcp_ref,m51_lset_iflg6,m20_discrete_fill
 ! -------------------------------------------------------------------------------------------------------
-!                                                   Implicit none
-! -------------------------------------------------------------------------------------------------------
       implicit none
+
 #include "my_real.inc"
 ! -------------------------------------------------------------------------------------------------------
-!                                                   Arguments
+!      Arguments
 ! -------------------------------------------------------------------------------------------------------
       integer, intent(in)                  :: sbufmat
       integer, intent(in)                  :: npropmi
@@ -239,7 +239,7 @@
       type(matparam_struct_) ,dimension(nummat) ,intent(inout)    :: mat_param
       target :: mat_param
 ! -----------------------------------------------------------------------------
-!                                                   Local variables
+!     Local variables
 ! -----------------------------------------------------------------------------
       integer i,j,mat_id,uid,ilaw,jale,jtur,jthe,&
       &imatvis,israte,iuser_law,nfunc,numtabl,nuparam,nuvar,nvartmp,&
@@ -262,10 +262,7 @@
       type(mlaw_tag_) ,pointer         :: mtag
 !-----------------------------------------------
       data mess/'MATERIAL DEFINITION                     '/
-! -----------------------------------------------------------------------------
-!                                                   Body
-! -----------------------------------------------------------------------------
-
+!==============================================================================
       allocate( uparam(maxuparam) )
 
       ilaw          = 0
@@ -675,11 +672,10 @@
 !-------
           case ('LAW50','VISC_HONEY')
             ilaw  = 50
-            call hm_read_mat50(&
-            &uparam   ,maxuparam,nuparam  ,nuvar    ,nfunc    ,&
-            &maxfunc  ,ifunc    ,mtag     ,parmat   ,unitab   ,&
-            &pm(1,i)  ,lsubmodel,israte   ,mat_id   ,titr     ,&
-            &matparam ,nvartmp  )
+            call hm_read_mat50(                                      &
+                 matparam ,mtag     ,parmat   ,nuvar    ,nvartmp  ,  &
+                 ntable   ,table    ,mat_id   ,iout     ,titr     ,  &
+                 unitab   ,lsubmodel)
 !-------
           case ('LAW51','MULTIMAT','TRIMAT')
             ilaw = 51

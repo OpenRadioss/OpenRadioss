@@ -78,7 +78,6 @@ C-----------------------------------------------
       USE MESSAGE_MOD   
       USE MATPARAM_DEF_MOD
       USE SENSOR_MOD
-      USE LAW50_UPD_MOD  
       USE LAW19_UPD_MOD  
       USE LAW81_UPD_MOD
       USE LAW190_UPD_MOD  
@@ -108,7 +107,7 @@ C-----------------------------------------------
       TYPE(TTABLE), DIMENSION(NTABLE) ,INTENT(INOUT) ::  TABLE
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
       TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
-      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(INOUT), TARGET :: MAT_PARAM
+      TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(INOUT) ,TARGET :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -123,7 +122,6 @@ C-----------------------------------------------
       my_real, DIMENSION(:), POINTER :: UPARAM,UPARF,UPARAM_VISC
       TYPE(MLAW_TAG_), POINTER :: MTAG
       CHARACTER(LEN=NCHARTITLE)::TITR
-      TYPE(MATPARAM_STRUCT_) , POINTER :: MATPARAM
       TYPE (VISC_PARAM_)     , POINTER :: VISC
 C=======================================================================
 c     TRAITEMENT OF MATERIAL PARAMETERS AND FUNCTIONS
@@ -175,8 +173,8 @@ c-----------------------------------------------------------------------
 
       DO IMAT=1,NUMMAT
 C
-        MAT_ID  = MAT_PARAM(IMAT)%MAT_ID
-        ILAW    = MAT_PARAM(IMAT)%ILAW
+        MAT_ID = MAT_PARAM(IMAT)%MAT_ID
+        ILAW   = MAT_PARAM(IMAT)%ILAW
 c
         IF (ILAW < 29.and.ILAW/=19.or.ILAW==32.or.ILAW==43.or.ILAW==49.or.ILAW==52.or.
      .      ILAW==57.or.ILAW==59.or.ILAW==60.or.ILAW==65.or.ILAW==75.or.
@@ -187,12 +185,11 @@ c
         IADD     = MAX(1,IPM(7,IMAT))
         NPARAM   = MIN(IPM(9,IMAT),SBUFMAT)
         UPARAM   => BUFMAT(IADD:IADD+NPARAM-1) 
-        MATPARAM => MAT_PARAM(IMAT)
         !/visc/prony
-        ITYPE_VISC = MATPARAM%IVISC
+        ITYPE_VISC = MAT_PARAM(IMAT)%IVISC
         GAMA_INF = ONE
-        IF(ITYPE_VISC == 2) THEN
-          VISC  => MATPARAM%VISC  
+        IF (ITYPE_VISC == 2) THEN
+          VISC  => MAT_PARAM(IMAT)%VISC  
           NPRONY = VISC%IPARAM(1)
           FORM   = VISC%IPARAM(2)
           IF(FORM == 1) THEN
@@ -248,9 +245,6 @@ c-------------------------
           CASE (42) 
             CALL LAW42_UPD(MAT_PARAM(IMAT),IOUT,TITR,MAT_ID,PM(1,IMAT),GAMA_INF)        
 c-------------------------
-          CASE (50) 
-            CALL LAW50_UPD(MATPARAM,NPARAM,UPARAM,NFUNC,IFUNC,SNPC,STF,NPC,PLD)        
-c-------------------------
           CASE (58) 
             NFUNCL =  IPM(6,IMAT)
             IFUNC  => IPM(10+1:10+NFUNC+NFUNCL,IMAT)
@@ -269,23 +263,23 @@ c
 c------------------
           CASE (70) 
 c------------------
-            CALL LAW70_UPD(MATPARAM ,TITR     ,MAT_ID   ,NPARAM   ,UPARAM   ,
+            CALL LAW70_UPD(MAT_PARAM(IMAT)    ,TITR     ,MAT_ID   ,NPARAM   ,UPARAM   ,
      .                     NFUNC    ,IFUNC    ,NPC      ,PLD      ,IOUT     ,
      .                     NFUNCT   ,FUNC_ID  ,NPROPM   ,PM(1,IMAT))       
 c------------------
           CASE (76) 
-            CALL LAW76_UPD(IOUT   ,TITR    ,MAT_ID   ,NPARAM ,MATPARAM ,
+            CALL LAW76_UPD(IOUT   ,TITR    ,MAT_ID   ,NPARAM ,MAT_PARAM(IMAT) ,
      .                     UPARAM ,NUMTABL ,ITABLE   ,TABLE   ,NFUNC    ,
      .                     IFUNC  ,NPC     ,PLD      )       
 c
 c------------------
           CASE (77) 
-            CALL LAW77_UPD(TITR    ,MAT_ID   ,NPARAM ,MATPARAM ,
-     .                     UPARAM  ,NFUNC    ,IFUNC  ,NPC      ,PLD      )   
+            CALL LAW77_UPD(TITR    ,MAT_ID   ,NPARAM ,MAT_PARAM(IMAT) ,
+     .                     UPARAM  ,NFUNC    ,IFUNC  ,NPC      ,PLD      )       
 c
 c------------------
           CASE (81) 
-            CALL LAW81_UPD(MATPARAM,NFUNC    ,IFUNC  ,NPC      ,SNPC     ,
+            CALL LAW81_UPD(MAT_PARAM(IMAT)   ,NFUNC    ,IFUNC  ,NPC      ,SNPC     ,
      .                     PLD     ,STF      ,PM(1,IMAT),NPROPM,IOUT     ,
      .                     MAT_ID  ,TITR     )
 c          
@@ -348,7 +342,7 @@ c
 c
               CALL LAW104_UPD(IFAILG  ,NPARAM,NUPARF,UPARAM,UPARF   ,
      .                        NLOC_DMG,IMAT   ,MLAW_TAG(IMAT),IPM    ,
-     .                        MATPARAM)
+     .                        MAT_PARAM(IMAT))
             ENDIF 
 c------------------
           CASE (108)    ! Spring material------------------
@@ -400,7 +394,7 @@ c-------------------------
      .                      PM(1,IMAT),SENSORS)
 c------------------
           CASE (190) !PAth dependent foam (dubois)
-            CALL LAW190_UPD(MATPARAM ,NUMTABL ,ITABLE   ,TABLE   ,PM(1,IMAT),
+            CALL LAW190_UPD(MAT_PARAM(IMAT) ,NUMTABL ,ITABLE   ,TABLE   ,PM(1,IMAT),
      .                      NPROPM, NTABLE)
 c------------------
 c
