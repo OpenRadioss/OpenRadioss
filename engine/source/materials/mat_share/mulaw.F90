@@ -225,6 +225,7 @@
       use ale_connectivity_mod
       use message_mod
       use nlocal_reg_mod
+      use sigeps50s_mod
       use sigeps81_mod
       use sigeps100_mod
       use sigeps125_mod
@@ -447,7 +448,7 @@
           &l_planl,l_epsdnl,l_dmg
 
           my_real e1,e2,e3,e4,e5,e6,bid1,bid3,q1,q2,q3,ss1,ss2,ss3,ss4,ss5,&
-          &ss6,wxxf,wyyf,wzzf,p2,epsp,dav,asrate,c1(mvsiz),&
+          &ss6,wxxf,wyyf,wzzf,p2,epsp,dav,asrate,     &
           &ep1(mvsiz),ep2(mvsiz),ep3(mvsiz),e7(mvsiz),&
           &ep4(2*mvsiz),ep5(2*mvsiz),ep6(2*mvsiz),einc(mvsiz),&
           &s1(mvsiz) ,s2(mvsiz) ,s3(mvsiz) ,&
@@ -462,7 +463,7 @@
           &r11(mvsiz),r12(mvsiz),r13(mvsiz),r21(mvsiz),r22(mvsiz),r23(mvsiz),&
           &r31(mvsiz),r32(mvsiz),r33(mvsiz),epsp1(mvsiz),dpla(mvsiz),&
           &pair(mvsiz),defp0(mvsiz)
-          my_real  facq0
+          my_real  facq0,bulk
           my_real fpsxx(mvsiz),fpsyy(mvsiz),fpszz(mvsiz),fpsxy(mvsiz),&
           &fpsyz(mvsiz),fpszx(mvsiz),fpsyx(mvsiz),fpszy(mvsiz),&
           &fpsxz(mvsiz),&
@@ -609,8 +610,7 @@
           endif
 
           do i=1,nel
-            c1(i)  = pm(32,imat)
-            rho0(i)= pm( 1,imat)
+            rho0(i)= matparam%rho0
             vis(i) = zero
             ep1(i) = d1(i)*off(i)
             ep2(i) = d2(i)*off(i)
@@ -1188,17 +1188,17 @@
             &ssp ,vis ,uvar,off  ,ngl  ,0   ,&
             &ipm ,mat ,epsd,sigy ,defp ,dpla,&
             &amu )
+!
           elseif (mtn == 50) then
-            call sigeps50(nel ,npar,nuvar,nfunc,ifunc,&
-            &npf ,tf  ,tt,dt1,uparam0,&
-            &rho0,rho ,voln,eint,nvartmp ,vartmp  ,&
-            &ep1 ,ep2 ,ep3 ,ep4  ,ep5  ,ep6 ,&
-            &de1 ,de2 ,de3 ,de4  ,de5  ,de6 ,&
-            &es1 ,es2 ,es3 ,es4  ,es5  ,es6 ,&
-            &so1 ,so2 ,so3 ,so4  ,so5  ,so6 ,&
-            &s1  ,s2  ,s3  ,s4   ,s5   ,s6  ,&
-            &sv1 ,sv2 ,sv3 ,sv4  ,sv5  ,sv6 ,&
-            &ssp ,vis ,uvar,off  ,amu  ,matparam)
+            call sigeps50s(mat_elem%mat_param(imat),                  &
+                 nel    ,dt1    ,nuvar  ,nvartmp,uvar  ,vartmp,       &
+                 rho    ,ssp    ,off    ,amu    ,defp  ,              &
+                 ep1    ,ep2    ,ep3    ,ep4    ,ep5   ,ep6   ,       &
+                 de1    ,de2    ,de3    ,de4    ,de5   ,de6   ,       &
+                 es1    ,es2    ,es3    ,es4    ,es5   ,es6   ,       &
+                 so1    ,so2    ,so3    ,so4    ,so5   ,so6   ,       &
+                 s1     ,s2     ,s3     ,s4     ,s5    ,s6    )
+!
           elseif (mtn == 51) then
             if (n2d == 0) then
               n48 = 8
@@ -2687,7 +2687,7 @@
 !     define dynamic viscosity (for viscous law)
 !-----------------------
           do i=1,nel
-            if (ssp(i) == zero) ssp(i)=sqrt(c1(i)/rho0(i))
+            if (ssp(i) == zero) ssp(i) = sqrt(matparam%bulk/matparam%rho0)
           enddo
 !-------------------------------------------
 !   bulk viscosity and time step computation

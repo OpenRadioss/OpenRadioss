@@ -108,11 +108,12 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-          use timer_mod
-          use constant_mod
-          use table_mod
-          use mat_elem_mod
-          use message_mod
+      use timer_mod
+      use constant_mod
+      use table_mod
+      use mat_elem_mod
+      use message_mod
+      use sigeps50s_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -319,29 +320,28 @@
           cst1(lft:llt) = one
 
           do i=lft,llt
-            c1(i)  = pm(32,imat)
-            rho0(i)= pm( 1,imat)
-            vis(i) = zero
-            ssp(i) = zero
-            sv1(i) = zero
-            sv2(i) = zero
-            sv3(i) = zero
-            sv4(i) = zero
-            sv5(i) = zero
-            sv6(i) = zero
-            s1(i) = zero
-            s2(i) = zero
-            s3(i) = zero
-            s4(i) = zero
-            s5(i) = zero
-            s6(i) = zero
-            sig(i,1)=zero
-            sig(i,2)=zero
-            sig(i,3)=zero
-            sig(i,4)=zero
-            sig(i,5)=zero
-            sig(i,6)=zero
-            sspp(i)=zero
+             rho0(i)= mat_param(imat)%rho0
+             vis(i) = zero
+             ssp(i) = zero
+             sv1(i) = zero
+             sv2(i) = zero
+             sv3(i) = zero
+             sv4(i) = zero
+             sv5(i) = zero
+             sv6(i) = zero
+             s1(i) = zero
+             s2(i) = zero
+             s3(i) = zero
+             s4(i) = zero
+             s5(i) = zero
+             s6(i) = zero
+             sig(i,1)=zero
+             sig(i,2)=zero
+             sig(i,3)=zero
+             sig(i,4)=zero
+             sig(i,5)=zero
+             sig(i,6)=zero
+             sspp(i)=zero
           enddo
 !
           if (isorth /= 0) then
@@ -773,33 +773,34 @@
                   epsp =half*(e1**2+e2**2+e3**2) +e4**2+e5**2+e6**2
                   epsp = sqrt(three*epsp)*two_third
                   epsd(i)=epsp
-                endif
-              enddo
-              call sigeps48(&
-              &llt      ,npar     ,nuvar    ,nfunc    ,ifunc    ,&
-              &npf      ,tf       ,tt       ,dt1      ,bufmat,&
-              &rho0     ,rho      ,voln     ,eint     ,&
-              &ep1      ,ep2      ,ep3      ,ep4      ,ep5      ,ep6   ,&
-              &de1      ,de2      ,de3      ,de4      ,de5      ,de6   ,&
-              &es1      ,es2      ,es3      ,es4      ,es5      ,es6   ,&
-              &so1      ,so2      ,so3      ,so4      ,so5      ,so6   ,&
-              &s1       ,s2       ,s3       ,s4       ,s5       ,s6    ,&
-              &sv1      ,sv2      ,sv3      ,sv4      ,sv5      ,sv6   ,&
-              &sspp     ,vis      ,uvar     ,off      ,ngl      ,ipt   ,&
-              &ipm      ,mat      ,epsd     ,sigy     ,defp     ,dpla  ,&
-              &amu      )
-            elseif(mtn == 50)then
-              call sigeps50(llt ,npar,nuvar,nfunc,ifunc,&
-              &npf ,tf  ,tt,dt1,bufmat(iadbuf),&
-              &rho0,rho ,voln,eint,nvartmp ,vartmp  ,&
-              &ep1 ,ep2 ,ep3 ,ep4  ,ep5  ,ep6 ,&
-              &de1 ,de2 ,de3 ,de4  ,de5  ,de6 ,&
-              &es1 ,es2 ,es3 ,es4  ,es5  ,es6 ,&
-              &so1 ,so2 ,so3 ,so4  ,so5  ,so6 ,&
-              &s1  ,s2  ,s3  ,s4   ,s5   ,s6  ,&
-              &sv1 ,sv2 ,sv3 ,sv4  ,sv5  ,sv6 ,&
-              &sspp ,vis ,uvar,off ,amu,mat_param)
-            elseif(mtn == 52)then
+               endif
+            enddo
+            call sigeps48(&
+            &llt      ,npar     ,nuvar    ,nfunc    ,ifunc    ,&
+            &npf      ,tf       ,tt       ,dt1      ,bufmat,&
+            &rho0     ,rho      ,voln     ,eint     ,                 &
+            &ep1      ,ep2      ,ep3      ,ep4      ,ep5      ,ep6   ,&
+            &de1      ,de2      ,de3      ,de4      ,de5      ,de6   ,&
+            &es1      ,es2      ,es3      ,es4      ,es5      ,es6   ,&
+            &so1      ,so2      ,so3      ,so4      ,so5      ,so6   ,&
+            &s1       ,s2       ,s3       ,s4       ,s5       ,s6    ,&
+            &sv1      ,sv2      ,sv3      ,sv4      ,sv5      ,sv6   ,&
+            &sspp     ,vis      ,uvar     ,off      ,ngl      ,ipt   ,&
+            &ipm      ,mat      ,epsd     ,sigy     ,defp     ,dpla  ,&
+            &amu      )
+!
+         elseif(mtn == 50)then
+            call sigeps50s(mat_param(imat),                           &
+                 nel    ,dt1    ,nuvar  ,nvartmp,uvar  ,vartmp,       &
+                 rho    ,sspp   ,off    ,amu    ,lbuf%pla     ,       &
+                 ep1    ,ep2    ,ep3    ,ep4    ,ep5   ,ep6   ,       &
+                 de1    ,de2    ,de3    ,de4    ,de5   ,de6   ,       &
+                 es1    ,es2    ,es3    ,es4    ,es5   ,es6   ,       &
+                 so1    ,so2    ,so3    ,so4    ,so5   ,so6   ,       &
+                 s1     ,s2     ,s3     ,s4     ,s5    ,s6    )
+!
+         elseif(mtn == 52)then
+
 !---    strain rate
               do i=1,llt
                 israte = ipm(3,mat(lft))
@@ -1239,9 +1240,9 @@
 !     define sound speed  (in all case)
 !     define dynamic viscosity (for viscous law)
 !-----------------------
-          do i=lft,llt
-            if(ssp(i) == zero) ssp(i)=sqrt(c1(i)/rho0(i))
-          enddo
+      do i=lft,llt
+        if (ssp(i) == zero) ssp(i) = sqrt(mat_param(imat)%bulk/mat_param(imat)%rho0)
+      enddo
 !-------------------------------------------
 !   bulk viscosity and time step computation
 !   this subroutine return the new bulk viscosity q
