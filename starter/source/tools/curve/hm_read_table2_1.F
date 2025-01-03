@@ -110,7 +110,7 @@ C======================================================================|
           CYCLE
         END IF
 !
-        ITAB = ITAB + I
+        ITAB = ITAB + 1
         TABLE(ITAB)%NOTABLE = ID
         TABLE(ITAB)%NDIM    = NDIM
         ALLOCATE(TABLE(ITAB)%X(NDIM),STAT=stat)
