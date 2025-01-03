@@ -2449,16 +2449,10 @@ C all NPTT for PID51
         DO I=IDX+2+1,IDX+2+11
           IF (ANIM_CE(I) == 1) THEN
             II = I - (IDX+2)
-            WRITE(MES,'(A,I3,A)')
-     .       'Nloc rate at point ',II,' '
+            WRITE(MES,'(A,I3,A)')'Nloc rate at point ',II,' '
             CALL ANI_TXT(MES,30)
           ENDIF
         ENDDO 
-        
-        !---NTILLOTSON EoS
-        IDX = 14596 + 4*MX_PLY_ANIM
-        IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Region identifier in p,v diagram',32)  
-        
 
 C----------------------------------------------------------------------
 C   Tsai-Wu criterion output for composites
@@ -2472,8 +2466,7 @@ C----------------------------------------------------------------------
           IF(ANIM_CE(IDX + 2 + I)==1)THEN
             IUS = I
             IF(IUS==0) IUS = 100
-            WRITE(MES,'(A,I3,A)')
-     .       'Tsai-Wu Crit. Layer ',IUS, ' '
+            WRITE(MES,'(A,I3,A)')'Tsai-Wu Crit. Layer ',IUS, ' '
             CALL ANI_TXT(MES,24)
           END IF
         END DO
@@ -2484,8 +2477,7 @@ C  upper for PID51
            IF (ANIM_CE(IDX + I) == 1) THEN
              IUS = I
              IF(IUS==0) IUS = 100
-             WRITE(MES,'(A,I3,A)')
-     .       'Tsai-Wu Crit. Upper Layer',IUS, ' '
+             WRITE(MES,'(A,I3,A)')'Tsai-Wu Crit. Upper Layer',IUS, ' '
                CALL ANI_TXT(MES,29)
             END IF
         END DO
@@ -2495,8 +2487,7 @@ C  lower for PID51
            IF (ANIM_CE(IDX + I) == 1) THEN
              IUS = I
              IF(IUS==0) IUS = 100
-             WRITE(MES,'(A,I3,A)')
-     .       'Tsai-Wu Crit. Lower Layer',IUS, ' '
+             WRITE(MES,'(A,I3,A)')'Tsai-Wu Crit. Lower Layer',IUS, ' '
                CALL ANI_TXT(MES,29)
             END IF
         END DO
@@ -2508,15 +2499,31 @@ C all NPTT for PID51
             IF (ANIM_CE(IDX + IUS) == 1) THEN
               ILAY = I
               IPT  = J
-              WRITE(MES,'(A,I4,I3,A)')
-     .        'Tsai-Wu Crit. Lay/IPT ',ILAY,IPT, ' '
+              WRITE(MES,'(A,I4,I3,A)')'Tsai-Wu Crit. Lay/IPT ',ILAY,IPT, ' '
               CALL ANI_TXT(MES,30)
             END IF
           ENDDO
         ENDDO 
 
+        !---TILLOTSON EoS
+        IDX = 15898 + 4*MX_PLY_ANIM
+        IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Region identifier in p,v diagram',32)
+
+        !---Volumetric Strain EoS
+        IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Volumetric Strain',17)
+        IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Volumetric Strain - 1',20)
+        IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Volumetric Strain - 2',20)
+        IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Volumetric Strain - 3',20)
+        IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Volumetric Strain - 4',20)
+        IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Volumetric Strain - 5',20)
+        IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Volumetric Strain - 6',20)
+        IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Volumetric Strain - 7',20)
+        IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Volumetric Strain - 8',20)
+        IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Volumetric Strain - 9',20)
+        IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Volumetric Strain - 10',20)
+
         !---NEXT ANIM
-        !IDX=IDX+1   ! => IDX = 4*MX_PLY_ANIM + 15898
+        !IDX=IDX+1
   
        ENDIF !  (NBF+NELCUT+NESBW2/=0)
 !
@@ -4639,6 +4646,7 @@ C
           ENDIF
         ENDDO
         IF(ANIM_SE(5172)==1)CALL ANI_TXT('Region identifier in p,v diagram',32)
+        IF(ANIM_SE(5173)==1)CALL ANI_TXT('Volumetric Strain',17)
         
 C-----------------------------------------------                                         
       ENDIF !(ISPMD==0)
@@ -6398,6 +6406,7 @@ C
        IF(ANIM_SE(4965)==1) CALL ANI_TXT('Element status',14) 
        IF(ANIM_SE(4895)==1) CALL ANI_TXT('Equiv stress',12)
        IF(ANIM_SE(5172)==1) CALL ANI_TXT('Region identifier in p,v diagram',32)
+       IF(ANIM_SE(5173)==1) CALL ANI_TXT('Volumetric Strain',17)
       ENDIF
 C-----------------------------------------------
 C   ELEMENT FUNC (SPH)
