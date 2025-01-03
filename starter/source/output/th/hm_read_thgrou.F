@@ -2243,6 +2243,7 @@ C-----------------------------------------------
       !-------------------------------------------
       ! /TH/ACCEL
       !-------------------------------------------
+      !//TODO: FOR Accelerator
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/ACCEL' ,NTHACCEL  )
       IF (NTHACCEL > 0) THEN 
         CALL HM_OPTION_START(TRIM(THFILE)//'/ACCEL') 
@@ -2258,7 +2259,7 @@ C
           ITHGRP(1,IGS) = ID
           NVALL = 3
           KEY   = 'ACCEL     '
-          CALL HM_READ_THGRKI(
+          CALL HM_READ_THGRKI_ALL(
      1      108      ,KEY      ,PTR_NOPT_ACC ,
      2      IAD      ,IFI      ,ITHGRP(1,IGS),ITHBUF   ,
      3      NVARAC   ,VARAC    ,NACCELM      ,VARACG   ,
@@ -2270,6 +2271,7 @@ C
       !-------------------------------------------
       ! /TH/INTER
       !-------------------------------------------
+      !//TODO: FOR INTERFACE
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/INTER' ,NTHINTER  ) 
       IF (NTHINTER > 0) THEN 
         CALL HM_OPTION_START(TRIM(THFILE)//'/INTER')
@@ -2287,7 +2289,7 @@ C
           CNT1  = 0
           NVALL = 7
           KEY   = 'INTER     '
-          CALL HM_READ_THGRKI(
+          CALL HM_READ_THGRKI_ALL(
      1      101      ,KEY      ,PTR_NOPT_INTER,
      2      IAD      ,IFI      ,ITHGRP(1,IGS) ,ITHBUF  ,
      3      NVARIN   ,VARIN    ,NINTER+NINTSUB,VARING  ,NVARING  ,
@@ -2337,6 +2339,7 @@ C
       !-------------------------------------------
       ! /TH/SECTIO
       !-------------------------------------------
+      !//TODO:FOR_SECTIO 
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/SECTIO' ,NTHSECTIO)
       IF (NTHSECTIO > 0) THEN 
         CALL HM_OPTION_START(TRIM(THFILE)//'/SECTIO')
@@ -2352,7 +2355,7 @@ C
           ITHGRP(1,IGS) = ID
           NVALL = 13
           KEY   = 'SECTIO    '
-          CALL HM_READ_THGRKI(
+          CALL HM_READ_THGRKI_ALL(
      1      104      ,KEY      ,PTR_NOPT_SECT,
      2      IAD      ,IFI      ,ITHGRP(1,IGS) ,ITHBUF  ,
      3      NVARSE   ,VARSE    ,NSECT ,VARSEG ,NVARSEG ,
@@ -2655,6 +2658,7 @@ C          frame numbers user -> internal
       !-------------------------------------------
       ! /TH/RBODY
       !-------------------------------------------
+      !//TODO: FOR RBODY
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/RBODY' ,NTHRBODY)         
       IF (NTHRBODY > 0) THEN 
         CALL HM_OPTION_START(TRIM(THFILE)//'/RBODY')
@@ -2680,6 +2684,7 @@ C          frame numbers user -> internal
       !-------------------------------------------
       ! /TH/MONVOL
       !-------------------------------------------
+      !//TODO:For Monvol
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/MONV' ,NTHMONVOL)    
       IF (NTHMONVOL > 0) THEN 
         CALL HM_OPTION_START(TRIM(THFILE)//'/MONV') 
@@ -2693,7 +2698,7 @@ C          frame numbers user -> internal
           NVALL = 9
           ITYP  = 107
           KEY   = 'MONVOL    '
-          CALL HM_READ_THGRKI(
+          CALL HM_READ_THGRKI_ALL(
      1          ITYP   ,KEY    ,PTR_NOPT_MONV,
      3          IAD    ,IFI    ,ITHGRP(1,IGS),ITHBUF ,
      4          NVARMV ,VARMV  ,NVOLU ,VARMVG,NVARMVG,
@@ -2720,11 +2725,17 @@ C          frame numbers user -> internal
       !-------------------------------------------
       ! /TH/PART
       !-------------------------------------------
+      !HM_NTHPART: total number of /TH/PART in 0000.rad
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/PART' ,HM_NTHPART)  
       IF (HM_NTHPART > 0) THEN 
         CALL HM_OPTION_START(TRIM(THFILE)//'/PART') 
+        ! HM_NTHGRP: Number of /TH/ Group in 0000.rad    
         HM_NTHGRP = HM_NTHGRP + HM_NTHPART
+        ! NUMTHPART: Total number of PART defined by /PART et /THPART  
+        ! NPART: Number of PART defined by /PART in 0000.rad for Part definition
+        ! NTHPART: Number of PART defined by /THPART in 0000.rad for Part definition   
         NUMTHPART = NPART + NTHPART
+        ! TAGP: Total number of PART for the TIME history output 
         DO I = 1, HM_NTHPART
           CALL HM_READ_THGRPA(
      .         IPART    ,LIPART1  ,ITHBUF  ,IAD      ,IFI       ,
@@ -2736,11 +2747,15 @@ C          frame numbers user -> internal
       !-------------------------------------------
       ! /TH/SUBS
       !-------------------------------------------
+      !//TODO: FOR SUBS 
+      !HM_NTHSUBS: total number of /TH/SUBS in 0000.rad
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/SUBS' ,HM_NTHSUBS)
       IF (HM_NTHSUBS > 0) THEN 
         CALL HM_OPTION_START(TRIM(THFILE)//'/SUBS') 
         HM_NTHGRP = HM_NTHGRP + HM_NTHSUBS
+        ! HM_NTHGRP: Number of /TH/ Group in 0000.rad   
         DO I = 1, HM_NTHSUBS
+        ! TAGS: Total number of SUBS for the TIME history output   
           CALL HM_READ_THGRPA_SUB(
      .         IAD      ,IFI      ,ITHBUF   ,NVARPA   ,VARPA    ,
      .         VARPAG   ,NVARPAG  ,IVARPAG  ,PATHID   ,
@@ -2871,9 +2886,12 @@ C          frame numbers user -> internal
       !-------------------------------------------
       ! /TH/GAUGE
       !-------------------------------------------
+      !//TODO:for gauges
+      !HM_NTHGAUGE: total number of /TH/GAUGE in 0000.rad
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/GAUGE' ,HM_NTHGAUGE)
       IF (HM_NTHGAUGE > 0) THEN 
         CALL HM_OPTION_START(TRIM(THFILE)//'/GAUGE')
+        ! HM_NTHGRP: Number of /TH/ Group in 0000.rad   
         HM_NTHGRP = HM_NTHGRP + HM_NTHGAUGE
         DO I = 1, HM_NTHGAUGE
           TITR = ''   
@@ -2883,7 +2901,7 @@ C          frame numbers user -> internal
           ITHGRP(1,IGS) = ID
           NVALL = 3
           KEY   = 'GAUGE     '          
-          CALL HM_READ_THGRKI(
+          CALL HM_READ_THGRKI_ALL(
      1      113      ,KEY      ,PTR_NOPT_GAU,
      2      IAD      ,IFI      ,ITHGRP(1,IGS) ,ITHBUF  ,
      3      NVARGAU  ,VARGAU   ,NBGAUGE       ,VARGAUG,NVARGAUG  ,
@@ -3058,6 +3076,7 @@ C             error message if type of inout is not correct
       !-------------------------------------------
       ! /TH/SENSOR
       !-------------------------------------------
+      !//TODO:FOR SENSOR
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/SENSOR' ,HM_NTHSENS  )  
       IF (HM_NTHSENS > 0) THEN 
         CALL HM_OPTION_START(TRIM(THFILE)//'/SENSOR')
