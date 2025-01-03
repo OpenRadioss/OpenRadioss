@@ -71,7 +71,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    shour_ctl_mod          ../engine/source/elements/solid/solidez/shour_ctl.F90
       !||    table_mod              ../engine/share/modules/table_mod.F
       !||====================================================================
-      SUBROUTINE SCFORC3(ELBUF_TAB,NG      ,
+      SUBROUTINE SCFORC3(TIMERS, ELBUF_TAB,NG      ,
      1                   PM       ,GEO     ,IXS      ,X       ,
      2                   A        ,V       ,MS       ,W       ,FLUX     ,
      3                   FLU1     ,VEUL    ,FV       ,ALE_CONNECT   ,IPARG    ,
@@ -94,6 +94,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE TIMER_MOD
       USE MMAIN_MOD
       USE TABLE_MOD
       USE MAT_ELEM_MOD            
@@ -125,6 +126,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(TIMER_), INTENT(INOUT) :: TIMERS
       INTEGER, INTENT(IN) :: SNPC
       INTEGER, INTENT(IN) :: STF
       INTEGER, INTENT(IN) :: SBUFMAT
@@ -749,7 +751,7 @@ C Compute new stresses according to constitutive laws
 C Compute time step DT2T
 C------------------------------------------------------
         CURRENT_LAYER=ILAY
-        CALL MMAIN(
+        CALL MMAIN(TIMERS,
      1   ELBUF_TAB,    NG,          PM,        GEO,
      2                 ALE_CONNECT, IXS,       IPARG,
      3   V,            TF,          NPF,       BUFMAT,

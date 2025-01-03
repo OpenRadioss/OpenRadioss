@@ -93,7 +93,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sensor_mod             ../engine/share/modules/sensor_mod.F
       !||    table_mod              ../engine/share/modules/table_mod.F
       !||====================================================================
-      SUBROUTINE S8ZFORC3(ELBUF_TAB,NG     ,
+      SUBROUTINE S8ZFORC3(TIMERS, ELBUF_TAB,NG     ,
      1                    PM       ,GEO    ,IXS    ,X       ,
      2                    A        ,V      ,MS     ,W       ,FLUX    ,
      3                    FLU1     ,VEUL   ,FV     ,ALE_CONNECT   ,IPARG   ,
@@ -119,6 +119,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE TIMER_MOD
       USE MMAIN_MOD
       USE TABLE_MOD
       USE MAT_ELEM_MOD            
@@ -153,6 +154,7 @@ C-----------------------------------------------
 C-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(TIMER_), INTENT(INOUT) :: TIMERS
       INTEGER, INTENT(IN) ::SNPC
       INTEGER, INTENT(IN) :: STF
       INTEGER, INTENT(IN) :: SBUFMAT
@@ -1163,13 +1165,13 @@ C------------------------------------------------------
 C     CALCUL DES CONTRAINTES SUIVANT LOIS CONSTITUTIVES
 C     TIME STEP EST CALCULE ICI DT2T
 C------------------------------------------------------
-      IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(35,1)
+      IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(TIMERS,35)
 C
       IF (IBOLTP /= 0) 
      .      CALL BOLTST(IP    ,BPRELD   ,LBUF%SIG ,TT  ,NEL   ,        
      .                  NPT   ,SENSORS%NSENSOR,SENSORS%SENSOR_TAB)
 C
-      CALL MMAIN(
+      CALL MMAIN(TIMERS,
      1   ELBUF_TAB,    NG,           PM,           GEO,
      2                 ALE_CONNECT,  IXS,          IPARG,
      3   V,            TF,           NPF,          BUFMAT,
@@ -1214,7 +1216,7 @@ C
      4   JCVT)
       ENDIF
 C
-      IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)
+      IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(TIMERS,35)
 C
         IF (JCVT == 2) THEN
           CALL SROTO3(LFT,LLT,LBUF%SIG,SIGN,

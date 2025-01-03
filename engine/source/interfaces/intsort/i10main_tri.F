@@ -47,7 +47,7 @@ C  |         I10XSAVE                        /intsort/i10xsave.F
       !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
       !||    message_mod                  ../engine/share/message_module/message_mod.F
       !||====================================================================
-      SUBROUTINE I10MAIN_TRI(
+      SUBROUTINE I10MAIN_TRI(TIMERS,
      1                  npari   ,IPARI   ,X       ,V       ,
      2                  MS      ,NIN     ,ITASK   ,MWAG    ,WEIGHT  ,
      3                  ISENDTO ,IRCVFROM,RETRI   ,IAD_ELEM,FR_ELEM ,
@@ -58,6 +58,7 @@ C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE TIMER_MOD
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
       USE H3D_MOD
@@ -82,6 +83,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(TIMER_), intent(in) :: TIMERS
       integer, intent(in) :: npari !< dimension of ipari
       INTEGER  ITASK, NIN, RETRI, NRTM_T, ESHIFT,
      .         NUM_IMP ,IND_IMP(*),
@@ -233,7 +235,7 @@ C Barrier comm spmd_tri10box + BMINMA + Retour I10BUCE
 C      
  50   CALL MY_BARRIER
 C
-      IF (IMONM > 0) CALL STARTIME(30,1)
+      IF (IMONM > 0) CALL STARTIME(TIMERS,30)
 C
       IF(NRTM_T/=0)
      .   CALL I10BUCE(
@@ -269,7 +271,7 @@ C        UPGRADE_MULTIMP routine !!!!
         NCONTACT=MULTIMP*NCONT
         GOTO 40
       ENDIF
-      IF (IMONM > 0) CALL STOPTIME(30,1)
+      IF (IMONM > 0) CALL STOPTIME(TIMERS,30)
 C
 #include "lockon.inc"
       INTBUF_TAB%VARIABLES(9) = MIN(MAXBOX,INTBUF_TAB%VARIABLES(9))
@@ -301,7 +303,7 @@ C mise a - de dist temporairement pour reperage dans partie frontiere
 C mono tache
 !$OMP SINGLE
 
-        IF (IMONM > 0) CALL STARTIME(26,1)
+        IF (IMONM > 0) CALL STARTIME(TIMERS,26)
 
         INTBUF_TAB%VARIABLES(5) = -INTBUF_TAB%VARIABLES(5)
         IBID = 0
@@ -316,7 +318,7 @@ C sauvegarde des candidats additionnels dans IPARI(24)
         IF (NUM_IMP>0) 
      .    CALL IMP_RNUMCD(INTBUF_TAB%CAND_N,NIN,NSN,NUM_IMP,IND_IMP )
 
-        IF (IMONM > 0) CALL STOPTIME(26,1)
+        IF (IMONM > 0) CALL STOPTIME(TIMERS,26)
 
 !$OMP END SINGLE
 

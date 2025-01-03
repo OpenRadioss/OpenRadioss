@@ -1036,25 +1036,25 @@ C D_Z = D_Z + LT_M0 * D_Y
 !$OMP END PARALLEL
 C----------------------
          IF(NSPMD > 1 .AND. IPREC > 1)THEN
-           IF(IMONM > 0) CALL STARTIME(68,1)
+           IF(IMONM > 0) CALL STARTIME(TIMERS,68)
 !dir$ omp offload target(mic:MICID)
      & nocopy(z,ifr2k)
      & out(vgat:length(lcom))
 !$OMP PARALLEL default(shared)
            CALL MIC_GATHER(NDDL, LCOM, Z, VGAT, IFR2K)
 !$OMP END PARALLEL
-           IF(IMONM > 0) CALL STOPTIME(68,1)
-           IF(IMONM > 0) CALL STARTIME(66,1)
+           IF(IMONM > 0) CALL STOPTIME(TIMERS,68)
+           IF(IMONM > 0) CALL STARTIME(TIMERS,66)
            CALL SPMD_SUMFC_V(VGAT,VSCA,INDEX,LCOM)
-           IF(IMONM > 0) CALL STOPTIME(66,1)
-           IF(IMONM > 0) CALL STARTIME(69,1)
+           IF(IMONM > 0) CALL STOPTIME(TIMERS,66)
+           IF(IMONM > 0) CALL STARTIME(TIMERS,69)
 !dir$ omp offload target(mic:MICID)
      & nocopy(z,ifr2k,index)
      & in(vsca:length(lcom))
 !$OMP PARALLEL default(shared)
            CALL MIC_SCATTER(NDDL, LCOM, Z, VSCA, IFR2K, INDEX)          
 !$OMP END PARALLEL
-           IF(IMONM > 0) CALL STOPTIME(69,1)
+           IF(IMONM > 0) CALL STOPTIME(TIMERS,69)
          END IF
 C---------------------
 !dir$ omp offload target(mic:MICID)
@@ -1081,9 +1081,9 @@ C D_Y = D_Z * D_W
            CALL MIC_MV(NDDL,Z,W,Y)
            CALL MIC_DDOT(NDDL, R, Y, G0)
 !$OMP END PARALLEL
-           IF(IMONM > 0) CALL STARTIME(67,1)
+           IF(IMONM > 0) CALL STARTIME(TIMERS,67)
            CALL SPMD_SUM_S(G0)
-           IF(IMONM > 0) CALL STOPTIME(67,1)
+           IF(IMONM > 0) CALL STOPTIME(TIMERS,67)
          ENDIF
 
 !dir$ omp offload target(mic:MICID)
@@ -1108,25 +1108,25 @@ ctempo      CALL MIC_SPMV(NDDL ,Y ,P ,LT_I0,IADI0,JDII0)
 !$OMP END PARALLEL
 C----------------------
          IF(NSPMD > 1)THEN
-           IF(IMONM > 0) CALL STARTIME(68,1)
+           IF(IMONM > 0) CALL STARTIME(TIMERS,68)
 !dir$ omp offload target(mic:MICID)
      & nocopy(y,ifr2k)
      & out(vgat:length(lcom))
 !$OMP PARALLEL default(shared)
            CALL MIC_GATHER(NDDL, LCOM, Y, VGAT, IFR2K)
 !$OMP END PARALLEL
-           IF(IMONM > 0) CALL STOPTIME(68,1)
-           IF(IMONM > 0) CALL STARTIME(66,1)
+           IF(IMONM > 0) CALL STOPTIME(TIMERS,68)
+           IF(IMONM > 0) CALL STARTIME(TIMERS,66)
            CALL SPMD_SUMFC_V(VGAT,VSCA,INDEX,LCOM)
-           IF(IMONM > 0) CALL STOPTIME(66,1)
-           IF(IMONM > 0) CALL STARTIME(69,1)
+           IF(IMONM > 0) CALL STOPTIME(TIMERS,66)
+           IF(IMONM > 0) CALL STARTIME(TIMERS,69)
 !dir$ omp offload target(mic:MICID)
      & nocopy(y,ifr2k,index)
      & in(vsca:length(lcom))
 !$OMP PARALLEL default(shared)
            CALL MIC_SCATTER(NDDL, LCOM, Y, VSCA, IFR2K, INDEX)          
 !$OMP END PARALLEL
-           IF(IMONM > 0) CALL STOPTIME(69,1)
+           IF(IMONM > 0) CALL STOPTIME(TIMERS,69)
          END IF
 C---------------------
          IF(NSPMD == 1) THEN
@@ -1145,9 +1145,9 @@ C si spmd penser a faire avant D_Z = D_Y*D_W pour les poids
            CALL MIC_MV(NDDL,Y,W,Z)
            CALL MIC_DDOT(NDDL, P, Z, S)
 !$OMP END PARALLEL
-           IF(IMONM > 0) CALL STARTIME(67,1)
+           IF(IMONM > 0) CALL STARTIME(TIMERS,67)
            CALL SPMD_SUM_S(S)
-           IF(IMONM > 0) CALL STOPTIME(67,1)
+           IF(IMONM > 0) CALL STOPTIME(TIMERS,67)
          END IF
 C---------------------
 C---------------------
@@ -1179,9 +1179,9 @@ C si spmd penser a faire avant D_Z = D_R*W pour les poids
              CALL MIC_MV(NDDL,R,W,Z)
              CALL MIC_DDOT(NDDL, Z, Z, R02)
 !$OMP END PARALLEL
-             IF(IMONM > 0) CALL STARTIME(67,1)
+             IF(IMONM > 0) CALL STARTIME(TIMERS,67)
              CALL SPMD_SUM_S(R02)
-             IF(IMONM > 0) CALL STOPTIME(67,1)
+             IF(IMONM > 0) CALL STOPTIME(TIMERS,67)
            END IF
 C---------------------
 C---------------------
@@ -1255,25 +1255,25 @@ C D_Z = D_Z + LT_M0 * D_Y
 !$OMP END PARALLEL
 C----------------------
          IF(NSPMD > 1 .AND. IPREC > 1)THEN
-           IF(IMONM > 0) CALL STARTIME(68,1)
+           IF(IMONM > 0) CALL STARTIME(TIMERS,68)
 !dir$ omp offload target(mic:MICID)
      & nocopy(z,ifr2k)
      & out(vgat:length(lcom))
 !$OMP PARALLEL default(shared)
            CALL MIC_GATHER(NDDL, LCOM, Z, VGAT, IFR2K)
 !$OMP END PARALLEL
-           IF(IMONM > 0) CALL STOPTIME(68,1)
-           IF(IMONM > 0) CALL STARTIME(66,1)
+           IF(IMONM > 0) CALL STOPTIME(TIMERS,68)
+           IF(IMONM > 0) CALL STARTIME(TIMERS,66)
            CALL SPMD_SUMFC_V(VGAT,VSCA,INDEX,LCOM)
-           IF(IMONM > 0) CALL STOPTIME(66,1)
-           IF(IMONM > 0) CALL STARTIME(69,1)
+           IF(IMONM > 0) CALL STOPTIME(TIMERS,66)
+           IF(IMONM > 0) CALL STARTIME(TIMERS,69)
 !dir$ omp offload target(mic:MICID)
      & nocopy(z,ifr2k,index)
      & in(vsca:length(lcom))
 !$OMP PARALLEL default(shared)
            CALL MIC_SCATTER(NDDL, LCOM, Z, VSCA, IFR2K, INDEX)          
 !$OMP END PARALLEL
-           IF(IMONM > 0) CALL STOPTIME(69,1)
+           IF(IMONM > 0) CALL STOPTIME(TIMERS,69)
          END IF
 C---------------------
          IF(NSPMD == 1) THEN
@@ -1292,9 +1292,9 @@ C si spmd penser a faire avant D_Y = D_Z*D_W pour les poids
            CALL MIC_MV(NDDL,Z,W,Y)
            CALL MIC_DDOT(NDDL, R, Y, G1)
 !$OMP END PARALLEL
-           IF(IMONM > 0) CALL STARTIME(67,1)
+           IF(IMONM > 0) CALL STARTIME(TIMERS,67)
            CALL SPMD_SUM_S(G1)
-           IF(IMONM > 0) CALL STOPTIME(67,1)
+           IF(IMONM > 0) CALL STOPTIME(TIMERS,67)
          END IF
 C---------------------
          BETA=G1/G0
@@ -1315,9 +1315,9 @@ C si spmd penser a faire avant D_Y = D_R*W pour les poids
              CALL MIC_MV(NDDL,R,W,Y)
              CALL MIC_DDOT(NDDL, Y, Y, R2)
 !$OMP END PARALLEL
-             IF(IMONM > 0) CALL STARTIME(67,1)
+             IF(IMONM > 0) CALL STARTIME(TIMERS,67)
              CALL SPMD_SUM_S(R2)
-             IF(IMONM > 0) CALL STOPTIME(67,1)
+             IF(IMONM > 0) CALL STOPTIME(TIMERS,67)
            END IF
          ELSEIF (ITOL==3) THEN
 C------ R2<TOL*TOL*ANORM2*XNORM2------
@@ -1379,25 +1379,25 @@ ctempo      CALL MIC_SPMV(NDDL ,Y ,P ,LT_I0,IADI0,JDII0)
           END IF
 !$OMP END PARALLEL
           IF(NSPMD > 1)THEN
-           IF(IMONM > 0) CALL STARTIME(68,1)
+           IF(IMONM > 0) CALL STARTIME(TIMERS,68)
 !dir$ omp offload target(mic:MICID)
      & nocopy(y,ifr2k)
      & out(vgat:length(lcom))
 !$OMP PARALLEL default(shared)
            CALL MIC_GATHER(NDDL, LCOM, Y, VGAT, IFR2K)
 !$OMP END PARALLEL
-           IF(IMONM > 0) CALL STOPTIME(68,1)
-           IF(IMONM > 0) CALL STARTIME(66,1)
+           IF(IMONM > 0) CALL STOPTIME(TIMERS,68)
+           IF(IMONM > 0) CALL STARTIME(TIMERS,66)
            CALL SPMD_SUMFC_V(VGAT,VSCA,INDEX,LCOM)
-           IF(IMONM > 0) CALL STOPTIME(66,1)
-           IF(IMONM > 0) CALL STARTIME(69,1)
+           IF(IMONM > 0) CALL STOPTIME(TIMERS,66)
+           IF(IMONM > 0) CALL STARTIME(TIMERS,69)
 !dir$ omp offload target(mic:MICID)
      & nocopy(y,ifr2k,index)
      & in(vsca:length(lcom))
 !$OMP PARALLEL default(shared)
            CALL MIC_SCATTER(NDDL, LCOM, Y, VSCA, IFR2K, INDEX)          
 !$OMP END PARALLEL
-           IF(IMONM > 0) CALL STOPTIME(69,1)
+           IF(IMONM > 0) CALL STOPTIME(TIMERS,69)
           END IF
 C---------------------
           IF(NSPMD == 1) THEN
@@ -1416,9 +1416,9 @@ C si spmd penser a faire avant D_Y = D_Y*W pour les poids
             CALL MIC_MV(NDDL,Y,W,Z)
             CALL MIC_DDOT(NDDL, P, Z, S)
 !$OMP END PARALLEL
-            IF(IMONM > 0) CALL STARTIME(67,1)
+            IF(IMONM > 0) CALL STARTIME(TIMERS,67)
             CALL SPMD_SUM_S(S)
-            IF(IMONM > 0) CALL STOPTIME(67,1)
+            IF(IMONM > 0) CALL STOPTIME(TIMERS,67)
           END IF
 C---------------------
           ALPHA=G0/S
@@ -1453,25 +1453,25 @@ C D_Z = D_Z + LT_M0 * D_Y
 !$OMP END PARALLEL
 C----------------------
           IF(NSPMD > 1 .AND. IPREC > 1)THEN
-           IF(IMONM > 0) CALL STARTIME(68,1)
+           IF(IMONM > 0) CALL STARTIME(TIMERS,68)
 !dir$ omp offload target(mic:MICID)
      & nocopy(z,ifr2k)
      & out(vgat:length(lcom))
 !$OMP PARALLEL default(shared)
            CALL MIC_GATHER(NDDL, LCOM, Z, VGAT, IFR2K)
 !$OMP END PARALLEL
-           IF(IMONM > 0) CALL STOPTIME(68,1)
-           IF(IMONM > 0) CALL STARTIME(66,1)
+           IF(IMONM > 0) CALL STOPTIME(TIMERS,68)
+           IF(IMONM > 0) CALL STARTIME(TIMERS,66)
            CALL SPMD_SUMFC_V(VGAT,VSCA,INDEX,LCOM)
-           IF(IMONM > 0) CALL STOPTIME(66,1)
-           IF(IMONM > 0) CALL STARTIME(69,1)
+           IF(IMONM > 0) CALL STOPTIME(TIMERS,66)
+           IF(IMONM > 0) CALL STARTIME(TIMERS,69)
 !dir$ omp offload target(mic:MICID)
      & nocopy(z,ifr2k,index)
      & in(vsca:length(lcom))
 !$OMP PARALLEL default(shared)
            CALL MIC_SCATTER(NDDL, LCOM, Z, VSCA, IFR2K, INDEX)          
 !$OMP END PARALLEL
-           IF(IMONM > 0) CALL STOPTIME(69,1)
+           IF(IMONM > 0) CALL STOPTIME(TIMERS,69)
           END IF
 C---------------------
           IF(NSPMD == 1) THEN
@@ -1490,9 +1490,9 @@ C si spmd penser a faire avant D_Y = D_Z*W pour les poids
             CALL MIC_MV(NDDL,Z,W,Y)
             CALL MIC_DDOT(NDDL, R, Y, G1)
 !$OMP END PARALLEL
-            IF(IMONM > 0) CALL STARTIME(67,1)
+            IF(IMONM > 0) CALL STARTIME(TIMERS,67)
             CALL SPMD_SUM_S(G1)
-            IF(IMONM > 0) CALL STOPTIME(67,1)
+            IF(IMONM > 0) CALL STOPTIME(TIMERS,67)
           END IF
 C---------------------
 cc!$OMP single 
@@ -1516,9 +1516,9 @@ C si spmd penser a faire avant D_Y = D_R*W pour les poids
               CALL MIC_MV(NDDL,R,W,Y)
               CALL MIC_DDOT(NDDL, Y, Y, R2)
 !$OMP END PARALLEL
-              IF(IMONM > 0) CALL STARTIME(67,1)
+              IF(IMONM > 0) CALL STARTIME(TIMERS,67)
               CALL SPMD_SUM_S(R2)
-              IF(IMONM > 0) CALL STOPTIME(67,1)
+              IF(IMONM > 0) CALL STOPTIME(TIMERS,67)
             END IF
           ELSEIF (ITOL==3) THEN
            R2 =ABS(G1)
@@ -1666,25 +1666,25 @@ C D_Z = D_Z + LT_M0 * D_Y
 c!$OMP END PARALLEL
 C----------------------
 c         IF(NSPMD > 1 .AND. IPREC > 1)THEN
-c           IF(IMONM > 0) CALL STARTIME(68,1)
+c           IF(IMONM > 0) CALL STARTIME(TIMERS,68)
 c!dir$ omp offload target(mic:MICID)
 c     & nocopy(z,ifr2k)
 c     & out(vgat:length(lcom))
 c!$OMP PARALLEL default(shared)
 c           CALL MIC_GATHER(NDDL, LCOM, Z, VGAT, IFR2K)
 c!$OMP END PARALLEL
-c           IF(IMONM > 0) CALL STOPTIME(68,1)
-c           IF(IMONM > 0) CALL STARTIME(66,1)
+c           IF(IMONM > 0) CALL STOPTIME(TIMERS,68)
+c           IF(IMONM > 0) CALL STARTIME(TIMERS,66)
 c           CALL SPMD_SUMFC_V(VGAT,VSCA,INDEX,LCOM)
-c           IF(IMONM > 0) CALL STOPTIME(66,1)
-c           IF(IMONM > 0) CALL STARTIME(69,1)
+c           IF(IMONM > 0) CALL STOPTIME(TIMERS,66)
+c           IF(IMONM > 0) CALL STARTIME(TIMERS,69)
 c!dir$ omp offload target(mic:MICID)
 c     & nocopy(z,ifr2k,index)
 c     & in(vsca:length(lcom))
 c!$OMP PARALLEL default(shared)
 c           CALL MIC_SCATTER(NDDL, LCOM, Z, VSCA, IFR2K, INDEX)          
 c!$OMP END PARALLEL
-c           IF(IMONM > 0) CALL STOPTIME(69,1)
+c           IF(IMONM > 0) CALL STOPTIME(TIMERS,69)
 c         END IF
 C---------------------
 c!dir$ omp offload target(mic:MICID)
@@ -1711,9 +1711,9 @@ c!$OMP PARALLEL default(shared) shared(g0)
 c           CALL MIC_MV(NDDL,Z,W,Y)
 c           CALL MIC_DDOT(NDDL, R, Y, G0)
 c!$OMP END PARALLEL
-c           IF(IMONM > 0) CALL STARTIME(67,1)
+c           IF(IMONM > 0) CALL STARTIME(TIMERS,67)
 c           CALL SPMD_SUM_S(G0)
-c           IF(IMONM > 0) CALL STOPTIME(67,1)
+c           IF(IMONM > 0) CALL STOPTIME(TIMERS,67)
 c         ENDIF
 
 c!dir$ omp offload target(mic:MICID)
@@ -1738,25 +1738,25 @@ ctempo      CALL MIC_SPMV(NDDL ,Y ,P ,LT_I0,IADI0,JDII0)
 c!$OMP END PARALLEL
 C----------------------
 c         IF(NSPMD > 1)THEN
-c           IF(IMONM > 0) CALL STARTIME(68,1)
+c           IF(IMONM > 0) CALL STARTIME(TIMERS,68)
 c!dir$ omp offload target(mic:MICID)
 c     & nocopy(y,ifr2k)
 c     & out(vgat:length(lcom))
 c!$OMP PARALLEL default(shared)
 c           CALL MIC_GATHER(NDDL, LCOM, Y, VGAT, IFR2K)
 c!$OMP END PARALLEL
-c           IF(IMONM > 0) CALL STOPTIME(68,1)
-c           IF(IMONM > 0) CALL STARTIME(66,1)
+c           IF(IMONM > 0) CALL STOPTIME(TIMERS,68)
+c           IF(IMONM > 0) CALL STARTIME(TIMERS,66)
 c           CALL SPMD_SUMFC_V(VGAT,VSCA,INDEX,LCOM)
-c           IF(IMONM > 0) CALL STOPTIME(66,1)
-c           IF(IMONM > 0) CALL STARTIME(69,1)
+c           IF(IMONM > 0) CALL STOPTIME(TIMERS,66)
+c           IF(IMONM > 0) CALL STARTIME(TIMERS,69)
 c!dir$ omp offload target(mic:MICID)
 c     & nocopy(y,ifr2k,index)
 c     & in(vsca:length(lcom))
 c!$OMP PARALLEL default(shared)
 c           CALL MIC_SCATTER(NDDL, LCOM, Y, VSCA, IFR2K, INDEX)          
 c!$OMP END PARALLEL
-c           IF(IMONM > 0) CALL STOPTIME(69,1)
+c           IF(IMONM > 0) CALL STOPTIME(TIMERS,69)
 c         END IF
 C---------------------
 c         IF(NSPMD == 1) THEN
@@ -1775,9 +1775,9 @@ c!$OMP PARALLEL default(shared) shared(s)
 c           CALL MIC_MV(NDDL,Y,W,Z)
 c           CALL MIC_DDOT(NDDL, P, Z, S)
 c!$OMP END PARALLEL
-c           IF(IMONM > 0) CALL STARTIME(67,1)
+c           IF(IMONM > 0) CALL STARTIME(TIMERS,67)
 c           CALL SPMD_SUM_S(S)
-c           IF(IMONM > 0) CALL STOPTIME(67,1)
+c           IF(IMONM > 0) CALL STOPTIME(TIMERS,67)
 c         END IF
 C---------------------
 C---------------------
@@ -1809,9 +1809,9 @@ c!$OMP PARALLEL default(shared) shared(r02)
 c             CALL MIC_MV(NDDL,R,W,Z)
 c             CALL MIC_DDOT(NDDL, Z, Z, R02)
 c!$OMP END PARALLEL
-c             IF(IMONM > 0) CALL STARTIME(67,1)
+c             IF(IMONM > 0) CALL STARTIME(TIMERS,67)
 c             CALL SPMD_SUM_S(R02)
-c             IF(IMONM > 0) CALL STOPTIME(67,1)
+c             IF(IMONM > 0) CALL STOPTIME(TIMERS,67)
 c           END IF
 C---------------------
 C---------------------
@@ -1893,25 +1893,25 @@ C D_Z = D_Z + LT_M0 * D_Y
 c!$OMP END PARALLEL
 C----------------------
 c         IF(NSPMD > 1 .AND. IPREC > 1)THEN
-c           IF(IMONM > 0) CALL STARTIME(68,1)
+c           IF(IMONM > 0) CALL STARTIME(TIMERS,68)
 c!dir$ omp offload target(mic:MICID)
 c     & nocopy(z,ifr2k)
 c     & out(vgat:length(lcom))
 c!$OMP PARALLEL default(shared)
 c           CALL MIC_GATHER(NDDL, LCOM, Z, VGAT, IFR2K)
 c!$OMP END PARALLEL
-c           IF(IMONM > 0) CALL STOPTIME(68,1)
-c           IF(IMONM > 0) CALL STARTIME(66,1)
+c           IF(IMONM > 0) CALL STOPTIME(TIMERS,68)
+c           IF(IMONM > 0) CALL STARTIME(TIMERS,66)
 c           CALL SPMD_SUMFC_V(VGAT,VSCA,INDEX,LCOM)
-c           IF(IMONM > 0) CALL STOPTIME(66,1)
-c           IF(IMONM > 0) CALL STARTIME(69,1)
+c           IF(IMONM > 0) CALL STOPTIME(TIMERS,66)
+c           IF(IMONM > 0) CALL STARTIME(TIMERS,69)
 c!dir$ omp offload target(mic:MICID)
 c     & nocopy(z,ifr2k,index)
 c     & in(vsca:length(lcom))
 c!$OMP PARALLEL default(shared)
 c           CALL MIC_SCATTER(NDDL, LCOM, Z, VSCA, IFR2K, INDEX)          
 c!$OMP END PARALLEL
-c           IF(IMONM > 0) CALL STOPTIME(69,1)
+c           IF(IMONM > 0) CALL STOPTIME(TIMERS,69)
 c         END IF
 C---------------------
 c         IF(NSPMD == 1) THEN
@@ -1930,9 +1930,9 @@ c!$OMP PARALLEL default(shared) shared(G1)
 c           CALL MIC_MV(NDDL,Z,W,Y)
 c           CALL MIC_DDOT(NDDL, R, Y, G1)
 c!$OMP END PARALLEL
-c           IF(IMONM > 0) CALL STARTIME(67,1)
+c           IF(IMONM > 0) CALL STARTIME(TIMERS,67)
 c           CALL SPMD_SUM_S(G1)
-c           IF(IMONM > 0) CALL STOPTIME(67,1)
+c           IF(IMONM > 0) CALL STOPTIME(TIMERS,67)
 c         END IF
 C---------------------
          BETA=G1/G0
@@ -1953,9 +1953,9 @@ c!$OMP PARALLEL default(shared) shared(R2)
 c             CALL MIC_MV(NDDL,R,W,Y)
 c             CALL MIC_DDOT(NDDL, Y, Y, R2)
 c!$OMP END PARALLEL
-c             IF(IMONM > 0) CALL STARTIME(67,1)
+c             IF(IMONM > 0) CALL STARTIME(TIMERS,67)
 c             CALL SPMD_SUM_S(R2)
-c             IF(IMONM > 0) CALL STOPTIME(67,1)
+c             IF(IMONM > 0) CALL STOPTIME(TIMERS,67)
 c           END IF
          ELSEIF (ITOL==3) THEN
 C------ R2<TOL*TOL*ANORM2*XNORM2------
@@ -2035,25 +2035,25 @@ ctempo      CALL MIC_SPMV(NDDL ,Y ,P ,LT_I0,IADI0,JDII0)
           END IF
 c!$OMP END PARALLEL
 c          IF(NSPMD > 1)THEN
-c           IF(IMONM > 0) CALL STARTIME(68,1)
+c           IF(IMONM > 0) CALL STARTIME(TIMERS,68)
 c!dir$ omp offload target(mic:MICID)
 c     & nocopy(y,ifr2k)
 c     & out(vgat:length(lcom))
 c!$OMP PARALLEL default(shared)
 c           CALL MIC_GATHER(NDDL, LCOM, Y, VGAT, IFR2K)
 c!$OMP END PARALLEL
-c           IF(IMONM > 0) CALL STOPTIME(68,1)
-c           IF(IMONM > 0) CALL STARTIME(66,1)
+c           IF(IMONM > 0) CALL STOPTIME(TIMERS,68)
+c           IF(IMONM > 0) CALL STARTIME(TIMERS,66)
 c           CALL SPMD_SUMFC_V(VGAT,VSCA,INDEX,LCOM)
-c           IF(IMONM > 0) CALL STOPTIME(66,1)
-c           IF(IMONM > 0) CALL STARTIME(69,1)
+c           IF(IMONM > 0) CALL STOPTIME(TIMERS,66)
+c           IF(IMONM > 0) CALL STARTIME(TIMERS,69)
 c!dir$ omp offload target(mic:MICID)
 c     & nocopy(y,ifr2k,index)
 c     & in(vsca:length(lcom))
 c!$OMP PARALLEL default(shared)
 c           CALL MIC_SCATTER(NDDL, LCOM, Y, VSCA, IFR2K, INDEX)          
 c!$OMP END PARALLEL
-c           IF(IMONM > 0) CALL STOPTIME(69,1)
+c           IF(IMONM > 0) CALL STOPTIME(TIMERS,69)
 c          END IF
 C---------------------
 c          IF(NSPMD == 1) THEN
@@ -2072,9 +2072,9 @@ c!$OMP PARALLEL default(shared) shared(S)
 c            CALL MIC_MV(NDDL,Y,W,Z)
 c            CALL MIC_DDOT(NDDL, P, Z, S)
 c!$OMP END PARALLEL
-c            IF(IMONM > 0) CALL STARTIME(67,1)
+c            IF(IMONM > 0) CALL STARTIME(TIMERS,67)
 c            CALL SPMD_SUM_S(S)
-c            IF(IMONM > 0) CALL STOPTIME(67,1)
+c            IF(IMONM > 0) CALL STOPTIME(TIMERS,67)
 c          END IF
 C---------------------
           ALPHA=G0/S
@@ -2109,25 +2109,25 @@ C D_Z = D_Z + LT_M0 * D_Y
 c!$OMP END PARALLEL
 C----------------------
 c          IF(NSPMD > 1 .AND. IPREC > 1)THEN
-c           IF(IMONM > 0) CALL STARTIME(68,1)
+c           IF(IMONM > 0) CALL STARTIME(TIMERS,68)
 c!dir$ omp offload target(mic:MICID)
 c     & nocopy(z,ifr2k)
 c     & out(vgat:length(lcom))
 c!$OMP PARALLEL default(shared)
 c           CALL MIC_GATHER(NDDL, LCOM, Z, VGAT, IFR2K)
 c!$OMP END PARALLEL
-c           IF(IMONM > 0) CALL STOPTIME(68,1)
-c           IF(IMONM > 0) CALL STARTIME(66,1)
+c           IF(IMONM > 0) CALL STOPTIME(TIMERS,68)
+c           IF(IMONM > 0) CALL STARTIME(TIMERS,66)
 c           CALL SPMD_SUMFC_V(VGAT,VSCA,INDEX,LCOM)
-c           IF(IMONM > 0) CALL STOPTIME(66,1)
-c           IF(IMONM > 0) CALL STARTIME(69,1)
+c           IF(IMONM > 0) CALL STOPTIME(TIMERS,66)
+c           IF(IMONM > 0) CALL STARTIME(TIMERS,69)
 c!dir$ omp offload target(mic:MICID)
 c     & nocopy(z,ifr2k,index)
 c     & in(vsca:length(lcom))
 c!$OMP PARALLEL default(shared)
 c           CALL MIC_SCATTER(NDDL, LCOM, Z, VSCA, IFR2K, INDEX)          
 c!$OMP END PARALLEL
-c           IF(IMONM > 0) CALL STOPTIME(69,1)
+c           IF(IMONM > 0) CALL STOPTIME(TIMERS,69)
 c          END IF
 C---------------------
 c          IF(NSPMD == 1) THEN
@@ -2146,9 +2146,9 @@ c!$OMP PARALLEL default(shared) shared(G1)
 c            CALL MIC_MV(NDDL,Z,W,Y)
 c            CALL MIC_DDOT(NDDL, R, Y, G1)
 c!$OMP END PARALLEL
-c            IF(IMONM > 0) CALL STARTIME(67,1)
+c            IF(IMONM > 0) CALL STARTIME(TIMERS,67)
 c            CALL SPMD_SUM_S(G1)
-c            IF(IMONM > 0) CALL STOPTIME(67,1)
+c            IF(IMONM > 0) CALL STOPTIME(TIMERS,67)
 c          END IF
 C---------------------
 c+1
@@ -2174,9 +2174,9 @@ c!$OMP PARALLEL default(shared) shared(R2)
 c              CALL MIC_MV(NDDL,R,W,Y)
 c              CALL MIC_DDOT(NDDL, Y, Y, R2)
 c!$OMP END PARALLEL
-c              IF(IMONM > 0) CALL STARTIME(67,1)
+c              IF(IMONM > 0) CALL STARTIME(TIMERS,67)
 c              CALL SPMD_SUM_S(R2)
-c              IF(IMONM > 0) CALL STOPTIME(67,1)
+c              IF(IMONM > 0) CALL STOPTIME(TIMERS,67)
 c            END IF
           ELSEIF (ITOL==3) THEN
 c+1

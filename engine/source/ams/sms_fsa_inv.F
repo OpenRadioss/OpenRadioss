@@ -57,13 +57,14 @@ C-----
       !||    message_mod      ../engine/share/message_module/message_mod.F
       !||    mod_sms_fsa      ../engine/source/ams/sms_fsa_inv.F
       !||====================================================================
-      SUBROUTINE SMS_CHECK(NODFT ,NODLT ,IADK  ,JDIK  ,DIAG_K ,  
+      SUBROUTINE SMS_CHECK(TIMERS,NODFT ,NODLT ,IADK  ,JDIK  ,DIAG_K ,  
      2                     LT_K  ,IADI  , JDII ,LT_I  ,ITASK  ,
      3                     ITAB  ,IAD_ELEM,FR_ELEM,FR_SMS,FR_RMS,
      4                     LIST_SMS,LIST_RMS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE TIMER_MOD
       USE MOD_SMS_FSA
       USE MESSAGE_MOD
 C-----------------------------------------------
@@ -82,6 +83,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(TIMER_), INTENT(INOUT) :: TIMERS
       INTEGER  NODFT, NODLT, 
      .         IADK(*), JDIK(*), IADI(*), JDII(*),
      .         ITASK, ITAB(*), IAD_ELEM(2,*), FR_ELEM(*),
@@ -119,7 +121,7 @@ C     [M]:factorized sparse approximated inverse Lt D L
 C------------------------------------------
       NNZM  = NNZ_SMS
 C
-      IF (IMON>0.AND.ITASK==0) CALL STARTIME(32,1)
+      IF (IMON>0.AND.ITASK==0) CALL STARTIME(TIMERS,32)
 C
       IF(ITASK==0)THEN
         ALLOCATE(IADM(NUMNOD+1),JADM(NUMNOD+1),KADM(NUMNOD),
@@ -315,7 +317,7 @@ C-------
         END IF
       END IF
 C
-      IF (IMON>0.AND.ITASK==0) CALL STOPTIME(32,1)
+      IF (IMON>0.AND.ITASK==0) CALL STOPTIME(TIMERS,32)
 C----------------------
       CALL MY_BARRIER
 C---------------------

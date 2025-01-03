@@ -93,7 +93,7 @@ C-----------------------------------------------
       my_real, DIMENSION(:,:), ALLOCATABLE :: FTSAV_BUF
       INTEGER :: NTY
 C-----------------------------------------------
-      !CALL STARTIME(96,1)
+      !CALL STARTIME(TIMERS,96)
       NBT8 = 0
     
 
@@ -187,7 +187,7 @@ c        IF(ISPMD/=0) GOTO 200 !TO REMOVE
       ENDIF
 
       IF (IMPL_S==1) NT_IMP=IAD-1
-      !CALL STOPTIME(96,1)
+      !CALL STOPTIME(TIMERS,96)
 
 C      
       RETURN
