@@ -64,8 +64,8 @@
           integer, dimension(mvsiz), intent(in) :: prov_n !< list of potential S node
           integer, dimension(mvsiz), intent(in) :: prov_e !< list of potential segment
           my_real, dimension(mvsiz), intent(in) :: pene !< penetration
-          type(array_type), intent(inout) :: local_cand_n !< list of S node (local to a !$omp thread)
-          type(array_type), intent(inout) :: local_cand_e !< list of segment (local to a !$omp thread)
+          type(array_type_int_1d), intent(inout) :: local_cand_n !< list of S node (local to a !$omp thread)
+          type(array_type_int_1d), intent(inout) :: local_cand_e !< list of segment (local to a !$omp thread)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
