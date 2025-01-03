@@ -74,7 +74,8 @@ C=======================================================================
             CALL ANCMSG(MSGID=779, MSGTYPE=MSGERROR, ANMODE=ANINFO,
      .                  I1=MAT_ID  ,
      .                  C1=TITR,
-     .                  I2=TABL_ID  )
+     .                  I2=TABL_ID )
+            ITABLE(I) = 0
           ENDIF                                 
         ENDIF                                 
 c
