@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE I10MAIN_OPT_TRI(
      1                  IPARI  ,X  ,V  ,
-     2                  NIN    ,ITASK ,COUNT_REMSLV ,INTBUF_TAB )
+     2                  NIN    ,ITASK ,COUNT_REMSLV ,INTBUF_TAB, LSKYI_SMS_NEW)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -48,6 +48,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER,INTENT(INOUT) :: LSKYI_SMS_NEW
       INTEGER IPARI(*), ITASK, NIN,COUNT_REMSLV(*)
 C     REAL
       my_real
@@ -87,7 +88,7 @@ C-----------------------------------------------------------
      1INTBUF_TAB%NSV,INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,X    ,I_STOK  ,
      2INTBUF_TAB%IRECTM,GAP      ,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,IPARI(21)    ,
      3ITASK        ,NIN      ,IPARI(5)     ,INTBUF_TAB%STFNS,INTBUF_TAB%STFM,
-     4COUNT_REMSLV )
+     4COUNT_REMSLV , LSKYI_SMS_NEW)
 C-----------------------------------------------------------
 C
       RETURN

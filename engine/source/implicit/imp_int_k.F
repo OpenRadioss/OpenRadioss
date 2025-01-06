@@ -1153,12 +1153,14 @@ C-----------------------------------------------
      .        I,L1,L2,L3,JTASK,LINDMAX,IBID ,IBIDLEN,NRTM_T,
      .        ESHIFT,RENUM(NUMNOD), NSNFIOLD(NSPMD), ISENS
       INTEGER INT24E2EUSE
+      INTEGER LSKYI_SMS_NEW   ! AMS Counter for Interface values. Not need in implicit but kept for compatibility
 C     REAL
       my_real
      .        DTI, TS
       my_real
      .  RDUM(3,1)
 C-------------dans inttri------
+        LSKYI_SMS_NEW = 0 ! Value is set to zero than ignored.
         INT24E2EUSE=0
         RDUM(1:3,1)=ZERO
         IBID =0
@@ -1278,12 +1280,12 @@ C
           IF(TT>=TS) THEN  ! If interface is activated
             CALL I7MAIN_OPT_TRI(
      1       IPARI     ,INTBUF_TAB(N),X   ,V  ,
-     2       N         ,ITASK ,COUNT_REMSLV       )
+     2       N         ,ITASK ,COUNT_REMSLV, LSKYI_SMS_NEW      )
           ENDIF
         ELSEIF(NTY==10)THEN
           CALL I10MAIN_OPT_TRI(
      1       IPARI(1,N),INTBUF_TAB(N),X  ,V  ,
-     2       N         ,ITASK  ,COUNT_REMSLV      )
+     2       N         ,ITASK  ,COUNT_REMSLV  , LSKYI_SMS_NEW     )
         ELSEIF(NTY==11)THEN
 C
           ISENS = IPARI(64,N)
@@ -1296,7 +1298,7 @@ C
           IF(TT>=TS) THEN  ! If interface is activated
             CALL I11MAIN_OPT_TRI(
      1        IPARI     ,INTBUF_TAB(N),X  ,V  ,
-     2        N         ,ITASK  ,COUNT_REMSLV      )
+     2        N         ,ITASK  ,COUNT_REMSLV , LSKYI_SMS_NEW      )
           ENDIF
         ELSEIF(NTY == 20)THEN
           CALL I20MAIN_OPT_TRI(
