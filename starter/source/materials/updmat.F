@@ -76,6 +76,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE LAW50_UPD_MOD  
       USE LAW19_UPD_MOD  
+      USE LAW81_UPD_MOD
       USE LAW190_UPD_MOD  
       USE VISC_PARAM_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
@@ -276,8 +277,13 @@ c
 c------------------
           CASE (77) 
             CALL LAW77_UPD(TITR    ,MAT_ID   ,NPARAM ,MATPARAM ,
-     .                     UPARAM  ,NFUNC    ,IFUNC  ,NPC      ,PLD      )       
+     .                     UPARAM  ,NFUNC    ,IFUNC  ,NPC      ,PLD      )   
 c
+c------------------
+          CASE (81) 
+            CALL LAW81_UPD(MATPARAM,NFUNC    ,IFUNC  ,NPC      ,SNPC     ,
+     .                     PLD     ,STF      ,PM(1,IMAT),NPROPM,IOUT     ,
+     .                     MAT_ID  ,TITR     )
 c          
 c------------------
           CASE (87) !BARLAT 2D

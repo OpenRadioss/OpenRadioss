@@ -218,6 +218,7 @@
       use ale_connectivity_mod
       use message_mod
       use nlocal_reg_mod
+      use sigeps81_mod
       use sigeps100_mod
       use sigeps125_mod
       use sigeps126_mod
@@ -1524,19 +1525,18 @@
               d3(i) = ep3(i)
               dvol(i) = dvol(i)-trepsth(i)*vol_avg(i)
             enddo
-
+!
           elseif (mtn == 81) then
-            call sigeps81(nel   ,npar ,nuvar,nfunc ,ifunc ,ngl   ,&
-            &npf   ,tf   ,tt   ,uparam0,rho0  ,rho   ,&
-            &voln  ,amu  ,defp ,ssp   ,vis   ,uvar  ,&
-            &ep1   ,ep2  ,ep3  ,ep4   ,ep5   ,ep6   ,&
-            &de1   ,de2  ,de3  ,de4   ,de5   ,de6   ,&
-            &es1   ,es2  ,es3  ,es4   ,es5   ,es6   ,&
-            &so1   ,so2  ,so3  ,so4   ,so5   ,so6   ,&
-            &s1    ,s2   ,s3   ,s4    ,s5    ,s6    ,&
-            &sv1   ,sv2  ,sv3  )
-
-
+            call sigeps81(&
+            &nel     ,nuvar   ,uvar    ,matparam,nfunc   ,ifunc   ,&
+            &npf     ,tf      ,snpc    ,stf     ,rho0    ,rho     ,&
+            &voln    ,amu     ,defp    ,ssp     ,vis     ,dt1     ,&
+            &de1     ,de2     ,de3     ,de4     ,de5     ,de6     ,&
+            &so1     ,so2     ,so3     ,so4     ,so5     ,so6     ,&
+            &s1      ,s2      ,s3      ,s4      ,s5      ,s6      ,&
+            &sv1     ,sv2     ,sv3     ,nvartmp ,vartmp  ,lbuf%seq,&
+            &et      )
+!
           elseif (mtn == 82) then
             call sigeps82(nel ,npar,nuvar,nfunc,ifunc,&
             &npf ,tf  ,tt,dt1,uparam0,&

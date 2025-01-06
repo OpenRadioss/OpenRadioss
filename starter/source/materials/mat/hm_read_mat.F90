@@ -183,6 +183,7 @@ contains
       use matparam_def_mod
       use hm_option_read_mod
       use table_mod
+      use hm_read_mat81_mod
       use hm_read_mat169_arup_mod
       use hm_read_mat125_mod
       use hm_read_mat126_mod
@@ -875,12 +876,12 @@ contains
             &itable   ,maxtabl  ,numtabl  ,nvartmp  ,table    ,&
             &matparam )
 !-------
-          case ('LAW81')
+          case ('LAW81','DPRAG_CAP')
             ilaw = 81
             call hm_read_mat81(&
-            &uparam   ,maxuparam,nuparam  ,nuvar    ,ifunc    ,&
-            &maxfunc  ,nfunc    ,parmat   ,mat_id   ,pm(1,i)  ,&
-            &titr     ,unitab   ,lsubmodel,mtag     ,matparam )
+            &matparam ,nuvar    ,ifunc    ,maxfunc  ,nfunc    ,&
+            &parmat   ,mat_id   ,titr     ,unitab   ,lsubmodel,&
+            &mtag     ,iout     ,nvartmp  )
 !-------
           case ('LAW82')
             ilaw = 82
