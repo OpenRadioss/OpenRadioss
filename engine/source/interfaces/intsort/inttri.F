@@ -1424,20 +1424,22 @@ C-----------------------------------------------------------------------
 
           CALL I7MAIN_OPT_TRI(
      1       IPARI     ,PTR_X        ,PTR_V,
-     2       N         ,ITASK        ,COUNT_REMSLV ,INTBUF_TAB(N))
+     2       N         ,ITASK        ,COUNT_REMSLV ,INTBUF_TAB(N),
+     3       LSKYI_SMS_NEW)
           
 C-----------------------------------------------------------------------
         ELSEIF(NTY == 10)THEN
 C-----------------------------------------------------------------------
           CALL I10MAIN_OPT_TRI(
      1       IPARI(1,N),X  ,V  ,
-     2       N         ,ITASK        ,COUNT_REMSLV ,INTBUF_TAB(N))
+     2       N         ,ITASK        ,COUNT_REMSLV ,INTBUF_TAB(N),LSKYI_SMS_NEW)
 C-----------------------------------------------------------------------
         ELSEIF(NTY == 11.AND.TT>=TS)THEN
 C-----------------------------------------------------------------------
           CALL I11MAIN_OPT_TRI(
      1       IPARI     ,INTBUF_TAB(N),X  ,V  ,
-     2       N         ,ITASK        ,COUNT_REMSLV )
+     2       N         ,ITASK        ,COUNT_REMSLV,
+     3       LSKYI_SMS_NEW )
 C-----------------------------------------------------------------------
         ELSEIF(NTY == 20)THEN
 C-----------------------------------------------------------------------

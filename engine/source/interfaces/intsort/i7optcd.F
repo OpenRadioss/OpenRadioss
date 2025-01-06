@@ -34,7 +34,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3                   STFN           ,ITASK     ,STF        ,IFQ        ,IFPEN  ,
      4                   CAND_FX        ,CAND_FY   ,CAND_FZ    ,NIN        ,NSN    ,
      5                   GAPMAX         ,ICURV     ,GAP_S_L    ,GAP_M_L    ,
-     6                   COUNT_REMSLV   ,GAPMIN    ,DRAD       ,DGAPLOAD   )
+     6                   COUNT_REMSLV   ,GAPMIN    ,DRAD       ,DGAPLOAD   ,
+     7                   LSKYI_SMS_NEW)
 C===============================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -66,6 +67,7 @@ C-----------------------------------------------
      .        CAND_FX(*),CAND_FY(*),CAND_FZ(*),
      .        GAPMAX,GAP_S_L(*),GAP_M_L(*),GAPMIN
       my_real , INTENT(IN) :: DGAPLOAD ,DRAD
+      INTEGER,INTENT(INOUT) :: LSKYI_SMS_NEW
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -412,7 +414,8 @@ C
       IF(COUNT_CAND > 0 .OR. CT > 0) THEN
 #include "lockon.inc"
         LSKYI_COUNT=LSKYI_COUNT+COUNT_CAND*5
-        COUNT_REMSLV(NIN)=COUNT_REMSLV(NIN)+CT 
+        COUNT_REMSLV(NIN)=COUNT_REMSLV(NIN)+CT
+        LSKYI_SMS_NEW = LSKYI_SMS_NEW + COUNT_CAND
 #include "lockoff.inc"
       ENDIF
 

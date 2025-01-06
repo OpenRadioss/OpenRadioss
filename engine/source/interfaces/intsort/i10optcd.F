@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE I10OPTCD(NSV  ,CAND_E,CAND_N,X     ,I_STOK,
      1                    IRECT,GAP   ,GAP_S ,GAP_M ,IGAP  ,
      2                    ITASK,NIN   ,NSN   ,STFN  ,STF   ,
-     3                    COUNT_REMSLV )
+     3                    COUNT_REMSLV, LSKYI_SMS_NEW)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -74,6 +74,7 @@ C-----------------------------------------------
       INTEGER SG, FIRST, LAST,COUNT_CAND,CT
       my_real
      .        GAPV(MVSIZ)
+      INTEGER,INTENT(INOUT) :: LSKYI_SMS_NEW
 C-----------------------------------------------
       COUNT_CAND=0
       CT = 0
@@ -278,6 +279,7 @@ C
 #include "lockon.inc"
         LSKYI_COUNT=LSKYI_COUNT+COUNT_CAND*5
         COUNT_REMSLV(NIN)=COUNT_REMSLV(NIN)+CT
+        LSKYI_SMS_NEW = LSKYI_SMS_NEW + COUNT_CAND
 #include "lockoff.inc"
       ENDIF
 

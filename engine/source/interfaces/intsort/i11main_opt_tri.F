@@ -31,7 +31,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE I11MAIN_OPT_TRI(
      1                  IPARI   ,INTBUF_TAB  ,X     ,V      ,
-     2                  NIN     ,ITASK,COUNT_REMSLV)
+     2                  NIN     ,ITASK,COUNT_REMSLV,
+     3       LSKYI_SMS_NEW)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -56,6 +57,7 @@ C     REAL
       my_real 
      .    X(*), V(3,*)
 
+      INTEGER,INTENT(INOUT) :: LSKYI_SMS_NEW
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -92,7 +94,7 @@ C-----------------------------------------------------------
      3  INTBUF_TAB%GAP_M , IPARI(21,NIN)    , INTBUF_TAB%STFS  , ITASK,NRTS,
      4  INTBUF_TAB%STFM  , INTBUF_TAB%GAP_SL, INTBUF_TAB%GAP_ML, COUNT_REMSLV,  
      5  INTBUF_TAB%IFPEN , INTBUF_TAB%FTSAVX, INTBUF_TAB%FTSAVY, INTBUF_TAB%FTSAVZ,
-     6  IPARI(30,NIN)    , DRAD             , DGAPLOADP)
+     6  IPARI(30,NIN)    , DRAD             , DGAPLOADP,LSKYI_SMS_NEW)
 C-----------------------------------------------------------
 ccc      ENDIF
 C
