@@ -333,7 +333,8 @@ jobs:
             Write-Output "Status`t[ $([char]27)[31;2;1mFAILED$([char]27)[0m ]"
             $MAILMSG += "The build ${{ matrix.build }} has failed `r`n"
             Add-Content -Path $env:GITHUB_ENV -Value "CLOSE_BRANCH=1"
-            Send-MailMessage -SmtpServer $env:MAIL_RELAY -From $env:FROM_EMAIL -To $env:TO_EMAIL -Subject "Error in Github CI repo ${{ github.repository }} ($(git rev-list -n 1 ${{ env.LAST_STABLE_TAG_NAME }}))" -Body $MAILMSG -Port 25
+            $ALL_RECIPIENTS = $env:TO_EMAIL -split ","
+            Send-MailMessage -SmtpServer $env:MAIL_RELAY -From $env:FROM_EMAIL -To $ALL_RECIPIENTS -Subject "Error in Github CI repo ${{ github.repository }} ($(git rev-list -n 1 ${{ env.LAST_STABLE_TAG_NAME }}))" -Body $MAILMSG -Port 25
             exit 1
           }
           else {
@@ -369,7 +370,8 @@ jobs:
           $MAILMSG += "Return status API is : ${{ steps.close_branch_build.outputs.status }}`r`n`r`n"
           $MAILMSG += "Check more detailed datas in CI logs`r`n"
           Write-Output "`r`nClose return API is : ${{ steps.close_branch_build.outputs.status }} / ${{ steps.close_branch_build.outputs.data }}";
-          Send-MailMessage -SmtpServer $env:MAIL_RELAY -From $env:FROM_EMAIL -To $env:TO_EMAIL -Subject "Error in Github CI repo ${{ github.repository }} ($(git rev-list -n 1 ${{ env.LAST_STABLE_TAG_NAME }})) on closing branch" -Body $MAILMSG -Port 25
+          $ALL_RECIPIENTS = $env:TO_EMAIL -split ","
+          Send-MailMessage -SmtpServer $env:MAIL_RELAY -From $env:FROM_EMAIL -To $ALL_RECIPIENTS -Subject "Error in Github CI repo ${{ github.repository }} ($(git rev-list -n 1 ${{ env.LAST_STABLE_TAG_NAME }})) on closing branch" -Body $MAILMSG -Port 25
           exit 1
         if: ${{ always() && env.CLOSE_BRANCH == 1 && steps.close_branch_build.outputs.status != 200 }} 
 
