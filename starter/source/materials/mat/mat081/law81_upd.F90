@@ -42,10 +42,10 @@
          type(matparam_struct_), intent(inout)     :: matparam
          integer, intent(in)                       :: nfunc
          integer, dimension(nfunc), intent(in)     :: ifunc
-         integer, dimension(snpc), intent(in)      :: npc
          integer, intent(in)                       :: snpc
-         my_real, dimension(stf), intent(in)       :: pld
+         integer, dimension(snpc), intent(in)      :: npc
          integer, intent(in)                       :: stf
+         my_real, dimension(stf), intent(in)       :: pld
          my_real, dimension(npropm), intent(inout) :: pm
          integer, intent(in)                       :: npropm
          integer, intent(in)                       :: iout
