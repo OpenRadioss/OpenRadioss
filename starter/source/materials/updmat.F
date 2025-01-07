@@ -79,6 +79,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE LAW19_UPD_MOD  
       USE LAW81_UPD_MOD
+      USE LAW87_UPD_MOD
       USE LAW190_UPD_MOD  
       USE VISC_PARAM_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
@@ -287,11 +288,12 @@ c------------------
 c          
 c------------------
           CASE (87) !BARLAT 2D
-            NFUNC = UPARAM(25)
-            FLAG_FIT = NINT ( UPARAM(25+2*NFUNC+9) )
+            FLAG_FIT = MAT_PARAM(IMAT)%IPARAM(4)
+            NFUNC    = MAT_PARAM(IMAT)%IPARAM(5)
             IF (FLAG_FIT == 1) THEN 
-              CALL LAW87_UPD(IOUT,TITR,MAT_ID   ,UPARAM,NFUNC  ,NFUNCT,
-     .                       IFUNC,FUNC_ID,NPC,PLD,PM(1,IMAT))
+              CALL LAW87_UPD(IOUT   ,TITR    ,MAT_ID ,MAT_PARAM(IMAT)     ,
+     .                       NFUNC  ,IFUNC   ,SNPC   ,NPC      ,STF       ,
+     .                       PLD    )
             ENDIF
 c-------------------------
           CASE (88) 

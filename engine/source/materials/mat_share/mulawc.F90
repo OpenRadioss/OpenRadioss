@@ -179,7 +179,8 @@
         & ncycle   ,snpc     ,stf      ,impl_s    ,imconv    ,npropgi , &
         & npropmi  ,npropm   ,npropg   ,imon_mat  ,numgeo    ,          &
         & numstack ,dt1      ,tt       ,nxlaymax  ,idel7nok ,userl_avail, &
-        & maxfunc  ,nummat   ,varnl_npttot,sbufmat,sdir_a   ,sdir_b ,nparg)
+        & maxfunc  ,nummat   ,varnl_npttot,sbufmat,sdir_a   ,sdir_b ,nparg,    &
+        & ntable   )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -192,6 +193,7 @@
           use message_mod
           use nlocal_reg_mod
           use sensor_mod
+          use sigeps87c_mod
           use sigeps125c_mod
           use sigeps127c_mod
           use sigeps128c_mod
@@ -254,6 +256,7 @@
           integer, intent(in) :: snpc
           integer, intent(in) :: ncycle
           integer, intent(in) :: idt_therm
+          integer, intent(in) :: ntable
           integer, intent(in),dimension(mvsiz) :: mat
           integer, intent(in),dimension(mvsiz) :: pid
           integer, intent(in),dimension(mvsiz) :: ngl
@@ -1051,13 +1054,21 @@
                   pla0(1:jlt) = zero
                 endif
               endif
+!
+            !< Old stress tensor
+            sigoxx(1:nel) = lbuf%sig(ij1:ij1+nel-1)
+            sigoyy(1:nel) = lbuf%sig(ij2:ij2+nel-1)
+            sigoxy(1:nel) = lbuf%sig(ij3:ij3+nel-1)
+            sigoyz(1:nel) = lbuf%sig(ij4:ij4+nel-1)
+            sigozx(1:nel) = lbuf%sig(ij5:ij5+nel-1)
+!
 !------------------------------------------
 !         elastic stress +
 !         plasticly admissible stress
 !------------------------------------------
               if (ilaw == 1) then
                 call sigeps01c(jft       ,jlt      ,nel      ,imat     ,gs       ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx    ,signyy   ,signxy   ,signyz   ,signzx   ,&
                 &depsxx    ,depsyy   ,depsxy   ,depsyz   ,depszx   ,&
                 &thkn      ,thklyl   ,off      ,pm       ,ismstr   ,&
@@ -1071,7 +1082,7 @@
                 &ngl        ,epspdt    ,g_imp    ,sigksi   ,ioff_duct,&
                 &dpla       ,tstar     ,jthe     ,hardm    ,epchk    ,&
                 &imat       ,ipt       ,npttot   ,lbuf%pla ,off_old  ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx     ,signyy    ,signxy   ,signyz   ,signzx   ,&
                 &depsxx     ,depsyy    ,depsxy   ,depsyz   ,depszx   ,&
                 &epspxx     ,epspyy    ,epspxy   ,epspyz   ,epspzx ,&
@@ -1085,7 +1096,7 @@
                 &imat     ,shf     ,ngl      ,epspl      ,dmg_flag   ,&
                 &ilayer   ,nel     ,israte   ,lbuf%pla   ,sigdmg     ,&
                 &depsxx   ,depsyy  ,depsxy   ,depsyz     ,depszx     ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx   ,signyy  ,signxy   ,signyz     ,signzx     ,&
                 &lbuf%dsum,lbuf%tsaiwu)
               elseif (ilaw == 19) then
@@ -1094,7 +1105,7 @@
                 &nel       ,nuparam   ,niparam  ,flag_zcfac,zcfac     ,shf       ,&
                 &uparam    ,iparam    ,npttot   ,ssp       ,nsensor   ,&
                 &epsxx     ,epsyy     ,epsxy    ,epsyz     ,epszx     ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx    ,signyy    ,signxy   ,signyz    ,signzx    ,&
                 &gbuf%sigi ,sensors%sensor_tab)
 
@@ -1105,7 +1116,7 @@
                 &gs       ,dpla   ,ioff_duct,nptt   ,ipt     ,&
                 &epchk    ,alpe   ,thklyl   ,imat   ,lbuf%pla,&
                 &depsxx   ,depsyy ,depsxy   ,depsyz ,depszx  ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx   ,signyy ,signxy   ,signyz ,signzx  ,&
                 &inloc    ,varnl(1,it),lbuf%off)
               elseif (ilaw == 27) then
@@ -1116,7 +1127,7 @@
                 &sigy     ,zcfac   ,dpla     ,ilayer  ,ipt   ,&
                 &israte   ,nel     ,posly(1,ipt),npttot  ,epspdt,&
                 &depsxx   ,depsyy  ,depsxy   ,depsyz  ,depszx,&
-                &lbuf%sig(ij1),lbuf%sig(ij2) ,lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy ,sigoxy,sigoyz,sigozx,&
                 &signxx   ,signyy  ,signxy   ,signyz  ,signzx,&
                 &dirdmg   ,lbuf%pla,inloc    ,varnl(1,it),lbuf%off)
 !
@@ -1127,7 +1138,7 @@
                 &dir_a(jdir),ipt    ,imat    ,nel    ,dt1c   ,&
                 &gs         ,epsp   ,thklyl  ,ipla   ,dpla   ,&
                 &depsxx     ,depsyy ,depsxy  ,depsyz ,depszx ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx     ,signyy ,signxy  ,signyz ,signzx ,&
                 &lbuf%pla   ,ngl    ,hardm   ,inloc  ,varnl(1,it),&
                 &lbuf%seq   ,lbuf%off,etse   )
@@ -1146,7 +1157,7 @@
                   &sigy        ,zcfac    ,nptt        ,ilayer   ,&
                   &nfis1       ,nfis2    ,nfis3       ,wplar    ,&
                   &npttot      ,igtyp    ,lbuf%visc,lbuf%sigply,&
-                  &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                  &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                   &signxx      ,signyy   ,signxy      ,signyz   ,signzx    ,&
                   &sigvxx      ,sigvyy   ,sigvxy      ,sigvyz   ,sigvzx    ,&
                   &israte      ,uvarv    ,ishplyxfem  ,ipt      ,lbuf%seq  ,&
@@ -1162,7 +1173,7 @@
                   &shf     ,npt    ,ngl      ,ipt     ,off_old     ,&
                   &thk0    ,epspl  ,sigy     ,zcfac   ,nel    ,&
                   &depsxx  ,depsyy ,depsxy   ,depsyz  ,depszx ,&
-                  &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                  &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                   &signxx  ,signyy ,signxy   ,signyz  ,signzx ,&
                   &wplar  ,ioff_duct,lbuf%pla,israte ,lbuf%tsaiwu)
                 endif ! if (igtyp)
@@ -1175,7 +1186,7 @@
                 &epspxx ,epspyy ,epspxy  ,epspyz   ,epspzx ,&
                 &depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,&
                 &epsxx  ,epsyy  ,epsxy   ,epsyz    ,epszx  ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx ,signyy ,signxy  ,signyz   ,signzx ,&
                 &ssp    ,thkn    ,uvar     ,off    )
               elseif (ilaw == 35) then
@@ -1187,7 +1198,7 @@
                 &epspxx ,epspyy ,epspxy  ,epspyz   ,epspzx ,&
                 &depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,&
                 &epsxx  ,epsyy  ,epsxy   ,epsyz    ,epszx  ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx ,signyy ,signxy  ,signyz   ,signzx ,&
                 &sigvxx ,sigvyy ,sigvxy  ,sigvyz   ,sigvzx ,&
                 &ssp    ,viscmx ,thkn    ,uvar     ,off    ,&
@@ -1215,7 +1226,7 @@
                 &epspxx ,epspyy ,epspxy  ,&
                 &depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,&
                 &epsxx  ,epsyy  ,epsxy   ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx ,signyy ,signxy  ,signyz   ,signzx ,&
                 &ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,&
                 &vartmp ,off    ,ipm     ,imat     ,&
@@ -1230,7 +1241,7 @@
                 &depsxx , depsyy , depsxy  , depsyz  , depszx  ,&
                 &epsxx  , epsyy  , epsxy   , thkn    , thklyl  ,&
                 &signxx , signyy , signxy  , signyz  , signzx  ,&
-                &lbuf%sig(ij4),lbuf%sig(ij5),ssp     ,gs,  uvar,&
+                &sigoyz,sigozx,ssp     ,gs,  uvar,&
                 &off    )
 
               elseif (ilaw == 43) then
@@ -1241,7 +1252,7 @@
                 &epspxx ,epspyy ,epspxy  ,epspyz   ,epspzx  ,&
                 &depsxx ,depsyy ,depsxy  ,depsyz   ,depszx  ,&
                 &epsxx  ,epsyy  ,epsxy   ,epsyz    ,epszx   ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx ,signyy ,signxy  ,signyz   ,signzx ,&
                 &ssp    ,thkn   ,lbuf%pla ,uvar    ,off    ,&
                 &ngl    ,etse   ,hardm    ,sigy    ,gs     ,&
@@ -1257,7 +1268,7 @@
                 &epspxx ,epspyy ,epspxy  ,epspyz   ,epspzx ,&
                 &depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,&
                 &epsxx  ,epsyy  ,epsxy   ,epsyz    ,epszx  ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx ,signyy ,signxy  ,signyz   ,signzx ,&
                 &ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,&
                 &gs     ,sigy   ,epsp    ,dpla     ,asrate ,&
@@ -1273,7 +1284,7 @@
                 &epspxx ,epspyy ,epspxy  ,epspyz   ,epspzx ,&
                 &depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,&
                 &epsxx  ,epsyy  ,epsxy   ,epsyz    ,epszx  ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx ,signyy ,signxy  ,signyz   ,signzx ,&
                 &sigvxx ,sigvyy ,sigvxy  ,sigvyz   ,sigvzx ,&
                 &ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,&
@@ -1287,7 +1298,7 @@
                 &epspxx ,epspyy ,epspxy  ,epspyz   ,epspzx ,&
                 &depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,&
                 &epsxx  ,epsyy  ,epsxy   ,epsyz    ,epszx  ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx ,signyy ,signxy  ,signyz   ,signzx ,&
                 &sigvxx ,sigvyy ,sigvxy  ,sigvyz   ,sigvzx ,&
                 &ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,&
@@ -1303,7 +1314,7 @@
                 &epspxx ,epspyy ,epspxy  ,epspyz   ,epspzx ,&
                 &depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,&
                 &epsxx  ,epsyy  ,epsxy   ,epsyz    ,epszx  ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx ,signyy ,signxy  ,signyz   ,signzx ,&
                 &sigvxx ,sigvyy ,sigvxy  ,sigvyz   ,sigvzx ,&
                 &ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,&
@@ -1318,7 +1329,7 @@
                 &epspxx ,epspyy ,epspxy  ,epspyz   ,epspzx ,&
                 &depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,&
                 &epsxx  ,epsyy  ,epsxy   ,epsyz    ,epszx  ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx ,signyy ,signxy  ,signyz   ,signzx ,&
                 &sigvxx ,sigvyy ,sigvxy  ,sigvyz   ,sigvzx ,&
                 &ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,&
@@ -1333,7 +1344,7 @@
                 &epspxx ,epspyy ,epspxy  ,epspyz   ,epspzx ,&
                 &depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,&
                 &epsxx  ,epsyy  ,epsxy   ,epsyz    ,epszx  ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx ,signyy ,signxy  ,signyz   ,signzx ,&
                 &sigvxx ,sigvyy ,sigvxy  ,sigvyz   ,sigvzx ,&
                 &ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,&
@@ -1348,7 +1359,7 @@
                 &epspxx ,epspyy ,epspxy  ,epspyz   ,epspzx ,&
                 &depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,&
                 &epsxx  ,epsyy  ,epsxy   ,epsyz    ,epszx  ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx ,signyy ,signxy  ,signyz   ,signzx ,&
                 &sigvxx ,sigvyy ,sigvxy  ,sigvyz   ,sigvzx ,&
                 &ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,&
@@ -1365,7 +1376,7 @@
                 &epspxx  ,epspyy  ,epspxy  ,epspyz   ,epspzx  ,&
                 &depsxx  ,depsyy  ,depsxy  ,depsyz   ,depszx  ,&
                 &epsxx   ,epsyy   ,epsxy   ,epsyz    ,epszx   ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx  ,signyy  ,signxy  ,signyz   ,signzx  ,&
                 &sigvxx  ,sigvyy  ,sigvxy  ,sigvyz   ,sigvzx  ,&
                 &ssp     ,viscmx  ,thkn    ,lbuf%pla ,uvar    ,&
@@ -1384,7 +1395,7 @@
                   &epspxx ,epspyy ,epspxy  ,epspyz   ,epspzx ,&
                   &depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,&
                   &epsxx  ,epsyy  ,epsxy   ,epsyz    ,epszx  ,&
-                  &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                  &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                   &signxx ,signyy ,signxy  ,signyz   ,signzx ,&
                   &sigvxx ,sigvyy ,sigvxy  ,sigvyz   ,sigvzx ,&
                   &ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,&
@@ -1400,7 +1411,7 @@
                   &epspxx ,epspyy ,epspxy  ,epspyz   ,epspzx ,&
                   &depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,&
                   &epsxx  ,epsyy  ,epsxy   ,epsyz    ,epszx  ,&
-                  &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                  &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                   &signxx ,signyy ,signxy  ,signyz   ,signzx ,&
                   &sigvxx ,sigvyy ,sigvxy  ,sigvyz   ,sigvzx ,&
                   &ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,&
@@ -1417,7 +1428,7 @@
                 &epspxx , epspyy , epspxy  , epspyz, epspzx,&
                 &depsxx , depsyy , depsxy  , depsyz, depszx,&
                 &epsxx  , epsyy  , epsxy   , epsyz , epszx ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx , signyy , signxy  , signyz, signzx,&
                 &sigvxx , sigvyy , sigvxy  , sigvyz, sigvzx,&
                 &ssp    , viscmx , thkn    ,uvar   , off   ,&
@@ -1432,8 +1443,8 @@
                 &epspyz,       epspzx,       depsxx,       depsyy,&
                 &depsxy,       depsyz,       depszx,       epsxx,&
                 &epsyy,        epsxy,        epsyz,        epszx,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),&
-                &lbuf%sig(ij5),signxx,       signyy,       signxy,&
+                &sigoxx,sigoyy,sigoxy,sigoyz,&
+                &sigozx,signxx,       signyy,       signxy,&
                 &signyz,       signzx,       sigvxx,       sigvyy,&
                 &sigvxy,       sigvyz,       sigvzx,       ssp,&
                 &viscmx,       thkn,         lbuf%pla,     uvar,&
@@ -1451,8 +1462,8 @@
                 &epspyz,       epspzx,       depsxx,       depsyy,&
                 &depsxy,       depsyz,       depszx,       epsxx,&
                 &epsyy,        epsxy,        epsyz,        epszx,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),&
-                &lbuf%sig(ij5),signxx,       signyy,       signxy,&
+                &sigoxx,sigoyy,sigoxy,sigoyz,&
+                &sigozx,signxx,       signyy,       signxy,&
                 &signyz,       signzx,       sigvxx,       sigvyy,&
                 &sigvxy,       sigvyz,       sigvzx,       ssp,&
                 &viscmx,       thkn,         lbuf%pla,     uvar,&
@@ -1469,7 +1480,7 @@
                 &epspxx ,epspyy ,epspxy  ,epspyz   ,epspzx ,&
                 &depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,&
                 &epsxx  ,epsyy  ,epsxy   ,epsyz    ,epszx  ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx ,signyy ,signxy  ,signyz   ,signzx ,&
                 &sigvxx ,sigvyy ,sigvxy  ,sigvyz   ,sigvzx ,&
                 &ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,&
@@ -1484,7 +1495,7 @@
                 &epspxx ,epspyy ,epspxy  ,epspyz   ,epspzx ,&
                 &depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,&
                 &epsxx  ,epsyy  ,epsxy   ,epsyz    ,epszx  ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx ,signyy ,signxy  ,signyz   ,signzx ,&
                 &sigvxx ,sigvyy ,sigvxy  ,sigvyz   ,sigvzx ,&
                 &ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,&
@@ -1500,7 +1511,7 @@
                 &epspxx , epspyy , epspxy  , epspyz, epspzx,&
                 &depsxx , depsyy , depsxy  , depsyz, depszx,&
                 &epsxx  , epsyy  , epsxy   , epsyz , epszx ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx , signyy , signxy  , signyz, signzx,&
                 &sigvxx , sigvyy , sigvxy  , sigvyz, sigvzx,&
                 &ssp    , viscmx , thkn    , uvar  , ngl    ,&
@@ -1516,8 +1527,8 @@
                 &epspyz,       epspzx,       depsxx,       depsyy,&
                 &depsxy,       depsyz,       depszx,       epsxx,&
                 &epsyy,        epsxy,        epsyz,        epszx,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),&
-                &lbuf%sig(ij5),signxx,       signyy,       signxy,&
+                &sigoxx,sigoyy,sigoxy,sigoyz,&
+                &sigozx,signxx,       signyy,       signxy,&
                 &signyz,       signzx,       sigvxx,       sigvyy,&
                 &sigvxy,       sigvyz,       sigvzx,       ssp,&
                 &viscmx,       thkn,         lbuf%pla,     uvar,&
@@ -1529,7 +1540,7 @@
                 &jlt      ,nuparam0  ,nuvar    ,&
                 &tt       ,dt1c     ,uparam0   ,rho      ,thklyl   ,&
                 &depsxx   ,depsyy   ,depsxy   ,depsyz   ,depszx   ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,&
                 &ssp      ,thkn     ,lbuf%pla ,uvar     ,off      ,&
                 &etse     ,gs       ,sigy     ,hardm    ,lbuf%seq ,&
@@ -1542,8 +1553,8 @@
                 &epspxy,       epspyz,       epspzx,       depsxx,&
                 &depsyy,       depsxy,       depsyz,       depszx,&
                 &epsxx,        epsyy,        epsxy,        epsyz,&
-                &epszx,        lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),&
-                &lbuf%sig(ij4),lbuf%sig(ij5),signxx,       signyy,&
+                &epszx,        sigoxx,sigoyy,sigoxy,&
+                &sigoyz,sigozx,signxx,       signyy,&
                 &signxy,       signyz,       signzx,       sigvxx,&
                 &sigvyy,       sigvxy,       sigvyz,       sigvzx,&
                 &ssp,          viscmx,       thkn,         lbuf%pla,&
@@ -1562,7 +1573,7 @@
                 &npf      ,tf        ,matparam ,tt       ,dt1      ,&
                 &uparam0  ,uvar      ,rho      ,off      ,ngl      ,&
                 &depsxx   ,depsyy    ,depsxy   ,depsyz   ,depszx   ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,&
                 &ssp      ,thkn     ,thklyl   ,lbuf%pla ,epsp     ,&
                 &etse     ,gs       ,sigy     ,inloc    ,bufly%l_planl,&
@@ -1577,7 +1588,7 @@
                 &nfunc    ,ifunc    ,npf      ,tf       ,uparam0   ,&
                 &thklyl   ,thkn     ,gs       ,etse     ,sigy     ,&
                 &depsxx   ,depsyy   ,depsxy   ,depsyz   ,depszx   ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,&
                 &ssp      ,uvar     ,lbuf%siga,lbuf%sigb,lbuf%sigc,&
                 &rho      ,off      ,lbuf%pla ,dpla     ,vartmp   ,&
@@ -1603,8 +1614,8 @@
                 &epspyz,       epspzx,       depsxx,       depsyy,&
                 &depsxy,       depsyz,       depszx,       epsxx,&
                 &epsyy,        epsxy,        epsyz,        epszx,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),&
-                &lbuf%sig(ij5),signxx,       signyy,       signxy,&
+                &sigoxx,sigoyy,sigoxy,sigoyz,&
+                &sigozx,signxx,       signyy,       signxy,&
                 &signyz,       signzx,       sigvxx,       sigvyy,&
                 &sigvxy,       sigvyz,       sigvzx,       ssp,&
                 &viscmx,       thkn,         lbuf%pla,     uvar,&
@@ -1623,7 +1634,7 @@
                 &epspxx ,epspyy ,epspxy  ,epspyz ,epspzx ,&
                 &depsxx ,depsyy ,depsxy  ,depsyz ,depszx ,&
                 &epsxx  ,epsyy  ,epsxy   ,epsyz  ,epszx  ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx ,signyy ,signxy  ,signyz ,signzx ,&
                 &sigvxx ,sigvyy ,sigvxy  ,sigvyz ,sigvzx ,&
                 &ssp    ,viscmx ,thkn    ,uvar   ,&
@@ -1637,7 +1648,7 @@
                 &epspxx ,epspyy ,epspxy  ,epspyz   ,epspzx ,&
                 &depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,&
                 &epsxx  ,epsyy  ,epsxy   ,epsyz    ,epszx  ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx ,signyy ,signxy  ,signyz   ,signzx ,&
                 &sigvxx ,sigvyy ,sigvxy  ,sigvyz   ,sigvzx ,&
                 &ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,&
@@ -1651,7 +1662,7 @@
                 &epspxx ,epspyy ,epspxy  ,epspyz   ,epspzx ,&
                 &depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,&
                 &epsxx  ,epsyy  ,epsxy   ,epsyz    ,epszx  ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx ,signyy ,signxy  ,signyz   ,signzx ,&
                 &sigvxx ,sigvyy ,sigvxy  ,sigvyz   ,sigvzx ,&
                 &ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,&
@@ -1660,19 +1671,18 @@
               elseif (ilaw == 87) then
                 asrate = pm(9,mx)
                 call sigeps87c(&
-                &jlt,          nuparam0,      nuvar,        nfunc,&
-                &ifunc,        npf,          tf,           tt,&
-                &dt1c,         uparam0,       uvar,         rho,&
-                &thklyl,       thkn,         off,          epspxx,&
-                &epspyy,       epspxy,       epspyz,       epspzx,&
-                &depsxx,       depsyy,       depsxy,       depsyz,&
-                &depszx,       lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),&
-                &lbuf%sig(ij4),lbuf%sig(ij5),signxx,       signyy,&
-                &signxy,       signyz,       signzx,       ssp,&
-                &lbuf%pla,     dpla,         epspl,        sigy,&
-                &etse,         gs,           israte,       asrate,&
-                &yldfac,       tempel,       lbuf%sigb,    inloc,&
-                &varnl(1,it),  lbuf%seq,     jthe,         lbuf%off)
+                &jlt      ,matparam ,nuvar    ,uvar     ,nfunc    ,   &
+                &ifunc    ,snpc     ,npf      ,stf      ,tf       ,   &
+                &tt       ,dt1      ,rho      ,thklyl   ,thkn     ,   &    
+                &epspxx   ,epspyy   ,epspxy   ,epspyz   ,epspzx   ,   &
+                &depsxx   ,depsyy   ,depsxy   ,depsyz   ,depszx   ,   &
+                &sigoxx   ,sigoyy   ,sigoxy   ,sigoyz   ,sigozx   ,   &
+                &signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,   &
+                &ssp      ,lbuf%pla ,dpla     ,epspl    ,sigy     ,   &
+                &etse     ,gs       ,israte   ,asrate   ,yldfac   ,   &
+                &tempel   ,lbuf%sigb,inloc    ,varnl(1,it),lbuf%seq,  &
+                &jthe     ,off      ,lbuf%off ,numtabl  ,itable   ,   &
+                &ntable   ,table    ,nvartmp  ,vartmp   ,lbuf%epsd)
               elseif (ilaw == 88) then
                 call sigeps88c(&
                 &jlt    , nuparam0, nuvar   , nfunc , ifunc , npf   ,&
@@ -1682,7 +1692,7 @@
                 &epspxx , epspyy , epspxy  , epspyz, epspzx,&
                 &depsxx , depsyy , depsxy  , depsyz, depszx,&
                 &epsxx  , epsyy  , epsxy   , epsyz , epszx ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx , signyy , signxy  , signyz, signzx,&
                 &ssp    , viscmx , thkn    , uvar )
               elseif (ilaw == 93) then
@@ -1691,7 +1701,7 @@
                 &npf      ,tf       ,tt       ,dt1c     ,uparam0   ,&
                 &epspxx   ,epspyy   ,epspxy   ,epspyz   ,epspzx   ,&
                 &depsxx   ,depsyy   ,depsxy   ,depsyz   ,depszx   ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,&
                 &ssp      ,thkn     ,lbuf%pla ,uvar     ,rho      ,&
                 &off      ,etse     ,thklyl   ,shf      ,sigy     ,&
@@ -1705,7 +1715,7 @@
                 &rho     ,tempel  ,lbuf%pla,ssp     ,off     ,epspl   ,&
                 &epspxx  ,epspyy  ,epspxy  ,epspyz  ,epspzx  ,thklyl  ,&
                 &depsxx  ,depsyy  ,depsxy  ,depsyz  ,depszx  ,thkn    ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx  ,signyy  ,signxy  ,signyz  ,signzx  )
 !
               elseif (ilaw == 104 )then
@@ -1715,7 +1725,7 @@
                 &dt1c    ,tt      ,uparam0 ,uvar    ,jthe    ,rho      ,tempel   ,&
                 &lbuf%pla,dpla    ,ssp     ,lbuf%off,lbuf%epsd,epspl   ,gs       ,&
                 &depsxx  ,depsyy  ,depsxy  ,depsyz  ,depszx  ,thklyl   ,off      ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx  ,signyy  ,signxy  ,signyz  ,signzx  ,thkn     ,sigy     ,&
                 &etse    ,varnl(1,it),lbuf%dmg,bufly%l_dmg,lbuf%temp,lbuf%seq,inloc,&
                 &elbuf_str%nptr,elbuf_str%npts,elbuf_str%nptt,bufly    ,lbuf%planl,&
@@ -1727,7 +1737,7 @@
                 &tf      ,dt1c    ,tt      ,uparam0  ,uvar    ,jthe    ,rho     ,&
                 &lbuf%pla,dpla    ,ssp     ,lbuf%epsd,off     ,&
                 &depsxx  ,depsyy  ,depsxy  ,depsyz  ,depszx  ,shf     ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &sigy    ,signxx  ,signyy  ,signxy  ,signyz  ,signzx  ,&
                 &etse    ,numtabl  ,itable  ,table   ,nvartmp ,vartmp   )
 !
@@ -1738,7 +1748,7 @@
                 &tt      ,dt1c    ,off     ,rho     ,lbuf%pla ,dpla     ,&
                 &ssp     ,sigy    ,etse    ,el_temp ,epsp     ,gs       ,&
                 &depsxx  ,depsyy  ,depsxy  ,depsyz  ,depszx   ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx  ,signyy  ,signxy  ,signyz  ,signzx   ,&
                 &thkn    ,thklyl  ,inloc   ,varnl(1,it),epspl ,lbuf%off)
 !
@@ -1749,7 +1759,7 @@
                 &gs      ,rho     ,lbuf%pla,dpla    ,epsp     ,ssp     ,&
                 &depsxx  ,depsyy  ,depsxy  ,depsyz  ,depszx   ,asrate  ,&
                 &epspxx  ,epspyy  ,epspxy  ,epspyz  ,epspzx   ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx  ,signyy  ,signxy  ,signyz  ,signzx   ,thklyl  ,&
                 &thkn    ,sigy    ,etse    ,tempel  ,lbuf%temp,lbuf%seq,&
                 &tf      ,numtabl ,itable  ,table   ,nvartmp  ,vartmp  ,&
@@ -1761,7 +1771,7 @@
                 &tf      ,dt1c    ,tt      ,uparam0  ,uvar    ,jthe    ,rho     ,&
                 &lbuf%pla,dpla    ,ssp     ,lbuf%epsd,off     ,&
                 &depsxx  ,depsyy  ,depsxy  ,depsyz  ,depszx  ,shf     ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &sigy    ,signxx  ,signyy  ,signxy  ,signyz  ,signzx  ,&
                 &etse    ,numtabl  ,itable  ,table   ,nvartmp ,vartmp   )
 !
@@ -1773,7 +1783,7 @@
                 &thkn     ,thklyl   ,shf      ,ssp      ,off      ,&
                 &flag_zcfac,zcfac   ,depsxx   ,depsyy   ,depsxy   ,&
                 &epsxx    ,epsyy    ,epsxy    ,epsyz    ,epszx    ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,&
                 &wmc      ,thkly(jpos),thk0)
 !
@@ -1784,7 +1794,7 @@
                 &dpla    ,ssp     ,lbuf%epsd,gs     ,thkn    ,thklyl  ,off     ,&
                 &depsxx  ,depsyy  ,depsxy  ,depsyz  ,depszx  ,&
                 &epspxx  ,epspyy  ,epspxy  ,epspyz  ,epspzx  ,epsp    ,epspl   ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx  ,signyy  ,signxy  ,signyz  ,signzx  ,&
                 &sigy    ,etse    ,varnl(1,it),inloc,gbuf%dt ,&
                 &ipg     ,it      ,elbuf_str%nptr,elbuf_str%npts,elbuf_str%nptt,&
@@ -1795,7 +1805,7 @@
                 &jlt      ,nuparam0 ,nuvar    ,uparam0  ,uvar     ,&
                 &epsxx    ,epsyy    ,rho      ,lbuf%pla ,dpla     ,&
                 &depsxx   ,depsyy   ,depsxy   ,depsyz   ,depszx   ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,&
                 &thkn     ,thklyl   ,off      ,sigy     ,etse     ,&
                 &lbuf%dmg ,lbuf%seq ,shf      ,ssp      ,&
@@ -1803,23 +1813,13 @@
                 &nvartmp  ,vartmp   ,ioff_duct)
 !
               elseif (ilaw == 125) then
-                !---
-                do i=jft,jlt
-                  ! ij(k) = nel*(k-1)
-                  sigoxx(i) =  lbuf%sig(nel*(1-1)+i)
-                  sigoyy(i) =  lbuf%sig(nel*(2-1)+i)
-                  sigoxy(i) =  lbuf%sig(nel*(3-1)+i)
-                  sigoyz(i) =  lbuf%sig(nel*(4-1)+i)
-                  sigozx(i) =  lbuf%sig(nel*(5-1)+i)
-                enddo
-                !---
-                call sigeps125c(&
-                &jlt      ,matparam   ,nuvar    ,uvar      ,&
-                &rho      ,thkn       ,thklyl   , shf      ,&
-                &epsxx    ,epsyy      ,epsxy    ,epsyz    ,epszx   ,&
-                &sigoxx   ,sigoyy                                  ,&
-                &signxx   ,signyy     ,signxy   ,signzx   ,signyz  ,&
-                &off      ,sigy       ,etse     ,ssp  )
+               call sigeps125c(&
+               &jlt      ,matparam   ,nuvar    ,uvar      ,&
+               &rho      ,thkn       ,thklyl   , shf      ,&
+               &epsxx    ,epsyy      ,epsxy    ,epsyz    ,epszx   ,&
+               &sigoxx   ,sigoyy                                  ,&
+               &signxx   ,signyy     ,signxy   ,signzx   ,signyz  ,&
+               &off      ,sigy       ,etse     ,ssp  )
 !
               elseif (ilaw == 127) then
                 ! ---
@@ -1867,7 +1867,7 @@
                 &area      ,thklyl    ,ssp       ,viscmx    ,uvar      ,&
                 &depsxx    ,depsyy    ,depsxy    ,depsyz    ,depszx    ,&
                 &epsxx     ,epsyy     ,epsxy     ,epsyz     ,epszx     ,&
-                &lbuf%sig(ij1),lbuf%sig(ij2),lbuf%sig(ij3),lbuf%sig(ij4),lbuf%sig(ij5),&
+                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx    ,signyy    ,signxy    ,signyz    ,signzx    ,&
                 &sigvxx    ,sigvyy    ,sigvxy    ,lbuf%ang  ,gbuf%off  ,&
                 &rho       ,etse      ,shf       ,aldt      ,nsensor   ,&

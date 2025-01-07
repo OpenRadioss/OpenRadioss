@@ -26,21 +26,20 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sigeps87c       ../engine/source/materials/mat/mat087/sigeps87c.F
       !||====================================================================
       SUBROUTINE MAT87C_HANSEL(
-     1   NEL,     NUPARAM, NUVAR,   TIME,
-     2   TIMESTEP,UVAR,    RHO0,    THKLY,
-     3   THK,     OFF,     EPSPXX,  EPSPYY,
-     4   EPSPXY,  EPSPYZ,  EPSPZX,  DEPSXX,
-     5   DEPSYY,  DEPSXY,  DEPSYZ,  DEPSZX,
-     6   SIGOXX,  SIGOYY,  SIGOXY,  SIGOYZ,
-     7   SIGOZX,  SIGNXX,  SIGNYY,  SIGNXY,
-     8   SIGNYZ,  SIGNZX,  SOUNDSP, PLA,
-     9   DPLA,    EPSP,    YLD,     ETSE,
-     A   GS,      ISRATE,  FCUT,    UPARAM,
-     B   TEMPEL,  SIGB,    INLOC,   DPLANL,
-     C   SEQ,     JTHE,    LOFF)
+     1   NEL    ,MATPARAM,TIME   ,TIMESTEP,
+     2   NUVAR  ,UVAR    ,RHO0   ,THKLY   ,THK    ,
+     3   EPSPXX ,EPSPYY  ,EPSPXY ,EPSPYZ  ,EPSPZX ,
+     4   DEPSXX ,DEPSYY  ,DEPSXY ,DEPSYZ  ,DEPSZX ,
+     5   SIGOXX ,SIGOYY  ,SIGOXY ,SIGOYZ  ,SIGOZX ,
+     6   SIGNXX ,SIGNYY  ,SIGNXY ,SIGNYZ  ,SIGNZX ,  
+     7   SOUNDSP,PLA     ,DPLA   ,EPSP    ,YLD    ,
+     8   ETSE   ,GS      ,ISRATE ,FCUT    ,OFF    ,
+     9   TEMPEL ,SIGB    ,INLOC  ,DPLANL  ,SEQ    ,
+     A   JTHE   ,LOFF    )
 C=======================================================================
 C   BARLAT YLD2000 material model
 C=======================================================================
+         USE MATPARAM_DEF_MOD
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -92,9 +91,10 @@ C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,NUPARAM,NUVAR,ISRATE,INLOC
+      TYPE(MATPARAM_STRUCT_), INTENT(IN) :: MATPARAM
       INTEGER, INTENT(IN) :: JTHE
       my_real 
-     .   TIME,TIMESTEP,FCUT,UPARAM(NUPARAM),
+     .   TIME,TIMESTEP,FCUT,
      .   RHO0(NEL),GS(NEL),
      .   THKLY(NEL),PLA(NEL),EPSPXX(NEL),EPSPYY(NEL),
      .   EPSPXY(NEL),EPSPYZ(NEL),EPSPZX(NEL),
@@ -121,7 +121,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,J,K,NRATE,NITER,JJ(NEL),J1,J2,N,NINDX,NFALG3,
-     .        IFLAG,IFLAGSR,EXPA,EXPAM2,
+     .        EXPA,EXPAM2,
      .        INDX(NEL), IPOS1(NEL),ILEN1(NEL),IAD1(NEL),NFLAG4,
      .        IPOS2(NEL),ILEN2(NEL),IAD2(NEL)
       my_real
@@ -184,64 +184,61 @@ C=======================================================================
       FCT = zero
 c-----------------------------------------------
       ! Elastic parameters
-      E     =  UPARAM(1)  
-      NU    =  UPARAM(2)  
-      A1    =  E*UPARAM(21)
-      A2    =  E*UPARAM(22)
-      G     =  UPARAM(23)
+      E  = MATPARAM%YOUNG
+      NU = MATPARAM%NU
+      A1 = MATPARAM%UPARAM(1)
+      A2 = MATPARAM%UPARAM(2)
+      G  = MATPARAM%SHEAR
       NORM_SP = EP03 / E
 c
       ! Linear projection parameter
-      AL1   =  UPARAM(3)  
-      AL2   =  UPARAM(4)  
-      AL3   =  UPARAM(5)  
-      AL4   =  UPARAM(6)  
-      AL5   =  UPARAM(7)  
-      AL6   =  UPARAM(8)  
-      AL7   =  UPARAM(9)  
-      AL8   =  UPARAM(10) 
+      AL1 = MATPARAM%UPARAM(3)  
+      AL2 = MATPARAM%UPARAM(4)  
+      AL3 = MATPARAM%UPARAM(5)  
+      AL4 = MATPARAM%UPARAM(6)  
+      AL5 = MATPARAM%UPARAM(7)  
+      AL6 = MATPARAM%UPARAM(8)  
+      AL7 = MATPARAM%UPARAM(9)  
+      AL8 = MATPARAM%UPARAM(10) 
+      FISOKIN = MATPARAM%UPARAM(11) 
 c
       ! A exponent parameter
-      EXPA  =  NINT(UPARAM(15) )
-      UNSA  =  ONE/EXPA
-      EXPAM2=  EXPA - 2 
+      EXPA   = NINT(MATPARAM%UPARAM(12))
+      UNSA   = ONE/EXPA
+      EXPAM2 = EXPA - 2 
 c
+      ! Yield stress parameters
+      K1      = MATPARAM%UPARAM(18)
+      K2      = MATPARAM%UPARAM(19)
+      AHS     = MATPARAM%UPARAM(20)
+      BHS     = MATPARAM%UPARAM(21)
+      MHS     = MATPARAM%UPARAM(22)
+      EPS0HS  = MATPARAM%UPARAM(23)
+      NHS     = MATPARAM%UPARAM(24)
+      HMART   = MATPARAM%UPARAM(25)
+      TEMP0   = MATPARAM%UPARAM(26)
+      TREF    = MATPARAM%UPARAM(27)
+      ETA     = MATPARAM%UPARAM(28)
+      CP      = MATPARAM%UPARAM(29)  
+      AM      = MATPARAM%UPARAM(30)
+      BM      = MATPARAM%UPARAM(31)
+      CM      = MATPARAM%UPARAM(32)
+      DM      = MATPARAM%UPARAM(33)
+      PPM     = MATPARAM%UPARAM(34)     
+      QM      = MATPARAM%UPARAM(35)   
+      E0MART  = MATPARAM%UPARAM(36)     
+      VM0     = MATPARAM%UPARAM(37)   
 c
-      IFLAG   = NINT(UPARAM(24))            
-
-      NFALG3 = 34 
-      K1      = UPARAM(NFALG3+1)
-      K2      = UPARAM(NFALG3+2)
-      AHS     = UPARAM(NFALG3+3)
-      BHS     = UPARAM(NFALG3+4)
-      MHS     = UPARAM(NFALG3+5)
-      EPS0HS  = UPARAM(NFALG3+6)
-      NHS     = UPARAM(NFALG3+7)
-      HMART   = UPARAM(NFALG3+8)
-      TEMP0   = UPARAM(NFALG3+9)
-      ETA     = UPARAM(NFALG3+10)
-      CP      = UPARAM(NFALG3+11)  
-      TREF    = UPARAM(NFALG3+12)
-      AM      = UPARAM(NFALG3+13)
-      BM      = UPARAM(NFALG3+14)
-      CM      = UPARAM(NFALG3+15)
-      DM      = UPARAM(NFALG3+16)
-      QM      = UPARAM(NFALG3+17)   
-      PPM     = UPARAM(NFALG3+18)     
-      E0MART  = UPARAM(NFALG3+19)     
-      VM0     = UPARAM(NFALG3+20)     
-
-      NFLAG4 = NFALG3 + 21
-      FISOKIN= UPARAM(NFLAG4+1)
+      ! Kinematic hardening parameters
       IF (FISOKIN >ZERO) THEN                  
-         CKH(1) = UPARAM(NFLAG4+2) 
-         AKH(1) = UPARAM(NFLAG4+3) 
-         CKH(2) = UPARAM(NFLAG4+4) 
-         AKH(2) = UPARAM(NFLAG4+5) 
-         CKH(3) = UPARAM(NFLAG4+6) 
-         AKH(3) = UPARAM(NFLAG4+7) 
-         CKH(4) = UPARAM(NFLAG4+8) 
-         AKH(4) = UPARAM(NFLAG4+9) 
+        CKH(1) = MATPARAM%UPARAM(38) 
+        AKH(1) = MATPARAM%UPARAM(39) 
+        CKH(2) = MATPARAM%UPARAM(40) 
+        AKH(2) = MATPARAM%UPARAM(41) 
+        CKH(3) = MATPARAM%UPARAM(42) 
+        AKH(3) = MATPARAM%UPARAM(43) 
+        CKH(4) = MATPARAM%UPARAM(44) 
+        AKH(4) = MATPARAM%UPARAM(45) 
       ENDIF
 
       AKCK = AKH(1)*CKH(1) + AKH(2)* CKH(2) + AKH(3)*CKH(3)  + AKH(4) * CKH(4)
