@@ -106,6 +106,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ddsplit                           ../starter/source/restart/ddsplit/ddsplit.F
       !||    defbeam_sect                      ../starter/source/properties/beam/hm_read_prop18.F
       !||    desout                            ../starter/source/output/outp/desout.F
+      !||    ebcs_mod                          ../common_source/modules/boundary_conditions/ebcs_mod.F90
       !||    ecrsub2                           ../starter/source/model/assembling/hm_read_subset.F
       !||    eigrline                          ../starter/source/general_controls/computation/hm_read_eig.F
       !||    elegror                           ../starter/source/groups/elegror.F

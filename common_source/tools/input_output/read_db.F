@@ -56,6 +56,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    read_ale_grid        ../engine/source/output/restart/read_ale_grid.F90
       !||    read_bcs_wall        ../engine/source/output/restart/read_bcs_wall.F90
       !||    read_cluster         ../engine/source/output/cluster/read_cluster.F
+      !||    read_data_nrf        ../common_source/modules/boundary_conditions/ebcs_mod.F90
       !||    read_elgroup_param   ../engine/source/output/restart/read_elgroup_param.F
       !||    read_eosparam        ../engine/source/output/restart/read_eosparam.F90
       !||    read_failparam       ../engine/source/output/restart/read_failparam.F
@@ -148,9 +149,21 @@ C
       RETURN
       END
       !||====================================================================
-      !||    read_db_array     ../common_source/tools/input_output/read_db.F
+      !||    read_db_array       ../common_source/tools/input_output/read_db.F
       !||--- called by ------------------------------------------------------
-      !||    intfric_rrestr    ../common_source/modules/interfaces/intbuf_fric_mod.F90
+      !||    intfric_rrestr      ../common_source/modules/interfaces/intbuf_fric_mod.F90
+      !||    read_common_data    ../common_source/modules/boundary_conditions/ebcs_mod.F90
+      !||    read_data_fluxout   ../common_source/modules/boundary_conditions/ebcs_mod.F90
+      !||    read_data_gradp0    ../common_source/modules/boundary_conditions/ebcs_mod.F90
+      !||    read_data_inip      ../common_source/modules/boundary_conditions/ebcs_mod.F90
+      !||    read_data_iniv      ../common_source/modules/boundary_conditions/ebcs_mod.F90
+      !||    read_data_inlet     ../common_source/modules/boundary_conditions/ebcs_mod.F90
+      !||    read_data_normv     ../common_source/modules/boundary_conditions/ebcs_mod.F90
+      !||    read_data_nrf       ../common_source/modules/boundary_conditions/ebcs_mod.F90
+      !||    read_data_pres      ../common_source/modules/boundary_conditions/ebcs_mod.F90
+      !||    read_data_valvin    ../common_source/modules/boundary_conditions/ebcs_mod.F90
+      !||    read_data_valvout   ../common_source/modules/boundary_conditions/ebcs_mod.F90
+      !||    read_data_vel       ../common_source/modules/boundary_conditions/ebcs_mod.F90
       !||--- calls      -----------------------------------------------------
       !||====================================================================
       SUBROUTINE READ_DB_ARRAY(A,N)

@@ -39,6 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    damping_vref_rby_stiff                   ../engine/source/assembly/damping_vref_rby_stiff.F90
       !||    damping_vref_sum6_rby                    ../engine/source/assembly/damping_vref_sum6_rby.F90
       !||    defbeam_sect_new                         ../starter/source/properties/beam/defbeam_sect_new.F90
+      !||    detach_node_from_shells                  ../engine/source/engine/node_spliting/detach_node.F90
       !||    dim_shell_offsetp                        ../starter/source/elements/shell/shell_offset/dim_shell_offsetp.F90
       !||    dttherm                                  ../engine/source/time_step/dttherm.F90
       !||    eosexponential                           ../common_source/eos/eosexponential.F90

@@ -27,6 +27,7 @@
       !||    chkload                         ../engine/source/interfaces/chkload.F
       !||    chkstfn3n                       ../engine/source/interfaces/interf/chkstfn3.F
       !||    count_remote_nb_elem_edge       ../engine/source/interfaces/interf/count_remote_nb_elem_edge.F
+      !||    detach_node_from_shells         ../engine/source/engine/node_spliting/detach_node.F90
       !||    find_edge_from_remote_proc      ../engine/source/interfaces/interf/find_edge_from_remote_proc.F
       !||    find_surface_from_remote_proc   ../engine/source/interfaces/interf/find_surface_from_remote_proc.F
       !||    init_nodal_state                ../engine/source/interfaces/interf/init_nodal_state.F
@@ -252,10 +253,12 @@
         end subroutine allocate_nodal_arrays
 !! \brief extend nodal arrays                                                              
       !||====================================================================
-      !||    extend_nodal_arrays   ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    extend_nodal_arrays       ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||--- called by ------------------------------------------------------
+      !||    detach_node_from_shells   ../engine/source/engine/node_spliting/detach_node.F90
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
-      !||    extend_array_mod      ../common_source/tools/memory/extend_array.F90
+      !||    extend_array_mod          ../common_source/tools/memory/extend_array.F90
       !||====================================================================
         subroutine extend_nodal_arrays(arrays, numnod)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -344,9 +347,9 @@
 
 !! \brief extend nodal arrays                                                              
       !||====================================================================
-      !||    init_global_id     ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    init_global_node_id   ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||--- called by ------------------------------------------------------
-      !||    rdresb             ../engine/source/output/restart/rdresb.F
+      !||    rdresb                ../engine/source/output/restart/rdresb.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
       !||====================================================================

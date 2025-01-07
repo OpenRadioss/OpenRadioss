@@ -33,6 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    elbufdef_mod                     ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    initbuf_mod                      ../engine/share/resol/initbuf.F
       !||    matparam_def_mod                 ../common_source/modules/mat_elem/matparam_def_mod.F90
+      !||    multi_fvm_mod                    ../common_source/modules/ale/multi_fvm_mod.F90
       !||====================================================================
       SUBROUTINE MULTI_MUSCL_FLUXES_COMPUTATION(
      .             NG, ELBUF_TAB, IPARG, ITASK,

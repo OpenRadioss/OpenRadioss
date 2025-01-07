@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    array_mod       ../common_source/modules/array_mod.F
       !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
+      !||    multi_fvm_mod   ../common_source/modules/ale/multi_fvm_mod.F90
       !||    tri7box         ../engine/share/modules/tri7box.F
       !||====================================================================
         SUBROUTINE INT18_ALLOC(NUMBER_INTER18,INTER18_LIST,MULTI_FVM,IPARI,XCELL_REMOTE, NSPMD)

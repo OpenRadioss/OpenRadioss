@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    detach_node_mod   ../engine/source/engine/node_spliting/detach_node.F90
+      !||--- called by ------------------------------------------------------
+      !||    resol             ../engine/source/engine/resol.F
+      !||====================================================================
       module detach_node_mod
 #include "my_real.inc"
       contains
@@ -27,6 +32,15 @@
 !                                                   procedures
 ! ======================================================================================================================
        !\brief This subroutine detaches a node from a list of shells
+      !||====================================================================
+      !||    detach_node_from_shells   ../engine/source/engine/node_spliting/detach_node.F90
+      !||--- calls      -----------------------------------------------------
+      !||    extend_nodal_arrays       ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||--- uses       -----------------------------------------------------
+      !||    connectivity_mod          ../common_source/modules/connectivity.F90
+      !||    constant_mod              ../common_source/modules/constant_mod.F
+      !||    nodal_arrays_mod          ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||====================================================================
         subroutine detach_node_from_shells(nodes, node_id ,elements,shell_list,list_size)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

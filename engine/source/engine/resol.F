@@ -429,12 +429,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    connectivity_mod                             ../common_source/modules/connectivity.F90
       !||    crackxfem_mod                                ../engine/share/modules/crackxfem_mod.F
       !||    debug_chksm_mod                              ../engine/source/mpi/output/spmd_flush_accel.F
+      !||    detach_node_mod                              ../engine/source/engine/node_spliting/detach_node.F90
       !||    diffusion_mod                                ../engine/share/modules/diffusion_mod.F
       !||    drape_mod                                    ../engine/share/modules/drape_mod.F
       !||    dsgraph_mod                                  ../engine/share/modules/dsgraph_mod.F
       !||    dt_mod                                       ../engine/source/modules/dt_mod.F
       !||    dtdc_mod                                     ../engine/share/modules/dtdc_mod.F
       !||    dynlib_mod                                   ../engine/share/modules/dynlib_mod.F
+      !||    ebcs_mod                                     ../common_source/modules/boundary_conditions/ebcs_mod.F90
       !||    ecnd_mod                                     ../engine/share/modules/ecdn_mod.F
       !||    elbufdef_mod                                 ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    error_mod                                    ../engine/share/modules/error_mod.F
@@ -467,6 +469,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod                                  ../engine/share/message_module/message_mod.F
       !||    monvol_struct_mod                            ../engine/share/modules/monvol_struct_mod.F
       !||    mpi_tools_mod                                ../engine/share/modules/mpi_tools_mod.F
+      !||    multi_fvm_mod                                ../common_source/modules/ale/multi_fvm_mod.F90
       !||    multimat_param_mod                           ../common_source/modules/multimat_param_mod.F90
       !||    my_alloc_mod                                 ../common_source/tools/memory/my_alloc.F90
       !||    names_and_titles_mod                         ../common_source/modules/names_and_titles_mod.F

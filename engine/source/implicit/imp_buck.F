@@ -63,6 +63,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    impbufdef_mod          ../engine/share/modules/impbufdef_mod.F
       !||    matparam_def_mod       ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||    message_mod            ../engine/share/message_module/message_mod.F
+      !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
       !||    sensor_mod             ../engine/share/modules/sensor_mod.F
       !||    stack_mod              ../engine/share/modules/stack_mod.F
       !||====================================================================

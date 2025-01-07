@@ -25,8 +25,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    resol                           ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
-      !||    alloc_1d_array                  ../common_source/modules/array_mod.F
-      !||    dealloc_1d_array                ../common_source/modules/array_mod.F
       !||    find_edge_from_remote_proc      ../engine/source/interfaces/interf/find_edge_from_remote_proc.F
       !||    find_surface_from_remote_proc   ../engine/source/interfaces/interf/find_surface_from_remote_proc.F
       !||--- uses       -----------------------------------------------------

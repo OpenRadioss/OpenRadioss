@@ -33,6 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    fvbag_mod                    ../engine/share/modules/fvbag_mod.F
       !||    groupdef_mod                 ../common_source/modules/groupdef_mod.F
       !||    initbuf_mod                  ../engine/share/resol/initbuf.F
+      !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F90
       !||====================================================================
       SUBROUTINE NODALSSP(IFUNC          , WA4                  , WA4_FVM, IFLOW   , RFLOW,
      .                    IPARG          , ELBUF_TAB            , IX     , NIX     , NUMEL,

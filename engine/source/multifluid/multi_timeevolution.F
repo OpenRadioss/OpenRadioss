@@ -43,10 +43,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    ale_connectivity_mod             ../common_source/modules/ale/ale_connectivity_mod.F
       !||    alefvm_mod                       ../common_source/modules/ale/alefvm_mod.F
+      !||    ebcs_mod                         ../common_source/modules/boundary_conditions/ebcs_mod.F90
       !||    elbufdef_mod                     ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    initbuf_mod                      ../engine/share/resol/initbuf.F
       !||    matparam_def_mod                 ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||    message_mod                      ../engine/share/message_module/message_mod.F
+      !||    multi_fvm_mod                    ../common_source/modules/ale/multi_fvm_mod.F90
       !||    th_surf_mod                      ../common_source/modules/interfaces/th_surf_mod.F
       !||====================================================================
       SUBROUTINE MULTI_TIMEEVOLUTION(TIMESTEP, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,

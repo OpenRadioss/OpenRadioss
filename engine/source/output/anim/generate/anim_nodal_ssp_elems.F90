@@ -36,6 +36,7 @@ module anim_nodal_ssp_elems_mod
       !||    constant_mod           ../common_source/modules/constant_mod.F
       !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    initbuf_mod            ../engine/share/resol/initbuf.F
+      !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
       !||====================================================================
       subroutine anim_nodal_ssp_elems( wa4, swa4, iparg, elbuf_tab, ix, nix, numel, is_written_node, &
         multi_fvm, nparg, ngroup, numnod)

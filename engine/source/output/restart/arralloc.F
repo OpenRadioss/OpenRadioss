@@ -49,6 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    h3d_mod                 ../engine/share/modules/h3d_mod.F
       !||    intstamp_glob_mod       ../engine/share/modules/intstamp_glob_mod.F
       !||    message_mod             ../engine/share/message_module/message_mod.F
+      !||    multi_fvm_mod           ../common_source/modules/ale/multi_fvm_mod.F90
       !||    my_alloc_mod            ../common_source/tools/memory/my_alloc.F90
       !||    nodal_arrays_mod        ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||    outmax_mod              ../common_source/modules/outmax_mod.F

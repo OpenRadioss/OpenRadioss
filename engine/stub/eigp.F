@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    groupdef_mod           ../common_source/modules/groupdef_mod.F
       !||    h3d_mod                ../engine/share/modules/h3d_mod.F
       !||    matparam_def_mod       ../common_source/modules/mat_elem/matparam_def_mod.F90
+      !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
       !||    stack_mod              ../engine/share/modules/stack_mod.F
       !||====================================================================
       SUBROUTINE EIGP(

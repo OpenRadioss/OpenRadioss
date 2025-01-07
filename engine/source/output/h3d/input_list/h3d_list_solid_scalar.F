@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod                 ../engine/share/modules/h3d_mod.F
       !||    message_mod             ../engine/share/message_module/message_mod.F
+      !||    multi_fvm_mod           ../common_source/modules/ale/multi_fvm_mod.F90
       !||====================================================================
       SUBROUTINE H3D_LIST_SOLID_SCALAR(H3D_KEYWORD_SOLID_SCALAR,GEO,IGEO,MULTI_FVM,NKEY)
 C-----------------------------------------------

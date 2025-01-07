@@ -103,15 +103,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         CONTAINS
             ! ----------------------------
       !||====================================================================
-      !||    alloc_1d_array                ../common_source/modules/array_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    domain_decomposition_pcyl     ../starter/source/loads/general/load_pcyl/domain_decomposition_pcyl.F
-      !||    i25trivox1                    ../starter/source/interfaces/inter3d1/i25trivox1.F
-      !||    i7trivox1                     ../starter/source/interfaces/inter3d1/i7trivox1.F
-      !||    igrsurf_split                 ../starter/source/spmd/igrsurf_split.F
-      !||    init_inivol                   ../starter/source/initial_conditions/inivol/init_inivol.F90
-      !||    init_nodal_state              ../engine/source/interfaces/interf/init_nodal_state.F
-      !||    spmd_exch_deleted_surf_edge   ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
+      !||    alloc_1d_array_full   ../common_source/modules/array_mod.F
       !||====================================================================
             SUBROUTINE ALLOC_1D_ARRAY_FULL(THIS)
             IMPLICIT NONE
@@ -123,6 +115,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             RETURN
             END SUBROUTINE 
 
+      !||====================================================================
+      !||    alloc_int_1d_array   ../common_source/modules/array_mod.F
+      !||====================================================================
             SUBROUTINE ALLOC_INT_1D_ARRAY(THIS)
             IMPLICIT NONE
 
@@ -167,17 +162,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             END SUBROUTINE 
             ! ----------------------------   
       !||====================================================================
-      !||    dealloc_1d_array              ../common_source/modules/array_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    domain_decomposition_pcyl     ../starter/source/loads/general/load_pcyl/domain_decomposition_pcyl.F
-      !||    i25sto                        ../engine/source/interfaces/intsort/i25sto.F
-      !||    i25trivox1                    ../starter/source/interfaces/inter3d1/i25trivox1.F
-      !||    i7trivox1                     ../starter/source/interfaces/inter3d1/i7trivox1.F
-      !||    igrsurf_split                 ../starter/source/spmd/igrsurf_split.F
-      !||    init_inivol                   ../starter/source/initial_conditions/inivol/init_inivol.F90
-      !||    init_nodal_state              ../engine/source/interfaces/interf/init_nodal_state.F
-      !||    inter_save_candidate          ../starter/source/interfaces/inter3d1/inter_save_candidate.F90
-      !||    spmd_exch_deleted_surf_edge   ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
+      !||    dealloc_1d_array_full   ../common_source/modules/array_mod.F
       !||====================================================================
             SUBROUTINE DEALLOC_1D_ARRAY_FULL(THIS)
             IMPLICIT NONE
@@ -189,6 +174,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             RETURN
             END SUBROUTINE 
             ! ----------------------------
+      !||====================================================================
+      !||    dealloc_int_1d_array   ../common_source/modules/array_mod.F
+      !||====================================================================
            SUBROUTINE DEALLOC_INT_1D_ARRAY(THIS)
             IMPLICIT NONE
 

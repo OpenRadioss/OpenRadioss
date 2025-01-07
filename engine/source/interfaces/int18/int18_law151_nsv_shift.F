@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    inttri                   ../engine/source/interfaces/intsort/inttri.F
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod             ../common_source/modules/groupdef_mod.F
+      !||    multi_fvm_mod            ../common_source/modules/ale/multi_fvm_mod.F90
       !||====================================================================
         SUBROUTINE INT18_LAW151_NSV_SHIFT(MODE,ITASK,MULTI_FVM,IPARI,INTBUF_TAB)
 !$COMMENT

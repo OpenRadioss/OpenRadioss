@@ -33,6 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ale_connectivity_mod    ../common_source/modules/ale/ale_connectivity_mod.F
       !||    elbufdef_mod            ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    initbuf_mod             ../engine/share/resol/initbuf.F
+      !||    multi_fvm_mod           ../common_source/modules/ale/multi_fvm_mod.F90
       !||====================================================================
       SUBROUTINE MULTI_MUSCL_GRADIENTS(ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
      .     PM, IPM, MULTI_FVM, ALE_CONNECTIVITY, WGRID, XGRID, ITAB, NBMAT, CURRENT_TIME, BUFMAT)

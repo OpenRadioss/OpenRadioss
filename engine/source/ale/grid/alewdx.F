@@ -48,6 +48,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ale_mod                ../common_source/modules/ale/ale_mod.F
       !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    groupdef_mod           ../common_source/modules/groupdef_mod.F
+      !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
       !||    python_funct_mod       ../common_source/modules/python_mod.F90
       !||====================================================================
       SUBROUTINE ALEWDX(

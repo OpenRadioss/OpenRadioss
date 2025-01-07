@@ -25,10 +25,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    resol                       ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
-      !||    alloc_1d_array              ../common_source/modules/array_mod.F
       !||    count_nb_elem_edge          ../engine/source/interfaces/interf/count_nb_elem_edge.F
       !||    count_remote_nb_elem_edge   ../engine/source/interfaces/interf/count_remote_nb_elem_edge.F
-      !||    dealloc_1d_array            ../common_source/modules/array_mod.F
       !||    myqsort_int                 ../common_source/tools/sort/myqsort_int.F
       !||--- uses       -----------------------------------------------------
       !||    array_mod                   ../common_source/modules/array_mod.F

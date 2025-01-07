@@ -102,6 +102,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    w_tabmat_prop             ../starter/source/restart/ddsplit/w_tabmat_prop.F
       !||    write_ale_grid            ../common_source/output/restart/write_ale_grid.F90
       !||    write_bcs_wall            ../common_source/output/restart/write_bcs_wall.F90
+      !||    write_common_data         ../common_source/modules/boundary_conditions/ebcs_mod.F90
+      !||    write_data_gradp0         ../common_source/modules/boundary_conditions/ebcs_mod.F90
+      !||    write_data_inip           ../common_source/modules/boundary_conditions/ebcs_mod.F90
+      !||    write_data_iniv           ../common_source/modules/boundary_conditions/ebcs_mod.F90
+      !||    write_data_normv          ../common_source/modules/boundary_conditions/ebcs_mod.F90
+      !||    write_data_pres           ../common_source/modules/boundary_conditions/ebcs_mod.F90
+      !||    write_data_valvin         ../common_source/modules/boundary_conditions/ebcs_mod.F90
+      !||    write_data_valvout        ../common_source/modules/boundary_conditions/ebcs_mod.F90
+      !||    write_data_vel            ../common_source/modules/boundary_conditions/ebcs_mod.F90
       !||    write_db_debug            ../starter/source/output/tools/write_debug.F
       !||    write_elgroup_param       ../engine/source/output/restart/write_elgroup_param.F
       !||    write_eosparam            ../engine/source/output/restart/write_eosparam.F90
@@ -192,11 +201,14 @@ C
       RETURN
       END
       !||====================================================================
-      !||    write_db_array     ../common_source/tools/input_output/write_db.F
+      !||    write_db_array       ../common_source/tools/input_output/write_db.F
       !||--- called by ------------------------------------------------------
-      !||    intfric_wrestr     ../common_source/modules/interfaces/intbuf_fric_mod.F90
+      !||    intfric_wrestr       ../common_source/modules/interfaces/intbuf_fric_mod.F90
+      !||    write_data_fluxout   ../common_source/modules/boundary_conditions/ebcs_mod.F90
+      !||    write_data_inlet     ../common_source/modules/boundary_conditions/ebcs_mod.F90
+      !||    write_data_nrf       ../common_source/modules/boundary_conditions/ebcs_mod.F90
       !||--- calls      -----------------------------------------------------
-      !||    write_db_c         ../common_source/tools/input_output/write_routtines.c
+      !||    write_db_c           ../common_source/tools/input_output/write_routtines.c
       !||====================================================================
       SUBROUTINE WRITE_DB_ARRAY(A,N)
 C ecriture nombre reel : routine tampon

@@ -45,7 +45,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    fxtemprrest            ../engine/source/output/restart/rdresb.F
       !||    group_ini              ../engine/source/groups/group_ini.F
       !||    imprrest               ../engine/source/output/restart/rdresb.F
-      !||    init_global_id         ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    init_global_node_id    ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    init_global_shell_id   ../common_source/modules/connectivity.F90
       !||    intbuf_ini             ../common_source/interf/intbuf_ini.F
       !||    intfric_rresti         ../common_source/modules/interfaces/intbuf_fric_mod.F90
       !||    intfric_rrestr         ../common_source/modules/interfaces/intbuf_fric_mod.F90
@@ -104,6 +105,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    connectivity_mod       ../common_source/modules/connectivity.F90
       !||    damp_mod               ../engine/share/modules/damp_mod.F
       !||    drape_mod              ../engine/share/modules/drape_mod.F
+      !||    ebcs_mod               ../common_source/modules/boundary_conditions/ebcs_mod.F90
       !||    ecnd_mod               ../engine/share/modules/ecdn_mod.F
       !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    h3d_mod                ../engine/share/modules/h3d_mod.F
@@ -111,6 +113,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    message_mod            ../engine/share/message_module/message_mod.F
       !||    monvol_struct_mod      ../engine/share/modules/monvol_struct_mod.F
+      !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
       !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
       !||    nodal_arrays_mod       ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||    outmax_mod             ../common_source/modules/outmax_mod.F

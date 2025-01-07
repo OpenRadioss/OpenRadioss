@@ -37,6 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    h3d_mod             ../engine/share/modules/h3d_mod.F
       !||    imp_dyna            ../engine/share/modules/impbufdef_mod.F
       !||    message_mod         ../engine/share/message_module/message_mod.F
+      !||    multi_fvm_mod       ../common_source/modules/ale/multi_fvm_mod.F90
       !||    output_mod          ../common_source/modules/output/output_mod.F90
       !||    sensor_mod          ../engine/share/modules/sensor_mod.F
       !||    state_mod           ../common_source/modules/state_mod.F

@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    groupdef_mod          ../common_source/modules/groupdef_mod.F
+      !||    multi_fvm_mod         ../common_source/modules/ale/multi_fvm_mod.F90
       !||====================================================================
         SUBROUTINE INT18_LAW151_UPDATE(ITASK,MULTI_FVM,IGRBRIC,IPARI,IXS,
      1                               IGROUPS ,IPARG   ,ELBUF_TAB  ,FORCE_INT   ,

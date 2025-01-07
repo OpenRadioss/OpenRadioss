@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    multi_globalize       ../engine/source/multifluid/multi_globalize.F
       !||    multi_update_global   ../engine/source/multifluid/multi_update_global.F
       !||--- uses       -----------------------------------------------------
+      !||    multi_fvm_mod         ../common_source/modules/ale/multi_fvm_mod.F90
       !||====================================================================
       SUBROUTINE MULTI_BILAN(PARTSAV, VOL, MULTI_FVM,
      .     NEL, NFT, IPARTS, GRESAV, IGRTH, GRTH)

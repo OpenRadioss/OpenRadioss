@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i18for3                ../engine/source/interfaces/int18/i18for3.F
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
       !||    tri7box                ../engine/share/modules/tri7box.F
       !||====================================================================
       SUBROUTINE MULTI_I18_FORCE_POFF(DT, JLT   ,IX1  ,IX2  ,IX3  ,IX4    ,

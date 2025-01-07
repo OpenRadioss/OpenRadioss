@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    ebcs_extrap2    ../engine/source/boundary_conditions/ebcs/ebcs_extrapol.F
       !||--- uses       -----------------------------------------------------
+      !||    ebcs_mod        ../common_source/modules/boundary_conditions/ebcs_mod.F90
       !||====================================================================
       SUBROUTINE EBCS_EXTRAPOL(FV, NP, TF, EBCS_TAB)
       USE EBCS_MOD

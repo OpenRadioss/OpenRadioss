@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    resol                           ../engine/source/engine/resol.F
       !||--- uses       -----------------------------------------------------
       !||    message_mod                     ../engine/share/message_module/message_mod.F
+      !||    multi_fvm_mod                   ../common_source/modules/ale/multi_fvm_mod.F90
       !||    tri7box                         ../engine/share/modules/tri7box.F
       !||====================================================================
         SUBROUTINE INT18_LAW151_OMP_ACCUMULATION( MULTI_FVM )

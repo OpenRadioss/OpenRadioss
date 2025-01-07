@@ -23,14 +23,16 @@
 
 
       !||====================================================================
-      !||    connectivity_mod   ../common_source/modules/connectivity.F90
+      !||    connectivity_mod          ../common_source/modules/connectivity.F90
       !||--- called by ------------------------------------------------------
-      !||    radioss2           ../engine/source/engine/radioss2.F
-      !||    rdresb             ../engine/source/output/restart/rdresb.F
-      !||    resol              ../engine/source/engine/resol.F
-      !||    resol_head         ../engine/source/engine/resol_head.F
-      !||    restalloc          ../engine/source/output/restart/arralloc.F
-      !||    wrrestp            ../engine/source/output/restart/wrrestp.F
+      !||    detach_node_from_shells   ../engine/source/engine/node_spliting/detach_node.F90
+      !||    radioss2                  ../engine/source/engine/radioss2.F
+      !||    rdresb                    ../engine/source/output/restart/rdresb.F
+      !||    resol                     ../engine/source/engine/resol.F
+      !||    resol_head                ../engine/source/engine/resol_head.F
+      !||    restalloc                 ../engine/source/output/restart/arralloc.F
+      !||    wrrestp                   ../engine/source/output/restart/wrrestp.F
+      !||--- uses       -----------------------------------------------------
       !||====================================================================
       module connectivity_mod
          use iso_c_binding
@@ -76,6 +78,13 @@
         contains 
 
 !! \brief extend nodal arrays                                                              
+      !||====================================================================
+      !||    init_global_shell_id   ../common_source/modules/connectivity.F90
+      !||--- called by ------------------------------------------------------
+      !||    rdresb                 ../engine/source/output/restart/rdresb.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
         subroutine init_global_shell_id(shell)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -109,6 +118,10 @@
         end subroutine init_global_shell_id
 
 
+      !||====================================================================
+      !||    get_local_shell_id   ../common_source/modules/connectivity.F90
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
         function get_local_shell_id(shell, global_id) result(local_id)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

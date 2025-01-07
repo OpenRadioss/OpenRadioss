@@ -60,6 +60,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    h3d_mod                     ../engine/share/modules/h3d_mod.F
       !||    intbuf_fric_mod             ../common_source/modules/interfaces/intbuf_fric_mod.F90
       !||    message_mod                 ../engine/share/message_module/message_mod.F
+      !||    multi_fvm_mod               ../common_source/modules/ale/multi_fvm_mod.F90
       !||    outputs_mod                 ../common_source/modules/outputs_mod.F
       !||====================================================================
       SUBROUTINE I7MAINF(

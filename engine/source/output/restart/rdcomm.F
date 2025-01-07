@@ -36,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    h3d_mod          ../engine/share/modules/h3d_mod.F
       !||    mat_elem_mod     ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    multi_fvm_mod    ../common_source/modules/ale/multi_fvm_mod.F90
       !||    outmax_mod       ../common_source/modules/outmax_mod.F
       !||    outputs_mod      ../common_source/modules/outputs_mod.F
       !||    parameters_mod   ../common_source/modules/interfaces/parameters_mod.F
