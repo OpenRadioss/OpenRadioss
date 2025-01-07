@@ -198,6 +198,7 @@
       use table_mod
       use hm_read_mat50_mod
       use hm_read_mat81_mod
+      use hm_read_mat87_mod
       use hm_read_mat125_mod
       use hm_read_mat126_mod
       use hm_read_mat127_mod
@@ -920,10 +921,10 @@
           case ('LAW87','BARLAT2000')
             ilaw  = 87
             call hm_read_mat87(&
-            &uparam   ,maxuparam,nuparam  ,israte   ,nuvar    ,&
-            &nfunc    ,maxfunc  ,ifunc    ,mtag     ,parmat   ,&
-            &unitab   ,pm(1,i)  ,lsubmodel,mat_id   ,titr     ,&
-            &matparam )
+            &israte   ,nuvar    ,nfunc    ,maxfunc  ,ifunc    ,&
+            &mtag     ,parmat   ,unitab   ,npropm   ,pm(1,i)  ,&
+            &lsubmodel,mat_id   ,titr     ,matparam ,numtabl  ,&
+            &maxtabl  ,itable   ,nvartmp  ,iout     )
 !-------
           case ('LAW88','MLAW88')
             ilaw = 88

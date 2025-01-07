@@ -74,7 +74,7 @@ C-----------------------------------------------
       TYPE(TTABLE)            :: TABLE
       INTEGER ,INTENT(IN)                  :: ISMOOTH
       INTEGER ,INTENT(IN)                  :: NEL
-      INTEGER ,VALUE ,INTENT(IN)           :: DIMX
+      INTEGER ,INTENT(IN)                  :: DIMX
       INTEGER ,DIMENSION(DIMX,TABLE%NDIM)  :: IPOS
       my_real ,DIMENSION(DIMX,TABLE%NDIM)  :: XX
       my_real ,DIMENSION(NEL) :: YY, DYDX1, DYDX2
@@ -95,7 +95,7 @@ C=======================================================================
       END IF
 c-----
       IF (NCYCLE == 0) THEN
-        IPOS(1:NEL,1:NDIM) = 1
+        IPOS(1:DIMX,1:NDIM) = 1
       END IF
 c-----
       TX => TABLE%X

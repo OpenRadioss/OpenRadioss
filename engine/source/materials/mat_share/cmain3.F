@@ -330,7 +330,8 @@ c
      K       NCYCLE  ,SNPC    ,STF,IMPL_S  ,IMCONV  ,NPROPGI,
      *       NPROPMI ,NPROPM  ,NPROPG,IMON_MAT,NUMGEO  ,
      *       NUMSTACK, DT1    ,TT  ,NXLAYMAX ,IDEL7NOK,USERL_AVAIL,
-     *       MAXFUNC,NUMMAT,VARNL_NPTTOT,    SBUFMAT ,SDIR_A  ,SDIR_B  ,NPARG)
+     *       MAXFUNC,NUMMAT,VARNL_NPTTOT,    SBUFMAT ,SDIR_A  ,SDIR_B  ,NPARG,
+     *       NTABLE  )
       ENDIF ! IF (NPT == 0) 
 C----------------------------------------------------------------------
       IF (IEXPAN > 0 .AND. JTHE > 0. AND. IDT_THERM==0) THEN

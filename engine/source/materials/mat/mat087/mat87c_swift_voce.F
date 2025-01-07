@@ -26,8 +26,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sigeps87c           ../engine/source/materials/mat/mat087/sigeps87c.F
       !||====================================================================
       SUBROUTINE MAT87C_SWIFT_VOCE(
-     1     NEL    ,NUPARAM ,NUVAR   ,TIME    ,TIMESTEP ,
-     3     UPARAM ,UVAR    ,RHO0    ,THKLY   ,THK      ,
+     1     NEL    ,MATPARAM,TIME    ,TIMESTEP,
+     3     NUVAR  ,UVAR    ,RHO0    ,THKLY   ,THK      ,
      4     EPSPXX ,EPSPYY  ,EPSPXY  ,EPSPYZ  ,EPSPZX   ,
      5     DEPSXX ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX   ,
      6     SIGOXX ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX   ,
@@ -38,6 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C=======================================================================
 C   BARLAT YLD2000 material model iflag=1 swift voce yield
 C=======================================================================
+           USE MATPARAM_DEF_MOD
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -81,8 +82,9 @@ C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL, NUPARAM, NUVAR,ISRATE,INLOC
+      TYPE(MATPARAM_STRUCT_), INTENT(IN) :: MATPARAM
       my_real 
-     .   TIME,TIMESTEP,ASRATE,UPARAM(NUPARAM),
+     .   TIME,TIMESTEP,ASRATE,
      .   RHO0(NEL),GS(NEL),
      .   THKLY(NEL),PLA(NEL),EPSPXX(NEL),EPSPYY(NEL),
      .   EPSPXY(NEL),EPSPYZ(NEL),EPSPZX(NEL),
@@ -109,7 +111,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,J,K,NRATE,NITER,JJ(NEL),J1,J2,N,NINDX,NFALG3,
-     .        IFLAG,IFLAGSR,EXPA,EXPAM2,NFLAG4,
+     .        IFLAGSR,EXPA,EXPAM2,NFLAG4,
      .        INDX(NEL), IPOS1(NEL),ILEN1(NEL),IAD1(NEL),
      .        IPOS2(NEL),ILEN2(NEL),IAD2(NEL)
       my_real
@@ -171,58 +173,55 @@ C=======================================================================
       FCT = zero
 c-----------------------------------------------
       ! Elastic parameters
-      E     =  UPARAM(1)  
-      NU    =  UPARAM(2)  
-      A1    =  E*UPARAM(21)
-      A2    =  E*UPARAM(22)
-      G     =  UPARAM(23)
-      NORM_SP =  EP03 / E
-      NU_1_NU=  NU/(ONE-NU)
+      E  = MATPARAM%YOUNG
+      NU = MATPARAM%NU
+      A1 = MATPARAM%UPARAM(1)
+      A2 = MATPARAM%UPARAM(2)
+      G  = MATPARAM%SHEAR
+      NORM_SP = EP03 / E
+      NU_1_NU = NU/(ONE-NU)
 c
       ! Linear projection parameter
-      AL1   =  UPARAM(3)  
-      AL2   =  UPARAM(4)  
-      AL3   =  UPARAM(5)  
-      AL4   =  UPARAM(6)  
-      AL5   =  UPARAM(7)  
-      AL6   =  UPARAM(8)  
-      AL7   =  UPARAM(9)  
-      AL8   =  UPARAM(10) 
+      AL1 = MATPARAM%UPARAM(3)  
+      AL2 = MATPARAM%UPARAM(4)  
+      AL3 = MATPARAM%UPARAM(5)  
+      AL4 = MATPARAM%UPARAM(6)  
+      AL5 = MATPARAM%UPARAM(7)  
+      AL6 = MATPARAM%UPARAM(8)  
+      AL7 = MATPARAM%UPARAM(9)  
+      AL8 = MATPARAM%UPARAM(10) 
+      FISOKIN = MATPARAM%UPARAM(11)
 c
       ! A exponent parameter
-      EXPA  =  NINT(UPARAM(15) )
-      UNSA  =  ONE/EXPA
-      EXPAM2=  EXPA - 2 
+      EXPA   = NINT(MATPARAM%UPARAM(12))
+      UNSA   = ONE/EXPA
+      EXPAM2 = EXPA - 2 
 c
       ! Yield stress parameters
-      ALPHA   =  UPARAM(16) 
-      NEXP    =  UPARAM(17)
-      EPSO    =  UPARAM(18) 
-      ASWIFT  =  UPARAM(19) 
-      QVOCE   = UPARAM(25+1)
-      BETA    = UPARAM(25+2)
-      KO      = UPARAM(25+3)
-      UNSP    = UPARAM(25+4)
-      UNSC    = UPARAM(25+5)
-      UNSPT   = UPARAM(25+6)
-      UNSCT   = UPARAM(25+7)
+      UNSP    =  MATPARAM%UPARAM(14)
+      UNSC    =  MATPARAM%UPARAM(15)
+      UNSPT   =  MATPARAM%UPARAM(16)
+      UNSCT   =  MATPARAM%UPARAM(17)
+      ASWIFT  =  MATPARAM%UPARAM(18) 
+      NEXP    =  MATPARAM%UPARAM(19) 
+      ALPHA   =  MATPARAM%UPARAM(20) 
+      EPSO    =  MATPARAM%UPARAM(21) 
+      QVOCE   =  MATPARAM%UPARAM(22)
+      BETA    =  MATPARAM%UPARAM(23)
+      KO      =  MATPARAM%UPARAM(24)
 c
-      IFLAG   = NINT(UPARAM(24))            
-      IFLAGSR = NINT(UPARAM(25+8)) 
-
- 
-      NFALG3 = 34 
-      NFLAG4 = NFALG3 + 21
-      FISOKIN= UPARAM(NFLAG4+1)
+      IFLAGSR = MATPARAM%IPARAM(3) 
+c
+      ! Kinematic hardening parameters
       IF (FISOKIN >ZERO) THEN                  
-         CKH(1) = UPARAM(NFLAG4+2) 
-         AKH(1) = UPARAM(NFLAG4+3) 
-         CKH(2) = UPARAM(NFLAG4+4) 
-         AKH(2) = UPARAM(NFLAG4+5) 
-         CKH(3) = UPARAM(NFLAG4+6) 
-         AKH(3) = UPARAM(NFLAG4+7) 
-         CKH(4) = UPARAM(NFLAG4+8) 
-         AKH(4) = UPARAM(NFLAG4+9) 
+        CKH(1) = MATPARAM%UPARAM(25) 
+        AKH(1) = MATPARAM%UPARAM(26) 
+        CKH(2) = MATPARAM%UPARAM(27) 
+        AKH(2) = MATPARAM%UPARAM(28) 
+        CKH(3) = MATPARAM%UPARAM(29) 
+        AKH(3) = MATPARAM%UPARAM(30) 
+        CKH(4) = MATPARAM%UPARAM(31) 
+        AKH(4) = MATPARAM%UPARAM(32) 
       ENDIF
 
       AKCK = AKH(1)*CKH(1) + AKH(2)* CKH(2) + AKH(3)*CKH(3)  + AKH(4) * CKH(4)

@@ -28,19 +28,21 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    finter                     ../engine/source/tools/curve/finter.F
       !||====================================================================
       SUBROUTINE MAT87C_TABULATED_PLAS_SR(
-     1     NEL    ,NUPARAM ,NUVAR   ,NFUNC   ,IFUNC    ,
-     2     NPF    ,TF      ,TIME    ,TIMESTEP,UPARAM   ,
-     3     UVAR   ,RHO0    ,THKLY   ,THK     ,OFF      ,
+     1     NEL    ,MATPARAM,NFUNC   ,IFUNC   ,SNPC     ,
+     2     NPF    ,STF     ,TF      ,TIME    ,TIMESTEP ,
+     3     NUVAR  ,UVAR    ,RHO0    ,THKLY   ,THK      ,
      4     EPSPXX ,EPSPYY  ,EPSPXY  ,EPSPYZ  ,EPSPZX   ,
      5     DEPSXX ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX   ,
      6     SIGOXX ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX   ,
      8     SIGNXX ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX   ,
      9     SOUNDSP,PLA     ,DPLA    ,EPSP    ,YLD      ,
-     B     ETSE   ,GS      ,ISRATE  ,ASRATE  ,FACYLDI  ,
-     C     SIGB   ,INLOC   ,DPLANL  ,SEQ     ,LOFF     )
+     B     ETSE   ,GS      ,ISRATE  ,ASRATE  ,OFF      , 
+     C     FACYLDI,SIGB    ,INLOC   ,DPLANL  ,SEQ      ,
+     D     LOFF   )
 C=======================================================================
 C   BARLAT YLD2000 material model
 C=======================================================================
+           USE MATPARAM_DEF_MOD
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -89,9 +91,10 @@ C---------+---------+---+---+--------------------------------------------
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL,NUPARAM, NUVAR,ISRATE,INLOC
+      INTEGER NEL,NUVAR,ISRATE,INLOC,SNPC,STF
+      TYPE(MATPARAM_STRUCT_), INTENT(IN) :: MATPARAM
       my_real 
-     .   TIME,TIMESTEP,ASRATE,UPARAM(NUPARAM),
+     .   TIME,TIMESTEP,ASRATE,
      .   RHO0(NEL),GS(NEL),
      .   THKLY(NEL),PLA(NEL),EPSPXX(NEL),EPSPYY(NEL),
      .   EPSPXY(NEL),EPSPYZ(NEL),EPSPZX(NEL),
@@ -132,7 +135,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,J,K,NRATE,NITER,JJ(NEL),J1,J2,N,NINDX,
-     .        IFLAG,IFLAGSR,EXPA,EXPAM2,NFLAG4,NFLAG3,
+     .        EXPA,EXPAM2,NFLAG4,NFLAG3,
      .        INDX(NEL), IPOS1(NEL),ILEN1(NEL),IAD1(NEL),
      .        IPOS2(NEL),ILEN2(NEL),IAD2(NEL)
       my_real
@@ -190,50 +193,42 @@ C=======================================================================
       FCT = zero
 c-----------------------------------------------
       ! Elastic parameters
-      E     =  UPARAM(1)  
-      NU    =  UPARAM(2)  
-      A1    =  E*UPARAM(21)
-      A2    =  E*UPARAM(22)
-      G     =  UPARAM(23)
+      E  = MATPARAM%YOUNG
+      NU = MATPARAM%NU
+      A1 = MATPARAM%UPARAM(1)
+      A2 = MATPARAM%UPARAM(2)
+      G  = MATPARAM%SHEAR
       NORM_SP = EP03 / E
 c
       ! Linear projection parameter
-      AL1   =  UPARAM(3)  
-      AL2   =  UPARAM(4)  
-      AL3   =  UPARAM(5)  
-      AL4   =  UPARAM(6)  
-      AL5   =  UPARAM(7)  
-      AL6   =  UPARAM(8)  
-      AL7   =  UPARAM(9)  
-      AL8   =  UPARAM(10) 
+      AL1 = MATPARAM%UPARAM(3)  
+      AL2 = MATPARAM%UPARAM(4)  
+      AL3 = MATPARAM%UPARAM(5)  
+      AL4 = MATPARAM%UPARAM(6)  
+      AL5 = MATPARAM%UPARAM(7)  
+      AL6 = MATPARAM%UPARAM(8)  
+      AL7 = MATPARAM%UPARAM(9)  
+      AL8 = MATPARAM%UPARAM(10) 
+      FISOKIN = MATPARAM%UPARAM(11)
 c
       ! A exponent parameter
-      EXPA  =  NINT(UPARAM(15) )
-      UNSA  =  ONE/EXPA
-      EXPAM2=  EXPA - 2 
+      EXPA   = NINT(MATPARAM%UPARAM(12))
+      UNSA   = ONE/EXPA
+      EXPAM2 = EXPA - 2 
 c
       ! Yield stress parameters
-      NRATE   = NINT(UPARAM(25))
+      NRATE  = MATPARAM%IPARAM(5)
 c
-      IFLAG   = NINT(UPARAM(24))            
-      IFLAGSR = NINT(UPARAM(25+2*NRATE+8)) 
-
- 
-      ! IFLAG=1 => Swift-Voce Yld, IFLAG=0 => Tabulated Yld
-      ! IFLAGSR=0 => total strain rate,  IFLAGSR=1 => plastic strain rate 
-c-----------------------------------------------
-      NFLAG3 = 34 + 2*NRATE
-      NFLAG4 = NFLAG3 + 21
-      FISOKIN= UPARAM(NFLAG4+1)
+      ! Kinematic hardening parameters
       IF (FISOKIN >ZERO) THEN                  
-         CKH(1) = UPARAM(NFLAG4+2) 
-         AKH(1) = UPARAM(NFLAG4+3) 
-         CKH(2) = UPARAM(NFLAG4+4) 
-         AKH(2) = UPARAM(NFLAG4+5) 
-         CKH(3) = UPARAM(NFLAG4+6) 
-         AKH(3) = UPARAM(NFLAG4+7) 
-         CKH(4) = UPARAM(NFLAG4+8) 
-         AKH(4) = UPARAM(NFLAG4+9) 
+        CKH(1) = MATPARAM%UPARAM(17 + 2*NFUNC + 1) 
+        AKH(1) = MATPARAM%UPARAM(17 + 2*NFUNC + 2) 
+        CKH(2) = MATPARAM%UPARAM(17 + 2*NFUNC + 3) 
+        AKH(2) = MATPARAM%UPARAM(17 + 2*NFUNC + 4) 
+        CKH(3) = MATPARAM%UPARAM(17 + 2*NFUNC + 5) 
+        AKH(3) = MATPARAM%UPARAM(17 + 2*NFUNC + 6) 
+        CKH(4) = MATPARAM%UPARAM(17 + 2*NFUNC + 7) 
+        AKH(4) = MATPARAM%UPARAM(17 + 2*NFUNC + 8) 
       ENDIF
       AKCK = AKH(1)*CKH(1) + AKH(2)* CKH(2) + AKH(3)*CKH(3)  + AKH(4) * CKH(4)
 c
@@ -285,19 +280,19 @@ c-----------------------------------------------
 c     FORMULATION FLAG
 c-----------------------------------------------
 c------------------------------
-       IF (ISIGI == 0) THEN
-            IF (TIME == ZERO) THEN
-              DO I=1,NEL
-                YFAC(I,1) = UPARAM(25+NRATE+1)*FACYLDI(I)
-                YLD(I)    = YFAC(I,1)*FINTER(IFUNC(1),ZERO,NPF,TF,DYDX(I)) 
-                UVAR(I,2) = YLD(I)     
-                UVAR(I,3) = DYDX(I)     
-              ENDDO
-            ENDIF
+      IF (ISIGI == 0) THEN
+        IF (TIME == ZERO) THEN
+          DO I=1,NEL
+            YFAC(I,1) = MATPARAM%UPARAM(17+NRATE+1)*FACYLDI(I)
+            YLD(I)    = YFAC(I,1)*FINTER(IFUNC(1),ZERO,NPF,TF,DYDX(I)) 
+            UVAR(I,2) = YLD(I)     
+            UVAR(I,3) = DYDX(I)     
+          ENDDO
+        ENDIF
       ENDIF
       DO I=1,NEL
-            YLD(I)  = UVAR(I,2)
-            DYDX(I) = UVAR(I,3)                                                                        
+        YLD(I)  = UVAR(I,2)
+        DYDX(I) = UVAR(I,3)                                                                        
       ENDDO       
 C------------------------------
 c------------------------------
@@ -369,13 +364,14 @@ C
 C            
             JJ(I) = 1                                              
             DO J=2,NRATE-1                                        
-              IF (PLAP(I) >= UPARAM(25+J)) JJ(I) = J               
+              IF (PLAP(I) >= MATPARAM%UPARAM(17+J)) JJ(I) = J               
             ENDDO                                                  
             J1 = JJ(I)
             J2 = J1+1
-            FRATE(I)   = (PLAP(I) - UPARAM(25+J1))/(UPARAM(26+J1) - UPARAM(25+J1))
-            YFAC(I,1) = UPARAM(25+NRATE+J1)*FACYLDI(I)
-            YFAC(I,2) = UPARAM(25+NRATE+J2)*FACYLDI(I)
+            FRATE(I)   = (PLAP(I) - MATPARAM%UPARAM(17+J1))/
+     .                   (MATPARAM%UPARAM(18+J1) - MATPARAM%UPARAM(17+J1))
+            YFAC(I,1) = MATPARAM%UPARAM(17+NRATE+J1)*FACYLDI(I)
+            YFAC(I,2) = MATPARAM%UPARAM(17+NRATE+J2)*FACYLDI(I)
             !Y1 and Y2 for Pl SR dependency
 c
             IF (FISOKIN == ZERO) THEN
@@ -421,7 +417,7 @@ c
               !--------------------------------------- 
               DYDX(I) = (ONE - FISOKIN) *(DYDX1(I) + FRATE(I)*(DYDX2(I)-DYDX1(I)))
               YLDP    = ( DYDX(I)+ (Y2(I)-Y1(I))
-     .             /(UPARAM(26+J1)-UPARAM(25+J1))  /TIMESTEP)
+     .             /(MATPARAM%UPARAM(18+J1)-MATPARAM%UPARAM(17+J1))  /TIMESTEP)
               !--------------------------------------- 
 C              
               ! Computation of the normal to the yield surface
@@ -605,13 +601,13 @@ C
               ! Updating the yield stress
               JJ(I) = 1                                              
               DO J=2,NRATE-1                                        
-                IF(PLAP(I) >= UPARAM(25+J)) JJ(I) = J               
+                IF(PLAP(I) >= MATPARAM%UPARAM(17+J)) JJ(I) = J               
               ENDDO                                                  
               J1 = JJ(I)
               J2 = J1+1
-              FRATE(I)   = (PLAP(I) - UPARAM(25+J1))/(UPARAM(26+J1) - UPARAM(25+J1))
-              YFAC(I,1) = UPARAM(25+NRATE+J1)*FACYLDI(I)
-              YFAC(I,2) = UPARAM(25+NRATE+J2)*FACYLDI(I)
+              FRATE(I)   = (PLAP(I) - MATPARAM%UPARAM(17+J1))/(MATPARAM%UPARAM(18+J1) - MATPARAM%UPARAM(17+J1))
+              YFAC(I,1) = MATPARAM%UPARAM(17+NRATE+J1)*FACYLDI(I)
+              YFAC(I,2) = MATPARAM%UPARAM(17+NRATE+J2)*FACYLDI(I)
               !Y1 and Y2 for Pl SR dependency
               Y1(I)  = YFAC(I,1)*FINTER(IFUNC(J1),PLA(I),NPF,TF,DYDX1(I)) 
               Y2(I)  = YFAC(I,2)*FINTER(IFUNC(J2),PLA(I),NPF,TF,DYDX2(I)) 
