@@ -120,6 +120,7 @@ C          JHBE   = IGEO(10,PID)
           NPTT = ELBUF_TAB(NG)%NPTT                        
           NPT  = NPTR * NPTS * NPTT * NLAY
           IF (JHBE==17.AND.IINT==2) JHBE = 18
+          IF (JHBE==1.AND.IINT==3) JHBE = 5
           IF (MLW < 28) THEN 
             NUVAR = 0
           ELSEIF (MLW == 112) THEN 

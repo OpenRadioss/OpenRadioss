@@ -569,6 +569,7 @@ c
               WA(JJ+ 9)= JHBE                                                           
               WA(JJ+10)= IGTYP   
               WA(JJ+11) = GBUF%OFF(I)                                                                                                    
+              IF (JHBE==1.AND.IINT==3) WA(JJ+ 9)=  5
               JJ = JJ + 11                                                              
               IF (IGLOB == 1)THEN                                                       
                 IF(JCVT==2)THEN                                            

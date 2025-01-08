@@ -124,6 +124,7 @@ C----- not output all solid element
      6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
           IF (JHBE==17.AND.IINT==2) JHBE = 18
+          IF (JHBE==1.AND.IINT==3) JHBE = 5
           ISOLNOD0 = ISOLNOD
           NSROT = 0
           IF (ISOLNOD0==4 .AND. ISROT==1) THEN
