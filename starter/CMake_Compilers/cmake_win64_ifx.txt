@@ -70,35 +70,36 @@ message (STATUS "modules: ${CMAKE_Fortran_MODULE_DIRECTORY}")
 
 #Generic Compilation flags
 ###########################
-set(VECT_OPT "/nologo /Qaxsse3 /O2 /fp:precise /Qftz /Qopenmp")
+set(VECT_OPT "/nologo /Qaxsse3 /O2 /fp:precise /Qfma- /Qftz /Qopenmp")
 set(Fortran "/fpp /extend-source /assume:buffered_io")
 # 
 if ( debug STREQUAL "1" )
- 
-# Fortran
-set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 /fpp /Od /debug:all /Qftz /extend-source /assume:buffered_io /Qopenmp  ${ADF} /traceback" )
-
-# C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /nologo /Od /debug:all /Qftz  /Qopenmp /traceback  ${zlib_inc}" )
-
-# CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /nologo /Od /debug:all /Qftz  /Qopenmp /traceback  ${zlib_inc}" )
-
+  set (fortran_flags "/nologo ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 /fpp /Od /debug:all /Zi /fp:precise /Qfma-  /Qftz /extend-source /assume:buffered_io /Qopenmp  ${ADF} /traceback" )
+  set (c_flags "${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /nologo /Od /debug:all /Zi /Qftz  /Qopenmp /traceback  ${zlib_inc}" )
+  set (cpp_flags "${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /nologo /Od /debug:all /Zi /Qftz  /Qopenmp /traceback  ${zlib_inc}" )
+  set(debug_link "/DEBUG:FULL")
+elseif ( debug STREQUAL "chkb" )
+  set (fortran_flags "/nologo ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 /fpp /Od /debug:all /Zi /fp:precise /Qfma-  /Qftz /extend-source /assume:buffered_io /Qopenmp  ${ADF} /check:bounds /check:uninit /traceback" )
+  set (c_flags "${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /nologo /Od /debug:all /Zi /Qftz  /Qopenmp /traceback  ${zlib_inc}" )
+  set (cpp_flags "${precision_flag} -DMETIS5 ${cppmach} ${cpprel} /nologo /Od /debug:all /Zi /Qftz  /Qopenmp /traceback  ${zlib_inc}" )
+  set(debug_link "/DEBUG:FULL")
 else ()
-
-# Fortran
-set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 ${VECT_OPT} ${Fortran} ${ADF}" )
-
-# C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} ${Tet_mesher_inc} -DMETIS5 ${cppmach} ${cpprel} ${VECT_OPT}  ${zlib_inc}" )
-
-# CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " ${precision_flag} ${Tet_mesher_inc} -DMETIS5 ${cppmach} ${cpprel} ${VECT_OPT}  ${zlib_inc}" )
-
+  set (fortran_flags "${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 ${VECT_OPT} ${Fortran} ${ADF}" )
+  set (c_flags "${precision_flag} ${Tet_mesher_inc} -DMETIS5 ${cppmach} ${cpprel} ${VECT_OPT}  ${zlib_inc}" )
+  set (cpp_flags "${precision_flag} ${Tet_mesher_inc} -DMETIS5 ${cppmach} ${cpprel} ${VECT_OPT}  ${zlib_inc}" )
 endif()
 
+# Fortran
+set_source_files_properties(${source_files} PROPERTIES COMPILE_FLAGS "${fortran_flags}")
+
+# C source files
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${c_flags}")
+
+# CXX source files
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${cpp_flags}")
+
 # Linking flags
-set (CMAKE_EXE_LINKER_FLAGS "/F1500000000 /STACK:1500000000 ${reader_lib} ${MKL_Lib}  ${metis_lib}  ${zlib_lib} svml_dispmd.lib")
+set (CMAKE_EXE_LINKER_FLAGS "${debug_link} /F1500000000 /STACK:1500000000 ${reader_lib} ${MKL_Lib}  ${metis_lib}  ${zlib_lib} svml_dispmd.lib")
 
 #Libraries
 set (LINK "advapi32.lib")
