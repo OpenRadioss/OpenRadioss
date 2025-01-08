@@ -96,6 +96,7 @@
       !||    sigeps125              ../engine/source/materials/mat/mat125/sigeps125.F90
       !||    sigeps126              ../engine/source/materials/mat/mat126/sigeps126.F90
       !||    sigeps127              ../engine/source/materials/mat/mat127/sigeps127.F90
+      !||    sigeps128s             ../engine/source/materials/mat/mat128/sigeps128s.F90
       !||    sigeps187              ../engine/source/materials/mat/mat187/sigeps187.F
       !||    sigeps190              ../engine/source/materials/mat/mat190/sigeps190.F
       !||    sigeps28               ../engine/source/materials/mat/mat028/sigeps28.F
@@ -133,7 +134,7 @@
       !||    sigeps78               ../engine/source/materials/mat/mat078/sigeps78.F
       !||    sigeps79               ../engine/source/materials/mat/mat079/sigeps79.F
       !||    sigeps80               ../engine/source/materials/mat/mat080/sigeps80.F
-      !||    sigeps81               ../engine/source/materials/mat/mat081/sigeps81.F
+      !||    sigeps81               ../engine/source/materials/mat/mat081/sigeps81.F90
       !||    sigeps82               ../engine/source/materials/mat/mat082/sigeps82.F
       !||    sigeps84               ../engine/source/materials/mat/mat084/sigeps84.F
       !||    sigeps88               ../engine/source/materials/mat/mat088/sigeps88.F
@@ -160,6 +161,8 @@
       !||    sigeps125_mod          ../engine/source/materials/mat/mat125/sigeps125.F90
       !||    sigeps126_mod          ../engine/source/materials/mat/mat126/sigeps126.F90
       !||    sigeps127_mod          ../engine/source/materials/mat/mat127/sigeps127.F90
+      !||    sigeps128s_mod         ../engine/source/materials/mat/mat128/sigeps128s.F90
+      !||    sigeps81_mod           ../engine/source/materials/mat/mat081/sigeps81.F90
       !||    table_mod              ../engine/share/modules/table_mod.F
       !||====================================================================
         subroutine mulaw(&

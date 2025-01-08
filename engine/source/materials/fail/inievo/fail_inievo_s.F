@@ -27,7 +27,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    mulaw                 ../engine/source/materials/mat_share/mulaw.F90
       !||    usermat_solid         ../engine/source/materials/mat_share/usermat_solid.F
       !||--- calls      -----------------------------------------------------
-      !||    fcrit                 ../engine/source/materials/mat/mat081/sigeps81.F
       !||    jacobiew_v            ../engine/source/materials/mat_share/jacobview_v.F
       !||    table_vinterp         ../engine/source/tools/curve/table_tools.F
       !||--- uses       -----------------------------------------------------

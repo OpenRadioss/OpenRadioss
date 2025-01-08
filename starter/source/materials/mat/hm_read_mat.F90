@@ -22,6 +22,17 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 ! =================================================================================================
 !! \brief Read materials cards
+! --------------------------------------------------------------------------------------------------
+      !||====================================================================
+      !||    hm_read_mat_mod        ../starter/source/materials/mat/hm_read_mat.F90
+      !||--- called by ------------------------------------------------------
+      !||    read_material_models   ../starter/source/materials/read_material_models.F
+      !||====================================================================
+      module hm_read_mat_mod
+      contains
+! --------------------------------------------------------------------------------------------------
+!! \brief Read materials cards
+! --------------------------------------------------------------------------------------------------
       !||====================================================================
       !||    hm_read_mat               ../starter/source/materials/mat/hm_read_mat.F90
       !||--- called by ------------------------------------------------------
@@ -68,6 +79,7 @@
       !||    hm_read_mat125            ../starter/source/materials/mat/mat125/hm_read_mat125.F90
       !||    hm_read_mat126            ../starter/source/materials/mat/mat126/hm_read_mat126.F90
       !||    hm_read_mat127            ../starter/source/materials/mat/mat127/hm_read_mat127.F90
+      !||    hm_read_mat128            ../starter/source/materials/mat/mat128/hm_read_mat128.F90
       !||    hm_read_mat13             ../starter/source/materials/mat/mat013/hm_read_mat13.F
       !||    hm_read_mat14             ../starter/source/materials/mat/mat014/hm_read_mat14.F
       !||    hm_read_mat15             ../starter/source/materials/mat/mat015/hm_read_mat15.F
@@ -130,7 +142,7 @@
       !||    hm_read_mat78             ../starter/source/materials/mat/mat078/hm_read_mat78.F
       !||    hm_read_mat79             ../starter/source/materials/mat/mat079/hm_read_mat79.F
       !||    hm_read_mat80             ../starter/source/materials/mat/mat080/hm_read_mat80.F
-      !||    hm_read_mat81             ../starter/source/materials/mat/mat081/hm_read_mat81.F
+      !||    hm_read_mat81             ../starter/source/materials/mat/mat081/hm_read_mat81.F90
       !||    hm_read_mat82             ../starter/source/materials/mat/mat082/hm_read_mat82.F
       !||    hm_read_mat83             ../starter/source/materials/mat/mat083/hm_read_mat83.F
       !||    hm_read_mat84             ../starter/source/materials/mat/mat084/hm_read_mat84.F
@@ -153,19 +165,15 @@
       !||    hm_read_mat125_mod        ../starter/source/materials/mat/mat125/hm_read_mat125.F90
       !||    hm_read_mat126_mod        ../starter/source/materials/mat/mat126/hm_read_mat126.F90
       !||    hm_read_mat127_mod        ../starter/source/materials/mat/mat127/hm_read_mat127.F90
+      !||    hm_read_mat128_mod        ../starter/source/materials/mat/mat128/hm_read_mat128.F90
       !||    hm_read_mat169_arup_mod   ../starter/source/materials/mat/mat169/hm_read_mat169.F90
+      !||    hm_read_mat81_mod         ../starter/source/materials/mat/mat081/hm_read_mat81.F90
       !||    law_user                  ../starter/source/user_interface/law_user.F
       !||    message_mod               ../starter/share/message_module/message_mod.F
       !||    reader_old_mod            ../starter/share/modules1/reader_old_mod.F90
       !||    submodel_mod              ../starter/share/modules1/submodel_mod.F
       !||    table_mod                 ../starter/share/modules1/table_mod.F
       !||====================================================================
-! --------------------------------------------------------------------------------------------------
-      module hm_read_mat_mod
-      contains
-! --------------------------------------------------------------------------------------------------
-!! \brief Read materials cards
-! --------------------------------------------------------------------------------------------------
              subroutine hm_read_mat(                                      &
    &                    mat_param   ,mlaw_tag    ,eos_tag     ,bufmat    ,&
    &                    buflen      ,iadbuf      ,ipm         ,pm        ,&

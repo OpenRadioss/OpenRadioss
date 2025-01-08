@@ -114,6 +114,7 @@
       !||    hm_read_mat125                      ../starter/source/materials/mat/mat125/hm_read_mat125.F90
       !||    hm_read_mat126                      ../starter/source/materials/mat/mat126/hm_read_mat126.F90
       !||    hm_read_mat127                      ../starter/source/materials/mat/mat127/hm_read_mat127.F90
+      !||    hm_read_mat128                      ../starter/source/materials/mat/mat128/hm_read_mat128.F90
       !||    hm_read_mat13                       ../starter/source/materials/mat/mat013/hm_read_mat13.F
       !||    hm_read_mat14                       ../starter/source/materials/mat/mat014/hm_read_mat14.F
       !||    hm_read_mat15                       ../starter/source/materials/mat/mat015/hm_read_mat15.F
@@ -176,7 +177,7 @@
       !||    hm_read_mat78                       ../starter/source/materials/mat/mat078/hm_read_mat78.F
       !||    hm_read_mat79                       ../starter/source/materials/mat/mat079/hm_read_mat79.F
       !||    hm_read_mat80                       ../starter/source/materials/mat/mat080/hm_read_mat80.F
-      !||    hm_read_mat81                       ../starter/source/materials/mat/mat081/hm_read_mat81.F
+      !||    hm_read_mat81                       ../starter/source/materials/mat/mat081/hm_read_mat81.F90
       !||    hm_read_mat82                       ../starter/source/materials/mat/mat082/hm_read_mat82.F
       !||    hm_read_mat83                       ../starter/source/materials/mat/mat083/hm_read_mat83.F
       !||    hm_read_mat84                       ../starter/source/materials/mat/mat084/hm_read_mat84.F
@@ -217,6 +218,7 @@
       !||    law70_upd                           ../starter/source/materials/mat/mat070/law70_upd.F
       !||    law76_upd                           ../starter/source/materials/mat/mat076/law76_upd.F
       !||    law77_upd                           ../starter/source/materials/mat/mat077/law77_upd.F
+      !||    law81_upd                           ../starter/source/materials/mat/mat081/law81_upd.F90
       !||    lec_inistate                        ../starter/source/elements/initia/lec_inistate.F
       !||    lech3d                              ../engine/source/output/h3d/h3d_build_fortran/lech3d.F
       !||    m12law                              ../engine/source/materials/mat/mat012/m12law.F
@@ -227,6 +229,7 @@
       !||    mat25_tsaiwu_c                      ../engine/source/materials/mat/mat025/mat25_tsaiwu_c.F90
       !||    mat25_tsaiwu_s                      ../engine/source/materials/mat/mat025/mat25_tsaiwu_s.F90
       !||    mat_elem_mod                        ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    mat_table_copy                      ../starter/source/materials/tools/mat_table_copy.F90
       !||    mmodul                              ../engine/source/elements/solid/solidez/mmodul.F
       !||    mulaw                               ../engine/source/materials/mat_share/mulaw.F90
       !||    multi_ebcs                          ../engine/source/multifluid/multi_ebcs.F
@@ -263,6 +266,8 @@
       !||    sigeps126                           ../engine/source/materials/mat/mat126/sigeps126.F90
       !||    sigeps127                           ../engine/source/materials/mat/mat127/sigeps127.F90
       !||    sigeps127c                          ../engine/source/materials/mat/mat127/sigeps127c.F90
+      !||    sigeps128c                          ../engine/source/materials/mat/mat128/sigeps128c.F90
+      !||    sigeps128s                          ../engine/source/materials/mat/mat128/sigeps128s.F90
       !||    sigeps190                           ../engine/source/materials/mat/mat190/sigeps190.F
       !||    sigeps25c                           ../engine/source/materials/mat/mat025/sigeps25c.F
       !||    sigeps25cp                          ../engine/source/materials/mat/mat025/sigeps25cp.F
@@ -273,6 +278,7 @@
       !||    sigeps75                            ../engine/source/materials/mat/mat075/sigeps75.F
       !||    sigeps76                            ../engine/source/materials/mat/mat076/sigeps76.F
       !||    sigeps76c                           ../engine/source/materials/mat/mat076/sigeps76c.F
+      !||    sigeps81                            ../engine/source/materials/mat/mat081/sigeps81.F90
       !||    sinit3                              ../starter/source/elements/solid/solide/sinit3.F
       !||    solve_eint                          ../engine/source/multifluid/multi_inlet_ebcs.F
       !||    spgrhead                            ../starter/source/elements/sph/spgrhead.F

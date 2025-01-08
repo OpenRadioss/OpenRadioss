@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    cm58_refsta   ../starter/source/materials/mat/mat058/cm58_refsta.F
       !||    fct_fiber_2   ../starter/source/materials/mat/mat098/lossfun_98.F
       !||    inimom_fvm    ../starter/source/elements/solid/solide/inimom_fvm.F
+      !||    law81_upd     ../starter/source/materials/mat/mat081/law81_upd.F90
       !||    law87_upd     ../starter/source/materials/mat/mat087/law87_upd.F
       !||    lossfun_98    ../starter/source/materials/mat/mat098/lossfun_98.F
       !||    m38init       ../starter/source/materials/mat/mat038/m38init.F

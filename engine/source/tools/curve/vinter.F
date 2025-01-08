@@ -133,6 +133,7 @@ C
       !||    sigeps60            ../engine/source/materials/mat/mat060/sigeps60.F
       !||    sigeps68            ../engine/source/materials/mat/mat068/sigeps68.F
       !||    sigeps70            ../engine/source/materials/mat/mat070/sigeps70.F
+      !||    sigeps81            ../engine/source/materials/mat/mat081/sigeps81.F90
       !||    sigeps90            ../engine/source/materials/mat/mat090/sigeps90.F
       !||    sigeps96            ../engine/source/materials/mat/mat096/sigeps96.F
       !||    sigeps96c           ../engine/source/materials/mat/mat096/sigeps96c.F

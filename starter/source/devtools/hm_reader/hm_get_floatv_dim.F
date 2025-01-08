@@ -70,6 +70,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_mat120            ../starter/source/materials/mat/mat120/hm_read_mat120.F
       !||    hm_read_mat121            ../starter/source/materials/mat/mat121/hm_read_mat121.F
       !||    hm_read_mat122            ../starter/source/materials/mat/mat122/hm_read_mat122.F
+      !||    hm_read_mat128            ../starter/source/materials/mat/mat128/hm_read_mat128.F90
       !||    hm_read_mat158            ../starter/source/materials/mat/mat158/hm_read_mat158.F
       !||    hm_read_mat16             ../starter/source/materials/mat/mat016/hm_read_mat16.F
       !||    hm_read_mat190            ../starter/source/materials/mat/mat190/hm_read_mat190.F
@@ -100,7 +101,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_mat76             ../starter/source/materials/mat/mat076/hm_read_mat76.F
       !||    hm_read_mat77             ../starter/source/materials/mat/mat077/hm_read_mat77.F
       !||    hm_read_mat80             ../starter/source/materials/mat/mat080/hm_read_mat80.F
-      !||    hm_read_mat81             ../starter/source/materials/mat/mat081/hm_read_mat81.F
+      !||    hm_read_mat81             ../starter/source/materials/mat/mat081/hm_read_mat81.F90
       !||    hm_read_mat83             ../starter/source/materials/mat/mat083/hm_read_mat83.F
       !||    hm_read_mat88             ../starter/source/materials/mat/mat088/hm_read_mat88.F
       !||    hm_read_mat92             ../starter/source/materials/mat/mat092/hm_read_mat92.F

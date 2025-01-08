@@ -44,6 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    elbuftag_mod               ../starter/share/modules1/elbuftag_mod.F
       !||    hm_option_read_mod         ../starter/share/modules1/hm_option_read_mod.F
+      !||    hm_read_mat_mod            ../starter/source/materials/mat/hm_read_mat.F90
       !||    hm_read_therm_stress_mod   ../starter/source/materials/therm/hm_read_therm_stress.F90
       !||    message_mod                ../starter/share/message_module/message_mod.F
       !||    submodel_mod               ../starter/share/modules1/submodel_mod.F

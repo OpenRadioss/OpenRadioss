@@ -40,6 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_funct             ../starter/source/tools/curve/hm_read_funct.F
       !||    hm_read_funct_python      ../starter/source/tools/curve/hm_read_funct_python.F90
       !||    hm_read_mat               ../starter/source/materials/mat/hm_read_mat.F90
+      !||    hm_read_mat128            ../starter/source/materials/mat/mat128/hm_read_mat128.F90
       !||    hm_read_mat190            ../starter/source/materials/mat/mat190/hm_read_mat190.F
       !||    hm_read_mat76             ../starter/source/materials/mat/mat076/hm_read_mat76.F
       !||    hm_read_mat80             ../starter/source/materials/mat/mat080/hm_read_mat80.F

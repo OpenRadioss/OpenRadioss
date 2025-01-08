@@ -25,7 +25,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    usermat_shell         ../engine/source/materials/mat_share/usermat_shell.F
       !||--- calls      -----------------------------------------------------
-      !||    fcrit                 ../engine/source/materials/mat/mat081/sigeps81.F
       !||    table_vinterp         ../engine/source/tools/curve/table_tools.F
       !||--- uses       -----------------------------------------------------
       !||    interface_table_mod   ../engine/share/modules/table_mod.F

@@ -22,18 +22,27 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !===============================================================================
 
+      !||====================================================================
+      !||    sigeps128s_mod   ../engine/source/materials/mat/mat128/sigeps128s.F90
+      !||--- called by ------------------------------------------------------
+      !||    mulaw            ../engine/source/materials/mat_share/mulaw.F90
+      !||====================================================================
       module sigeps128s_mod
       contains
 
-      !||====================================================================
-      !||    sigeps128s     ../engine/source/materials/mat/mat128/sigeps128s.F90
-      !||--- called by ------------------------------------------------------
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod       ../common_source/modules/constant_mod.F
-      !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||====================================================================
 
+      !||====================================================================
+      !||    sigeps128s              ../engine/source/materials/mat/mat128/sigeps128s.F90
+      !||--- called by ------------------------------------------------------
+      !||    mulaw                   ../engine/source/materials/mat_share/mulaw.F90
+      !||--- calls      -----------------------------------------------------
+      !||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod            ../common_source/modules/constant_mod.F
+      !||    matparam_def_mod        ../common_source/modules/mat_elem/matparam_def_mod.F90
+      !||    table4d_mod             ../common_source/modules/table4d_mod.F
+      !||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
+      !||====================================================================
        subroutine sigeps128s(mat_param  ,                                       &
            nel      ,nuvar    ,nvartmp  ,uvar     ,vartmp   ,timestep ,         &
            depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   ,         &

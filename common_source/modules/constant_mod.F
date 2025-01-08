@@ -71,7 +71,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_mat125                           ../starter/source/materials/mat/mat125/hm_read_mat125.F90
       !||    hm_read_mat126                           ../starter/source/materials/mat/mat126/hm_read_mat126.F90
       !||    hm_read_mat127                           ../starter/source/materials/mat/mat127/hm_read_mat127.F90
+      !||    hm_read_mat128                           ../starter/source/materials/mat/mat128/hm_read_mat128.F90
       !||    hm_read_mat169_arup                      ../starter/source/materials/mat/mat169/hm_read_mat169.F90
+      !||    hm_read_mat81                            ../starter/source/materials/mat/mat081/hm_read_mat81.F90
       !||    hm_read_preload_axial                    ../starter/source/loads/general/preload/hm_read_preload_axial.F90
       !||    hm_read_therm_stress                     ../starter/source/materials/therm/hm_read_therm_stress.F90
       !||    iniphase                                 ../starter/source/initial_conditions/inivol/iniphase.F
@@ -87,6 +89,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    inter_save_candidate                     ../starter/source/interfaces/inter3d1/inter_save_candidate.F90
       !||    inter_sh_offset_ini                      ../engine/source/interfaces/shell_offset/inter_offset_ini.F90
       !||    jwl_eos_delta                            ../engine/source/materials/mat/mat041/jwl_eos_mod.F90
+      !||    law81_upd                                ../starter/source/materials/mat/mat081/law81_upd.F90
       !||    mat25_crasurv_c                          ../engine/source/materials/mat/mat025/mat25_crasurv_c.F90
       !||    mat25_crasurv_s                          ../engine/source/materials/mat/mat025/mat25_crasurv_s.F90
       !||    mat25_tsaiwu_c                           ../engine/source/materials/mat/mat025/mat25_tsaiwu_c.F90
@@ -127,7 +130,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sigeps126                                ../engine/source/materials/mat/mat126/sigeps126.F90
       !||    sigeps127                                ../engine/source/materials/mat/mat127/sigeps127.F90
       !||    sigeps127c                               ../engine/source/materials/mat/mat127/sigeps127c.F90
+      !||    sigeps128c                               ../engine/source/materials/mat/mat128/sigeps128c.F90
+      !||    sigeps128s                               ../engine/source/materials/mat/mat128/sigeps128s.F90
       !||    sigeps169_connect                        ../engine/source/materials/mat/mat169/sigeps169_connect.F90
+      !||    sigeps81                                 ../engine/source/materials/mat/mat081/sigeps81.F90
       !||    spmd_exch_flow_tracking_data             ../engine/source/ale/grid/spmd_exch_flow_tracking_data.F90
       !||    spmd_exch_flow_tracking_data2            ../engine/source/ale/grid/spmd_exch_flow_tracking_data2.F90
       !||    spmd_exch_flow_tracking_data3            ../engine/source/ale/grid/spmd_exch_flow_tracking_data3.F90

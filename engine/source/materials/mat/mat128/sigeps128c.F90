@@ -22,12 +22,21 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !===============================================================================
 
+      !||====================================================================
+      !||    sigeps128c_mod   ../engine/source/materials/mat/mat128/sigeps128c.F90
+      !||====================================================================
       module sigeps128c_mod
       contains
 
       !||====================================================================
-      !||    sigeps128c   ../engine/source/materials/mat/mat093/sigeps128c.F
+      !||    sigeps128c              ../engine/source/materials/mat/mat128/sigeps128c.F90
       !||--- calls      -----------------------------------------------------
+      !||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod            ../common_source/modules/constant_mod.F
+      !||    matparam_def_mod        ../common_source/modules/mat_elem/matparam_def_mod.F90
+      !||    table4d_mod             ../common_source/modules/table4d_mod.F
+      !||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
       !||====================================================================
       subroutine sigeps128c(mat_param   ,                                           &
            nel      ,nuvar    ,nvartmp  ,uvar     ,vartmp   ,timestep ,             &

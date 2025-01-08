@@ -225,7 +225,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_mat66                     ../starter/source/materials/mat/mat066/hm_read_mat66.F
       !||    hm_read_mat71                     ../starter/source/materials/mat/mat071/hm_read_mat71.F
       !||    hm_read_mat76                     ../starter/source/materials/mat/mat076/hm_read_mat76.F
-      !||    hm_read_mat81                     ../starter/source/materials/mat/mat081/hm_read_mat81.F
       !||    hm_read_mat87                     ../starter/source/materials/mat/mat087/hm_read_mat87.F
       !||    hm_read_mat95                     ../starter/source/materials/mat/mat095/hm_read_mat95.F
       !||    hm_read_matgas                    ../starter/source/materials/mat/matgas/hm_read_matgas.F
