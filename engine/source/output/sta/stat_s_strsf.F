@@ -496,6 +496,7 @@ c---------------
               WA(JJ+10)= IGTYP 
               WA(JJ+11) = GBUF%OFF(I)        
               WA(JJ+12) = ISROT                                                                                         
+              IF (JHBE==1.AND.IINT==3) WA(JJ+ 9)=  5
               JJ = JJ + 12                                              
               IF (IGLOB == 1)THEN
                 IF (JCVT==2 ) THEN
