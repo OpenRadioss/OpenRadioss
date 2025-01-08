@@ -834,6 +834,7 @@ void delete_user_file_(char * filnam,int * len)
   filn[*len]='\0';
 
   remove(filn);
+  free(filn);
 }
 
 void _FCALL DELETE_USER_FILE(char * filnam,int * len)
@@ -847,4 +848,5 @@ void _FCALL DELETE_USER_FILE(char * filnam,int * len)
   filn[*len]='\0';
 
   remove(filn);
+  free(filn);
 }

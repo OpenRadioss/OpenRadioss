@@ -144,6 +144,7 @@ void tmpenvf_(char* tmpdir,int *tmplen){
   for (i=0;i<slen;i++) tmpdir[i]=tdir[i];
   tmpdir[slen]='\0';
   *tmplen = slen;
+  free(tdir); 
 }
 
 void tmpenvf(char* tmpdir,int *tmplen){
