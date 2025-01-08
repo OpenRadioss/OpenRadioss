@@ -15392,7 +15392,7 @@ Parameter ALPHA should be lower than square root of 2/3 (0.8164965809)
    -- INTERFACE ID: %d
    -- INTERFACE TITLE: %s
    %i1="/INTER"
-   Spotflag= %d IS NOT COMPATIBLE WITH SURFACE TO SURFACE INPUT, Secondary surf_id= %d is ignored
+   SPOTFLAG= %d IS NOT COMPATIBLE WITH SURFACE TO SURFACE INPUT, SECONDARY SURF_ID= %D IS IGNORED
 
 
 /MESSAGE/3079/TITLE
