@@ -124,7 +124,7 @@ C-----------------------------------------------
       !IFORM=1 : CONSTANT unload modulus BUNL (DEFAULT)
       !IFORM=2 : LINEAR uload modulus from C1 to BUNL
       IF(IFORM /= 1 .AND. IFORM /= 2)THEN
-        IFORM=1 !default     
+        IFORM=2 !default
         IOUTP=0
       ENDIF
       

@@ -28,20 +28,25 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE COMPACTION(
      1                      IFLAG, NEL  , PM   , OFF  , EINT , MU   , MU2 , 
      2                      ESPE , DVOL , DF   , VNEW , MAT  , PSH  , POLD,
-     3                      PNEW , DPDM , DPDE , THETA, ECOLD, SIG  , MU_OLD)
+     3                      PNEW , DPDM , DPDE , THETA, ECOLD, SIG  , MU_BAK)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+!      USE CONSTANT_MOD , ONLY : EM10
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 C This subroutine contains numerical solving of COMPACTION EOS
 C
 C Iform : formulation flag for unload behavior
-C          1 : constant unload modulus (DEFAULT)
+C          1 : constant unload modulus
 C          2 : unload modulus increases with compaction from C1 to BUNL in [MU_MIN,MU_MAX]
 C
 C  MU_MIN : elastic behavior up to this limit
 C  MU_MAX : elastic behavior above this limit
 C  C0,C1,C2,C3 : EoS parameter
 C  BUNL : unload modulus
+C  MU_BAK : is volumetric strain when current unloading path started
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -53,6 +58,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "param_c.inc"
+#include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
@@ -73,8 +79,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX, IFORM
       my_real :: P0,PSH(MVSIZ),GAMMA,T0,E0,SPH,AA, BB,TFEXTT, DVV, PP, AR0B, B(MVSIZ),PNE1,RHO0(MVSIZ),PFRAC
-      my_real :: C0,C1,C2,C3,BUNL,MU_OLD(MVSIZ),MU_MAX,PEN1,P(MVSIZ),P_
+      my_real :: C0,C1,C2,C3,BUNL,MU_BAK(MVSIZ),MU_MAX,PEN1,P(MVSIZ),P_
       my_real :: ALPHA,MUMIN
+      my_real :: MUP0 ! abscissa when unloading path intercept axis
+      my_real :: SLOPE, INTERCEPT
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -95,7 +103,7 @@ C-----------------------------------------------
        IFORM      = NINT(PM(48,MX))
        
        TFEXTT       = ZERO
-       
+
       !----------------------------------------------------------------!
       !  COMPACTION EOS                                                !
       !----------------------------------------------------------------!  
@@ -103,25 +111,43 @@ C-----------------------------------------------
       IF(IFORM == 1)THEN
         DO I=1,NEL
           P(I) = C0+C1*MU(I)+(C2+C3*MU(I))*MU2(I)
-          P_   = C0+C1*MU_OLD(I)+(C2+C3*MU_OLD(I))*MU_OLD(I)*MU_OLD(I)
+          P_   = C0+C1*MU_BAK(I)+(C2+C3*MU_BAK(I))*MU_BAK(I)*MU_BAK(I)
           B(I) = BUNL 
-          PNE1 = P_-(MU_OLD(I)-MU(I))*B(I)
-          IF(MU_OLD(I) > MUMIN) P(I) = MIN(PNE1, P(I))
+          PNE1 = P_-(MU_BAK(I)-MU(I))*B(I)
+          IF(ABS(P(I)-PNE1) > EM10)THEN
+            IF(PNE1 < ZERO)THEN
+              !MUP0 = (MU(I) * P_ * MU_BAK(I)*PNE1) / (P(I) * PNE1)
+              SLOPE = (P_-PNE1) / (MU_BAK(I)-MU(I))
+              INTERCEPT = P_ - SLOPE * MU_BAK(I)
+              MUP0 = - INTERCEPT / SLOPE
+              PNE1 = ZERO -(MUP0-MU(I))*C1
+            ENDIF
+          ENDIF
+          IF(MU_BAK(I) > MUMIN) P(I) = MIN(PNE1, P(I))
           P(I) = MAX(P(I),PFRAC)*OFF(I)
         ENDDO !next I   
       !--- continuous unload slope (increases with compaction) ---!
       ELSEIF(IFORM == 2)THEN
         DO I=1,NEL
           P(I) = C0+C1*MU(I)+(C2+C3*MU(I))*MU2(I)
-          P_   = C0+C1*MU_OLD(I)+(C2+C3*MU_OLD(I))*MU_OLD(I)*MU_OLD(I)
+          P_   = C0+C1*MU_BAK(I)+(C2+C3*MU_BAK(I))*MU_BAK(I)*MU_BAK(I)
           !linear unload modulus
           ALPHA = ONE
           IF(MU_MAX > ZERO)THEN
-            ALPHA=MU_OLD(I)/MU_MAX
+            ALPHA=MU_BAK(I)/MU_MAX
           ENDIF
           B(I) = ALPHA*BUNL+(ONE-ALPHA)*C1
-          PNE1 = P_-(MU_OLD(I)-MU(I))*B(I)
-          IF(MU_OLD(I) > MUMIN) P(I) = MIN(PNE1, P(I))
+          PNE1 = P_-(MU_BAK(I)-MU(I))*B(I)
+          IF(ABS(P(I)-PNE1) > EM10)THEN
+            IF(PNE1 < ZERO)THEN
+              !MUP0 = (MU(I) * P_ * MU_BAK(I)*PNE1) / (P(I) * PNE1)
+              SLOPE = (P_-PNE1) / (MU_BAK(I)-MU(I))
+              INTERCEPT = P_ - SLOPE * MU_BAK(I)
+              MUP0 = - INTERCEPT / SLOPE
+              PNE1 = ZERO -(MUP0-MU(I))*C1
+            ENDIF
+          ENDIF
+          IF(MU_BAK(I) > MUMIN) P(I) = MIN(PNE1, P(I))
           P(I) = MAX(P(I),PFRAC)  *OFF(I)
         ENDDO !next I
       ENDIF
@@ -147,16 +173,16 @@ C-----------------------------------------------
 
       IF(IFLAG == 1) THEN
         !----------------------------------------------------------------!
-        !  FRACTURE  - MU_OLD                                            !
+        !  FRACTURE  - MU_BAK                                            !
         !----------------------------------------------------------------!      
         DO I=1,NEL
           EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I) )
         ENDDO !next I 
         !----------------------------------------------------------------!
-        !  FRACTURE  - MU_OLD                                            !
+        !  FRACTURE  - MU_BAK                                            !
         !----------------------------------------------------------------!
         DO I=1,NEL
-          IF(MU(I) > MU_OLD(I)) MU_OLD(I) = MIN(MU_MAX,MU(I))
+          IF(MU(I) > MU_BAK(I)) MU_BAK(I) = MIN(MU_MAX,MU(I))
         ENDDO !next I
         !----------------------------------------------------------------!
         !  OUTPUT                                                        !
@@ -181,10 +207,10 @@ C-----------------------------------------------
 
       ELSEIF(IFLAG == 2) THEN
         !----------------------------------------------------------------!
-        !  FRACTURE  - MU_OLD                                            !
+        !  FRACTURE  - MU_BAK                                            !
         !----------------------------------------------------------------!
         DO I=1,NEL
-          IF(MU(I) > MU_OLD(I)) MU_OLD(I) = MIN(MU_MAX,MU(I))
+          IF(MU(I) > MU_BAK(I)) MU_BAK(I) = MIN(MU_MAX,MU(I))
         ENDDO !next I
         !----------------------------------------------------------------!
         !  OUTPUT                                                        !
