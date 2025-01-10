@@ -28,7 +28,7 @@
       !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
       !||    python_funct_mod       ../common_source/modules/python_mod.F90
       !||====================================================================
-      module sensor_common_mod
+      module sensor_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -49,6 +49,7 @@
       integer ,parameter :: isenparr = 203
       integer ,parameter :: sensor_type_python = 40
       integer, parameter :: sensor_result_size = 2
+      integer ,parameter :: mx_sens  = 50000        !used only in sensor list in engine options /STOP, /OUTP...
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Types
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -79,7 +80,52 @@
         integer :: python_function_id !< the python functions, if type = sensor_type_python (40)
         type(python_function)  :: python_function !< the python functions, if type = sensor_type_python (40)
       end type sensor_str_
-!                                  IPARAM                     RPARAM               VAR
+
+      ! -----------------------------------
+      type sub_sensor_type
+        integer :: part                                                 !   id of the part
+        integer :: num_group_part                                       !   number of element group per part
+        real(kind=8), dimension(:,:,:), allocatable :: fbsav6_sens      !   fbsav6 double precision array (parith/on array)           
+      end type sub_sensor_type
+      ! -----------------------------------
+      type sensor_type
+        integer :: typ                                                  !   type of energy sensor : 1 --> only 1 part ; 2 --> several subparts
+        integer :: part                                                 !   id of the part
+        integer :: nb_sub                                               !   number of subpart only useful for typ=2
+        integer :: num_group_part                                       !   number of element group per part
+        type(sub_sensor_type), dimension(:), allocatable :: sub
+        real(kind=8), dimension(:,:,:), allocatable :: fbsav6_sens      !   fbsav6 double precision array (parith/on array)           
+      end type sensor_type
+      ! -----------------------------------
+      type sensor_group
+        integer :: num_part                            !   number of part per element group
+        integer, dimension(:,:), allocatable :: part   !   size = (num_part,3)
+!       structure of sens_group%part :
+!       (1:num_part,1): id of the part
+!       (1:num_part,2): type of energy sensor (1=part / 2=subset)
+!       (1:num_part,3): sensor linked to the current part
+      end type sensor_group
+      ! -----------------------------------
+      type sensor_comm
+        logical :: bool                                 !   boolean : true if there is one or more energy sensors
+        integer :: num_sens                             !   number of sensor
+        integer :: buffer_size_mean                     !   buffer size for mpi_sum reduction
+        integer :: buffer_size_min_max                  !   buffer size for min/max reduction
+        integer, dimension(:), allocatable :: id_sens   !   id of the sensor
+      end type sensor_comm
+
+      type sensor_user_struct_
+         logical :: is_used          ! boolean, true if a user sensor is activated
+         integer :: pointer_node,number_node ! nbr of node of user sensor + index 
+         integer :: pointer_part,number_part ! nbr of part of user sensor + index 
+         integer :: pointer_node_per_part,number_node_per_part ! nbr of node defined in a part of user sensor + index 
+         integer, dimension(:), allocatable :: node_list ! list of node
+         integer, dimension(:), allocatable :: part_list ! list of part
+         integer, dimension(:), allocatable :: node_per_part_list ! list of node defined in a part
+      end type sensor_user_struct_
+
+
+      !                                  IPARAM                     RPARAM               VAR
 ! if type == 0 : sensor time        {}                          {}                 {} 
 ! if type == 1 : sensor ACCEL
 ! if type == 2 : sensor DISP
@@ -130,9 +176,20 @@
         integer            ,dimension(:) ,allocatable :: anim_tmp
 
         integer, dimension(:) ,allocatable :: tabsensor  
-        double precision ,dimension(:,:,:) ,allocatable :: fsav  ! smpd communication array for "force" sensors
-            
+
+        integer,dimension(:),allocatable :: ngr_sensor
+        ! logical sensors
+        integer logical_sensor_count
+        integer, dimension(:),allocatable :: logical_sensors_list
+  
+        ! Engine MPI communication buffers
+        double precision ,dimension(:,:,:) ,allocatable :: fsav  ! smpd communication array for "force" sensors           
+        type(sensor_comm) :: COMM_SENS14 ! structure for mpi communication : sensor typ14
+        type(sensor_comm) :: COMM_SENS16 ! structure for mpi communication : sensor typ16
+        type(sensor_comm) :: COMM_SENS17 ! structure for mpi communication : sensor typ17 --> sensor temperature
+        type(sensor_type), DIMENSION(:), ALLOCATABLE :: SENSOR_STRUCT     !   structure of energy sensor
+        type(sensor_group), DIMENSION(:), ALLOCATABLE :: SENS_GROUP       !   structure of energy sensor              
       END TYPE SENSORS_
 
 
-      end module sensor_common_mod 
+      end module sensor_mod 

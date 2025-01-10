@@ -197,7 +197,8 @@ c       SENSOR --- ENERGY ---
 c--------------------------------        
         ELSEIF (TYP == 14) THEN
  
-          CALL SENSOR_ENERGY(SENSORS%SENSOR_TAB(ISENS),ISENS ,SUBSET    ,PARTSAV2 )
+          CALL SENSOR_ENERGY(SENSORS%SENSOR_TAB(ISENS),ISENS ,SUBSET,PARTSAV2,
+     *                       SENSORS%NSENSOR,SENSORS%SENSOR_STRUCT )
 c
 c--------------------------------
 c       SENSOR Distance to surface

@@ -41,7 +41,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
-     .   ITASK,IPARG)
+     .   ITASK,IPARG,SENSORS)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,6 +76,7 @@ C-----------------------------------------------
       INTEGER IEXPAN,ITASK,
      .  IPARTS(*),GRTH(*),IGRTH(*),IPARG(*),NEL
       INTEGER,INTENT(IN) :: IFVM22
+      type (sensors_),INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -318,7 +323,7 @@ C
         ENDIF
       ENDDO
 C
-      CALL SENSOR_ENERGY_BILAN(1,NEL,EI,EK,OFF_L,IPARTS,ITASK)      
+      CALL SENSOR_ENERGY_BILAN(1,NEL,EI,EK,OFF_L,IPARTS,ITASK,SENSORS)      
 C
 C-----------
       RETURN

@@ -30,7 +30,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE S8BILAN(PARTSAV,EINT,RHO,RK,VOL,VNEW,
      .                   VX,VY,VZ,IPARTS,
-     .                   GRESAV,GRTH,IGRTH,X,Y,Z,ITASK,IPARG)
+     .                   GRESAV,GRTH,IGRTH,X,Y,Z,ITASK,IPARG,SENSORS)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,6 +58,7 @@ C     REAL
      .   GRESAV(*), X(MVSIZ,8), Y(MVSIZ,8), Z(MVSIZ,8)
       INTEGER 
      .   IPARTS(*),GRTH(*),IGRTH(*),IPARG(*),ITASK
+      type (sensors_),INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -210,7 +215,7 @@ C
       DO I=LFT,LLT
             OFF_L(I) = ONE
       ENDDO
-      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF_L,IPARTS,ITASK) 
+      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF_L,IPARTS,ITASK,SENSORS) 
 C
       RETURN
       END

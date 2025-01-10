@@ -28,7 +28,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
       !||    sensor_mod      ../engine/share/modules/sensor_mod.F
       !||====================================================================
-      SUBROUTINE SENSOR_ENERGY(SENSOR   ,ISENS    ,SUBSET   ,PARTSAV2 )
+      SUBROUTINE SENSOR_ENERGY(SENSOR   ,ISENS    ,SUBSET   ,PARTSAV2 ,
+     *                         NSENSOR  ,SENSOR_STRUCT)
 c-----------------------------------------------------------------------
 !$COMMENT
 !       SENSOR_ENERGY description
@@ -57,10 +58,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER ,INTENT(IN) :: ISENS
       my_real ,INTENT(IN) :: PARTSAV2(2,*)
       TYPE (SUBSET_) ,DIMENSION(NSUBS) ,INTENT(IN) :: SUBSET
       TYPE (SENSOR_STR_) ,INTENT(INOUT) :: SENSOR
+      TYPE (SENSOR_TYPE), DIMENSION(NSENSOR), INTENT(INOUT) :: SENSOR_STRUCT
 C----------------------------------------------------------
 C Local Variables
 C----------------------------------------------------------

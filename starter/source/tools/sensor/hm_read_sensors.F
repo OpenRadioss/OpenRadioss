@@ -64,7 +64,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE HM_READ_SENSORS(PYTHON,
      .           SENSORS   ,LACCELM   ,ITABM1    ,IPART     ,LGAUGE    ,
      .           SUBSET    ,NSETS     ,IGRSURF   ,IGRNOD    ,BUFSF     ,
-     .           SKEW      ,ISKWN     ,UNITAB    ,LSUBMODEL ,HM_NSENS  )
+     .           SKEW      ,ISKWN     ,UNITAB    ,LSUBMODEL ,HM_NSENS  ,
+     .           SENSOR_USER_STRUCT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -109,6 +110,7 @@ C-----------------------------------------------
       TYPE (SUBSET_)     ,DIMENSION(NSUBS)     :: SUBSET
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) :: LSUBMODEL
       TYPE (UNIT_TYPE_)  ,INTENT(IN) ::UNITAB 
+      TYPE(SENSOR_USER_STRUCT_) ,INTENT(INOUT) :: SENSOR_USER_STRUCT
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -260,7 +262,7 @@ c
 
             CALL READ_SENSOR_USER(HM_NSENS ,ISEN    ,TITR,
      .           UNITAB    ,LSUBMODEL      ,KEY     ,UNIT_ID ,SENS_ID ,
-     .           SENSORS%SENSOR_TAB(ISEN))
+     .           SENSORS%SENSOR_TAB(ISEN),SENSOR_USER_STRUCT)
             SENSORS%SENSOR_TAB(ISEN)%SENS_ID = SENS_ID
           CASE('PYTHON')
             CALL READ_SENSOR_PYTHON(PYTHON,

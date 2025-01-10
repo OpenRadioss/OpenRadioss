@@ -31,7 +31,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE S20BILAN(PARTSAV,EINTG,RHOG, VOLG,
      .   VX, VY, VZ,IPARTS, VOL0G,
      .   GRESAV,GRTH,IGRTH,IEXPAN,EINTTH,
-     .   FILL ,X, Y, Z,ITASK,IPARG,OFFG)
+     .   FILL ,X, Y, Z,ITASK,IPARG,OFFG,SENSORS)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -77,6 +81,7 @@ C     REAL
      .   IXX(MVSIZ), IYY(MVSIZ), IZZ(MVSIZ),
      .   IXY(MVSIZ), IYZ(MVSIZ), IZX(MVSIZ),
      .   REI(MVSIZ), REK(MVSIZ), OFF_L(MVSIZ)
+      type (sensors_),INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
       FLAG = IPARG(80) ! Flag pour sorties additionnelles
 C-----------------------------------------------
@@ -297,7 +302,7 @@ C
         ENDIF
       ENDDO
 C
-      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF_L,IPARTS,ITASK) 
+      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF_L,IPARTS,ITASK,SENSORS) 
 C
       RETURN
       END

@@ -56,7 +56,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      D   MY1,       MY2,       MZ1,       MZ2,
      E   GRESAV,    GRTH,      IGRTH,     MSRT,
      F   DMELRT,    H3D_DATA,  JSMS,      IGRE,
-     G   NFT)
+     G   NFT,       STF,       SANIN,     IRESP,
+     H   SNPC)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -83,6 +84,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       type(python_), intent(inout) :: PYTHON
+      INTEGER, INTENT(IN) :: STF      !< Size of TF
+      INTEGER, INTENT(IN) :: SANIN    !< Size of ANIM
+      INTEGER, INTENT(IN) :: IRESP    !< Single precision flag
+      INTEGER, INTENT(IN) :: SNPC     !< Size of NPF
       INTEGER, INTENT(IN) :: IGRE,NSENSOR
       INTEGER, INTENT(IN) :: NFT
       INTEGER, INTENT(IN) :: JSMS
@@ -90,9 +95,9 @@ C-----------------------------------------------
      .        IGEO(NPROPGI,*),JFT,JLT,NELTST ,ITYPTST,OFFSET,
      .        NEL,MTN,GRTH(*),IGRTH(*),FLG_KJ2,IPM(NPROPMI,*)
       my_real DT2T ,
-     .   GEO(NPROPG,*),X(*),F(*),TF(*),SKEW(LSKEW,*),FSKY(*),
+     .   GEO(NPROPG,*),X(*),F(*),TF(STF),SKEW(LSKEW,*),FSKY(*),
      .   VR(*), V(*), AR(*), STIFN(*),STIFR(*),MS(*), IN(*),
-     .   ANIM(*),PARTSAV(*),TANI(15,*),
+     .   ANIM(SANIN),PARTSAV(*),TANI(15,*),
      .   BUFMAT(*),BUFGEO(*),PM(*),RBY(*),
      .   FX1(MVSIZ),FY1(MVSIZ),FZ1(MVSIZ),
      .   FX2(MVSIZ),FY2(MVSIZ),FZ2(MVSIZ),
@@ -220,7 +225,8 @@ C
      N   NC1,                    NC2,                    NUVAR,                  GBUF%VAR,
      O   GBUF%MASS,              GBUF%DEFINI(II(1)),     GBUF%DEFINI(II(2)),     GBUF%DEFINI(II(3)),
      P   GBUF%DEFINI(II(4)),     GBUF%DEFINI(II(5)),     GBUF%DEFINI(II(6)),     IEQUIL,
-     Q   GBUF%SKEW_ID,           NFT)
+     Q   GBUF%SKEW_ID,           NFT,                    STF,                    SANIN,
+     R   IRESP,                  SNPC)
 C
         DO I=JFT,JLT
           IF (GBUF%OFF(I) /= -TEN .AND. OFF(I) < ONE) GBUF%OFF(I) = OFF(I)

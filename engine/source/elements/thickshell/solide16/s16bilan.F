@@ -32,7 +32,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                    VX     ,VY   ,VZ   ,IPARTS,GRESAV ,
      .                    GRTH   ,IGRTH,IEXPAN,EINTTH,FILL  ,
      .                    X      ,Y    ,Z    ,ITASK ,IPARG  ,
-     .                    OFFG   )
+     .                    OFFG   ,SENSORS)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,6 +61,7 @@ C-----------------------------------------------
      .  VOLG(*),VOL0G(*),GRESAV(*),EINTTH(*), FILL(*),
      .  X(MVSIZ,*),Y(MVSIZ,*),Z(MVSIZ,*)
       my_real, INTENT(IN) :: OFFG(MVSIZ)
+      type (sensors_),INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -294,7 +299,7 @@ C
         ENDIF
       ENDDO
 C
-      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF_L,IPARTS,ITASK) 
+      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF_L,IPARTS,ITASK,SENSORS) 
 C-----------
       RETURN
       END

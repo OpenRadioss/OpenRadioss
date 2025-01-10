@@ -39,7 +39,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6   NGL,     MGN,     EX,      EY,
      7   EZ,      XK,      XM,      XC,
      8   AK,      NC1,     NC2,     NUVAR,
-     9   UVAR,    DL0,     NEL,     NFT)
+     9   UVAR,    DL0,     NEL,     NFT, STF,
+     A   SANIN,   IRESP,   SNPC)
 C-----------------------------------------------  
         USE python_funct_mod
         USE REDEF3_MOD
@@ -67,14 +68,18 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       type(python_) :: PYTHON
+      INTEGER, INTENT(IN) :: STF !< Size of TF
+      INTEGER, INTENT(IN) :: SANIN !< Size of ANIM
       INTEGER, INTENT(IN) :: NFT
       INTEGER, INTENT(IN) :: NEL
+      INTEGER, INTENT(IN) :: IRESP  !< Single precision flag
+      INTEGER, INTENT(IN) :: SNPC   !< Size of NPF
       INTEGER NPF(*),IGEO(NPROPGI,*),NGL(*),MGN(*),
      .        NC1(*),NC2(*),NUVAR
 C     REAL
       my_real
-     .   GEO(NPROPG,*), F(*), AL0(*), E(*), DL(*), TF(*), OFF(*),
-     .   DPL(*), DPL2(*), FEP(*),ANIM(*),IPOS(*),V(3,*),
+     .   GEO(NPROPG,*), F(*), AL0(*), E(*), DL(*), TF(STF), OFF(*),
+     .   DPL(*), DPL2(*), FEP(*),ANIM(SANIN),IPOS(*),V(3,*),
      .   AL0_ERR(MVSIZ),YIELD(*),EX(MVSIZ),EY(MVSIZ),EZ(MVSIZ),
      .   XK(MVSIZ),XM(MVSIZ),XC(MVSIZ),AK(MVSIZ),UVAR(NUVAR,*),DL0(*)
       DOUBLE PRECISION X1DP(3,*),X2DP(3,*)
@@ -226,7 +231,9 @@ C
      7   IFUNC3,     YIELD,      ALDP,       AK,
      8   B,          D,          IECROU,     IFUNC,
      9   IFV,        IFUNC2,     EPLA,       XX_OLD,
-     A   NEL,        NFT, MAX_SLOPE=MAX_SLOPE)
+     A   NEL,        NFT,        STF,        SANIN, 
+     B   DT1,        IRESP,      IMPL_S,     IDYNA,
+     C   SNPC,       MAX_SLOPE=MAX_SLOPE)
       NINDX = 0
       DO I=1,NEL
         IF (OFF(I) == ONE .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN

@@ -45,7 +45,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      9   XM,      XC,      AK,      EX2,
      A   EY2,     EZ2,     NC1,     NC2,
      B   NC3,     NUVAR,   UVAR,    DL0,
-     C   NEL,     NFT)
+     C   NEL,     NFT,     STF,     SANIN,
+     D   IRESP,   SNPC)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -77,13 +78,17 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       type(python_), intent(inout) :: PYTHON
+      INTEGER, INTENT(IN) :: SANIN
+      INTEGER, INTENT(IN) :: STF !< Size of TF
       INTEGER, INTENT(IN) :: NFT
       INTEGER, INTENT(IN) :: NEL
-      INTEGER NPF(*),IXR(NIXR,*),IGEO(NPROPGI,*),NGL(*),MGN(*),
+      INTEGER, INTENT(IN) :: IRESP !< Single Presision Flag
+      INTEGER, INTENT(IN) :: SNPC   !< Size of NPF
+      INTEGER NPF(SNPC),IXR(NIXR,*),IGEO(NPROPGI,*),NGL(*),MGN(*),
      .        NC1(*),NC2(*),NC3(*),NUVAR
 C     REAL
       my_real
-     .   GEO(NPROPG,*), F(*), AL0(*), E(*), DL(*), TF(*), OFF(*),
+     .   GEO(NPROPG,*), F(*), AL0(*), E(*), DL(*), TF(STF), OFF(*),
      .   DPL(*), FEP(*), DPX2(*),DFS(*),V(3,*),DF(*),ANIM(*),
      .   IPOS(*),AL0_ERR(*),YIELD(*),INIFRIC(*),
      .   EX(MVSIZ),EY(MVSIZ),EZ(MVSIZ),XK(MVSIZ),
@@ -273,7 +278,9 @@ C
      7   IFUNC3,     YIELD,      ALDP,       AK,
      8   B,          D,          IECROU,     IFUNC,
      9   IFV,        IFUNC2,     EPLA,       XX_OLD,
-     A   NEL, NFT, MAX_SLOPE=MAX_SLOPE)
+     A   NEL, NFT,   STF,        SANIN,      DT1,
+     B   IRESP,      IMPL_S,     IDYNA,      SNPC,
+     C   MAX_SLOPE=MAX_SLOPE)
       NINDX = 0
       DO I=1,NEL
         IF (OFF(I) == ONE .AND. DMX(I) /= ZERO .AND. DMN(I) /= ZERO) THEN

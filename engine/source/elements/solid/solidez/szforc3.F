@@ -133,6 +133,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE SDISTOR_INI_MOD, ONLY : SDISTOR_INI
       use glob_therm_mod
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -203,7 +204,7 @@ C-----------------------------------------------
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
-      TYPE (SENSORS_) , INTENT(IN) :: SENSORS
+      TYPE (SENSORS_) , INTENT(INOUT) :: SENSORS
       TYPE(DT_),     INTENT(INOUT) :: DT
       TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT !< output structure
       type (glob_therm_) ,intent(inout)   :: glob_therm
@@ -802,7 +803,8 @@ C Balance thermal material
      .         VGXA, VGYA, VGZA, VGA2, VOLN,IPARTS,
      .         GRESAV,GRTH,IGRTH,GBUF%OFF,IEXPAN,GBUF%EINTTH,
      .         GBUF%FILL, XGXA, XGYA, XGZA,
-     .         XGXA2,XGYA2,XGZA2,XGXYA,XGYZA,XGZXA,ITASK,IPARG(1,NG))
+     .         XGXA2,XGYA2,XGZA2,XGXYA,XGYZA,XGZXA,ITASK,IPARG(1,NG),
+     .         SENSORS)
         ENDIF
         RETURN
       ENDIF
@@ -1049,7 +1051,8 @@ C Energy, momentum, mass balance per part in case of output
      .       VGXA, VGYA, VGZA, VGA2, VOLN,IPARTS,                
      .       GRESAV,GRTH,IGRTH,GBUF%OFF,IEXPAN,GBUF%EINTTH,
      .       GBUF%FILL, XGXA, XGYA, XGZA,
-     .       XGXA2,XGYA2,XGZA2,XGXYA,XGYZA,XGZXA,ITASK,IPARG(1,NG))                                  
+     .       XGXA2,XGYA2,XGZA2,XGXYA,XGYZA,XGZXA,ITASK,IPARG(1,NG),
+     .       SENSORS)                                  
       ENDIF
 C
 C Compute nodal internal forces

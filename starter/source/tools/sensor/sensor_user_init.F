@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    sensor_mod         ../starter/share/modules1/sensor_mod.F
       !||====================================================================
-        SUBROUTINE SENSOR_USER_INIT()
+        SUBROUTINE SENSOR_USER_INIT(SENSOR_USER_STRUCT)
 !$COMMENT
 !       SENSOR_USER_INIT description
 !       initialization of size of SENSOR_USER_STRUCT
@@ -42,6 +42,10 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
+C-----------------------------------------------
+C   A r g u m e n t s
+C-----------------------------------------------
+      type(sensor_user_struct_), INTENT(inout) :: SENSOR_USER_STRUCT
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
