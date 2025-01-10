@@ -40,7 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    h3d_mod            ../engine/share/modules/h3d_mod.F
       !||    message_mod        ../engine/share/message_module/message_mod.F
       !||====================================================================
-      SUBROUTINE I23MAINF(TIMERS,
+      SUBROUTINE I23MAINF(
      1                   IPARI  ,INTBUF_TAB         ,X        ,A      ,
      2                   ICODT  ,FSAV    ,V         ,MS       ,ITAB   ,
      3                   STIFN  ,FSKYI   ,ISKY      ,FCONT    ,NIN    ,
@@ -54,7 +54,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE TIMER_MOD
       USE INTBUFDEF_MOD 
       USE H3D_MOD 
       USE MESSAGE_MOD
@@ -81,7 +80,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_), INTENT(inout) :: TIMERS
       INTEGER NELTST, ITYPTST, NIN, NSTRF(*), NRTMDIM, NEWFRONT,
      .        NISKYFI
       INTEGER IPARI(NPARI,NINTER), ICODT(*),ICONTACT(*),
@@ -332,7 +330,7 @@ C
      C      PENE   ,V   ,VXI   ,VYI  ,VZI   ,
      D      MSI    ,STIF ,JLT_NEW,NSMS  ,KINI  )
           JLT = JLT_NEW
-          IF (IMONM > 0) CALL STARTIME(TIMERS,20)
+          IF (IMONM > 0) CALL STARTIME(20,1)
 
           IF(JLT_NEW/=0) THEN
             IPARI(29,NIN) = 1
@@ -362,7 +360,7 @@ C
      M  NISUB        ,NFT          ,H3D_DATA  )
 C
             ENDIF ! JLT_NEW/=0
-          IF (IMONM > 0) CALL STOPTIME(TIMERS,20)
+          IF (IMONM > 0) CALL STOPTIME(20,1)
 C
         ENDDO
 c

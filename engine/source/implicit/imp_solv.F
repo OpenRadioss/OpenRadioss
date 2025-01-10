@@ -137,7 +137,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    stack_mod        ../engine/share/modules/stack_mod.F
       !||    th_surf_mod      ../common_source/modules/interfaces/th_surf_mod.F
       !||====================================================================
-      SUBROUTINE IMP_SOLV(TIMERS,
+      SUBROUTINE IMP_SOLV(
      1  ICODE  ,ISKEW  ,ISKWN  ,IPART  ,IXTG   ,IXS    ,IXQ    ,
      2  IXC    ,IXT    ,IXP    ,IXR    ,IXTG1          ,ITAB   ,ITABM1 ,
      3  NPC    ,IBCL   ,IBFV   ,SENSOR_TAB,NNLINK ,LNLINK ,IPARG  ,IGRV   ,
@@ -169,7 +169,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-        USE TIMER_MOD
         USE DSGRAPH_MOD
         USE IMP_LINTF
         USE IMP_WORKI
@@ -215,7 +214,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        TYPE(TIMER_) :: TIMERS
         INTEGER ,INTENT(IN) :: NSENSOR
         INTEGER ,INTENT(IN) :: SNPC
         INTEGER ,INTENT(IN) :: STF
@@ -534,7 +532,7 @@ C----------------------------------
 C
           NCL_MAX=0
           IF(NCONLD/=0) THEN
-            IF (IMON>0) CALL STARTIME(TIMERS,4)
+            IF (IMON>0) CALL STARTIME(4,1)
 C         --spmd : force treated like elements ---
             CALL FORCE_IMP( IBCL    ,FORC       ,SNPC       ,NPC        ,TF         ,
      2                      AC      ,V          ,X          ,SKEWS      ,
@@ -556,7 +554,7 @@ C
               ENDDO
             ENDIF
 C
-            IF (IMON>0) CALL STOPTIME(TIMERS,4)
+            IF (IMON>0) CALL STOPTIME(4,1)
           ENDIF
 C
           IF (IMACH==3.AND.NSPMD>1) THEN
@@ -573,23 +571,23 @@ C
           ENDIF
 C---------no //SMP for the moment, add it after----
           IF(NGRAV/=0) THEN
-            IF (IMON>0) CALL STARTIME(TIMERS,4)
+            IF (IMON>0) CALL STARTIME(4,1)
             CALL GRAVIT_IMP(IGRV  ,AGRV  ,NPC   ,TF    ,AC,
      2                      V     ,X     ,SKEWS%SKEW  ,MS,TFEXC,
      3                      NSENSOR,SENSOR_TAB,WEIGHT,
      4                      LGRAV ,ITASK,
      5                      NRBYAC,IRBYAC,NPBY  ,RBY    )
-            IF (IMON>0) CALL STOPTIME(TIMERS,4)
+            IF (IMON>0) CALL STOPTIME(4,1)
           ENDIF
 C---------no //SMP for the moment, add it after----
           IF(NLOADC/=0) THEN
-            IF (IMON>0) CALL STARTIME(TIMERS,4)
+            IF (IMON>0) CALL STARTIME(4,1)
             CALL CFIELD_IMP(ICFIELD  ,CFIELD,NPC   ,TF    ,AC,
      2                      V     ,X     ,XFRAME  ,MS,TFEXC,
      3                      NSENSOR,SENSOR_TAB,WEIGHT,IFRAME,
      4                      LCFIELD ,ITASK,
      5                      NRBYAC,IRBYAC,NPBY  ,RBY,ISKEW    )
-            IF (IMON>0) CALL STOPTIME(TIMERS,4)
+            IF (IMON>0) CALL STOPTIME(4,1)
           ENDIF
 
 
@@ -598,18 +596,18 @@ C END IF (IMCONV==1)
         ENDIF
 C-------------dU_d---------------------------------
         IF(NFXVEL/=0.AND.(IMCONV==1.OR.IMCONV==3)) THEN
-          IF (IMON>0) CALL STARTIME(TIMERS,4)
+          IF (IMON>0) CALL STARTIME(4,1)
           CALL FV_IMP(IBFV  ,NPC    ,TF     ,VEL   ,SENSOR_TAB,
      1                D_IMP  ,DR_IMP ,IKC   ,IDDL  ,NSENSOR   ,
      2                SKEWS%SKEW  ,IFRAME ,XFRAME ,V     ,VR    ,
      3                X     ,DIRUL  ,NDOF   ,A     ,AR    )
-          IF (IMON>0) CALL STOPTIME(TIMERS,4)
+          IF (IMON>0) CALL STOPTIME(4,1)
         ENDIF
 C-------------RGWAL0_IMP peut suivre-ISETK=1, mais il faut changer-FV_IMP1
 C-------------(IKC(I)=4->IMCONV=1 pour eviter le rebond-------
         NT_RW=0
         IF (NRWALL>0) THEN
-          IF (IMON>0) CALL STARTIME(TIMERS,4)
+          IF (IMON>0) CALL STARTIME(4,1)
           DO I=1,NDDL0
             IF (IKC(I)==3.OR.IKC(I)==10) IKC(I)=0
           ENDDO
@@ -638,7 +636,7 @@ C
           IF(NT_RW>0) THEN
             CALL FV_RW(IDDL   ,IKC   ,NDOF  ,D_IMP  ,V )
           ENDIF
-          IF (IMON>0) CALL STOPTIME(TIMERS,4)
+          IF (IMON>0) CALL STOPTIME(4,1)
         ENDIF
 C
         IFDIS=NT_RW+NFXV_G
@@ -696,7 +694,7 @@ C----------------------------------
 C       MATRICE DE RIGIDITE
 C----------------------------------
         IF (ISETK ==1 ) THEN
-          IF (IMON>0 .AND. ITASK ==0) CALL STARTIME(TIMERS,31)
+          IF (IMON>0 .AND. ITASK ==0) CALL STARTIME(31,1)
           L1 = 1+NIXS*NUMELS
           L2 = L1+6*NUMELS10
           L3 = L2+12*NUMELS20
@@ -891,7 +889,7 @@ C
      .     CALL IMP_CHECK(ITAB  ,NDDL  ,IDDL  ,DIAG_K  ,NDOF  ,
      .                    IKC   ,INLOC ,NDDL0 )
 C
-          IF (IMON>0) CALL STOPTIME(TIMERS,31)
+          IF (IMON>0) CALL STOPTIME(31,1)
 !         IF(IMACH/=3.OR.ISPMD==0) THEN
 c          IF (NCYCLE==1.AND.IMCONV==1)THEN
 c           IF (ILINE/=1)THEN
@@ -935,7 +933,7 @@ C----------------------------------
           L2=LSIZE(2)
           LNSS2=0
           LNSS=0
-          IF (IMON>0) CALL STARTIME(TIMERS,31)
+          IF (IMON>0) CALL STARTIME(31,1)
           CALL SAV_INTTD(NINT7,NUM_IMP,NS_IMP(1+NT_IMP5),
      1                   NE_IMP(1+NT_IMP5),IND_IMP,NUM_IMP1)
 C
@@ -1038,7 +1036,7 @@ Ctmp-------A n'est pas modifie ici -------------------
      D      NSS3      ,ISS3      ,IRBE2     ,LRBE2     ,NSB2      ,
      E      ISB2      )
           ENDIF
-          IF (IMON>0) CALL STOPTIME(TIMERS,31)
+          IF (IMON>0) CALL STOPTIME(31,1)
 C
           DEALLOCATE(NSS2,NSS3,NSB2)
           DEALLOCATE(ISS2,ISS3,ISB2)
@@ -1422,7 +1420,7 @@ c     5                  D_IMP ,DR_IMP,1      ,W_DDL  ,AC     ,
 c     6                  ACR   ,A     ,AR     ,R2     ,0  ,NODGLOB)
 c         END IF
           IF (ILINTF>0.AND.NCYCLE<ILINTF) THEN
-            CALL IMP_INTTD0(TIMERS,
+            CALL IMP_INTTD0(
      1         IPARI ,INTBUF_TAB    ,X_A     ,D       ,
      2         MS    ,ITAB   ,IN    ,D_IMP   ,DR_IMP  ,
      3         IMSCH ,I2MSCH ,ISIZXV,ILENXV  ,IGRBRIC ,
@@ -3116,7 +3114,7 @@ C------------------------------------------
       !||    stack_mod       ../engine/share/modules/stack_mod.F
       !||    th_surf_mod     ../common_source/modules/interfaces/th_surf_mod.F
       !||====================================================================
-      SUBROUTINE IMP_CHKM(TIMERS,
+      SUBROUTINE IMP_CHKM(
      1  ICODE  ,ISKEW  ,ISKWN  ,IPART  ,IXTG   ,IXS    ,IXQ    ,
      2  IXC    ,IXT    ,IXP    ,IXR    ,IXTG1          ,ITAB   ,ITABM1 ,
      3  NPC    ,IBCL   ,IBFV   ,SENSOR_TAB,NNLINK ,LNLINK ,IPARG  ,IGRV   ,
@@ -3139,7 +3137,6 @@ C------------------------------------------
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-        USE TIMER_MOD
         USE DSGRAPH_MOD
         USE IMP_WORKI
         USE ELBUFDEF_MOD
@@ -3173,7 +3170,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        TYPE(TIMER_), INTENT(INOUT) :: TIMERS
         INTEGER ,INTENT(IN) :: SNPC    !< size of NPC
         INTEGER ,INTENT(IN) :: STF     !< size of TF / Tabulated function array
         INTEGER ,INTENT(IN) :: NSENSOR
@@ -3447,7 +3443,7 @@ C----------------------------------
             WRITE(IOUT,*)' ** FINIT ELEMENT CHECKING **'
             WRITE(IOUT,*)
           ENDIF
-          IF (IMON>0 .AND. ITASK ==0) CALL STARTIME(TIMERS,31)
+          IF (IMON>0 .AND. ITASK ==0) CALL STARTIME(31,1)
           NDDL = NDDL0
           NNZK = NNZK0
           NNMAX=LSIZE(9)
@@ -3536,7 +3532,7 @@ C------ 1er VP: for dt check
           ENDIF
 
           CALL INI_K0H(NDDL,NNZK,NNZK,IADK,JDIK)
-          IF (IMON>0) CALL STOPTIME(TIMERS,31)
+          IF (IMON>0) CALL STOPTIME(31,1)
         ENDIF
 
 C----------------------------------
@@ -3548,7 +3544,7 @@ C----------------------------------
           L2=LSIZE(2)
           LNSS2=0
           LNSS=0
-          IF (IMON>0) CALL STARTIME(TIMERS,31)
+          IF (IMON>0) CALL STARTIME(31,1)
           IF (IMP_INT==1) CALL IDEL_INT(
      1    IPARI     ,INTBUF_TAB,NUM_IMP   ,NS_IMP    ,NE_IMP    ,
      2    IND_IMP   ,NDOF      ,NINT7     )
@@ -3613,7 +3609,7 @@ C
             WRITE(IOUT,1007)NDDLI,NNZI,NNMAX
             WRITE(IOUT,*)
           ENDIF
-          IF (IMON>0) CALL STOPTIME(TIMERS,31)
+          IF (IMON>0) CALL STOPTIME(31,1)
         ENDIF
 C----------------------------------
         IF (NFXVEL/=0.AND.IMCONV==1) THEN

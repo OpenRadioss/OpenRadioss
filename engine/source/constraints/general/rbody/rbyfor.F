@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    damping_vref_rby_stiff_mod   ../engine/source/assembly/damping_vref_rby_stiff.F90
       !||    groupdef_mod                 ../common_source/modules/groupdef_mod.F
       !||====================================================================
-      SUBROUTINE RBYFOR(TIMERS,
+      SUBROUTINE RBYFOR(
      1   RBY      ,A      ,AR     ,X      ,VR      ,
      2   FSAV     ,IN     ,STIFN  ,STIFR  ,FANI    ,
      3   LPBY     ,NPBY   ,WEIGHT ,MS     ,V       ,
@@ -52,7 +52,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE TIMER_MOD
       USE GROUPDEF_MOD
       USE damping_vref_rby_mod
       USE damping_vref_rby_stiff_mod
@@ -74,7 +73,6 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_), INTENT(in) :: TIMERS
       INTEGER ICODR(*),ISKEW(*),WEIGHT(*),LPBY(*),NPBY(NNPBY,*),
      .        KIND(NRBYKIN),FR_RBY6(*),IAD_RBY(*),IRBKIN_L(*),
      .        NRBYKIN_L, NATIV_SMS(*),DIMFB,STABSEN,TABSENSOR(*),
@@ -279,7 +277,7 @@ C-------------------------------------
 
 !$OMP SINGLE
 
-        IF (IMON>0) CALL STARTIME(TIMERS,11)
+        IF (IMON>0) CALL STARTIME(11,1)
 C
 C Comm non multi-thread
 C
@@ -300,7 +298,7 @@ C routine G/S de calcul Parith/ON de A AR STIFN STIFR noeuds main RB
             CALL SPMD_EXCH_A_RB6G(NPBY,RBY6)
           END IF
 
-        IF (IMON>0) CALL STOPTIME(TIMERS,11)
+        IF (IMON>0) CALL STOPTIME(11,1)
 
 !$OMP END SINGLE
 

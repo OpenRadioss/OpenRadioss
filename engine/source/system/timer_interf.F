@@ -164,7 +164,7 @@ C
       !||--- uses       -----------------------------------------------------
       !||    metric_mod        ../common_source/modules/interfaces/metric_mod.F
       !||====================================================================
-      SUBROUTINE PRINTIME_INTERF(INTBUF_TAB,IPARI,INTLIST,NBINTC,TRESHOLD)
+      SUBROUTINE PRINTIME_INTERF(INTBUF_TAB,IPARI,INTLIST,NBINTC)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -179,7 +179,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "units_c.inc"
+#include        "units_c.inc"
 #include      "task_c.inc"
 #include      "timerr_c.inc"
 #include      "param_c.inc"
@@ -189,7 +189,6 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: NBINTC
       INTEGER, INTENT(IN) :: INTLIST(NBINTC),IPARI(NPARI,NINTER)
       TYPE(INTBUF_STRUCT_),DIMENSION(NINTER), INTENT(IN) :: INTBUF_TAB
-      DOUBLE PRECISION :: TRESHOLD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -198,10 +197,11 @@ C-----------------------------------------------
       INTEGER ::  I,J,N,P
       DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE :: RATIO
       DOUBLE PRECISION,DIMENSION(:,:,:), ALLOCATABLE :: SUMMARY
-      DOUBLE PRECISION ::PMAX,TOTAL_TIME
+      DOUBLE PRECISION :: TRESHOLD,PMAX,TOTAL_TIME
       INTEGER :: NB_PRINTED_INTERF 
       
 
+      TRESHOLD = 0.01D0 * REALTIME(1,1)
 
       IF(NSPMD > 0) THEN
         ALLOCATE(SENDBUF(SIZE_METRIC * NBINTC))

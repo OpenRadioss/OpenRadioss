@@ -63,7 +63,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    multi_fvm_mod               ../common_source/modules/ale/multi_fvm_mod.F90
       !||    outputs_mod                 ../common_source/modules/outputs_mod.F
       !||====================================================================
-      SUBROUTINE I7MAINF(TIMERS,
+      SUBROUTINE I7MAINF(
      1                   IPARI          ,X           ,A              ,ALE_CONNECTIVITY ,XCELL      ,
      2                   ICODT          ,FSAV        ,V              ,MS               ,DT2T       ,
      3                   NELTST         ,ITYPTST     ,ITAB           ,STIFN            ,FSKYI      ,
@@ -88,7 +88,6 @@ C======================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE TIMER_MOD
       USE ELBUFDEF_MOD 
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
@@ -124,7 +123,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_), INTENT(INOUT) :: TIMERS
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       INTEGER NELTST,ITYPTST,NIN,NEWFRONT,NSTRF(*),
@@ -655,7 +653,7 @@ C
             ENDIF
 
             JLT = JLT_NEW
-            IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(TIMERS,20)
+            IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(20,1)
             IF(JLT_NEW/=0) THEN
               IPARI(29,NIN) = 1
               IDIR = IPARI(34,NIN)
@@ -710,7 +708,7 @@ C
      L        IREP_FRICMI  ,DIR_FRICMI,DGAPLOADP)
 
             JLT = JLT_NEW
-            IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(TIMERS,20)
+            IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(20,1)
             IF(JLT_NEW/=0) THEN
               IPARI(29,NIN) = 1
               IF (DEBUG(3)>=1)
@@ -720,7 +718,7 @@ C
         !-------------------------------------------------------------------------------
         ! Friction model : computation of friction coefficients based on Material of connected Parts
         !-------------------------------------------------------------------------------
-        IF(ITASK==1) CALL STARTIME(TIMERS,MACRO_TIMER_FRIC)
+        IF(ITASK==1) CALL STARTIME(MACRO_TIMER_FRIC,1)
            IF(IORTHFRIC > 0) THEN
               CALL FRICTIONPARTS_MODEL_ORTHO(
      1           INTFRIC        ,JLT          ,IPARTFRICSI  ,IPARTFRICMI  ,ADPARTS_FRIC   ,
@@ -745,7 +743,7 @@ C
      6           TEMP           , H1          ,H2               ,H3           ,H4         ,
      7           IX1            , IX2         ,IX3              ,IX4          ,IFORM      )
             ENDIF
-            IF(ITASK==1) CALL STOPTIME(TIMERS,MACRO_TIMER_FRIC)
+            IF(ITASK==1) CALL STOPTIME(MACRO_TIMER_FRIC,1)
 
 C
               CALL I7FOR3(
@@ -833,7 +831,7 @@ C
 
 C-----------------------------------------------
 C
-          IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(TIMERS,20)
+          IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(20,1)
 
 C
           IF(IMPL_S==1) THEN

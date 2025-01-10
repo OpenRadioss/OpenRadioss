@@ -275,7 +275,7 @@ C----finally not to splite IKINW, otherwise too many changes
           ENDIF
           MAXB0 = MAXB
           NNDL=3*NUMNOD
-c          IF (IMON>0) CALL STOPTIME(TIMERS,31)
+c          IF (IMON>0) CALL STOPTIME(31,1)
           IF(ISPMD==0)THEN
            WRITE(ISTDO,*)
            WRITE(ISTDO,*)'          **************************'

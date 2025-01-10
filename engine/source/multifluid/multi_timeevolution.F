@@ -51,7 +51,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    multi_fvm_mod                    ../common_source/modules/ale/multi_fvm_mod.F90
       !||    th_surf_mod                      ../common_source/modules/interfaces/th_surf_mod.F
       !||====================================================================
-      SUBROUTINE MULTI_TIMEEVOLUTION(TIMERS,TIMESTEP, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
+      SUBROUTINE MULTI_TIMEEVOLUTION(TIMESTEP, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
      .     PM, IPM, MULTI_FVM, ALE_CONNECTIVITY, VEL, ACCELE, WGRID, XGRID, DNOD, NALE,
      .     PARTSAV, IPARTS, GRESAV, IGRTH, GRTH, 
      .     NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, 
@@ -61,7 +61,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
-      USE TIMER_MOD
       USE INITBUF_MOD      
       USE ELBUFDEF_MOD
       USE MULTI_FVM_MOD
@@ -88,7 +87,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_), INTENT(INOUT) :: TIMERS
       TYPE(MATPARAM_STRUCT_),DIMENSION(NUMMAT),INTENT(IN) :: MATPARAM !< material buffer
       my_real,INTENT(INOUT) :: FSAVSURF(TH_SURF_NUM_CHANNEL,NSURF)
       my_real, INTENT(IN) :: TIMESTEP
@@ -217,7 +215,7 @@ C     ==============================
 C     gradients computation for MUSCL
 C     ==============================
       IF (MULTI_FVM%MUSCL > 0) THEN
-         CALL MULTI_MUSCL_GRADIENTS(TIMERS,ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
+         CALL MULTI_MUSCL_GRADIENTS(ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
      .        PM, IPM, MULTI_FVM, ALE_CONNECTIVITY, WGRID, XGRID, ITAB, MULTI_FVM%NBMAT, 
      .        CURRENT_TIME, BUFMAT)
       ENDIF
@@ -226,7 +224,6 @@ C     ==============================
 C     Gradient communication
       IF (NSPMD > 1 .AND. MULTI_FVM%MUSCL > 0) THEN
 !$OMP SINGLE
-         CALL STARTIME(TIMERS,TIMER_SPMDCFD)
          LENCOM = NERCVOIS(NSPMD + 1) + NESDVOIS(NSPMD + 1)
          IF (MULTI_FVM%MUSCL == 1) THEN
 C     Velocity gradients
@@ -255,7 +252,6 @@ C     SUBMAT gradients
      .              NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
             ENDIF
          ENDIF
-         CALL STOPTIME(TIMERS,TIMER_SPMDCFD)
 !$OMP END SINGLE
          CALL MY_BARRIER
       ENDIF

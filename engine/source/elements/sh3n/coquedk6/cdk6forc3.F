@@ -54,7 +54,7 @@ cc
       !||    stack_mod        ../engine/share/modules/stack_mod.F
       !||    table_mod        ../engine/share/modules/table_mod.F
       !||====================================================================
-      SUBROUTINE CDK6FORC3(TIMERS,
+      SUBROUTINE CDK6FORC3(
      1   ELBUF_STR,   JFT,         JLT,         PM,
      2   IXTG,        X,           F,           M,
      3   V,           R,           FAILWAVE,    NVC,
@@ -83,7 +83,6 @@ cc
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE TIMER_MOD
       USE MAT_ELEM_MOD
       USE TABLE_MOD
       USE STACK_MOD
@@ -115,7 +114,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_), INTENT(INOUT) :: TIMERS
       INTEGER,INTENT(IN)    :: USERL_AVAIL ! Flag for User libraries availability
       INTEGER,INTENT(IN)    :: MAXFUNC     ! Maximum number of functions
       INTEGER,INTENT(INOUT) :: IDEL7NOK    ! Element deletion flag for IDEL flag in contact interfaces
@@ -382,7 +380,7 @@ c-------------------------------------------
         ENDDO
       ENDIF   
 C----------------------------------------------------------------------------
-       CALL CMAIN3(TIMERS,
+       CALL CMAIN3(
      1   ELBUF_STR ,JFT       ,JLT       ,NFT       ,IPARG      ,
      2   NEL       ,MTN       ,IPLA      ,ITHK      ,GROUP_PARAM,
      3   PM        ,GEO       ,NPF       ,TF        ,BUFMAT     ,

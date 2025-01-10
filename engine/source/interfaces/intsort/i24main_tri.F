@@ -46,7 +46,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    parameters_mod               ../common_source/modules/interfaces/parameters_mod.F
       !||    tri7box                      ../engine/share/modules/tri7box.F
       !||====================================================================
-      SUBROUTINE I24MAIN_TRI(TIMERS, 
+      SUBROUTINE I24MAIN_TRI( 
      1                  IPARI   ,X       ,V       ,INTBUF_TAB,
      2                  MS      ,NIN     ,ITASK   ,MWAG    ,WEIGHT  ,
      3                  ISENDTO ,IRCVFROM,RETRI   ,IAD_ELEM,FR_ELEM ,
@@ -57,7 +57,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
-      USE TIMER_MOD
       USE TRI7BOX
       USE MESSAGE_MOD
       USE IMP_INTBUF
@@ -65,7 +64,6 @@ C-----------------------------------------------
       USE H3D_MOD
       USE PARAMETERS_MOD
       use check_sorting_criteria_mod , only : check_sorting_criteria
-      USE TIMER_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -89,7 +87,6 @@ C common pour variable globale en memoire partagee
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_) :: TIMERS
       INTEGER NIN ,ITASK, RETRI, NRTM_T,ESHIFT,
      .        NUM_IMP ,IND_IMP(*),
      .        ITAB(*), KINET(*),
@@ -291,7 +288,7 @@ C
         IF(ITASK==0) CRVOXEL(0:LRVOXEL,0:LRVOXEL,LOC_PROC)=0
 c        goto 150
         CALL MY_BARRIER
-        IF (IMONM > 0 .AND. ITASK == 0) CALL STARTIME(TIMERS,26)
+        IF (IMONM > 0 .AND. ITASK == 0) CALL STARTIME(26,1)
 
         CALL SPMD_TRI24VOX0(
      1      X           ,BMINMA  ,NRTM_T,INTBUF_TAB%STFM(1+ESHIFT),MARGE ,
@@ -300,7 +297,7 @@ c        goto 150
      3      PMAX_GAP,VMAXDT      ,DGAPLOAD )
  
         CALL MY_BARRIER
-        IF (IMONM > 0 .AND. ITASK == 0) CALL STOPTIME(TIMERS,26)
+        IF (IMONM > 0 .AND. ITASK == 0) CALL STOPTIME(26,1)
 
         IF(ITASK==0)THEN
 C
@@ -308,8 +305,6 @@ C recuperation des noeuds remote NSNR stockes dans XREM
 C
 
           INACTI=0
-          IF (IMONM > 0 .AND. ITASK == 0) CALL STARTIME(TIMERS,25)
-        
           CALL SPMD_TRI24VOX(
      1      INTBUF_TAB%NSV,NSN     ,X            ,V            ,MS     ,
      2      BMINMA       ,WEIGHT  ,INTBUF_TAB%STFNS,NIN        ,ISENDTO,
@@ -324,8 +319,6 @@ C
      B      INTBUF_TAB%IS2ID,INTBUF_TAB%ISPT2,IPARI(72,NIN),INTBUF_TAB%IPARTFRICS,T2MAIN_SMS,
      C      INTNITSCHE      ,FORNEQS         ,T2FAC_SMS    ,IPARI(97,NIN)        ,INTBUF_TAB%STIFMSDT_S,
      D      IFSUB_CAREA     ,PARAMETERS%INTAREAN)
-           IF (IMONM > 0 .AND. ITASK == 0) CALL STOPTIME(TIMERS,25)
-       
 C
 C renumerotation locale des anciens candidats
 C
@@ -347,7 +340,7 @@ C Barrier comm spmd_tri7vox + BMINMA + Retour I7BUCE
 C      
  50   CALL MY_BARRIER
 C
-      IF (IMONM > 0) CALL STARTIME(TIMERS,30)
+      IF (IMONM > 0) CALL STARTIME(30,1)
 C
       CALL I24BUCE(
      1 X      ,V           ,INTBUF_TAB%IRECTM(1+4*ESHIFT),INTBUF_TAB%NSV,
@@ -388,7 +381,7 @@ C        UPGRADE_MULTIMP routine !!!!
         GOTO 40
       ENDIF
 
-      IF (IMONM > 0) CALL STOPTIME(TIMERS,30)
+      IF (IMONM > 0) CALL STOPTIME(30,1)
 C
 #include "lockon.inc"
       RESULT        = RESULT + ILD
@@ -411,7 +404,7 @@ C mise a - de dist temporairement pour reperage dans partie frontiere
       IF(NSPMD>1)THEN
 C mono tache
 !$OMP SINGLE
-        IF (IMONM > 0) CALL STARTIME(TIMERS,26)
+        IF (IMONM > 0) CALL STARTIME(26,1)
         INTBUF_TAB%VARIABLES(distance_index) = - ONE
 C
         CALL SPMD_TRI24GAT(
@@ -425,7 +418,7 @@ C
           STIF_OLDFI(NIN)%P(1,1:NSNR)=STIF_OLDFI(NIN)%P(2,1:NSNR)
         END IF
 C
-        IF (IMONM > 0) CALL STOPTIME(TIMERS,26)
+        IF (IMONM > 0) CALL STOPTIME(26,1)
 !$OMP END SINGLE
       END IF
       IF(ITASK==0)DEALLOCATE(CAND_A)

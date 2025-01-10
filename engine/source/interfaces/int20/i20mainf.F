@@ -57,7 +57,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    h3d_mod            ../engine/share/modules/h3d_mod.F
       !||    message_mod        ../engine/share/message_module/message_mod.F
       !||====================================================================
-      SUBROUTINE I20MAINF(TIMERS,
+      SUBROUTINE I20MAINF(
      1       IPARI     ,X         ,A         ,
      2       ICODT     ,FSAV      ,V         ,MS        ,DT2T      ,
      3       NELTST    ,ITYPTST   ,ITAB      ,STIFN     ,FSKYI     ,
@@ -79,7 +79,6 @@ C=======================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE TIMER_MOD
       USE INTBUFDEF_MOD
       USE H3D_MOD
       USE MESSAGE_MOD
@@ -129,7 +128,7 @@ C-----------------------------------------------
      .   MSKYI_SMS(*),TF(*)
 
       DOUBLE PRECISION FBSAV6(12,6,DIMFB)
-      TYPE(TIMER_) :: TIMERS
+
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
       TYPE(H3D_DATABASE) :: H3D_DATA
 C=======================================================================
@@ -500,7 +499,7 @@ C
      J INTBUF_TAB%SOLIDN_NORMAL_F     ,NSMS    ,INTBUF_TAB%NBINFLG,INTBUF_TAB%GAP_M,
      K CMAJ)
         JLT = JLT_NEW
-        IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(TIMERS,20)
+        IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(20,1)
         IF(JLT_NEW/=0) THEN
           IPARI(29) = 1
           IF (DEBUG(3)>=1)NB_JLT_NEW = NB_JLT_NEW + JLT_NEW
@@ -553,7 +552,7 @@ C
      V  FSAVPARIT    ,NFT       ,H3D_DATA    )
 C
         ENDIF
-        IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(TIMERS,20)
+        IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(20,1)
 
 C
         IF(IMPL_S0 == 1) THEN
@@ -665,7 +664,7 @@ C         preparation candidats retenus
      B      INTBUF_TAB%SOLIDN_NORMAL,INTBUF_TAB%GAP_SE,INTBUF_TAB%GAP_ME,NLINSA,
      C      INTBUF_TAB%SOLIDN_NORMAL_FE,NSMS)
           JLT = JLT_NEW
-          IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(TIMERS,20)
+          IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(20,1)
           IF(JLT_NEW/=0) THEN
             IPARI(29) = 1
             IF (DEBUG(3)>=1)
@@ -690,7 +689,7 @@ C         preparation candidats retenus
      H H3D_DATA     )
 
           ENDIF
-          IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(TIMERS,20)
+          IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(20,1)
           IF(IMPL_S0==1) THEN
             DO I = 1 ,JLT_NEW
              NS_IMP(I+NUM_IMP)=CS_LOC(I)
@@ -713,7 +712,7 @@ C----------------------------------------------------------------------
 C----------------------------------------------------------------------
 C     NOEUDS secnd,main,edge
 C----------------------------------------------------------------------
-      IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(TIMERS,20)
+      IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(20,1)
       NLNFT1= (JTASK-1)*NLN/NTHREAD
       NLNLT = JTASK*NLN/NTHREAD
       NLNL  = NLNLT - NLNFT1
@@ -724,7 +723,7 @@ C----------------------------------------------------------------------
      3      INTBUF_TAB%PENIA(1+5*NLNFT1),INTBUF_TAB%ALPHAK(1+3*NLNFT1),
      4      INTBUF_TAB%AVX_ANCR(1+6*NLN+3*NLNFT1),KMIN) 
 
-      IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(TIMERS,20)
+      IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(20,1)
       IF(IGAP/=0)THEN
         CALL MY_BARRIER
         IF(JTASK == 1) THEN

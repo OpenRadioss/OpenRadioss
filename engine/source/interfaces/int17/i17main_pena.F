@@ -147,7 +147,7 @@ C
       !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
       !||    message_mod     ../engine/share/message_module/message_mod.F
       !||====================================================================
-      SUBROUTINE I17MAIN_TRI(TIMERS,
+      SUBROUTINE I17MAIN_TRI(
      1          IPARI  ,INTBUF_TAB ,X       ,NIN     ,
      2          ITASK  ,IGRBRIC    ,NME     ,NMES    ,
      3          EMINX  ,IXS        ,IXS16  ,IXS20   ,WEIGHT  ,
@@ -156,7 +156,6 @@ C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE TIMER_MOD
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
       USE GROUPDEF_MOD   
@@ -199,7 +198,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_), INTENT(INOUT) :: TIMERS
       INTEGER NIN,ITASK , NME, NMES, RETRI, NME_T, ESH_T
       INTEGER IPARI(NPARI,NINTER),
      .        IXS(NIXS,*)  ,IXS16(8,*)  ,IXS20(12,*),WEIGHT(*),
@@ -332,7 +330,7 @@ C -------------------------------------------------------------
 C -------------------------------------------------------------
          IF(NSPMD>1)THEN
 !$OMP SINGLE
-          IF (IMONM > 0) CALL STARTIME(TIMERS,26)
+          IF (IMONM > 0) CALL STARTIME(26,1)
           INTBUF_TAB%VARIABLES(5) = -INTBUF_TAB%VARIABLES(5)
           RESULT = 0
 C comm SPMD apres tri (compactage)
@@ -341,7 +339,7 @@ C comm SPMD apres tri (compactage)
      2      NMESR  )
 C sauvegarde des candidats additionnels dans IPARI(24)  pas besoin car pas de inacti
 c          IPARI(24,NIN) = NMESR
-          IF (IMONM > 0) CALL STOPTIME(TIMERS,26)
+          IF (IMONM > 0) CALL STOPTIME(26,1)
 !$OMP END SINGLE
 
          END IF

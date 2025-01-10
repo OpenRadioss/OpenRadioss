@@ -47,7 +47,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F90
       !||    tri7box                      ../engine/share/modules/tri7box.F
       !||====================================================================
-      SUBROUTINE I23MAIN_TRI(TIMERS,
+      SUBROUTINE I23MAIN_TRI(
      1                  IPARI   ,X       ,INTBUF_TAB,V     ,
      2                  MS      ,NIN     ,ITASK   ,MWAG    ,WEIGHT  ,
      3                  ISENDTO ,IRCVFROM,RETRI   ,IAD_ELEM,FR_ELEM ,
@@ -57,7 +57,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE TIMER_MOD
       USE TRI7BOX
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD 
@@ -86,7 +85,6 @@ C common pour variable globale en memoire partagee
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_), INTENT(INOUT) :: TIMERS
       INTEGER NIN ,ITASK, RETRI, NRTM_T,ESHIFT,
      .        NUM_IMP ,IND_IMP(*),
      .        ITAB(*), KINET(*),
@@ -251,14 +249,14 @@ C
 c        goto 150
         CALL MY_BARRIER
 
-        IF (IMONM > 0 .AND. ITASK == 0) CALL STARTIME(TIMERS,26)
+        IF (IMONM > 0 .AND. ITASK == 0) CALL STARTIME(26,1)
         CALL SPMD_TRI23VOX0(
      1      X           ,BMINMA  ,IPARI(21,NIN),NRTM_T,INTBUF_TAB%STFM(1+ESHIFT),
      2      TZINF       ,CURV_MAX,GAPMIN       ,GAPMAX,INTBUF_TAB%GAP_M(1+ESHIFT),
      3      INTBUF_TAB%IRECTM(1+4*ESHIFT),GAP  ,INTBUF_TAB%VARIABLES(7) ,INTBUF_TAB%MSR)
  
         CALL MY_BARRIER
-        IF (IMONM > 0 .AND. ITASK == 0) CALL STOPTIME(TIMERS,26)
+        IF (IMONM > 0 .AND. ITASK == 0) CALL STOPTIME(26,1)
 c 150   continue
         IF(ITASK==0)THEN
 C
@@ -266,8 +264,6 @@ C recuperation des noeuds remote NSNR stockes dans XREM
 C
           IFQ  =0
           INTTH=0
-        IF (IMONM > 0 .AND. ITASK == 0) CALL STARTIME(TIMERS,25)
-
             CALL SPMD_TRI7VOX(
      1      INTBUF_TAB%NSV,NSN    ,X    ,V        ,MS     ,
      2      BMINMA   ,WEIGHT  ,INTBUF_TAB%STFNS,NIN        ,ISENDTO,
@@ -277,8 +273,6 @@ C
      6      NUM_IMP  ,NODNX_SMS,RDUM1,NTY        ,IDUM1  ,
      7      RDUM1  ,RDUM1,RDUM1,RDUM1  ,IDUM1        ,ILEV,IDUM1,
      8      INTFRIC      ,IDUM1  ,ITIED, IVIS2, INTBUF_TAB%IF_ADH)
-        IF (IMONM > 0 .AND. ITASK == 0) CALL STOPTIME(TIMERS,25)
-
 c 300      continue
 C
 C renumerotation locale des anciens candidats
@@ -299,7 +293,7 @@ C Barrier comm spmd_tri7box + BMINMA + Retour I7BUCE
 C      
  50    CALL MY_BARRIER
 
-       IF (IMONM > 0 .AND. ITASK == 0) CALL STARTIME(TIMERS,30)
+       IF (IMONM > 0 .AND. ITASK == 0) CALL STARTIME(30,1)
        CALL I23BUCE(
      1   X      ,INTBUF_TAB%IRECTM(1+4*ESHIFT),INTBUF_TAB%NSV  ,IPARI(22,NIN),
      2   NRTM_T ,NSN        ,INTBUF_TAB%CAND_E   ,INTBUF_TAB%CAND_N,GAP ,
@@ -343,7 +337,7 @@ C eshift : decalage sur cand_e
       ENDIF
 
 C
-      IF (IMONM > 0 .AND. ITASK == 0) CALL STOPTIME(TIMERS,30)
+      IF (IMONM > 0 .AND. ITASK == 0) CALL STOPTIME(30,1)
 C
 #include "lockon.inc"
          INTBUF_TAB%VARIABLES(9)  = MIN(MAXBOX,INTBUF_TAB%VARIABLES(9))
@@ -373,7 +367,7 @@ C mise a - de dist temporairement pour reperage dans partie frontiere
       IF(NSPMD>1)THEN
 C mono tache
 !$OMP SINGLE
-        IF (IMONM > 0) CALL STARTIME(TIMERS,26)
+        IF (IMONM > 0) CALL STARTIME(26,1)
         INTBUF_TAB%VARIABLES(5) = -INTBUF_TAB%VARIABLES(5)
 C
         CALL SPMD_TRI7GAT(
@@ -386,7 +380,7 @@ C
         IF (NUM_IMP>0) 
      .     CALL IMP_RNUMCD(INTBUF_TAB%CAND_N,NIN,NSN,NUM_IMP,IND_IMP )
 C
-        IF (IMONM > 0) CALL STOPTIME(TIMERS,26)
+        IF (IMONM > 0) CALL STOPTIME(26,1)
 !$OMP END SINGLE
       END IF
 C

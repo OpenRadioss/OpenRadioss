@@ -63,7 +63,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sphbox           ../engine/share/modules/sphbox.F
       !||    table_mod        ../engine/share/modules/table_mod.F
       !||====================================================================
-      SUBROUTINE FORINTP(TIMERS,
+      SUBROUTINE FORINTP(
      1    PM        ,GEO       ,X         ,A         ,V         ,
      2    MS        ,W         ,ELBUF_TAB ,WA        ,FV        ,
      3    STIFN     ,PLD       ,BUFMAT    ,PARTSAV   ,NLOC_DMG  ,
@@ -85,7 +85,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE TIMER_MOD
       USE INITBUF_MOD
       USE SPHBOX
       USE TABLE_MOD
@@ -124,7 +123,6 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_), INTENT(INOUT) :: TIMERS
       INTEGER, INTENT(IN) :: SNPC
       INTEGER, INTENT(IN) :: STF
       INTEGER, INTENT(IN) :: SBUFMAT
@@ -365,9 +363,9 @@ C         /---------------/
            CALL MY_BARRIER
 C         /---------------/
            IF(ITASK==0) THEN
-             CALL STARTIME(TIMERS,93)
+             CALL STARTIME(93,1)
              CALL SPMD_SPHGETT(SPH_WORK%WT,SPH_WORK%WTR,SPH_WORK%LAMBDA,SPH_WORK%LAMBDR)
-             CALL STOPTIME(TIMERS,93)
+             CALL STOPTIME(93,1)
            END IF
          END IF
 C
@@ -426,9 +424,9 @@ C       /---------------/
 C
          IF(NSPMD>1) THEN
            IF(ITASK==0) THEN
-             CALL STARTIME(TIMERS,93)
+             CALL STARTIME(93,1)
              CALL SPMD_SPHGETG(SPH_WORK%WGRADT,WASPH,SPH_WORK%WGR,SPH_IORD1)
-             CALL STOPTIME(TIMERS,93)
+             CALL STOPTIME(93,1)
            END IF
 C         /---------------/
            CALL MY_BARRIER
@@ -587,9 +585,9 @@ C-----------------------------------------------
 C Comm WA et WACOMP sur cellules remotes avant traitement part. sym.
 C on a besoin potentiellement de WA remote
             IF(NSPMD>1)THEN
-              CALL STARTIME(TIMERS,93)
+              CALL STARTIME(93,1)
               CALL SPMD_SPHGETWA(WA,SPH_WORK%WAR2,KXSP)
-              CALL STOPTIME(TIMERS,93)
+              CALL STOPTIME(93,1)
             ENDIF
 
             CALL SPONFRO(X ,V        ,A       ,MS      ,
@@ -648,7 +646,7 @@ C            retourne SIG, STIF et SSP dans WA(1:8,1:NUMSPH).
 C            a ne pas ecraser avt SPFORC.
 C-----------------------------------------------
              NDSVOID=0
-             CALL SPSTRES(TIMERS,ELBUF_TAB,NG    ,
+             CALL SPSTRES(ELBUF_TAB,NG    ,
      1            PM        ,GEO       ,X         ,V         ,MS        ,
      2            W         ,SPBUF     ,WA        ,NLOC_DMG  ,
      3            ITAB      ,PLD       ,BUFMAT    ,BUFGEO    ,PARTSAV   ,
@@ -713,11 +711,11 @@ C       /---------------/
          CALL MY_BARRIER
 C       /---------------/
          IF(ITASK==0)THEN
-           CALL STARTIME(TIMERS,93)
+           CALL STARTIME(93,1)
            CALL SPMD_SPHGETW(SPBUF,WASPH,WA,SPH_WORK%WAR,SPH_IORD1)
 C a optimiser (1 seule comm)
            CALL SPMD_SPHGETSTB(SPH_WORK%STAB,SPH_WORK%STAB(1,NUMSPH+1))
-           CALL STOPTIME(TIMERS,93)
+           CALL STOPTIME(93,1)
          ENDIF
        END IF
 C-----------------------------------------------
@@ -733,9 +731,9 @@ C-----------------------------------------------
 
 c on doit mettre a jour wa(1),wa(2),wa(3) suite a sponfprs
             IF(NSPMD>1) THEN
-              CALL STARTIME(TIMERS,93)
+              CALL STARTIME(93,1)
               CALL SPMD_SPHGETW(SPBUF,WASPH,WA,SPH_WORK%WAR,SPH_IORD1)
-              CALL STOPTIME(TIMERS,93)
+              CALL STOPTIME(93,1)
             ENDIF
           ENDIF 
        END IF

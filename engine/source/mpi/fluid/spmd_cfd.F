@@ -78,6 +78,7 @@ C
 C Updating X on adjacent domains
 C 
 
+      CALL STARTIME(MACRO_TIMER_SPMDCFD,1)
       LOC_PROC = ISPMD+1
       IDEB = 0
       IDEB2 = 0
@@ -131,6 +132,7 @@ C
         ENDIF
       ENDDO
 C
+      CALL STOPTIME(MACRO_TIMER_SPMDCFD,1)
 #endif
       RETURN
       END
@@ -184,6 +186,7 @@ C-----------------------------------------------
 C
 C Updating X on adjacent domains
 C 
+      CALL STARTIME(MACRO_TIMER_SPMDCFD,1)
 
       LOC_PROC = ISPMD+1
       IDEB = 0
@@ -250,6 +253,7 @@ C
         ENDIF
       ENDDO
 C
+      CALL STOPTIME(MACRO_TIMER_SPMDCFD,1)
 
 #endif
       RETURN
@@ -309,6 +313,7 @@ C-----------------------------------------------
 C
 C Updating X on adjacent domains
 C 
+      CALL STARTIME(MACRO_TIMER_SPMDCFD,1)
 
       LOC_PROC = ISPMD+1
       IDEB = 0
@@ -361,6 +366,7 @@ C
         ENDIF
       ENDDO
 C
+      CALL STOPTIME(MACRO_TIMER_SPMDCFD,1)
 
 #endif
       RETURN
@@ -425,6 +431,7 @@ C-----------------------------------------------
 C
 C Updating Phi on adjacent elements
 C 
+      CALL STARTIME(MACRO_TIMER_SPMDCFD,1)
 
       LOC_PROC = ISPMD+1
       IDEB = 0
@@ -473,6 +480,7 @@ C
         ENDIF
       ENDDO
 C
+      CALL STOPTIME(MACRO_TIMER_SPMDCFD,1)
 
 #endif
       RETURN
@@ -531,6 +539,7 @@ C-----------------------------------------------
 C
 C Updating Phi on adjacent elements
 C
+      CALL STARTIME(MACRO_TIMER_SPMDCFD,1)
 
       LOC_PROC = ISPMD+1
       IDEB = 0
@@ -589,6 +598,7 @@ C
         ENDIF
       ENDDO
 C
+      CALL STOPTIME(MACRO_TIMER_SPMDCFD,1)
 
 #endif
       RETURN
@@ -647,6 +657,7 @@ C-----------------------------------------------
 C
 C Updating Phi on adjacent elements
 C
+      CALL STARTIME(MACRO_TIMER_SPMDCFD,1)
 
       LOC_PROC = ISPMD+1
       IDEB = 0
@@ -701,6 +712,7 @@ C
         ENDIF
       ENDDO
 C
+      CALL STOPTIME(MACRO_TIMER_SPMDCFD,1)
 
 #endif
       RETURN
@@ -759,6 +771,7 @@ C-----------------------------------------------
 C
 C Updating Phi on adjacent elements
 C
+      CALL STARTIME(MACRO_TIMER_SPMDCFD,1)
 
       LOC_PROC = ISPMD+1
       IDEB = 0
@@ -811,6 +824,7 @@ C
         ENDIF
       ENDDO
 C
+      CALL STOPTIME(MACRO_TIMER_SPMDCFD,1)
 
 #endif
       RETURN
@@ -866,6 +880,7 @@ C-----------------------------------------------
 C
 C Updating X on adjacent domains
 C
+      CALL STARTIME(MACRO_TIMER_SPMDCFD,1)
 
       LOC_PROC = ISPMD+1
       IDEB = 0
@@ -934,6 +949,7 @@ C
         ENDIF
       ENDDO
 C
+      CALL STOPTIME(MACRO_TIMER_SPMDCFD,1)
 
 #endif
       RETURN
@@ -990,6 +1006,7 @@ C-----------------------------------------------
 C
 C Updating X on adjacent domains
 C
+      CALL STARTIME(MACRO_TIMER_SPMDCFD,1)
 
       LOC_PROC = ISPMD+1
       IDEB = 0
@@ -1049,6 +1066,7 @@ C
         ENDIF
       ENDDO
 C
+      CALL STOPTIME(MACRO_TIMER_SPMDCFD,1)
 
 #endif
       RETURN
@@ -1119,6 +1137,7 @@ C-----------------------------------------------
 C
 C Updating X on adjacent domains
 C 
+      CALL STARTIME(MACRO_TIMER_SPMDCFD,1)
 
       LOC_PROC = ISPMD+1
       IDEB = 0
@@ -1236,6 +1255,7 @@ C
           CALL SPMD_WAIT(REQ_S(I))
         ENDIF
       ENDDO
+      CALL STOPTIME(MACRO_TIMER_SPMDCFD,1)
 
 #endif
       RETURN
@@ -1292,6 +1312,7 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
+      CALL STARTIME(MACRO_TIMER_SPMDCFD,1)
 
       LOC_PROC = ISPMD + 1
       L = 1
@@ -1368,6 +1389,7 @@ C
      .     CALL SPMD_WAIT(REQ_S(I))
         ENDDO
 C
+        CALL STOPTIME(MACRO_TIMER_SPMDCFD,1)
 
 #endif
       RETURN
@@ -1430,6 +1452,7 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
+      CALL STARTIME(MACRO_TIMER_SPMDCFD,1)
 
       LOC_PROC = ISPMD + 1
 C SIZE = 6
@@ -1545,6 +1568,7 @@ C Wait terminaison isend
         ENDIF
       ENDDO
 C
+      CALL STOPTIME(MACRO_TIMER_SPMDCFD,1)
 
 #endif
       RETURN
@@ -1594,6 +1618,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
+      CALL STARTIME(MACRO_TIMER_SPMDCFD,1)
 
       IF (LEN > 0) THEN
         CALL SPMD_REDUCE(V,VTMP,LEN,
@@ -1605,6 +1630,7 @@ C-----------------------------------------------
         END DO
       ENDIF
 C
+      CALL STOPTIME(MACRO_TIMER_SPMDCFD,1)
 
 #endif
       RETURN
@@ -1660,6 +1686,7 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
+      CALL STARTIME(MACRO_TIMER_SPMDCFD,1)
 
       LOC_PROC = ISPMD + 1
 C
@@ -1726,6 +1753,7 @@ C Wait terminaison isend
      .     CALL SPMD_WAIT(REQ_S(I))
       ENDDO
 C
+      CALL STOPTIME(MACRO_TIMER_SPMDCFD,1)
 
 #endif
       RETURN
@@ -1781,6 +1809,7 @@ C-----------------------------------------------
       DATA MSGOFF/3012/
       my_real WA(SIZE*ALE%GLOBAL%NVCONV)
 C-----------------------------------------------
+      CALL STARTIME(MACRO_TIMER_SPMDCFD,1)
 
       LOC_PROC = ISPMD+1
       IF(FLAG == 0) THEN  
@@ -1964,6 +1993,7 @@ C
         ENDIF
       ENDIF
 C
+      CALL STOPTIME(MACRO_TIMER_SPMDCFD,1)
 
 #endif
       RETURN
@@ -2018,6 +2048,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
+      CALL STARTIME(MACRO_TIMER_SPMDCFD,1)
 
       LOC_PROC = ISPMD + 1
       E_LEN=3
@@ -2081,6 +2112,7 @@ C
         ENDIF
       ENDIF
 C
+      CALL STOPTIME(MACRO_TIMER_SPMDCFD,1)
 
 #endif
       RETURN
@@ -2156,6 +2188,7 @@ C-----------------------------------------------
       TYPE(L_BUFEL_)  ,POINTER :: LBUF  
       TYPE(BUF_MAT_)  ,POINTER :: MBUF               
 C-----------------------------------------------
+       CALL STARTIME(MACRO_TIMER_SPMDCFD,1)
 
       ! X on remote nodes
       LOC_PROC             = ISPMD+1
@@ -2306,6 +2339,7 @@ C-----------------------------------------------
           CALL SPMD_WAIT(REQ_S(I))
         ENDIF
       ENDDO
+      CALL STOPTIME(MACRO_TIMER_SPMDCFD,1)
 
 #endif
       RETURN

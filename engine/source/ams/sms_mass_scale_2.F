@@ -76,7 +76,7 @@ C-----
       !||    mod_sms_work       ../engine/source/ams/sms_mass_scale_2.F
       !||    sensor_mod         ../engine/share/modules/sensor_mod.F
       !||====================================================================
-      SUBROUTINE SMS_MASS_SCALE_2(TIMERS,
+      SUBROUTINE SMS_MASS_SCALE_2(
      1        ITASK    ,NODFT    ,NODLT    ,NODII_SMS ,INDX2_SMS ,
      2        NODXI_SMS,MS       ,MS0      ,A         ,ICODT     ,
      3        ICODR    ,ISKEW    ,SKEW     ,JAD_SMS   ,JDI_SMS   ,
@@ -106,7 +106,6 @@ C-----
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE TIMER_MOD
       USE MOD_SMS_WORK
       USE INTSTAMP_MOD
       USE MESSAGE_MOD
@@ -138,7 +137,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_), INTENT(INOUT) :: TIMERS
       INTEGER  ITASK, NODFT,NSENSOR,NODLT, NODII_SMS(*), INDX2_SMS(*),
      .         NODXI_SMS(*), ICODT(*), ICODR(*),
      .         ISKEW(*), JAD_SMS(*), JDI_SMS(*), INDX1_SMS(*),
@@ -343,7 +341,7 @@ C
         CALL MY_BARRIER
 C
 C       Z_SMS utilise temporairement pour [M]V
-        CALL SMS_MAV_LT(TIMERS,
+        CALL SMS_MAV_LT(
      1           NODFT   ,NODLT  ,NUMNOD ,JAD_SMS  ,JDI_SMS  ,
      2           ITASK   ,DIAG_SMS,LT_SMS,X_SMS ,Z_SMS ,
      3           NODFT1_SMS,NODLT1_SMS,INDX1_SMS,NODXI_SMS,IAD_ELEM ,
@@ -423,7 +421,7 @@ C
 C
 C-----------------------------------
         IF(ITASK==0)THEN
-         IF (IMON>0) CALL STARTIME(TIMERS,5)
+         IF (IMON>0) CALL STARTIME(5,1)
          DW = ZERO
          DO ND=1,NDAMP
           IGR   = NINT(DAMPR(2,ND))
@@ -598,7 +596,7 @@ C             2nd order error
 #include "lockon.inc"
          TFEXT = TFEXT + DW
 #include "lockoff.inc"
-         IF (IMON>0) CALL STOPTIME(TIMERS,5)
+         IF (IMON>0) CALL STOPTIME(5,1)
         END IF
 C
         CALL MY_BARRIER
@@ -798,7 +796,7 @@ C
 C
       END IF
 C-----------------------------------
-      CALL SMS_PCG(TIMERS, NODFT  ,NODLT    ,NNZ_SMS,JAD_SMS  ,
+      CALL SMS_PCG(NODFT  ,NODLT    ,NNZ_SMS,JAD_SMS  ,
      2            JDI_SMS ,DIAG_SMS ,LT_SMS ,A      ,ISP      ,
      3            X_SMS   ,P_SMS    ,Z_SMS  ,Y_SMS  ,PREC_SMS ,
      4            NODFT1_SMS,NODLT1_SMS,INDX1_SMS,ICODT ,ICODR ,

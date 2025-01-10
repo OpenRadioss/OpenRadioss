@@ -45,7 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    output_mod        ../common_source/modules/output/output_mod.F90
       !||    sensor_mod        ../engine/share/modules/sensor_mod.F
       !||====================================================================
-      SUBROUTINE SMS_ENCIN_2(TIMERS,
+      SUBROUTINE SMS_ENCIN_2(
      1        ITASK    ,NODFT    ,NODLT    ,NODXI_SMS,
      2        MS       ,JAD_SMS  ,JDI_SMS  ,LT_SMS    ,INDX1_SMS,
      3        DIAG_SMS ,IAD_ELEM ,FR_ELEM  ,WEIGHT    ,V        ,
@@ -65,7 +65,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE TIMER_MOD
       USE MOD_SMS_WORK
       USE INTSTAMP_MOD
       USE MESSAGE_MOD
@@ -93,7 +92,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_) ,INTENT(INOUT) :: TIMERS
       INTEGER  ITASK, NODFT, NODLT, NODXI_SMS(*),
      .         JAD_SMS(*), JDI_SMS(*), INDX1_SMS(*),
      .         IAD_ELEM(2,NSPMD+1) ,FR_ELEM(*), WEIGHT(*),
@@ -252,7 +250,7 @@ C
         END IF
       END IF
 C----
-      CALL SMS_MAV_LT(TIMERS,
+      CALL SMS_MAV_LT(
      1        NODFT   ,NODLT   ,NUMNOD ,JAD_SMS  ,JDI_SMS  ,
      2        ITASK   ,WDG     ,LT_SMS ,WV       ,WMV      ,
      3        NODFT1_SMS,NODLT1_SMS,INDX1_SMS,NODXI_SMS,IAD_ELEM ,

@@ -43,7 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod                ../engine/share/message_module/message_mod.F
       !||    my_alloc_mod               ../common_source/tools/memory/my_alloc.F90
       !||====================================================================
-      SUBROUTINE I11MAINF(TIMERS,
+      SUBROUTINE I11MAINF(
      1      IPARI   ,X         ,A       ,
      2      ICODT   ,FSAV      ,V        ,MS     ,DT2T    ,
      3      NELTST  ,ITYPTST   ,ITAB     ,STIFN  ,FSKYI   ,
@@ -59,7 +59,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE TIMER_MOD
       USE INTBUFDEF_MOD
       USE H3D_MOD
       USE INTBUF_FRIC_MOD
@@ -88,7 +87,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_), INTENT(IN) :: TIMERS
       INTEGER ,INTENT(IN) :: NODADT_THERM
       INTEGER NELTST,ITYPTST,NIN,NEWFRONT,NSTRF(*)
       INTEGER IPARI(*), ICODT(*),
@@ -343,7 +341,7 @@ C preparation candidats retenus
 
           JLT = JLT_NEW
           IF(JLT_NEW/=0) THEN
-            IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(TIMERS,20)
+            IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(20,1)
             IPARI(29) = 1
             IF (DEBUG(3)>=1)
      .        NB_JLT_NEW = NB_JLT_NEW + JLT_NEW
@@ -351,7 +349,7 @@ C preparation candidats retenus
 C-------------------------------------------------------------------------------
 C Friction model : computation of friction coefficients based on Material of connected Parts
 C-------------------------------------------------------------------------------
-      IF(ITASK==1) CALL STARTIME(TIMERS,MACRO_TIMER_FRIC)
+      IF(ITASK==1) CALL STARTIME(MACRO_TIMER_FRIC,1)
        JJ = 0
       CALL FRICTIONPARTS_MODEL_ISOT(
      1   INTFRIC    ,JLT          ,IPARTFRICSI      ,IPARTFRICMI  ,ADPARTS_FRIC,
@@ -361,7 +359,7 @@ C-------------------------------------------------------------------------------
      5   JJ         , TINT        ,TEMPI1           ,NPC          ,TF          ,
      6   TEMP       , HS1         ,HS2              ,HM1          ,HM2         ,
      7   N1         , N2          ,M1               ,M2           ,IFORM       )  
-      IF(ITASK==1) CALL STOPTIME(TIMERS,MACRO_TIMER_FRIC)
+      IF(ITASK==1) CALL STOPTIME(MACRO_TIMER_FRIC,1)
 
       CALL I11FOR3(
      1  JLT          ,FSAV    ,GAP                 ,FRIC       ,MS      ,
@@ -422,7 +420,7 @@ C
               ENDDO
               NUM_IMP=NUM_IMP+JLT_NEW
             ENDIF
-            IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(TIMERS,20)
+            IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(20,1)
           ENDIF
       ENDDO
       IF (SFSAVPARIT /= 0)THEN

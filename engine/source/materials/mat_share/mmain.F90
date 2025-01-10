@@ -165,7 +165,7 @@
       !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
       !||    table_mod              ../engine/share/modules/table_mod.F
       !||====================================================================
-        subroutine mmain(timers,&
+        subroutine mmain(&
         &elbuf_tab,   ng,          pm,          geo,&
         &ale_connect, ix,          iparg,&
         &v,           tf,          npf,         bufmat,&
@@ -205,7 +205,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-          use timer_mod
           use table_mod
           use mat_elem_mod
           use nlocal_reg_mod
@@ -230,7 +229,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          type(timer_), intent(inout) :: timers !< timers for /MON option
           integer, optional, intent(in) :: opt_mtn, opt_jcvt, opt_isorth,  opt_isorthg
           my_real, intent(in) :: dt1
           my_real, intent(in) :: tt
@@ -1785,7 +1783,7 @@
             nuvar   = elbuf_tab(ng)%bufly(ilay)%nvar_mat
             l_mulaw_called=.true.
 !
-            call usermat_solid(timers,&
+            call usermat_solid(&
             &lft,        llt,        nft,        mtn,&
             &jcvt,       pm,         off,        lbuf%sig,&
             &lbuf%eint,  lbuf%rho,   lbuf%qvis,  lbuf%vol,&
@@ -1832,7 +1830,7 @@
             nvartmp = elbuf_tab(ng)%bufly(ilay)%nvartmp
             l_mulaw_called =.true.
 !
-            call mulaw(timers,&
+            call mulaw(&
             &nft,         mtn,         jcvt,        pm,&
             &off,         lbuf%sig,    lbuf%eint,   lbuf%rho,&
             &lbuf%qvis,   lbuf%vol,    lbuf%stra,   lbuf%sigl,&
@@ -2065,7 +2063,7 @@
 !-----------------------------------------------------------------------
 !     failure for law no user ---
 !-----------------------------------------------------------------------
-          if ((itask==0).and.(imon_mat==1))call startime(timers, 121)
+          if ((itask==0).and.(imon_mat==1))call startime(121,1)
           if (nfail > 0 .and. (mtn < 28 .or. mtn == 49)) then
             if (istrain > 0 .or. mtn==24 .or. mtn==25 .or. mtn==15) then
               do i=1,nel
@@ -2639,7 +2637,7 @@
               endif
             endif
           endif     !  nfail > 0  & user laws
-          if ((itask==0).and.(imon_mat==1))call stoptime(timers, 121)
+          if ((itask==0).and.(imon_mat==1))call stoptime(121,1)
 !-----------------------------------------------------------------
           if(ipartsph/=0)then
             do i=1,nel
