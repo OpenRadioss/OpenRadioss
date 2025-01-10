@@ -89,7 +89,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    stack_mod                    ../engine/share/modules/stack_mod.F
       !||    table_mod                    ../engine/share/modules/table_mod.F
       !||====================================================================
-      SUBROUTINE USERMAT_SHELL (TIMERS, ELBUF_STR ,MAT_ELEM  ,
+      SUBROUTINE USERMAT_SHELL (ELBUF_STR ,MAT_ELEM  ,
      1       JFT      ,JLT      ,NEL      ,PM        ,FOR      ,MOM      ,    
      2       GSTR     ,THK      ,EINT     ,OFF       ,DIR_A    ,DIR_B    ,    
      3       MAT      ,AREA     ,EXX      ,EYY       ,EXY      ,EXZ      ,    
@@ -111,7 +111,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE TIMER_MOD
       USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
       USE LAW_USERSH
       USE TABLE_MOD
@@ -146,7 +145,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_), INTENT(INOUT) :: TIMERS
       INTEGER IR,IS,IPT,JFT,JLT,NEL,NPT,MTN,IPLA,IOFC,NG,NLAY,
      .  ISMSTR,IXFEM,IFAILURE,JHBE,IXLAY,IXEL,ITHK,JTHE,
      .  IREP,ISUBSTACK,ITASK,ISHPLYXFEM,NUMTABL
@@ -1205,7 +1203,7 @@ C-----------------------------------------------
 C         Failure models
 C-----------------------------------------------
           IF (IFAILURE == 1) THEN   
-            IF ((ITASK==0).AND.(IMON_MAT==1))CALL STARTIME(TIMERS,121)
+            IF ((ITASK==0).AND.(IMON_MAT==1))CALL STARTIME(121,1)
 c
             IF (IXFEM > 0) THEN                              
               DO I=JFT,JLT                                                    
@@ -1811,7 +1809,7 @@ c                    SIGOFF(I) = OFFL(I)
               ENDIF                                              
 c-------------
             ENDDO     !  NFAIL
-            IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(TIMERS,121)
+            IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(121,1)
           ENDIF  ! IF (IFAILURE == 1)
 c-----------------------------------
 c         END of FAILURE MODELS

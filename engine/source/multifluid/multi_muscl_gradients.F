@@ -35,12 +35,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    initbuf_mod             ../engine/share/resol/initbuf.F
       !||    multi_fvm_mod           ../common_source/modules/ale/multi_fvm_mod.F90
       !||====================================================================
-      SUBROUTINE MULTI_MUSCL_GRADIENTS(TIMERS,ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
+      SUBROUTINE MULTI_MUSCL_GRADIENTS(ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
      .     PM, IPM, MULTI_FVM, ALE_CONNECTIVITY, WGRID, XGRID, ITAB, NBMAT, CURRENT_TIME, BUFMAT)
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
-      USE TIMER_MOD
       USE INITBUF_MOD      
       USE ELBUFDEF_MOD
       USE MULTI_FVM_MOD
@@ -61,7 +60,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_), INTENT(INOUT) :: TIMERS
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       INTEGER, INTENT(IN) :: IPARG(NPARG, *)
       INTEGER, INTENT(IN) :: ITASK ! SMP TASK
@@ -102,7 +100,7 @@ C-----------------------------------------------
 
 
 
-      IF(ITASK == 0) CALL STARTIME(TIMERS,MACRO_TIMER_MUSCL)
+      IF(ITASK == 0) CALL STARTIME(MACRO_TIMER_MUSCL,1)
       EPS_INT = FIVE * EM02
 
       DO NG = ITASK + 1, NGROUP, NTHREAD
@@ -617,7 +615,7 @@ C     Pressure gradient limitation
             ENDDO               !II = 1, NEL
          ENDIF                  !MATLAW == 151
       ENDDO                     !NG
-      IF(ITASK == 0) CALL STOPTIME(TIMERS,MACRO_TIMER_MUSCL)
+      IF(ITASK == 0) CALL STOPTIME(MACRO_TIMER_MUSCL,1)
 
       END SUBROUTINE MULTI_MUSCL_GRADIENTS
 

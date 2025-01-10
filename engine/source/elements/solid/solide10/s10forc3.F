@@ -85,7 +85,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sensor_mod             ../engine/share/modules/sensor_mod.F
       !||    table_mod              ../engine/share/modules/table_mod.F
       !||====================================================================
-      SUBROUTINE S10FORC3(TIMERS,
+      SUBROUTINE S10FORC3(
      1   ELBUF_TAB,       NG,         PM,         GEO,
      2   IXS,             X,          A,          V,
      3   MS,              W,          FLUX,       FLU1,
@@ -110,7 +110,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE TIMER_MOD
       USE MMAIN_MOD
       USE TABLE_MOD
       USE MAT_ELEM_MOD            
@@ -150,7 +149,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_), INTENT(INOUT) :: TIMERS
       INTEGER, INTENT(IN) :: S_SFEM_NODVAR
       INTEGER, INTENT(INOUT) :: IDEL7NOK
       INTEGER, INTENT(IN) :: SNPC
@@ -615,13 +613,13 @@ C-----------------------------
 C------------------------------------------------------
 C     CALCUL DES CONTRAINTES SUIVANT LOIS CONSTITUTIVES
 C------------------------------------------------------
-      IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(TIMERS,35)
+      IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(35,1)
 C
       IF(IBOLTP /= 0) CALL BOLTST(
      .                IP,        BPRELD,    LBUF%SIG,TT,        
      .                NEL   ,NPT   ,SENSORS%NSENSOR,SENSORS%SENSOR_TAB)
 C
-        CALL MMAIN(TIMERS,
+        CALL MMAIN(
      1   ELBUF_TAB,   NG,          PM,          GEO,
      2                ALE_CONNECT, IXS,         IPARG,
      3   V,           TF,          NPF,         BUFMAT,
@@ -658,7 +656,7 @@ C
      .   IMON_MAT,    USERL_AVAIL, impl_s,
      .   idyna,       DT,          fheat      )
 C
-      IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(TIMERS,35)
+      IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)
 C-----------  return to global system    
        IF (ISMSTR == 12.AND.ISM12_11==0.AND.IDTMIN(1)==3) THEN
          CALL SROTO12_SIG(LFT,LLT,LBUF%SIG,NEL,

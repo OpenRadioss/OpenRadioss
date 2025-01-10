@@ -77,7 +77,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    stack_mod           ../engine/share/modules/stack_mod.F
       !||    table_mod           ../engine/share/modules/table_mod.F
       !||====================================================================
-      SUBROUTINE CFORC3(TIMERS,
+      SUBROUTINE CFORC3(
      1   ELBUF_STR,   JFT,         JLT,         PM,
      2   IXC,         X,           F,           M,
      3   V,           VR,          FAILWAVE,    NVC,
@@ -111,7 +111,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE TIMER_MOD
       USE TABLE_MOD
       USE MAT_ELEM_MOD
       USE CRACKXFEM_MOD
@@ -148,7 +147,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_), INTENT(IN) :: TIMERS
       INTEGER, INTENT(IN) :: USERL_AVAIL ! Flag for User libraries availability
       INTEGER,INTENT(IN)    :: MAXFUNC   ! Maximum number of functions
       INTEGER, INTENT(IN) :: SBUFMAT     ! size of Bufmat
@@ -520,9 +518,9 @@ c-------------------------------------------
         ENDDO
       ENDIF     
 C
-      IF ((IMON_MAT==1).AND. ITASK == 0)CALL STARTIME(TIMERS,35)
+      IF ((IMON_MAT==1).AND. ITASK == 0)CALL STARTIME(35,1)
 C-----------------------------
-        CALL CMAIN3(TIMERS,
+        CALL CMAIN3(
      1  ELBUF_STR   ,JFT         ,JLT         ,NFT        ,IPARG      ,
      2  NEL         ,MTN         ,IPLA        ,ITHK       ,GROUP_PARAM,
      3  PM          ,GEO         ,NPF         ,TF         ,BUFMAT     ,
@@ -553,7 +551,7 @@ C-----------------------------
      S  USERL_AVAIL ,MAXFUNC    ,NPTTOT       ,SBUFMAT     ,SDIR_A     ,
      T  SDIR_B    )
 C-----------------------------
-      IF ((IMON_MAT==1).AND. ITASK == 0)CALL STOPTIME(TIMERS,35)
+      IF ((IMON_MAT==1).AND. ITASK == 0)CALL STOPTIME(35,1)
 C-----------------------------
 C     FORCES ANTI-SABLIER
 C-----------------------------

@@ -66,7 +66,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    output_mod             ../common_source/modules/output/output_mod.F90
       !||    table_mod              ../engine/share/modules/table_mod.F
       !||====================================================================
-      SUBROUTINE BFORC2(TIMERS, ELBUF_TAB   ,NG        ,
+      SUBROUTINE BFORC2(ELBUF_TAB   ,NG        ,
      1                   PM         ,GEO       ,IC         ,X       ,
      2                   A          ,V         ,MS         ,W       ,FLUX    ,
      3                   FLU1       ,VEUL      ,ALE_CONNECT,IPARG   ,
@@ -85,7 +85,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
-      USE TIMER_MOD
       USE MMAIN_MOD
       USE TABLE_MOD
       USE MESSAGE_MOD
@@ -118,7 +117,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_), INTENT(INOUT) :: TIMERS
       INTEGER OFFSET,NEL,NG,NSVOIS
       INTEGER,INTENT(IN) :: SZ_BUFVOIS
       INTEGER,INTENT(IN) :: SNPC
@@ -340,7 +338,7 @@ C-----------------------------------------------------
 C-----------------------------------------------------
 C     STRESS TENSOR
 C-----------------------------------------------------
-      CALL MMAIN(TIMERS,
+      CALL MMAIN(
      1   ELBUF_TAB,   NG,          PM,          GEO,
      2                ALE_CONNECT, IC,          IPARG,
      3   V,           TF,          NPF,         BUFMAT,
@@ -559,7 +557,7 @@ C-----------------------------------------------------
 C-----------------------------------------------------
 C     STREE TENSOR
 C-----------------------------------------------------
-      CALL MMAIN(TIMERS,
+      CALL MMAIN(
      1   ELBUF_TAB,   NG,          PM,          GEO,
      2                ALE_CONNECT, IC,          IPARG,
      3   V,           TF,          NPF,         BUFMAT,

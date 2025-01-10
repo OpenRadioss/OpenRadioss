@@ -39,7 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    multi_fvm_mod              ../common_source/modules/ale/multi_fvm_mod.F90
       !||    tri7box                    ../engine/share/modules/tri7box.F
       !||====================================================================
-      SUBROUTINE SPMD_CELL_EXCHANGE(TIMERS, NIN,ISENDTO,IRCVFROM,NSN,NSNR,IGAP,
+      SUBROUTINE SPMD_CELL_EXCHANGE( NIN,ISENDTO,IRCVFROM,NSN,NSNR,IGAP,
      1                               IFQ,INACTI,NSNFIOLD,INTTH,ITYP,STFNS, NSV,
      2                               NRTM, X,
      2                               ITIED,NMN,INTER_STRUCT,SORT_COMM, GOT_PREVIEW)
@@ -54,7 +54,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-        USE TIMER_MOD
         USE FILL_VOXEL_MOD
         USE TRI7BOX
         USE MESSAGE_MOD
@@ -81,7 +80,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        TYPE(TIMER_) :: TIMERS
         INTEGER NIN, IFQ, INACTI, IGAP,INTTH,NSN,NSNR,
      .        ITIED,
      .        NSNFIOLD(NSPMD),
@@ -148,7 +146,7 @@ C================================================================
 
       IF(.NOT. (IRCVFROM(NIN,LOC_PROC)==0.AND.ISENDTO(NIN,LOC_PROC)==0))  THEN
 
-      IF (IMONM > 0) CALL STARTIME(TIMERS,25)
+      IF (IMONM > 0) CALL STARTIME(25,1)
 
       ! ---------------------------------------
       ! prepare the rcv --> local number of main node > 0
@@ -287,7 +285,7 @@ C================================================================
 
        ENDIF
 
-      IF (IMONM > 0) CALL STOPTIME(TIMERS,25)
+      IF (IMONM > 0) CALL STOPTIME(25,1)
 #endif
       RETURN
 

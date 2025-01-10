@@ -34,13 +34,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    tri7box               ../engine/share/modules/tri7box.F
       !||====================================================================
-      SUBROUTINE I25MAIN_FREE(TIMERS,
+      SUBROUTINE I25MAIN_FREE(
      1                  ITASK, IPARI  ,INTBUF_TAB, INTLIST25, ISENDTO,
      2                  IRECVFROM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE TIMER_MOD
       USE INTBUFDEF_MOD   
       USE TRI7BOX
 C-----------------------------------------------
@@ -59,7 +58,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_) :: TIMERS
       INTEGER IPARI(NPARI,NINTER),ITASK,INTLIST25(*)
       INTEGER ISENDTO(NSPMD+1,*),IRECVFROM(NSPMD+1,*)
 C     REAL
@@ -97,7 +95,7 @@ C
       END DO
 C-----------------------------------------------------------
       IF (IMON>0 .AND. ITASK==0) THEN
-        CALL STARTIME(TIMERS,MACRO_TIMER_T25STFE)
+        CALL STARTIME(MACRO_TIMER_T25STFE,1)
       ENDIF
 C       
 !$OMP SINGLE
@@ -115,7 +113,7 @@ C        Also needed in SMP for resetting STFE !
 !$OMP END SINGLE
 C
       IF (IMON>0 .AND. ITASK==0) THEN
-        CALL STOPTIME(TIMERS,MACRO_TIMER_T25STFE)
+        CALL STOPTIME(MACRO_TIMER_T25STFE,1)
       ENDIF
 C-----------------------------------------------------------
       RETURN

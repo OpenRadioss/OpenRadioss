@@ -79,7 +79,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    stack_mod           ../engine/share/modules/stack_mod.F
       !||    table_mod           ../engine/share/modules/table_mod.F
       !||====================================================================
-      SUBROUTINE C3FORC3(TIMERS,
+      SUBROUTINE C3FORC3(
      1   ELBUF_STR,   JFT,         JLT,         PM,
      2   IXTG,        X,           F,           M,
      3   V,           R,           FAILWAVE,    NVC,
@@ -111,7 +111,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE TIMER_MOD
       USE TABLE_MOD
       USE MAT_ELEM_MOD
       USE CRACKXFEM_MOD
@@ -145,7 +144,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_), INTENT(INOUT) :: TIMERS ! Timer structure
       INTEGER, INTENT(IN)    :: USERL_AVAIL ! Flag for User libraries availability
       INTEGER, INTENT(IN)    :: MAXFUNC     ! Maximum number of functions
       INTEGER, INTENT(INOUT) :: IDEL7NOK    ! Element deletion flag for IDEL flag in contact interfaces
@@ -525,9 +523,9 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       IF (JTHE /= 0 ) CALL TEMP3CG(JFT   ,JLT   ,PM     ,MAT   ,IXTG,   
      .                             TEMP ,TEMPEL )
 C--------------------------
-      IF ((IMON_MAT==1).AND.ITASK == 0)CALL STARTIME(TIMERS,35)
+      IF ((IMON_MAT==1).AND.ITASK == 0)CALL STARTIME(35,1)
 C--------------------------
-        CALL CMAIN3(TIMERS,
+        CALL CMAIN3(
      1   ELBUF_STR ,JFT       ,JLT       ,NFT       ,IPARG     ,
      2   NEL       ,MTN       ,IPLA      ,ITHK      ,GROUP_PARAM,
      3   PM        ,GEO       ,NPF       ,TF        ,BUFMAT    ,
@@ -558,7 +556,7 @@ C--------------------------
      S   IDEL7NOK  ,USERL_AVAIL ,MAXFUNC    ,NPTTOT,
      T   SBUFMAT   ,SDIR_A    , SDIR_B)
 C--------------------------
-      IF ((IMON_MAT==1).AND.ITASK == 0)CALL STOPTIME(TIMERS,35)
+      IF ((IMON_MAT==1).AND.ITASK == 0)CALL STOPTIME(35,1)
 C--------------------------
 C     PAS DE TEMPS
 C--------------------------

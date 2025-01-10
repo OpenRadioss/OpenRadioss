@@ -48,7 +48,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    table_mod              ../engine/share/modules/table_mod.F
       !||====================================================================
-      SUBROUTINE S8FORC3(TIMERS,
+      SUBROUTINE S8FORC3(
      1                   ELBUF_STR,PM       ,GEO    ,IXS      ,X      ,
      2                   A        ,V        ,MS     , 
      3                   VEUL     ,FV       ,ALE_CONNECT  ,IPARG    ,
@@ -61,7 +61,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE TIMER_MOD
       USE TABLE_MOD
       USE MAT_ELEM_MOD         
       USE ALE_CONNECTIVITY_MOD
@@ -86,7 +85,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_), INTENT(INOUT) :: TIMERS
       INTEGER,INTENT(IN) :: SNPC
       INTEGER,INTENT(IN) :: NUMGEO
       INTEGER,INTENT(IN) :: SBUFMAT
@@ -212,8 +210,8 @@ C
 C------------------------------------------------------
 C     CALCUL DES CONTRAINTES SUIVANT LOIS CONSTITUTIVES
 C------------------------------------------------------
-      IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(TIMERS,35)
-      CALL MMAIN8(TIMERS, PM   ,GEO   ,ELBUF_STR,MAT_ELEM ,
+      IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(35,1)
+      CALL MMAIN8(PM   ,GEO   ,ELBUF_STR,MAT_ELEM ,
      2            IXS  ,IPARG ,V        ,TF    ,    
      3            NPF  ,BUFMAT,STI    ,X     ,D1    ,
      4            D2   ,D3    ,D4     ,D5    ,D6    ,
@@ -226,7 +224,7 @@ C------------------------------------------------------
      B            MSSA ,DMELS ,TABLE  ,SSP   ,ITASK ,
      C            SVIS ,SNPC  ,NUMGEO ,SBUFMAT ,STF ,
      D            NTABLE)
-      IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(TIMERS,35)
+      IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)
 C--------------------------
 C     BILANS PAR MATERIAU
 C--------------------------

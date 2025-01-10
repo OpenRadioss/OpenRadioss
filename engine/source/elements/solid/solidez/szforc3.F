@@ -96,7 +96,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sensor_mod             ../engine/share/modules/sensor_mod.F
       !||    table_mod              ../engine/share/modules/table_mod.F
       !||====================================================================
-      SUBROUTINE SZFORC3(TIMERS,ELBUF_TAB,NG      ,
+      SUBROUTINE SZFORC3(ELBUF_TAB,NG      ,
      1                   PM       ,GEO     ,IXS     ,X      ,
      2                   A        ,V       ,MS      ,W      ,FLUX   ,
      3                   FLU1     ,VEUL      ,FV      ,ALE_CONNECT    ,IPARG    ,
@@ -121,7 +121,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE TIMER_MOD
       USE MMAIN_MOD
       USE TABLE_MOD
       USE MAT_ELEM_MOD            
@@ -161,7 +160,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_) , INTENT(INOUT) :: TIMERS
       INTEGER, INTENT(IN) :: NSVOIS
       INTEGER, INTENT(IN) :: SZ_BUFVOIS
       INTEGER, INTENT(IN) :: SNPC
@@ -663,7 +661,7 @@ C Element temperature
 C
        DELTAXI(1:NEL) = FAC_NU*DELTAX(1:NEL)   
 C-----------------------------------------------------------------------
-      IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(TIMERS,35)
+      IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(35,1)
       ILAY = 1 
       IPTR = 1 
       IPTS = 1 
@@ -698,7 +696,7 @@ C
      .                            NPT   ,SENSORS%NSENSOR,SENSORS%SENSOR_TAB)
 C
 C Compute stresses according to the material law
-      CALL MMAIN(TIMERS,
+      CALL MMAIN(
      1   ELBUF_TAB,   NG,          PM,          GEO,
      2                ALE_CONNECT, IXS,         IPARG,
      3   V,           TF,          NPF,         BUFMAT,
@@ -742,7 +740,7 @@ C Compute stresses according to the material law
      3   WYY,      WZZ,      OFF,      NEL,
      4   JCVT)
       ENDIF
-      IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(TIMERS,35)
+      IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)
 C
       IF (JCVT == 2) THEN
        CALL SROTO3(LFT,LLT,GBUF%SIG,SIGN,

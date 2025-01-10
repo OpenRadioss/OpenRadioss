@@ -1499,9 +1499,9 @@ C
      2                  NDOF  ,NUM_IMP,NS_IMP,NE_IMP,V       ,
      3                  NSREM ,NSL    ,IBFV  ,SKEW  ,XFRAME  ,
      4                  W     ,IRBE3  ,LRBE3 ,IRBE2  ,LRBE2  )
-!       IF(IMONM > 0) CALL STARTIME(TIMERS,66)
+        IF(IMONM > 0) CALL STARTIME(66,1)
         CALL SPMD_SUMF_V(W )
-!       IF(IMONM > 0) CALL STOPTIME(TIMERS,66)
+        IF(IMONM > 0) CALL STOPTIME(66,1)
        ENDIF
       END IF !(ITASK==0) THEN
 C--------------------------------------------
@@ -1602,9 +1602,9 @@ C----------------------
       CALL MY_BARRIER
 C---------------------
        IF (ITASK==0) THEN
-!        IF(IMONM > 0) CALL STARTIME(TIMERS,67)
+         IF(IMONM > 0) CALL STARTIME(67,1)
          CALL SPMD_SUM_S(R_N2)
-!        IF(IMONM > 0) CALL STARTIME(TIMERS,67)
+         IF(IMONM > 0) CALL STARTIME(67,1)
        END IF
 C
       END IF !(NSPMD == 1) THEN
@@ -3287,9 +3287,9 @@ C---------------------
         R = R + RL
 #include "lockoff.inc"
 !$OMP END PARALLEL 
-!        IF(IMONM > 0) CALL STARTIME(TIMERS,67)
+         IF(IMONM > 0) CALL STARTIME(67,1)
          CALL SPMD_SUM_S(R)
-!        IF(IMONM > 0) CALL STARTIME(TIMERS,67)
+         IF(IMONM > 0) CALL STARTIME(67,1)
 C------mono domain
       ELSE
 !$OMP PARALLEL PRIVATE(ITSK,F_DDL ,L_DDL,RL,J )

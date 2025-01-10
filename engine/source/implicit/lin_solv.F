@@ -218,7 +218,7 @@ C---------------------
        ELSE
         IPRINT=0
        ENDIF
-!     IF (IMON>0) CALL STARTIME(TIMERS,33)
+      IF (IMON>0) CALL STARTIME(33,1)
       IF (NSPMD==1.AND.(ISOLV==3.OR.ISOLV==4).AND.IMUMPSV==0)THEN 
 C-----------BCS,DS
 citask0       IF (ITASK==0) THEN
@@ -313,7 +313,7 @@ citask0        END IF !(ITASK == 0) THEN
 C----------------------
 c      CALL MY_BARRIER
 C---------------------
-!     IF (IMON>0) CALL STOPTIME(TIMERS,33)
+      IF (IMON>0) CALL STOPTIME(33,1)
 C
        IF (IMP_CHK>0.OR.(ISTOP>0.AND.IMPDEB==0)) GOTO 200
 C---------------------------------
@@ -765,7 +765,7 @@ c     isolv=2 => P.LANCZOS
 c     isolv=4 => direct multi-condensation
 C------------------------------------------
       NNZM = 0
-C      IF (IMON>0) CALL STARTIME(TIMERS,33)
+C      IF (IMON>0) CALL STARTIME(33,1)
 c      IF (ITASK == 0) THEN
        CALL SET_KSYM(NDDL,IADK,JDIK,LT_K,IADK0,JDIK0,LT_K0)
 c      END IF !(ITASK == 0) THEN
@@ -832,7 +832,7 @@ C---------------------
        ENDIF
 !$OMP END PARALLEL 
 C
-C       IF (IMON>0) CALL STOPTIME(TIMERS,33)
+C       IF (IMON>0) CALL STOPTIME(33,1)
       RETURN
 #endif
       END
@@ -945,7 +945,7 @@ C     [K]:matrice de rigidite [M]:matrice de preconditionnement
        ISTOP = INEGA
 C
       IF (IPREC==2) NNZM=0 
-!     IF (IMON>0) CALL STARTIME(TIMERS,32)
+      IF (IMON>0) CALL STARTIME(32,1)
       IF (ICPREC==1) THEN
        IF (IPREC==2) THEN
         DO I=1,NDDL
@@ -1044,7 +1044,7 @@ C
        WRITE(IOUT,2001)NNE
        WRITE(ISTDO,2001)NNE
       ENDIF
-!     IF (IMON>0) CALL STOPTIME(TIMERS,32)
+      IF (IMON>0) CALL STOPTIME(32,1)
       IF (ISTOP>0) RETURN
 C
 citask0      IF (ITASK == 0) THEN
@@ -1062,7 +1062,7 @@ citask0      END IF !(ITASK == 0) THEN
 C----------------------
 c      CALL MY_BARRIER
 C---------------------
-C      IF (IMON>0) CALL STARTIME(TIMERS,33)
+C      IF (IMON>0) CALL STARTIME(33,1)
 !$OMP PARALLEL PRIVATE(ITSK)
        ITSK = OMP_GET_THREAD_NUM()
        IF (ISOLV==1.OR.ISOLV==7.OR.ISOLV==8) THEN
@@ -1123,7 +1123,7 @@ C      IF (IMON>0) CALL STARTIME(TIMERS,33)
        ENDIF
 !$OMP END PARALLEL 
 C
-C       IF (IMON>0) CALL STOPTIME(TIMERS,33)
+C       IF (IMON>0) CALL STOPTIME(33,1)
 C--------------------------------------------
  1002 FORMAT(3X,'PRECONDITION METHOD : JACOBIEN '/)
  1003 FORMAT(3X,'PRECONDITION METHOD : Ic0 ')
@@ -1244,7 +1244,7 @@ C------------------------------------------
 C     [K]:matrice de rigidite [M]:matrice de preconditionnement
       ISTOP = INEGA
 C
-!     IF (IMON>0.AND.ITASK==0) CALL STARTIME(TIMERS,32)
+      IF (IMON>0.AND.ITASK==0) CALL STARTIME(32,1)
       IF (ICPREC==1) THEN
        IF (IPREC==5) THEN
 C     ----- approx. (by each colonne of L_T) inverse ---------
@@ -1322,7 +1322,7 @@ citask0       END IF !(ITASK == 0) THEN
 
       ENDIF
 C
-!     IF (IMON>0) CALL STOPTIME(TIMERS,32)
+      IF (IMON>0) CALL STOPTIME(32,1)
       IF (ISTOP>0) RETURN
 C
 citask0      IF (ITASK == 0) THEN
@@ -1409,7 +1409,7 @@ C---------------------
        ENDIF
 !$OMP END PARALLEL
 C
-C       IF (IMON>0) CALL STOPTIME(TIMERS,33)
+C       IF (IMON>0) CALL STOPTIME(33,1)
  1002 FORMAT(3X,'END PRECONDITION WITH RELATIVE DENSITY =',E11.4/)
 C--------------------------------------------
       RETURN
@@ -1516,7 +1516,7 @@ C-----------------------------------------------
       ISOL = ISOLV-2
 C------to avoid the modif of IDSC with LIN_SOLV2,LIN_SOLVP2 :issue oof nt>1     
       IDS = IDSC
-C      IF (IMON>0) CALL STARTIME(TIMERS,33)
+C      IF (IMON>0) CALL STARTIME(33,1)
       IF (IDSC==0) THEN
 citask0       IF (ITASK==0) THEN
         IF (INTP_C>=0) THEN
@@ -1552,7 +1552,8 @@ C---------------------
      I                    IRBE2 ,LRBE2 )
 !$OMP END PARALLEL 
        ELSE
-!        IF (IMON>0) CALL STARTIME(TIMERS,32)
+citask0        IF (ITASK == 0) THEN
+         IF (IMON>0) CALL STARTIME(32,1)
          IF (NSPMD == 1.AND.IMUMPSV==0) THEN
          CALL LIN_SOLV2(
      1                    NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,   
@@ -1570,7 +1571,7 @@ C---------------------
      5                  ISOL ,  IDS ,   IDDL,  IKC,       INLOC,
      6                  NDOF  , ITASK )
          END IF 
-!        IF (IMON>0) CALL STOPTIME(TIMERS,32)
+         IF (IMON>0) CALL STOPTIME(32,1)
 citask0        END IF !(ITASK==0) THEN
 Cas --imcompabilite avec MONVOL-----
         IF (NMONV>0)THEN
@@ -1625,7 +1626,7 @@ citask0      END IF !(ITASK == 0) THEN
 C----------------------
 c      CALL MY_BARRIER
 C---------------------
-C      IF (IMON>0) CALL STOPTIME(TIMERS,33)
+C      IF (IMON>0) CALL STOPTIME(33,1)
       RETURN
 #endif
       END

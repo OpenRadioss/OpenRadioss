@@ -29,13 +29,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    intstamp_mod      ../engine/share/modules/intstamp_mod.F
       !||====================================================================
-      SUBROUTINE I21MAIN_OPT_TRI(TIMERS,
+      SUBROUTINE I21MAIN_OPT_TRI(
      1                  IPARI   ,INTBUF_TAB ,NIN     ,ITASK ,
      2                  INTSTAMP,NB_STOK_N,NB_JLT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE TIMER_MOD
       USE INTSTAMP_MOD
       USE INTBUFDEF_MOD 
 C-----------------------------------------------
@@ -52,7 +51,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_) :: TIMERS
       INTEGER IPARI(NPARI,NINTER), ITASK, NIN,
      .     NB_STOK_N(*),NB_JLT(*)
       TYPE(INTSTAMP_DATA) INTSTAMP
@@ -88,7 +86,7 @@ C     Filtrage des candidats a l'impact
 C     (si candidat retenu, cand_n(i) = - cand_n(i))
 C-----------------------------------------------------------
        I_STOK = INTBUF_TAB%I_STOK(1)
-       CALL I21OPTCD(TIMERS,
+       CALL I21OPTCD(
      1 INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,INTBUF_TAB%XSAV(ADXLOC),
      .                                    I_STOK     ,INTBUF_TAB%IRECTM,
      2GAP      ,INTBUF_TAB%GAP_S,IPARI(21,NIN),IPARI(5,NIN) ,INTBUF_TAB%STFNS,

@@ -80,7 +80,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sensor_mod             ../engine/share/modules/sensor_mod.F
       !||    table_mod              ../engine/share/modules/table_mod.F
       !||====================================================================
-      SUBROUTINE FORINT(TIMERS, PYTHON, 
+      SUBROUTINE FORINT(PYTHON, 
      1    PM        ,GEO       ,X          ,A         ,AR        ,
      2    V         ,VR        ,MS         ,IN        ,W         ,
      3    ELBUF     ,WA        ,VAL2       ,VEUL      ,FV        ,
@@ -119,7 +119,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE TIMER_MOD
       USE python_funct_mod
       USE INITBUF_MOD
       USE TABLE_MOD
@@ -164,7 +163,6 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_), INTENT(INOUT) :: TIMERS
       INTEGER, INTENT(IN) :: S_SFEM_NODVAR
       type(python_), intent(inout) :: PYTHON
       INTEGER IXS(NIXS,*),ITAB(*),FLG_KJ2,
@@ -372,7 +370,7 @@ C----6---------------------------------------------------------------7---------8
 C---------
           IF(ISOLNOD==4.AND.(ISROT==0.OR.ISROT==3))THEN                            
 C---------
-            CALL S4FORC3(TIMERS,
+            CALL S4FORC3(
      1   ELBUF_TAB,  NG,              PM,         GEO,
      2   IXS,        X,               A,          V,
      3   MS,         W,               WA,         VAL2,
@@ -423,7 +421,7 @@ C
 c---------
           ELSEIF (ISOLNOD==10 .OR. (ISOLNOD==4.AND.ISROT==1)) THEN
 c---------
-            CALL S10FORC3(TIMERS,
+            CALL S10FORC3(
      1   ELBUF_TAB,           NG,                  PM,                  GEO,
      2   IXS,                 X,                   A,                   V,
      3   MS,                  W,                   WA,                  VAL2,
@@ -510,7 +508,7 @@ C-------------------------
               L30 = L29 + MVSIZ * NPE * NIPMAX
               OFF_IGRTH = NUMELS8 + NUMELS10
 c
-              CALL S20FORC3(TIMERS,
+              CALL S20FORC3(
      1   ELBUF_TAB,           NG,                  PM,                  GEO,
      2   IXS,                 X,                   A,                   V,
      3   MS,                  W,                   WA,                  VAL2,
@@ -601,7 +599,7 @@ C-------------------------
               L30 = L29 + MVSIZ * NPE * NIPMAX
               OFF_IGRTH = NUMELS8 + NUMELS10 + NUMELS20
 
-              CALL S16FORC3(TIMERS, ELBUF_TAB,NG     ,
+              CALL S16FORC3(ELBUF_TAB,NG     ,
      1         PM       ,GEO      ,IXS      ,X          ,
      2         A        ,V        ,MS       ,W          ,WA         ,
      3         VAL2     ,VEUL     ,FV       ,ALE_CONNECT      ,IPARG      ,
@@ -658,7 +656,7 @@ C             THICK SHELLS HQEPH
 C-------------------------
             IF(ISOLNOD==6)THEN
 C              6 node penta
-              CALL S6CFORC3(TIMERS, ELBUF_TAB,NG         ,
+              CALL S6CFORC3(ELBUF_TAB,NG         ,
      1         PM   ,GEO   ,IXS    ,X            ,
      2         A           ,V    ,MS    ,W      ,WA          ,
      3         VAL2 ,VEUL  ,FV     ,ALE_CONNECT        ,IPARG       ,
@@ -708,7 +706,7 @@ c---------
             ELSE
 c---------
 C              8 node hexa
-              CALL SCFORC3(TIMERS, ELBUF_TAB,NG          ,
+              CALL SCFORC3(ELBUF_TAB,NG          ,
      1         PM       ,GEO      ,IXS     ,X           ,
      2         A        ,V        ,MS      ,W           ,WA      ,
      3         VAL2     ,VEUL     ,FV      ,ALE_CONNECT       ,IPARG     ,
@@ -760,7 +758,7 @@ C
 C------------------------- Isolid=19 for Salim
             IF (IPARG(36,NG)==3) THEN
 !            IF (IMPL_S /= 0) THEN
-             CALL S8SFORC3(TIMERS,ELBUF_TAB,NG   ,
+             CALL S8SFORC3(ELBUF_TAB,NG   ,
      1         PM         ,GEO      ,IXS      ,X          ,
      2         A          ,V        ,MS       ,W          ,WA        ,
      3         VAL2       ,VEUL     ,FV       ,ALE_CONNECT      ,IPARG     ,
@@ -783,7 +781,7 @@ C------------------------- Isolid=19 for Salim
 C-------------------------
 C             SOLID HE8<->HE8
 C-------------------------
-            CALL S8EFORC3(TIMERS,
+            CALL S8EFORC3(
      1   ELBUF_TAB,  NG,         PM,         GEO,
      2   IXS,        X,          A,          V,
      3   MS,         W,          WA,         VAL2,
@@ -854,7 +852,7 @@ C-------------------------
             L11 = L10 + MVSIZ * NIPMAX        
             L12 = L11 + MVSIZ * NIPMAX             
 c
-            CALL S8CFORC3(TIMERS, ELBUF_TAB,NG    ,
+            CALL S8CFORC3(ELBUF_TAB,NG    ,
      1         PM    ,GEO   ,IXS    ,X            ,
      2         A            ,V     ,MS    ,W      ,WA          ,
      3         VAL2    ,VEUL    ,FV      ,ALE_CONNECT   ,IPARG       ,
@@ -933,7 +931,7 @@ c            IF (NPTR==0) NPTR=IINT
 
             NPT0 = IPARG(6,NG)
             
-            CALL S8ZFORC3(TIMERS, ELBUF_TAB,NG     ,
+            CALL S8ZFORC3(ELBUF_TAB,NG     ,
      1         PM         ,GEO       ,IXS      ,X          ,        
      2         A          ,V         ,MS       ,W          ,WA         , 
      3         VAL2       ,VEUL      ,FV       ,ALE_CONNECT      ,IPARG      , 
@@ -991,7 +989,7 @@ C----6---------------------------------------------------------------7---------8
 C-------------------------
 C           USER SOLID PROPERTY
 C-------------------------
-            CALL SUFORC3(TIMERS,ELBUF_TAB(NG),
+            CALL SUFORC3(ELBUF_TAB(NG),
      1           JFT     ,JLT     ,NFT     ,NEL     ,IXS      ,
      2           PM      ,GEO     ,IPM     ,IGEO    ,X        ,
      3           A       ,AR      ,V       ,VR      ,W        ,
@@ -1011,7 +1009,7 @@ C              SOLID HEPH FORMULATION
 C-------------------------
                IHET = IINT
 C
-               CALL SZFORC3(TIMERS,ELBUF_TAB,NG    ,
+               CALL SZFORC3(ELBUF_TAB,NG    ,
      1         PM      ,GEO    ,IXS    ,X            ,
      2         A       ,V     ,MS     ,W      ,WA          ,
      3         VAL2      ,VEUL      ,FV         ,ALE_CONNECT      ,IPARG     ,  
@@ -1040,7 +1038,7 @@ C-------------------------
               NV46   = 6
               IF(N2D /= 0) NV46 = 4
               !
-              CALL SFORC3(TIMERS,
+              CALL SFORC3(
      1   ELBUF_TAB,  NG,         PM,         GEO,
      2   IXS,        X,          NV46,       A,
      3   V,          MS,         W,          WA,
@@ -1105,7 +1103,7 @@ C
 C-------------------------
 C             8 NODE SOLID ELEMENT (JHBE = 12,112), 8 integration points (old)
 C-------------------------
-            CALL S8FORC3(TIMERS,
+            CALL S8FORC3(
      1      ELBUF_TAB(NG),PM           ,GEO      ,IXS      ,X         ,           
      2      A          ,V            ,MS       ,                       
      3      VEUL         ,FV       ,ALE_CONNECT     ,IPARG      ,                     
@@ -1152,7 +1150,7 @@ C----6---------------------------------------------------------------7---------8
      .     CALL SENSOR_ENERGY_PART(IPARTQ(NF1) ,SUBSET ,IPRI)
           IF(JHBE==17 .OR. (N2D==1.AND.JHBE==22)) THEN
           
-            CALL Q4FORC2(TIMERS,
+            CALL Q4FORC2(
      1        PM   ,GEO   ,IXQ    ,X         ,A           ,
      2        V    ,MS    ,W      ,WA        ,VAL2 ,
      3        VEUL  ,FV     ,ALE_CONNECT     ,IPARG     ,NLOC_DMG,
@@ -1169,7 +1167,7 @@ C----6---------------------------------------------------------------7---------8
      .        DT         , GLOB_THERM)
           ELSE
 
-            CALL QFORC2(TIMERS, ELBUF_TAB,NG   ,
+            CALL QFORC2(ELBUF_TAB,NG   ,
      1        PM      ,GEO    ,IXQ     ,X         ,A           ,
      2        V       ,MS     ,W       ,WA        ,VAL2        ,
      3        VEUL    ,ALE_CONNECT   ,IPARG     ,NLOC_DMG    ,
@@ -1413,7 +1411,7 @@ c              K = 1+2*(NSECT+NRBODY+NRWALL)
           IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
      .     CALL SENSOR_ENERGY_PART(IPARTS(NF1) ,SUBSET ,IPRI)
 
-            CALL IG3DUFORC3(TIMERS,
+            CALL IG3DUFORC3(
      1   ELBUF_TAB,           NG,                  JFT,                 JLT,
      2   NFT,                 NEL,                 IXS,                 PM,
      3   GEO,                 IPM,                 IGEO,                X,

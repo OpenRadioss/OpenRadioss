@@ -49,7 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sigeps169_connect_mod     ../engine/source/materials/mat/mat169/sigeps169_connect.F90
       !||    table_mod                 ../engine/share/modules/table_mod.F
       !||====================================================================
-      SUBROUTINE SUSER43(TIMERS,
+      SUBROUTINE SUSER43(
      1 ELBUF_STR,IOUT  ,IPROP  ,IMAT   ,NGL    ,TIME  ,TIMESTEP,FR_WAVE,
      2 XX1      ,XX2   ,XX3    ,XX4    ,XX5    ,XX6    ,XX7    ,XX8    ,   
      3 YY1      ,YY2   ,YY3    ,YY4    ,YY5    ,YY6    ,YY7    ,YY8    , 
@@ -70,7 +70,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE TIMER_MOD
       USE TABLE_MOD
       USE MAT_ELEM_MOD            
       USE LAW_USERSO
@@ -153,7 +152,6 @@ C-----------------------------------------------
 C----------------------------------------------------------
 C   D u m m y   A r g u m e n t s  
 C----------------------------------------------------------
-      TYPE(TIMER_), INTENT(INOUT) :: TIMERS
       INTEGER NEL,IOUT,IPROP,IMAT,IOUTPRT,IFAILURE,NPG, JSMS,JTHE
       INTEGER NGL(NEL),IPARTS(*),NPF(*),IPM(NPROPMI,*),
      .  IGEO(NPROPGI,*),ITASK
@@ -342,7 +340,7 @@ C-------------------
 C--------------------------------------------------
       DELTAE(1:NEL) = ZERO
 c--------------------------------------------------
-      IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(TIMERS,35)
+      IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(35,1)
 c--------------------------------------------------
 c     BOUCLE SUR LES POINTS DE GAUSS
 c--------------------------------------------------
@@ -387,7 +385,7 @@ C
 c--------------------------------------------------
 c       material laws           
 c--------------------------------------------------
-        IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(TIMERS,35)
+        IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(35,1)
 c--------------------------------------------------
         SELECT CASE(MTN)
 c---
@@ -534,11 +532,11 @@ c--------------------------------------------------
      .                DEPSZX(IEL)*(SIG0ZX(IEL) + SIGNZX(IEL)) ) 
         ENDDO
 c--------------------------------------------------
-        IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(TIMERS,35)
+        IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)
 c--------------------------------------------------
 c       Failure Models
 c--------------------------------------------------
-        IF ((ITASK==0).AND.(IMON_MAT==1))CALL STARTIME(TIMERS,121)
+        IF ((ITASK==0).AND.(IMON_MAT==1))CALL STARTIME(121,1)
 c--------------------------------------------------
         SOFT(1:NEL) = ONE
 c
@@ -586,7 +584,7 @@ c
 c--------------------------------------------------
         ISOLID = MIN(ISOLID, ISOLIDF)
 c--------------------------------------------------
-        IF (ITASK==0 .and. IMON_MAT==1) CALL STOPTIME(TIMERS,121)                                                           
+        IF (ITASK==0 .and. IMON_MAT==1) CALL STOPTIME(121,1)                                                           
 c--------------------------------------------------
 c       global element constraints in local frame (for output)
 c

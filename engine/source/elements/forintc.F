@@ -58,7 +58,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    stack_mod                   ../engine/share/modules/stack_mod.F
       !||    table_mod                   ../engine/share/modules/table_mod.F
       !||====================================================================
-      SUBROUTINE FORINTC(TIMERS,
+      SUBROUTINE FORINTC(
      1    PM        ,GEO       ,X         ,A         ,AR        ,
      2    V         ,VR        ,MS        ,IN        ,NLOC_DMG  ,
      3    WA        ,STIFN     ,STIFR     ,FSKY      ,CRKSKY    ,
@@ -88,7 +88,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE TIMER_MOD
       USE TABLE_MOD
       USE MAT_ELEM_MOD
       USE CRACKXFEM_MOD
@@ -133,7 +132,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_), INTENT(INOUT) :: TIMERS
       INTEGER,INTENT(IN)    :: USERL_AVAIL ! Flag for User libraries availability
       INTEGER,INTENT(IN)    :: MAXFUNC     ! Maximum number of functions
       INTEGER,INTENT(IN)    :: SBUFMAT     ! Size of Bufmat
@@ -312,7 +310,7 @@ C
      .    CALL SENSOR_ENERGY_PART(IPARTC(NF1) ,SUBSET ,IPRI)
           IF (JHBE >= 11.AND.JHBE <= 19) THEN
               
-            CALL CBAFORC3(TIMERS,
+            CALL CBAFORC3(
      1        ELBUF_TAB(NG),      JFT,                JLT,                NFT,          
      2        NPT,                IPARI,              MLW,                IPRI,         
      3        ITHK,               NELTST,             ITYPTST,            ITAB,         
@@ -347,7 +345,7 @@ C
 
           ELSEIF (JHBE >= 21 .AND. JHBE <= 29) THEN
 
-            CALL CZFORC3(TIMERS,
+            CALL CZFORC3(
      1        ELBUF_TAB(NG),      JFT,                JLT,                NFT,
      2        NPT,                ITAB,               MLW,
      3        IPRI,               ITHK,               NELTST,             ISTRA,
@@ -382,7 +380,7 @@ C
 
         IF (ICRACK3D > 0 .AND. IXFEM > 0 .AND. ACTIFXFEM > 0) THEN
           DO IXEL=1,NXEL
-            CALL CZFORC3_CRK(TIMERS, XFEM_TAB(NG,IXEL),
+            CALL CZFORC3_CRK(XFEM_TAB(NG,IXEL),
      1        JFT        ,JLT       ,NFT       ,ITYPTST    ,
      2        IPARI      ,MLW       ,IPRI      ,ITHK      ,NELTST     ,
      3        ISTRA      ,IPLA      ,TT        ,DT1       ,DT2T       ,
@@ -412,7 +410,7 @@ C
         ENDIF
 c
       ELSE
-         CALL CFORC3(TIMERS,
+         CALL CFORC3(
      1   ELBUF_TAB(NG),      JFT,                JLT,                PM,
      2   IXC(1,NF1),         X,                  A,                  AR,
      3   V,                  VR,                 FAILWAVE,           NVC,
@@ -446,7 +444,7 @@ c
 c
         IF (ICRACK3D > 0 .AND. IXFEM > 0 .AND. ACTIFXFEM > 0) THEN
           DO IXEL=1,NXEL
-             CALL CFORC3_CRK(TIMERS, XFEM_TAB(NG,IXEL),
+             CALL CFORC3_CRK(XFEM_TAB(NG,IXEL),
      1       JFT      ,JLT      ,PM       ,IXC(1,NF1),X         ,
      2       A        ,AR       ,V        ,VR       ,FAILWAVE   ,   
      3       NVC      ,MLW      ,GEO      ,TF       ,NPC        ,
@@ -518,7 +516,7 @@ C----6---------------------------------------------------------------7--
      .       CALL SENSOR_ENERGY_PART(IPARTTG(NF1) ,SUBSET ,IPRI)
           IF (ICNOD == 6) THEN
             NFT1 = NF1-NUMELTG+NUMELTG6
-            CALL CDK6FORC3(TIMERS,
+            CALL CDK6FORC3(
      1        ELBUF_TAB(NG),   JFT,                  JLT,             PM,
      2        IXTG(1,NF1),     X,                    A,               AR,
      3        V,               VR,                   FAILWAVE,        NVC,
@@ -547,7 +545,7 @@ C----6---------------------------------------------------------------7--
           ELSE
 
             IF (ISH3N == 30) THEN
-              CALL CDKFORC3(TIMERS,
+              CALL CDKFORC3(
      1          ELBUF_TAB(NG),                         JFT,                  JLT,             PM,
      2          IXTG(1,NF1),                           X,                    A,               AR,
      3          V,                                     VR,                   FAILWAVE,        NVC,
@@ -574,7 +572,7 @@ C----6---------------------------------------------------------------7--
      M          MAXFUNC,                               SBUFMAT )
      
             ELSE
-              CALL C3FORC3(TIMERS,
+              CALL C3FORC3(
      1          ELBUF_TAB(NG),         JFT,                                   JLT,               PM,
      2          IXTG(1,NF1),           X,                                     A,                 AR,
      3          V,                     VR,                                    FAILWAVE,          NVC,
@@ -606,7 +604,7 @@ C----6---------------------------------------------------------------7--
 
                 IF (ICRACK3D > 0 .AND. IXFEM > 0 .AND. ACTIFXFEM > 0) THEN
                   DO IXEL=1,NXEL
-                    CALL C3FORC3_CRK(TIMERS,
+                    CALL C3FORC3_CRK(
      1                XFEM_TAB(NG,IXEL), JFT,                  JLT,              PM,
      2                IXTG(1,NF1),       X,                    A,                AR,
      3                V,                 VR,                   FAILWAVE,         NVC,

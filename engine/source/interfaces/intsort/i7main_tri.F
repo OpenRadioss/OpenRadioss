@@ -54,7 +54,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F90
       !||    tri7box                      ../engine/share/modules/tri7box.F
       !||====================================================================
-      SUBROUTINE I7MAIN_TRI(TIMERS,
+      SUBROUTINE I7MAIN_TRI(
      1                  IPARI   ,X       ,V       ,
      2                  MS      ,NIN     ,ITASK   ,MWAG    ,WEIGHT  ,
      3                  ISENDTO ,IRCVFROM,RETRI   ,IAD_ELEM,FR_ELEM ,
@@ -64,7 +64,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
-      USE TIMER_MOD
       USE TRI7BOX
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
@@ -99,7 +98,6 @@ C common pour variable globale en memoire partagee
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_) :: TIMERS
       INTEGER NIN ,ITASK, RETRI, NRTM_T,ESHIFT,
      .        NUM_IMP ,IND_IMP(*),
      .        ITAB(*), KINET(*),
@@ -360,7 +358,7 @@ C
 
         CALL MY_BARRIER
 
-        IF (IMONM > 0 .AND. ITASK == 0) CALL STARTIME(TIMERS,26)
+        IF (IMONM > 0 .AND. ITASK == 0) CALL STARTIME(26,1)
         CALL SPMD_TRI7VOX0(
      1      X           ,BMINMA  ,IPARI(21,NIN),NRTM_T,INTBUF_TAB%STFM(1+ESHIFT),
      2      TZINF       ,CURV_MAX,GAPMIN ,GAPMAX,INTBUF_TAB%GAP_M(1+ESHIFT),
@@ -368,7 +366,7 @@ C
      4      DGAPLOADP  )
  
         CALL MY_BARRIER
-        IF (IMONM > 0 .AND. ITASK == 0) CALL STOPTIME(TIMERS,26)
+        IF (IMONM > 0 .AND. ITASK == 0) CALL STOPTIME(26,1)
 
         IF(ITASK==0)THEN
 C
@@ -376,7 +374,6 @@ C recuperation des noeuds remote NSNR stockes dans XREM
 C    
            IF (MULTI_FVM%IS_USED .AND. NTY == 7 .AND. INACTI == 7) THEN
 C     Interface type 18 and law151
-              IF (IMONM > 0 .AND. ITASK == 0) CALL STARTIME(TIMERS,25)
               CALL SPMD_TRI18_151VOX(
      1             INTBUF_TAB%NSV,NSN     ,X            ,V        ,MS  ,
      2             BMINMA       ,WEIGHT  ,INTBUF_TAB%STFNS,NIN  ,ISENDTO,
@@ -386,12 +383,8 @@ C     Interface type 18 and law151
      6             NUM_IMP     ,NODNX_SMS,INTBUF_TAB%GAP_SL,NTY   ,IDUM1  ,
      7             RDUM1       ,RDUM1,RDUM1,RDUM1,IDUM1  ,IDUM1 ,IDUM1, IXS, MULTI_FVM,
      8             IPARI(72,NIN),INTBUF_TAB%IPARTFRICS)
-             IF (IMONM > 0 .AND. ITASK == 0) CALL STOPTIME(TIMERS,25)
-
               
            ELSE
-              IF (IMONM > 0 .AND. ITASK == 0) CALL STARTIME(TIMERS,25)
-
               CALL SPMD_TRI7VOX_OPTIMIZED(
      1             INTBUF_TAB%NSV,NSN     ,X            ,V        ,MS  ,
      2             BMINMA       ,WEIGHT  ,INTBUF_TAB%STFNS,NIN  ,ISENDTO,
@@ -401,8 +394,6 @@ C     Interface type 18 and law151
      6             NUM_IMP     ,NODNX_SMS,INTBUF_TAB%GAP_SL,NTY   ,IDUM1  ,
      7             RDUM1       ,RDUM1,RDUM1,RDUM1,IDUM1  ,IDUM1   ,IDUM1 ,
      8             IPARI(72,NIN),INTBUF_TAB%IPARTFRICS   ,ITIED, IVIS2, INTBUF_TAB%IF_ADH)
-             IF (IMONM > 0 .AND. ITASK == 0) CALL STOPTIME(TIMERS,25)
-
 
            ENDIF
 C
@@ -454,7 +445,7 @@ C
         INTBUF_TAB%METRIC%TIC = NINT(100.0 * T1) 
       ENDIF
 #endif
-      IF (IMONM > 0 .AND. ITASK == 0) CALL STARTIME(TIMERS,30)
+      IF (IMONM > 0 .AND. ITASK == 0) CALL STARTIME(30,1)
 C
       IF(INTBUF_TAB%METRIC%ALGO == ALGO_VOXEL .OR.  INTBUF_TAB%METRIC%ALGO == TRY_ALGO_VOXEL) THEN
         CALL I7BUCE_VOX(
@@ -523,7 +514,7 @@ C        UPGRADE_MULTIMP routine !!!!
       ENDIF
 
 C
-      IF (IMONM > 0 .AND. ITASK == 0) CALL STOPTIME(TIMERS,30)
+      IF (IMONM > 0 .AND. ITASK == 0) CALL STOPTIME(30,1)
       IF( ITASK == 0) THEN
         IF( INTBUF_TAB%METRIC%ALGO == TRY_ALGO_VOXEL) THEN ! if test phase
           INTBUF_TAB%METRIC%ALGO =  TRY_ALGO_BUCKET
@@ -569,7 +560,7 @@ C mise a - de dist temporairement pour reperage dans partie frontiere
       IF(NSPMD>1)THEN
 C mono tache
 !$OMP SINGLE
-        IF (IMONM > 0) CALL STARTIME(TIMERS,26)
+        IF (IMONM > 0) CALL STARTIME(26,1)
         INTBUF_TAB%VARIABLES(distance_index) = -INTBUF_TAB%VARIABLES(distance_index)
 C
         CALL SPMD_TRI7GAT(
@@ -582,7 +573,7 @@ C
         IF (NUM_IMP>0) 
      .     CALL IMP_RNUMCD(INTBUF_TAB%CAND_N,NIN,NSN,NUM_IMP,IND_IMP )
 C
-        IF (IMONM > 0) CALL STOPTIME(TIMERS,26)
+        IF (IMONM > 0) CALL STOPTIME(26,1)
 !$OMP END SINGLE
       END IF
 

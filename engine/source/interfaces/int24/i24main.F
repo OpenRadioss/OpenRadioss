@@ -49,7 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod                 ../engine/share/message_module/message_mod.F
       !||    outputs_mod                 ../common_source/modules/outputs_mod.F
       !||====================================================================
-      SUBROUTINE I24MAINF(TIMERS,
+      SUBROUTINE I24MAINF(
      1                   IPARI  ,INTBUF_TAB         ,X        ,A      ,
      2                   ICODT  ,FSAV    ,V         ,MS       ,DT2T   ,
      3                   NELTST ,ITYPTST ,ITAB      ,STIFN    ,FSKYI  ,
@@ -74,7 +74,6 @@ C========================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE TIMER_MOD
       USE INTBUFDEF_MOD
       USE IMP_INTBUF
       USE H3D_MOD
@@ -107,7 +106,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_) :: TIMERS
       INTEGER NISUBMAX                        ! Max number of SUB INTerfaces
       INTEGER NELTST,ITYPTST,NIN,NEWFRONT,
      .        NSTRF(*),
@@ -534,12 +532,12 @@ C
           ENDIF   
 
           IF (DEBUG(3)>=1) NB_JLT_NEW = NB_JLT_NEW + JLT_NEW
-          IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(TIMERS,20) 
+          IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(20,1) 
 
 C-------------------------------------------------------------------------------
 C Friction model : computation of friction coefficients based on Material of connected Parts
 C-------------------------------------------------------------------------------
-        IF(JTASK==1) CALL STARTIME(TIMERS,MACRO_TIMER_FRIC)
+        IF(JTASK==1) CALL STARTIME(MACRO_TIMER_FRIC,1)
          JJ = 0
          IF(IORTHFRIC > 0) THEN
            CALL FRICTIONPARTS_MODEL_ORTHO(
@@ -565,7 +563,7 @@ C-------------------------------------------------------------------------------
      6       TEMP          , H1           ,H2            ,H3            ,H4          ,
      7       IX1          , IX2           ,IX3           ,IX4           ,IFORM       ) 
         ENDIF 
-        IF(JTASK==1) CALL STOPTIME(TIMERS,MACRO_TIMER_FRIC)      
+        IF(JTASK==1) CALL STOPTIME(MACRO_TIMER_FRIC,1)      
 
           CALL I24FOR3(
      1  JLT          ,A         ,V            ,IBC         ,ICODT    ,
@@ -617,7 +615,7 @@ C
      2                  N1     ,N2     ,N3     ,H1     ,H2     ,H3     ,
      4                  H4     ,INTBUF_TAB_IMP(NIN)%NJ,INTBUF_TAB_IMP(NIN)%HJ    ,
      5                  INTBUF_TAB_IMP(NIN)%STIF,NIN   ,NSN     ) 
-          IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(TIMERS,20)
+          IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(20,1)
 
       ENDDO
 c

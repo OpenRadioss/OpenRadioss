@@ -29,13 +29,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    my_barrier        ../engine/source/system/machine.F
       !||    startime          ../engine/source/system/timer.F
       !||====================================================================
-      SUBROUTINE I21OPTCD(TIMERS, CAND_E ,CAND_N ,XLOC  ,I_STOK  ,IRECT  ,
+      SUBROUTINE I21OPTCD(CAND_E ,CAND_N ,XLOC  ,I_STOK  ,IRECT  ,
      2                   GAP    ,GAP_S  ,IGAP    ,NSN    ,STFN   ,
      3                   ITASK  ,STF    ,INACTI  ,IFPEN  ,FTXSAV ,
      4                   FTYSAV ,FTZSAV ,PENI    ,NIN    ,GAPMAX ,
      5                   ICURV  ,IRTLM   ,CSTS ,DEPTH ,NOD_NORMAL,
      6                   XM0    ,DRAD    ,NB_STOK_N,NB_JLT,DGAPLOAD)
-          USE TIMER_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,7 +55,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_) :: TIMERS
       INTEGER IRECT(4,*), CAND_E(*), CAND_N(*), IFPEN(*),
      .        I_STOK,NIN,IGAP ,ITASK, NSN, INACTI,ICURV,
      .        IRTLM(2,*),NB_STOK_N(*),NB_JLT(*)
@@ -322,7 +320,7 @@ C
 C        
         IF (DEBUG(3)>=1) NB_STOK_N(ITASK+1) = NB_STOK_N(ITASK+1) + NLS
 C
-        IF (IMONM > 0 .AND. ITASK+1 == 1) CALL STARTIME(TIMERS,77) ! Counting DST time
+        IF (IMONM > 0 .AND. ITASK+1 == 1) CALL STARTIME(77,1) ! Counting DST time
 C
         NLT=NLS
         NLS=0

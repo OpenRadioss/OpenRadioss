@@ -53,7 +53,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    stack_mod        ../engine/share/modules/stack_mod.F
       !||    table_mod        ../engine/share/modules/table_mod.F
       !||====================================================================
-      SUBROUTINE CMAIN3 (TIMERS,
+      SUBROUTINE CMAIN3 (
      1           ELBUF_STR ,JFT       ,JLT       ,NFT       ,IPARG      ,
      2           NEL       ,MTN       ,IPLA      ,ITHK      ,GROUP_PARAM,
      3           PM        ,GEO       ,NPF       ,TF        ,BUFMAT     ,
@@ -86,7 +86,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
-      USE TIMER_MOD
       USE MULAWC_MOD
       USE TABLE_MOD
       USE MAT_ELEM_MOD
@@ -117,7 +116,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_), INTENT(INOUT) :: TIMERS
       INTEGER,INTENT(IN)    :: USERL_AVAIL ! Flag for User libraries availability
       INTEGER,INTENT(IN)    :: MAXFUNC     ! Maximum number of functions
       INTEGER,INTENT(INOUT) :: IDEL7NOK    ! Element deletion flag for IDEL flag in contact interfaces
@@ -276,7 +274,7 @@ c
      .              ISUBSTACK,STACK    ,DRAPE    ,NFT      ,THKE      ,
      .              NEL      ,THK_LY   ,INDX_DRAPE,SEDRAPE ,NUMEL_DRAPE)
 c
-        CALL USERMAT_SHELL (TIMERS, ELBUF_STR  ,MAT_ELEM,
+        CALL USERMAT_SHELL (ELBUF_STR  ,MAT_ELEM,
      1       JFT     ,JLT     ,NEL     ,PM      ,FOR     ,MOM     ,
      2       GSTR    ,THK     ,EINT    ,OFF     ,DIR_A   ,DIR_B   ,
      3       MAT     ,AREA    ,EXX     ,EYY     ,EXY     ,EXZ     ,
@@ -307,7 +305,7 @@ c----------------------------
      .              ISUBSTACK,STACK    ,DRAPE    ,NFT     ,THKE       ,
      .              NEL      ,THK_LY   ,INDX_DRAPE, SEDRAPE,NUMEL_DRAPE)
 c 
-        CALL MULAWC(TIMERS,ELBUF_STR ,
+        CALL MULAWC(ELBUF_STR ,
      1       JFT     ,JLT     ,NEL     ,PM      ,FOR     ,MOM     ,
      2       GSTR    ,THK     ,EINT    ,OFF     ,DIR_A   ,DIR_B   ,
      3       MAT     ,AREA    ,EXX     ,EYY     ,EXY     ,EXZ     ,
@@ -349,6 +347,12 @@ C----------------------------------------------------------------------
          ENDDO  
        ENDIF  
 C-------------------------------------------------------------------
+      IF ((ITASK==0).AND.(IMON_MAT==1))CALL STARTIME(121,1)
+C----------------------------------------------------------------------
+c     old failure calls cleaned - now obsolete
+C-----------------------------------------------
+      IF ((ITASK==0).AND.(IMON_MAT==1))CALL STOPTIME(121,1)
+C-----------------------------------------------
 C     delamination  for new formulation of shells 
 C-----------------------------------------------
       IF (ISHPLYXFEM > 0) THEN

@@ -84,6 +84,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
+      !CALL STARTIME(97,1)
       BUFLEN=0
       DO I = 1,NSPMD
          IF(I-1 /=ISPMD) THEN
@@ -186,6 +187,7 @@ C           DIST1 = DISTANCE(K)
 !     CALL MPI_BARRIER(MPI_COMM_WORLD,ierr)
       DEALLOCATE(BUFR_ID,BUFS_ID) 
       DEALLOCATE(BUFR_DIST,BUFS_DIST) 
+      !CALL STOPTIME(97,1)
 #endif
       END SUBROUTINE
       !||====================================================================
@@ -295,6 +297,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
+      !CALL STARTIME(98,1)
       NB_SECND_SENT(1:NSPMD) = 0
       NB_SECND_TOT = 0
       DO I = 1,NBSECNDS
@@ -435,6 +438,7 @@ C       WRITE(6,*) __FILE__,__LINE__,ISPMD,I-1
 
       DEALLOCATE(BUFR_ID)
       DEALLOCATE(BUFR_IDR)
+      !CALL STOPTIME(98,1)
 #endif
       END SUBROUTINE
 
@@ -481,6 +485,7 @@ C-----------------------------------------------
 
 
 #ifdef MPI
+         !CALL STARTIME(99,1)
          !compute the number of secnd nodes per frontier main node 
          DO P = 1,NSPMD
           IF(ISPMD /= P-1) THEN
@@ -545,6 +550,7 @@ C           BUFFER(I)%BUFI(1:BUFFER(I)%NBSECND_TOT)=0
             ENDIF
             ENDIF
          ENDDO
+         !CALL STOPTIME(99,1)
 #endif
        END SUBROUTINE
 
@@ -773,6 +779,7 @@ C-----------------------------------------------
       INTEGER IERR,POS
       INTEGER STAT(MPI_STATUS_SIZE)
       my_real, DIMENSION(:), ALLOCATABLE :: BUF
+      !CALL STARTIME(101,1)
       TAG = MSGOFF 
 c     IF(FLAG == 1) THEN
 c       POS = 0
@@ -805,6 +812,7 @@ c     ELSEIF(FLAG == 3) THEN
        
 
 c     ENDIF
+      !CALL STOPTIME(101,1)
 #endif
       END SUBROUTINE
 

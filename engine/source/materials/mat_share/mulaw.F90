@@ -165,7 +165,7 @@
       !||    sigeps81_mod           ../engine/source/materials/mat/mat081/sigeps81.F90
       !||    table_mod              ../engine/share/modules/table_mod.F
       !||====================================================================
-        subroutine mulaw(timers,&
+        subroutine mulaw(&
         &nft,         mtn,         jcvt,        pm,&
         &off,         sig,         eint,        rho,&
         &qold,        vol,         strain,      sigl,&
@@ -215,7 +215,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-      use timer_mod
       use constant_mod
       use table_mod
       use mat_elem_mod
@@ -240,7 +239,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          type(timer_),intent(inout) :: timers
           type (buf_fail_),intent(inout), target                        :: fbuf
           type (buf_visc_),intent(inout)                                :: vbuf
           type (ttable), dimension(ntable) ,intent(in)                  :: table
@@ -2050,7 +2048,7 @@
 !=======================================================================
 !                  failure model
 !=======================================================================
-          if ((itask==0).and.(imon_mat==1))call startime(timers,121)
+          if ((itask==0).and.(imon_mat==1))call startime(121,1)
           if (nfail > 0) then
 !
             ! failure criterion parameters scaling
@@ -2459,7 +2457,7 @@
               endif
             enddo ! ir = 1,nfail
           endif   ! nfail
-          if ((itask==0).and.(imon_mat==1))call stoptime(timers,121)
+          if ((itask==0).and.(imon_mat==1))call stoptime(121,1)
 !----------------------------------
 !     viscous stress (/visc models)
 !----------------------------------

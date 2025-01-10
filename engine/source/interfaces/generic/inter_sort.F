@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    multi_fvm_mod           ../common_source/modules/ale/multi_fvm_mod.F90
       !||    sensor_mod              ../engine/share/modules/sensor_mod.F
       !||====================================================================
-        SUBROUTINE INTER_SORT( TIMERS,ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,RETRI,IPARI,
+        SUBROUTINE INTER_SORT( ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,RETRI,IPARI,
      1                         NSENSOR,ISENDTO,IRECVFROM,INTBUF_TAB,X,ITAB,
      2                         RENUM,NSNFIOLD,MULTI_FVM,H3D_DATA,SENSOR_TAB,
      3                         INTER_STRUCT,SORT_COMM,RENUM_SIZ,GLOB_THERM )
@@ -60,7 +60,6 @@ C-----------------------------------------------
       USE INTER_SORTING_MOD
       USE SENSOR_MOD
       USE glob_therm_mod
-      USE TIMER_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -77,7 +76,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_), INTENT(inout) :: TIMERS
       INTEGER, INTENT(in) :: ITASK    !   omp thread ID
       INTEGER, INTENT(in) :: NB_INTER_SORTED        !   number of interfaces that need to be sorted
       INTEGER, INTENT(in) :: NSENSOR
@@ -147,7 +145,7 @@ C-----------------------------------------------
                   ESHIFT = ITASK*NRTM_T
                   IF(ITASK==NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
                 ENDIF
-                CALL INTER_SORT_07( TIMERS,IPARI,X,N,ITASK,ISENDTO,
+                CALL INTER_SORT_07( IPARI,X,N,ITASK,ISENDTO,
      1                              IRECVFROM,RETRI,ITAB,NRTM_T,RENUM,RENUM_SIZ,
      2                              NSNFIOLD,ESHIFT,MULTI_FVM,INTBUF_TAB(N),H3D_DATA,
      3                              INTER_STRUCT,SORT_COMM,GLOB_THERM%INTHEAT, GLOB_THERM%IDT_THERM, GLOB_THERM%NODADT_THERM)

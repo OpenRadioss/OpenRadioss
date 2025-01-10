@@ -48,7 +48,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    output_mod             ../common_source/modules/output/output_mod.F90
       !||    table_mod              ../engine/share/modules/table_mod.F
       !||====================================================================
-      SUBROUTINE SPSTRES(TIMERS, ELBUF_TAB,NG     , 
+      SUBROUTINE SPSTRES(ELBUF_TAB,NG     , 
      1    PM        ,GEO       ,X         ,V         ,MS        ,
      2    W         ,SPBUF     ,WA        ,NLOC_DMG  ,
      3    ITAB      ,PLD       ,BUFMAT    ,BUFGEO    ,PARTSAV   ,
@@ -65,7 +65,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE TIMER_MOD
       USE MMAIN_MOD
       USE TABLE_MOD
       USE MAT_ELEM_MOD            
@@ -97,7 +96,6 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_) ,INTENT(INOUT) :: TIMERS
       INTEGER, INTENT(IN) :: SNPC
       INTEGER, INTENT(IN) :: STF
       INTEGER, INTENT(IN) :: SBUFMAT
@@ -243,7 +241,7 @@ C------------------------------------------------------
 C     LAW 11 uses IELVS=IBIDON and IXS=IBIDON should not be used.
       IBIDON(1)=0
       OFFSET=0
-      CALL MMAIN(TIMERS,
+      CALL MMAIN(
      1   ELBUF_TAB,   NG,          PM,          GEO,
      2                ALE_CONNECT, IBIDON,      IPARG,
      3   V,           PLD,         NPC,         BUFMAT,

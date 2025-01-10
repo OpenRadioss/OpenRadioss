@@ -42,7 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod        ../engine/share/message_module/message_mod.F
       !||    outputs_mod        ../common_source/modules/outputs_mod.F
       !||====================================================================
-      SUBROUTINE I21MAINF(TIMERS,
+      SUBROUTINE I21MAINF(
      1                   IPARI  ,INTBUF_TAB         ,X        ,A      ,
      2                   ICODT  ,FSAV    ,V         ,MS       ,ITAB   ,
      3                   STIFN  ,FSKYI   ,ISKY      ,FCONT    ,NIN    ,
@@ -60,7 +60,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE TIMER_MOD
       USE INTSTAMP_MOD
       USE INTBUFDEF_MOD
       USE H3D_MOD
@@ -90,7 +89,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_), INTENT(INOUT) :: TIMERS
       INTEGER NELTST, ITYPTST, NIN, NSTRF(*), NRTMDIM
       INTEGER IPARI(NPARI,NINTER), ICODT(*),ICONTACT(*),
      .        ITAB(*), ISKY(*), ISKYI_SMS(*), NODNX_SMS(*),
@@ -348,7 +346,7 @@ C cand_n et cand_e remplace par cand_n_n et cand_e_n
      M  H4       ,DIST      ,ITAB         ,NOINT   ,INTBUF_TAB%VARIABLES(23),
      N  INVN     )
           
-          IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(TIMERS,20)
+          IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(20,1)
 
           IPARI(29,NIN) = 1
           IF (DEBUG(3)>=1)
@@ -432,7 +430,7 @@ C
      H                  FHEAT     ,EFRICT ,INTEREFRIC , 
      .                  NODADT_THERM)
 C
-          IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(TIMERS,20)
+          IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(20,1)
 C
         ENDDO
 

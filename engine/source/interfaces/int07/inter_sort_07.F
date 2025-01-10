@@ -47,7 +47,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    multi_fvm_mod                    ../common_source/modules/ale/multi_fvm_mod.F90
       !||    tri7box                          ../engine/share/modules/tri7box.F
       !||====================================================================
-        SUBROUTINE INTER_SORT_07(TIMERS, IPARI,X,NIN,ITASK,ISENDTO,
+        SUBROUTINE INTER_SORT_07( IPARI,X,NIN,ITASK,ISENDTO,
      1                            IRCVFROM,RETRI,ITAB,NRTM_T,RENUM,RENUM_SIZ,
      2                            NSNFIOLD,ESHIFT,MULTI_FVM,INTBUF_TAB,H3D_DATA,
      3                            INTER_STRUCT,SORT_COMM,INTHEAT, IDT_THERM, NODADT_THERM)
@@ -60,7 +60,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
-        USE TIMER_MOD
         USE TRI7BOX
         USE COMMAND_LINE_ARGS_MOD
         USE MESSAGE_MOD
@@ -97,7 +96,6 @@ C common pour variable globale en memoire partagee
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        TYPE(TIMER_), INTENT(in) :: TIMERS
         INTEGER, INTENT(in) :: RENUM_SIZ    ! size of RENUM
         INTEGER, INTENT(in) :: NIN ,ITASK,NRTM_T,ESHIFT
         INTEGER, INTENT(inout) :: RETRI
@@ -207,7 +205,7 @@ C -------------------------------------------------------------
             IF(ITASK==0)THEN
             ! ---------------------------
             ! send/rcv the secondary node data
-                CALL SPMD_CELL_EXCHANGE(TIMERS, NIN,ISENDTO,IRCVFROM,NSN,NSNR,IPARI(21,NIN),
+                CALL SPMD_CELL_EXCHANGE( NIN,ISENDTO,IRCVFROM,NSN,NSNR,IPARI(21,NIN),
      1                                   IFQ,INACTI,NSNFIOLD,IPARI(47,NIN),NTY, intbuf_tab%stfns, intbuf_tab%nsv,
      2                                   NRTM, X,
      2                                   ITIED,NMN,INTER_STRUCT,SORT_COMM, GOT_PREVIEW)
@@ -247,7 +245,7 @@ C
             INTBUF_TAB%METRIC%TIC = NINT(100.0 * T1) 
         ENDIF
 #endif
-        IF (IMONM > 0 .AND. ITASK == 0) CALL STARTIME(TIMERS,30)
+        IF (IMONM > 0 .AND. ITASK == 0) CALL STARTIME(30,1)
 C
         IF(GOT_PREVIEW == 1) THEN
             CALL INTER7_COLLISION_DETECTION(
@@ -344,7 +342,7 @@ C        UPGRADE_MULTIMP routine !!!!
         ENDIF
 
 C
-        IF (IMONM > 0 .AND. ITASK == 0) CALL STOPTIME(TIMERS,30)
+        IF (IMONM > 0 .AND. ITASK == 0) CALL STOPTIME(30,1)
         IF( ITASK == 0) THEN
             IF( INTBUF_TAB%METRIC%ALGO == TRY_ALGO_VOXEL) THEN ! if test phase
                 INTBUF_TAB%METRIC%ALGO =  TRY_ALGO_BUCKET
@@ -390,7 +388,7 @@ C mise a - de dist temporairement pour reperage dans partie frontiere
         IF(NSPMD>1)THEN
 C mono tache
 !$OMP SINGLE
-            IF (IMONM > 0) CALL STARTIME(TIMERS,26)
+            IF (IMONM > 0) CALL STARTIME(26,1)
             INTBUF_TAB%VARIABLES(distance_index) = -INTBUF_TAB%VARIABLES(distance_index)
 C
             CALL SPMD_TRI7GAT(
@@ -400,7 +398,7 @@ C
      4          MULTI_FVM,NODADT_THERM)
             IPARI(24,NIN) = NSNR
 
-            IF (IMONM > 0) CALL STOPTIME(TIMERS,26)
+            IF (IMONM > 0) CALL STOPTIME(26,1)
 !$OMP END SINGLE
         END IF
 

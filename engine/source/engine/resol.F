@@ -509,7 +509,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    user_windows_mod                             ../common_source/modules/user_windows_mod.F
       !||    xfem2vars_mod                                ../engine/share/modules/xfem2vars_mod.F
       !||====================================================================
-      SUBROUTINE RESOL(TIMERS, ELEMENT, NODES, AF,IAF,
+      SUBROUTINE RESOL(ELEMENT, NODES, AF,IAF,
      1  ISKWN   ,NETH   ,IPART  ,NOM_OPT,KXX    ,IXX    ,
      2  IXTG   ,IXS     ,IXQ    ,IXT    ,IXP    ,IXR    ,
      3  IFILL  ,MAT_ELEM,
@@ -596,7 +596,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
-      
       USE CONNECTIVITY_MOD
       USE NODAL_ARRAYS_MOD
       USE detach_node_mod
@@ -696,7 +695,6 @@ C-----------------------------------------------
       USE SPH_WORK_MOD
       USE PBLAST_MOD
       USE spmd_xv_inter_type1_mod, only : spmd_xv_inter_type1
-      USE TIMER_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -859,7 +857,6 @@ C-----------------------------------------------
      .   GAUGE(LLGAUGE,*),WAGAP(2,*),RTHBUF(*),FORNEQS(3,*),
      .   DPL0CLD(*),VEL0CLD(*)
       my_real , INTENT(IN) :: DGAPLOADINT(NINTER*NLOADP_HYD)
-      TYPE(timer_) :: TIMERS
       TYPE(connectivity_), INTENT(INOUT) :: ELEMENT
       TYPE(NODAL_ARRAYS_), INTENT(INOUT) :: NODES
       TYPE (CLUSTER_) ,DIMENSION(*) :: CLUSTER
@@ -1363,7 +1360,7 @@ C===============================================================================
 
 C initialisation timer resol
         IF (IMON>0) THEN
-          CALL STARTIME(TIMERS,TIMER_RESOL)
+          CALL STARTIME(1,1)
         ENDIF
 C----------------------------------------------
 C       Allocations Phase1
@@ -2940,8 +2937,8 @@ C----------------------------------
 #if defined(MYREAL8) && !defined(WITHOUT_LINALG)
          ALLOCATE (ELBUF_IMP(NGROUP))
          CALL ALLOC_ELBUF_IMP(ELBUF_TAB,ELBUF_IMP,NGROUP, IPARG)  
-          IF (IMON>0) CALL STARTIME(TIMERS,34)
-          IF (IMON>0) CALL STARTIME(TIMERS,31)
+          IF (IMON>0) CALL STARTIME(34,1)
+          IF (IMON>0) CALL STARTIME(31,1)
           L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
           L2 = L1+6*NUMELS10
           L3 = L2+12*NUMELS20
@@ -2958,8 +2955,8 @@ C----------------------------------
      B    FR_RBE3M  ,IAD_RBE3M ,IRBE2     ,LRBE2     ,IBFV      ,
      C    VEL       ,ELBUF_TAB ,IFRAME    ,INTERFACES%INTBUF_TAB,
      D    NDDL0     ,NNZK0     ,IMPBUF_TAB)
-          IF (IMON>0) CALL STOPTIME(TIMERS,31)
-          IF (IMON>0) CALL STOPTIME(TIMERS,34)
+          IF (IMON>0) CALL STOPTIME(31,1)
+          IF (IMON>0) CALL STOPTIME(34,1)
 C        
             NS_IMP=>IMPBUF_TAB%CAND_N 
             NE_IMP=>IMPBUF_TAB%CAND_E 
@@ -3191,8 +3188,8 @@ C     TRACE BACK
 C-----------------------------------------------
       CALL TRACE_IN(3,NCYCLE,ZERO)
 
-      IF(IMON>0) CALL STARTIME(TIMERS,6)
-      IF(IMONM > 0) CALL STARTIME(TIMERS,47)
+      IF(IMON>0) CALL STARTIME(6,1)
+      IF(IMONM > 0) CALL STARTIME(47,1)
 C
       CALL MANCTR(SENSORS,H3D_DATA)
 C----------------------------
@@ -3218,10 +3215,10 @@ C
 !
       IF(IMPL_S>0) THEN
        IF(NCYCLE>0) THEN
-        IF (IMON>0) CALL STARTIME(TIMERS,TIMER_INTEG)
+        IF (IMON>0) CALL STARTIME(5,1)
         CALL IMP_FANIE(FANI  ,FEXT_IMP,NFIA  ,NFEA  ,NODFT ,NODLT,
      .                 H3D_DATA  )
-        IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_INTEG)
+        IF (IMON>0) CALL STOPTIME(5,1)
        ENDIF
       END IF
 
@@ -3229,8 +3226,8 @@ C
        IF(NCYCLE==1.AND.INTERFACES%PARAMETERS%ISTIF_DT>0) 
      .                  INTERFACES%PARAMETERS%DT_STIFINT = DT1
 C----------------------------------
-      IF(IMONM > 0) CALL STOPTIME(TIMERS,47)
-      IF(IMON>0) CALL STOPTIME(TIMERS,6)
+      IF(IMONM > 0) CALL STOPTIME(47,1)
+      IF(IMON>0) CALL STOPTIME(6,1)
 
       IMADFSH4=0
 
@@ -3313,9 +3310,9 @@ C         Initialisation buffers: forces, moments, stifness of surfaces.
 C--- //0 ----------------
         IF (ISPMD==0) THEN
           IF (NINTER/=0) THEN
-          IF (IMON>0) CALL STARTIME(TIMERS,TIMER_CONTSORT)
+          IF (IMON>0) CALL STARTIME(2,1)
             CALL I14IST(IPARI,INTERFACES%INTBUF_TAB,IGRSURF,BUFSF)
-          IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_CONTSORT)
+          IF (IMON>0) CALL STOPTIME(2,1)
           ENDIF
         ENDIF
 
@@ -3346,8 +3343,8 @@ C-----------------------------------------------
       END IF
 C----------------------------------------
 C
-      IF (IMON>0) CALL STARTIME(TIMERS,6)
-      IF (IMONM > 0) CALL STARTIME(TIMERS,49)
+      IF (IMON>0) CALL STARTIME(6,1)
+      IF (IMONM > 0) CALL STARTIME(49,1)
 C----------------------------
         IF(NUMGEO>0.AND.NODADT==0)THEN
          DO I=1,NUMGEO
@@ -3417,15 +3414,15 @@ C-------------------------------------------------------------------
               ENDDO
             ENDIF
         ENDIF
-      IF (IMONM > 0) CALL STOPTIME(TIMERS,49)
+      IF (IMONM > 0) CALL STOPTIME(49,1)
       
 C-------------------------------------------------------------------
 C       EXTERNAL FORCES
 C-------------------------------------------------------------------
        IF (NCONLD/=0 .AND. IMPL_S/=1) THEN
           CALL TRACE_IN(10,0,ZERO)
-        IF (IMON>0) CALL STARTIME(TIMERS,TIMER_KIN)
-        IF (IMONM > 0) CALL STARTIME(TIMERS,41)
+        IF (IMON>0) CALL STARTIME(4,1)
+        IF (IMONM > 0) CALL STARTIME(41,1)
           CALL FORCE(
      1               NIBCLD  ,IBCL     ,LFACCLD  ,FORC     ,SNPC                      ,
      2               NPC     ,STF      ,TF       ,NODES%A        ,NODES%V                         ,
@@ -3446,24 +3443,24 @@ C
      5                    PINCH_DATA%APINCH, PINCH_DATA%VPINCH, PYTHON)  
         ENDIF
 C
-        IF (IMONM > 0) CALL STOPTIME(TIMERS,41)
-        IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
+        IF (IMONM > 0) CALL STOPTIME(41,1)
+        IF (IMON>0) CALL STOPTIME(4,1)
           CALL TRACE_OUT(10)
         ENDIF
 C
         IF(NFXVEL/=0.AND.IMPL_S/=1) THEN
           IF(IMON>0) THEN
-            CALL STARTIME(TIMERS,6)
-            CALL STARTIME(TIMERS,TIMER_KIN)
-            IF(IMONM > 0) CALL STARTIME(TIMERS,44)
+            CALL STARTIME(6,1)
+            CALL STARTIME(4,1)
+            IF(IMONM > 0) CALL STARTIME(44,1)
           ENDIF
           CALL FORCEFINGEO(IBFV ,NPC    ,TF      ,NODES%A    ,NODES%V    ,NODES%X     ,
      2                     VEL  ,SENSORS%SENSOR_TAB ,FSKY ,FEXT ,NODES%ITABM1,
      3                     H3D_DATA,NSENSOR,PYTHON)
           IF(IMON>0) THEN
-            IF(IMONM > 0) CALL STOPTIME(TIMERS,44)
-            CALL STOPTIME(TIMERS,TIMER_KIN)
-            CALL STOPTIME(TIMERS,6)
+            IF(IMONM > 0) CALL STOPTIME(44,1)
+            CALL STOPTIME(4,1)
+            CALL STOPTIME(6,1)
           ENDIF
         ENDIF
 C-------------------------------------------------------------------
@@ -3471,8 +3468,8 @@ C       LOAD PFLUID
 C-------------------------------------------------------------------
         IF(NLOADP_F/=0.AND.IMPL_S/=1) THEN
           CALL TRACE_IN(10,0,ZERO)
-        IF (IMON>0) CALL STARTIME(TIMERS,TIMER_KIN)
-        IF (IMONM > 0) CALL STARTIME(TIMERS,41)
+        IF (IMON>0) CALL STARTIME(4,1)
+        IF (IMONM > 0) CALL STARTIME(41,1)
 !$OMP PARALLEL
           CALL PFLUID(ILOADP  ,LOADP             ,NPC        ,TF         ,NODES%A         ,
      2                NODES%V       ,NODES%X                 ,XFRAME     ,NODES%MS         ,
@@ -3480,8 +3477,8 @@ C-------------------------------------------------------------------
      4                FSKY    ,FSKY              ,LLOADP     ,FEXT       ,H3D_DATA  ,
      5                OUTPUT%TH%TH_SURF, PYTHON)
 !$OMP END PARALLEL
-        IF (IMONM > 0) CALL STOPTIME(TIMERS,41)
-        IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
+        IF (IMONM > 0) CALL STOPTIME(41,1)
+        IF (IMON>0) CALL STOPTIME(4,1)
           CALL TRACE_OUT(10)
         ENDIF
 
@@ -3490,13 +3487,13 @@ C       LOAD PBLAST
 C----------------------------------
         IF(PBLAST%NLOADP_B/=0.AND.IMPL_S/=1) THEN
           CALL TRACE_IN(10,0,ZERO)
-          IF (IMON>0) CALL STARTIME(TIMERS,TIMER_KIN)
-          IF (IMONM > 0) CALL STARTIME(TIMERS,41)
+          IF (IMON>0) CALL STARTIME(4,1)
+          IF (IMONM > 0) CALL STARTIME(41,1)
           CALL PBLAST_LOAD_COMPUTATION(PBLAST,ILOADP     ,LOADP      ,NODES%A                ,NODES%V                ,NODES%X      ,
      1                IADS(I87M) ,FSKY       ,LLOADP           ,FEXT   ,
      2                NODES%ITAB       ,H3D_DATA   ,OUTPUT%TH%TH_SURF)
-          IF (IMONM > 0) CALL STOPTIME(TIMERS,41)
-          IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
+          IF (IMONM > 0) CALL STOPTIME(41,1)
+          IF (IMON>0) CALL STOPTIME(4,1)
           CALL TRACE_OUT(10)
           IF(PBLAST%PBLAST_DT%DT<DT2T)THEN
             !inter22 kinematic time step
@@ -3534,25 +3531,25 @@ C-------------------------------------------------------------------
 C   BC -- CONVECTION  for heat_transfert by FEM
 C----------------------------------------------
           IF (GLOB_THERM%NUMCONV > 0 .AND. GLOB_THERM%ITHERM_FE > 0) THEN
-            IF (IMON>0) CALL STARTIME(TIMERS,TIMER_KIN)
-            IF (IMONM > 0) CALL STARTIME(TIMERS,41)
+            IF (IMON>0) CALL STARTIME(4,1)
+            IF (IMONM > 0) CALL STARTIME(41,1)
               CALL CONVEC(IBCV  ,FCONV   ,NPC   ,TF   , NODES%X     ,
      1                  TEMP    ,NSENSOR,SENSORS%SENSOR_TAB,FTHE, IADS(I87K),
      2                  FTHESKY, PYTHON,GLOB_THERM)
-            IF (IMONM > 0) CALL STOPTIME(TIMERS,41)
-            IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
+            IF (IMONM > 0) CALL STOPTIME(41,1)
+            IF (IMON>0) CALL STOPTIME(4,1)
           ENDIF
 C-------------------------------------------------------------------
 C   BC -- RADIATION to environment for heat_transfert by FEM
 C-----------------------------------------------------------
           IF (GLOB_THERM%NUMRADIA > 0 .AND. GLOB_THERM%ITHERM_FE > 0) THEN
-            IF (IMON>0) CALL STARTIME(TIMERS,TIMER_KIN)
-            IF (IMONM > 0) CALL STARTIME(TIMERS,41)
+            IF (IMON>0) CALL STARTIME(4,1)
+            IF (IMONM > 0) CALL STARTIME(41,1)
             CALL RADIATION(IBCR,   FRADIA, NPC,     TF,   NODES%X         ,
      1                     TEMP,   NSENSOR,SENSORS%SENSOR_TAB, FTHE, IADS(I87L),
      2                     FTHESKY, PYTHON,GLOB_THERM)
-            IF (IMONM > 0) CALL STOPTIME(TIMERS,41)
-            IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
+            IF (IMONM > 0) CALL STOPTIME(41,1)
+            IF (IMON>0) CALL STOPTIME(4,1)
           ENDIF
 !$OMP END PARALLEL
         ENDIF
@@ -3565,19 +3562,19 @@ C-------------------------------------------------------------------
 C   BC -- THERMAL FLUX  for heat_transfert by FEM
 C-------------------------------------------------
         IF (GLOB_THERM%NFXFLUX > 0 .AND. GLOB_THERM%ITHERM_FE > 0) THEN
-          IF (IMON>0) CALL STARTIME(TIMERS,TIMER_KIN)
-          IF (IMONM > 0) CALL STARTIME(TIMERS,41)
+          IF (IMON>0) CALL STARTIME(4,1)
+          IF (IMONM > 0) CALL STARTIME(41,1)
           CALL FIXFLUX(IBFFLUX, FBFFLUX,  NPC,  TF,     NODES%X,     IXS,
      .                 NSENSOR,SENSORS%SENSOR_TAB, FTHE, IADS(I87N), FTHESKY, PYTHON,
      .                 GLOB_THERM)
-          IF (IMONM > 0) CALL STOPTIME(TIMERS,41)
-          IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
+          IF (IMONM > 0) CALL STOPTIME(41,1)
+          IF (IMON>0) CALL STOPTIME(4,1)
         ENDIF
 
 
         ICONTACT_OLD(1:SICONTACT) = ICONTACT(1:SICONTACT) 
         IF(NVOLU/=0)THEN
-        IF (IMONM > 0) CALL STARTIME(TIMERS,50)
+        IF (IMONM > 0) CALL STARTIME(50,1)
           CALL TRACE_IN(11,0,ZERO)
           NN = NUMELC+NUMELTG+IBAGSURF
           N0 = 1 + 3*NN
@@ -3605,9 +3602,9 @@ C
      8      IPART(K8)  ,IGROUPC    ,IGROUPTG       ,FEXT      ,
      9      1          ,H3D_DATA   ,T_MONVOL,frontier_global_mv)
           CALL TRACE_OUT(11)
-        IF (IMONM > 0) CALL STOPTIME(TIMERS,50)
+        IF (IMONM > 0) CALL STOPTIME(50,1)
         ENDIF
-      IF (IMON>0) CALL STOPTIME(TIMERS,6)
+      IF (IMON>0) CALL STOPTIME(6,1)
 C
       IF (NFLOW>0) THEN
          CALL FLOW0(IFLOW, RFLOW,   WIFLOW, WRFLOW, NODES%X,
@@ -3619,8 +3616,8 @@ C
 C----------------------------------------
 C      MPI COMMUNICATION BEFORE SORTING
 C----------------------------------------
-      IF (IMON>0) CALL STARTIME(TIMERS,13)
-      IF (IMONM > 0) CALL STARTIME(TIMERS,24)
+      IF (IMON>0) CALL STARTIME(13,1)
+      IF (IMONM > 0) CALL STARTIME(24,1)
       IF(NSPMD>1)THEN
           L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
           L2 = L1+6*NUMELS10
@@ -3635,8 +3632,8 @@ C----------------------------------------
      7       ISLEN20E,NODES%IKINE   ,DIAG_SMS,SENSORS%SENSOR_TAB,INTERFACES%INTBUF_TAB ,INT24E2EUSE,
      8       FORNEQS ,MULTI_FVM,INTERFACES)
       END IF
-      IF (IMONM > 0) CALL STOPTIME(TIMERS,24)
-      IF (IMON>0) CALL STOPTIME(TIMERS,13)
+      IF (IMONM > 0) CALL STOPTIME(24,1)
+      IF (IMON>0) CALL STOPTIME(13,1)
 
 
 C--------------------------------------------------------
@@ -3644,12 +3641,12 @@ C INTERFACE 24 - Communication part 4 / 4
 C--------------------------------------------------------
 
           IF (INT24USE == 1)THEN
-            IF (IMON>0) CALL STARTIME(TIMERS,TIMER_CONTFOR)        
+            IF (IMON>0) CALL STARTIME(8,1)        
               CALL SPMD_EXCH_I24(IPARI    ,INTERFACES%INTBUF_TAB       ,NODES%ITAB  ,
      *                           IAD_ELEM ,FR_ELEM ,INTLIST ,NBINTC,
      *                           IAD_I24  ,FR_I24  ,SFR_I24,I24MAXNSNE,4,
      *                           INT24E2EUSE)
-            IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_CONTFOR)
+            IF (IMON>0) CALL STOPTIME(8,1)
           ENDIF
       
 C
@@ -3687,7 +3684,7 @@ C      COLLISION DETECTION FOR INTERFACES 7 (CALL BARRIER DANS I7BUCE_CRIT)
 C----------------------------------------
       IF(NINTER/=0) THEN
         CALL TRACE_IN(8,2,ZERO)
-        IF (IMON > 0) CALL STARTIME(TIMERS,TIMER_CONTSORT)
+        IF (IMON > 0) CALL STARTIME(2,1)
         L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
         L2 = L1+6*NUMELS10
         L3 = L2+12*NUMELS20
@@ -3717,7 +3714,7 @@ C===============================================================================
         NELTSTT = NELTST
         ITYPTSTT= ITYPTST
         ITSK = OMP_GET_THREAD_NUM()
-        CALL INTTRI(TIMERS,
+        CALL INTTRI(
      1     IPARI   ,ptrX     ,W     , INTER_ERRORS,
      2     NODES%V       ,NODES%MS      ,NODES%IN      ,IAD_ELEM  ,
      3     FR_ELEM ,NODES%VR      ,ISENDTO ,IRCVFROM  ,
@@ -3780,7 +3777,7 @@ C Remote Secnd Nodes
 
       ENDIF
 
-        IF (IMON > 0) CALL STOPTIME(TIMERS,TIMER_CONTSORT)
+        IF (IMON > 0) CALL STOPTIME(2,1)
         CALL TRACE_OUT(8)
       ENDIF
 
@@ -3815,14 +3812,14 @@ C--------------------------------------------------------
        IF(NINTER25 /= 0)THEN
 
          IF(NSPMD > 1)THEN
-           IF (IMON>0) CALL STARTIME(TIMERS,TIMER_EXFOR)        
+           IF (IMON>0) CALL STARTIME(10,1)        
            CALL SPMD_EXCH_I25(IPARI    ,INTERFACES%INTBUF_TAB       ,NODES%ITAB  ,
      *                        IAD_ELEM ,FR_ELEM ,INTLIST ,NBINTC,
      *                        IAD_I25  ,FR_I25  ,SFR_I25 ,1     )
            CALL SPMD_EXCH_I25(IPARI    ,INTERFACES%INTBUF_TAB     ,NODES%ITAB  ,
      *                        IAD_ELEM ,FR_ELEM ,INTLIST ,NBINTC,
      *                        IAD_I25  ,FR_I25  ,SFR_I25 ,2     )
-           IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_EXFOR)
+           IF (IMON>0) CALL STOPTIME(10,1)
          END IF
 
        END IF
@@ -3833,7 +3830,7 @@ C   Get ICONTACT After sort, After Contact forces if SPMD
 C                              Before Contact forces if SMP
 C-------------------------------------------------------
       IF(NADMESH > 0.AND.IMPL_S==0)THEN
-        IF (IMON>0) CALL STARTIME(TIMERS,36)
+        IF (IMON>0) CALL STARTIME(36,1)
 C
         NSH4OLD=NSH4ACT
         NSH3OLD=NSH3ACT
@@ -3908,7 +3905,7 @@ C           /---------------/
         PCONTACT(NODFTSK:NODLTSK)=ZERO
 !$OMP END PARALLEL
 
-        IF (IMON>0) CALL STOPTIME(TIMERS,36)
+        IF (IMON>0) CALL STOPTIME(36,1)
       END IF
 C--- // N/3 --------------------------------------------------------
 C       EXTERNAL AND INTERNAL FORCES (ANIM)
@@ -3937,7 +3934,7 @@ C       ALE flux + forces
 C--------------------------------------------------------
         NEED_COMM_INTER18 = .FALSE.
         IF (IALE+IEULER+GLOB_THERM%ITHERM/=0.AND.GLOBAL_ACTIVE_ALE_ELEMENT) THEN
-           CALL STARTIME(TIMERS,MACRO_TIMER_ALEMAIN) 
+           CALL STARTIME(MACRO_TIMER_ALEMAIN,1) 
 C-----------------------------
 C        SPMD : MS=0 boundary nodes if  weight/=1  (pour amas03)
 C        only for PARITH/OFF 
@@ -3968,7 +3965,7 @@ C     Init var parallel SMP
            IF(IPARIT == 1) NDTSK = 1 
 
 C     
-           CALL ALEMAIN(TIMERS,
+           CALL ALEMAIN(
      1          PM                    ,GEO      ,NODES%X       ,NODES%A(1,NDTSK)  ,NODES%AR(1,NDTSK) ,NODES%V ,
      2          NODES%MS              ,WA       ,ELBUF_TAB     ,BUFMAT            ,PARTSAV(IPMTSK)     ,TF,
      3          VAL2                  ,VEUL     ,FV            ,NODES%STIFN(NDTSK),FSKY                ,EANI,
@@ -4026,7 +4023,7 @@ C
      .                   XCELL,MULTI_FVM,XCELL_REMOTE,INTERFACES%INTBUF_TAB,ALE_CONNECTIVITY)
            ENDIF
            CALL TRACE_OUT(12)
-           CALL STOPTIME(TIMERS,MACRO_TIMER_ALEMAIN) 
+           CALL STOPTIME(MACRO_TIMER_ALEMAIN,1) 
         ELSE
            ALE%SUB%IFSUB=0
            ALE%SUB%IFSUBM=0
@@ -4040,8 +4037,8 @@ C===============================================================================
       IF(ALE%SUB%IALESUB ==2 .AND. ALE%SUB%IFSUB==2)GOTO 22
  21   CONTINUE
 C
-      IF (IMON>0) CALL STARTIME(TIMERS,6)
-      IF (IMONM > 0) CALL STARTIME(TIMERS,51)
+      IF (IMON>0) CALL STARTIME(6,1)
+      IF (IMONM > 0) CALL STARTIME(51,1)
 C----------------------------------
 C       INTERNAL FORCES:S8FORC3 
 C----------------------------------
@@ -4057,8 +4054,8 @@ C----------------------------------
      9    FSKYI     ,BUFGEO    ,KXX       ,IXX       ,ISKY      ,
      A    IPART(K9) ,GRESAV    ,GRTH      ,
      B    IGRTH     ,ELBUF_TAB )
-      IF (IMONM > 0) CALL STOPTIME(TIMERS,51)
-      IF (IMON>0) CALL STOPTIME(TIMERS,6)
+      IF (IMONM > 0) CALL STOPTIME(51,1)
+      IF (IMON>0) CALL STOPTIME(6,1)
 
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
@@ -4132,7 +4129,7 @@ C----------------------------------------
       IF(NINTER/=0) THEN
 
         CALL TRACE_IN(4,1,ZERO)
-        IF (IMON>0) CALL STARTIME(TIMERS,TIMER_CONTSORT)
+        IF (IMON>0) CALL STARTIME(2,1)
 
         DT2TT = DT2T
         NELTSTT = NELTST
@@ -4225,14 +4222,14 @@ C Init var parallel SMP
          NT_IMP5=NT_IMP
         END IF
 C
-        IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_CONTSORT)
+        IF (IMON>0) CALL STOPTIME(2,1)
         CALL TRACE_OUT(4)
 
 C----------------------------------------
 C       INTERFACES: computation of forces
 C----------------------------------------
         CALL TRACE_IN(4,2,ZERO)
-        IF (IMON>0) CALL STARTIME(TIMERS,TIMER_CONTFOR)
+        IF (IMON>0) CALL STARTIME(8,1)
 
           L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
           L2 = L1+6*NUMELS10
@@ -4243,14 +4240,14 @@ C INTERFACE 25 - Communication IRTLM, TIME_S, etc :: Reception
 C--------------------------------------------------------
         IF(NSPMD > 1)THEN
          IF(NINTER25 /= 0)THEN
-          IF (IMON>0) CALL STARTIME(TIMERS,TIMER_EXFOR)        
+          IF (IMON>0) CALL STARTIME(10,1)        
             CALL SPMD_EXCH_I25(IPARI    ,INTERFACES%INTBUF_TAB,NODES%ITAB  ,
      *                         IAD_ELEM ,FR_ELEM ,INTLIST ,NBINTC,
      *                         IAD_I25  ,FR_I25  ,SFR_I25 ,3     )
             CALL SPMD_EXCH_I25(IPARI    ,INTERFACES%INTBUF_TAB,NODES%ITAB  ,
      *                         IAD_ELEM ,FR_ELEM ,INTLIST ,NBINTC,
      *                         IAD_I25  ,FR_I25  ,SFR_I25 ,4     )
-          IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_EXFOR)
+          IF (IMON>0) CALL STOPTIME(10,1)
          ENDIF
         END IF
 C========================================================================================
@@ -4295,9 +4292,10 @@ C Init var parallel SMP
          IDX_PINCH = NDTSK
          IF(NPINCH == 0 )IDX_PINCH = 1
          IF(IPARIT == 1) NDTSK = 1 
-         CALL INTFOP2(TIMERS,
-     1     IPARI             ,ptrX            ,NODES%A(1,NDTSK)     ,IGROUPS         ,ALE_CONNECTIVITY,
-     2     NODES%ICODT             ,FSAV           ,NODES%V        ,NODES%MS              ,DT2TT           ,
+
+         CALL INTFOP2(
+     1     IPARI             ,ptrX           ,NODES%A(1,NDTSK),IGROUPS         ,ALE_CONNECTIVITY,
+     2     NODES%ICODT       ,FSAV           ,NODES%V        ,NODES%MS              ,DT2TT           ,
      3     NELTSTT           ,ITYPTSTT       ,NODES%ITAB     ,NODES%STIFN(NDTSK)    ,TF              ,
      4     FSKYI             ,ISKY           ,NODES%VR       ,FANI            ,SECFCUM         ,
      5     ITSK+1            ,NISKYFI        ,KINET          ,NEWFRONT        ,NSTRF           ,
@@ -4360,10 +4358,10 @@ C===============================================================================
      1                              IND_IMP,NUM_IMPL,IPARI,NINT7 )
 C
           IF (IMON>0) THEN
-          CALL STOPTIME(TIMERS,TIMER_CONTFOR)
-          CALL STARTIME(TIMERS,TIMER_EXFOR)
+          CALL STOPTIME(8,1)
+          CALL STARTIME(10,1)
           ENDIF
-        IF (IMONM > 0) CALL STARTIME(TIMERS,21)
+        IF (IMONM > 0) CALL STARTIME(21,1)
 
 C--------------------------------------------------------
 C Communication contact forces (SPMD), Part1 : Send
@@ -4422,8 +4420,8 @@ C
              ENDIF
            END IF
           ENDIF
-        IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_EXFOR)
-        IF (IMONM > 0) CALL STOPTIME(TIMERS,21)
+        IF (IMON>0) CALL STOPTIME(10,1)
+        IF (IMONM > 0) CALL STOPTIME(21,1)
 
           CALL TRACE_OUT(4)
       ENDIF   ! fin NINTER > 0
@@ -4431,13 +4429,13 @@ C--------------------------------------------------------
 C INTERFACE 24 - Communication part 1 / 4
 C--------------------------------------------------------
       IF (INT24USE == 1)THEN
-        IF (IMON>0) CALL STARTIME(TIMERS,TIMER_CONTFOR)        
+        IF (IMON>0) CALL STARTIME(8,1)        
           CALL SPMD_EXCH_I24(IPARI    ,INTERFACES%INTBUF_TAB,NODES%ITAB  ,
      *                       IAD_ELEM ,FR_ELEM ,INTLIST ,NBINTC,
      *                       IAD_I24  ,FR_I24  ,SFR_I24,I24MAXNSNE,1,
      *                       INT24E2EUSE )
    
-        IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_CONTFOR)
+        IF (IMON>0) CALL STOPTIME(8,1)
       ENDIF
 C--------------------------------------------------------
 C INTERFACE 21 - Communication of heat flux
@@ -4479,7 +4477,7 @@ C       VOLUMES MONITORES
 C--------------------------------------------------------
 
         IF(NVOLU/=0)THEN
-        IF (IMONM > 0) CALL STARTIME(TIMERS,50)
+        IF (IMONM > 0) CALL STARTIME(50,1)
           CALL TRACE_IN(11,0,ZERO)
           NN = NUMELC+NUMELTG+IBAGSURF
           N0 = 1 + 3*NN
@@ -4503,7 +4501,7 @@ C
      .                1        , H3D_DATA, NODES%ITAB,         NODES%WEIGHT)
 C
           CALL TRACE_OUT(11)
-        IF (IMONM > 0) CALL STOPTIME(TIMERS,50)
+        IF (IMONM > 0) CALL STOPTIME(50,1)
         ENDIF
   
 
@@ -4544,7 +4542,7 @@ C---- // GROUPS ----------------
 C     FORCES INTERNES DES COQUES, COQUES 3 NOEUDS
 C-------------------------------
       CALL TRACE_IN(14,0,ZERO)
-      IF (IMON>0) CALL STARTIME(TIMERS,TIMER_ELEMENT)
+      IF (IMON>0) CALL STARTIME(3,1)
 
 C -------------------------------------------------------------------        
 C   User Libraries get the possibility to use GET_U_NOD_X & GET_U_NOD_V in user elements properties (Solids & Springs)
@@ -4573,7 +4571,7 @@ C Init var parallel SMP
       IDX_PINCH = NDTSK
       IF(NPINCH == 0 )IDX_PINCH = 1
       IF(IPARIT == 1) NDTSK = 1 
-      CALL FORINTC(TIMERS,
+      CALL FORINTC(
      1   PM           ,GEO             ,NODES%X               ,NODES%A(1,NDTSK)     ,NODES%AR(1,NDTSK)  ,
      2   NODES%V            ,NODES%VR              ,NODES%MS              ,NODES%IN             ,NLOC_DMG     ,
      3   WA(NWAFTSK)  ,NODES%STIFN(NDTSK)    ,NODES%STIFR(NDTSK)    ,FSKY           ,CRKSKY       ,
@@ -4609,7 +4607,7 @@ C Init var parallel SMP
 #include "lockoff.inc"
 !$OMP END PARALLEL
       CALL TRACE_OUT(14)
-      IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_ELEMENT)
+      IF (IMON>0) CALL STOPTIME(3,1)
 
 
 
@@ -4620,7 +4618,7 @@ C                         SOLIDES, QUAD
 C-------------------------------
 
       CALL TRACE_IN(14,0,ZERO)
-      IF (IMON>0) CALL STARTIME(TIMERS,TIMER_ELEMENT)
+      IF (IMON>0) CALL STARTIME(3,1)
       L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
       L2 = L1+6*NUMELS10
       L3 = L2+12*NUMELS20
@@ -4653,7 +4651,7 @@ C Init var parallel SMP
       IDX_CONDN = NDTSK
       IF(NDTSK>ICONDN)IDX_CONDN = 1
 C
-      CALL FORINT(TIMERS, PYTHON,
+      CALL FORINT( PYTHON,
      1 PM             ,GEO           ,NODES%X           ,NODES%A(1,NDTSK) ,NODES%AR(1,NDTSK)     ,
      2 NODES%V              ,NODES%VR            ,NODES%MS          ,NODES%IN         ,W               ,
      3 ELBUF          ,WA(NWAFTSK)   ,VAL2        ,VEUL       ,FV              ,
@@ -4700,11 +4698,11 @@ C
 !$OMP END PARALLEL
       CALL TRACE_OUT(14)
 
-      IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_ELEMENT)
+      IF (IMON>0) CALL STOPTIME(3,1)
 C-----
       IF(NUMSPHG/=0)THEN
-        IF (IMONM > 0) CALL STARTIME(TIMERS,48)
-        IF (IMONM > 0) CALL STARTIME(TIMERS,87)
+        IF (IMONM > 0) CALL STARTIME(48,1)
+        IF (IMONM > 0) CALL STARTIME(87,1)
         CALL TRACE_IN(13,0,ZERO)
 C-----------------------------------------------
 C     SPH SORT, SYMMETRIZATION AND CSPH PREPARATION & SPH INLETS/OUTLETS (After forint)
@@ -4722,7 +4720,7 @@ C Init var parallel SMP
      3      GREFTSK,GRELTSK)
 
 
-        CALL SPHPREP(TIMERS,
+        CALL SPHPREP(
      1    PM      ,GEO     ,NODES%X       ,NODES%V       ,NODES%MS      ,
      2    ELBUF_TAB,WA      ,TF      ,BUFMAT  ,PARTSAV ,
      3    IPARG   ,NPC     ,IPART   ,NODES%ITAB    ,BUFGEO  ,
@@ -4737,11 +4735,11 @@ C Init var parallel SMP
      C    SPH_IORD1,SPH_WORK)
 !$OMP END PARALLEL
 
-        IF (IMONM > 0) CALL STOPTIME(TIMERS,87)
+        IF (IMONM > 0) CALL STOPTIME(87,1)
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
-        IF (IMONM > 0) CALL STARTIME(TIMERS,88)
+        IF (IMONM > 0) CALL STARTIME(88,1)
 
 !$OMP PARALLEL
 !$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK)
@@ -4765,7 +4763,7 @@ C Init var parallel SMP
 C----------------------------------
 C       SPH: Internal forces 
 C----------------------------------
-        CALL FORINTP(TIMERS,
+        CALL FORINTP(
      1    PM            ,GEO            ,NODES%X          ,NODES%A(1,NDTSK)      ,NODES%V             ,
      2    NODES%MS            ,W              ,ELBUF_TAB  ,WA              ,FV            ,
      3    NODES%STIFN(NDTSK)  ,TF             ,BUFMAT     ,PARTSAV(IPMTSK) ,NLOC_DMG      ,
@@ -4803,8 +4801,8 @@ C                                     NON PARALLEL SECTION (SMP)
 C========================================================================================
 
         CALL TRACE_OUT(13)
-        IF (IMONM > 0) CALL STOPTIME(TIMERS,88)
-        IF (IMONM > 0) CALL STOPTIME(TIMERS,48)
+        IF (IMONM > 0) CALL STOPTIME(88,1)
+        IF (IMONM > 0) CALL STOPTIME(48,1)
       ENDIF
 
 C-----------------------------------------------
@@ -4822,7 +4820,7 @@ C----------------------------------------------
 
 
         IF(NVOLU/=0)THEN
-        IF (IMONM > 0) CALL STARTIME(TIMERS,50)
+        IF (IMONM > 0) CALL STARTIME(50,1)
           CALL TRACE_IN(11,0,ZERO)
           NN = NUMELC+NUMELTG+IBAGSURF
           N0 = 1 + 3*NN
@@ -4857,7 +4855,7 @@ C
      9      2          ,H3D_DATA   ,T_MONVOL,frontier_global_mv)
 
           CALL TRACE_OUT(11)
-        IF (IMONM > 0) CALL STOPTIME(TIMERS,50)
+        IF (IMONM > 0) CALL STOPTIME(50,1)
         ENDIF
         
 C========================================================================================
@@ -4889,12 +4887,12 @@ C----------------------------------------
        IF(NINTER/=0) THEN
         IF(NSPMD>1)THEN
           IF(IMONM == 2)THEN
-            CALL STARTIME(TIMERS,59)
+            CALL STARTIME(59,1)
             CALL SPMD_BARRIER()
-            CALL STOPTIME(TIMERS,59)
+            CALL STOPTIME(59,1)
           ENDIF
-          IF (IMON>0) CALL STARTIME(TIMERS,TIMER_EXFOR)
-          IF (IMONM > 0) CALL STARTIME(TIMERS,22)
+          IF (IMON>0) CALL STARTIME(10,1)
+          IF (IMONM > 0) CALL STARTIME(22,1)
 C
           L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
           L2 = L1+6*NUMELS10
@@ -4924,8 +4922,8 @@ C
 
 C
           IF (IMON>0) THEN
-            CALL STOPTIME(TIMERS,TIMER_EXFOR)
-            IF (IMONM > 0) CALL STOPTIME(TIMERS,22)
+            CALL STOPTIME(10,1)
+            IF (IMONM > 0) CALL STOPTIME(22,1)
           ENDIF
          ENDIF
        ENDIF
@@ -4945,8 +4943,8 @@ C
        IF(NLOADP_HYD/=0.AND.IMPL_S/=1) THEN
           FEXT = ZERO
           CALL TRACE_IN(10,0,ZERO)
-          IF (IMON>0) CALL STARTIME(TIMERS,TIMER_KIN)
-          IF (IMONM > 0) CALL STARTIME(TIMERS,41)
+          IF (IMON>0) CALL STARTIME(4,1)
+          IF (IMONM > 0) CALL STARTIME(41,1)
             CALL LOAD_PRESSURE (ILOADP    ,LOADP     ,LLOADP  ,NPC    ,TF       ,
      2                          NODES%A         ,NODES%V         ,NODES%X       ,SKEWS%SKEW   ,SENSORS%SENSOR_TAB,
      3                          IADS(I87M),FSKY      ,FANI(1,1+NFEA),TAGNCONT ,NSENSOR   ,
@@ -4954,8 +4952,8 @@ C
      5                          NPRESLOAD ,LOADP_TAGDEL,OUTPUT%TH%TH_SURF,PBLAST)
 
 
-          IF (IMONM > 0) CALL STOPTIME(TIMERS,41)
-           IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
+          IF (IMONM > 0) CALL STOPTIME(41,1)
+           IF (IMON>0) CALL STOPTIME(4,1)
           CALL TRACE_OUT(10)
        ENDIF
 C--- //------------------------------
@@ -4967,7 +4965,7 @@ C                                     PARALLEL SECTION (SMP)
 C========================================================================================
       DTNOD_NLOCAL = EP20
       IF(IPARIT == 0 .AND. NTHREAD > 1)THEN
-        IF (IMON>0) CALL STARTIME(TIMERS,TIMER_ASM)
+        IF (IMON>0) CALL STARTIME(9,1)
 
 !$OMP PARALLEL
 !$OMP+PRIVATE(ITSK,NODFTSK,NODLTSK,PARTFTSK,PARTLTSK,GREFTSK,GRELTSK,NODFT_NL,NODLT_NL)
@@ -5006,15 +5004,15 @@ C assemblage Parith/OFF necessaire avant communication frontiere si multi-thread
             ENDIF
         ENDIF
 !$OMP END PARALLEL
-        IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_ASM)
+        IF (IMON>0) CALL STOPTIME(9,1)
       ENDIF
 C Transfer of contact force from sleeping particles to solid nodes
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
       IF(NUMSPH /= 0 .AND. NSPHSOL /= 0 )THEN
-        IF (IMONM > 0) CALL STARTIME(TIMERS,48)
-        IF (IMONM > 0) CALL STARTIME(TIMERS,89)
+        IF (IMONM > 0) CALL STARTIME(48,1)
+        IF (IMONM > 0) CALL STARTIME(89,1)
 
 !$OMP PARALLEL
 !$OMP+PRIVATE(ITSK,NODFTSK,NODLTSK)
@@ -5031,8 +5029,8 @@ C===============================================================================
 
 !$OMP END PARALLEL
 
-        IF (IMONM > 0) CALL STOPTIME(TIMERS,89)
-        IF (IMONM > 0) CALL STOPTIME(TIMERS,48)
+        IF (IMONM > 0) CALL STOPTIME(89,1)
+        IF (IMONM > 0) CALL STOPTIME(48,1)
       ENDIF
 
 C===== Nitsche Method Reinit FORNEQS every cycle
@@ -5085,7 +5083,7 @@ C===============================================================================
         INT18KINE=-IABS(INT18KINE)
 
       IF(NSPMD>1)THEN
-        IF (IMON>0) CALL STARTIME(TIMERS,TIMER_EXFOR)
+        IF (IMON>0) CALL STARTIME(10,1)
         IF (IPARIT==0) THEN
           LENGTH =  4 + IRODDL*4
           IF (N2D/=0) THEN
@@ -5194,7 +5192,7 @@ C
      9     FANI(1,NFNCA+1),FANI(1,NFTCA+1) ,GLOB_THERM)
 C
         ENDIF
-        IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_EXFOR)
+        IF (IMON>0) CALL STOPTIME(10,1)
       ENDIF
 
 C--- //------------------------------
@@ -5202,7 +5200,7 @@ C       PARITH/ON ASSEMBLY OF FORCES AFTER COMMUNICATION
 C-------------------------------------
       CALL TRACE_IN(15,0,ZERO)
 
-      IF (IMON>0) CALL STARTIME(TIMERS,TIMER_ASM)
+      IF (IMON>0) CALL STARTIME(9,1)
 c     Parallel update of crack                                                  
       IF(ICRACK3D > 0 .AND. NSPMD > 1) CALL SPMD_MAX_XFE_I(NLEVSET)
       
@@ -5304,7 +5302,7 @@ C
 !$OMP END PARALLEL
 C
       IF(IPARIT==1) DEALLOCATE( FSKY_L )
-      IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_ASM)
+      IF (IMON>0) CALL STOPTIME(9,1)
       CALL TRACE_OUT(15)
 C========================================================================================
 C                                    NON PARALLEL SECTION (SMP)
@@ -5377,12 +5375,12 @@ C                                     NON PARALLEL SECTION (SMP)
 C========================================================================================
 
           IF (INT24USE == 1)THEN
-            IF (IMON>0) CALL STARTIME(TIMERS,TIMER_CONTFOR)        
+            IF (IMON>0) CALL STARTIME(8,1)        
               CALL SPMD_EXCH_I24(IPARI    ,INTERFACES%INTBUF_TAB,NODES%ITAB  ,
      *                           IAD_ELEM ,FR_ELEM ,INTLIST ,NBINTC,
      *                           IAD_I24  ,FR_I24  ,SFR_I24,I24MAXNSNE,2,
      *                           INT24E2EUSE )
-            IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_CONTFOR)
+            IF (IMON>0) CALL STOPTIME(8,1)
           ENDIF
 
 C
@@ -5490,11 +5488,11 @@ C-----------------------------------------------
 C----------------------------------
 C     TRAITEMENT SHOOTING NODES
 C----------------------------------
-      IF (IMON>0) CALL STARTIME(TIMERS,TIMER_CONTFOR)
+      IF (IMON>0) CALL STARTIME(8,1)
       IF (N2D/=0.AND.IDEL7==2) THEN
-          IF (IMON>0) CALL STARTIME(TIMERS,6)
+          IF (IMON>0) CALL STARTIME(6,1)
           CALL CHKSTIFN(IPARI,NODES%MS,INTERFACES%INTBUF_TAB)
-          IF (IMON>0) CALL STOPTIME(TIMERS,6)
+          IF (IMON>0) CALL STOPTIME(6,1)
 C
 C IDEL7NG : global flag deleted segments/nodes int. type7, type2
 C IDEL7NG = 0 => nothing
@@ -5505,9 +5503,9 @@ C        IF (NCYCLE==97) IDEL7NOK = 1
 C        IF (NCYCLE==98) IDEL7NOK = 1
         IF (NSPMD>1.AND.(IDEL7NG>=1.OR.PDEL>0)) THEN
 C recuperation IDEL7NOK global
-          IF (IMONM > 0 ) CALL STARTIME(TIMERS,76)
+          IF (IMONM > 0 ) CALL STARTIME(76,1)
           CALL SPMD_ALLGLOB_ISUM9(IDEL7NOK,1)
-          IF (IMONM > 0 ) CALL STOPTIME(TIMERS,76)
+          IF (IMONM > 0 ) CALL STOPTIME(76,1)
           IDEL7NOK = MIN(1,IDEL7NOK)
         ENDIF
         IDEL7NOK_SAV = IDEL7NOK
@@ -5530,7 +5528,7 @@ C Attention WA utilise sur 2*NUMNOD (NUMNOD + NUMNOD SPECIFIQUE SPMD)
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
-          IF (IMONM > 0 ) CALL STARTIME(TIMERS,29)
+          IF (IMONM > 0 ) CALL STARTIME(29,1)
           NINDEXP = 0
           CHECK_NEIGH_FLAG_RES = 0
 
@@ -5663,7 +5661,7 @@ C WA local  : utilise de 1 a NUMNOD
         ENDIF
 
 !$OMP END PARALLEL
-          IF (IMONM > 0 ) CALL STOPTIME(TIMERS,29)
+          IF (IMONM > 0 ) CALL STOPTIME(29,1)
           CALL DEALLOC_SHOOT_INTER( SHOOT_STRUCT )
         ENDIF
       ENDIF
@@ -5701,9 +5699,9 @@ C elt deletion => need to rebuild ams mass matrix ...
           IF(IDEL7NG==0)THEN
             IF (NSPMD>1) THEN
 C Get IDEL7NOK global
-              IF (IMONM > 0 ) CALL STARTIME(TIMERS,76)
+              IF (IMONM > 0 ) CALL STARTIME(76,1)
               CALL SPMD_ALLGLOB_ISUM9(IDEL7NOK,1)
-              IF (IMONM > 0 ) CALL STOPTIME(TIMERS,76)
+              IF (IMONM > 0 ) CALL STOPTIME(76,1)
               IDEL7NOK = MIN(1,IDEL7NOK)
             ENDIF
           ENDIF
@@ -5748,7 +5746,7 @@ C  ---------------------------------------------------------
 #endif
 C  ---------------------------------------------------------
       IDEL7NOK=0
-      IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_CONTFOR)
+      IF (IMON>0) CALL STOPTIME(8,1)
 C
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)
@@ -5809,10 +5807,10 @@ C                                     NON PARALLEL SECTION (SMP)
 C========================================================================================
         IF(NINTER/=0)THEN
           IF (IMON>0) THEN
-              CALL STARTIME(TIMERS,6)
-              CALL STARTIME(TIMERS,TIMER_CONTSORT)
+              CALL STARTIME(6,1)
+              CALL STARTIME(2,1)
           ENDIF
-          IF (IMONM > 0)CALL STARTIME(TIMERS,28)
+          IF (IMONM > 0)CALL STARTIME(28,1)
 !0.
           DO K=0,NHIN2
             CALL INTTI1(
@@ -5827,10 +5825,10 @@ C===============================================================================
      9         FTHE  ,CONDN  ,GLOB_THERM,
      A         H3D_DATA,T2FAC_SMS,FANI(1,NFNCA2+1),NPCONT2)
           ENDDO
-          IF (IMONM > 0) CALL STOPTIME(TIMERS,28)
+          IF (IMONM > 0) CALL STOPTIME(28,1)
           IF (IMON>0) THEN
-              CALL STOPTIME(TIMERS,TIMER_CONTSORT)
-              CALL STOPTIME(TIMERS,6)
+              CALL STOPTIME(2,1)
+              CALL STOPTIME(6,1)
           ENDIF
 C
           IF((IDTMINS/=0.OR.IDTMINS_INT/=0).AND.NCYCLE==0)ISMSCH=1
@@ -5877,29 +5875,28 @@ C         RBE2 - FORCES and MOMENTS (Torque)
 C----------------------------------------------------------
       IF (NRBE2>0.OR.R2SIZE>0) THEN
           CALL MY_BARRIER
+        IF (IMON>0) CALL STARTIME(4,ITASK+1)
         IF(ITASK==0)THEN
-         IF (IMON>0) CALL STARTIME(TIMERS,TIMER_KIN)
          CALL RBE2T1(IRBE2 ,LRBE2 ,NODES%X      ,NODES%A      ,NODES%AR     ,
      1               NODES%MS    ,NODES%IN    ,SKEWS%SKEW   ,NODES%WEIGHT ,IAD_RBE2,
      2               FR_RBE2M,NMRBE2,NODES%STIFN ,NODES%STIFR ,R2SIZE )
-         IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
-
         END IF
-       ENDIF
+        IF (IMON>0) CALL STOPTIME(4,ITASK+1)
+      ENDIF
 C----------------------------------------------------------
 C         RBE3 - FORCES ET MOMENTS
 C----------------------------------------------------------
       IF (NRBE3>0) THEN
         CALL MY_BARRIER
-        IF (IMON>0) CALL STARTIME(TIMERS,TIMER_KIN)
-        IF (IMONM > 0) CALL STARTIME(TIMERS,45)
+        IF (IMON>0) CALL STARTIME(4,1)
+        IF (IMONM > 0) CALL STARTIME(45,1)
          CALL RBE3T1(IRBE3 ,LRBE3 ,NODES%X     ,NODES%A      ,NODES%AR     ,
      1               NODES%MS    ,NODES%IN    ,FRBE3 ,SKEWS%SKEW   ,NODES%WEIGHT ,
      2               NODES%STIFN ,NODES%STIFR ,IAD_RBE3M,FR_RBE3M,R3SIZE,
      3               FR_RBE3MP,DMAS ,ANIN(NDMA+1) ,DINER  ,
      4               ANIN(NDIN+1),RRBE3 ,RRBE3_PON,H3D_DATA)
-        IF (IMONM > 0) CALL STOPTIME(TIMERS,45)
-        IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
+        IF (IMONM > 0) CALL STOPTIME(45,1)
+        IF (IMON>0) CALL STOPTIME(4,1)
       ENDIF
 
 C------------------------
@@ -5937,8 +5934,8 @@ C         RIGID BODY: SUM forces, stiff.
 C-----------------------------------------------------
 
       IF(NRBYKIN>0)THEN
-          IF (IMON>0) CALL STARTIME(TIMERS,TIMER_KIN)
-          IF (IMONM > 0) CALL STARTIME(TIMERS,40)
+          IF (IMON>0) CALL STARTIME(4,1)
+          IF (IMONM > 0) CALL STARTIME(40,1)
 
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)
@@ -5960,7 +5957,7 @@ C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 !$OMP PARALLEL
 
-          CALL RBYFOR(TIMERS,
+          CALL RBYFOR(
      1      RBY      ,NODES%A      ,NODES%AR     ,NODES%X    ,NODES%VR            ,
      2      FSAV     ,NODES%IN     ,NODES%STIFN  ,NODES%STIFR,FANI(1,1+NFOA),
      3      LPBY     ,NPBY   ,NODES%WEIGHT ,NODES%MS   ,NODES%V             ,
@@ -5973,8 +5970,8 @@ C===============================================================================
      A      RBY6_C)
 
 !$OMP END PARALLEL
-          IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
-          IF (IMONM > 0) CALL STOPTIME(TIMERS,40)
+          IF (IMON>0) CALL STOPTIME(4,1)
+          IF (IMONM > 0) CALL STOPTIME(40,1)
 C-----------------------------------------------------
       ENDIF
 C========================================================================================
@@ -6000,12 +5997,12 @@ C----------------------------------------------------------
 C         ADAPTIVE MESHING : FORCES AND STIFNESS FROM SECND TO MAIN
 C-----------------------------------------------------
       IF(NADMESH/=0)THEN
-        IF (IMON>0) CALL STARTIME(TIMERS,37)
+        IF (IMON>0) CALL STARTIME(37,1)
           CALL ADMFOR0(ELEMENT%SHELL%IXC, IPART(K3), IXTG, IPART(K8), IPART,
      1                 NODES%A  , NODES%STIFN    ,    NODES%AR, NODES%STIFR   ,NODES%X    ,
      2                 SH4TREE,SH3TREE,STCND,     FTHE,CONDN,
      .                 GLOB_THERM%NODADT_THERM,GLOB_THERM%ITHERM_FE)
-        IF (IMON>0) CALL STOPTIME(TIMERS,37)
+        IF (IMON>0) CALL STOPTIME(37,1)
       END IF
 C----------------------------------------------------------
 C         RIGID MATERIAL   
@@ -6017,7 +6014,7 @@ C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
 !$OMP PARALLEL
-        CALL RMATFORP(TIMERS,
+        CALL RMATFORP(
      1  NODES%A        ,NODES%AR        ,NODES%X           ,NODES%VR          ,NODES%IN      ,
      2  NODES%STIFN    ,NODES%STIFR     ,IRBYM       ,LNRBYM      ,RBYM    ,
      3  ICODRBYM ,NODES%WEIGHT ,NODES%MS     ,NODES%V      ,FR_RBYM ,
@@ -6045,8 +6042,8 @@ C
         NSGDONE=1
         NRBDONE=1
 
-        IF (IMON>0) CALL STARTIME(TIMERS,39)
-        IF (IMON>0) CALL STARTIME(TIMERS,75)
+        IF (IMON>0) CALL STARTIME(39,1)
+        IF (IMON>0) CALL STARTIME(75,1)
 
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
@@ -6094,8 +6091,8 @@ c
         PTR_SMS => NODXI_SMS
 
         ISMSCH=0
-        IF (IMON>0) CALL STOPTIME(TIMERS,39)
-        IF (IMON>0) CALL STOPTIME(TIMERS,75)
+        IF (IMON>0) CALL STOPTIME(39,1)
+        IF (IMON>0) CALL STOPTIME(75,1)
 
       ENDIF
 C----------------------------------------------------------
@@ -6410,15 +6407,15 @@ C-----------------------------
 
       ENDIF
 
-      IF (IMON>0) CALL STARTIME(TIMERS,6)
+      IF (IMON>0) CALL STARTIME(6,1)
 
 C----------------------------------
 C       SCALE TIME STEP FOR OLD AIRBAGS
 C----------------------------------
         IF(NRBAG>0)THEN
-        IF (IMONM > 0) CALL STARTIME(TIMERS,50)
+        IF (IMONM > 0) CALL STARTIME(50,1)
             CALL RBAGDT(GEO,IGEO)
-        IF (IMONM > 0) CALL STOPTIME(TIMERS,50)
+        IF (IMONM > 0) CALL STOPTIME(50,1)
         ENDIF
 
 C----------------------------------
@@ -6428,7 +6425,7 @@ C       - a M + b K DAMPING
 C----------------------------------
 
         IF(NVOLU>0)THEN
-        IF (IMONM > 0) CALL STARTIME(TIMERS,50)
+        IF (IMONM > 0) CALL STARTIME(50,1)
         IF(NSPMD>1)
      .    CALL SPMD_GLOB_MINV(DT2,ITYPTS,NELTS,VOLMON, FR_MV)
 
@@ -6437,10 +6434,10 @@ C                                   DOMAIN 0
 C========================================================================================
 
         IF(ISPMD==0) CALL MVOLUDT(MONVOL,VOLMON)
-        IF (IMONM > 0) CALL STOPTIME(TIMERS,50)
+        IF (IMONM > 0) CALL STOPTIME(50,1)
         ENDIF
 C----------------------------------
-      IF (IMONM > 0) CALL STARTIME(TIMERS,52)
+      IF (IMONM > 0) CALL STARTIME(52,1)
        IF (NODADT==0) THEN
         IF (ISTAT==3) THEN
          DAMPA3 = TWO*BETATE/(ONE + BETATE * DT12)
@@ -6497,13 +6494,13 @@ C--           IF no node/elemt on proc - dt2=10E6 -> dt2 can be equal to zero
         ENDIF
        END IF !(NODADT==0) THEN
 
-      IF (IMONM > 0) CALL STOPTIME(TIMERS,52)
+      IF (IMONM > 0) CALL STOPTIME(52,1)
 
 C-----------------------------
 C       Write L01
 C-----------------------------
 
-      IF (IMONM > 0) CALL STARTIME(TIMERS,53)
+      IF (IMONM > 0) CALL STARTIME(53,1)
       IF(NSPMD>1) THEN
          IWIOUT = 0
          IF (ISPMD/=0) CALL SPMD_CHKW(IWIOUT,IOUT)
@@ -6560,7 +6557,7 @@ C processes in charge of the FVMBAGS know NPOLH)
         IF (GLOB_THERM%IDT_THERM == 0) DT2= MIN(DT2,1.1*DT2OLD,DTMX)
         IF (IMPL_S==1)  CALL IMP_DT2(DT2)
 
-      IF (IMONM > 0) CALL STOPTIME(TIMERS,53)
+      IF (IMONM > 0) CALL STOPTIME(53,1)
 
 C --------------------------
 
@@ -6582,7 +6579,7 @@ C--------------------------------------------------------------C
 !$OMP MASTER
 C--------------------------------------------------------------C 
 C--------------------------------------------------------------C 
-        IF (IMONM > 0) CALL STARTIME(TIMERS,54)
+        IF (IMONM > 0) CALL STARTIME(54,1)
         IF (NCYCLE == ZERO) TT_DP = TT
 C--------------------------------------------------------------C        
         IF(ISPMD==0)THEN
@@ -6647,7 +6644,7 @@ C--------------------------------------------------------------C
      .                    IAD_ELEM,FR_ELEM ,NODES%STIFN   ,NODES%STIFR   ,DD_R2R_ELEM  ,
      .                    SDD_R2R_ELEM,NLOC_DMG)
 
-         IF (IMONM > 0) CALL STOPTIME(TIMERS,54)  
+         IF (IMONM > 0) CALL STOPTIME(54,1)  
         
         ENDIF
 
@@ -6657,7 +6654,7 @@ C Radioss Madymo coupling - Exchange Timesteps
 C----------------------------------------------
       IF(IMADCPL==1)THEN
         MADENDREQUEST = 0
-        IF (IMONM > 0) CALL STARTIME(TIMERS,55)
+        IF (IMONM > 0) CALL STARTIME(55,1)
 C Exchange Time Step
          CALL TSTP_EXCH_MADCPL(MADENDREQUEST,MADCLNOD,MADCLFRECV,
      *                         NODES%V,NODES%A,NODES%MS ,MADYMO_DEL_GLOBAL )
@@ -6666,13 +6663,13 @@ C Exchange Time Step
            CALL TRACE_OUT(3)
            RETURN
          ENDIF
-        IF (IMONM > 0) CALL STOPTIME(TIMERS,55)
+        IF (IMONM > 0) CALL STOPTIME(55,1)
       ENDIF
 #endif
 ! reducing dt2 due to /INIVEL
       IF(LOADS%NINIVELT_G>0) CALL INIVEL_DT2(LOADS%NINIVELT,LOADS%INIVELT,SENSORS,TT , DT2 ,NSPMD)
 C-----------------------------
-      IF (IMONM > 0) CALL STARTIME(TIMERS,53)
+      IF (IMONM > 0) CALL STARTIME(53,1)
         DT2OLD=DT2
         IF (INCONV==1) THEN
           DT12=HALF*(DT1+DT2)
@@ -6699,13 +6696,13 @@ C       EXTERNAL WORK OF CONCENTRATED LOADS
           TFEXT = TFEXT + TFEXC*DT2
         ENDIF
     
-      IF (IMONM > 0) CALL STOPTIME(TIMERS,53)
-      IF (IMON>0) CALL STOPTIME(TIMERS,6)
+      IF (IMONM > 0) CALL STOPTIME(53,1)
+      IF (IMON>0) CALL STOPTIME(6,1)
 
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
-      IF (IMON>0) CALL STARTIME(TIMERS,TIMER_IO)
+      IF (IMON>0) CALL STARTIME(7,1)
 
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
 
@@ -6728,7 +6725,7 @@ C-----------------------------------------------
 
 !$OMP END PARALLEL
 
-      IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_IO)
+      IF (IMON>0) CALL STOPTIME(7,1)
 C-----------------------------------------------
 C     SELECTIVE MASS SCALING
 C-----------------------------------------------
@@ -6737,7 +6734,7 @@ C
 C       Obsolete
       ELSEIF(IDTMINS == 2.OR.IDTMINS_INT /= 0)THEN
 
-        IF (IMON>0) CALL STARTIME(TIMERS,39)
+        IF (IMON>0) CALL STARTIME(39,1)
 
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
@@ -6747,7 +6744,7 @@ C===============================================================================
         ITSK = OMP_GET_THREAD_NUM()
         NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
         NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
-        CALL SMS_MASS_SCALE_2(TIMERS,
+        CALL SMS_MASS_SCALE_2(
      1        ITSK     ,NODFTSK   ,NODLTSK  ,NODII_SMS ,INDX2_SMS ,
      2        NODXI_SMS,NODES%MS        ,NODES%MS0      ,NODES%A         ,NODES%ICODT     ,
      3        NODES%ICODR    ,NODES%ISKEW     ,SKEWS%SKEW,JAD_SMS   ,JDI_SMS   ,
@@ -6777,7 +6774,7 @@ C===============================================================================
 
 !$OMP END PARALLEL
 
-        IF (IMON>0) CALL STOPTIME(TIMERS,39)
+        IF (IMON>0) CALL STOPTIME(39,1)
 
       ENDIF
 
@@ -6805,7 +6802,7 @@ C-----------------------------------------------------------------
         ENROT = ZERO
         ENCIN2 = ZERO
         ENROT2 = ZERO       
-        IF (IMON>0) CALL STARTIME(TIMERS,TIMER_INTEG)
+        IF (IMON>0) CALL STARTIME(5,1)
 C-----------------------
         IF (IMPL_S==1 .AND. INCONV==1) THEN
           CALL THBCS_IMP(NODFT,NODLT ,NODES%A,NODES%AR,
@@ -6840,24 +6837,24 @@ C---      // N/3 ---------------------------------------
 C         INTERNAL FORCES (ANIM)
 C-----------------------------------------------
           IF (ISECUT/=0) THEN
-            IF (IMON>0) CALL STARTIME(TIMERS,TIMER_IO)
+            IF (IMON>0) CALL STARTIME(7,1)
               CALL SECTION_IO (
      1        NSTRF,NODES%D,NODES%DR,NODES%V,NODES%VR,FSAV(1,1+NINTER+NRWALL+NRBODY),
      2        SECFCUM,NODES%A             ,NODES%AR    ,SECBUF,NODES%MS      ,NODES%IN     ,
      3        NODES%X      ,FANI(1,NFOA+1),NODES%WEIGHT,XSEC  ,IAD_ELEM,FR_ELEM,
      4        RG_CUT ,IAD_CUT       ,FR_CUT,NODES%WEIGHT_MD,IOLDSECT,
      5        SENSORS%STABSEN,SENSORS%SFSAV,SENSORS%TABSENSOR,SENSORS%FSAV)
-            IF(IMON>0) CALL STOPTIME(TIMERS,TIMER_IO)
+            IF(IMON>0) CALL STOPTIME(7,1)
           ENDIF
         ENDIF ! ILAG+IALE+IEULER/=0
 
 !$OMP   END PARALLEL
 
-        IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_INTEG)
+        IF (IMON>0) CALL STOPTIME(5,1)
 C-----------------------------------------------
         IF (ILAG+IALE+IEULER/=0)THEN
-          IF(IMON>0) CALL STARTIME(TIMERS,TIMER_KIN)
-          IF(IMONM > 0) CALL STARTIME(TIMERS,40)
+          IF(IMON>0) CALL STARTIME(4,1)
+          IF(IMONM > 0) CALL STARTIME(40,1)
          
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
@@ -6872,15 +6869,15 @@ C===============================================================================
      4         NODES%WEIGHT_MD,MS_2D)
 !$OMP     END PARALLEL
 
-          IF(IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
-          IF(IMONM > 0) CALL STOPTIME(TIMERS,40)
+          IF(IMON>0) CALL STOPTIME(4,1)
+          IF(IMONM > 0) CALL STOPTIME(40,1)
         ENDIF  ! ILAG+IALE+IEULER/=0
 C========================================================================================
 C-----  RBE2 Bilan crrection        
 C========================================================================================
         IF (NRBE2>0)THEN
-          IF(IMON>0) CALL STARTIME(TIMERS,TIMER_KIN)
-          IF(IMONM > 0) CALL STARTIME(TIMERS,40)
+          IF(IMON>0) CALL STARTIME(4,1)
+          IF(IMONM > 0) CALL STARTIME(40,1)
 C                                     
 
 !$OMP PARALLEL
@@ -6889,8 +6886,8 @@ C
      3                   NODES%AR    ,NODES%MS0   ,NODES%IN   ,NODES%WEIGHT_MD)
 !$OMP     END PARALLEL
 
-          IF(IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
-          IF(IMONM > 0) CALL STOPTIME(TIMERS,40)
+          IF(IMON>0) CALL STOPTIME(4,1)
+          IF(IMONM > 0) CALL STOPTIME(40,1)
         ENDIF
 C--------------------
 C       SENSOR //  NODES%IN IMPLICIT
@@ -6943,7 +6940,7 @@ C       Non pure thermal case
 C-----------------------------
         IF (ILAG + IALE + IEULER /= 0) THEN
 
-          IF (IMON>0) CALL STARTIME(TIMERS,TIMER_INTEG)
+          IF (IMON>0) CALL STARTIME(5,1)
         
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
@@ -6970,8 +6967,8 @@ C-----------------------------------------------
 C------------------------
 C           Conservative smoothing of velocities
 C------------------------
-            IF (IMONM > 0) CALL STARTIME(TIMERS,48)
-            IF (IMONM > 0) CALL STARTIME(TIMERS,89)
+            IF (IMONM > 0) CALL STARTIME(48,1)
+            IF (IMONM > 0) CALL STARTIME(89,1)
 
             ALLOCATE(WASPSYM(3*NSPHSYM+1),STAT=IERROR)
             IF(IERROR/=0)THEN
@@ -7004,18 +7001,18 @@ C===============================================================================
 C                                   NON PARALLEL SECTION (SMP)
 C========================================================================================
 
-            IF (IMONM > 0) CALL STOPTIME(TIMERS,48)
-            IF (IMONM > 0) CALL STOPTIME(TIMERS,89)
+            IF (IMONM > 0) CALL STOPTIME(48,1)
+            IF (IMONM > 0) CALL STOPTIME(89,1)
 C
 C------------------------
 C           Second Part of artificial forces work.
 C--- //0 ----------------
-            IF (IMON>0) CALL STARTIME(TIMERS,6)
-            IF (IMONM > 0) CALL STARTIME(TIMERS,48)
+            IF (IMON>0) CALL STARTIME(6,1)
+            IF (IMONM > 0) CALL STARTIME(48,1)
             CALL SPWFVIS(SPBUF,IPART(K10),PARTSAV,IPARG,ELBUF_TAB,
      .                   KXSP ,WASPH(KSPACTIV))
-            IF (IMONM > 0) CALL STOPTIME(TIMERS,48)
-            IF (IMON>0) CALL STOPTIME(TIMERS,6)
+            IF (IMONM > 0) CALL STOPTIME(48,1)
+            IF (IMON>0) CALL STOPTIME(6,1)
 
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
@@ -7044,11 +7041,11 @@ C       BALANCING FORCES COMPUTED AT TT=0 NODES%IN GLOBAL REFERENCE SYSTEM
 C----------------------------------------------------------------------------------------
         IF (TT==ZERO.AND.IABS(ISIGI)==5) THEN
 C--- //0 ----------------
-          IF (IMON>0) CALL STARTIME(TIMERS,6)
-          IF (IMONM > 0) CALL STARTIME(TIMERS,49)
+          IF (IMON>0) CALL STARTIME(6,1)
+          IF (IMONM > 0) CALL STARTIME(49,1)
            CALL FEQUILIBRE(NODES%A,FZERO,ELEMENT%SHELL%IXC,IXTG)
-          IF (IMONM > 0) CALL STOPTIME(TIMERS,49)
-          IF (IMON>0) CALL STOPTIME(TIMERS,6)
+          IF (IMONM > 0) CALL STOPTIME(49,1)
+          IF (IMON>0) CALL STOPTIME(6,1)
         ENDIF
 C========================================================================================
 C MPI communication for NLOC_DMG : parith/off
@@ -7178,7 +7175,7 @@ C===============================================================================
 C                                     NON PARALLEL SECTION (SMP)
 C========================================================================================
 
-        IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_INTEG)
+        IF (IMON>0) CALL STOPTIME(5,1)
 C-----------------------------------------------
 C  INLETS,OUTLETS.
 C-----------------------------------------------
@@ -7194,18 +7191,18 @@ C globalize NSPHACT in NSPHACTG
 
           IF(NSPHACTG/=0)THEN
 C--- //0 ----------------
-          IF (IMON>0) CALL STARTIME(TIMERS,6)
-          IF (IMONM > 0) CALL STARTIME(TIMERS,48)
-          IF (IMONM > 0) CALL STARTIME(TIMERS,89)
+          IF (IMON>0) CALL STARTIME(6,1)
+          IF (IMONM > 0) CALL STARTIME(48,1)
+          IF (IMONM > 0) CALL STARTIME(89,1)
 
            CALL SPONFV (NODES%X   ,NODES%V     ,NODES%A       ,NODES%D       ,NODES%MS      ,
      2            SPBUF   ,NODES%ITAB    ,KXSP    ,IXSP    ,NOD2SP  ,
      3            NPC     ,TF      ,ISPHIO  ,VSPHIO  ,IPART   ,
      4           IPART(K10),WASPH(KSPACTIV) ,WA,WASPH(KSPH22) ,SPH_WORK)
 
-          IF (IMONM > 0) CALL STOPTIME(TIMERS,89)
-          IF (IMONM > 0) CALL STOPTIME(TIMERS,48)
-          IF (IMON>0) CALL STOPTIME(TIMERS,6)
+          IF (IMONM > 0) CALL STOPTIME(89,1)
+          IF (IMONM > 0) CALL STOPTIME(48,1)
+          IF (IMON>0) CALL STOPTIME(6,1)
           ENDIF
         END IF
         
@@ -7218,18 +7215,18 @@ C INLETS,OUTLETS.
 C-----------------------------------------------
        IF(NSPHIO/=0.AND.NSPHACTG/=0)THEN
 C--- //0 ----------------
-           IF (IMON>0) CALL STARTIME(TIMERS,6)
-           IF (IMONM > 0) CALL STARTIME(TIMERS,48)
-           IF (IMONM > 0) CALL STARTIME(TIMERS,89)
+           IF (IMON>0) CALL STARTIME(6,1)
+           IF (IMONM > 0) CALL STARTIME(48,1)
+           IF (IMONM > 0) CALL STARTIME(89,1)
 
            CALL SPONFV (NODES%X   ,NODES%V     ,NODES%A       ,NODES%D       ,NODES%MS      ,
      2            SPBUF   ,NODES%ITAB    ,KXSP    ,IXSP    ,NOD2SP  ,
      3            NPC     ,TF      ,ISPHIO  ,VSPHIO  ,IPART   ,
      4            IPART(K10),WASPH(KSPACTIV),WA,WASPH(KSPH22) ,SPH_WORK)
 
-           IF (IMONM > 0) CALL STOPTIME(TIMERS,89)
-           IF (IMONM > 0) CALL STOPTIME(TIMERS,48)
-           IF (IMON>0) CALL STOPTIME(TIMERS,6)
+           IF (IMONM > 0) CALL STOPTIME(89,1)
+           IF (IMONM > 0) CALL STOPTIME(48,1)
+           IF (IMON>0) CALL STOPTIME(6,1)
         ENDIF
 
 C-----------------------------------------------
@@ -7245,7 +7242,7 @@ C----------------------------------------------
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
-      IF (IMON>0) CALL STARTIME(TIMERS,TIMER_IO)
+      IF (IMON>0) CALL STARTIME(7,1)
 
       IF(COMPTREAC/=0.AND.(IMPL_S==0 .OR. INCONV==1)) THEN
 
@@ -7267,15 +7264,15 @@ C-----------------------------------------------
 
       END IF
 
-      IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_IO)
+      IF (IMON>0) CALL STOPTIME(7,1)
       CALL PYTHON_UPDATE_NODAL_ENTITIES(NUMNOD,A=NODES%A,V=NODES%V,AR=NODES%AR,VR=NODES%VR)
 
 C------------------------------
 C         GRAVITE / ACCEL. BASE
 C------------------------------
         IF(NGRAV/=0.AND.IDTMINS==0.AND.IDTMINS_INT==0) THEN
-        IF (IMON>0) CALL STARTIME(TIMERS,TIMER_KIN)
-        IF (IMONM > 0) CALL STARTIME(TIMERS,46)
+        IF (IMON>0) CALL STARTIME(4,1)
+        IF (IMONM > 0) CALL STARTIME(46,1)
 
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
@@ -7308,8 +7305,8 @@ C----------------------
      .                     NPC,    TF,      NODES%MS, NODES%V   , SKEWS%SKEW,
      .                     FXBGRW, IAD_ELEM, FR_ELEM)
             END IF
-          IF (IMON>0) CALL STOPTIME(TIMERS,46)
-          IF (IMONM > 0) CALL STOPTIME(TIMERS,TIMER_KIN)
+          IF (IMON>0) CALL STOPTIME(46,1)
+          IF (IMONM > 0) CALL STOPTIME(4,1)
         ENDIF
 C----------------------
 C         /BCS/CYCLIC
@@ -7321,7 +7318,7 @@ C----------------------
 C         CENTRIFUGAL FORCES
 C----------------------
          IF (NLOADC>0) THEN
-          IF (IMON>0) CALL STARTIME(TIMERS,TIMER_KIN)
+          IF (IMON>0) CALL STARTIME(4,1)
           
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
@@ -7334,14 +7331,14 @@ C===============================================================================
      3                    NODES%WEIGHT,LCFIELD,ITSK ,IFRAME,NSENSOR)
 !$OMP END PARALLEL
 
-          IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
+          IF (IMON>0) CALL STOPTIME(4,1)
          ENDIF
          
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
-      IF (IMON>0) CALL STARTIME(TIMERS,TIMER_IO)
+      IF (IMON>0) CALL STARTIME(7,1)
 
       IF(COMPTREAC/=0.AND.(IMPL_S==0 .OR. INCONV==1)) THEN
 
@@ -7363,7 +7360,7 @@ C-----------------------------------------------
 
       END IF
 
-      IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_IO)
+      IF (IMON>0) CALL STOPTIME(7,1)
 
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
@@ -7373,14 +7370,14 @@ C-----------------------------------------------
 C       EXTERNAL FORCES ADDITIONAL CONTRIBUTIONS  before adding in A other kinematic conditions (BCS, ...)
 C         (ANIM, OUTP, H3D)
 C-----------------------------------------------
-      IF (IMON>0) CALL STARTIME(TIMERS,TIMER_IO)
+      IF (IMON>0) CALL STARTIME(7,1)
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
       ITSK = OMP_GET_THREAD_NUM()
       NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
       NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
       CALL FORANI3(FANI,NODES%A,NODES%MS,NFEA,NODFTSK,NODLTSK,H3D_DATA)
 !$OMP END PARALLEL
-      IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_IO)
+      IF (IMON>0) CALL STOPTIME(7,1)
       
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)
@@ -7390,19 +7387,19 @@ C----------------------
 C         INTERFACE ALE
 C----------------------
         IERR=0
-        IF(NINTER/=0.AND.IALE/=0)THEN
-          IF(ISPMD==0)THEN
-            IF (IMON>0) THEN
-              CALL STARTIME(TIMERS,6)
-              CALL STARTIME(TIMERS,TIMER_CONTSORT)
+        IF(NINTER /= 0 .AND. IALE /= 0)THEN
+          IF(ISPMD == 0)THEN
+            IF (IMON > 0) THEN
+              CALL STARTIME(6,1)
+              CALL STARTIME(2,1)
             ENDIF
             CALL INTAL1(IPARI,NODES%X    ,NODES%V ,
      2                  NODES%A    ,NODES%ISKEW           ,SKEWS%SKEW            ,NODES%ICODT,WA,
      3                  NODES%MS   ,NODES%ITAB            ,FSAV            ,INTERFACES%INTBUF_TAB ,
      4                  FANI ,FANI(1,NFNCA+1) ,FANI(1,NFTCA+1) ,H3D_DATA   )
-            IF (IMON>0) THEN
-              CALL STOPTIME(TIMERS,TIMER_CONTSORT)
-              CALL STOPTIME(TIMERS,6)
+            IF (IMON > 0) THEN
+              CALL STOPTIME(2,1)
+              CALL STOPTIME(6,1)
             ENDIF
           ENDIF
           IF(NSPMD > 1)THEN
@@ -7436,25 +7433,25 @@ C----------------------
 C  Activating valve (in/out or imposed velocity)
 C----------------------
 
-        IF(EBCS_TAB%nebcs_loc>0)THEN
-          IF (IMON>0) THEN
-            CALL STARTIME(TIMERS,6)
-            CALL STARTIME(TIMERS,TIMER_CONTSORT)
+        IF(EBCS_TAB%nebcs_loc > 0)THEN
+          IF (IMON > 0) THEN
+            CALL STARTIME(6,1)
+            CALL STARTIME(2,1)
           END IF
           IF(ISPMD == 0)THEN
             CALL EBCCLAP(NODES%V,NODES%A,FV,EBCS_TAB)
           ENDIF
-          IF (IMON>0) THEN
-            CALL STOPTIME(TIMERS,TIMER_CONTSORT)
-            CALL STOPTIME(TIMERS,6)
+          IF (IMON > 0) THEN
+            CALL STOPTIME(2,1)
+            CALL STOPTIME(6,1)
           END IF
         ENDIF
 
 C----- // ----------------------
 C         BOUNDARY CONDITIONS
 C-------------------------------
-        IF (IMON>0) CALL STARTIME(TIMERS,TIMER_KIN)
-        IF (IMONM > 0) CALL STARTIME(TIMERS,42)
+        IF (IMON>0) CALL STARTIME(4,1)
+        IF (IMONM > 0) CALL STARTIME(42,1)
 
         CALL THBCS(NODFT  ,NODLT  ,NODES%ICODT  ,NODES%ICODR,NODES%ISKEW,
      2             SKEWS%SKEW   ,NODES%A      ,NODES%AR     ,NODES%MS   ,NODES%IN   ,
@@ -7479,8 +7476,8 @@ C---
 !$OMP END PARALLEL
 
         IF (IMONM > 0) THEN
-          CALL STOPTIME(TIMERS,42)
-          CALL STARTIME(TIMERS,43)
+          CALL STOPTIME(42,1)
+          CALL STARTIME(43,1)
         END IF
 
 C========================================================================================
@@ -7526,8 +7523,8 @@ C-- // -----------
 
 !$OMP END PARALLEL
 
-        IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
-        IF (IMONM > 0) CALL STOPTIME(TIMERS,43)
+        IF (IMON>0) CALL STOPTIME(4,1)
+        IF (IMONM > 0) CALL STOPTIME(43,1)
         ENDIF
 C--------------------------- FIN CAS NON THERMIQUE PURE
 
@@ -7535,7 +7532,7 @@ C===============================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
-      IF (IMON>0) CALL STARTIME(TIMERS,TIMER_IO)
+      IF (IMON>0) CALL STARTIME(7,1)
 
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
       ITSK = OMP_GET_THREAD_NUM()
@@ -7557,7 +7554,7 @@ C---------------------------------------
       ENDIF
 !$OMP END PARALLEL
 
-      IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_IO)
+      IF (IMON>0) CALL STOPTIME(7,1)
 
 C-----------------------------------------------
 C          DAMPING alpha M + beta K
@@ -7571,7 +7568,7 @@ C===============================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
-      IF (IMON>0) CALL STARTIME(TIMERS,TIMER_IO)
+      IF (IMON>0) CALL STARTIME(7,1)
 
       IF(COMPTREAC/=0.AND.(IMPL_S==0 .OR. INCONV==1)) THEN
 
@@ -7593,9 +7590,9 @@ C-----------------------------------------------
 
       END IF
 
-      IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_IO)
+      IF (IMON>0) CALL STOPTIME(7,1)
 C-----------------------------------------------
-      IF (IMONM > 0) CALL STARTIME(TIMERS,52)
+      IF (IMONM > 0) CALL STARTIME(52,1)
 
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
 
@@ -7646,9 +7643,9 @@ C-----------------------------------------------
 
 !$OMP END PARALLEL
 
-      IF(IMON>0) CALL STOPTIME(TIMERS,52)
+      IF(IMON>0) CALL STOPTIME(52,1)
 C-----------------------------------------------
-      IF (IMON>0) CALL STARTIME(TIMERS,TIMER_IO)
+      IF (IMON>0) CALL STARTIME(7,1)
 
       IF(COMPTREAC/=0.AND.(IMPL_S==0 .OR. INCONV==1)) THEN
 
@@ -7670,13 +7667,13 @@ C-----------------------------------------------
 
       END IF
 
-      IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_IO)
+      IF (IMON>0) CALL STOPTIME(7,1)
 
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
-      IF (IMON>0) CALL STARTIME(TIMERS,TIMER_IO)
+      IF (IMON>0) CALL STARTIME(7,1)
 
       IF(CPTREAC/=0.AND.(IMPL_S==0 .OR. INCONV==1)) THEN
 
@@ -7698,7 +7695,7 @@ C-----------------------------------------------
 
       END IF
 
-      IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_IO)
+      IF (IMON>0) CALL STOPTIME(7,1)
 
 C========================================================================================
 C                                          NON PARALLEL SECTION (SMP)
@@ -7708,15 +7705,15 @@ C--------------------------
 C          STATIC 
 C--------------------------
            IF(ISTAT/=0) THEN
-             IF (IMON>0) CALL STARTIME(TIMERS,6)
-             IF (IMONM > 0) CALL STARTIME(TIMERS,49)
+             IF (IMON>0) CALL STARTIME(6,1)
+             IF (IMONM > 0) CALL STARTIME(49,1)
              IF (NS10E>0) THEN
                CALL STATIC(VMD,NODES%VR,NODES%A,NODES%AR,NODES%MS,NODES%IN,IGRNOD,NODES%WEIGHT_MD)
              ELSE
                CALL STATIC(NODES%V,NODES%VR,NODES%A,NODES%AR,NODES%MS,NODES%IN,IGRNOD,NODES%WEIGHT_MD)
              END IF
-             IF (IMONM > 0) CALL STOPTIME(TIMERS,49)
-             IF (IMON>0) CALL STOPTIME(TIMERS,6)
+             IF (IMONM > 0) CALL STOPTIME(49,1)
+             IF (IMON>0) CALL STOPTIME(6,1)
            ENDIF
            ENCIN = ZERO
            ENROT = ZERO
@@ -7727,9 +7724,9 @@ C          IMPOSED VELOCITY
 C--------------------------
            IF(NFXVEL/=0) THEN
              IF(IMON>0) THEN
-               CALL STARTIME(TIMERS,6)
-               CALL STARTIME(TIMERS,TIMER_KIN)
-               IF(IMONM > 0) CALL STARTIME(TIMERS,44)
+               CALL STARTIME(6,1)
+               CALL STARTIME(4,1)
+               IF(IMONM > 0) CALL STARTIME(44,1)
              ENDIF
              CALL FIXVEL(IBFV  ,NODES%A     ,NODES%V      ,NPC    ,TF  ,
      2                   VEL   ,NODES%MS    ,NODES%X      ,SKEWS%SKEW   ,NODES%AR  ,
@@ -7746,9 +7743,9 @@ C--------------------------
              ENDIF
 C
              IF(IMON>0) THEN
-               IF(IMONM > 0) CALL STOPTIME(TIMERS,44)
-               CALL STOPTIME(TIMERS,TIMER_KIN)
-               CALL STOPTIME(TIMERS,6)
+               IF(IMONM > 0) CALL STOPTIME(44,1)
+               CALL STOPTIME(4,1)
+               CALL STOPTIME(6,1)
              ENDIF
            ENDIF
 
@@ -7756,7 +7753,7 @@ C===============================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
-      IF (IMON>0) CALL STARTIME(TIMERS,TIMER_IO)
+      IF (IMON>0) CALL STARTIME(7,1)
 
       IF(CPTREAC/=0.AND.(IMPL_S==0 .OR. INCONV==1)) THEN
 
@@ -7777,14 +7774,14 @@ C----------------------------------------------
 
       END IF
 
-      IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_IO)
+      IF (IMON>0) CALL STOPTIME(7,1)
 
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
-        IF (IMON>0) CALL STARTIME(TIMERS,TIMER_KIN)
-        IF (IMONM > 0) CALL STARTIME(TIMERS,43)
+        IF (IMON>0) CALL STARTIME(4,1)
+        IF (IMONM > 0) CALL STARTIME(43,1)
 
 !$OMP PARALLEL
 
@@ -7812,8 +7809,8 @@ C         Obsolete
 
 !$OMP END PARALLEL
 
-        IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
-        IF (IMONM > 0) CALL STOPTIME(TIMERS,43)
+        IF (IMON>0) CALL STOPTIME(4,1)
+        IF (IMONM > 0) CALL STOPTIME(43,1)
 
 C========================================================================================
 C                                    NON PARALLEL SECTION (SMP)
@@ -7824,28 +7821,28 @@ C         IMPOSED TEMPERATURES
 C--------------------------
       IF (GLOB_THERM%NFXTEMP  > 0 .AND. GLOB_THERM%ITHERM_FE > 0) THEN
         IF (IMON>0) THEN
-          CALL STARTIME(TIMERS,6)
-          CALL STARTIME(TIMERS,TIMER_KIN)
-          IF(IMONM > 0) CALL STARTIME(TIMERS,44)
+          CALL STARTIME(6,1)
+          CALL STARTIME(4,1)
+          IF(IMONM > 0) CALL STARTIME(44,1)
         ENDIF
         CALL FIXTEMP(IBFTEMP  ,FBFTEMP    ,TEMP    ,NPC    ,TF  ,
      1               NSENSOR  ,SENSORS%SENSOR_TAB,GLOB_THERM)
         IF (IMON>0) THEN
-          IF(IMONM > 0) CALL STOPTIME(TIMERS,44)
-          CALL STOPTIME(TIMERS,TIMER_KIN)
-          CALL STOPTIME(TIMERS,6)
+          IF(IMONM > 0) CALL STOPTIME(44,1)
+          CALL STOPTIME(4,1)
+          CALL STOPTIME(6,1)
         ENDIF
       ENDIF
 C---------------
         IF(ISECUT/=0)THEN
-          IF (IMON>0) CALL STARTIME(TIMERS,TIMER_IO)
+          IF (IMON>0) CALL STARTIME(7,1)
             CALL SECTION_IO (
      1        NSTRF,NODES%D,NODES%DR,NODES%V,NODES%VR,FSAV(1,1+NINTER+NRWALL+NRBODY),
      2        SECFCUM,NODES%A             ,NODES%AR    ,SECBUF,NODES%MS      ,NODES%IN     ,
      3        NODES%X      ,FANI(1,NFOA+1),NODES%WEIGHT,XSEC  ,IAD_ELEM,FR_ELEM,
      4        RG_CUT ,IAD_CUT       ,FR_CUT,NODES%WEIGHT_MD,IOLDSECT,
      5        SENSORS%STABSEN,SENSORS%SFSAV,SENSORS%TABSENSOR ,SENSORS%FSAV  )
-          IF(IMON>0) CALL STOPTIME(TIMERS,TIMER_IO)
+          IF(IMON>0) CALL STOPTIME(7,1)
         ENDIF
 
 C-----------------------------------------------------
@@ -7857,7 +7854,7 @@ C                                    PARALLEL SECTION (SMP)
 C========================================================================================
 
       IF(ISTATCND/=0)THEN
-        IF (IMON>0) CALL STARTIME(TIMERS,38)
+        IF (IMON>0) CALL STARTIME(38,1)
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
         ITSK = OMP_GET_THREAD_NUM()
         NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
@@ -7869,11 +7866,11 @@ C===============================================================================
      5              MSCND  ,INCND   )
 !$OMP END PARALLEL
 
-        IF (IMON>0) CALL STOPTIME(TIMERS,38)
+        IF (IMON>0) CALL STOPTIME(38,1)
 C
 C         reimpose bcs.
-        IF (IMON>0) CALL STARTIME(TIMERS,TIMER_KIN)
-        IF (IMONM > 0) CALL STARTIME(TIMERS,42)
+        IF (IMON>0) CALL STARTIME(4,1)
+        IF (IMONM > 0) CALL STARTIME(42,1)
 
 C========================================================================================
 C                                          PARALLEL SECTION (SMP)
@@ -7891,8 +7888,8 @@ C===============================================================================
 
 !$OMP END PARALLEL
 
-        IF (IMONM > 0) CALL STOPTIME(TIMERS,42)
-        IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
+        IF (IMONM > 0) CALL STOPTIME(42,1)
+        IF (IMON>0) CALL STOPTIME(4,1)
       END IF
 
 
@@ -7901,7 +7898,7 @@ C     adaptive meshing : velocities on secnd nodes
 C-----------------------------------------------------
 
       IF(NADMESH/=0)THEN
-        IF (IMON>0) CALL STARTIME(TIMERS,38)
+        IF (IMON>0) CALL STARTIME(38,1)
 
 C========================================================================================
 C                                          PARALLEL SECTION (SMP)
@@ -7916,7 +7913,7 @@ C===============================================================================
 
 !$OMP END PARALLEL
 
-          IF (IMON>0) CALL STOPTIME(TIMERS,38)
+          IF (IMON>0) CALL STOPTIME(38,1)
       END IF
 
 C--------------------------------------------------
@@ -7924,8 +7921,8 @@ c     rigid bodies velocities on secondary nodes
 C--------------------------------------------------
       IF(NRBYKIN>0)THEN
 
-        IF(IMON>0) CALL STARTIME(TIMERS,TIMER_KIN)
-        IF(IMONM > 0) CALL STARTIME(TIMERS,40)
+        IF(IMON>0) CALL STARTIME(4,1)
+        IF(IMONM > 0) CALL STARTIME(40,1)
 
 C========================================================================================
 C                                          PARALLEL SECTION (SMP)
@@ -7948,8 +7945,8 @@ C // --------------------------
 !$OMP END PARALLEL
 
 C--------------------------------------------------
-        IF(IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
-        IF(IMONM > 0) CALL STOPTIME(TIMERS,40)
+        IF(IMON>0) CALL STOPTIME(4,1)
+        IF(IMONM > 0) CALL STOPTIME(40,1)
 
       ENDIF
 C---------------------------------------------------
@@ -8019,11 +8016,11 @@ C       INTERFACES 14 & 15
 C--- //0 ----------------
         IF(NINTER/=0)THEN
           IF (IMON>0) THEN
-              CALL STARTIME(TIMERS,TIMER_CONTSORT)
+              CALL STARTIME(2,1)
           ENDIF
           CALL I14WFS(IPARI,INTERFACES%INTBUF_TAB,IGRSURF,FSAV)
           IF (IMON>0) THEN
-              CALL STOPTIME(TIMERS,TIMER_CONTSORT)
+              CALL STOPTIME(2,1)
           ENDIF
         ENDIF
       ENDIF
@@ -8035,19 +8032,19 @@ C--- //0 ----------------
 
         IF(NINTER/=0)THEN
           IF (IMON>0) THEN
-          CALL STARTIME(TIMERS,6)
-          CALL STARTIME(TIMERS,TIMER_CONTSORT)
+          CALL STARTIME(6,1)
+          CALL STARTIME(2,1)
         ENDIF
-        IF (IMONM > 0) CALL STARTIME(TIMERS,28)
+        IF (IMONM > 0) CALL STARTIME(28,1)
         DO K=NHIN2,0,-1
           CALL INTTI2(IPARI,NODES%X    ,NODES%V    ,NODES%A    ,
      2                NODES%VR   ,NODES%AR   ,K    ,NODES%MS   ,NODES%IN   ,NODES%WEIGHT,WA,SKEWS%SKEW,
      3                INTERFACES%INTBUF_TAB)
         ENDDO
-        IF (IMONM > 0) CALL STOPTIME(TIMERS,28)
+        IF (IMONM > 0) CALL STOPTIME(28,1)
           IF (IMON>0) THEN
-            CALL STOPTIME(TIMERS,TIMER_CONTSORT)
-            CALL STOPTIME(TIMERS,6)
+            CALL STOPTIME(2,1)
+            CALL STOPTIME(6,1)
           ENDIF
         ENDIF
 C
@@ -8065,22 +8062,22 @@ C-----------------------------------------------------
 C----------------------------
 C       MOVING FRAME - RETRIEVE ACCELERATION.
 C--- //0 ----------------
-         IF (IMON>0)CALL STARTIME(TIMERS,6)
-         IF (IMONM > 0) CALL STARTIME(TIMERS,49)
+         IF (IMON>0)CALL STARTIME(6,1)
+         IF (IMONM > 0) CALL STARTIME(49,1)
          CALL MOVFRA1(XFRAME,IFRAME ,NODES%X, NODES%V ,NODES%A ,NODES%AR)
-         IF (IMONM > 0) CALL STOPTIME(TIMERS,49)
-         IF (IMON>0)CALL STOPTIME(TIMERS,6)
+         IF (IMONM > 0) CALL STOPTIME(49,1)
+         IF (IMON>0)CALL STOPTIME(6,1)
         ENDIF
 
-       IF (IMON>0) CALL STARTIME(TIMERS,TIMER_KIN)
-       IF (IMONM > 0) CALL STARTIME(TIMERS,40)
+       IF (IMON>0) CALL STARTIME(4,1)
+       IF (IMONM > 0) CALL STARTIME(40,1)
 
        IF(NUMSPH/=0.AND.NSPHSOL/=0)THEN
 C------------------------
 C         Solids impose velocity to SPH
 C--- // ----------------
-          IF (IMONM > 0) CALL STARTIME(TIMERS,48)
-          IF (IMONM > 0) CALL STARTIME(TIMERS,89)
+          IF (IMONM > 0) CALL STARTIME(48,1)
+          IF (IMONM > 0) CALL STARTIME(89,1)
 
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
@@ -8097,8 +8094,8 @@ C===============================================================================
 
 !$OMP END PARALLEL
 
-          IF (IMONM > 0) CALL STOPTIME(TIMERS,89)
-          IF (IMONM > 0) CALL STOPTIME(TIMERS,48)
+          IF (IMONM > 0) CALL STOPTIME(89,1)
+          IF (IMONM > 0) CALL STOPTIME(48,1)
        ENDIF
 
 C========================================================================================
@@ -8234,8 +8231,8 @@ c
       ENDIF  !  NSENSOR > 0
 C========================================================================================
 
-      IF (IMONM > 0) CALL STOPTIME(TIMERS,40)
-      IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
+      IF (IMONM > 0) CALL STOPTIME(40,1)
+      IF (IMON>0) CALL STOPTIME(4,1)
 C-------------------------------------------------------
 C     Conditions cinematiques par Multiplicateurs de Lagrange
 C-------------------------------------------------------
@@ -8398,7 +8395,7 @@ C
 C        Obsolete
        ELSEIF(IDTMINS==2.OR.IDTMINS_INT/=0)THEN
 C--------------------------------------------------
-        IF (IMON>0) CALL STARTIME(TIMERS,39)
+        IF (IMON>0) CALL STARTIME(39,1)
 
 !$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
 
@@ -8406,7 +8403,7 @@ C--------------------------------------------------
         NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
         NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
 
-        CALL SMS_ENCIN_2(TIMERS,
+        CALL SMS_ENCIN_2(
      1        ITSK     ,NODFTSK  ,NODLTSK  ,NODXI_SMS ,
      2        NODES%MS       ,JAD_SMS  ,JDI_SMS  ,LT_SMS    ,INDX1_SMS,
      3        DIAG_SMS ,IAD_ELEM ,FR_ELEM  ,NODES%WEIGHT    ,NODES%V        ,
@@ -8426,7 +8423,7 @@ C--------------------------------------------------
 
 !$OMP END PARALLEL
 
-        IF (IMON>0) CALL STOPTIME(TIMERS,39)
+        IF (IMON>0) CALL STOPTIME(39,1)
 
        END IF
       END IF
@@ -8491,7 +8488,7 @@ C===============================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
-      IF (IMON>0) CALL STARTIME(TIMERS,TIMER_IO)
+      IF (IMON>0) CALL STARTIME(7,1)
 
       IF(COMPTREAC/=0.AND.(IMPL_S==0 .OR. INCONV==1)) THEN
 
@@ -8509,13 +8506,13 @@ C-----------------------------------------------
 !$OMP END PARALLEL
       END IF
 
-      IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_IO)
+      IF (IMON>0) CALL STOPTIME(7,1)
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
       IF(NCYCLE > 0) THEN
 
-        IF (IMON>0) CALL STARTIME(TIMERS,MACRO_TIMER_GENH3D1)
+        IF (IMON>0) CALL STARTIME(MACRO_TIMER_GENH3D1,1)
         L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
         L2 = L1+6*NUMELS10
         L3 = L2+12*NUMELS20
@@ -8532,7 +8529,7 @@ C--------------------------------------------------
      .             NODES%WEIGHT ,IPM   ,IGEO    ,STACK   ,ITSK    )
 
 !$OMP END PARALLEL
-        IF (IMON>0) CALL STOPTIME(TIMERS,MACRO_TIMER_GENH3D1)
+        IF (IMON>0) CALL STOPTIME(MACRO_TIMER_GENH3D1,1)
       END IF
       
 C========================================================================================
@@ -8542,7 +8539,7 @@ C--------------------------------------------------
       IF(NTMP==1)THEN
 C--------------------------------------------------
         IF (IMON>0) THEN
-          CALL STARTIME(TIMERS,TIMER_IO)
+          CALL STARTIME(7,1)
         ENDIF
         CALL TRACE_IN(5,0,ZERO)
         L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
@@ -8595,8 +8592,8 @@ C Regular animation
           CALL ASSIGN_PTRX(PTRX, NODES%X,NUMNOD)
           CALL ASSIGN_PTRX(PTRX_OFFSET, NODES%X,NUMNOD)
         ENDIF
-    
-         CALL SORTIE_MAIN(TIMERS,
+
+        CALL SORTIE_MAIN(
      1   PM            ,NODES%D        ,NODES%V           ,ALE_CONNECTIVITY          ,W             ,
      2   ELBUF         ,IPARG          ,IXS            ,IXQ            ,ELEMENT%SHELL%IXC,
      3   IXT           ,IXP            ,IXR            ,IXTG           ,WA            ,
@@ -8744,7 +8741,7 @@ c
         ENDIF
 C------------
         IF (IMON>0) THEN
-          CALL STOPTIME(TIMERS,TIMER_IO)
+          CALL STOPTIME(7,1)
         ENDIF
       ENDIF
       IF (IMPDEB==1.AND.IMCONV==0) THEN
@@ -8777,7 +8774,7 @@ C       IMPLICITE SOLVER
 C----------------------------------
       IF (IMPL_S==1) THEN
        CALL TRACE_IN(3,NCYCLE,ZERO)
-       IF (IMON>0) CALL STARTIME(TIMERS,34)
+       IF (IMON>0) CALL STARTIME(34,1)
        
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
@@ -8785,7 +8782,7 @@ C===============================================================================
 
       IF (IMP_CHK > 0) THEN
 #if defined(MUMPS5) 
-         CALL IMP_CHKM(TIMERS,
+         CALL IMP_CHKM(
      1  NODES%ICODE  ,NODES%ISKEW  ,ISKWN  ,IPART  ,IXTG   ,IXS    ,IXQ    ,
      2  ELEMENT%SHELL%IXC    ,IXT    ,IXP    ,IXR    ,IXTG1          ,NODES%ITAB   ,NODES%ITABM1 ,
      3  NPC    ,IBCL   ,IBFV   ,SENSORS%SENSOR_TAB,NNLINK ,LNLINK ,IPARG  ,IGRV   ,
@@ -8817,7 +8814,7 @@ C-----integer : 1:IKC,2:IKUD,3:W_DDL,4:IADM,5:JDIM,6:NDOFI,7:IDDLI
 C-----reel : 1,2,3,4:DIAG_K,LT_K,DIAG_M,LT_M,5,6:LB,DB,7:BKUD,8,9:D_IMP,DR_IMP
 C----       10,11,12:ELBUF_C,BUFMAT_C,X_C,13,14:DD,DDR,15,16:X_ac,V_zero,23,24:AC,ACR
 #if defined(MUMPS5) 
-        CALL IMP_SOLV(TIMERS,
+        CALL IMP_SOLV(
      1  NODES%ICODE  ,NODES%ISKEW  ,ISKWN  ,IPART  ,IXTG   ,IXS    ,IXQ    ,
      2  ELEMENT%SHELL%IXC    ,IXT    ,IXP    ,IXR    ,IXTG1          ,NODES%ITAB   ,NODES%ITABM1 ,
      3  NPC    ,IBCL   ,IBFV   ,SENSORS%SENSOR_TAB,NNLINK ,LNLINK ,IPARG  ,IGRV   ,
@@ -8923,7 +8920,7 @@ C
         ENDIF !IF (TT>TSTOP.AND.INCONV==1)
 
        CALL TRACE_OUT(3)
-       IF (IMON>0) CALL STOPTIME(TIMERS,34)
+       IF (IMON>0) CALL STOPTIME(34,1)
 C---------------------------
 C     Not pure thermal case                      
 C---------------------------
@@ -8982,7 +8979,7 @@ C------------------------------------------
 C         SYNCHRONISATION SUR V TT ET NCYCLE (implicite)
 C----------------------------
 
-        IF(IMON>0) CALL STARTIME(TIMERS,TIMER_INTEG)
+        IF(IMON>0) CALL STARTIME(5,1)
 
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
@@ -9065,14 +9062,14 @@ c for smp parallel is not parit on
          call omp_set_num_threads(NTHREAD)
       ENDIF
 C
-        IF(IMON>0) CALL STOPTIME(TIMERS,TIMER_INTEG)
+        IF(IMON>0) CALL STOPTIME(5,1)
 
         IF(IALE+IEULER==0) THEN
 C----------------------
 C          LAGRANGE PUR
 C----------------------
 
-         IF(IMON>0) CALL STARTIME(TIMERS,TIMER_INTEG)
+         IF(IMON>0) CALL STARTIME(5,1)
 
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
@@ -9111,7 +9108,7 @@ C
 C
 !$OMP END PARALLEL
 
-          IF(IMON>0) CALL STOPTIME(TIMERS,TIMER_INTEG)
+          IF(IMON>0) CALL STOPTIME(5,1)
 C
         ELSEIF(IALE/=0)THEN
 C-------------------------------------
@@ -9127,7 +9124,7 @@ C===============================================================================
           ITSK = OMP_GET_THREAD_NUM()
           NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
           NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
-             CALL ALEWDX(TIMERS,
+             CALL ALEWDX(
      1         GEO             ,NODES%X             ,NODES%D           ,NODES%V           ,NODES%VR         ,
      2         W               ,WA            ,WB          ,RBY         ,SKEWS%SKEW       ,
      3         PM              ,XLAS          ,NODES%MS          ,FSAV        ,
@@ -9153,7 +9150,7 @@ C No displacements computed if pure Euler
 C-------------------------
         ELSEIF(ILAG==1)THEN
 C // -----------------------------------
-          IF(IMON>0) CALL STARTIME(TIMERS,TIMER_INTEG)
+          IF(IMON>0) CALL STARTIME(5,1)
 
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
@@ -9169,7 +9166,7 @@ C===============================================================================
 
 !$OMP END PARALLEL
 
-          IF(IMON>0) CALL STOPTIME(TIMERS,TIMER_INTEG)
+          IF(IMON>0) CALL STOPTIME(5,1)
         ENDIF
       ENDIF
 
@@ -9360,16 +9357,16 @@ C mass & velocity
 
       IF (NSPMD>1) THEN
         IF(IMONM == 2)THEN
-          CALL STARTIME(TIMERS,60)
+          CALL STARTIME(60,1)
           CALL SPMD_BARRIER()
-          CALL STOPTIME(TIMERS,60)
+          CALL STOPTIME(60,1)
       END IF
-        IF(IMON>0) CALL STARTIME(TIMERS,13)
+        IF(IMON>0) CALL STARTIME(13,1)
         IF(ISIZXV>0) CALL SPMD_SD_XV(
      1     NODES%X     ,NODES%D       ,NODES%V      ,NODES%VR    ,NODES%MS   ,
      2     NODES%IN    ,IAD_ELEM,FR_ELEM,NODES%WEIGHT,IMSCH,
      3     W     ,ISIZXV ,ILENXV  ,NODES%XDP)
-        IF (IMONM > 0) CALL STARTIME(TIMERS,23)
+        IF (IMONM > 0) CALL STARTIME(23,1)
         L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
         L2 = L1+6*NUMELS10
         L3 = L2+12*NUMELS20
@@ -9391,17 +9388,17 @@ C mass & velocity
      6     IRLEN20 ,ISLEN20,IRLEN20T,ISLEN20T,IRLEN20E,
      7     ISLEN20E,NODES%IKINE  ,DIAG_SMS,SENSORS%SENSOR_TAB,INTERFACES%INTBUF_TAB ,INT24E2EUSE,
      8     FORNEQS ,MULTI_FVM,INTERFACES)
-        IF (IMONM > 0) CALL STOPTIME(TIMERS,23)
-        IF (IMON>0) CALL STOPTIME(TIMERS,13)
+        IF (IMONM > 0) CALL STOPTIME(23,1)
+        IF (IMON>0) CALL STOPTIME(13,1)
         ENDIF
 
        IF (INT24USE == 1)THEN
-        IF (IMON>0) CALL STARTIME(TIMERS,TIMER_CONTFOR)        
+        IF (IMON>0) CALL STARTIME(8,1)        
         CALL SPMD_EXCH_I24(IPARI,    INTERFACES%INTBUF_TAB       ,NODES%ITAB  ,
      *                     IAD_ELEM, FR_ELEM ,INTLIST ,NBINTC,
      *                     IAD_I24  ,FR_I24  ,SFR_I24,I24MAXNSNE,3,
      *                     INT24E2EUSE)
-        IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_CONTFOR)
+        IF (IMON>0) CALL STOPTIME(8,1)
        ENDIF
 
        IF(NINTSTAMP /= 0.AND.FTEMPVAR21==1.AND.NSPMD>1) THEN
@@ -9412,8 +9409,8 @@ C mass & velocity
 C----------------------------
 C      MOVING FRAME: RETRIEVE POSITION & VELOCITY.
 C--- //0 ----------------
-        IF (IMON>0)CALL STARTIME(TIMERS,6)
-        IF (IMONM > 0) CALL STARTIME(TIMERS,49)
+        IF (IMON>0)CALL STARTIME(6,1)
+        IF (IMONM > 0) CALL STARTIME(49,1)
         IF (IMPL_S >0) THEN
          CALL MOVFRA_IMP(XFRAME ,IFRAME ,NODES%X      ,NODES%V      ,NODES%A      ,
      .                   NODES%VR     ,NODES%AR     ,NODES%D      )
@@ -9421,8 +9418,8 @@ C--- //0 ----------------
         CALL MOVFRA2(XFRAME ,IFRAME ,NODES%X      ,NODES%V      ,NODES%VR     ,
      .               NODES%D      )
         END IF !(IMPL_S >0)
-        IF (IMONM > 0) CALL STOPTIME(TIMERS,49)
-        IF (IMON>0) CALL STOPTIME(TIMERS,6)
+        IF (IMONM > 0) CALL STOPTIME(49,1)
+        IF (IMON>0) CALL STOPTIME(6,1)
        ENDIF
 
       IF (GLOB_THERM%IDT_THERM == 1.AND.(TSTOP-TT)<=EM20)THEN    
@@ -9470,7 +9467,7 @@ C--- //0 ----------------
       ENDIF
 
       IF (BOOL_RESTART) THEN
-        IF(IMON>0) CALL STARTIME(TIMERS,TIMER_IO)
+        IF(IMON>0) CALL STARTIME(7,1)
 
         IF (GLOB_THERM%IDT_THERM == 1)CALL BCSDTTH_COPY(NODES%ICODT, NODES%ICODR, ICODT0, ICODR0, 2)
 
@@ -9503,7 +9500,7 @@ C--- //0 ----------------
 
         ! Finalize T24 Communication to fill Buffers before restarts
         IF (INT24USE == 1)THEN
-           IF (IMON>0) CALL STARTIME(TIMERS,TIMER_CONTFOR)        
+           IF (IMON>0) CALL STARTIME(8,1)        
            CALL SPMD_EXCH_I24(IPARI,    INTERFACES%INTBUF_TAB ,NODES%ITAB  ,
      *                        IAD_ELEM, FR_ELEM ,INTLIST ,NBINTC,
      *                        IAD_I24  ,FR_I24  ,SFR_I24,I24MAXNSNE,3,
@@ -9514,7 +9511,7 @@ C--- //0 ----------------
      *                        IAD_I24  ,FR_I24  ,SFR_I24,I24MAXNSNE,4,
      *                        INT24E2EUSE)
 
-           IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_CONTFOR)
+           IF (IMON>0) CALL STOPTIME(8,1)
         ENDIF
 
         ! INTERFACE 21 - Communication of nodal temperature
@@ -9523,7 +9520,7 @@ C--- //0 ----------------
         ENDIF
         ICH = 0
         ! Engine time for restart
-        CALL ELAPSTIME(TIMERS,SECS)
+        CALL ELAPSTIME(SECS)
         GLOBAL_COMP_TIME%ENGINE_TIME(GLOBAL_COMP_TIME%RUN_NBR) = SECS
 
         CALL WRRESTP(ELEMENT, NODES, AF         ,IAF      ,ICH             ,ADSKY            ,
@@ -9558,7 +9555,7 @@ C--- //0 ----------------
           ENDIF
         ENDIF  
 
-        IF(IMON>0) CALL STOPTIME(TIMERS,TIMER_IO)
+        IF(IMON>0) CALL STOPTIME(7,1)
       END IF
 
       IF (STOP_OR_ADD_CYCLE==1)   THEN
@@ -9704,11 +9701,11 @@ C--- //0 ----------------
          IF(ALLOCATED(PARTSAV2))DEALLOCATE(PARTSAV2)                             
          IF(IMON>0) THEN     
            IF(NVOLU > 0)  CALL FVSTATS(MONVOL)
-           CALL STOPTIME(TIMERS,TIMER_RESOL)   
-            IF(IMONM>0) CALL PRINTIME_INTERF(INTERFACES%INTBUF_TAB,IPARI,INTLIST,NBINTC,TIMERS%REALTIME(1)*0.01D0)
-            CALL PRINTIME(TIMERS,GLOB_THERM%ITHERM)
+           CALL STOPTIME(1,1)   
+            IF(IMONM>0) CALL PRINTIME_INTERF(INTERFACES%INTBUF_TAB,IPARI,INTLIST,NBINTC)
+            CALL PRINTIME(0,GLOB_THERM%ITHERM)
          ELSE
-            CALL ADD_ELAPSED_TIME_MON_OFF(TIMERS)
+            CALL ADD_ELAPSED_TIME_MON_OFF( )
          ENDIF                  
          CALL TRACE_OUT(3)      
          RETURN                 
@@ -9888,9 +9885,9 @@ C
 
         IF(IMON>0) THEN
           IF(NVOLU > 0)  CALL FVSTATS(MONVOL)
-          CALL STOPTIME(TIMERS,TIMER_RESOL)
-            IF(IMONM>0) CALL PRINTIME_INTERF(INTERFACES%INTBUF_TAB,IPARI,INTLIST,NBINTC,TIMERS%REALTIME(1)*0.01D0)
-          CALL PRINTIME(TIMERS,GLOB_THERM%ITHERM)
+          CALL STOPTIME(1,1)
+            IF(IMONM>0) CALL PRINTIME_INTERF(INTERFACES%INTBUF_TAB,IPARI,INTLIST,NBINTC)
+          CALL PRINTIME(0,GLOB_THERM%ITHERM)
         ELSE
             CALL ADD_ELAPSED_TIME_MON_OFF( )
         ENDIF

@@ -55,7 +55,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    tri25ebox                    ../engine/share/modules/tri25ebox.F
       !||    tri7box                      ../engine/share/modules/tri7box.F
       !||====================================================================
-      SUBROUTINE I25MAIN_TRI(TIMERS,
+      SUBROUTINE I25MAIN_TRI(
      1                  IPARI   ,X       ,V       ,INTBUF_TAB,
      2                  MS      ,NIN     ,ITASK   ,WEIGHT  ,
      3                  ISENDTO ,IRCVFROM,RETRI   ,IAD_ELEM,FR_ELEM ,
@@ -66,7 +66,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
-      USE TIMER_MOD
       USE TRI25EBOX
       USE TRI7BOX
       USE MESSAGE_MOD
@@ -96,7 +95,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_) :: TIMERS
       INTEGER NIN ,ITASK, RETRI, NEDGE_T, NRTM_T, SSHIFT, ESHIFT,
      .        NUM_IMP ,IND_IMP(*),
      .        ITAB(*), KINET(*),
@@ -330,7 +328,7 @@ C
         ENDIF
 
         CALL MY_BARRIER
-        IF (IMONM > 0 .AND. ITASK == 0) CALL STARTIME(TIMERS,26)
+        IF (IMONM > 0 .AND. ITASK == 0) CALL STARTIME(26,1)
         BGAPEMX=INTBUF_TAB%VARIABLES(bgapemx_index)
 
         CALL SPMD_TRI25VOX0(
@@ -350,7 +348,7 @@ C
      .      INTBUF_TAB%GAPE,DGAPLOAD)
 
         CALL MY_BARRIER
-        IF (IMONM > 0 .AND. ITASK == 0) CALL STOPTIME(TIMERS,26)
+        IF (IMONM > 0 .AND. ITASK == 0) CALL STOPTIME(26,1)
 
         IF(ITASK==0)THEN
 
@@ -360,7 +358,6 @@ C
           INACTI=0
           NEDGE_LOCAL = INTBUF_TAB%NB_INTERNAL_EDGES + INTBUF_TAB%NB_BOUNDARY_EDGES_LOCAL
           IEDGE   = IPARI(58,NIN)
-          IF(IMONM > 0) CALL STARTIME(TIMERS,25)
           CALL SPMD_TRI25VOX(
      1      INTBUF_TAB%NSV   ,NSN         ,X               ,V            ,MS           ,
      2      BMINMA          ,WEIGHT       ,INTBUF_TAB%STFNS,NIN          ,ISENDTO      ,
@@ -378,7 +375,6 @@ C
      E      INTBUF_TAB%IPARTFRIC_E,INTBUF_TAB%E2S_NOD_NORMAL,IPARI(97,NIN),INTBUF_TAB%STIFMSDT_S,
      .                                                                     INTBUF_TAB%STIFMSDT_EDG,
      F      IFSUB_CAREA     ,PARAMETERS%INTAREAN)
-            IF(IMONM > 0) CALL STOPTIME(TIMERS,25)
 
 C local renumbering of old candidates to collision
           CALL SPMD_RNUM25(
@@ -400,7 +396,7 @@ C Barrier comm spmd_tri7vox + BMINMA + Retour I7BUCE
 C      
       CALL MY_BARRIER
 C
-      IF (IMONM > 0) CALL STARTIME(TIMERS,30)
+      IF (IMONM > 0) CALL STARTIME(30,1)
 C
 C     NCONT additional candidates (if all secondary nodes are already impacted, cf i25optcd)
       MULTIMP = IPARI(23,NIN)
@@ -440,7 +436,7 @@ C New barrier needed for Dynamic MultiMP
         GOTO 40
       ENDIF
 
-      IF (IMONM > 0) CALL STOPTIME(TIMERS,30)
+      IF (IMONM > 0) CALL STOPTIME(30,1)
 C--------------------------------------------------------------
 C     Edges
 C--------------------------------------------------------------
@@ -478,7 +474,7 @@ C Barrier comm spmd_tri7vox + BMINMA + Retour I7BUCE
 C      
       CALL MY_BARRIER
 C
-      IF (IMONM > 0) CALL STARTIME(TIMERS,30)
+      IF (IMONM > 0) CALL STARTIME(30,1)
 C
       MULNSNE = INTBUF_TAB%S_CANDM_E2E
       MULNSNS = INTBUF_TAB%S_CANDM_E2S
@@ -539,14 +535,14 @@ C New barrier needed for Dynamic MultiMP
 C
       IF(ITASK==0)DEALLOCATE(INTBUF_TAB%I25_CAND_A,INTBUF_TAB%I25_CAND_B)
 C
-      IF (IMONM > 0) CALL STOPTIME(TIMERS,30)
+      IF (IMONM > 0) CALL STOPTIME(30,1)
 C--------------------------------------------------------------
  200  CONTINUE
 C--------------------------------------------------------------
 C Negative value in "dist" : tag boundary part
       IF(NSPMD>1)THEN
 !$OMP SINGLE
-        IF (IMONM > 0) CALL STARTIME(TIMERS,26)
+        IF (IMONM > 0) CALL STARTIME(26,1)
         INTBUF_TAB%VARIABLES(distance_index) = - ONE
 C
         CALL SPMD_TRI25GAT(
@@ -567,7 +563,7 @@ C
 
         IPARI(69 ,NIN) = NEDGE_REMOTE_OLD
 C
-        IF (IMONM > 0) CALL STOPTIME(TIMERS,26)
+        IF (IMONM > 0) CALL STOPTIME(26,1)
         IF(IEDGE /= 0) THEN
             DEALLOCATE(RENUM_EDGE)
             DEALLOCATE(OLDNUM_EDGE)

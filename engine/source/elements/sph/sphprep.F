@@ -57,7 +57,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sph_struct_mod       ../engine/share/modules/sph_struct_mod.F
       !||    sph_work_mod         ../common_source/modules/mat_elem/sph_work.F90
       !||====================================================================
-      SUBROUTINE SPHPREP(TIMERS,
+      SUBROUTINE SPHPREP(
      1    PM      ,GEO     ,X       ,V       ,MS      ,
      2    ELBUF_TAB,WA      ,PLD     ,BUFMAT  ,PARTSAV ,
      3    IPARG   ,NPC     ,IPART   ,ITAB    ,BUFGEO  ,
@@ -73,7 +73,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE TIMER_MOD
       USE SPH_WORK_MOD
       USE ELBUFDEF_MOD            
       USE MESSAGE_MOD
@@ -103,7 +102,6 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_), INTENT(INOUT) :: TIMERS
       INTEGER IPART(LIPART1,*),NPC(*),IPARG(NPARG,*),IPARTSP(*),ITAB(*),
      .    KXSP(NISP,*),IXSP(KVOISPH,*),NOD2SP(*),
      .    ISPCOND(NISPCOND,*),ISPSYM(NSPCOND,*),
@@ -324,7 +322,7 @@ C    /---------------/
 C    /---------------/
       CALL MY_BARRIER
 C    /---------------/
-      IF(ITASK==0)CALL STARTIME(TIMERS,90)
+      IF(ITASK==0)CALL STARTIME(90,1)
       IF(ISORTSP==1)THEN
           IF(ISPMD==0.and.ITASK == 0)THEN
             WRITE(ISTDO,*)
@@ -340,7 +338,7 @@ C
           SPATRUE=SPASORT
 C
 C init DBUC, MIN/MAX + recherche cell remote si spmd 
-          CALL SPHTRI0(TIMERS, X   ,SPBUF,KXSP,WSP2SORT,BMINMA ,DMAX,
+          CALL SPHTRI0(X   ,SPBUF,KXSP,WSP2SORT,BMINMA ,DMAX,
      2                 NSP2SORTF,NSP2SORTL,NSP2SORT,ITASK, DBUC)
 C
 C         Tri + Recherche des voisins non nuls
@@ -362,22 +360,22 @@ C         /---------------/
             IF(ITASK==0)THEN
 C
               IF(IMONM == 2)THEN
-                CALL STARTIME(TIMERS,95)
+                CALL STARTIME(95,1)
                 CALL SPMD_BARRIER()
-                CALL STOPTIME(TIMERS,95)
+                CALL STOPTIME(95,1)
               END IF
-              CALL STARTIME(TIMERS,91)
+              CALL STARTIME(91,1)
 C Compactage des structures spmd pour cell remote + renumerotation IXSP + maj IREDUCE
 C            
               CALL SPMD_SPHGAT(KXSP,IXSP,WSP2SORT,ISPHRED,LGAUGE)
-              CALL STOPTIME(TIMERS,91)
+              CALL STOPTIME(91,1)
             END IF
           ENDIF
       ENDIF
 C    /---------------/
       CALL MY_BARRIER
 C    /---------------/
-      IF(ITASK==0)CALL STOPTIME(TIMERS,90)
+      IF(ITASK==0)CALL STOPTIME(90,1)
       ISPHBUC=ISORTSP
       IREDUCE=ISPHRED
 C
@@ -393,7 +391,7 @@ C
       ISORTSP=ISPHBUC
       IF(ISORTSP==1)THEN
 C
-        IF(ITASK==0) CALL STARTIME(TIMERS,90)
+        IF(ITASK==0) CALL STARTIME(90,1)
 C
         IREDUCE  =ISPHRED
         MYSPATRUE=SPATRUE
@@ -401,17 +399,17 @@ C
         IF(NSPMD>1) THEN
           IF(ITASK==0)THEN
             IF(IMONM == 2)THEN
-              CALL STARTIME(TIMERS,95)
+              CALL STARTIME(95,1)
               CALL SPMD_BARRIER()
-              CALL STOPTIME(TIMERS,95)
+              CALL STOPTIME(95,1)
             END IF
-            CALL STARTIME(TIMERS,91)
+            CALL STARTIME(91,1)
 C
 C Envoi liste des cellules remotes actives courantes et reception V, M, RHO pour cellules remotes actives
 C
             CALL SPMD_SPHGETV(KXSP ,SPBUF, V, MS, ISORTSP ,IPARTSP)
 C
-            CALL STOPTIME(TIMERS,91)
+            CALL STOPTIME(91,1)
           END IF
         END IF
 C
@@ -446,16 +444,16 @@ C        /---------------/
           IF(ITASK==0) THEN
 C
             IF(IMONM == 2)THEN
-              CALL STARTIME(TIMERS,95)
+              CALL STARTIME(95,1)
               CALL SPMD_BARRIER()
-              CALL STOPTIME(TIMERS,95)
+              CALL STOPTIME(95,1)
             END IF
-            CALL STARTIME(TIMERS,91)
+            CALL STARTIME(91,1)
 C Maj globale de ISPHRED et SPATRUE apres SPSYMP (SPATRUE inutile)
 C
             CALL SPMD_SPAMAJ(ISPHRED,SPATRUE)
 C
-            CALL STOPTIME(TIMERS,91)
+            CALL STOPTIME(91,1)
           END IF          
         END IF          
 C      /---------------/
@@ -475,14 +473,14 @@ C      /---------------/
 C
         IF(NSPMD>1)THEN
           IF(IMONM == 2.AND.ITASK==0)THEN
-            CALL STARTIME(TIMERS,95)
+            CALL STARTIME(95,1)
             CALL SPMD_BARRIER()
-            CALL STOPTIME(TIMERS,95)
+            CALL STOPTIME(95,1)
           END IF
           IF(ITASK==0) THEN
-            CALL STARTIME(TIMERS,91)
+            CALL STARTIME(91,1)
             CALL SPMD_SPHGETISPH()
-            CALL STOPTIME(TIMERS,91)
+            CALL STOPTIME(91,1)
           END IF 
         ENDIF
 C      /---------------/
@@ -503,36 +501,36 @@ C        /---------------/
           IF(ITASK==0) THEN
 C
             IF(IMONM == 2)THEN
-              CALL STARTIME(TIMERS,95)
+              CALL STARTIME(95,1)
               CALL SPMD_BARRIER()
-              CALL STOPTIME(TIMERS,95)
+              CALL STOPTIME(95,1)
             END IF
-            CALL STARTIME(TIMERS,91)
+            CALL STARTIME(91,1)
 C Maj globale de ISPHRED et SPATRUE apres SPCLASV (ISPHRED inutile) 
 C
             CALL SPMD_SPAMAJ(ISPHRED,SPATRUE)
 C
-            CALL STOPTIME(TIMERS,91)
+            CALL STOPTIME(91,1)
           END IF
         ENDIF
 C       /---------------/
         CALL MY_BARRIER
 C       /---------------/
-        IF(ITASK==0) CALL STOPTIME(TIMERS,90)
+        IF(ITASK==0) CALL STOPTIME(90,1)
 
       ELSE
 C
-        IF(ITASK==0)CALL STARTIME(TIMERS,94)
+        IF(ITASK==0)CALL STARTIME(94,1)
 C
         IF(NSPMD>1)THEN
           IF(ITASK==0) THEN
 C
-            CALL STARTIME(TIMERS,92)
+            CALL STARTIME(92,1)
 C Reception X cellules remotes
 C
             CALL SPMD_SPHGETX(KXSP, SPBUF ,X ,IPARTSP)
 C
-            CALL STOPTIME(TIMERS,92)
+            CALL STOPTIME(92,1)
           END IF 
 C Synchro sur echange SPMD
 C         /---------------/
@@ -579,12 +577,12 @@ C
         IF(NSPMD>1)THEN
           IF(ITASK==0) THEN
 C
-            CALL STARTIME(TIMERS,92)
+            CALL STARTIME(92,1)
 C Envoi liste des cellules remotes actives courantes et reception V, M, RHO pour cellules remotes actives
 C
             CALL SPMD_SPHGETV(KXSP ,SPBUF, V, MS, ISORTSP ,IPARTSP)
 C
-            CALL STOPTIME(TIMERS,92)
+            CALL STOPTIME(92,1)
           END IF 
 C Synchro echange SPMD
 C        /---------------/
@@ -602,7 +600,7 @@ C       /---------------/
         CALL MY_BARRIER
 C       /---------------/
 C
-        IF(ITASK==0)CALL STOPTIME(TIMERS,94)
+        IF(ITASK==0)CALL STOPTIME(94,1)
 C
       ENDIF
 C
