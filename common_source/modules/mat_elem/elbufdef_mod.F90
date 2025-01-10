@@ -195,6 +195,7 @@
       !||    dynain_size_c                       ../engine/source/output/dynain/dynain_size.F
       !||    ebcs0                               ../engine/source/boundary_conditions/ebcs/ebcs0.F
       !||    ebcs10                              ../engine/source/boundary_conditions/ebcs/ebcs10.F
+      !||    ebcs11                              ../engine/source/boundary_conditions/ebcs/ebcs11.F90
       !||    ebcs_main                           ../engine/source/boundary_conditions/ebcs/ebcs_main.F
       !||    eflux3_int22_fvm                    ../engine/source/ale/alefvm/cut_cells/eflux3_int22_fvm.F
       !||    eig                                 ../engine/stub/eig.F

@@ -94,6 +94,7 @@
       !||    spmd_tri7vox                    ../engine/source/mpi/interfaces/spmd_int.F
       !||    spmd_tri7vox0                   ../engine/source/mpi/interfaces/spmd_int.F
       !||    spmd_wvois                      ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_xv_inter_type1             ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
       !||    spmd_xvois                      ../engine/source/mpi/fluid/spmd_cfd.F
       !||====================================================================
       module spmd_mod
@@ -567,6 +568,7 @@
       !||    spmd_tri25vox                   ../engine/source/mpi/interfaces/spmd_tri25vox.F
       !||    spmd_tri7vox                    ../engine/source/mpi/interfaces/spmd_int.F
       !||    spmd_wvois                      ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    spmd_xv_inter_type1             ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
       !||    spmd_xvois                      ../engine/source/mpi/fluid/spmd_cfd.F
       !||--- calls      -----------------------------------------------------
       !||    spmd_in                         ../engine/source/mpi/spmd_mod.F90

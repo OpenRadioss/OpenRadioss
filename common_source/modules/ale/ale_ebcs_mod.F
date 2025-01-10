@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    domdec2             ../starter/source/spmd/domdec2.F
       !||    fillcne             ../starter/source/spmd/domdec2.F
       !||    iniebcs             ../starter/source/boundary_conditions/ebcs/iniebcs.F
+      !||    iniebcs_propergol   ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
       !||    iniebcsp0           ../starter/source/boundary_conditions/ebcs/iniebcsp0.F
       !||    lectur              ../engine/source/input/lectur.F
       !||    read_ebcs           ../starter/source/boundary_conditions/ebcs/read_ebcs.F

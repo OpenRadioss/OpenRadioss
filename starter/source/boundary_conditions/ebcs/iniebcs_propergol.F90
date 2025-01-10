@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    iniebcs_propergol_   ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
+      !||--- called by ------------------------------------------------------
+      !||    lectur               ../starter/source/starter/lectur.F
+      !||====================================================================
       module iniebcs_propergol_
       contains
 ! ======================================================================================================================
@@ -27,6 +32,15 @@
 ! ======================================================================================================================
 !! \brief For option /EBCS/PROPERGOL, need to get from adjacent EoS Cv parameter
 !! \details this Cv parameter allows to determine q_combustion=Cv.T_combustion
+      !||====================================================================
+      !||    iniebcs_propergol          ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
+      !||--- called by ------------------------------------------------------
+      !||    lectur                     ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    iniebcs_propergol_get_cv   ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod                ../starter/share/message_module/message_mod.F
+      !||====================================================================
       subroutine iniebcs_propergol(ixs,ixq,ixtg,multi_fvm_is_used,ebcs_tab,mat_param,sixs,sixq,sixtg,nummat)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -84,6 +98,15 @@
 ! ======================================================================================================================
 !! \brief For option /EBCS/PROPERGOL,loop over adjacent elems and get cv parameter
 !! \details in case of different values are detected, use median one (ignition may be starter with a high density gas : few elems only)
+      !||====================================================================
+      !||    iniebcs_propergol_get_cv   ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
+      !||--- called by ------------------------------------------------------
+      !||    iniebcs_propergol          ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                     ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod                ../starter/share/message_module/message_mod.F
+      !||====================================================================
       subroutine iniebcs_propergol_get_cv(ebcs,mat_param,nummat,title,ixs,ixq,ixtg,sixs,sixq,sixtg)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

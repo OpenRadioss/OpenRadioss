@@ -44,6 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_exch_deleted_surf_edge              ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
       !||    spmd_exch_inter_18                       ../engine/source/mpi/interfaces/spmd_exch_inter_18.F
       !||    spmd_exch_neighbour_segment              ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
+      !||    spmd_xv_inter_type1                      ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
       !||    update_neighbour_segment                 ../engine/source/interfaces/interf/update_neighbour_segment.F90
       !||====================================================================
         MODULE ARRAY_MOD
@@ -257,12 +258,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
 
       !||====================================================================
-      !||    alloc_my_real_1d_array                   ../common_source/modules/array_mod.F
+      !||    alloc_my_real_2d_array   ../common_source/modules/array_mod.F
       !||--- called by ------------------------------------------------------
-      !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
-      !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
-      !||    spmd_exch_inter_18                       ../engine/source/mpi/interfaces/spmd_exch_inter_18.F
-      !||    spmd_exch_neighbour_segment              ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
+      !||    spmd_xv_inter_type1      ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
       !||====================================================================
             SUBROUTINE ALLOC_MY_REAL_2D_ARRAY(THIS)
 #include "implicit_f.inc"
@@ -276,11 +274,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             ! ----------------------------
             ! ----------------------------
       !||====================================================================
-      !||    dealloc_my_real_1d_array                 ../common_source/modules/array_mod.F
+      !||    dealloc_my_real_2d_array   ../common_source/modules/array_mod.F
       !||--- called by ------------------------------------------------------
-      !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
-      !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
-      !||    spmd_exch_inter_18                       ../engine/source/mpi/interfaces/spmd_exch_inter_18.F
+      !||    spmd_xv_inter_type1        ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
       !||====================================================================
             SUBROUTINE DEALLOC_MY_REAL_2D_ARRAY(THIS)
 #include "implicit_f.inc"

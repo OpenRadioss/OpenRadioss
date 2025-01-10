@@ -73,6 +73,7 @@
       !||    h3d_solid_scalar_1                  ../engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
       !||    hist2                               ../engine/source/output/th/hist2.F
       !||    hm_read_eos                         ../starter/source/materials/eos/hm_read_eos.F
+      !||    hm_read_eos_ideal_gas               ../starter/source/materials/eos/hm_read_eos_ideal_gas.F
       !||    hm_read_eos_powderburn              ../starter/source/materials/eos/hm_read_eos_powderburn.F90
       !||    hm_read_fail                        ../starter/source/materials/fail/hm_read_fail.F
       !||    hm_read_inistate_d00                ../starter/source/elements/initia/hm_read_inistate_d00.F
@@ -197,6 +198,8 @@
       !||    imp_buck                            ../engine/source/implicit/imp_buck.F
       !||    ini_inimap1d                        ../starter/source/initial_conditions/inimap/ini_inimap1d.F
       !||    iniebcs_nrf_tcar                    ../starter/source/boundary_conditions/ebcs/iniebcs_nrf_tcar.F
+      !||    iniebcs_propergol                   ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
+      !||    iniebcs_propergol_get_cv            ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
       !||    iniebcsp0                           ../starter/source/boundary_conditions/ebcs/iniebcsp0.F
       !||    inigrav_eos                         ../starter/source/initial_conditions/inigrav/inigrav_eos.F
       !||    inigrav_load                        ../starter/source/initial_conditions/inigrav/inigrav_load.F

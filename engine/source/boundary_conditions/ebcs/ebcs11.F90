@@ -23,6 +23,23 @@
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
+      !||====================================================================
+      !||    ebcs11                ../engine/source/boundary_conditions/ebcs/ebcs11.F90
+      !||--- called by ------------------------------------------------------
+      !||    ebcs_main             ../engine/source/boundary_conditions/ebcs/ebcs_main.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter                ../engine/source/tools/curve/finter.F
+      !||    finter_smooth         ../engine/source/tools/curve/finter_smooth.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod          ../common_source/modules/constant_mod.F
+      !||    ebcs_mod              ../common_source/modules/boundary_conditions/ebcs_mod.F90
+      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    multi_fvm_mod         ../common_source/modules/ale/multi_fvm_mod.F90
+      !||    python_funct_mod      ../common_source/modules/python_mod.F90
+      !||    segvar_mod            ../engine/share/modules/segvar_mod.F
+      !||    sensor_mod            ../engine/share/modules/sensor_mod.F
+      !||    th_surf_mod           ../common_source/modules/interfaces/th_surf_mod.F
+      !||====================================================================
       subroutine ebcs11(nseg,iseg,segvar, &
                         v,w,x, &
                         liste,nod,irect,ielem,iface, &

@@ -37,6 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ebcs0                            ../engine/source/boundary_conditions/ebcs/ebcs0.F
       !||    ebcs1                            ../engine/source/boundary_conditions/ebcs/ebcs1.F
       !||    ebcs10                           ../engine/source/boundary_conditions/ebcs/ebcs10.F
+      !||    ebcs11                           ../engine/source/boundary_conditions/ebcs/ebcs11.F90
       !||    ebcs4                            ../engine/source/boundary_conditions/ebcs/ebcs4.F
       !||    ebcs5                            ../engine/source/boundary_conditions/ebcs/ebcs5.F
       !||    ebcs6                            ../engine/source/boundary_conditions/ebcs/ebcs6.F

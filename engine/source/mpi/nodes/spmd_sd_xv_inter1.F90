@@ -20,6 +20,12 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    spmd_xv_inter_type1_mod   ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
+      !||--- called by ------------------------------------------------------
+      !||    resol                     ../engine/source/engine/resol.F
+      !||    resol_init                ../engine/source/engine/resol_init.F
+      !||====================================================================
       module spmd_xv_inter_type1_mod
 
         INTEGER :: IS_PRESENT_INTER1  ! -1 : not yet defined
@@ -31,6 +37,19 @@
 ! ======================================================================================================================
 !! \brief Here is a small description of the routine, [after the header]
 !! \details if needed, more details can be added here
+      !||====================================================================
+      !||    spmd_xv_inter_type1        ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
+      !||--- called by ------------------------------------------------------
+      !||    resol                      ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||    alloc_my_real_2d_array     ../common_source/modules/array_mod.F
+      !||    dealloc_my_real_2d_array   ../common_source/modules/array_mod.F
+      !||    spmd_wait                  ../engine/source/mpi/spmd_mod.F90
+      !||--- uses       -----------------------------------------------------
+      !||    array_mod                  ../common_source/modules/array_mod.F
+      !||    constant_mod               ../common_source/modules/constant_mod.F
+      !||    spmd_mod                   ../engine/source/mpi/spmd_mod.F90
+      !||====================================================================
         subroutine spmd_xv_inter_type1(numnod,SFR_ELEM,ispmd,nspmd,iad_elem,fr_elem,a,v,ninter,ipari,npari)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules

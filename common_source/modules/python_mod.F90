@@ -31,6 +31,8 @@
       !||    daasolv                        ../engine/source/fluid/daasolv.F
       !||    daasolvp                       ../engine/source/fluid/daasolvp.F
       !||    ddsplit                        ../starter/source/restart/ddsplit/ddsplit.F
+      !||    ebcs11                         ../engine/source/boundary_conditions/ebcs/ebcs11.F90
+      !||    ebcs_main                      ../engine/source/boundary_conditions/ebcs/ebcs_main.F
       !||    execargcheck                   ../engine/source/engine/execargcheck.F
       !||    fixflux                        ../engine/source/constraints/thermic/fixflux.F
       !||    fixvel                         ../engine/source/constraints/general/impvel/fixvel.F

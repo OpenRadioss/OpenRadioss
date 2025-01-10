@@ -50,6 +50,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    desacti                            ../engine/source/elements/desacti.F
       !||    dyna_ina                           ../engine/source/implicit/imp_dyna.F
       !||    dyna_wex                           ../engine/source/implicit/imp_dyna.F
+      !||    ebcs11                             ../engine/source/boundary_conditions/ebcs/ebcs11.F90
+      !||    ebcs_main                          ../engine/source/boundary_conditions/ebcs/ebcs_main.F
       !||    ecrit                              ../engine/source/output/ecrit.F
       !||    eng_qaprint_animinput              ../engine/source/output/qaprint/eng_qaprint_animinput.F
       !||    eng_qaprint_driver                 ../engine/source/output/qaprint/eng_qaprint_driver.F

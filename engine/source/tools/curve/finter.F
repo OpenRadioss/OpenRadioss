@@ -36,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    daasolv                    ../engine/source/fluid/daasolv.F
       !||    daasolvp                   ../engine/source/fluid/daasolvp.F
       !||    dam_fld_sol                ../engine/source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
+      !||    ebcs11                     ../engine/source/boundary_conditions/ebcs/ebcs11.F90
       !||    fail_biquad_b              ../engine/source/materials/fail/biquad/fail_biquad_b.F
       !||    fail_biquad_c              ../engine/source/materials/fail/biquad/fail_biquad_c.F
       !||    fail_biquad_ib             ../engine/source/materials/fail/biquad/fail_biquad_ib.F

@@ -91,6 +91,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    pinchtype_mod              ../common_source/modules/pinchtype_mod.F
       !||    plyxfem_mod                ../engine/share/modules/plyxfem_mod.F
       !||    sensor_mod                 ../engine/share/modules/sensor_mod.F
+      !||    spmd_xv_inter_type1_mod    ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
       !||    stack_mod                  ../engine/share/modules/stack_mod.F
       !||====================================================================
       SUBROUTINE RESOL_INIT(

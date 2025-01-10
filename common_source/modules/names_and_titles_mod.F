@@ -285,6 +285,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_ebcs_normv                ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_normv.F
       !||    hm_read_ebcs_nrf                  ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_nrf.F
       !||    hm_read_ebcs_pres                 ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_pres.F
+      !||    hm_read_ebcs_propergol            ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propergol.F90
       !||    hm_read_ebcs_valvin               ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvin.F
       !||    hm_read_ebcs_valvout              ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvout.F
       !||    hm_read_ebcs_vel                  ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_vel.F
@@ -661,6 +662,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ini_msg                           ../engine/source/output/message/ini_msg.F
       !||    ini_rack                          ../starter/source/tools/lagmul/ini_rack.F
       !||    inicrkfill                        ../starter/source/elements/xfem/inicrkfill.F
+      !||    iniebcs_propergol_get_cv          ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
       !||    iniend                            ../starter/source/interfaces/inter3d1/iniend.F
       !||    iniguser                          ../starter/source/system/iniguser.F
       !||    inimap1d_mod                      ../starter/share/modules1/inimap1d_mod.F

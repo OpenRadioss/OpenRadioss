@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    dyna_ina                  ../engine/source/implicit/imp_dyna.F
       !||    dyna_wex                  ../engine/source/implicit/imp_dyna.F
       !||    ebcs10                    ../engine/source/boundary_conditions/ebcs/ebcs10.F
+      !||    ebcs11                    ../engine/source/boundary_conditions/ebcs/ebcs11.F90
       !||    ebcs_main                 ../engine/source/boundary_conditions/ebcs/ebcs_main.F
       !||    force                     ../engine/source/loads/general/force.F90
       !||    force_imp                 ../engine/source/loads/general/force_imp.F
@@ -40,6 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    multi_ebcs                ../engine/source/multifluid/multi_ebcs.F
       !||    multi_inlet_ebcs          ../engine/source/multifluid/multi_inlet_ebcs.F
       !||    multi_nrf_ebcs            ../engine/source/multifluid/multi_nrf_ebcs.F
+      !||    multi_propergol_ebcs      ../engine/source/multifluid/multi_propergol_ebcs.F90
       !||    multi_timeevolution       ../engine/source/multifluid/multi_timeevolution.F
       !||    pblast_1                  ../engine/source/loads/pblast/pblast_1.F
       !||    pblast_2                  ../engine/source/loads/pblast/pblast_2.F

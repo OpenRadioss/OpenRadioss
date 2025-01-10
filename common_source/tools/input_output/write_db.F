@@ -201,14 +201,15 @@ C
       RETURN
       END
       !||====================================================================
-      !||    write_db_array       ../common_source/tools/input_output/write_db.F
+      !||    write_db_array         ../common_source/tools/input_output/write_db.F
       !||--- called by ------------------------------------------------------
-      !||    intfric_wrestr       ../common_source/modules/interfaces/intbuf_fric_mod.F90
-      !||    write_data_fluxout   ../common_source/modules/boundary_conditions/ebcs_mod.F90
-      !||    write_data_inlet     ../common_source/modules/boundary_conditions/ebcs_mod.F90
-      !||    write_data_nrf       ../common_source/modules/boundary_conditions/ebcs_mod.F90
+      !||    intfric_wrestr         ../common_source/modules/interfaces/intbuf_fric_mod.F90
+      !||    write_data_fluxout     ../common_source/modules/boundary_conditions/ebcs_mod.F90
+      !||    write_data_inlet       ../common_source/modules/boundary_conditions/ebcs_mod.F90
+      !||    write_data_nrf         ../common_source/modules/boundary_conditions/ebcs_mod.F90
+      !||    write_data_propergol   ../common_source/modules/boundary_conditions/ebcs_mod.F90
       !||--- calls      -----------------------------------------------------
-      !||    write_db_c           ../common_source/tools/input_output/write_routtines.c
+      !||    write_db_c             ../common_source/tools/input_output/write_routtines.c
       !||====================================================================
       SUBROUTINE WRITE_DB_ARRAY(A,N)
 C ecriture nombre reel : routine tampon

@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    multi_inlet_ebcs             ../engine/source/multifluid/multi_inlet_ebcs.F
       !||    multi_nrf_ebcs               ../engine/source/multifluid/multi_nrf_ebcs.F
       !||    multi_pressure_equilibrium   ../engine/source/multifluid/multi_pressure_equilibrium.F
+      !||    multi_propergol_ebcs         ../engine/source/multifluid/multi_propergol_ebcs.F90
       !||    solve_eint                   ../engine/source/multifluid/multi_inlet_ebcs.F
       !||--- calls      -----------------------------------------------------
       !||    arret                        ../engine/source/system/arret.F
