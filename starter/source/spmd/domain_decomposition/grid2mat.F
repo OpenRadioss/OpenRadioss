@@ -1338,8 +1338,8 @@ C
 C
 C----------------------------------------------
 !     SIDDCONNECT minimum size NELEM. Value set to 10*NELEM
-      IF(NELEM < 100 000 000) THEN
-        SIDDCONNECT = 2*10*NELEM      
+      IF(NELEM < 100 000 000 .and. NEDGES/100.0 < NELEM ) THEN
+        SIDDCONNECT = MAX(2*NEDGES,2*10*NELEM)  
       ELSE
         ! For very large model
         ! edge filtering is forced
@@ -1358,7 +1358,7 @@ C----------------------------------------------
 C
       NEDGES_OLD = NEDGES
 
-      IF(EDGE_FILTERING == 1 .AND. (NUMELS > NELEM / 3 .OR. ICFSI > 0 )) THEN 
+      IF(EDGE_FILTERING == 1 .AND. (NEDGES/100.0 >= NELEM .or. (NUMELS > NELEM / 3 .OR. ICFSI > 0 ))) THEN 
         WRITE(IOUT,'(A)') "** INFO: SIMPLIFIED DOMAIN DECOMPOSITION" 
 C+------------------------------------------------------------+
 C| Domain decomposition for models with solids                |
