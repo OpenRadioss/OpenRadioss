@@ -84,7 +84,7 @@ c=======================================================================
       BETA  = DIR(2)
       GAMMA = DIR(3)
       NPT   = SIZE(TABLE(IFUNC)%X(1)%VALUES)
-      RMAX  = TABLE(IFUNC)%X(1)%VALUES(NPT) / XFACR
+      RMAX  = TABLE(IFUNC)%X(1)%VALUES(NPT) * XFACR
       P1    = ZERO
       P2    = ZERO
       P3    = ZERO
