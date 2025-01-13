@@ -81,7 +81,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    nlocal_reg_mod              ../common_source/modules/nlocal_reg_mod.F
       !||    table_mod                   ../engine/share/modules/table_mod.F
       !||====================================================================
-      SUBROUTINE USERMAT_SOLID(
+      SUBROUTINE USERMAT_SOLID(TIMERS,
      1   LFT,      LLT,      NFT,      MTN,
      2   JCVT,     PM,       OFF,      SIG,
      3   EINT,     RHO,      QOLD,     VOL,
@@ -133,6 +133,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE DT_MOD
       use glob_therm_mod
+      USE TIMER_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -152,6 +153,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(TIMER_), INTENT(INOUT) :: TIMERS
       INTEGER, INTENT(IN) :: ITY
       INTEGER, INTENT(IN) :: JTUR
       INTEGER, INTENT(INOUT) :: IDEL7NOK
@@ -1068,7 +1070,7 @@ C
 C=======================================================================
 C                  FAILURE MODEL 
 C=======================================================================
-      IF ((ITASK==0).AND.(IMON_MAT==1))CALL STARTIME(121,1)
+      IF ((ITASK==0).AND.(IMON_MAT==1))CALL STARTIME(TIMERS,121)
       IF (NFAIL > 0) THEN
 c
         ! Failure criterion parameters scaling
@@ -1500,7 +1502,7 @@ c
           ENDIF
         ENDDO ! IR = 1,NFAIL
       ENDIF   ! NFAIL
-      IF ((ITASK==0).AND.(IMON_MAT==1))CALL STOPTIME(121,1)
+      IF ((ITASK==0).AND.(IMON_MAT==1))CALL STOPTIME(TIMERS,121)
 C-----------------------------------------------------------------------
 C     viscous stress (/VISC models) 
 C-----------------------------------------------------------------------

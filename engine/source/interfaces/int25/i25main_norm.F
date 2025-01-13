@@ -290,7 +290,7 @@ C       NEDGE  = IPARI(68,N) ! Updated in i25normp
       END DO
 C
 
-c         CALL STOPTIME(MACRO_TIMER_T25NORM,1)
+c         CALL STOPTIME(TIMERS,MACRO_TIMER_T25NORM)
       NCSHIFT = 1
       DO NI25=1,NINTER25
 C
@@ -321,7 +321,7 @@ C       NEDGE  = IPARI(68,N) ! Updated in i25normp
         ENDIF
 
       END DO
-c          CALL STARTIME(MACRO_TIMER_T25NORM,1)  
+c          CALL STARTIME(TIMERS,MACRO_TIMER_T25NORM)  
 C
       CALL MY_BARRIER()
 

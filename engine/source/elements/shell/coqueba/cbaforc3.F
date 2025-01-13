@@ -94,7 +94,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    stack_mod           ../engine/share/modules/stack_mod.F
       !||    table_mod           ../engine/share/modules/table_mod.F
       !||====================================================================
-      SUBROUTINE CBAFORC3(
+      SUBROUTINE CBAFORC3(TIMERS,
      1   ELBUF_STR,   JFT,         JLT,         NFT,
      2   NPT,         IPARI,       MTN,         IPRI,
      3   ITHK,        NELTST,      ITYPTST,     ITAB,
@@ -129,6 +129,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
+      USE TIMER_MOD
       USE TABLE_MOD
       USE STACK_MOD
       USE FAILWAVE_MOD
@@ -161,6 +162,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
+      TYPE(TIMER_), INTENT(INOUT) :: TIMERS
       INTEGER,INTENT(IN)    :: USERL_AVAIL ! Flag for User libraries availability
       INTEGER,INTENT(IN)    :: MAXFUNC     ! Maximum number of functions
       INTEGER,INTENT(INOUT) :: IDEL7NOK    ! Element deletion flag for IDEL flag in contact interfaces
@@ -745,7 +747,7 @@ C-----------------------------------------------------------------------
 C-----------------
 C       CONTRAINTES
 C-----------------
-        IF ((ITASK==0).AND.(IMON_MAT == 1)) CALL STARTIME(35,1)
+        IF ((ITASK==0).AND.(IMON_MAT == 1)) CALL STARTIME(TIMERS,35)
 C-----------------
         IF (NPINCH > 0) THEN
           CALL CMAIN3PINCH(
@@ -777,7 +779,7 @@ C-----------------
      Q    PINCH_LOCAL , GBUF%FORPGPINCH(PTFP), GBUF%MOMPGPINCH(PTMP),EZZAVG  ,
      R    AREAPINCH  )
         ELSE
-          CALL CMAIN3(
+          CALL CMAIN3(TIMERS,
      1    ELBUF_STR ,JFT       ,JLT       ,NFT       ,IPARG      ,
      2    NEL       ,MTN       ,IPLA      ,ITHK      ,GROUP_PARAM,
      3    PM        ,GEO       ,NPF       ,TF        ,BUFMAT     ,
@@ -809,7 +811,7 @@ C-----------------
      T    SDIR_B     )        
         ENDIF
 C-----------------
-        IF ((ITASK==0).AND.(IMON_MAT == 1)) CALL STOPTIME(35,1)
+        IF ((ITASK==0).AND.(IMON_MAT == 1)) CALL STOPTIME(TIMERS,35)
 C      
         IF (IDRIL == 0) THEN
           CALL CBAENER(GBUF%FORPG(PTF),GBUF%EINT,JFT  ,JLT    ,OFF    ,

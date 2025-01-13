@@ -51,7 +51,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
       !||    python_funct_mod       ../common_source/modules/python_mod.F90
       !||====================================================================
-      SUBROUTINE ALEWDX(
+      SUBROUTINE ALEWDX(TIMERS,
      1     GEO             ,X             ,D          ,V          ,VR         ,
      2     W               ,WA            ,WB         ,RBY        ,SKEW       ,
      3     PM              ,XLAS          ,MS         ,FSAV       ,
@@ -92,6 +92,7 @@ C      Consequently X is defined here X(3,SX/3) instead of X(3,NUMNOD) as usuall
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
+      USE TIMER_MOD
       USE PYTHON_FUNCT_MOD
       USE ELBUFDEF_MOD
       USE INTBUFDEF_MOD
@@ -119,6 +120,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(TIMER_), INTENT(inout) :: TIMERS
       TYPE(PYTHON_), INTENT(inout) :: PYTHON
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       INTEGER ISKEW(*), IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ),
@@ -151,7 +153,7 @@ C-----------------------------------------------
 C     S o u r c e   L i n e s
 C-----------------------------------------------
       IF(IMON > 0 .AND. ITASK == 0) THEN
-         CALL STARTIME(5,1)
+         CALL STARTIME(TIMERS,5)
       ENDIF
 C----------------------------------------
 C     MESH VELOCITIES DEPENDING ON USER FORMULATION
@@ -280,7 +282,7 @@ C----------------------------------------
 C
       CALL MY_BARRIER
 C
-      IF(IMON > 0 .AND. ITASK == 0) CALL STOPTIME(5,1)
+      IF(IMON > 0 .AND. ITASK == 0) CALL STOPTIME(TIMERS,5)
       IF (ITASK == 0) THEN
 C----------------------------------------
          IF(NUMPOR > 0)
@@ -289,7 +291,7 @@ C----------------------------------------
 C----------------------------------------
 C     BOUNDARY CONDITIONS AT NODES
 C----------------------------------------
-         IF(IMON > 0 .AND. ITASK == 0) CALL STARTIME(4,1)
+         IF(IMON > 0 .AND. ITASK == 0) CALL STARTIME(TIMERS,4)
          DO I=1,NUMNOD,1024
             NINDX1 = 0
             NINDX2 = 0
@@ -315,56 +317,56 @@ C----------------------------------------
               CALL BCS3V(NINDX2,INDX2,ISKEW,ICODT(2*NUMNOD+1),W,V,SKEW)
             ENDIF
          ENDDO
-         IF(IMON > 0 .AND. ITASK == 0) CALL STOPTIME(4,1)
+         IF(IMON > 0 .AND. ITASK == 0) CALL STOPTIME(TIMERS,4)
 C--------------------------------
 C     ALE/LAGRANGE INTERFACES
 C--------------------------------
          IF(NINTER /= 0) THEN
-            IF(IMON > 0 .AND. ITASK == 0) CALL STARTIME(2,1)
+            IF(IMON > 0 .AND. ITASK == 0) CALL STARTIME(TIMERS,2)
             CALL INTAL3(
      1           IPARI,X     ,V      ,
      2           A    ,W    ,ISKEW ,SKEW  ,ICODT(1+NUMNOD),
      3           IXS  ,IXQ  ,ELBUF_TAB ,IPARG ,
      4           PM   ,ALE_CONNECTIVITY%NALE ,INTBUF_TAB)
-            IF(IMON > 0 .AND. ITASK == 0) CALL STOPTIME(2,1)
+            IF(IMON > 0 .AND. ITASK == 0) CALL STOPTIME(TIMERS,2)
          ENDIF
 C-----------------------------------
 C     2D GRID VELOCITIES
 C-----------------------------------
          IF(N2D == 1)THEN
-            IF(IMON > 0 .AND. ITASK == 0) CALL STARTIME(5,1)
+            IF(IMON > 0 .AND. ITASK == 0) CALL STARTIME(TIMERS,5)
             DO I=1,NUMNOD
                IF(X(2,I)+DT2*W(2,I) >= ZERO)CYCLE
                W(2,I)=ZERO
                V(2,I)=ZERO
             ENDDO
-            IF(IMON > 0 .AND. ITASK == 0) CALL STOPTIME(5,1)
+            IF(IMON > 0 .AND. ITASK == 0) CALL STOPTIME(TIMERS,5)
          ENDIF
 C--------------------------------------
 C     /ALE/LINK/VEL
 C--------------------------------------
          IF(NALELK /= 0) THEN
-            IF(IMON > 0 .AND. ITASK == 0) CALL STARTIME(4,1)
+            IF(IMON > 0 .AND. ITASK == 0) CALL STARTIME(TIMERS,4)
             CALL ALELIN(NALELK,LINALE,W,WEIGHT,IGRNOD,ITAB)
-            IF(IMON > 0 .AND. ITASK == 0) CALL STOPTIME(4,1)
+            IF(IMON > 0 .AND. ITASK == 0) CALL STOPTIME(TIMERS,4)
          ENDIF
 C-----------------------------------
 C     2D GRID VELOCITY
 C-----------------------------------
          IF(N2D == 1)THEN
-            IF(IMON > 0 .AND. ITASK == 0) CALL STARTIME(5,1)
+            IF(IMON > 0 .AND. ITASK == 0) CALL STARTIME(TIMERS,5)
             DO I=1,NUMNOD
                IF(X(2,I)+DT2*W(2,I) >= ZERO)CYCLE
                W(2,I)=ZERO
                V(2,I)=ZERO
             ENDDO!next I
-            IF(IMON > 0 .AND. ITASK == 0) CALL STOPTIME(5,1)
+            IF(IMON > 0 .AND. ITASK == 0) CALL STOPTIME(TIMERS,5)
          ENDIF
 C-----------------------
 C     RIGID WALL ALE or ALE-TH
 C-----------------------
          IF(NRWALL > 0) THEN
-            IF(IMON > 0 .AND. ITASK == 0) CALL STARTIME(4,1)
+            IF(IMON > 0 .AND. ITASK == 0) CALL STARTIME(TIMERS,4)
             CALL RGWAL1(
      1           X                   ,A                      ,V          ,W       ,RWBUF           ,
      2           NPRW(1+NNPRW*NRWALL),NPRW                   , PYTHON, 
@@ -372,7 +374,7 @@ C-----------------------
      4           IXS                 ,IXQ                    ,ELBUF_TAB  ,IPARG   ,
      5           PM                  ,ALE_CONNECTIVITY%NALE  ,TF         ,NPF     ,WEIGHT          ,
      6           IAD_ELEM            ,FR_ELEM                ,FR_WALL         )
-            IF(IMON > 0.AND. ITASK == 0) CALL STOPTIME(4,1)
+            IF(IMON > 0.AND. ITASK == 0) CALL STOPTIME(TIMERS,4)
          ENDIF
 C-----------------------
 C     LASER
@@ -400,7 +402,7 @@ C-----------------------------------
 C-----------------------------------
 C     GRID DISPLACEMENT
 C-----------------------------------
-      IF(IMON > 0 .AND. ITASK == 0) CALL STARTIME(5,1)
+      IF(IMON > 0 .AND. ITASK == 0) CALL STARTIME(TIMERS,5)
 C
       CALL MY_BARRIER
 C
@@ -447,7 +449,7 @@ C-----------------------------------------------
       CALL MY_BARRIER
 C-----------------------------------------------
       IF(IMON > 0 .AND. ITASK == 0) THEN
-         CALL STOPTIME(5,1)
+         CALL STOPTIME(TIMERS,5)
       ENDIF
 C-----------------------------------------------
       RETURN

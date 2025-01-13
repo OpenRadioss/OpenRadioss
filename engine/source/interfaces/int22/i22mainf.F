@@ -41,7 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i22tri_mod         ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||    message_mod        ../engine/share/message_module/message_mod.F
       !||====================================================================
-      SUBROUTINE I22MAINF(
+      SUBROUTINE I22MAINF(TIMERS,
      1                   IPARI     ,INTBUF_TAB ,X          ,A      ,
      2                   ICODT     ,FSAV       ,V          ,MS        ,DT2T     ,  
      3                   NELTST    ,ITYPTST    ,ITAB       ,STIFN     ,FSKYI    ,  
@@ -67,6 +67,7 @@ C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE TIMER_MOD
       USE ELBUFDEF_MOD 
       USE I22TRI_MOD
       USE INTBUFDEF_MOD
@@ -96,7 +97,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
-      
+      TYPE(TIMER_), INTENT(IN) :: TIMERS 
       INTEGER NELTST,ITYPTST,NIN,NEWFRONT,NSTRF(*),
      .        NRTMDIM, IAD17,NV46, ISENSINT(*), DIMFB
       INTEGER IPARI(NPARI,NINTER), ICODT(*),ICONTACT(*),
@@ -359,7 +360,7 @@ C
         JLT_NEW =1
         !-------!
         
-        IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(20,1)
+        IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(TIMERS,20)
         IF(JLT_NEW/=0) THEN
           IPARI(29,NIN) = 1
           IF (DEBUG(3)>=1)NB_JLT_NEW = NB_JLT_NEW + JLT_NEW
@@ -393,7 +394,7 @@ C
      4    Z2                 ,Z3                ,Z4                ,IXS               ,NV46               ,
      5    Delta              ,ISENSINT          ,pFSAVparit        ,IPARG             ,H3D_DATA           )                 
         ENDIF
-        IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(20,1)
+        IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(TIMERS,20)
       ENDDO
 c
 c

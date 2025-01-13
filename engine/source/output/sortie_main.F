@@ -83,7 +83,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    th_surf_mod              ../common_source/modules/interfaces/th_surf_mod.F
       !||    user_windows_mod         ../common_source/modules/user_windows_mod.F
       !||====================================================================
-      SUBROUTINE SORTIE_MAIN(
+      SUBROUTINE SORTIE_MAIN(TIMERS,
      1            PM        ,D           ,V          ,ALE_CONNECT,W        ,
      2            ELBUF     ,IPARG       ,IXS        ,IXQ       ,IXC      ,         
      3            IXT       ,IXP         ,IXR        ,IXTG      ,WA       ,         
@@ -136,6 +136,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE TIMER_MOD
       USE MAT_ELEM_MOD         
       USE CLUSTER_MOD
       USE INTBUFDEF_MOD  
@@ -207,6 +208,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(TIMER_), INTENT(INOUT) :: TIMERS 
       TYPE(t_ebcs_tab), TARGET, INTENT(IN) :: EBCS_TAB
       LOGICAL LOUT
       INTEGER, INTENT(IN) :: SFANI
@@ -355,7 +357,7 @@ c
         CALL S10MVND(ICNDS10 ,VND   ,VMCDN    )
         CALL CNDMASI2(ICNDS10,NKEND,IMAP2ND,MASI2ND0,MS ,V  ,A   ,
      1                WEIGHT ,MAS_ND ,KEND  )
-        CALL ECRIT(PARTSAV  ,MS      ,VMCDN  ,IN       ,VR     , 
+        CALL ECRIT(TIMERS,PARTSAV  ,MS      ,VMCDN  ,IN       ,VR     , 
      2             DMAS     ,WEIGHT  ,ENINTOT  ,EKINTOT,
      3             A        ,AR      ,FXBIPM ,FXBRPM   ,MONVOL ,
      4             XMOM_SMS ,SENSORS ,QFRICINT ,IPARI  ,
@@ -364,7 +366,7 @@ c
         DEALLOCATE(VMCDN)
       ELSE
         BID = ZERO
-        CALL ECRIT(PARTSAV  ,MS      ,V      ,IN       ,VR     , 
+        CALL ECRIT(TIMERS,PARTSAV  ,MS      ,V      ,IN       ,VR     , 
      2             DMAS     ,WEIGHT  ,ENINTOT  ,EKINTOT,
      3             A        ,AR      ,FXBIPM ,FXBRPM   ,MONVOL ,
      4             XMOM_SMS ,SENSORS ,QFRICINT ,IPARI  ,
@@ -762,7 +764,7 @@ C
          K12=K11+NUMELIG3D
          L1=1+6*(NUMELC+NUMELTG)*IEPSDOT
 c
-         CALL GENH3D(
+         CALL GENH3D(TIMERS,
      1             X          ,D         ,V           ,A           ,ELBUF     ,
      2             IXS        ,IXQ       ,IXC         ,IXT         ,IXP       ,
      3             IXR        ,IXTG      ,SN1         ,SN2         ,SN3       ,
