@@ -1170,40 +1170,28 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      TYPE(my_connectdom) ::  IDDCONNECT_SAVE
+      INTEGER,DIMENSION(:,:),ALLOCATABLE ::  IDDCONNECT_SAVE
       INTEGER I, STAT
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       STAT = 0
-      ALLOCATE(IDDCONNECT_SAVE%PDOM(2,SIDDCONNECT),STAT=stat)  
+      ALLOCATE(IDDCONNECT_SAVE(2,SIDDCONNECT+NELEM),STAT=stat)  
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='IDDCONNECT_SAVE')
            
 !     save IDDCONNECT in IFRONT_SAVEDOM
       DO I=1,SIDDCONNECT
-        IDDCONNECT_SAVE%PDOM(1,I) = IDDCONNECT%PDOM(1,I)
-        IDDCONNECT_SAVE%PDOM(2,I) = IDDCONNECT%PDOM(2,I)        
-      ENDDO  
-
-!     dealloc and realloc with bigger size (SIFRONT+NELEM)   
-      DEALLOCATE(IDDCONNECT%PDOM)
-      ALLOCATE(IDDCONNECT%PDOM(2,SIDDCONNECT+NELEM),STAT=stat) 
-      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                           MSGTYPE=MSGERROR,
-     .                         C1='IDDCONNECT REALLOC')        
-      
-      DO I=1,SIDDCONNECT
-        IDDCONNECT%PDOM(1,I) = IDDCONNECT_SAVE%PDOM(1,I)
-        IDDCONNECT%PDOM(2,I) = IDDCONNECT_SAVE%PDOM(2,I)        
+        IDDCONNECT_SAVE(1,I) = IDDCONNECT%PDOM(1,I)
+        IDDCONNECT_SAVE(2,I) = IDDCONNECT%PDOM(2,I)        
       ENDDO
       DO I=SIDDCONNECT+1,SIDDCONNECT+NELEM
-        IDDCONNECT%PDOM(1,I) = -1
-        IDDCONNECT%PDOM(2,I) = -1       
-      ENDDO        
-      DEALLOCATE(IDDCONNECT_SAVE%PDOM)         
-!     set new size of SIDDCONNECT      
+        IDDCONNECT_SAVE(1,I) = -1
+        IDDCONNECT_SAVE(2,I) = -1       
+      ENDDO    
+
+      CALL MOVE_ALLOC(IDDCONNECT_SAVE, IDDCONNECT%PDOM)
       SIDDCONNECT = SIDDCONNECT+NELEM
       
       RETURN
