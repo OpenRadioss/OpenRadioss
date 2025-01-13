@@ -5,6 +5,7 @@ set_source_files_properties( ${source_directory}/stub/kldim.F PROPERTIES COMPILE
 set_source_files_properties( ${source_directory}/stub/fvmbags_stub.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/stub/superlu_stub.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/stub/eig1.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
+set_source_files_properties( ${source_directory}/stub/imp_k_eig.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/airbag/monv_imp0.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/airbag/fvmesh.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/airbag/airbag2.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )

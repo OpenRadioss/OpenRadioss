@@ -482,472 +482,6 @@ C-----------------------------------------------
         ENDIF
       END SUBROUTINE
 
-      !||====================================================================
-      !||    initime        ../engine/source/system/timer.F
-      !||--- called by ------------------------------------------------------
-      !||    radioss2       ../engine/source/engine/radioss2.F
-      !||--- calls      -----------------------------------------------------
-      !||====================================================================
-      SUBROUTINE INITIME()
-C     initialisation des timers
-C     timer                       signification
-C
-C     1                           resol
-C     2                           interfaces (total ou tri fop) [tri type 7, ALE]
-C     3                           elements
-C     4                           cond. cin.
-C     5                           integration
-C     6                           non parallel sur p0
-C     7                           IO
-C     8                           interfaces (forces fop) [i7opcd,i7dst3,i7for3,shooting nodes]
-C     9                           assemblage forces
-C    10                           echange forces spmd
-C    11                           echange rigid bodies forces
-C    12                           echange rigid bodies vitesses
-C    13                           echange vitesse spmd
-C    14                           -----
-C********* TIMERS 15 A 25 ACTIVE sur /DEBUG/CAND + /MON/ON ***************                        
-c    15                           interface i7buce_crit 
-C    16                           interface icomcrit (comm critere de tris)
-C    17                           interface i7main_tri (tri)
-C    18                           interface spmd_ifront     (maj frontieres)
-C    19                           interface i7optcd 
-C    20                           interface force i7for3
-C    21                           interface envoi force
-C    22                           interface reception force
-C    23                           interface envoi vitesse
-C    24                           interface reception vitesse
-C    25                           interface envoi XV tri (TRI7BOX)
-C    26                           interface maj cand tri (no comm, included in i7maindb)
-C    27                           interface tri mmx (comm only, included in spmd_i7crit)
-C    28                           interface tied type 2
-C    29                           interface shooting nodes
-C    30                           interface i7buce pure (sans comm)
-c    31                           [K] setup 
-C    32                           [M] setup
-C    33                           implicit solver
-C    34                           total implicit     
-C    35                           time spent in Material routines
-C    36                           adaptive meshing : criteria
-C    37                           adaptive meshing : kinematic conditions forces
-C    38                           adaptive meshing : kinematic conditions velocities
-C    39                           selective mass scaling
-C********* TIMERS 40 A 60 ACTIVE sur /DEBUG/CAND + /MON/ON ***************
-C    40                           cond cine rbodies + sensors + accelerometres 
-C    41                           cond cine concentrated load forces
-C    42                           cond cine boundary conditions
-C    43                           cond cine rlinks + rivets + cjoints + rwalls
-C    44                           cond cine fixvel + fixtemp
-C    45                           cond cine RBE3
-C    46                           cond cine gravity
-C    47                           task0 manctr
-C    48                           sph (total)
-C    49                           task0 geo+uwin+tfum+desacti
-C    50                           task0 airbag
-C    51                           task0 forints 
-C    52                           task0 damping
-C    53                           task0 DT2
-C    54                           task0 R2R
-C    55                           -----
-C    56                           synchro avant critere tri 
-C    57                           synchro apres critere tri 
-C    58                           synchro fin de tri 
-C    59                           synchro apres element+interf forces 
-C    60                           synchro fin cycle si cc a envoyer 
-C********* TIMERS 61 A 70 ACTIVE sur /MON/FULL ***************
-C    61                           AMS PCG  PCG       :: PCG sauf produits matrice-vecteur W=MV 
-C    62                           AMS PCG  PARIT F   :: calcul des normes et produits scalaires P/ON (sum_6_float)
-C    63                           AMS PCG  COMM R    :: comm. pour calcul des normes et produiys scalaires
-C    64                           AMS PCG  COMP M.V  :: calcul W=MV hors communications
-C    65                           AMS PCG  COMM VFI  :: COMM. ECHANGE VFI cf contacts
-C    66                           IMP PCG
-C    67                           IMP PCG
-C    68                           IMP PCG
-C    69                           IMP PCG
-C    70                           AMS EIGENVECTORS
-C******** 71 A 74 ACTIVE sur /MON/FULL ***********************
-C    71                           AMS EIGENVECTORS
-C    72                           AMS EIGENVECTORS
-C    73                           AMS EIGENVECTORS
-C    74                           AMS PCG  COMP MV/E :: calcul W=MV wrt matrice elementaire uniquement - inclus dans time(64)
-C    75                           AMS BUILD MATRIX
-C    76                           synchro fin de cycle comm shooting
-C
-C    75 - 86                      utilise, mais non decrit ..                          
-C
-C    80                           AMS PCG COMM M.V   :: COMM. pour ASSEMBLAGE de W=MV
-C
-C    87                           sph preparation (sorting, ...)
-C    88                           sph interactions (forintp)
-C    89                           sph others
-C******** 90 A 95 SPH************************************
-C    90                           SPH/SORT1 including 91
-C    91                           SPH/COMM.SORT1
-C    94                           SPH/SORT0 including 92
-C    92                           SPH/COMM.SORT0
-C    93                           SPH/COMM.FORCES
-C    95                           SPH/LOAD INBALANCE SORTING
-C******** 96 A 100 LIBRES ************************************
-C******** 106 /INTER/TYPE25 Specific  ************************
-C   106                           /INTER/TYPE25 Normals computation
-C   107                           Libre
-C   108                           Libre
-C   109                           Libre
-C********* 110-119  ALE ***************************
-C********* 120-122  H3D ANIM***********************
-C********  149-150  temporary *********************
-
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "task_c.inc"
-#include      "timerr_c.inc"
-      COMMON /ICLOCK/CLOCK0
-      INTEGER CLOCK0
-      COMMON /RCLOCK/ELAPSED
-      DOUBLE PRECISION ELAPSED
-#ifdef _OPENMP
-      REAL(kind=8) OMP_get_wtime
-      external OMP_get_wtime
-#endif
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I, J
-C-----------------------------------------------
-      DO I =1, PARASIZ 
-        DO J = 1, NTIMAX 
-          CPUTIME(J,I) = ZERO
-          SYSTIME(J,I) = ZERO
-          REALTIME(J,I) = ZERO
-        ENDDO 
-      ENDDO
-      CALL SYSTEM_CLOCK(CLOCK0)   ! recuperation du temps de debut dans clock0
-      IF(CLOCK0 < 0 )  CALL SYSTEM_CLOCK(CLOCK0)   !In case of failure
-      ELAPSED = ZERO  ! initialisation a zero de l'elapsed time
-
-#ifdef _OPENMP
-        OMP_STARTING_TIME = OMP_GET_WTIME( )
-#endif
-C
-      RETURN
-      END
-
-      !||====================================================================
-      !||    startime                  ../engine/source/system/timer.F
-      !||--- called by ------------------------------------------------------
-      !||    alemain                   ../engine/source/ale/alemain.F
-      !||    alewdx                    ../engine/source/ale/grid/alewdx.F
-      !||    c3forc3                   ../engine/source/elements/sh3n/coque3n/c3forc3.F
-      !||    c3forc3_crk               ../engine/source/elements/xfem/c3forc3_crk.F
-      !||    cbaforc3                  ../engine/source/elements/shell/coqueba/cbaforc3.F
-      !||    cforc3                    ../engine/source/elements/shell/coque/cforc3.F
-      !||    cforc3_crk                ../engine/source/elements/xfem/cforc3_crk.F
-      !||    cmain3                    ../engine/source/materials/mat_share/cmain3.F
-      !||    czforc3                   ../engine/source/elements/shell/coquez/czforc3.F
-      !||    czforc3_crk               ../engine/source/elements/xfem/czforc3_crk.F
-      !||    dyna_ina                  ../engine/source/implicit/imp_dyna.F
-      !||    dyna_wex                  ../engine/source/implicit/imp_dyna.F
-      !||    forintp                   ../engine/source/elements/forintp.F
-      !||    genh3d                    ../engine/source/output/h3d/h3d_results/genh3d.F
-      !||    i10main_tri               ../engine/source/interfaces/intsort/i10main_tri.F
-      !||    i11main_tri               ../engine/source/interfaces/intsort/i11main_tri.F
-      !||    i11mainf                  ../engine/source/interfaces/int11/i11mainf.F
-      !||    i17main_tri               ../engine/source/interfaces/int17/i17main_pena.F
-      !||    i20main_tri               ../engine/source/interfaces/intsort/i20main_tri.F
-      !||    i20mainf                  ../engine/source/interfaces/int20/i20mainf.F
-      !||    i21main_tri               ../engine/source/interfaces/intsort/i21main_tri.F
-      !||    i21mainf                  ../engine/source/interfaces/int21/i21mainf.F
-      !||    i21optcd                  ../engine/source/interfaces/int21/i21optcd.F
-      !||    i22main_tri               ../engine/source/interfaces/intsort/i22main_tri.F
-      !||    i22mainf                  ../engine/source/interfaces/int22/i22mainf.F
-      !||    i23main_tri               ../engine/source/interfaces/intsort/i23main_tri.F
-      !||    i23mainf                  ../engine/source/interfaces/int23/i23mainf.F
-      !||    i24main_tri               ../engine/source/interfaces/intsort/i24main_tri.F
-      !||    i24mainf                  ../engine/source/interfaces/int24/i24main.F
-      !||    i25main_free              ../engine/source/interfaces/intsort/i25main_free.F
-      !||    i25main_tri               ../engine/source/interfaces/intsort/i25main_tri.F
-      !||    i25mainf                  ../engine/source/interfaces/int25/i25mainf.F
-      !||    i7main_tri                ../engine/source/interfaces/intsort/i7main_tri.F
-      !||    i7mainf                   ../engine/source/interfaces/int07/i7mainf.F
-      !||    ig3duforc3                ../engine/source/elements/ige3d/ig3duforc3.F
-      !||    imp_chkm                  ../engine/source/implicit/imp_solv.F
-      !||    imp_k_eig                 ../engine/stub/imp_k_eig.F
-      !||    imp_pcgh                  ../engine/source/implicit/imp_pcg.F
-      !||    imp_solv                  ../engine/source/implicit/imp_solv.F
-      !||    intcrit                   ../engine/source/interfaces/intsort/intcrit.F
-      !||    inter_sort_07             ../engine/source/interfaces/int07/inter_sort_07.F
-      !||    inttri                    ../engine/source/interfaces/intsort/inttri.F
-      !||    lin_solv                  ../engine/source/implicit/lin_solv.F
-      !||    lin_solvh1                ../engine/source/implicit/lin_solv.F
-      !||    lin_solvhm                ../engine/source/implicit/lin_solv.F
-      !||    lin_solvih2               ../engine/source/implicit/lin_solv.F
-      !||    mav_lth                   ../engine/source/implicit/produt_v.F
-      !||    mmain                     ../engine/source/materials/mat_share/mmain.F90
-      !||    mmain8                    ../engine/source/materials/mat_share/mmain8.F
-      !||    mulaw                     ../engine/source/materials/mat_share/mulaw.F90
-      !||    multi_muscl_gradients     ../engine/source/multifluid/multi_muscl_gradients.F
-      !||    prec_solvh                ../engine/source/implicit/prec_solv.F
-      !||    produt_h                  ../engine/source/implicit/produt_v.F
-      !||    produt_hp                 ../engine/source/implicit/produt_v.F
-      !||    rbyfor                    ../engine/source/constraints/general/rbody/rbyfor.F
-      !||    resol                     ../engine/source/engine/resol.F
-      !||    rmatforp                  ../engine/source/materials/mat/mat013/rmatforp.F
-      !||    s10forc3                  ../engine/source/elements/solid/solide10/s10forc3.F
-      !||    s4forc3                   ../engine/source/elements/solid/solide4/s4forc3.F
-      !||    s8cforc3                  ../engine/source/elements/thickshell/solide8c/s8cforc3.F
-      !||    s8eforc3                  ../engine/source/elements/solid/solide8e/s8eforc3.F
-      !||    s8forc3                   ../engine/source/elements/solid/solide8/s8forc3.F
-      !||    s8sforc3                  ../engine/source/elements/solid/solide8s/s8sforc3.F
-      !||    s8zforc3                  ../engine/source/elements/solid/solide8z/s8zforc3.F
-      !||    sforc3                    ../engine/source/elements/solid/solide/sforc3.F
-      !||    sms_check                 ../engine/source/ams/sms_fsa_inv.F
-      !||    sms_inist                 ../engine/source/ams/sms_proj.F
-      !||    sms_inix                  ../engine/source/ams/sms_proj.F
-      !||    sms_mass_scale_2          ../engine/source/ams/sms_mass_scale_2.F
-      !||    sms_mav_lt                ../engine/source/ams/sms_pcg.F
-      !||    sms_mav_lt1               ../engine/source/ams/sms_pcg.F
-      !||    sms_mav_lt2               ../engine/source/ams/sms_pcg.F
-      !||    sms_pcg                   ../engine/source/ams/sms_pcg.F
-      !||    sms_pro_p                 ../engine/source/ams/sms_proj.F
-      !||    sphprep                   ../engine/source/elements/sph/sphprep.F
-      !||    sphtri0                   ../engine/source/elements/sph/sphtri0.F
-      !||    spmd_cell_exchange        ../engine/source/mpi/generic/spmd_cell_exchange.F
-      !||    spmd_e1vois               ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_e4vois               ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_e6vois               ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_envois               ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_evois                ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_exalew               ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_exalew_pon           ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_exchange_grad        ../engine/source/mpi/fluid/spmd_exchange_grad.F
-      !||    spmd_extag                ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_glob_dmin9           ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_i4vois               ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_i8vois               ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_init_ebcs            ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_l11vois              ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_l51vois              ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_lagbounds_exch_i22   ../engine/source/mpi/interfaces/spmd_lagbounds_exch_i22.F
-      !||    spmd_segcom               ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_tri11vox             ../engine/source/mpi/interfaces/spmd_int.F
-      !||    spmd_tri18_151vox         ../engine/source/mpi/interfaces/spmd_int.F
-      !||    spmd_tri20box             ../engine/source/mpi/interfaces/spmd_tri20box.F
-      !||    spmd_tri22vox             ../engine/source/mpi/interfaces/spmd_tri22vox.F
-      !||    spmd_tri24vox             ../engine/source/mpi/interfaces/spmd_int.F
-      !||    spmd_tri25vox             ../engine/source/mpi/interfaces/spmd_tri25vox.F
-      !||    spmd_tri7vox              ../engine/source/mpi/interfaces/spmd_int.F
-      !||    spmd_tri7vox_optimized    ../engine/source/mpi/interfaces/spmd_tri7vox_optimized.F
-      !||    spmd_wvois                ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_xvois                ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    suser43                   ../engine/source/elements/solid/sconnect/suser43.F
-      !||    szforc3                   ../engine/source/elements/solid/solidez/szforc3.F
-      !||    usermat_shell             ../engine/source/materials/mat_share/usermat_shell.F
-      !||    usermat_solid             ../engine/source/materials/mat_share/usermat_solid.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_etime                  ../engine/source/system/machine.F
-      !||====================================================================
-      SUBROUTINE STARTIME(EVENT,ITASK)
-C     routine d'incrementation du timer event
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "task_c.inc"
-#include      "timerr_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER EVENT,ITASK
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-#ifdef _OPENMP
-       REAL(kind=8) OMP_GET_WTIME
-       external OMP_GET_WTIME
-#endif
-C
-C pour eviter erreur passage hybrid
-      CALL MY_ETIME(TIMER(1,EVENT,ITASK))
-#ifdef _OPENMP
-      OMP_INITIME(EVENT,ITASK) = OMP_GET_WTIME( )
-#else
-      CALL SYSTEM_CLOCK(CLOCKINI(EVENT,ITASK))
-      IF(CLOCKINI(EVENT,ITASK)< 0 ) CALL SYSTEM_CLOCK(CLOCKINI(EVENT,ITASK))
-#endif
-
-
-      RETURN
-      END
-
-      !||====================================================================
-      !||    stoptime                  ../engine/source/system/timer.F
-      !||--- called by ------------------------------------------------------
-      !||    alemain                   ../engine/source/ale/alemain.F
-      !||    alewdx                    ../engine/source/ale/grid/alewdx.F
-      !||    c3forc3                   ../engine/source/elements/sh3n/coque3n/c3forc3.F
-      !||    c3forc3_crk               ../engine/source/elements/xfem/c3forc3_crk.F
-      !||    cbaforc3                  ../engine/source/elements/shell/coqueba/cbaforc3.F
-      !||    cforc3                    ../engine/source/elements/shell/coque/cforc3.F
-      !||    cforc3_crk                ../engine/source/elements/xfem/cforc3_crk.F
-      !||    cmain3                    ../engine/source/materials/mat_share/cmain3.F
-      !||    czforc3                   ../engine/source/elements/shell/coquez/czforc3.F
-      !||    czforc3_crk               ../engine/source/elements/xfem/czforc3_crk.F
-      !||    dyna_ina                  ../engine/source/implicit/imp_dyna.F
-      !||    dyna_wex                  ../engine/source/implicit/imp_dyna.F
-      !||    forintp                   ../engine/source/elements/forintp.F
-      !||    genh3d                    ../engine/source/output/h3d/h3d_results/genh3d.F
-      !||    i10main_tri               ../engine/source/interfaces/intsort/i10main_tri.F
-      !||    i11main_tri               ../engine/source/interfaces/intsort/i11main_tri.F
-      !||    i11mainf                  ../engine/source/interfaces/int11/i11mainf.F
-      !||    i17main_tri               ../engine/source/interfaces/int17/i17main_pena.F
-      !||    i20main_tri               ../engine/source/interfaces/intsort/i20main_tri.F
-      !||    i20mainf                  ../engine/source/interfaces/int20/i20mainf.F
-      !||    i21main_tri               ../engine/source/interfaces/intsort/i21main_tri.F
-      !||    i21mainf                  ../engine/source/interfaces/int21/i21mainf.F
-      !||    i22main_tri               ../engine/source/interfaces/intsort/i22main_tri.F
-      !||    i22mainf                  ../engine/source/interfaces/int22/i22mainf.F
-      !||    i23main_tri               ../engine/source/interfaces/intsort/i23main_tri.F
-      !||    i23mainf                  ../engine/source/interfaces/int23/i23mainf.F
-      !||    i24main_tri               ../engine/source/interfaces/intsort/i24main_tri.F
-      !||    i24mainf                  ../engine/source/interfaces/int24/i24main.F
-      !||    i25main_free              ../engine/source/interfaces/intsort/i25main_free.F
-      !||    i25main_tri               ../engine/source/interfaces/intsort/i25main_tri.F
-      !||    i25mainf                  ../engine/source/interfaces/int25/i25mainf.F
-      !||    i7main_tri                ../engine/source/interfaces/intsort/i7main_tri.F
-      !||    i7mainf                   ../engine/source/interfaces/int07/i7mainf.F
-      !||    ig3duforc3                ../engine/source/elements/ige3d/ig3duforc3.F
-      !||    imp_chkm                  ../engine/source/implicit/imp_solv.F
-      !||    imp_k_eig                 ../engine/stub/imp_k_eig.F
-      !||    imp_pcgh                  ../engine/source/implicit/imp_pcg.F
-      !||    imp_solv                  ../engine/source/implicit/imp_solv.F
-      !||    intcrit                   ../engine/source/interfaces/intsort/intcrit.F
-      !||    inter_sort_07             ../engine/source/interfaces/int07/inter_sort_07.F
-      !||    inttri                    ../engine/source/interfaces/intsort/inttri.F
-      !||    lin_solv                  ../engine/source/implicit/lin_solv.F
-      !||    lin_solvh1                ../engine/source/implicit/lin_solv.F
-      !||    lin_solvhm                ../engine/source/implicit/lin_solv.F
-      !||    lin_solvih2               ../engine/source/implicit/lin_solv.F
-      !||    mav_lth                   ../engine/source/implicit/produt_v.F
-      !||    mmain                     ../engine/source/materials/mat_share/mmain.F90
-      !||    mmain8                    ../engine/source/materials/mat_share/mmain8.F
-      !||    mulaw                     ../engine/source/materials/mat_share/mulaw.F90
-      !||    multi_muscl_gradients     ../engine/source/multifluid/multi_muscl_gradients.F
-      !||    prec_solvh                ../engine/source/implicit/prec_solv.F
-      !||    rbyfor                    ../engine/source/constraints/general/rbody/rbyfor.F
-      !||    resol                     ../engine/source/engine/resol.F
-      !||    rmatforp                  ../engine/source/materials/mat/mat013/rmatforp.F
-      !||    s10forc3                  ../engine/source/elements/solid/solide10/s10forc3.F
-      !||    s4forc3                   ../engine/source/elements/solid/solide4/s4forc3.F
-      !||    s8cforc3                  ../engine/source/elements/thickshell/solide8c/s8cforc3.F
-      !||    s8eforc3                  ../engine/source/elements/solid/solide8e/s8eforc3.F
-      !||    s8forc3                   ../engine/source/elements/solid/solide8/s8forc3.F
-      !||    s8sforc3                  ../engine/source/elements/solid/solide8s/s8sforc3.F
-      !||    s8zforc3                  ../engine/source/elements/solid/solide8z/s8zforc3.F
-      !||    sforc3                    ../engine/source/elements/solid/solide/sforc3.F
-      !||    sms_check                 ../engine/source/ams/sms_fsa_inv.F
-      !||    sms_inist                 ../engine/source/ams/sms_proj.F
-      !||    sms_inix                  ../engine/source/ams/sms_proj.F
-      !||    sms_mass_scale_2          ../engine/source/ams/sms_mass_scale_2.F
-      !||    sms_mav_lt                ../engine/source/ams/sms_pcg.F
-      !||    sms_mav_lt1               ../engine/source/ams/sms_pcg.F
-      !||    sms_mav_lt2               ../engine/source/ams/sms_pcg.F
-      !||    sms_pcg                   ../engine/source/ams/sms_pcg.F
-      !||    sms_pro_p                 ../engine/source/ams/sms_proj.F
-      !||    sphprep                   ../engine/source/elements/sph/sphprep.F
-      !||    sphtri0                   ../engine/source/elements/sph/sphtri0.F
-      !||    spmd_cell_exchange        ../engine/source/mpi/generic/spmd_cell_exchange.F
-      !||    spmd_e1vois               ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_e4vois               ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_e6vois               ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_envois               ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_evois                ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_exalew               ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_exalew_pon           ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_exchange_grad        ../engine/source/mpi/fluid/spmd_exchange_grad.F
-      !||    spmd_extag                ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_glob_dmin9           ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_i4vois               ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_i8vois               ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_init_ebcs            ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_l11vois              ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_l51vois              ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_lagbounds_exch_i22   ../engine/source/mpi/interfaces/spmd_lagbounds_exch_i22.F
-      !||    spmd_segcom               ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_tri18_151vox         ../engine/source/mpi/interfaces/spmd_int.F
-      !||    spmd_tri20box             ../engine/source/mpi/interfaces/spmd_tri20box.F
-      !||    spmd_tri22vox             ../engine/source/mpi/interfaces/spmd_tri22vox.F
-      !||    spmd_tri24vox             ../engine/source/mpi/interfaces/spmd_int.F
-      !||    spmd_tri25vox             ../engine/source/mpi/interfaces/spmd_tri25vox.F
-      !||    spmd_tri7vox              ../engine/source/mpi/interfaces/spmd_int.F
-      !||    spmd_tri7vox_optimized    ../engine/source/mpi/interfaces/spmd_tri7vox_optimized.F
-      !||    spmd_wvois                ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    spmd_xvois                ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    suser43                   ../engine/source/elements/solid/sconnect/suser43.F
-      !||    szforc3                   ../engine/source/elements/solid/solidez/szforc3.F
-      !||    usermat_shell             ../engine/source/materials/mat_share/usermat_shell.F
-      !||    usermat_solid             ../engine/source/materials/mat_share/usermat_solid.F
-      !||--- calls      -----------------------------------------------------
-      !||    my_etime                  ../engine/source/system/machine.F
-      !||====================================================================
-      SUBROUTINE STOPTIME(EVENT,ITASK)
-C     routine incrementation du timer event
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "task_c.inc"
-#include      "timerr_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER EVENT,ITASK
-C
-      INTEGER CLOCK1, CLOCKRATE, NBMAX
-      DOUBLE PRECISION  SECS
-      REAL(KIND=8) :: OMP_ENDING_TIME
-#ifdef _OPENMP
-       REAL(kind=8) OMP_GET_WTIME
-       external OMP_GET_WTIME
-#endif
-C pour eviter erreur passage hybrid
-C
-      CALL MY_ETIME(TIMER(3,EVENT,ITASK))
-      CPUTIME(EVENT,ITASK) = CPUTIME(EVENT,ITASK) +
-     .                       TIMER(3,EVENT,ITASK)-TIMER(1,EVENT,ITASK)
-      SYSTIME(EVENT,ITASK) = SYSTIME(EVENT,ITASK) +
-     .                       TIMER(4,EVENT,ITASK)-TIMER(2,EVENT,ITASK)
-#ifdef _OPENMP
-      OMP_ENDING_TIME = OMP_GET_WTIME( )
-      SECS = OMP_ENDING_TIME - OMP_INITIME(EVENT,ITASK)
-#else
-      CALL SYSTEM_CLOCK(COUNT=CLOCK1, COUNT_RATE=CLOCKRATE,
-     +                  COUNT_MAX=NBMAX                   )
-      IF(CLOCK1 < 0 ) THEN 
-      ! Retry in case of failure
-        CALL SYSTEM_CLOCK(COUNT=CLOCK1, COUNT_RATE=CLOCKRATE,
-     +                  COUNT_MAX=NBMAX                   )
-      ENDIF
-
-      SECS = CLOCK1-CLOCKINI(EVENT,ITASK)    ! diff temps courant - temps initial
-      IF(SECS<ZERO) SECS = SECS + NBMAX   ! cas depassement nb de periode maximum
-      SECS = SECS/CLOCKRATE
-#endif
-
-      REALTIME(EVENT,ITASK)=REALTIME(EVENT,ITASK)+SECS
-C
-      RETURN
-      END
 
       !||====================================================================
       !||    printime          ../engine/source/system/timer.F
@@ -970,11 +504,12 @@ C
       !||    inoutfile_mod     ../common_source/modules/inoutfile_mod.F
       !||    time_mod          ../engine/share/modules/time_mod.F
       !||====================================================================
-      SUBROUTINE PRINTIME(ITASK,ITHERM)
+      SUBROUTINE PRINTIME(T,ITHERM)
 C     routine d'affichage des timers
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE TIMER_MOD
       USE TIME_MOD
       USE INOUTFILE_MOD
 C-----------------------------------------------
@@ -991,7 +526,7 @@ C-----------------------------------------------
 #include        "task_c.inc"
 #include        "timerc_c.inc"
 #include        "timeri_c.inc"
-#include        "timerr_c.inc"
+!#include        "timerr_c.inc"
 #include        "units_c.inc"
 #include        "filescount_c.inc"
       COMMON /ICLOCK/CLOCK0
@@ -1001,21 +536,21 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ITASK
+      TYPE(TIMER_), INTENT(INOUT) :: T
       INTEGER ,INTENT(IN) :: ITHERM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, NPROC, MSGTAG, IRSIZE, J, IH, IM, IS
-      DOUBLE PRECISION  SECS, TOTAL, CUMUL(NTIMAX),
-     .        AVERAGE(NTIMAX), DEVIATION(NTIMAX),
-     .        DMIN(NTIMAX), DMAX(NTIMAX),CUMUL_MAT,CUMUL_ELEM,
+      DOUBLE PRECISION  SECS, TOTAL, CUMUL(MAX_NB_TIMER),
+     .        AVERAGE(MAX_NB_TIMER), DEVIATION(MAX_NB_TIMER),
+     .        DMIN(MAX_NB_TIMER), DMAX(MAX_NB_TIMER),CUMUL_MAT,CUMUL_ELEM,
      .        CUMUL_FAIL,ARRAY(NSPMD),X_MINVALUE,X_MAXVALUE,Y_MAXVALUE
       INTEGER MEMUSE(NSPMD),MEM_L,MMIN,MMAX,MTOT,MAVR,
      .        OUTSIZE,RFILESIZE,NB_INTERV
       INTEGER VMPEAK, VMSIZE,VMRSS,VMHWM, VMSTK,MEMSTAT(5,NSPMD),
      .        GOT_MEM_MAP
-      CHARACTER(LEN=9) TITLES(NTIMAX)
+      CHARACTER(LEN=9) TITLES(MAX_NB_TIMER)
       INTEGER FIELDS(11),NFIELDS
       REAL ZEROS
       INTEGER :: NF,IJK,IJKL,LEN_RST_NAME
@@ -1028,6 +563,10 @@ C-----------------------------------------------
       CHARACTER(len=4096) :: TMP_NAME
       INTEGER :: INDICE
       INTEGER, PARAMETER :: INTSIZE = 4
+      REAL, DIMENSION(:,:), ALLOCATABLE :: CPUTIME
+      REAL, DIMENSION(:,:), ALLOCATABLE :: SYSTIME
+      REAL, DIMENSION(:,:), ALLOCATABLE :: REALTIME
+ 
 
       TITLES(MACRO_TIMER_RESOL      ) = "RESOL"
       TITLES(MACRO_TIMER_CONTSORT   ) = "CONTSORT"
@@ -1073,23 +612,44 @@ C
 C nproc = nombre de domaines, toutes les taches SMP comptent pour un seul proc
 CC      NPROC = MAX(NTHREAD,NSPMD)
 CC smp nproc = ntask, spmd nproc = NSPMD
+
+      ALLOCATE(CPUTIME(MAX_NB_TIMER,NSPMD))
+      ALLOCATE(SYSTIME(MAX_NB_TIMER,NSPMD))
+      ALLOCATE(REALTIME(MAX_NB_TIMER,NSPMD))
+
+      DO I = 1, MAX_NB_TIMER
+       ! copy local timers 
+        CPUTIME(I,1) = T%CPUTIME(I)
+        SYSTIME(I,1) = T%SYSTIME(I)
+        REALTIME(I,1) = T%REALTIME(I)
+      ENDDO
+
+      MEMUSE(ISPMD+1)=VMPEAK
+      MEMSTAT(1,ISPMD+1) = VMPEAK
+      MEMSTAT(2,ISPMD+1) = VMSIZE
+      MEMSTAT(3,ISPMD+1) = VMRSS
+      MEMSTAT(4,ISPMD+1) = VMHWM
+      MEMSTAT(5,ISPMD+1) = VMSTK
+
+
+
       IF (NSPMD > 1) THEN
 C gather des cpu et sys time pour spmd
         MSGTAG = 1000
         IF (ISPMD/=0) THEN
-          CALL RAD_SPMD_SEND(CPUTIME,NTIMAX*IRSIZE,0,IT_SPMD,
+          CALL RAD_SPMD_SEND(T%CPUTIME,MAX_NB_TIMER*IRSIZE,0,IT_SPMD,
      .                       MSGTAG+ISPMD+1,INTSIZE)
-          CALL RAD_SPMD_SEND(SYSTIME,NTIMAX*IRSIZE,0,IT_SPMD,
+          CALL RAD_SPMD_SEND(T%SYSTIME,MAX_NB_TIMER*IRSIZE,0,IT_SPMD,
      .                       MSGTAG+ISPMD+1,INTSIZE)
-          CALL RAD_SPMD_SEND(REALTIME,NTIMAX*IRSIZE,0,IT_SPMD,
+          CALL RAD_SPMD_SEND(T%REALTIME,MAX_NB_TIMER*IRSIZE,0,IT_SPMD,
      .                       MSGTAG+ISPMD+1,INTSIZE)
         ELSE
           DO I = 2, NSPMD
-            CALL RAD_SPMD_RECV(CPUTIME(1,I),NTIMAX*IRSIZE,I-1,IT_SPMD,
+            CALL RAD_SPMD_RECV(CPUTIME(1,I),MAX_NB_TIMER*IRSIZE,I-1,IT_SPMD,
      .                         MSGTAG+I,INTSIZE)
-            CALL RAD_SPMD_RECV(SYSTIME(1,I),NTIMAX*IRSIZE,I-1,IT_SPMD,
+            CALL RAD_SPMD_RECV(SYSTIME(1,I),MAX_NB_TIMER*IRSIZE,I-1,IT_SPMD,
      .                         MSGTAG+I,INTSIZE)
-            CALL RAD_SPMD_RECV(REALTIME(1,I),NTIMAX*IRSIZE,I-1,IT_SPMD,
+            CALL RAD_SPMD_RECV(REALTIME(1,I),MAX_NB_TIMER*IRSIZE,I-1,IT_SPMD,
      .                         MSGTAG+I,INTSIZE)
           ENDDO
         ENDIF
@@ -1099,12 +659,12 @@ C Gather de la m  moire utilis  e
         MEMUSE=0
         MEM_L=0
 
-        MEMUSE(ISPMD+1)=VMPEAK
-        MEMSTAT(1,ISPMD+1) = VMPEAK
-        MEMSTAT(2,ISPMD+1) = VMSIZE
-        MEMSTAT(3,ISPMD+1) = VMRSS
-        MEMSTAT(4,ISPMD+1) = VMHWM
-        MEMSTAT(5,ISPMD+1) = VMSTK
+c       MEMUSE(ISPMD+1)=VMPEAK
+c       MEMSTAT(1,ISPMD+1) = VMPEAK
+c       MEMSTAT(2,ISPMD+1) = VMSIZE
+c       MEMSTAT(3,ISPMD+1) = VMRSS
+c       MEMSTAT(4,ISPMD+1) = VMHWM
+c       MEMSTAT(5,ISPMD+1) = VMSTK
 
         IF (ISPMD/=0) THEN
           CALL RAD_SPMD_SEND( MEMUSE(ISPMD+1),1*IRSIZE,0,IT_SPMD,
@@ -1189,14 +749,14 @@ C
       WRITE(ISTDO,*)'                          ** CPU USER TIME **'
       WRITE(ISTDO,*)' '
 
-        CALL PRINT_SUMMARY(1,NTIMAX,CPUTIME,TITLES,ISTDO,ITHERM) 
+        CALL PRINT_SUMMARY(1,MAX_NB_TIMER,CPUTIME,TITLES,ISTDO,ITHERM) 
 
       WRITE(IOUT,*)' '
       WRITE(IOUT,*)'                          ** CPU USER TIME **'
       WRITE(IOUT,*)' '
 
         
-        CALL PRINT_SUMMARY(1,NTIMAX,CPUTIME,TITLES,IOUT,ITHERM) 
+        CALL PRINT_SUMMARY(1,MAX_NB_TIMER,CPUTIME,TITLES,IOUT,ITHERM) 
 
 
 
@@ -1242,11 +802,11 @@ C
 C---------------------------
 C Global timings
 C---------------------------
-      DO I = 1, NTIMAX
+      DO I = 1, MAX_NB_TIMER
         CUMUL(I) = ZERO
       END DO
       DO I = 1,NPROC
-        DO J = 1, NTIMAX
+        DO J = 1, MAX_NB_TIMER
          CUMUL(J) = CUMUL(J) + CPUTIME(J,I)
         ENDDO
       ENDDO
@@ -1336,12 +896,6 @@ c     ENDIF
      +  TOTAL,100*TOTAL/CUMUL(1),' % '
       WRITE(IOUT,'(A,E9.4,3x,F6.2,A)')' TOTAL.......................: ',
      +  CUMUL(1),100*CUMUL(1)/CUMUL(1),' % '
-c     IF(NUMSPH /=0) THEN
-c     WRITE(IOUT,'(A,E9.4,3x,F6.2,A)')' SPH TOTAL...................: ',
-c    + CUMUL(48),
-c    + 100*CUMUL(48)/CUMUL(1),' % '
-c     ENDIF
-
       WRITE(IOUT,*)' '
 
       
@@ -1351,7 +905,7 @@ C
        WRITE(IOUT,*)'                          ** ELAPSED TIME **'    
        WRITE(IOUT,*)' '                                               
         
-        CALL PRINT_SUMMARY(2,NTIMAX,REALTIME,TITLES,IOUT,ITHERM) 
+        CALL PRINT_SUMMARY(2,MAX_NB_TIMER,REALTIME,TITLES,IOUT,ITHERM) 
 
        IF(.FALSE.)THEN
         WRITE(IOUT,*)' '
@@ -1501,7 +1055,7 @@ C Engine Disk usage Statistics
 C---------------------------
 C Elapsed time & Estimated Speedup
 C---------------------------
-      CALL ELAPSTIME(SECS)
+      CALL ELAPSTIME(T,SECS)
       CALL DATE_AND_TIME(DATE,TIME) 
 !     ---------------------------
       IF(ISPMD==0) THEN
@@ -3010,7 +2564,8 @@ C   mon tri flottant
       !||    resol                      ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
       !||====================================================================
-      SUBROUTINE ELAPSTIME(ETIME)
+      SUBROUTINE ELAPSTIME(T,ETIME)
+        USE TIMER_MOD
 C     reset timer elapsed time et calcul tu temps elapsed courant
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -3020,7 +2575,7 @@ C----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "task_c.inc"
-#include      "timerr_c.inc"
+!#include      "timerr_c.inc"
       COMMON /ICLOCK/CLOCK0
       INTEGER CLOCK0
       COMMON /RCLOCK/ELAPSED
@@ -3028,6 +2583,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(TIMER_), INTENT(INOUT) :: T
       DOUBLE PRECISION ETIME
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -3050,7 +2606,7 @@ C-----------------------------------------------
 #ifdef _OPENMP
       OMP_ENDING_TIME = OMP_GET_WTIME( )
       CLOCK0 = CLOCK1
-      ELAPSED = OMP_ENDING_TIME - OMP_STARTING_TIME
+      ELAPSED = OMP_ENDING_TIME - T%OMP_STARTING_TIME
       ETIME = ELAPSED
 #else
       IF(CLOCK1 > 0 ) THEN
@@ -3630,12 +3186,13 @@ C-----------------------------------------------
       !||    inoutfile_mod              ../common_source/modules/inoutfile_mod.F
       !||    time_mod                   ../engine/share/modules/time_mod.F
       !||====================================================================
-        SUBROUTINE ADD_ELAPSED_TIME_MON_OFF( )
+        SUBROUTINE ADD_ELAPSED_TIME_MON_OFF(T)
 !       When /MON/OFF is used, main processor 
 !       must write the elapsed time
 C-----------------------------------------------
 C       M o d u l e s
 C-----------------------------------------------
+        USE TIMER_MOD
         USE TIME_MOD
         USE INOUTFILE_MOD
 C-----------------------------------------------
@@ -3653,6 +3210,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
+        TYPE(TIMER_), INTENT(INOUT) :: T
         INTEGER I, NPROC
         DOUBLE PRECISION  SECS
         INTEGER :: LEN_RST_NAME
@@ -3665,7 +3223,7 @@ C-----------------------------------------------
 C---------------------------
 C       Elapsed time & Estimated Speedup
 C---------------------------
-        CALL ELAPSTIME(SECS)
+        CALL ELAPSTIME(T,SECS)
 !       ---------------------------
         IF(ISPMD==0) THEN
             CURRENT_RUN = GLOBAL_COMP_TIME%RUN_NBR

@@ -135,6 +135,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE TIMER_MOD
       USE DSGRAPH_MOD
       USE RESTMOD
       USE INTSTAMP_GLOB_MOD
@@ -336,6 +337,7 @@ C-------------------------------------------------------------------------------
       TYPE(UNIT_TYPE_) :: UNITAB !< units conversion
       TYPE(connectivity_) :: element 
       TYPE(nodal_arrays_), target :: nodes 
+      TYPE(timer_) :: TIMERS
 C------------------------------------------------------------------
 C to build a IBM PARALLEL version
 C In starter : define install parameter nspmd 
@@ -354,7 +356,7 @@ C------------------------------------------------
     
       CALL CHECK_MESSAGE_DEFINITION()
 C
-      CALL INITIME()
+      CALL INITIME(TIMERS)
 c
       CALL NAMES_AND_TITLE_INIT(NAMES_AND_TITLES)
 C------------------------------------------------
@@ -2170,7 +2172,7 @@ C---------------------------------------------------------------------
 
          CALL RESOL_HEAD(ELEMENT, NODES, ITASK        ,AF              ,IAF             ,IDATA      ,RDATA,XDP ,
      .                   GRAPHE       ,IFLOW           ,RFLOW           ,MCP        ,TEMP      ,
-     .                   STACK        ,IRUNN_BIS       ,
+     .                   STACK        ,IRUNN_BIS       , TIMERS,
      .                   MULTI_FVM    ,H3D_DATA        ,SUBSETS    ,IGRNOD    ,
      .                   IGRBRIC      ,IGRQUAD         ,IGRSH4N         ,IGRSH3N    ,IGRTRUSS  ,
      .                   IGRBEAM      ,IGRSPRING       ,IGRPART         ,IGRSURF    ,IGRSLIN   ,

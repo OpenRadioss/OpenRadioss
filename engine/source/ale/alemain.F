@@ -85,7 +85,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    table_mod                    ../engine/share/modules/table_mod.F
       !||    th_surf_mod                  ../common_source/modules/interfaces/th_surf_mod.F
       !||====================================================================
-      SUBROUTINE ALEMAIN(
+      SUBROUTINE ALEMAIN( TIMERS,
      1         PM          ,GEO         ,X               ,A          ,AR                ,V               ,
      2         MS          ,WA          ,ELBUF_TAB       ,BUFMAT     ,PARTSAV           ,TF              ,
      3         VAL2        ,VEUL        ,FV              ,STIFN      ,FSKY              ,EANI            ,
@@ -113,6 +113,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE TIMER_MOD
       USE PYTHON_FUNCT_MOD
       USE INITBUF_MOD
       USE TABLE_MOD
@@ -170,6 +171,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(TIMER_) :: TIMERS
       INTEGER,INTENT(IN) :: S_SFEM_NODVAR
       TYPE(MATPARAM_STRUCT_),DIMENSION(NUMMAT),INTENT(IN) :: MATPARAM !< material buffer
       INTEGER, INTENT(IN):: IRESP
@@ -343,7 +345,9 @@ C  IOUTPRT (assembly report)
         IF(NSPMD > 1)THEN
 !$OMP SINGLE
           LENCOM = NERCVOIS(NSPMD + 1) + NESDVOIS(NSPMD + 1)
+          CALL STARTIME(TIMERS, TIMER_SPMDCFD)
           CALL SPMD_ENVOIS(3, XCELL, NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
+          CALL STOPTIME(TIMERS, TIMER_SPMDCFD)
 !$OMP END SINGLE
         ENDIF
       ENDIF
@@ -410,7 +414,7 @@ C---------------------------------------------------------
       ENDIF
 C
       IF(ALE%SUB%IFSUB == 0)THEN
-        IF(ITASK==0) CALL STARTIME(MACRO_TIMER_IFSUB0,1)
+        IF(ITASK==0) CALL STARTIME(TIMERS,MACRO_TIMER_IFSUB0)
         IF(IALE+IEULER+GLOB_THERM%ITHERM /= 0)THEN
           IF(ALE%GLOBAL%INCOMP == 0) THEN
             IF(NSEGFLU > 0 .AND. N2D == 0) THEN
@@ -418,7 +422,9 @@ C
               ! Comm SPMD SEGVAR Pi -> P0
               IF(NSPMD > 1) THEN
 !$OMP SINGLE
+                CALL STARTIME(TIMERS, TIMER_SPMDCFD)
                 CALL SPMD_SEGCOM(SEGVAR,NPSEGCOM,LSEGCOM,NPSEGCOM(NSPMD+1),0)
+                CALL STOPTIME(TIMERS, TIMER_SPMDCFD)
 !$OMP END SINGLE
               ENDIF
             ENDIF
@@ -453,7 +459,9 @@ C
 C Comm SPMD SEGVAR P0 -> Pi
                IF(NSPMD > 1) THEN
 !$OMP SINGLE
+                 CALL STARTIME(TIMERS, TIMER_SPMDCFD)
                  CALL SPMD_SEGCOM(SEGVAR,NPSEGCOM,LSEGCOM,NPSEGCOM(NSPMD+1),1)
+                  CALL STOPTIME(TIMERS, TIMER_SPMDCFD)
 C Comm SPMD P0 -> Pi time T=0 depending on EBCS type
                  IF(TT == ZERO)THEN
                     CALL SPMD_INIT_EBCS(V,ISIZXV,IAD_ELEM,FR_ELEM, EBCS_TAB)
@@ -484,7 +492,7 @@ c
          
          IF (MULTI_FVM%IS_USED) THEN
 
-          IF(ITASK==0) CALL STARTIME(MACRO_TIMER_MULTIFVM,1)
+          IF(ITASK==0) CALL STARTIME(TIMERS,MACRO_TIMER_MULTIFVM)
 C     -------------------------
 C     Multifluid law variable globalization
 C     LBUF -> GBUF
@@ -530,10 +538,12 @@ C     ---------------------
                IF (NSPMD  >  1 .AND. ((MULTI_FVM%MUSCL  >  0) .OR. MULTI_FVM%NS_DIFF)) THEN
 !$OMP SINGLE
                   LENCOM = NERCVOIS(NSPMD + 1) + NESDVOIS(NSPMD + 1)
+                  CALL STARTIME(TIMERS, TIMER_SPMDCFD)
                   CALL SPMD_ENVOIS(3, MULTI_FVM%ELEM_DATA%CENTROID,NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
                   IF (ALLOCATED(MULTI_FVM%VOL)) THEN
                      CALL SPMD_ENVOIS(1, MULTI_FVM%VOL, NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM) 
                   ENDIF
+                  CALL STOPTIME(TIMERS, TIMER_SPMDCFD)
 !$OMP END SINGLE
                   CALL MY_BARRIER
                ENDIF
@@ -587,8 +597,10 @@ C     ------------------------
                IF (NSPMD  >  1 .AND. MULTI_FVM%MUSCL  >  0) THEN
 !$OMP SINGLE
                   LENCOM = NERCVOIS(NSPMD + 1) + NESDVOIS(NSPMD + 1)
+                  CALL STARTIME(TIMERS,TIMER_SPMDCFD)
                   CALL SPMD_ENVOIS(3, MULTI_FVM%ELEM_DATA%CENTROID, 
      .                 NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
+                  CALL STOPTIME(TIMERS,TIMER_SPMDCFD)
 !$OMP END SINGLE
                      CALL MY_BARRIER
                   ENDIF
@@ -623,7 +635,7 @@ C     Half time step evolution
 C     --------------------------------------------------     
                   PRED = .TRUE.
 
-                  CALL MULTI_TIMEEVOLUTION(HALF * DT1, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG, 
+                  CALL MULTI_TIMEEVOLUTION(TIMERS,HALF * DT1, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG, 
      .                 PM, IPM, MULTI_FVM, ALE_CONNECTIVITY, V, A, W, X, D, ALE_CONNECTIVITY%NALE,
      .                 PARTSAV, IPARTS, GRESAV, IGRTH, GRTH, 
      .                 NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, 
@@ -644,7 +656,7 @@ C     Full time step evolution, with predicted fluxes
 C     --------------------------------------------------     
                   PRED = .FALSE.
 
-                  CALL MULTI_TIMEEVOLUTION(DT1, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG, 
+                  CALL MULTI_TIMEEVOLUTION(TIMERS,DT1, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG, 
      .                 PM, IPM, MULTI_FVM, ALE_CONNECTIVITY, V, A, W, X, D, ALE_CONNECTIVITY%NALE,
      .                 PARTSAV, IPARTS, GRESAV, IGRTH, GRTH, 
      .                 NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, 
@@ -663,7 +675,7 @@ C     -------------------------
 C     -------------------------
 C     Multifluid law time evolution
 C     ------------------------- 
-                  CALL MULTI_TIMEEVOLUTION(DT1, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG, 
+                  CALL MULTI_TIMEEVOLUTION(TIMERS,DT1, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG, 
      .                 PM, IPM, MULTI_FVM, ALE_CONNECTIVITY, V, A, W, X, D, ALE_CONNECTIVITY%NALE,
      .                 PARTSAV, IPARTS, GRESAV, IGRTH, GRTH, 
      .                 NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, 
@@ -715,7 +727,7 @@ C     -------------------------
                CALL MULTI_COMPUTE_DT(DT2T, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG, PM, IPM, MULTI_FVM, W, X, NELTST, ITYPTST)  
                CALL MY_BARRIER
             ENDIF
-            IF(ITASK==0) CALL STOPTIME(MACRO_TIMER_MULTIFVM,1)
+            IF(ITASK==0) CALL STOPTIME(TIMERS,MACRO_TIMER_MULTIFVM)
 
          ELSE
 
@@ -826,7 +838,7 @@ C
                  NF1=NFT+1
 C
                  IF (ITY == 1 .AND. ISOLNOD == 4) THEN
-                  CALL S4FORC3(
+                  CALL S4FORC3(TIMERS,
      1                  ELBUF_TAB,       NG,              PM,              GEO,
      2                  IXS,             X,               A,               V,
      3                  MS,              W,               WA,              VAL2,
@@ -857,7 +869,7 @@ C
                   ELSE
                     pQMV => BID
                   ENDIF
-                  CALL SFORC3(
+                  CALL SFORC3(TIMERS,
      1                  ELBUF_TAB,             NG,      PM,            GEO,
      2                  IXS,                   X,       NV46,          A,
      3                  V,                     MS,      W,             WA,
@@ -897,7 +909,7 @@ C
                   ELSE
                     pQMV => BID
                   ENDIF   
-                  CALL QFORC2(
+                  CALL QFORC2(TIMERS,
      .                  ELBUF_TAB       ,NG               ,
      1                  PM              ,GEO              ,IXQ         ,X         ,A        ,  
      2                  V               ,MS               ,W           ,WA        ,VAL2     ,  
@@ -915,7 +927,7 @@ C
      .                  DT              ,GLOB_THERM)
 c
                  ELSEIF (ITY == 2 .AND. JMULT /= 0) THEN
-                  CALL BFORC2(
+                  CALL BFORC2(TIMERS,
      .                  ELBUF_TAB   , NG            ,
      1                  PM          , GEO           ,IXQ             , X         ,
      2                  A           , V             ,MS              , W         , WA        ,
@@ -950,6 +962,7 @@ C
              ! WA[IADC..IADD-1] : BUFVOIS (buffer elements voisins en SPMD)
              ! WA[IADD..LENWA] : BUFCOM (wa pour comm spmd)
 !$OMP SINGLE
+              CALL STARTIME(TIMERS,TIMER_SPMDCFD)
               LENCOM=NBRCVOIS(NSPMD+1)+NBSDVOIS(NSPMD+1)
               IF(M51_IFLG6 == 0) THEN
               !======LAW11-NRF/SPMD=====================================!
@@ -972,6 +985,7 @@ C
      2                 IXQ     ,NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,
      3                 LENCOM  ,IPM     ,BUFMAT)
               ENDIF
+             CALL STOPTIME(TIMERS,TIMER_SPMDCFD)
 !$OMP END SINGLE
             ENDIF
             
@@ -1003,7 +1017,7 @@ C     ALE ON / OFF
                  NF1=NFT+1
 
                  IF(ITY == 1 .AND. ISOLNOD == 4)THEN
-                  CALL S4FORC3(
+                  CALL S4FORC3(TIMERS,
      1                  ELBUF_TAB,       NG,              PM,              GEO,
      2                  IXS,             X,               A,               V,
      3                  MS,              W,               WA,              VAL2,
@@ -1034,7 +1048,7 @@ C     ALE ON / OFF
                   ELSE
                     pQMV => BID
                   ENDIF
-                  CALL SFORC3(
+                  CALL SFORC3(TIMERS,
      1                  ELBUF_TAB,            NG,       PM,            GEO,
      2                  IXS,                  X,        NV46,          A,
      3                  V,                    MS,       W,             WA,
@@ -1074,7 +1088,7 @@ C     ALE ON / OFF
                   ELSE
                     pQMV => BID
                   ENDIF  
-                  CALL QFORC2(
+                  CALL QFORC2(TIMERS,
      .              ELBUF_TAB ,NG    ,
      1              PM        ,GEO              ,IXQ         ,X        ,A         ,  
      2              V         ,MS               ,W           ,WA       ,VAL2      ,      
@@ -1092,7 +1106,7 @@ C     ALE ON / OFF
      .              DT        ,GLOB_THERM)
 c
                       ELSEIF(ITY == 2 .AND. JMULT /= 0)THEN
-                  CALL BFORC2(ELBUF_TAB  ,NG           ,
+                  CALL BFORC2(TIMERS, ELBUF_TAB  ,NG           ,
      1                        PM         ,GEO          ,IXQ              ,X          ,    
      2                        A          ,V            ,MS               ,W          ,WA        ,  
      3                        VAL2       ,VEUL         ,ALE_CONNECTIVITY ,IPARG      ,
@@ -1118,7 +1132,7 @@ c
           ENDIF!IF (ILAW11 /= 0) THEN
 
         ENDIF !IF(IALE+IEULER+ITHERM /= 0)THEN
-        IF(ITASK==0) CALL STOPTIME(MACRO_TIMER_IFSUB0,1)
+        IF(ITASK==0) CALL STOPTIME(TIMERS,MACRO_TIMER_IFSUB0)
       ENDIF!IF(IFSUB == 0)THEN
 
 c      !Fluid mass do not contribute in FEM : add external force for FSI

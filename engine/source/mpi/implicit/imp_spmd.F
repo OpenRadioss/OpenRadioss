@@ -533,9 +533,9 @@ C
       MUMPS_PAR%JOB = -1
       MUMPS_PAR%SYM = SYM
       MUMPS_PAR%PAR = 1
-c     CALL STARTIME(96,1)
+c     CALL STARTIME(TIMERS,96)
       CALL DMUMPS(MUMPS_PAR)
-c     CALL STOPTIME(96,1)
+c     CALL STOPTIME(TIMERS,96)
 
 C
       RETURN
@@ -756,11 +756,11 @@ C-----------------------------------------------
 
 C Analyse
          MUMPS_PAR%JOB=1
-C        CALL STARTIME(97,1)
+C        CALL STARTIME(TIMERS,97)
 
 
          CALL DMUMPS(MUMPS_PAR)
-C        CALL STOPTIME(97,1)
+C        CALL STOPTIME(TIMERS,97)
          ORDERING_METHOD =  MUMPS_PAR%INFOG(7)
          IF(MUMPS_PAR%INFOG(1) < 0) THEN
            IF(ISPMD ==0 ) THEN
@@ -775,9 +775,9 @@ C Another ordering method
            ENDIF
            MUMPS_PAR%JOB=1
            MUMPS_PAR%ICNTL(7) = ORDERING_METHOD 
-C          CALL STARTIME(97,1)
+C          CALL STARTIME(TIMERS,97)
            CALL DMUMPS(MUMPS_PAR)
-C          CALL STOPTIME(97,1)
+C          CALL STOPTIME(TIMERS,97)
          ENDIF
 
          IF( NSPMD == 1) NSPMD_PER_NODE = 1
@@ -804,9 +804,9 @@ C Out-of-core
 
 C Factorisation
          MUMPS_PAR%JOB=2
-C        CALL STARTIME(98,1)
+C        CALL STARTIME(TIMERS,98)
          CALL DMUMPS(MUMPS_PAR)
-C        CALL STOPTIME(98,1)
+C        CALL STOPTIME(TIMERS,98)
                                                             
 C In-Core:Trying to recover from error 
          IF(MUMPS_PAR%INFOG(1) == -8) THEN
@@ -816,9 +816,9 @@ C if internal workspace is too small (IS)
            ENDIF
            MUMPS_PAR%ICNTL(14) = MUMPS_PAR%ICNTL(14) * 2
            MUMPS_PAR%JOB=2
-C          CALL STARTIME(98,1)
+C          CALL STARTIME(TIMERS,98)
            CALL DMUMPS(MUMPS_PAR)
-C          CALL STOPTIME(98,1)
+C          CALL STOPTIME(TIMERS,98)
 
          ELSEIF(MUMPS_PAR%INFOG(1)==-9 .OR. MUMPS_PAR%INFOG(1)==-11 
      .    .OR.  MUMPS_PAR%INFOG(1)== -19 ) THEN
@@ -831,9 +831,9 @@ C if internal workspace is too small (S)
            ESTIM_MEM = AVAIL_MEM
            MUMPS_PAR%ICNTL(23) = AVAIL_MEM
            MUMPS_PAR%JOB=2
-c          CALL STARTIME(98,1)
+c          CALL STARTIME(TIMERS,98)
            CALL DMUMPS(MUMPS_PAR)
-c          CALL STOPTIME(98,1)
+c          CALL STOPTIME(TIMERS,98)
 
          ELSEIF(MUMPS_PAR%INFOG(1) == -13) THEN
 C if internal workspace is too big: an allocation failed
@@ -844,9 +844,9 @@ C if internal workspace is too big: an allocation failed
            ESTIM_MEM = INT(ESTIM_MEM * 8.0d0 / 10.0d0)
            MUMPS_PAR%ICNTL(23) = MIN(AVAIL_MEM,ESTIM_MEM)
            MUMPS_PAR%JOB=2
-c          CALL STARTIME(98,1)
+c          CALL STARTIME(TIMERS,98)
            CALL DMUMPS(MUMPS_PAR)
-c          CALL STOPTIME(98,1)
+c          CALL STOPTIME(TIMERS,98)
 
          ELSEIF(MUMPS_PAR%INFOG(1)<0) THEN
 C Try to deal with other errors                                      
@@ -866,9 +866,9 @@ C Try to deal with other errors
            MUMPS_PAR%JOB=1
            CALL DMUMPS(MUMPS_PAR)
            MUMPS_PAR%JOB=2
-c          CALL STARTIME(98,1)
+c          CALL STARTIME(TIMERS,98)
            CALL DMUMPS(MUMPS_PAR)
-c          CALL STOPTIME(98,1)
+c          CALL STOPTIME(TIMERS,98)
          ENDIF ! Recovering from error
 
 
@@ -885,9 +885,9 @@ c        WRITE(IOUT,*) 'MUMPS error code :',MUMPS_PAR%INFOG(1)
       ELSEIF (ITASK==2) THEN
 C Resolution
          MUMPS_PAR%JOB=3
-c        CALL STARTIME(99,1)
+c        CALL STARTIME(TIMERS,99)
          CALL DMUMPS(MUMPS_PAR) 
-c        CALL STOPTIME(99,1)
+c        CALL STOPTIME(TIMERS,99)
 
       ENDIF
 C

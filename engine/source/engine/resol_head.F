@@ -68,7 +68,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE RESOL_HEAD( ELEMENT, NODES,
      .           ITASK       ,AF          ,IAF            ,IDATA      ,RDATA,XDP       ,
      .           GRAPHE      ,IFLOW       ,RFLOW          ,MCP        ,TEMP            ,
-     .           STACK       ,IRUNN_BIS   ,
+     .           STACK       ,IRUNN_BIS   , TIMERS,
      .           MULTI_FVM   ,H3D_DATA    ,SUBSETS    ,IGRNOD          ,
      .           IGRBRIC     ,IGRQUAD     ,IGRSH4N        ,IGRSH3N    ,IGRTRUSS        ,
      .           IGRBEAM     ,IGRSPRING   ,IGRPART        ,IGRSURF    ,IGRSLIN         , 
@@ -119,6 +119,7 @@ C-----------------------------------------------
       USE SKEW_MOD
       use glob_therm_mod
       use PBLAST_MOD
+      use TIMER_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -135,6 +136,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       type(connectivity_), intent(inout) :: ELEMENT 
       type(nodal_arrays_), intent(inout) :: NODES
+      type(timer_), intent(inout) :: TIMERS
       INTEGER, INTENT(IN) :: LIFLOW  !< Size of IFLOW
       INTEGER, INTENT(IN) :: LRFLOW  !< Size of RFLOW
 
@@ -206,7 +208,7 @@ C-----------------------------------------------
       ITRACE(2)=NTHREAD
       CALL TRACE_IN(2,ITRACE,ZERO)
 C
-      CALL RESOL(ELEMENT,NODES,
+      CALL RESOL(TIMERS, ELEMENT,NODES,
      .  AF              ,IAF            ,
      1  ISKWN          ,NETH           ,IPART          ,NOM_OPT     ,KXX              ,IXX       ,
      2  IXTG            ,IXS            ,IXQ            ,IXT            ,IXP         ,IXR       ,

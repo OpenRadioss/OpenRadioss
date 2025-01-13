@@ -119,7 +119,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sensor_mod             ../engine/share/modules/sensor_mod.F
       !||    table_mod              ../engine/share/modules/table_mod.F
       !||====================================================================
-      SUBROUTINE SFORC3(
+      SUBROUTINE SFORC3(TIMERS,
      1   ELBUF_TAB,  NG,         PM,         GEO,
      2   IXS,        X,          NV46,       A,
      3   V,          MS,         W,          FLUX,
@@ -154,6 +154,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE TIMER_MOD
       USE MMAIN_MOD
       USE TABLE_MOD
       USE MAT_ELEM_MOD         
@@ -191,6 +192,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(TIMER_) ,INTENT(INOUT) :: TIMERS
       INTEGER, INTENT(IN) :: SNPC
       INTEGER, INTENT(IN) :: SZ_BUFVOIS
       INTEGER, INTENT(IN) :: NSVOIS
@@ -960,7 +962,7 @@ C ALEFVM strain rates
      8   NEL)
       ENDIF
 C
-      IF ((IMON_MAT==1).AND. ITASK == 0) CALL STARTIME(35,1)
+      IF ((IMON_MAT==1).AND. ITASK == 0) CALL STARTIME(TIMERS,35)
 C
       ILAY = 1                                                
       IPTR = 1                                                
@@ -981,7 +983,7 @@ C
 C
 C Stress computation according to material laws 
 C
-      CALL MMAIN(
+      CALL MMAIN(TIMERS,
      1   ELBUF_TAB,   NG,          PM,          GEO,
      2                ALE_CONNECT, IXS,         IPARG,
      3   V,           TF,          NPF,         BUFMAT,
@@ -1039,7 +1041,7 @@ C Compute Strains for output
      3   WYY,      WZZ,      OFF,      NEL,
      4   JCVT)
       ENDIF
-      IF ((IMON_MAT==1).AND. ITASK == 0) CALL STOPTIME(35,1)
+      IF ((IMON_MAT==1).AND. ITASK == 0) CALL STOPTIME(TIMERS,35)
 C
       IF (NN_DEL >0) THEN
         CALL SDLENMAX(L_MAX, 
