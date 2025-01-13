@@ -223,8 +223,9 @@ C-------*CHECKS*-------------------
         IS2=0
       END IF
 C
-      IF ((ISU1 > 0).AND.(IGRNOD(ISU1)%NENTITY == 0).AND.ISU3== 0) THEN
-        CALL ANCMSG(MSGID=1131,
+      IF (ISU1 > 0.AND.ISU3== 0) THEN
+        IF (IGRNOD(ISU1)%NENTITY == 0)
+     .   CALL ANCMSG(MSGID=1131,
      .       ANMODE=ANINFO_BLIND_1,
      .      MSGTYPE=MSGERROR,
      .        I1=NOINT,
