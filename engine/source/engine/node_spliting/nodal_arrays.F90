@@ -331,6 +331,7 @@
                 call extend_array(arrays%AR,3,size(arrays%AR,2),3,arrays%max_numnod)
                 call extend_array(arrays%STIFR,size(arrays%STIFR) ,arrays%max_numnod)
                 call extend_array(arrays%VISCN,size(arrays%VISCN) ,arrays%max_numnod)
+                call extend_array(arrays%STIFN, size(arrays%STIFN), arrays%max_numnod)
               endif               
             endif
             ! ITABM1 is of size 2*arrays%max_numnod, but only the first 2*arrays%numnod elements are used
