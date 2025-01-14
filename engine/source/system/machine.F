@@ -217,7 +217,6 @@ C=======================================================================
       !||    sms_inix                         ../engine/source/ams/sms_proj.F
       !||    sms_mass_scale_2                 ../engine/source/ams/sms_mass_scale_2.F
       !||    sms_mav_lt                       ../engine/source/ams/sms_pcg.F
-      !||    sms_mav_lt1                      ../engine/source/ams/sms_pcg.F
       !||    sms_mav_lt2                      ../engine/source/ams/sms_pcg.F
       !||    sms_mortho_gs                    ../engine/source/ams/sms_proj.F
       !||    sms_pcg                          ../engine/source/ams/sms_pcg.F
@@ -391,9 +390,9 @@ C=======================================================================
       !||====================================================================
       !||    my_etime    ../engine/source/system/machine.F
       !||--- called by ------------------------------------------------------
-      !||    startime    ../engine/source/system/timer.F
+      !||    startime    ../engine/source/system/timer_mod.F90
       !||    startimeg   ../engine/source/system/timer.F
-      !||    stoptime    ../engine/source/system/timer.F
+      !||    stoptime    ../engine/source/system/timer_mod.F90
       !||    stoptimeg   ../engine/source/system/timer.F
       !||--- calls      -----------------------------------------------------
       !||====================================================================

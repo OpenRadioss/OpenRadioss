@@ -33,14 +33,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i21sms2            ../engine/source/interfaces/int21/i21sms2.F
       !||    i21therm           ../engine/source/interfaces/int21/i21therm.F
       !||    i7cdcor3           ../engine/source/interfaces/int07/i7cdcor3.F
-      !||    startime           ../engine/source/system/timer.F
-      !||    stoptime           ../engine/source/system/timer.F
+      !||    startime           ../engine/source/system/timer_mod.F90
+      !||    stoptime           ../engine/source/system/timer_mod.F90
       !||    sum_6_float_sens   ../engine/source/system/parit.F
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod            ../engine/share/modules/h3d_mod.F
       !||    intstamp_mod       ../engine/share/modules/intstamp_mod.F
       !||    message_mod        ../engine/share/message_module/message_mod.F
       !||    outputs_mod        ../common_source/modules/outputs_mod.F
+      !||    timer_mod          ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE I21MAINF(TIMERS,
      1                   IPARI  ,INTBUF_TAB         ,X        ,A      ,

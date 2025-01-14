@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    fail_wind_frwave   ../engine/source/materials/fail/alter/fail_wind_frwave.F
       !||--- called by ------------------------------------------------------
+      !||    mulawc             ../engine/source/materials/mat_share/mulawc.F90
       !||    usermat_shell      ../engine/source/materials/mat_share/usermat_shell.F
       !||--- calls      -----------------------------------------------------
       !||    fail_brokmann      ../engine/source/materials/fail/alter/fail_brokmann.F

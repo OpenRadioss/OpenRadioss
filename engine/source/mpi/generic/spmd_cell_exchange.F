@@ -29,14 +29,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    arret                      ../engine/source/system/arret.F
       !||    fill_voxel_local_partial   ../engine/source/interfaces/intsort/fill_voxel.F90
       !||    fill_voxel_remote          ../engine/source/interfaces/intsort/fill_voxel.F90
-      !||    startime                   ../engine/source/system/timer.F
-      !||    stoptime                   ../engine/source/system/timer.F
+      !||    startime                   ../engine/source/system/timer_mod.F90
+      !||    stoptime                   ../engine/source/system/timer_mod.F90
       !||--- uses       -----------------------------------------------------
       !||    fill_voxel_mod             ../engine/source/interfaces/intsort/fill_voxel.F90
       !||    inter_sorting_mod          ../engine/share/modules/inter_sorting_mod.F
       !||    inter_struct_mod           ../engine/share/modules/inter_struct_mod.F
       !||    message_mod                ../engine/share/message_module/message_mod.F
       !||    multi_fvm_mod              ../common_source/modules/ale/multi_fvm_mod.F90
+      !||    timer_mod                  ../engine/source/system/timer_mod.F90
       !||    tri7box                    ../engine/share/modules/tri7box.F
       !||====================================================================
       SUBROUTINE SPMD_CELL_EXCHANGE(TIMERS, NIN,ISENDTO,IRCVFROM,NSN,NSNR,IGAP,

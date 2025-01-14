@@ -24,6 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sigeps38      ../engine/source/materials/mat/mat038/sigeps38.F
       !||--- called by ------------------------------------------------------
       !||    mulaw         ../engine/source/materials/mat_share/mulaw.F90
+      !||    mulaw8        ../engine/source/materials/mat_share/mulaw8.F90
       !||--- calls      -----------------------------------------------------
       !||    checkaxes     ../engine/source/materials/mat/mat038/sigeps38.F
       !||    dreh          ../engine/source/materials/mat/mat033/sigeps33.F

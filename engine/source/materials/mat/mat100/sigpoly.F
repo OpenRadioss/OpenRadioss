@@ -27,6 +27,7 @@ C   left cauchy green tensor [b]=[F][FT]
       !||====================================================================
       !||    polystress2   ../engine/source/materials/mat/mat100/sigpoly.F
       !||--- called by ------------------------------------------------------
+      !||    sigeps100     ../engine/source/materials/mat/mat100/sigeps100.F90
       !||    sigeps95      ../engine/source/materials/mat/mat095/sigeps95.F
       !||--- calls      -----------------------------------------------------
       !||    mullins_or    ../engine/source/materials/fail/mullins_or/fail_mullins_OR_s.F

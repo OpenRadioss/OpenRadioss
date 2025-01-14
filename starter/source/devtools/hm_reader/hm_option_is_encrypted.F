@@ -95,6 +95,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_fail_wilkins        ../starter/source/materials/fail/wilkins/hm_read_fail_wilkins.F
       !||    hm_read_fractal_dmg         ../starter/source/materials/fail/fractal/hm_read_fractal_dmg.F90
       !||    hm_read_funct               ../starter/source/tools/curve/hm_read_funct.F
+      !||    hm_read_inivol              ../starter/source/initial_conditions/inivol/hm_read_inivol.F90
       !||    hm_read_inter_type02        ../starter/source/interfaces/int02/hm_read_inter_type02.F
       !||    hm_read_mat00               ../starter/source/materials/mat/mat000/hm_read_mat00.F
       !||    hm_read_mat01               ../starter/source/materials/mat/mat001/hm_read_mat01.F

@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    spmd_fi_sms   ../engine/source/mpi/ams/spmd_fi_sms.F
       !||--- called by ------------------------------------------------------
-      !||    sms_mav_lt1   ../engine/source/ams/sms_pcg.F
       !||    sms_mav_lt2   ../engine/source/ams/sms_pcg.F
       !||--- calls      -----------------------------------------------------
       !||====================================================================

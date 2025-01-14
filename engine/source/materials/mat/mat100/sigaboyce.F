@@ -25,6 +25,8 @@ C   compute stresses using MATB which is the
 C   left cauchy green tensor [b]=[F][FT]
       !||====================================================================
       !||    sigaboyce    ../engine/source/materials/mat/mat100/sigaboyce.F
+      !||--- called by ------------------------------------------------------
+      !||    sigeps100    ../engine/source/materials/mat/mat100/sigeps100.F90
       !||--- calls      -----------------------------------------------------
       !||    mullins_or   ../engine/source/materials/fail/mullins_or/fail_mullins_OR_s.F
       !||====================================================================

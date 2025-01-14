@@ -705,6 +705,7 @@ C
       !||    h3d_mod          ../engine/share/modules/h3d_mod.F
       !||    multi_fvm_mod    ../common_source/modules/ale/multi_fvm_mod.F90
       !||    sensor_mod       ../engine/share/modules/sensor_mod.F
+      !||    timer_mod        ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE IMP_INTTD0(TIMERS,
      1       IPARI ,INTBUF_TAB     ,X       ,D       ,
@@ -1080,6 +1081,7 @@ C
       !||    h3d_mod           ../engine/share/modules/h3d_mod.F
       !||    multi_fvm_mod     ../common_source/modules/ale/multi_fvm_mod.F90
       !||    sensor_mod        ../engine/share/modules/sensor_mod.F
+      !||    timer_mod         ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE IMP_TRIPI(TIMERS,
      1       IPARI ,INTBUF_TAB   ,X       ,D       ,

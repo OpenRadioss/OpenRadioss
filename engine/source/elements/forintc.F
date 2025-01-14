@@ -57,6 +57,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sensor_mod                  ../engine/share/modules/sensor_mod.F
       !||    stack_mod                   ../engine/share/modules/stack_mod.F
       !||    table_mod                   ../engine/share/modules/table_mod.F
+      !||    timer_mod                   ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE FORINTC(TIMERS,
      1    PM        ,GEO       ,X         ,A         ,AR        ,

@@ -73,8 +73,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    putsignorc3                  ../engine/source/elements/shell/coqueba/cmatc3.F
       !||    rotos4                       ../engine/source/materials/mat_share/rotos4.F
       !||    rotov                        ../engine/source/airbag/roto.F
-      !||    startime                     ../engine/source/system/timer.F
-      !||    stoptime                     ../engine/source/system/timer.F
+      !||    startime                     ../engine/source/system/timer_mod.F90
+      !||    stoptime                     ../engine/source/system/timer_mod.F90
       !||    urotov                       ../engine/source/airbag/uroto.F
       !||    xfem_crk_dir                 ../engine/source/elements/xfem/xfem_crk_dir.F
       !||--- uses       -----------------------------------------------------
@@ -88,6 +88,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    nlocal_reg_mod               ../common_source/modules/nlocal_reg_mod.F
       !||    stack_mod                    ../engine/share/modules/stack_mod.F
       !||    table_mod                    ../engine/share/modules/table_mod.F
+      !||    timer_mod                    ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE USERMAT_SHELL (TIMERS, ELBUF_STR ,MAT_ELEM  ,
      1       JFT      ,JLT      ,NEL      ,PM        ,FOR      ,MOM      ,    

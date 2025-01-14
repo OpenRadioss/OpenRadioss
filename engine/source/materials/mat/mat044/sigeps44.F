@@ -24,6 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sigeps44       ../engine/source/materials/mat/mat044/sigeps44.F
       !||--- called by ------------------------------------------------------
       !||    mulaw          ../engine/source/materials/mat_share/mulaw.F90
+      !||    mulaw8         ../engine/source/materials/mat_share/mulaw8.F90
       !||--- calls      -----------------------------------------------------
       !||    mstrain_rate   ../engine/source/materials/mat_share/mstrain_rate.F
       !||    vinter         ../engine/source/tools/curve/vinter.F

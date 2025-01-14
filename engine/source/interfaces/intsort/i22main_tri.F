@@ -38,8 +38,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_tri22vox                ../engine/source/mpi/interfaces/spmd_tri22vox.F
       !||    spmd_tri22vox0               ../engine/source/mpi/interfaces/spmd_tri22vox0.F
       !||    spmd_tri7gat                 ../engine/source/mpi/interfaces/spmd_int.F
-      !||    startime                     ../engine/source/system/timer.F
-      !||    stoptime                     ../engine/source/system/timer.F
+      !||    startime                     ../engine/source/system/timer_mod.F90
+      !||    stoptime                     ../engine/source/system/timer_mod.F90
       !||    upgrade_multimp              ../common_source/interf/upgrade_multimp.F
       !||--- uses       -----------------------------------------------------
       !||    ale_connectivity_mod         ../common_source/modules/ale/ale_connectivity_mod.F
@@ -50,6 +50,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i22tri_mod                   ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||    message_mod                  ../engine/share/message_module/message_mod.F
       !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F90
+      !||    timer_mod                    ../engine/source/system/timer_mod.F90
       !||    tri7box                      ../engine/share/modules/tri7box.F
       !||====================================================================
       SUBROUTINE I22MAIN_TRI(TIMERS,

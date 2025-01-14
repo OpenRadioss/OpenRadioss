@@ -79,6 +79,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    python_funct_mod       ../common_source/modules/python_mod.F90
       !||    sensor_mod             ../engine/share/modules/sensor_mod.F
       !||    table_mod              ../engine/share/modules/table_mod.F
+      !||    timer_mod              ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE FORINT(TIMERS, PYTHON, 
      1    PM        ,GEO       ,X          ,A         ,AR        ,

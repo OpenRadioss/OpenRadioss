@@ -109,8 +109,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_min_i       ../engine/source/mpi/implicit/imp_spmd.F
       !||    spmd_min_s       ../engine/source/mpi/implicit/imp_spmd.F
       !||    spmd_sumf_a      ../engine/source/mpi/implicit/imp_spmd.F
-      !||    startime         ../engine/source/system/timer.F
-      !||    stoptime         ../engine/source/system/timer.F
+      !||    startime         ../engine/source/system/timer_mod.F90
+      !||    stoptime         ../engine/source/system/timer_mod.F90
       !||    upd_fr_k         ../engine/source/mpi/implicit/imp_fri.F
       !||    upd_glob_k       ../engine/source/implicit/upd_glob_k.F
       !||    upd_rhs          ../engine/source/implicit/upd_glob_k.F
@@ -136,6 +136,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    skew_mod         ../common_source/modules/skew_mod.F90
       !||    stack_mod        ../engine/share/modules/stack_mod.F
       !||    th_surf_mod      ../common_source/modules/interfaces/th_surf_mod.F
+      !||    timer_mod        ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE IMP_SOLV(TIMERS,
      1  ICODE  ,ISKEW  ,ISKWN  ,IPART  ,IXTG   ,IXS    ,IXQ    ,
@@ -3096,8 +3097,8 @@ C------------------------------------------
       !||    spmd_max_i      ../engine/source/mpi/implicit/imp_spmd.F
       !||    spmd_min_s      ../engine/source/mpi/implicit/imp_spmd.F
       !||    spmd_sumf_a     ../engine/source/mpi/implicit/imp_spmd.F
-      !||    startime        ../engine/source/system/timer.F
-      !||    stoptime        ../engine/source/system/timer.F
+      !||    startime        ../engine/source/system/timer_mod.F90
+      !||    stoptime        ../engine/source/system/timer_mod.F90
       !||    upd_fr_k        ../engine/source/mpi/implicit/imp_fri.F
       !||    upd_glob_k      ../engine/source/implicit/upd_glob_k.F
       !||    upd_rhs         ../engine/source/implicit/upd_glob_k.F
@@ -3115,6 +3116,7 @@ C------------------------------------------
       !||    skew_mod        ../common_source/modules/skew_mod.F90
       !||    stack_mod       ../engine/share/modules/stack_mod.F
       !||    th_surf_mod     ../common_source/modules/interfaces/th_surf_mod.F
+      !||    timer_mod       ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE IMP_CHKM(TIMERS,
      1  ICODE  ,ISKEW  ,ISKWN  ,IPART  ,IXTG   ,IXS    ,IXQ    ,

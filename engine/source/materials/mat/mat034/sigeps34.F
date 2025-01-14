@@ -24,6 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sigeps34   ../engine/source/materials/mat/mat034/sigeps34.F
       !||--- called by ------------------------------------------------------
       !||    mulaw      ../engine/source/materials/mat_share/mulaw.F90
+      !||    mulaw8     ../engine/source/materials/mat_share/mulaw8.F90
       !||====================================================================
       SUBROUTINE SIGEPS34(
      1      NEL    , NUPARAM, NUVAR   , NFUNC , IFUNC , NPF   ,

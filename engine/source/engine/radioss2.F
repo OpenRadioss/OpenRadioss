@@ -46,7 +46,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    iniresa                      ../engine/source/output/restart/rdresa.F
       !||    init_dyn_lib_struc           ../engine/share/modules/dynlib_mod.F
       !||    init_th0                     ../engine/source/output/th/init_th0.F
-      !||    initime                      ../engine/source/system/timer.F
+      !||    initime                      ../engine/source/system/timer_mod.F90
       !||    lecinp                       ../engine/source/input/lecinp.F
       !||    lectur                       ../engine/source/input/lectur.F
       !||    lf_convert_c_flat            ../engine/source/engine/lf_convert_c.c
@@ -128,6 +128,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    state_mod                    ../common_source/modules/state_mod.F
       !||    table_glob_mod               ../engine/share/modules/table_glob_mod.F
       !||    time_mod                     ../engine/share/modules/time_mod.F
+      !||    timer_mod                    ../engine/source/system/timer_mod.F90
       !||    unitab_mod                   ../common_source/modules/unitab_mod.F
       !||    user_interface_mod           ../engine/share/modules/user_interface_mod.F
       !||====================================================================

@@ -41,14 +41,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_tri20boxe               ../engine/source/mpi/interfaces/spmd_tri20boxe.F
       !||    spmd_tri20gat                ../engine/source/mpi/interfaces/spmd_i7crit.F
       !||    spmd_tri20gate               ../engine/source/mpi/interfaces/spmd_i7crit.F
-      !||    startime                     ../engine/source/system/timer.F
-      !||    stoptime                     ../engine/source/system/timer.F
+      !||    startime                     ../engine/source/system/timer_mod.F90
+      !||    stoptime                     ../engine/source/system/timer_mod.F90
       !||    upgrade_multimp              ../common_source/interf/upgrade_multimp.F
       !||--- uses       -----------------------------------------------------
       !||    check_sorting_criteria_mod   ../engine/source/interfaces/intsort/check_sorting_criteria.F90
       !||    glob_therm_mod               ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
       !||    message_mod                  ../engine/share/message_module/message_mod.F
+      !||    timer_mod                    ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE I20MAIN_TRI(TIMERS,
      1                  IPARI   ,X       ,V       ,

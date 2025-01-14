@@ -67,8 +67,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    nsvisul                     ../engine/source/materials/mat_share/nsvisul.F
       !||    nvar                        ../engine/source/input/nvar.F
       !||    sreploc3                    ../engine/source/elements/solid/solide/sreploc3.F
-      !||    startime                    ../engine/source/system/timer.F
-      !||    stoptime                    ../engine/source/system/timer.F
+      !||    startime                    ../engine/source/system/timer_mod.F90
+      !||    stoptime                    ../engine/source/system/timer_mod.F90
       !||    viscmain                    ../engine/source/materials/visc/viscmain.F
       !||--- uses       -----------------------------------------------------
       !||    dt_mod                      ../engine/source/modules/dt_mod.F
@@ -80,6 +80,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    names_and_titles_mod        ../common_source/modules/names_and_titles_mod.F
       !||    nlocal_reg_mod              ../common_source/modules/nlocal_reg_mod.F
       !||    table_mod                   ../engine/share/modules/table_mod.F
+      !||    timer_mod                   ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE USERMAT_SOLID(TIMERS,
      1   LFT,      LLT,      NFT,      MTN,

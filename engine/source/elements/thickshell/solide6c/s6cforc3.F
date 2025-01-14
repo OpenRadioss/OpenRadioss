@@ -73,6 +73,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    s6get_xv_mod           ../engine/source/elements/thickshell/solide6c/s6get_xv.F90
       !||    sdistor_ini_mod        ../engine/source/elements/solid/solide/sdistror_ini.F90
       !||    table_mod              ../engine/share/modules/table_mod.F
+      !||    timer_mod              ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE S6CFORC3(TIMERS, ELBUF_TAB,NG     , 
      1                   PM       ,GEO     ,IXS     ,X      ,

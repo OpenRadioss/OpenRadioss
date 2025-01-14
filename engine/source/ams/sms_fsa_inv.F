@@ -51,11 +51,12 @@ C-----
       !||    spmd_max_s       ../engine/source/mpi/implicit/imp_spmd.F
       !||    spmd_nndft_sms   ../engine/source/mpi/ams/spmd_sms.F
       !||    spmd_nnz_sms     ../engine/source/mpi/ams/spmd_sms.F
-      !||    startime         ../engine/source/system/timer.F
-      !||    stoptime         ../engine/source/system/timer.F
+      !||    startime         ../engine/source/system/timer_mod.F90
+      !||    stoptime         ../engine/source/system/timer_mod.F90
       !||--- uses       -----------------------------------------------------
       !||    message_mod      ../engine/share/message_module/message_mod.F
       !||    mod_sms_fsa      ../engine/source/ams/sms_fsa_inv.F
+      !||    timer_mod        ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE SMS_CHECK(TIMERS,NODFT ,NODLT ,IADK  ,JDIK  ,DIAG_K ,  
      2                     LT_K  ,IADI  , JDII ,LT_I  ,ITASK  ,

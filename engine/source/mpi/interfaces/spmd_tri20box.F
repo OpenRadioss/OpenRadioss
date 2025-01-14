@@ -29,8 +29,6 @@ C
       !||    ancmsg          ../engine/source/output/message/message.F
       !||    arret           ../engine/source/system/arret.F
       !||    conversion7     ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    startime        ../engine/source/system/timer.F
-      !||    stoptime        ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    message_mod     ../engine/share/message_module/message_mod.F
       !||    tri7box         ../engine/share/modules/tri7box.F

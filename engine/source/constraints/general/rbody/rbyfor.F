@@ -31,12 +31,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_exch_a_rb6              ../engine/source/mpi/kinematic_conditions/spmd_exch_a_rb6.F
       !||    spmd_exch_a_rb6_vrel         ../engine/source/mpi/kinematic_conditions/spmd_exch_a_rb6.F
       !||    spmd_exch_a_rb6g             ../engine/source/mpi/kinematic_conditions/spmd_exch_a_rb6g.F
-      !||    startime                     ../engine/source/system/timer.F
-      !||    stoptime                     ../engine/source/system/timer.F
+      !||    startime                     ../engine/source/system/timer_mod.F90
+      !||    stoptime                     ../engine/source/system/timer_mod.F90
       !||--- uses       -----------------------------------------------------
       !||    damping_vref_rby_mod         ../engine/source/assembly/damping_vref_rby.F90
       !||    damping_vref_rby_stiff_mod   ../engine/source/assembly/damping_vref_rby_stiff.F90
       !||    groupdef_mod                 ../common_source/modules/groupdef_mod.F
+      !||    timer_mod                    ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE RBYFOR(TIMERS,
      1   RBY      ,A      ,AR     ,X      ,VR      ,

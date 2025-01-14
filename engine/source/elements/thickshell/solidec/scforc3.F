@@ -70,6 +70,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sdistor_ini_mod        ../engine/source/elements/solid/solide/sdistror_ini.F90
       !||    shour_ctl_mod          ../engine/source/elements/solid/solidez/shour_ctl.F90
       !||    table_mod              ../engine/share/modules/table_mod.F
+      !||    timer_mod              ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE SCFORC3(TIMERS, ELBUF_TAB,NG      ,
      1                   PM       ,GEO     ,IXS      ,X       ,

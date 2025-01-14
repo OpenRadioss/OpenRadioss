@@ -68,6 +68,7 @@
       !||    hm_read_box                        ../starter/source/model/box/hm_read_box.F
       !||    hm_read_grpart                     ../starter/source/groups/hm_read_grpart.F
       !||    hm_read_inicrack                   ../starter/source/initial_conditions/inicrack/hm_read_inicrack.F
+      !||    hm_read_inivol                     ../starter/source/initial_conditions/inivol/hm_read_inivol.F90
       !||    hm_read_lines                      ../starter/source/groups/hm_read_lines.F
       !||    hm_read_merge                      ../starter/source/constraints/general/merge/hm_read_merge.F
       !||    hm_read_pcyl                       ../starter/source/loads/general/load_pcyl/hm_read_pcyl.F

@@ -26,8 +26,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    i22main_tri               ../engine/source/interfaces/intsort/i22main_tri.F
       !||--- calls      -----------------------------------------------------
-      !||    startime                  ../engine/source/system/timer.F
-      !||    stoptime                  ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    message_mod               ../engine/share/message_module/message_mod.F
       !||====================================================================

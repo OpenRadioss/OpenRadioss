@@ -47,9 +47,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spstabs          ../engine/source/elements/sph/spstab.F
       !||    spstabw          ../engine/source/elements/sph/spstab.F
       !||    spstres          ../engine/source/elements/sph/spstres.F
-      !||    startime         ../engine/source/system/timer.F
+      !||    startime         ../engine/source/system/timer_mod.F90
       !||    startimeg        ../engine/source/system/timer.F
-      !||    stoptime         ../engine/source/system/timer.F
+      !||    stoptime         ../engine/source/system/timer_mod.F90
       !||    stoptimeg        ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    dt_mod           ../engine/source/modules/dt_mod.F
@@ -62,6 +62,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sph_work_mod     ../common_source/modules/mat_elem/sph_work.F90
       !||    sphbox           ../engine/share/modules/sphbox.F
       !||    table_mod        ../engine/share/modules/table_mod.F
+      !||    timer_mod        ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE FORINTP(TIMERS,
      1    PM        ,GEO       ,X         ,A         ,V         ,

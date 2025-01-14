@@ -27,8 +27,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    rmatpon           ../engine/source/materials/mat/mat013/rmatpon.F
       !||    spmd_exch_a_rm6   ../engine/source/mpi/kinematic_conditions/spmd_exch_a_rm6.F
-      !||    startime          ../engine/source/system/timer.F
-      !||    stoptime          ../engine/source/system/timer.F
+      !||    startime          ../engine/source/system/timer_mod.F90
+      !||    stoptime          ../engine/source/system/timer_mod.F90
+      !||--- uses       -----------------------------------------------------
+      !||    timer_mod         ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE RMATFORP(TIMERS,
      1   A       ,AR       ,X        ,VR     ,IN     ,

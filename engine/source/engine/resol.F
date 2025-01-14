@@ -385,10 +385,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sponfv                                       ../engine/source/elements/sph/sponfv.F
       !||    spwfvis                                      ../engine/source/elements/sph/spwfvis.F
       !||    srfvit                                       ../engine/source/constraints/general/rbody/srfvit.F
-      !||    startime                                     ../engine/source/system/timer.F
+      !||    startime                                     ../engine/source/system/timer_mod.F90
       !||    static                                       ../engine/source/general_controls/damping/static.F
       !||    stop_sensor                                  ../engine/source/tools/sensor/stop_sensor.F
-      !||    stoptime                                     ../engine/source/system/timer.F
+      !||    stoptime                                     ../engine/source/system/timer_mod.F90
       !||    tagoff3n                                     ../engine/source/interfaces/interf/chkstfn3.F
       !||    tempur                                       ../engine/source/constraints/thermic/tempur.F
       !||    th_time_output                               ../engine/source/output/th/th_time_output.F
@@ -505,6 +505,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    thk_mod                                      ../engine/share/modules/thk_mod.F
       !||    threac_mod                                   ../engine/share/modules/threac_mod.F
       !||    time_mod                                     ../engine/share/modules/time_mod.F
+      !||    timer_mod                                    ../engine/source/system/timer_mod.F90
       !||    unitab_mod                                   ../common_source/modules/unitab_mod.F
       !||    user_windows_mod                             ../common_source/modules/user_windows_mod.F
       !||    xfem2vars_mod                                ../engine/share/modules/xfem2vars_mod.F

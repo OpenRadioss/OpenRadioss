@@ -203,6 +203,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    mmain                        ../engine/source/materials/mat_share/mmain.F90
       !||    mpp_init                     ../engine/source/mpi/interfaces/spmd_i7tool.F
       !||    mulaw                        ../engine/source/materials/mat_share/mulaw.F90
+      !||    mulaw8                       ../engine/source/materials/mat_share/mulaw8.F90
+      !||    mulawc                       ../engine/source/materials/mat_share/mulawc.F90
       !||    multi_allocate               ../engine/source/multifluid/multi_allocate.F
       !||    multi_i18_force_pon          ../engine/source/interfaces/int18/multi_i18_force_pon.F
       !||    multi_timeevolution          ../engine/source/multifluid/multi_timeevolution.F

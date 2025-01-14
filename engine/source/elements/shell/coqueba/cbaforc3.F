@@ -78,8 +78,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    dtcba_reg           ../engine/source/elements/shell/coqueba/dtcba_reg.F
       !||    dttherm             ../engine/source/time_step/dttherm.F90
       !||    set_failwave_sh4n   ../engine/source/materials/fail/failwave/upd_failwave_sh4n.F
-      !||    startime            ../engine/source/system/timer.F
-      !||    stoptime            ../engine/source/system/timer.F
+      !||    startime            ../engine/source/system/timer_mod.F90
+      !||    stoptime            ../engine/source/system/timer_mod.F90
       !||--- uses       -----------------------------------------------------
       !||    drape_mod           ../engine/share/modules/drape_mod.F
       !||    dt_mod              ../engine/source/modules/dt_mod.F
@@ -93,6 +93,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sensor_mod          ../engine/share/modules/sensor_mod.F
       !||    stack_mod           ../engine/share/modules/stack_mod.F
       !||    table_mod           ../engine/share/modules/table_mod.F
+      !||    timer_mod           ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE CBAFORC3(TIMERS,
      1   ELBUF_STR,   JFT,         JLT,         NFT,

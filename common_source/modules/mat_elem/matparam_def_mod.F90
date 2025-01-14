@@ -214,6 +214,7 @@
       !||    inivol_set                          ../starter/source/initial_conditions/inivol/inivol_set.F
       !||    law104_upd                          ../starter/source/materials/mat/mat104/law104_upd.F
       !||    law158_upd                          ../starter/source/materials/mat/mat158/law158_upd.F
+      !||    law190_upd                          ../starter/source/materials/mat/mat190/law190_upd.F90
       !||    law19_upd                           ../starter/source/materials/mat/mat019/law19_upd.F90
       !||    law42_upd                           ../starter/source/materials/mat/mat042/law42_upd.F
       !||    law50_upd                           ../starter/source/materials/mat/mat050/law50_upd.F90

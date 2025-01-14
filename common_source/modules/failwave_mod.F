@@ -42,6 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    forintc                    ../engine/source/elements/forintc.F
       !||    hm_read_fail               ../starter/source/materials/fail/hm_read_fail.F
       !||    lectur                     ../engine/source/input/lectur.F
+      !||    mulawc                     ../engine/source/materials/mat_share/mulawc.F90
       !||    read_failwave              ../engine/source/output/restart/read_failwave.F
       !||    read_material_models       ../starter/source/materials/read_material_models.F
       !||    resol                      ../engine/source/engine/resol.F

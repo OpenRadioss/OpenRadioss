@@ -60,8 +60,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    srcoor3_imp            ../engine/source/elements/solid/solide8s/srcoor3_imp.F
       !||    srho3                  ../engine/source/elements/solid/solide/srho3.F
       !||    sstra3                 ../engine/source/elements/solid/solide/sstra3.F
-      !||    startime               ../engine/source/system/timer.F
-      !||    stoptime               ../engine/source/system/timer.F
+      !||    startime               ../engine/source/system/timer_mod.F90
+      !||    stoptime               ../engine/source/system/timer_mod.F90
       !||--- uses       -----------------------------------------------------
       !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
       !||    dt_mod                 ../engine/source/modules/dt_mod.F
@@ -72,6 +72,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
       !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
       !||    table_mod              ../engine/share/modules/table_mod.F
+      !||    timer_mod              ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE S8SFORC3(TIMERS, ELBUF_TAB,NG     ,
      1                    PM       ,GEO    ,IXS     ,X       ,

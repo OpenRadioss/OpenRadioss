@@ -39,14 +39,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sr8bilan               ../engine/source/elements/solid/solide8/sr8bilan.F
       !||    sr8coor3               ../engine/source/elements/solid/solide8/sr8coor3.F
       !||    srrota3                ../engine/source/elements/solid/solide/srrota3.F
-      !||    startime               ../engine/source/system/timer.F
-      !||    stoptime               ../engine/source/system/timer.F
+      !||    startime               ../engine/source/system/timer_mod.F90
+      !||    stoptime               ../engine/source/system/timer_mod.F90
       !||--- uses       -----------------------------------------------------
       !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
       !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    table_mod              ../engine/share/modules/table_mod.F
+      !||    timer_mod              ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE S8FORC3(TIMERS,
      1                   ELBUF_STR,PM       ,GEO    ,IXS      ,X      ,

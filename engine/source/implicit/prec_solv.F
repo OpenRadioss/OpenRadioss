@@ -576,8 +576,6 @@ C-----------spmd----------solves [L][D][L]^t{z}={v}--DIAG_M(deja inverse)-----
       !||    prec2h_solv    ../engine/source/implicit/prec_solv.F
       !||    prec5hc_solv   ../engine/source/implicit/prec_solv.F
       !||    spmd_sumf_v    ../engine/source/mpi/implicit/imp_spmd.F
-      !||    startime       ../engine/source/system/timer.F
-      !||    stoptime       ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    dsgraph_mod    ../engine/share/modules/dsgraph_mod.F
       !||====================================================================

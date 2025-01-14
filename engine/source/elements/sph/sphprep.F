@@ -48,14 +48,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sponof2              ../engine/source/elements/sph/sponof2.F
       !||    spsym_alloc          ../engine/source/elements/sph/spsym_alloc.F
       !||    spsymp               ../engine/source/elements/sph/spsym.F
-      !||    startime             ../engine/source/system/timer.F
-      !||    stoptime             ../engine/source/system/timer.F
+      !||    startime             ../engine/source/system/timer_mod.F90
+      !||    stoptime             ../engine/source/system/timer_mod.F90
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    groupdef_mod         ../common_source/modules/groupdef_mod.F
       !||    message_mod          ../engine/share/message_module/message_mod.F
       !||    sph_struct_mod       ../engine/share/modules/sph_struct_mod.F
       !||    sph_work_mod         ../common_source/modules/mat_elem/sph_work.F90
+      !||    timer_mod            ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE SPHPREP(TIMERS,
      1    PM      ,GEO     ,X       ,V       ,MS      ,

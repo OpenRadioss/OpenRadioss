@@ -20,9 +20,143 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    mulawc_mod   ../engine/source/materials/mat_share/mulawc.F90
+      !||--- called by ------------------------------------------------------
+      !||    cmain3       ../engine/source/materials/mat_share/cmain3.F
+      !||====================================================================
       module mulawc_mod
       contains
 !! \brief routine to compute the material laws for shell elements
+      !||====================================================================
+      !||    mulawc                    ../engine/source/materials/mat_share/mulawc.F90
+      !||--- called by ------------------------------------------------------
+      !||    cmain3                    ../engine/source/materials/mat_share/cmain3.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                    ../engine/source/output/message/message.F
+      !||    arret                     ../engine/source/system/arret.F
+      !||    coqini_wm                 ../engine/source/elements/shell/coqini.F
+      !||    fail_biquad_c             ../engine/source/materials/fail/biquad/fail_biquad_c.F
+      !||    fail_changchang_c         ../engine/source/materials/fail/changchang/fail_changchang_c.F
+      !||    fail_cockroft_c           ../engine/source/materials/fail/cockroft_latham/fail_cockroft_c.F
+      !||    fail_energy_c             ../engine/source/materials/fail/energy/fail_energy_c.F
+      !||    fail_fabric_c             ../engine/source/materials/fail/fabric/fail_fabric_c.F
+      !||    fail_fld_c                ../engine/source/materials/fail/fld/fail_fld_c.F
+      !||    fail_fld_xfem             ../engine/source/materials/fail/fld/fail_fld_xfem.F
+      !||    fail_gene1_c              ../engine/source/materials/fail/gene1/fail_gene1_c.F
+      !||    fail_hashin_c             ../engine/source/materials/fail/hashin/fail_hashin_c.F
+      !||    fail_hc_dsse_c            ../engine/source/materials/fail/hc_dsse/fail_hc_dsse_c.F
+      !||    fail_hoffman_c            ../engine/source/materials/fail/hoffman/fail_hoffman_c.F
+      !||    fail_inievo_c             ../engine/source/materials/fail/inievo/fail_inievo_c.F
+      !||    fail_johnson_c            ../engine/source/materials/fail/johnson_cook/fail_johnson_c.F
+      !||    fail_johnson_xfem         ../engine/source/materials/fail/johnson_cook/fail_johnson_xfem.F
+      !||    fail_maxstrain_c          ../engine/source/materials/fail/max_strain/fail_maxstrain_c.F
+      !||    fail_nxt_c                ../engine/source/materials/fail/nxt/fail_nxt_c.F
+      !||    fail_orthbiquad_c         ../engine/source/materials/fail/orthbiquad/fail_orthbiquad_c.F
+      !||    fail_orthenerg_c          ../engine/source/materials/fail/orthenerg/fail_orthenerg_c.F
+      !||    fail_orthstrain_c         ../engine/source/materials/fail/orthstrain/fail_orthstrain_c.F
+      !||    fail_puck_c               ../engine/source/materials/fail/puck/fail_puck_c.F
+      !||    fail_rtcl_c               ../engine/source/materials/fail/rtcl/fail_rtcl_c.F
+      !||    fail_setoff_c             ../engine/source/materials/fail/fail_setoff_c.F
+      !||    fail_setoff_npg_c         ../engine/source/materials/fail/fail_setoff_npg_c.F
+      !||    fail_setoff_wind_frwave   ../engine/source/materials/fail/fail_setoff_wind_frwave.F
+      !||    fail_syazwan_c            ../engine/source/materials/fail/syazwan/fail_syazwan_c.F
+      !||    fail_tab2_c               ../engine/source/materials/fail/tabulated/fail_tab2_c.F
+      !||    fail_tab_c                ../engine/source/materials/fail/tabulated/fail_tab_c.F
+      !||    fail_tab_old_c            ../engine/source/materials/fail/tabulated/fail_tab_old_c.F
+      !||    fail_tab_old_xfem         ../engine/source/materials/fail/tabulated/fail_tab_old_xfem.F
+      !||    fail_tab_xfem             ../engine/source/materials/fail/tabulated/fail_tab_xfem.F
+      !||    fail_tbutcher_c           ../engine/source/materials/fail/tuler_butcher/fail_tbutcher_c.F
+      !||    fail_tbutcher_xfem        ../engine/source/materials/fail/tuler_butcher/fail_tbutcher_xfem.F
+      !||    fail_tensstrain_c         ../engine/source/materials/fail/tensstrain/fail_tensstrain_c.F
+      !||    fail_tsaihill_c           ../engine/source/materials/fail/tsaihill/fail_tsaihill_c.F
+      !||    fail_tsaiwu_c             ../engine/source/materials/fail/tsaiwu/fail_tsaiwu_c.F
+      !||    fail_visual_c             ../engine/source/materials/fail/visual/fail_visual_c.F
+      !||    fail_wierzbicki_c         ../engine/source/materials/fail/wierzbicki/fail_wierzbicki_c.F
+      !||    fail_wilkins_c            ../engine/source/materials/fail/wilkins/fail_wilkins_c.F
+      !||    fail_wind_frwave          ../engine/source/materials/fail/alter/fail_wind_frwave.F
+      !||    fail_wind_xfem            ../engine/source/materials/fail/alter/fail_wind_xfem.F
+      !||    m25delam                  ../engine/source/materials/mat/mat025/m25delam.F
+      !||    nvar                      ../engine/source/input/nvar.F
+      !||    prony_modelc              ../engine/source/materials/visc/prony_modelc.F
+      !||    putsignorc3               ../engine/source/elements/shell/coqueba/cmatc3.F
+      !||    rotov                     ../engine/source/airbag/roto.F
+      !||    sigeps01c                 ../engine/source/materials/mat/mat001/sigeps01c.F
+      !||    sigeps02c                 ../engine/source/materials/mat/mat002/sigeps02c.F
+      !||    sigeps104c                ../engine/source/materials/mat/mat104/sigeps104c.F
+      !||    sigeps107c                ../engine/source/materials/mat/mat107/sigeps107c.F
+      !||    sigeps109c                ../engine/source/materials/mat/mat109/sigeps109c.F
+      !||    sigeps110c                ../engine/source/materials/mat/mat110/sigeps110c.F
+      !||    sigeps112c                ../engine/source/materials/mat/mat112/sigeps112c.F
+      !||    sigeps119c                ../engine/source/materials/mat/mat119/sigeps119c.F
+      !||    sigeps121c                ../engine/source/materials/mat/mat121/sigeps121c.F
+      !||    sigeps122c                ../engine/source/materials/mat/mat122/sigeps122c.F
+      !||    sigeps125c                ../engine/source/materials/mat/mat125/sigeps125c.F90
+      !||    sigeps127c                ../engine/source/materials/mat/mat127/sigeps127c.F90
+      !||    sigeps128c                ../engine/source/materials/mat/mat128/sigeps128c.F90
+      !||    sigeps158c                ../engine/source/materials/mat/mat158/sigeps158c.F
+      !||    sigeps15c                 ../engine/source/materials/mat/mat015/sigeps15c.F
+      !||    sigeps19c                 ../engine/source/materials/mat/mat019/sigeps19c.F
+      !||    sigeps22c                 ../engine/source/materials/mat/mat022/sigeps22c.F
+      !||    sigeps25c                 ../engine/source/materials/mat/mat025/sigeps25c.F
+      !||    sigeps25cp                ../engine/source/materials/mat/mat025/sigeps25cp.F
+      !||    sigeps27c                 ../engine/source/materials/mat/mat027/sigeps27c.F
+      !||    sigeps32c                 ../engine/source/materials/mat/mat032/sigeps32c.F
+      !||    sigeps34c                 ../engine/source/materials/mat/mat034/sigeps34c.F
+      !||    sigeps35c                 ../engine/source/materials/mat/mat035/sigeps35c.F
+      !||    sigeps36c                 ../engine/source/materials/mat/mat036/sigeps36c.F
+      !||    sigeps42c                 ../engine/source/materials/mat/mat042/sigeps42c.F
+      !||    sigeps43c                 ../engine/source/materials/mat/mat043/sigeps43c.F
+      !||    sigeps44c                 ../engine/source/materials/mat/mat044/sigeps44c.F
+      !||    sigeps45c                 ../engine/source/materials/mat/mat045/sigeps45c.F
+      !||    sigeps48c                 ../engine/source/materials/mat/mat048/sigeps48c.F
+      !||    sigeps52c                 ../engine/source/materials/mat/mat052/sigeps52c.F
+      !||    sigeps55c                 ../engine/source/materials/mat/mat055/sigeps55c.F
+      !||    sigeps56c                 ../engine/source/materials/mat/mat056/sigeps56c.F
+      !||    sigeps57c                 ../engine/source/materials/mat/mat057/sigeps57c.F
+      !||    sigeps58c                 ../engine/source/materials/mat/mat058/sigeps58c.F
+      !||    sigeps60c                 ../engine/source/materials/mat/mat060/sigeps60c.F
+      !||    sigeps62c                 ../engine/source/materials/mat/mat062/sigeps62c.F
+      !||    sigeps63c                 ../engine/source/materials/mat/mat063/sigeps63c.F
+      !||    sigeps64c                 ../engine/source/materials/mat/mat064/sigeps64c.F
+      !||    sigeps65c                 ../engine/source/materials/mat/mat065/sigeps65c.F
+      !||    sigeps66c                 ../engine/source/materials/mat/mat066/sigeps66c.F
+      !||    sigeps69c                 ../engine/source/materials/mat/mat069/sigeps69c.F
+      !||    sigeps71c                 ../engine/source/materials/mat/mat071/sigeps71c.F
+      !||    sigeps72c                 ../engine/source/materials/mat/mat072/sigeps72c.F
+      !||    sigeps73c                 ../engine/source/materials/mat/mat073/sigeps73c.F
+      !||    sigeps76c                 ../engine/source/materials/mat/mat076/sigeps76c.F
+      !||    sigeps78c                 ../engine/source/materials/mat/mat078/sigeps78c.F
+      !||    sigeps80c                 ../engine/source/materials/mat/mat080/sigeps80c.F
+      !||    sigeps82c                 ../engine/source/materials/mat/mat082/sigeps82c.F
+      !||    sigeps85c_void            ../engine/source/materials/mat/mat085/sigeps85c_void.F
+      !||    sigeps86c                 ../engine/source/materials/mat/mat086/sigeps86c.F
+      !||    sigeps87c                 ../engine/source/materials/mat/mat087/sigeps87c.F
+      !||    sigeps88c                 ../engine/source/materials/mat/mat088/sigeps88c.F
+      !||    sigeps93c                 ../engine/source/materials/mat/mat093/sigeps93c.F
+      !||    sigeps96c                 ../engine/source/materials/mat/mat096/sigeps96c.F
+      !||    startime                  ../engine/source/system/timer_mod.F90
+      !||    stoptime                  ../engine/source/system/timer_mod.F90
+      !||    urotov                    ../engine/source/airbag/uroto.F
+      !||    xfem_crk_dir              ../engine/source/elements/xfem/xfem_crk_dir.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod              ../common_source/modules/constant_mod.F
+      !||    dt_mod                    ../engine/source/modules/dt_mod.F
+      !||    elbufdef_mod              ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    failwave_mod              ../common_source/modules/failwave_mod.F
+      !||    file_descriptor_mod       ../engine/source/modules/file_descriptor_mod.F90
+      !||    law_usersh                ../engine/source/user_interface/law_usersh.F
+      !||    mat_elem_mod              ../common_source/modules/mat_elem/mat_elem_mod.F90
+      !||    message_mod               ../engine/share/message_module/message_mod.F
+      !||    nlocal_reg_mod            ../common_source/modules/nlocal_reg_mod.F
+      !||    sensor_mod                ../engine/share/modules/sensor_mod.F
+      !||    sigeps125c_mod            ../engine/source/materials/mat/mat125/sigeps125c.F90
+      !||    sigeps127c_mod            ../engine/source/materials/mat/mat127/sigeps127c.F90
+      !||    sigeps128c_mod            ../engine/source/materials/mat/mat128/sigeps128c.F90
+      !||    stack_mod                 ../engine/share/modules/stack_mod.F
+      !||    table_mod                 ../engine/share/modules/table_mod.F
+      !||    timer_mod                 ../engine/source/system/timer_mod.F90
+      !||====================================================================
         subroutine mulawc(timers,elbuf_str ,&
         & jft      ,jlt      ,nel      ,pm        ,for      ,mom      , &
         & gstr     ,thk      ,eint     ,off       ,dir_a    ,dir_b    , &

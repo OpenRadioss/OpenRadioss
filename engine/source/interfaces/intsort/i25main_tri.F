@@ -42,8 +42,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_tri25vox                ../engine/source/mpi/interfaces/spmd_tri25vox.F
       !||    spmd_tri25vox0               ../engine/source/mpi/interfaces/spmd_tri25vox0.F
       !||    spmd_tri25vox0_edge          ../engine/source/mpi/interfaces/spmd_tri25vox0.F
-      !||    startime                     ../engine/source/system/timer.F
-      !||    stoptime                     ../engine/source/system/timer.F
+      !||    startime                     ../engine/source/system/timer_mod.F90
+      !||    stoptime                     ../engine/source/system/timer_mod.F90
       !||    upgrade_lcand_e2s            ../common_source/interf/upgrade_multimp.F
       !||    upgrade_lcand_edg            ../common_source/interf/upgrade_multimp.F
       !||    upgrade_multimp              ../common_source/interf/upgrade_multimp.F
@@ -52,6 +52,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
       !||    message_mod                  ../engine/share/message_module/message_mod.F
       !||    parameters_mod               ../common_source/modules/interfaces/parameters_mod.F
+      !||    timer_mod                    ../engine/source/system/timer_mod.F90
       !||    tri25ebox                    ../engine/share/modules/tri25ebox.F
       !||    tri7box                      ../engine/share/modules/tri7box.F
       !||====================================================================

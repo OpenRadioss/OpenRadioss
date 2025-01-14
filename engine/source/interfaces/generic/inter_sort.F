@@ -37,6 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    metric_mod              ../common_source/modules/interfaces/metric_mod.F
       !||    multi_fvm_mod           ../common_source/modules/ale/multi_fvm_mod.F90
       !||    sensor_mod              ../engine/share/modules/sensor_mod.F
+      !||    timer_mod               ../engine/source/system/timer_mod.F90
       !||====================================================================
         SUBROUTINE INTER_SORT( TIMERS,ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,RETRI,IPARI,
      1                         NSENSOR,ISENDTO,IRECVFROM,INTBUF_TAB,X,ITAB,

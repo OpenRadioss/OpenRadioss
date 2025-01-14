@@ -81,6 +81,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    state_mod                ../common_source/modules/state_mod.F
       !||    table_mod                ../engine/share/modules/table_mod.F
       !||    th_surf_mod              ../common_source/modules/interfaces/th_surf_mod.F
+      !||    timer_mod                ../engine/source/system/timer_mod.F90
       !||    user_windows_mod         ../common_source/modules/user_windows_mod.F
       !||====================================================================
       SUBROUTINE SORTIE_MAIN(TIMERS,

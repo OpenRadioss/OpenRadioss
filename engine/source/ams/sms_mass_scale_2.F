@@ -67,14 +67,15 @@ C-----
       !||    spmd_exch_a_rb6    ../engine/source/mpi/kinematic_conditions/spmd_exch_a_rb6.F
       !||    spmd_list_sms      ../engine/source/mpi/ams/spmd_sms.F
       !||    spmd_mij_sms       ../engine/source/mpi/ams/spmd_sms.F
-      !||    startime           ../engine/source/system/timer.F
-      !||    stoptime           ../engine/source/system/timer.F
+      !||    startime           ../engine/source/system/timer_mod.F90
+      !||    stoptime           ../engine/source/system/timer_mod.F90
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod       ../common_source/modules/groupdef_mod.F
       !||    intstamp_mod       ../engine/share/modules/intstamp_mod.F
       !||    message_mod        ../engine/share/message_module/message_mod.F
       !||    mod_sms_work       ../engine/source/ams/sms_mass_scale_2.F
       !||    sensor_mod         ../engine/share/modules/sensor_mod.F
+      !||    timer_mod          ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE SMS_MASS_SCALE_2(TIMERS,
      1        ITASK    ,NODFT    ,NODLT    ,NODII_SMS ,INDX2_SMS ,

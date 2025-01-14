@@ -22,6 +22,8 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
       !||    prony_modelc   ../engine/source/materials/visc/prony_modelc.F
+      !||--- called by ------------------------------------------------------
+      !||    mulawc         ../engine/source/materials/mat_share/mulawc.F90
       !||====================================================================
       SUBROUTINE PRONY_MODELC(
      1     NEL  ,NUVAR  ,TIMESTEP,

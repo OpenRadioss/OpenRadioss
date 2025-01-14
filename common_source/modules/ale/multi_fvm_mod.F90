@@ -83,6 +83,7 @@
       !||    hm_read_ebcs_vel                 ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_vel.F
       !||    hm_read_inimap1d                 ../starter/source/initial_conditions/inimap/hm_read_inimap1d.F
       !||    hm_read_inivel                   ../starter/source/initial_conditions/general/inivel/hm_read_inivel.F
+      !||    hm_read_inivol                   ../starter/source/initial_conditions/inivol/hm_read_inivol.F90
       !||    hm_read_inter_fsi                ../starter/source/interfaces/reader/hm_read_inter_fsi.F
       !||    hm_read_inter_type18             ../starter/source/interfaces/int18/hm_read_inter_type18.F
       !||    hm_read_interfaces               ../starter/source/interfaces/reader/hm_read_interfaces.F

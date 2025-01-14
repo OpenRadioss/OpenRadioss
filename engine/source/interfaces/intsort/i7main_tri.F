@@ -42,8 +42,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_tri7gat                 ../engine/source/mpi/interfaces/spmd_int.F
       !||    spmd_tri7vox0                ../engine/source/mpi/interfaces/spmd_int.F
       !||    spmd_tri7vox_optimized       ../engine/source/mpi/interfaces/spmd_tri7vox_optimized.F
-      !||    startime                     ../engine/source/system/timer.F
-      !||    stoptime                     ../engine/source/system/timer.F
+      !||    startime                     ../engine/source/system/timer_mod.F90
+      !||    stoptime                     ../engine/source/system/timer_mod.F90
       !||    upgrade_multimp              ../common_source/interf/upgrade_multimp.F
       !||--- uses       -----------------------------------------------------
       !||    check_sorting_criteria_mod   ../engine/source/interfaces/intsort/check_sorting_criteria.F90
@@ -52,6 +52,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    inter_sorting_mod            ../engine/share/modules/inter_sorting_mod.F
       !||    message_mod                  ../engine/share/message_module/message_mod.F
       !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F90
+      !||    timer_mod                    ../engine/source/system/timer_mod.F90
       !||    tri7box                      ../engine/share/modules/tri7box.F
       !||====================================================================
       SUBROUTINE I7MAIN_TRI(TIMERS,

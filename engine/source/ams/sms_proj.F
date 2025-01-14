@@ -29,10 +29,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    my_barrier     ../engine/source/system/machine.F
       !||    sms_mam_nm     ../engine/source/ams/sms_proj.F
       !||    sms_mav_lt2    ../engine/source/ams/sms_pcg.F
-      !||    startime       ../engine/source/system/timer.F
-      !||    stoptime       ../engine/source/system/timer.F
+      !||    startime       ../engine/source/system/timer_mod.F90
+      !||    stoptime       ../engine/source/system/timer_mod.F90
       !||--- uses       -----------------------------------------------------
       !||    sms_pcg_proj   ../engine/share/modules/sms_mod.F
+      !||    timer_mod      ../engine/source/system/timer_mod.F90
       !||====================================================================
        SUBROUTINE SMS_INIST(TIMERS, 
      1           IADK  ,JDIK  ,DIAG_K ,LT_K  ,ITASK ,
@@ -172,10 +173,11 @@ C
       !||    my_barrier     ../engine/source/system/machine.F
       !||    sms_mav_mn     ../engine/source/ams/sms_proj.F
       !||    sms_mav_nm     ../engine/source/ams/sms_proj.F
-      !||    startime       ../engine/source/system/timer.F
-      !||    stoptime       ../engine/source/system/timer.F
+      !||    startime       ../engine/source/system/timer_mod.F90
+      !||    stoptime       ../engine/source/system/timer_mod.F90
       !||--- uses       -----------------------------------------------------
       !||    sms_pcg_proj   ../engine/share/modules/sms_mod.F
+      !||    timer_mod      ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE SMS_INIX(TIMERS, NODFT,NODLT,NUMNOD,X  ,R ,WEIGHT,ITASK ,
      .                    DIAG_SMS)
@@ -289,10 +291,11 @@ C----------------------
       !||    my_barrier     ../engine/source/system/machine.F
       !||    sms_mav_mn     ../engine/source/ams/sms_proj.F
       !||    sms_mav_nm     ../engine/source/ams/sms_proj.F
-      !||    startime       ../engine/source/system/timer.F
-      !||    stoptime       ../engine/source/system/timer.F
+      !||    startime       ../engine/source/system/timer_mod.F90
+      !||    stoptime       ../engine/source/system/timer_mod.F90
       !||--- uses       -----------------------------------------------------
       !||    sms_pcg_proj   ../engine/share/modules/sms_mod.F
+      !||    timer_mod      ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE SMS_PRO_P(TIMERS, NODFT ,NODLT ,NUMNOD ,P  ,WEIGHT,ITASK ,
      .                     PJ    ,DIAG_SMS)

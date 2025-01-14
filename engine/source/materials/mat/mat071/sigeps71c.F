@@ -23,6 +23,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C  New law -- material shape memory
       !||====================================================================
       !||    sigeps71c   ../engine/source/materials/mat/mat071/sigeps71c.F
+      !||--- called by ------------------------------------------------------
+      !||    mulawc      ../engine/source/materials/mat_share/mulawc.F90
       !||--- calls      -----------------------------------------------------
       !||    finter      ../engine/source/tools/curve/finter.F
       !||====================================================================

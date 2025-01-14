@@ -76,8 +76,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    srrota3                ../engine/source/elements/solid/solide/srrota3.F
       !||    srrotadp               ../engine/source/elements/solid/solide/srrotadp.F
       !||    sstra3                 ../engine/source/elements/solid/solide/sstra3.F
-      !||    startime               ../engine/source/system/timer.F
-      !||    stoptime               ../engine/source/system/timer.F
+      !||    startime               ../engine/source/system/timer_mod.F90
+      !||    stoptime               ../engine/source/system/timer_mod.F90
       !||    storth3                ../engine/source/elements/solid/solidez/storth3.F
       !||    szordef3               ../engine/source/elements/solid/solidez/szordef3.F
       !||    sztorth3               ../engine/source/elements/solid/solidez/sztorth3.F
@@ -92,6 +92,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
       !||    sensor_mod             ../engine/share/modules/sensor_mod.F
       !||    table_mod              ../engine/share/modules/table_mod.F
+      !||    timer_mod              ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE S8ZFORC3(TIMERS, ELBUF_TAB,NG     ,
      1                    PM       ,GEO    ,IXS    ,X       ,

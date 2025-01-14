@@ -69,6 +69,7 @@ C
       !||    m32plas           ../engine/source/materials/mat/mat032/m32plas.F
       !||    mat25_crasurv_c   ../engine/source/materials/mat/mat025/mat25_crasurv_c.F90
       !||    mat25_tsaiwu_c    ../engine/source/materials/mat/mat025/mat25_tsaiwu_c.F90
+      !||    mulawc            ../engine/source/materials/mat_share/mulawc.F90
       !||    sigrota           ../engine/source/output/anim/generate/sigrota.F
       !||    sigrota_xfe       ../engine/source/output/anim/generate/sigrota_xfe.F
       !||    tensorc_crk       ../engine/source/output/anim/generate/tensorc_crk.F

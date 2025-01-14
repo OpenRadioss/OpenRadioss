@@ -78,6 +78,7 @@
       !||    mstrain_rate           ../engine/source/materials/mat_share/mstrain_rate.F
       !||    nsvisul                ../engine/source/materials/mat_share/nsvisul.F
       !||    nvar                   ../engine/source/input/nvar.F
+      !||    sigeps100              ../engine/source/materials/mat/mat100/sigeps100.F90
       !||    sigeps101              ../engine/source/materials/mat/mat101/sigeps101.F
       !||    sigeps102              ../engine/source/materials/mat/mat102/sigeps102.F
       !||    sigeps103              ../engine/source/materials/mat/mat103/sigeps103.F
@@ -146,8 +147,8 @@
       !||    sigeps96               ../engine/source/materials/mat/mat096/sigeps96.F
       !||    sigeps97               ../engine/source/materials/mat/mat097/sigeps97.F
       !||    sreploc3               ../engine/source/elements/solid/solide/sreploc3.F
-      !||    startime               ../engine/source/system/timer.F
-      !||    stoptime               ../engine/source/system/timer.F
+      !||    startime               ../engine/source/system/timer_mod.F90
+      !||    stoptime               ../engine/source/system/timer_mod.F90
       !||    viscmain               ../engine/source/materials/visc/viscmain.F
       !||--- uses       -----------------------------------------------------
       !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
@@ -158,12 +159,14 @@
       !||    message_mod            ../engine/share/message_module/message_mod.F
       !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
       !||    prop_param_mod         ../common_source/modules/mat_elem/prop_param_mod.F90
+      !||    sigeps100_mod          ../engine/source/materials/mat/mat100/sigeps100.F90
       !||    sigeps125_mod          ../engine/source/materials/mat/mat125/sigeps125.F90
       !||    sigeps126_mod          ../engine/source/materials/mat/mat126/sigeps126.F90
       !||    sigeps127_mod          ../engine/source/materials/mat/mat127/sigeps127.F90
       !||    sigeps128s_mod         ../engine/source/materials/mat/mat128/sigeps128s.F90
       !||    sigeps81_mod           ../engine/source/materials/mat/mat081/sigeps81.F90
       !||    table_mod              ../engine/share/modules/table_mod.F
+      !||    timer_mod              ../engine/source/system/timer_mod.F90
       !||====================================================================
         subroutine mulaw(timers,&
         &nft,         mtn,         jcvt,        pm,&

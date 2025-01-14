@@ -40,14 +40,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sigeps83                  ../engine/source/materials/mat/mat083/sigeps83.F
       !||    smom43                    ../engine/source/elements/solid/sconnect/smom43.F
       !||    srrota3                   ../engine/source/elements/solid/solide/srrota3.F
-      !||    startime                  ../engine/source/system/timer.F
-      !||    stoptime                  ../engine/source/system/timer.F
+      !||    startime                  ../engine/source/system/timer_mod.F90
+      !||    stoptime                  ../engine/source/system/timer_mod.F90
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod              ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    law_userso                ../engine/source/user_interface/law_userso.F
       !||    mat_elem_mod              ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    sigeps169_connect_mod     ../engine/source/materials/mat/mat169/sigeps169_connect.F90
       !||    table_mod                 ../engine/share/modules/table_mod.F
+      !||    timer_mod                 ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE SUSER43(TIMERS,
      1 ELBUF_STR,IOUT  ,IPROP  ,IMAT   ,NGL    ,TIME  ,TIMESTEP,FR_WAVE,

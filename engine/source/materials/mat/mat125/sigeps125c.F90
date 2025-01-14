@@ -22,6 +22,8 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
       !||    sigeps125c_mod   ../engine/source/materials/mat/mat125/sigeps125c.F90
+      !||--- called by ------------------------------------------------------
+      !||    mulawc           ../engine/source/materials/mat_share/mulawc.F90
       !||====================================================================
       module sigeps125c_mod
         contains
@@ -31,6 +33,8 @@
   ! ======================================================================================================================
       !||====================================================================
       !||    sigeps125c         ../engine/source/materials/mat/mat125/sigeps125c.F90
+      !||--- called by ------------------------------------------------------
+      !||    mulawc             ../engine/source/materials/mat_share/mulawc.F90
       !||--- uses       -----------------------------------------------------
       !||    constant_mod       ../common_source/modules/constant_mod.F
       !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90

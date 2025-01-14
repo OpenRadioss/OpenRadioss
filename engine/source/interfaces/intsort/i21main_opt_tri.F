@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i21optcd          ../engine/source/interfaces/int21/i21optcd.F
       !||--- uses       -----------------------------------------------------
       !||    intstamp_mod      ../engine/share/modules/intstamp_mod.F
+      !||    timer_mod         ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE I21MAIN_OPT_TRI(TIMERS,
      1                  IPARI   ,INTBUF_TAB ,NIN     ,ITASK ,

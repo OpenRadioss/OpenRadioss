@@ -202,8 +202,6 @@ C This routine cannot be used for type25 anymore
       !||    arret          ../engine/source/system/arret.F
       !||    spmd_wait      ../engine/source/mpi/spmd_mod.F90
       !||    spmd_waitany   ../engine/source/mpi/spmd_mod.F90
-      !||    startime       ../engine/source/system/timer.F
-      !||    stoptime       ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    message_mod    ../engine/share/message_module/message_mod.F
       !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
@@ -876,8 +874,6 @@ c END TRI7VOX
       !||    arret               ../engine/source/system/arret.F
       !||    spmd_wait           ../engine/source/mpi/spmd_mod.F90
       !||    spmd_waitany        ../engine/source/mpi/spmd_mod.F90
-      !||    startime            ../engine/source/system/timer.F
-      !||    stoptime            ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    message_mod         ../engine/share/message_module/message_mod.F
       !||    multi_fvm_mod       ../common_source/modules/ale/multi_fvm_mod.F90
@@ -1377,8 +1373,6 @@ C
       !||    arret           ../engine/source/system/arret.F
       !||    spmd_wait       ../engine/source/mpi/spmd_mod.F90
       !||    spmd_waitany    ../engine/source/mpi/spmd_mod.F90
-      !||    startime        ../engine/source/system/timer.F
-      !||    stoptime        ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    message_mod     ../engine/share/message_module/message_mod.F
       !||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
@@ -4390,7 +4384,6 @@ C END TRI11VOX0
       !||    arret           ../engine/source/system/arret.F
       !||    spmd_wait       ../engine/source/mpi/spmd_mod.F90
       !||    spmd_waitany    ../engine/source/mpi/spmd_mod.F90
-      !||    startime        ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    message_mod     ../engine/share/message_module/message_mod.F
       !||    spmd_mod        ../engine/source/mpi/spmd_mod.F90

@@ -721,8 +721,6 @@ C--------------------------------------------
       !||    gravit_imp    ../engine/source/loads/general/grav/gravit_imp.F
       !||    spmd_max_i    ../engine/source/mpi/implicit/imp_spmd.F
       !||    spmd_sumf_a   ../engine/source/mpi/implicit/imp_spmd.F
-      !||    startime      ../engine/source/system/timer.F
-      !||    stoptime      ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod       ../engine/share/modules/h3d_mod.F
       !||    imp_dyna      ../engine/share/modules/impbufdef_mod.F
@@ -976,8 +974,6 @@ C
       !||--- calls      -----------------------------------------------------
       !||    force_imp     ../engine/source/loads/general/force_imp.F
       !||    gravit_imp    ../engine/source/loads/general/grav/gravit_imp.F
-      !||    startime      ../engine/source/system/timer.F
-      !||    stoptime      ../engine/source/system/timer.F
       !||    wfv_imp       ../engine/source/constraints/general/impvel/fv_imp0.F
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod       ../engine/share/modules/h3d_mod.F

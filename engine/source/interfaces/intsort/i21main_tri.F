@@ -30,13 +30,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i21fpen                      ../engine/source/interfaces/int21/i21fpen.F
       !||    i21xsave                     ../engine/source/interfaces/int21/i21xsave.F
       !||    my_barrier                   ../engine/source/system/machine.F
-      !||    startime                     ../engine/source/system/timer.F
-      !||    stoptime                     ../engine/source/system/timer.F
+      !||    startime                     ../engine/source/system/timer_mod.F90
+      !||    stoptime                     ../engine/source/system/timer_mod.F90
       !||    update_struct_int21          ../engine/source/interfaces/int21/update_struct_int21.F
       !||    upgrade_multimp              ../common_source/interf/upgrade_multimp.F
       !||--- uses       -----------------------------------------------------
       !||    check_sorting_criteria_mod   ../engine/source/interfaces/intsort/check_sorting_criteria.F90
       !||    intstamp_mod                 ../engine/share/modules/intstamp_mod.F
+      !||    timer_mod                    ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE I21MAIN_TRI(TIMERS,
      1                  IPARI   ,X       ,NIN     ,

@@ -29,8 +29,6 @@ C
       !||    ancmsg          ../engine/source/output/message/message.F
       !||    arret           ../engine/source/system/arret.F
       !||    conversion11    ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    startime        ../engine/source/system/timer.F
-      !||    stoptime        ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    i22tri_mod      ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||    message_mod     ../engine/share/message_module/message_mod.F

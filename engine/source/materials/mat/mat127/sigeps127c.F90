@@ -22,6 +22,8 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
       !||    sigeps127c_mod   ../engine/source/materials/mat/mat127/sigeps127c.F90
+      !||--- called by ------------------------------------------------------
+      !||    mulawc           ../engine/source/materials/mat_share/mulawc.F90
       !||====================================================================
       module sigeps127c_mod
         contains
@@ -31,6 +33,8 @@
   ! ======================================================================================================================
       !||====================================================================
       !||    sigeps127c         ../engine/source/materials/mat/mat127/sigeps127c.F90
+      !||--- called by ------------------------------------------------------
+      !||    mulawc             ../engine/source/materials/mat_share/mulawc.F90
       !||--- calls      -----------------------------------------------------
       !||    vinter             ../engine/source/tools/curve/vinter.F
       !||--- uses       -----------------------------------------------------

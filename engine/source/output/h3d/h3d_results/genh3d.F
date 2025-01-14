@@ -91,6 +91,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    h3d_nodal_tensor                     ../engine/source/output/h3d/h3d_results/h3d_nodal_tensor.F
       !||    h3d_nodal_vector                     ../engine/source/output/h3d/h3d_results/h3d_nodal_vector.F
       !||    h3d_oned_off                         ../engine/source/output/h3d/spmd/spmd_h3d_oned_off.F
+      !||    h3d_oned_scalar                      ../engine/source/output/h3d/h3d_results/h3d_oned_scalar.F90
       !||    h3d_oned_tensor                      ../engine/source/output/h3d/h3d_results/h3d_oned_tensor.F
       !||    h3d_oned_torsor                      ../engine/source/output/h3d/h3d_results/h3d_oned_torsor.F
       !||    h3d_oned_vector                      ../engine/source/output/h3d/h3d_results/h3d_oned_vector.F
@@ -131,8 +132,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_h3d_sum_r_nodal_21              ../engine/source/output/h3d/spmd/spmd_h3d_gather_r_node.F
       !||    spmd_h3d_sum_r_nodal_value           ../engine/source/output/h3d/spmd/spmd_h3d_sum_r_nodal_value.F
       !||    spmd_outpitab                        ../engine/source/mpi/interfaces/spmd_outp.F
-      !||    startime                             ../engine/source/system/timer.F
-      !||    stoptime                             ../engine/source/system/timer.F
+      !||    startime                             ../engine/source/system/timer_mod.F90
+      !||    stoptime                             ../engine/source/system/timer_mod.F90
       !||    sysfus2                              ../engine/source/system/sysfus.F
       !||--- uses       -----------------------------------------------------
       !||    ale_connectivity_mod                 ../common_source/modules/ale/ale_connectivity_mod.F
@@ -146,6 +147,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    groupdef_mod                         ../common_source/modules/groupdef_mod.F
       !||    h3d_inc_mod                          ../engine/share/modules/h3d_inc_mod.F
       !||    h3d_mod                              ../engine/share/modules/h3d_mod.F
+      !||    h3d_oned_scalar_mod                  ../engine/source/output/h3d/h3d_results/h3d_oned_scalar.F90
       !||    inoutfile_mod                        ../common_source/modules/inoutfile_mod.F
       !||    matparam_def_mod                     ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||    message_mod                          ../engine/share/message_module/message_mod.F
@@ -158,6 +160,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sensor_mod                           ../engine/share/modules/sensor_mod.F
       !||    stack_mod                            ../engine/share/modules/stack_mod.F
       !||    table_mod                            ../engine/share/modules/table_mod.F
+      !||    timer_mod                            ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE GENH3D(TIMERS,X        ,D        ,V           ,A           ,BUFEL    ,
      2                  IXS      ,IXQ      ,IXC         ,IXT         ,IXP      ,

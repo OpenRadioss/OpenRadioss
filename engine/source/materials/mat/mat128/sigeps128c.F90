@@ -24,12 +24,16 @@
 
       !||====================================================================
       !||    sigeps128c_mod   ../engine/source/materials/mat/mat128/sigeps128c.F90
+      !||--- called by ------------------------------------------------------
+      !||    mulawc           ../engine/source/materials/mat_share/mulawc.F90
       !||====================================================================
       module sigeps128c_mod
       contains
 
       !||====================================================================
       !||    sigeps128c              ../engine/source/materials/mat/mat128/sigeps128c.F90
+      !||--- called by ------------------------------------------------------
+      !||    mulawc                  ../engine/source/materials/mat_share/mulawc.F90
       !||--- calls      -----------------------------------------------------
       !||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
       !||--- uses       -----------------------------------------------------

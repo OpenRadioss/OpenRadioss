@@ -26,8 +26,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    imp_glob_k      ../engine/source/implicit/imp_glob_k.F
       !||    my_barrier      ../engine/source/system/machine.F
       !||    pr_infok        ../engine/source/implicit/imp_solv.F
-      !||    startime        ../engine/source/system/timer.F
-      !||    stoptime        ../engine/source/system/timer.F
       !||    upd_fr_k        ../engine/source/mpi/implicit/imp_fri.F
       !||    upd_glob_k      ../engine/source/implicit/upd_glob_k.F
       !||--- uses       -----------------------------------------------------

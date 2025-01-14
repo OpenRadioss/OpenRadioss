@@ -503,6 +503,7 @@ C-----------------------------------------------
       !||--- uses       -----------------------------------------------------
       !||    inoutfile_mod     ../common_source/modules/inoutfile_mod.F
       !||    time_mod          ../engine/share/modules/time_mod.F
+      !||    timer_mod         ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE PRINTIME(T,ITHERM)
 C     routine d'affichage des timers
@@ -2563,6 +2564,8 @@ C   mon tri flottant
       !||    printime                   ../engine/source/system/timer.F
       !||    resol                      ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    timer_mod                  ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE ELAPSTIME(T,ETIME)
         USE TIMER_MOD
@@ -3185,6 +3188,7 @@ C-----------------------------------------------
       !||--- uses       -----------------------------------------------------
       !||    inoutfile_mod              ../common_source/modules/inoutfile_mod.F
       !||    time_mod                   ../engine/share/modules/time_mod.F
+      !||    timer_mod                  ../engine/source/system/timer_mod.F90
       !||====================================================================
         SUBROUTINE ADD_ELAPSED_TIME_MON_OFF(T)
 !       When /MON/OFF is used, main processor 

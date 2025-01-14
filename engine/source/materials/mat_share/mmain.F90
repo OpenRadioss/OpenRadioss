@@ -148,8 +148,8 @@
       !||    sesa10                 ../engine/source/materials/mat/mat026/sesa10.F
       !||    sesa20                 ../engine/source/materials/mat/mat026/sesa20.F
       !||    sesa30                 ../engine/source/materials/mat/mat026/sesa30.F
-      !||    startime               ../engine/source/system/timer.F
-      !||    stoptime               ../engine/source/system/timer.F
+      !||    startime               ../engine/source/system/timer_mod.F90
+      !||    stoptime               ../engine/source/system/timer_mod.F90
       !||    usermat_solid          ../engine/source/materials/mat_share/usermat_solid.F
       !||    viscmain               ../engine/source/materials/visc/viscmain.F
       !||--- uses       -----------------------------------------------------
@@ -164,6 +164,7 @@
       !||    mulaw_mod              ../engine/source/materials/mat_share/mulaw.F90
       !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
       !||    table_mod              ../engine/share/modules/table_mod.F
+      !||    timer_mod              ../engine/source/system/timer_mod.F90
       !||====================================================================
         subroutine mmain(timers,&
         &elbuf_tab,   ng,          pm,          geo,&

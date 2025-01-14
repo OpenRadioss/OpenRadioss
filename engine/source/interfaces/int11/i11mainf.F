@@ -34,14 +34,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i11dst3                    ../engine/source/interfaces/int11/i11dst3.F
       !||    i11for3                    ../engine/source/interfaces/int11/i11for3.F
       !||    i11therm                   ../engine/source/interfaces/int11/i11therm.F
-      !||    startime                   ../engine/source/system/timer.F
-      !||    stoptime                   ../engine/source/system/timer.F
+      !||    startime                   ../engine/source/system/timer_mod.F90
+      !||    stoptime                   ../engine/source/system/timer_mod.F90
       !||    sum_6_float_sens           ../engine/source/system/parit.F
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod                    ../engine/share/modules/h3d_mod.F
       !||    intbuf_fric_mod            ../common_source/modules/interfaces/intbuf_fric_mod.F90
       !||    message_mod                ../engine/share/message_module/message_mod.F
       !||    my_alloc_mod               ../common_source/tools/memory/my_alloc.F90
+      !||    timer_mod                  ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE I11MAINF(TIMERS,
      1      IPARI   ,X         ,A       ,

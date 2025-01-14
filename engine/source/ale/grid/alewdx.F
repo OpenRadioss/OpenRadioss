@@ -39,8 +39,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    laser1                 ../engine/source/loads/laser/laser1.F
       !||    my_barrier             ../engine/source/system/machine.F
       !||    rgwal1                 ../engine/source/ale/grid/rgwal1.F
-      !||    startime               ../engine/source/system/timer.F
-      !||    stoptime               ../engine/source/system/timer.F
+      !||    startime               ../engine/source/system/timer_mod.F90
+      !||    stoptime               ../engine/source/system/timer_mod.F90
       !||    wlag                   ../engine/source/ale/grid/wlag.F
       !||    wpor                   ../engine/source/ale/grid/wpor.F
       !||--- uses       -----------------------------------------------------
@@ -50,6 +50,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    groupdef_mod           ../common_source/modules/groupdef_mod.F
       !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
       !||    python_funct_mod       ../common_source/modules/python_mod.F90
+      !||    timer_mod              ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE ALEWDX(TIMERS,
      1     GEO             ,X             ,D          ,V          ,VR         ,

@@ -43,8 +43,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    czfintnrz_or     ../engine/source/elements/shell/coquez/czfintn.F
       !||    czproj1          ../engine/source/elements/shell/coquez/czproj.F
       !||    czstra3          ../engine/source/elements/shell/coquez/czstra3.F
-      !||    startime         ../engine/source/system/timer.F
-      !||    stoptime         ../engine/source/system/timer.F
+      !||    startime         ../engine/source/system/timer_mod.F90
+      !||    stoptime         ../engine/source/system/timer_mod.F90
       !||    tempcg           ../engine/source/materials/mat_share/tempcg.F
       !||    thermc           ../engine/source/materials/mat_share/thermc.F
       !||--- uses       -----------------------------------------------------
@@ -59,6 +59,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sensor_mod       ../engine/share/modules/sensor_mod.F
       !||    stack_mod        ../engine/share/modules/stack_mod.F
       !||    table_mod        ../engine/share/modules/table_mod.F
+      !||    timer_mod        ../engine/source/system/timer_mod.F90
       !||====================================================================
        SUBROUTINE CZFORC3_CRK(TIMERS, XFEM_STR   ,
      1            JFT    ,JLT    ,NFT    ,ITYPTST,

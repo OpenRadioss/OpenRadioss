@@ -50,6 +50,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    multi_fvm_mod            ../common_source/modules/ale/multi_fvm_mod.F90
       !||    outputs_mod              ../common_source/modules/outputs_mod.F
       !||    sensor_mod               ../engine/share/modules/sensor_mod.F
+      !||    timer_mod                ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE INTFOP2(TIMERS,
      1       IPARI     ,X          ,A          ,IGROUPS   ,ALE_CONNECTIVITY,

@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    fail_cockroft_c   ../engine/source/materials/fail/cockroft_latham/fail_cockroft_c.F
       !||--- called by ------------------------------------------------------
+      !||    mulawc            ../engine/source/materials/mat_share/mulawc.F90
       !||    usermat_shell     ../engine/source/materials/mat_share/usermat_shell.F
       !||====================================================================
        SUBROUTINE FAIL_COCKROFT_C(

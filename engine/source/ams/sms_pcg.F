@@ -53,13 +53,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_glob_dpsum9   ../engine/source/mpi/interfaces/spmd_th.F
       !||    spmd_glob_dsum9    ../engine/source/mpi/interfaces/spmd_th.F
       !||    spmd_rbcast        ../engine/source/mpi/generic/spmd_rbcast.F
-      !||    startime           ../engine/source/system/timer.F
-      !||    stoptime           ../engine/source/system/timer.F
+      !||    startime           ../engine/source/system/timer_mod.F90
+      !||    stoptime           ../engine/source/system/timer_mod.F90
       !||    sum_6_float        ../engine/source/system/parit.F
       !||--- uses       -----------------------------------------------------
       !||    intstamp_mod       ../engine/share/modules/intstamp_mod.F
       !||    sensor_mod         ../engine/share/modules/sensor_mod.F
       !||    sms_pcg_proj       ../engine/share/modules/sms_mod.F
+      !||    timer_mod          ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE SMS_PCG(TIMERS, NODFT ,NODLT    ,NNZ      ,IADK     ,
      2                JDIK      ,DIAG_SMS ,LT_K     ,R        ,ISP     ,
@@ -1684,8 +1685,10 @@ C-------------produit {w}=[K]{v} using full matrix K ----
       !||    spmd_exch_sms      ../engine/source/mpi/ams/spmd_exch_sms.F
       !||    spmd_exch_sms6     ../engine/source/mpi/ams/spmd_exch_sms6.F
       !||    spmd_vfi_sms       ../engine/source/mpi/ams/spmd_vfi_sms.F
-      !||    startime           ../engine/source/system/timer.F
-      !||    stoptime           ../engine/source/system/timer.F
+      !||    startime           ../engine/source/system/timer_mod.F90
+      !||    stoptime           ../engine/source/system/timer_mod.F90
+      !||--- uses       -----------------------------------------------------
+      !||    timer_mod          ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE SMS_MAV_LT(TIMERS, NODFT  ,NODLT ,NUMNOD ,IADL  ,JDIL  ,
      2                      ITASK  ,DIAG_K ,LT_K  ,V      ,W     ,
@@ -2269,16 +2272,6 @@ C--------------------------------------------
         RETURN
       END
 C-------------product {w}=[K]{v}, v(numnod) using full matrix K ----
-      !||====================================================================
-      !||    sms_mav_lt1       ../engine/source/ams/sms_pcg.F
-      !||--- calls      -----------------------------------------------------
-      !||    foat_to_6_float   ../engine/source/system/parit.F
-      !||    my_barrier        ../engine/source/system/machine.F
-      !||    spmd_exch_sms     ../engine/source/mpi/ams/spmd_exch_sms.F
-      !||    spmd_fi_sms       ../engine/source/mpi/ams/spmd_fi_sms.F
-      !||    startime          ../engine/source/system/timer.F
-      !||    stoptime          ../engine/source/system/timer.F
-      !||====================================================================
 C      SUBROUTINE SMS_MAV_LT1(TIMERS, NODFT  ,NODLT ,NUMNOD ,IADL  ,JDIL  ,
 C     2                      ITASK  ,DIAG_K ,LT_K  ,V      ,W     ,
 C     3              NODFT1_SMS,NODLT1_SMS,INDX1_SMS,NODNX_SMS,IAD_ELEM ,
@@ -2505,8 +2498,10 @@ C-------------product {w}=[K]{v}, v(numnod) using full matrix K ----
       !||    my_barrier        ../engine/source/system/machine.F
       !||    spmd_exch_sms     ../engine/source/mpi/ams/spmd_exch_sms.F
       !||    spmd_fi_sms       ../engine/source/mpi/ams/spmd_fi_sms.F
-      !||    startime          ../engine/source/system/timer.F
-      !||    stoptime          ../engine/source/system/timer.F
+      !||    startime          ../engine/source/system/timer_mod.F90
+      !||    stoptime          ../engine/source/system/timer_mod.F90
+      !||--- uses       -----------------------------------------------------
+      !||    timer_mod         ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE SMS_MAV_LT2(TIMERS, NODFT  ,NODLT ,NUMNOD ,IADL  ,JDIL  ,
      2                      ITASK  ,DIAG_K ,LT_K  ,V      ,W     ,

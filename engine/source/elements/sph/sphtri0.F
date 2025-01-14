@@ -30,9 +30,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_barrier    ../engine/source/mpi/generic/spmd_barrier.F
       !||    spmd_sphvox     ../engine/source/mpi/sph/spmd_sphvox.F
       !||    spmd_sphvox0    ../engine/source/mpi/elements/spmd_sph.F
-      !||    startime        ../engine/source/system/timer.F
-      !||    stoptime        ../engine/source/system/timer.F
+      !||    startime        ../engine/source/system/timer_mod.F90
+      !||    stoptime        ../engine/source/system/timer_mod.F90
       !||--- uses       -----------------------------------------------------
+      !||    timer_mod       ../engine/source/system/timer_mod.F90
       !||    tri7box         ../engine/share/modules/tri7box.F
       !||====================================================================
       SUBROUTINE SPHTRI0(TIMERS, X   , SPBUF, KXSP, WSP2SORT,BMINMA , DMAX,

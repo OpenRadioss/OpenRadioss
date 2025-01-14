@@ -25,6 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    ale_box_coloration            ../starter/source/initial_conditions/inivol/ale_box_coloration.F
       !||    contrl                        ../starter/source/starter/contrl.F
+      !||    hm_read_inivol                ../starter/source/initial_conditions/inivol/hm_read_inivol.F90
       !||    hm_read_mat151                ../starter/source/materials/mat/mat151/hm_read_mat151.F
       !||    inisoldist                    ../starter/source/initial_conditions/inivol/inisoldist.F
       !||    init_inivol                   ../starter/source/initial_conditions/inivol/init_inivol.F90

@@ -26,7 +26,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sms_build_diag   ../engine/source/ams/sms_build_diag.F
       !||    sms_inisi        ../engine/source/ams/sms_proj.F
       !||    sms_mav_lt       ../engine/source/ams/sms_pcg.F
-      !||    sms_mav_lt1      ../engine/source/ams/sms_pcg.F
       !||    sms_mav_lt2      ../engine/source/ams/sms_pcg.F
       !||--- calls      -----------------------------------------------------
       !||====================================================================

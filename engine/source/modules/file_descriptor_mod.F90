@@ -24,6 +24,8 @@
 !! \brief  Module intent is to provide a common location for all file descriptors
       !||====================================================================
       !||    file_descriptor_mod   ../engine/source/modules/file_descriptor_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    mulawc                ../engine/source/materials/mat_share/mulawc.F90
       !||====================================================================
         module file_descriptor_mod
     

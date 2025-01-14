@@ -141,11 +141,12 @@ C
       !||    my_barrier      ../engine/source/system/machine.F
       !||    spmd_tri17box   ../engine/source/mpi/interfaces/spmd_tri17box.F
       !||    spmd_tri17gat   ../engine/source/mpi/interfaces/spmd_i7crit.F
-      !||    startime        ../engine/source/system/timer.F
-      !||    stoptime        ../engine/source/system/timer.F
+      !||    startime        ../engine/source/system/timer_mod.F90
+      !||    stoptime        ../engine/source/system/timer_mod.F90
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
       !||    message_mod     ../engine/share/message_module/message_mod.F
+      !||    timer_mod       ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE I17MAIN_TRI(TIMERS,
      1          IPARI  ,INTBUF_TAB ,X       ,NIN     ,

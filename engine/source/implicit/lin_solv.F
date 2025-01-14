@@ -51,8 +51,6 @@ C  |---- version non //------------
       !||    recu_kdis0           ../engine/source/implicit/lin_solv.F
       !||    recudis              ../engine/source/implicit/recudis.F
       !||    set_ksym             ../engine/source/implicit/imp_solv.F
-      !||    startime             ../engine/source/system/timer.F
-      !||    stoptime             ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    dsgraph_mod          ../engine/share/modules/dsgraph_mod.F
       !||    groupdef_mod         ../common_source/modules/groupdef_mod.F
@@ -855,8 +853,6 @@ C  |---- version Hybrid------------
       !||    spmd_max_i           ../engine/source/mpi/implicit/imp_spmd.F
       !||    spmd_sumf_k          ../engine/source/mpi/implicit/imp_spmd.F
       !||    spmd_sumf_v          ../engine/source/mpi/implicit/imp_spmd.F
-      !||    startime             ../engine/source/system/timer.F
-      !||    stoptime             ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    dsgraph_mod          ../engine/share/modules/dsgraph_mod.F
       !||    groupdef_mod         ../common_source/modules/groupdef_mod.F
@@ -1153,8 +1149,6 @@ C--------------------------------------------
       !||    spmd_max_i           ../engine/source/mpi/implicit/imp_spmd.F
       !||    spmd_sum_s           ../engine/source/mpi/implicit/imp_spmd.F
       !||    spmd_sumf_k          ../engine/source/mpi/implicit/imp_spmd.F
-      !||    startime             ../engine/source/system/timer.F
-      !||    stoptime             ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    dsgraph_mod          ../engine/share/modules/dsgraph_mod.F
       !||    groupdef_mod         ../common_source/modules/groupdef_mod.F
@@ -1425,8 +1419,6 @@ C--------------------------------------------
       !||    lin_solvp2           ../engine/source/implicit/lin_solv.F
       !||    omp_get_thread_num   ../engine/source/engine/openmp_stub.F90
       !||    set_ksym             ../engine/source/implicit/imp_solv.F
-      !||    startime             ../engine/source/system/timer.F
-      !||    stoptime             ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    dsgraph_mod          ../engine/share/modules/dsgraph_mod.F
       !||    groupdef_mod         ../common_source/modules/groupdef_mod.F

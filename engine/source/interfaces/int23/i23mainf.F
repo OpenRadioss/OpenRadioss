@@ -33,12 +33,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i23for3            ../engine/source/interfaces/int23/i23for3.F
       !||    i7cdcor3           ../engine/source/interfaces/int07/i7cdcor3.F
       !||    my_barrier         ../engine/source/system/machine.F
-      !||    startime           ../engine/source/system/timer.F
-      !||    stoptime           ../engine/source/system/timer.F
+      !||    startime           ../engine/source/system/timer_mod.F90
+      !||    stoptime           ../engine/source/system/timer_mod.F90
       !||    sum_6_float_sens   ../engine/source/system/parit.F
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod            ../engine/share/modules/h3d_mod.F
       !||    message_mod        ../engine/share/message_module/message_mod.F
+      !||    timer_mod          ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE I23MAINF(TIMERS,
      1                   IPARI  ,INTBUF_TAB         ,X        ,A      ,

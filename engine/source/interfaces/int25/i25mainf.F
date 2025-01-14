@@ -46,14 +46,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i_cor_epfit3                ../engine/source/interfaces/int24/i24cor3.F
       !||    i_corpfit3                  ../engine/source/interfaces/int24/i24cor3.F
       !||    my_barrier                  ../engine/source/system/machine.F
-      !||    startime                    ../engine/source/system/timer.F
-      !||    stoptime                    ../engine/source/system/timer.F
+      !||    startime                    ../engine/source/system/timer_mod.F90
+      !||    stoptime                    ../engine/source/system/timer_mod.F90
       !||    sum_6_float_sens            ../engine/source/system/parit.F
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod                     ../engine/share/modules/h3d_mod.F
       !||    intbuf_fric_mod             ../common_source/modules/interfaces/intbuf_fric_mod.F90
       !||    message_mod                 ../engine/share/message_module/message_mod.F
       !||    outputs_mod                 ../common_source/modules/outputs_mod.F
+      !||    timer_mod                   ../engine/source/system/timer_mod.F90
       !||    tri25ebox                   ../engine/share/modules/tri25ebox.F
       !||    tri7box                     ../engine/share/modules/tri7box.F
       !||====================================================================

@@ -36,14 +36,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_tri24gat                ../engine/source/mpi/interfaces/spmd_int.F
       !||    spmd_tri24vox                ../engine/source/mpi/interfaces/spmd_int.F
       !||    spmd_tri24vox0               ../engine/source/mpi/interfaces/spmd_int.F
-      !||    startime                     ../engine/source/system/timer.F
-      !||    stoptime                     ../engine/source/system/timer.F
+      !||    startime                     ../engine/source/system/timer_mod.F90
+      !||    stoptime                     ../engine/source/system/timer_mod.F90
       !||    upgrade_multimp              ../common_source/interf/upgrade_multimp.F
       !||--- uses       -----------------------------------------------------
       !||    check_sorting_criteria_mod   ../engine/source/interfaces/intsort/check_sorting_criteria.F90
       !||    h3d_mod                      ../engine/share/modules/h3d_mod.F
       !||    message_mod                  ../engine/share/message_module/message_mod.F
       !||    parameters_mod               ../common_source/modules/interfaces/parameters_mod.F
+      !||    timer_mod                    ../engine/source/system/timer_mod.F90
       !||    tri7box                      ../engine/share/modules/tri7box.F
       !||====================================================================
       SUBROUTINE I24MAIN_TRI(TIMERS, 

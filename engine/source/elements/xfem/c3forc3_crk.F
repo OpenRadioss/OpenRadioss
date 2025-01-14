@@ -46,8 +46,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    c3updt3_crk      ../engine/source/elements/xfem/xfemfsky.F
       !||    cmain3           ../engine/source/materials/mat_share/cmain3.F
       !||    csens3           ../engine/source/elements/shell/coque/csens3.F
-      !||    startime         ../engine/source/system/timer.F
-      !||    stoptime         ../engine/source/system/timer.F
+      !||    startime         ../engine/source/system/timer_mod.F90
+      !||    stoptime         ../engine/source/system/timer_mod.F90
       !||    temp3cg          ../engine/source/elements/sh3n/coque3n/temp3cg.F
       !||    therm3c          ../engine/source/elements/sh3n/coque3n/therm3c.F
       !||--- uses       -----------------------------------------------------
@@ -62,6 +62,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sensor_mod       ../engine/share/modules/sensor_mod.F
       !||    stack_mod        ../engine/share/modules/stack_mod.F
       !||    table_mod        ../engine/share/modules/table_mod.F
+      !||    timer_mod        ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE C3FORC3_CRK(TIMERS,
      1   XFEM_STR,    JFT,         JLT,         PM,

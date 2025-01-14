@@ -30,8 +30,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_wait       ../engine/source/mpi/spmd_mod.F90
       !||    spmd_waitall    ../engine/source/mpi/spmd_mod.F90
       !||    spmd_waitany    ../engine/source/mpi/spmd_mod.F90
-      !||    startime        ../engine/source/system/timer.F
-      !||    stoptime        ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    message_mod     ../engine/share/message_module/message_mod.F
       !||    spmd_mod        ../engine/source/mpi/spmd_mod.F90

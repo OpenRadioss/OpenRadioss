@@ -31,8 +31,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i22for3            ../engine/source/interfaces/int22/i22for3.F
       !||    i22wetsurf         ../engine/source/interfaces/int22/i22wetsurf.F
       !||    my_barrier         ../engine/source/system/machine.F
-      !||    startime           ../engine/source/system/timer.F
-      !||    stoptime           ../engine/source/system/timer.F
+      !||    startime           ../engine/source/system/timer_mod.F90
+      !||    stoptime           ../engine/source/system/timer_mod.F90
       !||    sum_6_float_sens   ../engine/source/system/parit.F
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
@@ -40,6 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    h3d_mod            ../engine/share/modules/h3d_mod.F
       !||    i22tri_mod         ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||    message_mod        ../engine/share/message_module/message_mod.F
+      !||    timer_mod          ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE I22MAINF(TIMERS,
      1                   IPARI     ,INTBUF_TAB ,X          ,A      ,

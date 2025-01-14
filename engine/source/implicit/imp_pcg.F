@@ -213,8 +213,8 @@ C-----------------------------------------------
       !||    pupd                  ../engine/source/implicit/imp_pcg.F
       !||    spmd_sum_s            ../engine/source/mpi/implicit/imp_spmd.F
       !||    spmd_sumfc_v          ../engine/source/mpi/implicit/imp_spmd.F
-      !||    startime              ../engine/source/system/timer.F
-      !||    stoptime              ../engine/source/system/timer.F
+      !||    startime              ../engine/source/system/timer_mod.F90
+      !||    stoptime              ../engine/source/system/timer_mod.F90
       !||--- uses       -----------------------------------------------------
       !||    dsgraph_mod           ../engine/share/modules/dsgraph_mod.F
       !||    groupdef_mod          ../common_source/modules/groupdef_mod.F

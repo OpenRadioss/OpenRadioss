@@ -58,8 +58,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_l51vois                 ../engine/source/mpi/fluid/spmd_cfd.F
       !||    spmd_segcom                  ../engine/source/mpi/fluid/spmd_cfd.F
       !||    spmd_xvois                   ../engine/source/mpi/fluid/spmd_cfd.F
-      !||    startime                     ../engine/source/system/timer.F
-      !||    stoptime                     ../engine/source/system/timer.F
+      !||    startime                     ../engine/source/system/timer_mod.F90
+      !||    stoptime                     ../engine/source/system/timer_mod.F90
       !||--- uses       -----------------------------------------------------
       !||    ale_connectivity_mod         ../common_source/modules/ale/ale_connectivity_mod.F
       !||    ale_mod                      ../common_source/modules/ale/ale_mod.F
@@ -84,6 +84,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sensor_mod                   ../engine/share/modules/sensor_mod.F
       !||    table_mod                    ../engine/share/modules/table_mod.F
       !||    th_surf_mod                  ../common_source/modules/interfaces/th_surf_mod.F
+      !||    timer_mod                    ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE ALEMAIN( TIMERS,
      1         PM          ,GEO         ,X               ,A          ,AR                ,V               ,

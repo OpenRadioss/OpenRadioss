@@ -50,8 +50,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    my_barrier                  ../engine/source/system/machine.F
       !||    spmd_exch_n                 ../engine/source/mpi/generic/spmd_exch_n.F
       !||    spmd_i7curvsz               ../engine/source/mpi/interfaces/spmd_i7curvsz.F
-      !||    startime                    ../engine/source/system/timer.F
-      !||    stoptime                    ../engine/source/system/timer.F
+      !||    startime                    ../engine/source/system/timer_mod.F90
+      !||    stoptime                    ../engine/source/system/timer_mod.F90
       !||    sum_6_float_sens            ../engine/source/system/parit.F
       !||--- uses       -----------------------------------------------------
       !||    ale_connectivity_mod        ../common_source/modules/ale/ale_connectivity_mod.F
@@ -62,6 +62,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod                 ../engine/share/message_module/message_mod.F
       !||    multi_fvm_mod               ../common_source/modules/ale/multi_fvm_mod.F90
       !||    outputs_mod                 ../common_source/modules/outputs_mod.F
+      !||    timer_mod                   ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE I7MAINF(TIMERS,
      1                   IPARI          ,X           ,A              ,ALE_CONNECTIVITY ,XCELL      ,

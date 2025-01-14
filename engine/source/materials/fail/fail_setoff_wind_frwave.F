@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    fail_setoff_wind_frwave   ../engine/source/materials/fail/fail_setoff_wind_frwave.F
       !||--- called by ------------------------------------------------------
+      !||    mulawc                    ../engine/source/materials/mat_share/mulawc.F90
       !||    usermat_shell             ../engine/source/materials/mat_share/usermat_shell.F
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod              ../common_source/modules/mat_elem/elbufdef_mod.F90

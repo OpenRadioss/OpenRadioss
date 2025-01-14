@@ -41,6 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    output_mod          ../common_source/modules/output/output_mod.F90
       !||    sensor_mod          ../engine/share/modules/sensor_mod.F
       !||    state_mod           ../common_source/modules/state_mod.F
+      !||    timer_mod           ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE ECRIT(TIMERS,PARTSAV    ,MS        ,V        ,IN       ,R          ,
      2                 DMAS       ,WEIGHT    ,ENINTOT  ,EKINTOT  ,

@@ -26,8 +26,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ale51_gradient_reconstruction    ../engine/source/ale/alemuscl/ale51_gradient_reconstruction.F
       !||    ale51_gradient_reconstruction2   ../engine/source/ale/alemuscl/ale51_gradient_reconstruction2.F
       !||--- calls      -----------------------------------------------------
-      !||    startime                         ../engine/source/system/timer.F
-      !||    stoptime                         ../engine/source/system/timer.F
       !||====================================================================
       SUBROUTINE SPMD_EXCHANGE_GRAD(DIM,DIM1,DIM2,
      1                       PHI     ,NERCVOIS,NESDVOIS,LERCVOIS,

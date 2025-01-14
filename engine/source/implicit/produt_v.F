@@ -1360,8 +1360,6 @@ C------Hybrid----produce {w}=[LT_K]{v}+[LT_I]{v} using only upper-triangle----
       !||    mv_matv         ../engine/source/airbag/monv_imp0.F
       !||    my_barrier      ../engine/source/system/machine.F
       !||    spmd_sumf_v     ../engine/source/mpi/implicit/imp_spmd.F
-      !||    startime        ../engine/source/system/timer.F
-      !||    stoptime        ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod    ../common_source/modules/groupdef_mod.F
       !||====================================================================
@@ -1527,7 +1525,6 @@ C-----------Hybrid {x}t{y}-.{Weight}--
       !||--- calls      -----------------------------------------------------
       !||    my_barrier   ../engine/source/system/machine.F
       !||    spmd_sum_s   ../engine/source/mpi/implicit/imp_spmd.F
-      !||    startime     ../engine/source/system/timer.F
       !||====================================================================
       SUBROUTINE PRODUT_H(F_DDL  ,L_DDL ,X   ,Y  ,W , R ,ITASK )
 C-----------------------------------------------
@@ -3246,7 +3243,6 @@ C-----------Hybrid {x}t{y}-.{Weight}--HP: Hyprid SMP // inside
       !||--- calls      -----------------------------------------------------
       !||    imp_smpini    ../engine/source/implicit/imp_solv.F
       !||    spmd_sum_s    ../engine/source/mpi/implicit/imp_spmd.F
-      !||    startime      ../engine/source/system/timer.F
       !||====================================================================
       SUBROUTINE PRODUT_HP(NDDL ,X   ,Y  ,W , R )
 C-----------------------------------------------

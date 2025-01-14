@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    mmain           ../engine/source/materials/mat_share/mmain.F90
       !||    mmain8          ../engine/source/materials/mat_share/mmain8.F
       !||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
+      !||    mulaw8          ../engine/source/materials/mat_share/mulaw8.F90
       !||    usermat_solid   ../engine/source/materials/mat_share/usermat_solid.F
       !||====================================================================
       SUBROUTINE FAIL_EMC(

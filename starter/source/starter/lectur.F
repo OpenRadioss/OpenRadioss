@@ -184,6 +184,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_inimap2d                    ../starter/source/initial_conditions/inimap/hm_read_inimap2d.F
       !||    hm_read_initemp                     ../starter/source/initial_conditions/thermic/hm_read_initemp.F
       !||    hm_read_inivel                      ../starter/source/initial_conditions/general/inivel/hm_read_inivel.F
+      !||    hm_read_inivol                      ../starter/source/initial_conditions/inivol/hm_read_inivol.F90
       !||    hm_read_interfaces                  ../starter/source/interfaces/reader/hm_read_interfaces.F
       !||    hm_read_intsub                      ../starter/source/output/subinterface/hm_read_intsub.F
       !||    hm_read_lines                       ../starter/source/groups/hm_read_lines.F
@@ -482,6 +483,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    group_mod                           ../starter/share/modules1/group_mod.F
       !||    hm_option_read_mod                  ../starter/share/modules1/hm_option_read_mod.F
       !||    hm_preread_inivel_mod               ../starter/source/initial_conditions/general/inivel/hm_preread_inivel.F90
+      !||    hm_read_inivol_mod                  ../starter/source/initial_conditions/inivol/hm_read_inivol.F90
       !||    hm_read_preload_axial_mod           ../starter/source/loads/general/preload/hm_read_preload_axial.F90
       !||    iniebcs_propergol_                  ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
       !||    inigrav                             ../starter/share/modules1/inigrav_mod.F

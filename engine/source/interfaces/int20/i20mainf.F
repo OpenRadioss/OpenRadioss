@@ -50,12 +50,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_i20curvsz     ../engine/source/mpi/interfaces/spmd_i20curvsz.F
       !||    spmd_i20exch_n     ../engine/source/mpi/interfaces/spmd_i20exch_n.F
       !||    spmd_i20normf      ../engine/source/mpi/interfaces/spmd_i20normf.F
-      !||    startime           ../engine/source/system/timer.F
-      !||    stoptime           ../engine/source/system/timer.F
+      !||    startime           ../engine/source/system/timer_mod.F90
+      !||    stoptime           ../engine/source/system/timer_mod.F90
       !||    sum_6_float_sens   ../engine/source/system/parit.F
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod            ../engine/share/modules/h3d_mod.F
       !||    message_mod        ../engine/share/message_module/message_mod.F
+      !||    timer_mod          ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE I20MAINF(TIMERS,
      1       IPARI     ,X         ,A         ,

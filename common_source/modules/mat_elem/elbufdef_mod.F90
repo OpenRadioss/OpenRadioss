@@ -248,6 +248,7 @@
       !||    h3d_nodal_tensor                    ../engine/source/output/h3d/h3d_results/h3d_nodal_tensor.F
       !||    h3d_nodal_vector                    ../engine/source/output/h3d/h3d_results/h3d_nodal_vector.F
       !||    h3d_oned_off                        ../engine/source/output/h3d/spmd/spmd_h3d_oned_off.F
+      !||    h3d_oned_scalar                     ../engine/source/output/h3d/h3d_results/h3d_oned_scalar.F90
       !||    h3d_oned_tensor                     ../engine/source/output/h3d/h3d_results/h3d_oned_tensor.F
       !||    h3d_oned_vector                     ../engine/source/output/h3d/h3d_results/h3d_oned_vector.F
       !||    h3d_quad_off                        ../engine/source/output/h3d/spmd/spmd_h3d_quad_off.F
@@ -380,6 +381,7 @@
       !||    mmain8                              ../engine/source/materials/mat_share/mmain8.F
       !||    monvol0                             ../engine/source/airbag/monvol0.F
       !||    mulaw_ib                            ../engine/source/elements/beam/mulaw_ib.F
+      !||    mulawc                              ../engine/source/materials/mat_share/mulawc.F90
       !||    mulawglc                            ../engine/source/materials/mat_share/mulawglc.F
       !||    mulawglcpinch                       ../engine/source/elements/shell/coqueba/mulawglcpinch.F
       !||    multi_buf2var                       ../engine/source/multifluid/multi_buf2var.F

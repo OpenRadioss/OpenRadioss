@@ -29,8 +29,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    arret                    ../engine/source/system/arret.F
       !||    spmd_iallgatherv         ../engine/source/mpi/generic/spmd_iallgatherv.F
       !||    spmd_iallgatherv_int     ../engine/source/mpi/generic/spmd_iallgatherv_int.F
-      !||    startime                 ../engine/source/system/timer.F
-      !||    stoptime                 ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    comm_tri7vox_mod         ../engine/share/modules/comm_tri7vox_mod.F
       !||    message_mod              ../engine/share/message_module/message_mod.F

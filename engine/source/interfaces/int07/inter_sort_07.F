@@ -33,8 +33,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_cell_exchange               ../engine/source/mpi/generic/spmd_cell_exchange.F
       !||    spmd_rnumcd                      ../engine/source/mpi/interfaces/spmd_i7tool.F
       !||    spmd_tri7gat                     ../engine/source/mpi/interfaces/spmd_int.F
-      !||    startime                         ../engine/source/system/timer.F
-      !||    stoptime                         ../engine/source/system/timer.F
+      !||    startime                         ../engine/source/system/timer_mod.F90
+      !||    stoptime                         ../engine/source/system/timer_mod.F90
       !||    upgrade_multimp                  ../common_source/interf/upgrade_multimp.F
       !||--- uses       -----------------------------------------------------
       !||    check_sorting_criteria_mod       ../engine/source/interfaces/intsort/check_sorting_criteria.F90
@@ -45,6 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    inter_struct_mod                 ../engine/share/modules/inter_struct_mod.F
       !||    message_mod                      ../engine/share/message_module/message_mod.F
       !||    multi_fvm_mod                    ../common_source/modules/ale/multi_fvm_mod.F90
+      !||    timer_mod                        ../engine/source/system/timer_mod.F90
       !||    tri7box                          ../engine/share/modules/tri7box.F
       !||====================================================================
         SUBROUTINE INTER_SORT_07(TIMERS, IPARI,X,NIN,ITASK,ISENDTO,

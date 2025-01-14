@@ -276,6 +276,7 @@ C-----------------------------------------------
       !||    hm_preread_rbody       ../starter/source/constraints/general/rbody/hm_preread_rbody.F
       !||    hm_read_cyljoint       ../starter/source/constraints/general/cyl_joint/hm_read_cyljoint.F
       !||    hm_read_gjoint         ../starter/source/constraints/general/gjoint/hm_read_gjoint.F
+      !||    hm_read_inivol         ../starter/source/initial_conditions/inivol/hm_read_inivol.F90
       !||    hm_read_interfaces     ../starter/source/interfaces/reader/hm_read_interfaces.F
       !||    hm_read_intsub         ../starter/source/output/subinterface/hm_read_intsub.F
       !||    hm_read_mpc            ../starter/source/constraints/general/mpc/hm_read_mpc.F

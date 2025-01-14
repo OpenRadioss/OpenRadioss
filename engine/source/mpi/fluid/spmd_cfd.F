@@ -31,8 +31,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    spmd_wait      ../engine/source/mpi/spmd_mod.F90
       !||    spmd_waitany   ../engine/source/mpi/spmd_mod.F90
-      !||    startime       ../engine/source/system/timer.F
-      !||    stoptime       ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
@@ -141,8 +139,6 @@ C
       !||--- calls      -----------------------------------------------------
       !||    spmd_wait      ../engine/source/mpi/spmd_mod.F90
       !||    spmd_waitany   ../engine/source/mpi/spmd_mod.F90
-      !||    startime       ../engine/source/system/timer.F
-      !||    stoptime       ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
@@ -264,8 +260,6 @@ C
       !||--- calls      -----------------------------------------------------
       !||    spmd_wait      ../engine/source/mpi/spmd_mod.F90
       !||    spmd_waitany   ../engine/source/mpi/spmd_mod.F90
-      !||    startime       ../engine/source/system/timer.F
-      !||    stoptime       ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
@@ -382,8 +376,6 @@ C
       !||--- calls      -----------------------------------------------------
       !||    spmd_wait                        ../engine/source/mpi/spmd_mod.F90
       !||    spmd_waitany                     ../engine/source/mpi/spmd_mod.F90
-      !||    startime                         ../engine/source/system/timer.F
-      !||    stoptime                         ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    spmd_mod                         ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
@@ -485,8 +477,6 @@ C
       !||--- calls      -----------------------------------------------------
       !||    spmd_wait      ../engine/source/mpi/spmd_mod.F90
       !||    spmd_waitany   ../engine/source/mpi/spmd_mod.F90
-      !||    startime       ../engine/source/system/timer.F
-      !||    stoptime       ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
@@ -601,8 +591,6 @@ C
       !||--- calls      -----------------------------------------------------
       !||    spmd_wait      ../engine/source/mpi/spmd_mod.F90
       !||    spmd_waitany   ../engine/source/mpi/spmd_mod.F90
-      !||    startime       ../engine/source/system/timer.F
-      !||    stoptime       ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
@@ -714,8 +702,6 @@ C
       !||--- calls      -----------------------------------------------------
       !||    spmd_wait             ../engine/source/mpi/spmd_mod.F90
       !||    spmd_waitany          ../engine/source/mpi/spmd_mod.F90
-      !||    startime              ../engine/source/system/timer.F
-      !||    stoptime              ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
@@ -822,8 +808,6 @@ C
       !||--- calls      -----------------------------------------------------
       !||    spmd_wait      ../engine/source/mpi/spmd_mod.F90
       !||    spmd_waitany   ../engine/source/mpi/spmd_mod.F90
-      !||    startime       ../engine/source/system/timer.F
-      !||    stoptime       ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
@@ -946,8 +930,6 @@ C
       !||--- calls      -----------------------------------------------------
       !||    spmd_wait      ../engine/source/mpi/spmd_mod.F90
       !||    spmd_waitany   ../engine/source/mpi/spmd_mod.F90
-      !||    startime       ../engine/source/system/timer.F
-      !||    stoptime       ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
@@ -1060,8 +1042,6 @@ C
       !||--- calls      -----------------------------------------------------
       !||    spmd_wait      ../engine/source/mpi/spmd_mod.F90
       !||    spmd_waitany   ../engine/source/mpi/spmd_mod.F90
-      !||    startime       ../engine/source/system/timer.F
-      !||    stoptime       ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    spmd_mod       ../engine/source/mpi/spmd_mod.F90
@@ -1247,8 +1227,6 @@ C
       !||    alew4         ../engine/source/ale/grid/alew4.F
       !||--- calls      -----------------------------------------------------
       !||    spmd_wait     ../engine/source/mpi/spmd_mod.F90
-      !||    startime      ../engine/source/system/timer.F
-      !||    stoptime      ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    spmd_mod      ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
@@ -1381,8 +1359,6 @@ C
       !||--- calls      -----------------------------------------------------
       !||    spmd_wait         ../engine/source/mpi/spmd_mod.F90
       !||    spmd_waitany      ../engine/source/mpi/spmd_mod.F90
-      !||    startime          ../engine/source/system/timer.F
-      !||    stoptime          ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    spmd_mod          ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
@@ -1555,8 +1531,6 @@ C
       !||--- called by ------------------------------------------------------
       !||    wrrestp           ../engine/source/output/restart/wrrestp.F
       !||--- calls      -----------------------------------------------------
-      !||    startime          ../engine/source/system/timer.F
-      !||    stoptime          ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    spmd_mod          ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
@@ -1616,8 +1590,6 @@ C
       !||    rgwat3       ../engine/source/interfaces/int09/rgwat3.F
       !||--- calls      -----------------------------------------------------
       !||    spmd_wait    ../engine/source/mpi/spmd_mod.F90
-      !||    startime     ../engine/source/system/timer.F
-      !||    stoptime     ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    spmd_mod     ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
@@ -1737,8 +1709,6 @@ C
       !||    alemain        ../engine/source/ale/alemain.F
       !||--- calls      -----------------------------------------------------
       !||    spmd_waitany   ../engine/source/mpi/spmd_mod.F90
-      !||    startime       ../engine/source/system/timer.F
-      !||    stoptime       ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    ale_mod        ../common_source/modules/ale/ale_mod.F
       !||    segvar_mod     ../engine/share/modules/segvar_mod.F
@@ -1975,8 +1945,6 @@ C
       !||    alemain          ../engine/source/ale/alemain.F
       !||--- calls      -----------------------------------------------------
       !||    spmd_ibcast      ../engine/source/mpi/generic/spmd_ibcast.F
-      !||    startime         ../engine/source/system/timer.F
-      !||    stoptime         ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    ebcs_mod         ../common_source/modules/boundary_conditions/ebcs_mod.F90
       !||    spmd_mod         ../engine/source/mpi/spmd_mod.F90
@@ -2093,8 +2061,6 @@ C
       !||--- calls      -----------------------------------------------------
       !||    spmd_wait            ../engine/source/mpi/spmd_mod.F90
       !||    spmd_waitany         ../engine/source/mpi/spmd_mod.F90
-      !||    startime             ../engine/source/system/timer.F
-      !||    stoptime             ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    multimat_param_mod   ../common_source/modules/multimat_param_mod.F90

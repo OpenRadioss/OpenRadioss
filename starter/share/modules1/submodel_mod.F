@@ -271,6 +271,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_inistate_d00              ../starter/source/elements/initia/hm_read_inistate_d00.F
       !||    hm_read_initemp                   ../starter/source/initial_conditions/thermic/hm_read_initemp.F
       !||    hm_read_inivel                    ../starter/source/initial_conditions/general/inivel/hm_read_inivel.F
+      !||    hm_read_inivol                    ../starter/source/initial_conditions/inivol/hm_read_inivol.F90
       !||    hm_read_inject1                   ../starter/source/properties/injector/hm_read_inject1.F
       !||    hm_read_inject2                   ../starter/source/properties/injector/hm_read_inject2.F
       !||    hm_read_inter_fsi                 ../starter/source/interfaces/reader/hm_read_inter_fsi.F

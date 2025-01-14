@@ -24,9 +24,10 @@ C Non linear viscous model based on Bergstrom Boyce
 C output: the creep strain increment DGAMMA
 C-----------------------------------------------
       !||====================================================================
-      !||    viscbb     ../engine/source/materials/mat/mat100/viscbb.F
+      !||    viscbb      ../engine/source/materials/mat/mat100/viscbb.F
       !||--- called by ------------------------------------------------------
-      !||    sigeps95   ../engine/source/materials/mat/mat095/sigeps95.F
+      !||    sigeps100   ../engine/source/materials/mat/mat100/sigeps100.F90
+      !||    sigeps95    ../engine/source/materials/mat/mat095/sigeps95.F
       !||====================================================================
         SUBROUTINE VISCBB ( NEL, FP, TBNORM, A1,EXPC, EXPM , KSI , TAUREF, DGAMMA ) !BERGSTROM BOYCE MODEL
 C-----------------------------------------------

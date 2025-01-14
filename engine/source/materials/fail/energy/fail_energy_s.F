@@ -26,6 +26,7 @@ C new (energy  failure model)
       !||--- called by ------------------------------------------------------
       !||    mmain           ../engine/source/materials/mat_share/mmain.F90
       !||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
+      !||    mulaw8          ../engine/source/materials/mat_share/mulaw8.F90
       !||    usermat_solid   ../engine/source/materials/mat_share/usermat_solid.F
       !||--- calls      -----------------------------------------------------
       !||    finter          ../engine/source/tools/curve/finter.F

@@ -47,6 +47,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    lectur                ../engine/source/input/lectur.F
       !||    mmain                 ../engine/source/materials/mat_share/mmain.F90
       !||    mulaw                 ../engine/source/materials/mat_share/mulaw.F90
+      !||    mulawc                ../engine/source/materials/mat_share/mulawc.F90
       !||    pforc3                ../engine/source/elements/beam/pforc3.F
       !||    q4forc2               ../engine/source/elements/solid_2d/quad4/q4forc2.F
       !||    qforc2                ../engine/source/elements/solid_2d/quad/qforc2.F

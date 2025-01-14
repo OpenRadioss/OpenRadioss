@@ -31,11 +31,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_get_stif20e             ../engine/source/mpi/interfaces/send_cand.F
       !||    spmd_get_stif25              ../engine/source/mpi/interfaces/send_cand.F
       !||    spmd_sync_mmxg2              ../engine/source/mpi/interfaces/spmd_sync_mmxg2.F
-      !||    startime                     ../engine/source/system/timer.F
-      !||    stoptime                     ../engine/source/system/timer.F
+      !||    startime                     ../engine/source/system/timer_mod.F90
+      !||    stoptime                     ../engine/source/system/timer_mod.F90
       !||--- uses       -----------------------------------------------------
       !||    interface_modification_mod   ../engine/share/modules/interface_modification_mod.F
       !||    sensor_mod                   ../engine/share/modules/sensor_mod.F
+      !||    timer_mod                    ../engine/source/system/timer_mod.F90
       !||    tri7box                      ../engine/share/modules/tri7box.F
       !||====================================================================
       SUBROUTINE INTCRIT(TIMERS,

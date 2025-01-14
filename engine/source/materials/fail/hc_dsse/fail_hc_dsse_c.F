@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    fail_hc_dsse_c   ../engine/source/materials/fail/hc_dsse/fail_hc_dsse_c.F
       !||--- called by ------------------------------------------------------
+      !||    mulawc           ../engine/source/materials/mat_share/mulawc.F90
       !||    usermat_shell    ../engine/source/materials/mat_share/usermat_shell.F
       !||====================================================================
       SUBROUTINE FAIL_HC_DSSE_C(

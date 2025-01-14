@@ -253,6 +253,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    m13law                           ../engine/source/materials/mat/mat013/m13law.F
       !||    mmain                            ../engine/source/materials/mat_share/mmain.F90
       !||    mulaw                            ../engine/source/materials/mat_share/mulaw.F90
+      !||    mulaw8                           ../engine/source/materials/mat_share/mulaw8.F90
+      !||    mulawc                           ../engine/source/materials/mat_share/mulawc.F90
       !||    multi_allocate                   ../engine/source/multifluid/multi_allocate.F
       !||    multi_fluxes_computation         ../engine/source/multifluid/multi_fluxes_computation.F
       !||    multi_i18_force_pon              ../engine/source/interfaces/int18/multi_i18_force_pon.F

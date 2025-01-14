@@ -29,9 +29,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i25free_bound         ../engine/source/interfaces/int25/i25free_bound.F
       !||    my_barrier            ../engine/source/system/machine.F
       !||    spmd_get_stif25_edg   ../engine/source/mpi/interfaces/spmd_getstif25_edg.F
-      !||    startime              ../engine/source/system/timer.F
-      !||    stoptime              ../engine/source/system/timer.F
+      !||    startime              ../engine/source/system/timer_mod.F90
+      !||    stoptime              ../engine/source/system/timer_mod.F90
       !||--- uses       -----------------------------------------------------
+      !||    timer_mod             ../engine/source/system/timer_mod.F90
       !||    tri7box               ../engine/share/modules/tri7box.F
       !||====================================================================
       SUBROUTINE I25MAIN_FREE(TIMERS,

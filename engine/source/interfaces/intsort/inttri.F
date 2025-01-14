@@ -79,8 +79,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_i7itied_cand         ../engine/source/mpi/interfaces/spmd_i7itied_cand.F
       !||    spmd_ifront               ../engine/source/mpi/interfaces/spmd_ifront.F
       !||    spmd_ifront_stamp         ../engine/source/mpi/interfaces/send_cand.F
-      !||    startime                  ../engine/source/system/timer.F
-      !||    stoptime                  ../engine/source/system/timer.F
+      !||    startime                  ../engine/source/system/timer_mod.F90
+      !||    stoptime                  ../engine/source/system/timer_mod.F90
       !||--- uses       -----------------------------------------------------
       !||    ale_connectivity_mod      ../common_source/modules/ale/ale_connectivity_mod.F
       !||    elbufdef_mod              ../common_source/modules/mat_elem/elbufdef_mod.F90
@@ -96,6 +96,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    multi_fvm_mod             ../common_source/modules/ale/multi_fvm_mod.F90
       !||    outputs_mod               ../common_source/modules/outputs_mod.F
       !||    sensor_mod                ../engine/share/modules/sensor_mod.F
+      !||    timer_mod                 ../engine/source/system/timer_mod.F90
       !||    tri7box                   ../engine/share/modules/tri7box.F
       !||====================================================================
       SUBROUTINE INTTRI(TIMERS,

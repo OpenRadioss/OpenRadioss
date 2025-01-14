@@ -62,6 +62,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    stack_mod              ../engine/share/modules/stack_mod.F
       !||    state_mod              ../common_source/modules/state_mod.F
       !||    table_glob_mod         ../engine/share/modules/table_glob_mod.F
+      !||    timer_mod              ../engine/source/system/timer_mod.F90
       !||    unitab_mod             ../common_source/modules/unitab_mod.F
       !||    user_windows_mod       ../common_source/modules/user_windows_mod.F
       !||====================================================================

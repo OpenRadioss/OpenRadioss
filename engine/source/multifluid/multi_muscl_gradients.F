@@ -27,13 +27,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    arret                   ../engine/source/system/arret.F
       !||    limiter                 ../engine/source/multifluid/multi_muscl_gradients.F
-      !||    startime                ../engine/source/system/timer.F
-      !||    stoptime                ../engine/source/system/timer.F
+      !||    startime                ../engine/source/system/timer_mod.F90
+      !||    stoptime                ../engine/source/system/timer_mod.F90
       !||--- uses       -----------------------------------------------------
       !||    ale_connectivity_mod    ../common_source/modules/ale/ale_connectivity_mod.F
       !||    elbufdef_mod            ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    initbuf_mod             ../engine/share/resol/initbuf.F
       !||    multi_fvm_mod           ../common_source/modules/ale/multi_fvm_mod.F90
+      !||    timer_mod               ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE MULTI_MUSCL_GRADIENTS(TIMERS,ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
      .     PM, IPM, MULTI_FVM, ALE_CONNECTIVITY, WGRID, XGRID, ITAB, NBMAT, CURRENT_TIME, BUFMAT)

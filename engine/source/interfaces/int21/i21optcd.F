@@ -27,7 +27,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    i21dst3           ../engine/source/interfaces/int21/i21dst3.F
       !||    my_barrier        ../engine/source/system/machine.F
-      !||    startime          ../engine/source/system/timer.F
+      !||    startime          ../engine/source/system/timer_mod.F90
+      !||--- uses       -----------------------------------------------------
+      !||    timer_mod         ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE I21OPTCD(TIMERS, CAND_E ,CAND_N ,XLOC  ,I_STOK  ,IRECT  ,
      2                   GAP    ,GAP_S  ,IGAP    ,NSN    ,STFN   ,
