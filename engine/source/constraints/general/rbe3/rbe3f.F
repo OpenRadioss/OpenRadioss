@@ -860,12 +860,14 @@ C-------output only when real added mass happened: debug usage
         IAD = IRBE3(1,N)
         NS  = IRBE3(3,N)
         NML = IRBE3(5,N)
-        IF (NS>0.AND.WEIGHT(NS)==1) THEN
-         DO J = 1,NML
-          M = LRBE3(IAD+J)
-          K = IADMP(IAD+J)
-          ADM(M) = ADM(M)+DMS(K)/MAX(EM20,MS0(IAD+J))
-         ENDDO
+        IF (NS>0) THEN
+          IF (WEIGHT(NS)==1) THEN
+             DO J = 1,NML
+               M = LRBE3(IAD+J)
+               K = IADMP(IAD+J)
+               ADM(M) = ADM(M)+DMS(K)/MAX(EM20,MS0(IAD+J))
+             ENDDO
+          ENDIF
         ENDIF
        ENDDO
       ENDIF
