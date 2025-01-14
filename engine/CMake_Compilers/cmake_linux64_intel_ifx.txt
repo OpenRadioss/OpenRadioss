@@ -18,6 +18,15 @@ elseif ( mpiver STREQUAL "impi")
   #MPI     
   set (mpi_flag "-DMPI -I$ENV{I_MPI_ROOT}/include/ ")
   set (mpi_lib "-L$ENV{I_MPI_ROOT}/lib -L$ENV{I_MPI_ROOT}/lib/release  -lmpi -lmpifort")
+  elseif ( mpiver STREQUAL "ompi")
+
+    set ( cpprel  "-DCPP_rel=40" )
+    set (mpi_suf "_${mpiver}" )
+
+    #MPI     
+    set (mpi_flag "-DMPI -I/opt/openmpi/include/ ")
+    set (mpi_lib "-L/opt/openmpi/lib -lmpi -lmpi_mpifh" )
+
 else()
   message( FATAL_ERROR "\n ERROR : -mpi=${mpiver} not available for this platform\n\n" )
 endif()

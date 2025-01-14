@@ -98,25 +98,27 @@
       !||    spmd_xvois                      ../engine/source/mpi/fluid/spmd_cfd.F
       !||====================================================================
       module spmd_mod
+        implicit none
         ! Define the interface for spmd_send
-!#define DEBUG_SPMD
 ! dummy tags for MPI calls that do not have a tag
-        integer, parameter :: TAG_BARRIER = -1
-        integer, parameter :: TAG_WAIT = -2
-        integer, parameter :: TAG_WAITALL = -3
-        integer, parameter :: TAG_WAITANY = -4
-        integer, parameter :: TAG_REDUCE = -5
-        integer, parameter :: TAG_ALLREDUCE = -6
+
+        private
+        integer, parameter, public :: TAG_BARRIER = -1
+        integer, parameter, public :: TAG_WAIT = -2
+        integer, parameter, public :: TAG_WAITALL = -3
+        integer, parameter, public :: TAG_WAITANY = -4
+        integer, parameter, public :: TAG_REDUCE = -5
+        integer, parameter, public :: TAG_ALLREDUCE = -6
 ! MPI operators
-        integer, parameter :: SPMD_MAX = 1
-        integer, parameter :: SPMD_MIN = 2
-        integer, parameter :: SPMD_SUM = 3
-        integer, parameter :: SPMD_PROD = 4
+        integer, parameter,public :: SPMD_MAX = 1
+        integer, parameter,public :: SPMD_MIN = 2
+        integer, parameter,public :: SPMD_SUM = 3
+        integer, parameter,public :: SPMD_PROD = 4
 
 #ifndef MPI
-        integer, parameter :: MPI_COMM_WORLD = 0
-        integer, parameter :: MPI_STATUS_IGNORE = 0
-        integer, parameter :: MPI_STATUS_SIZE = 1
+        integer, parameter, public :: MPI_COMM_WORLD = 0
+        integer, parameter, public :: MPI_STATUS_IGNORE = 0
+        integer, parameter, public :: MPI_STATUS_SIZE = 1
 #endif
         ! \brief Interface for spmd_send, a wrapper for MPI_SEND
         interface spmd_send
@@ -179,6 +181,20 @@
           module procedure spmd_allreduce_int     !< Reduces a single integer across all processes and distributes result
           module procedure spmd_allreduce_double  !< Reduces a single double precision number across all processes and distributes result
         end interface spmd_allreduce
+
+        public :: spmd_send
+        public :: spmd_recv
+        public :: spmd_isend
+        public :: spmd_irecv
+        public :: spmd_reduce
+        public :: spmd_allreduce 
+        public :: spmd_comm_size        
+        public :: spmd_comm_rank
+        public :: spmd_waitall
+        public :: spmd_wait
+        public :: spmd_waitany
+        public :: spmd_probe
+        public :: spmd_barrier
 
 
       contains
