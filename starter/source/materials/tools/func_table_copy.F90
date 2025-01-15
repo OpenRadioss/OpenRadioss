@@ -117,7 +117,7 @@
         allocate (mat_table%x(1)%values(npi) )
         allocate (mat_table%y1d(npi) )
         mat_table%x(1)%values(1:npi) = x1scale   * table(func_n)%x(1)%values(1:npi)
-        mat_table%y1d(1:npi)         = fscale(i) * table(func_n)%y%values(1:npi)
+        mat_table%y1d(1:npi)         = fscale(1) * table(func_n)%y%values(1:npi)
 ! 
       else   ! table 2d : need to unufy all abscissas and create full value matrix
 ! 
@@ -134,7 +134,7 @@
           lmax = max(lmax,len(i))
         end do                           
         allocate (xf(nptx))              
-        allocate (yf(lmax,nfunc))        
+        allocate (yf(nptx,nfunc))        
         allocate (xi(lmax,nfunc))        
         allocate (yi(lmax,nfunc))
         xi(:,:) = zero
