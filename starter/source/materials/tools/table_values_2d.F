@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    table_values_2d   ../starter/source/materials/tools/table_values_2d.F
       !||--- called by ------------------------------------------------------
-      !||    law50_table       ../starter/source/materials/mat/mat050/law50_table.F90
+      !||    func_table_copy   ../starter/source/materials/tools/func_table_copy.F90
       !||    law70_table       ../starter/source/materials/mat/mat070/law70_table.F
       !||====================================================================
        SUBROUTINE TABLE_VALUES_2D(LEN,NPTF,XI,YI,XF,YF)

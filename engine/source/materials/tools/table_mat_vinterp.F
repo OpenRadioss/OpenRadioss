@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    no_asso_qplas76c        ../engine/source/materials/mat/mat076/no_asso_qplas76c.F
       !||    sigeps128c              ../engine/source/materials/mat/mat128/sigeps128c.F90
       !||    sigeps128s              ../engine/source/materials/mat/mat128/sigeps128s.F90
-      !||    sigeps50                ../engine/source/materials/mat/mat050/sigeps50.F
+      !||    sigeps50s               ../engine/source/materials/mat/mat050/sigeps50s.F90
       !||    sigeps70                ../engine/source/materials/mat/mat070/sigeps70.F
       !||====================================================================
       MODULE TABLE_MAT_VINTERP_MOD
@@ -49,7 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    no_asso_qplas76c    ../engine/source/materials/mat/mat076/no_asso_qplas76c.F
       !||    sigeps128c          ../engine/source/materials/mat/mat128/sigeps128c.F90
       !||    sigeps128s          ../engine/source/materials/mat/mat128/sigeps128s.F90
-      !||    sigeps50            ../engine/source/materials/mat/mat050/sigeps50.F
+      !||    sigeps50s           ../engine/source/materials/mat/mat050/sigeps50s.F90
       !||    sigeps70            ../engine/source/materials/mat/mat070/sigeps70.F
       !||--- calls      -----------------------------------------------------
       !||    ancmsg              ../engine/source/output/message/message.F

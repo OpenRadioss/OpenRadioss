@@ -88,6 +88,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    outmax_mod                 ../common_source/modules/outmax_mod.F
       !||    output_mod                 ../common_source/modules/output/output_mod.F90
       !||    outputs_mod                ../common_source/modules/outputs_mod.F
+      !||    parith_on_mod              ../common_source/modules/parith_on_mod.F90
       !||    pinchtype_mod              ../common_source/modules/pinchtype_mod.F
       !||    plyxfem_mod                ../engine/share/modules/plyxfem_mod.F
       !||    sensor_mod                 ../engine/share/modules/sensor_mod.F

@@ -53,6 +53,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    fractal_dmg_init                         ../starter/source/materials/fail/fractal/fractal_dmg_init.F90
       !||    fractal_elem_renum                       ../starter/source/materials/fail/fractal/fractal_elem_spmd_renum.F90
       !||    fractal_element_neighbor                 ../starter/source/materials/fail/fractal/fractal_element_neighbor.F90
+      !||    func_table_copy                          ../starter/source/materials/tools/func_table_copy.F90
       !||    get_list_remnode                         ../starter/source/interfaces/inter3d1/get_list_remnode.F90
       !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
       !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
@@ -77,6 +78,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_mat127                           ../starter/source/materials/mat/mat127/hm_read_mat127.F90
       !||    hm_read_mat128                           ../starter/source/materials/mat/mat128/hm_read_mat128.F90
       !||    hm_read_mat169_arup                      ../starter/source/materials/mat/mat169/hm_read_mat169.F90
+      !||    hm_read_mat50                            ../starter/source/materials/mat/mat050/hm_read_mat50.F90
       !||    hm_read_mat81                            ../starter/source/materials/mat/mat081/hm_read_mat81.F90
       !||    hm_read_preload_axial                    ../starter/source/loads/general/preload/hm_read_preload_axial.F90
       !||    hm_read_therm_stress                     ../starter/source/materials/therm/hm_read_therm_stress.F90
@@ -143,6 +145,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sigeps128c                               ../engine/source/materials/mat/mat128/sigeps128c.F90
       !||    sigeps128s                               ../engine/source/materials/mat/mat128/sigeps128s.F90
       !||    sigeps169_connect                        ../engine/source/materials/mat/mat169/sigeps169_connect.F90
+      !||    sigeps50s                                ../engine/source/materials/mat/mat050/sigeps50s.F90
       !||    sigeps81                                 ../engine/source/materials/mat/mat081/sigeps81.F90
       !||    spmd_exch_flow_tracking_data             ../engine/source/ale/grid/spmd_exch_flow_tracking_data.F90
       !||    spmd_exch_flow_tracking_data2            ../engine/source/ale/grid/spmd_exch_flow_tracking_data2.F90

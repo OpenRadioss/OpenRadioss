@@ -21,27 +21,32 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    nodal_arrays_mod                ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    nodal_arrays_mod                         ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||--- called by ------------------------------------------------------
-      !||    check_nan_acc                   ../engine/source/output/outfile/check_nan_acc.F
-      !||    chkload                         ../engine/source/interfaces/chkload.F
-      !||    chkstfn3n                       ../engine/source/interfaces/interf/chkstfn3.F
-      !||    count_remote_nb_elem_edge       ../engine/source/interfaces/interf/count_remote_nb_elem_edge.F
-      !||    detach_node_from_shells         ../engine/source/engine/node_spliting/detach_node.F90
-      !||    find_edge_from_remote_proc      ../engine/source/interfaces/interf/find_edge_from_remote_proc.F
-      !||    find_surface_from_remote_proc   ../engine/source/interfaces/interf/find_surface_from_remote_proc.F
-      !||    init_nodal_state                ../engine/source/interfaces/interf/init_nodal_state.F
-      !||    radioss2                        ../engine/source/engine/radioss2.F
-      !||    rdresb                          ../engine/source/output/restart/rdresb.F
-      !||    resol                           ../engine/source/engine/resol.F
-      !||    resol_head                      ../engine/source/engine/resol_head.F
-      !||    restalloc                       ../engine/source/output/restart/arralloc.F
-      !||    restmod                         ../engine/share/modules/restart_mod.F
-      !||    spmd_exch_deleted_surf_edge     ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
-      !||    spmd_exchmsr_idel               ../engine/source/mpi/interfaces/spmd_exchmsr_idel.F
-      !||    spmd_exchseg_idel               ../engine/source/mpi/kinematic_conditions/spmd_exchseg_idel.F
-      !||    tagoff3n                        ../engine/source/interfaces/interf/chkstfn3.F
-      !||    wrrestp                         ../engine/source/output/restart/wrrestp.F
+      !||    asspar4                                  ../engine/source/assembly/asspar4.F
+      !||    check_nan_acc                            ../engine/source/output/outfile/check_nan_acc.F
+      !||    chkload                                  ../engine/source/interfaces/chkload.F
+      !||    chkstfn3n                                ../engine/source/interfaces/interf/chkstfn3.F
+      !||    count_remote_nb_elem_edge                ../engine/source/interfaces/interf/count_remote_nb_elem_edge.F
+      !||    detach_node_from_shells                  ../engine/source/engine/node_spliting/detach_node.F90
+      !||    find_edge_from_remote_proc               ../engine/source/interfaces/interf/find_edge_from_remote_proc.F
+      !||    find_surface_from_remote_proc            ../engine/source/interfaces/interf/find_surface_from_remote_proc.F
+      !||    funct_python_update_elements             ../engine/source/tools/curve/funct_python_update_elements.F90
+      !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
+      !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+      !||    init_nodal_state                         ../engine/source/interfaces/interf/init_nodal_state.F
+      !||    radioss2                                 ../engine/source/engine/radioss2.F
+      !||    rdresb                                   ../engine/source/output/restart/rdresb.F
+      !||    resol                                    ../engine/source/engine/resol.F
+      !||    resol_head                               ../engine/source/engine/resol_head.F
+      !||    restalloc                                ../engine/source/output/restart/arralloc.F
+      !||    restmod                                  ../engine/share/modules/restart_mod.F
+      !||    spmd_exch_deleted_surf_edge              ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
+      !||    spmd_exch_neighbour_segment              ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
+      !||    spmd_exchmsr_idel                        ../engine/source/mpi/interfaces/spmd_exchmsr_idel.F
+      !||    spmd_exchseg_idel                        ../engine/source/mpi/kinematic_conditions/spmd_exchseg_idel.F
+      !||    tagoff3n                                 ../engine/source/interfaces/interf/chkstfn3.F
+      !||    wrrestp                                  ../engine/source/output/restart/wrrestp.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================
       module nodal_arrays_mod
@@ -391,14 +396,16 @@
 
 
       !||====================================================================
-      !||    get_local_node_id               ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    get_local_node_id                        ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||--- called by ------------------------------------------------------
-      !||    count_remote_nb_elem_edge       ../engine/source/interfaces/interf/count_remote_nb_elem_edge.F
-      !||    find_edge_from_remote_proc      ../engine/source/interfaces/interf/find_edge_from_remote_proc.F
-      !||    find_surface_from_remote_proc   ../engine/source/interfaces/interf/find_surface_from_remote_proc.F
-      !||    spmd_exchmsr_idel               ../engine/source/mpi/interfaces/spmd_exchmsr_idel.F
-      !||    spmd_exchseg_idel               ../engine/source/mpi/kinematic_conditions/spmd_exchseg_idel.F
-      !||    tagoff3n                        ../engine/source/interfaces/interf/chkstfn3.F
+      !||    count_remote_nb_elem_edge                ../engine/source/interfaces/interf/count_remote_nb_elem_edge.F
+      !||    find_edge_from_remote_proc               ../engine/source/interfaces/interf/find_edge_from_remote_proc.F
+      !||    find_surface_from_remote_proc            ../engine/source/interfaces/interf/find_surface_from_remote_proc.F
+      !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+      !||    spmd_exch_neighbour_segment              ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
+      !||    spmd_exchmsr_idel                        ../engine/source/mpi/interfaces/spmd_exchmsr_idel.F
+      !||    spmd_exchseg_idel                        ../engine/source/mpi/kinematic_conditions/spmd_exchseg_idel.F
+      !||    tagoff3n                                 ../engine/source/interfaces/interf/chkstfn3.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================
         function get_local_node_id(arrays, global_id) result(local_id)

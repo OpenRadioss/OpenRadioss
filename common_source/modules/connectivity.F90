@@ -25,14 +25,17 @@
       !||====================================================================
       !||    connectivity_mod          ../common_source/modules/connectivity.F90
       !||--- called by ------------------------------------------------------
+      !||    asspar4                   ../engine/source/assembly/asspar4.F
       !||    detach_node_from_shells   ../engine/source/engine/node_spliting/detach_node.F90
       !||    radioss2                  ../engine/source/engine/radioss2.F
       !||    rdresb                    ../engine/source/output/restart/rdresb.F
       !||    resol                     ../engine/source/engine/resol.F
       !||    resol_head                ../engine/source/engine/resol_head.F
       !||    restalloc                 ../engine/source/output/restart/arralloc.F
+      !||    update_pon_shells         ../engine/source/engine/node_spliting/update_pon.F90
       !||    wrrestp                   ../engine/source/output/restart/wrrestp.F
       !||--- uses       -----------------------------------------------------
+      !||    parith_on_mod             ../common_source/modules/parith_on_mod.F90
       !||====================================================================
       module connectivity_mod
         use iso_c_binding

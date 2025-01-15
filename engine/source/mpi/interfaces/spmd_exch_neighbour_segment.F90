@@ -56,12 +56,14 @@
       !||    get_neighbour_surface                        ../engine/source/interfaces/interf/get_neighbour_surface.F90
       !||--- calls      -----------------------------------------------------
       !||    alloc_my_real_1d_array                       ../common_source/modules/array_mod.F
+      !||    get_local_node_id                            ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||    get_neighbour_surface_from_remote_proc       ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
       !||    spmd_wait                                    ../engine/source/mpi/spmd_mod.F90
       !||    spmd_waitany                                 ../engine/source/mpi/spmd_mod.F90
       !||--- uses       -----------------------------------------------------
       !||    array_mod                                    ../common_source/modules/array_mod.F
       !||    get_neighbour_surface_from_remote_proc_mod   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+      !||    nodal_arrays_mod                             ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||    shooting_node_mod                            ../engine/share/modules/shooting_node_mod.F
       !||    spmd_mod                                     ../engine/source/mpi/spmd_mod.F90
       !||====================================================================

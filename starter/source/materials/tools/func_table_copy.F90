@@ -25,7 +25,7 @@
       !||====================================================================
       !||    func_table_copy_mod   ../starter/source/materials/tools/func_table_copy.F90
       !||--- called by ------------------------------------------------------
-      !||    hm_read_mat128       ../starter/source/materials/mat/mat128/hm_read_mat128.F90
+      !||    hm_read_mat50         ../starter/source/materials/mat/mat050/hm_read_mat50.F90
       !||====================================================================
        module func_table_copy_mod
        contains
@@ -34,11 +34,13 @@
 !! \detail mat_param table array : mat_param%ntable > 0 should be already allocated
 
       !||====================================================================
-      !||    func_table_copy     ../starter/source/materials/tools/func_table_copy.F90
+      !||    func_table_copy        ../starter/source/materials/tools/func_table_copy.F90
       !||--- called by ------------------------------------------------------
-      !||    hm_read_mat128     ../starter/source/materials/mat/mat128/hm_read_mat128.F90
+      !||    hm_read_mat50          ../starter/source/materials/mat/mat050/hm_read_mat50.F90
       !||--- calls      -----------------------------------------------------
-      !||    mattab_usr2sys     ../starter/source/materials/tools/mattab_usr2sys.F
+      !||    mattab_usr2sys         ../starter/source/materials/tools/mattab_usr2sys.F
+      !||    table_values_2d        ../starter/source/materials/tools/table_values_2d.F
+      !||    unify_abscissa_2d      ../starter/source/materials/tools/unify_abscissas_2d.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================
        subroutine func_table_copy(mat_table,mat_title,mat_id   ,     &

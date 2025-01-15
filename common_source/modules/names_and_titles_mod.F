@@ -155,6 +155,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    func_inters                       ../starter/source/tools/curve/func_inters.F
       !||    func_inters_c                     ../starter/source/tools/curve/func_inters.F
       !||    func_inters_shear                 ../starter/source/tools/curve/func_inters.F
+      !||    func_table_copy                   ../starter/source/materials/tools/func_table_copy.F90
       !||    funct_python_update_elements      ../engine/source/tools/curve/funct_python_update_elements.F90
       !||    fvbric0                           ../starter/source/airbag/fvbric0.F
       !||    fvbric1                           ../starter/source/airbag/fvbric1.F
@@ -430,7 +431,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_mat46                     ../starter/source/materials/mat/mat046/hm_read_mat46.F
       !||    hm_read_mat48                     ../starter/source/materials/mat/mat048/hm_read_mat48.F
       !||    hm_read_mat49                     ../starter/source/materials/mat/mat049/hm_read_mat49.F
-      !||    hm_read_mat50                     ../starter/source/materials/mat/mat050/hm_read_mat50.F
       !||    hm_read_mat51                     ../starter/source/materials/mat/mat051/hm_read_mat51.F
       !||    hm_read_mat52                     ../starter/source/materials/mat/mat052/hm_read_mat52.F
       !||    hm_read_mat53                     ../starter/source/materials/mat/mat053/hm_read_mat53.F

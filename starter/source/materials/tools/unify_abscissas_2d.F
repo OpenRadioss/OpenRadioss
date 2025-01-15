@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    unify_abscissa_2d   ../starter/source/materials/tools/unify_abscissas_2d.F
       !||--- called by ------------------------------------------------------
-      !||    law50_table         ../starter/source/materials/mat/mat050/law50_table.F90
+      !||    func_table_copy     ../starter/source/materials/tools/func_table_copy.F90
       !||    law70_table         ../starter/source/materials/mat/mat070/law70_table.F
       !||--- calls      -----------------------------------------------------
       !||====================================================================
