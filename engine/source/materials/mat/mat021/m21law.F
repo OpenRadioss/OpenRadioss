@@ -27,57 +27,69 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    finter   ../engine/source/tools/curve/finter.F
       !||====================================================================
-      SUBROUTINE M21LAW (PM ,OFF ,SIG     ,EINT    ,RHO     ,
-     2           EPX     ,EPSEQ   ,VOL     ,MAT    ,SSP     ,
+      SUBROUTINE M21LAW (
+     1           PM      ,OFF     ,SIG     ,EINT   ,RHO     ,
+     2           MU_BAK  ,EPSEQ   ,VOL     ,MAT    ,SSP     ,
      3           DVOL    ,VNEW    ,D1      ,D2     ,D3      ,
      4           D4      ,D5      ,D6      ,SOLD1  ,SOLD2   ,
      5           SOLD3   ,SOLD4   ,SOLD5   ,SOLD6  ,TF      ,
      6           NPF     ,SIGY    ,DEFP    ,IPM    ,PNEW    ,
-     7           PSH     ,AMU     ,SEQ_OUTPUT,NEL  )
+     7           PSH     ,MU      ,SEQ_OUTPUT,NEL  ,NUMMAT)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE CONSTANT_MOD , ONLY : EM14, ZERO, EM20, THREE, THIRD, TWO, HALF, ONE, ONEP333, EP20
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc"
+      implicit none
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
+C   I n c l u d e d   F i l e s
 C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
+#include      "my_real.inc"
 #include      "param_c.inc"
 #include      "com08_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NPF(*),MAT(*),IPM(NPROPMI,*),NEL
-      my_real
-     .   PM(NPROPM,*), OFF(*), SIG(NEL,6), EPX(*), EPSEQ(*), EINT(*),
-     .   RHO(*), VOL(*), TF(*), PNEW(*), PSH(*), SEQ_OUTPUT(*)
-      my_real
-     .   VNEW(*), SSP(*), SIGY(*), DEFP(*),
-     .   D1(*), D2(*), D3(*), D4(*), D5(*), D6(*),
-     .   DVOL(*), AMU(*),
-     .   SOLD1(MVSIZ), SOLD2(MVSIZ), SOLD3(MVSIZ),
-     .   SOLD4(MVSIZ), SOLD5(MVSIZ), SOLD6(MVSIZ)
+      INTEGER,INTENT(IN) :: NPF(*),MAT(NEL),IPM(NPROPMI,NUMMAT),NEL
+      my_real,INTENT(IN) :: PM(NPROPM,NUMMAT)
+      my_real,INTENT(IN) :: OFF(NEL),EINT(NEL)
+      my_real,INTENT(IN) :: RHO(NEL), VOL(NEL), TF(*), SEQ_OUTPUT(NEL)
+      my_real,INTENT(IN) :: VNEW(NEL)
+      my_real,INTENT(IN) :: D1(NEL), D2(NEL), D3(NEL), D4(NEL), D5(NEL), D6(NEL)
+      my_real,INTENT(IN) :: DVOL(NEL), MU(NEL)
+      my_real,INTENT(IN) :: SOLD1(NEL), SOLD2(NEL), SOLD3(NEL)
+      my_real,INTENT(IN) :: SOLD4(NEL), SOLD5(NEL), SOLD6(NEL)
+      my_real,INTENT(INOUT) :: MU_BAK(NEL) !< history for unloading path
+      my_real,INTENT(INOUT) :: PSH(NEL) !< pressure shift
+      my_real,INTENT(INOUT) :: SSP(NEL) !< sound speed
+      my_real,INTENT(INOUT) :: PNEW(NEL) !< current pressure
+      my_real,INTENT(INOUT) :: SIG(NEL,6) !< stress tensor
+      my_real,INTENT(INOUT) :: EPSEQ(NEL),DEFP(NEL)
+      my_real,INTENT(INOUT) :: SIGY(NEL) !< yield surface
+      INTEGER,INTENT(IN) :: NUMMAT !< number of aterial laws (array size)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX, IFUNC, NPOINT
-      my_real
-     .   DPDM(MVSIZ), T1(MVSIZ), T2(MVSIZ), T3(MVSIZ), T4(MVSIZ), 
-     .   T5(MVSIZ), T6(MVSIZ), POLD(MVSIZ), P(MVSIZ), PNE1(MVSIZ),
-     .    G(MVSIZ), BULK(MVSIZ), PFRAC(MVSIZ), A0(MVSIZ), A1(MVSIZ),
-     .   A2(MVSIZ), AMX(MVSIZ), AJ2(MVSIZ), G0(MVSIZ), GG(MVSIZ), 
-     .   AMU2(MVSIZ), SVRT(MVSIZ), RATIO(MVSIZ), 
-     .   YIELD2(MVSIZ), G43(MVSIZ), AMUMX(MVSIZ), 
-     .   C0(MVSIZ), C1(MVSIZ),C2(MVSIZ), C3(MVSIZ),FACY(MVSIZ),
-     .   BULK2(MVSIZ), RHO0(MVSIZ),FINTER,PSTAR(MVSIZ),PTOT,
-     .   DELTA,G_1,G43_1,GG_1,C1_1,
-     .   BULK_1,BULK2_1,AMUMX_1,PFRAC_1,PSH_1,
-     .   PSTAR_1,A0_1,A1_1,A2_1,AMX_1,
-     .   RHO0_1,FACY_1
-      EXTERNAL FINTER
+      my_real :: DPDM(NEL),dpdm0 !< total derivative dP/d(mu)
+      my_real :: T1(NEL), T2(NEL), T3(NEL), T4(NEL),T5(NEL), T6(NEL) !< deviatoric stress tensor
+      my_real :: POLD(NEL), P(NEL), PNE1, PTOT, PMIN !< pressure and derivated values
+      my_real :: AJ2(NEL) !< yield criteria
+      my_real :: G,GG,G43 !< shear modulus and derivated values
+      my_real :: BMIN, BMAX !< minimum and maximum unload modulus (tension : bmin ,  max compaction bmax)
+      my_real :: BULK(NEL) !< unload modulus
+      my_real :: MUMIN, MUMAX !< volumetric strain for max compaction
+      my_real :: G0(NEL),A0(NEL),A1(NEL),A2(NEL),AMAX, YIELD2(NEL) !< yield criterion parameter
+      my_real :: PSTAR !< yield criterion root
+      my_real :: FACY !< function scale factor
+      my_real :: RHO0(NEL) !< initial density
+      my_real,EXTERNAL :: FINTER !< get /FUNCT value
+      my_real :: alpha
+      my_real :: p_
+      my_real :: SVRT
+      my_real :: RATIO(NEL)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -86,8 +98,8 @@ C F = J2 - A0 + A1*P + A2*P**2
 C to calculate deviatoric stresses.
 C If F > 1 then deviatoric tensor is projected on
 C Yield surface using scale factor RATIO(I).
-C Pressure is calculated from user curves.
-C Energy integration is made in MEINT subroutine
+C Pressure is calculated from compaction EoS (using user function)
+C Energy integration is made in MEINT subroutine (warning : EoS not depending on internal energy)
 C
 C VARIABLE DEFINITIONS :
 C
@@ -95,53 +107,36 @@ C G0    : YIELD ENVELOPE
 C AJ2   : 2ND INVARIANT FROM DEVIATORIC TENSOR
 C EPX   : OLD MU
 C EPSEQ : VOLUMETRIC PLASTIC STRAIN
-C-----------------------------------------------      
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       !----------------------------------------------------------------!
       !  PARAMETER INIT.                                               !
       !----------------------------------------------------------------!  
       MX = MAT(1)
-      G_1    =DT1*PM(22,MX)
-      G43_1  =ONEP333*PM(22,MX)
-      GG_1   =TWO*G_1
-      C1_1   =PM(32,MX)
-      BULK_1 =PM(35,MX)
-      BULK2_1=PM(35,MX)
-      AMUMX_1=PM(36,MX)
-      PFRAC_1=PM(37,MX)
-      PSH_1  =PM(43,MX)        
-      PSTAR_1=PM(44,MX)        
-      A0_1   =PM(38,MX)
-      A1_1   =PM(39,MX)
-      A2_1   =PM(40,MX)
-      AMX_1  =PM(41,MX)
-      RHO0_1 =PM(1,MX)
-      FACY_1 =PM(42,MX)
-      DO I=1,NEL
-        G(I)    =G_1
-        G43(I)  =G43_1
-        GG(I)   =GG_1
-        C1(I)   =C1_1
-        BULK(I) =BULK_1
-        BULK2(I)=BULK2_1
-        AMUMX(I)=AMUMX_1
-        PFRAC(I)=PFRAC_1
-        PSH(I)  =PSH_1     
-        PSTAR(I)=PSTAR_1      
-        A0(I)   =A0_1
-        A1(I)   =A1_1
-        A2(I)   =A2_1
-        AMX(I)  =AMX_1
-        RHO0(I) =RHO0_1
-        FACY(I) =FACY_1
-      ENDDO
-
-      !----------------------------------------------------------------!
+      G = DT1*PM(22,MX)
+      G43 = ONEP333*PM(22,MX)
+      GG  = TWO*G
+      BMIN = PM(32,MX)
+      BMAX = PM(35,MX)
+      MUMIN = -EP20
+      MUMAX = PM(36,MX)
+      PMIN = PM(37,MX)
+      PSH(1:NEL) = PM(43,MX)
+      PSTAR = PM(44,MX)        
+      A0(1:NEL) = PM(38,MX)
+      A1(1:NEL) = PM(39,MX)
+      A2(1:NEL) = PM(40,MX)
+      AMAX = PM(41,MX)
+      RHO0(1:NEL) = PM(1,MX)
+      FACY = PM(42,MX)
+      IFUNC = IPM(11,MX)      
+      
+       !----------------------------------------------------------------!
       !  STATE INIT.                                                   !
       !----------------------------------------------------------------!   
       DO I=1,NEL
         POLD(I)=-THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
-        SVRT(I)= THIRD*(D1(I)+D2(I)+D3(I))
-        AMU2(I) =AMU(I) * MAX(ZERO,AMU(I))
       ENDDO
 
       !----------------------------------------------------------------!
@@ -157,69 +152,75 @@ C-----------------------------------------------
       ENDDO
 
       !----------------------------------------------------------------!
-      !  PRESSURE AND SOUND SPEED                                      !
+      !  PRESSURE                                                      !
       !----------------------------------------------------------------!   
       DO I=1,NEL
-        IF(EPX(I)<0)BULK2(I)=C1(I)
-        IF(AMU(I)<0)BULK(I) =C1(I)
-        PNE1(I)=POLD(I)+AMU(I)*BULK2(I)-EPX(I)*BULK(I)
-        P(I)=C1(I)*AMU(I)
-        DPDM(I)=C1(I)
+        P(I) = FACY*FINTER(IFUNC,MU(I),NPF,TF,DPDM(I))
+        P_ = finter(IFUNC,mu_bak(i),npf,tf,dpdm0)
+        !linear unload modulus
+        alpha = one
+        if(mumax > zero)then
+          alpha=mu_bak(i)/mumax
+        endif
+        bulk(i) = alpha*bmax+(one-alpha)*bmin
+        pne1 = p_-(mu_bak(i)-mu(i))*bulk(i)
+        if(mu_bak(i) > mumin) p(i) = min(pne1, p(i))
+        p(i) = max(p(i),pmin) *off(i)  
+        if(mu(i) > mu_bak(i)) mu_bak(i) = min(mumax,mu(i))              
       ENDDO
-       MX = MAT(1)
-       IFUNC = IPM(11,MX)
-      DO I=1,NEL
-        IF(AMU(I)>ZERO)THEN
-          P(I) = FACY(I)*FINTER(IFUNC,AMU(I),NPF,TF,DPDM(I))
-        ENDIF
-      ENDDO
+      
+      !----------------------------------------------------------------!
+      !  SOUND SPEED                                                   !
+      !----------------------------------------------------------------!
+      do i=1,nel
+        dpdm(i) = max(bulk(i),dpdm(i))
+        DPDM(I)= G43 + MAX(BULK(I),DPDM(I))
+        SSP(I)=SQRT(ABS(DPDM(I))/RHO0(I))             
+      enddo !next i   
+      
+      !----------------------------------------------------------------!
+      !  OUTPUT                                                        !
+      !----------------------------------------------------------------!
+      do i=1,nel
+        p(i)=max(pmin,p(i))*off(i)
+        pnew(i) = p(i)-psh(i)
+      enddo !next i
 
       !----------------------------------------------------------------!
-      !  UNLOADING CASE                                                !
+      !  YIELD CRITERIA IF P > PMIN                                    !
       !----------------------------------------------------------------! 
       DO I=1,NEL
-        IF(AMU(I)<AMUMX(I))P(I)= MIN(P(I),PNE1(I))
-        IF(P(I)<PFRAC(I))THEN
-         EPX(I) =EPX(I)+(PFRAC(I)-POLD(I))/BULK2(I)
-         P(I)=PFRAC(I)
-         A0(I)=ZERO
-         A1(I)=ZERO
-         A2(I)=ZERO
-        ELSE
-         EPX(I) =AMU(I)
+        IF(P(I) < PMIN)THEN
+          A0(I)=ZERO
+          A1(I)=ZERO
+          A2(I)=ZERO
         ENDIF
-        DPDM(I)= G43(I) + MAX(BULK(I),DPDM(I))
-      ENDDO
-
-      DO I=1,NEL
-        SSP(I)=SQRT(ABS(DPDM(I))/RHO0(I))
       ENDDO
 
       !----------------------------------------------------------------!
       !  DEVIATORIC TENSOR - ELASTIC INCREMENT                         !
       !----------------------------------------------------------------! 
       DO I=1,NEL
-        T1(I)=T1(I)+GG(I)*(D1(I)-SVRT(I))
-        T2(I)=T2(I)+GG(I)*(D2(I)-SVRT(I))
-        T3(I)=T3(I)+GG(I)*(D3(I)-SVRT(I))
-        T4(I)=T4(I)+G(I)*D4(I)
-        T5(I)=T5(I)+G(I)*D5(I)
-        T6(I)=T6(I)+G(I)*D6(I)
+        SVRT = THIRD*(D1(I)+D2(I)+D3(I))
+        T1(I)=T1(I)+GG*(D1(I)-SVRT)
+        T2(I)=T2(I)+GG*(D2(I)-SVRT)
+        T3(I)=T3(I)+GG*(D3(I)-SVRT)
+        T4(I)=T4(I)+G*D4(I)
+        T5(I)=T5(I)+G*D5(I)
+        T6(I)=T6(I)+G*D6(I)
       ENDDO
 
       !----------------------------------------------------------------!
       !  YIELD SURFACE                                                 !
       !----------------------------------------------------------------!  
       DO I=1,NEL
-        AJ2(I)=HALF*(T1(I)**2+T2(I)**2+T3(I)**2)+T4(I)**2+T5(I)**2+
-     .                 T6(I)**2
+        AJ2(I)=HALF*(T1(I)**2+T2(I)**2+T3(I)**2)+T4(I)**2+T5(I)**2+T6(I)**2
         PTOT = P(I) + PSH(I)
         G0(I) =A0(I)+A1(I)*PTOT+A2(I)*PTOT*PTOT
-        G0(I)= MIN(AMX(I),G0(I))
+        G0(I)= MIN(AMAX,G0(I))
         G0(I)= MAX(ZERO,G0(I))
-        IF(PTOT <= PSTAR(I))G0(I)=ZERO        
+        IF(PTOT <= PSTAR)G0(I)=ZERO
         YIELD2(I)=AJ2(I)-G0(I)
-!!        SEQ_OUTPUT(I) = YIELD2(I)
       ENDDO
 
       !----------------------------------------------------------------!
@@ -246,8 +247,7 @@ C-----------------------------------------------
         SIG(I,4)=RATIO(I)*T4(I)*OFF(I)
         SIG(I,5)=RATIO(I)*T5(I)*OFF(I)
         SIG(I,6)=RATIO(I)*T6(I)*OFF(I)
-        EPSEQ(I)=EPSEQ(I)+(ONE-RATIO(I))*SQRT(AJ2(I))*DT1
-     .           / MAX(EM20,THREE*G(I))
+        EPSEQ(I)=EPSEQ(I)+(ONE-RATIO(I))*SQRT(AJ2(I))*DT1 / MAX(EM20,THREE*G)
       ENDDO
           
       !----------------------------------------------------------------!
