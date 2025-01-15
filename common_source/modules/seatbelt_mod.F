@@ -169,6 +169,8 @@ c
       END TYPE SEATBELT_STRUCT
 
       TYPE(SEATBELT_STRUCT),ALLOCATABLE,DIMENSION(:) :: SEATBELT_TAB
+      INTEGER  N_COMN_1D2D
+      INTEGER, DIMENSION(:)   , ALLOCATABLE :: COMN_1D2D
 
 c======================================================================= 
 C define structure for remote anchor node

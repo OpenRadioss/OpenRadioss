@@ -73,7 +73,7 @@ C-----------------------------------------------
      .        I1,I2,IADBUF,TAG_PRINT,ISENS_LOC(2),IPID,OFFC,OFFR,NB_ELEM,NODE,
      .        NB_2D_SEATBELT,COMPT_BELT_END,COMPT_FRAM,NEXT_NODE,NODE_CUR,COMPT_2D,MID_2D,NODE_LONGI,
      .        IADBUF_2D,FUNC1,FUNC2,ISK,N1,N2,SEATBELT_ELEM_FOUND,IMOV,IECROU,NB_ELEM_1D,NB_BRANCH,
-     .        BRANCH_CPT,NB_ELEM_2D,J1,NPT,NPT2,STAT,WARNFUNC,SAME_FUNC
+     .        BRANCH_CPT,NB_ELEM_2D,J1,NPT,NPT2,STAT,WARNFUNC,SAME_FUNC,MID2,MTYP2
       my_real DIST2,LMIN,RHO,XK,XC,AREA,LONGI_DIRECTION(3),EDGE_DIRECTION(3),SCAL,E11,E22,G12,DET,
      .        N12,N21,NU,FSCALE1,FSCALE2,A11,A22,A12,C1,SSP,RHO0,YOUNG,FSCALET,KMAX,A1C,A2C
       my_real X1,X2,Y1,Y2,SHIFT,DERI,MIN_SLOPE,MIN_SLOPE_ABS,DERI_P
@@ -81,7 +81,7 @@ C
       INTEGER , DIMENSION(:), ALLOCATABLE:: TAG_RES,TAG_SHELL,TAG_NOD,CC_ELEM,CPT_MAT,TAG_MAT_2D,
      .                                      TAG_NOD_SHELL,TAG_NOD_SPRING,FRAM_TAB,TAG_FRAM_SEATBELT,
      .                                      NNOD_FRAM_SEATBELT,BELT_END_NFRAM,BELT_END_ADDR,TAG_PROP_2D,
-     .                                      BRANCH_TAB
+     .                                      BRANCH_TAB,TAG_SPRING_2D,TAG_NOD_SPRI2D,TAG_COMN_1D_2D
       my_real , DIMENSION(:), ALLOCATABLE:: AV_LEN_MAT,AV_AREA_MAT,ELEMSIZE_MAT,BELT_END_SECTION,
      .                                      SECTION_MAT
 C-----------------------------------------------
@@ -266,8 +266,13 @@ C-        tag of prop type 9 to -2 for error message if conflict with non seatbe
       ENDDO
 C
       NB_ELEM_1D = 0
+      N_COMN_1D2D = 0
       CALL MY_ALLOC(TAG_NOD_SPRING,NUMNOD)
+      CALL MY_ALLOC(TAG_NOD_SPRI2D,NUMNOD)
+      CALL MY_ALLOC(TAG_SPRING_2D,NUMELR)
       TAG_NOD_SPRING(1:NUMNOD) = 0
+      TAG_NOD_SPRI2D(1:NUMNOD) = 0
+      TAG_SPRING_2D(1:NUMELR) = 0
       DO I=1,NUMELR
         MID = IXR(5,I)
         IF (MID > 0) THEN
@@ -277,7 +282,25 @@ C
             DO J=2,3
               TAG_NOD_SPRING(IXR(J,I)) = TAG_NOD_SPRING(IXR(J,I)) + 1
             ENDDO
-          ENDIF
+C           check if spring is attached to a 2D seatblet element
+            N1 = IXR(2,I)
+            N2 = IXR(3,I)
+            DO K=KNOD2ELC(N1)+1,KNOD2ELC(N1+1)
+              ELEM_CUR = NOD2ELC(K)
+              MID2 = IXC(1,ELEM_CUR)
+              MTYP2 = IPM(2,MID2)
+              IF (MTYP2==119) THEN
+                DO J=2,5
+                  IF (IXC(J,ELEM_CUR)==N2) TAG_SPRING_2D(I) = 1
+                ENDDO
+              ENDIF
+            ENDDO
+            DO J=2,3
+              TAG_NOD_SPRI2D(IXR(J,I)) = TAG_NOD_SPRI2D(IXR(J,I)) + TAG_SPRING_2D(I)
+C             if node is connected to 2 spring and only 1 is kined to 2D seatblet then it's a 1D/2D blet connection
+              IF (((TAG_NOD_SPRI2D(IXR(J,I)))==1).AND.(TAG_NOD_SPRING(IXR(J,I))==2)) N_COMN_1D2D = N_COMN_1D2D + 1
+            ENDDO
+          ENDIF  
         ENDIF
       ENDDO
 C
@@ -351,16 +374,33 @@ C----------------------------------------------------------------------------
 C---  Loop on elements on edges of seatbelt
 C----------------------------------------------------------------------------
 C
-C--   if nshell = 1 and nspring = 1 -> node in corner of 2D belt
-C--   if nshell = 2 and nspring = 1 -> node on edge of 2D belt
-C--   if nshell = 0 and nspring = 1 -> node at end of 1D belt
+C--     if nshell = 1 and nspring = 1     -> node in corner of 2D belt
+C--     if nshell = 2 and nspring = 1     -> node on edge of 2D belt
+C--     if nshell = 0 and nspring = 1     -> node at end of 1D belt
+C--     if nspring = 2 and nspring_2D = 1 -> node common between 1D and 2D seatblet
+C
+C       common nodes between 1D and 2D seatblet are tagged and stored in list
+        CALL MY_ALLOC(COMN_1D2D,N_COMN_1D2D)
+        CALL MY_ALLOC(TAG_COMN_1D_2D,NUMNOD)
+        COMN_1D2D(1:N_COMN_1D2D) = 0
+        TAG_COMN_1D_2D(1:NUMNOD) = 0
+        J = 0
+        DO I=1,NUMNOD
+          IF (((TAG_NOD_SPRI2D(I))==1).AND.(TAG_NOD_SPRING(I)==2)) THEN
+            J = J + 1
+            COMN_1D2D(J) = I
+            TAG_COMN_1D_2D(I) = 1
+          ENDIF   
+        ENDDO 
+        DEALLOCATE(TAG_NOD_SPRI2D)
 C
         CALL MY_ALLOC(TAG_NOD,NUMNOD)
         TAG_NOD(1:NUMNOD) = 0
         COMPT_BELT_END = 0
         COMPT_FRAM = 0
         DO I=1,NUMNOD
-          IF ((TAG_NOD_SHELL(I) < 2).AND.(TAG_NOD_SPRING(I)==1).AND.(TAG_NOD(I)==0)) THEN
+          IF (((TAG_NOD_SHELL(I) < 2).AND.(TAG_NOD_SPRING(I)==1).AND.(TAG_NOD(I)==0)).OR.
+     .         (TAG_COMN_1D_2D(I) == 1)) THEN
             COMPT_BELT_END = COMPT_BELT_END + 1
             COMPT_FRAM = COMPT_FRAM + 1
             TAG_NOD(I) = 1
@@ -375,7 +415,8 @@ C
                   MTYP = IPM(2,MID)
                   IF (MTYP==119) THEN
                     DO J=2,5
-                      IF ((TAG_NOD_SPRING(IXC(J,ELEM_CUR))==1).AND.(TAG_NOD(IXC(J,ELEM_CUR))==0)) THEN
+                      IF (((TAG_NOD_SPRING(IXC(J,ELEM_CUR))==1).OR.(TAG_COMN_1D_2D(IXC(J,ELEM_CUR))==1))
+     .                .AND.(TAG_NOD(IXC(J,ELEM_CUR))==0)) THEN
 C--                     next node on transverse edge of seatbelt
                         NEXT_NODE = IXC(J,ELEM_CUR)
                         TAG_NOD(NEXT_NODE) = 1
@@ -386,6 +427,7 @@ C--                     next node on transverse edge of seatbelt
                 ENDDO       
               ENDDO     
             ENDIF
+            IF (TAG_COMN_1D_2D(I) == 1) TAG_NOD(I) = 0
           ENDIF
         ENDDO
 C
@@ -402,7 +444,8 @@ C
         COMPT_FRAM = 0
         NODE_LONGI = -HUGE(NODE_LONGI)
         DO I=1,NUMNOD
-          IF ((TAG_NOD_SHELL(I) < 2).AND.(TAG_NOD_SPRING(I)==1).AND.(TAG_NOD(I)==0)) THEN
+          IF (((TAG_NOD_SHELL(I) < 2).AND.(TAG_NOD_SPRING(I)==1).AND.(TAG_NOD(I)==0)).OR.
+     .         (TAG_COMN_1D_2D(I) == 1)) THEN
             COMPT_BELT_END = COMPT_BELT_END + 1
             COMPT_FRAM = COMPT_FRAM + 1
             TAG_NOD(I) = 1
@@ -441,7 +484,8 @@ C
                   MTYP = IPM(2,MID)
                   IF (MTYP==119) THEN
                     DO J=2,5
-                      IF ((TAG_NOD_SPRING(IXC(J,ELEM_CUR))==1).AND.(TAG_NOD(IXC(J,ELEM_CUR))==0)) THEN
+                      IF (((TAG_NOD_SPRING(IXC(J,ELEM_CUR))==1).OR.(TAG_COMN_1D_2D(IXC(J,ELEM_CUR))==1))
+     .                .AND.(TAG_NOD(IXC(J,ELEM_CUR))==0)) THEN
 C--                     next node on transverse edge of seatbelt
                         NEXT_NODE = IXC(J,ELEM_CUR)
                         TAG_NOD(NEXT_NODE) = 1
@@ -465,19 +509,20 @@ C--               seatbelt section is incremented
                   BELT_END_SECTION(COMPT_BELT_END) = BELT_END_SECTION(COMPT_BELT_END) + SQRT(MAX(EM20,DIST2))*GEO(1,IPID)
                 ENDIF       
               ENDDO
-              BELT_END_NFRAM(COMPT_BELT_END) = COMPT_FRAM - BELT_END_ADDR(COMPT_BELT_END) + 1  
+              BELT_END_NFRAM(COMPT_BELT_END) = COMPT_FRAM - BELT_END_ADDR(COMPT_BELT_END) + 1                
             ENDIF
+            IF (TAG_COMN_1D_2D(I) == 1) TAG_NOD(I) = 0
           ENDIF
         ENDDO
 C
-C      DO I=1,COMPT_BELT_END
-C        DO J=1,BELT_END_NFRAM(I)
-C          print *,"-->",I,ITAB(FRAM_TAB(BELT_END_ADDR(I)+J-1))
+C        DO I=1,COMPT_BELT_END
+C          DO J=1,BELT_END_NFRAM(I)
+C            print *,"-->",I,ITAB(FRAM_TAB(BELT_END_ADDR(I)+J-1))
+C          ENDDO
+C          print *,"SECTION",BELT_END_SECTION(I)
 C        ENDDO
-C        print *,"SECTION",BELT_END_SECTION(I)
-C      ENDDO
 C
-        DEALLOCATE(TAG_NOD_SPRING,TAG_NOD_SHELL)
+        DEALLOCATE(TAG_NOD_SPRING,TAG_NOD_SHELL,TAG_COMN_1D_2D)
 C
         CALL MY_ALLOC(TAG_RES,NUMELR)
         CALL MY_ALLOC(TAG_FRAM_SEATBELT,COMPT_BELT_END)
@@ -525,25 +570,29 @@ C
                   IF (MID > 0) THEN
                     MTYP = IPM(2,MID)
                     IF (MTYP == 114) THEN
-C--                   Loop on belt elements
-                      NB_BRANCH = 0
-                      BRANCH_CPT = 0
-                      CALL NEW_SEATBELT(IXR,ITAB,KNOD2EL1D,NOD2EL1D,NOD_START,
+C                     in case of 1D/2D connection the loop must start on the rigt spring                        
+                      IF (((BELT_END_NFRAM(I)==1).and.(TAG_SPRING_2D(ELEM_CUR)==0)).OR.
+     .                  ((BELT_END_NFRAM(I) >1).and.(TAG_SPRING_2D(ELEM_CUR)==1))) THEN  
+C--                     Loop on belt elements
+                        NB_BRANCH = 0
+                        BRANCH_CPT = 0
+                        CALL NEW_SEATBELT(IXR,ITAB,KNOD2EL1D,NOD2EL1D,NOD_START,
      .                                  ELEM_CUR,TAG_RES,TAG_NOD,SEATBELT_ID,FLAG,
      .                                  NNOD,IPM,NB_ELEM_1D,NB_BRANCH,BRANCH_TAB,
      .                                  BRANCH_CPT)
 
-C--                   Loop on subranch (only if no sliprings and no retractors)
-                      DO WHILE(NB_BRANCH > 0)
-                        NOD_START = BRANCH_TAB(2*(BRANCH_CPT-NB_BRANCH)+1) 
-                        ELEM_CUR = BRANCH_TAB(2*(BRANCH_CPT-NB_BRANCH)+2) 
-                        NB_BRANCH = NB_BRANCH -1
-                        CALL NEW_SEATBELT(IXR,ITAB,KNOD2EL1D,NOD2EL1D,NOD_START,
+C--                     Loop on subranch (only if no sliprings and no retractors)
+                        DO WHILE(NB_BRANCH > 0)
+                          NOD_START = BRANCH_TAB(2*(BRANCH_CPT-NB_BRANCH)+1) 
+                          ELEM_CUR = BRANCH_TAB(2*(BRANCH_CPT-NB_BRANCH)+2) 
+                          NB_BRANCH = NB_BRANCH -1
+                          CALL NEW_SEATBELT(IXR,ITAB,KNOD2EL1D,NOD2EL1D,NOD_START,
      .                                    ELEM_CUR,TAG_RES,TAG_NOD,SEATBELT_ID,FLAG,
      .                                    NNOD,IPM,NB_ELEM_1D,NB_BRANCH,BRANCH_TAB,
      .                                    BRANCH_CPT)
-                      ENDDO
+                        ENDDO
 C
+                      ENDIF
                     ENDIF
                   ENDIF
                 ENDIF
@@ -571,7 +620,7 @@ C
 C
         ENDDO
 C
-        DEALLOCATE(BRANCH_TAB)
+        DEALLOCATE(BRANCH_TAB,TAG_SPRING_2D)
 C
 C----------------------------------------------------------------------------
 C---  Filling of seatbelt structure
@@ -883,6 +932,12 @@ C
       ENDIF
 C
       IF (NB_2D_SEATBELT > 0) DEALLOCATE(TAG_SHELL)
+C
+C     if setbelt elts in model array ar deallocated before      
+      IF ((NB_ELEM_1D==0).and.(NB_ELEM_2D == 0)) THEN
+        DEALLOCATE(TAG_NOD_SHELL,TAG_NOD_SPRING,TAG_NOD_SPRI2D)
+        DEALLOCATE(TAG_PROP_2D,TAG_SPRING_2D)
+      ENDIF
 C             
       RETURN
 C
