@@ -54,7 +54,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .             MAT_ELEM    ,MLAW_TAG ,FAIL_TAG ,EOS_TAG  ,
      .             BUFMAT      ,BUFLEN   ,IPM      ,PM       ,UNITAB   ,
      .             MULTI_FVM   ,FAILWAVE ,NLOC_DMG ,LSUBMODEL,TABLE    ,
-     .             LTITR       ,MAT20_DISCRETE_FILL,USERL_AVAIL,MAT_NUMBER  )
+     .             LTITR       ,MAT20_DISCRETE_FILL,USERL_AVAIL,MAT_NUMBER,
+     .             NPC         ,TF       ,SNPC     ,NPTS    ,SBUFMAT)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -93,7 +94,6 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "scr19_c.inc"
-#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -104,6 +104,7 @@ C-----------------------------------------------
       INTEGER :: BUFLEN
       INTEGER ,DIMENSION(NPROPMI,NUMMAT), INTENT(INOUT) :: IPM
       my_real ,DIMENSION(NPROPM ,NUMMAT), INTENT(INOUT) :: PM
+      INTEGER,INTENT(IN) :: SBUFMAT
       my_real ,DIMENSION(SBUFMAT)       , INTENT(INOUT) :: BUFMAT
       TYPE (UNIT_TYPE_),INTENT(IN) :: UNITAB 
       TYPE(MLAW_TAG_) , DIMENSION(NUMMAT)  , INTENT(INOUT) :: MLAW_TAG
@@ -115,6 +116,9 @@ C-----------------------------------------------
       TYPE(SUBMODEL_DATA) ,INTENT(IN)   :: LSUBMODEL(NSUBMOD)
       TYPE(TTABLE)  ,DIMENSION(NTABLE)  :: TABLE 
       TYPE(MAT_ELEM_) ,INTENT(INOUT)    :: MAT_ELEM
+      INTEGER,INTENT(IN) :: SNPC, NPTS
+      INTEGER,INTENT(IN) :: NPC(SNPC)
+      my_real,INTENT(IN) :: TF(NPTS)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -169,7 +173,7 @@ c     /EOS : Equations of State P=P(µ,E)
 c-------------------------------------------------------------------
       CALL HM_READ_EOS(MAT_ELEM%MAT_PARAM ,IPM      ,PM       ,BUFMAT   ,
      .                 BUFLEN   ,IADBUF   ,EOS_TAG  ,UNITAB   ,LSUBMODEL,
-     .                 MLAW_TAG)
+     .                 MLAW_TAG )
 
 c-------------------------------------------------------------------
 c     /FAIL : Failure Models

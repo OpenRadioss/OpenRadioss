@@ -20,106 +20,72 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    matfun_usr2sys         ../starter/source/materials/tools/matfun_usr2sys.F
+      !||--- called by ------------------------------------------------------
+      !||    law158_upd             ../starter/source/materials/mat/mat158/law158_upd.F
+      !||    law58_upd              ../starter/source/materials/mat/mat058/law58_upd.F
+      !||    updmat                 ../starter/source/materials/updmat.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                 ../starter/source/output/message/message.F
+      !||--- uses       -----------------------------------------------------
+      !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    table_mod              ../starter/share/modules1/table_mod.F
+      !||====================================================================
+      module EOSFUN_USR2SYS_MOD
+      contains
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
-!! \brief Write parameters of EOS data structure
+!! \brief convert user function identifier into internal function identifiers
 !! \details
-      !||====================================================================
-      !||    write_eosparam         ../starter/source/materials/mat/write_eosparam.F90
-      !||--- called by ------------------------------------------------------
-      !||    write_matparam         ../starter/source/materials/mat/write_matparam.F
-      !||--- calls      -----------------------------------------------------
-      !||    write_mat_table        ../starter/source/materials/tools/write_mat_table.F
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
-      SUBROUTINE WRITE_EOSPARAM(EOS)
+      SUBROUTINE EOSFUN_USR2SYS(TITR, EOS_ID, NFUNC  ,IFUNC  ,FUNC_ID, NFUNCT  )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-      USE EOS_PARAM_MOD
-      USE NAMES_AND_TITLES_MOD
+      USE MESSAGE_MOD
+      USE TABLE_MOD
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Implicit none
+!                                                   Implicit None
 ! ----------------------------------------------------------------------------------------------------------------------
-      implicit none
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Imnclude files
-! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
+      IMPLICIT NONE
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-      TYPE(EOS_PARAM_) ,INTENT(IN) :: EOS
+      INTEGER,INTENT(IN) :: NFUNCT !< number of /FUNCT
+      INTEGER,INTENT(IN) :: EOS_ID !< EoS id
+      INTEGER,INTENT(IN) :: NFUNC !< number of function to convert (uder id -> internal id)
+      INTEGER, DIMENSION(NFUNC),INTENT(INOUT) :: IFUNC !< array of function identifiers to convert
+      INTEGER,INTENT(IN), DIMENSION(NFUNCT) :: FUNC_ID !< data structure for /FUNCT
+      CHARACTER(LEN=NCHARTITLE),INTENT(IN) :: TITR !< EoS title
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Local Variables
+!                                                   Variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      INTEGER :: I,IAD,NFIX,NUPARAM,NIPARAM,NUMTABL,NUMFUNC
-      INTEGER ,DIMENSION(NCHARTITLE) :: NAME
-      INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IBUF
-      my_real ,DIMENSION(:), ALLOCATABLE :: RBUF
-      INTEGER :: LENI, LENR
+      INTEGER I,J,ID,OK
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-      !INTEGER parameter
-      NFIX = 5
-      ALLOCATE (IBUF(NFIX + 1))
-      IAD = 1
-      IBUF(IAD) = NFIX
-      IAD = IAD+1
-        IBUF(IAD) = EOS%NUPARAM
-      IAD = IAD+1
-        IBUF(IAD) = EOS%NIPARAM
-      IAD = IAD+1
-        IBUF(IAD) = EOS%NUVAR
-      IAD = IAD+1
-        IBUF(IAD) = EOS%NFUNC
-      IAD = IAD+1
-        IBUF(IAD) = EOS%NTABLE
-      IAD = IAD+1
-      CALL WRITE_I_C(IBUF,NFIX+1)
-      DEALLOCATE(IBUF)
-      
-      !REAL parameter
-      NFIX = 2
-      ALLOCATE (RBUF(NFIX))
-      ALLOCATE(IBUF(1))
-      IBUF(1)=NFIX
-      IAD = 1
-        RBUF(IAD) = EOS%CV
-      IAD = IAD+1
-        RBUF(IAD) = EOS%CP
-      IAD = IAD+1
-      CALL WRITE_I_C(IBUF,1)
-      CALL WRITE_DB(RBUF,NFIX)
-      DEALLOCATE(RBUF)      
+      DO I=1,NFUNC                           
+        ID = IFUNC(I)
+        OK = 0
+        IF (ID > 0) THEN
+          DO J=1,NFUNCT     ! total number of functions                   
+           IF (ID == FUNC_ID(J)) THEN           
+              IFUNC(I) = J
+              OK = 1
+              EXIT                            
+            ENDIF                              
+          ENDDO                                
+          IF (OK == 0) THEN
+            !eos error with function identifer
+            CALL ANCMSG(MSGID=135,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,I1=EOS_ID,C1=TITR,I2=ID)
+          ENDIF                                 
+        ENDIF                                 
+      ENDDO  ! I=1,NFUNC 
 
-      ! write eos model title
-      DO I=1,NCHARTITLE
-        NAME(I) = ICHAR(EOS%TITLE(I:I))
-      END DO
-      CALL WRITE_C_C(NAME,NCHARTITLE)
-      
-      ! write eos parameter array
-      IF (EOS%NUPARAM > 0) THEN
-        CALL WRITE_DB(EOS%UPARAM ,EOS%NUPARAM)
-      END IF      
-      IF (EOS%NIPARAM > 0) THEN
-        CALL WRITE_I_C(EOS%IPARAM ,EOS%NIPARAM)
-      END IF      
-
-      ! write eos law function
-      IF (EOS%NFUNC > 0) THEN
-        CALL WRITE_I_C(EOS%FUNC, EOS%NFUNC)
-      END IF
-      
-      ! write eos law tables
-      IF (EOS%NTABLE > 0) THEN
-        LENI=0
-        LENR=0
-        CALL WRITE_MAT_TABLE(EOS%TABLE, EOS%NTABLE)
-      END IF
-!-----------
       RETURN
-      END
+      END SUBROUTINE EOSFUN_USR2SYS
+! ----------------------------------------------------------------------------------------------------------------------
+      
+      END MODULE EOSFUN_USR2SYS_MOD

@@ -56,7 +56,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                   RHO   ,RHO0  ,MU     ,MU2     ,ESPE     ,
      3                   DVOL  ,DF    ,VNEW   ,MAT     ,PSH      ,
      4                   PNEW  ,DPDM  ,DPDE   ,THETA   ,ECOLD    ,
-     5                   BUFMAT,SIG   ,MU_OLD ,MLW     ,POLD     ,
+     5                   BUFMAT,SIG   ,MU_BAK ,MLW     ,POLD     ,
      6                   NPF   ,TF    ,VAREOS ,NVAREOS ,MAT_PARAM,
      7                   BFRAC)
 C-----------------------------------------------
@@ -99,6 +99,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
+      USE COMPACTION_MOD   , ONLY : COMPACTION
+      USE COMPACTION2_MOD  , ONLY : COMPACTION2
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -123,7 +125,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MAT(NEL),IFLAG, EOSTYP, NEL, MLW, NVAREOS
       my_real PM(NPROPM,NUMMAT),BUFMAT(SBUFMAT),OFF(NEL),EINT(NEL),RHO(NEL),RHO0(NEL),MU(NEL),MU2(NEL),ESPE(NEL),DVOL(NEL), 
-     .        DF(NEL),VNEW(NEL),PSH(NEL),PNEW(NEL),DPDM(NEL),DPDE(NEL),THETA(NEL),ECOLD(NEL),MU_OLD(NEL),POLD(NEL),
+     .        DF(NEL),VNEW(NEL),PSH(NEL),PNEW(NEL),DPDM(NEL),DPDE(NEL),THETA(NEL),ECOLD(NEL),MU_BAK(NEL),POLD(NEL),
      .        SIG(NEL,6),VAREOS(NVAREOS*NEL)
       my_real,INTENT(INOUT) :: BFRAC(NEL)
       INTEGER,INTENT(IN)::NPF(SNPC)
@@ -277,8 +279,9 @@ C-----------------------------------------------
          !--------------------------------------------------!          
           CALL COMPACTION(
      1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT  ,MU  ,MU2, 
-     2                  ESPE  ,DVOL ,DF   ,VNEW ,MAT  ,PSH  ,POLD,
-     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD,SIG  ,MU_OLD) 
+     2                  DVOL  ,MAT  ,PSH  ,
+     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD,MU_BAK,
+     4                  NPROPM,NUMMAT,TFEXT)
 
        CASE(14)
          !--------------------------------------------------!
@@ -334,6 +337,17 @@ C-----------------------------------------------
      2                  DVOL   ,VNEW   ,MAT    ,PSH   ,
      3                  PNEW   ,DPDM   ,DPDE   ,THETA  ,TT    ,
      4                  NPROPM ,NUMMAT ,TFEXT)
+
+       CASE(20)
+         !--------------------------------------------------!
+         !         COMPACTION EOS                           !
+         !--------------------------------------------------!
+          CALL COMPACTION2(
+     1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT  ,MU   ,
+     2                  DVOL  ,MAT  ,PSH  ,
+     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD ,MU_BAK,
+     4                  NPF   ,TF   ,SNPC ,STF  ,NPROPM,NUMMAT,TFEXT,
+     5                  MAT_PARAM%EOS)
 
        END SELECT
       

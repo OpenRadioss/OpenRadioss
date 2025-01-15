@@ -2098,10 +2098,11 @@ c------------------------------------
       NLOC_DMG%IMOD = 0
 c---------------------------------------------------------------
       CALL READ_MATERIAL_MODELS(
-     .     MAT_ELEM    ,MLAW_TAG ,FAIL_TAG ,EOS_TAG   ,
-     .     RWORK       ,SBUFMAT  ,IPM      ,PM        ,UNITAB    ,
-     .     MULTI_FVM   ,FAILWAVE ,NLOC_DMG ,LSUBMODEL ,TABLE     ,
-     .     LTITR       ,MAT20_DISCRETE_FILL,USERL_AVAIL,MAT_NUMBER)
+     .     MAT_ELEM    ,MLAW_TAG ,FAIL_TAG ,EOS_TAG    ,
+     .     RWORK       ,SBUFMAT  ,IPM      ,PM         ,UNITAB    ,
+     .     MULTI_FVM   ,FAILWAVE ,NLOC_DMG ,LSUBMODEL  ,TABLE     ,
+     .     LTITR       ,MAT20_DISCRETE_FILL,USERL_AVAIL,MAT_NUMBER,
+     .     NPC         ,TF       ,SNPC     ,NPTS       ,SBUFMAT   )
 c---------------------------------------------------------------
       ALLOCATE(BUFMAT(SBUFMAT)    ,STAT=stat)
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
