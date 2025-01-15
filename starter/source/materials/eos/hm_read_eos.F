@@ -57,7 +57,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE HM_READ_EOS(
      .           MAT_PARAM   ,IPM      ,PM       ,BUFMAT   ,
      .           BUFLEN      ,IADBUF   ,EOS_TAG  ,UNITAB   ,LSUBMODEL,
-     .           MLAW_TAG)
+     .           MLAW_TAG    )
 C-----------------------------------------------
 C   A n a l y s e   M o d u l e
 C-----------------------------------------------
@@ -65,9 +65,10 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE ELBUFTAG_MOD            
-      USE SUBMODEL_MOD
+      USE SUBMODEL_MOD , ONLY : SUBMODEL_DATA, NSUBMOD
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
+      USE HM_READ_EOS_COMPACTION2_MOD , ONLY : HM_READ_EOS_COMPACTION2
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -89,7 +90,7 @@ C-----------------------------------------------
       my_real ,DIMENSION(*)              ,INTENT(INOUT) :: BUFMAT
       TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
       TYPE(EOS_TAG_),DIMENSION(0:MAXEOS) ,INTENT(INOUT) :: EOS_TAG
-      TYPE(SUBMODEL_DATA) ,DIMENSION(*)  ,INTENT(IN)    :: LSUBMODEL
+      TYPE(SUBMODEL_DATA) ,DIMENSION(NSUBMOD)  ,INTENT(IN)    :: LSUBMODEL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -123,6 +124,7 @@ c     Routine reading EOS models :
       !  17       !     TABULATED          ! 2022.2
       !  18       !     LINEAR             ! 2019.0
       !  19       !     EXPONENTIAL        ! 2024.1
+      !  20       !     COMPACTION2        !
       !------------------------------------!                      
 c======================================================================-       
 c     COUNT EOS MODELS USING CFG FILES
@@ -166,7 +168,7 @@ c
         ENDIF
 
          !initialize %EOS member for current material
-        MAT_PARAM(IMAT)%EOS%TITLE = ''
+        MAT_PARAM(IMAT)%EOS%TITLE = TITR
         MAT_PARAM(IMAT)%EOS%NUPARAM = 0
         MAT_PARAM(IMAT)%EOS%NIPARAM = 0
         MAT_PARAM(IMAT)%EOS%NUVAR = 0
@@ -229,7 +231,7 @@ c---
 c---
           CASE ('COMPACTION')
             IEOS = 13                          
-            CALL HM_READ_EOS_COMPACTION(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS,EOS_TAG,IEOS)
+            CALL HM_READ_EOS_COMPACTION(IOUT,PM(1,IMAT),UNITAB,LSUBMODEL,IMIDEOS,EOS_TAG,IEOS,NPROPM,MAXEOS)
 c---
           CASE ('NASG')
             IEOS = 14                          
@@ -250,6 +252,11 @@ c---
           CASE ('EXPONENTIAL')
             IEOS = 19
             CALL HM_READ_EOS_EXPONENTIAL(IOUT,PM(1,IMAT),UNITAB,LSUBMODEL,NPROPM)
+c---
+          CASE ('COMPACTION2')
+            IEOS = 20
+            CALL HM_READ_EOS_COMPACTION2(IOUT,PM(1,IMAT),UNITAB,LSUBMODEL,IMIDEOS,EOS_TAG,IEOS,NPROPM,MAXEOS,
+     .                                   MAT_PARAM(IMAT)%EOS )
 c---
           CASE DEFAULT
             IEOS = -1 

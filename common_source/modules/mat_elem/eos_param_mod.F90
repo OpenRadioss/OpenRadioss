@@ -64,6 +64,7 @@
 
         contains
           procedure :: destruct => destruct_eos_param
+          procedure :: construct => construct_eos_param
 
       end type eos_param_
 
@@ -80,6 +81,18 @@
           if(allocated(this%func))   deallocate(this%func)
           if(allocated(this%table))  deallocate(this%table)
         end subroutine destruct_eos_param
+
+      !||====================================================================
+      !||    destruct_eos_param   ../common_source/modules/mat_elem/eos_param_mod.F90
+      !||====================================================================
+        subroutine construct_eos_param(this)
+          implicit none
+          class(eos_param_) ,intent(inout) :: this
+          if(.not. allocated(this%uparam) .and.  this%nuparam >= 0) allocate(this%uparam(this%nuparam))
+          if(.not. allocated(this%iparam) .and.  this%niparam >= 0) allocate(this%iparam(this%niparam))
+          if(.not. allocated(this%func) .and.  this%nfunc >= 0)   allocate(this%func(this%nfunc))
+          if(.not. allocated(this%table) .and.  this%ntable >= 0)  allocate(this%table(this%ntable))
+        end subroutine construct_eos_param
 !
 !---------------
       end module eos_param_mod

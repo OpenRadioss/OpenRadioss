@@ -350,7 +350,7 @@ c---    uvar
       
       !EOS PARAM
       INTEGER,SAVE :: MAXEOS
-      DATA MAXEOS /20/          !Number of EOS types :'LINEAR', 'POLYNOMIAL', 'IDEAL-GAS' , etc ...
+      DATA MAXEOS /21/          !Number of EOS types :'LINEAR', 'POLYNOMIAL', 'IDEAL-GAS' , etc ...
                 
 
 C

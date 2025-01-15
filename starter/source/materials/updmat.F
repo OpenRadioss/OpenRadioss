@@ -81,6 +81,7 @@ C-----------------------------------------------
       USE LAW190_UPD_MOD  
       USE VISC_PARAM_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      USE EOSFUN_USR2SYS_MOD , ONLY : EOSFUN_USR2SYS
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -119,8 +120,10 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), POINTER :: IFUNC,ITABLE
       my_real, DIMENSION(:), POINTER :: UPARAM,UPARF,UPARAM_VISC
       TYPE(MLAW_TAG_), POINTER :: MTAG
-      CHARACTER(LEN=NCHARTITLE)::TITR
+      CHARACTER(LEN=NCHARTITLE)::TITR, TITLE
+      TYPE(MATPARAM_STRUCT_) , POINTER :: MATPARAM
       TYPE (VISC_PARAM_)     , POINTER :: VISC
+      INTEGER :: NFUNC_EOS,FUNC_EOS_ID
 C=======================================================================
 c     TRAITEMENT OF MATERIAL PARAMETERS AND FUNCTIONS
 c-----------------------------------------------------------------------
@@ -171,8 +174,16 @@ c-----------------------------------------------------------------------
 
       DO IMAT=1,NUMMAT
 C
-        MAT_ID = MAT_PARAM(IMAT)%MAT_ID
-        ILAW   = MAT_PARAM(IMAT)%ILAW
+        MAT_ID  = MAT_PARAM(IMAT)%MAT_ID
+        ILAW    = MAT_PARAM(IMAT)%ILAW
+
+        !EoS
+        NFUNC_EOS = MAT_PARAM(IMAT)%EOS%NFUNC
+        IF(NFUNC_EOS > 0)THEN
+          title = MAT_PARAM(IMAT)%EOS%title
+          CALL EOSFUN_USR2SYS(title,MAT_ID,NFUNC_EOS,MAT_PARAM(IMAT)%EOS%FUNC,FUNC_ID, NFUNCT  )
+        ENDIF
+
 c
         IF (ILAW < 29.and.ILAW/=19.or.ILAW==32.or.ILAW==43.or.ILAW==49.or.ILAW==52.or.
      .      ILAW==57.or.ILAW==59.or.ILAW==60.or.ILAW==65.or.ILAW==75.or.
@@ -182,12 +193,12 @@ c
 c
         IADD     = MAX(1,IPM(7,IMAT))
         NPARAM   = MIN(IPM(9,IMAT),SBUFMAT)
-        UPARAM   => BUFMAT(IADD:IADD+NPARAM-1) 
+        UPARAM   => BUFMAT(IADD:IADD+NPARAM-1)
         !/visc/prony
         ITYPE_VISC = MAT_PARAM(IMAT)%IVISC
         GAMA_INF = ONE
         IF (ITYPE_VISC == 2) THEN
-          VISC  => MAT_PARAM(IMAT)%VISC  
+          VISC  => MAT_PARAM(IMAT)%VISC
           NPRONY = VISC%IPARAM(1)
           FORM   = VISC%IPARAM(2)
           IF(FORM == 1) THEN
@@ -220,14 +231,6 @@ c
           ENDIF 
         ENDIF
 
-        ! fill EoS buffer with internal function identifiers (user ids -> internal ids were converted above)
-        IF(.NOT.ALLOCATED(MAT_PARAM(IMAT)%EOS%FUNC)) ALLOCATE(MAT_PARAM(IMAT)%EOS%FUNC(NFUNC))
-        DO KK=1,NFUNC
-          MAT_PARAM(IMAT)%EOS%FUNC(KK) = IPM(10+KK,IMAT)
-        ENDDO
-
-
-c
 c-----------------------------------------------------------------------
         SELECT CASE (ILAW)
 c-------------------------
@@ -273,7 +276,7 @@ c
 c------------------
           CASE (77) 
             CALL LAW77_UPD(TITR    ,MAT_ID   ,NPARAM ,MAT_PARAM(IMAT) ,
-     .                     UPARAM  ,NFUNC    ,IFUNC  ,NPC      ,PLD      )       
+     .                     UPARAM  ,NFUNC    ,IFUNC  ,NPC      ,PLD      )
 c
 c------------------
           CASE (81) 
