@@ -1537,7 +1537,7 @@
             &d4       ,d5      ,d6      ,s1       ,s2      ,&
             &s3       ,s4      ,s5      ,s6       ,tf      ,&
             &npf      ,sigy    ,defp    ,ipm      ,pnew    ,&
-            &psh      ,amu     ,lbuf%seq,nel      )
+            &psh      ,amu     ,lbuf%seq,nel      ,nummat      )
             if (jsph == 0) then
               call mqviscb(&
               &pm,       off,      lbuf%rho, lbuf%rk,&
