@@ -189,27 +189,17 @@ C-----------------------------------------------
               chain1='NON EXISTING SUBMATERIAL IDENTIFIER:          '
               write(chain1(37:46),'(i10)')MID(I)
               IF(MID(I) > 0) THEN
-                CALL ANCMSG(MSGID=99,
-     .                    MSGTYPE=MSGERROR,
-     .                    ANMODE=ANINFO,
-     .                    I1=USER_ID,
-     .                    C1=TITR,
-     .                    C2=chain1)
+                CALL ANCMSG(MSGID=99,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=USER_ID,C1=TITR,C2=chain1)
               ELSE
                 !already checked in hm_read_mat51 (MID(I)=0 or MID(I) <0)
               ENDIF
           ELSE
-            IF(MLN == 3 .OR. MLN == 4 .OR. MLN == 5 .OR. MLN == 6 .OR. MLN == 10 .OR. MLN == 102)THEN
+            IF(MLN == 2 .OR. MLN == 3 .OR. MLN == 4 .OR. MLN == 5 .OR. MLN == 6 .OR. MLN == 10 .OR. MLN == 102)THEN
               IF(MLN /= 5)THEN
                 IF(EOS_TYPE == 18 .OR. EOS_TYPE == 1 .OR. EOS_TYPE == 7 .OR. EOS_TYPE == 10)THEN
                 ELSE
-                chain1='SUBMATERIAL COMPATIBLE EOS:POLYNOMIAL, IDEAL-GAS, STIFFENED-GAS'
-                CALL ANCMSG(MSGID=99,
-     .                      MSGTYPE=MSGERROR,
-     .                      ANMODE=ANINFO,
-     .                      I1=ID,
-     .                      C1=TITR,
-     .                      C2=chain1)
+                chain1='SUBMATERIAL COMPATIBLE EOS:POLYNOMIAL, IDEAL-GAS, STIFFENED-GAS, LINEAR'
+                CALL ANCMSG(MSGID=99,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR,C2=chain1)
                 ENDIF
               ELSE
                 IEXP=1
@@ -229,13 +219,8 @@ C-----------------------------------------------
                 ENDIF
               ENDIF
             ELSE
-              chain1='SUBMATERIAL CAN ONLY BE DEFINED FROM LAWS 3,4,5,6,10 OR 102 '
-              CALL ANCMSG(MSGID=99,
-     .                    MSGTYPE=MSGERROR,
-     .                    ANMODE=ANINFO,
-     .                    I1=ID,
-     .                    C1=TITR,
-     .                    C2=chain1)
+              chain1='SUBMATERIAL CAN ONLY BE DEFINED FROM LAWS 2,3,4,5,6,10 OR 102 '
+              CALL ANCMSG(MSGID=99,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR,C2=chain1)
             ENDIF
            ENDIF
        ENDDO !next I
@@ -258,12 +243,7 @@ C-----------------------------------------------
 
        IF(NEXPLO>1)THEN
           chain1='ONLY ONE EXPLOSIVE SUBMATERIAL CAN BE DEFINED'
-          CALL ANCMSG(MSGID=99,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO,
-     .                I1=ID,
-     .                C1=TITR,
-     .                C2=chain1)
+          CALL ANCMSG(MSGID=99,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR,C2=chain1)
        ENDIF
 
 !ALREADY CHECKED IN LECM51
@@ -272,12 +252,7 @@ C-----------------------------------------------
 
        IF(NBMAT>4)THEN
           chain1='LAW51 IS COMPATIBLE WITH UP TO 4 SUBMATERIAL ONLY'
-          CALL ANCMSG(MSGID=99,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO,
-     .                I1=ID,
-     .                C1=TITR,
-     .                C2=chain1)
+          CALL ANCMSG(MSGID=99,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR,C2=chain1)
        ENDIF
 
        IPM(5,INTERNAL_ID)=COUNT_VALID_MAT  !storing NUMBER OF SUBMATERIALS
@@ -292,6 +267,15 @@ C-----------------------------------------------
          EOS_TYPE = IPM(4,IMID)
          PM_      => PM(1:,IMID)
          RHO_MAX=MAX(RHO_MAX,PM(1,IMID))
+         E0 = ZERO
+         C0 = ZERO
+         C1 = ZERO
+         C2 = ZERO
+         C3 = ZERO
+         C4 = ZERO
+         C5 = ZERO
+         PSH = ZERO
+         T0 = ZERO
          IF(MLN /= 5)THEN
            SELECT CASE(EOS_TYPE)
                !EOS PARAMETERS DEPENDS ON 'EOS_TYPE'
@@ -376,7 +360,7 @@ C-----------------------------------------------
          ENDIF !(MLN/=5)
 
          SELECT CASE(MLN)
-           CASE (5)
+           CASE (5) ! /MAT/JWL
               !---READING MATERIAL LAW5 BUFFER
               VDET           = PM_(38)
               PCJ            = PM_(39)
@@ -452,14 +436,10 @@ C-----------------------------------------------
               !MSG - specific case of law5 when used with law 51 (new input format iform=12)
               IF(C14 <= ZERO)THEN
                 chain1='BULK MODULUS OF LAW5 (JWL) MUST BE PROVIDED FOR UNREACTED EXPLOSIVE'
-                CALL ANCMSG(MSGID=99,
-     .                      MSGTYPE=MSGERROR,
-     .                      ANMODE=ANINFO,
-     .                      I1=USER_ID,
-     .                      C1=TITR,
-     .                      C2=chain1)
+                CALL ANCMSG(MSGID=99,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=USER_ID,C1=TITR,C2=chain1)
               ENDIF
-           CASE(3,4)
+
+           CASE(2) ! /MAT/PLAS_JOHNS
              !yield criteria
              YOUNG  =  PM_(20)
              ANU    =  ZEP2 !PM_(21)
@@ -517,7 +497,65 @@ C-----------------------------------------------
              UPARAM(IDX_YIELD(J)+25) = ZERO
              UPARAM(IDX_YIELD(J)+26) = RHO*SSP*SSP
 
-           CASE(6)
+           CASE(3,4) ! /MAT/HYDPLA, /MAT/HYD_JCOOK
+             !yield criteria
+             YOUNG  =  PM_(20)
+             ANU    =  ZEP2 !PM_(21)
+             G      =  PM_(22)
+             BULK   =  PM_(32)
+             PMIN   =  PM_(37)
+             CA     =  PM_(38)
+             CB     =  PM_(39)
+             CN     =  PM_(40)
+             EPSM   =  PM_(41)
+             SIGM   =  PM_(42)
+             CC     =  PM_(43)
+             EPS0   =  PM_(44)
+             M      =  PM_(45)
+             TMELT  =  PM_(46)
+             TMAX   =  PM_(47)
+             CS     =  PM_(48)
+             SPH    =  PM_(69)
+             T0     =  PM_(79)
+             GG     =  TWO*G
+             SSP    = SQRT( (DPDMU + TWO_THIRD*G) / RHO )
+             !---WRITING LAW51 SUBMATERIAL BUFFER
+             J = UPARAM(276+I)
+             UPARAM(IDX_IPLA    +J)  = 1
+             IPLA                    = 1
+             UPARAM(IDX_G       +J)  = GG
+             UPARAM(IDX_YIELD(J)+01) = G
+             UPARAM(IDX_YIELD(J)+02) = CA
+             UPARAM(IDX_YIELD(J)+03) = CB
+             UPARAM(IDX_YIELD(J)+04) = CN
+             !specific law4 subcase
+             UPARAM(IDX_YIELD(J)+05:IDX_YIELD(J)+13)=ZERO
+             IF(MLN == 4)THEN
+             UPARAM(IDX_YIELD(J)+05) = CC
+             UPARAM(IDX_YIELD(J)+06) = EPS0
+             UPARAM(IDX_YIELD(J)+07) = M
+             UPARAM(IDX_YIELD(J)+08) = TMELT
+             UPARAM(IDX_YIELD(J)+09) = TMAX
+             UPARAM(IDX_YIELD(J)+12) = SPH
+             UPARAM(IDX_YIELD(J)+13) = T0
+             ENDIF
+             UPARAM(IDX_YIELD(J)+10) = EPSM
+             UPARAM(IDX_YIELD(J)+11) = SIGM
+             UPARAM(IDX_YIELD(J)+14) = ZERO
+             UPARAM(IDX_YIELD(J)+15) = ZERO
+             UPARAM(IDX_YIELD(J)+16) = ZERO
+             UPARAM(IDX_YIELD(J)+17) = ZERO
+             UPARAM(IDX_YIELD(J)+18) = ZERO
+             UPARAM(IDX_YIELD(J)+19) = ZERO
+             UPARAM(IDX_YIELD(J)+20) = ZERO
+             UPARAM(IDX_YIELD(J)+21) = ZERO
+             UPARAM(IDX_YIELD(J)+22) = ANU
+             UPARAM(IDX_YIELD(J)+23) = -INFINITY
+             UPARAM(IDX_YIELD(J)+24) = SSP
+             UPARAM(IDX_YIELD(J)+25) = ZERO
+             UPARAM(IDX_YIELD(J)+26) = RHO*SSP*SSP
+
+           CASE(6) ! /MAT/HYDRO
              !no yield criteria
              T0    = THREE100
              G     = ZERO
@@ -569,7 +607,7 @@ C-----------------------------------------------
              UPARAM(IDX_YIELD(J)+25) = ZERO
              UPARAM(IDX_YIELD(J)+26) = RHO*SSP*SSP
 
-           CASE(10,102)
+           CASE(10,102) ! /MAT/DPRAG1, /MAT/DPRAG2
              !yield criteria
              IF(MLN == 10)THEN
                YOUNG  =  PM_(20)
