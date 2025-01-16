@@ -63,6 +63,7 @@ C-----------------------------------------------
       USE ALEFVM_MOD , only:ALEFVM_Param
       USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
       USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -89,7 +90,6 @@ C-----------------------------------------------
      .   IADP(*),NBF_L, NBPART,IADG(NSPMD,*),IPM(NPROPMI,NUMMAT),
      .   IGEO(NPROPGI,NUMGEO),INVERT(*), NV46
       INTEGER, INTENT(IN) :: ITHERM
-      REAL WAL(NBF_L)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (STACK_PLY)         :: STACK
       TYPE(BUF_MAT_)  ,POINTER :: MBUF 
@@ -125,6 +125,7 @@ C-----------------------------------------------
      .        PTE(4),PTP(4),PTMAT(4),PTVAR(4),LENCOM,NPT_ALL,IPLY,ITRIMAT,IPOS,
      .        ISUBMAT, ISH_EINT, IS_ALE, IS_EULER,IPG,IPINCH,
      .        IMAT_TILLOTSON, NTILLOTSON,NVAREOS,IEOS,IDRAPE,IVAR
+      REAL,DIMENSION(:),ALLOCATABLE:: WAL
       REAL R4
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF     
@@ -142,6 +143,7 @@ C-----------------------------------------------
       DATA NS/10/
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
 C-----------------------------------------------
+      CALL MY_ALLOC(WAL,NBF_L)
       NINTY = 90.
       NN1  = 1
       NN3  = 1
@@ -4985,6 +4987,7 @@ C
       ENDIF
 c-----------
       IF(ALLOCATED(WA_L))DEALLOCATE(WA_L)
+      DEALLOCATE(WAL)
       RETURN
       END
       !||====================================================================

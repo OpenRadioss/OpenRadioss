@@ -38,6 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                      MATER,   IPARTC,  NODGLOB, IDPLY,  IADPLY,
      .                      IADPLYG, PLYNUMC, NBF_PXFEMG)
       USE PLYXFEM_MOD
+      USE my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,18 +68,21 @@ C-----------------------------------------------
       EXTERNAL GET_PLY_NOD
 C-----------------------------------------------
 C     REAL
-      my_real
-     * OFF
+      my_real OFF
       INTEGER II(4),IE,NG, ITY, LFT, LLT, N, I, J, 
      .        IPRT, NEL, IAD, NPAR, NFT, IMID,IALEL,MTN,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
      .        JJ, K, SH_IH,BUF,ISHPLYXFEM,
-     .        PLYELEMS(NUMELC),IPT,ELC,PLYS,IPLY,IE_EL2FA,
+     .        IPT,ELC,PLYS,IPLY,IE_EL2FA,
      .        NPCC,IDPLYN
-      INTEGER NP(PLYNUMC*4),EMPL
+      INTEGER EMPL
+      INTEGER,DIMENSION(:),ALLOCATABLE::NP
+      INTEGER,DIMENSION(:),ALLOCATABLE::PLYELEMS
 C-----------------------------------------------
 C     PLY ELEMS INIT
 C-----------------------------------------------
+      CALL MY_ALLOC(PLYELEMS, NUMELC)
+      CALL MY_ALLOC(NP, PLYNUMC*4)
       NPCC = 0
       DO PLYS = 1,NPLYPART
         IPLY = INDX_PLY(PLYS)
@@ -185,6 +189,8 @@ C   construction tableau global des parts sur p0
         ENDIF
 
       ENDIF
+      DEALLOCATE(PLYELEMS)
+      DEALLOCATE(NP)
 C-----------------------------------------------
       RETURN
       END

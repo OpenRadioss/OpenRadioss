@@ -32,6 +32,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                    NBF    ,INUM  ,DD_IAD   ,IADD ,NBPART,
      .                    IADG   ,INUMX1,NANIM1D_L)
 C-----------------------------------------------
+      USE MY_ALLOC_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -56,8 +58,9 @@ C-----------------------------------------------
      .        IPID, NEL, IAD, NFT, IMID,IALEL,MLW,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
      .        NBF2
-      INTEGER WA(NBF+NANIM1D_L)
+      INTEGER,DIMENSION(:),ALLOCATABLE:: WA
 C-----------------------------------------------
+      CALL my_alloc(WA, NBF+NANIM1D_L)
 C
       NN1 = 1
       NN2 = 1
@@ -128,5 +131,6 @@ C-----------------------------------------------
       ENDIF
 C-----------------------------------------------
 C
+      DEALLOCATE(WA)
       RETURN
       END

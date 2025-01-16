@@ -47,6 +47,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD
       USE PLYXFEM_MOD
       USE STACK_MOD
+      USE my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -91,11 +92,12 @@ C     REAL
      .        ELC,PLYELEMS(NUMELC),PLYS,IFAILURE,IVISC,NUVARV,
      .        MAT(MVSIZ),PID(MVSIZ),IGTYP,IADR,MATLY,IPMAT,
      .        IIGEO,IADI,ISUBSTACK,IPMAT_IPLY
-      REAL WA(3,NBF_L)
+      REAL,DIMENSION(:,:),ALLOCATABLE:: WA
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF
 C-----------------------------------------------
+      CALL MY_ALLOC(WA,3,NBF_L)
 !
       NEL_PLY = 0
 
@@ -583,5 +585,6 @@ C
          CALL SPMD_R4GET_PARTN(3,3*NBF_L,NPLYPART,IADG,WA,BUF)
       ENDIF
 
+      DEALLOCATE(WA)
       RETURN
       END

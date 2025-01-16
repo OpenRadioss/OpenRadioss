@@ -40,7 +40,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -70,14 +71,15 @@ C     REAL
      .   G11,G22,G33,G12,G21,G23,G32,G13,G31,
      .   L11,L22,L33,L12,L21,L23,L32,L13,L31,
      .   S11,S22,S33,S12,S21,S23,S32,S13,S31
-      REAL R4(18),
-     .   WA(6*NBF)
+      REAL R4(18)
+      REAL,DIMENSION(:),ALLOCATABLE :: WA
 
       INTEGER I,II, NG, NEL, IPT, MT1,IADD, N, J, MLW,
      .        NN1,NN2,IPRT,BUF, ISTRAIN, NUVAR, NUVARR,JJ(6)
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
 C=======================================================================
+       CALL my_alloc(WA,6*NBF)
        DO 5 J=1,18
            R4(J) = ZERO
  5     CONTINUE
@@ -307,5 +309,6 @@ C
 C-------------
  600  CONTINUE
 C-------------
+      DEALLOCATE(WA)
       RETURN
       END

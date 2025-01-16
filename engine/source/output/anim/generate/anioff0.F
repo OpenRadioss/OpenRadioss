@@ -35,7 +35,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,10 +61,13 @@ C-----------------------------------------------
 C     REAL
       INTEGER I, NG, NEL, NFT, IAD, ITY, LFT,
      .        N, LLT, MLW, NB1, 
-     .        NN1,NN2,
-     .        IOFFBUF(NBF),RBUF,IOFF_LOC(SIOFF)
+     .        NN1,NN2,RBUF
+      INTEGER, DIMENSION(:),ALLOCATABLE :: IOFFBUF
+      INTEGER, DIMENSION(:),ALLOCATABLE :: IOFF_LOC
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C=======================================================================
+      CALL MY_ALLOC(IOFFBUF,NBF)
+      CALL MY_ALLOC(IOFF_LOC,SIOFF)
       NN1 = 1
       NN2 = NN1 + (NUMSPH+MAXPJET)
 C-----------------------------------------------
@@ -128,5 +132,7 @@ C-----------------------------------------------
 
       ENDIF
 C-----------
+      DEALLOCATE(IOFFBUF)
+      DEALLOCATE(IOFF_LOC)
       RETURN
       END

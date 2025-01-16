@@ -35,7 +35,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
+      USE my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,9 +65,11 @@ C     REAL
       INTEGER I, NG, NEL, NFT, IAD, ITY, LFT, NPT,
      .        N, J, LLT, MLW, K1, K2,MT,JALE, IMID, 
      .        N1,N2,N3,N4,ISOLNOD,NN1,NN2,NN3,NN4,NN5
-      INTEGER IOFFBUF(NBF),RBUF
+      INTEGER RBUF
+      INTEGER,DIMENSION(:),ALLOCATABLE :: IOFFBUF
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C=======================================================================
+      CALL MY_ALLOC(IOFFBUF,NBF)
       NN1 = 1
       NN2 = 1
       NN3 = NN2 + NUMELS
@@ -175,5 +178,6 @@ C-----------------------------------------------
         CALL SPMD_IGET_PARTN(1,NBF,IOFFBUF,NBPART,IADG,RBUF,2)
       ENDIF
 C
+      DEALLOCATE(IOFFBUF)
       RETURN
       END

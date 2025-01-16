@@ -36,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                      NODGLOBXFE,INDX_CRK,ITAB     )
 C-----------------------------------------------
       USE CRACKXFEM_MOD
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,10 +60,12 @@ C     REAL
       my_real OFF
       INTEGER IE,NG,ITY,LFT,LLT,N,I,J,NEL,NFT,JJ,K,BUF,IXFEM,
      .        IPT,ELC,CRKS,ICRK,IE_EL2FA,NEL_CRK,EMPL,NLEVXF
-      INTEGER II(4),NP(NBF_L*4)
+      INTEGER II(4)
+      INTEGER,DIMENSION(:),ALLOCATABLE::NP
 C=======================================================================
 C     CRK ELEMS INIT
 C-----------------------------------------------
+      CALL my_alloc(NP, NBF_L*4)
       NEL_CRK = 0
       JJ = 0
       IE = 0
@@ -169,5 +172,6 @@ C
         END DO
       ENDIF
 C-----------
+      DEALLOCATE(NP)
       RETURN
       END

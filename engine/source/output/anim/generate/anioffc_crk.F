@@ -41,6 +41,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE CRACKXFEM_MOD
       USE ELBUFDEF_MOD
+      use my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,10 +67,13 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,NG,NEL,NFT,ITY,LFT,LLT,N,ILEV,MLW,N_FA,IXFEM,NI,NLAY,
      .        ILAY,IXEL,CRKS,NEL_CRK,RBUF,ELCRK
-      INTEGER IOFFBUF(NBF_L),IE(NCRKPART),NELCRK(NCRKPART)
+      INTEGER IE(NCRKPART),NELCRK(NCRKPART)
+      INTEGER,DIMENSION(:),ALLOCATABLE::IOFFBUF
+
       my_real  OFFG
       my_real, DIMENSION(:) ,POINTER  ::  XOFF
 C=======================================================================
+      CALL MY_ALLOC(IOFFBUF,NBF_L)
       NEL_CRK = 0
 C
       DO CRKS = 1,NCRKPART
@@ -174,5 +178,6 @@ C
         END IF
       ENDIF
 C-----------
+      DEALLOCATE(IOFFBUF)
       RETURN
       END

@@ -51,6 +51,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD     
       USE STACK_MOD       
       USE MATPARAM_DEF_MOD
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -77,7 +78,6 @@ C     REAL
      .   FUNC(*), MASS(*) , GEO(NPROPG,*),
      .   EHOUR(*),ANIM(*),PM(NPROPM,*),THKE(*),
      .   ERR_THK_SH4(*), ERR_THK_SH3(*), X(3,*)
-      REAL WAL(NBF_L)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
       TYPE (STACK_PLY) :: STACK
@@ -114,7 +114,9 @@ C     REAL
       TYPE(BUF_FAIL_)   ,POINTER :: FBUF
       my_real,
      .  DIMENSION(:), POINTER  :: UVAR 
+      REAL,DIMENSION(:),ALLOCATABLE:: WAL
 C-----------------------------------------------
+      CALL MY_ALLOC(WAL,NBF_L)
 !
       LL = 0
 C      
@@ -952,6 +954,6 @@ C
           CALL SPMD_R4GET_PARTN(1,NBF_L,NBPART,IADG,WAL,BUF)
       ENDIF
 
- 
+      DEALLOCATE(WAL)
       RETURN
       END
