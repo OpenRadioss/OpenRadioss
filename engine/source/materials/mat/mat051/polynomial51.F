@@ -27,10 +27,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE POLYUN51 (
      .    C0      ,C1     ,C2      ,C3       ,C4     , C5   ,GG,
-     .    VOLUME  ,DVOL   ,VOLD    ,V        ,
-     .    RHO     ,MASA   ,RHOA0   ,RHOA     ,DD     , MU   ,MUP1,
-     .    POLD    ,PEXT   ,P       ,PM       ,PP     , Q    ,QQ ,
-     .    RHO0E   ,EINTA  ,SOUNDSP ,VISCMAX  ,XL     , SSP,
+     .    VOLUME  ,DVOL   ,VOLD    ,
+     .    RHO     ,MASA   ,RHOA0   ,DD       ,MU     , MUP1 ,
+     .    POLD    ,PEXT   ,P       ,PM       ,Q      ,
+     .    RHO0E   ,EINTA  ,VISCMAX ,XL       ,SSP    ,
      .    QA      ,QB     ,UPARAM  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -39,13 +39,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
-      my_real :: C0,C1,C2,C3,C5,C4,GG,VOLUME,DVOL,VOLD,RHO,MASA ,RHOA0,DD,MU, POLD,Q,PEXT,P,PM
-      my_real :: RHO0E,EINTA ,SOUNDSP,VISCMAX,XL,RHOA,V,SSP,PP,QQ, QA,QB,UPARAM(*)
+      my_real,INTENT(IN) :: C0,C1,C2,C3,C5,C4,GG,VOLUME,VOLD,MASA ,RHOA0,DD, POLD,PEXT,PM
+      my_real,INTENT(IN) :: RHO0E,EINTA ,XL, QA,QB,UPARAM(*)
+      my_real,INTENT(INOUT) :: P, DVOL, RHO, MU, VISCMAX, Q, SSP
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real :: AA,BB,DPDV,DPDMU,V0,QAL,QBL,MUP1,MUMX,BULK, BULK2
-C------------------------
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
       MUMX    = UPARAM(20)
       BULK    = UPARAM(21)
       BULK2   = UPARAM(21)
@@ -56,39 +59,25 @@ C------------------------
       MUP1    = RHO/RHOA0
       MU      = MUP1 - ONE
 
-      DPDV    = (-(C1 + (C2 + C2 + THREE*C3*MU)*MAX(ZERO,MU) + C5*RHO0E )*MUP1*MUP1 -(C4 + C5*MU)*(POLD+PEXT) )   /   V0
-!      IF(DPDV>=ZERO)THEN
-!        DPDV  = (-(C1 + (C2 + C2 + THREE*C3*MU)*MAX(ZERO,MU) + C5*RHO0E )*MUP1) / V0
-!      ENDIF
-
+      DPDV    = (-(C1 + (C2 + C2 + THREE*C3*MU)*MAX(ZERO,MU) + C5*RHO0E )*MUP1*MUP1 -(C4 + C5*MU)*(POLD+PEXT) )  /  V0
       DPDMU   = -DPDV*VOLUME/MUP1
       DPDMU   = ABS(DPDMU)
-      SOUNDSP = SQRT((DPDMU + TWO_THIRD*GG)/RHOA0)
+      SSP     = SQRT((DPDMU + TWO_THIRD*GG)/RHOA0)
       QAL     = QA*XL
       QAL     = QAL*QAL
       QBL     = QB*XL
-      VISCMAX = RHO*(QAL*MAX(ZERO,DD) + QBL*SOUNDSP)
+      VISCMAX = RHO*(QAL*MAX(ZERO,DD) + QBL*SSP)
       Q       = VISCMAX*MAX(ZERO,DD)
+
       AA      = (C4 + C5*MU)/V0
       BB      = HALF*(VOLUME-VOLD)
-! EINTA   = EINTA - (POLD+PEXT+PEXT)*BB
-
       P       = ( C0 + C1*MU+ MAX(MU,ZERO)*(C2*MU + C3*MU*MU) + AA*EINTA )!  /  (ONE+AA*BB)
       P       = MAX(P,PM)
-! EINTA   = EINTA - P*BB
-! EINTA   = MAX(EINTA, E_INF*V0)
 
-
-      DPDV    = (-(C1 + (C2 + C2 + THREE*C3*MU)*MAX(ZERO,MU) + C5*RHO0E )*MUP1*MUP1 -(C4 + C5*MU)*(P+PEXT) )   /   V0
+      DPDV    = (-(C1 + (C2 + C2 + THREE*C3*MU)*MAX(ZERO,MU) + C5*RHO0E )*MUP1*MUP1 -(C4 + C5*MU)*(P+PEXT) )  /  V0
       DPDMU   = -DPDV*VOLUME/MUP1
       DPDMU   = ABS(DPDMU)
-      SOUNDSP = SQRT((DPDMU + TWO_THIRD*GG)/RHOA0)
-
-      RHOA    = RHO
-      V       = VOLUME
-      SSP     = SOUNDSP
-      PP      = P
-      QQ      = Q
+      SSP     = SQRT((DPDMU + TWO_THIRD*GG)/RHOA0)
 
       RETURN
       END
@@ -102,7 +91,7 @@ C------------------------
      .          V10,V1,V1OLD,MU1,MUP1,EINT1,
      .          PEXT,P1,PM1,P1I,
      .          RHO1,RHO10,MAS1,SSP1,DVDP1,DPDV1, E_INF,
-     .          UPARAM ,FLAG, GRUN)
+     .          UPARAM ,FLAG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -110,12 +99,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
-      my_real
-     .   C01,C11,C21,C31,C41,C51,GG1,
-     .   V10,V1,V1OLD,MU1,EINT1,
-     .   PEXT,P1,PM1,P1I,
-     .   RHO1,RHO10,MAS1,SSP1,DVDP1,DPDV1,MUP1,E_INF,
-     .   UPARAM(*),GRUN
+      my_real,INTENT(IN) :: C01,C11,C21,C31,C41,C51,GG1,
+     .                       V10,V1,V1OLD,
+     .                       PEXT,PM1,P1I,
+     .                       RHO10,MAS1,E_INF,
+     .                       UPARAM(*)
+      my_real,INTENT(INOUT) :: DVDP1,P1,SSP1,DPDV1,EINT1,MU1,MUP1,RHO1
       INTEGER FLAG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -128,62 +117,29 @@ C------------------------
 C------------------------
       DVDP1I = DVDP1
       IF (FLAG == 1) RHO1   = MAS1/V1
-      MUP1   = RHO1/RHO10
-      MU1    = MUP1 - ONE
-      AA     = (C41 + C51*MU1)/V10
-      BB     = HALF*(V1-V1OLD)
+      MUP1 = RHO1/RHO10
+      MU1 = MUP1 - ONE
+      AA = (C41 + C51*MU1)/V10
+      BB = HALF*(V1-V1OLD)
       IF (FLAG == 1)  EINT1  = EINT1 - (P1I+PEXT+PEXT)*BB
       IF (FLAG == 1) THEN
-         P1 = ( C01 + C11*MU1 + MAX(MU1,ZERO)*(C21*MU1 + C31*MU1*MU1) + AA*EINT1 )  /  (ONE+AA*BB)
+        P1 = ( C01 + C11*MU1 + MAX(MU1,ZERO)*(C21*MU1 + C31*MU1*MU1) + AA*EINT1 )  /  (ONE+AA*BB)
       ELSE
-         P1 = ( C01 + C11*MU1 + MAX(MU1,ZERO)*(C21*MU1 + C31*MU1*MU1) + AA*EINT1 )
+        P1 = ( C01 + C11*MU1 + MAX(MU1,ZERO)*(C21*MU1 + C31*MU1*MU1) + AA*EINT1 )
       ENDIF
-      P1     = MAX(P1,PM1)
+      P1 = MAX(P1,PM1)
       IF (FLAG == 1)  EINT1  = EINT1 - P1*BB
       IF (FLAG == 1)  EINT1  = MAX(EINT1, E_INF*V10)
 
-      DPDV1  = (-(C11 + (C21 + C21 + THREE*C31*MU1)*MAX(ZERO,MU1) + C51*EINT1/V10 )*MUP1*MUP1 -(C41 + C51*MU1)*(P1+PEXT) ) /  V10
-      SSP1   = (-DPDV1*V1/MUP1 + TWO_THIRD*GG1)/RHO10
-      SSP1   = SQRT(ABS(SSP1))
-
-      GRUN = RHO10 / RHO1 * (C41 - C51) + C51
-      !----------------------------------------------------------------!
-      ! Linearizing dvdp (iterative Newton convergence with order 1)   !
-      ! *   dvdp = [V(k)-V(k-1)] / [P(k)-P(k-1)]                       !
-      ! *   dvdp < 0                                                   !
-      ! *  |dvdp| is adjusted for stability                            !
-      !----------------------------------------------------------------!
-      !                                                                !
-      !   2 dV/dP (k)                 0.5 dV/dP (k)               0    !
-      !  ______|___________________________|______________________|____!
-      !        |<-------dV/dP (k+1)------->|                           !
-      !----------------------------------------------------------------!
-!      IF(ABS(V1 - V1OLD)/VOLUME > EM06.AND.ABS(P1-P1I)>EM20)THEN
-!        DVDP1 = (V1 - V1OLD) / (P1-P1I)
-!      ENDIF
+      DPDV1 = (-(C11 + (C21 + C21 + THREE*C31*MU1)*MAX(ZERO,MU1) + C51*EINT1/V10 )*MUP1*MUP1 -(C41 + C51*MU1)*(P1+PEXT) ) /  V10
+      SSP1 = (-DPDV1*V1/MUP1 + TWO_THIRD*GG1)/RHO10
+      SSP1 = SQRT(ABS(SSP1))
 
       IF(ABS(DPDV1)<EM20)THEN
         DVDP1 = ZERO
       ELSE
         DVDP1 = ONE/DPDV1
       ENDIF
-
-      !   |dV/dP| is adjust for stability
-      IF(DVDP1<TWO*DVDP1I)THEN
-!!!        DVDP1 = TWO*DVDP1I
-
-C     In some case of slow and difficult convergency it could happen :
-C     |DVDP(k=NITER)| = 2^NITER |DVDP(k=0)|  => |P(k=NITER)| >> |P(k=0)|
-C     unstable      ELSEIF(DVDP1>ZERO)THEN
-C     unstable        DVDP1 = TWO*DVDP1I
-
-      ELSEIF(DVDP1>HALF*DVDP1I)THEN
-!!        DVDP1 = HALF*DVDP1I
-      ENDIF
-
-!      IF(DVDP1/=ZERO)THEN
-!         DPDV1 = ONE / DVDP1
-!      ENDIF
 
       RETURN
       END

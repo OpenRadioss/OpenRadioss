@@ -286,7 +286,7 @@
           my_real, dimension(mvsiz,6), intent(inout)  :: svis
           my_real, dimension(n_var_geo,numgeo), intent(inout) :: geo
           my_real, dimension(n_var_pm,nummat), intent(inout) :: pm
-          my_real, dimension(3,numnod), intent(in) :: v
+          my_real, dimension(3,numnod), intent(inout) :: v
           my_real, dimension(3,numnod), intent(in) :: x
           my_real, dimension(3,numnod), intent(in) :: w
           my_real, dimension(numels), intent(inout) :: mssa

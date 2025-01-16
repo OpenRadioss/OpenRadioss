@@ -28,8 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE JWLUN51 (TIME,XL,TBURN,UPARAM,DD,MU,MUP1,
      .          VOLUME,DVOL,V1OLD,EINT1,VISCMAX,
      .          Q1,PEXT,P1,PM1,
-     .          RHO,RHO10,MAS1,SOUNDSP,
-     .          P,Q,RHO1,V1,SSP1, QA,QB,BFRAC)
+     .          RHO,RHO10,MAS1,SSP1, QA,QB,BFRAC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -37,21 +36,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
-      my_real
-     .          TIME,XL,TBURN,VISCMAX,DD,MU,
-     .          VOLUME,V1OLD,EINT1,
-     .          Q1,PEXT,P1,PM1,
-     .          RHO,RHO10,MAS1,SOUNDSP,
-     .          UPARAM(*),P,Q,RHO1,V1,SSP1,QA,QB,
-     .          BFRAC,DVOL
+      my_real, INTENT(IN) :: TIME,XL,TBURN,DD,
+     .                       VOLUME,V1OLD,EINT1,
+     .                       PEXT,PM1,
+     .                       RHO10,MAS1,
+     .                       UPARAM(*),QA,QB
+      my_real, INTENT(INOUT) :: SSP1, P1, DVOL, RHO, BFRAC, MU, VISCMAX, Q1
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IBFRAC
-      my_real
-     .   AA,BB,P0,VDET,BHE,B1,B2,W1,R1,R2,R1M,ER1M,R2M,ER2M,
-     .   QAL,QBL,DPDMU,MUP1,C01,C11,
-     .   Psol, Pgas, Psol_min, Pgas_min, SSP_unreacted, SSP_reacted
+      my_real AA,BB,P0,VDET,BHE,B1,B2,W1,R1,R2,R1M,ER1M,R2M,ER2M,
+     .        QAL,QBL,DPDMU,MUP1,C01,C11,
+     .        Psol, Pgas, Psol_min, Pgas_min, SSP_unreacted, SSP_reacted
 C-----------------------------------------------
       VDET  = UPARAM(42)
       BHE   = UPARAM(44)
@@ -69,12 +66,6 @@ C
 C
       DVOL = VOLUME - V1OLD
 C
-C=======================================================================
-C         une seule phase JWL (phase 1)
-C La pression doit etre relative a Pext pour
-C etre coherent avec els autres phases.
-C=======================================================================
-
       !--------------------------------!
       ! Calculation of BFRAC in [0,1]  !
       !--------------------------------!
@@ -90,7 +81,6 @@ C=======================================================================
        ENDIF
       ENDIF
 
-
       !--------------------------------!
       ! SSP & ARTIFICIAL VISCO         !
       !--------------------------------!
@@ -102,16 +92,16 @@ C=======================================================================
       ER2M          = EXP(-R2M)
       AA            = W1/VOLUME
       P0            = B1*(ONE-W1/R1M)*ER1M + B2*(ONE-W1/R2M)*ER2M
-      P             = P0 + AA*EINT1   !total jwl pressure for ssp
-      DPDMU         = B1*ER1M*( (-W1*MUP1/R1) + R1M - W1) + B2*ER2M*( (-W1*MUP1/R2) + R2M - W1) + W1*EINT1/VOLUME +P*W1
+      P1            = P0 + AA*EINT1   !total jwl pressure for ssp
+      DPDMU         = B1*ER1M*( (-W1*MUP1/R1) + R1M - W1) + B2*ER2M*( (-W1*MUP1/R2) + R2M - W1) + W1*EINT1/VOLUME +P1*W1
       DPDMU         = ABS(DPDMU) / MUP1  ! if DPDMU <0 => numerical error during energy integration (increase iteration number or reduce submaterial volume change ratio)
       SSP_reacted   = SQRT(DPDMU/RHO10)
       SSP_unreacted = SQRT(C11/RHO10)
-      SOUNDSP       = MAX(BFRAC*SSP_reacted,(ONE-BFRAC)*SSP_unreacted)
+      SSP1          = MAX(BFRAC*SSP_reacted,(ONE-BFRAC)*SSP_unreacted)
       QAL           = QA*XL
       QAL           = QAL*QAL
       QBL           = QB*XL
-      VISCMAX       = RHO*(QAL*MAX(ZERO,DD) + QBL*SOUNDSP)
+      VISCMAX       = RHO*(QAL*MAX(ZERO,DD) + QBL*SSP1)
       Q1            = VISCMAX*MAX(ZERO,DD)
       BB            = HALF*(VOLUME-V1OLD)
 !      EINT1         = EINT1 - (P1OLD+PEXT+PEXT)*BB
@@ -132,9 +122,6 @@ C=======================================================================
 
       P1       = BFRAC*Pgas + (ONE-BFRAC)*Psol
 
-!      EINT1    = EINT1 - P1*BB
-!      EINT1    = MAX (EINT1, ZERO)
-
       !--------------------------------!
       ! Update SSP with current state  !
       !--------------------------------!
@@ -142,17 +129,7 @@ C=======================================================================
       DPDMU         = ABS(DPDMU) / MUP1  ! if DPDMU <0 => numerical error during energy integration (increase iteration number or reduce submaterial volume change ratio)
       SSP_reacted   = SQRT(DPDMU/RHO10)
       SSP_unreacted = SQRT(C11/RHO10)
-      SOUNDSP       = MAX(BFRAC*SSP_reacted,(ONE-BFRAC)*SSP_unreacted)
-
-
-      !--------------------------------!
-      ! Returning values               !
-      !--------------------------------!
-      P        = P1     !return pressure relative to Pext
-      Q        = Q1
-      RHO1     = RHO
-      V1       = VOLUME
-      SSP1     = SOUNDSP
+      SSP1          = MAX(BFRAC*SSP_reacted,(ONE-BFRAC)*SSP_unreacted)
 C
       RETURN
       END
@@ -166,7 +143,7 @@ C
       SUBROUTINE JWL51 (UPARAM,
      .          V1,V1OLD,MU1,MUP1,EINT1,
      .          P1OLD,PEXT,P1,PM1,
-     .          RHO1,RHO10,MAS1,SSP1,DVDP1,DPDV1,BFRAC,V10, FLAG, GRUN)
+     .          RHO1,RHO10,MAS1,SSP1,DVDP1,DPDV1,BFRAC,V10, FLAG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -174,20 +151,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
-      my_real
-     .          V1,V1OLD,MU1,EINT1,
-     .          P1OLD,PEXT,P1,PM1,
-     .          RHO1,RHO10,MAS1,SSP1,DVDP1,DPDV1,
-     .          UPARAM(*),BFRAC, V10, GRUN
-      INTEGER :: FLAG
+      my_real,INTENT(IN) :: V1,V1OLD,
+     .                      P1OLD,PEXT,PM1,
+     .                      RHO10,MAS1,
+     .                      UPARAM(*),BFRAC, V10
+      INTEGER,INTENT(IN) :: FLAG
+      my_real,INTENT(INOUT) :: RHO1, MU1, EINT1, P1, SSP1, DVDP1,DPDV1
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IBFRAC
-      my_real
-     .   AA,BB,P0,VDET,BHE,B1,B2,W1,R1,R2,R1M,ER1M,R2M,ER2M,
-     .   MUP1,DVDP1I,C11,C01,SSP_PRODUCTS,SSP_UNREACTED,
-     .   Psol, Pgas, Psol_min, Pgas_min,DPDMU,DPDV1_REACTED,DPDV1_UNREACTED
+      my_real AA,BB,P0,VDET,BHE,B1,B2,W1,R1,R2,R1M,ER1M,R2M,ER2M,
+     .        MUP1,DVDP1I,C11,C01,SSP_PRODUCTS,SSP_UNREACTED,
+     .        Psol, Pgas, Psol_min, Pgas_min,DPDMU,DPDV1_REACTED,DPDV1_UNREACTED
 C-----------------------------------------------
       VDET   = UPARAM(42)
       BHE    = UPARAM(44)
@@ -210,24 +186,6 @@ C------------------------
       ER1M   = EXP(-R1M)
       ER2M   = EXP(-R2M)
 
-      !--------------------------------!
-      ! Calculation of BFRAC in [0,1]  !
-      !--------------------------------!
-c$$$      IF (ITER == 1) THEN
-c$$$      IF(BFRAC < ONE) THEN
-c$$$        BFRAC = ZERO
-c$$$        IF(IBFRAC/=1 .AND. TIME > -TBURN)THEN
-c$$$          XL = V1**THIRD
-c$$$          BFRAC = VDET*(TIME+TBURN)*TWO_THIRD/XL
-c$$$        ENDIF
-c$$$        IF(IBFRAC/=2) BFRAC  = MAX( BFRAC , BHE * (ONE - RHO10/RHO1) )
-c$$$        IF(BFRAC < EM03) THEN
-c$$$          BFRAC = ZERO
-c$$$        ELSEIF(BFRAC > ONE) THEN
-c$$$          BFRAC = ONE
-c$$$        ENDIF
-c$$$      ENDIF
-c$$$      ENDIF
 
       AA       = W1*MUP1/V10 !W1/V1    same digits this way
       AA       = AA
@@ -239,7 +197,6 @@ c$$$      ENDIF
       ELSE
          P1 = P0 - PEXT + AA * EINT1
       ENDIF
-      GRUN = BFRAC * W1
 
       !--------------------------------!
       ! Linear and jwl eos             !
