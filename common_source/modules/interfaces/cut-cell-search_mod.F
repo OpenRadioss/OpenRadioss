@@ -103,7 +103,9 @@ C-----------------------------------------------
 #include      "my_real.inc"
 C-----------------------------------------------
       TYPE(BRICK_ENTITY), TARGET,ALLOCATABLE,DIMENSION(:,:) :: BRICK_LIST 
-      TYPE(EDGE_ENTITY),  TARGET,ALLOCATABLE,DIMENSION(:,:) :: EDGE_LIST 
+      TYPE(EDGE_ENTITY),  TARGET,ALLOCATABLE,DIMENSION(:,:) :: EDGE_LIST
+
+      INTEGER :: NINTER22 !< number of /INTER/TYPE22
       
       TYPE INT22_BUF_t
         INTEGER, DIMENSION(2,12)  :: iEDGE                   !12 without diagonals, 24 with diagonals

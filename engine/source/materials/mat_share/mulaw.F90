@@ -236,12 +236,15 @@
       use prop_param_mod
       use dt_mod
       use glob_therm_mod
+      use sigeps51_mod , only : sigeps51
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 #include "my_real.inc"
 #include "mvsiz_p.inc"
+COMMON /COM06DP/TFEXT
+DOUBLE PRECISION TFEXT
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -324,7 +327,7 @@
           my_real, dimension(sz_bufvois),intent(inout) :: bufvois
           my_real, dimension(n_var_geo,numgeo), intent(inout) :: geo
           my_real, dimension(n_var_pm,nummat), intent(inout) :: pm
-          my_real, dimension(3,numnod), intent(in) :: v
+          my_real, dimension(3,numnod), intent(inout) :: v
           my_real, dimension(3,numnod), intent(in) :: x
           my_real, dimension(3,numnod), intent(in) :: w
           my_real, dimension(numels),intent(inout) :: mssa
@@ -1215,19 +1218,20 @@
             !numerical viscosity is managed inside sigeps51.f
             !facq0 = zero
             call sigeps51(nel       ,npar        ,nuvar   ,nfunc ,ifunc     ,&
-            &npf       ,tf          ,tt      ,dt1   ,uparam0    ,numel     ,&
-            &rho       ,vol         ,eint    ,vk    ,&
-            &ep1       ,ep2         ,ep3     ,ep4   ,ep5       ,ep6       ,&
-            &de1       ,de2         ,de3     ,de4   ,de5       ,de6       ,&
-            &so1       ,so2         ,so3     ,so4   ,so5       ,so6       ,&
-            &s1        ,s2          ,s3      ,s4    ,s5        ,s6        ,&
-            &sv1       ,sv2         ,sv3     ,sv4   ,sv5       ,sv6       ,&
-            &ssp       ,vis         ,uvar    ,off   ,nft       ,v         ,&
-            &w         ,x           ,ix      ,n48   ,nix       ,jthe      ,&
-            &geo       ,pid         ,ilay    ,ng    ,elbuf_tab , pm       ,&
-            &iparg     ,ale_connect ,bufvois ,ipm   ,bufmat    ,stifn     ,&
-            &vd2       ,vdx         ,vdy     ,vdz   ,&
-            &gbuf%qvis ,dvol        ,qold    ,nv46  )
+            &             npf       ,tf          ,tt      ,dt1   ,uparam0   ,numel     ,&
+            &             rho       ,vol         ,eint    ,vk    ,tfext     ,&
+            &             ep1       ,ep2         ,ep3     ,ep4   ,ep5       ,ep6       ,&
+            &             de1       ,de2         ,de3     ,de4   ,de5       ,de6       ,&
+            &             so1       ,so2         ,so3     ,so4   ,so5       ,so6       ,&
+            &             s1        ,s2          ,s3      ,s4    ,s5        ,s6        ,&
+            &             sv1       ,sv2         ,sv3     ,sv4   ,sv5       ,sv6       ,&
+            &             ssp       ,vis         ,uvar    ,off   ,nft       ,v         ,&
+            &             w         ,x           ,ix      ,n48   ,nix       ,jthe      ,&
+            &             geo       ,pid         ,ilay    ,ng    ,elbuf_tab , pm       ,&
+            &             iparg     ,ale_connect ,bufvois ,ipm   ,bufmat    ,stifn     ,&
+            &             vd2       ,vdx         ,vdy     ,vdz   ,&
+            &             gbuf%qvis ,dvol        ,qold    ,nv46  ,numgeo    ,n2d       , &
+            &             numnod    ,ngroup      ,nummat     )
           elseif (mtn == 52) then
             idev = 1
             call mstrain_rate(nel    ,israte ,asrate ,epsd   ,idev   ,&
