@@ -44,6 +44,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE STACK_MOD
       USE MATPARAM_DEF_MOD
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,7 +67,6 @@ C-----------------------------------------------
      .   EL2FA(*),IXC(NIXC,*), IGEO(NPROPGI,*), 
      .   NELCUT,NBF,IADP(*),NBF_L,NBPART,IADG(NSPMD,*),
      .   IXTG(NIXTG,*),IPM(NPROPMI,*)
-      REAL WA(3*NBF_L)
 C     REAL
       my_real
      .   TENS(3,*),EPSDOT(6,*),X(3,*)
@@ -98,7 +98,9 @@ C
 C
       my_real,
      .   DIMENSION(:), POINTER :: DIR_A,DIR_B
+      REAL,DIMENSION(:),ALLOCATABLE :: WA
 C-----------------------------------------------
+      CALL MY_ALLOC(WA,3*NBF_L)
 !
       DO J=1,18
         R4(J) = ZERO
@@ -1415,6 +1417,7 @@ C   verifier l'interet de ce qui est fait ci-dessus  !!!!!!!!!!!!!!
         ENDIF
       ENDIF
 C
+      DEALLOCATE(WA)
       RETURN
       END
       !||====================================================================

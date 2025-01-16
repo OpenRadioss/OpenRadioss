@@ -38,6 +38,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
+      USE my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,7 +65,6 @@ C     REAL
      .        IADP(*),NBPART,IADG(NSPMD,*),NANIM1D_L,NBF2,
      .        IGEO(NPROPGI,*)
       INTEGER BUF
-      REAL WAL(NBF+NANIM1D_L)
 C
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
 C-----------------------------------------------
@@ -85,10 +85,12 @@ C     REAL
      .        OFFSET,K,INC,KK,IHBE,ISROT,ILAYER,IR,IS,JJ(6),IPT
       INTEGER LPLA    ! Used for size of PL Buffer
       REAL R4
+      REAL,DIMENSION(:),ALLOCATABLE:: WAL
 C
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_),POINTER :: LBUF
 C-----------------------------------------------
+      CALL MY_ALLOC(WAL,NBF+NANIM1D_L)
 C
       NN1 = 1
       NN3 = 1
@@ -500,6 +502,7 @@ C + X-ELEMENTS
           CALL SPMD_R4GET_PARTN(1,NBF2,NBPART,IADG,WAL,BUF)
       ENDIF
  
+      DEALLOCATE(WAL)
       RETURN
       END
       !||====================================================================

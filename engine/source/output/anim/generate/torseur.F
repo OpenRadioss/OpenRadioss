@@ -33,6 +33,10 @@ C  |         SPMD_R4GATHER_PART              /spe/spmd_anim.F
      .                   IXR   ,EL2FA,NBF  ,TENS  ,TORS ,
      .                   NBPART)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MY_ALLOC_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -66,8 +70,9 @@ C     REAL
      .        IPID, I1, I2, IAD2, NS1, NS2  , IALEL, ISTRE,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,NNI,N0,
      .        IHBE,BUF
-      REAL WAL(9*NBF)
+      REAL,DIMENSION(:),ALLOCATABLE :: WAL
 C-----------------------------------------------
+       CALL MY_ALLOC(WAL,9*NBF)
        DO 5 J=1,18
            R4(J) = ZERO
  5     CONTINUE
@@ -202,5 +207,6 @@ C-----------------------------------------------
       ENDIF
 C
 C-----------------------------------------------
+      DEALLOCATE(WAL)
       RETURN
       END

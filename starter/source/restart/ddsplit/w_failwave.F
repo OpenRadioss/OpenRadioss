@@ -32,6 +32,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE FAILWAVE_MOD
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,10 +49,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IWAVE,NNOD,NDDL,SIZE,LEN,NNOD_L,IAD,NG,NL,NN
-      INTEGER, DIMENSION(NUMNOD_L) :: INDX_LOC,IDXI_LOC
+      INTEGER, DIMENSION(:), ALLOCATABLE :: INDX_LOC,IDXI_LOC
       INTEGER, DIMENSION(4)  :: HEAD
       INTEGER, DIMENSION(:), ALLOCATABLE :: RBUF
 C=======================================================================
+      CALL MY_ALLOC(INDX_LOC,NUMNOD_L)
+      CALL MY_ALLOC(IDXI_LOC,NUMNOD_L)
       IWAVE = FAILWAVE%WAVE_MOD
       NNOD  = FAILWAVE%NNOD
       NDDL  = FAILWAVE%NDDL
@@ -98,6 +101,8 @@ c
 c---
         DEALLOCATE( RBUF )
       ENDIF
-c--------------------------------
+c-------------------------------- 
+      DEALLOCATE(INDX_LOC)
+      DEALLOCATE(IDXI_LOC)
       RETURN
       END

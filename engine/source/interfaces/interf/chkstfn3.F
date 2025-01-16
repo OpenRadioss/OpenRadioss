@@ -1924,6 +1924,8 @@ C
      7    MSEGLO,MVOISIN,
      8    INDSEGLO ,IBUFSEGLO)
 C-----------------------------------------------
+       USE MY_ALLOC_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -1952,9 +1954,14 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4, 
-     .        NN, II, IX, K, NIND, N, NIND2, NINDL(NRTM*2),MA_SURF,IND_SEGLO(NRTM*2),NIND_SEGLO
+     .        NN, II, IX, K, NIND, N, NIND2, MA_SURF,NIND_SEGLO
+      INTEGER,DIMENSION(:),ALLOCATABLE :: NINDL
+      INTEGER,DIMENSION(:),ALLOCATABLE :: IND_SEGLO
 C     REAL
 C-----------------------------------------------
+      CALL MY_ALLOC(NINDL,NRTM*2)
+      CALL MY_ALLOC(IND_SEGLO,NRTM*2)
+
       NMNF = 1 + ITASK*NMN / NTHREAD
       NMNL = (ITASK+1)*NMN / NTHREAD
 C
@@ -2091,6 +2098,9 @@ C
       NINDG = ICOMP
 C
       CALL MY_BARRIER()
+
+      DEALLOCATE(NINDL)
+      DEALLOCATE(IND_SEGLO)
 C
       RETURN
       END

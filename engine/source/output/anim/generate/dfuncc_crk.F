@@ -46,6 +46,7 @@ C-----------------------------------------------
       USE INITBUF_MOD
       USE CRACKXFEM_MOD
       USE ELBUFDEF_MOD
+      USE my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,7 +73,6 @@ C     REAL
      .   MASS(*),GEO(NPROPG,*),
      .   EHOUR(*),ANIM(*),PM(NPROPM,*),THKE(*),
      .   ERR_THK_SH4(*), ERR_THK_SH3(*)
-      REAL WAL(NBF_L)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP,NXEL), TARGET :: XFEM_TAB
       TYPE (XFEM_EDGE_)   , DIMENSION(*) :: CRKEDGE
@@ -80,6 +80,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
+      REAL,DIMENSION(:),ALLOCATABLE:: WAL
+      INTEGER,DIMENSION(:),ALLOCATABLE::MATLY
       my_real
      .   EVAR(MVSIZ),FUNC(LEN), 
      .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,
@@ -90,7 +92,7 @@ C     REAL
      .        ISTRAIN,NN,K1,K2,MT,IMID,IPID,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NF,
      .        OFFSET,K,II,KK,IHBE,I1,MPT,IPT,BUF,NUVARR,
-     .        IPMAT,PID(MVSIZ),MAT(MVSIZ),MATLY(MVSIZ*100),
+     .        IPMAT,PID(MVSIZ),MAT(MVSIZ),
      .        IEXPAN,NEL_CRK,NLEVXF,NI,JTURB,
      .        NLAY,NPTT,IXEL,ILAY,IL,IUS,JJ(5)
       INTEGER IXFEM,IP,JPID,CRKS,ICRK,ILAYCRK,ELCRK,NPT0
@@ -104,6 +106,8 @@ C
       TYPE(G_BUFEL_) ,POINTER :: XGBUF
       TYPE(L_BUFEL_) ,POINTER :: XLBUF
 C=======================================================================
+      CALL MY_ALLOC(WAL,NBF_L)
+      CALL MY_ALLOC(MATLY,MVSIZ*100)
       NEL_CRK = 0
       FUNC(1:LEN) = ZERO
 c
@@ -643,5 +647,7 @@ C
           CALL SPMD_R4GET_PARTN(1,NBF_L,NBPART,IADG,WAL,BUF)
       ENDIF
 C
+      DEALLOCATE(MATLY)
+      DEALLOCATE(WAL)
       RETURN
       END

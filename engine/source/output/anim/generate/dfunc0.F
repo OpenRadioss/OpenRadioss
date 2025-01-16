@@ -53,6 +53,7 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD 
       USE SCHLIEREN_MOD    
       USE ALE_CONNECTIVITY_MOD
+      USE my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -86,7 +87,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real EVAR(MVSIZ), P, VONM2, VONM, S1, S2, S3, VALUE
       INTEGER I,II(6),N,NN,NN1,NG,NEL,JTURB,MT,MLW,IALEL,IPRT,IUS,BUF,NUVAR,IR,NFAIL,IALEFVM_FLG,IEOS,NVAREOS
-      REAL R4,WA(NBF)
+      REAL R4
+      REAL,DIMENSION(:),ALLOCATABLE :: WA
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF
       TYPE(BUF_MAT_) ,POINTER :: MBUF
@@ -95,6 +97,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
+      CALL MY_ALLOC(WA,NBF)
       NN1 = 1
 
       !-------------------------------------------------------!
@@ -596,6 +599,7 @@ C-----------------------------------------------
           CALL SPMD_R4GET_PARTN(1,NBF,NBPART,IADG,WA,BUF)
       ENDIF
 c-----------
-      IF(ALLOCATED(WA_L))DEALLOCATE(WA_L)      
+      IF(ALLOCATED(WA_L))DEALLOCATE(WA_L)
+      IF(ALLOCATED(WA))DEALLOCATE(WA)
       RETURN
       END

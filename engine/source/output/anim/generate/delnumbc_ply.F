@@ -55,14 +55,14 @@ C-----------------------------------------------
      .         EL2FA(*),INUM(*),
      .        INVERT(*), NBF,NELCUT,NBPART,IADG(NSPMD,*)
       INTEGER DD_IAD(NSPMD+1,*), IADD(*), NBF_L,IPLY,
-     .        NEL_PLY,NBF_PXFEMG
+     .        NEL_PLY,NBF_PXFEMG,NODGLOB(*)
 C-----------------------------------------------
 C     REAL
       my_real
      .   OFF
       INTEGER II,IE,NG, ITY, LFT, LLT, N, I, J,
      .        IPID, NEL, IAD, NFT, IMID,IALEL,
-     .        NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,BUF,NODGLOB(*),
+     .        NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,BUF,
      .        IDCMAX, IDCMAXL,ISHPLYXFEM,ID_IE,IDPLY,NPT,
      .        IPT,ELC,PLYELEMS(NUMELC),PLYS,RBUF,NELCOUNT,ELEM
 

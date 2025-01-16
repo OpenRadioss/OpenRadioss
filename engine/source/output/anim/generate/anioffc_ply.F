@@ -43,6 +43,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD            
       USE PLYXFEM_MOD
       USE STACK_MOD
+      USE my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -77,14 +78,16 @@ C-----------------------------------------------
      .        PLYELEMS(NUMELC),IPT,ELC,MPT,NGL(MVSIZ),ISUBSTACK,IPMAT_IPLY,
      .        IPMAT, IPPID
      
-      INTEGER IOFFBUF(NBF_L),RBUF,NEL3,NEL5,NEL8,NPTM,NN12,NN13,NN14,
+      INTEGER RBUF,NEL3,NEL5,NEL8,NPTM,NN12,NN13,NN14,
      .         NN15,NN16,NN16A,NPG,PID(MVSIZ),MATLY,NUVARR,NUVARD,NBM_S,
      .         IFAILURE,NPTR,NPTS,IS,IR,OFFIPLY
+      INTEGER,DIMENSION(:),ALLOCATABLE::IOFFBUF
       REAL R4
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(BUF_LAY_)  ,POINTER :: BUFLY
       TYPE(L_BUFEL_) ,POINTER :: LBUF
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
+      CALL MY_ALLOC(IOFFBUF,NBF_L)
       NPG = 4
       IOFFBUF = -1
       DO PLYS = 1,NPLYPART
@@ -265,5 +268,6 @@ C
           CALL SPMD_IGET_PARTN(1,NBF_L,IOFFBUF,NPLYPART,IADG,RBUF,2)
         END IF
       ENDIF
+      DEALLOCATE(IOFFBUF)
       RETURN
       END

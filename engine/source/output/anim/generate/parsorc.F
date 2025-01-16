@@ -40,7 +40,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -73,7 +74,9 @@ C     REAL
      .        IPRT, NEL, IAD, NPAR, NFT, IMID,IALEL,MTN,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
      .        JJ, K, SH_IH, BUF
-      INTEGER NP((NUMELQ + NUMELC + NUMELTG)*4)
+      INTEGER,DIMENSION(:),ALLOCATABLE::NP
+C-----------------------------------------------
+      CALL MY_ALLOC(NP,(NUMELQ + NUMELC + NUMELTG)*4)
 C-----------------------------------------------
 C     NORMALE
 C-----------------------------------------------
@@ -245,6 +248,7 @@ C   construction tableau global des parts sur p0
           IADG(1,I) = IADD(I)
         END DO
       ENDIF
+      DEALLOCATE(NP)
 C-----------------------------------------------
       RETURN
       END

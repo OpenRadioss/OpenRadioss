@@ -65,6 +65,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
       USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -95,7 +96,6 @@ C-----------------------------------------------
      .        NBPART,IADG(NSPMD,*),IPM(NPROPMI,NUMMAT),
      .        IPART(LIPART1,*),IPARTSP(*),BUF,IGEO(NPROPGI,NUMGEO)
       INTEGER, INTENT(IN) :: ITHERM
-      REAL  WAL(NBF)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
@@ -122,6 +122,7 @@ C-----------------------------------------------
      .   SIG1(MVSIZ),SIG2(MVSIZ),SIG3(MVSIZ),SIG4(MVSIZ),SIG5(MVSIZ),
      .   SIG6(MVSIZ),FF0,GG0,HH0,LL0,MM0,NN0,CRIT,VEL(0:4),VFRAC(MVSIZ,21),TMP(3,8)
       REAL R4
+      REAL,DIMENSION(:),ALLOCATABLE::WAL
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF    
       TYPE(BUF_MAT_)  ,POINTER :: MBUF  
@@ -134,6 +135,7 @@ C-----------------------------------------------
       TARGET :: BUFMAT
       my_real :: MY_VALUE,MY_ONE
 C=======================================================================
+      CALL MY_ALLOC(WAL,NBF)
       NN1  = 1
       NN2  = 1
       NN3  = NN2 + NUMELS
