@@ -160,7 +160,7 @@ C-----------------------------------------------
       integer, dimension(SLPRW),intent(inout):: IRWL_WORK
       my_real, DIMENSION(3,FR_RMS(NSPMD+1)+FR_SMS(NSPMD+1) ), intent(inout):: VFI
       integer, intent(in) :: sz_mw6
-      my_real,dimension(6,sz_mw6),intent(inout) :: MW6
+      DOUBLE PRECISION,dimension(6,sz_mw6),intent(inout) :: MW6
 
       TYPE(INTSTAMP_DATA) INTSTAMP(*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB

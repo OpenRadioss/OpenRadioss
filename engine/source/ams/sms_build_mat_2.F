@@ -124,7 +124,7 @@ C-----------------------------------------------
       integer,dimension(fr_sms(nspmd+1)),intent(inout) :: LIST_SMS
       integer,dimension(fr_rms(nspmd+1)),intent(inout) :: LIST_RMS
       integer,intent(in) :: SZ_mw6
-      my_real,dimension(6,SZ_mw6),intent(inout) :: MW6
+      DOUBLE PRECISION,dimension(6,SZ_mw6),intent(inout) :: MW6
 
       TYPE(INTSTAMP_DATA) INTSTAMP(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB

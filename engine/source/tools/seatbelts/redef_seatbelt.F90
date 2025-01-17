@@ -34,7 +34,7 @@ contains
    &                         fx_max,     xkc,        nel_loc,    indexa,      &
    &                         flag,       xk_tan,     eps_old,    fram_factor, &
    &                         nft,        snpc,       stf,        sanin,       &
-   &                         dt1,        impl_s,     idyna)
+   &                         dt1,        impl_s,     idyna,      buffer_siz)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -61,23 +61,25 @@ contains
       integer, intent(in) :: nft
       integer, intent(in) :: nel_loc
       integer, intent(in) :: sanin
+      integer, intent(in) :: buffer_siz                              !< Siz of fx,dx,fxep : either NEL (element buffer) or MVSIZ
       integer, intent(in),dimension(mvsiz) :: ifunc
       integer, intent(inout),dimension(mvsiz) :: ifunc2
       integer, intent(in),dimension(mvsiz) :: iecrou
       integer, intent(in),dimension(mvsiz) :: indexa
       integer, intent(in),dimension(snpc) ::  npf
+      
 
       ! real arguments
       my_real, intent(in) :: dt1                                     !< time step
       my_real, dimension(stf),intent(in) :: tf                       !< function array
       my_real, dimension(sanin),intent(inout) :: anim                !< animation
-      my_real, dimension(nel_loc),intent(inout) :: fx                !< gbuf%for
-      my_real, dimension(nel_loc),intent(inout) :: dx                !< gbuf%totdepl
-      my_real, dimension(nel_loc),intent(inout) :: fxep              !< gbuf%olddepl
-      my_real, dimension(nel_loc),intent(inout) :: dpx               !< gbuf%dep_in_tens
-      my_real, dimension(nel_loc),intent(inout) :: e                 !< gbuf%eint (internal energy)
-      my_real, dimension(nel_loc),intent(inout) :: xx_old            !< uvar(1,1:nel)
-      my_real, dimension(nel_loc),intent(inout) :: yield             !< gbuf%yield(ii(1))
+      my_real, dimension(buffer_siz),intent(inout) :: fx                !< gbuf%for
+      my_real, dimension(buffer_siz),intent(inout) :: dx                !< gbuf%totdepl
+      my_real, dimension(buffer_siz),intent(inout) :: fxep              !< gbuf%olddepl
+      my_real, dimension(buffer_siz),intent(inout) :: dpx               !< gbuf%dep_in_tens
+      my_real, dimension(buffer_siz),intent(inout) :: e                 !< gbuf%eint (internal energy)
+      my_real, dimension(buffer_siz),intent(inout) :: xx_old            !< uvar(1,1:nel)
+      my_real, dimension(buffer_siz),intent(inout) :: yield             !< gbuf%yield(ii(1))
       my_real, dimension(mvsiz),intent(in) :: xk                     !<
       my_real, dimension(mvsiz),intent(inout) :: dxold               !< previous dx
       my_real, dimension(mvsiz),intent(inout) :: off                 !< element activation/deactivation

@@ -1154,7 +1154,7 @@ C AMS
       my_real, DIMENSION(:,:), ALLOCATABLE :: FREA
       INTEGER, DIMENSION(:), ALLOCATABLE :: IRWL_WORK
       my_real, DIMENSION(:,:), ALLOCATABLE :: SMS_VFI
-      my_real, DIMENSION(:,:), ALLOCATABLE :: MW6
+      DOUBLE PRECISION, DIMENSION(:,:), ALLOCATABLE :: MW6
       integer sz_mw6
 C-----------------------------------------------------------------------------------
 C     FVMBAG: switch to UP
