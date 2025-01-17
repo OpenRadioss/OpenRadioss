@@ -65,7 +65,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    trimat_mod              ../engine/share/modules/trimat.F
       !||====================================================================
       SUBROUTINE RESTALLOC(ELEMENT, NODES,MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,INTERFACES,SKEWS,
-     .                     GLOB_THERM)
+     .                     GLOB_THERM,RBE3)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -101,6 +101,7 @@ C-----------------------------------------------
       use glob_therm_mod
       USE connectivity_mod
       USE nodal_arrays_mod
+      use rbe3_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -141,6 +142,7 @@ C-----------------------------------------------
       TYPE(INTERFACES_) :: INTERFACES
       TYPE(SKEW_) , INTENT(INOUT)       :: SKEWS
       type(glob_therm_) ,intent(inout) :: GLOB_THERM
+      type(rbe3_) ,intent(inout) :: RBE3
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -370,13 +372,7 @@ c       ITABM1 = 0
         IF (IERR/=0) GOTO 1000
         LRBE2 = 0  
 
-        ALLOCATE (IRBE3(SIRBE3),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        IRBE3 = 0  
-
-        ALLOCATE (LRBE3(SLRBE3),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        LRBE3 = 0  
+        call allocate_rbe3(RBE3, NSPMD)
 
         ALLOCATE (IACTIV(SIACTIV),STAT=IERR)
         IF (IERR/=0) GOTO 1000
@@ -542,10 +538,6 @@ c        IF (IERR/=0) GOTO 1000
         IF (IERR/=0) GOTO 1000
         IAD_RBE2 = 0 
 
-        ALLOCATE (IAD_RBE3M(SIAD_RBE3M),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        IAD_RBE3M = 0 
-
         ALLOCATE (IAD_SEC(SIAD_SEC),STAT=IERR)
         IF (IERR/=0) GOTO 1000
         IAD_SEC = 0 
@@ -631,14 +623,6 @@ C
         ALLOCATE (FR_RBE2(SFR_RBE2),STAT=IERR)
         IF (IERR/=0) GOTO 1000
         FR_RBE2 = 0
-
-        ALLOCATE (FR_RBE3M(SFR_RBE3M),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        FR_RBE3M = 0
-
-        ALLOCATE (FR_RBE3MP(SFR_RBE3M),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        FR_RBE3MP = 0
 
         ALLOCATE (FR_SEC(SFR_SEC),STAT=IERR)
         IF (IERR/=0) GOTO 1000
@@ -1214,10 +1198,6 @@ C
         ALLOCATE (FBVEL(SFBVEL),STAT=IERR)
         IF (IERR/=0) GOTO 1000
         FBVEL = 0  
-
-        ALLOCATE (FRBE3(SFRBE3),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        FRBE3 = 0  
 
         ALLOCATE (FACTIV(LRACTIV*NACTIV),STAT=IERR)
         IF (IERR/=0) GOTO 1000

@@ -106,7 +106,7 @@ if __name__ == "__main__":
       mpi=arguments[count]
 
     if(arg == '-debug'):
-      debug="_"+arguments[count]
+      debug=arguments[count]
 
     if(arg == '-np'):
       np=int(arguments[count])

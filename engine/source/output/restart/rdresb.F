@@ -142,7 +142,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   SKEWS            ,RFLOW      ,LIFLOW       ,LRFLOW           ,IMPL_S0    ,
      .                   MCP              ,TEMP       ,FORNEQS      ,UNITAB           ,
      .                   STACK            ,DRAPE_SH4N ,DRAPE_SH3N   ,DRAPEG           ,NDRAPE     ,
-     .                   GLOB_THERM       ,PBLAST, ELEMENT, NODES)
+     .                   GLOB_THERM       ,PBLAST     ,ELEMENT      ,NODES            ,RBE3)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -189,6 +189,7 @@ C-----------------------------------------------
       use glob_therm_mod
       use read_ale_grid_mod, only : read_ale_grid
       use read_bcs_wall_mod, only : read_bcs_wall
+      use rbe3_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -253,6 +254,7 @@ C-----------------------------------------------
       TYPE(PBLAST_)         ,INTENT(INOUT)                 :: PBLAST
       TYPE(connectivity_)   ,INTENT(INOUT)                 :: ELEMENT
       TYPE(nodal_arrays_)   ,INTENT(INOUT)                 :: NODES
+      TYPE(RBE3_)           ,INTENT(INOUT)                 :: RBE3
       INTEGER, INTENT(IN) :: LIFLOW
       INTEGER, INTENT(IN) :: LRFLOW
       my_real, INTENT(INOUT) :: FORNEQS(3,NUMNOD)
@@ -572,9 +574,9 @@ C
 
         CALL READ_I_C(LRBE2,SLRBE2)
 
-        CALL READ_I_C(IRBE3,SIRBE3)
+        CALL READ_I_C(RBE3%IRBE3,RBE3%nrbe3*irbe3_variables)
 
-        CALL READ_I_C(LRBE3,SLRBE3)
+        CALL READ_I_C(RBE3%LRBE3,RBE3%lrbe3_sz)
 
         CALL READ_I_C(IACTIV,SIACTIV)
 
@@ -673,7 +675,7 @@ c        CALL READ_I_C(INBUF,SINBUF)
 
         CALL READ_I_C(IAD_RBE2,SIAD_RBE2)
 
-        CALL READ_I_C(IAD_RBE3M,SIAD_RBE3M)
+        CALL READ_I_C(RBE3%mpi%IAD_RBE3,NSPMD+1)
 
         CALL READ_I_C(IAD_SEC,SIAD_SEC)
 
@@ -703,9 +705,9 @@ C
 
         CALL READ_I_C(FR_RBE2,SFR_RBE2)
 
-        CALL READ_I_C(FR_RBE3M,SFR_RBE3M)
+        CALL READ_I_C(RBE3%mpi%FR_RBE3,RBE3%mpi%fr_rbe3_sz)
 
-        CALL READ_I_C(FR_RBE3MP,SFR_RBE3M)
+        CALL READ_I_C(RBE3%mpi%FR_RBE3MP,RBE3%mpi%fr_rbe3_sz)
 
         CALL READ_I_C(FR_SEC,SFR_SEC)
 
@@ -1120,7 +1122,7 @@ C--------------------------------------
 
         CALL READ_DB(FBVEL,SFBVEL)
 
-        CALL READ_DB(FRBE3,SFRBE3)
+        CALL READ_DB(RBE3%FRBE3,RBE3%frbe3_sz)
 
         CALL READ_DB(FACTIV,LRACTIV*NACTIV)
 

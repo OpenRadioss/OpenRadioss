@@ -45,7 +45,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE RDRESA(ITSTV1 , LHEADER, LVARINT, LVARREA, PRADIOS,
      .                  PRESFIL,MULTI_FVM,H3D_DATA,
      .                  PINCH_DATA,DYNAIN_DATA,INTERFACES,SENSORS,LOADS,
-     .                  MAT_ELEM, NAMES_AND_TITLES,SKEWS ,GLOB_THERM,PBLAST)
+     .                  MAT_ELEM, NAMES_AND_TITLES,SKEWS ,GLOB_THERM,PBLAST,
+     .                  RBE3)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -63,6 +64,7 @@ C-----------------------------------------------
       USE SKEW_MOD                     !< Skew type
       use glob_therm_mod               !< Global parameters and flags for thermal analysis
       use PBLAST_MOD                   !< PBLAST parameters
+      use RBE3_MOD                     !< RBE3 type
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -93,7 +95,8 @@ C-----------------------------------------------
       TYPE (NAMES_AND_TITLES_),INTENT(INOUT) :: NAMES_AND_TITLES
       TYPE (SKEW_)          ,INTENT(INOUT)   :: SKEWS
       type (glob_therm_)    ,intent(inout)   :: glob_therm
-      TYPE (PBLAST_)        ,INTENT(INOUT)   :: PBLAST      
+      TYPE (PBLAST_)        ,INTENT(INOUT)   :: PBLAST
+      TYPE (RBE3_)          ,INTENT(INOUT)   :: RBE3
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -173,7 +176,7 @@ C----------------------------
       CALL READ_I_C(TABVINT,LVARINT)
       CALL RDCOMI(TABVINT,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
      .            INTERFACES%PARAMETERS,SENSORS,LOADS  ,MAT_ELEM,SKEWS,
-     .            GLOB_THERM,PBLAST )
+     .            GLOB_THERM,PBLAST,RBE3 )
 
 C
       IF(ANIM_PLY > 0 .AND.IPLYXFEM == 0) THEN

@@ -148,7 +148,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   IMPBUF_TAB ,IMPL_S          ,IMPL_S0    ,MCP         ,TEMP             ,
      .                   FORNEQS    ,UNITAB          ,STACK      ,NDRAPE      ,DRAPE_SH3N       ,
      .                   DRAPE_SH4N ,DRAPEG          ,RESTSIZE   ,SKEWS       ,GLOB_THERM       ,
-     .                   PBLAST)
+     .                   PBLAST     ,RBE3)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -202,6 +202,7 @@ C-----------------------------------------------
       use glob_therm_mod
       use write_ale_grid_mod , only : write_ale_grid
       use write_bcs_wall_mod , only : write_bcs_wall
+      use rbe3_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -251,6 +252,7 @@ c     TYPE (CLUSTER_) ,DIMENSION(NCLUSTER) :: CLUSTER
       TYPE(DRAPEG_)    :: DRAPEG
       type (glob_therm_) ,intent(inout) :: GLOB_THERM
       TYPE(PBLAST_)    ,INTENT(INOUT) :: PBLAST
+      TYPE(RBE3_)      ,INTENT(INOUT) :: RBE3
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -677,9 +679,9 @@ C--------------------------------------
 
         CALL WRITE_I_C(LRBE2,SLRBE2)
 
-        CALL WRITE_I_C(IRBE3,SIRBE3)
+        CALL WRITE_I_C(RBE3%IRBE3,RBE3%NRBE3*irbe3_variables)
 
-        CALL WRITE_I_C(LRBE3,SLRBE3)
+        CALL WRITE_I_C(RBE3%LRBE3,RBE3%lrbe3_sz)
 
         CALL WRITE_I_C(IACTIV,SIACTIV)
 
@@ -781,7 +783,7 @@ c        CALL WRITE_I_C(INBUF,SINBUF)
 
         CALL WRITE_I_C(IAD_RBE2,SIAD_RBE2)
 
-        CALL WRITE_I_C(IAD_RBE3M,SIAD_RBE3M)
+        CALL WRITE_I_C(rbe3%mpi%IAD_RBE3,NSPMD+1)
 
         CALL WRITE_I_C(IAD_SEC,SIAD_SEC)
 
@@ -811,9 +813,9 @@ C
 
         CALL WRITE_I_C(FR_RBE2,SFR_RBE2)
 
-        CALL WRITE_I_C(FR_RBE3M,SFR_RBE3M)
+        CALL WRITE_I_C(RBE3%mpi%FR_RBE3,RBE3%mpi%fr_rbe3_sz)
 
-        CALL WRITE_I_C(FR_RBE3MP,SFR_RBE3M)
+        CALL WRITE_I_C(RBE3%mpi%FR_RBE3MP,RBE3%mpi%fr_rbe3_sz)
 
         CALL WRITE_I_C(FR_SEC,SFR_SEC)
 
@@ -1189,7 +1191,7 @@ C--------------------------------------
 
          CALL WRITE_DB(FBVEL,SFBVEL)
 
-         CALL WRITE_DB(FRBE3,SFRBE3)
+         CALL WRITE_DB(RBE3%FRBE3,RBE3%frbe3_sz)
 
          CALL WRITE_DB(FACTIV,LRACTIV*NACTIV)
 
