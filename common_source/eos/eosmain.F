@@ -281,9 +281,9 @@ C-----------------------------------------------
          !         COMPACTION EOS                           !
          !--------------------------------------------------!          
           CALL COMPACTION(
-     1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT  ,MU  ,MU2, 
+     1                  IFLAG ,NEL  ,PM   ,OFF   ,EINT  ,MU  ,MU2,
      2                  DVOL  ,MAT  ,PSH  ,
-     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD,MU_BAK,
+     3                  PNEW  ,DPDM ,DPDE ,MU_BAK,
      4                  NPROPM,NUMMAT,TFEXT)
 
        CASE(14)
@@ -346,10 +346,10 @@ C-----------------------------------------------
          !         COMPACTION EOS                           !
          !--------------------------------------------------!
           CALL COMPACTION2(
-     1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT  ,MU   ,
+     1                  IFLAG ,NEL  ,PM   ,OFF   ,EINT  ,MU   ,
      2                  DVOL  ,MAT  ,PSH  ,
-     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD ,MU_BAK,
-     4                  NPF   ,TF   ,SNPC ,STF  ,NPROPM,NUMMAT,TFEXT,
+     3                  PNEW  ,DPDM ,DPDE ,MU_BAK,
+     4                  NPF   ,TF   ,SNPC ,STF   ,NPROPM,NUMMAT,TFEXT,
      5                  MAT_PARAM%EOS)
 
        END SELECT

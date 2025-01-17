@@ -70,6 +70,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD , ONLY : SUBMODEL_DATA, NSUBMOD
       USE HM_OPTION_READ_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
+      USE HM_READ_EOS_COMPACTION_MOD , ONLY : HM_READ_EOS_COMPACTION
       USE HM_READ_EOS_COMPACTION2_MOD , ONLY : HM_READ_EOS_COMPACTION2
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

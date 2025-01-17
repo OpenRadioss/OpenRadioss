@@ -41,10 +41,10 @@
       !||    eos_param_mod   ../common_source/modules/mat_elem/eos_param_mod.F90
       !||====================================================================
       subroutine compaction2(&
-                            iflag, nel  , pm   , off  , eint  , mu    , &
+                            iflag, nel  , pm   , off   , eint  , mu    , &
                             dvol , mat  , psh  , &
-                            pnew , dpdm , dpde , theta, ecold , mu_bak,&
-                            npf  , tf   , snpc , stf  , npropm, nummat,tfext,&
+                            pnew , dpdm , dpde , mu_bak,&
+                            npf  , tf   , snpc , stf   , npropm, nummat,tfext,&
                             eos_param)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -67,18 +67,19 @@
       integer,intent(in) :: mat(nel), iflag
       my_real,intent(inout) :: pm(npropm,nummat) !< material data (real parameters)
       my_real,intent(inout) :: off(nel),eint(nel),mu(nel),dvol(nel)
-      my_real,intent(inout) :: pnew(nel),dpdm(nel),dpde(nel) ,theta(nel),ecold(nel)
+      my_real,intent(inout) :: pnew(nel),dpdm(nel),dpde(nel)
       double precision,intent(inout) :: tfext
       integer,intent(in) :: snpc, stf !< array sizes
       integer,intent(in)::npf(snpc) !< data structure for /FUNCT
       my_real,intent(in)::tf(stf) !< data structure for /FUNCT
       type(eos_param_),intent(in) :: eos_param !< data structure for EoS parameters
+      my_real,intent(inout) :: mu_bak(nel) !< backup of mu for unloading
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
       integer i, mx, iform, p_func_id
       my_real :: p0,psh(nel),e0,sph,tfextt, b(nel),pne1,pfrac
-      my_real :: mu_bak(nel),p(nel),p_
+      my_real :: p(nel),p_
       my_real :: alpha
       my_real :: bmin, bmax, mumin, mumax,Fscale,Xscale
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -162,11 +163,6 @@
         p(i)=max(pfrac,p(i))*off(i)
         pnew(i) = p(i)-psh(i)
       enddo !next i
-      do i=1,nel
-        ecold(i)=-three100*sph
-        theta(i)=three100
-      enddo
-
 
       IF(IFLAG == 1) THEN
         !----------------------------------------------------------------!
@@ -188,9 +184,6 @@
           p(i)=max(pfrac,p(i))*off(i)
           pnew(i) = p(i)-psh(i)
         enddo !next i
-         do i=1,nel
-           ecold(i)=-three100*sph
-         enddo
         !----------------------------------------------------------------!
         !  PRESSURE WORK                                                 !
         !----------------------------------------------------------------!
