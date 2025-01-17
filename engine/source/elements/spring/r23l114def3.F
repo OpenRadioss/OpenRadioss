@@ -510,7 +510,7 @@ C
      7   FX_MAX,     XK_COMP,    NEL,        INDEX1,
      8   FLAG,       XKP,        EPS_OLD,    FRAM_FACTOR,
      9   NFT,        SNPC,       STF,        SANIN,      
-     A   DT1,        impl_s,     idyna)
+     A   DT1,        impl_s,     idyna,      NEL)
 C
 
 C
@@ -575,7 +575,7 @@ C--     Computation of stress of 2nd strand for sliprings
      7   FX_MAX,     XK_COMP,    COMPT2,     INDEX_SLIP,
      8   FLAG,       XKP_B2,     EPS_OLD_B2, FRAM_FACTOR,
      9   NFT,        SNPC,       STF,        SANIN,      
-     A   DT1,        impl_s,     idyna)
+     A   DT1,        impl_s,     idyna,      MVSIZ)
 C
         DO J=1,COMPT2
           I = INDEX_SLIP(J)
