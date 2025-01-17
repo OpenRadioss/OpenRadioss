@@ -88,12 +88,12 @@
 !-----------------------------------------------
 !   l o c a l   v a r i a b l e s
 !-----------------------------------------------
-      integer :: i,ii,nindx
+      integer :: i,ii,nindx,nindxc
       integer :: icomp,irate,iflag1,iflag2
       my_real :: emx11,emx22,emx33,emx12,emx23,emx31
       my_real :: muold,dmudt,asrate,epsd
-      my_real :: ecomp,gcomp,bcomp,sigy,hcomp,vcomp
-      my_real :: epsv,pres,svm,rfact,yld
+      my_real :: ecomp,gcomp,bulk,sigy,hcomp,vcomp
+      my_real :: depsv,pres,svm,rfact,yld
       my_real :: stxx,styy,stzz,stxy,styz,stzx
       my_real ,dimension(nel)   :: e11,e22,e33,g12,g23,g31
       my_real ,dimension(nel)   :: dep1,dep2,dep3,dep4,dep5,dep6,dydx
@@ -103,7 +103,8 @@
       my_real, dimension(nel,1) :: xvec1
       my_real, dimension(nel,2) :: xvec2
       integer, dimension(nel,2) :: ipos2
-      integer, dimension(nel)   :: indx       ! compacted elements index table
+      integer, dimension(nel)   :: indxc       ! compacted elements index table
+      integer, dimension(nel)   :: indx        ! not fully compacted elements
 !=======================================================================
       iflag1 = mat_param%iparam(1)
       iflag2 = mat_param%iparam(2)
@@ -119,19 +120,23 @@
       asrate = min(one,mat_param%uparam(13)*timestep)
 !
       nindx  = 0
+      nindxc = 0
       if (icomp == 1) then        ! compact state option is active
         ! tag fully compacted and non compacted elements
         ecomp = mat_param%uparam(14)   
         gcomp = mat_param%uparam(15) 
-        bcomp = mat_param%uparam(16)  
-        gcomp = mat_param%uparam(17) 
+        bulk  = mat_param%uparam(16)  
+        sigy  = mat_param%uparam(17) 
         hcomp = mat_param%uparam(18) 
         vcomp = mat_param%uparam(19)
         do i = 1,nel
-          rvol(i) = one / (one - amu(i))
+          rvol(i) = one / (one + amu(i))
           beta(i) = max(min((one-rvol(i)) / (one-vcomp),one),zero)
-          if (rvol(i) <= vcomp) vartmp(i,13) = 1    ! element pass to compacted state
+          if (rvol(i) <= vcomp .and. vartmp(i,13) == 0) vartmp(i,13) = 1 ! element pass to compacted state
           if (vartmp(i,13) == 1) then
+            nindxc = nindxc + 1
+            indxc(nindxc) = i
+          else
             nindx = nindx + 1
             indx(nindx) = i
           end if
@@ -201,21 +206,24 @@
 !---------------------------------
       ! strain rate definition
 !---------------------------------
-      if (iflag1 == 0 .and. iflag2 == 0) then   ! common volumetric strain rate
-        do i=1,nel
-          muold = uvar(i,1)
-          dmudt = abs((amu(i)-muold)) / max(timestep,em20)
-          epsd  = asrate*dmudt + (one-asrate)*uvar(i,2)
-          dep1(i)   = epsd
-          dep2(i)   = epsd
-          dep3(i)   = epsd
-          dep4(i)   = epsd
-          dep5(i)   = epsd
-          dep6(i)   = epsd
-          uvar(i,1) = amu(i)
-          uvar(i,2) = epsd
-        enddo
-      else if (irate == 2) then                  ! independent strain rate in each directions
+!      if (iflag1 == 0 .and. iflag2 == 0) then   ! common volumetric strain rate
+!                                                ! not used by d2rad, not tested
+!        do i=1,nel
+!          muold = uvar(i,1)
+!          dmudt = abs((amu(i)-muold)) / max(timestep,em20)
+!          epsd  = asrate*dmudt + (one-asrate)*uvar(i,2)
+!          dep1(i)   = epsd
+!          dep2(i)   = epsd
+!          dep3(i)   = epsd
+!          dep4(i)   = epsd
+!          dep5(i)   = epsd
+!          dep6(i)   = epsd
+!          uvar(i,1) = amu(i)
+!          uvar(i,2) = epsd
+!        enddo
+!---------------------------------
+!
+      if (irate == 2) then                  ! independent strain rate in each directions
         do i=1,nel
           uvar(i,1) = asrate*epspxx(i) + (one -asrate)*uvar(i,1)
           uvar(i,2) = asrate*epspyy(i) + (one -asrate)*uvar(i,2)
@@ -361,23 +369,25 @@
       ! plasticity starts only after element compaction and all stress become coupled
 !-------------------------------------------------------------------------------
       if (icomp == 1) then 
-        do ii = 1,nindx
-          i = indx(ii)
-          epsv = (ep1(i) + ep2(i) + ep3(i)) * third
+        do ii = 1,nindxc
+          i = indxc(ii)
+          ! gcomp = 2G in compacted state
+          depsv= (depsxx(i) + depsyy(i) + depszz(i)) * third
           pres = (sigoxx(i) + sigoyy(i) + sigozz(i)) * third 
-          stxx = sigoxx(i) + gcomp * (ep1(i) - epsv) - pres
-          styy = sigoyy(i) + gcomp * (ep2(i) - epsv) - pres
-          stzz = sigozz(i) + gcomp * (ep3(i) - epsv) - pres
-          stxy = sigoxy(i) + gcomp * ep4(i) * half
-          styz = sigoyz(i) + gcomp * ep5(i) * half 
-          stzx = sigozx(i) + gcomp * ep6(i) * half
+          stxx = sigoxx(i) + gcomp * (depsxx(i) - depsv) - pres
+          styy = sigoyy(i) + gcomp * (depsyy(i) - depsv) - pres
+          stzz = sigozz(i) + gcomp * (depszz(i) - depsv) - pres
+          stxy = sigoxy(i) + gcomp * depsxy(i) * half
+          styz = sigoyz(i) + gcomp * depsyz(i) * half 
+          stzx = sigozx(i) + gcomp * depszx(i) * half
           svm  = (stxx**2 + styy**2 + stzz**2) * half + stxy**2 + styz**2 + stzx**2
           svm  = sqrt(three * svm)
           yld  = sigy + hcomp * eplas(i)
           rfact = min(one,yld / svm)
-          signxx(i) = stxx * rfact + bcomp*epsv
-          signyy(i) = styy * rfact + bcomp*epsv
-          signzz(i) = stzz * rfact + bcomp*epsv
+          pres = pres + three*bulk*depsv
+          signxx(i) = stxx * rfact + pres
+          signyy(i) = styy * rfact + pres
+          signzz(i) = stzz * rfact + pres
           signxy(i) = stxy * rfact
           signyz(i) = styz * rfact
           signzx(i) = stzx * rfact

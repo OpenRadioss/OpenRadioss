@@ -397,7 +397,7 @@
       
       if (icompact == 1) then
         nu = min(nu, 0.495)
-        gcomp = ecomp / (one + nu)     ! = 2G
+        gcomp = ecomp / (one + nu)               ! saving 2G
         bulk  = ecomp * third / (one - two*nu)
         mat_param%uparam(14) = ecomp
         mat_param%uparam(15) = gcomp
@@ -494,7 +494,7 @@
           write(iout,1500) emx11,emx22,emx33,emx12,emx23,emx31
         end if
         if (icompact == 1) then
-          write(iout,1700) emx11,emx22,emx33,emx12,emx23,emx31
+          write(iout,1700) ecomp,nu,sigy,hcomp,vcomp
         end if
       endif     
 !
@@ -532,11 +532,11 @@
       8x,'  FUNCTION NUMBER . . . . . . . . . . . .=',i10/               &
       8x,'  SCALE FACTOR. . . . . . . . . . . . . .=',1pg20.13)
  1700 format(                                                            &
-      8x,'YOUNG MODULUS IN COMPACTED STATE. . . . .=',1pg20.13/          &
-      8x,'POISSON RATIO IN COMPACTED STATE. . . . .=',1pg20.13/          &
-      8x,'YELD STRESS IN COMPACTED STATE. . . . . .=',1pg20.13/          &
-      8x,'TANGENT MODULUS IN COMPACTED STATE. . . .=',1pg20.13/          &
-      8x,'VOLUME FRACTION IN COMPACTED STATE. . . .=',1pg20.13)
+      5x,'YOUNG MODULUS IN COMPACTED STATE. . . . .=',1pg20.13/          &
+      5x,'POISSON RATIO IN COMPACTED STATE. . . . .=',1pg20.13/          &
+      5x,'YELD STRESS IN COMPACTED STATE. . . . . .=',1pg20.13/          &
+      5x,'TANGENT MODULUS IN COMPACTED STATE. . . .=',1pg20.13/          &
+      5x,'VOLUME FRACTION IN COMPACTED STATE. . . .=',1pg20.13//)
  1001 format(5x,'YIELD STRESS 11')
  1002 format(5x,'YIELD STRESS 22')
  1003 format(5x,'YIELD STRESS 33')
