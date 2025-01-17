@@ -38,7 +38,7 @@ module bcs_wall_trigger_mod
       !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
       !||    bcs_mod                ../common_source/modules/boundary_conditions/bcs_mod.F90
       !||    constant_mod           ../common_source/modules/constant_mod.F
-      !||    sensor_mod             ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod             ../common_source/modules/sensor_mod.F90
       !||====================================================================
       subroutine bcs_wall_trigger(time, ale_connectivity, nsensor, sensor_tab)
 ! ----------------------------------------------------------------------------------------------------------------------

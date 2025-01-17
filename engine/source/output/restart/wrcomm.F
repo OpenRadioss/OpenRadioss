@@ -40,7 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    outputs_mod      ../common_source/modules/outputs_mod.F
       !||    parameters_mod   ../common_source/modules/interfaces/parameters_mod.F
       !||    pinchtype_mod    ../common_source/modules/pinchtype_mod.F
-      !||    sensor_mod       ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod       ../common_source/modules/sensor_mod.F90
       !||    state_mod        ../common_source/modules/state_mod.F
       !||====================================================================
       SUBROUTINE WRCOMI(LMXVINT,LVARINT,TABVINT,ISP,MULTI_FVM,H3D_DATA,DYNAIN_DATA,

@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    message_mod             ../starter/share/message_module/message_mod.F
       !||    restmod                 ../starter/share/modules1/restart_mod.F
-      !||    user_interface_mod      ../starter/share/modules1/user_interface_mod.F
+      !||    user_interface_mod      ../starter/source/modules/user_interface_mod.F90
       !||====================================================================
       SUBROUTINE SET_USER_WINDOW_NODES(USERNODS,NUMBER_USERNODS)
 !$COMMENT

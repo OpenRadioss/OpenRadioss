@@ -26,7 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    inttri             ../engine/source/interfaces/intsort/inttri.F
       !||--- uses       -----------------------------------------------------
       !||    inter_struct_mod   ../engine/share/modules/inter_struct_mod.F
-      !||    sensor_mod         ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod         ../common_source/modules/sensor_mod.F90
       !||====================================================================
         SUBROUTINE INTER_CHECK_SORT( ITASK,NEED_TO_SORT,NBINTC,INTLIST,IPARI,NSENSOR,
      .                               INTBUF_TAB,SENSOR_TAB,NB_INTER_SORTED,

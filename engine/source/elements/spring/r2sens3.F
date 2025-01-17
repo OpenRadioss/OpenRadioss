@@ -25,7 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    rforc3       ../engine/source/elements/spring/rforc3.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod   ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod   ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE R2SENS3(
      1   GEO,       OFF,       SENSOR_TAB,DX,

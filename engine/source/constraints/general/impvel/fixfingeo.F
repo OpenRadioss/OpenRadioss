@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    finter2          ../engine/source/tools/curve/vinter.F
       !||    finter2_smooth   ../engine/source/tools/curve/finter_smooth.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod       ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod       ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE FIXFINGEO(IBFV   ,A     ,V      ,NPC    ,TF       ,
      2                     VEL    ,MS    ,X      ,D      ,SENSOR_TAB,

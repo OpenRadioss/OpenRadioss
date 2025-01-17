@@ -47,7 +47,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod                      ../starter/share/message_module/message_mod.F
       !||    monvol_struct_mod                ../starter/share/modules1/monvol_struct_mod.F
       !||    r2r_mod                          ../starter/share/modules1/r2r_mod.F
-      !||    sensor_mod                       ../starter/share/modules1/sensor_mod.F
       !||====================================================================
       SUBROUTINE INIT_MONVOL(T_MONVOL, T_MONVOL_METADATA,
      2     GEO       ,PM      ,

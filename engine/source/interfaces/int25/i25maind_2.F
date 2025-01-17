@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    message_mod     ../engine/share/message_module/message_mod.F
       !||    mpi_commod      ../engine/share/modules/mpi_comm_mod.F
-      !||    sensor_mod      ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod      ../common_source/modules/sensor_mod.F90
       !||    tri7box         ../engine/share/modules/tri7box.F
       !||====================================================================
       SUBROUTINE I25MAIND_2(

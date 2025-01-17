@@ -58,7 +58,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sum_6_float        ../engine/source/system/parit.F
       !||--- uses       -----------------------------------------------------
       !||    intstamp_mod       ../engine/share/modules/intstamp_mod.F
-      !||    sensor_mod         ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod         ../common_source/modules/sensor_mod.F90
       !||    sms_pcg_proj       ../engine/share/modules/sms_mod.F
       !||    timer_mod          ../engine/source/system/timer_mod.F90
       !||====================================================================

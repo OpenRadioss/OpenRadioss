@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    fvbag_mod                ../engine/share/modules/fvbag_mod.F
       !||    fvmbag_meshcontrol_mod   ../common_source/modules/airbag/fvmbag_meshcontrol_mod.F
       !||    h3d_mod                  ../engine/share/modules/h3d_mod.F
-      !||    sensor_mod               ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod               ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE FVBAG0(MONVOL,  VOLMON  , X        , SENSOR_TAB, V      ,
      .                  A     ,  NPC     , TF       , NSENSOR   ,  

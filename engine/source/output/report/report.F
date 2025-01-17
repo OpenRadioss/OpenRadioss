@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    inoutfile_mod          ../common_source/modules/inoutfile_mod.F
       !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
-      !||    user_interface_mod     ../engine/share/modules/user_interface_mod.F
+      !||    user_interface_mod     ../engine/source/modules/user_interface_mod.F90
       !||====================================================================
       SUBROUTINE REPORT(IH3DREADER,N,IMVW)
 C-----------------------------------------------

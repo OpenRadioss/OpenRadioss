@@ -509,7 +509,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    read_funct_python_mod               ../starter/source/tools/curve/hm_read_funct_python.F90
       !||    reorder_mod                         ../starter/share/modules1/reorder_mod.F
       !||    restmod                             ../starter/share/modules1/restart_mod.F
-      !||    sensor_mod                          ../starter/share/modules1/sensor_mod.F
       !||    set_mod                             ../starter/share/modules1/set_mod.F
       !||    shell_offset_ini_mod                ../starter/source/elements/shell/shell_offset/shell_offset_ini.F90
       !||    shell_offsetp_mod                   ../starter/source/elements/shell/shell_offset/shell_offsetp.F90
@@ -523,7 +522,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    submodel_mod                        ../starter/share/modules1/submodel_mod.F
       !||    table_glob_mod                      ../starter/share/modules1/table_glob_mod.F
       !||    updfail_mod                         ../starter/source/materials/updfail.F90
-      !||    user_sensor_mod                     ../starter/share/modules1/user_interface_mod.F
+      !||    user_sensor_mod                     ../starter/source/modules/user_interface_mod.F90
       !||====================================================================
       SUBROUTINE LECTUR(MULTI_FVM                   ,LSUBMODEL          ,IS_DYNA         ,DETONATORS   ,EBCS_TAB,
      .                  SEATBELT_CONVERTED_ELEMENTS ,NB_SEATBELT_SHELLS ,NB_DYNA_INCLUDE ,USER_WINDOWS ,OUTPUT  ,

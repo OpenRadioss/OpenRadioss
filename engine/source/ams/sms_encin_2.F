@@ -41,9 +41,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    intstamp_mod      ../engine/share/modules/intstamp_mod.F
       !||    message_mod       ../engine/share/message_module/message_mod.F
-      !||    mod_sms_work      ../engine/source/ams/sms_mass_scale_2.F
       !||    output_mod        ../common_source/modules/output/output_mod.F90
-      !||    sensor_mod        ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod        ../common_source/modules/sensor_mod.F90
       !||    timer_mod         ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE SMS_ENCIN_2(TIMERS,

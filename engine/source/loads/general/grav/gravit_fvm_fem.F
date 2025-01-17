@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    ale_mod               ../common_source/modules/ale/ale_mod.F
       !||    python_funct_mod      ../common_source/modules/python_mod.F90
-      !||    sensor_mod            ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod            ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE GRAVIT_FVM_FEM(IGRV  ,AGRV   ,NPC   ,TF   ,A     ,
      2                          V     ,X      ,SKEW  ,MS   ,SENSOR_TAB,

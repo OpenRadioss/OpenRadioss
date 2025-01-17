@@ -150,7 +150,6 @@ C-----------------------------------------------
       !||    material_flow       ../engine/source/tools/seatbelts/material_flow.F
       !||    porfor4             ../engine/source/airbag/porfor4.F
       !||    porform4            ../engine/source/airbag/porfor4.F
-      !||    redef_seatbelt      ../engine/source/tools/seatbelts/redef_seatbelt.F
       !||    ruser32             ../engine/source/elements/spring/ruser32.F
       !||    ruser33             ../engine/source/elements/joint/ruser33.F
       !||    ruser35             ../engine/source/elements/spring/ruser35.F

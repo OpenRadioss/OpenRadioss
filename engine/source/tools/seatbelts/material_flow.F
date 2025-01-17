@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    retractor_table_inv2_mod   ../engine/source/tools/seatbelts/retractor_table_inv2.F90
       !||    retractor_table_inv_mod    ../engine/source/tools/seatbelts/retractor_table_inv.F90
       !||    seatbelt_mod               ../common_source/modules/seatbelt_mod.F
-      !||    sensor_mod                 ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod                 ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE MATERIAL_FLOW(DFS,DFS_OLD,ALDP,SLIPRING_STRAND,XK,
      1                         OFF,AL0,AL02,LMIN,UPDATE_FLAG,

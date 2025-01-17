@@ -27,7 +27,7 @@ C=======================================================================
       !||    sensor_base    ../engine/source/tools/sensor/sensor_base.F
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod   ../common_source/modules/groupdef_mod.F
-      !||    sensor_mod     ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod     ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE SENSOR_NIC(SENSOR)
 C-----------------------------------------------

@@ -37,7 +37,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    front_mod                   ../starter/share/modules1/front_mod.F
       !||    message_mod                 ../starter/share/message_module/message_mod.F
       !||    monvol_struct_mod           ../starter/share/modules1/monvol_struct_mod.F
-      !||    sensor_mod                  ../starter/share/modules1/sensor_mod.F
       !||    submodel_mod                ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE DOMDEC2(

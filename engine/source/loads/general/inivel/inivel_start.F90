@@ -42,7 +42,7 @@
       !||    inivel_mod      ../common_source/modules/inivel_mod.F90
       !||    message_mod     ../engine/share/message_module/message_mod.F
       !||    multi_fvm_mod   ../common_source/modules/ale/multi_fvm_mod.F90
-      !||    sensor_mod      ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod      ../common_source/modules/sensor_mod.F90
       !||====================================================================
         subroutine inivel_start(                                              &
                        ngrnod,  ngrbric,    ngrquad,       ngrsh3n,           &

@@ -47,7 +47,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    groupdef_mod            ../common_source/modules/groupdef_mod.F
       !||    message_mod             ../engine/share/message_module/message_mod.F
       !||    python_funct_mod        ../common_source/modules/python_mod.F90
-      !||    sensor_mod              ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod              ../common_source/modules/sensor_mod.F90
       !||    sensor_python_mod       ../engine/source/tools/sensor/sensor_python.F90
       !||====================================================================
       SUBROUTINE SENSOR_BASE(SENSORS  ,NSENSOR   ,TIME      ,TIMESTEP  ,

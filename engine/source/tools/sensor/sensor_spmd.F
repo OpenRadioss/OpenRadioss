@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_sd_sens        ../engine/source/mpi/output/spmd_sd_sens.F
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod        ../common_source/modules/groupdef_mod.F
-      !||    sensor_mod          ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod          ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE SENSOR_SPMD(SENSOR_TAB,IPARI  ,NPRW   ,ISENSP  ,NSENSP    ,
      .                   XSENS     ,X      ,ACCELM ,IACCP   ,NACCP     ,

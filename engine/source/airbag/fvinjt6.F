@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    finter         ../engine/source/tools/curve/finter.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod     ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod     ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE FVINJT6(NJET   , IBAGJET , RBAGJET , NPC    , TF      ,
      2                   NSENSOR,SENSOR_TAB, SCALT,    DATAINJ )

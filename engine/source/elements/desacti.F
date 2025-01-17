@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    groupdef_mod     ../common_source/modules/groupdef_mod.F
-      !||    sensor_mod       ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod       ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE DESACTI(IXS      ,IXQ      ,IXC     ,IXP     ,IXT      ,
      .                   IXR      ,IXTG     ,IPARG   ,IACTIV  , 

@@ -31,6 +31,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    c3coor3_crk2          ../engine/source/elements/xfem/c3coor3_crk.F
       !||    grelem_sav            ../engine/source/output/th/grelem_sav.F
       !||    sensor_energy_bilan   ../engine/source/tools/sensor/sensor_energy_bilan.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod            ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE C3BILAN(
      1   JFT,      JLT,      PM,       V,

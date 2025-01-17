@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_fl_sum            ../engine/source/mpi/generic/spmd_fl_sum.F
       !||--- uses       -----------------------------------------------------
       !||    python_funct_mod       ../common_source/modules/python_mod.F90
-      !||    sensor_mod             ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod             ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE DAASOLVP(NDIM,   NNO,    NEL,   NEL_LOC,
      .                    IFLOW,  IBUF,   ELEM,  IBUFL,   SHELL_GA,  CNP,

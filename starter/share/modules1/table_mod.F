@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    calc_uniax                ../starter/source/materials/mat/mat098/lossfun_98.F
       !||    calc_uniax_2              ../starter/source/materials/mat/mat098/lossfun_98.F
       !||    ddsplit                   ../starter/source/restart/ddsplit/ddsplit.F
+      !||    eosfun_usr2sys            ../starter/source/materials/tools/eosfun_usr2sys.F90
       !||    fail_tab2sys              ../starter/source/materials/tools/fail_tab2sys.F
       !||    fct_fiber                 ../starter/source/materials/mat/mat098/lossfun_98.F
       !||    fct_fiber_2               ../starter/source/materials/mat/mat098/lossfun_98.F

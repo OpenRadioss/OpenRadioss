@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    finter_smooth          ../engine/source/tools/curve/finter_smooth.F
       !||--- uses       -----------------------------------------------------
       !||    python_funct_mod       ../common_source/modules/python_mod.F90
-      !||    sensor_mod             ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod             ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE DAASOLV(NDIM,   NNO,    NEL,   
      .                   IFLOW,  IBUF,   ELEM,  SHELL_GA,

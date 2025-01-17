@@ -30,7 +30,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    new_seatbelt              ../starter/source/tools/seatbelts/new_seatbelt.F
       !||--- uses       -----------------------------------------------------
       !||    message_mod               ../starter/share/message_module/message_mod.F
-      !||    sensor_mod                ../starter/share/modules1/sensor_mod.F
       !||====================================================================
       SUBROUTINE CREATE_SEATBELT(IXR,ITAB,KNOD2EL1D,NOD2EL1D,IPM,
      .                           X,SENSORS,BUFMAT,PM,GEO,

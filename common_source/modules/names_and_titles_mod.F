@@ -113,6 +113,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    elstagboxbox                      ../starter/source/model/box/boxbox.F
       !||    elt_box                           ../starter/source/model/sets/fill_clause_elt_box.F
       !||    eos_param_mod                     ../common_source/modules/mat_elem/eos_param_mod.F90
+      !||    eosfun_usr2sys                    ../starter/source/materials/tools/eosfun_usr2sys.F90
       !||    facebox                           ../starter/source/model/box/bigbox.F
       !||    fail_param_mod                    ../common_source/modules/mat_elem/fail_param_mod.F90
       !||    fill_buffer_51                    ../starter/source/materials/mat/mat051/fill_buffer_51.F
@@ -893,8 +894,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    scinit3                           ../starter/source/elements/thickshell/solidec/scinit3.F
       !||    scmorth3                          ../starter/source/elements/thickshell/solidec/scmorth3.F
       !||    section_init                      ../engine/source/tools/sect/section_init.F
-      !||    sensor_common_mod                 ../common_source/modules/sensor_common_mod.F90
-      !||    sensor_mod                        ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod                        ../common_source/modules/sensor_mod.F90
       !||    set_admesh                        ../starter/source/model/remesh/set_admesh.F
       !||    set_init                          ../starter/source/model/sets/set_init.F
       !||    setdef_mod                        ../common_source/modules/setdef_mod.F

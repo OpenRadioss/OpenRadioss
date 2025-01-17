@@ -25,7 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    mulawc       ../engine/source/materials/mat_share/mulawc.F90
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod   ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod   ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE SIGEPS19C(
      .            NEL    ,NUPARAM,NIPARAM,FLAG_ZCFAC,ZCFAC  ,SHF    ,

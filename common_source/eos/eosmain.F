@@ -30,7 +30,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sigeps75             ../engine/source/materials/mat/mat075/sigeps75.F
       !||    solve_eint           ../engine/source/multifluid/multi_inlet_ebcs.F
       !||--- calls      -----------------------------------------------------
-      !||    compaction           ../common_source/eos/compaction.F
+      !||    compaction           ../common_source/eos/compaction.F90
+      !||    compaction2          ../common_source/eos/compaction2.F90
       !||    eosexponential       ../common_source/eos/eosexponential.F90
       !||    eoslinear            ../common_source/eos/eoslinear.F
       !||    eospolyno            ../common_source/eos/eospolyno.F
@@ -50,6 +51,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    tabulated            ../common_source/eos/tabulated.F
       !||    tillotson            ../common_source/eos/tillotson.F
       !||--- uses       -----------------------------------------------------
+      !||    compaction2_mod      ../common_source/eos/compaction2.F90
+      !||    compaction_mod       ../common_source/eos/compaction.F90
       !||    matparam_def_mod     ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||====================================================================
       SUBROUTINE EOSMAIN(IFLAG ,NEL   ,EOSTYP ,PM      ,OFF      ,EINT  ,

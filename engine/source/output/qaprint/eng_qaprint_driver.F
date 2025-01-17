@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    glob_therm_mod                     ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    output_mod                         ../common_source/modules/output/output_mod.F90
       !||    qa_out_mod                         ../common_source/qa/qa_out_mod.F
-      !||    sensor_mod                         ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod                         ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE ENG_QAPRINT_DRIVER(IRUNN_BIS ,SENSORS,DT,OUTPUT,IPARIT,GLOB_THERM)
 C-----------------------------------------------

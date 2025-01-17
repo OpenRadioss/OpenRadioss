@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    finter                ../engine/source/tools/curve/finter.F
       !||--- uses       -----------------------------------------------------
       !||    interface_table_mod   ../engine/share/modules/table_mod.F
-      !||    sensor_mod            ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod            ../common_source/modules/sensor_mod.F90
       !||    table_mod             ../engine/share/modules/table_mod.F
       !||====================================================================
       SUBROUTINE SIGEPS58C(

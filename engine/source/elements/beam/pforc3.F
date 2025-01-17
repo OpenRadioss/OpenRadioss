@@ -50,6 +50,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    h3d_mod             ../engine/share/modules/h3d_mod.F
       !||    mat_elem_mod        ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    preload_axial_mod   ../engine/source/elements/spring/preload_axial.F90
+      !||    sensor_mod          ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE PFORC3(
      1           ELBUF_STR,JFT      ,JLT      ,NEL      ,

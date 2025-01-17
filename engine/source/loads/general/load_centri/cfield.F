@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    relfram_m1            ../engine/source/tools/skew/relfram_m1.F
       !||--- uses       -----------------------------------------------------
       !||    python_funct_mod      ../common_source/modules/python_mod.F90
-      !||    sensor_mod            ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod            ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE CFIELD_1(PYTHON, ICFIELD  ,FAC   ,NPC   ,TF    ,A ,
      2                  V     ,X     ,XFRAME  ,MS,SENSOR_TAB,

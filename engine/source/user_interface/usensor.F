@@ -43,8 +43,8 @@ C---------+---------+---+---+--------------------------------------------
       !||    load_pressure         ../engine/source/loads/general/load_pressure/load_pressure.F
       !||    pfluid                ../engine/source/loads/general/pfluid/pfluid.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod            ../engine/share/modules/sensor_mod.F
-      !||    user_interface_mod    ../engine/share/modules/user_interface_mod.F
+      !||    sensor_mod            ../common_source/modules/sensor_mod.F90
+      !||    user_interface_mod    ../engine/source/modules/user_interface_mod.F90
       !||====================================================================
       INTEGER FUNCTION GET_U_NUMSENS(IDSENS)
 C-----------------------------------------------
@@ -92,8 +92,8 @@ C---
       !||====================================================================
       !||    get_u_sens_id        ../engine/source/user_interface/usensor.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod           ../engine/share/modules/sensor_mod.F
-      !||    user_interface_mod   ../engine/share/modules/user_interface_mod.F
+      !||    sensor_mod           ../common_source/modules/sensor_mod.F90
+      !||    user_interface_mod   ../engine/source/modules/user_interface_mod.F90
       !||====================================================================
       INTEGER FUNCTION GET_U_SENS_ID(ISENS)
 C-----------------------------------------------
@@ -131,8 +131,8 @@ C---
       !||    load_pressure         ../engine/source/loads/general/load_pressure/load_pressure.F
       !||    pfluid                ../engine/source/loads/general/pfluid/pfluid.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod            ../engine/share/modules/sensor_mod.F
-      !||    user_interface_mod    ../engine/share/modules/user_interface_mod.F
+      !||    sensor_mod            ../common_source/modules/sensor_mod.F90
+      !||    user_interface_mod    ../engine/source/modules/user_interface_mod.F90
       !||====================================================================
       INTEGER FUNCTION SET_U_SENS_VALUE(NSENS,IVAR,VAR)
 C-----------------------------------------------
@@ -186,8 +186,8 @@ C---
       !||    load_pressure         ../engine/source/loads/general/load_pressure/load_pressure.F
       !||    pfluid                ../engine/source/loads/general/pfluid/pfluid.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod            ../engine/share/modules/sensor_mod.F
-      !||    user_interface_mod    ../engine/share/modules/user_interface_mod.F
+      !||    sensor_mod            ../common_source/modules/sensor_mod.F90
+      !||    user_interface_mod    ../engine/source/modules/user_interface_mod.F90
       !||====================================================================
       INTEGER FUNCTION GET_U_SENS_VALUE(NSENS, IVAR, VAR)
 C-----------------------------------------------
@@ -234,8 +234,8 @@ C---
       !||--- called by ------------------------------------------------------
       !||    csens3                ../engine/source/elements/shell/coque/csens3.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod            ../engine/share/modules/sensor_mod.F
-      !||    user_interface_mod    ../engine/share/modules/user_interface_mod.F
+      !||    sensor_mod            ../common_source/modules/sensor_mod.F90
+      !||    user_interface_mod    ../engine/source/modules/user_interface_mod.F90
       !||====================================================================
       INTEGER FUNCTION SET_U_SENS_MAXVALUE(NSENS,IVAR,VAR)
 C-----------------------------------------------
@@ -287,8 +287,8 @@ C---
       !||    load_pressure         ../engine/source/loads/general/load_pressure/load_pressure.F
       !||    pfluid                ../engine/source/loads/general/pfluid/pfluid.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod            ../engine/share/modules/sensor_mod.F
-      !||    user_interface_mod    ../engine/share/modules/user_interface_mod.F
+      !||    sensor_mod            ../common_source/modules/sensor_mod.F90
+      !||    user_interface_mod    ../engine/source/modules/user_interface_mod.F90
       !||====================================================================
       INTEGER FUNCTION GET_U_SENS_FPAR(NSENS,IVAR,VAR)
 C-----------------------------------------------
@@ -344,8 +344,8 @@ C---
       !||    load_pressure         ../engine/source/loads/general/load_pressure/load_pressure.F
       !||    pfluid                ../engine/source/loads/general/pfluid/pfluid.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod            ../engine/share/modules/sensor_mod.F
-      !||    user_interface_mod    ../engine/share/modules/user_interface_mod.F
+      !||    sensor_mod            ../common_source/modules/sensor_mod.F90
+      !||    user_interface_mod    ../engine/source/modules/user_interface_mod.F90
       !||====================================================================
       INTEGER FUNCTION GET_U_SENS_IPAR(NSENS,IVAR,VAR)
 C-----------------------------------------------
@@ -393,8 +393,8 @@ C---
       !||====================================================================
       !||    set_u_sens_acti      ../engine/source/user_interface/usensor.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod           ../engine/share/modules/sensor_mod.F
-      !||    user_interface_mod   ../engine/share/modules/user_interface_mod.F
+      !||    sensor_mod           ../common_source/modules/sensor_mod.F90
+      !||    user_interface_mod   ../engine/source/modules/user_interface_mod.F90
       !||====================================================================
       INTEGER FUNCTION SET_U_SENS_ACTI(NSENS)
 C-----------------------------------------------
@@ -442,8 +442,8 @@ c
       !||====================================================================
       !||    set_u_sens_deacti    ../engine/source/user_interface/usensor.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod           ../engine/share/modules/sensor_mod.F
-      !||    user_interface_mod   ../engine/share/modules/user_interface_mod.F
+      !||    sensor_mod           ../common_source/modules/sensor_mod.F90
+      !||    user_interface_mod   ../engine/source/modules/user_interface_mod.F90
       !||====================================================================
       INTEGER FUNCTION SET_U_SENS_DEACTI(NSENS)
 C-----------------------------------------------
@@ -483,8 +483,8 @@ c
       !||====================================================================
       !||    get_u_sens_acti      ../engine/source/user_interface/usensor.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod           ../engine/share/modules/sensor_mod.F
-      !||    user_interface_mod   ../engine/share/modules/user_interface_mod.F
+      !||    sensor_mod           ../common_source/modules/sensor_mod.F90
+      !||    user_interface_mod   ../engine/source/modules/user_interface_mod.F90
       !||====================================================================
       my_real FUNCTION GET_U_SENS_ACTI(NSENS)
 C-----------------------------------------------
@@ -535,8 +535,8 @@ c
       !||--- called by ------------------------------------------------------
       !||    ruser32              ../engine/source/elements/spring/ruser32.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod           ../engine/share/modules/sensor_mod.F
-      !||    user_interface_mod   ../engine/share/modules/user_interface_mod.F
+      !||    sensor_mod           ../common_source/modules/sensor_mod.F90
+      !||    user_interface_mod   ../engine/source/modules/user_interface_mod.F90
       !||====================================================================
       my_real FUNCTION GET_U_SENS(USENS)
 C-----------------------------------------------
@@ -596,8 +596,8 @@ C----
       !||====================================================================
       !||    get_u_sens_delay     ../engine/source/user_interface/usensor.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod           ../engine/share/modules/sensor_mod.F
-      !||    user_interface_mod   ../engine/share/modules/user_interface_mod.F
+      !||    sensor_mod           ../common_source/modules/sensor_mod.F90
+      !||    user_interface_mod   ../engine/source/modules/user_interface_mod.F90
       !||====================================================================
       my_real FUNCTION GET_U_SENS_DELAY(NSENS)
 C-----------------------------------------------

@@ -53,6 +53,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    mmain_mod              ../engine/source/materials/mat_share/mmain.F90
       !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
+      !||    sensor_mod             ../common_source/modules/sensor_mod.F90
       !||    table_mod              ../engine/share/modules/table_mod.F
       !||    timer_mod              ../engine/source/system/timer_mod.F90
       !||====================================================================

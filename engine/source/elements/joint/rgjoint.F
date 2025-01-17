@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ruser33      ../engine/source/elements/joint/ruser33.F
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod      ../engine/share/modules/h3d_mod.F
-      !||    sensor_mod   ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod   ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE RGJOINT(
      1   JFT,       JLT,       IPARTR,    NEL,

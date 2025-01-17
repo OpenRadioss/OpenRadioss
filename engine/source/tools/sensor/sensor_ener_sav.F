@@ -25,7 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    resol             ../engine/source/engine/resol.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod        ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod        ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE SENSOR_ENER_SAV(NSENSOR,SENSOR_TAB ,PARTSAV ,PARTSAV2)
 C-----------------------------------------------

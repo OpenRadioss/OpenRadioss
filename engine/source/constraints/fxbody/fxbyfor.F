@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    anim_mod           ../common_source/modules/output/anim_mod.F
       !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    sensor_mod         ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod         ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE FXBYFOR(FXBIPM, FXBRPM,  FXBNOD , FXBMOD  , FXBGLM ,
      .                   FXBCPM, FXBCPS,  FXBLM  , FXBFLS  , FXBDLS ,

@@ -135,7 +135,6 @@
       !||    bpreload_mod            ../starter/share/modules1/bpreload_mod.F
       !||    hm_option_read_mod      ../starter/share/modules1/hm_option_read_mod.F
       !||    message_mod             ../starter/share/message_module/message_mod.F
-      !||    sensor_mod              ../starter/share/modules1/sensor_mod.F
       !||    submodel_mod            ../starter/share/modules1/submodel_mod.F
       !||====================================================================
         subroutine hm_read_preload_axial(                                     &

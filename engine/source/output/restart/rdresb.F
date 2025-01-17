@@ -125,7 +125,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    read_inivel_mod        ../engine/source/output/restart/read_inivel.F90
       !||    restmod                ../engine/share/modules/restart_mod.F
       !||    seatbelt_mod           ../common_source/modules/seatbelt_mod.F
-      !||    sensor_mod             ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod             ../common_source/modules/sensor_mod.F90
       !||    skew_mod               ../common_source/modules/skew_mod.F90
       !||    sph_mod                ../engine/share/modules/sph_mod.F
       !||    stack_mod              ../engine/share/modules/stack_mod.F

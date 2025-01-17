@@ -24,17 +24,6 @@
 module redef_seatbelt_mod
 contains
 !! \brief routine to compute seatbelt spring
-   !||====================================================================
-   !||    redef_seatbelt         ../engine/source/tools/seatbelts/redef_seatbelt.F
-   !||--- called by ------------------------------------------------------
-   !||    r23l114def3            ../engine/source/elements/spring/r23l114def3.F
-   !||--- calls      -----------------------------------------------------
-   !||    python_solve           ../common_source/modules/python_mod.F90
-   !||    vinter2                ../engine/source/tools/curve/vinter.F
-   !||--- uses       -----------------------------------------------------
-   !||    python_funct_mod       ../common_source/modules/python_mod.F90
-   !||    redef3_mod             ../engine/source/elements/spring/redef3.F
-   !||====================================================================
    subroutine redef_seatbelt(python,                                          &
    &                         fx,         xk,         dx,         fxep,        &
    &                         dxold,      dpx,        tf,         npf,         &

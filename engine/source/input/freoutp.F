@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    message_mod            ../engine/share/message_module/message_mod.F
       !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
-      !||    sensor_mod             ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod             ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE FREOUTP(IKAD,KEY0,KOUTP,SENSORS)
 C-----------------------------------------------

@@ -49,7 +49,6 @@
       !||    ancmsg             ../starter/source/output/message/message.F
       !||--- uses       -----------------------------------------------------
       !||    message_mod        ../starter/share/message_module/message_mod.F
-      !||    sensor_mod         ../starter/share/modules1/sensor_mod.F
       !||====================================================================
       subroutine law19_upd(mat_param,sensors)
 

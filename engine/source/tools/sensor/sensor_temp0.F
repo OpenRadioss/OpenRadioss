@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sum_6_float         ../engine/source/system/parit.F
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod        ../common_source/modules/groupdef_mod.F
-      !||    sensor_mod          ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod          ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE SENSOR_TEMP0(NSENSOR,SENSOR_TAB,IGRNOD,TEMP,WEIGHT,COMM_SENS17,SENSOR_STRUCT)
 c-----------------------------------------------------------------------

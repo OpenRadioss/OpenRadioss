@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    compaction2_mod   ../common_source/eos/compaction2.F90
+      !||--- called by ------------------------------------------------------
+      !||    eosmain           ../common_source/eos/eosmain.F
+      !||====================================================================
       module compaction2_mod
       contains
 ! ======================================================================================================================
@@ -28,9 +33,12 @@
 !! \brief  This subroutine contains numerical solving of COMPACTION2 EOS
 !! \details
       !||====================================================================
-      !||    compaction   ../common_source/eos/compaction.F
+      !||    compaction2     ../common_source/eos/compaction2.F90
       !||--- called by ------------------------------------------------------
-      !||    eosmain      ../common_source/eos/eosmain.F
+      !||    eosmain         ../common_source/eos/eosmain.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod    ../common_source/modules/constant_mod.F
+      !||    eos_param_mod   ../common_source/modules/mat_elem/eos_param_mod.F90
       !||====================================================================
       subroutine compaction2(&
                             iflag, nel  , pm   , off  , eint  , mu    , &

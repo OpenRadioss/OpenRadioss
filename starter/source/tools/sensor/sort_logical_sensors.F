@@ -28,7 +28,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ancmsg                 ../starter/source/output/message/message.F
       !||--- uses       -----------------------------------------------------
       !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    sensor_mod             ../starter/share/modules1/sensor_mod.F
       !||====================================================================
       SUBROUTINE SORT_LOGICAL_SENSORS(SENSORS)
 C-----------------------------------------------

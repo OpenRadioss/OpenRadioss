@@ -1962,7 +1962,7 @@ C
       !||    kptria       ../engine/source/implicit/imp_glob_k.F
       !||    put_kij      ../engine/source/implicit/imp_glob_k.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod   ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod   ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE IMP_KPRES(IB    ,FAC    ,NPC   ,TF    ,X     ,
      2                     SKEW  ,NSENSOR,SENSOR_TAB,WEIGHT,IADC  ,

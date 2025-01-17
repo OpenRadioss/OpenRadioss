@@ -72,6 +72,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    s6for_distor_mod       ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
       !||    s6get_xv_mod           ../engine/source/elements/thickshell/solide6c/s6get_xv.F90
       !||    sdistor_ini_mod        ../engine/source/elements/solid/solide/sdistror_ini.F90
+      !||    sensor_mod             ../common_source/modules/sensor_mod.F90
       !||    table_mod              ../engine/share/modules/table_mod.F
       !||    timer_mod              ../engine/source/system/timer_mod.F90
       !||====================================================================

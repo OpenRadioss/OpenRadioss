@@ -227,7 +227,7 @@ C
       !||    finter       ../engine/source/tools/curve/finter.F
       !||    fxbmajp2     ../engine/source/constraints/fxbody/fxbodfp.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod   ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod   ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE FXBODFP2(FXBIPM , FXBRPM , FXBGLM, FXBCPM, FXBCPS ,
      .                    FXBLM  , FXBFLS , FXBDLS, FXBDEP, FXBVIT ,

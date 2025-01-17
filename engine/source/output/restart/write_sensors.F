@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    write_i_c              ../common_source/tools/input_output/write_routtines.c
       !||--- uses       -----------------------------------------------------
       !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
-      !||    sensor_mod             ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod             ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE WRITE_SENSORS(SENSORS)
 C-----------------------------------------------

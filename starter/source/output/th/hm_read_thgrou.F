@@ -51,7 +51,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    mapping_option_mod     ../starter/share/modules1/dichotomy_mod.F
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||    monvol_struct_mod      ../starter/share/modules1/monvol_struct_mod.F
-      !||    sensor_mod             ../starter/share/modules1/sensor_mod.F
       !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||    th_titles_mod          ../starter/source/output/th/th_titles.F90
       !||    write_thnms1_mod       ../starter/source/output/th/write_thnms1.F90

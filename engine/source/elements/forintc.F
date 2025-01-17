@@ -54,7 +54,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    output_mod                  ../common_source/modules/output/output_mod.F90
       !||    pinchtype_mod               ../common_source/modules/pinchtype_mod.F
       !||    rupture_mod                 ../engine/share/modules/rupture_mod.F
-      !||    sensor_mod                  ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod                  ../common_source/modules/sensor_mod.F90
       !||    stack_mod                   ../engine/share/modules/stack_mod.F
       !||    table_mod                   ../engine/share/modules/table_mod.F
       !||    timer_mod                   ../engine/source/system/timer_mod.F90

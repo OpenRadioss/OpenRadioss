@@ -200,7 +200,7 @@ C-----------------------------------------------
       !||    get_user_window_nodes   ../engine/source/user_interface/userwindow_interface_routines.F
       !||--- uses       -----------------------------------------------------
       !||    restmod                 ../engine/share/modules/restart_mod.F
-      !||    user_interface_mod      ../engine/share/modules/user_interface_mod.F
+      !||    user_interface_mod      ../engine/source/modules/user_interface_mod.F90
       !||====================================================================
       SUBROUTINE GET_USER_WINDOW_NODES(INTERNAL_ID,USER_ID)
 !$COMMENT
@@ -252,7 +252,7 @@ C-----------------------------------------------
       !||====================================================================
       !||    userwindow_get_a     ../engine/source/user_interface/userwindow_interface_routines.F
       !||--- uses       -----------------------------------------------------
-      !||    user_interface_mod   ../engine/share/modules/user_interface_mod.F
+      !||    user_interface_mod   ../engine/source/modules/user_interface_mod.F90
       !||====================================================================
       SUBROUTINE USERWINDOW_GET_A(A_BUF)
 C-----------------------------------------------
@@ -288,7 +288,7 @@ C-----------------------------------------------
       !||====================================================================
       !||    userwindow_get_ar    ../engine/source/user_interface/userwindow_interface_routines.F
       !||--- uses       -----------------------------------------------------
-      !||    user_interface_mod   ../engine/share/modules/user_interface_mod.F
+      !||    user_interface_mod   ../engine/source/modules/user_interface_mod.F90
       !||====================================================================
       SUBROUTINE USERWINDOW_GET_AR(AR_BUF)
 C-----------------------------------------------

@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    r23law113    ../engine/source/elements/spring/r23law113.F
       !||    r23law114    ../engine/source/elements/spring/r23law114.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod   ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod   ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE R23SENS3(
      1   GEO,       OFF,       SENSOR_TAB,DX,

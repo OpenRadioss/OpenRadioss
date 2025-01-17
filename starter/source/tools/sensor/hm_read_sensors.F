@@ -57,7 +57,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_option_read_mod       ../starter/share/modules1/hm_option_read_mod.F
       !||    message_mod              ../starter/share/message_module/message_mod.F
       !||    read_sensor_python_mod   ../starter/source/tools/sensor/hm_read_sensor_python.F90
-      !||    sensor_mod               ../starter/share/modules1/sensor_mod.F
       !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
       !||    surf_mod                 ../starter/share/modules1/surf_mod.F
       !||====================================================================

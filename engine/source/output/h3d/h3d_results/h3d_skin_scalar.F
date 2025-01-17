@@ -39,7 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
       !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
       !||    schlieren_mod          ../engine/share/modules/schlieren_mod.F
-      !||    sensor_mod             ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod             ../common_source/modules/sensor_mod.F90
       !||    table_mod              ../engine/share/modules/table_mod.F
       !||====================================================================
       SUBROUTINE H3D_SKIN_SCALAR(
@@ -517,7 +517,7 @@ C-----------------------------------------------
       !||    h3d_mod                ../engine/share/modules/h3d_mod.F
       !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
       !||    pinchtype_mod          ../common_source/modules/pinchtype_mod.F
-      !||    sensor_mod             ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod             ../common_source/modules/sensor_mod.F90
       !||    table_mod              ../engine/share/modules/table_mod.F
       !||====================================================================
       SUBROUTINE H3D_PRE_SKIN_SCALAR(SKIN_SCALAR,NODAL_IPART,

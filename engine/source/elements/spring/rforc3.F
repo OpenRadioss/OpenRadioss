@@ -79,7 +79,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod         ../engine/share/message_module/message_mod.F
       !||    preload_axial_mod   ../engine/source/elements/spring/preload_axial.F90
       !||    python_funct_mod    ../common_source/modules/python_mod.F90
-      !||    sensor_mod          ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod          ../common_source/modules/sensor_mod.F90
       !||    table_mod           ../engine/share/modules/table_mod.F
       !||====================================================================
       SUBROUTINE RFORC3(PYTHON,

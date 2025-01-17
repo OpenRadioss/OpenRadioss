@@ -25,7 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    sortie_main           ../engine/source/output/sortie_main.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod            ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod            ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE SENSOR_ENERGY_TOTAL(SENSORS ,ENINT  ,ENCIN  )  
 C-----------------------------------------------

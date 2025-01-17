@@ -79,7 +79,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    metric_mod               ../common_source/modules/interfaces/metric_mod.F
       !||    names_and_titles_mod     ../common_source/modules/names_and_titles_mod.F
       !||    output_mod               ../common_source/modules/output/output_mod.F90
-      !||    sensor_mod               ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod               ../common_source/modules/sensor_mod.F90
       !||    state_mod                ../common_source/modules/state_mod.F
       !||    th_mod                   ../engine/share/modules/th_mod.F
       !||====================================================================

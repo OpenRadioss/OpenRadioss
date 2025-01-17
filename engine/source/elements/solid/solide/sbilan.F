@@ -31,6 +31,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    grelem_sav            ../engine/source/output/th/grelem_sav.F
       !||    sensor_energy_bilan   ../engine/source/tools/sensor/sensor_energy_bilan.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod            ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE SBILAN(PARTSAV,EINT,RHO,RK,VOL,
      .   VX1, VX2, VX3, VX4, VX5, VX6, VX7, VX8,

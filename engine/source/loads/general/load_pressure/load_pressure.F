@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod               ../engine/share/modules/h3d_mod.F
       !||    python_funct_mod      ../common_source/modules/python_mod.F90
-      !||    sensor_mod            ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod            ../common_source/modules/sensor_mod.F90
       !||    th_surf_mod           ../common_source/modules/interfaces/th_surf_mod.F
       !||====================================================================
       SUBROUTINE LOAD_PRESSURE (ILOADP          ,LOADP       ,LLOADP   ,NPC     ,TF        ,

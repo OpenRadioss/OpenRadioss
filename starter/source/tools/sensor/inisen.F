@@ -30,7 +30,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sort_logical_sensors   ../starter/source/tools/sensor/sort_logical_sensors.F
       !||--- uses       -----------------------------------------------------
       !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    sensor_mod             ../starter/share/modules1/sensor_mod.F
       !||====================================================================
       SUBROUTINE INISEN(SENSORS , IPARI ,NOM_OPT ,PTR_NOPT_RWALL,
      .                  PTR_NOPT_SECT ,PTR_NOPT_INTER  ,IXR    ,R_SKEW   ,NUMELR,

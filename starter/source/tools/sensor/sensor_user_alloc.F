@@ -25,7 +25,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    read_sensor_user    ../starter/source/tools/sensor/read_sensor_user.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod          ../starter/share/modules1/sensor_mod.F
       !||====================================================================
         SUBROUTINE SENSOR_USER_ALLOC(ALREADY_DONE,SENSOR_USER_STRUCT)
 !$COMMENT

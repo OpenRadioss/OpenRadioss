@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    wrtdes       ../engine/source/output/th/wrtdes.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod   ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod   ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE THSENS(SENSOR_TAB,NSENSOR ,
      .           J1   ,J2   ,L1   ,L2   ,ITHBUF,

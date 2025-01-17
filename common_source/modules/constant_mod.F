@@ -32,6 +32,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    check_sorting_criteria                   ../engine/source/interfaces/intsort/check_sorting_criteria.F90
       !||    chk_shell_offset                         ../starter/source/elements/shell/shell_offset/chk_shell_offset.F90
       !||    clipping_weiler_atherton                 ../common_source/tools/clipping/polygon_clipping_mod.F90
+      !||    compaction                               ../common_source/eos/compaction.F90
+      !||    compaction2                              ../common_source/eos/compaction2.F90
       !||    compute_voxel_dimensions                 ../engine/source/interfaces/intsort/voxel_dimensions.F90
       !||    crack_depth_init                         ../starter/source/materials/fail/windshield_alter/crack_depth_init.F90
       !||    create_plane_clause                      ../starter/source/model/sets/create_plane_clause.F90
@@ -68,6 +70,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_preread_inivel                        ../starter/source/initial_conditions/general/inivel/hm_preread_inivel.F90
       !||    hm_read_bcs_wall                         ../starter/source/boundary_conditions/hm_read_bcs_wall.F90
       !||    hm_read_ebcs_propergol                   ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propergol.F90
+      !||    hm_read_eos_compaction2                  ../starter/source/materials/eos/hm_read_eos_compaction2.F90
       !||    hm_read_eos_exponential                  ../starter/source/materials/eos/hm_read_eos_exponential.F90
       !||    hm_read_eos_powderburn                   ../starter/source/materials/eos/hm_read_eos_powderburn.F90
       !||    hm_read_fractal_dmg                      ../starter/source/materials/fail/fractal/hm_read_fractal_dmg.F90
@@ -98,6 +101,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    jwl_eos_delta                            ../engine/source/materials/mat/mat041/jwl_eos_mod.F90
       !||    law190_upd                               ../starter/source/materials/mat/mat190/law190_upd.F90
       !||    law81_upd                                ../starter/source/materials/mat/mat081/law81_upd.F90
+      !||    m21law                                   ../engine/source/materials/mat/mat021/m21law.F
       !||    mat25_crasurv_c                          ../engine/source/materials/mat/mat025/mat25_crasurv_c.F90
       !||    mat25_crasurv_s                          ../engine/source/materials/mat/mat025/mat25_crasurv_s.F90
       !||    mat25_tsaiwu_c                           ../engine/source/materials/mat/mat025/mat25_tsaiwu_c.F90

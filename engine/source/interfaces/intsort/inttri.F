@@ -95,7 +95,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    metric_mod                ../common_source/modules/interfaces/metric_mod.F
       !||    multi_fvm_mod             ../common_source/modules/ale/multi_fvm_mod.F90
       !||    outputs_mod               ../common_source/modules/outputs_mod.F
-      !||    sensor_mod                ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod                ../common_source/modules/sensor_mod.F90
       !||    timer_mod                 ../engine/source/system/timer_mod.F90
       !||    tri7box                   ../engine/share/modules/tri7box.F
       !||====================================================================

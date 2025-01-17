@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    compaction_mod   ../common_source/eos/compaction.F90
+      !||--- called by ------------------------------------------------------
+      !||    eosmain          ../common_source/eos/eosmain.F
+      !||====================================================================
       module compaction_mod
       contains
 ! ======================================================================================================================
@@ -34,9 +39,11 @@
 !! \details   C0,C1,C2,C3 : EoS parameter
 !! \details   BUNL : unload modulus
       !||====================================================================
-      !||    compaction   ../common_source/eos/compaction.F
+      !||    compaction     ../common_source/eos/compaction.F90
       !||--- called by ------------------------------------------------------
-      !||    eosmain      ../common_source/eos/eosmain.F
+      !||    eosmain        ../common_source/eos/eosmain.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod   ../common_source/modules/constant_mod.F
       !||====================================================================
       subroutine compaction(&
                             iflag, nel  , pm   , off  , eint , mu   , mu2 , &

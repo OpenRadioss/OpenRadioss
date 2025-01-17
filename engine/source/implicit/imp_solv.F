@@ -132,7 +132,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    impbufdef_mod    ../engine/share/modules/impbufdef_mod.F
       !||    message_mod      ../engine/share/message_module/message_mod.F
       !||    multi_fvm_mod    ../common_source/modules/ale/multi_fvm_mod.F90
-      !||    sensor_mod       ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod       ../common_source/modules/sensor_mod.F90
       !||    skew_mod         ../common_source/modules/skew_mod.F90
       !||    stack_mod        ../engine/share/modules/stack_mod.F
       !||    th_surf_mod      ../common_source/modules/interfaces/th_surf_mod.F
@@ -3112,7 +3112,7 @@ C------------------------------------------
       !||    h3d_mod         ../engine/share/modules/h3d_mod.F
       !||    imp_worki       ../engine/share/modules/impbufdef_mod.F
       !||    impbufdef_mod   ../engine/share/modules/impbufdef_mod.F
-      !||    sensor_mod      ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod      ../common_source/modules/sensor_mod.F90
       !||    skew_mod        ../common_source/modules/skew_mod.F90
       !||    stack_mod       ../engine/share/modules/stack_mod.F
       !||    th_surf_mod     ../common_source/modules/interfaces/th_surf_mod.F
@@ -3738,7 +3738,7 @@ C    /---------------/
       !||--- called by ------------------------------------------------------
       !||    imp_chkm        ../engine/source/implicit/imp_solv.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod      ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod      ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE IMP_COMPAB(
      1    ICODT     ,ICODR     ,ISKEW     ,IBFV      ,NPC       ,
@@ -4134,7 +4134,7 @@ C--------rwall---------
       !||    spmd_send_vi    ../engine/source/mpi/implicit/imp_spmd.F
       !||    spmd_sum_s      ../engine/source/mpi/implicit/imp_spmd.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod      ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod      ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE IMP_COMPABP(
      1    ICODT     ,ICODR     ,ISKEW     ,IBFV      ,NPC       ,

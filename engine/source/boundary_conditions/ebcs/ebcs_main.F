@@ -40,7 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    groupdef_mod       ../common_source/modules/groupdef_mod.F
       !||    multi_fvm_mod      ../common_source/modules/ale/multi_fvm_mod.F90
       !||    python_funct_mod   ../common_source/modules/python_mod.F90
-      !||    sensor_mod         ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod         ../common_source/modules/sensor_mod.F90
       !||    th_surf_mod        ../common_source/modules/interfaces/th_surf_mod.F
       !||====================================================================
       SUBROUTINE EBCS_MAIN(IGRSURF,SEGVAR,VOLMON,A,V,W,X,

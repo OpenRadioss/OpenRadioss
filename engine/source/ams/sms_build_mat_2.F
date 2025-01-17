@@ -34,7 +34,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    elbufdef_mod      ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    intstamp_mod      ../engine/share/modules/intstamp_mod.F
       !||    message_mod       ../engine/share/message_module/message_mod.F
-      !||    mod_sms_work      ../engine/source/ams/sms_mass_scale_2.F
       !||====================================================================
       SUBROUTINE SMS_BUILD_MAT_2(
      1             ITASK    ,NODFT   ,NODLT  ,

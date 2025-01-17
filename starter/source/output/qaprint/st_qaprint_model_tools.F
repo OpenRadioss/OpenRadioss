@@ -28,7 +28,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    fretitl2                 ../starter/source/starter/freform.F
       !||--- uses       -----------------------------------------------------
       !||    func2d_mod               ../starter/share/modules1/func2d_mod.F
-      !||    sensor_mod               ../starter/share/modules1/sensor_mod.F
       !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
       !||    table_mod                ../starter/share/modules1/table_mod.F
       !||====================================================================

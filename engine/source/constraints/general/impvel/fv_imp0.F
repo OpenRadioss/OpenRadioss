@@ -204,7 +204,7 @@ C
       !||    fvl_modif    ../engine/source/constraints/general/impvel/fv_imp0.F
       !||    velrot       ../engine/source/constraints/general/rbe2/rbe2v.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod   ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod   ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE FV_IMP(IBFV  ,NPC    ,TF   ,VEL   ,SENSOR_TAB,
      1                  UD    ,RD   ,IFIX  ,IDDL   ,NSENSOR   ,
@@ -1744,7 +1744,7 @@ C
       !||    dintera      ../engine/source/constraints/general/impvel/fv_imp0.F
       !||--- uses       -----------------------------------------------------
       !||    imp_dyna     ../engine/share/modules/impbufdef_mod.F
-      !||    sensor_mod   ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod   ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE WFV_IMP(IBFV  ,NPC    ,TF   ,VEL   ,SENSOR_TAB,
      1                  UD     ,RD    ,IFIX  ,IDDL  ,NSENSOR   ,
@@ -2127,7 +2127,7 @@ C
       !||    imp_solv     ../engine/source/implicit/imp_solv.F
       !||--- uses       -----------------------------------------------------
       !||    imp_dyna     ../engine/share/modules/impbufdef_mod.F
-      !||    sensor_mod   ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod   ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE FV_FINT0(IBFV  ,NPC    ,TF   ,VEL   ,SENSOR_TAB,
      1                   UD     ,RD     ,IFIX ,IDDL  ,NSENSOR   ,

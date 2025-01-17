@@ -27,6 +27,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    grelem_sav            ../engine/source/output/th/grelem_sav.F
       !||    sensor_energy_bilan   ../engine/source/tools/sensor/sensor_energy_bilan.F
+      !||--- uses       -----------------------------------------------------
+      !||    sensor_mod            ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE S10BILAN(PARTSAV,EINT,RHO,RK,VOL,
      .   VX, VY, VZ, NX, VNEW,IPARTS,

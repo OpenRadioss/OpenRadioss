@@ -31,7 +31,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    iface                  ../starter/source/ale/ale3d/iface.F
       !||--- uses       -----------------------------------------------------
       !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    sensor_mod             ../starter/share/modules1/sensor_mod.F
       !||====================================================================
       SUBROUTINE INIEBCS(ALE_CONNECTIVITY, IFLAG,IGRSURF, IXS, IXQ, IXTG, 
      .     PM, IGEO, X, SENSORS, IVOLU, MULTI_FVM_IS_USED, EBCS_TAB, EBCS_TAG_CELL_SPMD)

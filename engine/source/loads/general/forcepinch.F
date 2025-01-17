@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    h3d_mod               ../engine/share/modules/h3d_mod.F
       !||    pinchtype_mod         ../common_source/modules/pinchtype_mod.F
       !||    python_funct_mod      ../common_source/modules/python_mod.F90
-      !||    sensor_mod            ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod            ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE FORCEPINCH (IB     ,FAC     ,NPC    ,TF      ,A     ,
      2                  V      ,X       ,SKEW   ,AR      ,VR    ,

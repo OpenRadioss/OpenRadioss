@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    glob_therm_mod        ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    python_funct_mod      ../common_source/modules/python_mod.F90
-      !||    sensor_mod            ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod            ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE RADIATION(IBCR   ,FRADIA    ,NPC       ,TF     , X  ,
      1                     TEMP   ,NSENSOR   ,SENSOR_TAB,FTHE   ,IAD ,

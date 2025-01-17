@@ -46,7 +46,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_inter_type25         ../starter/source/interfaces/int25/hm_read_inter_type25.F
       !||--- uses       -----------------------------------------------------
       !||    message_mod                  ../starter/share/message_module/message_mod.F
-      !||    sensor_mod                   ../starter/share/modules1/sensor_mod.F
       !||    submodel_mod                 ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_INTER_STRUCT(

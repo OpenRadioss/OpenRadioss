@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    finter       ../engine/source/tools/curve/finter.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod   ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod   ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE AIRBAGA(IVOLU ,NJET   ,IBAGJET ,NVENT   ,IBAGHOL,
      2                 ICBAG   ,RVOLU   ,RBAGJET ,RBAGHOL,RCBAG   ,

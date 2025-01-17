@@ -21,18 +21,6 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !----s---1----+----2----+----3----+----4----+----5----+----6----+----7--
- !||====================================================================
- !||    redef3_mod       ../engine/source/elements/spring/redef3.F
- !||--- called by ------------------------------------------------------
- !||    r1def3           ../engine/source/elements/spring/r1def3.F
- !||    r23l108def3      ../engine/source/elements/spring/r23l108def3.F
- !||    r23l114def3      ../engine/source/elements/spring/r23l114def3.F
- !||    r2def3           ../engine/source/elements/spring/r2def3.F
- !||    r3def3           ../engine/source/elements/spring/r3def3.F
- !||    r4def3           ../engine/source/elements/spring/r4def3.F
- !||    r6def3           ../engine/source/elements/spring/r6def3.F
- !||    redef_seatbelt   ../engine/source/tools/seatbelts/redef_seatbelt.F
- !||====================================================================
 module redef3_mod
 contains
 !! for performance reasons, this function must inlined, because it is called in a loop
@@ -61,24 +49,6 @@ contains
       if(i < 0) id = -i
    end function get_python_funct_id
 
-   !||====================================================================
-   !||    redef3                 ../engine/source/elements/spring/redef3.F
-   !||--- called by ------------------------------------------------------
-   !||    r1def3                 ../engine/source/elements/spring/r1def3.F
-   !||    r23l108def3            ../engine/source/elements/spring/r23l108def3.F
-   !||    r23l114def3            ../engine/source/elements/spring/r23l114def3.F
-   !||    r2def3                 ../engine/source/elements/spring/r2def3.F
-   !||    r3def3                 ../engine/source/elements/spring/r3def3.F
-   !||    r4def3                 ../engine/source/elements/spring/r4def3.F
-   !||    r6def3                 ../engine/source/elements/spring/r6def3.F
-   !||--- calls      -----------------------------------------------------
-   !||    vinter2                ../engine/source/tools/curve/vinter.F
-   !||    vinter2dp              ../engine/source/tools/curve/vinter.F
-   !||    vinter_mixed           ../engine/source/tools/curve/vinter_mixed.F90
-   !||--- uses       -----------------------------------------------------
-   !||    python_funct_mod       ../common_source/modules/python_mod.F90
-   !||    vinter_mixed_mod       ../engine/source/tools/curve/vinter_mixed.F90
-   !||====================================================================
    subroutine redef3(python,&
    &                 fx,      xk,      dx,      fxep,  &
    &                 dxold,   dpx,     tf,      npf,   &

@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sforc3       ../engine/source/elements/solid/solide/sforc3.F
       !||    szforc3      ../engine/source/elements/solid/solidez/szforc3.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod   ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod   ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE BOLTST(IP      ,BPRELD   ,SIG       ,TT        ,        
      .                  NEL     ,NPT      ,NSENSOR   ,SENSOR_TAB)

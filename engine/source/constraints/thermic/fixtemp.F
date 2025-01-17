@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    vinter_smooth    ../engine/source/tools/curve/vinter_smooth.F
       !||--- uses       -----------------------------------------------------
       !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    sensor_mod       ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod       ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE FIXTEMP(IBFT   ,VAL    , TEMP  ,NPC    ,TF   ,
      .                   NSENSOR,SENSOR_TAB,GLOB_THERM)

@@ -25,7 +25,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    ddsplit                ../starter/source/restart/ddsplit/ddsplit.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod             ../starter/share/modules1/sensor_mod.F
       !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE WRCOMIP(

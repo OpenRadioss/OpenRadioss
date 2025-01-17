@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    my_barrier      ../engine/source/system/machine.F
       !||--- uses       -----------------------------------------------------
       !||    mpi_commod      ../engine/share/modules/mpi_comm_mod.F
-      !||    sensor_mod      ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod      ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE I25MAIN_NORM(
      1                   INTLIST25,IPARI   ,INTBUF_TAB ,JTASK    ,X       ,

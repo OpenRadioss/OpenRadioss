@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    vinter2      ../engine/source/tools/curve/vinter.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod   ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod   ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE SIGEPS158C(
      1           NEL       ,NUPARAM   ,NUVAR     ,NFUNC     ,IFUNC     ,

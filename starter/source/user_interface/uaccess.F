@@ -955,9 +955,8 @@ C-----------------------------------------------
       !||    ancmsg               ../starter/source/output/message/message.F
       !||--- uses       -----------------------------------------------------
       !||    message_mod          ../starter/share/message_module/message_mod.F
-      !||    sensor_mod           ../starter/share/modules1/sensor_mod.F
-      !||    user_interface_mod   ../starter/share/modules1/user_interface_mod.F
-      !||    user_sensor_mod      ../starter/share/modules1/user_interface_mod.F
+      !||    user_interface_mod   ../starter/source/modules/user_interface_mod.F90
+      !||    user_sensor_mod      ../starter/source/modules/user_interface_mod.F90
       !||====================================================================
       INTEGER FUNCTION SET_U_SENS_IPAR(IVAR,VAR)
 C-----------------------------------------------
@@ -1012,9 +1011,8 @@ C
       !||    ancmsg               ../starter/source/output/message/message.F
       !||--- uses       -----------------------------------------------------
       !||    message_mod          ../starter/share/message_module/message_mod.F
-      !||    sensor_mod           ../starter/share/modules1/sensor_mod.F
-      !||    user_interface_mod   ../starter/share/modules1/user_interface_mod.F
-      !||    user_sensor_mod      ../starter/share/modules1/user_interface_mod.F
+      !||    user_interface_mod   ../starter/source/modules/user_interface_mod.F90
+      !||    user_sensor_mod      ../starter/source/modules/user_interface_mod.F90
       !||====================================================================
       INTEGER FUNCTION SET_U_SENS_FPAR(IVAR,VAR)
 C-----------------------------------------------

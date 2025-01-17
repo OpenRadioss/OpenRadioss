@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    set_u_sens_spmd_node_list   ../starter/source/tools/sensor/set_u_sens_spmd_node_list.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod                  ../starter/share/modules1/sensor_mod.F
+      !||    user_interface_mod          ../starter/source/modules/user_interface_mod.F90
       !||====================================================================
         INTEGER FUNCTION SET_U_SENS_SPMD_NODE_LIST(ARRAY,SIZE_ARRAY)
 !$COMMENT

@@ -110,6 +110,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_ebcs_vel                  ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_vel.F
       !||    hm_read_eig                       ../starter/source/general_controls/computation/hm_read_eig.F
       !||    hm_read_eos_compaction            ../starter/source/materials/eos/hm_read_eos_compaction.F
+      !||    hm_read_eos_compaction2           ../starter/source/materials/eos/hm_read_eos_compaction2.F90
       !||    hm_read_eos_powderburn            ../starter/source/materials/eos/hm_read_eos_powderburn.F90
       !||    hm_read_eos_tabulated             ../starter/source/materials/eos/hm_read_eos_tabulated.F
       !||    hm_read_eref                      ../starter/source/loads/reference_state/eref/hm_read_eref.F

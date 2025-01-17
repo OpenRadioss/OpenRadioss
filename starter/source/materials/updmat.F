@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    lectur                 ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
       !||    ancmsg                 ../starter/source/output/message/message.F
+      !||    eosfun_usr2sys         ../starter/source/materials/tools/eosfun_usr2sys.F90
       !||    fretitl2               ../starter/source/starter/freform.F
       !||    law100_upd_ab          ../starter/source/materials/mat/mat100/law100_upd.F
       !||    law100_upd_nht         ../starter/source/materials/mat/mat100/law100_upd.F
@@ -57,11 +58,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    mattab_usr2sys         ../starter/source/materials/tools/mattab_usr2sys.F
       !||--- uses       -----------------------------------------------------
       !||    elbuftag_mod           ../starter/share/modules1/elbuftag_mod.F
+      !||    eosfun_usr2sys_mod     ../starter/source/materials/tools/eosfun_usr2sys.F90
       !||    law190_upd_mod         ../starter/source/materials/mat/mat190/law190_upd.F90
       !||    law19_upd_mod          ../starter/source/materials/mat/mat019/law19_upd.F90
       !||    law81_upd_mod          ../starter/source/materials/mat/mat081/law81_upd.F90
       !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    sensor_mod             ../starter/share/modules1/sensor_mod.F
       !||    table_mod              ../starter/share/modules1/table_mod.F
       !||====================================================================
       SUBROUTINE UPDMAT(BUFMAT   ,PM    ,IPM       ,TABLE    ,FUNC_ID  ,

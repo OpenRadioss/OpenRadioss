@@ -157,7 +157,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    outmax_mod                           ../common_source/modules/outmax_mod.F
       !||    outputs_mod                          ../common_source/modules/outputs_mod.F
       !||    plyxfem_mod                          ../engine/share/modules/plyxfem_mod.F
-      !||    sensor_mod                           ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod                           ../common_source/modules/sensor_mod.F90
       !||    stack_mod                            ../engine/share/modules/stack_mod.F
       !||    table_mod                            ../engine/share/modules/table_mod.F
       !||    timer_mod                            ../engine/source/system/timer_mod.F90

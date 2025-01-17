@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sensor_energy_bilan   ../engine/source/tools/sensor/sensor_energy_bilan.F
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod               ../engine/share/modules/h3d_mod.F
+      !||    sensor_mod            ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE TBILAN(
      1   PM,      V,       EINT,    AREA,

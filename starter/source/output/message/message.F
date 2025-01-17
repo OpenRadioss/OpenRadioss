@@ -99,6 +99,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    dometis                             ../starter/source/spmd/domain_decomposition/grid2mat.F
       !||    ecran1                              ../starter/source/initial_conditions/detonation/ecran1.F
       !||    elstagboxbox                        ../starter/source/model/box/boxbox.F
+      !||    eosfun_usr2sys                      ../starter/source/materials/tools/eosfun_usr2sys.F90
       !||    error_alloc                         ../starter/source/system/error_alloc.F
       !||    facebox                             ../starter/source/model/box/bigbox.F
       !||    fail_fun2sys                        ../starter/source/materials/tools/fail_fun2sys.F
@@ -189,6 +190,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_eig                         ../starter/source/general_controls/computation/hm_read_eig.F
       !||    hm_read_eos                         ../starter/source/materials/eos/hm_read_eos.F
       !||    hm_read_eos_compaction              ../starter/source/materials/eos/hm_read_eos_compaction.F
+      !||    hm_read_eos_compaction2             ../starter/source/materials/eos/hm_read_eos_compaction2.F90
       !||    hm_read_eos_gruneisen               ../starter/source/materials/eos/hm_read_eos_gruneisen.F
       !||    hm_read_eos_ideal_gas               ../starter/source/materials/eos/hm_read_eos_ideal_gas.F
       !||    hm_read_eos_ideal_gas_vt            ../starter/source/materials/eos/hm_read_eos_ideal_gas_vt.F

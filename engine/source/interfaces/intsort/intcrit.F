@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    stoptime                     ../engine/source/system/timer_mod.F90
       !||--- uses       -----------------------------------------------------
       !||    interface_modification_mod   ../engine/share/modules/interface_modification_mod.F
-      !||    sensor_mod                   ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod                   ../common_source/modules/sensor_mod.F90
       !||    timer_mod                    ../engine/source/system/timer_mod.F90
       !||    tri7box                      ../engine/share/modules/tri7box.F
       !||====================================================================

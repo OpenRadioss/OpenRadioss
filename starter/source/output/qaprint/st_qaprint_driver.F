@@ -68,7 +68,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    inimap1d_mod                    ../starter/share/modules1/inimap1d_mod.F
       !||    inimap2d_mod                    ../starter/share/modules1/inimap2d_mod.F
       !||    monvol_struct_mod               ../starter/share/modules1/monvol_struct_mod.F
-      !||    sensor_mod                      ../starter/share/modules1/sensor_mod.F
       !||    submodel_mod                    ../starter/share/modules1/submodel_mod.F
       !||    table_mod                       ../starter/share/modules1/table_mod.F
       !||====================================================================

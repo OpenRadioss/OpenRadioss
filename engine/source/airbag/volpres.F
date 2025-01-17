@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    finter       ../engine/source/tools/curve/finter.F
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod      ../engine/share/modules/h3d_mod.F
-      !||    sensor_mod   ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod   ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE VOLPRE(IVOLU ,RVOLU   ,NJET    ,IBAGJET ,RBAGJET  ,
      2                NSENSOR ,SENSOR_TAB,X       ,V       ,A        ,

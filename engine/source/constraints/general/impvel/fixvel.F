@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    vinterdp              ../engine/source/tools/curve/vinterdp.F
       !||--- uses       -----------------------------------------------------
       !||    python_funct_mod      ../common_source/modules/python_mod.F90
-      !||    sensor_mod            ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod            ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE FIXVEL(IBFV  ,A    ,V     ,NPC    ,TF   ,
      2                  VEL   ,MS   ,X     ,SKEW   ,AR   ,

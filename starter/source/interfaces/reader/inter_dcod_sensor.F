@@ -35,7 +35,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    intstamp_mod           ../starter/share/modules1/intstamp_mod.F
       !||    message_mod            ../starter/share/message_module/message_mod.F
-      !||    sensor_mod             ../starter/share/modules1/sensor_mod.F
       !||====================================================================
       SUBROUTINE INTER_DCOD_SENSOR(NTYP,NI,IPARI,NOM_OPT,SENSORS)
 

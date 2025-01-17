@@ -725,7 +725,7 @@ C--------------------------------------------
       !||    h3d_mod       ../engine/share/modules/h3d_mod.F
       !||    imp_dyna      ../engine/share/modules/impbufdef_mod.F
       !||    message_mod   ../engine/share/message_module/message_mod.F
-      !||    sensor_mod    ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod    ../common_source/modules/sensor_mod.F90
       !||    skew_mod      ../common_source/modules/skew_mod.F90
       !||    th_surf_mod   ../common_source/modules/interfaces/th_surf_mod.F
       !||====================================================================
@@ -978,7 +978,7 @@ C
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod       ../engine/share/modules/h3d_mod.F
       !||    imp_dyna      ../engine/share/modules/impbufdef_mod.F
-      !||    sensor_mod    ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod    ../common_source/modules/sensor_mod.F90
       !||    skew_mod      ../common_source/modules/skew_mod.F90
       !||    th_surf_mod   ../common_source/modules/interfaces/th_surf_mod.F
       !||====================================================================

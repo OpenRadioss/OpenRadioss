@@ -38,7 +38,7 @@
       !||--- uses       -----------------------------------------------------
       !||    constant_mod                      ../common_source/modules/constant_mod.F
       !||    python_funct_mod                  ../common_source/modules/python_mod.F90
-      !||    sensor_mod                        ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod                        ../common_source/modules/sensor_mod.F90
       !||====================================================================
       subroutine sensor_python(sensor)
 ! ----------------------------------------------------------------------------------------------------------------------

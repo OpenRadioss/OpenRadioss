@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_allreduce_db   ../engine/source/mpi/generic/spmd_allreduce_db.F
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod        ../common_source/modules/groupdef_mod.F
-      !||    sensor_mod          ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod          ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE SENSOR_DIST_SURF0(NSENSOR,SENSOR_TAB,X,IGRSURF,COMM_SENS16)
 !$COMMENT

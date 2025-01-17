@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i7ke3           ../engine/source/interfaces/int07/i7ke3.F
       !||    upd_int_k       ../engine/source/implicit/upd_glob_k.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod      ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod      ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE IMP_INT_K( A     ,V         ,
      1                      ICODT ,ICODR ,ISKEW  ,IBFV  ,NPC    ,
@@ -376,7 +376,7 @@ C
       !||    imp_icomcrit       ../engine/source/implicit/imp_int_k.F
       !||    spmd_min_s         ../engine/source/mpi/implicit/imp_spmd.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod         ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod         ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE IMP_INTDT(
      1       IPARI    ,INTBUF_TAB,X        ,
@@ -545,7 +545,7 @@ C
       !||    spmd_get_stif11   ../engine/source/mpi/interfaces/send_cand.F
       !||    spmd_sync_mmx     ../engine/source/mpi/interfaces/spmd_sync_mmx.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod        ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod        ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE IMP_ICOMCRIT(
      1  INTBUF_TAB,IPARI  ,NEWFRONT,ISENDTO,
@@ -704,7 +704,7 @@ C
       !||    groupdef_mod     ../common_source/modules/groupdef_mod.F
       !||    h3d_mod          ../engine/share/modules/h3d_mod.F
       !||    multi_fvm_mod    ../common_source/modules/ale/multi_fvm_mod.F90
-      !||    sensor_mod       ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod       ../common_source/modules/sensor_mod.F90
       !||    timer_mod        ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE IMP_INTTD0(TIMERS,
@@ -1080,7 +1080,7 @@ C
       !||    groupdef_mod      ../common_source/modules/groupdef_mod.F
       !||    h3d_mod           ../engine/share/modules/h3d_mod.F
       !||    multi_fvm_mod     ../common_source/modules/ale/multi_fvm_mod.F90
-      !||    sensor_mod        ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod        ../common_source/modules/sensor_mod.F90
       !||    timer_mod         ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE IMP_TRIPI(TIMERS,
@@ -1570,7 +1570,7 @@ C
       !||--- calls      -----------------------------------------------------
       !||    imp_intdt       ../engine/source/implicit/imp_int_k.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod      ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod      ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE IMP_DTKIN(
      1       IPARI ,INTBUF_TAB      ,X       ,V       ,

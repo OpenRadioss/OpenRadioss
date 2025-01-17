@@ -117,7 +117,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    init_seatbelt_rbodies_mod   ../starter/source/tools/seatbelts/init_seatbelt_rbodies.F90
       !||    inivol_def_mod              ../starter/share/modules1/inivol_mod.F
       !||    message_mod                 ../starter/share/message_module/message_mod.F
-      !||    sensor_mod                  ../starter/share/modules1/sensor_mod.F
       !||    stack_mod                   ../starter/share/modules1/stack_mod.F
       !||    submodel_mod                ../starter/share/modules1/submodel_mod.F
       !||====================================================================

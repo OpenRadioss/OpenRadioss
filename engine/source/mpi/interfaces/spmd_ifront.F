@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    ifront_mod      ../engine/share/modules/ifront_mod.F
       !||    message_mod     ../engine/share/message_module/message_mod.F
-      !||    sensor_mod      ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod      ../common_source/modules/sensor_mod.F90
       !||    tri25ebox       ../engine/share/modules/tri25ebox.F
       !||    tri7box         ../engine/share/modules/tri7box.F
       !||====================================================================

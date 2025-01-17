@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod            ../engine/share/message_module/message_mod.F
       !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
       !||    output_mod             ../common_source/modules/output/output_mod.F90
-      !||    sensor_mod             ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod             ../common_source/modules/sensor_mod.F90
       !||    state_inimap_mod       ../engine/share/modules/state_inimap_mod.F
       !||====================================================================
       SUBROUTINE FRESTAT(IKAD,KEY0,KSTATF,SENSORS,OUTPUT)

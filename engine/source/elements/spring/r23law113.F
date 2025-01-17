@@ -40,7 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    h3d_mod             ../engine/share/modules/h3d_mod.F
       !||    preload_axial_mod   ../engine/source/elements/spring/preload_axial.F90
       !||    python_funct_mod    ../common_source/modules/python_mod.F90
-      !||    sensor_mod          ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod          ../common_source/modules/sensor_mod.F90
       !||    table_mod           ../engine/share/modules/table_mod.F
       !||====================================================================
       SUBROUTINE R23LAW113( PYTHON,

@@ -129,6 +129,7 @@
       !||    retrirby                           ../starter/source/constraints/general/merge/hm_read_merge.F
       !||    ri2_int24p_ini                     ../starter/source/interfaces/inter3d1/i7remnode.F
       !||    rm_cand24                          ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||    sensor_init                        ../engine/source/tools/sensor/sensor_init.F
       !||    set_user_window_nodes              ../starter/source/user_interface/user_windows_tools.F
       !||    seteloff                           ../starter/source/constraints/general/rbody/hm_read_rbody.F
       !||    setrbyon                           ../starter/source/constraints/general/rbody/hm_read_rbody.F

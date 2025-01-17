@@ -45,7 +45,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    cluster_mod             ../engine/share/modules/cluster_mod.F
       !||    failwave_mod            ../common_source/modules/failwave_mod.F
       !||    nlocal_reg_mod          ../common_source/modules/nlocal_reg_mod.F
-      !||    nodal_arrays_mod        ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||    sphbox                  ../engine/share/modules/sphbox.F
       !||====================================================================
       MODULE RESTMOD

@@ -42,7 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    fvbag_mod                ../engine/share/modules/fvbag_mod.F
       !||    fvmbag_meshcontrol_mod   ../common_source/modules/airbag/fvmbag_meshcontrol_mod.F
       !||    message_mod              ../engine/share/message_module/message_mod.F
-      !||    sensor_mod               ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod               ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE FV_UP_SWITCH(NN, NEL, ELEM, NJET, NPOLY,LENH,NBA,
      2     IBAGJET, RBAGJET, NVENT    , IBAGHOL, RBAGHOL ,

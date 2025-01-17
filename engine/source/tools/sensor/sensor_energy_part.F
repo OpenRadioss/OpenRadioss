@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    forintc              ../engine/source/elements/forintc.F
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod         ../common_source/modules/groupdef_mod.F
-      !||    sensor_mod           ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod           ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE SENSOR_ENERGY_PART(IPART ,SUBSET ,IPRI,SENSORS,ITASK)
 C-----------------------------------------------

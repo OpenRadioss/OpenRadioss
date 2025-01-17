@@ -31,8 +31,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sensor_time             ../engine/source/tools/sensor/sensor_time.F
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod            ../common_source/modules/groupdef_mod.F
+      !||    my_alloc_mod            ../common_source/tools/memory/my_alloc.F90
       !||    python_funct_mod        ../common_source/modules/python_mod.F90
-      !||    sensor_mod              ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod              ../common_source/modules/sensor_mod.F90
       !||    sensor_python_mod       ../engine/source/tools/sensor/sensor_python.F90
       !||====================================================================
         SUBROUTINE SENSOR_INIT( SUBSET,IPARG,NGROUC,

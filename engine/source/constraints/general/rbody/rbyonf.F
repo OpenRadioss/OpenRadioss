@@ -223,7 +223,7 @@ C-----------
       !||    rbypid         ../engine/source/constraints/general/rbody/rbypid.F
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    sensor_mod     ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod     ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE RBYSENS(IPARG,IPARI      ,MS    ,IN   ,
      2                  IXS  ,IXQ  ,IXC   ,IXT   ,IXP  ,

@@ -25,7 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    sensor_logical   ../engine/source/tools/sensor/sensor_logical.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod       ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod       ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE SENSOR_AND(NSENSOR,SENSOR_TAB,SENS)
 C-----------------------------------------------

@@ -25,7 +25,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    hm_read_sensors   ../starter/source/tools/sensor/hm_read_sensors.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod        ../starter/share/modules1/sensor_mod.F
       !||====================================================================
       SUBROUTINE SENSOR_TAB_INIT(SENSORS)
 C-----------------------------------------------

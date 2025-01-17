@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    h3d_mod                ../engine/share/modules/h3d_mod.F
       !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
       !||    pinchtype_mod          ../common_source/modules/pinchtype_mod.F
-      !||    sensor_mod             ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod             ../common_source/modules/sensor_mod.F90
       !||    table_mod              ../engine/share/modules/table_mod.F
       !||====================================================================
       SUBROUTINE H3D_SKIN_VECTOR(SKIN_VECTOR,NODAL_IPART,NSENSOR,

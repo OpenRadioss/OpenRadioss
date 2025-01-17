@@ -40,12 +40,12 @@
       !||    resol                                    ../engine/source/engine/resol.F
       !||    resol_head                               ../engine/source/engine/resol_head.F
       !||    restalloc                                ../engine/source/output/restart/arralloc.F
-      !||    restmod                                  ../engine/share/modules/restart_mod.F
       !||    spmd_exch_deleted_surf_edge              ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
       !||    spmd_exch_neighbour_segment              ../engine/source/mpi/interfaces/spmd_exch_neighbour_segment.F90
       !||    spmd_exchmsr_idel                        ../engine/source/mpi/interfaces/spmd_exchmsr_idel.F
       !||    spmd_exchseg_idel                        ../engine/source/mpi/kinematic_conditions/spmd_exchseg_idel.F
       !||    tagoff3n                                 ../engine/source/interfaces/interf/chkstfn3.F
+      !||    user_interface_mod                       ../engine/source/modules/user_interface_mod.F90
       !||    wrrestp                                  ../engine/source/output/restart/wrrestp.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================

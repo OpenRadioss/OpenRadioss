@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    press_seg3     ../engine/source/loads/general/load_pcyl/press_seg3.F
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod        ../engine/share/modules/h3d_mod.F
-      !||    sensor_mod     ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod     ../common_source/modules/sensor_mod.F90
       !||    table_mod      ../engine/share/modules/table_mod.F
       !||====================================================================
       SUBROUTINE PRESSURE_CYL(

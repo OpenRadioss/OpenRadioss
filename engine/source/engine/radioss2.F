@@ -121,7 +121,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    restmod                      ../engine/share/modules/restart_mod.F
       !||    scratchfile_mod              ../engine/share/modules/scratchfiles_mod.F
       !||    segvar_mod                   ../engine/share/modules/segvar_mod.F
-      !||    sensor_mod                   ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod                   ../common_source/modules/sensor_mod.F90
       !||    skew_mod                     ../common_source/modules/skew_mod.F90
       !||    soltosph_mod                 ../engine/share/modules/soltosph_mod.F
       !||    stack_mod                    ../engine/share/modules/stack_mod.F
@@ -130,7 +130,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    time_mod                     ../engine/share/modules/time_mod.F
       !||    timer_mod                    ../engine/source/system/timer_mod.F90
       !||    unitab_mod                   ../common_source/modules/unitab_mod.F
-      !||    user_interface_mod           ../engine/share/modules/user_interface_mod.F
+      !||    user_interface_mod           ../engine/source/modules/user_interface_mod.F90
       !||====================================================================
       SUBROUTINE RADIOSS2(IDATA,MIDATA,RDATA,MRDATA) 
 C-----------------------------------------------

@@ -764,6 +764,7 @@ C-----------------------------------------------
       !||    mat_solid_get_nod_x   ../engine/source/user_interface/uaccess.F
       !||--- uses       -----------------------------------------------------
       !||    restmod               ../engine/share/modules/restart_mod.F
+      !||    user_interface_mod    ../engine/source/modules/user_interface_mod.F90
       !||====================================================================
       SUBROUTINE MAT_SOLID_GET_NOD_X(USER_X)
 C---------+---------+---+---+--------------------------------------------
@@ -888,6 +889,7 @@ C-----------------------------------------------
       !||    mat_solid_get_nod_v   ../engine/source/user_interface/uaccess.F
       !||--- uses       -----------------------------------------------------
       !||    restmod               ../engine/share/modules/restart_mod.F
+      !||    user_interface_mod    ../engine/source/modules/user_interface_mod.F90
       !||====================================================================
       SUBROUTINE MAT_SOLID_GET_NOD_V(USER_V)
 C---------+---------+---+---+--------------------------------------------

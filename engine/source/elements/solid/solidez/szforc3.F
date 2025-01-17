@@ -93,7 +93,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    nlocal_reg_mod         ../common_source/modules/nlocal_reg_mod.F
       !||    output_mod             ../common_source/modules/output/output_mod.F90
       !||    sdistor_ini_mod        ../engine/source/elements/solid/solide/sdistror_ini.F90
-      !||    sensor_mod             ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod             ../common_source/modules/sensor_mod.F90
       !||    table_mod              ../engine/share/modules/table_mod.F
       !||    timer_mod              ../engine/source/system/timer_mod.F90
       !||====================================================================

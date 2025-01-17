@@ -228,7 +228,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod              ../starter/share/message_module/message_mod.F
       !||    mid_pid_mod              ../starter/share/modules1/mid_pid_mod.F
       !||    monvol_struct_mod        ../starter/share/modules1/monvol_struct_mod.F
-      !||    sensor_mod               ../starter/share/modules1/sensor_mod.F
       !||    split_cfd_mod            ../starter/share/modules1/split_cfd_mod.F
       !||    stack_mod                ../starter/share/modules1/stack_mod.F
       !||    stack_var_mod            ../starter/share/modules1/stack_var_mod.F

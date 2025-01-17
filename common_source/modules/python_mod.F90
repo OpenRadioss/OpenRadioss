@@ -77,16 +77,14 @@
       !||    rdresb                         ../engine/source/output/restart/rdresb.F
       !||    read_sensor_python             ../starter/source/tools/sensor/hm_read_sensor_python.F90
       !||    read_sensors                   ../engine/source/output/restart/read_sensors.F
-      !||    redef3                         ../engine/source/elements/spring/redef3.F
       !||    redef3_law113                  ../engine/source/elements/spring/redef3_law113.F
-      !||    redef_seatbelt                 ../engine/source/tools/seatbelts/redef_seatbelt.F
       !||    resol                          ../engine/source/engine/resol.F
       !||    resol_head                     ../engine/source/engine/resol_head.F
       !||    rforc3                         ../engine/source/elements/spring/rforc3.F
       !||    rgwal1                         ../engine/source/ale/grid/rgwal1.F
       !||    sensor_base                    ../engine/source/tools/sensor/sensor_base.F
-      !||    sensor_common_mod              ../common_source/modules/sensor_common_mod.F90
       !||    sensor_init                    ../engine/source/tools/sensor/sensor_init.F
+      !||    sensor_mod                     ../common_source/modules/sensor_mod.F90
       !||    sensor_python                  ../engine/source/tools/sensor/sensor_python.F90
       !||    timfun                         ../engine/source/tools/curve/timfun.F
       !||    vinter_mixed                   ../engine/source/tools/curve/vinter_mixed.F90
@@ -629,8 +627,6 @@
 
       !||====================================================================
       !||    python_solve              ../common_source/modules/python_mod.F90
-      !||--- called by ------------------------------------------------------
-      !||    redef_seatbelt            ../engine/source/tools/seatbelts/redef_seatbelt.F
       !||--- calls      -----------------------------------------------------
       !||    python_call_funct1d_dp    ../common_source/modules/python_mod.F90
       !||    python_deriv_funct1d_dp   ../common_source/modules/python_mod.F90

@@ -27,7 +27,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    fretitl                ../starter/source/starter/freform.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod             ../starter/share/modules1/sensor_mod.F
       !||====================================================================
       SUBROUTINE WRITE_SENSORS(SENSORS,NUMNOD,NODLOCAL)
 C-----------------------------------------------

@@ -41,6 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    h3d_mod             ../engine/share/modules/h3d_mod.F
       !||    preload_axial_mod   ../engine/source/elements/spring/preload_axial.F90
+      !||    sensor_mod          ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE TFORC3(
      1   ELBUF_STR,JFT,      JLT,      PM,

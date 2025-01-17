@@ -29,7 +29,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_get_intv          ../starter/source/devtools/hm_reader/hm_get_intv.F
       !||--- uses       -----------------------------------------------------
       !||    hm_option_read_mod   ../starter/share/modules1/hm_option_read_mod.F
-      !||    sensor_mod           ../starter/share/modules1/sensor_mod.F
       !||    submodel_mod         ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE READ_SENSOR_NOT(SENSOR_PTR ,SENS_ID  ,UNITAB   ,LSUBMODEL )

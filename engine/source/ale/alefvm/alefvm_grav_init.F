@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    alefvm_mod            ../common_source/modules/ale/alefvm_mod.F
       !||    python_funct_mod      ../common_source/modules/python_mod.F90
-      !||    sensor_mod            ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod            ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE ALEFVM_GRAV_INIT(PYTHON, 
      1                          AGRV, IGRV, LGRAV, NSENSOR,SENSOR_TAB,

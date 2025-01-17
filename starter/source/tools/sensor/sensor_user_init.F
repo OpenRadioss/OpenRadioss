@@ -25,7 +25,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    lectur             ../starter/source/starter/lectur.F
       !||--- uses       -----------------------------------------------------
-      !||    sensor_mod         ../starter/share/modules1/sensor_mod.F
       !||====================================================================
         SUBROUTINE SENSOR_USER_INIT(SENSOR_USER_STRUCT)
 !$COMMENT

@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    anim_mod                ../common_source/modules/output/anim_mod.F
       !||    message_mod             ../engine/share/message_module/message_mod.F
       !||    qa_out_mod              ../common_source/qa/qa_out_mod.F
-      !||    sensor_mod              ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod              ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE ENG_QAPRINT_ANIMINPUT(SENSORS)
 C-----------------------------------------------

@@ -1592,7 +1592,7 @@ C
       !||    intstamp_glob_mod   ../engine/share/modules/intstamp_glob_mod.F
       !||    intstamp_mod        ../engine/share/modules/intstamp_mod.F
       !||    message_mod         ../engine/share/message_module/message_mod.F
-      !||    sensor_mod          ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod          ../common_source/modules/sensor_mod.F90
       !||    spmd_mod            ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
       SUBROUTINE SPMD_IFRONT_STAMP(
@@ -1982,7 +1982,7 @@ C
       !||    intstamp_glob_mod   ../engine/share/modules/intstamp_glob_mod.F
       !||    intstamp_mod        ../engine/share/modules/intstamp_mod.F
       !||    message_mod         ../engine/share/message_module/message_mod.F
-      !||    sensor_mod          ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod          ../common_source/modules/sensor_mod.F90
       !||    spmd_mod            ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
       SUBROUTINE SPMD_I21TEMPCOM(IPARI,TEMP,INTBUF_TAB,NSENSOR,SENSOR_TAB)
@@ -2179,7 +2179,7 @@ C
       !||    intstamp_glob_mod   ../engine/share/modules/intstamp_glob_mod.F
       !||    intstamp_mod        ../engine/share/modules/intstamp_mod.F
       !||    message_mod         ../engine/share/message_module/message_mod.F
-      !||    sensor_mod          ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod          ../common_source/modules/sensor_mod.F90
       !||    spmd_mod            ../engine/source/mpi/spmd_mod.F90
       !||    tri7box             ../engine/share/modules/tri7box.F
       !||====================================================================

@@ -36,7 +36,7 @@
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod   ../common_source/modules/groupdef_mod.F
       !||    inivel_mod     ../common_source/modules/inivel_mod.F90
-      !||    sensor_mod     ../engine/share/modules/sensor_mod.F
+      !||    sensor_mod     ../common_source/modules/sensor_mod.F90
       !||====================================================================
         subroutine inivel_init(                                               &
                        ngrnod,  ngrbric,    ngrquad,       ngrsh3n,           &
