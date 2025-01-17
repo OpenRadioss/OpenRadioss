@@ -184,6 +184,7 @@ C-----------------------------------------------
       use PBLAST_MOD
       use connectivity_mod
       use nodal_arrays_mod
+      use rbe3_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -339,6 +340,7 @@ C-------------------------------------------------------------------------------
       TYPE(connectivity_) :: element 
       TYPE(nodal_arrays_), target :: nodes 
       TYPE(timer_) :: TIMERS
+      TYPE(rbe3_) :: rbe3
 C------------------------------------------------------------------
 C to build a IBM PARALLEL version
 C In starter : define install parameter nspmd 
@@ -832,7 +834,8 @@ C------------------------------------------------
       CALL RDRESA(ITSTV1 ,LHEADER ,LVARINT ,LVARREA ,PRADIOS ,
      .            PRESFIL, MULTI_FVM, H3D_DATA,
      .            PINCH_DATA,DYNAIN_DATA,INTERFACES,SENSORS,LOADS,
-     .            MAT_ELEM,NAMES_AND_TITLES,SKEWS ,GLOB_THERM,PBLAST)
+     .            MAT_ELEM,NAMES_AND_TITLES,SKEWS ,GLOB_THERM,PBLAST,
+     .            RBE3)
 
 C------------------------------------------------
 C     Test of .rst file compatibility
@@ -933,7 +936,8 @@ C
       CALL ALE_CONNECTIVITY%ALE_CONNECTIVITY_INIT()
 
       ! Most of arrays from Restart
-      CALL RESTALLOC(ELEMENT,NODES,MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,INTERFACES,SKEWS,GLOB_THERM)
+      CALL RESTALLOC(ELEMENT,NODES,MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR,INTERFACES,SKEWS,
+     *               GLOB_THERM,RBE3)
 
       ! Initialization
       IGEO = 0
@@ -1046,7 +1050,7 @@ C
      .            SKEWS          ,RFLOW      ,LIFLOW        ,LRFLOW           ,IMPL_S0   ,
      .            MCP            ,TEMP       ,FORNEQS       ,UNITAB,
      .            STACK          ,DRAPE_SH4N ,DRAPE_SH3N    ,DRAPEG           ,NDRAPE ,
-     .            GLOB_THERM     ,PBLAST, ELEMENT, NODES)
+     .            GLOB_THERM     ,PBLAST     ,ELEMENT       ,NODES            ,RBE3)
       ! Close restart file
        CALL CLOSE_C
        ! --------------------------------------------------------------------------------------------
@@ -2181,7 +2185,8 @@ C---------------------------------------------------------------------
      .                   DRAPE_SH4N   ,DRAPE_SH3N      ,T_MONVOL        ,SENSORS    ,EBCS_TAB        ,
      .                   DIFFUSION    ,SEGVAR          ,DYNAIN_DATA     ,DRAPEG     ,USER_WINDOWS    ,
      .                   OUTPUT       ,INTERFACES      ,DT              ,LOADS      ,MAT_ELEM  , PYTHON,
-     .                   NAMES_AND_TITLES, UNITAB ,SKEWS,LIFLOW         ,LRFLOW     ,glob_therm,PBLAST)
+     .                   NAMES_AND_TITLES, UNITAB ,SKEWS,LIFLOW         ,LRFLOW     ,glob_therm,PBLAST,
+     .                   RBE3)
 C---------------------------------------------------------------------
       CURRENT_RUN = GLOBAL_COMP_TIME%RUN_NBR
       CALL SPMD_REDUCE_DB(GLOBAL_COMP_TIME%ENGINE_TIME(CURRENT_RUN),RESULT,1,0,"MAX ")

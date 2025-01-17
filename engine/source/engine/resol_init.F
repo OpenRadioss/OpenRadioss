@@ -134,7 +134,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      b  ISLEN17 ,IRLEN17  ,IRLEN7T ,ISLEN7T   ,LINDIDEL  ,
      c  LBUFIDEL,SH4TRIM  ,SH3TRIM ,MSCND     ,INCND     ,
      d  IRLEN20 ,ISLEN20  ,IRLEN20T,ISLEN20T  ,NBINT20   ,
-     e  IRLEN20E,ISLEN20E ,NISKYFIE,IRBE3     ,R3SIZE    ,
+     e  IRLEN20E,ISLEN20E ,NISKYFIE,
      f  MCP     ,MS0      ,INOD_PXFEM,IEL_PXFEM,IADC_PXFEM,
      g  ADSKY_PXFEM,ICODT,ICODR    ,IBFV      ,ADMSMS    ,
      h  NODREAC  ,IGROUC  ,NGROUC  ,IGROUNC   ,NGROUNC ,
@@ -164,7 +164,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6  TAGSLV_RBY,NFNCA2 ,NFTCA2  ,IN0  ,SORT_COMM,STACK,OUTPUT,
      7  THKE ,SFR_ELEM ,SH_OFFSET_TAB,
      8  NEED_COMM_INT25_SOLID_EROSION,COMM_INT25_SOLID_EROSION,
-     9  ISKWN ,IFRAME, LOADS ,GLOB_THERM,PBLAST)
+     9  ISKWN ,IFRAME, LOADS ,GLOB_THERM,PBLAST,RBE3)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -196,6 +196,7 @@ C-----------------------------------------------
       use glob_therm_mod
       use spmd_xv_inter_type1_mod , only : is_present_inter1
       USE parith_on_mod, only: element_pon_
+      use rbe3_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -246,7 +247,7 @@ C-----------------------------------------------
      .        ISIZXV , ILENXV, I2SIZE, ISLEN7,IRLEN7 ,ISLEN11 ,IRLEN11,
      .        I15ATH, I35ATH, NME17,ISLEN17,IRLEN17,IRLEN7T,ISLEN7T,
      .        IRLEN20,ISLEN20,IRLEN20T,ISLEN20T,NBINT20,IRLEN20E,
-     .        ISLEN20E,R3SIZE,NELEM,LAG_SEC, NGRTH, NFT2,NMRBE2,
+     .        ISLEN20E,NELEM,LAG_SEC, NGRTH, NFT2,NMRBE2,
      .        INT18KINE,INT24USE,NDAMA2, NRBYKIN_L,IOLDSECT,LBUFIDEL24,
      .        TABMP_L,TAGTRIMC(*),TAGTRIMTG(*), SLLOADP,SFR_ELEM
       INTEGER 
@@ -267,7 +268,7 @@ C-----------------------------------------------
      .        MADFAIL(*), FR_MAD(5,*), LWIBEM, LWRBEM, LWIFLOW, LWRFLOW,
      .        IFLOW(*), ADDCNEL(0:*), CNEL(0:*), ADDTMPL(0:*),
      .        IPM(NPROPMI,*), SH4TREE(*), IPADMESH(*), SH3TREE(*),
-     .        SH4TRIM(*), SH3TRIM(*), NISKYFIE(*),IRBE3(NRBE3L,*),
+     .        SH4TRIM(*), SH3TRIM(*), NISKYFIE(*),
      .        ICODT(*), ICODR(*),IBFV(NIFV,*),  
      .        INOD_PXFEM(*),IEL_PXFEM(*) ,IADC_PXFEM(4,*),ELCUTC(2,*),
      .        ADSKY_PXFEM(*), KXFENOD2ELC(*),NODLEVXF(*),CRKNODIAD(*),
@@ -350,6 +351,7 @@ C-----------------------------------------------
       TYPE (LOADS_) ,INTENT(INOUT)   :: LOADS
       type (glob_therm_) ,intent(inout)   :: glob_therm
       type (pblast_) ,intent(inout)   :: pblast
+      type (rbe3_) ,intent(inout)   :: rbe3
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -407,13 +409,14 @@ C parallel structures init.
 C
         IROTG=0
         DO I=1,NRBE3
-          IROTG=MAX(IROTG,IRBE3(6,I))
+          IROTG=MAX(IROTG,RBE3%IRBE3(6,I))
         ENDDO
         CALL SPMD_MAX_I(IROTG)
+        RBE3%irotg = IROTG
         IF(IROTG==0) THEN
-          R3SIZE = 5
+          RBE3%irotg_sz = 5
         ELSE
-          R3SIZE = 10
+          RBE3%irotg_sz = 10
         ENDIF
  
 C---------RBE2----        
@@ -435,7 +438,7 @@ C---------RBE2----
                IF (NS==0) R2SIZE = 0
         NFR = IAD_RBE2(NSPMD+1)-IAD_RBE2(1)
         IF (NSPMD==1) THEN
-          R3SIZE = 0
+          RBE3%irotg_sz = 0
           R2SIZE = 0
         ENDIF
 

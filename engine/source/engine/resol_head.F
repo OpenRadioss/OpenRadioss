@@ -78,7 +78,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .           DIFFUSION   ,SEGVAR      ,DYNAIN_DATA    ,DRAPEG     ,USER_WINDOWS    ,
      .           OUTPUT      ,INTERFACES  ,DT             ,LOADS      ,MAT_ELEM        ,
      .           PYTHON      ,NAMES_AND_TITLES, UNITAB    ,SKEWS      ,LIFLOW          ,
-     .           LRFLOW      ,glob_therm ,PBLAST )
+     .           LRFLOW      ,glob_therm ,PBLAST          ,RBE3 )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -121,6 +121,7 @@ C-----------------------------------------------
       use glob_therm_mod
       use PBLAST_MOD
       use TIMER_MOD
+      use rbe3_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -189,6 +190,7 @@ C     REAL
       TYPE(SKEW_), INTENT(INOUT)              :: SKEWS
       type (glob_therm_) ,intent(inout)       :: glob_therm
       type (pblast_) ,intent(inout)           :: PBLAST
+      type (rbe3_) ,intent(inout)             :: RBE3
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -259,8 +261,7 @@ C
      m  ACONTACT        ,PCONTACT       ,FACTIV         ,MCP            ,TEMP,
      p  SH4TRIM         ,SH3TRIM        ,MSCND          ,INCND          ,
      q  IBFFLUX         ,FBFFLUX        ,RBYM           ,IRBYM          ,LNRBYM         ,ICODRBYM,
-     r  IBCV            ,FCONV          ,IBFTEMP        ,FBFTEMP        ,IRBE3          ,LRBE3       ,FRBE3            ,
-     s  IAD_RBE3M       ,FR_RBE3M       ,FR_RBE3MP      ,IAD_RBYM       ,FR_RBYM,
+     r  IBCV            ,FCONV          ,IBFTEMP        ,FBFTEMP        ,IAD_RBYM       ,FR_RBYM,
      t  WEIGHT_RM       ,MS_PLY         ,ZI_PLY         ,INOD_PXFEM     ,IEL_PXFEM      ,IADC_PXFEM  ,
      u  ADSKY_PXFEM     ,ICODE_PLY      ,ICODT_PLY      ,ISKEW_PLY      ,ADMSMS      ,
      v  MADCLNOD        ,NOM_SECT       ,MCPC           ,MCPTG          ,DMELC          ,DMELTG      ,MSSA             ,
@@ -293,7 +294,7 @@ C
      N  KLOADPINTER     ,LOADPINTER     ,DGAPLOADINT    ,DRAPEG         ,USER_WINDOWS ,OUTPUT          ,INTERFACES,
      O  DT              ,LOADS          ,PYTHON         ,DPL0CLD        ,VEL0CLD        ,
      P  NDAMP_VREL      ,ID_DAMP_VREL   ,FR_DAMP_VREL   ,NDAMP_VREL_RBYG,NAMES_AND_TITLES,UNITAB,LIFLOW,LRFLOW,
-     R  GLOB_THERM      ,PBLAST)
+     R  GLOB_THERM      ,PBLAST         ,RBE3)
 C
       CALL TRACE_OUT(2)
 C

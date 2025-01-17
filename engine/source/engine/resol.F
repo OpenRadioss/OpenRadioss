@@ -559,8 +559,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      m  ACONTACT,PCONTACT,FACTIV  ,MCP     ,TEMP
      p                   ,SH4TRIM ,SH3TRIM ,MSCND   ,INCND   ,
      q  IBFFLUX ,FBFFLUX ,RBYM    ,IRBYM   ,LNRBYM  ,ICODRBYM,
-     r  IBCV    ,FCONV   ,IBFTEMP ,FBFTEMP ,IRBE3   ,LRBE3   ,FRBE3   ,
-     s  IAD_RBE3M,FR_RBE3M,FR_RBE3MP,IAD_RBYM,FR_RBYM,
+     r  IBCV    ,FCONV   ,IBFTEMP ,FBFTEMP ,IAD_RBYM,FR_RBYM,
      t  WEIGHT_RM,MS_PLY,ZI_PLY,INOD_PXFEM,IEL_PXFEM,IADC_PXFEM,
      u  ADSKY_PXFEM,ICODE_PLY,ICODT_PLY,ISKEW_PLY  ,ADMSMS  ,
      v  MADCLNOD,NOM_SECT,MCPC    ,MCPTG   ,DMELC   ,DMELTG  ,MSSA    ,
@@ -593,7 +592,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      N  KLOADPINTER,LOADPINTER,DGAPLOADINT,DRAPEG,USER_WINDOWS,OUTPUT,INTERFACES,
      O  DT        ,LOADS     , PYTHON, DPL0CLD,VEL0CLD,
      P  NDAMP_VREL,ID_DAMP_VREL,FR_DAMP_VREL,NDAMP_VREL_RBYG,NAMES_AND_TITLES,UNITAB,LIFLOW,LRFLOW ,
-     R  GLOB_THERM ,PBLAST)
+     R  GLOB_THERM ,PBLAST,RBE3)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -698,6 +697,7 @@ C-----------------------------------------------
       USE PBLAST_MOD
       USE spmd_xv_inter_type1_mod, only : spmd_xv_inter_type1
       USE TIMER_MOD
+      USE rbe3_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -800,8 +800,7 @@ C-----------------------------------------------
      .   ICONTACT(*), SH4TREE(*), SH3TREE(*), IPADMESH(*),
      .   ISKWP(*), NSKWP(*), ISENSP(2,*), NSENSP(*), IACCP(*), NACCP(*),
      .   IPART_STATE(*),SH4TRIM(*), SH3TRIM(*),IRBYM(*) ,LNRBYM(*),
-     .   ICODRBYM(*),IRBE3(NRBE3L,*),LRBE3(*),IAD_RBE3M(*),FR_RBE3M(*),
-     .   FRBE3(*), FR_RBE3MP(*),IAD_RBYM(*),
+     .   ICODRBYM(*),IAD_RBYM(*),
      .   FR_RBYM(*),NOM_SECT(*), IBCR(*),IRBE2(*),LRBE2(*),
      .   IAD_RBE2(*),FR_RBE2(*),IADSDP_PXFEM(*),
      .   IADRCP_PXFEM(*),ICFIELD(*),LCFIELD(*),ILOADP(*),LLOADP(*),
@@ -925,6 +924,7 @@ c
       TYPE(NAMES_AND_TITLES_),INTENT(INOUT)              :: NAMES_AND_TITLES !< NAMES_AND_TITLES host the input deck names and titles for outputs
       type (glob_therm_) ,intent(inout)                  :: glob_therm
       type (PBLAST_) ,intent(inout)                      :: PBLAST
+      type (rbe3_) ,intent(inout)                        :: RBE3
 C
       INTEGER ,INTENT(IN) :: NDAMP_VREL,NDAMP_VREL_RBYG
       INTEGER ,INTENT(IN) :: ID_DAMP_VREL(NDAMP_VREL),FR_DAMP_VREL(NSPMD+2,NDAMP_VREL)
@@ -969,7 +969,7 @@ C-----------------------------------------------
      .        ISLEN7, IRLEN7, ISLEN11, IRLEN11, LISENDP, LIRECVP,
      .        ISLEN17, IRLEN17,IRLEN7T,ISLEN7T,LINDIDEL,LBUFIDEL,LBUFSEGLO,
      .        ISLEN20, IRLEN20, ISLEN20T, IRLEN20T, NBINT20,
-     .        ISLEN20E, IRLEN20E,R3SIZE,LAG_SEC,LENS1,LENR1,INT18KINE,
+     .        ISLEN20E, IRLEN20E,LAG_SEC,LENS1,LENR1,INT18KINE,
      .        NRBYKIN_L, INT24USE, NELEML,I24MAXNSNE,INT24E2EUSE
       INTEGER :: INT7ITIED
       INTEGER, DIMENSION(:,:),ALLOCATABLE ::
@@ -991,7 +991,7 @@ C----
      .     NBINTC, I2SIZE, ISLEN7   ,IRLEN7   ,ISLEN11  ,IRLEN11,
      .     ILENXV, ISIZXV, ISLEN17, IRLEN17,IRLEN7T,ISLEN7T,
      .     ISLEN20, IRLEN20, ISLEN20T, IRLEN20T, NBINT20, NISKYFIE,
-     .     ISLEN20E, IRLEN20E,R3SIZE, NRBYKIN_L, IRBKIN_L, QFRICINT,
+     .     ISLEN20E, IRLEN20E, NRBYKIN_L, IRBKIN_L, QFRICINT,
      .     INTLIST25
       SAVE DRETRI, XSEC, LISENDP, LIRECVP, ISENDP, IRECVP,
      .     CNEL, ADDCNEL, ADDTMPL, IPARTL, NPARTL, LINDIDEL, LBUFIDEL,
@@ -1013,8 +1013,7 @@ C----
      .     I87A,I87B,I87C,I87D,I87E,I87F,I87G,I87H,I87I,I87J,I87K,I87L,
      .     I87M,I87N,I15ATH,I35ATH,LAG_SEC,NFT2,NDAMA2
       INTEGER NDDL0,NNZK0,LENQMV,NV46,NUM_IMP(NINTER),NINT7,NT_IMP,
-     .        LI1,LI2,LI3,LI4,LI5,LI6,
-     .        LIF,NNDL,IT,NMC2,LI13,DIRUL(NFXVEL),NUM_IMP1(NINTER),
+     .        NNDL,IT,NMC2,LI13,DIRUL(NFXVEL),NUM_IMP1(NINTER),
      .        FR_RBE2M(SFR_RBE2),R2SIZE,
      .        NUM_IMPL(NINTER,NTHREAD), I_OPT_STOK(NINTER),IT_T,NTMP
       INTEGER IER1,NDS,IBUCK,NMRBE2,NTHOLD
@@ -1075,9 +1074,7 @@ C Parith/ON specific
 C End Parith/ON specific
       INTEGER FR_SMS(NSPMD+1), FR_RMS(NSPMD+1)
       INTEGER, POINTER, DIMENSION(:) :: PTR_SMS
-      INTEGER NMT0,IROTG,NMT,NMP
-      my_real, DIMENSION(:), ALLOCATABLE :: RRBE3
-      DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE :: RRBE3_PON
+      INTEGER NMT0
       INTEGER, DIMENSION(:), ALLOCATABLE :: IKINE
       my_real, DIMENSION(:), ALLOCATABLE :: STK_SN,STK_SR,FEXT,FCLUSTER,MCLUSTER
       INTEGER LNZM
@@ -2188,7 +2185,7 @@ C
      b   ISLEN17  ,IRLEN17  ,IRLEN7T  ,ISLEN7T  ,LINDIDEL ,
      c   LBUFIDEL ,SH4TRIM  ,SH3TRIM  ,MSCND    ,INCND    ,
      d   IRLEN20  ,ISLEN20  ,IRLEN20T ,ISLEN20T ,NBINT20  ,
-     e   IRLEN20E ,ISLEN20E ,NISKYFIE ,IRBE3    ,R3SIZE   ,
+     e   IRLEN20E ,ISLEN20E ,NISKYFIE ,
      f   MCP      ,NODES%MS0      ,INOD_PXFEM,IEL_PXFEM,IADC_PXFEM,
      g   ADSKY_PXFEM,NODES%ICODT  ,NODES%ICODR    ,IBFV     ,ADMSMS    ,
      h   NODREAC  ,IGROUC   ,NGROUC   ,IGROUNC  ,NGROUNC  ,
@@ -2218,7 +2215,7 @@ C
      6   TAGSLV_RBY,NFNCA2  ,NFTCA2  ,NODES%IN0 ,SORT_COMM,STACK,OUTPUT,
      7   THKE   ,SFR_ELEM  ,SH_OFFSET_TAB,
      8   NEED_COMM_INT25_SOLID_EROSION,COMM_INT25_SOLID_EROSION ,
-     9   ISKWN  ,IFRAME  ,LOADS ,GLOB_THERM,PBLAST)
+     9   ISKWN  ,IFRAME  ,LOADS ,GLOB_THERM,PBLAST,RBE3)
 
 !$OMP END PARALLEL
        IF (ALEMUSCL_Param%IALEMUSCL == 0) DEALLOCATE(ADDTMPL)
@@ -2633,7 +2630,7 @@ C
      5      KAD_SMS ,IPART(I15A),IPART(I15B),
      6     IPART(I15C),IPART(I15D),IPART(I15E),IPART(I15F),IPART(I15G),
      7     IPART(I15H),IPART(I15I),TAGPRT_SMS ,TAGREL_SMS ,NODES%ITAB       ,
-     8     NODES%WEIGHT     ,IRBE2      ,IRBE3      ,LRBE2      ,LRBE3      ,
+     8     NODES%WEIGHT     ,IRBE2      ,RBE3%IRBE3      ,LRBE2      ,RBE3%LRBE3      ,
      9     IAD_ELEM   ,FR_ELEM    ,NPRW       ,LPRW       ,IPART      ,
      A     IGEO       ,NATIV_SMS  )
 
@@ -2912,50 +2909,10 @@ C       dt2s=0 => shells computation at 1st cycle next to restart
         IF(MCHECK/=0) DT2SAVE = DT2
 C------------RBE3----allocation-------------
       IF(NRBE3>0)THEN
-       IF(ITASK==0)THEN
-        NMT0 = SLRBE3/2
-        IROTG=0
-        DO N=1,NRBE3
-         IROTG=MAX(IROTG,IRBE3(6,N))
-        END DO
-        IF (R3SIZE>5)IROTG = 1
+        NMT0 = RBE3%lrbe3_sz/2
         IF (NMT0>0) THEN
-         CALL PRERBE3P0(IRBE3 ,LRBE3 ,NMT   )
-         LI1=1
-         LI2=LI1+3*NMT
-         LI3=LI2+NMT
-         IF (IROTG>0) THEN
-          LI4=LI3+NMT
-          LI5=LI4+3*NMT
-          LI6=LI5+NMT
-         ELSE
-          LI4=LI3
-          LI5=LI4
-          LI6=LI5
-         ENDIF
-         LIF=LI6+NMT
-         ALLOCATE(RRBE3(LIF),STAT=IER1)
-         RRBE3 = ZERO
-          NMP = 6*NMT
-          LI1=1
-          LI2=LI1+3*NMP
-          LI3=LI2+NMP
-          IF (IROTG>0) THEN
-           LI4=LI3+NMP
-           LI5=LI4+3*NMP
-           LI6=LI5+NMP
-          ELSE
-           LI4=LI3
-           LI5=LI4
-           LI6=LI5
-          ENDIF
-          LIF=LI6+NMP
-C         spmd p/on
-          ALLOCATE(RRBE3_PON(LIF),STAT=IER1)
-          RRBE3_PON=ZERO
+          CALL PRERBE3P0(RBE3)
         END IF
-       END IF
-       CALL MY_BARRIER
       END IF
 C----------------------------------
 C       IMPLICIT SIZES [MONO THREAD]
@@ -2979,8 +2936,8 @@ C----------------------------------
      7    FR_ELEM   ,IAD_ELEM  ,FR_I2M    ,IAD_I2M   ,
      8    NPRW      ,NUM_IMP1  ,NUM_IMPL  ,MONVOL    ,IGRSURF   ,
      9    FR_MV     ,IPM       ,IGEO      ,IAD_RBY   ,
-     A    FR_RBY    ,SH4TREE   ,SH3TREE   ,IRBE3     ,LRBE3     ,
-     B    FR_RBE3M  ,IAD_RBE3M ,IRBE2     ,LRBE2     ,IBFV      ,
+     A    FR_RBY    ,SH4TREE   ,SH3TREE   ,RBE3%IRBE3     ,RBE3%LRBE3     ,
+     B    RBE3%mpi%FR_RBE3  ,RBE3%mpi%IAD_RBE3 ,IRBE2     ,LRBE2     ,IBFV      ,
      C    VEL       ,ELBUF_TAB ,IFRAME    ,INTERFACES%INTBUF_TAB,
      D    NDDL0     ,NNZK0     ,IMPBUF_TAB)
           IF (IMON>0) CALL STOPTIME(TIMERS,31)
@@ -5919,14 +5876,13 @@ C----------------------------------------------------------
 C         RBE3 - FORCES ET MOMENTS
 C----------------------------------------------------------
       IF (NRBE3>0) THEN
-        CALL MY_BARRIER
         IF (IMON>0) CALL STARTIME(TIMERS,TIMER_KIN)
         IF (IMONM > 0) CALL STARTIME(TIMERS,45)
-         CALL RBE3T1(IRBE3 ,LRBE3 ,NODES%X     ,NODES%A      ,NODES%AR     ,
-     1               NODES%MS    ,NODES%IN    ,FRBE3 ,SKEWS%SKEW   ,NODES%WEIGHT ,
-     2               NODES%STIFN ,NODES%STIFR ,IAD_RBE3M,FR_RBE3M,R3SIZE,
-     3               FR_RBE3MP,DMAS ,ANIN(NDMA+1) ,DINER  ,
-     4               ANIN(NDIN+1),RRBE3 ,RRBE3_PON,H3D_DATA)
+
+         CALL RBE3T1(RBE3         ,NODES        ,SKEWS%SKEW,
+     1               DMAS         ,ANIN(NDMA+1) ,DINER,
+     2               ANIN(NDIN+1) ,H3D_DATA)
+
         IF (IMONM > 0) CALL STOPTIME(TIMERS,45)
         IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
       ENDIF
@@ -6132,8 +6088,8 @@ C
      H             NODES%ITAB  ,NODES%WEIGHT  ,DMINT2    ,ELBUF_TAB,TAGMSR_RBY_SMS,
      I             NPRW  ,LPRW    ,FR_WALL   ,NRWL_SMS      ,RBY      ,
      J             NODES%X     ,NODES%A       ,NODES%AR        ,NODES%IN            ,NODES%V        ,
-     K             NODES%VR    ,IRBE2   ,LRBE2     ,IRBE3         ,LRBE3    ,
-     L             IAD_RBE3M ,FR_RBE3M ,NATIV_SMS,T2MAIN_SMS,T2FAC_SMS,
+     K             NODES%VR    ,IRBE2   ,LRBE2     ,RBE3%IRBE3         ,RBE3%LRBE3    ,
+     L             RBE3%mpi%IAD_RBE3 ,RBE3%mpi%FR_RBE3 ,NATIV_SMS,T2MAIN_SMS,T2FAC_SMS,
      M             MSKYI_FI_SMS, LIST_SMS,LIST_RMS,SZ_mw6,MW6)
 c
 !$OMP END PARALLEL
@@ -6821,10 +6777,10 @@ C===============================================================================
      K        FRWL6    ,3+IRODDL*3,TAGSLV_RBY,DAMPR   , DAMP      ,
      L        IGRNOD   ,NODES%DR       ,RBY      ,TAGMSR_RBY_SMS,
      M        JSM_SMS  ,IRBE2     ,LRBE2   ,IAD_RBE2  ,FR_RBE2M   ,
-     N        NMRBE2   ,R2SIZE    ,IRBE3    ,LRBE3      ,FRBE3    ,
-     O        IAD_RBE3M ,FR_RBE3M,FR_RBE3MP ,RRBE3      ,RRBE3_PON,
+     N        NMRBE2   ,R2SIZE    ,RBE3%IRBE3    ,RBE3%LRBE3      ,RBE3%FRBE3    ,
+     O        RBE3%mpi%IAD_RBE3 ,RBE3%mpi%FR_RBE3,RBE3%mpi%FR_RBE3MP ,RBE3%RRBE3      ,RBE3%RRBE3_PON,
      P        PREC_SMS3 ,DIAG_SMS3,IAD_RBY  ,FR_RBY6    ,RBY6     ,
-     Q        R3SIZE    ,BETATE   ,IBCSCYC    ,LBCSCYC,
+     Q        RBE3%irotg_sz    ,BETATE   ,IBCSCYC    ,LBCSCYC,
      R        MSKYI_FI_SMS, LIST_SMS,LIST_RMS,CJWORK,FREA,
      S        IRWL_WORK,SMS_VFI,sz_mw6,MW6)
 
@@ -8050,10 +8006,7 @@ C--------------------
 C      RBE3
 C--------------------
       IF (NRBE3>0) THEN
-        IF (ITASK==0) THEN
-          CALL RBE3V(IRBE3 ,LRBE3 ,NODES%X    ,NODES%A     ,NODES%AR    ,
-     1                 NODES%V   ,NODES%VR    ,FRBE3,SKEWS%SKEW  )
-        ENDIF
+          CALL RBE3V(RBE3,NODES,SKEWS%SKEW  )
       ENDIF
 C--------------------
 C      RBE2
@@ -8481,10 +8434,10 @@ C--------------------------------------------------
      9        FR_RMS   ,NPBY     ,TAGSLV_RBY_SMS,INTSTAMP,CPTREAC,
      A        NODREAC  ,FTHREAC  ,NODES%AR        ,NODES%VR        ,
      B        NODES%DR       ,NODES%IN       ,RBY      ,IRBE2     ,LRBE2     ,
-     C        IAD_RBE2 ,FR_RBE2M ,NMRBE2   ,R2SIZE    ,IRBE3     ,
-     D        LRBE3    ,FRBE3    ,IAD_RBE3M,FR_RBE3M  ,FR_RBE3MP ,
-     E        RRBE3    ,RRBE3_PON,IAD_RBY  ,FR_RBY6   ,RBY6      ,
-     F        LPBY     ,TAGMSR_RBY_SMS,R3SIZE,NODII_SMS,INDX2_SMS,
+     C        IAD_RBE2 ,FR_RBE2M ,NMRBE2   ,R2SIZE    ,RBE3%IRBE3     ,
+     D        RBE3%LRBE3    ,RBE3%FRBE3    ,RBE3%mpi%IAD_RBE3,RBE3%mpi%FR_RBE3  ,RBE3%mpi%FR_RBE3MP ,
+     E        RBE3%RRBE3    ,RBE3%RRBE3_PON,IAD_RBY  ,FR_RBY6   ,RBY6      ,
+     F        LPBY     ,TAGMSR_RBY_SMS,RBE3%irotg_sz,NODII_SMS,INDX2_SMS,
      G        IBCSCYC  ,LBCSCYC ,OUTPUT, MSKYI_FI_SMS,LIST_SMS,
      H        LIST_RMS ,SMS_VFI,sz_mw6,mw6)
 
@@ -8690,8 +8643,8 @@ C Regular animation
      Z   THKE          ,ERR_THK_SH4    ,ERR_THK_SH3,
      a   INOD_PXFEM    ,FTHREAC        ,NODREAC        ,GRESAV,
      b   DIAG_SMS      ,SH4TRIM        ,SH3TRIM        ,FANI(1,1+NFT2) ,XMOM_SMS      ,
-     c   IRBE2         ,IRBE3          ,LRBE2          ,LRBE3          ,FR_RBE2       ,
-     d   FR_RBE3M      ,IAD_RBE2       ,DXANCG         ,IEL_PXFEM      ,ZI_PLY        ,
+     c   IRBE2         ,RBE3%IRBE3     ,LRBE2          ,RBE3%LRBE3     ,FR_RBE2       ,
+     d   RBE3%mpi%FR_RBE3 ,IAD_RBE2       ,DXANCG         ,IEL_PXFEM      ,ZI_PLY        ,
      e   VFLOW         ,FCONTG         ,FNCONTG        ,FTCONTG        ,FREAC         ,
      f   INOD_CRK      ,IEL_CRK        ,ELCUTC         ,IADC_CRK       ,ANIN(NDAMA2+1),
      g   RES_SMS       ,SENSORS        ,
@@ -8865,7 +8818,7 @@ C===============================================================================
      D  TFEXT  ,NODFT  ,NODLT  ,NT_IMP ,NUM_IMP,NS_IMP ,NE_IMP ,IND_IMP,
      L  IT     ,RWBUF  ,LPRW    ,FR_WALL,NBINTC ,INTLIST,
      M  FANI(1,1+NFOA+2*(NSECT+NRBODY)),RWSAV  ,FSAVD ,
-     N  DIRUL  ,LGRAV  ,IRBE3  ,LRBE3  ,FRBE3  ,
+     N  DIRUL  ,LGRAV  ,RBE3%IRBE3  ,RBE3%LRBE3  ,RBE3%FRBE3  ,
      O  FRWL6  ,IRBE2  ,LRBE2 ,ICFIELD,LCFIELD,CFIELD,ELBUF_TAB,
      P  NODES%WEIGHT_MD, STACK,SENSORS%SFSAV,SENSORS%FSAV,SENSORS%STABSEN,SENSORS%TABSENSOR,DRAPE_SH4N  ,
      Q  DRAPE_SH3N,H3D_DATA ,NDDL0,NNZK0,IMPBUF_TAB,CPTREAC,FTHREAC,NODREAC,
@@ -8903,8 +8856,8 @@ C----       10,11,12:ELBUF_C,BUFMAT_C,X_C,13,14:DD,DDR,15,16:X_ac,V_zero,23,24:A
      Q  I2MSCH ,ISIZXV,ILENXV ,ISLEN7  ,IRLEN7 ,ISLEN11,IRLEN11,ISLEN17,
      R  IRLEN17,IRLEN7T,ISLEN7T,KINET  ,NUM_IMP1,TEMP  ,DT2PREV,WA     ,
      S  LGRAV  ,SH4TREE,SH3TREE,IRLEN20,ISLEN20,IRLEN20T,ISLEN20T,
-     T  IRLEN20E,ISLEN20E,IRBE3,LRBE3  ,FRBE3  ,FR_I2M,IAD_I2M,FR_RBE3M,
-     U  IAD_RBE3M,FRWL6,IRBE2  ,LRBE2,INTBUF_TAB_CP,
+     T  IRLEN20E,ISLEN20E,RBE3%IRBE3,RBE3%LRBE3  ,RBE3%FRBE3  ,FR_I2M,IAD_I2M,rbe3%mpi%FR_RBE3,
+     U  RBE3%mpi%IAD_RBE3,FRWL6,IRBE2  ,LRBE2,INTBUF_TAB_CP,
      W  NODES%IKINE  ,DIAG_SMS,ICFIELD,LCFIELD,CFIELD,COUNT_REMSLV,
      X  COUNT_REMSLVE,ELBUF_TAB,ELBUF_IMP,NODES%XDP,NODES%WEIGHT_MD , STACK  ,
      Y  SENSORS%SFSAV,SENSORS%FSAV,SENSORS%STABSEN,SENSORS%TABSENSOR,DRAPE_SH4N  , DRAPE_SH3N,
@@ -9600,7 +9553,7 @@ C--- //0 ----------------
      .               IMPBUF_TAB ,IMPL_S          ,IMPL_S0        ,MCP             ,TEMP             ,
      .               FORNEQS    ,UNITAB          ,STACK          ,NDRAPE          ,DRAPE_SH3N       ,
      .               DRAPE_SH4N ,DRAPEG          ,RESTSIZE       ,SKEWS           ,GLOB_THERM       ,
-     .               PBLAST)
+     .               PBLAST     ,RBE3)
         
         ! Restart file size
         IF (MULTIREST >0)THEN
@@ -9937,8 +9890,8 @@ C
         IF(ALLOCATED(IGRTH))DEALLOCATE(IGRTH)
         IF(ALLOCATED(GRESAV))DEALLOCATE(GRESAV)
         IF(NRBE3>0)THEN
-          DEALLOCATE(RRBE3)
-          IF (IPARIT>0) DEALLOCATE(RRBE3_PON)
+          DEALLOCATE(RBE3%RRBE3)
+          IF (IPARIT>0) DEALLOCATE(RBE3%RRBE3_PON)
         END IF
         IF(IMPL_S>0.OR.NEIG>0)THEN
                    CALL DEALLOC_IMPBUF(IMPBUF_TAB)
