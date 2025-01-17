@@ -46,9 +46,9 @@
       !||    constant_mod   ../common_source/modules/constant_mod.F
       !||====================================================================
       subroutine compaction(&
-                            iflag, nel  , pm   , off  , eint , mu   , mu2 , &
-                            dvol , mat  , psh  , &
-                            pnew , dpdm , dpde , theta, ecold, mu_bak,&
+                            iflag , nel   , pm    , off  , eint , mu   , mu2 , &
+                            dvol  , mat   , psh   , &
+                            pnew  , dpdm  , dpde  , mu_bak,&
                             npropm, nummat, tfext)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -69,14 +69,14 @@
       integer,intent(in) :: npropm, nummat !< array sizes
       integer,intent(in) :: mat(nel), iflag
       my_real,intent(inout) :: pm(npropm,nummat),off(nel),eint(nel),mu(nel),mu2(nel),dvol(nel)
-      my_real,intent(inout) :: pnew(nel),dpdm(nel),dpde(nel),theta(nel),ecold(nel)
+      my_real,intent(inout) :: pnew(nel),dpdm(nel),dpde(nel),mu_bak(nel)
       double precision,intent(inout) :: tfext
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
       integer i, mx, iform
       my_real :: p0,psh(nel),e0,sph,tfextt, b(nel),pne1,pfrac
-      my_real :: c0,c1,c2,c3,bunl,mu_bak(nel),mu_max,p(nel),p_
+      my_real :: c0,c1,c2,c3,bunl,mu_max,p(nel),p_
       my_real :: alpha,mumin
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
@@ -142,11 +142,6 @@
         p(i)=max(pfrac,p(i))*off(i)
         pnew(i) = p(i)-psh(i)
       enddo !next i
-      do i=1,nel
-        ecold(i)=-three100*sph
-        theta(i)=three100
-      enddo
-
 
       if(iflag == 1) then
         !----------------------------------------------------------------!
@@ -168,9 +163,6 @@
           p(i)=max(pfrac,p(i))*off(i)
           pnew(i) = p(i)-psh(i)
         enddo !next i
-         do i=1,nel
-           ecold(i)=-three100*sph
-         enddo
         !----------------------------------------------------------------!
         !  PRESSURE WORK                                                 !
         !----------------------------------------------------------------!      
