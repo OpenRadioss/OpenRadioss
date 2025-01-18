@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_iglob_partn      ../engine/source/mpi/anim/spmd_iglob_partn.F
       !||    write_i_c             ../common_source/tools/input_output/write_routtines.c
       !||--- uses       -----------------------------------------------------
+      !||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
       !||    plyxfem_mod           ../engine/share/modules/plyxfem_mod.F
       !||====================================================================
       SUBROUTINE PARSOR_PLY(NEL_PLY, X,       D,       XNORM,  CDG,

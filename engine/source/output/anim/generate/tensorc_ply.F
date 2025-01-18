@@ -32,6 +32,7 @@ C available just with ply/xfem formulation
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
+      !||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
       !||    plyxfem_mod        ../engine/share/modules/plyxfem_mod.F
       !||    stack_mod          ../engine/share/modules/stack_mod.F
       !||====================================================================

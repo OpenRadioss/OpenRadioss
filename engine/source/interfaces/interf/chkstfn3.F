@@ -1913,6 +1913,8 @@ C
       !||    i24_remove_global_segment   ../engine/source/interfaces/interf/chkstfn3.F
       !||    i25_remove_global_segment   ../engine/source/interfaces/interf/chkstfn3.F
       !||    my_barrier                  ../engine/source/system/machine.F
+      !||--- uses       -----------------------------------------------------
+      !||    my_alloc_mod                ../common_source/tools/memory/my_alloc.F90
       !||====================================================================
       SUBROUTINE CHKMSR3N(
      1    NMN  ,MSR   ,ITAG  ,ITASK,IRECT   ,

@@ -28,6 +28,8 @@ C  |         SPMD_R4GATHER_PART              /spe/spmd_anim.F
       !||--- calls      -----------------------------------------------------
       !||    spmd_r4get_partn   ../engine/source/mpi/anim/spmd_r4get_partn.F
       !||    write_r_c          ../common_source/tools/input_output/write_routtines.c
+      !||--- uses       -----------------------------------------------------
+      !||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
       !||====================================================================
       SUBROUTINE TORSEUR(IADG  ,IPARG,ITENS,IXT   ,IXP  ,
      .                   IXR   ,EL2FA,NBF  ,TENS  ,TORS ,

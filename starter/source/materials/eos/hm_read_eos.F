@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_option_count               ../starter/source/devtools/hm_reader/hm_option_count.F
       !||    hm_option_read_key            ../starter/source/devtools/hm_reader/hm_option_read_key.F
       !||    hm_option_start               ../starter/source/devtools/hm_reader/hm_option_start.F
-      !||    hm_read_eos_compaction        ../starter/source/materials/eos/hm_read_eos_compaction.F
+      !||    hm_read_eos_compaction        ../starter/source/materials/eos/hm_read_eos_compaction.F90
       !||    hm_read_eos_compaction2       ../starter/source/materials/eos/hm_read_eos_compaction2.F90
       !||    hm_read_eos_exponential       ../starter/source/materials/eos/hm_read_eos_exponential.F90
       !||    hm_read_eos_gruneisen         ../starter/source/materials/eos/hm_read_eos_gruneisen.F
@@ -53,6 +53,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    elbuftag_mod                  ../starter/share/modules1/elbuftag_mod.F
       !||    hm_option_read_mod            ../starter/share/modules1/hm_option_read_mod.F
       !||    hm_read_eos_compaction2_mod   ../starter/source/materials/eos/hm_read_eos_compaction2.F90
+      !||    hm_read_eos_compaction_mod    ../starter/source/materials/eos/hm_read_eos_compaction.F90
       !||    message_mod                   ../starter/share/message_module/message_mod.F
       !||    submodel_mod                  ../starter/share/modules1/submodel_mod.F
       !||====================================================================

@@ -37,7 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_ebcs_valvin         ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvin.F
       !||    hm_read_ebcs_valvout        ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_valvout.F
       !||    hm_read_ebcs_vel            ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_vel.F
-      !||    hm_read_eos_compaction      ../starter/source/materials/eos/hm_read_eos_compaction.F
+      !||    hm_read_eos_compaction      ../starter/source/materials/eos/hm_read_eos_compaction.F90
       !||    hm_read_eos_compaction2     ../starter/source/materials/eos/hm_read_eos_compaction2.F90
       !||    hm_read_eos_exponential     ../starter/source/materials/eos/hm_read_eos_exponential.F90
       !||    hm_read_eos_gruneisen       ../starter/source/materials/eos/hm_read_eos_gruneisen.F

@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    initbuf_mod        ../engine/share/resol/initbuf.F
+      !||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
       !||====================================================================
       SUBROUTINE TENSOR0(ELBUF_TAB,IPARG   ,ITENS   ,PM      ,EL2FA   ,
      2                   NBF      ,TENS    ,EPSDOT           ,IADP    ,

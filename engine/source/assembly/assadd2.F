@@ -29,6 +29,7 @@ C finalisation parith/on spmd (1ere partie effectuee dans Starter)
       !||    my_orders        ../common_source/tools/sort/my_orders.c
       !||--- uses       -----------------------------------------------------
       !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
+      !||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
       !||====================================================================
       SUBROUTINE ASSADD2(ADDCNE  ,INDSKY  ,FSKY  ,FSKYM    ,IAD_ELEM ,
      2             FR_ELEM ,FR_NBCC ,PROCNE,NISKYFI  ,ADDCNI2  ,        

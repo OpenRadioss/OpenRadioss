@@ -22,6 +22,8 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
       !||    hm_read_eos_compaction_mod   ../starter/source/materials/eos/hm_read_eos_compaction.F90
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_eos                  ../starter/source/materials/eos/hm_read_eos.F
       !||====================================================================
       module hm_read_eos_compaction_mod
       contains
@@ -34,7 +36,7 @@
 !! \details  => MU0 = RHO/RHOR-1.
 !! \details  PM(31) = P(MU0,E0) -> will be used to initialize diagonal of stress tensor SIG(1:3,*)
       !||====================================================================
-      !||    hm_read_eos_compaction   ../starter/source/materials/eos/hm_read_eos_compaction.F
+      !||    hm_read_eos_compaction   ../starter/source/materials/eos/hm_read_eos_compaction.F90
       !||--- called by ------------------------------------------------------
       !||    hm_read_eos              ../starter/source/materials/eos/hm_read_eos.F
       !||--- calls      -----------------------------------------------------

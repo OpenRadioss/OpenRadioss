@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    crackxfem_mod      ../engine/share/modules/crackxfem_mod.F
       !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    initbuf_mod        ../engine/share/resol/initbuf.F
+      !||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
       !||====================================================================
       SUBROUTINE DFUNCC_CRK(
      .             ELBUF_TAB   ,LEN        , IFUNC  ,IPARG  ,GEO     ,
