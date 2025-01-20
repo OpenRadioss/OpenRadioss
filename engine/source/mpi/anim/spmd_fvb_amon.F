@@ -41,9 +41,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -88,7 +86,7 @@ C
             IF (ISPMD==0) THEN
 C Proc 0 recoit
                CALL MPI_RECV(RBUF, LEN, REAL, IT_SPMD(PMAIN),
-     .                       MSGTAG, MPI_COMM_WORLD, STAT, IERR)
+     .                       MSGTAG, SPMD_COMM_WORLD, STAT, IERR)
 C
                IAD=KRBALE+MONVOL(K1-1+34)
                DO I=1,6*NN
@@ -110,7 +108,7 @@ C Proc main envoie
                ENDDO
 C
                CALL MPI_SEND(RBUF, LEN, REAL, IT_SPMD(1),
-     .                       MSGTAG, MPI_COMM_WORLD,  IERR)
+     .                       MSGTAG, SPMD_COMM_WORLD,  IERR)
             ENDIF
             DEALLOCATE(RBUF)             
            ENDIF

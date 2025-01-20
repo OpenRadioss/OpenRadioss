@@ -31,9 +31,7 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#ifdef MPI
-#include      "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -70,7 +68,7 @@ C-----------------------------------------------
         CALL MPI_GATHER(
      S    LEN_TMP       ,1     ,MPI_INTEGER,
      R    LENP          ,1     ,MPI_INTEGER,IT_SPMD(1),
-     G    MPI_COMM_WORLD,IERROR)
+     G    SPMD_COMM_WORLD,IERROR)
 C
         IAD=0
         IF(ISPMD == 0)THEN
@@ -83,7 +81,7 @@ C
         CALL MPI_GATHERV(
      S    V_TMP         ,LEN_TMP ,REAL,
      R    VP0           ,LENP  ,DISP,REAL,IT_SPMD(1),
-     G    MPI_COMM_WORLD,IERROR)
+     G    SPMD_COMM_WORLD,IERROR)
 #endif
        RETURN
        END
@@ -99,9 +97,7 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#ifdef MPI
-#include      "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -140,7 +136,7 @@ C-----------------------------------------------
        IF (LENP0 > 0) THEN
         CALL MPI_REDUCE(VP0_TMP,V_TMP,LENP0,
      .                  MPI_REAL,MPI_SUM,IT_SPMD(1),
-     .                  MPI_COMM_WORLD,IERROR)
+     .                  SPMD_COMM_WORLD,IERROR)
 
        ENDIF
        IF (ISPMD==0) THEN
@@ -168,9 +164,7 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#ifdef MPI
-#include      "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -209,7 +203,7 @@ C-----------------------------------------------
        IF (LENP0 > 0) THEN
         CALL MPI_REDUCE(VP0_TMP,V_TMP,LENP0,
      .                  REAL,MPI_SUM,IT_SPMD(1),
-     .                  MPI_COMM_WORLD,IERROR)
+     .                  SPMD_COMM_WORLD,IERROR)
 
        ENDIF
        IF (ISPMD==0) THEN

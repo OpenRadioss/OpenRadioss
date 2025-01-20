@@ -41,9 +41,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -100,13 +98,13 @@ C
             ELSE
                ITAG=MSGOFF
                CALL MPI_RECV(NNTR, 1, MPI_INTEGER, IT_SPMD(PMAIN),
-     .                       ITAG, MPI_COMM_WORLD, STAT, IERR)
+     .                       ITAG, SPMD_COMM_WORLD, STAT, IERR)
 C
                LEN=2*NNTR
                ALLOCATE(IBUF(LEN), OFFTR(NNTR))
                ITAG=MSGOFF2
                CALL MPI_RECV(IBUF, LEN, MPI_INTEGER, IT_SPMD(PMAIN),
-     .                       ITAG, MPI_COMM_WORLD, STAT, IERR)
+     .                       ITAG, SPMD_COMM_WORLD, STAT, IERR)
 C
                DO J=1,NNTR
                   OFFTR(J)=0
@@ -128,7 +126,7 @@ C
             IF (ISPMD==PMAIN-1) THEN
                ITAG=MSGOFF
                CALL MPI_SEND(FVDATA(I)%NNTR, 1, MPI_INTEGER,
-     .                       IT_SPMD(1), ITAG, MPI_COMM_WORLD,
+     .                       IT_SPMD(1), ITAG, SPMD_COMM_WORLD,
      .                       IERR)
 C
                LEN=2*FVDATA(I)%NNTR
@@ -164,7 +162,7 @@ C
                ENDDO
                ITAG=MSGOFF2
                CALL MPI_SEND(IBUF, LEN, MPI_INTEGER, IT_SPMD(1),
-     .                       ITAG, MPI_COMM_WORLD,  IERR)
+     .                       ITAG, SPMD_COMM_WORLD,  IERR)
 C
                DEALLOCATE(IBUF, ITAGT)              
             ENDIF

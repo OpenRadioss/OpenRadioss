@@ -69,9 +69,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -177,13 +175,13 @@ C================================================================
             OFFSET(L) = IDEB
             CALL MPI_IRECV(
      1        XREM(1,IDEB),LEN,REAL,IT_SPMD(P),
-     2        MSGTYP,MPI_COMM_WORLD,REQ_RD(L),IERROR)
+     2        MSGTYP,SPMD_COMM_WORLD,REQ_RD(L),IERROR)
      
             LEN2 = NSNFI(NIN)%P(P)*ISIZ
             MSGTYP = MSGOFF5 
             CALL MPI_IRECV(
      1        IREM(1,IDEB),LEN2,MPI_INTEGER,IT_SPMD(P),
-     2        MSGTYP,MPI_COMM_WORLD,REQ_RD2(L),IERROR)
+     2        MSGTYP,SPMD_COMM_WORLD,REQ_RD2(L),IERROR)
             IDEB = IDEB + NSNFI(NIN)%P(P)                  
           ENDDO
         ENDIF
@@ -199,13 +197,13 @@ C================================================================
                 SIZE_S = SORT_COMM(NIN)%NB(P) * SORT_COMM(NIN)%RSIZ
                 CALL MPI_ISEND(
      1          SORT_COMM(NIN)%DATA_PROC(P)%RBUF(1),SIZE_S,REAL,IT_SPMD(P),MSGTYP,
-     2            MPI_COMM_WORLD,SORT_COMM(NIN)%REQ_SD2(P),ierror)
+     2            SPMD_COMM_WORLD,SORT_COMM(NIN)%REQ_SD2(P),ierror)
                 MSGTYP = MSGOFF5
                 SIZE_S = SORT_COMM(NIN)%NB(P) * SORT_COMM(NIN)%ISIZ
                 CALL MPI_ISEND(
      1            SORT_COMM(NIN)%DATA_PROC(P)%IBUF(1),SIZE_S,MPI_INTEGER,
      2            IT_SPMD(P),MSGTYP,
-     3            MPI_COMM_WORLD,SORT_COMM(NIN)%REQ_SD3(P),ierror)
+     3            SPMD_COMM_WORLD,SORT_COMM(NIN)%REQ_SD3(P),ierror)
             ENDIF
         ENDIF
       ENDDO

@@ -41,9 +41,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -141,7 +139,7 @@ C   Send buffer
           B = BUFSEND(I)
           SIZ = BUFSEND(I+1)-BUFSEND(I)
           CALL MPI_ISEND(BUFSPM(B),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .       MPI_COMM_WORLD,ISD(I),ierror)
+     .       SPMD_COMM_WORLD,ISD(I),ierror)
 
         ENDIF
       ENDDO
@@ -155,11 +153,11 @@ C   Processor that owns main node: receive secondary nodes
 
           MSGTYP = MSGOFF
           CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
-     .                  MPI_COMM_WORLD,STATUS,ierror)
+     .                  SPMD_COMM_WORLD,STATUS,ierror)
           CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
 
           CALL MPI_RECV(BUFRECVM(L),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .                MPI_COMM_WORLD,STATUS,ierror)
+     .                SPMD_COMM_WORLD,STATUS,ierror)
 
           L = L + SIZ
           BUFRECVM(L)=0
@@ -234,7 +232,7 @@ C   Packing
 
         MSGTYP = MSGOFF2
         CALL MPI_SEND(BUFSPO,L,MPI_INTEGER,IT_SPMD(1),MSGTYP,
-     .       MPI_COMM_WORLD,ierror)
+     .       SPMD_COMM_WORLD,ierror)
       ENDIF
 
 
@@ -260,11 +258,11 @@ C   Receive from processors that have one main node of RB
             MSGTYP = MSGOFF2
             PTRPO(I) = LPO
             CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
-     .                   MPI_COMM_WORLD,STATUS,ierror)
+     .                   SPMD_COMM_WORLD,STATUS,ierror)
             CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
 
             CALL MPI_RECV(PORBY(LPO),SIZ,MPI_INTEGER,IT_SPMD(I),
-     .                MSGTYP, MPI_COMM_WORLD,STATUS,ierror)
+     .                MSGTYP, SPMD_COMM_WORLD,STATUS,ierror)
             LPO=LPO+SIZ
           ELSE
             PTRPO(I) = LPO

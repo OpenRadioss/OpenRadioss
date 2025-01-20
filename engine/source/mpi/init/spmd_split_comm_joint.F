@@ -50,9 +50,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -87,7 +85,7 @@ C-----------------------------------------------
                         KEY = 0
             ENDIF       
             !   create the communicator
-            CALL MPI_COMM_SPLIT(MPI_COMM_WORLD,CYL_JOIN(KK)%COMM_MPI%COLOR,P,CYL_JOIN(KK)%COMM_MPI%COMM,CODE)
+            CALL MPI_COMM_SPLIT(SPMD_COMM_WORLD,CYL_JOIN(KK)%COMM_MPI%COLOR,P,CYL_JOIN(KK)%COMM_MPI%COMM,CODE)
             IF(CYL_JOIN(KK)%COMM_MPI%COLOR==1) THEN
                 CALL MPI_COMM_RANK(CYL_JOIN(KK)%COMM_MPI%COMM,CYL_JOIN(KK)%COMM_MPI%RANK,CODE)
             ENDIF

@@ -51,9 +51,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -374,7 +372,7 @@ C----------------------------------------------------------------------------
            SIZ = E_LEN*(IAD_ELEM(1,I+1)-IAD_ELEM(2,I))
            CALL MPI_ISEND(
      S       SRBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
-     G       MPI_COMM_WORLD,REQ_S(I),IERROR)
+     G       SPMD_COMM_WORLD,REQ_S(I),IERROR)
            L = L + SIZ
              
              IF(IRESP==1)THEN
@@ -382,7 +380,7 @@ C----------------------------------------------------------------------------
              SIZDP = LEN_DP*(IAD_ELEM(1,I+1)-IAD_ELEM(2,I))
              CALL MPI_ISEND(
      S         SRBUFDP(L2),SIZDP,MPI_DOUBLE_PRECISION,IT_SPMD(I),MSGTYP,
-     G         MPI_COMM_WORLD,REQ_S_DP(I),IERROR)
+     G         SPMD_COMM_WORLD,REQ_S_DP(I),IERROR)
              L2 = L2 + SIZDP
              ENDIF
          ENDIF
@@ -411,13 +409,13 @@ C
           MSGTYP = MSGOFF
           CALL MPI_RECV(
      S      SRBUF(L),SIZ,REAL,IT_SPMD(1),MSGTYP,
-     G      MPI_COMM_WORLD,STATUS,IERROR)
+     G      SPMD_COMM_WORLD,STATUS,IERROR)
      
           IF(IRESP==1)THEN
             MSGTYP = MSGOFF2
             CALL MPI_RECV(
      S        SRBUFDP(L2),SIZDP,MPI_DOUBLE_PRECISION,IT_SPMD(1),MSGTYP,
-     G        MPI_COMM_WORLD,STATUS,IERROR)
+     G        SPMD_COMM_WORLD,STATUS,IERROR)
           ENDIF
             
           IF(NEW_D==0) THEN

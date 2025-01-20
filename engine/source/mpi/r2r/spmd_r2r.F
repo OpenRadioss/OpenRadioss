@@ -36,9 +36,7 @@ C-----------------------------------------------
 C-----C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -77,7 +75,7 @@ C
             MSGTYP = MSGOFF 
             CALL MPI_RECV(
      S        BUFR(1,L+1),BUFSIZ,REAL,IT_SPMD(P),MSGTYP,
-     G        MPI_COMM_WORLD,STATUS,IERROR)
+     G        SPMD_COMM_WORLD,STATUS,IERROR)
             L = L + DD_R2R(P)
           END IF
         END DO
@@ -85,7 +83,7 @@ C
         MSGTYP = MSGOFF
         CALL MPI_SEND(
      S     BUFR,L*3,REAL,IT_SPMD(1),MSGTYP,
-     G     MPI_COMM_WORLD,IERROR)
+     G     SPMD_COMM_WORLD,IERROR)
       END IF
 C
 #endif
@@ -107,9 +105,7 @@ C-----------------------------------------------
 C-----C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -148,7 +144,7 @@ C
             MSGTYP = MSGOFF
             CALL MPI_RECV(
      S        BUFR(1,L+1),BUFSIZ,MPI_DOUBLE_PRECISION,IT_SPMD(P),
-     G        MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
+     G        MSGTYP,SPMD_COMM_WORLD,STATUS,IERROR)
             L = L + DD_R2R(P)
           END IF
         END DO
@@ -156,7 +152,7 @@ C
         MSGTYP = MSGOFF
         CALL MPI_SEND(
      S     BUFR,L*3,MPI_DOUBLE_PRECISION,IT_SPMD(1),MSGTYP,
-     G     MPI_COMM_WORLD,IERROR)
+     G     SPMD_COMM_WORLD,IERROR)
       END IF
 C
 #endif
@@ -180,9 +176,7 @@ C-----------------------------------------------
 C-----C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -219,7 +213,7 @@ C
             MSGTYP = MSGOFF 
             CALL MPI_RECV(
      S        BUFR(L+1),BUFSIZ,REAL,IT_SPMD(P),MSGTYP,
-     G        MPI_COMM_WORLD,STATUS,IERROR)
+     G        SPMD_COMM_WORLD,STATUS,IERROR)
             L = L + DD_R2R(P)
           END IF
         END DO
@@ -227,7 +221,7 @@ C
         MSGTYP = MSGOFF 
         CALL MPI_SEND(
      S     BUFR,L,REAL,IT_SPMD(1),MSGTYP,
-     G     MPI_COMM_WORLD,IERROR)
+     G     SPMD_COMM_WORLD,IERROR)
       END IF
 C
 #endif
@@ -255,9 +249,7 @@ C-----------------------------------------------
 C-----C----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -298,7 +290,7 @@ C
             MSGTYP = MSGOFF 
             CALL MPI_RECV(
      S        BUFR(1,L+1),BUFSIZ,REAL,IT_SPMD(P),MSGTYP,
-     G        MPI_COMM_WORLD,STATUS,IERROR)
+     G        SPMD_COMM_WORLD,STATUS,IERROR)
             L = L + DD_R2R(P)
           END IF
         END DO
@@ -306,7 +298,7 @@ C
         MSGTYP = MSGOFF 
         CALL MPI_SEND(
      S     BUFR,L*9,REAL,IT_SPMD(1),MSGTYP,
-     G     MPI_COMM_WORLD,IERROR)
+     G     SPMD_COMM_WORLD,IERROR)
       END IF
 C
 #endif
@@ -333,9 +325,7 @@ C-----------------------------------------------
 C-----C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -394,7 +384,7 @@ C
             MSGTYP = MSGOFF 
             CALL MPI_RECV(
      S        NB,6,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     G        MPI_COMM_WORLD,STATUS,IERROR)
+     G        SPMD_COMM_WORLD,STATUS,IERROR)
      
             DBN(IEX,P) = NB(1)
               NBEL(IEX,P) = NB(2)
@@ -413,7 +403,7 @@ C
         MSGTYP = MSGOFF 
         CALL MPI_SEND(
      S     L,6,MPI_INTEGER,IT_SPMD(1),MSGTYP,
-     G     MPI_COMM_WORLD,IERROR)    
+     G     SPMD_COMM_WORLD,IERROR)    
       END IF         
 C
 #endif
@@ -436,9 +426,7 @@ C-----------------------------------------------
 C-----C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -479,7 +467,7 @@ C
             MSGTYP = MSGOFF 
             CALL MPI_RECV(
      S        IBUF(L+1),BUFSIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     G        MPI_COMM_WORLD,STATUS,IERROR)
+     G        SPMD_COMM_WORLD,STATUS,IERROR)
             L = L + DD_R2R(P)
           END IF
         END DO
@@ -487,7 +475,7 @@ C
         MSGTYP = MSGOFF 
         CALL MPI_SEND(
      S     IBUF,L,MPI_INTEGER,IT_SPMD(1),MSGTYP,
-     G     MPI_COMM_WORLD,IERROR)
+     G     SPMD_COMM_WORLD,IERROR)
       END IF
 C
 #endif
@@ -515,9 +503,7 @@ C-----------------------------------------------
 C-----C-----------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -562,7 +548,7 @@ C
             MSGTYP = MSGOFF 
             CALL MPI_RECV(
      S        IBUF(L+1),BUFSIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     G        MPI_COMM_WORLD,STATUS,IERROR)
+     G        SPMD_COMM_WORLD,STATUS,IERROR)
   
 C--------------OFFSET de la numerotation des elements----     
             IF ((FLAG==1).OR.(FLAG>2)) THEN
@@ -588,7 +574,7 @@ C--------------------------------------------------------
         MSGTYP = MSGOFF
         CALL MPI_SEND(
      S     ITAB,NNG,MPI_INTEGER,IT_SPMD(1),MSGTYP,
-     G     MPI_COMM_WORLD,IERROR)
+     G     SPMD_COMM_WORLD,IERROR)
       END IF
 C          
 C
@@ -618,9 +604,7 @@ C-----------------------------------------------
 C-----C------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -666,7 +650,7 @@ C
             MSGTYP = MSGOFF
             CALL MPI_RECV(
      S        IBUF(L+1),BUFSIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     G        MPI_COMM_WORLD,STATUS,IERROR)
+     G        SPMD_COMM_WORLD,STATUS,IERROR)
               
               L = L + DBN(IEX,P)
               
@@ -676,7 +660,7 @@ C
         MSGTYP = MSGOFF 
         CALL MPI_SEND(
      S     IBUF,L,MPI_INTEGER,IT_SPMD(1),MSGTYP,
-     G     MPI_COMM_WORLD,IERROR)
+     G     SPMD_COMM_WORLD,IERROR)
       END IF
 C
 #endif
@@ -698,9 +682,7 @@ C-----------------------------------------------
 C-----C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -730,13 +712,13 @@ C
             MSGTYP = MSGOFF
             CALL MPI_SEND(
      S        ADDR,BUFSIZ,MPI_CHARACTER,IT_SPMD(P),MSGTYP,
-     G        MPI_COMM_WORLD,IERROR)       
+     G        SPMD_COMM_WORLD,IERROR)       
         END DO
        ELSE
         MSGTYP = MSGOFF
         CALL MPI_RECV(
      S     ADDR,BUFSIZ,MPI_CHARACTER,IT_SPMD(1),MSGTYP,
-     G     MPI_COMM_WORLD,STATUS,IERROR)          
+     G     SPMD_COMM_WORLD,STATUS,IERROR)          
        END IF
       ENDIF
 C
@@ -767,9 +749,7 @@ C-----------------------------------------------
 C-----C-----------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -805,7 +785,7 @@ C
             MSGTYP = MSGOFF
             CALL MPI_SEND(
      S        BUFR(L+1),BUFSIZ,REAL,IT_SPMD(P),MSGTYP,
-     G        MPI_COMM_WORLD,IERROR)
+     G        SPMD_COMM_WORLD,IERROR)
             L = L + DD_R2R(P)+DBN(IEX,P)
           END IF
         END DO
@@ -814,7 +794,7 @@ C
         MSGTYP = MSGOFF
         CALL MPI_RECV(
      S    BUFR,BUFSIZ,REAL,IT_SPMD(1),MSGTYP,
-     G    MPI_COMM_WORLD,STATUS,IERROR)
+     G    SPMD_COMM_WORLD,STATUS,IERROR)
       END IF
       DO I = 1, NUMNOD
         ITAG(I) = 0
@@ -853,9 +833,7 @@ C-----------------------------------------------
 C-----C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -891,7 +869,7 @@ C
             MSGTYP = MSGOFF 
             CALL MPI_SEND(
      S        BUFR(L+1),BUFSIZ,REAL,IT_SPMD(P),MSGTYP,
-     G        MPI_COMM_WORLD,IERROR)
+     G        SPMD_COMM_WORLD,IERROR)
             L = L + DD_R2R(P)
           END IF
         END DO
@@ -900,7 +878,7 @@ C
         MSGTYP = MSGOFF 
         CALL MPI_RECV(
      S    BUFR,BUFSIZ,REAL,IT_SPMD(1),MSGTYP,
-     G    MPI_COMM_WORLD,STATUS,IERROR)
+     G    SPMD_COMM_WORLD,STATUS,IERROR)
       END IF
       DO I = 1, NUMNOD
         ITAG(I) = 0
@@ -943,9 +921,7 @@ C-----------------------------------------------
 C-----C-----------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -981,7 +957,7 @@ C
             MSGTYP = MSGOFF
             CALL MPI_SEND(
      S        BUFR(1,L+1),BUFSIZ,REAL,IT_SPMD(P),MSGTYP,
-     G        MPI_COMM_WORLD,IERROR)
+     G        SPMD_COMM_WORLD,IERROR)
             L = L + DD_R2R(P)+DBN(IEX,P)
           END IF
         END DO
@@ -990,7 +966,7 @@ C
         MSGTYP = MSGOFF 
         CALL MPI_RECV(
      S    BUFR,BUFSIZ,REAL,IT_SPMD(1),MSGTYP,
-     G    MPI_COMM_WORLD,STATUS,IERROR)    
+     G    SPMD_COMM_WORLD,STATUS,IERROR)    
       END IF
       DO I = 1, NUMNOD
         ITAG(I) = 0
@@ -1041,9 +1017,7 @@ C-----------------------------------------------
 C-----C-----------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -1083,7 +1057,7 @@ C
             MSGTYP = MSGOFF
             CALL MPI_SEND(
      S        BUFR(1,L+1),BUFSIZ,REAL,IT_SPMD(P),MSGTYP,
-     G        MPI_COMM_WORLD,IERROR)
+     G        SPMD_COMM_WORLD,IERROR)
             L = L + DD_R2R(P)+DBN(IEX,P)
           END IF
         END DO
@@ -1092,7 +1066,7 @@ C
         MSGTYP = MSGOFF 
         CALL MPI_RECV(
      S    BUFR,BUFSIZ,REAL,IT_SPMD(1),MSGTYP,
-     G    MPI_COMM_WORLD,STATUS,IERROR)
+     G    SPMD_COMM_WORLD,STATUS,IERROR)
       END IF
       
       L = 0
@@ -1128,14 +1102,14 @@ C Sommation sur les procs de WF
             MSGTYP = MSGOFF 
             CALL MPI_RECV(
      S        WFB,1,REAL,IT_SPMD(P),MSGTYP,
-     G        MPI_COMM_WORLD,STATUS,IERROR)
+     G        SPMD_COMM_WORLD,STATUS,IERROR)
             WF = WF+WFB
         END DO
       ELSE
         MSGTYP = MSGOFF 
         CALL MPI_SEND(
      S     WF,1,REAL,IT_SPMD(1),MSGTYP,
-     G     MPI_COMM_WORLD,IERROR)     
+     G     SPMD_COMM_WORLD,IERROR)     
       END IF
       
 C Sommation sur les procs de WF2
@@ -1145,14 +1119,14 @@ C Sommation sur les procs de WF2
             MSGTYP = MSGOFF
             CALL MPI_RECV(
      S        WFB,1,REAL,IT_SPMD(P),MSGTYP,
-     G        MPI_COMM_WORLD,STATUS,IERROR)
+     G        SPMD_COMM_WORLD,STATUS,IERROR)
             WF2 = WF2+WFB
         END DO
       ELSE
         MSGTYP = MSGOFF 
         CALL MPI_SEND(
      S     WF2,1,REAL,IT_SPMD(1),MSGTYP,
-     G     MPI_COMM_WORLD,IERROR)
+     G     SPMD_COMM_WORLD,IERROR)
       END IF
            
 #endif
@@ -1177,9 +1151,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -1219,7 +1191,7 @@ C-----------------------------------------------
           MSGTYP = MSGOFF
           CALL MPI_IRECV(
      S      RBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_R(I),IERROR)
+     G      SPMD_COMM_WORLD,REQ_R(I),IERROR)
           L = L + SIZ
         ENDIF
         IAD_RECV(I+1) = L
@@ -1276,7 +1248,7 @@ C   test si msg necessaire a envoyer a completer par test interface
           L = IAD_SEND(I)
           CALL MPI_ISEND(
      S      SBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_S(I),IERROR)
+     G      SPMD_COMM_WORLD,REQ_S(I),IERROR)
        ENDIF
 C--------------------------------------------------------------------
       ENDDO
@@ -1357,9 +1329,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -1401,7 +1371,7 @@ C-----------------------------------------------
           MSGTYP = MSGOFF
           CALL MPI_IRECV(
      S      RBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_R(I),IERROR)
+     G      SPMD_COMM_WORLD,REQ_R(I),IERROR)
           L = L + SIZ
         ENDIF
         IAD_RECV(I+1) = L
@@ -1456,7 +1426,7 @@ C   test si msg necessaire a envoyer a completer par test interface
           L = IAD_SEND(I)
           CALL MPI_ISEND(
      S      SBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_S(I),IERROR)
+     G      SPMD_COMM_WORLD,REQ_S(I),IERROR)
        ENDIF
 C--------------------------------------------------------------------
       ENDDO
@@ -1566,9 +1536,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -1610,7 +1578,7 @@ C-----------------------------------------------
           MSGTYP = MSGOFF
           CALL MPI_IRECV(
      S      RBUF(L),SIZ,MPI_DOUBLE_PRECISION,IT_SPMD(I),
-     G      MSGTYP,MPI_COMM_WORLD,REQ_R(I),IERROR)
+     G      MSGTYP,SPMD_COMM_WORLD,REQ_R(I),IERROR)
           L = L + SIZ
         ENDIF
         IAD_RECV(I+1) = L
@@ -1658,7 +1626,7 @@ C   test si msg necessaire a envoyer a completer par test interface
           L = IAD_SEND(I)
           CALL MPI_ISEND(
      S      SBUF(L),SIZ,MPI_DOUBLE_PRECISION,IT_SPMD(I),
-     G      MSGTYP,MPI_COMM_WORLD,REQ_S(I),IERROR)
+     G      MSGTYP,SPMD_COMM_WORLD,REQ_S(I),IERROR)
        ENDIF
 C--------------------------------------------------------------------
       ENDDO
@@ -1727,9 +1695,7 @@ C-----------------------------------------------
 C-----C-----------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -1759,14 +1725,14 @@ C Sommation sur les procs de WF
             MSGTYP = MSGOFF 
             CALL MPI_RECV(
      S        WFB,1,REAL,IT_SPMD(P),MSGTYP,
-     G        MPI_COMM_WORLD,STATUS,IERROR)
+     G        SPMD_COMM_WORLD,STATUS,IERROR)
             WF = WF+WFB
         END DO
       ELSE
         MSGTYP = MSGOFF 
         CALL MPI_SEND(
      S     WF,1,REAL,IT_SPMD(1),MSGTYP,
-     G     MPI_COMM_WORLD,IERROR)     
+     G     SPMD_COMM_WORLD,IERROR)     
       END IF
       
 C Sommation sur les procs de WF2
@@ -1776,14 +1742,14 @@ C Sommation sur les procs de WF2
             MSGTYP = MSGOFF 
             CALL MPI_RECV(
      S        WFB,1,REAL,IT_SPMD(P),MSGTYP,
-     G        MPI_COMM_WORLD,STATUS,IERROR)
+     G        SPMD_COMM_WORLD,STATUS,IERROR)
             WF2 = WF2+WFB
         END DO
       ELSE
         MSGTYP = MSGOFF 
         CALL MPI_SEND(
      S     WF2,1,REAL,IT_SPMD(1),MSGTYP,
-     G     MPI_COMM_WORLD,IERROR)
+     G     SPMD_COMM_WORLD,IERROR)
       END IF
            
 #endif
@@ -1804,9 +1770,7 @@ C-----------------------------------------------
 C-----C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -1838,7 +1802,7 @@ C
             MSGTYP = MSGOFF
             CALL MPI_RECV(
      S        TAGELG(L+1),LEN(P),MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     G        MPI_COMM_WORLD,STATUS,IERROR)
+     G        SPMD_COMM_WORLD,STATUS,IERROR)
             L = L + LEN(P)
           END IF
         END DO
@@ -1846,7 +1810,7 @@ C
         MSGTYP = MSGOFF 
         CALL MPI_SEND(
      S     TAGEL,LEN(LOC_PROC),MPI_INTEGER,IT_SPMD(1),MSGTYP,
-     G     MPI_COMM_WORLD,IERROR)
+     G     SPMD_COMM_WORLD,IERROR)
       END IF
 C
 #endif
@@ -1869,9 +1833,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -1909,7 +1871,7 @@ C-----------------------------------------------
           MSGTYP = MSGOFF
           CALL MPI_IRECV(
      S      RBUF(L),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_R(I),IERROR)
+     G      SPMD_COMM_WORLD,REQ_R(I),IERROR)
           L = L + SIZ
         ENDIF
         IAD_RECV(I+1) = L
@@ -1941,7 +1903,7 @@ C   test si msg necessaire a envoyer a completer par test interface
           L = IAD_SEND(I)
           CALL MPI_ISEND(
      S      SBUF(L),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_S(I),IERROR)
+     G      SPMD_COMM_WORLD,REQ_S(I),IERROR)
        ENDIF
 C--------------------------------------------------------------------
       ENDDO
@@ -1994,9 +1956,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -2035,7 +1995,7 @@ C-----------------------------------------------
           MSGTYP = 10000 + NSPMD*(I-1) + LOC_PROC
           CALL MPI_IRECV(
      S      RBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_R(I),IERROR)
+     G      SPMD_COMM_WORLD,REQ_R(I),IERROR)
           L = L + SIZ
         ENDIF
         IAD_RECV(I+1) = L
@@ -2069,7 +2029,7 @@ C envoi a N+I mod P
           L = IAD_SEND(I)
           CALL MPI_ISEND(
      S      SBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_S(I),IERROR)
+     G      SPMD_COMM_WORLD,REQ_S(I),IERROR)
        ENDIF
 C--------------------------------------------------------------------
       ENDDO
@@ -2121,9 +2081,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -2158,7 +2116,7 @@ C-----------------------------------------------
           MSGTYP = 10000 + NSPMD*(I-1) + LOC_PROC
           CALL MPI_IRECV(
      S      RBUF(L),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_R(I),IERROR)
+     G      SPMD_COMM_WORLD,REQ_R(I),IERROR)
           L = L + SIZ
         ENDIF
         IAD_RECV(I+1) = L
@@ -2190,7 +2148,7 @@ C envoi a N+I mod P
           L = IAD_SEND(I)
           CALL MPI_ISEND(
      S      SBUF(L),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_S(I),IERROR)
+     G      SPMD_COMM_WORLD,REQ_S(I),IERROR)
        ENDIF
 C--------------------------------------------------------------------
       ENDDO

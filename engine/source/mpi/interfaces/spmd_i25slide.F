@@ -46,9 +46,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -111,7 +109,7 @@ C-----------------------------------------------
             COMM_SIZ%TAG(P,NIN) = MSGTYP 
             CALL MPI_ISEND(
      1        NB(P,NIN),1,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     2        MPI_COMM_WORLD,COMM_SIZ%SEND_RQ(P,NIN),ierror)
+     2        SPMD_COMM_WORLD,COMM_SIZ%SEND_RQ(P,NIN),ierror)
           ELSE
              COMM_SIZ%SEND_RQ(P,NIN) = MPI_REQUEST_NULL
           ENDIF
@@ -128,7 +126,7 @@ C-----------------------------------------------
                
                CALL MPI_ISEND(
      1           RBUF(P,NIN)%P(1),LENGTH,REAL,IT_SPMD(P),MSGTYP,
-     2           MPI_COMM_WORLD,COMM_REAL%SEND_RQ(P,NIN),ierror)
+     2           SPMD_COMM_WORLD,COMM_REAL%SEND_RQ(P,NIN),ierror)
                
                MSGTYP = MSGOFF3 
                LENGTH = NB(P,NIN) * ISIZ
@@ -136,7 +134,7 @@ C-----------------------------------------------
                COMM_INT%TAG(P,NIN) = MSGTYP 
                CALL MPI_ISEND(
      1           IBUF(P,NIN)%P(1),LENGTH,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     2           MPI_COMM_WORLD,COMM_INT%SEND_RQ(P,NIN),ierror)
+     2           SPMD_COMM_WORLD,COMM_INT%SEND_RQ(P,NIN),ierror)
              ELSE
                  COMM_INT%SEND_RQ(P,NIN) = MPI_REQUEST_NULL
                  COMM_REAL%SEND_RQ(P,NIN) = MPI_REQUEST_NULL
@@ -152,7 +150,7 @@ C-----------------------------------------------
 
              CALL MPI_IRECV(
      1         NB(P,NIN),1,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     2         MPI_COMM_WORLD,COMM_SIZ%RECV_RQ(P,NIN),ierror)
+     2         SPMD_COMM_WORLD,COMM_SIZ%RECV_RQ(P,NIN),ierror)
              ELSE
                COMM_SIZ%RECV_RQ(P,NIN) = MPI_REQUEST_NULL
              ENDIF 
@@ -181,7 +179,7 @@ C            CALL MPI_WAIT(COMM_SIZ%RECV_RQ(P,NIN),STATUS,IERROR)
                
                CALL MPI_RECV(
      1           RBUF(P,NIN)%P(1),LENGTH,REAL,IT_SPMD(P),MSGTYP,
-     2           MPI_COMM_WORLD,STATUS,ierror)
+     2           SPMD_COMM_WORLD,STATUS,ierror)
                
                LENGTH = NB(P,NIN)*ISIZ
                MSGTYP = MSGOFF3 
@@ -192,7 +190,7 @@ C            CALL MPI_WAIT(COMM_SIZ%RECV_RQ(P,NIN),STATUS,IERROR)
              
                CALL MPI_RECV(
      1           IBUF(P,NIN)%P(1),LENGTH,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     2           MPI_COMM_WORLD,STATUS,ierror)
+     2           SPMD_COMM_WORLD,STATUS,ierror)
              ENDIF
 C          ENDIF
          ENDDO
@@ -1054,7 +1052,7 @@ c ==============================================================
 !          ENDDO
 !        ENDIF
 !        CALL FLUSH(6)
-!        CALL MPI_BARRIER(MPI_COMM_WORLD,IDEB)
+!        CALL MPI_BARRIER(SPMD_COMM_WORLD,IDEB)
 !      ENDDO
 c ==============================================================
 

@@ -50,9 +50,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -145,7 +143,7 @@ C
 !   for real array : send : BMINMAL --> rcv : BMINMAL
       CALL SPMD_IALLGATHER(BMINMAL,BMINMA,SEND_SIZE_BMINMA,
      .                     TOTAL_RCV_SIZE_BMINMA,RCV_SIZE_BMINMA, 
-     .                     REQUEST_BMINMA,MPI_COMM_WORLD)
+     .                     REQUEST_BMINMA,SPMD_COMM_WORLD)
 !   -------------------------
 
 
@@ -159,7 +157,7 @@ C
 !   for integer array : send : CRVOXEL_LOC --> rcv : CRVOXEL
       CALL SPMD_IALLGATHER_INT(CRVOXEL_LOC(0,0),CRVOXEL(0,0,1),SEND_SIZE_CRVOX,
      .                         TOTAL_RCV_SIZE_CRVOX,RCV_SIZE_CRVOX, 
-     .                         REQUEST_CRVOX,MPI_COMM_WORLD)
+     .                         REQUEST_CRVOX,SPMD_COMM_WORLD)
 !   -------------------------
 C
 C   envoi de XREM
@@ -245,7 +243,7 @@ C
 !   alltoall communication with uniform size
 !   for integer array : send : NBO --> rcv : PSPHR  
       CALL SPMD_IALLTOALL_INT(NBO,PSPHR,NSPMD,1, 
-     .                        NSPMD,1,REQUEST_NBO,MPI_COMM_WORLD)
+     .                        NSPMD,1,REQUEST_NBO,SPMD_COMM_WORLD)
 !   -------------------------
 
 C
@@ -386,7 +384,7 @@ C
 !   for real array : send : SBUF --> rcv : XSPHR
       CALL SPMD_IALLTOALLV(SBUF,XSPHR,SEND_SIZE_SBUF,TOTAL_SEND_SIZE,DISPLS_SBUF,
      .                     TOTAL_RCV_SIZE_RBUF,RCV_SIZE_RBUF,DISPLS_RBUF,
-     .                     REQUEST_SBUF,MPI_COMM_WORLD,NSPMD)
+     .                     REQUEST_SBUF,SPMD_COMM_WORLD,NSPMD)
 !   -------------------------
 
 #if _PLMPI

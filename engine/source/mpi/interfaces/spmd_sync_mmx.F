@@ -38,9 +38,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -138,12 +136,12 @@ C T25 main gap changes with thickness change
           MSGTYP =  MSGOFF
           CALL MPI_SEND(
      S      SBUF,L,REAL,IT_SPMD(IRING),MSGTYP,
-     G      MPI_COMM_WORLD,IERROR)
+     G      SPMD_COMM_WORLD,IERROR)
           MSGTYP =  MSGOFF
           L = I_LEN*NINTC
           CALL MPI_RECV(
      S      SBUF,L,REAL,IT_SPMD(IRING),MSGTYP,
-     G      MPI_COMM_WORLD,STATUS,IERROR)
+     G      SPMD_COMM_WORLD,STATUS,IERROR)
           L = 0
           DO KK=1,NINTC
             NIN = INTLIST(KK)
@@ -197,7 +195,7 @@ C Proc IRING
               IADR(P)=L
               CALL MPI_IRECV(
      S          SBUF(L),SIZ,REAL,IT_SPMD(P),MSGTYP,
-     G          MPI_COMM_WORLD,REQ_R(NBIRECV),IERROR)
+     G          SPMD_COMM_WORLD,REQ_R(NBIRECV),IERROR)
               L = L + SIZ
             END IF
           END IF
@@ -328,7 +326,7 @@ C
           MSGTYP =  MSGOFF
           CALL MPI_ISEND(
      S      SBUF(IADR(P)),L-IADR(P)+1,REAL,IT_SPMD(P),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_R(I),IERROR)
+     G      SPMD_COMM_WORLD,REQ_R(I),IERROR)
         ENDDO
 C
         DO I = 1, NBIRECV

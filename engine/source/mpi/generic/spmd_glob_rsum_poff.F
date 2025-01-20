@@ -36,9 +36,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -58,7 +56,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
       CALL MPI_ALLREDUCE(MPI_IN_PLACE, ARRAY, LENGTH, REAL, MPI_SUM,
-     &                   MPI_COMM_WORLD, IERROR)
+     &                   SPMD_COMM_WORLD, IERROR)
 
 #endif
       RETURN

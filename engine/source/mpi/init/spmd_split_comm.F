@@ -35,9 +35,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -61,7 +59,7 @@ C
       ELSE
         IVAL = MPI_UNDEFINED ! if not concerned by this communication set to undefined communicator
       END IF  
-      CALL MPI_Comm_split(MPI_COMM_WORLD, IVAL, ispmd+1, COMM_LOCAL, IERROR)
+      CALL MPI_Comm_split(SPMD_COMM_WORLD, IVAL, ispmd+1, COMM_LOCAL, IERROR)
 C     IF(IVAL /=0)  CALL MPI_Comm_Free(contcomm, ierror) ! only where new communicator is created (ie not MPI_UNDEFINED)
 
 #endif

@@ -47,9 +47,7 @@ C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
 
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -84,7 +82,7 @@ C-----------------------------------------------
         MSGTYP=MSGOFF
 
         CALL MPI_SEND(NP,NBF_L,MPI_INTEGER,IT_SPMD(1),MSGTYP,
-     .                MPI_COMM_WORLD,ierror)
+     .                SPMD_COMM_WORLD,ierror)
 
       ELSE
         DO K=1,NBF_L
@@ -98,11 +96,11 @@ C
         MSGTYP=MSGOFF
 
          CALL MPI_PROBE(IT_SPMD(K),MSGTYP,
-     .                   MPI_COMM_WORLD,STATUS,ierror)
+     .                   SPMD_COMM_WORLD,STATUS,ierror)
          CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,NB_TMP,ierror)
 
          CALL MPI_RECV(RBUF(IDEB),NB_TMP,MPI_INTEGER,IT_SPMD(K),MSGTYP,
-     .                  MPI_COMM_WORLD,STATUS,ierror)
+     .                  SPMD_COMM_WORLD,STATUS,ierror)
 
         IDEB = IDEB + NB_TMP
         END DO

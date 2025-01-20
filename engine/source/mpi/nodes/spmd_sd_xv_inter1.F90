@@ -65,9 +65,7 @@
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
 #include "my_real.inc"
-#ifdef MPI
-#include      "mpif.h"
-#endif
+#include "spmd.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -123,7 +121,7 @@
               rcv_buff%size_my_real_array_2d(2) = my_size
               call alloc_my_real_2D_array(rcv_buff) ! allocate the R buffer
               array_size = rcv_buff%size_my_real_array_2d(1) * rcv_buff%size_my_real_array_2d(2)
-              call spmd_irecv(rcv_buff%my_real_array_2d(:,1),array_size,0,my_tag,my_request,MPI_COMM_WORLD) ! post the R comm, sent by the processor 0
+              call spmd_irecv(rcv_buff%my_real_array_2d(:,1),array_size,0,my_tag,my_request,SPMD_COMM_WORLD) ! post the R comm, sent by the processor 0
               call spmd_wait(my_request, my_status) ! wait the R comm, sent by the processor 0
               do k=1,my_size
                 ! index pour noeuds frontieres appartement au interface /TYPE1
@@ -149,7 +147,7 @@
               ! send the S buffer to processor "j"
               array_size = send_buff(j)%size_my_real_array_2d(1) * send_buff(j)%size_my_real_array_2d(2)
               if(my_size_0(j) /= 0) then
-                call spmd_isend(send_buff(j)%my_real_array_2d(:,1),array_size,j-1,my_tag,my_request_0(j),MPI_COMM_WORLD)
+                call spmd_isend(send_buff(j)%my_real_array_2d(:,1),array_size,j-1,my_tag,my_request_0(j),SPMD_COMM_WORLD)
               endif
             enddo
 

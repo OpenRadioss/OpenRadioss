@@ -49,9 +49,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -68,7 +66,7 @@ C-----------------------------------------------
       IF (LEN > 0) THEN
         CALL MPI_ALLREDUCE(V,VTMP,LEN,
      .                  MPI_INTEGER,MPI_SUM,
-     .                  MPI_COMM_WORLD,IERROR)
+     .                  SPMD_COMM_WORLD,IERROR)
         DO I=1,LEN
           V(I) = VTMP(I)
         END DO

@@ -34,7 +34,7 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "mpif.h"
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -65,11 +65,11 @@ C-----------------------------------------------
          MSGTYP = MSGOFF
          CALL MPI_SEND(
      1     LAGCOMC       ,2*N_MULT,REAL  ,IT_SPMD(1),MSGTYP,
-     2     MPI_COMM_WORLD,IERROR)
+     2     SPMD_COMM_WORLD,IERROR)
          MSGTYP = MSGOFF2
          CALL MPI_SEND(
      1     LAGCOMK       ,4*N_IK,REAL  ,IT_SPMD(1),MSGTYP,
-     2     MPI_COMM_WORLD,IERROR)
+     2     SPMD_COMM_WORLD,IERROR)
         END IF
        ELSE
          DO N = 1, N_MULT
@@ -95,7 +95,7 @@ C
 
              CALL MPI_RECV(
      1         LAGCOMC(1,N_MULT+1),2*NCL ,REAL  ,IT_SPMD(I),MSGTYP,
-     2         MPI_COMM_WORLD     ,STATUS,IERROR)
+     2         SPMD_COMM_WORLD     ,STATUS,IERROR)
              
              DO N = 1, NCL
                IADLL(N_MULT+N+1) = IADLL(N_MULT+N)
@@ -111,7 +111,7 @@ C
              IKL = FR_LAGF(2,I)
              CALL MPI_RECV(
      1         LAGCOMK(1,N_IK+1),4*IKL ,REAL  ,IT_SPMD(I),MSGTYP,
-     2         MPI_COMM_WORLD   ,STATUS,IERROR)
+     2         SPMD_COMM_WORLD   ,STATUS,IERROR)
              DO N = 1, IKL
                LLL(N_IK+N) = NINT(LAGCOMK(1,N_IK+N))
                JLL(N_IK+N) = NINT(LAGCOMK(2,N_IK+N))
@@ -150,7 +150,7 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "mpif.h"
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -213,7 +213,7 @@ C
          MSGTYP = MSGOFF
          CALL MPI_SEND(
      1     BUFCOM        ,ISIZ*NLAGF_L,REAL  ,IT_SPMD(1),MSGTYP,
-     2     MPI_COMM_WORLD,IERROR)
+     2     SPMD_COMM_WORLD,IERROR)
         END IF
 Code processeur0 
        ELSE
@@ -257,7 +257,7 @@ C
              MSGTYP = MSGOFF 
              CALL MPI_RECV(
      1         BUFCOM,ISIZ*NNOD ,REAL  ,IT_SPMD(P),MSGTYP,
-     2         MPI_COMM_WORLD   ,STATUS,IERROR)
+     2         SPMD_COMM_WORLD   ,STATUS,IERROR)
              IF(IRODDL/=0)THEN
                DO I = 1, NNOD
                  N = NINT(BUFCOM(1,I))
@@ -315,7 +315,7 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "mpif.h"
+#include      "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -346,7 +346,7 @@ C
          MSGTYP = MSGOFF 
          CALL MPI_RECV(
      1     BUFCOM,ISIZ*NLAGF_L,REAL  ,IT_SPMD(1),MSGTYP,
-     2     MPI_COMM_WORLD    ,STATUS,IERROR)
+     2     SPMD_COMM_WORLD    ,STATUS,IERROR)
          IF(IRODDL/=0)THEN
            DO I = 1, NLAGF_L
              N = LLAGF(I)
@@ -410,7 +410,7 @@ C
              MSGTYP = MSGOFF 
              CALL MPI_SEND(
      1         BUFCOM        ,ISIZ*NNOD,REAL  ,IT_SPMD(P),MSGTYP,
-     2         MPI_COMM_WORLD,IERROR)
+     2         SPMD_COMM_WORLD,IERROR)
              NLAGF_G=NLAGF_G+NNOD
            END IF             
          END DO
@@ -431,7 +431,7 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "mpif.h"
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -462,7 +462,7 @@ C
          MSGTYP = MSGOFF 
          CALL MPI_RECV(
      1     BUFCOM,3*NLAGF_L,REAL  ,IT_SPMD(1),MSGTYP,
-     2     MPI_COMM_WORLD    ,STATUS,IERROR)
+     2     SPMD_COMM_WORLD    ,STATUS,IERROR)
            DO I = 1, NLAGF_L
              N = LLAGF(I)
              FANI(1,N)  = BUFCOM(1,I)
@@ -491,7 +491,7 @@ C
              MSGTYP = MSGOFF 
              CALL MPI_SEND(
      1         BUFCOM        ,3*NNOD,REAL  ,IT_SPMD(P),MSGTYP,
-     2         MPI_COMM_WORLD,IERROR)
+     2         SPMD_COMM_WORLD,IERROR)
              NLAGF_G=NLAGF_G+NNOD
            END IF             
          END DO
@@ -516,7 +516,7 @@ C-----------------------------------------------
 C-----C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#include "mpif.h"
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -564,7 +564,7 @@ C
           MSGTYP = MSGOFF2
           CALL MPI_IRECV(
      S      RBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_R(I),IERROR)
+     G      SPMD_COMM_WORLD,REQ_R(I),IERROR)
           L = L + SIZ
         ENDIF
         IAD_RECV(I+1) = L               
@@ -623,7 +623,7 @@ C
           LSEND = IAD_SEND(I)
           CALL MPI_ISEND(
      S      RBUF(LSEND),L,REAL,IT_SPMD(I),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_S(I),IERROR)
+     G      SPMD_COMM_WORLD,REQ_S(I),IERROR)
         ENDIF        
       ENDDO
 C

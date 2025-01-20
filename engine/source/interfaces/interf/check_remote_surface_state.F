@@ -49,9 +49,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -189,7 +187,7 @@ C-----------------------------------------------
                 INDEX_R_PROC(RECV_NB) = I
                 MSGTYP = MSGOFF1
                 CALL MPI_IRECV( NUMBER_REMOTE_SURF_R(I),1,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .                          MPI_COMM_WORLD,REQUEST_SIZE_R(RECV_NB),IERROR )
+     .                          SPMD_COMM_WORLD,REQUEST_SIZE_R(RECV_NB),IERROR )
             ENDIF
         ENDDO
         ! ----------------
@@ -201,7 +199,7 @@ C-----------------------------------------------
             IF(FRONTIER_ELM>0) THEN
                 MSGTYP = MSGOFF1
                 CALL MPI_ISEND( NUMBER_REMOTE_SURF(I),1,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .                          MPI_COMM_WORLD,REQUEST_SIZE_S(I),IERROR )
+     .                          SPMD_COMM_WORLD,REQUEST_SIZE_S(I),IERROR )
             ENDIF
         ENDDO
         ! ----------------
@@ -225,7 +223,7 @@ C-----------------------------------------------
                 MSGTYP = MSGOFF2
                 CALL MPI_IRECV(R_BUFFER(PROC_ID)%INT_ARRAY_2D(1,1),SIZE_R,
      .                  MPI_INTEGER,IT_SPMD(PROC_ID),MSGTYP,
-     .                  MPI_COMM_WORLD,REQUEST_SIZE_R_2(RECV_NB_2),IERROR )
+     .                  SPMD_COMM_WORLD,REQUEST_SIZE_R_2(RECV_NB_2),IERROR )
             ENDIF
         ENDDO
         ! ----------------
@@ -237,7 +235,7 @@ C-----------------------------------------------
                 MSGTYP = MSGOFF2
                 SIZE_S = NUMBER_REMOTE_SURF(I) * S_BUFFER(I)%SIZE_INT_ARRAY_2D(1)
                 CALL MPI_ISEND( S_BUFFER(I)%INT_ARRAY_2D(1,1),SIZE_S,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .                          MPI_COMM_WORLD,REQUEST_SIZE_S_2(I),IERROR )
+     .                          SPMD_COMM_WORLD,REQUEST_SIZE_S_2(I),IERROR )
             ENDIF
         ENDDO
         ! ----------------

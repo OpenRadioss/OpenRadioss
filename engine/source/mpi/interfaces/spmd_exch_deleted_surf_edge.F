@@ -56,9 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -167,7 +165,7 @@ C-----------------------------------------------
                 INDEX_R_PROC(RECV_NB) = I
                 MSGTYP = MSGOFF1
                 CALL MPI_IRECV( REMOTE_SURF_PER_PROC(1,RECV_NB),2,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .                          MPI_COMM_WORLD,REQUEST_SIZE_R(RECV_NB),IERROR )
+     .                          SPMD_COMM_WORLD,REQUEST_SIZE_R(RECV_NB),IERROR )
             ENDIF
         ENDDO
         ! ----------------
@@ -179,7 +177,7 @@ C-----------------------------------------------
             IF(FRONTIER_ELM>0) THEN
                 MSGTYP = MSGOFF1
                 CALL MPI_ISEND( SURF_PER_PROC(1,I),2,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .                          MPI_COMM_WORLD,REQUEST_SIZE_S(I),IERROR )
+     .                          SPMD_COMM_WORLD,REQUEST_SIZE_S(I),IERROR )
             ENDIF
         ENDDO
         ! ----------------
@@ -215,7 +213,7 @@ C-----------------------------------------------
                 REMOTE_SURF_PER_PROC_2(1:2,RECV_SURF_NB) = REMOTE_SURF_PER_PROC(1:2,I)
                 CALL MPI_IRECV( BUFFER_R(INDEX_BUFFER_R(I)),4*REMOTE_SURF_PER_PROC(1,I)+2*REMOTE_SURF_PER_PROC(2,I),
      .          MPI_INTEGER,IT_SPMD(PROC_ID),MSGTYP,
-     .          MPI_COMM_WORLD,REQUEST_SURF_R(RECV_SURF_NB),IERROR )
+     .          SPMD_COMM_WORLD,REQUEST_SURF_R(RECV_SURF_NB),IERROR )
             ENDIF
         ENDDO
         ! ----------------              
@@ -227,7 +225,7 @@ C-----------------------------------------------
             IF(SURF_PER_PROC(1,I)+SURF_PER_PROC(2,I)>0) THEN
                 MSGTYP = MSGOFF2
                 CALL MPI_ISEND( BUFFER_S(I)%INT_ARRAY_1D,INDEX_PROC(I),MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .                          MPI_COMM_WORLD,REQUEST_SURF_S(I),IERROR )
+     .                          SPMD_COMM_WORLD,REQUEST_SURF_S(I),IERROR )
             ENDIF
         ENDDO 
         ! ----------------

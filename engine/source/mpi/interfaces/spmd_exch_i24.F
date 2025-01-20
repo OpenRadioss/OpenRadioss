@@ -48,9 +48,7 @@ C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -224,7 +222,7 @@ C Preparation du recieve
           IF (SIZ > 0) THEN
             MSGTYP = MSGOFF2
             CALL MPI_IRECV( BBUFR(IADR(P)),SIZ,REAL,IT_SPMD(P),MSGTYP,
-     *                     MPI_COMM_WORLD,REQ_R(P),IERROR )
+     *                     SPMD_COMM_WORLD,REQ_R(P),IERROR )
           ENDIF
       ENDDO
 
@@ -261,7 +259,7 @@ C Send
               MSGTYP = MSGOFF2
               CALL MPI_ISEND(
      .          BBUFS(IADS(P)),SIZ,REAL     ,IT_SPMD(P),MSGTYP,
-     .          MPI_COMM_WORLD,REQ_SI(P),IERROR    )
+     .          SPMD_COMM_WORLD,REQ_SI(P),IERROR    )
          ENDIF
        ENDIF ! ENDIF P/= LOC_PROC
       ENDDO  ! DO P=1, NSPMD
@@ -497,13 +495,13 @@ C mise en place du irecieve
           LEN = SIZ*4
           CALL MPI_IRECV(
      S      IRECBUF(LI),LEN,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_R(P),IERROR)
+     G      SPMD_COMM_WORLD,REQ_R(P),IERROR)
 
           MSGTYP = MSGOFF4 
           LEN = SIZ*8
           CALL MPI_IRECV(
      S      RRECBUF(LR),LEN,REAL,IT_SPMD(P),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_R2(P),IERROR)
+     G      SPMD_COMM_WORLD,REQ_R2(P),IERROR)
 
         ENDIF
        ENDDO
@@ -554,12 +552,12 @@ C
            L = IADS(P)
            CALL MPI_ISEND(
      S        ISENDBUF(1,L),SIZ*4,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     G        MPI_COMM_WORLD,REQ_S(P),IERROR)
+     G        SPMD_COMM_WORLD,REQ_S(P),IERROR)
      
            MSGTYP = MSGOFF4
            CALL MPI_ISEND(
      S        RSENDBUF(1,L),SIZ*8,REAL,IT_SPMD(P),MSGTYP,
-     G        MPI_COMM_WORLD,REQ_S2(P),IERROR)
+     G        SPMD_COMM_WORLD,REQ_S2(P),IERROR)
          ENDIF   ! IF (SIZ >0)
       ENDDO      ! DO P=1,NSPMD
 C--------------------------------------------------------------------
@@ -790,7 +788,7 @@ C Preparation du recieve
           IF (SIZ > 0) THEN
             MSGTYP = MSGOFF5
             CALL MPI_IRECV( BBUFR(IADR(P)),SIZ,REAL,IT_SPMD(P),MSGTYP,
-     *                     MPI_COMM_WORLD,REQ_R(P),IERROR )
+     *                     SPMD_COMM_WORLD,REQ_R(P),IERROR )
          ENDIF
       ENDDO
       
@@ -837,7 +835,7 @@ C Preparation du send
 C Send
               CALL MPI_ISEND(
      .          BBUFS(IADS(P)),SIZ,REAL     ,IT_SPMD(P),MSGTYP,
-     .          MPI_COMM_WORLD,REQ_SI(P),IERROR    )
+     .          SPMD_COMM_WORLD,REQ_SI(P),IERROR    )
          ENDIF
        ENDIF
       ENDDO

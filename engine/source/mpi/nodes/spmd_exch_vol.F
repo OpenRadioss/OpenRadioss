@@ -37,9 +37,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -84,7 +82,7 @@ C-----------------------------------------------
           MSGTYP = MSGOFF
           CALL MPI_IRECV(
      S      RBUF(1,L),SIZ,MPI_DOUBLE_PRECISION,
-     G      IT_SPMD(I),MSGTYP,MPI_COMM_WORLD,
+     G      IT_SPMD(I),MSGTYP,SPMD_COMM_WORLD,
      H      REQ_R(I),IERROR)
           L = L  + 2*LEN
         ENDIF
@@ -135,7 +133,7 @@ C envoi a N+I mod P
           L = IAD_SEND(I)
           CALL MPI_ISEND(
      S      SBUF(1,L),SIZ,MPI_DOUBLE_PRECISION,
-     G      IT_SPMD(I),MSGTYP,MPI_COMM_WORLD,
+     G      IT_SPMD(I),MSGTYP,SPMD_COMM_WORLD,
      H      REQ_S(I),IERROR)
        ENDIF
 C--------------------------------------------------------------------

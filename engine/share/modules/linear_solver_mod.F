@@ -289,15 +289,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
       CLASS (T_MUMPS_SOLVER), INTENT(INOUT) :: this
       INTEGER, INTENT(IN) :: MAT_DIM
       this%MUMPS_PAR%PAR = 1
 #ifdef MPI      
-      this%MUMPS_PAR%COMM = MPI_COMM_WORLD
+      this%MUMPS_PAR%COMM = SPMD_COMM_WORLD
 #else 
       this%MUMPS_PAR%COMM = -1
 #endif
@@ -397,9 +395,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
       CLASS (T_MUMPS_SOLVER), INTENT(INOUT) :: this
       INTEGER, INTENT(IN) :: DIM
@@ -432,7 +428,7 @@ C-----------------------------------------------
 #ifdef MPI
 !     Sent to all procs
          IF (NSPMD > 1) THEN
-            CALL MPI_BCAST(SOL, DIM, REAL, 0, MPI_COMM_WORLD, IERR)
+            CALL MPI_BCAST(SOL, DIM, REAL, 0, SPMD_COMM_WORLD, IERR)
          ENDIF
 #endif     
       ENDIF
@@ -452,9 +448,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
       CLASS (T_MUMPS_SOLVER), INTENT(INOUT) :: this
 
@@ -562,9 +556,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
       CLASS (T_CG_SOLVER), INTENT(INOUT) :: this
       INTEGER, INTENT(IN) :: DIM

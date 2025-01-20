@@ -40,9 +40,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -99,7 +97,7 @@ C
         LEN = IFV*6
         CALL MPI_ALLREDUCE(BUFS,BUFR,LEN,
      .                  MPI_INTEGER,MPI_SUM,
-     .                  MPI_COMM_WORLD,IERROR)
+     .                  SPMD_COMM_WORLD,IERROR)
       ENDIF
 
 

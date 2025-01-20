@@ -68,9 +68,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -309,7 +307,7 @@ C ajout partie edge pour type 25
 C BUFS : envoi partie force et reception partie vitesse
               CALL MPI_IRECV(
      .          BBUFR(ADD),SIZ,REAL     ,IT_SPMD(P),MSGTYP,
-     .          MPI_COMM_WORLD,REQ_RI(P),IERROR    )
+     .          SPMD_COMM_WORLD,REQ_RI(P),IERROR    )
             ENDIF
           ENDIF
         ENDDO
@@ -2037,7 +2035,7 @@ C                     BBUFS(L+27) = 1 ! main of the edge
 C BUFR : reception partie force et envoi partie vitesse
               CALL MPI_ISEND(
      .          BBUFS(ADD),SIZ,REAL     ,IT_SPMD(P),MSGTYP,
-     .          MPI_COMM_WORLD,REQ_SI(P),IERROR    )
+     .          SPMD_COMM_WORLD,REQ_SI(P),IERROR    )
             ENDIF
           ENDIF
         ENDDO

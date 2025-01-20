@@ -35,9 +35,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -58,7 +56,7 @@ C-----------------------------------------------
 !       mpi comm gahter on processor PROC
         CALL MPI_GATHER(SENDBUF,SEND_SIZE,MPI_INTEGER,
      .                  RECVBUF,SEND_SIZE,MPI_INTEGER,
-     .                  PROC,MPI_COMM_WORLD,error)
+     .                  PROC,SPMD_COMM_WORLD,error)
 !       ------------------
 
 #else

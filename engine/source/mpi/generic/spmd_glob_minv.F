@@ -36,9 +36,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -100,7 +98,7 @@ C
       CALL MPI_OP_CREATE(GLOB_MINV, .TRUE., MYOP, IERROR)
       
       CALL MPI_ALLREDUCE(RRBUF, RBUF, 1, MY_TYPE, MYOP,
-     &                   MPI_COMM_WORLD, IERROR)
+     &                   SPMD_COMM_WORLD, IERROR)
      
       CALL MPI_OP_FREE(MYOP, IERROR)
       CALL MPI_TYPE_FREE(MY_TYPE,IERROR)

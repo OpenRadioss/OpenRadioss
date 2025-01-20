@@ -39,9 +39,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -75,7 +73,7 @@ C
           MSGTYP = MSGOFF 
           CALL MPI_IRECV(
      S    RBUF(IDEB),SIZ,REAL,IT_SPMD(I),MSGTYP,
-     G    MPI_COMM_WORLD,REQ_R(II),IERROR)
+     G    SPMD_COMM_WORLD,REQ_R(II),IERROR)
           IDEB = IDEB + SIZ
         END DO
 C
@@ -134,7 +132,7 @@ C
         IF (SIZ > 0) THEN
           MSGTYP=MSGOFF
           CALL MPI_SEND(SBUF,SIZ,REAL,IT_SPMD(1),MSGTYP,
-     G                  MPI_COMM_WORLD,IERROR)
+     G                  SPMD_COMM_WORLD,IERROR)
         ENDIF
 C
       END IF

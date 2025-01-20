@@ -50,9 +50,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -69,7 +67,7 @@ C-----------------------------------------------
          K1=K1+NIMV
       ENDDO
 
-      CALL MPI_ALLREDUCE(ITYP,ITYPR,NVOLU,MPI_INTEGER,MPI_MIN,MPI_COMM_WORLD,IERR)
+      CALL MPI_ALLREDUCE(ITYP,ITYPR,NVOLU,MPI_INTEGER,MPI_MIN,SPMD_COMM_WORLD,IERR)
       K1=1
 
       DO N=1,NVOLU

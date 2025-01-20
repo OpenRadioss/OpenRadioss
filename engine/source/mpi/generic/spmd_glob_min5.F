@@ -42,9 +42,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -121,11 +119,11 @@ C
       CALL MPI_OP_CREATE(GLOB_MIN, .TRUE., MYOP, IERROR)
       
       CALL MPI_ALLREDUCE(SBUF, RBUF, 1, MY_TYPE, MYOP,
-     &                   MPI_COMM_WORLD, IERROR)
+     &                   SPMD_COMM_WORLD, IERROR)
      
       IF (INT24USE==1)THEN
         CALL MPI_ALLREDUCE(SBUF(11), RBUF(11), NBINTC, REAL , MPI_MAX,
-     &                   MPI_COMM_WORLD, IERROR)
+     &                   SPMD_COMM_WORLD, IERROR)
       ENDIF
 
       CALL MPI_OP_FREE(MYOP, IERROR)

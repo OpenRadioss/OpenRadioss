@@ -36,9 +36,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -65,12 +63,12 @@ C-----------------------------------------------
       IF (ISPMD/=0) THEN
         MSGTYP=MSGOFF
         CALL MPI_SEND(V,LEN,REAL,IT_SPMD(1),MSGTYP,
-     .                MPI_COMM_WORLD,IERROR)
+     .                SPMD_COMM_WORLD,IERROR)
       ELSE
         DO K=2,NSPMD
           MSGTYP=MSGOFF
           CALL MPI_RECV(VTMP,LEN,REAL,IT_SPMD(K),MSGTYP,
-     .                  MPI_COMM_WORLD,STATUS,IERROR)
+     .                  SPMD_COMM_WORLD,STATUS,IERROR)
           DO I=1,LEN1
             IF(ABS(V(I))<ABS(VTMP(I))) THEN
               V(I) = VTMP(I)

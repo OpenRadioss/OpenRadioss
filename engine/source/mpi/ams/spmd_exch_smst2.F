@@ -47,9 +47,7 @@ C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
-#ifdef  MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -157,7 +155,7 @@ C     REAL
             ! AlltoAll comm in order to know the sent buffer size
             CALL MPI_ALLTOALL(TAB_LOC(1),NINTER,MPI_INTEGER,
      .                        TAB_SEND(1),NINTER,MPI_INTEGER,
-     .                        MPI_COMM_WORLD,IERROR)
+     .                        SPMD_COMM_WORLD,IERROR)
 
         ! -----------------------
             ! SECOND COMM.
@@ -224,7 +222,7 @@ C     REAL
               IF (SIZ > 0) THEN
                  MSGTYP = MSGOFF
                  CALL MPI_IRECV( IBUFR(IADR(P)),SIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     .                           MPI_COMM_WORLD,REQ_R(P),IERROR )
+     .                           SPMD_COMM_WORLD,REQ_R(P),IERROR )
               ENDIF
             ENDDO
             ! -----------------
@@ -252,7 +250,7 @@ C     REAL
                 IF(SIZ>0)THEN
                   MSGTYP = MSGOFF
                   CALL MPI_ISEND( IBUFS(IADS(P)),SIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     .                            MPI_COMM_WORLD,REQ_SI(P),IERROR )
+     .                            SPMD_COMM_WORLD,REQ_SI(P),IERROR )
                 ENDIF
               ENDIF ! ENDIF P/= LOC_PROC
             ENDDO  ! DO P=1, NSPMD
@@ -354,7 +352,7 @@ C     REAL
               IF (SIZ > 0) THEN
                  MSGTYP = MSGOFF2
                  CALL MPI_IRECV( IBUFR(IADR(P)),SIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     .                           MPI_COMM_WORLD,REQ_R(P),IERROR )
+     .                           SPMD_COMM_WORLD,REQ_R(P),IERROR )
               ENDIF
             ENDDO
             ! -----------------
@@ -400,7 +398,7 @@ C     REAL
                 IF(SIZ>0)THEN
                   MSGTYP = MSGOFF2
                   CALL MPI_ISEND( IBUFS(IADS(P)),SIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     .                            MPI_COMM_WORLD,REQ_SI(P),IERROR )
+     .                            SPMD_COMM_WORLD,REQ_SI(P),IERROR )
                 ENDIF
               ENDIF ! ENDIF P/= LOC_PROC
             ENDDO  ! DO P=1, NSPMD

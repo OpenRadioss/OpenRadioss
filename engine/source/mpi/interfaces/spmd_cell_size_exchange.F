@@ -65,9 +65,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -282,7 +280,7 @@ C-----------------------------------------------
                 SORT_COMM(NIN)%NBSEND_NB=SORT_COMM(NIN)%NBSEND_NB+1
                 SORT_COMM(NIN)%SEND_NB(SORT_COMM(NIN)%NBSEND_NB)=P   !   proc with nmn>0
                 CALL MPI_ISEND(SORT_COMM(NIN)%NB(P),1,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     .                         MPI_COMM_WORLD,SORT_COMM(NIN)%REQUEST_NB_S(SORT_COMM(NIN)%NBSEND_NB),IERROR)
+     .                         SPMD_COMM_WORLD,SORT_COMM(NIN)%REQUEST_NB_S(SORT_COMM(NIN)%NBSEND_NB),IERROR)
 
                 !   --------------------------
                 !   buffer allocation & buffer initialization

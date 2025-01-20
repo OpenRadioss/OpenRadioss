@@ -34,9 +34,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -65,7 +63,7 @@ C-----------------------------------------------
 
 !       ------------------
 !       mpi comm reduce
-        CALL MPI_REDUCE(VALUE,RES,MY_SIZE,MPI_DOUBLE_PRECISION,MPI_OPERATION,MY_RANK,MPI_COMM_WORLD,error)
+        CALL MPI_REDUCE(VALUE,RES,MY_SIZE,MPI_DOUBLE_PRECISION,MPI_OPERATION,MY_RANK,SPMD_COMM_WORLD,error)
 !       ------------------
 #else
         RES = 0

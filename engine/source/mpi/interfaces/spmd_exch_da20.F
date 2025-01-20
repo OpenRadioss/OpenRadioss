@@ -45,9 +45,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -98,7 +96,7 @@ C
           IRINDEX(NBIRECV) = I
           CALL MPI_IRECV(
      S      RBUF(L),SIZ,MPI_DOUBLE_PRECISION,IT_SPMD(I),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_R(NBIRECV),IERROR)
+     G      SPMD_COMM_WORLD,REQ_R(NBIRECV),IERROR)
           L = L + SIZ
         ENDIF
         IAD_RECV(I+1) = L
@@ -157,7 +155,7 @@ C
         MSGTYP = MSGOFF
         CALL MPI_ISEND(
      S    SBUF(L),SIZ,MPI_DOUBLE_PRECISION,IT_SPMD(I),MSGTYP,
-     G    MPI_COMM_WORLD,REQ_S(I),IERROR)
+     G    SPMD_COMM_WORLD,REQ_S(I),IERROR)
       ENDDO
 C
 C decompactage

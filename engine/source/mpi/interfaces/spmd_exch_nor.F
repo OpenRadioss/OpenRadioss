@@ -44,9 +44,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -115,7 +113,7 @@ c                  print *,'recoit siz',ispmd+1,i,siz
               IRINDEX(NBIRECV) = I
               CALL MPI_IRECV(
      S          RBUF(L0),SIZ,MPI_REAL4,IT_SPMD(I),MSGTYP,
-     G          MPI_COMM_WORLD,REQ_R(NBIRECV),IERROR)
+     G          SPMD_COMM_WORLD,REQ_R(NBIRECV),IERROR)
             ENDIF
           ENDIF
           IAD_RECV(I+1) = L
@@ -184,7 +182,7 @@ c                  print *,'envoi siz',ispmd+1,i,siz
               ISINDEX(NBISEND)=I
               CALL MPI_ISEND(
      S        SBUF(L0),SIZ,MPI_REAL4,IT_SPMD(I),MSGTYP,
-     G        MPI_COMM_WORLD,REQ_S(I),IERROR)
+     G        SPMD_COMM_WORLD,REQ_S(I),IERROR)
             ENDIF
           END IF
         ENDDO

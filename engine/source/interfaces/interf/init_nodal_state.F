@@ -67,9 +67,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -685,10 +683,10 @@ C-----------------------------------------------
                 IF(I/=ISPMD+1.AND.SIZ>0) THEN
                     S_BUFFER_2_INT(1,I) = SIZE_BUFFER_MAIN(I)
                     S_BUFFER_2_INT(2,I) = SIZE_BUFFER_SECOND(I)
-                    CALL MPI_ISEND(S_BUFFER_2_INT(1,I),2,MPI_INTEGER,IT_SPMD(I),MSGTYP,MPI_COMM_WORLD,REQUEST_S(I),IERROR)
+                    CALL MPI_ISEND(S_BUFFER_2_INT(1,I),2,MPI_INTEGER,IT_SPMD(I),MSGTYP,SPMD_COMM_WORLD,REQUEST_S(I),IERROR)
                 ENDIF
                 IF(I/=ISPMD+1.AND.SIZ>0) THEN
-                    CALL MPI_IRECV(R_BUFFER_2_INT(1,I),2,MPI_INTEGER,IT_SPMD(I),MSGTYP,MPI_COMM_WORLD,REQUEST_R(I),IERROR)
+                    CALL MPI_IRECV(R_BUFFER_2_INT(1,I),2,MPI_INTEGER,IT_SPMD(I),MSGTYP,SPMD_COMM_WORLD,REQUEST_R(I),IERROR)
            
                 ENDIF
             ENDDO
@@ -707,21 +705,21 @@ C-----------------------------------------------
                     R_BUFFER_MAIN(I)%SIZE_INT_ARRAY_1D = R_SIZE_BUFFER_MAIN(I)
                     CALL ALLOC_1D_ARRAY(R_BUFFER_MAIN(I))    
                     CALL MPI_IRECV( R_BUFFER_MAIN(I)%INT_ARRAY_1D,R_BUFFER_MAIN(I)%SIZE_INT_ARRAY_1D,
-     .                             MPI_INTEGER,IT_SPMD(I),MSGTYP,MPI_COMM_WORLD,REQUEST_R2(I),IERROR )         
+     .                             MPI_INTEGER,IT_SPMD(I),MSGTYP,SPMD_COMM_WORLD,REQUEST_R2(I),IERROR )         
                 ENDIF
                 IF(R_SIZE_BUFFER_SECOND(I)>0) THEN
                     R_BUFFER_SECOND(I)%SIZE_INT_ARRAY_1D = R_SIZE_BUFFER_SECOND(I)
                     CALL ALLOC_1D_ARRAY(R_BUFFER_SECOND(I))
                     CALL MPI_IRECV( R_BUFFER_SECOND(I)%INT_ARRAY_1D,R_BUFFER_SECOND(I)%SIZE_INT_ARRAY_1D,
-     .                             MPI_INTEGER,IT_SPMD(I),MSGTYP,MPI_COMM_WORLD,REQUEST_R3(I),IERROR )                      
+     .                             MPI_INTEGER,IT_SPMD(I),MSGTYP,SPMD_COMM_WORLD,REQUEST_R3(I),IERROR )                      
                 ENDIF
                 IF(SIZE_BUFFER_MAIN(I)>0) THEN
                     CALL MPI_ISEND( BUFFER_MAIN(I)%INT_ARRAY_1D,SIZE_BUFFER_MAIN(I),
-     .                             MPI_INTEGER,IT_SPMD(I),MSGTYP,MPI_COMM_WORLD,REQUEST_S2(I),IERROR )         
+     .                             MPI_INTEGER,IT_SPMD(I),MSGTYP,SPMD_COMM_WORLD,REQUEST_S2(I),IERROR )         
                 ENDIF
                 IF(SIZE_BUFFER_SECOND(I)>0) THEN
                     CALL MPI_ISEND( BUFFER_SECOND(I)%INT_ARRAY_1D,SIZE_BUFFER_SECOND(I),
-     .                             MPI_INTEGER,IT_SPMD(I),MSGTYP,MPI_COMM_WORLD,REQUEST_S3(I),IERROR )                      
+     .                             MPI_INTEGER,IT_SPMD(I),MSGTYP,SPMD_COMM_WORLD,REQUEST_S3(I),IERROR )                      
                 ENDIF
             ENDDO
             DO I=1,NSPMD
@@ -736,22 +734,22 @@ C-----------------------------------------------
                     CALL COUNT_REMOTE_NB_ELEM_EDGE( R_BUFFER_MAIN(I)%SIZE_INT_ARRAY_1D,R_BUFFER_MAIN(I)%INT_ARRAY_1D,
      .                                              GEO,IXS,IXC,IXT,IXP,IXR,IXTG,ADDCNEL,NODES,CNEL,CHUNK)
                     CALL MPI_ISEND( R_BUFFER_MAIN(I)%INT_ARRAY_1D,R_BUFFER_MAIN(I)%SIZE_INT_ARRAY_1D,
-     .                             MPI_INTEGER,IT_SPMD(I),MSGTYP,MPI_COMM_WORLD,REQUEST_S2(I),IERROR )     
+     .                             MPI_INTEGER,IT_SPMD(I),MSGTYP,SPMD_COMM_WORLD,REQUEST_S2(I),IERROR )     
    
                 ENDIF
                 IF(R_BUFFER_SECOND(I)%SIZE_INT_ARRAY_1D>0) THEN
                     CALL COUNT_REMOTE_NB_ELEM_EDGE( R_BUFFER_SECOND(I)%SIZE_INT_ARRAY_1D,R_BUFFER_SECOND(I)%INT_ARRAY_1D,
      .                                              GEO,IXS,IXC,IXT,IXP,IXR,IXTG,ADDCNEL,NODES,CNEL,CHUNK)
                     CALL MPI_ISEND( R_BUFFER_SECOND(I)%INT_ARRAY_1D,R_BUFFER_SECOND(I)%SIZE_INT_ARRAY_1D,
-     .                             MPI_INTEGER,IT_SPMD(I),MSGTYP,MPI_COMM_WORLD,REQUEST_S3(I),IERROR )
+     .                             MPI_INTEGER,IT_SPMD(I),MSGTYP,SPMD_COMM_WORLD,REQUEST_S3(I),IERROR )
                 ENDIF
                 IF(SIZE_BUFFER_MAIN(I)>0) THEN
                     CALL MPI_IRECV( BUFFER_MAIN(I)%INT_ARRAY_1D,SIZE_BUFFER_MAIN(I),
-     .                             MPI_INTEGER,IT_SPMD(I),MSGTYP,MPI_COMM_WORLD,REQUEST_R2(I),IERROR )  
+     .                             MPI_INTEGER,IT_SPMD(I),MSGTYP,SPMD_COMM_WORLD,REQUEST_R2(I),IERROR )  
                 ENDIF
                 IF(SIZE_BUFFER_SECOND(I)>0) THEN
                     CALL MPI_IRECV( BUFFER_SECOND(I)%INT_ARRAY_1D,SIZE_BUFFER_SECOND(I),
-     .                             MPI_INTEGER,IT_SPMD(I),MSGTYP,MPI_COMM_WORLD,REQUEST_R3(I),IERROR )  
+     .                             MPI_INTEGER,IT_SPMD(I),MSGTYP,SPMD_COMM_WORLD,REQUEST_R3(I),IERROR )  
                 ENDIF
             ENDDO
             DO I=1,NSPMD

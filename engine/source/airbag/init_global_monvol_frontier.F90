@@ -59,9 +59,7 @@
 !                                                   included files
 ! ----------------------------------------------------------------------------------------------------------------------
 #include "my_real.inc"
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -115,7 +113,7 @@
  
           if(nspmd>1) then
 #ifdef MPI
-            call mpi_gather(s_buffer,2,MPI_INTEGER,r_buffer,2,MPI_INTEGER,0,MPI_COMM_WORLD,ierror)
+            call mpi_gather(s_buffer,2,MPI_INTEGER,r_buffer,2,MPI_INTEGER,0,SPMD_COMM_WORLD,ierror)
 #endif
           else
             r_buffer(1:2,1) = s_buffer(1:2)
@@ -140,7 +138,7 @@
           endif
           if(nspmd>1) then    
 #ifdef MPI
-            call mpi_bcast(frontier_global_mv,nspmd+2,MPI_INTEGER,0,MPI_COMM_WORLD,ierror)
+            call mpi_bcast(frontier_global_mv,nspmd+2,MPI_INTEGER,0,SPMD_COMM_WORLD,ierror)
 #endif  
           endif
 

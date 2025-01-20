@@ -42,9 +42,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -107,7 +105,7 @@ C=======================================================================
           MSGTYP = MSGOFF
           CALL MPI_ISEND(
      .      BMINMA(1,LOC_PROC),6  ,REAL  ,IT_SPMD(P),MSGTYP,
-     .      MPI_COMM_WORLD    ,REQ_SB(P),IERROR)
+     .      SPMD_COMM_WORLD    ,REQ_SB(P),IERROR)
         ENDIF
       ENDDO
       !-------------------------------------------!
@@ -121,7 +119,7 @@ C=======================================================================
           MSGTYP = MSGOFF
           CALL MPI_RECV(
      .      BMINMA(1,P)   ,6      ,REAL  ,IT_SPMD(P),MSGTYP,
-     .      MPI_COMM_WORLD,STATUS,IERROR)
+     .      SPMD_COMM_WORLD,STATUS,IERROR)
         ENDIF
       ENDDO
       !-------------------------------------------!

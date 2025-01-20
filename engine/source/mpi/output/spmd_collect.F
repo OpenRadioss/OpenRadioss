@@ -38,9 +38,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -91,11 +89,11 @@ C-----------------------------------------------
         MSGTYP=MSGOFF0
         CALL MPI_SEND(SDNODG,N,MPI_INTEGER,
      .                IT_SPMD(1),MSGTYP,
-     .                MPI_COMM_WORLD,IERROR)
+     .                SPMD_COMM_WORLD,IERROR)
         MSGTYP=MSGOFF
         CALL MPI_SEND(AGLOB,4*N,MPI_DOUBLE_PRECISION,
      .                IT_SPMD(1),MSGTYP,
-     .                MPI_COMM_WORLD,IERROR)
+     .                SPMD_COMM_WORLD,IERROR)
       ELSE
        WRITE(CYCLENUM,'(I7.7)')NCYCLE
        FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_'//CYCLENUM//'.adb'
@@ -122,14 +120,14 @@ C-----------------------------------------------
             MSGTYP=MSGOFF0
             CALL MPI_RECV(SDNODG,NUMNODM,MPI_INTEGER,
      .                    IT_SPMD(K),MSGTYP,
-     .                    MPI_COMM_WORLD,STATUS,IERROR)
+     .                    SPMD_COMM_WORLD,STATUS,IERROR)
 
             CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,N,ierror)
 
             MSGTYP=MSGOFF
             CALL MPI_RECV(AGLOB,4*N,MPI_DOUBLE_PRECISION,
      .                    IT_SPMD(K),MSGTYP,
-     .                    MPI_COMM_WORLD,STATUS,IERROR)
+     .                    SPMD_COMM_WORLD,STATUS,IERROR)
 
             DO I=1,N
               EMPL = SDNODG(I)

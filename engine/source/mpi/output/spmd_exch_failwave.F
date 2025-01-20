@@ -114,9 +114,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -175,7 +173,7 @@ c--------------------------------------------------------------------
           MSGTYP = MSGOFF1
           CALL MPI_IRECV(
      S      RBUFI(L),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_R1(I),IERROR)
+     G      SPMD_COMM_WORLD,REQ_R1(I),IERROR)
           L = L + SIZ
         ENDIF
         IAD_RECV(I+1) = L
@@ -207,7 +205,7 @@ c--------------------------------------------------------------------
           L = IAD_SEND(I)
           CALL MPI_ISEND(
      S      SBUFI(L),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_S1(I),IERROR)
+     G      SPMD_COMM_WORLD,REQ_S1(I),IERROR)
         ENDIF
       ENDDO
 c--------------------------------------------------------------------
@@ -268,7 +266,7 @@ c--------------------------------------------------------------------
           MSGTYP = MSGOFF2
           CALL MPI_IRECV(
      S      RECV_BUF(L),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_R2(I),IERROR)
+     G      SPMD_COMM_WORLD,REQ_R2(I),IERROR)
           L = L + SIZ
         ENDIF
       END DO
@@ -301,7 +299,7 @@ C            print*,'isend=',L
             MSGTYP = MSGOFF2
             CALL MPI_ISEND(
      S        SEND_BUF(L),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     G        MPI_COMM_WORLD,REQ_S2(I),IERROR)
+     G        SPMD_COMM_WORLD,REQ_S2(I),IERROR)
         ENDIF
       ENDDO
 

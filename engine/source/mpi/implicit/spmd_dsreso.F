@@ -32,9 +32,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -50,7 +48,7 @@ C-----------------------------------------------
       INTEGER IERR
 C
       CALL MPI_SEND(BUF, SIZE, MPI_INTEGER, IT_SPMD(IDEST), ITAG,
-     .              MPI_COMM_WORLD, IERR)
+     .              SPMD_COMM_WORLD, IERR)
 *      WRITE(*,*) 'Requete I envoyee - ITAG ',ITAG,' IERR ',IERR
 C
 #endif
@@ -70,9 +68,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -90,7 +86,7 @@ C-----------------------------------------------
       INTEGER IERR
 C
       CALL MPI_SEND(BUF, SIZE, REAL, IT_SPMD(IDEST), ITAG,
-     .              MPI_COMM_WORLD, IERR)
+     .              SPMD_COMM_WORLD, IERR)
 C
 #endif
       RETURN
@@ -107,9 +103,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -126,7 +120,7 @@ C-----------------------------------------------
       CHARACTER STR_ERROR*(MPI_MAX_ERROR_STRING)
 C
       CALL MPI_RECV(BUF, SIZE, MPI_INTEGER, IT_SPMD(IPROV), ITAG,
-     .              MPI_COMM_WORLD, ISTAT, IERR)
+     .              SPMD_COMM_WORLD, ISTAT, IERR)
 C
 #endif
       RETURN
@@ -145,9 +139,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -165,7 +157,7 @@ C-----------------------------------------------
       INTEGER IERR, ISTAT(MPI_STATUS_SIZE)
 C
       CALL MPI_RECV(BUF, SIZE, REAL, IT_SPMD(IPROV), ITAG,
-     .              MPI_COMM_WORLD, ISTAT, IERR)
+     .              SPMD_COMM_WORLD, ISTAT, IERR)
 C
 #endif
       RETURN
@@ -182,9 +174,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -208,11 +198,11 @@ C
          ELSE
             ITAG=MSGOFF + NSPMD*ISPMD + I
             CALL MPI_ISEND(SBUF(1,I), SIZE, MPI_INTEGER, IT_SPMD(I), 
-     .                     ITAG, MPI_COMM_WORLD, REQ(1), IERR)
+     .                     ITAG, SPMD_COMM_WORLD, REQ(1), IERR)
 C
             ITAG=MSGOFF + NSPMD*(I-1) + ISPMD+1
             CALL MPI_IRECV(RBUF(1,I), SIZE, MPI_INTEGER, IT_SPMD(I), 
-     .                     ITAG, MPI_COMM_WORLD, REQ(2), IERR)
+     .                     ITAG, SPMD_COMM_WORLD, REQ(2), IERR)
 C
             CALL MPI_WAITALL(2, REQ, TSTAT, IERR)
          ENDIF
@@ -234,9 +224,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -276,11 +264,11 @@ C Reception
             ITAG(2)=MSGOFF + NSPMD*3*(I-1) + NSPMD+ISPMD+1
             ITAG(3)=MSGOFF + NSPMD*3*(I-1) + 2*NSPMD+ISPMD+1
             CALL MPI_IRECV(IROW, LEN, MPI_INTEGER, IT_SPMD(I),
-     .                     ITAG(1), MPI_COMM_WORLD, REQ(1), IERR)
+     .                     ITAG(1), SPMD_COMM_WORLD, REQ(1), IERR)
             CALL MPI_IRECV(ICOL, LEN, MPI_INTEGER, IT_SPMD(I),
-     .                     ITAG(2), MPI_COMM_WORLD, REQ(2), IERR)
+     .                     ITAG(2), SPMD_COMM_WORLD, REQ(2), IERR)
             CALL MPI_IRECV(VAL, LEN, REAL, IT_SPMD(I),
-     .                     ITAG(3), MPI_COMM_WORLD, REQ(3), IERR)
+     .                     ITAG(3), SPMD_COMM_WORLD, REQ(3), IERR)
 C Envoi
             IADC=IADS(I)
             LEN=IADS(I+1)-IADS(I)
@@ -288,11 +276,11 @@ C Envoi
             ITAG(2)=MSGOFF + NSPMD*3*ISPMD + NSPMD+I
             ITAG(3)=MSGOFF + NSPMD*3*ISPMD + 2*NSPMD+I
             CALL MPI_ISEND(IEXCH(IADC,1), LEN, MPI_INTEGER, IT_SPMD(I),
-     .                     ITAG(1), MPI_COMM_WORLD, REQ(4), IERR)
+     .                     ITAG(1), SPMD_COMM_WORLD, REQ(4), IERR)
             CALL MPI_ISEND(IEXCH(IADC,2), LEN, MPI_INTEGER, IT_SPMD(I),
-     .                     ITAG(2), MPI_COMM_WORLD, REQ(5), IERR)
+     .                     ITAG(2), SPMD_COMM_WORLD, REQ(5), IERR)
             CALL MPI_ISEND(REXCH(IADC), LEN, REAL, IT_SPMD(I),
-     .                     ITAG(3), MPI_COMM_WORLD, REQ(6), IERR)
+     .                     ITAG(3), SPMD_COMM_WORLD, REQ(6), IERR)
 C
             CALL MPI_WAITALL(6, REQ, TSTAT, IERR)
 C
@@ -321,9 +309,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -365,12 +351,12 @@ C Reception
                ITAG=MSGOFF + NSPMD*2*(I-1) + ISPMD+1
                II=II+1
                CALL MPI_IRECV(IROW, LEN, MPI_INTEGER, IT_SPMD(I),
-     .                        ITAG, MPI_COMM_WORLD, REQ(II), IERR)
+     .                        ITAG, SPMD_COMM_WORLD, REQ(II), IERR)
                ITAG=MSGOFF + NSPMD*2*(I-1) + NSPMD + ISPMD+1
                LEN2=LEN*NV
                II=II+1
                CALL MPI_IRECV(VAL, LEN2, REAL, IT_SPMD(I),
-     .                        ITAG, MPI_COMM_WORLD, REQ(II), IERR)
+     .                        ITAG, SPMD_COMM_WORLD, REQ(II), IERR)
             ENDIF
 C Envoi
             IADC=IADS(I)
@@ -379,7 +365,7 @@ C Envoi
                ITAG=MSGOFF + NSPMD*2*ISPMD + I
                II=II+1
                CALL MPI_ISEND(IEXCH(IADC), LEN, MPI_INTEGER, IT_SPMD(I),
-     .                        ITAG, MPI_COMM_WORLD, REQ(II), IERR)
+     .                        ITAG, SPMD_COMM_WORLD, REQ(II), IERR)
                ALLOCATE(VALS(LEN,NV))
                DO J=1,NV
                   DO K=1,LEN
@@ -390,7 +376,7 @@ C Envoi
                LEN2=LEN*NV
                II=II+1
                CALL MPI_ISEND(VALS, LEN2, REAL, IT_SPMD(I),
-     .                        ITAG, MPI_COMM_WORLD, REQ(II), IERR)
+     .                        ITAG, SPMD_COMM_WORLD, REQ(II), IERR)
             ENDIF
 C
             IF (II>0) CALL MPI_WAITALL(II, REQ, TSTAT, IERR)
@@ -422,9 +408,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -448,12 +432,12 @@ C
       IF (ISPMD/=0.AND.MOD(ISPMD,DSNCOL)==0) THEN
          ITAG=MSGOFF + ISPMD
          CALL MPI_SEND(NLOC, 1, MPI_INTEGER, IT_SPMD(1), ITAG,
-     .                 MPI_COMM_WORLD, IERR)
+     .                 SPMD_COMM_WORLD, IERR)
 C
          ITAG=MSGOFF + NSPMD + ISPMD
          LEN=NLOC*NDEPL
          CALL MPI_SEND(V, LEN, REAL, IT_SPMD(1), ITAG,
-     .                 MPI_COMM_WORLD, IERR)
+     .                 SPMD_COMM_WORLD, IERR)
       ENDIF
 C
       IF (ISPMD==0) THEN
@@ -470,13 +454,13 @@ C
                IPROV=(I-1)*DSNCOL+1
                ITAG=MSGOFF + IPROV-1
                CALL MPI_RECV(NPLOC, 1, MPI_INTEGER, IT_SPMD(IPROV), 
-     .                       ITAG, MPI_COMM_WORLD, ISTAT, IERR)
+     .                       ITAG, SPMD_COMM_WORLD, ISTAT, IERR)
 C
                ITAG=MSGOFF + NSPMD + IPROV-1
                ALLOCATE(VP(NPLOC,NDEPL))
                LEN=NPLOC*NDEPL
                CALL MPI_RECV(VP, LEN, REAL, IT_SPMD(IPROV), ITAG,
-     .                       MPI_COMM_WORLD, ISTAT, IERR)
+     .                       SPMD_COMM_WORLD, ISTAT, IERR)
             ENDIF
 C
             DO J=1,NDEPL
@@ -499,13 +483,13 @@ C
             ITAG=MSGOFF + 2*NSPMD + I-1
             LEN=NDDLC*NDEPL
             CALL MPI_SEND(VV, LEN, REAL, IT_SPMD(I), ITAG,
-     .                    MPI_COMM_WORLD, IERR)
+     .                    SPMD_COMM_WORLD, IERR)
          ENDDO  
       ELSE
          ITAG=MSGOFF + 2*NSPMD + ISPMD
          LEN=NDDLC*NDEPL
          CALL MPI_RECV(VV, LEN, REAL, IT_SPMD(1), ITAG,
-     .                 MPI_COMM_WORLD, ISTAT, IERR)
+     .                 SPMD_COMM_WORLD, ISTAT, IERR)
       ENDIF                 
 C
 #endif
@@ -524,9 +508,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -558,7 +540,7 @@ C
          DO I=1,NSPMD-1
             IRQTAG=MSGOFF + I
             CALL MPI_RECV(NDDLP(I), 1, MPI_INTEGER, IT_SPMD(I+1),
-     .                    IRQTAG, MPI_COMM_WORLD, ISTAT, IERR)
+     .                    IRQTAG, SPMD_COMM_WORLD, ISTAT, IERR)
             NDDLPM=MAX(NDDLPM,NDDLP(I))            
          ENDDO
          ALLOCATE(LDDLP(NDDLPM,NSPMD-1))
@@ -566,7 +548,7 @@ C
             IRQTAG=MSGOFF + NSPMD + I
             CALL MPI_RECV(
      .          LDDLP(1,I), NDDLP(I), MPI_INTEGER, IT_SPMD(I+1),
-     .          IRQTAG, MPI_COMM_WORLD, ISTAT, IERR)
+     .          IRQTAG, SPMD_COMM_WORLD, ISTAT, IERR)
             DO J=1,NDDLP(I)
                JJ=LDDLP(J,I)
                ITAG(1,JJ)=1
@@ -594,26 +576,26 @@ C
             ENDDO
             IRQTAG=MSGOFF + 2*NSPMD + I
             CALL MPI_SEND(NDDLG, 1, MPI_INTEGER, IT_SPMD(I+1),
-     .                    IRQTAG, MPI_COMM_WORLD,  IERR)
+     .                    IRQTAG, SPMD_COMM_WORLD,  IERR)
             IRQTAG=MSGOFF + 3*NSPMD + I
             CALL MPI_SEND(
      .          LDDLP(1,I), NDDLP(I), MPI_INTEGER, IT_SPMD(I+1),
-     .          IRQTAG, MPI_COMM_WORLD,  IERR)
+     .          IRQTAG, SPMD_COMM_WORLD,  IERR)
          ENDDO
          DEALLOCATE(LDDLP)
       ELSE
          IRQTAG=MSGOFF + ISPMD
          CALL MPI_SEND(NDDL, 1, MPI_INTEGER, IT_SPMD(1),
-     .                 IRQTAG, MPI_COMM_WORLD,  IERR)
+     .                 IRQTAG, SPMD_COMM_WORLD,  IERR)
          IRQTAG=MSGOFF + NSPMD + ISPMD
          CALL MPI_SEND(LSDDL, NDDL, MPI_INTEGER, IT_SPMD(1),
-     .                 IRQTAG, MPI_COMM_WORLD,  IERR)
+     .                 IRQTAG, SPMD_COMM_WORLD,  IERR)
          IRQTAG=MSGOFF + 2*NSPMD + ISPMD
          CALL MPI_RECV(NDDLG, 1, MPI_INTEGER, IT_SPMD(1),
-     .                 IRQTAG, MPI_COMM_WORLD, ISTAT, IERR)
+     .                 IRQTAG, SPMD_COMM_WORLD, ISTAT, IERR)
          IRQTAG=MSGOFF + 3*NSPMD + ISPMD
          CALL MPI_RECV(IW, NDDL, MPI_INTEGER, IT_SPMD(1),
-     .                 IRQTAG, MPI_COMM_WORLD, ISTAT, IERR)
+     .                 IRQTAG, SPMD_COMM_WORLD, ISTAT, IERR)
       ENDIF
 C
 #endif
