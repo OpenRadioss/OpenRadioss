@@ -1220,8 +1220,8 @@ C---    Exponential decay model
      .       + (VY(I) - N2(I)*AA)**2
      .       + (VZ(I) - N3(I)*AA)**2
            VV = SQRT(MAX(EM30,V2))
-           XMU(I) = FRIC
-     .        + (FROT_P(1)-FRIC)*EXP(-FROT_P(2)*VV)
+           XMU(I) = FROT_P(1)
+     .        + (FRIC-FROT_P(1))*EXP(-FROT_P(2)*VV)
            XMU(I) = MAX(XMU(I),EM30)
          ENDDO
       ENDIF
