@@ -1959,8 +1959,8 @@ C---        Exponential decay model
      .         + (VY(I) - N2(I)*AA)**2
      .         + (VZ(I) - N3(I)*AA)**2
             VV = SQRT(MAX(EM30,V2))
-            XMU(I) = FRICC(I)
-     .             + (FRIC_COEFS(I,1)-FRICC(I))*EXP(-FRIC_COEFS(I,2)*VV)
+            XMU(I) = FRIC_COEFS(I,1)
+     .             + (FRICC(I)-FRIC_COEFS(I,1))*EXP(-FRIC_COEFS(I,2)*VV)
             XMU(I) = MAX(XMU(I),EM30)
           ENDDO
         ENDIF
@@ -2258,8 +2258,8 @@ C---        Exponential decay model
      .         + (VY(I) - N2(I)*AA)**2
      .         + (VZ(I) - N3(I)*AA)**2
             VV = SQRT(MAX(EM30,V2))
-            XMU(I) = FRICC(I)
-     .             + (FRIC_COEFS(I,1)-FRICC(I))*EXP(-FRIC_COEFS(I,2)*VV)
+            XMU(I) = FRIC_COEFS(I,1)
+     .             + (FRICC(I)-FRIC_COEFS(I,1))*EXP(-FRIC_COEFS(I,2)*VV)
             XMU(I) = MAX(XMU(I),EM30)
           ENDDO
 c
@@ -2274,8 +2274,9 @@ c
 c
             V2 = VX(I)*DIR2(I,1) +VY(I)*DIR2(I,2)+VZ(I)*DIR2(I,3)
             VV  = MAX(EM30,V2)
-            XMU2(I) = FRICC2(I)
-     .             + (FRIC_COEFS2(I,1)-FRICC2(I))*EXP(-FRIC_COEFS2(I,2)*VV)
+            XMU2(I) = FRIC_COEFS2(I,1)
+     .             + (FRICC2(I)-FRIC_COEFS2(I,1))*EXP(-FRIC_COEFS2(I,2)*VV)
+
             XMU(I) = MAX(XMU(I),EM30)
             XMU2(I) = MAX(XMU2(I),EM30)
           ENDDO
