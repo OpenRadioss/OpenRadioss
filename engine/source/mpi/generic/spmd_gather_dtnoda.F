@@ -31,9 +31,7 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -76,7 +74,7 @@ C   de noeuds au max
 
          MS_LTYP = MS_LOFF 
          CALL MPI_SEND(BUFSR,SIZ,REAL,IT_SPMD(1),MS_LTYP,
-     .     MPI_COMM_WORLD,ierror)
+     .     SPMD_COMM_WORLD,ierror)
 
        ELSE
           ID_G = 0
@@ -93,13 +91,13 @@ C   de noeuds au max
 C-------------
             MS_LTYP = MS_LOFF 
             CALL MPI_PROBE(IT_SPMD(I),MS_LTYP,
-     .                    MPI_COMM_WORLD,STATUS,ierror)
+     .                    SPMD_COMM_WORLD,STATUS,ierror)
               CALL MPI_GET_COUNT(STATUS,REAL,SIZ,ierror) 
 
 C------------ Reception du buffer flottant
 
             CALL MPI_RECV(BUFSR,SIZ,REAL,IT_SPMD(I),MS_LTYP,
-     .                  MPI_COMM_WORLD,STATUS,ierror)
+     .                  SPMD_COMM_WORLD,STATUS,ierror)
      
             NREC = SIZ
             DO K = 1,NREC,3

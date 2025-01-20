@@ -43,9 +43,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C  MPI
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -108,7 +106,7 @@ C-----------------------------------------------
             IF(NSPMD>1) THEN
 #ifdef MPI
                 CALL MPI_ALLREDUCE(ACTIVE_ALE_ELEMENT,GLOBAL_ACTIVE_ALE_ELEMENT,1,
-     .                         MPI_LOGICAL,MPI_LOR,MPI_COMM_WORLD,IERROR)
+     .                         MPI_LOGICAL,MPI_LOR,SPMD_COMM_WORLD,IERROR)
 #endif
             ELSE
                 GLOBAL_ACTIVE_ALE_ELEMENT = ACTIVE_ALE_ELEMENT

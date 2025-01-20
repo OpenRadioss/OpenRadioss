@@ -34,9 +34,7 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 #include "com04_c.inc"
 #include "task_c.inc"
 C-----------------------------------------------
@@ -122,7 +120,7 @@ C-----------------------------------------------
           
            CALL MPI_REDUCE(XSECTMP,XSEC,LEN,
      .                  REAL,MPI_SUM,IT_SPMD(1),
-     .                  MPI_COMM_WORLD,IERROR)
+     .                  SPMD_COMM_WORLD,IERROR)
 
 
 C  

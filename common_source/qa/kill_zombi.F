@@ -91,7 +91,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 #include "implicit_f.inc"
 
 #ifdef MPI
-#include "mpif.h"
+#include "spmd.inc"
 #endif
         integer, intent(in) :: radflex_process_pid,nspmd
         integer, dimension(nspmd+1), intent(inout) :: list_process
@@ -103,7 +103,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         list_process(1:nspmd+1 ) = 0
 #ifdef MPI
         call MPI_GATHER(current_process_pid,1,MPI_INTEGER,
-     .      list_process,1,MPI_INTEGER,0,MPI_COMM_WORLD,ierror)
+     .      list_process,1,MPI_INTEGER,0,SPMD_COMM_WORLD,ierror)
         list_process(nspmd+1) = radflex_process_pid
 #endif
         if(nspmd==1) then
@@ -124,9 +124,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
         subroutine walking_dead_mode(radflex_process_pid,ispmd,nspmd)
 #include "implicit_f.inc"
-
 #ifdef MPI
-#include "mpif.h"
+#include "spmd.inc"
 #endif
         integer, intent(in) :: radflex_process_pid,nspmd,ispmd
         logical :: zombi_activation

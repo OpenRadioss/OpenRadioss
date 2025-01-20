@@ -47,9 +47,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include      "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -124,17 +122,17 @@ C        BUFFER(I)%NEW_MAIN_UID(J) = ITAB(MSR(ILOC(N)))
         TAG = MSGOFF
 
         CALL MPI_ISEND(BUFS_ID(BUFPOS),N,
-     .    MPI_INT,I-1,TAG,MPI_COMM_WORLD,RQS(K),IERR)
+     .    MPI_INT,I-1,TAG,SPMD_COMM_WORLD,RQS(K),IERR)
         CALL MPI_IRECV(BUFR_ID(BUFPOS),N,
-     .    MPI_INT,I-1,TAG,MPI_COMM_WORLD,RQR1(K1),IERR)
+     .    MPI_INT,I-1,TAG,SPMD_COMM_WORLD,RQR1(K1),IERR)
 
         TAG = MSGOFF2
         K = K + 1
         K2=K2 + 1
         CALL MPI_ISEND(BUFS_DIST(BUFPOS),N,
-     .    REAL,I-1,TAG,MPI_COMM_WORLD,RQS(K),IERR)
+     .    REAL,I-1,TAG,SPMD_COMM_WORLD,RQS(K),IERR)
         CALL MPI_IRECV(BUFR_DIST(BUFPOS),N,
-     .    REAL,I-1,TAG,MPI_COMM_WORLD,RQR2(K2),IERR)
+     .    REAL,I-1,TAG,SPMD_COMM_WORLD,RQR2(K2),IERR)
             BUFPOS = BUFPOS + N
         ENDIF
        ENDIF
@@ -183,7 +181,7 @@ C           DIST1 = DISTANCE(K)
          ENDIF
       ENDDO
 
-!     CALL MPI_BARRIER(MPI_COMM_WORLD,ierr)
+!     CALL MPI_BARRIER(SPMD_COMM_WORLD,ierr)
       DEALLOCATE(BUFR_ID,BUFS_ID) 
       DEALLOCATE(BUFR_DIST,BUFS_DIST) 
 #endif
@@ -259,9 +257,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include      "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -354,9 +350,9 @@ C       WRITE(6,*) __FILE__,__LINE__,ISPMD,I-1
         IF(ISPMD /= I-1 .AND.BUFFER(I)%NBMAIN >0 ) THEN
         K = K +1
         CALL MPI_ISEND(NB_SECND_SENT(I),1,
-     .    MPI_INT,I-1,TAG,MPI_COMM_WORLD,RQS(K),IERR)
+     .    MPI_INT,I-1,TAG,SPMD_COMM_WORLD,RQS(K),IERR)
         CALL MPI_IRECV(NB_SECND_RECV(I),1,
-     .    MPI_INT,I-1,TAG,MPI_COMM_WORLD,RQR(K),IERR)
+     .    MPI_INT,I-1,TAG,SPMD_COMM_WORLD,RQR(K),IERR)
         ENDIF
       ENDDO
  
@@ -388,14 +384,14 @@ C       WRITE(6,*) __FILE__,__LINE__,ISPMD,I-1
           IF(J > 0) THEN
             KSENT = KSENT + 1
             CALL MPI_ISEND(BUFR_ID(N),J,
-     .      MPI_INT,I-1,TAG,MPI_COMM_WORLD,RQS(KSENT),IERR)
+     .      MPI_INT,I-1,TAG,SPMD_COMM_WORLD,RQS(KSENT),IERR)
             N = N + J                
           ENDIF
           J = NB_SECND_RECV(I)*2
           IF(J > 0) THEN
             KRECV = KRECV + 1
             CALL MPI_IRECV(BUFR_IDR(L),J,
-     .      MPI_INT,I-1,TAG,MPI_COMM_WORLD,RQR(KRECV),IERR)
+     .      MPI_INT,I-1,TAG,SPMD_COMM_WORLD,RQR(KRECV),IERR)
             L = L + J       
           ENDIF
         ENDIF
@@ -580,9 +576,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include      "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -661,13 +655,13 @@ C
         IF(N > 0) THEN
           TAG = MSGOFF
           NBRQ = NBRQ + 1
-          CALL MPI_ISEND(BUFS_ID(BUFPOS1),N*5,MPI_INT,I-1,TAG,MPI_COMM_WORLD,RQS(NBRQ),IERR)
-          CALL MPI_IRECV(BUFR_ID(BUFPOS1),N*5,MPI_INT,I-1,TAG,MPI_COMM_WORLD,RQR(NBRQ),IERR)
+          CALL MPI_ISEND(BUFS_ID(BUFPOS1),N*5,MPI_INT,I-1,TAG,SPMD_COMM_WORLD,RQS(NBRQ),IERR)
+          CALL MPI_IRECV(BUFR_ID(BUFPOS1),N*5,MPI_INT,I-1,TAG,SPMD_COMM_WORLD,RQR(NBRQ),IERR)
           BUFPOS1 = BUFPOS1 + 5*N
           TAG = MSGOFF2 
           NBRQ = NBRQ + 1
-          CALL MPI_ISEND(BUFS(BUFPOS2),N,REAL,I-1,TAG,MPI_COMM_WORLD,RQS(NBRQ),IERR)
-          CALL MPI_IRECV(BUFR(BUFPOS2),N,REAL,I-1,TAG,MPI_COMM_WORLD,RQR(NBRQ),IERR)
+          CALL MPI_ISEND(BUFS(BUFPOS2),N,REAL,I-1,TAG,SPMD_COMM_WORLD,RQS(NBRQ),IERR)
+          CALL MPI_IRECV(BUFR(BUFPOS2),N,REAL,I-1,TAG,SPMD_COMM_WORLD,RQR(NBRQ),IERR)
           BUFPOS2 = BUFPOS2 + N
         ENDIF
        ENDIF
@@ -750,9 +744,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include      "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -779,7 +771,7 @@ c       POS = 0
 c       DO I=1,NSPMD
 c         IF(ISPMD /= I-1) THEN
 c           POS = POS + 1
-c           CALL MPI_ISEND(TAB,N,REAL,I-1,TAG,MPI_COMM_WORLD,RQ(POS),IERR)
+c           CALL MPI_ISEND(TAB,N,REAL,I-1,TAG,SPMD_COMM_WORLD,RQ(POS),IERR)
 c         ENDIF
 c       ENDDO 
 c       CALL MPI_WAITALL(NSPMD-1,RQ,MPI_STATUSES_IGNORE,IERR)
@@ -788,7 +780,7 @@ c       ALLOCATE(BUF(N),STAT=IERR)
 c       BUF(1:N) = 0
 c       DO I=1,NSPMD
 c         IF(ISPMD /= I-1) THEN
-c           CALL MPI_RECV(BUF,N,REAL,I-1,TAG,MPI_COMM_WORLD,IERR)
+c           CALL MPI_RECV(BUF,N,REAL,I-1,TAG,SPMD_COMM_WORLD,IERR)
 c           DO J=1,N
 c              TAB(J) = TAB(J) + BUF(J)
 c           ENDDO
@@ -800,7 +792,7 @@ c     ELSEIF(FLAG == 3) THEN
         ALLOCATE(BUF(N),STAT=IERR)
         BUF(1:N) = TAB(1:N)
         CALL MPI_ALLREDUCE(BUF,TAB,N,REAL,MPI_SUM,
-     .  MPI_COMM_WORLD,IERR)
+     .  SPMD_COMM_WORLD,IERR)
         DEALLOCATE(BUF)
        
 

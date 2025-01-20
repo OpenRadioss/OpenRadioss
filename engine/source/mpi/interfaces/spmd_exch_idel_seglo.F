@@ -40,9 +40,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -78,14 +76,14 @@ C-----------------------------------------------
              MSGTYP = MSGOFF1
              CALL MPI_ISEND(
      C         INDSEGLO,NINTER+1,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     G         MPI_COMM_WORLD,REQ_S1(I),IERROR) 
+     G         SPMD_COMM_WORLD,REQ_S1(I),IERROR) 
 
              SIZ = INDSEGLO(NINTER+1)-INDSEGLO(1)
              IF(SIZ>0)THEN
                MSGTYP = MSGOFF2
                CALL MPI_ISEND(
      C           IBUFSEGLO,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     G           MPI_COMM_WORLD,REQ_S2(I),IERROR) 
+     G           SPMD_COMM_WORLD,REQ_S2(I),IERROR) 
              ENDIF
            ENDIF
          ENDDO
@@ -95,7 +93,7 @@ C-----------------------------------------------
              MSGTYP = MSGOFF1
              CALL MPI_RECV(
      .         RSEGLO,NINTER+1,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .         MPI_COMM_WORLD,STATUS,IERROR)
+     .         SPMD_COMM_WORLD,STATUS,IERROR)
              
                SIZ = RSEGLO(NINTER+1)-RSEGLO(1)
                IF(SIZ>0)THEN
@@ -103,7 +101,7 @@ C-----------------------------------------------
                  MSGTYP = MSGOFF2
                  CALL MPI_RECV(
      .             RBUF,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .             MPI_COMM_WORLD,STATUS,IERROR)
+     .             SPMD_COMM_WORLD,STATUS,IERROR)
                  
                    DO NG=1,NINTER
                       IND_SEG=RSEGLO(NG+1)-RSEGLO(NG)

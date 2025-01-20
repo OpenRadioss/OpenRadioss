@@ -39,9 +39,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -69,11 +67,11 @@ C
       IF (ISPMD/=0) THEN
          ITAG=MSGOFF
          CALL MPI_ISEND(LSUM, LEN, REAL, IT_SPMD(1), ITAG,
-     .                  MPI_COMM_WORLD, REQ(1), IERR)
+     .                  SPMD_COMM_WORLD, REQ(1), IERR)
 C
          ITAG=MSGOFF2
          CALL MPI_IRECV(LSUMT, LEN, REAL, IT_SPMD(1), ITAG,
-     .                  MPI_COMM_WORLD, REQ(2), IERR)
+     .                  SPMD_COMM_WORLD, REQ(2), IERR)
 C
          CALL MPI_WAITALL(2, REQ, TSTAT, IERR)
       ELSE
@@ -85,7 +83,7 @@ C
             II=I+1
             ITAG=MSGOFF
             CALL MPI_IRECV(LSUMC, LEN, REAL, IT_SPMD(II), ITAG,
-     .                     MPI_COMM_WORLD, REQ1(1), IERR)
+     .                     SPMD_COMM_WORLD, REQ1(1), IERR)
             CALL MPI_WAIT(REQ1(1), STAT1(1,1), IERR)
 C
             DO J=1,LEN
@@ -97,7 +95,7 @@ C
             II=I+1
             ITAG=MSGOFF2
             CALL MPI_ISEND(LSUMT, LEN, REAL, IT_SPMD(II), ITAG,
-     .                     MPI_COMM_WORLD, REQ1(I), IERR)
+     .                     SPMD_COMM_WORLD, REQ1(I), IERR)
          ENDDO
 C
          CALL MPI_WAITALL(NSPMD-1, REQ1, STAT1, IERR)

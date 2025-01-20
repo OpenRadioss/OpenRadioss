@@ -45,9 +45,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -96,7 +94,7 @@ C-----------------------------------------------
                 IRINDEX(NBIRECV) = I
                 LEN = NB_RCV_NEIGH(I)
                 CALL MPI_IRECV( WA(IDEB2+1),LEN,MPI_LOGICAL,IT_SPMD(I),MSGTYP,
-     .                          MPI_COMM_WORLD,REQ_R(NBIRECV),IERROR)
+     .                          SPMD_COMM_WORLD,REQ_R(NBIRECV),IERROR)
                 IDEB2 = IDEB2 + LEN
             ENDIF
         ENDDO
@@ -119,7 +117,7 @@ C-----------------------------------------------
                     ENDIF
                 ENDDO
                 CALL MPI_ISEND( WA(IDEB2+1),LEN,MPI_LOGICAL,IT_SPMD(I),MSGTYP,
-     .                          MPI_COMM_WORLD,REQ_S(I),IERROR)
+     .                          SPMD_COMM_WORLD,REQ_S(I),IERROR)
                 IDEB = IDEB + LEN
                 IDEB2 = IDEB2 + LEN
             ENDIF

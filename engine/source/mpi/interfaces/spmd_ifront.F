@@ -57,9 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -287,7 +285,7 @@ C
           L  = 2*NBINTC
           CALL MPI_ISEND(
      S      SIZBUF_S(P)%P(1),L,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_SEND_SIZ(P),IERROR)
+     G      SPMD_COMM_WORLD,REQ_SEND_SIZ(P),IERROR)
         ENDIF
       ENDDO
 
@@ -302,7 +300,7 @@ C
           L = 2 * NBINTC
           CALL MPI_IRECV(SIZBUF_R(P)%P(1),L,
      .                  MPI_INTEGER,IT_SPMD(P),
-     .                  MSGTYP,MPI_COMM_WORLD,REQ_RECV_SIZ(NB_TO_RECV),IERROR)
+     .                  MSGTYP,SPMD_COMM_WORLD,REQ_RECV_SIZ(NB_TO_RECV),IERROR)
 
         ENDIF
       ENDDO
@@ -356,7 +354,7 @@ C                 WRITE(6,*) __FILE__,ISPMD,"RECV",P-1,LEN
           MSGTYP = MSGOFF2
           CALL MPI_ISEND(
      S        MSGBUF_S(P)%P(1),IDEB,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     G        MPI_COMM_WORLD,REQ_SEND_MSG(P),IERROR)
+     G        SPMD_COMM_WORLD,REQ_SEND_MSG(P),IERROR)
         ENDIF   
       ENDDO  
       ENDIF ! ICOMM /= 0)
@@ -409,7 +407,7 @@ C RECEPTION OF sizes
           ENDIF
           MSGTYP = MSGOFF2
           CALL MPI_IRECV(MSGBUF_R(P)%P(1),LEN,MPI_INTEGER,IT_SPMD(P),
-     .                MSGTYP,MPI_COMM_WORLD,REQ_RECV_MSG(I),IERROR)
+     .                MSGTYP,SPMD_COMM_WORLD,REQ_RECV_MSG(I),IERROR)
 
         ENDIF
       ENDDO
@@ -594,7 +592,7 @@ C alloc structure de comm
               SIZ = NINTER * 2
               CALL MPI_ISEND(
      S          ISUBTMP(1,1,P),SIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     G          MPI_COMM_WORLD,REQ_S(P),IERROR)
+     G          SPMD_COMM_WORLD,REQ_S(P),IERROR)
             END IF
           END IF
         END DO
@@ -608,7 +606,7 @@ C
             SIZ = NINTER * 2
 C on recoit dans la partie de buffer isubtmp non utilisee
             CALL MPI_RECV(ISUBTMP2(1,1,P),SIZ,MPI_INTEGER,IT_SPMD(P),
-     .                    MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
+     .                    MSGTYP,SPMD_COMM_WORLD,STATUS,IERROR)
             DO II = 1, NBINTC
               NIN = INTLIST(II)
 C interface retriee avec sous interfaces ?
@@ -734,7 +732,7 @@ C longueur comm sauvegardee ds ircom
 C           WRITE(6,*) "SEND",IRCOM(P) ,"TO",P-1
             CALL MPI_ISEND(
      S         MSGBUF_S(P)%P(1),IRCOM(P),MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     G         MPI_COMM_WORLD,REQ_S(P),IERROR)
+     G         SPMD_COMM_WORLD,REQ_S(P),IERROR)
           END IF
         END DO  
 C
@@ -747,7 +745,7 @@ C longueur comm sauvegardee ds iscom
 C           WRITE(6,*) "RECV",ISCOM(P) ,"FROM",P-1
 
             CALL MPI_RECV(MSGBUF_R(P)%P(1),ISCOM(P),MPI_INTEGER,IT_SPMD(P),
-     .                    MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
+     .                    MSGTYP,SPMD_COMM_WORLD,STATUS,IERROR)
 C            DO II = 1,ISCOM(P)
 C               WRITE(6,*) "MSGBUF_R(",P-1,")%P(",II,")=",MSGBUF_R(P)%P(II)
 C            ENDDO

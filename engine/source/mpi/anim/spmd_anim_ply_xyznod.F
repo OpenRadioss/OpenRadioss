@@ -42,9 +42,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -113,10 +111,10 @@ C Les plynods des autres procs
               ALLOCATE(FRECBUF(3,PLYIADNOD(IPLY,P)))
               ITAG=MSGOFF
               CALL MPI_RECV(IRECBUF,PLYIADNOD(IPLY,P), MPI_INTEGER,
-     .                      IT_SPMD(P),ITAG, MPI_COMM_WORLD, STAT, IERR)
+     .                      IT_SPMD(P),ITAG, SPMD_COMM_WORLD, STAT, IERR)
               ITAG=MSGOFF2
               CALL MPI_RECV(FRECBUF,PLYIADNOD(IPLY,P)*3, REAL,
-     .                      IT_SPMD(P),ITAG, MPI_COMM_WORLD, STAT, IERR)
+     .                      IT_SPMD(P),ITAG, SPMD_COMM_WORLD, STAT, IERR)
               DO I=1,PLYIADNOD(IPLY,P)
                  EMPL = IRECBUF(I)-EMPSIZPL
                  WRTBUF(1,EMPL)=FRECBUF(1,I)
@@ -150,11 +148,11 @@ C Les plynods des autres procs
          END DO
          ITAG=MSGOFF
          CALL MPI_SEND(ISENDBUF,PLYSIZ,MPI_INTEGER,IT_SPMD(1),
-     .                   ITAG,MPI_COMM_WORLD,IERR)
+     .                   ITAG,SPMD_COMM_WORLD,IERR)
 
          ITAG=MSGOFF2
          CALL MPI_SEND(FSENDBUF,PLYSIZ*3,REAL,IT_SPMD(1),
-     .                   ITAG,MPI_COMM_WORLD,IERR)
+     .                   ITAG,SPMD_COMM_WORLD,IERR)
 C
          DEALLOCATE(ISENDBUF,FSENDBUF)
         ENDIF

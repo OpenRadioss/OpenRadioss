@@ -42,9 +42,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -117,7 +115,7 @@ C
       CALL SPMD_IALLTOALLV_INT(ISPHR,ISPHS,
      .          SEND_SIZE_ISPHR,TOTAL_SEND_SIZE_ISPHR,DISPLS_ISPHR,
      .          TOTAL_RCV_SIZE_ISPHS,RCV_SIZE_ISPHS,DISPLS_ISPHS,
-     .          REQUEST_ISPHR,MPI_COMM_WORLD,NSPMD)
+     .          REQUEST_ISPHR,SPMD_COMM_WORLD,NSPMD)
 !   -------------------------
 
 C Envoi V, M, RHO sur cellules actives
@@ -214,7 +212,7 @@ ctmp+1
       CALL SPMD_IALLTOALLV(BUFS,BUFR,
      .          SEND_SIZE_BUFS,TOTAL_SEND_SIZE_BUFS,DISPLS_BUFS,
      .          TOTAL_RCV_SIZE_BUFR,RCV_SIZE_BUFR,DISPLS_BUFR,
-     .          REQUEST_BUFS,MPI_COMM_WORLD,NSPMD)
+     .          REQUEST_BUFS,SPMD_COMM_WORLD,NSPMD)
 !   -------------------------
 C
 C Reception V, M, RHO

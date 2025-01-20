@@ -52,9 +52,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -96,7 +94,7 @@
           msgtyp = msgoff
           call mpi_irecv(                               &
             rbuf(1,l),siz,mpi_double_precision,         &
-            it_spmd(i),msgtyp,mpi_comm_world,           &
+            it_spmd(i),msgtyp,SPMD_COMM_WORLD,           &
             req_r(i),ierror)
           l = l  + len
         endif
@@ -133,7 +131,7 @@
           l = iad_send(i)
           call mpi_isend(                               &
             sbuf(1,l),siz,mpi_double_precision,         &
-            it_spmd(i),msgtyp,mpi_comm_world,           &
+            it_spmd(i),msgtyp,SPMD_COMM_WORLD,           &
             req_s(i),ierror)
        endif
 !

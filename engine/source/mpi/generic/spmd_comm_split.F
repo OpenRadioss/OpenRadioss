@@ -38,9 +38,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -57,8 +55,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      CALL MPI_BARRIER(MPI_COMM_WORLD,IERROR)
-      CALL MPI_COMM_SPLIT(MPI_COMM_WORLD,COLOR,KEY,SUBCOMM,IERROR)
+      CALL MPI_BARRIER(SPMD_COMM_WORLD,IERROR)
+      CALL MPI_COMM_SPLIT(SPMD_COMM_WORLD,COLOR,KEY,SUBCOMM,IERROR)
       IF(COLOR > 0) THEN
         CALL MPI_COMM_RANK(SUBCOMM, RANK, IERROR)
         CALL MPI_COMM_SIZE(SUBCOMM, SIZE_L, IERROR)
@@ -66,7 +64,7 @@ C-----------------------------------------------
         RANK = -1 
         SUBCOMM = MPI_COMM_NULL
       ENDIF
-      CALL MPI_BARRIER(MPI_COMM_WORLD,IERROR)
+      CALL MPI_BARRIER(SPMD_COMM_WORLD,IERROR)
 
 
 #endif

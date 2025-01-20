@@ -31,9 +31,7 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#ifdef MPI
-#include      "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -68,7 +66,7 @@ C-----------------------------------------------
        IF (LENP0 > 0) THEN
         CALL MPI_REDUCE(VP0_TMP,V_TMP,LENP0,
      .                  MPI_REAL,MPI_SUM,IT_SPMD(1),
-     .                  MPI_COMM_WORLD,IERROR)
+     .                  SPMD_COMM_WORLD,IERROR)
        ENDIF
        IF (ISPMD==0) THEN
          DO I=1,LENP0

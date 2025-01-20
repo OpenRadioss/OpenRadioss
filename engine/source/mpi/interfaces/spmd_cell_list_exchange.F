@@ -65,9 +65,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -279,7 +277,7 @@ C-----------------------------------------------
                     SORT_COMM(NIN)%INDEX_RCV(SORT_COMM(NIN)%NB_REQUEST_CELL_RCV) = I  
                     CALL MPI_IRECV(SORT_COMM(NIN)%CELL(SORT_COMM(NIN)%RCV_DISPLS_CELL(I) + 1), 
      .              SORT_COMM(NIN)%RCV_SIZE_CELL(I),MPI_INTEGER,IT_SPMD(ID_PROC),
-     .              MSGTYP,MPI_COMM_WORLD,SORT_COMM(NIN)%REQUEST_CELL_RCV(SORT_COMM(NIN)%NB_REQUEST_CELL_RCV),IERROR)
+     .              MSGTYP,SPMD_COMM_WORLD,SORT_COMM(NIN)%REQUEST_CELL_RCV(SORT_COMM(NIN)%NB_REQUEST_CELL_RCV),IERROR)
                 ENDIF
             ENDDO
             !   ----------------------
@@ -294,7 +292,7 @@ C-----------------------------------------------
      .                  SORT_COMM(NIN)%NB_REQUEST_CELL_SEND + 1  
                     CALL MPI_ISEND(SORT_COMM(NIN)%CELL_LIST, 
      .              SORT_COMM(NIN)%SEND_SIZE_CELL(I),MPI_INTEGER,IT_SPMD(ID_PROC),
-     .              MSGTYP,MPI_COMM_WORLD,SORT_COMM(NIN)%REQUEST_CELL_SEND(SORT_COMM(NIN)%NB_REQUEST_CELL_SEND),IERROR)
+     .              MSGTYP,SPMD_COMM_WORLD,SORT_COMM(NIN)%REQUEST_CELL_SEND(SORT_COMM(NIN)%NB_REQUEST_CELL_SEND),IERROR)
                 ENDIF
             ENDDO
             !   ----------------------

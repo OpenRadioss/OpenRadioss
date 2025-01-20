@@ -40,9 +40,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -79,7 +77,7 @@ C
           MSGTYP = MSGOFF
           CALL MPI_IRECV(
      S      BUFR(IAD),SIZ,REAL,IT_SPMD(I),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_R(I),IERROR)
+     G      SPMD_COMM_WORLD,REQ_R(I),IERROR)
             IAD = IAD + SIZ
         ENDIF
       END DO
@@ -109,7 +107,7 @@ C
           MSGTYP = MSGOFF
           CALL MPI_SEND(
      S      BUFS,SIZ,REAL,IT_SPMD(I),MSGTYP,
-     G      MPI_COMM_WORLD,IERROR)
+     G      SPMD_COMM_WORLD,IERROR)
         END IF
       END DO
 C

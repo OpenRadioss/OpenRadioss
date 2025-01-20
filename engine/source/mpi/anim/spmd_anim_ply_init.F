@@ -40,9 +40,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -81,13 +79,13 @@ C PROC 0, RECEIVE NODES NUM for each ply
            DO P=2,NSPMD
               ITAG=MSGOFF
               CALL MPI_RECV(RECSZ,1, MPI_INTEGER, IT_SPMD(P),
-     .                      ITAG, MPI_COMM_WORLD, STAT, IERR)
+     .                      ITAG, SPMD_COMM_WORLD, STAT, IERR)
               PLYIADNOD(I,P) = RECSZ
            ENDDO
         ELSE
            ITAG=MSGOFF
            CALL MPI_SEND(PLYNOD(I)%PLYNUMNODS,1,MPI_INTEGER,IT_SPMD(1),
-     .                   ITAG,MPI_COMM_WORLD,IERR)
+     .                   ITAG,SPMD_COMM_WORLD,IERR)
         ENDIF
       ENDDO
 

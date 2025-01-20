@@ -45,9 +45,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -97,7 +95,7 @@ C-----------------------------------------------
           MSGTYP = MSGOFF2 
           CALL MPI_IRECV(
      .      BUFR(IDEB),IRECV(I),MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .      MPI_COMM_WORLD,REQ_R1(I),IERROR)
+     .      SPMD_COMM_WORLD,REQ_R1(I),IERROR)
           LEN = LEN+IRECV(I)
           IDEB = LEN + 1 
          ENDIF
@@ -110,7 +108,7 @@ C Proc sends the same BUFS to everybody
            MSGTYP = MSGOFF2
            CALL MPI_ISEND(
      C      BUFS,LBUFS,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_S2(I),IERROR)
+     G      SPMD_COMM_WORLD,REQ_S2(I),IERROR)
         ENDIF
       ENDDO
       IDEB = 1
@@ -123,7 +121,7 @@ C Proc recieve only if IRECV(I) > 0
           CALL MPI_WAIT(REQ_R1(I),STATUS,IERROR)
 c         CALL MPI_RECV(
 c    .      BUFR(IDEB),IRECV(I),MPI_INTEGER,IT_SPMD(I),MSGTYP,
-c    .      MPI_COMM_WORLD,STATUS,IERROR)
+c    .      SPMD_COMM_WORLD,STATUS,IERROR)
           LEN = LEN+IRECV(I)
           IRECV(I)=0
           DO WHILE (IDEB<=LEN) 
@@ -379,7 +377,7 @@ C
           MSGTYP = MSGOFF3
           CALL MPI_ISEND(
      C      BUFR(IDEB),LEN,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_S3(I),IERROR)
+     G      SPMD_COMM_WORLD,REQ_S3(I),IERROR)
           IDEB = IDEB + LEN
         ENDIF
       ENDDO
@@ -406,7 +404,7 @@ C
             MSGTYP = MSGOFF3
             CALL MPI_RECV(
      .        BUFS2,LINDEX,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .        MPI_COMM_WORLD,STATUS,IERROR)
+     .        SPMD_COMM_WORLD,STATUS,IERROR)
               DO J = 1, LINDEX
                 BUFS(J) = MAX(BUFS(J),BUFS2(J))
               ENDDO

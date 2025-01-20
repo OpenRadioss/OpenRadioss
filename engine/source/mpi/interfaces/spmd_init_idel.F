@@ -36,9 +36,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -65,7 +63,7 @@ C-----------------------------------------------
           MSGTYP = MSGOFF
           CALL MPI_ISEND(
      C      NINDEX,1,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_S(I),IERROR)
+     G      SPMD_COMM_WORLD,REQ_S(I),IERROR)
         ENDIF
       ENDDO
       IRSIZE = 0
@@ -75,7 +73,7 @@ C-----------------------------------------------
           MSGTYP = MSGOFF
           CALL MPI_RECV(
      .     IRECV(I),1,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .     MPI_COMM_WORLD,STATUS,IERROR)
+     .     SPMD_COMM_WORLD,STATUS,IERROR)
           IRSIZE = IRSIZE + IRECV(I)
         ELSE
           IRECV(I) = 0

@@ -635,9 +635,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -647,17 +645,25 @@ C-----------------------------------------------
       INTEGER KEY, IERR
 #endif
       INTEGER IDUM
+      INTEGER :: COLOUR
+      LOGICAL :: VALID
 C-----------------------------------------------
 #ifdef MPI
         KEY = 0
         call MPI_INITIALIZED(KEY, IERR)
         CALL MPI_INIT(IERROR)
-        CALL MPI_COMM_SIZE(MPI_COMM_WORLD, NNODES, IERROR)
-        CALL MPI_COMM_RANK(MPI_COMM_WORLD, MYRANK, IERROR)
+
+        CALL MPI_COMM_GET_ATTR(MPI_COMM_WORLD, MPI_APPNUM,
+     *                            COLOUR, VALID, IERROR)
+        CALL MPI_COMM_SPLIT(MPI_COMM_WORLD,COLOUR,KEY,
+     *                      SPMD_COMM_WORLD,IERROR)
+
+        CALL MPI_COMM_SIZE(SPMD_COMM_WORLD, NNODES, IERROR)
+        CALL MPI_COMM_RANK(SPMD_COMM_WORLD, MYRANK, IERROR)
 
         if (MYRANK==0) CALL PREXECINFO(IDUM)
         
-        CALL MPI_BARRIER(MPI_COMM_WORLD,IERROR)
+        CALL MPI_BARRIER(SPMD_COMM_WORLD,IERROR)
 
         CALL MPI_FINALIZE(IERROR)
 
@@ -730,9 +736,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -746,17 +750,24 @@ C-----------------------------------------------
       INTEGER MYRANK, NNODES
       INTEGER KEY, IERR
 #endif
+      INTEGER :: COLOUR
+      LOGICAL :: VALID
 C-----------------------------------------------
 #ifdef MPI
         KEY = 0
-        call MPI_INITIALIZED(KEY, IERR)
+        CALL MPI_INITIALIZED(KEY, IERR)
         CALL MPI_INIT(IERROR)
-        CALL MPI_COMM_SIZE(MPI_COMM_WORLD, NNODES, IERROR)
-        CALL MPI_COMM_RANK(MPI_COMM_WORLD, MYRANK, IERROR)
+
+        CALL MPI_COMM_GET_ATTR(MPI_COMM_WORLD, MPI_APPNUM,
+     *                            COLOUR, VALID, IERROR)
+        CALL MPI_COMM_SPLIT(MPI_COMM_WORLD,COLOUR,KEY,
+     *                      SPMD_COMM_WORLD,IERROR)
+        CALL MPI_COMM_SIZE(SPMD_COMM_WORLD, NNODES, IERROR)
+        CALL MPI_COMM_RANK(SPMD_COMM_WORLD, MYRANK, IERROR)
 
         if (MYRANK==0) CALL PRHELPINFO(ERRN,EMSG,SMSG)
         
-        CALL MPI_BARRIER(MPI_COMM_WORLD,IERROR)
+        CALL MPI_BARRIER(SPMD_COMM_WORLD,IERROR)
 
         CALL MPI_FINALIZE(IERROR)
 

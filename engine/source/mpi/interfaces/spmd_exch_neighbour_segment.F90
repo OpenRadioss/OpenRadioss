@@ -90,9 +90,7 @@
 !                                                   included files
 ! ----------------------------------------------------------------------------------------------------------------------
 #include "my_real.inc"
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -152,7 +150,7 @@
               if(frontier_elm>0) then
                 recv_nb_1 = recv_nb_1 + 1
                 index_r_proc(recv_nb_1) = i                    
-                call spmd_irecv(r_buffer_size(1:2,i),2,i-1,spmd_tag_1,request_r_1(recv_nb_1),mpi_comm_world)
+                call spmd_irecv(r_buffer_size(1:2,i),2,i-1,spmd_tag_1,request_r_1(recv_nb_1),SPMD_COMM_WORLD)
               elseif(ispmd==i-1) then
                 r_buffer_size(1:2,i) = s_buffer_size(1:2,i)
                 r_buffer(i)%size_my_real_array_1d = r_buffer_size(1,i)
@@ -166,7 +164,7 @@
           do i=1,nspmd
               frontier_elm = iad_elem(1,i+1)-iad_elem(1,i) ! check if the proc "i" is a neighbour
               if(frontier_elm>0) then
-                  call spmd_isend(s_buffer_size(1:2,i),2,i-1,spmd_tag_1,request_s_1(i),mpi_comm_world)
+                  call spmd_isend(s_buffer_size(1:2,i),2,i-1,spmd_tag_1,request_s_1(i),SPMD_COMM_WORLD)
               endif
           enddo
           ! ----------------
@@ -188,7 +186,7 @@
                   index_r_proc_2(recv_nb_2) = proc_id
                   my_size = r_buffer(proc_id)%size_my_real_array_1d
                   call spmd_irecv( r_buffer(proc_id)%my_real_array_1d,my_size,proc_id-1,              &
-                                   spmd_tag_2,request_r_2(recv_nb_2),mpi_comm_world )
+                                   spmd_tag_2,request_r_2(recv_nb_2),SPMD_COMM_WORLD )
                 endif
             enddo
           endif
@@ -200,7 +198,7 @@
               frontier_elm = iad_elem(1,i+1)-iad_elem(1,i) ! check if the proc "i" is a neighbour
               if(s_buffer_size(1,i)>0) then
                   my_size = s_buffer_size(1,i)
-                  call spmd_isend(s_buffer(i)%my_real_array_1d,my_size,i-1,spmd_tag_2,request_s_2(i),mpi_comm_world)
+                  call spmd_isend(s_buffer(i)%my_real_array_1d,my_size,i-1,spmd_tag_2,request_s_2(i),SPMD_COMM_WORLD)
               endif
           enddo
           ! ----------------
@@ -232,7 +230,7 @@
           do i=1,nspmd
             frontier_elm = iad_elem(1,i+1)-iad_elem(1,i) ! check if the proc "i" is a neighbour
             if(frontier_elm>0) then
-              call spmd_isend(s_buffer_2_size(:,i),3,i-1,spmd_tag_3,request_s_3(i),mpi_comm_world)
+              call spmd_isend(s_buffer_2_size(:,i),3,i-1,spmd_tag_3,request_s_3(i),SPMD_COMM_WORLD)
               if(s_buffer_2_size(1,i)>0) then
                 call spmd_isend(s_buffer_2(i)%my_real_array_1d,s_buffer_2_size(1,i),i-1,  &
                                   spmd_tag_4,request_s_4(i) )
@@ -252,7 +250,7 @@
                 if(s_buffer_size(1,i)>0) call spmd_wait(request_s_2(i), status_mpi)
                 recv_nb_3 = recv_nb_3 + 1
                 index_r_proc_3(recv_nb_3) = i
-                call spmd_irecv(r_buffer_2_size(:,i),3,i-1,spmd_tag_3,request_r_3(recv_nb_3), mpi_comm_world)
+                call spmd_irecv(r_buffer_2_size(:,i),3,i-1,spmd_tag_3,request_r_3(recv_nb_3), SPMD_COMM_WORLD)
 
               elseif(ispmd==i-1) then
                 r_buffer_2_size(1:3,i) =s_buffer_2_size(1:3,i)
@@ -276,7 +274,7 @@
                 index_r_proc_4(recv_nb_4) = proc_id
                 my_size = r_buffer_2_size(1,proc_id)
                 call spmd_irecv( r_buffer_2(proc_id)%my_real_array_1d,my_size, &
-                                 proc_id-1,spmd_tag_4,request_r_4(recv_nb_4), mpi_comm_world )
+                                 proc_id-1,spmd_tag_4,request_r_4(recv_nb_4), SPMD_COMM_WORLD )
               endif
             enddo
           endif

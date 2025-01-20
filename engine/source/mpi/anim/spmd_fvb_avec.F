@@ -41,9 +41,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -143,13 +141,13 @@ C
             ELSE
                ITAG=MSGOFF
                CALL MPI_RECV(NNS_ANIM, 1, MPI_INTEGER, IT_SPMD(PMAIN),
-     .                       ITAG, MPI_COMM_WORLD, STAT, IERR)
+     .                       ITAG, SPMD_COMM_WORLD, STAT, IERR)
 C
                ALLOCATE(VV(3,NNS_ANIM))
                ITAG=MSGOFF2
                LEN=3*NNS_ANIM
                CALL MPI_RECV(VV, LEN, REAL, IT_SPMD(PMAIN),
-     .                       ITAG, MPI_COMM_WORLD, STAT, IERR)
+     .                       ITAG, SPMD_COMM_WORLD, STAT, IERR)
 C
                DO J=1,NNS_ANIM
                   R4 = VV(1,J)
@@ -167,7 +165,7 @@ C
                NNS_ANIM=FVDATA(I)%NNS_ANIM
                ITAG=MSGOFF
                CALL MPI_SEND(NNS_ANIM, 1, MPI_INTEGER, IT_SPMD(1),
-     .                       ITAG, MPI_COMM_WORLD, IERR)
+     .                       ITAG, SPMD_COMM_WORLD, IERR)
 C
                NNTR=FVDATA(I)%NNTR
                ALLOCATE(VTR(3,NNTR), VV(3,NNS_ANIM), NPTR(NNTR),
@@ -237,7 +235,7 @@ C
                ITAG=MSGOFF2
                LEN=3*NNS_ANIM
                CALL MPI_SEND(VV, LEN, REAL, IT_SPMD(1),
-     .                       ITAG, MPI_COMM_WORLD,  IERR)
+     .                       ITAG, SPMD_COMM_WORLD,  IERR)
 C
                DEALLOCATE(VTR, VV, NPTR, NPN)
             ENDIF

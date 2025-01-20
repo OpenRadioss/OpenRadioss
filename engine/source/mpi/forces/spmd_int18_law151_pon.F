@@ -68,9 +68,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -168,7 +166,7 @@ C   test en plus pour savoir si com globale necessaire entre les 2 procs
                     IF(SIZ>0)THEN
                         MSGTYP = MSGOFF
                         CALL MPI_IRECV( BBUFR(ADD),SIZ,MPI_DOUBLE_PRECISION,
-     .                                  IT_SPMD(P),MSGTYP,MPI_COMM_WORLD,REQ_RI(P),IERROR )
+     .                                  IT_SPMD(P),MSGTYP,SPMD_COMM_WORLD,REQ_RI(P),IERROR )
                     ENDIF
                 ENDIF
             ENDDO
@@ -219,7 +217,7 @@ C
                     IF(SIZ>0)THEN
                         MSGTYP = MSGOFF
                         CALL MPI_ISEND( BBUFS(ADD),SIZ,MPI_DOUBLE_PRECISION,IT_SPMD(P),
-     .                                 MSGTYP,MPI_COMM_WORLD,REQ_SI(P),IERROR )
+     .                                 MSGTYP,SPMD_COMM_WORLD,REQ_SI(P),IERROR )
                     ENDIF ! siz > 0
                 ENDIF ! p /= proc
             ENDDO ! p=1,nspmd

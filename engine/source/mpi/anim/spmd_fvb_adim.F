@@ -43,9 +43,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -75,7 +73,7 @@ C
          DO I=1,NSPMD-1
             MSGTYP=MSGOFF
             CALL MPI_IRECV(IDMAXP(I), 1, MPI_INTEGER, IT_SPMD(I+1),
-     .                     MSGTYP, MPI_COMM_WORLD, REQ(I), IERR)
+     .                     MSGTYP, SPMD_COMM_WORLD, REQ(I), IERR)
          ENDDO
          CALL MPI_WAITALL(NSPMD-1, REQ, STAT, IERR)
 C
@@ -86,7 +84,7 @@ C
       ELSE
          MSGTYP=MSGOFF
          CALL MPI_ISEND(IDMAXL, 1, MPI_INTEGER, IT_SPMD(1),
-     .                  MSGTYP, MPI_COMM_WORLD, REQ, IERR)
+     .                  MSGTYP, SPMD_COMM_WORLD, REQ, IERR)
          CALL MPI_WAIT(REQ, STAT, IERR)
       ENDIF
 C
@@ -104,7 +102,7 @@ C
             ELSE
                MSGTYP=MSGOFF
                CALL MPI_RECV(TAB, 3, MPI_INTEGER, IT_SPMD(PMAIN),
-     .                       MSGTYP, MPI_COMM_WORLD, STAT, IERR)
+     .                       MSGTYP, SPMD_COMM_WORLD, STAT, IERR)
 C
                NFVTR=NFVTR+TAB(1)
                FVOFF(1,I)=NUMNODG+NODCUT+NSECT+NRWALL+NNWL
@@ -121,7 +119,7 @@ C
                TAB(2)=FVDATA(I)%NNS_ANIM
                TAB(3)=FVDATA(I)%NPOLH_ANIM
                CALL MPI_SEND(TAB, 3, MPI_INTEGER, IT_SPMD(1),
-     .                       MSGTYP, MPI_COMM_WORLD,  IERR)
+     .                       MSGTYP, SPMD_COMM_WORLD,  IERR)
             ENDIF
          ENDIF
       ENDDO
@@ -133,7 +131,7 @@ C
          TAB(4)=NFVSUBS
       ENDIF
       CALL MPI_BCAST(TAB, 4, MPI_INTEGER, IT_SPMD(1),
-     .               MPI_COMM_WORLD, IERR)
+     .               SPMD_COMM_WORLD, IERR)
       IF (ISPMD/=0) THEN
          NFVTR=TAB(1)
          NFVNOD=TAB(2)

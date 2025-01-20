@@ -53,9 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -289,7 +287,7 @@ C
 C------------------------------------------
       IF(NSPMD > 0)THEN
 #ifdef MPI
-      CALL MPI_ALLREDUCE(MPI_IN_PLACE,IERR,1,MPI_INTEGER,MPI_MAX,MPI_COMM_WORLD,IERROR)
+      CALL MPI_ALLREDUCE(MPI_IN_PLACE,IERR,1,MPI_INTEGER,MPI_MAX,SPMD_COMM_WORLD,IERROR)
 #endif
       END IF
       IF(IERR/=0)THEN

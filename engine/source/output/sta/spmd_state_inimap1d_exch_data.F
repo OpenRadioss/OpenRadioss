@@ -38,9 +38,7 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#ifdef MPI
-#include      "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -89,7 +87,7 @@ C-----------------------------------------------
         ENDDO                                                                                 
         MSGTYP = MSGOFF                                                                       
         SIZ = NCELL*(1+4*NBMAT)                                                               
-        CALL MPI_SEND(BUFF_R, SIZ, REAL,IT_SPMD(1),MSGTYP,MPI_COMM_WORLD,ierror)  
+        CALL MPI_SEND(BUFF_R, SIZ, REAL,IT_SPMD(1),MSGTYP,SPMD_COMM_WORLD,ierror)  
         IF(ALLOCATED(BUFF_R))DEALLOCATE(BUFF_R)          
       ELSE                                                                                    
         NCELL = STATE_INIMAP_BUF(1)%NUM_CENTROIDS                                             
@@ -100,7 +98,7 @@ C-----------------------------------------------
           NBMAT = STATE_INIMAP_BUF(I)%NSUBMAT                                                 
           SIZ = NCELL*(1+4*NBMAT) 
           ALLOCATE (BUFF_R(NCELL, 1 + 4*NBMAT ))                                              
-          CALL MPI_RECV(BUFF_R,SIZ,REAL,IT_SPMD(I),MSGTYP,MPI_COMM_WORLD,STATUS,ierror)       
+          CALL MPI_RECV(BUFF_R,SIZ,REAL,IT_SPMD(I),MSGTYP,SPMD_COMM_WORLD,STATUS,ierror)       
           ALLOCATE(STATE_INIMAP_BUF(I)%POS_CENTROIDS(NCELL))                                  
           ALLOCATE(STATE_INIMAP_BUF(I)%SUBMAT(NBMAT))                                         
           DO J=1,NBMAT                                                                        
@@ -139,7 +137,7 @@ C-----------------------------------------------
         ENDDO                                                 
         MSGTYP = MSGOFF                                            
         SIZ = 2*NPTS                                            
-        CALL MPI_SEND(BUFF_R, SIZ, REAL,IT_SPMD(1),MSGTYP,MPI_COMM_WORLD,ierror)
+        CALL MPI_SEND(BUFF_R, SIZ, REAL,IT_SPMD(1),MSGTYP,SPMD_COMM_WORLD,ierror)
         IF(ALLOCATED(BUFF_R))DEALLOCATE (BUFF_R)    
       !deallocate useless data once sent
         NBMAT=STATE_INIMAP_BUF(1)%NSUBMAT
@@ -164,7 +162,7 @@ C-----------------------------------------------
           NPTS = STATE_INIMAP_BUF(I)%NUM_POINTS                                            
           SIZ = 2*NPTS                                         
           ALLOCATE (BUFF_R(NPTS, 2 ))                                              
-          CALL MPI_RECV(BUFF_R,SIZ,REAL,IT_SPMD(I),MSGTYP,MPI_COMM_WORLD,STATUS,ierror)    
+          CALL MPI_RECV(BUFF_R,SIZ,REAL,IT_SPMD(I),MSGTYP,SPMD_COMM_WORLD,STATUS,ierror)    
           ALLOCATE(STATE_INIMAP_BUF(I)%POS_NODES(NPTS))                 
           ALLOCATE(STATE_INIMAP_BUF(I)%VEL_NODES(NPTS))                                  
           DO L=1,NPTS                                      

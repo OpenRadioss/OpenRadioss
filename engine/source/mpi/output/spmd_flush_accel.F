@@ -56,9 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -113,11 +111,11 @@ C-----------------------------------------------
         MSGTYP=MSGOFF0
         CALL MPI_SEND(NODES_TO_SEND,N,MPI_INTEGER,
      .                0,MSGTYP,
-     .                MPI_COMM_WORLD,IERROR)
+     .                SPMD_COMM_WORLD,IERROR)
         MSGTYP=MSGOFF
         CALL MPI_SEND(AGLOB,4*N,MPI_DOUBLE_PRECISION,
      .                0,MSGTYP,
-     .                MPI_COMM_WORLD,IERROR)
+     .                SPMD_COMM_WORLD,IERROR)
 #endif
       ELSE ! ISPMD == 0
 
@@ -135,12 +133,12 @@ C-----------------------------------------------
           MSGTYP=MSGOFF0
           CALL MPI_RECV(NODES_TO_SEND,NUMNODM,MPI_INTEGER,
      .                  K-1,MSGTYP,
-     .                  MPI_COMM_WORLD,STATUS,IERROR)
+     .                  SPMD_COMM_WORLD,STATUS,IERROR)
           CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,N,ierror)
           MSGTYP=MSGOFF
           CALL MPI_RECV(AGLOB,4*N,MPI_DOUBLE_PRECISION,
      .                  K-1,MSGTYP,
-     .                  MPI_COMM_WORLD,STATUS,IERROR)
+     .                  SPMD_COMM_WORLD,STATUS,IERROR)
           DO I=1,N
             NODE_GLOBAL_ID = NODES_TO_SEND(I)
             NODES_TO_RECV(1,NODE_GLOBAL_ID) = AGLOB(1,I)

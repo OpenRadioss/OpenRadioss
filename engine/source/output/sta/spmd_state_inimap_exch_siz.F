@@ -40,9 +40,7 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#ifdef MPI
-#include      "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -77,10 +75,10 @@ C-----------------------------------------------
          BUFF_R(5) = STATE_INIMAP_BUF(1)%SHIFT_Cz
          
          MSGTYP = MSGOFF2 
-         CALL MPI_SEND(BUFF_I, 4,MPI_INTEGER,IT_SPMD(1),MSGTYP,MPI_COMM_WORLD,ierror)
+         CALL MPI_SEND(BUFF_I, 4,MPI_INTEGER,IT_SPMD(1),MSGTYP,SPMD_COMM_WORLD,ierror)
 
          MSGTYP = MSGOFF 
-         CALL MPI_SEND(BUFF_R, 5,       REAL,IT_SPMD(1),MSGTYP,MPI_COMM_WORLD,ierror)
+         CALL MPI_SEND(BUFF_R, 5,       REAL,IT_SPMD(1),MSGTYP,SPMD_COMM_WORLD,ierror)
           
        ELSE
 
@@ -88,13 +86,13 @@ C-----------------------------------------------
 
            !Reception du buffer entier des adresses DATA_I
             MSGTYP = MSGOFF2 
-            CALL MPI_PROBE(IT_SPMD(I),MSGTYP,MPI_COMM_WORLD,STATUS,ierror)
+            CALL MPI_PROBE(IT_SPMD(I),MSGTYP,SPMD_COMM_WORLD,STATUS,ierror)
             CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
-            CALL MPI_RECV(BUFF_I,4,MPI_INTEGER,IT_SPMD(I),MSGTYP,MPI_COMM_WORLD,STATUS,ierror)
+            CALL MPI_RECV(BUFF_I,4,MPI_INTEGER,IT_SPMD(I),MSGTYP,SPMD_COMM_WORLD,STATUS,ierror)
             
             ! Reception du buffer flottant double des adresses DATA_I
             MSGTYP = MSGOFF 
-            CALL MPI_RECV(BUFF_R,5,REAL,IT_SPMD(I),MSGTYP,MPI_COMM_WORLD,STATUS,ierror)
+            CALL MPI_RECV(BUFF_R,5,REAL,IT_SPMD(I),MSGTYP,SPMD_COMM_WORLD,STATUS,ierror)
             
             STATE_INIMAP_BUF(I)%NUM_CENTROIDS = BUFF_I(1)
             STATE_INIMAP_BUF(I)%NUM_POINTS = BUFF_I(2)

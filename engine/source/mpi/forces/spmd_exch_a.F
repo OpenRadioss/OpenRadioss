@@ -48,9 +48,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -110,7 +108,7 @@ C-----------------------------------------------
           MSGTYP = MSGOFF
           CALL MPI_IRECV(
      S      RBUF(L),SIZ,MPI_DOUBLE_PRECISION,IT_SPMD(I),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_R(I),IERROR)
+     G      SPMD_COMM_WORLD,REQ_R(I),IERROR)
           L = L + SIZ
         ENDIF
         IAD_RECV(I+1) = L
@@ -477,7 +475,7 @@ C   test si msg necessaire a envoyer a completer par test interface
           L = IAD_SEND(I)
           CALL MPI_ISEND(
      S      SBUF(L),SIZ,MPI_DOUBLE_PRECISION,IT_SPMD(I),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_S(I),IERROR)
+     G      SPMD_COMM_WORLD,REQ_S(I),IERROR)
        ENDIF
 C--------------------------------------------------------------------
       ENDDO

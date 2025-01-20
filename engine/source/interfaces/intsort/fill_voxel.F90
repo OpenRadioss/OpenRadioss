@@ -202,9 +202,7 @@
 !-----------------------------------------------
           implicit none
 #include "my_real.inc"
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 !-----------------------------------------------
 !   D u m m y   A r g u m e n t s
 !-----------------------------------------------

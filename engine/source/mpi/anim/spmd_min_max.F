@@ -37,9 +37,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -71,7 +69,7 @@ C-----------------------------------------------
       TMP1(3) = Z1
       call MPI_ALLREDUCE(TMP1,TMPO,3,REAL,
      .                   MPI_MIN,
-     .                   MPI_COMM_WORLD,ierror)
+     .                   SPMD_COMM_WORLD,ierror)
       X1 = TMPO(1)
       Y1 = TMPO(2)
       Z1 = TMPO(3)
@@ -81,7 +79,7 @@ C
       TMP1(3)=Z2
       call MPI_ALLREDUCE(TMP1,TMPO,3,REAL,
      .                   MPI_MAX,
-     .                   MPI_COMM_WORLD,ierror)
+     .                   SPMD_COMM_WORLD,ierror)
       X2 = TMPO(1)
       Y2 = TMPO(2)
       Z2 = TMPO(3)

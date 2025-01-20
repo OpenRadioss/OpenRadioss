@@ -56,9 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -124,26 +122,26 @@ C-----------------------------------------------
         MSGTYP=MSGOFF0
         CALL MPI_SEND(NUMELS,1,MPI_INTEGER,
      .                IT_SPMD(1),MSGTYP,
-     .                MPI_COMM_WORLD,IERROR)
+     .                SPMD_COMM_WORLD,IERROR)
 
         MSGTYP=MSGOFF
         CALL MPI_SEND(AGLOB,4*NUMELS,MPI_DOUBLE_PRECISION,
      .                IT_SPMD(1),MSGTYP,
-     .                MPI_COMM_WORLD,IERROR)
+     .                SPMD_COMM_WORLD,IERROR)
       ELSE
         SIZE_NUMELS(1) = NUMELS
         DO K=2,NSPMD
             MSGTYP=MSGOFF0
             CALL MPI_RECV(SIZE_NUMELS(K),1,MPI_INTEGER,
      .                    IT_SPMD(K),MSGTYP,
-     .                    MPI_COMM_WORLD,STATUS,IERROR)
+     .                    SPMD_COMM_WORLD,STATUS,IERROR)
 
             ALLOCATE( AGLOB(4,SIZE_NUMELS(K)) )
  
             MSGTYP=MSGOFF
             CALL MPI_RECV(AGLOB,4*SIZE_NUMELS(K),MPI_DOUBLE_PRECISION,
      .                    IT_SPMD(K),MSGTYP,
-     .                    MPI_COMM_WORLD,STATUS,IERROR)
+     .                    SPMD_COMM_WORLD,STATUS,IERROR)
     
             SHIFT = 0
             DO I=1,K-1

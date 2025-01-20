@@ -39,9 +39,7 @@ C-----------------------------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -66,6 +64,8 @@ C-----------------------------------------------
      *     HSTNAM,HOST
       INTEGER PERM(NSPMD),HOST_NUMBERS(NSPMD),HOST_NUMBER
       INTEGER BUFFER(NSPMD*2),NSPMDx2
+      INTEGER :: COLOUR
+      INTEGER :: VALID
 #if defined(_OPENMP)
       INTEGER OMP_GET_MAX_THREADS
 #endif
@@ -81,8 +81,14 @@ C
         CALL MPI_INITIALIZED(KEY, IERR)
 
         CALL MPI_INIT(IERROR)
-        CALL MPI_COMM_SIZE(MPI_COMM_WORLD, NNODES, IERROR)
-        CALL MPI_COMM_RANK(MPI_COMM_WORLD, MYRANK, IERROR)
+
+        CALL MPI_COMM_GET_ATTR(MPI_COMM_WORLD, MPI_APPNUM,
+     *                            COLOUR, VALID, IERROR)
+        CALL MPI_COMM_SPLIT(MPI_COMM_WORLD,COLOUR,KEY,
+     *                      SPMD_COMM_WORLD,IERROR)
+
+        CALL MPI_COMM_SIZE(SPMD_COMM_WORLD, NNODES, IERROR)
+        CALL MPI_COMM_RANK(SPMD_COMM_WORLD, MYRANK, IERROR)
 C
         DO JRANK=1,NNODES
           IT_SPMD(JRANK) = JRANK-1
@@ -131,16 +137,16 @@ C nthread1 : nombre de threads fixe par la variable environnememt
 #endif
         ELSE
           CALL MPI_BCAST(
-     1      NSPMD,1,MPI_INTEGER,IT_SPMD(1),MPI_COMM_WORLD,
+     1      NSPMD,1,MPI_INTEGER,IT_SPMD(1),SPMD_COMM_WORLD,
      2      IERROR )
 C recuperation de NTHREAD depuis process 0
           CALL MPI_BCAST(
-     1      NTHREAD,1,MPI_INTEGER,IT_SPMD(1),MPI_COMM_WORLD,
+     1      NTHREAD,1,MPI_INTEGER,IT_SPMD(1),SPMD_COMM_WORLD,
      2      IERROR )
 C
           IF (GOT_INPUT == 0)THEN
             CALL MPI_BCAST(INPUT,100,MPI_CHARACTER,IT_SPMD(1),
-     .                     MPI_COMM_WORLD,IERROR)
+     .                     SPMD_COMM_WORLD,IERROR)
           ENDIF
 C
           DO J=2,NSPMD
@@ -170,7 +176,7 @@ C nthread1 : nombre de threads fixe par la variable environnement sur le MIC
 cccc               
 C control of nthread per MPI process
           CALL MPI_GATHER(NTHREAD,1,MPI_INTEGER,NBTASK,1,MPI_INTEGER,
-     .                    IT_SPMD(1),MPI_COMM_WORLD,IERROR)            
+     .                    IT_SPMD(1),SPMD_COMM_WORLD,IERROR)            
            
             END IF
       ELSE IF(ICAS==3) THEN
@@ -202,25 +208,25 @@ C
             WRITE(ISTDO,*)
      .             ' TOTAL NUMBER OF CYCLES  :', NCYCLE
             ICODE=2
-            CALL MPI_ABORT(MPI_COMM_WORLD,ICODE,ierror)
+            CALL MPI_ABORT(SPMD_COMM_WORLD,ICODE,ierror)
             CALL ARRET(7)
           END IF
           IF(NSPMD > 1) THEN
 C envoi NSPMD de process0 vers les autres processes
             CALL MPI_BCAST(NSPMD,1,MPI_INTEGER,IT_SPMD(1),
-     .                     MPI_COMM_WORLD,IERROR)
+     .                     SPMD_COMM_WORLD,IERROR)
 C envoi de NTHREAD de process0 vers les autres processes
             CALL MPI_BCAST(NTHREAD,1,MPI_INTEGER,IT_SPMD(1),
-     .                     MPI_COMM_WORLD,IERROR)
+     .                     SPMD_COMM_WORLD,IERROR)
 C
             IF (GOT_INPUT == 0)THEN
               CALL MPI_BCAST(INPUT,100,MPI_CHARACTER,IT_SPMD(1),
-     .                       MPI_COMM_WORLD,IERROR)
+     .                       SPMD_COMM_WORLD,IERROR)
             ENDIF
             
 C control of nthread per MPI process
             CALL MPI_GATHER(NTHREAD,1,MPI_INTEGER,NBTASK,1,MPI_INTEGER,
-     .                      IT_SPMD(1),MPI_COMM_WORLD,IERROR)            
+     .                      IT_SPMD(1),SPMD_COMM_WORLD,IERROR)            
             IF(ISPMD==0)THEN
               NBTASK(NSPMD+1)=0
               DO I=1,NSPMD
@@ -252,7 +258,7 @@ C
         CALL MPI_GATHER(
      .     HSTNAM,MPI_MAX_PROCESSOR_NAME,MPI_CHARACTER,
      .     HOSTNAME   ,MPI_MAX_PROCESSOR_NAME,MPI_CHARACTER,
-     .     IT_SPMD(1),MPI_COMM_WORLD,IERROR)
+     .     IT_SPMD(1),SPMD_COMM_WORLD,IERROR)
 
         IF(ISPMD==0)THEN
 C permutations during sort are saved
@@ -293,7 +299,7 @@ C         host numbers
         ENDIF
         NSPMDx2 = NSPMD*2
         CALL MPI_BCAST(BUFFER,NSPMDx2,MPI_INTEGER,IT_SPMD(1),
-     .                 MPI_COMM_WORLD,IERROR)
+     .                 SPMD_COMM_WORLD,IERROR)
 
         L_SPMD(1:NSPMD) = BUFFER(1:NSPMD)         
         HOST_NUMBERS(1:NSPMD) = BUFFER(NSPMD+1:2*NSPMD)
@@ -309,7 +315,7 @@ C       Count the number of SPMD on the local host
 
       ELSE IF(ICAS==2) THEN
 C
-        CALL MPI_BARRIER(MPI_COMM_WORLD,IERROR)
+        CALL MPI_BARRIER(SPMD_COMM_WORLD,IERROR)
 C
         CALL MPI_FINALIZE(IERROR)
       ENDIF

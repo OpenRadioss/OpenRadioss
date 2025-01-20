@@ -39,9 +39,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -101,7 +99,7 @@ C
          MSGTYP = MSGOFF
          CALL MPI_ISEND(
      S     IBUF(IDEB),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     G     MPI_COMM_WORLD,REQ_S(L),IERROR)
+     G     SPMD_COMM_WORLD,REQ_S(L),IERROR)
          IDEB = IDEB + SIZ
         END DO
 C
@@ -115,7 +113,7 @@ C proc <> 0
         MSGTYP = MSGOFF
         CALL MPI_RECV(
      S    IBUF,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
-     G    MPI_COMM_WORLD,STATUS,IERROR)
+     G    SPMD_COMM_WORLD,STATUS,IERROR)
         DO N = 1, NJOINT
           IF(TAG_LNK_SMS(N)==0)CYCLE
           DO J = IADCJ(1,N),IADCJ(NSPMD+1,N)-1

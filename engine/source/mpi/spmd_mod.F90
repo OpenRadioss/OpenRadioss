@@ -116,7 +116,6 @@
         integer, parameter,public :: SPMD_PROD = 4
 
 #ifndef MPI
-        integer, parameter, public :: MPI_COMM_WORLD = 0
         integer, parameter, public :: MPI_STATUS_IGNORE = 0
         integer, parameter, public :: MPI_STATUS_SIZE = 1
 #endif
@@ -259,9 +258,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -277,7 +274,7 @@
 #ifdef MPI
           if(ierr /= MPI_SUCCESS) then
             write(6,*) 'MPI error: ', ierr,' at ',tag
-            call MPI_Abort(MPI_COMM_WORLD, ierr,ierror)
+            call MPI_Abort(SPMD_COMM_WORLD, ierr,ierror)
           end if
 #ifdef DEBUG_SPMD
           write(6,*) 'Exiting MPI call: ', tag
@@ -341,9 +338,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -373,9 +368,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -393,7 +386,7 @@
           if(present(comm)) then
             call MPI_Comm_rank(comm, rank, ierr)
           else
-            call MPI_Comm_rank(MPI_COMM_WORLD, rank, ierr)
+            call MPI_Comm_rank(SPMD_COMM_WORLD, rank, ierr)
           end if
 #else
           rank = 0
@@ -418,9 +411,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -438,7 +429,7 @@
           if(present(comm)) then
             call MPI_Comm_size(comm, rank, ierr)
           else
-            call MPI_Comm_size(MPI_COMM_WORLD, rank, ierr)
+            call MPI_Comm_size(SPMD_COMM_WORLD, rank, ierr)
           end if
 #else
           rank = 0
@@ -472,9 +463,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -521,9 +510,7 @@
       !||====================================================================
         subroutine spmd_barrier(comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           integer, optional, intent(in) :: comm
           integer :: ierr
 #ifdef MPI
@@ -531,7 +518,7 @@
           if(present(comm)) then
             call MPI_Barrier(comm, ierr)
           else
-            call MPI_Barrier(MPI_COMM_WORLD, ierr)
+            call MPI_Barrier(SPMD_COMM_WORLD, ierr)
           end if
           call spmd_out(TAG_BARRIER,ierr)
 #endif
@@ -592,9 +579,7 @@
       !||====================================================================
         subroutine spmd_wait(request, status)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           integer, intent(in) :: request
           integer, dimension(MPI_STATUS_SIZE), optional, intent(inout) :: status
 #ifdef MPI
@@ -617,9 +602,7 @@
       !||====================================================================
         subroutine spmd_send_reals(buf, buf_count, dest, tag,  comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           integer, intent(in) :: buf_count, dest, tag
           integer, intent(in), optional :: comm
           real, dimension(buf_count), intent(in) :: buf
@@ -629,7 +612,7 @@
           if( present(comm) ) then
             call MPI_Send(buf, buf_count, MPI_REAL , dest, tag, comm, ierr)
           else
-            call MPI_Send(buf, buf_count, MPI_REAL , dest, tag, MPI_COMM_WORLD, ierr)
+            call MPI_Send(buf, buf_count, MPI_REAL , dest, tag, SPMD_COMM_WORLD, ierr)
           end if
           call spmd_out(tag,ierr)
 #endif
@@ -643,9 +626,7 @@
       !||====================================================================
         subroutine spmd_send_ints(buf, buf_count, dest, tag, comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           integer, intent(in) :: buf_count, dest, tag
           integer, intent(in), optional :: comm
           integer, dimension(buf_count), intent(in) :: buf
@@ -655,7 +636,7 @@
           if( present(comm) ) then
             call MPI_Send(buf, buf_count, MPI_INTEGER , dest, tag, comm, ierr)
           else
-            call MPI_Send(buf, buf_count, MPI_INTEGER, dest, tag, MPI_COMM_WORLD, ierr)
+            call MPI_Send(buf, buf_count, MPI_INTEGER, dest, tag, SPMD_COMM_WORLD, ierr)
           end if
           call spmd_out(tag,ierr)
 #endif
@@ -669,9 +650,7 @@
       !||====================================================================
         subroutine spmd_send_doubles(buf, buf_count, dest, tag, comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           integer, intent(in) :: buf_count, dest, tag
           integer, intent(in), optional :: comm
           double precision, dimension(buf_count), intent(in) :: buf
@@ -682,7 +661,7 @@
           if( present(comm) ) then
             call MPI_Send(buf, buf_count, MPI_DOUBLE_PRECISION, dest, tag, comm, ierr)
           else
-            call MPI_Send(buf, buf_count, MPI_DOUBLE_PRECISION, dest, tag, MPI_COMM_WORLD, ierr)
+            call MPI_Send(buf, buf_count, MPI_DOUBLE_PRECISION, dest, tag, SPMD_COMM_WORLD, ierr)
           end if
           call spmd_out(tag,ierr)
 #endif
@@ -696,9 +675,7 @@
       !||====================================================================
         subroutine spmd_recv_reals(buf, buf_count, source, tag, comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           integer, intent(in) :: buf_count, source, tag
           real, dimension(buf_count), intent(inout) :: buf
           integer, intent(in), optional :: comm
@@ -708,7 +685,7 @@
           if (present(comm)) then
             call MPI_Recv(buf, buf_count, MPI_REAL, source, tag, comm, MPI_STATUS_IGNORE, ierr)
           else
-            call MPI_Recv(buf, buf_count, MPI_REAL, source, tag, MPI_COMM_WORLD, MPI_STATUS_IGNORE, ierr)
+            call MPI_Recv(buf, buf_count, MPI_REAL, source, tag, SPMD_COMM_WORLD, MPI_STATUS_IGNORE, ierr)
           endif
           call spmd_out(tag,ierr)
 #endif
@@ -722,9 +699,7 @@
       !||====================================================================
         subroutine spmd_recv_reals2D(buf, buf_count, source, tag, comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           integer, intent(in) :: buf_count, source, tag
           real, dimension(buf_count,1), intent(inout) :: buf
           integer, intent(in), optional :: comm
@@ -734,7 +709,7 @@
           if (present(comm)) then
             call MPI_Recv(buf, buf_count, MPI_REAL, source, tag, comm, MPI_STATUS_IGNORE, ierr)
           else
-            call MPI_Recv(buf, buf_count, MPI_REAL, source, tag, MPI_COMM_WORLD, MPI_STATUS_IGNORE, ierr)
+            call MPI_Recv(buf, buf_count, MPI_REAL, source, tag, SPMD_COMM_WORLD, MPI_STATUS_IGNORE, ierr)
           endif
           call spmd_out(tag,ierr)
 #endif
@@ -749,9 +724,7 @@
       !||====================================================================
         subroutine spmd_recv_ints(buf, buf_count, source, tag, comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           integer, intent(in) :: buf_count, source, tag
           integer, dimension(buf_count), intent(inout) :: buf
           integer, intent(in), optional :: comm
@@ -761,7 +734,7 @@
           if (present(comm)) then
             call MPI_Recv(buf, buf_count, MPI_INT, source, tag, comm, MPI_STATUS_IGNORE, ierr)
           else
-            call MPI_Recv(buf, buf_count, MPI_INT, source, tag, MPI_COMM_WORLD, MPI_STATUS_IGNORE, ierr)
+            call MPI_Recv(buf, buf_count, MPI_INT, source, tag, SPMD_COMM_WORLD, MPI_STATUS_IGNORE, ierr)
           endif
 #endif
           call spmd_out(tag,ierr)
@@ -775,9 +748,7 @@
       !||====================================================================
         subroutine spmd_recv_doubles(buf, buf_count, source, tag,  comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           integer, intent(in) :: buf_count, source, tag
           double precision, dimension(buf_count), intent(inout) :: buf
           integer, intent(in), optional :: comm
@@ -787,7 +758,7 @@
           if (present(comm)) then
             call MPI_Recv(buf, buf_count, MPI_DOUBLE_PRECISION, source, tag, comm, MPI_STATUS_IGNORE, ierr)
           else
-            call MPI_Recv(buf, buf_count, MPI_DOUBLE_PRECISION, source, tag, MPI_COMM_WORLD, MPI_STATUS_IGNORE, ierr)
+            call MPI_Recv(buf, buf_count, MPI_DOUBLE_PRECISION, source, tag, SPMD_COMM_WORLD, MPI_STATUS_IGNORE, ierr)
           endif
           call spmd_out(tag,ierr)
 #endif
@@ -801,9 +772,7 @@
       !||====================================================================
         subroutine spmd_recv_doubles2D(buf, buf_count, source, tag,  comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           integer, intent(in) :: buf_count, source, tag
           double precision, dimension(buf_count,1), intent(inout) :: buf
           integer, intent(in), optional :: comm
@@ -813,7 +782,7 @@
           if (present(comm)) then
             call MPI_Recv(buf, buf_count, MPI_DOUBLE_PRECISION, source, tag, comm, MPI_STATUS_IGNORE, ierr)
           else
-            call MPI_Recv(buf, buf_count, MPI_DOUBLE_PRECISION, source, tag, MPI_COMM_WORLD, MPI_STATUS_IGNORE, ierr)
+            call MPI_Recv(buf, buf_count, MPI_DOUBLE_PRECISION, source, tag, SPMD_COMM_WORLD, MPI_STATUS_IGNORE, ierr)
           endif
           call spmd_out(tag,ierr)
 #endif
@@ -828,9 +797,7 @@
       !||====================================================================
         subroutine spmd_isend_reals(buf, buf_count, dest, tag, request, comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           integer, intent(in) :: buf_count, dest, tag
           real, dimension(buf_count), intent(in) :: buf
           integer, intent(inout) :: request
@@ -841,7 +808,7 @@
           if (present(comm)) then
             call MPI_Isend(buf, buf_count, MPI_REAL, dest, tag, comm, request, ierr)
           else
-            call MPI_Isend(buf, buf_count, MPI_REAL, dest, tag, MPI_COMM_WORLD, request, ierr)
+            call MPI_Isend(buf, buf_count, MPI_REAL, dest, tag, SPMD_COMM_WORLD, request, ierr)
           endif
           call spmd_out(tag,ierr)
 #endif
@@ -855,9 +822,7 @@
       !||====================================================================
         subroutine spmd_isend_ints(buf, buf_count, dest, tag, request, comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           integer, intent(in) :: buf_count, dest, tag
           integer, dimension(buf_count), intent(in) :: buf
           integer, intent(inout) :: request
@@ -868,7 +833,7 @@
           if (present(comm)) then
             call MPI_Isend(buf, buf_count, MPI_INT, dest, tag, comm, request, ierr)
           else
-            call MPI_Isend(buf, buf_count, MPI_INT, dest, tag, MPI_COMM_WORLD, request, ierr)
+            call MPI_Isend(buf, buf_count, MPI_INT, dest, tag, SPMD_COMM_WORLD, request, ierr)
           endif
           call spmd_out(tag,ierr)
 #endif
@@ -882,9 +847,7 @@
       !||====================================================================
         subroutine spmd_isend_doubles(buf, buf_count, dest, tag, request, comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           integer, intent(in) :: buf_count, dest, tag
           double precision, dimension(buf_count), intent(in) :: buf
           integer, intent(inout) :: request
@@ -895,7 +858,7 @@
           if (present(comm)) then
             call MPI_Isend(buf, buf_count, MPI_DOUBLE_PRECISION, dest, tag, comm, request, ierr)
           else
-            call MPI_Isend(buf, buf_count, MPI_DOUBLE_PRECISION, dest, tag, MPI_COMM_WORLD, request, ierr)
+            call MPI_Isend(buf, buf_count, MPI_DOUBLE_PRECISION, dest, tag, SPMD_COMM_WORLD, request, ierr)
           endif
           call spmd_out(tag,ierr)
 #endif
@@ -909,9 +872,7 @@
       !||====================================================================
         subroutine spmd_irecv_reals(buf, buf_count, source, tag, request, comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           integer, intent(in) :: buf_count, source, tag
           real, dimension(buf_count), intent(inout) :: buf
           integer, intent(inout) :: request
@@ -922,7 +883,7 @@
           if (present(comm)) then
             call MPI_Irecv(buf, buf_count, MPI_REAL, source, tag, comm, request, ierr)
           else
-            call MPI_Irecv(buf, buf_count, MPI_REAL, source, tag, MPI_COMM_WORLD, request, ierr)
+            call MPI_Irecv(buf, buf_count, MPI_REAL, source, tag, SPMD_COMM_WORLD, request, ierr)
           endif
           call spmd_out(tag,ierr)
 #endif
@@ -936,9 +897,7 @@
       !||====================================================================
         subroutine spmd_irecv_ints(buf, buf_count, source, tag, request, comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           integer, intent(in) :: buf_count, source, tag
           integer, dimension(buf_count), intent(inout) :: buf
           integer, intent(inout) :: request
@@ -949,7 +908,7 @@
           if (present(comm)) then
             call MPI_Irecv(buf, buf_count, MPI_INT, source, tag, comm, request, ierr)
           else
-            call MPI_Irecv(buf, buf_count, MPI_INT, source, tag, MPI_COMM_WORLD, request, ierr)
+            call MPI_Irecv(buf, buf_count, MPI_INT, source, tag, SPMD_COMM_WORLD, request, ierr)
           endif
           call spmd_out(tag,ierr)
 #endif
@@ -963,9 +922,7 @@
       !||====================================================================
         subroutine spmd_irecv_doubles(buf, buf_count, source, tag, request, comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           integer, intent(in) :: buf_count, source, tag
           double precision, dimension(buf_count), intent(inout) :: buf
           integer, intent(inout) :: request
@@ -976,7 +933,7 @@
           if (present(comm)) then
             call MPI_Irecv(buf, buf_count, MPI_DOUBLE_PRECISION, source, tag, comm, request, ierr)
           else
-            call MPI_Irecv(buf, buf_count, MPI_DOUBLE_PRECISION, source, tag, MPI_COMM_WORLD, request, ierr)
+            call MPI_Irecv(buf, buf_count, MPI_DOUBLE_PRECISION, source, tag, SPMD_COMM_WORLD, request, ierr)
           endif
           call spmd_out(tag,ierr)
 #endif
@@ -1011,9 +968,7 @@
       !||====================================================================
         subroutine spmd_waitany(buf_count, array_of_requests, index_of_completed, status)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           integer, intent(in) :: buf_count
           integer, dimension(buf_count), intent(inout) :: array_of_requests
           integer, intent(inout) :: index_of_completed
@@ -1040,9 +995,7 @@
       !||====================================================================
         subroutine spmd_waitall(buf_count, array_of_requests, array_of_statuses)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           integer, intent(in) :: buf_count
           integer, dimension(buf_count), intent(inout) :: array_of_requests
           integer, dimension(MPI_STATUS_SIZE, buf_count), optional, intent(inout) :: array_of_statuses
@@ -1066,9 +1019,7 @@
       !||====================================================================
         subroutine spmd_probe(source, tag, comm, status)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           integer, intent(in) :: source, tag
           integer, intent(in), optional :: comm
           integer, dimension(MPI_STATUS_SIZE), intent(inout) :: status
@@ -1078,7 +1029,7 @@
           if (present(comm)) then
             call MPI_Probe(source, tag, comm, status, ierr)
           else
-            call MPI_Probe(source, tag, MPI_COMM_WORLD, status, ierr)
+            call MPI_Probe(source, tag, SPMD_COMM_WORLD, status, ierr)
           endif
           call spmd_out(tag,ierr)
 #endif
@@ -1093,9 +1044,7 @@
       !||====================================================================
         subroutine spmd_reduce_reals(sendbuf, recvbuf, buf_count, operation, root, comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           real, intent(in) :: sendbuf(*)
           real, intent(inout) :: recvbuf(*)
           integer, intent(in) :: buf_count, operation, root
@@ -1109,7 +1058,7 @@
           if (present(comm)) then
             used_comm = comm
           else
-            used_comm = MPI_COMM_WORLD
+            used_comm = SPMD_COMM_WORLD
           endif
 
           call MPI_Reduce(sendbuf, recvbuf, buf_count, MPI_REAL, mpi_op, root, used_comm, ierr)
@@ -1126,9 +1075,7 @@
       !||====================================================================
         subroutine spmd_reduce_ints(sendbuf, recvbuf, buf_count, operation, root, comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           integer, intent(in) :: sendbuf(*)
           integer, intent(inout) :: recvbuf(*)
           integer, intent(in) :: buf_count, operation, root
@@ -1142,7 +1089,7 @@
           if (present(comm)) then
             used_comm = comm
           else
-            used_comm = MPI_COMM_WORLD
+            used_comm = SPMD_COMM_WORLD
           endif
 
           call MPI_Reduce(sendbuf, recvbuf, buf_count, MPI_REAL, mpi_op, root, used_comm, ierr)
@@ -1159,9 +1106,7 @@
       !||====================================================================
         subroutine spmd_reduce_doubles(sendbuf, recvbuf, buf_count, operation, root, comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           double precision, intent(in) :: sendbuf(*)
           double precision, intent(inout) :: recvbuf(*)
           integer, intent(in) :: buf_count, operation, root
@@ -1175,7 +1120,7 @@
           if (present(comm)) then
             used_comm = comm
           else
-            used_comm = MPI_COMM_WORLD
+            used_comm = SPMD_COMM_WORLD
           endif
 
           call MPI_Reduce(sendbuf, recvbuf, buf_count, MPI_REAL, mpi_op, root, used_comm, ierr)
@@ -1195,9 +1140,7 @@
       !||====================================================================
         subroutine spmd_allreduce_ints(sendbuf, recvbuf, buf_count, operation, comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           integer, intent(in) :: sendbuf(*)
           integer, intent(inout) :: recvbuf(*)
           integer, intent(in) :: buf_count, operation
@@ -1211,7 +1154,7 @@
           if (present(comm)) then
             used_comm = comm
           else
-            used_comm = MPI_COMM_WORLD
+            used_comm = SPMD_COMM_WORLD
           endif
 
           call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_INTEGER, mpi_op, used_comm, ierr)
@@ -1231,9 +1174,7 @@
       !||====================================================================
         subroutine spmd_allreduce_doubles(sendbuf, recvbuf, buf_count, operation, comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           double precision, intent(in) :: sendbuf(*)
           double precision, intent(inout) :: recvbuf(*)
           integer, intent(in) :: buf_count, operation
@@ -1247,7 +1188,7 @@
           if (present(comm)) then
             used_comm = comm
           else
-            used_comm = MPI_COMM_WORLD
+            used_comm = SPMD_COMM_WORLD
           endif
 
           call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_DOUBLE_PRECISION, mpi_op, used_comm, ierr)
@@ -1267,9 +1208,7 @@
       !||====================================================================
         subroutine spmd_allreduce_reals(sendbuf, recvbuf, buf_count, operation, comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           real, intent(in) :: sendbuf(*)
           real, intent(inout) :: recvbuf(*)
           integer, intent(in) :: buf_count, operation
@@ -1283,7 +1222,7 @@
           if (present(comm)) then
             used_comm = comm
           else
-            used_comm = MPI_COMM_WORLD
+            used_comm = SPMD_COMM_WORLD
           endif
 
           call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_REAL, mpi_op, used_comm, ierr)
@@ -1301,9 +1240,7 @@
       !||====================================================================
         subroutine spmd_send_int(buf, buf_count, dest, tag, comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           integer, intent(in) :: buf_count, dest, tag
           integer, intent(in), optional :: comm
           integer, intent(in) :: buf
@@ -1313,7 +1250,7 @@
           if( present(comm) ) then
             call MPI_Send(buf, buf_count, MPI_INTEGER , dest, tag, comm, ierr)
           else
-            call MPI_Send(buf, buf_count, MPI_INTEGER, dest, tag, MPI_COMM_WORLD, ierr)
+            call MPI_Send(buf, buf_count, MPI_INTEGER, dest, tag, SPMD_COMM_WORLD, ierr)
           end if
           call spmd_out(tag,ierr)
 #endif
@@ -1327,9 +1264,7 @@
       !||====================================================================
         subroutine spmd_send_double(buf, buf_count, dest, tag, comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           integer, intent(in) :: buf_count, dest, tag
           integer, intent(in), optional :: comm
           double precision,  intent(in) :: buf
@@ -1340,7 +1275,7 @@
           if( present(comm) ) then
             call MPI_Send(buf, buf_count, MPI_DOUBLE_PRECISION, dest, tag, comm, ierr)
           else
-            call MPI_Send(buf, buf_count, MPI_DOUBLE_PRECISION, dest, tag, MPI_COMM_WORLD, ierr)
+            call MPI_Send(buf, buf_count, MPI_DOUBLE_PRECISION, dest, tag, SPMD_COMM_WORLD, ierr)
           end if
           call spmd_out(tag,ierr)
 #endif
@@ -1354,9 +1289,7 @@
       !||====================================================================
         subroutine spmd_send_real(buf, buf_count, dest, tag, comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           integer, intent(in) :: buf_count, dest, tag
           integer, intent(in), optional :: comm
           real,  intent(in) :: buf
@@ -1366,7 +1299,7 @@
           if( present(comm) ) then
             call MPI_Send(buf, buf_count, MPI_REAL , dest, tag, comm, ierr)
           else
-            call MPI_Send(buf, buf_count, MPI_REAL , dest, tag, MPI_COMM_WORLD, ierr)
+            call MPI_Send(buf, buf_count, MPI_REAL , dest, tag, SPMD_COMM_WORLD, ierr)
           end if
           call spmd_out(tag,ierr)
 #endif
@@ -1380,9 +1313,7 @@
       !||====================================================================
         subroutine spmd_recv_real(buf, buf_count, source, tag, comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           real,  intent(inout) :: buf
           integer, intent(in) :: buf_count, source, tag
           integer, intent(in), optional :: comm
@@ -1392,7 +1323,7 @@
           if (present(comm)) then
             call MPI_Recv(buf, buf_count, MPI_REAL, source, tag, comm, MPI_STATUS_IGNORE, ierr)
           else
-            call MPI_Recv(buf, buf_count, MPI_REAL, source, tag, MPI_COMM_WORLD, MPI_STATUS_IGNORE, ierr)
+            call MPI_Recv(buf, buf_count, MPI_REAL, source, tag, SPMD_COMM_WORLD, MPI_STATUS_IGNORE, ierr)
           endif
           call spmd_out(tag,ierr)
 #endif
@@ -1406,9 +1337,7 @@
       !||====================================================================
         subroutine spmd_recv_int(buf, buf_count, source, tag,  comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           integer, intent(inout) :: buf
           integer, intent(in) :: buf_count, source, tag
           integer, intent(in), optional :: comm
@@ -1418,7 +1347,7 @@
           if (present(comm)) then
             call MPI_Recv(buf, buf_count, MPI_INT, source, tag, comm, MPI_STATUS_IGNORE, ierr)
           else
-            call MPI_Recv(buf, buf_count, MPI_INT, source, tag, MPI_COMM_WORLD, MPI_STATUS_IGNORE, ierr)
+            call MPI_Recv(buf, buf_count, MPI_INT, source, tag, SPMD_COMM_WORLD, MPI_STATUS_IGNORE, ierr)
           endif
           call spmd_out(tag,ierr)
 #endif
@@ -1432,9 +1361,7 @@
       !||====================================================================
         subroutine spmd_recv_double(buf, buf_count, source, tag,  comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           double precision, intent(inout) :: buf
           integer, intent(in) :: buf_count, source, tag
           integer, intent(in), optional :: comm
@@ -1444,7 +1371,7 @@
           if (present(comm)) then
             call MPI_Recv(buf, buf_count, MPI_DOUBLE_PRECISION, source, tag, comm, MPI_STATUS_IGNORE, ierr)
           else
-            call MPI_Recv(buf, buf_count, MPI_DOUBLE_PRECISION, source, tag, MPI_COMM_WORLD, MPI_STATUS_IGNORE, ierr)
+            call MPI_Recv(buf, buf_count, MPI_DOUBLE_PRECISION, source, tag, SPMD_COMM_WORLD, MPI_STATUS_IGNORE, ierr)
           endif
           call spmd_out(tag,ierr)
 #endif
@@ -1458,9 +1385,7 @@
       !||====================================================================
         subroutine spmd_isend_real(buf, buf_count, dest, tag, request, comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           real,  intent(in) :: buf
           integer, intent(in) :: buf_count, dest, tag
           integer, intent(inout) :: request
@@ -1471,7 +1396,7 @@
           if (present(comm)) then
             call MPI_Isend(buf, buf_count, MPI_REAL, dest, tag, comm, request, ierr)
           else
-            call MPI_Isend(buf, buf_count, MPI_REAL, dest, tag, MPI_COMM_WORLD, request, ierr)
+            call MPI_Isend(buf, buf_count, MPI_REAL, dest, tag, SPMD_COMM_WORLD, request, ierr)
           endif
           call spmd_out(tag,ierr)
 #endif
@@ -1485,9 +1410,7 @@
       !||====================================================================
         subroutine spmd_isend_int(buf, buf_count, dest, tag, request, comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           integer, intent(in) :: buf_count, dest, tag
           integer, intent(in) :: buf
           integer, intent(inout) :: request
@@ -1498,7 +1421,7 @@
           if (present(comm)) then
             call MPI_Isend(buf, buf_count, MPI_INT, dest, tag, comm, request, ierr)
           else
-            call MPI_Isend(buf, buf_count, MPI_INT, dest, tag, MPI_COMM_WORLD, request, ierr)
+            call MPI_Isend(buf, buf_count, MPI_INT, dest, tag, SPMD_COMM_WORLD, request, ierr)
           endif
           call spmd_out(tag,ierr)
 #endif
@@ -1512,9 +1435,7 @@
       !||====================================================================
         subroutine spmd_isend_double(buf, buf_count, dest, tag, request, comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           integer, intent(in) :: buf_count, dest, tag
           double precision, intent(in) :: buf
           integer, intent(inout) :: request
@@ -1525,7 +1446,7 @@
           if (present(comm)) then
             call MPI_Isend(buf, buf_count, MPI_DOUBLE_PRECISION, dest, tag, comm, request, ierr)
           else
-            call MPI_Isend(buf, buf_count, MPI_DOUBLE_PRECISION, dest, tag, MPI_COMM_WORLD, request, ierr)
+            call MPI_Isend(buf, buf_count, MPI_DOUBLE_PRECISION, dest, tag, SPMD_COMM_WORLD, request, ierr)
           endif
           call spmd_out(tag,ierr)
 #endif
@@ -1539,9 +1460,7 @@
       !||====================================================================
         subroutine spmd_irecv_real(buf, buf_count, source, tag, request, comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           integer, intent(in) :: buf_count, source, tag
           real,    intent(inout) :: buf
           integer, intent(inout) :: request
@@ -1552,7 +1471,7 @@
           if (present(comm)) then
             call MPI_Irecv(buf, buf_count, MPI_REAL, source, tag, comm, request, ierr)
           else
-            call MPI_Irecv(buf, buf_count, MPI_REAL, source, tag, MPI_COMM_WORLD, request, ierr)
+            call MPI_Irecv(buf, buf_count, MPI_REAL, source, tag, SPMD_COMM_WORLD, request, ierr)
           endif
           call spmd_out(tag,ierr)
 #endif
@@ -1566,9 +1485,7 @@
       !||====================================================================
         subroutine spmd_irecv_int(buf, buf_count, source, tag, request, comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           integer, intent(inout) :: buf
           integer, intent(in) :: buf_count, source, tag
           integer, intent(inout) :: request
@@ -1579,7 +1496,7 @@
           if (present(comm)) then
             call MPI_Irecv(buf, buf_count, MPI_INT, source, tag, comm, request, ierr)
           else
-            call MPI_Irecv(buf, buf_count, MPI_INT, source, tag, MPI_COMM_WORLD, request, ierr)
+            call MPI_Irecv(buf, buf_count, MPI_INT, source, tag, SPMD_COMM_WORLD, request, ierr)
           endif
           call spmd_out(tag,ierr)
 #endif
@@ -1593,9 +1510,7 @@
       !||====================================================================
         subroutine spmd_irecv_double(buf, buf_count, source, tag, request, comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           double precision, intent(inout) :: buf
           integer, intent(in) :: buf_count, source, tag
           integer, intent(inout) :: request
@@ -1606,7 +1521,7 @@
           if (present(comm)) then
             call MPI_Irecv(buf, buf_count, MPI_DOUBLE_PRECISION, source, tag, comm, request, ierr)
           else
-            call MPI_Irecv(buf, buf_count, MPI_DOUBLE_PRECISION, source, tag, MPI_COMM_WORLD, request, ierr)
+            call MPI_Irecv(buf, buf_count, MPI_DOUBLE_PRECISION, source, tag, SPMD_COMM_WORLD, request, ierr)
           endif
           call spmd_out(tag,ierr)
 #endif
@@ -1621,9 +1536,7 @@
       !||====================================================================
         subroutine spmd_reduce_real(sendbuf, recvbuf, buf_count, operation, root, comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           real, intent(in) :: sendbuf
           real, intent(inout) :: recvbuf
           integer, intent(in) :: buf_count, operation, root
@@ -1638,7 +1551,7 @@
           if (present(comm)) then
             used_comm = comm
           else
-            used_comm = MPI_COMM_WORLD
+            used_comm = SPMD_COMM_WORLD
           endif
 
           call MPI_Reduce(sendbuf, recvbuf, buf_count, MPI_REAL, mpi_op, root, used_comm, ierr)
@@ -1655,9 +1568,7 @@
       !||====================================================================
         subroutine spmd_reduce_int(sendbuf, recvbuf, buf_count, operation, root, comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           integer, intent(in) :: sendbuf
           integer, intent(inout) :: recvbuf
           integer, intent(in) :: buf_count, operation, root
@@ -1671,7 +1582,7 @@
           if (present(comm)) then
             used_comm = comm
           else
-            used_comm = MPI_COMM_WORLD
+            used_comm = SPMD_COMM_WORLD
           endif
 
           call MPI_Reduce(sendbuf, recvbuf, buf_count, MPI_REAL, mpi_op, root, used_comm, ierr)
@@ -1688,9 +1599,7 @@
       !||====================================================================
         subroutine spmd_reduce_double(sendbuf, recvbuf, buf_count, operation, root, comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           double precision, intent(in) :: sendbuf
           double precision, intent(inout) :: recvbuf
           integer, intent(in) :: buf_count, operation, root
@@ -1704,7 +1613,7 @@
           if (present(comm)) then
             used_comm = comm
           else
-            used_comm = MPI_COMM_WORLD
+            used_comm = SPMD_COMM_WORLD
           endif
 
           call MPI_Reduce(sendbuf, recvbuf, buf_count, MPI_REAL, mpi_op, root, used_comm, ierr)
@@ -1721,9 +1630,7 @@
       !||====================================================================
         subroutine spmd_allreduce_int(sendbuf, recvbuf, buf_count, operation, comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           integer, intent(in) :: sendbuf
           integer, intent(inout) :: recvbuf
           integer, intent(in) :: buf_count, operation
@@ -1737,7 +1644,7 @@
           if (present(comm)) then
             used_comm = comm
           else
-            used_comm = MPI_COMM_WORLD
+            used_comm = SPMD_COMM_WORLD
           endif
 
           call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_INTEGER, mpi_op, used_comm, ierr)
@@ -1754,9 +1661,7 @@
       !||====================================================================
         subroutine spmd_allreduce_double(sendbuf, recvbuf, buf_count, operation, comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           double precision, intent(in) :: sendbuf
           double precision, intent(inout) :: recvbuf
           integer, intent(in) :: buf_count, operation
@@ -1770,7 +1675,7 @@
           if (present(comm)) then
             used_comm = comm
           else
-            used_comm = MPI_COMM_WORLD
+            used_comm = SPMD_COMM_WORLD
           endif
 
           call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_DOUBLE_PRECISION, mpi_op, used_comm, ierr)
@@ -1787,9 +1692,7 @@
       !||====================================================================
         subroutine spmd_allreduce_real(sendbuf, recvbuf, buf_count, operation, comm)
           implicit none
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
           real, intent(in) :: sendbuf
           real, intent(inout) :: recvbuf
           integer, intent(in) :: buf_count, operation
@@ -1803,7 +1706,7 @@
           if (present(comm)) then
             used_comm = comm
           else
-            used_comm = MPI_COMM_WORLD
+            used_comm = SPMD_COMM_WORLD
           endif
 
           call MPI_Allreduce(sendbuf, recvbuf, buf_count, MPI_DOUBLE_PRECISION, mpi_op, used_comm, ierr)

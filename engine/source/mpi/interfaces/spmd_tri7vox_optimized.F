@@ -57,9 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -394,7 +392,7 @@ C Envoi taille msg
 C
           MSGTYP = MSGOFF3 
           CALL MPI_ISEND(NBOX(P),1,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     .                 MPI_COMM_WORLD,REQ_SD(P),IERROR)
+     .                 SPMD_COMM_WORLD,REQ_SD(P),IERROR)
 C
 C Alloc buffer
 C
@@ -672,7 +670,7 @@ C
             IF(LOC_PROC/=P) THEN
               MSGTYP = MSGOFF3 
               CALL MPI_RECV(NSNFI(NIN)%P(P),1,MPI_INTEGER,IT_SPMD(P),
-     .                      MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
+     .                      MSGTYP,SPMD_COMM_WORLD,STATUS,IERROR)
               IF(NSNFI(NIN)%P(P)>0) THEN
                 L=L+1
                 ISINDEXI(L)=P
@@ -704,13 +702,13 @@ C
             
             CALL MPI_IRECV(
      1        XREM(1,IDEB),LEN,REAL,IT_SPMD(P),
-     2        MSGTYP,MPI_COMM_WORLD,REQ_RD(L),IERROR)
+     2        MSGTYP,SPMD_COMM_WORLD,REQ_RD(L),IERROR)
      
             LEN2 = NSNFI(NIN)%P(P)*ISIZ
             MSGTYP = MSGOFF5 
             CALL MPI_IRECV(
      1        IREM(1,IDEB),LEN2,MPI_INTEGER,IT_SPMD(P),
-     2        MSGTYP,MPI_COMM_WORLD,REQ_RD2(L),IERROR)
+     2        MSGTYP,SPMD_COMM_WORLD,REQ_RD2(L),IERROR)
             IDEB = IDEB + NSNFI(NIN)%P(P)                       
           ENDDO
         ENDIF
@@ -721,11 +719,11 @@ C
             MSGTYP = MSGOFF4
             CALL MPI_ISEND(
      1        RBUF(P)%P(1),TAB_NB(P)*RSIZ,REAL,IT_SPMD(P),MSGTYP,
-     2        MPI_COMM_WORLD,REQ_SD2(P),ierror)
+     2        SPMD_COMM_WORLD,REQ_SD2(P),ierror)
             MSGTYP = MSGOFF5
             CALL MPI_ISEND(
      1        IBUF(P)%P(1),TAB_NB(P)*ISIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     2        MPI_COMM_WORLD,REQ_SD3(P),ierror)
+     2        SPMD_COMM_WORLD,REQ_SD3(P),ierror)
         ENDIF
       ENDDO
 

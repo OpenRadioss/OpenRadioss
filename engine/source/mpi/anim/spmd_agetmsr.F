@@ -39,9 +39,7 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -90,12 +88,12 @@ C-----------------------------------------------
 
            MSGTYP = MSGOFF 
            CALL MPI_SEND(XYZWL,3,REAL,IT_SPMD(1),MSGTYP,
-     .     MPI_COMM_WORLD,ierror)
+     .     SPMD_COMM_WORLD,ierror)
          END IF
          IF (ISPMD==0) THEN
             MSGTYP = MSGOFF 
             CALL MPI_RECV(XYZWL,3,REAL,IT_SPMD(P),MSGTYP,
-     .              MPI_COMM_WORLD,STATUS,ierror)
+     .              SPMD_COMM_WORLD,STATUS,ierror)
             XWL = XYZWL(1)
             YWL = XYZWL(2) 
             ZWL = XYZWL(3) 

@@ -52,9 +52,7 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#ifdef MPI
-#include      "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -78,7 +76,7 @@ C-----------------------------------------------
         CALL MPI_GATHER(
      S    PTLEN         ,1     ,MPI_INTEGER,
      R    LENP          ,1     ,MPI_INTEGER,IT_SPMD(1),
-     G    MPI_COMM_WORLD,IERROR)
+     G    SPMD_COMM_WORLD,IERROR)
 C
         IAD=0
         IF(ISPMD==0)THEN
@@ -91,7 +89,7 @@ C
         CALL MPI_GATHERV(
      S    PTV           ,PTLEN ,MPI_INTEGER,
      R    PTV_P0(1)     ,LENP  ,DISP,MPI_INTEGER  ,IT_SPMD(1),
-     G    MPI_COMM_WORLD,IERROR)
+     G    SPMD_COMM_WORLD,IERROR)
 C
         IF(ISPMD==0)THEN
 C         construit les pointeurs globaux de fin de zone
@@ -132,9 +130,7 @@ C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
 
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -163,7 +159,7 @@ C-----------------------------------------------
 
 
         CALL MPI_SEND(NP,NBF_L,MPI_INTEGER,IT_SPMD(1),MSGTYP,
-     .                MPI_COMM_WORLD,ierror)
+     .                SPMD_COMM_WORLD,ierror)
 
 
         STAT_LENELG=0
@@ -178,11 +174,11 @@ C
           MSGTYP=MSGOFF
 
           CALL MPI_PROBE(IT_SPMD(K),MSGTYP,
-     .           MPI_COMM_WORLD,STATUS,ierror)
+     .           SPMD_COMM_WORLD,STATUS,ierror)
           CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,NB_TMP,ierror)
 C                                                                     12
           CALL MPI_RECV(NPGLOB(IDEB),NB_TMP,MPI_INTEGER,IT_SPMD(K),
-     .          MSGTYP,MPI_COMM_WORLD,STATUS,ierror)
+     .          MSGTYP,SPMD_COMM_WORLD,STATUS,ierror)
 
           IDEB = IDEB + NB_TMP
         END DO
@@ -209,9 +205,7 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#ifdef MPI
-#include      "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -259,11 +253,11 @@ C   de noeuds au max
 
          MSGTYP = MSGOFF2 
          CALL MPI_SEND(IBUF,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
-     .     MPI_COMM_WORLD,ierror)
+     .     SPMD_COMM_WORLD,ierror)
 
          MSGTYP = MSGOFF 
          CALL MPI_SEND(BUFSR,3*SIZ,REAL,IT_SPMD(1),MSGTYP,
-     .     MPI_COMM_WORLD,ierror)
+     .     SPMD_COMM_WORLD,ierror)
 
           
        ELSE
@@ -286,17 +280,17 @@ C   Reception du buffer entier des adresses NODGLOB
             MSGTYP = MSGOFF2 
 
             CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
-     .                    MPI_COMM_WORLD,STATUS,ierror)
+     .                    SPMD_COMM_WORLD,STATUS,ierror)
             CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
 
             CALL MPI_RECV(IBUF,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .                  MPI_COMM_WORLD,STATUS,ierror)
+     .                  SPMD_COMM_WORLD,STATUS,ierror)
 
 C   Reception du buffer flottant double des adresses NODGLOB
 
             MSGTYP = MSGOFF 
             CALL MPI_RECV(BUFSR,3*SIZ,REAL,IT_SPMD(I),MSGTYP,
-     .                  MPI_COMM_WORLD,STATUS,ierror)
+     .                  SPMD_COMM_WORLD,STATUS,ierror)
          
            NREC = SIZ
            DO K = 1, NREC
@@ -326,9 +320,7 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#ifdef MPI
-#include      "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -374,11 +366,11 @@ C   de noeuds au max
 
          MSGTYP = MSGOFF2
          CALL MPI_SEND(IBUF,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
-     .     MPI_COMM_WORLD,ierror)
+     .     SPMD_COMM_WORLD,ierror)
 
          MSGTYP = MSGOFF 
          CALL MPI_SEND(BUFSR,SIZ,REAL,IT_SPMD(1),MSGTYP,
-     .     MPI_COMM_WORLD,ierror)
+     .     SPMD_COMM_WORLD,ierror)
 
           
        ELSE
@@ -399,17 +391,17 @@ C   Reception du buffer entier des adresses NODGLOB
             MSGTYP = MSGOFF2
 
             CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
-     .                    MPI_COMM_WORLD,STATUS,ierror)
+     .                    SPMD_COMM_WORLD,STATUS,ierror)
             CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
 
             CALL MPI_RECV(IBUF,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .                  MPI_COMM_WORLD,STATUS,ierror)
+     .                  SPMD_COMM_WORLD,STATUS,ierror)
 
 C   Reception du buffer flottant double des adresses NODGLOB
 
             MSGTYP = MSGOFF
             CALL MPI_RECV(BUFSR,SIZ,REAL,IT_SPMD(I),MSGTYP,
-     .                  MPI_COMM_WORLD,STATUS,ierror)
+     .                  SPMD_COMM_WORLD,STATUS,ierror)
          
            NREC = SIZ
            DO K = 1, NREC
@@ -438,9 +430,7 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#ifdef MPI
-#include      "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -477,11 +467,11 @@ C
 
          MSGTYP = MSGOFF
          CALL MPI_SEND(IBUFN,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
-     .     MPI_COMM_WORLD,ierror)
+     .     SPMD_COMM_WORLD,ierror)
 
          MSGTYP = MSGOFF2
          CALL MPI_SEND(IBUFM,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
-     .     MPI_COMM_WORLD,ierror)
+     .     SPMD_COMM_WORLD,ierror)
 
         
        ELSE
@@ -497,16 +487,16 @@ C Reception du buffer entier des adresses NODGLOB
             MSGTYP = MSGOFF
 
             CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
-     .                    MPI_COMM_WORLD,STATUS,ierror)
+     .                    SPMD_COMM_WORLD,STATUS,ierror)
             CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
 
             CALL MPI_RECV(IBUFN,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .                  MPI_COMM_WORLD,STATUS,ierror)
+     .                  SPMD_COMM_WORLD,STATUS,ierror)
 
 C Reception Integer Buffer of ICODE
             MSGTYP = MSGOFF2
             CALL MPI_RECV(IBUFM,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     .                  MPI_COMM_WORLD,STATUS,ierror)
+     .                  SPMD_COMM_WORLD,STATUS,ierror)
          
            NREC = SIZ
            DO K = 1, NREC

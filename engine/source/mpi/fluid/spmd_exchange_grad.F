@@ -38,9 +38,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -83,7 +81,7 @@ C
           LEN = NERCVOIS(I)
           CALL MPI_IRECV(
      S        WA(1,IDEB2+1),LEN*DIM,REAL,IT_SPMD(I),MSGTYP,
-     G        MPI_COMM_WORLD,REQ_R(NBIRECV),IERROR)
+     G        SPMD_COMM_WORLD,REQ_R(NBIRECV),IERROR)
           IDEB2 = IDEB2 + LEN
         ENDIF
       ENDDO
@@ -101,7 +99,7 @@ C
           ENDDO
           CALL MPI_ISEND(
      S      WA(1,IDEB2+1),LEN*DIM,REAL,IT_SPMD(I),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_S(I),IERROR)
+     G      SPMD_COMM_WORLD,REQ_S(I),IERROR)
           IDEB = IDEB + LEN
           IDEB2 = IDEB2 + LEN
         ENDIF

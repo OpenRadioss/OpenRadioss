@@ -36,9 +36,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
 C-----------------------------------------------
-#ifdef MPI
-#include "mpif.h"
-#endif
+#include "spmd.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -78,7 +76,7 @@ C-----------------------------------------------
           MSGTYP=MSGOFF
           SENDER = I-1        
           CALL MPI_RECV(RBUF,DIM,REAL,SENDER,MSGTYP,
-     .                   MPI_COMM_WORLD,STATUS,IERROR) 
+     .                   SPMD_COMM_WORLD,STATUS,IERROR) 
           DO J=1,DIM_TAB3
            TAB4(I,J) = RBUF(J)
           ENDDO
@@ -90,7 +88,7 @@ C-----------------------------------------------
          RBUF(J) = TAB3(J)
         ENDDO
         CALL MPI_SEND(RBUF,DIM,REAL,RECIP,MSGTYP,
-     .                   MPI_COMM_WORLD,IERROR)
+     .                   SPMD_COMM_WORLD,IERROR)
       ENDIF     
 C
 #endif
