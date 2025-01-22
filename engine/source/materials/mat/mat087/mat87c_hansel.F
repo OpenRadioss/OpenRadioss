@@ -21,9 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    mat87c_hansel   ../engine/source/materials/mat/mat087/mat87c_hansel.F
+      !||    mat87c_hansel      ../engine/source/materials/mat/mat087/mat87c_hansel.F
       !||--- called by ------------------------------------------------------
-      !||    sigeps87c       ../engine/source/materials/mat/mat087/sigeps87c.F
+      !||    sigeps87c          ../engine/source/materials/mat/mat087/sigeps87c.F90
+      !||--- uses       -----------------------------------------------------
+      !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||====================================================================
       SUBROUTINE MAT87C_HANSEL(
      1   NEL    ,MATPARAM,TIME   ,TIMESTEP,

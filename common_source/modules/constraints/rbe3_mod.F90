@@ -23,8 +23,20 @@
 !===================================================================================================
 
       !||====================================================================
-      !||    rbe3_mod   ../common_source/modules/rbe3_mod.F90
+      !||    rbe3_mod     ../common_source/modules/constraints/rbe3_mod.F90
       !||--- called by ------------------------------------------------------
+      !||    prerbe3p0    ../engine/source/constraints/general/rbe3/rbe3f.F
+      !||    radioss2     ../engine/source/engine/radioss2.F
+      !||    rbe3t1       ../engine/source/constraints/general/rbe3/rbe3f.F
+      !||    rbe3v        ../engine/source/constraints/general/rbe3/rbe3v.F
+      !||    rdcomi       ../engine/source/output/restart/rdcomm.F
+      !||    rdresa       ../engine/source/output/restart/rdresa.F
+      !||    rdresb       ../engine/source/output/restart/rdresb.F
+      !||    resol        ../engine/source/engine/resol.F
+      !||    resol_head   ../engine/source/engine/resol_head.F
+      !||    resol_init   ../engine/source/engine/resol_init.F
+      !||    restalloc    ../engine/source/output/restart/arralloc.F
+      !||    wrrestp      ../engine/source/output/restart/wrrestp.F
       !||====================================================================
       module rbe3_mod
          ! ----------------------------------------------------------------------------------------------------------------------
@@ -67,11 +79,14 @@
          
                !! \brief allocate rbe3 type
                !! \details
-               !||====================================================================
-               !||    brent_algo     ../common_source/modules/root_finding_algo_mod.F90
-               !||--- uses       -----------------------------------------------------
-               !||    constant_mod   ../common_source/modules/constant_mod.F
-               !||====================================================================
+      !||====================================================================
+      !||    allocate_rbe3   ../common_source/modules/constraints/rbe3_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    restalloc       ../engine/source/output/restart/arralloc.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    my_alloc_mod    ../common_source/tools/memory/my_alloc.F90
+      !||====================================================================
                subroutine allocate_rbe3( rbe3,nspmd )
                   use my_alloc_mod
                   implicit none

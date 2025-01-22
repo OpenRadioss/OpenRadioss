@@ -91,6 +91,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    parith_on_mod              ../common_source/modules/parith_on_mod.F90
       !||    pinchtype_mod              ../common_source/modules/pinchtype_mod.F
       !||    plyxfem_mod                ../engine/share/modules/plyxfem_mod.F
+      !||    rbe3_mod                   ../common_source/modules/constraints/rbe3_mod.F90
       !||    sensor_mod                 ../common_source/modules/sensor_mod.F90
       !||    spmd_xv_inter_type1_mod    ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
       !||    stack_mod                  ../engine/share/modules/stack_mod.F

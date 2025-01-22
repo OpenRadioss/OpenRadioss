@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    spmd_exch_tag_scnd   ../engine/source/mpi/elements/spmd_exch_tag_scnd.F
       !||--- called by ------------------------------------------------------
+      !||    cndmasi2_dim         ../engine/source/elements/solid/solide10/s10cndf.F
       !||    s10cndi2_ini         ../engine/source/elements/solid/solide10/s10cndf.F
       !||--- calls      -----------------------------------------------------
       !||====================================================================

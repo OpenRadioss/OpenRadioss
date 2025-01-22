@@ -303,7 +303,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_mat81                     ../starter/source/materials/mat/mat081/hm_read_mat81.F90
       !||    hm_read_mat82                     ../starter/source/materials/mat/mat082/hm_read_mat82.F
       !||    hm_read_mat83                     ../starter/source/materials/mat/mat083/hm_read_mat83.F
-      !||    hm_read_mat87                     ../starter/source/materials/mat/mat087/hm_read_mat87.F
+      !||    hm_read_mat87                     ../starter/source/materials/mat/mat087/hm_read_mat87.F90
       !||    hm_read_mat88                     ../starter/source/materials/mat/mat088/hm_read_mat88.F
       !||    hm_read_mat90                     ../starter/source/materials/mat/mat090/hm_read_mat90.F
       !||    hm_read_mat92                     ../starter/source/materials/mat/mat092/hm_read_mat92.F

@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_eos_compaction2   ../starter/source/materials/eos/hm_read_eos_compaction2.F90
       !||    inimom_fvm                ../starter/source/elements/solid/solide/inimom_fvm.F
       !||    law81_upd                 ../starter/source/materials/mat/mat081/law81_upd.F90
-      !||    law87_upd                 ../starter/source/materials/mat/mat087/law87_upd.F
+      !||    law87_upd                 ../starter/source/materials/mat/mat087/law87_upd.F90
       !||    lossfun_98                ../starter/source/materials/mat/mat098/lossfun_98.F
       !||    m38init                   ../starter/source/materials/mat/mat038/m38init.F
       !||    m75init                   ../starter/source/materials/mat/mat075/m75init.F

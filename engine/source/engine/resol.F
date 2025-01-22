@@ -485,6 +485,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    python_funct_mod                             ../common_source/modules/python_mod.F90
       !||    python_register_mod                          ../engine/source/tools/curve/python_register.F90
       !||    rad2r_mod                                    ../engine/share/modules/rad2r.F
+      !||    rbe3_mod                                     ../common_source/modules/constraints/rbe3_mod.F90
       !||    remesh_mod                                   ../engine/share/modules/remesh_mod.F
       !||    resolsav_mod                                 ../engine/share/modules/resol_mod.F
       !||    rigmat_mod                                   ../engine/share/modules/rigmat_mod.F

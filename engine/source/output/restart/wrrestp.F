@@ -123,6 +123,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    outputs_mod            ../common_source/modules/outputs_mod.F
       !||    pinchtype_mod          ../common_source/modules/pinchtype_mod.F
       !||    python_funct_mod       ../common_source/modules/python_mod.F90
+      !||    rbe3_mod               ../common_source/modules/constraints/rbe3_mod.F90
       !||    restmod                ../engine/share/modules/restart_mod.F
       !||    seatbelt_mod           ../common_source/modules/seatbelt_mod.F
       !||    sensor_mod             ../common_source/modules/sensor_mod.F90

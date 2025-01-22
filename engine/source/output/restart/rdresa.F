@@ -38,6 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
       !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
       !||    pinchtype_mod          ../common_source/modules/pinchtype_mod.F
+      !||    rbe3_mod               ../common_source/modules/constraints/rbe3_mod.F90
       !||    sensor_mod             ../common_source/modules/sensor_mod.F90
       !||    skew_mod               ../common_source/modules/skew_mod.F90
       !||    state_mod              ../common_source/modules/state_mod.F

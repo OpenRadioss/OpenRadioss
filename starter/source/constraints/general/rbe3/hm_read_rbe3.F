@@ -1260,7 +1260,7 @@ C
       !||====================================================================
       !||    invert          ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
       !||--- called by ------------------------------------------------------
-      !||    law87_upd       ../starter/source/materials/mat/mat087/law87_upd.F
+      !||    law87_upd       ../starter/source/materials/mat/mat087/law87_upd.F90
       !||    mass_fluid_qd   ../starter/source/fluid/mass-fluid_qd.F
       !||    mass_fluid_tg   ../starter/source/fluid/mass-fluid_tg.F
       !||    rbe3chk         ../starter/source/constraints/general/rbe3/hm_read_rbe3.F

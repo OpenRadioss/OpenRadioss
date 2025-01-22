@@ -936,9 +936,11 @@ C----6---------------------------------------------------------------7---------8
       RETURN
       END
       !||====================================================================
-      !||    cndmasi2_dim    ../engine/source/elements/solid/solide10/s10cndf.F
+      !||    cndmasi2_dim         ../engine/source/elements/solid/solide10/s10cndf.F
       !||--- called by ------------------------------------------------------
-      !||    resol_init      ../engine/source/engine/resol_init.F
+      !||    resol_init           ../engine/source/engine/resol_init.F
+      !||--- calls      -----------------------------------------------------
+      !||    spmd_exch_tag_scnd   ../engine/source/mpi/elements/spmd_exch_tag_scnd.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================
       SUBROUTINE CNDMASI2_DIM(IPARI,INTBUF_TAB,ICNDS10,ITAGND,WEIGHT,NKEND,

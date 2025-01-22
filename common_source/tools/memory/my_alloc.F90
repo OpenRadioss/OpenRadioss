@@ -24,6 +24,7 @@
       !||    my_alloc_mod                       ../common_source/tools/memory/my_alloc.F90
       !||--- called by ------------------------------------------------------
       !||    add_mass_stat                      ../starter/source/tools/admas/add_mass_stat.F
+      !||    allocate_rbe3                      ../common_source/modules/constraints/rbe3_mod.F90
       !||    allocate_sph_work                  ../common_source/modules/mat_elem/sph_work.F90
       !||    allocbuf_auto                      ../engine/source/elements/elbuf/allocbuf_auto.F
       !||    anioff0                            ../engine/source/output/anim/generate/anioff0.F
@@ -126,6 +127,7 @@
       !||    parsor_ply                         ../engine/source/output/anim/generate/parsor_ply.F
       !||    parsorc                            ../engine/source/output/anim/generate/parsorc.F
       !||    pre_i2                             ../starter/source/interfaces/inter3d1/i7remnode.F
+      !||    prerbe3p0                          ../engine/source/constraints/general/rbe3/rbe3f.F
       !||    presegmt                           ../starter/source/interfaces/interf1/presegmt.F
       !||    r2r_group                          ../starter/source/coupling/rad2rad/r2r_group.F
       !||    r2r_speedup                        ../starter/source/coupling/rad2rad/r2r_speedup.F

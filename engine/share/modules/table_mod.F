@@ -124,6 +124,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sigeps74                   ../engine/source/materials/mat/mat074/sigeps74.F
       !||    sigeps80                   ../engine/source/materials/mat/mat080/sigeps80.F
       !||    sigeps80c                  ../engine/source/materials/mat/mat080/sigeps80c.F
+      !||    sigeps87c                  ../engine/source/materials/mat/mat087/sigeps87c.F90
       !||    sortie_main                ../engine/source/output/sortie_main.F
       !||    spstres                    ../engine/source/elements/sph/spstres.F
       !||    suforc3                    ../engine/source/user_interface/suforc3.F
@@ -218,6 +219,7 @@ C-----------------------------------------------
       !||    sigeps74                   ../engine/source/materials/mat/mat074/sigeps74.F
       !||    sigeps80                   ../engine/source/materials/mat/mat080/sigeps80.F
       !||    sigeps80c                  ../engine/source/materials/mat/mat080/sigeps80c.F
+      !||    sigeps87c                  ../engine/source/materials/mat/mat087/sigeps87c.F90
       !||--- uses       -----------------------------------------------------
       !||    table_mod                  ../engine/share/modules/table_mod.F
       !||====================================================================

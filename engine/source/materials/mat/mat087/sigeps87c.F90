@@ -20,12 +20,34 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    sigeps87c_mod   ../engine/source/materials/mat/mat087/sigeps87c.F90
+      !||--- called by ------------------------------------------------------
+      !||    mulawc          ../engine/source/materials/mat_share/mulawc.F90
+      !||====================================================================
       module sigeps87c_mod
       contains
 ! ======================================================================================================================
 ! \brief Barlat 2000 elastoplastic material law 87
 ! \details Barlat 2000 elastoplastic material law 87
 ! ======================================================================================================================
+      !||====================================================================
+      !||    sigeps87c                         ../engine/source/materials/mat/mat087/sigeps87c.F90
+      !||--- called by ------------------------------------------------------
+      !||    mulawc                            ../engine/source/materials/mat_share/mulawc.F90
+      !||--- calls      -----------------------------------------------------
+      !||    mat87c_hansel                     ../engine/source/materials/mat/mat087/mat87c_hansel.F
+      !||    mat87c_swift_voce                 ../engine/source/materials/mat/mat087/mat87c_swift_voce.F
+      !||    mat87c_tabulated_3dir_ortho       ../engine/source/materials/mat/mat087/mat87c_tabulated_3dir_ortho.F90
+      !||    mat87c_tabulated_plas_sr          ../engine/source/materials/mat/mat087/mat87c_tabulated_plas_sr.F
+      !||    mat87c_tabulated_totalsr          ../engine/source/materials/mat/mat087/mat87c_tabulated_totalsr.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod                      ../common_source/modules/constant_mod.F
+      !||    interface_table_mod               ../engine/share/modules/table_mod.F
+      !||    mat87c_tabulated_3dir_ortho_mod   ../engine/source/materials/mat/mat087/mat87c_tabulated_3dir_ortho.F90
+      !||    matparam_def_mod                  ../common_source/modules/mat_elem/matparam_def_mod.F90
+      !||    table_mod                         ../engine/share/modules/table_mod.F
+      !||====================================================================
       subroutine sigeps87c(                                                    &
         nel      ,matparam ,nuvar    ,uvar     ,nfunc    ,                     &
         ifunc    ,snpc     ,npf      ,stf      ,tf       ,                     &

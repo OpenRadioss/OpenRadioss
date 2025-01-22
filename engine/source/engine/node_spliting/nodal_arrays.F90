@@ -36,6 +36,8 @@
       !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
       !||    init_nodal_state                         ../engine/source/interfaces/interf/init_nodal_state.F
       !||    radioss2                                 ../engine/source/engine/radioss2.F
+      !||    rbe3t1                                   ../engine/source/constraints/general/rbe3/rbe3f.F
+      !||    rbe3v                                    ../engine/source/constraints/general/rbe3/rbe3v.F
       !||    rdresb                                   ../engine/source/output/restart/rdresb.F
       !||    resol                                    ../engine/source/engine/resol.F
       !||    resol_head                               ../engine/source/engine/resol_head.F

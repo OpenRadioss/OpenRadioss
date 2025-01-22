@@ -146,7 +146,7 @@
       !||    hm_read_mat82             ../starter/source/materials/mat/mat082/hm_read_mat82.F
       !||    hm_read_mat83             ../starter/source/materials/mat/mat083/hm_read_mat83.F
       !||    hm_read_mat84             ../starter/source/materials/mat/mat084/hm_read_mat84.F
-      !||    hm_read_mat87             ../starter/source/materials/mat/mat087/hm_read_mat87.F
+      !||    hm_read_mat87             ../starter/source/materials/mat/mat087/hm_read_mat87.F90
       !||    hm_read_mat88             ../starter/source/materials/mat/mat088/hm_read_mat88.F
       !||    hm_read_mat90             ../starter/source/materials/mat/mat090/hm_read_mat90.F
       !||    hm_read_mat92             ../starter/source/materials/mat/mat092/hm_read_mat92.F
@@ -169,6 +169,7 @@
       !||    hm_read_mat169_arup_mod   ../starter/source/materials/mat/mat169/hm_read_mat169.F90
       !||    hm_read_mat50_mod         ../starter/source/materials/mat/mat050/hm_read_mat50.F90
       !||    hm_read_mat81_mod         ../starter/source/materials/mat/mat081/hm_read_mat81.F90
+      !||    hm_read_mat87_mod         ../starter/source/materials/mat/mat087/hm_read_mat87.F90
       !||    law_user                  ../starter/source/user_interface/law_user.F
       !||    message_mod               ../starter/share/message_module/message_mod.F
       !||    reader_old_mod            ../starter/share/modules1/reader_old_mod.F90

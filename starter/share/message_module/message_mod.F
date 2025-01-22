@@ -145,7 +145,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    create_subs_list                    ../starter/source/model/sets/create_subs_clause.F
       !||    create_subs_list_g                  ../starter/source/model/sets/create_subs_clause.F
       !||    create_surface_from_element         ../starter/source/model/sets/create_surface_from_element.F
-      !||    crityld2000                         ../starter/source/materials/mat/mat087/law87_upd.F
+      !||    crityld2000                         ../starter/source/materials/mat/mat087/law87_upd.F90
       !||    csigini                             ../starter/source/elements/shell/coque/csigini.F
       !||    csigini4                            ../starter/source/elements/shell/coqueba/scigini4.F
       !||    cstraini4                           ../starter/source/elements/shell/coqueba/cstraini4.F
@@ -550,7 +550,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_mat82                       ../starter/source/materials/mat/mat082/hm_read_mat82.F
       !||    hm_read_mat83                       ../starter/source/materials/mat/mat083/hm_read_mat83.F
       !||    hm_read_mat84                       ../starter/source/materials/mat/mat084/hm_read_mat84.F
-      !||    hm_read_mat87                       ../starter/source/materials/mat/mat087/hm_read_mat87.F
+      !||    hm_read_mat87                       ../starter/source/materials/mat/mat087/hm_read_mat87.F90
       !||    hm_read_mat88                       ../starter/source/materials/mat/mat088/hm_read_mat88.F
       !||    hm_read_mat90                       ../starter/source/materials/mat/mat090/hm_read_mat90.F
       !||    hm_read_mat92                       ../starter/source/materials/mat/mat092/hm_read_mat92.F
@@ -888,7 +888,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    law70_upd                           ../starter/source/materials/mat/mat070/law70_upd.F
       !||    law76_upd                           ../starter/source/materials/mat/mat076/law76_upd.F
       !||    law77_upd                           ../starter/source/materials/mat/mat077/law77_upd.F
-      !||    law87_upd                           ../starter/source/materials/mat/mat087/law87_upd.F
+      !||    law87_upd                           ../starter/source/materials/mat/mat087/law87_upd.F90
       !||    law88_upd                           ../starter/source/materials/mat/mat088/law88_upd.F
       !||    law90_upd                           ../starter/source/materials/mat/mat090/law90_upd.F
       !||    law92_nlsqf                         ../starter/source/materials/mat/mat092/law92_nlsqf.F
@@ -994,6 +994,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    preread_rbody_set                   ../starter/source/model/sets/preread_rbody_set.F
       !||    printbcs                            ../starter/source/constraints/general/bcs/printbcs.F
       !||    printgroup                          ../starter/source/output/outfile/printgroup.F
+      !||    prodmat                             ../starter/source/materials/mat/mat087/law87_upd.F90
+      !||    prodmatvect                         ../starter/source/materials/mat/mat087/law87_upd.F90
       !||    q4deri2                             ../starter/source/elements/solid_2d/quad4/q4deri2.F
       !||    q4init2                             ../starter/source/elements/solid_2d/quad4/q4init2.F
       !||    q4voli2                             ../starter/source/elements/solid_2d/quad4/q4voli2.F
@@ -1015,7 +1017,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    r2r_void                            ../starter/source/coupling/rad2rad/r2r_void.F
       !||    r3buf3                              ../starter/source/elements/spring/r3buf3.F
       !||    r4buf3                              ../starter/source/elements/spring/r4buf3.F
-      !||    r_yld2000                           ../starter/source/materials/mat/mat087/law87_upd.F
+      !||    r_yld2000                           ../starter/source/materials/mat/mat087/law87_upd.F90
       !||    random_walk_dmg                     ../starter/source/materials/fail/fractal/random_walk_dmg.F90
       !||    rbe2modif1_nd                       ../starter/source/elements/solid/solide10/dim_s10edg.F
       !||    rbe2modif_nd                        ../starter/source/elements/solid/solide10/dim_s10edg.F
@@ -1192,7 +1194,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    tagnod_r2r_nl                       ../starter/source/coupling/rad2rad/tagnod_r2r_nl.F
       !||    tagnods                             ../starter/source/groups/tagnod.F
       !||    tagnods_r2r                         ../starter/source/coupling/rad2rad/tagnod_r2r.F
-      !||    teta45_yld2000                      ../starter/source/materials/mat/mat087/law87_upd.F
       !||    th_surf_load_pressure               ../starter/source/output/th/th_surf_load_pressure.F
       !||    thickini                            ../starter/source/elements/shell/coqueba/thickini.F
       !||    tinit3                              ../starter/source/elements/truss/tinit3.F

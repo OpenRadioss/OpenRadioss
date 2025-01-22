@@ -21,12 +21,15 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    rbe3v     ../engine/source/constraints/general/rbe3/rbe3v.F
+      !||    rbe3v              ../engine/source/constraints/general/rbe3/rbe3v.F
       !||--- called by ------------------------------------------------------
-      !||    resol     ../engine/source/engine/resol.F
+      !||    resol              ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
-      !||    prerbe3   ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||    rbe3cl    ../engine/source/constraints/general/rbe3/rbe3f.F
+      !||    prerbe3            ../engine/source/constraints/general/rbe3/rbe3f.F
+      !||    rbe3cl             ../engine/source/constraints/general/rbe3/rbe3f.F
+      !||--- uses       -----------------------------------------------------
+      !||    nodal_arrays_mod   ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    rbe3_mod           ../common_source/modules/constraints/rbe3_mod.F90
       !||====================================================================
       SUBROUTINE RBE3V(RBE3 ,NODES, SKEW  )
 C-----------------------------------------------

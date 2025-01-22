@@ -23,10 +23,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    mat87c_tabulated_totalsr   ../engine/source/materials/mat/mat087/mat87c_tabulated_totalsr.F
       !||--- called by ------------------------------------------------------
-      !||    sigeps87c                  ../engine/source/materials/mat/mat087/sigeps87c.F
+      !||    sigeps87c                  ../engine/source/materials/mat/mat087/sigeps87c.F90
       !||--- calls      -----------------------------------------------------
       !||    finter                     ../engine/source/tools/curve/finter.F
       !||    vinter                     ../engine/source/tools/curve/vinter.F
+      !||--- uses       -----------------------------------------------------
+      !||    matparam_def_mod           ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||====================================================================
       SUBROUTINE MAT87C_TABULATED_TOTALSR(
      1     NEL    ,MATPARAM,NFUNC   ,IFUNC   ,SNPC     ,

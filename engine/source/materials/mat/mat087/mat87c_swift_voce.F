@@ -23,7 +23,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    mat87c_swift_voce   ../engine/source/materials/mat/mat087/mat87c_swift_voce.F
       !||--- called by ------------------------------------------------------
-      !||    sigeps87c           ../engine/source/materials/mat/mat087/sigeps87c.F
+      !||    sigeps87c           ../engine/source/materials/mat/mat087/sigeps87c.F90
+      !||--- uses       -----------------------------------------------------
+      !||    matparam_def_mod    ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||====================================================================
       SUBROUTINE MAT87C_SWIFT_VOCE(
      1     NEL    ,MATPARAM,TIME    ,TIMESTEP,

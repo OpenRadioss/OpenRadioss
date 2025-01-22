@@ -37,6 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    compute_voxel_dimensions                 ../engine/source/interfaces/intsort/voxel_dimensions.F90
       !||    crack_depth_init                         ../starter/source/materials/fail/windshield_alter/crack_depth_init.F90
       !||    create_plane_clause                      ../starter/source/model/sets/create_plane_clause.F90
+      !||    crityld2000                              ../starter/source/materials/mat/mat087/law87_upd.F90
       !||    damping_vref_rby                         ../engine/source/assembly/damping_vref_rby.F90
       !||    damping_vref_rby_stiff                   ../engine/source/assembly/damping_vref_rby_stiff.F90
       !||    damping_vref_sum6_rby                    ../engine/source/assembly/damping_vref_sum6_rby.F90
@@ -84,6 +85,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_mat169_arup                      ../starter/source/materials/mat/mat169/hm_read_mat169.F90
       !||    hm_read_mat50                            ../starter/source/materials/mat/mat050/hm_read_mat50.F90
       !||    hm_read_mat81                            ../starter/source/materials/mat/mat081/hm_read_mat81.F90
+      !||    hm_read_mat87                            ../starter/source/materials/mat/mat087/hm_read_mat87.F90
       !||    hm_read_preload_axial                    ../starter/source/loads/general/preload/hm_read_preload_axial.F90
       !||    hm_read_therm_stress                     ../starter/source/materials/therm/hm_read_therm_stress.F90
       !||    iniebcs_propergol_get_cv                 ../starter/source/boundary_conditions/ebcs/iniebcs_propergol.F90
@@ -102,11 +104,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    jwl_eos_delta                            ../engine/source/materials/mat/mat041/jwl_eos_mod.F90
       !||    law190_upd                               ../starter/source/materials/mat/mat190/law190_upd.F90
       !||    law81_upd                                ../starter/source/materials/mat/mat081/law81_upd.F90
+      !||    law87_upd                                ../starter/source/materials/mat/mat087/law87_upd.F90
       !||    m21law                                   ../engine/source/materials/mat/mat021/m21law.F
       !||    mat25_crasurv_c                          ../engine/source/materials/mat/mat025/mat25_crasurv_c.F90
       !||    mat25_crasurv_s                          ../engine/source/materials/mat/mat025/mat25_crasurv_s.F90
       !||    mat25_tsaiwu_c                           ../engine/source/materials/mat/mat025/mat25_tsaiwu_c.F90
       !||    mat25_tsaiwu_s                           ../engine/source/materials/mat/mat025/mat25_tsaiwu_s.F90
+      !||    mat87c_tabulated_3dir_ortho              ../engine/source/materials/mat/mat087/mat87c_tabulated_3dir_ortho.F90
       !||    mmain                                    ../engine/source/materials/mat_share/mmain.F90
       !||    mulaw                                    ../engine/source/materials/mat_share/mulaw.F90
       !||    mulaw8                                   ../engine/source/materials/mat_share/mulaw8.F90
@@ -122,6 +126,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    polygon_zeroing                          ../common_source/tools/clipping/polygon_mod.F90
       !||    powder_burn                              ../common_source/eos/powder_burn.F
       !||    preload_axial                            ../engine/source/elements/spring/preload_axial.F90
+      !||    prodmat                                  ../engine/source/materials/tools/prodmat.F
+      !||    prodmatvect                              ../starter/source/materials/mat/mat087/law87_upd.F90
+      !||    r_yld2000                                ../starter/source/materials/mat/mat087/law87_upd.F90
       !||    random_walk_dmg                          ../starter/source/materials/fail/fractal/random_walk_dmg.F90
       !||    read_mat25_crasurv                       ../starter/source/materials/mat/mat025/read_mat25_crasurv.F90
       !||    read_mat25_tsaiwu                        ../starter/source/materials/mat/mat025/read_mat25_tsaiwu.F90
@@ -152,6 +159,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sigeps169_connect                        ../engine/source/materials/mat/mat169/sigeps169_connect.F90
       !||    sigeps50s                                ../engine/source/materials/mat/mat050/sigeps50s.F90
       !||    sigeps81                                 ../engine/source/materials/mat/mat081/sigeps81.F90
+      !||    sigeps87c                                ../engine/source/materials/mat/mat087/sigeps87c.F90
       !||    spmd_exch_flow_tracking_data             ../engine/source/ale/grid/spmd_exch_flow_tracking_data.F90
       !||    spmd_exch_flow_tracking_data2            ../engine/source/ale/grid/spmd_exch_flow_tracking_data2.F90
       !||    spmd_exch_flow_tracking_data3            ../engine/source/ale/grid/spmd_exch_flow_tracking_data3.F90

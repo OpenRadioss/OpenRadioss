@@ -182,7 +182,7 @@
       !||    hm_read_mat82                       ../starter/source/materials/mat/mat082/hm_read_mat82.F
       !||    hm_read_mat83                       ../starter/source/materials/mat/mat083/hm_read_mat83.F
       !||    hm_read_mat84                       ../starter/source/materials/mat/mat084/hm_read_mat84.F
-      !||    hm_read_mat87                       ../starter/source/materials/mat/mat087/hm_read_mat87.F
+      !||    hm_read_mat87                       ../starter/source/materials/mat/mat087/hm_read_mat87.F90
       !||    hm_read_mat88                       ../starter/source/materials/mat/mat088/hm_read_mat88.F
       !||    hm_read_mat90                       ../starter/source/materials/mat/mat090/hm_read_mat90.F
       !||    hm_read_mat92                       ../starter/source/materials/mat/mat092/hm_read_mat92.F
@@ -222,6 +222,7 @@
       !||    law76_upd                           ../starter/source/materials/mat/mat076/law76_upd.F
       !||    law77_upd                           ../starter/source/materials/mat/mat077/law77_upd.F
       !||    law81_upd                           ../starter/source/materials/mat/mat081/law81_upd.F90
+      !||    law87_upd                           ../starter/source/materials/mat/mat087/law87_upd.F90
       !||    lec_inistate                        ../starter/source/elements/initia/lec_inistate.F
       !||    lech3d                              ../engine/source/output/h3d/h3d_build_fortran/lech3d.F
       !||    m12law                              ../engine/source/materials/mat/mat012/m12law.F
@@ -231,6 +232,11 @@
       !||    mat25_crasurv_s                     ../engine/source/materials/mat/mat025/mat25_crasurv_s.F90
       !||    mat25_tsaiwu_c                      ../engine/source/materials/mat/mat025/mat25_tsaiwu_c.F90
       !||    mat25_tsaiwu_s                      ../engine/source/materials/mat/mat025/mat25_tsaiwu_s.F90
+      !||    mat87c_hansel                       ../engine/source/materials/mat/mat087/mat87c_hansel.F
+      !||    mat87c_swift_voce                   ../engine/source/materials/mat/mat087/mat87c_swift_voce.F
+      !||    mat87c_tabulated_3dir_ortho         ../engine/source/materials/mat/mat087/mat87c_tabulated_3dir_ortho.F90
+      !||    mat87c_tabulated_plas_sr            ../engine/source/materials/mat/mat087/mat87c_tabulated_plas_sr.F
+      !||    mat87c_tabulated_totalsr            ../engine/source/materials/mat/mat087/mat87c_tabulated_totalsr.F
       !||    mat_elem_mod                        ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    mat_table_copy                      ../starter/source/materials/tools/mat_table_copy.F90
       !||    mmodul                              ../engine/source/elements/solid/solidez/mmodul.F
@@ -282,6 +288,7 @@
       !||    sigeps76                            ../engine/source/materials/mat/mat076/sigeps76.F
       !||    sigeps76c                           ../engine/source/materials/mat/mat076/sigeps76c.F
       !||    sigeps81                            ../engine/source/materials/mat/mat081/sigeps81.F90
+      !||    sigeps87c                           ../engine/source/materials/mat/mat087/sigeps87c.F90
       !||    sinit3                              ../starter/source/elements/solid/solide/sinit3.F
       !||    solve_eint                          ../engine/source/multifluid/multi_inlet_ebcs.F
       !||    spgrhead                            ../starter/source/elements/sph/spgrhead.F

@@ -35,10 +35,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    rbe3poff             ../engine/source/constraints/general/rbe3/rbe3f.F
       !||    spmd_exch_rbe3       ../engine/source/mpi/kinematic_conditions/spmd_exch_rbe3.F
       !||    spmd_exch_rbe3_pon   ../engine/source/mpi/kinematic_conditions/spmd_exch_rbe3_pon.F
-      !||    spmd_max_ii          ../engine/source/mpi/implicit/imp_spmd.F
       !||    zero1                ../engine/source/system/zero.F
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod              ../engine/share/modules/h3d_mod.F
+      !||    nodal_arrays_mod     ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    rbe3_mod             ../common_source/modules/constraints/rbe3_mod.F90
       !||====================================================================
       SUBROUTINE RBE3T1(RBE3  ,NODES    ,SKEW ,
      *                  DMAST ,ADM      ,DINERT,
@@ -1976,9 +1977,13 @@ C---
       RETURN
       END
       !||====================================================================
-      !||    prerbe3p0   ../engine/source/constraints/general/rbe3/rbe3f.F
+      !||    prerbe3p0      ../engine/source/constraints/general/rbe3/rbe3f.F
       !||--- called by ------------------------------------------------------
-      !||    resol       ../engine/source/engine/resol.F
+      !||    resol          ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    my_alloc_mod   ../common_source/tools/memory/my_alloc.F90
+      !||    rbe3_mod       ../common_source/modules/constraints/rbe3_mod.F90
       !||====================================================================
       SUBROUTINE PRERBE3P0(RBE3)
       use rbe3_mod

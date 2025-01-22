@@ -199,7 +199,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_mat82               ../starter/source/materials/mat/mat082/hm_read_mat82.F
       !||    hm_read_mat83               ../starter/source/materials/mat/mat083/hm_read_mat83.F
       !||    hm_read_mat84               ../starter/source/materials/mat/mat084/hm_read_mat84.F
-      !||    hm_read_mat87               ../starter/source/materials/mat/mat087/hm_read_mat87.F
+      !||    hm_read_mat87               ../starter/source/materials/mat/mat087/hm_read_mat87.F90
       !||    hm_read_mat88               ../starter/source/materials/mat/mat088/hm_read_mat88.F
       !||    hm_read_mat90               ../starter/source/materials/mat/mat090/hm_read_mat90.F
       !||    hm_read_mat92               ../starter/source/materials/mat/mat092/hm_read_mat92.F
@@ -255,7 +255,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_visc_prony          ../starter/source/materials/visc/hm_read_visc_prony.F
       !||    law100_upd_ab               ../starter/source/materials/mat/mat100/law100_upd.F
       !||    law69_upd                   ../starter/source/materials/mat/mat069/law69_upd.F
-      !||    law87_upd                   ../starter/source/materials/mat/mat087/law87_upd.F
+      !||    law87_upd                   ../starter/source/materials/mat/mat087/law87_upd.F90
       !||    law92_upd                   ../starter/source/materials/mat/mat092/law92_upd.F
       !||    lcgeo19                     ../starter/source/elements/shell/coque/lcgeo19.F
       !||    read_ale_mat                ../starter/source/materials/ale/read_ale_mat.F
