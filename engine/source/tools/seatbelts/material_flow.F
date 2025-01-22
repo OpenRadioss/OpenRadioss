@@ -242,12 +242,19 @@ C
 C
           DFS(I) = DFS(I) + DDFS
           DELTAF = FB*(ONE-ONE/MAX(EM15,HH))
+C 
+C         Locking of slipring by sensor            
+          FLAG_SENSOR_LOCK = 0
+          IF (SLIPRING(SLIPRING_ID(I))%SENSID > 0) THEN
+             IF (TT > SENSOR_TAB(SLIPRING(SLIPRING_ID(I))%SENSID)%TSTART) FLAG_SENSOR_LOCK = 1
+          ENDIF       
 C
           IF ((ABS(DELTAF) >= ABS(DFS(I))).OR.
      .        ((SLIPRING(SLIPRING_ID(I))%FL_FLAG==1).AND.(DELTA_LO > 0)).OR.
      .        ((SLIPRING(SLIPRING_ID(I))%FL_FLAG==2).AND.(DELTA_LO < 0)).OR.
      .        ((SLIPRING(SLIPRING_ID(I))%FRAM(FR_ID(I))%LOCKED==1).AND.(DELTA_LO > 0)).OR.
-     .        ((SLIPRING(SLIPRING_ID(I))%FRAM(FR_ID(I))%LOCKED==2).AND.(DELTA_LO < 0))) THEN
+     .        ((SLIPRING(SLIPRING_ID(I))%FRAM(FR_ID(I))%LOCKED==2).AND.(DELTA_LO < 0)).OR.
+     .        (FLAG_SENSOR_LOCK == 1)) THEN
 C--         adherence or 1 direction flow imposed by fl_flag or blocked because no more seatbelt
             ADHER(I) = 1
             DELTA_LO = 0
@@ -439,12 +446,19 @@ C
 C
           DFS(I) = DFS(I) + DDFS
           DELTAF = FB*(HH-ONE)
+C          
+C         Locking of slipring by sensor            
+          FLAG_SENSOR_LOCK = 0
+          IF (SLIPRING(SLIPRING_ID(I))%SENSID > 0) THEN
+             IF (TT > SENSOR_TAB(SLIPRING(SLIPRING_ID(I))%SENSID)%TSTART) FLAG_SENSOR_LOCK = 1
+          ENDIF          
 C
           IF ((ABS(DELTAF) >= ABS(DFS(I))).OR.
      .        ((SLIPRING(SLIPRING_ID(I))%FL_FLAG==1).AND.(DELTA_LO > 0)).OR.
      .        ((SLIPRING(SLIPRING_ID(I))%FL_FLAG==2).AND.(DELTA_LO < 0)).OR.
      .        ((SLIPRING(SLIPRING_ID(I))%FRAM(FR_ID(I))%LOCKED==1).AND.(DELTA_LO > 0)).OR.
-     .        ((SLIPRING(SLIPRING_ID(I))%FRAM(FR_ID(I))%LOCKED==2).AND.(DELTA_LO < 0))) THEN
+     .        ((SLIPRING(SLIPRING_ID(I))%FRAM(FR_ID(I))%LOCKED==2).AND.(DELTA_LO < 0)).OR.
+     .        (FLAG_SENSOR_LOCK ==1)) THEN
 C--         adherence or 1 direction flow imposed by fl_flag or blocked because no more seatbelt
             ADHER(I) = 1
             DELTA_LO = 0
