@@ -41,7 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                          A               ,V           ,X       ,SKEW     ,SENSOR_TAB,
      3                          IADC            ,FSKY        ,FEXT    ,TAGNCONT ,NSENSOR   ,
      4                          LOADP_HYD_INTER , H3D_DATA   , PYTHON, 
-     5                          NPRESLOAD       ,LOADP_TAGDEL,TH_SURF,PBLAST)
+     5                          NPRESLOAD       ,LOADP_TAGDEL,TH_SURF,PBLAST    ,WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -60,7 +60,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
-#include      "com06_c.inc"
+!#include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "impl1_c.inc"
 #include      "scr14_c.inc"
@@ -84,6 +84,7 @@ C-----------------------------------------------
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
       TYPE (TH_SURF_) , INTENT(INOUT) :: TH_SURF
       TYPE(PBLAST_), INTENT(IN) :: PBLAST
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -92,19 +93,15 @@ C-----------------------------------------------
      .        SEGCONT ,N ,IADN , IJK ,UP_BOUND,TAGN1,TAGN2,TAGN3,TAGN4,NUMPRESLOAD,
      .        IDEL, NSEGPL, NS, KSURF,NIDXLOAD
       INTEGER :: IS_TABULATED
-      my_real
-     .   NX, NY, NZ,  AA, FX, FY, FZ, DYDX, TS,
-     .   TFEXTT,F1, FCX,FCY,NORM,AREA 
-      my_real FINTER
-      EXTERNAL FINTER
-C=======================================================================
+      my_real  NX, NY, NZ,  AA, FX, FY, FZ, DYDX, TS, WFEXTT,F1, FCX,FCY,NORM,AREA
+      my_real,EXTERNAL :: FINTER
 C---------------------------------------------------------------------
 C   D e s c r i p t i o n
 C----------------------------------------------------------------------
 C     This subroutine is applying pressure load to
 C      a defined surface on dynamic zones which is not in contact
 C---------------------------------------------------------------------
-      TFEXTT = ZERO
+      WFEXTT = ZERO
       FX = ZERO
       FY = ZERO
       FZ = ZERO
@@ -324,7 +321,7 @@ C
                     ENDDO
                   ENDIF
 C
-                  TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)+V(1,N4))
+                  WFEXTT=WFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)+V(1,N4))
      +                         +FY*(V(2,N1)+V(2,N2)+V(2,N3)+V(2,N4))
      +                         +FZ*(V(3,N1)+V(3,N2)+V(3,N3)+V(3,N4)))
 C
@@ -445,7 +442,7 @@ C
                     ENDDO
                   ENDIF
 C
-                  TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)) 
+                  WFEXTT=WFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3))
      +                              + FY*(V(2,N1)+V(2,N2)+V(2,N3))
      +                              + FZ*(V(3,N1)+V(3,N2)+V(3,N3)))
                ENDIF
@@ -457,7 +454,7 @@ C
        ENDDO
 C
 #include "atomic.inc"
-       TFEXT = TFEXT + TFEXTT
+       WFEXT = WFEXT + WFEXTT
 #include "atomend.inc"
 C
       ELSE
@@ -696,7 +693,7 @@ C
                        th_surf%channels(5,KSURF)= th_surf%channels(5,KSURF) + AREA
                     ENDDO
                   ENDIF
-                  TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)+V(1,N4))
+                  WFEXTT=WFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)+V(1,N4))
      +                         +FY*(V(2,N1)+V(2,N2)+V(2,N3)+V(2,N4))
      +                         +FZ*(V(3,N1)+V(3,N2)+V(3,N3)+V(3,N4)))
 C
@@ -821,7 +818,7 @@ C
                     ENDDO
                   ENDIF
 
-                  TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)) 
+                  WFEXTT=WFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3))
      +                              + FY*(V(2,N1)+V(2,N2)+V(2,N3))
      +                              + FZ*(V(3,N1)+V(3,N2)+V(3,N3)))
 
@@ -834,7 +831,7 @@ C
        ENDDO
 C
 #include "atomic.inc"
-        TFEXT = TFEXT + TFEXTT
+        WFEXT = WFEXT + WFEXTT
 #include "atomend.inc"
 C
       ENDIF

@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE FORCEFINGEO(IBFV  ,NPC    ,TF     ,A     ,V    ,X     ,
      2                       VEL   ,SENSOR_TAB,FSKY  ,FEXT ,ITABM1,
-     3                       H3D_DATA,NSENSOR, PYTHON)
+     3                       H3D_DATA,NSENSOR, PYTHON,WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -75,6 +75,7 @@ C-----------------------------------------------
      .   VEL(LFXVELR,*),FSKY(8,LSKY),FEXT(3,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -84,9 +85,9 @@ C-----------------------------------------------
      .   AXI, AA, A0, VV, DYDX, TS, TS_OLD,
      .   STARTT, STOPT, FACX, FACY, F1, F2,
      .   XA, YA, ZA, XF, YF, ZF,
-     .   FAC, SKEW1, SKEW2, SKEW3, TFEXTT
+     .   FAC, SKEW1, SKEW2, SKEW3, WFEXTT
 C=======================================================================
-      TFEXTT = ZERO
+      WFEXTT = ZERO
       TS_OLD = ZERO
       NCUR_OLD = 0
 C----------------------------------
@@ -170,11 +171,11 @@ C
           FEXT(2,N2) = FEXT(2,N2)+SKEW2*AA
           FEXT(3,N2) = FEXT(3,N2)+SKEW3*AA
         ENDIF
-        TFEXTT = TFEXTT + DT1*HALF*(A0+AA)*VV*AXI
+        WFEXTT = WFEXTT + DT1*HALF*(A0+AA)*VV*AXI
       ENDDO
 C
 #include "atomic.inc"
-      TFEXT = TFEXT + TFEXTT
+      WFEXT = WFEXT + WFEXTT
 #include "atomend.inc"
 C
       RETURN

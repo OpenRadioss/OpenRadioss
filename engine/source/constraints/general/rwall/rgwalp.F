@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE RGWALP(X    ,A    ,V    ,RWL  ,NSW   ,
      1                  NSN  ,ITIED,MSR  ,MS   ,WEIGHT,
      2                  ICONT,FRWL6,IMP_S,NT_RW,IDDL  ,
-     3                  IKC  ,NDOF ,NODNX_SMS ,WEIGHT_MD)
+     3                  IKC  ,NDOF ,NODNX_SMS ,WEIGHT_MD,WFEXT,WFEXT_MD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -52,19 +52,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, ITIED, MSR,ICONT,IMP_S,NT_RW
-      INTEGER NSW(*), WEIGHT(*), IDDL(*),IKC(*),NDOF(*), NODNX_SMS(*),
-     .        WEIGHT_MD(*)
-C     REAL
-      my_real
-     .   X(*), A(*), V(*), RWL(*), MS(*)
-      DOUBLE PRECISION 
-     .   FRWL6(7,6)
+      INTEGER NSW(*), WEIGHT(*), IDDL(*),IKC(*),NDOF(*), NODNX_SMS(*), WEIGHT_MD(*)
+      my_real X(*), A(*), V(*), RWL(*), MS(*)
+      DOUBLE PRECISION FRWL6(7,6)
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT,WFEXT_MD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER M3, M2, M1, I, N, N3, N2, N1, K, J,JJ,NINDEX,
-     .        INDEX(NSN)
-C     REAL
+      INTEGER M3, M2, M1, I, N, N3, N2, N1, K, J,JJ,NINDEX, INDEX(NSN)
       my_real
      .   XWL, YWL, ZWL, VXW, VYW, VZW, TFXTN, FACT,
      .   TFXT, XL1, YL1, ZL1, XL2, YL2, ZL2, SX12, SY12, SZ12, S12,
@@ -415,8 +410,8 @@ C
           TFXT=TFXT+HALF*DT1*TFXTN
           TFXT2=TFXT2+HALF*DT1*TFXTN2
 #include "atomic.inc"
-          TFEXT=TFEXT+TFXT
-          TFEXT_MD=TFEXT_MD+TFXT2
+          WFEXT=WFEXT+TFXT
+          WFEXT_MD=WFEXT_MD+TFXT2
 
           DO K = 1, 6
             FRWL6_L(1,K) = ZERO

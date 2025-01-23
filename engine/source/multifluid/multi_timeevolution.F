@@ -60,7 +60,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .     NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, 
      .     ITAB, ITABM1, CURRENT_TIME,
      .     STIFN, FSKY, IADS, FSKYM, 
-     .     CONDN, CONDNSKY, BUFMAT, FUNC_VALUE, PRED,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB,NPF,TF,FSAVSURF,MATPARAM)
+     .     CONDN, CONDNSKY, BUFMAT, FUNC_VALUE, PRED,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB,NPF,TF,FSAVSURF,MATPARAM,
+     .     WFEXT)
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
@@ -121,6 +122,7 @@ C-----------------------------------------------
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
       INTEGER, INTENT(IN) :: NPF(SNPC)
       my_real, INTENT(IN) :: TF(STF)
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -325,7 +327,7 @@ C     -------------------------
 C     Multifluid law: update global values
 C     -------------------------
             CALL MULTI_EVOLVE_GLOBAL(TIMESTEP, NG, ELBUF_TAB, 
-     .           IPARG, ITASK, IXS, IXQ, IXTG, MULTI_FVM, ALEFVM_Buffer%VERTEX)  
+     .           IPARG, ITASK, IXS, IXQ, IXTG, MULTI_FVM, ALEFVM_Buffer%VERTEX, WFEXT)
             IF (NBMAT > 1) THEN
 C     -------------------------  
 C     Multifluid law: evolve partial values

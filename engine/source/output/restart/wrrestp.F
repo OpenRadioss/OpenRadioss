@@ -332,7 +332,7 @@ C--------------------------------------
       CALL WRCOMI(LMXVINT,LVARINT,TABVINT,1,MULTI_FVM,H3D_DATA,DYNAIN_DATA,
      .     INTERFACES%PARAMETERS,SENSORS,LOADS,GLOB_THERM,PBLAST)
 C
-      ENTMP(1) = TFEXT
+      ENTMP(1) = OUTPUT%WFEXT
       ENTMP(2) = EHOUR
       ENTMP(3) = ECONTV
       ENTMP(4) = EPOR
@@ -345,7 +345,7 @@ C
       ENTMP(11)= ECONT_CUMU
       IF(NSPMD > 1) CALL SPMD_GLOB_DSUM9(ENTMP,11)
       IF(ISPMD/=0) THEN
-        TFEXT = ZERO
+        OUTPUT%WFEXT = ZERO
         EHOUR = ZERO
         ECONTV = ZERO
         EPOR = ZERO
@@ -357,7 +357,7 @@ C
         ECONTD = ZERO
         ECONT_CUMU = ZERO
       ELSE
-        TFEXT = ENTMP(1)
+        OUTPUT%WFEXT = ENTMP(1)
         EHOUR = ENTMP(2)
         ECONTV= ENTMP(3)
         EPOR  = ENTMP(4)

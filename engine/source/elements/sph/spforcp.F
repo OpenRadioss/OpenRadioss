@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4    KXSP      ,IXSP      ,NOD2SP    ,NELTST    ,ITYPTST   ,
      5    IPART     ,IPARTSP   ,ISPCOND   ,XFRAME    ,ISPSYM    ,
      6    XSPSYM    ,VSPSYM    ,WA        ,WASIGSM   ,WACOMP    ,
-     7    WSMCOMP   ,WASPACT   ,WAR       ,STAB      )
+     7    WSMCOMP   ,WASPACT   ,WAR       ,STAB      ,WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -64,7 +64,6 @@ C-----------------------------------------------
      .   IPART(LIPART1,*) ,IPARTSP(*), NPC(*), IPARG(NPARG,*),
      .   NELTST,ITYPTST,ITAB(*) ,ISPCOND(NISPCOND,*),
      .   ISPSYM(NSPCOND,*), WASPACT(*)
-C     REAL
       my_real
      .   X(3,*)  ,V(3,*)   ,MS(*)   ,
      .   PM(NPROPM,*), GEO(NPROPG,*),
@@ -72,6 +71,7 @@ C     REAL
      .   SPBUF(NSPBUF,*) ,PARTSAV(NPSAV,*) ,DT2T ,
      .   XFRAME(NXFRAME,*) ,XSPSYM(3,*) ,VSPSYM(3,*), WA(KWASPH,*), 
      .   WASIGSM(6,*), WACOMP(16,*), WSMCOMP(6,*), WAR(10,*), STAB(7,*)
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -107,9 +107,9 @@ C-----------------------------------------------
      .        BETAXZJ,BETAYZJ,BETAZZJ,
      .        BETAX,WGRDX,WGRDY,WGRDZ,WGRD(3),
      .        VOLI,VOLJ,DXIJ,NXIJ,
-     .        CX,CY,CZ,DX,DY,DZ,TX,TY,TZ,TFEXTT, WW, WI, WR, ZSTAB
+     .        CX,CY,CZ,DX,DY,DZ,TX,TY,TZ,WFEXTT, WW, WI, WR, ZSTAB
 C-----------------------------------------------
-      TFEXTT=ZERO
+      WFEXTT=ZERO
       DO 10 I=LFT,LLT
         N    =NFT+I
         IF(KXSP(2,N)<=0.AND.ISPH2SOL==0)GOTO 10
@@ -278,7 +278,7 @@ C           CALL WEIGHT0(XI,YI,ZI,XJ,YJ,ZJ,DIJ,WGHT)
             FX=FX+TX
             FY=FY+TY
             FZ=FZ+TZ
-            TFEXTT=TFEXTT+(TX*V(1,INOD)+TY*V(2,INOD)+TZ*V(3,INOD))*DT1
+            WFEXTT=WFEXTT+(TX*V(1,INOD)+TY*V(2,INOD)+TZ*V(3,INOD))*DT1
           END IF
 C--------
 C         artitifial viscosity.
@@ -451,7 +451,7 @@ C           CALL WEIGHT0(XI,YI,ZI,XJ,YJ,ZJ,DIJ,WGHT)
             FX=FX+TX
             FY=FY+TY
             FZ=FZ+TZ
-            TFEXTT=TFEXTT+(TX*V(1,INOD)+TY*V(2,INOD)+TZ*V(3,INOD))*DT1
+            WFEXTT=WFEXTT+(TX*V(1,INOD)+TY*V(2,INOD)+TZ*V(3,INOD))*DT1
           END IF
 C--------
 C         artitifial viscosity.
@@ -649,7 +649,7 @@ C            CALL WEIGHT0(XI,YI,ZI,XJ,YJ,ZJ,DIJ,WGHT)
              FX=FX+TX
              FY=FY+TY
              FZ=FZ+TZ
-             TFEXTT=TFEXTT+(TX*V(1,INOD)+TY*V(2,INOD)+TZ*V(3,INOD))*DT1
+             WFEXTT=WFEXTT+(TX*V(1,INOD)+TY*V(2,INOD)+TZ*V(3,INOD))*DT1
            END IF
 C-------- 
 C          artitifial viscosity.
@@ -834,7 +834,7 @@ C            CALL WEIGHT0(XI,YI,ZI,XJ,YJ,ZJ,DIJ,WGHT)
              FX=FX+TX
              FY=FY+TY
              FZ=FZ+TZ
-             TFEXTT=TFEXTT+(TX*V(1,INOD)+TY*V(2,INOD)+TZ*V(3,INOD))*DT1
+             WFEXTT=WFEXTT+(TX*V(1,INOD)+TY*V(2,INOD)+TZ*V(3,INOD))*DT1
            END IF
 C-------- 
 C          artitifial viscosity.
@@ -908,7 +908,7 @@ C          pour travail des forces de visc. artificielle (par cellule).
 C-------
  10   CONTINUE
 #include "lockon.inc"
-      TFEXT=TFEXT+TFEXTT
+      WFEXT=WFEXT+WFEXTT
 #include "lockoff.inc"
 C----------------------------------
       RETURN

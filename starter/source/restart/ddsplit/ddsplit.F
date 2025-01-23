@@ -1790,7 +1790,7 @@ C--------------------------------------------
      
 
       CALL WRCOMR(LMXVREA,LVARREA,TABVREA,MSNDP(P),P,INTERFACES%PARAMETERS,
-     .            UNITAB ,GLOB_THERM)
+     .            UNITAB ,GLOB_THERM, OUTPUT)
 C--------------------------------------
 C     write TEXT
 C--------------------------------------

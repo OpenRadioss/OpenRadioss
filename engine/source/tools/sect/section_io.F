@@ -38,11 +38,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    write_r_c         ../common_source/tools/input_output/write_routtines.c
       !||====================================================================
       SUBROUTINE SECTION_IO (
-     1    NSTRF  ,D      ,DR    ,V     ,VR      ,FSAV   ,
-     2    SECFCUM,A      ,AR    ,SECBUF,MS      ,IN     ,
-     3    X      ,FANI   ,WEIGHT,XSEC  ,IAD_ELEM,FR_ELEM,
-     4    RG_CUT ,IAD_CUT,FR_CUT,WEIGHT_MD      ,IOLDSECT,
-     5    STABSEN,DIMFB  ,TABS   ,FBSAV6  )
+     1    NSTRF  ,D      ,DR    ,V        ,VR      ,FSAV    ,
+     2    SECFCUM,A      ,AR    ,SECBUF   ,MS      ,IN      ,
+     3    X      ,FANI   ,WEIGHT,XSEC     ,IAD_ELEM,FR_ELEM ,
+     4    RG_CUT ,IAD_CUT,FR_CUT,WEIGHT_MD         ,IOLDSECT,
+     5    STABSEN,DIMFB  ,TABS  ,FBSAV6   ,WFEXT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,7 +53,7 @@ C-----------------------------------------------
 #include      "comlock.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com06_c.inc"
+!#include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
 #include      "task_c.inc"
@@ -68,31 +68,29 @@ C-----------------------------------------------
      .   FSAV(NTHVKI,*), SECFCUM(7,NUMNOD,*), SECBUF(*), IN(*),
      .   FANI(3,*), X(3,*), XSEC(4,3,*)
       DOUBLE PRECISION FBSAV6(12,6,DIMFB)
+      DOUBLE PRECISION, INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER
-     .   J, I, K, II, I1, I2, N, KR1,KR2,KR3,K0,KR0,K1,K2,
-     .   IFRL1, IFRL2, L, ID_SEC,TYPE, LREC, NNOD,KR11,KR12, LENR,
-     .   KR21,KR22,NBINTER, NN, LEN, KC, NSIZE, NNODG, SIZE, NNODT,
-     .   ISECT
-      my_real
-     .   DW, TT1, TT2, TT3, VI, DD, D1, D2,TFEXTL,
-     .   AOLD, TNEXT, DELTAT,ERR(8), FF, FOLD, ALPHA, AA, DV, WA(10)
+      INTEGER J, I, K, II, I1, I2, N, KR1,KR2,KR3,K0,KR0,K1,K2,
+     .        IFRL1, IFRL2, L, ID_SEC,TYPE, LREC, NNOD,KR11,KR12, LENR,
+     .        KR21,KR22,NBINTER, NN, LEN, KC, NSIZE, NNODG, SIZE, NNODT,
+     .        ISECT
+      my_real DW, TT1, TT2, TT3, VI, DD, D1, D2,WFEXTL, AOLD, TNEXT, DELTAT,ERR(8), FF, FOLD, ALPHA, AA, DV, WA(10)
       REAL*4 R4
 C-----------------------------------------------
 C
 C---------------------------------------------------------
       IF(NSECT==0)RETURN
 C-----------------------------------------------
-C BILAN SUR SECTION AVEC SECFCUM
+C SYNTHESIS OF SECTION USING SECFCUM
 C---------------------------------------------------------
       K0=NSTRF(25)
       DO I=1,NSECT
          IF(NSTRF(K0)+NSTRF(K0+14)>0)THEN
 C
-C traitement des noeuds frontieres :
-C cumul de SECFCUM sur proc main puis mise a zero ailleurs
+C boundary nodes
+C cumulative SECFCUM value on main proc (reset elsewhere)
 C
            K2 = K0 + 30 + NSTRF(K0+14)
            IF(IRODDL/=0)THEN
@@ -409,11 +407,11 @@ C-----------------------------------------------
             KR12 = KR1 + IFRL1*6*NNOD
             DW   = SECBUF(KR0+1)
             IF(ISPMD==0) THEN
-              TFEXTL=DW*DT1
+              WFEXTL=DW*DT1
             ELSE
-              TFEXTL=ZERO
+              WFEXTL=ZERO
             ENDIF
-            TFEXT=TFEXT + TFEXTL
+            WFEXT=WFEXT + WFEXTL
             DW=ZERO
             ERR(4) = ZERO
             ERR(8) = ZERO
@@ -456,8 +454,8 @@ C-----------------------------------------------
                 ENDDO
               ENDIF
             ENDDO
-            TFEXTL=TFEXTL + DT1*DW
-            TFEXT=TFEXT + DT1*DW
+            WFEXTL=WFEXTL + DT1*DW
+            WFEXT=WFEXT + DT1*DW
             SECBUF(KR0+1) = DW
 C-----------------------------------------------
 C SPMD SPECIFIC : MAJ DW
@@ -493,7 +491,7 @@ C-----------------------------------------------
             FSAV(27,N) = ERR(6)
             FSAV(28,N) = ERR(7)
             FSAV(29,N) = HALF*ERR(8)
-            FSAV(30,N) = FSAV(30,N) + TFEXTL + SECBUF(KR0+4)
+            FSAV(30,N) = FSAV(30,N) + WFEXTL + SECBUF(KR0+4)
             ISECT=0
             IF(STABSEN/=0) ISECT=TABS(N+1)-TABS(N)
             IF(ISECT/=0) THEN

@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||====================================================================
       SUBROUTINE WRCOMR(LMXVREA,LVARREA,TABVREA,MS_ND,P,INTER_PARAMETERS, 
-     .                  UNITAB ,GLOB_THERM)
+     .                  UNITAB ,GLOB_THERM, OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -38,6 +38,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE MULTIMAT_PARAM_MOD , ONLY : M51_IFLG6
       use glob_therm_mod
+      USE OUTPUT_MOD , ONLY : OUTPUT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -49,6 +50,7 @@ C-----------------------------------------------
       my_real TABVREA(*),MS_ND
       TYPE(UNIT_TYPE_), INTENT(IN) :: UNITAB
       TYPE(glob_therm_) ,intent(in) :: glob_therm
+      TYPE(OUTPUT_),INTENT(INOUT) :: OUTPUT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -90,7 +92,7 @@ C-----
       TABVREA(11)=DTFAC
       TABVREA(12)=DTMIN
       TABVREA(13)=VOLMIN
-      TABVREA(14)=TFEXT
+      TABVREA(14)=OUTPUT%WFEXT
       TABVREA(15)=REINT
       TABVREA(16)=0 !no longer used
       TABVREA(17)=0 !no longer used

@@ -69,7 +69,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      K                  CPDPOLH  , CPEPOLH, CPFPOLH  ,
      L                  ELTG     , IPARG  , MATTG    ,
      M                  IGROUPTG , IGROUPC, ELBUF_TAB, FEXT          , CFL_COEF ,
-     N                  PDISP_OLD, PDISP  , H3D_DATA , ITAB)
+     N                  PDISP_OLD, PDISP  , H3D_DATA , ITAB          , WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -134,6 +134,7 @@ C-----------------------------------------------
       TYPE(H3D_DATABASE) :: H3D_DATA
       INTEGER,INTENT(IN)::ITAB(NUMNOD)
       my_real, INTENT(INOUT) :: CENTROID_POLH(3,NPOLH)
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -215,7 +216,7 @@ C-----------------------------------------------
      .        VX3, VY3, VZ3, VVX, VVY, VVZ,  FAC, 
      .         FVDP, RBID, TTF,
      .        CPD, CPE, CPF, TEMP0, TT1,PSTAG, VOLNO,TSTOPE,
-     .        ENINT, MASSFLOW, TFEXT0,  DMOUT, DHOUT,
+     .        ENINT, MASSFLOW, WFEXT0,  DMOUT, DHOUT,
      .        CPAM, CPBM, CPCM, CPDM, CPEM, CPFM, RMWM, TMP_VEC(3), VMAT(3),SSP1,SSP2,SSPt,NTRIA_TOT,
      .        PRES_AV, RHO_AV, TEMP_AV, CP_AV, CV_AV, RGAS_AV, CENTROID(3)
       DOUBLE PRECISION :: CP
@@ -2244,7 +2245,7 @@ C---------------------------------------------------
 C Force on Airbag + OUTPUT
 C---------------------------------------------------
       IF(IVOLU(39)==1) THEN
-        TFEXT0=TFEXT
+        WFEXT0=WFEXT
         DO IEL=1,NELT
           N1=ELEM(1,IEL)
           N2=ELEM(2,IEL)
@@ -2267,9 +2268,9 @@ C---------------------------------------------------
           FVSPMD(IFV)%AAA(2,N3)=FVSPMD(IFV)%AAA(2,N3)+THIRD*FF*NRY
           FVSPMD(IFV)%AAA(3,N3)=FVSPMD(IFV)%AAA(3,N3)+THIRD*FF*NRZ
 C
-          TFEXT=TFEXT+FF*VEL(IEL)*DT1
+          WFEXT=WFEXT+FF*VEL(IEL)*DT1
         ENDDO
-        FSAV(18)=FSAV(18)+TFEXT-TFEXT0
+        FSAV(18)=FSAV(18)+WFEXT-WFEXT0
       ENDIF
       
       

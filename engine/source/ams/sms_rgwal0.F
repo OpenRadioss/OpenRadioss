@@ -53,7 +53,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE SMS_RGWAL_0(IFLAG  ,X      ,V      ,RWBUF   ,LPRW    ,   
      2                       NPRW   ,MS     ,FSAV   ,FR_WALL ,FOPT    ,
      3                       RWSAV  ,WEIGHT ,IRWL_WORK, NRWL_SMS,FRWL6,
-     4                       A      ,RES    ,R      ,FREA    )
+     4                       A      ,RES    ,R      ,FREA    ,WFEXT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -71,20 +71,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LPRW(*), NPRW(*), FR_WALL(NSPMD+2,*), WEIGHT(*),
-     .        IRWL_WORK(*), NRWL_SMS(*), IFLAG
-      my_real
-     .   X(3,*), V(3,*),RWBUF(NRWLP,*),RWSAV(*),MS(*),
-     .   FSAV(NTHVKI,*), FOPT(6,*), 
-     .   A(3,*), RES(3,*), R(3,*), FREA(3,*)
-      DOUBLE PRECISION
-     .        FRWL6(7,6,NRWALL)
+      INTEGER LPRW(*), NPRW(*), FR_WALL(NSPMD+2,*), WEIGHT(*),IRWL_WORK(*), NRWL_SMS(*), IFLAG
+      my_real  X(3,*), V(3,*),RWBUF(NRWLP,*),RWSAV(*),MS(*),FSAV(NTHVKI,*), FOPT(6,*),A(3,*), RES(3,*), R(3,*), FREA(3,*)
+      DOUBLE PRECISION FRWL6(7,6,NRWALL)
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K, N, ITYP, ISL, IFQ, N2, N3, N4, N5, N6, N7, N8, L, M,
-     .        PMAIN, NSMS, 
-     .        KIND(NRWALL), ISLIND(NRWALL)
+      INTEGER K, N, ITYP, ISL, IFQ, N2, N3, N4, N5, N6, N7, N8, L, M,PMAIN, NSMS, KIND(NRWALL), ISLIND(NRWALL)
 C-----------------------------------------------
           ISL = 1
           K=1
@@ -317,25 +311,25 @@ C
      +          X       ,FREA        ,V           ,RWBUF(1,N),LPRW(K), 
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT  ,
      +          RWSAV(ISL),NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K), 
-     +          FSAV(1,N),FOPT(1,N),FRWL6(1,1,N),A     )
+     +          FSAV(1,N),FOPT(1,N),FRWL6(1,1,N),A     ,WFEXT)
             ELSEIF(ITYP==2.AND.NSMS/=0)THEN
               CALL SMS_RGWALC_BILAN(
      +          X       ,FREA      ,V           ,RWBUF(1,N),LPRW(K), 
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
      +          NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K),FSAV(1,N), 
-     +          FOPT(1,N),FRWL6(1,1,N),A    )
+     +          FOPT(1,N),FRWL6(1,1,N),A    ,WFEXT)
             ELSEIF(ITYP==3.AND.NSMS/=0)THEN
               CALL SMS_RGWALS_BILAN(
      +          X       ,FREA        ,V           ,RWBUF(1,N),LPRW(K), 
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
      +          NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K),FSAV(1,N), 
-     +          FOPT(1,N),FRWL6(1,1,N),A    )
+     +          FOPT(1,N),FRWL6(1,1,N),A    ,WFEXT)
             ELSEIF(ITYP==4.AND.NSMS/=0)THEN
               CALL SMS_RGWALP_BILAN(
      +          X       ,FREA        ,V           ,RWBUF(1,N),LPRW(K), 
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
      +          NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K),FSAV(1,N), 
-     +          FOPT(1,N),FRWL6(1,1,N),A    )
+     +          FOPT(1,N),FRWL6(1,1,N),A    ,WFEXT)
             ENDIF
           END DO
 !$OMP END DO

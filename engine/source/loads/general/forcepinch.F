@@ -42,7 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                  V      ,X       ,SKEW   ,AR      ,VR    ,
      3                  NSENSOR,SENSOR_TAB ,WEIGHT ,TFEXC   ,IADC  ,
      4                  FSKY   ,FSKYV   ,FEXT   ,H3D_DATA,
-     5                  APINCH ,VPINCH, PYTHON)
+     5                  APINCH ,VPINCH, PYTHON, WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -87,6 +87,7 @@ C-----------------------------------------------
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
       TYPE(PYTHON_) :: PYTHON
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -95,7 +96,7 @@ C-----------------------------------------------
      .        ISMOOTH
       my_real
      .   NX, NY, NZ, AXI, AA, A0, VV, FX, FY, FZ, AX, DYDX, TS,
-     .   SIXTH,TFEXTT,X_OLD, F1, F2,XSENS,FCX,FCY
+     .   SIXTH,WFEXTT,X_OLD, F1, F2,XSENS,FCX,FCY
       my_real FINTER, ZFx,ZFy,ZFz, ZZFx,ZZFy,ZZFz,PS, Zx,Zy,Zz,FINTER_SMOOTH
       my_real 
      .    FCYPINCH, FXPINCH, FYPINCH, FZPINCH, AAPINCH
@@ -104,7 +105,7 @@ C-----------------------------------------------
 C=======================================================================
       SIXTH  = ONE_OVER_6
       TFEXC  = ZERO
-      TFEXTT = ZERO
+      WFEXTT = ZERO
       N_OLD  = 0
       X_OLD  = ZERO
       IANIM  = ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT+
@@ -178,7 +179,7 @@ C
           APINCH(3,N4) = APINCH(3,N4) + FZPINCH
 C
 C
-          TFEXTT=TFEXTT+DT1*(FXPINCH*(VPINCH(1,N1)+VPINCH(1,N2)+VPINCH(1,N3)+VPINCH(1,N4))
+          WFEXTT=WFEXTT+DT1*(FXPINCH*(VPINCH(1,N1)+VPINCH(1,N2)+VPINCH(1,N3)+VPINCH(1,N4))
      1                       +FYPINCH*(VPINCH(2,N1)+VPINCH(2,N2)+VPINCH(2,N3)+VPINCH(2,N4))
      2                       +FZPINCH*(VPINCH(3,N1)+VPINCH(3,N2)+VPINCH(3,N3)+VPINCH(3,N4)))
 
@@ -208,7 +209,7 @@ C
  10    CONTINUE
 C
 #include "atomic.inc"
-       TFEXT = TFEXT + TFEXTT
+       WFEXT = WFEXT + WFEXTT
 #include "atomend.inc"
 C
       RETURN

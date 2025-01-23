@@ -668,7 +668,7 @@ C-----------------------------------------------
       USE STATE_MOD
       USE USER_WINDOWS_MOD
       USE ALE_MOD
-      USE OUTPUT_MOD
+      USE OUTPUT_MOD , ONLY : OUTPUT_, WFEXT, WFEXT_MD
       USE INTERFACES_MOD
       USE DEBUG_CHKSM_MOD ,  ONLY : SPMD_FLUSH_ACCEL
       USE DT_MOD
@@ -699,6 +699,7 @@ C-----------------------------------------------
       USE spmd_xv_inter_type1_mod, only : spmd_xv_inter_type1
       USE TIMER_MOD
       USE rbe3_mod
+      USE TH_SURF_MOD , ONLY : TH_SURF_NUM_CHANNEL
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -998,7 +999,7 @@ C----
      .     CNEL, ADDCNEL, ADDTMPL, IPARTL, NPARTL, LINDIDEL, LBUFIDEL,
      .     LBUFSEGLO
       my_real DT2T,
-     .        DT2SAVE,  MAS, BB, TFEXC,TREST,DTREST,
+     .        DT2SAVE,  MAS, BB, WFEXC,TREST,DTREST,
      .        DMAST, DINERT, FACTB,DAMPT,
      .        XSENS(12,SENSORS%NSENSOR),DAMPA3
       my_real FXBMVN(LENCP),FXBSV(LENLM),FXBSE(15*NFXBODY),
@@ -1384,7 +1385,7 @@ C===============================================================================
 C                                     NON PARALLEL SECTION (SMP)
 C========================================================================================
 
-C initialisation timer resol
+        !initialisation timer resol
         IF (IMON>0) THEN
           CALL STARTIME(TIMERS,TIMER_RESOL)
         ENDIF
@@ -3348,14 +3349,14 @@ C------------------------
         IF(USER_WINDOWS%HAS_USER_WINDOW /= 0 ) THEN
           CALL TRACE_IN(9,2,ZERO)
 
-          CALL USER_WINDOWS_ROUTINE( ISPMD        ,NSPMD         ,USERL_AVAIL   ,
+          CALL USER_WINDOWS_ROUTINE( ISPMD        ,NSPMD         ,USERL_AVAIL      ,
      1                               USER_WINDOWS ,RAD_INPUTNAME ,LEN_RAD_INPUTNAME,
-     2                               NUMNOD       ,NCYCLE        ,NODES%ITAB             ,
-     3                               TT           ,DT1           ,TFEXT            ,
-     4                               NODES%D            ,NODES%X            ,NODES%V                ,
-     5                               NODES%VR           ,NODES%MS           ,NODES%IN               ,
-     6                               NODES%STIFN        ,NODES%STIFR        ,NODES%A                ,
-     7                               NODES%AR           ,DT2)
+     2                               NUMNOD       ,NCYCLE        ,NODES%ITAB       ,
+     3                               TT           ,DT1           ,OUTPUT%WFEXT     ,
+     4                               NODES%D      ,NODES%X       ,NODES%V          ,
+     5                               NODES%VR     ,NODES%MS      ,NODES%IN         ,
+     6                               NODES%STIFN  ,NODES%STIFR   ,NODES%A          ,
+     7                               NODES%AR     ,DT2)
 
           CALL TRACE_OUT(9)
 
@@ -3414,20 +3415,20 @@ C-------------------------------------------------------------------
      1               NIBCLD  ,IBCL     ,LFACCLD  ,FORC     ,SNPC                      ,
      2               NPC     ,STF      ,TF       ,NODES%A        ,NODES%V                         ,
      3               NODES%X       ,SKEWS    ,NODES%AR                        ,
-     4               NODES%VR      ,NSENSOR  ,SENSORS%SENSOR_TAB ,TFEXC          ,ELEMENT%PON%IAD_CONLD ,
+     4               NODES%VR      ,NSENSOR  ,SENSORS%SENSOR_TAB ,WFEXC          ,ELEMENT%PON%IAD_CONLD ,
      5               LSKY    ,ELEMENT%PON%FSKY     ,FEXT     ,H3D_DATA ,CPTREAC                   ,
      6               FTHREAC ,NODREAC  ,OUTPUT%TH%TH_SURF  ,
      7               DPL0CLD ,VEL0CLD  ,NODES%D        ,NODES%DR       ,NCONLD                    ,
      8               NUMNOD  ,NFUNCT   ,ANIM_V   ,OUTP_V                    ,
-     9               IPARIT  ,TT       ,DT1      ,N2D      ,TFEXT                     ,
+     9               IPARIT  ,TT       ,DT1      ,N2D      ,OUTPUT%WFEXT    ,
      A               IMPL_S  ,PYTHON=PYTHON)
 C
         IF (NPINCH > 0) THEN
           CALL FORCEPINCH(IBCL   ,FORC    ,NPC    ,TF      ,NODES%A         ,
      2                    NODES%V      ,NODES%X       ,SKEWS%SKEW   ,NODES%AR      ,NODES%VR        ,
-     3                    NSENSOR,SENSORS%SENSOR_TAB ,NODES%WEIGHT ,TFEXC   ,ELEMENT%PON%IAD_CONLD,
+     3                    NSENSOR,SENSORS%SENSOR_TAB ,NODES%WEIGHT ,WFEXC   ,ELEMENT%PON%IAD_CONLD,
      4                    ELEMENT%PON%FSKY   , ELEMENT%PON%FSKY   ,FEXT   ,H3D_DATA,
-     5                    PINCH_DATA%APINCH, PINCH_DATA%VPINCH, PYTHON)  
+     5                    PINCH_DATA%APINCH, PINCH_DATA%VPINCH, PYTHON, OUTPUT%WFEXT)
         ENDIF
 C
         IF (IMONM > 0) CALL STOPTIME(TIMERS,41)
@@ -3443,7 +3444,7 @@ C
           ENDIF
           CALL FORCEFINGEO(IBFV ,NPC    ,TF      ,NODES%A    ,NODES%V    ,NODES%X     ,
      2                     VEL  ,SENSORS%SENSOR_TAB ,ELEMENT%PON%FSKY ,FEXT ,NODES%ITABM1,
-     3                     H3D_DATA,NSENSOR,PYTHON)
+     3                     H3D_DATA,NSENSOR,PYTHON,WFEXT)
           IF(IMON>0) THEN
             IF(IMONM > 0) CALL STOPTIME(TIMERS,44)
             CALL STOPTIME(TIMERS,TIMER_KIN)
@@ -3458,10 +3459,10 @@ C-------------------------------------------------------------------
         IF (IMON>0) CALL STARTIME(TIMERS,TIMER_KIN)
         IF (IMONM > 0) CALL STARTIME(TIMERS,41)
 !$OMP PARALLEL
-          CALL PFLUID(ILOADP  ,LOADP             ,NPC        ,TF         ,NODES%A         ,
-     2                NODES%V       ,NODES%X                 ,XFRAME     ,NODES%MS         ,
-     3                NSENSOR ,SENSORS%SENSOR_TAB,TFEXC      ,ELEMENT%PON%IAD_LOADP ,
-     4                ELEMENT%PON%FSKY    ,ELEMENT%PON%FSKY              ,LLOADP     ,FEXT       ,H3D_DATA  ,
+          CALL PFLUID(ILOADP  ,LOADP             ,NPC        ,TF          ,NODES%A               ,
+     2                NODES%V       ,NODES%X                 ,XFRAME      ,NODES%MS              ,
+     3                NSENSOR ,SENSORS%SENSOR_TAB,WFEXC      ,OUTPUT%WFEXT,ELEMENT%PON%IAD_LOADP ,
+     4                ELEMENT%PON%FSKY , ELEMENT%PON%FSKY                 ,LLOADP                ,FEXT       ,H3D_DATA  ,
      5                OUTPUT%TH%TH_SURF, PYTHON)
 !$OMP END PARALLEL
         IF (IMONM > 0) CALL STOPTIME(TIMERS,41)
@@ -3476,9 +3477,10 @@ C----------------------------------
           CALL TRACE_IN(10,0,ZERO)
           IF (IMON>0) CALL STARTIME(TIMERS,TIMER_KIN)
           IF (IMONM > 0) CALL STARTIME(TIMERS,41)
-          CALL PBLAST_LOAD_COMPUTATION(PBLAST,ILOADP     ,LOADP      ,NODES%A                ,NODES%V                ,NODES%X      ,
-     1                ELEMENT%PON%IAD_LOADP ,ELEMENT%PON%FSKY       ,LLOADP           ,FEXT   ,
-     2                NODES%ITAB       ,H3D_DATA   ,OUTPUT%TH%TH_SURF)
+          CALL PBLAST_LOAD_COMPUTATION(
+     1                PBLAST                ,ILOADP           ,LOADP             ,NODES%A      ,NODES%V   ,NODES%X,
+     2                ELEMENT%PON%IAD_LOADP ,ELEMENT%PON%FSKY ,LLOADP            ,FEXT         ,
+     3                NODES%ITAB            ,H3D_DATA         ,OUTPUT%TH%TH_SURF ,OUTPUT%WFEXT)
           IF (IMONM > 0) CALL STOPTIME(TIMERS,41)
           IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
           CALL TRACE_OUT(10)
@@ -3497,7 +3499,7 @@ C----------------------------------
           CALL PRESSURE_CYL(
      .         LOADS     ,TABLE     ,SENSORS%NSENSOR,SENSORS%SENSOR_TAB,IFRAME    ,
      .         DT1       ,NODES%X         ,NODES%V         ,NODES%A         ,FEXT      ,
-     .         H3D_DATA  ,CPTREAC   ,FTHREAC   ,NODREAC   ,ELEMENT%PON%FSKY      )
+     .         H3D_DATA  ,CPTREAC   ,FTHREAC   ,NODREAC   ,ELEMENT%PON%FSKY ,OUTPUT%WFEXT     )
         ENDIF  
 !-------------------------------------------------------------------
 !       offset projection for contact ! add smp // after
@@ -3579,15 +3581,16 @@ C
              CALL ASSIGN_PTRX(ptrX,NODES%X,NUMNOD)
           ENDIF
           CALL MONVOL0(
-     1      MONVOL     ,VOLMON     ,ptrX ,NODES%A   ,
-     2      NPC        ,TF         ,NODES%V        ,WA        ,
-     3      FSAV(1,N)  ,NSENSOR    ,SENSORS%SENSOR_TAB ,IGRSURF   ,
-     4      FR_MV      ,ELEMENT%PON%IAD_MV ,SICONTACT,SPORO           ,
-     5      ELEMENT%PON%FSKY       ,ICONTACT   ,WA(N0)         ,IPARG     ,
-     6      ELBUF_TAB  ,GEO        ,IGEO           ,
-     7      PM         ,IPM        ,IPART          ,IPART(K3) ,
-     8      IPART(K8)  ,IGROUPC    ,IGROUPTG       ,FEXT      ,
-     9      1          ,H3D_DATA   ,T_MONVOL,frontier_global_mv)
+     1      MONVOL          ,VOLMON             ,ptrX               ,NODES%A   ,
+     2      NPC             ,TF                 ,NODES%V            ,WA        ,
+     3      FSAV(1,N)       ,NSENSOR            ,SENSORS%SENSOR_TAB ,IGRSURF   ,
+     4      FR_MV           ,ELEMENT%PON%IAD_MV ,SICONTACT          ,SPORO     ,
+     5      ELEMENT%PON%FSKY,ICONTACT           ,WA(N0)             ,IPARG     ,
+     6      ELBUF_TAB       ,GEO                ,IGEO               ,
+     7      PM              ,IPM                ,IPART              ,IPART(K3) ,
+     8      IPART(K8)       ,IGROUPC            ,IGROUPTG           ,FEXT      ,
+     9      1               ,H3D_DATA           ,T_MONVOL           ,frontier_global_mv,
+     A      OUTPUT )
           CALL TRACE_OUT(11)
         IF (IMONM > 0) CALL STOPTIME(TIMERS,50)
         ENDIF
@@ -3597,7 +3600,7 @@ C
          CALL FLOW0(IFLOW, RFLOW,   WIFLOW, WRFLOW, NODES%X,
      .              NODES%V,     NODES%A,       NPC,    TF,     SENSORS%SENSOR_TAB,
      .              NBGAUGE,LGAUGE,  GAUGE , NSENSOR,
-     .              IGRV,   AGRV  ,NFUNCT  ,PYTHON)
+     .              IGRV,   AGRV  ,NFUNCT  ,PYTHON, OUTPUT%WFEXT)
       ENDIF
 
 C----------------------------------------
@@ -4484,7 +4487,7 @@ C
      .                FSAV(1,N), IFVMESH,  ICONTACT_OLD, LGAUGE            ,
      .                GAUGE    , IGEO,     GEO,          PM                , IPM ,
      .                IPARG    , IGROUPTG, IGROUPC,      ELBUF_TAB         , FEXT,
-     .                1        , H3D_DATA, NODES%ITAB,         NODES%WEIGHT)
+     .                1        , H3D_DATA, NODES%ITAB,   NODES%WEIGHT      , OUTPUT%WFEXT)
 C
           CALL TRACE_OUT(11)
         IF (IMONM > 0) CALL STOPTIME(TIMERS,50)
@@ -4766,8 +4769,8 @@ C----------------------------------
      E    FTHE          ,FTHESKYI       ,SPHG_F6    ,WSMCOMP%BUF     ,SOL2SPH_TYP   ,
      F    MAt_ELEM      ,OUTPUT         ,SPH_IORD1  ,SNPC            ,STF           ,
      G    SBUFMAT       ,NSVOIS         ,IDTMINS    ,IRESP           ,MAXFUNC       ,
-     .    IMON_MAT      ,USERL_AVAIL    ,IMPL_S          ,IDYNA         ,
-     .    DT            ,GLOB_THERM ,SPH_WORK)
+     .    IMON_MAT      ,USERL_AVAIL    ,IMPL_S     ,IDYNA         ,
+     .    DT            ,GLOB_THERM     ,SPH_WORK   ,WFEXT)
 #include "lockon.inc"
         IF(DT2TT<DT2T)THEN
           DT2T = DT2TT
@@ -4823,22 +4826,23 @@ C
      .                FSAV(1,N), IFVMESH, ICONTACT_OLD,LGAUGE,
      .                GAUGE    , IGEO,    GEO,         PM,                  IPM,
      .                IPARG    , IGROUPTG,IGROUPC,     ELBUF_TAB,           FEXT,
-     .                2        , H3D_DATA,NODES%ITAB, NODES%WEIGHT)
+     .                2        , H3D_DATA,NODES%ITAB, NODES%WEIGHT, OUTPUT%WFEXT)
           IF (IMPL_S > 0 .AND. ISMDISP >0) THEN
             CALL ASSIGN_PTRX(ptrx,IMPBUF_TAB%X_A,NUMNOD)
           ELSE
             CALL ASSIGN_PTRX(ptrx,NODES%X,NUMNOD)
           ENDIF
           CALL MONVOL0(
-     1      MONVOL     ,VOLMON     ,ptrX           ,NODES%A    ,
-     2      NPC        ,TF         ,NODES%V              ,WA   ,
-     3      FSAV(1,N)  ,NSENSOR    ,SENSORS%SENSOR_TAB ,IGRSURF   ,
-     4      FR_MV      ,ELEMENT%PON%IAD_MV ,SICONTACT,SPORO           ,
-     5      ELEMENT%PON%FSKY       ,ICONTACT   ,WA(N0)         ,IPARG     ,
-     6      ELBUF_TAB  ,GEO        ,IGEO           ,
-     7      PM         ,IPM        ,IPART          ,IPART(K3) ,
-     8      IPART(K8)  ,IGROUPC    ,IGROUPTG       ,FEXT      ,
-     9      2          ,H3D_DATA   ,T_MONVOL,frontier_global_mv)
+     1      MONVOL            ,VOLMON             ,ptrX               ,NODES%A   ,
+     2      NPC               ,TF                 ,NODES%V            ,WA        ,
+     3      FSAV(1,N)         ,NSENSOR            ,SENSORS%SENSOR_TAB ,IGRSURF   ,
+     4      FR_MV             ,ELEMENT%PON%IAD_MV ,SICONTACT          ,SPORO     ,
+     5      ELEMENT%PON%FSKY  ,ICONTACT           ,WA(N0)             ,IPARG     ,
+     6      ELBUF_TAB         ,GEO                ,IGEO               ,
+     7      PM                ,IPM                ,IPART              ,IPART(K3) ,
+     8      IPART(K8)         ,IGROUPC            ,IGROUPTG           ,FEXT      ,
+     9      2                 ,H3D_DATA           ,T_MONVOL           ,frontier_global_mv,
+     A      OUTPUT)
 
           CALL TRACE_OUT(11)
         IF (IMONM > 0) CALL STOPTIME(TIMERS,50)
@@ -4935,7 +4939,7 @@ C
      2                          NODES%A         ,NODES%V         ,NODES%X       ,SKEWS%SKEW   ,SENSORS%SENSOR_TAB,
      3                          ELEMENT%PON%IAD_LOADP,ELEMENT%PON%FSKY      ,FANI(1,1+NFEA),TAGNCONT ,NSENSOR   ,
      4                          LOADP_HYD_INTER,H3D_DATA , PYTHON, 
-     5                          NPRESLOAD ,LOADP_TAGDEL,OUTPUT%TH%TH_SURF,PBLAST)
+     5                          NPRESLOAD ,LOADP_TAGDEL,OUTPUT%TH%TH_SURF,PBLAST,OUTPUT%WFEXT)
 
 
           IF (IMONM > 0) CALL STOPTIME(TIMERS,41)
@@ -5748,7 +5752,7 @@ C----------------------------------
       IF(ISECUT/=0)CALL SECTION_FIO (
      1        NSTRF ,NODES%V,NODES%VR,
      2        NODES%A     ,NODES%AR     ,SECBUF,NODES%MS,NODES%IN,
-     3        NODES%WEIGHT,IAD_CUT,FR_CUT)
+     3        NODES%WEIGHT,IAD_CUT,FR_CUT, OUTPUT%WFEXT)
 C-----------------------------------------------------
 C     SPOTWELD ELEMENT CLUSTERS
 C-----------------------------------------------------
@@ -5948,15 +5952,15 @@ C===============================================================================
 !$OMP PARALLEL
 
           CALL RBYFOR(TIMERS,
-     1      RBY      ,NODES%A      ,NODES%AR     ,NODES%X    ,NODES%VR            ,
-     2      FSAV     ,NODES%IN     ,NODES%STIFN  ,NODES%STIFR,FANI(1,1+NFOA),
-     3      LPBY     ,NPBY   ,NODES%WEIGHT ,NODES%MS   ,NODES%V             ,
-     4      IGRSURF  ,BUFSF  ,NODES%ICODR  ,NODES%ISKEW,SKEWS%SKEW    ,
-     5      KINDRBY  ,IAD_RBY,FR_RBY6,RBY6 ,IRBKIN_L      ,
-     6      NRBYKIN_L,NATIV_SMS,SENSORS%SFSAV,SENSORS%FSAV,SENSORS%STABSEN     ,
-     7      SENSORS%TABSENSOR,NODREAC,FTHREAC,CPTREAC     ,DAMPR,
-     8      SDAMP    ,DAMP   ,NDAMP_VREL,ID_DAMP_VREL     ,IGRNOD      ,
-     9      TAGSLV_RBY,IPARIT,TFEXT     ,NDAMP_VREL_RBYG  ,SIZE_RBY6_C ,
+     1      RBY              ,NODES%A      ,NODES%AR        ,NODES%X         ,NODES%VR       ,
+     2      FSAV             ,NODES%IN     ,NODES%STIFN     ,NODES%STIFR     ,FANI(1,1+NFOA) ,
+     3      LPBY             ,NPBY         ,NODES%WEIGHT    ,NODES%MS        ,NODES%V        ,
+     4      IGRSURF          ,BUFSF        ,NODES%ICODR     ,NODES%ISKEW     ,SKEWS%SKEW     ,
+     5      KINDRBY          ,IAD_RBY      ,FR_RBY6,RBY6    ,IRBKIN_L        ,
+     6      NRBYKIN_L        ,NATIV_SMS    ,SENSORS%SFSAV   ,SENSORS%FSAV    ,SENSORS%STABSEN,
+     7      SENSORS%TABSENSOR,NODREAC      ,FTHREAC         ,CPTREAC         ,DAMPR,
+     8      SDAMP            ,DAMP         ,NDAMP_VREL      ,ID_DAMP_VREL    ,IGRNOD         ,
+     9      TAGSLV_RBY       ,IPARIT       ,OUTPUT%WFEXT    ,NDAMP_VREL_RBYG ,SIZE_RBY6_C    ,
      A      RBY6_C)
 
 !$OMP END PARALLEL
@@ -6650,7 +6654,7 @@ C--------------------------------------------------------------C
      .                    NODES%VR      ,NODES%A       ,NODES%AR      ,NODES%MS      ,NODES%IN      ,
      .                    NODES%XDP     ,NODES%D       ,R2R_ON  ,DD_R2R  ,NODES%WEIGHT  ,
      .                    IAD_ELEM,FR_ELEM ,NODES%STIFN   ,NODES%STIFR   ,DD_R2R_ELEM  ,
-     .                    SDD_R2R_ELEM,NLOC_DMG)
+     .                    SDD_R2R_ELEM,NLOC_DMG, OUTPUT%WFEXT, OUTPUT%WFEXT_MD)
 
          IF (IMONM > 0) CALL STOPTIME(TIMERS,54)  
         
@@ -6664,8 +6668,7 @@ C----------------------------------------------
         MADENDREQUEST = 0
         IF (IMONM > 0) CALL STARTIME(TIMERS,55)
 C Exchange Time Step
-         CALL TSTP_EXCH_MADCPL(MADENDREQUEST,MADCLNOD,MADCLFRECV,
-     *                         NODES%V,NODES%A,NODES%MS ,MADYMO_DEL_GLOBAL )
+         CALL TSTP_EXCH_MADCPL(MADENDREQUEST,MADCLNOD,MADCLFRECV,NODES%V,NODES%A,NODES%MS ,MADYMO_DEL_GLOBAL )
          IF (MADENDREQUEST == -1)THEN
            MSTOP = 2
            CALL TRACE_OUT(3)
@@ -6701,7 +6704,7 @@ C-----------------------------------------------------
         ENDIF         
 C       EXTERNAL WORK OF CONCENTRATED LOADS
       IF (NCONLD/=0.AND.IMPL_S/=1) THEN
-          TFEXT = TFEXT + TFEXC*DT2
+          OUTPUT%WFEXT  = OUTPUT%WFEXT  + WFEXC*DT2
         ENDIF
     
       IF (IMONM > 0) CALL STOPTIME(TIMERS,53)
@@ -6784,7 +6787,7 @@ C===============================================================================
      P        PREC_SMS3 ,DIAG_SMS3,IAD_RBY  ,FR_RBY6    ,RBY6     ,
      Q        RBE3%irotg_sz    ,BETATE   ,IBCSCYC    ,LBCSCYC,
      R        MSKYI_FI_SMS, LIST_SMS,LIST_RMS,CJWORK,FREA,
-     S        IRWL_WORK,SMS_VFI,sz_mw6,MW6)
+     S        IRWL_WORK,SMS_VFI,sz_mw6,MW6,OUTPUT%WFEXT)
 
 !$OMP END PARALLEL
 
@@ -6861,7 +6864,7 @@ C-----------------------------------------------
      2        SECFCUM,NODES%A             ,NODES%AR    ,SECBUF,NODES%MS      ,NODES%IN     ,
      3        NODES%X      ,FANI(1,NFOA+1),NODES%WEIGHT,XSEC  ,IAD_ELEM,FR_ELEM,
      4        RG_CUT ,IAD_CUT       ,FR_CUT,NODES%WEIGHT_MD,IOLDSECT,
-     5        SENSORS%STABSEN,SENSORS%SFSAV,SENSORS%TABSENSOR,SENSORS%FSAV)
+     5        SENSORS%STABSEN,SENSORS%SFSAV,SENSORS%TABSENSOR,SENSORS%FSAV, OUTPUT%WFEXT)
             IF(IMON>0) CALL STOPTIME(TIMERS,TIMER_IO)
           ENDIF
         ENDIF ! ILAG+IALE+IEULER/=0
@@ -7219,7 +7222,7 @@ C--- //0 ----------------
            CALL SPONFV (NODES%X   ,NODES%V     ,NODES%A       ,NODES%D       ,NODES%MS      ,
      2            SPBUF   ,NODES%ITAB    ,KXSP    ,IXSP    ,NOD2SP  ,
      3            NPC     ,TF      ,ISPHIO  ,VSPHIO  ,IPART   ,
-     4           IPART(K10),WASPH(KSPACTIV) ,WA,WASPH(KSPH22) ,SPH_WORK)
+     4           IPART(K10),WASPH(KSPACTIV) ,WA,WASPH(KSPH22) ,SPH_WORK, OUTPUT%WFEXT)
 
           IF (IMONM > 0) CALL STOPTIME(TIMERS,89)
           IF (IMONM > 0) CALL STOPTIME(TIMERS,48)
@@ -7243,7 +7246,7 @@ C--- //0 ----------------
            CALL SPONFV (NODES%X   ,NODES%V     ,NODES%A       ,NODES%D       ,NODES%MS      ,
      2            SPBUF   ,NODES%ITAB    ,KXSP    ,IXSP    ,NOD2SP  ,
      3            NPC     ,TF      ,ISPHIO  ,VSPHIO  ,IPART   ,
-     4            IPART(K10),WASPH(KSPACTIV),WA,WASPH(KSPH22) ,SPH_WORK)
+     4            IPART(K10),WASPH(KSPACTIV),WA,WASPH(KSPH22) ,SPH_WORK, OUTPUT%WFEXT)
 
            IF (IMONM > 0) CALL STOPTIME(TIMERS,89)
            IF (IMONM > 0) CALL STOPTIME(TIMERS,48)
@@ -7305,12 +7308,12 @@ C===============================================================================
             CALL GRAVIT_FVM_FEM(
      1                  IGRV    ,AGRV   ,NPC   ,TF       ,NODES%A     ,
      2                  NODES%V       ,NODES%X      ,SKEWS%SKEW  ,NODES%MS       ,SENSORS%SENSOR_TAB,
-     3                  NODES%WEIGHT ,LGRAV ,ITSK     ,ALE_CONNECTIVITY%NALE,NSENSOR, PYTHON)
+     3                  NODES%WEIGHT ,LGRAV ,ITSK     ,ALE_CONNECTIVITY%NALE,NSENSOR, PYTHON, OUTPUT%WFEXT)
          ELSE
             CALL GRAVIT(
      1                  IGRV    ,AGRV   ,NPC   ,TF       ,NODES%A     ,
      2                  NODES%V       ,NODES%X      ,SKEWS%SKEW  ,NODES%MS       ,SENSORS%SENSOR_TAB,
-     3                  NODES%WEIGHT ,LGRAV   ,ITSK  ,NSENSOR, PYTHON)
+     3                  NODES%WEIGHT ,LGRAV   ,ITSK  ,NSENSOR, PYTHON, OUTPUT%WFEXT)
          ENDIF
 !$OMP END PARALLEL
 
@@ -7324,7 +7327,7 @@ C----------------------
           IF (NFXBODY>0) THEN
              CALL FXGRVCOR(FXBIPM, FXBGRVI, NODES%A,  IGRV, AGRV,
      .                     NPC,    TF,      NODES%MS, NODES%V   , SKEWS%SKEW,
-     .                     FXBGRW, IAD_ELEM, FR_ELEM)
+     .                     FXBGRW, IAD_ELEM, FR_ELEM, OUTPUT%WFEXT)
             END IF
           IF (IMON>0) CALL STOPTIME(TIMERS,46)
           IF (IMONM > 0) CALL STOPTIME(TIMERS,TIMER_KIN)
@@ -7349,7 +7352,7 @@ C===============================================================================
           ITSK = OMP_GET_THREAD_NUM()
           CALL CFIELD_1(PYTHON,ICFIELD  ,CFIELD,NPC   ,TF    ,NODES%A,
      2                    NODES%V     ,NODES%X     ,XFRAME  ,NODES%MS,SENSORS%SENSOR_TAB,
-     3                    NODES%WEIGHT,LCFIELD,ITSK ,IFRAME,NSENSOR)
+     3                    NODES%WEIGHT,LCFIELD,ITSK ,IFRAME,NSENSOR, OUTPUT%WFEXT)
 !$OMP END PARALLEL
 
           IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
@@ -7624,10 +7627,10 @@ C-----------------------------------------------
       IF(IDAMP/=0)THEN
         IF (NS10E>0) THEN
           CALL DAMPING(NODFTSK,NODLTSK,VMD,NODES%VR,NODES%A ,NODES%AR ,DAMP,NODES%MS,NODES%IN,
-     .               IGRNOD,3+IRODDL*3,ITSK,NODES%WEIGHT,TAGSLV_RBY)
+     .               IGRNOD,3+IRODDL*3,ITSK,NODES%WEIGHT,TAGSLV_RBY,OUTPUT%WFEXT)
         ELSE
          CALL DAMPING(NODFTSK,NODLTSK,NODES%V ,NODES%VR,NODES%A ,NODES%AR ,DAMP,NODES%MS,NODES%IN,
-     .               IGRNOD,3+IRODDL*3,ITSK,NODES%WEIGHT,TAGSLV_RBY)
+     .               IGRNOD,3+IRODDL*3,ITSK,NODES%WEIGHT,TAGSLV_RBY,OUTPUT%WFEXT)
         END IF !(NS10E>0) THEN
       ELSEIF(NDAMP>0)THEN
         IF(NRDAMP==4)THEN
@@ -7636,7 +7639,7 @@ C-----------------------------------------------
           CALL DAMPING44(
      .                 3+IRODDL*3,NODES%V       ,
      .                 NODES%VR      ,NODES%A       ,NODES%AR      ,NODES%MS        ,NODES%IN      ,
-     .                 DAMPR   ,DAMP    ,IGRNOD  ,NODES%WEIGHT    ,TAGSLV_RBY)
+     .                 DAMPR   ,DAMP    ,IGRNOD  ,NODES%WEIGHT    ,TAGSLV_RBY       ,OUTPUT%WFEXT)
 !$OMP END SINGLE
 
         ELSE
@@ -7648,14 +7651,14 @@ C-----------------------------------------------
      .                 NODES%VR      ,NODES%A       ,NODES%AR      ,NODES%MS        ,NODES%IN      ,
      .                 DAMPR   ,DAMP    ,IGRNOD  ,NODES%WEIGHT    ,TAGSLV_RBY,
      .                 SKEWS%SKEW    ,ICONTACT,IDAMP_RDOF_TAB     ,NDAMP_VREL,ID_DAMP_VREL,
-     .                 FR_DAMP_VREL,IPARIT,ISPMD)
+     .                 FR_DAMP_VREL,IPARIT,ISPMD,OUTPUT%WFEXT)
          ELSE
            CALL DAMPING51(
      .                 3+IRODDL*3,NODES%V       ,
      .                 NODES%VR      ,NODES%A       ,NODES%AR      ,NODES%MS        ,NODES%IN      ,
      .                 DAMPR   ,DAMP    ,IGRNOD  ,NODES%WEIGHT    ,TAGSLV_RBY,
      .                 SKEWS%SKEW    ,ICONTACT,IDAMP_RDOF_TAB     ,NDAMP_VREL,ID_DAMP_VREL,
-     .                 FR_DAMP_VREL,IPARIT,ISPMD)
+     .                 FR_DAMP_VREL,IPARIT,ISPMD,OUTPUT%WFEXT)
          END IF
 !$OMP END SINGLE
 
@@ -7729,9 +7732,9 @@ C--------------------------
              IF (IMON>0) CALL STARTIME(TIMERS,6)
              IF (IMONM > 0) CALL STARTIME(TIMERS,49)
              IF (NS10E>0) THEN
-               CALL STATIC(VMD,NODES%VR,NODES%A,NODES%AR,NODES%MS,NODES%IN,IGRNOD,NODES%WEIGHT_MD)
+               CALL STATIC(VMD    ,NODES%VR,NODES%A,NODES%AR,NODES%MS,NODES%IN,IGRNOD,NODES%WEIGHT_MD,OUTPUT%WFEXT)
              ELSE
-               CALL STATIC(NODES%V,NODES%VR,NODES%A,NODES%AR,NODES%MS,NODES%IN,IGRNOD,NODES%WEIGHT_MD)
+               CALL STATIC(NODES%V,NODES%VR,NODES%A,NODES%AR,NODES%MS,NODES%IN,IGRNOD,NODES%WEIGHT_MD,OUTPUT%WFEXT)
              END IF
              IF (IMONM > 0) CALL STOPTIME(TIMERS,49)
              IF (IMON>0) CALL STOPTIME(TIMERS,6)
@@ -7754,13 +7757,13 @@ C--------------------------
      3                   NODES%VR    ,NODES%IN    ,NSENSOR,SENSORS%SENSOR_TAB,
      4                   NODES%WEIGHT,NODES%D     ,RBY    ,IFRAME ,
      5                   XFRAME,NODES%DR    ,PTR_SMS,
-     6                   TT_DOUBLE,NODES%DDP,PYTHON)
+     6                   TT_DOUBLE,NODES%DDP,PYTHON ,WFEXT)
 
              IF (FXVEL_FGEO ==1) THEN
                CALL FIXFINGEO(IBFV   ,NODES%A     ,NODES%V      ,NPC    ,TF     ,
      2                      VEL    ,NODES%MS    ,NODES%X      ,NODES%D      ,SENSORS%SENSOR_TAB ,
      3                      NODES%WEIGHT,CPTREAC,NODREAC,PTR_SMS,NSENSOR    ,
-     4                      FTHREAC,NODES%ITABM1,NODES%ITAB   )
+     4                      FTHREAC,NODES%ITABM1,NODES%ITAB, OUTPUT%WFEXT   )
              ENDIF
 C
              IF(IMON>0) THEN
@@ -7818,14 +7821,14 @@ C         Obsolete
      2     NPRW        ,NODES%MS       ,FSAV(1,NINTER+1),FR_WALL ,
      3     FANI(1,1+NFOA+2*(NSECT+NRBODY)),
      4     RWSAV       ,NODES%WEIGHT   ,FRWL6   ,NODXI_SMS, NODES%WEIGHT_MD,
-     5     SENSORS%SFSAV,SENSORS%FSAV,SENSORS%STABSEN,SENSORS%TABSENSOR)
+     5     SENSORS%SFSAV,SENSORS%FSAV,SENSORS%STABSEN,SENSORS%TABSENSOR, OUTPUT%WFEXT, OUTPUT%WFEXT_MD)
         ELSE
             CALL RGWAL0(
      1     NODES%X           ,NODES%A        ,NODES%V      ,RWBUF   ,LPRW,
      2     NPRW        ,NODES%MS       ,FSAV(1,NINTER+1),FR_WALL ,
      3     FANI(1,1+NFOA+2*(NSECT+NRBODY)),
      4     RWSAV       ,NODES%WEIGHT   ,FRWL6   ,NATIV_SMS, NODES%WEIGHT_MD,
-     5     SENSORS%SFSAV,SENSORS%FSAV,SENSORS%STABSEN,SENSORS%TABSENSOR)
+     5     SENSORS%SFSAV,SENSORS%FSAV,SENSORS%STABSEN,SENSORS%TABSENSOR, OUTPUT%WFEXT, OUTPUT%WFEXT_MD)
         ENDIF
 
 !$OMP END PARALLEL
@@ -7862,7 +7865,7 @@ C---------------
      2        SECFCUM,NODES%A             ,NODES%AR    ,SECBUF,NODES%MS      ,NODES%IN     ,
      3        NODES%X      ,FANI(1,NFOA+1),NODES%WEIGHT,XSEC  ,IAD_ELEM,FR_ELEM,
      4        RG_CUT ,IAD_CUT       ,FR_CUT,NODES%WEIGHT_MD,IOLDSECT,
-     5        SENSORS%STABSEN,SENSORS%SFSAV,SENSORS%TABSENSOR ,SENSORS%FSAV  )
+     5        SENSORS%STABSEN,SENSORS%SFSAV,SENSORS%TABSENSOR ,SENSORS%FSAV ,OUTPUT%WFEXT )
           IF(IMON>0) CALL STOPTIME(TIMERS,TIMER_IO)
         ENDIF
 
@@ -8664,7 +8667,7 @@ C Regular animation
      s   LOADP         ,TAGNCONT       ,LOADP_HYD_INTER,FORC           ,DRAPEG        ,
      t   USER_WINDOWS  ,OUTPUT         ,DT             ,OUTPUT%TH%TH_SURF%CHANNELS    ,
      u   TABLE         ,LOADS          ,SFANI          ,IPARIT         ,ptrX_offset   ,
-     v   SZ_NPCONT2    ,NPCONT2        ,GLOB_THERM     ,PBLAST)
+     v   SZ_NPCONT2    ,NPCONT2        ,GLOB_THERM     ,PBLAST         ,OUTPUT%WFEXT)
 C
         IF((MSTOP == 1 .AND. ICTLSTOP == 0) .OR. MSTOP == 2 .OR. DT2<=ZERO)THEN
           CALL SORTIE_ERROR(
@@ -8805,26 +8808,26 @@ C===============================================================================
       IF (IMP_CHK > 0) THEN
 #if defined(MUMPS5) 
          CALL IMP_CHKM(TIMERS,
-     1  NODES%ICODE  ,NODES%ISKEW  ,ISKWN  ,IPART  ,IXTG   ,IXS    ,IXQ    ,
-     2  ELEMENT%SHELL%IXC    ,IXT    ,IXP    ,IXR    ,IXTG1          ,NODES%ITAB   ,NODES%ITABM1 ,
-     3  NPC    ,IBCL   ,IBFV   ,SENSORS%SENSOR_TAB,NNLINK ,LNLINK ,IPARG  ,IGRV   ,
-     4  IPARI  ,INTERFACES%INTBUF_TAB,NPRW   ,ICONX  ,NPBY,LPBY   ,LRIVET ,
-     5  NSTRF  ,LJOINT ,NODES%ICODT  ,NODES%ICODR  ,ISKY  ,ELEMENT%PON%ADSKY,ELEMENT%PON%IAD_CONLD,
-     6  ILINK  ,LLINK  ,NODES%WEIGHT         ,ITASK ,IBVEL  ,LBVEL  ,FBVEL  ,
-     7  NODES%X      ,NODES%D      ,NODES%V      ,NODES%VR     ,NODES%DR     ,THKE   ,DAMP   ,NODES%MS     ,
-     8  NODES%IN     ,PM     ,SKEWS%SKEW   ,GEO    ,EANI   ,BUFMAT ,BUFGEO ,BUFSF  ,
-     9  TF     ,FORC   ,VEL    ,FSAV   ,AGRV   ,FR_WAVE,PARTS0 ,
-     A  ELBUF  ,RBY   ,RIVET,FR_ELEM,IAD_ELEM,NSENSOR,
-     B  WA     ,     NODES%A      ,NODES%AR     ,NODES%STIFN  ,NODES%STIFR  ,PARTSAV,ELEMENT%PON%FSKY   ,
-     C  FSKYI  ,IFRAME ,XFRAME ,W16    ,IACTIV ,ELEMENT%PON%FSKYM  ,IGEO   ,IPM    ,
-     D  TFEXT  ,NODFT  ,NODLT  ,NT_IMP ,NUM_IMP,NS_IMP ,NE_IMP ,IND_IMP,
-     L  IT     ,RWBUF  ,LPRW    ,FR_WALL,NBINTC ,INTLIST,
-     M  FANI(1,1+NFOA+2*(NSECT+NRBODY)),RWSAV  ,FSAVD ,
-     N  DIRUL  ,LGRAV  ,RBE3%IRBE3  ,RBE3%LRBE3  ,RBE3%FRBE3  ,
-     O  FRWL6  ,IRBE2  ,LRBE2 ,ICFIELD,LCFIELD,CFIELD,ELBUF_TAB,
-     P  NODES%WEIGHT_MD, STACK,SENSORS%SFSAV,SENSORS%FSAV,SENSORS%STABSEN,SENSORS%TABSENSOR,DRAPE_SH4N  ,
-     Q  DRAPE_SH3N,H3D_DATA ,NDDL0,NNZK0,IMPBUF_TAB,CPTREAC,FTHREAC,NODREAC,
-     R  DRAPEG ,OUTPUT%TH%TH_SURF,DPL0CLD,VEL0CLD,SNPC,STF)
+     1 NODES%ICODE      ,NODES%ISKEW          ,ISKWN       ,IPART             ,IXTG       ,IXS              ,IXQ         ,
+     2 ELEMENT%SHELL%IXC,IXT                  ,IXP         ,IXR               ,IXTG1      ,NODES%ITAB       ,NODES%ITABM1,
+     3 NPC              ,IBCL                 ,IBFV        ,SENSORS%SENSOR_TAB,NNLINK     ,LNLINK           ,IPARG       ,IGRV   ,
+     4 IPARI            ,INTERFACES%INTBUF_TAB,NPRW        ,ICONX             ,NPBY       ,LPBY             ,LRIVET      ,
+     5 NSTRF            ,LJOINT               ,NODES%ICODT ,NODES%ICODR       ,ISKY       ,ELEMENT%PON%ADSKY,ELEMENT%PON%IAD_CONLD,
+     6 ILINK            ,LLINK                ,NODES%WEIGHT,ITASK             ,IBVEL      ,LBVEL            ,FBVEL       ,
+     7 NODES%X          ,NODES%D              ,NODES%V     ,NODES%VR          ,NODES%DR   ,THKE             ,DAMP        ,NODES%MS,
+     8 NODES%IN         ,PM                   ,SKEWS%SKEW  ,GEO               ,EANI       ,BUFMAT           ,BUFGEO      ,BUFSF   ,
+     9 TF               ,FORC                 ,VEL         ,FSAV              ,AGRV       ,FR_WAVE,PARTS0   ,
+     A ELBUF            ,RBY                  ,RIVET       ,FR_ELEM           ,IAD_ELEM   ,NSENSOR          ,
+     B WA               ,NODES%A              ,NODES%AR    ,NODES%STIFN       ,NODES%STIFR,PARTSAV          ,ELEMENT%PON%FSKY,
+     C FSKYI            ,IFRAME               ,XFRAME      ,W16               ,IACTIV     ,ELEMENT%PON%FSKYM,IGEO        ,IPM     ,
+     D OUTPUT%WFEXT     ,NODFT                ,NODLT       ,NT_IMP            ,NUM_IMP    ,NS_IMP           ,NE_IMP      ,IND_IMP ,
+     L IT               ,RWBUF                ,LPRW        ,FR_WALL           ,NBINTC     ,INTLIST          ,
+     M FANI(1,1+NFOA+2*(NSECT+NRBODY)),RWSAV  ,FSAVD       ,
+     N DIRUL            ,LGRAV                ,RBE3%IRBE3  ,RBE3%LRBE3        ,RBE3%FRBE3 ,
+     O FRWL6            ,IRBE2                ,LRBE2       ,ICFIELD           ,LCFIELD    ,CFIELD           ,ELBUF_TAB,
+     P NODES%WEIGHT_MD  ,STACK,SENSORS%SFSAV  ,SENSORS%FSAV,SENSORS%STABSEN   ,SENSORS%TABSENSOR            ,DRAPE_SH4N  ,
+     Q DRAPE_SH3N       ,H3D_DATA             ,NDDL0       ,NNZK0             ,IMPBUF_TAB ,CPTREAC          ,FTHREAC     ,NODREAC ,
+     R DRAPEG           ,OUTPUT%TH%TH_SURF    ,DPL0CLD     ,VEL0CLD           ,SNPC       ,STF , OUTPUT%WFEXT_MD)
          MSTOP=2
 #else
         WRITE(6,*) __LINE__,"Fatal error: MUMPS required"
@@ -8849,7 +8852,7 @@ C----       10,11,12:ELBUF_C,BUFMAT_C,X_C,13,14:DD,DDR,15,16:X_ac,V_zero,23,24:A
      A  ELBUF  ,RBY   ,RIVET,FR_ELEM,IAD_ELEM,
      B  WA     ,NODES%A      ,NODES%AR     ,NODES%STIFN  ,NODES%STIFR  ,PARTSAV,ELEMENT%PON%FSKY   ,
      C  FSKYI  ,IFRAME ,XFRAME ,W16    ,IACTIV ,ELEMENT%PON%FSKYM  ,IGEO   ,IPM    ,
-     D  TFEXT  ,NODFT  ,NODLT  ,NT_IMP ,NUM_IMP,NS_IMP ,NE_IMP ,IND_IMP,
+     D  OUTPUT%WFEXT  ,NODFT  ,NODLT  ,NT_IMP ,NUM_IMP,NS_IMP ,NE_IMP ,IND_IMP,
      L  IT     ,RWBUF  ,LPRW   ,FR_WALL,NBINTC ,INTLIST,
      M  FANI(1,1+NFOA+2*(NSECT+NRBODY)),RWSAV  ,FSAVD ,
      N  GRAPHE , FAC_K  ,IPIV_K ,NKCOND,NSENSOR,
@@ -8914,7 +8917,7 @@ C
      Y XEDGE3N        ,SPH2SOL        ,STIFN_TMP  ,STIFR_TMP ,     DRAPE_SH4N , 
      Z DRAPE_SH3N     ,H3D_DATA       ,SUBSETS    ,IGRNOD    ,     FCONT_MAX,
      A FANI(1,NFNCA2+1),FANI(1,NFTCA2+1),NDDL0    ,NNZK0     ,IMPBUF_TAB ,
-     B DRAPEG         ,MAT_ELEM%MAT_PARAM  ,GLOB_THERM )
+     B DRAPEG         ,MAT_ELEM%MAT_PARAM  ,GLOB_THERM, OUTPUT )
 #else 
         WRITE(6,*) __LINE__,"Fatal error: MUMPS required"
         CALL FLUSH(6)
@@ -9057,7 +9060,7 @@ CC
      .                     NPARG,   NGROUP,       LENGTH,         IPARG,
      .                 ELBUF_TAB,       NODES%MS,         NODES%IN,        NODES%WEIGHT,
      .                   NXFRAME,   T_KIN ) 
-          TFEXT = TFEXT + T_KIN
+          OUTPUT%WFEXT = OUTPUT%WFEXT + T_KIN
         END IF 
 !        
 C----------------------------------
@@ -9162,7 +9165,7 @@ C===============================================================================
      D         FR_NBCC         ,ELEMENT%PON%IADQ    ,NODES%XDP         ,IGRNOD      ,
      E         NODES%DR              ,INTERFACES%INTBUF_TAB    ,NODES%ITAB        ,MULTI_FVM   ,
      F         ALE_CONNECTIVITY,NODES%DDP           ,NE_NERCVOIS ,NE_NESDVOIS ,
-     G         NE_LERCVOIS     ,NE_LESDVOIS   ,XCELL       ,XFACE      )
+     G         NE_LERCVOIS     ,NE_LESDVOIS   ,XCELL       ,XFACE      , OUTPUT%WFEXT)
 
 !$OMP END PARALLEL
 

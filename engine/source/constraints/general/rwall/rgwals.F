@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE RGWALS(X    ,A    ,V    ,RWL  ,NSW   ,
      1                  NSN  ,ITIED,MSR  ,MS   ,WEIGHT,
      2                  ICONT,FRWL6,IMP_S,NT_RW,IDDL  ,
-     3                  IKC  ,NDOF ,NODNX_SMS,WEIGHT_MD)
+     3                  IKC  ,NDOF ,NODNX_SMS,WEIGHT_MD,WFEXT,WFEXT_MD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,19 +50,15 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, ITIED, MSR,ICONT,IMP_S,NT_RW
-      INTEGER NSW(*), WEIGHT(*), IDDL(*),IKC(*),NDOF(*), NODNX_SMS(*),
-     .                WEIGHT_MD(*)
-C     REAL
-      my_real
-     .   X(*), A(*), V(*), RWL(*), MS(*)
-      DOUBLE PRECISION 
-     .   FRWL6(7,6)
+      INTEGER NSW(*), WEIGHT(*), IDDL(*),IKC(*),NDOF(*), NODNX_SMS(*),WEIGHT_MD(*)
+      my_real X(*), A(*), V(*), RWL(*), MS(*)
+      DOUBLE PRECISION FRWL6(7,6)
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT_MD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER M3, M2, M1, I, N, N3, N2, N1, J, K, JJ,NINDEX,
-     .        INDEX(NSN)
-C     REAL
+      INTEGER M3, M2, M1, I, N, N3, N2, N1, J, K, JJ,NINDEX, INDEX(NSN)
       my_real
      .   RA2, XWL, YWL, ZWL, VXW, VYW, VZW, TFXTN, FACT,
      .   TFXT, VX, VY, VZ, UX, UY, UZ, XC, YC, ZC, DP, XX, XN,
@@ -70,8 +66,7 @@ C     REAL
      .   FTDFT, FRIC, FRIC2, FCOE, XWLO, YWLO, ZWLO,
      .   F1(NSN), F2(NSN), F3(NSN), F4(NSN), F5(NSN), F6(NSN), F7(NSN),
      .   TFXT2, TFXTN2, WEWE2
-      DOUBLE PRECISION 
-     .   FRWL6_L(7,6)
+      DOUBLE PRECISION FRWL6_L(7,6)
 C-----------------------------------------------
       ICONT=0
       CALL MY_BARRIER
@@ -276,8 +271,8 @@ C
           TFXT=TFXT+HALF*DT1*TFXTN
           TFXT2=TFXT2+HALF*DT1*TFXTN2
 #include "atomic.inc"
-          TFEXT=TFEXT+TFXT
-          TFEXT_MD=TFEXT_MD+TFXT2
+          WFEXT=WFEXT+TFXT
+          WFEXT_MD=WFEXT_MD+TFXT2
 
           DO K = 1, 6
             FRWL6_L(1,K) = ZERO

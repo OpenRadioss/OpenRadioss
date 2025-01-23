@@ -79,7 +79,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    submodel_mod               ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE CONTRL(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS,USER_WINDOWS,MAT_ELEM,
-     .           NAMES_AND_TITLES,LIPART1,DEFAULTS,GLOB_THERM,PBLAST)
+     .           NAMES_AND_TITLES,LIPART1,DEFAULTS,GLOB_THERM,PBLAST,OUTPUT)
 C----------------------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -109,6 +109,7 @@ C-----------------------------------------------
       USE FORMAT_MOD
       use glob_therm_mod
       USE PBLAST_MOD
+      USE OUTPUT_MOD , ONLY : OUTPUT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -172,6 +173,7 @@ C-----------------------------------------------
       TYPE(DEFAULTS_), INTENT(INOUT)      :: DEFAULTS             !< Defaults mod
       type (glob_therm_) ,intent(inout)   :: glob_therm
       TYPE(PBLAST_), INTENT(INOUT)        :: PBLAST               !< PBLAST load type
+      TYPE(OUTPUT_),INTENT(INOUT) :: OUTPUT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1102,7 +1104,7 @@ C
       TABFIS=ZERO
       TABFWR=ZERO
       ECONTV = ZERO
-      TFEXT = ZERO
+      OUTPUT%WFEXT = ZERO
       REINT = ZERO
       UREINT = ZERO
       ECONTD = ZERO

@@ -29,10 +29,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    sensor_mod   ../common_source/modules/sensor_mod.F90
       !||====================================================================
-      SUBROUTINE AIRBAGA1(IVOLU  ,NJET    ,IBAGJET ,NVENT   ,IBAGHOL ,
-     2                    ICBAG  ,RVOLU   ,RBAGJET ,RBAGHOL ,RCBAG   ,
+      SUBROUTINE AIRBAGA1(IVOLU  ,NJET    ,IBAGJET ,NVENT   ,IBAGHOL    ,
+     2                    ICBAG  ,RVOLU   ,RBAGJET ,RBAGHOL ,RCBAG      ,
      3                    RVOLUV ,NPC     ,TF      ,NSENSOR ,SENSOR_TAB ,
-     4                    VOL    ,PMAIN ,GEO     ,IGEO    ,PM      )
+     4                    VOL    ,PMAIN   ,GEO     ,IGEO    ,PM         ,
+     5                    WFEXT )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -61,12 +62,12 @@ C-----------------------------------------------
       INTEGER NPC(*),IVOLU(*),NJET,IBAGJET(NIBJET,*),
      .        NVENT,IBAGHOL(NIBHOL,*),ICBAG(NICBAG,*),PMAIN,
      .        IGEO(NPROPGI,*)
-C     REAL
       my_real
      .   TF(*),RVOLU(*),RBAGJET(NRBJET,*),
      .   RBAGHOL(NRBHOL,*),RCBAG(NRCBAG,*),RVOLUV(NRVOLU,*),VOL,
      .   GEO(NPROPG,*),PM(NPROPM,*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -558,7 +559,7 @@ C------
         Q=-AMU*SQRT(P*AREA*ROT/VOL)*DV/AREA/DT1
        ENDIF
        IF (IMACH/=3.OR.ISPMD+1==PMAIN) THEN
-        TFEXT=TFEXT+(HALF*(P+POLD+Q+QOLD)-PEXT)*DV
+        WFEXT=WFEXT+(HALF*(P+POLD+Q+QOLD)-PEXT)*DV
         RVOLU(32)=RVOLU(32) + (HALF*(P+POLD)-PEXT)*DV
        ENDIF
 C------

@@ -20,21 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-C.../COM06/
-      INTEGER LCOM06
-      PARAMETER (LCOM06 = 58)
 C
-      COMMON /COM06DP/ TFEXT
       COMMON /COM06/ DTDES, DTHIS, DTFAC, DTMIN, VOLMIN,
-     .               REINT, 
-     .                      UREINT,ECONTV,EHOUR, DTOUTP,
+     .               REINT, UREINT,ECONTV,EHOUR, DTOUTP,
      .               TOUTP, T1S,   DT2S,  DT12S, 
      .               R2RFX1,R2RFX2,DAMPA, DAMPB, DAMPW,
      .               DTHIS1(9),DWMAD,T1SH,DTSTAT,TSTAT,
      .               DTABF(10),DTABFWR(10),ECONTD,ECONT_CUMU,
      .               DTDYNAIN, TDYNAIN
 
-      double precision TFEXT
       my_real
      .               DTDES, DTHIS, DTFAC, DTMIN, VOLMIN,
      .               REINT, UREINT,ECONTV,EHOUR, DTOUTP,

@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE CFIELD_1(PYTHON, ICFIELD  ,FAC   ,NPC   ,TF    ,A ,
      2                  V     ,X     ,XFRAME  ,MS,SENSOR_TAB,
-     3                  WEIGHT,IB,ITASK,IFRAME,NSENSOR)
+     3                  WEIGHT,IB,ITASK,IFRAME,NSENSOR,WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -61,30 +61,25 @@ C-----------------------------------------------
       INTEGER NPC(*)
       INTEGER ICFIELD(SIZFIELD,*),IB(*),IFRAME(LISKN,*)
       INTEGER WEIGHT(*),ITASK
-C     REAL
-      my_real
-     .   FAC(LFACLOAD,*), TF(*), A(3,*), V(3,*), MS(*),
-     .   X(3,*), XFRAME(NXFRAME,*)
+      my_real FAC(LFACLOAD,*), TF(*), A(3,*), V(3,*), MS(*),X(3,*), XFRAME(NXFRAME,*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NL, N1, IFRA, N2, IFUNC, K1, K2, K3, ISENS,K,NN,
-     .    IAD,J, PROC, IADF, IADL,IDIR,IFLAG,N1FRAM,IUN,JJ,IMOVFRAM
+      INTEGER NL, N1, IFRA, N2, IFUNC, K1, K2, K3, ISENS,K,NN,IAD, J, PROC, IADF, IADL,IDIR,IFLAG,N1FRAM,IUN,JJ,IMOVFRAM
       INTEGER :: IS_TABULATED
-      my_real
-     .   NX, NY, NZ, AXI, A0, AA, VV, FX, FY, FZ, AX, DYDX, TS,
-     .   GAMA, MA, VROT, X0, Y0, Z0, X1, Y1, Z1, X2, Y2, Z2, DWDT,
-     .   TFEXTT,VMX,VMY,VMZ,VROT2
-      my_real
-     .   DIST(3),AREL(3),VN1FRAM(3),AN1FRAM(3),DW(3)
+      my_real NX, NY, NZ, AXI, A0, AA, VV, FX, FY, FZ, AX, DYDX, TS,
+     .        GAMA, MA, VROT, X0, Y0, Z0, X1, Y1, Z1, X2, Y2, Z2, DWDT,
+     .        WFEXTT,VMX,VMY,VMZ,VROT2
+      my_real DIST(3),AREL(3),VN1FRAM(3),AN1FRAM(3),DW(3)
       my_real FINTER
 C-----------------------------------------------
       EXTERNAL FINTER
       DATA IUN/1/
 C-----------------------------------------------
-C
-      TFEXTT = ZERO
+
+      WFEXTT = ZERO
       DO NL=1,NLOADC
       NN   = ICFIELD(1,NL)
       IDIR = ICFIELD(2,NL)
@@ -113,7 +108,6 @@ C
         AN1FRAM(3) = ZERO
       ENDIF
       IFLAG=ICFIELD(8,NL)
-C 
       ISENS = ICFIELD(6,NL)
       IF(ISENS==0)THEN
           TS=TT
@@ -121,7 +115,7 @@ C
           TS = TT-SENSOR_TAB(ISENS)%TSTART
           IF(TS<ZERO)CYCLE
       ENDIF
-C
+
       IS_TABULATED = NPC(2*NFUNCT+IFUNC+1)
       IF(IS_TABULATED >= 0) THEN
         VROT  = FAC(1,NL)*FINTER(IFUNC,TS*FAC(2,NL),NPC,TF,DYDX)
@@ -148,7 +142,7 @@ C
         Y2 = XFRAME(8,IFRA+1)
         Z2 = XFRAME(9,IFRA+1)
       ENDIF
-C
+
        IF (IFLAG == 2 .AND. IMOVFRAM == 1) THEN
          DWDT  = FAC(1,NL)*DYDX
 #include "vectorize.inc"
@@ -163,14 +157,10 @@ C
            DW(1) = DWDT*X2
            DW(2) = DWDT*Y2
            DW(3) = DWDT*Z2
-           AREL(1) = DIST(1)*VROT2 +
-     .             DW(2) * DIST(3) - DW(3) * DIST(2)
-           AREL(2) = DIST(2)*VROT2 +
-     .             DW(3) * DIST(1) - DW(1) * DIST(3)
-           AREL(3) = DIST(3)*VROT2 +
-     .             DW(1) * DIST(2) - DW(2) * DIST(1)
-           CALL RELFRAM_M1(X(1,N1)  ,V(1,N1), AREL , XFRAME(1,IFRA+1),
-     .                   VN1FRAM , AN1FRAM   )
+           AREL(1) = DIST(1)*VROT2 + DW(2) * DIST(3) - DW(3) * DIST(2)
+           AREL(2) = DIST(2)*VROT2 + DW(3) * DIST(1) - DW(1) * DIST(3)
+           AREL(3) = DIST(3)*VROT2 + DW(1) * DIST(2) - DW(2) * DIST(1)
+           CALL RELFRAM_M1(X(1,N1)  ,V(1,N1), AREL , XFRAME(1,IFRA+1), VN1FRAM , AN1FRAM   )
            A(1,N1)=A(1,N1)+AREL(1)
            A(2,N1)=A(2,N1)+AREL(2)
            A(3,N1)=A(3,N1)+AREL(3)
@@ -178,8 +168,7 @@ C
              VMX=V(1,N1)+HALF*DT2*A(1,N1) ! Supposing A will be no more modified...
              VMY=V(2,N1)+HALF*DT2*A(2,N1)
              VMZ=V(3,N1)+HALF*DT2*A(3,N1) 
-             TFEXTT=TFEXTT 
-     .         +MS(N1)*(AREL(1)*VMX+AREL(2)*VMY+AREL(3)*VMZ)*DT12*WEIGHT(N1)
+             WFEXTT=WFEXTT + MS(N1)*(AREL(1)*VMX+AREL(2)*VMY+AREL(3)*VMZ)*DT12*WEIGHT(N1)
            END IF
          ENDDO
        ELSEIF(IFLAG == 2) THEN
@@ -196,12 +185,9 @@ C
            DW(1) = DWDT*X2
            DW(2) = DWDT*Y2
            DW(3) = DWDT*Z2
-           AREL(1) = DIST(1)*VROT2 +
-     .             DW(2) * DIST(3) - DW(3) * DIST(2)
-           AREL(2) = DIST(2)*VROT2 +
-     .             DW(3) * DIST(1) - DW(1) * DIST(3)
-           AREL(3) = DIST(3)*VROT2 +
-     .             DW(1) * DIST(2) - DW(2) * DIST(1)
+           AREL(1) = DIST(1)*VROT2 + DW(2) * DIST(3) - DW(3) * DIST(2)
+           AREL(2) = DIST(2)*VROT2 + DW(3) * DIST(1) - DW(1) * DIST(3)
+           AREL(3) = DIST(3)*VROT2 + DW(1) * DIST(2) - DW(2) * DIST(1)
            A(1,N1)=A(1,N1)+AREL(1)
            A(2,N1)=A(2,N1)+AREL(2)
            A(3,N1)=A(3,N1)+AREL(3)
@@ -209,8 +195,7 @@ C
              VMX=V(1,N1)+HALF*DT2*A(1,N1) ! Supposing A will be no more modified...
              VMY=V(2,N1)+HALF*DT2*A(2,N1)
              VMZ=V(3,N1)+HALF*DT2*A(3,N1) 
-             TFEXTT=TFEXTT 
-     .         +MS(N1)*(AREL(1)*VMX+AREL(2)*VMY+AREL(3)*VMZ)*DT12*WEIGHT(N1)
+             WFEXTT=WFEXTT+MS(N1)*(AREL(1)*VMX+AREL(2)*VMY+AREL(3)*VMZ)*DT12*WEIGHT(N1)
            END IF
          ENDDO
        ELSEIF(IMOVFRAM == 1) THEN
@@ -226,8 +211,7 @@ C
            AREL(1) = DIST(1)*VROT2
            AREL(2) = DIST(2)*VROT2
            AREL(3) = DIST(3)*VROT2
-           CALL RELFRAM_M1(X(1,N1)  ,V(1,N1), AREL , XFRAME(1,IFRA+1),
-     .                   VN1FRAM , AN1FRAM   )
+           CALL RELFRAM_M1(X(1,N1)  ,V(1,N1), AREL , XFRAME(1,IFRA+1),VN1FRAM , AN1FRAM   )
            A(1,N1)=A(1,N1)+AREL(1)
            A(2,N1)=A(2,N1)+AREL(2)
            A(3,N1)=A(3,N1)+AREL(3)
@@ -235,8 +219,7 @@ C
              VMX=V(1,N1)+HALF*DT2*A(1,N1) ! Supposing A will be no more modified...
              VMY=V(2,N1)+HALF*DT2*A(2,N1)
              VMZ=V(3,N1)+HALF*DT2*A(3,N1) 
-             TFEXTT=TFEXTT 
-     .         +MS(N1)*(AREL(1)*VMX+AREL(2)*VMY+AREL(3)*VMZ)*DT12*WEIGHT(N1)
+             WFEXTT=WFEXTT+MS(N1)*(AREL(1)*VMX+AREL(2)*VMY+AREL(3)*VMZ)*DT12*WEIGHT(N1)
            END IF
          ENDDO
        ELSE
@@ -259,8 +242,7 @@ C
              VMX=V(1,N1)+HALF*DT2*A(1,N1) ! Supposing A will be no more modified...
              VMY=V(2,N1)+HALF*DT2*A(2,N1)
              VMZ=V(3,N1)+HALF*DT2*A(3,N1) 
-             TFEXTT=TFEXTT 
-     .         +MS(N1)*(AREL(1)*VMX+AREL(2)*VMY+AREL(3)*VMZ)*DT12*WEIGHT(N1)
+             WFEXTT=WFEXTT +MS(N1)*(AREL(1)*VMX+AREL(2)*VMY+AREL(3)*VMZ)*DT12*WEIGHT(N1)
            END IF
          ENDDO
        ENDIF
@@ -270,7 +252,7 @@ C      /---------------/
       ENDDO
 C
 #include "atomic.inc"
-      TFEXT = TFEXT + TFEXTT
+      WFEXT = WFEXT + WFEXTT
 #include "atomend.inc"
 C
       RETURN

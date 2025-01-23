@@ -34,7 +34,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE PRESSURE_CYL(
      .           LOADS     ,TABLE     ,NSENSOR   ,SENSOR_TAB,IFRAME    ,
      .           DT1       ,X         ,V         ,ACC       ,FEXT      ,
-     .           H3D_DATA  ,CPTREAC   ,FTHREAC   ,NODREAC   ,FSKY      )
+     .           H3D_DATA  ,CPTREAC   ,FTHREAC   ,NODREAC   ,FSKY      ,
+     .           WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -71,6 +72,7 @@ C-----------------------------------------------
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
       TYPE (LOADS_)      ,INTENT(IN) :: LOADS
       TYPE (H3D_DATABASE),INTENT(IN) :: H3D_DATA
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -78,10 +80,10 @@ C-----------------------------------------------
      .   NSEG,NDIM,NPOINT
       my_real :: LEN,DIRX,DIRY,DIRZ,
      .   RMAX,XFACR,XFACT,YFAC,
-     .   NX,NY,NZ,FX,FY,FZ,SEGP,PRESS,TFEXTT
+     .   NX,NY,NZ,FX,FY,FZ,SEGP,PRESS,WFEXTT
       my_real, DIMENSION(3) :: P0,DIR,A,B,C,D,M
 c=======================================================================
-      TFEXTT = ZERO
+      WFEXTT = ZERO
       IANIM  = ANIM_V(5) + OUTP_V(5) + H3D_DATA%N_VECT_FINT
      .       + ANIM_V(6) + OUTP_V(6) + H3D_DATA%N_VECT_FEXT
 
@@ -141,7 +143,7 @@ c
             FX = PRESS * NX
             FY = PRESS * NY
             FZ = PRESS * NZ
-            TFEXTT = TFEXTT 
+            WFEXTT = WFEXTT
      .             + (FX*(V(1,N1) + V(1,N2) + V(1,N3))
      .             +  FY*(V(2,N1) + V(2,N2) + V(2,N3))
      .             +  FZ*(V(3,N1) + V(3,N2) + V(3,N3))) * DT1
@@ -177,7 +179,7 @@ c           normal to segment = vector prod of 2 diagonals
             FX = PRESS * NX
             FY = PRESS * NY
             FZ = PRESS * NZ
-            TFEXTT = TFEXTT 
+            WFEXTT = WFEXTT
      .             + (FX*(V(1,N1) + V(1,N2) + V(1,N3) + V(1,N4))
      .             +  FY*(V(2,N1) + V(2,N2) + V(2,N3) + V(2,N4))
      .             +  FZ*(V(3,N1) + V(3,N2) + V(3,N3) + V(3,N4))) * DT1
@@ -270,7 +272,7 @@ c
 c--------------------
 c     external forces
 c--------------------
-      TFEXT = TFEXT + TFEXTT
+      WFEXT = WFEXT + WFEXTT
 c-----------
       RETURN
       END

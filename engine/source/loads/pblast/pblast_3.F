@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE PBLAST_3(PBLAST,
      *                    ILOADP  ,FAC      ,A       ,V         ,X       ,
      1                    IADC    ,FSKY     ,LLOADP  ,FEXT      ,
-     2                    ITAB    ,H3D_DATA ,NL      ,DTMIN_LOC ,TFEXT_LOC,
+     2                    ITAB    ,H3D_DATA ,NL      ,DTMIN_LOC ,WFEXT_LOC,
      4                    TH_SURF ,NSEGPL)
 C-----------------------------------------------
 C   M o d u l e s
@@ -71,7 +71,8 @@ C-----------------------------------------------
       INTEGER,INTENT(INOUT) :: ILOADP(SIZLOADP,NLOADP)
       INTEGER,INTENT(IN) :: IADC(*)
       INTEGER, INTENT(IN) :: ITAB(NUMNOD),NL
-      my_real,INTENT(INOUT) :: DTMIN_LOC,TFEXT_LOC
+      my_real,INTENT(INOUT) :: DTMIN_LOC
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT_LOC
       my_real,INTENT(IN) :: V(3,NUMNOD),X(3,NUMNOD)
       my_real,INTENT(INOUT) :: FAC(LFACLOAD,NLOADP)
       my_real,INTENT(INOUT) :: A(3,NUMNOD),FSKY(8,SFSKY/8), FEXT(3,NUMNOD)
@@ -169,7 +170,7 @@ C-----------------------------------------------
 C-----------------------------------------------,
 C   S o u r c e   C o d e
 C-----------------------------------------------
-      TFEXT_LOC = ZERO
+      WFEXT_LOC = ZERO
       IANIM_OR_H3D = ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT + ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT  !output
 
       !Z Range (tables)
@@ -462,7 +463,7 @@ C-----------------------------------------------
         !External Force work
         ! on a given node : DW = <F,V>*dt
         ! for this current 4-node or 3-node face :   DW = sum(   <F_k,V_k>*dt       k=1,NPT)   where F_k=Fel/NPT
-        TFEXT_LOC=TFEXT_LOC+DT1*(   PBLAST%PBLAST_TAB(IL)%FX(I) * SUM(  V( 1, NN(1:NINT(NPt))  )  )
+        WFEXT_LOC=WFEXT_LOC+DT1*(   PBLAST%PBLAST_TAB(IL)%FX(I) * SUM(  V( 1, NN(1:NINT(NPt))  )  )
      +                            + PBLAST%PBLAST_TAB(IL)%FY(I) * SUM(  V( 2, NN(1:NINT(NPt))  )  )
      +                            + PBLAST%PBLAST_TAB(IL)%FZ(I) * SUM(  V( 3, NN(1:NINT(NPt))  )  )
      +                          )

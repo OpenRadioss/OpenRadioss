@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod   ../common_source/modules/groupdef_mod.F
       !||====================================================================
-      SUBROUTINE STATIC(V,VR,A,AR,MS,IN,IGRNOD,WEIGHT_MD)
+      SUBROUTINE STATIC(V,VR,A,AR,MS,IN,IGRNOD,WEIGHT_MD,WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -43,7 +43,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com06_c.inc"
+!#include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "scr05_c.inc"
 #include      "scr11_c.inc"
@@ -54,20 +54,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER
-     .   WEIGHT_MD(*)
-      my_real
-     .   V(3,*), VR(3,*), A(3,*), AR(3,*),MS(*),IN(*)
+      INTEGER WEIGHT_MD(*)
+      my_real V(3,*), VR(3,*), A(3,*), AR(3,*),MS(*),IN(*)
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD) :: IGRNOD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER J, I,LAST,N,NGR2USR,ISTAT2,ISTAT3
-C     REAL
-      my_real
-     .   ENCINO, OMEGA, UOMEGA, DOMEGA, OMEGA2, ENCINT, ENCINN,
-     .   ENCGRP,ENCGRPN, ENCGRPR,ENCGRPRN
+      my_real ENCINO, OMEGA, UOMEGA, DOMEGA, OMEGA2, ENCINT, ENCINN,ENCGRP,ENCGRPN, ENCGRPR,ENCGRPRN
       EXTERNAL NGR2USR
 C-----------------------------------------------
       DATA ENCINO /0.0/
@@ -100,7 +96,7 @@ C
            A(2,I)  = -DOMEGA*V(2,I)  + UOMEGA*A(2,I)
            A(3,I)  = -DOMEGA*V(3,I)  + UOMEGA*A(3,I)
         ENDDO
-        IF (ISPMD==0) TFEXT = TFEXT - ENCINT + ENCINN
+        IF (ISPMD==0) WFEXT = WFEXT - ENCINT + ENCINN
        END IF !(IDTMINS==0) THEN
 C     
         IF(IRODDL/=0)THEN
@@ -111,7 +107,7 @@ C
            AR(2,I) = -DOMEGA*VR(2,I) + UOMEGA*AR(2,I)
            AR(3,I) = -DOMEGA*VR(3,I) + UOMEGA*AR(3,I)
           ENDDO
-         IF (ISPMD==0) TFEXT = TFEXT - ENCINT + ENCINN
+         IF (ISPMD==0) WFEXT = WFEXT - ENCINT + ENCINN
         ENDIF
 C
       ELSEIF(ISTAT2==1.AND.ISTATG==0)THEN
@@ -120,7 +116,7 @@ C
        ENCINT = ENCIN+ENROT
        IF(ENCINT<ENCINO)THEN
         IF (IMACH/=3.OR.(IMACH==3.AND.ISPMD==0))
-     .   TFEXT = TFEXT - ENCINT 
+     .   WFEXT = WFEXT - ENCINT
         ENCINO=ZERO
         LAST=0
 C
@@ -177,7 +173,7 @@ C
        ENCGRPN = ENCGRP * OMEGA2
        ENCGRPRN = ENCGRPR * OMEGA2
        IF (IMACH/=3.OR.(IMACH==3.AND.ISPMD==0))
-     .  TFEXT = TFEXT + ENCGRPN - ENCGRP + ENCGRPRN - ENCGRPR
+     .  WFEXT = WFEXT + ENCGRPN - ENCGRP + ENCGRPRN - ENCGRPR
 C
       ELSEIF(ISTAT2==1.AND.ISTATG/=0)THEN
 C
@@ -185,7 +181,7 @@ C
        ENCINT = ENCIN+ENROT
        IF(ENCINT<ENCINO)THEN
         IF (IMACH/=3.OR.(IMACH==3.AND.ISPMD==0))
-     .   TFEXT = TFEXT - ENCINT 
+     .   WFEXT = WFEXT - ENCINT
         ENCINO=ZERO
         LAST=0
 C

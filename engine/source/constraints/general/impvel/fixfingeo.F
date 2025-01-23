@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE FIXFINGEO(IBFV   ,A     ,V      ,NPC    ,TF       ,
      2                     VEL    ,MS    ,X      ,D      ,SENSOR_TAB,
      3                     WEIGHT ,CPTREAC,NODREAC,NODNX_SMS,NSENSOR,
-     4                     FTHREAC,ITABM1,ITAB   ) 
+     4                     FTHREAC,ITABM1,ITAB , WFEXT  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -47,7 +47,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com06_c.inc"
+!#include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
 #include      "sms_c.inc"
@@ -58,33 +58,27 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NPC(*),CPTREAC,NODREAC(*)
-      INTEGER IBFV(NIFV,*),WEIGHT(*),
-     .        NODNX_SMS(*),ITABM1(*),ITAB(*)
-C     REAL
-      my_real
-     .   A(3,*), V(3,*), TF(*), VEL(LFXVELR,*), MS(*), X(3,*), D(3,*),
-     .   FTHREAC(6,*)
+      INTEGER IBFV(NIFV,*),WEIGHT(*), NODNX_SMS(*),ITABM1(*),ITAB(*)
+      my_real A(3,*), V(3,*), TF(*), VEL(LFXVELR,*), MS(*), X(3,*), D(3,*),FTHREAC(6,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, I, J, K, L, I1, N1, N2, ISENS,
      .        ILENC, IPOSC, IADC, ICOOR, ISMOOTH
-C     REAL
-      my_real
-     .   AX, AXI, VV, A0, AA, FAC, FACX, STARTT, STOPT, TS,
-     .   DYDX, DW, DW2, DD,
-     .   YC, TSC, DYDXC, RW_SMS,
-     .   SKEW1, SKEW2, SKEW3,
-     .   XI, YI, ZI, XF, YF, ZF, XA, YA, ZA,
-     .   AOLD0(3),
-     .   VX1, VY1, VZ1, VX2, VY2, VZ2
+      my_real AX, AXI, VV, A0, AA, FAC, FACX, STARTT, STOPT, TS,
+     .        DYDX, DW, DW2, DD,
+     .        YC, TSC, DYDXC, RW_SMS,
+     .        SKEW1, SKEW2, SKEW3,
+     .        XI, YI, ZI, XF, YF, ZF, XA, YA, ZA,
+     .        AOLD0(3),
+     .        VX1, VY1, VZ1, VX2, VY2, VZ2
       my_real, DIMENSION(:), ALLOCATABLE :: MASS, VX, VY, VZ      
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
+      DOUBLE PRECISION, INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      my_real
-     .   FINTER2,FINTER2_SMOOTH
+      my_real FINTER2,FINTER2_SMOOTH
       EXTERNAL FINTER2,FINTER2_SMOOTH
 C-----------------------------------------------
       IF(N2D==1)THEN
@@ -228,9 +222,9 @@ C
         VEL(6,N) = YC
 C  
 C IF sms on the degree of freedom,
-C dw was already counted in TFEXT, in sms_fixvel...
+C dw was already counted in WFEXT, in sms_fixvel...
         DW      = VEL(4,N)
-        TFEXT   = TFEXT + RW_SMS*DW
+        WFEXT   = WFEXT + RW_SMS*DW
         VEL(4,N)= (ONE-RW_SMS)*VEL(4,N)
 C
         YC = YC * FAC
@@ -249,7 +243,7 @@ C
         A(3,I)=SKEW3*YC
 C
         DW = FOURTH*MS(I)*(YC*DT12+TWO*VV)*AA*AXI*WEIGHT(I)
-        TFEXT = TFEXT + DT1*DW
+        WFEXT = WFEXT + DT1*DW
 C  
 C dt2*dw into memory ; if sms on the degree of freedom,
 C part of dt2*dw was already computed and stored in sms_fixvel...

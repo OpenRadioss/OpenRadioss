@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    finter    ../engine/source/tools/curve/finter.F
       !||====================================================================
       SUBROUTINE VOLPFV(IVOLU,RVOLU  ,VOL,FSAV,NPC,
-     2                  TF   ,PMAIN)
+     2                  TF   ,PMAIN, WFEXT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -43,17 +43,13 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPC(*),IVOLU(*), PMAIN
-C     REAL
-      my_real
-     .   TF(*),RVOLU(*),FSAV(*)
+      my_real TF(*),RVOLU(*),FSAV(*)
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ITFUN,ITYPFUN
-C     REAL
-      my_real
-     .   VOL,P0,V0,DYDX,AREA,VEPS,VINC,POLD,VOLP,PEXT,VOLD,PRES,
-     .   Q,QOLD,DV,SCALE,XFUN
+      my_real VOL,P0,V0,DYDX,AREA,VEPS,VINC,POLD,VOLP,PEXT,VOLD,PRES,Q,QOLD,DV,SCALE,XFUN
       my_real FINTER 
       EXTERNAL FINTER
 C-----------------------------------------------
@@ -90,7 +86,7 @@ C
       Q = ZERO
       IF (ISPMD+1==PMAIN) THEN
         DV=VOL-VOLD
-        TFEXT=TFEXT+(HALF*(Q+QOLD+PRES+POLD))*DV
+        WFEXT=WFEXT+(HALF*(Q+QOLD+PRES+POLD))*DV
         FSAV(1)=ZERO
         FSAV(2)=VOL
         FSAV(3)=PRES

@@ -41,7 +41,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3             PLD     ,IPARG   ,ELBUF_TAB,ISPHIO  ,VSPHIO  ,
      4             PM      ,IPART   ,IPARTSP  ,IGRSURF ,
      5             LPRTSPH ,LONFSPH ,IWA      ,MWA     ,WA      ,
-     6             VNORMAL ,SPHVELN ,XDP,IBUFSSG_IO    ,OFF_SPH_R2R)
+     6             VNORMAL ,SPHVELN ,XDP,IBUFSSG_IO    ,OFF_SPH_R2R,
+     7             WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -49,7 +50,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD            
       USE SPHBOX
       USE GROUPDEF_MOD
-C----6---------------------------------------------------------------7---------8
+C----6------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -84,6 +85,7 @@ C     REAL
      .   XDP(3,*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION (NGROUP) :: ELBUF_TAB
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -102,7 +104,7 @@ C-----------------------------------------------
      .        NSEGB,IMPOSE2,INOD0,NN,OFF,TFLAG,NP2SORT_OLD,KOFF,IJ
 C     REAL
       my_real
-     .       TFEXTT,VOLO,
+     .       WFEXTT,VOLO,
      .       X1,X2,X3,X4,XP,Y1,Y2,Y3,Y4,YP,Z1,Z2,Z3,Z4,ZP,
      .       XI,YI,ZI,XJ,YJ,ZJ,DI,DD,DMIN,DMAX,DPS,
      .       XG,YG,ZG,XX(12),XX_OLD(12),VMAX,VI,DPS_OLD,XI_OLD,
@@ -123,7 +125,7 @@ C-----------------------------------------------
       OFF_SPH(1:NUMSPH) = ZERO
       TAG_SPH(1:NSPHR) = ZERO
 
-      TFEXTT=ZERO
+      WFEXTT=ZERO
 C-----------------------------------------------
       DO I=1,NSPHIO
       ITYPE=ISPHIO(1,I)
@@ -630,7 +632,7 @@ C      general outlets & silent boundary.
           N   =LONFSPH(IACTIVE)
           IF(KXSP(2,N)<0)THEN
             INOD=KXSP(3,N)
-            IF(TT/=ZERO)TFEXTT=TFEXTT-HALF*MS(INOD)
+            IF(TT/=ZERO)WFEXTT=WFEXTT-HALF*MS(INOD)
      .    *(V(1,INOD)*V(1,INOD)+V(2,INOD)*V(2,INOD)+V(3,INOD)*V(3,INOD))
             V(1,INOD)=ZERO
             V(2,INOD)=ZERO
@@ -701,7 +703,7 @@ c            IN2B=IBUFSSG(IAD+1)
             GBUF => ELBUF_TAB(NG)%GBUF
             K=N-NFT
             VOLO=GBUF%VOL(K)
-            TFEXTT=TFEXTT-VOLO*GBUF%EINT(K)
+            WFEXTT=WFEXTT-VOLO*GBUF%EINT(K)
             GBUF%EINT(K)=ZERO
 !
             GBUF%SIG(JJ(1)+K)=ZERO
@@ -809,7 +811,7 @@ c 2) treatment of remote neighbours only
      .                                 KXSP, IXSP)
 C-------------------------------------------
 #include "atomic.inc"
-       TFEXT=TFEXT+TFEXTT
+       WFEXT=WFEXT+WFEXTT
 #include "atomend.inc"
 C-------------------------------------------
         DEALLOCATE(OFF_SPH,TAG_SPH)

@@ -40,6 +40,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ALE_MOD
+      USE OUTPUT_MOD , ONLY : WFEXT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,7 +75,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      my_real POLD(MVSIZ), VAVG, E1, E2, E3, E4, E5, E6, DTA, TFEXTT   
+      my_real POLD(MVSIZ), VAVG, E1, E2, E3, E4, E5, E6, DTA, WFEXTT   
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -123,13 +124,13 @@ C
 C      
       !NO NEED TO UPDATE PRESSURE CALLING EOSMAIN SUBROUTINE FOR THESE TWO MATERIAL LAWS SINCE PRESSURE IS NOT ENERGY DEPENDANT.
       IF(MLN==21)THEN
-        TFEXTT = ZERO
+        WFEXTT = ZERO
         DO I=1,NEL
           EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))  
-          TFEXTT=TFEXTT-DVOL(I)*PSH(I)                                
+          WFEXTT=WFEXTT-DVOL(I)*PSH(I)                                
         ENDDO
 #include "atomic.inc"
-        TFEXT = TFEXT + TFEXTT
+        WFEXT = WFEXT + WFEXTT
 #include "atomend.inc"
         
       ENDIF      

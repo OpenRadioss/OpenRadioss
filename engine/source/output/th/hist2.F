@@ -92,7 +92,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      L                 IGAUP   ,NGAUP     ,ITTYP    ,SIZE_MES    ,
      M                 RTHBUF  ,THKE      ,STACK    ,ISPHIO      ,VSPHIO    ,
      N                 ITHFLAG ,PINCH_DATA,MULTI_FVM,W           ,SITHBUF   ,
-     Q                 FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM)
+     Q                 FSAVSURF,NEED_TO_REINIT_FSAV ,GLOB_THERM  ,OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -109,6 +109,7 @@ C-----------------------------------------------
       USE EBCS_MOD , only : t_ebcs_tab
       USE TH_SURF_MOD , only : TH_SURF_NUM_CHANNEL
       use glob_therm_mod
+      USE OUTPUT_MOD , ONLY : OUTPUT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -174,7 +175,8 @@ C-----------------------------------------------
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MATPARAM_TAB
       TYPE (glob_therm_), INTENT(IN) :: glob_therm
       my_real, INTENT(INOUT) :: FSAVSURF(TH_SURF_NUM_CHANNEL,NSURF)
-      LOGICAL, INTENT(INOUT) :: NEED_TO_REINIT_FSAV !< boolean to re-initialize PARTSAV array 
+      LOGICAL, INTENT(INOUT) :: NEED_TO_REINIT_FSAV !< boolean to re-initialize PARTSAV array
+      TYPE(OUTPUT_),INTENT(INOUT) :: OUTPUT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -294,7 +296,7 @@ C------------------------
           WA(II+6) =XMASS
           WA(II+7) =DT2
           WA(II+8) =ENROT
-          WA(II+9) =TFEXT
+          WA(II+9) =OUTPUT%WFEXT
           WA(II+10)=REINT
           WA(II+11)=ECONT+ECONT_CUMU+ECONTV+ECONTD   ! Global contact energy : Sum of contact energies
           WA(II+12)=EHOUR

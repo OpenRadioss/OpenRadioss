@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE PBLAST_LOAD_COMPUTATION (PBLAST,ILOADP  ,FAC   ,A  , V   ,X ,
      1                        IADC    ,FSKY    ,LLOADP   ,FEXT    ,
-     2                        ITAB    ,H3D_DATA,TH_SURF )
+     2                        ITAB    ,H3D_DATA,TH_SURF  ,WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -71,11 +71,13 @@ C-----------------------------------------------
       my_real,INTENT(INOUT) :: A(3,NUMNOD),FSKY(8,SFSKY/8), FEXT(3,NUMNOD)
       TYPE(H3D_DATABASE),INTENT(IN) :: H3D_DATA
       TYPE (TH_SURF_) , INTENT(INOUT) :: TH_SURF
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
        INTEGER :: NL, ABAC_ID, ID, II, IJK, NN(4), NNOD, IAD , IL, NSEGPL
-       my_real :: DTMIN_LOC, TFEXT_LOC, T_STOP, TA_FIRST
+       my_real :: DTMIN_LOC, T_STOP, TA_FIRST
+       DOUBLE PRECISION :: WFEXT_LOC
        LOGICAL :: IS_RESET
 
 C-----------------------------------------------
@@ -102,8 +104,8 @@ C-----------------------------------------------,
 C   S o u r c e   C o d e
 C-----------------------------------------------
 !$OMP PARALLEL
-!$OMP+ SHARED(FAC,A,V,X,TFEXT,IADC,FSKY,LLOADP,FEXT,ITAB,H3D_DATA,TT,ILOADP)
-!$OMP+ PRIVATE(ABAC_ID,ID,DTMIN_LOC,NL,TFEXT_LOC,TA_FIRST,IJK)
+!$OMP+ SHARED(FAC,A,V,X,WFEXT,IADC,FSKY,LLOADP,FEXT,ITAB,H3D_DATA,TT,ILOADP)
+!$OMP+ PRIVATE(ABAC_ID,ID,DTMIN_LOC,NL,WFEXT_LOC,TA_FIRST,IJK)
 
        !-----------------------------------------------
        !   LOOP OVER all /LOAD/PBLAST options
@@ -117,7 +119,7 @@ C-----------------------------------------------
          T_STOP   = FAC(13,NL)
          IL       = NL-NLOADP_F
          IS_RESET = PBLAST%PBLAST_TAB(IL)%IS_RESET
-         TFEXT_LOC = ZERO
+         WFEXT_LOC = ZERO
          DTMIN_LOC = EP20
 
          IF(TT <= T_STOP)THEN
@@ -127,7 +129,7 @@ C-----------------------------------------------
                CALL PBLAST_1(PBLAST,
      1                       ILOADP  ,FAC      ,A        ,V         ,X        ,
      2                       IADC    ,FSKY     ,LLOADP   ,FEXT      ,
-     3                       ITAB    ,H3D_DATA ,NL       ,DTMIN_LOC ,TFEXT_LOC,
+     3                       ITAB    ,H3D_DATA ,NL       ,DTMIN_LOC ,WFEXT_LOC,
      4                       TH_SURF ,NSEGPL   )
      
              CASE(2)
@@ -135,14 +137,14 @@ C-----------------------------------------------
                CALL PBLAST_2(PBLAST,
      1                       ILOADP  ,FAC      ,A        ,V         ,X        ,
      2                       IADC    ,FSKY     ,LLOADP   ,FEXT      ,
-     3                       ITAB    ,H3D_DATA ,NL       ,DTMIN_LOC ,TFEXT_LOC,
+     3                       ITAB    ,H3D_DATA ,NL       ,DTMIN_LOC ,WFEXT_LOC,
      4                       TH_SURF ,NSEGPL   )
              CASE(3)
                !--- LOADING MODEL : SURFACE BURST, SPHERICAL CHARGE
                CALL PBLAST_3(PBLAST,
      1                       ILOADP  ,FAC      ,A        ,V         ,X        ,
      2                       IADC    ,FSKY     ,LLOADP   ,FEXT      ,
-     3                       ITAB    ,H3D_DATA ,NL       ,DTMIN_LOC ,TFEXT_LOC,
+     3                       ITAB    ,H3D_DATA ,NL       ,DTMIN_LOC ,WFEXT_LOC,
      4                       TH_SURF ,NSEGPL   )
      
              END SELECT 
@@ -176,7 +178,7 @@ C-----------------------------------------------
          ENDIF
 
 #include "lockon.inc"
-         TFEXT = TFEXT + TFEXT_LOC
+         WFEXT = WFEXT + WFEXT_LOC
          ! Time Step (DT_PBLAST) and corresponding option id (IDT_PBLAST)
          ! if nothing was loaded : set time step to go on arrival time (no CPU time wasted in nothing happen elsewhere)
          ! if load has started, use positive impulse to determine a time step for this current option

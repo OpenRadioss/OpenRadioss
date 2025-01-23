@@ -74,7 +74,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER          :: I, J, K
       INTEGER          :: ISENS,NVERTEX,INOd,II
-      my_real          :: TS,A0, TFEXTT
+      my_real          :: TS,A0
       my_real          :: M_CELL(MVSIZ),ACCEL(3,MVSIZ),SKEW(LSKEW,*)
       LOGICAL          :: debug_outp
       INTEGER          :: idbf,idbl    

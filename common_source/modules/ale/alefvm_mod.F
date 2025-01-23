@@ -111,7 +111,7 @@ C-----------------------------------------------
           INTEGER IFORM
           INTEGER IOUTP_EPSDOT
           INTEGER IOUTP_BCS
-          INTEGER IOUTP_TFEXT
+          INTEGER IOUTP_WFEXT
           INTEGER IWFEXT
           INTEGER IPRINT_1
           INTEGER IPRINT_2                

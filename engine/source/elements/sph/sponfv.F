@@ -36,7 +36,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE SPONFV(X ,V        ,A       ,D       ,MS      ,
      2             SPBUF   ,ITAB    ,KXSP    ,IXSP    ,NOD2SP  ,
      3             NPC     ,PLD     ,ISPHIO  ,VSPHIO  ,IPART   ,
-     4             IPARTSP ,WASPACT ,WA      ,VNORMAL ,SPH_WORK  )
+     4             IPARTSP ,WASPACT ,WA      ,VNORMAL ,SPH_WORK,
+     5             WFEXT  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -61,10 +62,8 @@ C-----------------------------------------------
       INTEGER KXSP(NISP,*),IXSP(KVOISPH,*),NOD2SP(*),ITAB(*),NPC(*),
      .        ISPHIO(NISPHIO,*),IPART(LIPART1,*),IPARTSP(*),
      .        WASPACT(*)
-C     REAL
-      my_real
-     .   X(3,*) ,V(3,*) ,A(3,*) ,D(3,*) ,MS(*) ,SPBUF(NSPBUF,*) ,
-     .   PLD(*) ,VSPHIO(*), WA(*), VNORMAL(3,*)
+      my_real  X(3,*) ,V(3,*) ,A(3,*) ,D(3,*) ,MS(*) ,SPBUF(NSPBUF,*) ,PLD(*) ,VSPHIO(*), WA(*), VNORMAL(3,*)
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -73,9 +72,8 @@ C-----------------------------------------------
      .        NS,N,INOD,IACTIVE,
      .        IPPV,J,M,JNOD,IMPOSE,JMPOSE,
      .        NVOIS,IJ,NP,K,JMPOSE2,NN
-C     REAL
       my_real
-     .       TFEXTT,T05,
+     .       WFEXTT,T05,
      .       PENTV,VX,VY,VZ,VN,VT,UX,UY,UZ,UN1,NX,NY,NZ,
      .       PS,
      .       XI,YI,ZI,XJ,YJ,ZJ,DMIN,DD,DTINV,
@@ -98,7 +96,6 @@ C-----------------------------------------------
       XP = 0
       YP = 0
       ZP = 0
-
 
       DO I=1,NSPHIO
        ITYPE=ISPHIO(1,I)
@@ -133,7 +130,7 @@ C------
       ENDDO
 
 C-----
-      TFEXTT=ZERO
+      WFEXTT=ZERO
       DTINV =ONE/DT12
 C
       DO NS=1,NSPHACT
@@ -156,7 +153,7 @@ C------
           VX=UX+(VN-UN1)*NX
           VY=UY+(VN-UN1)*NY
           VZ=UZ+(VN-UN1)*NZ
-          TFEXTT=TFEXTT+HALF*MS(INOD)*
+          WFEXTT=WFEXTT+HALF*MS(INOD)*
      .     ((VX*VX+VY*VY+VZ*VZ)-(UX*UX+UY*UY+UZ*UZ))
           A(1,INOD)=(VX-V(1,INOD))*DTINV
           A(2,INOD)=(VY-V(2,INOD))*DTINV
@@ -442,7 +439,7 @@ C          impose une vitesse sortante uniquement.
           UZ=V(3,INOD)+A(3,INOD)*DT12
 
           VT=VX*VX+VY*VY+VZ*VZ
-          TFEXTT=TFEXTT+HALF*MS(INOD)*(VT-(UX*UX+UY*UY+UZ*UZ))
+          WFEXTT=WFEXTT+HALF*MS(INOD)*(VT-(UX*UX+UY*UY+UZ*UZ))
           A(1,INOD)=(VX-V(1,INOD))*DTINV
           A(2,INOD)=(VY-V(2,INOD))*DTINV
           A(3,INOD)=(VZ-V(3,INOD))*DTINV
@@ -450,7 +447,7 @@ C          impose une vitesse sortante uniquement.
       ENDDO
 C-------------------------------------------
 #include "atomic.inc"
-       TFEXT=TFEXT+TFEXTT
+       WFEXT=WFEXT+WFEXTT
 #include "atomend.inc"
 C-------------------------------------------
       IF(NSPMD>1)THEN

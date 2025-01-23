@@ -39,7 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE PFLUID(ILOADP     ,RLOAD      ,NPC    ,TF     ,A          ,
      2                  V          ,X          ,XFRAME ,MS     ,       
-     3                  NSENSOR    ,SENSOR_TAB ,TFEXC  ,IADC   ,
+     3                  NSENSOR    ,SENSOR_TAB ,WFEXC  ,WFEXT  ,IADC       ,
      4                  FSKY       ,FSKYV      ,LLOADP ,FEXT   ,H3D_DATA   ,
      5                  TH_SURF    ,PYTHON )
 C-----------------------------------------------
@@ -60,7 +60,7 @@ C AR         : rotationnal acceleration
 C VR         : rotationnal velocities
 C SENSOR_TAB : data structure for /SENSOR option
 C WEIGHT     : -
-C TFEXC      : -
+C WFEXC      : -
 C IADC       : (Parith/on only) contains index to be used with FSKY array
 C FSKY       : (Parith/on only) Nodal force    (directly apply as a nodal acceleration in A array in case of Parith/off)
 C LLOADP     : array used to retrieve nodes N1,N2,N3,N4 of the structural face to be loaded
@@ -94,7 +94,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com06_c.inc"
+!#include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "parit_c.inc"
 #include      "scr14_c.inc"
@@ -115,12 +115,13 @@ C-----------------------------------------------
       INTEGER ILOADP(SIZLOADP,NLOADP)
       INTEGER IADC(DSNCOL)
       my_real RLOAD(LFACLOAD,NLOADP), TF(STF), A(3,NUMNOD), V(3,NUMNOD),
-     .        X(3,NUMNOD), XFRAME(NXFRAME,NUMFRAM+1),TFEXC,
+     .        X(3,NUMNOD), XFRAME(NXFRAME,NUMFRAM+1),WFEXC,
      .        FSKY(8,SFSKY/8), FSKYV(SFSKY/8,8),FEXT(3,NUMNOD)
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
       TYPE (TH_SURF_) , INTENT(INOUT) :: TH_SURF
       TYPE(PYTHON_) :: PYTHON
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -128,7 +129,7 @@ C-----------------------------------------------
      .        IAD,N_OLD,IFRA1,DIR_HSP,I,
      .        FUN_CX,FUN_VEL,DIR_VEL,IFRA2, IANIM,IJK,UP_BOUND,NS,KSURF,NSEGPL
       my_real NX, NY, NZ, AA,FX, FY, FZ, DYDX, TS,
-     .        SIXTH,TFEXTT,X_OLD,XSENS,FCX,FCY,
+     .        SIXTH,WFEXTT,X_OLD,XSENS,FCX,FCY,
      .        FCX1,FCY1,FCX2,FCY2,VEL,VSEG,FINTER,
      .        CENTROID_DEPTH,PVEL,NORM,NSIGN,AREA,PA,MASS,AN,VN,PVEL0
       EXTERNAL FINTER
@@ -139,8 +140,8 @@ C-----------------------------------------------
 
       ! init.
       SIXTH  = ONE_OVER_6  
-      TFEXC  = ZERO
-      TFEXTT = ZERO
+      WFEXC  = ZERO
+      WFEXTT = ZERO
       N_OLD  = 0
       X_OLD  = ZERO
       NSEGPL = 0
@@ -270,7 +271,7 @@ C---------------------------------------
               FZ=FZ*FOURTH                                  
                                                                                              
               !External Force Work
-              TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)+V(1,N4))
+              WFEXTT=WFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)+V(1,N4))
      +                          +FY*(V(2,N1)+V(2,N2)+V(2,N3)+V(2,N4))
      +                          +FZ*(V(3,N1)+V(3,N2)+V(3,N3)+V(3,N4)))
      
@@ -439,7 +440,7 @@ C
               FZ=FZ*THIRD                                                                                                                                                                                              
 
               !External Force Work
-              TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3))  
+              WFEXTT=WFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3))
      +                          +FY*(V(2,N1)+V(2,N2)+V(2,N3))  
      +                          +FZ*(V(3,N1)+V(3,N2)+V(3,N3)))  
      
@@ -510,7 +511,7 @@ C
         ENDDO !nextNL
 
 #include "atomic.inc"
-              TFEXT = TFEXT + TFEXTT
+              WFEXT = WFEXT + WFEXTT
 #include "atomend.inc"
 
 
@@ -694,7 +695,7 @@ C---------------------------------------
                FSKY(3,IAD) = FZ
 
                !External force work
-               TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)+V(1,N4))
+               WFEXTT=WFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)+V(1,N4))
      +                           +FY*(V(2,N1)+V(2,N2)+V(2,N3)+V(2,N4))
      +                           +FZ*(V(3,N1)+V(3,N2)+V(3,N3)+V(3,N4)))
      
@@ -862,7 +863,7 @@ C
                FSKY(3,IAD) = FZ
 
                !external force work
-               TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3))
+               WFEXTT=WFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3))
      +                           +FY*(V(2,N1)+V(2,N2)+V(2,N3))
      +                           +FZ*(V(3,N1)+V(3,N2)+V(3,N3)))
      
@@ -916,7 +917,7 @@ C
          ENDDO!next NL
 
 #include "atomic.inc"
-                TFEXT = TFEXT + TFEXTT
+                WFEXT = WFEXT + WFEXTT
 #include "atomend.inc"
 
          ELSE
@@ -1070,7 +1071,7 @@ C-----------------------------------
                FSKYV(IAD,3) = FZ
                
                !external force work               
-               TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)+V(1,N4))
+               WFEXTT=WFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)+V(1,N4))
      +                           +FY*(V(2,N1)+V(2,N2)+V(2,N3)+V(2,N4))
      +                           +FZ*(V(3,N1)+V(3,N2)+V(3,N3)+V(3,N4)))
      
@@ -1290,7 +1291,7 @@ C
               ENDIF 
                 
                !external force work
-               TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3))
+               WFEXTT=WFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3))
      +                           +FY*(V(2,N1)+V(2,N2)+V(2,N3))
      +                           +FZ*(V(3,N1)+V(3,N2)+V(3,N3)))
              ENDIF
@@ -1299,7 +1300,7 @@ C
          ENDDO!next NL
 C
 #include "atomic.inc"
-                TFEXT = TFEXT + TFEXTT
+                WFEXT = WFEXT + WFEXTT
 #include "atomend.inc"
          ENDIF ! IF(IVECTOR == 0)
 

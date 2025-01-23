@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE LASER1(LAS ,XLAS ,MS    ,X    ,V     ,
      .                  W   ,WA   ,IPARG ,IXQ  ,PM    , 
-     .                  TF  ,NPF , ELBUF_TAB)
+     .                  TF  ,NPF , ELBUF_TAB, WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -56,6 +56,7 @@ C     REAL
      .   XLAS(*), MS(*), X(3,*), V(3,*), W(3,*), WA(3,*),
      .   TF(*), PM(NPROPM,*)
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -88,11 +89,12 @@ C
        IF(ITYP==1)THEN
          CALL LASER3(NL        ,IFUNC    ,
      .               LAS(K1+6) ,XLAS(K2),X    ,ELBUF_TAB,PM        ,
-     .               IPARG   ,IXQ  ,TF       ,NPF       )
+     .               IPARG   ,IXQ  ,TF       ,NPF       ,WFEXT)
        ELSE
          CALL LASER2(NL       ,N1      ,N2   ,IFUNC    ,IAFUNC    ,
      .              LAS(K1+6) ,XLAS(K2),X    ,ELBUF_TAB,PM        ,
-     .              WA        ,IPARG   ,IXQ  ,TF       ,NPF       )
+     .              WA        ,IPARG   ,IXQ  ,TF       ,NPF       ,
+     .              WFEXT)
        ENDIF
        K1 = K1 + 6 + 2*(NL+1)
        K2 = K2 + 6

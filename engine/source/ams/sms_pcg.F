@@ -87,7 +87,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      N                IAD_RBE3M,FR_RBE3M ,FR_RBE3MP,RRBE3   ,RRBE3_PON ,
      O                PREC_SMS3,DIAG_SMS3,IAD_RBY  ,FR_RBY6 ,RBY6      ,
      P                TAGSLV_RBY_SMS,R3SIZE,NODFT2_SMS,NODLT2_SMS,INDX2_SMS,
-     Q                NODII_SMS ,IBCSCYC ,LBCSCYC )
+     Q                NODII_SMS ,IBCSCYC ,LBCSCYC ,WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -145,7 +145,6 @@ C----------resol [M]{X}={F}---------
      .           FR_RBY6(*),IAD_RBY(*), TAGSLV_RBY_SMS(*),R3SIZE,
      .           NODFT2_SMS,NODLT2_SMS,INDX2_SMS(*),NODII_SMS(*),
      .           IBCSCYC(*) ,LBCSCYC(*)
-C     REAL
         my_real
      .    DIAG_SMS(*), LT_K(*) ,R(3,*),
      .    X_SMS(3,*), P_SMS(3,*), Y_SMS(3,*), Z_SMS(3,*), PREC_SMS(*),
@@ -162,6 +161,7 @@ C     REAL
         DOUBLE PRECISION RBY6(8,6,NRBYKIN)
         TYPE(INTSTAMP_DATA) INTSTAMP(*)
         TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
+        DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -406,7 +406,7 @@ C detect impacts
           CALL SMS_RGWAL_0(IFLAG ,X    ,V      ,RWBUF   ,LPRW  ,
      2    NPRW     ,MS   ,FSAV(1,NINTER+1),FR_WALL ,FOPT ,
      3    RWSAV    ,WEIGHT ,IRWL_WORK     ,NRWL_SMS,FRWL6,
-     4    X_SMS    ,RBID   ,RBID   ,RBID   )
+     4    X_SMS    ,RBID   ,RBID   ,RBID  ,WFEXT )
 C
           CALL MY_BARRIER
 C
@@ -415,7 +415,7 @@ C project x_sms
           CALL SMS_RGWAL_0(IFLAG ,X    ,V      ,RWBUF   ,LPRW  ,
      2    NPRW     ,MS   ,FSAV(1,NINTER+1),FR_WALL ,FOPT ,
      3    RWSAV    ,WEIGHT ,IRWL_WORK     ,NRWL_SMS,FRWL6,
-     4    X_SMS    ,RBID   ,RBID   ,RBID   )
+     4    X_SMS    ,RBID   ,RBID   ,RBID  ,WFEXT )
         END IF
 C
         IF(NADMESH/=0)THEN
@@ -650,7 +650,7 @@ C
      3                    WEIGHT  ,D        ,IFRAME ,XFRAME ,NSENSOR   ,
      4                    IT+1   ,DIAG_SMS,NODNX_SMS,CPTREAC,NODREAC,
      5                    FTHREAC,AM       ,VR     ,DR      ,IN     ,
-     6                    RBY     )
+     6                    RBY    ,WFEXT )
 C
           CALL MY_BARRIER
 C
@@ -665,7 +665,7 @@ C project res
           CALL SMS_RGWAL_0(IFLAG ,X    ,V      ,RWBUF   ,LPRW  ,
      2    NPRW     ,MS   ,FSAV(1,NINTER+1),FR_WALL ,FOPT ,
      3    RWSAV    ,WEIGHT ,IRWL_WORK     ,NRWL_SMS,FRWL6,
-     4    RBID     ,RES_SMS,RBID   ,RBID   )
+     4    RBID     ,RES_SMS,RBID   ,RBID  ,WFEXT )
 C
           CALL MY_BARRIER
 C
@@ -1050,7 +1050,7 @@ C project y_sms
           CALL SMS_RGWAL_0(IFLAG ,X    ,V      ,RWBUF   ,LPRW  ,
      2    NPRW     ,MS   ,FSAV(1,NINTER+1),FR_WALL ,FOPT ,
      3    RWSAV    ,WEIGHT ,IRWL_WORK     ,NRWL_SMS,FRWL6,
-     4    RBID     ,Y_SMS  ,RBID   ,RBID   )
+     4    RBID     ,Y_SMS  ,RBID   ,RBID  ,WFEXT )
         END IF
 C
         CALL MY_BARRIER
@@ -1142,7 +1142,7 @@ C
      3                    WEIGHT  ,D         ,IFRAME,XFRAME ,NSENSOR   ,
      4                    IT+1   ,DIAG_SMS,NODNX_SMS,CPTREAC,NODREAC,
      5                    FTHREAC,AM       ,VR     ,DR      ,IN     ,
-     6                    RBY     )
+     6                    RBY    ,WFEXT)
 C
           CALL MY_BARRIER
 C
@@ -1573,7 +1573,7 @@ C store Ft
             CALL SMS_RGWAL_0(IFLAG ,X    ,V      ,RWBUF   ,LPRW  ,
      2                    NPRW     ,MS   ,FSAV(1,NINTER+1),FR_WALL ,FOPT ,
      3                    RWSAV    ,WEIGHT ,IRWL_WORK     ,NRWL_SMS,FRWL6,
-     4                    X_SMS    ,RES_SMS,R    ,FREA    )
+     4                    X_SMS    ,RES_SMS,R    ,FREA    ,WFEXT)
             IT  =0
             GO TO 10
           ELSE
@@ -1612,7 +1612,7 @@ C
             CALL SMS_RGWAL_0(IFLAG ,X    ,V      ,RWBUF   ,LPRW  ,
      2                    NPRW     ,MS   ,FSAV(1,NINTER+1),FR_WALL ,FOPT ,
      3                    RWSAV    ,WEIGHT ,IRWL_WORK     ,NRWL_SMS,FRWL6,
-     4                    X_SMS    ,RES_SMS,R    ,FREA    )
+     4                    X_SMS    ,RES_SMS,R    ,FREA    ,WFEXT)
 C
             CALL MY_BARRIER
 C

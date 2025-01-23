@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE SMS_GRAVIT(IGRV  ,AGRV   ,NPC   ,TF   ,A     ,
      2                      V     ,X      ,SKEW  ,MS   ,SENSOR_TAB,
-     3                      WEIGHT,IB    ,ITASK,TAGSLV_RBY_SMS,NSENSOR)
+     3                      WEIGHT,IB    ,ITASK,TAGSLV_RBY_SMS,NSENSOR, WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -45,7 +45,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
-#include      "com06_c.inc"
+!#include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "task_c.inc"
 #include      "param_c.inc"
@@ -55,7 +55,6 @@ C-----------------------------------------------
       INTEGER NPC(*),NDDIM,NVDIM,NSENSOR
       INTEGER IGRV(NIGRV,*),IB(*)
       INTEGER WEIGHT(*), ITASK, TAGSLV_RBY_SMS(*)
-C     REAL
       my_real
      .   AGRV(LFACGRV,*), TF(*), A(3,*), V(3,*), MS(*),
      .   X(3,*), SKEW(LSKEW,*)
@@ -63,17 +62,12 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NL, N1, ISK, N2, IFUNC, K1, K2, K3, ISENS,K,NN,
-     .    IAD,J, IADF, IADL
-C     REAL
-      my_real
-     .   NX, NY, NZ, AXI, A0, AA, VV, FX, FY, FZ, AX, DYDX, TS,
-     .   GAMA, TFEXTT,FCX,FCY
-      my_real
-     .   FINTER
-      EXTERNAL FINTER
+      INTEGER NL, N1, ISK, N2, IFUNC, K1, K2, K3, ISENS,K,NN,IAD,J, IADF, IADL
+      my_real NX, NY, NZ, AXI, A0, AA, VV, FX, FY, FZ, AX, DYDX, TS,GAMA, WFEXTT,FCX,FCY
+      my_real,EXTERNAL :: FINTER
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C=======================================================================
-      TFEXTT=ZERO
+      WFEXTT=ZERO
 C
       DO NL=1,NGRAV
         FCY = AGRV(1,NL)
@@ -112,9 +106,7 @@ C
             N1=IABS(IB(J))
             IF(TAGSLV_RBY_SMS(N1)/=0) CYCLE
             A(N2,N1)=A(N2,N1)+MS(N1)*AA
-            IF(IB(J)>0)
-     .        TFEXTT=TFEXTT
-     .              +HALF*(A0+AA)*MS(N1)*V(N2,N1)*DT1*WEIGHT(N1)
+            IF(IB(J)>0) WFEXTT=WFEXTT + HALF*(A0+AA)*MS(N1)*V(N2,N1)*DT1*WEIGHT(N1)
           ENDDO
         ELSE
           K1=3*N2-2
@@ -124,19 +116,17 @@ C
           DO J=IADF,IADL
             N1=IABS(IB(J))
             IF(TAGSLV_RBY_SMS(N1)/=0) CYCLE
-            VV = SKEW(K1,ISK)*V(1,N1)+SKEW(K2,ISK)*V(2,N1)+
-     .           SKEW(K3,ISK)*V(3,N1)
+            VV = SKEW(K1,ISK)*V(1,N1)+SKEW(K2,ISK)*V(2,N1)+SKEW(K3,ISK)*V(3,N1)
             A(1,N1)=A(1,N1)+SKEW(K1,ISK)*MS(N1)*AA
             A(2,N1)=A(2,N1)+SKEW(K2,ISK)*MS(N1)*AA
             A(3,N1)=A(3,N1)+SKEW(K3,ISK)*MS(N1)*AA
-            IF(IB(J)>0)
-     .        TFEXTT=TFEXTT+HALF*(A0+AA)*MS(N1)*VV*DT1*WEIGHT(N1)
+            IF(IB(J)>0) WFEXTT=WFEXTT+HALF*(A0+AA)*MS(N1)*VV*DT1*WEIGHT(N1)
           ENDDO
         ENDIF
       END DO
 C
 #include "atomic.inc"
-      TFEXT = TFEXT + TFEXTT
+      WFEXT = WFEXT + WFEXTT
 #include "atomend.inc"
 C
       RETURN

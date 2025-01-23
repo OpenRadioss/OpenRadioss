@@ -247,10 +247,7 @@ C   si proc concerne par le rgwall
         ENDIF
 
         IF(ISPMD+1==PMAIN)THEN
-C
-CGW   TFEXT=TFEXT 
-CCG   L' ENERGIE DE FROTTEMENT EST MISE DS LES ELEMENTS
-C
+
           FSAV(1)=FSAV(1)+FXN
           FSAV(2)=FSAV(2)+FYN
           FSAV(3)=FSAV(3)+FZN

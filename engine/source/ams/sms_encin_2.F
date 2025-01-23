@@ -330,7 +330,7 @@ C
      3                  WEIGHT  ,D     ,IFRAME ,XFRAME ,SENSORS%NSENSOR,
      4                  -(IT+1),DIAG_SMS,NODXI_SMS,CPTREAC,
      5                  NODREAC,FTHREAC ,AR     ,VR       ,DR  ,
-     6                  IN     ,RBY     )
+     6                  IN     ,RBY     ,OUTPUT%WFEXT)
       END IF
 C
       CALL MY_BARRIER

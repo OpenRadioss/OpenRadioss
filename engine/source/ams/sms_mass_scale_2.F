@@ -81,7 +81,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      P        RRBE3      ,RRBE3_PON,PREC_SMS3 ,DIAG_SMS3,IAD_RBY  ,
      Q        FR_RBY6    ,RBY6     ,R3SIZE ,BETATE      ,IBCSCYC  ,
      R        LBCSCYC    ,MSKYI_FI_SMS, LIST_SMS,LIST_RMS,CJWORK  ,
-     S        FREA       ,IRWL_WORK,VFI,sz_mw6,MW6)
+     S        FREA       ,IRWL_WORK,VFI,sz_mw6,MW6,WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -161,6 +161,7 @@ C-----------------------------------------------
       my_real, DIMENSION(3,FR_RMS(NSPMD+1)+FR_SMS(NSPMD+1) ), intent(inout):: VFI
       integer, intent(in) :: sz_mw6
       DOUBLE PRECISION,dimension(6,sz_mw6),intent(inout) :: MW6
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 
       TYPE(INTSTAMP_DATA) INTSTAMP(*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
@@ -178,7 +179,7 @@ C-----------------------------------------------
       INTEGER NODFT2_SMS, NODLT2_SMS,NGR2USR
       my_real
      .   VX,VY,VZ, MVX, MVY, MVZ,
-     .   VXJ, VYJ, VZJ, MAS,TFEXTT, ERRTET, DW, DT15, DT25, RBID,
+     .   VXJ, VYJ, VZJ, MAS,WFEXTT, ERRTET, DW, DT15, DT25, RBID,
      .   OMEGA, BETASDT, DAMPT, FACTB, D_TSTART, D_TSTOP, DA, ADT,
      .   P1, P2, P3, UOMEGA, DOMEGA
 C-----
@@ -238,7 +239,7 @@ C----
 C
       CALL SMS_GRAVIT(IGRV  ,AGRV   ,NPC   ,TF   ,A     ,
      2                V     ,X      ,SKEW  ,MS   ,SENSOR_TAB,
-     3                WEIGHT,LGRAV ,ITASK,TAGSLV_RBY_SMS,NSENSOR)
+     3                WEIGHT,LGRAV ,ITASK,TAGSLV_RBY_SMS,NSENSOR,WFEXT)
 C
       CALL MY_BARRIER
 C
@@ -553,7 +554,7 @@ C             2nd order error
           END IF
          END DO
 #include "lockon.inc"
-         TFEXT = TFEXT + DW
+         WFEXT = WFEXT + DW
 #include "lockoff.inc"
          IF (IMON>0) CALL STOPTIME(TIMERS,5)
         END IF
@@ -593,7 +594,7 @@ C-----------------------------------
          END DO
         END IF !(ISTATG==0)THEN
 #include "lockon.inc"
-         TFEXT = TFEXT + DW
+         WFEXT = WFEXT + DW
 #include "lockoff.inc"
 !$OMP END SINGLE
 C
@@ -728,7 +729,7 @@ C
      3                    WEIGHT  ,D        ,IFRAME ,XFRAME ,NSENSOR ,
      4                    IT     ,PREC_SMS,NODXI_SMS,CPTREAC,NODREAC,
      5                    FTHREAC,AM      ,VR       ,DR     ,IN     ,
-     6                    RBY    )
+     6                    RBY    ,WFEXT)
         END IF
 C
         CALL MY_BARRIER
@@ -780,34 +781,10 @@ C-----------------------------------
      N            IAD_RBE3M ,FR_RBE3M ,FR_RBE3MP,RRBE3,RRBE3_PON,
      O            PREC_SMS3,DIAG_SMS3,IAD_RBY  ,FR_RBY6    ,RBY6,
      P            TAGSLV_RBY_SMS,R3SIZE,NODFT2_SMS,NODLT2_SMS,INDX2_SMS,
-     Q            NODII_SMS,IBCSCYC ,LBCSCYC  )
+     Q            NODII_SMS,IBCSCYC ,LBCSCYC ,WFEXT )
 C
       CALL MY_BARRIER
-C
-c      DT15=HALF*DT1
-c      DT25=HALF*DT2
-c      TFEXTT=ERRTE_SMS
-c      ERRTET =ZERO
-c      DO N=NODFT1_SMS,NODLT1_SMS
-c        I = INDX1_SMS(N)
-c        VX = V(1,I)+DT05*A(1,I)
-c        VY = V(2,I)+DT05*A(2,I)
-c        VZ = V(3,I)+DT05*A(3,I)
-c        MVX = RES_SMS(1,I)
-c        MVY = RES_SMS(2,I)
-c        MVZ = RES_SMS(3,I)
-c        DW = (VX*MVX + VY*MVY + VZ*MVZ)*WEIGHT(I)
-c        TFEXTT =TFEXTT + DT15*DW
-c        ERRTET =ERRTET  + DT25*DW
-c      END DO
-c#include "lockon.inc"
-c      TFEXT=TFEXT+TFEXTT
-c      ERRTE_SMS=ERRTE_SMS+ERRTET
-c#include "lockoff.inc"
-c
-c      CALL MY_BARRIER
-c
-C
+
       IF(NJOINT > 0)THEN
         CALL SMS_CJOINT_2(A    ,AM    ,V ,VR,X    ,
      2                    LJOINT,MS,IN,IADCJ,FR_CJ,

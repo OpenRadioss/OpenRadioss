@@ -131,9 +131,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      q            TF        ,NPC         ,DYNAIN_DATA,FCONT_MAX,MDS_MATID,
      r            FNCONTP2  ,FTCONTP2    ,IBCL        ,ILOADP   ,LLOADP   ,
      s            LOADP     ,TAGNCONT    ,LOADP_HYD_INTER,FORC  ,DRAPEG,USER_WINDOWS,
-     t            OUTPUT    ,DT          ,FSAVSURF    ,TABLE   ,
+     t            OUTPUT    ,DT          ,FSAVSURF    ,TABLE    ,
      u            LOADS     ,SFANI       ,IPARIT      ,X_C      ,
-     v            SZ_NPCONT2,NPCONT2     ,GLOB_THERM,PBLAST)
+     v            SZ_NPCONT2,NPCONT2     ,GLOB_THERM  ,PBLAST   ,WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -162,7 +162,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE STATE_MOD
       USE USER_WINDOWS_MOD
-      USE OUTPUT_MOD
+      USE OUTPUT_MOD , ONLY : OUTPUT_
       USE DT_MOD
       USE TABLE_MOD
       USE LOADS_MOD
@@ -238,35 +238,30 @@ C-----------------------------------------------
      .   IXIG3D(*),NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),
      .   ISPHIO(NISPHIO,*),ICODE(*),SPH2SOL(*),SEGQUADFR(*),
      .   ISKEW(*),TAG_SKINS6(*),IRUNN_BIS
-       my_real
-     .   BUFNOIS(*),PARTSAV(NPSAV,*),RBY(NRBY,*),CRFLSW(*),FLSW(*),
-     .   FSAV(NTHVKI,*),SKEW(LSKEW,*), VR(3,*), IN(*), DMAS,
-     .   ACCELM(LLACCELM,*),BUFSF(*),RDATA(*),BUFMAT(*),BUFGEO(*),
-     .   SPBUF(*),RIVET(*),XFRAME(NXFRAME,*),ZI_PLY(*),VGAZ(*)
-      my_real
-     .   PM(NPROPM,*),D(3,NUMNOD),V(*),W(*),ELBUF(*),WA(*),X(3,*),GEO(*),
-     .   MS(*), A(3,*), CONT(3,*),XCUT(*),FINT(*),EANI(*),
-     .   FEXT(3,*) ,FOPT(6,*),ANIN(*),RWBUF(*),TANI(*),
-     .   AR(3,*),TF(*),FCONT_MAX(*)
-      my_real
-     .   FSAVD(NTHVKI,*),
-     .   DR(3,*),VOLMON(*),
-     .   FXBRPM(*),FXBDEP(*),FXBVIT(*),FXBACC(*), RFLOW(*),
-     .   FNCONT(3,*),FTCONT(3,*),TEMP(*),THKE(*),DXANCG(3,*),
-     .   ERR_THK_SH4(*),ERR_THK_SH3(*),FTHREAC(*),
-     .   GRESAV(*), DIAG_SMS(*), FNCONT2(3,*), XMOM_SMS(3,*),
-     .   FCONTG(*), FNCONTG(*), FTCONTG(*),FANREAC(*),PDAMA2(*),
-     .   RES_SMS(*),QFRICINT(*), GAUGE(*),
-     .   FCLUSTER(*),MCLUSTER(*),RTHBUF(*),WIGE(*),KNOT(*),VSPHIO(*),
-     .   STIFN(*),STIFR(*),MS_2D(*),PSKIDS(*),KNOTLOCPC(*),KNOTLOCEL(*),
-     .   FNCONTP2(3,*)  ,FTCONTP2(3,*)  
-      INTEGER FR_SEC(NSPMD+1,*),FR_RBY2(3,*),IAD_RBY2(4,*),FR_WALL(*),
-     .   NODREAC(*),IAD_RBE2(4,*),INDEXCONT(*),NCONT,ITY
+       my_real  BUFNOIS(*),PARTSAV(NPSAV,*),RBY(NRBY,*),CRFLSW(*),FLSW(*),
+     .          FSAV(NTHVKI,*),SKEW(LSKEW,*), VR(3,*), IN(*), DMAS,
+     .          ACCELM(LLACCELM,*),BUFSF(*),RDATA(*),BUFMAT(*),BUFGEO(*),
+     .          SPBUF(*),RIVET(*),XFRAME(NXFRAME,*),ZI_PLY(*),VGAZ(*)
+      my_real PM(NPROPM,*),D(3,NUMNOD),V(*),W(*),ELBUF(*),WA(*),X(3,*),GEO(*),
+     .        MS(*), A(3,*), CONT(3,*),XCUT(*),FINT(*),EANI(*),
+     .        FEXT(3,*) ,FOPT(6,*),ANIN(*),RWBUF(*),TANI(*),
+     .        AR(3,*),TF(*),FCONT_MAX(*)
+      my_real FSAVD(NTHVKI,*),
+     .        DR(3,*),VOLMON(*),
+     .        FXBRPM(*),FXBDEP(*),FXBVIT(*),FXBACC(*), RFLOW(*),
+     .        FNCONT(3,*),FTCONT(3,*),TEMP(*),THKE(*),DXANCG(3,*),
+     .        ERR_THK_SH4(*),ERR_THK_SH3(*),FTHREAC(*),
+     .        GRESAV(*), DIAG_SMS(*), FNCONT2(3,*), XMOM_SMS(3,*),
+     .        FCONTG(*), FNCONTG(*), FTCONTG(*),FANREAC(*),PDAMA2(*),
+     .        RES_SMS(*),QFRICINT(*), GAUGE(*),
+     .        FCLUSTER(*),MCLUSTER(*),RTHBUF(*),WIGE(*),KNOT(*),VSPHIO(*),
+     .        STIFN(*),STIFR(*),MS_2D(*),PSKIDS(*),KNOTLOCPC(*),KNOTLOCEL(*),
+     .        FNCONTP2(3,*)  ,FTCONTP2(3,*)
+      INTEGER FR_SEC(NSPMD+1,*),FR_RBY2(3,*),IAD_RBY2(4,*),FR_WALL(*),NODREAC(*),IAD_RBE2(4,*),INDEXCONT(*),NCONT,ITY
       INTEGER NPC(*),MDS_MATID(*)
       INTEGER LLOADP(*),ILOADP(SIZLOADP,*),IBCL(NIBCLD,*)
       INTEGER TAGNCONT(NLOADP_HYD_INTER,NUMNOD),LOADP_HYD_INTER(NLOADP_HYD)
-      my_real
-     .       LOADP(LFACCLD,*),FORC(*)
+      my_real :: LOADP(LFACCLD,*),FORC(*)
 
       INTEGER, DIMENSION(*), INTENT(IN) :: ISKWP
       INTEGER, INTENT(IN) :: SZ_NPCONT2
@@ -297,9 +292,10 @@ C-----------------------------------------------
       TYPE (LOADS_)   , INTENT(IN)          :: LOADS
       TYPE (TTABLE),DIMENSION(NTABLE)  ,INTENT(IN) :: TABLE
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
-      type (glob_therm_) ,intent(in)       :: glob_therm
+      type (glob_therm_) ,intent(in)        :: glob_therm
       type (PBLAST_) ,intent(in)            :: PBLAST
-      INTEGER,INTENT(IN)::  IPARIT
+      INTEGER,INTENT(IN) ::  IPARIT
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -308,24 +304,18 @@ C-----------------------------------------------
      .        NEL1D,NEL2D,NEL3D, L1, IFIL, CPTFILE,IFILABF,
      .        IAD, J, THUPDT,IFLAG, IFV,ITHFLAG,NSENSOR
       INTEGER :: IFLAG_ANIPCONT
-      INTEGER
-     .  SN1,SN2,SN3,SN4,SN5,SN6,SN7,SN8,SN9,NELG,
-     .  SKUIX, SKXUSR ,SKFACPTX,SKXEDGE,SKXFACET,SKXSOLID,SKNUMX1,
-     .  SKNUMX2,SKNUMX3,SKOFFX1,SKOFFX2,SKOFFX3,SKMASS1,SKMASS2,
-     .  SKMASS3,SKFUNC1,SKFUNC2,SKFUNC3,SKFIN,SIG3DSOLID
-      INTEGER
-     .  LENR,LENG,LENGC,LENGTG,LENGS,LENGT,LENGR,LENGP,LENGQ,LENGSPH
+      INTEGER :: SN1,SN2,SN3,SN4,SN5,SN6,SN7,SN8,SN9,NELG,
+     .           SKUIX, SKXUSR ,SKFACPTX,SKXEDGE,SKXFACET,SKXSOLID,SKNUMX1,
+     .           SKNUMX2,SKNUMX3,SKOFFX1,SKOFFX2,SKOFFX3,SKMASS1,SKMASS2,
+     .           SKMASS3,SKFUNC1,SKFUNC2,SKFUNC3,SKFIN,SIG3DSOLID
+      INTEGER LENR,LENG,LENGC,LENGTG,LENGS,LENGT,LENGR,LENGP,LENGQ,LENGSPH
       INTEGER SIZE_MES,LONG,LONG_TMP,N
       INTEGER IFILNAM(2148),IFILNAM_TMP(2148)
-      my_real
-     .   TFEXTH,ENINTOT,EKINTOT
 
-      my_real
-     .   TABFWR0(10),BID
-      my_real
-     .      ,  DIMENSION(:),ALLOCATABLE :: VMCDN
-      my_real
-     .      ,  DIMENSION(:),ALLOCATABLE :: CSEFRIC,CSEFRIC_STAMP,CSEFRICG,CSEFRICG_STAMP
+      my_real WFEXTH,ENINTOT,EKINTOT
+      my_real TABFWR0(10),BID
+      my_real,  DIMENSION(:),ALLOCATABLE :: VMCDN
+      my_real,  DIMENSION(:),ALLOCATABLE :: CSEFRIC,CSEFRIC_STAMP,CSEFRICG,CSEFRICG_STAMP
 
       INTEGER :: LEN_TMP_NAME,LEN_TMP_NAME2
       CHARACTER(len=100) :: TMP_NAME,TMP_NAME2   
@@ -362,7 +352,7 @@ c
      2             DMAS     ,WEIGHT  ,ENINTOT  ,EKINTOT,
      3             A        ,AR      ,FXBIPM ,FXBRPM   ,MONVOL ,
      4             XMOM_SMS ,SENSORS ,QFRICINT ,IPARI  ,
-     5             WEIGHT_MD,TFEXTH ,IFLAG   ,MS_2D, MULTI_FVM ,
+     5             WEIGHT_MD,WFEXTH ,IFLAG   ,MS_2D, MULTI_FVM ,
      6             MAS_ND   ,KEND   ,H3D_DATA,DYNAIN_DATA,USER_WINDOWS%USREINT,OUTPUT)
         DEALLOCATE(VMCDN)
       ELSE
@@ -371,7 +361,7 @@ c
      2             DMAS     ,WEIGHT  ,ENINTOT  ,EKINTOT,
      3             A        ,AR      ,FXBIPM ,FXBRPM   ,MONVOL ,
      4             XMOM_SMS ,SENSORS ,QFRICINT ,IPARI  ,
-     5             WEIGHT_MD,TFEXTH  ,IFLAG  ,MS_2D, MULTI_FVM ,
+     5             WEIGHT_MD,WFEXTH  ,IFLAG  ,MS_2D, MULTI_FVM ,
      6             BID      ,BID     ,H3D_DATA,DYNAIN_DATA,USER_WINDOWS%USREINT,OUTPUT)
       ENDIF
 C-----------------------
@@ -838,7 +828,7 @@ C
      7             IPM   ,KXSP      ,SPBUF  ,NODGLOB,LENG  ,
      8             FOPT  ,NOM_OPT   ,NPBY   ,FNCONT ,FTCONT ,
      9             GEO   ,THKE      ,STACK  ,DRAPE_SH4N, DRAPE_SH3N,
-     A             DRAPEG)
+     A             DRAPEG,OUTPUT)
        IF(TT>=TOUTP)TOUTP=TOUTP+DTOUTP
        IF ((TSTOP<TOUTP).AND.(TOUTP<TSTOP+EM06*TSTOP)
      .     .AND.(TSTOP+EM06*TSTOP<TOUTP+DTOUTP)) THEN
@@ -1058,7 +1048,7 @@ C         to avoid double points
      L                 IGAUP  ,NGAUP ,AFORM(1),SIZE_MES,
      M                 RTHBUF ,THKE ,STACK ,ISPHIO  ,VSPHIO,
      N                 ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFA,
-     Q                 FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM)
+     Q                 FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM,OUTPUT)
 
             IF (SIZE_MES==1 .AND.AFORM(1)==3 .AND.ISPMD==0 ) 
      *          CALL file_size(MULTITHFILESIZE(1))
@@ -1153,7 +1143,7 @@ C
      L                 IGAUP  ,NGAUP, AFORM(2),SIZE_MES,
      M                 RTHBUF ,THKE ,STACK,ISPHIO  ,VSPHIO,
      N                 ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFB,
-     Q                 FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM)
+     Q                 FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM,OUTPUT)
 
             IF (SIZE_MES==1 .AND.AFORM(2)==3 .AND.ISPMD==0 )
      *        CALL file_size(MULTITHFILESIZE(2))
@@ -1248,7 +1238,7 @@ C
      L                 IGAUP  ,NGAUP ,AFORM(3),SIZE_MES,
      M                 RTHBUF ,THKE ,STACK ,ISPHIO  ,VSPHIO,
      n                 ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFC,
-     Q                 FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM)
+     Q                 FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM,OUTPUT)
 
         IF(SIZE_MES==1 .AND.
      *     AFORM(3)==3   .AND.
@@ -1339,7 +1329,7 @@ C
      L                 IGAUP  ,NGAUP ,AFORM(4),SIZE_MES,
      M                 RTHBUF ,THKE ,STACK ,ISPHIO  ,VSPHIO,
      N                 ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFD,
-     Q                 FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM)
+     Q                 FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM,OUTPUT)
 
          IF(SIZE_MES==1 .AND.
      *     AFORM(4)==3   .AND.
@@ -1431,7 +1421,7 @@ C
      L                IGAUP  ,NGAUP ,AFORM(5),SIZE_MES,
      M                RTHBUF  ,THKE ,STACK  ,ISPHIO  ,VSPHIO,
      N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFE,
-     Q                FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM)
+     Q                FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM,OUTPUT)
 
         IF(SIZE_MES==1 .AND.
      *     AFORM(5)==3   .AND.
@@ -1522,7 +1512,7 @@ C
      L                IGAUP,NGAUP ,AFORM(6),SIZE_MES,
      M                RTHBUF,THKE ,STACK  ,ISPHIO  ,VSPHIO,
      N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFF,
-     Q                FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM)
+     Q                FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM,OUTPUT)
 
         IF(SIZE_MES==1 .AND.
      *     AFORM(6)==3   .AND.
@@ -1614,7 +1604,7 @@ C
      L                IGAUP,NGAUP ,AFORM(7),SIZE_MES,
      M                RTHBUF,THKE ,STACK  ,ISPHIO  ,VSPHIO,
      N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUFG,
-     Q                FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM)
+     Q                FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM,OUTPUT)
 
         IF(SIZE_MES==1 .AND.
      *     AFORM(7)==3   .AND.
@@ -1706,7 +1696,7 @@ C
      L                IGAUP  ,NGAUP ,AFORM(8),SIZE_MES,
      M                RTHBUF ,THKE ,STACK ,ISPHIO  ,VSPHIO,
      N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%ITHBUFH,
-     Q                FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM)
+     Q                FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM,OUTPUT)
 
         IF(SIZE_MES==1 .AND.
      *     AFORM(8)==3   .AND.
@@ -1797,7 +1787,7 @@ C
      L                IGAUP,NGAUP ,AFORM(9),SIZE_MES,
      M                RTHBUF ,THKE ,STACK ,ISPHIO  ,VSPHIO,
      N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%ITHBUFI,
-     Q                FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM)
+     Q                FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM,OUTPUT)
 
         IF(SIZE_MES==1 .AND.
      *     AFORM(9)==3   .AND.
@@ -1886,7 +1876,7 @@ C
      L                IGAUP,NGAUP,ITFORM,SIZE_MES,
      M                RTHBUF ,THKE ,STACK,ISPHIO  ,VSPHIO,
      N                ITHFLAG,PINCH_DATA,MULTI_FVM,W,OUTPUT%TH%SITHBUF,
-     Q                FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM)
+     Q                FSAVSURF,NEED_TO_REINIT_FSAV,GLOB_THERM,OUTPUT)
 
         IF(SIZE_MES==1 .AND.
      *     ITFORM==3   .AND.
@@ -2020,7 +2010,7 @@ C /TH/SURF quantities reset to 0 expect for massflow (airbags)
       ENDIF
       ! -----------------------
 
-      IF (ISPMD==0.AND.IFLAG==1) TFEXT  = TFEXT- TFEXTH
+      IF (ISPMD==0.AND.IFLAG==1) WFEXT  = WFEXT- WFEXTH
 C-----------
       RETURN
       END

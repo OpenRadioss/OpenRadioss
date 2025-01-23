@@ -52,7 +52,7 @@
           ndamp_vrel,iparit,numnod,dt1,id_damp_vrel,        &
           tt,nnpby,nrbykin,npby,rby6,                       &
           rby6_c,tagslv_rby,weight,lskew,numskw,            &
-          dim,damp,skew,tfext,size_rby6_c)
+          dim,damp,skew,wfext,size_rby6_c)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -97,7 +97,7 @@
           my_real,                                   intent(in) :: tt                          !< current time
           my_real,                                intent(inout) :: damp(dim,numnod)            !< damping force at previous time step
           my_real,                                   intent(in) :: skew(lskew,numskw)          !< main structure for skews
-          double precision,                       intent(inout) :: tfext                       !< external forces work
+          double precision,                       intent(inout) :: wfext                       !< external forces work
           double precision,                       intent(inout) :: rby6(8,6,nrbykin)           !< working array for rigid body assembly
           double precision,                       intent(inout) :: rby6_c(2,6,size_rby6_c)     !< working array for rigid body damping assembly
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -177,7 +177,7 @@
 !
           enddo
 !
-          tfext = tfext + dw
+          wfext = wfext + dw
 !
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine damping_vref_rby

@@ -115,7 +115,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 c      my_real
 c     .     B1, B2, R1, R2, W1, D, PCJ, E0, C1, VCJ,
-c     .     EADD, TBEGIN, TEND, TFEXTT,BHE,
+c     .     EADD, TBEGIN, TEND,BHE,
 c     .     PSH,REACTION_RATE,REACTION_RATE2,A_MIL,M_MIL,N_MIL,ALPHA_UNIT,
 c     .     DPDMU,
 c     .     R1V, R2V, ER1M, ER2M, MUP1, MU, AA,BB, P0, P, VOLD, POLD,
@@ -129,7 +129,7 @@ c      my_real :: XL, MASS, DF, TB
      .     A(5),R(5),AL(5),BL(5),RL(5),
      .     DPDMU,
      .     PNEW,FACM,ESPE,DVOL,
-     .     QA,QB,QAL,QBL,DD,TFEXTT,BHE, 
+     .     QA,QB,QAL,QBL,DD,BHE,
      .     LAMBDA1,LAMBDA2,LAMBDA3,LAMBDA4,LAMBDA5,
      .     LAMBDA,
      .     DLDV1,DLDV2,DLDV3,DLDV4,DLDV5,
@@ -152,7 +152,6 @@ c      my_real :: XL, MASS, DF, TB
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      TFEXTT =  ZERO
       GBUF   => ELBUF_TAB(NG)%GBUF           
       LBUF   => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)
       BUFLY  => ELBUF_TAB(NG)%BUFLY(ILAY)      

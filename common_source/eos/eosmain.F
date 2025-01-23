@@ -64,6 +64,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7                   BFRAC)
 C-----------------------------------------------
       use eosexponential_mod
+      use output_mod , only : wfext
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -284,7 +285,7 @@ C-----------------------------------------------
      1                  IFLAG ,NEL  ,PM   ,OFF   ,EINT  ,MU  ,MU2,
      2                  DVOL  ,MAT  ,PSH  ,
      3                  PNEW  ,DPDM ,DPDE ,MU_BAK,
-     4                  NPROPM,NUMMAT,TFEXT)
+     4                  NPROPM,NUMMAT,WFEXT)
 
        CASE(14)
          !--------------------------------------------------!
@@ -339,7 +340,7 @@ C-----------------------------------------------
      1                  IFLAG  ,NEL    ,PM     ,OFF    ,EINT  ,
      2                  DVOL   ,VNEW   ,MAT    ,PSH   ,
      3                  PNEW   ,DPDM   ,DPDE   ,THETA  ,TT    ,
-     4                  NPROPM ,NUMMAT ,TFEXT)
+     4                  NPROPM ,NUMMAT ,WFEXT)
 
        CASE(20)
          !--------------------------------------------------!
@@ -349,7 +350,7 @@ C-----------------------------------------------
      1                  IFLAG ,NEL  ,PM   ,OFF   ,EINT  ,MU   ,
      2                  DVOL  ,MAT  ,PSH  ,
      3                  PNEW  ,DPDM ,DPDE ,MU_BAK,
-     4                  NPF   ,TF   ,SNPC ,STF   ,NPROPM,NUMMAT,TFEXT,
+     4                  NPF   ,TF   ,SNPC ,STF   ,NPROPM,NUMMAT,WFEXT,
      5                  MAT_PARAM%EOS)
 
        END SELECT

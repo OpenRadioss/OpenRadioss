@@ -42,7 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                    NPC   , TF    , NSENSOR,SENSOR_TAB,
      .                    CNP   , ITAGEL, IBUFELR, IBUFELC, IPIV   ,
      .                    HBEM  , GBEM  , IBUFIL , CNPI   , IPINT  ,
-     .                    PYTHON )
+     .                    PYTHON, WFEXT )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -57,7 +57,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com06_c.inc"
+!#include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "task_c.inc"
 #include      "flowcom.inc"
@@ -76,6 +76,7 @@ C-----------------------------------------------
      .        GBEM(*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
       TYPE(PYTHON_) , INTENT(INOUT) :: PYTHON
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -88,8 +89,7 @@ C-----------------------------------------------
      .        IFORM, IFREE, ISENS, IFUNC, IIO, NERP, IC, NNI_L2,
      .        IBUFIL2(NNI), ITEST, ITAGNI(NNI), NNI_L, IFT, ILT, IR, NL,
      .        IFPA, IFPRES, NELF, LELF(NEL), K, IAD, IAD2, IFVINI
-      my_real
-     .        DTSUB, TL, XL(3,NNO+NNI), VL(3,NNO+NNI), X1, Y1, Z1, X2, 
+      my_real DTSUB, TL, XL(3,NNO+NNI), VL(3,NNO+NNI), X1, Y1, Z1, X2,
      .        Y2, Z2, X3, Y3, Z3, X12, Y12, Z12, X13, Y13, Z13, X23, 
      .        Y23, Z23, NRX, NRY, NRZ, NORM(3,NEL),Q(NEL), QL(NEL),  
      .        AREA, VX, VY, VZ, QI(NINOUT), VEL, TSG, TSTART, DYDX, 
@@ -105,10 +105,8 @@ C-----------------------------------------------
      .        COEF, AREA2, W, KSI, ETA, VAL1, VAL2, VAL3, X0, Y0, Z0,
      .        R2, D2, VGX_OLD, VGY_OLD, VGZ_OLD, VGX, VGY, VGZ, AGX,
      .        AGY, AGZ, SFVINI, VV, PHIP(NNO+NNI), PHI_INF(NNO+NNI)
-C
       INTEGER NPG
-      my_real
-     .        PG(50), WPG(25)
+      my_real PG(50), WPG(25)
       DATA PG  /.33333333,.33333333,
      .          .33333333,.33333333,
      .          .60000000,.20000000,
@@ -149,18 +147,15 @@ C
      .            .17561526,.17561526,
      .           -.14957004/
 C
-      my_real
-     .       , ALLOCATABLE :: SBUF(:), RBUF(:)
+      my_real, ALLOCATABLE :: SBUF(:), RBUF(:)
       LOGICAL L_ASSEMB
       INTEGER :: FID ! function id
-C
-      my_real
-     .        FINTER,FINTER_SMOOTH
+
+      my_real FINTER,FINTER_SMOOTH
       EXTERNAL FINTER,FINTER_SMOOTH
 C-----------------------------------------------
       VV = ZERO
       PA = ZERO
-C      
       IFREE = -HUGE(IFREE)
       IFORM=IFLOW(13)
       ILVOUT=IFLOW(17)
@@ -179,7 +174,7 @@ C Subcycling
 C---------------------------------------------------
 C 0- Preliminaires
 C---------------------------------------------------
-C Coordonnees et vitesses locales SPMD
+C coordinates and local velocities SPMD
       IF (NSPMD == 1) THEN
          DO I=1,NNO
             II=IBUF(I)
@@ -201,14 +196,14 @@ C Coordonnees et vitesses locales SPMD
          ENDDO
       ELSE
          ALLOCATE(SBUF(6*(NNO+NNI)), RBUF(6*(NNO+NNI)))
-C
+
          LENBUF=6*(NNO+NNI)
          DO I=1,LENBUF
             SBUF(I)=ZERO
             RBUF(I)=ZERO
          ENDDO
          NNO_L=IFLOW(16)
-C
+
          DO I=1,NNO_L
             II=IBUFL(I)
             III=IBUF(II)
@@ -242,7 +237,7 @@ C
 C
          DEALLOCATE(SBUF, RBUF)
       ENDIF
-C Normales sortantes elementaires
+C outgoing unitary normal vectors
       DO I=1,NNO
          NODAREA(I)=ZERO
       ENDDO
@@ -281,11 +276,11 @@ C
          NODAREA(N2)=NODAREA(N2)+ONE_OVER_6*AREA
          NODAREA(N3)=NODAREA(N3)+ONE_OVER_6*AREA
       ENDDO
-C
+
       DO I=1,NNO+NNI
          PHI_OLD(I)=PHI(I)
       ENDDO
-C Vitesse a l'infini
+C velocity in far field
       IFVINI=IFLOW(24)
       VGX_OLD=RFLOW(12)*RFLOW(9)
       VGY_OLD=RFLOW(12)*RFLOW(10)
@@ -323,14 +318,12 @@ C Vitesse a l'infini
             AGY=(VGY-VGY_OLD)/DT1
             AGZ=(VGZ-VGZ_OLD)/DT1
          ENDIF
-C Potentiel du champ infini
+C potentiel at far field
          DO I=1,NNO+NNI
             XX=XL(1,I)
             YY=XL(2,I)
             ZZ=XL(3,I)
-            PHI_INF(I)=VGX*(XX-XL(1,NNO))
-     .                +VGY*(YY-XL(2,NNO))
-     .                +VGZ*(ZZ-XL(3,NNO))
+            PHI_INF(I)=VGX*(XX-XL(1,NNO)) + VGY*(YY-XL(2,NNO)) + VGZ*(ZZ-XL(3,NNO))
          ENDDO
       ELSE
          DO I=1,NNO+NNI
@@ -338,7 +331,7 @@ C Potentiel du champ infini
          ENDDO      
       ENDIF
 C---------------------------------------------------
-C 1- Flux sur la surface
+C 1- Surface flux
 C---------------------------------------------------
       DO I=1,NEL
          N1=ELEM(1,I)
@@ -362,7 +355,7 @@ C---------------------------------------------------
          ENDIF
 
       ENDDO
-C      
+
       DO I=1,NINOUT
          QI(I)=ZERO
          IF (IINOUT(3,I)==0) THEN
@@ -381,7 +374,6 @@ C
             ENDIF
             IF (TT>=TSTART.AND.DT1>ZERO) THEN
                TSG=(TT-TSTART)*SCALT
-!!               QI(I)=VEL*FINTER(IFUNC, TSG, NPC, TF, DYDX)
               IF (ISMOOTH == 0) THEN
                 QI(I)=VEL*FINTER(IFUNC, TSG, NPC, TF, DYDX)
               ELSE IF(ISMOOTH > 0 ) THEN
@@ -394,7 +386,7 @@ C
             ENDIF
          ENDIF
       ENDDO
-C
+
       IF (NINOUT>ZERO) THEN
          SFREE=ZERO
          ISQ=ZERO
@@ -409,7 +401,7 @@ C
             ENDIF
             ISQ=ISQ+Q(I)*ELAREA(I)
          ENDDO
-C
+
          IF(SFREE/=ZERO)THEN
            VFREE=-ISQ/SFREE
          ELSE
@@ -421,7 +413,7 @@ C
             IF (IIO==IFREE) Q(I)=Q(I)+VFREE
          ENDDO
       ENDIF
-C
+
       IF (NSPMD > 1) THEN
          DO I=1,NEL
             QL(I)=ZERO
@@ -438,7 +430,7 @@ C
          ENDIF
       ENDIF     
 C---------------------------------------------------
-C 2- Resolution BEM
+C 2- BEM
 C---------------------------------------------------
       IF (NSPMD == 1) THEN
          IF (DT1>ZERO)
@@ -446,7 +438,7 @@ C---------------------------------------------------
      .                   HBEM,     GBEM,   IBUF,  ELEM, NORM,
      .                   X,        Q,      PHI,   IPIV, PHI_INF)
       ELSE
-C Tableaux de correspondance
+C MApping Tables
          NNRP=0
          NNCP=0
          DO I=1,NNO
@@ -461,7 +453,7 @@ C Tableaux de correspondance
             CE_LOC_GLOB(I)=0
             CE_GLOB_LOC(I)=0
          ENDDO
-C
+
          DO I=1,NNO
             IF (IBUFR(I)>0) THEN
                NNRP=NNRP+1
@@ -501,32 +493,32 @@ C
                CE_GLOB_LOC(I)=NEP
             ENDIF
          ENDDO
-C
+
          NPROW=IFLOW(18)
          NPCOL=IFLOW(19)
          NBLOC=IFLOW(12)
          IF (DT1>ZERO) 
      .      CALL BEMSOLVP(
-     . ELEM,          NORM,  XL,          NNRP,        CR_LOC_GLOB,
-     . CR_GLOB_LOC,   NNCP,  CC_LOC_GLOB, CC_GLOB_LOC, NCEIP,
-     . CCEI_LOC_GLOB, NEP,   CE_LOC_GLOB, CE_GLOB_LOC, NREIP,
-     . CREI_LOC_GLOB, NNO,   NEL,         HBEM,        GBEM,
-     . QL,            PHI,   IFORM,       L_ASSEMB,    NPROW,
-     . NPCOL,         NBLOC, IPIV,        NERP,        ILVOUT,
-     . PHI_INF      )
+     .             ELEM,          NORM,  XL,          NNRP,        CR_LOC_GLOB,
+     .             CR_GLOB_LOC,   NNCP,  CC_LOC_GLOB, CC_GLOB_LOC, NCEIP,
+     .             CCEI_LOC_GLOB, NEP,   CE_LOC_GLOB, CE_GLOB_LOC, NREIP,
+     .             CREI_LOC_GLOB, NNO,   NEL,         HBEM,        GBEM,
+     .             QL,            PHI,   IFORM,       L_ASSEMB,    NPROW,
+     .             NPCOL,         NBLOC, IPIV,        NERP,        ILVOUT,
+     .             PHI_INF      )
       ENDIF
 C---------------------------------------------------
-C 3- Calcul des vitesses
+C 3- Velocities
 C---------------------------------------------------
       IF (NSPMD == 1) THEN
          PHI(NNO)=ZERO
-C Vitesses sur la surface
+         ! on surface
          DO I=1,NNO
             U(1,I)=ZERO
             U(2,I)=ZERO
             U(3,I)=ZERO
          ENDDO
-C
+
          DO I=1,NEL
             N1=ELEM(1,I)
             N2=ELEM(2,I)
@@ -567,7 +559,7 @@ C
             U(2,N3)=U(2,N3)+UY*THIRD*AREA/AREAN3
             U(3,N3)=U(3,N3)+UZ*THIRD*AREA/AREAN3
          ENDDO
-C Vitesses sur les points auxiliaire
+C velocities at auxiliary nodes
          IF (NNI>0.AND.IPINT==1) THEN
             ITEST=IFLOW(21)
             IF (ITEST>0) THEN
@@ -589,7 +581,7 @@ C Vitesses sur les points auxiliaire
                   ZMIN=MIN(ZMIN,ZZ)
                   ZMAX=MAX(ZMAX,ZZ)
                ENDDO
-C
+
                DO I=1,NNI
                   ITAGNI(I)=0
                   XX=XL(1,NNO+I)
@@ -621,7 +613,7 @@ C
                      VX3=X3-XX
                      VY3=Y3-YY
                      VZ3=Z3-ZZ
-C
+
                      NX1=VY1*VZ2-VZ1*VY2
                      NY1=VZ1*VX2-VX1*VZ2
                      NZ1=VX1*VY2-VY1*VX2
@@ -644,7 +636,7 @@ C
                      IF (SS3>ONE) SS3=ONE
                      IF (SS3<-ONE) SS3=-ONE
                      SAREA=ACOS(SS1)+ACOS(SS2)+ACOS(SS3)-PI
-C
+
                      VX1=X2-X1
                      VY1=Y2-Y1
                      VZ1=Z2-Z1
@@ -669,7 +661,7 @@ C
                   ITAGNI(I)=1
                ENDDO
             ENDIF
-C
+
             DO I=1,NNI
                PHI(NNO+I)=ZERO
                U(1,NNO+I)=ZERO
@@ -699,7 +691,7 @@ C
                   D2=MIN((X0-X1)**2+(Y0-Y1)**2+(Z0-Z1)**2,
      .                   (X0-X2)**2+(Y0-Y2)**2+(Z0-Z2)**2,
      .                   (X0-X3)**2+(Y0-Y3)**2+(Z0-Z3)**2)
-C Nombre de points de gauss sur le triangle
+C number of Gauss point on the triangle
                   IF (R2>HUNDRED*D2) THEN
                      NPG=1
                      IAD=1
@@ -713,7 +705,7 @@ C Nombre de points de gauss sur le triangle
                      NPG=13
                      IAD=13
                   ENDIF
-C
+
                   QM=Q(J)
                   AREA=ELAREA(J)
                   AREA2=TWO*AREA
@@ -736,9 +728,8 @@ C
                      PHIM=PHI(N1)*VAL1+PHI(N2)*VAL2+PHI(N3)*VAL3
                      R=SQRT((XX-XM)**2+(YY-YM)**2+(ZZ-ZM)**2)
                      FAC=FOURTH/PI/R**3
-                     FAC2=THREE/R**2*
-     .                       ((XX-XM)*NRX+(YY-YM)*NRY+(ZZ-ZM)*NRZ)
-C
+                     FAC2=THREE/R**2* ((XX-XM)*NRX+(YY-YM)*NRY+(ZZ-ZM)*NRZ)
+
                      PHIS=FOURTH/PI/R
                      QS=FAC*((XX-XM)*NRX+(YY-YM)*NRY+(ZZ-ZM)*NRZ)
                      DPSDX=-FAC*(XX-XM)
@@ -747,7 +738,7 @@ C
                      DQSDX=FAC*(NRX-(XX-XM)*FAC2)
                      DQSDY=FAC*(NRY-(YY-YM)*FAC2)
                      DQSDZ=FAC*(NRZ-(ZZ-ZM)*FAC2)
-C
+
                      PHI(NNO+I)=PHI(NNO+I)+AREA*W*(QM*PHIS-PHIM*QS)
                      U(1,NNO+I)=U(1,NNO+I)+AREA*W*(QM*DPSDX-PHIM*DQSDX)
                      U(2,NNO+I)=U(2,NNO+I)+AREA*W*(QM*DPSDY-PHIM*DQSDY)
@@ -761,7 +752,7 @@ C
             ENDDO
          ENDIF
       ELSE
-C Echange des potentiels
+C exchange of POtentials
          ALLOCATE(SBUF(NNO), RBUF(NNO))
          DO I=1,NNO
             SBUF(I)=ZERO
@@ -785,13 +776,13 @@ C Echange des potentiels
          ENDDO
          DEALLOCATE(SBUF, RBUF)
          PHI(NNO)=ZERO
-C Vitesses sur la surface
+         !velocity on surface
          DO I=1,NNO
             U(1,I)=ZERO
             U(2,I)=ZERO
             U(3,I)=ZERO
          ENDDO
-C
+
          DO I=1,NEL
             N1=ELEM(1,I)
             N2=ELEM(2,I)
@@ -835,7 +826,7 @@ C
             ENDIF              
 
          ENDDO    
-C On repartit les noeuds auxiliaires sur les procs
+C auxiliary nodes are dispatched on nodes
          IF (NNI>0.AND.IPINT==1) THEN
             NL=NNI/NSPMD+1
             IFT=ISPMD*NL+1
@@ -860,7 +851,7 @@ C On repartit les noeuds auxiliaires sur les procs
                   ZMIN=MIN(ZMIN,ZZ)
                   ZMAX=MAX(ZMAX,ZZ)
                ENDDO
-C
+
                DO I=IFT,ILT
                   ITAGNI(I)=0
                   XX=XL(1,NNO+I)
@@ -892,7 +883,7 @@ C
                      VX3=X3-XX
                      VY3=Y3-YY
                      VZ3=Z3-ZZ
-C
+
                      NX1=VY1*VZ2-VZ1*VY2
                      NY1=VZ1*VX2-VX1*VZ2
                      NZ1=VX1*VY2-VY1*VX2
@@ -915,7 +906,7 @@ C
                      IF (SS3>ONE) SS3=ONE
                      IF (SS3<-ONE) SS3=-ONE
                      SAREA=ACOS(SS1)+ACOS(SS2)+ACOS(SS3)-PI
-C
+
                      VX1=X2-X1
                      VY1=Y2-Y1
                      VZ1=Z2-Z1
@@ -940,7 +931,7 @@ C
                   ITAGNI(I)=1
                ENDDO
             ENDIF
-C
+
             DO I=IFT,ILT
                PHI(NNO+I)=ZERO
                U(1,NNO+I)=ZERO
@@ -970,7 +961,7 @@ C
                   D2=MIN((X0-X1)**2+(Y0-Y1)**2+(Z0-Z1)**2,
      .                   (X0-X2)**2+(Y0-Y2)**2+(Z0-Z2)**2,
      .                   (X0-X3)**2+(Y0-Y3)**2+(Z0-Z3)**2)
-C Nombre de points de gauss sur le triangle
+C number of gauss point on the triangle
                   IF (R2>HUNDRED*D2) THEN
                      NPG=1
                      IAD=1
@@ -984,7 +975,7 @@ C Nombre de points de gauss sur le triangle
                      NPG=13
                      IAD=13
                   ENDIF
-C
+
                   QM=Q(J)
                   AREA=ELAREA(J)
                   IF(AREA>EM20)THEN
@@ -1014,8 +1005,7 @@ C
                      R=SQRT((XX-XM)**2+(YY-YM)**2+(ZZ-ZM)**2)
                      IF(R>EM20)THEN
                        FAC=FOURTH/PI/R**3
-                       FAC2=THREE/R**2*
-     .                       ((XX-XM)*NRX+(YY-YM)*NRY+(ZZ-ZM)*NRZ)
+                       FAC2=THREE/R**2* ((XX-XM)*NRX+(YY-YM)*NRY+(ZZ-ZM)*NRZ)
                        PHIS=FOURTH/PI/R
                      ELSE
                        FAC  = ZERO
@@ -1029,7 +1019,7 @@ C
                      DQSDX=FAC*(NRX-(XX-XM)*FAC2)
                      DQSDY=FAC*(NRY-(YY-YM)*FAC2)
                      DQSDZ=FAC*(NRZ-(ZZ-ZM)*FAC2)
-C
+
                      PHI(NNO+I)=PHI(NNO+I)+AREA*W*(QM*PHIS-PHIM*QS)
                      U(1,NNO+I)=U(1,NNO+I)+AREA*W*(QM*DPSDX-PHIM*DQSDX)
                      U(2,NNO+I)=U(2,NNO+I)+AREA*W*(QM*DPSDY-PHIM*DQSDY)
@@ -1041,7 +1031,7 @@ C
                U(2,NNO+I)=U(2,NNO+I)+VGY
                U(3,NNO+I)=U(3,NNO+I)+VGZ
             ENDDO
-C Echange des potentiels et vitesses sur noeuds internes
+C Exchange of potentials and velocities on internal nodes
             ALLOCATE(SBUF(4*NNI), RBUF(4*NNI))
             LENBUF=4*NNI
             DO I=1,LENBUF
@@ -1064,12 +1054,12 @@ C Echange des potentiels et vitesses sur noeuds internes
          ENDIF
       ENDIF
 C---------------------------------------------------
-C 4- Calcul des pressions
+C 4- Pressure
 C---------------------------------------------------
       RHO=RFLOW(5)
       IFPA=IFLOW(23)
       IF (IFPA/=0) THEN
-C La pression d'arret est imposee directement
+C imposed stagnation pressure
          SFPA=RFLOW(1)
          SCALT=RFLOW(2)
          TSTART=ZERO
@@ -1077,7 +1067,6 @@ C La pression d'arret est imposee directement
          IF (IFPA > 0) ISMOOTH = NPC(2*NFUNCT+IFPA+1)
          IF (TT>=TSTART.AND.DT1>ZERO) THEN
             TSG=(TT-TSTART)*SCALT
-!!            PA=SFPA*FINTER(IFPA, TSG, NPC, TF, DYDX)
            IF (ISMOOTH == 0) THEN
              PA=SFPA*FINTER(IFPA, TSG, NPC, TF, DYDX)
            ELSE IF(ISMOOTH > 0) THEN
@@ -1089,7 +1078,7 @@ C La pression d'arret est imposee directement
            ENDIF ! IF (ISMOOTH == 0)
          ENDIF
       ELSE
-C La pression est imposee a une des entrees-sorties
+C pressure imposed at inlet/outlet
          DO I=1,NINOUT
             IF (IINOUT(4,I)/=0) THEN
                IFPRES=IINOUT(4,I)
@@ -1115,7 +1104,7 @@ C La pression est imposee a une des entrees-sorties
             ENDIF
          ENDDO
       ENDIF
-C
+
       IF (DT1>ZERO) THEN
          IF (NCYCLE>1) THEN
             DO I=1,NNO+NNI
@@ -1131,7 +1120,7 @@ C
                PHIP(I)=ZERO
             ENDDO
          ENDIF
-C
+
          DO I=1,NNO+NNI
             UU=U(1,I)**2+U(2,I)**2+U(3,I)**2
             PRES(I)=PA-RHO*PHIP(I)-HALF*RHO*UU
@@ -1142,7 +1131,7 @@ C
          ENDDO
       ENDIF   
 C---------------------------------------------------
-C 5- Forces sur l'enveloppe
+C 5- Force on the boundary
 C---------------------------------------------------
       IF (NSPMD == 1) THEN
          DO I=1,NEL
@@ -1165,13 +1154,13 @@ C---------------------------------------------------
             A(1,NN3)=A(1,NN3)+COEF*NRX
             A(2,NN3)=A(2,NN3)+COEF*NRY
             A(3,NN3)=A(3,NN3)+COEF*NRZ
-            TFEXT=TFEXT+COEF*NRX*V(1,NN1)*DT1
+            WFEXT=WFEXT+COEF*NRX*V(1,NN1)*DT1
      .                 +COEF*NRY*V(2,NN1)*DT1
      .                 +COEF*NRZ*V(3,NN1)*DT1
-            TFEXT=TFEXT+COEF*NRX*V(1,NN2)*DT1
+            WFEXT=WFEXT+COEF*NRX*V(1,NN2)*DT1
      .                 +COEF*NRY*V(2,NN2)*DT1
      .                 +COEF*NRZ*V(3,NN2)*DT1
-            TFEXT=TFEXT+COEF*NRX*V(1,NN3)*DT1
+            WFEXT=WFEXT+COEF*NRX*V(1,NN3)*DT1
      .                 +COEF*NRY*V(2,NN3)*DT1
      .                 +COEF*NRZ*V(3,NN3)*DT1
          ENDDO
@@ -1200,7 +1189,7 @@ C---------------------------------------------------
                A(1,NN1)=A(1,NN1)+COEF*NRX
                A(2,NN1)=A(2,NN1)+COEF*NRY
                A(3,NN1)=A(3,NN1)+COEF*NRZ
-               TFEXT=TFEXT+COEF*NRX*V(1,NN1)*DT1
+               WFEXT=WFEXT+COEF*NRX*V(1,NN1)*DT1
      .                    +COEF*NRY*V(2,NN1)*DT1
      .                    +COEF*NRZ*V(3,NN1)*DT1
             ENDIF
@@ -1209,7 +1198,7 @@ C---------------------------------------------------
                A(1,NN2)=A(1,NN2)+COEF*NRX
                A(2,NN2)=A(2,NN2)+COEF*NRY
                A(3,NN2)=A(3,NN2)+COEF*NRZ
-               TFEXT=TFEXT+COEF*NRX*V(1,NN2)*DT1
+               WFEXT=WFEXT+COEF*NRX*V(1,NN2)*DT1
      .                    +COEF*NRY*V(2,NN2)*DT1
      .                    +COEF*NRZ*V(3,NN2)*DT1
             ENDIF
@@ -1218,13 +1207,13 @@ C---------------------------------------------------
                A(1,NN3)=A(1,NN3)+COEF*NRX
                A(2,NN3)=A(2,NN3)+COEF*NRY
                A(3,NN3)=A(3,NN3)+COEF*NRZ
-               TFEXT=TFEXT+COEF*NRX*V(1,NN3)*DT1
+               WFEXT=WFEXT+COEF*NRX*V(1,NN3)*DT1
      .                    +COEF*NRY*V(2,NN3)*DT1
      .                    +COEF*NRZ*V(3,NN3)*DT1
             ENDIF
          ENDDO      
       ENDIF 
-C
+
       RETURN
       END
       !||====================================================================
@@ -1252,7 +1241,7 @@ C-----------------------------------------------
      .        VX1, VY1, VZ1, VX2, VY2, VZ2, EX1, EX2, EY2,
      .        XL1, YL1, XL2, YL2, XL3, YL3, JAC, JJ11, JJ12, JJ21, JJ22,
      .        GRLX, GRLY
-C
+
       VX1=X2-X1
       VY1=Y2-Y1
       VZ1=Z2-Z1
@@ -1266,7 +1255,7 @@ C
         VY1=ZERO
         VZ1=ZERO
       ENDIF
-C
+
       VX2=X3-X1
       VY2=Y3-Y1
       VZ2=Z3-Z1
@@ -1284,7 +1273,7 @@ C
         VY2=ZERO
         VZ2=ZERO
       ENDIF
-C
+
       XL1=ZERO
       YL1=ZERO
       XL2=EX1
@@ -1303,14 +1292,14 @@ C
         JJ21=ZERO
         JJ22=ZERO
       ENDIF
-C
+
       GRLX=(PHI2-PHI1)*JJ11+(PHI3-PHI1)*JJ21
       GRLY=(PHI2-PHI1)*JJ12+(PHI3-PHI1)*JJ22
-C
+
       GRX=GRLX*VX1+GRLY*VX2
       GRY=GRLX*VY1+GRLY*VY2
       GRZ=GRLX*VZ1+GRLY*VZ2
-C
+
       RETURN
       END
       

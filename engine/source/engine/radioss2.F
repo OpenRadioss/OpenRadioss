@@ -173,7 +173,7 @@ C-----------------------------------------------
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
       USE USER_INTERFACE_MOD
       USE ALE_MOD
-      USE OUTPUT_MOD
+      USE OUTPUT_MOD , ONLY : OUTPUT_, WFEXT, WFEXT_MD
       USE INTERFACES_MOD
       USE DT_MOD
       USE LOADS_MOD
@@ -186,6 +186,7 @@ C-----------------------------------------------
       use connectivity_mod
       use nodal_arrays_mod
       use rbe3_mod
+      USE TIME_HISTORY_MOD , only : TH_CLEAN
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -299,7 +300,7 @@ C Madymo Stuff
       TYPE (PINCH)  :: PINCH_DATA
       TYPE(DRAPE_), DIMENSION(:), ALLOCATABLE        :: DRAPE_SH4N,DRAPE_SH3N
       TYPE(DRAPEG_)                                  :: DRAPEG
-      TYPE(OUTPUT_)                                  :: OUTPUT
+      TYPE(OUTPUT_),TARGET                           :: OUTPUT
       TYPE(PYTHON_)                                  :: PYTHON
 C      
       INTEGER :: CURRENT_RUN,PREVIOUS_RUN
@@ -387,7 +388,11 @@ C                                   IF RELEASE WAS BUILT FROM SOURCE
       ISRCVER=1
       ABINP = 0
       ABOUT = 0
-      
+
+      !External Foce Work
+      WFEXT => OUTPUT%WFEXT
+      WFEXT_MD => OUTPUT%WFEXT_MD
+
 #include      "machine2.inc"
       
 C------------------------------------------------------------------

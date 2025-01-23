@@ -29,6 +29,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                       ESPE ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
      3                       PNEW ,DPDM ,DPDE ,THETA,ECOLD,POLD)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE OUTPUT_MOD , ONLY : WFEXT
+C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 C This subroutine contains numerical solving
@@ -62,7 +66,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX, CURVEID
-      my_real :: P0,GAMMA,E0,SPH,AA, BB,TFEXTT, DVV, PP, RHO, RHO0
+      my_real :: P0,GAMMA,E0,SPH,AA, BB,WFEXTT, DVV, PP, RHO, RHO0
       my_real :: r_GAS,A0,A1,A2,A3,A4,CP(MVSIZ),CV, T1,T2,T3,T4
       my_real :: TEMP, FUN, DFUN, TOL, ERROR, INCR
       INTEGER :: ITER, MAX_ITER
@@ -120,7 +124,7 @@ C-----------------------------------------------
          
 C-----------------------------------------------
       ELSEIF(IFLAG == 1) THEN
-         TFEXTT     =ZERO
+         WFEXTT     =ZERO
          MX         = MAT(1)
          RHO0       = PM(1 ,MX)
          E0         = PM(23,MX)
@@ -161,11 +165,11 @@ C-----------------------------------------------
          DO I=1,NEL
            PNEW(I) = RHO0*(ONE+MU(I))*r_GAS*THETA(I)    
            EINT(I) = EINT(I) - HALF*DVOL(I)*PNEW(I)
-           TFEXTT  = TFEXTT-DVOL(I)*PSH(I)
+           WFEXTT  = WFEXTT-DVOL(I)*PSH(I)
            PNEW(I) = PNEW(I)-PSH(I)
          ENDDO       
 #include "atomic.inc"
-       TFEXT = TFEXT + TFEXTT
+       WFEXT = WFEXT + WFEXTT
 #include "atomend.inc"
 
 C-----------------------------------------------

@@ -57,7 +57,7 @@
       subroutine sigeps51 ( &
            nel    ,nuparam     ,nuvar   ,nfunc   ,ifunc    , &
            npf    ,tf          ,time    ,timestep,uparam   ,numel  , &
-           rho    ,volume       ,eint   ,vel_o   ,tfext    , &
+           rho    ,volume       ,eint   ,vel_o   ,wfext    , &
            epspxx ,epspyy      ,epspzz  ,epspxy  ,epspyz   ,epspzx , &
            depsxx ,depsyy      ,depszz  ,depsxy  ,depsyz   ,depszx , &
            sigoxx ,sigoyy      ,sigozz  ,sigoxy  ,sigoyz   ,sigozx , &
@@ -162,7 +162,7 @@
 ! ======================================================================================================================
 !                                                   Arguments
 ! ======================================================================================================================
-      double precision,intent(inout) :: tfext
+      double precision,intent(inout) :: wfext
       integer,intent(in) :: nummat,numnod,ngroup !< array size
       integer,intent(in) :: numgeo !< array size
       integer,intent(in) :: n2d !< flag for 2d / 3d analysis
@@ -211,7 +211,7 @@
 
       INTEGER SUBMAT_CODE
       INTEGER I,J,K,KK,ITER,NITER
-      my_real P,PEXT,TFEXTT, &
+      my_real P,PEXT,WFEXTT, &
               GG1,GG2,GG3, &
               C11,C12,C13,C21,C22,C23,C31,C32,C33,C41,C42,C43,C51,C52,C53, &
               AV1(nel),AV2(nel),AV3(nel),AV4(nel),RHO10,RHO20,RHO30,RHO40,RHO1,RHO2,RHO3,RHO4, &
@@ -279,7 +279,7 @@
 
       TOL51 = EM10
 
-      TFEXTT = ZERO
+      WFEXTT = ZERO
       MU1P1 = ONE
       MU2P1 = ONE
       MU3P1 = ONE
@@ -298,7 +298,7 @@
         CALL SIGEPS51_BOUNDARY_MATERIAL( &
             nel    ,nuparam     ,nuvar    ,nfunc   ,ifunc    ,&
             npf    ,tf          ,time     ,timestep,uparam   ,numel  ,&
-            rho    ,volume       ,eint    ,vel_o   ,tfext    ,&
+            rho    ,volume       ,eint    ,vel_o   ,WFEXT    ,&
             epspxx ,epspyy      ,epspzz   ,&
             sigoxx ,sigoyy      ,sigozz   ,sigoxy  ,sigoyz   ,sigozx ,&
             signxx ,signyy      ,signzz   ,signxy  ,signyz   ,signzx ,&

@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE FLOW0(IFLOW  , RFLOW  , WIFLOW , WRFLOW, X      ,
      .                 V      , A      , NPC    , TF    , SENSOR_TAB,
      .                 NBGAUGE, LGAUGE , GAUGE  , NSENSOR, 
-     .                 IGRV   , AGRV   , NFUNCT , PYTHON)
+     .                 IGRV   , AGRV   , NFUNCT , PYTHON, WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -61,11 +61,10 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NSENSOR,NBGAUGE,NFUNCT
       INTEGER IFLOW(*), WIFLOW(*), NPC(*),LGAUGE(3,*)
       INTEGER IGRV(NIGRV,*)
-      my_real
-     .        RFLOW(*), WRFLOW(*), X(3,*), V(3,*), A(3,*), TF(*),
-     .        GAUGE(LLGAUGE,*), AGRV(LFACGRV,*)
+      my_real RFLOW(*), WRFLOW(*), X(3,*), V(3,*), A(3,*), TF(*), GAUGE(LLGAUGE,*), AGRV(LFACGRV,*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
       TYPE (PYTHON_), INTENT(INOUT) :: PYTHON
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -137,7 +136,6 @@ C-------------------------------------------------------------------------------
      .   MANIM==4 .OR.MANIM==5 .OR.MANIM==6 .OR.MANIM==7.OR.
      .   MANIM==12.OR.MANIM==13.OR.MANIM==14.OR.MANIM==15) 
      .   IPINT=1
-C
       IADI=0
       IADR=0
       DO I=1,NFLOW
@@ -152,7 +150,6 @@ C
          IF (ITYP==1) THEN
             NINOUT=IFLOW(IADI+4)
             NNN=IFLOW(IADI+7)
-C
             II4=II3+3*NEL
             II5=II4+NINOUT*NIIOFLOW
             II6=II5+NNN
@@ -178,11 +175,11 @@ C
             IR3=IR2+NNO+NNN
             IR4=IR3+NNO+NNN
             IR5=IR4+3*(NNO+NNN)
-C
+
             IADIP=IFLOW(IADI+10)
             IADH=IFLOW(IADI+11)
             IADG=IFLOW(IADI+20)
-C
+
             CALL INCPFLOW(
      .      NNO,         NEL,         NINOUT,      NNN,         IFLOW(II1),
      .      IFLOW(II2),  IFLOW(II3),  IFLOW(II4),  IFLOW(II5),  IFLOW(II7),
@@ -191,8 +188,8 @@ C
      .      NPC,         TF        ,  NSENSOR    , SENSOR_TAB ,
      .      IFLOW(II10), IFLOW(II6),  IFLOW(II13), IFLOW(II14), WIFLOW(IADIP), 
      .      WRFLOW(IADH),WRFLOW(IADG),IFLOW(II11), IFLOW(II12), IPINT,
-     .      PYTHON) 
-C
+     .      PYTHON      ,WFEXT)
+
          ELSEIF(ITYP == 3) THEN
             JFORM    = IFLOW(IADI+4)
             FREESURF = IFLOW(IADI+25)
@@ -225,7 +222,7 @@ C
      .                     RFLOW(IR1), RFLOW(IR2), RFLOW(IR3), RFLOW(IR4), RFLOW(IR5), RFLOW(IR6), 
      .                     RFLOW(IR7), RFLOW(IR8), RFLOW(IR9), RFLOW(IR10),X, V, A, NPC, TF,  
      .                     NBGAUGE, LGAUGE, GAUGE, NSENSOR, SENSOR_TAB, IGRV, AGRV,
-     .                     RFLOW(IR11),IFLOW(II7), NFUNCT, PYTHON)
+     .                     RFLOW(IR11),IFLOW(II7), NFUNCT, PYTHON, WFEXT)
             ELSE
               II7=II6+NNO
               II8=II7+NEL
@@ -239,13 +236,13 @@ C
      .                      RFLOW(IR7), RFLOW(IR8), RFLOW(IR9), RFLOW(IR10),X, V, A, NPC, TF,  
      .                      NBGAUGE, LGAUGE, GAUGE, NSENSOR, SENSOR_TAB, IGRV, AGRV,
      .                      RFLOW(IR11),WIFLOW(IADIP), WRFLOW(IADH), IFLOW(II8), IFLOW(II9),
-     .                      NFUNCT, PYTHON)
+     .                      NFUNCT, PYTHON, WFEXT)
             ENDIF
          ENDIF
          IADR=IADR+IFLOW(IADI+15)
          IADI=IADI+IFLOW(IADI+14)
       ENDDO
-C
+
       RETURN
       END
       

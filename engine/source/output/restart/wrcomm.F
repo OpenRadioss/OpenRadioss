@@ -1837,7 +1837,7 @@ C-----
       TABVREA(11)=DTFAC
       TABVREA(12)=DTMIN
       TABVREA(13)=VOLMIN
-      TABVREA(14)=TFEXT
+      TABVREA(14)=OUTPUT%WFEXT
       TABVREA(15)=REINT
       TABVREA(16)=0 !no longer used
       TABVREA(17)=0 !no longer used

@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE VOLPRE(IVOLU ,RVOLU   ,NJET    ,IBAGJET ,RBAGJET  ,
      2                NSENSOR ,SENSOR_TAB,X       ,V       ,A        ,
      3                NORMAL  ,NPC     ,TF      ,NN      ,SURF_NODES,
-     4                FEXT    ,H3D_DATA,SURF_ELTYP,SURF_ELEM)
+     4                FEXT    ,H3D_DATA,SURF_ELTYP,SURF_ELEM,WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -56,30 +56,24 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NSENSOR
-      INTEGER IVOLU(*),NJET,IBAGJET(NIBJET,*),
-     .        NPC(*),NN,SURF_NODES(NN,4),SURF_ELTYP(NN),SURF_ELEM(NN)
-C     REAL
-      my_real
-     .   RVOLU(*),RBAGJET(NRBJET,*),
-     .   X(3,*), V(3,*), A(3,*), NORMAL(3,NN),TF(*),FEXT(3,*)
+      INTEGER IVOLU(*),NJET,IBAGJET(NIBJET,*),NPC(*),NN,SURF_NODES(NN,4),SURF_ELTYP(NN),SURF_ELEM(NN)
+      my_real RVOLU(*),RBAGJET(NRBJET,*), X(3,*), V(3,*), A(3,*), NORMAL(3,NN),TF(*),FEXT(3,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
+      DOUBLE PRECISION, INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,NJ1,NJ2,NJ3,IPT,IPA,IPZ,
      .        N1,N2,N3,N4,IJ,ISENS,K,
      .        ITYP
-C     REAL
-      my_real
-     .   PRES,FX,FY,FZ,P,PEXT,DP,Q,PJ,PJ0,DYDX,XX,YY,ZZ,
+      my_real PRES,FX,FY,FZ,P,PEXT,DP,Q,PJ,PJ0,DYDX,XX,YY,ZZ,
      .   THETA,NX1,NX2,NY1,NY2,NZ1,NZ2,AN1,AN,
      .   XM,YM,ZM,NX3,NY3,NZ3,
      .   PS1,PS2,PS3,AN2,AN3,DET,MU,FACR,
      .   API,DIST,TSTART,TS,TMPO,FPT,FPA,FPZ,SCALT,SCALA,SCALD
-      my_real 
-     .   FINTER
-C=======================================================================
+      my_real FINTER
+C===============================================
       API=HUNDRED80/PI
 C-----------------------------------------------
       PRES   =RVOLU(12)
@@ -91,7 +85,7 @@ C-----------------------------------------------
       DP     =Q+PRES-PEXT
       DO I=1,NN
 C
-        IF(SURF_ELTYP(I)==3)THEN
+        IF(SURF_ELTYP(I) == 3)THEN
           P=DP*FOURTH
           II=SURF_ELEM(I)
 C
@@ -119,8 +113,7 @@ C
           A(1,N4)=A(1,N4)+FX
           A(2,N4)=A(2,N4)+FY
           A(3,N4)=A(3,N4)+FZ
-          IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT+
-     .       ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT >0) THEN
+          IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT+ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT >0) THEN
             FEXT(1,N1) = FEXT(1,N1)+FX
             FEXT(2,N1) = FEXT(2,N1)+FY
             FEXT(3,N1) = FEXT(3,N1)+FZ
@@ -134,7 +127,7 @@ C
             FEXT(2,N4) = FEXT(2,N4)+FY
             FEXT(3,N4) = FEXT(3,N4)+FZ
           ENDIF
-        ELSEIF(SURF_ELTYP(I)==7)THEN
+        ELSEIF(SURF_ELTYP(I) == 7)THEN
           P=DP/3.
           II=SURF_ELEM(I) + NUMELC
 C
@@ -157,8 +150,7 @@ C
           A(1,N3)=A(1,N3)+FX
           A(2,N3)=A(2,N3)+FY
           A(3,N3)=A(3,N3)+FZ
-          IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT+
-     .       ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT >0) THEN
+          IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT+ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT >0) THEN
             FEXT(1,N1) = FEXT(1,N1)+FX
             FEXT(2,N1) = FEXT(2,N1)+FY
             FEXT(3,N1) = FEXT(3,N1)+FZ
@@ -197,8 +189,7 @@ C
           A(1,N4)=A(1,N4)+FX
           A(2,N4)=A(2,N4)+FY
           A(3,N4)=A(3,N4)+FZ
-          IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT+
-     .       ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT >0) THEN
+          IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT+ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT >0) THEN
             FEXT(1,N1) = FEXT(1,N1)+FX
             FEXT(2,N1) = FEXT(2,N1)+FY
             FEXT(3,N1) = FEXT(3,N1)+FZ
@@ -216,7 +207,7 @@ C
       ENDDO
 C
       ITYP=IVOLU(2)
-      IF(ITYP/=4.AND.ITYP/=5.AND.ITYP/=7.AND.ITYP/=9)RETURN
+      IF(ITYP /= 4 .AND. ITYP /= 5 .AND. ITYP /= 7 .AND. ITYP /= 9)RETURN
 C-------------------------------------------
 C     INJECTEURS
 C-------------------------------------------
@@ -238,7 +229,7 @@ C
          TSTART=SENSOR_TAB(ISENS)%TSTART
        ENDIF
 C
-       IF(NJ1/=0.AND.TT>=TSTART)THEN
+       IF(NJ1 /= 0 .AND. TT >= TSTART)THEN
         TS=TT-TSTART
         PJ0=FPT*FINTER(IPT,TS*SCALT,NPC,TF,DYDX)
         DO I=1,NN
@@ -319,8 +310,7 @@ C
           A(2,N4)=A(2,N4)+FY
           A(3,N4)=A(3,N4)+FZ
 C
-          IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT+
-     .       ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT >0) THEN
+          IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT+ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT >0) THEN
             FEXT(1,N1) = FEXT(1,N1)+FX
             FEXT(2,N1) = FEXT(2,N1)+FY
             FEXT(3,N1) = FEXT(3,N1)+FZ
@@ -335,7 +325,7 @@ C
             FEXT(3,N4) = FEXT(3,N4)+FZ
           ENDIF
 C
-          TFEXT=TFEXT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)+V(1,N4))
+          WFEXT=WFEXT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)+V(1,N4))
      +                    +FY*(V(2,N1)+V(2,N2)+V(2,N3)+V(2,N4))
      +                    +FZ*(V(3,N1)+V(3,N2)+V(3,N3)+V(3,N4)))
         ELSEIF(SURF_ELTYP(I)==7)THEN
@@ -422,7 +412,7 @@ C
             FEXT(3,N3) = FEXT(3,N3)+FZ
           ENDIF
 C
-          TFEXT=TFEXT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3))
+          WFEXT=WFEXT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3))
      +                    +FY*(V(2,N1)+V(2,N2)+V(2,N3))
      +                    +FZ*(V(3,N1)+V(3,N2)+V(3,N3)))
         ELSE
@@ -521,7 +511,7 @@ C
             FEXT(3,N4) = FEXT(3,N4)+FZ
           ENDIF
 C
-          TFEXT=TFEXT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)+V(1,N4))
+          WFEXT=WFEXT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)+V(1,N4))
      +                    +FY*(V(2,N1)+V(2,N2)+V(2,N3)+V(2,N4))
      +                    +FZ*(V(3,N1)+V(3,N2)+V(3,N3)+V(3,N4)))
         ENDIF
