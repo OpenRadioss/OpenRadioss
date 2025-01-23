@@ -45,12 +45,16 @@
                          nsn     ,nsv     ,nrtm    ,irect   ,                &
                          nmn     ,msr     ,msegtyp ,dsearch ,                &
                          x       ,numnod  ,itab    ,ipri    ,                &
-                         iout    )
+                         iout    ,ixs     ,numels  ,noint   ,                &
+                         irtl    ,st      ,dmin    )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use groupdef_mod
-          use select_s2s_mod, only : select_s2s
+          use select_s2s_mod,   only : select_s2s
+          use message_mod
+          use constant_mod,     only : nine,ep20
+          use connectivity_size_mod, only : nixs
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -76,15 +80,21 @@
           integer,   dimension(nrtm),             intent(inout) :: msegtyp             !< main seg type array
           integer,                                   intent(in) :: ipri                !< message out flag 
           integer,                                   intent(in) :: iout                !< outfile unit  
+          integer,                                   intent(in) :: numels              !< number of solid elements
           integer,    dimension(numnod),             intent(in) :: itab                !< number user_id
           my_real,                                   intent(in) :: dsearch             !< search distance
           my_real,    dimension(3,numnod),           intent(in) :: x                   !< coordinates of the nodes
+          integer,    dimension(nixs,numels),        intent(in) :: ixs                 !< solid connectivity
+          integer,                                   intent(in) :: noint               !< user_id of interfaces
+          integer,    dimension(nsn),             intent(inout) :: irtl                !< interface node array irtlm
+          my_real,    dimension(2,nsn),           intent(inout) :: st                  !< interface node work array csts
+          my_real,    dimension(nsn),             intent(inout) :: dmin                !< interface node work array dpara
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,l,k,m,n,ns,isu1,isu2,nsu1,nsu2,l1,l2,id
-          integer,  dimension(:), allocatable :: itags1,itags2,itagn
-          my_real :: rem
+          integer :: i,l,k,m,n,ns,isu1,isu2,nsu1,nsu2,l1,l2,id,inrt, nels, nelc, neltg,nint
+          integer,  dimension(:), allocatable :: itags1,itags2,itagn,igrelem
+          my_real :: rem,area
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   External functions
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -98,6 +108,7 @@
       nsu2  = igrsurf(isu2)%nseg
       allocate(itags1(nsu1))
       allocate(itags2(nsu2))
+      allocate(igrelem(nrtm))
       itags1 = 1
       itags2 = 1
 ! 
@@ -109,6 +120,7 @@
         irect(1:4,l) = igrsurf(isu1)%nodes(i,1:4)
         msegtyp(l) = igrsurf(isu1)%eltyp(i)
         if (msegtyp(l)==0) msegtyp(l) = 10
+        igrelem(l) = igrsurf(isu1)%elem(i)
       end if
     end do
     l1 = l
@@ -129,6 +141,7 @@
         irect(1:4,l) = igrsurf(isu2)%nodes(i,1:4)
         msegtyp(l) = igrsurf(isu2)%eltyp(i)
         if (msegtyp(l)==0) msegtyp(l) = 10
+        igrelem(l) = igrsurf(isu2)%elem(i)
       end if
     end do
     l2 = l-l1
@@ -171,12 +184,39 @@
         endif
       enddo
     enddo
+!---i2chk3 done here
+    nint = 1  ! not used
+    do i=1,nrtm
+        inrt=i
+        nels=0
+        nelc=0
+        neltg=0
+        if (msegtyp(i)==1) then
+          call inelts(x           ,irect,ixs  ,nint,nels         ,           &
+                      inrt        ,area ,noint,0   ,msegtyp      ,           &
+                      igrelem     )
+        else
+          call ineltc(nelc ,neltg ,inrt ,msegtyp, igrelem)
+        end if
+        if(nels+nelc+neltg==0)then
+           call ancmsg(msgid=93,msgtype=msgwarning,                          &
+                       anmode=aninfo_blind_2,i2=noint,i1=i)
+        endif
+    end do
+! ns
+    do i=1,nsn
+        irtl(i)=0
+        st(1,i)=nine
+        st(2,i)=nine
+        dmin(i)=ep20
+    enddo
 !    if (nsn/=ns) print *,'***error dimensionning: nsn,ns',nsn,ns
 !    if (nsn/=nmn) print *,'***error dimensionning: nsn,nmn',nsn,nmn
     msr(1:nsn) = nsv(1:nsn)
     deallocate(itags1)
     deallocate(itags2)
     deallocate(itagn)
+    deallocate(igrelem)
  1000  FORMAT(/1X,'SURFACE 1: Number of remain seg and % = ',I10,F10.1)
  2000  FORMAT(/1X,'SURFACE 2: Number of remain seg and % = ',I10,F10.1)
 

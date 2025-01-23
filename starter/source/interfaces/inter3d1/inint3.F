@@ -402,13 +402,15 @@ C-----------------------------------------------------------------------
      2    INTBUF_TAB(NIN)%NSV  ,INSCR(L16)              ,NSN         ,NMN         ,NRTM               ,INTBUF_TAB(NIN)%S_IRECTM,
      3    SINSCR-L23+1 )
 
-       CALL I1CHK3(
+       IF (IPARI(13,NIN)>0) THEN ! check for s/s input is done before
+         CALL I1CHK3(
      1    X               ,INTBUF_TAB(NIN)%IRECTM   ,IXS                   ,NRTM                ,IXC           ,
      2    -NIN            ,NMN                      ,INTBUF_TAB(NIN)%MSR   ,NOINT               ,IXTG          ,
      3    GEO             ,PM                       ,KNOD2ELS              ,KNOD2ELC            ,KNOD2ELTG     ,
      4    NOD2ELS         ,NOD2ELC                  ,NOD2ELTG              ,IGRSURF(ISU2)       ,
      5    THK             ,NTY                      ,IXS10                 ,IXS16               ,IXS20         ,
      6    ID              ,TITR                     ,IGEO                  ,PM_STACK            ,IWORKSH      )
+       END IF 
        CALL INVOI3(
      1    X               ,INTBUF_TAB(NIN)%IRECTM   ,INSCR(L23)            ,INTBUF_TAB(NIN)%MSR ,INTBUF_TAB(NIN)%NSV,
      2    INSCR(L16)      ,INTBUF_TAB(NIN)%IRTLM    ,INSCR(L21)            ,NSN                 ,NMN           ,
@@ -473,7 +475,8 @@ C-----------------------------------------------------------------------
        TZINF=INTBUF_TAB(NIN)%VARIABLES(4)
 C j21 has a temporary usage in i2chk3, i2buc3 and i2tied3
 C
-       CALL I2CHK3(
+       IF (IPARI(13,NIN)>0) THEN ! check for s/s input is done before
+         CALL I2CHK3(
      1   X                 ,INTBUF_TAB(NIN)%IRECTM ,IXS                ,NRTM                   ,IXC             ,
      2   -NIN           ,NSN               ,INTBUF_TAB(NIN)%MSR     ,NOINT                  ,
      3   IXTG              ,INTBUF_TAB(NIN)%IRTLM  ,INTBUF_TAB(NIN)%CSTS    ,INTBUF_TAB(NIN)%DPARA       ,GEO             ,
@@ -481,6 +484,7 @@ C
      5   NOD2ELC           ,NOD2ELTG          ,IGRSURF(ISU2)      ,THK                    ,
      6   NTY               ,IXS10             ,IXS16              ,IXS20                  ,IGEO            ,
      7   PM_STACK          ,IWORKSH )
+       END IF 
 C
 C      STILL ONE BUCKET SORT
 C
