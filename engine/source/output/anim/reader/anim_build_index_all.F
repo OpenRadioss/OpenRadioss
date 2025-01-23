@@ -722,6 +722,12 @@ C              IGTYP15 = 1
             END SELECT
           ENDIF
         ENDDO
+!----special case for tet10  :
+        IF (NUMELS10>0) THEN
+           NPTR= MAX(NPTR,2)
+           NPTS= MAX(NPTS,2)
+           NPTT= MAX(NPTT,2)
+        END IF 
       ENDIF !---
 C       
        NPTT_PLY = 0
