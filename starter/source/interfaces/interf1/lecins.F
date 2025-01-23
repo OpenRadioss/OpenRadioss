@@ -416,7 +416,9 @@ C-------
                CALL I2_SURFI(NPARI   ,IPARI(1,NI),NSURF   ,IGRSURF ,                
      1                       NSN     ,INTBUF_TAB(NI)%NSV,NRTM ,INTBUF_TAB(NI)%IRECTM,
      2                       NMN     ,INTBUF_TAB(NI)%MSR,INTBUF_TAB(NI)%MSEGTYP,
-     3                       FRIGAP(4,NI),X       ,NUMNOD,ITAB ,IPRI ,IOUT  )
+     3                       FRIGAP(4,NI),X       ,NUMNOD,ITAB ,IPRI ,IOUT  ,
+     4                       IXS     ,NUMELS  ,NOINT   ,INTBUF_TAB(NI)%IRTLM    ,
+     5                       INTBUF_TAB(NI)%CSTS,INTBUF_TAB(NI)%DPARA  )
           END IF
 C-------
         ELSEIF (NTYP == 3 .OR. NTYP == 4 .OR. NTYP == 9) THEN
