@@ -54,7 +54,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6                   ELBUF_TAB,GEO     ,IGEO    ,
      7                   PM       ,IPM     ,IPART   ,IPARTC ,
      8                   IPARTTG  ,IGROUPC ,IGROUPTG,FEXT   ,
-     9                   FLAG     ,H3D_DATA ,T_MONVOL,frontier_global_mv)
+     9                   FLAG     ,H3D_DATA ,T_MONVOL,frontier_global_mv,
+     A                   OUTPUT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -64,6 +65,7 @@ C-----------------------------------------------
       USE MONVOL_STRUCT_MOD
       USE SENSOR_MOD
       use get_volume_area_mod , only : get_volume_area
+      use output_mod , only : output_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,34 +84,25 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER, INTENT(in) :: SICONTACT !< dimension if icontact
       INTEGER, INTENT(in) :: SPORO !< dimension if poro
-      INTEGER NPC(*),MONVOL(*),FR_MV(NSPMD+2,NVOLU),
-     .   IADMV(4,*),ICONTACT(SICONTACT),IPARG(NPARG,*),
-     .   IGEO(NPROPGI,*),
-     .   IPART(*),IPARTC(*), IPARTTG(*),IPM(NPROPMI,*),
-     .   IGROUPC(*), IGROUPTG(*)
+      INTEGER NPC(*),MONVOL(*),FR_MV(NSPMD+2,NVOLU),IADMV(4,*),ICONTACT(SICONTACT),IPARG(NPARG,*),
+     .        IGEO(NPROPGI,*),IPART(*),IPARTC(*), IPARTTG(*),IPM(NPROPMI,*),IGROUPC(*), IGROUPTG(*)
       INTEGER FLAG ! 1 => Monvol, 2 => FVMBAG type 6 8
-      INTEGER, DIMENSION(NSPMD+2), INTENT(in) :: FRONTIER_GLOBAL_MV !< global mpi frontier 
-C     REAL
-      my_real
-     .   X(3,*), A(3,*), TF(*), V(3,*), NORMAL(3,*), PORO(*),
-     .   VOLMON(*),FSAV(NTHVKI,*),FSKY(*),
-     .   GEO(NPROPG,*),PM(NPROPM,*),FEXT(*)
+      INTEGER, DIMENSION(NSPMD+2), INTENT(in) :: FRONTIER_GLOBAL_MV !< global mpi frontier
+      my_real X(3,*), A(3,*), TF(*), V(3,*), NORMAL(3,*), PORO(*),
+     .        VOLMON(*),FSAV(NTHVKI,*),FSKY(*),GEO(NPROPG,*),PM(NPROPM,*),FEXT(*)
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
       TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(INOUT) :: T_MONVOL
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR), INTENT(IN) :: SENSOR_TAB
+      TYPE(OUTPUT_),INTENT(INOUT) :: OUTPUT
 C-----------------------------------------------
 C     N(3,*)  NORMALE STOCKEE DANS WA
 C     PORO(*) STOCKE DANS WA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
-     .     I,ITYP,NCA,IAD,NN,IS,
-     .     K1,K2,K6,KK1,KK2,
-     .     PMAIN,KIBJET,KRBJET,KIBHOL,KRBHOL,
-     .     NJET,IADJET,RADJET,NVENT,IADHOL,RADHOL
+      INTEGER  I,ITYP,NCA,IAD,NN,IS,K1,K2,K6,KK1,KK2,PMAIN,KIBJET,KRBJET,KIBHOL,KRBHOL,NJET,IADJET,RADJET,NVENT,IADHOL,RADHOL
       my_real, dimension(nvolu) :: vol
 C---------------------------------------------------------
 C
@@ -179,13 +172,13 @@ C=======================================================================
 C         VOLUME P=F(V)
 C=======================================================================
           CALL VOLPFV(MONVOL(K1),VOLMON(KK1),VOL(I),FSAV(1,I),NPC,
-     2                TF        ,PMAIN    )
+     2                TF        ,PMAIN   , OUTPUT%WFEXT )
         ELSEIF(ITYP==3)THEN
 C=======================================================================
 C         GAS PARFAIT
 C=======================================================================
           CALL VOLPVGA(MONVOL(K1),VOLMON(KK1),VOL(I),FSAV(1,I),NVENT ,
-     2            MONVOL(IADHOL) ,VOLMON(RADHOL),PMAIN )
+     2            MONVOL(IADHOL) ,VOLMON(RADHOL),PMAIN, OUTPUT%WFEXT )
         ELSEIF(ITYP==4.OR.ITYP==5)THEN
 C=======================================================================
 C         AIRBAGS
@@ -193,7 +186,7 @@ C=======================================================================
            CALL AIRBAGA(MONVOL(K1),NJET ,MONVOL(IADJET),NVENT ,MONVOL(IADHOL),
      2 MONVOL(K2),VOLMON(KK1),VOLMON(RADJET),VOLMON(RADHOL),VOLMON(KK2),
      3 VOLMON  ,NPC     ,TF      ,NSENSOR ,SENSOR_TAB ,
-     4 VOL(I)    ,PMAIN )
+     4 VOL(I)    ,PMAIN ,OUTPUT%WFEXT)
         ELSEIF(ITYP==7.OR.ITYP==9)THEN
 C=======================================================================
 C         AIRBAGS1 (NOUVEAUX INJECTEURS)
@@ -201,13 +194,13 @@ C=======================================================================
            CALL AIRBAGA1(MONVOL(K1),NJET ,MONVOL(IADJET),NVENT ,MONVOL(IADHOL),
      2 MONVOL(K2),VOLMON(KK1),VOLMON(RADJET),VOLMON(RADHOL),VOLMON(KK2),
      3 VOLMON  ,NPC     ,TF      ,NSENSOR ,SENSOR_TAB ,
-     4 VOL(I)     ,PMAIN ,GEO     ,IGEO    ,PM)
+     4 VOL(I)     ,PMAIN ,GEO     ,IGEO    ,PM, OUTPUT%WFEXT)
         ELSEIF(ITYP==10)THEN
 C=======================================================================
 C         LINEAIRE FLUIDE
 C=======================================================================
           CALL VOLP_LFLUID(MONVOL(K1),VOLMON(KK1),VOL(I),FSAV(1,I),NPC,
-     2                    TF        ,PMAIN )
+     2                    TF        ,PMAIN, OUTPUT )
         ENDIF
 C=======================================================================
         IF(ITYP/=1)THEN
@@ -215,7 +208,7 @@ C=======================================================================
             CALL VOLPRE(MONVOL(K1),VOLMON(KK1),NJET ,MONVOL(IADJET),VOLMON(RADJET),
      2                 NSENSOR ,SENSOR_TAB ,X       ,V       ,A       ,
      3                 t_monvol(i)%normal  ,NPC     ,TF      ,NN  ,IGRSURF(IS)%NODES,
-     4                 FEXT    ,H3D_DATA,IGRSURF(IS)%ELTYP,IGRSURF(IS)%ELEM)
+     4                 FEXT    ,H3D_DATA,IGRSURF(IS)%ELTYP,IGRSURF(IS)%ELEM, OUTPUT%WFEXT)
          ELSE
             CALL VOLPREP(MONVOL(K1),VOLMON(KK1),NJET ,MONVOL(IADJET),VOLMON(RADJET),
      2                 NSENSOR ,SENSOR_TAB  ,X       ,V       ,A       ,
@@ -224,7 +217,7 @@ C=======================================================================
      5                 IGRSURF(IS)%ELTYP,IGRSURF(IS)%ELEM,
      5                 T_MONVOL(I)%OMP_OUTPUT%NODE_NUMBER,T_MONVOL(I)%OMP_OUTPUT%TOTAL_CONTRIBUTION_NUMBER, 
      6                 T_MONVOL(I)%OMP_OUTPUT%CONTRIBUTION_INDEX,T_MONVOL(I)%OMP_OUTPUT%CONTRIBUTION_NUMBER,
-     7                 T_MONVOL(I)%OMP_OUTPUT%NODE_ID,T_MONVOL(I)%OMP_OUTPUT%CONTRIBUTION)
+     7                 T_MONVOL(I)%OMP_OUTPUT%NODE_ID,T_MONVOL(I)%OMP_OUTPUT%CONTRIBUTION,OUTPUT%WFEXT)
          ENDIF
         ENDIF
  100    CONTINUE

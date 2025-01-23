@@ -30,6 +30,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2               ESPE ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
      3               PNEW ,DPDM ,DPDE ,THETA,ECOLD)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE OUTPUT_MOD , ONLY : WFEXT
+C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 C This subroutine contains numerical solving
@@ -64,7 +68,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX
-      my_real :: P0,GAMMA,T0,E0,SPH,AA, BB,TFEXTT, DVV, PP, PSTAR, PC,V0
+      my_real :: P0,GAMMA,T0,E0,SPH,AA, BB,WFEXTT, DVV, PP, PSTAR, PC,V0
       my_real :: Q,Q_,Cv,RHO0,NUM,DENOM,UNPMU,B,RHO
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -104,7 +108,7 @@ C-----------------------------------------------
       !     UPDATE PRESSURE AND INTERNAL ENERGY
       !----------------------------------------
       ELSEIF(IFLAG == 1) THEN
-         TFEXTT     = ZERO      
+         WFEXTT     = ZERO
          MX         = MAT(1)
          E0         = PM(23 ,MX)         
          GAMMA      = PM(34 ,MX)
@@ -128,10 +132,10 @@ C-----------------------------------------------
            BB      = (GAMMA-ONE)/ DENOM     
            PNEW(I) = (AA+BB*EINT(I)/V0)/(ONE+BB*DVOL(I)/TWO/V0)      
            PNEW(I) = MAX(PNEW(I),-GAMMA*PSTAR)*OFF(I)         
-           TFEXTT  = TFEXTT-DVOL(I)*PSH(I)
+           WFEXTT  = WFEXTT-DVOL(I)*PSH(I)
          ENDDO
 #include "atomic.inc"
-       TFEXT = TFEXT + TFEXTT
+       WFEXT = WFEXT + WFEXTT
 #include "atomend.inc"
          DO I=1,NEL
            IF(OFF(I)<ONE.OR.SPH<=ZERO) CYCLE

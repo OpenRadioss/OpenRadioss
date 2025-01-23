@@ -238,14 +238,13 @@
       use dt_mod
       use glob_therm_mod
       use sigeps51_mod , only : sigeps51
+      use output_mod , only : wfext
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 #include "my_real.inc"
 #include "mvsiz_p.inc"
-COMMON /COM06DP/TFEXT
-DOUBLE PRECISION TFEXT
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1220,7 +1219,7 @@ DOUBLE PRECISION TFEXT
             !facq0 = zero
             call sigeps51(nel       ,npar        ,nuvar   ,nfunc ,ifunc     ,&
             &             npf       ,tf          ,tt      ,dt1   ,uparam0   ,numel     ,&
-            &             rho       ,vol         ,eint    ,vk    ,tfext     ,&
+            &             rho       ,vol         ,eint    ,vk    ,wfext     ,&
             &             ep1       ,ep2         ,ep3     ,ep4   ,ep5       ,ep6       ,&
             &             de1       ,de2         ,de3     ,de4   ,de5       ,de6       ,&
             &             so1       ,so2         ,so3     ,so4   ,so5       ,so6       ,&

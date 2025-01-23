@@ -31,12 +31,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    sensor_mod         ../common_source/modules/sensor_mod.F90
       !||====================================================================
-      SUBROUTINE SMS_FIXVEL(IBFV  ,A     ,V     ,NPC    ,TF     ,
+      SUBROUTINE SMS_FIXVEL(IBFV  ,A     ,V     ,NPC    ,TF        ,
      2                     VEL    ,MS    ,X     ,SKEW   ,SENSOR_TAB,
-     3                     WEIGHT,D     ,IFRAME ,XFRAME ,NSENSOR,
-     4                     IT     ,DIAG_SMS,NODNX_SMS   ,CPTREAC,
-     5                     NODREAC,FTHREAC ,AR  ,VR     ,DR     ,
-     6                     IN      ,RBY )
+     3                     WEIGHT ,D     ,IFRAME ,XFRAME ,NSENSOR   ,
+     4                     IT     ,DIAG_SMS,NODNX_SMS   ,CPTREAC   ,
+     5                     NODREAC,FTHREAC ,AR  ,VR     ,DR        ,
+     6                     IN     ,RBY ,WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -54,7 +54,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com06_c.inc"
+!#include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
 #include      "parit_c.inc"
@@ -63,15 +63,14 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NPC(*),CPTREAC,NODREAC(*)
-      INTEGER IBFV(NIFV,*),WEIGHT(*),IFRAME(LISKN,*),
-     .        IT,NODNX_SMS(*)
-C     REAL
+      INTEGER IBFV(NIFV,*),WEIGHT(*),IFRAME(LISKN,*),IT,NODNX_SMS(*)
       my_real
      .   A(3,*), V(3,*), TF(*), VEL(LFXVELR,*), MS(*), X(3,*), D(3,*),
      .   SKEW(LSKEW,*),XFRAME(NXFRAME,*),
      .   DIAG_SMS(*),FTHREAC(6,*),
      .   AR(3,*), VR(3,*), DR(3,*), IN(*), RBY(NRBY,*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -192,7 +191,7 @@ c          VEL(6,N) imposed displacement at t-dt, is also used in fixvel
 c          => imposed displacement at t will be stored in fixvel
 c          VEL(6,N) = YC(II)
           DW   = VEL(4,N)
-          TFEXT=TFEXT + DW
+          WFEXT=WFEXT + DW
           YC(II) = YC(II) * FAC
           YIMP = YIMP * FAC
           ISK=IBFV(2,N)/10
@@ -620,7 +619,7 @@ C             Fixed velocity in moving frame (rota)
               ENDIF
             ENDIF
           ENDIF
-          TFEXT    = TFEXT + DT1*DW
+          WFEXT    = WFEXT + DT1*DW
           VEL(4,N) = DT2*DW
          ENDDO
         ELSE
@@ -647,7 +646,7 @@ C       partie vectorielle
            IBFV(5,N) = IPOSC(II)
            FAC  = VEL(1,N)
            DW   = VEL(4,N)
-           TFEXT=TFEXT + DW
+           WFEXT=WFEXT + DW
            YC(II) = YC(II) * FAC
            ISK=IBFV(2,N)/10
            J=IBFV(2,N)-10*ISK
@@ -677,7 +676,7 @@ C       partie vectorielle
      .          /MAX(IN(I),EM30)
              ENDIF
            ENDIF
-           TFEXT=TFEXT + DT1*DW
+           WFEXT=WFEXT + DT1*DW
            VEL(4,N) = DT2*DW
           ENDDO
          ELSEIF (NSK==1.AND.NFK==0.AND.ICOOR==0) THEN
@@ -692,7 +691,7 @@ C       partie vectorielle
              IBFV(5,N) = IPOSC(II)
              FAC  = VEL(1,N)
              DW   = VEL(4,N)
-             TFEXT=TFEXT + DW
+             WFEXT=WFEXT + DW
              YC(II) = YC(II) * FAC
              AXI=ONE-AX+AX*X(2,I)
              K1=3*J-2
@@ -716,7 +715,7 @@ C       partie vectorielle
 c ?
              DW = FOURTH*AXI*WEIGHT(I) *
      .            (YC(II)*DT12+TWO*VV)*(MS(I)*YC(II)-A0)
-             TFEXT=TFEXT + DT1*DW
+             WFEXT=WFEXT + DT1*DW
              VEL(4,N) = DT2*DW
            ENDIF
            ENDDO
@@ -732,7 +731,7 @@ c ?
                    IBFV(5,N) = IPOSC(II)
                    FAC  = VEL(1,N)
                    DW   = VEL(4,N)
-                   TFEXT=TFEXT + DW
+                   WFEXT=WFEXT + DW
                    YC(II) = YC(II) * FAC
                    I=IABS(IBFV(1,N))
                    J = J - 3
@@ -772,7 +771,7 @@ c ?
      .                     +RBY(25,NR)*SKEW(K3,ISK))*SKEW(K3,ISK))
      .                    /MAX(IN(I),EM30)
                    ENDIF
-                   TFEXT=TFEXT + DT1*DW
+                   WFEXT=WFEXT + DT1*DW
                    VEL(4,N) = DT2*DW
                  ENDIF
                ENDDO
@@ -795,7 +794,7 @@ c ?
              YIMP   = VEL(6,N)
 c             VEL(6,N) = YC(II)
              DW   = VEL(4,N)
-             TFEXT=TFEXT + DW
+             WFEXT=WFEXT + DW
              YC(II) = YC(II) * FAC
              YIMP = YIMP * FAC
              AXI=ONE-AX+AX*X(2,I)
@@ -873,7 +872,7 @@ c----------------------------------------------------
              A(3,I)=A(3,I)+SKDIR(3)*AA
              DW = FOURTH*AXI*WEIGHT(I) *
      .            (YC(II)*DT12+TWO*VV)*(MS(I)*YC(II)-A0)
-             TFEXT=TFEXT + DT1*DW
+             WFEXT=WFEXT + DT1*DW
              VEL(4,N) = DT2*DW
            ENDIF
            ENDDO
@@ -893,7 +892,7 @@ c----------------------------------------------------
                    YIMP   = VEL(6,N)
                    VEL(6,N) = YC(II)
                    DW   = VEL(4,N)
-                   TFEXT=TFEXT + DW
+                   WFEXT=WFEXT + DW
                    YC(II) = YC(II) * FAC
                    YIMP = YIMP * FAC
                    I=IABS(IBFV(1,N))
@@ -965,7 +964,7 @@ c----------------------------------------------------
      &                    +RBY(25,NR)*SKDIR(3))*SKDIR(3))
      .                    /MAX(IN(I),EM30)
                     ENDIF
-                    TFEXT=TFEXT + DT1*DW
+                    WFEXT=WFEXT + DT1*DW
                     VEL(4,N) = DT2*DW
                   ENDIF
                 ENDDO
@@ -984,7 +983,7 @@ c----------------------------------------------------
                IBFV(5,N) = IPOSC(II)
                FAC  = VEL(1,N)
                DW   = VEL(4,N)
-               TFEXT=TFEXT + DW
+               WFEXT=WFEXT + DW
                YC(II) = YC(II) * FAC
                AXI=1.-AX+AX*X(2,I)
                K1=3*J-2
@@ -1016,7 +1015,7 @@ c----------------------------------------------------
 c ?
                DW = FOURTH*AXI*WEIGHT(I) *
      .             (YC(II)*DT12+TWO*VV)*(MS(I)*YC(II)-A0)
-               TFEXT=TFEXT + DT1*DW
+               WFEXT=WFEXT + DT1*DW
                VEL(4,N) = DT2*DW
              ENDIF
            ELSE
@@ -1026,7 +1025,7 @@ c ?
                IBFV(5,N) = IPOSC(II)
                FAC  = VEL(1,N)
                DW   = VEL(4,N)
-               TFEXT=TFEXT + DW
+               WFEXT=WFEXT + DW
                YC(II) = YC(II) * FAC
                I=IABS(IBFV(1,N))
                AXI=1.-AX+AX*X(2,I)
@@ -1051,7 +1050,7 @@ c ?
 c ?
                DW = FOURTH*AXI*WEIGHT(I) *
      .            (YC(II)*DT12+TWO*VV)*(MS(I)*YC(II)-A0)
-               TFEXT=TFEXT + DT1*DW
+               WFEXT=WFEXT + DT1*DW
                VEL(4,N) = DT2*DW
              ENDIF
            ENDIF
@@ -1069,7 +1068,7 @@ c ?
                      IBFV(5,N) = IPOSC(II)
                      FAC  = VEL(1,N)
                      DW   = VEL(4,N)
-                     TFEXT=TFEXT + DW
+                     WFEXT=WFEXT + DW
                      YC(II) = YC(II) * FAC
                      I=IABS(IBFV(1,N))
                      J = J - 3
@@ -1105,7 +1104,7 @@ c ?
      .                     +RBY(25,NR)*XFRAME(K3,IFM))*XFRAME(K3,IFM))
      .                    /MAX(IN(I),EM30)
                      ENDIF
-                     TFEXT=TFEXT + DT1*DW
+                     WFEXT=WFEXT + DT1*DW
                      VEL(4,N) = DT2*DW
                    ENDIF
                  ELSE
@@ -1115,7 +1114,7 @@ c ?
                      IBFV(5,N) = IPOSC(II)
                      FAC  = VEL(1,N)
                      DW   = VEL(4,N)
-                     TFEXT=TFEXT + DW
+                     WFEXT=WFEXT + DW
                      YC(II) = YC(II) * FAC
                      I=IABS(IBFV(1,N))
                      J = J - 3
@@ -1155,7 +1154,7 @@ c ?
      .                     +RBY(25,NR)*SKEW(K3,ISK))*SKEW(K3,ISK))
      .                    /MAX(IN(I),EM30)
                      ENDIF
-                     TFEXT=TFEXT + DT1*DW
+                     WFEXT=WFEXT + DT1*DW
                      VEL(4,N) = DT2*DW
                    ENDIF
                  ENDIF
@@ -1177,7 +1176,7 @@ c ?
                IBFV(5,N) = IPOSC(II)
                FAC  = VEL(1,N)
                DW   = VEL(4,N)
-               TFEXT=TFEXT + DW
+               WFEXT=WFEXT + DW
                YC(II) = YC(II) * FAC
                AXI=1.-AX+AX*X(2,I)
                COEF = (XFRAME(10,IFM)-X(1,I))*XFRAME(7,IFM) +
@@ -1258,7 +1257,7 @@ c-------------------------------------------------
                A(3,I)=A(3,I)+FMDIR(3)*AA
                DW = FOURTH*AXI*WEIGHT(I) *
      .             (YC(II)*DT12+TWO*VV)*(MS(I)*YC(II)-A0)
-               TFEXT=TFEXT + DT1*DW
+               WFEXT=WFEXT + DT1*DW
                VEL(4,N) = DT2*DW
              ENDIF
            ELSE
@@ -1272,7 +1271,7 @@ c-------------------------------------------------
                YIMP   = VEL(6,N)
 c               VEL(6,N) = YC(II)
                DW   = VEL(4,N)
-               TFEXT=TFEXT + DW
+               WFEXT=WFEXT + DW
                YC(II) = YC(II) * FAC
                YIMP = YIMP * FAC
                I=IABS(IBFV(1,N))
@@ -1351,7 +1350,7 @@ c----------------------------------------------------
                A(3,I)=A(3,I)+SKDIR(3)*AA
                DW = FOURTH*AXI*WEIGHT(I) *
      .            (YC(II)*DT12+TWO*VV)*(MS(I)*YC(II)-A0)
-               TFEXT=TFEXT + DT1*DW
+               WFEXT=WFEXT + DT1*DW
                VEL(4,N) = DT2*DW
              ENDIF
            ENDIF
@@ -1371,7 +1370,7 @@ c----------------------------------------------------
                   IBFV(5,N) = IPOSC(II)
                   FAC  = VEL(1,N)
                   DW   = VEL(4,N)
-                  TFEXT=TFEXT + DW
+                  WFEXT=WFEXT + DW
                   YC(II) = YC(II) * FAC
                   I=IABS(IBFV(1,N))
                   J = J - 3
@@ -1440,7 +1439,7 @@ c----------------------------------------------------
      &                  +RBY(25,NR)*FMDIR(3))*FMDIR(3))
      .                 /MAX(IN(I),EM30)
                   ENDIF
-                  TFEXT=TFEXT + DT1*DW
+                  WFEXT=WFEXT + DT1*DW
                   VEL(4,N) = DT2*DW
                 ENDIF
               ELSE
@@ -1454,7 +1453,7 @@ c----------------------------------------------------
                   YIMP   = VEL(6,N)
                   VEL(6,N) = YC(II)
                   DW   = VEL(4,N)
-                  TFEXT=TFEXT + DW
+                  WFEXT=WFEXT + DW
                   YC(II) = YC(II) * FAC
                   YIMP = YIMP * FAC
                   I=IABS(IBFV(1,N))
@@ -1528,7 +1527,7 @@ c----------------------------------------------------
      &                   +RBY(25,NR)*SKDIR(3))*SKDIR(3))
      .                 /MAX(IN(I),EM30)
                    ENDIF
-                   TFEXT=TFEXT + DT1*DW
+                   WFEXT=WFEXT + DT1*DW
                    VEL(4,N) = DT2*DW
                  ENDIF
                ENDIF

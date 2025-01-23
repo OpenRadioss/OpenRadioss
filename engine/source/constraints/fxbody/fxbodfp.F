@@ -232,7 +232,7 @@ C
       SUBROUTINE FXBODFP2(FXBIPM , FXBRPM , FXBGLM, FXBCPM, FXBCPS ,
      .                    FXBLM  , FXBFLS , FXBDLS, FXBDEP, FXBVIT ,
      .                    NME    , NMOD   , MVN   , MCD   , SE     ,
-     .                    SV     , FSAV   , FXBFP , TFEXT , FXBFC  ,
+     .                    SV     , FSAV   , FXBFP , WFEXT , FXBFC  ,
      .                    FXBGRVI, FXBGRVR, NLGRAV, IGRV  , NPC    ,
      .                    TF     , FXBGRP , TFGRAV, SENSOR_TAB, NSENSOR,
      .                    MFEXT  , AGRV   )
@@ -259,7 +259,7 @@ C-----------------------------------------------
       my_real
      .        FXBRPM(*), FXBGLM(*), FXBCPM(*), FXBCPS(*), FXBLM(*),
      .        FXBFLS(*), FXBDLS(*), FXBDEP(*), FXBVIT(*), MVN(*), 
-     .        MCD(NME,*), SE(*), SV(*), FSAV(*), FXBFP(*), TFEXT,
+     .        MCD(NME,*), SE(*), SV(*), FSAV(*), FXBFP(*), WFEXT,
      .        FXBFC(*), FXBGRVR(*), TF(*), FXBGRP(*), TFGRAV,
      .        MFEXT(*), AGRV(LFACGRV,*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
@@ -334,7 +334,7 @@ C-----------------------------------------------
       DO I=1,NME+NMOD
          TFGRAV=TFGRAV+HALF*(FXBGRP(I)+MFGRAV(I))*FXBVIT(I)*DT1
          MFEXT(I)=MFEXT(I)+MFGRAV(I)
-         TFEXT=TFEXT+HALF*(FXBFP(I)+MFEXT(I))*FXBVIT(I)*DT1
+         WFEXT=WFEXT+HALF*(FXBFP(I)+MFEXT(I))*FXBVIT(I)*DT1
          FXBGRP(I)=MFGRAV(I)
          FXBFP(I)=MFEXT(I)
       ENDDO
@@ -400,7 +400,7 @@ C-----------------------------------------------
       ENDIF
       FXBRPM(11)=ENINT
       FSAV(1)=ENINT
-      FSAV(3)=TFEXT
+      FSAV(3)=WFEXT
 C-----------------------------------------------
 C Condensation of global unknowns
 C-----------------------------------------------

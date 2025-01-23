@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                    MFLE,   ACCF,   PM,    PTI, X,  V, A, NPC, TF, 
      .                    NBGAUGE,LGAUGE, GAUGE, NSENSOR, SENSOR_TAB, IGRV, AGRV,
      .                    CBEM   ,IPIV_L, MFLE_L,IBUFELR, IBUFELC,NFUNCT,
-     .                    PYTHON)
+     .                    PYTHON ,WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -52,7 +52,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "com06_c.inc"
+!#include      "com06_c.inc"
 #include      "com08_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -67,6 +67,7 @@ C-----------------------------------------------
       my_real CBEM(NEL,*), MFLE_L(NEL_LOC,*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
       TYPE (PYTHON_), INTENT(INOUT) :: PYTHON
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -722,19 +723,19 @@ C
               A(1,N1) = A(1,N1) + FF*NRX
               A(2,N1) = A(2,N1) + FF*NRY
               A(3,N1) = A(3,N1) + FF*NRZ
-              TFEXT   = TFEXT+FF*DT1*(NRX*V(1,N1)+NRY*V(2,N1)+NRZ*V(3,N1))/CNP(I1)
+              WFEXT   = WFEXT+FF*DT1*(NRX*V(1,N1)+NRY*V(2,N1)+NRZ*V(3,N1))/CNP(I1)
            ENDIF
            IF(N2/=0) THEN
               A(1,N2) = A(1,N2) + FF*NRX
               A(2,N2) = A(2,N2) + FF*NRY
               A(3,N2) = A(3,N2) + FF*NRZ
-              TFEXT   = TFEXT+FF*DT1*(NRX*V(1,N2)+NRY*V(2,N2)+NRZ*V(3,N2))/CNP(I2)
+              WFEXT   = WFEXT+FF*DT1*(NRX*V(1,N2)+NRY*V(2,N2)+NRZ*V(3,N2))/CNP(I2)
            ENDIF
            IF(N3/=0) THEN
               A(1,N3) = A(1,N3) + FF*NRX
               A(2,N3) = A(2,N3) + FF*NRY
               A(3,N3) = A(3,N3) + FF*NRZ
-              TFEXT   = TFEXT+FF*DT1*(NRX*V(1,N3)+NRY*V(2,N3)+NRZ*V(3,N3))/CNP(I3)
+              WFEXT   = WFEXT+FF*DT1*(NRX*V(1,N3)+NRY*V(2,N3)+NRZ*V(3,N3))/CNP(I3)
            ENDIF
         ENDDO
       ELSEIF(JFORM == 2) THEN
@@ -774,25 +775,25 @@ C
               A(1,N1) = A(1,N1) + FF*NRX
               A(2,N1) = A(2,N1) + FF*NRY
               A(3,N1) = A(3,N1) + FF*NRZ
-              TFEXT   = TFEXT+FF*DT1*(NRX*V(1,N1)+NRY*V(2,N1)+NRZ*V(3,N1))/CNP(I1)
+              WFEXT   = WFEXT+FF*DT1*(NRX*V(1,N1)+NRY*V(2,N1)+NRZ*V(3,N1))/CNP(I1)
            ENDIF
            IF(N2/=0) THEN
               A(1,N2) = A(1,N2) + FF*NRX
               A(2,N2) = A(2,N2) + FF*NRY
               A(3,N2) = A(3,N2) + FF*NRZ
-              TFEXT   = TFEXT+FF*DT1*(NRX*V(1,N2)+NRY*V(2,N2)+NRZ*V(3,N2))/CNP(I2)
+              WFEXT   = WFEXT+FF*DT1*(NRX*V(1,N2)+NRY*V(2,N2)+NRZ*V(3,N2))/CNP(I2)
            ENDIF
            IF(N3/=0) THEN
               A(1,N3) = A(1,N3) + FF*NRX
               A(2,N3) = A(2,N3) + FF*NRY
               A(3,N3) = A(3,N3) + FF*NRZ
-              TFEXT   = TFEXT+FF*DT1*(NRX*V(1,N3)+NRY*V(2,N3)+NRZ*V(3,N3))/CNP(I3)
+              WFEXT   = WFEXT+FF*DT1*(NRX*V(1,N3)+NRY*V(2,N3)+NRZ*V(3,N3))/CNP(I3)
            ENDIF
            IF(N4/=0.AND.I5==1) THEN
               A(1,N4) = A(1,N4) + FF*NRX
               A(2,N4) = A(2,N4) + FF*NRY
               A(3,N4) = A(3,N4) + FF*NRZ
-              TFEXT   = TFEXT+FF*DT1*(NRX*V(1,N4)+NRY*V(2,N4)+NRZ*V(3,N4))/CNP(I4)
+              WFEXT   = WFEXT+FF*DT1*(NRX*V(1,N4)+NRY*V(2,N4)+NRZ*V(3,N4))/CNP(I4)
            ENDIF
         ENDDO
       ENDIF

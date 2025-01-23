@@ -50,10 +50,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N, N3, N2, N1, K, J, M1, M2, M3
-C     REAL
       my_real
      .   RA2, XWL, YWL, ZWL, VXW, VYW, VZW,
-     .   TFXT, VX, VY, VZ, UX, UY, UZ, XC, YC, ZC, DD1, DD,
+     .   VX, VY, VZ, UX, UY, UZ, XC, YC, ZC, DD1, DD,
      .   DP, XT, YT, ZT, XX, XN, YN, ZN, DV, DA, DVT,
      .   XWL0, YWL0, ZWL0
 C-----------------------------------------------
@@ -151,7 +150,7 @@ C     REAL
      .   XWL, YWL, ZWL, VXW, VYW, VZW,
      .   XWL0, YWL0, ZWL0,
      .   XC, YC, ZC, DD1, DD, DP, XT, YT, ZT, XX, XN, YN, ZN,
-     .   TFXT, DV, DA, DVT, FN,
+     .   DV, DA, DVT, FN,
      .   FNXN, FNYN, FNZN, FNXT, FNYT, FNZT, FNDFN, FTDFT, FRIC, FRIC2,
      .   FCOE, FAC, ALPHA, ALPHI, FXT, FYT, FZT
 C-----------------------------------------------
@@ -181,9 +180,7 @@ C   changement formulation : plus d'impasse sur contribution force
         YWL=X(M2)+VYW*DT2
         ZWL=X(M3)+VZW*DT2
       ENDIF
-C
-      TFXT=ZERO
-C
+
       IF(ITIED == 2)THEN
 C
 C---     no friction filtering
@@ -563,7 +560,7 @@ C
      1                 (X     ,FREA  ,V     ,RWL    ,NSW   ,
      2                  NSN   ,ITIED ,MSR    ,MS     ,WEIGHT ,
      3                  NIMPACT,IMPACT ,NSMS  ,NRWL_SMS,FSAV ,
-     4                  FOPT   ,FRWL6  ,A     )
+     4                  FOPT   ,FRWL6  ,A   ,WFEXT  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -583,18 +580,17 @@ C     REAL
       my_real
      .   X(*), V(*), RWL(*), MS(*), FSAV(*), FREA(3,*),
      .   FOPT(*), A(*)
-      DOUBLE PRECISION
-     .   FRWL6(7,6)
+      DOUBLE PRECISION FRWL6(7,6)
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N, N3, N2, N1, J, K, M1, M2, M3
 
-C     REAL
       my_real
      .   VXW, VYW, VZW, VX, VY, VZ, XWL0, YWL0, ZWL0,
      .   XC, YC, ZC, DD1, DD, DP, XT, YT, ZT, XX, XN, YN, ZN,
-     .   TFXT,
+     .   WFEXTT,
      .   FNXN, FNYN, FNZN, FNXT, FNYT, FNZT, FN,
      .   FXN, FYN, FZN, FXT, FYT, FZT,
      .   F1(NSN), F2(NSN), F3(NSN), F4(NSN), F5(NSN), F6(NSN), F7(NSN)
@@ -611,7 +607,7 @@ C
         M3=3*MSR
         M2=M3-1
         M1=M2-1
-C TFEXT only <=> dt12/2.
+C WFEXT only <=> dt12/2.
         VXW=V(M1)+HALF*A(M1)*DT12
         VYW=V(M2)+HALF*A(M2)*DT12
         VZW=V(M3)+HALF*A(M3)*DT12
@@ -620,7 +616,7 @@ C TFEXT only <=> dt12/2.
         ZWL0=X(M3)
       ENDIF
 C
-      TFXT=ZERO
+      WFEXTT=ZERO
 C
       IF(ITIED==0)THEN
 C
@@ -659,11 +655,11 @@ C
           F6(J) = ZERO
           F7(J) = ZERO
 C
-C 1er impact (Tfext avec decalage 1/2 cycle)
+C 1er impact (WFEXT avec decalage 1/2 cycle)
 c        VX=V(N1)+HALF*A(N1)*DT12
 c        VY=V(N2)+HALF*A(N2)*DT12
 c        VZ=V(N3)+HALF*A(N3)*DT12
-c        TFXT = TFXT -DT12*((VX-VXW)*FXN+(VY-VYW)*FYN+(VZ-VZW)*FZN)
+c        WFEXTT = WFEXTT -DT12*((VX-VXW)*FXN+(VY-VYW)*FYN+(VZ-VZW)*FZN)
    40   CONTINUE
 C
       ELSE
@@ -703,8 +699,8 @@ C
           VX=V(N1)+HALF*A(N1)*DT12
           VY=V(N2)+HALF*A(N2)*DT12
           VZ=V(N3)+HALF*A(N3)*DT12
-C 1er impact (Tfext avec decalage 1/2 cycle)
-c       TFXT = TFXT -DT12*((VX-VXW)*FXN+(VY-VYW)*FYN+(VZ-VZW)*FZN)
+C 1er impact (WFEXT avec decalage 1/2 cycle)
+c       WFEXTT = WFEXTT -DT12*((VX-VXW)*FXN+(VY-VYW)*FYN+(VZ-VZW)*FZN)
 C
           FXT=WEIGHT(N)*FREA(1,N)-FXN
           FYT=WEIGHT(N)*FREA(2,N)-FYN
@@ -712,12 +708,12 @@ C
           F5(J) = FXT
           F6(J) = FYT
           F7(J) = FZT
-          TFXT = TFXT -DT12*((VX-VXW)*FXT+(VY-VYW)*FYT+(VZ-VZW)*FZT)
+          WFEXTT = WFEXTT -DT12*((VX-VXW)*FXT+(VY-VYW)*FYT+(VZ-VZW)*FZT)
    60   CONTINUE
       ENDIF
 C
 #include "lockon.inc"
-      TFEXT=TFEXT+TFXT
+      WFEXT=WFEXT+WFEXTT
 #include "lockoff.inc"
 C
 C     IF (MSR/=0) THEN

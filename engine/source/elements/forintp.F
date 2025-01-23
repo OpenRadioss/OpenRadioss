@@ -82,7 +82,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      F    MAT_ELEM  ,OUTPUT    ,SPH_IORD1 ,SNPC      ,STF,
      G    SBUFMAT   ,IDTMINS   ,NSVOIS    ,IRESP     ,MAXFUNC   ,
      .    IMON_MAT  ,USERL_AVAIL,impl_s  ,idyna     ,
-     .    DT        ,GLOB_THERM,SPH_WORK)
+     .    DT        ,GLOB_THERM,SPH_WORK ,WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -93,7 +93,7 @@ C-----------------------------------------------
       USE MAT_ELEM_MOD
       USE ELBUFDEF_MOD
       USE NLOCAL_REG_MOD
-      USE OUTPUT_MOD
+      USE OUTPUT_MOD , ONLY : OUTPUT_
       USE DT_MOD
       use glob_therm_mod
       USE SPH_WORK_MOD
@@ -165,6 +165,7 @@ C-----------------------------------------------
       TYPE (DT_), INTENT(IN) :: DT
       type(glob_therm_)  ,intent(inout)    :: glob_therm
       TYPE (SPH_WORK_),INTENT(INOUT) :: SPH_WORK
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -730,7 +731,7 @@ C-----------------------------------------------
      2              SPBUF   ,ITAB     ,KXSP    ,IXSP    ,NOD2SP  ,
      3              ISPHIO  ,VSPHIO   ,NPC     ,PLD     ,PM      ,
      4              IPARG   ,ELBUF_TAB,IPART   ,IPARTSP ,WASPACT ,
-     5              WASPH(KVNORM),WA  ,SPHVELN ,SPH_WORK%WAR)
+     5              WASPH(KVNORM),WA  ,SPHVELN ,SPH_WORK%WAR, WFEXT)
 
 c on doit mettre a jour wa(1),wa(2),wa(3) suite a sponfprs
             IF(NSPMD>1) THEN
@@ -830,7 +831,7 @@ C-----------
      4    KXSP      ,IXSP       ,NOD2SP    ,NELTST    ,ITYPTST   ,
      5    IPART     ,IPARTSP    ,ISPCOND   ,XFRAME    ,ISPSYM    ,
      6    XSPSYM    ,VSPSYM     ,WA        ,SPH_WORK%WASIGSM,WASPH     ,
-     7    WSMCOMP,WASPACT,SPH_WORK%WAR     ,SPH_WORK%STAB)
+     7    WSMCOMP,WASPACT,SPH_WORK%WAR     ,SPH_WORK%STAB, WFEXT)
             ENDIF
             IF (IDDW>0) CALL STOPTIMEG(NG)
           END DO

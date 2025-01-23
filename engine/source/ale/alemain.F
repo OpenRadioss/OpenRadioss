@@ -642,7 +642,8 @@ C     --------------------------------------------------
      .                 NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, 
      .                 ITAB, ITABM1, TT - DT1, 
      .                 STIFN, FSKY, IADS, FSKYM, 
-     .                 CONDN, CONDNSKY, BUFMAT, FV, PRED,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB,NPC,TF,FSAVSURF,MATPARAM)
+     .                 CONDN, CONDNSKY, BUFMAT, FV, PRED,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB,NPC,TF,FSAVSURF,MATPARAM,
+     .                 OUTPUT%WFEXT)
 
                   CALL MY_BARRIER
 C     -------------------------
@@ -663,7 +664,8 @@ C     --------------------------------------------------
      .                 NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, 
      .                 ITAB, ITABM1, TT - DT1, 
      .                 STIFN, FSKY, IADS, FSKYM, 
-     .                 CONDN, CONDNSKY, BUFMAT, FV, PRED,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB,NPC,TF,FSAVSURF,MATPARAM)
+     .                 CONDN, CONDNSKY, BUFMAT, FV, PRED,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB,NPC,TF,FSAVSURF,MATPARAM,
+     .                 OUTPUT%WFEXT)
 
                   CALL MY_BARRIER
 C     -------------------------
@@ -899,9 +901,9 @@ C
      Q                  IGRV,                  LGRAV,   SENSORS,       SKEW,
      R                  ALE_CONNECTIVITY%NALE, D,       IOUTPRT,       NLOC_DMG,
      S                  MAT_ELEM,              IBID,    DT,            IDEL7NOK,NSVOIS,
-     T                  SZ_BUFVOIS,            SNPC, STF,SBUFMAT,SVIS,IDTMINS,IRESP,
-     U                  IDEL7NG,    MAXFUNC,    USERL_AVAIL, GLOB_THERM,
-     V                  impl_s,     idyna)
+     T                  SZ_BUFVOIS,            SNPC,    STF,           SBUFMAT,SVIS,IDTMINS,IRESP,
+     U                  IDEL7NG,               MAXFUNC, USERL_AVAIL,   GLOB_THERM,
+     V                  impl_s,                idyna,   OUTPUT%WFEXT)
 C
                  ELSEIF (ITY == 2 .AND. JMULT == 0) THEN
                   NULLIFY(pQMV); 
@@ -1080,7 +1082,7 @@ C     ALE ON / OFF
      S                  MAT_ELEM,             IBID,     DT,            IDEL7NOK,NSVOIS,
      T                  SZ_BUFVOIS,           SNPC,     STF,SBUFMAT,SVIS,IDTMINS,IRESP,
      U                  IDEL7NG,              MAXFUNC,  USERL_AVAIL  ,GLOB_THERM,
-     V                  impl_s,               idyna    )
+     V                  impl_s,               idyna,    OUTPUT%WFEXT)
                
                  ELSEIF (ITY == 2 .AND. JMULT == 0) THEN
                   NULLIFY(pQMV); 

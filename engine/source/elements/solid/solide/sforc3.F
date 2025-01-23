@@ -151,7 +151,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      S   MAT_ELEM,   H3D_STRAIN, DT,         IDEL7NOK,NSVOIS,
      T   SZ_BUFVOIS, SNPC,STF,SBUFMAT,SVIS,IDTMINS,IRESP,
      U   IDEL7NG,    MAXFUNC,    USERL_AVAIL, GLOB_THERM, 
-     V   impl_s,     idyna)
+     V   impl_s,     idyna,      WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -214,9 +214,9 @@ C-----------------------------------------------
      .        ICONTACT(*),ISKY(*),ITAB(*)
       INTEGER NELTST,ITYPTST,OFFSET,NVC,ITASK,
      .        ISTRAIN, IEXPAN, NV46,IOUTPRT,H3D_STRAIN
-C
+
       DOUBLE PRECISION :: XDP(3,*)
-C
+
       my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
       my_real :: DT2T
       my_real
@@ -236,42 +236,42 @@ C
      .   PHI1(*),PHI2(*),VF(3,*) ,D(3,*),
      .   AF(3,*), FFSKY(3,*),DF(3,*),WF(3,*),MSF(*),AFGLOB(3,*),
      .   POR(*),VOLN(MVSIZ), CONDN(*),CONDNSKY(*)
-C
+
       my_real :: BUFVOIS(6,*) ! Neighbour element numbers (ALE/CFD)
       my_real :: MSNF(*),AR(*),VR(3,*),IN(*),FR_WAVE(*),DR(3,*),QMV(12,*)
       TYPE (TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG
       TYPE (MAT_ELEM_) ,INTENT(INOUT) :: MAT_ELEM
-C
+
       my_real :: P(MVSIZ),FSKYI(LSKYI,NFSKYI)
-C
+
       INTEGER :: IGRV(*), LGRAV(*)
       my_real :: AGRAV(*),SKEW(LSKEW,*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE (SENSORS_) ,INTENT(INOUT) :: SENSORS
       TYPE (DT_),   INTENT(INOUT) :: DT
       type (glob_therm_) ,intent(inout)   :: glob_therm
+
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,NF1,NUVAR,IBID,IPTR,IPTS,IPTT,ILAY,ITET,IFVM_SKIP,NNOD
       INTEGER NBF1,NBF2,NBF3, IALEFVM_MAT
-C
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ),INOD(8)
-      my_real
-     . VD2(MVSIZ) , DVOL(MVSIZ),DELTAX(MVSIZ),
-     . VIS(MVSIZ) , QVIS(MVSIZ), CXX(MVSIZ) ,
-     . S1(MVSIZ)  , S2(MVSIZ)  , S3(MVSIZ)  ,
-     . S4(MVSIZ)  , S5(MVSIZ)  , S6(MVSIZ)  ,
-     . B1(MVSIZ)  , B2(MVSIZ)  , B3(MVSIZ)  ,
-     . B4(MVSIZ)  , B5(MVSIZ)  , B6(MVSIZ)  ,
-     . DXX(MVSIZ) , DYY(MVSIZ) , DZZ(MVSIZ) ,
-     . D4(MVSIZ)  , D5(MVSIZ)  , D6(MVSIZ)  , 
-     . JAC1(MVSIZ), JAC2(MVSIZ), JAC3(MVSIZ),
-     . JAC4(MVSIZ), JAC5(MVSIZ), JAC6(MVSIZ),
-     . VDX(MVSIZ) , VDY(MVSIZ) , VDZ(MVSIZ),SSP_EQ(MVSIZ),
-     . AIRE(MVSIZ),FQVIS(MVSIZ), FCXX(MVSIZ)
+      my_real VD2(MVSIZ) , DVOL(MVSIZ),DELTAX(MVSIZ),
+     .        VIS(MVSIZ) , QVIS(MVSIZ), CXX(MVSIZ) ,
+     .        S1(MVSIZ)  , S2(MVSIZ)  , S3(MVSIZ)  ,
+     .        S4(MVSIZ)  , S5(MVSIZ)  , S6(MVSIZ)  ,
+     .        B1(MVSIZ)  , B2(MVSIZ)  , B3(MVSIZ)  ,
+     .        B4(MVSIZ)  , B5(MVSIZ)  , B6(MVSIZ)  ,
+     .        DXX(MVSIZ) , DYY(MVSIZ) , DZZ(MVSIZ) ,
+     .        D4(MVSIZ)  , D5(MVSIZ)  , D6(MVSIZ)  ,
+     .        JAC1(MVSIZ), JAC2(MVSIZ), JAC3(MVSIZ),
+     .        JAC4(MVSIZ), JAC5(MVSIZ), JAC6(MVSIZ),
+     .        VDX(MVSIZ) , VDY(MVSIZ) , VDZ(MVSIZ),SSP_EQ(MVSIZ),
+     .        AIRE(MVSIZ),FQVIS(MVSIZ), FCXX(MVSIZ)
       my_real, dimension(mvsiz) :: fheat
 C
       my_real :: STI(MVSIZ), WXX(MVSIZ) , WYY(MVSIZ) , WZZ(MVSIZ)
@@ -1514,7 +1514,7 @@ C External forces work
      6   N3Z,        N4Z,        N5Z,        N6Z,
      7   DXX,        DYY,        DZZ,        X,
      8   IPM,        NALE,       W,          P,
-     9   VEUL,       NEL)
+     9   VEUL,       NEL,        WFEXT)
 C
 C Initial forces
           CALL ALEFVM_FRESET(

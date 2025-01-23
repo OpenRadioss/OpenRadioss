@@ -33,6 +33,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE GROUPDEF_MOD
+      USE OUTPUT_MOD , ONLY : WFEXT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -76,7 +77,7 @@ C                  actuellement, NRTM == 1.
          KSURF=INTBUF_TAB(N)%KSURF(1)
          IF (IGRSURF(KSURF)%TYPE==100) THEN
 C          Travail des interfaces avec Madymo.
-           TFEXT=TFEXT+DE*DT2*HALF
+           WFEXT=WFEXT+DE*DT2*HALF
          ENDIF
 C-----------------------------------------------
  100  CONTINUE

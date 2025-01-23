@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE AIRBAGA(IVOLU ,NJET   ,IBAGJET ,NVENT   ,IBAGHOL,
      2                 ICBAG   ,RVOLU   ,RBAGJET ,RBAGHOL,RCBAG   ,
      3                 RVOLUV  ,NPC     ,TF      ,NSENSOR ,SENSOR_TAB ,
-     4                 VOL     ,PMAIN )
+     4                 VOL     ,PMAIN   ,WFEXT )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -60,18 +60,17 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NPC(*),IVOLU(*),NJET,IBAGJET(NIBJET,*),
      .        NVENT,IBAGHOL(NIBHOL,*),ICBAG(NICBAG,*),PMAIN
-C     REAL
       my_real
      .   TF(*),RVOLU(*),RBAGJET(NRBJET,*),
      .   RBAGHOL(NRBHOL,*),RCBAG(NRCBAG,*),RVOLUV(NRVOLU,*),VOL
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
+      DOUBLE PRECISION, INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IMASS, ITEMP, ISENS, K, IFLU, IEQUI,
      .        IDEF, NAV, II, IS, IDTPDEF,IDPDEF,
      .        IV, IJ,ITTF
-C     REAL
       my_real
      .   PDEF, PEXT, PVOIS, DTPDEFC,
      .   GAMA, AMU, TSTART, TSG,
@@ -376,7 +375,7 @@ C------
         Q=-AMU*SQRT(P*AREA*ROT/VOL)*DV/AREA/DT1
        ENDIF
        IF (IMACH/=3.OR.ISPMD+1==PMAIN) THEN
-        TFEXT=TFEXT+(HALF*(P+POLD+Q+QOLD)-PEXT)*DV
+        WFEXT=WFEXT+(HALF*(P+POLD+Q+QOLD)-PEXT)*DV
        ENDIF
 C------
        RVOLU(12)=P

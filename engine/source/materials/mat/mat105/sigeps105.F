@@ -142,7 +142,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real :: P,Qa,QB,QAL,QBL, POLD,VOLD,EINC,PNEW
       my_real :: BULK, D, EG, Gr, C, ALPHA,BETA, C1, C2,FSCALE_G,FSCALE_B,FSCALE_P,FSCALE_RHO
-      my_real :: P0,XL, DD, TFEXTT, PSH, VOLO, ESPE, E0, TOTAL_BFRAC, DELTA_BF, BRATE
+      my_real :: P0,XL, DD, PSH, VOLO, ESPE, E0, TOTAL_BFRAC, DELTA_BF, BRATE
       my_real :: PG,PG_,PS, MU_G, MU_P, MU, RHO_G,RHO_G_, RHO_S, RHOG, RHO_Si
       INTEGER :: funcb, funcg
       INTEGER :: IBID, IBFRAC, I , K     
@@ -156,7 +156,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      TFEXTT =  ZERO
       GBUF   => ELBUF_TAB(NG)%GBUF           
       LBUF   => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)
       BUFLY  => ELBUF_TAB(NG)%BUFLY(ILAY)      

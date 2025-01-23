@@ -35,11 +35,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
        SUBROUTINE USER_WINDOWS_ROUTINE( ISPMD        ,NSPMD         ,USERL_AVAIL   ,
      1                                  USER_WINDOWS ,RAD_INPUTNAME ,LEN_RAD_INPUTNAME,
      2                                  NUMNOD       ,NCYCLE        ,ITAB             ,
-     3                                  TT           ,DT1           ,TFEXT            ,
+     3                                  TT           ,DT1           ,WFEXT            ,
      4                                  D            ,X             ,V                ,
      5                                  VR           ,MS            ,IN               ,
      6                                  STIFN        ,STIFR         ,A                ,
-     7                                  AR           ,DT2)
+     7                                  AR           ,DT2           )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -59,7 +59,8 @@ C-----------------------------------------------
       CHARACTER(LEN=LEN_RAD_INPUTNAME),INTENT(IN) :: RAD_INPUTNAME
       INTEGER, INTENT(IN)                         :: NUMNOD,NCYCLE
       INTEGER, DIMENSION(NUMNOD),INTENT(IN)       :: ITAB
-      my_real, INTENT(IN)                         :: TT,DT1,TFEXT
+      my_real, INTENT(IN)                         :: TT,DT1
+      my_real, INTENT(INOUT)                      :: WFEXT
       my_real, DIMENSION(3*NUMNOD), INTENT(IN)    :: D,X,V,VR
       my_real, DIMENSION(NUMNOD), INTENT(IN)      :: MS,IN,STIFN,STIFR
       my_real, DIMENSION(3*NUMNOD), INTENT(INOUT) :: A,AR
@@ -131,13 +132,13 @@ C-----------------------------------------------
             ENDDO
       
             CALL ENG_USERLIB_USERWI(
-     1                               RAD_INPUTNAME      ,LEN_RAD_INPUTNAME   ,
-     2                               USER_WINDOWS%NUVAR ,NUVARI              ,USER_WINDOWS%N_USERNODS   ,
-     3                               NCYCLE             ,USER_WINDOWS%S_WA   ,USER_WINDOWS%IUSER        ,USER_ITAB    ,TT  ,
-     4                               DT1                ,DTU     ,USER_WINDOWS%USREINT      ,TFEXT      ,USER_WINDOWS%USER ,
-     5                               USER_D             ,USER_X  ,USER_V                    ,USER_VR    ,USER_MS           ,
-     6                               USER_IN            ,USER_STIFN,USER_STIFR              ,USER_A     ,USER_AR           ,
-     7                               USER_WINDOWS%WA )
+     1              RAD_INPUTNAME      ,LEN_RAD_INPUTNAME   ,
+     2              USER_WINDOWS%NUVAR ,NUVARI              ,USER_WINDOWS%N_USERNODS   ,
+     3              NCYCLE             ,USER_WINDOWS%S_WA   ,USER_WINDOWS%IUSER        ,USER_ITAB    ,TT               ,
+     4              DT1                ,DTU                 ,USER_WINDOWS%USREINT      ,WFEXT        ,USER_WINDOWS%USER,
+     5              USER_D             ,USER_X              ,USER_V                    ,USER_VR      ,USER_MS          ,
+     6              USER_IN            ,USER_STIFN          ,USER_STIFR                ,USER_A       ,USER_AR          ,
+     7              USER_WINDOWS%WA )
      
             DO I=1,USER_WINDOWS%N_USERNODS
                ND = USER_WINDOWS%USERNODS(I)

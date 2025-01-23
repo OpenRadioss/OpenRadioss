@@ -51,7 +51,7 @@
       subroutine sigeps51_boundary_material ( &
             nel    ,nuparam     ,nuvar   ,nfunc   ,ifunc    ,&
             npf    ,tf          ,time    ,timestep,uparam   ,numel  ,&
-            rho    ,volume       ,eint   ,vel_o   ,tfext    ,&
+            rho    ,volume       ,eint   ,vel_o   ,WFEXT    ,&
             epspxx ,epspyy      ,epspzz  ,&
             sigoxx ,sigoyy      ,sigozz  ,sigoxy  ,sigoyz   ,sigozx ,&
             signxx ,signyy      ,signzz  ,signxy  ,signyz   ,signzx ,&
@@ -113,7 +113,7 @@
 ! ======================================================================================================================
 !                                                   Local Variables
 ! ======================================================================================================================
-      double precision,intent(inout) :: tfext
+      double precision,intent(inout) :: WFEXT
       integer,intent(in) :: nummat,numnod,ngroup !< array size
       integer,intent(in) :: n2d !< flag for 2d / 3d analysis
 
@@ -162,7 +162,7 @@
 
       INTEGER I,J,K,KK,II
 
-      my_real P,PEXT,TFEXTT,P0_NRF,P0_NRFv(nel),DP0,&
+      my_real P,PEXT,WFEXTT,P0_NRF,P0_NRFv(nel),DP0,&
               C11,C12,C13,C21,C22,C23,C31,C32,C33,C41,C42,C43,C51,C52,C53,&
               AV1(nel),AV2(nel),AV3(nel),AV4(nel),RHO10,RHO20,RHO30,RHO40,RHO1,RHO2,RHO3,RHO4,&
               P1,P2,P3,&
@@ -211,7 +211,7 @@
       IX3 = HUGE(IX3)
       IX4 = HUGE(IX4)
       ML = HUGE(ML)
-      TFEXTT=ZERO
+      WFEXTT=ZERO
       MU1P1  = ONE
       MU2P1  = ONE
       MU3P1  = ONE
@@ -505,7 +505,7 @@
           SOUNDSP(I) = EM20
           VISCMAX(I) = ZERO
           EEE        = VOLUME(I) * (E01*UVAR(I,K1+21) * AV1(I) + E02*UVAR(I,K2+21) * AV2(I) + E03*UVAR(I,K3+21) * AV3(I))
-          TFEXTT      = ZERO !TFEXTT + EEE - EINT(I)
+          WFEXTT      = ZERO !WFEXTT + EEE - EINT(I)
           EINT(I)    = EEE
           DD = -EPSPXX(I)-EPSPYY(I)-EPSPZZ(I)
           SIGNXX(I) = -PP(I)
@@ -599,7 +599,7 @@
 #if defined(_OPENMP)
 !$OMP ATOMIC
 #endif
-        TFEXT = TFEXT + TFEXTT
+        WFEXT = WFEXT + WFEXTT
 
         RETURN
 
@@ -738,7 +738,7 @@
           !==================================!
           IF(IOPT == 0)RHO(I) = RHO1 * AV1(I) + RHO2 * AV2(I) + RHO3 * AV3(I)
           EEE        = VOLUME(I) * (E01 * AV1(I) + E02 * AV2(I) + E03 * AV3(I))
-          TFEXTT     = ZERO ! TFEXTT + EEE - EINT(I)
+          WFEXTT     = ZERO ! WFEXTT + EEE - EINT(I)
           EINT(I)    = EEE
           SOUNDSP(I) = EM20
           VISCMAX(I) = ZERO
@@ -752,7 +752,7 @@
 #if defined(_OPENMP)
 !$OMP ATOMIC
 #endif
-        TFEXT = TFEXT + TFEXTT
+        WFEXT = WFEXT + WFEXTT
 
         RETURN
 
@@ -1073,7 +1073,7 @@
           SOUNDSP(I) = EM20
           VISCMAX(I) = ZERO
           EEE        = VOLUME(I) * (E01 * AV1(I) + E02 * AV2(I) + E03 * AV3(I))
-          TFEXTT     = ZERO !TFEXTT + EEE - EINT(I)
+          WFEXTT     = ZERO !WFEXTT + EEE - EINT(I)
           EINT(I)    = EEE
           P1 = P1 - PEXT
           P2 = P2 - PEXT
@@ -1092,7 +1092,7 @@
 #if defined(_OPENMP)
 !$OMP ATOMIC
 #endif
-        TFEXT = TFEXT + TFEXTT
+        WFEXT = WFEXT + WFEXTT
 
         RETURN
 
@@ -1436,7 +1436,7 @@
           UVAR(I,18+KK) = P0_NRF
           UVAR(I,19+KK) = ZERO
 
-          TFEXTT = ZERO !TFEXTT + EEE - EINT(I)
+          WFEXTT = ZERO !WFEXTT + EEE - EINT(I)
           EINT(I) = EEE
           VISCMAX(I) = ZERO
         ENDDO
@@ -1444,7 +1444,7 @@
 #if defined(_OPENMP)
 !$OMP ATOMIC
 #endif
-        TFEXT = TFEXT + TFEXTT
+        WFEXT = WFEXT + WFEXTT
 
         RETURN
 

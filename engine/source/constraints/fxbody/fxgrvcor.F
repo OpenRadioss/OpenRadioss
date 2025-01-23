@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE FXGRVCOR(FXBIPM, FXBGRVI , A      , IGRV, AGRV,
      .                    NPC   , TF      , MS     , V   , SKEW,
-     .                    FXBGRW, IAD_ELEM, FR_ELEM)
+     .                    FXBGRW, IAD_ELEM, FR_ELEM, WFEXT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -46,18 +46,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER FXBIPM(NBIPM,*), FXBGRVI(*), IGRV(NIGRV,*), NPC(*),
-     .        IAD_ELEM(2,*), FR_ELEM(*)
-      my_real
-     .        A(3,*), AGRV(LFACGRV,*), TF(*), MS(*), V(3,*), SKEW(LSKEW,*),
-     .        FXBGRW(*)
+      INTEGER FXBIPM(NBIPM,*), FXBGRVI(*), IGRV(NIGRV,*), NPC(*), IAD_ELEM(2,*), FR_ELEM(*)
+      my_real  A(3,*), AGRV(LFACGRV,*), TF(*), MS(*), V(3,*), SKEW(LSKEW,*), FXBGRW(*)
+      DOUBLE PRECISION, INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NFX, NLG, AGRVI, IADG, IG, NL, NNO, ISK, N2, N1, IFUNC,
      .        I, K1, K2, K3, IAGRV(NUMNOD), J, JJ
       my_real
-     .        FI0, FI, DYDX, TFEXTT, VV
+     .        FI0, FI, DYDX, WFEXTT, VV
       my_real FINTER
       EXTERNAL FINTER
 C
@@ -73,7 +71,7 @@ C
          ENDDO
       ENDIF
 C
-      TFEXTT=ZERO
+      WFEXTT=ZERO
       DO NFX=1,NFXBODY
          NLG=FXBIPM(25,NFX)
          AGRVI=FXBIPM(26,NFX)
@@ -95,7 +93,7 @@ C
                DO I=1,NNO
                   N1=FXBGRVI(AGRVI+IADG+I+1)
                   A(N2,N1)=A(N2,N1)-FI
-                  TFEXTT=TFEXTT+HALF*(FI0+FI)*MS(N1)*V(N2,N1)*DT1
+                  WFEXTT=WFEXTT+HALF*(FI0+FI)*MS(N1)*V(N2,N1)*DT1
      .                                /IAGRV(N1)
                ENDDO
             ELSE
@@ -109,12 +107,12 @@ C
                   A(1,N1)=A(1,N1)-SKEW(K1,ISK)*FI
                   A(2,N1)=A(2,N1)-SKEW(K2,ISK)*FI
                   A(3,N1)=A(3,N1)-SKEW(K3,ISK)*FI
-                  TFEXTT=TFEXTT+HALF*(FI0+FI)*MS(N1)*VV*DT1/IAGRV(N1)
+                  WFEXTT=WFEXTT+HALF*(FI0+FI)*MS(N1)*VV*DT1/IAGRV(N1)
                ENDDO
             ENDIF
             IADG=IADG+2+NNO
          ENDDO
-         TFEXT=TFEXT-TFEXTT+FXBGRW(NFX)
+         WFEXT=WFEXT-WFEXTT+FXBGRW(NFX)
       ENDDO
 C
       RETURN

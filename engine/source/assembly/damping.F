@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2  VR     ,A      ,AR     ,MS     ,IN     ,
      3  DAMPR  ,DAMP   ,IGRNOD ,WEIGHT ,TAGSLV_RBY,
      4  SKEW   ,ICONTACT, I_DAMP_RDOF_TAB,NDAMP_VREL,
-     5  ID_DAMP_VREL,FR_DAMP_VREL,IPARIT,ISPMD)
+     5  ID_DAMP_VREL,FR_DAMP_VREL,IPARIT,ISPMD,WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -57,17 +57,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER
-     .   DIM,ITASK,
-     .   WEIGHT(*),ICONTACT(*),I_DAMP_RDOF_TAB(*),TAGSLV_RBY(*)
+      INTEGER DIM,ITASK,WEIGHT(*),ICONTACT(*),I_DAMP_RDOF_TAB(*),TAGSLV_RBY(*)
       INTEGER ,INTENT(IN) :: NDAMP_VREL,ID_DAMP_VREL(NDAMP_VREL)
       INTEGER ,INTENT(IN) :: FR_DAMP_VREL(NSPMD+2,NDAMP_VREL),IPARIT,ISPMD
-C     REAL
-      my_real
-     .   V(3,*), VR(3,*), A(3,*), AR(3,*) ,MS(*), IN(*),
-     .   DAMPR(NRDAMP,*), DAMP(DIM,*), SKEW(LSKEW,*)
-      my_real,
-     .   DIMENSION(:,:), ALLOCATABLE :: VSKW,ASKW,DAMPSKW
+      my_real V(3,*), VR(3,*), A(3,*), AR(3,*) ,MS(*), IN(*),DAMPR(NRDAMP,*), DAMP(DIM,*), SKEW(LSKEW,*)
+      my_real,DIMENSION(:,:), ALLOCATABLE :: VSKW,ASKW,DAMPSKW
+      DOUBLE PRECISION,INTENT(INOUT):: WFEXT
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD) :: IGRNOD
 C-----------------------------------------------
@@ -77,11 +72,9 @@ C-----------------------------------------------
       INTEGER I,J,N,ND,IGR,ISK,FL_VREL,ID_RBY,ID_FUNC
       my_real, DIMENSION(3) :: DAMP_A,DAMP_B
       my_real, DIMENSION(3) :: DA_,DW_LOCAL,OMEGA_,BETASDT_
-C     REAL
       my_real :: AA,DW,DA,BETASDT,OMEGA,FACTB,DAMPT,D_TSTART,D_TSTOP,
      .           V_REF(3,NDAMP),A_REF(3,NDAMP),V_REFSKW(3),A_REFSKW(3),
      .           FREQ,FACT,DAM(3),DARM(3),DFM,GET_U_FUNC,DXDY,DTINI
-C
       EXTERNAL GET_U_FUNC      
 C-----------------------------------------------
 C     C = a M + b K
@@ -89,7 +82,6 @@ C======================================================================|
       ALLOCATE(VSKW(3,NUMNOD))
       ALLOCATE(ASKW(3,NUMNOD))
       ALLOCATE(DAMPSKW(3,NUMNOD))
-
 
       IF(IDTMINS==2.OR.IDTMINS_INT/=0)GOTO 1000
 C      
@@ -100,8 +92,7 @@ C
      .                    WEIGHT,V_REF,A_REF,NDAMP_VREL,ID_DAMP_VREL,
      .                    FR_DAMP_VREL,NGRNOD,NUMNOD,NDAMP,NRDAMP,
      .                    NSPMD,IPARIT,ISPMD)
-      ENDIF      
-C      
+      ENDIF
 C-----------------------------------------------
       DW = ZERO
       DO ND=1,NDAMP
@@ -610,7 +601,7 @@ C
       ENDDO ! do nd=1,ndamp
 C
 #include "lockon.inc"
-      TFEXT = TFEXT + DW
+      WFEXT = WFEXT + DW
 #include "lockoff.inc"
       RETURN
 C-----------------------------------------------
@@ -825,7 +816,7 @@ C--------------------------------------------------------
       ENDDO
 C
 #include "lockon.inc"
-         TFEXT = TFEXT + DW
+         WFEXT = WFEXT + DW
 #include "lockoff.inc"
       DEALLOCATE(VSKW)
       DEALLOCATE(ASKW)
@@ -845,7 +836,8 @@ C
       SUBROUTINE DAMPING44(
      1  DIM    ,V      ,
      2  VR     ,A      ,AR     ,MS     ,IN     ,
-     3  DAMPR  ,DAMP   ,IGRNOD ,WEIGHT ,TAGSLV_RBY)
+     3  DAMPR  ,DAMP   ,IGRNOD ,WEIGHT ,TAGSLV_RBY,
+     4  WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -865,22 +857,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER
-     .   DIM,ITASK,
-     .   WEIGHT(*),TAGSLV_RBY(*)
-C     REAL
-      my_real
-     .   V(3,*), VR(3,*), A(3,*), AR(3,*) ,MS(*), IN(*),
-     .   DAMPR(4,*), DAMP(DIM,*)
+      INTEGER DIM,ITASK,WEIGHT(*),TAGSLV_RBY(*)
+      my_real V(3,*), VR(3,*), A(3,*), AR(3,*) ,MS(*), IN(*),DAMPR(4,*), DAMP(DIM,*)
+      DOUBLE PRECISION, INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD) :: IGRNOD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,N,ND,IGR
-C     REAL
-      my_real
-     .   BETASDT,AA,DA,DW,OMEGA
+      my_real BETASDT,AA,DA,DW,OMEGA
 C-----------------------------------------------
 C     C = a M + b K
 C======================================================================|
@@ -925,7 +911,7 @@ C======================================================================|
       ENDDO
 C
 #include "lockon.inc"
-         TFEXT = TFEXT + DW
+         WFEXT = WFEXT + DW
 #include "lockoff.inc"
 C
       RETURN
@@ -941,7 +927,7 @@ C--------------------------
       !||    groupdef_mod   ../common_source/modules/groupdef_mod.F
       !||====================================================================
       SUBROUTINE DAMPING(NODFT,NODLT,V ,VR,A ,AR ,DAMP,MS,IN,
-     .                   IGRNOD,DIM,ITASK,WEIGHT,TAGSLV_RBY)
+     .                   IGRNOD,DIM,ITASK,WEIGHT,TAGSLV_RBY, WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -964,18 +950,15 @@ C-----------------------------------------------
       INTEGER
      .   NODFT,NODLT,DIM,ITASK,
      .   WEIGHT(*),TAGSLV_RBY(*)
-C     REAL
-      my_real
-     .   V(3,*) ,VR(3,*),A(3,*) ,AR(3,*) ,DAMP(DIM,*),MS(*),IN(*)
+      my_real V(3,*) ,VR(3,*),A(3,*) ,AR(3,*) ,DAMP(DIM,*),MS(*),IN(*)
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD) :: IGRNOD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,N
-C     REAL
-      my_real
-     .   BETASDT,AA,DA,DW,OMEGA
+      my_real BETASDT,AA,DA,DW,OMEGA
 C-----------------------------------------------
 C
 C     C = a M + b K
@@ -1079,7 +1062,7 @@ C
 C
 #include "lockon.inc"
 c        EDAMP = EDAMP + DW
-         TFEXT = TFEXT + DW
+         WFEXT = WFEXT + DW
 #include "lockoff.inc"
 C
       RETURN

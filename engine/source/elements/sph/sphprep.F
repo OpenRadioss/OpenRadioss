@@ -70,7 +70,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      9    GAUGE   ,NGROUNC ,IGROUNC ,SOL2SPH ,SPH2SOL ,
      A    IXS     ,IADS    ,ADDCNE  ,FSKYD   ,DMSPH   ,
      B    WASPACT ,ICONTACT,OFF_SPH_R2R,WSMCOMP,IRUNN_BIS,
-     C    SPH_IORD1,SPH_WORK)
+     C    SPH_IORD1,SPH_WORK,WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -132,6 +132,7 @@ C     REAL
       TYPE (SPSYM_STRUCT) :: XSPSYM,VSPSYM,WSMCOMP
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
       TYPE (SPH_WORK_)  :: SPH_WORK
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -185,7 +186,7 @@ C         Traitement des INLETS.
      3           PLD     ,IPARG   ,ELBUF_TAB,ISPHIO  ,VSPHIO  ,
      4           PM      ,IPART   ,IPARTSP ,IGRSURF ,
      5           LPRTSPH ,LONFSPH ,WA ,WA(NUMSPH+1),WASPH(KVNORM),
-     6           XDP,IBUFSSG_IO, OFF_SPH_R2R)
+     6           XDP,IBUFSSG_IO, OFF_SPH_R2R,WFEXT)
           NSP2SORT=0
           DO IPRT=1,NPART
             DO K=LPRTSPH(2,IPRT-1)+1,LPRTSPH(1,IPRT)
@@ -617,7 +618,8 @@ C-----------------------------------------------
      3            PLD     ,IPARG   ,ELBUF_TAB,ISPHIO  ,VSPHIO  ,
      4            PM      ,IPART   ,IPARTSP ,IGRSURF ,
      5            LPRTSPH ,LONFSPH ,WA ,WA(NUMSPH+1) ,WA(2*NUMSPH+1) ,
-     6            WASPH(KVNORM),SPHVELN,XDP, IBUFSSG_IO, OFF_SPH_R2R)
+     6            WASPH(KVNORM),SPHVELN,XDP, IBUFSSG_IO, OFF_SPH_R2R,
+     7            WFEXT)
          NSP2SORT=0
          DO IPRT=1,NPART
           DO K=LPRTSPH(2,IPRT-1)+1,LPRTSPH(1,IPRT)

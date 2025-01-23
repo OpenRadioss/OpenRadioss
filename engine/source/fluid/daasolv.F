@@ -37,7 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   RFLOW,  NORMAL, TA,    AREAF, COSG,  DIST,  
      .                   MFLE,   ACCF,   PM,    PTI,   X, V, A, NPC, TF, 
      .                   NBGAUGE,LGAUGE, GAUGE, NSENSOR, SENSOR_TAB, IGRV, AGRV,
-     .                   CBEM   ,IPIV  , NFUNCT, PYTHON)
+     .                   CBEM   ,IPIV  , NFUNCT, PYTHON,WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -51,7 +51,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "com06_c.inc"
+!#include      "com06_c.inc"
 #include      "com08_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -65,6 +65,7 @@ C-----------------------------------------------
       my_real CBEM(NEL,*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
       TYPE (PYTHON_), INTENT(INOUT) :: PYTHON
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -595,7 +596,7 @@ C
              NRY= NORMAL(2,I)
              NRZ= NORMAL(3,I)
              FF = FAC1*THIRD*FEL(I)
-             TFEXT   = TFEXT-FEL(I)*VEL(I)*DT1
+             WFEXT   = WFEXT-FEL(I)*VEL(I)*DT1
              A(1,N1) = A(1,N1) + FF*NRX
              A(2,N1) = A(2,N1) + FF*NRY
              A(3,N1) = A(3,N1) + FF*NRZ
@@ -623,7 +624,7 @@ C
              NRY= NORMAL(2,I)
              NRZ= NORMAL(3,I)
              FF = WF(I5)*FEL(I)
-             TFEXT   = TFEXT-FEL(I)*VEL(I)*DT1
+             WFEXT   = WFEXT-FEL(I)*VEL(I)*DT1
              A(1,N1) = A(1,N1) + FF*NRX
              A(2,N1) = A(2,N1) + FF*NRY
              A(3,N1) = A(3,N1) + FF*NRZ

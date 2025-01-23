@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sensor_mod   ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE CFIELD_IMP(ICFIELD  ,FAC   ,NPC   ,TF    ,A ,
-     2                  V     ,X     ,XFRAME  ,MS,TFEXTT,
+     2                  V     ,X     ,XFRAME  ,MS,WFEXTT,
      3                  NSENSOR,SENSOR_TAB,WEIGHT,IFRAME,
      4                  IB,ITASK,
      5                  NRBYAC,IRBYAC,NPBY  ,RBY,ISKN   )
@@ -54,26 +54,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NSENSOR
+      INTEGER,INTENT(IN) :: NSENSOR
       INTEGER NPC(*)
       INTEGER ICFIELD(SIZFIELD,*),IB(*)
-      INTEGER WEIGHT(*),ITASK,NRBYAC,IRBYAC(*),NPBY(NNPBY,*),
-     .        IFRAME(LISKN,*),ISKN(LISKN,*)
-C     REAL
-      my_real
-     .   FAC(LFACLOAD,*), TF(*), A(3,*), V(3,*), MS(*),
-     .   X(3,*), XFRAME(NXFRAME,*),TFEXTT, RBY(NRBY,*)
+      INTEGER WEIGHT(*),ITASK,NRBYAC,IRBYAC(*),NPBY(NNPBY,*),IFRAME(LISKN,*),ISKN(LISKN,*)
+      my_real FAC(LFACLOAD,*), TF(*), A(3,*), V(3,*), MS(*),X(3,*), XFRAME(NXFRAME,*),WFEXTT, RBY(NRBY,*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NL, N1, IFRA, N2, IFUNC, K1, K2, K3, ISENS,K,NN,
-     .    IAD,J, PROC, IADF, IADL,IDIR,IFLAG,N1FRAM,IUN,JJ,IMOVFRAM
-      my_real
-     .   NX, NY, NZ, AXI, A0, AA, VV, FX, FY, FZ, AX, DYDX, TS,
-     .   GAMA, MA, VROT, X0, Y0, Z0, X1, Y1, Z1, X2, Y2, Z2, VROTM1
-      my_real
-     .   DIST(3),AREL(3),VN1FRAM(3),AN1FRAM(3),DW(3)
+      INTEGER NL, N1, IFRA, N2, IFUNC, K1, K2, K3, ISENS,K,NN, IAD,J, PROC, IADF, IADL,IDIR,IFLAG,N1FRAM,IUN,JJ,IMOVFRAM
+      my_real NX, NY, NZ, AXI, A0, AA, VV, FX, FY, FZ, AX, DYDX, TS,
+     .        GAMA, MA, VROT, X0, Y0, Z0, X1, Y1, Z1, X2, Y2, Z2, VROTM1
+      my_real DIST(3),AREL(3),VN1FRAM(3),AN1FRAM(3),DW(3)
       my_real FINTER 
 C-----------------------------------------------
       EXTERNAL FINTER
@@ -130,8 +123,7 @@ C
 C
       VROT = FAC(1,NL)*FINTER(IFUNC,TS*FAC(2,NL),NPC,TF,DYDX)
       VROTM1=VROT
-      IF (DT2 > ZERO .AND. IFLAG == 2) 
-     .   VROTM1 = FAC(1,NL)*FINTER(IFUNC,(TS-DT2)*FAC(2,NL),NPC,TF,DYDX)
+      IF (DT2 > ZERO .AND. IFLAG == 2) VROTM1 = FAC(1,NL)*FINTER(IFUNC,(TS-DT2)*FAC(2,NL),NPC,TF,DYDX)
       X0 = XFRAME(10,IFRA+1)
       Y0 = XFRAME(11,IFRA+1)
       Z0 = XFRAME(12,IFRA+1)
@@ -162,26 +154,21 @@ C
              DW(1) = ((VROT-VROTM1)/DT2)*X2
              DW(2) = ((VROT-VROTM1)/DT2)*Y2
              DW(3) = ((VROT-VROTM1)/DT2)*Z2
-             AREL(1) = DIST(1)*VROT*VROT +
-     .               DIST(2) * DW(3) - DIST(3) * DW(2)
-             AREL(2) = DIST(2)*VROT*VROT +
-     .               DIST(3) * DW(1) - DIST(1) * DW(3)
-             AREL(3) = DIST(3)*VROT*VROT +
-     .               DIST(1) * DW(2) - DIST(2) * DW(1)
+             AREL(1) = DIST(1)*VROT*VROT + DIST(2) * DW(3) - DIST(3) * DW(2)
+             AREL(2) = DIST(2)*VROT*VROT + DIST(3) * DW(1) - DIST(1) * DW(3)
+             AREL(3) = DIST(3)*VROT*VROT + DIST(1) * DW(2) - DIST(2) * DW(1)
            ELSE
              AREL(1) = DIST(1)*VROT*VROT
              AREL(2) = DIST(2)*VROT*VROT
              AREL(3) = DIST(3)*VROT*VROT
            ENDIF
            IF (IMOVFRAM == 1)
-     .            CALL RELFRAM_M1(X(1,N1)  ,V(1,N1), AREL , XFRAME,
-     .                     VN1FRAM , AN1FRAM   )
+     .            CALL RELFRAM_M1(X(1,N1)  ,V(1,N1), AREL , XFRAME, VN1FRAM , AN1FRAM   )
              A(1,N1)=A(1,N1)+AREL(1)*MS(N1)
              A(2,N1)=A(2,N1)+AREL(2)*MS(N1)
              A(3,N1)=A(3,N1)+AREL(3)*MS(N1)
             IF(IB(J)>0)
-     .        TFEXTT=TFEXTT 
-     .            +HALF*MS(N1)*X1*X1*(VROT-VROTM1)*(VROT-VROTM1)
+     .        WFEXTT=WFEXTT + HALF*MS(N1)*X1*X1*(VROT-VROTM1)*(VROT-VROTM1)
          ENDDO
 C
       ENDDO

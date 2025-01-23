@@ -32,7 +32,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE RGWALC(X    ,A    ,V    ,RWL  ,NSW   ,
      .                  NSN  ,ITIED,MSR  ,MS   ,WEIGHT,
      .                  ICONT,FRWL6,IMP_S,NT_RW,IDDL  ,
-     .                  IKC  ,NDOF ,NODNX_SMS, WEIGHT_MD)
+     .                  IKC  ,NDOF ,NODNX_SMS, WEIGHT_MD,
+     .                  WFEXT, WFEXT_MD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,13 +51,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, ITIED, MSR,ICONT,IMP_S,NT_RW
-      INTEGER NSW(*),WEIGHT(*), IDDL(*),IKC(*),NDOF(*), NODNX_SMS(*),
-     .   WEIGHT_MD(*)      
-C     REAL
-      my_real
-     .   X(*), A(*), V(*), RWL(*), MS(*)
-      DOUBLE PRECISION 
-     .   FRWL6(7,6)
+      INTEGER NSW(*),WEIGHT(*), IDDL(*),IKC(*),NDOF(*), NODNX_SMS(*), WEIGHT_MD(*)
+      my_real X(*), A(*), V(*), RWL(*), MS(*)
+      DOUBLE PRECISION FRWL6(7,6)
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT, WFEXT_MD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -64,13 +62,13 @@ C-----------------------------------------------
      .        INDEX(NSN)
 C     REAL
       my_real
-     .   RA2, XWL, YWL, ZWL, VXW, VYW, VZW, TFXTN, FACT,
-     .   TFXT, VX, VY, VZ, UX, UY, UZ, XC, YC, ZC, DD1, DD,
+     .   RA2, XWL, YWL, ZWL, VXW, VYW, VZW, WFXTN, FACT,
+     .   WFXT, VX, VY, VZ, UX, UY, UZ, XC, YC, ZC, DD1, DD,
      .   DP, XT, YT, ZT, XX, XN, YN, ZN, DV, DA, DVT, FNXN, FNYN, FNZN,
      .   FNXT, FNYT, FNZT, FNDFN, FTDFT, FRIC, FRIC2, FCOE,
      .   XWLO, YWLO, ZWLO,
      .   F1(NSN), F2(NSN), F3(NSN), F4(NSN), F5(NSN), F6(NSN), F7(NSN),
-     .   TFXT2, TFXTN2, WEWE2
+     .   WFXT2, WFXTN2, WEWE2
       DOUBLE PRECISION 
      .   FRWL6_L(7,6)
 C-----------------------------------------------
@@ -107,10 +105,10 @@ C   changement formulation : plus d'impasse sur contribution force
        YWL=X(M2)+VYW*DT2
        ZWL=X(M3)+VZW*DT2
       ENDIF
-      TFXT =ZERO     
-      TFXTN=ZERO
-      TFXT2 =ZERO     
-      TFXTN2=ZERO            
+      WFXT =ZERO
+      WFXTN=ZERO
+      WFXT2 =ZERO
+      WFXTN2=ZERO
       NINDEX=0     
 C----  
       IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
@@ -194,10 +192,10 @@ C
        FNXN=DVT*XN*MS(N)
        FNYN=DVT*YN*MS(N)
        FNZN=DVT*ZN*MS(N)
-       TFXTN = TFXTN - WEIGHT_MD(N)*FACT*
+       WFXTN = WFXTN - WEIGHT_MD(N)*FACT*
      . ((V(N1)-VXW)*FNXN+(V(N2)-VYW)*FNYN+(V(N3)-VZW)*FNZN)
        WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)
-       TFXTN2 = TFXTN2 - WEWE2*FACT*
+       WFXTN2 = WFXTN2 - WEWE2*FACT*
      . ((V(N1)-VXW)*FNXN+(V(N2)-VYW)*FNYN+(V(N3)-VZW)*FNZN)     
        F1(J) = FNXN*WEIGHT_MD(N)
        F2(J) = FNYN*WEIGHT_MD(N)
@@ -250,11 +248,11 @@ C         POINT SECND SLIDING
               IF (IKC(JJ)==0)IKC(JJ)=10
             ENDIF 
           ENDIF
-          TFXT=TFXT-
+          WFXT=WFXT-
      .        ((V(N1)-VXW)*FNXT+(V(N2)-VYW)*FNYT+(V(N3)-VZW)*FNZT)
      .        *WEIGHT_MD(N)
           WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)
-          TFXT2=TFXT2-
+          WFXT2=WFXT2-
      .        ((V(N1)-VXW)*FNXT+(V(N2)-VYW)*FNYT+(V(N3)-VZW)*FNZT)
      .        *WEWE2          
         ENDIF
@@ -285,11 +283,11 @@ C         POINT SECND SLIDING
       ENDDO 
 C
       IF(IMCONV==1)THEN
-        TFXT=TFXT+HALF*DT1*TFXTN
-        TFXT2=TFXT2+HALF*DT1*TFXTN2
+        WFXT=WFXT+HALF*DT1*WFXTN
+        WFXT2=WFXT2+HALF*DT1*WFXTN2
 #include "atomic.inc"
-        TFEXT=TFEXT+TFXT
-        TFEXT_MD=TFEXT_MD+TFXT2
+        WFEXT=WFEXT+WFXT
+        WFEXT_MD=WFEXT_MD+WFXT2
         DO K = 1, 6
           FRWL6_L(1,K) = ZERO
           FRWL6_L(2,K) = ZERO

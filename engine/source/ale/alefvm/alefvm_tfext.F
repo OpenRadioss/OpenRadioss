@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3                          N1Y,  N2Y,  N3Y,  N4Y,  N5Y,   N6Y ,
      4                          N1Z,  N2Z,  N3Z,  N4Z,  N5Z,   N6Z ,
      5                          DXX,  DYY,  DZZ,  X  ,  IPM,   NALE,
-     6                          W  ,  P  ,  VEUL, NEL)
+     6                          W  ,  P  ,  VEUL, NEL,  WFEXT)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -84,6 +84,7 @@ C-----------------------------------------------
      .           N1Z(*), N2Z(*),  N3Z(*), N4Z(*), N5Z(*), N6Z(*),
      .           VEUL(LVEUL,*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -98,7 +99,7 @@ C-----------------------------------------------
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ) , X4(MVSIZ), X5(MVSIZ), X6(MVSIZ), X7(MVSIZ), X8(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ) , Y4(MVSIZ), Y5(MVSIZ), Y6(MVSIZ), Y7(MVSIZ), Y8(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ) , Z4(MVSIZ), Z5(MVSIZ), Z6(MVSIZ), Z7(MVSIZ), Z8(MVSIZ),
-     .   SWn(6)   ,  Wface(3,6,MVSIZ), WFEXT_ADD, TFEXTT
+     .   SWn(6)   ,  Wface(3,6,MVSIZ), WFEXT_ADD, WFEXTT
 
       DATA ICF/1,4,3,2,3,4,8,7,5,6,7,8,1,2,6,5,2,3,7,6,1,5,8,4/
       INTEGER :: IAD2
@@ -252,7 +253,7 @@ C-----------------------------------------------
       ! EXTERNAL FORCE WORK                                         !
       !-------------------------------------------------------------! 
       ALEFVM_Buffer%WFEXT_CELL(LFT+NFT:LLT+NFT) = ZERO
-      TFEXTT = ZERO
+      WFEXTT = ZERO
       DO I=LFT,LLT   
         II = I + NFT 
         IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
@@ -276,17 +277,17 @@ C-----------------------------------------------
           WFEXT_ADD = WFEXT_ADD  - DT1*THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))*SWn(J)*HALF  !Swn=2S.w.n
         ENDDO
         ALEFVM_Buffer%WFEXT_CELL(II) = WFEXT_ADD                             
-        TFEXTT = TFEXTT + WFEXT_ADD                    
+        WFEXTT = WFEXTT + WFEXT_ADD
       ENDDO  
       
 #include "lockon.inc"
-      TFEXT = TFEXT + TFEXTT
+      WFEXT = WFEXT + WFEXTT
 #include "lockoff.inc"
       
 
         !DEBUG-OUTPUT---------------!
-        if(ALEFVM_Param%IOUTP_TFEXT == 1)then
-          IF(TFEXTT /= ZERO)THEN
+        if(ALEFVM_Param%IOUTP_WFEXT == 1)then
+          IF(WFEXTT /= ZERO)THEN
 !#!include "lockon.inc"       
             print *, "    |----alefvm_tfext.F------|"
             print *, "    |   THREAD INFORMATION   |"

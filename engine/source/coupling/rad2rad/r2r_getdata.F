@@ -43,7 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .               VR      ,A       ,AR      ,MS      ,IN      ,
      .               XDP     ,DX      ,R2R_ON  ,DD_R2R  ,WEIGHT  ,
      .               IAD_ELEM,FR_ELEM ,STIFN   , STIFR  , DD_R2R_ELEM,
-     .               SDD_R2R_ELEM,NLOC_DMG)
+     .               SDD_R2R_ELEM,NLOC_DMG,WFEXT, WFEXT_MD)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -63,7 +63,7 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "param_c.inc"
 #include      "scr05_c.inc"
-#include      "scr11_c.inc"
+!#include      "scr11_c.inc"
 #include      "task_c.inc"
 #include      "rad2r_c.inc"
 C-----------------------------------------------------------------
@@ -73,23 +73,19 @@ C-----------------------------------------------
         INTEGER IEXLNK(NR2R,NR2RLNK),
      .          WEIGHT(*), DD_R2R(NSPMD+1,*), IAD_ELEM(2,*), FR_ELEM(*),
      .          DD_R2R_ELEM(*),SDD_R2R_ELEM
-C     REAL
-        my_real
-     .     X(3,*),V(3,*),VR(3,*),A(3,*),AR(3,*),MS(*),IN(*),
-     .     STIFN(*),STIFR(*),DX(3,*)
-C
+        my_real X(3,*),V(3,*),VR(3,*),A(3,*),AR(3,*),MS(*),IN(*),STIFN(*),STIFR(*),DX(3,*)
+
         DOUBLE PRECISION XDP(3,*)
-!
         TYPE (GROUP_)  , TARGET, DIMENSION(NGRNOD)  :: IGRNOD
         TYPE(NLOCAL_STR_), TARGET, INTENT(IN)  :: NLOC_DMG
+        DOUBLE PRECISION, INTENT(INOUT) :: WFEXT
+        DOUBLE PRECISION, INTENT(INOUT) :: WFEXT_MD !< specific to r2r method
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER I, IEX, IDP, IDG, NNG, NB,NGLOB,LENR,SIZE,BID
         INTEGER NBD,NL_FLAG,SBUF_SIZE,RBUF_SIZE,PSP
-        my_real
-     .          WF, WM, WF2, WM2, WFB, WMB, WF2B, WM2B,ANN,VNN,ARN,VRN
-C
+        my_real WF, WM, WF2, WM2, WFB, WMB, WF2B, WM2B,ANN,VNN,ARN,VRN
         INTEGER, DIMENSION(:), POINTER :: GRNOD
         my_real, POINTER, DIMENSION(:) :: MSNL,FNL
 C=======================================================================
@@ -118,7 +114,7 @@ C-------Non local coupling interface--------------------------
               CALL GET_FORCE_C(IDP    ,NNG    ,GRNOD  ,WF     ,WM      ,
      .                         WF2    ,WM2    ,V      ,VR     ,A      ,AR      ,
      .                         MS     ,IN     ,X      ,XDP    ,DX     ,TYPLNK(IEX),
-     .                         KINLNK(IEX),WEIGHT  ,IEX    ,IRESP, TFEXT)
+     .                         KINLNK(IEX),WEIGHT  ,IEX    ,IRESP, WFEXT)
             ENDIF
 C
             IF (R2R_ON == 1)  THEN
@@ -196,7 +192,7 @@ C
 
 C----- Count the work of external process forces
         IF(IMACH/=3.OR.ISPMD==0) THEN
-          TFEXT_MD = TFEXT_MD + R2RFX1 + (WF + WM) * DT1
+          WFEXT_MD = WFEXT_MD + R2RFX1 + (WF + WM) * DT1
           R2RFX1 = WF  + WM
           R2RFX2 = WF2 + WM2
         END IF

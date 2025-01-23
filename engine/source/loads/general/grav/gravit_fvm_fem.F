@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE GRAVIT_FVM_FEM(IGRV  ,AGRV   ,NPC   ,TF   ,A     ,
      2                          V     ,X      ,SKEW  ,MS   ,SENSOR_TAB,
-     3                          WEIGHT,IB     ,ITASK ,NALE ,NSENSOR , PYTHON)
+     3                          WEIGHT,IB     ,ITASK ,NALE ,NSENSOR , PYTHON, WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -68,16 +68,17 @@ C-----------------------------------------------
       my_real AGRV(LFACGRV,*), TF(*), A(3,*), V(3,*), MS(*), X(3,*), SKEW(LSKEW,*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
       TYPE (PYTHON_), INTENT(INOUT) :: PYTHON
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NL, N1, ISK, N2, IFUNC, K1, K2, K3, ISENS,K,NN, IAD,J, IADF, IADL, ISMOOTH
-      my_real NX, NY, NZ, AXI, A0, AA, VV, FX, FY, FZ, AX, DYDX, TS, GAMA, TFEXTT,FCX,FCY
+      my_real NX, NY, NZ, AXI, A0, AA, VV, FX, FY, FZ, AX, DYDX, TS, GAMA, WFEXTT,FCX,FCY
       my_real, EXTERNAL :: FINTER,FINTER_SMOOTH
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      TFEXTT=ZERO
+      WFEXTT=ZERO
 C
       DO NL=1,NGRAV
         FCY = AGRV(1,NL)
@@ -127,7 +128,7 @@ C
             N1=IABS(IB(J))
             AXI=X(2,N1)
             A(N2,N1)=A(N2,N1)+AA
-            IF(IB(J)>0 .AND. NALE(N1)/=-1)TFEXTT=TFEXTT+HALF*(A0+AA)*MS(N1)*V(N2,N1)*DT1*AXI*WEIGHT(N1)
+            IF(IB(J)>0 .AND. NALE(N1)/=-1)WFEXTT=WFEXTT+HALF*(A0+AA)*MS(N1)*V(N2,N1)*DT1*AXI*WEIGHT(N1)
           ENDDO
         ELSEIF(N2D==1.AND.ISK>1)THEN
           K1=3*N2-2
@@ -141,14 +142,14 @@ C
             A(1,N1)=A(1,N1)+SKEW(K1,ISK)*AA
             A(2,N1)=A(2,N1)+SKEW(K2,ISK)*AA
             A(3,N1)=A(3,N1)+SKEW(K3,ISK)*AA
-            IF(IB(J)>0 .AND. NALE(N1)/=-1)TFEXTT=TFEXTT+HALF*(A0+AA)*MS(N1)*VV*DT1*AXI*WEIGHT(N1)
+            IF(IB(J)>0 .AND. NALE(N1)/=-1)WFEXTT=WFEXTT+HALF*(A0+AA)*MS(N1)*VV*DT1*AXI*WEIGHT(N1)
           ENDDO
         ELSEIF(ISK<=1)THEN
 #include "vectorize.inc"
           DO J=IADF,IADL
             N1=IABS(IB(J))
             A(N2,N1)=A(N2,N1)+AA
-            IF(IB(J)>0 .AND. NALE(N1)/=-1)TFEXTT=TFEXTT+HALF*(A0+AA)*MS(N1)*V(N2,N1)*DT1*WEIGHT(N1)
+            IF(IB(J)>0 .AND. NALE(N1)/=-1)WFEXTT=WFEXTT+HALF*(A0+AA)*MS(N1)*V(N2,N1)*DT1*WEIGHT(N1)
           ENDDO
         ELSE
           K1=3*N2-2
@@ -161,7 +162,7 @@ C
             A(1,N1)=A(1,N1)+SKEW(K1,ISK)*AA
             A(2,N1)=A(2,N1)+SKEW(K2,ISK)*AA
             A(3,N1)=A(3,N1)+SKEW(K3,ISK)*AA
-            IF(IB(J)>0 .AND. NALE(N1)/=-1)TFEXTT=TFEXTT+HALF*(A0+AA)*MS(N1)*VV*DT1*WEIGHT(N1)
+            IF(IB(J)>0 .AND. NALE(N1)/=-1)WFEXTT=WFEXTT+HALF*(A0+AA)*MS(N1)*VV*DT1*WEIGHT(N1)
           ENDDO
         ENDIF
 C       /---------------/
@@ -170,7 +171,7 @@ C       /---------------/
       END DO
 C
 #include "atomic.inc"
-      TFEXT = TFEXT + TFEXTT
+      WFEXT = WFEXT + WFEXTT
 #include "atomend.inc"
 C
       RETURN

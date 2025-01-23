@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE RGWAL0(X      ,A      ,V      ,RWBUF   ,LPRW  ,
      2                  NPRW   ,MS     ,FSAV   ,FR_WALL ,FOPT  ,
      3                  RWSAV  ,WEIGHT ,FRWL6 ,NODNX_SMS,WEIGHT_MD,
-     4                  DIMFB  , FBSAV6,STABSEN,TABSENSOR )
+     4                  DIMFB  , FBSAV6,STABSEN,TABSENSOR,WFEXT,WFEXT_MD )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,11 +60,11 @@ C-----------------------------------------------
      .        FSAV(NTHVKI,*), FOPT(6,*)
       DOUBLE PRECISION FRWL6(7,6,NRWALL)
       DOUBLE PRECISION FBSAV6(12,6,DIMFB),RBID(12,6)
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT, WFEXT_MD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K,N,N2,N3,N4,N5,N6, ITYP, ISL, IFQ, ILAGM, IMP,
-     .        PMAIN,IPARSENS,ISECT
+      INTEGER K,N,N2,N3,N4,N5,N6, ITYP, ISL, IFQ, ILAGM, IMP, PMAIN,IPARSENS,ISECT
 C-----------------------------------------------
           RBID = ZERO
 C Init global result to 0
@@ -102,26 +102,26 @@ C
      +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K),
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
      +          NPRW(N5),RWSAV(ISL),FRWL6(1,1,N),IMP       ,IBID   ,
-     +          IBID    ,IBID      ,IBID        ,NODNX_SMS ,WEIGHT_MD)
+     +          IBID    ,IBID      ,IBID        ,NODNX_SMS ,WEIGHT_MD, WFEXT, WFEXT_MD)
             ELSEIF(ITYP == 2)THEN
               CALL RGWALC(
      +          X       ,A           ,V       ,RWBUF(1,N) ,LPRW(K),
      +          NPRW(N) ,NPRW(N2)    ,NPRW(N3),MS         ,WEIGHT ,
      +          NPRW(N5),FRWL6(1,1,N),IMP     ,IBID       ,IBID   ,
-     +          IBID    ,IBID        ,NODNX_SMS , WEIGHT_MD)
+     +          IBID    ,IBID        ,NODNX_SMS , WEIGHT_MD,WFEXT, WFEXT_MD)
 C
             ELSEIF(ITYP == 3)THEN
               CALL RGWALS(
      +          X       ,A           ,V       ,RWBUF(1,N),LPRW(K),
      +          NPRW(N) ,NPRW(N2)    ,NPRW(N3),MS        ,WEIGHT ,
      +          NPRW(N5),FRWL6(1,1,N),IMP     ,IBID      ,IBID   ,
-     +          IBID    ,IBID        ,NODNX_SMS ,WEIGHT_MD)
+     +          IBID    ,IBID        ,NODNX_SMS ,WEIGHT_MD,WFEXT, WFEXT_MD)
             ELSEIF(ITYP == 4)THEN
               CALL RGWALP(
      +          X       ,A           ,V       ,RWBUF(1,N),LPRW(K),
      +          NPRW(N) ,NPRW(N2)    ,NPRW(N3),MS        ,WEIGHT ,
      +          NPRW(N5),FRWL6(1,1,N),IMP     ,IBID      ,IBID   ,
-     +          IBID    ,IBID        ,NODNX_SMS ,WEIGHT_MD)
+     +          IBID    ,IBID        ,NODNX_SMS ,WEIGHT_MD,WFEXT,WFEXT_MD)
             ENDIF
             K=K+NPRW(N)
             IFQ = NINT(RWBUF(15,N))
@@ -207,7 +207,7 @@ C
      1                  NPRW   ,MS     ,FSAV   ,FR_WALL ,FOPT   ,
      2                  RWSAV  ,WEIGHT ,FSAVD   ,NT_RW  ,
      3                  IDDL   ,IKC    ,ICOMV  ,NDOF  ,FRWL6 ,WEIGHT_MD,
-     4                  DIMFB  , FBSAV6,STABSEN,TABSENSOR)
+     4                  DIMFB  , FBSAV6,STABSEN,TABSENSOR, WFEXT, WFEXT_MD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -231,10 +231,9 @@ C-----------------------------------------------
      .        DIMFB,STABSEN,TABSENSOR(*)
       my_real X(3,NUMNOD), D(3,NUMNOD), V(3,NUMNOD),RWBUF(NRWLP,*),RWSAV(*),MS(*),
      .        FSAV(NTHVKI,*), FOPT(6,*),FSAVD(NTHVKI,*)
-      DOUBLE PRECISION
-     .        FRWL6(7,6,NRWALL)
-      DOUBLE PRECISION
-     .        FBSAV6(12,6,DIMFB),RBID(12,6)
+      DOUBLE PRECISION FRWL6(7,6,NRWALL)
+      DOUBLE PRECISION FBSAV6(12,6,DIMFB),RBID(12,6)
+      DOUBLE PRECISION,INTENT(INOUt) :: WFEXT, WFEXT_MD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -294,25 +293,25 @@ c!$OMP END DO
      +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K),
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
      +          NPRW(N5),RWSAV(ISL),FRWL6(1,1,N),IMP       ,NT_RW  ,
-     +          IDDL    ,IKC       ,NDOF        ,IBID      ,WEIGHT_MD)
+     +          IDDL    ,IKC       ,NDOF        ,IBID      ,WEIGHT_MD, WFEXT, WFEXT_MD)
             ELSEIF(ITYP == 2)THEN
               CALL RGWALC(
      +          X       ,A           ,V       ,RWBUF(1,N),LPRW(K),
      +          NPRW(N) ,NPRW(N2)    ,NPRW(N3),MS        ,WEIGHT ,
      +          NPRW(N5),FRWL6(1,1,N),IMP     ,NT_RW     ,IDDL   ,
-     +          IKC     ,NDOF        ,IBID    ,WEIGHT_MD)
+     +          IKC     ,NDOF        ,IBID    ,WEIGHT_MD ,WFEXT  ,WFEXT_MD)
             ELSEIF(ITYP == 3)THEN
               CALL RGWALS(
      +          X       ,A           ,V       ,RWBUF(1,N),LPRW(K),
      +          NPRW(N) ,NPRW(N2)    ,NPRW(N3),MS        ,WEIGHT ,
      +          NPRW(N5),FRWL6(1,1,N),IMP     ,NT_RW     ,IDDL   ,
-     +          IKC     ,NDOF        ,IBID    ,WEIGHT_MD)
+     +          IKC     ,NDOF        ,IBID    ,WEIGHT_MD ,WFEXT, WFEXT_MD)
             ELSEIF(ITYP == 4)THEN
               CALL RGWALP(
      +          X       ,A           ,V       ,RWBUF(1,N),LPRW(K),
      +          NPRW(N) ,NPRW(N2)    ,NPRW(N3),MS        ,WEIGHT ,
      +          NPRW(N5),FRWL6(1,1,N),IMP     ,NT_RW     ,IDDL   ,
-     +          IKC     ,NDOF        ,IBID    ,WEIGHT_MD)
+     +          IKC     ,NDOF        ,IBID    ,WEIGHT_MD ,WFEXT, WFEXT_MD)
             ENDIF
 
             K=K+NPRW(N)

@@ -41,7 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3             PLD     ,IPARG   ,ELBUF_TAB,ISPHIO  ,VSPHIO  ,
      4             PM      ,IPART   ,IPARTSP ,IGRSURF ,
      5             LPRTSPH ,LONFSPH ,MWA     ,WA      ,VNORMAL ,
-     6             XDP, IBUFSSG_IO  ,OFF_SPH_R2R)
+     6             XDP, IBUFSSG_IO  ,OFF_SPH_R2R, WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -50,7 +50,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
       USE OUTPUTS_MOD
-C----6---------------------------------------------------------------7---------8
+C----6------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -85,6 +85,7 @@ C-----------------------------------------------
      .   XDP(3,*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION (NGROUP) :: ELBUF_TAB
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -101,7 +102,7 @@ C-----------------------------------------------
       my_real
      .       PENTV,VT,VN,VV,
      .       PENTR,RHON,RHO0,PENTP,PN,PSHFT,PENTE,EN,EI,
-     .       T05,SSEG,MP,TFEXTT,VOLO,
+     .       T05,SSEG,MP,WFEXTT,VOLO,
      .       X1,X2,X3,X4,XP,Y1,Y2,Y3,Y4,YP,Z1,Z2,Z3,Z4,ZP,
      .       X12,Y12,Z12,X23,Y23,Z23,X31,Y31,Z31,NX,NY,NZ,NN,
      .       XI,YI,ZI,DD,DIAM,DMAX,DPS,VOL,BID
@@ -112,7 +113,7 @@ C-----------------------------------------------
       EXTERNAL GET_U_GEO
       DATA IUN/1/
 C-----------------------------------------------
-      TFEXTT=ZERO
+      WFEXTT=ZERO
       BID=ZERO
       EN = 0
       RHON = ZERO
@@ -394,7 +395,7 @@ C      check active particles within distance / re-impose kinematic condition.
          IACTIVE=MWA(KP)
          N=LONFSPH(IACTIVE)
          INOD=KXSP(3,N)
-         TFEXTT=TFEXTT + HALF*MS(INOD)*(VT-
+         WFEXTT=WFEXTT + HALF*MS(INOD)*(VT-
      . (V(1,INOD)*V(1,INOD)+V(2,INOD)*V(2,INOD)+V(3,INOD)*V(3,INOD)))
          VNORMAL(1,N)=-WA(KVNORM+3*(N-1))
          VNORMAL(2,N)=-WA(KVNORM+3*(N-1)+1)
@@ -509,7 +510,7 @@ C--------
            XDP(2,INOD)=YP
            XDP(3,INOD)=ZP
          END IF
-         TFEXTT=TFEXTT+HALF*MP*VT
+         WFEXTT=WFEXTT+HALF*MP*VT
          VNORMAL(1,N)=NX
          VNORMAL(2,N)=NY
          VNORMAL(3,N)=NZ
@@ -531,7 +532,7 @@ C--------
           GBUF => ELBUF_TAB(NG)%GBUF
           K=N-NFT
           VOLO=GBUF%VOL(K)
-          TFEXTT=TFEXTT+EI*VOLO
+          WFEXTT=WFEXTT+EI*VOLO
           GBUF%EINT(K) =EI
           GBUF%OFF(K)  =ONE
           GBUF%RHO(K)  =RHON
@@ -550,7 +551,7 @@ C        reset MASS FLOW for this segment.
       ENDDO
 C-------------------------------------------
 #include "atomic.inc"
-       TFEXT=TFEXT+TFEXTT
+       WFEXT=WFEXT+WFEXTT
 #include "atomend.inc"
 C-------------------------------------------
       RETURN

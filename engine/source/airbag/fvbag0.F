@@ -40,7 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  FSAV  ,  IFVMESH , ICONTACT , LGAUGE    ,
      .                  GAUGE ,  IGEO    , GEO      , PM        , IPM,
      .                  IPARG ,  IGROUPTG, IGROUPC  , ELBUF_TAB , FEXT,
-     .                  FLAG  ,  H3D_DATA, ITAB     ,WEIGHT)
+     .                  FLAG  ,  H3D_DATA, ITAB     ,WEIGHT     ,WFEXT)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -85,7 +85,8 @@ C-----------------------------------------------
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB 
-      INTEGER,INTENT(IN) :: ITAB(NUMNOD), WEIGHT(NUMNOD) 
+      INTEGER,INTENT(IN) :: ITAB(NUMNOD), WEIGHT(NUMNOD)
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -265,7 +266,7 @@ C
      K            FVDATA(IFV)%CPDPOLH   ,FVDATA(IFV)%CPEPOLH,FVDATA(IFV)%CPFPOLH ,
      L            MONVOL(KI4)           ,IPARG              ,MONVOL(KI5)         ,
      M            IGROUPTG              ,IGROUPC            ,ELBUF_TAB           , FEXT                     , CFL_COEF             ,
-     N            FVDATA(IFV)%PDISP_OLD ,FVDATA(IFV)%PDISP  ,H3D_DATA            , ITAB                     )
+     N            FVDATA(IFV)%PDISP_OLD ,FVDATA(IFV)%PDISP  ,H3D_DATA            , ITAB                     , WFEXT)
               ELSE
                 CALL FV_UP_SWITCH(
      1            NNS                   ,NTG, MONVOL(KI2)   ,NJET                , FVDATA(IFV)%NPOLY        , FVDATA(IFV)%LENH ,NBA,
@@ -290,7 +291,7 @@ C
      K            FVDATA(IFV)%CPDPOLH   ,FVDATA(IFV)%CPEPOLH,FVDATA(IFV)%CPFPOLH ,
      L            MONVOL(KI4)           ,IPARG              ,MONVOL(KI5)         ,
      M            IGROUPTG              ,IGROUPC            ,ELBUF_TAB, CFL_COEF ,
-     N            FVDATA(IFV)%PDISP_OLD ,FVDATA(IFV)%PDISP)
+     N            FVDATA(IFV)%PDISP_OLD ,FVDATA(IFV)%PDISP  ,WFEXT)
               ENDIF
             ELSEIF (FLAG == 2) THEN
               CALL FVBAG2(IFV       , ITYP          , NNA           , NVENT       , NJET          , 

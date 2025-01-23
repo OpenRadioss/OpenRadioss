@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE INTSTAMP_ASS(
      1           INTSTAMP,MS     ,IN      ,A     ,AR    ,
-     2           STIFN   ,STIFR  ,WEIGHT  )
+     2           STIFN   ,STIFR  ,WEIGHT  ,WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -46,7 +46,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "com06_c.inc"
+!#include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "parit_c.inc"
 #include      "task_c.inc"
@@ -54,22 +54,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL
       INTEGER WEIGHT(*)
-      my_real
-     .   MS(*), IN(*), A(3,*), AR(3,*), STIFN(*), STIFR(*)
+      my_real MS(*), IN(*), A(3,*), AR(3,*), STIFN(*), STIFR(*)
       TYPE(INTSTAMP_DATA) INTSTAMP(*)
+      DOUBLE PRECISION, INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NN, MSR, MSRR, INTDAMP, KDIR, K, IROT
-C     REAL
-      my_real
-     .   BUFS(8,NINTSTAMP), ALPHA, VIS, MASS, INM, STF, STR,
-     .   VX, VY, VZ, FVX, FVY, FVZ, DT05, DW
+      my_real BUFS(8,NINTSTAMP), ALPHA, VIS, MASS, INM, STF, STR, VX, VY, VZ, FVX, FVY, FVZ, DT05, DW
       DOUBLE PRECISION BUFS6(6,8,NINTSTAMP)
 C-----------------------------------------------
-      IF(IPARIT/=0)THEN
+      IF(IPARIT /= 0)THEN
         DO NN=1,NINTSTAMP
          DO K=1,6
           DO KDIR=1,3
@@ -174,7 +170,7 @@ C---------------------
         MASS   =MS(MSR)
         STF =INTSTAMP(NN)%STF
         VIS =ALPHA*SQRT(FOUR*MASS*STF)
-        TFEXT=TFEXT + DT05*INTSTAMP(NN)%DW
+        WFEXT=WFEXT + DT05*INTSTAMP(NN)%DW
         IF(INTDAMP==0)THEN
           A(1,MSR)=A(1,MSR)-VIS*INTSTAMP(NN)%V(1)
           A(2,MSR)=A(2,MSR)-VIS*INTSTAMP(NN)%V(2)
@@ -183,7 +179,7 @@ C---------------------
               DW=-VIS*( INTSTAMP(NN)%V(1)*INTSTAMP(NN)%V(1)
      .         +INTSTAMP(NN)%V(2)*INTSTAMP(NN)%V(2)
      .         +INTSTAMP(NN)%V(3)*INTSTAMP(NN)%V(3))
-              TFEXT=TFEXT + DT05 * DW
+              WFEXT=WFEXT + DT05 * DW
           END IF
         ELSE
           VX=(INTSTAMP(NN)%V(1)-INTSTAMP(INTDAMP)%V(1))
@@ -201,7 +197,7 @@ C---------------------
           A(3,MSRR)=A(3,MSRR)+FVZ
           IF(ISPMD==0)THEN
             DW=-TWO*(FVX*VX+FVY*VY+FVZ*VZ)
-            TFEXT=TFEXT + DT05 * DW
+            WFEXT=WFEXT + DT05 * DW
           END IF
         END IF
         IROT=INTSTAMP(NN)%IROT
@@ -218,7 +214,7 @@ C---------------------
                 DW=-VIS*( INTSTAMP(NN)%VR(1)*INTSTAMP(NN)%VR(1)
      .           +INTSTAMP(NN)%VR(2)*INTSTAMP(NN)%VR(2)
      .           +INTSTAMP(NN)%VR(3)*INTSTAMP(NN)%VR(3))
-                TFEXT=TFEXT + DT05 * DW
+                WFEXT=WFEXT + DT05 * DW
             END IF
           ELSE
             VX=INTSTAMP(NN)%VR(1)-INTSTAMP(INTDAMP)%VR(1)
@@ -236,7 +232,7 @@ C---------------------
             AR(3,MSRR)=AR(3,MSRR)+FVZ
             IF(ISPMD==0)THEN
               DW=-TWO*(FVX*VX+FVY*VY+FVZ*VZ)
-              TFEXT=TFEXT + DT05 * DW
+              WFEXT=WFEXT + DT05 * DW
             END IF
           END IF
         END IF

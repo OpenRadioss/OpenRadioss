@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2              SPBUF   ,ITAB     ,KXSP    ,IXSP    ,NOD2SP  ,
      3              ISPHIO  ,VSPHIO   ,NPC     ,PLD     ,PM      ,
      4              IPARG   ,ELBUF_TAB,IPART   ,IPARTSP ,WASPACT ,
-     5              VNORMAL ,WA       ,SPHVELN ,WAR )
+     5              VNORMAL ,WA       ,SPHVELN ,WAR     ,WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -68,6 +68,7 @@ C-----------------------------------------------
      .   PLD(*) ,PM(NPROPM,*),VNORMAL(3,*),WA(KWASPH,*), SPHVELN(2,*),
      .   WAR(10,*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -81,11 +82,11 @@ C-----------------------------------------------
      .       PENTP,PN,PSHFT,PX,
      .       XI,YI,ZI,XJ,YJ,ZJ,DMIN,DD,VX,VY,VZ,
      .       PMIN,VN,VO,PO,RHOI,SSPI,PINFINI,LC,ALP,
-     .       TFEXTT,DVOL
+     .       WFEXTT,DVOL
       TYPE(G_BUFEL_)  ,POINTER :: GBUF 
       LOGICAL :: lBOOL    
 C=======================================================================
-      TFEXTT= ZERO
+      WFEXTT= ZERO
       PINFINI = ZERO
       PN = ZERO
 C-----------------------------------------------
@@ -244,7 +245,7 @@ C
          INOD=KXSP(3,N)
          DVOL=SPBUF(12,N)/MAX(EM20,SPBUF(2,N))
      .       -SPBUF(12,N)/MAX(EM20,WA(10,N))
-         TFEXTT=TFEXTT+(PN-PX)*DVOL
+         WFEXTT=WFEXTT+(PN-PX)*DVOL
         ENDIF
        ENDIF
       ENDDO
@@ -387,7 +388,7 @@ C
 C
           DVOL=SPBUF(12,N)/MAX(EM20,SPBUF(2,N))
      .        -SPBUF(12,N)/MAX(EM20,WA(10,N))
-          TFEXTT=TFEXTT+(PN-PX)*DVOL
+          WFEXTT=WFEXTT+(PN-PX)*DVOL
          ELSE
           NG=MOD(KXSP(2,N),NGROUP+1)
           CALL INITBUF(IPARG    ,NG      ,                   
@@ -416,7 +417,7 @@ C
       ENDDO
 C-------------------------------------------
 #include "atomic.inc"
-      TFEXT=TFEXT+TFEXTT
+      WFEXT=WFEXT+WFEXTT
 #include "atomend.inc"
 C-------------------------------------------
       RETURN

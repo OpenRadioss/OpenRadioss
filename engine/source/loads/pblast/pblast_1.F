@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE PBLAST_1(PBLAST,ILOADP  ,FAC      ,A       ,V         ,X       ,
      1                    IADC    ,FSKY     ,LLOADP  ,FEXT      ,
-     2                    ITAB    ,H3D_DATA ,NL      ,DTMIN_LOC ,TFEXT_LOC,
+     2                    ITAB    ,H3D_DATA ,NL      ,DTMIN_LOC ,WFEXT_LOC,
      3                    TH_SURF ,NSEGPL)
 C-----------------------------------------------
 C   M o d u l e s
@@ -71,7 +71,8 @@ C-----------------------------------------------
       INTEGER,INTENT(INOUT) :: ILOADP(SIZLOADP,NLOADP)
       INTEGER,INTENT(IN) :: IADC(*)
       INTEGER, INTENT(IN) :: ITAB(NUMNOD),NL
-      my_real,INTENT(INOUT) :: DTMIN_LOC,TFEXT_LOC
+      my_real,INTENT(INOUT) :: DTMIN_LOC
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT_LOC
       my_real,INTENT(IN) :: V(3,NUMNOD),X(3,NUMNOD)
       my_real,INTENT(INOUT) :: FAC(LFACLOAD,NLOADP)
       my_real,INTENT(INOUT) :: A(3,NUMNOD),FSKY(8,SFSKY/8),FEXT(3,NUMNOD)
@@ -384,7 +385,7 @@ C-----------------------------------------------
         !External Force work
         ! on a given node : DW = <F,V>*dt
         ! for this current 4-node or 3-node face :   DW = sum(   <F_k,V_k>*dt       k=1,NPT)   where F_k=Fel/NPT
-        TFEXT_LOC=TFEXT_LOC+DT1*(FF(1)*SUM(V(1,NN(1:NINT(NPT)))) +FF(2)*SUM(V(2,NN(1:NINT(NPT)))) +FF(3)*SUM(V(3,NN(1:NINT(NPT)))))
+        WFEXT_LOC=WFEXT_LOC+DT1*(FF(1)*SUM(V(1,NN(1:NINT(NPT)))) +FF(2)*SUM(V(2,NN(1:NINT(NPT)))) +FF(3)*SUM(V(3,NN(1:NINT(NPT)))))
 
 C----- /TH/SURF -------
         IF(TH_SURF%LOADP_FLAG > 0 ) THEN

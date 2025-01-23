@@ -1073,10 +1073,10 @@ C-------------------------
      S   MAt_ELEM,   IBID,       DT,         IDEL7NOK,NSVOIS,
      T   SBID,       SNPC,       STF,        SBUFMAT,SVIS,IDTMINS,
      U   IRESP,      IDEL7NG,    MAXFUNC,    USERL_AVAIL, GLOB_THERM, 
-     V   impl_s,     idyna)
+     V   impl_s,     idyna,      OUTPUT%WFEXT)
 
             ENDIF
-C
+
             IF (NSECT > 0)THEN
                K0=NSTRF(25)
                N=NINTER+NRWALL+NRBODY
@@ -1092,7 +1092,7 @@ C
                   IPARSENS=1
                   pFBSAV6 => SENSORS%FSAV(1,1,ISECT)
                 ENDIF
-C
+
                 CALL SECTION_S(JFT,JLT,NFT,NSTRF(K0+7),NSTRF(K0+3),
      2           NSTRF(K0+4),NSTRF(K0+5),NSTRF(K3),X,V,FSAV(1,N),
      3           IXS        ,FANI(1,1+2*(I-1)), SECFCUM(1,1,I),FX ,FY ,

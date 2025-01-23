@@ -32,7 +32,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE RGWALL(X     ,A     ,V     ,RWL    ,NSW   ,
      2                  NSN   ,ITIED ,MSR   ,MS     ,WEIGHT,
      3                  ICONT ,RWSAV ,FRWL6 ,IMP_S  ,NT_RW ,
-     4                  IDDL  ,IKC   ,NDOF  ,NODNX_SMS, WEIGHT_MD)
+     4                  IDDL  ,IKC   ,NDOF  ,NODNX_SMS, WEIGHT_MD,
+     5                  WFEXT ,WFEXT_MD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -41,7 +42,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com06_c.inc"
+!#include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "scr11_c.inc"
 #include      "impl1_c.inc"
@@ -66,6 +67,7 @@ C-----------------------------------------------
      .   F1(NSN), F2(NSN), F3(NSN), F4(NSN), F5(NSN), F6(NSN), F7(NSN),
      .   TFXT2, TFXTN2, WEWE2
       DOUBLE PRECISION FRWL6_L(7,6)
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT, WFEXT_MD
 C-----------------------------------------------
       IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
 C-------------
@@ -509,8 +511,8 @@ C
           TFXT=TFXT+HALF*DT1*TFXTN
           TFXT2=TFXT2+HALF*DT1*TFXTN2
 #include "atomic.inc"
-          TFEXT=TFEXT+TFXT
-          TFEXT_MD=TFEXT_MD+TFXT2
+          WFEXT=WFEXT+TFXT
+          WFEXT_MD=WFEXT_MD+TFXT2
 C
           DO K = 1, 6
             FRWL6_L(1,K) = ZERO

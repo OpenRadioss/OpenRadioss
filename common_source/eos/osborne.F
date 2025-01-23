@@ -29,6 +29,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                     ESPE ,DVOL ,DF   ,VNEW ,MAT  ,PSH  ,
      3                     PNEW ,DPDM ,DPDE ,THETA,ECOLD)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE OUTPUT_MOD , ONLY : WFEXT
+C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 C This subroutine contains numerical solving
@@ -62,7 +66,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX
-      my_real :: P0,E0,SPH,AA, BB,TFEXTT, DVV, PP,dPdMU
+      my_real :: P0,E0,SPH,AA, BB,WFEXTT, DVV, PP,dPdMU
       my_real :: A1,A2,B0,B1,B2,C0,C1,D0, A2_,RHO0,DE, ESP
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -108,7 +112,7 @@ C-----------------------------------------
 C----------------------------------------
 C     UPDATE PRESSURE AND INTERNAL ENERGY
 C----------------------------------------
-       TFEXTT  = ZERO
+       WFEXTT  = ZERO
        
        MX         = MAT(1) 
        RHO0       = PM(01,MX)           
@@ -146,11 +150,11 @@ C----------------------------------------
               
          EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I))
          PNEW(I) = PNEW(I) + PSH(I)
-         TFEXTT  = TFEXTT-DVOL(I)*PSH(I)
+         WFEXTT  = WFEXTT-DVOL(I)*PSH(I)
        ENDDO
        
 #include "atomic.inc"
-       TFEXT = TFEXT + TFEXTT
+       WFEXT = WFEXT + WFEXTT
 #include "atomend.inc"
 C
 C------------------------

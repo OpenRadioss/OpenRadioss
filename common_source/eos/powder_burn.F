@@ -34,6 +34,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3                            PNEW  , DPDM   ,DPDE  ,THETA, ECOLD ,MAT_PARAM   ,
      4                            VAREOS, NVAREOS,NPROPM,NUMMAT,DT1   ,RHO0   ,BFRAC)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE OUTPUT_MOD , ONLY : WFEXT
+C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 C This is a template to introduce numerical solving of Deflagration EoS (experimental) based on LAW105 Implementation
@@ -67,7 +71,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX
       my_real :: bulk,P0,PSH,DD,EG,Gr,CC,ALPHA,FSCALE_B,FSCALE_P,FSCALE_G,FSCALE_RHO, C1,C2
-      my_real :: SPH, TFEXTT
+      my_real :: SPH, WFEXTT
       my_real :: TMP, TMP2
       my_real :: compac
       my_real :: TOTAL_BFRAC
@@ -161,10 +165,10 @@ C-----------------------------------------------
       ! --- STAGGERED SCHEME IFLG=1
       ELSEIF(IFLAG == 1) THEN
 
-       TFEXTT = ZERO
+       WFEXTT = ZERO
 
 #include "atomic.inc"
-       TFEXT = TFEXT + TFEXTT
+       WFEXT = WFEXT + WFEXTT
 #include "atomend.inc"
 
 

@@ -151,7 +151,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      A  ELBUF  ,RBY    ,RIVET  ,FR_ELEM,IAD_ELEM,
      B  WA             ,A      ,AR     ,STIFN  ,STIFR  ,PARTSAV,FSKY   ,
      C  FSKYI  ,IFRAME ,XFRAME ,W16    ,IACTIV ,FSKYM  ,IGEO   ,IPM    ,
-     D  TFEXT  ,NODFT  ,NODLT  ,NINT7  ,NUM_IMP,NS_IMP ,NE_IMP ,IND_IMP,
+     D  WFEXT  ,NODFT  ,NODLT  ,NINT7  ,NUM_IMP,NS_IMP ,NE_IMP ,IND_IMP,
      L  IT     ,RWBUF  ,LPRW   ,FR_WALL,NBINTC ,INTLIST,FOPT   ,RWSAV  ,
      M          FSAVD  ,GRAPHE ,FAC_K  ,IPIV_K ,NKCOND ,NSENSOR,
      N  MONVOL ,IGRSURF,FR_MV  ,VOLMON ,DIRUL  ,
@@ -166,7 +166,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      Y  DIMFB  ,FBSAV6 ,STABSEN,TABSENSOR,DRAPE_SH4N, DRAPE_SH3N,
      Z  H3D_DATA,MULTI_FVM,IGRBRIC,IGRSH4N,IGRSH3N,IGRBEAM,FORNEQS,MAXDGAP,
      A  NDDL0   ,NNZK0 ,IT_T    ,IMPBUF_TAB,CPTREAC,FTHREAC,NODREAC, DRAPEG,
-     B  INTERFACES,TH_SURF,DPL0CLD,VEL0CLD,SNPC,STF,GLOB_THERM)
+     B  INTERFACES,TH_SURF,DPL0CLD,VEL0CLD,SNPC,STF,GLOB_THERM, WFEXT_MD)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -243,7 +243,7 @@ C-----------------------------------------------
      .     MS(*)   ,IN(*)   ,PM(NPROPM,*),GEO(NPROPG,*),
      .     BUFMAT(*) ,TF(*) ,FORC(*)  ,VEL(*),FSAV(NTHVKI,*) ,ELBUF(*) ,
      .     RWBUF(NRWLP,*),RWSAV(*),RBY(NRBY,*),
-     .     RIVET(*),WA(*), A(3,*) ,AR(3,*),PARTSAV(*) ,TFEXT,
+     .     RIVET(*),WA(*), A(3,*) ,AR(3,*),PARTSAV(*) ,
      .     STIFN(*) ,STIFR(*),FSKY(*),FSKYI(*),DR(3,*),
      .     EANI(*),AGRV(*), THKE(*),FR_WAVE(*),PARTS0(*),BUFGEO(*),
      .     XFRAME(NXFRAME,*),W16(*),FBVEL(*),FSKYM(*),BUFSF(*),
@@ -258,10 +258,8 @@ C-----------------------------------------------
       my_real, INTENT(IN) :: DPL0CLD(6,NCONLD),VEL0CLD(6,NCONLD)
         my_real DT2PREV,VOLMON(*) ,TEMP(*), WAINT(*),FRBE3(*)
         TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB, ELBUF_IMP
-        DOUBLE PRECISION
-     .          FRWL6(*), XDP(3,*)
-        DOUBLE PRECISION
-     .          FBSAV6(12,6,DIMFB)
+        DOUBLE PRECISION FRWL6(*), XDP(3,*)
+        DOUBLE PRECISION FBSAV6(12,6,DIMFB)
 C
         TYPE(PRGRAPH) :: GRAPHE(*)
 C
@@ -289,6 +287,7 @@ C
         TYPE (TH_SURF_) , INTENT(INOUT) :: TH_SURF
         TYPE(SKEW_),INTENT(INOUT) :: SKEWS
         type (glob_therm_) , INTENT(INOUT) :: GLOB_THERM
+        DOUBLE PRECISION,INTENT(INOUT) :: WFEXT, WFEXT_MD
 C
 C---D_IMP: dUn+1,i,DD : ddU,i+1
 C---R_IMP[1:R02,2:RRR(R_OLD),3:RU0,4:E02,5:DE_OLD,6:EIMP,7,8,9:pour line-search]
@@ -437,7 +436,7 @@ C
         NSL=0
         ICONTA = 0
 C
-        WE_IMP = TFEXT
+        WE_IMP = WFEXT
         IF (IMCONV==1) THEN
           ITER_NL=0
         ELSE
@@ -527,7 +526,8 @@ C
      7                     I_IMP(5)   ,H3D_DATA ,CPTREAC         ,FTHREAC ,NODREAC,
      8                     NSENSOR    ,TH_SURF  ,DPL0CLD ,
      9                     VEL0CLD    ,D        ,DR              ,NUMNOD  ,NSURF  ,
-     A                     NFUNCT     ,NCONLD   ,NGRAV           ,NINVEL  ,STF    ,NUMSKW)
+     A                     NFUNCT     ,NCONLD   ,NGRAV           ,NINVEL  ,STF    ,NUMSKW,
+     B                     WFEXT)
 C
 C----------------------------------
 C       EXTERNAL FORCES A=Fext-Fint
@@ -543,7 +543,7 @@ C         --spmd : force treated like elements ---
      4                      IADS_F  ,FSKY       ,DUMMY_FEXT ,H3D_DATA   ,CPTREAC    ,
      5                      FTHREAC ,NODREAC    ,TH_SURF    ,
      6                      DPL0CLD ,VEL0CLD    ,D          ,DR         ,NCONLD     ,
-     7                      NUMNOD  ,NFUNCT     ,STF )
+     7                      NUMNOD  ,NFUNCT     ,STF        ,WFEXT)
 C
             IF (IMACH==3.AND.NSPMD>1) THEN
               DO I=IAD_ELEM(1,1),IAD_ELEM(1,NSPMD+1)-1
@@ -594,7 +594,7 @@ C---------no //SMP for the moment, add it after----
           ENDIF
 
 
-          TFEXT = WE_IMP
+          WFEXT = WE_IMP
 C END IF (IMCONV==1)
         ENDIF
 C-------------dU_d---------------------------------
@@ -626,14 +626,14 @@ C-------------(IKC(I)=4->IMCONV=1 pour eviter le rebond-------
      2       NPRW        ,MS       ,FSAV(1,NINTER+1),FR_WALL ,
      3       FOPT        ,RWSAV    ,WEIGHT ,FSAVD(1,NINTER+1),
      4       NT_RW       ,IDDL     ,IKC    ,IMCONV,NDOF,FRWL6,
-     5       WEIGHT_MD   ,DIMFB    , FBSAV6,STABSEN,TABSENSOR)
+     5       WEIGHT_MD   ,DIMFB    , FBSAV6,STABSEN,TABSENSOR, WFEXT, WFEXT_MD)
           ELSE
             CALL RGWAL0_IMP(
      1       X           ,D_IMP    ,V      ,RWBUF   ,LPRW    ,
      2       NPRW        ,MS       ,FSAV(1,NINTER+1),FR_WALL ,
      3       FOPT        ,RWSAV    ,WEIGHT ,FSAVD(1,NINTER+1),
      4       NT_RW       ,IDDL     ,IKC    ,IMCONV,NDOF,FRWL6,
-     5       WEIGHT_MD   ,DIMFB    , FBSAV6,STABSEN,TABSENSOR)
+     5       WEIGHT_MD   ,DIMFB    , FBSAV6,STABSEN,TABSENSOR, WFEXT, WFEXT_MD)
           ENDIF
 C
           IF(NT_RW>0) THEN
@@ -1914,7 +1914,7 @@ C
           IF(IDYNA>0.AND.IMCONV==1)  THEN
             CALL DYNA_WEX(IBCL  ,FORC   ,SNPC,NPC   ,TF    ,AC    ,
      2                    V     ,X      ,SKEWS  ,ACR   ,VR    ,
-     3                    SENSOR_TAB,WEIGHT,TFEXT ,IADS_F,
+     3                    SENSOR_TAB,WEIGHT,WFEXT ,IADS_F,
      4                    FSKY  ,IGRV   ,AGRV  ,MS    ,IN    ,
      5                    LGRAV ,ITASK ,NRBYAC,IRBYAC ,
      6                    NPBY  ,RBY   ,IBFV    ,VEL   ,D_IMP  ,
@@ -3131,13 +3131,13 @@ C------------------------------------------
      A  ELBUF  ,RBY    ,RIVET  ,FR_ELEM,IAD_ELEM,NSENSOR,
      B  WA            ,A      ,AR     ,STIFN  ,STIFR  ,PARTSAV,FSKY   ,
      C  FSKYI  ,IFRAME ,XFRAME ,W16    ,IACTIV ,FSKYM  ,IGEO   ,IPM    ,
-     D  TFEXT  ,NODFT  ,NODLT  ,NINT7  ,NUM_IMP,NS_IMP ,NE_IMP ,IND_IMP,
+     D  WFEXT  ,NODFT  ,NODLT  ,NINT7  ,NUM_IMP,NS_IMP ,NE_IMP ,IND_IMP,
      L  IT     ,RWBUF  ,LPRW   ,FR_WALL,NBINTC ,INTLIST,FOPT   ,RWSAV  ,
      M  FSAVD  ,DIRUL  ,LGRAV  ,IRBE3  ,LRBE3  ,FRBE3  ,
      N  FRWL6  ,IRBE2  ,LRBE2  ,ICFIELD,LCFIELD,CFIELD,ELBUF_TAB,WEIGHT_MD,
      O  STACK  ,DIMFB  ,FBSAV6 ,STABSEN,TABSENSOR,DRAPE_SH4N,DRAPE_SH3N,H3D_DATA,
      P  NDDL0  ,NNZK0  ,IMPBUF_TAB,CPTREAC,FTHREAC,NODREAC,DRAPEG,TH_SURF ,
-     Q  DPL0CLD,VEL0CLD,SNPC,STF)
+     Q  DPL0CLD,VEL0CLD,SNPC,STF, WFEXT_MD)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -3196,7 +3196,7 @@ C-----------------------------------------------
      .           MS(*)   ,IN(*)   ,PM(NPROPM,*),GEO(NPROPG,*),
      .           BUFMAT(*) ,TF(*) ,FORC(*)  ,VEL(*),FSAV(NTHVKI,*) ,ELBUF(*) ,
      .           RWBUF(NRWLP,*),RWSAV(*),RBY(NRBY,*),
-     .           RIVET(*),WA(*), A(3,*) ,AR(3,*),PARTSAV(*) ,TFEXT,
+     .           RIVET(*),WA(*), A(3,*) ,AR(3,*),PARTSAV(*) ,
      .           STIFN(*) ,STIFR(*),FSKY(*),FSKYI(*),DR(3,*),
      .           EANI(*),AGRV(*), THKE(*),FR_WAVE(*),PARTS0(*),BUFGEO(*),
      .           XFRAME(NXFRAME,*),W16(*),FBVEL(*),FSKYM(*),BUFSF(*),
@@ -3217,6 +3217,7 @@ C-----------------------------------------------
         TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
         TYPE (TH_SURF_) , INTENT(INOUT) :: TH_SURF
         TYPE(SKEW_),INTENT(INOUT) :: SKEWS
+        DOUBLE PRECISION,INTENT(INOUT) :: WFEXT, WFEXT_MD
 #if defined(MUMPS5)
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -3334,7 +3335,7 @@ C----------------------------------
      4                   IADS_F  ,FSKY    ,DUMMY_FEXT ,H3D_DATA   ,CPTREAC    ,
      5                   FTHREAC ,NODREAC ,TH_SURF    ,
      6                   DPL0CLD ,VEL0CLD ,D          ,DR         ,NCONLD     ,
-     7                   NUMNOD  ,NFUNCT  ,STF)
+     7                   NUMNOD  ,NFUNCT  ,STF        ,WFEXT)
           IF (IMACH==3.AND.NSPMD>1) THEN
             DO I=IAD_ELEM(1,1),IAD_ELEM(1,NSPMD+1)-1
               J = FR_ELEM(I)
@@ -3389,7 +3390,7 @@ C-------------U_d--> rigid wall-------------------------------
      3      FOPT        ,RWSAV    ,WEIGHT ,FSAVD(1,NINTER+1),
      4      NT_RW       ,IDDL     ,IKC    ,IMCONV,NDOF,FRWL6,
      5      WEIGHT_MD   ,DIMFB    , FBSAV6,STABSEN,TABSENSOR)
-          IF(NT_RW>0) CALL FV_RW(IDDL   ,IKC   ,NDOF  ,D_IMP  ,V )
+          IF(NT_RW>0) CALL FV_RW(IDDL   ,IKC   ,NDOF  ,D_IMP  ,V , WFEXT, WFEXT_MD)
         ENDIF
         IFDIS=NT_RW+NFXVEL
         IF(IFDIS>0.AND.IMCONV==1) THEN

@@ -30,6 +30,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3                     PNEW ,DPDM ,DPDE ,THETA,ECOLD, 
      4                     NPF  ,TF)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE OUTPUT_MOD , ONLY : WFEXT
+C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 C This subroutine contains numerical solving  of TABULATED Equation Of State (/EOS/TABULATED)
@@ -65,7 +69,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX
-      my_real :: P0,GAMMA,T0,E0,SPH,AA, BB,TFEXTT, DVV, PP, Cv, RHO, RHO0
+      my_real :: P0,GAMMA,T0,E0,SPH,AA, BB,WFEXTT, DVV, PP, Cv, RHO, RHO0
       my_real :: XSCALE_A,XSCALE_B,FSCALE_A,FSCALE_B
       INTEGER :: A_fun_id, B_fun_id
       my_real :: RES_A(MVSIZ),RES_B(MVSIZ),DERI_A(MVSIZ),DERI_B(MVSIZ),PC
@@ -118,7 +122,7 @@ C-----------------------------------------------
          ENDDO
 C-----------------------------------------------
       ELSEIF(IFLAG == 1) THEN
-         TFEXTT = ZERO
+         WFEXTT = ZERO
          MX = MAT(1)
          E0 = PM(23,MX)         
          PSH(1:NEL) = PM(88,MX)
@@ -157,10 +161,10 @@ C-----------------------------------------------
            PNEW(I) = (AA+BB*(ESPE(I)-PSH(I)*DVV))/(ONE+BB*DVV)
            PNEW(I) = MAX(PNEW(I),PC )*OFF(I)
            EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I) )
-           TFEXTT  = TFEXTT-DVOL(I)*PSH(I)
+           WFEXTT  = WFEXTT-DVOL(I)*PSH(I)
          ENDDO       
 #include "atomic.inc"
-       TFEXT = TFEXT + TFEXTT
+       WFEXT = WFEXT + WFEXTT
 #include "atomend.inc"
          MX     = MAT(1)
          RHO0   = PM(1 ,MX)

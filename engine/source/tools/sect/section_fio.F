@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE SECTION_FIO(NSTRF  ,V      ,VR    ,
      2                       A      ,AR     ,SECBUF,MS   ,IN ,
-     3                       WEIGHT ,IAD_CUT,FR_CUT)
+     3                       WEIGHT ,IAD_CUT,FR_CUT,WFEXT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -41,7 +41,7 @@ C-----------------------------------------------
 #include      "comlock.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com06_c.inc"
+!#include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
 #include      "task_c.inc"
@@ -49,9 +49,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSTRF(*),WEIGHT(*), IAD_CUT(NSPMD+2,*), FR_CUT(*)
-      my_real
-     .   V(3,*), VR(3,*), A(3,*), AR(3,*), MS(*),
-     .   SECBUF(*), IN(*)
+      my_real V(3,*), VR(3,*), A(3,*), AR(3,*), MS(*),SECBUF(*), IN(*)
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -60,7 +59,7 @@ C-----------------------------------------------
      .   IFRL1, IFRL2, L,TYPE, NNOD,KR11,KR12,
      .   KR21,KR22,NBINTER,LEN,NNODT
       my_real
-     .   DW, TT1, TT2, TT3, VI, DD, D1, D2,TFEXTL,
+     .   DW, TT1, TT2, TT3, VI, DD, D1, D2,WFEXTL,
      .   TNEXT, DELTAT,ERR(8), FF, FOLD, ALPHA,AA,DTINV
 C
       IF(NSECT==0)RETURN
@@ -114,11 +113,11 @@ C-----------------------------------------------
             KR22 = KR2 + IFRL1*6*NNOD
             DW   = SECBUF(KR0+3)
             IF(ISPMD==0) THEN
-              TFEXTL=DW*DT1
+              WFEXTL=DW*DT1
             ELSE
-              TFEXTL=ZERO
+              WFEXTL=ZERO
             ENDIF
-            TFEXT=TFEXT + TFEXTL
+            WFEXT = WFEXT + WFEXTL
             DW=0.
             DO K=1,3
               DO I=1,NNOD
@@ -152,10 +151,10 @@ C-----------------------------------------------
                 ENDDO
               ENDIF
             ENDDO
-            TFEXTL=TFEXTL + DT1*DW
-            TFEXT=TFEXT + DT1*DW
+            WFEXTL = WFEXTL + DT1*DW
+            WFEXT = WFEXT + DT1*DW
             SECBUF(KR0+3) = DW
-            SECBUF(KR0+4) = TFEXTL
+            SECBUF(KR0+4) = WFEXTL
           ENDIF
           KR0 = NSTRF(K0+25)
           K0  = NSTRF(K0+24)

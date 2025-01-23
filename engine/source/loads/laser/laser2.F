@@ -33,7 +33,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE LASER2(NL ,N1   ,N2   ,IFUNC    ,IAFUNC ,
      .                 LAS ,XLAS ,X    ,ELBUF_TAB,PM     ,
-     .                 WA  ,IPARG,IXQ  ,TF       ,NPF    ) 
+     .                 WA  ,IPARG,IXQ  ,TF       ,NPF    ,
+     .                 WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -55,15 +56,13 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NL, N1, N2, IFUNC, IAFUNC
       INTEGER LAS(2,*), IPARG(NPARG,*), IXQ(7,*), NPF(*)
-      my_real
-     .   XLAS(*),X(3,*),WA(3,*),TF(*),PM(NPROPM,*)
+      my_real XLAS(*),X(3,*),WA(3,*),TF(*),PM(NPROPM,*)
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
+      DOUBLE PRECISION, INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IL, NG, I, NEL, NFT, II, 
-     .   NP1, NPOINT, IC, NELC, NB1C, NFTC, M4C, M13C,
-     .   MX, M11C
+      INTEGER IL, NG, I, NEL, NFT, II, NP1, NPOINT, IC, NELC, NB1C, NFTC, M4C, M13C,MX, M11C
       INTEGER  MTN,IAD,ITY,NPT,JALE,ISMSTR,
      .   JEUL,JTUR,JTHE,JLAG,NVAUX,JMULT,JHBE,JIVF,JPOR,JPLA,JCLOSE,
      .   IREP,IINT,IGTYP,JCVT,ISROT,ISRAT,ISORTH,ISORTHG,ICSEN,IFAILURE,
@@ -103,7 +102,7 @@ C
        Z3 = ZERO
        Z4 = ZERO
        ZZ = ZERO
-       JSMS=0
+       JSMS = 0
 C------------------------------------------------------------
        DO 200 IL=1,NL
          NG   =  LAS(1,IL)
@@ -149,7 +148,7 @@ C
         DE       = DFI * DT2 / ZZ
 C
         GBUF%EINT(I) = GBUF%EINT(I) + DE
-        TFEXT    = TFEXT + DE * VOL
+        WFEXT    = WFEXT + DE * VOL
 C
         WA(1,IL) = ZZ  
         WA(2,IL) = DDFI  
@@ -172,7 +171,7 @@ C
        DE      = DFI * DT2 / ZZ
 C
        GBUF%EINT(I) = GBUF%EINT(I) + DE
-       TFEXT   = TFEXT + DE * VOL
+       WFEXT   = WFEXT + DE * VOL
 C-------------------------
 C VITESSE DE VAPORISATION  
 C-------------------------
@@ -250,7 +249,7 @@ C-------------------------------------------------------------
         DE           = DFI * DT2 / ZZ
         GBUF%EINT(I) = GBUF%EINT(I) + DE
         VOL          = GBUF%VOL(I)
-        TFEXT        = TFEXT + DE * VOL
+        WFEXT        = WFEXT + DE * VOL
       ENDDO
 C-------------------------
       RETURN
@@ -269,7 +268,7 @@ C
       !||====================================================================
       SUBROUTINE LASER3(NL ,IFUNC ,
      .                 LAS ,XLAS ,X    ,ELBUF_TAB ,PM     ,
-     .                 IPARG,IXQ  ,TF    ,NPF    )
+     .                 IPARG,IXQ  ,TF    ,NPF   ,WFEXT )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -294,6 +293,7 @@ C-----------------------------------------------
       my_real
      .   XLAS(*),X(3,*),TF(*),PM(NPROPM,*)
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -356,7 +356,7 @@ C-------------------------------------------------------------
           ZZ           = HALF * (ABS(Z1 - Z3) + ABS(Z2 - Z4))
           DE           = DFI * DT2 / ZZ      !warning DFI is zero : need to be validated, may be wrong
           GBUF%EINT(I) = GBUF%EINT(I) + DE
-          TFEXT        = TFEXT + DE * VOL
+          WFEXT        = WFEXT + DE * VOL
           EXIT !and return
         ENDIF
       ENDDO

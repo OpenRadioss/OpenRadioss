@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4                   IADMV  ,FSKY    ,FSKYV   ,FEXT    ,H3D_DATA  ,
      5                   SURF_ELTYP,SURF_ELEM,NODE_NUMBER,TOTAL_CONTRIBUTION_NUMBER, 
      6                   CONTRIBUTION_INDEX,CONTRIBUTION_NUMBER,
-     7                   NODE_ID,CONTRIBUTION)
+     7                   NODE_ID,CONTRIBUTION,WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -53,7 +53,7 @@ C  o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 #include      "com04_c.inc"
-#include      "com06_c.inc"
+!#include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "scr14_c.inc"
 #include      "scr16_c.inc"
@@ -72,30 +72,22 @@ C-----------------------------------------------
       INTEGER, DIMENSION(NODE_NUMBER), INTENT(in) :: NODE_ID !< node id
       my_real, DIMENSION(TOTAL_CONTRIBUTION_NUMBER,3), INTENT(inout) :: CONTRIBUTION !< contribution array, the force are saved here
 
-C     REAL
-      my_real
-     .   RVOLU(*),RBAGJET(NRBJET,*),
-     .   X(3,*), V(3,*), A(3,*), NORMAL(3,NN),TF(*),
-     .   FSKY(8,LSKY),FSKYV(LSKY,8),FEXT(3,*)
+      my_real RVOLU(*),RBAGJET(NRBJET,*),X(3,*), V(3,*), A(3,*), NORMAL(3,NN),TF(*),FSKY(8,LSKY),FSKYV(LSKY,8),FEXT(3,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,II,NJ1,NJ2,NJ3,IPT,IPA,IPZ,
-     .        N1,N2,N3,N4,IJ,ISENS,K,
-     .        ITYP
+      INTEGER I,J,II,NJ1,NJ2,NJ3,IPT,IPA,IPZ,N1,N2,N3,N4,IJ,ISENS,K,ITYP
       INTEGER :: ADDRESS,NOD,LOCAL_CONTRIBUTION_NUMBER
-C     REAL
-      my_real
-     .   PRES,FX,FY,FZ,P,PEXT,DP,Q,PJ,PJ0,DYDX,XX,YY,ZZ,
-     .   THETA,NX1,NX2,NY1,NY2,NZ1,NZ2,AN1,AN,
-     .   XM,YM,ZM,NX3,NY3,NZ3,
-     .   PS1,PS2,PS3,AN2,AN3,DET,MU,FACR,
-     .   API,DIST,TSTART,TS,TMPO,FPT,FPA,FPZ,SCALT,SCALA,SCALD
+      my_real :: PRES,FX,FY,FZ,P,PEXT,DP,Q,PJ,PJ0,DYDX,XX,YY,ZZ,
+     .           THETA,NX1,NX2,NY1,NY2,NZ1,NZ2,AN1,AN,
+     .           XM,YM,ZM,NX3,NY3,NZ3,
+     .           PS1,PS2,PS3,AN2,AN3,DET,MU,FACR,
+     .           API,DIST,TSTART,TS,TMPO,FPT,FPA,FPZ,SCALT,SCALA,SCALD
       my_real, DIMENSION(3) :: TMP
-      my_real 
-     .   FINTER
+      my_real FINTER
 C-----------------------------------------------
       API=HUNDRED80/PI
 C-----------------------------------------------
@@ -121,9 +113,9 @@ C
         N1 = SURF_NODES(I,1)
         N2 = SURF_NODES(I,2)
         N3 = SURF_NODES(I,3)
-        IF(SURF_ELTYP(I)/=7) N4 = SURF_NODES(I,4)
+        IF(SURF_ELTYP(I) /= 7) N4 = SURF_NODES(I,4)
 C
-        IF(SURF_ELTYP(I)==3)THEN
+        IF(SURF_ELTYP(I) == 3)THEN
           P=DP*FOURTH
           II=SURF_ELEM(I)
 C
@@ -310,7 +302,7 @@ C-------------------------------------------
 !$OMP+ PS1,PS2,PS3,AN2,AN3,DET,MU,FACR,AN1,AN,TMPO,THETA,DIST,FX,FY,FZ,ADDRESS,
 !$OMP+ NOD,LOCAL_CONTRIBUTION_NUMBER,TMP)
 
-!$OMP DO SCHEDULE(guided) REDUCTION(+:TFEXT)
+!$OMP DO SCHEDULE(guided) REDUCTION(+:WFEXT)
           DO I=1,NN
 
             IF(SURF_ELTYP(I)==3)THEN
@@ -409,7 +401,7 @@ C-------------------------------------------
                 CONTRIBUTION(ADDRESS,3) = FZ
               ENDIF
 
-              TFEXT=TFEXT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)+V(1,N4))
+              WFEXT=WFEXT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)+V(1,N4))
      +                  +FY*(V(2,N1)+V(2,N2)+V(2,N3)+V(2,N4))
      +                  +FZ*(V(3,N1)+V(3,N2)+V(3,N3)+V(3,N4)))
             ELSEIF(SURF_ELTYP(I)==7)THEN
@@ -499,7 +491,7 @@ C-------------------------------------------
                 CONTRIBUTION(ADDRESS,3) = FZ
               ENDIF
 
-              TFEXT=TFEXT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3))
+              WFEXT=WFEXT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3))
      +                  +FY*(V(2,N1)+V(2,N2)+V(2,N3))
      +                  +FZ*(V(3,N1)+V(3,N2)+V(3,N3)))
             ELSE
@@ -598,7 +590,7 @@ C-------------------------------------------
                 CONTRIBUTION(ADDRESS,3) = FZ
               ENDIF
 
-              TFEXT=TFEXT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)+V(1,N4))
+              WFEXT=WFEXT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)+V(1,N4))
      +                  +FY*(V(2,N1)+V(2,N2)+V(2,N3)+V(2,N4))
      +                  +FZ*(V(3,N1)+V(3,N2)+V(3,N3)+V(3,N4)))
             ENDIF

@@ -70,6 +70,11 @@
         type output_
            type (th_) :: th
            type (state_) :: state
+           double precision :: wfext          !< external force work (global value)
+           double precision :: wfext_md       !< specific to r2r method
         end type output_
+
+        double precision, pointer :: wfext
+        double precision, pointer :: wfext_md
 
       end module output_mod

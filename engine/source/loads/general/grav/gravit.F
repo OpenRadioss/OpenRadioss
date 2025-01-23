@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE GRAVIT(IGRV  ,AGRV  ,NPC   ,TF   ,A     ,
      2                  V     ,X      ,SKEW  ,MS   ,SENSOR_TAB,
-     3                  WEIGHT,IB    ,ITASK, NSENSOR, PYTHON)
+     3                  WEIGHT,IB    ,ITASK, NSENSOR, PYTHON, WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -63,26 +63,20 @@ C-----------------------------------------------
       INTEGER NPC(*)
       INTEGER IGRV(NIGRV,*),IB(*)
       INTEGER WEIGHT(*)
-      my_real
-     .   AGRV(LFACGRV,*), TF(*), A(3,*), V(3,*), MS(*),
-     .   X(3,*), SKEW(LSKEW,*)
+      my_real AGRV(LFACGRV,*), TF(*), A(3,*), V(3,*), MS(*),X(3,*), SKEW(LSKEW,*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
       TYPE (PYTHON_), INTENT(IN) :: PYTHON
+      DOUBLE PRECISION, INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NL, N1, ISK, N2, IFUNC, K1, K2, K3, ISENS,K,NN,
-     .    IAD,J, IADF, IADL, ISMOOTH
-C     REAL
-      my_real
-     .   AXI, A0, AA, VV, DYDX, TS,
-     .   GAMA, TFEXTT,FCX,FCY
-      my_real
-     .   FINTER,FINTER_SMOOTH
+      INTEGER NL, N1, ISK, N2, IFUNC, K1, K2, K3, ISENS,K,NN, IAD,J, IADF, IADL, ISMOOTH
+      my_real AXI, A0, AA, VV, DYDX, TS, GAMA, WFEXTT,FCX,FCY
+      my_real FINTER,FINTER_SMOOTH
       EXTERNAL FINTER,FINTER_SMOOTH
 C=======================================================================
-      TFEXTT=ZERO
-C
+      WFEXTT=ZERO
+
       DO NL=1,NGRAV
         FCY = AGRV(1,NL)
         FCX = AGRV(2,NL)
@@ -95,7 +89,6 @@ C
         IF (IFUNC > 0) ISMOOTH = NPC(2*NFUNCT+IFUNC+1)
         IADF = IAD+ITASK*NN/NTHREAD
         IADL = IAD-1+(ITASK+1)*NN/NTHREAD
-C
         ISENS=0
         DO K=1,NSENSOR
           IF(IGRV(6,NL)== SENSOR_TAB(K)%SENS_ID) ISENS=K
@@ -106,10 +99,7 @@ C
           TS = TT- SENSOR_TAB(ISENS)%TSTART
           IF(TS<0.0)CYCLE
         ENDIF
-C
         IF (IFUNC > 0) THEN
-!!          A0   = FCY*FINTER(IFUNC,(TS-DT1)*FCX,NPC,TF,DYDX)
-!!          GAMA = FCY*FINTER(IFUNC,TS*FCX,NPC,TF,DYDX)
           IF (ISMOOTH == 0) THEN
             A0   = FCY*FINTER(IFUNC,(TS-DT1)*FCX,NPC,TF,DYDX)
             GAMA = FCY*FINTER(IFUNC,TS*FCX,NPC,TF,DYDX)
@@ -127,7 +117,6 @@ C
           A0   = FCY
           GAMA = FCY
         ENDIF
-C
         AA = GAMA
         IF(N2D==1.AND.ISK<=1)THEN
 #include "vectorize.inc"
@@ -135,7 +124,7 @@ C
             N1=IABS(IB(J))
             AXI=X(2,N1)
             A(N2,N1)=A(N2,N1)+AA
-            IF(IB(J)>0)TFEXTT=TFEXTT+HALF*(A0+AA)*MS(N1)*V(N2,N1)*DT1*AXI*WEIGHT(N1)
+            IF(IB(J)>0)WFEXTT=WFEXTT+HALF*(A0+AA)*MS(N1)*V(N2,N1)*DT1*AXI*WEIGHT(N1)
           ENDDO
         ELSEIF(N2D==1.AND.ISK>1)THEN
           K1=3*N2-2
@@ -149,14 +138,14 @@ C
             A(1,N1)=A(1,N1)+SKEW(K1,ISK)*AA
             A(2,N1)=A(2,N1)+SKEW(K2,ISK)*AA
             A(3,N1)=A(3,N1)+SKEW(K3,ISK)*AA
-            IF(IB(J)>0)TFEXTT=TFEXTT+HALF*(A0+AA)*MS(N1)*VV*DT1*AXI*WEIGHT(N1)
+            IF(IB(J)>0)WFEXTT=WFEXTT+HALF*(A0+AA)*MS(N1)*VV*DT1*AXI*WEIGHT(N1)
           ENDDO
         ELSEIF(ISK<=1)THEN
 #include "vectorize.inc"
           DO J=IADF,IADL
             N1=IABS(IB(J))
             A(N2,N1)=A(N2,N1)+AA
-            IF(IB(J)>0)TFEXTT=TFEXTT+HALF*(A0+AA)*MS(N1)*V(N2,N1)*DT1*WEIGHT(N1)
+            IF(IB(J)>0)WFEXTT=WFEXTT+HALF*(A0+AA)*MS(N1)*V(N2,N1)*DT1*WEIGHT(N1)
           ENDDO
         ELSE
           K1=3*N2-2
@@ -169,17 +158,16 @@ C
             A(1,N1)=A(1,N1)+SKEW(K1,ISK)*AA
             A(2,N1)=A(2,N1)+SKEW(K2,ISK)*AA
             A(3,N1)=A(3,N1)+SKEW(K3,ISK)*AA
-            IF(IB(J)>0)TFEXTT=TFEXTT+HALF*(A0+AA)*MS(N1)*VV*DT1*WEIGHT(N1)
+            IF(IB(J)>0)WFEXTT=WFEXTT+HALF*(A0+AA)*MS(N1)*VV*DT1*WEIGHT(N1)
           ENDDO
         ENDIF
-C       /---------------/
+        !---------------!
         CALL MY_BARRIER
-C       /---------------/
+        !---------------!
       END DO
-C
 #include "atomic.inc"
-      TFEXT = TFEXT + TFEXTT
+      WFEXT = WFEXT + WFEXTT
 #include "atomend.inc"
-C
+
       RETURN
       END

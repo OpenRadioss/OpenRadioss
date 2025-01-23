@@ -591,15 +591,14 @@ C-----------------------------------------------
      .        NITER,ITER,IMODEL,IL,IS,SEGCONT,FUN_HSP,IFRA1,IFLOAD,NP0,NPI
       my_real
      .   NX, NY, NZ, AXI, AA, A0, VV, FX, FY, FZ, AX, DYDX, TS,
-     .   SIXTH,TFEXTT,X_OLD, F1, F2,XSENS,FCX,FCY,FCYPINCH,FP,
+     .   SIXTH,X_OLD, F1, F2,XSENS,FCX,FCY,FCYPINCH,FP,
      .   FCX1,FCY1,FCX2,FCY2,VX,VY,VZ,VEL,VSEG,NORM
       my_real FINTER, ZFx,ZFy,ZFz, ZZFx,ZZFy,ZZFz,PS, Zx,Zy,Zz,FINTER_SMOOTH
 c
       my_real COORMEAN,YMEAN,ZMEAN,PVEL,NSIGN,DNORM,
      .        Xdet,Ydet,Zdet,Tdet,Wtnt,PMIN,Dx,Dy,Dz,NORMD, P,
      .        FAC_M_bb, FAC_L_bb, FAC_T_bb, FAC_P_bb, FAC_I_bb, T0INF_LOC, TA_SHIFT, TT_STAR
-      
-C      
+
       INTEGER :: IFUN,IFRA,M1,M2,NDIM,NPOINT, IIOUT,SHIFT,FUNCTYPE
        my_real :: A11,A12,A21,A22,B1,B2,DET,LEN,DIRX,DIRY,DIRZ,
      .     BETA,GAMMA,R,S,RMAX,XFACR,XFACT,YFAC,SEGP,PRESS,DISP

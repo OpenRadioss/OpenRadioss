@@ -68,7 +68,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      D     FR_NBCC         ,IADQ          ,XDP        ,IGRNOD     ,
      E     DR              ,INTBUF_TAB    ,ITAB       ,MULTI_FVM  ,
      F     ALE_CONNECTIVITY,DDP           ,NE_NERCVOIS,NE_NESDVOIS,
-     G     NE_LERCVOIS     ,NE_LESDVOIS   ,XCELL      ,XFACE      )
+     G     NE_LERCVOIS     ,NE_LESDVOIS   ,XCELL      ,XFACE      ,WFEXT)
 C-----------------------------------------------
 C     D e s c r i p t i o n
 C-----------------------------------------------
@@ -144,6 +144,7 @@ C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
       INTEGER, INTENT(IN) :: NE_NERCVOIS(*), NE_NESDVOIS(*), NE_LERCVOIS(*), NE_LESDVOIS(*)
+      DOUBLE PRECISION, INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -383,7 +384,7 @@ C-----------------------
          IF (NLASER > 0) THEN
             CALL LASER1(LAS ,XLAS ,MS       ,X    ,V    ,
      .                  W   ,WA   ,IPARG    ,IXQ  ,PM   ,
-     .                  TF  ,NPF  ,ELBUF_TAB)
+     .                  TF  ,NPF  ,ELBUF_TAB,WFEXT)
          ENDIF
 C-----------------------
       ENDIF                     ! ITASK == 0

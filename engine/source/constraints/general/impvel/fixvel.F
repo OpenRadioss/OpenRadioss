@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3                  VR    ,IN   ,NSENSOR,SENSOR_TAB,
      4                  WEIGHT,DEPLA    ,RBY   ,IFRAME,
      5                  XFRAME,DR   ,NODNX_SMS,
-     6                  TT_DOUBLE,DEPLA_DOUBLE, PYTHON)
+     6                  TT_DOUBLE,DEPLA_DOUBLE, PYTHON, WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
@@ -55,7 +55,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "com06_c.inc"
+!#include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
 #include      "parit_c.inc"
@@ -75,6 +75,7 @@ C-----------------------------------------------
      .   RBY(NRBY,*),XFRAME(NXFRAME,*), DR(3,*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
       TYPE(PYTHON_), INTENT(INOUT) :: PYTHON
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -326,9 +327,9 @@ C------- Second pass
             YIMP   = VEL(6,N)
             VEL(6,N) = YC(II)
 C IF sms on the degree of freedom,
-C dw was already counted in TFEXT, in sms_fixvel...
+C dw was already counted in WFEXT, in sms_fixvel...
             DW       = VEL(4,N)
-            TFEXT    = TFEXT + RW_SMS(II)*DW
+            WFEXT    = WFEXT + RW_SMS(II)*DW
             VEL(4,N) = (ONE-RW_SMS(II))*VEL(4,N)
             IF (NSENS(II) > 0 .and. TS(II) > ZERO .and. IBFV(7,N) == 2) YC0(II)   = YC0(II) * FAC
             YC(II)   = YC(II) * FAC
@@ -794,7 +795,7 @@ C             Fixed velocity in moving frame (rota)
               ENDIF
             ENDIF
           ENDIF
-          TFEXT=TFEXT + DT1*DW
+          WFEXT=WFEXT + DT1*DW
 C DT2_DOUBLE*dw into memory ; if sms on the degree of freedom,
 C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
           VEL(4,N) = VEL(4,N)+DT2_DOUBLE*DW
@@ -823,9 +824,9 @@ c----------------------------------------------------------------------------
              IBFV(5,N) = IPOSC(II)
              FAC  = VEL(1,N)
 C if sms on the degree of freedom,
-C dw was already counted in TFEXT, in sms_fixvel...
+C dw was already counted in WFEXT, in sms_fixvel...
              DW      = VEL(4,N)
-             TFEXT   = TFEXT + RW_SMS(II)*DW
+             WFEXT   = WFEXT + RW_SMS(II)*DW
              VEL(4,N)= (ONE-RW_SMS(II))*VEL(4,N)
              YC(II) = YC(II) * FAC
              I=IABS(IBFV(1,N))
@@ -870,7 +871,7 @@ C dw was already counted in TFEXT, in sms_fixvel...
              ENDIF
 C DT2_DOUBLE*dw into memory ; if sms on the degree of freedom,
 C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
-             TFEXT=TFEXT + DT1*DW
+             WFEXT=WFEXT + DT1*DW
              VEL(4,N) = VEL(4,N)+DT2_DOUBLE*DW
            ENDDO
          ELSEIF (NSK == 1.AND.NFK == 0.AND.ICOOR == 0) THEN
@@ -884,9 +885,9 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                  IBFV(5,N) = IPOSC(II)
                  FAC  = VEL(1,N)
 C if sms on the degree of freedom,
-C dw was already counted in TFEXT, in sms_fixvel...
+C dw was already counted in WFEXT, in sms_fixvel...
                  DW      = VEL(4,N)
-                 TFEXT   = TFEXT + RW_SMS(II)*DW
+                 WFEXT   = WFEXT + RW_SMS(II)*DW
                  VEL(4,N)= (ONE-RW_SMS(II))*VEL(4,N)
                  YC(II) = YC(II) * FAC
                  I=IABS(IBFV(1,N))
@@ -912,7 +913,7 @@ C dw was already counted in TFEXT, in sms_fixvel...
                  DW = FOURTH*MS(I)*(YC(II)*DT12+TWO*VV)*AA*AXI*WEIGHT(I)
 C DT2_DOUBLE*dw into memory ; if sms on the degree of freedom,
 C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
-                 TFEXT=TFEXT + DT1*DW
+                 WFEXT=WFEXT + DT1*DW
                  VEL(4,N) = VEL(4,N)+DT2_DOUBLE*DW
                ENDIF
              ENDDO
@@ -928,7 +929,7 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                    IBFV(5,N) = IPOSC(II)
                    FAC  = VEL(1,N)
                    DW   = VEL(4,N)
-                   TFEXT=TFEXT + DW
+                   WFEXT=WFEXT + DW
                    YC(II) = YC(II) * FAC
                    I=IABS(IBFV(1,N))
                    J = J - 3
@@ -967,7 +968,7 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
      .                     +RBY(24,NR)*SKEW(K2,ISK)
      .                     +RBY(25,NR)*SKEW(K3,ISK))*SKEW(K3,ISK))
                    ENDIF
-                   TFEXT=TFEXT + DT1*DW
+                   WFEXT=WFEXT + DT1*DW
                    VEL(4,N) = DT2_DOUBLE*DW
                  ENDIF
                ENDDO
@@ -989,9 +990,9 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                  YIMP   = VEL(6,N)
                  VEL(6,N) = YC(II)
 C if sms on the degree of freedom,
-C dw was already counted in TFEXT, in sms_fixvel...
+C dw was already counted in WFEXT, in sms_fixvel...
                  DW      = VEL(4,N)
-                 TFEXT   = TFEXT + RW_SMS(II)*DW
+                 WFEXT   = WFEXT + RW_SMS(II)*DW
                  VEL(4,N)= (ONE-RW_SMS(II))*VEL(4,N)
                  YC(II) = YC(II) * FAC
                  YIMP = YIMP * FAC
@@ -1074,7 +1075,7 @@ c----------------------------------------------------
                  DW = FOURTH*MS(I)*(YC(II)*DT12+TWO*VV)*AA*AXI*WEIGHT(I)
 C DT2_DOUBLE*dw into memory ; if sms on the degree of freedom,
 C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
-                 TFEXT=TFEXT + DT1*DW
+                 WFEXT=WFEXT + DT1*DW
                  VEL(4,N) = VEL(4,N)+DT2_DOUBLE*DW
                ENDIF
              ENDDO
@@ -1094,7 +1095,7 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                    YIMP   = VEL(6,N)
                    VEL(6,N) = YC(II)
                    DW   = VEL(4,N)
-                   TFEXT=TFEXT + DW
+                   WFEXT=WFEXT + DW
                    YC(II) = YC(II) * FAC
                    YIMP = YIMP * FAC
                    I=IABS(IBFV(1,N))
@@ -1165,7 +1166,7 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
      &                    +RBY(24,NR)*SKDIR(2)
      &                    +RBY(25,NR)*SKDIR(3))*SKDIR(3))
                     ENDIF
-                    TFEXT=TFEXT + DT1*DW
+                    WFEXT=WFEXT + DT1*DW
                     VEL(4,N) = DT2_DOUBLE*DW
                   ENDIF
                 ENDDO
@@ -1183,9 +1184,9 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                    IBFV(5,N) = IPOSC(II)
                    FAC  = VEL(1,N)
 C if sms on the degree of freedom,
-C dw was already counted in TFEXT, in sms_fixvel...
+C dw was already counted in WFEXT, in sms_fixvel...
                    DW      = VEL(4,N)
-                   TFEXT   = TFEXT + RW_SMS(II)*DW
+                   WFEXT   = WFEXT + RW_SMS(II)*DW
                    VEL(4,N)= (ONE-RW_SMS(II))*VEL(4,N)
                    YC(II) = YC(II) * FAC
                    I=IABS(IBFV(1,N))
@@ -1219,7 +1220,7 @@ C dw was already counted in TFEXT, in sms_fixvel...
                    DW=FOURTH*MS(I)*(YC(II)*DT12+TWO*VV)*AA*AXI*WEIGHT(I)
 C DT2_DOUBLE*dw into memory ; if sms on the degree of freedom,
 C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
-                   TFEXT=TFEXT + DT1*DW
+                   WFEXT=WFEXT + DT1*DW
                    VEL(4,N) = VEL(4,N)+DT2_DOUBLE*DW
                  ENDIF
                ELSE
@@ -1229,9 +1230,9 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                    IBFV(5,N) = IPOSC(II)
                    FAC  = VEL(1,N)
 C if sms on the degree of freedom,
-C dw was already counted in TFEXT, in sms_fixvel...
+C dw was already counted in WFEXT, in sms_fixvel...
                    DW      = VEL(4,N)
-                   TFEXT   = TFEXT + RW_SMS(II)*DW
+                   WFEXT   = WFEXT + RW_SMS(II)*DW
                    VEL(4,N)= (ONE-RW_SMS(II))*VEL(4,N)
                    YC(II) = YC(II) * FAC
                    I=IABS(IBFV(1,N))
@@ -1257,7 +1258,7 @@ C dw was already counted in TFEXT, in sms_fixvel...
                    DW=FOURTH*MS(I)*(YC(II)*DT12+TWO*VV)*AA*AXI*WEIGHT(I)
 C DT2_DOUBLE*dw into memory ; if sms on the degree of freedom,
 C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
-                   TFEXT=TFEXT + DT1*DW
+                   WFEXT=WFEXT + DT1*DW
                    VEL(4,N) = VEL(4,N)+DT2_DOUBLE*DW
                  ENDIF
                ENDIF
@@ -1275,7 +1276,7 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                      IBFV(5,N) = IPOSC(II)
                      FAC  = VEL(1,N)
                      DW   = VEL(4,N)
-                     TFEXT   = TFEXT + RW_SMS(II)*DW
+                     WFEXT   = WFEXT + RW_SMS(II)*DW
                      VEL(4,N)= (ONE-RW_SMS(II))*VEL(4,N)
                      YC(II) = YC(II) * FAC
                      I=IABS(IBFV(1,N))
@@ -1311,7 +1312,7 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
      .                     +RBY(24,NR)*XFRAME(K2,IFM)
      .                     +RBY(25,NR)*XFRAME(K3,IFM))*XFRAME(K3,IFM))
                      ENDIF
-                     TFEXT=TFEXT + DT1*DW
+                     WFEXT=WFEXT + DT1*DW
                      VEL(4,N) = DT2_DOUBLE*DW
                    ENDIF
                  ELSE
@@ -1321,7 +1322,7 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                      IBFV(5,N) = IPOSC(II)
                      FAC  = VEL(1,N)
                      DW   = VEL(4,N)
-                     TFEXT   = TFEXT + RW_SMS(II)*DW
+                     WFEXT   = WFEXT + RW_SMS(II)*DW
                      VEL(4,N)= (ONE-RW_SMS(II))*VEL(4,N)
                      YC(II) = YC(II) * FAC
                      I=IABS(IBFV(1,N))
@@ -1361,7 +1362,7 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
      .                     +RBY(24,NR)*SKEW(K2,ISK)
      .                     +RBY(25,NR)*SKEW(K3,ISK))*SKEW(K3,ISK))
                      ENDIF
-                     TFEXT=TFEXT + DT1*DW
+                     WFEXT=WFEXT + DT1*DW
                      VEL(4,N) = DT2_DOUBLE*DW
                    ENDIF
                  ENDIF
@@ -1382,9 +1383,9 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                    IBFV(5,N) = IPOSC(II)
                    FAC  = VEL(1,N)
 C if sms on the degree of freedom,
-C dw was already counted in TFEXT, in sms_fixvel...
+C dw was already counted in WFEXT, in sms_fixvel...
                    DW      = VEL(4,N)
-                   TFEXT   = TFEXT + RW_SMS(II)*DW
+                   WFEXT   = WFEXT + RW_SMS(II)*DW
                    VEL(4,N)= (ONE-RW_SMS(II))*VEL(4,N)
                    YC(II) = YC(II) * FAC
                    I=IABS(IBFV(1,N))
@@ -1468,7 +1469,7 @@ c-------------------------------------------------
                    DW=FOURTH*MS(I)*(YC(II)*DT12+TWO*VV)*AA*AXI*WEIGHT(I)
 C DT2_DOUBLE*dw into memory ; if sms on the degree of freedom,
 C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
-                   TFEXT=TFEXT + DT1*DW
+                   WFEXT=WFEXT + DT1*DW
                    VEL(4,N) = VEL(4,N)+DT2_DOUBLE*DW
                  ENDIF
                ELSE
@@ -1482,9 +1483,9 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                    YIMP   = VEL(6,N)
                    VEL(6,N) = YC(II)
 C if sms on the degree of freedom,
-C dw was already counted in TFEXT, in sms_fixvel...
+C dw was already counted in WFEXT, in sms_fixvel...
                    DW      = VEL(4,N)
-                   TFEXT   = TFEXT + RW_SMS(II)*DW
+                   WFEXT   = WFEXT + RW_SMS(II)*DW
                    VEL(4,N)= (ONE-RW_SMS(II))*VEL(4,N)
                    YC(II) = YC(II) * FAC
                    YIMP = YIMP * FAC
@@ -1566,7 +1567,7 @@ c------------------------------------------------------
      &                  *AA*AXI*WEIGHT(I)
 C DT2_DOUBLE*dw into memory ; if sms on the degree of freedom,
 C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
-                   TFEXT=TFEXT + DT1*DW
+                   WFEXT=WFEXT + DT1*DW
                    VEL(4,N) = VEL(4,N)+DT2_DOUBLE*DW
                  ENDIF
                ENDIF
@@ -1586,7 +1587,7 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                      IBFV(5,N) = IPOSC(II)
                      FAC  = VEL(1,N)
                      DW   = VEL(4,N)
-                     TFEXT   = TFEXT + RW_SMS(II)*DW
+                     WFEXT   = WFEXT + RW_SMS(II)*DW
                      VEL(4,N)= (ONE-RW_SMS(II))*VEL(4,N)
                      YC(II) = YC(II) * FAC
                      I=IABS(IBFV(1,N))
@@ -1655,7 +1656,7 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
      &                     +RBY(24,NR)*FMDIR(2)
      &                     +RBY(25,NR)*FMDIR(3))*FMDIR(3))
                      ENDIF
-                     TFEXT=TFEXT + DT1*DW
+                     WFEXT=WFEXT + DT1*DW
                      VEL(4,N) = DT2_DOUBLE*DW
                    ENDIF
                  ELSE
@@ -1669,7 +1670,7 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                      YIMP   = VEL(6,N)
                      VEL(6,N) = YC(II)
                      DW   = VEL(4,N)
-                     TFEXT   = TFEXT + RW_SMS(II)*DW
+                     WFEXT   = WFEXT + RW_SMS(II)*DW
                      VEL(4,N)= (ONE-RW_SMS(II))*VEL(4,N)
                      YC(II) = YC(II) * FAC
                      YIMP = YIMP * FAC
@@ -1743,7 +1744,7 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
      &                      +RBY(24,NR)*SKDIR(2)
      &                      +RBY(25,NR)*SKDIR(3))*SKDIR(3))
                       ENDIF
-                      TFEXT=TFEXT + DT1*DW
+                      WFEXT=WFEXT + DT1*DW
                       VEL(4,N) = DT2_DOUBLE*DW
                     ENDIF
                   ENDIF

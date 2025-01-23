@@ -43,6 +43,7 @@ C-----------------------------------------------
       USE H3D_MOD
       USE GROUPDEF_MOD
       USE ANIM_MOD
+      USE OUTPUT_MOD , ONLY : WFEXT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -644,7 +645,7 @@ C---------------------------------
       IF (IGRSURF(KSURF)%TYPE==100) THEN
 C     Sorties Ellipdoides Madymo.
 #include "atomic.inc"
-          TFEXT=TFEXT+DE*DT1*HALF
+          WFEXT=WFEXT+DE*DT1*HALF
 #include "atomend.inc"
       ENDIF
 C------------------------------------------------------------

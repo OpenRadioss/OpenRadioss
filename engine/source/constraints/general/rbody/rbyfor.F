@@ -48,7 +48,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6   NRBYKIN_L,NATIV_SMS,DIMFB,FBSAV6 ,STABSEN ,
      7   TABSENSOR,NODREAC,FTHREAC,CPTREAC,DAMPR   ,
      8   SDAMP    ,DAMP   ,NDAMP_VREL,ID_DAMP_VREL,IGRNOD,
-     9   TAGSLV_RBY,IPARIT,TFEXT,NDAMP_VREL_RBYG,SIZE_RBY6_C,
+     9   TAGSLV_RBY,IPARIT,WFEXT,NDAMP_VREL_RBYG,SIZE_RBY6_C,
      A   RBY6_C)
 C-----------------------------------------------
 C   M o d u l e s
@@ -80,16 +80,12 @@ C-----------------------------------------------
      .        KIND(NRBYKIN),FR_RBY6(*),IAD_RBY(*),IRBKIN_L(*),
      .        NRBYKIN_L, NATIV_SMS(*),DIMFB,STABSEN,TABSENSOR(*),
      .        NODREAC(*),CPTREAC,NDAMP_VREL_RBYG,SIZE_RBY6_C
-C     REAL
-      my_real
-     .   RBY(NRBY,*) ,A(3,*) ,AR(3,*) ,X(3,*) ,VR(3,*),FSAV(NTHVKI,*),
-     .   IN(*) ,STIFN(*),STIFR(*),FANI(3,*),MS(*),V(3,*) ,
-     .   BUFSF(*), SKEW(LSKEW,*),FTHREAC(6,*)
+      my_real RBY(NRBY,*) ,A(3,*) ,AR(3,*) ,X(3,*) ,VR(3,*),FSAV(NTHVKI,*),
+     .        IN(*) ,STIFN(*),STIFR(*),FANI(3,*),MS(*),V(3,*) ,
+     .        BUFSF(*), SKEW(LSKEW,*),FTHREAC(6,*)
       DOUBLE PRECISION RBY6(8,6,NRBYKIN),RBY6_C(2,6,SIZE_RBY6_C)
-      DOUBLE PRECISION
-     .        FBSAV6(12,6,DIMFB),RBID(12,6),TFEXT
-      TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
-C
+      DOUBLE PRECISION FBSAV6(12,6,DIMFB),RBID(12,6),WFEXT
+      TYPE (SURF_), DIMENSION(NSURF) :: IGRSURF
       INTEGER ,INTENT(IN) :: NDAMP_VREL,IPARIT,SDAMP
       INTEGER ,INTENT(IN) :: ID_DAMP_VREL(NDAMP_VREL),TAGSLV_RBY(NUMNOD)
       my_real, INTENT(INOUT) :: DAMPR(NRDAMP,NDAMP),DAMP(SDAMP)
@@ -272,7 +268,7 @@ C-------------------------------------
      .                        NDAMP_VREL,IPARIT   ,NUMNOD  ,DT1       ,ID_DAMP_VREL,
      .                        TT        ,NNPBY    ,NRBYKIN  ,NPBY      ,RBY6      ,
      .                        RBY6_C    ,TAGSLV_RBY,WEIGHT  ,LSKEW     ,NUMSKW    ,
-     .                        DIM       ,DAMP     ,SKEW     ,TFEXT     ,SIZE_RBY6_C)
+     .                        DIM       ,DAMP     ,SKEW     ,WFEXT     ,SIZE_RBY6_C)
 !$OMP END SINGLE
       ENDIF 
 

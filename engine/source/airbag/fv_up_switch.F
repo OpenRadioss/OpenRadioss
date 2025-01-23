@@ -66,7 +66,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      K     CPDPOLH, CPEPOLH, CPFPOLH  ,
      L     ELTG   , IPARG  , MATTG    ,
      M     IGROUPTG,IGROUPC, ELBUF_TAB, CFL_COEF,
-     N     PDISP_OLD, PDISP)
+     N     PDISP_OLD, PDISP, WFEXT)
 C-----------------------------------------------
 C   M O D U L E S
 C-----------------------------------------------
@@ -125,6 +125,7 @@ C-----------------------------------------------
      .     CPFPOLH(NPOLH), RBAGHOL(NRBHOL,NVENT), PDISP, ELFEHPY(NELT), RVOLU(NRVOLU)
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP), INTENT(IN) :: ELBUF_TAB
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
+      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
@@ -168,7 +169,7 @@ C-----------------------------------------------
      .        VVV(3,NNT),  FVDP, RBID, TTF,
      .        DMCPD(NPOLH), DMCPE(NPOLH), DMCPF(NPOLH),
      .        CPD, CPE, CPF, TEMP0, PEL(NELT), PSTAG, VOLNO,TSTOPE,
-     .        ENINT, MASSFLOW, TFEXT0, ELDMASS(NEL), ELDEHPY(NEL), DMOUT, DHOUT,
+     .        ENINT, MASSFLOW, WFEXT0, ELDMASS(NEL), ELDEHPY(NEL), DMOUT, DHOUT,
      .        XX1, XX2, XX3, YY1, YY2, YY3, ZZ1, ZZ2, ZZ3, NNX, NNY, NNZ,
      .        PRES_AV, CP_AV, CV_AV, RGAS_AV, RHO_AV
 
@@ -1975,7 +1976,7 @@ C---------------------------------------------------
 C     FVSPMD(IFV)%AAA(1:3,1:NNT) = ZERO
 C
       IF(IVOLU(39)==1) THEN
-       TFEXT0=TFEXT
+       WFEXT0=WFEXT
        DO IEL=1,NELT
          N1=ELEM(1,IEL)
          N2=ELEM(2,IEL)
@@ -1998,9 +1999,9 @@ C
          FVSPMD(IFV)%AAA(2,N3)=FVSPMD(IFV)%AAA(2,N3)+THIRD*FF*NRY
          FVSPMD(IFV)%AAA(3,N3)=FVSPMD(IFV)%AAA(3,N3)+THIRD*FF*NRZ
 C
-         TFEXT=TFEXT+FF*VEL(IEL)*DT1
+         WFEXT=WFEXT+FF*VEL(IEL)*DT1
        ENDDO
-       FSAV(18)=FSAV(18)+TFEXT-TFEXT0
+       FSAV(18)=FSAV(18)+WFEXT-WFEXT0
       ENDIF
 C----------------------
 C     OUTPUT TH GAUGES

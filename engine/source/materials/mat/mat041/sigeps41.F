@@ -41,7 +41,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      9     SIGVXX ,SIGVYY ,SIGVZZ  ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
      A     SOUNDSP,VISCMAX,UVAR    ,DELTVOL ,BFRAC  ,
      B     TEMP)
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
       USE ROOT_FINDING_ALGO_MOD
+      USE OUTPUT_MOD , ONLY : WFEXT
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -154,7 +158,7 @@ C-----------------------------------------------
      .        cappa,chi,ccrit,tol,cv,dedv,
      .        artvisc,dt,pres,fc,cburn,enq,SHEAR,vol_rel,dvol_rel
       my_real oldfc,tem1,tem2,chydro,chydro2,dpdmu,dpde,heat
-      my_real mt,pold,er,tfextt,wr,wp
+      my_real mt,pold,er,WFEXTt,wr,wp
       integer  itrmax,i_reac,i
       my_real :: beta !volumic fraction of reagent
       my_real, dimension(25) :: funct_parameter
@@ -162,7 +166,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      TFEXTT=ZERO        
+      WFEXTT=ZERO
       if (TIME == ZERO) then
         do i=1,nel
           uvar(i,1) = ZERO       ! Burn Fraction (F)
@@ -331,14 +335,14 @@ C       Burn fraction
         uvar(i,8) = ONE - beta !volume fraction of products
 C       energie released by the reaction = D(energie totale) - (-P.DV)
         er=mt*cv*tmp + HALF*(pres+pold)*DELTVOL(I)  !misunderstanding between volumetric heat capacity (J/m3/K = Pa/K) and heat capacity(J/K) ? law41 to be verified.
-        TFEXTT=TFEXTT+er-EINT(I)
+        WFEXTT=WFEXTT+er-EINT(I)
         EINT(I)=mt*cv*tmp + HALF*(pres+pold)*DELTVOL(I)
 C       EINT(I)=EINT(I)-0.5*(pres+pold)*DELTVOL(I) done in mulaw.
         TEMP(I) = tmp !temperature
       enddo
 c
 #include "atomic.inc"
-      TFEXT=TFEXT+TFEXTT
+      WFEXT=WFEXT+WFEXTT
 #include "atomend.inc"
 C-----------------------------------------------
       RETURN

@@ -111,7 +111,7 @@ C-----------------------------------------------
      .        NITER,ITER,IMODEL,IL,IS,SEGCONT,FUN_HSP,IFRA1,NP0
       my_real
      .   NX, NY, NZ, AXI, AA, A0, VV, FX, FY, FZ, AX, DYDX, TS,
-     .   SIXTH,TFEXTT,X_OLD, F1, F2,XSENS,FCX,FCY,FCYPINCH,FP,
+     .   SIXTH,X_OLD, F1, F2,XSENS,FCX,FCY,FCYPINCH,FP,
      .   FCX1,FCY1,FCX2,FCY2,VX,VY,VZ,VEL,VSEG,NORM
       my_real FINTER, PS, Zx,Zy,Zz,FINTER_SMOOTH
       my_real
