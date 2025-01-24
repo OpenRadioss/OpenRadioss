@@ -208,8 +208,8 @@ c
      .              OFF      ,EPSD    ,NPF     ,TF      ,
      .              DPLA     ,EINT    ,TIME    ,IOUT    ,ISTDO   ,
      .              AL       ,ISMSTR  ,EXX     ,EXY     ,EXZ     ,
-     .              KXX      ,KYY     ,KZZ     )
-      END IF
+     .              KXX      ,KYY     ,KZZ     ,DTIME)
+       END IF
 C------------------------------------
 c     resultant force and moment
 c------------------------------------

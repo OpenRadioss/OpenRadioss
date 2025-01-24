@@ -96,11 +96,18 @@ c-----------------------------------------------------------------------
       IF (F_FLAG == 0 .OR. F_FLAG == 1 ) THEN
          F_FLAG = 1
          IF (EMA == ZERO) EMA = ONE
-         NUVAR  = 2
+         NUVAR  = 5
+         ! User variable # 1: damage value
+         ! User variable # 2: stress or strain value in the previous step 
+         ! User variable # 3-5: Exx, Exy, Exz for the failure of beam elements type3
       ELSE
          BUTTER = EMA 
          EMA    = ONE       
-         NUVAR  = 11! User variable # 3-8, Storage values for the Butterworth filter
+         NUVAR  = 14
+         ! User variable # 1: damage value
+         ! User variable # 2: stress or strain value in the previous step 
+         ! User variable # 3-11: Storage values for the Butterworth filter
+         ! User variable # 12-14: Exx, Exy, Exz for the failure of beam elements type3
       ENDIF
 
       IF (TYPE_MAX == 0) TYPE_MAX = 1

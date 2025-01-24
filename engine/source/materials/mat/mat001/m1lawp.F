@@ -80,11 +80,11 @@ C
       DO I=1,NEL
         RHO(I) =PM( 1,MAT(I))
         G(I)   =PM(22,MAT(I))
-        YM(I)  =PM(20,MAT(I))
-        A1(I)  =GEO(1,PID(I))
+        YM(I)  =PM(20,MAT(I)) !YM = E/l
+        A1(I)  =GEO(1,PID(I)) !A1 = A
         B1(I)  =GEO(2,PID(I))
         B2(I)  =GEO(18,PID(I))
-        B3(I)  =GEO(4,PID(I))
+        B3(I)  =GEO(4,PID(I)) !B3 = Ix/l
         SHF(I) =GEO(37,PID(I))
       ENDDO
 C-----------------------------
