@@ -321,7 +321,7 @@
           cst1(lft:llt) = one
 
           do i=lft,llt
-             rho0(i)= mat_param(imat)%rho0
+             rho0(i)= mat_param(imat)%rho  ! rho reference !
              vis(i) = zero
              ssp(i) = zero
              sv1(i) = zero
@@ -1242,7 +1242,7 @@
 !     define dynamic viscosity (for viscous law)
 !-----------------------
       do i=lft,llt
-        if (ssp(i) == zero) ssp(i) = sqrt(mat_param(imat)%bulk/mat_param(imat)%rho0)
+        if (ssp(i) == zero) ssp(i) = sqrt(mat_param(imat)%bulk/mat_param(imat)%rho) ! rho reference ! 
       enddo
 !-------------------------------------------
 !   bulk viscosity and time step computation

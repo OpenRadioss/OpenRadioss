@@ -614,7 +614,7 @@
           endif
 
           do i=1,nel
-            rho0(i)= matparam%rho0
+            rho0(i)= matparam%rho  ! reference rho is used instead of initial one !?
             vis(i) = zero
             ep1(i) = d1(i)*off(i)
             ep2(i) = d2(i)*off(i)
@@ -2692,7 +2692,7 @@
 !     define dynamic viscosity (for viscous law)
 !-----------------------
           do i=1,nel
-            if (ssp(i) == zero) ssp(i) = sqrt(matparam%bulk/matparam%rho0)
+            if (ssp(i) == zero) ssp(i) = sqrt(matparam%bulk/matparam%rho) ! rho reference !
           enddo
 !-------------------------------------------
 !   bulk viscosity and time step computation
