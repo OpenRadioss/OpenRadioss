@@ -297,45 +297,6 @@ C law 52
      .                   I2=ITABLE)
             ENDIF
  52     CONTINUE
-C
-        ELSE IF(ILAW == 57) THEN
-         EFUNC = 0
-         NF=IPM(10,I)
-         IF(IPM(10+NF,I) /= 0)EFUNC=1
-         DO 257 K=1,NF
-          IS=IPM(10+K,I)
-          IF(IS/=0)THEN
-           DO J=1,NFUNCT
-            IF(IS == NPC1(J))  THEN
-              IPM(10+K,I)=J
-              GOTO 257
-            ENDIF
-           ENDDO
-           CALL ANCMSG(MSGID=126,
-     .                 MSGTYPE=MSGERROR,
-     .                 ANMODE=ANINFO_BLIND_1,
-     .                 I1=ID,
-     .                 C1=TITR,
-     .                 I2=IS)
-          ENDIF
- 257      CONTINUE
-          IF (EFUNC > 0) THEN
-            IFE=IPM(10+NF,I)
-            IF(NF > EFUNC)THEN
-              IE =NPC(IFE)
-              IE2=NPC(IFE+1) 
-              DO II = IE+1,IE2-3,2
-                 IF(PLD(II) < PLD(II+2))THEN
-                    CALL ANCMSG(MSGID=975,
-     .                          MSGTYPE=MSGERROR,
-     .                          ANMODE=ANINFO,
-     .                          I1=ID,
-     .                          C1=TITR)
-                    EXIT 
-                 ENDIF       
-              ENDDO
-            ENDIF
-           ENDIF
 c------------------------
 C
         ELSE IF(ILAW == 59) THEN
