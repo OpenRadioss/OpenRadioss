@@ -194,6 +194,7 @@
           use message_mod
           use nlocal_reg_mod
           use sensor_mod
+          use sigeps57c_mod
           use sigeps87c_mod
           use sigeps125c_mod
           use sigeps127c_mod
@@ -1353,22 +1354,18 @@
                 &gs     ,sigy   ,epspl   ,dpla     ,israte )
               elseif (ilaw == 57) then
                 call sigeps57c(&
-                &jlt    ,nuparam0,nuvar   ,nfunc    ,ifunc  ,&
-                &npf    ,npt    ,ipt     ,iflag    ,&
-                &tf     ,tt     ,dt1c    ,uparam0   ,rho    ,&
-                &area   ,eint   ,thklyl  ,&
-                &epspxx ,epspyy ,epspxy  ,epspyz   ,epspzx ,&
-                &depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,&
-                &epsxx  ,epsyy  ,epsxy   ,epsyz    ,epszx  ,&
-                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
-                &signxx ,signyy ,signxy  ,signyz   ,signzx ,&
-                &sigvxx ,sigvyy ,sigvxy  ,sigvyz   ,sigvzx ,&
-                &ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,&
-                &off    ,ngl    ,shf     ,etse     ,sigy   ,&
-                &hardm  ,lbuf%seq,israte ,epsp     ,inloc  ,&
-                &varnl(1,it),lbuf%off)
+                &jlt    ,matparam,rho    ,tt       ,dt1    ,&
+                &ngl    ,thklyl ,thkn    ,ssp      ,        &
+                &lbuf%pla,dpla  ,epsxx   ,epsyy    ,epsxy  ,&
+                &epspxx ,epspyy ,epspxy  ,                  &
+                &depsxx ,depsyy ,depsxy  ,depsyz  ,depszx  ,&
+                &sigoxx ,sigoyy ,sigoxy  ,sigoyz  ,sigozx  ,&
+                &signxx ,signyy ,signxy  ,signyz  ,signzx  ,&
+                &off    ,etse   ,sigy    ,lbuf%seq,israte  ,&
+                &asrate ,epsp   ,lbuf%epsd,inloc  ,varnl(1,it),&
+                &lbuf%off,nvartmp,vartmp ,shf     ,lbuf%sigb,&
+                &bufly%l_dmg,lbuf%dmg,bufly%l_planl,lbuf%planl)
               elseif (ilaw == 58) then
-
                 call sigeps58c(&
                 &jlt     ,nuparam ,nuvar   ,nfunc    ,ifunc  ,&
                 &npf     ,npt     ,ipt     ,nsensor  ,&
@@ -1384,8 +1381,6 @@
                 &off     ,ngl     ,pm      ,matly(jmly),etse  ,&
                 &shf     ,sigy    ,epspl   ,lbuf%ang ,&
                 &aldt    ,sensors%sensor_tab,ismstr,table    ,gbuf%off)
-
-!
               elseif (ilaw == 60) then
                 if (igtyp /= 10.and.igtyp /= 11 .and.igtyp /= 17) then
                   call sigeps60c(&

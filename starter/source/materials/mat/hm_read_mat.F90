@@ -198,6 +198,7 @@
       use hm_option_read_mod
       use table_mod
       use hm_read_mat50_mod
+      use hm_read_mat57_mod
       use hm_read_mat81_mod
       use hm_read_mat87_mod
       use hm_read_mat125_mod
@@ -714,10 +715,9 @@
           case ('LAW57','BARLAT3','BARLAT')
             ilaw  = 57
             call hm_read_mat57(&
-            &uparam   ,maxuparam,nuparam  ,nuvar    ,nfunc    ,&
-            &maxfunc  ,ifunc    ,mtag     ,parmat   ,unitab   ,&
-            &israte   ,pm(1,i)  ,lsubmodel,mat_id   ,titr     ,&
-            &matparam )
+            &matparam ,nuvar    ,parmat   ,mat_id   ,titr     ,&
+            &unitab   ,lsubmodel,mtag     ,iout     ,nvartmp  ,&
+            &israte   ,ntable   ,table    )
 !-------
           case ('LAW58','FABR_A')
             ilaw  = 58
