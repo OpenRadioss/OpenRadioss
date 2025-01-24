@@ -99,6 +99,7 @@ C-----------------------------------------------
       my_real BID
       INTEGER, DIMENSION(:), ALLOCATABLE :: SUB_BEAM
       INTEGER N2,N3,N4
+      REAL*8, DIMENSION(:), ALLOCATABLE :: VX,VY,VZ
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -113,11 +114,20 @@ C--------------------------------------------------
       ALLOCATE (SUB_BEAM(NUMELP),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='SUB_BEAM')
       SUB_BEAM(1:NUMELP) = 0
+      ALLOCATE (VX(NUMELP),STAT=stat)
+      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='VX')
+      VX(1:NUMELP) = ZERO
+      ALLOCATE (VY(NUMELP),STAT=stat)
+      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='VY')
+      VY(1:NUMELP) = ZERO
+      ALLOCATE (VZ(NUMELP),STAT=stat)
+      IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='VZ')
+      VZ(1:NUMELP) = ZERO
       INDEX_PART = 1
 C--------------------------------------------------
 C      READING BEAM INPUTS IN HM STRUCTURE
 C-------------------------------------------------- 
-      CALL CPP_BEAM_READ(IXP,NIXP,IPARTP,SUB_BEAM)
+      CALL CPP_BEAM_READ(IXP,NIXP,IPARTP,SUB_BEAM,VX,VY,VZ)
 C--------------------------------------------------
 C      FILL OTHER STRUCTURES + CHECKS
 C--------------------------------------------------
@@ -157,6 +167,9 @@ C Node 3 is just a used node, to define directions (CHECK_USED)
         CALL ANODSET(IXP(4,I), CHECK_USED)
       ENDDO
       IF(ALLOCATED(SUB_BEAM)) DEALLOCATE(SUB_BEAM)
+      IF(ALLOCATED(VX)) DEALLOCATE(VX)
+      IF(ALLOCATED(VY)) DEALLOCATE(VY)
+      IF(ALLOCATED(VZ)) DEALLOCATE(VZ)
 C-----------
       CALL ANCMSG(MSGID=402,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1, PRMOD=MSG_PRINT)
 C     
