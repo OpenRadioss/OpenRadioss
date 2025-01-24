@@ -226,7 +226,7 @@ c
      .              SVM     ,PRESSURE,AREA    ,AL      ,
      .              F1      ,F2      ,F3      ,M1      ,M2      ,
      .              M3      ,ISMSTR  ,EXX     ,EXY     ,EXZ     ,
-     .              KXX     ,KYY     ,KZZ     )
+     .              KXX     ,KYY     ,KZZ , DTIME    )
 c
         ! Compute damaged forces
         IF (ELBUF_STR%GBUF%G_DMGSCL > 0) THEN 

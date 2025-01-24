@@ -117,41 +117,41 @@ C!--------------------------------------------------------------
       ! Recovering failure criterion parameters
       ! -> Integer parameter, activated criteria
       CRIT       = IPARAM(1)
-      Itab       = IPARAM(2)
-      NSTEP      = IPARAM(3)
-      NCS        = IPARAM(4)
-      Ismooth    = IPARAM(5)
-      Istrain    = IPARAM(6)
+      Itab       = IPARAM(2)    !> Table dependency type (used only if tab_IDfld is a table).
+      NSTEP      = IPARAM(3)    !> Number of cycles for the stress reduction, Default = 10 (Integer)
+      NCS        = IPARAM(4)    !> Number of conditions to reach before the element is deleted, Default = 1 (Integer)
+      Ismooth    = IPARAM(5)    !> Interpolation type (in case of tabulated yield function) 
+      Istrain    = IPARAM(6)    !> Engineering / True input strain flag
       ! -> Real parameters
-      MINPRES    = UPARAM(1)
-      MAXPRES    = UPARAM(2)
-      SIGP1      = UPARAM(3)
-      TMAX       = UPARAM(4)   
-      DTMIN      = UPARAM(5)
-      EPSDOT_SM  = UPARAM(6)
-      SIGVM      = UPARAM(7)
+      MINPRES    = UPARAM(1)    !> Minimum pressure (positive in compression)
+      MAXPRES    = UPARAM(2)    !> Maximum pressure (positive in compression)
+      SIGP1      = UPARAM(3)    !> Maximum principal stress
+      TMAX       = UPARAM(4)    !> Failure time, Default = 1E+20 (Real)
+      DTMIN      = UPARAM(5)    !> Minimum time step
+      EPSDOT_SM  = UPARAM(6)    !> Reference strain rate value for fct_IDsm, Default = 1 (Real)
+      SIGVM      = UPARAM(7)   
       SIGTH      = UPARAM(8)
-      KF         = UPARAM(9)
-      EPSDOT_PS  = UPARAM(10)
-      MAXEPS     = UPARAM(11)
-      EFFEPS     = UPARAM(12)
-      VOLEPS     = UPARAM(13)
-      MINEPS     = UPARAM(14)
-      EPSSH      = UPARAM(15)
+      KF         = UPARAM(9)    !  -> Tuler-Butcher
+      EPSDOT_PS  = UPARAM(10)   !> Reference strain rate value for fct_IDps, Default = 1 (Real)
+      MAXEPS     = UPARAM(11)   !> Ordinate scale factor for fct_IDps or maximum principal strain if fct_IDps is not defined, Default = 1 
+      EFFEPS     = UPARAM(12)   !> Maximum effective strain
+      VOLEPS     = UPARAM(13)   !> Maximum volumetric strain
+      MINEPS     = UPARAM(14)   !> Minimum principal strain
+      EPSSH      = UPARAM(15) 
       EPSDOT_FLD = UPARAM(16)
-      THIN       = UPARAM(17)
-      VOLFRAC    = UPARAM(18)
-      MAXTEMP    = UPARAM(20)
-      Fscale_el  = UPARAM(21)
-      El_ref     = UPARAM(22)
+      THIN       = UPARAM(17)   !Thinning failure value (Real)
+      VOLFRAC    = UPARAM(18)   !> Damaged volume fraction to reach before the element is deleted (fully-integrated and higher order solid elements only), Default = 0.5 (Real)
+      MAXTEMP    = UPARAM(20)   !> Maximum temperature.
+      Fscale_el  = UPARAM(21)   !> Element size function scale factor for fct_IDel, tab_IDfld (Itab=2), fct_IDg12, fct_IDg23, fct_IDg13 and fct_IDe1c, Default = 1.0 (Real)
+      El_ref     = UPARAM(22)   !> Reference element size for fct_IDel, tab_IDfld (Itab=2), fct_IDg12, fct_IDg23, fct_IDg13 and fct_IDe1c, Default = 1.0 (Real)
 c
 c     function & tables
-      fct_ISM    = IFUNC(1) 
-      fct_IPS    = IFUNC(2)   ! -> maximum principal strain VS strain-rate
-      fct_IDg12  = IFUNC(3)   ! -> in-plane shear strain VS element size
-      fct_IDg13  = IFUNC(4)   ! -> in-plane shear strain VS element size
-      fct_IDe1c  = IFUNC(5)   ! -> major in plane-strain VS element size
-      fct_IDel   = IFUNC(6)   ! -> element size regularization
+      fct_ISM    = IFUNC(1)     !> Function identifier of the maximum equivalent stress versus strain rate 
+      fct_IPS    = IFUNC(2)     !> maximum principal strain VS strain-rate
+      fct_IDg12  = IFUNC(3)     !> in-plane shear strain VS element size 
+      fct_IDg13  = IFUNC(4)     !> in-plane shear strain VS element size
+      fct_IDe1c  = IFUNC(5)     !> major in plane-strain VS element size
+      fct_IDel   = IFUNC(6)     !> element size regularization
       IF (NTABLF > 0) THEN
         tab_IDfld  = ITABLF(1)
       ELSE
@@ -570,7 +570,7 @@ c
                 IMIX12(I) = 1
               ENDIF
             ENDIF
-          ENDIF
+          ENDIF 
           IF (BTEST(CRIT,14)) THEN 
             LAMBDA  = UVAR(I,8)/El_ref
             SH13(I) = FINTER(fct_IDg13,LAMBDA,NPF,TF,DF)

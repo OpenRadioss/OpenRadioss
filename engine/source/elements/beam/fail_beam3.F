@@ -43,12 +43,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  SVM     ,PRESSURE,AREA    ,AL      ,
      .                  F1      ,F2      ,F3      ,M1      ,M2      ,
      .                  M3      ,ISMSTR  ,EPSXX   ,EPSXY   ,EPSXZ   ,
-     .                  KXX     ,KYY     ,KZZ     )
+     .                  KXX     ,KYY     ,KZZ     ,DTIME)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MAT_ELEM_MOD
       USE ELBUFDEF_MOD
+      USE FAIL_VISUAL_B_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -88,7 +89,9 @@ C-----------------------------------------------
 
       my_real ,DIMENSION(STF)            ,INTENT(IN)    :: TF
       my_real ,DIMENSION(NEL)            ,INTENT(INOUT) :: OFF
-C
+
+      my_real                            ,INTENT(IN)    :: DTIME                                                         
+C                                                         
       TYPE (ELBUF_STRUCT_), INTENT(INOUT) :: ELBUF_STR
       TYPE (FAIL_PARAM_)   ,INTENT(IN)    :: FAIL
 C-----------------------------------------------
@@ -96,7 +99,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: IFUNC(100)
       INTEGER :: I,IFL,NFUNC,NPARAM,IRUPT
-      my_real :: T0,TM
+      my_real :: T0,TM,G_MODULE
       my_real ,DIMENSION(NEL) :: TSTAR
       my_real :: bidon
 C
@@ -175,7 +178,18 @@ c---------------
      .                       ELBUF_STR%GBUF%FAIL(1)%TDEL     ,IOUT    ,ISTDO  ,FAIL%IFUNC   ,
      .                       NFUNC,SNPC     ,NPF     ,STF     ,TF,
      .                       ELBUF_STR%GBUF%FAIL(1)%NVAR, ELBUF_STR%GBUF%FAIL(1)%VAR,AL)
-
+c---------------   
+        CASE (36)     !    VISUAL                                           
+          G_MODULE = PM(22,IMAT)
+          !G_MODULE = 0.
+          CALL FAIL_VISUAL_B(NEL      ,NGL      ,NPARAM   ,FAIL%UPARAM,
+     .                       TIME     ,ELBUF_STR%GBUF%FAIL(1)%DAMMX,                        
+     .                       IOUT     ,ISTDO    ,
+     .                       AREA     ,F1       ,
+     .                       EPSXX    ,EPSXY    ,EPSXZ    ,
+     .                       ELBUF_STR%GBUF%FAIL(1)%NVAR,
+     .                       ELBUF_STR%GBUF%FAIL(1)%VAR,ISMSTR, DTIME)
+      
  
 
 c-------------
