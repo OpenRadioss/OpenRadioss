@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    compute_bfrac   ../engine/source/materials/mat/mat051/compute_bfrac.F
       !||--- called by ------------------------------------------------------
-      !||    sigeps51        ../engine/source/materials/mat/mat051/sigeps51.F
+      !||    sigeps51        ../engine/source/materials/mat/mat051/sigeps51.F90
       !||====================================================================
       SUBROUTINE COMPUTE_BFRAC(TIME,XL,TBURN,UPARAM,
      .          V1,

@@ -63,7 +63,8 @@
       !||    r_bufbric_22                     ../engine/source/interfaces/int22/r_bufbric_22.F
       !||    rdcomr                           ../engine/source/output/restart/rdcomm.F
       !||    resol                            ../engine/source/engine/resol.F
-      !||    sigeps51                         ../engine/source/materials/mat/mat051/sigeps51.F
+      !||    sigeps51                         ../engine/source/materials/mat/mat051/sigeps51.F90
+      !||    sigeps51_boundary_material       ../engine/source/materials/mat/mat051/sigeps51_boundary_material.F90
       !||    sinit22_fvm                      ../engine/source/interfaces/int22/sinit22_fvm.F
       !||    spmd_l51vois                     ../engine/source/mpi/fluid/spmd_cfd.F
       !||    stat_inimap1d_file_spmd          ../engine/source/output/sta/stat_inimap1d_file_spmd.F

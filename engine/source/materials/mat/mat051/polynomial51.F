@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    polyun51   ../engine/source/materials/mat/mat051/polynomial51.F
       !||--- called by ------------------------------------------------------
-      !||    sigeps51   ../engine/source/materials/mat/mat051/sigeps51.F
+      !||    sigeps51   ../engine/source/materials/mat/mat051/sigeps51.F90
       !||====================================================================
       SUBROUTINE POLYUN51 (
      .    C0      ,C1     ,C2      ,C3       ,C4     , C5   ,GG,
@@ -85,7 +85,7 @@ C------------------------
       !||====================================================================
       !||    poly51     ../engine/source/materials/mat/mat051/polynomial51.F
       !||--- called by ------------------------------------------------------
-      !||    sigeps51   ../engine/source/materials/mat/mat051/sigeps51.F
+      !||    sigeps51   ../engine/source/materials/mat/mat051/sigeps51.F90
       !||====================================================================
       SUBROUTINE POLY51 (C01,C11,C21,C31,C41,C51,GG1,
      .          V10,V1,V1OLD,MU1,MUP1,EINT1,

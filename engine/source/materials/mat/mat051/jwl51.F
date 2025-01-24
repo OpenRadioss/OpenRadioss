@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    jwlun51    ../engine/source/materials/mat/mat051/jwl51.F
       !||--- called by ------------------------------------------------------
-      !||    sigeps51   ../engine/source/materials/mat/mat051/sigeps51.F
+      !||    sigeps51   ../engine/source/materials/mat/mat051/sigeps51.F90
       !||====================================================================
       SUBROUTINE JWLUN51 (TIME,XL,TBURN,UPARAM,DD,MU,MUP1,
      .          VOLUME,DVOL,V1OLD,EINT1,VISCMAX,
@@ -138,7 +138,7 @@ C
       !||====================================================================
       !||    jwl51      ../engine/source/materials/mat/mat051/jwl51.F
       !||--- called by ------------------------------------------------------
-      !||    sigeps51   ../engine/source/materials/mat/mat051/sigeps51.F
+      !||    sigeps51   ../engine/source/materials/mat/mat051/sigeps51.F90
       !||====================================================================
       SUBROUTINE JWL51 (UPARAM,
      .          V1,V1OLD,MU1,MUP1,EINT1,

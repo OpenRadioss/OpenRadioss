@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    jcook51    ../engine/source/materials/mat/mat051/jcook51.F
       !||--- called by ------------------------------------------------------
-      !||    sigeps51   ../engine/source/materials/mat/mat051/sigeps51.F
+      !||    sigeps51   ../engine/source/materials/mat/mat051/sigeps51.F90
       !||====================================================================
       SUBROUTINE JCOOK51 (NEL   ,SIGD     ,PLAS   ,TEMP   ,VOL  ,
      .                    DEPS  ,EPD      ,UPARAM ,VOLUME ,EINT ,

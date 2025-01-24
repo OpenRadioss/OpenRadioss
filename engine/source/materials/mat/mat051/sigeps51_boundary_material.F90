@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    sigeps51_boundary_material_mod   ../engine/source/materials/mat/mat051/sigeps51_boundary_material.F90
+      !||--- called by ------------------------------------------------------
+      !||    sigeps51                         ../engine/source/materials/mat/mat051/sigeps51.F90
+      !||====================================================================
       module sigeps51_boundary_material_mod
       contains
 ! ======================================================================================================================
@@ -27,6 +32,22 @@
 ! ======================================================================================================================
 !! \brief Here is a small description of the routine, [after the header]
 !! \details if needed, more details can be added here
+      !||====================================================================
+      !||    sigeps51_boundary_material   ../engine/source/materials/mat/mat051/sigeps51_boundary_material.F90
+      !||--- called by ------------------------------------------------------
+      !||    sigeps51                     ../engine/source/materials/mat/mat051/sigeps51.F90
+      !||--- calls      -----------------------------------------------------
+      !||    finter                       ../engine/source/tools/curve/finter.F
+      !||    m51vois2                     ../engine/source/materials/mat/mat051/m51vois2.F
+      !||    m51vois3                     ../engine/source/materials/mat/mat051/m51vois3.F
+      !||--- uses       -----------------------------------------------------
+      !||    ale_connectivity_mod         ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    alefvm_mod                   ../common_source/modules/ale/alefvm_mod.F
+      !||    constant_mod                 ../common_source/modules/constant_mod.F
+      !||    elbufdef_mod                 ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    multimat_param_mod           ../common_source/modules/multimat_param_mod.F90
+      !||    prop_param_mod               ../common_source/modules/mat_elem/prop_param_mod.F90
+      !||====================================================================
       subroutine sigeps51_boundary_material ( &
             nel    ,nuparam     ,nuvar   ,nfunc   ,ifunc    ,&
             npf    ,tf          ,time    ,timestep,uparam   ,numel  ,&

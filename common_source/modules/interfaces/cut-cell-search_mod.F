@@ -78,7 +78,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    resol                        ../engine/source/engine/resol.F
       !||    scoor3_fvm                   ../engine/source/ale/alefvm/scoor3_fvm.F
       !||    sigeps105                    ../engine/source/materials/mat/mat105/sigeps105.F
-      !||    sigeps51                     ../engine/source/materials/mat/mat051/sigeps51.F
+      !||    sigeps51                     ../engine/source/materials/mat/mat051/sigeps51.F90
       !||    sigeps97                     ../engine/source/materials/mat/mat097/sigeps97.F
       !||    sinit22_fvm                  ../engine/source/interfaces/int22/sinit22_fvm.F
       !||    srho3                        ../engine/source/elements/solid/solide/srho3.F
@@ -197,7 +197,7 @@ C
       !||    resol                        ../engine/source/engine/resol.F
       !||    scoor3_fvm                   ../engine/source/ale/alefvm/scoor3_fvm.F
       !||    sigeps105                    ../engine/source/materials/mat/mat105/sigeps105.F
-      !||    sigeps51                     ../engine/source/materials/mat/mat051/sigeps51.F
+      !||    sigeps51                     ../engine/source/materials/mat/mat051/sigeps51.F90
       !||    sigeps97                     ../engine/source/materials/mat/mat097/sigeps97.F
       !||    sinit22_fvm                  ../engine/source/interfaces/int22/sinit22_fvm.F
       !||    spmd_tri22vox                ../engine/source/mpi/interfaces/spmd_tri22vox.F

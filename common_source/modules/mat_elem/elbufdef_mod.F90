@@ -541,7 +541,8 @@
       !||    sigeps122c                          ../engine/source/materials/mat/mat122/sigeps122c.F
       !||    sigeps22g                           ../engine/source/materials/mat/mat022/sigeps22g.F
       !||    sigeps37_single_cell                ../engine/source/interfaces/int22/sigeps37_single_cell.F
-      !||    sigeps51                            ../engine/source/materials/mat/mat051/sigeps51.F
+      !||    sigeps51                            ../engine/source/materials/mat/mat051/sigeps51.F90
+      !||    sigeps51_boundary_material          ../engine/source/materials/mat/mat051/sigeps51_boundary_material.F90
       !||    sigeps97                            ../engine/source/materials/mat/mat097/sigeps97.F
       !||    sigin3b                             ../starter/source/elements/solid/solid8p/sigin3b.F
       !||    sigrota                             ../engine/source/output/anim/generate/sigrota.F
