@@ -893,7 +893,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real  DD,SOL1,SOL2,AA,BB,CC,EE
+      DOUBLE PRECISION DD,SOL1,SOL2,AA,BB,CC,EE
 C-----------------------------------------------
 C
 C      Computation of Dl0 for locked retractor
