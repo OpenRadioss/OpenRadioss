@@ -836,6 +836,8 @@ c                             H3D_DATA%OUTPUT_LIST(I)%INTER = K
                               ENDIF
                             ENDIF
                           ENDDO
+                        ELSE
+                          H3D_DATA%N_SCAL_CSE_FRIC  = 1
                         ENDIF
                       ENDIF
                     ELSE
@@ -2563,6 +2565,29 @@ c      ENDDO
                  ENDIF
                  EFRICFI(I)%P(1:LENR)=ZERO
                ENDIF
+            ENDIF
+          ENDDO
+        ENDIF
+
+        IF (H3D_DATA%N_SCAL_CSE_FRIC > 0)THEN
+          ! Allocate INTERFACE Remote EFRICGFI Array
+          DO I=1,NINTER
+            ITYP = IPARI(7,I)
+            IF(ITYP==7.OR.ITYP==10.OR.ITYP==11.OR.
+     +        (ITYP==17.AND.IPARI(33,I)==0).OR.ITYP==20.OR.
+     +         ITYP==22.OR.ITYP==23.OR.ITYP==24.OR.
+     +         ITYP==25)THEN
+                 LENR=0
+                 DO P = 1, NSPMD
+                     LENR = LENR + NSNFI(I)%P(P)
+                 ENDDO
+                 IERROR = 0
+                 ALLOCATE(EFRICGFI(I)%P(LENR),STAT=IERROR)
+                 IF(IERROR/=0) THEN
+                    CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
+                    CALL ARRET(2)
+                 ENDIF
+                 EFRICGFI(I)%P(1:LENR)=ZERO
             ENDIF
           ENDDO
         ENDIF

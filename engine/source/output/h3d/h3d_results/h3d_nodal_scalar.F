@@ -457,11 +457,31 @@ C--------------------------------------------------
                 IS_WRITTEN_VALUE(I) = 1
              ENDDO
           ENDIF 
+        ELSE
+          IF(NINTSTAMP==0) THEN
+            DO I=1,NUMNOD
+              VALUE(I)=CSEFRICG(I)  
+              IS_WRITTEN_VALUE(I) = 1
+            ENDDO
+          ELSE
+            IF(NSPMD > 1 ) THEN
+              DO I=1,NUMNOD
+                 VALUE(I)=CSEFRICG(I)  
+                 IS_WRITTEN_VALUE(I) = 1
+              ENDDO
+            ELSE
+              DO I=1,NUMNOD
+                 K=NODGLOB(I)
+                 VALUE(I)=CSEFRICG(I) + CSEFRICG_STAMP(K)     
+                 IS_WRITTEN_VALUE(I) = 1
+              ENDDO
+            ENDIF
+          ENDIF
         ENDIF
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'CSE_FRICG')THEN
 C--------------------------------------------------
-        IF(NINTSTAMP==0) THEN
+       IF(NINTSTAMP==0) THEN
            DO I=1,NUMNOD
               VALUE(I)=CSEFRICG(I)  
               IS_WRITTEN_VALUE(I) = 1
