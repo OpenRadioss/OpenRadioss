@@ -5067,18 +5067,6 @@ C
             ENDIF
           ENDIF
 C
-          IF(H3D_DATA%N_SCAL_CSE_FRIC >0)THEN
-              IERROR = 0
-              ALLOCATE(EFRICGFI(I)%P(LENR),STAT=IERROR)
-              IF(IERROR/=0) THEN
-                CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
-                CALL ARRET(2)
-c              ELSEIF(S_EFRIC >0) THEN
-c                CALL READ_DB(EFRICGFI(I)%P(1),LENR)  
-              ELSE
-                  EFRICGFI(I)%P(1:LENR) =ZERO                   
-              END IF                   
-          END IF
         END DO
        END IF
       END IF
