@@ -22,6 +22,8 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
       !||    connectivity_size_mod   ../common_source/modules/connectivity_size_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    i2_surfi                ../starter/source/interfaces/inter3d1/i2_surfi.F90
       !||====================================================================
       module connectivity_size_mod
         integer, parameter :: nixs = 11 !< size of IXS array

@@ -54,7 +54,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sigeps56                   ../engine/source/materials/mat/mat056/sigeps56.F
       !||    sigeps56c                  ../engine/source/materials/mat/mat056/sigeps56c.F
       !||    sigeps56g                  ../engine/source/materials/mat/mat056/sigeps56g.F
-      !||    sigeps57c                  ../engine/source/materials/mat/mat057/sigeps57c.F
       !||    sigeps60                   ../engine/source/materials/mat/mat060/sigeps60.F
       !||    sigeps60c                  ../engine/source/materials/mat/mat060/sigeps60c.F
       !||    sigeps60g                  ../engine/source/materials/mat/mat060/sigeps60g.F

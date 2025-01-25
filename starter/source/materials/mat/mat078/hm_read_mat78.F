@@ -26,12 +26,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_mat              ../starter/source/materials/mat/hm_read_mat.F90
       !||--- calls      -----------------------------------------------------
       !||    ancmsg                   ../starter/source/output/message/message.F
-      !||    calculp2                 ../starter/source/materials/mat/mat057/hm_read_mat57.F
+      !||    calculp2                 ../starter/source/materials/mat/mat057/calculp2.F90
       !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
       !||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
       !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
       !||    init_mat_keyword         ../starter/source/materials/mat/init_mat_keyword.F
       !||--- uses       -----------------------------------------------------
+      !||    calculp2_mod             ../starter/source/materials/mat/mat057/calculp2.F90
       !||    elbuftag_mod             ../starter/share/modules1/elbuftag_mod.F
       !||    message_mod              ../starter/share/message_module/message_mod.F
       !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
