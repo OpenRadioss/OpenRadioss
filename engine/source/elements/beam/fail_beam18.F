@@ -44,13 +44,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                       OFF      ,EPSD     ,NPF      ,TF       ,
      .                       DPLA     ,EINT     ,TIME     ,IOUT     ,ISTDO   ,
      .                       AL       ,ISMSTR   ,EXX      ,EXY      ,EXZ     ,
-     .                       KXX      ,KYY      ,KZZ      ,DTIME)
+     .                       KXX      ,KYY      ,KZZ      ,DTIME    ,
+     .                       NTABLE   ,TABLE    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MAT_ELEM_MOD
       USE ELBUFDEF_MOD
       USE FAIL_VISUAL_IB_MOD
+      USE FAIL_GENE1_IB_MOD
+
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -73,6 +76,8 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NPROPG     ! size of real property parameter table   
       INTEGER ,INTENT(IN) :: SNPC   
       INTEGER ,INTENT(IN) :: STF   
+      INTEGER ,INTENT(IN) :: NTABLE
+      TYPE(TTABLE), DIMENSION(NTABLE), INTENT(INOUT)    :: TABLE      ! TABLE DATA     
       INTEGER ,INTENT(IN) :: IOUT       ! output file unit
       INTEGER ,INTENT(IN) :: ISTDO      ! output file unit
       INTEGER ,INTENT(IN) :: ISMSTR 
@@ -264,7 +269,24 @@ C--------------
      .                       NVARF    ,
      .                       UVARF    ,ISMSTR   ,DTIME    , IPT)
 c-------------
-        END SELECT
+        CASE (39)     ! GENE1 failure model                                        
+          CALL FAIL_GENE1_IB(                         
+     .                       NEL  ,FAIL%NUPARAM ,FBUF%FLOC(IFL)%NVAR   ,FAIL%NFUNC,   
+     .                FAIL%IFUNC  ,NPF          ,TF               ,            
+     .                      TIME  ,DTIME     ,FAIL%UPARAM         ,IPT ,    
+     .                       NGL  ,ELBUF_STR%GBUF%DT,EPSD         ,FBUF%FLOC(IFL)%VAR, 
+     .                       OFF  ,EPSXX            ,
+     .                     EPSXY  ,EPSXZ        ,  
+     .                    SIGNXX  ,SIGNXY       ,   
+     .                    SIGNXZ  ,TEMPEL       ,   
+     .                     FBUF%FLOC(IFL)%DAMMX ,  AL, TABLE,    
+     .                     FAIL%NTABLE  ,    
+     .                     FAIL%TABLE       , FBUF%FLOC(IFL)%LF_DAMMX, FAIL%NIPARAM ,FAIL%IPARAM,    
+     .                    SNPC    ,STF      ,NTABLE,  FOFF)
+          DO I= 1,NEL
+            IF (FOFF(I) == 0) COUNT(I) = COUNT(I) + 1
+          END DO
+      END SELECT
 
 C-------------------------------------
       ENDDO   ! IPT = 1,NPT :  END LOOP OVER INTEGRATION POINTS

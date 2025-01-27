@@ -129,8 +129,8 @@ C!--------------------------------------------------------------
       TMAX       = UPARAM(4)    !> Failure time, Default = 1E+20 (Real)
       DTMIN      = UPARAM(5)    !> Minimum time step
       EPSDOT_SM  = UPARAM(6)    !> Reference strain rate value for fct_IDsm, Default = 1 (Real)
-      SIGVM      = UPARAM(7)   
-      SIGTH      = UPARAM(8)
+      SIGVM      = UPARAM(7)    !> Von Mises stress 
+      SIGTH      = UPARAM(8)    
       KF         = UPARAM(9)    !  -> Tuler-Butcher
       EPSDOT_PS  = UPARAM(10)   !> Reference strain rate value for fct_IDps, Default = 1 (Real)
       MAXEPS     = UPARAM(11)   !> Ordinate scale factor for fct_IDps or maximum principal strain if fct_IDps is not defined, Default = 1 

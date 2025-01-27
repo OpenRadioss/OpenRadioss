@@ -45,13 +45,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  SVM     ,PRESSURE,AREA    ,AL      ,
      .                  F1      ,F2      ,F3      ,M1      ,M2      ,
      .                  M3      ,ISMSTR  ,EPSXX   ,EPSXY   ,EPSXZ   ,
-     .                  KXX     ,KYY     ,KZZ     ,DTIME)
+     .                  KXX     ,KYY     ,KZZ     ,DTIME, 
+     .                 NTABLE   ,TABLE    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MAT_ELEM_MOD
       USE ELBUFDEF_MOD
       USE FAIL_VISUAL_B_MOD
+      USE FAIL_GENE1_B_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -92,7 +94,9 @@ C-----------------------------------------------
       my_real ,DIMENSION(STF)            ,INTENT(IN)    :: TF
       my_real ,DIMENSION(NEL)            ,INTENT(INOUT) :: OFF
 
-      my_real                            ,INTENT(IN)    :: DTIME                                                         
+      my_real                            ,INTENT(IN)    :: DTIME         
+      INTEGER                            ,INTENT(IN)    :: NTABLE
+      TYPE(TTABLE), DIMENSION(NTABLE), INTENT(INOUT)    :: TABLE      ! TABLE DATA                                                
 C                                                         
       TYPE (ELBUF_STRUCT_), INTENT(INOUT) :: ELBUF_STR
       TYPE (FAIL_PARAM_)   ,INTENT(IN)    :: FAIL
@@ -114,19 +118,23 @@ c-----------------------------------------------------
 C--------------------------------------   
       NPARAM  = FAIL%NUPARAM
       NFUNC   = FAIL%NFUNC
+c-----------------------------------------            
+      IRUPT = ELBUF_STR%GBUF%FAIL(1)%ILAWF    
 c-------------------------------------
 c     progressive element erosion      
 c
-      DO I = 1,NEL
-        IF (OFF(I) < EM01)  OFF(I) = ZERO
-        IF (OFF(I) < ONE )  OFF(I) = OFF(I)*FOUR_OVER_5
+      DO I = 1,NEL      
+        IF (IRUPT == 39) THEN ! For Gene1 failure model, the  OFF is used with NSTEP in the subroutine FAIL_GENE1_B for stress reduction
+            OFF(I) = OFF(I) 
+        ELSE
+            IF (OFF(I) < EM01)  OFF(I) = ZERO
+            IF (OFF(I) < ONE )  OFF(I) = OFF(I)*FOUR_OVER_5
+        ENDIF
       ENDDO      
-c-----------------------------------------            
-      IRUPT = ELBUF_STR%GBUF%FAIL(1)%ILAWF                                
+                            
 c-----------------------------------------            
       SELECT CASE (IRUPT)                                            
 c------------------------------------   
-c--------------- 
         CASE (1)     !    Johnson-Cook                                                   
           !  Tstar computation for Jhonson-Cook failure : T* = (T-T0)/(TM-T0)
           IF (JTHE > 0) THEN
@@ -141,7 +149,7 @@ c---------------
           CALL FAIL_JOHNSON_B(NEL      ,NGL      ,NPARAM   ,FAIL%UPARAM,
      .                        TIME     ,TSTAR    ,SVM      ,PRESSURE ,
      .                        DPLA     ,EPSD     ,OFF      ,ELBUF_STR%GBUF%FAIL(1)%DAMMX,
-     .                        ELBUF_STR%GBUF%FAIL(1)%TDEL     ,IOUT    ,ISTDO    )
+     .                        ELBUF_STR%GBUF%FAIL(1)%TDEL  ,IOUT    ,ISTDO    )
 c---------------      
         CASE (10)     !    Tension Strain failure model
           IF (JTHE > 0) THEN
@@ -182,9 +190,7 @@ c---------------
      .                       ELBUF_STR%GBUF%FAIL(1)%NVAR, ELBUF_STR%GBUF%FAIL(1)%VAR,AL)
 c---------------   
         CASE (36)     !    VISUAL                                           
-          G_MODULE = PM(22,IMAT)
-          !G_MODULE = 0.
-          CALL FAIL_VISUAL_B(NEL      ,NGL      ,NPARAM   ,FAIL%UPARAM,
+         CALL FAIL_VISUAL_B(NEL      ,NGL      ,NPARAM   ,FAIL%UPARAM,
      .                       TIME     ,ELBUF_STR%GBUF%FAIL(1)%DAMMX,                        
      .                       IOUT     ,ISTDO    ,
      .                       AREA     ,F1       ,
@@ -192,13 +198,26 @@ c---------------
      .                       ELBUF_STR%GBUF%FAIL(1)%NVAR,
      .                       ELBUF_STR%GBUF%FAIL(1)%VAR,ISMSTR, DTIME)
       
- 
+         CASE (39)     ! Gene1 failure model                                        
+          CALL FAIL_GENE1_B(                         
+     .                       NEL  ,FAIL%NUPARAM  ,ELBUF_STR%GBUF%FAIL(1)%NVAR  ,FAIL%NFUNC,   
+     .                FAIL%IFUNC  ,NPF           ,TF           ,            
+     .                      TIME  ,DTIME         ,FAIL%UPARAM  ,    
+     .                       NGL  ,ELBUF_STR%GBUF%DT    ,EPSD  ,ELBUF_STR%GBUF%FAIL(1)%VAR ,
+     .                       OFF  ,
+     .                      AREA  ,F1       ,
+     .                     EPSXX  ,EPSXY    ,EPSXZ      ,
+     .                     TEMPEL ,   
+     .                     ELBUF_STR%GBUF%FAIL(1)%DAMMX ,AL    ,TABLE,     
+     .                     FAIL%NTABLE,    
+     .                     FAIL%TABLE ,ELBUF_STR%GBUF%FAIL(1)%LF_DAMMX  ,FAIL%NIPARAM  ,FAIL%IPARAM,    
+     .                     SNPC       ,STF  ,NTABLE)
 
 c-------------
       END SELECT
 c-----------
       DO I= 1,NEL
-          IF (OFF(I) == FOUR_OVER_5) THEN
+          IF (OFF(I) == FOUR_OVER_5 .AND. IRUPT /= 39 ) THEN
 #include "lockon.inc"
             WRITE(IOUT, 1000) NGL(I),TIME
             WRITE(ISTDO,1000) NGL(I),TIME
@@ -206,7 +225,7 @@ c-----------
           END IF
       END DO
 c------------------
- 1000 FORMAT(1X,'DELETED BEAM ELEMENT ',I10,1X,'AT TIME :',1PE12.4)
+ 1000 FORMAT(1X,'DELETED BEAM ELEMENT in 1',I10,1X,'AT TIME :',1PE12.4)
 
 
       RETURN
