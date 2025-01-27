@@ -22,9 +22,6 @@
 //Copyright>    commercial version may interest you: https://www.altair.com/radioss/.
 
 // the maximum length of a line of code of python function
-#ifndef __aarch64__
-#define _GLIBCXX_USE_CXX11_ABI 0
-#endif
 #include <iostream>
 #include <string>
 #include <regex>

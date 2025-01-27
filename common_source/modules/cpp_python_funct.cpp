@@ -21,9 +21,6 @@
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the
 //Copyright>    commercial version may interest you: https://www.altair.com/radioss/.
 //
-#ifndef __aarch64__
-#define _GLIBCXX_USE_CXX11_ABI 0
-#endif
 #include <iostream>
 #include <fstream>
 #include <string>
