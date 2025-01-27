@@ -131,8 +131,10 @@
         my_real :: deelzz(nel),deplzz(nel),normsig(nel),xvec(nel,2),yld_i(nel),&
           dyld_dp(nel),dyld_dp_i(nel),hardr(nel),phi(nel),depszz(nel),k1(nel), &
           k2(nel),dyoung_dp(nel),yld0(nel),dyld0_dp(nel),hk(nel)
-        !< Number of plastic return mapping iterations
-        integer, parameter :: niter = 3
+        !< Maximal number of plastic return mapping iterations
+        integer, parameter :: niter = 20
+        !< Tolerance for plastic return mapping
+        my_real, parameter :: tol   = 1.0d-8
 !
         !=====================================================================
         ! - INITIALISATION OF COMPUTATION ON TIME STEP
@@ -249,9 +251,9 @@
           k1(i) = half*(signxx(i) + h*signyy(i))/normsig(i)
           k2(i) = sqrt((half*(signxx(i)-h*signyy(i)))**2 +(p*signxy(i))**2)/   &
                      normsig(i)
-          seq(i) = a*exp(m*log(abs(k1(i)+k2(i)))) +                            &
-                   a*exp(m*log(abs(k1(i)-k2(i)))) +                            &
-                     c*exp(m*log(abs(two*k2(i))))
+          seq(i) = a*(abs(k1(i)+k2(i)))**m +                                   &
+                   a*(abs(k1(i)-k2(i)))**m +                                   &
+                     c*(abs(two*k2(i)))**m
           if (seq(i) > zero) then 
             seq(i) = exp((one/m)*log(half*seq(i)))  
           else
@@ -295,12 +297,15 @@
         !=========================================================================
         if (nindx > 0) then 
 !
-          !< Loop over the iterations
-          do iter = 1, niter
-#include "vectorize.inc" 
-            !< Loop over yielding elements
-            do ii = 1, nindx
-              i = indx(ii)  
+          !< Loop over yielding elements
+          do ii = 1, nindx
+            i = indx(ii)  
+!
+            !< Initialisation of the iteration counter
+            iter = 0
+!
+            !< Loop over the iterations
+            do while (abs(phi(i))>tol .and. (iter<=niter))
 !
               ! Note: in this part, the purpose is to compute for each iteration
               ! a plastic multiplier allowing to update internal variables to
@@ -317,13 +322,13 @@
               !-----------------------------------------------------------------
 !
               !< Derivative of equivalent stress w.r.t k1 and k2
-              dseq_dk1 = (exp((one-m)*log(seq(i)/normsig(i))))*(a/two)*(       &
-                sign(one,k1(i) + k2(i))*exp((m-one)*log(abs(k1(i) + k2(i))))   &
-               +sign(one,k1(i) - k2(i))*exp((m-one)*log(abs(k1(i) - k2(i)))))
-              dseq_dk2 = (exp((one-m)*log(seq(i)/normsig(i))))*((a/two)*(      &
-                sign(one,k1(i) + k2(i))*exp((m-one)*log(abs(k1(i) + k2(i))))   &
-               -sign(one,k1(i) - k2(i))*exp((m-one)*log(abs(k1(i) - k2(i)))))  &
-                          + c*exp((m-one)*log(abs(two*k2(i)))))
+              dseq_dk1 = ((seq(i)/normsig(i))**(one-m))*(a/two)*(              &
+                 sign(one,k1(i) + k2(i))*(abs(k1(i) + k2(i)))**(m-one)         &
+               + sign(one,k1(i) - k2(i))*(abs(k1(i) - k2(i)))**(m-one))
+              dseq_dk2 = ((seq(i)/normsig(i))**(one-m))*((a/two)*(             &
+                 sign(one,k1(i) + k2(i))*(abs(k1(i) + k2(i)))**(m-one)         &
+               - sign(one,k1(i) - k2(i))*(abs(k1(i) - k2(i)))**(m-one))        &
+               + c*(abs(two*k2(i)))**(m-one))
 !
               !< Derivative of k1 w.r.t stress tensor components
               dk1_dsigxx = half
@@ -446,9 +451,9 @@
               k1(i) = half*(signxx(i)+h*signyy(i))/normsig(i)
               k2(i) = sqrt((half*(signxx(i)-h*signyy(i)))**2                   &
                               +(p*signxy(i))**2)/normsig(i)
-              seq(i) = a*exp(m*log(abs(k1(i)+k2(i)))) +                        &
-                       a*exp(m*log(abs(k1(i)-k2(i)))) +                        &
-                         c*exp(m*log(abs(two*k2(i))))
+              seq(i) = a*(abs(k1(i)+k2(i)))**m +                               &
+                       a*(abs(k1(i)-k2(i)))**m +                               &
+                         c*(abs(two*k2(i)))**m
               if (seq(i) > zero) then 
                 seq(i) = exp((one/m)*log(half*seq(i)))  
               else
@@ -457,26 +462,15 @@
               seq(i) = seq(i)*normsig(i)   
 !
               !< Save variables for yield stress in plastic index order    
-              xvec(ii,1) = pla(i)
-              xvec(ii,2) = epsd(i) 
-              ipos(ii,1) = vartmp(i,1)
-              ipos(ii,2) = vartmp(i,2)
-            enddo
-!
-            !< Update of the yield stress
-            call table_mat_vinterp(matparam%table(1),nel,nindx,ipos,xvec,      &
-                                   yld_i,dyld_dp_i)
-!
-#include "vectorize.inc" 
-            !< Loop over yielding elements
-            do ii = 1, nindx
-              i = indx(ii)
-!
+              xvec(1,1) = pla(i)
+              xvec(1,2) = epsd(i) 
+              ipos(1,1) = vartmp(i,1)
+              ipos(1,2) = vartmp(i,2)
+              !< Update of the yield stress
+              call table_mat_vinterp(matparam%table(1),1,1,ipos,xvec,yld,dyld_dp)
               !< Reverse plastic index order
-              vartmp(i,1) = ipos(ii,1)
-              vartmp(i,2) = ipos(ii,2)
-              yld(i)      = yld_i(ii)   
-              dyld_dp(i)  = dyld_dp_i(ii) 
+              vartmp(i,1) = ipos(1,1)
+              vartmp(i,2) = ipos(1,2)
 !
               !< Apply kinematic hardening coefficient
               yld(i) = (one - fisokin)*yld(i) + fisokin*yld0(i)
@@ -486,10 +480,13 @@
               !< Compute the new yield function
               phi(i) = (seq(i)/yld(i))**2 - one
 !
+              !< Update the iteration counter
+              iter = iter + 1    
+!
             enddo        
-            !< End of the loop over yielding elements 
+            !< End of the loop over the iterations 
           enddo
-          !< End of the loop over the iterations 
+          !< End of the loop over yielding elements
 !
 #include "vectorize.inc" 
           !< Update the coefficient for hourglass control & kinematic hardening
@@ -557,13 +554,13 @@
               dmg(i,2) = min(one,dmg(i,2))
               !< Non-local thickness variation
               if (seq(i) > zero) then 
-                dseq_dk1 = (exp((one-m)*log(seq(i)/normsig(i))))*(a/two)*(     &
-                sign(one,k1(i) + k2(i))*exp((m-one)*log(abs(k1(i) + k2(i))))   &
-                +sign(one,k1(i) - k2(i))*exp((m-one)*log(abs(k1(i) - k2(i)))))
-                dseq_dk2 = (exp((one-m)*log(seq(i)/normsig(i))))*((a/two)*(    &
-                sign(one,k1(i) + k2(i))*exp((m-one)*log(abs(k1(i) + k2(i))))   &
-                -sign(one,k1(i) - k2(i))*exp((m-one)*log(abs(k1(i) - k2(i))))) &
-                          + c*exp((m-one)*log(abs(two*k2(i)))))
+                dseq_dk1 = ((seq(i)/normsig(i))**(one-m))*(a/two)*(            &
+                   sign(one,k1(i) + k2(i))*(abs(k1(i) + k2(i)))**(m-one)       &
+                 + sign(one,k1(i) - k2(i))*(abs(k1(i) - k2(i)))**(m-one))
+                dseq_dk2 = ((seq(i)/normsig(i))**(one-m))*((a/two)*(           &
+                   sign(one,k1(i) + k2(i))*(abs(k1(i) + k2(i)))**(m-one)       &
+                 - sign(one,k1(i) - k2(i))*(abs(k1(i) - k2(i)))**(m-one))      &
+                 + c*(abs(two*k2(i)))**(m-one))
                 dk1_dsigxx   = half
                 dk1_dsigyy   = h/two
                 dk2_dsigxx   = (signxx(i)-h*signyy(i))/                        &
