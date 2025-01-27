@@ -91,7 +91,7 @@
 !   L o c a l   V a r i a b l e s
 !-------------------------------------------------------------------------------
       integer :: i,j,nrate,opte,ifunce(1),ilaw,vp,ierr2,ifunc(11)
-      my_real :: rho0,rhor,e,nu,g,c1,epsmax,epsr1,epsr2,rate(11),yfac(11),    &
+      my_real :: rho0,rhor,e,nu,c1,epsmax,epsr1,epsr2,rate(11),yfac(11),    &
         yfac_unit(11),r0,r45,r90,r,h,fisokin,m,einf,ce,asrate,      &
         x1scale,x2scale,x2vect(11),fscale(11) 
       logical :: is_available,is_encrypted
@@ -281,7 +281,8 @@
       parmat(4)  = israte
       parmat(5)  = asrate
       parmat(16) = 2
-      parmat(17) = two*g/(matparam%bulk+four_over_3*g)
+      parmat(17) = two*matparam%shear/                                         &
+                   (matparam%bulk+four_over_3*matparam%shear)
 !
       !< Reference and initial density
       if (rhor == zero) rhor = rho0
