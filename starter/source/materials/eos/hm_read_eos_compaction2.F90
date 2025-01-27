@@ -59,7 +59,7 @@
       use unitab_mod , only : unit_type_
       use submodel_mod , only : nsubmod, submodel_data
       use elbuftag_mod , only : eos_tag_
-      use constant_mod , only : zero, two_third, one, two, three, three100
+      use constant_mod , only : zero, two_third, one, two, three, three100, ep20
       use eos_param_mod , only : eos_param_
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
@@ -153,6 +153,8 @@
       if(iform /= 1 .and. iform /= 2)then
         iform=2 !default
       endif
+
+      if(mumax == zero) mumax=ep20
       
       mu = rho0/rhor-one
       e0 = zero

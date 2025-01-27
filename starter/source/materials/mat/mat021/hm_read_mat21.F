@@ -84,8 +84,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
       INTEGER :: I,ILAW,IFUNC
-      my_real :: RHO0,RHOR,E,NU,A0,A1,A2,AMX,C1,FAC_Y,PMIN,PEXT,
-     .           BUNL,XMUMX,E0,G,PSTAR,DELTA,FSCAL_UNIT
+      my_real :: RHO0,RHOR,E,NU,A0,A1,A2,AMX,C1,FAC_Y,PMIN,PEXT,BUNL,XMUMX,E0,G,PSTAR,DELTA,FSCAL_UNIT
       CHARACTER*64 :: chain      
 C=======================================================================
       IS_ENCRYPTED   = .FALSE.
@@ -118,68 +117,32 @@ C=======================================================================
 !
       E0=ZERO
       IF(PMIN==ZERO) PMIN  =-INFINITY
-      IF(BUNL==ZERO.AND.XMUMX/=ZERO) THEN
-        chain='MUMAX IS DEFINED BUT UNLOADING BULK MODULUS HAS NO USER VALUE.  '      
-        BUNL  = C1
-        CALL ANCMSG(MSGID=829,
-     .                MSGTYPE=MSGWARNING,
-     .                ANMODE=ANINFO,
-     .                I1=21,
-     .                I2=MAT_ID,
-     .                C1='WARNING',
-     .                C2=TITR,
-     .                C3=chain)         
-      ENDIF
-      
+
       IF(BUNL==ZERO) BUNL  = C1      
       IF(AMX==ZERO)  AMX   = EP20
-      IF(XMUMX==ZERO.AND.BUNL/=ZERO)THEN
-         XMUMX=EP20 
-        chain='UNLOADING BULK MODULUS IS NOT USED SINCE MUMAX IS ZERO          '      
-        CALL ANCMSG(MSGID=829,
-     .                MSGTYPE=MSGWARNING,
-     .                ANMODE=ANINFO,
-     .                I1=21,
-     .                I2=MAT_ID,
-     .                C1='WARNING',
-     .                C2=TITR,
-     .                C3=chain)             
-      ENDIF
-C      
+      IF(XMUMX == ZERO)XMUMX=EP20
+
       IF(A1 < ZERO .AND. A2 == ZERO)THEN
         chain='INVERTED YIELD SURFACE. CHECK A1 SIGN.                          '
-        CALL ANCMSG(MSGID=829,
-     .                MSGTYPE=MSGWARNING,
-     .                ANMODE=ANINFO,
-     .                I1=21,
-     .                I2=MAT_ID,
-     .                C1='WARNING',
-     .                C2=TITR,
-     .                C3=chain)   
-      ENDIF     
+        CALL ANCMSG(MSGID=829, MSGTYPE=MSGWARNING, ANMODE=ANINFO, I1=21, I2=MAT_ID, C1='WARNING', C2=TITR, C3=chain)
+      ENDIF
+
       IF(A2 < ZERO)THEN
         chain='UNTYPICAL YIELD SURFACE. CHECK A2 SIGN.                         '
-        CALL ANCMSG(MSGID=829,
-     .                MSGTYPE=MSGWARNING,
-     .                ANMODE=ANINFO,
-     .                I1=21,
-     .                I2=MAT_ID,
-     .                C1='WARNING',
-     .                C2=TITR,
-     .                C3=chain)     
-      ENDIF           
+        CALL ANCMSG(MSGID=829, MSGTYPE=MSGWARNING, ANMODE=ANINFO, I1=21, I2=MAT_ID, C1='WARNING', C2=TITR, C3=chain)
+      ENDIF
+
       IF(C1<=ZERO) THEN
         chain='TENSILE BULK MODULUS IS LOWER OR EQUAL TO 0.                    '      
-        CALL ANCMSG(MSGID=829,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO,
-     .                I1=21,
-     .                I2=MAT_ID,
-     .                C1='ERROR',
-     .                C2=TITR,
-     .                C3=chain)
-      END IF           
-C
+        CALL ANCMSG(MSGID=829, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=21, I2=MAT_ID, C1='ERROR', C2=TITR, C3=chain)
+      END IF
+
+      IF(BUNL==ZERO) THEN
+        chain='UNLOADING BULK MODULUS HAS NO USER VALUE. IT IS SET TO C1'
+        BUNL  = C1
+        CALL ANCMSG(MSGID=829, MSGTYPE=MSGWARNING, ANMODE=ANINFO, I1=21, I2=MAT_ID, C1='WARNING', C2=TITR, C3=chain)
+      ENDIF
+
       IF(A2==ZERO.AND.A1/=ZERO)THEN   !(A2=A1=ZERO => error message)
         PSTAR=-A0/A1 
       ELSEIF(A2/=ZERO)THEN
@@ -188,19 +151,11 @@ C
         IF(DELTA >= ZERO)THEN
           DELTA=SQRT(DELTA)
           PSTAR = (-A1+DELTA)/TWO/A2
-        
         ELSE
         !  PSTAR = -A1/TWO/A2 !no let user do what he wants 
           PSTAR = -INFINITY
           chain='YIELD SURFACE HAS NO ROOT.                                     '      
-          CALL ANCMSG(MSGID=829,
-     .                  MSGTYPE=MSGWARNING,
-     .                  ANMODE=ANINFO,
-     .                  I1=21,
-     .                  I2=MAT_ID,
-     .                  C1='WARNING',
-     .                  C2=TITR,
-     .                  C3=chain)               
+          CALL ANCMSG(MSGID=829, MSGTYPE=MSGWARNING, ANMODE=ANINFO, I1=21, I2=MAT_ID, C1='WARNING', C2=TITR, C3=chain)
         ENDIF
       ELSE
         !do nothing let user do what he wants
