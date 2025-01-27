@@ -71,7 +71,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      G           SBUFMAT  ,SNPC     ,STF      ,NUMMAT   ,
      H           NUMGEO   ,IOUT     ,ISTDO    ,IDEL7NOK ,
      I           IDYNA    ,IMCONV   ,IMPL_S   ,MAT_PARAM,
-     J           PRELD1   ,STF_F    ,DT       ,SENSORS)
+     J           PRELD1   ,STF_F    ,DT       ,SENSORS  ,
+     H           NTABLE   ,TABLE    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -111,6 +112,8 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: IDYNA
       INTEGER ,INTENT(IN) :: IMCONV
       INTEGER ,INTENT(INOUT) :: IDEL7NOK
+      INTEGER,INTENT(IN) :: NTABLE
+      TYPE(TTABLE), DIMENSION(NTABLE), INTENT(INOUT)    :: TABLE      ! TABLE DATA   
       INTEGER NCC(NIXP,*),IADP(2,*),IPARTP(*),IGEO(NPROPGI,*),
      .        IPM(NPROPMI,*),NPF(*),GRTH(*),IGRTH(*)
       INTEGER JFT,JLT,NELTST,ITYPTST,OFFSET,NEL,JTHE,
@@ -247,7 +250,8 @@ C---
      .       BUFMAT   ,NPROPG   ,NPROPMI  ,NPROPM   ,NUMMAT   ,
      .       NUMGEO   ,SBUFMAT  ,SNPC     ,STF      ,IOUT     ,
      .       ISTDO    ,NUVAR    ,UVAR     ,GBUF%EPSD,IMAT   ,
-     .       GBUF%FOR ,GBUF%MOM ,GBUF%EINT,ISMSTR   ,MAT_PARAM(IMAT))
+     .       GBUF%FOR ,GBUF%MOM ,GBUF%EINT,ISMSTR   ,MAT_PARAM(IMAT),
+     .       NTABLE   ,TABLE ) 
 C----
       ELSEIF (IGTYP == 18) THEN  
         ! beams type 18 (integration points in the section)
@@ -262,7 +266,8 @@ C----
      8       IFAIL     ,SBUFMAT     ,SNPC      ,STF      ,NUMMAT  ,       
      9       NUMGEO    ,IOUT        ,ISTDO     ,NPROPMI  ,NPROPM  ,
      A       NPROPG    ,TT          ,DT1       ,IDEL7NOK ,ISIGI   ,
-     B       IMCONV    ,ISMSTR      ,MAT_PARAM(IMAT))                                               
+     B       IMCONV    ,ISMSTR      ,MAT_PARAM(IMAT),
+     C       NTABLE    ,TABLE )                                             
       ENDIF
 c---------------------------
 c     element damping

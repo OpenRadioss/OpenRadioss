@@ -43,7 +43,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      8                  IFAIL   ,SBUFMAT ,SNPC    ,STF     ,NUMMAT   ,
      9                  NUMGEO  ,IOUT    ,ISTDO   ,NPROPMI ,NPROPM   ,
      A                  NPROPG  ,TIME    ,DTIME   ,IDEL7NOK,ISIGI    ,
-     B                  IMCONV  ,ISMSTR  ,MAT_PARAM)
+     B                  IMCONV  ,ISMSTR  ,MAT_PARAM ,
+     C                  NTABLE ,TABLE    )
+
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -72,6 +74,8 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: ISIGI
       INTEGER ,INTENT(IN) :: IMCONV
       INTEGER ,INTENT(IN) :: ISMSTR
+      INTEGER,INTENT(IN) :: NTABLE
+      TYPE(TTABLE), DIMENSION(NTABLE), INTENT(INOUT)    :: TABLE      ! TABLE DATA    
       INTEGER ,DIMENSION(NEL)  ,INTENT(IN) :: PID
       INTEGER ,DIMENSION(NEL)  ,INTENT(IN) :: NGL
       INTEGER ,DIMENSION(SNPC) ,INTENT(IN) :: NPF
@@ -208,7 +212,8 @@ c
      .              OFF      ,EPSD    ,NPF     ,TF      ,
      .              DPLA     ,EINT    ,TIME    ,IOUT    ,ISTDO   ,
      .              AL       ,ISMSTR  ,EXX     ,EXY     ,EXZ     ,
-     .              KXX      ,KYY     ,KZZ     ,DTIME)
+     .              KXX      ,KYY     ,KZZ     ,DTIME   ,
+     .              NTABLE   ,TABLE   )
        END IF
 C------------------------------------
 c     resultant force and moment

@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .    EXX     ,EXY     ,EXZ     ,KXX     ,KYY     ,KZZ     ,
      .    FA1     ,FA2     ,FA3     ,MA1     ,MA2     ,MA3     ,
      .    FOR     ,MOM     ,PM      ,NUVAR   ,UVAR    ,NFUNC   , 
-     .    IFUNC   ,TF      ,NPF     )
+     .    IFUNC   ,TF      ,NPF     ,IRUPT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -52,7 +52,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN)  :: NEL,NUPARAM,NUVAR,NFUNC,IFUNC(NFUNC),
-     .                        NPF(*)
+     .                        NPF(*),IRUPT
       INTEGER ,DIMENSION(NEL) ,INTENT(IN) :: MAT,PID,NGL
       my_real ,DIMENSION(NPROPM ,NUMMAT) ,INTENT(IN) :: PM
       my_real ,DIMENSION(NPROPG ,NUMGEO) ,INTENT(IN) :: GEO
@@ -263,8 +263,12 @@ c--------------------------------
 c     DUCTILE RUPTURE
 c--------------------------------
       DO I=1,NEL
-        IF (OFF(I) < EM01) OFF(I) = ZERO
-        IF (OFF(I) < ONE)   OFF(I) = OFF(I)*FOUR_OVER_5
+        IF (IRUPT == 39) THEN ! For Gene1 failure model, the OFF is used with NSTEP in the subroutine FAIL_GENE1_B for stress reduction
+          OFF(I) = OFF(I) 
+        ELSE
+          IF (OFF(I) < EM01)  OFF(I) = ZERO
+          IF (OFF(I) < ONE )  OFF(I) = OFF(I)*FOUR_OVER_5
+        ENDIF
       ENDDO
 c--------------------------------
 c     AXIAL TENSION OR PLASTIC STRAIN FAILURE 

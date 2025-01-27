@@ -1286,7 +1286,8 @@ c
      G         SBUFMAT      ,SNPC                ,STF           ,NUMMAT     ,
      H         NUMGEO       ,IOUT                ,ISTDO         ,IDEL7NOK   ,
      I         IDYNA        ,IMCONV              ,IMPL_S        ,MAT_ELEM%MAT_PARAM,
-     J         PRELOAD1     ,STF_F               ,DT            ,SENSORS)
+     J         PRELOAD1     ,STF_F               ,DT            ,SENSORS    ,
+     K         NTABLE       ,TABLE               )
 C 
              IF (NSECT > 0) THEN
               K0=NSTRF(25)

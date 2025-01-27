@@ -71,7 +71,7 @@
       integer                     ,intent(in)    :: istdo   ! output file unit
       integer                     ,intent(in)    :: ipt     ! current integration point     
       integer ,dimension(nel)     ,intent(in)    :: ngl     ! table of element identifiers
-      integer                     ,intent(in)    :: nvar    ! number of failure element variables
+      integer                     ,intent(in)    :: nvar    ! number of user variables
       my_real                     ,intent(in)    :: time    ! current time
       my_real ,dimension(nuparam) ,intent(in)    :: uparam  ! failure model parameter array
       my_real ,dimension(nel)     ,intent(inout) :: dfmax   ! maximum damage

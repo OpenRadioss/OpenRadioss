@@ -43,7 +43,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .       BUFMAT   ,NPROPG   ,NPROPMI  ,NPROPM   ,NUMMAT   ,
      .       NUMGEO   ,SBUFMAT  ,SNPC     ,STF      ,IOUT     ,
      .       ISTDO    ,NUVAR    ,UVAR     ,EPSD     ,IMAT     ,
-     .       FOR      ,MOM      ,EINT     ,ISMSTR   ,MAT_PARAM)
+     .       FOR      ,MOM      ,EINT     ,ISMSTR   ,MAT_PARAM,
+     .      NTABLE    ,TABLE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -73,6 +74,8 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: ISTDO
       INTEGER ,INTENT(IN) :: NUVAR
       INTEGER ,INTENT(IN) :: ISMSTR
+      INTEGER ,INTENT(IN) :: NTABLE
+      TYPE(TTABLE), DIMENSION(NTABLE), INTENT(INOUT)    :: TABLE      ! TABLE DATA   
       INTEGER ,DIMENSION(SNPC) ,INTENT(IN) :: NPF
       INTEGER ,DIMENSION(NPROPMI,NUMMAT) ,INTENT(IN) :: IPM
       INTEGER ,DIMENSION(NEL) ,INTENT(IN) :: MAT
@@ -100,7 +103,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,IPID,IPLA,ISRATE,NUPARAM,NFUNC,IADBUF,IFUNC(100)
+      INTEGER :: I,IPID,IPLA,ISRATE,NUPARAM,NFUNC,IADBUF,IFUNC(100),IRUPT
       my_real :: AREA,IYY,IZZ,IXX,ASRATE,EPSDI,FACT
       my_real ,DIMENSION(NEL) :: DPLA,SVM,PRESSURE,DEGMB,DEGFX,DEGSH
 c=======================================================================
@@ -138,8 +141,11 @@ c-------------------
       ENDDO
 c
       IPLA = ELBUF_STR%GBUF%G_PLA
+      IRUPT = 0 !number of failure criterion, if not defined, set to 0
+      
       ! Cumulated plastic strain increment
       IF (IFAIL > 0 .and. IPLA > 0) THEN
+        IRUPT = ELBUF_STR%GBUF%FAIL(1)%ILAWF 
         DO I = 1,NEL
           DPLA(I) = ELBUF_STR%GBUF%PLA(I)
         ENDDO
@@ -176,7 +182,7 @@ c
      .         KXX    ,KYY        ,KZZ      ,AL        ,F1       ,
      .         F2     ,F3         ,M1       ,M2        ,M3       ,
      .         NEL    ,MAT        ,PID      ,NGL       ,IPM      ,
-     .         NUMMAT ,NUVAR      ,UVAR     )
+     .         NUMMAT ,NUVAR      ,UVAR     ,IRUPT )
 c
         CASE (44)  ! Cowper-Symonds
           IADBUF  = IPM(7 ,IMAT)
@@ -191,7 +197,7 @@ c
      .         EXX      ,EXY      ,EXZ      ,KXX      ,KYY      ,KZZ     ,
      .         F1       ,F2       ,F3       ,M1       ,M2       ,M3      ,
      .         FOR      ,MOM      ,PM       ,NUVAR    ,UVAR     ,NFUNC   ,
-     .         IFUNC    ,TF       ,NPF      )
+     .         IFUNC    ,TF       ,NPF      ,IRUPT )
 c
       END SELECT
 c
@@ -226,7 +232,8 @@ c
      .              SVM     ,PRESSURE,AREA    ,AL      ,
      .              F1      ,F2      ,F3      ,M1      ,M2      ,
      .              M3      ,ISMSTR  ,EXX     ,EXY     ,EXZ     ,
-     .              KXX     ,KYY     ,KZZ , DTIME    )
+     .              KXX     ,KYY     ,KZZ     ,DTIME  ,
+     .              NTABLE  ,TABLE)
 c
         ! Compute damaged forces
         IF (ELBUF_STR%GBUF%G_DMGSCL > 0) THEN 

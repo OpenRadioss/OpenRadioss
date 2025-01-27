@@ -155,7 +155,7 @@
    
 
                 i1 = eps11         !i1 = eps11+eps22+eps33
-                i2 = eps12*eps12-eps13*eps13 !i2 = eps11*eps22+eps22*eps33+eps33*eps11-eps12*eps12-eps13*eps13-eps23*eps23
+                i2 = -eps12*eps12-eps13*eps13 !i2 = eps11*eps22+eps22*eps33+eps33*eps11-eps12*eps12-eps13*eps13-eps23*eps23
 
                 !i3 = eps11*eps22*eps33-eps11*eps23*eps23-eps22*eps13*eps13-eps33*eps12*eps12+two*eps12*eps13*eps23 = 0
 
