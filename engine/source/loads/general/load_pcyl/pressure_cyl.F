@@ -134,7 +134,7 @@ c
 c
           IF (N4 == 0) THEN    ! 3 node segment
             CALL PRESS_SEG3(A       ,B      ,C      ,P0      ,DIR    , 
-     .                      IFUN    ,TABLE  ,XFACR  ,SEGP   )
+     .                      IFUN    ,TABLE  ,XFACR  ,XFACT   ,SEGP   )
             NX = (C(2)-A(2))*(C(3)-B(3)) - (C(3)-A(3))*(C(2)-B(2))
             NY = (C(3)-A(3))*(C(1)-B(1)) - (C(1)-A(1))*(C(3)-B(3))
             NZ = (C(1)-A(1))*(C(2)-B(2)) - (C(2)-A(2))*(C(1)-B(1))
@@ -157,19 +157,19 @@ c
             M(3) = (X(3,N1) + X(3,N2) + X(3,N3) + X(3,N4)) * FOURTH
 c           1st internal triangle 
             CALL PRESS_SEG3(A       ,B      ,M      ,P0      ,DIR    , 
-     .                      IFUN    ,TABLE  ,XFACR  ,SEGP   )
+     .                      IFUN    ,TABLE  ,XFACR  ,XFACT   ,SEGP   )
             PRESS = PRESS + SEGP * FOURTH
 c           2nd internal triangle 
             CALL PRESS_SEG3(B       ,C      ,M      ,P0      ,DIR    , 
-     .                      IFUN    ,TABLE  ,XFACR  ,SEGP   )
+     .                      IFUN    ,TABLE  ,XFACR  ,XFACT   ,SEGP   )
             PRESS = PRESS + SEGP * FOURTH
 c           3rd internal triangle 
             CALL PRESS_SEG3(C       ,D      ,M      ,P0      ,DIR    , 
-     .                      IFUN    ,TABLE  ,XFACR  ,SEGP   )
+     .                      IFUN    ,TABLE  ,XFACR  ,XFACT   ,SEGP   )
             PRESS = PRESS + SEGP * FOURTH
 c           4th internal triangle 
             CALL PRESS_SEG3(D       ,A      ,M      ,P0      ,DIR    , 
-     .                      IFUN    ,TABLE  ,XFACR  ,SEGP   )
+     .                      IFUN    ,TABLE  ,XFACR  ,XFACT   ,SEGP   )
             PRESS = PRESS + SEGP * FOURTH
 c           normal to segment = vector prod of 2 diagonals  
             NX = (C(2)-A(2))*(D(3)-B(3)) - (C(3)-A(3))*(D(2)-B(2))

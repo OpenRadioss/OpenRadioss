@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    table_mod             ../engine/share/modules/table_mod.F
       !||====================================================================
       SUBROUTINE PRESS_SEG3(A     ,B     ,C     ,N1    ,DIR    ,
-     .                      IFUNC ,TABLE ,XFACR ,PRESS  )
+     .                      IFUNC ,TABLE ,XFACR ,XFACT ,PRESS  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -52,7 +52,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: IFUNC
-      my_real ,INTENT(IN) :: XFACR
+      my_real ,INTENT(IN) :: XFACR   !< radius scale factor
+      my_real ,INTENT(IN) :: XFACT   !< time   scale factor
       my_real ,DIMENSION(3) ,INTENT(IN)  :: A,B,C,N1,DIR
       TYPE (TTABLE), DIMENSION(NTABLE) ,INTENT(IN)       :: TABLE
       my_real ,INTENT(OUT) :: PRESS
@@ -64,6 +65,9 @@ C-----------------------------------------------
      .   R1,R2,R3,RMAX,P1,P2,P3,DYDX,NX,NY,NZ,NORM,COSP,SINP
       my_real, DIMENSION(3) :: AB,AC,AN,P,AP,BP,CP
       my_real, DIMENSION(2) :: XX
+
+
+      INTEGER :: i
 c-----------------------------------------------
 c     1) find intersection point P between plane surface A-B-C and line N1-N2
 c     2) calculate radial coordinates of each segment node in cylindrical
@@ -153,14 +157,17 @@ c
       R3 = SQRT(CP(1)**2 + CP(2)**2 + CP(3)**2)
       COSP = (DIR(1) * AP(1) + DIR(2) * AP(2) + DIR(3) * AP(3)) / MAX(R1,EM20)
       SINP = MAX(SQRT(ONE - COSP**2), EM20)
+      P1   = ZERO
+      P2   = ZERO
+      P3   = ZERO
+      XX(2) = TT / XFACT     ! Time
 c
-      XX(2) = TT    ! Time
 c     pressure in 1st point of 3N sub-segment
       COSP = (DIR(1) * AP(1) + DIR(2) * AP(2) + DIR(3) * AP(3)) / MAX(R1,EM20)
       SINP = MAX(SQRT(ONE - COSP**2), EM20)
       R1   = R1 * SINP
       IF (R1 <=  RMAX) THEN
-        XX(1) = R1
+        XX(1) = R1/XFACR
         CALL TABLE_INTERP_DYDX(TABLE(IFUNC),XX,2,P1,DYDX)
       END IF
 c     pressure in 2nd point of 3N sub-segment
@@ -168,7 +175,7 @@ c     pressure in 2nd point of 3N sub-segment
       SINP = MAX(SQRT(ONE - COSP**2), EM20)
       R2   = R2 * SINP
       IF (R2 <= RMAX) THEN
-        XX(1) = R2
+        XX(1) = R2/XFACR
         CALL TABLE_INTERP_DYDX(TABLE(IFUNC),XX,2,P2,DYDX)
       END IF
 c     pressure in 3rd point of 3N sub-segment
@@ -176,7 +183,7 @@ c     pressure in 3rd point of 3N sub-segment
       SINP = MAX(SQRT(ONE - COSP**2), EM20)
       R3   = R3 * SINP
       IF (R3 <= RMAX) THEN
-        XX(1) = R3
+        XX(1) = R3/XFACR
         CALL TABLE_INTERP_DYDX(TABLE(IFUNC),XX,2,P3,DYDX)
       END IF
       PRESS = (P1 + P2 + P3) * THIRD
