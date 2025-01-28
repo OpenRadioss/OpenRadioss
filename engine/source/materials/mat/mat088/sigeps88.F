@@ -129,12 +129,6 @@ C
          YFAC(J) = UPARAM(9 + 2*J )
        ENDDO
        YFAC_UNL = UPARAM(9 + 2*NLOAD + 2 )
-C        ! Not used 
-       ITYPE =  INT(UPARAM(12 + 2*NLOAD)) 
-       XINT  =  UPARAM(13 + 2*NLOAD)   
-       YINT0 =  UPARAM(14 + 2*NLOAD) 
-       XINC  =  UPARAM(15 + 2*NLOAD)   
-       YINC0 =  UPARAM(16 + 2*NLOAD)  
 C iniialisation des variabesl users 
       IF(TIME == ZERO)THEN
        DO J = 1,NUVAR
@@ -339,7 +333,6 @@ C
           F(1) = F(1)/EV(1,I)
           F(2) = F(2)/EV(2,I)
           F(3) = F(3)/EV(3,I)
-          
 C
           IF(UVAR(I,19) == -ONE) THEN
             IF(DEINT/UVAR(I,16) >= 1E-7) THEN
@@ -347,34 +340,15 @@ C
               INDX_L(NE_LOAD) = I
               UVAR(I,19) = ONE 
               UVAR(I,20) = ONE ! re-loading
-C loading ....
-! the curve must be monotonic
-               LAM_TENS = MAX(ONE,EV(1,I),EV(2,I),EV(3,I))
-               E_TENS = MAX(ZERO,EE(1,I),EE(2,I),EE(3,I))
-               T_TENS= MAX(ZERO,F(1),F(2),F(3))
-               LAM_COMP = MIN(ONE,EV(1,I),EV(2,I),EV(3,I))
-               E_COMP   = MIN(ZERO,EE(1,I),EE(2,I),EE(3,I))
-               T_COMP   = MIN(ZERO,F(1),F(2),F(3))
-               IF(ICASE == 2 .AND. IUNL_FOR == 1) THEN
-                 IF(NLOAD == 1 ) THEN
-                     FTS =LAM_TENS*YFAC(1)*FINTER(IFUNC(1),E_TENS,NPF,TF,DF1)
-                     FTS_UNL =LAM_TENS*YFAC_UNL*FINTER(IFUNC(NLOAD +1 ),E_TENS,NPF,TF,DF1)
-C compression
-                     FCS =-LAM_COMP*YFAC(1)*FINTER(IFUNC(1),E_COMP,NPF,TF,DF1)
-                     FCS_UNL =-LAM_COMP*YFAC_UNL*FINTER(IFUNC(NLOAD +1 ),E_COMP,NPF,TF,DF1)
-                     UVAR(I,22) = FTS_UNL/FTS ! tension
-                     UVAR(I,25) = FCS_UNL/FCS! compression
-                     UVAR(I,22) = MAX(UVAR(I,18),UVAR(I,22))
-                     UVAR(I,30) = E_TENS
-                 ENDIF  
-               ELSE
-                       UVAR(I,22) = ONE
-                       UVAR(I,25) = ONE       
-                       UVAR(I,26) = ZERO
-                       UVAR(I,27) = ONE
-                       UVAR(I,28) = ZERO
-                       UVAR(I,29) = ONE
-                ENDIF ! icase    
+C ....
+              IF(IUNL_FOR > 1) THEN
+                  UVAR(I,22) = ONE
+                  UVAR(I,25) = ONE       
+                  UVAR(I,26) = ZERO
+                  UVAR(I,27) = ONE
+                  UVAR(I,28) = ZERO
+                  UVAR(I,29) = ONE
+              ENDIF !    
             ELSE
                NE_UNLOAD = NE_UNLOAD + 1
                INDX_UNL(NE_UNLOAD) = I
@@ -385,266 +359,236 @@ C compression
                NE_LOAD = NE_LOAD + 1 
                INDX_L(NE_LOAD) = I
                UVAR(I,19) = ONE 
-               IF(ICASE == 2 .AND. IUNL_FOR == 1) THEN 
-                 IF(NLOAD == 1) THEN
-                   LAM_TENS = MAX(ONE,EV(1,I),EV(2,I),EV(3,I))
-                   E_TENS = MAX(ZERO,EE(1,I),EE(2,I),EE(3,I))
-                   LAM_COMP = MIN(ONE,EV(1,I),EV(2,I),EV(3,I))
-                   E_COMP   = MIN(ZERO,EE(1,I),EE(2,I),EE(3,I))
-                   UVAR(I,22) = ONE                                                                           
-                   IF(UVAR(I,30) /= UVAR(I,31))THEN                                                           
-                     UVAR(I,22) = UVAR(I,18) + (ONE-UVAR(I,18))*(E_TENS - UVAR(I,30))/(UVAR(I,31) - UVAR(I,30)) 
-                     UVAR(I,22) = MIN(UVAR(I,22),ONE)                                
-                   ENDIF       
-                 ELSE 
-                  ! to add
-                 ENDIF  
-               ENDIF ! icase 
             ELSE
                NE_UNLOAD = NE_UNLOAD + 1
                INDX_UNL(NE_UNLOAD) = I
                UVAR(I,19) = - ONE 
-! the curve must be monotonic               
-               LAM_TENS = MAX(ONE,EV(1,I),EV(2,I),EV(3,I))
-               E_TENS = MAX(ZERO,EE(1,I),EE(2,I),EE(3,I))
-               T_TENS= MAX(ZERO,F(1),F(2),F(3))
-               LAM_COMP = MIN(ONE,EV(1,I),EV(2,I),EV(3,I))
-               E_COMP   = MIN(ZERO,EE(1,I),EE(2,I),EE(3,I))
-               T_COMP   = MIN(ZERO,F(1),F(2),F(3))
-               IF(ICASE == 2) THEN
-                 IF(IUNL_FOR == 1) THEN
-                    UVAR(I,22) = ONE
-                    UVAR(I,25) = ONE
-                    IF(NLOAD == 1 ) THEN
+! the curve must be monotonic     
+               IF(NLOAD > 1 ) THEN           
+                    LAM_TENS = MAX(ONE,EV(1,I),EV(2,I),EV(3,I))
+                    E_TENS = MAX(ZERO,EE(1,I),EE(2,I),EE(3,I))
+                    T_TENS= MAX(ZERO,F(1),F(2),F(3))
+                    LAM_COMP = MIN(ONE,EV(1,I),EV(2,I),EV(3,I))
+                    E_COMP   = MIN(ZERO,EE(1,I),EE(2,I),EE(3,I))
+                    T_COMP   = MIN(ZERO,F(1),F(2),F(3))
+                    IF(IUNL_FOR == 1) THEN
+                      UVAR(I,22) = ONE
+                      UVAR(I,25) = ONE
+                      IF(UVAR(I,20) == ZERO ) THEN
+                          KK = NLOAD + 1
+                          J1 = 1
+                          DO K=2,NLOAD - 1       
+                             IF( EPSDOLD(I) >= RATE(K) )J1 = K 
+                          ENDDO    
+                          J2 = J1 + 1
+                          AA = (EPSDOLD(I) - RATE(J1))/(RATE(J2) - RATE(J1))
+                          DF = ZERO            
 C
-                      FTS =LAM_TENS*YFAC(1)*FINTER(IFUNC(1),E_TENS,NPF,TF,DF1)
-                      FTS_UNL =LAM_TENS*YFAC_UNL*FINTER(IFUNC(NLOAD +1 ),E_TENS,NPF,TF,DF1)
+                          FT1 =LAM_TENS*YFAC(J1)*FINTER(IFUNC(J1),E_TENS,NPF,TF,DF1)
+                          FT2 =LAM_TENS*YFAC(J2)*FINTER(IFUNC(J2),E_TENS,NPF,TF,DF2)
+                          FTS =LAM_TENS*YFAC_UNL*FINTER(IFUNC(KK),E_TENS,NPF,TF,DF)  
 C compression
-                      FCS =-LAM_COMP*YFAC(1)*FINTER(IFUNC(1),E_COMP,NPF,TF,DF1)
-                      FCS_UNL =LAM_COMP*YFAC_UNL*FINTER(IFUNC(NLOAD +1 ),E_COMP,NPF,TF,DF1)
-                      FAC = ONE
-                     FTD = FT1 + AA*(FT2 - FT1)
-                     FCD = FC1 + AA*(FC2 - FC1)
-                     UVAR(I,22) = FTS/FTS_UNL ! tension
-                     UVAR(I,25) = FCS/FCS_UNL ! compression
-                     UVAR(I,31) = E_TENS
-                   ELSE
-                    IF(UVAR(I,20) == ZERO ) THEN
-                      KK = NLOAD + 1
-                      J1 = 1
-                      DO K=2,NLOAD - 1       
-                        IF( EPSDOLD(I) >= RATE(K) )J1 = K 
-                      ENDDO    
-                      J2 = J1 + 1
-                      AA = (EPSDOLD(I) - RATE(J1))/(RATE(J2) - RATE(J1))
-                      DF = ZERO            
+                          FC1 =LAM_COMP*YFAC(J1)*FINTER(IFUNC(J1),E_COMP,NPF,TF,DF1)
+                          FC2 =LAM_COMP*YFAC(J2)*FINTER(IFUNC(J2),E_COMP,NPF,TF,DF2)
+                          FCS =LAM_COMP*YFAC_UNL*FINTER(IFUNC(KK),E_COMP,NPF,TF,DF1)
+                          FTD = FT1 + AA*(FT2 - FT1)
+                          FCD = FC1 + AA*(FC2 - FC1)
+                          UVAR(I,22) = FTD/FTS 
+                          UVAR(I,25) = FCD/FCS 
+                          UVAR(I,22)= UVAR(I,22)/E_TENS
+                          UVAR(I,25)= UVAR(I,25)/ABS(E_COMP)
+                      ELSE ! iunl_for > 1
+                        J1 = 1
+                        DO K=2,NLOAD - 1       
+                          IF( EPSDOLD(I) >= RATE(K) )J1 = K 
+                        ENDDO    
+                        J2 = J1 + 1
+                        AA = (EPSDOLD(I) - RATE(J1))/(RATE(J2) - RATE(J1))
+                        DF = ZERO            
 C
-                      FT1 =LAM_TENS*YFAC(J1)*FINTER(IFUNC(J1),E_TENS,NPF,TF,DF1)
-                      FT2 =LAM_TENS*YFAC(J2)*FINTER(IFUNC(J2),E_TENS,NPF,TF,DF2)
-                      FTS =LAM_TENS*YFAC_UNL*FINTER(IFUNC(KK),E_TENS,NPF,TF,DF)  
+                        FT1 =LAM_TENS*YFAC(J1)*FINTER(IFUNC(J1),E_TENS,NPF,TF,DF1)
+                        FT2 =LAM_TENS*YFAC(J2)*FINTER(IFUNC(J2),E_TENS,NPF,TF,DF2)
+                        FTS =LAM_TENS*YFAC(1)*FINTER(IFUNC(1),E_TENS,NPF,TF,DF)
 C compression
-                      FC1 =LAM_COMP*YFAC(J1)*FINTER(IFUNC(J1),E_COMP,NPF,TF,DF1)
-                      FC2 =LAM_COMP*YFAC(J2)*FINTER(IFUNC(J2),E_COMP,NPF,TF,DF2)
-                      FCS =LAM_COMP*YFAC_UNL*FINTER(IFUNC(KK),E_COMP,NPF,TF,DF1)
-                      FTD = FT1 + AA*(FT2 - FT1)
-                      FCD = FC1 + AA*(FC2 - FC1)
-                      UVAR(I,22) = FTD/FTS 
-                      UVAR(I,25) = FCD/FCS 
-                      UVAR(I,22)= UVAR(I,22)/E_TENS
-                      UVAR(I,25)= UVAR(I,25)/ABS(E_COMP)
-                    ENDIF 
-                   ENDIF  
-                  ELSE
-                      J1 = 1
-                      DO K=2,NLOAD - 1       
-                        IF( EPSDOLD(I) >= RATE(K) )J1 = K 
-                      ENDDO    
-                      J2 = J1 + 1
-                      AA = (EPSDOLD(I) - RATE(J1))/(RATE(J2) - RATE(J1))
-                      DF = ZERO            
-C
-                      FT1 =LAM_TENS*YFAC(J1)*FINTER(IFUNC(J1),E_TENS,NPF,TF,DF1)
-                      FT2 =LAM_TENS*YFAC(J2)*FINTER(IFUNC(J2),E_TENS,NPF,TF,DF2)
-                      FTS =LAM_TENS*YFAC(1)*FINTER(IFUNC(1),E_TENS,NPF,TF,DF)
-C compression
-                      FC1 =LAM_COMP*YFAC(J1)*FINTER(IFUNC(J1),E_COMP,NPF,TF,DF1)
-                      FC2 =LAM_COMP*YFAC(J2)*FINTER(IFUNC(J2),E_COMP,NPF,TF,DF2)
-                      FCS =LAM_COMP*YFAC(1)*FINTER(IFUNC(1),E_COMP,NPF,TF,DF1)                                        
-                      FAC = ONE
-                     DO NN=1,20 
-                        FAC = FAC*(-HALF) 
-                        DD1 = LAM_TENS**FAC - ONE
-                        FT1 =FT1 + (DD1 + ONE)*YFAC(J1)*FINTER(IFUNC(J1),DD1,NPF,TF,DF)
-                        FT2 =FT2 + (DD1 + ONE)*YFAC(J2)*FINTER(IFUNC(J2),DD1,NPF,TF,DF)
-                        FTS =FTS + (DD1 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD1,NPF,TF,DF)
-                        DD1 = LAM_COMP**FAC - ONE
-                        FC1 =FC1 + (DD1 + ONE)*YFAC(J1)*FINTER(IFUNC(J1),DD1,NPF,TF,DF)
-                        FC2 =FC2 + (DD1 + ONE)*YFAC(J2)*FINTER(IFUNC(J2),DD1,NPF,TF,DF)
-                        FCS =FCS + (DD1 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD1,NPF,TF,DF)
-                     ENDDO ! NN
-                     FTD = FT1 + AA*(FT2 - FT1)
-                     FCD = FC1 + AA*(FC2 - FC1)
-                     UVAR(I,22) = (FTD/FTS - ONE)/E_TENS ! tension
-                     UVAR(I,25) = (FCD/FCS - ONE)/E_COMP ! compression
-                   ENDIF  ! i IFOR_UNL
-               ENDIF ! ICASE
-            ENDIF
-          ENDIF  
+                        FC1 =LAM_COMP*YFAC(J1)*FINTER(IFUNC(J1),E_COMP,NPF,TF,DF1)
+                        FC2 =LAM_COMP*YFAC(J2)*FINTER(IFUNC(J2),E_COMP,NPF,TF,DF2)
+                        FCS =LAM_COMP*YFAC(1)*FINTER(IFUNC(1),E_COMP,NPF,TF,DF1)                                        
+                        FAC = ONE
+                        DO NN=1,20 
+                          FAC = FAC*(-HALF) 
+                          DD1 = LAM_TENS**FAC - ONE
+                          FT1 =FT1 + (DD1 + ONE)*YFAC(J1)*FINTER(IFUNC(J1),DD1,NPF,TF,DF)
+                          FT2 =FT2 + (DD1 + ONE)*YFAC(J2)*FINTER(IFUNC(J2),DD1,NPF,TF,DF)
+                          FTS =FTS + (DD1 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD1,NPF,TF,DF)
+                          DD1 = LAM_COMP**FAC - ONE
+                          FC1 =FC1 + (DD1 + ONE)*YFAC(J1)*FINTER(IFUNC(J1),DD1,NPF,TF,DF)
+                          FC2 =FC2 + (DD1 + ONE)*YFAC(J2)*FINTER(IFUNC(J2),DD1,NPF,TF,DF)
+                          FCS =FCS + (DD1 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD1,NPF,TF,DF)
+                        ENDDO ! NN
+                        FTD = FT1 + AA*(FT2 - FT1)
+                        FCD = FC1 + AA*(FC2 - FC1)
+                        UVAR(I,22) = (FTD/FTS - ONE)/E_TENS ! tension
+                        UVAR(I,25) = (FCD/FCS - ONE)/E_COMP ! compression
+                      ENDIF ! UVAR 20  
+                    ENDIF  ! i IFOR_UNL
+                  ENDIF ! strain rate effet  !NLOAD > 1
+                ENDIF ! DEINT
+              ENDIF ! UVAR 19    
          UVAR(I,32)=  EPSEQ(I)
       ENDDO
 C  
-      IF(NE_LOAD > 0) THEN 
-        IF(NLOAD == 1) THEN
-         IF(ICASE == 3) THEN
-          KK = NLOAD + 1
-          DO JJ=1,NE_LOAD
-            I = INDX_L(JJ)
-            INVR = ONE/MAX(EM20,RV(I))
-            DAM(I) = UVAR(I,16)/UVAR(I,17)
+      IF(NE_LOAD > 0 ) THEN 
+         IF(NLOAD == 1) THEN
+            IF(IUNL_FOR == 1) THEN
+              KK = NLOAD + 1
+              DO JJ=1,NE_LOAD
+                I = INDX_L(JJ)
+                INVR = ONE/MAX(EM20,RV(I))
+                DAM(I) = UVAR(I,16)/UVAR(I,17)
             !! 
-            F(1) = EV(1,I)*YFAC(1)*FINTER(IFUNC(1),EE(1,I),NPF,TF,DF1) 
-            F(2) = EV(2,I)*YFAC(1)*FINTER(IFUNC(1),EE(2,I),NPF,TF,DF2)
-            F(3) = EV(3,I)*YFAC(1)*FINTER(IFUNC(1),EE(3,I),NPF,TF,DF3)
-            GMAX(I) = MAX(GMAX(I),YFAC(1)*DF1,YFAC(1)*DF2,
+                F(1) = EV(1,I)*YFAC(1)*FINTER(IFUNC(1),EE(1,I),NPF,TF,DF1) 
+                F(2) = EV(2,I)*YFAC(1)*FINTER(IFUNC(1),EE(2,I),NPF,TF,DF2)
+                F(3) = EV(3,I)*YFAC(1)*FINTER(IFUNC(1),EE(3,I),NPF,TF,DF3)
+                GMAX(I) = MAX(GMAX(I),YFAC(1)*DF1,YFAC(1)*DF2,
      .                                        YFAC(1)*DF3 ) 
-            IF(DAM(I) /= ONE) THEN
-               Funl(1)=EV(1,I)*YFAC_UNL*FINTER(IFUNC(KK),EE(1,I),NPF,TF,DF)
-               Funl(2)=EV(2,I)*YFAC_UNL*FINTER(IFUNC(KK),EE(2,I),NPF,TF,DF)
-               Funl(3)=EV(3,I)*YFAC_UNL*FINTER(IFUNC(KK),EE(3,I),NPF,TF,DF)
+                IF(DAM(I) /= ONE) THEN
+                    Funl(1)=EV(1,I)*YFAC_UNL*FINTER(IFUNC(KK),EE(1,I),NPF,TF,DF)
+                    Funl(2)=EV(2,I)*YFAC_UNL*FINTER(IFUNC(KK),EE(2,I),NPF,TF,DF)
+                    Funl(3)=EV(3,I)*YFAC_UNL*FINTER(IFUNC(KK),EE(3,I),NPF,TF,DF)
                !!
-               IF(F(1) /= ZERO) DAM_F(I) = MAX(DAM_F(I),Funl(1)/F(1))
-               IF(F(2) /= ZERO) DAM_F(I) = MAX(DAM_F(I),Funl(2)/F(2))
-               IF(F(3) /= ZERO) DAM_F(I) = MAX(DAM_F(I),Funl(3)/F(3))
-               IF(DAM_F(I) <= ONE)THEN 
-                DAM(I) = MAX(DAM(I),DAM_F(I))
-               ELSE
-                DAM(I) =  ONE
-               ENDIF 
-               DAM(I) = MAX(DAM(I),UVAR(I,18))
-               DAM(I) = MIN(ONE, DAM(I))
-             ENDIF   
-             FAC = ONE
-             DO NN=1,20 
-              FAC = FAC*(-HALF) 
-              DD1 = EV(1,I)**FAC - ONE
-              DD2 = EV(2,I)**FAC - ONE
-              DD3 = EV(3,I)**FAC - ONE
-              F(1) = F(1) + 
-     .              (DD1 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD1,NPF,TF,DF)
-              F(2) = F(2) + 
-     .              (DD2 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD2,NPF,TF,DF)
-              F(3) = F(3) + 
-     .              (DD3 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD3,NPF,TF,DF)
-            ENDDO
-              
-             P = INVR*RBULK*(RV(I) - ONE)
-             T1(I) = DAM(I)*(INVR*(TWO_THIRD*F(1) - THIRD*(F(2) + F(3))) + P) 
-             T2(I) = DAM(I)*(INVR*(TWO_THIRD*F(2) - THIRD*(F(1) + F(3))) + P)
-             T3(I) = DAM(I)*(INVR*(TWO_THIRD*F(3) - THIRD*(F(1) + F(2))) + P) 
-             UVAR(I,19) = ONE
-           ENDDO
-          ELSE
-           DO JJ=1,NE_LOAD
-            I = INDX_L(JJ)
-            INVR = ONE/MAX(EM20,RV(I))
-            F(1) = EV(1,I)*YFAC(1)*FINTER(IFUNC(1),EE(1,I),NPF,TF,DF1) 
-            F(2) = EV(2,I)*YFAC(1)*FINTER(IFUNC(1),EE(2,I),NPF,TF,DF2)
-            F(3) = EV(3,I)*YFAC(1)*FINTER(IFUNC(1),EE(3,I),NPF,TF,DF3)
-            GMAX(I) = MAX(GMAX(I),YFAC(1)*DF1,YFAC(1)*DF2,
+                    IF(F(1) /= ZERO) DAM_F(I) = MAX(DAM_F(I),Funl(1)/F(1))
+                    IF(F(2) /= ZERO) DAM_F(I) = MAX(DAM_F(I),Funl(2)/F(2))
+                    IF(F(3) /= ZERO) DAM_F(I) = MAX(DAM_F(I),Funl(3)/F(3))
+                    IF(DAM_F(I) <= ONE)THEN 
+                        DAM(I) = MAX(DAM(I),DAM_F(I))
+                    ELSE
+                       DAM(I) =  ONE
+                    ENDIF 
+                ENDIF    
+                DAM(I) = MAX(DAM(I),UVAR(I,18))
+                DAM(I) = MIN(ONE, DAM(I))
+                FAC = ONE
+                DO NN=1,20 
+                   FAC = FAC*(-HALF) 
+                   DD1 = EV(1,I)**FAC - ONE
+                   DD2 = EV(2,I)**FAC - ONE
+                   DD3 = EV(3,I)**FAC - ONE
+                   F(1) = F(1) + 
+     .                   (DD1 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD1,NPF,TF,DF)
+                   F(2) = F(2) + 
+     .                   (DD2 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD2,NPF,TF,DF)
+                    F(3) = F(3) + 
+     .                    (DD3 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD3,NPF,TF,DF)
+                ENDDO
+                ! 
+                P = INVR*RBULK*(RV(I) - ONE)
+                T1(I) = DAM(I)*(INVR*(TWO_THIRD*F(1) - THIRD*(F(2) + F(3))) )+ P 
+                T2(I) = DAM(I)*(INVR*(TWO_THIRD*F(2) - THIRD*(F(1) + F(3))) )+ P
+                T3(I) = DAM(I)*(INVR*(TWO_THIRD*F(3) - THIRD*(F(1) + F(2))) )+ P 
+                UVAR(I,19) = ONE
+              ENDDO ! NE_LOAD
+            ELSE !  NLOAD > 0 ! with strain rate effect
+              DO JJ=1,NE_LOAD
+                I = INDX_L(JJ)
+                INVR = ONE/MAX(EM20,RV(I))
+                F(1) = EV(1,I)*YFAC(1)*FINTER(IFUNC(1),EE(1,I),NPF,TF,DF1) 
+                F(2) = EV(2,I)*YFAC(1)*FINTER(IFUNC(1),EE(2,I),NPF,TF,DF2)
+                F(3) = EV(3,I)*YFAC(1)*FINTER(IFUNC(1),EE(3,I),NPF,TF,DF3)
+                GMAX(I) = MAX(GMAX(I),YFAC(1)*DF1,YFAC(1)*DF2,
      .                                        YFAC(1)*DF3 ) 
-            FAC = ONE
-            DO NN=1,20 
-              FAC = FAC*(-HALF) 
-              DD1 = EV(1,I)**FAC - ONE
-              DD2 = EV(2,I)**FAC - ONE
-              DD3 = EV(3,I)**FAC - ONE
-              F(1) = F(1) + 
-     .              (DD1 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD1,NPF,TF,DF)
-              F(2) = F(2) + 
-     .              (DD2 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD2,NPF,TF,DF)
-              F(3) = F(3) + 
-     .              (DD3 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD3,NPF,TF,DF)
-             ENDDO
-            P = INVR*RBULK*(RV(I) - ONE)
-            T1(I) =UVAR(I,22)*INVR*(TWO_THIRD*F(1) - THIRD*(F(2) + F(3))) + P 
-            T2(I) =UVAR(I,22)*INVR*(TWO_THIRD*F(2) - THIRD*(F(1) + F(3))) + P 
-            T3(I) =UVAR(I,22)*INVR*(TWO_THIRD*F(3) - THIRD*(F(1) + F(2))) + P 
-            UVAR(I,19) = ONE
-           ENDDO  
-          ENDIF ! icase = 3  
-        ELSE
-         IF(ICASE == 2 .AND. IUNL_FOR== 1) THEN
+                FAC = ONE
+                DO NN=1,20 
+                   FAC = FAC*(-HALF) 
+                   DD1 = EV(1,I)**FAC - ONE
+                   DD2 = EV(2,I)**FAC - ONE
+                   DD3 = EV(3,I)**FAC - ONE
+                   F(1) = F(1) + 
+     .                 (DD1 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD1,NPF,TF,DF)
+                   F(2) = F(2) + 
+     .                 (DD2 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD2,NPF,TF,DF)
+                   F(3) = F(3) + 
+     .                 (DD3 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD3,NPF,TF,DF)
+                ENDDO
+                P = INVR*RBULK*(RV(I) - ONE)
+                T1(I) =UVAR(I,22)*INVR*(TWO_THIRD*F(1) - THIRD*(F(2) + F(3))) + P 
+                T2(I) =UVAR(I,22)*INVR*(TWO_THIRD*F(2) - THIRD*(F(1) + F(3))) + P 
+                T3(I) =UVAR(I,22)*INVR*(TWO_THIRD*F(3) - THIRD*(F(1) + F(2))) + P 
+                UVAR(I,19) = ONE
+              ENDDO  
+            ENDIF ! iunl_for
+        ELSE ! NLOAD > 1
+          IF(IUNL_FOR == 1) THEN
              KK = NLOAD + 1
              DO JJ=1,NE_LOAD
                 I = INDX_L(JJ)
                 IF(UVAR(I,20) == ONE .AND. ECURENT(I) <= UVAR(I,17))THEN
-                 F(1)=EV(1,I)*YFAC_UNL*FINTER(IFUNC(KK),EE(1,I),NPF,TF,DF)   
-                 F(2)=EV(2,I)*YFAC_UNL*FINTER(IFUNC(KK),EE(2,I),NPF,TF,DF)   
-                 F(3)=EV(3,I)*YFAC_UNL*FINTER(IFUNC(KK),EE(3,I),NPF,TF,DF) 
-                 E_TENS = MAX(ZERO,EE(1,I),EE(2,I),EE(3,I))
-                 DAM(I)= UVAR(I,22)*E_TENS 
-                 IF(ITYPE == -1 .OR. (ITYPE == 2 .AND. RV(I) < ONE)) THEN
-                    E_COMP   = MIN(ZERO,EE(1,I),EE(2,I),EE(3,I))
-                    DAM(I)= UVAR(I,25)*ABS(E_COMP)
-                 ENDIF  
-                 FAC = ONE      
-                 DO NN=1,20
-                    FAC = (-HALF)*FAC
-                    DD1 = EV(1,I)**FAC - ONE
-                    DD2 = EV(2,I)**FAC - ONE
-                    DD3 = EV(3,I)**FAC - ONE
-                    F(1) = F(1) + 
-     .              (DD1 + ONE)*YFAC_UNL*FINTER(IFUNC(KK),DD1,NPF,TF,DF)
-                    F(2) = F(2) + 
-     .              (DD2 + ONE)*YFAC_UNL*FINTER(IFUNC(KK),DD2,NPF,TF,DF)
-                    F(3) = F(3) + 
-     .              (DD3 + ONE)*YFAC_UNL*FINTER(IFUNC(KK),DD3,NPF,TF,DF)
-                 ENDDO
-                 INVR = ONE/MAX(EM20,RV(I))
-                 P = INVR*RBULK*(RV(I) - ONE)
-                 T1(I) = INVR*DAM(I)*(TWO_THIRD*F(1) - THIRD*(F(2) + F(3))) + P 
-                 T2(I) = INVR*DAM(I)*(TWO_THIRD*F(2) - THIRD*(F(1) + F(3))) + P 
-                 T3(I) = INVR*DAM(I)*(TWO_THIRD*F(3) - THIRD*(F(1) + F(2))) + P 
-              ELSE   
-               DO J=1,3             
-                  J1 = 1
-                 DO K=2,NLOAD - 1       
-                    IF( EDOT(J,I) >= RATE(K) )J1 = K 
-                 ENDDO    
-                  J2 = J1 + 1
-                  AA = (EDOT(J,I) - RATE(J1))/(RATE(J2) - RATE(J1))
-                  DF = ZERO            
+                    F(1)=EV(1,I)*YFAC_UNL*FINTER(IFUNC(KK),EE(1,I),NPF,TF,DF)   
+                    F(2)=EV(2,I)*YFAC_UNL*FINTER(IFUNC(KK),EE(2,I),NPF,TF,DF)   
+                    F(3)=EV(3,I)*YFAC_UNL*FINTER(IFUNC(KK),EE(3,I),NPF,TF,DF) 
+                    E_TENS = MAX(ZERO,EE(1,I),EE(2,I),EE(3,I))
+                    DAM(I)= UVAR(I,22)*E_TENS 
+                    IF(ITYPE == -1 .OR. (ITYPE == 2 .AND. RV(I) < ONE)) THEN
+                       E_COMP   = MIN(ZERO,EE(1,I),EE(2,I),EE(3,I))
+                       DAM(I)= UVAR(I,25)*ABS(E_COMP)
+                    ENDIF  
+                    FAC = ONE      
+                    DO NN=1,20
+                       FAC = (-HALF)*FAC
+                       DD1 = EV(1,I)**FAC - ONE
+                       DD2 = EV(2,I)**FAC - ONE
+                       DD3 = EV(3,I)**FAC - ONE
+                       F(1) = F(1) + 
+     .                 (DD1 + ONE)*YFAC_UNL*FINTER(IFUNC(KK),DD1,NPF,TF,DF)
+                       F(2) = F(2) + 
+     .                 (DD2 + ONE)*YFAC_UNL*FINTER(IFUNC(KK),DD2,NPF,TF,DF)
+                        F(3) = F(3) + 
+     .                 (DD3 + ONE)*YFAC_UNL*FINTER(IFUNC(KK),DD3,NPF,TF,DF)
+                    ENDDO
+                    INVR = ONE/MAX(EM20,RV(I))
+                    P = INVR*RBULK*(RV(I) - ONE)
+                    T1(I) = INVR*DAM(I)*(TWO_THIRD*F(1) - THIRD*(F(2) + F(3))) + P 
+                    T2(I) = INVR*DAM(I)*(TWO_THIRD*F(2) - THIRD*(F(1) + F(3))) + P 
+                    T3(I) = INVR*DAM(I)*(TWO_THIRD*F(3) - THIRD*(F(1) + F(2))) + P 
+                ELSE   
+                    DO J=1,3             
+                       J1 = 1
+                       DO K=2,NLOAD - 1       
+                          IF( EDOT(J,I) >= RATE(K) )J1 = K 
+                       ENDDO    
+                       J2 = J1 + 1
+                       AA = (EDOT(J,I) - RATE(J1))/(RATE(J2) - RATE(J1))
+                       DF = ZERO            
 C
-                  F1 =EV(J,I)*YFAC(J1)*FINTER(IFUNC(J1),EE(J,I),NPF,TF,DF1)
-                  F2 =EV(J,I)*YFAC(J2)*FINTER(IFUNC(J2),EE(J,I),NPF,TF,DF2)
-                  DF1 = EV(J,I)*DF1
-                  DF2 = EV(J,I)*DF2
-                  DF = MAX(DF, DF1 + AA*(DF2 - DF1))
-                  GMAX(I) = MAX(GMAX(I),YFAC(J1)*DF1,YFAC(J2)*DF2 )
-                  FAC = ONE
-                 DO NN=1,20 
-                  FAC = FAC*(-HALF) 
-                  DD1 = EV(J,I)**FAC - ONE
-                  F1 =F1+(DD1 + ONE)*YFAC(J1)*FINTER(IFUNC(J1),DD1,NPF,TF,DF)
-                  F2 =F2+(DD1 + ONE)*YFAC(J2)*FINTER(IFUNC(J2),DD1,NPF,TF,DF)
-                 ENDDO ! NN
-                   F(J) = F1 + AA*(F2 - F1)
-               ENDDO ! J 
-                  INVR = ONE/MAX(EM20,RV(I))
-                  P = INVR*RBULK*(RV(I) - ONE)
-                  T1(I) =INVR*(TWO_THIRD*F(1) - THIRD*(F(2) + F(3))) + P
-                  T2(I) =INVR*(TWO_THIRD*F(2) - THIRD*(F(1) + F(3))) + P
-                  T3(I) =INVR*(TWO_THIRD*F(3) - THIRD*(F(1) + F(2))) + P 
-              ENDIF   
+                       F1 =EV(J,I)*YFAC(J1)*FINTER(IFUNC(J1),EE(J,I),NPF,TF,DF1)
+                       F2 =EV(J,I)*YFAC(J2)*FINTER(IFUNC(J2),EE(J,I),NPF,TF,DF2)
+                       DF1 = EV(J,I)*DF1
+                       DF2 = EV(J,I)*DF2
+                       DF = MAX(DF, DF1 + AA*(DF2 - DF1))
+                       GMAX(I) = MAX(GMAX(I),YFAC(J1)*DF1,YFAC(J2)*DF2 )
+                       FAC = ONE
+                       DO NN=1,20 
+                          FAC = FAC*(-HALF) 
+                          DD1 = EV(J,I)**FAC - ONE
+                          F1 =F1+(DD1 + ONE)*YFAC(J1)*FINTER(IFUNC(J1),DD1,NPF,TF,DF)
+                          F2 =F2+(DD1 + ONE)*YFAC(J2)*FINTER(IFUNC(J2),DD1,NPF,TF,DF)
+                       ENDDO ! NN
+                        F(J) = F1 + AA*(F2 - F1)
+                    ENDDO ! J 
+                    INVR = ONE/MAX(EM20,RV(I))
+                    P = INVR*RBULK*(RV(I) - ONE)
+                    T1(I) =INVR*(TWO_THIRD*F(1) - THIRD*(F(2) + F(3))) + P
+                    T2(I) =INVR*(TWO_THIRD*F(2) - THIRD*(F(1) + F(3))) + P
+                    T3(I) =INVR*(TWO_THIRD*F(3) - THIRD*(F(1) + F(2))) + P 
+                ENDIF   
              ENDDO
-           ElSE
-             DO JJ=1,NE_LOAD
-               I = INDX_L(JJ)
-               DO J=1,3             
+           ElSE ! iunl_for  > 1
+              DO JJ=1,NE_LOAD
+                I = INDX_L(JJ)
+                DO J=1,3             
                   J1 = 1
-                 DO K=2,NLOAD - 1       
-                    IF( EDOT(J,I) >= RATE(K) )J1 = K 
-                 ENDDO    
+                  DO K=2,NLOAD - 1       
+                      IF( EDOT(J,I) >= RATE(K) )J1 = K 
+                  ENDDO    
                   J2 = J1 + 1
                   AA = (EDOT(J,I) - RATE(J1))/(RATE(J2) - RATE(J1))
                   DF = ZERO            
@@ -656,204 +600,66 @@ C
                   DF = MAX(DF, DF1 + AA*(DF2 - DF1))
                   GMAX(I) = MAX(GMAX(I),YFAC(J1)*DF1,YFAC(J2)*DF2 )
                   FAC = ONE
-                 DO NN=1,20 
-                  FAC = FAC*(-HALF) 
-                  DD1 = EV(J,I)**FAC - ONE
-                  F1 =F1+(DD1 + ONE)*YFAC(J1)*FINTER(IFUNC(J1),DD1,NPF,TF,DF)
-                  F2 =F2+(DD1 + ONE)*YFAC(J2)*FINTER(IFUNC(J2),DD1,NPF,TF,DF)
-                 ENDDO ! NN
+                  DO NN=1,20 
+                    FAC = FAC*(-HALF) 
+                    DD1 = EV(J,I)**FAC - ONE
+                    F1 =F1+(DD1 + ONE)*YFAC(J1)*FINTER(IFUNC(J1),DD1,NPF,TF,DF)
+                    F2 =F2+(DD1 + ONE)*YFAC(J2)*FINTER(IFUNC(J2),DD1,NPF,TF,DF)
+                   ENDDO ! NN
                    F(J) = F1 + AA*(F2 - F1)
-               ENDDO ! J 
-                  INVR = ONE/MAX(EM20,RV(I))
-                  P = INVR*RBULK*(RV(I) - ONE)
-                  T1(I) =INVR*(TWO_THIRD*F(1) - THIRD*(F(2) + F(3))) + P
-                  T2(I) =INVR*(TWO_THIRD*F(2) - THIRD*(F(1) + F(3))) + P
-                  T3(I) =INVR*(TWO_THIRD*F(3) - THIRD*(F(1) + F(2))) + P  
-             ENDDO  
-           ENDIF ! Icase =2 &  IUNL_FOR  
-        ENDIF
+                ENDDO ! J 
+                INVR = ONE/MAX(EM20,RV(I))
+                P = INVR*RBULK*(RV(I) - ONE)
+                T1(I) =INVR*(TWO_THIRD*F(1) - THIRD*(F(2) + F(3))) + P
+                T2(I) =INVR*(TWO_THIRD*F(2) - THIRD*(F(1) + F(3))) + P
+                T3(I) =INVR*(TWO_THIRD*F(3) - THIRD*(F(1) + F(2))) + P  
+              ENDDO  
+           ENDIF !  IUNL_FOR
+        ENDIF ! NLOAD      
       ENDIF ! NE_LOAD
+
 C  unloading 
 C            
        IF(NE_UNLOAD > 0 ) THEN
 C      
-       SELECT CASE (ICASE)
-C       
-       CASE (1)  ! Itens = 0 + follow quasistatic curve
-                   ! itens /= 0 and NLOAD = 1        
-           DO JJ=1,NE_UNLOAD
-             I = INDX_UNL(JJ) 
-             F(1) = EV(1,I)*YFAC(1)*FINTER(IFUNC(1),EE(1,I),NPF,TF,DF1) 
-             F(2) = EV(2,I)*YFAC(1)*FINTER(IFUNC(1),EE(2,I),NPF,TF,DF2)
-             F(3) = EV(3,I)*YFAC(1)*FINTER(IFUNC(1),EE(3,I),NPF,TF,DF3)
-             GMAX(I) = MAX(GMAX(I),YFAC(1)*DF1,YFAC(1)*DF2,
-     .                                        YFAC(1)*DF3 ) 
-             FAC = ONE
-            DO NN=1,20 
-              FAC = FAC*(-HALF) 
-              DD1 = EV(1,I)**FAC - ONE
-              DD2 = EV(2,I)**FAC - ONE
-              DD3 = EV(3,I)**FAC - ONE
-              F(1) = F(1) + 
-     .              (DD1 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD1,NPF,TF,DF)
-              F(2) = F(2) + 
-     .              (DD2 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD2,NPF,TF,DF)
-              F(3) = F(3) + 
-     .              (DD3 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD3,NPF,TF,DF)
-            ENDDO
-            INVR = ONE/MAX(EM20,RV(I))
-            P = INVR*RBULK*(RV(I) - ONE)
-            T1(I) = INVR*(TWO_THIRD*F(1) - THIRD*(F(2) + F(3))) + P 
-            T2(I) = INVR*(TWO_THIRD*F(2) - THIRD*(F(1) + F(3))) + P 
-            T3(I) = INVR*(TWO_THIRD*F(3) - THIRD*(F(1) + F(2))) + P 
-          ENDDO ! NE_UNLOAD 
-C          
-       CASE (2) ! itens = 0 + Damage for unloading
-C
-C  unloading with damage using quasistatic and unloading function
-C                                
-         IF(IUNL_FOR == 1 ) THEN
-           IF(NLOAD == 1) THEN
-               KK = NLOAD + 1                   
-               DO JJ=1,NE_UNLOAD
-                I = INDX_UNL(JJ)
-                DAM(I) = ZERO
-                Funl(1)=EV(1,I)*YFAC_UNL*FINTER(IFUNC(KK),EE(1,I),NPF,TF,DF)
-                Funl(2)=EV(2,I)*YFAC_UNL*FINTER(IFUNC(KK),EE(2,I),NPF,TF,DF)
-                Funl(3)=EV(3,I)*YFAC_UNL*FINTER(IFUNC(KK),EE(3,I),NPF,TF,DF)
-C                   
-                F(1)=EV(1,I)*YFAC(1)*FINTER(IFUNC(1),EE(1,I),NPF,TF,DF)
-                F(2)=EV(2,I)*YFAC(1)*FINTER(IFUNC(1),EE(2,I),NPF,TF,DF)
-                F(3)=EV(3,I)*YFAC(1)*FINTER(IFUNC(1),EE(3,I),NPF,TF,DF)
-C                
-                IF(F(1)/=ZERO) DAM(I) = MAX(DAM(I),Funl(1)/F(1))
-                IF(F(2)/=ZERO) DAM(I) = MAX(DAM(I),Funl(2)/F(2))
-                IF(F(3)/=ZERO) DAM(I) = MAX(DAM(I),Funl(3)/F(3))
-                DAM(I) = UVAR(I,22)*DAM(I)
-                UVAR(I,18) = DAM(I)
-               ENDDO
-            ELSE    
-               KK = NLOAD + 1                   
-               DO JJ=1,NE_UNLOAD
-                I = INDX_UNL(JJ)
-                DAM(I) = ZERO
-                Funl(1)=EV(1,I)*YFAC_UNL*FINTER(IFUNC(KK),EE(1,I),NPF,TF,DF)
-                Funl(2)=EV(2,I)*YFAC_UNL*FINTER(IFUNC(KK),EE(2,I),NPF,TF,DF)
-                Funl(3)=EV(3,I)*YFAC_UNL*FINTER(IFUNC(KK),EE(3,I),NPF,TF,DF)
-C                   
-                F(1)=EV(1,I)*YFAC(1)*FINTER(IFUNC(1),EE(1,I),NPF,TF,DF)
-                F(2)=EV(2,I)*YFAC(1)*FINTER(IFUNC(1),EE(2,I),NPF,TF,DF)
-                F(3)=EV(3,I)*YFAC(1)*FINTER(IFUNC(1),EE(3,I),NPF,TF,DF)
-C                
-                IF(F(1)/=ZERO) DAM(I) = MAX(DAM(I),Funl(1)/F(1))
-                IF(F(2)/=ZERO) DAM(I) = MAX(DAM(I),Funl(2)/F(2))
-                IF(F(3)/=ZERO) DAM(I) = MAX(DAM(I),Funl(3)/F(3))
-                 IF(ITYPE == -1 .OR. (ITYPE == 2 .AND. RV(I) < ONE)) THEN
-                   E_COMP   = MIN(ZERO,EE(1,I),EE(2,I),EE(3,I))
-                   DAM(I)= UVAR(I,25)*DAM(I)*ABS(E_COMP)
-                 ELSE
-                  E_TENS = MAX(ZERO,EE(1,I),EE(2,I),EE(3,I))
-                   DAM(I)= UVAR(I,22)*DAM(I)*E_TENS  
-                 ENDIF 
-               ENDDO                                                                       
-            ENDIF   ! NLOAD
-         ELSEIF(IUNL_FOR == 2 .OR. IUNL_FOR == 3) THEN
-C
-C  unloading with damage based on the energy absorption.
-C   
-           DO JJ=1,NE_UNLOAD
-             I = INDX_UNL(JJ)
-             DAM(I) = ZERO
-             DAM(I) = ONE - (UVAR(I,16)/MAX(EM20,UVAR(I,17)))**SHAPE
-             DAM(I) = ONE - (ONE - HYS)*DAM(I)
-           ENDDO  
-          ENDIF
-C
-!!        IF(NLOAD == 1) THEN ! 
-!!unloading is only quasistatic to avoid the instability i unloading
-          IF(IUNL_FOR == 3) THEN
-           DO JJ=1,NE_UNLOAD
-             I = INDX_UNL(JJ)
-C                           
-                 IF(EE(1,I) >= ZERO) THEN
-                   SCALE(1) = (UVAR(I,22)* EE(1,I) + ONE)*YFAC(1)
-                 ELSE
-                   SCALE(1) = (UVAR(I,25)* EE(1,I) + ONE)*YFAC(1) 
-                 ENDIF 
-                 IF(EE(2,I)>= ZERO) THEN
-                   SCALE(2) = (UVAR(I,22)* EE(2,I) + ONE)*YFAC(1)
-                 ELSE
-                   SCALE(2) = (UVAR(I,25)* EE(2,I) + ONE)*YFAC(1) 
-                 ENDIF 
-                 IF(EE(3,I) >= ZERO) THEN
-                   SCALE(3) = (UVAR(I,22)* EE(3,I) + ONE)*YFAC(1)
-                 ELSE
-                   SCALE(3) = (UVAR(I,25)* EE(3,I) + ONE)*YFAC(1) 
-                 ENDIF 
-C                
-                F(1) = EV(1,I)*SCALE(1)*FINTER(IFUNC(1),EE(1,I),NPF,TF,DF1) 
-                F(2) = EV(2,I)*SCALE(2)*FINTER(IFUNC(1),EE(2,I),NPF,TF,DF2)
-                F(3) = EV(3,I)*SCALE(3)*FINTER(IFUNC(1),EE(3,I),NPF,TF,DF3)
-                
-                GMAX(I) = MAX(GMAX(I),SCALE(1)*DF1,SCALE(2)*DF2,
-     .                                            SCALE(3)*DF3 ) ! 
-                 FAC = ONE
-                DO NN=1,20 
-                  FAC = FAC*(-HALF) 
-                  DD1 = EV(1,I)**FAC - ONE
-                  DD2 = EV(2,I)**FAC - ONE
-                  DD3 = EV(3,I)**FAC - ONE   
-                  F(1) = F(1) + 
-     .                  (DD1 + ONE)*SCALE(1)*FINTER(IFUNC(1),DD1,NPF,TF,DF)
-                  F(2) = F(2) + 
-     .                  (DD2 + ONE)*SCALE(2)*FINTER(IFUNC(1),DD2,NPF,TF,DF)
-                  F(3) = F(3) + 
-     .                  (DD3 + ONE)*SCALE(3)*FINTER(IFUNC(1),DD3,NPF,TF,DF)
-                ENDDO
-                INVR = ONE/MAX(EM20,RV(I))
-                P = INVR*RBULK*(RV(I) - ONE)
-                T1(I) = INVR*DAM(I)*(TWO_THIRD*F(1) - THIRD*(F(2) + F(3))) + P 
-                T2(I) = INVR*DAM(I)*(TWO_THIRD*F(2) - THIRD*(F(1) + F(3))) + P 
-                T3(I) = INVR*DAM(I)*(TWO_THIRD*F(3) - THIRD*(F(1) + F(2))) + P 
-                UVAR(I,18) = DAM(I)
-               ENDDO ! NE_UNLOAD 
-          ELSE
-            KK = NLOAD + 1
-           DO JJ=1,NE_UNLOAD
-             I = INDX_UNL(JJ)
-             F(1)=EV(1,I)*YFAC(1)*FINTER(IFUNC(1),EE(1,I),NPF,TF,DF)
-             F(2)=EV(2,I)*YFAC(1)*FINTER(IFUNC(1),EE(2,I),NPF,TF,DF)
-             F(3)=EV(3,I)*YFAC(1)*FINTER(IFUNC(1),EE(3,I),NPF,TF,DF)
-             FAC = ONE
-             DO NN=1,20
-                FAC = (-HALF)*FAC
-                DD1 = EV(1,I)**FAC - ONE
-                DD2 = EV(2,I)**FAC - ONE
-                DD3 = EV(3,I)**FAC - ONE
-                F(1) = F(1) + 
-     .          (DD1 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD1,NPF,TF,DF)
-                F(2) = F(2) + 
-     .          (DD2 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD2,NPF,TF,DF)
-                F(3) = F(3) + 
-     .          (DD3 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD3,NPF,TF,DF)
-             ENDDO
-             INVR = ONE/MAX(EM20,RV(I))
-             P = INVR*RBULK*(RV(I) - ONE)
-             T1(I) = INVR*DAM(I)*(TWO_THIRD*F(1) - THIRD*(F(2) + F(3))) + P 
-             T2(I) = INVR*DAM(I)*(TWO_THIRD*F(2) - THIRD*(F(1) + F(3))) + P 
-             T3(I) = INVR*DAM(I)*(TWO_THIRD*F(3) - THIRD*(F(1) + F(2))) + P 
-             UVAR(I,18) = DAM(I)
-           ENDDO   
-          ENDIF !  IUNL_FOR           
-C        
-          CASE (3)  ! Itens = 0 + follow unloading curve
-             KK = NLOAD + 1
-             IF(NLOAD == 1) THEN
+          SELECT CASE (IUNL_FOR)
+             !        
+            CASE (0)  !  Nonlinear elastic behavior (with out hysteresis)    
                 DO JJ=1,NE_UNLOAD
+                  I = INDX_UNL(JJ) 
+                  F(1) = EV(1,I)*YFAC(1)*FINTER(IFUNC(1),EE(1,I),NPF,TF,DF1) 
+                  F(2) = EV(2,I)*YFAC(1)*FINTER(IFUNC(1),EE(2,I),NPF,TF,DF2)
+                  F(3) = EV(3,I)*YFAC(1)*FINTER(IFUNC(1),EE(3,I),NPF,TF,DF3)
+                  GMAX(I) = MAX(GMAX(I),YFAC(1)*DF1,YFAC(1)*DF2,
+     .                                        YFAC(1)*DF3 ) 
+                  FAC = ONE
+                  DO NN=1,20 
+                     FAC = FAC*(-HALF) 
+                     DD1 = EV(1,I)**FAC - ONE
+                     DD2 = EV(2,I)**FAC - ONE
+                     DD3 = EV(3,I)**FAC - ONE
+                     F(1) = F(1) + 
+     .                  (DD1 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD1,NPF,TF,DF)
+                     F(2) = F(2) + 
+     .                  (DD2 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD2,NPF,TF,DF)
+                     F(3) = F(3) + 
+     .                   (DD3 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD3,NPF,TF,DF)
+                  ENDDO
+                  INVR = ONE/MAX(EM20,RV(I))
+                  P = INVR*RBULK*(RV(I) - ONE)
+                  T1(I) = INVR*(TWO_THIRD*F(1) - THIRD*(F(2) + F(3))) + P 
+                  T2(I) = INVR*(TWO_THIRD*F(2) - THIRD*(F(1) + F(3))) + P 
+                  T3(I) = INVR*(TWO_THIRD*F(3) - THIRD*(F(1) + F(2))) + P 
+                ENDDO ! NE_UNLOAD 
+C          
+            CASE (1) !  unloading following  curve 
+C                                     
+                IF(NLOAD == 1) THEN
+                  KK = NLOAD + 1
+                  DO JJ=1,NE_UNLOAD
                      I = INDX_UNL(JJ)       
 C       
                       DAM(I) =  UVAR(I,16)/UVAR(I,17)
-                      DAM_F(I) = ZERO
                       F(1) = EV(1,I)*YFAC(1)*FINTER(IFUNC(1),EE(1,I),NPF,TF,DF1) 
                       F(2) = EV(2,I)*YFAC(1)*FINTER(IFUNC(1),EE(2,I),NPF,TF,DF2)
                       F(3) = EV(3,I)*YFAC(1)*FINTER(IFUNC(1),EE(3,I),NPF,TF,DF3)
@@ -885,16 +691,151 @@ C
      .                      (DD2 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD2,NPF,TF,DF)
                           F(3) = F(3) + 
      .                      (DD3 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD3,NPF,TF,DF)
-                ENDDO
-                 INVR = ONE/MAX(EM20,RV(I))
-                 P = INVR*RBULK*(RV(I) - ONE)
-                 T1(I) = DAM(I)*(INVR*(TWO_THIRD*F(1) - THIRD*(F(2) + F(3))) + P)
-                 T2(I) = DAM(I)*(INVR*(TWO_THIRD*F(2) - THIRD*(F(1) + F(3))) + P) 
-                 T3(I) = DAM(I)*(INVR*(TWO_THIRD*F(3) - THIRD*(F(1) + F(2))) + P)
-               ENDDO ! NE_UNLOAD 
-             ELSE
-              !!
-             ENDIF ! NLOAD 
+                       ENDDO
+                       INVR = ONE/MAX(EM20,RV(I))
+                       P = INVR*RBULK*(RV(I) - ONE)
+                       T1(I) = DAM(I)*(INVR*(TWO_THIRD*F(1) - THIRD*(F(2) + F(3))) )+ P
+                       T2(I) = DAM(I)*(INVR*(TWO_THIRD*F(2) - THIRD*(F(1) + F(3))) )+ P
+                       T3(I) = DAM(I)*(INVR*(TWO_THIRD*F(3) - THIRD*(F(1) + F(2))) )+ P
+                  ENDDO ! NE_UNLOAD 
+                ELSE    
+                  KK = NLOAD + 1                   
+                  DO JJ=1,NE_UNLOAD
+                      I = INDX_UNL(JJ)
+                      DAM(I) = ZERO
+                      Funl(1)=EV(1,I)*YFAC_UNL*FINTER(IFUNC(KK),EE(1,I),NPF,TF,DF)
+                      Funl(2)=EV(2,I)*YFAC_UNL*FINTER(IFUNC(KK),EE(2,I),NPF,TF,DF)
+                      Funl(3)=EV(3,I)*YFAC_UNL*FINTER(IFUNC(KK),EE(3,I),NPF,TF,DF)
+C                   
+                      F(1)=EV(1,I)*YFAC(1)*FINTER(IFUNC(1),EE(1,I),NPF,TF,DF)
+                      F(2)=EV(2,I)*YFAC(1)*FINTER(IFUNC(1),EE(2,I),NPF,TF,DF)
+                      F(3)=EV(3,I)*YFAC(1)*FINTER(IFUNC(1),EE(3,I),NPF,TF,DF)
+C                
+                      IF(F(1)/=ZERO) DAM(I) = MAX(DAM(I),Funl(1)/F(1))
+                      IF(F(2)/=ZERO) DAM(I) = MAX(DAM(I),Funl(2)/F(2))
+                      IF(F(3)/=ZERO) DAM(I) = MAX(DAM(I),Funl(3)/F(3))
+                      IF(ITYPE == -1 .OR. (ITYPE == 2 .AND. RV(I) < ONE)) THEN
+                         E_COMP   = MIN(ZERO,EE(1,I),EE(2,I),EE(3,I))
+                         DAM(I)= UVAR(I,25)*DAM(I)*ABS(E_COMP)
+                      ELSE
+                         E_TENS = MAX(ZERO,EE(1,I),EE(2,I),EE(3,I))
+                         DAM(I)= UVAR(I,22)*DAM(I)*E_TENS  
+                      ENDIF 
+                !  
+                      FAC = ONE
+                      DO NN=1,20
+                          FAC = (-HALF)*FAC
+                          DD1 = EV(1,I)**FAC - ONE
+                          DD2 = EV(2,I)**FAC - ONE
+                          DD3 = EV(3,I)**FAC - ONE
+                          F(1) = F(1) + 
+     .                           (DD1 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD1,NPF,TF,DF)
+                          F(2) = F(2) + 
+     .                           (DD2 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD2,NPF,TF,DF)
+                          F(3) = F(3) + 
+     .                           (DD3 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD3,NPF,TF,DF)
+                      ENDDO
+                      INVR = ONE/MAX(EM20,RV(I))
+                      P = INVR*RBULK*(RV(I) - ONE)
+                      T1(I) = INVR*DAM(I)*(TWO_THIRD*F(1) - THIRD*(F(2) + F(3))) + P 
+                      T2(I) = INVR*DAM(I)*(TWO_THIRD*F(2) - THIRD*(F(1) + F(3))) + P 
+                      T3(I) = INVR*DAM(I)*(TWO_THIRD*F(3) - THIRD*(F(1) + F(2))) + P 
+                      UVAR(I,18) = DAM(I)
+                  ENDDO                                                                       
+                ENDIF   ! NLOAD
+            CASE(2) ! inunf_for = 2 
+                ! Unloading with damage based on the energy  
+                ! The unloading could be strain rate dependency
+                !
+                DO JJ=1,NE_UNLOAD
+                    I = INDX_UNL(JJ)
+                    DAM(I) = ZERO
+                    DAM(I) = ONE - (UVAR(I,16)/MAX(EM20,UVAR(I,17)))**SHAPE
+                   DAM(I) = ONE - (ONE - HYS)*DAM(I)
+                ENDDO   
+C   
+                KK = NLOAD + 1
+                DO JJ=1,NE_UNLOAD
+                   I = INDX_UNL(JJ)
+                   F(1)=EV(1,I)*YFAC(1)*FINTER(IFUNC(1),EE(1,I),NPF,TF,DF)
+                   F(2)=EV(2,I)*YFAC(1)*FINTER(IFUNC(1),EE(2,I),NPF,TF,DF)
+                   F(3)=EV(3,I)*YFAC(1)*FINTER(IFUNC(1),EE(3,I),NPF,TF,DF)
+                   FAC = ONE
+                   DO NN=1,20
+                      FAC = (-HALF)*FAC
+                      DD1 = EV(1,I)**FAC - ONE
+                      DD2 = EV(2,I)**FAC - ONE
+                      DD3 = EV(3,I)**FAC - ONE
+                      F(1) = F(1) + 
+     .                    (DD1 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD1,NPF,TF,DF)
+                      F(2) = F(2) + 
+     .                    (DD2 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD2,NPF,TF,DF)
+                      F(3) = F(3) + 
+     .                    (DD3 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD3,NPF,TF,DF)
+                   ENDDO
+                   INVR = ONE/MAX(EM20,RV(I))
+                   P = INVR*RBULK*(RV(I) - ONE)
+                   T1(I) = INVR*DAM(I)*(TWO_THIRD*F(1) - THIRD*(F(2) + F(3))) + P 
+                   T2(I) = INVR*DAM(I)*(TWO_THIRD*F(2) - THIRD*(F(1) + F(3))) + P 
+                   T3(I) = INVR*DAM(I)*(TWO_THIRD*F(3) - THIRD*(F(1) + F(2))) + P 
+                  UVAR(I,18) = DAM(I)
+                ENDDO         
+C        
+            CASE (3)  ! 
+             ! Unloading with damage based on the energy  
+             ! The unloading without dependency on strain rate
+                DO JJ=1,NE_UNLOAD
+                   I = INDX_UNL(JJ)
+                   DAM(I) = ZERO
+                   DAM(I) = ONE - (UVAR(I,16)/MAX(EM20,UVAR(I,17)))**SHAPE
+                   DAM(I) = ONE - (ONE - HYS)*DAM(I)
+                ENDDO  
+
+                DO JJ=1,NE_UNLOAD
+                  I = INDX_UNL(JJ)
+C                           
+                  IF(EE(1,I) >= ZERO) THEN
+                    SCALE(1) = (UVAR(I,22)* EE(1,I) + ONE)*YFAC(1)
+                  ELSE
+                    SCALE(1) = (UVAR(I,25)* EE(1,I) + ONE)*YFAC(1) 
+                  ENDIF 
+                  IF(EE(2,I)>= ZERO) THEN
+                    SCALE(2) = (UVAR(I,22)* EE(2,I) + ONE)*YFAC(1)
+                  ELSE
+                    SCALE(2) = (UVAR(I,25)* EE(2,I) + ONE)*YFAC(1) 
+                  ENDIF 
+                  IF(EE(3,I) >= ZERO) THEN
+                    SCALE(3) = (UVAR(I,22)* EE(3,I) + ONE)*YFAC(1)
+                  ELSE
+                    SCALE(3) = (UVAR(I,25)* EE(3,I) + ONE)*YFAC(1) 
+                  ENDIF 
+C                
+                  F(1) = EV(1,I)*SCALE(1)*FINTER(IFUNC(1),EE(1,I),NPF,TF,DF1) 
+                  F(2) = EV(2,I)*SCALE(2)*FINTER(IFUNC(1),EE(2,I),NPF,TF,DF2)
+                  F(3) = EV(3,I)*SCALE(3)*FINTER(IFUNC(1),EE(3,I),NPF,TF,DF3)
+                
+                  GMAX(I) = MAX(GMAX(I),SCALE(1)*DF1,SCALE(2)*DF2,
+     .                                            SCALE(3)*DF3 ) ! 
+                  FAC = ONE
+                  DO NN=1,20 
+                    FAC = FAC*(-HALF) 
+                    DD1 = EV(1,I)**FAC - ONE
+                    DD2 = EV(2,I)**FAC - ONE
+                    DD3 = EV(3,I)**FAC - ONE   
+                    F(1) = F(1) + 
+     .                  (DD1 + ONE)*SCALE(1)*FINTER(IFUNC(1),DD1,NPF,TF,DF)
+                    F(2) = F(2) + 
+     .                  (DD2 + ONE)*SCALE(2)*FINTER(IFUNC(1),DD2,NPF,TF,DF)
+                    F(3) = F(3) + 
+     .                  (DD3 + ONE)*SCALE(3)*FINTER(IFUNC(1),DD3,NPF,TF,DF)
+                  ENDDO
+                  INVR = ONE/MAX(EM20,RV(I))
+                  P = INVR*RBULK*(RV(I) - ONE)
+                  T1(I) = INVR*DAM(I)*(TWO_THIRD*F(1) - THIRD*(F(2) + F(3))) + P 
+                  T2(I) = INVR*DAM(I)*(TWO_THIRD*F(2) - THIRD*(F(1) + F(3))) + P 
+                  T3(I) = INVR*DAM(I)*(TWO_THIRD*F(3) - THIRD*(F(1) + F(2))) + P 
+                  UVAR(I,18) = DAM(I)
+                 ENDDO ! NE_UNLOAD 
        END SELECT 
       ENDIF !  NE_UNLOAD
 C
@@ -926,7 +867,7 @@ C
      .            + DIRPRV(3,2,I)*DIRPRV(1,2,I)*T2(I)
 C
 * SET SOUND SPEED
-         SOUNDSP(I)=SQRT((FOUR_OVER_3*GS + RBULK)/RHO(I))
+        SOUNDSP(I)=SQRT((FOUR_OVER_3*GS + RBULK)/RHO(I))
 * SET VISCOSITY
          VISCMAX(I) = ZERO
        ENDDO
