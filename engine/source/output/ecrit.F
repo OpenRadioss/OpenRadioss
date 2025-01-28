@@ -60,7 +60,7 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE ANIM_MOD
       USE STATE_MOD
-      USE OUTPUT_MOD
+      USE OUTPUT_MOD , ONLY : OUTPUT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -483,14 +483,14 @@ c
         ENTOT = ENCIN + ENINT + ENROT
         ENTOTB = ENTOT + ENCIN2 + ENROT2       
         IF(NCYCLE==0) THEN
-         ENTOT0=ENTOT - OUTPUT%WFEXT - WFEXT_MD
+         ENTOT0=ENTOT - OUTPUT%WFEXT - OUTPUT%WFEXT_MD
          DELTAE=ENCIN2 + ENROT2                
          MASS0 = XMASS - DMAS
         ENDIF
         MASS0 = MASS0  + DMF
         ENTOT0= ENTOT0 + DEF       
         ENTOT1=ENTOT0 + OUTPUT%WFEXT
-        ENTOT1B=ENTOT0 + OUTPUT%WFEXT + DELTAE + WFEXT_MD
+        ENTOT1B=ENTOT0 + OUTPUT%WFEXT + DELTAE + OUTPUT%WFEXT_MD
         IF(ABS(ENTOT1B)>EM20)THEN
           ERR = ENTOTB/ENTOT1B - ONE
           ERR1 = MAX(-X99, MIN(X99,ERR*HUNDRED))     
@@ -662,7 +662,7 @@ C
        WRITE (IUSC3,'(A,G14.7)',ERR=990)     ' INTERNAL ENERGY   =',ENINT
        WRITE (IUSC3,'(A,G14.7)',ERR=990)     ' KINETIC ENERGY    =',ENCIN
        WRITE (IUSC3,'(A,G14.7)',ERR=990)     ' ROT. KIN. ENERGY  =',ENROT
-       WRITE (IUSC3,'(A,G14.7)',ERR=990)     ' EXTERNAL WORK     =',WFEXT
+       WRITE (IUSC3,'(A,G14.7)',ERR=990)     ' EXTERNAL WORK     =',OUTPUT%WFEXT
        WRITE (IUSC3,'(A,G14.7)',ERR=990)     ' MASS.ERR (M-M0)/M0=',EMASS
 
        CALL FVSTATS1(IUSC3,MONVOL,1)

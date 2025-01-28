@@ -37,7 +37,21 @@
 !! \details   MU_MIN : elastic behavior up to this limit
 !! \details   MU_MAX : elastic behavior above this limit
 !! \details   C0,C1,C2,C3 : EoS parameter
-!! \details   BUNL : unload modulus
+!! \details   BUNL : unload
+!----------------------------------------------------------------------------
+!! \details STAGGERED SCHEME IS EXECUTED IN TWO PASSES IN EOSMAIN : IFLG=0 THEN IFLG=1
+!! \details COLLOCATED SCHEME IS DOING A SINGLE PASS : IFLG=2
+!! \details
+!! \details  STAGGERED SCHEME
+!! \details     EOSMAIN / IFLG = 0 : DERIVATIVE CALCULATION FOR SOUND SPEED ESTIMATION c[n+1] REQUIRED FOR PSEUDO-VISCOSITY (DPDE:partial derivative, DPDM:total derivative)
+!! \details     MQVISCB            : PSEUDO-VISCOSITY Q[n+1]
+!! \details     MEINT              : INTERNAL ENERGY INTEGRATION FOR E[n+1] : FIRST PART USING P[n], Q[n], and Q[n+1] CONTRIBUTIONS
+!! \details     EOSMAIN / IFLG = 1 : UPDATE P[n+1], T[N+1]
+!! \details                          INTERNAL ENERGY INTEGRATION FOR E[n+1] : LAST PART USING P[n+1] CONTRIBUTION
+!! \details                            (second order integeration dE = -P.dV where P = 0.5(P[n+1] + P[n]) )
+!! \details  COLLOCATED SCHEME
+!! \details     EOSMAIN / IFLG = 2 : SINGLE PASS FOR P[n+1] AND DERIVATIVES
+!----------------------------------------------------------------------------
       !||====================================================================
       !||    compaction     ../common_source/eos/compaction.F90
       !||--- called by ------------------------------------------------------
@@ -49,7 +63,7 @@
                             iflag , nel   , pm    , off  , eint , mu   , mu2 , &
                             dvol  , mat   , psh   , &
                             pnew  , dpdm  , dpde  , mu_bak,&
-                            npropm, nummat, tfext)
+                            npropm, nummat)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -70,12 +84,11 @@
       integer,intent(in) :: mat(nel), iflag
       my_real,intent(inout) :: pm(npropm,nummat),off(nel),eint(nel),mu(nel),mu2(nel),dvol(nel)
       my_real,intent(inout) :: pnew(nel),dpdm(nel),dpde(nel),mu_bak(nel)
-      double precision,intent(inout) :: tfext
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
       integer i, mx, iform
-      my_real :: p0,psh(nel),e0,sph,tfextt, b(nel),pne1,pfrac
+      my_real :: p0,psh(nel),e0,sph, b(nel),pne1,pfrac
       my_real :: c0,c1,c2,c3,bunl,mu_max,p(nel),p_
       my_real :: alpha,mumin
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -96,8 +109,6 @@
        mumin      = pm(47,mx)
        iform      = nint(pm(48,mx))
 
-       tfextt       = zero
-       
       !----------------------------------------------------------------!
       !  COMPACTION EOS                                                !
       !----------------------------------------------------------------!  
@@ -163,14 +174,6 @@
           p(i)=max(pfrac,p(i))*off(i)
           pnew(i) = p(i)-psh(i)
         enddo !next i
-        !----------------------------------------------------------------!
-        !  PRESSURE WORK                                                 !
-        !----------------------------------------------------------------!      
-         do i=1,nel
-           tfextt     = tfextt-dvol(i)*psh(i)
-         enddo
-!$OMP ATOMIC
-         tfext = tfext + tfextt
 
       elseif(iflag == 2) then
         !----------------------------------------------------------------!

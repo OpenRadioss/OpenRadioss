@@ -395,6 +395,8 @@ C                                   IF RELEASE WAS BUILT FROM SOURCE
       OUTPUT%WFEXT_MD = 0.0D0
       WFEXT => OUTPUT%WFEXT
       WFEXT_MD => OUTPUT%WFEXT_MD
+      WFEXT = ZERO
+      WFEXT_MD = ZERO
 
 #include      "machine2.inc"
       

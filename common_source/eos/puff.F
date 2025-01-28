@@ -29,13 +29,36 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                ESPE ,DVOL ,DF   ,VNEW ,MAT  ,
      3                PNEW ,DPDM ,DPDE ,THETA, ECOLD)
 C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C This subroutine contains numerical solving
+C of PUFF EOS
+!----------------------------------------------------------------------------
+!! \details STAGGERED SCHEME IS EXECUTED IN TWO PASSES IN EOSMAIN : IFLG=0 THEN IFLG=1
+!! \details COLLOCATED SCHEME IS DOING A SINGLE PASS : IFLG=2
+!! \details
+!! \details  STAGGERED SCHEME
+!! \details     EOSMAIN / IFLG = 0 : DERIVATIVE CALCULATION FOR SOUND SPEED ESTIMATION c[n+1] REQUIRED FOR PSEUDO-VISCOSITY (DPDE:partial derivative, DPDM:total derivative)
+!! \details     MQVISCB            : PSEUDO-VISCOSITY Q[n+1]
+!! \details     MEINT              : INTERNAL ENERGY INTEGRATION FOR E[n+1] : FIRST PART USING P[n], Q[n], and Q[n+1] CONTRIBUTIONS
+!! \details     EOSMAIN / IFLG = 1 : UPDATE P[n+1], T[N+1]
+!! \details                          INTERNAL ENERGY INTEGRATION FOR E[n+1] : LAST PART USING P[n+1] CONTRIBUTION
+!! \details                            (second order integeration dE = -P.dV where P = 0.5(P[n+1] + P[n]) )
+!! \details  COLLOCATED SCHEME
+!! \details     EOSMAIN / IFLG = 2 : SINGLE PASS FOR P[n+1] AND DERIVATIVES
+!----------------------------------------------------------------------------
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE CONSTANT_MOD , ONLY : ZERO, EM15, HALF, ONE, THREE_HALF, TWO, THREE, THREE100
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc"
+       IMPLICIT NONE
+#include      "my_real.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "mvsiz_p.inc"
 #include      "param_c.inc"
 #include      "com04_c.inc"
 #include      "com06_c.inc"
@@ -55,175 +78,153 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX
-      my_real
-     .   AA, BB, DVV, ETA, XX, GX, PRES, CC, EXPA, EE
-      my_real
-     .   C1(MVSIZ),C2(MVSIZ),C3(MVSIZ),T1(MVSIZ),T2(MVSIZ),
-     .   G0(MVSIZ),ESUBL(MVSIZ),HH(MVSIZ),
-     .   PC(MVSIZ),SPH(MVSIZ)
+      my_real AA, BB, DVV, ETA, XX, GX, PRES, CC, EXPA, EE
+      my_real C1(NEL),C2(NEL),C3(NEL),T1(NEL),T2(NEL), G0(NEL),ESUBL(NEL),HH(NEL),PC(NEL),SPH(NEL),PSH(NEL)
 C--------------------------------------------------------------------    
       IF(IFLAG == 0) THEN
-C-----------------------------------------
-C     COMPUTE BULK MODULUS FOR SOUND SPEED
-C     COMPUTE COLD ENERGY
-C-----------------------------------------
-       DO I=1,NEL
-        MX      = MAT(I)
-        C1(I)   = PM(32,MX)
-        C2(I)   = PM(33,MX)
-        C3(I)   = PM(34,MX)
-        T1(I)   = PM(35,MX)
-        T2(I)   = PM(36,MX)
-        PC(I)   = PM(37,MX)
-        SPH(I)  = PM(69,MX)
-        ESUBL(I)= PM(160,MX)
-        G0(I)   = PM(161,MX)
-        HH(I)   = PM(162,MX)
-       ENDDO
-C
-       DO I=1,NEL
-        XX =MU(I)/(ONE+MU(I))
-        IF(MU(I)>=ZERO) THEN
-          AA=(C1(I)+C3(I)*MU2(I))*MU(I)+C2(I)*MU2(I)
-          GX=ONE-G0(I)*HALF*XX
-          BB=G0(I)
-          PRES=MAX(AA*GX+BB*ESPE(I),PC(I))*OFF(I)
-          DPDM(I)=(C1(I)+TWO*C2(I)*MU(I)+THREE*C3(I)*MU2(I))*GX
-     .            +G0(I)*DF(I)*DF(I)*(PRES-HALF*AA)
-          DPDE(I)=BB
-        ELSEIF(ESPE(I)<ESUBL(I))THEN
-          AA=(T1(I)+T2(I)*MU(I))*MU(I)
-          GX=ONE-G0(I)*HALF*XX
-          BB=G0(I)
-          PRES=MAX(AA*GX+BB*ESPE(I),PC(I))*OFF(I)
-          DPDM(I)=(T1(I)+TWO*T2(I)*MU(I))*GX +
-     .            G0(I)*DF(I)*DF(I)*(PRES-HALF*AA)
-          DPDE(I)=BB
-        ELSE
-          ETA=ONE+MU(I)        
-          EE=SQRT(ETA)
-          BB=(HH(I)+(G0(I)-HH(I))*EE)*ETA
-          CC= C1(I)/(G0(I)*ESUBL(I))
-          EXPA=EXP(CC*XX)
-          AA= BB*ESUBL(I)*(EXPA-ONE)
-          PRES=MAX(AA+BB*ESPE(I),PC(I))*OFF(I)
-          DPDM(I)=BB*DF(I)*DF(I)*(PRES+ESUBL(I)*EXPA*CC) +
-     .       (ESPE(I)+ESUBL(I)*(EXPA-ONE))*(HH(I)+THREE_HALF*EE*(G0(I)-HH(I)))
-          DPDE(I)=BB
-        ENDIF
-       ENDDO
-C
-       DO I=1,NEL
-        ECOLD(I)=-THREE100*SPH(I)
-        IF(MU(I)>ZERO) THEN
-           XX  = MU(I)/(ONE+MU(I))
-           ECOLD(I)=ECOLD(I)*EXP(G0(I)*XX)+HALF*C1(I)*MU2(I) 
-        ENDIF
-       ENDDO
-C
+        DO I=1,NEL
+          MX      = MAT(I)
+          C1(I)   = PM(32,MX)
+          C2(I)   = PM(33,MX)
+          C3(I)   = PM(34,MX)
+          T1(I)   = PM(35,MX)
+          T2(I)   = PM(36,MX)
+          PC(I)   = PM(37,MX)
+          SPH(I)  = PM(69,MX)
+          ESUBL(I)= PM(160,MX)
+          G0(I)   = PM(161,MX)
+          HH(I)   = PM(162,MX)
+          PSH(I)  = PM(88,MX)
+        ENDDO
+        DO I=1,NEL
+          XX =MU(I)/(ONE+MU(I))
+          IF(MU(I) >= ZERO) THEN
+            AA=(C1(I)+C3(I)*MU2(I))*MU(I)+C2(I)*MU2(I)
+            GX=ONE-G0(I)*HALF*XX
+            BB=G0(I)
+            PRES=MAX(AA*GX+BB*ESPE(I),PC(I))*OFF(I)
+            DPDM(I)=(C1(I)+TWO*C2(I)*MU(I)+THREE*C3(I)*MU2(I))*GX+G0(I)*DF(I)*DF(I)*(PRES-HALF*AA)
+            DPDE(I)=BB
+          ELSEIF(ESPE(I) < ESUBL(I))THEN
+            AA=(T1(I)+T2(I)*MU(I))*MU(I)
+            GX=ONE-G0(I)*HALF*XX
+            BB=G0(I)
+            PRES=MAX(AA*GX+BB*ESPE(I),PC(I))*OFF(I)
+            DPDM(I)=(T1(I)+TWO*T2(I)*MU(I))*GX+G0(I)*DF(I)*DF(I)*(PRES-HALF*AA)
+            DPDE(I)=BB
+          ELSE
+            ETA=ONE+MU(I)
+            EE=SQRT(ETA)
+            BB=(HH(I)+(G0(I)-HH(I))*EE)*ETA
+            CC= C1(I)/(G0(I)*ESUBL(I))
+            EXPA=EXP(CC*XX)
+            AA= BB*ESUBL(I)*(EXPA-ONE)
+            PRES=MAX(AA+BB*ESPE(I),PC(I))*OFF(I)
+            DPDM(I)=BB*DF(I)*DF(I)*(PRES+ESUBL(I)*EXPA*CC) +(ESPE(I)+ESUBL(I)*(EXPA-ONE))*(HH(I)+THREE_HALF*EE*(G0(I)-HH(I)))
+            DPDE(I)=BB
+          ENDIF
+        ENDDO
+        DO I=1,NEL
+          ECOLD(I)=-THREE100*SPH(I)
+          IF(MU(I) > ZERO) THEN
+            XX  = MU(I)/(ONE+MU(I))
+            ECOLD(I)=ECOLD(I)*EXP(G0(I)*XX)+HALF*C1(I)*MU2(I)
+          ENDIF
+        ENDDO
+
       ELSEIF(IFLAG == 1) THEN
-C----------------------------------------
-C     UPDATE PRESSURE AND INTERNAL ENERGY
-C----------------------------------------
-       DO I=1,NEL
-        MX      = MAT(I)
-        C1(I)   = PM(32,MX)
-        C2(I)   = PM(33,MX)
-        C3(I)   = PM(34,MX)
-        T1(I)   = PM(35,MX)
-        T2(I)   = PM(36,MX)
-        PC(I)   = PM(37,MX)
-        ESUBL(I)= PM(160,MX)
-        G0(I)   = PM(161,MX)
-        HH(I)   = PM(162,MX)
-       ENDDO
-C
-       DO I=1,NEL
-        DVV=HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
-        XX =MU(I)/(ONE+MU(I))
-C
-        IF(MU(I)>=ZERO) THEN
-          AA=(C1(I)+C3(I)*MU2(I))*MU(I)+C2(I)*MU2(I)
-          AA=AA*(ONE-G0(I)*HALF*XX)
-          BB=G0(I)
-        ELSEIF(ESPE(I)<ESUBL(I))THEN
-          AA=(T1(I)+T2(I)*MU(I))*MU(I)
-          AA=AA*(ONE-G0(I)*HALF*XX)
-          BB=G0(I)
-        ELSE
-          ETA=ONE+MU(I)        
-          BB=(HH(I)+(G0(I)-HH(I))*SQRT(ETA))*ETA
-          CC= C1(I)/(G0(I)*ESUBL(I))
-          EXPA=EXP(CC*XX)
-          AA= BB*ESUBL(I)*(EXPA-ONE)
-        ENDIF
-C
-        PNEW(I)= (AA +BB*ESPE(I))/(ONE+ BB*DVV)
-        PNEW(I)= MAX(PNEW(I),PC(I))*OFF(I)
-        EINT(I)= EINT(I) - HALF*DVOL(I)*PNEW(I)
-       ENDDO
-C------------------------
-C     COMPUTE TEMPERATURE
-C------------------------
-       DO I=1,NEL
-        MX     =MAT(I)
-        SPH(I) =PM(69,MX)
-       ENDDO
-       DO I=1,NEL
-        XX=DF(I)*EINT(I)/VNEW(I)-ECOLD(I)
-        IF(OFF(I)<1..OR.SPH(I)<=0..OR.XX<0.) CYCLE
-        THETA(I)=XX/SPH(I)
-       ENDDO
-C
+        DO I=1,NEL
+          MX      = MAT(I)
+          C1(I)   = PM(32,MX)
+          C2(I)   = PM(33,MX)
+          C3(I)   = PM(34,MX)
+          T1(I)   = PM(35,MX)
+          T2(I)   = PM(36,MX)
+          PC(I)   = PM(37,MX)
+          ESUBL(I)= PM(160,MX)
+          G0(I)   = PM(161,MX)
+          HH(I)   = PM(162,MX)
+          PSH(I)  = PM( 88,MX)
+        ENDDO
+        DO I=1,NEL
+          DVV=HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
+          XX =MU(I)/(ONE+MU(I))
+          IF(MU(I) >= ZERO) THEN
+            AA=(C1(I)+C3(I)*MU2(I))*MU(I)+C2(I)*MU2(I)
+            AA=AA*(ONE-G0(I)*HALF*XX)
+            BB=G0(I)
+          ELSEIF(ESPE(I) < ESUBL(I))THEN
+            AA=(T1(I)+T2(I)*MU(I))*MU(I)
+            AA=AA*(ONE-G0(I)*HALF*XX)
+            BB=G0(I)
+          ELSE
+            ETA=ONE+MU(I)
+            BB=(HH(I)+(G0(I)-HH(I))*SQRT(ETA))*ETA
+            CC=C1(I)/(G0(I)*ESUBL(I))
+            EXPA=EXP(CC*XX)
+            AA=BB*ESUBL(I)*(EXPA-ONE)
+          ENDIF
+          PNEW(I)=(AA +BB*ESPE(I))/(ONE+ BB*DVV)
+          PNEW(I)=MAX(PNEW(I),PC(I))*OFF(I)
+          EINT(I)=EINT(I)-HALF*DVOL(I)*PNEW(I)
+        ENDDO
+        DO I=1,NEL
+          MX=MAT(I)
+          SPH(I)=PM(69,MX)
+        ENDDO
+        DO I=1,NEL
+          XX=DF(I)*EINT(I)/VNEW(I)-ECOLD(I)
+          IF(OFF(I) < ONE .OR. SPH(I) <= ZERO .OR. XX < ZERO) CYCLE
+          THETA(I)=XX/SPH(I)
+        ENDDO
+
       ELSEIF(IFLAG == 2) THEN
-         DO I=1, NEL
-            MX      = MAT(I)
-            C1(I)   = PM(32,MX)
-            C2(I)   = PM(33,MX)
-            C3(I)   = PM(34,MX)
-            T1(I)   = PM(35,MX)
-            T2(I)   = PM(36,MX)
-            PC(I)   = PM(37,MX)
-            SPH(I)  = PM(69,MX)
-            ESUBL(I)= PM(160,MX)
-            G0(I)   = PM(161,MX)
-            HH(I)   = PM(162,MX)
-         ENDDO
-C     
-         DO I=1, NEL
-            IF (VNEW(I) > ZERO) THEN
-               XX =MU(I)/(ONE+MU(I))
-               IF(MU(I)>=ZERO) THEN
-                  AA=(C1(I)+C3(I)*MU2(I))*MU(I)+C2(I)*MU2(I)
-                  GX=ONE-G0(I)*HALF*XX
-                  BB=G0(I)
-                  PRES=MAX(AA*GX+BB*ESPE(I),PC(I))*OFF(I)
-                  DPDM(I)=(C1(I)+TWO*C2(I)*MU(I)+THREE*C3(I)*MU2(I))*GX
-     .                 +G0(I)*DF(I)*DF(I)*(PRES-HALF*AA)
-                  DPDE(I)=BB
-               ELSEIF(ESPE(I)<ESUBL(I))THEN
-                  AA=(T1(I)+T2(I)*MU(I))*MU(I)
-                  GX=ONE-G0(I)*HALF*XX
-                  BB=G0(I)
-                  PRES=MAX(AA*GX+BB*ESPE(I),PC(I))*OFF(I)
-                  DPDM(I)=(T1(I)+TWO*T2(I)*MU(I))*GX +
-     .                 G0(I)*DF(I)*DF(I)*(PRES-HALF*AA)
-                  DPDE(I)=BB
-               ELSE
-                  ETA=ONE+MU(I)        
-                  EE=SQRT(ETA)
-                  BB=(HH(I)+(G0(I)-HH(I))*EE)*ETA
-                  CC= C1(I)/(G0(I)*ESUBL(I))
-                  EXPA=EXP(CC*XX)
-                  AA= BB*ESUBL(I)*(EXPA-ONE)
-                  PRES=MAX(AA+BB*ESPE(I),PC(I))*OFF(I)
-                  DPDM(I)=BB*DF(I)*DF(I)*(PRES+ESUBL(I)*EXPA*CC) +
-     .                 (ESPE(I)+ESUBL(I)*(EXPA-ONE))*(HH(I)+THREE_HALF*EE*(G0(I)-HH(I)))
-                  DPDE(I)=BB
-               ENDIF
-               PNEW(I) = PRES
+        DO I=1, NEL
+          MX      = MAT(I)
+          C1(I)   = PM(32,MX)
+          C2(I)   = PM(33,MX)
+          C3(I)   = PM(34,MX)
+          T1(I)   = PM(35,MX)
+          T2(I)   = PM(36,MX)
+          PC(I)   = PM(37,MX)
+          SPH(I)  = PM(69,MX)
+          ESUBL(I)= PM(160,MX)
+          G0(I)   = PM(161,MX)
+          HH(I)   = PM(162,MX)
+        ENDDO
+        DO I=1, NEL
+          IF (VNEW(I) > ZERO) THEN
+            XX =MU(I)/(ONE+MU(I))
+            IF(MU(I) >= ZERO) THEN
+               AA=(C1(I)+C3(I)*MU2(I))*MU(I)+C2(I)*MU2(I)
+               GX=ONE-G0(I)*HALF*XX
+               BB=G0(I)
+               PRES=MAX(AA*GX+BB*ESPE(I),PC(I))*OFF(I)
+               DPDM(I)=(C1(I)+TWO*C2(I)*MU(I)+THREE*C3(I)*MU2(I))*GX+G0(I)*DF(I)*DF(I)*(PRES-HALF*AA)
+               DPDE(I)=BB
+            ELSEIF(ESPE(I)<ESUBL(I))THEN
+               AA=(T1(I)+T2(I)*MU(I))*MU(I)
+               GX=ONE-G0(I)*HALF*XX
+               BB=G0(I)
+               PRES=MAX(AA*GX+BB*ESPE(I),PC(I))*OFF(I)
+               DPDM(I)=(T1(I)+TWO*T2(I)*MU(I))*GX+G0(I)*DF(I)*DF(I)*(PRES-HALF*AA)
+               DPDE(I)=BB
+            ELSE
+               ETA=ONE+MU(I)
+               EE=SQRT(ETA)
+               BB=(HH(I)+(G0(I)-HH(I))*EE)*ETA
+               CC= C1(I)/(G0(I)*ESUBL(I))
+               EXPA=EXP(CC*XX)
+               AA= BB*ESUBL(I)*(EXPA-ONE)
+               PRES=MAX(AA+BB*ESPE(I),PC(I))*OFF(I)
+               DPDM(I)=BB*DF(I)*DF(I)*(PRES+ESUBL(I)*EXPA*CC) +
+     .              (ESPE(I)+ESUBL(I)*(EXPA-ONE))*(HH(I)+THREE_HALF*EE*(G0(I)-HH(I)))
+               DPDE(I)=BB
             ENDIF
-         ENDDO
+            PNEW(I) = PRES
+          ENDIF
+        ENDDO
       ENDIF
+C-----------------------------------------------
       RETURN
       END

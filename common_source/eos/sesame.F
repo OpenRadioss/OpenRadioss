@@ -33,13 +33,30 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                  ESPE ,DVOL ,MAT  ,PNEW ,DPDM ,DPDE  ,THETA ,
      3                  BUFMAT)
 C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C This subroutine contains numerical solving
+C of SESAME EOS
+!----------------------------------------------------------------------------
+!! \details STAGGERED SCHEME IS EXECUTED IN TWO PASSES IN EOSMAIN : IFLG=0 THEN IFLG=1
+!! \details COLLOCATED SCHEME IS DOING A SINGLE PASS : IFLG=2
+!! \details
+!! \details  STAGGERED SCHEME
+!! \details     EOSMAIN / IFLG = 0 : DERIVATIVE CALCULATION FOR SOUND SPEED ESTIMATION c[n+1] REQUIRED FOR PSEUDO-VISCOSITY (DPDE:partial derivative, DPDM:total derivative)
+!! \details     MQVISCB            : PSEUDO-VISCOSITY Q[n+1]
+!! \details     MEINT              : INTERNAL ENERGY INTEGRATION FOR E[n+1] : FIRST PART USING P[n], Q[n], and Q[n+1] CONTRIBUTIONS
+!! \details     EOSMAIN / IFLG = 1 : UPDATE P[n+1], T[N+1]
+!! \details                          INTERNAL ENERGY INTEGRATION FOR E[n+1] : LAST PART USING P[n+1] CONTRIBUTION
+!! \details                            (second order integeration dE = -P.dV where P = 0.5(P[n+1] + P[n]) )
+!! \details  COLLOCATED SCHEME
+!! \details     EOSMAIN / IFLG = 2 : SINGLE PASS FOR P[n+1] AND DERIVATIVES
+!----------------------------------------------------------------------------C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "mvsiz_p.inc"
 #include      "param_c.inc"
 #include      "vect01_c.inc"
 #include      "com04_c.inc"
@@ -57,81 +74,62 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX, NR, NT, IDR, IDT, IDP, IDE
       my_real ESPEM, PRES, DTDE, DPDR, DPDT
-      my_real PC(MVSIZ)
-C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
+      my_real PC(NEL)
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       IF(IFLAG == 0) THEN
-C-----------------------------------------
-C     COMPUTE BULK MODULUS FOR SOUND SPEED
-C-----------------------------------------
-       DO I=1,NEL
-        MX  = MAT(I)
-        NR  = NINT(PM(33,MX))
-        NT  = NINT(PM(34,MX))
-        IDR = NINT(PM(35,MX))
-        IDT = IDR + NR
-        IDP = IDT + NT
-        IDE = IDP + NR * NT
-        ESPEM=ESPE(I)/RHO0(I)
-C
-C     Init for forcheck
-        DTDE = ZERO
-        CALL MINTP_RE(BUFMAT(IDR),NR,BUFMAT(IDT),NT,BUFMAT(IDE),
-     .                RHO(I),THETA(I),ESPEM,DTDE)
-C
-        CALL MINTP1_RT(BUFMAT(IDR),NR,BUFMAT(IDT),NT,BUFMAT(IDP),
-     .                RHO(I),THETA(I),PRES,DPDR,DPDT)
-C
-        DPDM(I)=RHO0(I)*DPDR
-        DPDE(I)=DPDT*DTDE/RHO0(I)
-       ENDDO
-C
-      ELSEIF(IFLAG == 1) THEN
-C----------------------------------------
-C     UPDATE PRESSURE AND INTERNAL ENERGY
-C----------------------------------------
-       DO I=1,NEL
-        MX      = MAT(I)
-        PC(I)   = PM(37,MX)
-        NR  = NINT(PM(33,MX))
-        NT  = NINT(PM(34,MX))
-        IDR = NINT(PM(35,MX))
-        IDT = IDR + NR
-        IDP = IDT + NT
-        IDE = IDP + NR * NT
-        ESPEM=ESPE(I)/RHO0(I)
-C
-        CALL MINTP_RE(BUFMAT(IDR),NR,BUFMAT(IDT),NT,BUFMAT(IDE),
-     .                RHO(I),THETA(I),ESPEM,DTDE)
-C
-        CALL MINTP_RT(BUFMAT(IDR),NR,BUFMAT(IDT),NT,BUFMAT(IDP),
-     .                RHO(I),THETA(I),PNEW(I),DPDR)
+        DO I=1,NEL
+          MX  = MAT(I)
+          NR  = NINT(PM(33,MX))
+          NT  = NINT(PM(34,MX))
+          IDR = NINT(PM(35,MX))
+          IDT = IDR + NR
+          IDP = IDT + NT
+          IDE = IDP + NR * NT
+          ESPEM = ESPE(I)/RHO0(I)
+          DTDE = ZERO
+          CALL MINTP_RE(BUFMAT(IDR),NR,BUFMAT(IDT),NT,BUFMAT(IDE),RHO(I),THETA(I),ESPEM,DTDE)
+          CALL MINTP1_RT(BUFMAT(IDR),NR,BUFMAT(IDT),NT,BUFMAT(IDP),RHO(I),THETA(I),PRES,DPDR,DPDT)
+          DPDM(I) = RHO0(I)*DPDR
+          DPDE(I) = DPDT*DTDE/RHO0(I)
+        ENDDO
 
-        PNEW(I)= MAX(PNEW(I),PC(I))*OFF(I)
-        EINT(I)= EINT(I) - HALF*DVOL(I)*PNEW(I)
-       ENDDO
-C
+      ELSEIF(IFLAG == 1) THEN
+        DO I=1,NEL
+          MX      = MAT(I)
+          PC(I)   = PM(37,MX)
+          NR  = NINT(PM(33,MX))
+          NT  = NINT(PM(34,MX))
+          IDR = NINT(PM(35,MX))
+          IDT = IDR + NR
+          IDP = IDT + NT
+          IDE = IDP + NR * NT
+          ESPEM=ESPE(I)/RHO0(I)
+          CALL MINTP_RE(BUFMAT(IDR),NR,BUFMAT(IDT),NT,BUFMAT(IDE),RHO(I),THETA(I),ESPEM,DTDE)
+          CALL MINTP_RT(BUFMAT(IDR),NR,BUFMAT(IDT),NT,BUFMAT(IDP),RHO(I),THETA(I),PNEW(I),DPDR)
+          PNEW(I)= MAX(PNEW(I),PC(I))*OFF(I)
+          EINT(I)= EINT(I)-HALF*DVOL(I)*PNEW(I)
+        ENDDO
+
       ELSEIF(IFLAG == 2) THEN
-         DO I=1, NEL
-            MX  = MAT(I)
-            NR  = NINT(PM(33,MX))
-            NT  = NINT(PM(34,MX))
-            PC(I)   = PM(37,MX)
-            IDR = NINT(PM(35,MX))
-            IDT = IDR + NR
-            IDP = IDT + NT
-            IDE = IDP + NR * NT
-            ESPEM=ESPE(I)/RHO0(I)
-C     
-            CALL MINTP_RE(BUFMAT(IDR),NR,BUFMAT(IDT),NT,BUFMAT(IDE),
-     .           RHO(I),THETA(I),ESPEM,DTDE)
-C     
-            CALL MINTP1_RT(BUFMAT(IDR),NR,BUFMAT(IDT),NT,BUFMAT(IDP),
-     .           RHO(I),THETA(I),PRES,DPDR,DPDT)
-C     
-            DPDM(I)=RHO0(I)*DPDR
-            DPDE(I)=DPDT*DTDE/RHO0(I)
-            PNEW(I) = MAX(PRES,PC(I))*OFF(I)
-         ENDDO
+        DO I=1, NEL
+          MX  = MAT(I)
+          NR  = NINT(PM(33,MX))
+          NT  = NINT(PM(34,MX))
+          PC(I)   = PM(37,MX)
+          IDR = NINT(PM(35,MX))
+          IDT = IDR + NR
+          IDP = IDT + NT
+          IDE = IDP + NR * NT
+          ESPEM = ESPE(I)/RHO0(I)
+          CALL MINTP_RE(BUFMAT(IDR),NR,BUFMAT(IDT),NT,BUFMAT(IDE),RHO(I),THETA(I),ESPEM,DTDE)
+          CALL MINTP1_RT(BUFMAT(IDR),NR,BUFMAT(IDT),NT,BUFMAT(IDP),RHO(I),THETA(I),PRES,DPDR,DPDT)
+          DPDM(I) = RHO0(I)*DPDR
+          DPDE(I) = DPDT*DTDE/RHO0(I)
+          PNEW(I) = MAX(PRES,PC(I))*OFF(I)
+        ENDDO
       ENDIF
+C-----------------------------------------------
       RETURN
       END

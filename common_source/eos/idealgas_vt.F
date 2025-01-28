@@ -33,12 +33,26 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE OUTPUT_MOD , ONLY : WFEXT
+C
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 C This subroutine contains numerical solving
-C of IDEAL GAS EOS
+C of IDEAL GAS EOS with variable Cp(T) parameter
+!----------------------------------------------------------------------------
+!! \details STAGGERED SCHEME IS EXECUTED IN TWO PASSES IN EOSMAIN : IFLG=0 THEN IFLG=1
+!! \details COLLOCATED SCHEME IS DOING A SINGLE PASS : IFLG=2
+!! \details
+!! \details  STAGGERED SCHEME
+!! \details     EOSMAIN / IFLG = 0 : DERIVATIVE CALCULATION FOR SOUND SPEED ESTIMATION c[n+1] REQUIRED FOR PSEUDO-VISCOSITY (DPDE:partial derivative, DPDM:total derivative)
+!! \details     MQVISCB            : PSEUDO-VISCOSITY Q[n+1]
+!! \details     MEINT              : INTERNAL ENERGY INTEGRATION FOR E[n+1] : FIRST PART USING P[n], Q[n], and Q[n+1] CONTRIBUTIONS
+!! \details     EOSMAIN / IFLG = 1 : UPDATE P[n+1], T[N+1]
+!! \details                          INTERNAL ENERGY INTEGRATION FOR E[n+1] : LAST PART USING P[n+1] CONTRIBUTION
+!! \details                            (second order integeration dE = -P.dV where P = 0.5(P[n+1] + P[n]) )
+!! \details  COLLOCATED SCHEME
+!! \details     EOSMAIN / IFLG = 2 : SINGLE PASS FOR P[n+1] AND DERIVATIVES
+!----------------------------------------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,7 +62,6 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com04_c.inc"
-#include      "mvsiz_p.inc"
 #include      "param_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
@@ -68,8 +81,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX, CURVEID
-      my_real :: P0,GAMMA,E0,SPH,AA, BB,WFEXTT, DVV, PP, RHO, RHO0
-      my_real :: r_GAS,A0,A1,A2,A3,A4,CP(MVSIZ),CV, T1,T2,T3,T4
+      my_real :: P0,GAMMA,E0,SPH,AA, BB, DVV, PP, RHO, RHO0
+      my_real :: r_GAS,A0,A1,A2,A3,A4,CP(NEL),CV, T1,T2,T3,T4
       my_real :: TEMP, FUN, DFUN, TOL, ERROR, INCR
       INTEGER :: ITER, MAX_ITER
 C-----------------------------------------------
@@ -78,149 +91,140 @@ C-----------------------------------------------
       MAX_ITER = 50
       TOL = EM05
       CP(1:NEL)=ZERO
+
       IF(IFLAG == 0) THEN
-         MX         = MAT(1)
-         RHO0       = PM(1 ,MX)
-         E0         = PM(23,MX)         
-         r_GAS      = PM(106,MX)
-         P0         = PM(31,MX)
-         PSH(1:NEL) = PM(88,MX)
-         SPH        = PM(69,MX)
-         A0         = PM(32,MX)
-         A1         = PM(33,MX)
-         A2         = PM(34,MX)
-         A3         = PM(35,MX)
-         A4         = PM(36,MX)
-         
-         !SOLVE TEMPERATURE
-         DO I=1,NEL
-           ! Init newton
-           RHO = RHO0 * (ONE + MU(I))           
-           TEMP = POLD(I)/RHO/r_GAS
-           ITER = 0
-           ERROR = HUGE(ZERO)
-           DO WHILE(ERROR > TOL .AND. ITER < MAX_ITER)
-              ! f(x) = 0 <=> int(cv(T), T) - eint = 0
-              ! <=> int(cp(T) - r_gas, T) - eint = 0
-              FUN = A0 * TEMP + HALF * A1 * TEMP**2 + THIRD * A2 * TEMP**3 + 
-     .             FOURTH * A3 * TEMP**4 + ONE_FIFTH * A4 * TEMP**5 - r_GAS * TEMP - ESPE(I) / RHO0
-              IF (ABS(FUN) < TOL) EXIT
-              DFUN = A0 +  A1 * TEMP + A2 * TEMP**2 + A3 * TEMP**3 + A4 * TEMP**4 - r_GAS
-              INCR = - FUN / DFUN
-              TEMP = TEMP + INCR
-              ERROR = ABS(INCR / TEMP)
-              ITER = ITER + 1
-           ENDDO
-           ! Store
-           THETA(I) = TEMP
-           CP(I) = A0 + A1 * TEMP + A2 * TEMP**2 + A3 * TEMP**3 + A4 * TEMP**4
-        ENDDO
-         
-         DO I=1,NEL
-           CV = CP(I) - r_GAS 
-           GAMMA = CP(I)/CV
-           DPDM(I) = RHO0*GAMMA*r_GAS*THETA(I)     !total derivative
-           DPDE(I) = GAMMA*(1+MU(I))
-           ECOLD(I)=ZERO        
-         ENDDO
+        MX         = MAT(1)
+        RHO0       = PM(1 ,MX)
+        E0         = PM(23,MX)
+        r_GAS      = PM(106,MX)
+        P0         = PM(31,MX)
+        PSH(1:NEL) = PM(88,MX)
+        SPH        = PM(69,MX)
+        A0         = PM(32,MX)
+        A1         = PM(33,MX)
+        A2         = PM(34,MX)
+        A3         = PM(35,MX)
+        A4         = PM(36,MX)
+        !SOLVE TEMPERATURE
+        DO I=1,NEL
+          ! Init newton
+          RHO = RHO0 * (ONE + MU(I))
+          TEMP = POLD(I)/RHO/r_GAS
+          ITER = 0
+          ERROR = HUGE(ZERO)
+          DO WHILE(ERROR > TOL .AND. ITER < MAX_ITER)
+             ! f(x) = 0 <=> int(cv(T), T) - eint = 0
+             ! <=> int(cp(T) - r_gas, T) - eint = 0
+             FUN = A0 * TEMP + HALF * A1 * TEMP**2 + THIRD * A2 * TEMP**3 +
+     .            FOURTH * A3 * TEMP**4 + ONE_FIFTH * A4 * TEMP**5 - r_GAS * TEMP - ESPE(I) / RHO0
+             IF (ABS(FUN) < TOL) EXIT
+             DFUN = A0 +  A1 * TEMP + A2 * TEMP**2 + A3 * TEMP**3 + A4 * TEMP**4 - r_GAS
+             INCR = - FUN / DFUN
+             TEMP = TEMP + INCR
+             ERROR = ABS(INCR / TEMP)
+             ITER = ITER + 1
+          ENDDO
+          ! Store
+          THETA(I) = TEMP
+          CP(I) = A0 + A1 * TEMP + A2 * TEMP**2 + A3 * TEMP**3 + A4 * TEMP**4
+       ENDDO
+       DO I=1,NEL
+         CV = CP(I) - r_GAS
+         GAMMA = CP(I)/CV
+         DPDM(I) = RHO0*GAMMA*r_GAS*THETA(I)     !total derivative
+         DPDE(I) = GAMMA*(1+MU(I))
+         ECOLD(I)=ZERO
+       ENDDO
          
 C-----------------------------------------------
       ELSEIF(IFLAG == 1) THEN
-         WFEXTT     =ZERO
-         MX         = MAT(1)
-         RHO0       = PM(1 ,MX)
-         E0         = PM(23,MX)
-         r_GAS      = PM(106,MX)
-         P0         = PM(31,MX)
-         PSH(1:NEL) = PM(88,MX)
-         SPH        = PM(69,MX)
-         A0         = PM(32,MX)
-         A1         = PM(33,MX)
-         A2         = PM(34,MX)
-         A3         = PM(35,MX)
-         A4         = PM(36,MX)         
-
-         !SOLVE TEMPERATURE
-         DO I=1,NEL
-           ! Init newton
-           RHO = RHO0 * (ONE + MU(I))           
-           TEMP = POLD(I)/RHO/r_GAS
-           ITER = 0
-           ERROR = HUGE(ZERO)
-           DO WHILE(ERROR > TOL .AND. ITER < MAX_ITER)
-              ! f(x) = 0 <=> int(cv(T), T) - eint = 0
-              ! <=> int(cp(T) - r_gas, T) - eint = 0
-              FUN = A0 * TEMP + HALF * A1 * TEMP**2 + THIRD * A2 * TEMP**3 + 
-     .             FOURTH * A3 * TEMP**4 + ONE_FIFTH * A4 * TEMP**5 - r_GAS * TEMP - ESPE(I) / RHO0
-              IF (ABS(FUN) < TOL) EXIT
-              DFUN = A0 +  A1 * TEMP + A2 * TEMP**2 + A3 * TEMP**3 + A4 * TEMP**4 - r_GAS
-              INCR = - FUN / DFUN
-              TEMP = TEMP + INCR
-              ERROR = ABS(INCR / TEMP)
-              ITER = ITER + 1
-           ENDDO
-           ! Store
-           THETA(I) = TEMP
-           CP(I) = A0 + A1 * TEMP + A2 * TEMP**2 + A3 * TEMP**3 + A4 * TEMP**4
-         ENDDO
-
-         DO I=1,NEL
-           PNEW(I) = RHO0*(ONE+MU(I))*r_GAS*THETA(I)    
-           EINT(I) = EINT(I) - HALF*DVOL(I)*PNEW(I)
-           WFEXTT  = WFEXTT-DVOL(I)*PSH(I)
-           PNEW(I) = PNEW(I)-PSH(I)
-         ENDDO       
-!$OMP ATOMIC
-       WFEXT = WFEXT + WFEXTT
-
-C-----------------------------------------------
-       ELSEIF (IFLAG == 2) THEN
-          MX           = MAT(1)
-          RHO0         = PM(1 ,MX)
-          E0           = PM(23,MX)         
-          r_GAS        = PM(106,MX)
-          P0           = PM(31,MX)
-          PSH(1:NEL)   = PM(88,MX)
-          SPH          = PM(69,MX)
-          A0           = PM(32,MX)
-          A1           = PM(33,MX)
-          A2           = PM(34,MX)
-          A3           = PM(35,MX)
-          A4           = PM(36,MX) 
-                   
-         !SOLVE TEMPERATURE
-         DO I=1,NEL
-           ! Init newton
-           RHO = RHO0 * (ONE + MU(I))           
-           TEMP = POLD(I)/RHO/r_GAS
-           ITER = 0
-           ERROR = HUGE(ZERO)
-           DO WHILE(ERROR > TOL .AND. ITER < MAX_ITER)
-              ! f(x) = 0 <=> int(cv(T), T) - eint = 0
-              ! <=> int(cp(T) - r_gas, T) - eint = 0
-              FUN = A0 * TEMP + HALF * A1 * TEMP**2 + THIRD * A2 * TEMP**3 + 
-     .             FOURTH * A3 * TEMP**4 + ONE_FIFTH * A4 * TEMP**5 - r_GAS * TEMP - ESPE(I) / RHO0
-              IF (ABS(FUN) < TOL) EXIT
-              DFUN = A0 +  A1 * TEMP + A2 * TEMP**2 + A3 * TEMP**3 + A4 * TEMP**4 - r_GAS
-              INCR = - FUN / DFUN
-              TEMP = TEMP + INCR
-              ERROR = ABS(INCR / TEMP)
-              ITER = ITER + 1
-           ENDDO
-           ! Store
-           THETA(I) = TEMP
-           CP(I) = A0 + A1 * TEMP + A2 * TEMP**2 + A3 * TEMP**3 + A4 * TEMP**4
-         ENDDO
-
-          DO I=1, NEL
-             IF (VNEW(I) > ZERO) THEN
-                CV = CP(I) - r_GAS 
-                GAMMA = CP(I)/CV
-                DPDM(I) = RHO0*GAMMA*r_GAS*THETA(I) !total derivative
-                DPDE(I) = GAMMA*(1+MU(I)) !partial derivative
-                PNEW(I) = RHO0*(ONE+MU(I))*r_GAS*THETA(I) 
-             ENDIF
+        MX         = MAT(1)
+        RHO0       = PM(1 ,MX)
+        E0         = PM(23,MX)
+        r_GAS      = PM(106,MX)
+        P0         = PM(31,MX)
+        PSH(1:NEL) = PM(88,MX)
+        SPH        = PM(69,MX)
+        A0         = PM(32,MX)
+        A1         = PM(33,MX)
+        A2         = PM(34,MX)
+        A3         = PM(35,MX)
+        A4         = PM(36,MX)
+        !SOLVE TEMPERATURE
+        DO I=1,NEL
+          ! Init newton
+          RHO = RHO0 * (ONE + MU(I))
+          TEMP = POLD(I)/RHO/r_GAS
+          ITER = 0
+          ERROR = HUGE(ZERO)
+          DO WHILE(ERROR > TOL .AND. ITER < MAX_ITER)
+             ! f(x) = 0 <=> int(cv(T), T) - eint = 0
+             ! <=> int(cp(T) - r_gas, T) - eint = 0
+             FUN = A0 * TEMP + HALF * A1 * TEMP**2 + THIRD * A2 * TEMP**3 +
+     .            FOURTH * A3 * TEMP**4 + ONE_FIFTH * A4 * TEMP**5 - r_GAS * TEMP - ESPE(I) / RHO0
+             IF (ABS(FUN) < TOL) EXIT
+             DFUN = A0 +  A1 * TEMP + A2 * TEMP**2 + A3 * TEMP**3 + A4 * TEMP**4 - r_GAS
+             INCR = - FUN / DFUN
+             TEMP = TEMP + INCR
+             ERROR = ABS(INCR / TEMP)
+             ITER = ITER + 1
           ENDDO
+          ! Store
+          THETA(I) = TEMP
+          CP(I) = A0 + A1 * TEMP + A2 * TEMP**2 + A3 * TEMP**3 + A4 * TEMP**4
+        ENDDO
+        DO I=1,NEL
+          PNEW(I) = RHO0*(ONE+MU(I))*r_GAS*THETA(I)
+          EINT(I) = EINT(I) - HALF*DVOL(I)*PNEW(I)
+          PNEW(I) = PNEW(I)-PSH(I)
+        ENDDO
+
+      ELSEIF (IFLAG == 2) THEN
+        MX           = MAT(1)
+        RHO0         = PM(1 ,MX)
+        E0           = PM(23,MX)
+        r_GAS        = PM(106,MX)
+        P0           = PM(31,MX)
+        PSH(1:NEL)   = PM(88,MX)
+        SPH          = PM(69,MX)
+        A0           = PM(32,MX)
+        A1           = PM(33,MX)
+        A2           = PM(34,MX)
+        A3           = PM(35,MX)
+        A4           = PM(36,MX)
+        !SOLVE TEMPERATURE
+        DO I=1,NEL
+          ! Init newton
+          RHO = RHO0 * (ONE + MU(I))
+          TEMP = POLD(I)/RHO/r_GAS
+          ITER = 0
+          ERROR = HUGE(ZERO)
+          DO WHILE(ERROR > TOL .AND. ITER < MAX_ITER)
+             ! f(x) = 0 <=> int(cv(T), T) - eint = 0
+             ! <=> int(cp(T) - r_gas, T) - eint = 0
+             FUN = A0 * TEMP + HALF * A1 * TEMP**2 + THIRD * A2 * TEMP**3 +
+     .            FOURTH * A3 * TEMP**4 + ONE_FIFTH * A4 * TEMP**5 - r_GAS * TEMP - ESPE(I) / RHO0
+             IF (ABS(FUN) < TOL) EXIT
+             DFUN = A0 +  A1 * TEMP + A2 * TEMP**2 + A3 * TEMP**3 + A4 * TEMP**4 - r_GAS
+             INCR = - FUN / DFUN
+             TEMP = TEMP + INCR
+             ERROR = ABS(INCR / TEMP)
+             ITER = ITER + 1
+          ENDDO
+          ! Store
+          THETA(I) = TEMP
+          CP(I) = A0 + A1 * TEMP + A2 * TEMP**2 + A3 * TEMP**3 + A4 * TEMP**4
+        ENDDO
+        DO I=1, NEL
+          IF (VNEW(I) > ZERO) THEN
+            CV = CP(I) - r_GAS
+            GAMMA = CP(I)/CV
+            DPDM(I) = RHO0*GAMMA*r_GAS*THETA(I) !total derivative
+            DPDE(I) = GAMMA*(1+MU(I)) !partial derivative
+            PNEW(I) = RHO0*(ONE+MU(I))*r_GAS*THETA(I)
+          ENDIF
+        ENDDO
+
       ENDIF
 C-----------------------------------------------
       RETURN

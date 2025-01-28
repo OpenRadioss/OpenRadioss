@@ -65,7 +65,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7                   BFRAC)
 C-----------------------------------------------
       use eosexponential_mod
-      use output_mod , only : wfext
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -140,30 +139,32 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX
-
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       IF(IFLAG == 0) THEN
-       DO I=1,NEL
-        MU2(I)=MAX(ZERO,MU(I))**2
-        ESPE(I)=DF(I)*EINT(I)/ MAX(EM15,VNEW(I))         !ESPE=rho0.e   since EINT=rho.e.V  and DF=rho0/rho   =>  DF*EINT/V = E
-       ENDDO
-       IF(EOSTYP==13 .OR. EOSTYP==16)THEN
-         DO I = 1, NEL
-           POLD(I)=-THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
-         ENDDO
-       ENDIF                
+        DO I=1,NEL
+          MU2(I)=MAX(ZERO,MU(I))**2
+          ESPE(I)=DF(I)*EINT(I)/ MAX(EM15,VNEW(I))         !ESPE=rho0.e   since EINT=rho.e.V  and DF=rho0/rho   =>  DF*EINT/V = E
+        ENDDO
+        IF(EOSTYP == 13 .OR. EOSTYP == 16)THEN
+          DO I = 1, NEL
+            POLD(I)=-THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
+          ENDDO
+        ENDIF
       ELSEIF (IFLAG == 2) THEN
-      !LAW151 ONLY
-         DO I = 1, NEL
-            IF (VNEW(I) > ZERO) THEN
-               MU2(I)=MAX(ZERO,MU(I))**2
-            ENDIF
-            ESPE(I) =  DF(I) * EINT(I)                   !law151 : EINT=rho.e
-         ENDDO
-         IF(EOSTYP==13 .OR. EOSTYP==16)THEN
-           DO I = 1, NEL
-             POLD(I)=-THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
-           ENDDO
-         ENDIF         
+      !LAW151 ONLY (COLLOCATED SCHEME)
+        DO I = 1, NEL
+          IF (VNEW(I) > ZERO) THEN
+           MU2(I)=MAX(ZERO,MU(I))**2
+          ENDIF
+          ESPE(I) =  DF(I) * EINT(I)                   !law151 : EINT=rho.e
+        ENDDO
+        IF(EOSTYP == 13 .OR. EOSTYP == 16)THEN
+          DO I = 1, NEL
+            POLD(I)=-THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
+          ENDDO
+        ENDIF
       ENDIF    
            
       SELECT CASE (EOSTYP)
@@ -185,7 +186,7 @@ C-----------------------------------------------
      1                  IFLAG  ,NEL    ,PM     ,OFF    ,EINT  ,MU  ,MU2, 
      2                  ESPE   ,DVOL   ,DF     ,VNEW   ,MAT   ,RHO0,
      3                  PNEW   ,DPDM   ,DPDE   ,THETA  ,ECOLD ,PSH ,
-     4                  NUMMAT ,NPROPM)
+     4                  NUMMAT ,NPROPM )
 
        CASE (3)
          !--------------------------------------------------!
@@ -193,8 +194,8 @@ C-----------------------------------------------
          !--------------------------------------------------! 
          CALL TILLOTSON(
      1                  IFLAG  ,NEL    ,PM     ,OFF    ,EINT  ,MU  ,MU2,      
-     2                  ESPE   ,DVOL   ,DF     ,VNEW   ,MAT   ,          
-     3                  PNEW   ,DPDM   ,DPDE   ,THETA  ,ECOLD ,VAREOS,NVAREOS)  
+     2                  ESPE   ,DVOL   ,DF     ,VNEW   ,MAT   ,PSH ,
+     3                  PNEW   ,DPDM   ,DPDE   ,THETA  ,ECOLD ,VAREOS,NVAREOS)
 
        CASE (4) 
          !--------------------------------------------------!
@@ -239,7 +240,7 @@ C-----------------------------------------------
           CALL MURNAGHAN(
      1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2, 
      2                  ESPE  ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
-     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD)  
+     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD)
              
        CASE(9)
          !--------------------------------------------------!
@@ -248,7 +249,7 @@ C-----------------------------------------------
           CALL OSBORNE(
      1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2, 
      2                  ESPE  ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
-     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD)     
+     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD)
 
        CASE(10)
          !--------------------------------------------------!
@@ -257,7 +258,7 @@ C-----------------------------------------------
           CALL STIFFGAS(
      1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2, 
      2                  ESPE  ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
-     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD)     
+     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD)
 
        CASE(11)
          !--------------------------------------------------!
@@ -266,7 +267,7 @@ C-----------------------------------------------
           CALL LSZK(
      1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2, 
      2                  ESPE  ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
-     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD) 
+     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD)
 
        CASE(12)
          !--------------------------------------------------!
@@ -276,7 +277,7 @@ C-----------------------------------------------
      1                  IFLAG  ,NEL     ,PM    ,OFF    ,EINT  ,MU       ,MU2,
      2                  ESPE   ,DVOL    ,DF    ,VNEW   ,MAT   ,PSH      ,
      3                  PNEW   ,DPDM    ,DPDE  ,THETA  ,ECOLD ,MAT_PARAM,
-     4                  VAREOS ,NVAREOS ,NUMMAT,NPROPM ,DT1   ,RHO0 ,BFRAC)
+     4                  VAREOS ,NVAREOS ,NUMMAT,NPROPM ,DT1   ,RHO0     ,BFRAC)
 
        CASE(13)
          !--------------------------------------------------!
@@ -286,7 +287,7 @@ C-----------------------------------------------
      1                  IFLAG ,NEL  ,PM   ,OFF   ,EINT  ,MU  ,MU2,
      2                  DVOL  ,MAT  ,PSH  ,
      3                  PNEW  ,DPDM ,DPDE ,MU_BAK,
-     4                  NPROPM,NUMMAT,WFEXT)
+     4                  NPROPM,NUMMAT)
 
        CASE(14)
          !--------------------------------------------------!
@@ -295,7 +296,7 @@ C-----------------------------------------------
           CALL NASG(
      1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2, 
      2                  ESPE  ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
-     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD)    
+     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD)
        CASE(15)
          !--------------------------------------------------!
          !        JWL EOS (internal use, no /EOS/JWL so far)!
@@ -303,7 +304,7 @@ C-----------------------------------------------
           CALL JWL(
      1                  IFLAG ,NEL  ,PM   ,OFF  , EINT ,MU  ,MU2, 
      2                  ESPE  ,DVOL ,DF   ,VNEW , MAT  ,PSH ,
-     3                  PNEW  ,DPDM ,DPDE ,THETA, ECOLD)  
+     3                  PNEW  ,DPDM ,DPDE ,THETA, ECOLD)
      
        CASE(16)
          !--------------------------------------------------!
@@ -322,7 +323,7 @@ C-----------------------------------------------
      1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2, 
      2                  ESPE  ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
      3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD, 
-     4                  NPF   ,TF)
+     4                  NPF   ,TF   )
 
        CASE (18)
          !--------------------------------------------------!
@@ -330,7 +331,7 @@ C-----------------------------------------------
          !--------------------------------------------------!
          CALL EOSLINEAR(
      1                  IFLAG  ,NEL    ,PM     ,OFF    ,EINT  ,MU  ,MU2,
-     2                  DVOL   ,VNEW   ,MAT    ,PNEW  ,DPDM,
+     2                  DVOL   ,VNEW   ,MAT    ,PSH    ,PNEW  ,DPDM,
      3                  DPDE   ,ECOLD  )
 
        CASE (19)
@@ -341,7 +342,7 @@ C-----------------------------------------------
      1                  IFLAG  ,NEL    ,PM     ,OFF    ,EINT  ,
      2                  DVOL   ,VNEW   ,MAT    ,PSH   ,
      3                  PNEW   ,DPDM   ,DPDE   ,THETA  ,TT    ,
-     4                  NPROPM ,NUMMAT ,WFEXT)
+     4                  NPROPM ,NUMMAT )
 
        CASE(20)
          !--------------------------------------------------!
@@ -351,7 +352,7 @@ C-----------------------------------------------
      1                  IFLAG ,NEL  ,PM   ,OFF   ,EINT  ,MU   ,
      2                  DVOL  ,MAT  ,PSH  ,
      3                  PNEW  ,DPDM ,DPDE ,MU_BAK,
-     4                  NPF   ,TF   ,SNPC ,STF   ,NPROPM,NUMMAT,WFEXT,
+     4                  NPF   ,TF   ,SNPC ,STF   ,NPROPM,NUMMAT,
      5                  MAT_PARAM%EOS)
 
        END SELECT

@@ -66,9 +66,10 @@ C-----------------------------------------------
       INTEGER :: II, I, J, ITY, NEL, NFT, ISOLNOD
       INTEGER :: IPLA, NODEID, NVERTEX
       my_real :: RHO, ETOT, VEL2, VOL, SUMFLUX(5)
-      my_real :: VII(5), GRAVII(3), PRES, VX, VY, VZ, WFEXTT, WEXT
+      my_real :: VII(5), GRAVII(3), PRES, VX, VY, VZ, WEXT
       INTEGER :: NB_FACE, NB_NODE, NODE_LIST(8)
       INTEGER, DIMENSION(:, :), POINTER :: IX
+      DOUBLE PRECISION :: WFEXTT
 C-----------------------------------------------
 C     B e g i n n i n g   o f   s u b r o u t i n e
 C-----------------------------------------------
