@@ -87,7 +87,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      N                IAD_RBE3M,FR_RBE3M ,FR_RBE3MP,RRBE3   ,RRBE3_PON ,
      O                PREC_SMS3,DIAG_SMS3,IAD_RBY  ,FR_RBY6 ,RBY6      ,
      P                TAGSLV_RBY_SMS,R3SIZE,NODFT2_SMS,NODLT2_SMS,INDX2_SMS,
-     Q                NODII_SMS ,IBCSCYC ,LBCSCYC ,WFEXT)
+     Q                NODII_SMS ,IBCSCYC ,LBCSCYC ,WFEXT,AMS_WORK)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -95,6 +95,7 @@ C-----------------------------------------------
         USE INTSTAMP_MOD
         USE SENSOR_MOD
         USE SMS_PCG_PROJ
+        USE ams_work_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -162,6 +163,7 @@ C----------resol [M]{X}={F}---------
         TYPE(INTSTAMP_DATA) INTSTAMP(*)
         TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
         DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
+        TYPE (ams_work_), INTENT(INOUT) :: AMS_WORK
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1374,7 +1376,7 @@ C
             CALL SMS_CHECK(TIMERS, NODFT ,NODLT ,IADK  ,JDIK  ,DIAG_SMS,
      2                     LT_K  ,JADI_SMS ,JDII_SMS ,LTI_SMS  ,ITASK  ,
      3                     ITAB  ,IAD_ELEM ,FR_ELEM  ,FR_SMS   ,FR_RMS ,
-     4                     LIST_SMS,LIST_RMS)
+     4                     LIST_SMS,LIST_RMS,AMS_WORK)
 C
           END IF
 C
