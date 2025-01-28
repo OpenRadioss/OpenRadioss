@@ -21,22 +21,6 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    mod_sms_fsa   ../engine/source/ams/sms_fsa_inv.F
-      !||--- called by ------------------------------------------------------
-      !||    sms_check     ../engine/source/ams/sms_fsa_inv.F
-      !||====================================================================
-      module MOD_SMS_FSA
-#include      "my_real.inc"
-C-----
-      INTEGER, DIMENSION(:), ALLOCATABLE :: IADM, JADM, KADM, 
-     .                                      JDIM, JDIM2,
-     .                                      ISORTND, INVND
-      my_real
-     .       , DIMENSION(:), ALLOCATABLE :: DIAG_M, LT_M, LT_M2,
-     .                                      DIAG_INV
-      INTEGER NNDFT0, NNDFT1, NNZM
-      END MODULE MOD_SMS_FSA
-      !||====================================================================
       !||    sms_check        ../engine/source/ams/sms_fsa_inv.F
       !||--- called by ------------------------------------------------------
       !||    sms_pcg          ../engine/source/ams/sms_pcg.F
@@ -61,13 +45,14 @@ C-----
       SUBROUTINE SMS_CHECK(TIMERS,NODFT ,NODLT ,IADK  ,JDIK  ,DIAG_K ,  
      2                     LT_K  ,IADI  , JDII ,LT_I  ,ITASK  ,
      3                     ITAB  ,IAD_ELEM,FR_ELEM,FR_SMS,FR_RMS,
-     4                     LIST_SMS,LIST_RMS)
+     4                     LIST_SMS,LIST_RMS,AMS_WORK)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TIMER_MOD
-      USE MOD_SMS_FSA
       USE MESSAGE_MOD
+      USE AMS_WORK_MOD
+      USE my_alloc_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -93,6 +78,8 @@ C-----------------------------------------------
 C     REAL
       my_real
      .  DIAG_K(*), LT_K(*), LT_I(*)
+
+      TYPE(AMS_WORK_), INTENT(INOUT) :: AMS_WORK
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -120,45 +107,44 @@ C-----------------------------------------------
 C     [K]:matrice de masse complete 
 C     [M]:factorized sparse approximated inverse Lt D L
 C------------------------------------------
-      NNZM  = NNZ_SMS
+      AMS_WORK%check%NNZM  = NNZ_SMS
 C
       IF (IMON>0.AND.ITASK==0) CALL STARTIME(TIMERS,32)
 C
       IF(ITASK==0)THEN
-        ALLOCATE(IADM(NUMNOD+1),JADM(NUMNOD+1),KADM(NUMNOD),
-     .           ISORTND(NUMNOD),INVND(NUMNOD),STAT=IERR)
-        IF (IERR/=0) THEN
-          CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
-     .                C1='FOR FSAI')
-          CALL ARRET(2)
-        ENDIF 
+        CALL MY_ALLOC(AMS_WORK%CHECK%IADM,NUMNOD+1)
+        CALL MY_ALLOC(AMS_WORK%CHECK%JADM,NUMNOD+1)
+        CALL MY_ALLOC(AMS_WORK%CHECK%KADM,NUMNOD)
+        CALL MY_ALLOC(AMS_WORK%CHECK%ISORTND,NUMNOD)
+        CALL MY_ALLOC(AMS_WORK%CHECK%INVND,NUMNOD)
       ENDIF 
 C     ----- approx. (by each colonne of L_T) inverse ---------
 C     ----- utilise d'abord la place de [M] pour la matrice assemblee ---------
       IF (NSPMD==1) THEN
-        NNDFT0=0
-        NNDFT1=NUMNOD
+        AMS_WORK%check%NNDFT0=0
+        AMS_WORK%check%NNDFT1=NUMNOD
 C----------------------
         CALL MY_BARRIER
 C---------------------
         DO NOD=NODFT,NODLT
-          ISORTND(NOD)=NOD
+            AMS_WORK%check%ISORTND(NOD)=NOD
         END DO
       ELSEIF(ITASK==0)THEN
         CALL SPMD_NNDFT_SMS(
      1             FR_SMS ,FR_RMS,LIST_SMS,LIST_RMS,IAD_ELEM,
-     2             FR_ELEM,NNDFT0,NNDFT1,ISORTND)
+     2             FR_ELEM,AMS_WORK%check%NNDFT0,AMS_WORK%check%NNDFT1,
+     *             AMS_WORK%check%ISORTND)
       ENDIF
 C----------------------
       CALL MY_BARRIER
 C---------------------
       DO K=NODFT,NODLT
-        NOD = ISORTND(K)
-        INVND(NOD) = K
+        NOD = AMS_WORK%check%ISORTND(K)
+        AMS_WORK%CHECK%INVND(NOD) = K
       END DO
 C-----
       DO NOD=NODFT,NODLT
-        KADM(NOD)=IADK(NOD+1)-IADK(NOD)
+            AMS_WORK%check%KADM(NOD)=IADK(NOD+1)-IADK(NOD)
       END DO
 C----------------------
       CALL MY_BARRIER
@@ -168,47 +154,44 @@ C
         IF (NSPMD > 1) THEN
           CALL SPMD_NNZ_SMS(
      1               FR_SMS ,FR_RMS,LIST_SMS,LIST_RMS,IAD_ELEM,
-     2               FR_ELEM,NNZM  ,IADK    ,KADM    )
+     2               FR_ELEM,AMS_WORK%check%NNZM  ,IADK    ,AMS_WORK%CHECK%KADM    )
         END IF
 C 
-        ALLOCATE(DIAG_M(NUMNOD),LT_M(NNZM),JDIM(NNZM),
-     .           DIAG_INV(NUMNOD),STAT=IERR)
-        IF (IERR/=0) THEN
-          CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
-     .                C1='FOR FSAI')
-          CALL ARRET(2)
-        ENDIF
+        CALL MY_ALLOC(AMS_WORK%CHECK%DIAG_M,NUMNOD)
+        CALL MY_ALLOC(AMS_WORK%CHECK%LT_M,AMS_WORK%CHECK%NNZM)
+        CALL MY_ALLOC(AMS_WORK%CHECK%JDIM,AMS_WORK%CHECK%NNZM)
+        CALL MY_ALLOC(AMS_WORK%CHECK%DIAG_INV,NUMNOD)
       ENDIF
 C---------------------
       IF(ITASK==0)THEN
-        IADM(1)=1
+        AMS_WORK%CHECK%IADM(1)=1
         DO I=1,NUMNOD
-          IADM(I+1)=IADM(I)+KADM(ISORTND(I))
+            AMS_WORK%CHECK%IADM(I+1)=AMS_WORK%CHECK%IADM(I)+AMS_WORK%CHECK%KADM(AMS_WORK%CHECK%ISORTND(I))
         END DO
       END IF
 C----------------------
       CALL MY_BARRIER
 C---------------------
-      NNZMFT=ITASK*NNZM/NTHREAD+1
-      NNZMLT=(ITASK+1)*NNZM/NTHREAD
-      JDIM(NNZMFT:NNZMLT)=0
+      NNZMFT=ITASK*AMS_WORK%CHECK%NNZM/NTHREAD+1
+      NNZMLT=(ITASK+1)*AMS_WORK%CHECK%NNZM/NTHREAD
+      AMS_WORK%CHECK%JDIM(NNZMFT:NNZMLT)=0
 C----------------------
       CALL MY_BARRIER
 C---------------------
 C M triee 1 ... NNDFT0 ... NNDFT1 ... NUMNOD
       DO I=NODFT,NODLT
-       NOD=ISORTND(I)
-       DIAG_M(I) = DIAG_K(NOD)
-       L=IADM(I)
+       NOD=AMS_WORK%CHECK%ISORTND(I)
+       AMS_WORK%CHECK%DIAG_M(I) = DIAG_K(NOD)
+       L=AMS_WORK%CHECK%IADM(I)
        DO J=IADK(NOD),IADK(NOD+1)-1
-        K=INVND(JDIK(J))
+        K=AMS_WORK%CHECK%INVND(JDIK(J))
         IF(K < I) THEN
-          JDIM(L)=K
-          LT_M(L)=LT_K(J)
+          AMS_WORK%CHECK%JDIM(L)=K
+          AMS_WORK%CHECK%LT_M(L)=LT_K(J)
           L = L + 1
         END IF
        ENDDO
-       KADM(I)=L
+       AMS_WORK%CHECK%KADM(I)=L
       ENDDO 
 C----------------------
       CALL MY_BARRIER
@@ -217,34 +200,29 @@ C M <- termes des processeurs voisins
       IF (ITASK == 0 .AND. NSPMD > 1) THEN
         CALL SPMD_EXCHM_SMS(
      1           FR_SMS ,FR_RMS,LIST_SMS,LIST_RMS,IAD_ELEM,
-     2           FR_ELEM,IADK  ,JDIK    ,LT_K    ,KADM    ,
-     3           JDIM   ,LT_M  ,INVND   )
+     2           FR_ELEM,IADK  ,JDIK    ,LT_K    ,AMS_WORK%CHECK%KADM    ,
+     3           AMS_WORK%CHECK%JDIM   ,AMS_WORK%CHECK%LT_M  ,AMS_WORK%CHECK%INVND   )
       END IF
 C----------------------
 C M compactage
       IF(ITASK==0)THEN
-        ALLOCATE(LT_M2(NNZM),JDIM2(NNZM),
-     .           STAT=IERR)
-        IF (IERR/=0) THEN
-          CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
-     .                C1='FOR FSAI')
-          CALL ARRET(2)
-        ENDIF 
+        CALL MY_ALLOC(AMS_WORK%CHECK%LT_M2,AMS_WORK%CHECK%NNZM)
+        CALL MY_ALLOC(AMS_WORK%CHECK%JDIM2,AMS_WORK%CHECK%NNZM)
       ENDIF
 C----------------------
       CALL MY_BARRIER
 C---------------------
       DO I=NODFT,NODLT
-        KADM(I)=0
-        DO K=IADM(I),IADM(I+1)-1
-         J = JDIM(K)
+        AMS_WORK%CHECK%KADM(I)=0
+        DO K=AMS_WORK%CHECK%IADM(I),AMS_WORK%CHECK%IADM(I+1)-1
+         J = AMS_WORK%CHECK%JDIM(K)
          IF(J/=0) ITAG(J) = 0
         END DO
-        DO K=IADM(I),IADM(I+1)-1
-         J = JDIM(K)
+        DO K=AMS_WORK%CHECK%IADM(I),AMS_WORK%CHECK%IADM(I+1)-1
+         J = AMS_WORK%CHECK%JDIM(K)
          IF(J/=0) THEN
            IF(ITAG(J)==0)THEN
-             KADM(I) = KADM(I) + 1
+            AMS_WORK%CHECK%KADM(I) = AMS_WORK%CHECK%KADM(I) + 1
              ITAG(J) = K
            END IF
          END IF
@@ -254,30 +232,30 @@ C----------------------
       CALL MY_BARRIER
 C---------------------
       IF(ITASK==0)THEN
-        JADM(1)=1
+            AMS_WORK%CHECK%JADM(1)=1
         DO I=1,NUMNOD
-          JADM(I+1)=JADM(I)+KADM(I)
+            AMS_WORK%CHECK%JADM(I+1)=AMS_WORK%CHECK%JADM(I)+AMS_WORK%CHECK%KADM(I)
         END DO
       END IF
 C----------------------
       CALL MY_BARRIER
 C---------------------
       DO I=NODFT,NODLT
-        KADM(I)=JADM(I)
-        DO K=IADM(I),IADM(I+1)-1
-         J = JDIM(K)
+            AMS_WORK%CHECK%KADM(I)=AMS_WORK%CHECK%JADM(I)
+        DO K=AMS_WORK%CHECK%IADM(I),AMS_WORK%CHECK%IADM(I+1)-1
+         J = AMS_WORK%CHECK%JDIM(K)
          IF(J/=0) ITAG(J) = 0
         END DO
-        DO K=IADM(I),IADM(I+1)-1
-         J = JDIM(K)
+        DO K=AMS_WORK%CHECK%IADM(I),AMS_WORK%CHECK%IADM(I+1)-1
+         J = AMS_WORK%CHECK%JDIM(K)
          IF(J/=0) THEN
            IF(ITAG(J)==0)THEN
-             JDIM2(KADM(I)) = J
-             LT_M2(KADM(I)) = LT_M(K)
-             ITAG(J) = KADM(I)
-             KADM(I) = KADM(I) + 1
+             AMS_WORK%CHECK%JDIM2(AMS_WORK%CHECK%KADM(I)) = J
+             AMS_WORK%CHECK%LT_M2(AMS_WORK%CHECK%KADM(I)) = AMS_WORK%CHECK%LT_M(K)
+             ITAG(J) = AMS_WORK%CHECK%KADM(I)
+             AMS_WORK%CHECK%KADM(I) = AMS_WORK%CHECK%KADM(I) + 1
            ELSE
-             LT_M2(ITAG(J)) = LT_M2(ITAG(J)) + LT_M(K)
+             AMS_WORK%CHECK%LT_M2(ITAG(J)) = AMS_WORK%CHECK%LT_M2(ITAG(J)) + AMS_WORK%CHECK%LT_M(K)
            END IF
          END IF
         END DO
@@ -285,22 +263,23 @@ C---------------------
 C----------------------
       CALL MY_BARRIER
 C---------------------
-      CALL SMS_FSA_INVH(NNZM   ,JADM  ,JDIM2 , DIAG_M, LT_M2, 
-     1            NNDFT0,NNDFT1,ITASK  ,DIAG_INV)
+      CALL SMS_FSA_INVH(AMS_WORK%CHECK%NNZM   ,AMS_WORK%CHECK%JADM  ,AMS_WORK%CHECK%JDIM2 ,
+     *                  AMS_WORK%CHECK%DIAG_M, AMS_WORK%CHECK%LT_M2, AMS_WORK%CHECK%NNDFT0,
+     *                  AMS_WORK%CHECK%NNDFT1,ITASK ,AMS_WORK%CHECK%DIAG_INV)
 C----------------------
       CALL MY_BARRIER
 C---------------------
       IF (ITASK == 0) THEN
 C-------
-        DO I=1,NNDFT0
-         DIAG_INV(I) = ZERO
+        DO I=1,AMS_WORK%CHECK%NNDFT0
+            AMS_WORK%CHECK%DIAG_INV(I) = ZERO
         ENDDO 
 C-------
         LMIN=EP20
-        DO I=NNDFT0+1,NUMNOD
-          IF(DIAG_INV(I) < LMIN)THEN
-            LMIN=DIAG_INV(I)
-            IMIN=ITAB(ISORTND(I))
+        DO I=AMS_WORK%CHECK%NNDFT0+1,NUMNOD
+          IF(AMS_WORK%CHECK%DIAG_INV(I) < LMIN)THEN
+            LMIN=AMS_WORK%CHECK%DIAG_INV(I)
+            IMIN=ITAB(AMS_WORK%CHECK%ISORTND(I))
           END IF
         END DO
         IF (NSPMD > 1) THEN
@@ -323,8 +302,17 @@ C----------------------
       CALL MY_BARRIER
 C---------------------
       IF(ITASK==0)THEN
-        DEALLOCATE(IADM,JADM,KADM,ISORTND,INVND,
-     .             DIAG_M,LT_M,JDIM,LT_M2,JDIM2,DIAG_INV)
+        DEALLOCATE(AMS_WORK%CHECK%IADM)
+        DEALLOCATE(AMS_WORK%CHECK%JADM)
+        DEALLOCATE(AMS_WORK%CHECK%KADM)
+        DEALLOCATE(AMS_WORK%CHECK%ISORTND)
+        DEALLOCATE(AMS_WORK%CHECK%INVND)
+        DEALLOCATE(AMS_WORK%CHECK%DIAG_M)
+        DEALLOCATE(AMS_WORK%CHECK%LT_M)
+        dEALLOCATE(AMS_WORK%CHECK%JDIM)
+        DEALLOCATE(AMS_WORK%CHECK%LT_M2)
+        DEALLOCATE(AMS_WORK%CHECK%JDIM2)
+        DEALLOCATE(AMS_WORK%CHECK%DIAG_INV)
       END IF
 C--------------------------------------------
  2001 FORMAT(' ... RUNNING DIAGNOSIS')

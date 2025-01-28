@@ -701,6 +701,7 @@ C-----------------------------------------------
       USE TIMER_MOD
       USE rbe3_mod
       USE TH_SURF_MOD , ONLY : TH_SURF_NUM_CHANNEL
+      USE ams_work_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1288,7 +1289,8 @@ C-------------------------------------------------------------------------------
         my_real, DIMENSION(:), ALLOCATABLE :: admerr_AREA_SH4
         my_real, DIMENSION(:), ALLOCATABLE :: admerr_AREA_SH3
 C-----------------------------------------------------------------------------------       
-        type(SPH_WORK_) :: SPH_WORK   ! working Areas for SPLISSV and SPHPREP
+        type(SPH_WORK_)  :: SPH_WORK   !< working Areas for SPLISSV and SPHPREP
+        type (ams_work_) :: ams_work   !< Working areas for AMS
 C-----------------------------------------------------------------------------------       
 C         Node Spliting (hardcoded example) 
 c        integer :: fail_counter
@@ -6788,7 +6790,7 @@ C===============================================================================
      P        PREC_SMS3 ,DIAG_SMS3,IAD_RBY  ,FR_RBY6    ,RBY6     ,
      Q        RBE3%irotg_sz    ,BETATE   ,IBCSCYC    ,LBCSCYC,
      R        MSKYI_FI_SMS, LIST_SMS,LIST_RMS,CJWORK,FREA,
-     S        IRWL_WORK,SMS_VFI,sz_mw6,MW6,OUTPUT%WFEXT)
+     S        IRWL_WORK,SMS_VFI,sz_mw6,MW6,OUTPUT%WFEXT,ams_work)
 
 !$OMP END PARALLEL
 
