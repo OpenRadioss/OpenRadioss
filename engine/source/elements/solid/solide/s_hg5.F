@@ -120,7 +120,7 @@ C     REAL
      .   G52(MVSIZ),G62(MVSIZ),G72(MVSIZ),G82(MVSIZ),
      .   G13(MVSIZ),G23(MVSIZ),G33(MVSIZ),G43(MVSIZ),
      .   G53(MVSIZ),G63(MVSIZ),G73(MVSIZ),G83(MVSIZ),
-     .   E0,G0,C1,NU,EHOURT ,QH,LAMG ,SFAC,FDAMP,DT05  
+     .   E0,G0,C1,NU,EHOURT ,QH,LAMG,SFAC,FDAMP,DT05,LAMGT(MVSIZ),F_ET(MVSIZ)  
 C----------------------------------------------- 
 C------recompute modulus for law42,88,90
       MX = MAT(1)
@@ -130,6 +130,8 @@ C------recompute modulus for law42,88,90
       E0=PM(20,MX)
       QH = GEO(13,PID(1))
       IF (ISCTL>0 .AND. NU>0.48999) QH = ZEP05*QH
+      LAMGT(1:NEL)=CXX(1:NEL)*CXX(1:NEL)*RHO(1:NEL)
+      F_ET(1:NEL)=ONE
       SELECT CASE (MTN)
         CASE (70)
           E0=PM(24,MX)
@@ -138,20 +140,33 @@ C------recompute modulus for law42,88,90
           C1 = THIRD*E0/(1-TWO*NU)
           G0 = HALF*G0
           LAMG = C1+FOUR_OVER_3*G0
-        CASE (1,62)
+          F_ET(1:NEL)=MAX(ONE,LAMGT(1:NEL)/LAMG)
+        CASE (1)
           LAMG = C1+FOUR_OVER_3*G0
+        CASE (62)
+          G0 = HALF*G0
+          LAMG = C1+FOUR_OVER_3*G0
+          DO I=1,NEL
+            F_ET(I)=MAX(ONE,LAMGT(I)/LAMG)
+            SFAC = MIN(TEN,F_ET(I))
+            IF (SFAC>TWO) SFAC=TEN
+            F_ET(I)=SFAC*F_ET(I)
+            STI(I)=SFAC*STI(I)
+          ENDDO
         CASE (88)
           C1 = THIRD*E0/(1-TWO*NU)
           LAMG = C1+FOUR_OVER_3*G0
+          F_ET(1:NEL)=MAX(ONE,LAMGT(1:NEL)/LAMG)
         CASE DEFAULT
           IF (ISCTL>0) QH = FOURTH*QH ! 2.5 for default
           LAMG = C1+FOUR_OVER_3*G0
+          F_ET(1:NEL)=MAX(ONE,LAMGT(1:NEL)/LAMG)
       END SELECT
       IF (QH>ONE) STI(1:NEL) = QH*STI(1:NEL)
       SFAC = 0.038*QH*LAMG
       DO I=1,NEL
          CAQ(I)=SFAC*DT1*OFF(I)
-         FCL(I)=CAQ(I)*VOL(I)**THIRD
+         FCL(I)=F_ET(I)*CAQ(I)*VOL(I)**THIRD
       ENDDO
       DO I=1,NEL
          FDAMP=EM02*RHO(I)*CXX(I)*VOL(I)**TWO_THIRD
