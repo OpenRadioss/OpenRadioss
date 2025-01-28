@@ -33,13 +33,27 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE OUTPUT_MOD , ONLY : WFEXT
+C
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 C This subroutine contains numerical solving
 C of LSZK EOS
 C Landau Stanyukovich Zeldovich Kompaneet
+!----------------------------------------------------------------------------
+!! \details STAGGERED SCHEME IS EXECUTED IN TWO PASSES IN EOSMAIN : IFLG=0 THEN IFLG=1
+!! \details COLLOCATED SCHEME IS DOING A SINGLE PASS : IFLG=2
+!! \details
+!! \details  STAGGERED SCHEME
+!! \details     EOSMAIN / IFLG = 0 : DERIVATIVE CALCULATION FOR SOUND SPEED ESTIMATION c[n+1] REQUIRED FOR PSEUDO-VISCOSITY (DPDE:partial derivative, DPDM:total derivative)
+!! \details     MQVISCB            : PSEUDO-VISCOSITY Q[n+1]
+!! \details     MEINT              : INTERNAL ENERGY INTEGRATION FOR E[n+1] : FIRST PART USING P[n], Q[n], and Q[n+1] CONTRIBUTIONS
+!! \details     EOSMAIN / IFLG = 1 : UPDATE P[n+1], T[N+1]
+!! \details                          INTERNAL ENERGY INTEGRATION FOR E[n+1] : LAST PART USING P[n+1] CONTRIBUTION
+!! \details                            (second order integeration dE = -P.dV where P = 0.5(P[n+1] + P[n]) )
+!! \details  COLLOCATED SCHEME
+!! \details     EOSMAIN / IFLG = 2 : SINGLE PASS FOR P[n+1] AND DERIVATIVES
+!----------------------------------------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,7 +62,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "mvsiz_p.inc"
 #include      "param_c.inc"
 #include      "com04_c.inc"
 #include      "com06_c.inc"
@@ -68,95 +81,76 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX
-      my_real :: P0,PSH(MVSIZ),GAMMA,T0,E0,SPH,AA, BB,WFEXTT, DVV, PP, AR0B, B,PC
+      my_real :: P0,PSH(NEL),GAMMA,T0,E0,SPH,AA, BB, DVV, PP, AR0B, B,PC
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       IF(IFLAG == 0) THEN
-C-----------------------------------------
-C     COMPUTE BULK MODULUS FOR SOUND SPEED
-C     COMPUTE COLD COMPRESSION ENERGY
-C-----------------------------------------
-       MX         = MAT(1)
-       E0         = PM(23,MX)         
-       GAMMA      = PM(34,MX)
-       P0         = PM(32,MX)
-       PSH(1:NEL) = PM(88,MX)
-       AR0B       = PM(35,MX)
-       B          = PM(36,MX)
-       SPH        = PM(69,MX)
-
-       DO I=1,NEL
-         PP      = (GAMMA-ONE)*(ONE+MU(I))*ESPE(I) + AR0B*EXP(B*LOG(ONE+MU(I)))
-         DPDM(I) = (GAMMA-ONE)*ESPE(I)+AR0B*B/(ONE+MU(I))*EXP((B-ONE)*LOG(ONE+MU(I)))+(GAMMA-ONE)*DF(I)*PP   !total derivative
-         DPDE(I) = (GAMMA-ONE)*(ONE+MU(I))                                                                  !partial derivative
-       ENDDO
-
-       DO I=1,NEL
-         ECOLD(I)=-THREE100*SPH
-         !IF(MU(I)>ZERO) ECOLD(I)=
-       ENDDO
+        MX         = MAT(1)
+        E0         = PM(23,MX)
+        GAMMA      = PM(34,MX)
+        P0         = PM(32,MX)
+        PSH(1:NEL) = PM(88,MX)
+        AR0B       = PM(35,MX)
+        B          = PM(36,MX)
+        SPH        = PM(69,MX)
+        DO I=1,NEL
+          PP      = (GAMMA-ONE)*(ONE+MU(I))*ESPE(I) + AR0B*EXP(B*LOG(ONE+MU(I)))
+          DPDM(I) = (GAMMA-ONE)*ESPE(I)+AR0B*B/(ONE+MU(I))*EXP((B-ONE)*LOG(ONE+MU(I)))+(GAMMA-ONE)*DF(I)*PP   !total derivative
+          DPDE(I) = (GAMMA-ONE)*(ONE+MU(I))                                                                  !partial derivative
+        ENDDO
+        DO I=1,NEL
+          ECOLD(I)=-THREE100*SPH
+          !IF(MU(I)>ZERO) ECOLD(I)=
+        ENDDO
 
       ELSEIF(IFLAG == 1) THEN
-C----------------------------------------
-C     UPDATE PRESSURE AND INTERNAL ENERGY
-C----------------------------------------
-       WFEXTT     = ZERO
-       MX         = MAT(1)
-       E0         = PM(23,MX)         
-       GAMMA      = PM(34,MX)
-       P0         = PM(32,MX)
-       PSH(1:NEL) = PM(88,MX)
-       AR0B       = PM(35,MX)
-       B          = PM(36,MX)
-       SPH        = PM(69,MX)
-       PC         = PM(37,MX)
+        MX         = MAT(1)
+        E0         = PM(23,MX)
+        GAMMA      = PM(34,MX)
+        P0         = PM(32,MX)
+        PSH(1:NEL) = PM(88,MX)
+        AR0B       = PM(35,MX)
+        B          = PM(36,MX)
+        SPH        = PM(69,MX)
+        PC         = PM(37,MX)
+        DO I=1,NEL
+          BB         = (GAMMA-ONE)*(ONE+MU(I))
+          AA         = AR0B*EXP(B*LOG(ONE+MU(I)))
+          DVV        = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
+          PNEW(I)    = (AA + BB*ESPE(I) ) / (ONE+BB*DVV)
+          PNEW(I)    = MAX(PNEW(I),PC)*OFF(I)
+          EINT(I)    = EINT(I) - HALF*DVOL(I)*(PNEW(I))
+          PNEW(I)    = PNEW(I) - PSH(I)
+        ENDDO
+        MX         = MAT(1)
+        SPH        = PM(69,MX)
+        DO I=1,NEL
+          IF(OFF(I) < ONE .OR. SPH <= ZERO) CYCLE
+          THETA(I) = (DF(I)*EINT(I)/VNEW(I)-ECOLD(I))/SPH
+          THETA(I)   = MAX(ZERO,THETA(I))
+        ENDDO
 
-       DO I=1,NEL
-         BB         = (GAMMA-ONE)*(ONE+MU(I))
-         AA         = AR0B*EXP(B*LOG(ONE+MU(I)))
-         DVV        = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
-         PNEW(I)    = (AA + BB*ESPE(I) ) / (ONE+BB*DVV)         
-         PNEW(I)    = MAX(PNEW(I),PC)*OFF(I)
-         EINT(I)    = EINT(I) - HALF*DVOL(I)*(PNEW(I))
-         PNEW(I)    = PNEW(I) - PSH(I)
-         WFEXTT     = WFEXTT-DVOL(I)*PSH(I)
-       ENDDO
-       
-!$OMP ATOMIC
-       WFEXT = WFEXT + WFEXTT
-C
-C------------------------
-C     COMPUTE TEMPERATURE
-C------------------------
-
-         MX         = MAT(1)
-         SPH        = PM(69,MX)
-
-       DO I=1,NEL
-         IF(OFF(I)<1..OR.SPH<=0.) CYCLE
-         THETA(I) = (DF(I)*EINT(I)/VNEW(I)-ECOLD(I))/SPH
-         THETA(I)   = MAX(ZERO,THETA(I))
-       ENDDO
       ELSEIF (IFLAG == 2) THEN
-         MX           = MAT(1)
-         E0           = PM(23,MX)         
-         GAMMA        = PM(34,MX)
-         P0           = PM(32,MX)
-         PSH(1:NEL) = PM(88,MX)
-         AR0B         = PM(35,MX)
-         B            = PM(36,MX)
-         SPH          = PM(69,MX)
-         
-         DO I=1, NEL
-            IF (VNEW(I) > ZERO) THEN
-               PNEW(I) = (GAMMA-ONE)*(ONE+MU(I))*ESPE(I) + AR0B*EXP(B*LOG(ONE+MU(I)))
-               DPDM(I) = (GAMMA-ONE)*ESPE(I)+AR0B*B/(ONE+MU(I))*EXP((B-ONE)*LOG(ONE+MU(I)))+(GAMMA-ONE)*DF(I)*PNEW(I)   !total derivative
-               DPDE(I) = (GAMMA-ONE)*(ONE+MU(I))                                                               !partial derivative
-               PNEW(I) = PNEW(I)-PSH(I)
-            ENDIF
-         ENDDO
+        MX           = MAT(1)
+        E0           = PM(23,MX)
+        GAMMA        = PM(34,MX)
+        P0           = PM(32,MX)
+        PSH(1:NEL) = PM(88,MX)
+        AR0B         = PM(35,MX)
+        B            = PM(36,MX)
+        SPH          = PM(69,MX)
+        DO I=1, NEL
+          IF (VNEW(I) > ZERO) THEN
+            PNEW(I) = (GAMMA-ONE)*(ONE+MU(I))*ESPE(I) + AR0B*EXP(B*LOG(ONE+MU(I)))
+            DPDM(I) = (GAMMA-ONE)*ESPE(I)+AR0B*B/(ONE+MU(I))*EXP((B-ONE)*LOG(ONE+MU(I)))+(GAMMA-ONE)*DF(I)*PNEW(I)   !total derivative
+            DPDE(I) = (GAMMA-ONE)*(ONE+MU(I))                                                               !partial derivative
+            PNEW(I) = PNEW(I)-PSH(I)
+          ENDIF
+        ENDDO
+
       ENDIF
-C------------------------      
+
+C-----------------------------------------------
       RETURN
       END

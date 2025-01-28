@@ -27,18 +27,32 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    output_mod   ../common_source/modules/output/output_mod.F90
       !||====================================================================
-      SUBROUTINE MURNAGHAN(IFLAG,NEL, PM   ,OFF  ,EINT ,MU   ,MU2 , 
+      SUBROUTINE MURNAGHAN(IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2 ,
      2                     ESPE ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
      3                     PNEW ,DPDM ,DPDE ,THETA,ECOLD)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE OUTPUT_MOD , ONLY : WFEXT
+C
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 C This subroutine contains numerical solving
-C of MRNAGHAN EOS
+C of MURNAGHAN EOS
+!----------------------------------------------------------------------------
+!! \details STAGGERED SCHEME IS EXECUTED IN TWO PASSES IN EOSMAIN : IFLG=0 THEN IFLG=1
+!! \details COLLOCATED SCHEME IS DOING A SINGLE PASS : IFLG=2
+!! \details
+!! \details  STAGGERED SCHEME
+!! \details     EOSMAIN / IFLG = 0 : DERIVATIVE CALCULATION FOR SOUND SPEED ESTIMATION c[n+1] REQUIRED FOR PSEUDO-VISCOSITY (DPDE:partial derivative, DPDM:total derivative)
+!! \details     MQVISCB            : PSEUDO-VISCOSITY Q[n+1]
+!! \details     MEINT              : INTERNAL ENERGY INTEGRATION FOR E[n+1] : FIRST PART USING P[n], Q[n], and Q[n+1] CONTRIBUTIONS
+!! \details     EOSMAIN / IFLG = 1 : UPDATE P[n+1], T[N+1]
+!! \details                          INTERNAL ENERGY INTEGRATION FOR E[n+1] : LAST PART USING P[n+1] CONTRIBUTION
+!! \details                            (second order integeration dE = -P.dV where P = 0.5(P[n+1] + P[n]) )
+!! \details  COLLOCATED SCHEME
+!! \details     EOSMAIN / IFLG = 2 : SINGLE PASS FOR P[n+1] AND DERIVATIVES
+!----------------------------------------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -47,7 +61,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "mvsiz_p.inc"
 #include      "param_c.inc"
 #include      "com04_c.inc"
 #include      "com06_c.inc"
@@ -68,89 +81,68 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX
-      my_real :: P0,T0,E0,SPH,AA, BB,WFEXTT, DVV, PP, K0, K1, PC
+      my_real :: P0,T0,E0,SPH,AA, BB, DVV, PP, K0, K1, PC
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       IF(IFLAG == 0) THEN
-C-----------------------------------------
-C     COMPUTE BULK MODULUS FOR SOUND SPEED
-C     COMPUTE COLD COMPRESSION ENERGY
-C-----------------------------------------
-         MX         = MAT(1)
-         E0         = PM(23,MX)         
-         K0         = PM(36,MX)
-         P0         = PM(32,MX)
-         PSH(1:NEL) = PM(88,MX)
-         K1         = PM(35,MX)
-         SPH        = PM(69,MX)
-         
-       DO I=1,NEL
-         DPDM(I) = K0*EXP( K1*LOG(1+MU(I)) )/(ONE+MU(I))     !total derivative
-         DPDE(I) = ZERO                                       !partial derivative
-       ENDDO
-
-       DO I=1,NEL
-         ECOLD(I)=-THREE100*SPH
-         !IF(MU(I)>ZERO) ECOLD(I)=
-       ENDDO
+        MX         = MAT(1)
+        E0         = PM(23,MX)
+        K0         = PM(36,MX)
+        P0         = PM(32,MX)
+        PSH(1:NEL) = PM(88,MX)
+        K1         = PM(35,MX)
+        SPH        = PM(69,MX)
+        DO I=1,NEL
+          DPDM(I) = K0*EXP( K1*LOG(1+MU(I)) )/(ONE+MU(I))     !total derivative
+          DPDE(I) = ZERO                                       !partial derivative
+        ENDDO
+        DO I=1,NEL
+          ECOLD(I)=-THREE100*SPH
+          !IF(MU(I)>ZERO) ECOLD(I)=
+        ENDDO
 
       ELSEIF(IFLAG == 1) THEN
-C----------------------------------------
-C     UPDATE PRESSURE AND INTERNAL ENERGY
-C----------------------------------------
-         WFEXTT     =ZERO
+        MX         = MAT(1)
+        E0         = PM(23,MX)
+        K0         = PM(36,MX)
+        P0         = PM(32,MX)
+        PSH(1:NEL) = PM(88,MX)
+        K1         = PM(35,MX)
+        PC         = PM(37,MX)
+        SPH        = PM(69,MX)
+        DO I=1,NEL
+          PNEW(I) = K0/K1 * (EXP(K1*LOG(1+MU(I))) - ONE )  + P0
+          PNEW(I) = MAX(PNEW(I),PC)*OFF(I)
+          EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
+          PNEW(I) = PNEW(I)-PSH(I)
+        ENDDO
+       MX     = MAT(1)
+       SPH    = PM(69,MX)
+       DO I=1,NEL
+         IF(OFF(I) < ONE .OR. SPH <= ZERO) CYCLE
+         THETA(I) = (DF(I)*EINT(I)/VNEW(I)-ECOLD(I))/SPH
+         THETA(I) = MAX(ZERO,THETA(I))
+       ENDDO
+
+       ELSEIF(IFLAG == 2) THEN
          MX         = MAT(1)
-         E0         = PM(23,MX)         
+         E0         = PM(23,MX)
          K0         = PM(36,MX)
          P0         = PM(32,MX)
          PSH(1:NEL) = PM(88,MX)
          K1         = PM(35,MX)
          PC         = PM(37,MX)
          SPH        = PM(69,MX)
-
-       DO I=1,NEL
-         PNEW(I) = K0/K1 * (EXP(K1*LOG(1+MU(I))) - ONE )  + P0        
-         PNEW(I) = MAX(PNEW(I),PC)*OFF(I)
-         EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
-         WFEXTT  = WFEXTT-DVOL(I)*PSH(I)
-         PNEW(I) = PNEW(I)-PSH(I)
-       ENDDO
-       
-!$OMP ATOMIC
-       WFEXT = WFEXT + WFEXTT
-C
-C------------------------
-C     COMPUTE TEMPERATURE
-C------------------------
-
-         MX     = MAT(1)
-         SPH    = PM(69,MX)
-
-       DO I=1,NEL
-         IF(OFF(I)<1..OR.SPH<=0.) CYCLE
-         THETA(I) = (DF(I)*EINT(I)/VNEW(I)-ECOLD(I))/SPH
-         THETA(I) = MAX(ZERO,THETA(I))
-       ENDDO
-       ELSEIF(IFLAG == 2) THEN
-          MX         = MAT(1)
-          E0         = PM(23,MX)         
-          K0         = PM(36,MX)
-          P0         = PM(32,MX)
-          PSH(1:NEL) = PM(88,MX)
-          K1         = PM(35,MX)
-          PC         = PM(37,MX)
-          SPH        = PM(69,MX)
-          
-          DO I=1,NEL
-             IF (VNEW(I) > ZERO) THEN
-                PNEW(I) = K0/K1 * (EXP(K1*LOG(1+MU(I))) - ONE )  + P0 
-                DPDM(I) = K0*EXP( K1*LOG(1+MU(I)) )/(ONE+MU(I)) !total derivative
-                DPDE(I) = ZERO  
-                PNEW(I) = MAX(PNEW(I),PC)*OFF(I)
-                PNEW(I) = PNEW(I)-PSH(I)
-             ENDIF
-          ENDDO
+         DO I=1,NEL
+           IF (VNEW(I) > ZERO) THEN
+             PNEW(I) = K0/K1 * (EXP(K1*LOG(1+MU(I))) - ONE )  + P0
+             DPDM(I) = K0*EXP( K1*LOG(1+MU(I)) )/(ONE+MU(I)) !total derivative
+             DPDE(I) = ZERO
+             PNEW(I) = MAX(PNEW(I),PC)*OFF(I)
+             PNEW(I) = PNEW(I)-PSH(I)
+           ENDIF
+         ENDDO
       ENDIF
 C------------------------      
       RETURN

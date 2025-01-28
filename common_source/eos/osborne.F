@@ -33,12 +33,27 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE OUTPUT_MOD , ONLY : WFEXT
+C
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 C This subroutine contains numerical solving
 C of OSBORNE EOS
+!----------------------------------------------------------------------------
+!! \details STAGGERED SCHEME IS EXECUTED IN TWO PASSES IN EOSMAIN : IFLG=0 THEN IFLG=1
+!! \details COLLOCATED SCHEME IS DOING A SINGLE PASS : IFLG=2
+!! \details
+!! \details  STAGGERED SCHEME
+!! \details     EOSMAIN / IFLG = 0 : DERIVATIVE CALCULATION FOR SOUND SPEED ESTIMATION c[n+1] REQUIRED FOR PSEUDO-VISCOSITY (DPDE:partial derivative, DPDM:total derivative)
+!! \details     MQVISCB            : PSEUDO-VISCOSITY Q[n+1]
+!! \details     MEINT              : INTERNAL ENERGY INTEGRATION FOR E[n+1] : FIRST PART USING P[n], Q[n], and Q[n+1] CONTRIBUTIONS
+!! \details     EOSMAIN / IFLG = 1 : UPDATE P[n+1], T[N+1]
+!! \details                          INTERNAL ENERGY INTEGRATION FOR E[n+1] : LAST PART USING P[n+1] CONTRIBUTION
+!! \details                            (second order integeration dE = -P.dV where P = 0.5(P[n+1] + P[n]) )
+!! \details  COLLOCATED SCHEME
+!! \details     EOSMAIN / IFLG = 2 : SINGLE PASS FOR P[n+1] AND DERIVATIVES
+!----------------------------------------------------------------------------
+
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -47,7 +62,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "mvsiz_p.inc"
 #include      "param_c.inc"
 #include      "com04_c.inc"
 #include      "com06_c.inc"
@@ -68,138 +82,107 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX
-      my_real :: P0,E0,SPH,AA, BB,WFEXTT, DVV, PP,dPdMU
+      my_real :: P0,E0,SPH,AA, BB, DVV, PP,dPdMU
       my_real :: A1,A2,B0,B1,B2,C0,C1,D0, A2_,RHO0,DE, ESP
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       IF(IFLAG == 0) THEN
-C-----------------------------------------
-C     COMPUTE BULK MODULUS FOR SOUND SPEED
-C     COMPUTE COLD COMPRESSION ENERGY
-C-----------------------------------------
-
-       MX         = MAT(1)
-       RHO0       = PM(01,MX)           
-       E0         = PM(23,MX)           
-       A1         = PM(164,MX)        
-       A2         = PM(32,MX)        
-       B0         = PM(33,MX)        
-       B1         = PM(35,MX)        
-       B2         = PM(36,MX)        
-       C0         = PM(160,MX)        
-       C1         = PM(161,MX)        
-       D0         = PM(162,MX)        
-       P0         = PM(163,MX)        
-       PSH(1:NEL) = PM(88,MX) 
-       SPH        = PM(69,MX)    
-       
-       DO I=1,NEL
-         A2_=A2
-         IF(MU(I)<ZERO)A2_=-A2
-         DENOM   = (ESPE(I)+D0)
-         PP      = (A1*MU(I)+A2_*MU(I)*MU(I)+(B0+B1*MU(I)+B2*MU(I)*MU(I))*ESPE(I)+(C1*MU(I)+C0)*ESPE(I)*ESPE(I))
-     .             /DENOM
-         dPdMU   = (A1+2*A2_*MU(I)+(TWO*B2*MU(I)+B1)*ESPE(I)+C1*ESPE(I)*ESPE(I))/DENOM
-         dPdE(I) = (((B2*MU(I)+B1)*MU(I)+B0)+(TWO*(C1*MU(I)+C0))*ESPE(I) - PP/DENOM)/DENOM                                      
-         DPDM(I) = dPdmu + dPdE(I)*DF(I)*DF(I)*(PP)   !total derivative
-       ENDDO
-
-       DO I=1,NEL
-         ECOLD(I)=-THREE100*SPH 
-         !IF(MU(I)>ZERO) ECOLD(I)=ECOLD(I)*(ONE+C4 *MU(I)*(ONE-MU(I)))+HALF*C1 *MU2(I)
-       ENDDO
+        MX         = MAT(1)
+        RHO0       = PM(01,MX)
+        E0         = PM(23,MX)
+        A1         = PM(164,MX)
+        A2         = PM(32,MX)
+        B0         = PM(33,MX)
+        B1         = PM(35,MX)
+        B2         = PM(36,MX)
+        C0         = PM(160,MX)
+        C1         = PM(161,MX)
+        D0         = PM(162,MX)
+        P0         = PM(163,MX)
+        PSH(1:NEL) = PM(88,MX)
+        SPH        = PM(69,MX)
+        DO I=1,NEL
+          A2_=A2
+          IF(MU(I)<ZERO)A2_=-A2
+          DENOM   = (ESPE(I)+D0)
+          PP      = (A1*MU(I)+A2_*MU(I)*MU(I)+(B0+B1*MU(I)+B2*MU(I)*MU(I))*ESPE(I)+(C1*MU(I)+C0)*ESPE(I)*ESPE(I))/DENOM
+          dPdMU   = (A1+2*A2_*MU(I)+(TWO*B2*MU(I)+B1)*ESPE(I)+C1*ESPE(I)*ESPE(I))/DENOM
+          dPdE(I) = (((B2*MU(I)+B1)*MU(I)+B0)+(TWO*(C1*MU(I)+C0))*ESPE(I) - PP/DENOM)/DENOM
+          DPDM(I) = dPdmu + dPdE(I)*DF(I)*DF(I)*(PP)   !total derivative
+        ENDDO
+        DO I=1,NEL
+          ECOLD(I)=-THREE100*SPH
+        ENDDO
 
       ELSEIF(IFLAG == 1) THEN
-C----------------------------------------
-C     UPDATE PRESSURE AND INTERNAL ENERGY
-C----------------------------------------
-       WFEXTT  = ZERO
-       
-       MX         = MAT(1) 
-       RHO0       = PM(01,MX)           
-       E0         = PM(23,MX)           
-       A1         = PM(164,MX)        
-       A2         = PM(32,MX)        
-       B0         = PM(33,MX)        
-       B1         = PM(35,MX)        
-       B2         = PM(36,MX)        
-       C0         = PM(160,MX)        
-       C1         = PM(161,MX)        
-       D0         = PM(162,MX)        
-       P0         = PM(163,MX)        
-       PSH(1:NEL) = PM(88,MX) 
-       SPH        = PM(69,MX) 
-       
-       DO I=1,NEL
-         A2_=A2
-         IF(MU(I)<ZERO)A2_=-A2
-         
-         DVV      = DVOL(I)*DF(I) / MAX(EM15,VNEW(I))   ! DVOL/V0  car  ESPE =EINT/V0
-         DVV      = HALF*DVV ! car 2 iterations
+        MX         = MAT(1)
+        RHO0       = PM(01,MX)
+        E0         = PM(23,MX)
+        A1         = PM(164,MX)
+        A2         = PM(32,MX)
+        B0         = PM(33,MX)
+        B1         = PM(35,MX)
+        B2         = PM(36,MX)
+        C0         = PM(160,MX)
+        C1         = PM(161,MX)
+        D0         = PM(162,MX)
+        P0         = PM(163,MX)
+        PSH(1:NEL) = PM(88,MX)
+        SPH        = PM(69,MX)
+        DO I=1,NEL
+          A2_=A2
+          IF(MU(I)<ZERO)A2_=-A2
+          DVV      = DVOL(I)*DF(I) / MAX(EM15,VNEW(I))   ! DVOL/V0  car  ESPE =EINT/V0
+          DVV      = HALF*DVV ! car 2 iterations
+          DENOM   = (ESPE(I)+D0)
+          PP      = (A1*MU(I)+A2_*MU(I)*MU(I)+(B0+B1*MU(I)+B2*MU(I)*MU(I))*ESPE(I)+(C1*MU(I)+C0)*ESPE(I)*ESPE(I))/DENOM
+          ESPE(I) = ESPE(I) - (PP)*DVV
+          DENOM   = (ESPE(I)+D0)
+          PP      = (A1*MU(I)+A2_*MU(I)*MU(I)+(B0+B1*MU(I)+B2*MU(I)*MU(I))*ESPE(I)+(C1*MU(I)+C0)*ESPE(I)*ESPE(I))/DENOM
+          ESPE(I) = ESPE(I) - (PP)*DVV
+          PNEW(I) = PP
+          EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I))
+          PNEW(I) = PNEW(I) + PSH(I)
+        ENDDO
+        MX     = MAT(1)
+        SPH    = PM(69,MX)
+        DO I=1,NEL
+          IF(OFF(I) < ONE .OR. SPH <= ZERO) CYCLE
+          THETA(I) = (DF(I)*EINT(I)/VNEW(I)-ECOLD(I))/SPH
+          THETA(I) = MAX(ZERO,THETA(I))
+        ENDDO
 
-         DENOM   = (ESPE(I)+D0)
-         PP      = (A1*MU(I)+A2_*MU(I)*MU(I)+(B0+B1*MU(I)+B2*MU(I)*MU(I))*ESPE(I)+(C1*MU(I)+C0)*ESPE(I)*ESPE(I))
-     .             /DENOM     
-         ESPE(I) = ESPE(I) - (PP)*DVV
-         
-         DENOM   = (ESPE(I)+D0)         
-         PP      = (A1*MU(I)+A2_*MU(I)*MU(I)+(B0+B1*MU(I)+B2*MU(I)*MU(I))*ESPE(I)+(C1*MU(I)+C0)*ESPE(I)*ESPE(I))
-     .             /DENOM
-         ESPE(I) = ESPE(I) - (PP)*DVV
-
-         PNEW(I) = PP
-              
-         EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I))
-         PNEW(I) = PNEW(I) + PSH(I)
-         WFEXTT  = WFEXTT-DVOL(I)*PSH(I)
-       ENDDO
-       
-!$OMP ATOMIC
-       WFEXT = WFEXT + WFEXTT
-C
-C------------------------
-C     COMPUTE TEMPERATURE
-C------------------------
-
-       MX     = MAT(1)
-       SPH    = PM(69,MX)
-
-       DO I=1,NEL
-         IF(OFF(I)<1..OR.SPH<=0.) CYCLE
-         THETA(I) = (DF(I)*EINT(I)/VNEW(I)-ECOLD(I))/SPH
-         THETA(I) = MAX(ZERO,THETA(I))
-       ENDDO
       ELSEIF(IFLAG == 2) THEN
-         MX           = MAT(1)
-         RHO0         = PM(01,MX)           
-         E0           = PM(23,MX)           
-         A1           = PM(164,MX)        
-         A2           = PM(32,MX)        
-         B0           = PM(33,MX)        
-         B1           = PM(35,MX)        
-         B2           = PM(36,MX)        
-         C0           = PM(160,MX)        
-         C1           = PM(161,MX)        
-         D0           = PM(162,MX)        
-         P0           = PM(163,MX)        
-         PSH(1:NEL) = PM(88,MX) 
-         SPH          = PM(69,MX)    
-         
-         DO I=1, NEL
-            IF (VNEW(I) > ZERO) THEN
-               A2_=A2
-               IF(MU(I)<ZERO)A2_=-A2
-               DENOM   = (ESPE(I)+D0)
-               PP      = (A1*MU(I)+A2_*MU(I)*MU(I)+(B0+B1*MU(I)+B2*MU(I)*MU(I))*ESPE(I)+(C1*MU(I)+C0)*ESPE(I)*ESPE(I))
-     .              /DENOM
-               dPdMU   = (A1+2*A2_*MU(I)+(TWO*B2*MU(I)+B1)*ESPE(I)+C1*ESPE(I)*ESPE(I))/DENOM
-               dPdE(I) = (((B2*MU(I)+B1)*MU(I)+B0)+(TWO*(C1*MU(I)+C0))*ESPE(I) - PP/DENOM)/DENOM                                      
-               DPDM(I) = dPdmu + dPdE(I)*DF(I)*DF(I)*(PP) !total derivative
-               PNEW(I) = PP
-            ENDIF
-         ENDDO
+        MX           = MAT(1)
+        RHO0         = PM(01,MX)
+        E0           = PM(23,MX)
+        A1           = PM(164,MX)
+        A2           = PM(32,MX)
+        B0           = PM(33,MX)
+        B1           = PM(35,MX)
+        B2           = PM(36,MX)
+        C0           = PM(160,MX)
+        C1           = PM(161,MX)
+        D0           = PM(162,MX)
+        P0           = PM(163,MX)
+        PSH(1:NEL) = PM(88,MX)
+        SPH          = PM(69,MX)
+        DO I=1, NEL
+          IF (VNEW(I) > ZERO) THEN
+            A2_=A2
+            IF(MU(I)<ZERO)A2_=-A2
+            DENOM   = (ESPE(I)+D0)
+            PP      = (A1*MU(I)+A2_*MU(I)*MU(I)+(B0+B1*MU(I)+B2*MU(I)*MU(I))*ESPE(I)+(C1*MU(I)+C0)*ESPE(I)*ESPE(I))/DENOM
+            dPdMU   = (A1+2*A2_*MU(I)+(TWO*B2*MU(I)+B1)*ESPE(I)+C1*ESPE(I)*ESPE(I))/DENOM
+            dPdE(I) = (((B2*MU(I)+B1)*MU(I)+B0)+(TWO*(C1*MU(I)+C0))*ESPE(I) - PP/DENOM)/DENOM
+            DPDM(I) = dPdmu + dPdE(I)*DF(I)*DF(I)*(PP) !total derivative
+            PNEW(I) = PP
+          ENDIF
+        ENDDO
+
       ENDIF
-C------------------------      
+
+C-----------------------------------------------
       RETURN
       END

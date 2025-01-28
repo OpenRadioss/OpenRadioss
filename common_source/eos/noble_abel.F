@@ -27,13 +27,32 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    output_mod   ../common_source/modules/output/output_mod.F90
       !||====================================================================
-      SUBROUTINE NOBLE_ABEL(IFLAG,NEL, PM   ,OFF  ,EINT ,MU   ,MU2 , 
-     2                      ESPE ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
+      SUBROUTINE NOBLE_ABEL(IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU   ,MU2 ,
+     2                      ESPE ,DVOL ,DF   ,VNEW ,MAT  ,PSH  ,
      3                      PNEW ,DPDM ,DPDE ,THETA,ECOLD)
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C This subroutine contains numerical solving
+C of NOBLE-ABEL EOS
+!----------------------------------------------------------------------------
+!! \details STAGGERED SCHEME IS EXECUTED IN TWO PASSES IN EOSMAIN : IFLG=0 THEN IFLG=1
+!! \details COLLOCATED SCHEME IS DOING A SINGLE PASS : IFLG=2
+!! \details
+!! \details  STAGGERED SCHEME
+!! \details     EOSMAIN / IFLG = 0 : DERIVATIVE CALCULATION FOR SOUND SPEED ESTIMATION c[n+1] REQUIRED FOR PSEUDO-VISCOSITY (DPDE:partial derivative, DPDM:total derivative)
+!! \details     MQVISCB            : PSEUDO-VISCOSITY Q[n+1]
+!! \details     MEINT              : INTERNAL ENERGY INTEGRATION FOR E[n+1] : FIRST PART USING P[n], Q[n], and Q[n+1] CONTRIBUTIONS
+!! \details     EOSMAIN / IFLG = 1 : UPDATE P[n+1], T[N+1]
+!! \details                          INTERNAL ENERGY INTEGRATION FOR E[n+1] : LAST PART USING P[n+1] CONTRIBUTION
+!! \details                            (second order integeration dE = -P.dV where P = 0.5(P[n+1] + P[n]) )
+!! \details  COLLOCATED SCHEME
+!! \details     EOSMAIN / IFLG = 2 : SINGLE PASS FOR P[n+1] AND DERIVATIVES
+!----------------------------------------------------------------------------
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE OUTPUT_MOD , ONLY : WFEXT
+C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -42,7 +61,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "mvsiz_p.inc"
 #include      "param_c.inc"
 #include      "com04_c.inc"
 #include      "com06_c.inc"
@@ -62,102 +80,77 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX
-      my_real GM1(MVSIZ),WFEXTT, DVV, PP,BB_(MVSIZ),RHO0(MVSIZ)
-      my_real SPH(MVSIZ), DENOM,BB
-C--------------------------------------------------------------------
+      my_real GM1(NEL), DVV, PP,BB_(NEL),RHO0(NEL)
+      my_real SPH(NEL), DENOM,BB
+C-----------------------------------------------
       IF(IFLAG == 0) THEN
-C-----------------------------------------
-C     COMPUTE BULK MODULUS FOR SOUND SPEED
-C     COMPUTE COLD COMPRESSION ENERGY
-C-----------------------------------------
+        DO I=1,NEL
+          MX      = MAT(I)
+          BB_(I)  = PM(32,MX)
+          GM1(I)  = PM(33,MX)
+          RHO0(I) = PM(34,MX)
+          PSH(I)  = PM(88,MX)
+          SPH(I)  = PM(69,MX)
+        ENDDO
+        DO I=1,NEL
+           DENOM   = ONE-BB_(I)*RHO0(I)*(ONE+MU(I))
+          PP      = ESPE(I)*GM1(I)*(MU(I)+ONE)/DENOM
+          DPDE(I) = GM1(I)*(ONE+MU(I))/DENOM
+          DPDM(I) = GM1(I)*ESPE(I)/DENOM + PP/DENOM*BB_(I)*RHO0(I) + PP*DF(I)*DF(I)*DPDE(I)
+        ENDDO
+        DO I=1,NEL
+          ECOLD(I)=-THREE100*SPH(I)
+          IF(MU(I)>ZERO) THEN
+            ECOLD(I)=ECOLD(I)*(ONE+GM1(I)*MU(I)*(ONE-MU(I)))
+          ENDIF
+        ENDDO
 
-      ! PM(23) =  E0
-      ! PM(32) =  BB
-      ! PM(33) =  GAMMA-ONE     
-      ! PM(34) =  RHO0         
-      ! PM(88) =  PSH
-
-       DO I=1,NEL
-        MX      = MAT(I)
-        BB_(I)  = PM(32,MX)
-        GM1(I)  = PM(33,MX)
-        RHO0(I) = PM(34,MX)
-        PSH(I)  = PM(88,MX)
-        SPH(I)  = PM(69,MX)      
-       ENDDO
-    
-       DO I=1,NEL
-        DENOM   = ONE-BB_(I)*RHO0(I)*(ONE+MU(I))
-        PP      = ESPE(I)*GM1(I)*(MU(I)+ONE)/DENOM 
-        DPDE(I) = GM1(I)*(ONE+MU(I))/DENOM
-        DPDM(I) = GM1(I)*ESPE(I)/DENOM + PP/DENOM*BB_(I)*RHO0(I) + PP*DF(I)*DF(I)*DPDE(I)      
-       ENDDO
-C
-       DO I=1,NEL
-        ECOLD(I)=-THREE100*SPH(I)
-        IF(MU(I)>ZERO) THEN
-          ECOLD(I)=ECOLD(I)*(ONE+GM1(I)*MU(I)*(ONE-MU(I))) 
-        ENDIF
-       ENDDO
-C
       ELSEIF(IFLAG == 1) THEN
-C----------------------------------------
-C     UPDATE PRESSURE AND INTERNAL ENERGY
-C----------------------------------------
-       WFEXTT   = ZERO
-       DO I=1,NEL
-        MX      = MAT(I)
-        BB_(I)  = PM(32,MX)
-        GM1(I)  = PM(33,MX)
-        RHO0(I) = PM(34,MX)
-        PSH(I)  = PM(88,MX)
-        SPH(I)  = PM(69,MX)
-       ENDDO
-C
-       DO I=1,NEL
-        DENOM   = ONE-BB_(I)*RHO0(I)*(ONE+MU(I))
-        BB      = GM1(I)*(ONE+MU(I))/DENOM
-        DVV     = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
-        PNEW(I) = (BB*ESPE(I))/(ONE+BB*DVV)
-        PNEW(I) = PNEW(I)*OFF(I)
-        EINT(I) = EINT(I) - HALF*DVOL(I)*PNEW(I)
-        WFEXTT  = WFEXTT-DVOL(I)*PSH(I)
-        PNEW(I) = PNEW(I)-PSH(I)
-       ENDDO
-!$OMP ATOMIC
-       WFEXT = WFEXT + WFEXTT
-C
-C------------------------
-C     COMPUTE TEMPERATURE
-C------------------------
-       DO I=1,NEL
-        MX     =MAT(I)
-        SPH(I) =PM(69,MX)
-       ENDDO
-       DO I=1,NEL
-        IF(OFF(I)<1..OR.SPH(I)<=0.) CYCLE
-        THETA(I) = (DF(I)*EINT(I)/VNEW(I)-ECOLD(I))/SPH(I)
-        THETA(I) = MAX(ZERO,THETA(I))
-       ENDDO
+        DO I=1,NEL
+          MX      = MAT(I)
+          BB_(I)  = PM(32,MX)
+          GM1(I)  = PM(33,MX)
+          RHO0(I) = PM(34,MX)
+          PSH(I)  = PM(88,MX)
+          SPH(I)  = PM(69,MX)
+        ENDDO
+        DO I=1,NEL
+          DENOM   = ONE-BB_(I)*RHO0(I)*(ONE+MU(I))
+          BB      = GM1(I)*(ONE+MU(I))/DENOM
+          DVV     = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
+          PNEW(I) = (BB*ESPE(I))/(ONE+BB*DVV)
+          PNEW(I) = PNEW(I)*OFF(I)
+          EINT(I) = EINT(I) - HALF*DVOL(I)*PNEW(I)
+          PNEW(I) = PNEW(I)-PSH(I)
+        ENDDO
+        DO I=1,NEL
+          MX     =MAT(I)
+          SPH(I) =PM(69,MX)
+        ENDDO
+        DO I=1,NEL
+          IF(OFF(I) < ONE .OR. SPH(I) <= ZERO) CYCLE
+          THETA(I) = (DF(I)*EINT(I)/VNEW(I)-ECOLD(I))/SPH(I)
+          THETA(I) = MAX(ZERO,THETA(I))
+        ENDDO
+
       ELSEIF(IFLAG == 2) THEN
-         DO I=1, NEL
-            MX      = MAT(I)
-            BB_(I)  = PM(32,MX)
-            GM1(I)  = PM(33,MX)
-            RHO0(I) = PM(34,MX)
-            PSH(I)  = PM(88,MX)
-            SPH(I)  = PM(69,MX)      
-         ENDDO
-         
-         DO I=1, NEL
-            IF (VNEW(I) > ZERO) THEN
-               DENOM   = ONE-BB_(I)*RHO0(I)*(ONE+MU(I))
-               PP      = ESPE(I)*GM1(I)*(MU(I)+ONE)/DENOM 
-               DPDE(I) = GM1(I)*(ONE+MU(I))/DENOM
-               DPDM(I) = GM1(I)*ESPE(I)/DENOM + PP/DENOM*BB_(I)*RHO0(I) + PP*DF(I)*DF(I)*DPDE(I) 
-               PNEW(I) = PP-PSH(I)
-            ENDIF
-         ENDDO
+        DO I=1, NEL
+          MX      = MAT(I)
+          BB_(I)  = PM(32,MX)
+          GM1(I)  = PM(33,MX)
+          RHO0(I) = PM(34,MX)
+          PSH(I)  = PM(88,MX)
+          SPH(I)  = PM(69,MX)
+        ENDDO
+        DO I=1, NEL
+          IF (VNEW(I) > ZERO) THEN
+            DENOM   = ONE-BB_(I)*RHO0(I)*(ONE+MU(I))
+            PP      = ESPE(I)*GM1(I)*(MU(I)+ONE)/DENOM
+            DPDE(I) = GM1(I)*(ONE+MU(I))/DENOM
+            DPDM(I) = GM1(I)*ESPE(I)/DENOM + PP/DENOM*BB_(I)*RHO0(I) + PP*DF(I)*DF(I)*DPDE(I)
+            PNEW(I) = PP-PSH(I)
+          ENDIF
+        ENDDO
       ENDIF
       RETURN
       END
