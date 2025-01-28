@@ -31,7 +31,20 @@
 !                                                   procedures
 ! ======================================================================================================================
 !! \brief  This subroutine contains numerical solving of COMPACTION2 EOS
+!----------------------------------------------------------------------------
+!! \details STAGGERED SCHEME IS EXECUTED IN TWO PASSES IN EOSMAIN : IFLG=0 THEN IFLG=1
+!! \details COLLOCATED SCHEME IS DOING A SINGLE PASS : IFLG=2
 !! \details
+!! \details  STAGGERED SCHEME
+!! \details     EOSMAIN / IFLG = 0 : DERIVATIVE CALCULATION FOR SOUND SPEED ESTIMATION c[n+1] REQUIRED FOR PSEUDO-VISCOSITY (DPDE:partial derivative, DPDM:total derivative)
+!! \details     MQVISCB            : PSEUDO-VISCOSITY Q[n+1]
+!! \details     MEINT              : INTERNAL ENERGY INTEGRATION FOR E[n+1] : FIRST PART USING P[n], Q[n], and Q[n+1] CONTRIBUTIONS
+!! \details     EOSMAIN / IFLG = 1 : UPDATE P[n+1], T[N+1]
+!! \details                          INTERNAL ENERGY INTEGRATION FOR E[n+1] : LAST PART USING P[n+1] CONTRIBUTION
+!! \details                            (second order integeration dE = -P.dV where P = 0.5(P[n+1] + P[n]) )
+!! \details  COLLOCATED SCHEME
+!! \details     EOSMAIN / IFLG = 2 : SINGLE PASS FOR P[n+1] AND DERIVATIVES
+!----------------------------------------------------------------------------
       !||====================================================================
       !||    compaction2     ../common_source/eos/compaction2.F90
       !||--- called by ------------------------------------------------------
@@ -44,7 +57,7 @@
                             iflag, nel  , pm   , off   , eint  , mu    , &
                             dvol , mat  , psh  , &
                             pnew , dpdm , dpde , mu_bak,&
-                            npf  , tf   , snpc , stf   , npropm, nummat,tfext,&
+                            npf  , tf   , snpc , stf   , npropm, nummat,&
                             eos_param)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -68,7 +81,6 @@
       my_real,intent(inout) :: pm(npropm,nummat) !< material data (real parameters)
       my_real,intent(inout) :: off(nel),eint(nel),mu(nel),dvol(nel)
       my_real,intent(inout) :: pnew(nel),dpdm(nel),dpde(nel)
-      double precision,intent(inout) :: tfext
       integer,intent(in) :: snpc, stf !< array sizes
       integer,intent(in)::npf(snpc) !< data structure for /FUNCT
       my_real,intent(in)::tf(stf) !< data structure for /FUNCT
@@ -78,7 +90,7 @@
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
       integer i, mx, iform, p_func_id
-      my_real :: p0,psh(nel),e0,sph,tfextt, b(nel),pne1,pfrac
+      my_real :: p0,psh(nel),e0,sph, b(nel),pne1,pfrac
       my_real :: p(nel),p_
       my_real :: alpha
       my_real :: bmin, bmax, mumin, mumax,Fscale,Xscale
@@ -102,7 +114,6 @@
        sph        = pm(69,mx)
        p0         = pm(31,mx)
        pfrac      = pm(37,mx)
-       tfextt     = zero
 
        bmin  = eos_param%uparam(1)
        bmax  = eos_param%uparam(2)
@@ -111,9 +122,7 @@
        Fscale= eos_param%uparam(5)
        Xscale= eos_param%uparam(6)
        psh   = eos_param%uparam(7)
-
        iform = eos_param%iparam(1)
-
        p_func_id = eos_param%func(1)
 
       !----------------------------------------------------------------!
@@ -164,7 +173,7 @@
         pnew(i) = p(i)-psh(i)
       enddo !next i
 
-      IF(IFLAG == 1) THEN
+      IF(iflag == 1) THEN
         !----------------------------------------------------------------!
         !  FRACTURE  - MU_BAK                                            !
         !----------------------------------------------------------------!
@@ -184,14 +193,6 @@
           p(i)=max(pfrac,p(i))*off(i)
           pnew(i) = p(i)-psh(i)
         enddo !next i
-        !----------------------------------------------------------------!
-        !  PRESSURE WORK                                                 !
-        !----------------------------------------------------------------!
-         do i=1,nel
-           tfextt     = tfextt-dvol(i)*psh(i)
-         enddo
-!$OMP ATOMIC
-         tfext = tfext + tfextt
 
       elseif(iflag == 2) then
         !----------------------------------------------------------------!
