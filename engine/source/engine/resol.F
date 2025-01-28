@@ -5922,7 +5922,7 @@ C Assemblage TYPE21
 C
       IF(NINTSTAMP/=0)THEN
         CALL INTSTAMP_ASS(INTSTAMP,NODES%MS ,NODES%IN ,NODES%A ,NODES%AR ,
-     .                    NODES%STIFN   ,NODES%STIFR  ,NODES%WEIGHT)
+     .                    NODES%STIFN   ,NODES%STIFR  ,NODES%WEIGHT, OUTPUT%WFEXT)
       END IF
 C-----------------------------------------------------
 C         RIGID BODY: SUM forces, stiff.
