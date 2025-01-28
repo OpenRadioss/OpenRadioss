@@ -119,6 +119,7 @@ C
          FCY   = FCONV(1,NL)
          FCX   = FCONV(2,NL)
          H     = FCONV(3,NL)
+         T_INF = ZERO
 C----------------------
 C       CONVECTION FLUX
 C----------------------
@@ -131,7 +132,6 @@ C----------------------
           ELSE
             T_INF = FCY*FINTER(IFUNC, TS*FCX,NPC,TF,DYDX)
           ENDIF
-
           IFUNC_OLD = IFUNC
           TS_OLD = TS
           FCY_OLD= FCY
@@ -230,18 +230,19 @@ C---------------------
             FCY    = FCONV(1,NL)
             FCX    = FCONV(2,NL)
             H      = FCONV(3,NL)
+            T_INF  = ZERO
             IF(IFUNC_OLD /= IFUNC .OR. TS_OLD /= TS) THEN
               ISMOOTH = 0
               IF (IFUNC > 0) ISMOOTH = NPC(2*NFUNCT+IFUNC+1)
               IF(ISMOOTH < 0) THEN
                 CALL PYTHON_CALL_FUNCT1D(PYTHON, -ISMOOTH,TS*FCX, T_INF)
+                T_INF = FCY*T_INF
               ELSE
-                T_INF = FINTER(IFUNC,TS*FCX,NPC,TF,DYDX)
+                T_INF = FCY*FINTER(IFUNC,TS*FCX,NPC,TF,DYDX)
               ENDIF
               IFUNC_OLD = IFUNC
               TS_OLD = TS
             ENDIF
-            T_INF = FCY*T_INF
 C          ANALYSE 3D
             IF(N4 > 0)THEN
                NX= (X(2,N3)-X(2,N1))*(X(3,N4)-X(3,N2))
