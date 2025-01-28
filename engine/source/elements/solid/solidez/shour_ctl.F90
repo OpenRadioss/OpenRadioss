@@ -66,7 +66,7 @@
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
       use constant_mod,   only : one,two,eight,ten,zero,zep05,half,third,fourth,zep00666666667,      &
-                                 four_over_3,one_over_8,one_over_64
+                                 four_over_3,one_over_8,one_over_64,em01
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -125,14 +125,15 @@
                  g52(mvsiz),g62(mvsiz),g72(mvsiz),g82(mvsiz),             &
                  g13(mvsiz),g23(mvsiz),g33(mvsiz),g43(mvsiz),             &
                  g53(mvsiz),g63(mvsiz),g73(mvsiz),g83(mvsiz),             &
-                 e0,g0,c1,nu,qh,lamg ,stif ,ll ,fvl
+                 e0,g0,c1,nu,qh,lamg ,stif ,ll ,fvl,lamgt(mvsiz),f_et(mvsiz),sfac
 ! ----------------------------------------------------------------------------------------------------------------------
       mx = mat(1)
       nu=pm(21,mx)
-      g0=pm(22,mx)
+      g0=pm(22,mx)  ! 2g for law 42,69,62,70
       c1=pm(32,mx)
       e0=pm(20,mx)
       qh = ten
+      lamgt(1:nel)=cxx(1:nel)*cxx(1:nel)*rho(1:nel)
       select case (mtn)
         case (70)
           e0=pm(24,mx)
@@ -141,21 +142,33 @@
         case (42,69)
           c1 = third*e0/(1-two*nu)
           g0 = half*g0
-        case (1,62)
+        case (1)
+        case (62)
 ! ten for the moment
+          g0 = half*g0
         case default
           qh = 2.5
       end select
       lamg = c1+four_over_3*g0
+      f_et(1:nel)=max(one,lamgt(1:nel)/lamg)
       if (nu>0.48999) qh = zep05*qh
       stif = 0.3*qh*lamg     ! factor=8*1/8/3;  
-      fvl = fourth*dn*zep00666666667
+!      fvl = fourth*dn*zep00666666667   
+      fvl = fourth*dn*em01   ! 1/10 of isolid=5
       if (qh>one) sti(1:nel) = qh*sti(1:nel)
+      if (mtn==62) then
+          do i=1,nel
+            sfac = min(ten,f_et(i))
+            if (sfac>two) sfac=ten
+            f_et(i)=sfac*f_et(i)
+            sti(i)=sfac*sti(i)
+          enddo
+      end if !(mtn==62) then
 !
       do i=1,nel
          ll = vol(i)**third
          caq(i)=stif*dt1*off(i)
-         edt(i)=caq(i)*ll
+         edt(i)=f_et(i)*caq(i)*ll
          fcl(i)=fvl*rho(i)*cxx(i)*ll*ll
       enddo
 !	  
