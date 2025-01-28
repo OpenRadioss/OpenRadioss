@@ -187,10 +187,11 @@ C             if slope is zero, error message is issued
      .                      I2=NPC(NFUNCT+RETRACTOR(I)%IFUNC(J)+1),
      .                      R1=EM05*MIN_SLOPE_ABS)
               ENDIF 
-C             functions must be monotoninc if func1 /= func2 - table_inv is used in material_flow             
-              IF ((SAME_FUNC == 0).and.(MIN_SLOPE<zero)) THEN
+C             Unload function must be monotoninc if func1 /= func2 - table_inv is used in material_flow      
+C                    
+              IF ((SAME_FUNC == 0).and.((J==2).and.(MIN_SLOPE<zero))) THEN
                 CALL ANCMSG(MSGID=3071,
-     .                      MSGTYPE=MSGERROR,
+     .                      MSGTYPE=MSGWARNING,
      .                      ANMODE=ANINFO_BLIND_1,
      .                      I1=RETRACTOR(I)%ID,
      .                      I2=NPC(NFUNCT+RETRACTOR(I)%IFUNC(J)+1))
