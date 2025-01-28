@@ -375,7 +375,7 @@ C-----------------------
      3           ICODT               ,ISKEW                  ,SKEW       ,MS      ,FSAV(1,NINTER+1),
      4           IXS                 ,IXQ                    ,ELBUF_TAB  ,IPARG   ,
      5           PM                  ,ALE_CONNECTIVITY%NALE  ,TF         ,NPF     ,WEIGHT          ,
-     6           IAD_ELEM            ,FR_ELEM                ,FR_WALL         )
+     6           IAD_ELEM            ,FR_ELEM                ,FR_WALL    ,WFEXT    )
             IF(IMON > 0.AND. ITASK == 0) CALL STOPTIME(TIMERS,4)
          ENDIF
 C-----------------------

@@ -110,7 +110,7 @@ C     Inlet, outlet boundary condition
      .           twf%ielem, twf%iface, twf%fvm_inlet_data,
      .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,
      .           twf,NPF,TF,FSAVSURF,TIMESTEP,NIXS, NIXQ, NIXTG, NPROPMI, NPROPM, NSURF, STF, SNPC,
-     .           NUMELS, NUMELQ, NUMELTG, NUMNOD, NCYCLE, NUMMAT )
+     .           NUMELS, NUMELQ, NUMELTG, NUMNOD, NCYCLE, NUMMAT ,MATPARAM)
             CLASS DEFAULT
          END SELECT
       ENDDO
