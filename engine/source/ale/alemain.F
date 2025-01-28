@@ -684,7 +684,8 @@ C     -------------------------
      .                 NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, 
      .                 ITAB, ITABM1, TT - DT1, 
      .                 STIFN, FSKY, IADS, FSKYM, 
-     .                 CONDN, CONDNSKY, BUFMAT, FV, .FALSE.,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB,NPC,TF,FSAVSURF,MATPARAM)
+     .                 CONDN, CONDNSKY, BUFMAT, FV, .FALSE.,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB,NPC,TF,FSAVSURF,MATPARAM,
+     .                 OUTPUT%WFEXT)
                   CALL MY_BARRIER
 
                   IF (MULTI_FVM%NS_DIFF) THEN
