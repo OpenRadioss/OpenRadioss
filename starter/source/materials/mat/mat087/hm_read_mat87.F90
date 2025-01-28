@@ -51,11 +51,10 @@
       !||    message_mod                    ../starter/share/message_module/message_mod.F
       !||    submodel_mod                   ../starter/share/modules1/submodel_mod.F
       !||====================================================================
-      subroutine hm_read_mat87(                                                &                            
-        israte   ,nuvar    ,nfunc    ,maxfunc  ,ifunc    ,mtag     ,           &
-        parmat   ,unitab   ,npropm   ,pm       ,lsubmodel,id       ,           &
-        titr     ,matparam ,numtabl  ,maxtabl  ,itable   ,nvartmp  ,           &
-        iout     )                    
+      subroutine hm_read_mat87(                                                &
+        &matparam ,nuvar    ,parmat   ,mat_id   ,titr     ,                    &
+        &unitab   ,lsubmodel,mtag     ,iout     ,nvartmp  ,                    &
+        &israte   ,ntable   ,table    ,maxfunc  )
 !-----------------------------------------------
 !   M o d u l e s
 !-----------------------------------------------
@@ -65,7 +64,10 @@
         use submodel_mod
         use matparam_def_mod          
         use hm_option_read_mod
-        use constant_mod      
+        use constant_mod     
+        use table_mod 
+        use func_table_copy_mod
+        use mat_table_copy_mod
 !-----------------------------------------------
 !   I m p l i c i t   T y p e s
 !-----------------------------------------------
@@ -74,36 +76,33 @@
 !-----------------------------------------------
 !   D u m m y   A r g u m e n t s
 !-----------------------------------------------
-        integer, intent(inout)                            :: israte    !< strain rate filtering flag
-        integer, intent(inout)                            :: nuvar     !< number of user variables
-        integer, intent(inout)                            :: nfunc     !< number of material functions
-        integer, intent(in)                               :: maxfunc   !< maximum number of material functions
-        integer, dimension(maxfunc) ,intent(inout)        :: ifunc     !< material functions identifiers
-        type(mlaw_tag_),intent(inout)                     :: mtag      !< material law tag
-        my_real, dimension(100)    ,intent(inout)         :: parmat    !< material parameter global table 1
-        type(unit_type_),intent(in)                       :: unitab    !< units table
-        integer, intent(in)                               :: npropm    !< number of material parameters
-        my_real, dimension(npropm) ,intent(inout)         :: pm        !< material parameter global table 2
-        type(submodel_data),dimension(nsubmod),intent(in) :: lsubmodel !< submodel data structure
-        integer, intent(in)                               :: id        !< material identifier
-        character(len=nchartitle) ,intent(in)             :: titr      !< material title
-        type(matparam_struct_),intent(inout)              :: matparam  !< material parameters structure
-        integer, intent(inout)                            :: numtabl   !< number of tables
-        integer, intent(in)                               :: maxtabl   !< maximum number of tables
-        integer, dimension(maxtabl), intent(inout)        :: itable    !< table identifiers
-        integer, intent(inout)                            :: nvartmp   !< number of temporary variables
-        integer, intent(in)                               :: iout      !< output file number
+        type(matparam_struct_),intent(inout)              :: matparam  !< Material parameters structure
+        integer, intent(inout)                            :: nuvar     !< Number of user variables
+        my_real, dimension(100),intent(inout)             :: parmat    !< Material parameter local reading table
+        integer, intent(in)                               :: mat_id    !< Material identifier
+        character(len=nchartitle) ,intent(in)             :: titr      !< Material title
+        type(unit_type_),intent(in)                       :: unitab    !< Units table
+        type(submodel_data),dimension(nsubmod),intent(in) :: lsubmodel !< Submodel data structure
+        type(mlaw_tag_),intent(inout)                     :: mtag      !< Material law tag
+        integer, intent(in)                               :: iout      !< Output file number
+        integer, intent(inout)                            :: nvartmp   !< Number of temporary variables
+        integer, intent(inout)                            :: israte    !< Strain rate filtering flag
+        integer, intent(in)                               :: ntable    !< Number of tables
+        type(ttable), dimension(ntable), intent(in)       :: table     !< Tables
+        integer, intent(in)                               :: maxfunc   !< Maximum number of material functions
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-        integer :: i,j,nbmat, mat_id,iflagsr,iflag,flag_fit,                   &
-          ilaw,nrate,iyield,offset,tab_id0,ismooth
+        integer :: i,j,nbmat,iflagsr,iflag,flag_fit,ilaw,nrate,offset,         &
+          tab_id0,ismooth,ierr2,ifunc(maxfunc),itable(3),ikin
         my_real :: e,nu,g,bulk,fcut,al1,al2,al3,al4,al5,al6,al7,al8,           &
           fisokin,expn,invp,invc,unspt,unsct,aswift,epso,qvoce,beta,           &
           ko,alpha,nexp,unsp,unsc,rho0,rhor,rate(maxfunc),yfac(maxfunc),       &
           yfac_unit(maxfunc),k1,k2,ahs,bhs,mhs,eps0hs,nhs,hmart,temp0,         &
-          tref,eta,cp,am,bm,cm,dm,ppm,qm,e0mart,vm0,ckh(4),akh(4),             &
-          fscale0,fscale45,fscale90,epsd0,epsd45,epsd90,expa 
+          tref,eta,cp,am,bm,cm,dm,ppm,qm,e0mart,vm0,ckh(4),akh(4),fscale0,     &
+          fscale45,fscale90,epsd0,epsd45,epsd90,expa,x2vect(maxfunc),          &
+          x3vect(maxfunc),x4vect(maxfunc),fscale(maxfunc),x1scale,x2scale,     &
+          x3scale,x4scale,yld0
         logical :: is_available,is_encrypted
 !-----------------------------------------------
 !   S o u r c e   L i n e s
@@ -115,6 +114,7 @@
 ! Parameters initialisation
 !--------------------------------------------------
         rate(1:maxfunc) = zero
+        itable(1:3) = 0
         iflag   = 0
         iflagsr = 0
         invp    = zero
@@ -128,10 +128,6 @@
         fcut    = zero
         k1      = zero
         k2      = zero
-        nfunc   = 0
-        numtabl = 0
-        nvartmp = 0
-        ismooth = 0
 !--------------------------------------------------
 ! Extract data (is option crypted)
 !--------------------------------------------------
@@ -152,17 +148,17 @@
 !
         !< card3/4 - Fitting Parameters
         if (flag_fit == 1) then
-          !< yield stresses
+          !< Yield stresses
           call hm_get_floatv('Sigma_00',al1    ,is_available,lsubmodel,unitab)
           call hm_get_floatv('Sigma_45',al2    ,is_available,lsubmodel,unitab)
           call hm_get_floatv('Sigma_90',al3    ,is_available,lsubmodel,unitab)
           call hm_get_floatv('Sigma_b' ,al4    ,is_available,lsubmodel,unitab)
-          !< lankford coefficients
+          !< Lankford coefficients
           call hm_get_floatv('r_00'    ,al5    ,is_available,lsubmodel,unitab)
           call hm_get_floatv('r_45'    ,al6    ,is_available,lsubmodel,unitab)
           call hm_get_floatv('r_90'    ,al7    ,is_available,lsubmodel,unitab)
           call hm_get_floatv('r_b'     ,al8    ,is_available,lsubmodel,unitab)
-        !< card3/4 - barlat parameters
+        !< card3/4 - Barlat parameters
         else
           call hm_get_floatv('MAT_ALPHA2',al2  ,is_available,lsubmodel,unitab)
           call hm_get_floatv('MAT_ALPHA1',al1  ,is_available,lsubmodel,unitab)
@@ -175,7 +171,10 @@
         endif
 !
         !< card5 - Kinematic hardening and yield criterion exponent
-        call hm_get_floatv('MAT_kin',fisokin   ,is_available,lsubmodel,unitab)  
+        call hm_get_floatv('MAT_kin' ,fisokin  ,is_available,lsubmodel,unitab)  
+        call hm_get_intv  ('MAT_IKIN',ikin     ,is_available,lsubmodel)
+        ikin = max(ikin,1)
+        ikin = min(ikin,2)
 !    
         !< card6 - Yield stress type parameters
         !< - Tabulated
@@ -191,7 +190,7 @@
             call ancmsg(msgid=1116,                                            &
                         msgtype=msgerror,                                      &
                         anmode=aninfo_blind_1,                                 &
-                        i1=id,                                                 &
+                        i1=mat_id,                                             &
                         c1=titr)         
           endif
           !< Read the rate dependent functions identifiers, scale factors and strain rates
@@ -201,7 +200,7 @@
             call ancmsg(msgid=126,                                             &
                         msgtype=msgerror,                                      &
                         anmode=aninfo_blind_1,                                 &
-                        i1=id,                                                 &
+                        i1=mat_id,                                             &
                         c1=titr,                                               &
                         i2=ifunc(1)) 
           endif
@@ -223,7 +222,7 @@
                 call ancmsg(msgid=126,                                         &
                             msgtype=msgerror,                                  &
                             anmode=aninfo_blind_1,                             &
-                            i1=id,                                             &
+                            i1=mat_id,                                         &
                             c1=titr,                                           &
                             i2=ifunc(i)) 
                 exit
@@ -241,7 +240,7 @@
                 call ancmsg(msgid=478,                                         &                  
                             msgtype=msgerror,                                  &
                             anmode=aninfo_blind_1,                             &
-                            i1=id,                                             &
+                            i1=mat_id,                                         &
                             c1=titr)  
                 exit
               endif
@@ -294,9 +293,6 @@
           !< Strain rate filtering parameters     
           call hm_get_floatv('Fcut'    ,fcut  ,is_available,lsubmodel,unitab)
           call hm_get_intv  ('MAT_FSMOOTH',israte,is_available,lsubmodel)
-          call hm_get_intv  ('MAT_ISMOOTH',ismooth,is_available,lsubmodel)
-          !< Strain rate interpolation flag
-          if (ismooth == 0) ismooth = 1
           !< Tabulated yield stress in direction 0
           call hm_get_intv  ('TAB_ID0' ,itable(1),is_available,lsubmodel)
           call hm_get_floatv('FSCALE0' ,fscale0,is_available,lsubmodel,unitab)
@@ -312,7 +308,7 @@
         endif
 !
         !< card7 - Kinematic hardening parameters
-        if (fisokin >zero) then
+        if ((ikin == 1).and.(fisokin >zero)) then 
           call hm_get_floatv('MAT_CRC1',ckh(1),is_available,lsubmodel,unitab)  
           call hm_get_floatv('MAT_CRA1',akh(1),is_available,lsubmodel,unitab)  
           call hm_get_floatv('MAT_CRC2',ckh(2),is_available,lsubmodel,unitab)  
@@ -330,12 +326,7 @@
         if (invp == zero .or. invc == zero) then
           unsp  = zero
           unsc  = zero
-          unspt = zero
-          unsct = zero
-        elseif (iflagsr == 0) then
-          unspt = one/invp
-          unsct = one/invc  
-        elseif (iflagsr == 1) then
+        else
           unsp = one/invp
           unsc = one/invc  
         endif
@@ -351,6 +342,13 @@
         else 
           if (israte == 1 .and. fcut == zero) fcut = 10000.0d0*unitab%fac_t_work
         endif
+        !< Swift-Voce initial yield stress
+        if (iflag == 1) then 
+          yld0 = (one-alpha)*ko 
+          if (epso > zero) then 
+            yld0 = yld0 + alpha*aswift*exp(nexp*log(epso))
+          endif
+        endif
         !< Hensel parameters
         if (iflag == 2)then
           if (k1==zero .or. k2==zero) then
@@ -361,17 +359,14 @@
         !< Orthotropic yield stress parameters
         if (iflag == 3) then
           if (itable(1) == 0) then 
-            write(*,*) "error: mat_orthotropic: tabid0 is not defined"
-            stop
+            call ancmsg(msgid=3084,                                            &                  
+                        msgtype=msgerror,                                      &
+                        anmode=aninfo_blind_1,                                 &
+                        i1=mat_id,                                             &
+                        c1=titr)  
           endif
-          if (itable(2) == 0) then 
-            write(*,*) "error: mat_orthotropic: tabid45 is not defined"
-            stop
-          endif
-          if (itable(3) == 0) then
-            write(*,*) "error: mat_orthotropic: tabid90 is not defined"
-            stop
-          endif
+          if (itable(2) == 0) itable(2) = itable(1)
+          if (itable(3) == 0) itable(3) = itable(1)
           if (fscale0 == zero) then 
             call hm_get_floatv_dim('FSCALE0',fscale0,is_available,lsubmodel,   &
               unitab)
@@ -396,60 +391,30 @@
               unitab)
           endif
         endif
-        !< Yield stress type
-        if (iflag == 1) then
-          iyield = 1 ! Swift-Voce
-        elseif (iflag == 2) THEN
-          iyield = 2 ! Hansel
-        elseif (iflag == 3) THEN
-          iyield = 5 ! Tabulated orthotropic
-        else
-          if(iflagsr == 1) then
-            iyield = 3 ! Tabulated + Plas Strain rate 
-          else
-            iyield = 4 ! Tabulated + Strain rate 
-          endif
-        endif
 !
 !-------------------------------------------------------------
 !     Filling buffer tables
 !-------------------------------------------------------------
         !< Number of functions/tables/temporary variables
         if (iflag == 0) then
-          if (nrate == 1) then
-            nrate    = 2
-            ifunc(2) = ifunc(1)
-            rate(1)  = zero
-            rate(2)  = one
-            yfac(2)  = yfac(1)
-          elseif (rate(1) == zero) then
-          else
-            nrate = nrate+1
-            do j = nrate,1,-1
-              ifunc(j+1) = ifunc(j)
-              rate(j+1)  = rate(j)
-              yfac(j+1)  = yfac(j)
-            enddo
-            rate(1) = zero
-          endif  
-          nfunc = nrate
+          matparam%ntable = 1
+          nvartmp = 2
         elseif (iflag == 3) then 
-          numtabl = 3
+          matparam%ntable = 3
           nvartmp = 6
-        endif      
+        else
+          matparam%ntable = 0
+          nvartmp = 0
+        endif         
 !
         !< Number of integer material parameters
-        matparam%niparam = 7
+        matparam%niparam = 4
         !< Number of real material parameters
-        offset = 17
-        if (iflag == 0) then 
-          offset = offset + 2*nfunc
-        elseif (iflag == 1) then
-          offset = offset + 7
+        offset = 12
+        if (iflag == 1) then
+          offset = offset + 10
         elseif (iflag == 2) then
           offset = offset + 20
-        elseif (iflag == 3) then
-          offset = offset + 6
         endif
         matparam%nuparam = offset
         if (fisokin > zero) then
@@ -459,20 +424,25 @@
         !< Allocation of material parameters tables
         allocate (matparam%iparam(matparam%niparam))
         allocate (matparam%uparam(matparam%nuparam))
+        allocate (matparam%table (matparam%ntable ))
 !
         !< Number of user variables
-        nuvar = 5 + nfunc + 3 + 2 + 10
+        if (iflag == 2) then 
+          nuvar = 1 !< Martensite volume fraction for Hansel
+        else
+          nuvar = 0
+        endif 
 !
         !< Material integer parameters
-        matparam%iparam(1)  = israte
-        matparam%iparam(2)  = iyield
-        matparam%iparam(3)  = iflagsr
-        matparam%iparam(4)  = flag_fit
-        matparam%iparam(5)  = nrate
-        matparam%iparam(6)  = iflag
-        matparam%iparam(7)  = ismooth
+        matparam%iparam(1)  = iflag
+        matparam%iparam(2)  = iflagsr
+        matparam%iparam(3)  = flag_fit
+        matparam%iparam(4)  = ikin
 !
         !< Material real parameters
+        if (rhor == zero) rhor = rho0
+        matparam%rho        = rhor
+        matparam%rho0       = rho0
         matparam%young      = e
         matparam%nu         = nu
         matparam%shear      = g
@@ -489,54 +459,74 @@
         matparam%uparam(10) = al8
         matparam%uparam(11) = fisokin
         matparam%uparam(12) = expa
-        matparam%uparam(13) = fcut
-        matparam%uparam(14) = unsp
-        matparam%uparam(15) = unsc
-        matparam%uparam(16) = unspt
-        matparam%uparam(17) = unsct
+        !< Tabulated yield stress
         if (iflag == 0) then 
-          do i = 1,nfunc
-            matparam%uparam(17 + i) = rate(i)
-            matparam%uparam(17 + i + nfunc) = yfac(i)
-          enddo
+          !< Transform series of functions into material table
+          x1scale = one 
+          x2scale = one
+          x2vect(1:nrate) = rate(1:nrate)
+          fscale(1:nrate) = yfac(1:nrate)
+          call func_table_copy(matparam%table(1) ,titr     ,mat_id   ,         &
+                   nrate    ,ifunc     ,x2vect   ,x1scale  ,x2scale  ,         &
+                   fscale   ,ntable    ,table    ,ierr2    )
+        !< Swift-Voce yield stress
         elseif (iflag == 1) then 
-          matparam%uparam(18) = aswift
-          matparam%uparam(19) = nexp
-          matparam%uparam(20) = alpha
-          matparam%uparam(21) = epso
-          matparam%uparam(22) = qvoce
-          matparam%uparam(23) = beta
-          matparam%uparam(24) = ko
+          matparam%uparam(13) = aswift
+          matparam%uparam(14) = nexp
+          matparam%uparam(15) = alpha
+          matparam%uparam(16) = epso
+          matparam%uparam(17) = qvoce
+          matparam%uparam(18) = beta
+          matparam%uparam(19) = ko
+          matparam%uparam(20) = unsp
+          matparam%uparam(21) = unsc
+          matparam%uparam(22) = yld0
+        !< Hansel yield stress
         elseif (iflag == 2) then
-          matparam%uparam(18) = k1
-          matparam%uparam(19) = k2
-          matparam%uparam(20) = ahs
-          matparam%uparam(21) = bhs
-          matparam%uparam(22) = mhs
-          matparam%uparam(23) = eps0hs
-          matparam%uparam(24) = nhs
-          matparam%uparam(25) = hmart
-          matparam%uparam(26) = temp0
-          matparam%uparam(27) = tref
-          matparam%uparam(28) = eta
-          matparam%uparam(29) = cp
-          matparam%uparam(30) = am
-          matparam%uparam(31) = bm
-          matparam%uparam(32) = cm
-          matparam%uparam(33) = dm
-          matparam%uparam(34) = ppm
-          matparam%uparam(35) = qm
-          matparam%uparam(36) = e0mart
-          matparam%uparam(37) = vm0
+          matparam%uparam(13) = k1
+          matparam%uparam(14) = k2
+          matparam%uparam(15) = ahs
+          matparam%uparam(16) = bhs
+          matparam%uparam(17) = mhs
+          matparam%uparam(18) = eps0hs
+          matparam%uparam(19) = nhs
+          matparam%uparam(20) = hmart
+          matparam%uparam(21) = temp0
+          matparam%uparam(22) = tref
+          matparam%uparam(23) = eta
+          matparam%uparam(24) = cp
+          matparam%uparam(25) = am
+          matparam%uparam(26) = bm
+          matparam%uparam(27) = cm
+          matparam%uparam(28) = dm
+          matparam%uparam(29) = ppm
+          matparam%uparam(30) = qm
+          matparam%uparam(31) = e0mart
+          matparam%uparam(32) = vm0
+        !< Orthotropic 3 directions yield stress
         elseif (iflag == 3) then
-          matparam%uparam(18) = fscale0
-          matparam%uparam(19) = fscale45
-          matparam%uparam(20) = fscale90
-          matparam%uparam(21) = epsd0
-          matparam%uparam(22) = epsd45
-          matparam%uparam(23) = epsd90
+          !< Transform global table into material table
+          matparam%table(1)%notable = itable(1)
+          matparam%table(2)%notable = itable(2)
+          matparam%table(3)%notable = itable(3)
+          x1scale   = one
+          x2scale   = one
+          x3scale   = one
+          x4scale   = one
+          x2vect(1) = epsd0
+          x2vect(2) = epsd45
+          x2vect(3) = epsd90
+          x3vect(1:3) = zero
+          x4vect(1:3) = zero
+          fscale(1) = fscale0
+          fscale(2) = fscale45
+          fscale(3) = fscale90
+          call mat_table_copy(matparam ,x2vect   ,x3vect   ,x4vect   ,         &
+                    x1scale  ,x2scale  ,x3scale  ,x4scale  ,fscale   ,         & 
+                    ntable   ,table    ,ierr     )
         endif
-        if (fisokin > zero) then       
+        !< Kinematic hardening parameters
+        if ((ikin == 1).and.(fisokin > zero)) then       
           matparam%uparam(offset + 1) = ckh(1)
           matparam%uparam(offset + 2) = akh(1)
           matparam%uparam(offset + 3) = ckh(2)
@@ -546,16 +536,6 @@
           matparam%uparam(offset + 7) = ckh(4)
           matparam%uparam(offset + 8) = akh(4)
         endif
-!
-!-------------------------------------------------------------
-!     Filling PM tables
-!-------------------------------------------------------------
-        if (rhor == zero) rhor = rho0
-        pm(1)  = rhor
-        pm(89) = rho0 
-        pm(9)  = two*pi*fcut   
-        matparam%rho  = rhor
-        matparam%rho0 = rho0
 !
 !-------------------------------------------------------------
 !     Filling PARMAT tables
@@ -577,7 +557,17 @@
         mtag%l_seq  = 1
         mtag%g_epsd = 1
         mtag%l_epsd = 1
-        if (fisokin > zero) mtag%l_sigb = 12
+        !< Temperature needed in case of Hansel model
+        if (iflag == 2) then 
+          mtag%l_temp = 1
+          mtag%g_temp = 1
+        endif
+        !< Backstresses needed in case of kinematic hardening
+        if ((ikin == 1).and.(fisokin > zero)) then 
+          mtag%l_sigb = 12
+        elseif ((ikin == 2).and.(fisokin > zero)) then
+          mtag%l_sigb = 3
+        endif  
 !-------------------------------------------------------------
         ! MATPARAM keywords
         call init_mat_keyword(matparam,"ORTHOTROPIC")
@@ -588,14 +578,14 @@
 !-------------------------------------------------------------
 !     Printing out the material data
 !-------------------------------------------------------------
-        write(iout,1001) trim(titr),id,ilaw
+        write(iout,1001) trim(titr),mat_id,ilaw
         write(iout,1000)
         if (is_encrypted)then                                     
           write(iout,'(5X,A,//)') 'CONFIDENTIAL DATA'
         else     
           write(iout,1002) rho0
           write(iout,1003) e,nu
-          write(iout,1004) iflag,iflagsr,israte,fcut,fisokin,ismooth
+          write(iout,1004) iflag,iflagsr,israte,fcut,fisokin,ikin
           if (flag_fit == 0) then
             write(iout,1005) expa,al1,al2,al3,al4,al5,al6,al7,al8
           else
@@ -603,7 +593,7 @@
           endif
           if (iflag == 0) then
             write(iout,1007) nrate
-            if (nrate>0) write(iout,1008)(ifunc(i),yfac(i),rate(i),i=1,nfunc)
+            if (nrate>0) write(iout,1008)(ifunc(i),yfac(i),rate(i),i=1,nrate)
           elseif (iflag == 1) then
             write(iout,1009) invp,invc,qvoce,beta,ko,alpha,aswift,nexp,epso
           elseif (iflag == 2) then
@@ -613,10 +603,12 @@
             write(iout,1011) itable(1),fscale0,epsd0,itable(2),fscale45,       &
               epsd45,itable(3),fscale90,epsd90
           endif
-          if (fisokin > zero) write(iout,1012)(ckh(i), akh(i),i=1,4)
+          if ((ikin==1).and.(fisokin > zero)) then
+            write(iout,1012)(ckh(i), akh(i),i=1,4)
+          endif
         endif
 !
- 1000 format(                                                                  &                                                                                            
+ 1000 format(/                                                                 &                                                                                            
        5X,'-------------------------------------------------------',/          &     
        5X,'           MATERIAL MODEL: BARLAT YLD2000              ',/,         & 
        5X,'-------------------------------------------------------',/)
@@ -624,12 +616,12 @@
        5X,A,/,                                                                 &
        5X,'MATERIAL NUMBER. . . . . . . . . . . . . . . . . . . .=',I10/,      &
        5X,'MATERIAL LAW . . . . . . . . . . . . . . . . . . . . .=',I10/)
- 1002 format(                                                                  &
+ 1002 format(/                                                                 &
        5X,'INITIAL DENSITY. . . . . . . . . . . . . . . . . . . .=',1PG20.13/)  
- 1003 format(                                                                  &
+ 1003 format(/                                                                 &
        5X,'YOUNG''S MODULUS. . . . . . . . . . . . . . . . . . . .=',1PG20.13/ &
        5X,'POISSON''S RATIO. . . . . . . . . . . . . . . . . . . .=',1PG20.13/)
- 1004 format(                                                                  &
+ 1004 format(/                                                                 &
        5X,'YIELD STRESS FORMULATION FLAG: . . . . . . . . . . . .=',I10/       &
        5X,'    = 0: TABULATED YIELD STRESS                        ',/          &
        5X,'    = 1: SWIFT-VOCE                                    ',/          &
@@ -638,15 +630,13 @@
        5X,'STRAIN RATE FLAG:. . . . . . . . . . . . . . . . . . .=',I10/       & 
        5X,'    = 0: TOTAL STRAIN RATE                             ',/          &
        5X,'    = 1: PLASTIC STRAIN RATE                           ',/          &
-       5X,'SMOOTH STRAIN RATE OPTION. . . . . . . . . . . . . . .=',I10/       &
+       5X,'STRAIN RATE FILTERING FLAG . . . . . . . . . . . . . .=',I10/       &
        5X,'STRAIN RATE CUTTING FREQUENCY. . . . . . . . . . . . .=',1PG20.13/  &
        5X,'ISOTROPIC/KINEMATIC HARDENING PARAMETER (CHARD). . . .=',1PG20.13/  &
-       5X,'STRAIN RATE INTERPOLATION FLAG (ISMOOTH) . . . . . . .=',I10/       &
-       5X,'    = 0: NOT USED                                     ',/,          &
-       5X,'    = 1: LINEAR INTERPOLATION                         ',/,          &
-       5X,'    = 2: LOGARITHMIC BASE 10 INTERPOLATION            ',/,          &
-       5X,'    = 3: LOGARITHMIC BASE N INTERPOLATION             ',/)
- 1005 format(                                                                  &
+       5X,'KINEMATIC HARDENING FORMULATION FLAG:. . . . . . . . .=',I10/       & 
+       5X,'    = 1: CHABOCHE-ROUSSELIER (DEFAULT)                 ',/          &
+       5X,'    = 2: PRAGER-ZIEGLER                                ',/)
+ 1005 format(/                                                                 &
        5X,'BARLAT 2000 YIELD CRITERION PARAMETERS:                ',/,         &
        5X,'---------------------------------------                ',/,         &
        5X,'EXPONENT OF YIELD CRITERION A. . . . . . . . . . . . .=',1PG20.13/  &
@@ -658,7 +648,7 @@
        5X,'ANISOTROPY COEFFICIENT ALPHA6. . . . . . . . . . . . .=',1PG20.13/  &
        5X,'ANISOTROPY COEFFICIENT ALPHA7. . . . . . . . . . . . .=',1PG20.13/  &
        5X,'ANISOTROPY COEFFICIENT ALPHA8. . . . . . . . . . . . .=',1PG20.13/)
- 1006 format(                                                                  &
+ 1006 format(/                                                                 &
        5X,'EXPERIMENTAL DATA USED TO FIT BARLAT 2000:             ',/,         &
        5X,'------------------------------------------             ',/,         &
        5X,'EXPONENT OF YIELD CRITERION A. . . . . . . . . . . . .=',1PG20.13/  & 
@@ -670,15 +660,15 @@
        5X,'R-VALUE IN DIRECTION 45. . . . . . . . . . . . . . . .=',1PG20.13/  &
        5X,'R-VALUE IN DIRECTION 90. . . . . . . . . . . . . . . .=',1PG20.13/  &
        5X,'R-VALUE FOR BIAXIAL. . . . . . . . . . . . . . . . . .=',1PG20.13/)
- 1007 format(                                                                  &
+ 1007 format(/                                                                 &
        5X,'TABULATED YIELD STRESS PARAMETERS:                     ',/,         &
        5X,'----------------------------------                     ',/,         &
        5X,'NUMBER OF YIELD STRESS FUNCTIONS . . . . . . . . . . .=',I10/)
- 1008 format(                                                                  &
+ 1008 format(/                                                                 &
        5X,'YIELD STRESS FUNCTION NUMBER . . . . . . . . . . . . .=',I10/       &
        5X,'YIELD STRESS SCALE FACTOR. . . . . . . . . . . . . . .=',1PG20.13/  &
        5X,'REFERENCE STRAIN RATE. . . . . . . . . . . . . . . . .=',1PG20.13/)     
- 1009 format(                                                                  &
+ 1009 format(/                                                                 &
        5X,'SWIFT-VOCE YIELD STRESS PARAMETERS:                    ',/,         &
        5X,'-----------------------------------                    ',/,         &
        5X,'COWPER SEYMONDS EXPONENT P . . . . . . . . . . . . . .=',1PG20.13/  &
@@ -689,8 +679,8 @@
        5X,'YIELD GLOBAL PARAMETER ALPHA . . . . . . . . . . . . .=',1PG20.13/  &
        5X,'YIELD SWIFT PARAMETER A. . . . . . . . . . . . . . . .=',1PG20.13/  &
        5X,'YIELD SWIFT EXPONENT N . . . . . . . . . . . . . . . .=',1PG20.13/  &
-       5X,'YIELD SWIFT REFERENCE STRAIN . . . . . . . . . . . . .=',1PG20.13)
- 1010 format(                                                                  &
+       5X,'YIELD SWIFT REFERENCE STRAIN . . . . . . . . . . . . .=',1PG20.13/)
+ 1010 format(/                                                                 &
        5X,'HANSEL YIELD STRESS PARAMETERS:                        ',/,         &
        5X,'-------------------------------                        ',/,         &
        5X,'TEMPERATURE DEPENDENCY PARAMETER K1. . . . . . . . . .=',1PG20.13/  &
@@ -712,8 +702,8 @@
        5X,'PARAMETER PM FOR MARTENSITE RATE EQUATION. . . . . . .=',1PG20.13/  &
        5X,'PARAMETER QM FOR MARTENSITE RATE EQUATION. . . . . . .=',1PG20.13/  &
        5X,'MARTENSITE STARTING VALUE E0MART . . . . . . . . . . .=',1PG20.13/  &   
-       5X,'INITIAL FRACTION OF MARTENSITE VM0 . . . . . . . . . .=',1PG20.13)
- 1011 format(                                                                  &
+       5X,'INITIAL FRACTION OF MARTENSITE VM0 . . . . . . . . . .=',1PG20.13/)
+ 1011 format(/                                                                 &
        5X,'3 DIR. ORHOTROPIC TABULATED YIELD STRESS PARAMETERS:   ',/,         &
        5X,'----------------------------------------------------   ',/,         &
        5X,'DIRECTION  0 YIELD STRESS TABLE NUMBER . . . . . . . .=',I10/       &
@@ -727,7 +717,7 @@
        5X,'DIRECTION 90 YIELD STRESS TABLE NUMBER . . . . . . . .=',I10/       &
        5X,'DIRECTION 90 YIELD STRESS SCALE FACTOR . . . . . . . .=',1PG20.13/  &
        5X,'DIRECTION 90 YIELD STRESS REFERENCE STRAIN RATE. . . .=',1PG20.13/)
- 1012 format(                                                                  &
+ 1012 format(/                                                                 &
        5X,'CHABOCHE-ROUSSELIER KINEMATIC HARDENING PARAMETERS:    ',/,         &
        5X,'---------------------------------------------------    ',/,         &
        5X,'PARAMETER C1 . . . . . . . . . . . . . . . . . . . . .=',1PG20.13/  &
@@ -737,7 +727,7 @@
        5X,'PARAMETER C3 . . . . . . . . . . . . . . . . . . . . .=',1PG20.13/  &
        5X,'PARAMETER A3 . . . . . . . . . . . . . . . . . . . . .=',1PG20.13/  &
        5X,'PARAMETER C4 . . . . . . . . . . . . . . . . . . . . .=',1PG20.13/  &
-       5X,'PARAMETER A4 . . . . . . . . . . . . . . . . . . . . .=',1PG20.13)
+       5X,'PARAMETER A4 . . . . . . . . . . . . . . . . . . . . .=',1PG20.13/)
       
       end subroutine hm_read_mat87
 !=======================================================================
