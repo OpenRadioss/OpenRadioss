@@ -88,13 +88,12 @@ C----------------------------
               STRETCH(JJ) = PLD(II) + ONE                     
               STRESS(JJ)  = PLD(II + 1)   
                 IF(PLD(II) <=  - ONE) THEN
-                  CALL ANCMSG(MSGID=1175,
-     .                         MSGTYPE=MSGERROR,
+                  CALL ANCMSG(MSGID=3085,
+     .                         MSGTYPE=MSGWARNING,
      .                         ANMODE=ANINFO,
      .                         I1=MAT_ID,
      .                         C1=TITR,
      .                         I2=FUNC_ID(K)) ! Id_function
-                     CALL ARRET(2)
               ENDIF
               !! check if the curve don't have (0,0) point.
               IF( PLD(II) == ZERO .AND. PLD(II + 1) == ZERO )ICHECK = 1
@@ -161,16 +160,6 @@ C intersection pt of compression if existing
                    ELSE  
                       UPARAM(NV + 1) = 2  ! tension & compression
                    ENDIF
-               ENDIF
-               IF(UPARAM(NV + 1) /= 2 .AND. ITENS == -2) THEN
-                     CALL ANCMSG(MSGID=2040,                        
-     .                     MSGTYPE=MSGERROR,                             
-     .                     ANMODE=ANINFO,                                
-     .                     I1=MAT_ID,                                    
-     .                     C1=TITR,                                      
-     .                     I2=FUNC_ID(FUNC),   ! Id function             
-     .                     I3=FUNC_ID(FUND) ) ! Id_function              
-                    CALL ARRET(2)
                ENDIF
            ENDIF  
         ENDIF 
