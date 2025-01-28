@@ -44,6 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    groupdef_mod          ../common_source/modules/groupdef_mod.F
       !||    h3d_mod               ../engine/share/modules/h3d_mod.F
       !||    monvol_struct_mod     ../engine/share/modules/monvol_struct_mod.F
+      !||    output_mod            ../common_source/modules/output/output_mod.F90
       !||    sensor_mod            ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE MONVOL0(MONVOL   ,VOLMON  ,X       ,A      ,

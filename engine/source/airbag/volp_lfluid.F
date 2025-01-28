@@ -26,6 +26,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    monvol0       ../engine/source/airbag/monvol0.F
       !||--- calls      -----------------------------------------------------
       !||    finter        ../engine/source/tools/curve/finter.F
+      !||--- uses       -----------------------------------------------------
+      !||    output_mod    ../common_source/modules/output/output_mod.F90
       !||====================================================================
       SUBROUTINE VOLP_LFLUID(IVOLU, RVOLU, VOL, FSAV, NPC, TF, PMAIN, OUTPUT)
 C-----------------------------------------------

@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    burn_fraction_ireac2    ../engine/source/materials/mat/mat041/sigeps41.F
       !||    mixture_equilibrium     ../engine/source/materials/mat/mat041/sigeps41.F
       !||--- uses       -----------------------------------------------------
+      !||    output_mod              ../common_source/modules/output/output_mod.F90
       !||    root_finding_algo_mod   ../common_source/modules/root_finding_algo_mod.F90
       !||====================================================================
       SUBROUTINE SIGEPS41 (

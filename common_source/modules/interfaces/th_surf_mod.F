@@ -48,6 +48,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    pblast_3                  ../engine/source/loads/pblast/pblast_3.F
       !||    pblast_load_computation   ../engine/source/loads/pblast/pblast.F
       !||    pfluid                    ../engine/source/loads/general/pfluid/pfluid.F
+      !||    resol                     ../engine/source/engine/resol.F
       !||    sortie_main               ../engine/source/output/sortie_main.F
       !||    surf_mass_monv            ../engine/source/output/th/surf_mass.F
       !||    th_surf_load_pressure     ../starter/source/output/th/th_surf_load_pressure.F

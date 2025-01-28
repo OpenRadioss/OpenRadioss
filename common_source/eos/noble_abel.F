@@ -24,6 +24,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    noble_abel   ../common_source/eos/noble_abel.F
       !||--- called by ------------------------------------------------------
       !||    eosmain      ../common_source/eos/eosmain.F
+      !||--- uses       -----------------------------------------------------
+      !||    output_mod   ../common_source/modules/output/output_mod.F90
       !||====================================================================
       SUBROUTINE NOBLE_ABEL(IFLAG,NEL, PM   ,OFF  ,EINT ,MU   ,MU2 , 
      2                      ESPE ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,

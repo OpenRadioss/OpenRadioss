@@ -21,9 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    murnaghan   ../common_source/eos/murnaghan.F
+      !||    murnaghan    ../common_source/eos/murnaghan.F
       !||--- called by ------------------------------------------------------
-      !||    eosmain     ../common_source/eos/eosmain.F
+      !||    eosmain      ../common_source/eos/eosmain.F
+      !||--- uses       -----------------------------------------------------
+      !||    output_mod   ../common_source/modules/output/output_mod.F90
       !||====================================================================
       SUBROUTINE MURNAGHAN(IFLAG,NEL, PM   ,OFF  ,EINT ,MU   ,MU2 , 
      2                     ESPE ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,

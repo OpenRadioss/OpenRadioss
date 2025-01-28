@@ -64,6 +64,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    matparam_def_mod       ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||    message_mod            ../engine/share/message_module/message_mod.F
       !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
+      !||    output_mod             ../common_source/modules/output/output_mod.F90
       !||    sensor_mod             ../common_source/modules/sensor_mod.F90
       !||    stack_mod              ../engine/share/modules/stack_mod.F
       !||====================================================================

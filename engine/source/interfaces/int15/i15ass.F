@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    anim_mod       ../common_source/modules/output/anim_mod.F
       !||    groupdef_mod   ../common_source/modules/groupdef_mod.F
       !||    h3d_mod        ../engine/share/modules/h3d_mod.F
+      !||    output_mod     ../common_source/modules/output/output_mod.F90
       !||====================================================================
       SUBROUTINE I15ASS(AF    ,X     ,V    ,KSURF ,IGRSURF ,
      2                  BUFSF ,STIFN ,FS   ,FCONT ,FSKYI ,

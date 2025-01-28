@@ -24,6 +24,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    idealgas_vt   ../common_source/eos/idealgas_vt.F
       !||--- called by ------------------------------------------------------
       !||    eosmain       ../common_source/eos/eosmain.F
+      !||--- uses       -----------------------------------------------------
+      !||    output_mod    ../common_source/modules/output/output_mod.F90
       !||====================================================================
       SUBROUTINE IDEALGAS_VT(IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2 , 
      2                       ESPE ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
