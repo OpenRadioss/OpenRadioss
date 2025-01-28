@@ -2526,7 +2526,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        TYPE(TIMER_), intent(in) :: TIMERS
+        TYPE(TIMER_), intent(inout) :: TIMERS
         INTEGER  NODFT, NODLT, ITASK, NUMNOD, IADL(*)  ,JDIL(*),
      .           NODFT1_SMS,NODLT1_SMS,INDX1_SMS(*), NODNX_SMS(*),
      .           IAD_ELEM(2,NSPMD+1) ,FR_ELEM(*),WEIGHT(*),

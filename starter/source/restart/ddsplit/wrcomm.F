@@ -50,7 +50,7 @@ C-----------------------------------------------
       my_real TABVREA(*),MS_ND
       TYPE(UNIT_TYPE_), INTENT(IN) :: UNITAB
       TYPE(glob_therm_) ,intent(in) :: glob_therm
-      TYPE(OUTPUT_),INTENT(INOUT) :: OUTPUT
+      TYPE(OUTPUT_),INTENT(IN) :: OUTPUT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------

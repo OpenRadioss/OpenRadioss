@@ -83,7 +83,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_), INTENT(IN) :: TIMERS
+      TYPE(TIMER_), INTENT(INOUT) :: TIMERS
       INTEGER, INTENT(IN) :: ITASK
       INTEGER NIN , RETRI, NRTM_T, ESHIFT
       INTEGER IPARI(NPARI,NINTER),  ITAB(*),

@@ -84,7 +84,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_), intent(in) :: TIMERS
+      TYPE(TIMER_), intent(inout) :: TIMERS
       integer, intent(in) :: npari !< dimension of ipari
       INTEGER  ITASK, NIN, RETRI, NRTM_T, ESHIFT,
      .         NUM_IMP ,IND_IMP(*),
