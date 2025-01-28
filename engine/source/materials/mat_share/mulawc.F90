@@ -181,8 +181,7 @@
         & ncycle   ,snpc     ,stf      ,impl_s    ,imconv    ,npropgi , &
         & npropmi  ,npropm   ,npropg   ,imon_mat  ,numgeo    ,          &
         & numstack ,dt1      ,tt       ,nxlaymax  ,idel7nok ,userl_avail, &
-        & maxfunc  ,nummat   ,varnl_npttot,sbufmat,sdir_a   ,sdir_b ,nparg,    &
-        & ntable   )
+        & maxfunc  ,nummat   ,varnl_npttot,sbufmat,sdir_a   ,sdir_b ,nparg)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -259,7 +258,6 @@
           integer, intent(in) :: snpc
           integer, intent(in) :: ncycle
           integer, intent(in) :: idt_therm
-          integer, intent(in) :: ntable
           integer, intent(in),dimension(mvsiz) :: mat
           integer, intent(in),dimension(mvsiz) :: pid
           integer, intent(in),dimension(mvsiz) :: ngl
@@ -1666,20 +1664,18 @@
                 &off    ,ngl    ,ipm     ,matly(jmly),etse ,&
                 &gs     ,sigy   ,epspl   ,israte   ,dpla)
               elseif (ilaw == 87) then
-                asrate = pm(9,mx)
                 call sigeps87c(&
-                &jlt      ,matparam ,nuvar    ,uvar     ,nfunc    ,   &
-                &ifunc    ,snpc     ,npf      ,stf      ,tf       ,   &
-                &tt       ,dt1      ,rho      ,thklyl   ,thkn     ,   &    
-                &epspxx   ,epspyy   ,epspxy   ,epspyz   ,epspzx   ,   &
+                &nel      ,matparam ,nuvar    ,uvar     ,             &
+                &tt       ,dt1      ,rho      ,thklyl   ,thkn     ,   &
+                &epspxx   ,epspyy   ,epspxy   ,                       &
                 &depsxx   ,depsyy   ,depsxy   ,depsyz   ,depszx   ,   &
                 &sigoxx   ,sigoyy   ,sigoxy   ,sigoyz   ,sigozx   ,   &
                 &signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,   &
                 &ssp      ,lbuf%pla ,dpla     ,epspl    ,sigy     ,   &
-                &etse     ,gs       ,israte   ,asrate   ,yldfac   ,   &
-                &tempel   ,lbuf%sigb,inloc    ,varnl(1,it),lbuf%seq,  &
-                &jthe     ,off      ,lbuf%off ,numtabl  ,itable   ,   &
-                &ntable   ,table    ,nvartmp  ,vartmp   ,lbuf%epsd)
+                &etse     ,gs       ,israte   ,asrate   ,lbuf%epsd,   &
+                &el_temp  ,bufly%l_sigb,lbuf%sigb,inloc ,varnl(1,it), &
+                &lbuf%seq ,jthe     ,off      ,lbuf%off ,nvartmp  ,   &
+                &vartmp   )
               elseif (ilaw == 88) then
                 call sigeps88c(&
                 &jlt    , nuparam0, nuvar   , nfunc , ifunc , npf   ,&

@@ -131,10 +131,8 @@
         my_real :: deelzz(nel),deplzz(nel),normsig(nel),xvec(nel,2),yld_i(nel),&
           dyld_dp(nel),dyld_dp_i(nel),hardr(nel),phi(nel),depszz(nel),k1(nel), &
           k2(nel),dyoung_dp(nel),yld0(nel),dyld0_dp(nel),hk(nel)
-        !< Maximal number of plastic return mapping iterations
-        integer, parameter :: niter = 20
-        !< Tolerance for plastic return mapping
-        my_real, parameter :: tol   = 1.0d-8
+        !< Number of plastic return mapping iterations
+        integer, parameter :: niter = 3
 !
         !=====================================================================
         ! - INITIALISATION OF COMPUTATION ON TIME STEP
@@ -187,16 +185,16 @@
         ipos(1:nel,2) = 1
         call table_mat_vinterp(matparam%table(1),nel,nel,ipos,xvec,yld0,dyld0_dp)
 !     
-        !=========================================================================
+        !=======================================================================
         !< - RECOVERING USER VARIABLES AND STATE VARIABLES
-        !=========================================================================
+        !=======================================================================
         dpla(1:nel)   = zero !< Cumulated plastic strain increment
         deplzz(1:nel) = zero !< Plastic strain increment component zz
         etse(1:nel)   = one  !< Coefficient for hourglass control
 !
-        !=========================================================================
+        !=======================================================================
         !< - ELASTIC PARAMETERS COMPUTATION
-        !=========================================================================
+        !=======================================================================
         !< Tabulated Young modulus evolution
         if (opte > 0) then
           xvec(1:nel,1) = pla(1:nel)
@@ -216,14 +214,14 @@
           enddo
         endif
 !
-        !=========================================================================
+        !=======================================================================
         !< - COMPUTATION OF TRIAL STRESS TENSOR, VON MISES AND PRESSURE
-        !=========================================================================
+        !=======================================================================
         !< Trial stress tensor computation
         do i=1,nel
-          signxx(i) = sigoxx(i)/max(one-dmg(i,3),em20) +   a11(i)*depsxx(i)      &
+          signxx(i) = sigoxx(i)/max(one-dmg(i,3),em20) +   a11(i)*depsxx(i)    &
                                                        +   a12(i)*depsyy(i)
-          signyy(i) = sigoyy(i)/max(one-dmg(i,3),em20) +   a12(i)*depsxx(i)      &
+          signyy(i) = sigoyy(i)/max(one-dmg(i,3),em20) +   a12(i)*depsxx(i)    &
                                                        +   a11(i)*depsyy(i)
           signxy(i) = sigoxy(i)/max(one-dmg(i,3),em20) + shear(i)*depsxy(i)               
           signyz(i) = sigoyz(i)/max(one-dmg(i,3),em20) + shear(i)*depsyz(i)*shf(i)
@@ -293,20 +291,17 @@
           endif
         enddo
 !
-        !=========================================================================
+        !=======================================================================
         !< - RETURN MAPPING PROCEDURES (PLASTIC CORRECTION)
-        !=========================================================================
+        !=======================================================================
         if (nindx > 0) then 
 !
-          !< Loop over yielding elements
-          do ii = 1, nindx
-            i = indx(ii)  
-!
-            !< Initialisation of the iteration counter
-            iter = 0
-!
-            !< Loop over the iterations
-            do while (abs(phi(i))>tol .and. (iter<=niter))
+          !< Loop over the iterations
+          do iter = 1, niter
+#include "vectorize.inc" 
+            !< Loop over yielding elements
+            do ii = 1, nindx
+              i = indx(ii)  
 !
               ! Note: in this part, the purpose is to compute for each iteration
               ! a plastic multiplier allowing to update internal variables to
@@ -463,15 +458,26 @@
               seq(i) = seq(i)*normsig(i)   
 !
               !< Save variables for yield stress in plastic index order    
-              xvec(1,1) = pla(i)
-              xvec(1,2) = epsd(i) 
-              ipos(1,1) = vartmp(i,1)
-              ipos(1,2) = vartmp(i,2)
-              !< Update of the yield stress
-              call table_mat_vinterp(matparam%table(1),1,1,ipos,xvec,yld,dyld_dp)
+              xvec(ii,1) = pla(i)
+              xvec(ii,2) = epsd(i) 
+              ipos(ii,1) = vartmp(i,1)
+              ipos(ii,2) = vartmp(i,2)
+            enddo
+!
+            !< Update of the yield stress
+            call table_mat_vinterp(matparam%table(1),nindx,nindx,ipos,xvec,    &
+                                   yld_i,dyld_dp_i)
+!
+#include "vectorize.inc" 
+            !< Loop over yielding elements
+            do ii = 1, nindx
+              i = indx(ii)
+!
               !< Reverse plastic index order
-              vartmp(i,1) = ipos(1,1)
-              vartmp(i,2) = ipos(1,2)
+              vartmp(i,1) = ipos(ii,1)
+              vartmp(i,2) = ipos(ii,2)
+              yld(i)      = yld_i(ii)   
+              dyld_dp(i)  = dyld_dp_i(ii) 
 !
               !< Apply kinematic hardening coefficient
               yld(i) = (one - fisokin)*yld(i) + fisokin*yld0(i)
@@ -481,20 +487,17 @@
               !< Compute the new yield function
               phi(i) = (seq(i)/yld(i))**2 - one
 !
-              !< Update the iteration counter
-              iter = iter + 1    
-!
             enddo        
-            !< End of the loop over the iterations 
+            !< End of the loop over yielding elements 
           enddo
-          !< End of the loop over yielding elements
+          !< End of the loop over the iterations 
 !
 #include "vectorize.inc" 
           !< Update the coefficient for hourglass control & kinematic hardening
           do ii = 1,nindx
             i = indx(ii)
             !< Hourglass stiffness parameter
-            etse(i)  = dyld_dp(i) / (dyld_dp(i) + young(i))
+            etse(i)  = (dyld_dp(i)+hk(i)) / ((dyld_dp(i)+hk(i)) + young(i))
             dmg(i,2) = pla(i)/epsmax
             dmg(i,2) = min(one,dmg(i,2))
             if (pla(i) > epsmax .and. off(i) == one .and. inloc == 0) then 

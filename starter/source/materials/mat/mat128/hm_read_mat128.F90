@@ -102,6 +102,8 @@
       my_real :: ff,gg,hh,ll,mm,nn
       my_real :: fcut,asrate,xfac,yfac
       my_real :: epsp_unit,pres_unit
+      my_real :: x1scale,x2scale,x3scale,x4scale
+      my_real :: x1vect(1),x2vect(1),x3vect(1),x4vect(1),fscale(1)
 !-----------------------------------------------
 !   S o u r c e   L i n e s 
 !===============================================================================    
@@ -198,30 +200,23 @@
         allocate (mat_param%table(1))           ! allocate material table array
         mat_param%ntable  = 1
         mat_param%table(1)%notable = func_id
-        call mat_table_copy(mat_param ,ntable ,table  ,ierr  )
+        x1scale   = one
+        x2scale   = one
+        x3scale   = one
+        x4scale   = one
+        x2vect(1) = xfac
+        x3vect(1) = one
+        x4vect(1) = one
+        fscale(1) = yfac
+        call mat_table_copy(mat_param,x2vect    ,x3vect   ,x4vect   ,          &
+                            x1scale  ,x2scale   ,x3scale  ,x4scale  ,          &
+                            fscale   ,ntable    ,table    ,ierr     )
         if (ierr == 0) then
           cc = zero
           cp = zero ! Cowper-Symonds strain rate is not used with tabulated input          
-          ndim = mat_param%table(1)%ndim 
           nvartmp = ndim
-          ! apply scale factors to strain rate and yield values
-          if (ndim == 1) then
-            npt = size(mat_param%table(1)%x(1)%values)
-            do i=1,npt
-              mat_param%table(1)%y1d(1:npt) = yfac*mat_param%table(1)%y1d(1:npt)
-            end do
-          else if (ndim == 2) then
-            npt   = size(mat_param%table(1)%x(1)%values)
-            nepsd = size(mat_param%table(1)%x(2)%values)
-            do j=1,nepsd
-              mat_param%table(1)%x(2)%values(j) = xfac*mat_param%table(1)%x(2)%values(j)
-              do i=1,npt
-                mat_param%table(1)%y2d(i,j) = yfac*mat_param%table(1)%y2d(i,j)
-              end do
-            end do
-          end if
-        end if
-      end if
+        endif
+      endif
 !          
       ! reference (static) strain rate      
       if (func_id > 0 .and. ndim == 2) then

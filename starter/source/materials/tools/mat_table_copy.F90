@@ -43,7 +43,9 @@
       !||    mattab_usr2sys     ../starter/source/materials/tools/mattab_usr2sys.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================
-       subroutine mat_table_copy(mat_param ,ntable ,table  ,ierr   )
+       subroutine mat_table_copy(mat_param ,x2vect   ,x3vect   ,x4vect   , &
+                                 x1scale   ,x2scale  ,x3scale  ,x4scale  , &
+                                 fscale    ,ntable   ,table    ,ierr     )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -59,10 +61,18 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-      integer, intent(in)  :: ntable                         !< number of function tables in input deck
-      type(ttable), dimension(ntable) ,intent(in) :: table   !< input table array
-      type(matparam_struct_) ,intent(inout) :: mat_param     !< material model data structure
-      integer, intent(out) :: ierr                           !< output error flag : no error=0 , error=1
+      type(matparam_struct_)              ,intent(inout) :: mat_param !< material model data structure
+      my_real, dimension(mat_param%ntable),intent(in)    :: x2vect    !< x2 vector flag
+      my_real, dimension(mat_param%ntable),intent(in)    :: x3vect    !< x3 vector flag
+      my_real, dimension(mat_param%ntable),intent(in)    :: x4vect    !< x4 vector flag
+      my_real                             ,intent(in)    :: x1scale   !< x1 scale factor
+      my_real                             ,intent(in)    :: x2scale   !< x2 scale factor
+      my_real                             ,intent(in)    :: x3scale   !< x3 scale factor
+      my_real                             ,intent(in)    :: x4scale   !< x4 scale factor
+      my_real, dimension(mat_param%ntable),intent(in)    :: fscale    !< function scale factor
+      integer                             ,intent(in)    :: ntable    !< number of function tables in input deck
+      type(ttable), dimension(ntable)     ,intent(in)    :: table     !< input table array
+      integer                             ,intent(out)   :: ierr      !< output error flag : no error=0 , error=1
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -79,7 +89,7 @@
       ierr = 0
       do itab = 1,nfunc
         ifunc(itab) = mat_param%table(itab)%notable
-        call mattab_usr2sys(mat_param%title,mat_param%mat_id,ntable,table,nfunc,ifunc)
+        call mattab_usr2sys(mat_param%title,mat_param%mat_id,ntable,table,1,ifunc(itab))
         if (ifunc(itab) == 0) then
           ierr = 1
           mat_param%table(itab)%notable = 0
@@ -102,8 +112,8 @@
             lx1 = size(table(func_n)%x(1)%values)      ! number of abscissa points
             allocate (mat_param%table(itab)%x(1)%values(lx1))
             allocate (mat_param%table(itab)%y1d(lx1))
-            mat_param%table(itab)%x(1)%values(1:lx1) = table(func_n)%x(1)%values(1:lx1)
-            mat_param%table(itab)%y1d(1:lx1) = table(func_n)%y%values(1:lx1)
+            mat_param%table(itab)%x(1)%values(1:lx1) = x1scale*table(func_n)%x(1)%values(1:lx1)
+            mat_param%table(itab)%y1d(1:lx1) = fscale(itab)*table(func_n)%y%values(1:lx1)
             
           else if (ndim == 2) then
             lx1 = size(table(func_n)%x(1)%values)
@@ -111,11 +121,11 @@
             allocate (mat_param%table(itab)%x(1)%values(lx1))
             allocate (mat_param%table(itab)%x(2)%values(lx2))
             allocate (mat_param%table(itab)%y2d(lx1,lx2))
-            mat_param%table(itab)%x(1)%values(1:lx1) = table(func_n)%x(1)%values(1:lx1)
-            mat_param%table(itab)%x(2)%values(1:lx2) = table(func_n)%x(2)%values(1:lx2)
+            mat_param%table(itab)%x(1)%values(1:lx1) = x1scale*table(func_n)%x(1)%values(1:lx1)
+            mat_param%table(itab)%x(2)%values(1:lx2) = x2scale*x2vect(itab)*table(func_n)%x(2)%values(1:lx2)
             do i=1,lx1
               do j=1,lx2
-                 mat_param%table(itab)%y2d(i,j) = table(func_n)%y%values((j-1)*lx1+i)
+                 mat_param%table(itab)%y2d(i,j) = fscale(itab)*table(func_n)%y%values((j-1)*lx1+i)
               end do
             end do
             
@@ -127,14 +137,14 @@
             allocate (mat_param%table(itab)%x(2)%values(lx2))
             allocate (mat_param%table(itab)%x(3)%values(lx3))
             allocate (mat_param%table(itab)%y3d(lx1,lx2,lx3))
-            mat_param%table(itab)%x(1)%values(1:lx1) = table(func_n)%x(1)%values(1:lx1)
-            mat_param%table(itab)%x(2)%values(1:lx2) = table(func_n)%x(2)%values(1:lx2)
-            mat_param%table(itab)%x(3)%values(1:lx3) = table(func_n)%x(3)%values(1:lx3)
+            mat_param%table(itab)%x(1)%values(1:lx1) = x1scale*table(func_n)%x(1)%values(1:lx1)
+            mat_param%table(itab)%x(2)%values(1:lx2) = x2scale*x2vect(itab)*table(func_n)%x(2)%values(1:lx2)
+            mat_param%table(itab)%x(3)%values(1:lx3) = x3scale*x3vect(itab)*table(func_n)%x(3)%values(1:lx3)
             do i=1,lx1
               do j=1,lx2
                 do k=1,lx3
                   mat_param%table(itab)%y3d(i,j,k) =                  &
-                  table(func_n)%y%values((k-1)*lx1*lx2+(j-1)*lx1+i)
+                  fscale(itab)*table(func_n)%y%values((k-1)*lx1*lx2+(j-1)*lx1+i)
                 end do
               end do
             end do
@@ -149,16 +159,16 @@
             allocate (mat_param%table(itab)%x(3)%values(lx3))
             allocate (mat_param%table(itab)%x(4)%values(lx4))
             allocate (mat_param%table(itab)%y4d(lx1,lx2,lx3,lx4))
-            mat_param%table(itab)%x(1)%values(1:lx1) = table(func_n)%x(1)%values(1:lx1)
-            mat_param%table(itab)%x(2)%values(1:lx2) = table(func_n)%x(2)%values(1:lx2)
-            mat_param%table(itab)%x(3)%values(1:lx3) = table(func_n)%x(3)%values(1:lx3)
-            mat_param%table(itab)%x(4)%values(1:lx4) = table(func_n)%x(4)%values(1:lx4)
+            mat_param%table(itab)%x(1)%values(1:lx1) = x1scale*table(func_n)%x(1)%values(1:lx1)
+            mat_param%table(itab)%x(2)%values(1:lx2) = x2scale*x2vect(itab)*table(func_n)%x(2)%values(1:lx2)
+            mat_param%table(itab)%x(3)%values(1:lx3) = x3scale*x3vect(itab)*table(func_n)%x(3)%values(1:lx3)
+            mat_param%table(itab)%x(4)%values(1:lx4) = x4scale*x4vect(itab)*table(func_n)%x(4)%values(1:lx4)
             do i=1,lx1
               do j=1,lx2
                 do k=1,lx3
                   do l=1,lx4
                     mat_param%table(itab)%y4d(i,j,k,l) =                  &
-                    table(func_n)%y%values((l-1)*lx1*lx2*lx3+(k-1)*lx1*lx2+(j-1)*lx1+i)
+                    fscale(itab)*table(func_n)%y%values((l-1)*lx1*lx2*lx3+(k-1)*lx1*lx2+(j-1)*lx1+i)
                   end do
                 end do
               end do

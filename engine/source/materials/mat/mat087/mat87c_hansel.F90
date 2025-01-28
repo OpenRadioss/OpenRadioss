@@ -20,17 +20,17 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      module mat87c_tabulated_3dir_ortho_mod
+      module mat87c_hansel_mod
       contains
-      subroutine mat87c_tabulated_3dir_ortho(                                  &
-        nel    ,matparam,nvartmp ,vartmp  ,timestep ,                          &
-        rho0   ,thkly   ,thk     ,epsp    ,                                    &
-        epspxx ,epspyy  ,epspxy  ,                                             &
+      subroutine mat87c_hansel(                                                &
+        nel    ,matparam,nuvar   ,uvar    ,                                    &
+        rho0   ,thkly   ,thk     ,epsp    ,time     ,                          &
+        temp   ,jthe    ,                                                      &
         depsxx ,depsyy  ,depsxy  ,depsyz  ,depszx   ,                          &
         sigoxx ,sigoyy  ,sigoxy  ,sigoyz  ,sigozx   ,                          &
         signxx ,signyy  ,signxy  ,signyz  ,signzx   ,                          &
         soundsp,pla     ,dpla    ,epsd    ,yld      ,                          &
-        etse   ,gs      ,israte  ,asrate  ,off      ,                          &
+        etse   ,gs      ,off     ,                                             &
         l_sigb ,sigb    ,inloc   ,dplanl  ,seq      ,                          &
         loff   )
 !-------------------------------------------------------------------------------
@@ -38,7 +38,6 @@
 !-------------------------------------------------------------------------------
       use matparam_def_mod
       use constant_mod
-      use table_mat_vinterp_mod
 !-------------------------------------------------------------------------------
 !   I m p l i c i t   T y p e s
 !-------------------------------------------------------------------------------
@@ -49,16 +48,15 @@
 !-----------------------------------------------
       integer, intent(in)                            :: nel      !< Number of elements
       type(matparam_struct_), intent(in)             :: matparam !< Material parameters
-      integer, intent(in)                            :: nvartmp  !< Number of temporary variables
-      integer, dimension(nel,nvartmp), intent(inout) :: vartmp   !< Temporary variables
-      my_real, intent(in)                            :: timestep !< Time step
+      integer, intent(in)                            :: nuvar    !< Number of user variables
+      my_real, dimension(nel,nuvar), intent(inout)   :: uvar     !< User variables
       my_real, dimension(nel), intent(in)            :: rho0     !< Density
       my_real, dimension(nel), intent(in)            :: thkly    !< Layer thickness
       my_real, dimension(nel), intent(inout)         :: thk      !< Thickness
       my_real, dimension(nel), intent(inout)         :: epsp     !< Equivalent and filtered total strain rate
-      my_real, dimension(nel), intent(in)            :: epspxx   !< Strain rate component xx
-      my_real, dimension(nel), intent(in)            :: epspyy   !< Strain rate component yy
-      my_real, dimension(nel), intent(in)            :: epspxy   !< Strain rate component xy
+      my_real, intent(in)                            :: time     !< Current time
+      my_real, dimension(nel), intent(inout)         :: temp     !< Element or Gauss point Temperature
+      integer, intent(in)                            :: jthe     !< Flag for thermal computation
       my_real, dimension(nel), intent(in)            :: depsxx   !< Strain increment component xx
       my_real, dimension(nel), intent(in)            :: depsyy   !< Strain increment component yy
       my_real, dimension(nel), intent(in)            :: depsxy   !< Strain increment component xy
@@ -81,8 +79,6 @@
       my_real, dimension(nel), intent(inout)         :: yld      !< Yield stress
       my_real, dimension(nel), intent(inout)         :: etse     !< Coefficient for hourglass control
       my_real, dimension(nel), intent(in)            :: gs       !< Transverse shear modulus
-      integer, intent(in)                            :: israte   !< Flag for strain rate filtering
-      my_real, intent(in)                            :: asrate   !< Coefficient for strain rate filtering
       my_real, dimension(nel), intent(in)            :: off      !< Flag for element deletion status
       integer, intent(in)                            :: l_sigb   !< Size of the backstress tensor
       my_real, dimension(nel,l_sigb), intent(inout)  :: sigb     !< Backstress tensor
@@ -93,12 +89,14 @@
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-      integer i,ii,j,k,nindx,indx(nel),iter,iflagsr,ipos(nel,6),ikin
+      integer i,ii,j,k,nindx,indx(nel),iter,iflagsr,ikin
       my_real ::                                                               &
         young,nu,a1,a2,g,al1,al2,al3,al4,al5,al6,al7,al8,fisokin,expa,ckh(4),  &
-        akh(4),lp11,lp12,lp21,lp22,lp66,lpp11,lpp12,lpp21,lpp22,lpp66,akck
+        akh(4),lp11,lp12,lp21,lp22,lp66,lpp11,lpp12,lpp21,lpp22,lpp66,akck,    &
+        ahs,bhs,mhs,eps0hs,nhs,hmart,temp0,eta,cp,am,bm,cm,dm,ppm,qm,e0mart,   &
+        vm0,k1,k2
       my_real ::                                                               &
-        mohr_radius,mohr_center,q1,q2,q3,dxp1dxpxx,dxp2dxpxx,dxp1dxpyy,        &
+        mohr_radius,mohr_center,dxp1dxpxx,dxp2dxpxx,dxp1dxpyy,                 &
         dxp2dxpyy,dxp1dxpxy,dxp2dxpxy,dxpp1dxppxx,dxpp2dxppxx,dxpp1dxppyy,     &
         dxpp2dxppyy,dxpp1dxppxy,dxpp2dxppxy,dxp1dsigxx,dxp1dsigyy,dxp1dsigxy,  &
         dxp2dsigxx,dxp2dsigyy,dxp2dsigxy,dxpp1dsigxx,dxpp1dsigyy,dxpp1dsigxy,  &
@@ -107,21 +105,15 @@
         dphippdsigyy,dphippdsigxy,dseqdphip,dseqdphipp,dseqdsigxx,dseqdsigyy,  &
         dseqdsigxy,normxx,normyy,normxy,dsigxxdlam,dsigyydlam,dsigxydlam,      &
         dphidsig_dsigdlam,dphidpla,sig_dphidsig,dphidlam,dlam,                 &
-        ddep,dpladlam,dylddyld0,dylddyld45,dylddyld90,dphidyld,                &
-        dcs2thetadsigxx,dcs2thetadsigyy,dcs2thetadsigxy,dylddsigxx,            &
-        dylddsigyy,dylddsigxy,dphidseq,sig1,sig2,dpdt,alpha,                   &
-        dphidsigb_dsigbdlam,dsigbxxdlam,dsigbyydlam,dsigbxydlam
+        ddep,dpladlam,dphidyld,dphidseq,sig1,sig2,dpdt,                        &
+        dphidsigb_dsigbdlam,dsigbxxdlam,dsigbyydlam,dsigbxydlam,dvmdpla
       my_real ::                                                               &
-        deplzz(nel),sigbxx(nel),sigbyy(nel),sigbxy(nel),cos2theta(nel),        &
-        cos4theta(nel),sin2theta(nel),normsig(nel),xp1(nel),xp2(nel),xpp1(nel),&
-        xpp2(nel),phip(nel),phipp(nel),yld0(nel),dyld0dp(nel),yld45(nel),      &
-        dyld45dp(nel),yld90(nel),dyld90dp(nel),phi(nel),xvec(nel,6),           &
-        deelzz(nel),dylddp(nel),dylddcs2theta(nel),xpxx(nel),xpyy(nel),        &
-        xpxy(nel),xppxx(nel),xppyy(nel),xppxy(nel),depszz(nel),yld_0(nel),     &
-        yld0_0(nel),dyld0_0(nel),yld45_0(nel),dyld45_0(nel),yld90_0(nel),      &
-        dyld90_0(nel),dyld_0dcs2theta(nel),yld0_i(nel),dyld0dp_i(nel),         &
-        yld45_i(nel),dyld45dp_i(nel),yld90_i(nel),dyld90dp_i(nel),             &
-        q1_0(nel),q2_0(nel),q3_0(nel),dsigbxxdp(nel),dsigbyydp(nel),           &
+        deplzz(nel),sigbxx(nel),sigbyy(nel),sigbxy(nel),normsig(nel),          &
+        xp1(nel),xp2(nel),xpp1(nel),xpp2(nel),phip(nel),phipp(nel),phi(nel),   &
+        deelzz(nel),dylddp(nel),xpxx(nel),xpyy(nel),xpxy(nel),xppxx(nel),      &
+        xppyy(nel),xppxy(nel),depszz(nel),yld0(nel),dyld0dp(nel),voce(nel),    &
+        dvocedp(nel),swift(nel),dswiftdp(nel),frate(nel),vm(nel),expo(nel),    &
+        dexpo(nel),aexp(nel),atemp(nel),dsigbxxdp(nel),dsigbyydp(nel),         &
         dsigbxydp(nel),hk(nel)
       integer, parameter :: niter = 3 !< Number of return mapping iterations
 !===============================================================================
@@ -130,7 +122,6 @@
       ! - INITIALISATION OF COMPUTATION ON TIME STEP
       !=========================================================================
       !< Recovering integer model parameter
-      iflagsr  = matparam%iparam(2)  !< Flag for strain rate computation
       ikin     = matparam%iparam(4)  !< Flag for kinematic hardening formulation
       !< Recovering real model parameters
       young    = matparam%young      !< Young modulus
@@ -148,31 +139,36 @@
       al8      = matparam%uparam(10) !< Eighth linear projection parameter
       fisokin  = matparam%uparam(11) !< Kinematic hardening flag
       expa     = matparam%uparam(12) !< Exponent of the yield function
+      k1       = matparam%uparam(13) !< Hansel first temperature dependency parameter 
+      k2       = matparam%uparam(14) !< Hansel second temperature dependency parameter
+      ahs      = matparam%uparam(15) !< Hansel first isotropic hardening parameter
+      bhs      = matparam%uparam(16) !< Hansel second isotropic hardening parameter
+      mhs      = matparam%uparam(17) !< Hansel isotropic hardening parameter rate
+      eps0hs   = matparam%uparam(18) !< Hansel initial plastic strain
+      nhs      = matparam%uparam(19) !< Hansel exponent for isotropic hardening
+      hmart    = matparam%uparam(20) !< Hansel martensite dependent hardening parameter
+      temp0    = matparam%uparam(21) !< Initial temperature
+      eta      = matparam%uparam(23) !< Taylor-Quinney coefficient
+      cp       = matparam%uparam(24) !< Thermal mass capacity
+      am       = matparam%uparam(25) !< Martensite volume fraction evolution first parameter
+      bm       = matparam%uparam(26) !< Martensite volume fraction evolution second parameter
+      cm       = matparam%uparam(27) !< Martensite volume fraction evolution third parameter
+      dm       = matparam%uparam(28) !< Martensite volume fraction evolution fourth parameter
+      ppm      = matparam%uparam(29) !< 
+      qm       = matparam%uparam(30) !< 
+      e0mart   = matparam%uparam(31) !< 
+      vm0      = matparam%uparam(32) !< Initial volume fraction of martensite
       !< Kinematic hardening parameters
       if ((ikin == 1).and.(fisokin > zero)) then                  
-        ckh(1) = matparam%uparam(13) 
-        akh(1) = matparam%uparam(14) 
-        ckh(2) = matparam%uparam(15) 
-        akh(2) = matparam%uparam(16) 
-        ckh(3) = matparam%uparam(17) 
-        akh(3) = matparam%uparam(18)
-        ckh(4) = matparam%uparam(19) 
-        akh(4) = matparam%uparam(20) 
+        ckh(1) = matparam%uparam(33) 
+        akh(1) = matparam%uparam(34) 
+        ckh(2) = matparam%uparam(35) 
+        akh(2) = matparam%uparam(36) 
+        ckh(3) = matparam%uparam(37) 
+        akh(3) = matparam%uparam(38) 
+        ckh(4) = matparam%uparam(39) 
+        akh(4) = matparam%uparam(40) 
         akck   = akh(1)*ckh(1) + akh(2)*ckh(2) + akh(3)*ckh(3) + akh(4)*ckh(4)
-      endif
-!
-      !< Total strain-rate computation
-      if (iflagsr == 0) then 
-        if (israte == 0) then 
-          do i = 1,nel
-            epsd(i) = half*(abs(epspxx(i)+epspyy(i))                           &
-                        + sqrt((epspxx(i)-epspyy(i))*(epspxx(i)-epspyy(i))     &
-                              + epspxy(i)*epspxy(i)))
-            epsp(i) = epsd(i)
-          enddo
-        else
-          epsd(1:nel) = epsp(1:nel)
-        endif
       endif
 !
       !< Barlat linear projection parameters
@@ -188,13 +184,23 @@
       lpp21 = (four*al3 -  four*al4 -  four*al5 +      al6)/nine
       lpp22 = (-two*al3 + eight*al4 +   two*al5 -  two*al6)/nine
       lpp66 =  al8
-!     
+!
+      !< Initialization of martensite volume fraction
+      if (uvar(1,1) == zero) then
+        uvar(1:nel,1) = vm0
+      endif
+      !< Initialization of temperature
+      if ((time == zero).and.(jthe == 0)) then
+        temp(1:nel) = temp0
+      endif 
+!
       !=========================================================================
       !< - RECOVERING USER VARIABLES AND STATE VARIABLES
       !=========================================================================
       dpla(1:nel)   = zero !< Cumulated plastic strain increment
       deplzz(1:nel) = zero !< Plastic strain increment component zz
       etse(1:nel)   = one  !< Coefficient for hourglass control
+      vm(1:nel)     = uvar(1:nel,1) !< Martensite volume fraction
 !
       !=========================================================================
       !< - COMPUTATION OF TRIAL STRESS TENSOR, VON MISES AND PRESSURE
@@ -225,26 +231,6 @@
           signxy(i) = signxy(i) - sigbxy(i)
         enddo
       endif
-!
-      !< Computation of loading orientation angle theta
-      do i = 1, nel
-        mohr_radius = sqrt(((signxx(i)-signyy(i))/two)**2 + signxy(i)**2)
-        mohr_center = (signxx(i)+signyy(i))/two
-        sig1 = mohr_center + mohr_radius
-        sig2 = mohr_center - mohr_radius
-        if (mohr_radius > em20) then
-          cos2theta(i) = ((signxx(i)-signyy(i))/two)/mohr_radius
-          sin2theta(i) = signxy(i)/mohr_radius
-        else
-          cos2theta(i) = one
-          sin2theta(i) = zero
-        endif
-        if (sig1 < zero.or. ((sig2 < zero).and.(sig2 < -sig1))) then 
-          cos2theta(i) = -cos2theta(i)
-          sin2theta(i) = -sin2theta(i)
-        endif
-        cos4theta(i) = two*(cos2theta(i)**2) - one   
-      enddo 
 !
       !=========================================================================
       !< - COMPUTATION OF TRIAL BARLAT 2000 EQUIVALENT STRESS
@@ -297,79 +283,30 @@
       !=========================================================================
       !< - YIELD STRESS COMPUTATION
       !=========================================================================
-      !< Save the initial yield stress in case of kinematic hardening
-      if (fisokin > zero) then
-        xvec(1:nel,1) = zero
-        xvec(1:nel,2) = epsd(1:nel)
-        ipos(1:nel,1:6) = 1
-        call table_mat_vinterp(matparam%table(1),nel,nel,ipos(1,1),xvec,       &
-                               yld0_0,dyld0dp )
-        call table_mat_vinterp(matparam%table(2),nel,nel,ipos(1,3),xvec,       &
-                               yld45_0,dyld45dp)
-        call table_mat_vinterp(matparam%table(3),nel,nel,ipos(1,5),xvec,       &
-                               yld90_0,dyld90dp)
-        !< Assembling the initial yield stress
-        do i = 1,nel
-          !< Compute interpolation factors
-          q1_0(i) = (yld0_0(i) + two*yld45_0(i) + yld90_0(i))/four
-          q2_0(i) = (yld0_0(i) - yld90_0(i))/two
-          q3_0(i) = (yld0_0(i) - two*yld45_0(i) + yld90_0(i))/four
-          !< Directional yield stress
-          yld_0(i) = q1_0(i) + q2_0(i)*cos2theta(i) + q3_0(i)*cos4theta(i)
-          !< - Derivative of the yield stress w.r.t the loading orientation
-          dyld_0dcs2theta(i) = q2_0(i) + four*q3_0(i)*cos2theta(i)
-        enddo
-      else
-        yld_0(1:nel) = zero
-        q1_0(1:nel)  = zero
-        q2_0(1:nel)  = zero
-        q3_0(1:nel)  = zero
-        dyld_0dcs2theta(1:nel) = zero
-      endif
-!
-      !< Recovering the abscissas: plastic strain and strain rate
-      xvec(1:nel,1) = pla(1:nel)
-      xvec(1:nel,2) = epsd(1:nel)
-      ipos(1:nel,1:6) = vartmp(1:nel,1:6)
-      !< Tabulated yield stress in direction 0
-      call table_mat_vinterp(matparam%table(1),nel,nel,ipos(1,1),xvec,yld0 ,   &
-                             dyld0dp  )
-      !< Tabulated yield stress in direction 45
-      call table_mat_vinterp(matparam%table(2),nel,nel,ipos(1,3),xvec,yld45,   &
-                             dyld45dp )
-      !< Tabulated yield stress in direction 90
-      call table_mat_vinterp(matparam%table(3),nel,nel,ipos(1,5),xvec,yld90,   & 
-                             dyld90dp )
-      !< Reset all tables
-      xvec(1:nel,1:2) = zero
-      ipos(1:nel,1:6) = 0
-!
-      !< Assembling the yield stress and its derivative
       do i = 1,nel
-        !< Compute interpolation factors
-        q1 = (yld0(i) + two*yld45(i) + yld90(i))/four
-        q2 = (yld0(i) - yld90(i))/two
-        q3 = (yld0(i) - two*yld45(i) + yld90(i))/four
-        !< Directional yield stress
-        yld(i) = q1 + q2*cos2theta(i) + q3*cos4theta(i)
-        yld(i) = (one-fisokin)*yld(i) + fisokin*yld_0(i)
-        !< Derivative of the directional yield stress
-        !< - Derivative of the yield stress w.r.t yield stress in direction 0
-        dylddyld0  = fourth + half*cos2theta(i) + fourth*cos4theta(i)
-        !< - Derivative of the yield stress w.r.t yield stress in direction 45
-        dylddyld45 = half   - half*cos4theta(i)
-        !< - Derivative of the yield stress w.r.t yield stress in direction 90
-        dylddyld90 = fourth - half*cos2theta(i) + fourth*cos4theta(i)
-        !< - Derivative of the yield stress w.r.t the plastic strain
-        dylddp(i) = dylddyld0*dyld0dp(i)   +                                   &
-                    dylddyld45*dyld45dp(i) +                                   &
-                    dylddyld90*dyld90dp(i)
-        hk(i) = fisokin*dylddp(i)
-        dylddp(i) = (one-fisokin)*dylddp(i)
-        !< - Derivative of the yield stress w.r.t the loading orientation
-        dylddcs2theta(i) = q2 + four*q3*cos2theta(i)
-        dylddcs2theta(i) = dylddcs2theta(i)*(one - fisokin) +                  &
-                           dyld_0dcs2theta(i)*fisokin
+        !< Initial yield stress (for kinematic hardening)
+        if (eps0hs > zero) then
+          expo(i)  = exp(nhs*log(eps0hs))
+        else
+          expo(i)  = zero
+        endif
+        aexp(i)  = (bhs - ahs)*exp(-mhs*expo(i))
+        atemp(i) = (k1 + k2*temp(i))
+        yld0(i)  = (bhs-aexp(i))*atemp(i) + hmart*vm(i)
+        !< Current yield stress
+        if (pla(i) + eps0hs > zero) then 
+          expo(i)  = exp(nhs*log(pla(i) + eps0hs))
+          dexpo(i) = nhs*exp((nhs-one)*log(pla(i) + eps0hs))
+        else
+          expo(i)  = zero
+          dexpo(i) = zero
+        endif
+        aexp(i)   = (bhs - ahs)*exp(-mhs*expo(i))
+        yld(i)    = (bhs-aexp(i))*atemp(i) + hmart*vm(i)
+        dylddp(i) = mhs*dexpo(i)*aexp(i)*atemp(i)
+        yld(i)    = (one - fisokin)*yld(i) + fisokin*yld0(i)
+        hk(i)     = fisokin*dylddp(i)
+        dylddp(i) = (one - fisokin)*dylddp(i)
       enddo
 !
       !=========================================================================
@@ -507,24 +444,10 @@
             !< Derivative of yield function w.r.t equivalent stress
             dphidseq = two*(seq(i)/(yld(i)**2))
 !
-            !< Derivative of cos(2*theta) w.r.t stress tensor
-            mohr_radius = sqrt(((signxx(i)-signyy(i))/two)**2 + signxy(i)**2) 
-            dcs2thetadsigxx =  (sin2theta(i)**2)/(two*mohr_radius)
-            dcs2thetadsigyy = -(sin2theta(i)**2)/(two*mohr_radius)
-            dcs2thetadsigxy = -sin2theta(i)*cos2theta(i)/mohr_radius
-!
-            !< Derivative of yield stress w.r.t stress tensor
-            dylddsigxx = dylddcs2theta(i)*dcs2thetadsigxx
-            dylddsigyy = dylddcs2theta(i)*dcs2thetadsigyy
-            dylddsigxy = dylddcs2theta(i)*dcs2thetadsigxy
-!
-            !< Derivative of yield function w.r.t yield stress
-            dphidyld = -two*(seq(i)**2/yld(i)**3)            
-!
             !< Assembling derivative of yield function w.r.t stress tensor
-            normxx = dphidseq*dseqdsigxx + dphidyld*dylddsigxx
-            normyy = dphidseq*dseqdsigyy + dphidyld*dylddsigyy
-            normxy = dphidseq*dseqdsigxy + dphidyld*dylddsigxy
+            normxx = dphidseq*dseqdsigxx
+            normyy = dphidseq*dseqdsigyy
+            normxy = dphidseq*dseqdsigxy
 !
             !< Derivative of stress tensor w.r.t plastic multiplier
             dsigxxdlam = -a1*normxx - a2*normyy
@@ -539,6 +462,10 @@
             !< 2 - Derivative of yield criterion w.r.t plastic multiplier
             !      Contribution of the plastic strain
             !-------------------------------------------------------------------
+!
+            !< Derivative of yield function w.r.t yield stress
+            dphidyld = -two*(seq(i)**2/yld(i)**3)   
+
             !< Derivative of yield function w.r.t plastic strain
             dphidpla = dphidyld*dylddp(i)
 !
@@ -650,24 +577,6 @@
               endif
             endif
 !
-            !< Update the loading orientation angle theta
-            mohr_radius = sqrt(((signxx(i)-signyy(i))/two)**2 + signxy(i)**2)
-            mohr_center = (signxx(i)+signyy(i))/two
-            sig1 = mohr_center + mohr_radius
-            sig2 = mohr_center - mohr_radius
-            if (mohr_radius > em20) then
-              cos2theta(i) = ((signxx(i)-signyy(i))/two)/mohr_radius
-              sin2theta(i) = signxy(i)/mohr_radius
-            else
-              cos2theta(i) = one
-              sin2theta(i) = zero
-            endif
-            if (sig1 < zero .or. ((sig2 < zero).and.(sig2 < -sig1))) then 
-              cos2theta(i) = -cos2theta(i)
-              sin2theta(i) = -sin2theta(i)
-            endif
-            cos4theta(i) = two*(cos2theta(i)**2) - one       
-!
             !< Norm of the stress tensor
             normsig(i) = signxx(i)*signxx(i)                                   & 
                        + signyy(i)*signyy(i)                                   &
@@ -707,68 +616,20 @@
             endif 
             seq(i) = seq(i)*normsig(i)
 !
-            !< Save variables for yield stress in plastic index order    
-            xvec(ii,1) = pla(i)
-            xvec(ii,2) = epsd(i) 
-            ipos(ii,1:6) = vartmp(i,1:6)
-!
-          enddo
-!
-          !< 8 - Update yield stress
-          !---------------------------------------------------------------------
-          !< Tabulated yield stress in direction 0
-          call table_mat_vinterp(matparam%table(1),nindx,nindx,ipos(1,1),xvec, & 
-                                 yld0_i,dyld0dp_i)
-          !< Tabulated yield stress in direction 45
-          call table_mat_vinterp(matparam%table(2),nindx,nindx,ipos(1,3),xvec, &
-                                 yld45_i,dyld45dp_i)
-          !< Tabulated yield stress in direction 90
-          call table_mat_vinterp(matparam%table(3),nindx,nindx,ipos(1,5),xvec, &
-                                 yld90_i,dyld90dp_i)
-!
-#include "vectorize.inc" 
-          !< Loop over yielding elements
-          do ii = 1, nindx
-            i = indx(ii)
-!
-            !< Reverse plastic index order
-            vartmp(i,1:6) = ipos(ii,1:6)
-            yld0(i)  = yld0_i(ii)
-            yld45(i) = yld45_i(ii) 
-            yld90(i) = yld90_i(ii)
-            dyld0dp(i)  = dyld0dp_i(ii)
-            dyld45dp(i) = dyld45dp_i(ii)
-            dyld90dp(i) = dyld90dp_i(ii)
-!
-            !< Compute interpolation factors
-            q1 = (yld0(i) + two*yld45(i) + yld90(i))/four
-            q2 = (yld0(i) - yld90(i))/two
-            q3 = (yld0(i) - two*yld45(i) + yld90(i))/four
-            !< Directional yield stress
-            yld(i) = q1 + q2*cos2theta(i) + q3*cos4theta(i)
-            !< Derivative
-            !< - Derivative of the yield stress w.r.t yield stress in dir. 0
-            dylddyld0  = fourth + half*cos2theta(i) + fourth*cos4theta(i)
-            !< - Derivative of the yield stress w.r.t yield stress in dir. 45
-            dylddyld45 = half   - half*cos4theta(i)
-            !< - Derivative of the yield stress w.r.t yield stress in dir. 90
-            dylddyld90 = fourth - half*cos2theta(i) + fourth*cos4theta(i)
-            !< - Derivative of the yield stress w.r.t the plastic strain
-            dylddp(i) = dylddyld0*dyld0dp(i)   +                               &
-                        dylddyld45*dyld45dp(i) +                               &
-                        dylddyld90*dyld90dp(i)
-            !< - Derivative of the yield stress w.r.t the loading orientation
-            dylddcs2theta(i) = q2 + four*q3*cos2theta(i)
-            !< - Initial yield stress derivative w.r.t theta 
-            !  (used for kinematic hardening)
-            dyld_0dcs2theta(i) = q2_0(i) + four*q3_0(i)*cos2theta(i)
-!
-            !< Apply kinematic hardening coefficient
-            yld(i) = (one - fisokin)*yld(i) + fisokin*yld0(i)
-            hk(i) = fisokin*dylddp(i)
+            !< Update the yield stress
+            if (pla(i) + eps0hs > zero) then 
+              expo(i)  = exp(nhs*log(pla(i) + eps0hs))
+              dexpo(i) = nhs*exp((nhs-one)*log(pla(i) + eps0hs))
+            else
+              expo(i)  = zero
+              dexpo(i) = zero
+            endif
+            aexp(i)   = (bhs - ahs)*exp(-mhs*expo(i))
+            yld(i)    = (bhs-aexp(i))*atemp(i) + hmart*vm(i)
+            dylddp(i) = mhs*dexpo(i)*aexp(i)*atemp(i)
+            yld(i)    = (one - fisokin)*yld(i) + fisokin*yld0(i)    
+            hk(i)     = fisokin*dylddp(i)
             dylddp(i) = (one - fisokin)*dylddp(i)
-            dylddcs2theta(i) = dylddcs2theta(i)*(one - fisokin) +              &
-                               dyld_0dcs2theta(i)*fisokin
 !
             !< Compute the new yield function
             phi(i) = (seq(i)/yld(i))**2 - one
@@ -785,19 +646,34 @@
           !< Hourglass stiffness parameter
           etse(i) = (dylddp(i)+hk(i)) / ((dylddp(i)+hk(i)) + young)
         enddo
-      endif
-      !=======================================================================
-      !< - END OF PLASTIC RETURN MAPPING PROCEDURE
-      !=======================================================================
 !
-      !< Plastic strain rate if activated
-      if (iflagsr == 1) then
-        do i = 1,nel
-          dpdt    = dpla(i)/max(timestep,em20)
-          epsd(i) = asrate*dpdt + (one - asrate)*epsd(i)
-          epsp(i) = epsd(i)
+        !< Update the temperature if needed
+        if (jthe == 0) then 
+#include "vectorize.inc" 
+          do ii = 1,nindx 
+            i = indx(ii)   
+            temp(i) = temp(i) + yld(i)*dpla(i)*eta/(rho0(i)*cp)
+          enddo
+        endif
+!
+        !< Update the martensite volume fraction
+#include "vectorize.inc" 
+        do ii = 1,nindx 
+          i = indx(ii) 
+          if ((pla(i) >= e0mart) .and. (temp(i) > zero) .and.                  &
+              ( vm(i) > zero     .and.    vm(i) <  one)) then
+            dvmdpla = (bm/am)*exp(qm/temp(i))*half*(one - tanh(cm + dm*temp(i)))
+            dvmdpla = dvmdpla*exp(ppm*log(vm(i)))
+            dvmdpla = dvmdpla*exp(((bm+one)/bm)*log((one-vm(i))/vm(i)))                                                                            
+            vm(i) = vm(i) + max(dvmdpla*dpla(i),zero)
+            vm(i) = max(min(vm(i),one),zero)
+            uvar(i,1) = vm(i)
+          endif
         enddo
       endif
+      !=========================================================================
+      !< - END OF PLASTIC RETURN MAPPING PROCEDURE
+      !=========================================================================
 !
       !< Non-local thickness variation (if activated)
       if (inloc > 0) then
@@ -872,21 +748,10 @@
             dseqdsigxy = dseqdphip*dphipdsigxy + dseqdphipp*dphippdsigxy
             !< Derivative of yield function w.r.t equivalent stress
             dphidseq = two*(seq(i)/(yld(i)**2))
-            !< Derivative of cos(2*theta) w.r.t stress tensor
-            mohr_radius = sqrt(((signxx(i)-signyy(i))/two)**2 + signxy(i)**2) 
-            dcs2thetadsigxx =  (sin2theta(i)**2)/(two*mohr_radius)
-            dcs2thetadsigyy = -(sin2theta(i)**2)/(two*mohr_radius)
-            dcs2thetadsigxy = -sin2theta(i)*cos2theta(i)/mohr_radius
-            !< Derivative of yield stress w.r.t stress tensor
-            dylddsigxx = dylddcs2theta(i)*dcs2thetadsigxx
-            dylddsigyy = dylddcs2theta(i)*dcs2thetadsigyy
-            dylddsigxy = dylddcs2theta(i)*dcs2thetadsigxy
-            !< Derivative of yield function w.r.t yield stress
-            dphidyld = -two*(seq(i)**2/yld(i)**3)            
             !< Assembling derivative of yield function w.r.t stress tensor
-            normxx = dphidseq*dseqdsigxx + dphidyld*dylddsigxx
-            normyy = dphidseq*dseqdsigyy + dphidyld*dylddsigyy
-            normxy = dphidseq*dseqdsigxy + dphidyld*dylddsigxy
+            normxx = dphidseq*dseqdsigxx
+            normyy = dphidseq*dseqdsigyy
+            normxy = dphidseq*dseqdsigxy
             !< Derivative of stress tensor w.r.t plastic multiplier
             sig_dphidsig = signxx(i)*normxx +                                  &
                            signyy(i)*normyy +                                  &
@@ -910,6 +775,8 @@
 !
       !< Update the user variable, soundspeed and thickness
       do i=1,nel
+        !< Strain rate 
+        epsd(i) = epsp(i) 
         !< Elastic strain increment in the z direction 
         deelzz(i) = -nu*(signxx(i)-sigoxx(i)+signyy(i)-sigoyy(i))/young
         !< Assembling total strain increment in the z direction
@@ -920,5 +787,5 @@
         soundsp(i) = sqrt(a1/rho0(i))
       enddo
 !
-      end subroutine mat87c_tabulated_3dir_ortho
-      end module mat87c_tabulated_3dir_ortho_mod
+      end subroutine mat87c_hansel
+      end module mat87c_hansel_mod

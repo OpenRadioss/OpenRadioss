@@ -48,8 +48,7 @@
       !||    table_mod                ../starter/share/modules1/table_mod.F
       !||====================================================================
       subroutine law87_upd(                                                    &
-        iout     ,titr     ,mat_id   ,matparam ,nfunc    ,ifunc    ,           &
-        snpc     ,npc      ,stf      ,pld      )
+        iout     ,titr     ,mat_id   ,matparam )
 !-----------------------------------------------
 !   M o d u l e s
 !-----------------------------------------------
@@ -57,6 +56,7 @@
         use constant_mod
         use message_mod
         use table_mod
+        use table_mat_vinterp_mod
 !-----------------------------------------------
 !   I m p l i c i t   T y p e s
 !-----------------------------------------------
@@ -69,12 +69,6 @@
         character(len=nchartitle), intent(in)  :: titr     !< Title of the material
         integer, intent(in)                    :: mat_id   !< Material ID
         type(matparam_struct_), intent(inout)  :: matparam !< Material parameters data structure
-        integer, intent(inout)                 :: nfunc    !< Number of material functions
-        integer, dimension(nfunc), intent(in)  :: ifunc    !< Material function IDs
-        integer, intent(in)                    :: snpc     !< Size of the npc array
-        integer, dimension(snpc), intent(in)   :: npc      !< Number of function points
-        integer, intent(in)                    :: stf      !< Size of the pld array
-        my_real, dimension(stf), intent(in)    :: pld      !< Function points coordinates
 !-----------------------------------------------
 !   F u n c t i o n s
 !-----------------------------------------------
@@ -83,7 +77,7 @@
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-        integer :: k,j,expa,expam2,error,iflag,niter,iok
+        integer :: k,j,error,iflag,niter,iok,ipos(1,2)
         my_real ::                                                             &
             gamma,delta,fct,yield,dx,dy,scale,g1,g2,g3,g13,g23,g33,g15,g25,g35,&
             dydx,df1,df2,df3,df13,df23,df33,df15,df25,df35,f1,f2,al1,al2,al3,  &
@@ -91,13 +85,15 @@
             rb,x1,x2,x11,x22 ,v1,v11,w11,tal7,tal8,aswift,epso,qvoce,beta,ko,  &
             alpha,nexp,conjtf4a8,tf4a8,dal78(2),expv,kswift,kvoce,puis,pla,    &
             residu,g(2),dal(8),dftest(6,6),dg(2,2),al(8),f(8),df(6,6),         &
-            dfinv(6,6),res(6,6),test(3,3),testinv(3,3),dginv(2,2)
+            dfinv(6,6),res(6,6),test(3,3),testinv(3,3),dginv(2,2),dyld_dp(1),  &
+            xvec(1,2),yld(1),expa,expam2,k1,k2,ahs,bhs,mhs,eps0hs,nhs,hmart,   &
+            temp0,expo,aexp,atemp,vm0
 !      
         logical  is_encrypted
 !=======================================================================
         is_encrypted = .false.
         call hm_option_is_encrypted(is_encrypted)
-
+!
         !< Recovering the material parameters
         s00    = matparam%uparam(3)
         s45    = matparam%uparam(4)
@@ -107,39 +103,52 @@
         r45    = matparam%uparam(8)
         r90    = matparam%uparam(9)
         rb     = matparam%uparam(10)
-        expa   = nint(matparam%uparam(12))
+        expa   = matparam%uparam(12)
         expam2 = expa - 2 
-        iflag  = matparam%iparam(6)
-
-        !< Yield stress formulation type
-        !< - Tabulated
-        if (iflag == 0) then 
-          nfunc  = matparam%iparam(5)
-        !< - Swift-Voce
-        elseif (iflag == 1) then 
-          aswift = matparam%uparam(18) 
-          nexp   = matparam%uparam(19)
-          alpha  = matparam%uparam(20) 
-          epso   = matparam%uparam(21) 
-          qvoce  = matparam%uparam(22)
-          beta   = matparam%uparam(23)
-          ko     = matparam%uparam(24)
-        endif
-
+        iflag  = matparam%iparam(1)
+!
         !< Initialisation of the yield stress at 0.002 plastic strain
         pla = two*em03
+        !< - Swift-Voce yield stress type
         if (iflag == 1) then 
+          aswift = matparam%uparam(13) 
+          nexp   = matparam%uparam(14)
+          alpha  = matparam%uparam(15) 
+          epso   = matparam%uparam(16) 
+          qvoce  = matparam%uparam(17)
+          beta   = matparam%uparam(18)
+          ko     = matparam%uparam(19)
           puis   = exp(nexp*log((pla + epso)))
           kswift = aswift*puis
           expv   = exp(-beta*pla)
           kvoce  = ko + qvoce*(one - expv)                                       
-          yield  = alpha*kswift + (one-alpha)*kvoce 
+          yield  = alpha*kswift + (one-alpha)*kvoce
+        !< - Hansel Spittel yield stress type
+        elseif (iflag == 2) then 
+          k1     = matparam%uparam(13) 
+          k2     = matparam%uparam(14)
+          ahs    = matparam%uparam(15) 
+          bhs    = matparam%uparam(16)
+          mhs    = matparam%uparam(17)
+          eps0hs = matparam%uparam(18)
+          nhs    = matparam%uparam(19)
+          hmart  = matparam%uparam(20)
+          temp0  = matparam%uparam(21)   
+          vm0    = matparam%uparam(32)
+          expo   = exp(nhs*log(pla + eps0hs))
+          aexp   = (bhs - ahs)*exp(-mhs*expo)
+          atemp  = k1 + k2*temp0
+          yield  = (bhs-aexp)*atemp + hmart*vm0
+        !< - Tabulated yield stress type + Orthotropic 3 direction yield stress type
         else 
-          yield  = finter(ifunc(1),pla,npc,pld,dydx)
-          scale  = matparam%uparam(17+nfunc+1)
-          yield  = yield*scale
+          xvec(1,1) = pla
+          xvec(1,2) = zero
+          ipos(1,1) = 1
+          ipos(1,2) = 1
+          call table_mat_vinterp(matparam%table(1),1,1,ipos,xvec,yld,dyld_dp)
+          yield = yld(1)
         endif  
-
+!
         !< Start newton loops to find al parameters from 1 to 6
         residu  = ep30
         niter   = 0
@@ -380,7 +389,7 @@
 !-----------------------------------------------
 !     A r g u m e n t s
 !-----------------------------------------------
-        integer,  intent(in)               :: aa
+        my_real,  intent(in)               :: aa
         my_real,  dimension(8), intent(in) :: al 
         my_real , intent(in)               :: g
         my_real , intent(in)               :: d
@@ -415,7 +424,7 @@
 !-----------------------------------------------
 !     A r g u m e n t s
 !-----------------------------------------------
-        integer, intent(in)               :: a
+        my_real, intent(in)               :: a
         my_real, dimension(8), intent(in) :: al 
         my_real, intent(in)               :: gamma
         my_real, intent(in)               :: delta

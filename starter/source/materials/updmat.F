@@ -289,12 +289,9 @@ c------------------
 c          
 c------------------
           CASE (87) !BARLAT 2D
-            FLAG_FIT = MAT_PARAM(IMAT)%IPARAM(4)
-            NFUNC    = MAT_PARAM(IMAT)%IPARAM(5)
+            FLAG_FIT = MAT_PARAM(IMAT)%IPARAM(3)
             IF (FLAG_FIT == 1) THEN 
-              CALL LAW87_UPD(IOUT   ,TITR    ,MAT_ID ,MAT_PARAM(IMAT)     ,
-     .                       NFUNC  ,IFUNC   ,SNPC   ,NPC      ,STF       ,
-     .                       PLD    )
+              CALL LAW87_UPD(IOUT   ,TITR    ,MAT_ID ,MAT_PARAM(IMAT)     )
             ENDIF
 c-------------------------
           CASE (88) 
