@@ -98,7 +98,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
-      TYPE(TIMER_), INTENT(IN) :: TIMERS 
+      TYPE(TIMER_), INTENT(INOUT) :: TIMERS 
       INTEGER NELTST,ITYPTST,NIN,NEWFRONT,NSTRF(*),
      .        NRTMDIM, IAD17,NV46, ISENSINT(*), DIMFB
       INTEGER IPARI(NPARI,NINTER), ICODT(*),ICONTACT(*),

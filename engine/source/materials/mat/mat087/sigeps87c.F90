@@ -121,7 +121,7 @@
         my_real, dimension(nel), intent(inout)         :: etse     !< Hourglass control stiffness
         my_real, dimension(nel), intent(in)            :: gs       !< Transverse shear modulus 
         integer, intent(in)                            :: israte   !< Flag for strain rate filtering
-        my_real, intent(in)                            :: asrate   !< Strain rate filtering factor
+        my_real, intent(inout)                         :: asrate   !< Strain rate filtering factor
         my_real, dimension(nel), intent(inout)         :: facyldi  !< Factor for equivalent plastic strain rate
         my_real, dimension(nel), intent(in)            :: tempel   !< Element temperature
         my_real, dimension(nel,12), intent(inout)      :: sigb     !< Backstress components

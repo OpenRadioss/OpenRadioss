@@ -149,7 +149,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_), INTENT(IN) :: TIMERS
+      TYPE(TIMER_), INTENT(INOUT) :: TIMERS
       INTEGER, INTENT(IN) :: USERL_AVAIL ! Flag for User libraries availability
       INTEGER,INTENT(IN)    :: MAXFUNC   ! Maximum number of functions
       INTEGER, INTENT(IN) :: SBUFMAT     ! size of Bufmat

@@ -75,7 +75,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(TIMER_), INTENT(in) :: TIMERS
+      TYPE(TIMER_), INTENT(inout) :: TIMERS
       INTEGER ICODR(*),ISKEW(*),WEIGHT(*),LPBY(*),NPBY(NNPBY,*),
      .        KIND(NRBYKIN),FR_RBY6(*),IAD_RBY(*),IRBKIN_L(*),
      .        NRBYKIN_L, NATIV_SMS(*),DIMFB,STABSEN,TABSENSOR(*),
