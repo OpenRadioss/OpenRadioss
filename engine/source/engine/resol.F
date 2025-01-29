@@ -597,8 +597,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      R  GLOB_THERM ,PBLAST,RBE3)
 C-----------------------------------------------
 C   M o d u l e s
-C----------------------------------------------- 
-      
+C-----------------------------------------------
+
       USE CONNECTIVITY_MOD
       USE NODAL_ARRAYS_MOD
       USE detach_node_mod
@@ -8869,7 +8869,7 @@ C----       10,11,12:ELBUF_C,BUFMAT_C,X_C,13,14:DD,DDR,15,16:X_ac,V_zero,23,24:A
      Y  SENSORS%SFSAV,SENSORS%FSAV,SENSORS%STABSEN,SENSORS%TABSENSOR,DRAPE_SH4N  , DRAPE_SH3N,
      Z  H3D_DATA,MULTI_FVM,IGRBRIC,IGRSH4N,IGRSH3N,IGRBEAM,FORNEQS,MAXDGAP,
      A  NDDL0   ,NNZK0 ,IT_T   ,IMPBUF_TAB,CPTREAC,FTHREAC,NODREAC, DRAPEG,
-     B  INTERFACES,OUTPUT%TH%TH_SURF,DPL0CLD,VEL0CLD,SNPC,STF,GLOB_THERM)
+     B  INTERFACES,OUTPUT%TH%TH_SURF,DPL0CLD,VEL0CLD,SNPC,STF,GLOB_THERM,OUTPUT%WFEXT_MD)
 #else 
         WRITE(6,*) __LINE__,"Fatal error: MUMPS required"
         CALL FLUSH(6)
