@@ -246,6 +246,7 @@
       !||    multi_muscl_fluxes_computation      ../engine/source/multifluid/multi_muscl_fluxes_computation.F
       !||    multi_nrf_ebcs                      ../engine/source/multifluid/multi_nrf_ebcs.F
       !||    multi_pressure_equilibrium          ../engine/source/multifluid/multi_pressure_equilibrium.F
+      !||    multi_propergol_ebcs                ../engine/source/multifluid/multi_propergol_ebcs.F90
       !||    multi_submatlaw                     ../engine/source/multifluid/multi_submatlaw.F
       !||    multi_timeevolution                 ../engine/source/multifluid/multi_timeevolution.F
       !||    multifluid_init2                    ../starter/source/multifluid/multifluid_init2.F

@@ -33,6 +33,7 @@
       !||--- uses       -----------------------------------------------------
       !||    constant_mod           ../common_source/modules/constant_mod.F
       !||    ebcs_mod               ../common_source/modules/boundary_conditions/ebcs_mod.F90
+      !||    matparam_def_mod       ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
       !||    th_surf_mod            ../common_source/modules/interfaces/th_surf_mod.F
       !||====================================================================
