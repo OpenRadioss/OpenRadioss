@@ -380,7 +380,7 @@ jobs:
     # DEV ONLY # runs-on: dev_delivery
     runs-on: delivery    
     container: 
-      image: fr-qafactorydev.europe.altair.com/common-linux64
+      image: fr-qafactorydev.europe.altair.com/common-linux64:20.0
       credentials: 
         username: ${{secrets.DOCKER_REGISTRY_USER}}
         password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
@@ -556,10 +556,22 @@ jobs:
         run: |
             cd /github_download_counter
 
+            # Old way
             # Do some before using some lock and retry stuff
             cp download_count.json sav-delivery-${{ env.DATEOFTHETAG }}-download_count.json
 
             github_download_count.py \
+              --git_api_url ${{ github.api_url }} \
+              --git_repo ${{ github.repository }} \
+              --git_user $SERVBOT_USER \
+              --git_token $SERVBOT_PAT \
+              --action update_values
+
+            # New way
+            # Do some before using some lock and retry stuff
+            cp download_count_new.json sav-delivery-${{ env.DATEOFTHETAG }}-download_count_new.json
+
+            github_download_count_new.py \
               --git_api_url ${{ github.api_url }} \
               --git_repo ${{ github.repository }} \
               --git_user $SERVBOT_USER \
@@ -591,8 +603,19 @@ jobs:
       - name: Counter Download - Update/Add entries
         working-directory: ${{ env.WORKDIR }}
         run: |
+            # Old way
             cd /github_download_counter
             github_download_count.py \
+              --git_api_url ${{ github.api_url }} \
+              --git_repo ${{ github.repository }} \
+              --git_user $SERVBOT_USER \
+              --git_token $SERVBOT_PAT \
+              --action update \
+              --tag_date ${{ env.DATEOFTHETAG }}
+
+            # New way
+            cd /github_download_counter
+            github_download_count_new.py \
               --git_api_url ${{ github.api_url }} \
               --git_repo ${{ github.repository }} \
               --git_user $SERVBOT_USER \

@@ -731,7 +731,7 @@ jobs:
     if: ${{ github.repository_owner == 'OpenRadioss' }} 
     runs-on: delivery   
     container: 
-      image: fr-qafactorydev.europe.altair.com/common-linux64
+      image: fr-qafactorydev.europe.altair.com/common-linux64:20.0
       credentials: 
         username: ${{secrets.DOCKER_REGISTRY_USER}}
         password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
@@ -750,10 +750,11 @@ jobs:
         run: |
           echo "DATEOFTHEDAY=`date +'%Y%m%d'`" >> $GITHUB_ENV
 
-      - name: Counter Download - Update values
+      - name:  
         run: |
             cd /github_download_counter
 
+            # Old way
             # Do some before using some lock and retry stuff
             cp download_count.json sav-merge-main-${{ env.DATEOFTHEDAY }}-download_count.json
 
@@ -763,3 +764,13 @@ jobs:
               --git_user $SERVBOT_USER \
               --git_token $SERVBOT_PAT \
               --action update_values      
+
+            # New way
+            # Do some before using some lock and retry stuff
+            cp download_count_new.json sav-merge-main-${{ env.DATEOFTHEDAY }}-download_count_new.json
+            github_download_count_new.py \
+              --git_api_url ${{ github.api_url }} \
+              --git_repo ${{ github.repository }} \
+              --git_user $SERVBOT_USER \
+              --git_token $SERVBOT_PAT \
+              --action update_values                    
