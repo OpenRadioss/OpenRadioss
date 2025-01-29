@@ -454,7 +454,7 @@
 
           my_real e1,e2,e3,e4,e5,e6,bid1,bid3,q1,q2,q3,ss1,ss2,ss3,ss4,ss5,&
           &ss6,wxxf,wyyf,wzzf,p2,epsp,dav,asrate,     &
-          &ep1(mvsiz),ep2(mvsiz),ep3(mvsiz),e7(mvsiz),&
+          &  c1(mvsiz),ep1(mvsiz),ep2(mvsiz),ep3(mvsiz),e7(mvsiz),&
           &ep4(2*mvsiz),ep5(2*mvsiz),ep6(2*mvsiz),einc(mvsiz),&
           &s1(mvsiz) ,s2(mvsiz) ,s3(mvsiz) ,&
           &s4(2*mvsiz) ,s5(2*mvsiz) ,s6(2*mvsiz),&
@@ -615,7 +615,8 @@
           endif
 
           do i=1,nel
-            rho0(i)= matparam%rho  ! reference rho is used instead of initial one !?
+            c1(i)  = pm(32,imat)
+            rho0(i)= pm( 1,imat)
             vis(i) = zero
             ep1(i) = d1(i)*off(i)
             ep2(i) = d2(i)*off(i)
@@ -2693,7 +2694,7 @@
 !     define dynamic viscosity (for viscous law)
 !-----------------------
           do i=1,nel
-            if (ssp(i) == zero) ssp(i) = sqrt(matparam%bulk/matparam%rho) ! rho reference !
+            if (ssp(i) == zero) ssp(i)=sqrt(c1(i)/rho0(i))
           enddo
 !-------------------------------------------
 !   bulk viscosity and time step computation
