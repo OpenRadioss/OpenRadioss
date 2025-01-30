@@ -144,6 +144,7 @@
         vp           = matparam%iparam(2)  !< Flag for plastic strain rate
         !< Recovering real model parameters
         young(1:nel) = matparam%young      !< Young modulus
+        nu           = matparam%nu         !< Poisson ratio
         shear(1:nel) = matparam%shear      !< Shear modulus
         a11(1:nel)   = matparam%uparam(1)  !< First term of stifness matrix
         a12(1:nel)   = matparam%uparam(2)  !< Second term of stifness matrix
