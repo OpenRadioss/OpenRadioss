@@ -263,7 +263,7 @@ c-----------------------------------------------
       H3D_KEYWORD_SOLID_SCALAR(I)%IS_IS_ALL  = 1
       H3D_KEYWORD_SOLID_SCALAR(I)%IS_IT  = 1
       H3D_KEYWORD_SOLID_SCALAR(I)%IS_IT_ALL  = 1
-      H3D_KEYWORD_SOLID_SCALAR(I)%TEXT1  = 'Theta'
+      H3D_KEYWORD_SOLID_SCALAR(I)%TEXT1  = 'Teta'
       H3D_KEYWORD_SOLID_SCALAR(I)%COMMENT  = 'Euler angles theta, global reference system -> orthotropic reference system'
 c-----------------------------------------------
       I = I + 1
