@@ -45,32 +45,32 @@ jobs:
             os: linux64
             binary: starter
 
-          - build: starter_linux64_gf_sp 
-            precision: sp
-            os: linux64
-            binary: starter
+          # - build: starter_linux64_gf_sp 
+          #   precision: sp
+          #   os: linux64
+          #   binary: starter
 
-          - build: engine_linux64_gf_ompi
-            precision: dp
-            os: linux64
-            binary: engine
-            mpi: ompi
+          # - build: engine_linux64_gf_ompi
+          #   precision: dp
+          #   os: linux64
+          #   binary: engine
+          #   mpi: ompi
 
-          - build: engine_linux64_gf_ompi_sp
-            precision: sp
-            os: linux64 
-            binary: engine
-            mpi: ompi
+          # - build: engine_linux64_gf_ompi_sp
+          #   precision: sp
+          #   os: linux64 
+          #   binary: engine
+          #   mpi: ompi
 
-          - build: engine_linux64_gf
-            precision: dp
-            os: linux64
-            binary: engine
+          # - build: engine_linux64_gf
+          #   precision: dp
+          #   os: linux64
+          #   binary: engine
 
-          - build: engine_linux64_gf_sp
-            precision: sp
-            os: linux64 
-            binary: engine
+          # - build: engine_linux64_gf_sp
+          #   precision: sp
+          #   os: linux64 
+          #   binary: engine
 
     steps:
 
