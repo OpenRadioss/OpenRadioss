@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_get_floatv          ../starter/source/devtools/hm_reader/hm_get_floatv.F
       !||    hm_get_floatv_dim      ../starter/source/devtools/hm_reader/hm_get_floatv_dim.F
       !||    hm_get_intv            ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    inter_dcod_friction    ../starter/source/interfaces/reader/inter_dcod_friction.F
       !||    inter_dcod_function    ../starter/source/interfaces/reader/inter_dcod_function.F
       !||    inter_dcod_sensor      ../starter/source/interfaces/reader/inter_dcod_sensor.F
       !||    ngr2usr                ../starter/source/system/nintrr.F
@@ -41,13 +42,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2        IGRSURF    ,XFILTR     ,FRIC_P     ,NPC1     ,SENSORS   ,
      3        NOM_OPT    ,UNITAB     ,LSUBMODEL  ,TITR     ,NPC       ,
      4        TF         ,NPARI      ,NPARIR     ,SNPC     ,SNPC1     ,
-     5        LNOPT1     ,ITHERM_FE  ,INTHEAT)
+     5        LNOPT1     ,ITHERM_FE  ,INTHEAT    ,NOM_OPTFRIC ,INTBUF_FRIC_TAB )
 C============================================================================
 C    
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
+      USE INTBUF_FRIC_MOD
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD , ONLY : NSUBMOD, SUBMODEL_DATA
       USE UNITAB_MOD
@@ -64,6 +66,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN)    :: NPARI,NPARIR,SNPC,SNPC1,LNOPT1
       INTEGER,INTENT(IN)    :: ITHERM_FE
       INTEGER,INTENT(INOUT) :: INTHEAT
+      INTEGER,INTENT(IN)    :: NOM_OPTFRIC(LNOPT1,NINTERFRIC)
       INTEGER NOM_OPT(LNOPT1,*)
       INTEGER ISU1,ISU2,ILAGM,NI
       INTEGER IPARI(NPARI),NPC1(SNPC1),NPC(SNPC)
@@ -75,6 +78,7 @@ C-----------------------------------------------
       TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(NSUBMOD)
       TYPE (UNIT_TYPE_),INTENT(IN) :: UNITAB 
       TYPE (SENSORS_)  ,INTENT(IN) :: SENSORS
+      TYPE(INTBUF_FRIC_STRUCT_),INTENT(INOUT) ::  INTBUF_FRIC_TAB(NINTERFRIC)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -95,7 +99,7 @@ C-----------------------------------------------
      .    HIERA,MFROT,IFQ,MODFR,IADM,UID,NRADM,INTTH,IFORM,IERR1,IKTHE,
      .    IDEL21,IMOD,IFILTR,IFUNS,IFUNN,IFUNT,IFUN1,IFUN2,HFLAG,NUVAR, 
      .    IFSTF,KK,II,IGAP0,FLAGREMNOD,IDSENS,IDELKEEP,INTKG,IRSTH,INVN,
-     .    IFRICTH,IFTLIM,FCOND
+     .    IFRICTH,IFTLIM,FCOND,INTFRIC
       my_real
      .   FRIC,GAP,STARTT,BUMULT,STOPT,FHEAT,FHEATS,FHEATM,RSTH,TINT,PADM, 
      .   ANGLADM, CADM, DEPTH,C1,C2,C3,C4,C5,C6, ALPHA,GAPSCALE,GAPMAX, 
@@ -140,6 +144,7 @@ C Initializations
       FCOND = 0
       IGAP = 0
       MULTIMP = 0
+      INTFRIC = 0
 C
       PADM =ONE
       ANGLADM=ZERO
@@ -204,6 +209,8 @@ C
       CALL HM_GET_INTV('Ifiltr',IFQ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('ISENSOR',IDSENS,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('Crx_Fun',IFRICTH,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV('Ifric',MFROT,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV('Fric_ID',INTFRIC,IS_AVAILABLE,LSUBMODEL)
 C
       IF(IADM==2) CALL HM_GET_INTV('NRadm',NRADM,IS_AVAILABLE,LSUBMODEL)
 C
@@ -476,6 +483,7 @@ C.....* Storage IPARI FRIGAP *.........
         FRIGAP(34) =  XFRICTH
         IPARI(30) = MFROT
         IPARI(31) = IFQ
+        IPARI(72) =  INTFRIC
 
 C------------------------------------------------------------
 C  Option Card8 :Adm = 2 adaptative mesh
@@ -597,6 +605,8 @@ C------------------------------------------------------------
 C
         CALL INTER_DCOD_FUNCTION(NTYP,NI,IPARI,NPC1,NOM_OPT,NPC,TF)
         CALL INTER_DCOD_SENSOR (NTYP,NI,IPARI,NOM_OPT,SENSORS)
+        CALL INTER_DCOD_FRICTION(NTYP,NI,IPARI,NOM_OPT,NOM_OPTFRIC,
+     .                INTBUF_FRIC_TAB)
 
 C
 C------------------------------------------------------------
@@ -616,26 +626,31 @@ C
      .                 BUMULT,INACTI,VISC,PMAX,MULTIMP,INVN,IFTLIM,
      .                 PSKID
         ENDIF
+
+        IF(INTFRIC > 0 ) THEN
+          WRITE(IOUT,1527) INTFRIC
+        ELSE
 C
-        WRITE(IOUT,1520)MOD(IFQ,10), XFILTR
+          WRITE(IOUT,1520)MOD(IFQ,10), XFILTR
 C
-        IF(MFROT==0)THEN
-           IF(IFRICTH ==0 ) THEN
-             WRITE(IOUT,1524) FRIC
-           ELSE
-             WRITE(IOUT,1525) IFRICTH,XFRICTH,FRIC
-           ENDIF   
-        ELSEIF(MFROT==1)THEN
-          WRITE(IOUT,1515)FRIC_P(1),FRIC_P(2),FRIC_P(3),
-     .    FRIC_P(4),FRIC_P(5)
-        ELSEIF(MFROT==2)THEN
-          WRITE(IOUT,1522)FRIC,FRIC_P(1),FRIC_P(2),FRIC_P(3),
-     .    FRIC_P(4),FRIC_P(5),FRIC_P(6)
-        ELSEIF(MFROT==3)THEN
-          WRITE(IOUT,1523)FRIC_P(1),FRIC_P(2),FRIC_P(3),
-     .    FRIC_P(4),FRIC_P(5),FRIC_P(6)
-        ELSEIF(MFROT==4)THEN
-          WRITE(IOUT,1526)  FRIC,FRIC_P(1),FRIC_P(2)
+          IF(MFROT==0)THEN
+             IF(IFRICTH ==0 ) THEN
+               WRITE(IOUT,1524) FRIC
+             ELSE
+               WRITE(IOUT,1525) IFRICTH,XFRICTH,FRIC
+             ENDIF   
+          ELSEIF(MFROT==1)THEN
+            WRITE(IOUT,1515)FRIC_P(1),FRIC_P(2),FRIC_P(3),
+     .      FRIC_P(4),FRIC_P(5)
+          ELSEIF(MFROT==2)THEN
+            WRITE(IOUT,1522)FRIC,FRIC_P(1),FRIC_P(2),FRIC_P(3),
+     .      FRIC_P(4),FRIC_P(5),FRIC_P(6)
+          ELSEIF(MFROT==3)THEN
+            WRITE(IOUT,1523)FRIC_P(1),FRIC_P(2),FRIC_P(3),
+     .      FRIC_P(4),FRIC_P(5),FRIC_P(6)
+          ELSEIF(MFROT==4)THEN
+            WRITE(IOUT,1526)  FRIC,FRIC_P(1),FRIC_P(2)
+          ENDIF
         ENDIF
 C
         IF(IDEL21/=0) THEN
@@ -751,6 +766,10 @@ C------------
      .    '      STATIC COEFFICIENT MUo . . . . . . . . . ',1PG20.13/,
      .    '      DYNAMIC COEFFICIENT C1 . . . . . . . . . ',1PG20.13/,
      .    '      EXPONENTIAL DECAY COEFFICIENT C2 . . . . ',1PG20.13/)
+C
+ 1527 FORMAT(/
+     .       '    INTERFACE FRICTION MODEL.  . . . . . . . . ',I10)
+
  1518 FORMAT( '    FRICTION FORMULATION: INCREMENTAL (STIFFNESS) ',
      .             'FORMULATION')
  1519 FORMAT( '    FRICTION FORMULATION: TOTAL (VISCOUS) ',
