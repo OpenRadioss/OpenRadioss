@@ -1,0 +1,143 @@
+# This CI is triggered by OpenRadioss_extlib CI to set the related extlib version in a file
+name: Set exlib version
+on:
+  repository_dispatch:
+    types: [extlib-update]
+
+env:
+  VERSION_FILE: "EXTLIB_VERSION.json"
+  GO_PUSH: 0
+  GIT_PUSH_SERVBOT_PAT: ${{ secrets.GIT_PUSH_SERVBOT_PAT }}
+  FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
+  TO_EMAIL: ${{ secrets.TO_EMAIL }}
+  MAIL_RELAY: ${{ secrets.MAIL_RELAY }}
+  GIT_SERVBOT_USER: ${{ secrets.GIT_SERVBOT_USER }}   
+  GIT_SERVBOT_EMAIL: ${{ secrets.GIT_SERVBOT_EMAIL }} 
+  STATUS_STEP_SET_EXTLIB_VERSION: 0
+  MSG_STEP_GET_LIBS: "Could not set extlib version in file"  
+  STATUS_STEP_PUSH_OR: 0
+  MSG_STEP_PUSH_OR: "Could not push extlib version file on OpenRadioss repository"  
+
+jobs:
+
+  set-extlib-version:
+    if: ${{ github.repository_owner == 'OpenRadioss' }}
+    # DEV ONLY # runs-on: ["dev_delivery","dev"] 
+    runs-on: ["delivery","prod"]
+    container: 
+      image: fr-qafactorydev.europe.altair.com/common-linux64
+      credentials: 
+        username: ${{secrets.DOCKER_REGISTRY_USER}}
+        password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
+      volumes: 
+        - /etc/localtime:/etc/localtime:ro
+    steps:
+
+      # Set the working dir suffixed with deliv_hmreader
+      - name: Set workdir and status
+        run: |
+          echo "WORKDIR=set_extlib_version" >> $GITHUB_ENV
+
+      # Get last git modifications
+      - name: Checkout git sources
+        uses: actions/checkout@v4
+        with:
+          path: ${{ env.WORKDIR }}
+          clean: 'true'
+          # Use a PAT else the push won't trigger the next workflow
+          token: ${{ env.GIT_PUSH_SERVBOT_PAT }}  
+          ref: ${{ github.event.client_payload.ref }}
+
+      - name: Set version in file
+        working-directory: ${{ env.WORKDIR }}
+        run: |
+          # Get branch
+          export BRANCH_NAME="${GITHUB_REF#refs/heads/}"
+
+          echo "BRANCH_NAME=${BRANCH_NAME}" >> $GITHUB_ENV
+
+          # Force local branch to point on same commit as remote branch, way to restore a correct env if old push failed before
+          git fetch origin ${BRANCH_NAME}
+          git reset --hard origin/${BRANCH_NAME}
+          echo "-------checkout"
+          git branch && git log --pretty=oneline -n 5
+          echo "-------"      
+
+          echo "{\"version\": \"${{ github.event.client_payload.version }}\",\"delivery_date\":\"${{ github.event.client_payload.delivery_date }}\",\"url\": \"${{ github.event.client_payload.url }}\"}" > ${{ env.VERSION_FILE }}
+          
+          # Add new files
+          git config --global user.email "${{ env.GIT_SERVBOT_EMAIL }}"
+          git config --global user.name "${{ env.GIT_SERVBOT_USER }}"
+          git add .
+          git status
+
+          if [[ -n $(git status --porcelain) ]]; then
+            # Set correct end of step status (if not an email will be sent)
+            echo "STATUS_STEP_SET_EXTLIB_VERSION=1" >> $GITHUB_ENV
+            echo "GO_PUSH=1" >> $GITHUB_ENV
+          else
+            echo "There are no changes in the repository, abort."
+            exit 1
+          fi
+
+          git commit -m "Update extlib version to v${{ github.event.client_payload.version }}"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        if: ${{ env.GO_PUSH == 1 }} 
+        with:
+          github_token: ${{ env.GIT_PUSH_SERVBOT_PAT }}
+          branch: ${{ github.ref }}     
+          directory: ${{ env.WORKDIR }}    
+
+      - name: Set push status
+        working-directory: ${{ env.WORKDIR }}
+        run: |    
+          # Set correct end of step status (if not an email will be sent)
+          echo "STATUS_STEP_PUSH_OR=1" >> $GITHUB_ENV          
+
+      - name: Managing step execution
+        if: ${{ always() }}
+        run: |
+
+          echo -e "\n#### STATUS_STEP_SET_EXTLIB_VERSION ###"
+          if [ "$STATUS_STEP_SET_EXTLIB_VERSION" = 0 ]
+          then
+            echo -e "Status\t[ \033[31;2;1mFAILED\033[0m ]" 
+            MAILMSG+="$MSG_STEP_SET_EXTLIB_VERSION\n"
+            CONTINUE=0
+          else
+            echo -e "Status\t[ \033[32;2;1mOK\033[0m ]"
+          fi
+
+          if [ "$CONTINUE" = 1 ]
+          then          
+            echo -e "\n#### STATUS_STEP_PUSH_OR ###"
+            if [ "$STATUS_STEP_PUSH_OR" = 0 ]
+            then
+              echo -e "Status\t[ \033[31;2;1mFAILED\033[0m ]" 
+              MAILMSG+="$MSG_STEP_PUSH_OR\n"
+              CONTINUE=0
+            else
+              echo -e "Status\t[ \033[32;2;1mOK\033[0m ]"
+            fi
+          fi          
+
+          # Send email 
+          if [ "$CONTINUE" = 0 ] 
+          then
+    
+            # Setting SMTP server (docker host)
+            DOCKER_HOST=`/sbin/ip route|awk '/default/ { print $3 }'`
+            echo "set smtp=smtp://${DOCKER_HOST}:25" >> ${MAIL_CONFIG_FILE}
+
+            # Print message in log 
+            echo -e $MAILMSG
+
+            # Send email
+            SUBJECT="[ NEW EXTLIB VERSION SET IN OPENRADIOSS ] - Error in CI"
+            echo -e "${MAILMSG}" | ${MAIL_COMMAND} -r ${FROM_EMAIL} -s "${SUBJECT}" ${TO_EMAIL}
+
+            # Exit fail to see it as a failure
+            exit 1
+          fi          
