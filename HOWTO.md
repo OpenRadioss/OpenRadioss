@@ -23,6 +23,7 @@
   * [Build OpenRadioss with cygwin](#build-openradioss-with-cygwin)
 * [How to build OpenRadioss on Linux with Container using Apptainer](#how-to-build-openradioss-on-linux-with-container-using-apptainer)
 * [How to debug with Visual Studio](./doc/Visual_Studio_Debugger.md)
+* [Notes on third party libraries](#notes-on-third-party-libraries)
 
 ## Build environment on Linux
 
@@ -843,3 +844,10 @@ Linux system with [Apptainer](https://apptainer.org/docs/admin/main/installation
 * Copy OpenRadioss container to the directory which is in your `$PATH`
 
             sudo cp openradioss.sif /usr/local/bin
+
+## Notes on third party libraries
+
+OpenRadioss Starter and Engine use third party libraries in build process.
+Those third party libraries are stored in [OpenRadioss/OpenRadioss_extlib](https://github.com/OpenRadioss/OpenRadioss_extlib) repository.
+
+During compilation process, the needed "Release asset" is downloaded and installed if not already in the repository.

@@ -171,6 +171,14 @@ jobs:
           path: ${{ env.WORKDIR }}/exec
         if: ${{ env.CLOSE_BRANCH == 0 }} 
 
+      # We upload extlib only once, arbitrary choice
+      - name: Upload extlib artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: extlib
+          path: ${{ env.WORKDIR }}/extlib
+        if: ${{ matrix.build == 'starter_linux64_gf' && env.CLOSE_BRANCH == 0 }}
+
       # Close the branch (= restrict push to team devopsadmins) if needed
       # Owner is not mandatory here ... PAT is sufficient ??? seems that as servbot has permissions on this repo so his PAT is sufficient ...
       - uses: octokit/request-action@v2.x
@@ -271,6 +279,11 @@ jobs:
           name: bins-${{ matrix.os }}-${{ matrix.precision }}-engine_linux64_gf_ompi
           path: exec
           merge-multiple: true
+      - name: Download extlib artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: extlib
+          path: extlib
 
       - name: Running qa
         run: |
@@ -618,7 +631,12 @@ jobs:
           name: bins-${{ matrix.os }}-${{ matrix.precision }}-engine_win64_impi
           path: exec
           merge-multiple: true
-
+      - name: Download extlib artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: extlib
+          path: extlib
+          
       - name: Running qa
         # Running cygwin from powershell or cmd => neither identation nor comment !
         shell: cmd
