@@ -177,7 +177,12 @@ file(MAKE_DIRECTORY ${Build_includes_directory} )
 list(APPEND include_dir_list ${Build_includes_directory} )
 message (" dir : ${Build_includes_directory} added")
 
-
+# Load external libraries
+add_custom_target(
+    extlib ALL
+    COMMAND python ${source_directory}/../Compiling_tools/script/load_extlib.py
+    COMMENT "Loading extlib libraries"
+)
 
 #include generated with a text files
 add_custom_command(    
@@ -227,6 +232,8 @@ endif (NOT CMAKE_BUILD_TYPE)
 
 
 add_executable (${EXEC_NAME} ${source_files} ${c_source_files} ${cpp_source_files} ${Build_includes_directory}/starter_message_description.inc ${Build_includes_directory}/__foo.inc)
+
+add_dependencies(${EXEC_NAME} extlib)
 
 add_custom_command(TARGET ${EXEC_NAME}
                    POST_BUILD

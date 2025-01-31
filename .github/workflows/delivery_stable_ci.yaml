@@ -118,9 +118,6 @@ jobs:
           source /home/adminqa/.bashrc
           chmod 755 Compiling_tools/script/*
           chmod 755 ${{ matrix.binary }}/build_script.sh 
-          
-          # USED for development only (avoid using lfs)
-          test ! -e extlib && ln -s /__w/_tool/extlib .
 
           md5sum exec/* || echo "Nothing in exec/" 
           mkdir exec
@@ -173,6 +170,14 @@ jobs:
           name: bins-${{ matrix.os }}-${{ matrix.precision }}-${{ matrix.build }}
           path: ${{ env.WORKDIR }}/exec
         if: ${{ env.CLOSE_BRANCH == 0 }} 
+
+      # We upload extlib only once, arbitrary choice
+      - name: Upload extlib artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: extlib
+          path: ${{ env.WORKDIR }}/extlib
+        if: ${{ matrix.build == 'starter_linux64_gf' && env.CLOSE_BRANCH == 0 }}
 
       # Close the branch (= restrict push to team devopsadmins) if needed
       # Owner is not mandatory here ... PAT is sufficient ??? seems that as servbot has permissions on this repo so his PAT is sufficient ...
@@ -347,7 +352,7 @@ jobs:
         with:
           name: bins-${{ matrix.os }}-${{ matrix.precision }}-${{ matrix.build }}
           path: ${{ env.WORKDIR }}/exec
-        if: ${{ env.CLOSE_BRANCH == 0 }}           
+        if: ${{ env.CLOSE_BRANCH == 0 }}             
 
       # Close the branch (= restrict push to team devopsadmins) if needed
       # Owner is not mandatory here ... PAT is sufficient ??? seems that as servbot has permissions on this repo so his PAT is sufficient ...
@@ -455,6 +460,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: "${{ env.WORKDIR }}/exec_tmp"
+
+      - name: Download extlib artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: extlib
+          path: ${{ env.WORKDIR }}/extlib
 
       - name: Check files in exec
         working-directory: ${{ env.WORKDIR }}
