@@ -1279,15 +1279,16 @@ C      + Heat pre-treatment
 C
        CALL I21ELS3(
      1 X         ,INTBUF_TAB(NIN)%IRECTS,INTBUF_TAB(NIN)%IRECTM  ,NRTS      ,NRTM      ,
-     2 GEO     ,IXS        ,PM        ,IXC        ,IXTG      ,
-     3 -NIN   ,NTY        ,NOINT     ,NSN      ,INTBUF_TAB(NIN)%NSV  ,
+     2 GEO       ,IXS        ,PM        ,IXC        ,IXTG      ,
+     3 -NIN      ,NTY        ,NOINT     ,NSN      ,INTBUF_TAB(NIN)%NSV  ,
      4 INTBUF_TAB(NIN)%IELES,IPARI(47,NIN) ,INTBUF_TAB(NIN)%AREAS,NMN   ,INTBUF_TAB(NIN)%MSR,
-     5 KNOD2ELS   ,KNOD2ELC    ,KNOD2ELTG ,NOD2ELS  ,NOD2ELC      ,
+     5 KNOD2ELS  ,KNOD2ELC    ,KNOD2ELTG ,NOD2ELS  ,NOD2ELC      ,
      6 NOD2ELTG  ,IGRSURF(ISU1),IGRSURF(ISU2),IELEM21   ,
-     7 THK     ,INTBUF_TAB(NIN)%AS,INTBUF_TAB(NIN)%BS,IXS10    ,IXS16      ,
+     7 THK       ,INTBUF_TAB(NIN)%AS,INTBUF_TAB(NIN)%BS,IXS10    ,IXS16      ,
      8 IXS20     ,ID,TITR,IGEO,SH4TREE   ,
      9 SH3TREE   ,IPART        ,IPARTC       ,IPARTTG  , PM_STACK ,
-     A IWORKSH )
+     A IWORKSH   ,IPARI(72,NIN)  ,TAGPRT_FRIC   , INTBUF_TAB(NIN)%IPARTFRICS,
+     G INTBUF_TAB(NIN)%IPARTFRICM,INTBUF_FRIC_TAB,IPARTS)
 C
 C   ...GAP CALCULATION AND INITIAL PENETRATIONS after INITIA subroutine (thickness must be read).
 C

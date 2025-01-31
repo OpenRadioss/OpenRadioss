@@ -184,7 +184,7 @@ C---------------------------------------------------------------
      2          IGRSURF    ,XFILTR     ,FRIC_P     ,NPC1     ,SENSORS   ,
      3          NOM_OPT    ,UNITAB     ,LSUBMODEL  ,TITR     ,NPC       ,
      4          TF         ,NPARI      ,NPARIR     ,SNPC     ,SNPC1     ,
-     5          LNOPT1     ,ITHERM_FE  ,INTHEAT)
+     5          LNOPT1     ,ITHERM_FE  ,INTHEAT    ,NOM_OPTFRIC,INTBUF_FRIC_TAB)
 
           CASE ('TYPE20')
               NTYP=20

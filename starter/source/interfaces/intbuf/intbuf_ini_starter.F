@@ -1211,7 +1211,10 @@ C----   size real arrays
           IF(IGAP>=1)THEN
             INTBUF_TAB(NIN)%S_THKNOD0   = NSN 
           ENDIF
-
+          IF (INTFRIC/=0) THEN
+            INTBUF_TAB(NIN)%S_IPARTFRICS  = NSN 
+            INTBUF_TAB(NIN)%S_IPARTFRICM  = NRTM 
+          ENDIF
 C=======================================================================
         ELSEIF (ITYP == 22) THEN
 C=======================================================================
