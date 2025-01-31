@@ -1,4 +1,4 @@
-echo OFF
+@echo OFF
 
 REM Variable setting
 set arch=win64
