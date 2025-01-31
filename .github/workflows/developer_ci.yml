@@ -120,6 +120,12 @@ jobs:
           name: bins-${{ matrix.os }}-${{ matrix.precision }}-${{ matrix.build }}
           path: exec
 
+      - name: Upload extlib artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: extlib
+          path: extlib
+
   qa:
     needs: build
     # DEV ONLY # runs-on: ["qa_${{ matrix.os }}","dev"]
@@ -181,6 +187,11 @@ jobs:
           name: bins-${{ matrix.os }}-${{ matrix.precision }}-engine_linux64_gf_ompi
           path: exec
           merge-multiple: true
+      - name: Download extlib artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: extlib
+          path: extlib
 
       - name: Running qa
         run: |
