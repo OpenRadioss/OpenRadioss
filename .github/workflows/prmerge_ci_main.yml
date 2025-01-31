@@ -118,9 +118,6 @@ jobs:
           source /home/adminqa/.bashrc
           chmod 755 Compiling_tools/script/*
           chmod 755 ${{ matrix.binary }}/build_script.sh 
-          
-          # USED for development only (avoid using lfs)
-          test ! -e extlib && ln -s /__w/_tool/extlib .
 
           md5sum exec/* || echo "Nothing in exec/" 
           mkdir exec
@@ -277,9 +274,6 @@ jobs:
 
       - name: Running qa
         run: |
-
-          # USED for development only (avoid using lfs)
-          test ! -e extlib && ln -s /__w/_tool/extlib .
 
           md5sum exec/* || echo "Nothing in exec/" 
           if [ "${{ matrix.precision }}" = "dp" ]
