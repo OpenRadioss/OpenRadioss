@@ -247,6 +247,7 @@
       use sigeps126_mod
       use sigeps127_mod
       use sigeps128s_mod
+      use sigeps129s_mod
       use sigeps133_mod , only : sigeps133
       use sigeps134s_mod
       use sigeps163_mod
@@ -2050,6 +2051,15 @@
                  s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,  &
                  lbuf%seq ,sigy     ,et       ,defp     ,dpla     ,epsd     ,  &
                  ssp      ,off      ,l_sigb   ,lbuf%sigb)
+!            
+          elseif (mtn == 129) then
+            call sigeps129s(mat_elem%mat_param(imat)    ,                      &
+                 nel      ,nuvar    ,nvartmp  ,uvar     ,vartmp   ,dt1      ,  &
+                 de1      ,de2      ,de3      ,de4      ,de5      ,de6      ,  &
+                 so1      ,so2      ,so3      ,so4      ,so5      ,so6      ,  &
+                 s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,  &
+                 sigy     ,et       ,defp     ,dpla     ,epsd     ,ssp      ,  &
+                 lbuf%temp,el_temp  ,off      ,tt       ,iexpan   ,amu      )
 !
           elseif (mtn == 133) then
             call sigeps133( &
