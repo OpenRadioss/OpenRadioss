@@ -124,21 +124,29 @@ C-----------------------------------------------
          ENDDO
 C-----------------------------------------------
        ELSEIF (IFLAG == 2) THEN
-          MX           = MAT(1)
-          E0           = PM(23,MX)         
-          GAMMA        = PM(32,MX)
-          P0           = PM(31,MX)
-          PSH(1:NEL) = PM(88,MX)
-          T0           = PM(35,MX)
-          SPH          = PM(69,MX)
-          DO I=1, NEL
-             IF (VNEW(I) > ZERO) THEN
-                PP      = (GAMMA-ONE)*(ONE+MU(I))*ESPE(I) - PSH(I)
-                DPDM(I) = (GAMMA-ONE)*(ESPE(I)+(PP+PSH(I))*DF(I)) !total derivative
-                DPDE(I) = (GAMMA-ONE)*(ONE+MU(I)) !partial derivative
-                PNEW(I) = PP
-             ENDIF
-          ENDDO
+         MX = MAT(1)
+         E0 = PM(23,MX)
+         GAMMA = PM(32,MX)
+         P0 = PM(31,MX)
+         PSH(1:NEL) = PM(88,MX)
+         T0 = PM(35,MX)
+         SPH = PM(69,MX)
+         RHO0 = PM(1 ,MX)
+         Cv = PM(36,MX)
+         DO I=1, NEL
+            IF (VNEW(I) > ZERO) THEN
+               PP      = (GAMMA-ONE)*(ONE+MU(I))*ESPE(I) - PSH(I)
+               DPDM(I) = (GAMMA-ONE)*(ESPE(I)+(PP+PSH(I))*DF(I)) !total derivative
+               DPDE(I) = (GAMMA-ONE)*(ONE+MU(I)) !partial derivative
+               PNEW(I) = PP
+            ENDIF
+         ENDDO
+         DO I=1,NEL
+           IF(VNEW(I) > ZERO) THEN
+             THETA(I) = ESPE(I)/RHO0/Cv !law151 only espe is defined
+             THETA(I) = MAX(ZERO,THETA(I))
+           ENDIF
+         ENDDO
       ENDIF
 C-----------------------------------------------
       RETURN
