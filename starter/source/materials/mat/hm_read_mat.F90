@@ -213,6 +213,7 @@
       use hm_read_mat126_mod
       use hm_read_mat127_mod
       use hm_read_mat128_mod
+      use hm_read_mat129_mod
       use hm_read_mat133_mod , only : hm_read_mat133
       use hm_read_mat134_mod
       use hm_read_mat163_mod
@@ -362,6 +363,7 @@
          matparam => mat_param(mat_number)
          matparam%title = ' '
          matparam%title = titr(1:len_trim(titr))
+         matparam%mat_id = mat_id
 !-----------------------------------------------------------------------
 !
          if (len_trim(key2) == 0) then
@@ -1191,6 +1193,12 @@
             ntable   ,table    ,mat_id   ,titr     ,iout     ,  &
             unitab   ,lsubmodel)
 !-------
+          case ('LAW129','THERMO_ELASTO_VISCOPLASTIC_CREEP')
+            ilaw = 129
+            call hm_read_mat129(mat_param(mat_number),          &
+            mtag     ,parmat   ,nuvar    ,nvartmp  ,            &
+            ntable   ,table    ,iout     ,unitab   ,lsubmodel)                      
+!-------
           case ('LAW133','GRANULAR')
             ilaw = 133
             call hm_read_mat133( &
@@ -1359,7 +1367,6 @@
          end select
 !
          matparam%ilaw   = ilaw
-         matparam%mat_id = mat_id
 !-----------------------------------------------------------------------
          ! set pmin default value to -inf for eos compatible materials
 
