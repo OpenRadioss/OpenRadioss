@@ -13,8 +13,8 @@ The build package contains OpenRadioss binaries for Linux and Windows:
 
 Linux builds can be executed on:
 
-* Linux CentOS 7.9 or higher
-* RHEL 7.9 or higher
+* Rocky Linux 8 or higher
+* RHEL 8 or higher
 * Ubuntu 20.x or higher
 
        ├── COPYRIGHT.md

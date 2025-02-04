@@ -31,7 +31,7 @@
 
 Linux system with glibc version 2.17 or higher:
 
-* CentOS/RHEL 7, CentOS Stream 8, RHEL 8, Rocky Linux 8, Rocky Linux 9
+* CentOS Stream 8, RHEL 8, Rocky Linux 8, Rocky Linux 9
 * Ubuntu 20.0.4 or higher
 * [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install): OpenRadioss works with WSL/WSL2 Ubuntu 20.04 LTS, WSL2 Ubuntu 22.x
 
@@ -41,21 +41,6 @@ You will need GCC/Gfortran version 11 or higher,
 [Cmake](https://cmake.org/) version 2.8 or higher, and GNU make.
 
 Install as sudo or root
-
-* RHEL 7, CentOS 7
-
-            yum install devtoolset-11
-            yum install devtoolset-11-libasan-devel
-            yum install devtoolset-11-libubsan-devel
-            yum install libasan6
-            yum install libubsan
-            yum install make
-            yum install cmake
-            yum install perl
-            yum install python
-            yum install git-lfs
-
-  To enable the devtoolset-11, you can run `scl enable devtoolset-11 bash`
 
 * RHEL 8, CentOS Stream 8, Rocky Linux 8
 
@@ -827,7 +812,7 @@ Same procedure applies than building for Linux:
 
 Linux system with [Apptainer](https://apptainer.org/docs/admin/main/installation.html):
 
-* CentOS/RHEL 7, CentOS Stream 8, RHEL 8, Rocky Linux 8, Rocky Linux 9
+* CentOS Stream 8, RHEL 8, Rocky Linux 8, Rocky Linux 9
 * Ubuntu 20.0.4 or higher
 * [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install): Apptainer works with WSL/WSL2 Ubuntu 20.04 LTS, WSL2 Ubuntu 22.x
 

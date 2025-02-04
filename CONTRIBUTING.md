@@ -20,9 +20,9 @@ Windows users may want to use [git bash](https://gitforwindows.org/) or [WSL](ht
 * Install [git-lfs](https://git-lfs.github.com/).
   On Linux, you may need to install some packages first:
   
-  On Rhel, CentOS
+  On RHEL, Rocky Linux, CentOS
 
-        sudo yum install git-lfs
+        sudo dnf install git-lfs
 
   On Ubuntu, Debian
   
