@@ -169,11 +169,6 @@
       dpla(1:nel) = zero
       epsp(1:nel) = uvar(1:nel,1)  ! filtered plastic strain rate from previous time step
       soundsp(1:nel) = sqrt((bulk + four_over_3*shear) / rho0)     ! sound-speed
-      if (cc > zero)  then
-        cowp(1:nel) = one + (cc*epsp(1:nel))**cp
-      else
-        cowp(1:nel) = one
-      end if
 !---------------------------------------------------------------------
       ! element deletion condition
       do i=1,nel
@@ -184,6 +179,11 @@
       ! computing yield stress
 !
       if (mat_param%ntable == 0) then     ! analytical yield formulation
+        if (cc > zero)  then
+          cowp(1:nel) = one + (epsp(1:nel)/cc)**cp
+        else
+          cowp(1:nel) = one
+        end if
         do i = 1,nel
           yld(i) = sigy * cowp(i)                                         &
                  + qr1*(one - exp(-cr1*pla(i)))                           &
@@ -377,8 +377,8 @@
       do i=1,nel        
         dpdt    = dpla(i) / dtime
         epsp(i) = asrate * dpdt + (one - asrate) * uvar(i,1)
+        uvar(i,1) = max(cc, epsp(i))  ! strain rate effect below static limit is ignored
       enddo 
-      uvar(1:nel,1)  = epsp(1:nel)  
 !-----------
       return
       end

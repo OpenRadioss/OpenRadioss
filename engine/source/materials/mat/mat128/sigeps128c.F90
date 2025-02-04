@@ -170,11 +170,6 @@
       et(1:nel)     = one
       epsp(1:nel)   = uvar(1:nel,1)  ! filtered plastic strain rate from previous time step
       soundsp(1:nel)= sqrt(a11/rho0)
-      if (cc > zero)  then
-        cowp(1:nel) = one + (cc*epsp(1:nel))**cp
-      else
-        cowp(1:nel) = one
-      end if
 !---------------------------------------------------------------------
       ! element deletion condition
       do i=1,nel
@@ -184,6 +179,11 @@
 !---------------------------------------------------------------------
       ! computing yield stress
       if (mat_param%ntable == 0) then     ! analytical yield formulation
+        if (cc > zero)  then
+          cowp(1:nel) = one + (epsp(1:nel)/cc)**cp
+        else
+          cowp(1:nel) = one
+        end if
         do i = 1,nel
           yld(i) = sigy * cowp(i)                                         &
                  + qr1*(one - exp(-cr1*pla(i)))                           &
@@ -363,9 +363,9 @@
         dezz   = deelzz + dpzz(i)
         thk(i) = thk(i) + dezz*thkly(i)*off(i)  
         ! plastic strain-rate filtering
-        dpdt      = dpla(i)/ dtime
-        uvar(i,1) = asrate * dpdt + (one - asrate) * epsp(i)
-        epsp(i)   = uvar(i,1)
+        dpdt    = dpla(i) / dtime
+        epsp(i) = asrate * dpdt + (one - asrate) * uvar(i,1)
+        uvar(i,1) = max(cc, epsp(i))  ! strain rate effect below static limit is ignored
       enddo 
 !-----------
       return 
