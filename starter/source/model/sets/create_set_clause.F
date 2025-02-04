@@ -346,9 +346,9 @@ C=======================================================================
       SUBROUTINE CREATE_SET_CLAUSE(SET,
      .                             SETL,SETL_SIZE,
      .                             CLAUSE,
-     .                             IXS       ,IXS10    ,IXS20     ,IXS16     ,IXQ    ,
+     .                             IXS       ,IXS10    ,                      IXQ    ,
      .                             IXC       ,IXTG     ,IXT       ,IXP       ,IXR    ,
-     .                             IXX       ,KXX      ,KXSP      ,GEO       ,SH4TREE,
+     .                                                                        SH4TREE,
      .                             SH3TREE   ,KNOD2ELS ,NOD2ELS   ,KNOD2ELC  ,NOD2ELC,
      .                             KNOD2ELTG ,NOD2ELTG ,IPARTC    ,IPARTG    ,IPARTS ,
      .                             IPART     ,OPT_A    ,OPT_O     ,KNOD2ELQ  ,NOD2ELQ,
@@ -394,13 +394,13 @@ C-----------------------------------------------
       TYPE (SET_) :: CLAUSE
       TYPE (SET_SCRATCH) ::  DELBUF
 C
-      INTEGER IXS(NIXS,*),IXS10(6,*),IXS16(8,*),IXS20(12,*),
+      INTEGER IXS(NIXS,*),IXS10(6,*),
      .        IXQ(NIXQ,*),IXC(NIXC,*),IXTG(NIXTG,*),IXT(NIXT,*),
-     .        IXP(NIXP,*),IXR(NIXR,*),IXX(*),KXX(*),KXSP(NISP,*),
+     .        IXP(NIXP,*),IXR(NIXR,*),
      .        SH4TREE(*),SH3TREE(*),KNOD2ELS(*),KNOD2ELC(*),KNOD2ELTG(*),
      .        KNOD2ELQ(*),NOD2ELS(*),NOD2ELC(*),NOD2ELTG(*),NOD2ELQ(*),
      .        IPARTS(*),IPARTC(*),IPARTG(*),IPART(LIPART1,*)
-      my_real GEO(NPROPG,*),X(3,*)
+      my_real X(3,*)
       CHARACTER(LEN=NCHARFIELD) :: KEYSET
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -414,9 +414,9 @@ C-----------------------------------------------
           ! The goal is to merge all entities from SET in the clause.
           ! Call to insert_clause_in_set can be used for that...
           CALL INSERT_CLAUSE_IN_SET(CLAUSE    ,SET(IGS) ,SET_ADD,
-     .                              IXS       ,IXS10    ,IXS20   ,IXS16     ,IXQ    ,
+     .                              IXS       ,IXS10    ,                    IXQ    ,
      .                              IXC       ,IXTG     ,IXT     ,IXP       ,IXR    ,
-     .                              IXX       ,KXX      ,KXSP    ,GEO       ,SH4TREE,
+     .                                                                       SH4TREE,
      .                              SH3TREE   ,KNOD2ELS ,NOD2ELS ,KNOD2ELC  ,NOD2ELC,
      .                              KNOD2ELTG ,NOD2ELTG ,IPARTC  ,IPARTG    ,IPARTS ,
      .                              IPART     ,OPT_A    ,OPT_O   ,KNOD2ELQ  ,NOD2ELQ,

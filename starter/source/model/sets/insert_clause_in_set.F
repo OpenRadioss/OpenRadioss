@@ -41,9 +41,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    surface_type_mod              ../starter/source/model/sets/surface_type.F90
       !||====================================================================
       SUBROUTINE INSERT_CLAUSE_IN_SET(SET       ,CLAUSE   ,CLAUSE_OPERATOR,
-     .                                IXS       ,IXS10    ,IXS20     ,IXS16     ,IXQ    ,
+     .                                IXS       ,IXS10    ,                      IXQ    ,
      .                                IXC       ,IXTG     ,IXT       ,IXP       ,IXR    ,
-     .                                IXX       ,KXX      ,KXSP      ,GEO       ,SH4TREE,
+     .                                                                           SH4TREE,
      .                                SH3TREE   ,KNOD2ELS ,NOD2ELS   ,KNOD2ELC  ,NOD2ELC,
      .                                KNOD2ELTG ,NOD2ELTG ,IPARTC    ,IPARTG    ,IPARTS ,
      .                                IPART     ,OPT_A    ,OPT_O     ,KNOD2ELQ  ,NOD2ELQ,
@@ -92,14 +92,14 @@ C-----------------------------------------------
       INTEGER CLAUSE_OPERATOR
 
       INTEGER  OPT_A,OPT_O,OPT_E
-      INTEGER IXS(NIXS,*),IXS10(6,*),IXS16(8,*),IXS20(12,*),
+      INTEGER IXS(NIXS,*),IXS10(6,*),
      .        IXQ(NIXQ,*),IXC(NIXC,*),IXTG(NIXTG,*),IXT(NIXT,*),
-     .        IXP(NIXP,*),IXR(NIXR,*),IXX(*),KXX(*),KXSP(NISP,*),
+     .        IXP(NIXP,*),IXR(NIXR,*),
      .        SH4TREE(*),SH3TREE(*),KNOD2ELS(*),KNOD2ELC(*),KNOD2ELTG(*),
      .        KNOD2ELQ(*),NOD2ELS(*),NOD2ELC(*),NOD2ELTG(*),NOD2ELQ(*),
      .        IPARTS(*),IPARTC(*),IPARTG(*),IPART(LIPART1,*)
       my_real
-     .    GEO(NPROPG,*),X(3,*)
+     .    X(3,*)
       CHARACTER(LEN=NCHARFIELD) :: KEYSET
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -797,29 +797,29 @@ C-----------------------------------------------
         ! Nodes reconstruction after delete
         !---
 
-        ALLOCATE(NODES(NUMNOD))
-        ALLOCATE(RESULT(NUMNOD ))                  ! Results SET
+!        ALLOCATE(NODES(NUMNOD))
+!        ALLOCATE(RESULT(NUMNOD ))                  ! Results SET
 
-        CALL CREATE_NODE_FROM_ELEMENT(
-     .                           IXS   ,IXS10  ,IXS20  ,IXS16  ,IXQ    ,
-     .                           IXC   ,IXTG   ,IXT    ,IXP    ,IXR    ,
-     .                           IXX   ,KXX    ,KXSP   ,SET ,GEO    ,
-     .                           NODES ,ND_SIZE,.TRUE. )
-        OPERATOR = SET_ADD
-        CALL SET_MERGE_SIMPLE( SET%NODE,    SET%NB_NODE    ,
-     .                         NODES, ND_SIZE ,
-     .                         RESULT,      NEW_SIZE       ,
-     .                         OPERATOR)  
+!        CALL CREATE_NODE_FROM_ELEMENT(
+!     .                           IXS   ,IXS10  ,IXS20  ,IXS16  ,IXQ    ,
+!     .                           IXC   ,IXTG   ,IXT    ,IXP    ,IXR    ,
+!     .                           IXX   ,KXX    ,KXSP   ,SET ,GEO    ,
+!     .                           NODES ,ND_SIZE,.TRUE. )
+!        OPERATOR = SET_ADD
+!        CALL SET_MERGE_SIMPLE( SET%NODE,    SET%NB_NODE    ,
+!     .                         NODES, ND_SIZE ,
+!     .                         RESULT,      NEW_SIZE       ,
+!     .                         OPERATOR)  
 
 
-         IF (ALLOCATED(SET%NODE)) DEALLOCATE (SET%NODE)
-         ALLOCATE(SET%NODE(NEW_SIZE))
+!         IF (ALLOCATED(SET%NODE)) DEALLOCATE (SET%NODE)
+!         ALLOCATE(SET%NODE(NEW_SIZE))
 
-         SET%NODE(1:NEW_SIZE) = RESULT(1:NEW_SIZE)
-         SET%NB_NODE=NEW_SIZE
+!         SET%NODE(1:NEW_SIZE) = RESULT(1:NEW_SIZE)
+!         SET%NB_NODE=NEW_SIZE
 
-         DEALLOCATE(RESULT)
-         DEALLOCATE(NODES)
+!         DEALLOCATE(RESULT)
+!         DEALLOCATE(NODES)
 
 
         !---
