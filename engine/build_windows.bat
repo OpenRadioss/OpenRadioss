@@ -1,4 +1,4 @@
-echo OFF
+@echo OFF
 
 REM Variable setting
 set arch=win64
@@ -146,7 +146,7 @@ echo  Running on             : %jobsv% Threads
 echo.
 echo  verbose=               : %verbose%
 echo.
-echo  Build directory:  %build_directory%
+echo  Build directory        : %build_directory%
 echo.
 
 if exist %build_directory% (

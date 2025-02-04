@@ -128,7 +128,7 @@ echo  Running on             : %jobsv% Threads
 echo.
 echo  verbose=               : %verbose%
 echo.
-echo  Build directory:  %build_directory%
+echo  Build directory        : %build_directory%
 echo.
 
 if exist %build_directory% (
