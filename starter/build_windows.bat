@@ -205,7 +205,7 @@ GOTO END_STARTER
   echo.
   echo     -prec=[dp,sp]                       : set precision - dp (default),sp
   echo     -static-link                        : Compiler runtime is linked in binary
-  echo     -debug=[0,1,chkb]                   : debug version 
+  echo     -debug=[0,1,chkb]                   : debug version
   echo                                              0 no debug flags (default)
   echo                                              1 usual debug flags
   echo                                              chkb Check bounds build
