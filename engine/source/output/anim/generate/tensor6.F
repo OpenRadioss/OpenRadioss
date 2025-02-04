@@ -3903,6 +3903,7 @@ C-----------
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod       ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    initbuf_mod        ../engine/share/resol/initbuf.F
+      !||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
       !||    outmax_mod         ../common_source/modules/outmax_mod.F
       !||====================================================================
       SUBROUTINE TENSGPS3(ELBUF_TAB,FUNC1   ,FUNC2   ,IPARG   ,GEO     ,
@@ -4745,6 +4746,7 @@ C-----------------------------------------------
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    initbuf_mod           ../engine/share/resol/initbuf.F
+      !||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
       !||====================================================================
       SUBROUTINE TENSGPS_SKIN(ELBUF_TAB,FUNC1   ,FUNC2   ,IPARG   ,
      .                        IXS      ,IXS10   ,IXS16   ,IXS20   ,X        ,
