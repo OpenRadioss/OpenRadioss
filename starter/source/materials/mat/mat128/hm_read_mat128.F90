@@ -178,12 +178,6 @@
       cii   = lam + shear*two
       cij   = lam      
 !      
-      if (epsp_ref > zero) then
-        cc = one / epsp_ref
-      else
-        cc = zero
-      end if              
-!      
       if (yfac == zero) yfac = one * pres_unit
       if (xfac == zero) xfac = one * epsp_unit
       xfac = one / xfac
@@ -199,6 +193,7 @@
 !-------------------------------------
       ! create local function table in case of tabulated yield function input
 !-------------------------------------
+      ndim = 0
       if (func_id > 0) then
         allocate (mat_param%table(1))           ! allocate material table array
         mat_param%ntable  = 1
@@ -228,6 +223,15 @@
         end if
       end if
 !          
+      ! reference (static) strain rate      
+      if (func_id > 0 .and. ndim == 2) then
+        cc = mat_param%table(1)%x(2)%values(1) 
+      else if (epsp_ref > zero) then
+        cc = epsp_ref
+      else
+        cc = zero
+      end if              
+!      
 !-------------------------------------
       mat_param%niparam = 0
       mat_param%nuparam = 18
