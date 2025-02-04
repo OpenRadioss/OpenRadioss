@@ -136,7 +136,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    unitab_mod             ../common_source/modules/unitab_mod.F
       !||    user_windows_mod       ../common_source/modules/user_windows_mod.F
       !||====================================================================
-      SUBROUTINE RDRESB( AF               ,IAF        ,LVARREA      ,XDP              ,IRUNN      ,
+      SUBROUTINE RDRESB( AF               ,IAF        ,LVARREA      ,IRUNN      ,
      .                   MULTI_FVM        ,H3D_DATA   ,PINCH_DATA   ,ALE_CONNECTIVITY ,T_MONVOL   ,
      .                   SENSORS          ,EBCS_TAB   ,DYNAIN_DATA  ,USER_WINDOWS     ,OUTPUT     ,
      .                   INTERFACES       ,LOADS      ,MAT_ELEM     ,PYTHON           ,IFLOW      ,
@@ -231,7 +231,6 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IAF(*),LVARREA,LEN_G,LEN_M, IRUNN
       my_real AF(*)
-      DOUBLE PRECISION XDP(*)
       TYPE(MULTI_FVM_STRUCT)                               :: MULTI_FVM
       TYPE(H3D_DATABASE)                                   :: H3D_DATA
       TYPE(PINCH)                                          :: PINCH_DATA

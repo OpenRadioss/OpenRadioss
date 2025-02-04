@@ -68,7 +68,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    user_windows_mod       ../common_source/modules/user_windows_mod.F
       !||====================================================================
       SUBROUTINE RESOL_HEAD( ELEMENT, NODES,
-     .           ITASK       ,AF          ,IAF            ,IDATA      ,RDATA,XDP       ,
+     .           ITASK       ,AF          ,IAF            ,IDATA      ,RDATA,
      .           GRAPHE      ,IFLOW       ,RFLOW          ,MCP        ,TEMP            ,
      .           STACK       ,IRUNN_BIS   , TIMERS,
      .           MULTI_FVM   ,H3D_DATA    ,SUBSETS    ,IGRNOD          ,
@@ -151,7 +151,6 @@ C     REAL
       my_real
      .   AF(*),RDATA(*),MCP(NUMNOD),TEMP(NUMNOD) ,
      .   FORNEQS(*)
-      DOUBLE PRECISION XDP(*)
       TYPE(PRGRAPH) :: GRAPHE(*)
       TYPE (STACK_PLY) :: STACK
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
