@@ -168,10 +168,7 @@ C------recompute modulus for law42,88,90
          CAQ(I)=SFAC*DT1*OFF(I)
          FCL(I)=F_ET(I)*CAQ(I)*VOL(I)**THIRD
       ENDDO
-      DO I=1,NEL
-         FDAMP=EM02*RHO(I)*CXX(I)*VOL(I)**TWO_THIRD
-         FCL(I)=FCL(I)+FDAMP
-      ENDDO
+!
        DO I=1,NEL
 C 1 -1 1 -1 1 -1 1 -1
         G11(I)= ONE-PX1H1(I)
