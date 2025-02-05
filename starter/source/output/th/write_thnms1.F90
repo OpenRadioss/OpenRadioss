@@ -44,7 +44,7 @@
       !||====================================================================
         subroutine write_thnms1(nvarn1        ,nvarn1a       ,nvarn2           ,nvarnpinch        ,nvars1           ,&
           nvars2        ,nvars3        ,nvars4           ,nvars5            ,nvars6           ,&
-          nvars7        ,nvars8        ,nvars9           ,nvarsnloc         ,&
+          nvars7        ,nvars8        ,nvars9           ,nvars10           ,nvarsnloc        ,&
           nvarp         ,nvarr         ,nvart            ,nvarns            ,nvarsph          ,&
           nvarin        ,nvarrw        ,nvarrb           ,nvarmv            ,nvarse           ,&
           nvarac        ,nvarjo        ,nvarmvent        ,nvarpa            ,nvarfx           ,&
@@ -54,7 +54,7 @@
           varnpinch_title,varp_title   ,varr_title       ,vart_title        ,&
           vars1_title   ,vars2_title   ,vars3_title      ,vars4_title       ,vars5_title      ,&
           vars6_title   ,vars7_title   ,vars8_title      ,vars9_title       ,varsnloc_title   ,&
-          varc_title    ,&
+          varc_title    ,vars10_title  ,&
           varns_title   ,varsph_title  ,varin_title      ,&
           varrw_title   ,varrb_title   ,varmv_title      ,varse_title       ,varac_title      ,&
           varjo_title   ,varmvent_title,varpa_title      ,varfx_title       ,vargau_title     ,&
@@ -63,7 +63,7 @@
           varn1         ,varn1a        ,varn2            ,varnpinch         ,&
           varp          ,varr          ,vart             ,vars1             ,vars2            ,&
           vars3         ,vars4         ,vars5            ,vars6             ,vars7            ,&
-          vars8         ,vars9         ,varsnloc         ,&
+          vars8         ,vars9         ,vars10           ,varsnloc         ,&
           varc          ,&
           varns         ,varsph        ,varin            ,&
           varrw         ,varrb         ,varmv            ,varse             ,varac            ,&
@@ -99,6 +99,7 @@
           integer,                                   intent(in) :: nvars7
           integer,                                   intent(in) :: nvars8
           integer,                                   intent(in) :: nvars9
+          integer,                                   intent(in) :: nvars10
           integer,                                   intent(in) :: nvarsnloc
           integer,                                   intent(in) :: nvarp
           integer,                                   intent(in) :: nvarr
@@ -141,6 +142,7 @@
           character(len=100),                        intent(in) :: vars7_title(nvars7)
           character(len=100),                        intent(in) :: vars8_title(nvars8)
           character(len=100),                        intent(in) :: vars9_title(nvars9)
+          character(len=100),                        intent(in) :: vars10_title(nvars10)
           character(len=100),                        intent(in) :: varsnloc_title(nvarsnloc)
           character(len=100),                        intent(in) :: varc_title(nvarc)
           character(len=100),                        intent(in) :: varns_title(nvarns)
@@ -180,6 +182,7 @@
           character(len=10),                        intent(in) :: vars7(nvars7)
           character(len=10),                        intent(in) :: vars8(nvars8)
           character(len=10),                        intent(in) :: vars9(nvars9)
+          character(len=10),                        intent(in) :: vars10(nvars10)
           character(len=10),                        intent(in) :: varsnloc(nvarsnloc)
           character(len=10),                        intent(in) :: varc(nvarc)
           character(len=10),                        intent(in) :: varns(nvarns)
@@ -270,6 +273,7 @@
           call write_thnms1_titles(io,nvars8,vars8_title,vars8,239030)
           call write_thnms1_titles(io,nvars9,vars9_title,vars9,239030+nvars8)
           call write_thnms1_titles(io,nvarsnloc,varsnloc_title,varsnloc,239030+nvars8+nvars9)
+          call write_thnms1_titles(io,nvars10,vars10_title,vars10,239030+nvars8+nvars9+nvarsnloc)
 
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           write(io, *) '$$ SHELL'
@@ -401,6 +405,7 @@
           call write_thnms1_titles(io,nvars8,vars8_title,vars8,239030)
           call write_thnms1_titles(io,nvars9,vars9_title,vars9,239030+nvars8)
           call write_thnms1_titles(io,nvarsnloc,varsnloc_title,varsnloc,239030+nvars8+nvars9)
+          call write_thnms1_titles(io,nvars10,vars10_title,vars10,239030+nvars8+nvars9+nvarsnloc)
 
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           write(io, *) '$$ QUAD'
@@ -416,6 +421,7 @@
           call write_thnms1_titles(io,nvars8,vars8_title,vars8,239030)
           call write_thnms1_titles(io,nvars9,vars9_title,vars9,239030+nvars8)
           call write_thnms1_titles(io,nvarsnloc,varsnloc_title,varsnloc,239030+nvars8+nvars9)
+          call write_thnms1_titles(io,nvars10,vars10_title,vars10,239030+nvars8+nvars9+nvarsnloc)
 
           write(io, *) '$$ ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++'
           write(io, *) '$$ SLIPRING'

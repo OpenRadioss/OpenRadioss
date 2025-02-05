@@ -146,7 +146,7 @@ C-----------------------------------------------
       CHARACTER MESS*40
       CHARACTER(LEN=NCHARLINE) :: KEY,COPT
       INTEGER NVARN,NVARN1,NVARN1A,NVARN2,NVARNPINCH,NVARS,NVARC,NVART,NVARP,NVARR,NVARUR
-      INTEGER NVARS1,NVARS2,NVARS3,NVARS4,NVARS5,NVARS6,NVARS7,NVARS8,NVARS9,NVARSNLOC
+      INTEGER NVARS1,NVARS2,NVARS3,NVARS4,NVARS5,NVARS6,NVARS7,NVARS8,NVARS9,NVARS10,NVARSNLOC
       INTEGER NVARNS,NVARSPH
       INTEGER NVARIN,NVARRW,NVARRB,NVARAC,NVARSE,NVARJO,NVARFX,NVARFXM
       INTEGER NVARAB,NVARMV4,NVARMV,NVARPA,NVARMVENT,NVARSENS,NVARSENSG
@@ -164,8 +164,8 @@ C-----------------------------------------------
 C-----------------------------------------------
       PARAMETER (NVARN = 637,NVARN1 = 19,NVARN1A = 600,NVARN2 = 9 ,NVARNPINCH = 9)
       PARAMETER (NVARS1 = 196,NVARS2 = 567,NVARS3 = 369,NVARS4 = 492,NVARS5 = 22)
-      PARAMETER (NVARS6 = 97200,NVARS7 = 97200,NVARS8 = 516,NVARS9 = 6,NVARSNLOC = 2)
-      PARAMETER (NVARS =239554 ,NVARC = 37856,NVART = 6)
+      PARAMETER (NVARS6 = 97200,NVARS7 = 97200,NVARS8 = 516,NVARS9 = 6,NVARS10 = 1,NVARSNLOC = 2)
+      PARAMETER (NVARS =239555 ,NVARC = 37856,NVART = 6)
       PARAMETER (NVARP = 337,NVARR = 66,NVARUR = 12)
       PARAMETER (NVARNS = 4,NVARSPH = 41)
       PARAMETER (NVARIN = 29,NVARRW = 6,NVARRB =15,NVARFX =4)
@@ -180,7 +180,7 @@ C-----------------------------------------------
       CHARACTER(LEN=10),DIMENSION(:),ALLOCATABLE::VARS
       CHARACTER(LEN=10),DIMENSION(:),ALLOCATABLE::VARC
       CHARACTER*10 VARS1(NVARS1),VARS2(NVARS2), VARS3(NVARS3), VARS4(NVARS4),
-     .             VARS5(NVARS5),VARS8(NVARS8),VARS9(NVARS9),
+     .             VARS5(NVARS5),VARS8(NVARS8),VARS9(NVARS9),VARS10(NVARS10),
      .             VARN1(NVARN1),VARN1A(NVARN1A),
      .             VARN2(NVARN2),
      .             VARNPINCH(NVARNPINCH),
@@ -268,7 +268,7 @@ C-----------------------------------------------
       CHARACTER(LEN=100),DIMENSION(:),ALLOCATABLE:: VARN1_TITLE,VARN1A_TITLE,VARN2_TITLE,VARNPINCH_TITLE,
      .                              VARP_TITLE,VARR_TITLE,VART_TITLE,
      .                              VARS1_TITLE,VARS2_TITLE,VARS3_TITLE,VARS4_TITLE,
-     .                              VARS5_TITLE,VARS6_TITLE,VARS7_TITLE,VARS8_TITLE,VARS9_TITLE,
+     .                              VARS5_TITLE,VARS6_TITLE,VARS7_TITLE,VARS8_TITLE,VARS9_TITLE,VARS10_TITLE,
      .                              VARC_TITLE,
      .                              VARSNLOC_TITLE,VARNS_TITLE,VARSPH_TITLE,
      .                              VARIN_TITLE,VARRW_TITLE,VARRB_TITLE,
@@ -297,7 +297,7 @@ C-----------------------------------------------
      .         VARP_TITLE(NVARP),VARR_TITLE(NVARR),VART_TITLE(NVART),
      .         VARS1_TITLE(NVARS1),VARS2_TITLE(NVARS2),VARS3_TITLE(NVARS3),VARS4_TITLE(NVARS4),
      .         VARS5_TITLE(NVARS5),VARS6_TITLE(NVARS6),VARS7_TITLE(NVARS7),VARS8_TITLE(NVARS8),VARS9_TITLE(NVARS9),
-     .         VARC_TITLE(NVARC),
+     .         VARC_TITLE(NVARC),VARS10_TITLE(NVARS10),
      .         VARSNLOC_TITLE(NVARSNLOC),VARNS_TITLE(NVARNS),VARSPH_TITLE(NVARSPH),
      .         VARIN_TITLE(NVARIN),VARRW_TITLE(NVARRW),VARRB_TITLE(NVARRB),
      .         VARMV_TITLE(NVARMV),VARSE_TITLE(NVARSE),VARAC_TITLE(NVARAC),
@@ -311,7 +311,7 @@ C-----------------------------------------------
       CALL TH_TITLES(
      1      NVARN1        ,NVARN1A       ,NVARN2           ,NVARNPINCH        ,NVARS1           ,
      1      NVARS2        ,NVARS3        ,NVARS4           ,NVARS5            ,NVARS6           ,
-     1      NVARS7        ,NVARS8        ,NVARS9           ,NVARSNLOC         ,
+     1      NVARS7        ,NVARS8        ,NVARS9           ,NVARS10           ,NVARSNLOC        ,
      1      NVARP         ,NVARR         ,NVART            ,NVARNS            ,NVARSPH          ,
      2      NVARIN        ,NVARRW        ,NVARRB           ,NVARMV            ,NVARSE           ,
      3      NVARAC        ,NVARJO        ,NVARMVENT        ,NVARPA            ,NVARFX           ,
@@ -321,7 +321,7 @@ C-----------------------------------------------
      a      VARNPINCH_TITLE,VARP_TITLE   ,VARR_TITLE       ,VART_TITLE        ,
      6      VARS1_TITLE   ,VARS2_TITLE   ,VARS3_TITLE      ,VARS4_TITLE       ,VARS5_TITLE      ,
      6      VARS6_TITLE   ,VARS7_TITLE   ,VARS8_TITLE      ,VARS9_TITLE       ,VARSNLOC_TITLE   ,
-     6      VARC_TITLE    ,
+     6      VARC_TITLE    ,VARS10_TITLE  ,
      7      VARNS_TITLE   ,VARSPH_TITLE  ,VARIN_TITLE      ,
      8      VARRW_TITLE   ,VARRB_TITLE   ,VARMV_TITLE      ,VARSE_TITLE       ,VARAC_TITLE      ,
      9      VARJO_TITLE   ,VARMVENT_TITLE,VARPA_TITLE      ,VARFX_TITLE       ,VARGAU_TITLE     ,
@@ -760,6 +760,10 @@ C Definition of VARS8 : strain matrix output
 
       DATA VARSNLOC/
      . 'NL_PLAS ','NL_PLSR '/
+
+      DATA VARS10/
+     . 'VSTRAIN ' /
+
 
 C   shells
 c  VARC = VARC1 + VARC2 + VARC3
@@ -1782,6 +1786,9 @@ C
       ENDDO
       DO I=1,NVARSNLOC
        VARS(239552 + I) = VARSNLOC(I)
+      ENDDO
+      DO I=1,NVARS10
+       VARS(239554 + I) = VARS10(I)
       ENDDO
 C   (VARSG1, VARSG2, VARSG3 )----> VARSG
       DO I=1,202
@@ -3184,7 +3191,7 @@ C-------------------------------------
         CALL WRITE_THNMS1(
      1      NVARN1        ,NVARN1A       ,NVARN2           ,NVARNPINCH        ,NVARS1           ,
      2      NVARS2        ,NVARS3        ,NVARS4           ,NVARS5            ,NVARS6           ,
-     3      NVARS7        ,NVARS8        ,NVARS9           ,NVARSNLOC         ,
+     3      NVARS7        ,NVARS8        ,NVARS9           ,NVARS10           ,NVARSNLOC        ,
      4      NVARP         ,NVARR         ,NVART            ,NVARNS            ,NVARSPH          ,
      5      NVARIN        ,NVARRW        ,NVARRB           ,NVARMV            ,NVARSE           ,
      5      NVARAC        ,NVARJO        ,NVARMVENT        ,NVARPA            ,NVARFX           ,
@@ -3194,7 +3201,7 @@ C-------------------------------------
      9      VARNPINCH_TITLE,VARP_TITLE   ,VARR_TITLE       ,VART_TITLE        ,
      A      VARS1_TITLE   ,VARS2_TITLE   ,VARS3_TITLE      ,VARS4_TITLE       ,VARS5_TITLE      ,
      B      VARS6_TITLE   ,VARS7_TITLE   ,VARS8_TITLE      ,VARS9_TITLE       ,VARSNLOC_TITLE   ,
-     C      VARC_TITLE    ,
+     C      VARC_TITLE    ,VARS10_TITLE  ,
      D      VARNS_TITLE   ,VARSPH_TITLE  ,VARIN_TITLE      ,
      E      VARRW_TITLE   ,VARRB_TITLE   ,VARMV_TITLE      ,VARSE_TITLE       ,VARAC_TITLE      ,
      F      VARJO_TITLE   ,VARMVENT_TITLE,VARPA_TITLE      ,VARFX_TITLE       ,VARGAU_TITLE     ,
@@ -3203,7 +3210,7 @@ C-------------------------------------
      I      VARN1         ,VARN1A        ,VARN2            ,VARNPINCH        ,
      J      VARP          ,VARR          ,VART             ,VARS1             ,VARS2            ,
      K      VARS3         ,VARS4         ,VARS5            ,VARS6             ,VARS7            ,
-     L      VARS8         ,VARS9         ,VARSNLOC         ,
+     L      VARS8         ,VARS9         ,VARS10           ,VARSNLOC         ,
      M      VARC          ,
      N      VARNS         ,VARSPH        ,VARIN            ,
      O      VARRW         ,VARRB         ,VARMV            ,VARSE             ,VARAC            ,
@@ -3229,7 +3236,7 @@ C-------------------------------------
      .           VARP_TITLE,VARR_TITLE,VART_TITLE,
      .           VARS1_TITLE,VARS2_TITLE,VARS3_TITLE,VARS4_TITLE,
      .           VARS5_TITLE,VARS6_TITLE,VARS7_TITLE,VARS8_TITLE,VARS9_TITLE,
-     .           VARC_TITLE,
+     .           VARC_TITLE,VARS10_TITLE,
      .           VARNS_TITLE,VARSPH_TITLE,
      .           VARIN_TITLE,VARRW_TITLE,VARRB_TITLE,
      .           VARMV_TITLE,VARSE_TITLE,VARAC_TITLE,

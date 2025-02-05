@@ -160,6 +160,7 @@ C-----------------------------------------------
      .   STRAIN(6),GAMA(6),EVAR_TMP(6),EVAR(6),SIGG(6),
      .   VEL(3),V(3,*),W(3,*),TMP_2(MVSIZ,3),BFRAC,SSP
         my_real, DIMENSION(:), ALLOCATABLE :: WWA
+        my_real :: RHO0
 C----
       TYPE(L_BUFEL_) ,POINTER :: LBUF
       TYPE(G_BUFEL_) ,POINTER :: GBUF
@@ -197,7 +198,7 @@ C--------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-        ALLOCATE(WWA(239554))
+        ALLOCATE(WWA(239555))
 
         IJK = 0
         DO NITER=1,NTHGRP2
@@ -209,7 +210,6 @@ C-----------------------------------------------
             II=0
             IF(ITYP==1)THEN
 !   -------------------------------
-
 
       DO J1=1,7
         DO J2=1,9
@@ -761,6 +761,8 @@ C-----------------------------------------------------
                 WWA(239552)=LBUF%RK(I) ! VK in /TH/BRICK
                 WWA(12)=LBUF%PLA(I)
                 WWA(30)=GBUF%PLA(I)
+              ELSEIF (MTE == 25) THEN
+                WWA(32)=LBUF%PLA(I)      !WPLA
               ELSEIF (MTE == 26) THEN
                 WWA(12)=LBUF%PLA(I)
                 WWA(13)=LBUF%TEMP(I)
@@ -930,6 +932,15 @@ c
                   ENDDO
                 ENDDO
               ENDIF
+
+              !VOLUMETRIC STRAIN (MU)
+              RHO0 = PM(01,IXS(1,NFT+I))
+              IF(RHO0 > ZERO)THEN
+                WWA(239555) = ELBUF_TAB(NG)%GBUF%RHO(I) / RHO0  - ONE
+              ELSE
+                WWA(239555) = ZERO
+              ENDIF
+
 C------------------------------------------------------------------------------
 C                 2- TH tab filling with stresses  and stain in element
 C                           and per integration point
