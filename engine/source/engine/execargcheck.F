@@ -620,12 +620,12 @@ C-----------------------------------------------
 
 
       !||====================================================================
-      !||    pexecinfo         ../engine/source/engine/execargcheck.F
+      !||    pexecinfo           ../engine/source/engine/execargcheck.F
       !||--- called by ------------------------------------------------------
-      !||    execargcheck      ../engine/source/engine/execargcheck.F
+      !||    execargcheck        ../engine/source/engine/execargcheck.F
       !||--- calls      -----------------------------------------------------
-      !||    my_exit           ../engine/source/system/my_exit.c
-      !||    prexecinfo        ../engine/source/engine/execargcheck.F
+      !||    my_exit             ../engine/source/system/my_exit.c
+      !||    prexecinfo          ../engine/source/engine/execargcheck.F
       !||====================================================================
           SUBROUTINE PEXECINFO(IDUM)
 C-----------------------------------------------
