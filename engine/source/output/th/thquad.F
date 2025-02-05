@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1                  IPARG    ,ITHBUF   ,WA     ,
      2                  IPM      ,IXQ      ,IXTG   ,
      3                  X        ,MULTI_FVM,V      ,
-     4                  W        ,ITHERM   ,
+     4                  W        ,ITHERM   ,PM     ,
      .                  NUMELQ   ,NUMMAT   ,NUMNOD ,SITHBUF, NUMELTG)
 
 C-----------------------------------------------
@@ -120,10 +120,11 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: NTHGRP2
       INTEGER, INTENT(IN) :: ITHERM
       INTEGER, DIMENSION(NITHGR,*), INTENT(IN) :: ITHGRP
+      my_real,INTENT(IN) :: PM(NPROPM,NUMMAT)
       my_real,INTENT(INOUT) :: WA(*)
       my_real,INTENT(IN) :: X(3,NUMNOD), V(3,NUMNOD), W(3,NUMNOD)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
-      TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM      
+      TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -138,7 +139,7 @@ C-----------------------------------------------
      .        T22,T23,T32,T33,
      .        S1,S2,S3,S4,
      .        T1,T2,T3,T4,CS,CT,EVAR(6),GAMA(6),
-     .        TMP(3,4),VEL(3),SSP,BFRAC
+     .        TMP(3,4),VEL(3),SSP,BFRAC,RHO0
       my_real, dimension(:), allocatable :: WWA
       TYPE(L_BUFEL_) ,POINTER :: LBUF,LBUF1,LBUF2
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
@@ -146,7 +147,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-        ALLOCATE(WWA(239552))
+        ALLOCATE(WWA(239555))
         IJK = 0
         DO NITER=1,NTHGRP2
             ITYP=ITHGRP(2,NITER)
@@ -548,6 +549,18 @@ C SSP
                 ENDIF
 
               ENDIF
+
+              !VOLUMETRIC STRAIN (MU)
+              IF(NUMELTG > 0)THEN
+                RHO0 = PM(01,IXTG(1,1+NFT))
+              ELSE
+                RHO0 = PM(01,IXQ(1,11+NFT))
+              ENDIF
+              IF(RHO0 > ZERO)THEN
+                WWA(239555) = GBUF%RHO(I) / RHO0  - ONE
+              ELSE
+                WWA(239555) = ZERO
+              ENDIF
 c
               DO L=IADV,IADV+NVAR-1
                 K=ITHBUF(L)
@@ -561,7 +574,7 @@ c
 c --------------          
          ENDIF  ! mte /= 13 
         ENDIF  
-      ENDDO ! groupe
+      ENDDO ! next group
 !   -----------------------------
             ENDIF
  666    continue    

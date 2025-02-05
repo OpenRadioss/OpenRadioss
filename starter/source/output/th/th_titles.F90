@@ -40,7 +40,7 @@
       !||====================================================================
         subroutine th_titles(nvarn1        ,nvarn1a       ,nvarn2           ,nvarnpinch        ,nvars1           ,&
           nvars2        ,nvars3        ,nvars4           ,nvars5            ,nvars6          ,&
-          nvars7        ,nvars8        ,nvars9           ,nvarsnloc         ,&
+          nvars7        ,nvars8        ,nvars9           ,nvars10           ,nvarsnloc         ,&
           nvarp         ,nvarr         ,nvart            ,nvarns            ,nvarsph          ,&
           nvarin        ,nvarrw        ,nvarrb           ,nvarmv            ,nvarse           ,&
           nvarac        ,nvarjo        ,nvarmvent        ,nvarpa            ,nvarfx           ,&
@@ -50,7 +50,7 @@
           varnpinch_title,varp_title   ,varr_title       ,vart_title        ,&
           vars1_title   ,vars2_title   ,vars3_title      ,vars4_title       ,vars5_title      ,&
           vars6_title   ,vars7_title   ,vars8_title      ,vars9_title       ,varsnloc_title   ,&
-          varc_title    ,&
+          varc_title    ,vars10_title  ,&
           varns_title   ,varsph_title  ,varin_title      ,&
           varrw_title   ,varrb_title   ,varmv_title      ,varse_title       ,varac_title      ,&
           varjo_title   ,varmvent_title,varpa_title      ,varfx_title       ,vargau_title     ,&
@@ -82,6 +82,7 @@
           integer,                                   intent(in) :: nvars7
           integer,                                   intent(in) :: nvars8
           integer,                                   intent(in) :: nvars9
+          integer,                                   intent(in) :: nvars10
           integer,                                   intent(in) :: nvarsnloc
           integer,                                   intent(in) :: nvarp
           integer,                                   intent(in) :: nvarr
@@ -124,6 +125,7 @@
           character(len=100),                        intent(out) :: vars7_title(nvars7)
           character(len=100),                        intent(out) :: vars8_title(nvars8)
           character(len=100),                        intent(out) :: vars9_title(nvars9)
+          character(len=100),                        intent(out) :: vars10_title(nvars10)
           character(len=100),                        intent(out) :: varsnloc_title(nvarsnloc)
           character(len=100),                        intent(out) :: varc_title(nvarc)
           character(len=100),                        intent(out) :: varns_title(nvarns)
@@ -2006,6 +2008,10 @@
             'SPEED OF SOUND',&
             'MACH NUMBER',&
             'YIELD SCALE FACTOR FROM FAILURE SURFACE'/)
+
+          vars10_title = (/&
+            character(len=100) ::&
+            'VOLUMETRIC STRAIN' /)
 
           varsnloc_title = (/&
             character(len=100) ::&

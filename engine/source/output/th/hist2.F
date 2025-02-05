@@ -828,7 +828,7 @@ C-------------------------------------------------------
         CALL THQUAD(ELBUF_TAB,NTHGRP2  ,ITHGRP    ,
      1              IPARG    ,ITHBUF   ,WA_QUAD(ID_HIST)%WA_REAL      ,
      2              IPM      ,IXQ      ,IXTG      ,X       ,MULTI_FVM ,
-     3              V        ,W        ,GLOB_THERM%ITHERM  ,
+     3              V        ,W        ,GLOB_THERM%ITHERM  ,PM        ,
      .              NUMELQ   ,NUMMAT   ,NUMNOD    ,SITHBUF   ,NUMELTG)
         !   send WA_QUAD to PROC0
         IF(NSPMD>1) THEN
@@ -928,8 +928,8 @@ C-------------------------------------------------------
         !   end of NSTRAND treatment
         !   ----------------------------------
 !   -------------------------------------
-       NRWA=NRWALL
-          DO N=1,NTHGRP2
+        NRWA=NRWALL
+        DO N=1,NTHGRP2
           ITYP=ITHGRP(2,N)
           NN  =ITHGRP(4,N)
           IAD =ITHGRP(5,N)
