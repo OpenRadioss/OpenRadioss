@@ -86,6 +86,8 @@ C=======================================================================
       FCY_OLD= ZERO
       HEAT_CONV_L = ZERO
       S1 = NUMNOD
+      T_INF = ZERO
+!
       IF(IPARIT==0) THEN
         ITSK = OMP_GET_THREAD_NUM()
 
@@ -119,7 +121,6 @@ C
          FCY   = FCONV(1,NL)
          FCX   = FCONV(2,NL)
          H     = FCONV(3,NL)
-         T_INF = ZERO
 C----------------------
 C       CONVECTION FLUX
 C----------------------
@@ -230,7 +231,6 @@ C---------------------
             FCY    = FCONV(1,NL)
             FCX    = FCONV(2,NL)
             H      = FCONV(3,NL)
-            T_INF  = ZERO
             IF(IFUNC_OLD /= IFUNC .OR. TS_OLD /= TS) THEN
               ISMOOTH = 0
               IF (IFUNC > 0) ISMOOTH = NPC(2*NFUNCT+IFUNC+1)
