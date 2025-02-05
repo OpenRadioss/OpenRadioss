@@ -446,9 +446,8 @@ C          impose une vitesse sortante uniquement.
          ENDIF
       ENDDO
 C-------------------------------------------
-#include "atomic.inc"
+!$OMP ATOMIC
        WFEXT=WFEXT+WFEXTT
-#include "atomend.inc"
 C-------------------------------------------
       IF(NSPMD>1)THEN
           DEALLOCATE(SPH_WORK%ASPHR,DSPHR)

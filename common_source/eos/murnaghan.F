@@ -117,9 +117,8 @@ C----------------------------------------
          PNEW(I) = PNEW(I)-PSH(I)
        ENDDO
        
-#include "atomic.inc"
+!$OMP ATOMIC
        WFEXT = WFEXT + WFEXTT
-#include "atomend.inc"
 C
 C------------------------
 C     COMPUTE TEMPERATURE

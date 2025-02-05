@@ -342,9 +342,8 @@ C       EINT(I)=EINT(I)-0.5*(pres+pold)*DELTVOL(I) done in mulaw.
         TEMP(I) = tmp !temperature
       enddo
 c
-#include "atomic.inc"
+!$OMP ATOMIC
       WFEXT=WFEXT+WFEXTT
-#include "atomend.inc"
 C-----------------------------------------------
       RETURN
       END

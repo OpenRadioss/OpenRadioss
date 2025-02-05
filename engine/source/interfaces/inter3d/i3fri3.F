@@ -218,12 +218,10 @@ C
  300  CONTINUE
 C
 C
-#include "atomic.inc"
+!$OMP ATOMIC
         ECONTV = ECONTV + ECONVT ! Frictional contact energy
-#include "atomend.inc"
-#include "atomic.inc"
+!$OMP ATOMIC
         FSAV(27) = FSAV(27) + ECONVT
-#include "atomend.inc"
 C---------------------------------
 C     SAUVEGARDE DE L'IMPULSION TOTALE
 C---------------------------------
@@ -721,12 +719,10 @@ C
  300  CONTINUE
 C
       IF (INCONV==1) THEN
-#include "atomic.inc"
+!$OMP ATOMIC
         ECONTV = ECONTV + ECONVT ! Frictional contact energy
-#include "atomend.inc"
-#include "atomic.inc"
+!$OMP ATOMIC
         FSAV(27) = FSAV(27) + ECONVT
-#include "atomend.inc"
 C---------------------------------
 C     TOTAL IMPULSE BACKUP
 C---------------------------------

@@ -174,9 +174,8 @@ C
         WFEXTT = WFEXTT + DT1*HALF*(A0+AA)*VV*AXI
       ENDDO
 C
-#include "atomic.inc"
+!$OMP ATOMIC
       WFEXT = WFEXT + WFEXTT
-#include "atomend.inc"
 C
       RETURN
       END

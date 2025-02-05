@@ -510,7 +510,7 @@ C
       IF(IMCONV == 1)THEN
           TFXT=TFXT+HALF*DT1*TFXTN
           TFXT2=TFXT2+HALF*DT1*TFXTN2
-#include "atomic.inc"
+!$OMP ATOMIC
           WFEXT=WFEXT+TFXT
           WFEXT_MD=WFEXT_MD+TFXT2
 C
@@ -579,7 +579,7 @@ C--------c'est fait avant-------
            N=NSW(I)
            IF (NDOF(N) > 0) THEN
 C to be uncommented the day it is parallel in implicit
-#include "atomic.inc"
+!$OMP ATOMIC
              NT_RW = NT_RW + 1
            END IF
           ENDDO

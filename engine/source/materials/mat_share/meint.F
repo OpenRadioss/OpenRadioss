@@ -80,9 +80,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      DTA =HALF*DT1
-C
-      IF(ALE%GLOBAL%INCOMP==1 .AND. JLAG==0)THEN
+      DTA = HALF*DT1
+
+      IF(ALE%GLOBAL%INCOMP == 1 .AND. JLAG == 0)THEN
         DO I=1,NEL
           POLD(I)=(SOLD1(I)+SOLD2(I)+SOLD3(I))*THIRD
           EINT(I)=EINT(I)+(HALF*DVOL(I)*(POLD(I)-PSH(I)))*OFF(I)
@@ -91,24 +91,22 @@ C
         ENDDO
         RETURN
       ENDIF
-C
+
       DO I=1,NEL
-       POLD(I)=(SOLD1(I)+SOLD2(I)+SOLD3(I)) * THIRD
-       SOLD1(I)=SOLD1(I)-POLD(I)
-       SOLD2(I)=SOLD2(I)-POLD(I)
-       SOLD3(I)=SOLD3(I)-POLD(I)
-C
-       E1=D1(I)*(SOLD1(I)+SNEW(I,1))
-       E2=D2(I)*(SOLD2(I)+SNEW(I,2))
-       E3=D3(I)*(SOLD3(I)+SNEW(I,3))
-       E4=D4(I)*(SOLD4(I)+SNEW(I,4))
-       E5=D5(I)*(SOLD5(I)+SNEW(I,5))
-       E6=D6(I)*(SOLD6(I)+SNEW(I,6))
-C
-       EINC(I) = VOL_AVG(I) * (E1+E2+E3+E4+E5+E6) * DTA
+        POLD(I)=(SOLD1(I)+SOLD2(I)+SOLD3(I)) * THIRD
+        SOLD1(I)=SOLD1(I)-POLD(I)
+        SOLD2(I)=SOLD2(I)-POLD(I)
+        SOLD3(I)=SOLD3(I)-POLD(I)
+        E1=D1(I)*(SOLD1(I)+SNEW(I,1))
+        E2=D2(I)*(SOLD2(I)+SNEW(I,2))
+        E3=D3(I)*(SOLD3(I)+SNEW(I,3))
+        E4=D4(I)*(SOLD4(I)+SNEW(I,4))
+        E5=D5(I)*(SOLD5(I)+SNEW(I,5))
+        E6=D6(I)*(SOLD6(I)+SNEW(I,6))
+        EINC(I) = VOL_AVG(I) * (E1+E2+E3+E4+E5+E6) * DTA
       ENDDO
-C
-      IF(JTUR==0 .OR. JPOR==2)THEN
+
+      IF(JTUR == 0 .OR. JPOR == 2)THEN
        DO I=1,NEL
          EINT(I)=EINT(I)+(EINC(I)+HALF*DVOL(I)*(POLD(I)-PSH(I)-QOLD(I)-QNEW(I)))*OFF(I)
        ENDDO
@@ -122,19 +120,18 @@ C
         QOLD(I)=QNEW(I)
         ESPE(I)=EINT(I)*DF(I) / MAX(EM15,VNEW(I))
       ENDDO
-C      
+
       !NO NEED TO UPDATE PRESSURE CALLING EOSMAIN SUBROUTINE FOR THESE TWO MATERIAL LAWS SINCE PRESSURE IS NOT ENERGY DEPENDANT.
-      IF(MLN==21)THEN
+      IF(MLN == 21)THEN
         WFEXTT = ZERO
         DO I=1,NEL
           EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))  
           WFEXTT=WFEXTT-DVOL(I)*PSH(I)                                
         ENDDO
-#include "atomic.inc"
+!$OMP ATOMIC
         WFEXT = WFEXT + WFEXTT
-#include "atomend.inc"
-        
-      ENDIF      
-C
+      ENDIF
+
+C-----------------------------------------------
       RETURN
       END

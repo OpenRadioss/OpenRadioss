@@ -170,9 +170,8 @@ C-----------------------------------------------
            WFEXTT  = WFEXTT-DVOL(I)*PSH(I)
            PNEW(I) = PNEW(I)-PSH(I)
          ENDDO       
-#include "atomic.inc"
+!$OMP ATOMIC
        WFEXT = WFEXT + WFEXTT
-#include "atomend.inc"
 
 C-----------------------------------------------
        ELSEIF (IFLAG == 2) THEN

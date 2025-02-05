@@ -374,9 +374,8 @@ C
             ENDIF
           ENDDO
         ENDIF
-#include "atomic.inc"
+!$OMP ATOMIC
           EHOUR = EHOUR + EHOURT
-#include "atomend.inc"
       ENDIF
 C
 #include "vectorize.inc"

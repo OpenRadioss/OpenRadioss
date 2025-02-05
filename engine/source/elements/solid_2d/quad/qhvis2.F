@@ -216,9 +216,8 @@ C-----------------------------------------------
           MX = IPARTQ(I)
           PARTSAV(8,MX)=PARTSAV(8,MX) + EHOU(I)
         ENDDO
-#include "atomic.inc"
+!$OMP ATOMIC
         EHOUR = EHOUR + EHOURT
-#include "atomend.inc"
       ENDIF !JLAG
 
       ! OUTPUT (ANIM & H3D)

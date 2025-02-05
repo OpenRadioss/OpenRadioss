@@ -640,14 +640,13 @@ C---------------------------------
         GOTO 100
       END IF
 C---------------------------------
-C     Travail des forces d'interface avec Madymo.
+C     Working force at interface (Madymo)
 C---------------------------------
       FS(7)=FS(7)+DE*DT1*HALF
       IF (IGRSURF(KSURF)%TYPE==100) THEN
-C     Sorties Ellipdoides Madymo.
-#include "atomic.inc"
+C     Madymo Ellipsoids.
+!$OMP ATOMIC
           WFEXT=WFEXT+DE*DT1*HALF
-#include "atomend.inc"
       ENDIF
 C------------------------------------------------------------
       RETURN

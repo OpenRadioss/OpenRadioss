@@ -165,9 +165,8 @@ C=======================================================================
         CALL MY_BARRIER
         !---------------!
       END DO
-#include "atomic.inc"
+!$OMP ATOMIC
       WFEXT = WFEXT + WFEXTT
-#include "atomend.inc"
 
       RETURN
       END
