@@ -168,9 +168,8 @@ C-----------------------------------------------
 
        WFEXTT = ZERO
 
-#include "atomic.inc"
+!$OMP ATOMIC
        WFEXT = WFEXT + WFEXTT
-#include "atomend.inc"
 
 
 

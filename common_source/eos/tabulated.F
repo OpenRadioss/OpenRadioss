@@ -165,9 +165,8 @@ C-----------------------------------------------
            EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I) )
            WFEXTT  = WFEXTT-DVOL(I)*PSH(I)
          ENDDO       
-#include "atomic.inc"
-       WFEXT = WFEXT + WFEXTT
-#include "atomend.inc"
+!$OMP ATOMIC
+         WFEXT = WFEXT + WFEXTT
          MX     = MAT(1)
          RHO0   = PM(1 ,MX)
          SPH    = PM(69,MX)

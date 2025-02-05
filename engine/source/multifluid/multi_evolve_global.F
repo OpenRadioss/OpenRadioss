@@ -190,9 +190,8 @@ C     QUADS
       ENDDO
 
 C-------------------------------------------
-#include "atomic.inc"
+!$OMP ATOMIC
        WFEXT=WFEXT+WFEXTT
-#include "atomend.inc"
 C-------------------------------------------
 
 C-----------------------------------------------

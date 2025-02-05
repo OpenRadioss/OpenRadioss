@@ -285,7 +285,7 @@ C
       IF(IMCONV==1)THEN
         WFXT=WFXT+HALF*DT1*WFXTN
         WFXT2=WFXT2+HALF*DT1*WFXTN2
-#include "atomic.inc"
+!$OMP ATOMIC
         WFEXT=WFEXT+WFXT
         WFEXT_MD=WFEXT_MD+WFXT2
         DO K = 1, 6
@@ -324,7 +324,7 @@ C
            N=NSW(I)
            IF (NDOF(N)>0) THEN
 C to be uncommented the day it is parallel in implicit
-#include "atomic.inc"
+!$OMP ATOMIC
              NT_RW = NT_RW + 1
            END IF
         ENDDO

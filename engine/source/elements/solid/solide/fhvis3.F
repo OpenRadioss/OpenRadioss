@@ -392,9 +392,8 @@ c              ENDDO
 c            ENDIF
 c          ENDDO
 c        ENDIF
-c#include "atomic.inc"
+C !$OMP ATOMIC
 c          EHOUR = EHOUR + EHOURT
-c#include "atomend.inc"
 c      ENDIF
 cC
 c       IF((ANIM_E(25)==1).OR.(OUTP_CS(25)==1))THEN

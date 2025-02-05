@@ -98,9 +98,8 @@ C-----------------------------------------------
         REINTT=REINTT + EINT(I)
       ENDDO
 C
-#include "atomic.inc"
+!$OMP ATOMIC
         REINT = REINT + REINTT
-#include "atomend.inc"
 C
       DO I=1,NEL
         X1(I)=X(1,NC1(I))

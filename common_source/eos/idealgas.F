@@ -109,9 +109,8 @@ C-----------------------------------------------
            WFEXTT      = WFEXTT-DVOL(I)*PSH(I)
            PNEW(I)     = PNEW(I)-PSH(I)
          ENDDO       
-#include "atomic.inc"
+!$OMP ATOMIC
        WFEXT = WFEXT + WFEXTT
-#include "atomend.inc"
          MX     = MAT(1)
          RHO0   = PM(1 ,MX)
          SPH    = PM(69,MX)

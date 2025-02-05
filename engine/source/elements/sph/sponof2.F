@@ -810,9 +810,8 @@ c 2) treatment of remote neighbours only
      .      CALL SPMD_SPHGETVOIS_OFF(OFF_SPH, TAG_SPH,
      .                                 KXSP, IXSP)
 C-------------------------------------------
-#include "atomic.inc"
+!$OMP ATOMIC
        WFEXT=WFEXT+WFEXTT
-#include "atomend.inc"
 C-------------------------------------------
         DEALLOCATE(OFF_SPH,TAG_SPH)
 

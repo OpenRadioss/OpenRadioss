@@ -510,9 +510,8 @@ C
                                                                                         
         ENDDO !nextNL
 
-#include "atomic.inc"
+!$OMP ATOMIC
               WFEXT = WFEXT + WFEXTT
-#include "atomend.inc"
 
 
 
@@ -916,9 +915,8 @@ C
 !$OMP END DO           
          ENDDO!next NL
 
-#include "atomic.inc"
+!$OMP ATOMIC
                 WFEXT = WFEXT + WFEXTT
-#include "atomend.inc"
 
          ELSE
          
@@ -1299,9 +1297,8 @@ C
 !$OMP END DO           
          ENDDO!next NL
 C
-#include "atomic.inc"
+!$OMP ATOMIC
                 WFEXT = WFEXT + WFEXTT
-#include "atomend.inc"
          ENDIF ! IF(IVECTOR == 0)
 
 

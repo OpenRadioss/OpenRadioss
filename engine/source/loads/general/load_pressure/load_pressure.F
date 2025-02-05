@@ -453,9 +453,8 @@ C
 C
        ENDDO
 C
-#include "atomic.inc"
+!$OMP ATOMIC
        WFEXT = WFEXT + WFEXTT
-#include "atomend.inc"
 C
       ELSE
 C-------------------------
@@ -830,9 +829,8 @@ C
 C
        ENDDO
 C
-#include "atomic.inc"
+!$OMP ATOMIC
         WFEXT = WFEXT + WFEXTT
-#include "atomend.inc"
 C
       ENDIF
       RETURN

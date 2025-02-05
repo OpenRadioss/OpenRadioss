@@ -69,9 +69,8 @@ C-----------------------------------------------
         REINTT=REINTT + EINT(I)
       ENDDO
 C
-#include "atomic.inc"
+!$OMP ATOMIC
         REINT = REINT + REINTT
-#include "atomend.inc"
 C
       DO I=JFT,JLT
         XMAS2=UMAS(I)*HALF

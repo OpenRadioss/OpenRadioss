@@ -986,9 +986,8 @@ C
           IPRT=IPARTSP(N)
           PARTSAV(8,IPRT)=PARTSAV(8,IPRT)-KV
         ENDDO
-#include "atomic.inc"
+!$OMP ATOMIC
         EHOUR=EHOUR+EHOURT
-#include "atomend.inc"
       ENDIF
 C
       IF(NSPMD>1 .AND. ITASK==0.AND.ALLOCATED(SPH_WORK%ASPHR)) DEALLOCATE(SPH_WORK%ASPHR)

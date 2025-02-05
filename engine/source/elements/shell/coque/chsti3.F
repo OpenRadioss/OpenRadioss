@@ -306,9 +306,8 @@ C
          PARTSAV(8,MX)=PARTSAV(8,MX) + EHOU(I)
       ENDDO
 C
-#include "atomic.inc"
+!$OMP ATOMIC
         EHOUR = EHOUR + EHOURT
-#include "atomend.inc"
 C
       DO I=JFT,JLT
         EANI(NFT+NUMELS+I) = EANI(NFT+NUMELS+I)+EHOU(I)

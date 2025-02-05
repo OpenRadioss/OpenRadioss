@@ -136,9 +136,8 @@ C-----------------------------------------------
            PNEW(I) = MAX(PNEW(I),-GAMMA*PSTAR)*OFF(I)         
            WFEXTT  = WFEXTT-DVOL(I)*PSH(I)
          ENDDO
-#include "atomic.inc"
+!$OMP ATOMIC
        WFEXT = WFEXT + WFEXTT
-#include "atomend.inc"
          DO I=1,NEL
            IF(OFF(I)<ONE.OR.SPH<=ZERO) CYCLE
            UNPMU   =  ONE+MU(I)

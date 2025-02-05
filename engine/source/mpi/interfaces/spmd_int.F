@@ -181,7 +181,7 @@ c        indice des voxels occupes par la facette
              DO IX = IX1, IX2
                TMP=IBSET(TMP,IX)
              END DO
-#include "atomic.inc"
+!$OMP ATOMIC
              CRVOXEL(IY,IZ,LOC_PROC)=IOR(CRVOXEL(IY,IZ,LOC_PROC),TMP)
            END DO
          END DO
@@ -4364,7 +4364,7 @@ c        indice des voxels occupes par la facette
              DO IX = IX1, IX2
                TMP=IBSET(TMP,IX)
              END DO
-#include "atomic.inc"
+!$OMP ATOMIC
              CRVOXEL(IY,IZ,LOC_PROC)=IOR(CRVOXEL(IY,IZ,LOC_PROC),TMP)
            END DO
          END DO
