@@ -2011,7 +2011,7 @@
             &de1      ,de2      ,de3      ,de4      ,de5      ,de6      ,&
             &so1      ,so2      ,so3      ,so4      ,so5      ,so6      ,&
             &s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,&
-            &epsd     ,lbuf%dmg ,ssp      ,off      ,inloc    ,&
+            &epsd     ,lbuf%dmg ,ssp      ,off      ,inloc    ,          &
             &varnl    ,l_planl  ,lbuf%planl)
 !
           elseif (mtn == 127) then 
