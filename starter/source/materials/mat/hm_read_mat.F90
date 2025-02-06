@@ -1164,9 +1164,8 @@
           case ('LAW126','JOHNSON_HOLMQUIST_CONCRETE')
             ilaw = 126
             call hm_read_mat126(&
-            &nuvar    ,mtag     ,matparam ,npropm   ,iout     ,&
-            &parmat   ,unitab   ,pm(1,i)  ,lsubmodel,israte   ,&
-            &mat_id   ,titr     )
+            &nuvar    ,mtag     ,matparam ,iout     ,parmat   ,&
+            &unitab   ,lsubmodel,israte   ,mat_id   ,titr     )
 !-------
           case ('LAW127','ENHANCED_COMPOSITE')
             ilaw = 127
