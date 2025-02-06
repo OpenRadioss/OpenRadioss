@@ -554,7 +554,7 @@ C SSP
               IF(NUMELTG > 0)THEN
                 RHO0 = PM(01,IXTG(1,1+NFT))
               ELSE
-                RHO0 = PM(01,IXQ(1,11+NFT))
+                RHO0 = PM(01,IXQ(1,1+NFT))
               ENDIF
               IF(RHO0 > ZERO)THEN
                 WWA(239555) = GBUF%RHO(I) / RHO0  - ONE
