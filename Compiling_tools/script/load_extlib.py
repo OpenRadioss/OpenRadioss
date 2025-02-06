@@ -14,6 +14,7 @@ if __name__ == "__main__":
    need_library_file=source_root+"/EXTLIB_VERSION.json"
    extlib_directory=source_root+"/extlib"
    have_library_file=extlib_directory+"/EXTLIB_VERSION.json"
+   old_tracked_file=extlib_directory+"/license/hm_reader_license.txt"
 
    # Load needed library JSON file
    with open(need_library_file, "r") as file:
@@ -30,9 +31,21 @@ if __name__ == "__main__":
         got_extlib=True
         new_download=False
    except:
-        print("Need to download version"+version+" of libraries")
+        print("Need to download version {"+version+"} of libraries\n")
         got_extlib=False
         new_download=True
+
+   # Try to find one file of the library which was previously tracked by git.
+   if got_extlib:
+       try:
+          with open(old_tracked_file, "r") as file:
+             got_extlib=True
+             new_download=False
+             file.close()
+       except IOError as e:
+             print("Missing libraries detected: \nNeed to download version {"+version+"} of libraries\n")
+             got_extlib=False
+             new_download=True
 
    # Control need & have version of libraries
    if got_extlib:
@@ -42,7 +55,7 @@ if __name__ == "__main__":
             print("    Already have needed version of libraries\n")
             new_download=False
         else:
-            print("Need to download version {version} of libraries")
+            print("Need to download version "+version+" of libraries")
             print("--- Delete current extlib directory")
             shutil.rmtree(extlib_directory)
             new_download=True
@@ -68,7 +81,8 @@ if __name__ == "__main__":
        with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
            try:
               zip_ref.extractall(extract_to_directory)
-              print("    Unzipped '{zip_file_path}'")
+              message="    Unzipped '{"+zip_file_path+"}'"
+              print(message)
            except:
               print("\nUnzip failed")
               print("Please retry")
