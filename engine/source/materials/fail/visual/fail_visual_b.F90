@@ -23,8 +23,7 @@
       !||====================================================================
       !||    fail_visual_b_mod   ../engine/source/materials/fail/visual/fail_visual_b.F90
       !||--- called by ------------------------------------------------------
-      !||    fail_beam3      ../engine/source/elements/beam/fail_beam3.f
-      !||--- calls      ----------------------------------------------------
+      !||    fail_beam3          ../engine/source/elements/beam/fail_beam3.F
       !||====================================================================
     module fail_visual_b_mod
     contains
@@ -35,12 +34,15 @@
 ! \        the damage output.
 ! ======================================================================================================================
       !||====================================================================
-      !||    fail_visual_b_mod   ../engine/source/materials/fail/visual/fail_visual_b.F90
+      !||    fail_visual_b   ../engine/source/materials/fail/visual/fail_visual_b.F90
       !||--- called by ------------------------------------------------------
-      !||    fail_beam3      ../engine/source/elements/beam/fail_beam3.f
+      !||    fail_beam3      ../engine/source/elements/beam/fail_beam3.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter          ../engine/source/tools/curve/finter.F
+      !||    nvar            ../engine/source/input/nvar.F
       !||--- uses       -----------------------------------------------------
-      !||    constant_mod       ../common_source/modules/constant_mod.F
-      !||====================================================================  
+      !||    constant_mod    ../common_source/modules/constant_mod.F
+      !||====================================================================
       subroutine fail_visual_b(                               &
                  nel      ,ngl      ,nuparam  ,uparam   ,     &
                  time     ,dfmax    ,                         &

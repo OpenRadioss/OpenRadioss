@@ -422,6 +422,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    aleflow_mod                                  ../engine/share/modules/aleflow_mod.F
       !||    alefvm_mod                                   ../common_source/modules/ale/alefvm_mod.F
       !||    alemuscl_mod                                 ../common_source/modules/ale/alemuscl_mod.F
+      !||    ams_work_mod                                 ../engine/source/modules/ams_work_mod.F90
       !||    anim_mod                                     ../common_source/modules/output/anim_mod.F
       !||    array_mod                                    ../common_source/modules/array_mod.F
       !||    bcs_mod                                      ../common_source/modules/boundary_conditions/bcs_mod.F90

@@ -66,6 +66,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    fail_beam3                ../engine/source/elements/beam/fail_beam3.F
       !||    fail_energy_b             ../engine/source/materials/fail/energy/fail_energy_b.F
       !||    fail_energy_ib            ../engine/source/materials/fail/energy/fail_energy_ib.F
+      !||    fail_visual_b             ../engine/source/materials/fail/visual/fail_visual_b.F90
+      !||    fail_visual_ib            ../engine/source/materials/fail/visual/fail_visual_ib.F90
       !||    fralnk                    ../engine/source/input/fralnk.F
       !||    fralnk2                   ../engine/source/input/fralnk.F
       !||    freanim                   ../engine/source/output/anim/reader/freanim.F

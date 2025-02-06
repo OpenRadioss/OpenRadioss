@@ -22,9 +22,12 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !! \brief  Type for AMS working directory
       !||====================================================================
-      !||    file_descriptor_mod   ../engine/source/modules/file_descriptor_mod.F90
+      !||    ams_work_mod       ../engine/source/modules/ams_work_mod.F90
       !||--- called by ------------------------------------------------------
-      !||    mulawc                ../engine/source/materials/mat_share/mulawc.F90
+      !||    resol              ../engine/source/engine/resol.F
+      !||    sms_check          ../engine/source/ams/sms_fsa_inv.F
+      !||    sms_mass_scale_2   ../engine/source/ams/sms_mass_scale_2.F
+      !||    sms_pcg            ../engine/source/ams/sms_pcg.F
       !||====================================================================
         module ams_work_mod
             implicit none

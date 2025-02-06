@@ -25,8 +25,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    sms_pcg          ../engine/source/ams/sms_pcg.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg           ../engine/source/output/message/message.F
-      !||    arret            ../engine/source/system/arret.F
       !||    floatmin         ../common_source/tools/math/precision.c
       !||    my_barrier       ../engine/source/system/machine.F
       !||    sms_fsa_invh     ../engine/source/ams/sms_fsa_inv.F
@@ -38,8 +36,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    startime         ../engine/source/system/timer_mod.F90
       !||    stoptime         ../engine/source/system/timer_mod.F90
       !||--- uses       -----------------------------------------------------
+      !||    ams_work_mod     ../engine/source/modules/ams_work_mod.F90
       !||    message_mod      ../engine/share/message_module/message_mod.F
-      !||    mod_sms_fsa      ../engine/source/ams/sms_fsa_inv.F
+      !||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
       !||    timer_mod        ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE SMS_CHECK(TIMERS,NODFT ,NODLT ,IADK  ,JDIK  ,DIAG_K ,  

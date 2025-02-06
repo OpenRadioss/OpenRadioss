@@ -158,6 +158,7 @@
       !||    setrbyon                           ../starter/source/constraints/general/rbody/hm_read_rbody.F
       !||    sgrhead                            ../starter/source/elements/solid/solide/sgrhead.F
       !||    sgrtails                           ../starter/source/elements/solid/solide/sgrtails.F
+      !||    sms_check                          ../engine/source/ams/sms_fsa_inv.F
       !||    solid_surface_buffer               ../starter/source/model/sets/solid_surface_buffer.F
       !||    spgrhead                           ../starter/source/elements/sph/spgrhead.F
       !||    spgrtails                          ../starter/source/elements/sph/spgrtails.F

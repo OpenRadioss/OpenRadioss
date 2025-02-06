@@ -20,13 +20,12 @@
 !copyright>        as an alternative to this open-source version, altair also offers altair radioss
 !copyright>        software under a commercial license.  contact altair to discuss further if the
 !copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    fail_visual_b_mod   ../engine/source/materials/fail/visual/fail_visual_b.F90
-      !||--- called by ------------------------------------------------------
-      !||    fail_beam3      ../engine/source/elements/beam/fail_beam18.f
-      !||--- calls      ----------------------------------------------------
-      !||====================================================================
 
+      !||====================================================================
+      !||    fail_visual_ib_mod   ../engine/source/materials/fail/visual/fail_visual_ib.F90
+      !||--- called by ------------------------------------------------------
+      !||    fail_beam18          ../engine/source/elements/beam/fail_beam18.F
+      !||====================================================================
     module fail_visual_ib_mod
     contains
 ! ======================================================================================================================
@@ -36,12 +35,15 @@
 ! \        the damage output.
 ! ======================================================================================================================
       !||====================================================================
-      !||    fail_visual_b_mod   ../engine/source/materials/fail/visual/fail_visual_b.F90
+      !||    fail_visual_ib   ../engine/source/materials/fail/visual/fail_visual_ib.F90
       !||--- called by ------------------------------------------------------
-      !||    fail_beam18      ../engine/source/elements/beam/fail_beam3.f
+      !||    fail_beam18      ../engine/source/elements/beam/fail_beam18.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter           ../engine/source/tools/curve/finter.F
+      !||    nvar             ../engine/source/input/nvar.F
       !||--- uses       -----------------------------------------------------
-      !||    constant_mod       ../common_source/modules/constant_mod.F
-      !||====================================================================  
+      !||    constant_mod     ../common_source/modules/constant_mod.F
+      !||====================================================================
       subroutine fail_visual_ib(                              &
                  nel      ,ngl      ,nuparam  ,uparam   ,     &
                  time     ,dfmax    ,                         &

@@ -73,6 +73,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    fail_tensstrain_c            ../engine/source/materials/fail/tensstrain/fail_tensstrain_c.F
       !||    fail_tensstrain_ib           ../engine/source/materials/fail/tensstrain/fail_tensstrain_ib.F
       !||    fail_tensstrain_s            ../engine/source/materials/fail/tensstrain/fail_tensstrain_s.F
+      !||    fail_visual_b                ../engine/source/materials/fail/visual/fail_visual_b.F90
+      !||    fail_visual_ib               ../engine/source/materials/fail/visual/fail_visual_ib.F90
       !||    fixflux                      ../engine/source/constraints/thermic/fixflux.F
       !||    force                        ../engine/source/loads/general/force.F90
       !||    forcefingeo                  ../engine/source/loads/general/forcefingeo.F

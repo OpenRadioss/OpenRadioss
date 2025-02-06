@@ -255,7 +255,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sigeps75                     ../engine/source/materials/mat/mat075/sigeps75.F
       !||    smallgeo3                    ../engine/source/elements/solid/solide/smallgeo3.F
       !||    sms_build_mat_2              ../engine/source/ams/sms_build_mat_2.F
-      !||    sms_check                    ../engine/source/ams/sms_fsa_inv.F
       !||    sms_encin_2                  ../engine/source/ams/sms_encin_2.F
       !||    sms_fsa_invh                 ../engine/source/ams/sms_fsa_inv.F
       !||    sms_ini_err                  ../engine/source/ams/sms_init.F
