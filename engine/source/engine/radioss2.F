@@ -391,6 +391,8 @@ C                                   IF RELEASE WAS BUILT FROM SOURCE
       ABOUT = 0
 
       !External Foce Work
+      OUTPUT%WFEXT = 0.0D0
+      OUTPUT%WFEXT_MD = 0.0D0
       WFEXT => OUTPUT%WFEXT
       WFEXT_MD => OUTPUT%WFEXT_MD
 
