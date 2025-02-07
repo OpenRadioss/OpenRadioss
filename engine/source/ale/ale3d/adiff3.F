@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
       !||====================================================================
-      SUBROUTINE ADIFF3(PHIN,PHI,GRAD,COEF,ALE_CONNECT,VOL)
+      SUBROUTINE ADIFF3(PHIN,PHI,GRAD,COEF,ALE_CONNECT,VOL,RHO,TEMP,CV,NEL)
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -45,6 +45,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER,INTENT(IN) :: NEL
+      my_real,INTENT(INOUT) :: RHO(NEL), TEMP(NEL), CV
       my_real PHIN(*), PHI(*), GRAD(6,*), COEF(*), VOL(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
@@ -56,11 +58,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IE, IV1, IV2, IV3, IV4, IV5, IV6, IAD2  
-      my_real DPHI(MVSIZ)      
+      my_real DPHI(MVSIZ)
+      my_real :: MCV !< mass * Heat Capacity at constant volume
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         IE =NFT+I
         IAD2 = ALE_CONNECT%ee_connect%iad_connect(IE)
         IV1 = ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
@@ -84,13 +87,20 @@ C-----------------------------------------------
      B         + (COEF(IE)*COEF(IV6))*(PHI(IV6)-PHI(IE))*GRAD(6,I) / MAX(EM20,(COEF(IE)+COEF(IV6)))
       ENDDO!next I
 C-----------------------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         DPHI(I)=TWO*DPHI(I)*DT1/MAX(VOL(I),EM20)
       ENDDO
 C-----------------------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         PHIN(I)=PHIN(I)+DPHI(I)
       ENDDO
+C-----------------------------------------------------------
+      IF(CV > ZERO)THEN
+        DO I=1,NEL
+          MCV = RHO(I)*VOL(I)*CV
+          TEMP(I) = TEMP(I) + DPHI(I)/MCV
+        ENDDO
+      ENDIF
 C-----------------------------------------------------------
       RETURN
       END

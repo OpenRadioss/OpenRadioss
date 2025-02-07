@@ -144,7 +144,7 @@ C-----------------------------------------------
               RKV(I) = GBUF%RK(IS+1)
               REV(I) = GBUF%RE(IS+1)
             ENDIF
-            IF (JTHE>0) TV(I) = GBUF%TEMP(IS+1)
+            IF (GBUF%G_TEMP > 0) TV(I) = GBUF%TEMP(IS+1)
             !MOMENTUM
             IF(ALEFVM_Param%IEnabled==1)THEN
             !USE INPUT VALUE, NOT THIS!
