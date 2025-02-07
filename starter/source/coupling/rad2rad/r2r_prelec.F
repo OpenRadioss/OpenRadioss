@@ -129,9 +129,10 @@ C-----------------------------------------------
         INTEGER ID_RLINK,NUL50(50),ID_RBE3,ID_RBE2,ID_JOIN
         INTEGER NU(4),NS(4),JREC,ID_MPC,ISUR,ISURS,ID_MON,FLG
         INTEGER COMPT2,IGR9_TEMP,IGR8_TEMP,IGR2_TEMP,ID,ID_PART,IDS
-        INTEGER SPTFL,BID(LNOPT1),IUD,IGRPP_R2R(2,NGRNOD),FLAG_T24
+        INTEGER SPTFL,BID(LNOPT1),IUD,IGRPP_R2R(2,NGRNOD),FLAG_T24T25
         INTEGER SUB_ID,IDTITL,IDINT,GR_BRIC,NUMC
         INTEGER NTRANS,NNODE_TRANSFORM,NODE_TRANSFORM(6)
+        INTEGER GRNOD_T24T25
         my_real F,NUL_M
         CHARACTER MESS*40,TSENS*40
         CHARACTER(LEN=NCHARTITLE) :: TITR
@@ -776,14 +777,29 @@ C
           FLG = 0
           IF (KEY(6:6)=='/') FLG = 1
           IF ((LEN_TRIM(KEY))==5) FLG = 1
+c
+          GRNOD_T24T25 = 0
+          FLAG_T24T25 = 0
+          IF ((KEY(1:6)=='TYPE24').OR.(KEY(1:6)=='TYPE25')) THEN
+            FLAG_T24T25 = 1
+            CALL HM_GET_INTV('secondaryentityids',GRS,IS_AVAILABLE,LSUBMODEL)
+            CALL HM_GET_INTV('GRNOD_ID',GRNOD_T24T25,IS_AVAILABLE,LSUBMODEL)
+C           if grs and grnod are defined grnod is ignored            
+            IF ((GRS > 0).AND.(GRNOD_T24T25 > 0)) GRNOD_T24T25 = 0         
+          ENDIF
 C
 C ---------> case nodes/surfaces---------------------------------------
           IF (((KEY(1:5)=='TYPE2').AND.(FLG==1)).OR.
      .         (KEY(1:5)=='TYPE7').OR.(KEY(1:5)=='TYPE5').OR.(KEY(1:5)=='TYPE8').OR.
-     .         (KEY(1:6)=='TYPE10').OR.(KEY(1:6)=='TYPE14') ) THEN
+     .         (KEY(1:6)=='TYPE10').OR.(KEY(1:6)=='TYPE14').OR.
+     .         ((KEY(1:6)=='TYPE24').AND.(GRNOD_T24T25 > 0)).OR.
+     .         ((KEY(1:6)=='TYPE25').AND.(GRNOD_T24T25 > 0))) THEN
             CONT = 1
             CALL HM_GET_INTV('secondaryentityids',GRS,IS_AVAILABLE,LSUBMODEL)
             CALL HM_GET_INTV('mainentityids',GRM,IS_AVAILABLE,LSUBMODEL)
+C            
+C--         TYPE24 and TYPE25 with slave side defined by grnod         
+            IF (FLAG_T24T25 == 1) GRS = GRNOD_T24T25
 C
 C--> type2 interfaces with penality are treated like type7  <------C
             IF ((KEY(1:5)=='TYPE2').AND.(FLG==1)) THEN
@@ -794,9 +810,9 @@ C--> type2 interfaces with penality are treated like type7  <------C
               ENDIF
             ENDIF
 
-C--> check if the contact is between domains and if it's asymmetric  <------C
+C--> check if the contact is between domains and if it is asymmetric  <------C
             CALL TAGINT_R2R(G1,G2,GRS,GRM,ID_INTER,
-     .               TYPE2,VAL,TAG,I,COMPT,PASSE,0,IGRPP_R2R,
+     .                      TYPE2,VAL,TAG,I,COMPT,PASSE,0,IGRPP_R2R,
      .                      IGRNOD ,IGRSURF ,IGRSLIN, IGRBRIC)
 
 C--> for type 2 contact type5 r2r coupling is used to prevent null mass on nodes
@@ -831,15 +847,15 @@ C ---------> case of TYPE18 contact interface-----------------------------------
             CALL HM_GET_INTV('tempsecondaryentityids',GRS,IS_AVAILABLE,LSUBMODEL)
             CALL HM_GET_INTV('mainentityids',GRM,IS_AVAILABLE,LSUBMODEL)
 
-C--> check if the contact is between domains and if it's asymmetric  <------C
+C--> check if the contact is between domains and if it is asymmetric  <------C
             IF (GRS > 0) THEN
               CALL TAGINT_R2R(G1,G2,GRS,GRM,ID_INTER,
-     .               TYPE2,VAL,TAG,I,COMPT,PASSE,0,IGRPP_R2R,
-     .                      IGRNOD ,IGRSURF ,IGRSLIN, IGRBRIC)
+     .                        TYPE2,VAL,TAG,I,COMPT,PASSE,0,IGRPP_R2R,
+     .                        IGRNOD ,IGRSURF ,IGRSLIN, IGRBRIC)
             ELSEIF (GR_BRIC > 0) THEN
               CALL TAGINT_R2R(G1,G2,GR_BRIC,GRM,ID_INTER,
-     .               TYPE2,VAL,TAG,I,COMPT,PASSE,3,IGRPP_R2R,
-     .                      IGRNOD ,IGRSURF ,IGRSLIN, IGRBRIC)
+     .                        TYPE2,VAL,TAG,I,COMPT,PASSE,3,IGRPP_R2R,
+     .                        IGRNOD ,IGRSURF ,IGRSLIN, IGRBRIC)
             ENDIF
 C-->
             IF (TAG>0) THEN
@@ -873,9 +889,9 @@ C
             WARN = 0
             CALL HM_GET_INTV('secondaryentityids',GRS,IS_AVAILABLE,LSUBMODEL)
             CALL HM_GET_INTV('mainentityids',GRM,IS_AVAILABLE,LSUBMODEL)
-C--> check if the contact is between domains and if it's asymmetric  <------C
+C--> check if the contact is between domains and if it is asymmetric  <------C
             CALL TAGINT_R2R(G1,G2,GRS,GRM,ID_INTER,
-     .               TYPE2,VAL,TAG,I,COMPT,PASSE,2,IGRPP_R2R,
+     .                      TYPE2,VAL,TAG,I,COMPT,PASSE,2,IGRPP_R2R,
      .                      IGRNOD ,IGRSURF ,IGRSLIN, IGRBRIC)
             IF (TAG>0) THEN
               COMPT_T2 = COMPT_T2 + 1
@@ -902,18 +918,12 @@ C--> pretag of elts of line2 to keep them with void material <---C
      .              KEY(1:6)=='TYPE23'.OR.KEY(1:6)=='TYPE20'.OR.KEY(1:6)=='TYPE15'.OR.
      .              KEY(1:6)=='TYPE25'.OR.((KEY(1:5)=='TYPE3').AND.(FLG==1))) THEN
             CONT = 1
-            FLAG_T24 = 0
-            IF ((KEY(1:6)=='TYPE24').OR.(KEY(1:6)=='TYPE25')) THEN
-              FLAG_T24 = 1
-            ELSE
-              FLAG_T24 = 0
-            ENDIF
             CALL HM_GET_INTV('secondaryentityids',GRS,IS_AVAILABLE,LSUBMODEL)
             CALL HM_GET_INTV('mainentityids',GRM,IS_AVAILABLE,LSUBMODEL)
-            IF ((FLAG_T24 == 1).AND.(GRM==0)) GRM = GRS
-C--> check if the contact is between domains and if it's asymmetric  <------C
+            IF ((FLAG_T24T25 == 1).AND.(GRM==0)) GRM = GRS
+C--> check if the contact is between domains and if it is asymmetric  <------C
             CALL TAGINT_R2R(G1,G2,GRS,GRM,ID_INTER,
-     .               TYPE2,VAL,TAG,I,COMPT,PASSE,1,IGRPP_R2R,
+     .                      TYPE2,VAL,TAG,I,COMPT,PASSE,1,IGRPP_R2R,
      .                      IGRNOD ,IGRSURF ,IGRSLIN, IGRBRIC)
             IF (TAG>0) THEN
               COMPT_T2 = COMPT_T2 + 1
