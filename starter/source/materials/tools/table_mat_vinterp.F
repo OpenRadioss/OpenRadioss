@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    table_mat_vinterp_mod   ../starter/source/materials/tools/table_mat_vinterp.F
       !||--- called by ------------------------------------------------------
+      !||    law87_upd               ../starter/source/materials/mat/mat087/law87_upd.F90
       !||    sigeps70                ../starter/source/materials/mat/mat070/sigeps70.F
       !||====================================================================
       MODULE TABLE_MAT_VINTERP_MOD
@@ -30,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    table_mat_vinterp   ../starter/source/materials/tools/table_mat_vinterp.F
       !||--- called by ------------------------------------------------------
+      !||    law87_upd           ../starter/source/materials/mat/mat087/law87_upd.F90
       !||    sigeps70            ../starter/source/materials/mat/mat070/sigeps70.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================

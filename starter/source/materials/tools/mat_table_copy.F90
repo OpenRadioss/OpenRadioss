@@ -26,6 +26,7 @@
       !||    mat_table_copy_mod   ../starter/source/materials/tools/mat_table_copy.F90
       !||--- called by ------------------------------------------------------
       !||    hm_read_mat128       ../starter/source/materials/mat/mat128/hm_read_mat128.F90
+      !||    hm_read_mat87        ../starter/source/materials/mat/mat087/hm_read_mat87.F90
       !||====================================================================
        module mat_table_copy_mod
        contains
@@ -39,6 +40,7 @@
       !||    mat_table_copy     ../starter/source/materials/tools/mat_table_copy.F90
       !||--- called by ------------------------------------------------------
       !||    hm_read_mat128     ../starter/source/materials/mat/mat128/hm_read_mat128.F90
+      !||    hm_read_mat87      ../starter/source/materials/mat/mat087/hm_read_mat87.F90
       !||--- calls      -----------------------------------------------------
       !||    mattab_usr2sys     ../starter/source/materials/tools/mattab_usr2sys.F
       !||--- uses       -----------------------------------------------------

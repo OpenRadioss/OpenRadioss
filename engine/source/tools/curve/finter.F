@@ -107,8 +107,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    load_pressure                ../engine/source/loads/general/load_pressure/load_pressure.F
       !||    m11law                       ../engine/source/materials/mat/mat011/m11law.F
       !||    m21law                       ../engine/source/materials/mat/mat021/m21law.F
-      !||    mat87c_tabulated_plas_sr     ../engine/source/materials/mat/mat087/mat87c_tabulated_plas_sr.F
-      !||    mat87c_tabulated_totalsr     ../engine/source/materials/mat/mat087/mat87c_tabulated_totalsr.F
       !||    mmain                        ../engine/source/materials/mat_share/mmain.F90
       !||    pfluid                       ../engine/source/loads/general/pfluid/pfluid.F
       !||    pforc3                       ../engine/source/elements/beam/pforc3.F

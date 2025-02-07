@@ -27,6 +27,7 @@
       !||--- called by ------------------------------------------------------
       !||    hm_read_mat50         ../starter/source/materials/mat/mat050/hm_read_mat50.F90
       !||    hm_read_mat57         ../starter/source/materials/mat/mat057/hm_read_mat57.F90
+      !||    hm_read_mat87         ../starter/source/materials/mat/mat087/hm_read_mat87.F90
       !||====================================================================
        module func_table_copy_mod
        contains
@@ -39,6 +40,7 @@
       !||--- called by ------------------------------------------------------
       !||    hm_read_mat50          ../starter/source/materials/mat/mat050/hm_read_mat50.F90
       !||    hm_read_mat57          ../starter/source/materials/mat/mat057/hm_read_mat57.F90
+      !||    hm_read_mat87          ../starter/source/materials/mat/mat087/hm_read_mat87.F90
       !||--- calls      -----------------------------------------------------
       !||    mattab_usr2sys         ../starter/source/materials/tools/mattab_usr2sys.F
       !||    table_values_2d        ../starter/source/materials/tools/table_values_2d.F

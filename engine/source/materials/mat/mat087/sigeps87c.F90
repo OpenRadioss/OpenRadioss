@@ -36,15 +36,17 @@
       !||--- called by ------------------------------------------------------
       !||    mulawc                            ../engine/source/materials/mat_share/mulawc.F90
       !||--- calls      -----------------------------------------------------
-      !||    mat87c_hansel                     ../engine/source/materials/mat/mat087/mat87c_hansel.F
-      !||    mat87c_swift_voce                 ../engine/source/materials/mat/mat087/mat87c_swift_voce.F
+      !||    mat87c_hansel                     ../engine/source/materials/mat/mat087/mat87c_hansel.F90
+      !||    mat87c_swift_voce                 ../engine/source/materials/mat/mat087/mat87c_swift_voce.F90
+      !||    mat87c_tabulated                  ../engine/source/materials/mat/mat087/mat87c_tabulated.F90
       !||    mat87c_tabulated_3dir_ortho       ../engine/source/materials/mat/mat087/mat87c_tabulated_3dir_ortho.F90
-      !||    mat87c_tabulated_plas_sr          ../engine/source/materials/mat/mat087/mat87c_tabulated_plas_sr.F
-      !||    mat87c_tabulated_totalsr          ../engine/source/materials/mat/mat087/mat87c_tabulated_totalsr.F
       !||--- uses       -----------------------------------------------------
       !||    constant_mod                      ../common_source/modules/constant_mod.F
       !||    interface_table_mod               ../engine/share/modules/table_mod.F
+      !||    mat87c_hansel_mod                 ../engine/source/materials/mat/mat087/mat87c_hansel.F90
+      !||    mat87c_swift_voce_mod             ../engine/source/materials/mat/mat087/mat87c_swift_voce.F90
       !||    mat87c_tabulated_3dir_ortho_mod   ../engine/source/materials/mat/mat087/mat87c_tabulated_3dir_ortho.F90
+      !||    mat87c_tabulated_mod              ../engine/source/materials/mat/mat087/mat87c_tabulated.F90
       !||    matparam_def_mod                  ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||    table_mod                         ../engine/share/modules/table_mod.F
       !||====================================================================

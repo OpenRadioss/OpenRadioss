@@ -43,8 +43,10 @@
       !||    invert                   ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
       !||    prodmatvect              ../starter/source/materials/mat/mat087/law87_upd.F90
       !||    r_yld2000                ../starter/source/materials/mat/mat087/law87_upd.F90
+      !||    table_mat_vinterp        ../starter/source/materials/tools/table_mat_vinterp.F
       !||--- uses       -----------------------------------------------------
       !||    message_mod              ../starter/share/message_module/message_mod.F
+      !||    table_mat_vinterp_mod    ../starter/source/materials/tools/table_mat_vinterp.F
       !||    table_mod                ../starter/share/modules1/table_mod.F
       !||====================================================================
       subroutine law87_upd(                                                    &

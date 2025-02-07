@@ -232,11 +232,10 @@
       !||    mat25_crasurv_s                     ../engine/source/materials/mat/mat025/mat25_crasurv_s.F90
       !||    mat25_tsaiwu_c                      ../engine/source/materials/mat/mat025/mat25_tsaiwu_c.F90
       !||    mat25_tsaiwu_s                      ../engine/source/materials/mat/mat025/mat25_tsaiwu_s.F90
-      !||    mat87c_hansel                       ../engine/source/materials/mat/mat087/mat87c_hansel.F
-      !||    mat87c_swift_voce                   ../engine/source/materials/mat/mat087/mat87c_swift_voce.F
+      !||    mat87c_hansel                       ../engine/source/materials/mat/mat087/mat87c_hansel.F90
+      !||    mat87c_swift_voce                   ../engine/source/materials/mat/mat087/mat87c_swift_voce.F90
+      !||    mat87c_tabulated                    ../engine/source/materials/mat/mat087/mat87c_tabulated.F90
       !||    mat87c_tabulated_3dir_ortho         ../engine/source/materials/mat/mat087/mat87c_tabulated_3dir_ortho.F90
-      !||    mat87c_tabulated_plas_sr            ../engine/source/materials/mat/mat087/mat87c_tabulated_plas_sr.F
-      !||    mat87c_tabulated_totalsr            ../engine/source/materials/mat/mat087/mat87c_tabulated_totalsr.F
       !||    mat_elem_mod                        ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    mat_table_copy                      ../starter/source/materials/tools/mat_table_copy.F90
       !||    mmodul                              ../engine/source/elements/solid/solidez/mmodul.F

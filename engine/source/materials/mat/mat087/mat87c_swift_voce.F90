@@ -20,8 +20,21 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    mat87c_swift_voce_mod   ../engine/source/materials/mat/mat087/mat87c_swift_voce.F90
+      !||--- called by ------------------------------------------------------
+      !||    sigeps87c               ../engine/source/materials/mat/mat087/sigeps87c.F90
+      !||====================================================================
       module mat87c_swift_voce_mod
       contains
+      !||====================================================================
+      !||    mat87c_swift_voce   ../engine/source/materials/mat/mat087/mat87c_swift_voce.F90
+      !||--- called by ------------------------------------------------------
+      !||    sigeps87c           ../engine/source/materials/mat/mat087/sigeps87c.F90
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod        ../common_source/modules/constant_mod.F
+      !||    matparam_def_mod    ../common_source/modules/mat_elem/matparam_def_mod.F90
+      !||====================================================================
       subroutine mat87c_swift_voce(                                            &
         nel    ,matparam,timestep,                                             &
         rho0   ,thkly   ,thk     ,epsp    ,                                    &
