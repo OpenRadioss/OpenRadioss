@@ -83,10 +83,9 @@ C-----------------------------------------------
       REAL,DIMENSION(:),ALLOCATABLE :: WA
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF
-      my_real, ALLOCATABLE, DIMENSION(:,:) :: EVAR
+      my_real :: EVAR(6,MVSIZ)
 C=======================================================================
       CALL MY_ALLOC(WA,6*NBF)
-      CALL MY_ALLOC(EVAR,6,NUMNOD)
       DO J=1,18
         R4(J) = ZERO
       ENDDO         
@@ -149,7 +148,6 @@ C-----------------------------------------------
             ENDDO
             CYCLE !next NG
           END IF  
-
           EVAR(1:6,LFT:LLT)=ZERO
           IF (ITENS == 1) THEN
 C-----------------------------------------------
@@ -3390,7 +3388,6 @@ C-----------------------------------------------
  600  CONTINUE
 C-----------
       DEALLOCATE(WA)
-      DEALLOCATE(EVAR)
       RETURN
       END SUBROUTINE TENSORS
       !||====================================================================
