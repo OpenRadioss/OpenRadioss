@@ -29,9 +29,18 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
       !||====================================================================
-      SUBROUTINE ADIFF3(PHIN,PHI,GRAD,ALPHA,ALE_CONNECT,VOL)
+      SUBROUTINE ADIFF3(PHIN,PHI,GRAD,COEF,ALE_CONNECT,VOL,TEMP,RHOCP,NEL)
 C-----------------------------------------------
-C   S o u r c e   L i n e s
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C Solving Heat equation
+C    alpha = k/rhocp is thermal diffusivity
+c    coeff is k (factor simplification since originally only EINT/V was updated)
+c       PHIN is EINT/V : updated at the end of the subroutine
+C       TEMP : updated at the end of the subroutine.
+C              Since temperature is calculated incrementally, both energy and temperature must be consistently updated.
+C-----------------------------------------------
+C   M o d u l e s
 C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
@@ -45,11 +54,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real,INTENT(INOUT) :: PHIN(*) !< Eint/V [n+1]
-      my_real,INTENT(IN) :: PHI(*)     !< backup T[n]
-      my_real,INTENT(IN)   :: GRAD(6,*)  !< gradient
-      my_real,INTENT(IN) :: ALPHA(*)   !< thermal diffusivity k/rhocp
-      my_real,INTENT(IN) :: VOL(*)     !< element volume
+      INTEGER,INTENT(IN) :: NEL
+      my_real,INTENT(INOUT) :: TEMP(NEL)
+      my_real,INTENT(INOUT) :: PHIN(NEL) ! EINT/V
+      my_real,INTENT(IN) :: RHOCP
+      my_real,INTENT(IN) :: PHI(NEL), GRAD(6,NEL), VOL(NEL)
+      my_real,INTENT(IN) :: COEF(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -61,12 +71,11 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IE, IV1, IV2, IV3, IV4, IV5, IV6, IAD2  
       my_real DPHI(MVSIZ)
-      my_real AA(0:6)     !< thermal diffusivity (updated from ALPHA for ghost cells)
-      my_real AA_FACE(6)
+      my_real :: COEFF(0:6) ! k = alpha * rhocp
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         IE =NFT+I
         IAD2 = ALE_CONNECT%ee_connect%iad_connect(IE)
         IV1 = ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
@@ -83,48 +92,44 @@ C-----------------------------------------------
         IF(IV4 <= 0)IV4=IE
         IF(IV5 <= 0)IV5=IE
         IF(IV6 <= 0)IV6=IE
+        COEFF(0) = COEF(IE)
+        COEFF(1) = COEF(IV1)
+        COEFF(2) = COEF(IV2)
+        COEFF(3) = COEF(IV3)
+        COEFF(4) = COEF(IV4)
+        COEFF(5) = COEF(IV5)
+        COEFF(6) = COEF(IV6)
+        IF(COEFF(1) == ZERO) COEFF(1)=COEFF(0)
+        IF(COEFF(2) == ZERO) COEFF(2)=COEFF(0)
+        IF(COEFF(3) == ZERO) COEFF(3)=COEFF(0)
+        IF(COEFF(4) == ZERO) COEFF(4)=COEFF(0)
+        IF(COEFF(5) == ZERO) COEFF(5)=COEFF(0)
+        IF(COEFF(6) == ZERO) COEFF(6)=COEFF(0)
 
-        !thermal diffusivity ( *rho0cp)
-        AA(0) = ALPHA(IE)
-        AA(1) = ALPHA(IV1)
-        AA(2) = ALPHA(IV2)
-        AA(3) = ALPHA(IV3)
-        AA(4) = ALPHA(IV4)
-        AA(5) = ALPHA(IV5)
-        AA(6) = ALPHA(IV6)
-        !ghost cells
-        IF(AA(1) == ZERO) AA(1)=AA(0)
-        IF(AA(2) == ZERO) AA(2)=AA(0)
-        IF(AA(3) == ZERO) AA(3)=AA(0)
-        IF(AA(4) == ZERO) AA(4)=AA(0)
-        IF(AA(5) == ZERO) AA(5)=AA(0)
-        IF(AA(6) == ZERO) AA(6)=AA(0)
-        !harmonic interpolation
-        AA_FACE(1) = TWO*(AA(0)*AA(1)) / MAX(EM20,(AA(0)+AA(1)))
-        AA_FACE(2) = TWO*(AA(0)*AA(2)) / MAX(EM20,(AA(0)+AA(2)))
-        AA_FACE(3) = TWO*(AA(0)*AA(3)) / MAX(EM20,(AA(0)+AA(3)))
-        AA_FACE(4) = TWO*(AA(0)*AA(4)) / MAX(EM20,(AA(0)+AA(4)))
-        AA_FACE(5) = TWO*(AA(0)*AA(5)) / MAX(EM20,(AA(0)+AA(5)))
-        AA_FACE(6) = TWO*(AA(0)*AA(6)) / MAX(EM20,(AA(0)+AA(6)))
-C-----------------------------------------------------------
-        ! time evolution
-        DPHI(I) = AA_FACE(1) * (PHI(IV1)-PHI(IE))*GRAD(1,I)
-     2          + AA_FACE(2) * (PHI(IV2)-PHI(IE))*GRAD(2,I)
-     3          + AA_FACE(3) * (PHI(IV3)-PHI(IE))*GRAD(3,I)
-     4          + AA_FACE(4) * (PHI(IV4)-PHI(IE))*GRAD(4,I)
-     5          + AA_FACE(5) * (PHI(IV5)-PHI(IE))*GRAD(5,I)
-     6          + AA_FACE(6) * (PHI(IV6)-PHI(IE))*GRAD(6,I)
+       DPHI(I) =
+     1           (COEFF(0)*COEFF(1))*(PHI(IV1)-PHI(IE))*GRAD(1,I) / MAX(EM20,(COEFF(0)+COEFF(1)))
+     2         + (COEFF(0)*COEFF(2))*(PHI(IV2)-PHI(IE))*GRAD(2,I) / MAX(EM20,(COEFF(0)+COEFF(2)))
+     3         + (COEFF(0)*COEFF(3))*(PHI(IV3)-PHI(IE))*GRAD(3,I) / MAX(EM20,(COEFF(0)+COEFF(3)))
+     4         + (COEFF(0)*COEFF(4))*(PHI(IV4)-PHI(IE))*GRAD(4,I) / MAX(EM20,(COEFF(0)+COEFF(4)))
+     5         + (COEFF(0)*COEFF(5))*(PHI(IV5)-PHI(IE))*GRAD(5,I) / MAX(EM20,(COEFF(0)+COEFF(5)))
+     6         + (COEFF(0)*COEFF(6))*(PHI(IV6)-PHI(IE))*GRAD(6,I) / MAX(EM20,(COEFF(0)+COEFF(6)))
       ENDDO!next I
 C-----------------------------------------------------------
-      ! %EINT is here Eint / V (J/m3)
-      ! => DPHI = is finally m.cp.dT = dT *rhoCp   (ALPHA is k instead k/rhocp )
-      DO I=LFT,LLT
-        DPHI(I) = DPHI(I)*DT1/MAX(VOL(I),EM20)
+      DO I=1,NEL
+          DPHI(I)=TWO*DPHI(I)*DT1/MAX(VOL(I),EM20)
       ENDDO
 C-----------------------------------------------------------
-      DO I=LFT,LLT
-        PHIN(I) = PHIN(I)+DPHI(I)
+      ! Eint/V update
+      DO I=1,NEL
+        PHIN(I)=PHIN(I)+DPHI(I)
       ENDDO
+C-----------------------------------------------------------
+      ! temperature update
+      IF(RHOCP > ZERO)THEN
+        DO I=1,NEL
+          TEMP(I) = TEMP(I) + DPHI(I)/RHOCP
+        ENDDO
+      ENDIF
 C-----------------------------------------------------------
       RETURN
       END
