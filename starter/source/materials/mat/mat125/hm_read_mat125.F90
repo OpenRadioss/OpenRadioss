@@ -753,7 +753,7 @@
  2000 format(                                                                   &
        5x,' fiber (dir. 1) strain rate dependency  :                 ',/        &
        5x,'---------------------------                               ',/        &
-       7x,'curve id defining em11t  . . . .  . . . . . . . . . . . . =',i10     &
+       7x,'curve id defining em11t  . . . .  . . . . . . . . . . . . =',i10/    &
        7x,'curve id defining longitudinal tensile strength xt . . .  =',i10/    &
        7x,'curve id defining em11c  . . . .  . . . . . . . . . . . . =',i10/    &
        7x,'curve id defining longitudinal compresssive strength xc . =',i10/  )

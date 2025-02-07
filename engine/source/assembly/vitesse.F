@@ -71,7 +71,7 @@ C-----------------------------------------------
           A(2,I)=FZERO(2,I)
           A(3,I)=FZERO(3,I)
         ENDDO
-!$OMP END DO NO WAIT
+!$OMP END DO NOWAIT
       ENDIF
 
       IF(IRODDL /= 0) THEN
@@ -84,7 +84,7 @@ C-----------------------------------------------
           AR(2,N)=ZERO
           AR(3,N)=ZERO      
         ENDDO
-!$OMP END DO  NO WAIT
+!$OMP END DO  NOWAIT
       ENDIF
 
       !------------------------------------------------------------!

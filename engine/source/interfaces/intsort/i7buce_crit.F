@@ -102,7 +102,7 @@ C
 
           ENDIF
         END DO
-!$OMP END DO NO WAIT
+!$OMP END DO NOWAIT
 
 !$OMP DO SCHEDULE(guided)
         DO I=1,NMN
@@ -124,7 +124,7 @@ C
             VMSR(6)=MIN(VMSR(6),V(3,J))
           ENDIF
         END DO
-!$OMP END DO NO WAIT
+!$OMP END DO NOWAIT
       ELSE
 C
 !$OMP DO SCHEDULE(guided)
@@ -148,7 +148,7 @@ C
 
           ENDIF
         END DO
-!$OMP END DO NO WAIT
+!$OMP END DO NOWAIT
 
 !$OMP DO SCHEDULE(guided)
         DO I=1,NMN
@@ -169,7 +169,7 @@ C
             VMSR(6)=MIN(VMSR(6),V(3,J))
           ENDIF
         ENDDO
-!$OMP END DO NO WAIT
+!$OMP END DO NOWAIT
       ENDIF       
 C dist calcule une fois pour toutes les interfaces dans COMCRIT (ci-dessous)
 C
@@ -178,7 +178,7 @@ C
         DO I=1,NSN
           STFN(I)=MAX(STFN(I),ZERO)
         ENDDO
-!$OMP END DO NO WAIT
+!$OMP END DO NOWAIT
       ENDIF
 C
 !$OMP CRITICAL (I7BUCE_CRIT_REDUCTION)
