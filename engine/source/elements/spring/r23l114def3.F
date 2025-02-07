@@ -206,6 +206,7 @@ C
        INDEX1(I) = I
        IADBUF= IPM(7,MID(I)) - 1
        EPLA(I)=ZERO
+       DFX(I)=ZERO
        XM(I)=MASS(I)
 C
        XK(I)=UPARAM(IADBUF + I11 + 1)
