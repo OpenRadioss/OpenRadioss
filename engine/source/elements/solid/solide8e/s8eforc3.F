@@ -1913,10 +1913,8 @@ C----------------------------
      3                GBUF%SIG ,GBUF%RHO ,CXX        ,OFFG    ,       
      4                GBUF%OFF ,LL       ,VOLN       ,FLD     ,       
      5                CNS2     ,FQMAX    )
-C        get actual configuration from x(3,*) for small strain option
-!      xj now is the current config in global sys 
-         IF (ISMSTR == 1.OR.ISMSTR >= 11) 
-     .   CALL S8GET_X3(      ! velocity need to be in global sys if hourglass is calculated incrementally
+!      x,v sould be in global sys 
+        CALL S8GET_X3(      ! velocity need to be in global sys if hourglass is calculated incrementally
      .   NC1,      NC2,      NC3,      NC4,
      .   NC5,      NC6,      NC7,      NC8,
      .    X1,       X2,       X3,       X4,      

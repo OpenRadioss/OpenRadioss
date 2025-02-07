@@ -57,6 +57,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+        USE SFOR_NSN2SEG_MOD, ONLY : SFOR_4N2S4
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -166,7 +167,7 @@ C---- element center
          PENREF(1:NEL) = GAP_MAX*LL(1:NEL)
          MARGE(1:NEL) = TWO*GAP_MAX*LL(1:NEL)
 C---- seg 1 : 2,1,4, 3 normal towards outside like tetra
-         CALL SFOR_N2S4(   XC,      YC,     ZC,   STIF,     
+         CALL SFOR_N2S4(   XC,     YC,     ZC,   STIF,     
      .                     X2,     X1,     X4,     X3,
      .                     Y2,     Y1,     Y4,     Y3,
      .                     Z2,     Z1,     Z4,     Z3,
@@ -180,7 +181,7 @@ C---- seg 1 : 2,1,4, 3 normal towards outside like tetra
      .                    DT1)
          NCTL = NCTL + IFCTL
 C---- seg 2 : 1,2,6,5
-         CALL SFOR_N2S4(   XC,      YC,     ZC,   STIF,     
+         CALL SFOR_N2S4(  XC,      YC,     ZC,   STIF,     
      .                    X1,      X2,     X6,     X5,
      .                    Y1,      Y2,     Y6,     Y5,
      .                    Z1,      Z2,     Z6,     Z5,
@@ -208,7 +209,7 @@ C---- seg 3 : 2,3,7,6
      .                    DT1)
          NCTL = NCTL + IFCTL
 C---- seg 4 : 1,5,8,4
-         CALL SFOR_N2S4(   XC,      YC,     ZC,   STIF,     
+         CALL SFOR_N2S4(  XC,      YC,     ZC,   STIF,     
      .                    X1,      X5,     X8,     X4,
      .                    Y1,      Y5,     Y8,     Y4,
      .                    Z1,      Z5,     Z8,     Z4,
@@ -249,6 +250,121 @@ C---- seg 6 : 5,6,7,8
      .                  STI_C,   NEL ,    VC ,E_DISTOR,
      .                    DT1)
          NCTL = NCTL + IFCTL
+! add corner nodes as 2nd to self-contact
+!---- 5,8,7,6  to seg 1 : 1,4, 3 2,
+         CALL SFOR_4N2S4(                                     
+     .                      X5,      X8,     X7,     X6,    
+     .                      Y5,      Y8,     Y7,     Y6,    
+     .                      Z5,      Z8,     Z7,     Z6,    
+     .                     VX5,     VX8,    VX7,    VX6,    
+     .                     VY5,     VY8,    VY7,    VY6,    
+     .                     VZ5,     VZ8,    VZ7,    VZ6,    
+     .                  FOR_T5,  FOR_T8, FOR_T7, FOR_T6,    
+     .                      X1,      X4,     X3,     X2,    
+     .                      Y1,      Y4,     Y3,     Y2,    
+     .                      Z1,      Z4,     Z3,     Z2,    
+     .                     VX1,     VX4,    VX3,    VX2,    
+     .                     VY1,     VY4,    VY3,    VY2,    
+     .                     VZ1,     VZ4,    VZ3,    VZ2,    
+     .                  FOR_T1,  FOR_T4, FOR_T3, FOR_T2,    
+     .                    STIF,     LL ,   NCTL,  IFC1 ,     
+     .                   PENMIN, PENREF,  MARGE,  FQMAX,
+     .                   STI_C,E_DISTOR,    DT1,   NEL )
+!---- 4,3,7,8 to seg 2 : 1,2,6,5
+         CALL SFOR_4N2S4(                                     
+     .                      X4,      X3,     X7,     X8,    
+     .                      Y4,      Y3,     Y7,     Y8,    
+     .                      Z4,      Z3,     Z7,     Z8,    
+     .                     VX4,     VX3,    VX7,    VX8,    
+     .                     VY4,     VY3,    VY7,    VY8,    
+     .                     VZ4,     VZ3,    VZ7,    VZ8,    
+     .                  FOR_T4,  FOR_T3, FOR_T7, FOR_T8,    
+     .                      X1,      X2,     X6,     X5,    
+     .                      Y1,      Y2,     Y6,     Y5,    
+     .                      Z1,      Z2,     Z6,     Z5,    
+     .                     VX1,     VX2,    VX6,    VX5,    
+     .                     VY1,     VY2,    VY6,    VY5,    
+     .                     VZ1,     VZ2,    VZ6,    VZ5,    
+     .                  FOR_T1,  FOR_T2, FOR_T6, FOR_T5,    
+     .                    STIF,     LL ,  NCTL,  IFC1 ,     
+     .                   PENMIN, PENREF,  MARGE,  FQMAX,    
+     .                   STI_C,E_DISTOR,    DT1,   NEL )
+!---- 1,4,8,5 to seg 3 : 2,3,7,6
+         CALL SFOR_4N2S4(                                     
+     .                      X1,      X4,     X8,     X5,    
+     .                      Y1,      Y4,     Y8,     Y5,    
+     .                      Z1,      Z4,     Z8,     Z5,    
+     .                     VX1,     VX4,    VX8,    VX5,    
+     .                     VY1,     VY4,    VY8,    VY5,    
+     .                     VZ1,     VZ4,    VZ8,    VZ5,    
+     .                  FOR_T1,  FOR_T4, FOR_T8, FOR_T5,    
+     .                      X2,      X3,     X7,     X6,    
+     .                      Y2,      Y3,     Y7,     Y6,    
+     .                      Z2,      Z3,     Z7,     Z6,    
+     .                     VX2,     VX3,    VX7,    VX6,    
+     .                     VY2,     VY3,    VY7,    VY6,    
+     .                     VZ2,     VZ3,    VZ7,    VZ6,    
+     .                  FOR_T2,  FOR_T3, FOR_T7, FOR_T6,    
+     .                    STIF,     LL ,  NCTL,  IFC1 ,     
+     .                   PENMIN, PENREF,  MARGE,  FQMAX,    
+     .                   STI_C,E_DISTOR,    DT1,   NEL )
+!---- 2,6,7,3 to seg 4 : 1,5,8,4
+         CALL SFOR_4N2S4(                                     
+     .                      X2,      X6,     X7,     X3,    
+     .                      Y2,      Y6,     Y7,     Y3,    
+     .                      Z2,      Z6,     Z7,     Z3,    
+     .                     VX2,     VX6,    VX7,    VX3,    
+     .                     VY2,     VY6,    VY7,    VY3,    
+     .                     VZ2,     VZ6,    VZ7,    VZ3,    
+     .                  FOR_T2,  FOR_T6, FOR_T7, FOR_T3,    
+     .                      X1,      X5,     X8,     X4,    
+     .                      Y1,      Y5,     Y8,     Y4,    
+     .                      Z1,      Z5,     Z8,     Z4,    
+     .                     VX1,     VX5,    VX8,    VX4,    
+     .                     VY1,     VY5,    VY8,    VY4,    
+     .                     VZ1,     VZ5,    VZ8,    VZ4,    
+     .                  FOR_T1,  FOR_T5, FOR_T8, FOR_T4,    
+     .                    STIF,     LL ,  NCTL,  IFC1 ,     
+     .                   PENMIN, PENREF,  MARGE,  FQMAX,    
+     .                   STI_C,E_DISTOR,    DT1,   NEL )
+!---- 1,5,6,2 to seg 5 : 4,8,7,3
+         CALL SFOR_4N2S4(                                     
+     .                      X1,      X5,     X6,     X2,    
+     .                      Y1,      Y5,     Y6,     Y2,    
+     .                      Z1,      Z5,     Z6,     Z2,    
+     .                     VX1,     VX5,    VX6,    VX2,    
+     .                     VY1,     VY5,    VY6,    VY2,    
+     .                     VZ1,     VZ5,    VZ6,    VZ2,    
+     .                  FOR_T1,  FOR_T5, FOR_T6, FOR_T2,    
+     .                      X4,      X8,     X7,     X3,    
+     .                      Y4,      Y8,     Y7,     Y3,    
+     .                      Z4,      Z8,     Z7,     Z3,    
+     .                     VX4,     VX8,    VX7,    VX3,    
+     .                     VY4,     VY8,    VY7,    VY3,    
+     .                     VZ4,     VZ8,    VZ7,    VZ3,    
+     .                  FOR_T4,  FOR_T8, FOR_T7, FOR_T3,    
+     .                    STIF,     LL ,  NCTL,  IFC1 ,     
+     .                   PENMIN, PENREF,  MARGE,  FQMAX,    
+     .                   STI_C,E_DISTOR,    DT1,   NEL )
+!---- 1,2,3,4 to seg 6 : 5,6,7,8
+         CALL SFOR_4N2S4(                                     
+     .                      X1,      X2,     X3,     X4,    
+     .                      Y1,      Y2,     Y3,     Y4,    
+     .                      Z1,      Z2,     Z3,     Z4,    
+     .                     VX1,     VX2,    VX3,    VX4,    
+     .                     VY1,     VY2,    VY3,    VY4,    
+     .                     VZ1,     VZ2,    VZ3,    VZ4,    
+     .                  FOR_T1,  FOR_T2, FOR_T3, FOR_T4,    
+     .                      X5,      X6,     X7,     X8,    
+     .                      Y5,      Y6,     Y7,     Y8,    
+     .                      Z5,      Z6,     Z7,     Z8,    
+     .                     VX5,     VX6,    VX7,    VX8,    
+     .                     VY5,     VY6,    VY7,    VY8,    
+     .                     VZ5,     VZ6,    VZ7,    VZ8,    
+     .                  FOR_T5,  FOR_T6, FOR_T7, FOR_T8,    
+     .                    STIF,     LL ,  NCTL,  IFC1 ,     
+     .                   PENMIN, PENREF,  MARGE,  FQMAX,    
+     .                   STI_C,E_DISTOR,    DT1,   NEL )
 C---- force assemblage and STI update (dt)
           DO I=1,NEL
              FCX = ONE_OVER_8*FORC_N(I,1)

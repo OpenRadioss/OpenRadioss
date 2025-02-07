@@ -1417,7 +1417,8 @@
          endif ! ilaw>=28
 !------- high stiffness for contact
          pm(107,i) = two*max(pm(32,i),pm(100,i))
-         if (ilaw==1.or.ilaw==62) pm(107,i) = hundred*pm(107,i)
+         if (ilaw==1) pm(107,i) = thirty*pm(107,i)
+         if (ilaw==62) pm(107,i) = hundred*pm(107,i)
 !
          ipm(1,i)   = mat_id
          ipm(2,i)   = ilaw
