@@ -93,13 +93,13 @@ C-----------------------------------------------
           PENIS(1,I)=MIN(PENIS(1,I),PENIS(2,I))
           PENIS(2,I)=ZERO
         ENDDO
-!$OMP END DO NO WAIT
+!$OMP END DO NOWAIT
 !$OMP DO SCHEDULE(guided)
         DO I=1,NRTM
           PENIM(1,I)=MIN(PENIM(1,I),PENIM(2,I))
           PENIM(2,I)=ZERO
         ENDDO
-!$OMP END DO NO WAIT
+!$OMP END DO NOWAIT
       ENDIF
 C
 C si NSPMD > 1 traitement effectue dans SPMD_GET_STIF11
@@ -110,7 +110,7 @@ C
         DO I=1,NRTS
           STFS(I)=MAX(STFS(I),ZERO)
         ENDDO
-!$OMP END DO NO WAIT
+!$OMP END DO NOWAIT
       END IF
 C
 C     0- CALCUL DU CRITERE POUR SAVOIR SI ON DOIT TRIER OU NON
@@ -168,7 +168,7 @@ C
           VSLV(6)=MIN(VSLV(6),V(3,J))
          ENDIF
         END DO
-!$OMP END DO NO WAIT
+!$OMP END DO NOWAIT
 
 !$OMP DO SCHEDULE(guided)
         DO I=1,NMN
@@ -192,7 +192,7 @@ C
 C
          ENDIF
         END DO
-!$OMP END DO NO WAIT
+!$OMP END DO NOWAIT
       ELSE
 C
 !$OMP DO SCHEDULE(guided)
@@ -215,7 +215,7 @@ C
           VSLV(6)=MIN(VSLV(6),V(3,J))
          ENDIF
         END DO
-!$OMP END DO NO WAIT
+!$OMP END DO NOWAIT
 C
 !$OMP DO SCHEDULE(guided)
         DO I=1,NMN
@@ -238,7 +238,7 @@ C
 C
          ENDIF
         END DO
-!$OMP END DO NO WAIT
+!$OMP END DO NOWAIT
       ENDIF
 C
 #include "lockon.inc"

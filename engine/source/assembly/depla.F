@@ -88,7 +88,7 @@ C-------------------------------------------------------------
           XDP(3,N)=XDP(3,N)+VDT2
           X(3,N)=XDP(3,N)
         ENDDO
-!$OMP END DO NO WAIT
+!$OMP END DO NOWAIT
       ELSE
 !$OMP DO SCHEDULE(guided)
          DO N=1,NUMNOD
@@ -102,7 +102,7 @@ C-------------------------------------------------------------
           D(3,N)=D(3,N)+VDT
           X(3,N)=X(3,N)+VDT
         ENDDO
-!$OMP END DO NO WAIT
+!$OMP END DO NOWAIT
       ENDIF 
       IF((ISECUT>0 .OR. IISROT>0 .OR. IMPOSE_DR/=0 .OR. IDROT == 1) .AND. IRODDL /= 0) THEN
 !$OMP DO SCHEDULE(guided)

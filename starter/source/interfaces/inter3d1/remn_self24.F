@@ -148,7 +148,7 @@ C----- dimensioning
             NC(9:16)=IXS16(1:8,E_ID-NUMELS8-NUMELS10-NUMELS20)
           END SELECT
 C
-          NMC(1:4)=INTBUF_TAB(N)%IRECTM(4*(II-1)+1:4)
+          NMC(1:4)=INTBUF_TAB(N)%IRECTM(4*(II-1)+1:4*(II-1)+4)
           MAXNM = 0
           DO I = 1,NNOD
             NI= NC(I)
