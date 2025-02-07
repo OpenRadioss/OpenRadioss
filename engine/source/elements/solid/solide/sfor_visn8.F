@@ -70,7 +70,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J
+      INTEGER I,J,IFCONT
 C                                                                     12
       my_real
      .   VRE(6),VXC,VYC,VZC,FX,FY,FZ,FAC,VNJ(8),VL,TOL_V2,
@@ -78,6 +78,7 @@ C                                                                     12
 C----------------------------
         TOL_V2 = TOL_V*TOL_V
         IFCTL = 0
+        IFCONT = 0
          DO I=1,NEL
            VC2 = VC(I,1)*VC(I,1)+VC(I,2)*VC(I,2)+VC(I,3)*VC(I,3)
            IF (VC2 <EM20.OR.STIF(I)==ZERO) CYCLE
@@ -96,6 +97,7 @@ C----------------------------
               IFC1(I) = 1
               IFCTL=1
            END IF
+           IF (V2MAX > FOUR*VC2) IFCONT=1
          END DO
 C
        IF (IFCTL==1) THEN
@@ -153,6 +155,8 @@ C
      .                                   FOR_T8(I,3)*(VZ8(I)-VC(I,3)))
          ENDDO
        END IF 
+!
+        IFCTL = IFCONT  ! used for self-contact compute less strict : 2 times
 C
       RETURN
       END
