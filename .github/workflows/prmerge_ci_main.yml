@@ -479,8 +479,8 @@ jobs:
           cd ${{ matrix.binary }}
           @"
           @echo off
-          call 'C:\Program Files (x86)\Intel\oneAPI\compiler\2023.2.0\env\vars.bat'
-          call 'C:\Program Files (x86)\Intel\oneAPI\mkl\2023.2.0\env\vars.bat'
+          call 'C:\Program Files (x86)\Intel\oneAPI\compiler\2025.0\env\vars.bat'
+          call 'C:\Program Files (x86)\Intel\oneAPI\mkl\2025.0\env\vars.bat'
           call 'C:\Program Files (x86)\Intel\oneAPI\mpi\2021.10.0\env\vars.bat'
           cmake --version
           ninja --version
