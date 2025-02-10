@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE H3D_MOD
       USE GROUPDEF_MOD
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -84,11 +85,15 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, NN, K1, KMAX1, K2, KMAX2, ISTOP,I,J,
-     .   INDTN1(1024), INDTN2(1024), TAG(NUMNOD), TAGR(NUMNOD), IOK,
-     .   K, M, MSR, NSN, IAD
+     .   INDTN1(1024), INDTN2(1024),  IOK, K, M, MSR, NSN, IAD
+      INTEGER,DIMENSION(:),ALLOCATABLE :: TAG
+      INTEGER,DIMENSION(:),ALLOCATABLE :: TAGR
       my_real DTN1(1024), DTN2(1024),
      .   DTNOD1, DTNOD2, DT2P, MAS, INER, MAS0, DMM, MASS, STI,
      .   DT2X, DT2S
+C----------------------------------------------------------
+      CALL MY_ALLOC(TAG,NUMNOD)
+      CALL MY_ALLOC(TAGR,NUMNOD)
 C----------------------------------------------------------
 C     TAG NODAL GROUP 
 C----------------------------------------------------------
@@ -522,5 +527,8 @@ C--------------------------------
          ENDIF
        ENDIF
 C
+      DEALLOCATE(TAG)
+      DEALLOCATE(TAGR)
+
       RETURN
       END

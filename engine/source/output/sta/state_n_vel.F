@@ -31,6 +31,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE STAT_N_VEL(NUMNOD ,ITAB   ,ITABG ,LENG ,NODGLOB,
      .                      WEIGHT ,NODTAG ,V     ,VR   )
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MY_ALLOC_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -53,11 +57,15 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
-      INTEGER NODTAGLOB(LENG)
-      my_real
-     . VG(3,LENG),VRG(3,LENG)
+      INTEGER,DIMENSION(:),ALLOCATABLE :: NODTAGLOB
+      my_real,DIMENSION(:,:),ALLOCATABLE :: VG
+      my_real,DIMENSION(:,:),ALLOCATABLE :: VRG
       CHARACTER(LEN=100) :: LINE
       INTEGER LEN_LINE
+C-----------------------------------------------
+      CALL MY_ALLOC(NODTAGLOB,LENG)
+      CALL MY_ALLOC(VG,3,LENG)
+      CALL MY_ALLOC(VRG,3,LENG)
 C-----------------------------------------------
 !
       IF (NSPMD > 1) THEN
@@ -142,5 +150,8 @@ C-----------------------------------------------
         END DO
       ENDIF
 C-----------------------------------------------
+      DEALLOCATE(NODTAGLOB)
+      DEALLOCATE(VG)
+      DEALLOCATE(VRG)
       RETURN
       END

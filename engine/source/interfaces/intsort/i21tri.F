@@ -37,6 +37,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7      GAP_S   ,GAPMIN ,GAPMAX   ,MARGE   ,CURV_MAX ,
      8      XM0     ,NOD_NORMAL,DEPTH ,DRAD    ,DGAPLOAD )
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MY_ALLOC_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -119,23 +123,59 @@ C     REAL
      .   TZINF,MAXBOX,MINBOX,MARGE,GAP,GAPMIN,GAPMAX, 
      .   DEPTH
       my_real , INTENT(IN) :: DGAPLOAD,DRAD
+      my_real CURV_MAX(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NB_NCN,NB_NCN1,NB_ECN,ADDNN,ADDNE,I,J,DIR,NB_NC,NB_EC,
-     .        N1,N2,N3,N4,NN,NE,K,L,NCAND_PROV,J_STOK,II,JJ,
-     .        PROV_N(2*MVSIZ),PROV_E(2*MVSIZ),
-     .        TN1(NVECSZ),TN2(NVECSZ),TN3(NVECSZ),TN4(NVECSZ),
-C BPE : utilise sur NRTM et non NRTM + 100 en toute rigueur (ici MAXSIZ = NRTM + 100)
-     .        BPE(MAXSIZ/3),PE(MAXSIZ),BPN(NSN),PN(NSN)
+     .        N1,N2,N3,N4,NN,NE,K,L,NCAND_PROV,J_STOK,II,JJ
 C     REAL
       my_real
      .   DX,DY,DZ,DSUP,SEUIL,SEUILS,SEUILI, XX1, XX2, XX3, XX4,
-     .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, TZ, GAPSMX, BGAPSMX, GAPL,
-     .   TXX1(3,NVECSZ), TXX2(3,NVECSZ), TXX3(3,NVECSZ), TXX4(3,NVECSZ),
-     .   TXMAX(NVECSZ),TXMIN(NVECSZ),TYMAX(NVECSZ),
-     .   TYMIN(NVECSZ),TZMAX(NVECSZ),TZMIN(NVECSZ),
-     .   CURV_MAX(*)
+     .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, TZ, GAPSMX, BGAPSMX, GAPL
+
+      INTEGER,DIMENSION(:),ALLOCATABLE :: PROV_N
+      INTEGER,DIMENSION(:),ALLOCATABLE :: PROV_E
+      INTEGER,DIMENSION(:),ALLOCATABLE :: TN1
+      INTEGER,DIMENSION(:),ALLOCATABLE :: TN2
+      INTEGER,DIMENSION(:),ALLOCATABLE :: TN3
+      INTEGER,DIMENSION(:),ALLOCATABLE :: TN4
+      INTEGER,DIMENSION(:),ALLOCATABLE :: BPE
+      INTEGER,DIMENSION(:),ALLOCATABLE :: PE
+      INTEGER,DIMENSION(:),ALLOCATABLE :: BPN
+      INTEGER,DIMENSION(:),ALLOCATABLE :: PN
+      !
+      my_real, DIMENSION(:,:),ALLOCATABLE :: TXX1
+      my_real, DIMENSION(:,:),ALLOCATABLE :: TXX2
+      my_real, DIMENSION(:,:),ALLOCATABLE :: TXX3
+      my_real, DIMENSION(:,:),ALLOCATABLE :: TXX4
+      my_real, DIMENSION(:),ALLOCATABLE :: TXMAX
+      my_real, DIMENSION(:),ALLOCATABLE :: TXMIN
+      my_real, DIMENSION(:),ALLOCATABLE :: TYMAX
+      my_real, DIMENSION(:),ALLOCATABLE :: TYMIN
+      my_real, DIMENSION(:),ALLOCATABLE :: TZMAX
+      my_real, DIMENSION(:),ALLOCATABLE :: TZMIN
+C-----------------------------------------------
+      CALL MY_ALLOC(PROV_N,2*MVSIZ)
+      CALL MY_ALLOC(PROV_E,2*MVSIZ)
+      CALL MY_ALLOC(TN1,NVECSZ)
+      CALL MY_ALLOC(TN2,NVECSZ)
+      CALL MY_ALLOC(TN3,NVECSZ)
+      CALL MY_ALLOC(TN4,NVECSZ)
+      CALL MY_ALLOC(BPE,MAXSIZ/3)  ! BPE : used over NRTM but not NRTM + 100 (MAXSIZ = NRTM + 100)
+      CALL MY_ALLOC(PE,MAXSIZ)
+      CALL MY_ALLOC(BPN,NSN)
+      CALL MY_ALLOC(PN,NSN)
+      CALL MY_ALLOC(TXX1,3,NVECSZ)
+      CALL MY_ALLOC(TXX2,3,NVECSZ)
+      CALL MY_ALLOC(TXX3,3,NVECSZ)
+      CALL MY_ALLOC(TXX4,3,NVECSZ)
+      CALL MY_ALLOC(TXMAX,NVECSZ)
+      CALL MY_ALLOC(TXMIN,NVECSZ)
+      CALL MY_ALLOC(TYMAX,NVECSZ)
+      CALL MY_ALLOC(TYMIN,NVECSZ)
+      CALL MY_ALLOC(TZMAX,NVECSZ)
+      CALL MY_ALLOC(TZMIN,NVECSZ)
 C-----------------------------------------------
 C
 C Phase initiale de construction de BPE et BPN deplacee de I7BUCE => I7TRI
@@ -706,5 +746,25 @@ C-------------------------------------------------------------------------
      5              CURV_MAX ,XM0,NOD_NORMAL,DEPTH,DRAD ,
      6              DGAPLOAD)
 C-------------------------------------------------------------------------
+      DEALLOCATE(PROV_N)
+      DEALLOCATE(PROV_E)
+      DEALLOCATE(TN1)
+      DEALLOCATE(TN2)
+      DEALLOCATE(TN3)
+      DEALLOCATE(TN4)
+      DEALLOCATE(BPE)
+      DEALLOCATE(PE)
+      DEALLOCATE(BPN)
+      DEALLOCATE(PN)
+      DEALLOCATE(TXX1)
+      DEALLOCATE(TXX2)
+      DEALLOCATE(TXX3)
+      DEALLOCATE(TXX4)
+      DEALLOCATE(TXMAX)
+      DEALLOCATE(TXMIN)
+      DEALLOCATE(TYMAX)
+      DEALLOCATE(TYMIN)
+      DEALLOCATE(TZMAX)
+      DEALLOCATE(TZMIN)
       RETURN
       END

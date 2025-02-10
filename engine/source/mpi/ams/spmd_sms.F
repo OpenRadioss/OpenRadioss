@@ -27,6 +27,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE SPMD_SORT_SMS(ISKYI_SMS,MSKYI_SMS,FR_SMS)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MY_ALLOC_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -40,18 +44,19 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ISKYI_SMS(LSKYI_SMS,*), FR_SMS(NSPMD+1)
-      my_real
-     .        MSKYI_SMS(*)
+      my_real MSKYI_SMS(*)
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, I2SORT(NISKY_SMS,3), NN, P, Q, PP, kk
+      INTEGER N,NN, P, Q, PP, kk
+      INTEGER,DIMENSION(:,:),ALLOCATABLE ::  I2SORT
       INTEGER LP(NSPMD+1), NP(NSPMD+1)
-      my_real
-     .        M2SORT(NISKY_SMS)
+      my_real, DIMENSION(:), ALLOCATABLE :: M2SORT
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
+      CALL MY_ALLOC( I2SORT,NISKY_SMS,3)
+      CALL MY_ALLOC(M2SORT,NISKY_SMS)
 C
       DO N = 1, NISKY_SMS
         I2SORT(N,1)= ISKYI_SMS(N,1)
@@ -88,6 +93,9 @@ C
         NP(P)=NP(P)+1
       ENDDO
 C
+      DEALLOCATE(I2SORT)
+      DEALLOCATE(M2SORT)
+
       RETURN
       END
 C

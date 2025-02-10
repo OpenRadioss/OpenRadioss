@@ -37,6 +37,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD 
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,11 +65,15 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N, JJ, IPRT0, IPRT, K, STAT_NUMELS_1,N10,N20,N16
       INTEGER NG, NEL, NFT, LFT, LLT, ITY, ISOLNOD, IOFF
-      INTEGER NP(24*NUMELS),
-     .        WORK(70000),CLEF(2,NUMELS)
+      INTEGER WORK(70000)
+      INTEGER,DIMENSION(:),ALLOCATABLE :: NP
+      INTEGER,DIMENSION(:,:),ALLOCATABLE :: CLEF   
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C-----------------------------------------------
 C     8 NODES BRICK
+C-----------------------------------------------
+      CALL MY_ALLOC(NP,24*NUMELS)
+      CALL MY_ALLOC(CLEF,2,NUMELS)
 C-----------------------------------------------
       JJ = 0
       IF(NUMELS/=0)THEN
@@ -458,6 +463,9 @@ C----
        ENDIF
       END DO
       ENDIF
+C-----------------------------------------------
+      DEALLOCATE(NP)
+      DEALLOCATE(CLEF)
 C-----------------------------------------------
       RETURN
       END

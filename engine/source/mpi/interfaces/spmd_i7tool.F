@@ -2883,6 +2883,7 @@ C-----------------------------------------------
       USE INTERFACE_MODIFICATION_MOD
       USE INTER_SORTING_MOD
       USE SENSOR_MOD
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2929,13 +2930,27 @@ C-----------------------------------------------
       INTEGER I, J, K, NSN, NMN, ITYP, IERROR, IERROR1, KK, NIN, P,
      .        SCPMAX1,ISD,IRC,MY_RANK,LAST, IGE, IGN, NME, NMES,INTTH,
      .        NRTM, NRTS, NLINM, NLINS,NSNE, NMNE,N,M,
-     .        WORK(70000),INDX(2*NINTER), PPAR(NINTER),
-     .        INDP(2*NSPMD),NNP(NSPMD),RANK(NSPMD),IRBODY(NUMNOD),
-     .        INDB(2*NRBYKIN),NNSN(NRBYKIN),
-     .        ITY,NOINT,INACTI,ISENS,INTERACT
+     .        WORK(70000),ITY,NOINT,INACTI,ISENS,INTERACT
+      INTEGER,DIMENSION(:), ALLOCATABLE:: INDX
+      INTEGER,DIMENSION(:), ALLOCATABLE:: PPAR
+      INTEGER,DIMENSION(:), ALLOCATABLE:: INDP
+      INTEGER,DIMENSION(:), ALLOCATABLE:: NNP
+      INTEGER,DIMENSION(:), ALLOCATABLE:: RANK
+      INTEGER,DIMENSION(:), ALLOCATABLE:: IRBODY
+      INTEGER,DIMENSION(:), ALLOCATABLE:: INDB
+      INTEGER,DIMENSION(:), ALLOCATABLE:: NNSN
       my_real STARTT, STOPT,TS
 C-----------------------------------------------
 C   S o u r c e  L i n e s
+C-----------------------------------------------
+      CALL MY_ALLOC(INDX,2*NINTER)
+      CALL MY_ALLOC(PPAR,NINTER)
+      CALL MY_ALLOC(INDP,2*NSPMD)
+      CALL MY_ALLOC(NNP,NSPMD)
+      CALL MY_ALLOC(RANK,NSPMD)
+      CALL MY_ALLOC(IRBODY,NUMNOD)
+      CALL MY_ALLOC(INDB,2*NRBYKIN)
+      CALL MY_ALLOC(NNSN,NRBYKIN)
 C-----------------------------------------------
 C
 C iexicodt : flag pour envoi icodt en cours de run
@@ -3356,6 +3371,16 @@ C
 
 !     Create CJOINT communicator
       CALL SPMD_SPLIT_COMM_JOINT()
+
+      DEALLOCATE(INDX)
+      DEALLOCATE(PPAR)
+      DEALLOCATE(INDP)
+      DEALLOCATE(NNP)
+      DEALLOCATE(RANK)
+      DEALLOCATE(IRBODY)
+      DEALLOCATE(INDB)
+      DEALLOCATE(NNSN)
+
       RETURN
       END
       !||====================================================================

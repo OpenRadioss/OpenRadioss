@@ -38,6 +38,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD         
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,8 +67,8 @@ C-----------------------------------------------
       INTEGER I,J,K,N,II(3),JJ,LEN,IOFF,IE,NG,NEL,NFT,LFT,
      .   LLT,ITY,ID,IPRT0,IPRT,IGTYP,IPROP,NPT,IPT,ILAY,
      .   IR,IS,PT,L_PLA,G_PLA
-      INTEGER PTWA(STAT_NUMELP),
-     .        PTWA_P0(0:MAX(1,STAT_NUMELP_G))
+      INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA
+      INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA_P0
       CHARACTER*100 DELIMIT,LINE
       TYPE(G_BUFEL_)  ,POINTER :: GBUF
       TYPE(L_BUFEL_)  ,POINTER :: LBUF
@@ -78,6 +79,9 @@ C-----------------------------------------------
      ./'----7----|----8----|----9----|----10---|'/
 C=======================================================================
 C     BEAM
+C-----------------------------------------------
+      CALL MY_ALLOC(PTWA,STAT_NUMELP)
+      ALLOCATE(PTWA_P0(0:MAX(1,STAT_NUMELP_G)))
 C-----------------------------------------------
       JJ = 0
 !
@@ -265,5 +269,9 @@ c------- end loop over beam elements
         ENDDO  !  DO N=1,STAT_NUMELP_G
       ENDIF  !  IF (ISPMD == 0.AND.LEN > 0)
 !---
+c----------
+      DEALLOCATE(PTWA)
+      DEALLOCATE(PTWA_P0)
+c-----------
       RETURN
       END

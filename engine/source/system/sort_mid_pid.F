@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                         MID_SHELL,TAB_LOC,TAB_SHELL_LOC,TAB_MAT)
 
         USE MID_PID_MOD
+        USE MY_ALLOC_MOD
 
 !      ----------------------------------------------
 !      Sort Shell groups :
@@ -85,12 +86,13 @@ C-----------------------------------------------
        INTEGER :: MID,MAX_MID
        INTEGER :: PID,MAX_PID,PID_1,PID_2
        INTEGER, DIMENSION(:), ALLOCATABLE :: PID_INDEX,INDEX
-       INTEGER, DIMENSION(N_SHELL) :: POIN_MID_SHELL
+       INTEGER, DIMENSION(:), ALLOCATABLE :: POIN_MID_SHELL
        my_real POIDS_J,POIDS_J1
-       TYPE(MID_PID_TYPE),DIMENSION(NUMMAT) :: MID_PID_SHELL
+       TYPE(MID_PID_TYPE),DIMENSION(:),ALLOCATABLE :: MID_PID_SHELL
 C-----------------------------------------------
-
-       ALLOCATE( PID_INDEX(NUMMAT) )
+       ALLOCATE(MID_PID_SHELL(NUMMAT))
+       ALLOCATE(PID_INDEX(NUMMAT) )
+       CALL MY_ALLOC(POIN_MID_SHELL,N_SHELL)
        PID_INDEX(1:NUMMAT) = 0
 
        COMPTEUR = 0
@@ -240,6 +242,7 @@ C-----------------------------------------------
          DEALLOCATE( MID_PID_SHELL(MID)%PID1D )      
        ENDDO
 
-
+       DEALLOCATE(MID_PID_SHELL)
+       DEALLOCATE(POIN_MID_SHELL)
        RETURN
        END SUBROUTINE SORT_MID_PID

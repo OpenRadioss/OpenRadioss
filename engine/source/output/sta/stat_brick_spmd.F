@@ -38,6 +38,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD 
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,13 +69,21 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N, JJ, IPRT, BUF, IPRT0, K, STAT_NUMELS_1
       INTEGER NG, NEL, NFT, LFT, LLT, ITY, ISOLNOD, IOFF
-      INTEGER IADD(NPART+1), IADG(NSPMD,NPART)
-      INTEGER NP(24*NUMELSG),
-     .        NPGLOB(24*NUMELSG),
-     .        WORK(70000),CLEF(2,NUMELSG)
+      INTEGER,DIMENSION(:,:),ALLOCATABLE :: IADG
+      INTEGER,DIMENSION(:),ALLOCATABLE :: IADD
+      INTEGER,DIMENSION(:),ALLOCATABLE :: NP
+      INTEGER,DIMENSION(:),ALLOCATABLE :: NPGLOB
+      INTEGER,DIMENSION(:,:),ALLOCATABLE :: CLEF
+      INTEGER WORK(70000)
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C-----------------------------------------------
 C     8 NODES BRICK
+C-----------------------------------------------
+      CALL MY_ALLOC(IADG,NSPMD,NPART)
+      CALL MY_ALLOC(IADD,NPART+1)
+      CALL MY_ALLOC(NP,24*NUMELSG)
+      CALL MY_ALLOC(NPGLOB,24*NUMELSG)
+      CALL MY_ALLOC(CLEF,2,NUMELSG)
 C-----------------------------------------------
       IADD = 0
       NPGLOB(1:24*NUMELSG) = 0
@@ -470,6 +479,12 @@ C-----
          ENDIF
         END DO
       ENDIF
+C-----------------------------------------------
+      DEALLOCATE(IADG)
+      DEALLOCATE(IADD)
+      DEALLOCATE(NP)
+      DEALLOCATE(NPGLOB)
+      DEALLOCATE(CLEF)
 C-----------------------------------------------
       RETURN
       END

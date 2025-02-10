@@ -209,6 +209,8 @@ C-----------------------------------------------
      9  IAD_ELEM,FR_ELEM ,NPRW      ,LPRW     ,IPART    ,
      A  IGEO    ,NATIV_SMS)
 C-----------------------------------------------
+        USE MY_ALLOC_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -245,13 +247,18 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, NG, N, JJ, KK, ITY, NEL, NFT, ISOLNOD, 
-     .        IAD, IP, NAD_SMS(NUMNOD),ILOC4(4),IWORK(NUMNOD),
+     .        IAD, IP, ILOC4(4),
      .        TAG8(8), IG, IGTYP
       INTEGER J1, IPERM1(6), IPERM2(6),IPENTA6(6)
+      INTEGER,DIMENSION(:),ALLOCATABLE :: NAD_SMS
+      INTEGER,DIMENSION(:),ALLOCATABLE :: IWORK
       DATA ILOC4/1,3,6,5/
       DATA IPERM1/1,2,3,1,2,3/
       DATA IPERM2/2,3,1,4,4,4/
       DATA IPENTA6/1,2,3,5,6,7/
+C-----------------------------------------------
+      CALL MY_ALLOC(NAD_SMS,NUMNOD)
+      CALL MY_ALLOC(IWORK,NUMNOD)
 C-----------------------------------------------
       DO I=1,NUMNOD
         NAD_SMS(I)=0
@@ -526,6 +533,10 @@ C
         KAD_SMS(I+1)=KAD_SMS(I)+NAD_SMS(I)
       END DO
 C-----------------------------------------------
+      DEALLOCATE(NAD_SMS)
+      DEALLOCATE(IWORK)
+
+
       RETURN
       END
       !||====================================================================
@@ -534,6 +545,10 @@ C-----------------------------------------------
       SUBROUTINE NODNX_SMS_INI(
      1 NUMNOD  ,NUMEL ,NIX ,MIX ,LIX ,
      2 IX      ,IPARTX,TAGPRT_SMS,NODNX_SMS)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -546,11 +561,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, TAG(NUMNOD)
+      INTEGER I, J, K
+      INTEGER,DIMENSION(:), ALLOCATABLE :: TAG
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-C      
+      CALL MY_ALLOC(TAG,NUMNOD)
+C-----------------------------------------------
+ 
       DO J=1,NUMEL
         IF(TAGPRT_SMS(IPARTX(J))==0) CYCLE
 
@@ -569,6 +587,7 @@ C
         ENDDO                                    
       ENDDO                                      
 
+      DEALLOCATE(TAG)
       RETURN
       END
       !||====================================================================
@@ -595,7 +614,8 @@ C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -636,20 +656,27 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, JJ, KK, II, IJ, M, N, IERROR, KL
-      INTEGER NG, ITY, NEL, NFT, ISOLNOD,ILOC4(4),TAGA(NUMNOD),
+      INTEGER NG, ITY, NEL, NFT, ISOLNOD,ILOC4(4),
      .        TAG8(8), IG, IGTYP
-      INTEGER MSR, NSN, KI, KJ, NAD_SMS(NUMNOD), 
-     .        NSR
+      INTEGER MSR, NSN, KI, KJ, NSR
       INTEGER SIZE, LENR, IAD, L, LLT
       INTEGER NTY, ILAGM, K10, K11, K12, K13, K14, JI, 
      .         N1, N2, N3, N4, LNEW, ILEV
       INTEGER J1, IPERM1(6), IPERM2(6),IPENTA6(6)
       INTEGER LSMSPCG
-      INTEGER TAGK(NUMNOD), IK, NK
+      INTEGER IK, NK
+      INTEGER,DIMENSION(:),ALLOCATABLE :: TAGA
+      INTEGER,DIMENSION(:),ALLOCATABLE :: NAD_SMS
+      INTEGER,DIMENSION(:),ALLOCATABLE :: TAGK
+
       DATA ILOC4/1,3,6,5/
       DATA IPERM1/1,2,3,1,2,3/
       DATA IPERM2/2,3,1,4,4,4/
       DATA IPENTA6/1,2,3,5,6,7/
+C-----------------------------------------------
+      CALL MY_ALLOC(TAGA,NUMNOD)
+      CALL MY_ALLOC(NAD_SMS,NUMNOD)
+      CALL MY_ALLOC(TAGK,NUMNOD)
 C-----------------------------------------------
 C
 C     Construit JDI_SMS, JADS_SMS, etc
@@ -993,6 +1020,9 @@ C
 C
       NNZ_SMS = IAD_SMS(NUMNOD+1)
 C
+      DEALLOCATE(TAGA)
+      DEALLOCATE(NAD_SMS)
+      DEALLOCATE(TAGK)
       RETURN
       END
       !||====================================================================
@@ -1018,7 +1048,8 @@ C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1059,13 +1090,22 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, JJ, KK, II, IJ, M, N, IERROR, KL
-      INTEGER MSR, NSN, KI, KJ, NAD_SMS(NUMNOD), 
-     .        NSR
+      INTEGER MSR, NSN, KI, KJ, NSR
       INTEGER SIZE, LENR, IAD, L, LLT
       INTEGER NTY, ILAGM, K10, K11, K12, K13, K14, JI, 
      .         N1, N2, N3, N4, LNEW, ILEV
-      INTEGER TAGK(NUMNOD), IK, NK, IKK,
-     .        ITRI(NUMNOD),INDEX(2*NUMNOD),INDEX2(NUMNOD), WORK(70000)
+      INTEGER IK, NK, IKK,WORK(70000)
+      INTEGER,DIMENSION(:),ALLOCATABLE :: NAD_SMS
+      INTEGER,DIMENSION(:),ALLOCATABLE :: TAGK
+      INTEGER,DIMENSION(:),ALLOCATABLE :: ITRI
+      INTEGER,DIMENSION(:),ALLOCATABLE :: INDEX1
+      INTEGER,DIMENSION(:),ALLOCATABLE :: INDEX2
+C-------------------------------------------------------------------------
+      CALL MY_ALLOC(NAD_SMS,NUMNOD)
+      CALL MY_ALLOC(TAGK,NUMNOD)
+      CALL MY_ALLOC(ITRI,NUMNOD)
+      CALL MY_ALLOC(INDEX1,2*NUMNOD)
+      CALL MY_ALLOC(INDEX2,NUMNOD)
 C-------------------------------------------------------------------------
 C     PREPARE KOMPACTION OF ELEMENTARY MATRIX
 C     construit IDI_SMS et pointeurs KAD_SMS vers JAD_SMS 
@@ -1088,16 +1128,16 @@ C       reordonne IDI_SMS(KJ), KJ=IAD_SMS(I),IAD_SMS(I)+LAD_SMS(I)-1
         DO IK=1,NK
           KJ=IAD_SMS(I)+IK-1
           ITRI(IK) =IDI_SMS(KJ)
-          INDEX(IK)=IK
+          INDEX1(IK)=IK
         END DO  
-        IF(NK/=0) CALL MY_ORDERS(0,WORK,ITRI,INDEX,NK,1)
+        IF(NK/=0) CALL MY_ORDERS(0,WORK,ITRI,INDEX1,NK,1)
         DO IK=1,NK
           KJ=IAD_SMS(I)+IK-1
-          IDI_SMS(KJ)=ITRI(INDEX(IK))
+          IDI_SMS(KJ)=ITRI(INDEX1(IK))
         END DO
 
         DO IK=1,NK
-          IKK        =INDEX(IK)
+          IKK        =INDEX1(IK)
           INDEX2(IKK)=IK
         END DO
 
@@ -1323,6 +1363,11 @@ C reconstruit JAD_SMS
         JAD_SMS(I+1)=JAD_SMS(I)+NODNX_SMS(I)
       END DO
 C-----------------------------------------------
+      DEALLOCATE(NAD_SMS)
+      DEALLOCATE(TAGK)
+      DEALLOCATE(ITRI)
+      DEALLOCATE(INDEX1)
+      DEALLOCATE(INDEX2)
       RETURN
       END
       !||====================================================================
@@ -1353,6 +1398,7 @@ C-----------------------------------------------
       USE INTSTAMP_MOD
       USE INTBUFDEF_MOD 
       USE MESSAGE_MOD
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1399,14 +1445,16 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, JJ, KK, II, IJ, M, N, IERROR, KL,
      .        NHI, NS
-      INTEGER MSR, NSN, KI, KJ, NAD_SMS(NUMNOD),
-     .        NSR, NSMS(2)
+      INTEGER MSR, NSN, KI, KJ, NSR, NSMS(2)
       INTEGER NSNW, IMOV
       INTEGER SIZE, LENR, IAD, L, LLT
       INTEGER NTY, ILAGM, JI, 
      .         N1, N2, N3, N4, N5, N6, ISMS, 
      .         NMN, ILEV
       INTEGER IK
+      INTEGER,DIMENSION(:),ALLOCATABLE :: NAD_SMS
+C-------------------------------------------------------------------------
+      CALL MY_ALLOC(NAD_SMS,NUMNOD)
 C-------------------------------------------------------------------------
 C     PREPARE KOMPACTION OF ELEMENTARY MATRIX
 C     KJ = KAD_SMS(I),KAD_SMS(I+1)-1 => PK_SMS(KJ) = rang de KDI_SMS(KJ) dans JDI_SMS(I),JDI_SMS(I+1)-1
@@ -1634,6 +1682,7 @@ C reconstruit JAD_SMS
         JAD_SMS(I+1)=JAD_SMS(I)+NODNX_SMS(I)
       END DO
 C-----------------------------------------------
+      DEALLOCATE(NAD_SMS)
       RETURN
       END
       !||====================================================================
@@ -1667,7 +1716,8 @@ C   M o d u l e s
 C-----------------------------------------------
       USE INTSTAMP_MOD
       USE INTBUFDEF_MOD
-      USE MESSAGE_MOD  
+      USE MESSAGE_MOD
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1711,14 +1761,18 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, JJ, KK, II, IJ, M, N, IERROR, KL
-      INTEGER MSR, NSN, KI, KJ, NAD_SMS(NUMNOD), NAD_SMS_0(NUMNOD), 
-     .        NSR
+      INTEGER MSR, NSN, KI, KJ, NSR
       INTEGER SIZE, LENR, IAD, L, LLT
       INTEGER NTY, ILAGM, K10, K11, K12, K13, K14, JI, 
      .         N1, N2, N3, N4,
      .         NMN, ILEV, ERROR
       INTEGER LSMSPCG
       INTEGER IK, K1, K2, KM
+      INTEGER, DIMENSION(:), ALLOCATABLE :: NAD_SMS
+      INTEGER, DIMENSION(:), ALLOCATABLE :: NAD_SMS_0
+C-------------------------------------------------------------------------
+      CALL MY_ALLOC(NAD_SMS,NUMNOD)
+      CALL MY_ALLOC(NAD_SMS_0,NUMNOD)
 C-------------------------------------------------------------------------
 C     PREPARE KOMPACTION OF ELEMENTARY MATRIX
 C     KJ = KAD_SMS(I),KAD_SMS(I+1)-1 => PK_SMS(KJ) = rang de KDI_SMS(KJ) dans JDI_SMS(I),JDI_SMS(I+1)-1
@@ -2088,6 +2142,9 @@ C
         CALL ARRET(2)
       ENDIF
 C-----------------------------------------------
+      DEALLOCATE(NAD_SMS)
+      DEALLOCATE(NAD_SMS_0)
+
       RETURN
       END
       !||====================================================================
@@ -2109,7 +2166,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2138,12 +2196,16 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER K1, K, I, N, J, IC, NSN, ISMS,
-     .        NOD2ADD(NUMNOD), ICSIZE, IMOV, ITYP, ILAGM, ICOUNT,
-     .        TAG(NUMNOD)
+     .         ICSIZE, IMOV, ITYP, ILAGM, ICOUNT        
       INTEGER NTY, ILEV, NMN, NRTS, NRTM,
      .        NLINS, NLINM, II, SIZE, LENR
       my_real
      .        IDMAX,ID
+      INTEGER,DIMENSION(:),ALLOCATABLE :: NOD2ADD
+      INTEGER,DIMENSION(:),ALLOCATABLE :: TAG
+C-----------------------------------------------
+      CALL MY_ALLOC(NOD2ADD,NUMNOD)
+      CALL MY_ALLOC(TAG,NUMNOD)
 C-----------------------------------------------
 C
       NOD2ADD(1:NUMNOD)=0
@@ -2368,6 +2430,9 @@ C for sms_fixvel, etc
         END DO
       END IF
 C-----------------------------------------------
+      DEALLOCATE(NOD2ADD)
+      DEALLOCATE(TAG)
+C-----------------------------------------------
       RETURN
       END
       !||====================================================================
@@ -2483,7 +2548,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2504,9 +2570,12 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K, I, N, J, TAG(NUMNOD)
+      INTEGER K, I, N, J
       INTEGER NTY, ILEV, NSN, NMN, NRTS, NRTM,
      .        NLINS, NLINM, II, SIZE, LENR
+      INTEGER,DIMENSION(:), ALLOCATABLE :: TAG
+C-----------------------------------------------
+      CALL MY_ALLOC(TAG,NUMNOD)
 C-----------------------------------------------
 C supprime nds d'interf type 2 des interfs a penalite
 C /DT/AMS or /DT/INTER/AMS
@@ -2624,6 +2693,7 @@ C
            END IF
       END DO  
 C-----------------------------------------------
+      DEALLOCATE(TAG)
       RETURN
       END
       !||====================================================================

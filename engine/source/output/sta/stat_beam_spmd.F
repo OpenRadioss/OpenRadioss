@@ -36,7 +36,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD 
+      USE ELBUFDEF_MOD
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,13 +65,21 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N,JJ,IPRT,BUF,IPRT0,K,II
       INTEGER NG,NEL,NFT,LFT,LLT,ITY,IOFF
-      INTEGER IADD(NPART+1),IADG(NSPMD,NPART)
-      INTEGER NP(6*NUMELP),
-     .        NPGLOB(7*LENGP),
-     .        WORK(70000),CLEF(2,NUMELPG)
+      INTEGER,DIMENSION(:),ALLOCATABLE::IADD
+      INTEGER,DIMENSION(:,:),ALLOCATABLE::IADG
+      INTEGER,DIMENSION(:),ALLOCATABLE::NP
+      INTEGER,DIMENSION(:),ALLOCATABLE::NPGLOB
+      INTEGER,DIMENSION(:,:),ALLOCATABLE::CLEF
+      INTEGER WORK(70000)
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C-----------------------------------------------
 C     BEAM
+C-----------------------------------------------
+      CALL MY_ALLOC(IADG,NSPMD,NPART)
+      CALL MY_ALLOC(IADD,NPART+1)
+      CALL MY_ALLOC(NP,6*NUMELP)
+      CALL MY_ALLOC(NPGLOB,7*LENGP)
+      CALL MY_ALLOC(CLEF,2,NUMELPG)
 C-----------------------------------------------
       IADD = 0
       NPGLOB(1:7*LENGP) = 0
@@ -142,6 +151,12 @@ C----
           ENDIF !IF (IDEL)
         ENDDO ! DO N=1,STAT_NUMELP_G
       ENDIF ! IF (ISPMD == 0)
+C-----------------------------------------------
+      DEALLOCATE(IADG)
+      DEALLOCATE(IADD)
+      DEALLOCATE(NP)
+      DEALLOCATE(NPGLOB)
+      DEALLOCATE(CLEF)
 C-----------------------------------------------
       RETURN
       END

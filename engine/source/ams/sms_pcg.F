@@ -147,6 +147,7 @@ C----------resol [M]{X}={F}---------
      .           FR_RBY6(*),IAD_RBY(*), TAGSLV_RBY_SMS(*),R3SIZE,
      .           NODFT2_SMS,NODLT2_SMS,INDX2_SMS(*),NODII_SMS(*),
      .           IBCSCYC(*) ,LBCSCYC(*)
+C     REAL
         my_real
      .    DIAG_SMS(*), LT_K(*) ,R(3,*),
      .    X_SMS(3,*), P_SMS(3,*), Y_SMS(3,*), Z_SMS(3,*), PREC_SMS(*),
@@ -1701,7 +1702,11 @@ C-------------produit {w}=[K]{v} using full matrix K ----
      6              LIST_RMS  ,MSKYI_FI_SMS,VFI    ,IMV      ,MV      ,
      7              MV6       ,MW6         ,NODFT2_SMS,NODLT2_SMS,INDX2_SMS,
      8              NODII_SMS )
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
         USE TIMER_MOD
+        USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1741,9 +1746,13 @@ C-----------------------------------------------
      .          REQ_R(NSPMD),REQ_S(NSPMD)
         my_real
      .     L_K
-        my_real
-     .          RBUF(3*(FR_RMS(NSPMD+1)+FR_SMS(NSPMD+1))),
-     .          SBUF(3*(FR_RMS(NSPMD+1)+FR_SMS(NSPMD+1)))
+        my_real, DIMENSION(:),ALLOCATABLE :: RBUF
+        my_real, DIMENSION(:),ALLOCATABLE :: SBUF
+C-----------------------------------------------
+        IF (ITASK == 0)THEN
+           CALL MY_ALLOC(RBUF,3*(FR_RMS(NSPMD+1)+FR_SMS(NSPMD+1)))
+           CALL MY_ALLOC(SBUF,3*(FR_RMS(NSPMD+1)+FR_SMS(NSPMD+1)))
+        ENDIF
 C-----------------------------
 
 C
@@ -2271,6 +2280,11 @@ C BARRIER before RETURN
           CALL MY_BARRIER
 C
         END IF
+
+        IF (ITASK==0)THEN
+          DEALLOCATE(RBUF)
+          DEALLOCATE(SBUF)
+        ENDIF
 C--------------------------------------------
         RETURN
       END

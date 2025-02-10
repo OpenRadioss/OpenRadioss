@@ -30,7 +30,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE STAT_N_BCS(ICODE,NUMNOD,ITAB,ITABG,LENG,
      .   NODGLOB,ISKEW,NODTAG)
-
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -51,13 +54,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,N, IC, IC1, IC2, IROT, ITRA, ISK,
-     .   ICODEG(LENG),ISKEWG(LENG),NODTAGLOB(LENG)
+      INTEGER I,N, IC, IC1, IC2, IROT, ITRA, ISK
+      INTEGER,DIMENSION(:),ALLOCATABLE::ICODEG
+      INTEGER,DIMENSION(:),ALLOCATABLE::ISKEWG
+      INTEGER,DIMENSION(:),ALLOCATABLE::NODTAGLOB
       CHARACTER TRA*3,ROT*3
       CHARACTER*100 LINE
 C-----------------------------------------------
+      CALL MY_ALLOC(ICODEG,LENG)
+      CALL MY_ALLOC(ISKEWG,LENG)
+      CALL MY_ALLOC(NODTAGLOB,LENG)
 C
-
       IF (NSPMD > 1) THEN
         CALL SPMD_ISTAT_GATH(ICODE,NODGLOB,ICODEG)
         CALL SPMD_ISTAT_GATH(ISKEW,NODGLOB,ISKEWG)
@@ -208,6 +215,10 @@ C
       ENDIF
 
 C
+      DEALLOCATE(ICODEG)
+      DEALLOCATE(ISKEWG)
+      DEALLOCATE(NODTAGLOB)
+ 
       RETURN
       END
 
