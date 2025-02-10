@@ -70,8 +70,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N1,N2,N3,N4,NN1,NN2,NN3,J,
      .        I,N,IFAC,ILINE,
-     .        IERROR, LENR, NI,NNOUT
-       INTEGER, DIMENSION(:), ALLOCATABLE ::  ITAGN
+     .        IERROR, LENR, NI
        my_real
      .     AREA, 
      .     X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,X4,Y4,Z4,
@@ -80,7 +79,6 @@ C-----------------------------------------------
      .     AREAINV,NORMAL(3),NNN,F_TOTAL(1:3),FN_PROJ
       INTEGER FACES(4,6),LINES(2,4),FACES10(3,24)
        my_real, DIMENSION(:), ALLOCATABLE ::  NODAREA
-       my_real, DIMENSION(:,:), ALLOCATABLE ::  NORM_N
 C     REAL
       DATA FACES/1,2,3,4,
      .           2,1,5,6,
@@ -123,402 +121,6 @@ C
         NODAREA(N)=ZERO
       END DO
 C
-!    do normal dependent only for CONTN(1:3)>0
-      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT /=0) THEN
-        NNOUT = 0
-         DO N=1,NUMNOD
-             NORMAL(1:3) = CONTN(1:3,N)
-             NNN = NORMAL(1)**2+NORMAL(2)**2+NORMAL(3)**2
-             IF(NNN > EM14) NNOUT = NNOUT + 1
-         END DO
-        IF(NNOUT >0) THEN
-          ALLOCATE(ITAGN(NUMNOD))
-          ALLOCATE(NORM_N(3,NNOUT))
-          ITAGN = 0
-          NI = 0
-          DO N=1,NUMNOD
-             NORMAL(1:3) = CONTN(1:3,N)
-             NNN = NORMAL(1)**2+NORMAL(2)**2+NORMAL(3)**2
-             IF(NNN > EM14) THEN
-                NNN = ONE/SQRT(NNN)
-                NORMAL(1:3) = NORMAL(1:3)*NNN
-                NI = NI + 1
-                ITAGN(N) = NI
-                NORM_N(1:3,NI) = NORMAL(1:3)
-             END IF
-          END DO
-          DO I=1,NFASOLFR
-            N   =FASOLFR(1,I)
-            IFAC=FASOLFR(2,I)
-C         
-            IF( N  <= NUMELS8 ) THEN
-          
-              N1=IXS(FACES(1,IFAC)+1,N)
-              N2=IXS(FACES(2,IFAC)+1,N)
-              N3=IXS(FACES(3,IFAC)+1,N)
-              N4=IXS(FACES(4,IFAC)+1,N)
-              IF((ITAGN(N1)+ITAGN(N2)+ITAGN(N3)+ITAGN(N4))==0 ) CYCLE
-              X1=X(1,N1)
-              Y1=X(2,N1)
-              Z1=X(3,N1)
-              X2=X(1,N2)
-              Y2=X(2,N2)
-              Z2=X(3,N2)
-              X3=X(1,N3)
-              Y3=X(2,N3)
-              Z3=X(3,N3)
-              X4=X(1,N4)
-              Y4=X(2,N4)
-              Z4=X(3,N4)
-C         
-              X31=X3-X1
-              Y31=Y3-Y1
-              Z31=Z3-Z1
-              X42=X4-X2
-              Y42=Y4-Y2
-              Z42=Z4-Z2
-C         
-              E3X=Y31*Z42-Z31*Y42
-              E3Y=Z31*X42-X31*Z42
-              E3Z=X31*Y42-Y31*X42
-C         
-              IF(   N4/=N3
-     .         .AND.N3/=N2
-     .         .AND.N2/=N1
-     .         .AND.N1/=N4)THEN
-                E3X=ONE_OVER_8*E3X
-                E3Y=ONE_OVER_8*E3Y
-                E3Z=ONE_OVER_8*E3Z
-!                AREA=SQRT(E3X*E3X+E3Y*E3Y+E3Z*E3Z)
-                NI=  ITAGN(N1) 
-                IF (NI > 0 ) THEN 
-                  NORMAL(1:3)= NORM_N(1:3,NI) 
-                  NODAREA(N1)=NODAREA(N1)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
-                ENDIF
-                NI=  ITAGN(N2) 
-                IF (NI > 0 ) THEN 
-                  NORMAL(1:3)= NORM_N(1:3,NI) 
-                  NODAREA(N2)=NODAREA(N2)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
-                ENDIF
-                NI=  ITAGN(N3) 
-                IF (NI > 0 ) THEN 
-                  NORMAL(1:3)= NORM_N(1:3,NI) 
-                  NODAREA(N3)=NODAREA(N3)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
-                ENDIF
-                NI=  ITAGN(N4) 
-                IF (NI > 0 ) THEN 
-                  NORMAL(1:3)= NORM_N(1:3,NI) 
-                  NODAREA(N4)=NODAREA(N4)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
-                ENDIF
-              ELSE
-                E3X=ONE_OVER_6*E3X
-                E3Y=ONE_OVER_6*E3Y
-                E3Z=ONE_OVER_6*E3Z
-!                AREA=SQRT(E3X*E3X+E3Y*E3Y+E3Z*E3Z)
-                NI=  ITAGN(N1) 
-                IF (NI > 0 ) THEN 
-                  NORMAL(1:3)= NORM_N(1:3,NI) 
-                  NODAREA(N1)=NODAREA(N1)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
-                ENDIF
-                IF (N2 /= N1 ) THEN 
-                  NI=  ITAGN(N2) 
-                  IF (NI > 0 ) THEN 
-                    NORMAL(1:3)= NORM_N(1:3,NI) 
-                    NODAREA(N2)=NODAREA(N2)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
-                  ENDIF
-                ENDIF
-                IF (N3 /= N2 .AND. N3 /= N1 ) THEN 
-                  NI=  ITAGN(N3) 
-                  IF (NI > 0 ) THEN 
-                    NORMAL(1:3)= NORM_N(1:3,NI) 
-                    NODAREA(N3)=NODAREA(N3)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
-                  ENDIF
-                ENDIF
-                IF (N4 /= N3 .AND. N4 /= N2 .AND. N4 /= N1 ) THEN 
-                  NI=  ITAGN(N4) 
-                  IF (NI > 0 ) THEN 
-                    NORMAL(1:3)= NORM_N(1:3,NI) 
-                    NODAREA(N4)=NODAREA(N4)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
-                  ENDIF
-                ENDIF
-              END IF
-!         
-            ELSEIF( N  <= NUMELS8+NUMELS10 ) THEN
-!         
-          
-              DO J=1,4         
-                NN1=FACES10(1,4*(IFAC-1)+J)
-                NN2=FACES10(2,4*(IFAC-1)+J)
-                NN3=FACES10(3,4*(IFAC-1)+J)
-          
-                IF(NN1 > 0 ) THEN 
-                   IF(NN1 >0.AND.NN1 < 10) THEN
-                      N1=IXS(NN1+1,N) 
-                   ELSE
-                      N1=IXS10(NN1-10,N-NUMELS8)
-                   ENDIF
-                ENDIF
-          
-                IF(NN2 > 0 ) THEN 
-                  IF(NN2 < 10) THEN
-                     N2=IXS(NN2+1,N) 
-                   ELSE
-                     N2=IXS10(NN2-10,N-NUMELS8)
-                   ENDIF
-                ENDIF 
-          
-                IF(NN3 > 0 ) THEN 
-                   IF(NN3 < 10) THEN
-                      N3=IXS(NN3+1,N) 
-                   ELSE
-                      N3=IXS10(NN3-10,N-NUMELS8)
-                   ENDIF
-                ENDIF
-          
-          
-                IF(N1 > 0 .AND. N2 > 0 .AND.N3 > 0) THEN
-                  IF((ITAGN(N1)+ITAGN(N2)+ITAGN(N3))==0 ) CYCLE
-                  X1=X(1,N1)
-                  Y1=X(2,N1)
-                  Z1=X(3,N1)
-                  X2=X(1,N2)
-                  Y2=X(2,N2)
-                  Z2=X(3,N2)
-                  X3=X(1,N3)
-                  Y3=X(2,N3)
-                  Z3=X(3,N3)
-C         
-                  X31=X3-X1
-                  Y31=Y3-Y1
-                  Z31=Z3-Z1
-                  X32=X3-X2
-                  Y32=Y3-Y2
-                  Z32=Z3-Z2
-C         
-                  E3X=Y31*Z32-Z31*Y32
-                  E3Y=Z31*X32-X31*Z32
-                  E3Z=X31*Y32-Y31*X32
-C         
-                  E3X=ONE_OVER_6*E3X
-                  E3Y=ONE_OVER_6*E3Y
-                  E3Z=ONE_OVER_6*E3Z
-!                  AREA=SQRT(E3X*E3X+E3Y*E3Y+E3Z*E3Z)
-                  NI=  ITAGN(N1) 
-                  IF (NI > 0 ) THEN 
-                    NORMAL(1:3)= NORM_N(1:3,NI) 
-                    NODAREA(N1)=NODAREA(N1)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
-                  ENDIF
-                  NI=  ITAGN(N2) 
-                  IF (NI > 0 ) THEN 
-                    NORMAL(1:3)= NORM_N(1:3,NI) 
-                    NODAREA(N2)=NODAREA(N2)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
-                  ENDIF
-                  NI=  ITAGN(N3) 
-                  IF (NI > 0 ) THEN 
-                    NORMAL(1:3)= NORM_N(1:3,NI) 
-                    NODAREA(N3)=NODAREA(N3)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
-                  ENDIF
-                ENDIF
-              ENDDO
-            ENDIF
-          END DO
-C
-          DO N=1,NUMELC
-            N1=IXC(2,N)
-            N2=IXC(3,N)
-            N3=IXC(4,N)
-            N4=IXC(5,N)
-            IF((ITAGN(N1)+ITAGN(N2)+ITAGN(N3)+ITAGN(N4))==0 ) CYCLE
-            IF(N4/=N3)THEN
-              X1=X(1,N1)
-              Y1=X(2,N1)
-              Z1=X(3,N1)
-              X2=X(1,N2)
-              Y2=X(2,N2)
-              Z2=X(3,N2)
-              X3=X(1,N3)
-              Y3=X(2,N3)
-              Z3=X(3,N3)
-              X4=X(1,N4)
-              Y4=X(2,N4)
-              Z4=X(3,N4)
-C         
-              X31=X3-X1
-              Y31=Y3-Y1
-              Z31=Z3-Z1
-              X42=X4-X2
-              Y42=Y4-Y2
-              Z42=Z4-Z2
-C         
-              E3X=Y31*Z42-Z31*Y42
-              E3Y=Z31*X42-X31*Z42
-              E3Z=X31*Y42-Y31*X42
-C         
-              E3X=ONE_OVER_8*E3X
-              E3Y=ONE_OVER_8*E3Y
-              E3Z=ONE_OVER_8*E3Z
-C         
-!              AREA=SQRT(E3X*E3X+E3Y*E3Y+E3Z*E3Z)
-                IF (NI > 0 ) THEN 
-                  NORMAL(1:3)= NORM_N(1:3,NI) 
-                  NODAREA(N1)=NODAREA(N1)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
-                ENDIF
-                NI=  ITAGN(N2) 
-                IF (NI > 0 ) THEN 
-                  NORMAL(1:3)= NORM_N(1:3,NI) 
-                  NODAREA(N2)=NODAREA(N2)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
-                ENDIF
-                NI=  ITAGN(N3) 
-                IF (NI > 0 ) THEN 
-                  NORMAL(1:3)= NORM_N(1:3,NI) 
-                  NODAREA(N3)=NODAREA(N3)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
-                ENDIF
-                NI=  ITAGN(N4) 
-                IF (NI > 0 ) THEN 
-                  NORMAL(1:3)= NORM_N(1:3,NI) 
-                  NODAREA(N4)=NODAREA(N4)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
-                ENDIF
-C         
-            ELSE
-              X1=X(1,N1)
-              Y1=X(2,N1)
-              Z1=X(3,N1)
-              X2=X(1,N2)
-              Y2=X(2,N2)
-              Z2=X(3,N2)
-              X3=X(1,N3)
-              Y3=X(2,N3)
-              Z3=X(3,N3)
-              X31=X3-X1
-              Y31=Y3-Y1
-              Z31=Z3-Z1
-              X32=X3-X2
-              Y32=Y3-Y2
-              Z32=Z3-Z2
-C         
-              E3X=Y31*Z32-Z31*Y32
-              E3Y=Z31*X32-X31*Z32
-              E3Z=X31*Y32-Y31*X32
-              E3X=ONE_OVER_6*E3X
-              E3Y=ONE_OVER_6*E3Y
-              E3Z=ONE_OVER_6*E3Z
-C         
-!              AREA=SQRT(E3X*E3X+E3Y*E3Y+E3Z*E3Z)
-                IF (NI > 0 ) THEN 
-                  NORMAL(1:3)= NORM_N(1:3,NI) 
-                  NODAREA(N1)=NODAREA(N1)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
-                ENDIF
-                NI=  ITAGN(N2) 
-                IF (NI > 0 ) THEN 
-                  NORMAL(1:3)= NORM_N(1:3,NI) 
-                  NODAREA(N2)=NODAREA(N2)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
-                ENDIF
-                NI=  ITAGN(N3) 
-                IF (NI > 0 ) THEN 
-                  NORMAL(1:3)= NORM_N(1:3,NI) 
-                  NODAREA(N3)=NODAREA(N3)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
-                ENDIF
-            END IF
-          END DO
-C         
-          DO N=1,NUMELTG
-            N1=IXTG(2,N)
-            N2=IXTG(3,N)
-            N3=IXTG(4,N)
-            X1=X(1,N1)
-            Y1=X(2,N1)
-            Z1=X(3,N1)
-            X2=X(1,N2)
-            Y2=X(2,N2)
-            Z2=X(3,N2)
-            X3=X(1,N3)
-            Y3=X(2,N3)
-            Z3=X(3,N3)
-            X31=X3-X1
-            Y31=Y3-Y1
-            Z31=Z3-Z1
-            X32=X3-X2
-            Y32=Y3-Y2
-            Z32=Z3-Z2
-C         
-            E3X=Y31*Z32-Z31*Y32
-            E3Y=Z31*X32-X31*Z32
-            E3Z=X31*Y32-Y31*X32
-            E3X=ONE_OVER_6*E3X
-            E3Y=ONE_OVER_6*E3Y
-            E3Z=ONE_OVER_6*E3Z
-C         
-!            AREA=SQRT(E3X*E3X+E3Y*E3Y+E3Z*E3Z)
-            IF (NI > 0 ) THEN 
-              NORMAL(1:3)= NORM_N(1:3,NI) 
-              NODAREA(N1)=NODAREA(N1)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
-            ENDIF
-            NI=  ITAGN(N2) 
-            IF (NI > 0 ) THEN 
-              NORMAL(1:3)= NORM_N(1:3,NI) 
-              NODAREA(N2)=NODAREA(N2)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
-            ENDIF
-            NI=  ITAGN(N3) 
-            IF (NI > 0 ) THEN 
-              NORMAL(1:3)= NORM_N(1:3,NI) 
-              NODAREA(N3)=NODAREA(N3)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
-            ENDIF
-            NI=  ITAGN(N4) 
-            IF (NI > 0 ) THEN 
-              NORMAL(1:3)= NORM_N(1:3,NI) 
-              NODAREA(N4)=NODAREA(N4)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
-            ENDIF
-          END DO
-C         
-          DO I=1,NSEGQUADFR
-            N  =SEGQUADFR(1,I)
-            ILINE=SEGQUADFR(2,I)
-          
-            N1=IXQ(LINES(1,ILINE)+1,N)
-            N2=IXQ(LINES(2,ILINE)+1,N)
-          
-            Y1=X(2,N1)
-            Z1=X(3,N1)
-            Y2=X(2,N2)
-            Z2=X(3,N2)
-          
-            AREA = SQRT((Y2-Y1)*(Y2-Y1)+(Z2-Z1)*(Z2-Z1))
-            AREA = AREA*HALF
-          
-          
-           NODAREA(N1)=NODAREA(N1)+AREA
-           NODAREA(N2)=NODAREA(N2)+AREA
-          
-          ENDDO
-!
-          IF(NSPMD > 1)THEN
-            LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
-            CALL SPMD_EXCH_NODAREA(NODAREA,IAD_ELEM,FR_ELEM,LENR,WEIGHT)
-          END IF
-C
-          DO N=1,NUMNOD
-            IF (NODAREA(N) == ZERO) THEN
-              CONTN(1,N)=ZERO
-              CONTN(2,N)=ZERO
-              CONTN(3,N)=ZERO
-              CONTT(1,N)=ZERO
-              CONTT(2,N)=ZERO
-              CONTT(3,N)=ZERO
-            ELSE
-              AREAINV = ONE/MAX(EM30,NODAREA(N))
-              CONTN(1,N)=AREAINV*CONTN(1,N)
-              CONTN(2,N)=AREAINV*CONTN(2,N)
-              CONTN(3,N)=AREAINV*CONTN(3,N)
-              CONTT(1,N)=AREAINV*CONTT(1,N)
-              CONTT(2,N)=AREAINV*CONTT(2,N)
-              CONTT(3,N)=AREAINV*CONTT(3,N)
-            ENDIF
-          END DO
-          DEALLOCATE(ITAGN)
-          DEALLOCATE(NORM_N)
-        END IF !(NNOUT >0) THEN
-      ENDIF
-!
       DO I=1,NFASOLFR
         N   =FASOLFR(1,I)
         IFAC=FASOLFR(2,I)
@@ -794,6 +396,27 @@ C
         LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
         CALL SPMD_EXCH_NODAREA(NODAREA,IAD_ELEM,FR_ELEM,LENR,WEIGHT)
       END IF
+C
+      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT /=0) THEN
+         DO N=1,NUMNOD
+           IF (NODAREA(N) == ZERO) THEN
+             CONTN(1,N)=ZERO
+             CONTN(2,N)=ZERO
+             CONTN(3,N)=ZERO
+             CONTT(1,N)=ZERO
+             CONTT(2,N)=ZERO
+             CONTT(3,N)=ZERO
+           ELSE
+             AREAINV = ONE/MAX(EM30,NODAREA(N))
+             CONTN(1,N)=AREAINV*CONTN(1,N)
+             CONTN(2,N)=AREAINV*CONTN(2,N)
+             CONTN(3,N)=AREAINV*CONTN(3,N)
+             CONTT(1,N)=AREAINV*CONTT(1,N)
+             CONTT(2,N)=AREAINV*CONTT(2,N)
+             CONTT(3,N)=AREAINV*CONTT(3,N)
+           ENDIF
+         END DO
+       ENDIF
 C
       IF(ANIM_V(27)+H3D_DATA%N_VECT_PCONT2 /=0) THEN
          DO N=1,NUMNOD
