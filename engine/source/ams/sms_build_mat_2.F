@@ -65,7 +65,8 @@ C-----------------------------------------------
       USE INTSTAMP_MOD
       USE MESSAGE_MOD
       USE ELBUFDEF_MOD 
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -137,16 +138,21 @@ C-----------------------------------------------
      .        KAD, NPT, IHBE, ICNOD, ISTRA, IEXPAN, IE, J1,
      .        ILOC4(4), IG, IGTYP, IERROR, IPERM1(6), IPERM2(6),IPENTA6(6)
       INTEGER MSR, NSN, KI, KJ, KL, NSR
-      INTEGER SIZE, LENR, IAD, L, JI,TAGA(NUMNOD),NAD_SMS(NUMNOD),
-     .        KADI_SMS(NUMNOD+1), NADI_SMS(NUMNOD), TAG8(NUMNOD), 
-     .        NAD_SMS_0(NUMNOD)
+      INTEGER SIZE, LENR, IAD, L, JI
+      INTEGER,DIMENSION(:),ALLOCATABLE :: TAGA
+      INTEGER,DIMENSION(:),ALLOCATABLE :: NAD_SMS
+      INTEGER,DIMENSION(:),ALLOCATABLE :: KADI_SMS
+      INTEGER,DIMENSION(:),ALLOCATABLE :: NADI_SMS
+      INTEGER,DIMENSION(:),ALLOCATABLE :: TAG8
+      INTEGER,DIMENSION(:),ALLOCATABLE :: NAD_SMS_0
       INTEGER NTY, ILAGM, N1, N2, N3, N4,
      .        NMN,ILEV, KSN, KMULT
       my_real
      .        MELE4, MELE12, XN, LTIJ, MSLV,
-     .        IXX, IYY, IZZ, XX, YY, ZZ, MAS, AWORK(3,NUMNOD),
+     .        IXX, IYY, IZZ, XX, YY, ZZ, MAS, 
      .        VRX, VRY, VRZ, V1, V2, V3, GX, GY, GZ, XNOD,
      .        FAC_SCAL_I,FAC_SCAL_J
+      my_real, dimension(:,:),ALLOCATABLE ::  AWORK
 C-----
       INTEGER, DIMENSION(:), ALLOCATABLE :: IMV
       my_real
@@ -160,6 +166,14 @@ C-----
       DATA IPERM1/1,2,3,1,2,3/
       DATA IPERM2/2,3,1,4,4,4/
       DATA IPENTA6/1,2,3,5,6,7/
+C-----------------------------------------------
+      CALL MY_ALLOC(TAGA,NUMNOD)
+      CALL MY_ALLOC(NAD_SMS,NUMNOD)
+      CALL MY_ALLOC(KADI_SMS,NUMNOD+1)
+      CALL MY_ALLOC(NADI_SMS,NUMNOD)
+      CALL MY_ALLOC(TAG8,NUMNOD)
+      CALL MY_ALLOC(NAD_SMS_0,NUMNOD)
+      CALL MY_ALLOC(AWORK,3,NUMNOD)
 C-----------------------------------------------
 C reset enforcement of contact sorting
 !$OMP SINGLE

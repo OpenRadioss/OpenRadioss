@@ -33,7 +33,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD 
+      USE ELBUFDEF_MOD
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,13 +61,21 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N, JJ, IPRT, BUF, IPRT0, K, STAT_NUMELQ_1
       INTEGER NG, NEL, NFT, LFT, LLT, ITY, ISOLNOD, IOFF
-      INTEGER IADD(NPART+1), IADG(NSPMD,NPART)
-      INTEGER NP(24*NUMELQG),
-     .        NPGLOB(24*NUMELQG),
-     .        WORK(70000),CLEF(2,NUMELQG)
+      INTEGER WORK(70000)
+      INTEGER,DIMENSION(:),ALLOCATABLE::IADD
+      INTEGER,DIMENSION(:,:),ALLOCATABLE::IADG
+      INTEGER,DIMENSION(:),ALLOCATABLE::NP
+      INTEGER,DIMENSION(:),ALLOCATABLE::NPGLOB
+      INTEGER,DIMENSION(:,:),ALLOCATABLE:: CLEF
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C-----------------------------------------------
 C     8 NODES BRICK
+C-----------------------------------------------
+      CALL MY_ALLOC(IADG,NSPMD,NPART)
+      CALL MY_ALLOC(IADD,NPART+1)
+      CALL MY_ALLOC(NP,24*NUMELQG)
+      CALL MY_ALLOC(NPGLOB,24*NUMELQG)
+      CALL MY_ALLOC(CLEF,2,NUMELQG)
 C-----------------------------------------------
       JJ = 0
       DO NG=1,NGROUP
@@ -95,6 +104,12 @@ C-----------------------------------------------
        END IF
       END DO
 
+C-----------------------------------------------
+      DEALLOCATE(IADG)
+      DEALLOCATE(IADD)
+      DEALLOCATE(NP)
+      DEALLOCATE(NPGLOB)
+      DEALLOCATE(CLEF)
 C-----------------------------------------------
       RETURN
       END

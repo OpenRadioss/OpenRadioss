@@ -37,7 +37,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD 
+      USE ELBUFDEF_MOD
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -70,11 +71,15 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N, JJ, IPRT0, IPRT, K, II
       INTEGER NG, NEL, NFT, LFT, LLT, ITY, MLW, ITHK,IOFF
-      INTEGER NP(8*MAX(NUMELC,NUMELTG)),
-     .        WORK(70000),CLEF(2,MAX(NUMELC,NUMELTG))
-      double precision   
-     .   THK(MAX(NUMELC,NUMELTG))
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      INTEGER WORK(70000)
+      INTEGER, DIMENSION(:),ALLOCATABLE :: NP
+      INTEGER, DIMENSION(:,:),ALLOCATABLE :: CLEF
+      double precision,DIMENSION(:),ALLOCATABLE ::   THK
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+C-----------------------------------------------
+      CALL MY_ALLOC(THK,MAX(NUMELC,NUMELTG))
+      CALL MY_ALLOC(CLEF,2,MAX(NUMELC,NUMELTG))
+      CALL MY_ALLOC(NP,8*MAX(NUMELC,NUMELTG))
 C-----------------------------------------------
 C     4-NODE SHELLS
 C-----------------------------------------------
@@ -361,5 +366,8 @@ C
 
       END IF
 C-----------------------------------------------
+      DEALLOCATE(THK)
+      DEALLOCATE(CLEF)
+      DEALLOCATE(NP)
       RETURN
       END

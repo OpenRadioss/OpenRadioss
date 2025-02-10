@@ -30,6 +30,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE STAT_NODE(X,NUMNOD,ITAB,ITABG,LENG,
      .                    NODGLOB,WEIGHT,NODTAG)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MY_ALLOC_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -51,9 +55,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      INTEGER NODTAGLOB(LENG)
-      my_real
-     . VGLOB(3,LENG)
+      INTEGER,DIMENSION(:),ALLOCATABLE :: NODTAGLOB
+      my_real,DIMENSION(:,:),ALLOCATABLE :: VGLOB
+C-----------------------------------------------
+      CALL MY_ALLOC(NODTAGLOB,LENG)
+      CALL MY_ALLOC(VGLOB,3,LENG)
 C-----------------------------------------------
 
       IF (NSPMD > 1) THEN
@@ -80,6 +86,9 @@ C-----------------------------------------------
      .       ITABG(I),VGLOB(1,I),VGLOB(2,I),VGLOB(3,I)
         END DO
       ENDIF
+C-----------------------------------------------
+      DEALLOCATE(NODTAGLOB)
+      DEALLOCATE(VGLOB)
 C-----------------------------------------------
       RETURN
       END

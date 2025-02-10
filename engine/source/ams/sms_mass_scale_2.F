@@ -92,6 +92,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE SENSOR_MOD
       USE ams_work_mod
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -189,11 +190,18 @@ C-----
       INTEGER, DIMENSION(:), ALLOCATABLE :: IMV
       my_real
      .       , DIMENSION(:), ALLOCATABLE :: MV
-      my_real,
-     .   DIMENSION(3,NUMNOD) :: MVSKW,VSKW,RSKW,DAMPSKW
+      my_real, DIMENSION(:,:), ALLOCATABLE :: MVSKW
+      my_real, DIMENSION(:,:), ALLOCATABLE :: VSKW
+      my_real, DIMENSION(:,:), ALLOCATABLE :: RSKW
+      my_real, DIMENSION(:,:), ALLOCATABLE :: DAMPSKW
       DOUBLE PRECISION
      .       , DIMENSION(:,:), ALLOCATABLE :: MV6
       EXTERNAL NGR2USR
+C-----------------------------------------------
+      CALL MY_ALLOC(MVSKW,3,NUMNOD)
+      CALL MY_ALLOC(VSKW,3,NUMNOD)
+      CALL MY_ALLOC(RSKW,3,NUMNOD)
+      CALL MY_ALLOC(DAMPSKW,3,NUMNOD)
 C-----------------------------------------------
       FREA(1:3,NODFT:NODLT)=ZERO
 C
@@ -787,7 +795,31 @@ C-----------------------------------
      Q            NODII_SMS,IBCSCYC ,LBCSCYC ,WFEXT,AMS_WORK )
 C
       CALL MY_BARRIER
-
+C
+c      DT15=HALF*DT1
+c      DT25=HALF*DT2
+c      TFEXTT=ERRTE_SMS
+c      ERRTET =ZERO
+c      DO N=NODFT1_SMS,NODLT1_SMS
+c        I = INDX1_SMS(N)
+c        VX = V(1,I)+DT05*A(1,I)
+c        VY = V(2,I)+DT05*A(2,I)
+c        VZ = V(3,I)+DT05*A(3,I)
+c        MVX = RES_SMS(1,I)
+c        MVY = RES_SMS(2,I)
+c        MVZ = RES_SMS(3,I)
+c        DW = (VX*MVX + VY*MVY + VZ*MVZ)*WEIGHT(I)
+c        TFEXTT =TFEXTT + DT15*DW
+c        ERRTET =ERRTET  + DT25*DW
+c      END DO
+c#include "lockon.inc"
+c      TFEXT=TFEXT+TFEXTT
+c      ERRTE_SMS=ERRTE_SMS+ERRTET
+c#include "lockoff.inc"
+c
+c      CALL MY_BARRIER
+c
+C
       IF(NJOINT > 0)THEN
         CALL SMS_CJOINT_2(A    ,AM    ,V ,VR,X    ,
      2                    LJOINT,MS,IN,IADCJ,FR_CJ,
@@ -810,6 +842,10 @@ C
       IF(IPARIT/=0)THEN
         DEALLOCATE(IMV, MV, MV6)
       END IF
+      DEALLOCATE(MVSKW)
+      DEALLOCATE(VSKW)
+      DEALLOCATE(RSKW)
+      DEALLOCATE(DAMPSKW)
 C
       RETURN
       END

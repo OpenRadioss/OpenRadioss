@@ -39,7 +39,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,8 +73,8 @@ C-----------------------------------------------
       INTEGER I,N,J,K,JJ,LEN,IOFF,NG, NEL, NFT, ITY, LFT,LLT,IHBE,
      .   MLW, NPTR,NPTS,NPTT,NLAY,NPG,NPT,IR,IS,ID,IPRT0,IPRT,
      .   IPG,MPT,NPTM,IPT,IE,ITHK,IT,IGTYP,NPT_ALL
-      INTEGER PTWA(MAX(STAT_NUMELC ,STAT_NUMELTG)),
-     .        PTWA_P0(0:MAX(1,STAT_NUMELC_G,STAT_NUMELTG_G))
+      INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA
+      INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA_P0
       double precision   
      .    THK
       CHARACTER*100 DELIMIT,LINE
@@ -87,6 +88,9 @@ c
      ./'----7----|----8----|----9----|----10---|'/
 C=======================================================================
 C     4-NODE SHELLS
+C-----------------------------------------------
+      CALL MY_ALLOC(PTWA,MAX(STAT_NUMELC ,STAT_NUMELTG))
+      ALLOCATE(PTWA_P0(0:MAX(1,STAT_NUMELC_G,STAT_NUMELTG_G)))
 C-----------------------------------------------
       JJ = 0
       IF (STAT_NUMELC == 0) GOTO 200
@@ -542,6 +546,10 @@ C
           ENDIF  !  IF (IOFF == 1)
         ENDDO  !  DO N=1,STAT_NUMELTG_G      
       ENDIF  !  IF(ISPMD == 0.AND.LEN>0)
+c-----------
+      DEALLOCATE(PTWA)
+      DEALLOCATE(PTWA_P0)
+c-----------
 C
       RETURN
       END

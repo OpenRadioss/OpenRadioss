@@ -42,6 +42,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD            
       USE GROUPDEF_MOD
       USE MESSAGE_MOD
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -88,12 +89,18 @@ C-----------------------------------------------
      .        K1,K11,K12,K13,K14,
      .        IOK,IDTGRX,NG
       INTEGER I15ATH,I15A,I15B,I15C,I15D,I15E,I15F,I15G,I15H,I15I,I15J,I15K
-      INTEGER TAGN(NUMNOD), TAGR(NUMELR),TAGPRT_SMS(NPART)
 C     REAL
       my_real
      .   XKM, XCM, XKR, XCR, XIN(MVSIZ)
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       INTEGER, DIMENSION(:), POINTER :: IPARTR
+      INTEGER, DIMENSION(:), ALLOCATABLE :: TAGN
+      INTEGER, DIMENSION(:), ALLOCATABLE :: TAGR
+      INTEGER, DIMENSION(:), ALLOCATABLE :: TAGPRT_SMS
+C-----------------------------------------------------
+      CALL MY_ALLOC(TAGN,NUMNOD)
+      CALL MY_ALLOC(TAGR,NUMELR)
+      CALL MY_ALLOC(TAGPRT_SMS,NPART)
 C-----------------------------------------------------
 C     Check for springs with stiffness but no mass
 C     ... Switch for cohesive elements should also be done here ...
@@ -298,5 +305,9 @@ C------------------------------------------
         END IF
       END IF
 C------------------------------------------
+      DEALLOCATE(TAGN)
+      DEALLOCATE(TAGR)
+      DEALLOCATE(TAGPRT_SMS)
+C-----------------------------------------------------
       RETURN
       END      

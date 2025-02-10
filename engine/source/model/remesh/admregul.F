@@ -45,6 +45,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE REMESH_MOD
       USE ELBUFDEF_MOD
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -85,13 +86,20 @@ C-----------------------------------------------
      .   MATLY,MY_NUVAR,MY_NUVARR,NUVAR,NUVARR,II,IVAR, 
      .   NA16A,NB16A,MPT,NPTM,NAM_S,NBM_S,IG,IH,IS,
      .   PTF,PTM,PTE,PTP,PTS,QTF,QTM,QTE,QTP,QTS,NPG
-      INTEGER LEVEL,NTMP,LEV,P,NI,MYLEV,IP,
-     .        KDIVIDE4(NUMELC),KDIVIDE3(NUMELTG)
-      INTEGER NSKYML, WORK(70000),
-     .        ITRI(MAX(NUMELC,NUMELTG)), INDEX(2*MAX(NUMELC,NUMELTG))
+      INTEGER LEVEL,NTMP,LEV,P,NI,MYLEV,IP
+      INTEGER NSKYML, WORK(70000)      
+      INTEGER,DIMENSION(:), ALLOCATABLE :: KDIVIDE4
+      INTEGER,DIMENSION(:), ALLOCATABLE :: KDIVIDE3
+      INTEGER,DIMENSION(:), ALLOCATABLE :: ITRI
+      INTEGER,DIMENSION(:), ALLOCATABLE :: INDEX1
       my_real
      .        MSBIG, INBIG, MCPM, MCPN
 C-----------------------------------------------
+      CALL MY_ALLOC(KDIVIDE4,NUMELC)
+      CALL MY_ALLOC(KDIVIDE3,NUMELTG)
+      CALL MY_ALLOC(ITRI,MAX(NUMELC,NUMELTG))
+      CALL MY_ALLOC(INDEX1,2*MAX(NUMELC,NUMELTG))
+
  10   CONTINUE 
 
       IF(ITASK==0) THEN
@@ -438,10 +446,10 @@ C--
         DO I = 1, NSKYMSH4
           ITRI(I) = IXC(NIXC,ABS(MSH4SKY(I)))
         ENDDO
-        CALL MY_ORDERS(0,WORK,ITRI,INDEX,NSKYMSH4,1)
+        CALL MY_ORDERS(0,WORK,ITRI,INDEX1,NSKYMSH4,1)
         IF(ISTATCND==0)THEN
           DO J = 1, NSKYMSH4
-            N=MSH4SKY(INDEX(J))
+            N=MSH4SKY(INDEX1(J))
             IF(N < 0)THEN
               N=-N
               DO K=1,4
@@ -459,7 +467,7 @@ C--
           END DO
         ELSE
           DO J = 1, NSKYMSH4
-            N=MSH4SKY(INDEX(J))
+            N=MSH4SKY(INDEX1(J))
             IF(N < 0)THEN
               N=-N
               MSBIG=MSC(N)
@@ -483,7 +491,7 @@ C--
 C
         IF(ITHERM_FE > 0)THEN
           DO J = 1, NSKYMSH4
-            N=MSH4SKY(INDEX(J))
+            N=MSH4SKY(INDEX1(J))
             IF(N < 0)THEN
               N=-N
               DO K=1,4
@@ -505,10 +513,10 @@ C--
         DO I = 1, NSKYMSH3
           ITRI(I) = IXTG(NIXTG,ABS(MSH3SKY(I)))
         ENDDO
-        CALL MY_ORDERS(0,WORK,ITRI,INDEX,NSKYMSH3,1)
+        CALL MY_ORDERS(0,WORK,ITRI,INDEX1,NSKYMSH3,1)
         IF(ISTATCND==0)THEN
           DO J = 1, NSKYMSH3
-            N=MSH3SKY(INDEX(J))
+            N=MSH3SKY(INDEX1(J))
             IF(N < 0)THEN
               N=-N
               DO K=1,3
@@ -526,7 +534,7 @@ C--
           END DO
         ELSE
           DO J = 1, NSKYMSH3
-            N=MSH3SKY(INDEX(J))
+            N=MSH3SKY(INDEX1(J))
             IF(N < 0)THEN
               N=-N
               MSBIG=MSTG(N)
@@ -550,7 +558,7 @@ C--
 C
         IF(ITHERM_FE > 0)THEN
           DO J = 1, NSKYMSH3
-            N=MSH3SKY(INDEX(J))
+            N=MSH3SKY(INDEX1(J))
             IF(N < 0)THEN
               N=-N
               DO K=1,3
@@ -597,5 +605,9 @@ C     compactage de LSH3ACT
 
       GO TO 10
 C----6---------------------------------------------------------------7---------8
+      DEALLOCATE(KDIVIDE4)
+      DEALLOCATE(KDIVIDE3)
+      DEALLOCATE(ITRI)
+      DEALLOCATE(INDEX1)
       RETURN
       END     

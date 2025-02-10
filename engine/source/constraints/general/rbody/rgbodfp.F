@@ -35,6 +35,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5                   NSN  ,NATIV_SMS,FBSAV6,IPARSENS,
      6                   NODREAC,FTHREAC,CPTREAC,ISPHER)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MY_ALLOC_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -70,9 +74,24 @@ C     REAL
      .   WA1, WA2, WA3, DD, VI(3),II1,II2,II3,II4,II5,II6,II7,II8,II9,
      .   ENROTT,ENCINT,XMASST,XMOMTT,YMOMTT,ZMOMTT,MAS,AFM1,AFM2,AFM3,
      .   ARM1,ARM2,ARM3,STFM,STFRM,
-     .   DET, IL1,IL2,IL3,IL4,IL5,IL6,IL7,IL8,IL9,
-     .   F1(NSN), F2(NSN), F3(NSN), F4(NSN),
-     .   F5(NSN), F6(NSN), F7(NSN), F8(NSN)
+     .   DET, IL1,IL2,IL3,IL4,IL5,IL6,IL7,IL8,IL9
+      my_real,DIMENSION(:), ALLOCATABLE :: F1
+      my_real,DIMENSION(:), ALLOCATABLE :: F2
+      my_real,DIMENSION(:), ALLOCATABLE :: F3
+      my_real,DIMENSION(:), ALLOCATABLE :: F4
+      my_real,DIMENSION(:), ALLOCATABLE :: F5
+      my_real,DIMENSION(:), ALLOCATABLE :: F6
+      my_real,DIMENSION(:), ALLOCATABLE :: F7
+      my_real,DIMENSION(:), ALLOCATABLE :: F8
+C-----------------------------------------------
+      CALL MY_ALLOC(F1,NSN)
+      CALL MY_ALLOC(F2,NSN)
+      CALL MY_ALLOC(F3,NSN)
+      CALL MY_ALLOC(F4,NSN)
+      CALL MY_ALLOC(F5,NSN)
+      CALL MY_ALLOC(F6,NSN)
+      CALL MY_ALLOC(F7,NSN)
+      CALL MY_ALLOC(F8,NSN)
 C-----------------------------------------------
 C
 c      M   =NBY(1)
@@ -734,6 +753,15 @@ C
        ENDDO
       ENDIF
 C
+      DEALLOCATE(F1)
+      DEALLOCATE(F2)
+      DEALLOCATE(F3)
+      DEALLOCATE(F4)
+      DEALLOCATE(F5)
+      DEALLOCATE(F6)
+      DEALLOCATE(F7)
+      DEALLOCATE(F8)
+
       RETURN
       END
 

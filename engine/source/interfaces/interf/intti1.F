@@ -58,6 +58,7 @@ C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE H3D_MOD
       use glob_therm_mod
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -100,16 +101,21 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, NTY, JI, JB, NMN, NINT, LWA, I2OK,K,ITIED,
      .        LCOMI2M, I0, NIR, SIZE, LENS, LENR, I, J, ILEV,
-     .        TAGNOD(NUMNOD), K10, K11, K12, NSN, KSN,I25PENA,
+     .         K10, K11, K12, NSN, KSN,I25PENA,
      .        I2SIZETH,INTTH2, SIZE_INER_POFF,II
+      INTEGER,DIMENSION(:), ALLOCATABLE   :: TAGNOD
 C     REAL
-      my_real
-     .   FSKYI2(I2SIZE,LCNI2),FTHESKYI2(LCNI2),CONDNSKYI2(LCNI2)
-      my_real,
-     . DIMENSION(:,:),ALLOCATABLE ::SAV_FOR_PENA
-      my_real,
-     . DIMENSION(:),ALLOCATABLE ::MS_PENA,SAV_INER_POFF
+      my_real, DIMENSION(:,:),ALLOCATABLE :: FSKYI2
+      my_real, DIMENSION(:),ALLOCATABLE   :: FTHESKYI2
+      my_real, DIMENSION(:),ALLOCATABLE   :: CONDNSKYI2
+      my_real, DIMENSION(:,:),ALLOCATABLE :: SAV_FOR_PENA
+      my_real, DIMENSION(:),ALLOCATABLE   :: MS_PENA,SAV_INER_POFF
 C=======================================================================
+      CALL MY_ALLOC(TAGNOD,NUMNOD)
+      CALL MY_ALLOC(FSKYI2,I2SIZE,LCNI2)
+      CALL MY_ALLOC(FTHESKYI2,LCNI2)
+      CALL MY_ALLOC(CONDNSKYI2,LCNI2)
+C-----------------------------------------------
       I25PENA=0
       SIZE_INER_POFF = 0
 C
@@ -379,7 +385,10 @@ C
         DEALLOCATE(MS_PENA)
       ENDIF
 C
-
+      DEALLOCATE(TAGNOD)
+      DEALLOCATE(FSKYI2)
+      DEALLOCATE(FTHESKYI2)
+      DEALLOCATE(CONDNSKYI2)
 C
       RETURN
       END

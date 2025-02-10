@@ -43,6 +43,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
       USE ELBUFDEF_MOD
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -75,7 +76,8 @@ C-----------------------------------------------
       INTEGER I,N,J,K,II(6),JJ,LEN,ISOLNOD,IUS, NPTR, NPTS, NPTT, NPTG,
      .        NG, NEL, MLW,ID, IPRT0, IPRT, NPG,IPG,IPT, NUVAR,IE,
      .        NLAY,IP,IL,IR,IS,IT,PID,ICSIG,IOFF
-      INTEGER PTWA(STAT_NUMELS), PTWA_P0(0:MAX(1,STAT_NUMELS_G))
+      INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA
+      INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA_P0
       my_real
      .   GAMA(6)
       CHARACTER*100 DELIMIT,LINE
@@ -89,6 +91,9 @@ C----
 C-----------------------------------------------
 C     8 NODES BRICK
 C======================================================================|
+      CALL MY_ALLOC(PTWA,STAT_NUMELS)
+      ALLOCATE(PTWA_P0(0:MAX(1,STAT_NUMELS_G)))
+C-----------------------------------------------
       JJ = 0
       IF(STAT_NUMELS==0) GOTO 200
 
@@ -365,6 +370,9 @@ c
           ENDIF !IOFF
         ENDDO        
       ENDIF
+c-----------
+      DEALLOCATE(PTWA)
+      DEALLOCATE(PTWA_P0)
 c-----------
       RETURN
       END

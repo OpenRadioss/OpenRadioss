@@ -34,6 +34,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD 
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,11 +59,15 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N, JJ, IPRT0, IPRT, K, STAT_NUMELQ_1,N10,N20,N16
       INTEGER NG, NEL, NFT, LFT, LLT, ITY, ISOLNOD, IOFF
-      INTEGER NP(4*NUMELQ),
-     .        WORK(70000),CLEF(2,NUMELQ)
+      INTEGER,DIMENSION(:),ALLOCATABLE::NP
+      INTEGER,DIMENSION(:,:),ALLOCATABLE:: CLEF
+      INTEGER WORK(70000)
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C-----------------------------------------------
 C     QUAD
+C-----------------------------------------------
+      CALL MY_ALLOC(NP,4*NUMELQ)
+      CALL MY_ALLOC(CLEF,2,NUMELQ)
 C-----------------------------------------------
       JJ = 0
       IF(NUMELQ/=0)THEN
@@ -91,6 +96,9 @@ C-----------------------------------------------
        END DO
 
       ENDIF
+C-----------------------------------------------
+      DEALLOCATE(NP)
+      DEALLOCATE(CLEF)
 C-----------------------------------------------
       RETURN
       END

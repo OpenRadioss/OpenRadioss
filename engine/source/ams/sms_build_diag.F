@@ -53,6 +53,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      C             VR      ,TAGSLV_RBY_SMS,IRBE2,LRBE2      ,IRBE3 ,
      D             LRBE3   ,IAD_RBE3M,FR_RBE3M )
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MY_ALLOC_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -99,18 +103,24 @@ C-----------------------------------------------
       INTEGER I, J, K, KN, IKN, JJ, KK, II, IJ, N, M, IX, KMV
       INTEGER NG, ITY, NEL, NFT, ISOLNOD,ILOC4(4)
       INTEGER MSR, NSN, KI, KJ, KL, NSR, LOC_PROC, NN, MAIN
-      INTEGER K1, IC, ISMS,
-     .        NOD2ADD(NUMNOD), ICSIZE, IMOV, ITYP, ILAGM, ICOUNT,
+      INTEGER K1, IC, ISMS,ICSIZE, IMOV, ITYP, ILAGM, ICOUNT,
      .        N2, N3, N4, N5, N6, N7
       INTEGER SIZE, LENR, IAD, L, LLT, KAD, JI, 
      .        NODFT1_SMS, NODLT1_SMS, NODFT2_SMS, NODLT2_SMS,
-     .        KADI_SMS(NUMNOD), NADI_SMS(NUMNOD), NINDXT
+     .        NINDXT
+      INTEGER,DIMENSION(:),ALLOCATABLE :: NOD2ADD
+      INTEGER,DIMENSION(:),ALLOCATABLE :: KADI_SMS
+      INTEGER,DIMENSION(:),ALLOCATABLE :: NADI_SMS
       my_real
      .        MELE4, MELE12, XN, LTIJ, MSLV,
      .        IXX, IYY, IZZ, XX, YY, ZZ, MAS,
      .        VRX, VRY, VRZ, V1, V2, V3, GX, GY, GZ
       DATA ILOC4/2,4,6,8/
 C-----------------------------------------------
+      CALL MY_ALLOC(NOD2ADD,NUMNOD)
+      CALL MY_ALLOC(KADI_SMS,NUMNOD)
+      CALL MY_ALLOC(NADI_SMS,NUMNOD)
+
       NODII_SMS(NODFT:NODLT)=0
       DO N=NODFT,NODLT
         IF(JADI_SMS(N+1) > JADI_SMS(N))THEN
@@ -725,5 +735,9 @@ C
 C
       CALL MY_BARRIER
 C 
+      DEALLOCATE(NOD2ADD)
+      DEALLOCATE(KADI_SMS)
+      DEALLOCATE(NADI_SMS)
+
       RETURN
       END

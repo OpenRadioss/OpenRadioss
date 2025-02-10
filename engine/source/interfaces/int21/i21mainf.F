@@ -67,6 +67,7 @@ C-----------------------------------------------
       USE H3D_MOD
       USE MESSAGE_MOD
       USE OUTPUTS_MOD
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -103,10 +104,12 @@ C-----------------------------------------------
       INTEGER NUM_IMP,NS_IMP(*),NE_IMP(*),IND_IMP(*), WEIGHT(*), 
      .        ISENSINT(*),DIMFB
       INTEGER  , INTENT(IN) :: S_LOADPINTER
-      INTEGER  , INTENT(IN) :: KLOADPINTER(NINTER+1),LOADPINTER(S_LOADPINTER),
-     .         LOADP_HYD_INTER(NLOADP_HYD)
+      INTEGER  , INTENT(IN) :: KLOADPINTER(NINTER+1)
+      INTEGER  , INTENT(IN) :: LOADPINTER(S_LOADPINTER)
+      INTEGER  , INTENT(IN) :: LOADP_HYD_INTER(NLOADP_HYD)
       INTEGER  , INTENT(IN) :: INTEREFRIC
       INTEGER  , INTENT(IN) :: NODADT_THERM
+      ! 
       my_real  , intent(in) :: theaccfact
       my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
       my_real 
@@ -131,8 +134,9 @@ C-----------------------------------------------
      .        IFORM_THE,INVN,IFTLIM, IERROR, NINSKID
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ),
-     .        CAND_N_N(MVSIZ), CAND_E_N(MVSIZ), INDEX2(LINDMAX),
+     .        CAND_N_N(MVSIZ), CAND_E_N(MVSIZ), 
      .        NSMS(MVSIZ)
+      INTEGER,DIMENSION(:),ALLOCATABLE :: INDEX2
       INTEGER :: NSN 
 C     REAL
       my_real
@@ -169,7 +173,9 @@ C     REAL
       INTEGER ICURV,SFSAVPARIT,IFRIC,FCOND
       my_real
      .     , DIMENSION(:,:,:), ALLOCATABLE :: FSAVPARIT
-C---------------------------------------------------- 
+C----------------------------------------------------
+      CALL MY_ALLOC(INDEX2,LINDMAX)
+C----------------------------------------------------
 C
       NSN   =IPARI(5,NIN) 
       IBC   =IPARI(11,NIN)
@@ -443,6 +449,7 @@ c
      .                            FBSAV6, 12, 6, DIMFB, ISENSINT )
         ENDIF
         IF (ALLOCATED(FSAVPARIT)) DEALLOCATE (FSAVPARIT)
+        DEALLOCATE(INDEX2)
 C
       RETURN
       END

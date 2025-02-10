@@ -51,6 +51,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD         
       USE STACK_MOD
       USE DRAPE_MOD
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -89,8 +90,8 @@ C-----------------------------------------------
      .   NPG,IPG,MPT,IPT,NPTR,NPTS,NPTT,NLAY,L_PLA,ITHK,NF3,
      .   IGTYP,NPT_ALL,IL,KK(12),NF1,IREL,IBID0,MAT_1,PID_1,ILAY,IDRAPE,
      .   SEDRAPE,NUMEL_DRAPE
-      INTEGER PTWA(MAX(STAT_NUMELC ,STAT_NUMELTG)),
-     .        PTWA_P0(0:MAX(1,STAT_NUMELC_G,STAT_NUMELTG_G))
+      INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA
+      INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA_P0
       double precision   
      .  THK, EM, EB, H1, H2, H3
       my_real   
@@ -120,7 +121,8 @@ C-----------------------------------------------
       DATA DELIMIT(61:100)
      ./'----7----|----8----|----9----|----10---|'/
 !
-
+      CALL MY_ALLOC(PTWA,MAX(STAT_NUMELC ,STAT_NUMELTG))
+      ALLOCATE(PTWA_P0(0:MAX(1,STAT_NUMELC_G,STAT_NUMELTG_G)))
 C=======================================================================
 C     4-NODE SHELLS
 C----------------------------------------------- 
@@ -1062,6 +1064,10 @@ C
       ENDIF  !  IF (ISPMD == 0.AND.LEN > 0)
 
 C
+c----------
+      DEALLOCATE(PTWA)
+      DEALLOCATE(PTWA_P0)
+c-----------
       RETURN
       END
 c                        TENS(JFT:JLT,1) = SIGNXX(JFT:JLT)                     

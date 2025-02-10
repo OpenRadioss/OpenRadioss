@@ -50,6 +50,7 @@
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use ELBUFDEF_MOD, only: elbuf_struct_
+          use my_alloc_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -93,8 +94,16 @@
           integer :: pos 
           integer n,jj,iprt0,iprt,ii
           integer ng,nel,nft,lft,llt,ity,ioff
-          integer np(4*numsph),work(70000),clef(2,numsphg),npglob(4*lengsph)
-          integer iadg(nspmd,npart)
+          integer work(70000)
+          integer,dimension(:,:),allocatable :: iadg
+          integer,dimension(:,:),allocatable :: clef
+          integer,dimension(:),allocatable :: npglob
+          integer,dimension(:),allocatable :: np
+! ----------------------------------------------------------------------------------------------------------------------
+          call my_alloc(clef,2,numsphg)
+          call my_alloc(npglob,4*lengsph)
+          call my_alloc(iadg,nspmd,npart)
+          call my_alloc(np,4*numsph)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -157,7 +166,11 @@
               endif !if (idel)
             enddo ! do n=1,stat_numelsph_g
           endif !if (ispmd)
-          
+
+          deallocate(clef)
+          deallocate(npglob)
+          deallocate(iadg)
+          deallocate(np)
           return
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine stat_sphcel_spmd

@@ -35,6 +35,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE REMESH_MOD
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,28 +57,35 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N,NN,LEVEL,IP,NLEV,PTR,SON,
      .        J,NI,IERR
-      INTEGER LTMP4(NSH4ACT),LTMP3(NSH3ACT)
-      INTEGER WORK(70000),
-     .  ITRI(MAX(NSH4ACT,NSH3ACT)), INDEX(2*MAX(NSH4ACT,NSH3ACT))
+      INTEGER,DIMENSION(:),ALLOCATABLE :: LTMP4
+      INTEGER,DIMENSION(:),ALLOCATABLE :: LTMP3
+      INTEGER,DIMENSION(:),ALLOCATABLE :: ITRI
+      INTEGER,DIMENSION(:),ALLOCATABLE :: SORT_INDEX
+      INTEGER WORK(70000)
+C-----------------------------------------------
+      CALL MY_ALLOC(LTMP4,NSH4ACT)
+      CALL MY_ALLOC(LTMP3,NSH3ACT)
+      CALL MY_ALLOC(ITRI,MAX(NSH4ACT,NSH3ACT))
+      CALL MY_ALLOC(SORT_INDEX,2*MAX(NSH4ACT,NSH3ACT))
 C-----------------------------------------------
       IF(IPARIT/=0)THEN
 
         DO NN = 1, NSH4ACT
           ITRI(NN) = IXC(NIXC,LSH4ACT(NN))
         ENDDO
-        CALL MY_ORDERS(0,WORK,ITRI,INDEX,NSH4ACT,1)
+        CALL MY_ORDERS(0,WORK,ITRI,SORT_INDEX,NSH4ACT,1)
         LTMP4(1:NSH4ACT)=LSH4ACT(1:NSH4ACT)
         DO NN = 1, NSH4ACT
-          LSH4ACT(NN)=LTMP4(INDEX(NN))
+          LSH4ACT(NN)=LTMP4(SORT_INDEX(NN))
         END DO
 
         DO NN = 1, NSH3ACT
           ITRI(NN) = IXTG(NIXTG,LSH3ACT(NN))
         ENDDO
-        CALL MY_ORDERS(0,WORK,ITRI,INDEX,NSH3ACT,1)
+        CALL MY_ORDERS(0,WORK,ITRI,SORT_INDEX,NSH3ACT,1)
         LTMP3(1:NSH3ACT)=LSH3ACT(1:NSH3ACT)
         DO NN = 1, NSH3ACT
-          LSH3ACT(NN)=LTMP3(INDEX(NN))
+          LSH3ACT(NN)=LTMP3(SORT_INDEX(NN))
         END DO
 
       END IF
@@ -194,6 +202,11 @@ C
         END DO
       END DO
       PSH3KIN(LEVELMAX+1)=PTR
+C--------------------------------------------
+      DEALLOCATE(LTMP4)
+      DEALLOCATE(LTMP3)
+      DEALLOCATE(ITRI)
+      DEALLOCATE(SORT_INDEX)
 
       RETURN
       END     

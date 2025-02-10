@@ -119,6 +119,7 @@ C-----------------------------------------------
       USE stat_sphcel_mp_mod
       USE stat_sphcel_spmd_mod
       USE stat_sphcel_full_mod
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -177,11 +178,20 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       CHARACTER CHSTAT*4,FILNAM*100,T10*10,MES*40
       INTEGER FILEN,I,INNODA,IERR,J,N
-      INTEGER ITABG(LENG),LENR,SIZLOC,SIZP0
+      INTEGER LENR,SIZLOC,SIZP0
       INTEGER I161,I16A,I16B,I16C,I16D,I16E,I16F,I16G,I16H,I16I
-      INTEGER NODTAG(NUMNOD), STAT_INDXC(2*LENGC), STAT_INDXTG(2*LENGTG), STAT_INDXQ(2*LENGQ)
-      INTEGER STAT_INDXS(2*LENGS),STAT_INDXR(2*LENGR),STAT_INDXP(2*LENGP),
-     .        STAT_INDXT(2*LENGT),STAT_INDXSPH(2*LENGSPH)
+      INTEGER,DIMENSION(:),ALLOCATABLE :: ITABG
+      INTEGER,DIMENSION(:),ALLOCATABLE :: NODTAG
+      INTEGER,DIMENSION(:),ALLOCATABLE :: STAT_INDXC
+      INTEGER,DIMENSION(:),ALLOCATABLE :: STAT_INDXTG
+      INTEGER,DIMENSION(:),ALLOCATABLE :: STAT_INDXQ
+      INTEGER,DIMENSION(:),ALLOCATABLE :: STAT_INDXS
+      INTEGER,DIMENSION(:),ALLOCATABLE :: STAT_INDXR
+      INTEGER,DIMENSION(:),ALLOCATABLE :: STAT_INDXP
+      INTEGER,DIMENSION(:),ALLOCATABLE :: STAT_INDX
+      INTEGER,DIMENSION(:),ALLOCATABLE :: STAT_INDXT
+      INTEGER,DIMENSION(:),ALLOCATABLE :: STAT_INDXSPH
+      
       INTEGER CTEXT(2149)
       double precision
      .      ,  DIMENSION(:),ALLOCATABLE :: WA,WAP0
@@ -192,6 +202,17 @@ C-----------------------------------------------
       CHARACTER*100 LINE
 C-----------------------------------------------
 C   S o u r c e   L i n e s
+C-----------------------------------------------
+      CALL MY_ALLOC(ITABG,LENG)
+      CALL MY_ALLOC(NODTAG,NUMNOD)
+      CALL MY_ALLOC(STAT_INDXC,2*LENGC)
+      CALL MY_ALLOC(STAT_INDXTG,2*LENGTG)
+      CALL MY_ALLOC(STAT_INDXQ,2*LENGQ)
+      CALL MY_ALLOC(STAT_INDXS,2*LENGS)
+      CALL MY_ALLOC(STAT_INDXR,2*LENGR)
+      CALL MY_ALLOC(STAT_INDXP,2*LENGP)
+      CALL MY_ALLOC(STAT_INDXT,2*LENGT)
+      CALL MY_ALLOC(STAT_INDXSPH,2*LENGSPH)
 C-----------------------------------------------
       IS_FILE_TO_BE_WRITTEN = ((ISPMD == 0) .AND. (.NOT.IS_STAT_INIMAP_SINGLE))  !/STATE/INIMAP* is using an independent state file
 C===============================================|
@@ -634,7 +655,17 @@ C-----------------------------------------------
         WRITE (IOUT,1000)  FILNAM(1:FILEN)
         WRITE (ISTDO,1000) FILNAM(1:FILEN)
       ENDIF
-      
+C-----------------------------------------------
+      DEALLOCATE(ITABG)
+      DEALLOCATE(NODTAG)
+      DEALLOCATE(STAT_INDXC)
+      DEALLOCATE(STAT_INDXTG)
+      DEALLOCATE(STAT_INDXQ)
+      DEALLOCATE(STAT_INDXS)
+      DEALLOCATE(STAT_INDXR)
+      DEALLOCATE(STAT_INDXP)
+      DEALLOCATE(STAT_INDXT)
+      DEALLOCATE(STAT_INDXSPH)
       
  1000 FORMAT (4X,' STATE FILE:',1X,A,' WRITTEN')
 C

@@ -37,7 +37,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,8 +66,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,N,JJ,LEN,IOFF,IE,NG,NEL,NFT,LFT,
      .   LLT,ITY,ID,IPRT0,IPRT,IGTYP,IPROP,G_PLA
-      INTEGER PTWA(STAT_NUMELT),
-     .        PTWA_P0(0:MAX(1,STAT_NUMELT_G))
+      INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA
+      INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA_P0
       CHARACTER*100 DELIMIT,LINE
       TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C-----------------------------------------------
@@ -76,6 +77,9 @@ C-----------------------------------------------
      ./'----7----|----8----|----9----|----10---|'/
 C=======================================================================
 C     TRUSS
+C-----------------------------------------------
+      CALL MY_ALLOC(PTWA,STAT_NUMELT)
+      ALLOCATE(PTWA_P0(0:MAX(1,STAT_NUMELS_G)))
 C-----------------------------------------------
       JJ = 0
 !
@@ -184,5 +188,8 @@ c------- end loop over truss elements
         ENDDO  !  DO N=1,STAT_NUMELT_G
       ENDIF  !  IF (ISPMD == 0.AND.LEN > 0)
 !---
+      DEALLOCATE(PTWA)
+      DEALLOCATE(PTWA_P0)
+c-----------
       RETURN
       END

@@ -35,6 +35,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE REMESH_MOD
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,13 +65,23 @@ C-----------------------------------------------
       INTEGER KN, KN1, KN2, KN3, KN4
       INTEGER N, NN, LEVEL, IP, NLEV
       INTEGER SON,M1,M2,M3,M4,MC,N1,N2,N3,N4,J,K
-      INTEGER I,LLNOD,LNOD(NUMNOD),
-     .        LE,LELT,NELT(2*(4**LEVELMAX)),LEV,NE,LELT1,LELT2,
-     .        NI,LL, LKINNOD(NUMNOD)
+      INTEGER I,LLNOD,
+     .        LE,LELT,LEV,NE,LELT1,LELT2,
+     .        NI,LL
+      INTEGER, DIMENSION(:), ALLOCATABLE :: LNOD
+      INTEGER, DIMENSION(:), ALLOCATABLE :: NELT
+      INTEGER, DIMENSION(:), ALLOCATABLE :: LKINNOD
       my_real
      .        A1,A2,A3,A4,AC,
-     .        PHI,FACM,FACI,
-     .        RNOD(NUMNOD),SNOD(NUMNOD),R,S
+     .        PHI,FACM,FACI,R,S
+      my_real, DIMENSION(:), ALLOCATABLE :: RNOD
+      my_real, DIMENSION(:), ALLOCATABLE :: SNOD
+C-----------------------------------------------
+      CALL MY_ALLOC(LNOD,NUMNOD)
+      CALL MY_ALLOC(NELT,2*(4**LEVELMAX))
+      CALL MY_ALLOC(LKINNOD,NUMNOD)
+      CALL MY_ALLOC(RNOD,NUMNOD)
+      CALL MY_ALLOC(SNOD,NUMNOD)
 C-----------------------------------------------
       LKINNOD=0
       DO LEVEL=LEVELMAX-1,0,-1
@@ -749,6 +760,11 @@ C-------
 
       END DO
 C
-C-----
+C-----      
+      DEALLOCATE(LNOD)
+      DEALLOCATE(NELT)
+      DEALLOCATE(LKINNOD)
+      DEALLOCATE(RNOD)
+      DEALLOCATE(SNOD)
       RETURN
       END     

@@ -41,6 +41,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE MESSAGE_MOD
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,14 +73,22 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N, JJ, IPRT, BUF, IPRT0, K, II
       INTEGER NG, NEL, NFT, LFT, LLT, ITY, LEN, ITHK, MLW,IOFF
-      INTEGER IADD(NPART+1), IADG(NSPMD,NPART)
-      INTEGER NP(MAX(7*NUMELC,6*NUMELTG)),
-     .        NPGLOB(MAX(7*LENGC,6*LENGTG)),
-     .        WORK(70000),CLEF(2,MAX(NUMELCG,NUMELTGG))
+      INTEGER WORK(70000)
       INTEGER THK_LEN,THK0_LEN
+      INTEGER,DIMENSION(:),ALLOCATABLE :: IADD
+      INTEGER,DIMENSION(:,:),ALLOCATABLE :: IADG
+      INTEGER,DIMENSION(:),ALLOCATABLE :: NP
+      INTEGER,DIMENSION(:),ALLOCATABLE :: NPGLOB
+      INTEGER,DIMENSION(:,:),ALLOCATABLE :: CLEF
       DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE :: THK    ! Gather Thickness from Shell & Triangle elements
       DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE :: THK0   ! ISPMD=0 : Shell & Triangle Thicknesses after gather.
       TYPE(G_BUFEL_)  ,POINTER :: GBUF   
+C-----------------------------------------------
+      CALL MY_ALLOC(NP,MAX(7*NUMELC,6*NUMELTG))
+      CALL MY_ALLOC(NPGLOB,MAX(7*LENGC,6*LENGTG))
+      CALL MY_ALLOC(CLEF,2,MAX(NUMELCG,NUMELTGG))
+      CALL MY_ALLOC(IADG,NSPMD,NPART)
+      CALL MY_ALLOC(IADD,NPART+1)
 C-----------------------------------------------
 C INITIALIZATION
 C-----------------------------------------------
@@ -266,6 +275,11 @@ C-----
 
       DEALLOCATE(THK)
       DEALLOCATE(THK0)
+      DEALLOCATE(NP)
+      DEALLOCATE(NPGLOB)
+      DEALLOCATE(CLEF)
+      DEALLOCATE(IADG)
+      DEALLOCATE(IADD)
 C-----------------------------------------------
       RETURN
       END

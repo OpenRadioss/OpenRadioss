@@ -45,6 +45,7 @@ C-----------------------------------------------
       USE INITBUF_MOD
       USE MAT_ELEM_MOD
       USE ELBUFDEF_MOD
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -78,7 +79,8 @@ C-----------------------------------------------
      .        NG, NEL, MLW,ID, IPRT0, IPRT, NPG,IPG,IPT,IE,
      .        IL,IR,IS,IT,PID,NVARF,NFAIL,IRUPT,IRUPT_TYPE,NVAR_RUPT,
      .        NV,IMAT,IOFF
-      INTEGER PTWA(STAT_NUMELS), PTWA_P0(0:MAX(1,STAT_NUMELS_G))
+      INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA
+      INTEGER,DIMENSION(:),ALLOCATABLE :: PTWA_P0
       CHARACTER*100 DELIMIT,LINE
       DATA DELIMIT(1:60)
      ./'#---1----|----2----|----3----|----4----|----5----|----6----|'/
@@ -94,6 +96,9 @@ C----
 C-----------------------------------------------
 C     8 NODES BRICK
 C======================================================================|
+      CALL MY_ALLOC(PTWA,STAT_NUMELS)
+      ALLOCATE(PTWA_P0(0:MAX(1,STAT_NUMELS_G)))
+C-----------------------------------------------
       JJ = 0
       IE = 0
       IF(STAT_NUMELS==0) GOTO 200
@@ -323,7 +328,9 @@ c
          ENDIF  !  IF (IOFF == 1)                   
         ENDDO        
       ENDIF
-      
+c-----------
+      DEALLOCATE(PTWA)
+      DEALLOCATE(PTWA_P0)
 c-----------
       RETURN
       END

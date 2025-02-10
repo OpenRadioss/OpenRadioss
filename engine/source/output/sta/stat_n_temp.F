@@ -31,6 +31,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE STAT_N_TEMP(X,NUMNOD,ITAB,ITABG,LENG,
      .                    NODGLOB,WEIGHT,NODTAG,TEMP,ITHERM_FE)
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MY_ALLOC_MOD
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -54,10 +58,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      INTEGER NODTAGLOB(LENG)
-      my_real
-     . TEMPG(LENG)
+      INTEGER,DIMENSION(:),ALLOCATABLE::NODTAGLOB
+      my_real,DIMENSION(:),ALLOCATABLE::TEMPG
       CHARACTER*100 LINE
+C-----------------------------------------------
+      CALL MY_ALLOC(NODTAGLOB,LENG)
+      CALL MY_ALLOC(TEMPG,LENG)
 C-----------------------------------------------
       IF (ITHERM_FE == 0) RETURN
 
@@ -111,6 +117,9 @@ C-----------------------------------------------
           END IF
         END DO
       ENDIF
+C-----------------------------------------------
+      DEALLOCATE(NODTAGLOB)
+      DEALLOCATE(TEMPG)
 C-----------------------------------------------
       RETURN
       END

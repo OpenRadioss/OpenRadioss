@@ -34,7 +34,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD 
+      USE ELBUFDEF_MOD
+      USE MY_ALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,11 +61,16 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N,JJ,IPRT0,IPRT,K,II
       INTEGER NG,NEL,NFT,LFT,LLT,ITY,IOFF
-      INTEGER NP(6*NUMELP),WORK(70000),CLEF(2,NUMELP)
+      INTEGER,DIMENSION(:),ALLOCATABLE :: NP
+      INTEGER,DIMENSION(:,:),ALLOCATABLE :: CLEF
+      INTEGER WORK(70000)
 C
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C-----------------------------------------------
 C     BEAM
+C-----------------------------------------------
+      CALL MY_ALLOC(NP,6*NUMELP)
+      CALL MY_ALLOC(CLEF,2,NUMELP)
 C-----------------------------------------------
       JJ = 0
       II = 0
@@ -130,6 +136,9 @@ C----
         ENDIF !IF (IDEL)
       ENDDO ! DO N=1,STAT_NUMELP
 C----
+C-----------------------------------------------
+      DEALLOCATE(NP)
+      DEALLOCATE(CLEF)
 C-----------------------------------------------
       RETURN
       END
