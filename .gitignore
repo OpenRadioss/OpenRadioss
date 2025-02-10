@@ -29,5 +29,5 @@ engine/extlib/v2*
 engine/extlib/v3*
 .vscode/settings.json
 *.sif
-extlib
+extlib/**
 extlib.zip

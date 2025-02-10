@@ -11,8 +11,7 @@
 * [Build environment on Windows](#build-environment-on-windows)
   * [Compiler environment](#compiler-environment)
   * [Build environment using cmd DOS shell](#build-environment-using-cmd-dos-shell)
-  * [Build environment using Visual Studio](#build-environment-using-visual-studio-2019)
-  * [Building environment using cygwin](#building-environment-using-cygwin)
+  * [Build environment using Visual Studio](#build-environment-using-visual-studio-2022)
 * [How to build OpenRadioss](#how-to-build-openradioss)
   * [Build defaults](#build-defaults)
   * [Get the source](#get-the-source)
@@ -20,7 +19,6 @@
   * [Building on Linux Arm64](#building-on-linux-arm64)
   * [Build OpenRadioss on Windows with cmd Shell](#build-openradioss-on-windows-with-cmd-shell)
   * [Build OpenRadioss with Visual Studio](#build-openradioss-with-visual-studio)
-  * [Build OpenRadioss with cygwin](#build-openradioss-with-cygwin)
 * [How to build OpenRadioss on Linux with Container using Apptainer](#how-to-build-openradioss-on-linux-with-container-using-apptainer)
 * [How to debug with Visual Studio](./doc/Visual_Studio_Debugger.md)
 * [Notes on third party libraries](#notes-on-third-party-libraries)
@@ -210,7 +208,8 @@ Load the gcc/gfortran compiler module from ArmFlang installation using module en
 
 ## Build environment on Windows
 
-OpenRadioss was tested with OneAPI 2023.2 + Visual Studio 2019.
+OpenRadioss was tested with OneAPI 2025.0.1 + Visual Studio 2022. It is recommended to use
+this compiler or more recent to build OpenRadioss.
 
 This chapter explains how to setup Windows on different build configuration
 
@@ -273,81 +272,25 @@ Both are shipped with Visual Studio 2019.
 1. Setup the compiler
    Load compiler settings in cmd.exe using following command :
 
-         call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat" intel64 vs2019
+         call "c:\Program Files (x86)\Intel\oneAPI\setvars.bat"
 
    cmd.exe can be launched using a batch script to ease usage
 
          @echo off
-         call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat" intel64 vs2019
+         call "c:\Program Files (x86)\Intel\oneAPI\setvars.bat"
          cmd.exe
 
-### Build environment using Visual Studio 2019
+### Build environment using Visual Studio 2022
 
 **Notes:**
 
-* Following procedure was tested on Visual Studio 2019
+* Following procedure was tested on Visual Studio 2022
 
 * Visual Studio Graphical environment must be installed.
 * Visual Studio using cmake and ninja for compilation.
 * It is recommended to update Visual Studio to most recent release.
 * Cmake + Builders must be installed in Visual Studio : Visual Studio is using Cmake and ninja builder (available with cmake package)
-* Intel OneAPI plugin for VS2019 must be installed and running. Otherwise Compiler is not found.
-
-### Building environment using cygwin
-
-1. Install Cygwin
-
-   * Download setup-x86-64 setup from : <https://www.cygwin.com/install.html>
-    Direct access is : [setup-x86_64.exe](https://www.cygwin.com/setup-x86_64.exe)
-
-   * execute setup-x86_64.exe
-   * Choose in Download Source : 'Install from Internet'  
-   * In cygwin Install Directory : Choose Cygwin directory.
-         It is recommended to use the Default directory
-   * In Local Download Directory, Choose the download directory
-   * In Internet Connection : Choose System parameters
-   * In Download site menu : choose the repository server nearest to your location.
-   * In the Package Menu :
-     * Choose make
-     * Choose perl
-     * **Do not install git, cmake and ssh from cygwin :
-              cygwin Git does not support LFS, native Git installation will be used.
-               cmake is shipped with Visual Studio
-               and ssh is shipped with git**
-     * Next will install the packages.
-
-   * Post installation task must de done :
-
-     * In cygwin, /bin/link.exe program conflicts with Visual Studio.
-     * Rename it to avoid issues :
-
-         Launch cygwin
-         in the shell : move /bin/link.exe to /bin/link_cygwin.exe :
-         mv /bin/link.exe in /bin/link_cygwin.exe
-
-   **Notes:**
-   Cygwin is a Unix environment for Windows, all Unix tools are accessible.
-
-   * Windows directories are accessible in /cygdrive/[c|d]
-   * There is a user home directory in cygwin
-
-2. Create a build environment with Intel oneAPI, git and cygwin
-
-   Cygwin can be launched with following Batch script :
-
-         @echo off
-         rem c:
-         call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat" intel64 vs2019
-         chdir C:\cygwin64\bin
-         bash --login -i
-
-3. Setup SSH in Cygwin
-
-* Copy the new generated ssh key generated in previous section in cygwin home directory
-  As a workaround to use git in cygwin, copy the ssh key in cygwin home directory
-  ssh keys are found in: `/cygdrive/c/Users/[Windows User]/.ssh`
-
-            cp -r /cygdrive/c/Users/[Windows User]/.ssh /home/[cygwin_user]/
+* Intel OneAPI plugin for VS2022 must be installed and running. Otherwise Compiler is not found.
 
 ## How to build OpenRadioss
 
@@ -777,34 +720,6 @@ Procedure was tested on Visual Studio 2019 and Visual Studio 2022
 * Launch in Menu : [Build]:[Build All]
 
 * OpenRadioss binaries are copied in **OpenRadioss/exec** directory
-
-### Build OpenRadioss with cygwin
-
-Same procedure applies than building for Linux:
-
-* Enter the OpenRadioss/starter directory
-
-            cd OpenRadioss/starter
-
-* Launch `build_script.sh` to proceed to the compilation
-
-  Usual build is make with:
-
-            ./build_script.sh -arch=win64 -release
-
-* Enter the OpenRadioss/engine directory
-
-            cd OpenRadioss/engine
-
-* Launch `build_script.sh` to proceed to the compilation
-
-  Usual build with Intel MPI support is made with:
-
-            ./build_script.sh -arch=win64 -mpi=impi -release
-
-  To build without MPI Support (SMP only)
-  
-              ./build_script.sh -arch=win64 -release
 
 ## How to build OpenRadioss on Linux with Container using Apptainer
 
