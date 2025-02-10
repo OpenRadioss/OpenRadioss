@@ -463,11 +463,6 @@ C
               NORMAL(1:3)= NORM_N(1:3,NI) 
               NODAREA(N3)=NODAREA(N3)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
             ENDIF
-            NI=  ITAGN(N4) 
-            IF (NI > 0 ) THEN 
-              NORMAL(1:3)= NORM_N(1:3,NI) 
-              NODAREA(N4)=NODAREA(N4)+NORMAL(1)*E3X+NORMAL(2)*E3Y+NORMAL(3)*E3Z
-            ENDIF
           END DO
 C         
           DO I=1,NSEGQUADFR
@@ -490,6 +485,7 @@ C
            NODAREA(N2)=NODAREA(N2)+AREA
           
           ENDDO
+        END IF !(NNOUT >0) THEN
 !
           IF(NSPMD > 1)THEN
             LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
@@ -514,9 +510,11 @@ C
               CONTT(3,N)=AREAINV*CONTT(3,N)
             ENDIF
           END DO
-          DEALLOCATE(ITAGN)
-          DEALLOCATE(NORM_N)
-        END IF !(NNOUT >0) THEN
+          IF (NNOUT >0) THEN
+            DEALLOCATE(ITAGN)
+            DEALLOCATE(NORM_N)
+            NODAREA(1:NUMNOD)=ZERO
+          END IF !(NNOUT >0) THEN
       ENDIF
 !
       DO I=1,NFASOLFR
