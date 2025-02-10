@@ -80,7 +80,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .      CNE_CRKXFEM,IADSDP_CRKXFEM,IADRCP_CRKXFEM,IBUFSSG_IO,
      .      IBC_PLY,IBORDNODE,IEDGESH,XNODANIMEL,NODEDGE,IEDGE,
      .      CRKNODIAD,DD_R2R_ELEM,KXIG3D,IXIG3D,
-     .      MAIN_PROC ,TAG_SKINS6,IBCSCYC,LBCSCYC,
+     .      TAG_SKINS6,IBCSCYC,LBCSCYC,
      .      INTERLOADP,KLOADPINTER,LOADPINTER
             !rank (1 to NSPMD) of the processor that is the main of the node 
       INTEGER, DIMENSION(:), ALLOCATABLE :: ID_GLOBAL_VOIS,FACE_VOIS

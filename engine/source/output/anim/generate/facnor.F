@@ -36,7 +36,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   X(3,*),D(3,*),XNORM(3,*),CDG(*)
-      INTEGER II(*),INVERT
+      INTEGER II(4),INVERT
 C     REAL
       my_real
      .   X0(4),Y0(4),Z0(4),NX,NY,NZ,XC,YC,ZC,S

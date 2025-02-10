@@ -20,8 +20,6 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-
-
       !||====================================================================
       !||    connectivity_mod          ../common_source/modules/connectivity.F90
       !||--- called by ------------------------------------------------------
@@ -40,6 +38,7 @@
       module connectivity_mod
         use iso_c_binding
         USE parith_on_mod
+#include "my_real.inc"
 !       INTEGER, PARAMETER :: NIXS = 11
 !       INTEGER, PARAMETER :: NIXC = 7
 !       INTEGER, PARAMETER :: NIXQ = 7
@@ -59,6 +58,8 @@
           integer, dimension(:), allocatable :: pid !< pid(i) :  PID of the i-th shell element
           integer, dimension(:), allocatable :: matid !< matid(i) :  Material ID of the i-th shell element
           integer, dimension(:), allocatable :: user_id !< user_id(i) :  user id of the shell element
+          my_real, dimension(:), allocatable :: damage
+          integer :: offset
           type(C_PTR) :: loc2glob
         end type shell_
         type solid_

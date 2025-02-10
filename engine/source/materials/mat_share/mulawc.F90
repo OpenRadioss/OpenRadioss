@@ -610,6 +610,8 @@
               ply_id = igeo(1,stack%igeo(2+ilay,isubstack))
             endif
             bufly => elbuf_str%bufly(ilayer)
+            !elbuf_str%bufly(ilayer)%fail(ir,is,it)%fbuf%floc(ifl)%dfmax
+
             nptt   = bufly%nptt
             jmly = 1 + (ilayer-1)*jlt
             jdir = 1 + (ilayer-1)*jlt*2
@@ -1922,6 +1924,8 @@
 !
                 mpt  = npttot * max(1,npg)
                 fbuf => bufly%fail(ir,is,it)
+                ! bufly%fail(ir,is,it)%fbuf%floc(ifl)%dfmax
+
 !
                 ! length used for regularization (failure criterion parameters scaling)
                 !  -> if non-local, criterion parameters are scaled with le_max parameter

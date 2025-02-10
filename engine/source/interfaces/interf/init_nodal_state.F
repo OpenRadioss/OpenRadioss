@@ -166,6 +166,7 @@ C-----------------------------------------------
         shoot_struct%offset_elem%shell3n_up_bound = shoot_struct%offset_elem%spring_up_bound + numeltgg
         ! --------------------------------        
 
+
         ALLOCATE( BUFFER_SECOND(NSPMD) )
         ALLOCATE( BUFFER_MAIN(NSPMD) )
         ALLOCATE( R_BUFFER_SECOND(NSPMD) )
@@ -175,12 +176,14 @@ C-----------------------------------------------
         BUFFER_MAIN(1:NSPMD)%SIZE_INT_ARRAY_1D = 0
         R_BUFFER_SECOND(1:NSPMD)%SIZE_INT_ARRAY_1D = 0
         R_BUFFER_MAIN(1:NSPMD)%SIZE_INT_ARRAY_1D = 0
+
         ! --------------------------------
         ! SECONDARY NODES
         ! --------------------------------
 
         !   SHIFT_S_NODE(i) = index to INTER_SEC_NODE/SEC_NODE_ID for node_id = i
         !   SHIFT_S_NODE(i+1) - SHIFT_S_NODE(i) = number of interface per node
+        IF(ALLOCATED(SHOOT_STRUCT%SHIFT_S_NODE) )DEALLOCATE( SHOOT_STRUCT%SHIFT_S_NODE )
         ALLOCATE( SHOOT_STRUCT%SHIFT_S_NODE(NUMNOD+1) )
         SHOOT_STRUCT%SHIFT_S_NODE(1:NUMNOD+1) = 0
         DO NIN=1,NINTER
@@ -207,7 +210,9 @@ C-----------------------------------------------
         SHOOT_STRUCT%SIZE_SEC_NODE = SHOOT_STRUCT%SHIFT_S_NODE(NUMNOD+1)
 
         ! allocation
+        IF(ALLOCATED(SHOOT_STRUCT%INTER_SEC_NODE) )DEALLOCATE( SHOOT_STRUCT%INTER_SEC_NODE )
         ALLOCATE( SHOOT_STRUCT%INTER_SEC_NODE(SHOOT_STRUCT%SIZE_SEC_NODE) )
+        IF(ALLOCATED(SHOOT_STRUCT%SEC_NODE_ID) )DEALLOCATE( SHOOT_STRUCT%SEC_NODE_ID )
         ALLOCATE( SHOOT_STRUCT%SEC_NODE_ID(SHOOT_STRUCT%SIZE_SEC_NODE) )
 
 
@@ -238,6 +243,7 @@ C-----------------------------------------------
         ! --------------------------------
         ! MAIN NODES
         ! --------------------------------
+        IF(ALLOCATED(SHOOT_STRUCT%SHIFT_M_NODE_PROC) ) DEALLOCATE( SHOOT_STRUCT%SHIFT_M_NODE_PROC )
         ALLOCATE( SHOOT_STRUCT%SHIFT_M_NODE_PROC(NUMNOD+1) )
         SHOOT_STRUCT%SHIFT_M_NODE_PROC(2:NUMNOD+1) = 1
         SHOOT_STRUCT%SHIFT_M_NODE_PROC(1) = 0
@@ -260,6 +266,7 @@ C-----------------------------------------------
 
         ! ---------------------
         ! compute the list of processor for each node
+        IF(ALLOCATED(SHOOT_STRUCT%M_NODE_PROC) )DEALLOCATE( SHOOT_STRUCT%M_NODE_PROC )
         ALLOCATE( SHOOT_STRUCT%M_NODE_PROC( SHOOT_STRUCT%SIZE_M_NODE_PROC ) )
         SHOOT_STRUCT%M_NODE_PROC(1:SHOOT_STRUCT%SIZE_M_NODE_PROC) = -1
         ALLOCATE( WORK_ARRAY(NUMNOD) )
@@ -304,12 +311,13 @@ C-----------------------------------------------
 
         ! ---------------------
         ! compute the index for the surface/edge array
+        IF(ALLOCATED(SHOOT_STRUCT%SHIFT_M_NODE_SURF) )DEALLOCATE( SHOOT_STRUCT%SHIFT_M_NODE_SURF )
         ALLOCATE( SHOOT_STRUCT%SHIFT_M_NODE_SURF(NUMNOD+1) )
         SHOOT_STRUCT%SHIFT_M_NODE_SURF(1:NUMNOD+1) = 0
-
+        IF(ALLOCATED(SHOOT_STRUCT%SHIFT_M_NODE_EDGE) )DEALLOCATE( SHOOT_STRUCT%SHIFT_M_NODE_EDGE )
         ALLOCATE( SHOOT_STRUCT%SHIFT_M_NODE_EDGE(NUMNOD+1) )
         SHOOT_STRUCT%SHIFT_M_NODE_EDGE(1:NUMNOD+1) = 0
-
+        IF(ALLOCATED(SHOOT_STRUCT%SHIFT_S_NODE_EDGE) )DEALLOCATE( SHOOT_STRUCT%SHIFT_S_NODE_EDGE )
         ALLOCATE( SHOOT_STRUCT%SHIFT_S_NODE_EDGE(NUMNOD+1) )
         SHOOT_STRUCT%SHIFT_S_NODE_EDGE(1:NUMNOD+1) = 0
 
@@ -362,12 +370,13 @@ C-----------------------------------------------
             SHOOT_STRUCT%SHIFT_S_NODE_EDGE(I+1) = SHOOT_STRUCT%SHIFT_S_NODE_EDGE(I+1) + SHOOT_STRUCT%SHIFT_S_NODE_EDGE(I)
         ENDDO
         SHOOT_STRUCT%SIZE_M_NODE_SURF = SHOOT_STRUCT%SHIFT_M_NODE_SURF(NUMNOD+1)
+        IF(ALLOCATED(SHOOT_STRUCT%M_NODE_SURF) )DEALLOCATE( SHOOT_STRUCT%M_NODE_SURF )
         ALLOCATE( SHOOT_STRUCT%M_NODE_SURF( SHOOT_STRUCT%SIZE_M_NODE_SURF) )
-
+        IF(ALLOCATED(SHOOT_STRUCT%M_NODE_EDGE) )DEALLOCATE( SHOOT_STRUCT%M_NODE_EDGE )
         SHOOT_STRUCT%SIZE_M_NODE_EDGE = SHOOT_STRUCT%SHIFT_M_NODE_EDGE(NUMNOD+1)
         ALLOCATE( SHOOT_STRUCT%M_NODE_EDGE( SHOOT_STRUCT%SIZE_M_NODE_EDGE) )
-
         SHOOT_STRUCT%SIZE_S_NODE_EDGE = SHOOT_STRUCT%SHIFT_S_NODE_EDGE(NUMNOD+1)
+        IF(ALLOCATED(SHOOT_STRUCT%S_NODE_EDGE) )DEALLOCATE( SHOOT_STRUCT%S_NODE_EDGE )
         ALLOCATE( SHOOT_STRUCT%S_NODE_EDGE( SHOOT_STRUCT%SIZE_S_NODE_EDGE) )
         ! ---------------------
         ! compute the max number of surface/edge
@@ -389,6 +398,7 @@ C-----------------------------------------------
         WORK_ARRAY_2(1:NUMNOD) = 0
         ALLOCATE( WORK_ARRAY_3(NUMNOD) )
         WORK_ARRAY_3(1:NUMNOD) = 0
+        IF(ALLOCATED(SHOOT_STRUCT%SHIFT_INTERFACE) )DEALLOCATE( SHOOT_STRUCT%SHIFT_INTERFACE ) 
         ALLOCATE( SHOOT_STRUCT%SHIFT_INTERFACE(NINTER+1,2) )
         NEXT_INTER = 0
         SHIFT_INTER = 1
@@ -473,9 +483,14 @@ C-----------------------------------------------
             ! ----------------------------------------
             IF((TYPE_INTER.AND.(IDEL==1)).OR.(ITY==25.AND.IPARI(100,NIN)/=0)) THEN
                 IF(.NOT.ALLOCATED(SHOOT_STRUCT%INTER)) ALLOCATE(SHOOT_STRUCT%INTER(NINTER))
-                ALLOCATE( SHOOT_STRUCT%INTER(NIN)%REMOTE_ELM_M(NRTM) )
+                if(.NOT.ALLOCATED(SHOOT_STRUCT%INTER(NIN)%REMOTE_ELM_M)) THEN
+                  ALLOCATE( SHOOT_STRUCT%INTER(NIN)%REMOTE_ELM_M(NRTM) )
+                ENDIF
                 SHOOT_STRUCT%INTER(NIN)%REMOTE_ELM_M(1:NRTM) = 0
-                ALLOCATE( SHOOT_STRUCT%INTER(NIN)%REMOTE_ELM_S(NRTS) )
+
+                IF(.NOT.ALLOCATED(SHOOT_STRUCT%INTER(NIN)%REMOTE_ELM_S)) THEN
+                  ALLOCATE( SHOOT_STRUCT%INTER(NIN)%REMOTE_ELM_S(NRTS) )
+                ENDIF
                 SHOOT_STRUCT%INTER(NIN)%REMOTE_ELM_S(1:NRTS) = 0
                 IF(ITY==25.AND.IPARI(100,NIN)/=0) THEN
                   IF(.NOT.ALLOCATED(SHOOT_STRUCT%INTER)) ALLOCATE(SHOOT_STRUCT%INTER(NINTER))
@@ -492,6 +507,7 @@ C-----------------------------------------------
                         BUFFER_SECOND(I)%SIZE_INT_ARRAY_1D = NUMNOD/4+1
                         CALL ALLOC_1D_ARRAY(BUFFER_SECOND(I))
                     ENDIF
+!                   if(allocated(BUFFER_MAIN(I)%INT_ARRAY_1D)) deallocate( BUFFER_MAIN(I)%INT_ARRAY_1D )
                     IF(.NOT.ALLOCATED(BUFFER_MAIN(I)%INT_ARRAY_1D)) THEN
                         BUFFER_MAIN(I)%SIZE_INT_ARRAY_1D = NUMNOD/4+1
                         CALL ALLOC_1D_ARRAY(BUFFER_MAIN(I))
@@ -791,12 +807,15 @@ C-----------------------------------------------
         ! --------------------------------
         ! WORKING ARRAY
         ! --------------------------------
-        ALLOCATE( SHOOT_STRUCT%GLOBAL_NB_ELEM_OFF(NTHREAD) )    ! number of deactivated element for each thread
+        IF(.NOT.ALLOCATED(SHOOT_STRUCT%GLOBAL_NB_ELEM_OFF)) THEN
+          ALLOCATE( SHOOT_STRUCT%GLOBAL_NB_ELEM_OFF(NTHREAD) )    ! number of deactivated element for each thread
+        ENDIF
 
         ! ---------------------------
         ! Only for interface type 24 & 25
         SHOOT_STRUCT%NUMBER_REMOTE_SURF = 0 ! number of deactivated potential remote surface for interface type 24 & 25
         SHOOT_STRUCT%SIZE_REMOTE_SURF = 0 ! size of array of REMOTE_SURF (list of potential remote deactivated surfaces)
+        IF(ALLOCATED(SHOOT_STRUCT%REMOTE_SURF)) DEALLOCATE( SHOOT_STRUCT%REMOTE_SURF )
         ALLOCATE( SHOOT_STRUCT%REMOTE_SURF( SHOOT_STRUCT%SIZE_REMOTE_SURF ) ) ! list of potential remote deactivated surfaces
         ! ---------------------------
 
@@ -804,6 +823,7 @@ C-----------------------------------------------
         ! Only for interface type 25
         SHOOT_STRUCT%NUMBER_NEW_SURF = 0 ! number of new active segment/surface for interface type 25
         SHOOT_STRUCT%SIZE_NEW_SURF = 0 ! size of array of NEW_SURF 
+        IF(ALLOCATED(SHOOT_STRUCT%NEW_SURF)) DEALLOCATE( SHOOT_STRUCT%NEW_SURF )
         ALLOCATE( SHOOT_STRUCT%NEW_SURF( SHOOT_STRUCT%SIZE_NEW_SURF ) ) ! list of new active segment/surface
         ! ---------------------------
 

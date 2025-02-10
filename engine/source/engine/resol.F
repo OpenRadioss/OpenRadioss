@@ -20,499 +20,499 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    resol                                        ../engine/source/engine/resol.F
-      !||--- called by ------------------------------------------------------
-      !||    resol_head                                   ../engine/source/engine/resol_head.F
-      !||--- calls      -----------------------------------------------------
-      !||    accdtdc                                      ../engine/source/elements/thickshell/solidec/accdtdc.F
-      !||    accel1                                       ../engine/source/tools/accele/accel1.F
-      !||    accele                                       ../engine/source/assembly/accele.F
-      !||    accelepinch                                  ../engine/source/assembly/accelepinch.F
-      !||    add_elapsed_time_mon_off                     ../engine/source/system/timer.F
-      !||    admdiv                                       ../engine/source/model/remesh/admdiv.F
-      !||    admerr                                       ../engine/source/model/remesh/admerr.F
-      !||    admfor0                                      ../engine/source/model/remesh/admfor0.F
-      !||    admgvid                                      ../engine/source/model/remesh/admgvid.F
-      !||    admordr                                      ../engine/source/model/remesh/admordr.F
-      !||    admregul                                     ../engine/source/model/remesh/admregul.F
-      !||    admvit                                       ../engine/source/model/remesh/admvit.F
-      !||    agauge0                                      ../engine/source/ale/agauge.F
-      !||    alefvm_accele                                ../engine/source/ale/alefvm/alefvm_accele.F
-      !||    alefvm_main                                  ../engine/source/ale/alefvm/alefvm_main.F
-      !||    alemain                                      ../engine/source/ale/alemain.F
-      !||    alemuscl_deallocate                          ../engine/source/ale/alemuscl/alemuscl_deallocate.F
-      !||    alesub2                                      ../engine/source/ale/subcycling/alesub2.F
-      !||    alewdx                                       ../engine/source/ale/grid/alewdx.F
-      !||    alloc_elbuf_imp                              ../engine/source/elements/elbuf/alloc_elbuf_imp.F
-      !||    allocate_sph_work                            ../common_source/modules/mat_elem/sph_work.F90
-      !||    ams_prepare_poff_assembly                    ../engine/source/mpi/ams/spmd_sms.F
-      !||    ancmsg                                       ../engine/source/output/message/message.F
-      !||    arret                                        ../engine/source/system/arret.F
-      !||    assign_ptrx                                  ../engine/source/engine/node_spliting/nodal_arrays.F90
-      !||    assinit                                      ../engine/source/assembly/assadd2.F
-      !||    assinit_crkxfem                              ../engine/source/assembly/assadd2.F
-      !||    assinit_pxfem                                ../engine/source/assembly/assadd2.F
-      !||    asspar                                       ../engine/source/assembly/asspar.F
-      !||    asspar3                                      ../engine/source/assembly/asspar3.F
-      !||    asspar4                                      ../engine/source/assembly/asspar4.F
-      !||    asspar5                                      ../engine/source/assembly/asspar5.F
-      !||    asspar_crk                                   ../engine/source/elements/xfem/asspar_crk.F
-      !||    asspar_sub                                   ../engine/source/assembly/asspar_sub.F
-      !||    asspar_sub_poff                              ../engine/source/assembly/asspar_sub_poff.F
-      !||    asspart                                      ../engine/source/assembly/asspart.F
-      !||    assparxx                                     ../engine/source/assembly/assparxx.F
-      !||    bcs10                                        ../engine/source/constraints/general/bcs/bcs10.F
-      !||    bcscyc                                       ../engine/source/constraints/general/bcs/bcscyc.F
-      !||    bcsdtth_copy                                 ../engine/source/constraints/general/bcs/bcsdtth.F
-      !||    bcsn                                         ../engine/source/constraints/general/bcs/bcsn.F
-      !||    bmultn                                       ../engine/source/ale/bimat/bmultn.F
-      !||    cfield_1                                     ../engine/source/loads/general/load_centri/cfield.F
-      !||    check_ale_comm                               ../engine/source/ale/check_ale_comm.F
-      !||    check_edge_state                             ../engine/source/interfaces/interf/check_edge_state.F
-      !||    check_nan_acc                                ../engine/source/output/outfile/check_nan_acc.F
-      !||    check_nodal_state                            ../engine/source/interfaces/interf/check_nodal_state.F
-      !||    check_remote_surface_state                   ../engine/source/interfaces/interf/check_remote_surface_state.F
-      !||    check_surface_state                          ../engine/source/interfaces/interf/check_surface_state.F
-      !||    chkload                                      ../engine/source/interfaces/chkload.F
-      !||    chkmsin                                      ../engine/source/output/outfile/chkmsin.F
-      !||    chkstfn3n                                    ../engine/source/interfaces/interf/chkstfn3.F
-      !||    chkstifn                                     ../engine/source/interfaces/inter2d/chkstifn.F
-      !||    cjoint                                       ../engine/source/constraints/general/cyl_joint/cjoint.F
-      !||    close_sock_c                                 ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    clusterf                                     ../engine/source/output/cluster/clusterf.F
-      !||    cnd_dmasi2                                   ../engine/source/elements/solid/solide10/s10cndf.F
-      !||    cndint                                       ../engine/source/model/remesh/cndint.F
-      !||    cndordr                                      ../engine/source/model/remesh/cndordr.F
-      !||    collect                                      ../engine/source/output/outfile/collect.F
-      !||    collectm                                     ../engine/source/output/outfile/collect.F
-      !||    collectt                                     ../engine/source/output/outfile/collect.F
-      !||    convec                                       ../engine/source/constraints/thermic/convec.F
-      !||    cp_dm                                        ../engine/source/implicit/produt_v.F
-      !||    crk_accele                                   ../engine/source/elements/xfem/accele_crk.F
-      !||    crk_coord_ini                                ../engine/source/elements/xfem/crk_coord_ini.F
-      !||    crk_vitesse                                  ../engine/source/elements/xfem/crk_vitesse.F
-      !||    crk_vitesse2                                 ../engine/source/elements/xfem/crk_vitesse2.F
-      !||    crk_zero_accel                               ../engine/source/elements/xfem/crk_vitesse.F
-      !||    crk_zero_fsky                                ../engine/source/elements/xfem/crk_vitesse.F
-      !||    cumultime_mp                                 ../engine/source/system/timer.F
-      !||    damping                                      ../engine/source/assembly/damping.F
-      !||    damping44                                    ../engine/source/assembly/damping.F
-      !||    damping51                                    ../engine/source/assembly/damping.F
-      !||    dealloc_impbuf                               ../engine/source/implicit/imp_solv.F
-      !||    dealloc_shoot_inter                          ../engine/source/interfaces/interf/dealloc_shoot_inter.F
-      !||    deallocate_joint                             ../engine/source/constraints/general/cyl_joint/deallocate_joint.F
-      !||    deallocm_imp                                 ../engine/source/implicit/imp_solv.F
-      !||    depla                                        ../engine/source/assembly/depla.F
-      !||    deplafakeige                                 ../engine/source/assembly/deplafakeige.F
-      !||    deplapinch                                   ../engine/source/assembly/deplapinch.F
-      !||    desacti                                      ../engine/source/elements/desacti.F
-      !||    disp_vel_saved_cload                         ../engine/source/assembly/disp_vel_saved_cload.F
-      !||    dtnoda                                       ../engine/source/time_step/dtnoda.F
-      !||    dtnodamp                                     ../engine/source/time_step/dtnodamp.F
-      !||    dtnodams                                     ../engine/source/time_step/dtnodams.F
-      !||    dtnodarayl                                   ../engine/source/time_step/dtnodarayl.F
-      !||    ebcclap                                      ../engine/source/boundary_conditions/ebcs/ebcclap.F
-      !||    ebcs_extrapol                                ../engine/source/boundary_conditions/ebcs/ebcs_extrapol.F
-      !||    elapstime                                    ../engine/source/system/timer.F
-      !||    ener_w0                                      ../engine/source/general_controls/damping/static.F
-      !||    err_thk                                      ../engine/source/elements/shell/err_thk.F
-      !||    euldx                                        ../engine/source/ale/grid/euldx.F
-      !||    fail_wind_frwave_init                        ../engine/source/materials/fail/alter/fail_wind_frwave_init.F
-      !||    fequilibre                                   ../engine/source/elements/shell/fequilibre.F
-      !||    find_dt_for_targeted_added_mass              ../engine/source/time_step/find_dt_for_targeted_added_mass.F
-      !||    find_edge_inter                              ../engine/source/interfaces/interf/find_edge_inter.F
-      !||    find_surface_inter                           ../engine/source/interfaces/interf/find_surface_inter.F
-      !||    fixfingeo                                    ../engine/source/constraints/general/impvel/fixfingeo.F
-      !||    fixflux                                      ../engine/source/constraints/thermic/fixflux.F
-      !||    fixtemp                                      ../engine/source/constraints/thermic/fixtemp.F
-      !||    fixvel                                       ../engine/source/constraints/general/impvel/fixvel.F
-      !||    flow0                                        ../engine/source/fluid/flow0.F
-      !||    flow1                                        ../engine/source/fluid/flow1.F
-      !||    flow_accele                                  ../engine/source/assembly/flow_accele.F
-      !||    flow_depla                                   ../engine/source/assembly/flow_depla.F
-      !||    flow_vitesse                                 ../engine/source/assembly/flow_vitesse.F
-      !||    forani1                                      ../engine/source/output/anim/generate/forani1.F
-      !||    forani2                                      ../engine/source/output/anim/generate/forani2.F
-      !||    forani3                                      ../engine/source/output/anim/generate/forani3.F
-      !||    force                                        ../engine/source/loads/general/force.F90
-      !||    forcefingeo                                  ../engine/source/loads/general/forcefingeo.F
-      !||    forcepinch                                   ../engine/source/loads/general/forcepinch.F
-      !||    forint                                       ../engine/source/elements/forint.F
-      !||    forintc                                      ../engine/source/elements/forintc.F
-      !||    forintp                                      ../engine/source/elements/forintp.F
-      !||    forints                                      ../engine/source/elements/forints.F
-      !||    free_pinch                                   ../common_source/modules/pinchtype_mod.F
-      !||    funct_python_update_elements                 ../engine/source/tools/curve/funct_python_update_elements.F90
-      !||    fv_switch_crit                               ../engine/source/airbag/fvdim.F
-      !||    fvbag0                                       ../engine/source/airbag/fvbag0.F
-      !||    fvcopy                                       ../engine/source/airbag/fvcopy.F
-      !||    fvdim                                        ../engine/source/airbag/fvdim.F
-      !||    fvmesh0                                      ../engine/source/airbag/fvmesh0.F
-      !||    fvrezone0                                    ../engine/source/airbag/fvrezone.F
-      !||    fvstats                                      ../engine/source/airbag/fvstats.F
-      !||    fvupd0                                       ../engine/source/airbag/fvupd.F
-      !||    fxbyfor                                      ../engine/source/constraints/fxbody/fxbyfor.F
-      !||    fxbypid                                      ../engine/source/constraints/fxbody/fxbypid.F
-      !||    fxbyvit                                      ../engine/source/constraints/fxbody/fxbyvit.F
-      !||    fxgrvcor                                     ../engine/source/constraints/fxbody/fxgrvcor.F
-      !||    get_fbuf_c                                   ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    get_fbufdp_c                                 ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    get_ibuf_c                                   ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    get_neighbour_surface                        ../engine/source/interfaces/interf/get_neighbour_surface.F90
-      !||    get_shmbuf_c                                 ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    gravit                                       ../engine/source/loads/general/grav/gravit.F
-      !||    gravit_fvm_fem                               ../engine/source/loads/general/grav/gravit_fvm_fem.F
-      !||    i14ist                                       ../engine/source/interfaces/int14/i14ist.F
-      !||    i14wfs                                       ../engine/source/interfaces/int14/i14wfs.F
-      !||    i18main_kine_1                               ../engine/source/interfaces/int18/i18main_kine.F
-      !||    i18main_kine_2                               ../engine/source/interfaces/int18/i18main_kine.F
-      !||    i24e2e_fictive_nodes_update                  ../engine/source/interfaces/int24/i24for3e.F
-      !||    i24nitschfor3                                ../engine/source/interfaces/int24/i24nitschfor3.F
-      !||    i24pxfem                                     ../engine/source/interfaces/int24/i24pxfem.F
-      !||    imp_buck                                     ../engine/source/implicit/imp_buck.F
-      !||    imp_chkm                                     ../engine/source/implicit/imp_solv.F
-      !||    imp_dt2                                      ../engine/source/implicit/imp_dt.F
-      !||    imp_fanie                                    ../engine/source/implicit/imp_solv.F
-      !||    imp_fanii                                    ../engine/source/implicit/imp_solv.F
-      !||    imp_fout                                     ../engine/source/implicit/imp_solv.F
-      !||    imp_restarcp                                 ../engine/source/implicit/imp_sol_init.F
-      !||    imp_sol_init                                 ../engine/source/implicit/imp_sol_init.F
-      !||    imp_solv                                     ../engine/source/implicit/imp_solv.F
-      !||    init_global_frontier_monvol                  ../engine/source/airbag/init_global_monvol_frontier.F90
-      !||    init_i25_edge                                ../engine/source/interfaces/int25/init_i25_edge.F
-      !||    init_interf_sorting_strategy                 ../engine/source/interfaces/init_interf_sorting_strategy.F
-      !||    init_monvol_omp_structure                    ../engine/source/airbag/init_monvol_omp_structure.F90
-      !||    init_nodal_state                             ../engine/source/interfaces/interf/init_nodal_state.F
-      !||    init_trim                                    ../engine/source/interfaces/intsort/init_trim.F
-      !||    inivel_dt2                                   ../engine/source/loads/general/inivel/inivel_dt2.F90
-      !||    inivel_start                                 ../engine/source/loads/general/inivel/inivel_start.F90
-      !||    inixfem                                      ../engine/source/elements/xfem/inixfem.F
-      !||    int18_alloc                                  ../engine/source/interfaces/int18/int18_alloc.F
-      !||    int18_law151_init                            ../engine/source/interfaces/int18/int18_law151_init.F
-      !||    int18_law151_omp_accumulation                ../engine/source/interfaces/int18/int18_law151_omp_accumulation.F
-      !||    int18_law151_update                          ../engine/source/interfaces/int18/int18_law151_update.F
-      !||    intal1                                       ../engine/source/ale/inter/intal1.F
-      !||    inter_nodal_areas                            ../engine/source/output/inter_nodal_areas.F
-      !||    inter_struct_init                            ../engine/source/interfaces/generic/inter_struct_init.F
-      !||    intfop1                                      ../engine/source/interfaces/interf/intfop1.F
-      !||    intfop2                                      ../engine/source/interfaces/interf/intfop2.F
-      !||    intfop8                                      ../engine/source/interfaces/interf/intfop8.F
-      !||    intstamp_ass                                 ../engine/source/interfaces/int21/intstamp_ass.F
-      !||    intstamp_dt                                  ../engine/source/interfaces/int21/intstamp_dt.F
-      !||    intstamp_init                                ../engine/source/interfaces/int21/intstamp_init.F
-      !||    intstamp_move                                ../engine/source/interfaces/int21/intstamp_move.F
-      !||    intti1                                       ../engine/source/interfaces/interf/intti1.F
-      !||    intti2                                       ../engine/source/interfaces/interf/intti2.F
-      !||    inttri                                       ../engine/source/interfaces/intsort/inttri.F
-      !||    joint_block_stiffness                        ../engine/source/elements/joint/joint_block_stiffness.F
-      !||    joint_elem_timestep                          ../engine/source/elements/joint/joint_elem_timestep.F
-      !||    kine_seatbelt_force                          ../engine/source/tools/seatbelts/kine_seatbelt_force.F
-      !||    kine_seatbelt_vel                            ../engine/source/tools/seatbelts/kine_seatbelt_vel.F
-      !||    lag_mult                                     ../engine/source/tools/lagmul/lag_mult.F
-      !||    lag_multp                                    ../engine/source/tools/lagmul/lag_mult.F
-      !||    load_pressure                                ../engine/source/loads/general/load_pressure/load_pressure.F
-      !||    manctr                                       ../engine/source/input/manctr.F
-      !||    modsti                                       ../engine/source/time_step/modsti.F
-      !||    monvol0                                      ../engine/source/airbag/monvol0.F
-      !||    movfra1                                      ../engine/source/tools/skew/movfram.F
-      !||    movfra2                                      ../engine/source/tools/skew/movfram.F
-      !||    movfra_imp                                   ../engine/source/tools/skew/movfram.F
-      !||    mpi_min_real_begin                           ../engine/share/modules/mpi_tools_mod.F
-      !||    mpi_min_real_end                             ../engine/share/modules/mpi_tools_mod.F
-      !||    multi_deallocate                             ../engine/source/multifluid/multi_deallocate.F
-      !||    multi_velocity_backup                        ../engine/source/multifluid/multi_velocity_backup.F
-      !||    mvoludt                                      ../engine/source/airbag/mvoludt.F
-      !||    my_barrier                                   ../engine/source/system/machine.F
-      !||    newskw                                       ../engine/source/tools/skew/newskw.F
-      !||    newskw_init                                  ../engine/source/tools/skew/newskw.F
-      !||    nlocal_acc                                   ../engine/source/assembly/nlocal_acc.F
-      !||    nlocal_dtnoda                                ../engine/source/time_step/nlocal_dtnoda.F
-      !||    nlocal_incr                                  ../engine/source/assembly/nlocal_incr.F
-      !||    nlocal_vel                                   ../engine/source/assembly/nlocal_vel.F
-      !||    offset_nproj                                 ../engine/source/interfaces/shell_offset/offset_nproj.F90
-      !||    omp_get_thread_num                           ../engine/source/engine/openmp_stub.F90
-      !||    omp_set_num_threads                          ../engine/source/engine/openmp_stub.F90
-      !||    pblast_load_computation                      ../engine/source/loads/pblast/pblast.F
-      !||    pfluid                                       ../engine/source/loads/general/pfluid/pfluid.F
-      !||    ply_accele                                   ../engine/source/assembly/ply_accele.F
-      !||    ply_bcs                                      ../engine/source/constraints/general/bcs/ply_bcs.F
-      !||    ply_vitesse                                  ../engine/source/assembly/ply_vitesse.F
-      !||    poro                                         ../engine/source/ale/porous/poro.F
-      !||    prepare_debug                                ../engine/share/modules/debug_mod.F
-      !||    prerbe3p0                                    ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||    pressure_cyl                                 ../engine/source/loads/general/load_pcyl/pressure_cyl.F
-      !||    printime                                     ../engine/source/system/timer.F
-      !||    printime_interf                              ../engine/source/system/timer_interf.F
-      !||    printimeg                                    ../engine/source/system/timer.F
-      !||    python_register                              ../engine/source/tools/curve/python_register.F90
-      !||    python_update_nodal_entities                 ../common_source/modules/python_mod.F90
-      !||    r2r_block_c                                  ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    r2r_exchange                                 ../engine/source/coupling/rad2rad/r2r_exchange.F
-      !||    r2r_getdata                                  ../engine/source/coupling/rad2rad/r2r_getdata.F
-      !||    r2r_sem_c                                    ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    r2r_sendkine                                 ../engine/source/coupling/rad2rad/r2r_getdata.F
-      !||    r2r_unlock_threads_c                         ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    radiation                                    ../engine/source/constraints/thermic/radiation.F
-      !||    rbagdt                                       ../engine/source/airbag/rbagdt.F
-      !||    rbe2cor                                      ../engine/source/constraints/general/rbody/rgbcor.F
-      !||    rbe2t1                                       ../engine/source/constraints/general/rbe2/rbe2f.F
-      !||    rbe2v                                        ../engine/source/constraints/general/rbe2/rbe2v.F
-      !||    rbe3t1                                       ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||    rbe3v                                        ../engine/source/constraints/general/rbe3/rbe3v.F
-      !||    rbycor                                       ../engine/source/constraints/general/rbody/rbycor.F
-      !||    rbyfor                                       ../engine/source/constraints/general/rbody/rbyfor.F
-      !||    rbysens                                      ../engine/source/constraints/general/rbody/rbyonf.F
-      !||    rbyvit                                       ../engine/source/constraints/general/rbody/rbyvit.F
-      !||    re2int5                                      ../engine/source/implicit/imp_solv.F
-      !||    re2int7                                      ../engine/source/implicit/imp_solv.F
-      !||    reaction_forces_1                            ../engine/source/output/reactions.F
-      !||    reaction_forces_2                            ../engine/source/output/reactions.F
-      !||    reaction_forces_3                            ../engine/source/output/reactions.F
-      !||    reaction_forces_check_for_requested_output   ../engine/source/output/reactions.F
-      !||    reaction_forces_th                           ../engine/source/output/reaction_forces_th.F
-      !||    reallocate_i_skyline                         ../engine/source/system/reallocate_skyline.F
-      !||    renum_siz                                    ../engine/source/interfaces/interf/renum_siz.F
-      !||    resol_init                                   ../engine/source/engine/resol_init.F
-      !||    rgwal0                                       ../engine/source/constraints/general/rwall/rgwal0.F
-      !||    rgwalf                                       ../engine/source/constraints/general/rwall/rgwal0.F
-      !||    rivet1                                       ../engine/source/elements/rivet/rivet1.F
-      !||    rlink10                                      ../engine/source/constraints/general/rlink/rlink10.F
-      !||    rlink11                                      ../engine/source/constraints/general/rlink/rlink10.F
-      !||    rmatacce                                     ../engine/source/materials/mat/mat013/rmatacce.F
-      !||    rmatforp                                     ../engine/source/materials/mat/mat013/rmatforp.F
-      !||    s10cndf1                                     ../engine/source/elements/solid/solide10/s10cndf.F
-      !||    s10cndf2                                     ../engine/source/elements/solid/solide10/s10cndf.F
-      !||    s10cndfnd                                    ../engine/source/elements/solid/solide10/s10cndf.F
-      !||    s10cndi2a                                    ../engine/source/elements/solid/solide10/s10cndv.F
-      !||    s10cndi2a1                                   ../engine/source/elements/solid/solide10/s10cndv.F
-      !||    s10cndv                                      ../engine/source/elements/solid/solide10/s10cndv.F
-      !||    s10getvdm                                    ../engine/source/elements/solid/solide10/s10cndv.F
-      !||    s10stfe_poff                                 ../engine/source/elements/solid/solide10/s10cndf.F
-      !||    s4lagsfem                                    ../engine/source/elements/solid/solide4_sfem/s4lagsfem.F
-      !||    sav_buf_point                                ../engine/source/user_interface/eng_callback_c.c
-      !||    section_fio                                  ../engine/source/tools/sect/section_fio.F
-      !||    section_io                                   ../engine/source/tools/sect/section_io.F
-      !||    send_fbuf_c                                  ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    send_fbufdp_c                                ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    send_ibuf_c                                  ../engine/source/coupling/rad2rad/rad2rad_c.c
-      !||    sensor_base                                  ../engine/source/tools/sensor/sensor_base.F
-      !||    sensor_dist_surf0                            ../engine/source/tools/sensor/sensor_dist_surf0.F
-      !||    sensor_ener_sav                              ../engine/source/tools/sensor/sensor_ener_sav.F
-      !||    sensor_init                                  ../engine/source/tools/sensor/sensor_init.F
-      !||    sensor_logical                               ../engine/source/tools/sensor/sensor_logical.F
-      !||    sensor_spmd                                  ../engine/source/tools/sensor/sensor_spmd.F
-      !||    sensor_temp0                                 ../engine/source/tools/sensor/sensor_temp0.F
-      !||    smp_init                                     ../engine/source/engine/resol_init.F
-      !||    sms_build_mat_2                              ../engine/source/ams/sms_build_mat_2.F
-      !||    sms_encin_2                                  ../engine/source/ams/sms_encin_2.F
-      !||    sms_ini_err                                  ../engine/source/ams/sms_init.F
-      !||    sms_ini_int                                  ../engine/source/ams/sms_init.F
-      !||    sms_ini_jad_1                                ../engine/source/ams/sms_init.F
-      !||    sms_ini_jad_2                                ../engine/source/ams/sms_init.F
-      !||    sms_ini_jad_3                                ../engine/source/ams/sms_init.F
-      !||    sms_ini_kad                                  ../engine/source/ams/sms_init.F
-      !||    sms_ini_kdi                                  ../engine/source/ams/sms_init.F
-      !||    sms_ini_kin_2                                ../engine/source/ams/sms_init.F
-      !||    sms_ini_part                                 ../engine/source/ams/sms_init.F
-      !||    sms_ini_rby                                  ../engine/source/ams/sms_init.F
-      !||    sms_mass_scale_2                             ../engine/source/ams/sms_mass_scale_2.F
-      !||    soltospha                                    ../engine/source/elements/sph/soltospha.F
-      !||    soltosphf                                    ../engine/source/elements/sph/soltosph.F
-      !||    sortie_error                                 ../engine/source/output/sortie_error.F
-      !||    sortie_main                                  ../engine/source/output/sortie_main.F
-      !||    spgauge_f                                    ../engine/source/elements/sph/spgauge.F
-      !||    sphprep                                      ../engine/source/elements/sph/sphprep.F
-      !||    sphres44b                                    ../engine/source/elements/sph/sphres44b.F
-      !||    splissv                                      ../engine/source/elements/sph/splissv.F
-      !||    split_asspar4                                ../engine/source/assembly/split_asspar4.F
-      !||    spmd_allglob_isum9                           ../engine/source/mpi/generic/spmd_allglob_isum9.F
-      !||    spmd_barrier                                 ../engine/source/mpi/generic/spmd_barrier.F
-      !||    spmd_chkw                                    ../engine/source/mpi/generic/spmd_chkw.F
-      !||    spmd_collect                                 ../engine/source/mpi/output/spmd_collect.F
-      !||    spmd_collect_multi_fvm                       ../engine/source/mpi/output/spmd_collect_multi_fvm.F
-      !||    spmd_collect_nlocal                          ../engine/source/mpi/output/spmd_collect_nlocal.F
-      !||    spmd_collectm                                ../engine/source/mpi/output/spmd_collectm.F
-      !||    spmd_collectt                                ../engine/source/mpi/output/spmd_collectt.F
-      !||    spmd_crk_adv                                 ../engine/source/elements/xfem/xfemfsky.F
-      !||    spmd_exch2_a_pon                             ../engine/source/mpi/forces/spmd_exch2_a_pon.F
-      !||    spmd_exch_a                                  ../engine/source/mpi/forces/spmd_exch_a.F
-      !||    spmd_exch_a_ams_poff                         ../engine/source/mpi/forces/spmd_exch_a_ams_poff.F
-      !||    spmd_exch_crkvel                             ../engine/source/mpi/elements/spmd_xfem.F
-      !||    spmd_exch_da20                               ../engine/source/mpi/interfaces/spmd_exch_da20.F
-      !||    spmd_exch_deleted_surf_edge                  ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
-      !||    spmd_exch_efric                              ../engine/source/mpi/interfaces/spmd_exch_efric.F
-      !||    spmd_exch_fa                                 ../engine/source/mpi/elements/spmd_exch_dttsh.F
-      !||    spmd_exch_i24                                ../engine/source/mpi/interfaces/spmd_exch_i24.F
-      !||    spmd_exch_i25                                ../engine/source/mpi/interfaces/spmd_exch_i25.F
-      !||    spmd_exch_icodt                              ../engine/source/mpi/nodes/spmd_exch_icodt.F
-      !||    spmd_exch_icont                              ../engine/source/mpi/nodes/spmd_exch_icont.F
-      !||    spmd_exch_inter_18                           ../engine/source/mpi/interfaces/spmd_exch_inter_18.F
-      !||    spmd_exch_press                              ../engine/source/mpi/interfaces/spmd_exch_press.F
-      !||    spmd_exch_r2r_sph                            ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    spmd_exch_r2r_sphoff                         ../engine/source/mpi/r2r/spmd_r2r.F
-      !||    spmd_exch_sec                                ../engine/source/mpi/sections/spmd_section.F
-      !||    spmd_exch_sub_poff                           ../engine/source/mpi/spmd_exch_sub.F
-      !||    spmd_exch_sub_pon                            ../engine/source/mpi/spmd_exch_sub.F
-      !||    spmd_exch_tagncont                           ../engine/source/mpi/forces/spmd_exch_tagncont.F
-      !||    spmd_exch_thknod                             ../engine/source/mpi/nodes/spmd_exch_thknod.F
-      !||    spmd_exch_vmax                               ../engine/source/mpi/elements/spmd_exch_dttsh.F
-      !||    spmd_exch_wave                               ../engine/source/mpi/nodes/spmd_exch_wave.F
-      !||    spmd_exsum_fb6                               ../engine/source/mpi/generic/spmd_exsum_fb6.F
-      !||    spmd_flush_accel                             ../engine/source/mpi/output/spmd_flush_accel.F
-      !||    spmd_fvb_switch                              ../engine/source/mpi/airbags/spmd_fvb_switch.F
-      !||    spmd_glob_isum9                              ../engine/source/mpi/interfaces/spmd_th.F
-      !||    spmd_glob_min5                               ../engine/source/mpi/generic/spmd_glob_min5.F
-      !||    spmd_glob_minv                               ../engine/source/mpi/generic/spmd_glob_minv.F
-      !||    spmd_i21fthecom                              ../engine/source/mpi/interfaces/send_cand.F
-      !||    spmd_i21tempcom                              ../engine/source/mpi/interfaces/send_cand.F
-      !||    spmd_i24_prepare                             ../engine/source/interfaces/int24/i24_prepare.F
-      !||    spmd_i25_prepare                             ../engine/source/interfaces/int25/i25_prepare.F
-      !||    spmd_i25front_init                           ../engine/source/mpi/interfaces/spmd_i25front.F
-      !||    spmd_i7fcom_poff                             ../engine/source/mpi/forces/spmd_i7fcom_poff.F
-      !||    spmd_i7fcom_pon                              ../engine/source/mpi/forces/spmd_i7fcom_pon.F
-      !||    spmd_i7xvcom2                                ../engine/source/mpi/interfaces/spmd_i7xvcom2.F
-      !||    spmd_ibcast                                  ../engine/source/mpi/generic/spmd_ibcast.F
-      !||    spmd_int18_law151_pon                        ../engine/source/mpi/forces/spmd_int18_law151_pon.F
-      !||    spmd_max_xfe_i                               ../engine/source/mpi/elements/spmd_xfem.F
-      !||    spmd_mumps_ini                               ../engine/source/mpi/implicit/imp_spmd.F
-      !||    spmd_nlist_sms                               ../engine/source/mpi/ams/spmd_sms.F
-      !||    spmd_rbcast                                  ../engine/source/mpi/generic/spmd_rbcast.F
-      !||    spmd_sd_xv                                   ../engine/source/mpi/nodes/spmd_sd_xv.F
-      !||    spmd_sort_sms                                ../engine/source/mpi/ams/spmd_sms.F
-      !||    spmd_wiout                                   ../engine/source/mpi/generic/spmd_wiout.F
-      !||    spmd_xv_inter_type1                          ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
-      !||    sponfv                                       ../engine/source/elements/sph/sponfv.F
-      !||    spwfvis                                      ../engine/source/elements/sph/spwfvis.F
-      !||    srfvit                                       ../engine/source/constraints/general/rbody/srfvit.F
-      !||    startime                                     ../engine/source/system/timer_mod.F90
-      !||    static                                       ../engine/source/general_controls/damping/static.F
-      !||    stop_sensor                                  ../engine/source/tools/sensor/stop_sensor.F
-      !||    stoptime                                     ../engine/source/system/timer_mod.F90
-      !||    tagoff3n                                     ../engine/source/interfaces/interf/chkstfn3.F
-      !||    tempur                                       ../engine/source/constraints/thermic/tempur.F
-      !||    th_time_output                               ../engine/source/output/th/th_time_output.F
-      !||    thbcs                                        ../engine/source/output/th/thbcs.F
-      !||    thbcs_imp                                    ../engine/source/output/th/thbcs_imp.F
-      !||    thermbilan                                   ../engine/source/constraints/thermic/thermbilan.F
-      !||    thickvar                                     ../engine/source/elements/shell/coque/thickvar.F
-      !||    timfun                                       ../engine/source/tools/curve/timfun.F
-      !||    trace_in                                     ../engine/source/system/trace_back.F
-      !||    trace_out                                    ../engine/source/system/trace_back.F
-      !||    upd_tmax                                     ../engine/source/output/upd_outmax.F
-      !||    update_failwave                              ../engine/source/materials/fail/failwave/update_failwave.F
-      !||    update_slipring                              ../engine/source/tools/seatbelts/update_slipring.F
-      !||    upenr_crk                                    ../engine/source/elements/xfem/upenr_crk.F
-      !||    upgrade_rem_2ry                              ../engine/source/mpi/interfaces/spmd_i7tool.F
-      !||    upxfem1                                      ../engine/source/elements/xfem/upxfem1.F
-      !||    upxfem2                                      ../engine/source/elements/xfem/upxfem2.F
-      !||    upxfem_tagxp                                 ../engine/source/elements/xfem/upxfem_tagxp.F
-      !||    user_windows_routine                         ../engine/source/user_interface/user_windows.F
-      !||    vitesse                                      ../engine/source/assembly/vitesse.F
-      !||    vitessepinch                                 ../engine/source/assembly/vitessepinch.F
-      !||    wrrestp                                      ../engine/source/output/restart/wrrestp.F
-      !||    xfeoff                                       ../engine/source/elements/xfem/xfeoff.F
-      !||    zero1                                        ../engine/source/system/zero.F
-      !||    zeror                                        ../engine/source/system/zero.F
-      !||--- uses       -----------------------------------------------------
-      !||    acceleration_dp_mod                          ../engine/share/modules/acceleration_dp_mod.F
-      !||    ale_connectivity_mod                         ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    ale_mod                                      ../common_source/modules/ale/ale_mod.F
-      !||    aleanim_mod                                  ../engine/share/modules/aleanim_mod.F
-      !||    aleflow_mod                                  ../engine/share/modules/aleflow_mod.F
-      !||    alefvm_mod                                   ../common_source/modules/ale/alefvm_mod.F
-      !||    alemuscl_mod                                 ../common_source/modules/ale/alemuscl_mod.F
-      !||    ams_work_mod                                 ../engine/source/modules/ams_work_mod.F90
-      !||    anim_mod                                     ../common_source/modules/output/anim_mod.F
-      !||    array_mod                                    ../common_source/modules/array_mod.F
-      !||    bcs_mod                                      ../common_source/modules/boundary_conditions/bcs_mod.F90
-      !||    check_mod                                    ../common_source/modules/check_mod.F
-      !||    cluster_mod                                  ../engine/share/modules/cluster_mod.F
-      !||    connectivity_mod                             ../common_source/modules/connectivity.F90
-      !||    crackxfem_mod                                ../engine/share/modules/crackxfem_mod.F
-      !||    debug_chksm_mod                              ../engine/source/mpi/output/spmd_flush_accel.F
-      !||    detach_node_mod                              ../engine/source/engine/node_spliting/detach_node.F90
-      !||    diffusion_mod                                ../engine/share/modules/diffusion_mod.F
-      !||    drape_mod                                    ../engine/share/modules/drape_mod.F
-      !||    dsgraph_mod                                  ../engine/share/modules/dsgraph_mod.F
-      !||    dt_mod                                       ../engine/source/modules/dt_mod.F
-      !||    dtdc_mod                                     ../engine/share/modules/dtdc_mod.F
-      !||    dynlib_mod                                   ../engine/share/modules/dynlib_mod.F
-      !||    ebcs_mod                                     ../common_source/modules/boundary_conditions/ebcs_mod.F90
-      !||    ecnd_mod                                     ../engine/share/modules/ecdn_mod.F
-      !||    elbufdef_mod                                 ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    error_mod                                    ../engine/share/modules/error_mod.F
-      !||    failwave_mod                                 ../common_source/modules/failwave_mod.F
-      !||    force_mod                                    ../engine/source/loads/general/force.F90
-      !||    fskyi_mod                                    ../engine/share/modules/restart_mod.F
-      !||    funct_python_update_elements_mod             ../engine/source/tools/curve/funct_python_update_elements.F90
-      !||    fvbag_mod                                    ../engine/share/modules/fvbag_mod.F
-      !||    get_neighbour_surface_mod                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
-      !||    glob_therm_mod                               ../common_source/modules/mat_elem/glob_therm_mod.F90
-      !||    groupdef_mod                                 ../common_source/modules/groupdef_mod.F
-      !||    h3d_mod                                      ../engine/share/modules/h3d_mod.F
-      !||    heat_mod                                     ../engine/share/modules/heat_mod.F
-      !||    i22bufbric_mod                               ../common_source/modules/interfaces/cut-cell-search_mod.F
-      !||    i22edge_mod                                  ../common_source/modules/interfaces/cut-cell-buffer_mod.F
-      !||    i22tri_mod                                   ../common_source/modules/interfaces/cut-cell-search_mod.F
-      !||    icontact_mod                                 ../engine/share/modules/icontact_mod.F
-      !||    impbufdef_mod                                ../engine/share/modules/impbufdef_mod.F
-      !||    init_global_frontier_monvol_mod              ../engine/source/airbag/init_global_monvol_frontier.F90
-      !||    init_monvol_omp_structure_mod                ../engine/source/airbag/init_monvol_omp_structure.F90
-      !||    inivel_dt2_mod                               ../engine/source/loads/general/inivel/inivel_dt2.F90
-      !||    inivel_start_mod                             ../engine/source/loads/general/inivel/inivel_start.F90
-      !||    inter_sh_offset_mod                          ../engine/source/modules/interfaces/sh_offset_mod.F90
-      !||    inter_sorting_mod                            ../engine/share/modules/inter_sorting_mod.F
-      !||    inter_struct_mod                             ../engine/share/modules/inter_struct_mod.F
-      !||    interface_table_mod                          ../engine/share/modules/table_mod.F
-      !||    intstamp_glob_mod                            ../engine/share/modules/intstamp_glob_mod.F
-      !||    mat_elem_mod                                 ../common_source/modules/mat_elem/mat_elem_mod.F90
-      !||    mds_restart_mod                              ../common_source/modules/mds_rest.mod.F
-      !||    message_mod                                  ../engine/share/message_module/message_mod.F
-      !||    monvol_struct_mod                            ../engine/share/modules/monvol_struct_mod.F
-      !||    mpi_tools_mod                                ../engine/share/modules/mpi_tools_mod.F
-      !||    multi_fvm_mod                                ../common_source/modules/ale/multi_fvm_mod.F90
-      !||    multimat_param_mod                           ../common_source/modules/multimat_param_mod.F90
-      !||    my_alloc_mod                                 ../common_source/tools/memory/my_alloc.F90
-      !||    names_and_titles_mod                         ../common_source/modules/names_and_titles_mod.F
-      !||    nlocal_reg_mod                               ../common_source/modules/nlocal_reg_mod.F
-      !||    nodal_arrays_mod                             ../engine/source/engine/node_spliting/nodal_arrays.F90
-      !||    offset_nproj_mod                             ../engine/source/interfaces/shell_offset/offset_nproj.F90
-      !||    outmax_mod                                   ../common_source/modules/outmax_mod.F
-      !||    output_mod                                   ../common_source/modules/output/output_mod.F90
-      !||    outputs_mod                                  ../common_source/modules/outputs_mod.F
-      !||    pinchtype_mod                                ../common_source/modules/pinchtype_mod.F
-      !||    plyxfem_mod                                  ../engine/share/modules/plyxfem_mod.F
-      !||    python_funct_mod                             ../common_source/modules/python_mod.F90
-      !||    python_register_mod                          ../engine/source/tools/curve/python_register.F90
-      !||    rad2r_mod                                    ../engine/share/modules/rad2r.F
-      !||    rbe3_mod                                     ../common_source/modules/constraints/rbe3_mod.F90
-      !||    remesh_mod                                   ../engine/share/modules/remesh_mod.F
-      !||    resolsav_mod                                 ../engine/share/modules/resol_mod.F
-      !||    rigmat_mod                                   ../engine/share/modules/rigmat_mod.F
-      !||    seatbelt_mod                                 ../common_source/modules/seatbelt_mod.F
-      !||    segvar_mod                                   ../engine/share/modules/segvar_mod.F
-      !||    sensor_mod                                   ../common_source/modules/sensor_mod.F90
-      !||    shooting_node_mod                            ../engine/share/modules/shooting_node_mod.F
-      !||    skew_mod                                     ../common_source/modules/skew_mod.F90
-      !||    sms_mod                                      ../engine/share/modules/sms_mod.F
-      !||    sms_pcg_proj                                 ../engine/share/modules/sms_mod.F
-      !||    sph_work_mod                                 ../common_source/modules/mat_elem/sph_work.F90
-      !||    spmd_mod                                     ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_xv_inter_type1_mod                      ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
-      !||    stack_mod                                    ../engine/share/modules/stack_mod.F
-      !||    state_mod                                    ../common_source/modules/state_mod.F
-      !||    table_mod                                    ../engine/share/modules/table_mod.F
-      !||    th_surf_mod                                  ../common_source/modules/interfaces/th_surf_mod.F
-      !||    thgrelem_mod                                 ../engine/share/modules/thgrelem_mod.F
-      !||    thk_mod                                      ../engine/share/modules/thk_mod.F
-      !||    threac_mod                                   ../engine/share/modules/threac_mod.F
-      !||    time_mod                                     ../engine/share/modules/time_mod.F
-      !||    timer_mod                                    ../engine/source/system/timer_mod.F90
-      !||    unitab_mod                                   ../common_source/modules/unitab_mod.F
-      !||    user_windows_mod                             ../common_source/modules/user_windows_mod.F
-      !||    xfem2vars_mod                                ../engine/share/modules/xfem2vars_mod.F
-      !||====================================================================
+            !||====================================================================
+            !||    resol                                        ../engine/source/engine/resol.F
+            !||--- called by ------------------------------------------------------
+            !||    resol_head                                   ../engine/source/engine/resol_head.F
+            !||--- calls      -----------------------------------------------------
+            !||    accdtdc                                      ../engine/source/elements/thickshell/solidec/accdtdc.F
+            !||    accel1                                       ../engine/source/tools/accele/accel1.F
+            !||    accele                                       ../engine/source/assembly/accele.F
+            !||    accelepinch                                  ../engine/source/assembly/accelepinch.F
+            !||    add_elapsed_time_mon_off                     ../engine/source/system/timer.F
+            !||    admdiv                                       ../engine/source/model/remesh/admdiv.F
+            !||    admerr                                       ../engine/source/model/remesh/admerr.F
+            !||    admfor0                                      ../engine/source/model/remesh/admfor0.F
+            !||    admgvid                                      ../engine/source/model/remesh/admgvid.F
+            !||    admordr                                      ../engine/source/model/remesh/admordr.F
+            !||    admregul                                     ../engine/source/model/remesh/admregul.F
+            !||    admvit                                       ../engine/source/model/remesh/admvit.F
+            !||    agauge0                                      ../engine/source/ale/agauge.F
+            !||    alefvm_accele                                ../engine/source/ale/alefvm/alefvm_accele.F
+            !||    alefvm_main                                  ../engine/source/ale/alefvm/alefvm_main.F
+            !||    alemain                                      ../engine/source/ale/alemain.F
+            !||    alemuscl_deallocate                          ../engine/source/ale/alemuscl/alemuscl_deallocate.F
+            !||    alesub2                                      ../engine/source/ale/subcycling/alesub2.F
+            !||    alewdx                                       ../engine/source/ale/grid/alewdx.F
+            !||    alloc_elbuf_imp                              ../engine/source/elements/elbuf/alloc_elbuf_imp.F
+            !||    allocate_sph_work                            ../common_source/modules/mat_elem/sph_work.F90
+            !||    ams_prepare_poff_assembly                    ../engine/source/mpi/ams/spmd_sms.F
+            !||    ancmsg                                       ../engine/source/output/message/message.F
+            !||    arret                                        ../engine/source/system/arret.F
+            !||    assign_ptrx                                  ../engine/source/engine/node_spliting/nodal_arrays.F90
+            !||    assinit                                      ../engine/source/assembly/assadd2.F
+            !||    assinit_crkxfem                              ../engine/source/assembly/assadd2.F
+            !||    assinit_pxfem                                ../engine/source/assembly/assadd2.F
+            !||    asspar                                       ../engine/source/assembly/asspar.F
+            !||    asspar3                                      ../engine/source/assembly/asspar3.F
+            !||    asspar4                                      ../engine/source/assembly/asspar4.F
+            !||    asspar5                                      ../engine/source/assembly/asspar5.F
+            !||    asspar_crk                                   ../engine/source/elements/xfem/asspar_crk.F
+            !||    asspar_sub                                   ../engine/source/assembly/asspar_sub.F
+            !||    asspar_sub_poff                              ../engine/source/assembly/asspar_sub_poff.F
+            !||    asspart                                      ../engine/source/assembly/asspart.F
+            !||    assparxx                                     ../engine/source/assembly/assparxx.F
+            !||    bcs10                                        ../engine/source/constraints/general/bcs/bcs10.F
+            !||    bcscyc                                       ../engine/source/constraints/general/bcs/bcscyc.F
+            !||    bcsdtth_copy                                 ../engine/source/constraints/general/bcs/bcsdtth.F
+            !||    bcsn                                         ../engine/source/constraints/general/bcs/bcsn.F
+            !||    bmultn                                       ../engine/source/ale/bimat/bmultn.F
+            !||    cfield_1                                     ../engine/source/loads/general/load_centri/cfield.F
+            !||    check_ale_comm                               ../engine/source/ale/check_ale_comm.F
+            !||    check_edge_state                             ../engine/source/interfaces/interf/check_edge_state.F
+            !||    check_nan_acc                                ../engine/source/output/outfile/check_nan_acc.F
+            !||    check_nodal_state                            ../engine/source/interfaces/interf/check_nodal_state.F
+            !||    check_remote_surface_state                   ../engine/source/interfaces/interf/check_remote_surface_state.F
+            !||    check_surface_state                          ../engine/source/interfaces/interf/check_surface_state.F
+            !||    chkload                                      ../engine/source/interfaces/chkload.F
+            !||    chkmsin                                      ../engine/source/output/outfile/chkmsin.F
+            !||    chkstfn3n                                    ../engine/source/interfaces/interf/chkstfn3.F
+            !||    chkstifn                                     ../engine/source/interfaces/inter2d/chkstifn.F
+            !||    cjoint                                       ../engine/source/constraints/general/cyl_joint/cjoint.F
+            !||    close_sock_c                                 ../engine/source/coupling/rad2rad/rad2rad_c.c
+            !||    clusterf                                     ../engine/source/output/cluster/clusterf.F
+            !||    cnd_dmasi2                                   ../engine/source/elements/solid/solide10/s10cndf.F
+            !||    cndint                                       ../engine/source/model/remesh/cndint.F
+            !||    cndordr                                      ../engine/source/model/remesh/cndordr.F
+            !||    collect                                      ../engine/source/output/outfile/collect.F
+            !||    collectm                                     ../engine/source/output/outfile/collect.F
+            !||    collectt                                     ../engine/source/output/outfile/collect.F
+            !||    convec                                       ../engine/source/constraints/thermic/convec.F
+            !||    cp_dm                                        ../engine/source/implicit/produt_v.F
+            !||    crk_accele                                   ../engine/source/elements/xfem/accele_crk.F
+            !||    crk_coord_ini                                ../engine/source/elements/xfem/crk_coord_ini.F
+            !||    crk_vitesse                                  ../engine/source/elements/xfem/crk_vitesse.F
+            !||    crk_vitesse2                                 ../engine/source/elements/xfem/crk_vitesse2.F
+            !||    crk_zero_accel                               ../engine/source/elements/xfem/crk_vitesse.F
+            !||    crk_zero_fsky                                ../engine/source/elements/xfem/crk_vitesse.F
+            !||    cumultime_mp                                 ../engine/source/system/timer.F
+            !||    damping                                      ../engine/source/assembly/damping.F
+            !||    damping44                                    ../engine/source/assembly/damping.F
+            !||    damping51                                    ../engine/source/assembly/damping.F
+            !||    dealloc_impbuf                               ../engine/source/implicit/imp_solv.F
+            !||    dealloc_shoot_inter                          ../engine/source/interfaces/interf/dealloc_shoot_inter.F
+            !||    deallocate_joint                             ../engine/source/constraints/general/cyl_joint/deallocate_joint.F
+            !||    deallocm_imp                                 ../engine/source/implicit/imp_solv.F
+            !||    depla                                        ../engine/source/assembly/depla.F
+            !||    deplafakeige                                 ../engine/source/assembly/deplafakeige.F
+            !||    deplapinch                                   ../engine/source/assembly/deplapinch.F
+            !||    desacti                                      ../engine/source/elements/desacti.F
+            !||    disp_vel_saved_cload                         ../engine/source/assembly/disp_vel_saved_cload.F
+            !||    dtnoda                                       ../engine/source/time_step/dtnoda.F
+            !||    dtnodamp                                     ../engine/source/time_step/dtnodamp.F
+            !||    dtnodams                                     ../engine/source/time_step/dtnodams.F
+            !||    dtnodarayl                                   ../engine/source/time_step/dtnodarayl.F
+            !||    ebcclap                                      ../engine/source/boundary_conditions/ebcs/ebcclap.F
+            !||    ebcs_extrapol                                ../engine/source/boundary_conditions/ebcs/ebcs_extrapol.F
+            !||    elapstime                                    ../engine/source/system/timer.F
+            !||    ener_w0                                      ../engine/source/general_controls/damping/static.F
+            !||    err_thk                                      ../engine/source/elements/shell/err_thk.F
+            !||    euldx                                        ../engine/source/ale/grid/euldx.F
+            !||    fail_wind_frwave_init                        ../engine/source/materials/fail/alter/fail_wind_frwave_init.F
+            !||    fequilibre                                   ../engine/source/elements/shell/fequilibre.F
+            !||    find_dt_for_targeted_added_mass              ../engine/source/time_step/find_dt_for_targeted_added_mass.F
+            !||    find_edge_inter                              ../engine/source/interfaces/interf/find_edge_inter.F
+            !||    find_surface_inter                           ../engine/source/interfaces/interf/find_surface_inter.F
+            !||    fixfingeo                                    ../engine/source/constraints/general/impvel/fixfingeo.F
+            !||    fixflux                                      ../engine/source/constraints/thermic/fixflux.F
+            !||    fixtemp                                      ../engine/source/constraints/thermic/fixtemp.F
+            !||    fixvel                                       ../engine/source/constraints/general/impvel/fixvel.F
+            !||    flow0                                        ../engine/source/fluid/flow0.F
+            !||    flow1                                        ../engine/source/fluid/flow1.F
+            !||    flow_accele                                  ../engine/source/assembly/flow_accele.F
+            !||    flow_depla                                   ../engine/source/assembly/flow_depla.F
+            !||    flow_vitesse                                 ../engine/source/assembly/flow_vitesse.F
+            !||    forani1                                      ../engine/source/output/anim/generate/forani1.F
+            !||    forani2                                      ../engine/source/output/anim/generate/forani2.F
+            !||    forani3                                      ../engine/source/output/anim/generate/forani3.F
+            !||    force                                        ../engine/source/loads/general/force.F90
+            !||    forcefingeo                                  ../engine/source/loads/general/forcefingeo.F
+            !||    forcepinch                                   ../engine/source/loads/general/forcepinch.F
+            !||    forint                                       ../engine/source/elements/forint.F
+            !||    forintc                                      ../engine/source/elements/forintc.F
+            !||    forintp                                      ../engine/source/elements/forintp.F
+            !||    forints                                      ../engine/source/elements/forints.F
+            !||    free_pinch                                   ../common_source/modules/pinchtype_mod.F
+            !||    funct_python_update_elements                 ../engine/source/tools/curve/funct_python_update_elements.F90
+            !||    fv_switch_crit                               ../engine/source/airbag/fvdim.F
+            !||    fvbag0                                       ../engine/source/airbag/fvbag0.F
+            !||    fvcopy                                       ../engine/source/airbag/fvcopy.F
+            !||    fvdim                                        ../engine/source/airbag/fvdim.F
+            !||    fvmesh0                                      ../engine/source/airbag/fvmesh0.F
+            !||    fvrezone0                                    ../engine/source/airbag/fvrezone.F
+            !||    fvstats                                      ../engine/source/airbag/fvstats.F
+            !||    fvupd0                                       ../engine/source/airbag/fvupd.F
+            !||    fxbyfor                                      ../engine/source/constraints/fxbody/fxbyfor.F
+            !||    fxbypid                                      ../engine/source/constraints/fxbody/fxbypid.F
+            !||    fxbyvit                                      ../engine/source/constraints/fxbody/fxbyvit.F
+            !||    fxgrvcor                                     ../engine/source/constraints/fxbody/fxgrvcor.F
+            !||    get_fbuf_c                                   ../engine/source/coupling/rad2rad/rad2rad_c.c
+            !||    get_fbufdp_c                                 ../engine/source/coupling/rad2rad/rad2rad_c.c
+            !||    get_ibuf_c                                   ../engine/source/coupling/rad2rad/rad2rad_c.c
+            !||    get_neighbour_surface                        ../engine/source/interfaces/interf/get_neighbour_surface.F90
+            !||    get_shmbuf_c                                 ../engine/source/coupling/rad2rad/rad2rad_c.c
+            !||    gravit                                       ../engine/source/loads/general/grav/gravit.F
+            !||    gravit_fvm_fem                               ../engine/source/loads/general/grav/gravit_fvm_fem.F
+            !||    i14ist                                       ../engine/source/interfaces/int14/i14ist.F
+            !||    i14wfs                                       ../engine/source/interfaces/int14/i14wfs.F
+            !||    i18main_kine_1                               ../engine/source/interfaces/int18/i18main_kine.F
+            !||    i18main_kine_2                               ../engine/source/interfaces/int18/i18main_kine.F
+            !||    i24e2e_fictive_nodes_update                  ../engine/source/interfaces/int24/i24for3e.F
+            !||    i24nitschfor3                                ../engine/source/interfaces/int24/i24nitschfor3.F
+            !||    i24pxfem                                     ../engine/source/interfaces/int24/i24pxfem.F
+            !||    imp_buck                                     ../engine/source/implicit/imp_buck.F
+            !||    imp_chkm                                     ../engine/source/implicit/imp_solv.F
+            !||    imp_dt2                                      ../engine/source/implicit/imp_dt.F
+            !||    imp_fanie                                    ../engine/source/implicit/imp_solv.F
+            !||    imp_fanii                                    ../engine/source/implicit/imp_solv.F
+            !||    imp_fout                                     ../engine/source/implicit/imp_solv.F
+            !||    imp_restarcp                                 ../engine/source/implicit/imp_sol_init.F
+            !||    imp_sol_init                                 ../engine/source/implicit/imp_sol_init.F
+            !||    imp_solv                                     ../engine/source/implicit/imp_solv.F
+            !||    init_global_frontier_monvol                  ../engine/source/airbag/init_global_monvol_frontier.F90
+            !||    init_i25_edge                                ../engine/source/interfaces/int25/init_i25_edge.F
+            !||    init_interf_sorting_strategy                 ../engine/source/interfaces/init_interf_sorting_strategy.F
+            !||    init_monvol_omp_structure                    ../engine/source/airbag/init_monvol_omp_structure.F90
+            !||    init_nodal_state                             ../engine/source/interfaces/interf/init_nodal_state.F
+            !||    init_trim                                    ../engine/source/interfaces/intsort/init_trim.F
+            !||    inivel_dt2                                   ../engine/source/loads/general/inivel/inivel_dt2.F90
+            !||    inivel_start                                 ../engine/source/loads/general/inivel/inivel_start.F90
+            !||    inixfem                                      ../engine/source/elements/xfem/inixfem.F
+            !||    int18_alloc                                  ../engine/source/interfaces/int18/int18_alloc.F
+            !||    int18_law151_init                            ../engine/source/interfaces/int18/int18_law151_init.F
+            !||    int18_law151_omp_accumulation                ../engine/source/interfaces/int18/int18_law151_omp_accumulation.F
+            !||    int18_law151_update                          ../engine/source/interfaces/int18/int18_law151_update.F
+            !||    intal1                                       ../engine/source/ale/inter/intal1.F
+            !||    inter_nodal_areas                            ../engine/source/output/inter_nodal_areas.F
+            !||    inter_struct_init                            ../engine/source/interfaces/generic/inter_struct_init.F
+            !||    intfop1                                      ../engine/source/interfaces/interf/intfop1.F
+            !||    intfop2                                      ../engine/source/interfaces/interf/intfop2.F
+            !||    intfop8                                      ../engine/source/interfaces/interf/intfop8.F
+            !||    intstamp_ass                                 ../engine/source/interfaces/int21/intstamp_ass.F
+            !||    intstamp_dt                                  ../engine/source/interfaces/int21/intstamp_dt.F
+            !||    intstamp_init                                ../engine/source/interfaces/int21/intstamp_init.F
+            !||    intstamp_move                                ../engine/source/interfaces/int21/intstamp_move.F
+            !||    intti1                                       ../engine/source/interfaces/interf/intti1.F
+            !||    intti2                                       ../engine/source/interfaces/interf/intti2.F
+            !||    inttri                                       ../engine/source/interfaces/intsort/inttri.F
+            !||    joint_block_stiffness                        ../engine/source/elements/joint/joint_block_stiffness.F
+            !||    joint_elem_timestep                          ../engine/source/elements/joint/joint_elem_timestep.F
+            !||    kine_seatbelt_force                          ../engine/source/tools/seatbelts/kine_seatbelt_force.F
+            !||    kine_seatbelt_vel                            ../engine/source/tools/seatbelts/kine_seatbelt_vel.F
+            !||    lag_mult                                     ../engine/source/tools/lagmul/lag_mult.F
+            !||    lag_multp                                    ../engine/source/tools/lagmul/lag_mult.F
+            !||    load_pressure                                ../engine/source/loads/general/load_pressure/load_pressure.F
+            !||    manctr                                       ../engine/source/input/manctr.F
+            !||    modsti                                       ../engine/source/time_step/modsti.F
+            !||    monvol0                                      ../engine/source/airbag/monvol0.F
+            !||    movfra1                                      ../engine/source/tools/skew/movfram.F
+            !||    movfra2                                      ../engine/source/tools/skew/movfram.F
+            !||    movfra_imp                                   ../engine/source/tools/skew/movfram.F
+            !||    mpi_min_real_begin                           ../engine/share/modules/mpi_tools_mod.F
+            !||    mpi_min_real_end                             ../engine/share/modules/mpi_tools_mod.F
+            !||    multi_deallocate                             ../engine/source/multifluid/multi_deallocate.F
+            !||    multi_velocity_backup                        ../engine/source/multifluid/multi_velocity_backup.F
+            !||    mvoludt                                      ../engine/source/airbag/mvoludt.F
+            !||    my_barrier                                   ../engine/source/system/machine.F
+            !||    newskw                                       ../engine/source/tools/skew/newskw.F
+            !||    newskw_init                                  ../engine/source/tools/skew/newskw.F
+            !||    nlocal_acc                                   ../engine/source/assembly/nlocal_acc.F
+            !||    nlocal_dtnoda                                ../engine/source/time_step/nlocal_dtnoda.F
+            !||    nlocal_incr                                  ../engine/source/assembly/nlocal_incr.F
+            !||    nlocal_vel                                   ../engine/source/assembly/nlocal_vel.F
+            !||    offset_nproj                                 ../engine/source/interfaces/shell_offset/offset_nproj.F90
+            !||    omp_get_thread_num                           ../engine/source/engine/openmp_stub.F90
+            !||    omp_set_num_threads                          ../engine/source/engine/openmp_stub.F90
+            !||    pblast_load_computation                      ../engine/source/loads/pblast/pblast.F
+            !||    pfluid                                       ../engine/source/loads/general/pfluid/pfluid.F
+            !||    ply_accele                                   ../engine/source/assembly/ply_accele.F
+            !||    ply_bcs                                      ../engine/source/constraints/general/bcs/ply_bcs.F
+            !||    ply_vitesse                                  ../engine/source/assembly/ply_vitesse.F
+            !||    poro                                         ../engine/source/ale/porous/poro.F
+            !||    prepare_debug                                ../engine/share/modules/debug_mod.F
+            !||    prerbe3p0                                    ../engine/source/constraints/general/rbe3/rbe3f.F
+            !||    pressure_cyl                                 ../engine/source/loads/general/load_pcyl/pressure_cyl.F
+            !||    printime                                     ../engine/source/system/timer.F
+            !||    printime_interf                              ../engine/source/system/timer_interf.F
+            !||    printimeg                                    ../engine/source/system/timer.F
+            !||    python_register                              ../engine/source/tools/curve/python_register.F90
+            !||    python_update_nodal_entities                 ../common_source/modules/python_mod.F90
+            !||    r2r_block_c                                  ../engine/source/coupling/rad2rad/rad2rad_c.c
+            !||    r2r_exchange                                 ../engine/source/coupling/rad2rad/r2r_exchange.F
+            !||    r2r_getdata                                  ../engine/source/coupling/rad2rad/r2r_getdata.F
+            !||    r2r_sem_c                                    ../engine/source/coupling/rad2rad/rad2rad_c.c
+            !||    r2r_sendkine                                 ../engine/source/coupling/rad2rad/r2r_getdata.F
+            !||    r2r_unlock_threads_c                         ../engine/source/coupling/rad2rad/rad2rad_c.c
+            !||    radiation                                    ../engine/source/constraints/thermic/radiation.F
+            !||    rbagdt                                       ../engine/source/airbag/rbagdt.F
+            !||    rbe2cor                                      ../engine/source/constraints/general/rbody/rgbcor.F
+            !||    rbe2t1                                       ../engine/source/constraints/general/rbe2/rbe2f.F
+            !||    rbe2v                                        ../engine/source/constraints/general/rbe2/rbe2v.F
+            !||    rbe3t1                                       ../engine/source/constraints/general/rbe3/rbe3f.F
+            !||    rbe3v                                        ../engine/source/constraints/general/rbe3/rbe3v.F
+            !||    rbycor                                       ../engine/source/constraints/general/rbody/rbycor.F
+            !||    rbyfor                                       ../engine/source/constraints/general/rbody/rbyfor.F
+            !||    rbysens                                      ../engine/source/constraints/general/rbody/rbyonf.F
+            !||    rbyvit                                       ../engine/source/constraints/general/rbody/rbyvit.F
+            !||    re2int5                                      ../engine/source/implicit/imp_solv.F
+            !||    re2int7                                      ../engine/source/implicit/imp_solv.F
+            !||    reaction_forces_1                            ../engine/source/output/reactions.F
+            !||    reaction_forces_2                            ../engine/source/output/reactions.F
+            !||    reaction_forces_3                            ../engine/source/output/reactions.F
+            !||    reaction_forces_check_for_requested_output   ../engine/source/output/reactions.F
+            !||    reaction_forces_th                           ../engine/source/output/reaction_forces_th.F
+            !||    reallocate_i_skyline                         ../engine/source/system/reallocate_skyline.F
+            !||    renum_siz                                    ../engine/source/interfaces/interf/renum_siz.F
+            !||    resol_init                                   ../engine/source/engine/resol_init.F
+            !||    rgwal0                                       ../engine/source/constraints/general/rwall/rgwal0.F
+            !||    rgwalf                                       ../engine/source/constraints/general/rwall/rgwal0.F
+            !||    rivet1                                       ../engine/source/elements/rivet/rivet1.F
+            !||    rlink10                                      ../engine/source/constraints/general/rlink/rlink10.F
+            !||    rlink11                                      ../engine/source/constraints/general/rlink/rlink10.F
+            !||    rmatacce                                     ../engine/source/materials/mat/mat013/rmatacce.F
+            !||    rmatforp                                     ../engine/source/materials/mat/mat013/rmatforp.F
+            !||    s10cndf1                                     ../engine/source/elements/solid/solide10/s10cndf.F
+            !||    s10cndf2                                     ../engine/source/elements/solid/solide10/s10cndf.F
+            !||    s10cndfnd                                    ../engine/source/elements/solid/solide10/s10cndf.F
+            !||    s10cndi2a                                    ../engine/source/elements/solid/solide10/s10cndv.F
+            !||    s10cndi2a1                                   ../engine/source/elements/solid/solide10/s10cndv.F
+            !||    s10cndv                                      ../engine/source/elements/solid/solide10/s10cndv.F
+            !||    s10getvdm                                    ../engine/source/elements/solid/solide10/s10cndv.F
+            !||    s10stfe_poff                                 ../engine/source/elements/solid/solide10/s10cndf.F
+            !||    s4lagsfem                                    ../engine/source/elements/solid/solide4_sfem/s4lagsfem.F
+            !||    sav_buf_point                                ../engine/source/user_interface/eng_callback_c.c
+            !||    section_fio                                  ../engine/source/tools/sect/section_fio.F
+            !||    section_io                                   ../engine/source/tools/sect/section_io.F
+            !||    send_fbuf_c                                  ../engine/source/coupling/rad2rad/rad2rad_c.c
+            !||    send_fbufdp_c                                ../engine/source/coupling/rad2rad/rad2rad_c.c
+            !||    send_ibuf_c                                  ../engine/source/coupling/rad2rad/rad2rad_c.c
+            !||    sensor_base                                  ../engine/source/tools/sensor/sensor_base.F
+            !||    sensor_dist_surf0                            ../engine/source/tools/sensor/sensor_dist_surf0.F
+            !||    sensor_ener_sav                              ../engine/source/tools/sensor/sensor_ener_sav.F
+            !||    sensor_init                                  ../engine/source/tools/sensor/sensor_init.F
+            !||    sensor_logical                               ../engine/source/tools/sensor/sensor_logical.F
+            !||    sensor_spmd                                  ../engine/source/tools/sensor/sensor_spmd.F
+            !||    sensor_temp0                                 ../engine/source/tools/sensor/sensor_temp0.F
+            !||    smp_init                                     ../engine/source/engine/resol_init.F
+            !||    sms_build_mat_2                              ../engine/source/ams/sms_build_mat_2.F
+            !||    sms_encin_2                                  ../engine/source/ams/sms_encin_2.F
+            !||    sms_ini_err                                  ../engine/source/ams/sms_init.F
+            !||    sms_ini_int                                  ../engine/source/ams/sms_init.F
+            !||    sms_ini_jad_1                                ../engine/source/ams/sms_init.F
+            !||    sms_ini_jad_2                                ../engine/source/ams/sms_init.F
+            !||    sms_ini_jad_3                                ../engine/source/ams/sms_init.F
+            !||    sms_ini_kad                                  ../engine/source/ams/sms_init.F
+            !||    sms_ini_kdi                                  ../engine/source/ams/sms_init.F
+            !||    sms_ini_kin_2                                ../engine/source/ams/sms_init.F
+            !||    sms_ini_part                                 ../engine/source/ams/sms_init.F
+            !||    sms_ini_rby                                  ../engine/source/ams/sms_init.F
+            !||    sms_mass_scale_2                             ../engine/source/ams/sms_mass_scale_2.F
+            !||    soltospha                                    ../engine/source/elements/sph/soltospha.F
+            !||    soltosphf                                    ../engine/source/elements/sph/soltosph.F
+            !||    sortie_error                                 ../engine/source/output/sortie_error.F
+            !||    sortie_main                                  ../engine/source/output/sortie_main.F
+            !||    spgauge_f                                    ../engine/source/elements/sph/spgauge.F
+            !||    sphprep                                      ../engine/source/elements/sph/sphprep.F
+            !||    sphres44b                                    ../engine/source/elements/sph/sphres44b.F
+            !||    splissv                                      ../engine/source/elements/sph/splissv.F
+            !||    split_asspar4                                ../engine/source/assembly/split_asspar4.F
+            !||    spmd_allglob_isum9                           ../engine/source/mpi/generic/spmd_allglob_isum9.F
+            !||    spmd_barrier                                 ../engine/source/mpi/generic/spmd_barrier.F
+            !||    spmd_chkw                                    ../engine/source/mpi/generic/spmd_chkw.F
+            !||    spmd_collect                                 ../engine/source/mpi/output/spmd_collect.F
+            !||    spmd_collect_multi_fvm                       ../engine/source/mpi/output/spmd_collect_multi_fvm.F
+            !||    spmd_collect_nlocal                          ../engine/source/mpi/output/spmd_collect_nlocal.F
+            !||    spmd_collectm                                ../engine/source/mpi/output/spmd_collectm.F
+            !||    spmd_collectt                                ../engine/source/mpi/output/spmd_collectt.F
+            !||    spmd_crk_adv                                 ../engine/source/elements/xfem/xfemfsky.F
+            !||    spmd_exch2_a_pon                             ../engine/source/mpi/forces/spmd_exch2_a_pon.F
+            !||    spmd_exch_a                                  ../engine/source/mpi/forces/spmd_exch_a.F
+            !||    spmd_exch_a_ams_poff                         ../engine/source/mpi/forces/spmd_exch_a_ams_poff.F
+            !||    spmd_exch_crkvel                             ../engine/source/mpi/elements/spmd_xfem.F
+            !||    spmd_exch_da20                               ../engine/source/mpi/interfaces/spmd_exch_da20.F
+            !||    spmd_exch_deleted_surf_edge                  ../engine/source/mpi/interfaces/spmd_exch_deleted_surf_edge.F
+            !||    spmd_exch_efric                              ../engine/source/mpi/interfaces/spmd_exch_efric.F
+            !||    spmd_exch_fa                                 ../engine/source/mpi/elements/spmd_exch_dttsh.F
+            !||    spmd_exch_i24                                ../engine/source/mpi/interfaces/spmd_exch_i24.F
+            !||    spmd_exch_i25                                ../engine/source/mpi/interfaces/spmd_exch_i25.F
+            !||    spmd_exch_icodt                              ../engine/source/mpi/nodes/spmd_exch_icodt.F
+            !||    spmd_exch_icont                              ../engine/source/mpi/nodes/spmd_exch_icont.F
+            !||    spmd_exch_inter_18                           ../engine/source/mpi/interfaces/spmd_exch_inter_18.F
+            !||    spmd_exch_press                              ../engine/source/mpi/interfaces/spmd_exch_press.F
+            !||    spmd_exch_r2r_sph                            ../engine/source/mpi/r2r/spmd_r2r.F
+            !||    spmd_exch_r2r_sphoff                         ../engine/source/mpi/r2r/spmd_r2r.F
+            !||    spmd_exch_sec                                ../engine/source/mpi/sections/spmd_section.F
+            !||    spmd_exch_sub_poff                           ../engine/source/mpi/spmd_exch_sub.F
+            !||    spmd_exch_sub_pon                            ../engine/source/mpi/spmd_exch_sub.F
+            !||    spmd_exch_tagncont                           ../engine/source/mpi/forces/spmd_exch_tagncont.F
+            !||    spmd_exch_thknod                             ../engine/source/mpi/nodes/spmd_exch_thknod.F
+            !||    spmd_exch_vmax                               ../engine/source/mpi/elements/spmd_exch_dttsh.F
+            !||    spmd_exch_wave                               ../engine/source/mpi/nodes/spmd_exch_wave.F
+            !||    spmd_exsum_fb6                               ../engine/source/mpi/generic/spmd_exsum_fb6.F
+            !||    spmd_flush_accel                             ../engine/source/mpi/output/spmd_flush_accel.F
+            !||    spmd_fvb_switch                              ../engine/source/mpi/airbags/spmd_fvb_switch.F
+            !||    spmd_glob_isum9                              ../engine/source/mpi/interfaces/spmd_th.F
+            !||    spmd_glob_min5                               ../engine/source/mpi/generic/spmd_glob_min5.F
+            !||    spmd_glob_minv                               ../engine/source/mpi/generic/spmd_glob_minv.F
+            !||    spmd_i21fthecom                              ../engine/source/mpi/interfaces/send_cand.F
+            !||    spmd_i21tempcom                              ../engine/source/mpi/interfaces/send_cand.F
+            !||    spmd_i24_prepare                             ../engine/source/interfaces/int24/i24_prepare.F
+            !||    spmd_i25_prepare                             ../engine/source/interfaces/int25/i25_prepare.F
+            !||    spmd_i25front_init                           ../engine/source/mpi/interfaces/spmd_i25front.F
+            !||    spmd_i7fcom_poff                             ../engine/source/mpi/forces/spmd_i7fcom_poff.F
+            !||    spmd_i7fcom_pon                              ../engine/source/mpi/forces/spmd_i7fcom_pon.F
+            !||    spmd_i7xvcom2                                ../engine/source/mpi/interfaces/spmd_i7xvcom2.F
+            !||    spmd_ibcast                                  ../engine/source/mpi/generic/spmd_ibcast.F
+            !||    spmd_int18_law151_pon                        ../engine/source/mpi/forces/spmd_int18_law151_pon.F
+            !||    spmd_max_xfe_i                               ../engine/source/mpi/elements/spmd_xfem.F
+            !||    spmd_mumps_ini                               ../engine/source/mpi/implicit/imp_spmd.F
+            !||    spmd_nlist_sms                               ../engine/source/mpi/ams/spmd_sms.F
+            !||    spmd_rbcast                                  ../engine/source/mpi/generic/spmd_rbcast.F
+            !||    spmd_sd_xv                                   ../engine/source/mpi/nodes/spmd_sd_xv.F
+            !||    spmd_sort_sms                                ../engine/source/mpi/ams/spmd_sms.F
+            !||    spmd_wiout                                   ../engine/source/mpi/generic/spmd_wiout.F
+            !||    spmd_xv_inter_type1                          ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
+            !||    sponfv                                       ../engine/source/elements/sph/sponfv.F
+            !||    spwfvis                                      ../engine/source/elements/sph/spwfvis.F
+            !||    srfvit                                       ../engine/source/constraints/general/rbody/srfvit.F
+            !||    startime                                     ../engine/source/system/timer_mod.F90
+            !||    static                                       ../engine/source/general_controls/damping/static.F
+            !||    stop_sensor                                  ../engine/source/tools/sensor/stop_sensor.F
+            !||    stoptime                                     ../engine/source/system/timer_mod.F90
+            !||    tagoff3n                                     ../engine/source/interfaces/interf/chkstfn3.F
+            !||    tempur                                       ../engine/source/constraints/thermic/tempur.F
+            !||    th_time_output                               ../engine/source/output/th/th_time_output.F
+            !||    thbcs                                        ../engine/source/output/th/thbcs.F
+            !||    thbcs_imp                                    ../engine/source/output/th/thbcs_imp.F
+            !||    thermbilan                                   ../engine/source/constraints/thermic/thermbilan.F
+            !||    thickvar                                     ../engine/source/elements/shell/coque/thickvar.F
+            !||    timfun                                       ../engine/source/tools/curve/timfun.F
+            !||    trace_in                                     ../engine/source/system/trace_back.F
+            !||    trace_out                                    ../engine/source/system/trace_back.F
+            !||    upd_tmax                                     ../engine/source/output/upd_outmax.F
+            !||    update_failwave                              ../engine/source/materials/fail/failwave/update_failwave.F
+            !||    update_slipring                              ../engine/source/tools/seatbelts/update_slipring.F
+            !||    upenr_crk                                    ../engine/source/elements/xfem/upenr_crk.F
+            !||    upgrade_rem_2ry                              ../engine/source/mpi/interfaces/spmd_i7tool.F
+            !||    upxfem1                                      ../engine/source/elements/xfem/upxfem1.F
+            !||    upxfem2                                      ../engine/source/elements/xfem/upxfem2.F
+            !||    upxfem_tagxp                                 ../engine/source/elements/xfem/upxfem_tagxp.F
+            !||    user_windows_routine                         ../engine/source/user_interface/user_windows.F
+            !||    vitesse                                      ../engine/source/assembly/vitesse.F
+            !||    vitessepinch                                 ../engine/source/assembly/vitessepinch.F
+            !||    wrrestp                                      ../engine/source/output/restart/wrrestp.F
+            !||    xfeoff                                       ../engine/source/elements/xfem/xfeoff.F
+            !||    zero1                                        ../engine/source/system/zero.F
+            !||    zeror                                        ../engine/source/system/zero.F
+            !||--- uses       -----------------------------------------------------
+            !||    acceleration_dp_mod                          ../engine/share/modules/acceleration_dp_mod.F
+            !||    ale_connectivity_mod                         ../common_source/modules/ale/ale_connectivity_mod.F
+            !||    ale_mod                                      ../common_source/modules/ale/ale_mod.F
+            !||    aleanim_mod                                  ../engine/share/modules/aleanim_mod.F
+            !||    aleflow_mod                                  ../engine/share/modules/aleflow_mod.F
+            !||    alefvm_mod                                   ../common_source/modules/ale/alefvm_mod.F
+            !||    alemuscl_mod                                 ../common_source/modules/ale/alemuscl_mod.F
+            !||    ams_work_mod                                 ../engine/source/modules/ams_work_mod.F90
+            !||    anim_mod                                     ../common_source/modules/output/anim_mod.F
+            !||    array_mod                                    ../common_source/modules/array_mod.F
+            !||    bcs_mod                                      ../common_source/modules/boundary_conditions/bcs_mod.F90
+            !||    check_mod                                    ../common_source/modules/check_mod.F
+            !||    cluster_mod                                  ../engine/share/modules/cluster_mod.F
+            !||    connectivity_mod                             ../common_source/modules/connectivity.F90
+            !||    crackxfem_mod                                ../engine/share/modules/crackxfem_mod.F
+            !||    debug_chksm_mod                              ../engine/source/mpi/output/spmd_flush_accel.F
+            !||    detach_node_mod                              ../engine/source/engine/node_spliting/detach_node.F90
+            !||    diffusion_mod                                ../engine/share/modules/diffusion_mod.F
+            !||    drape_mod                                    ../engine/share/modules/drape_mod.F
+            !||    dsgraph_mod                                  ../engine/share/modules/dsgraph_mod.F
+            !||    dt_mod                                       ../engine/source/modules/dt_mod.F
+            !||    dtdc_mod                                     ../engine/share/modules/dtdc_mod.F
+            !||    dynlib_mod                                   ../engine/share/modules/dynlib_mod.F
+            !||    ebcs_mod                                     ../common_source/modules/boundary_conditions/ebcs_mod.F90
+            !||    ecnd_mod                                     ../engine/share/modules/ecdn_mod.F
+            !||    elbufdef_mod                                 ../common_source/modules/mat_elem/elbufdef_mod.F90
+            !||    error_mod                                    ../engine/share/modules/error_mod.F
+            !||    failwave_mod                                 ../common_source/modules/failwave_mod.F
+            !||    force_mod                                    ../engine/source/loads/general/force.F90
+            !||    fskyi_mod                                    ../engine/share/modules/restart_mod.F
+            !||    funct_python_update_elements_mod             ../engine/source/tools/curve/funct_python_update_elements.F90
+            !||    fvbag_mod                                    ../engine/share/modules/fvbag_mod.F
+            !||    get_neighbour_surface_mod                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
+            !||    glob_therm_mod                               ../common_source/modules/mat_elem/glob_therm_mod.F90
+            !||    groupdef_mod                                 ../common_source/modules/groupdef_mod.F
+            !||    h3d_mod                                      ../engine/share/modules/h3d_mod.F
+            !||    heat_mod                                     ../engine/share/modules/heat_mod.F
+            !||    i22bufbric_mod                               ../common_source/modules/interfaces/cut-cell-search_mod.F
+            !||    i22edge_mod                                  ../common_source/modules/interfaces/cut-cell-buffer_mod.F
+            !||    i22tri_mod                                   ../common_source/modules/interfaces/cut-cell-search_mod.F
+            !||    icontact_mod                                 ../engine/share/modules/icontact_mod.F
+            !||    impbufdef_mod                                ../engine/share/modules/impbufdef_mod.F
+            !||    init_global_frontier_monvol_mod              ../engine/source/airbag/init_global_monvol_frontier.F90
+            !||    init_monvol_omp_structure_mod                ../engine/source/airbag/init_monvol_omp_structure.F90
+            !||    inivel_dt2_mod                               ../engine/source/loads/general/inivel/inivel_dt2.F90
+            !||    inivel_start_mod                             ../engine/source/loads/general/inivel/inivel_start.F90
+            !||    inter_sh_offset_mod                          ../engine/source/modules/interfaces/sh_offset_mod.F90
+            !||    inter_sorting_mod                            ../engine/share/modules/inter_sorting_mod.F
+            !||    inter_struct_mod                             ../engine/share/modules/inter_struct_mod.F
+            !||    interface_table_mod                          ../engine/share/modules/table_mod.F
+            !||    intstamp_glob_mod                            ../engine/share/modules/intstamp_glob_mod.F
+            !||    mat_elem_mod                                 ../common_source/modules/mat_elem/mat_elem_mod.F90
+            !||    mds_restart_mod                              ../common_source/modules/mds_rest.mod.F
+            !||    message_mod                                  ../engine/share/message_module/message_mod.F
+            !||    monvol_struct_mod                            ../engine/share/modules/monvol_struct_mod.F
+            !||    mpi_tools_mod                                ../engine/share/modules/mpi_tools_mod.F
+            !||    multi_fvm_mod                                ../common_source/modules/ale/multi_fvm_mod.F90
+            !||    multimat_param_mod                           ../common_source/modules/multimat_param_mod.F90
+            !||    my_alloc_mod                                 ../common_source/tools/memory/my_alloc.F90
+            !||    names_and_titles_mod                         ../common_source/modules/names_and_titles_mod.F
+            !||    nlocal_reg_mod                               ../common_source/modules/nlocal_reg_mod.F
+            !||    nodal_arrays_mod                             ../engine/source/engine/node_spliting/nodal_arrays.F90
+            !||    offset_nproj_mod                             ../engine/source/interfaces/shell_offset/offset_nproj.F90
+            !||    outmax_mod                                   ../common_source/modules/outmax_mod.F
+            !||    output_mod                                   ../common_source/modules/output/output_mod.F90
+            !||    outputs_mod                                  ../common_source/modules/outputs_mod.F
+            !||    pinchtype_mod                                ../common_source/modules/pinchtype_mod.F
+            !||    plyxfem_mod                                  ../engine/share/modules/plyxfem_mod.F
+            !||    python_funct_mod                             ../common_source/modules/python_mod.F90
+            !||    python_register_mod                          ../engine/source/tools/curve/python_register.F90
+            !||    rad2r_mod                                    ../engine/share/modules/rad2r.F
+            !||    rbe3_mod                                     ../common_source/modules/constraints/rbe3_mod.F90
+            !||    remesh_mod                                   ../engine/share/modules/remesh_mod.F
+            !||    resolsav_mod                                 ../engine/share/modules/resol_mod.F
+            !||    rigmat_mod                                   ../engine/share/modules/rigmat_mod.F
+            !||    seatbelt_mod                                 ../common_source/modules/seatbelt_mod.F
+            !||    segvar_mod                                   ../engine/share/modules/segvar_mod.F
+            !||    sensor_mod                                   ../common_source/modules/sensor_mod.F90
+            !||    shooting_node_mod                            ../engine/share/modules/shooting_node_mod.F
+            !||    skew_mod                                     ../common_source/modules/skew_mod.F90
+            !||    sms_mod                                      ../engine/share/modules/sms_mod.F
+            !||    sms_pcg_proj                                 ../engine/share/modules/sms_mod.F
+            !||    sph_work_mod                                 ../common_source/modules/mat_elem/sph_work.F90
+            !||    spmd_mod                                     ../engine/source/mpi/spmd_mod.F90
+            !||    spmd_xv_inter_type1_mod                      ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
+            !||    stack_mod                                    ../engine/share/modules/stack_mod.F
+            !||    state_mod                                    ../common_source/modules/state_mod.F
+            !||    table_mod                                    ../engine/share/modules/table_mod.F
+            !||    th_surf_mod                                  ../common_source/modules/interfaces/th_surf_mod.F
+            !||    thgrelem_mod                                 ../engine/share/modules/thgrelem_mod.F
+            !||    thk_mod                                      ../engine/share/modules/thk_mod.F
+            !||    threac_mod                                   ../engine/share/modules/threac_mod.F
+            !||    time_mod                                     ../engine/share/modules/time_mod.F
+            !||    timer_mod                                    ../engine/source/system/timer_mod.F90
+            !||    unitab_mod                                   ../common_source/modules/unitab_mod.F
+            !||    user_windows_mod                             ../common_source/modules/user_windows_mod.F
+            !||    xfem2vars_mod                                ../engine/share/modules/xfem2vars_mod.F
+            !||====================================================================
             SUBROUTINE RESOL(TIMERS, ELEMENT, NODES, AF,IAF,
      1        ISKWN   ,NETH   ,IPART  ,NOM_OPT,KXX    ,IXX    ,
      2        IXTG   ,IXS     ,IXQ    ,IXT    ,IXP    ,IXR    ,
@@ -522,7 +522,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6        IPARG  ,DD_IAD  ,IGRV   ,IEXLNK ,KINET  ,
      7        IPARI  ,        NPRW    ,ICONX  ,NPBY   ,
      8        LPBY   ,LRIVET ,NSTRF   ,LJOINT ,NODPOR ,MONVOL ,IAD_ELEM,
-     9        FR_ELEM,MAIN_PROC,ILINK  ,
+     9        FR_ELEM,ILINK  ,
      A        LLINK  ,LINALE ,NEFLSW  ,NNFLSW ,ICUT   ,CLUSTER,
      B                ITASK  ,INOISE  ,
      C        THKE   ,DAMP      ,
@@ -559,7 +559,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      j        LLAGF   ,LPRW    ,ICONTACT,RCONTACT,SH4TREE ,SH3TREE ,
      k        IPADMESH,PADMESH ,MSC     ,MSTG    ,INC     ,INTG    ,PTG     ,
      l        ISKWP   ,NSKWP   ,ISENSP  ,NSENSP  ,IACCP   ,NACCP,IPART_STATE,
-     m        ACONTACT,PCONTACT,FACTIV  ,MCP     ,TEMP
+     m        ACONTACT,PCONTACT,FACTIV
      p                         ,SH4TRIM ,SH3TRIM ,MSCND   ,INCND   ,
      q        IBFFLUX ,FBFFLUX ,RBYM    ,IRBYM   ,LNRBYM  ,ICODRBYM,
      r        IBCV    ,FCONV   ,IBFTEMP ,FBFTEMP ,IAD_RBYM,FR_RBYM,
@@ -591,7 +591,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      J        IGRSPRING,IGRPART,IGRSURF,FORNEQS,
      K        NLOC_DMG ,ISKWP_L,KNOTLOCPC,KNOTLOCEL,PINCH_DATA,TAG_SKINS6, ALE_CONNECTIVITY,
      L        XCELL, XFACE, NE_NERCVOIS, NE_NESDVOIS, NE_LERCVOIS, NE_LESDVOIS,IBCSCYC  ,LBCSCYC,
-     M        T_MONVOL,ID_GLOBAL_VOIS,FACE_VOIS,TAGSLV_RBY,DYNAIN_DATA,FCONT_MAX,EBCS_TAB,DIFFUSION,
+     M        T_MONVOL,ID_GLOBAL_VOIS,FACE_VOIS,DYNAIN_DATA,FCONT_MAX,EBCS_TAB,DIFFUSION,
      N        KLOADPINTER,LOADPINTER,DGAPLOADINT,DRAPEG,USER_WINDOWS,OUTPUT,INTERFACES,
      O        DT        ,LOADS     , PYTHON, DPL0CLD,VEL0CLD,
      P        NDAMP_VREL,ID_DAMP_VREL,FR_DAMP_VREL,NDAMP_VREL_RBYG,NAMES_AND_TITLES,UNITAB,LIFLOW,LRFLOW ,
@@ -703,6 +703,9 @@ C-----------------------------------------------
               USE rbe3_mod
               USE TH_SURF_MOD , ONLY : TH_SURF_NUM_CHANNEL
               USE ams_work_mod
+              USE UPDATE_PON_MOD
+
+              USE DEBUG_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -773,7 +776,7 @@ C-----------------------------------------------
      .           IXR(NIXR,*),IXTG(NIXTG,*), IXTG1(4,*),
      .           KINET(*),
      .           IFILL(NUMNOD,*), IMS(*), NPC(*), IBCL(*), IBFV(*),
-     .           IDUM(*), LAS(*),IPARG(NPARG,*),IPARI(NPARI,*),
+     .           IDUM(*), LAS(*),IPARG(NPARG,*),
      .           NPRW(*), LPRW(*), ICONX(*), NPBY(NNPBY,*),
      .           LPBY(*),
      .           LRIVET(*), NSTRF(*), LJOINT(*),  ILINK(*),
@@ -781,7 +784,7 @@ C-----------------------------------------------
      .           NODPOR(*),ICUT(*) , INOISE(*),MONVOL(*),
      .           LACCELM(3,*),DD_IAD(NSPMD+1,*),FR_ELEM(*),
      .           IAD_ELEM(2,*),IAD_RBY(*),FR_RBY(*),NNLINK(10,*),LNLINK(*),
-     .           IAF(*),IGRV(*),MAIN_PROC(*),
+     .           IAF(*),IGRV(*),
      .           KXX(NIXX,*),IXX(*),IEXLNK(NR2R,*),
      .           IFRAME(LISKN,*),KXSP(NISP,*),IXSP(*),NOD2SP(*),
      .           ISPCOND(NISPCOND,*),ISPSYM(NSPCOND,*),IBVEL(NBVELP,*),LBVEL(*),
@@ -815,7 +818,7 @@ C-----------------------------------------------
      .           CRKNODIAD(*), LGAUGE(3,*), IGAUP(*), NGAUP(*),NODLEVXF(*),
      .           NODGLOBXFE(*),ELCUTC(2,*),NODENR(*),KXFENOD2ELC(*),
      .           ENRTAG(NUMNOD,*),KXIG3D(*),IXIG3D(*),
-     .           NATIV0_SMS(*), SEGQUADFR(*), TAGSLV_RBY(*),
+     .           NATIV0_SMS(*), SEGQUADFR(*),
      .           KLOADPINTER(NINTER+1)  ,LOADPINTER(NINTER*NLOADP_HYD)
               INTEGER IDATA(*), IBFTEMP(*), IBCV(*), IBFFLUX(*), WEIGHT_RM(*),
      .                ICODT_PLY(*), ISKEW_PLY(*),INOD_PXFEM(*),IEL_PXFEM(*),
@@ -825,6 +828,7 @@ C-----------------------------------------------
      .                SPH2SOL(*), SOL2SPH(2,*), IRST(3,*), SOL2SPH_TYP(*),IRUNN_BIS,
      .                ADDCSRECT(*), IAD_FRNOR(*), FR_NOR(*), PROCNOR(*),
      .                IAD_FREDG(*), FR_EDG(*),TAG_SKINS6(*),IBCSCYC(*),LBCSCYC(*)
+              integer ::  IPARI(NPARI,ninter)
               INTEGER, DIMENSION(NUMSKW), INTENT(IN) :: ISKWP_L
               INTEGER, DIMENSION(*), INTENT(in) :: ID_GLOBAL_VOIS,FACE_VOIS
               my_real
@@ -854,7 +858,7 @@ C-----------------------------------------------
               my_real
      .           RFLOW(*), RCONTACT(*),
      .           PADMESH(*), MSC(*), MSTG(*), INC(*) , INTG(*), PTG(3,*),
-     .           ACONTACT(*), PCONTACT(*), FACTIV(*), TEMP(*), MCP(*),
+     .           ACONTACT(*), PCONTACT(*), FACTIV(*),
      .           MSCND(*), INCND(*), RBYM(*), FBFFLUX(*),
      .           FCONV(*), FBFTEMP(*), MS_PLY(*), ZI_PLY(*),  ADMSMS(*),
      .           MCPC(*), MCPTG(*), DMELC(*), DMELTG(*), MSSA(*), DMELS(*),
@@ -943,8 +947,8 @@ C-----------------------------------------------
               CHARACTER FILNAM*100
               INTEGER NODFT, NODLT,  I,J, N,
      .           K1, K2, K3, K4, K5, K6, K7, K8, K9, K10, K11, K, ISK,
-     .           N0, N1, NN,  NNOD, NSENSOR,
-     .           ISYNC,
+     .           N0, N1, N2, NN,  NNOD, NSENSOR,
+     .           ISYNC, TWO_INTS(2),
      .           NELTST,ITYPTST,NWAFT, NBNCL, NBIKL,
      .           NBNODL, NBNODLR,GREFTSK,GRELTSK,
      .           ISTOP,  NFIA, NFEA, NFOA, NDMA, NDIN,
@@ -1251,8 +1255,6 @@ C-------------------------------------------------------------------------------
               INTEGER :: SIZE_ADDCNEL ! size of addcnel array
               INTEGER :: SIZE_CNEL ! size of cnel array
               LOGICAL :: GLOBAL_ACTIVE_ALE_ELEMENT
-              integer, dimension(:), allocatable :: deleted_node ! working array to mark nodes connected to deleted element
-              integer, dimension(:), allocatable :: work_array_node ! working array to mark nodes (connected to active element or deleted element)
 
               INTEGER :: SIZE_NPBY
 
@@ -1275,6 +1277,7 @@ C-------------------------------------------------------------------------------
               DATA IUN/1/
               INTEGER MAXFUNC
               PARAMETER (MAXFUNC  = 100)
+              integer :: numnod_old
 C-----------------------------------------------------------------------------------
 C Err THK
 C-----------------------------------------------------------------------------------
@@ -1297,16 +1300,10 @@ C-------------------------------------------------------------------------------
               type(SPH_WORK_)  :: SPH_WORK   !< working Areas for SPLISSV and SPHPREP
               type (ams_work_) :: ams_work   !< Working areas for AMS
 C-----------------------------------------------------------------------------------
-C         Node Spliting (hardcoded example)
-c        integer :: fail_counter
-c        integer, dimension(8) :: FAIL_ELEMENT ! (/ 10648, 10649, 10656, 10657, 10624, 10625, 10632, 10633 /)
-c        integer, dimension(9) :: FAIL_NODES ! (/ 10653, 11092, 10669, 11121, 10668, 11118, 10667, 11031, 10623 /)
-c        fail_counter = 0
-c        FAIL_ELEMENT = (/ 10648, 10649, 10656, 10657, 10624, 10625, 10632, 10633 /)
-c        FAIL_NODES = (/ 10653, 11092, 10669, 11121, 10668, 11118, 10667, 11031, 10623 /)
-C-----------------------------------------------------------------------------------
-C-----------------------------------------------------------------------------------
+              ELEMENT%SHELL%OFFSET = NUMELS + NUMELQ
               CALL PREPARE_DEBUG(NODES%ITAB,NUMNOD)
+              interfaces%NINTER = NINTER
+              interfaces%npari = npari
 c
               CALL MY_ALLOC(RBY6,8,6,NRBYKIN)
               CALL MY_ALLOC(DXANCG,3,NUMNOD)
@@ -1321,10 +1318,6 @@ c
               BOOL_RESTART = .TRUE.
               STATE_H3D = 0
               STATE_ANIM = 0
-              IF(IPARIT==0.AND.IRESP==1) THEN
-                ALLOCATE( ACC_DP(3,NUMNOD) )
-                ACC_DP(1:3,1:NUMNOD) = 0.d+00
-              ENDIF
               ALLOCATE(INT18ADD(NINTER+1))
               INT18ADD(1) = 1
               INT18ADD(NINTER+1) = 0
@@ -1536,24 +1529,16 @@ C
                 S_ELEM_STATE = 0
               ENDIF
               IERROR = 0
-              ALLOCATE(CNEL(0:SIZE_CNEL),STAT=IERROR2)
-              IERROR = IERROR + IERROR2
-              ALLOCATE(ADDCNEL(0:SIZE_ADDCNEL),STAT=IERROR2)
-              IERROR = IERROR + IERROR2
+              ALLOCATE(CNEL(0:SIZE_CNEL))
+              ALLOCATE(ADDCNEL(0:SIZE_ADDCNEL))
               IF((IDEL7NG>0).OR.(IRAD2R/=0).OR.(ALEMUSCL_Param%IALEMUSCL>0).OR.(PDEL>0))THEN
 C Allocation of inverse connectivity array
-                ALLOCATE(ADDTMPL(0:NUMNOD+1),STAT=IERROR2)
+                ALLOCATE(ADDTMPL(0:NUMNOD+1))
                 IERROR = IERROR + IERROR2
                 NELEML = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
      .                   NUMELR+NUMELTG
-                ALLOCATE(TAGEL(1:NELEML),STAT=IERROR2)
+                ALLOCATE(TAGEL(1:NELEML))
                 TAGEL(:) = 0
-                IERROR = IERROR + IERROR2
-                IF(IERROR/=0)THEN
-                  CALL ANCMSG(MSGID=158,ANMODE=ANINFO,
-     .                I1=IERROR)
-                  CALL ARRET(2)
-                END IF
                 ALEMUSCL_Buffer%pCNEL => CNEL
                 ALEMUSCL_Buffer%pADDCNEL => ADDCNEL
                 ALEMUSCL_Buffer%pADDTMPL => ADDTMPL
@@ -2199,7 +2184,7 @@ C
      c         LBUFIDEL ,SH4TRIM  ,SH3TRIM  ,MSCND    ,INCND    ,
      d         IRLEN20  ,ISLEN20  ,IRLEN20T ,ISLEN20T ,NBINT20  ,
      e         IRLEN20E ,ISLEN20E ,NISKYFIE ,
-     f         MCP      ,NODES%MS0      ,INOD_PXFEM,IEL_PXFEM,IADC_PXFEM,
+     f         NODES%MCP      ,NODES%MS0      ,INOD_PXFEM,IEL_PXFEM,IADC_PXFEM,
      g         ADSKY_PXFEM,NODES%ICODT  ,NODES%ICODR    ,IBFV     ,ADMSMS    ,
      h         NODREAC  ,IGROUC   ,NGROUC   ,IGROUNC  ,NGROUNC  ,
      i         FR_RBY   ,FR_RBY6  ,NPBY     ,
@@ -2225,7 +2210,7 @@ C
      3         IGRBRIC ,IGRQUAD  ,IGRSH4N  ,IGRSH3N  ,IGRTRUSS   ,
      4         IGRBEAM ,IGRSPRING,IGRPART  ,FORNEQS  ,INT7ITIED,
      5         FXVEL_FGEO,FAILWAVE,NLOC_DMG,PINCH_DATA ,SLLOADP,
-     6         TAGSLV_RBY,NFNCA2  ,NFTCA2  ,NODES%IN0 ,SORT_COMM,STACK,OUTPUT,
+     6         NODES%TAG_S_RBY,NFNCA2  ,NFTCA2  ,NODES%IN0 ,SORT_COMM,STACK,OUTPUT,
      7         THKE   ,SFR_ELEM  ,SH_OFFSET_TAB,
      8         NEED_COMM_INT25_SOLID_EROSION,COMM_INT25_SOLID_EROSION ,
      9         ISKWN  ,IFRAME  ,LOADS ,GLOB_THERM,PBLAST,RBE3)
@@ -2335,7 +2320,7 @@ C     Multidomains + SPH
 
 C     THERMAL EXPANSION and IMPTEMP : Initialisation of nodal temperatures
               IF (GLOB_THERM%NFXTEMP  > 0 .AND. GLOB_THERM%ITHERM_FE > 0.AND.TT==ZERO) THEN
-                CALL FIXTEMP(IBFTEMP  ,FBFTEMP    ,TEMP    ,NPC    ,TF  ,
+                CALL FIXTEMP(IBFTEMP  ,FBFTEMP    ,NODES%TEMP    ,NPC    ,TF  ,
      .               NSENSOR  ,SENSORS%SENSOR_TAB,GLOB_THERM )
               ENDIF
 C ---------------------
@@ -2483,8 +2468,8 @@ C------------IF adaptive Mesh : check if there are elements eroded after trimmin
                 ELSE
                   CALL ASSIGN_PTRX(ptrX,NODES%X,NUMNOD)
                 ENDIF
-                allocate(deleted_node(2*numnod)) ! working array to mark nodes connected to deleted element
-                allocate(work_array_node(nthread*numnod)) ! working array to mark nodes (connected to active element or deleted element)
+c         allocate(nodes%deleted_node(2*numnod)) ! working array to mark nodes connected to deleted element
+c         allocate(nodes%work_array_node(nthread*numnod)) ! working array to mark nodes (connected to active element or deleted element)
 !$OMP PARALLEL
 !$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK,IGMTSK)
 !$OMP+ PRIVATE(PARTFTSK,PARTLTSK,NWAFTSK,N1,GREFTSK,GRELTSK,omp_address)
@@ -2497,7 +2482,7 @@ C Init var parallel SMP
                 CALL TAGOFF3N(NODES,
      1             GEO        ,IXS       ,IXS(L1)   ,IXS(L1)   ,IXS(L3)  ,IXQ    ,
      2             ELEMENT%SHELL%IXC         ,IXT      ,IXP       ,IXR       ,IXTG     ,
-     3             deleted_node,NODFTSK  ,NODLTSK   ,IPARG     ,ELBUF    ,ITSK   ,
+     3             nodes%deleted_node,NODFTSK  ,NODLTSK   ,IPARG     ,ELBUF    ,ITSK   ,
      4             IXTG1    ,IAD_ELEM  ,FR_ELEM   ,NODES%ITAB     ,
      5             ADDCNEL     ,CNEL     ,KXSP      ,ELBUF_TAB ,TAGEL    ,IEXLNK ,
      6             IGRNOD      ,DD_R2R   ,DD_R2R_ELEM,SDD_R2R_ELEM,IDEL7NOK_SAV ,
@@ -2505,7 +2490,7 @@ C Init var parallel SMP
      8             SHOOT_STRUCT,SHOOT_STRUCT%GLOBAL_NB_ELEM_OFF)
                 ! ---------------------
                 ! check if a node is deactivated and deactivate all the corresponding secondary nodes
-                CALL CHECK_NODAL_STATE( ITSK,deleted_node,NEWFRONT,INTERFACES%INTBUF_TAB,SHOOT_STRUCT%SIZE_SEC_NODE,
+                CALL CHECK_NODAL_STATE( ITSK,nodes%deleted_node,NEWFRONT,INTERFACES%INTBUF_TAB,SHOOT_STRUCT%SIZE_SEC_NODE,
      .                 SHOOT_STRUCT%SHIFT_S_NODE,SHOOT_STRUCT%INTER_SEC_NODE,SHOOT_STRUCT%SEC_NODE_ID)
                 ! ---------------------
 
@@ -2530,7 +2515,7 @@ C Init var parallel SMP
                   IF(ITSK==0) CALL SPMD_EXCH_DELETED_SURF_EDGE( IAD_ELEM,NODES,SHOOT_STRUCT,INTERFACES%INTBUF_TAB,NEWFRONT,
      .                                 IPARI,GEO,
      .                                 IXS,ELEMENT%SHELL%IXC,IXT,IXP,IXR,IXTG,IXS(L1),
-     .                                 ADDCNEL,CNEL,work_array_node(omp_address),TAGEL )
+     .                                 ADDCNEL,CNEL,nodes%work_array_node(omp_address),TAGEL )
                   CALL MY_BARRIER()
                 ENDIF
                 ! ---------------------
@@ -2542,7 +2527,7 @@ C Init var parallel SMP
      .                                    SHOOT_STRUCT%SHIFT_INTERFACE,INTERFACES%INTBUF_TAB,
      .                                    IPARI,GEO,
      .                                    IXS,ELEMENT%SHELL%IXC,IXT,IXP,IXR,IXTG,IXS(L1),
-     .                                    ADDCNEL,CNEL,work_array_node(omp_address),TAGEL,SHOOT_STRUCT )
+     .                                    ADDCNEL,CNEL,nodes%work_array_node(omp_address),TAGEL,SHOOT_STRUCT )
 
                 ! loop over the edge id and deactivate the edge
                 ! ONLY FOR LOCAL EDGE / LOCAL ELEMENT
@@ -2550,7 +2535,7 @@ C Init var parallel SMP
      .                                 SHOOT_STRUCT%SAVE_M_EDGE,SHOOT_STRUCT%SAVE_S_EDGE,
      .                                 SHOOT_STRUCT%SHIFT_INTERFACE,INTERFACES%INTBUF_TAB,NEWFRONT,IPARI,GEO,
      .                                 IXS,ELEMENT%SHELL%IXC,IXT,IXP,IXR,IXTG,IXS(L1),
-     .                                 ADDCNEL,CNEL,work_array_node(omp_address),TAGEL,SHOOT_STRUCT )
+     .                                 ADDCNEL,CNEL,nodes%work_array_node(omp_address),TAGEL,SHOOT_STRUCT )
                 ! ---------------------
 
                 ! ---------------------
@@ -2587,8 +2572,8 @@ C Init var parallel SMP
 
                 CALL CHKSTFN3N(NODES,
      1             IPARI   ,GEO         ,IXS      ,IXQ         ,ELEMENT%SHELL%IXC     ,IXT       ,
-     2             IXP     ,IXR         ,IXTG     ,deleted_node,IPARG   ,ITSK      ,
-     3             NEWFRONT,work_array_node(omp_address) ,NODES%MS       ,NODES%IN ,ANIN(NDMA+1),NODES%ITAB  ,
+     2             IXP     ,IXR         ,IXTG     ,nodes%deleted_node,IPARG   ,ITSK      ,
+     3             NEWFRONT,nodes%work_array_node(omp_address) ,NODES%MS       ,NODES%IN ,ANIN(NDMA+1),NODES%ITAB  ,
      4             NODES%ITABM1  ,ADDCNEL     , CNEL    ,INDIDEL     ,NINDEX1 ,NINDEX2   ,
      5             NINDEX3 ,NINDEX4     ,TAGEL    ,INT24USE    ,IBUFSEGLO ,INDSEGLO,
      6             IBUFIDEL ,INTERFACES%INTBUF_TAB,IAD_ELEM)
@@ -2596,8 +2581,6 @@ C Init var parallel SMP
 
 !$OMP END PARALLEL
                 CALL DEALLOC_SHOOT_INTER( SHOOT_STRUCT )
-                deallocate(deleted_node)
-                deallocate(work_array_node)
               ENDIF
 
 
@@ -3004,7 +2987,7 @@ C------ one routine for EIG
      G                            NODGLOB     , IAD_ELEM    , FR_ELEM  , FR_SEC    , FR_RBY2 ,
      H                            IAD_RBY2    , FR_WALL     ,  IPARI   ,
      I                            INTERFACES%INTBUF_TAB  , NODES%D           ,PARTSAV   ,
-     J                            FSAV(1,NFNCA+1),FSAV(1,NFTCA+1), TEMP      , THKE    ,
+     J                            FSAV(1,NFNCA+1),FSAV(1,NFTCA+1), NODES%TEMP      , THKE    ,
      K                            ERR_THK_SH4 , ERR_THK_SH3 , IRBE2    , RBE3%IRBE3     ,LRBE2    ,
      L                            RBE3%LRBE3       , RBE3%FRBE3    ,FR_RBE2  , RBE3%mpi%fr_rbe3  , IAD_RBE2,
      M                            NODES%WEIGHT_MD   , CLUSTER     , FCLUSTER , MCLUSTER  , XFEM_TAB,
@@ -3123,7 +3106,7 @@ C Implementing a dummy Madymo cycle
 #endif
 
               IF(NINTER25 /= 0) THEN
-                CALL SPMD_I25FRONT_INIT(NODES%ITAB,MAIN_PROC,INTERFACES%INTBUF_TAB,IPARI)
+                CALL SPMD_I25FRONT_INIT(NODES%ITAB,NODES%MAIN_PROC,INTERFACES%INTBUF_TAB,IPARI)
               ELSE
                 NINTER25E = 0
               ENDIF
@@ -3398,7 +3381,7 @@ C-------------------------------------------------------------------
               IF (NACTIV>0) THEN
                 IF(GLOB_THERM%ITHERM_FE > 0 .AND. NSPMD > 1 ) THEN
                   DO I = 1,NUMNOD
-                    MCP(I)   = MCP(I)   * NODES%WEIGHT(I)
+                    NODES%MCP(I)   = NODES%MCP(I)   * NODES%WEIGHT(I)
                     NODES%STIFN(I) = NODES%STIFN(I) * NODES%WEIGHT(I)
                   ENDDO
                 ENDIF
@@ -3406,13 +3389,13 @@ C-------------------------------------------------------------------
      .                       IXR     ,IXTG    ,IPARG   ,IACTIV  ,
      .                       NSENSOR ,SENSORS%SENSOR_TAB,ELEMENT%PON%FSKY    ,NODES%X       ,ELBUF_TAB,
      .                       IBCV    ,FCONV   ,IBCR    ,FRADIA  ,IGROUPS  ,
-     .                       FACTIV  ,TEMP     ,MCP     ,PM      ,MCP_OFF  ,
+     .                       FACTIV  ,NODES%TEMP     ,NODES%MCP     ,PM      ,MCP_OFF  ,
      .                       IGRBRIC ,IGRQUAD  ,IGRSH4N ,IGRSH3N ,IGRTRUSS ,
      .                       IGRBEAM ,IGRSPRING,GLOB_THERM)
               ELSE
                 IF(GLOB_THERM%ITHERM_FE > 0 .AND. NSPMD > 1 .AND. IPARIT == 0) THEN
                   DO I = 1,NUMNOD
-                    MCP(I)   = MCP(I)   * NODES%WEIGHT(I)
+                    NODES%MCP(I)   = NODES%MCP(I)   * NODES%WEIGHT(I)
                   ENDDO
                 ENDIF
               ENDIF
@@ -3537,7 +3520,7 @@ C----------------------------------------------
                   IF (IMON>0) CALL STARTIME(TIMERS,TIMER_KIN)
                   IF (IMONM > 0) CALL STARTIME(TIMERS,41)
                   CALL CONVEC(IBCV  ,FCONV   ,NPC   ,TF   , NODES%X     ,
-     1                      TEMP    ,NSENSOR,SENSORS%SENSOR_TAB,FTHE, ELEMENT%PON%IAD_CONV,
+     1                      NODES%TEMP    ,NSENSOR,SENSORS%SENSOR_TAB,FTHE, ELEMENT%PON%IAD_CONV,
      2                      FTHESKY, PYTHON,GLOB_THERM)
                   IF (IMONM > 0) CALL STOPTIME(TIMERS,41)
                   IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
@@ -3549,7 +3532,7 @@ C-----------------------------------------------------------
                   IF (IMON>0) CALL STARTIME(TIMERS,TIMER_KIN)
                   IF (IMONM > 0) CALL STARTIME(TIMERS,41)
                   CALL RADIATION(IBCR,   FRADIA, NPC,     TF,   NODES%X         ,
-     1                           TEMP,   NSENSOR,SENSORS%SENSOR_TAB, FTHE, ELEMENT%PON%IAD_RADIA,
+     1                           NODES%TEMP,   NSENSOR,SENSORS%SENSOR_TAB, FTHE, ELEMENT%PON%IAD_RADIA,
      2                           FTHESKY, PYTHON,GLOB_THERM)
                   IF (IMONM > 0) CALL STOPTIME(TIMERS,41)
                   IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
@@ -3631,7 +3614,7 @@ C----------------------------------------
      2             IMSCH  ,I2MSCH   ,DT2PREV ,INTLIST ,NBINTC  ,
      3             ISLEN7 ,IRLEN7   ,ISLEN11 ,IRLEN11 ,ISLEN17 ,
      4             IRLEN17 ,IXS     ,IXS(L3) ,NSENSOR ,
-     5             IGRBRIC ,TEMP    ,2       ,IRLEN7T ,ISLEN7T ,
+     5             IGRBRIC ,NODES%TEMP    ,2       ,IRLEN7T ,ISLEN7T ,
      6             IRLEN20 ,ISLEN20 ,IRLEN20T,ISLEN20T,IRLEN20E,
      7             ISLEN20E,NODES%IKINE   ,DIAG_SMS,SENSORS%SENSOR_TAB,INTERFACES%INTBUF_TAB ,INT24E2EUSE,
      8             FORNEQS ,MULTI_FVM,INTERFACES)
@@ -3726,7 +3709,7 @@ C===============================================================================
      5             NODES%ITAB      ,NELTSTT ,ITYPTSTT,NODES%WEIGHT    ,
      6             INTLIST ,NBINTC  ,KINET   ,DRETRI    ,
      7             ISLEN7  ,IRLEN7  ,ISLEN11 ,IRLEN11   ,
-     8             TEMP    ,IGRBRIC ,IGRSH3N ,EMINX     ,
+     8             NODES%TEMP    ,IGRBRIC ,IGRSH3N ,EMINX     ,
      9             IXS     ,IXS(L3) ,IXS(L2) ,ISLEN17   ,
      A             IRLEN17 ,IRLEN7T ,ISLEN7T ,NUM_IMP1  ,
      B             IND_IMP ,INTSTAMP,THKNOD  ,IRLEN20   ,
@@ -3738,7 +3721,7 @@ C===============================================================================
      H             IXTG      ,SENSORS,DELTA_PMAX_GAP,INTERFACES%INTBUF_TAB,
      I             DELTA_PMAX_GAP_NODE,IAD_FRNOR,FR_NOR,
      J             NB25_CANDT,NB25_IMPCT,NB25_DST1,NB25_DST2,INTLIST25,
-     K             INTERFACES%SPMD_ARRAYS%IAD_FREDG,INTERFACES%SPMD_ARRAYS%FR_EDG,MAIN_PROC,NATIV_SMS,I_OPT_STOK ,
+     K             INTERFACES%SPMD_ARRAYS%IAD_FREDG,INTERFACES%SPMD_ARRAYS%FR_EDG,NODES%MAIN_PROC,NATIV_SMS,I_OPT_STOK ,
      L             MULTI_FVM,IPARG  ,ELBUF_TAB, H3D_DATA, T2MAIN_SMS,
      M             LSKYI_SMS_NEW    ,FORNEQS  ,INT7ITIED,IDEL7NOK_SAV,MAXDGAP,
      N             T2FAC_SMS,NODES%ICODT,NODES%ISKEW ,FSKYN25  ,ADDCSRECT,PROCNOR,
@@ -3870,7 +3853,7 @@ C===============================================================================
      .                       IGEO ,IPM      ,SH4TREE,PADMESH,MSC  ,
      .                       INC  ,SH3TREE  ,MSTG   ,INTG   ,PTG  ,
      .                    ACONTACT,PCONTACT,ERR_THK_SH4,ERR_THK_SH3,MSCND,
-     .                       INCND,PM      ,MCP     ,MCPC   ,MCPTG,
+     .                       INCND,PM      ,NODES%MCP     ,MCPC   ,MCPTG,
      .                    GLOB_THERM%ITHERM_FE)
                 NGDONE = 1
 C       /---------------/
@@ -3883,7 +3866,7 @@ C       /---------------/
      .                            ELBUF_TAB,NODFTSK  ,NODLTSK,IGEO     ,IPM  ,
      .                            SH4TREE,MSC  ,INC   ,SH3TREE,MSTG    ,
      .                            INTG   ,PTG  ,MSCND ,INCND  ,PM      ,
-     .                            MCP    ,MCPC ,MCPTG ,GLOB_THERM%ITHERM_FE)
+     .                            NODES%MCP    ,MCPC ,MCPTG ,GLOB_THERM%ITHERM_FE)
 C           /---------------/
                     CALL MY_BARRIER
 C           /---------------/
@@ -3972,15 +3955,15 @@ C
                 CALL ALEMAIN(TIMERS,
      1               PM                    ,GEO      ,NODES%X       ,NODES%A(1,NDTSK)  ,NODES%AR(1,NDTSK) ,NODES%V ,
      2               NODES%MS              ,WA       ,ELBUF_TAB     ,BUFMAT            ,PARTSAV(IPMTSK)     ,TF,
-     3               VAL2                  ,VEUL     ,FV            ,NODES%STIFN(NDTSK),ELEMENT%PON%FSKY                ,EANI,
+     3               VAL2                  ,VEUL     ,FV            ,NODES%STIFN(NDTSK),ELEMENT%PON%FSKY,EANI,
      4               PHI                   ,FILL     ,DFILL         ,ALPH              ,SKEWS%SKEW          ,W,
      5               NODES%D               ,DSAVE    ,ASAVE         ,DT2TT             ,DT2SAVE             ,XCELL,
      6               IPARG                 ,NPC      ,IXS           ,IXQ,   IXTG             ,ELEMENT%PON%IADS,
      7               IFILL                 ,NODPOR   ,NODES%ICODT   ,NODES%ISKEW       ,IMS ,ELEMENT%PON%IADQ     ,
      8               NELTSTT               ,ITYPTSTT ,IPART         ,IPART(K1)         ,IPART(K2)           ,ITSK    ,
-     A               NODFTSK               ,NODLTSK  ,NBRCVOIS      ,TEMP              ,OUTPUT%TH%TH_SURF%CHANNELS,
+     A               NODFTSK               ,NODLTSK  ,NBRCVOIS      ,NODES%TEMP              ,OUTPUT%TH%TH_SURF%CHANNELS,
      B               NBSDVOIS              ,LNRCVOIS ,LNSDVOIS      ,NERCVOIS          ,NESDVOIS           ,LERCVOIS  ,
-     C               LESDVOIS              ,ISIZXV   ,IAD_ELEM      ,FR_ELEM           ,ELEMENT%PON%FSKYM              ,MSNF      ,
+     C               LESDVOIS              ,ISIZXV   ,IAD_ELEM      ,FR_ELEM           ,ELEMENT%PON%FSKYM,MSNF      ,
      D               IPARI                 ,SEGVAR   ,NODES%ITAB    ,ISKWN             ,DIFFUSION          ,IRESP,
      E               VOLMON                ,FSAV     ,IGRSURF       ,NELTSA            ,
      F               ITYPTSA               ,NODES%WEIGHT ,NPSEGCOM  ,LSEGCOM           ,IPM                ,IGEO,
@@ -4307,7 +4290,7 @@ C Init var parallel SMP
      9            FR_I18            ,IGRBRIC        ,EMINX          ,
      A            IXS               ,IXS(L3)        ,IXS(L2)        ,FANI(1,NFNCA+1) ,FANI(1,NFTCA+1) ,
      B            IAD_ELEM          ,FR_ELEM        ,RCONTACT       ,ACONTACT        ,PCONTACT        ,
-     C            TEMP              ,FTHE(IDX_FTHE) ,FTHESKYI       ,IPARG           ,NSENSOR         ,
+     C            NODES%TEMP              ,FTHE(IDX_FTHE) ,FTHESKYI       ,IPARG           ,NSENSOR         ,
      D            PM                ,INTSTAMP       ,NODES%WEIGHT   ,NISKYFIE        ,IRLEN20         ,
      E            ISLEN20           ,IRLEN20T       ,ISLEN20T       ,IRLEN20E        ,ISLEN20E        ,
      F            MSKYI_SMS         ,ISKYI_SMS      ,NATIV_SMS      ,INT18ADD        ,FCONTG          ,
@@ -4587,8 +4570,8 @@ C Init var parallel SMP
      A           IPART        ,IPART(K3)       ,IPART(K8)       ,SECFCUM        ,
      B           FSAVD        ,MAT_ELEM%GROUP_PARAM ,
      E           FZERO        ,IXTG1           ,ELEMENT%PON%IAD_TG6      ,IGEO           ,IPM          ,
-     F           MADFAIL      ,XSEC            ,ITSK            ,MCP          ,
-     G           TEMP         ,FTHE(IDX_FTHE)  ,FTHESKY         ,
+     F           MADFAIL      ,XSEC            ,ITSK            ,NODES%MCP          ,
+     G           NODES%TEMP         ,FTHE(IDX_FTHE)  ,FTHESKY         ,
      H           MS_PLY       ,ZI_PLY          ,INOD_PXFEM      ,XEDGE4N       ,XEDGE3N       ,
      I           IEL_PXFEM    ,IADC_PXFEM      ,IGROUC          ,NGROUC        ,GRESAV(IGMTSK),
      J           GRTH         ,IGRTH(IAD_GREL) ,MSTG            ,DMELTG        ,MSC           ,
@@ -4673,7 +4656,7 @@ C
      G         IXS(L1)        ,
      H         IXS(L2)        ,ELEMENT%PON%IADS10     ,ELEMENT%PON%IADS20   ,IXS(L3)    ,ELEMENT%PON%IADS16       ,
      I         W16(I16TSK)    ,ELEMENT%PON%FSKYM         ,MSNF        ,IGEO       ,IPM             ,
-     J         XSEC           ,ITSK          ,TEMP           ,
+     J         XSEC           ,ITSK          ,NODES%TEMP           ,
      K         FTHE(IDX_FTHE) ,FTHESKY                    ,IGROUNC    ,NGROUNC         ,
      M         GRESAV(IGMTSK) ,GRTH          ,IGRTH       ,NODES%XDP        ,MSSA            ,
      N         DMELS          ,MSTR          ,DMELTR      ,MSP        ,DMELP           ,
@@ -4779,7 +4762,7 @@ C----------------------------------
      A            VSPHIO        ,SPHVELN        ,ITSK       ,IPM             ,GRESAV(IGMTSK),
      B            GRTH          ,IGRTH(IAD_GREL),TABLE      ,LGAUGE          ,GAUGE         ,
      C            NGROUNC       ,IGROUNC        ,IXS        ,IRST            ,SOL2SPH       ,
-     D            SPH2SOL       ,ELEMENT%PON%FSKY           ,ELEMENT%PON%FSKY       ,IGEO            ,TEMP          ,
+     D            SPH2SOL       ,ELEMENT%PON%FSKY           ,ELEMENT%PON%FSKY       ,IGEO            ,NODES%TEMP          ,
      E            FTHE          ,FTHESKYI       ,SPHG_F6    ,WSMCOMP%BUF     ,SOL2SPH_TYP   ,
      F            MAt_ELEM      ,OUTPUT         ,SPH_IORD1  ,SNPC            ,STF           ,
      G            SBUFMAT       ,NSVOIS         ,IDTMINS    ,IRESP           ,MAXFUNC       ,
@@ -5120,17 +5103,17 @@ C
                   IF(IDTMINS /= 0)THEN
 
                     CALL SPMD_EXCH_A_AMS_POFF(
-     1               NODES%A       ,NODES%AR     ,NODES%STIFN,NODES%STIFR ,NODES%MS   ,
+     1               NODES%A       ,NODES%AR     ,NODES%STIFN, NODES%STIFR ,NODES%MS   ,
      2               IAD_ELEM,FR_ELEM,MSNF ,ALE%SUB%IFSUBM,LENGTH ,
-     3               LENR    ,FTHE , MCP,FR_LOC,NB_FR   ,
+     3               LENR    ,FTHE , NODES%MCP,FR_LOC,NB_FR   ,
      4               MS_2D ,MCP_OFF,FORNEQS ,NFACNIT    ,
      5               LENC ,FANI ,H3D_DATA,FANI(1,NFNCA+1),
      6               FANI(1,NFTCA+1) ,GLOB_THERM)
                   ELSE
                     CALL SPMD_EXCH_A(
-     1               NODES%A       ,NODES%AR     ,NODES%STIFN,NODES%STIFR ,NODES%MS   ,
+     1               NODES%A , NODES%ACC_DP      ,NODES%AR     ,NODES%STIFN,NODES%STIFR ,NODES%MS   ,
      2               IAD_ELEM,FR_ELEM,MSNF ,ALE%SUB%IFSUBM,LENGTH ,
-     3               LENR    ,FTHE , MCP, DMSPH,CONDN,
+     3               LENR    ,FTHE , NODES%MCP, DMSPH,CONDN,
      4               MS_2D,MCP_OFF,
      5               FORNEQS ,NFACNIT,LENC ,FANI ,H3D_DATA,
      6               FANI(1,NFNCA+1) ,FANI(1,NFTCA+1) ,GLOB_THERM)
@@ -5535,8 +5518,8 @@ C===============================================================================
                   NINDEXP = 0
                   CHECK_NEIGH_FLAG_RES = 0
 
-                  allocate(deleted_node(2*numnod)) ! working array to mark nodes connected to deleted element
-                  allocate(work_array_node(nthread*numnod)) ! working array to mark nodes (connected to active element or deleted element)
+c         allocate(nodes%deleted_node(2*numnod)) ! working array to mark nodes connected to deleted element
+c         allocate(nodes%work_array_node(nthread*numnod)) ! working array to mark nodes (connected to active element or deleted element)
 !$OMP PARALLEL
 !$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK,IGMTSK)
 !$OMP+ PRIVATE(PARTFTSK,PARTLTSK,NWAFTSK,GREFTSK,GRELTSK,omp_address)
@@ -5551,7 +5534,7 @@ C Init var parallel SMP
                     CALL TAGOFF3N(NODES,
      1                 GEO        ,IXS       ,IXS(L1)   ,IXS(L1)   ,IXS(L3)  ,IXQ    ,
      2                 ELEMENT%SHELL%IXC         ,IXT      ,IXP       ,IXR       ,IXTG     ,
-     3                 deleted_node,NODFTSK  ,NODLTSK   ,IPARG     ,ELBUF    ,ITSK   ,
+     3                 nodes%deleted_node,NODFTSK  ,NODLTSK   ,IPARG     ,ELBUF    ,ITSK   ,
      4                 IXTG1    ,IAD_ELEM  ,FR_ELEM   ,NODES%ITAB     ,
      5                 ADDCNEL     ,CNEL     ,KXSP      ,ELBUF_TAB ,TAGEL    ,IEXLNK ,
      6                 IGRNOD      ,DD_R2R   ,DD_R2R_ELEM,SDD_R2R_ELEM,IDEL7NOK_SAV  ,
@@ -5559,7 +5542,7 @@ C Init var parallel SMP
      8                 SHOOT_STRUCT,SHOOT_STRUCT%GLOBAL_NB_ELEM_OFF)
                     ! ---------------------
                     ! check if a node is deactivated and deactivate all the corresponding secondary nodes
-                    CALL CHECK_NODAL_STATE( ITSK,deleted_node,NEWFRONT,INTERFACES%INTBUF_TAB,SHOOT_STRUCT%SIZE_SEC_NODE,
+                    CALL CHECK_NODAL_STATE( ITSK,nodes%deleted_node,NEWFRONT,INTERFACES%INTBUF_TAB,SHOOT_STRUCT%SIZE_SEC_NODE,
      .                     SHOOT_STRUCT%SHIFT_S_NODE,SHOOT_STRUCT%INTER_SEC_NODE,SHOOT_STRUCT%SEC_NODE_ID)
                     ! ---------------------
 
@@ -5584,7 +5567,7 @@ C Init var parallel SMP
                       IF(ITSK==0) CALL SPMD_EXCH_DELETED_SURF_EDGE( IAD_ELEM,NODES,SHOOT_STRUCT,INTERFACES%INTBUF_TAB,NEWFRONT,
      .                                     IPARI,GEO,
      .                                     IXS,ELEMENT%SHELL%IXC,IXT,IXP,IXR,IXTG,IXS(L1),
-     .                                     ADDCNEL,CNEL,work_array_node(omp_address),TAGEL )
+     .                                     ADDCNEL,CNEL,nodes%work_array_node(omp_address),TAGEL )
                       CALL MY_BARRIER()
                     ENDIF
                     ! ---------------------
@@ -5597,7 +5580,7 @@ C Init var parallel SMP
      .                                        SHOOT_STRUCT%SHIFT_INTERFACE,INTERFACES%INTBUF_TAB,
      .                                        IPARI,GEO,
      .                                        IXS,ELEMENT%SHELL%IXC,IXT,IXP,IXR,IXTG,IXS(L1),
-     .                                        ADDCNEL,CNEL,work_array_node(omp_address),TAGEL,SHOOT_STRUCT )
+     .                                        ADDCNEL,CNEL,nodes%work_array_node(omp_address),TAGEL,SHOOT_STRUCT )
 
                     ! loop over the edge id and deactivate the edge
                     ! ONLY FOR LOCAL EDGE / LOCAL ELEMENT
@@ -5605,7 +5588,7 @@ C Init var parallel SMP
      .                                     SHOOT_STRUCT%SAVE_M_EDGE,SHOOT_STRUCT%SAVE_S_EDGE,
      .                                     SHOOT_STRUCT%SHIFT_INTERFACE,INTERFACES%INTBUF_TAB,NEWFRONT,IPARI,GEO,
      .                                     IXS,ELEMENT%SHELL%IXC,IXT,IXP,IXR,IXTG,IXS(L1),
-     .                                     ADDCNEL,CNEL,work_array_node(omp_address),TAGEL,SHOOT_STRUCT )
+     .                                     ADDCNEL,CNEL,nodes%work_array_node(omp_address),TAGEL,SHOOT_STRUCT )
                     ! ---------------------
 
                     ! ---------------------
@@ -5645,8 +5628,8 @@ C Init var parallel SMP
                   IF (IDEL7NG>=1.AND.IDEL7NOK==1) THEN
                     CALL CHKSTFN3N(NODES,
      1                 IPARI   ,GEO         ,IXS      ,IXQ         ,ELEMENT%SHELL%IXC     ,IXT       ,
-     2                 IXP     ,IXR         ,IXTG     ,deleted_node,IPARG   ,ITSK      ,
-     3                 NEWFRONT,work_array_node(omp_address) ,NODES%MS       ,NODES%IN ,ANIN(NDMA+1),NODES%ITAB  ,
+     2                 IXP     ,IXR         ,IXTG     ,nodes%deleted_node,IPARG   ,ITSK      ,
+     3                 NEWFRONT,nodes%work_array_node(omp_address) ,NODES%MS       ,NODES%IN ,ANIN(NDMA+1),NODES%ITAB  ,
      4                 NODES%ITABM1  ,ADDCNEL     , CNEL    ,INDIDEL     ,NINDEX1 ,NINDEX2   ,
      5                 NINDEX3 ,NINDEX4     ,TAGEL    ,INT24USE    ,IBUFSEGLO ,INDSEGLO,
      6                 IBUFIDEL ,INTERFACES%INTBUF_TAB,IAD_ELEM)
@@ -5656,7 +5639,7 @@ C Init var parallel SMP
                   IF (PDEL>0.AND.IDEL7NOK==1) THEN
                     CALL CHKLOAD(
      1                 IBCL    ,IXS     ,IXQ         ,ELEMENT%SHELL%IXC    ,IXT        ,IXP     ,
-     2                 IXR     ,IXTG    ,deleted_node,ITSK   ,work_array_node(omp_address),NODES%ITAB    ,
+     2                 IXR     ,IXTG    ,nodes%deleted_node,ITSK   ,nodes%work_array_node(omp_address),NODES%ITAB    ,
      3                 NODES  ,ADDCNEL ,CNEL        ,TAGEL  ,IPARG      ,GEO     ,
      4                 IBUFPDEL,NINDEXPDEL,NINDEXP   ,NPRESLOAD,LOADP_TAGDEL      ,
      5                 ILOADP  ,LLOADP  ,IAD_ELEM)
@@ -5665,38 +5648,54 @@ C Init var parallel SMP
 
 !$OMP END PARALLEL
                   IF (IMONM > 0 ) CALL STOPTIME(TIMERS,29)
-                  deallocate(deleted_node)
-                  deallocate(work_array_node)
                   CALL DEALLOC_SHOOT_INTER( SHOOT_STRUCT )
                 ENDIF
               ENDIF
 c ========================================================================================
 C                                     node splitting
-c     if(TT > 1D0 * (fail_counter+1.0) .AND. fail_counter < 9 ) then
-c       write(6,*) "DETACHING NODE"
-c       fail_counter = fail_counter + 1
-c        if(fail_counter == 1) then
-c           ! The first time, convert global IDs into local IDs
-c           do i = 1, 9
-c             write(6,*) "FAIL_NODES(i) = ", FAIL_NODES(i), " get_local_node_id(NODES,FAIL_NODES(i)) = ", get_local_node_id(NODES,FAIL_NODES(i))
-c             FAIL_NODES(i) = get_local_node_id(NODES,FAIL_NODES(i))
-c             write(6,*) "Check:",NODES%ITAB(FAIL_NODES(i))
-c           enddo
-c           do i = 1, 8
-c             write(6,*) "FAIL_ELEMENT(i) = ", FAIL_ELEMENT(i), " get_local_shell_id(ELEMENT%SHELL,FAIL_ELEMENT(i)) = ", get_local_shell_id(ELEMENT%SHELL,FAIL_ELEMENT(i))
-c             FAIL_ELEMENT(i) = get_local_shell_id(ELEMENT%SHELL,FAIL_ELEMENT(i))
-c             write(6,*) "Check:",ELEMENT%SHELL%IXC(7,FAIL_ELEMENT(i))
-c           enddo
-c        endif
-c       call detach_node_from_shells(nodes, FAIL_NODES(fail_counter) ,element,FAIL_ELEMENT,8)
-c       if(iparit == 1) then
-c         call update_pon_shells(element, 8, FAIL_ELEMENT, numnod+1, FAIL_NODES(fail_counter))
-c         DEALLOCATE(ADSKYI)
-c         ALLOCATE(ADSKYI(0:numnod+2))
-c       endif
-c       numnod = numnod + 1
-c       if(ispmd == 0) numnodg = numnodg + 1
-c     endif
+c             numnod_old = numnod
+c             call test_jc_shell_detach(nodes, element, interfaces, npari, ninter, ipari, numnod,
+c    .                numnodg, elbuf_tab, ngroup, ngrouc, nparg, iparg, igrouc, numelc, ispmd,
+c    .                lcnel, cnel, addcnel)
+
+c             if(numnod_old < numnod ) then
+c               CALL INIT_NODAL_STATE( IPARI,SHOOT_STRUCT,INTERFACES%INTBUF_TAB,IAD_ELEM,FR_ELEM,
+c    .                              NODES%ITAB,NODES,GEO,ADDCNEL,CNEL,
+c    .                              IXS,ELEMENT%SHELL%IXC,IXT,IXP,IXR,IXTG,
+c    .                              SIZE_ADDCNEL,SIZE_CNEL ,
+c    .                              numelsg,numelqg,numelcg,numeltrg,numelpg,
+c    .                              numelrg,numeltgg )
+
+
+c               IF(IDEL7NG>0.OR.IRAD2R>0.OR.ALEMUSCL_Param%IALEMUSCL>0.OR.PDEL>0) THEN
+c                 SIZE_ADDCNEL = NUMNOD+1
+c                 SIZE_CNEL = LCNEL
+c                 NELEML = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG
+c                 S_ELEM_STATE = NELEML
+c                 DEALLOCATE(CNEL)
+c                 ALLOCATE(CNEL(0:SIZE_CNEL))
+c                 DEALLOCATE(ADDCNEL)
+c                 ALLOCATE(ADDCNEL(0:SIZE_ADDCNEL))
+c                 DEALLOCATE(ADDTMPL)
+c                 ALLOCATE(ADDTMPL(0:NUMNOD+1))
+c                 NELEML = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG
+c                 ALEMUSCL_Buffer%pCNEL => CNEL
+c                 ALEMUSCL_Buffer%pADDCNEL => ADDCNEL
+c                 ALEMUSCL_Buffer%pADDTMPL => ADDTMPL
+c               IXS(L1)  ,IXS(L2), IXS(L3)
+c                10          20       16
+c                 L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
+c                 L2 = L1+6*NUMELS10
+c                 L3 = L2+12*NUMELS20
+
+c                 CALL CHKINIT(
+c    2              IXS        ,IXQ       ,ELEMENT%SHELL%IXC       ,IXT         ,IXP       ,
+c    3              IXR        ,IXTG      ,IXS(L1)       ,IXS(L2)     ,
+c    4              IXS(L3)      ,IXTG1     ,GEO       ,ADDCNEL     ,CNEL      ,
+c    5              ADDTMPL    ,IPARG     )
+c               ENDIF
+c             endif
+
 
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)
@@ -5831,7 +5830,7 @@ C===============================================================================
      5               SKEWS%SKEW   ,I2SIZE ,FR_NBCCI2,ANIN(NDIN+1)   ,IGEO,BUFGEO ,
      6               FSAV   ,NPC    ,TF       ,FANI(1,NFT2+1) ,IAD_ELEM,FR_ELEM,
      7               NATIV_SMS,DMINT2,ANIN(NDAMA2+1),NB_FRI2M ,FR_LOCI2M,
-     8               DT2T  ,NELTST ,ITYPTST   ,INTERFACES%INTBUF_TAB ,TEMP     ,MCP   ,
+     8               DT2T  ,NELTST ,ITYPTST   ,INTERFACES%INTBUF_TAB ,NODES%TEMP     ,NODES%MCP   ,
      9               FTHE  ,CONDN  ,GLOB_THERM,
      A               H3D_DATA,T2FAC_SMS,FANI(1,NFNCA2+1),NPCONT2)
                 ENDDO
@@ -5960,7 +5959,7 @@ C===============================================================================
      6           IGRV ,LGRAV,SENSORS%SENSOR_TAB,NODES%A     ,NODES%AR   ,
      7           FSAV  ,NODES%STIFN ,NODES%STIFR,FANI(1,1+NFOA),NODES%WEIGHT,
      8           DMAS  ,DINER ,BUFSF,FR_RBY2,PARTSAV ,
-     9           IPART ,ELBUF_TAB,ICFIELD,LCFIELD,TAGSLV_RBY)
+     9           IPART ,ELBUF_TAB,ICFIELD,LCFIELD,NODES%TAG_S_RBY)
 
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
@@ -5976,7 +5975,7 @@ C===============================================================================
      6            NRBYKIN_L        ,NATIV_SMS    ,SENSORS%SFSAV   ,SENSORS%FSAV    ,SENSORS%STABSEN,
      7            SENSORS%TABSENSOR,NODREAC      ,FTHREAC         ,CPTREAC         ,DAMPR,
      8            SDAMP            ,DAMP         ,NDAMP_VREL      ,ID_DAMP_VREL    ,IGRNOD         ,
-     9            TAGSLV_RBY       ,IPARIT       ,OUTPUT%WFEXT    ,NDAMP_VREL_RBYG ,SIZE_RBY6_C    ,
+     9            NODES%TAG_S_RBY       ,IPARIT       ,OUTPUT%WFEXT    ,NDAMP_VREL_RBYG ,SIZE_RBY6_C    ,
      A            RBY6_C)
 
 !$OMP END PARALLEL
@@ -6294,7 +6293,7 @@ C     IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
      3                      DMAST,DINERT,ANIN,ANIN(NDMA+1),IMSCH  ,
      4                      NODES%WEIGHT,NODES%A    ,NODES%AR    ,IGRNOD    ,glob_therm%nodadt_therm,
      5                      ANIN(NDIN+1),RBYM  ,ARBYM ,ARRBYM,NODES%WEIGHT_MD,
-     6                      MCP         ,MCP_OFF,CONDN ,ALE_CONNECTIVITY%NALE  ,H3D_DATA  )
+     6                      NODES%MCP         ,MCP_OFF,CONDN ,ALE_CONNECTIVITY%NALE  ,H3D_DATA  )
               ELSEIF(IDTMINS/=0)THEN
                 CALL DTNODAMS(
      1                      NODFTSK,NODLTSK ,NELTSTT,ITYPTSTT   ,NODES%ITAB   ,
@@ -6795,7 +6794,7 @@ C===============================================================================
      H                FANI(1,1+NFOA+2*(NSECT+NRBODY)),FR_WALL ,NRWL_SMS   ,
      I                INTSTAMP ,KINET    ,ELEMENT%SHELL%IXC      ,IXTG      ,SH4TREE    ,
      J                SH3TREE  ,CPTREAC  ,NODREAC  ,FTHREAC   ,
-     K                FRWL6    ,3+IRODDL*3,TAGSLV_RBY,DAMPR   , DAMP      ,
+     K                FRWL6    ,3+IRODDL*3,NODES%TAG_S_RBY,DAMPR   , DAMP      ,
      L                IGRNOD   ,NODES%DR       ,RBY      ,TAGMSR_RBY_SMS,
      M                JSM_SMS  ,IRBE2     ,LRBE2   ,IAD_RBE2  ,FR_RBE2M   ,
      N                NMRBE2   ,R2SIZE    ,RBE3%IRBE3    ,RBE3%LRBE3      ,RBE3%FRBE3    ,
@@ -6849,7 +6848,7 @@ C===============================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
-!$OMP   PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
+!$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
                 ITSK = OMP_GET_THREAD_NUM()
                 NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
                 NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
@@ -6885,7 +6884,7 @@ C-----------------------------------------------
                   ENDIF
                 ENDIF ! ILAG+IALE+IEULER/=0
 
-!$OMP   END PARALLEL
+!$OMP END PARALLEL
 
                 IF (IMON>0) CALL STOPTIME(TIMERS,TIMER_INTEG)
 C-----------------------------------------------
@@ -6904,7 +6903,7 @@ C===============================================================================
      2                 LPBY,NPBY,NODES%ISKEW,NODES%ITAB   ,NODES%WEIGHT  ,NODES%A        ,
      3                 NODES%AR  ,NODES%MS  ,NODES%IN   ,KINDRBY,IRBKIN_L,NRBYKIN_L ,
      4                 NODES%WEIGHT_MD,MS_2D)
-!$OMP     END PARALLEL
+!$OMP END PARALLEL
 
                   IF(IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
                   IF(IMONM > 0) CALL STOPTIME(TIMERS,40)
@@ -6921,7 +6920,7 @@ C
                   CALL RBE2COR(IRBE2 ,LRBE2 ,NODES%X    ,NODES%V     ,NODES%VR    ,
      2                         SKEWS%SKEW  ,NODES%ISKEW ,NODES%ITAB ,NODES%WEIGHT,NODES%A     ,
      3                         NODES%AR    ,NODES%MS0   ,NODES%IN   ,NODES%WEIGHT_MD)
-!$OMP     END PARALLEL
+!$OMP END PARALLEL
 
                   IF(IMON>0) CALL STOPTIME(TIMERS,TIMER_KIN)
                   IF(IMONM > 0) CALL STOPTIME(TIMERS,40)
@@ -6950,7 +6949,7 @@ c
                   ! -------------------------------
                   ! pre-computation and mpi communication for type 17 sensor
                   IF(SENSORS%COMM_SENS17%BOOL) THEN
-                    CALL SENSOR_TEMP0(NSENSOR,SENSORS%SENSOR_TAB,IGRNOD,TEMP,NODES%WEIGHT,SENSORS%COMM_SENS17,
+                    CALL SENSOR_TEMP0(NSENSOR,SENSORS%SENSOR_TAB,IGRNOD,NODES%TEMP,NODES%WEIGHT,SENSORS%COMM_SENS17,
      *                                SENSORS%SENSOR_STRUCT)
                   ENDIF
                   ! -------------------------------
@@ -6986,7 +6985,7 @@ C===============================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
-!$OMP     PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
+!$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
                 ITSK = OMP_GET_THREAD_NUM()
                 NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
                 NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
@@ -6998,7 +6997,7 @@ C-------  ----------------
                   CALL BMULTN(FILL,DFILL,IMS,IFILL,NODFTSK,NODLTSK)
                 ENDIF
 
-!$OMP     END PARALLEL
+!$OMP END PARALLEL
 
 C-----------------------------------------------
 C         SPH SMOOTHING OF VELOCITIES
@@ -7019,7 +7018,7 @@ C===============================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
-!$OMP      PARALLEL PRIVATE(ITSK,IPMTSK)
+!$OMP PARALLEL PRIVATE(ITSK,IPMTSK)
                   ITSK = OMP_GET_THREAD_NUM()
                   IPMTSK = 1 + ITSK*NPSAV*NPART
 
@@ -7034,7 +7033,7 @@ C===============================================================================
      8            NGROUNC   ,IGROUNC  ,ELBUF_TAB,IAD_ELEM  ,FR_ELEM   ,
      9            IGEO      ,SOL2SPH_TYP,SPH_WORK)
 
-!$OMP       END PARALLEL
+!$OMP END PARALLEL
                   DEALLOCATE(WASPSYM)
 
 C========================================================================================
@@ -7071,7 +7070,7 @@ C Init var parallel SMP
                   CALL ASSPART(
      2               PARTFTSK,PARTLTSK,PARTSAV,GREFTSK,GRELTSK,GRESAV)
 
-!$OMP     END PARALLEL
+!$OMP END PARALLEL
 
                 ENDIF  ! (NUMSPH/=0).OR.(SOL2SPH_FLAG==1)
 C========================================================================================
@@ -7164,7 +7163,7 @@ C--- //  ---------------------------------------
 C       TEMPERATURES COMPUTATION
 C-----------------------------------------------
                 IF (GLOB_THERM%ITHERM_FE > 0 )
-     .             CALL TEMPUR(TEMP ,MCP,FTHE,NODFTSK,NODLTSK,NODES%WEIGHT,MCP_OFF,GLOB_THERM%HEAT_STORED)
+     .             CALL TEMPUR(NODES%TEMP ,NODES%MCP,FTHE,NODFTSK,NODLTSK,NODES%WEIGHT,MCP_OFF,GLOB_THERM%HEAT_STORED)
 !$OMP END PARALLEL
 
 
@@ -7185,7 +7184,7 @@ C===============================================================================
                   GREFTSK   = 1+ITSK*NTSHEG/ NTHREAD
                   GRELTSK   = (ITSK+1)*NTSHEG/NTHREAD
                   CALL ACCDTDC(GREFTSK,GRELTSK,IENUNL ,ALPHA_DC,NODES%A       ,NODES%MS   ,NODES%ITAB )
-!$OMP     END PARALLEL
+!$OMP END PARALLEL
                 ENDIF
 
 
@@ -7204,9 +7203,9 @@ C---------------------------------------------------------------------
                       ELSE
                         SIZ = 0
                       END IF
-                      CALL SPMD_COLLECTT(TEMP,NODES%ITAB,NODES%WEIGHT,NODGLOB,SIZ)
+                      CALL SPMD_COLLECTT(NODES%TEMP,NODES%ITAB,NODES%WEIGHT,NODGLOB,SIZ)
                     ELSE
-                      CALL COLLECTT(TEMP,NODES%ITAB,NODES%WEIGHT,NODGLOB)
+                      CALL COLLECTT(NODES%TEMP,NODES%ITAB,NODES%WEIGHT,NODGLOB)
                     END IF
                   END IF
                 END IF
@@ -7644,10 +7643,10 @@ C-----------------------------------------------
               IF(IDAMP/=0)THEN
                 IF (NS10E>0) THEN
                   CALL DAMPING(NODFTSK,NODLTSK,VMD,NODES%VR,NODES%A ,NODES%AR ,DAMP,NODES%MS,NODES%IN,
-     .                       IGRNOD,3+IRODDL*3,ITSK,NODES%WEIGHT,TAGSLV_RBY,OUTPUT%WFEXT)
+     .                       IGRNOD,3+IRODDL*3,ITSK,NODES%WEIGHT,NODES%TAG_S_RBY,OUTPUT%WFEXT)
                 ELSE
                   CALL DAMPING(NODFTSK,NODLTSK,NODES%V ,NODES%VR,NODES%A ,NODES%AR ,DAMP,NODES%MS,NODES%IN,
-     .                        IGRNOD,3+IRODDL*3,ITSK,NODES%WEIGHT,TAGSLV_RBY,OUTPUT%WFEXT)
+     .                        IGRNOD,3+IRODDL*3,ITSK,NODES%WEIGHT,NODES%TAG_S_RBY,OUTPUT%WFEXT)
                 END IF !(NS10E>0) THEN
               ELSEIF(NDAMP>0)THEN
                 IF(NRDAMP==4)THEN
@@ -7656,7 +7655,7 @@ C-----------------------------------------------
                   CALL DAMPING44(
      .                         3+IRODDL*3,NODES%V       ,
      .                         NODES%VR      ,NODES%A       ,NODES%AR      ,NODES%MS        ,NODES%IN      ,
-     .                         DAMPR   ,DAMP    ,IGRNOD  ,NODES%WEIGHT    ,TAGSLV_RBY       ,OUTPUT%WFEXT)
+     .                         DAMPR   ,DAMP    ,IGRNOD  ,NODES%WEIGHT    ,NODES%TAG_S_RBY       ,OUTPUT%WFEXT)
 !$OMP END SINGLE
 
                 ELSE
@@ -7666,14 +7665,14 @@ C-----------------------------------------------
                     CALL DAMPING51(
      .                          3+IRODDL*3,VMD     ,
      .                          NODES%VR      ,NODES%A       ,NODES%AR      ,NODES%MS        ,NODES%IN      ,
-     .                          DAMPR   ,DAMP    ,IGRNOD  ,NODES%WEIGHT    ,TAGSLV_RBY,
+     .                          DAMPR   ,DAMP    ,IGRNOD  ,NODES%WEIGHT    ,NODES%TAG_S_RBY,
      .                          SKEWS%SKEW    ,ICONTACT,IDAMP_RDOF_TAB     ,NDAMP_VREL,ID_DAMP_VREL,
      .                          FR_DAMP_VREL,IPARIT,ISPMD,OUTPUT%WFEXT)
                   ELSE
                     CALL DAMPING51(
      .                          3+IRODDL*3,NODES%V       ,
      .                          NODES%VR      ,NODES%A       ,NODES%AR      ,NODES%MS        ,NODES%IN      ,
-     .                          DAMPR   ,DAMP    ,IGRNOD  ,NODES%WEIGHT    ,TAGSLV_RBY,
+     .                          DAMPR   ,DAMP    ,IGRNOD  ,NODES%WEIGHT    ,NODES%TAG_S_RBY,
      .                          SKEWS%SKEW    ,ICONTACT,IDAMP_RDOF_TAB     ,NDAMP_VREL,ID_DAMP_VREL,
      .                          FR_DAMP_VREL,IPARIT,ISPMD,OUTPUT%WFEXT)
                   END IF
@@ -7866,7 +7865,7 @@ C--------------------------
                   CALL STARTIME(TIMERS,TIMER_KIN)
                   IF(IMONM > 0) CALL STARTIME(TIMERS,44)
                 ENDIF
-                CALL FIXTEMP(IBFTEMP  ,FBFTEMP    ,TEMP    ,NPC    ,TF  ,
+                CALL FIXTEMP(IBFTEMP  ,FBFTEMP    ,NODES%TEMP    ,NPC    ,TF  ,
      1                       NSENSOR  ,SENSORS%SENSOR_TAB,GLOB_THERM)
                 IF (IMON>0) THEN
                   IF(IMONM > 0) CALL STOPTIME(TIMERS,44)
@@ -7950,7 +7949,7 @@ C===============================================================================
 
                 CALL ADMVIT(ELEMENT%SHELL%IXC, IPART(K3), IXTG, IPART(K8), IPART,
      1                      ITSK   ,NODES%A        , NODES%V   , NODES%AR       , NODES%VR   ,
-     2                    SH4TREE,SH3TREE ,TEMP ,GLOB_THERM%ITHERM_FE)
+     2                    SH4TREE,SH3TREE ,NODES%TEMP ,GLOB_THERM%ITHERM_FE)
 
 !$OMP END PARALLEL
 
@@ -8249,7 +8248,7 @@ c
 
                 ! pre-computation and mpi communication for type 17 sensor
                 IF (SENSORS%COMM_SENS17%BOOL) THEN
-                  CALL SENSOR_TEMP0(NSENSOR,SENSORS%SENSOR_TAB,IGRNOD,TEMP,NODES%WEIGHT,SENSORS%COMM_SENS17,
+                  CALL SENSOR_TEMP0(NSENSOR,SENSORS%SENSOR_TAB,IGRNOD,NODES%TEMP,NODES%WEIGHT,SENSORS%COMM_SENS17,
      *                              SENSORS%SENSOR_STRUCT)
                 ENDIF
 
@@ -8518,7 +8517,7 @@ C Init var parallel SMP
      8           NELTSTT    ,ITYPTSTT ,IPART      ,IPART(K1)    ,IPART(K2)      ,ITSK      ,
      A           NODFTSK    ,NODLTSK  ,NBRCVOIS   ,
      B           NBSDVOIS   ,LNRCVOIS ,LNSDVOIS   ,NERCVOIS     ,NESDVOIS       ,LERCVOIS  ,
-     C           LESDVOIS   ,ISIZXV   ,IAD_ELEM   ,FR_ELEM      ,ELEMENT%PON%FSKYM          ,MSNF      ,
+     C           LESDVOIS   ,ISIZXV   ,IAD_ELEM   ,FR_ELEM      ,ELEMENT%PON%FSKYM,MSNF      ,
      D           IPARI      ,SEGVAR   ,NODES%ITAB       ,ISKWN        ,
      E           FSAV     ,
      F           NODES%WEIGHT     ,NPSEGCOM ,LSEGCOM    ,IPM          ,IGEO           ,
@@ -8661,7 +8660,7 @@ C Regular animation
      V          NDIN          ,FXBDEP         ,FXBVIT         ,FXBACC         ,IFLOW         ,
      W          RFLOW         ,IPARTL         ,NPARTL         ,IACCP          ,NACCP         ,
      X          FASOLFR       ,FANI(1,NFNCA+1),FANI(1,NFTCA+1),IPART(I15ATH)  ,
-     Y          FR_MV         ,IPART_STATE    ,SH4TREE        ,SH3TREE,TEMP   ,
+     Y          FR_MV         ,IPART_STATE    ,SH4TREE        ,SH3TREE,NODES%TEMP   ,
      Z          THKE          ,ERR_THK_SH4    ,ERR_THK_SH3,
      a          INOD_PXFEM    ,FTHREAC        ,NODREAC        ,GRESAV,
      b          DIAG_SMS      ,SH4TRIM        ,SH3TRIM        ,FANI(1,1+NFT2) ,XMOM_SMS      ,
@@ -8810,9 +8809,8 @@ C------------
 C ---------------------------------
               CALL PYTHON_UPDATE_TIME(TT,DT2)
 
-C ---------------------------------
 C----------------------------------
-C       IMPLICITE SOLVER
+C       IMPLICIT SOLVER
 C----------------------------------
               IF (IMPL_S==1) THEN
                 CALL TRACE_IN(3,NCYCLE,ZERO)
@@ -8876,7 +8874,7 @@ C----       10,11,12:ELBUF_C,BUFMAT_C,X_C,13,14:DD,DDR,15,16:X_ac,V_zero,23,24:A
      O            MONVOL ,IGRSURF,FR_MV  ,VOLMON ,DIRUL,
      P            NODGLOB,MUMPS_PAR,CDDLP ,ISENDTO,IRCVFROM,NEWFRONT,IMSCH  ,
      Q            I2MSCH ,ISIZXV,ILENXV ,ISLEN7  ,IRLEN7 ,ISLEN11,IRLEN11,ISLEN17,
-     R            IRLEN17,IRLEN7T,ISLEN7T,KINET  ,NUM_IMP1,TEMP  ,DT2PREV,WA     ,
+     R            IRLEN17,IRLEN7T,ISLEN7T,KINET  ,NUM_IMP1,NODES%TEMP  ,DT2PREV,WA     ,
      S            LGRAV  ,SH4TREE,SH3TREE,IRLEN20,ISLEN20,IRLEN20T,ISLEN20T,
      T            IRLEN20E,ISLEN20E,RBE3%IRBE3,RBE3%LRBE3  ,RBE3%FRBE3  ,FR_I2M,IAD_I2M,rbe3%mpi%FR_RBE3,
      U            RBE3%mpi%IAD_RBE3,FRWL6,IRBE2  ,LRBE2,INTBUF_TAB_CP,
@@ -8921,7 +8919,7 @@ C
      L            FR_ELEM,        FR_SEC,          FR_RBY2,   IAD_RBY2,       FR_WALL,
      M            NODES%V,              NODES%A,               GRAPHE,    PARTSAV ,       XFRAME  ,
      N            DIRUL,
-     O            FSAV(1,NFNCA+1), FSAV(1,NFTCA+1),TEMP      ,SH4TREE,        SH3TREE,
+     O            FSAV(1,NFNCA+1), FSAV(1,NFTCA+1),NODES%TEMP      ,SH4TREE,        SH3TREE,
      P            ERR_THK_SH4,    ERR_THK_SH3    , IFRAME    ,LPRW      ,     ELBUF_TAB,
      Q            FSAV           ,FSAVD          , RWSAV     ,NODES%AR        ,   RBE3%IRBE3   ,
      R            RBE3%LRBE3     ,RBE3%FRBE3     , FR_I2M    ,IAD_I2M   ,     RBE3%mpi%FR_RBE3,
@@ -9301,13 +9299,13 @@ C===============================================================================
 C                                   PARALLEL SECTION (SMP)
 C========================================================================================
 
-!$OMP   PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
+!$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
                   ITSK = OMP_GET_THREAD_NUM()
                   NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
                   NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
                   CALL CRK_COORD_INI(ADSKY_CRK,INOD_CRK ,NODFTSK,NODLTSK,NODES%X        ,
      .                               NODLEVXF )
-!$OMP   END PARALLEL
+!$OMP END PARALLEL
                 END IF
 C---
               END IF  ! XFEM
@@ -9333,20 +9331,20 @@ C===============================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
-!$OMP   PARALLEL PRIVATE(ITSK)
+!$OMP PARALLEL PRIVATE(ITSK)
                 ITSK = OMP_GET_THREAD_NUM()
                 CALL INT18_LAW151_UPDATE(ITSK   ,MULTI_FVM,IGRBRIC  ,IPARI,IXS,
      1                                   IGROUPS,IPARG    ,ELBUF_TAB,MULTI_FVM%FORCE_INT         ,
      2                   NODES%X       ,          NODES%V       ,          NODES%MS         ,          KINET       ,
      3          MULTI_FVM%X_APPEND,MULTI_FVM%V_APPEND,MULTI_FVM%MASS_APPEND,MULTI_FVM%KINET_APPEND)
-!$OMP   END PARALLEL
+!$OMP END PARALLEL
 
               ENDIF
 
-!$OMP   PARALLEL PRIVATE(ITSK)
+!$OMP PARALLEL PRIVATE(ITSK)
               ITSK = OMP_GET_THREAD_NUM()
               CALL MULTI_VELOCITY_BACKUP(ITSK,MULTI_FVM,N2D,NUMELS,NUMELQ,NUMELTG)
-!$OMP   END PARALLEL
+!$OMP END PARALLEL
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)
 C========================================================================================
@@ -9426,7 +9424,7 @@ C mass & velocity
      2             IMSCH   ,I2MSCH ,DT2PREV ,INTLIST ,NBINTC  ,
      3             ISLEN7  ,IRLEN7 ,ISLEN11 ,IRLEN11 ,ISLEN17 ,
      4             IRLEN17 ,IXS    ,IXS(L3) ,NSENSOR ,
-     5             IGRBRIC ,TEMP   ,1       ,IRLEN7T ,ISLEN7T ,
+     5             IGRBRIC ,NODES%TEMP   ,1       ,IRLEN7T ,ISLEN7T ,
      6             IRLEN20 ,ISLEN20,IRLEN20T,ISLEN20T,IRLEN20E,
      7             ISLEN20E,NODES%IKINE  ,DIAG_SMS,SENSORS%SENSOR_TAB,INTERFACES%INTBUF_TAB ,INT24E2EUSE,
      8             FORNEQS ,MULTI_FVM,INTERFACES)
@@ -9444,7 +9442,7 @@ C mass & velocity
               ENDIF
 
               IF(NINTSTAMP /= 0.AND.FTEMPVAR21==1.AND.NSPMD>1) THEN
-                CALL SPMD_I21TEMPCOM(IPARI,TEMP,INTERFACES%INTBUF_TAB,NSENSOR,SENSORS%SENSOR_TAB)
+                CALL SPMD_I21TEMPCOM(IPARI,NODES%TEMP,INTERFACES%INTBUF_TAB,NSENSOR,SENSORS%SENSOR_TAB)
               ENDIF
 
               IF(NUMFRAM/=0.AND.N2D==0)THEN
@@ -9534,7 +9532,7 @@ C--- //0 ----------------
      2                    IMSCH   ,I2MSCH ,DT2PREV ,INTLIST ,NBINTC  ,
      3                    ISLEN7  ,IRLEN7 ,ISLEN11 ,IRLEN11 ,ISLEN17 ,
      4                    IRLEN17 ,IXS    ,IXS(L3) ,NSENSOR ,
-     5                    IGRBRIC ,TEMP   ,2       ,IRLEN7T ,ISLEN7T ,
+     5                    IGRBRIC ,NODES%TEMP   ,2       ,IRLEN7T ,ISLEN7T ,
      6                    IRLEN20 ,ISLEN20,IRLEN20T,ISLEN20T,IRLEN20E,
      7                    ISLEN20E,NODES%IKINE  ,DIAG_SMS,SENSORS%SENSOR_TAB,INTERFACES%INTBUF_TAB ,INT24E2EUSE,
      8                    FORNEQS ,MULTI_FVM,INTERFACES)
@@ -9558,7 +9556,7 @@ C--- //0 ----------------
 
                 ! INTERFACE 21 - Communication of nodal temperature
                 IF(NINTSTAMP /= 0.AND.FTEMPVAR21==1.AND.NSPMD>1) THEN
-                  CALL SPMD_I21TEMPCOM(IPARI,TEMP,INTERFACES%INTBUF_TAB,NSENSOR,SENSORS%SENSOR_TAB)
+                  CALL SPMD_I21TEMPCOM(IPARI,NODES%TEMP,INTERFACES%INTBUF_TAB,NSENSOR,SENSORS%SENSOR_TAB)
                 ENDIF
                 ICH = 0
                 ! Engine time for restart
@@ -9572,7 +9570,7 @@ C--- //0 ----------------
      .                       OUTPUT     ,INTERFACES      ,LOADS          ,PYTHON          ,NAMES_AND_TITLES ,
      .                       EIGIPM     ,EIGIBUF         ,EIGRPM         ,NEIPM           ,LEIBUF           ,
      .                       NERPM      ,IFLOW           ,RFLOW          ,LIFLOW          ,LRFLOW           ,
-     .                       IMPBUF_TAB ,IMPL_S          ,IMPL_S0        ,MCP             ,TEMP             ,
+     .                       IMPBUF_TAB ,IMPL_S          ,IMPL_S0        ,NODES%MCP             ,NODES%TEMP             ,
      .                       FORNEQS    ,UNITAB          ,STACK          ,NDRAPE          ,DRAPE_SH3N       ,
      .                       DRAPE_SH4N ,DRAPEG          ,RESTSIZE       ,SKEWS           ,GLOB_THERM       ,
      .                       PBLAST     ,RBE3)
@@ -9680,7 +9678,7 @@ C--- //0 ----------------
      2                IMSCH   ,I2MSCH  ,DT2PREV ,INTLIST ,NBINTC  ,
      3                ISLEN7  ,IRLEN7  ,ISLEN11 ,IRLEN11 ,ISLEN17 ,
      4                IRLEN17 ,IXS     ,IXS(L3) ,NSENSOR ,
-     5                IGRBRIC ,TEMP    ,2       ,IRLEN7T ,ISLEN7T ,
+     5                IGRBRIC ,NODES%TEMP    ,2       ,IRLEN7T ,ISLEN7T ,
      6                IRLEN20 ,ISLEN20 ,IRLEN20T,ISLEN20T,IRLEN20E,
      7                ISLEN20E,NODES%IKINE   ,DIAG_SMS,SENSORS%SENSOR_TAB,INTERFACES%INTBUF_TAB ,INT24E2EUSE ,
      8                FORNEQS ,MULTI_FVM,INTERFACES)
@@ -9774,7 +9772,7 @@ C /KILL
      2               IMSCH   ,I2MSCH ,DT2PREV ,INTLIST ,NBINTC  ,
      3               ISLEN7  ,IRLEN7 ,ISLEN11 ,IRLEN11 ,ISLEN17 ,
      4               IRLEN17 ,IXS    ,IXS(L3) ,NSENSOR ,
-     5               IGRBRIC ,TEMP   ,2       ,IRLEN7T ,ISLEN7T ,
+     5               IGRBRIC ,NODES%TEMP   ,2       ,IRLEN7T ,ISLEN7T ,
      6               IRLEN20 ,ISLEN20,IRLEN20T,ISLEN20T,IRLEN20E,
      7               ISLEN20E,NODES%IKINE  ,DIAG_SMS,SENSORS%SENSOR_TAB,INTERFACES%INTBUF_TAB,INT24E2EUSE,
      8               FORNEQS ,MULTI_FVM,INTERFACES)
@@ -9921,10 +9919,6 @@ C
                   CALL DEALLOCM_IMP(MUMPS_PAR)
 #endif
                 END IF
-                IF(IPARIT==0.AND.IRESP==1) THEN
-                  DEALLOCATE( ACC_DP )
-                ENDIF
-
                 IF(IMON>0) THEN
                   IF(NVOLU > 0)  CALL FVSTATS(MONVOL)
                   CALL STOPTIME(TIMERS,TIMER_RESOL)

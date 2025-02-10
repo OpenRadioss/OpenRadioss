@@ -229,6 +229,8 @@ C----------------------------------------------------------
 C true dependency
          IF(IALE+IEULER == 0 .OR.  ALE%GLOBAL%I_DT_NODA_ALE_ON==1)THEN
            DO N=I,MIN(NODLT,I+1023)
+c            write(6,*) "STIFN(",N,")=",STIFN(N)
+c            call flush(6)
              IF(STIFN(N)<=ZERO)THEN                             
                 ISTOP = -ITAB(N)                                  
              ELSEIF(MS(N)>ZERO)THEN                            
