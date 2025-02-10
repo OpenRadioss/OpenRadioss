@@ -89,7 +89,6 @@ C-----------------------------------------------
       USE DRAPE_MOD
       USE FXB_MOD
       USE EIG_MOD               
-      USE RBODY_MOD               
       USE ALE_CONNECTIVITY_MOD
       USE SEATBELT_MOD    
       USE SEGVAR_MOD 
@@ -158,7 +157,7 @@ C             allocations entieres
 C   -----------------------------------------------
 
         CALL ALLOCATE_NODAL_ARRAYS(NODES, NUMNOD, NTHREAD, IRODDL, IPARIT, 
-     .      ISECUT, IISROTS, IMPOSE_DR, IDROT, NRCVVOIS, SICODT)
+     .      ISECUT, IISROTS, IMPOSE_DR, IDROT, NRCVVOIS, SICODT, GLOB_THERM%ITHERM_FE)
 
 C       
 c       ALLOCATE (ICODE(SICODE),STAT=IERR)
@@ -701,9 +700,9 @@ C
         IF (IERR/=0) GOTO 1000
         FR_LAGF = 0
 
-        ALLOCATE (MAIN_PROC(SWEIGHT),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        MAIN_PROC = 0 
+c       ALLOCATE (MAIN_PROC(SWEIGHT),STAT=IERR)
+c       IF (IERR/=0) GOTO 1000
+c       MAIN_PROC = 0 
 
 c       ALLOCATE (WEIGHT(SWEIGHT),STAT=IERR)
 c       IF (IERR/=0) GOTO 1000
@@ -2263,10 +2262,6 @@ C-------EIGEN MODES (moved from radioss2.F) -----
         ALLOCATE (EIGIBUF(LEIBUF),STAT=IERR)
         IF (IERR/=0) GOTO 1000
         EIGIBUF = 0
-C-------TAGSLV_RBY -----
-        ALLOCATE (TAGSLV_RBY(NUMNOD),STAT=IERR)
-        IF (IERR/=0) GOTO 1000
-        TAGSLV_RBY = 0
 C-------Seatbelt structures -----
         ALLOCATE (SLIPRING(NSLIPRING),STAT=IERR)
         IF (IERR/=0) GOTO 1000

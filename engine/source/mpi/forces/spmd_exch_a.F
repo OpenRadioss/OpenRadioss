@@ -31,14 +31,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    h3d_mod               ../engine/share/modules/h3d_mod.F
       !||====================================================================
       SUBROUTINE SPMD_EXCH_A(
-     1   A        ,AR     ,STIFN,STIFR ,MS  ,
+     1   A, ADP        ,AR     ,STIFN,STIFR ,MS  ,
      2   IAD_ELEM ,FR_ELEM,MSNF ,IFSUBM,SIZE,
      3   LENR     ,FTHE   ,MCP  ,DMSPH ,CONDN, 
      4   MS_2D,MCP_OFF,
      5   FORNEQS  ,NFACNIT,LENC  ,FCONT ,H3D_DATA ,
      6   FNCONT  ,FTCONT, GLOB_THERM)
 C--------------------------------------
-      USE ACCELERATION_DP_MOD
       USE H3D_MOD
       USE GLOB_THERM_MOD
 C-----------------------------------------------
@@ -69,6 +68,8 @@ C-----------------------------------------------
      .        AR(3,*),STIFN(*),STIFR(*),MS(*),MSNF(*),
      .        FTHE(*),MCP(*), DMSPH(*),CONDN(*)
       my_real, DIMENSION(3,*), INTENT(inout), TARGET :: A
+      REAL(kind=8), DIMENSION(3,*), INTENT(inout), TARGET :: ADP
+
       my_real
      .        MS_2D(*),MCP_OFF(*),
      .        FORNEQS(3,*)
@@ -95,7 +96,7 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 #ifdef MYREAL4
-        ACC_POINTER=>ACC_DP(1:3,1:NUMNOD)
+        ACC_POINTER=>ADP(1:3,1:NUMNOD)
 #else
         ACC_POINTER=>A(1:3,1:NUMNOD)
 #endif    

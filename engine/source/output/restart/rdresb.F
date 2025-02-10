@@ -141,7 +141,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   SENSORS          ,EBCS_TAB   ,DYNAIN_DATA  ,USER_WINDOWS     ,OUTPUT     ,
      .                   INTERFACES       ,LOADS      ,MAT_ELEM     ,PYTHON           ,IFLOW      ,
      .                   SKEWS            ,RFLOW      ,LIFLOW       ,LRFLOW           ,IMPL_S0    ,
-     .                   MCP              ,TEMP       ,FORNEQS      ,UNITAB           ,
+     .                   FORNEQS      ,UNITAB           ,
      .                   STACK            ,DRAPE_SH4N ,DRAPE_SH3N   ,DRAPEG           ,NDRAPE     ,
      .                   GLOB_THERM       ,PBLAST     ,ELEMENT      ,NODES            ,RBE3)
 C-----------------------------------------------
@@ -261,8 +261,6 @@ C-----------------------------------------------
       INTEGER, INTENT(INOUT) :: IFLOW(LIFLOW)
       my_real, INTENT(INOUT) :: RFLOW(LRFLOW)
       INTEGER, INTENT(IN) :: IMPL_S0
-      my_real, INTENT(INOUT) :: MCP(NUMNOD)
-      my_real, INTENT(INOUT) :: TEMP(NUMNOD)
       INTEGER, INTENT(IN) :: NDRAPE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -304,7 +302,7 @@ C
 
         CALL READ_I_C(NODGLOB,SNODGLOB)
 
-        CALL READ_I_C(MAIN_PROC,SWEIGHT)
+        CALL READ_I_C(NODES%MAIN_PROC,SWEIGHT)
 
         CALL READ_I_C(NODES%WEIGHT,SWEIGHT)
 
@@ -1557,7 +1555,7 @@ C--------------------------------------
 
       ! heat  transfer
       IF(GLOB_THERM%ITHERM_FE > 0   ) THEN
-        CALL THCRREST(MCP,TEMP)
+        CALL THCRREST(NODES%MCP,NODES%TEMP)
       ENDIF
 
       ! Nitsche formulation
