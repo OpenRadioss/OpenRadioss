@@ -63,7 +63,7 @@
       use table_mod
       use unitab_mod
       use submodel_mod
-      use constant_mod , only : pi,zero,half,three_half,one,two,three,four_over_3
+      use constant_mod , only : pi,zero,half,fourth,three_half,one,two,three,four_over_3
       use constant_mod , only : infinity,ep20
       use mat_table_copy_mod
 !-----------------------------------------------
@@ -166,7 +166,7 @@
         if (mm   == zero) mm   = three_half
         if (nn   == zero) nn   = three_half
       else                                     ! use Lankford coefficients
-        rr = (r00 + r45*two + r90)
+        rr = (r00 + r45*two + r90) * fourth
         hh = rr / (one + rr)
         gg = hh / r00
         ff = hh / r90
