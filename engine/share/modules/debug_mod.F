@@ -41,7 +41,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       MODULE DEBUG_MOD
 
+        USE ISO_C_BINDING
         INTEGER, DIMENSION(:),ALLOCATABLE :: ITAB_DEBUG
+!       double precision, DIMENSION(:),ALLOCATABLE :: DETACH_SHELL
+
+
+
 
         CONTAINS
       !||====================================================================
