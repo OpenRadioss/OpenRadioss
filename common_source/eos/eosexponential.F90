@@ -27,6 +27,20 @@ module eosexponential_mod
 ! ======================================================================================================================
 !! \brief This subroutine is solving Exponential EoS
 !! \details P = P0 exp(alpha.time) - PSH
+!----------------------------------------------------------------------------
+!! \details STAGGERED SCHEME IS EXECUTED IN TWO PASSES IN EOSMAIN : IFLG=0 THEN IFLG=1
+!! \details COLLOCATED SCHEME IS DOING A SINGLE PASS : IFLG=2
+!! \details
+!! \details  STAGGERED SCHEME
+!! \details     EOSMAIN / IFLG = 0 : DERIVATIVE CALCULATION FOR SOUND SPEED ESTIMATION c[n+1] REQUIRED FOR PSEUDO-VISCOSITY (DPDE:partial derivative, DPDM:total derivative)
+!! \details     MQVISCB            : PSEUDO-VISCOSITY Q[n+1]
+!! \details     MEINT              : INTERNAL ENERGY INTEGRATION FOR E[n+1] : FIRST PART USING P[n], Q[n], and Q[n+1] CONTRIBUTIONS
+!! \details     EOSMAIN / IFLG = 1 : UPDATE P[n+1], T[N+1]
+!! \details                          INTERNAL ENERGY INTEGRATION FOR E[n+1] : LAST PART USING P[n+1] CONTRIBUTION
+!! \details                            (second order integeration dE = -P.dV where P = 0.5(P[n+1] + P[n]) )
+!! \details  COLLOCATED SCHEME
+!! \details     EOSMAIN / IFLG = 2 : SINGLE PASS FOR P[n+1] AND DERIVATIVES
+!----------------------------------------------------------------------------
       !||====================================================================
       !||    eosexponential   ../common_source/eos/eosexponential.F90
       !||--- called by ------------------------------------------------------
@@ -37,7 +51,7 @@ module eosexponential_mod
       subroutine eosexponential(iflag ,nel   ,pm   ,off  ,eint ,&
                                 dvol  ,vnew  ,mat  ,psh  ,      &
                                 pnew  ,dpdm  ,dpdE ,theta,time ,&
-                                npropm,nummat,wfext)
+                                npropm,nummat)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -68,61 +82,53 @@ module eosexponential_mod
       my_real, intent(inout) :: theta(nel)           !< temperature
       my_real, intent(inout) :: psh(nel)             !< pressure shift
       my_real, intent(inout) :: eint(nel)            !< internal energy
-      double precision, intent(inout) :: wfext       !< work of external forces / Double Precision
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
       integer :: i, mx
-      my_real :: pp,p0,alpha,wfextt
+      my_real :: pp,p0,alpha
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
 
-!------------------------
       if(iflag == 0) then
-       mx = mat(1)
-       p0 = pm(104,mx) !starter:p0-psh
-       alpha = pm( 32,mx)
-       psh(1:nel) = pm( 88,mx)
-       dpdm(1:nel) = zero
-       dpdE(1:nel) = zero
+        mx = mat(1)
+        p0 = pm(104,mx) !starter:p0-psh
+        alpha = pm( 32,mx)
+        psh(1:nel) = pm( 88,mx)
+        dpdm(1:nel) = zero
+        dpdE(1:nel) = zero
 
-!------------------------
       elseif(iflag == 1) then
-       wfextt = zero
-       mx = mat(1)
-       p0 = pm(104,mx) !starter:p0-psh
-       alpha = pm( 32,mx)
-       psh(1:nel) = pm( 88,mx)
-       do i=1,nel
-         pnew(i) = p0*exp(alpha*time)
-         pnew(i) = pnew(i)*off(i)
-         eint(i) = eint(i) - half*dvol(i)*(pnew(i)+psh(i))
-         wfextt  = wfextt-dvol(i)*psh(i)
-       enddo
-!$OMP ATOMIC
-       wfext = wfext + wfextt
-!$OMP END ATOMIC
-       theta(1:nel) = three100
-       
-!------------------------
+        mx = mat(1)
+        p0 = pm(104,mx) !starter:p0-psh
+        alpha = pm( 32,mx)
+        psh(1:nel) = pm( 88,mx)
+        do i=1,nel
+          pnew(i) = p0*exp(alpha*time)
+          pnew(i) = pnew(i)*off(i)
+          eint(i) = eint(i) - half*dvol(i)*(pnew(i)+psh(i))
+        enddo
+        theta(1:nel) = three100
+
       elseif(iflag == 2) then
-       mx  = mat(1)
-       mx = mat(1)
-       p0 = pm(104,mx) !starter:p0-psh
-       alpha = pm( 32,mx)
-       psh(1:nel) = pm( 88,mx)
-         do i=1,nel
-           if (vnew(i) > zero) then
-             pnew(i) =  p0*exp(alpha*time)
-             pnew(i) = pnew(i)*off(i)
-             dpdm(i) = zero
-             dpdE(i) = zero
-           endif
-         enddo
-       endif
+        mx  = mat(1)
+        mx = mat(1)
+        p0 = pm(104,mx) !starter:p0-psh
+        alpha = pm( 32,mx)
+        psh(1:nel) = pm( 88,mx)
+          do i=1,nel
+            if (vnew(i) > zero) then
+              pnew(i) =  p0*exp(alpha*time)
+              pnew(i) = pnew(i)*off(i)
+              dpdm(i) = zero
+              dpdE(i) = zero
+            endif
+          enddo
+        endif
 
 !------------------------
-      RETURN
+      return
       END subroutine eosexponential
+
 end module eosexponential_mod

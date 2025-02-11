@@ -25,9 +25,26 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    eosmain     ../common_source/eos/eosmain.F
       !||====================================================================
-      SUBROUTINE EOSLINEAR(IFLAG,NEL, PM   ,OFF  ,EINT ,MU   ,MU2  , 
-     2                     DVOL ,VNEW ,MAT  ,PNEW ,DPDM ,
+      SUBROUTINE EOSLINEAR(IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU   ,MU2  ,
+     2                     DVOL ,VNEW ,MAT  ,PSH  ,PNEW ,DPDM ,
      3                     DPDE ,ECOLD)
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+!----------------------------------------------------------------------------
+!! \details STAGGERED SCHEME IS EXECUTED IN TWO PASSES IN EOSMAIN : IFLG=0 THEN IFLG=1
+!! \details COLLOCATED SCHEME IS DOING A SINGLE PASS : IFLG=2
+!! \details
+!! \details  STAGGERED SCHEME
+!! \details     EOSMAIN / IFLG = 0 : DERIVATIVE CALCULATION FOR SOUND SPEED ESTIMATION c[n+1] REQUIRED FOR PSEUDO-VISCOSITY (DPDE:partial derivative, DPDM:total derivative)
+!! \details     MQVISCB            : PSEUDO-VISCOSITY Q[n+1]
+!! \details     MEINT              : INTERNAL ENERGY INTEGRATION FOR E[n+1] : FIRST PART USING P[n], Q[n], and Q[n+1] CONTRIBUTIONS
+!! \details     EOSMAIN / IFLG = 1 : UPDATE P[n+1], T[N+1]
+!! \details                          INTERNAL ENERGY INTEGRATION FOR E[n+1] : LAST PART USING P[n+1] CONTRIBUTION
+!! \details                            (second order integeration dE = -P.dV where P = 0.5(P[n+1] + P[n]) )
+!! \details  COLLOCATED SCHEME
+!! \details     EOSMAIN / IFLG = 2 : SINGLE PASS FOR P[n+1] AND DERIVATIVES
+!----------------------------------------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -35,7 +52,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
-#include      "mvsiz_p.inc"
 #include      "param_c.inc"
 #include      "com04_c.inc"
 C-----------------------------------------------
@@ -46,6 +62,7 @@ C-----------------------------------------------
      .        OFF(NEL) ,EINT(NEL) ,MU(NEL)   , 
      .        MU2(NEL) ,DVOL(NEL) ,VNEW(NEL),
      .        PNEW(NEL),DPDM(NEL) ,DPDE(NEL) ,ECOLD(NEL)
+      my_real,INTENT(INOUT) :: PSH(NEL)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -57,61 +74,54 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX
-      my_real BULK(MVSIZ),PC(MVSIZ),SPH(MVSIZ),C0(MVSIZ),PSH(MVSIZ)
-C-----------------------------------------
+      my_real BULK(NEL),PC(NEL),SPH(NEL),C0(NEL)
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
+
       IF(IFLAG == 0) THEN
-C-----------------------------------------
-C     COMPUTE BULK MODULUS FOR SOUND SPEED
-C-----------------------------------------
-       DO I=1,NEL
-        MX = MAT(I)
-        BULK(I) = PM(32,MX)
-        SPH(I) = PM(69,MX)
-        C0(I) = PM(104,MX)
-        PC(I) = PM(37,MX)
-        PSH(I) = PM(88,MX)
-       ENDDO
-       DO I=1,NEL
-        DPDM(I) = BULK(I)
-        DPDE(I) = ZERO
-        PNEW(I) = C0(I)+BULK(I)*MU(I)
-        PNEW(I) = MAX(PC(I)-PSH(I),PNEW(I))        !law10 : yield criteria depends on P
-        PNEW(I) = PNEW(I)*OFF(I)
-       ENDDO
-C----------------------------
-C     COLD COMPRESSION ENERGY
-C----------------------------
-       DO I=1,NEL
-        ECOLD(I)=-THREE100*SPH(I)
-        IF(MU(I) > ZERO) THEN
-          ECOLD(I)=ECOLD(I)+HALF*BULK(I)*MU2(I)
-        ENDIF
-       ENDDO
-C------------------------------------------------
+        DO I=1,NEL
+          MX = MAT(I)
+          BULK(I) = PM(32,MX)
+          SPH(I) = PM(69,MX)
+          C0(I) = PM(104,MX)
+          PC(I) = PM(37,MX)
+          PSH(I) = PM(88,MX)
+        ENDDO
+        DO I=1,NEL
+          DPDM(I) = BULK(I)
+          DPDE(I) = ZERO
+          PNEW(I) = C0(I)+BULK(I)*MU(I)
+          PNEW(I) = MAX(PC(I)-PSH(I),PNEW(I))        !law10 : yield criteria depends on P
+          PNEW(I) = PNEW(I)*OFF(I)
+        ENDDO
+        DO I=1,NEL
+          ECOLD(I)=-THREE100*SPH(I)
+          IF(MU(I) > ZERO) THEN
+            ECOLD(I)=ECOLD(I)+HALF*BULK(I)*MU2(I)
+          ENDIF
+        ENDDO
+
       ELSEIF(IFLAG == 1) THEN
-C----------------------------------------
-C     UPDATE PRESSURE AND INTERNAL ENERGY
-C----------------------------------------
-       DO I=1,NEL
-        MX     = MAT(I)
-        BULK(I)= PM(32,MX)
-        PC(I)  = PM(37,MX)
-        C0(I)  = PM(104,MX)
-        PSH(I) = PM(88,MX)
-       ENDDO
-       DO I=1,NEL
-        PNEW(I) = C0(I)+BULK(I)*MU(I)
-        PNEW(I) = MAX(PNEW(I),PC(I)-PSH(I))
-        PNEW(I) = PNEW(I)*OFF(I)
-        EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
-       ENDDO
-C------------------------
-       DO I=1,NEL
-        MX     = MAT(I)
-        SPH(I) = PM(69,MX)
-        PSH(I) = PM(88,MX)
-       ENDDO
-C------------------------------------------------
+        DO I=1,NEL
+          MX     = MAT(I)
+          BULK(I)= PM(32,MX)
+          PC(I)  = PM(37,MX)
+          C0(I)  = PM(104,MX)
+          PSH(I) = PM(88,MX)
+        ENDDO
+        DO I=1,NEL
+          PNEW(I) = C0(I)+BULK(I)*MU(I)
+          PNEW(I) = MAX(PNEW(I),PC(I)-PSH(I))
+          PNEW(I) = PNEW(I)*OFF(I)
+          EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
+        ENDDO
+        DO I=1,NEL
+          MX     = MAT(I)
+          SPH(I) = PM(69,MX)
+          PSH(I) = PM(88,MX)
+        ENDDO
+
       ELSEIF (IFLAG == 2) THEN
         DO I=1, NEL                                
            MX = MAT(I)  
@@ -121,14 +131,16 @@ C------------------------------------------------
            PSH(I) = PM(88,MX)                       
         ENDDO                                      
         DO I=1, NEL                                
-           IF (VNEW(I) > ZERO) THEN             
-              PNEW(I) = C0(I)+BULK(I)*MU(I)        
-              PNEW(I) = MAX(PNEW(I),PC(I)-PSH(I))  
-              PNEW(I) = PNEW(I)*OFF(I)             
-              DPDM(I) = BULK(I)                    
-              DPDE(I) = ZERO                       
-           ENDIF                                   
+          IF (VNEW(I) > ZERO) THEN
+            PNEW(I) = C0(I)+BULK(I)*MU(I)
+            PNEW(I) = MAX(PNEW(I),PC(I)-PSH(I))
+            PNEW(I) = PNEW(I)*OFF(I)
+            DPDM(I) = BULK(I)
+            DPDE(I) = ZERO
+          ENDIF
         ENDDO                                      
+
       ENDIF
+C-----------------------------------------------
       RETURN
       END

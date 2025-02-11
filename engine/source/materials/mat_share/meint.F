@@ -107,6 +107,14 @@ C
 C
        EINC(I) = VOL_AVG(I) * (E1+E2+E3+E4+E5+E6) * DTA
       ENDDO
+
+      WFEXTT = ZERO
+      DO I=1,NEL
+        WFEXTT = WFEXTT - DVOL(I)*PSH(I)
+      ENDDO
+!$OMP ATOMIC
+      WFEXT = WFEXT + WFEXTT
+
 C
       IF(JTUR==0 .OR. JPOR==2)THEN
        DO I=1,NEL
@@ -125,15 +133,9 @@ C
 C      
       !NO NEED TO UPDATE PRESSURE CALLING EOSMAIN SUBROUTINE FOR THESE TWO MATERIAL LAWS SINCE PRESSURE IS NOT ENERGY DEPENDANT.
       IF(MLN==21)THEN
-        WFEXTT = ZERO
         DO I=1,NEL
-          EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))  
-          WFEXTT=WFEXTT-DVOL(I)*PSH(I)                                
+          EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
         ENDDO
-#include "atomic.inc"
-        WFEXT = WFEXT + WFEXTT
-#include "atomend.inc"
-        
       ENDIF      
 C
       RETURN
