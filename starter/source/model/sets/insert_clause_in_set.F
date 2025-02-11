@@ -30,7 +30,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    create_line_from_element      ../starter/source/model/sets/create_line_from_element.F
       !||    create_line_from_surface      ../starter/source/model/sets/create_line_from_surface.F
-      !||    create_node_from_element      ../starter/source/model/sets/create_node_from_element.F
       !||    create_surface_from_element   ../starter/source/model/sets/create_surface_from_element.F
       !||    set_merge_simple              ../starter/source/model/sets/set_merge_simple.F
       !||    surface_type                  ../starter/source/model/sets/surface_type.F90

@@ -24,7 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    create_node_from_element        ../starter/source/model/sets/create_node_from_element.F
       !||--- called by ------------------------------------------------------
       !||    hm_set                          ../starter/source/model/sets/hm_set.F
-      !||    insert_clause_in_set            ../starter/source/model/sets/insert_clause_in_set.F
       !||--- calls      -----------------------------------------------------
       !||    tag_node_from_1d_2d_elem        ../starter/source/model/sets/tag_node_from_1D_2D_elem.F
       !||    tag_node_from_part_sphcel       ../starter/source/model/sets/tag_node_from_part_sphcel.F90
