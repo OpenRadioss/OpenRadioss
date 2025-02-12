@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .    EXX     ,EXY     ,EXZ     ,KXX     ,KYY     ,KZZ     ,
      .    FA1     ,FA2     ,FA3     ,MA1     ,MA2     ,MA3     ,
      .    FOR     ,MOM     ,PM      ,NUVAR   ,UVAR    ,NFUNC   , 
-     .    IFUNC   ,TF      ,NPF     )
+     .    IFUNC   ,TF      ,NPF     ,SIGY)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,6 +64,7 @@ C-----------------------------------------------
       my_real
      .   TF(*),FINTER
       EXTERNAL FINTER
+      my_real ,DIMENSION(NEL)        ,INTENT(INOUT) :: SIGY
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -230,6 +231,7 @@ c     PROJECTION
 c-------------------
       DO I=1,NEL
         YLD(I) = MIN(YLD(I),YLDMAX(I))    
+        SIGY(I) = YLD(I)
         RR(I)  = MIN(ONE, YLD(I) / YEQ(I))
         F1(I)  = F1(I)*RR(I)
         DWELM(I) =(F1(I) + FOR(I,1))*(F1(I)-FOR(I,1)) / E(I)/A1(I)
