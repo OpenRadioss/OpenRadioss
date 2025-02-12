@@ -382,6 +382,7 @@
           my_real tt_local
           my_real, dimension(:) ,pointer  :: el_temp,yldfac,crklen,crkdir,dadv,tfail,el_len,&
           &el_pla
+          my_real, dimension(nel), target :: el_pla_dum
           target :: tempel,bufmat,scale1
 !----
           type(ttable) table(*)
@@ -1943,6 +1944,9 @@
                     enddo
                     el_pla => lbuf%pla(1:nel)
                   endif
+                else
+                  el_pla_dum(1:nel) = zero
+                  el_pla => el_pla_dum(1:nel)
                 endif
 !
                 if (ixfem == 1) then
