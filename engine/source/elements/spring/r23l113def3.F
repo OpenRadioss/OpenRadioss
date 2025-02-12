@@ -136,10 +136,11 @@ C     REAL
      .     VX21, VY21, VZ21, RYAVP, RZAVP,EYZP,EXZP,
      .     RYAV, RZAV,DEN, C, CP, EXYP,
      .     X21PHI, Y21PHI, Z21PHI, VX21PHI, VY21PHI, VZ21PHI,
-     .     RYAV1, RZAV1, RYAV1P, RZAV1P,ASRATE,NOT_USED
+     .     RYAV1, RZAV1, RYAV1P, RZAV1P,ASRATE,NOT_USED(2)
       DOUBLE PRECISION X0DP(MVSIZ)
       my_real ,DIMENSION(:), POINTER :: COORD_OLD
       LOGICAL :: ANY_PYTHON_FUNCTION
+      TARGET :: NOT_USED 
 C-----------------------------------------------
 C
       NOT_USED = ZERO
@@ -334,7 +335,11 @@ C-------------------------------
         DMN(I)   = UPARAM(IADBUF + I8 + 1)
         DMX(I)   = UPARAM(IADBUF + I9 + 1)
       ENDDO
-      IF (NUVAR >=1) COORD_OLD => UVAR(1,1:NEL)
+      IF (NUVAR >=1) THEN
+        COORD_OLD => UVAR(1,1:NEL)
+      ELSE
+        COORD_OLD => NOT_USED
+      ENDIF
       CALL REDEF3_LAW113(PYTHON, NEL, NFT ,
      .            FX      ,XK      ,DX      ,FXEP       ,DXOLD   ,
      .            DPX     ,TF      ,NPF     ,XC         ,OFF     ,
@@ -407,7 +412,11 @@ C
       ENDDO
 C
       KK = 1 + NUMELR * ANIM_FE(11)
-      IF (NUVAR >= 2) COORD_OLD => UVAR(2,1:NEL)
+      IF (NUVAR >= 2) THEN
+        COORD_OLD => UVAR(2,1:NEL)
+      ELSE
+        COORD_OLD => NOT_USED
+      ENDIF
       CALL REDEF3_LAW113(PYTHON, NEL, NFT ,
      .            FY      ,YK     ,DY      ,FYEP       ,DYOLD   ,
      .            DPY     ,TF     ,NPF     ,YC         ,OFF     ,
@@ -481,7 +490,11 @@ C
       ENDDO
 C
       KK = 1 + NUMELR * (ANIM_FE(11)+ANIM_FE(12))
-      IF (NUVAR >= 3) COORD_OLD => UVAR(3,1:NEL)
+      IF (NUVAR >= 3) THEN
+        COORD_OLD => UVAR(3,1:NEL)
+      ELSE
+        COORD_OLD => NOT_USED
+      ENDIF      
       CALL REDEF3_LAW113(PYTHON, NEL, NFT ,
      .            FZ      ,ZK     ,DZ      ,FZEP       ,DZOLD   ,
      .            DPZ     ,TF     ,NPF     ,ZC         ,OFF     ,
@@ -599,7 +612,11 @@ C-------------------------------
         DMN(I)   = UPARAM(IADBUF + I8 + 4)
         DMX(I)   = UPARAM(IADBUF + I9 + 4)
       ENDDO
-      IF (NUVAR >= 4) COORD_OLD => UVAR(4,1:NEL)
+      IF (NUVAR >= 4) THEN
+        COORD_OLD => UVAR(4,1:NEL)
+      ELSE
+        COORD_OLD => NOT_USED
+      ENDIF
       CALL REDEF3_LAW113(PYTHON, NEL, NFT,
      .            XMOM    ,XK      ,RX      ,XMEP       ,DXOLD   ,
      .            RPX     ,TF      ,NPF     ,XC         ,OFF     ,
@@ -671,7 +688,11 @@ C
         DMN(I)   = UPARAM(IADBUF + I8 + 5)
         DMX(I)   = UPARAM(IADBUF + I9 + 5)
       ENDDO
-      IF (NUVAR >= 5) COORD_OLD => UVAR(5,1:NEL)
+      IF (NUVAR >= 5) THEN
+        COORD_OLD => UVAR(5,1:NEL)
+      ELSE
+        COORD_OLD => NOT_USED
+      ENDIF
       CALL REDEF3_LAW113(PYTHON, NEL,NFT,
      .            YMOM    ,YK      ,RY      ,YMEP       ,DYOLD   ,
      .            RPY     ,TF      ,NPF     ,YC         ,OFF     ,
@@ -743,7 +764,11 @@ C
         DMN(I)   = UPARAM(IADBUF + I8 + 6)
         DMX(I)   = UPARAM(IADBUF + I9 + 6)
       ENDDO
-      IF (NUVAR >= 6) COORD_OLD => UVAR(6,1:NEL)
+      IF (NUVAR >= 6) THEN
+        COORD_OLD => UVAR(6,1:NEL)
+      ELSE
+        COORD_OLD => NOT_USED
+      ENDIF
       CALL REDEF3_LAW113(PYTHON, NEL,NFT,
      .            ZMOM    ,ZK      ,RZ      ,ZMEP       ,DZOLD    ,
      .            RPZ     ,TF      ,NPF     ,ZC         ,OFF      ,

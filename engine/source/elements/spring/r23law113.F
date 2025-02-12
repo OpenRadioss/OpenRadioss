@@ -210,7 +210,7 @@ C
         DO I=JFT,JLT
           MID(I)     = IXR(5,I)
           IADBUF = IPM(7,MID(I))
-          NUVAR = MAX(NUVAR, NINT(BUFMAT(IADBUF + 4))) 
+          NUVAR = MAX(NUVAR, NINT(BUFMAT(IADBUF + 4 -1)))
         ENDDO
 !!   is like r4def3 (spring type113)     
         CALL R23L113DEF3(PYTHON,
