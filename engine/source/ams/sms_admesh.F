@@ -24,7 +24,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sms_admesh_0       ../engine/source/ams/sms_admesh.F
       !||--- called by ------------------------------------------------------
       !||    sms_mass_scale_2   ../engine/source/ams/sms_mass_scale_2.F
+      !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
+      !||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
       !||    remesh_mod         ../engine/share/modules/remesh_mod.F
       !||====================================================================
       SUBROUTINE SMS_ADMESH_0(A    ,DIAG_SMS, IXC, IXTG,SH4TREE  ,
@@ -170,7 +172,9 @@ C
       !||    sms_admesh_1   ../engine/source/ams/sms_admesh.F
       !||--- called by ------------------------------------------------------
       !||    sms_pcg        ../engine/source/ams/sms_pcg.F
+      !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
+      !||    my_alloc_mod   ../common_source/tools/memory/my_alloc.F90
       !||    remesh_mod     ../engine/share/modules/remesh_mod.F
       !||====================================================================
       SUBROUTINE SMS_ADMESH_1(A    ,DIAG_SMS, IXC, IXTG,SH4TREE  ,

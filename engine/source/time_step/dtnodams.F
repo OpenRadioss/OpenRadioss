@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    groupdef_mod   ../common_source/modules/groupdef_mod.F
       !||    h3d_mod        ../engine/share/modules/h3d_mod.F
       !||    message_mod    ../engine/share/message_module/message_mod.F
+      !||    my_alloc_mod   ../common_source/tools/memory/my_alloc.F90
       !||====================================================================
       SUBROUTINE DTNODAMS(NODFT ,NODLT ,NELTST,ITYPTST,ITAB   ,
      2                    MS    ,IN    ,STIFN ,STIFR  ,DT2T   ,

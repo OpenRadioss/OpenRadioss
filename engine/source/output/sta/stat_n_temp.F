@@ -27,6 +27,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    spmd_dstat_gath   ../engine/source/mpi/output/spmd_stat.F
       !||    strs_txt50        ../engine/source/output/sta/sta_txt.F
+      !||--- uses       -----------------------------------------------------
+      !||    my_alloc_mod      ../common_source/tools/memory/my_alloc.F90
       !||====================================================================
       SUBROUTINE STAT_N_TEMP(X,NUMNOD,ITAB,ITABG,LENG,
      .                    NODGLOB,WEIGHT,NODTAG,TEMP,ITHERM_FE)

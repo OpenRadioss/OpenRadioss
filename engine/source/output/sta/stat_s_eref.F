@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    initbuf_mod         ../engine/share/resol/initbuf.F
+      !||    my_alloc_mod        ../common_source/tools/memory/my_alloc.F90
       !||====================================================================
       SUBROUTINE STAT_S_EREF(ELBUF_TAB,IPARG ,IPM ,IGEO ,IXS ,
      1                        IXS10,IXS16,IXS20,X   ,DR  ,

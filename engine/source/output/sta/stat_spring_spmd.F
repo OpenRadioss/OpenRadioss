@@ -29,6 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_iget_partn_sta   ../engine/source/mpi/output/spmd_stat.F
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
       !||====================================================================
       SUBROUTINE STAT_SPRING_SPMD(ITAB   ,IPART     ,IXR   ,IPARTR,IPART_STATE,
      .                            NODTAG ,STAT_INDXR,LENGR ,IPARG ,ELBUF_TAB  ,

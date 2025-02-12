@@ -24,8 +24,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    stat_quad_spmd   ../engine/source/output/sta/stat_quad_spmd.F
       !||--- called by ------------------------------------------------------
       !||    genstat          ../engine/source/output/sta/genstat.F
+      !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    my_alloc_mod     ../common_source/tools/memory/my_alloc.F90
       !||====================================================================
       SUBROUTINE STAT_QUAD_SPMD(ITAB,IPART,IGEO,IXQ,IPARTQ,
      .                     IPART_STATE,NODTAG,STAT_INDXQ,

@@ -40,6 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    glob_therm_mod          ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    h3d_mod                 ../engine/share/modules/h3d_mod.F
+      !||    my_alloc_mod            ../common_source/tools/memory/my_alloc.F90
       !||====================================================================
       SUBROUTINE INTTI1(
      1   IPARI    ,X        ,V        ,A       ,

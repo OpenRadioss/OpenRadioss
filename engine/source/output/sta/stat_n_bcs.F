@@ -27,6 +27,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    spmd_istat_gath   ../engine/source/mpi/output/spmd_stat.F
       !||    strs_txt50        ../engine/source/output/sta/sta_txt.F
+      !||--- uses       -----------------------------------------------------
+      !||    my_alloc_mod      ../common_source/tools/memory/my_alloc.F90
       !||====================================================================
       SUBROUTINE STAT_N_BCS(ICODE,NUMNOD,ITAB,ITABG,LENG,
      .   NODGLOB,ISKEW,NODTAG)

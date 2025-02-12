@@ -2858,6 +2858,7 @@ C
       !||    inter_sorting_mod            ../engine/share/modules/inter_sorting_mod.F
       !||    interface_modification_mod   ../engine/share/modules/interface_modification_mod.F
       !||    message_mod                  ../engine/share/message_module/message_mod.F
+      !||    my_alloc_mod                 ../common_source/tools/memory/my_alloc.F90
       !||    sensor_mod                   ../common_source/modules/sensor_mod.F90
       !||    tri25ebox                    ../engine/share/modules/tri25ebox.F
       !||    tri7box                      ../engine/share/modules/tri7box.F

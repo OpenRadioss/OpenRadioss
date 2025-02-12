@@ -24,6 +24,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_sort_sms   ../engine/source/mpi/ams/spmd_sms.F
       !||--- called by ------------------------------------------------------
       !||    resol           ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    my_alloc_mod    ../common_source/tools/memory/my_alloc.F90
       !||====================================================================
       SUBROUTINE SPMD_SORT_SMS(ISKYI_SMS,MSKYI_SMS,FR_SMS)
 C-----------------------------------------------

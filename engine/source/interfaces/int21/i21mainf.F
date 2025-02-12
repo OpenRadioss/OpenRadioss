@@ -40,6 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    h3d_mod            ../engine/share/modules/h3d_mod.F
       !||    intstamp_mod       ../engine/share/modules/intstamp_mod.F
       !||    message_mod        ../engine/share/message_module/message_mod.F
+      !||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
       !||    outputs_mod        ../common_source/modules/outputs_mod.F
       !||    timer_mod          ../engine/source/system/timer_mod.F90
       !||====================================================================

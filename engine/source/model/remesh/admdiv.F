@@ -33,6 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    my_orders      ../common_source/tools/sort/my_orders.c
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod   ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    my_alloc_mod   ../common_source/tools/memory/my_alloc.F90
       !||    remesh_mod     ../engine/share/modules/remesh_mod.F
       !||====================================================================
       SUBROUTINE ADMDIV(IXC  ,IPARTC  ,IXTG   ,IPARTTG,IPART,

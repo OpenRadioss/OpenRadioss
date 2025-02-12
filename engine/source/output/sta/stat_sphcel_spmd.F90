@@ -40,6 +40,7 @@
       !||    spmd_iget_partn_sta   ../engine/source/mpi/output/spmd_stat.F
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    my_alloc_mod          ../common_source/tools/memory/my_alloc.F90
       !||====================================================================
         subroutine stat_sphcel_spmd(numnod          ,numsph      ,numsphg      ,nisp          ,npart           ,  &
                                     ngroup          ,nparg       ,lipart1      ,stat_numelsph ,stat_numelsph_g ,  &

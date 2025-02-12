@@ -38,6 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    drape_mod           ../engine/share/modules/drape_mod.F
       !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    my_alloc_mod        ../common_source/tools/memory/my_alloc.F90
       !||    stack_mod           ../engine/share/modules/stack_mod.F
       !||====================================================================
       SUBROUTINE STAT_C_STRSFG(ELBUF_TAB,

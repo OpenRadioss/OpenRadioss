@@ -193,9 +193,12 @@ C-----------------------------------------------
       RETURN
       END
       !||====================================================================
-      !||    sms_ini_kad   ../engine/source/ams/sms_init.F
+      !||    sms_ini_kad    ../engine/source/ams/sms_init.F
       !||--- called by ------------------------------------------------------
-      !||    resol         ../engine/source/engine/resol.F
+      !||    resol          ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    my_alloc_mod   ../common_source/tools/memory/my_alloc.F90
       !||====================================================================
       SUBROUTINE SMS_INI_KAD(
      1  IXS     ,IXQ      ,IXC     ,IXT     ,IXP       ,
@@ -541,6 +544,9 @@ C-----------------------------------------------
       END
       !||====================================================================
       !||    nodnx_sms_ini   ../engine/source/ams/sms_init.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    my_alloc_mod    ../common_source/tools/memory/my_alloc.F90
       !||====================================================================
       SUBROUTINE NODNX_SMS_INI(
      1 NUMNOD  ,NUMEL ,NIX ,MIX ,LIX ,
@@ -598,6 +604,7 @@ C-----------------------------------------------
       !||    startimeg       ../engine/source/system/timer.F
       !||    stoptimeg       ../engine/source/system/timer.F
       !||--- uses       -----------------------------------------------------
+      !||    my_alloc_mod    ../common_source/tools/memory/my_alloc.F90
       !||====================================================================
       SUBROUTINE SMS_INI_KDI(
      2             IXC      ,IPARG   ,IXS      ,IXT      ,IXP     ,
@@ -1032,6 +1039,7 @@ C
       !||--- calls      -----------------------------------------------------
       !||    my_orders       ../common_source/tools/sort/my_orders.c
       !||--- uses       -----------------------------------------------------
+      !||    my_alloc_mod    ../common_source/tools/memory/my_alloc.F90
       !||====================================================================
       SUBROUTINE SMS_INI_JAD_1(
      2             IXC      ,IPARG   ,IXS      ,IXT      ,IXP     ,
@@ -1374,9 +1382,11 @@ C-----------------------------------------------
       !||    sms_ini_jad_2   ../engine/source/ams/sms_init.F
       !||--- called by ------------------------------------------------------
       !||    resol           ../engine/source/engine/resol.F
+      !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
       !||    intstamp_mod    ../engine/share/modules/intstamp_mod.F
       !||    message_mod     ../engine/share/message_module/message_mod.F
+      !||    my_alloc_mod    ../common_source/tools/memory/my_alloc.F90
       !||====================================================================
       SUBROUTINE SMS_INI_JAD_2(
      2             IXC      ,IPARG   ,IXS      ,IXT      ,IXP     ,
@@ -1697,6 +1707,7 @@ C-----------------------------------------------
       !||--- uses       -----------------------------------------------------
       !||    intstamp_mod         ../engine/share/modules/intstamp_mod.F
       !||    message_mod          ../engine/share/message_module/message_mod.F
+      !||    my_alloc_mod         ../common_source/tools/memory/my_alloc.F90
       !||====================================================================
       SUBROUTINE SMS_INI_JAD_3(
      2             IXC      ,IPARG   ,IXS      ,IXT      ,IXP     ,
@@ -2156,6 +2167,7 @@ C-----------------------------------------------
       !||    spmd_ibcast          ../engine/source/mpi/generic/spmd_ibcast.F
       !||    spmd_sd_cj_2         ../engine/source/mpi/kinematic_conditions/spmd_sd_cj_2.F
       !||--- uses       -----------------------------------------------------
+      !||    my_alloc_mod         ../common_source/tools/memory/my_alloc.F90
       !||====================================================================
       SUBROUTINE SMS_INI_KIN_1(
      1  NODNX_SMS ,INDX1_SMS ,ILINK     ,RLINK    ,NNLINK    ,
@@ -2541,6 +2553,7 @@ C-----------------------------------------------
       !||    spmd_exch_icont   ../engine/source/mpi/nodes/spmd_exch_icont.F
       !||    spmd_exch_smst2   ../engine/source/mpi/ams/spmd_exch_smst2.F
       !||--- uses       -----------------------------------------------------
+      !||    my_alloc_mod      ../common_source/tools/memory/my_alloc.F90
       !||====================================================================
       SUBROUTINE SMS_INI_INT(
      1  IPARI    ,INTBUF_TAB     ,IAD_ELEM   ,FR_ELEM  ,INTLIST,

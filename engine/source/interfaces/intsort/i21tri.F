@@ -21,12 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    i21tri    ../engine/source/interfaces/intsort/i21tri.F
+      !||    i21tri         ../engine/source/interfaces/intsort/i21tri.F
       !||--- called by ------------------------------------------------------
-      !||    i21buce   ../engine/source/interfaces/intsort/i21buce.F
+      !||    i21buce        ../engine/source/interfaces/intsort/i21buce.F
       !||--- calls      -----------------------------------------------------
-      !||    i21sto    ../engine/source/interfaces/int21/i21sto.F
-      !||    i7dstk    ../engine/source/interfaces/intsort/i7dstk.F
+      !||    i21sto         ../engine/source/interfaces/int21/i21sto.F
+      !||    i7dstk         ../engine/source/interfaces/intsort/i7dstk.F
+      !||--- uses       -----------------------------------------------------
+      !||    my_alloc_mod   ../common_source/tools/memory/my_alloc.F90
       !||====================================================================
       SUBROUTINE I21TRI(
      1      ADD      ,NSN     ,IRECT  ,XLOC     ,STF     ,

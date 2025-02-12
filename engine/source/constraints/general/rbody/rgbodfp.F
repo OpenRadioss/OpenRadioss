@@ -21,12 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    rgbodfp       ../engine/source/constraints/general/rbody/rgbodfp.F
+      !||    rgbodfp        ../engine/source/constraints/general/rbody/rgbodfp.F
       !||--- called by ------------------------------------------------------
-      !||    rbyfor        ../engine/source/constraints/general/rbody/rbyfor.F
+      !||    rbyfor         ../engine/source/constraints/general/rbody/rbyfor.F
       !||--- calls      -----------------------------------------------------
-      !||    rotbmr        ../engine/source/tools/skew/rotbmr.F
-      !||    sum_6_float   ../engine/source/system/parit.F
+      !||    rotbmr         ../engine/source/tools/skew/rotbmr.F
+      !||    sum_6_float    ../engine/source/system/parit.F
+      !||--- uses       -----------------------------------------------------
+      !||    my_alloc_mod   ../common_source/tools/memory/my_alloc.F90
       !||====================================================================
       SUBROUTINE RGBODFP(AF   ,AM    ,X      ,FS   ,RBY  ,
      2                   NOD  ,M     ,IN     ,VR   ,STIFN,
