@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .    KXX     ,KYY     ,KZZ     ,AL      ,FA1     ,
      .    FA2     ,FA3     ,MA1     ,MA2     ,MA3     ,
      .    NEL     ,MAT     ,PID     ,NGL     ,IPM     ,
-     .    NUMMAT  ,NUVAR   ,UVAR    )
+     .    NUMMAT  ,NUVAR   ,UVAR    ,SIGY)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,6 +59,7 @@ C-----------------------------------------------
      .   KZZ(NEL),FA1(NEL),FA2(NEL),FA3(NEL),
      .   MA1(NEL),MA2(NEL),MA3(NEL),A1(NEL)
       my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) :: UVAR
+      my_real ,DIMENSION(NEL)       ,INTENT(INOUT) :: SIGY
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -229,6 +230,7 @@ C-----------------------------------
         YLDTMP(I)=YLD(I)
         YLD(I)= MIN(YLD(I)*EPSP(I),YMAX(I))
         RR(I) = MIN(ONE,YLD(I)/(YEQ(I)+ EM20))
+        SIGY(I) = YLD(I)
       ENDDO
 C
       DO I=1,NEL

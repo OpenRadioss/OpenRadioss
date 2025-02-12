@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                  EINT   ,OFF    ,IMAT,
      3                  PID    ,EPSP   ,EXX    ,EXY    ,EXZ,
      4                  KXX    ,KYY    ,KZZ    ,AL     ,NEL,
-     5                  IPM    ,ASRATE ,TIMESTEP,NUMMAT)
+     5                  IPM    ,ASRATE ,TIMESTEP,NUMMAT,SIGY)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -62,7 +62,8 @@ C     REAL
      .   EXX(NEL), EXY(NEL), EXZ(NEL), 
      .   KXX(NEL), KYY(NEL), KZZ(NEL),
      .   PM(NPROPM,*), GEO(NPROPG,*), EINT(NEL,2),
-     .   OFF(*),EPSP(*), AL(*)
+     .   OFF(*),EPSP(*), AL(*) 
+      my_real , INTENT(INOUT)::SIGY(NEL,NPT)
 C
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
 C-----------------------------------------------
@@ -231,7 +232,8 @@ C---
           ELSE                                           
             YLD(I)= CA(I) + CB(I)*EXP(CN(I)*LOG(LBUF%PLA(I)))
           ENDIF                                          
-          YLD(I)  = MIN(YLD(I),YMAX(I))                  
+          YLD(I)  = MIN(YLD(I),YMAX(I))      
+          SIGY(I,IPT) = YLD(I)          
         ENDDO
 C-------------------
 C       PROJECTION   -   radial return
