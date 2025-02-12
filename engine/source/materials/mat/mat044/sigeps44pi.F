@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3               SIGOXX  ,SIGOXY  ,SIGOXZ  ,EPST    ,EPSP    ,      
      4               SIGNXX  ,SIGNXY  ,SIGNXZ  ,ETSE    ,NUVAR   ,
      5               UVAR    ,IFUNC   ,NVARTMP ,VARTMP  ,NPF     ,
-     6               TF      ,NFUNC   )      
+     6               TF      ,NFUNC   ,SIGY)      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,6 +64,7 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: PLA,OFF,EPSP
       INTEGER :: VARTMP(NEL,NVARTMP)
       my_real ,DIMENSION(NEL,NUVAR) ,INTENT(INOUT):: UVAR
+      my_real ,DIMENSION(NEL) ,INTENT(INOUT)   :: SIGY     
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -168,7 +169,8 @@ c-------------------
 c     PROJECTION   -   radial return
 c-------------------
       DO I = 1,NEL
-        YLD(I) = MIN(YLD(I),YLDMAX(I))                  
+        YLD(I) = MIN(YLD(I),YLDMAX(I))     
+        SIGY(I)= YLD(I)              
         SVM    = SIGNXX(I)**2 + THREE*(SIGNXY(I)**2 + SIGNXZ(I)**2)
         IF (SVM > YLD(I)**2) THEN
           SVM = SQRT(SVM)                                        
