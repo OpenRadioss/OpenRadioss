@@ -105,7 +105,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,IPID,IPLA,ISRATE,NUPARAM,NFUNC,IADBUF,IFUNC(100)
       my_real :: AREA,IYY,IZZ,IXX,ASRATE,EPSDI,FACT
-      my_real ,DIMENSION(NEL) :: DPLA,SVM,PRESSURE,DEGMB,DEGFX,DEGSH
+      my_real ,DIMENSION(NEL) :: DPLA,SVM,PRESSURE,DEGMB,DEGFX,DEGSH,SIGY
 c=======================================================================
       IPID = PID(1)
 c-------------------
@@ -117,6 +117,7 @@ c
       DO I = 1,NEL                                              
         EPSDI  = HALF*(EXX(I)**2) + (HALF*EXY(I))**2 + (HALF*EXZ(I))**2
         EPSDI  = AL(I)*SQRT(THREE*EPSDI)/THREE_HALF
+        SIGY(I) = 1.E30 
         IF (ISRATE > 0) THEN
           EPSD(I)= ASRATE*EPSDI + (ONE - ASRATE)*EPSD(I)
         ELSE       
@@ -149,6 +150,7 @@ c
           DPLA(I) = ELBUF_STR%GBUF%PLA(I)
         ENDDO
       ENDIF
+
       ! Compute undamaged forces and internal energy increment
       IF (ELBUF_STR%GBUF%G_DMGSCL > 0) THEN 
         DO I = 1,NEL
@@ -181,7 +183,7 @@ c
      .         KXX    ,KYY        ,KZZ      ,AL        ,F1       ,
      .         F2     ,F3         ,M1       ,M2        ,M3       ,
      .         NEL    ,MAT        ,PID      ,NGL       ,IPM      ,
-     .         NUMMAT ,NUVAR      ,UVAR     )
+     .         NUMMAT ,NUVAR      ,UVAR     ,SIGY     )
 c
         CASE (44)  ! Cowper-Symonds
           IADBUF  = IPM(7 ,IMAT)
@@ -196,7 +198,7 @@ c
      .         EXX      ,EXY      ,EXZ      ,KXX      ,KYY      ,KZZ     ,
      .         F1       ,F2       ,F3       ,M1       ,M2       ,M3      ,
      .         FOR      ,MOM      ,PM       ,NUVAR    ,UVAR     ,NFUNC   ,
-     .         IFUNC    ,TF       ,NPF      )
+     .         IFUNC    ,TF       ,NPF      ,SIGY )
 c
       END SELECT
 c
@@ -232,7 +234,7 @@ c
      .              F1      ,F2      ,F3      ,M1      ,M2      ,
      .              M3      ,ISMSTR  ,EXX     ,EXY     ,EXZ     ,
      .              KXX     ,KYY     ,KZZ     ,DTIME  ,
-     .              NTABLE  ,TABLE)
+     .              NTABLE  ,TABLE   ,ELBUF_STR%GBUF%PLA , SIGY  )
 c
         ! Compute damaged forces
         IF (ELBUF_STR%GBUF%G_DMGSCL > 0) THEN 

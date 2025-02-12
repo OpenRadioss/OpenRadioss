@@ -47,8 +47,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  SVM     ,PRESSURE,AREA    ,AL      ,
      .                  F1      ,F2      ,F3      ,M1      ,M2      ,
      .                  M3      ,ISMSTR  ,EPSXX   ,EPSXY   ,EPSXZ   ,
-     .                  KXX     ,KYY     ,KZZ     ,DTIME, 
-     .                 NTABLE   ,TABLE    )
+     .                  KXX     ,KYY     ,KZZ     ,DTIME   , 
+     .                 NTABLE   ,TABLE   ,PLA     ,SIGY    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -56,6 +56,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE FAIL_VISUAL_B_MOD
       USE FAIL_GENE1_B_MOD
+      USE FAIL_INIEVO_B_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -95,10 +96,11 @@ C-----------------------------------------------
 
       my_real ,DIMENSION(STF)            ,INTENT(IN)    :: TF
       my_real ,DIMENSION(NEL)            ,INTENT(INOUT) :: OFF
-
+      my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: PLA      ! the plastic strain of the current element
       my_real                            ,INTENT(IN)    :: DTIME         
       INTEGER                            ,INTENT(IN)    :: NTABLE
-      TYPE(TTABLE), DIMENSION(NTABLE), INTENT(INOUT)    :: TABLE      ! TABLE DATA                                                
+      TYPE(TTABLE), DIMENSION(NTABLE), INTENT(INOUT)    :: TABLE      ! TABLE DATA        
+      my_real ,DIMENSION(NEL)            ,INTENT(IN)    :: SIGY                                                
 C                                                         
       TYPE (ELBUF_STRUCT_), INTENT(INOUT) :: ELBUF_STR
       TYPE (FAIL_PARAM_)   ,INTENT(IN)    :: FAIL
@@ -125,13 +127,10 @@ c-----------------------------------------
 c-------------------------------------
 c     progressive element erosion      
 c
-      DO I = 1,NEL      
-        IF (IRUPT == 39) THEN ! For Gene1 failure model, the  OFF is used with NSTEP in the subroutine FAIL_GENE1_B for stress reduction
-            OFF(I) = OFF(I) 
-        ELSE
+      DO I = 1,NEL   
+
             IF (OFF(I) < EM01)  OFF(I) = ZERO
             IF (OFF(I) < ONE )  OFF(I) = OFF(I)*FOUR_OVER_5
-        ENDIF
       ENDDO      
                             
 c-----------------------------------------            
@@ -215,6 +214,16 @@ c---------------
      .                     FAIL%TABLE ,ELBUF_STR%GBUF%FAIL(1)%LF_DAMMX  ,FAIL%NIPARAM  ,FAIL%IPARAM,    
      .                     SNPC       ,STF  ,NTABLE)
 
+          CASE (42)     ! INIEVO failure model  
+            CALL FAIL_INIEVO_B(                         
+     .                       NEL  ,FAIL%NUPARAM ,ELBUF_STR%GBUF%FAIL(1)%NVAR                  ,
+     .                     TABLE  ,FAIL%NTABLE  ,FAIL%TABLE ,TIME    ,FAIL%UPARAM             ,
+     .                       NGL  ,AL           ,DPLA       ,EPSD , ELBUF_STR%GBUF%FAIL(1)%VAR,
+     .                        F1  ,AREA         ,
+     .                       PLA  ,SIGY         ,OFF        ,ELBUF_STR%GBUF%FAIL(1)%DAMMX     ,
+     .                    ELBUF_STR%GBUF%FAIL(1)%TDEL , 
+     .                    ELBUF_STR%GBUF%FAIL(1)%DAMINI,
+     .                    NTABLE)
 c-------------
       END SELECT
 c-----------
