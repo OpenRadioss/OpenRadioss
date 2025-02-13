@@ -195,7 +195,7 @@
 !-----------------------------------------------
 ! MASS COMPUTATION
 !-----------------------------------------------
-            if (keyword == 'MASS') then
+         if (keyword == 'MASS' .OR. keyword == 'ENER') then
 !-----------------------------------------------
 !       truss
 !-----------------------------------------------
@@ -209,7 +209,7 @@
                   xx1 = x(1,n2)-d(1,n2)-x(1,n1)+d(1,n1)
                   yy1 = x(2,n2)-d(2,n2)-x(2,n1)+d(2,n1)
                   zz1 = x(3,n2)-d(3,n2)-x(3,n1)+d(3,n1)
-                  al0  = half*sqrt(xx1*xx1 + yy1*yy1 + zz1*zz1)
+                  al0  = sqrt(xx1*xx1 + yy1*yy1 + zz1*zz1)
                   mass(i) = rho0*al0*a0
                 enddo
 !-----------------------------------------------
@@ -225,7 +225,7 @@
                   xx1 = x(1,n2)-d(1,n2)-x(1,n1)+d(1,n1)
                   yy1 = x(2,n2)-d(2,n2)-x(2,n1)+d(2,n1)
                   zz1 = x(3,n2)-d(3,n2)-x(3,n1)+d(3,n1)
-                  al0  = half*sqrt(xx1*xx1 + yy1*yy1 + zz1*zz1)
+                  al0  = sqrt(xx1*xx1 + yy1*yy1 + zz1*zz1)
                   mass(i) = rho0*al0*a0
                 enddo
 !-----------------------------------------------
@@ -405,7 +405,7 @@
 !--------------------------------------------------
                 do i=1,nel
 !a mass a recalculer !!        value(i) = (elbuf_tab(ng)%gbuf%eint(i) + elbuf_tab(ng)%gbuf%eint(i)) / max(em30,mass(nft+i))
-                  value = (elbuf_tab(ng)%gbuf%eint(i) + elbuf_tab(ng)%gbuf%eint(i))
+                  value(i) = (elbuf_tab(ng)%gbuf%eint(i) + elbuf_tab(ng)%gbuf%eint(i))/ max(em30,mass(i))
                   is_written_value(i) = 1
 
                 enddo
