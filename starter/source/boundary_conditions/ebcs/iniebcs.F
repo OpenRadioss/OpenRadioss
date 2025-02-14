@@ -74,7 +74,7 @@ C-----------------------------------------------
       INTEGER I,TYP,ID,ISU,NSEG,IDSU,K1,SENS,VOLU,J,KK,LENMWA,ERR,ICELL
       INTEGER :: SIZ
       CLASS (T_EBCS), POINTER :: EBCS
-      INTEGER :: JALE_FROM_MAT, JALE_FROM_PROP, IS_ALE_EULER  !< ALE/EULER framwork flag
+      INTEGER :: JALE_FROM_MAT, JALE_FROM_PROP, IS_ALE_EULER  !< ALE/EULER framework flag
       INTEGER IMID, IPID !< material and property iid
       INTEGER, DIMENSION(:, :), POINTER :: IX
       INTEGER :: NIX

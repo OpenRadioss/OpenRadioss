@@ -63,7 +63,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J,JJ,II,K,IFLG,IADBUF,IAD2
 C-----------------------------------------------
-C     Incomping Enthalpy material law 11
+C     Incoming Enthalpy material law 11
 C-----------------------------------------------
       IF(JEUL+JALE==1)THEN
           DO I=1,NEL
