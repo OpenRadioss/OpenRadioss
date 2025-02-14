@@ -131,7 +131,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
       type(t_ebcs_propergol), target, intent(inout) :: ebcs                !< ebcs propergol data structure
       integer,intent(in) :: nummat                                         !< number of material law (size for mat_param data structure)
-      type(matparam_struct_) ,dimension(nummat) ,intent(in) :: mat_param   !< data strucutre for material parameters
+      type(matparam_struct_) ,dimension(nummat) ,intent(in) :: mat_param   !< data structure for material parameters
       character(len=nchartitle) :: title
       integer,intent(in) :: sixs,sixq,sixtg
       integer,intent(in) :: ixs(nixs,sixs/nixs),ixq(nixq,sixq/nixq),ixtg(nixtg,sixtg/nixtg)

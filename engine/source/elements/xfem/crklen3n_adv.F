@@ -109,7 +109,7 @@ C
 C---
 C     advance crack inside uncut elements in the layer
 C---
-      DO IR=1,NEWCRK ! loop over elements with advanving cracks
+      DO IR=1,NEWCRK ! loop over elements with advancing cracks
         I = JCT(IR)
         ELCRKTG = IEL_CRKTG(I+NFT)
         OK   = 0

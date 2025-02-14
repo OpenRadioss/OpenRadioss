@@ -188,7 +188,7 @@ def verify_integer_tolerance(word,ref,res,test_json):
 # res       : run Result
 # test_json : Json file with Tolerance if present in data directory
 # ----------------------------------------------------------------------------------
-# Compute the tolerance for Intger results with Tolerance mechanism
+# Compute the tolerance for Integer results with Tolerance mechanism
 # Supported Tolerance
 #    Abs_tolerance  : Absolute Tolerance diff between Result & run must be in Range 
 # ----------------------------------------------------------------------------------

@@ -266,7 +266,7 @@ c - INDEX( "numbering on old FI" ) = numbering in new FI
 c   - This is be used to renumber the remote part of CAND_N , CAND_OPT_N
 c   
 c   Remark If a secnd node known as an old remote slides
-c    (present in XREM and old TMP%*FI strucutre), then the values in *FI structures
+c    (present in XREM and old TMP%*FI structure), then the values in *FI structures
 c    are replaced by the values coming from [XI]REM. 
 c
 c  Example using NSPMD = 4. 

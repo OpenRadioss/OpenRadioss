@@ -8354,7 +8354,7 @@ c--------------
           TT_DP=TT_DP+TTMP
           TT = TT_DP
         ELSE
-          ! double precision accumlation and then cast in simple precision
+          ! double precision accumulation and then cast in simple precision
           TT_DOUBLE = TT_DOUBLE + TTMP
           IF (IMPL_S==1.OR.NEIG>0) THEN
             TT = TT + TTMP
@@ -8712,7 +8712,7 @@ C-------> Multidomain single precision:  double precision time scale----
           TT_DP=TT_DP+DT2
           TT=TT_DP
         ELSE
-          ! double precision accumlation and then cast in simple precision
+          ! double precision accumulation and then cast in simple precision
           TT_DOUBLE = TT_DOUBLE + DT2
           IF (IMPL_S==1.OR.NEIG>0) THEN
             TT = TT + DT2
@@ -8789,7 +8789,7 @@ C------------
           TT_DP=TT_DP-TTMP-DT2
           TT=TT_DP
          ELSE
-          ! double precision accumlation and then cast in simple precision
+          ! double precision accumulation and then cast in simple precision
           TT_DOUBLE = TT_DOUBLE - TTMP - DT2
           IF (IMPL_S==1.OR.NEIG>0) THEN
             TT = TT - TTMP - DT2

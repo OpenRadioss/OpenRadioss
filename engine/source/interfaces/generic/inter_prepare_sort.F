@@ -280,7 +280,7 @@ C-----------------------------------------------
             ! -----------------------------
 
         ! -----------------------------
-        ! Fill the voxels with local seconadry nodes 
+        ! Fill the voxels with local secondary nodes 
 
         ! -----------------------------
         ! wait comm S "send/rcv the colored cells"
