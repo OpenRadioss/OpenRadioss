@@ -143,14 +143,14 @@ C-----------------------------------------------
       SCALE_DEF = ALE%GRID%ALPHA !user parameter
       SCALE_ROT = ALE%GRID%GAMMA !user parameter
       IF(INT(ALE%GRID%VGX) == 1)lDEF=.TRUE. !enable mesh deformation
-      IF(INT(ALE%GRID%VGY) == 1)lROT=.TRUE. !enalbe mesh rotation
+      IF(INT(ALE%GRID%VGY) == 1)lROT=.TRUE. !enable mesh rotation
       IF(lDEF .OR. lROT)lTENSOR=.TRUE.!request for mean tensor calculation
 
       !2.---AVERAGED DEFORMATION TENSOR
       !-----------------------------------
       !mean value is computed here
       !  cumulative mass value done in sfor3.F for 3d solid and qforc2.F for quads
-      !  ALE%GRID%flow_tracking_data%.. is a shared data strucutre for SMP  (omp single or lock on/off)
+      !  ALE%GRID%flow_tracking_data%.. is a shared data structure for SMP  (omp single or lock on/off)
 !$OMP SINGLE
       IF(lTENSOR)THEN
          IF(NSPMD > 1)THEN

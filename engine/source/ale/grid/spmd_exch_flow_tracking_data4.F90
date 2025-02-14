@@ -92,7 +92,7 @@ module spmd_exch_flow_tracking_data4_mod
           endif
         enddo
         !-------------------------------------------!
-        ! RECIEVING %X_MIN_MAX(1:6) & X_MIN_MAX(1:6)!
+        ! RECEIVING %X_MIN_MAX(1:6) & X_MIN_MAX(1:6)!
         !-------------------------------------------!
         nbirecv=0
         do p = 1, nspmd

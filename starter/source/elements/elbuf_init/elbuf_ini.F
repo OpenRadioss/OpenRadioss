@@ -2322,7 +2322,7 @@ C
           BUFLEN = BUFLEN  + LLAY
 C
 c---------  local variables 
-          DO IL=1,NLAY  ! NLAY = 1 for INTGRATED BEAM
+          DO IL=1,NLAY  ! NLAY = 1 for INTEGRATED BEAM
             BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
             NIP_LAY = BUFLY%NPTT
 c

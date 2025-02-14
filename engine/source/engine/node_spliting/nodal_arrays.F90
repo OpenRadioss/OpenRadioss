@@ -74,7 +74,7 @@
             integer, dimension(:), allocatable :: ITABM1 !< node user id , itabm1, max_id_user_globaux
             integer, dimension(:), allocatable :: IKINE !< node kinematic id
             integer, dimension(:), allocatable :: WEIGHT !< node weight : 1 = owned by current proc, 0 = ghost
-            integer, dimension(:), allocatable :: WEIGHT_MD !< r2r weight, but allways allocated
+            integer, dimension(:), allocatable :: WEIGHT_MD !< r2r weight, but always allocated
             integer, dimension(:), allocatable :: ICODT !< SICODT=NUMNOD+2*NUMNOD*MAX(IALE,IEULER,IALELAG)
             integer, dimension(:), allocatable :: ICODR !< NUMNOD * IRODDL
             integer, dimension(:), allocatable :: ISKEW

@@ -76,7 +76,7 @@
           integer, intent(in)                              :: nel             !< number of elements
           integer, intent(in)                              :: npropm          !< number of properties
           integer, intent(in)                              :: nummat          !< number of laws
-          integer, intent(in)                              :: ismstr          !< small strain falg
+          integer, intent(in)                              :: ismstr          !< small strain flag
           integer, dimension(mvsiz), intent(in   )         :: imat            !< material id
           integer, dimension(mvsiz), intent(inout)         :: istab           !< buckling criterion flag
           my_real, dimension(npropm,nummat) ,intent(in)    :: pm              !< material data

@@ -662,7 +662,7 @@ C-----------------------------------------------------
           ENDIF                                                
         ENDDO                                                  
 C-----------------------------------------------------
-C   optionnal SQRT(G), SQRT(A11) SQRT(A12), SQRT(NU), SQRT(SHF) forformer restart file
+C   optional SQRT(G), SQRT(A11) SQRT(A12), SQRT(NU), SQRT(SHF) for former restart file
 C-----------------------------------------------------
         IF(PMINVER<6)THEN
           DO I = 1, NUMGEO

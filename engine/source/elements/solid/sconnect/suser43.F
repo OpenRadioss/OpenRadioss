@@ -105,7 +105,7 @@ C----------+---------+---+---+--------------------------------------------
 C OFF      |  NEL    | F |R/W| DELETE FLAG (=1. ON =0. OFF)
 C RHO      |  NEL    | F |R/W| DENSITY
 C SIG      | 6*NEL   | F |R/W| STRESS TENSOR SX,SY,SZ,SXY,SYZ,SZX
-C          |         |   |   | RHO and SIG cann be used for post processing 
+C          |         |   |   | RHO and SIG can be used for post processing 
 C          |         |   |   | in TH++ or ModAnim
 C          |         |   |   | The modification of these variables has only 
 C          |         |   |   | effect on output. If these value are not

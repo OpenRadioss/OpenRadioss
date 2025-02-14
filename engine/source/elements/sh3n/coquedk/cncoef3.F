@@ -82,7 +82,7 @@ C-----------------------------------------------
           THK0(I)=THKE(I)
         ENDDO
       ENDIF
-C------explicit KFAC=1.0e-3 for quad 1.0e-2 for T3(could be 1.0e-2 fro all)--
+C------explicit KFAC=1.0e-3 for quad 1.0e-2 for T3(could be 1.0e-2 for all)--
 C------implicit KFAC=0.1 for all----
       IF(IMPL_S>0)THEN
        KFAC= EM01*MIN(ONE,KZ_TOL*2000)

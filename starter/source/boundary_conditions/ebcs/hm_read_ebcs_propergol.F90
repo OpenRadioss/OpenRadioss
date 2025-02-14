@@ -136,7 +136,7 @@
       if(submat_id == 0)submat_id = 1
 
       param_q = param_t
-      !param_q = cv * param_t     ! -> must be done during Starter check to identify adjacent EoS (retrive t=param_q -> param_q <- cv*t)
+      !param_q = cv * param_t     ! -> must be done during Starter check to identify adjacent EoS (retrieve t=param_q -> param_q <- cv*t)
 
       ebcs%title = titr
 
@@ -213,7 +213,7 @@
               '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I8,/,&
               '    PROPERGOL DENSITY . . . . . . . . . . . . ',E20.12,/,&
               '    PROPERGOL HEAT OF COMBUSTION. . . . . . . ',E20.12)
- 1201 format( '      --- COMBUSION MODEL : VIEILLE''S LAW'    ,/,&
+ 1201 format( '      --- COMBUSTION MODEL : VIEILLE''S LAW'   ,/,&
               '      VIEILLE PARAMETER A . . . . . . . . . . ',E20.12,/,&
               '      VIEILLE PARAMETER N . . . . . . . . . . ',E20.12,/,&
                '     f(t) function . . . . . . . . . . . . . ',I8,/,&

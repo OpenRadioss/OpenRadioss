@@ -70,7 +70,7 @@
           integer, intent (in   )                         :: sens_id      !< sensor id
           integer, intent (in   )                         :: snpc,stf     !< array dimension
           integer, intent (in   ) ,dimension(snpc)        :: npc          !< index pointer of function
-          type (sensors_) ,intent(in)                     :: sensors      !< sensor mudule
+          type (sensors_) ,intent(in)                     :: sensors      !< sensor module
           my_real, intent (in  )  ,dimension(stf)         :: tf           !< (x,y) of function
           my_real, intent (in  )                          :: time         !< time
           my_real, intent (inout)                         :: preload1     !< y-value of preload function

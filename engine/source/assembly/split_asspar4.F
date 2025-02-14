@@ -69,7 +69,7 @@ C-----------------------------------------------
 !       SPLIT_ASSPAR4 organization :
 !       - compute the total number of contribution
 !       - compute FIRST and LAST bounds according to 
-!         the nnumber of contribution
+!         the number of contribution
 !$ENDCOMMENT
 
         !       FIRST and LAST initializations
