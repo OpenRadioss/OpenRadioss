@@ -477,7 +477,7 @@ void _FCALL FILELEN_SYS(char * ffilnam,int *len,int * size){
 void cur_fil_c(int *nf)
 //! Set the current file stored in outfile array
 //! ---------------------------------------------
-//! intput : Integer, file ID
+//! input : Integer, file ID
 //! ---------------------------------------------
 {
   cur_nf = *nf;
@@ -498,7 +498,7 @@ void cur_fil_c__(int *nf)
 void eor_c(int *len)
 //! Writes the current size in file : Radioss IEEE Format, in TH / NOISE
 //! ---------------------------------------------------------------------
-//! intput : Integer, size
+//! input : Integer, size
 //! ---------------------------------------------------------------------
 {
   int i;
@@ -554,7 +554,7 @@ void write_db_c(double *w,int *len)
 //! Write a double array in file : Radioss IEEE Format.
 //! ----------------------------------------------------
 //! w, input : double array to write
-//! len, intput : Integer, size
+//! len, input : Integer, size
 //! ----------------------------------------------------
 {
   int i,j;
@@ -592,7 +592,7 @@ void write_c_c(int *w,int *len)
 //! Write a character array in ASCII in file
 //! -----------------------------------------
 //! w, input : integer array to write
-//! len, intput : Integer, size
+//! len, input : Integer, size
 //! -----------------------------------------
 {
   int i;
@@ -613,7 +613,7 @@ void write_c_c_txt(char *w,int *len)
 //! Write a string in file 
 //! --------------------------------------
 //! w, input : integer array to write
-//! len, intput : Integer, size
+//! len, input : Integer, size
 //! --------------------------------------
 {
   char *buf;
@@ -646,7 +646,7 @@ void write_i_c(int *w,int *len)
 //! Write a integer array of size len in Radioss IEEE format
 //! ---------------------------------------------------------
 //! w, input : integer array to write
-//! len, intput : Integer, size
+//! len, input : Integer, size
 //! ---------------------------------------------------------
 {
   int i,j,k,block;
@@ -688,7 +688,7 @@ void write_s_c(int *w, int *len)
 //! Write a string array as Integer in Radioss IEEE format
 //! ---------------------------------------------------------
 //! w, input : integer array to write
-//! len, intput : Integer, size
+//! len, input : Integer, size
 //! ---------------------------------------------------------
 {
   int i,j;
@@ -712,7 +712,7 @@ void read_db_c(double *w,int *len){
 //! Read a double precision array in Radioss IEEE format
 //! -----------------------------------------------------
 //! w, input : double array to read
-//! len, intput : Integer, size
+//! len, input : Integer, size
 //! -----------------------------------------------------
   int i, j, c,nitems;
   unsigned char octet[1000][8];
@@ -757,7 +757,7 @@ void read_r_c(float *w, int *len)
 //! Read a real array in Radioss IEEE format
 //! -----------------------------------------
 //! w, input : real array to read
-//! len, intput : Integer, size
+//! len, input : Integer, size
 //! -----------------------------------------
 {
   int i, j, k, block, n,nitems;
@@ -806,7 +806,7 @@ void read_i_c(int *w, int *len)
 //! Read an integer array in Radioss IEEE format
 //! ---------------------------------------------
 //! w, input : integer array to read
-//! len, intput : Integer, size
+//! len, input : Integer, size
 //! ---------------------------------------------
 {
   int i, j, k, block,nitems;
@@ -858,7 +858,7 @@ void read_c_c(int *w, int *len)
 //! Read an character array coded in ASCII/INT format
 //! -------------------------------------------------
 //! w, input : integer array to read
-//! len, intput : Integer, size
+//! len, input : Integer, size
 //! -------------------------------------------------
 {
   int j,nitems;
