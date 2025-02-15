@@ -23,6 +23,7 @@
       !||====================================================================
       !||    file_descriptor_mod   ../starter/source/modules/file_descriptor_mod.F90
       !||--- called by ------------------------------------------------------
+      !||    fill_igr              ../starter/source/model/sets/fill_igr.F
       !||    hm_read_inivol        ../starter/source/initial_conditions/inivol/hm_read_inivol.F90
       !||    hm_read_mat           ../starter/source/materials/mat/hm_read_mat.F90
       !||====================================================================

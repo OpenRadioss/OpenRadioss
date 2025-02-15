@@ -48,6 +48,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    dttherm                                  ../engine/source/time_step/dttherm.F90
       !||    ebcs11                                   ../engine/source/boundary_conditions/ebcs/ebcs11.F90
       !||    eosexponential                           ../common_source/eos/eosexponential.F90
+      !||    fail_gene1_b                             ../engine/source/materials/fail/gene1/fail_gene1_b.F90
+      !||    fail_gene1_ib                            ../engine/source/materials/fail/gene1/fail_gene1_ib.F90
       !||    fail_visual_b                            ../engine/source/materials/fail/visual/fail_visual_b.F90
       !||    fail_visual_ib                           ../engine/source/materials/fail/visual/fail_visual_ib.F90
       !||    fill_voxel_local                         ../engine/source/interfaces/intsort/fill_voxel.F90

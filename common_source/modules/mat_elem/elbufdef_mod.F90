@@ -209,6 +209,8 @@
       !||    err_thk                             ../engine/source/elements/shell/err_thk.F
       !||    fail_beam18                         ../engine/source/elements/beam/fail_beam18.F
       !||    fail_beam3                          ../engine/source/elements/beam/fail_beam3.F
+      !||    fail_gene1_b                        ../engine/source/materials/fail/gene1/fail_gene1_b.F90
+      !||    fail_gene1_ib                       ../engine/source/materials/fail/gene1/fail_gene1_ib.F90
       !||    fail_gene1_s                        ../engine/source/materials/fail/gene1/fail_gene1_s.F
       !||    fail_setoff_c                       ../engine/source/materials/fail/fail_setoff_c.F
       !||    fail_setoff_npg_c                   ../engine/source/materials/fail/fail_setoff_npg_c.F

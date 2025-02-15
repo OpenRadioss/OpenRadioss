@@ -28,12 +28,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    fail_biquad_ib       ../engine/source/materials/fail/biquad/fail_biquad_ib.F
       !||    fail_cockroft_ib     ../engine/source/materials/fail/cockroft_latham/fail_cockroft_ib.F
       !||    fail_energy_ib       ../engine/source/materials/fail/energy/fail_energy_ib.F
+      !||    fail_gene1_ib        ../engine/source/materials/fail/gene1/fail_gene1_ib.F90
       !||    fail_johnson_ib      ../engine/source/materials/fail/johnson_cook/fail_johnson_ib.F
       !||    fail_tensstrain_ib   ../engine/source/materials/fail/tensstrain/fail_tensstrain_ib.F
       !||    fail_visual_ib       ../engine/source/materials/fail/visual/fail_visual_ib.F90
       !||    nvar                 ../engine/source/input/nvar.F
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    fail_gene1_ib_mod    ../engine/source/materials/fail/gene1/fail_gene1_ib.F90
       !||    fail_visual_ib_mod   ../engine/source/materials/fail/visual/fail_visual_ib.F90
       !||    mat_elem_mod         ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||====================================================================

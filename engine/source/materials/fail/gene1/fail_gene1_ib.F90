@@ -21,10 +21,9 @@
 !copyright>        software under a commercial license.  contact altair to discuss further if the
 !copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    fail_gene1_b_mod   ../engine/source/materials/fail/gene1/fail_gene1_b.f90
+      !||    fail_gene1_ib_mod   ../engine/source/materials/fail/gene1/fail_gene1_ib.F90
       !||--- called by ------------------------------------------------------
-      !||    fail_beam3      ../engine/source/elements/beam/fail_beam18.f
-      !||--- calls      ----------------------------------------------------
+      !||    fail_beam18         ../engine/source/elements/beam/fail_beam18.F
       !||====================================================================
     module fail_gene1_ib_mod
     contains
@@ -33,12 +32,19 @@
 ! \details multiple failure models with different combinations with strain rate, thermal or mesh size dependency.
 ! ======================================================================================================================
       !||====================================================================
-      !||    fail_gene1_b_mod   ../engine/source/materials/fail/gene1/fail_gene1_ib.f90
+      !||    fail_gene1_ib         ../engine/source/materials/fail/gene1/fail_gene1_ib.F90
       !||--- called by ------------------------------------------------------
-      !||    fail_beam18      ../engine/source/elements/beam/fail_beam18.f
+      !||    fail_beam18           ../engine/source/elements/beam/fail_beam18.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter                ../engine/source/tools/curve/finter.F
+      !||    table2d_vinterp_log   ../engine/source/tools/curve/table2d_vinterp_log.F
+      !||    table_vinterp         ../engine/source/tools/curve/table_tools.F
       !||--- uses       -----------------------------------------------------
-      !||    constant_mod       ../common_source/modules/constant_mod.f
-      !||====================================================================  
+      !||    constant_mod          ../common_source/modules/constant_mod.F
+      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    interface_table_mod   ../engine/share/modules/table_mod.F
+      !||    table_mod             ../engine/share/modules/table_mod.F
+      !||====================================================================
     subroutine fail_gene1_ib(                          &
            nel      ,nuparam  ,nuvar    ,nfunc    ,    &
            ifunc    ,npf      ,tf       ,              &

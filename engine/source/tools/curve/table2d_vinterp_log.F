@@ -23,7 +23,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    table2d_vinterp_log      ../engine/source/tools/curve/table2d_vinterp_log.F
       !||--- called by ------------------------------------------------------
+      !||    fail_gene1_b             ../engine/source/materials/fail/gene1/fail_gene1_b.F90
       !||    fail_gene1_c             ../engine/source/materials/fail/gene1/fail_gene1_c.F
+      !||    fail_gene1_ib            ../engine/source/materials/fail/gene1/fail_gene1_ib.F90
       !||    fail_gene1_s             ../engine/source/materials/fail/gene1/fail_gene1_s.F
       !||    mat107_newton            ../engine/source/materials/mat/mat107/mat107_newton.F
       !||    mat107_nice              ../engine/source/materials/mat/mat107/mat107_nice.F

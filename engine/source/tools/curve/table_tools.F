@@ -579,7 +579,9 @@ C-----
       !||====================================================================
       !||    table_vinterp              ../engine/source/tools/curve/table_tools.F
       !||--- called by ------------------------------------------------------
+      !||    fail_gene1_b               ../engine/source/materials/fail/gene1/fail_gene1_b.F90
       !||    fail_gene1_c               ../engine/source/materials/fail/gene1/fail_gene1_c.F
+      !||    fail_gene1_ib              ../engine/source/materials/fail/gene1/fail_gene1_ib.F90
       !||    fail_gene1_s               ../engine/source/materials/fail/gene1/fail_gene1_s.F
       !||    fail_inievo_c              ../engine/source/materials/fail/inievo/fail_inievo_c.F
       !||    fail_inievo_s              ../engine/source/materials/fail/inievo/fail_inievo_s.F

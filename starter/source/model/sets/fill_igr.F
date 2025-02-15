@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    fill_surf_plane       ../starter/source/model/sets/fill_gr_surf_plane.F90
       !||    hm_group_is_used      ../starter/source/devtools/hm_reader/hm_group_is_used.F
       !||--- uses       -----------------------------------------------------
+      !||    file_descriptor_mod   ../starter/source/modules/file_descriptor_mod.F90
       !||    fill_surf_plane_mod   ../starter/source/model/sets/fill_gr_surf_plane.F90
       !||    hm_option_read_mod    ../starter/share/modules1/hm_option_read_mod.F
       !||    message_mod           ../starter/share/message_module/message_mod.F
