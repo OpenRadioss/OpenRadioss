@@ -185,24 +185,22 @@ C
               YFAC(NFUNC) = YFAC_UNL
               RATE(NFUNC) = ZERO
               IUNL_FOR = 1  ! using unloading curve
-            ELSEIF(HYS > ZERO) THEN
-              IUNL_FOR = 3 ! based on the energy 
-            ELSEIF( HYS < ZERO ) THEN  ! old formation
+            ELSEIF(HYS /= ZERO) THEN
               IUNL_FOR = 2 ! based on the energy 
+              HYS = ABS(HYS)
             ELSE
               IUNL_FOR = 0  ! no unloading curve, 
             ENDIF     
-         ELSE ! strain rate effect
+      ELSE ! strain rate effect
             IF(IFUNC_UNLOAD > 0) THEN
               NFUNC = NFUNC + 1
               IFUNC(NFUNC) = IFUNC_UNLOAD
               YFAC(NFUNC) = YFAC_UNL
               RATE(NFUNC) = ZERO
               IUNL_FOR = 1  ! using unloading curve
-            ELSEIF(HYS > ZERO )THEN
-              IUNL_FOR = 3 ! based on the energy  ! Old IUNF_FOR = 3 
-            ELSEIF(HYS < ZERO ) THEN ! old formulation
+            ELSEIF(HYS /= ZERO )THEN
               IUNL_FOR = 3 ! based on the energy 
+              HYS = ABS(HYS)
             ELSE ! using quasistatic curve for unloading 
               NFUNC = NFUNC + 1
               IFUNC(NFUNC) = IFUNC(1)
@@ -279,7 +277,7 @@ c-----------------
         IF(IUNL_FOR == 1) THEN
          II = NL
          WRITE(IOUT,1300)IFUNC(NFUNC),YFAC_UNL 
-        ELSEIF(IUNL_FOR == 2) THEN
+        ELSEIF(IUNL_FOR == 2 .or. IUNL_FOR == 3) THEN
          write(IOUT,1400) HYS, SHAPE
         ENDIF
         WRITE(IOUT,1500) ITENS
