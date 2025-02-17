@@ -140,7 +140,7 @@ C
           PSH(I)=PM(88,MT)
           PNEW(I)=0.
           QAA = QA*QA*AD(I)
-          QX(I)=(QB+CNS1)*SSP(I)+DELTAX(I) * QAA
+          QX(I)=(QB+CNS1)*SSP(I)+AL(I) * QAA
      .     + VISI*(TWO*VIS(I)+CNS2) / MAX(EM20,RHO(I)*DELTAX(I))
           QVIS(I)=RHO(I)*AD(I)*AL(I)*(QAA*AL(I)+QB*SSP(I))
         ENDDO

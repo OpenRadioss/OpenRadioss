@@ -9,13 +9,13 @@
 **                                                                    **
 **                                                                    **
 **                    Linux 64 bits, GNU compiler                     **
-**                                                                    **
+**                      Double Precision Version                      **
 **                                                                    **
 **                                                                    **
 **                                                                    **
 ************************************************************************
 ** OpenRadioss Software                                               **
-** COPYRIGHT (C) 1986-2023 Altair Engineering, Inc.                   **
+** COPYRIGHT (C) 1986-2025 Altair Engineering, Inc.                   **
 ** Licensed under GNU Affero General Public License.                  **
 ** See License file.                                                  **
 ************************************************************************
@@ -24,8 +24,11 @@
  COMPUTATION HARDWARE DESCRIPTION
   
  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
- fr-jumbo.europe.altair.com   Intel(R) Xeon(R) CPU E5-2667 v4 @ 3.20GHz (x86_64), 1800 MHz,  64316 MB RAM,      0 MB swap
+ FR-LAP482   13th Gen Intel(R) Core(TM) i9-13900H (x86_64), 2995 MHz,  31886 MB RAM,   8192 MB swap
   
+ STACKSIZE  . . . . . . . . . . . . . . . . . . . . 8 MB
+ THREAD STACKSIZE . . . . . . . . . . . . . . . . . 400 mB
+ 
 ************************************************************************
 
 
@@ -38,7 +41,7 @@ WARNING ID : 100214
 DESCRIPTION :  
 -- BLOCK: /IOFLAG
 -- LINE: 1                   0         0         0         0         0
-unsupported field exits
+unsupported field exists
 SOLUTION :     
     Please check input format and fields description defined in the Reference Guide.
 
@@ -75,9 +78,7 @@ Please check input format and fields description defined in the Reference Guide.
                                                           MASS                LENGTH              TIME
     WORK UNIT SYSTEM . . . . . . ( kg , m  , s   ) 1.0000000000000E+00 1.0000000000000E+00 1.0000000000000E+00
     INPUT UNIT SYSTEM  . . . . . ( kg , m  , s   ) 1.0000000000000E+00 1.0000000000000E+00 1.0000000000000E+00
-
-
- HYP2V21  SPHERE IMPACT V=2500 M/S                                               
+HYP2V21  SPHERE IMPACT V=2500 M/S
 
 
     CONTROL  PARAMETERS                                                                  
@@ -154,9 +155,6 @@ Please check input format and fields description defined in the Reference Guide.
 
     INTEG8 : 8 GAUSS POINT CONDENSED INTEGRATION . . . . .         0
     IPARITH: PARALLEL ARITHMETIC FLAG (2 OFF, 1 0N). . . .         1
-    ISUB   : (OLD) SUBCYCLING (1:YES 0:NO) . . . . . . . .         0
-    MSHSUB : MEMORY ALLOCATION FOR (NEW) SHELLS SUBCYCLING
-                                         (1:YES 0:NO). . .         0
     IUSERW : GENERAL USER WINDOW FLAG. . . . . . . . . . .         0
     ISOLID : DEFAULT BRICK FORMULATION FLAG. . . . . . . .         2
     ITET4  : DEFAULT TETRA4 FORMULATION FLAG . . . . . . .      1000
@@ -172,8 +170,10 @@ Please check input format and fields description defined in the Reference Guide.
     INSH   : SHELL INERTIA FLAG. . . . . . . . . . . . . .         0
     ISH3N  : DEFAULT 3 NODE SHELL FORMULATION FLAG . . . .         1
     NPTS   : SHELL PROPERTIES DEFAULT NUMBER OF           
-             INTEGRATION POINTS OR LAYERS. . . . . . . . .         0
+             INTEGRATION POINTS OR LAYERS. . . . . . . . .        -1
     IFRAME : DEFAULT SOLID FRAME FORMULATION FLAG . . . .          1
+    IOFFSET: DEFAULT SHELL OFFSET FLAG. . . . . . . . . .          0
+    ICONTROL:DEFAULT SOLID DISTORTION CONTROL FLAG. . . .          0
     ISHFRAM: LOCAL SHELL FRAME DEFINITION. . . . . . . . .         2
 
 
@@ -188,14 +188,17 @@ Please check input format and fields description defined in the Reference Guide.
     SPEED PARAMETERS  
     ----------------  
 
-    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         1 THREAD              
+    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         2 THREADS             
     NUMBER OF SPMD DOMAINS. . . . . . . . . . . . . . . .         4
-    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         1
+    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         2
     ARCHITECTURE OPTIMIZATION . . . . . . . . . . . . . .        18, linux64             
     SIZE OF ELEMENT BUFFER. . . . . . . . . . . . . . . .       128
  
     INFO : NUMBER OF SPMD DOMAIN AND THREADS DEFINED IN COMMAND LINE
            /SPMD CARD PARAMETER ARE IGNORED
+ 
+     INFO : OMP_NUM_THREADS SET, DEFAULT SETTING IGNORED
+  
 
 
     MATERIAL LAWS
@@ -203,14 +206,14 @@ Please check input format and fields description defined in the Reference Guide.
     NUMBER OF MATERIALS. . . . . . . . . =         3
 
 
-       JOHNSON COOK LAW    
-       ----------------    
-
-
 
      ALU 2024 T1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
         MATERIAL NUMBER . . . . . . . . . . . .=         1
         MATERIAL LAW. . . . . . . . . . . . . .=         4
+
+       JOHNSON COOK LAW    
+       ----------------    
+
 
        INITIAL DENSITY . . . . . . . . . . . .=  2.770000000000    
        REFERENCE DENSITY . . . . . . . . . . .=  2.770000000000    
@@ -239,14 +242,14 @@ Please check input format and fields description defined in the Reference Guide.
      ROOM TEMPERATURE . . . . . . . . . . . =  300.0000000000    
 
 
-       JOHNSON COOK LAW    
-       ----------------    
-
-
 
      acier 1006                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
         MATERIAL NUMBER . . . . . . . . . . . .=         2
         MATERIAL LAW. . . . . . . . . . . . . .=         4
+
+       JOHNSON COOK LAW    
+       ----------------    
+
 
        INITIAL DENSITY . . . . . . . . . . . .=  7.890000000000    
        REFERENCE DENSITY . . . . . . . . . . .=  7.890000000000    
@@ -275,14 +278,14 @@ Please check input format and fields description defined in the Reference Guide.
      ROOM TEMPERATURE . . . . . . . . . . . =  300.0000000000    
 
 
-       JOHNSON COOK LAW    
-       ----------------    
-
-
 
      acier 1006                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
         MATERIAL NUMBER . . . . . . . . . . . .=         3
         MATERIAL LAW. . . . . . . . . . . . . .=         4
+
+       JOHNSON COOK LAW    
+       ----------------    
+
 
        INITIAL DENSITY . . . . . . . . . . . .=  7.890000000000    
        REFERENCE DENSITY . . . . . . . . . . .=  7.890000000000    
@@ -328,11 +331,8 @@ Please check input format and fields description defined in the Reference Guide.
      C5. . . . . . . . . . . . . . . . . . . .= 0.3000000000000    
      INITIAL INTERNAL ENERGY PER UNIT VOLUME .=  0.000000000000    
      INITIAL PRESSURE. . . . . . . . . . . . .=  0.000000000000    
-     INITIAL DENSITY . . . . . . . . . . . . .=  2.770000000000    
-     REFERENCE DENSITY . . . . . . . . . . . .=  2.770000000000    
      PRESSURE SHIFT. . . . . . . . . . . . . .=  0.000000000000    
-
-
+     EOS REFERENCE DENSITY . . . . . . . . . .=  2.770000000000    
 
 
      EQUATION OF STATE 
@@ -350,11 +350,8 @@ Please check input format and fields description defined in the Reference Guide.
      C5. . . . . . . . . . . . . . . . . . . .=  1.830000000000    
      INITIAL INTERNAL ENERGY PER UNIT VOLUME .=  0.000000000000    
      INITIAL PRESSURE. . . . . . . . . . . . .=  0.000000000000    
-     INITIAL DENSITY . . . . . . . . . . . . .=  7.890000000000    
-     REFERENCE DENSITY . . . . . . . . . . . .=  7.890000000000    
      PRESSURE SHIFT. . . . . . . . . . . . . .=  0.000000000000    
-
-
+     EOS REFERENCE DENSITY . . . . . . . . . .=  7.890000000000    
 
 
      EQUATION OF STATE 
@@ -372,11 +369,8 @@ Please check input format and fields description defined in the Reference Guide.
      C5. . . . . . . . . . . . . . . . . . . .=  1.830000000000    
      INITIAL INTERNAL ENERGY PER UNIT VOLUME .=  0.000000000000    
      INITIAL PRESSURE. . . . . . . . . . . . .=  0.000000000000    
-     INITIAL DENSITY . . . . . . . . . . . . .=  7.890000000000    
-     REFERENCE DENSITY . . . . . . . . . . . .=  7.890000000000    
      PRESSURE SHIFT. . . . . . . . . . . . . .=  0.000000000000    
-
-
+     EOS REFERENCE DENSITY . . . . . . . . . .=  7.890000000000    
      SUBMODEL SKEWS(INTERNAL)                                                            
      --------------------------------------                                              
      NUMBER          VECTORS                                          ORIGIN
@@ -390,7 +384,7 @@ Please check input format and fields description defined in the Reference Guide.
 
 
 
-         PROPERTY SETS (HM_READER)
+         PROPERTY SETS
          -------------
 
 
@@ -399,6 +393,7 @@ ALU 2024 T1
      PROPERTY SET NUMBER . . . . . . . . . .=         1
      SOLID FORMULATION FLAG. . . . . . . . .=         2
      SMALL STRAIN FLAG . . . . . . . . . . .=         4
+     IALE FLAG (0:LAGRANGE,1:ALE,2:EULER). .=         0
      SOLID STRESS PLASTICITY FLAG. . . . . .=         2
      COROTATIONAL SYSTEM FLAG. . . . . . . .=         1
      TETRA4 FORMULATION FLAG. . . . .  . . .=      1000
@@ -417,6 +412,7 @@ ALU 2024 T1
      NUMERICAL NAVIER STOKES VISCOSITY MU. .=  0.000000000000    
      BRICK MINIMUM TIME STEP................=  0.000000000000    
      POST PROCESSING STRAIN FLAG . . . . . .=         1
+     SOLID DISTORTION CONTROL FLAG . . . . .=         0
 
      NUMBER OF INTEGRATION POINTS. .  . .  .=         1
 
@@ -425,6 +421,7 @@ acier 1006
      PROPERTY SET NUMBER . . . . . . . . . .=         2
      SOLID FORMULATION FLAG. . . . . . . . .=         2
      SMALL STRAIN FLAG . . . . . . . . . . .=         4
+     IALE FLAG (0:LAGRANGE,1:ALE,2:EULER). .=         0
      SOLID STRESS PLASTICITY FLAG. . . . . .=         2
      COROTATIONAL SYSTEM FLAG. . . . . . . .=         1
      TETRA4 FORMULATION FLAG. . . . .  . . .=      1000
@@ -443,6 +440,7 @@ acier 1006
      NUMERICAL NAVIER STOKES VISCOSITY MU. .=  0.000000000000    
      BRICK MINIMUM TIME STEP................=  0.000000000000    
      POST PROCESSING STRAIN FLAG . . . . . .=         1
+     SOLID DISTORTION CONTROL FLAG . . . . .=         0
 
      NUMBER OF INTEGRATION POINTS. .  . .  .=         1
 
@@ -451,6 +449,7 @@ acier 1006
      PROPERTY SET NUMBER . . . . . . . . . .=         3
      SOLID FORMULATION FLAG. . . . . . . . .=         2
      SMALL STRAIN FLAG . . . . . . . . . . .=         4
+     IALE FLAG (0:LAGRANGE,1:ALE,2:EULER). .=         0
      SOLID STRESS PLASTICITY FLAG. . . . . .=         2
      COROTATIONAL SYSTEM FLAG. . . . . . . .=         1
      TETRA4 FORMULATION FLAG. . . . .  . . .=      1000
@@ -469,6 +468,7 @@ acier 1006
      NUMERICAL NAVIER STOKES VISCOSITY MU. .=  0.000000000000    
      BRICK MINIMUM TIME STEP................=  0.000000000000    
      POST PROCESSING STRAIN FLAG . . . . . .=         1
+     SOLID DISTORTION CONTROL FLAG . . . . .=         0
 
      NUMBER OF INTEGRATION POINTS. .  . .  .=         1
 
@@ -481,24 +481,24 @@ acier 1006
 
 PART:         1,ALU 2024 T1
 ----
-     PROPERTY:         1,ALU 2024 T1
-     MATERIAL:         1,ALU 2024 T1
-     SUBSET  :         0
- VIRT. THICKN:  0.000000000000    
+     PROPERTY    :         1 (TYPE 14),ALU 2024 T1
+     MATERIAL    :         1 (LAW  04),ALU 2024 T1
+     SUBSET      :         0
+     FRAMEWORK   :         LAGRANGE
 
 PART:         2,acier 1006
 ----
-     PROPERTY:         2,acier 1006
-     MATERIAL:         2,acier 1006
-     SUBSET  :         0
- VIRT. THICKN:  0.000000000000    
+     PROPERTY    :         2 (TYPE 14),acier 1006
+     MATERIAL    :         2 (LAW  04),acier 1006
+     SUBSET      :         0
+     FRAMEWORK   :         LAGRANGE
 
 PART:         3,acier 1006
 ----
-     PROPERTY:         3,acier 1006
-     MATERIAL:         3,acier 1006
-     SUBSET  :         0
- VIRT. THICKN:  0.000000000000    
+     PROPERTY    :         3 (TYPE 14),acier 1006
+     MATERIAL    :         3 (LAW  04),acier 1006
+     SUBSET      :         0
+     FRAMEWORK   :         LAGRANGE
 
 
        HIERARCHICAL SUBSET ORGANIZATION
@@ -1129,10 +1129,11 @@ PART:         3,acier 1006
           SENSORS
           -------
 
-         SENSOR TYPE 0: TIME DELAY            
+         SENSOR TYPE 0: TIME                  
          --------------------                 
      SENSOR ID. . . . . . . . . . . . . . . . .=         2
      TIME DELAY BEFORE ACTIVATION . . . . . . .=  0.5000E+00
+     STOP TIME. . . . . . . . . . . . . . . . .=  0.1000E+21
 
          SENSOR TYPE 3: SENSOR ACTIVATION       
          --------------------------------       
@@ -1141,10 +1142,11 @@ PART:         3,acier 1006
         ACTIVATION SENSORID . . . . . . . . . .=         2
         DEACTIVATION SENSOR ID. . . . . . . . .=         0
 
-         SENSOR TYPE 0: TIME DELAY            
+         SENSOR TYPE 0: TIME                  
          --------------------                 
      SENSOR ID. . . . . . . . . . . . . . . . .=         5
      TIME DELAY BEFORE ACTIVATION . . . . . . .=  0.5000E+00
+     STOP TIME. . . . . . . . . . . . . . . . .=  0.1000E+21
 
   
  SPMD IS CHECKING FOR ELEMENT DELETION IN : 
@@ -1169,25 +1171,6 @@ PART:         3,acier 1006
  -----------------------------------
  METRIC      MINIMUM   MAXIMUM   AVERAGE   STANDARD DEVIATION
  ELEMENTS      25200     26000     25500         332
-
-
-       4-NODE 2D SOLID ELEMENT GROUPS
-       ---------------------
-
-     GROUP      MAT.     ELEM.     FIRST    BUFFER     GAUSS    A.L.E.     EULER    TURBU.    THERM.     HOUR-     INTEG       VAR    POROUS   PLASTI.   FAILURE      IEOS   
-         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       MID    MEDIUM      FLAG      FLAG      TYPE   
-
-         1         4       128         1         1         1         0         0         0         0         0         0         1         0         2         0         1
-         2         4       124       129         1         1         0         0         0         0         0         0         1         0         2         0         1
-         3         4        18       253         1         1         0         0         0         0         0         0         1         0         2         0         1
-         4         4        84       271         1         1         0         0         0         0         0         0         2         0         2         0         1
-         5         4       128       355         1         1         0         0         0         0         0         0         2         0         2         0         1
-         6         4       128       483         1         1         0         0         0         0         0         0         2         0         2         0         1
-         7         4       128       611         1         1         0         0         0         0         0         0         2         0         2         0         1
-         8         4       128       739         1         1         0         0         0         0         0         0         2         0         2         0         1
-         9         4         4       867         1         1         0         0         0         0         0         0         2         0         2         0         1
-        10         4       128       871         1         1         0         0         0         0         0         0         3         0         2         0         1
-        11         4        22       999         1         1         0         0         0         0         0         0         3         0         2         0         1
 
 
       ELEMENT ACTIVATION-DEACTIVATION   
@@ -1763,25 +1746,25 @@ PART:         3,acier 1006
      NUMBER OF SECONDARY  NODES. . . . . . . . .  172
      NUMBER OF MAIN NODES. . . . . . . . . . . .   16
 
- NODE NUMBERING OF MAIN SEGMENT    1 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MAIN SEGMENT    2 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MAIN SEGMENT    3 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MAIN SEGMENT    4 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MAIN SEGMENT    5 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MAIN SEGMENT    6 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MAIN SEGMENT    7 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MAIN SEGMENT    8 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MAIN SEGMENT    9 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MAIN SEGMENT   10 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MAIN SEGMENT   11 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MAIN SEGMENT   12 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MAIN SEGMENT   13 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MAIN SEGMENT   14 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MAIN SEGMENT   15 OF INTERFACE         1 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT    1 OF INTERFACE         1 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT    2 OF INTERFACE         1 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT    3 OF INTERFACE         1 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT    4 OF INTERFACE         1 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT    5 OF INTERFACE         1 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT    6 OF INTERFACE         1 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT    7 OF INTERFACE         1 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT    8 OF INTERFACE         1 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT    9 OF INTERFACE         1 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT   10 OF INTERFACE         1 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT   11 OF INTERFACE         1 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT   12 OF INTERFACE         1 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT   13 OF INTERFACE         1 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT   14 OF INTERFACE         1 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT   15 OF INTERFACE         1 REVERSED
 
 
- SECONDARY   NEAREST  NEAREST  MAIN   S 
- NODE    MAIN   SEGMENT  NODES 
+ SECONDARY   NEAREST   NEAREST      MAIN           S 
+ NODE        MAIN      SEGMENT      NODES 
          1      1014         1      1014      1019 -1.000000000000    
          2      1014         1      1014      1019
          3      1014         1      1014      1019
@@ -1963,25 +1946,25 @@ PART:         3,acier 1006
      NUMBER OF SECONDARY  NODES. . . . . . . . .   31
      NUMBER OF MAIN NODES. . . . . . . . . . . .   16
 
- NODE NUMBERING OF MAIN SEGMENT    1 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MAIN SEGMENT    2 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MAIN SEGMENT    3 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MAIN SEGMENT    4 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MAIN SEGMENT    5 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MAIN SEGMENT    6 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MAIN SEGMENT    7 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MAIN SEGMENT    8 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MAIN SEGMENT    9 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MAIN SEGMENT   10 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MAIN SEGMENT   11 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MAIN SEGMENT   12 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MAIN SEGMENT   13 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MAIN SEGMENT   14 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MAIN SEGMENT   15 OF INTERFACE         2 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT    1 OF INTERFACE         2 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT    2 OF INTERFACE         2 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT    3 OF INTERFACE         2 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT    4 OF INTERFACE         2 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT    5 OF INTERFACE         2 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT    6 OF INTERFACE         2 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT    7 OF INTERFACE         2 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT    8 OF INTERFACE         2 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT    9 OF INTERFACE         2 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT   10 OF INTERFACE         2 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT   11 OF INTERFACE         2 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT   12 OF INTERFACE         2 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT   13 OF INTERFACE         2 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT   14 OF INTERFACE         2 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT   15 OF INTERFACE         2 REVERSED
 
 
- SECONDARY   NEAREST  NEAREST  MAIN   S 
- NODE    MAIN   SEGMENT  NODES 
+ SECONDARY   NEAREST   NEAREST      MAIN           S 
+ NODE        MAIN      SEGMENT      NODES 
        323      1014         1      1014      1019
        344      1014         1      1014      1019
        365      1019         1      1014      1019
@@ -2015,8 +1998,8 @@ PART:         3,acier 1006
        953      1049         8      1049      1054
 
 
- MAIN  NEAREST  NEAREST  SECONDARY    S 
- NODE    SECONDARY    SEGMENT  NODES 
+ MAIN        NEAREST   NEAREST      SECONDARY      S 
+ NODE        SECONDARY SEGMENT      NODES 
       1014       323         1       344       323
       1019       344         2       365       344
       1024       386         3       386       365
@@ -2044,8 +2027,8 @@ PART:         3,acier 1006
 
 
 
- SECONDARY   NEAREST  NEAREST  MAIN   S 
- NODE    MAIN   SEGMENT  NODES 
+ SECONDARY   NEAREST   NEAREST      MAIN           S 
+ NODE        MAIN      SEGMENT      NODES 
          7       323         1       344       323
         14       344         1       344       323
         21       344         2       365       344
@@ -2094,8 +2077,8 @@ PART:         3,acier 1006
        322       953        30       953       932
 
 
- MAIN  NEAREST  NEAREST  SECONDARY    S 
- NODE    SECONDARY    SEGMENT  NODES 
+ MAIN        NEAREST   NEAREST      SECONDARY      S 
+ NODE        SECONDARY SEGMENT      NODES 
        323         7         1         7        14
        344        14         2        14        21
        365        28         4        28        35
@@ -2138,8 +2121,8 @@ PART:         3,acier 1006
 
 
 
- SECONDARY   NEAREST  NEAREST  MAIN   S 
- NODE    MAIN   SEGMENT  NODES 
+ SECONDARY   NEAREST   NEAREST      MAIN           S 
+ NODE        MAIN      SEGMENT      NODES 
        323       147         1       147       154
        324       147         1       147       154
        330       147         1       147       154
@@ -2258,26 +2241,6 @@ PART:         3,acier 1006
  ELEMENTS      25000     26000     25500         412
 
 
-       4-NODE 2D SOLID ELEMENT GROUPS
-       ---------------------
-
-     GROUP      MAT.     ELEM.     FIRST    BUFFER     GAUSS    A.L.E.     EULER    TURBU.    THERM.     HOUR-     INTEG       VAR    POROUS   PLASTI.   FAILURE      IEOS   
-         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       MID    MEDIUM      FLAG      FLAG      TYPE   
-
-         1         4       102         1         1         1         0         0         0         0         0         0         1         0         2         0         1
-         2         4       128       103         1         1         0         0         0         0         0         0         1         0         2         0         1
-         3         4        40       231         1         1         0         0         0         0         0         0         1         0         2         0         1
-         4         4       128       271         1         1         0         0         0         0         0         0         2         0         2         0         1
-         5         4       128       399         1         1         0         0         0         0         0         0         2         0         2         0         1
-         6         4         2       527         1         1         0         0         0         0         0         0         2         0         2         0         1
-         7         4       128       529         1         1         0         0         0         0         0         0         2         0         2         0         1
-         8         4       128       657         1         1         0         0         0         0         0         0         2         0         2         0         1
-         9         4         4       785         1         1         0         0         0         0         0         0         2         0         2         0         1
-        10         4        82       789         1         1         0         0         0         0         0         0         2         0         2         0         1
-        11         4       128       871         1         1         0         0         0         0         0         0         3         0         2         0         1
-        12         4        22       999         1         1         0         0         0         0         0         0         3         0         2         0         1
-
-
       ELEMENT ACTIVATION-DEACTIVATION   
       -------------------------------   
       OPTION-NB     SENSOR   BRICK-GR    QUAD-GR   SHELL-GR   TRUSS-GR    BEAM-GR  SPRING-GR    SH3N-GR  FORM-FLAG   START-TIME            STOP-TIME
@@ -2851,25 +2814,25 @@ PART:         3,acier 1006
      NUMBER OF SECONDARY  NODES. . . . . . . . .  172
      NUMBER OF MAIN NODES. . . . . . . . . . . .   16
 
- NODE NUMBERING OF MAIN SEGMENT    1 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MAIN SEGMENT    2 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MAIN SEGMENT    3 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MAIN SEGMENT    4 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MAIN SEGMENT    5 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MAIN SEGMENT    6 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MAIN SEGMENT    7 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MAIN SEGMENT    8 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MAIN SEGMENT    9 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MAIN SEGMENT   10 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MAIN SEGMENT   11 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MAIN SEGMENT   12 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MAIN SEGMENT   13 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MAIN SEGMENT   14 OF INTERFACE         1 REVERSED
- NODE NUMBERING OF MAIN SEGMENT   15 OF INTERFACE         1 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT    1 OF INTERFACE         1 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT    2 OF INTERFACE         1 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT    3 OF INTERFACE         1 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT    4 OF INTERFACE         1 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT    5 OF INTERFACE         1 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT    6 OF INTERFACE         1 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT    7 OF INTERFACE         1 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT    8 OF INTERFACE         1 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT    9 OF INTERFACE         1 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT   10 OF INTERFACE         1 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT   11 OF INTERFACE         1 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT   12 OF INTERFACE         1 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT   13 OF INTERFACE         1 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT   14 OF INTERFACE         1 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT   15 OF INTERFACE         1 REVERSED
 
 
- SECONDARY   NEAREST  NEAREST  MAIN   S 
- NODE    MAIN   SEGMENT  NODES 
+ SECONDARY   NEAREST   NEAREST      MAIN           S 
+ NODE        MAIN      SEGMENT      NODES 
          1      1014         1      1014      1019 -1.000000000000    
          2      1014         1      1014      1019
          3      1014         1      1014      1019
@@ -3051,25 +3014,25 @@ PART:         3,acier 1006
      NUMBER OF SECONDARY  NODES. . . . . . . . .   31
      NUMBER OF MAIN NODES. . . . . . . . . . . .   16
 
- NODE NUMBERING OF MAIN SEGMENT    1 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MAIN SEGMENT    2 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MAIN SEGMENT    3 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MAIN SEGMENT    4 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MAIN SEGMENT    5 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MAIN SEGMENT    6 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MAIN SEGMENT    7 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MAIN SEGMENT    8 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MAIN SEGMENT    9 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MAIN SEGMENT   10 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MAIN SEGMENT   11 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MAIN SEGMENT   12 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MAIN SEGMENT   13 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MAIN SEGMENT   14 OF INTERFACE         2 REVERSED
- NODE NUMBERING OF MAIN SEGMENT   15 OF INTERFACE         2 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT    1 OF INTERFACE         2 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT    2 OF INTERFACE         2 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT    3 OF INTERFACE         2 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT    4 OF INTERFACE         2 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT    5 OF INTERFACE         2 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT    6 OF INTERFACE         2 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT    7 OF INTERFACE         2 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT    8 OF INTERFACE         2 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT    9 OF INTERFACE         2 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT   10 OF INTERFACE         2 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT   11 OF INTERFACE         2 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT   12 OF INTERFACE         2 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT   13 OF INTERFACE         2 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT   14 OF INTERFACE         2 REVERSED
+ NODE CONNECTIVITY OF MAIN SEGMENT   15 OF INTERFACE         2 REVERSED
 
 
- SECONDARY   NEAREST  NEAREST  MAIN   S 
- NODE    MAIN   SEGMENT  NODES 
+ SECONDARY   NEAREST   NEAREST      MAIN           S 
+ NODE        MAIN      SEGMENT      NODES 
        323      1014         1      1014      1019
        344      1014         1      1014      1019
        365      1019         1      1014      1019
@@ -3103,8 +3066,8 @@ PART:         3,acier 1006
        953      1049         8      1049      1054
 
 
- MAIN  NEAREST  NEAREST  SECONDARY    S 
- NODE    SECONDARY    SEGMENT  NODES 
+ MAIN        NEAREST   NEAREST      SECONDARY      S 
+ NODE        SECONDARY SEGMENT      NODES 
       1014       323         1       344       323
       1019       344         2       365       344
       1024       386         3       386       365
@@ -3132,8 +3095,8 @@ PART:         3,acier 1006
 
 
 
- SECONDARY   NEAREST  NEAREST  MAIN   S 
- NODE    MAIN   SEGMENT  NODES 
+ SECONDARY   NEAREST   NEAREST      MAIN           S 
+ NODE        MAIN      SEGMENT      NODES 
          7       323         1       344       323
         14       344         1       344       323
         21       344         2       365       344
@@ -3182,8 +3145,8 @@ PART:         3,acier 1006
        322       953        30       953       932
 
 
- MAIN  NEAREST  NEAREST  SECONDARY    S 
- NODE    SECONDARY    SEGMENT  NODES 
+ MAIN        NEAREST   NEAREST      SECONDARY      S 
+ NODE        SECONDARY SEGMENT      NODES 
        323         7         1         7        14
        344        14         2        14        21
        365        28         4        28        35
@@ -3226,8 +3189,8 @@ PART:         3,acier 1006
 
 
 
- SECONDARY   NEAREST  NEAREST  MAIN   S 
- NODE    MAIN   SEGMENT  NODES 
+ SECONDARY   NEAREST   NEAREST      MAIN           S 
+ NODE        MAIN      SEGMENT      NODES 
        323       147         1       147       154
        324       147         1       147       154
        330       147         1       147       154
@@ -3323,11 +3286,6 @@ PART:         3,acier 1006
        953       322        25       315       322
 
 
-       RESTART SIZE OF SHELL AND SOLID ELEMENT GROUPS
-       ----------------------------------------------
-
-
-
 
 
 
@@ -3335,26 +3293,23 @@ PART MASS & INERTIA
 -------------------
 
 
-PART :          1ALU 2024 T1
-----
- Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
-  4.431999797892      35.51591157295     5.9914065877537E-02  35.45599750707      0.000000000000      1.181661343414      0.000000000000    
- X           Y           Z           Kin. Energy Vx         Vy         Vz
-  0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+PART :          1, ALU 2024 T1
+            Mass             Ixx             Iyy             Izz             Ixy             Iyz             Izx
+  4.43199980E+00  3.55159116E+01  5.99140659E-02  3.54559975E+01  0.00000000E+00  1.18166134E+00  0.00000000E+00
+               X               Y               Z     Kin. Energy              Vx              Vy              Vz
+  0.00000000E+00  0.00000000E+00  0.00000000E+00  0.00000000E+00  0.00000000E+00  0.00000000E+00  0.00000000E+00
 
-PART :          2acier 1006
-----
- Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
-  80.16240000000      922.0524043964      280.7532043964      641.2992000000      0.000000000000      392.1081169081      0.000000000000    
- X           Y           Z           Kin. Energy Vx         Vy         Vz
-  0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+PART :          2, acier 1006
+            Mass             Ixx             Iyy             Izz             Ixy             Iyz             Izx
+  8.01624000E+01  9.22052404E+02  2.80753204E+02  6.41299200E+02  0.00000000E+00  3.92108117E+02  0.00000000E+00
+               X               Y               Z     Kin. Energy              Vx              Vy              Vz
+  0.00000000E+00  0.00000000E+00  0.00000000E+00  0.00000000E+00  0.00000000E+00  0.00000000E+00  0.00000000E+00
 
-PART :          3acier 1006
-----
- Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
-  3.210412159719      3.708581505516      2.786667187140     0.9219143183764      0.000000000000     -1.356815391603      0.000000000000    
- X           Y           Z           Kin. Energy Vx         Vy         Vz
-  0.000000000000      0.000000000000      0.000000000000     0.1003253799912      0.000000000000      0.000000000000    -0.2500000000000    
+PART :          3, acier 1006
+            Mass             Ixx             Iyy             Izz             Ixy             Iyz             Izx
+  3.21041216E+00  3.70858151E+00  2.78666719E+00  9.21914318E-01  0.00000000E+00 -1.35681539E+00  0.00000000E+00
+               X               Y               Z     Kin. Energy              Vx              Vy              Vz
+  0.00000000E+00  0.00000000E+00  0.00000000E+00  1.00325380E-01  0.00000000E+00  0.00000000E+00 -2.50000000E-01
 
 
 PART ELEMENT/MATERIAL PARAMETER REVIEW:
@@ -3394,10 +3349,7 @@ Part id,name:         3 acier 1006             Mat type:   4 Elm type: QUAD-2D
       ADDED NODAL NON-STRUCTURAL MASSES 
      -----------------------------------
 
-
-
-
-  TOTAL ADDED MASS =   0.000000000000    
+      TOTAL ADDED MASS =   0.000000000000    
 
 
 
@@ -3434,14 +3386,14 @@ QUAD        P_SPMD       NAME
  TH GROUP: PART      
  ---------
 
- TH PART      :         1,ALU 2024 T1,  8 VAR:
-IE        KE        XMOM      YMOM      ZMOM      MASS      HE        HEAT      
+ TH PART      :         1,ALU 2024 T1,  9 VAR:
+IE        KE        XMOM      YMOM      ZMOM      MASS      HE        ERODED    HEAT      
 
- TH PART      :         2,acier 1006,  8 VAR:
-IE        KE        XMOM      YMOM      ZMOM      MASS      HE        HEAT      
+ TH PART      :         2,acier 1006,  9 VAR:
+IE        KE        XMOM      YMOM      ZMOM      MASS      HE        ERODED    HEAT      
 
- TH PART      :         3,acier 1006,  8 VAR:
-IE        KE        XMOM      YMOM      ZMOM      MASS      HE        HEAT      
+ TH PART      :         3,acier 1006,  9 VAR:
+IE        KE        XMOM      YMOM      ZMOM      MASS      HE        ERODED    HEAT      
 
 
 
@@ -3483,7 +3435,7 @@ IE        KE        XMOM      YMOM      ZMOM      MASS      HE        HEAT
     STARTER STORAGE 
     --------------- 
  
-    STARTER MEMORY USAGE        123 MB
+    STARTER MEMORY USAGE        154 MB
 
 
 
@@ -3588,21 +3540,21 @@ STANDARD DEVIATION            :     114
  CPU USER TIME
  -------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .2955E+00   .1400E+00   .1017E-01   .9000E-05   .2402E-04   .1270E-03   .1001E-04
+.0000E+00   .1980E+00   .8601E-01   .8153E-02   .4977E-05   .6503E-04   .8160E-03   .4977E-05
   
   
  ELAPSED TIME
  ------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .9681E+05   .1542E+00   .1184E-01   .1106E-04   .2423E-04   .1286E-03   .7403E-05
+.0000E+00   .2407E+04   .3691E+00   .1108E+00   .7724E-05   .1395E-02   .1459E-01   .7628E-05
   
                    ** COMPUTE TIME INFORMATION **
   
- EXECUTION STARTED      :      2023/02/01  17:38:10
- EXECUTION COMPLETED    :      2023/02/01  17:38:11
+ EXECUTION STARTED      :      2025/02/20  10:51:51
+ EXECUTION COMPLETED    :      2025/02/20  10:51:59
   
- ELAPSED TIME...........=          0.51 s
-                               00:00:00
+ ELAPSED TIME...........=          8.15 s
+                               00:00:08
   
 ------------------------------------------------------------------------
 

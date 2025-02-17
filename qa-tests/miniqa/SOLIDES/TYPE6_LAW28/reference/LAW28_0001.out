@@ -9,13 +9,13 @@
 **                                                                    **
 **                                                                    **
 **                Linux 64 bits, GNU compiler, OpenMPI                **
+**                      Double Precision Version                      **
 **                                                                    **
 **                                                                    **
 **                                                                    **
-** CommitID: 440deeba848d606665f88afb8302e85b1ecf72bf                 **
 ************************************************************************
 ** OpenRadioss Software                                               **
-** COPYRIGHT (C) 1986-2022 Altair Engineering, Inc.                   **
+** COPYRIGHT (C) 1986-2025 Altair Engineering, Inc.                   **
 ** Licensed under GNU Affero General Public License.                  **
 ** See License file.                                                  **
 ************************************************************************
@@ -27,11 +27,14 @@
  COMPUTATION HARDWARE DESCRIPTION
   
  CPU#  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
-   1   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
-   2   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
-   3   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
-   4   fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
+   1   FR-LAP482   13th Gen Intel(R) Core(TM) i9-13900H (x86_64), 2995 MHz,  31886 MB RAM,   8192 MB swap
+   2   FR-LAP482   13th Gen Intel(R) Core(TM) i9-13900H (x86_64), 2995 MHz,  31886 MB RAM,   8192 MB swap
+   3   FR-LAP482   13th Gen Intel(R) Core(TM) i9-13900H (x86_64), 2995 MHz,  31886 MB RAM,   8192 MB swap
+   4   FR-LAP482   13th Gen Intel(R) Core(TM) i9-13900H (x86_64), 2995 MHz,  31886 MB RAM,   8192 MB swap
   
+ STACKSIZE  . . . . . . . . . . . . . . . . . . . . 8 MB
+ THREAD STACKSIZE . . . . . . . . . . . . . . . . . 400 mB
+ 
 ************************************************************************
 
 
@@ -91,6 +94,7 @@
 
  TIME FOR FIRST ANIMATION-FILE PLOT . . . . . . .   0.000000    
  TIME INTERVAL FOR ANIMATION-FILE PLOTS . . . . .   5.000000    
+ TIME TO STOP ANIMATION-FILE PLOTS. . . . . . . .  0.1000000E+21
  SENSOR FOR ANIMATION-FILE PLOTS. . . . . . . . .          0
  TIME INTERVAL FOR SENSOR ANIMATION-FILE PLOTS. .   0.000000    
 
@@ -159,25 +163,25 @@
 
  NUMBER OF NEW BOUNDARY CONDITIONS. . . . . . . .        0
 
- 23/11/2022
+ 20/02/2025
    CYCLE    TIME      TIME-STEP  ELEMENT          ERROR  I-ENERGY    K-ENERGY T  K-ENERGY R  EXT-WORK     MAS.ERR     TOTAL MASS  MASS ADDED
        0   0.000      0.1657     SOLID          1   0.0%   0.000      0.2500E+07   0.000       0.000       0.000      0.2001E+06   0.000    
      ANIMATION FILE: LAW28A001 WRITTEN
      ANIMATION FILE: LAW28A002 WRITTEN
      ANIMATION FILE: LAW28A003 WRITTEN
-     100   11.35      0.7898E-01 SOLID          1   0.8%  0.1079E+07  0.1444E+07   0.000       1830.       0.000      0.2001E+06   0.000    
+     100   11.32      0.7921E-01 SOLID          1   0.8%  0.1061E+07  0.1461E+07   0.000       1799.       0.000      0.2001E+06   0.000    
      ANIMATION FILE: LAW28A004 WRITTEN
-     200   17.39      0.4865E-01 SOLID          1   0.4%  0.2200E+07  0.3163E+06   0.000       5964.       0.000      0.2001E+06   0.000    
+     200   17.23      0.4716E-01 SOLID          1   0.4%  0.2175E+07  0.3427E+06   0.000       5719.       0.000      0.2001E+06   0.000    
      ANIMATION FILE: LAW28A005 WRITTEN
-     300   21.98      0.4447E-01 SOLID          1   0.2%  0.2509E+07   7303.       0.000       9988.       0.000      0.2001E+06   0.000    
+     300   21.78      0.4440E-01 SOLID          1   0.3%  0.2512E+07   4931.       0.000       9625.       0.000      0.2001E+06   0.000    
      ANIMATION FILE: LAW28A006 WRITTEN
-     400   26.76      0.5472E-01 SOLID          1   0.1%  0.2005E+07  0.5132E+06   0.000      0.1406E+05   0.000      0.2001E+06   0.000    
+     400   26.50      0.5373E-01 SOLID          1   0.2%  0.2049E+07  0.4688E+06   0.000      0.1369E+05   0.000      0.2001E+06   0.000    
      ANIMATION FILE: LAW28A007 WRITTEN
-     500   33.78      0.9335E-01 SOLID          1   0.4%  0.8183E+06  0.1710E+07   0.000      0.1755E+05   0.000      0.2001E+06   0.000    
+     500   33.32      0.8989E-01 SOLID          1   0.4%  0.8765E+06  0.1651E+07   0.000      0.1724E+05   0.000      0.2001E+06   0.000    
      ANIMATION FILE: LAW28A008 WRITTEN
      ANIMATION FILE: LAW28A009 WRITTEN
      ANIMATION FILE: LAW28A010 WRITTEN
-     600   46.66      0.1489     SOLID          1   1.0%  0.3214E+06  0.2222E+07   0.000      0.1817E+05   0.000      0.2001E+06   0.000    
+     600   45.91      0.1469     SOLID          1   1.0%  0.3198E+06  0.2225E+07   0.000      0.1798E+05   0.000      0.2001E+06   0.000    
 
      RESTART FILES: LAW28_0001_[0001-0004].rst WRITTEN
      -------------
@@ -189,30 +193,30 @@
                         ** SUMMARY **
   
  #PROC  ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
-   1   .2066E-01 .1142E-01 .7634E-02 .7395E-01 .2233E-01 .4161E-02 .2010E+00
-   2   .9585E-02 .1255E-01 .8792E-02 .5416E-01 .5759E-01 .4320E-02 .2086E+00
-   3   .8506E-02 .1106E-01 .7680E-02 .5019E-01 .6468E-01 .3807E-02 .2003E+00
-   4   .9819E-02 .1254E-01 .8770E-02 .5405E-01 .6074E-01 .4493E-02 .2146E+00
+   1   .4892E-01 .5215E-02 .4122E-02 .2545E+00 .1452E+01 .2279E-01 .1904E+01
+   2   .4614E-02 .5856E-02 .4202E-02 .2906E+00 .1083E+01 .7725E-02 .1531E+01
+   3   .5586E-02 .5489E-02 .4784E-02 .2913E+00 .1070E+01 .8801E-02 .1525E+01
+   4   .1438E-01 .1543E-01 .4161E-02 .2972E+00 .1107E+01 .7534E-02 .1566E+01
   
                  ** SPMD COM. TIME **
   
  #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
-   1   .2473E-02 .0000E+00 .0000E+00 .2600E-02 .5073E-02 .2523E+01
-   2   .2786E-02 .0000E+00 .0000E+00 .2918E-02 .5704E-02 .2734E+01
-   3   .2344E-02 .0000E+00 .0000E+00 .2384E-02 .4728E-02 .2360E+01
-   4   .2790E-02 .0000E+00 .0000E+00 .2967E-02 .5757E-02 .2683E+01
+   1   .9938E-03 .0000E+00 .0000E+00 .7443E-03 .1738E-02 .9127E-01
+   2   .1456E-02 .0000E+00 .0000E+00 .1127E-02 .2582E-02 .1687E+00
+   3   .1650E-02 .0000E+00 .0000E+00 .1171E-02 .2821E-02 .1850E+00
+   4   .3546E-02 .0000E+00 .0000E+00 .1063E-02 .4608E-02 .2943E+00
   
  
                    ** CUMULATIVE CPU TIME SUMMARY **
   
  CONTACT SORTING.............: .0000E+00     0.00 % 
- CONTACT FORCES..............: .3840E-02     0.47 % 
- ELEMENT FORCES..............: .4857E-01     5.89 % 
- KINEMATIC COND..............: .4757E-01     5.77 % 
- INTEGRATION.................: .3288E-01     3.99 % 
- ASSEMBLING..................: .1678E-01     2.04 % 
- OTHERS (including I/O)......: .6750E+00    81.85 % 
- TOTAL.......................: .8246E+00   100.00 % 
+ CONTACT FORCES..............: .1171E-02     0.02 % 
+ ELEMENT FORCES..............: .7350E-01     1.13 % 
+ KINEMATIC COND..............: .3199E-01     0.49 % 
+ INTEGRATION.................: .1727E-01     0.26 % 
+ ASSEMBLING..................: .4685E-01     0.72 % 
+ OTHERS (including I/O)......: .6356E+01    97.38 % 
+ TOTAL.......................: .6526E+01   100.00 % 
   
   
                            ** ELAPSED TIME **
@@ -221,35 +225,35 @@
                         ** SUMMARY **
   
  #PROC  ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
-   1   .1283E-01 .7034E-02 .4646E-02 .5081E-01 .1370E-01 .2549E-02 .1310E+00
-   2   .6039E-02 .7771E-02 .5441E-02 .3325E-01 .3392E-01 .2700E-02 .1309E+00
-   3   .5554E-02 .7280E-02 .5006E-02 .3253E-01 .3956E-01 .2489E-02 .1296E+00
-   4   .5923E-02 .7590E-02 .5214E-02 .3298E-01 .3492E-01 .2731E-02 .1309E+00
+   1   .8592E-01 .8433E-02 .4187E-02 .2998E+00 .7771E+00 .2830E-02 .1302E+01
+   2   .4204E-02 .5878E-02 .4267E-02 .2417E+00 .8983E+00 .5105E-02 .1293E+01
+   3   .4663E-02 .5579E-02 .4809E-02 .2358E+00 .8980E+00 .3121E-02 .1292E+01
+   4   .4483E-02 .5613E-02 .4176E-02 .2406E+00 .8941E+00 .5668E-02 .1292E+01
   
         ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
- MIN   .5554E-02 .7034E-02 .4646E-02 .3253E-01 .1370E-01 .2489E-02 .1296E+00
- MAX   .1283E-01 .7771E-02 .5441E-02 .5081E-01 .3956E-01 .2731E-02 .1310E+00
- AVG   .7586E-02 .7419E-02 .5077E-02 .3739E-01 .3053E-01 .2617E-02 .1306E+00
+ MIN   .4204E-02 .5579E-02 .4176E-02 .2358E+00 .7771E+00 .2830E-02 .1292E+01
+ MAX   .8592E-01 .8433E-02 .4809E-02 .2998E+00 .8983E+00 .5668E-02 .1302E+01
+ AVG   .2482E-01 .6376E-02 .4360E-02 .2545E+00 .8669E+00 .4181E-02 .1295E+01
   
                  ** SPMD COM. TIME **
   
  #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
-   1   .1511E-02 .0000E+00 .0000E+00 .1643E-02 .3153E-02 .2408E+01
-   2   .1764E-02 .0000E+00 .0000E+00 .1816E-02 .3580E-02 .2734E+01
-   3   .1535E-02 .0000E+00 .0000E+00 .1576E-02 .3111E-02 .2400E+01
-   4   .1670E-02 .0000E+00 .0000E+00 .1806E-02 .3476E-02 .2655E+01
+   1   .1013E-02 .0000E+00 .0000E+00 .3602E-02 .4615E-02 .3544E+00
+   2   .5757E-02 .0000E+00 .0000E+00 .4496E-02 .1025E-01 .7932E+00
+   3   .7910E-02 .0000E+00 .0000E+00 .4683E-02 .1259E-01 .9746E+00
+   4   .7879E-02 .0000E+00 .0000E+00 .3780E-02 .1166E-01 .9021E+00
   
         FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
- MIN   .1511E-02 .0000E+00 .0000E+00 .1576E-02 .3111E-02 .2400E+01
- MAX   .1764E-02 .0000E+00 .0000E+00 .1816E-02 .3580E-02 .2734E+01
- AVG   .1620E-02 .0000E+00 .0000E+00 .1710E-02 .3330E-02 .2549E+01
+ MIN   .1013E-02 .0000E+00 .0000E+00 .3602E-02 .4615E-02 .3544E+00
+ MAX   .7910E-02 .0000E+00 .0000E+00 .4683E-02 .1259E-01 .9746E+00
+ AVG   .5640E-02 .0000E+00 .0000E+00 .4140E-02 .9780E-02 .7561E+00
   
                    ** MEMORY USAGE STATISTICS **
   
- TOTAL MEMORY USED .........................:      228 MB
- MAXIMUM MEMORY PER PROCESSOR...............:       57 MB
- MINIMUM MEMORY PER PROCESSOR...............:       57 MB
- AVERAGE MEMORY PER PROCESSOR...............:       57 MB
+ TOTAL MEMORY USED .........................:      261 MB
+ MAXIMUM MEMORY PER PROCESSOR...............:        0 MB
+ MINIMUM MEMORY PER PROCESSOR...............:       64 MB
+ AVERAGE MEMORY PER PROCESSOR...............:       65 MB
   
                    ** DISK USAGE STATISTICS **
   
@@ -260,12 +264,12 @@
                    ** COMPUTE TIME INFORMATION **
                         ** CURRENT ENGINE **
   
- EXECUTION STARTED .........................:      2022/11/23  16:23:20
- EXECUTION COMPLETED .......................:      2022/11/23  16:23:20
+ EXECUTION STARTED .........................:      2025/02/20  10:52:13
+ EXECUTION COMPLETED .......................:      2025/02/20  10:52:14
   
- ELAPSED TIME     =          0.23 s
-                          0:00:00
- ESTIMATED SPEEDUP=          3.55
+ ELAPSED TIME     =          1.53 s
+                          0:00:01
+ ESTIMATED SPEEDUP=          4.25
 
 
 
@@ -273,13 +277,13 @@
 
 
 
-     TOTAL NUMBER OF CYCLES  :     623
+     TOTAL NUMBER OF CYCLES  :     628
 
   
                    ** COMPUTE RUNTIME INFORMATION SUMMARY **
   
-        STARTER RUNTIME =          0.61s (00:00:00)
- # 001   ENGINE RUNTIME =          0.23s (00:00:00)
+        STARTER RUNTIME =          7.78s (00:00:07)
+ # 001   ENGINE RUNTIME =          1.53s (00:00:01)
  ------------------------------ 
- STARTER+ENGINE RUNTIME =          0.84s (00:00:00)
+ STARTER+ENGINE RUNTIME =          9.31s (00:00:09)
   
