@@ -103,7 +103,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,IPID,IPLA,ISRATE,NUPARAM,NFUNC,IADBUF,IFUNC(100),IRUPT
+      INTEGER :: I,IPID,IPLA,ISRATE,NUPARAM,NFUNC,IADBUF,IFUNC(100)
       my_real :: AREA,IYY,IZZ,IXX,ASRATE,EPSDI,FACT
       my_real ,DIMENSION(NEL) :: DPLA,SVM,PRESSURE,DEGMB,DEGFX,DEGSH
 c=======================================================================
@@ -141,11 +141,10 @@ c-------------------
       ENDDO
 c
       IPLA = ELBUF_STR%GBUF%G_PLA
-      IRUPT = 0 !number of failure criterion, if not defined, set to 0
-      
+   
       ! Cumulated plastic strain increment
       IF (IFAIL > 0 .and. IPLA > 0) THEN
-        IRUPT = ELBUF_STR%GBUF%FAIL(1)%ILAWF 
+
         DO I = 1,NEL
           DPLA(I) = ELBUF_STR%GBUF%PLA(I)
         ENDDO
@@ -182,7 +181,7 @@ c
      .         KXX    ,KYY        ,KZZ      ,AL        ,F1       ,
      .         F2     ,F3         ,M1       ,M2        ,M3       ,
      .         NEL    ,MAT        ,PID      ,NGL       ,IPM      ,
-     .         NUMMAT ,NUVAR      ,UVAR     ,IRUPT )
+     .         NUMMAT ,NUVAR      ,UVAR     )
 c
         CASE (44)  ! Cowper-Symonds
           IADBUF  = IPM(7 ,IMAT)
@@ -197,7 +196,7 @@ c
      .         EXX      ,EXY      ,EXZ      ,KXX      ,KYY      ,KZZ     ,
      .         F1       ,F2       ,F3       ,M1       ,M2       ,M3      ,
      .         FOR      ,MOM      ,PM       ,NUVAR    ,UVAR     ,NFUNC   ,
-     .         IFUNC    ,TF       ,NPF      ,IRUPT )
+     .         IFUNC    ,TF       ,NPF      )
 c
       END SELECT
 c
