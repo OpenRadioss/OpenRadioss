@@ -69,7 +69,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: NEED_COMPUTE
-      INTEGER I,J,N,ND,IGR,ISK,FL_VREL,ID_RBY,ID_FUNC
+      INTEGER I,J,N,ND,IGR,ISK,FL_VREL,ID_RBY,ID_FUNC,FL_FREQ_RANGE
       my_real, DIMENSION(3) :: DAMP_A,DAMP_B
       my_real, DIMENSION(3) :: DA_,DW_LOCAL,OMEGA_,BETASDT_
       my_real :: AA,DW,DA,BETASDT,OMEGA,FACTB,DAMPT,D_TSTART,D_TSTOP,
@@ -103,6 +103,7 @@ C-----------------------------------------------
         D_TSTART = DAMPR(17,ND)
         D_TSTOP  = DAMPR(18,ND)
         FL_VREL = NINT(DAMPR(21,ND))
+        FL_FREQ_RANGE = NINT(DAMPR(31,ND))
         ID_RBY = NINT(DAMPR(25,ND))        
 C
         IF (TT>=D_TSTART .AND. TT<=D_TSTOP) THEN
@@ -112,7 +113,7 @@ C-------------------------------------------------------------------------------
 C---------- Damping in global coordinates system -----------------------------------
 C-----------------------------------------------------------------------------------
 C
-              IF (FL_VREL == 0) THEN
+              IF ((FL_VREL == 0).AND.(FL_FREQ_RANGE == 0)) THEN
 C-------------Damping using global velocities 
                 IF (DAMPR(19,ND)==0) THEN
 C-------------------------------------------------
@@ -301,7 +302,7 @@ C-------------------------------------------------------------------------------
 C---------- Damping in local coordinates system ------------------------------------
 C-----------------------------------------------------------------------------------
 C
-              IF (FL_VREL == 0) THEN
+              IF ((FL_VREL == 0).AND.(FL_FREQ_RANGE == 0)) THEN
 C-------------Damping using global velocities 
                 IF (DAMPR(19,ND)==0) THEN
 C-------------------------------------------------
@@ -616,7 +617,8 @@ C-----------------------------------------------
         DAMPT  = MIN(DT1,DT2)*FACTB
         D_TSTART = DAMPR(17,ND)
         D_TSTOP  = DAMPR(18,ND)
-        IF (TT>=D_TSTART .AND. TT<=D_TSTOP) THEN
+        FL_FREQ_RANGE = NINT(DAMPR(31,ND))
+        IF ((TT>=D_TSTART .AND. TT<=D_TSTOP).AND.(FL_FREQ_RANGE==0)) THEN
         IF(ISK<=1)THEN
 C-------------------------------------------------
           IF(IRODDL/=0)THEN

@@ -217,7 +217,7 @@
         &dt1,         tt,          glob_therm,         &
         &impl_s,&
         &idyna,       userl_avail, nixs,        nixq,&
-        &dt)
+        &dt   ,       damp_buf,    idamp_freq_range)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -259,6 +259,7 @@
           type (nlocal_str_),intent(inout)                              :: nloc_dmg
           type (dt_), intent(in)                                        :: dt
           type (glob_therm_) ,intent(inout)                             :: glob_therm
+          type (buf_damp_range_) ,intent(in)                            :: damp_buf
 
           integer,intent(in) :: nixs
           integer,intent(in) :: nixq
@@ -308,6 +309,7 @@
           integer,intent(in) :: iselect
           integer,intent(in) :: sz_bufvois
           integer,intent(in) :: sbufmat
+          integer,intent(in) :: idamp_freq_range
           integer,dimension(102) :: idtmin
           integer, dimension(nvartmp*nel),intent(inout) :: vartmp
           integer,dimension(mvsiz),intent(in)           :: ngl
@@ -2471,11 +2473,12 @@
           endif   ! nfail
           if ((itask==0).and.(imon_mat==1))call stoptime(timers,121)
 !----------------------------------
-!     viscous stress (/visc models)
+!     viscous stress (/visc models + damping frequency range)
 !----------------------------------
 
           if (matparam%ivisc == 1 .or.&
-          &(matparam%ivisc == 2 .and. (ismstr == 10 .or. ismstr == 12))) then
+          &  (matparam%ivisc == 2 .and. (ismstr == 10 .or. ismstr == 12)).or.&
+          &  (idamp_freq_range > 0)) then
 !
             call viscmain(matparam%visc    ,nel     ,&
             &nvarvis ,vbuf%var,rho0    ,vis     ,ssp     ,dt1     ,&
@@ -2483,7 +2486,9 @@
             &sv1     ,sv2     ,sv3     ,sv4     ,sv5     ,sv6     ,&
             &mfxx    ,mfxy    ,mfxz    ,mfyx    ,mfyy    ,mfyz    ,&
             &mfzx    ,mfzy    ,mfzz    ,&
-            &s1      ,s2      ,s3      ,s4      ,s5      ,s6      )
+            &s1      ,s2      ,s3      ,s4      ,s5      ,s6      ,&
+            &damp_buf,idamp_freq_range ,mvsiz,et,matparam%young   ,&
+            &matparam%shear)
           endif
 !
 !     viscosity (navier-stokes)

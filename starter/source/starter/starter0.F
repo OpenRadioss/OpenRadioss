@@ -580,7 +580,7 @@ C
       NMADSOL=0
       NMADNOD=0
       I7STIFS=0
-      NRDAMP=30
+      NRDAMP=37
       NIFLOW=28
       NRFLOW=24
       NIIOFLOW=4

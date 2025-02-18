@@ -121,7 +121,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1   ISELECT,  TSTAR,    MUOLD,    AMU2,
      2   DPDM,     RHOREF,   RHOSP,    NLOC_DMG,
      3   ITY,      JTUR  ,   MAT_ELEM, IDEL7NOK,SVIS,
-     4   DT  ,     glob_therm)
+     4   DT  ,     glob_therm,damp_buf,idamp_freq_range)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -163,6 +163,7 @@ C-----------------------------------------------
      .        IX, JTHE, ISROT,ISTRAIN,IPTR, IPTS, IPTT,IHET,IEXPAN,NEL
       INTEGER NPF(*),MAT(MVSIZ),NGL(MVSIZ),PID(MVSIZ),IPM(NPROPMI,*),
      .        IPARG1(*),IPARG(NPARG,*),IGEO(NPROPGI,*),ITASK,ISELECT
+      INTEGER, INTENT(IN) :: IDAMP_FREQ_RANGE
       TARGET :: IPM
 C 
       my_real 
@@ -201,6 +202,7 @@ C
       TYPE (MAT_ELEM_)  ,INTENT(INOUT) :: MAT_ELEM
       TYPE (DT_), INTENT(IN) :: DT
       type (glob_therm_) ,intent(inout) :: glob_therm
+      type (buf_damp_range_) ,intent(in):: damp_buf
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1505,17 +1507,19 @@ c
       ENDIF   ! NFAIL
       IF ((ITASK==0).AND.(IMON_MAT==1))CALL STOPTIME(TIMERS,121)
 C-----------------------------------------------------------------------
-C     viscous stress (/VISC models) 
+C     viscous stress (/VISC models + Damping freqency range) 
 C-----------------------------------------------------------------------
-      IF (MAT_ELEM%MAT_PARAM(MAT(1))%IVISC > 0) THEN
+      IF ((MAT_ELEM%MAT_PARAM(MAT(1))%IVISC > 0).OR.(IDAMP_FREQ_RANGE > 0)) THEN
          CALL VISCMAIN(MAT_ELEM%MAT_PARAM(MAT(1))%VISC    ,NEL     ,
      .        NVARVIS ,VBUF%VAR,RHO0    ,VIS     ,SSP     ,DT1     , 
      .        EP1     ,EP2     ,EP3     ,EP4     ,EP5     ,EP6     ,
      .        SV1     ,SV2     ,SV3     ,SV4     ,SV5     ,SV6     ,
      .        MFXX    ,MFXY    ,MFXZ    ,MFYX    ,MFYY    ,MFYZ    ,
      .        MFZX    ,MFZY    ,MFZZ    ,
-     .        S1      ,S2      ,S3      ,S4      ,S5      ,S6      )
-       ENDIF 
+     .        S1      ,S2      ,S3      ,S4      ,S5      ,S6      ,
+     .        DAMP_BUF,IDAMP_FREQ_RANGE,MVSIZ,ET,MAT_ELEM%MAT_PARAM(IMAT)%YOUNG,
+     .        MAT_ELEM%MAT_PARAM(IMAT)%SHEAR)
+      ENDIF 
 C---------------------------
 C
 C  calcul of viscosity ( Navier-Stokes)

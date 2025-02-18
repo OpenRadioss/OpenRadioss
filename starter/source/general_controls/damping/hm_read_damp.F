@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_DAMP(DAMPR,IGRNOD, ISKN,LSUBMODEL,UNITAB,NPBY,
-     .                        SNPC1,NPC1,NDAMP_VREL_RBY)
+     .                        SNPC1,NPC1,NDAMP_VREL_RBY,IGRPART,DAMP_RANGE_PART)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -48,6 +48,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE UNITAB_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      USE damping_range_compute_param_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,10 +69,11 @@ C-----------------------------------------------
       INTEGER ISKN(LISKN,*)
       INTEGER, INTENT(IN) :: SNPC1,NPC1(SNPC1),NPBY(NNPBY,NRBYKIN)
       INTEGER, INTENT(INOUT) :: NDAMP_VREL_RBY
-      my_real
-     .  DAMPR(NRDAMP,*)
+      my_real DAMPR(NRDAMP,*)
+      INTEGER, INTENT(INOUT) :: DAMP_RANGE_PART(NPART)  !< flag to compute the damping range
 C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
+      TYPE (GROUP_)  ,DIMENSION(NGRPART) :: IGRPART
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -80,14 +82,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ID,JGRN,ISK,FL_VREL
+      INTEGER I,J,ID,JGRN,ISK,FL_VREL,FL_FREQ_RANGE
       INTEGER NB_PAS,RANGE,FLINT,FLG_PRI,SUB_INDEX
-      INTEGER FUNC_ID,RBODY_ID,IRBY,IFUN,IGR
+      INTEGER FUNC_ID,RBODY_ID,IRBY,IFUN,IGR,ITYPE,GRPART,USR_GRPART
       my_real
      .   FACTB,TSTART,TSTOP,
      .   ALPHA,BETA,ALPHA_Y,BETA_Y,ALPHA_Z,BETA_Z,ALPHA_XX,BETA_XX,ALPHA_YY,
      .   BETA_YY,ALPHA_ZZ,BETA_ZZ,CDAMP_MX,CDAMP_MY,CDAMP_MZ,
-     .   DV2_MX,DV2_MY,DV2_MZ,FREQ,XSCALE
+     .   DV2_MX,DV2_MY,DV2_MZ,FREQ,XSCALE,
+     .   CDAMP,FREQ_LOW,FREQ_HIGH,MAXWELL_ALPHA(3),MAXWELL_TAU(3)
       CHARACTER(LEN=NCHARTITLE) :: TITR,KEY
 !
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
@@ -124,6 +127,7 @@ C-->     SET TO 1.0
 C--------------------------------------------------
         FLINT = 0
         FL_VREL = 0
+        FL_FREQ_RANGE = 0
 C        
         IF(KEY(1:5)=='INTER')THEN
           FLINT = 1
@@ -237,7 +241,53 @@ C--------------------------------------------------
           DAMPR(25,I) = IRBY
           DAMPR(26,I) = IFUN
           DAMPR(27,I) = XSCALE
-          FULL_FORMAT = .TRUE.               
+          FULL_FORMAT = .TRUE.  
+C--------------------------------------------------                       
+        ELSEIF(KEY(1:4).EQ.'FREQ')THEN
+C--------------------------------------------------
+C         Dapming in frequency range
+C--------------------------------------------------
+          FL_FREQ_RANGE = 1
+C--------------------------------------------------
+C EXTRACT DATAS (INTEGER VALUES)
+C--------------------------------------------------
+          CALL HM_GET_INTV('itype',ITYPE,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('grpart_id',GRPART,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('RbodyID',RBODY_ID,IS_AVAILABLE,LSUBMODEL)
+          IF (ITYPE == 0) ITYPE = 3
+C---------Check part Id-----------------------------          
+          IF(GRPART/=0)THEN
+            IGR = 0
+            DO J=1,NGRPART
+              IF (IGRPART(J)%ID == GRPART) THEN
+                IGR=J
+                EXIT
+              END IF
+            END DO
+            IF(IGR ==  0) THEN
+                CALL ANCMSG(MSGID=3086,
+     .                      MSGTYPE=MSGERROR,
+     .                      ANMODE=ANINFO_BLIND_1,
+     .                      I1=ID,
+     .                      C1=TITR,
+     .                      I2=GRPART)
+            ENDIF
+C---------Tag of the parts-----------------------------            
+            DO J=1,IGRPART(IGR)%NENTITY
+              DAMP_RANGE_PART(IGRPART(IGR)%ENTITY(J)) = I
+            ENDDO      
+          ENDIF
+          WRITE(IOUT,1900)
+          ISK = 0
+          FULL_FORMAT = .TRUE.  
+C--------------------------------------------------
+C EXTRACT DATAS (REAL VALUES)
+C--------------------------------------------------
+          CALL HM_GET_FLOATV('Cdamp',CDAMP,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOATV('Tstart',TSTART,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOATV('Tstop',TSTOP,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOATV('Freq_low',FREQ_LOW,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOATV('Freq_high',FREQ_HIGH,IS_AVAILABLE,LSUBMODEL,UNITAB)       
         ELSE
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
@@ -286,13 +336,11 @@ C
         IF (TSTOP == ZERO) TSTOP=EP30
 C
         DAMPR(1,I) = ID
-        INGR2USR => IGRNOD(1:NGRNOD)%ID
-        IGR = NGR2USR(JGRN,INGR2USR,NGRNOD)
-        DAMPR(2,I) = IGR
-        DAMPR(3,I) = ALPHA
-        DAMPR(4,I) = BETA
-        IF (DAMPR(2,I) == 0) THEN
-          CALL ANCMSG(MSGID=171,
+        IF (FL_FREQ_RANGE == 0) THEN
+          INGR2USR => IGRNOD(1:NGRNOD)%ID
+          IGR = NGR2USR(JGRN,INGR2USR,NGRNOD)
+          IF (IGR == 0) THEN
+            CALL ANCMSG(MSGID=171,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
      .                C1='RAYLEIGH DAMPING',
@@ -300,7 +348,11 @@ C
      .                C2= TITR,
      .                C3='NODE',
      .                I2=JGRN)
+          ENDIF
         ENDIF
+        DAMPR(2,I) = IGR
+        DAMPR(3,I) = ALPHA
+        DAMPR(4,I) = BETA
         DAMPR(15,I) = ISK
         DAMPR(17,I) = TSTART
         DAMPR(18,I) = TSTOP
@@ -330,7 +382,7 @@ C--       reduced format only for /DAMP and /DAMP/INTER
           ENDIF
           WRITE (IOUT,1100) JGRN,ALPHA,BETA,FACTB,TSTART,TSTOP
         ELSE
-          IF ((FLINT==0).AND.(FL_VREL==0)) THEN
+          IF ((FLINT==0).AND.(FL_VREL==0).AND.(FL_FREQ_RANGE==0)) THEN
 C--         /DAMP
             FACTB = ONE
             FLG_PRI = 1 
@@ -392,7 +444,15 @@ C--       /DAMP/VREL
      .                        FREQ,TSTART,TSTOP
             DAMPR(28,I) = FREQ
             DAMPR(29,I) = ZERO
-            DAMPR(30,I) = ZERO            
+            DAMPR(30,I) = ZERO        
+          ELSEIF (FL_FREQ_RANGE == 1) THEN
+C--         /DAMP/FREQUENCY_RANGE
+            WRITE (IOUT,2000) GRPART,ITYPE,RBODY_ID,CDAMP,FREQ_LOW,FREQ_HIGH,TSTART,TSTOP
+C           Automatic computation of paramaters of the 3 maxwell components 
+            CALL damping_range_compute_param(CDAMP,FREQ_LOW,FREQ_HIGH,MAXWELL_ALPHA,MAXWELL_TAU)
+C          
+            DAMPR(32:34,I) = MAXWELL_ALPHA(1:3)
+            DAMPR(35:37,I) = MAXWELL_TAU(1:3)
           ENDIF
         ENDIF
         DAMPR(16,I) = FACTB
@@ -451,7 +511,16 @@ C---
      .       /10X,'QUADRATIC MASS DAMPING COEFFICIENT IN Z-DIRECTION.',1PG20.13
      .       /10X,'DAMPING FREQUENCY . . . . . . . . . . . . . . . . ',1PG20.13
      .       /10X,'START TIME . . . . . . . . . . . . . . . . . . . .',1PG20.13
-     .       /10X,'STOP TIME  . . . . . . . . . . . . . . . . . . . .',1PG20.13)         
+     .       /10X,'STOP TIME  . . . . . . . . . . . . . . . . . . . .',1PG20.13) 
+ 1900 FORMAT(/,10X,'DAMPING OVER FREQUENCY RANGE')             
+ 2000 FORMAT( 10X,'PART GROUP ID . . . . . . . . .',I10
+     .       /10X,'DAMPING TYPE. . . . . . . . . .',I10
+     .       /10X,'RBODY ID . . . . . . . . . . . ',I10
+     .       /10X,'DAMPING RATIO . . . . . . . . . . . . . . . . . . ',1PG20.13
+     .       /10X,'LOWEST FREQUENCY . . . . . . . . . . . . . . . . .',1PG20.13
+     .       /10X,'HIGHEST FREQUENCY. . . . . . . . . . . . . . . . .',1PG20.13          
+     .       /10X,'START TIME . . . . . . . . . . . . . . . . . . . .',1PG20.13
+     .       /10X,'STOP TIME  . . . . . . . . . . . . . . . . . . . .',1PG20.13)     
 C---
       RETURN
       END
