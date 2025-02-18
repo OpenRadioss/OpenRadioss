@@ -242,6 +242,8 @@ c
          NPTR = ELBUF_TAB(NG)%NPTR
          NPTS = ELBUF_TAB(NG)%NPTS
          NPTT = ELBUF_TAB(NG)%NPTT
+         NPTG = NPTR * NPTS * NPTT
+
 C------
          CALL INITBUF( IPARG    ,NG      ,
      2          MTE     ,NEL     ,NFT     ,IAD     ,ITY     ,
