@@ -38,11 +38,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .           SV1     ,SV2     ,SV3     ,SV4     ,SV5     ,SV6     ,
      .           MFXX    ,MFXY    ,MFXZ    ,MFYX    ,MFYY    ,MFYZ    ,
      .           MFZX    ,MFZY    ,MFZZ    ,
-     .           S1      ,S2      ,S3      ,S4      ,S5      ,S6      )
+     .           S1      ,S2      ,S3      ,S4      ,S5      ,S6      ,
+     .           DAMP_BUF,IDAMP_FREQ_RANGE ,MVSIZ   ,ET      ,YOUNG   ,
+     .           SHEAR_MODULUS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE VISC_PARAM_MOD
+      USE ELBUFDEF_MOD, only: buf_damp_range_
+      USE damping_range_solid_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,24 +59,45 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NEL,NVARVIS
+      INTEGER ,INTENT(IN) :: IDAMP_FREQ_RANGE
+      INTEGER ,INTENT(IN) :: MVSIZ
       my_real ,INTENT(IN) :: TIMESTEP
+      my_real ,INTENT(IN) :: YOUNG
+      my_real, INTENT(IN) :: SHEAR_MODULUS
       my_real, DIMENSION(NEL) :: RHO,VISCMAX,SOUNDSP,EPSPXX,EPSPYY,EPSPZZ, 
      .   EPSPXY,EPSPYZ,EPSPZX,SV1,SV2,SV3,SV4,SV5,SV6,S1,S2,S3,S4,S5,S6,
      .   MFXX,MFXY,MFXZ,MFYX,MFYY,MFYZ,MFZX,MFZY,MFZZ
       my_real, DIMENSION(NEL*NVARVIS) ,INTENT(INOUT) :: UVARVIS
+      my_real, DIMENSION(MVSIZ) ,INTENT(IN) :: ET      
       TYPE(VISC_PARAM_) ,INTENT(IN) :: VISC
+      TYPE(buf_damp_range_) ,INTENT(IN) :: DAMP_BUF      
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: NPRONY
-C=======================================================================        
-       IF (VISC%ILAW == 1) THEN
+      INTEGER :: NPRONY,J,NVAR_DAMP
+      my_real, DIMENSION(NEL) :: SDAMP1,SDAMP2,SDAMP3,SDAMP4,SDAMP5,SDAMP6
+C======================================================================= 
+C  
+      IF (IDAMP_FREQ_RANGE > 0) THEN
+        NVAR_DAMP = 21
+        SV1(1:NEL) = ZERO
+        SV2(1:NEL) = ZERO
+        SV3(1:NEL) = ZERO
+        SV4(1:NEL) = ZERO
+        SV5(1:NEL) = ZERO
+        SV6(1:NEL) = ZERO
+      ELSE
+        NVAR_DAMP = 0
+      ENDIF  
+C      
+C--   /VISC PRONY     
+      IF (VISC%ILAW == 1) THEN
 c
          NPRONY = VISC%IPARAM(1)
          CALL VISC_PRONY(VISC     ,NPRONY  ,NEL     ,NVARVIS ,UVARVIS ,
      .           EPSPXX  ,EPSPYY  ,EPSPZZ  ,EPSPXY  ,EPSPYZ  ,EPSPZX  , 
      .           SV1     ,SV2     ,SV3     ,SV4     ,SV5     ,SV6     ,
-     .           TIMESTEP,RHO     ,VISCMAX ,SOUNDSP )
+     .           TIMESTEP,RHO     ,VISCMAX ,SOUNDSP ,NVAR_DAMP)
 c
        ELSEIF (VISC%ILAW == 2) THEN
 c
@@ -81,8 +106,23 @@ c
      .           VISC    ,NPRONY  ,NEL     ,NVARVIS ,UVARVIS ,
      .           TIMESTEP,MFXX    ,MFXY    ,MFXZ    ,MFYX    ,MFYY    ,
      .           MFYZ    ,MFZX    ,MFZY    ,MFZZ    ,
-     .           S1      ,S2      ,S3      ,S4      ,S5      ,S6      )
-      ENDIF       
+     .           S1      ,S2      ,S3      ,S4      ,S5      ,S6)
+      ENDIF  
+C      
+C--   Damping frequency range - same formulation as visc/prony with 3 components
+      IF (IDAMP_FREQ_RANGE > 0) THEN   
+        call damping_range_solid(damp_buf,nel     ,nvarvis ,uvarvis ,nvar_damp  ,et   ,
+     .                           epspxx  ,epspyy  ,epspzz  ,epspxy  ,epspyz  ,epspzx  ,
+     .                           sdamp1  ,sdamp2  ,sdamp3  ,sdamp4  ,sdamp5  ,sdamp6  ,
+     .                           timestep,rho     ,soundsp ,young   ,shear_modulus)       
+        SV1(1:NEL) = SV1(1:NEL) + SDAMP1(1:NEL)
+        SV2(1:NEL) = SV2(1:NEL) + SDAMP2(1:NEL)
+        SV3(1:NEL) = SV3(1:NEL) + SDAMP3(1:NEL)
+        SV4(1:NEL) = SV4(1:NEL) + SDAMP4(1:NEL)
+        SV5(1:NEL) = SV5(1:NEL) + SDAMP5(1:NEL)
+        SV6(1:NEL) = SV6(1:NEL) + SDAMP6(1:NEL)   
+      ENDIF
+      
 c-----------
       RETURN
       END

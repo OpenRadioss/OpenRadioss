@@ -32,7 +32,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    elbufdef_mod    ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    h3d_inc_mod     ../engine/share/modules/h3d_inc_mod.F
       !||====================================================================
-      SUBROUTINE ALLOCBUF_AUTO(ELBUF_STR,BUFLEN,NPT,ITY,ISNOD,NEWLEN,INLOC,ISOLNOD)
+      SUBROUTINE ALLOCBUF_AUTO(ELBUF_STR,BUFLEN,NPT,ITY,ISNOD,NEWLEN,INLOC,ISOLNOD,
+     .                         IDAMP_FREQ_RANGE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -52,6 +53,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER BUFLEN,NPT,ITY,ISNOD,NEWLEN,INLOC
       INTEGER, INTENT(IN) :: ISOLNOD
+      INTEGER, INTENT(IN) :: IDAMP_FREQ_RANGE
       TYPE(ELBUF_STRUCT_) , TARGET   :: ELBUF_STR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -151,7 +153,7 @@ c-----
       NXEL  = NINT(RBUF(IAD+1))                        
         IAD = IAD+1                     
       IDRAPE  = NINT(RBUF(IAD+1))                        
-        IAD = IAD+1                     
+        IAD = IAD+1                           
 c-------------------------------------------------
       ELBUF_STR%IGTYP  = IGTYP
       ELBUF_STR%NEL    = NEL  
@@ -175,6 +177,16 @@ c-------------------------------------------------
         NPG = 0
         NPTTOT = 0
       ENDIF
+c---------------------------------------------------          
+c         Damping parameters for frequency range 
+c--------------------------------------------------- 
+      IF  (IDAMP_FREQ_RANGE == 1) THEN
+        ALLOCATE (ELBUF_STR%DAMP_RANGE%ALPHA(3) ,STAT=ERR)
+        ALLOCATE (ELBUF_STR%DAMP_RANGE%TAU(3)   ,STAT=ERR)
+        ELBUF_STR%DAMP_RANGE%ALPHA(1:3) = RBUF(IAD+1:IAD+3)
+        ELBUF_STR%DAMP_RANGE%TAU(1:3) = RBUF(IAD+4:IAD+6)
+        IAD = IAD + 6
+      ENDIF         
 c-------------------------------------------------
       ALLOCATE (ELBUF_STR%BUFLY(NLAY) ,STAT=ERR)                      
 C
@@ -933,7 +945,7 @@ c-------------------------------
 c         Viscosity model variables                            
 c-------------------------------
       DO IL = 1, NLAY                                                      
-        NUVAR = ELBUF_STR% BUFLY(IL)%NVAR_VISC                                     
+        NUVAR = ELBUF_STR% BUFLY(IL)%NVAR_VISC                           
         IF (IGTYP == 51 .OR. IGTYP == 52) THEN
           NPTT = ELBUF_STR%BUFLY(IL)%NPTT
         ELSE

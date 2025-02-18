@@ -66,7 +66,8 @@ C-----------------------------------------------
       INTEGER N,I,J,ISK,IGR,ND,K,L,LL
       my_real FACTB,DAMPBR,DAMPAR,D_TSTART,D_TSTOP,DAMPT,
      .   DT2N(NUMNOD),BB,COEFF,DTN,DTN2,DAMPAI,DAMPBI,DT0,DAMPA3,
-     .   ALPHA05,BETA1,DTMAX,FAC,DTMI1,DTMI2,BBI,FACI,FL_VREL,ID_RBY   
+     .   ALPHA05,BETA1,DTMAX,FAC,DTMI1,DTMI2,BBI,FACI,FL_VREL,ID_RBY,
+     .   FL_FREQ_RANGE   
 C----------------------------------------------------------
         DTMI1 = DTMIN1(11)
         DTMAX = EP04
@@ -82,7 +83,8 @@ C----------------------------------------------------------
 c--    
         DO I=1,NDAMP
 C--       
-          IF (DAMPR(19,I)/=0) CYCLE                                               
+          FL_FREQ_RANGE = NINT(DAMPR(31,I))
+          IF ((DAMPR(19,I)/=0).OR.(FL_FREQ_RANGE > 0)) CYCLE                                               
           D_TSTART = DAMPR(17,I)
           D_TSTOP  = DAMPR(18,I)         
           IF ((TT<D_TSTART).OR.(TT>D_TSTOP)) CYCLE

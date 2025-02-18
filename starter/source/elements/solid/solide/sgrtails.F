@@ -47,7 +47,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6       IPM           ,NOD2ELS ,ISOLOFF     , ISOLNOD1,
      7       TAGPRT_SMS    ,INIVOL  ,SPH2SOL     , SOL2SPH , SOL2SPH_TYP,
      8       IFLAG_BPRELOAD,CLUSTERS,MATPARAM_TAB, RNOISE  ,
-     9       PRINT_FLAG)
+     9       PRINT_FLAG    ,DAMP_RANGE_PART)
 C-----------------------------------------------
 C   A n a l y s e   M o d u l e
 C-----------------------------------------------
@@ -107,7 +107,8 @@ C-----------------------------------------------
      .        TAGPRT_SMS(*),SPH2SOL(*),
      .        SOL2SPH(2,*),SOL2SPH_TYP(*),IFLAG_BPRELOAD(*)
       INTEGER, INTENT(IN) :: IDDLEVEL
-      INTEGER, INTENT(IN) :: PRINT_FLAG !< flag to print the element group data
+      INTEGER, INTENT(IN) :: PRINT_FLAG                 !< flag to print the element group data
+      INTEGER, INTENT(IN) :: DAMP_RANGE_PART(NPART)     !< flag to compute the damping range
       TYPE(MATPARAM_STRUCT_) , TARGET, DIMENSION(NUMMAT),INTENT(IN) :: MATPARAM_TAB
       MY_REAL  PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO), RNOISE(NPERTURB,NUMELS)
 C-----------------------------------------------
@@ -126,7 +127,7 @@ C-----------------------------------------------
      .   IFAIL,IMATVIS,NLY,NL,ILAW,IM,IPMAT,ITET4,ITET10,
      .   NGP(NSPMD+1),JJ,IFAILMODEL,NFAIL,ISVIS,IVISC,IMAT,
      .   INUM_R2R(1+R2R_SIU*NUMELS),IPARTSPH,IPARTR2R,MFT,IBOLTP,ICP0,ISM0,
-     .   IPERT,STAT,ITSH,IT10,ICPT10,JALE_FROM_MAT,JALE_FROM_PROP
+     .   IPERT,STAT,ITSH,IT10,ICPT10,JALE_FROM_MAT,JALE_FROM_PROP,IDAMP_FREQ_RANGE
        DATA IPMAT /100/
        INTEGER, DIMENSION(:), ALLOCATABLE :: INDEXS2
       INTEGER ID
@@ -455,6 +456,8 @@ C ngroup global
           II = EADD(N)+NFT
           MID = IXS(1,II)
           PID = IXS(NIXS-1,II)
+C damping frequency range apply to group
+          IDAMP_FREQ_RANGE = DAMP_RANGE_PART(IPARTS(II))
 C Bolt preloading
           IBOLTP=0
           IF (NPRELOAD > 0) THEN
@@ -1483,6 +1486,8 @@ C         Formulation level for the solid elements time step computation
           IPARG(74,NGROUP)=ITET10
 c         non-local variable regularization flag for failure models
           IPARG(78,NGROUP) = MATPARAM%NLOC   ! NLOC_FAIL
+c         id of damping frequency range apply to group
+          IPARG(93,NGROUP) = IDAMP_FREQ_RANGE
 C------------------------------------------------------
 C LONGUEUR BUFFER
 C------------------------------------------------------

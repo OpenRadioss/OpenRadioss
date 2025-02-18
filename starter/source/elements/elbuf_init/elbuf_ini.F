@@ -104,7 +104,8 @@ C-----------------------------------------------
      .   ISUBSTACK,IPPID,IPIDL,NPT_LAY,LEN_PLAPT,LEN_SIGPT,
      .   IPMAT,IPMAT_IPLY,NPTTOT,NUVARN,NX,IBOLTP,CRKDIR,INLOC,LNLOC,
      .   NONL, DEBUG_PRINT,IPINCH,NUVAREOS,IEOS_TYPE,IDRAPE,LLOC_SLICE,
-     .   IPNPT_LAY,IDFAIL,LNLOCTS,ICONTROL,ISHOFFSET
+     .   IPNPT_LAY,IDFAIL,LNLOCTS,ICONTROL,ISHOFFSET,IDAMP_FREQ_RANGE,
+     .   LDAMP_FREQ_RANGE,NVAR_DAMP_FREQ_RANGE
       INTEGER, ALLOCATABLE, DIMENSION(:,:) :: TFAIL,FAILID
       INTEGER, ALLOCATABLE, DIMENSION(:)   :: IMAT,ILAW
       TYPE(BUF_LAY_)     , POINTER :: BUFLY
@@ -193,6 +194,9 @@ c
         IBOLTP  = IPARG(72,NG)  ! Bolt preloading flag
         IPINCH    = IPARG(90,NG)  ! Batoz shell pinching flag
         IDRAPE    = IPARG(92,NG)  ! Drape group shell flag
+        IDAMP_FREQ_RANGE = IPARG(93,NG)  ! Damping frequency range group flag
+        LDAMP_FREQ_RANGE = 6*MIN(1,IDAMP_FREQ_RANGE)
+        NVAR_DAMP_FREQ_RANGE = 21*MIN(1,IDAMP_FREQ_RANGE)
         NINTLAY = 0                                            
 cc        NXEL    = 0
 c----
@@ -399,7 +403,16 @@ c       no non-local structure allocation if not needed
 c--------------------------------------------------------
           IF (INLOC == 0) THEN 
             ALLOCATE(ELBUF_TAB(NG)%NLOCTS(0,0))
-          ENDIF                     
+          ENDIF        
+c--------------------------------------------------------
+c       damping structure for damping frequency range
+c--------------------------------------------------------
+          IF (IDAMP_FREQ_RANGE == 1) THEN 
+            ALLOCATE(ELBUF_TAB(NG)%DAMP_RANGE%ALPHA(3))
+            ALLOCATE(ELBUF_TAB(NG)%DAMP_RANGE%TAU(3))
+C          ELSE  
+C            ALLOCATE(ELBUF_TAB(NG)%DAMP_RANGE(0))
+          ENDIF           
 c-------------------------------------------------
           CALL ZEROVARS_AUTO(ELBUF_TAB(NG))
 c-------------------------------------------------
@@ -426,7 +439,7 @@ c
               ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT  = NUVAR
               ELBUF_TAB(NG)%BUFLY(IL)%NVAR_EOS  = NUVAREOS
               ELBUF_TAB(NG)%BUFLY(IL)%NVARTMP   = NVARTMP
-              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC = MAT_PARAM(IMAT(IL))%VISC%NUVAR
+              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC = MAT_PARAM(IMAT(IL))%VISC%NUVAR + NVAR_DAMP_FREQ_RANGE
               DO J = 1, NFAIL                                            
                 IRUPT  = MAT_PARAM(IMAT(IL))%FAIL(J)%IRUPT   ! modele de rupture
                 IDFAIL = MAT_PARAM(IMAT(IL))%FAIL(J)%FAIL_ID
@@ -500,7 +513,7 @@ c---
               ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT  = NUVAR
               ELBUF_TAB(NG)%BUFLY(IL)%NVARTMP   = NVARTMP
               ELBUF_TAB(NG)%BUFLY(IL)%NVAR_EOS  = NUVAREOS              
-              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC = MAT_PARAM(IMAT(IL))%VISC%NUVAR
+              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC = MAT_PARAM(IMAT(IL))%VISC%NUVAR + NVAR_DAMP_FREQ_RANGE
               ELBUF_TAB(NG)%BUFLY(IL)%IPORO= 0  
               ELBUF_TAB(NG)%BUFLY(IL)%NFAIL = NFAIL                          
               DO J = 1,NFAIL                                              
@@ -528,7 +541,7 @@ c---
               ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT= NUVAR
               ELBUF_TAB(NG)%BUFLY(IL)%NVARTMP = NVARTMP
               ELBUF_TAB(NG)%BUFLY(IL)%NVAR_EOS= 0
-              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC=MAT_PARAM(IMID)%VISC%NUVAR
+              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC=MAT_PARAM(IMID)%VISC%NUVAR + NVAR_DAMP_FREQ_RANGE
               ELBUF_TAB(NG)%BUFLY(IL)%IPORO= 0  
               ELBUF_TAB(NG)%BUFLY(IL)%NFAIL = NFAIL                          
               DO J = 1,NFAIL                                              
@@ -587,7 +600,7 @@ c---
             ELBUF_TAB(NG)%BUFLY(1)%NVARTMP = NVARTMP
             ELBUF_TAB(NG)%BUFLY(1)%NVAR_EOS= NUVAREOS
             ELBUF_TAB(NG)%BUFLY(1)%IVISC   = MAT_PARAM(IMID)%VISC%ILAW                                  
-            ELBUF_TAB(NG)%BUFLY(1)%NVAR_VISC = MAT_PARAM(IMID)%VISC%NUVAR
+            ELBUF_TAB(NG)%BUFLY(1)%NVAR_VISC = MAT_PARAM(IMID)%VISC%NUVAR + NVAR_DAMP_FREQ_RANGE
             ELBUF_TAB(NG)%BUFLY(1)%IPORO= 0                                           
             ELBUF_TAB(NG)%BUFLY(1)%NFAIL = NFAIL                                     
             DO J = 1,NFAIL                                                             
@@ -601,7 +614,7 @@ c---
 c---      User Mat Buffer, Fail buffer, Visc buffer :  alloc + init
           DO IL = 1, NLAY
            MX      = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
-           NUVARV  = MAT_PARAM(MX)%VISC%NUVAR
+           NUVARV  = MAT_PARAM(MX)%VISC%NUVAR + NVAR_DAMP_FREQ_RANGE
            ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC = NUVARV
            NUVARM  = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT
            NVARTMP = ELBUF_TAB(NG)%BUFLY(IL)%NVARTMP
@@ -807,7 +820,8 @@ c         GBUF%NVAR_GLOB ! number of element variables in GBUF
 c         BUFLY%NVAR_LAY ! number of element variables in BUFLY
 c         BUFLY%NVAR_LOC ! number of element variables in LBUF (defined on layer level)
 c
-          BUFLEN = NPAR_TAB + LMAT  + LFAIL + LVISC + LPORO + LEOS + LIMAT + LIFAIL + LNLOCTS
+          BUFLEN = NPAR_TAB + LMAT + LFAIL + LVISC + LPORO + LEOS + LIMAT + LIFAIL + LNLOCTS + 
+     .             LDAMP_FREQ_RANGE
           LGLOB = 0                                 
           LGLOB = LGLOB + GBUF%G_NOFF  
           LGLOB = LGLOB + GBUF%G_IERR  
@@ -1296,7 +1310,7 @@ c-----------------------------------------------
               ELBUF_TAB(NG)%BUFLY(IL)%IVISC = MAT_PARAM(IMAT(IL))%VISC%ILAW
               ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT  = MLAW_TAG(IMAT(IL))%NUVAR
               ELBUF_TAB(NG)%BUFLY(IL)%NVARTMP   = MLAW_TAG(IMAT(IL))%NVARTMP
-              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC = MAT_PARAM(IMAT(IL))%VISC%NUVAR
+              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC = MAT_PARAM(IMAT(IL))%VISC%NUVAR + NVAR_DAMP_FREQ_RANGE
               ELBUF_TAB(NG)%BUFLY(IL)%NVAR_EOS = NUVAREOS              
               ELBUF_TAB(NG)%BUFLY(IL)%IPORO = 0        
               ELBUF_TAB(NG)%BUFLY(IL)%NFAIL = NFAIL  
@@ -1318,7 +1332,7 @@ c---      Layer variables
 c---      User Mat Buffer, Fail buffer, Visc buffer :  alloc + init
           DO IL = 1, NLAY
            MX      = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
-           NUVARV  = MAT_PARAM(MX)%VISC%NUVAR
+           NUVARV  = MAT_PARAM(MX)%VISC%NUVAR + NVAR_DAMP_FREQ_RANGE
            ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC = NUVARV
            NUVARM = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT
            NVARTMP= ELBUF_TAB(NG)%BUFLY(IL)%NVARTMP
@@ -2009,7 +2023,7 @@ c
               ELBUF_TAB(NG)%BUFLY(IL)%IVISC = MAT_PARAM(IMID)%VISC%ILAW                              
               ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT  = MLAW_TAG(IMAT(IL))%NUVAR
               ELBUF_TAB(NG)%BUFLY(IL)%NVARTMP   = MLAW_TAG(IMAT(IL))%NVARTMP
-              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC = MAT_PARAM(IMID)%VISC%NUVAR  
+              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC = MAT_PARAM(IMID)%VISC%NUVAR + NVAR_DAMP_FREQ_RANGE
               ELBUF_TAB(NG)%BUFLY(IL)%NVAR_EOS  = NUVAREOS           
               ELBUF_TAB(NG)%BUFLY(IL)%IPORO = 0
               ELBUF_TAB(NG)%BUFLY(IL)%NFAIL = NFAIL

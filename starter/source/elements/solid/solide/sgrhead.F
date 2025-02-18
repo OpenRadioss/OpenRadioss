@@ -39,7 +39,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4       CEP        ,XEP           ,IXS10     ,IXS20   ,IXS16  ,
      5       IGEO       ,IPM           ,NOD2ELS   ,ISOLOFF ,
      6       TAGPRT_SMS ,SPH2SOL       ,SOL2SPH   ,MAT_PARAM,
-     7       SOL2SPH_TYP,IFLAG_BPRELOAD,CLUSTERS  ,RNOISE)
+     7       SOL2SPH_TYP,IFLAG_BPRELOAD,CLUSTERS  ,RNOISE  ,
+     8       DAMP_RANGE_PART)
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
@@ -53,7 +54,7 @@ C     ISEL(NSELS)          ARRAY: DES SOLIDES CHOISIS POUR TH        E/S
 C     ITR1(NSELS)          ARRAY: WORKING                            E/S
 C     EADD(NUMELS)         ARRAY: IDAM INDEXES / checkboard            S
 C     INDEX(NUMELS)        ARRAY: WORKING                            E/S
-C     ITRI(6,NUMELS)       ARRAY: WORKING                            E/S
+C     ITRI(8,NUMELS)       ARRAY: WORKING                            E/S
 C     IPARTS(NUMELS)       ARRAY: PART                               E/S
 C     CEP(NUMELS)          ARRAY: WORKING                            E/S
 C     XEP(NUMELS)          ARRAY: WORKING                            E/S
@@ -89,7 +90,7 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER IXS(NIXS,NUMELS),ISEL(*),INUM(16,*),IPARTS(*),
-     .        EADD(*),ITR1(*),INDEX(*),ITRI(7,*),
+     .        EADD(*),ITR1(*),INDEX(*),ITRI(8,*),
      .        ND, ISOLNOD(*), CEP(*),
      .        XEP(*),IXS10(6,*),IXS20(12,*),IXS16(8,*),
      .        NOD2ELS(*), ISOLOFF(*),
@@ -97,6 +98,7 @@ C-----------------------------------------------
      .        SOL2SPH(2,*),SOL2SPH_TYP(*),IFLAG_BPRELOAD(*)
       INTEGER,INTENT(IN) :: IPM(NPROPMI,NUMMAT)
       INTEGER,INTENT(INOUT) :: IGEO(NPROPGI,NUMGEO)
+      INTEGER, INTENT(IN)   :: DAMP_RANGE_PART(NPART)   ! < flag to compute the damping range
       my_real,INTENT(IN) :: PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO)
       my_real,INTENT(INOUT) ::  RNOISE(NPERTURB,NUMELS)
 C-----------------------------------------------
@@ -110,7 +112,7 @@ C-----------------------------------------------
       INTEGER 
      .        I,J,K,L,IL,MLN, NG, ISSN, NPN, NN, N, MID, PID ,IREP,
      .        II,II0,JJ0,II1,JJ1,II2,JJ2,JJ,II3,JJ3,II4,JJ4,II5,JJ5,
-     .        JHBE,ISO,IGT,IINT,MODE,IEOS,IVISC,IVISC0,TSHELL, 
+     .        II6,JJ6,JHBE,ISO,IGT,IINT,MODE,IEOS,IVISC,IVISC0,TSHELL, 
      .        IPLAST, IALEL,MT,NFAIL,NFAIL0,ITET4,ICPRE,ICSTR,IRB ,
      .        NLAY,NPTR,NPTS,NPTT,IMAT,INUM_R2R(1+R2R_SIU*NUMELS),
      .        NSPHDIR,IPARTSPH,NUVAR,ISVIS,IBOLTP,ITET10,NLOC_FAIL,
@@ -344,11 +346,12 @@ Clef 7---------------------------------
         NLOC_FAIL = MY_SHIFTL(NLOC_FAIL,19)
 C       next  = MY_SHIFTL(next,21)
         ITRI(7,I)=IEOS+IVISC+NUVAR+ISVIS+IBOLTP+ITET10+NLOC_FAIL
-c        
+Clef 8---------------------------------        
+        ITRI(8,I )= DAMP_RANGE_PART(IPARTS(II))        
       ENDDO
 C
       MODE=0
-      CALL MY_ORDERS( MODE, WORK, ITRI, INDEX, NUMELS , 7)
+      CALL MY_ORDERS( MODE, WORK, ITRI, INDEX, NUMELS , 8)
 C
       DO I=1,NUMELS
         IPARTS(I) =INUM(1,INDEX(I))
@@ -555,8 +558,11 @@ C--------------------------------------------------------------
         JJ4=ITRI(6,INDEX(I-1))
         II5=ITRI(7,INDEX(I))
         JJ5=ITRI(7,INDEX(I-1))
+        II6=ITRI(8,INDEX(I))
+        JJ6=ITRI(8,INDEX(I-1))
         IF(II0/=JJ0.OR.II/=JJ.OR.II1/=JJ1.OR.II2/=JJ2.OR.
-     .     II5/=JJ5.OR.II3/=JJ3.OR.II4/=JJ4) THEN
+     .     II5/=JJ5.OR.II3/=JJ3.OR.II4/=JJ4.OR.
+     .     II6/=JJ6) THEN
           ND=ND+1
           EADD(ND)=I
         ENDIF
