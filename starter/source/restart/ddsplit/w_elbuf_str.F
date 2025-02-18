@@ -51,7 +51,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,IL,IR,IS,IT,NG,NEL,NPT,P,L_REL,BUFLEN,NUVAR,NVARTMP,
      .   ITY,IGTYP,ERR,IFAIL,IDFAIL,DEBUG_PRINT,IAD,
-     .   NFAIL,IXFEM,IVISC,II,NINTLAY,NPG,IPT,NPTT,NPTTOT,INLOC,NONL
+     .   NFAIL,IXFEM,IVISC,II,NINTLAY,NPG,IPT,NPTT,NPTTOT,INLOC,NONL,
+     .   IDAMP_FREQ_RANGE
       INTEGER ! global variables
      .   G_GAMA,G_SIG,G_OFF,G_NOFF,G_EINT,G_EINS,G_TEMP,
      .   G_RHO,G_PLA,G_VOL,G_EPSD,G_QVIS,G_DELTAX,G_TB,G_RK,G_RE,
@@ -112,6 +113,7 @@ c
       DO NG=1,NGROUP
         P      = IPARG(32,NG)
         INLOC  = IPARG(78,NG) ! Flag for non-local regularization
+        IDAMP_FREQ_RANGE = IPARG(93,NG) ! Flag for damping frequency range
 c----
         IF (P == PROC) THEN
 c----
@@ -209,7 +211,15 @@ c---------  write top structure parameters: NPAR_TAB = 9
           RBUF_L(L_REL+1) = ELBUF%NXEL       
                  L_REL = L_REL+1         
           RBUF_L(L_REL+1) = ELBUF%IDRAPE       
-                 L_REL = L_REL+1                        
+                 L_REL = L_REL+1        
+c---------------------------------------------------          
+c         Damping parameters for frequency range 
+c--------------------------------------------------- 
+          IF  (IDAMP_FREQ_RANGE == 1) THEN
+            RBUF_L(L_REL+1:L_REL+3) = ELBUF%DAMP_RANGE%ALPHA(1:3)
+            RBUF_L(L_REL+4:L_REL+6) = ELBUF%DAMP_RANGE%TAU(1:3)
+            L_REL = L_REL + 6
+          ENDIF                              
 c---------------------------------------------------          
 c         LAYERS : write buffer at layer level 
 c---------------------------------------------------
@@ -1766,10 +1776,10 @@ c---
           RBUF_L(L_REL+1:L_REL+NEL*G_TM_STRA) = GBUF%TM_STRA3(1:NEL*G_TM_STRA)
             L_REL = L_REL +NEL*G_TM_STRA
 c---------------------------------------------------
-              IF (DEBUG_PRINT == 1) THEN
-                 print*,'      TOTAL GLOB VARS =', L_REL-SUM
-                 IAD = L_REL
-              ENDIF
+          IF (DEBUG_PRINT == 1) THEN
+            print*,'      TOTAL GLOB VARS =', L_REL-SUM
+            IAD = L_REL
+          ENDIF
 c---------------------------------------------------
 C---------
           CALL WRITE_DB (RBUF_L,L_REL)

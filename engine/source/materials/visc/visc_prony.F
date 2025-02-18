@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE VISC_PRONY(VISC  ,NPRONY  ,NEL     ,NVARVIS ,UVARVIS ,
      .           EPSPXX  ,EPSPYY  ,EPSPZZ  ,EPSPXY  ,EPSPYZ  ,EPSPZX  ,
      .           SV1     ,SV2     ,SV3     ,SV4     ,SV5     ,SV6     ,
-     .           TIMESTEP,RHO     ,VISCMAX ,SOUNDSP )
+     .           TIMESTEP,RHO     ,VISCMAX ,SOUNDSP ,NVAR_DAMP)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -43,6 +43,7 @@ C---------+---------+---+---+--------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NEL,NVARVIS,NPRONY
+      INTEGER ,INTENT(IN) :: NVAR_DAMP
       my_real
      .   TIMESTEP
       my_real
@@ -89,7 +90,7 @@ C=======================================================================
         BB(J) = TWO*TIMESTEP*GV(J)*EXP(-HALF*BETA(J)*TIMESTEP) 
 C        
         AAK(J) = EXP(-BETAK(J)*TIMESTEP)
-        BBK(J) = TIMESTEP*KV(J)*EXP(-HALF*BETAK(J)*TIMESTEP)   
+        BBK(J) = TIMESTEP*KV(J)*EXP(-HALF*BETAK(J)*TIMESTEP)
       ENDDO 
 C    
       IF(IMOD > 0) THEN        
@@ -113,7 +114,7 @@ C
         ENDDO
 C            
         DO J= 1,NPRONY  
-          II = (J-1)*NVARVIS/NPRONY
+          II = (J-1)*(NVARVIS-NVAR_DAMP)/NPRONY
           DO I=1,NEL
 C                                                                    
             H0(1) = UVARVIS(I,II + 1)                         
@@ -122,7 +123,7 @@ C
             H0(4) = UVARVIS(I,II + 4)                         
             H0(5) = UVARVIS(I,II + 5)                         
             H0(6) = UVARVIS(I,II + 6)                          
-            HP0    = UVARVIS(I,II + 7)                         
+            HP0    = UVARVIS(I,II + 7)            
 C
             H(1) = AA(J)*H0(1) + BB(J)*EPXX(I)                     
             H(2) = AA(J)*H0(2) + BB(J)*EPYY(I)                     
@@ -130,7 +131,7 @@ C
             H(4) = AA(J)*H0(4) + HALF*BB(J)*EPSPXY(I)         
             H(5) = AA(J)*H0(5) + HALF*BB(J)*EPSPYZ(I)         
             H(6) = AA(J)*H0(6) + HALF*BB(J)*EPSPZX(I)                    
-            HP = AAK(J)*HP0 + BBK(J)*TRACE(I)           
+            HP = AAK(J)*HP0 + BBK(J)*TRACE(I)
 C
             UVARVIS(I,II + 1) = H(1)                        
             UVARVIS(I,II + 2) = H(2)                        
@@ -153,7 +154,7 @@ c
         DO I=1,NEL
           SV1(I) = SV1(I) - P(I)                                       
           SV2(I) = SV2(I) - P(I)                                       
-          SV3(I) = SV3(I) - P(I)                                       
+          SV3(I) = SV3(I) - P(I)                        
 C                                                                       
           SOUNDSP(I) = SQRT(SOUNDSP(I)**2 + (FOUR_OVER_3*G + RBULK)/RHO(I)) 
         ENDDO  !   I=1,NEL
@@ -177,7 +178,7 @@ C
         ENDDO
 C            
         DO J= 1,NPRONY  
-          II = (J-1)*NVARVIS/NPRONY
+          II = (J-1)*(NVARVIS-NVAR_DAMP)/NPRONY
 C               
           DO I=1,NEL                                                      
             H0(1) = UVARVIS(I,II + 1)                         

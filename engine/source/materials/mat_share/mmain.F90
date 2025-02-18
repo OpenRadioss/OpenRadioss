@@ -378,7 +378,8 @@
           integer ibidon1,ibidon2,ibidon3,ibidon4                     ! Dummy arguments
           integer i,ipg,nuvar,nparam,nfunc,ifunc_alpha,ilaw,imat,&
           &        nvarf,nfail,ntabl_fail,ir,irupt,ivisc,eostyp,npts,nptt,nptr,npg,  &
-          &        isvis,nvartmp,nlay,inloc,iselect,ibpreld,nvareos,nvarvis
+          &        isvis,nvartmp,nlay,inloc,iselect,ibpreld,nvareos,nvarvis,&   
+          &        idamp_freq_range
           integer ifunc(maxfunc)
 
           ! Float/Double
@@ -431,6 +432,7 @@
           type(buf_fail_) ,pointer :: fbuf
           type(buf_visc_) ,pointer :: vbuf
           type(buf_eos_)  ,pointer :: ebuf
+          type(buf_damp_range_)  ,pointer :: damp_buf
           my_real,&
           &dimension(:), pointer  :: uvarf,uparamf,dfmax,tdel,damini
           my_real ,dimension(:), pointer  :: el_temp
@@ -483,6 +485,7 @@
           jclose  = iparg(33,ng)
           irep    = iparg(35,ng)
           iint    = iparg(36,ng)
+          idamp_freq_range = iparg(93,ng)
           ihet    = 0
           if(jhbe == 24) ihet = iint
 
@@ -522,6 +525,7 @@
 
 
           gbuf => elbuf_tab(ng)%gbuf
+          damp_buf => elbuf_tab(ng)%damp_range
           lbuf => elbuf_tab(ng)%bufly(ilay)%lbuf(iptr,ipts,iptt)
           mbuf => elbuf_tab(ng)%bufly(ilay)%mat(iptr,ipts,iptt)
           fbuf => elbuf_tab(ng)%bufly(ilay)%fail(iptr,ipts,iptt)
@@ -1825,7 +1829,7 @@
             &iselect,    tstar,      lbuf%mu,    amu2,&
             &dpdm,       rhoref,     rhosp,      nloc_dmg,&
             &ity,        jtur,       mat_elem,   idel7nok,svis,&
-            &dt ,        glob_therm )
+            &dt ,        glob_therm, damp_buf,   idamp_freq_range)
 !
           else   ! 'user type' radioss material laws
 !---
@@ -1879,7 +1883,7 @@
             &dt1,         tt,         glob_therm,          &
             &impl_s,&
             &idyna,       userl_avail, nixs,        nixq,&
-            &dt)
+            &dt,          damp_buf,    idamp_freq_range)
 
           endif
 !-----------------------------------
@@ -1968,9 +1972,9 @@
             enddo
           endif
 !-----------------------------------------------------------------------
-!     viscous stress (/visc models)
+!     viscous stress (/visc models + damping frequency range)
 !-----------------------------------------------------------------------
-          if (ivisc > 0 .and. (mtn  < 28 .and. mtn /= 24)) then
+          if (((ivisc > 0).or.(idamp_freq_range > 0)).and.(mtn  < 28 .and. mtn /= 24)) then
             do i=1,nel
               ep1(i) = dxx(i)*off(i)
               ep2(i) = dyy(i)*off(i)
@@ -2007,7 +2011,10 @@
             &sv1     ,sv2     ,sv3     ,sv4     ,sv5     ,sv6     ,&
             &mfxx    ,mfxy    ,mfxz    ,mfyx    ,mfyy    ,mfyz    ,&
             &mfzx    ,mfzy    ,mfzz    ,&
-            &s1      ,s2      ,s3      ,s4      ,s5      ,s6      )
+            &s1      ,s2      ,s3      ,s4      ,s5      ,s6      ,&
+            &damp_buf,idamp_freq_range ,mvsiz,et,mat_elem%mat_param(imat)%young,&
+            &mat_elem%mat_param(imat)%shear)
+
 !---
             if (isorth /= 0.and. jcvt == 0) then
               call mrotens(1,nel,&

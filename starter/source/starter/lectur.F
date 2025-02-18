@@ -1182,8 +1182,10 @@ C
       INTEGER , DIMENSION(:), ALLOCATABLE :: INDXSH  
       INTEGER :: NUMBER_LOAD_CYL
       INTEGER :: S_NOD2ELS,S_NOD2ELTG,S_NOD2EL1D
-C SEATBELTS      
+C DAMPING   
       INTEGER :: NDAMP_VREL_RBY
+      INTEGER :: NDAMP_FREQ_RANGE
+      INTEGER , DIMENSION(:), ALLOCATABLE :: DAMP_RANGE_PART  
 
       TYPE(INTER_CAND_) :: INTER_CAND
       TYPE (FAIL_FRACTAL_)  :: FAIL_FRACTAL
@@ -1224,6 +1226,8 @@ c=======================================================================
       NXLAYMAX = 0   ! max layer nb in parts xfem
 C     /DAMP/VREL + RBY      
       NDAMP_VREL_RBY = 0
+C     /DAMP/FREQUENCY_RANGE      
+      NDAMP_FREQ_RANGE = 0
 C ply xfem
       IPLYXFEM  = 0
       NPLYXFE = 0
@@ -1477,6 +1481,8 @@ C--------------------------------------------
       IF(NDAMP > 0) THEN
         SDAMPR = NRDAMP*NDAMP
         SDAMP  = 3*(1+MAX(IRODDL,IRODDL0))*NUMNOD
+        CALL HM_OPTION_COUNT('/DAMP/FREQUENCY_RANGE',NDAMP_FREQ_RANGE)
+        IF (NDAMP == NDAMP_FREQ_RANGE) SDAMP = 0
         ALLOCATE(DAMPR(SDAMPR+SDAMP)     ,STAT=stat)
         IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
@@ -1495,6 +1501,11 @@ C--------------------------------------------
      .                             MSGTYPE=MSGERROR,
      .                         C1='DAMP')
       ENDIF
+      ALLOCATE(DAMP_RANGE_PART(NPART),STAT=stat)        
+      IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+     .                             MSGTYPE=MSGERROR,
+     .                         C1='DAMP_RANGE_PART')      
+      DAMP_RANGE_PART = 0
       ALLOCATE(X(SX)       ,STAT=stat)
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
@@ -2332,7 +2343,7 @@ C-----------------------------------------------------
      .                           MSGTYPE=MSGERROR,
      .                         C1='IWORK')
       IWORK = 0
-      ALLOCATE(THK_PART(NPART)    ,STAT=stat)
+      ALLOCATE(THK_PART(NPART)    ,STAT=stat)   
 C
       CALL HM_READ_PART(IPART  ,PM      ,GEO       ,IPM     ,IGEO ,IWORK ,THK_PART,
      .                  UNITAB,LSUBMODEL,MULTI_FVM ,MLAW_TAG,MAT_ELEM%MAT_PARAM,GLOB_THERM)
@@ -5546,6 +5557,20 @@ C
      .                       ISKWN   ,TF      ,NPC)
         CALL TRACE_OUT1()
       ENDIF
+C      
+C------------------------------------------------------------------
+C     RAYLEIGH DAMPING
+C--------------------------------------------
+      IF (NDAMP > 0) THEN
+        IF(IDDLEVEL==0)THEN
+          ERR_MSG='DAMPING'
+          ERR_CATEGORY='DAMPING'
+          CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))             
+          IF(NDAMP > 0) CALL HM_READ_DAMP(DAMPR,IGRNOD,ISKWN,LSUBMODEL,UNITAB,NPBY,
+     .                                    SNPC1,NPC1,NDAMP_VREL_RBY,IGRPART,DAMP_RANGE_PART)
+          CALL TRACE_OUT1()
+        ENDIF     
+      ENDIF      
 C
 c-----------------------------------------------------------------------
 C
@@ -5881,7 +5906,7 @@ C---------------------------
       NUMELIG3DK8  =    NUMELIG3D
       NUMSPHK8     =    NUMSPH
 ! working int8 to avoid integer overflow for large models
-      EMAX = MAX(23*NUMELCK8,24*NUMELTGK8+1,29*NUMELSK8+1,19*NUMELRK8,
+      EMAX = MAX(23*NUMELCK8,24*NUMELTGK8+1,30*NUMELSK8+1,19*NUMELRK8,
      .           18*NUMELPK8+1,17*NUMELTK8,19*NUMELQK8,
      .           15*NUMELXK8+1,24*NUMELIG3DK8+1,NUMSPHK8) + 1
 
@@ -5914,7 +5939,7 @@ C---------------------------------
         K2 = K1 + NUMELS
         K3 = K2 + NUMELS+1
         K4 = K3 + NUMELS*2
-        K5 = K4 + NUMELS*7
+        K5 = K4 + NUMELS*8
         !K5B= K4 + NUMELS
         K6 = K5 + NUMELS
         !warning: please also update any index change
@@ -5936,7 +5961,8 @@ C
      5       IGEO   ,IPM    ,NOD2ELS,ISOLOFF ,
      6       TAGPRT_SMS,SPH2SOL,SOL2SPH,MAT_ELEM%MAT_PARAM,
      7       SOL2SPH_TYP    ,IFLAG_BPRELOAD, CLUSTERS ,
-     8       RNOISE(1,MIN(SRNOISE2,NUMELC+NUMELTG+1)))
+     8       RNOISE(1,MIN(SRNOISE2,NUMELC+NUMELTG+1)),
+     9       DAMP_RANGE_PART)
 C---------------------------------
 C-  GROUPAGE SPMD
 C---------------------------------
@@ -5953,7 +5979,7 @@ C test non depassement de LDD_IAD
           END DO
           DEALLOCATE(DD_TMP2)
         END IF
-C
+C 
         GRSOL_ID1 = NGROUP
         CALL SGRTAILS(
      1       IXS      ,PM       ,IPARGTMP ,GEO      ,
@@ -5964,7 +5990,7 @@ C
      6       IPM      ,NOD2ELS  ,ISOLOFF  ,ISOLNOD  ,
      7       TAGPRT_SMS,INIVOL  ,SPH2SOL  ,SOL2SPH  ,SOL2SPH_TYP,
      8       IFLAG_BPRELOAD, CLUSTERS ,MAT_ELEM%MAT_PARAM ,RNOISE(1,MIN(SRNOISE2,NUMELC+NUMELTG+1)),
-     9       IPRI)
+     9       IPRI     ,DAMP_RANGE_PART)
         GRSOL_ID2 = NGROUP
         NGR_SOL   = GRSOL_ID2 - GRSOL_ID1
 C
@@ -7814,19 +7840,6 @@ C--------------------------------------------
      .                             ITAB    ,ITABM1  ,D       ,IKINE1LAG,NOM_OPT)
       ENDIF
       CALL TRACE_OUT1()
-C------------------------------------------------------------------
-C     RAYLEIGH DAMPING
-C--------------------------------------------
-      IF (NDAMP > 0) THEN
-        IF(IDDLEVEL==0)THEN
-          ERR_MSG='DAMPING'
-          ERR_CATEGORY='DAMPING'
-          CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-          IF(NDAMP > 0) CALL HM_READ_DAMP(DAMPR,IGRNOD,ISKWN,LSUBMODEL,UNITAB,NPBY,
-     .                                    SNPC1,NPC1,NDAMP_VREL_RBY)
-          CALL TRACE_OUT1()
-        ENDIF     
-      ENDIF
 C--------------------------------------------
       IF(NINTER > 0) THEN
 C--------------------------------------------
@@ -8655,7 +8668,8 @@ C
      &            KNOD2EL1D  , NOD2EL1D       , EBCS_TAB         , RBY_INIAXIS        , ALEA     ,
      &            KNOD2ELC   , NOD2ELC        , DR               , SLRBODY            , DRAPEG   ,
      &            IPARI      , INTBUF_TAB     , INTERFACES       , MAT_ELEM%MAT_PARAM ,
-     &            NPRELOAD_A , PRELOAD_A      , FAIL_FRACTAL     ,FAIL_BROKMANN       ,DEFAULTS  )
+     &            NPRELOAD_A , PRELOAD_A      , FAIL_FRACTAL     ,FAIL_BROKMANN       ,DEFAULTS  ,
+     &            NDAMP_FREQ_RANGE,DAMPR)
 
 
       IF(NINTER>0.AND.NUMELIG3D>0) THEN
@@ -11242,6 +11256,7 @@ C
       IF(ALLOCATED(IRAND)) DEALLOCATE(IRAND)
       IF(ALLOCATED(SENSORS%SENSOR_TAB)) DEALLOCATE(SENSORS%SENSOR_TAB )
       IF(ALLOCATED(SENSORS%LOGICAL_SENSORS_LIST)) DEALLOCATE(SENSORS%LOGICAL_SENSORS_LIST)
+      IF(ALLOCATED(DAMP_RANGE_PART)) DEALLOCATE(DAMP_RANGE_PART)
 C
       CALL EBCS_TAB%destroy()
       IF(NINIMAP1D > 0 .AND. .NOT. MULTI_FVM%IS_USED) THEN
