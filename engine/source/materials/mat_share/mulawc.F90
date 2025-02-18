@@ -575,18 +575,21 @@
               &                + fourth*exy(i)*exy(i))
               epsp_loc(i) = sqrt(eps_m2)*dt_inv(i)
             end do
+          else
+              epsp_loc(1:nel) = zero
           endif
 !
           if (israte > 0) then    ! strain rate filtering with exponential average
             asrate = min(one, pm(9,mx)*dt1)
-            do i=jft,jlt
+          else 
+            asrate = zero 
+          endif
+
+          do i=jft,jlt
               epsp(i)   = asrate*epsp_loc(i) + (one-asrate)*epsp(i)
               epspl(i)  = epsp(i)
               epspdt(i) = epsp(i)*dt1
-            end do
-          else
-            asrate = zero
-          endif
+          end do
 !-----------------------------------------------------------
 !     loop over thickness integration points (layers)
 !-----------------------------------------------------------

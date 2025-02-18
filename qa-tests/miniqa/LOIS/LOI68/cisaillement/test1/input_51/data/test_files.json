@@ -5,7 +5,7 @@
     "TOL_IENERGY"    :  ["Diff_tolerance","0.0029"],
     "TOL_KENERGYT"   :  ["Abs_tolerance","0.0002"],
     "TOL_KENERGYR"   :  ["Abs_tolerance","8.0e-05"],
-    "TOL_EXTWORK"    :  ["Diff_tolerance","0.032"],
+    "TOL_EXTWORK"    :  ["Diff_tolerance","0.0035"],
     "TOL_ERROR"      :  ["Abs_tolerance","0.2"],
     "TOL_IENERGY_SP" :  ["Diff_tolerance","0.007"],
     "TOL_KENERGYT_SP" : ["Diff_tolerance","0.0265"],

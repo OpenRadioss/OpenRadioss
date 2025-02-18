@@ -93,6 +93,17 @@ C-----------------------------------------------
       RHO0(1:NEL) = PM(1, LOCAL_MATID)
       MAT(1:NEL) = LOCAL_MATID
       DVOL(1:NEL) = ZERO
+      MU2(1:NEL) = ZERO
+      MU(1:NEL) = ZERO
+      ESPE(1:NEL) = ZERO
+      DPDE(1:NEL) = ZERO
+      ECOLD(1:NEL) = ZERO
+      DVOL(1:NEL) = ZERO
+      DF(1:NEL) = ONE
+      PSH(1:NEL) = ZERO
+      MUOLD(1:NEL) = ZERO
+      GAMMA = ZERO
+      PSTAR = ZERO
       DO II = 1, NEL
          IF (VOL(II) > ZERO) THEN
             MU(II)    = RHO(II) / RHO0(II) - ONE

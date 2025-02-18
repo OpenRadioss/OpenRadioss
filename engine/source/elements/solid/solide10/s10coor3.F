@@ -122,11 +122,9 @@ C
           EPLASM(1:NEL)=ZERO
       ENDIF
 
-      IF(ISMSTR==1.OR.(ISMSTR==2.AND.IDTMIN(1)==3).OR.ISMSTR==11)THEN
-          WXXG(1:NEL)=ZERO
-          WYYG(1:NEL)=ZERO
-          WZZG(1:NEL)=ZERO
-      END IF
+      WXXG(1:NEL)=ZERO
+      WYYG(1:NEL)=ZERO
+      WZZG(1:NEL)=ZERO
 
       IF(ISROT /= 1)THEN
         DO I=1,NEL
