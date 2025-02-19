@@ -675,14 +675,18 @@ C          if(TAG_EL(ICUT)==0)CYCLE
             VAL1             = M(1,1,ICUT)*Ph(1,ICUT,J) + M(2,1,ICUT)*Ph(2,ICUT,J) + M(3,1,ICUT)*Ph(3,ICUT,J)
             VAL2             = M(1,2,ICUT)*Ph(1,ICUT,J) + M(2,2,ICUT)*Ph(2,ICUT,J) + M(3,2,ICUT)*Ph(3,ICUT,J)
             VAL3             = ZERO 
-            Ph(1:3,ICUT,J)   = (/VAL1,VAL2,VAL3/)
+            Ph(1,ICUT,J)   = VAL1
+            Ph(2,ICUT,J)   = VAL2
+            Ph(3,ICUT,J)   = VAL3
           ENDDO
           NP                 = BRICK_LIST(NIN,IB)%PCUT(ICUT)%NP
           DO J=1,NP
             VAL1             = M(1,1,ICUT)*Sh(1,ICUT,J) + M(2,1,ICUT)*Sh(2,ICUT,J) + M(3,1,ICUT)*Sh(3,ICUT,J)
             VAL2             = M(1,2,ICUT)*Sh(1,ICUT,J) + M(2,2,ICUT)*Sh(2,ICUT,J) + M(3,2,ICUT)*Sh(3,ICUT,J)
             VAL3             = ZERO 
-            Sh(1:3,ICUT,J)   = (/VAL1,VAL2,VAL3/)
+            SH(1,ICUT,J)     = VAL1
+            SH(2,ICUT,J)     = VAL2
+            Sh(3,ICUT,J)     = VAL3
           ENDDO!next NP
         ENDDO!next ICUT
 
