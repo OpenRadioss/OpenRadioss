@@ -620,20 +620,20 @@ C-------------(IKC(I)=4->IMCONV=1 pour eviter le rebond-------
             ENDDO
           ENDIF
 
-          IF (ISMDISP>0.AND.ILINE==0) THEN
+          IF (ISMDISP > 0 .AND. ILINE == 0) THEN
             CALL RGWAL0_IMP(
-     1       X_A         ,D_IMP    ,V      ,RWBUF   ,LPRW    ,
-     2       NPRW        ,MS       ,FSAV(1,NINTER+1),FR_WALL ,
-     3       FOPT        ,RWSAV    ,WEIGHT ,FSAVD(1,NINTER+1),
-     4       NT_RW       ,IDDL     ,IKC    ,IMCONV,NDOF,FRWL6,
-     5       WEIGHT_MD   ,DIMFB    , FBSAV6,STABSEN,TABSENSOR, WFEXT, WFEXT_MD)
+     1       X_A         ,D_IMP    ,V               ,RWBUF            ,LPRW    ,
+     2       NPRW        ,MS       ,FSAV(1,NINTER+1),FR_WALL          ,
+     3       FOPT        ,RWSAV    ,WEIGHT          ,FSAVD(1,NINTER+1),
+     4       NT_RW       ,IDDL     ,IKC             ,IMCONV           ,NDOF     , FRWL6,
+     5       WEIGHT_MD   ,DIMFB    ,FBSAV6          ,STABSEN          ,TABSENSOR, WFEXT, WFEXT_MD)
           ELSE
             CALL RGWAL0_IMP(
-     1       X           ,D_IMP    ,V      ,RWBUF   ,LPRW    ,
-     2       NPRW        ,MS       ,FSAV(1,NINTER+1),FR_WALL ,
-     3       FOPT        ,RWSAV    ,WEIGHT ,FSAVD(1,NINTER+1),
-     4       NT_RW       ,IDDL     ,IKC    ,IMCONV,NDOF,FRWL6,
-     5       WEIGHT_MD   ,DIMFB    , FBSAV6,STABSEN,TABSENSOR, WFEXT, WFEXT_MD)
+     1       X           ,D_IMP    ,V               ,RWBUF            ,LPRW     ,
+     2       NPRW        ,MS       ,FSAV(1,NINTER+1),FR_WALL          ,
+     3       FOPT        ,RWSAV    ,WEIGHT          ,FSAVD(1,NINTER+1),
+     4       NT_RW       ,IDDL     ,IKC             ,IMCONV           ,NDOF     , FRWL6,
+     5       WEIGHT_MD   ,DIMFB    ,FBSAV6          ,STABSEN          ,TABSENSOR, WFEXT, WFEXT_MD)
           ENDIF
 C
           IF(NT_RW>0) THEN
@@ -3383,14 +3383,16 @@ C-------------dU_d---------------------------------
         ENDIF
 C-------------U_d--> rigid wall-------------------------------
         NT_RW=0
-        IF (NRWALL>0) THEN
+        IF (NRWALL > 0) THEN
           CALL RGWAL0_IMP(
-     1      X           ,D_IMP    ,V      ,RWBUF   ,LPRW    ,
-     2      NPRW        ,MS       ,FSAV(1,NINTER+1),FR_WALL ,
-     3      FOPT        ,RWSAV    ,WEIGHT ,FSAVD(1,NINTER+1),
-     4      NT_RW       ,IDDL     ,IKC    ,IMCONV,NDOF,FRWL6,
-     5      WEIGHT_MD   ,DIMFB    , FBSAV6,STABSEN,TABSENSOR)
-          IF(NT_RW>0) CALL FV_RW(IDDL   ,IKC   ,NDOF  ,D_IMP  ,V , WFEXT, WFEXT_MD)
+     1      X           ,D_IMP    ,V                 ,RWBUF            , LPRW     ,
+     2      NPRW        ,MS       ,FSAV(1 ,NINTER+1) , FR_WALL         ,
+     3      FOPT        ,RWSAV    ,WEIGHT            ,FSAVD(1,NINTER+1),
+     4      NT_RW       ,IDDL     ,IKC               ,IMCONV           , NDOF     , FRWL6,
+     5      WEIGHT_MD   ,DIMFB    ,FBSAV6            ,STABSEN          , TABSENSOR, WFEXT, WFEXT_MD)
+          IF(NT_RW > 0) THEN
+            CALL FV_RW(IDDL   ,IKC   ,NDOF  ,D_IMP  ,V )
+          ENDIF
         ENDIF
         IFDIS=NT_RW+NFXVEL
         IF(IFDIS>0.AND.IMCONV==1) THEN
