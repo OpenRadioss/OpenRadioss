@@ -585,11 +585,13 @@
             asrate = zero 
           endif
 
-          do i=jft,jlt
+          if (gbuf%g_epsd > 0)then
+            do i=jft,jlt
               epsp(i)   = asrate*epsp_loc(i) + (one-asrate)*epsp(i)
               epspl(i)  = epsp(i)
               epspdt(i) = epsp(i)*dt1
-          end do
+            end do
+          endif
 !-----------------------------------------------------------
 !     loop over thickness integration points (layers)
 !-----------------------------------------------------------
