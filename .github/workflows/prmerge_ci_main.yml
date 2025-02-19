@@ -643,7 +643,7 @@ jobs:
         # Running cygwin from powershell or cmd => neither identation nor comment !
         shell: cmd
         run: >
-          call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat" intel64 vs2019 && C:\cygwin64\bin\bash --login -c "
+          call "C:\Program Files (x86)\Intel\oneAPI\mpi\2021.10.0\env\vars.bat" && C:\cygwin64\bin\bash --login -c "
           cd %cd:\=/%;
           md5sum exec/* || echo \"Nothing in exec/\";
           if [ \"${{ matrix.precision }}\" = \"dp\" ];
