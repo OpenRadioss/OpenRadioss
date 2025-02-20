@@ -209,7 +209,7 @@ C   warns : Stability vs artificial viscosity should use
 C           RHO(I)*AL(I)*(QAA*AL(I)+QB*SSP(I)) / MAX(EM20,RHOREF(I)*DELTAX(I))
 C           Same for VIS(I) since SOUNDSPEED is generally computed wrt RHO0, not RHO ../..
           QAA = QAA_0*AD(I)
-          QX(I)=QB*SSP(I)+DELTAX(I) * QAA
+          QX(I)=QB*SSP(I)+AL(I) * QAA
      .     + VISI*TWO*VIS(I)   / MAX(EM20,RHO(I)*DELTAX(I))
      .     + (CNS1+VISI*CNS2) / MAX(EM20,RHOREF(I)*DELTAX(I))
           QVIS(I)=RHO(I)*AD(I)*AL(I)*(QAA*AL(I)+QB*SSP(I))     
