@@ -1342,8 +1342,7 @@ C----------------------------
      4                GBUF%OFF ,LL       ,VOLG       ,FLD     ,       
      5                CNS2     ,FQMAX    )
 !      all in global system 
-         IF (ISMSTR == 1.OR.ISMSTR >= 11) 
-     .     CALL S8GET_X3(      
+          CALL S8GET_X3(      
      .     NC1,      NC2,      NC3,      NC4,
      .     NC5,      NC6,      NC7,      NC8,
      .      X1,       X2,       X3,       X4,      

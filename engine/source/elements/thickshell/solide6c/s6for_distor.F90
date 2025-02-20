@@ -70,6 +70,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
       use constant_mod,          only : zero,zep2,two,five,ten,em20,one_over_6,em02
       use sfor_visn6_mod,        only : sfor_visn6
+      use sfor_nsn2seg_mod,      only : sfor_3n2s3
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -173,7 +174,7 @@
                            x1,      x3,     x2,                                &
                            y1,      y3,     y2,                                &
                            z1,      z3,     z2,                                &
-                       vc(1,1), vc(1,2),vc(1,3),                                &
+                       vc(1,1), vc(1,2),vc(1,3),                               &
                           vx1,     vx3,    vx2,                                &
                           vy1,     vy3,    vy2,                                &
                           vz1,     vz3,    vz2,                                &
@@ -240,6 +241,26 @@
                         sti_c,    nel ,    vc ,e_distor,                       &
                           dt1)
          nctl = nctl + ifctl
+!----add : 4,6,5 as 2nd to seg 1,3,2 
+              call sfor_3n2s3(                                                 &
+                             x4,     x6,    x5,                                &
+                             y4,     y6,    y5,                                &
+                             z4,     z6,    z5,                                &
+                            vx4,    vx6,   vx5,                                &
+                            vy4,    vy6,   vy5,                                &
+                            vz4,    vz6,   vz5,                                &
+                         for_t4, for_t6,for_t5,                                &
+                             x1,     x3,    x2,                                &
+                             y1,     y3,    y2,                                &
+                             z1,     z3,    z2,                                &
+                            vx1,    vx3,   vx2,                                &
+                            vy1,    vy3,   vy2,                                &
+                            vz1,    vz3,   vz2,                                &
+                         for_t1, for_t3,for_t2,                                &
+                           stif,    ll , fqmax,                                &
+                         penmin, penref, marge,                                &
+                          sti_c,e_distor,  dt1,                                &
+                          nctl ,   ifc1 , nel )
 !---- force assemblage and sti update (dt)
           do i=1,nel
              fcx = one_over_6*forc_n(i,1)

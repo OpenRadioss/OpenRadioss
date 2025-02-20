@@ -1144,10 +1144,9 @@ C----------------------------
      3                GBUF%SIG ,GBUF%RHO ,CXX        ,OFF     ,       
      4                GBUF%OFF ,LL       ,VOLN       ,FLD     ,       
      5                CNS2     ,FQMAX    )
-C        get actual configuration from x(3,*) for small strain option
-!      xj now is the current config in global sys, xx0 is in global sys excepting ismstr=11 
-         IF (ISMSTR == 1.OR.ISMSTR >= 11) 
-     .     CALL S8GET_X3(      
+C        
+!      x,v sould be in global sys 
+          CALL S8GET_X3(      
      .     NC1,      NC2,      NC3,      NC4,
      .     NC5,      NC6,      NC7,      NC8,
      .      X1,       X2,       X3,       X4,      
