@@ -14,6 +14,7 @@ If you have any questions about OpenRadioss, please feel free to contact <webmas
 
 ## How to Use OpenRadioss
 
+* [Quick Starting guide](doc/Getting_started.md)
 * [How to Build OpenRadioss](HOWTO.md)
 * [How to Run OpenRadioss](INSTALL.md)
 * [OpenRadioss Stable Releases](RELEASES.md)

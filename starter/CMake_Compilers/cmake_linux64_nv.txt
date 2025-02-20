@@ -24,7 +24,11 @@ execute_process(COMMAND gfortran -print-file-name=libgcc.a OUTPUT_VARIABLE LIBGC
 execute_process(COMMAND gfortran -print-file-name=libquadmath.a OUTPUT_VARIABLE LIBQUADMATH_PATH OUTPUT_STRIP_TRAILING_WHITESPACE)
 
 #hm_reader
-set ( reader_lib "-L${source_directory}/../extlib/hm_reader/linux64/ -lhm_reader_linux64 ${source_directory}/../extlib/hm_reader/linux64/libapr-1.so.0 " )
+if ( USE_OPEN_READER STREQUAL 1 )
+       set ( reader_lib "-L${OPEN_READER_ROOT}/libopen_reader/linux64 -lopen_reader_linux64")
+else ()
+       set ( reader_lib "-L${source_directory}/../extlib/hm_reader/linux64/ -lhm_reader_linux64 -lapr-1 " )
+endif()
 
 #Lapack
 set (lapack_lib "${source_directory}/../extlib/lapack-3.10.0/lib_linux64_gf/liblapack.a ${source_directory}/../extlib/lapack-3.10.0/lib_linux64_gf/librefblas.a ${source_directory}/../extlib/lapack-3.10.0/lib_linux64_gf/libtmglib.a")
