@@ -109,7 +109,7 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NEL) :: COUNT
       my_real :: T0,TM
       my_real ,DIMENSION(NEL) :: SHFACT,G,E,ETSE,EPSXX,EPSXY,EPSXZ,
-     .   SIGNXX,SIGNXY,SIGNXZ,YPT,ZPT,APT,TSTAR,DEPSXX,DEPSXY,DEPSXZ
+     .   SIGNXX,SIGNXY,SIGNXZ,YPT,ZPT,APT,TSTAR,DEPSXX,DEPSXY,DEPSXZ,DPLA_IPT
       my_real :: bidon
 C
       TYPE(L_BUFEL_) ,POINTER :: LBUF
@@ -145,6 +145,7 @@ C---------------------------------------
         DFMAX  => FBUF%FLOC(IFL)%DAMMX 
         TDEL   => FBUF%FLOC(IFL)%TDEL   
         FOFF   => FBUF%FLOC(IFL)%OFF
+        DPLA_IPT = DPLA(:,IPT)
         
 c
 C---    Coordinates of integration points
@@ -193,7 +194,7 @@ c---------------
           CALL FAIL_JOHNSON_IB(
      .         NEL       ,NGL       ,IPT       ,NPARAM    ,FAIL%UPARAM   ,
      .         TIME      ,TSTAR     ,SIGNXX    ,SIGNXY    ,SIGNXZ    ,
-     .         DPLA      ,EPSD      ,OFF       ,FOFF      ,DFMAX     ,
+     .         DPLA_IPT  ,EPSD      ,OFF       ,FOFF      ,DFMAX     ,
      .         TDEL      ,IOUT      ,ISTDO     )
           DO I= 1,NEL
             IF (FOFF(I) == 0) COUNT(I) = COUNT(I) + 1
@@ -243,7 +244,7 @@ c---------------
      .          IOUT     ,ISTDO    ,NFUNC    ,FAIL%IFUNC,LBUF%DMGSCL,
      .          UVARF    ,NVARF    ,SNPC     ,NPF      ,
      .          STF      ,TF       ,IPT      ,FOFF     ,
-     .          SIGNXX   ,SIGNXY   ,SIGNXZ   ,DPLA     ,AL)
+     .          SIGNXX   ,SIGNXY   ,SIGNXZ   ,DPLA_IPT ,AL)
           DO I= 1,NEL
             IF (FOFF(I) == 0) COUNT(I) = COUNT(I) + 1
           END DO
@@ -252,7 +253,7 @@ c---------------
                                      
          CALL FAIL_COCKROFT_IB(                                         
      .          NEL      ,NGL      ,NPARAM   ,FAIL%UPARAM  ,
-     .          TIME     ,DPLA     ,OFF      ,DFMAX,  
+     .          TIME     ,DPLA_IPT ,OFF      ,DFMAX,  
      .          TDEL     ,IOUT     ,ISTDO    ,EPSXX    ,
      .          IPT      ,SIGNXX   ,SIGNXY   ,SIGNXZ   ,
      .          NVARF    ,UVARF    ,FOFF )   
