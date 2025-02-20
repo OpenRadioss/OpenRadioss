@@ -1,6 +1,8 @@
 @echo OFF
 
-REM Variable setting
+setlocal
+
+:: Variable setting
 set arch=win64
 set dc=
 set dc_suf=
@@ -83,7 +85,7 @@ GOTO ARG_LOOP
 if %jobsv%==all ( set jobs=0)
 
 
-Rem Engine name
+:: Engine name
 if %prec%==sp   ( set sp_suffix=_sp)
 
 if %debug%==0 (
@@ -98,7 +100,7 @@ if %debug%==0 (
 
 )
 
-Rem if release is set, set debug to zero and no suffix
+:: if release is set, set debug to zero and no suffix
 if  %release%==1 (
     set debug_suffix=
     set debug=0
@@ -118,11 +120,11 @@ if %cbuild%==1 (
    set engine=e_%eng_version%_%arch%%mpi_suffix%%sp_suffix%%debug_suffix%
 )
 
-Rem Create build directory
+:: Create build directory
 
 set build_directory=cbuild_%engine%_ninja%dc_suf%
 
-Rem clean
+:: clean
 if %clean%==1 (
   echo.
   echo Cleaning %build_directory%
@@ -159,13 +161,13 @@ if exist %build_directory% (
   cd  %build_directory%
 )
 
-Rem Load Compiler settings
+:: Load Compiler settings
 if %cbuild%==0 (
     call ..\CMake_Compilers\cmake_%arch%_compilers.bat
 ) else (
     call ..\CMake_Compilers_c\cmake_%arch%_compilers.bat
 )
-REM define Build type
+:: define Build type
 
 if %debug%==0 (
     set build_type=Release 
@@ -219,11 +221,11 @@ GOTO END
   echo.
   echo Use with arguments : 
   echo     -arch=[build architecture]          : set architecture : default  Windows 64 bit
-  echo           -arch=win64                     (SMP executable / Intel OneAPI / Windows X86-64)
-  echo           -arch=win64       -mpi=impi     (Intel MPI OneAPI executable / Intel OneAPI / Fortran legacy compiler / Intel MPI / Windows X86-64)
-  echo           -arch=win64_ifx                 (Intel MPI OneAPI executable / Intel OneAPI / Ifx compiler / Windows X86-64)
-  echo           -arch=win64_ifx   -mpi=impi     (Intel MPI OneAPI executable / Intel OneAPI / Ifx compiler  / Intel MPI / Windows X86-64)
-  echo .
+  echo           -arch=win64                     (SMP executable / Intel OneAPI / ifx compiler / Windows X86-64)
+  echo           -arch=win64       -mpi=impi     (Intel MPI OneAPI executable / Intel OneAPI / ifx compiler / Intel MPI / Windows X86-64)
+  echo           -arch=win64_ifort               (SMP executable / Intel OneAPI / Fortran legacy compiler / Windows X86-64)
+  echo           -arch=win64_ifort -mpi=impi     (Intel MPI OneAPI executable / Intel OneAPI / Fortran legacy compiler / Intel MPI / Windows X86-64)
+  echo.
   echo     -mpi=[smp,impi]                     : set MPI version
   echo     -prec=[dp,sp]                       : set precision - dp (default),sp
   echo     -static-link                        : Compiler runtime is linked in binary
@@ -249,7 +251,7 @@ GOTO END
 echo.
 echo Terminating
 
-REM unset any variable used
+:: unset any variable used
 set arch=
 set prec=
 set debug=
@@ -272,3 +274,5 @@ set la=
 
 echo Terminating
 echo.
+
+endlocal
