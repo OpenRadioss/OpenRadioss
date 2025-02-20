@@ -80,13 +80,6 @@ message (STATUS "modules: ${CMAKE_Fortran_MODULE_DIRECTORY}")
 # Generic Compilation flags
 #---------------------------
 
-if ( debug STREQUAL "1" )
-set(opt_flag "-g3 -traceback -no-fma -O0 -fp-model precise -qopenmp")
-set(optc_flag "-g3 -no-fma -O0 -fp-model precise -qopenmp")
-else ()
-set(opt_flag "-axSSE3,COMMON-AVX512 -no-fma -O3 -fp-model precise -fimf-use-svml=true -qopenmp")
-set(optc_flag "-axSSE3,COMMON-AVX512 -no-fma -O3 -fp-model precise -fimf-use-svml=true -qopenmp")
-endif()
 # MUMPS 
 if(DEFINED mumps_root AND NOT "${mumps_root}" STREQUAL "" )
     message( STATUS " MUMPS root directory: ${mumps_root}" )
@@ -107,36 +100,72 @@ if(DEFINED mumps_root AND NOT "${mumps_root}" STREQUAL "" )
 #   Ordering libraries 
     set(WITH_LINEAR_ALGEBRA "yes")
     message(STATUS "linear algebra: ${WITH_LINEAR_ALGEBRA}")
-    set(opt_flag "${opt_flag} ${mumps_flag} ${mumps_inc}")
-    set(optc_flag "${optc_flag} ${mumps_flag} ${mumps_inc}")
-    message(STATUS "OPT: ${opt_flag}")
+    set(linalg_flags "${mumps_flag} ${mumps_inc}")
+    set(linalg_cflags "${mumps_flag} ${mumps_inc}")
+    message(STATUS "Linear Algebra flags: ${linalg_flags}")
 
+else()
+    set(linalg_flags "")
 endif()
-
 
 if ( NOT DEFINED WITH_LINEAR_ALGEBRA) 
 set ( wo_linalg "-DWITHOUT_LINALG" )
 endif()
+
+set(opt_flag  "-axCORE-AVX2,COMMON-AVX512 -no-fma -O3 -fp-model precise -fimf-use-svml=true -qopenmp")
+set(optc_flag "-axCORE-AVX2,COMMON-AVX512 -no-fma -O3 -fp-model precise -fimf-use-svml=true -qopenmp")
+
+set(opt_flag_debug "-g3 -traceback -no-fma -O0 -fp-model precise -qopenmp")
+set(optc_flag_debug "-g3 -no-fma -O0 -fp-model precise -qopenmp")
 set(Fortran "${wo_linalg} -ftz  -extend-source -assume buffered_io -align array64byte" )
 
+if ( debug STREQUAL "1")
 
+  # Debug compilation
+  set(fortran_flags "${opt_flag_debug} ${linalg_flags} ${precision_flag} ${Fortran} ${mpi_flag} ${mumps_flags} ${cppmach} ${cpprel} ${ADF}")
+  set(c_flags       "${optc_flag_debug} ${linalg_cflags} ${h3d_inc} ${zlib_inc} ${precision_flag} ${mpi_flag} ${mumps_flags} ${cppmach} ${cpprel} -O2")
+  set(cpp_flags     "${optc_flag_debug} ${linalg_cflags} ${h3d_inc} ${zlib_inc} ${precision_flag} ${mpi_flag} ${mumps_flags} ${cppmach} ${cpprel} -O2 -std=c++11")
+
+elseif ( debug STREQUAL "chkb" )
+
+  # Debug compilation with Fortran check bounds
+  set(fortran_flags "${opt_flag_debug} -check bounds ${linalg_flags} ${precision_flag} ${Fortran} ${mpi_flag} ${mumps_flags} ${cppmach} ${cpprel} ${ADF}")
+  set(c_flags       "${optc_flag_debug} ${linalg_cflags} ${h3d_inc} ${zlib_inc} ${precision_flag} ${mpi_flag} ${mumps_flags} ${cppmach} ${cpprel} -O2")
+  set(cpp_flags     "${optc_flag_debug} ${linalg_cflags} ${h3d_inc} ${zlib_inc} ${precision_flag} ${mpi_flag} ${mumps_flags} ${cppmach} ${cpprel} -O2 -std=c++11")
+
+elseif ( debug STREQUAL "asan" )
+
+  # Debug compilation with Fortran check bounds
+  set(fortran_flags "${opt_flag_debug} -fsanitize=address -DSANITIZE ${linalg_flags} ${precision_flag} ${Fortran} ${mpi_flag} ${mumps_flags} ${cppmach} ${cpprel} ${ADF}")
+  set(c_flags       "${optc_flag_debug} -fsanitize=address -DSANITIZE ${linalg_cflags} ${h3d_inc} ${zlib_inc} ${precision_flag} ${mpi_flag} ${mumps_flags} ${cppmach} ${cpprel} -O2")
+  set(cpp_flags     "${optc_flag_debug} -fsanitize=address -DSANITIZE ${linalg_cflags} ${h3d_inc} ${zlib_inc} ${precision_flag} ${mpi_flag} ${mumps_flags} ${cppmach} ${cpprel} -O2 -std=c++11")
+  set(asan_link     "-fsanitize=address")
+else ()
+
+  # Optimized compilation
+  set(fortran_flags "${opt_flag} ${linalg_flags} ${precision_flag} ${Fortran} ${mpi_flag} ${mumps_flags} ${cppmach} ${cpprel} ${ADF}")
+  set(c_flags       "${optc_flag} ${linalg_cflags} ${h3d_inc} ${zlib_inc} ${precision_flag} ${mpi_flag} ${mumps_flags} ${cppmach} ${cpprel} -O2")
+  set(cpp_flags     "${optc_flag} ${linalg_cflags} ${h3d_inc} ${zlib_inc} ${precision_flag} ${mpi_flag} ${mumps_flags} ${cppmach} ${cpprel} -O2 -std=c++11")
+
+endif()
 
 # Fortran
-set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " ${opt_flag} ${precision_flag} ${Fortran} ${mpi_flag} ${mumps_flags}  ${cppmach} ${cpprel} ${ADF}" )
+set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS "${fortran_flags}")
 
 # C source files
-
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS   "${optc_flag} ${h3d_inc} ${zlib_inc} ${precision_flag} ${mpi_flag} ${mumps_flags} ${cppmach} ${cpprel} -O2 " )
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${c_flags}")
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${optc_flag} ${h3d_inc} ${zlib_inc} ${precision_flag} ${mpi_flag} ${mumps_flags} ${cppmach} ${cpprel} -O2  -std=c++11 " )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${cpp_flags}")
+
+
 
 # Linking flags
 set (CMAKE_EXE_LINKER_FLAGS " -static-intel -rdynamic -qopenmp -qopenmp-link=static " )
 string(STRIP ${CMAKE_EXE_LINKER_FLAGS} CMAKE_EXE_LINKER_FLAGS)
 
 #Libraries
-set (LINK "dl ${mumps_libs} ${MKL_lib} ${mpi_lib} ${zlib_lib} -ldl -lrt -lstdc++ ")
+set (LINK "dl ${mumps_libs} ${MKL_lib} ${mpi_lib} ${zlib_lib} ${asan_link} -ldl -lrt -lstdc++ ")
 
 string(STRIP ${LINK} LINK)
 
@@ -161,7 +190,6 @@ if( no_python STREQUAL "1" )
 get_source_file_property( existing_flags ${source_directory}/../common_source/modules/cpp_python_funct.cpp COMPILE_FLAGS)
 set_source_files_properties( ${source_directory}/../common_source/modules/cpp_python_funct.cpp PROPERTIES COMPILE_FLAGS  "${exsisting_flags} -DPYTHON_DISABLED" )
 endif()
-
 
 
 if ( debug STREQUAL "0" )
@@ -272,13 +300,8 @@ set_source_files_properties( ${source_directory}/source/interfaces/intsort/i25pe
 # admmap4.F / compiler issue
 set_source_files_properties( ${source_directory}/source/model/remesh/admmap4.F PROPERTIES COMPILE_FLAGS ${F_O2_AXSSE3})
 
-
-# fvm airbags           
-set_source_files_properties( ${source_directory}/source/airbag/fv_up_switch.F PROPERTIES COMPILE_FLAGS ${F_O1_AXSSE3})
-set_source_files_properties( ${source_directory}/source/airbag/fvbag.F PROPERTIES COMPILE_FLAGS ${F_O1_AXSSE3})
-set_source_files_properties( ${source_directory}/source/airbag/fvbag0.F PROPERTIES COMPILE_FLAGS ${F_O1_AXSSE3})
-set_source_files_properties( ${source_directory}/source/airbag/fvbag1.F PROPERTIES COMPILE_FLAGS ${F_O1_AXSSE3})
-set_source_files_properties( ${source_directory}/source/airbag/fvbag2.F PROPERTIES COMPILE_FLAGS ${F_O1_AXSSE3})
+# w_elbuf_str : compilation duration
+set_source_files_properties( ${source_directory}/source/elements/elbuf/w_elbuf_str.F PROPERTIES COMPILE_FLAGS ${F_O2_AXSSE3})
 
 set (C_BASIC "${cppmach} ${cpprel}" )
 set_source_files_properties( ${source_directory}/source/output/tools/ieee.cpp PROPERTIES COMPILE_FLAGS " -O1 ${C_BASIC}")
