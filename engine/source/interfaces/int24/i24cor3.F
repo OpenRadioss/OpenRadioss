@@ -991,9 +991,9 @@ C--- fixing min(stif) with Inacti=-1
             NN = NI - NSN
             STIF_S =ABS(STIFI(NIN)%P(NN))
           END IF
-c      STIF_R(I) = MIN(STIF_S,STF(L))/MAX(EM20,STIF(I))
           STIF(I) = MIN(STIF_S,STF(L))
-          IF(IGSTI==2) STIF(I) = HALF*(STIF_S+STF(L))
+          STIF_R(I) = STIF(I)/MAX(STIF_S,STF(L))
+          IF(IGSTI==2) STIF(I) = HALF*(STIF_S+STF(L)) !option Inacti=-2
          ENDDO
       ELSEIF (IGSTI==-1)THEN
          DO I=1,JLT
@@ -1005,8 +1005,8 @@ c      STIF_R(I) = MIN(STIF_S,STF(L))/MAX(EM20,STIF(I))
              NN = NI - NSN
              STIF_S =ABS(STIFI(NIN)%P(NN))
            END IF
-           STIF_R(I) = MIN(STIF_S,STF(L))/MAX(STIF_S,STF(L))
            STIF(I) = MIN(STIF_S,STF(L))
+           STIF_R(I) = STIF(I)/MAX(STIF_S,STF(L))
          ENDDO
       END IF
       IF(NCFIT>0)THEN
@@ -1014,10 +1014,22 @@ c      STIF_R(I) = MIN(STIF_S,STF(L))/MAX(EM20,STIF(I))
          FAB= MAX(ZERO,THREE*TNCY-ONE)
          FB = MAX(ZERO,THREE*TNCY-TWO)
          F_PFIT = EM04*(FA+FAB)+FB
-         STIF(1:JLT)=F_PFIT*STIF(1:JLT)
-         IF (FB >ZERO.AND.IGSTI/=2) IKNON(1:JLT) = 1 ! -> nonlinear stiff
+         DO I=1,JLT
+           IF (STIF_R(I)>ZEP05) THEN
+             STIF(I)=TWENTY*F_PFIT*STIF(I)
+           ELSE
+             STIF(I)=F_PFIT*STIF(I)
+           END IF
+         ENDDO
+         IF (FB >ZERO.AND.IGSTI/=2) THEN 
+           DO I=1,JLT
+             IF (STIF_R(I)<ZEP05) IKNON(I) = 1 
+           ENDDO
+         END IF
       ELSEIF (INACTI==-1.AND.IGSTI/=2)THEN
-         IKNON(1:JLT) = 1 
+         DO I=1,JLT
+           IF (STIF_R(I)<ZEP05) IKNON(I) = 1 
+         ENDDO
       ELSEIF (IGSTI ==-1)THEN
          DO I=1,JLT
            IF (STIF_R(I) > 0.9 ) THEN

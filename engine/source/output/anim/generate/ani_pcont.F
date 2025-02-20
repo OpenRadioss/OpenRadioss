@@ -493,7 +493,7 @@ C
           END IF
 C
           DO N=1,NUMNOD
-            IF (NODAREA(N) == ZERO) THEN
+            IF (NODAREA(N) <= EM20) THEN
               CONTN(1,N)=ZERO
               CONTN(2,N)=ZERO
               CONTN(3,N)=ZERO
@@ -501,7 +501,7 @@ C
               CONTT(2,N)=ZERO
               CONTT(3,N)=ZERO
             ELSE
-              AREAINV = ONE/MAX(EM30,NODAREA(N))
+              AREAINV = ONE/MAX(EM20,NODAREA(N))
               CONTN(1,N)=AREAINV*CONTN(1,N)
               CONTN(2,N)=AREAINV*CONTN(2,N)
               CONTN(3,N)=AREAINV*CONTN(3,N)
