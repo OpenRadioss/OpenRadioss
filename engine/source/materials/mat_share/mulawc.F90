@@ -2694,12 +2694,16 @@
                 select case (igtyp)
 !------------------------------------
                  case (1,9)
-                  zcfac(jft:jlt,1) = zcfac(jft:jlt,1) + etse(jft:jlt) / npt
-                  zcfac(jft:jlt,2) = min(etse(jft:jlt),zcfac(jft:jlt,2))
+                  if (flag_zcfac) then 
+                    zcfac(jft:jlt,1) = zcfac(jft:jlt,1) + etse(jft:jlt) / npt
+                    zcfac(jft:jlt,2) = min(etse(jft:jlt),zcfac(jft:jlt,2))
+                  endif
                   yld(jft:jlt)     = yld(jft:jlt) + sigy(jft:jlt) / npt
                  case default
-                  zcfac(jft:jlt,1) = zcfac(jft:jlt,1) + etse(jft:jlt) * thkly(jpos:jpos+jlt-1)
-                  zcfac(jft:jlt,2) = min(etse(jft:jlt),zcfac(jft:jlt,2))
+                  if (flag_zcfac) then 
+                    zcfac(jft:jlt,1) = zcfac(jft:jlt,1) + etse(jft:jlt) * thkly(jpos:jpos+jlt-1)
+                    zcfac(jft:jlt,2) = min(etse(jft:jlt),zcfac(jft:jlt,2))
+                  endif
                   yld(jft:jlt)     = yld(jft:jlt) + sigy(jft:jlt) * thkly(jpos:jpos+jlt-1)
                 end select
               endif
