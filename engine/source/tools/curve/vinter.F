@@ -118,6 +118,7 @@ C
       !||    mat121_nice         ../engine/source/materials/mat/mat121/mat121_nice.F
       !||    mat121c_newton      ../engine/source/materials/mat/mat121/mat121c_newton.F
       !||    mat121c_nice        ../engine/source/materials/mat/mat121/mat121c_nice.F
+      !||    redef3              ../engine/source/elements/spring/redef3.F90
       !||    redef3_law113       ../engine/source/elements/spring/redef3_law113.F
       !||    rkenonl             ../engine/source/elements/spring/r4mat3.F
       !||    sigeps121           ../engine/source/materials/mat/mat121/sigeps121.F
@@ -200,6 +201,7 @@ C
       !||    vinter2dp       ../engine/source/tools/curve/vinter.F
       !||--- called by ------------------------------------------------------
       !||    m36iter_imp     ../engine/source/materials/mat/mat036/m36iter_imp.F
+      !||    redef3          ../engine/source/elements/spring/redef3.F90
       !||    redef3_law113   ../engine/source/elements/spring/redef3_law113.F
       !||    rkenonl         ../engine/source/elements/spring/r4mat3.F
       !||    sigeps28        ../engine/source/materials/mat/mat028/sigeps28.F

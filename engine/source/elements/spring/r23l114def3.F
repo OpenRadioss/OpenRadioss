@@ -26,9 +26,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    r23law114            ../engine/source/elements/spring/r23law114.F
       !||--- calls      -----------------------------------------------------
       !||    material_flow        ../engine/source/tools/seatbelts/material_flow.F
+      !||    redef3               ../engine/source/elements/spring/redef3.F90
       !||    repla3               ../engine/source/elements/spring/repla3.F
       !||--- uses       -----------------------------------------------------
       !||    python_funct_mod     ../common_source/modules/python_mod.F90
+      !||    redef3_mod           ../engine/source/elements/spring/redef3.F90
       !||    seatbelt_mod         ../common_source/modules/seatbelt_mod.F
       !||    sensor_mod           ../common_source/modules/sensor_mod.F90
       !||====================================================================

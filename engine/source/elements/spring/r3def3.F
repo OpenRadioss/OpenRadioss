@@ -25,10 +25,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    rforc3                ../engine/source/elements/spring/rforc3.F
       !||--- calls      -----------------------------------------------------
+      !||    redef3                ../engine/source/elements/spring/redef3.F90
       !||    table_interp          ../engine/source/tools/curve/table_tools.F
       !||--- uses       -----------------------------------------------------
       !||    interface_table_mod   ../engine/share/modules/table_mod.F
       !||    python_funct_mod      ../common_source/modules/python_mod.F90
+      !||    redef3_mod            ../engine/source/elements/spring/redef3.F90
       !||    table_mod             ../engine/share/modules/table_mod.F
       !||====================================================================
       SUBROUTINE R3DEF3( PYTHON,

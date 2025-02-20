@@ -23,6 +23,7 @@
       !||====================================================================
       !||    vinter_mixed_mod   ../engine/source/tools/curve/vinter_mixed.F90
       !||--- called by ------------------------------------------------------
+      !||    redef3             ../engine/source/elements/spring/redef3.F90
       !||    redef3_law113      ../engine/source/elements/spring/redef3_law113.F
       !||====================================================================
       module vinter_mixed_mod
@@ -34,6 +35,7 @@
       !||====================================================================
       !||    vinter_mixed           ../engine/source/tools/curve/vinter_mixed.F90
       !||--- called by ------------------------------------------------------
+      !||    redef3                 ../engine/source/elements/spring/redef3.F90
       !||    redef3_law113          ../engine/source/elements/spring/redef3_law113.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------

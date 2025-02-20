@@ -77,6 +77,7 @@
       !||    rdresb                         ../engine/source/output/restart/rdresb.F
       !||    read_sensor_python             ../starter/source/tools/sensor/hm_read_sensor_python.F90
       !||    read_sensors                   ../engine/source/output/restart/read_sensors.F
+      !||    redef3                         ../engine/source/elements/spring/redef3.F90
       !||    redef3_law113                  ../engine/source/elements/spring/redef3_law113.F
       !||    resol                          ../engine/source/engine/resol.F
       !||    resol_head                     ../engine/source/engine/resol_head.F
