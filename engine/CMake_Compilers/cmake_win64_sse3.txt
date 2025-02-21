@@ -110,7 +110,7 @@ else()
 endif()
 
 if ( debug STREQUAL "0" )
-  set(opt_flag "${wo_linalg} /QaxCORE-AVX2,COMMON-AVX512 /Qfma- /Qimf-use-svml:true /align:array64byte")
+  set(opt_flag "${wo_linalg} /Qaxsse3,COMMON-AVX512 /Qfma- /Qimf-use-svml:true /align:array64byte")
   set(optc_flag "${wo_linalg} /Qfma- /Qimf-use-svml:true")
 else()
   set(opt_flag "${wo_linalg}")
