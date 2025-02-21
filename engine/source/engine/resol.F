@@ -1250,6 +1250,8 @@ C-------------------------------------------------------------------------------
         INTEGER :: SIZE_ADDCNEL ! size of addcnel array
         INTEGER :: SIZE_CNEL ! size of cnel array
         LOGICAL :: GLOBAL_ACTIVE_ALE_ELEMENT
+        integer, dimension(:), allocatable :: deleted_node ! working array to mark nodes connected to deleted element
+        integer, dimension(:), allocatable :: work_array_node ! working array to mark nodes (connected to active element or deleted element)
 
         INTEGER :: SIZE_NPBY
 
@@ -2480,6 +2482,8 @@ C------------IF adaptive Mesh : check if there are elements eroded after trimmin
           ELSE
             CALL ASSIGN_PTRX(ptrX,NODES%X,NUMNOD)
           ENDIF
+          allocate(deleted_node(2*numnod)) ! working array to mark nodes connected to deleted element
+          allocate(work_array_node(numnod)) ! working array to mark nodes (connected to active element or deleted element)
 !$OMP PARALLEL
 !$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK,IGMTSK)
 !$OMP+ PRIVATE(PARTFTSK,PARTLTSK,NWAFTSK,N1,GREFTSK,GRELTSK)
@@ -2492,15 +2496,15 @@ C Init var parallel SMP
           CALL TAGOFF3N(NODES,
      1       GEO        ,IXS       ,IXS(L1)   ,IXS(L1)   ,IXS(L3)  ,IXQ    ,
      2       ELEMENT%SHELL%IXC         ,IXT      ,IXP       ,IXR       ,IXTG     ,
-     3       WA(NUMNOD+1),NODFTSK  ,NODLTSK   ,IPARG     ,ELBUF    ,ITSK   ,
-     4       WA(NWAFTSK) ,IXTG1    ,IAD_ELEM  ,FR_ELEM   ,NODES%ITAB     ,
+     3       deleted_node,NODFTSK  ,NODLTSK   ,IPARG     ,ELBUF    ,ITSK   ,
+     4       IXTG1    ,IAD_ELEM  ,FR_ELEM   ,NODES%ITAB     ,
      5       ADDCNEL     ,CNEL     ,KXSP      ,ELBUF_TAB ,TAGEL    ,IEXLNK , 
      6       IGRNOD      ,DD_R2R   ,DD_R2R_ELEM,SDD_R2R_ELEM,IDEL7NOK_SAV ,
      7       IDEL7NOK_R2R,TAGTRIMC,TAGTRIMTG,S_ELEM_STATE,ELEM_STATE,
      8       SHOOT_STRUCT,SHOOT_STRUCT%GLOBAL_NB_ELEM_OFF)
           ! ---------------------
           ! check if a node is deactivated and deactivate all the corresponding secondary nodes
-          CALL CHECK_NODAL_STATE( ITSK,WA(NUMNOD+1),NEWFRONT,INTERFACES%INTBUF_TAB,SHOOT_STRUCT%SIZE_SEC_NODE,
+          CALL CHECK_NODAL_STATE( ITSK,deleted_node,NEWFRONT,INTERFACES%INTBUF_TAB,SHOOT_STRUCT%SIZE_SEC_NODE,
      .           SHOOT_STRUCT%SHIFT_S_NODE,SHOOT_STRUCT%INTER_SEC_NODE,SHOOT_STRUCT%SEC_NODE_ID)
           ! ---------------------
 
@@ -2525,7 +2529,7 @@ C Init var parallel SMP
             IF(ITSK==0) CALL SPMD_EXCH_DELETED_SURF_EDGE( IAD_ELEM,NODES,SHOOT_STRUCT,INTERFACES%INTBUF_TAB,NEWFRONT,
      .                           IPARI,GEO,
      .                           IXS,ELEMENT%SHELL%IXC,IXT,IXP,IXR,IXTG,IXS(L1),
-     .                           ADDCNEL,CNEL,WA(NWAFTSK),TAGEL )
+     .                           ADDCNEL,CNEL,work_array_node,TAGEL )
             CALL MY_BARRIER()
           ENDIF
           ! ---------------------
@@ -2537,7 +2541,7 @@ C Init var parallel SMP
      .                              SHOOT_STRUCT%SHIFT_INTERFACE,INTERFACES%INTBUF_TAB,
      .                              IPARI,GEO,
      .                              IXS,ELEMENT%SHELL%IXC,IXT,IXP,IXR,IXTG,IXS(L1),
-     .                              ADDCNEL,CNEL,WA(NWAFTSK),TAGEL,SHOOT_STRUCT )
+     .                              ADDCNEL,CNEL,work_array_node,TAGEL,SHOOT_STRUCT )
 
           ! loop over the edge id and deactivate the edge
           ! ONLY FOR LOCAL EDGE / LOCAL ELEMENT
@@ -2545,7 +2549,7 @@ C Init var parallel SMP
      .                           SHOOT_STRUCT%SAVE_M_EDGE,SHOOT_STRUCT%SAVE_S_EDGE,
      .                           SHOOT_STRUCT%SHIFT_INTERFACE,INTERFACES%INTBUF_TAB,NEWFRONT,IPARI,GEO,
      .                           IXS,ELEMENT%SHELL%IXC,IXT,IXP,IXR,IXTG,IXS(L1),
-     .                           ADDCNEL,CNEL,WA(NWAFTSK),TAGEL,SHOOT_STRUCT )
+     .                           ADDCNEL,CNEL,work_array_node,TAGEL,SHOOT_STRUCT )
           ! ---------------------
 
           ! ---------------------
@@ -2582,8 +2586,8 @@ C Init var parallel SMP
 
           CALL CHKSTFN3N(NODES,
      1       IPARI   ,GEO         ,IXS      ,IXQ         ,ELEMENT%SHELL%IXC     ,IXT       ,
-     2       IXP     ,IXR         ,IXTG     ,WA(NUMNOD+1),IPARG   ,ITSK      ,
-     3       NEWFRONT,WA(NWAFTSK) ,NODES%MS       ,NODES%IN          ,ANIN(NDMA+1),NODES%ITAB  ,
+     2       IXP     ,IXR         ,IXTG     ,deleted_node,IPARG   ,ITSK      ,
+     3       NEWFRONT,work_array_node ,NODES%MS       ,NODES%IN          ,ANIN(NDMA+1),NODES%ITAB  ,
      4       NODES%ITABM1  ,ADDCNEL     , CNEL    ,INDIDEL     ,NINDEX1 ,NINDEX2   ,
      5       NINDEX3 ,NINDEX4     ,TAGEL    ,INT24USE    ,IBUFSEGLO ,INDSEGLO,
      6       IBUFIDEL ,INTERFACES%INTBUF_TAB,IAD_ELEM)
@@ -2591,6 +2595,8 @@ C Init var parallel SMP
 
 !$OMP END PARALLEL
           CALL DEALLOC_SHOOT_INTER( SHOOT_STRUCT )
+          deallocate(deleted_node)
+          deallocate(work_array_node)
         ENDIF
 
 
@@ -5528,6 +5534,8 @@ C===============================================================================
           NINDEXP = 0
           CHECK_NEIGH_FLAG_RES = 0
 
+          allocate(deleted_node(2*numnod)) ! working array to mark nodes connected to deleted element
+          allocate(work_array_node(numnod)) ! working array to mark nodes (connected to active element or deleted element)
 !$OMP PARALLEL
 !$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK,IGMTSK)
 !$OMP+ PRIVATE(PARTFTSK,PARTLTSK,NWAFTSK,GREFTSK,GRELTSK)
@@ -5537,22 +5545,19 @@ C Init var parallel SMP
      2     IPMTSK,PARTFTSK,PARTLTSK,NWAFTSK,IGMTSK  ,
      3     GREFTSK,GRELTSK)
 
-C WA global : utilise de NUMNOD+1 a 3*NUMNOD
-C WA local  : utilise de 1 a NUMNOD
-
         IF ((IDEL7NG>=1.AND.IDEL7NOK==1).OR.(PDEL>0.AND.IDEL7NOK==1)) THEN
           CALL TAGOFF3N(NODES,
      1       GEO        ,IXS       ,IXS(L1)   ,IXS(L1)   ,IXS(L3)  ,IXQ    ,
      2       ELEMENT%SHELL%IXC         ,IXT      ,IXP       ,IXR       ,IXTG     ,
-     3       WA(NUMNOD+1),NODFTSK  ,NODLTSK   ,IPARG     ,ELBUF    ,ITSK   ,
-     4       WA(NWAFTSK) ,IXTG1    ,IAD_ELEM  ,FR_ELEM   ,NODES%ITAB     ,
+     3       deleted_node,NODFTSK  ,NODLTSK   ,IPARG     ,ELBUF    ,ITSK   ,
+     4       IXTG1    ,IAD_ELEM  ,FR_ELEM   ,NODES%ITAB     ,
      5       ADDCNEL     ,CNEL     ,KXSP      ,ELBUF_TAB ,TAGEL    ,IEXLNK , 
      6       IGRNOD      ,DD_R2R   ,DD_R2R_ELEM,SDD_R2R_ELEM,IDEL7NOK_SAV  ,
      7       IDEL7NOK_R2R,TAGTRIMC,TAGTRIMTG,S_ELEM_STATE,ELEM_STATE,
      8       SHOOT_STRUCT,SHOOT_STRUCT%GLOBAL_NB_ELEM_OFF)
           ! ---------------------
           ! check if a node is deactivated and deactivate all the corresponding secondary nodes
-          CALL CHECK_NODAL_STATE( ITSK,WA(NUMNOD+1),NEWFRONT,INTERFACES%INTBUF_TAB,SHOOT_STRUCT%SIZE_SEC_NODE,
+          CALL CHECK_NODAL_STATE( ITSK,deleted_node,NEWFRONT,INTERFACES%INTBUF_TAB,SHOOT_STRUCT%SIZE_SEC_NODE,
      .           SHOOT_STRUCT%SHIFT_S_NODE,SHOOT_STRUCT%INTER_SEC_NODE,SHOOT_STRUCT%SEC_NODE_ID)
           ! ---------------------
 
@@ -5577,7 +5582,7 @@ C WA local  : utilise de 1 a NUMNOD
             IF(ITSK==0) CALL SPMD_EXCH_DELETED_SURF_EDGE( IAD_ELEM,NODES,SHOOT_STRUCT,INTERFACES%INTBUF_TAB,NEWFRONT,
      .                           IPARI,GEO,
      .                           IXS,ELEMENT%SHELL%IXC,IXT,IXP,IXR,IXTG,IXS(L1),
-     .                           ADDCNEL,CNEL,WA(NWAFTSK),TAGEL )
+     .                           ADDCNEL,CNEL,work_array_node,TAGEL )
             CALL MY_BARRIER()
           ENDIF
           ! ---------------------
@@ -5590,7 +5595,7 @@ C WA local  : utilise de 1 a NUMNOD
      .                              SHOOT_STRUCT%SHIFT_INTERFACE,INTERFACES%INTBUF_TAB,
      .                              IPARI,GEO,
      .                              IXS,ELEMENT%SHELL%IXC,IXT,IXP,IXR,IXTG,IXS(L1),
-     .                              ADDCNEL,CNEL,WA(NWAFTSK),TAGEL,SHOOT_STRUCT )
+     .                              ADDCNEL,CNEL,work_array_node,TAGEL,SHOOT_STRUCT )
 
           ! loop over the edge id and deactivate the edge
           ! ONLY FOR LOCAL EDGE / LOCAL ELEMENT
@@ -5598,7 +5603,7 @@ C WA local  : utilise de 1 a NUMNOD
      .                           SHOOT_STRUCT%SAVE_M_EDGE,SHOOT_STRUCT%SAVE_S_EDGE,
      .                           SHOOT_STRUCT%SHIFT_INTERFACE,INTERFACES%INTBUF_TAB,NEWFRONT,IPARI,GEO,
      .                           IXS,ELEMENT%SHELL%IXC,IXT,IXP,IXR,IXTG,IXS(L1),
-     .                           ADDCNEL,CNEL,WA(NWAFTSK),TAGEL,SHOOT_STRUCT )
+     .                           ADDCNEL,CNEL,work_array_node,TAGEL,SHOOT_STRUCT )
           ! ---------------------
 
           ! ---------------------
@@ -5631,15 +5636,15 @@ C WA local  : utilise de 1 a NUMNOD
               ENDIF
               CALL MY_BARRIER()
             ENDIF
-          ENDIF
+          ENDIF          
           ! ---------------------
         ENDIF
 
         IF (IDEL7NG>=1.AND.IDEL7NOK==1) THEN
           CALL CHKSTFN3N(NODES,
      1       IPARI   ,GEO         ,IXS      ,IXQ         ,ELEMENT%SHELL%IXC     ,IXT       ,
-     2       IXP     ,IXR         ,IXTG     ,WA(NUMNOD+1),IPARG   ,ITSK      ,
-     3       NEWFRONT,WA(NWAFTSK) ,NODES%MS       ,NODES%IN          ,ANIN(NDMA+1),NODES%ITAB  ,
+     2       IXP     ,IXR         ,IXTG     ,deleted_node,IPARG   ,ITSK      ,
+     3       NEWFRONT,work_array_node ,NODES%MS       ,NODES%IN          ,ANIN(NDMA+1),NODES%ITAB  ,
      4       NODES%ITABM1  ,ADDCNEL     , CNEL    ,INDIDEL     ,NINDEX1 ,NINDEX2   ,
      5       NINDEX3 ,NINDEX4     ,TAGEL    ,INT24USE    ,IBUFSEGLO ,INDSEGLO,
      6       IBUFIDEL ,INTERFACES%INTBUF_TAB,IAD_ELEM)
@@ -5649,7 +5654,7 @@ C WA local  : utilise de 1 a NUMNOD
         IF (PDEL>0.AND.IDEL7NOK==1) THEN
           CALL CHKLOAD(
      1       IBCL    ,IXS     ,IXQ         ,ELEMENT%SHELL%IXC    ,IXT        ,IXP     ,
-     2       IXR     ,IXTG    ,WA(NUMNOD+1),ITSK   ,WA(NWAFTSK),NODES%ITAB    ,
+     2       IXR     ,IXTG    ,deleted_node,ITSK   ,work_array_node,NODES%ITAB    ,
      3       NODES  ,ADDCNEL ,CNEL        ,TAGEL  ,IPARG      ,GEO     ,
      4       IBUFPDEL,NINDEXPDEL,NINDEXP   ,NPRESLOAD,LOADP_TAGDEL      ,
      5       ILOADP  ,LLOADP  ,IAD_ELEM)
@@ -5658,6 +5663,8 @@ C WA local  : utilise de 1 a NUMNOD
 
 !$OMP END PARALLEL
           IF (IMONM > 0 ) CALL STOPTIME(TIMERS,29)
+          deallocate(deleted_node)
+          deallocate(work_array_node)
           CALL DEALLOC_SHOOT_INTER( SHOOT_STRUCT )
         ENDIF
       ENDIF
