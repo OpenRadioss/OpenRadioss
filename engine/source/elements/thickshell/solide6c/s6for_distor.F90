@@ -31,16 +31,18 @@
 ! \brief distortion control for penta6 element
 ! ======================================================================================================================
       !||====================================================================
-      !||    s6for_distor     ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
+      !||    s6for_distor       ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
       !||--- called by ------------------------------------------------------
-      !||    s6cforc3         ../engine/source/elements/thickshell/solide6c/s6cforc3.F
+      !||    s6cforc3           ../engine/source/elements/thickshell/solide6c/s6cforc3.F
       !||--- calls      -----------------------------------------------------
-      !||    sfor_n2s4        ../engine/source/elements/solid/solide/sfor_n2s4.F
-      !||    sfor_n2stria     ../engine/source/elements/solid/solide4/sfor_n2stria.F
-      !||    sfor_visn6       ../engine/source/elements/thickshell/solide6c/sfor_visn6.F90
+      !||    sfor_3n2s3         ../engine/source/elements/solid/solide/sfor_4n2s4.F90
+      !||    sfor_n2s4          ../engine/source/elements/solid/solide/sfor_n2s4.F
+      !||    sfor_n2stria       ../engine/source/elements/solid/solide4/sfor_n2stria.F
+      !||    sfor_visn6         ../engine/source/elements/thickshell/solide6c/sfor_visn6.F90
       !||--- uses       -----------------------------------------------------
-      !||    constant_mod     ../common_source/modules/constant_mod.F
-      !||    sfor_visn6_mod   ../engine/source/elements/thickshell/solide6c/sfor_visn6.F90
+      !||    constant_mod       ../common_source/modules/constant_mod.F
+      !||    sfor_nsn2seg_mod   ../engine/source/elements/solid/solide/sfor_4n2s4.F90
+      !||    sfor_visn6_mod     ../engine/source/elements/thickshell/solide6c/sfor_visn6.F90
       !||====================================================================
         subroutine s6for_distor(                                              &
                                 x1,       x2,       x3,                       &      

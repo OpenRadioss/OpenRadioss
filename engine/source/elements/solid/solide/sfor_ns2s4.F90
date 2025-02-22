@@ -20,11 +20,23 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    sfor_ns2s4_mod   ../engine/source/elements/solid/solide/sfor_ns2s4.F90
+      !||--- called by ------------------------------------------------------
+      !||    sfor_4n2s4       ../engine/source/elements/solid/solide/sfor_4n2s4.F90
+      !||====================================================================
       module sfor_ns2s4_mod
       contains
 ! ======================================================================================================================
 ! \brief self-contact for node to quad (optimized)
 ! ======================================================================================================================
+      !||====================================================================
+      !||    sfor_ns2s4     ../engine/source/elements/solid/solide/sfor_ns2s4.F90
+      !||--- called by ------------------------------------------------------
+      !||    sfor_4n2s4     ../engine/source/elements/solid/solide/sfor_4n2s4.F90
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod   ../common_source/modules/constant_mod.F
+      !||====================================================================
          subroutine sfor_ns2s4(                                                 &
                               xi,      yi,     zi, itgsub,                      &
                              vxi,     vyi,    vzi,  for_i,                      &

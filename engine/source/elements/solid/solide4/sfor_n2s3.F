@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    sfor_n2s3       ../engine/source/elements/solid/solide4/sfor_n2s3.F
       !||--- called by ------------------------------------------------------
+      !||    sfor_3n2s3      ../engine/source/elements/solid/solide/sfor_4n2s4.F90
       !||    sfor_n2stria    ../engine/source/elements/solid/solide4/sfor_n2stria.F
       !||    sfor_n2stria2   ../engine/source/elements/solid/solide10/sfor_n2stria2.F
       !||====================================================================

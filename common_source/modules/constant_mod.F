@@ -151,6 +151,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sdistor_ini                              ../engine/source/elements/solid/solide/sdistror_ini.F90
       !||    select_s2s                               ../starter/source/interfaces/inter3d1/select_s2s.F90
       !||    sensor_python                            ../engine/source/tools/sensor/sensor_python.F90
+      !||    sfor_3n2s3                               ../engine/source/elements/solid/solide/sfor_4n2s4.F90
+      !||    sfor_4n2s4                               ../engine/source/elements/solid/solide/sfor_4n2s4.F90
+      !||    sfor_ns2s4                               ../engine/source/elements/solid/solide/sfor_ns2s4.F90
       !||    sfor_visn6                               ../engine/source/elements/thickshell/solide6c/sfor_visn6.F90
       !||    sh_offset_jonct_chk                      ../starter/source/elements/shell/shell_offset/sh_offset_jonkt_chk.F90
       !||    sh_offset_nproj                          ../starter/source/elements/shell/shell_offset/shell_offset_nproj.F90
