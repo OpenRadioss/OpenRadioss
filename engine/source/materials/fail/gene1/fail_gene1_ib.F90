@@ -100,8 +100,8 @@
       my_real, dimension(nel)     ,intent(inout)  :: signxy   ! stress component xy
       my_real, dimension(nel)     ,intent(inout)  :: signzx   ! stress component zx
       my_real, dimension(nel)     ,intent(inout)  :: off      ! offset
-      INTEGER ,DIMENSION(NEL)     ,INTENT(INOUT)  :: FOFF    ! integration point desactivation flag
-      
+      integer, dimension(nel)     ,intent(inout)  :: foff     ! integration point desactivation flag
+
       my_real, dimension(nel, lf_dammx), intent(inout) :: dfmax      ! maximum damage
       my_real, dimension(nel, nuvar), intent(inout)    :: uvar       ! user variables
       type(ttable), dimension(ntable), intent(inout)   :: table      ! table data
@@ -260,7 +260,7 @@
       do i=1,nel
 !c              
         ! for active element or gauss point
-        if ((off(i)==one).and.FOFF(I) == 1) then
+        if ((off(i)==one).and.foff(i) == 1) then
           ! ----------------------------------------------------------------------------------------
           ! computation of volumetric strain, effective strain, shear strain and principal strains
           ! ----------------------------------------------------------------------------------------
@@ -661,7 +661,6 @@
             if (temp(i) >= maxtemp) then 
               ncrit(i)    = ncrit(i) + 1 
               imaxtemp(i) = 1
-              !foff(i)=0
             endif
           endif
 !c        
