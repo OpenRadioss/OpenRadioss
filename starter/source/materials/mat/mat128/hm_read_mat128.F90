@@ -100,7 +100,7 @@
       my_real :: epsp_ref,cc,cp        
       my_real :: sigy,lam,cii,cij
       my_real :: ff,gg,hh,ll,mm,nn
-      my_real :: fcut,asrate,xfac,yfac
+      my_real :: fcut,asrate,xfac,yfac,fisokin
       my_real :: epsp_unit,pres_unit
       my_real :: x1scale,x2scale,x3scale,x4scale
       my_real :: x1vect(1),x2vect(1),x3vect(1),x4vect(1),fscale(1)
@@ -120,6 +120,7 @@
       call hm_get_floatv('LAW128_E'       ,young   ,is_available, lsubmodel, unitab)
       call hm_get_floatv('LAW128_NU'      ,nu      ,is_available, lsubmodel, unitab)
       call hm_get_floatv('LAW128_SIGY'    ,sigy    ,is_available, lsubmodel, unitab)
+      call hm_get_floatv('LAW128_KIN'     ,fisokin ,is_available, lsubmodel, unitab)
       ! line 3
       call hm_get_intv  ('LAW128_ITAB'    ,func_id ,is_available, lsubmodel)     
       call hm_get_floatv('LAW128_FACY'    ,yfac    ,is_available, lsubmodel, unitab)
@@ -214,7 +215,10 @@
         if (ierr == 0) then
           cc = zero
           cp = zero ! Cowper-Symonds strain rate is not used with tabulated input          
-          nvartmp = ndim
+          nvartmp = mat_param%table(1)%ndim
+          if (mat_param%table(1)%ndim == 1) then
+            sigy = mat_param%table(1)%y1d(1)    !< initial yield stress from hardening function
+          end if
         endif
       endif
 !          
@@ -229,7 +233,7 @@
 !      
 !-------------------------------------
       mat_param%niparam = 0
-      mat_param%nuparam = 18
+      mat_param%nuparam = 19
       allocate (mat_param%iparam(mat_param%niparam))
       allocate (mat_param%uparam(mat_param%nuparam))
 !-------------------------------------
@@ -251,6 +255,7 @@
       mat_param%uparam(16) = mm   
       mat_param%uparam(17) = nn   
       mat_param%uparam(18) = asrate
+      mat_param%uparam(19) = fisokin
 !-------------------------------------
       ! mat_param common parameters
 
@@ -269,7 +274,7 @@
       parmat(16) = 1
       parmat(17) = (one-two*nu)/(one-nu)  !   2G / (bulk + G*4/3)
 !-------------------------------------
-      ! Element buffer variable activation      
+      !< activate allocation of state variables in element buffer    
 
       mtag%g_thk  = 1
       mtag%g_pla  = 1
@@ -278,8 +283,12 @@
       mtag%l_seq  = 1
       mtag%g_epsd = 1
       mtag%l_epsd = 1
+      !< allocate backstresses in case of kinematic hardening
+      if (fisokin > zero) then 
+        mtag%l_sigb = 6
+      endif  
 !-------------------------------------
-      ! mterial model keywords
+      !< material model keywords
 
       call init_mat_keyword(mat_param,"ELASTO_PLASTIC")       
       call init_mat_keyword(mat_param,"INCREMENTAL")       
@@ -287,26 +296,25 @@
       call init_mat_keyword(mat_param,"HOOK")       
       call init_mat_keyword(mat_param,"ORTHOTROPIC")       
 
-      ! property compatibility  
+      !< compatibility flags with element properties  
       call init_mat_keyword(mat_param,"SHELL_ORTHOTROPIC")       
       call init_mat_keyword(mat_param,"SOLID_ORTHOTROPIC")       
       call init_mat_keyword(mat_param,"SPH")       
 !-------------------------------------------------------------------------------
 !     Parameters printout
 !-------------------------------------------------------------------------------
-      write(iout,1050) trim(titr),mat_id,ilaw
+      write(iout,1100) trim(titr),mat_id,ilaw
       write(iout,1000)
       if (is_encrypted) then
         write(iout,'(5x,a,//)')'CONFIDENTIAL DATA'
       else
+        write(iout,1200) rho0,young,nu,fisokin
         if (func_id > 0) then
-          write(iout,1100) rho0,young,nu,                      &
-                           func_id,ff,gg,hh,ll,mm,nn 
+          write(iout,1300) func_id,yfac,xfac
         else
-          write(iout,1200) rho0,young,nu,sigy,                 &
-                           qr1,cr1,qr2,cr2,qx1,cx1,qx2,cx2,    &
-                           cc,cp,ff,gg,hh,ll,mm,nn 
+          write(iout,1400) qr1,cr1,qr2,cr2,qx1,cx1,qx2,cx2,cc,cp
         endif       
+        write(iout,1500) ff,gg,hh,ll,mm,nn 
       endif       
 !-------------------------------------------------------------------------------
       return
@@ -315,26 +323,20 @@
       5x,a,/,                                                                & 
       5x,40h  ELASTOPLASTIC ORTHOTROPIC HILL MATERIAL,/,                     & 
       5x,40h  -----------------------------------   ,//)           
- 1050 format(/                                                               &
+ 1100 format(/                                                               &
       5x,a,/,                                                                &
       5x,'MATERIAL NUMBER . . . . . . . . . . . . .=',i10/,                  &
       5x,'MATERIAL LAW. . . . . . . . . . . . . . .=',i10/)       
- 1100 format(                                                                & 
-      5x,'INITIAL DENSITY. . . . . . . . . . . . . . . . . . .=',1pg20.13/,  &  
-      5x,'YOUNG MODULUS. . . . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
-      5x,'POISSON RATIO. . . . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
-      5x,'TABULATED YIELD STRESS FUNCTION ID . . . . . . . . .=',i10     /,  &
-      5x,'YIELD PARAMETER F. . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
-      5x,'YIELD PARAMETER G. . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
-      5x,'YIELD PARAMETER H. . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
-      5x,'YIELD PARAMETER L. . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
-      5x,'YIELD PARAMETER M. . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
-      5x,'YIELD PARAMETER N. . . . . . . . . . . . . . . . . .=',1pg20.13/)
  1200 format(                                                                & 
       5x,'INITIAL DENSITY. . . . . . . . . . . . . . . . . . .=',1pg20.13/,  &  
       5x,'YOUNG MODULUS. . . . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
       5x,'POISSON RATIO. . . . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
-      5x,'INITIAL YIELD STRESS . . . . . . . . . . . . . . . .=',1pg20.13/,  &
+      5x,'KINEMATIC HARDENING FACTOR . . . . . . . . . . . . .=',1pg20.13/)
+ 1300 format(                                                                & 
+      5x,'TABULATED YIELD STRESS FUNCTION ID . . . . . . . . .=',i10     /,  &
+      5x,'SCALE FACTOR FOR STRESS FUNCTION . . . . . . . . . .=',1pg20.13/,  &
+      5x,'SCALE FACTOR FOR STRAIN RATE . . . . . . . . . . . .=',1pg20.13/)
+ 1400 format(                                                                & 
       5x,'ISOTROPIC HARDENING PARAMETER QR1. . . . . . . . . .=',1pg20.13/,  &
       5x,'ISOTROPIC HARDENING PARAMETER CR1. . . . . . . . . .=',1pg20.13/,  &
       5x,'ISOTROPIC HARDENING PARAMETER QR2. . . . . . . . . .=',1pg20.13/,  &
@@ -344,7 +346,8 @@
       5x,'KINEMATIC HARDENING PARAMETER QX2. . . . . . . . . .=',1pg20.13/,  &
       5x,'KINEMATIC HARDENING PARAMETER CX2. . . . . . . . . .=',1pg20.13/,  &
       5x,'COWPER-SYMONDS STRAIN RATE PARAMETER CC. . . . . . .=',1pg20.13/,  &
-      5x,'COWPER-SYMONDS STRAIN RATE EXPONENT CP . . . . . . .=',1pg20.13/,  &
+      5x,'COWPER-SYMONDS STRAIN RATE EXPONENT CP . . . . . . .=',1pg20.13/)
+ 1500 format(                                                                & 
       5x,'YIELD PARAMETER F. . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
       5x,'YIELD PARAMETER G. . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
       5x,'YIELD PARAMETER H. . . . . . . . . . . . . . . . . .=',1pg20.13/,  &
