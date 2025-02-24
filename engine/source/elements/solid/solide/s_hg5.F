@@ -120,7 +120,8 @@ C     REAL
      .   G52(MVSIZ),G62(MVSIZ),G72(MVSIZ),G82(MVSIZ),
      .   G13(MVSIZ),G23(MVSIZ),G33(MVSIZ),G43(MVSIZ),
      .   G53(MVSIZ),G63(MVSIZ),G73(MVSIZ),G83(MVSIZ),
-     .   E0,G0,C1,NU,EHOURT ,QH,LAMG,SFAC,FDAMP,DT05,LAMGT(MVSIZ),F_ET(MVSIZ)  
+     .   E0,G0,C1,NU,EHOURT ,QH,LAMG,SFAC,FDAMP,DT05,
+     .   LAMGT(MVSIZ),F_ET(MVSIZ),F_STI(MVSIZ),E_MAX,S_MAX,FAC1,SFAC1  
 C----------------------------------------------- 
 C------recompute modulus for law42,88,90
       MX = MAT(1)
@@ -129,7 +130,7 @@ C------recompute modulus for law42,88,90
       C1=PM(32,MX)
       E0=PM(20,MX)
       QH = GEO(13,PID(1))
-      IF (ISCTL>0 .AND. NU>0.48999) QH = ZEP05*QH
+      IF (ISCTL>0 .AND. NU>0.48999) QH = ZEP5*QH
       LAMGT(1:NEL)=CXX(1:NEL)*CXX(1:NEL)*RHO(1:NEL)
       F_ET(1:NEL)=ONE
       SELECT CASE (MTN)
@@ -146,27 +147,53 @@ C------recompute modulus for law42,88,90
         CASE (62)
           G0 = HALF*G0
           LAMG = C1+FOUR_OVER_3*G0
-          DO I=1,NEL
-            F_ET(I)=MAX(ONE,LAMGT(I)/LAMG)
-            SFAC = MIN(TEN,F_ET(I))
-            IF (SFAC>TWO) SFAC=TEN
-            F_ET(I)=SFAC*F_ET(I)
-            STI(I)=SFAC*STI(I)
-          ENDDO
+          F_ET(1:NEL)=MAX(ONE,LAMGT(1:NEL)/LAMG)
         CASE (88)
           C1 = THIRD*E0/(1-TWO*NU)
           LAMG = C1+FOUR_OVER_3*G0
           F_ET(1:NEL)=MAX(ONE,LAMGT(1:NEL)/LAMG)
+        CASE (90)
+          IF (QH==ONE) QH = FOURTH
+          LAMG = C1+FOUR_OVER_3*G0
+          F_ET(1:NEL)=MAX(ONE,QH*LAMGT(1:NEL)/LAMG)
         CASE DEFAULT
-          IF (ISCTL>0) QH = FOURTH*QH ! 2.5 for default
+!          IF (ISCTL>0) QH = FOURTH*QH ! 2.5 for default
           LAMG = C1+FOUR_OVER_3*G0
           F_ET(1:NEL)=MAX(ONE,LAMGT(1:NEL)/LAMG)
-      END SELECT
-      IF (QH>ONE) STI(1:NEL) = QH*STI(1:NEL)
+        END SELECT
+!      IF (QH>ONE) STI(1:NEL) = QH*STI(1:NEL)
+      F_STI(1:NEL) = MAX(ONE,QH)
       SFAC = 0.038*QH*LAMG
+! special case for stiffing      
+      IF (MTN==62) THEN
+        DO I=1,NEL
+          SFAC1 = MIN(TEN,F_ET(I))
+          IF (SFAC1>TWO) SFAC1=TEN
+          F_ET(I)=SFAC1*F_ET(I)
+          F_STI(I)=SFAC1*F_STI(I)
+        ENDDO
+      END IF
+      IF (MTN==1.OR.MTN==62) THEN
+! AVOID ADDED MASS AT THE BEGINNING      
+          DO I=1,NEL
+              S_MAX=ZERO
+            DO J=1,4
+              S_MAX=MAX(S_MAX,ABS(FHOUR(I,1,J)),ABS(FHOUR(I,2,J)),ABS(FHOUR(I,3,J)))
+            END DO
+            FAC1 = SFAC*VOL(I)**TWO_THIRD
+            E_MAX=S_MAX/FAC1
+            SFAC1 = MIN(TEN,2500*E_MAX)
+            SFAC1 = MAX(ONE,SFAC1)
+            F_ET(I)=SFAC1*F_ET(I)
+            F_STI(I)=SFAC1*F_STI(I)
+          END DO
+      END IF
+!
+      IF (ISCTL==0) F_ET(1:NEL)=ONE
       DO I=1,NEL
-         CAQ(I)=SFAC*DT1*OFF(I)
-         FCL(I)=F_ET(I)*CAQ(I)*VOL(I)**THIRD
+          CAQ(I)=SFAC*DT1*OFF(I)
+          FCL(I)=F_ET(I)*CAQ(I)*VOL(I)**THIRD
+          STI(I)=F_STI(I)*STI(I)
       ENDDO
 !
        DO I=1,NEL
