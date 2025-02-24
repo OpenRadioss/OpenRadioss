@@ -34,11 +34,7 @@
       !||====================================================================
       !||    fail_gene1_b          ../engine/source/materials/fail/gene1/fail_gene1_b.F90
       !||--- called by ------------------------------------------------------
-      !||    fail_beam3            ../engine/source/elements/beam/fail_beam3.F
-      !||--- calls      -----------------------------------------------------
-      !||    finter                ../engine/source/tools/curve/finter.F
-      !||    table2d_vinterp_log   ../engine/source/tools/curve/table2d_vinterp_log.F
-      !||    table_vinterp         ../engine/source/tools/curve/table_tools.F
+      !||    fail_beam3            ../engine/source/elements/beam/fail_beam3.f
       !||--- uses       -----------------------------------------------------
       !||    constant_mod          ../common_source/modules/constant_mod.F
       !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
@@ -95,7 +91,7 @@
       my_real, dimension(nel)     ,intent(in)     :: epsp     ! strain rate (confirmed by the tensstrain_criterion in solid element and beam3 element) 
       my_real, dimension(nel)     ,intent(in)     :: aldt     ! element size
       my_real, dimension(nel)     ,intent(in)     :: temp     ! temperature
-      my_real ,dimension(nel)     ,intent(in)    :: f1        ! force in local x direction
+      my_real ,dimension(nel)     ,intent(inout)    :: f1        ! force in local x direction
       my_real ,dimension(nel)     ,intent(in)    :: epsxx      !< strain increment component xx
       my_real ,dimension(nel)     ,intent(in)    :: epsxy      !< strain increment component xy
       my_real ,dimension(nel)     ,intent(in)    :: epszx      !< strain increment component xz
@@ -237,16 +233,21 @@
       endif  
 
       if (uvar(1,8) == zero) uvar(1:nel,8) = aldt(1:nel)
+      if (uvar(1,5) == zero.and.(off(1) /= zero)) uvar(1:nel,5) = one
+
       ! checking element failure and recovering user variable
       do i=1,nel
-        if (off(i) < one .and. off(i) >= em08) then 
-          off(i) = off(i) - one/nstep
+        ! Integration point failure
+        if (uvar(i,5) < one .and. uvar(i,5) >= em08) then 
+          uvar(i,5) = uvar(i,5) - one/nstep
         endif
-        if (off(i) <= em08) off(i) = zero
-       ! integration point failure     
-       signxx(i) = off(i)*f1(i)/area   
-       ! regularization factors for length, surface and volume
-       facl(i)   = uvar(i,1)
+        if (uvar(i,5) <= em08) uvar(i,5) = zero
+        if ((uvar(i,5) == zero) .and. off(i) == one) off(i) = zero
+        ! integration point failure     
+        f1(i) = uvar(i,5)*f1(i)
+        signxx(i) = f1(i)/area   
+        ! regularization factors for length, surface and volume
+        facl(i)   = uvar(i,1)
       enddo
 !c      
       !step2: computation of stress and strain 
@@ -256,7 +257,7 @@
       do i=1,nel
 !c              
         ! for active element 
-        if (off(i)==one) then
+        if ((uvar(i,5) == one).and.off(i)==one) then
           ! ----------------------------------------------------------------------------------------
           ! computation of volumetric strain, effective strain, shear strain and principal strains
           ! ----------------------------------------------------------------------------------------
@@ -401,7 +402,7 @@
       !====================================================================    
       do i = 1,nel
         nmod = 0
-        if (off(i)==one) then
+        if ((uvar(i,5) == one).and.off(i)==one) then
           !  -> minimum pressure
           if (btest(crit,1)) then 
             nmod = nmod + 1
@@ -648,7 +649,8 @@
             dfmax(i,1)  = one
             nindx       = nindx + 1
             indx(nindx) = i
-            off(i)= 1 - one/nstep
+            uvar(i,5)   = one - one/nstep
+            f1(i) = uvar(i,5)*f1(i)
           endif
         endif
 !c

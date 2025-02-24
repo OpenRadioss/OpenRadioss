@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .    KXX     ,KYY     ,KZZ     ,AL      ,FA1     ,
      .    FA2     ,FA3     ,MA1     ,MA2     ,MA3     ,
      .    NEL     ,MAT     ,PID     ,NGL     ,IPM     ,
-     .    NUMMAT  ,NUVAR   ,UVAR    ,IRUPT)
+     .    NUMMAT  ,NUVAR   ,UVAR    )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,7 +48,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NEL,NUMMAT,NUVAR,IRUPT
+      INTEGER ,INTENT(IN) :: NEL,NUMMAT,NUVAR
       INTEGER ,INTENT(IN) :: MAT(NEL),PID(NEL),NGL(NEL)
       INTEGER ,DIMENSION(NPROPMI,NUMMAT) ,INTENT(IN) :: IPM
       my_real
@@ -270,12 +270,8 @@ C--------------------------------
 C     TEST DE RUPTURE DUCTILE
 C--------------------------------
       DO I=1,NEL
-        IF (IRUPT == 39) THEN ! For Gene1 failure model, the OFF is used with NSTEP in the subroutine FAIL_GENE1_B for stress reduction
-          OFF(I) = OFF(I) 
-        ELSE
           IF (OFF(I) < EM01)  OFF(I) = ZERO
           IF (OFF(I) < ONE )  OFF(I) = OFF(I)*FOUR_OVER_5
-        ENDIF
       ENDDO
 C
       NINDX  = 0
