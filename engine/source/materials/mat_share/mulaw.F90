@@ -453,7 +453,7 @@
           integer i,npar,nuparam,niparam,nparf,iadbuf,nfunc,numtabl,israte,ipg,nptr,npts,&
           &ibid,ibidon1,ibidon2,ibidon3,ibidon4 ,n48,nix,ilaw_user,igtyp,&
           &nvarf,ir,irupt,imat,isvis,ivisc,nuvarv,nuparv,iseq,idev,ntabl_fail,&
-          &l_planl,l_epsdnl,l_dmg
+          &l_planl,l_epsdnl,l_dmg,l_sigb
 
           my_real e1,e2,e3,e4,e5,e6,bid1,bid3,q1,q2,q3,ss1,ss2,ss3,ss4,ss5,&
           &ss6,wxxf,wyyf,wzzf,p2,epsp,dav,asrate,     &
@@ -522,6 +522,7 @@
           inloc  = iparg(78,ng)
           dmg_flag = elbuf_tab(ng)%bufly(ilay)%l_dmgscl
           l_dmg    = elbuf_tab(ng)%bufly(ilay)%l_dmg
+          l_sigb   = elbuf_tab(ng)%bufly(ilay)%l_sigb
           l_planl  = elbuf_tab(ng)%bufly(ilay)%l_planl
           l_epsdnl = elbuf_tab(ng)%bufly(ilay)%l_epsdnl
           nodadt = dt%nodadt
@@ -2034,7 +2035,7 @@
                  so1      ,so2      ,so3      ,so4      ,so5      ,so6      ,  &
                  s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,  &
                  lbuf%seq ,sigy     ,et       ,defp     ,dpla     ,epsd     ,  &
-                 ssp      ,off      )
+                 ssp      ,off      ,l_sigb   ,lbuf%sigb)
 !
           elseif (mtn == 187) then !barlat 2000
             call sigeps187(nel   ,npar  ,nuvar ,nfunc ,ifunc ,&

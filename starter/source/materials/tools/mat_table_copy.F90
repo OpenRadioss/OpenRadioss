@@ -78,7 +78,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      integer :: i,j,k,l,itab                     
+      integer :: i,j,k,l,itab,idebug                     
       integer :: func_id,func_n                              
       integer :: nfunc,ndim                             
       integer :: lx1,lx2,lx3,lx4
@@ -86,6 +86,7 @@
 !=========================================================================================
 !     copy global functions/tables to mat_param data structure
 !--------------------------------------------------------------------------
+      idebug = 0
       nfunc = mat_param%ntable
       allocate (ifunc(nfunc))
       ierr = 0
@@ -116,6 +117,12 @@
             allocate (mat_param%table(itab)%y1d(lx1))
             mat_param%table(itab)%x(1)%values(1:lx1) = x1scale*table(func_n)%x(1)%values(1:lx1)
             mat_param%table(itab)%y1d(1:lx1) = fscale(itab)*table(func_n)%y%values(1:lx1)
+            
+            if (idebug == 1) then
+              do i=1,lx1
+                print*,mat_param%table(itab)%x(1)%values(i),mat_param%table(itab)%y1d(i)
+              end do
+            end if
             
           else if (ndim == 2) then
             lx1 = size(table(func_n)%x(1)%values)
