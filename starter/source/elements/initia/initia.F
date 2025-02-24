@@ -177,7 +177,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      K                  KNOD2EL1D  ,NOD2EL1D      ,EBCS_TAB         ,RBY_INIAXIS    ,ALEA      ,
      L                  KNOD2ELC   ,NOD2ELC       ,DR               ,SLRBODY        ,DRAPEG    ,
      M                  IPARI      ,INTBUF_TAB    ,INTERFACES       ,MAT_PARAM      ,NPRELOAD_A,
-     N                  PRELOAD_A  ,FAIL_FRACTAL  ,FAIL_BROKMANN    ,DEFAULTS )
+     N                  PRELOAD_A  ,FAIL_FRACTAL  ,FAIL_BROKMANN    ,DEFAULTS       ,NDAMP_FREQ_RANGE,
+     L                  DAMPR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------                     
@@ -212,6 +213,7 @@ C-----------------------------------------------
       USE MULTIMAT_PARAM_MOD , ONLY : M51_LC0MAX, M51_SSP0MAX, M51_TCP_REF, M51_lSET_IFLG6, M51_IFLG6, M51_ILOOP_NRF
       use brokmann_random_def_mod
       use glob_therm_mod
+      use damping_range_init_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -311,6 +313,8 @@ C
       INTEGER NOM_OPT(LNOPT1,*),PTR_NOPT_RBE2,PTR_NOPT_ADM,PTR_NOPT_FUN,IOPT
       INTEGER FXBNOD(*), FXANI(2,*),ITAGND(*)
       INTEGER,INTENT(IN) :: NPRELOAD_A
+      INTEGER,INTENT(IN) :: NDAMP_FREQ_RANGE
+      my_real,INTENT(IN) :: DAMPR(NRDAMP,NDAMP)
 C
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP,NXEL) :: XFEM_TAB
@@ -1956,6 +1960,12 @@ C------------------------------------------------------
           ENDIF
         ENDIF
       ENDDO
+C------------------------------------------------------
+C Initialization of joint type spring (PID33 and PID45)
+C------------------------------------------------------
+      IF (NDAMP_FREQ_RANGE > 0) THEN
+        call damping_range_init(ndamp,nrdamp,dampr,ngroup,nparg,iparg,elbuf_tab)    
+      ENDIF      
 C
 C----------------------------------------------------------------
       IF(IPRI>=2) THEN

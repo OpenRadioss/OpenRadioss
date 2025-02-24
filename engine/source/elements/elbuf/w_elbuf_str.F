@@ -55,7 +55,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,J,K,IL,IR,IS,IT,NG,NEL,NPT,L_REL,BUFLEN,NUVAR,
      .   ITY,IGTYP,ISORTH,ISRATE,ISROT,IREP,ERR,IEXPAN,ISTRA,IFAIL,   
-     .   NFAIL,IEOS,IXFEM,IVISC,IXEL,NPG,NPTT,NPTTOT,INLOC,NONL,IDFAIL
+     .   NFAIL,IEOS,IXFEM,IVISC,IXEL,NPG,NPTT,NPTTOT,INLOC,NONL,IDFAIL,
+     .   IDAMP_FREQ_RANGE
       INTEGER ! global variables
      .   G_GAMA,G_SIG,G_OFF,G_NOFF,G_EINT,G_EINS,G_TEMP,
      .   G_RHO,G_PLA,G_VOL,G_EPSD,G_QVIS,G_DELTAX,G_TB,G_RK,G_RE,
@@ -116,6 +117,8 @@ C=======================================================================
 c----
           ITY    = IPARG(5,NG)
           INLOC  = IPARG(78,NG) ! Non-local regularization flag
+          IDAMP_FREQ_RANGE = IPARG(93,NG) ! Flag for damping frequency range
+c          
           IF (ITY == 1 .OR. ITY == 2 .OR. ITY == 51 .OR.
      .        ITY == 3 .OR. ITY == 7 .OR. ITY == 101.OR.
      .        ITY == 4 .OR. ITY == 5 .OR. ITY == 6 .OR. ITY == 100) THEN
@@ -178,7 +181,15 @@ c---------  write top structure parameters: NPAR_TAB = 9
           RBUF_L(L_REL+1) = ELBUF%NXEL       
                  L_REL = L_REL+1  
           RBUF_L(L_REL+1) = ELBUF%IDRAPE       
-                 L_REL = L_REL+1                                 
+                 L_REL = L_REL+1               
+c---------------------------------------------------          
+c         Damping parameters for frequency range 
+c--------------------------------------------------- 
+          IF  (IDAMP_FREQ_RANGE == 1) THEN
+            RBUF_L(L_REL+1:L_REL+3) = ELBUF%DAMP_RANGE%ALPHA(1:3)
+            RBUF_L(L_REL+4:L_REL+6) = ELBUF%DAMP_RANGE%TAU(1:3)
+            L_REL = L_REL + 6
+          ENDIF                                    
 c---------------------------------------------------          
 c         LAYERS : write buffer at layer level 
 c---------------------------------------------------
