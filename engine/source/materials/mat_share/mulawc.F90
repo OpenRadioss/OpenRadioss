@@ -362,6 +362,7 @@
           &orth_damage,l_dmg,iprony,israte,nvartmp,inloc,idrape,vp,nvar_damp,flag_incr
           integer :: ij1,ij2,ij3,ij4,ij5
           integer :: ij(5),iflag(1)
+          integer :: l_sigb
           integer ,dimension(maxfunc) :: ifunc
           integer ,dimension(mvsiz)   :: ioff_duct,nfis1,nfis2,nfis3
 !
@@ -628,6 +629,7 @@
             nvartmp= bufly%nvartmp
             nuvarv = bufly%nvar_visc
             iseq   = bufly%l_seq
+            l_sigb = bufly%l_sigb
             iadbuf = max(1,ipm(7,imat))
             nuparam0=  ipm(9,imat)                      ! old uparam stored in bufmat
             uparam0 => bufmat(iadbuf:iadbuf+nuparam0-1) ! old uparam stored in bufmat
@@ -1866,7 +1868,7 @@
                   signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,       &
                   ssp      ,thkn     ,lbuf%pla ,dpla     ,epsp     ,       &
                   off      ,etse     ,thklyl   ,shf      ,sigy     ,       &
-                  hardm    ,lbuf%seq )
+                  hardm    ,lbuf%seq ,l_sigb   ,lbuf%sigb)
 !
               elseif (ilaw == 158) then
                 call sigeps158c(&
