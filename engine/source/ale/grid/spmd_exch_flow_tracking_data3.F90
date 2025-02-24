@@ -88,7 +88,7 @@ module spmd_exch_flow_tracking_data3_mod
           endif
         enddo
         !-------------------------------------------!
-        ! RECIEVING %ITM(1:6)                       !
+        ! RECEIVING %ITM(1:6)                       !
         !-------------------------------------------!
         nbirecv=0
         do p = 1, nspmd

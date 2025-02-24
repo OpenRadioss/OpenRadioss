@@ -58,7 +58,7 @@
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
       integer , intent(in   )                          :: ninivelt  !< number of inivel_struc
-      integer , intent(inout)                          :: len_ia    !< accumulative interger length
+      integer , intent(inout)                          :: len_ia    !< accumulative integer length
       integer , intent(inout)                          :: len_am    !< accumulative floating length
       integer , intent(in   )                          :: proc      !< local domain number
       integer , intent(in   )                          :: numnod    !< number of node 

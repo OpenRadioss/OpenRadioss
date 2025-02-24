@@ -110,7 +110,7 @@
 
                 elseif(elements%shell%nodes(j,i) > old_id) then
                     ! the current node id, is greater than the old id, so we need to offset IADC 
-                    ! by the numbr of contributions removed from the FSKY
+                    ! by the number of contributions removed from the FSKY
                     elements%pon%iadc(j,i) = elements%pon%iadc(j,i) - offset
                 elseif(elements%shell%nodes(j,i) == old_id) then
                       ! if the node is the old id we rebuild the IADC 
