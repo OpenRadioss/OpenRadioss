@@ -65,8 +65,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-      use constant_mod,   only : one,two,eight,ten,zero,zep05,half,third,fourth,zep00666666667,      &
-                                 four_over_3,one_over_8,one_over_64,em01
+      use constant_mod,   only : one,two,eight,ten,zero,zep5,half,third,fourth,zep00666666667,      &
+                                 four_over_3,one_over_8,one_over_64,em01,two_third
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -125,14 +125,15 @@
                  g52(mvsiz),g62(mvsiz),g72(mvsiz),g82(mvsiz),             &
                  g13(mvsiz),g23(mvsiz),g33(mvsiz),g43(mvsiz),             &
                  g53(mvsiz),g63(mvsiz),g73(mvsiz),g83(mvsiz),             &
-                 e0,g0,c1,nu,qh,lamg ,stif ,ll ,fvl,lamgt(mvsiz),f_et(mvsiz),sfac
+                 e0,g0,c1,nu,qh,lamg ,stif ,ll ,fvl,lamgt(mvsiz),         &
+                 f_et(mvsiz),f_sti(mvsiz),sfac,e_max,s_max,sfac1
 ! ----------------------------------------------------------------------------------------------------------------------
       mx = mat(1)
       nu=pm(21,mx)
       g0=pm(22,mx)  ! 2g for law 42,69,62,70
       c1=pm(32,mx)
       e0=pm(20,mx)
-      qh = ten
+      qh = one
       lamgt(1:nel)=cxx(1:nel)*cxx(1:nel)*rho(1:nel)
       select case (mtn)
         case (70)
@@ -142,34 +143,51 @@
         case (42,69)
           c1 = third*e0/(1-two*nu)
           g0 = half*g0
-        case (1)
         case (62)
 ! ten for the moment
           g0 = half*g0
-        case default
-          qh = 2.5
+        case (90)
+          qh = fourth*qh
       end select
       lamg = c1+four_over_3*g0
       f_et(1:nel)=max(one,lamgt(1:nel)/lamg)
-      if (nu>0.48999) qh = zep05*qh
+      f_sti(1:nel)=one
+      if (nu>0.48999) qh = zep5*qh
       stif = 0.3*qh*lamg     ! factor=8*1/8/3;  
 !      fvl = fourth*dn*zep00666666667   
       fvl = fourth*dn*em01   ! 1/10 of isolid=5
-      if (qh>one) sti(1:nel) = qh*sti(1:nel)
+! special case for stiffing      
       if (mtn==62) then
           do i=1,nel
             sfac = min(ten,f_et(i))
             if (sfac>two) sfac=ten
             f_et(i)=sfac*f_et(i)
-            sti(i)=sfac*sti(i)
+            f_sti(i)=sfac*f_sti(i)
           enddo
       end if !(mtn==62) then
+      if (mtn==1.or.mtn==62) then
+! hourglass max_strain estimation      
+        do i=1,nel
+            s_max=zero
+          do j=1,4
+            s_max=max(s_max,abs(fhour(i,1,j)),abs(fhour(i,2,j)),abs(fhour(i,3,j)))
+          end do
+          sfac=f_et(i)*stif*vol(i)**two_third
+          e_max=s_max/sfac
+          sfac1 = min(ten,2500*e_max)
+          sfac1 = max(one,sfac1)
+          f_et(i)=sfac1*f_et(i)
+          f_sti(i)=sfac1*f_sti(i)
+        end do
+      end if
+      if (mtn==90) f_et(1:nel)=max(one,qh*lamgt(1:nel)/lamg)
 !
       do i=1,nel
          ll = vol(i)**third
          caq(i)=stif*dt1*off(i)
          edt(i)=f_et(i)*caq(i)*ll
          fcl(i)=fvl*rho(i)*cxx(i)*ll*ll
+         sti(i) = f_sti(i)*sti(i)
       enddo
 !	  
        do i=1,nel
