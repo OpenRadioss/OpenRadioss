@@ -34,7 +34,11 @@
       !||====================================================================
       !||    fail_gene1_b          ../engine/source/materials/fail/gene1/fail_gene1_b.F90
       !||--- called by ------------------------------------------------------
-      !||    fail_beam3            ../engine/source/elements/beam/fail_beam3.f
+      !||    fail_beam3            ../engine/source/elements/beam/fail_beam3.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter                ../engine/source/tools/curve/finter.F
+      !||    table2d_vinterp_log   ../engine/source/tools/curve/table2d_vinterp_log.F
+      !||    table_vinterp         ../engine/source/tools/curve/table_tools.F
       !||--- uses       -----------------------------------------------------
       !||    constant_mod          ../common_source/modules/constant_mod.F
       !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90

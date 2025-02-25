@@ -27,7 +27,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    constant_mod       ../common_source/modules/constant_mod.F
       !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||    output_mod         ../common_source/modules/output/output_mod.F90
       !||====================================================================
       SUBROUTINE POWDER_BURN    (
      1                            IFLAG , NEL    ,PM    ,OFF  , EINT  ,MU           ,MU2 ,

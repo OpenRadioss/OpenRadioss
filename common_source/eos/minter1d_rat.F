@@ -26,6 +26,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    mintp1_rt      ../common_source/eos/mintp1_rt.F
       !||    mintp_re       ../common_source/eos/mintp_re.F
       !||    mintp_rt       ../common_source/eos/mintp_rt.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod   ../common_source/modules/constant_mod.F
       !||====================================================================
       SUBROUTINE MINTER1D_RAT(X0,X1,X2,X3,Y0,Y1,Y2,Y3,X,Y,YP,I,N)
 C     INTERPOLATION (RATIONAL FUNCTION)

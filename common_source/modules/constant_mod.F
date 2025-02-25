@@ -48,6 +48,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    dttherm                                  ../engine/source/time_step/dttherm.F90
       !||    ebcs11                                   ../engine/source/boundary_conditions/ebcs/ebcs11.F90
       !||    eosexponential                           ../common_source/eos/eosexponential.F90
+      !||    eospolyno                                ../common_source/eos/eospolyno.F
       !||    fail_gene1_b                             ../engine/source/materials/fail/gene1/fail_gene1_b.F90
       !||    fail_gene1_ib                            ../engine/source/materials/fail/gene1/fail_gene1_ib.F90
       !||    fail_visual_b                            ../engine/source/materials/fail/visual/fail_visual_b.F90
@@ -121,6 +122,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    mat87c_swift_voce                        ../engine/source/materials/mat/mat087/mat87c_swift_voce.F90
       !||    mat87c_tabulated                         ../engine/source/materials/mat/mat087/mat87c_tabulated.F90
       !||    mat87c_tabulated_3dir_ortho              ../engine/source/materials/mat/mat087/mat87c_tabulated_3dir_ortho.F90
+      !||    minter1d_rat                             ../common_source/eos/minter1d_rat.F
       !||    mmain                                    ../engine/source/materials/mat_share/mmain.F90
       !||    mulaw                                    ../engine/source/materials/mat_share/mulaw.F90
       !||    mulaw8                                   ../engine/source/materials/mat_share/mulaw8.F90
@@ -138,6 +140,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    preload_axial                            ../engine/source/elements/spring/preload_axial.F90
       !||    prodmat                                  ../engine/source/materials/tools/prodmat.F
       !||    prodmatvect                              ../starter/source/materials/mat/mat087/law87_upd.F90
+      !||    puff                                     ../common_source/eos/puff.F
       !||    r_yld2000                                ../starter/source/materials/mat/mat087/law87_upd.F90
       !||    random_walk_dmg                          ../starter/source/materials/fail/fractal/random_walk_dmg.F90
       !||    read_mat25_crasurv                       ../starter/source/materials/mat/mat025/read_mat25_crasurv.F90

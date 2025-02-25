@@ -54,7 +54,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    compaction2_mod      ../common_source/eos/compaction2.F90
       !||    compaction_mod       ../common_source/eos/compaction.F90
       !||    matparam_def_mod     ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||    output_mod           ../common_source/modules/output/output_mod.F90
       !||====================================================================
       SUBROUTINE EOSMAIN(IFLAG ,NEL   ,EOSTYP ,PM      ,OFF      ,EINT  ,
      2                   RHO   ,RHO0  ,MU     ,MU2     ,ESPE     ,
