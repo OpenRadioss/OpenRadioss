@@ -18,7 +18,11 @@ set ( cpprel  "-DCPP_rel=70" )
 # ---------------------
 
 #hm_reader
-set ( reader_lib "-L${source_directory}/../extlib/hm_reader/linuxa64/ -lhm_reader_linuxa64 -lapr-1" )
+if ( USE_OPEN_READER STREQUAL 1 )
+       set ( reader_lib "-L${OPEN_READER_ROOT}/libopen_reader/linuxa64 -lopen_reader_linuxa64")
+else ()
+       set ( reader_lib "-L${source_directory}/../extlib/hm_reader/linuxa64/ -lhm_reader_linux64 -lapr-1 " )
+endif()
 
 #Lapack
 set (lapack_lib "${source_directory}/../extlib/lapack-3.10.0/lib_linux64_gf/liblapack.a ${source_directory}/../extlib/lapack-3.10.0/lib_linux64_gf/librefblas.a  ${source_directory}/../extlib/lapack-3.10.0/lib_linux64_gf/libtmglib.a")

@@ -103,7 +103,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N
       INTEGER EXIT_VALUE
+#ifdef DNC
       CALL starter_lic_release()
+#endif
       N=NN
       !-------------------------!
       !     ARRET DU CALCUL     !
