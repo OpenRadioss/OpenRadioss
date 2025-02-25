@@ -48,6 +48,7 @@
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use GROUPDEF_MOD , only: GROUP_
+          USE MESSAGE_MOD
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -71,21 +72,25 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: nd,igr,isk,id_rby,id_rby_user,j
+          integer :: nd,igr,isk,id_rby,id_rby_user,j,id_damp
 ! ----------------------------------------------------------------------------------------------------------------------
 !
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
-! ----------------------------------------------------------------------------------------------------------------------
+! ----------------------------------------------------------------------------------------------------------------------                    
 !
 !         Rbody id replaced by id or main rigid body in case of rigid body merge
 !
-          if (nrbmerge > 0) then
-            do nd=1,ndamp
-              id_rby_user = nint(dampr(25,nd))
-              if (id_rby_user > 0) then
-                do j=1,nrbody
-                  if (id_rby_user == npby(6,j)) then
+          do nd=1,ndamp
+            id_damp = nint(dampr(1,nd)) 
+            id_rby_user = nint(dampr(25,nd))
+            if (id_rby_user > 0) then
+              id_rby = 0
+              do j=1,nrbody
+                if (id_rby_user == npby(6,j)) then
+                  if (nrbmerge == 0) then
+                    id_rby = j
+                  else  
                     if (npby(12,j)==0) then
                       !         main rbody
                       id_rby = j
@@ -93,14 +98,21 @@
                       !         secondary rbody - switch to main
                       id_rby = npby(13,j)
                     endif
-                  endif
-                enddo
-                dampr(25,nd) = id_rby
-              endif
-            enddo
-          endif
+                  endif  
+                endif
+                if (id_rby == 0) then!  rbody not found    
+                  call ancmsg(msgid=3048,                   &
+                              msgtype=msgerror,             &
+                              anmode=aninfo,                &
+                              i1=id_damp,                   &
+                              i2=id_rby_user)
+                endif  
+              enddo
+            dampr(25,nd) = id_rby
+            endif
+          enddo
 !
-!         Stick main node of rigid body on pioc in damped nodes are present
+!         Stick main node of rigid body on proc in damped nodes are present
 !
           do nd=1,ndamp
             id_rby = nint(dampr(25,nd))

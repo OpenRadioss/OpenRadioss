@@ -37,7 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
-      SUBROUTINE HM_READ_DAMP(DAMPR,IGRNOD, ISKN,LSUBMODEL,UNITAB,NPBY,
+      SUBROUTINE HM_READ_DAMP(DAMPR,IGRNOD, ISKN,LSUBMODEL,UNITAB,
      .                        SNPC1,NPC1,NDAMP_VREL_RBY,IGRPART,DAMP_RANGE_PART)
 C-----------------------------------------------
 C   M o d u l e s
@@ -67,7 +67,7 @@ C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
       INTEGER ISKN(LISKN,*)
-      INTEGER, INTENT(IN) :: SNPC1,NPC1(SNPC1),NPBY(NNPBY,NRBYKIN)
+      INTEGER, INTENT(IN) :: SNPC1,NPC1(SNPC1)
       INTEGER, INTENT(INOUT) :: NDAMP_VREL_RBY
       my_real DAMPR(NRDAMP,*)
       INTEGER, INTENT(INOUT) :: DAMP_RANGE_PART(NPART)  !< flag to compute the damping range
@@ -84,7 +84,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,ID,JGRN,ISK,FL_VREL,FL_FREQ_RANGE
       INTEGER NB_PAS,RANGE,FLINT,FLG_PRI,SUB_INDEX
-      INTEGER FUNC_ID,RBODY_ID,IRBY,IFUN,IGR,ITYPE,GRPART,USR_GRPART
+      INTEGER FUNC_ID,RBODY_ID,IFUN,IGR,ITYPE,GRPART,USR_GRPART
       my_real
      .   FACTB,TSTART,TSTOP,
      .   ALPHA,BETA,ALPHA_Y,BETA_Y,ALPHA_Z,BETA_Z,ALPHA_XX,BETA_XX,ALPHA_YY,
@@ -189,28 +189,10 @@ C--------------------------------------------------
           IF (XSCALE == ZERO) XSCALE = ONE
           ALPHA = ZERO
           BETA = ZERO
-C---------RBODY ID user----------------------------
-          IRBY=0
+C---------RBODY ----------------------------
           IF (RBODY_ID /= 0) THEN  
-            NDAMP_VREL_RBY = NDAMP_VREL_RBY + 1           
-            DO J=1,NRBYKIN
-              IF (RBODY_ID == NPBY(6,J)) THEN
-                IRBY=J                     
-                EXIT
-              ENDIF 
-            ENDDO  
-            IF (IRBY == 0)THEN  !  Rbody not found    
-              CALL ANCMSG(MSGID=3048,
-     .                  MSGTYPE=MSGERROR,
-     .                  ANMODE=ANINFO,
-     .                  I1=ID,
-     .                  C1=TITR,
-     .                  I2=RBODY_ID)                        
-            ENDIF 
-            IF (NRBMERGE > 0) THEN
-C             RBODY merge - user ID of RBY is stored      
-              IRBY = RBODY_ID
-            ENDIF                         
+            NDAMP_VREL_RBY = NDAMP_VREL_RBY + 1
+C           RBODY merge - user ID of RBY is stored in DAMPR-> change to user id done after                                        
           ENDIF
 C---------FUNC ID user-----------------------------
           IFUN=0    
@@ -238,7 +220,7 @@ C--------------------------------------------------
           DAMPR(22,I) = DV2_MX
           DAMPR(23,I) = DV2_MY
           DAMPR(24,I) = DV2_MZ
-          DAMPR(25,I) = IRBY
+          DAMPR(25,I) = RBODY_ID
           DAMPR(26,I) = IFUN
           DAMPR(27,I) = XSCALE
           FULL_FORMAT = .TRUE.  

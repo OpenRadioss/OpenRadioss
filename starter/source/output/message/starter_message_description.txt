@@ -15123,7 +15123,6 @@ Parameter ALPHA should be lower than square root of 2/3 (0.8164965809)
 
 /MESSAGE/3048/DESCRIPTION
    -- DAMP ID:	%d
-   -- DAMP TITLE: %s
    RIGID BODY ID=%d DOES NOT EXIST
 
 /MESSAGE/3049/TITLE
