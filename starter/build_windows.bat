@@ -1,6 +1,7 @@
 @echo OFF
 
-REM Variable setting
+setlocal
+:: Variable setting
 set arch=win64
 set dc=
 set dc_suf=
@@ -15,6 +16,8 @@ set jobsv=1
 set debug_suffix=
 set build_type=
 set cbuild=0
+set use_openreader=0
+set openreader_root=
 
 IF (%1) == () GOTO ERROR
 
@@ -59,6 +62,10 @@ IF (%1) == () GOTO END_ARG_LOOP
        set jobs=%2
        set jobsv=%2
        )
+
+   IF %1==-open_reader_root (
+       set use_openreader=1
+       set openreader_root=%2
    )
 
 SHIFT
@@ -119,16 +126,23 @@ echo Build OpenRadioss Starter
 echo --------------------------
 echo.
 echo  Build Arguments :
-echo  arch =                 : %arch%
-echo  precision =            : %prec%
-echo  debug =                : %debug%
-echo  static_link =          : %static_link%
+echo  arch =                      : %arch%
+echo  precision =                 : %prec%
+echo  debug =                     : %debug%
+echo  static_link =               : %static_link%
+if %use_openreader%==1 (
+echo.
+echo  linking with open_reader:
+echo  open_reader repository root : %openreader_root%
+)
+
 echo.
 echo  Running on             : %jobsv% Threads
 echo.
 echo  verbose=               : %verbose%
 echo.
 echo  Build directory        : %build_directory%
+
 echo.
 
 if exist %build_directory% (
@@ -155,7 +169,7 @@ if %debug%==0 (
     set build_type=Debug
 )
 
-cmake -G Ninja -DVS_BUILD=1 %dc% -DEXEC_NAME=%starter% -Darch=%arch% -Dprecision=%prec% -Ddebug=%debug%  -Dstatic_link=%static% -DCMAKE_BUILD_TYPE=%build_type% -DCMAKE_Fortran_COMPILER=%Fortran_comp% -DCMAKE_C_COMPILER=%C_comp% -DCMAKE_CPP_COMPILER=%CPP_comp% -DCMAKE_CXX_COMPILER=%CXX_comp% ..
+cmake -G Ninja -DVS_BUILD=1 %dc% -DEXEC_NAME=%starter% -Darch=%arch% -Dprecision=%prec% -Ddebug=%debug%  -Dstatic_link=%static% -DCMAKE_BUILD_TYPE=%build_type% -DCMAKE_Fortran_COMPILER=%Fortran_comp% -DCMAKE_C_COMPILER=%C_comp% -DCMAKE_CPP_COMPILER=%CPP_comp% -DCMAKE_CXX_COMPILER=%CXX_comp% -DUSE_OPEN_READER=%use_openreader% -DOPEN_READER_ROOT=%openreader_root% ..
 
 if errorLevel=1 (
 
@@ -164,6 +178,7 @@ if errorLevel=1 (
   echo Errors in CMAKE configuration !!!
   echo.
   cd ..
+  endlocal
   exit /b 1
 )
 
@@ -185,6 +200,7 @@ if errorLevel=1 (
   echo Errors in build encontered !!!
   echo.
   cd ..
+  endlocal
   exit /b 1
 )
    
@@ -209,6 +225,7 @@ GOTO END_STARTER
   echo                                              0 no debug flags (default)
   echo                                              1 usual debug flags
   echo                                              chkb Check bounds build
+  echo     -open_reader_root=[PATH]             : link with libopen_reader, set open_reader root directory
   echo     -release                            : set build for release (optimized)
   echo.
   echo Execution control 
@@ -236,5 +253,6 @@ set dc_suf=
 set cbuild=
 
 echo Terminating
+endlocal
 echo.
 

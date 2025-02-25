@@ -19,8 +19,12 @@ set ( cpprel  "-DCPP_rel=00" )
 # Third party libraries
 # ---------------------
 
-#hm_reader
-set ( reader_lib "${source_directory}/../extlib/hm_reader/win64/hm_reader_win64.lib")
+# hm_reader / open_reader
+if ( USE_OPEN_READER STREQUAL 1 )
+       set ( reader_lib "${OPEN_READER_ROOT}/libopen_reader/win64/open_reader_win64.lib")
+else ()
+       set ( reader_lib "${source_directory}/../extlib/hm_reader/win64/hm_reader_win64.lib")
+endif()
 
 #metis
 set (metis_lib "${source_directory}/../extlib/metis/win64/libmetis_win64_i2018_1_vs2015.lib")

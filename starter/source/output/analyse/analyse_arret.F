@@ -211,7 +211,9 @@ C
       CALL ANFILE()
 C
       ANEND = 0
+#ifdef DNC
       CALL starter_lic_release();
+#endif
       IF(IERR==0)THEN
         IEX=0
       ELSE
