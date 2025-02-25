@@ -5566,7 +5566,7 @@ C--------------------------------------------
           ERR_MSG='DAMPING'
           ERR_CATEGORY='DAMPING'
           CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))             
-          IF(NDAMP > 0) CALL HM_READ_DAMP(DAMPR,IGRNOD,ISKWN,LSUBMODEL,UNITAB,NPBY,
+          IF(NDAMP > 0) CALL HM_READ_DAMP(DAMPR,IGRNOD,ISKWN,LSUBMODEL,UNITAB,
      .                                    SNPC1,NPC1,NDAMP_VREL_RBY,IGRPART,DAMP_RANGE_PART)
           CALL TRACE_OUT1()
         ENDIF     
