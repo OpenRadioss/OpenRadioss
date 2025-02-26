@@ -119,7 +119,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
       integer  :: i,j,id,n,ng,itype,igr,nosys,sens_id,iremain,iupdate
       integer  :: igrs,igbric,igqd,igtria,isk,ifra,idir,ifm,k1,k2,k3
-      integer  :: mtn,nel,nft,ii
+      integer  :: mtn,nel,nft,ii,n_ini
       integer , dimension(:) , allocatable :: itagvel
       my_real  :: tstart,tstart_s,tstart1,vx,vy,vz,vl(3), nixj(6),vlt(3),mas
       my_real :: vl1, vl2, vl3,vra, ox, oy, oz,vr1,vr2,vr3,vrl1,vrl2,vrl3
@@ -356,10 +356,51 @@
            end select 
            inivel_t(n)%itype = -1
          else 
-           iremain = 1
+           iremain = iremain + 1
          end if
        end do 
-       if (iremain==0) ninivelt = 0 
+       if (iremain < ninivelt) then 
+         n_ini = 0
+         do n =1,ninivelt 
+           itype = inivel_t(n)%itype
+           if (itype <0) cycle 
+           n_ini = n_ini + 1
+           inivel_t(n_ini)%id = inivel_t(n)%id  
+           inivel_t(n_ini)%itype = inivel_t(n)%itype
+           select case (itype)
+             case(0,1,2,3)
+               inivel_t(n_ini)%general%type      = inivel_t(n)%general%type    
+               inivel_t(n_ini)%general%skew_id   = inivel_t(n)%general%skew_id 
+               inivel_t(n_ini)%general%grnd_id   = inivel_t(n)%general%grnd_id 
+               inivel_t(n_ini)%general%sensor_id = inivel_t(n)%general%sensor_id 
+               inivel_t(n_ini)%general%vx  = inivel_t(n)%general%vx 
+               inivel_t(n_ini)%general%vy  = inivel_t(n)%general%vy 
+               inivel_t(n_ini)%general%vz  = inivel_t(n)%general%vz 
+               inivel_t(n_ini)%general%tstart  = inivel_t(n)%general%tstart 
+             case(4) ! axis
+               inivel_t(n_ini)%axis%dir       = inivel_t(n)%axis%dir 
+               inivel_t(n_ini)%axis%frame_id  = inivel_t(n)%axis%frame_id 
+               inivel_t(n_ini)%axis%grnd_id   = inivel_t(n)%axis%grnd_id 
+               inivel_t(n_ini)%axis%sensor_id = inivel_t(n)%axis%sensor_id 
+               inivel_t(n_ini)%axis%vx  = inivel_t(n)%axis%vx 
+               inivel_t(n_ini)%axis%vy  = inivel_t(n)%axis%vy 
+               inivel_t(n_ini)%axis%vz  = inivel_t(n)%axis%vz 
+               inivel_t(n_ini)%axis%vr  = inivel_t(n)%axis%vr 
+               inivel_t(n_ini)%axis%tstart = inivel_t(n)%axis%tstart
+             case(5) ! fvm
+               inivel_t(n_ini)%fvm%skew_id    = inivel_t(n)%fvm%skew_id 
+               inivel_t(n_ini)%fvm%grbric_id  = inivel_t(n)%fvm%grbric_id 
+               inivel_t(n_ini)%fvm%grqd_id    = inivel_t(n)%fvm%grqd_id   
+               inivel_t(n_ini)%fvm%grtria_id  = inivel_t(n)%fvm%grtria_id 
+               inivel_t(n_ini)%fvm%sensor_id  = inivel_t(n)%fvm%sensor_id 
+               inivel_t(n_ini)%fvm%vx  = inivel_t(n)%fvm%vx 
+               inivel_t(n_ini)%fvm%vy  = inivel_t(n)%fvm%vy 
+               inivel_t(n_ini)%fvm%vz  = inivel_t(n)%fvm%vz 
+               inivel_t(n_ini)%fvm%tstart = inivel_t(n)%fvm%tstart
+           end select
+         end do
+         ninivelt = n_ini 
+       end if
 !       
        if (iupdate>0) then 
          do ng =1, ngroup
