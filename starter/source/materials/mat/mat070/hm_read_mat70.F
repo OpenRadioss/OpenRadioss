@@ -176,7 +176,7 @@ c---------------------------------------------------------------------------
         IERR  = 0
         ISORT = 0
         DO I=1,NRATEP-1
-          IF (RATE(I) == RATE(I+1) .and. IFUNC(I) /= IFUNC(I+1)) THEN
+          IF (RATE(I) == RATE(I+1) ) THEN
             IERR  = 1
           ELSE IF (RATE(I) > RATE(I+1)) THEN
             ISORT = 1
@@ -218,7 +218,7 @@ c---------------------------------------------------------------------------
         ISORT = 0
         DO I=1,NRATEN-1
           J = I + NRATEP
-          IF (RATE(J) == RATE(J+1) .and. IFUNC(J) /= IFUNC(J+1)) THEN
+          IF (RATE(J) == RATE(J+1)) THEN
             IERR  = 1
           ELSE IF (RATE(J) > RATE(J+1)) THEN
             ISORT = 1
