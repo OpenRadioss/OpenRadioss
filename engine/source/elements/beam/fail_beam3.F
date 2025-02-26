@@ -59,6 +59,7 @@ C-----------------------------------------------
       USE FAIL_VISUAL_B_MOD
       USE FAIL_GENE1_B_MOD
       USE FAIL_INIEVO_B_MOD
+      USE FAIL_TAB2_B_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -171,7 +172,8 @@ c---------------
      .          ELBUF_STR%GBUF%FAIL(1)%TDEL,IOUT     ,ISTDO    ,FAIL%IFUNC    ,
      .          EPSXX    ,AL       ,TSTAR    ,
      .          SNPC     ,NPF      ,STF      ,
-     .          TF       ,ISMSTR   ,ELBUF_STR%GBUF%FAIL(1)%NVAR, ELBUF_STR%GBUF%FAIL(1)%VAR)     
+     .          TF       ,ISMSTR   ,ELBUF_STR%GBUF%FAIL(1)%NVAR, ELBUF_STR%GBUF%FAIL(1)%VAR,
+     .          ELBUF_STR%GBUF%DMGSCL)     
         
 c--------------- 
         CASE (11)     ! Energy failure model                                        
@@ -181,7 +183,8 @@ c---------------
      .                       AREA     ,F1       ,F2       ,F3       ,
      .                       M1       ,M2       ,M3       ,SNPC     ,NPF    ,STF     ,
      .                       TF       ,EPSXX    ,EPSXY    ,EPSXZ    ,KXX    ,KYY     ,
-     .                       KZZ      ,ELBUF_STR%GBUF%FAIL(1)%NVAR,ELBUF_STR%GBUF%FAIL(1)%VAR)
+     .                       KZZ      ,ELBUF_STR%GBUF%FAIL(1)%NVAR,ELBUF_STR%GBUF%FAIL(1)%VAR,
+     .                       ELBUF_STR%GBUF%DMGSCL)
 c--------------- 
 
         CASE (30)     !    BIQUAD                                                  
@@ -190,7 +193,8 @@ c---------------
      .                       DPLA         ,OFF      ,ELBUF_STR%GBUF%FAIL(1)%DAMMX,
      .                       ELBUF_STR%GBUF%FAIL(1)%TDEL     ,IOUT    ,ISTDO  ,FAIL%IFUNC   ,
      .                       NFUNC,SNPC     ,NPF     ,STF     ,TF,
-     .                       ELBUF_STR%GBUF%FAIL(1)%NVAR, ELBUF_STR%GBUF%FAIL(1)%VAR,AL)
+     .                       ELBUF_STR%GBUF%FAIL(1)%NVAR, ELBUF_STR%GBUF%FAIL(1)%VAR,AL,
+     .                       ELBUF_STR%GBUF%DMGSCL)
 c---------------   
         CASE (36)     !    VISUAL                                           
          CALL FAIL_VISUAL_B(NEL      ,NGL      ,NPARAM   ,FAIL%UPARAM,
@@ -225,12 +229,22 @@ c---------------
      .                       PLA  ,SIGY         ,OFF        ,ELBUF_STR%GBUF%FAIL(1)%DAMMX     ,
      .                    ELBUF_STR%GBUF%FAIL(1)%TDEL , 
      .                    ELBUF_STR%GBUF%FAIL(1)%DAMINI,
-     .                    NTABLE)
+     .                    NTABLE,ELBUF_STR%GBUF%DMGSCL)
+
+         CASE (41)     ! TAB2 failure model    
+           CALL FAIL_TAB2_B(                         
+     .                       NEL  ,FAIL%NUPARAM ,ELBUF_STR%GBUF%FAIL(1)%NVAR   ,FAIL%NFUNC  ,FAIL%IFUNC  ,
+     .                       NPF  ,TABLE   ,TF        ,TIME  ,FAIL%UPARAM  ,
+     .                       NGL  ,AL           ,DPLA  ,EPSD  ,ELBUF_STR%GBUF%FAIL(1)%VAR,  
+     .                        F1  ,AREA         ,
+     .                    TEMPEL  ,OFF          ,ELBUF_STR%GBUF%FAIL(1)%DAMMX ,ELBUF_STR%GBUF%FAIL(1)%TDEL  ,
+     .                FAIL%NTABLE ,FAIL%TABLE,
+     .                      SNPC  ,STF  ,NTABLE ,ELBUF_STR%GBUF%DMGSCL)
 c-------------
       END SELECT
 c-----------
       DO I= 1,NEL
-          IF (OFF(I) == FOUR_OVER_5 .AND. IRUPT /= 39 ) THEN
+          IF (OFF(I) == FOUR_OVER_5) THEN
 #include "lockon.inc"
             WRITE(IOUT, 1000) NGL(I),TIME
             WRITE(ISTDO,1000) NGL(I),TIME

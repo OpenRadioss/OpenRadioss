@@ -906,6 +906,7 @@
         my_real, dimension(:) , pointer ::   eint_distor  
 !---
 !    - 1d - elem (truss, beam, spring)
+        my_real, dimension(:) , pointer ::   dmgscl ! damage scaling
         my_real, dimension(:) , pointer ::   area
         my_real, dimension(:) , pointer ::   skew
         my_real, dimension(:) , pointer ::   length

@@ -33,7 +33,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .           TDEL     ,IOUT     ,ISTDO    ,IFUNC    ,
      .           EPSXX    ,AL       ,TSTAR    , 
      .           SNPC     ,NPF      ,STF      , 
-     .           TF       ,ISMSTR   ,NUVAR    ,UVAR     )
+     .           TF       ,ISMSTR   ,NUVAR    ,UVAR     ,
+     .           DMGSCL )
 C-----------------------------------------------
 c    tens strain failure model for integrated beams (TYPE 18) !irup=10
 C-----------------------------------------------
@@ -69,6 +70,7 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: DFMAX   ! maximum damage
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: TDEL    ! desactivation time
       my_real ,DIMENSION(NEL,NUVAR),INTENT(INOUT) :: UVAR   
+      my_real, DIMENSION(NEL)     ,INTENT(INOUT) :: DMGSCL 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -317,8 +319,15 @@ c
 C-------------------
 c---  Maximum Damage for output : 0 < DFMAX < 1
       DO I=1,NEL
-        DFMAX(I)     = MAX(DFMAX(I), DAMAGE(I))
-      ENDDO           
+        R1 = EPSF1
+        R2 = EPSF2
+        IF (R1 < R2) THEN    
+          DMGSCL(I) = ONE - DAMAGE(I)
+        ENDIF
+        DFMAX(I) = MAX(DFMAX(I),DAMAGE(I))  ! Maximum Damage storing for output : 0 < DFMAX < 1
+      ENDDO     
+      
+
 C-------------------       
 c------------------------
 c     print

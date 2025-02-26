@@ -51,7 +51,7 @@
       pla     ,sigy     ,off      ,dfmax      ,                      &
       tdele   ,                                          &
       damini  ,                                                      &
-      ntable )           
+      ntable  ,dmgscl )           
 !c-----------------------------------------------
 !c   m o d u l e s
 !c-----------------------------------------------
@@ -90,6 +90,7 @@
       my_real, dimension(nel)     ,intent(inout)  :: dfmax       ! maximum damage
       my_real, dimension(nel)     ,intent(inout)  :: tdele       !
       my_real, dimension(nel)     ,intent(inout)  :: damini      !
+      my_real, dimension(nel)     ,intent(inout)  :: dmgscl
       integer ,intent(in) :: ntable
 !c-----------------------------------------------
 !c   l o c a l   v a r i a b l e s
@@ -420,8 +421,12 @@
             indx(nindx) = i
             off(i)    = zero
             tdele(i)  = time
-            endif
           endif
+        endif
+      !====================================================================
+      ! - update the damage scaling factor
+      !==================================================================== 
+        dmgscl(i) = one - dfmax(i)
       enddo
 
 !c

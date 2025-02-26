@@ -33,7 +33,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .           DPLA     ,OFF      ,DFMAX    ,
      .           TDEL     ,IOUT     ,ISTDO    ,IFUNC    ,NFUNC,
      .           SNPC     ,NPF      , STF     , TF      ,
-     .           NUVAR    , UVAR   ,AL)           
+     .           NUVAR    , UVAR   ,AL, 
+     .           DMGSCL)       
 C-----------------------------------------------
 c    BIQUAD- failure model for standard beams (TYPE 3) IRUP=30
 C-----------------------------------------------
@@ -70,6 +71,7 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: DFMAX   ! maximum damage
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: TDEL    ! desactivation time
       my_real ,DIMENSION(NEL,NUVAR),INTENT(INOUT) :: UVAR   
+      my_real, DIMENSION(NEL)     ,INTENT(INOUT) :: DMGSCL 
 C!-----------------------------------------------
 C!   L o c a l   V a r i a b l e s
 C!-----------------------------------------------
@@ -182,6 +184,22 @@ c-----------------------------
            ENDIF
         ENDIF 
       ENDDO      
+c------------------------
+c     STRESS SOFTENING
+c------------------------
+      IF (ICOUP == 1) THEN
+        DO I = 1,NEL
+          IF (DFMAX(I) >= DCRIT) THEN 
+            IF (DCRIT < ONE) THEN 
+              DMGSCL(I) = ONE - ((DFMAX(I)-DCRIT)/MAX(ONE-DCRIT,EM20))**EXP
+            ELSE
+              DMGSCL(I) = ZERO
+            ENDIF
+          ELSE
+            DMGSCL(I) = ONE
+          ENDIF
+        ENDDO
+      ENDIF
 c------------------------
       IF (NINDX > 0) THEN        
         DO J=1,NINDX             

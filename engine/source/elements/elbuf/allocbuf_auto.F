@@ -1828,7 +1828,12 @@ c
 c---
 c 1-D elements (TRUSS, BEAM, SPRING)
 c---
-      ALLOCATE (ELBUF_STR%GBUF%AREA(NEL*G_AREA)               ,STAT=ERR)
+      IF(IGTYP == 3 .and. ITY == 5) THEN 
+        ALLOCATE (ELBUF_STR%GBUF%DMGSCL (NEL*G_DMGSCL)   ,STAT=ERR)                    
+          GBUF%DMGSCL(1:NEL*G_DMGSCL)   = RBUF(IAD+1:IAD+NEL*G_DMGSCL)                    
+            IAD = IAD+NEL*G_DMGSCL         
+      ENDIF
+       ALLOCATE (ELBUF_STR%GBUF%AREA(NEL*G_AREA)               ,STAT=ERR)
         GBUF%AREA(1:NEL*G_AREA) = RBUF(IAD+1:IAD+NEL*G_AREA)
           IAD = IAD+NEL*G_AREA
       ALLOCATE (ELBUF_STR%GBUF%SKEW(NEL*G_SKEW)               ,STAT=ERR)

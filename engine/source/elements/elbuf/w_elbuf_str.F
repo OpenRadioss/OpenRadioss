@@ -1492,6 +1492,10 @@ c          print*,'      final length : buflen=',l_rel,ITY
 c---
 c 1-D elements (TRUSS, BEAM, SPRING, NSTRAND)
 c---
+          IF(IGTYP == 3 .and. ITY == 5) THEN 
+            RBUF_L(L_REL+1:L_REL+NEL*G_DMGSCL)      = GBUF%DMGSCL(1:NEL*G_DMGSCL)
+              L_REL = L_REL +NEL*G_DMGSCL
+          ENDIF
           RBUF_L(L_REL+1:L_REL+NEL*G_AREA)        = GBUF%AREA(1:NEL*G_AREA)
             L_REL = L_REL +NEL*G_AREA
           RBUF_L(L_REL+1:L_REL+NEL*G_SKEW)        = GBUF%SKEW(1:NEL*G_SKEW)

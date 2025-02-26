@@ -37,7 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .           M3       ,SNPC     ,NPF      ,STF      , 
      .           TF       ,EPSXX    ,EPSXY    ,EPSXZ    ,
      .           KXX      ,KYY      ,KZZ      ,NVAR     ,
-     .           UVAR     )
+     .           UVAR     ,DMGSCL )
 C-----------------------------------------------
 c    energy failure model for standard beams (TYPE 3)
 C-----------------------------------------------
@@ -74,6 +74,7 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: EPSXX,EPSXY,EPSXZ
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: KXX,KYY,KZZ
       my_real ,DIMENSION(NEL,NVAR),INTENT(INOUT) :: UVAR    ! User variable
+      my_real, DIMENSION(NEL)     ,INTENT(INOUT) :: DMGSCL 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -120,6 +121,7 @@ c-----------------------------
             OFF(I)      = FOUR_OVER_5
           ENDIF
         ENDIF 
+        DMGSCL(I) = ONE - DFMAX(I) 
       ENDDO        
 c------------------------
       IF (NINDX > 0) THEN        

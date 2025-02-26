@@ -154,12 +154,12 @@ c
       ! Compute undamaged forces and internal energy increment
       IF (ELBUF_STR%GBUF%G_DMGSCL > 0) THEN 
         DO I = 1,NEL
-          FOR(I,1) = FOR(I,1)/MAX(EM20,ONE - ELBUF_STR%GBUF%FAIL(1)%DAMMX(I))
-          FOR(I,2) = FOR(I,2)/MAX(EM20,ONE - ELBUF_STR%GBUF%FAIL(1)%DAMMX(I))
-          FOR(I,3) = FOR(I,3)/MAX(EM20,ONE - ELBUF_STR%GBUF%FAIL(1)%DAMMX(I))
-          MOM(I,1) = MOM(I,1)/MAX(EM20,ONE - ELBUF_STR%GBUF%FAIL(1)%DAMMX(I))
-          MOM(I,2) = MOM(I,2)/MAX(EM20,ONE - ELBUF_STR%GBUF%FAIL(1)%DAMMX(I))
-          MOM(I,3) = MOM(I,3)/MAX(EM20,ONE - ELBUF_STR%GBUF%FAIL(1)%DAMMX(I))
+          FOR(I,1) = FOR(I,1)/MAX(EM20,ELBUF_STR%GBUF%DMGSCL(I))
+          FOR(I,2) = FOR(I,2)/MAX(EM20,ELBUF_STR%GBUF%DMGSCL(I))
+          FOR(I,3) = FOR(I,3)/MAX(EM20,ELBUF_STR%GBUF%DMGSCL(I))
+          MOM(I,1) = MOM(I,1)/MAX(EM20,ELBUF_STR%GBUF%DMGSCL(I))
+          MOM(I,2) = MOM(I,2)/MAX(EM20,ELBUF_STR%GBUF%DMGSCL(I))
+          MOM(I,3) = MOM(I,3)/MAX(EM20,ELBUF_STR%GBUF%DMGSCL(I))
         ENDDO
       ENDIF
 c
@@ -239,12 +239,12 @@ c
         ! Compute damaged forces
         IF (ELBUF_STR%GBUF%G_DMGSCL > 0) THEN 
           DO I = 1,NEL
-            F1(I) = F1(I)*(ONE - ELBUF_STR%GBUF%FAIL(1)%DAMMX(I))
-            F2(I) = F2(I)*(ONE - ELBUF_STR%GBUF%FAIL(1)%DAMMX(I))
-            F3(I) = F3(I)*(ONE - ELBUF_STR%GBUF%FAIL(1)%DAMMX(I))
-            M1(I) = M1(I)*(ONE - ELBUF_STR%GBUF%FAIL(1)%DAMMX(I))
-            M2(I) = M2(I)*(ONE - ELBUF_STR%GBUF%FAIL(1)%DAMMX(I))
-            M3(I) = M3(I)*(ONE - ELBUF_STR%GBUF%FAIL(1)%DAMMX(I))        
+            F1(I) = F1(I)*ELBUF_STR%GBUF%DMGSCL(I)
+            F2(I) = F2(I)*ELBUF_STR%GBUF%DMGSCL(I)
+            F3(I) = F3(I)*ELBUF_STR%GBUF%DMGSCL(I)
+            M1(I) = M1(I)*ELBUF_STR%GBUF%DMGSCL(I)
+            M2(I) = M2(I)*ELBUF_STR%GBUF%DMGSCL(I)
+            M3(I) = M3(I)*ELBUF_STR%GBUF%DMGSCL(I)     
           ENDDO
         ENDIF
 c
