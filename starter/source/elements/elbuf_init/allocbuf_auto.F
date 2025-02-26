@@ -472,7 +472,7 @@ C
 c
 c-------------------------------------------------
 c      IF (NPT == 1) THEN  ! NPT = 1 ! global variables are pointing to local ones    
-      IF (NPTTOT == 1) THEN  ! NPTTOT = 1 ! global variables are pointing to local ones    
+      IF (NPTTOT == 1) THEN  ! NPTTOT = 1 ! global variables are pointing to local ones, BEAM3 not included    
         LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)                                   
 c
         ELBUF_TAB(NG)%GBUF%BFRAC  => LBUF%BFRAC                                      
@@ -496,7 +496,7 @@ c
         ELBUF_TAB(NG)%GBUF%SEQ    => LBUF%SEQ
         ELBUF_TAB(NG)%GBUF%ABURN  => LBUF%ABURN   
         ELBUF_TAB(NG)%GBUF%MU     => LBUF%MU                                    
-      ELSE  ! NPT > 1                                                                
+      ELSE  ! NPT > 1 OR BEAM3                                                              
         CALL MY_ALLOC(ELBUF_TAB(NG)%GBUF%BFRAC,NEL*GBUF%G_BFRAC)                
               ELBUF_TAB(NG)%GBUF%BFRAC = ZERO     
         CALL MY_ALLOC(ELBUF_TAB(NG)%GBUF%OFF,NEL*GBUF%G_OFF) 
@@ -547,6 +547,10 @@ c---
 c---
 c 1-D elements (TRUSS, BEAM, SPRING, NSTRAND)
 c---
+      IF(IGTYP == 3 .and. ITY == 5) THEN 
+        ALLOCATE (GBUF%DMGSCL(NEL*GBUF%G_DMGSCL)           ,STAT=Stat)
+          GBUF%DMGSCL = ONE
+      ENDIF 
       ALLOCATE (GBUF%AREA(NEL*GBUF%G_AREA)               ,STAT=Stat)
         GBUF%AREA = ZERO
       ALLOCATE (GBUF%SKEW(NEL*GBUF%G_SKEW)               ,STAT=Stat)

@@ -2206,6 +2206,9 @@ C
 C
           LGLOB = LGLOB + GBUF%G_FILL
 C
+          IF (IGTYP == 3) THEN 
+            LGLOB = LGLOB + GBUF%G_DMGSCL 
+          ENDIF 
           LGLOB = LGLOB + GBUF%G_AREA
           LGLOB = LGLOB + GBUF%G_SKEW
           LGLOB = LGLOB + GBUF%G_LENGTH

@@ -58,6 +58,7 @@ C-----------------------------------------------
       USE FAIL_VISUAL_IB_MOD
       USE FAIL_GENE1_IB_MOD
       USE FAIL_INIEVO_IB_MOD
+      USE FAIL_TAB2_IB_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -311,6 +312,23 @@ c-------------
           DO I= 1,NEL
             IF (FOFF(I) == 0) COUNT(I) = COUNT(I) + 1
           END DO
+
+c-------------
+        CASE (41)     ! TAB2 failure model         
+          
+          CALL FAIL_TAB2_IB(                         
+     .                       NEL  ,FAIL%NUPARAM ,FBUF%FLOC(IFL)%NVAR   ,FAIL%NFUNC  ,FAIL%IFUNC  ,
+     .                       NPF  ,TABLE   ,TF        ,TIME  ,FAIL%UPARAM  ,
+     .                       NGL  ,AL           ,DPLA_IPT  ,EPSD  ,FBUF%FLOC(IFL)%VAR,  
+     .                    SIGNXX  ,SIGNXY       ,SIGNXZ  , 
+     .                    TEMPEL  ,OFF          ,FBUF%FLOC(IFL)%DAMMX ,TDEL  ,LBUF%DMGSCL,
+     .                         IPT, NPT, FOFF, FAIL%NTABLE ,FAIL%TABLE,
+     .         ELBUF_STR%GBUF%UELR, 
+     .                      SNPC  ,STF  ,NTABLE) 
+          DO I= 1,NEL
+            IF (FOFF(I) == 0) COUNT(I) = COUNT(I) + 1
+          END DO
+  
 c-------------------------------------
       END SELECT
 
