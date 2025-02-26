@@ -262,7 +262,7 @@
 !
 !     get pressure unit scale factor
 !
-      call hm_get_floatv_dim('mat_ea',press_scale,is_available,lsubmodel,unitab)
+      call hm_get_floatv_dim('MAT_EA',press_scale,is_available,lsubmodel,unitab)
 !--------------------------------------------------
 !     default values
 !--------------------------------------------------
