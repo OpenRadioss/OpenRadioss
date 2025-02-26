@@ -1057,6 +1057,7 @@ C OpenMP specific
      .        KINDRBY(NRBYKIN), NINDEX1(NINTER), NINDEX2(NINTER),
      .        NINDEX3(NINTER), NINDEX4(NINTER), KINDRBYM(NRBYM),
      .        OMP_GET_THREAD_NUM,IADISK,RNUM_SIZ,RNS,NINDEXP,NI,LENC,ITHOUT
+      integer :: omp_address
       INTEGER, DIMENSION(:),ALLOCATABLE :: IGROUC
       INTEGER, DIMENSION(:),ALLOCATABLE :: IGROUNC
       INTEGER, DIMENSION(:), ALLOCATABLE :: ADSKYI !(0:NUMNOD+1),
@@ -2483,16 +2484,16 @@ C------------IF adaptive Mesh : check if there are elements eroded after trimmin
             CALL ASSIGN_PTRX(ptrX,NODES%X,NUMNOD)
           ENDIF
           allocate(deleted_node(2*numnod)) ! working array to mark nodes connected to deleted element
-          allocate(work_array_node(numnod)) ! working array to mark nodes (connected to active element or deleted element)
+          allocate(work_array_node(nthread*numnod)) ! working array to mark nodes (connected to active element or deleted element)
 !$OMP PARALLEL
 !$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK,IGMTSK)
-!$OMP+ PRIVATE(PARTFTSK,PARTLTSK,NWAFTSK,N1,GREFTSK,GRELTSK)
+!$OMP+ PRIVATE(PARTFTSK,PARTLTSK,NWAFTSK,N1,GREFTSK,GRELTSK,omp_address)
 C Init var parallel SMP
         CALL SMP_INIT(
      1   ITSK  ,NODFTSK ,NODLTSK ,NUMNTSK,NDTSK,
      2   IPMTSK,PARTFTSK,PARTLTSK,NWAFTSK,IGMTSK  ,
      3      GREFTSK,GRELTSK)
-
+        omp_address = 1 + itsk * numnod
           CALL TAGOFF3N(NODES,
      1       GEO        ,IXS       ,IXS(L1)   ,IXS(L1)   ,IXS(L3)  ,IXQ    ,
      2       ELEMENT%SHELL%IXC         ,IXT      ,IXP       ,IXR       ,IXTG     ,
@@ -2529,7 +2530,7 @@ C Init var parallel SMP
             IF(ITSK==0) CALL SPMD_EXCH_DELETED_SURF_EDGE( IAD_ELEM,NODES,SHOOT_STRUCT,INTERFACES%INTBUF_TAB,NEWFRONT,
      .                           IPARI,GEO,
      .                           IXS,ELEMENT%SHELL%IXC,IXT,IXP,IXR,IXTG,IXS(L1),
-     .                           ADDCNEL,CNEL,work_array_node,TAGEL )
+     .                           ADDCNEL,CNEL,work_array_node(omp_address),TAGEL )
             CALL MY_BARRIER()
           ENDIF
           ! ---------------------
@@ -2541,7 +2542,7 @@ C Init var parallel SMP
      .                              SHOOT_STRUCT%SHIFT_INTERFACE,INTERFACES%INTBUF_TAB,
      .                              IPARI,GEO,
      .                              IXS,ELEMENT%SHELL%IXC,IXT,IXP,IXR,IXTG,IXS(L1),
-     .                              ADDCNEL,CNEL,work_array_node,TAGEL,SHOOT_STRUCT )
+     .                              ADDCNEL,CNEL,work_array_node(omp_address),TAGEL,SHOOT_STRUCT )
 
           ! loop over the edge id and deactivate the edge
           ! ONLY FOR LOCAL EDGE / LOCAL ELEMENT
@@ -2549,7 +2550,7 @@ C Init var parallel SMP
      .                           SHOOT_STRUCT%SAVE_M_EDGE,SHOOT_STRUCT%SAVE_S_EDGE,
      .                           SHOOT_STRUCT%SHIFT_INTERFACE,INTERFACES%INTBUF_TAB,NEWFRONT,IPARI,GEO,
      .                           IXS,ELEMENT%SHELL%IXC,IXT,IXP,IXR,IXTG,IXS(L1),
-     .                           ADDCNEL,CNEL,work_array_node,TAGEL,SHOOT_STRUCT )
+     .                           ADDCNEL,CNEL,work_array_node(omp_address),TAGEL,SHOOT_STRUCT )
           ! ---------------------
 
           ! ---------------------
@@ -2587,7 +2588,7 @@ C Init var parallel SMP
           CALL CHKSTFN3N(NODES,
      1       IPARI   ,GEO         ,IXS      ,IXQ         ,ELEMENT%SHELL%IXC     ,IXT       ,
      2       IXP     ,IXR         ,IXTG     ,deleted_node,IPARG   ,ITSK      ,
-     3       NEWFRONT,work_array_node ,NODES%MS       ,NODES%IN          ,ANIN(NDMA+1),NODES%ITAB  ,
+     3       NEWFRONT,work_array_node(omp_address) ,NODES%MS       ,NODES%IN ,ANIN(NDMA+1),NODES%ITAB  ,
      4       NODES%ITABM1  ,ADDCNEL     , CNEL    ,INDIDEL     ,NINDEX1 ,NINDEX2   ,
      5       NINDEX3 ,NINDEX4     ,TAGEL    ,INT24USE    ,IBUFSEGLO ,INDSEGLO,
      6       IBUFIDEL ,INTERFACES%INTBUF_TAB,IAD_ELEM)
@@ -5535,15 +5536,16 @@ C===============================================================================
           CHECK_NEIGH_FLAG_RES = 0
 
           allocate(deleted_node(2*numnod)) ! working array to mark nodes connected to deleted element
-          allocate(work_array_node(numnod)) ! working array to mark nodes (connected to active element or deleted element)
+          allocate(work_array_node(nthread*numnod)) ! working array to mark nodes (connected to active element or deleted element)
 !$OMP PARALLEL
 !$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK,IGMTSK)
-!$OMP+ PRIVATE(PARTFTSK,PARTLTSK,NWAFTSK,GREFTSK,GRELTSK)
+!$OMP+ PRIVATE(PARTFTSK,PARTLTSK,NWAFTSK,GREFTSK,GRELTSK,omp_address)
 C Init var parallel SMP
-          CALL SMP_INIT(
+        CALL SMP_INIT(
      1     ITSK  ,NODFTSK ,NODLTSK ,NUMNTSK,NDTSK   ,
      2     IPMTSK,PARTFTSK,PARTLTSK,NWAFTSK,IGMTSK  ,
      3     GREFTSK,GRELTSK)
+        omp_address = 1 + itsk*numnod
 
         IF ((IDEL7NG>=1.AND.IDEL7NOK==1).OR.(PDEL>0.AND.IDEL7NOK==1)) THEN
           CALL TAGOFF3N(NODES,
@@ -5582,7 +5584,7 @@ C Init var parallel SMP
             IF(ITSK==0) CALL SPMD_EXCH_DELETED_SURF_EDGE( IAD_ELEM,NODES,SHOOT_STRUCT,INTERFACES%INTBUF_TAB,NEWFRONT,
      .                           IPARI,GEO,
      .                           IXS,ELEMENT%SHELL%IXC,IXT,IXP,IXR,IXTG,IXS(L1),
-     .                           ADDCNEL,CNEL,work_array_node,TAGEL )
+     .                           ADDCNEL,CNEL,work_array_node(omp_address),TAGEL )
             CALL MY_BARRIER()
           ENDIF
           ! ---------------------
@@ -5595,7 +5597,7 @@ C Init var parallel SMP
      .                              SHOOT_STRUCT%SHIFT_INTERFACE,INTERFACES%INTBUF_TAB,
      .                              IPARI,GEO,
      .                              IXS,ELEMENT%SHELL%IXC,IXT,IXP,IXR,IXTG,IXS(L1),
-     .                              ADDCNEL,CNEL,work_array_node,TAGEL,SHOOT_STRUCT )
+     .                              ADDCNEL,CNEL,work_array_node(omp_address),TAGEL,SHOOT_STRUCT )
 
           ! loop over the edge id and deactivate the edge
           ! ONLY FOR LOCAL EDGE / LOCAL ELEMENT
@@ -5603,7 +5605,7 @@ C Init var parallel SMP
      .                           SHOOT_STRUCT%SAVE_M_EDGE,SHOOT_STRUCT%SAVE_S_EDGE,
      .                           SHOOT_STRUCT%SHIFT_INTERFACE,INTERFACES%INTBUF_TAB,NEWFRONT,IPARI,GEO,
      .                           IXS,ELEMENT%SHELL%IXC,IXT,IXP,IXR,IXTG,IXS(L1),
-     .                           ADDCNEL,CNEL,work_array_node,TAGEL,SHOOT_STRUCT )
+     .                           ADDCNEL,CNEL,work_array_node(omp_address),TAGEL,SHOOT_STRUCT )
           ! ---------------------
 
           ! ---------------------
@@ -5644,7 +5646,7 @@ C Init var parallel SMP
           CALL CHKSTFN3N(NODES,
      1       IPARI   ,GEO         ,IXS      ,IXQ         ,ELEMENT%SHELL%IXC     ,IXT       ,
      2       IXP     ,IXR         ,IXTG     ,deleted_node,IPARG   ,ITSK      ,
-     3       NEWFRONT,work_array_node ,NODES%MS       ,NODES%IN          ,ANIN(NDMA+1),NODES%ITAB  ,
+     3       NEWFRONT,work_array_node(omp_address) ,NODES%MS       ,NODES%IN ,ANIN(NDMA+1),NODES%ITAB  ,
      4       NODES%ITABM1  ,ADDCNEL     , CNEL    ,INDIDEL     ,NINDEX1 ,NINDEX2   ,
      5       NINDEX3 ,NINDEX4     ,TAGEL    ,INT24USE    ,IBUFSEGLO ,INDSEGLO,
      6       IBUFIDEL ,INTERFACES%INTBUF_TAB,IAD_ELEM)
@@ -5654,7 +5656,7 @@ C Init var parallel SMP
         IF (PDEL>0.AND.IDEL7NOK==1) THEN
           CALL CHKLOAD(
      1       IBCL    ,IXS     ,IXQ         ,ELEMENT%SHELL%IXC    ,IXT        ,IXP     ,
-     2       IXR     ,IXTG    ,deleted_node,ITSK   ,work_array_node,NODES%ITAB    ,
+     2       IXR     ,IXTG    ,deleted_node,ITSK   ,work_array_node(omp_address),NODES%ITAB    ,
      3       NODES  ,ADDCNEL ,CNEL        ,TAGEL  ,IPARG      ,GEO     ,
      4       IBUFPDEL,NINDEXPDEL,NINDEXP   ,NPRESLOAD,LOADP_TAGDEL      ,
      5       ILOADP  ,LLOADP  ,IAD_ELEM)
