@@ -339,3 +339,15 @@ Only one %s card is allowed
 /MESSAGE/200039/DESCRIPTION
 %s : CURVE id: %u,  At least one of the input parameters must be non zero: VMAX, TEND.
 #------------------------------------------------------------------------------
+
+/MESSAGE/200040/TITLE
+** ERROR IN LS-DYNA IMPORT
+/MESSAGE/200040/DESCRIPTION
+%s (id: %u, name: %s), *CONTROL_UNITS card is mandatory for conversion of *MAT_SPOTWELD used with 1D elements.
+#------------------------------------------------------------------------------
+
+/MESSAGE/200041/TITLE
+** ERROR IN LS-DYNA IMPORT
+/MESSAGE/200041/DESCRIPTION
+%s (id: %u, name: %s), *CONTROL_UNITS card is mandatory for conversion of this card.
+#------------------------------------------------------------------------------
