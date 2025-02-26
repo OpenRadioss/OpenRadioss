@@ -160,6 +160,8 @@
       !||    czforc3                             ../engine/source/elements/shell/coquez/czforc3.F
       !||    czforc3_crk                         ../engine/source/elements/xfem/czforc3_crk.F
       !||    czke3                               ../engine/source/elements/shell/coquez/czke3.F
+      !||    damping_range_init                  ../starter/source/general_controls/damping/damping_range_init.F90
+      !||    damping_range_solid                 ../engine/source/general_controls/damping/damping_range_solid.F90
       !||    deallocate_elbuf                    ../starter/source/elements/elbuf_init/deallocate_buffer.F
       !||    deallocate_one_element_group        ../starter/source/elements/elbuf_init/deallocate_one_element_group.F
       !||    delamination                        ../engine/source/properties/composite_options/stack/delamination.F
@@ -674,6 +676,7 @@
       !||    usermat_solid                       ../engine/source/materials/mat_share/usermat_solid.F
       !||    velvecc22                           ../engine/source/output/anim/generate/velvec.F
       !||    velvecz22                           ../engine/source/output/anim/generate/velvecz22.F
+      !||    viscmain                            ../engine/source/materials/visc/viscmain.F
       !||    voln22                              ../engine/source/interfaces/int22/voln22.F
       !||    volpvgb                             ../engine/source/airbag/volpvg.F
       !||    w_elbuf_str                         ../engine/source/elements/elbuf/w_elbuf_str.F

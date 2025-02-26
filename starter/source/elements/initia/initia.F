@@ -36,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    checkmp                     ../starter/source/elements/initia/initia.F
       !||    chekmp2                     ../starter/source/elements/initia/initia.F
       !||    cinit3                      ../starter/source/elements/shell/coque/cinit3.F
+      !||    damping_range_init          ../starter/source/general_controls/damping/damping_range_init.F90
       !||    dtnoda_stifint              ../starter/source/interfaces/inter3d1/dtnoda_stifint.F
       !||    eporin3                     ../starter/source/ale/ale3d/eporin3.F
       !||    fretitl2                    ../starter/source/starter/freform.F
@@ -108,6 +109,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    xinit3                      ../starter/source/elements/xelem/xinit3.F
       !||--- uses       -----------------------------------------------------
       !||    bpreload_mod                ../starter/share/modules1/bpreload_mod.F
+      !||    damping_range_init_mod      ../starter/source/general_controls/damping/damping_range_init.F90
       !||    defaults_mod                ../starter/source/modules/defaults_mod.F90
       !||    detonators_mod              ../starter/share/modules1/detonators_mod.F
       !||    drape_mod                   ../starter/share/modules1/drape_mod.F

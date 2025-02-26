@@ -93,6 +93,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    csigini4                            ../starter/source/elements/shell/coqueba/scigini4.F
       !||    cstraini4                           ../starter/source/elements/shell/coqueba/cstraini4.F
       !||    cuserini4                           ../starter/source/elements/shell/coqueba/cuserini4.F
+      !||    damping_rby_spmdset                 ../starter/source/general_controls/damping/damping_rby_spmdset.F90
       !||    defbeam_sect                        ../starter/source/properties/beam/hm_read_prop18.F
       !||    definter                            ../starter/source/interfaces/interf1/definter.F
       !||    domdec2                             ../starter/source/spmd/domdec2.F

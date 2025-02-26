@@ -21,7 +21,9 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>    !ommercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    damping_range_solid_mod   ../engine/source/assembly/damping_range_solid.F90
+      !||    damping_range_solid_mod   ../engine/source/general_controls/damping/damping_range_solid.F90
+      !||--- called by ------------------------------------------------------
+      !||    viscmain                  ../engine/source/materials/visc/viscmain.F
       !||====================================================================
       module damping_range_solid_mod
       contains
@@ -34,7 +36,12 @@
 !=======================================================================================================================
 !
       !||====================================================================
-      !||    damping_range_solid            ../engine/source/assembly/damping_range_solid.F90
+      !||    damping_range_solid   ../engine/source/general_controls/damping/damping_range_solid.F90
+      !||--- called by ------------------------------------------------------
+      !||    viscmain              ../engine/source/materials/visc/viscmain.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod          ../common_source/modules/constant_mod.F
+      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||====================================================================
         subroutine damping_range_solid(damp_buf,nel     ,nvarvis ,uvarvis ,nvar_damp,et     , &
                                        epspxx  ,epspyy  ,epspzz  ,epspxy  ,epspyz  ,epspzx  , &

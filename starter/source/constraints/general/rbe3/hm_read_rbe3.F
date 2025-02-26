@@ -1258,13 +1258,14 @@ C
       RETURN
       END
       !||====================================================================
-      !||    invert          ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+      !||    invert                        ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
       !||--- called by ------------------------------------------------------
-      !||    law87_upd       ../starter/source/materials/mat/mat087/law87_upd.F90
-      !||    mass_fluid_qd   ../starter/source/fluid/mass-fluid_qd.F
-      !||    mass_fluid_tg   ../starter/source/fluid/mass-fluid_tg.F
-      !||    rbe3chk         ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
-      !||    rbe3cl          ../starter/source/constraints/general/kinchk.F
+      !||    damping_range_compute_param   ../starter/source/general_controls/damping/damping_range_compute_param.F90
+      !||    law87_upd                     ../starter/source/materials/mat/mat087/law87_upd.F90
+      !||    mass_fluid_qd                 ../starter/source/fluid/mass-fluid_qd.F
+      !||    mass_fluid_tg                 ../starter/source/fluid/mass-fluid_tg.F
+      !||    rbe3chk                       ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
+      !||    rbe3cl                        ../starter/source/constraints/general/kinchk.F
       !||====================================================================
        SUBROUTINE INVERT(MATRIX, INVERSE, N, ERRORFLAG)
 C-----------------------------------------------

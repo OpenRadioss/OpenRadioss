@@ -21,16 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    viscmain             ../engine/source/materials/visc/viscmain.F
+      !||    viscmain                  ../engine/source/materials/visc/viscmain.F
       !||--- called by ------------------------------------------------------
-      !||    mmain                ../engine/source/materials/mat_share/mmain.F90
-      !||    mulaw                ../engine/source/materials/mat_share/mulaw.F90
-      !||    usermat_solid        ../engine/source/materials/mat_share/usermat_solid.F
+      !||    mmain                     ../engine/source/materials/mat_share/mmain.F90
+      !||    mulaw                     ../engine/source/materials/mat_share/mulaw.F90
+      !||    usermat_solid             ../engine/source/materials/mat_share/usermat_solid.F
       !||--- calls      -----------------------------------------------------
-      !||    visc_prony           ../engine/source/materials/visc/visc_prony.F
-      !||    visc_prony_lstrain   ../engine/source/materials/visc/visc_prony_lstrain.F
+      !||    damping_range_solid       ../engine/source/general_controls/damping/damping_range_solid.F90
+      !||    visc_prony                ../engine/source/materials/visc/visc_prony.F
+      !||    visc_prony_lstrain        ../engine/source/materials/visc/visc_prony_lstrain.F
       !||--- uses       -----------------------------------------------------
-      !||    visc_param_mod       ../common_source/modules/mat_elem/visc_param_mod.F90
+      !||    damping_range_solid_mod   ../engine/source/general_controls/damping/damping_range_solid.F90
+      !||    elbufdef_mod              ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    visc_param_mod            ../common_source/modules/mat_elem/visc_param_mod.F90
       !||====================================================================
       SUBROUTINE VISCMAIN(VISC    ,NEL     ,
      .           NVARVIS ,UVARVIS ,RHO     ,VISCMAX ,SOUNDSP ,TIMESTEP, 

@@ -21,9 +21,9 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    damping_rby_spmdset_mod   ../starter/source/general_controls/damping/damping_rby_spmdset.F90
+      !||    damping_range_compute_param_mod   ../starter/source/general_controls/damping/damping_range_compute_param.F90
       !||--- called by ------------------------------------------------------
-      !||    lectur                    ../starter/source/starter/lectur.F
+      !||    hm_read_damp                      ../starter/source/general_controls/damping/hm_read_damp.F
       !||====================================================================
       module damping_range_compute_param_mod
       contains
@@ -36,11 +36,11 @@
 !=======================================================================================================================
 !
       !||====================================================================
-      !||    damping_rby_spmdset   ../starter/source/general_controls/damping/damping_rby_spmdset.F90
+      !||    damping_range_compute_param   ../starter/source/general_controls/damping/damping_range_compute_param.F90
       !||--- called by ------------------------------------------------------
-      !||    lectur                ../starter/source/starter/lectur.F
+      !||    hm_read_damp                  ../starter/source/general_controls/damping/hm_read_damp.F
       !||--- calls      -----------------------------------------------------
-      !||    spmdset               ../starter/source/constraints/general/rbody/spmdset.F
+      !||    invert                        ../starter/source/constraints/general/rbe3/hm_read_rbe3.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================
         subroutine damping_range_compute_param(damp_ratio,f_low,f_high,maxwell_alpha,maxwell_tau)

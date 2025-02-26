@@ -150,6 +150,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    csigini4                            ../starter/source/elements/shell/coqueba/scigini4.F
       !||    cstraini4                           ../starter/source/elements/shell/coqueba/cstraini4.F
       !||    cuserini4                           ../starter/source/elements/shell/coqueba/cuserini4.F
+      !||    damping_rby_spmdset                 ../starter/source/general_controls/damping/damping_rby_spmdset.F90
       !||    ddsplit                             ../starter/source/restart/ddsplit/ddsplit.F
       !||    deallocate_elbuf                    ../starter/source/elements/elbuf_init/deallocate_buffer.F
       !||    deallocate_one_element_group        ../starter/source/elements/elbuf_init/deallocate_one_element_group.F

@@ -40,8 +40,10 @@
       !||--- called by ------------------------------------------------------
       !||    lectur                ../starter/source/starter/lectur.F
       !||--- calls      -----------------------------------------------------
+      !||    ancmsg                ../starter/source/output/message/message.F
       !||    spmdset               ../starter/source/constraints/general/rbody/spmdset.F
       !||--- uses       -----------------------------------------------------
+      !||    message_mod           ../starter/share/message_module/message_mod.F
       !||====================================================================
         subroutine damping_rby_spmdset(igrnod,ngrnod,ndamp,nrdamp,dampr,nnpby,nrbody,npby,nrbmerge)
 ! ----------------------------------------------------------------------------------------------------------------------
