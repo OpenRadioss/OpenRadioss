@@ -165,6 +165,10 @@ c-----------------------------------------------
       H3D_KEYWORD_ONED_SCALAR(I)%TEXT1  = 'Strain rate'
 c-----------------------------------------------
       I = I + 1
+      H3D_KEYWORD_ONED_SCALAR(I)%KEY3    = 'DAMINI'
+      H3D_KEYWORD_ONED_SCALAR(I)%TEXT1   = 'DAMAGE INITIATION'
+c-----------------------------------------------
+      I = I + 1
       H3D_KEYWORD_ONED_SCALAR(I)%KEY3    = 'DAMA'
       H3D_KEYWORD_ONED_SCALAR(I)%TEXT1   = 'MAX DAMAGE'
       H3D_KEYWORD_ONED_SCALAR(I)%COMMENT = 'maximum damage over time'

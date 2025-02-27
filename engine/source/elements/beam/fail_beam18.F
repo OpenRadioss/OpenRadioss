@@ -47,7 +47,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                       DPLA     ,EINT     ,TIME     ,IOUT     ,ISTDO   ,
      .                       AL       ,ISMSTR   ,EXX      ,EXY      ,EXZ     ,
      .                       KXX      ,KYY      ,KZZ      ,DTIME    ,
-     .                       NTABLE   ,TABLE    )
+     .                       NTABLE   ,TABLE    ,SIGY     )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -55,7 +55,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE FAIL_VISUAL_IB_MOD
       USE FAIL_GENE1_IB_MOD
-
+      USE FAIL_INIEVO_IB_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -97,6 +97,7 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL,2)          ,INTENT(IN)    :: EINT
       my_real ,DIMENSION(NEL)            ,INTENT(INOUT) :: OFF
       my_real                            ,INTENT(IN)    :: DTIME  
+      my_real ,DIMENSION(NEL,NPT)        ,INTENT(IN)    :: SIGY    
 C
       TYPE (ELBUF_STRUCT_) ,INTENT(INOUT) :: ELBUF_STR
       TYPE (FAIL_PARAM_)   ,INTENT(IN)    :: FAIL
@@ -109,12 +110,13 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NEL) :: COUNT
       my_real :: T0,TM
       my_real ,DIMENSION(NEL) :: SHFACT,G,E,ETSE,EPSXX,EPSXY,EPSXZ,
-     .   SIGNXX,SIGNXY,SIGNXZ,YPT,ZPT,APT,TSTAR,DEPSXX,DEPSXY,DEPSXZ,DPLA_IPT
+     .   SIGNXX,SIGNXY,SIGNXZ,YPT,ZPT,APT,TSTAR,DEPSXX,DEPSXY,DEPSXZ
+      my_real ,DIMENSION(NEL) :: DPLA_IPT,PLA_IPT,SIGY_IPT
       my_real :: bidon
 C
       TYPE(L_BUFEL_) ,POINTER :: LBUF
       TYPE(BUF_FAIL_),POINTER :: FBUF
-      my_real, DIMENSION(:) ,POINTER :: UVARF,DFMAX,TDEL
+      my_real, DIMENSION(:), POINTER :: UVARF,DFMAX,TDEL
       INTEGER, DIMENSION(:), POINTER :: FOFF
 C=======================================================================
 c      to avoid compilation error with unused arguments
@@ -145,8 +147,10 @@ C---------------------------------------
         DFMAX  => FBUF%FLOC(IFL)%DAMMX 
         TDEL   => FBUF%FLOC(IFL)%TDEL   
         FOFF   => FBUF%FLOC(IFL)%OFF
+        PLA_IPT = ELBUF_STR%BUFLY(1)%LBUF(1,1,IPT)%PLA
         DPLA_IPT = DPLA(:,IPT)
-        
+        SIGY_IPT = SIGY(:,IPT)
+
 c
 C---    Coordinates of integration points
         DO I=1,NEL                                 
@@ -289,6 +293,23 @@ c-------------
           DO I= 1,NEL
             IF (FOFF(I) == 0) COUNT(I) = COUNT(I) + 1
           END DO
+
+c-------------
+        CASE (42)     ! Inievo failure model  
+
+          CALL FAIL_INIEVO_IB(                         
+     .                       NEL  ,FAIL%NUPARAM ,FBUF%FLOC(IFL)%NVAR ,
+     .                     TABLE  ,FAIL%NTABLE  ,FAIL%TABLE ,TIME    ,FAIL%UPARAM       ,
+     .                       NGL  ,AL           ,DPLA_IPT       ,EPSD , FBUF%FLOC(IFL)%VAR,
+     .                    SIGNXX  ,SIGNXY       ,SIGNXZ     ,
+     .                    PLA_IPT ,SIGY_IPT     ,FOFF ,FBUF%FLOC(IFL)%DAMMX  ,
+     .                    TDEL    ,LBUF%DMGSCL  ,ELBUF_STR%GBUF%UELR ,IPT  ,NPT,
+     .                    FBUF%FLOC(IFL)%DAMINI ,
+     .                    NTABLE  ,OFF)  
+          DO I= 1,NEL
+            IF (FOFF(I) == 0) COUNT(I) = COUNT(I) + 1
+          END DO
+c-------------------------------------
       END SELECT
 
 C-------------------------------------

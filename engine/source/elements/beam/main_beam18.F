@@ -107,7 +107,7 @@ C-----------------------------------------------
       my_real :: DTINV,ASRATE,EPSDI,DMPM,DMPF,SPE,SPG,RHO,FACT,AREA,
      .           DMM,DMPFL,IXX,IYY,IZZ,G,E,DAMAGE_LOC,DFXX,DFXY,DFXZ
       my_real ,DIMENSION(NEL ):: DEGMB,DEGSH,DEGFX,YPT,ZPT,APT,OFF_OLD
-      my_real ,DIMENSION(:,:) ,ALLOCATABLE :: DPLA
+      my_real ,DIMENSION(:,:) ,ALLOCATABLE :: DPLA, SIGY
 C=======================================================================
       IPY  = 200        
       IPZ  = 300        
@@ -163,10 +163,12 @@ C
       ENDIF
       IPLA = ELBUF_STR%BUFLY(1)%L_PLA
       ALLOCATE (DPLA(NEL*IPLA,NPT*IPLA))
+      ALLOCATE (SIGY(NEL*IPLA,NPT*IPLA))      
       IF (IFAIL > 0 .and. IPLA > 0) THEN
         DO I = 1,NEL
           DO J=1,NPT
             DPLA(I,J) = ELBUF_STR%BUFLY(1)%LBUF(1,1,J)%PLA(I)
+            SIGY(I,J) = 1.E30 
           ENDDO
         ENDDO
       ENDIF
@@ -179,17 +181,17 @@ c---------------------------
      2               EINT   ,OFF    ,IMAT    ,
      3               PID    ,EPSD   ,EXX    ,EXY    ,EXZ     ,
      4               KXX    ,KYY    ,KZZ    ,AL     ,NEL     ,
-     5               IPM    ,ASRATE ,DTIME  ,NUMMAT )
+     5               IPM    ,ASRATE ,DTIME  ,NUMMAT ,SIGY)
 c
       ELSE
-c
+c     
         CALL MULAW_IB(ELBUF_STR,
      1                NEL     ,NPT     ,MTN     ,IMAT    ,
      2                PID     ,NGL     ,IPM     ,
      3                GEO     ,OFF     ,
      4                EPSD    ,BUFMAT  ,NPF     ,TF      ,
      5                EXX     ,EXY     ,EXZ     ,KXX     ,
-     6                KYY     ,KZZ     ,JTHE    ,TEMPEL  )
+     6                KYY     ,KZZ     ,JTHE    ,TEMPEL  ,SIGY  )
       ENDIF
 c---------------------------
 c     failure models
@@ -213,7 +215,7 @@ c
      .              DPLA     ,EINT    ,TIME    ,IOUT    ,ISTDO   ,
      .              AL       ,ISMSTR  ,EXX     ,EXY     ,EXZ     ,
      .              KXX      ,KYY     ,KZZ     ,DTIME   ,
-     .              NTABLE   ,TABLE   )
+     .              NTABLE   ,TABLE   ,SIGY    )
        END IF
 C------------------------------------
 c     resultant force and moment

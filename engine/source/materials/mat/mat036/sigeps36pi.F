@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3               IMAT    ,E       ,G       ,OFF     ,DEPSXX  ,      
      4               DEPSXY  ,DEPSXZ  ,SIGOXX  ,SIGOXY  ,SIGOXZ  ,      
      5               SIGNXX  ,SIGNXY  ,SIGNXZ  ,ETSE    ,PLA     ,
-     6               EPSP    ,NVARTMP ,VARTMP)      
+     6               EPSP    ,NVARTMP ,VARTMP  ,SIGY)      
 C---------+---------+---+---+--------------------------------------------
 C VAR     | SIZE    |TYP| RW| DEFINITION
 C---------+---------+---+---+--------------------------------------------
@@ -93,6 +93,7 @@ C-----------------------------------------------
      .    SIGNXX(NEL),SIGNXY(NEL),SIGNXZ(NEL),ETSE(NEL),
      .    OFF(NEL)
       INTEGER, INTENT(INOUT) :: VARTMP(NEL,NVARTMP)
+      my_real, INTENT(INOUT) :: SIGY(NEL)
 C-----------------------------------------------
 C   E X T E R N A L   F u n c t i o n s
 C-----------------------------------------------
@@ -246,7 +247,8 @@ C
           H(I)    = FAIL(I)*(DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I)))  
           VARTMP(I,J1) = IPOS1(I)                                 
           VARTMP(I,J2) = IPOS2(I)
-        END IF                              
+        END IF        
+        SIGY(I) = YLD(I)                      
       ENDDO                                                     
 C-------------------
 C     PROJECTION

@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3                    GEO     ,OFF     , 
      4                    EPSP    ,BUFMAT  ,NPF     ,TF      ,
      5                    EXX     ,EXY     ,EXZ     ,KXX     ,
-     6                    KYY     ,KZZ     ,JTHE    ,TEMPEL  )
+     6                    KYY     ,KZZ     ,JTHE    ,TEMPEL  ,SIGY )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -64,6 +64,7 @@ C-----------------------------------------------
      .   EXX(NEL),EXY(NEL),
      .   EXZ(NEL),KXX(NEL),KYY(NEL),KZZ(NEL),
      .   TEMPEL(NEL)
+      my_real , INTENT(INOUT)::SIGY(NEL,NPT)
 C
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TARGET :: BUFMAT
@@ -77,7 +78,8 @@ C-----------------------------------------------
      .   YPT(NEL),ZPT(NEL),APT(NEL),G(NEL),E(NEL),ETSE(NEL),
      .   DEPSXX(NEL),DEPSXY(NEL),DEPSXZ(NEL),
      .   SIGOXX(NEL),SIGOXY(NEL),SIGOXZ(NEL),
-     .   SIGNXX(NEL),SIGNXY(NEL),SIGNXZ(NEL)
+     .   SIGNXX(NEL),SIGNXY(NEL),SIGNXZ(NEL),
+     .   SIGY_IPT(NEL)
       my_real :: SHFACT,DFXX,DFXY,DFXZ
       my_real ,DIMENSION(NEL) :: EPSXX,EPSXY,EPSXZ,DPLA
 C
@@ -132,6 +134,7 @@ C
           SIGOXX(I) = LBUF%SIG(II(1)+I)
           SIGOXY(I) = LBUF%SIG(II(2)+I)
           SIGOXZ(I) = LBUF%SIG(II(3)+I)
+          SIGY_IPT(I) = SIGY(I,IPT)
         ENDDO
 c---    Deformations Incrementales
         DO I = 1,NEL
@@ -175,7 +178,7 @@ C---
      3         IMAT     ,E        ,G        ,OFF      ,DEPSXX  ,
      4         DEPSXY   ,DEPSXZ   ,SIGOXX   ,SIGOXY   ,SIGOXZ  ,
      5         SIGNXX   ,SIGNXY   ,SIGNXZ   ,ETSE     ,LBUF%PLA,
-     6         EPSP     ,NVARTMP  ,VARTMP)
+     6         EPSP     ,NVARTMP  ,VARTMP   ,SIGY_IPT)
 C---
           CASE (44)
             CALL SIGEPS44PI(
@@ -184,7 +187,7 @@ C---
      3         SIGOXX   ,SIGOXY   ,SIGOXZ   ,EPSXX    ,EPSP     ,
      4         SIGNXX   ,SIGNXY   ,SIGNXZ   ,ETSE     ,NUVAR    ,
      5         UVAR     ,IFUNC    ,NVARTMP  ,VARTMP   ,NPF      ,
-     6         TF       ,NFUNC    )
+     6         TF       ,NFUNC    ,SIGY_IPT)
 C---
           CASE (71)
             CALL SIGEPS71PI(
@@ -212,6 +215,7 @@ C---    Save stress components
           LBUF%SIG(II(1)+I) = SIGNXX(I)
           LBUF%SIG(II(2)+I) = SIGNXY(I)
           LBUF%SIG(II(3)+I) = SIGNXZ(I)
+          SIGY(I,IPT) = SIGY_IPT(I)
         ENDDO
 C-------------------------------------
 C       FIN DE BOUCLE SUR POINT INTEGRATION

@@ -128,7 +128,7 @@
           MY_REAL :: OFF
           MY_REAL :: A1,   B1, B2,    B3
           MY_REAL :: F1,   M1, M2,    M3
-          MY_REAL :: YEQ,  XM, DAMMX, VOL
+          MY_REAL :: YEQ,  XM, DAMMX, VOL, DAMINI
           MY_REAL :: FOR,  AREA, FEQ, EPLAS
           MY_REAL :: RHO0, A0, XX1, YY1, ZZ1
           MY_REAL :: AL0,EFRAC
@@ -577,6 +577,28 @@
                   value(i) = elbuf_tab(ng)%gbuf%epsd(i)
                   is_written_value(i) = 1
                 enddo
+!--------------------------------------------------
+              elseif (keyword == 'DAMINI' .and. ifail > 0) then
+!--------------------------------------------------
+                if (igtyp == 3) then 
+                  do i=1,nel
+                    if (elbuf_tab(ng)%gbuf%g_dmgscl > 0) then 
+                      value(i) = elbuf_tab(ng)%gbuf%fail(1)%damini(i)
+                      is_written_value(i) = 1
+                    endif
+                  enddo
+                else if (igtyp == 18) then
+                    do i=1,nel
+                      damini  = zero
+                      do k = 1,elbuf_tab(ng)%bufly(1)%nptt
+                        if (elbuf_tab(ng)%bufly(1)%fail(1,1,k)%floc(1)%lf_damini > 0) then
+                          damini = max(damini,elbuf_tab(ng)%bufly(1)%fail(1,1,k)%floc(1)%damini(i))
+                        endif
+                      enddo
+                      value(i) = damini
+                      is_written_value(i) = 1
+                    enddo
+                endif
 !--------------------------------------------------
               elseif (keyword == 'DAMA' .and. ifail > 0) then
 !--------------------------------------------------
