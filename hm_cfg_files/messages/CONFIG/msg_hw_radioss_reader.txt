@@ -351,3 +351,9 @@ Only one %s card is allowed
 /MESSAGE/200041/DESCRIPTION
 %s (id: %u, name: %s), *CONTROL_UNITS card is mandatory for conversion of this card.
 #------------------------------------------------------------------------------
+
+/MESSAGE/200042/TITLE
+** ERROR IN LS-DYNA IMPORT
+/MESSAGE/200042/DESCRIPTION
+%s (id: %u, name: %s), Curve LCSS is defined in the material but is not existing in the model.
+#------------------------------------------------------------------------------
