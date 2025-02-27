@@ -131,9 +131,9 @@
       !--- constant unload slope ---!
       if(iform == 1)then
         do i=1,nel
-          p(i) = finter(p_func_id,xscale*mu(i),npf,tf,dpdm)
+          p(i) = finter(p_func_id,xscale*mu(i),npf,tf,dpdm(i))
           p(i) = fscale * p(i)
-          p_   = finter(p_func_id,xscale*mu_bak(i),npf,tf,dpdm)
+          p_   = finter(p_func_id,xscale*mu_bak(i),npf,tf,dpdm(i))
           p_   = p_ * Fscale
           b(i) = bmax
           pne1 = p_-(mu_bak(i)-mu(i))*b(i)
@@ -143,9 +143,9 @@
       !--- continuous unload slope (increases with compaction) ---!
       elseif(iform == 2)then
         do i=1,nel
-          p(i) = finter(p_func_id,xscale*mu(i),npf,tf,dpdm)
+          p(i) = finter(p_func_id,xscale*mu(i),npf,tf,dpdm(i))
           p(i) = fscale * p(i)
-          p_   = finter(p_func_id,xscale*mu_bak(i),npf,tf,dpdm)
+          p_   = finter(p_func_id,xscale*mu_bak(i),npf,tf,dpdm(i))
           p_   = p_ * Fscale
           !linear unload modulus
           alpha = one
