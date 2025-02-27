@@ -918,8 +918,8 @@ C -----Friction model ------
               IPARTSM(I) = IP
             ENDIF
           ENDIF
-C -----Case of internal segment : put stiffness to negative ------
-          IF(IELEM_M(2,I) > 0) STF(I) = - STF(I)
+C -----Case of internal segment : put stiffness to negative - only in case of erosion-----
+          IF ((IDEL_SOLID > 0).AND.(IELEM_M(2,I) > 0)) STF(I) = -STF(I)
 
 C------------------------------------
         ENDIF
