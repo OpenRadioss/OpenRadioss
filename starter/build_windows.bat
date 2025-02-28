@@ -77,7 +77,7 @@ GOTO ARG_LOOP
 if %jobsv%==all ( set jobs=0)
 
 
-Rem Starter name
+:: Starter name
 if %prec%==sp ( set sp_suffix=_sp)
 
 if %debug%==0 (
@@ -92,7 +92,7 @@ if %debug%==0 (
 
 )
 
-Rem if release is set, set debug to zero and no suffix
+:: if release is set, set debug to zero and no suffix
 if  %release%==1 (
     set debug_suffix=
     set debug=0
@@ -110,10 +110,10 @@ if %cbuild%==1 (
   set starter=s_%st_version%_%arch%%sp_suffix%%debug_suffix%
 )
 
-Rem Create build directory
+:: Create build directory
 set build_directory=cbuild_%starter%_ninja%dc_suf%
 
-Rem clean
+:: clean
 if %clean%==1 (
   echo.
   echo Cleaning %build_directory%
@@ -155,13 +155,13 @@ if exist %build_directory% (
   cd  %build_directory%
 )
 
-Rem Load Compiler settings
+:: Load Compiler settings
 if %cbuild%==0 (
     call ..\CMake_Compilers\cmake_%arch%_compilers.bat
 ) else (
     call ..\CMake_Compilers_c\cmake_%arch%_compilers.bat
 )
-REM define Build type
+:: define Build type
 
 if %debug%==0 (
     set build_type=Release 
@@ -216,8 +216,9 @@ GOTO END_STARTER
   echo.
   echo Use with arguments : 
   echo     -arch=[build architecture]          : set architecture : default  Windows 64 bit
-  echo            -arch=win64       (SMP executable / Windows X86-64 - Intel OneAPI - Legay Fortran Compiler)
-  echo            -arch=win64_ifx   (SMP executable / Windows X86-64 - Intel OneAPI - Intel ifx)
+  echo            -arch=win64       (SMP executable / Windows X86-64 / Intel OneAPI / Intel ifx)
+  echo            -arch=win64_sse3  (SMP executable / Windows X86-64 / Intel OneAPI / Intel ifx / Support older CPUs)  
+  echo            -arch=win64_ifort (SMP executable / Windows X86-64 / Intel OneAPI / Legay Fortran Compiler)
   echo.
   echo     -prec=[dp,sp]                       : set precision - dp (default),sp
   echo     -static-link                        : Compiler runtime is linked in binary
@@ -237,7 +238,7 @@ GOTO END_STARTER
 :END_STARTER
 echo.
 
-REM clean used variables
+:: clean used variables
 set arch=
 set prec=
 set debug=
