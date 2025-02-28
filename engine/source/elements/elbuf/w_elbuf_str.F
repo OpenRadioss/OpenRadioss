@@ -185,7 +185,7 @@ c---------  write top structure parameters: NPAR_TAB = 9
 c---------------------------------------------------          
 c         Damping parameters for frequency range 
 c--------------------------------------------------- 
-          IF  (IDAMP_FREQ_RANGE == 1) THEN
+          IF  (IDAMP_FREQ_RANGE > 0) THEN
             RBUF_L(L_REL+1:L_REL+3) = ELBUF%DAMP_RANGE%ALPHA(1:3)
             RBUF_L(L_REL+4:L_REL+6) = ELBUF%DAMP_RANGE%TAU(1:3)
             L_REL = L_REL + 6

@@ -32,7 +32,7 @@
 ! ======================================================================================================================
 !
 !=======================================================================================================================
-!!\brief This subroutine computes damping forces for /DAMP/VREL with RBODY
+!!\brief This subroutine computes damping forces for /DAMP/FREQ_RANGE for solid elements
 !=======================================================================================================================
 !
       !||====================================================================
@@ -111,8 +111,7 @@
             aa(j) = exp(-beta(j)*timestep)
             bb(j) = two*timestep*gv(j)*exp(-half*beta(j)*timestep)         
             aak(j) = exp(-betak(j)*timestep)
-            bbk(j) = timestep*kv(j)*exp(-half*betak(j)*timestep)   
-!            print *,"compoenet",j,aa(j),bb(j),aak(j),bbk(j)
+            bbk(j) = timestep*kv(j)*exp(-half*betak(j)*timestep)
           enddo 
 !          
           do i=1,nel                                                     
@@ -132,7 +131,6 @@
             sv4(i) = zero
             sv5(i) = zero
             sv6(i) = zero
-!            print *,"epsxx",p(i),epxx(i),epyy(i),epzz(i)
           enddo
 !           
           do j= 1,3 
@@ -145,8 +143,7 @@
               h0(4) = uvarvis(i,ii + 4)                         
               h0(5) = uvarvis(i,ii + 5)                         
               h0(6) = uvarvis(i,ii + 6)                          
-              hp0   = uvarvis(i,ii + 7) 
-!              print *,"-->hhd0",ii,nvarvis,nvar_damp,offset,j                      
+              hp0   = uvarvis(i,ii + 7)                     
 !
               h(1) = aa(j)*h0(1) + bb(j)*epxx(i)*et(i)                     
               h(2) = aa(j)*h0(2) + bb(j)*epyy(i)*et(i)                     
@@ -154,10 +151,7 @@
               h(4) = aa(j)*h0(4) + half*bb(j)*epspxy(i)*et(i)         
               h(5) = aa(j)*h0(5) + half*bb(j)*epspyz(i)*et(i)         
               h(6) = aa(j)*h0(6) + half*bb(j)*epspzx(i)*et(i)                   
-              hp = aak(j)*hp0 + bbk(j)*trace(i)*et(i)    
-!              print *,"compd",AA(J),BB(J),AAK(J),BBK(J)
-!              print *,"epsxd",trace(i),epxx(i),epyy(i),epzz(i),dav         
-!             print *,"-->hhd",h(1),h(2),h(3),h(4),h(5),h(6),hp
+              hp = aak(j)*hp0 + bbk(j)*trace(i)*et(i)
 !
               uvarvis(i,ii + 1) = h(1)                        
               uvarvis(i,ii + 2) = h(2)                        
@@ -181,8 +175,7 @@
           do i=1,nel
             sv1(i) = sv1(i) - p(i)                                       
             sv2(i) = sv2(i) - p(i)                                       
-            sv3(i) = sv3(i) - p(i)   
-!            print *,"-->hh2",sv1(i),sv2(i),sv3(i),p(i)                                                                                                         
+            sv3(i) = sv3(i) - p(i)                                                                                                     
             soundsp(i) = sqrt(soundsp(i)**2 + (four_over_3*g + rbulk)*et(i)/rho(i)) 
           enddo                                                    
 !
