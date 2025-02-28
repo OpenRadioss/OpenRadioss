@@ -1518,7 +1518,7 @@ C-----------------------------------------------------------------------
      .        MFZX    ,MFZY    ,MFZZ    ,
      .        S1      ,S2      ,S3      ,S4      ,S5      ,S6      ,
      .        DAMP_BUF,IDAMP_FREQ_RANGE,MVSIZ,ET,MAT_ELEM%MAT_PARAM(IMAT)%YOUNG,
-     .        MAT_ELEM%MAT_PARAM(IMAT)%SHEAR)
+     .        MAT_ELEM%MAT_PARAM(IMAT)%SHEAR,MAT_ELEM%MAT_PARAM(MAT(1))%IVISC)
       ENDIF 
 C---------------------------
 C

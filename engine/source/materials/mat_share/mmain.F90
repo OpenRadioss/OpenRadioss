@@ -2013,7 +2013,7 @@
             &mfzx    ,mfzy    ,mfzz    ,&
             &s1      ,s2      ,s3      ,s4      ,s5      ,s6      ,&
             &damp_buf,idamp_freq_range ,mvsiz,et,mat_elem%mat_param(imat)%young,&
-            &mat_elem%mat_param(imat)%shear)
+            &mat_elem%mat_param(imat)%shear,ivisc)
 
 !---
             if (isorth /= 0.and. jcvt == 0) then
