@@ -1123,6 +1123,13 @@ C---- can't do it precisely unless to store MASI2ND0
           NKEND =IABS(NKEND)
           MASI2ND0(1:NKEND)=DMAS2/NKEND
         END IF
+        IF (IMASSI /= 0) THEN
+          MS_ND =ZERO
+          DO I = 1, NS10E
+            NS = IABS(ICNDS10(1,I))
+            IF (WEIGHT(NS)/=0) MS_ND = MS_ND + MS(NS)
+          ENDDO
+        END IF
        ELSE
         DMAS2 = ZERO
          DO I = 1, NKEND
