@@ -43,7 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .           MFZX    ,MFZY    ,MFZZ    ,
      .           S1      ,S2      ,S3      ,S4      ,S5      ,S6      ,
      .           DAMP_BUF,IDAMP_FREQ_RANGE ,MVSIZ   ,ET      ,YOUNG   ,
-     .           SHEAR_MODULUS)
+     .           SHEAR_MODULUS,IVISC)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -64,6 +64,7 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NEL,NVARVIS
       INTEGER ,INTENT(IN) :: IDAMP_FREQ_RANGE
       INTEGER ,INTENT(IN) :: MVSIZ
+      INTEGER ,INTENT(IN) :: IVISC
       my_real ,INTENT(IN) :: TIMESTEP
       my_real ,INTENT(IN) :: YOUNG
       my_real, INTENT(IN) :: SHEAR_MODULUS
@@ -91,26 +92,28 @@ C
         SV6(1:NEL) = ZERO
       ELSE
         NVAR_DAMP = 0
-      ENDIF  
-C      
-C--   /VISC PRONY     
-      IF (VISC%ILAW == 1) THEN
+      ENDIF
+C
+      IF (IVISC > 0) THEN    
+C--     /VISC PRONY     
+        IF (VISC%ILAW == 1) THEN
 c
-         NPRONY = VISC%IPARAM(1)
-         CALL VISC_PRONY(VISC     ,NPRONY  ,NEL     ,NVARVIS ,UVARVIS ,
+          NPRONY = VISC%IPARAM(1)
+          CALL VISC_PRONY(VISC     ,NPRONY  ,NEL     ,NVARVIS ,UVARVIS ,
      .           EPSPXX  ,EPSPYY  ,EPSPZZ  ,EPSPXY  ,EPSPYZ  ,EPSPZX  , 
      .           SV1     ,SV2     ,SV3     ,SV4     ,SV5     ,SV6     ,
      .           TIMESTEP,RHO     ,VISCMAX ,SOUNDSP ,NVAR_DAMP)
 c
-       ELSEIF (VISC%ILAW == 2) THEN
+        ELSEIF (VISC%ILAW == 2) THEN
 c
-         NPRONY  = VISC%IPARAM(1)
-         CALL VISC_PRONY_LSTRAIN(
+          NPRONY  = VISC%IPARAM(1)
+          CALL VISC_PRONY_LSTRAIN(
      .           VISC    ,NPRONY  ,NEL     ,NVARVIS ,UVARVIS ,
      .           TIMESTEP,MFXX    ,MFXY    ,MFXZ    ,MFYX    ,MFYY    ,
      .           MFYZ    ,MFZX    ,MFZY    ,MFZZ    ,
      .           S1      ,S2      ,S3      ,S4      ,S5      ,S6)
-      ENDIF  
+        ENDIF  
+      ENDIF
 C      
 C--   Damping frequency range - same formulation as visc/prony with 3 components
       IF (IDAMP_FREQ_RANGE > 0) THEN   

@@ -180,7 +180,7 @@ c-------------------------------------------------
 c---------------------------------------------------          
 c         Damping parameters for frequency range 
 c--------------------------------------------------- 
-      IF  (IDAMP_FREQ_RANGE == 1) THEN
+      IF  (IDAMP_FREQ_RANGE > 0) THEN
         ALLOCATE (ELBUF_STR%DAMP_RANGE%ALPHA(3) ,STAT=ERR)
         ALLOCATE (ELBUF_STR%DAMP_RANGE%TAU(3)   ,STAT=ERR)
         ELBUF_STR%DAMP_RANGE%ALPHA(1:3) = RBUF(IAD+1:IAD+3)

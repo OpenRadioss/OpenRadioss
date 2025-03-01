@@ -2488,7 +2488,7 @@
             &mfzx    ,mfzy    ,mfzz    ,&
             &s1      ,s2      ,s3      ,s4      ,s5      ,s6      ,&
             &damp_buf,idamp_freq_range ,mvsiz,et,matparam%young   ,&
-            &matparam%shear)
+            &matparam%shear,matparam%ivisc)
           endif
 !
 !     viscosity (navier-stokes)

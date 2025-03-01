@@ -407,7 +407,7 @@ c--------------------------------------------------------
 c--------------------------------------------------------
 c       damping structure for damping frequency range
 c--------------------------------------------------------
-          IF (IDAMP_FREQ_RANGE == 1) THEN 
+          IF (IDAMP_FREQ_RANGE > 0) THEN 
             ALLOCATE(ELBUF_TAB(NG)%DAMP_RANGE%ALPHA(3))
             ALLOCATE(ELBUF_TAB(NG)%DAMP_RANGE%TAU(3))
 C          ELSE  
@@ -777,7 +777,7 @@ c
             IF (GBUF%G_GAMA > 0 .AND. NLAY > 1) BUFLY%L_GAMA = GBUF%G_GAMA
             IF (JTHE /= 0) BUFLY%L_TEMP = 1
             IF (ISVIS > 0) BUFLY%L_SIGV = 6                      
-            IF (IVISC > 0) BUFLY%L_VISC = 6
+            IF ((IVISC > 0).OR.(IDAMP_FREQ_RANGE > 0)) BUFLY%L_VISC = 6
 c           Allocate thermal stress and Thermal internal energy
             IF(IEXPAN > 0) THEN
                BUFLY%L_FORTH = 1
@@ -1546,7 +1546,7 @@ c         local material variables
             ENDIF
             IF (JTHE /= 0) BUFLY%L_TEMP = 1
             IF (ISVIS > 0) BUFLY%L_SIGV = 5                      
-            IF (BUFLY%IVISC > 0) BUFLY%L_VISC = 5
+            IF ((BUFLY%IVISC > 0).OR.(IDAMP_FREQ_RANGE > 0)) BUFLY%L_VISC = 5
             IF (BUFLY%IVISC > 0 .and. MLW == 25) BUFLY%L_SIGD = 6
             IF (MLW == 27) BUFLY%L_DMG  = 2
             IF (MLW == 2)  BUFLY%L_SIGB  = 3

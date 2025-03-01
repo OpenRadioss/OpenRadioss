@@ -86,7 +86,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,ID,JGRN,ISK,FL_VREL,FL_FREQ_RANGE
       INTEGER NB_PAS,RANGE,FLINT,FLG_PRI,SUB_INDEX
-      INTEGER FUNC_ID,RBODY_ID,IFUN,IGR,ITYPE,GRPART,USR_GRPART
+      INTEGER FUNC_ID,RBODY_ID,IFUN,IGR,GRPART,USR_GRPART
       my_real
      .   FACTB,TSTART,TSTOP,
      .   ALPHA,BETA,ALPHA_Y,BETA_Y,ALPHA_Z,BETA_Z,ALPHA_XX,BETA_XX,ALPHA_YY,
@@ -235,10 +235,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
-          CALL HM_GET_INTV('itype',ITYPE,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('grpart_id',GRPART,IS_AVAILABLE,LSUBMODEL)
-          CALL HM_GET_INTV('RbodyID',RBODY_ID,IS_AVAILABLE,LSUBMODEL)
-          IF (ITYPE == 0) ITYPE = 3
 C---------Check part Id-----------------------------          
           IF(GRPART/=0)THEN
             IGR = 0
@@ -259,7 +256,12 @@ C---------Check part Id-----------------------------
 C---------Tag of the parts-----------------------------            
             DO J=1,IGRPART(IGR)%NENTITY
               DAMP_RANGE_PART(IGRPART(IGR)%ENTITY(J)) = I
-            ENDDO      
+            ENDDO   
+          ELSE
+C---------Tag of all parts-----------------------------            
+            DO J=1,NPART
+              DAMP_RANGE_PART(J) = I
+            ENDDO     
           ENDIF
           WRITE(IOUT,1900)
           ISK = 0
@@ -431,7 +433,7 @@ C--       /DAMP/VREL
             DAMPR(30,I) = ZERO        
           ELSEIF (FL_FREQ_RANGE == 1) THEN
 C--         /DAMP/FREQUENCY_RANGE
-            WRITE (IOUT,2000) GRPART,ITYPE,RBODY_ID,CDAMP,FREQ_LOW,FREQ_HIGH,TSTART,TSTOP
+            WRITE (IOUT,2000) GRPART,CDAMP,FREQ_LOW,FREQ_HIGH,TSTART,TSTOP
 C           Automatic computation of paramaters of the 3 maxwell components 
             CALL damping_range_compute_param(CDAMP,FREQ_LOW,FREQ_HIGH,MAXWELL_ALPHA,MAXWELL_TAU)
 C          
@@ -498,8 +500,6 @@ C---
      .       /10X,'STOP TIME  . . . . . . . . . . . . . . . . . . . .',1PG20.13) 
  1900 FORMAT(/,10X,'DAMPING OVER FREQUENCY RANGE')             
  2000 FORMAT( 10X,'PART GROUP ID . . . . . . . . .',I10
-     .       /10X,'DAMPING TYPE. . . . . . . . . .',I10
-     .       /10X,'RBODY ID . . . . . . . . . . . ',I10
      .       /10X,'DAMPING RATIO . . . . . . . . . . . . . . . . . . ',1PG20.13
      .       /10X,'LOWEST FREQUENCY . . . . . . . . . . . . . . . . .',1PG20.13
      .       /10X,'HIGHEST FREQUENCY. . . . . . . . . . . . . . . . .',1PG20.13          
