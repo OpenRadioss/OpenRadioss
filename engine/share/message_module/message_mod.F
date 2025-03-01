@@ -70,7 +70,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    eulro2                             ../engine/source/ale/euler2d/eulro2.F
       !||    execargcheck                       ../engine/source/engine/execargcheck.F
       !||    facepoly                           ../engine/source/airbag/fvmesh.F
+      !||    fail_inievo_b                      ../engine/source/materials/fail/inievo/fail_inievo_b.F90
       !||    fail_inievo_c                      ../engine/source/materials/fail/inievo/fail_inievo_c.F
+      !||    fail_inievo_ib                     ../engine/source/materials/fail/inievo/fail_inievo_ib.F90
       !||    fail_inievo_s                      ../engine/source/materials/fail/inievo/fail_inievo_s.F
       !||    fail_tab_c                         ../engine/source/materials/fail/tabulated/fail_tab_c.F
       !||    fail_tab_old_c                     ../engine/source/materials/fail/tabulated/fail_tab_old_c.F

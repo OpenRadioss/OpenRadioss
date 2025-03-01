@@ -214,6 +214,8 @@
       !||    fail_gene1_b                        ../engine/source/materials/fail/gene1/fail_gene1_b.F90
       !||    fail_gene1_ib                       ../engine/source/materials/fail/gene1/fail_gene1_ib.F90
       !||    fail_gene1_s                        ../engine/source/materials/fail/gene1/fail_gene1_s.F
+      !||    fail_inievo_b                       ../engine/source/materials/fail/inievo/fail_inievo_b.F90
+      !||    fail_inievo_ib                      ../engine/source/materials/fail/inievo/fail_inievo_ib.F90
       !||    fail_setoff_c                       ../engine/source/materials/fail/fail_setoff_c.F
       !||    fail_setoff_npg_c                   ../engine/source/materials/fail/fail_setoff_npg_c.F
       !||    fail_setoff_wind_frwave             ../engine/source/materials/fail/fail_setoff_wind_frwave.F

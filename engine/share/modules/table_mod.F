@@ -40,7 +40,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    fail_gene1_c               ../engine/source/materials/fail/gene1/fail_gene1_c.F
       !||    fail_gene1_ib              ../engine/source/materials/fail/gene1/fail_gene1_ib.F90
       !||    fail_gene1_s               ../engine/source/materials/fail/gene1/fail_gene1_s.F
+      !||    fail_inievo_b              ../engine/source/materials/fail/inievo/fail_inievo_b.F90
       !||    fail_inievo_c              ../engine/source/materials/fail/inievo/fail_inievo_c.F
+      !||    fail_inievo_ib             ../engine/source/materials/fail/inievo/fail_inievo_ib.F90
       !||    fail_inievo_s              ../engine/source/materials/fail/inievo/fail_inievo_s.F
       !||    fail_tab2_c                ../engine/source/materials/fail/tabulated/fail_tab2_c.F
       !||    fail_tab2_s                ../engine/source/materials/fail/tabulated/fail_tab2_s.F
@@ -175,7 +177,9 @@ C-----------------------------------------------
       !||    fail_gene1_c               ../engine/source/materials/fail/gene1/fail_gene1_c.F
       !||    fail_gene1_ib              ../engine/source/materials/fail/gene1/fail_gene1_ib.F90
       !||    fail_gene1_s               ../engine/source/materials/fail/gene1/fail_gene1_s.F
+      !||    fail_inievo_b              ../engine/source/materials/fail/inievo/fail_inievo_b.F90
       !||    fail_inievo_c              ../engine/source/materials/fail/inievo/fail_inievo_c.F
+      !||    fail_inievo_ib             ../engine/source/materials/fail/inievo/fail_inievo_ib.F90
       !||    fail_inievo_s              ../engine/source/materials/fail/inievo/fail_inievo_s.F
       !||    fail_tab2_c                ../engine/source/materials/fail/tabulated/fail_tab2_c.F
       !||    fail_tab2_s                ../engine/source/materials/fail/tabulated/fail_tab2_s.F

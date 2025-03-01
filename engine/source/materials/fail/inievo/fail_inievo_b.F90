@@ -21,10 +21,9 @@
 !copyright>        software under a commercial license.  contact altair to discuss further if the
 !copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    fail_inievo_b_mod   ../engine/source/materials/fail/inievo/fail_inievo_b.f90
+      !||    fail_inievo_b_mod   ../engine/source/materials/fail/inievo/fail_inievo_b.F90
       !||--- called by ------------------------------------------------------
-      !||    fail_beam3      ../engine/source/elements/beam/fail_beam3.f
-      !||--- calls      ----------------------------------------------------
+      !||    fail_beam3          ../engine/source/elements/beam/fail_beam3.F
       !||====================================================================
     module fail_inievo_b_mod
     contains
@@ -32,15 +31,18 @@
 ! \brief   inievo failure criteria for type3 beam elements
 ! ======================================================================================================================
       !||====================================================================
-      !||    fail_inievo_b_mod   ../engine/source/materials/fail/inievo/fail_inievo_b.f90
+      !||    fail_inievo_b         ../engine/source/materials/fail/inievo/fail_inievo_b.F90
       !||--- called by ------------------------------------------------------
-      !||    fail_beam3      ../engine/source/elements/beam/fail_beam3.f
+      !||    fail_beam3            ../engine/source/elements/beam/fail_beam3.F
+      !||--- calls      -----------------------------------------------------
+      !||    table_vinterp         ../engine/source/tools/curve/table_tools.F
       !||--- uses       -----------------------------------------------------
-      !||    constant_mod          ../common_source/modules/constant_mod.f
-      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.f90
-      !||    interface_table_mod   ../engine/share/modules/table_mod.f
-      !||    table_mod             ../engine/share/modules/table_mod.f
-      !||====================================================================  
+      !||    constant_mod          ../common_source/modules/constant_mod.F
+      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    interface_table_mod   ../engine/share/modules/table_mod.F
+      !||    message_mod           ../engine/share/message_module/message_mod.F
+      !||    table_mod             ../engine/share/modules/table_mod.F
+      !||====================================================================
     subroutine fail_inievo_b(                                        &
       nel     ,nuparam  ,nuvar    ,                                  &
       table   ,ntablf   ,itablf   ,time    ,uparam     ,             &

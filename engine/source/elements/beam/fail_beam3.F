@@ -28,6 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    fail_biquad_b       ../engine/source/materials/fail/biquad/fail_biquad_b.F
       !||    fail_energy_b       ../engine/source/materials/fail/energy/fail_energy_b.F
       !||    fail_gene1_b        ../engine/source/materials/fail/gene1/fail_gene1_b.F90
+      !||    fail_inievo_b       ../engine/source/materials/fail/inievo/fail_inievo_b.F90
       !||    fail_johnson_b      ../engine/source/materials/fail/johnson_cook/fail_johnson_b.F
       !||    fail_tensstrain_b   ../engine/source/materials/fail/tensstrain/fail_tensstrain_b.F
       !||    fail_visual_b       ../engine/source/materials/fail/visual/fail_visual_b.F90
@@ -35,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod        ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    fail_gene1_b_mod    ../engine/source/materials/fail/gene1/fail_gene1_b.F90
+      !||    fail_inievo_b_mod   ../engine/source/materials/fail/inievo/fail_inievo_b.F90
       !||    fail_visual_b_mod   ../engine/source/materials/fail/visual/fail_visual_b.F90
       !||    mat_elem_mod        ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||====================================================================
