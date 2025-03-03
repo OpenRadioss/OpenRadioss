@@ -1039,7 +1039,13 @@ C----------------------------------------------------------
       DO I = 1, HM_NUMMAT
          MAT_NUMBER    = I 
          CALL HM_OPTION_READ_KEY(LSUBMODEL,KEYWORD2    = KEY)
-         IF (KEY(1:5) == 'LAW13' .OR. KEY(1:5) == 'RIGID') IRODDL0 = 1
+         IF ((KEY(1:5) == 'LAW13' .AND. 
+     .        KEY(1:6) /= 'LAW131' .AND. KEY(1:6) /= 'LAW132' .AND. 
+     .        KEY(1:6) /= 'LAW133' .AND. KEY(1:6) /= 'LAW134' .AND.
+     .        KEY(1:6) /= 'LAW135' .AND. KEY(1:6) /= 'LAW136' .AND.
+     .        KEY(1:6) /= 'LAW137' .AND. KEY(1:6) /= 'LAW138' .AND.
+     .        KEY(1:6) /= 'LAW139' ) 
+     .                           .OR. KEY(1:5) == 'RIGID') IRODDL0 = 1
          IF (KEY(1:5) == 'LAW68' .OR. KEY(1:5) == 'COSSE') IISROT = 1
       ENDDO
 C--------------------------------------------
