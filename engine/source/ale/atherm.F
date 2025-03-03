@@ -45,8 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2   VAL2,       T,          ALE_CONNECT,IXS,
      3   IXQ,        FV,         X,          BUFMAT,
      4   TF,         NPF,        NERCVOIS,   NESDVOIS,
-     5   LERCVOIS,   LESDVOIS,   LENCOM,     IPM,
-     6   NEL)
+     5   LERCVOIS,   LESDVOIS,   LENCOM,     IPM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -72,7 +71,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NEL
       INTEGER  IPARG(NPARG,NGROUP), IXS(NIXS,NUMELS), IXQ(7,NUMELQ), NPF(*),
      .         NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),
      .         IPM(NPROPMI,NUMMAT), LENCOM
@@ -83,7 +81,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NG, I, J, NPH1, NPH2, NPH3, IADBUF
-      INTEGER MAT(MVSIZ)
+      INTEGER MAT(MVSIZ),NEL
       my_real RK, RE, R, YP0, XMU, AX, E, A, CMU, RPR, YPLUS, P, XMT
       my_real, DIMENSION(:) ,POINTER :: PH1,PH2,PH3
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
@@ -92,9 +90,7 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
       DO NG=1,NGROUP
         IF(IPARG(8,NG) == 1)CYCLE
-c     
-C     ALE ON / OFF
-        IF (IPARG(76, NG) == 1) CYCLE ! --> OFF
+        IF (IPARG(76, NG) == 1) CYCLE ! --> OFF  (ALE ON/OFF)
         GBUF => ELBUF_TAB(NG)%GBUF
         CALL INITBUF(IPARG    ,NG      ,                  
      2     MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,   
@@ -105,9 +101,10 @@ C     ALE ON / OFF
      7     ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
         IF((ITY /= 1).AND.(ITY /= 2))CYCLE
         IF (MTN == 1)CYCLE
-c
+
         LFT=1
-c
+        NEL = IPARG(2, NG)
+
         IF(N2D == 0)THEN
           DO I=LFT,LLT
             MAT(I)=IXS(1,I+NFT)
@@ -117,7 +114,7 @@ c
             MAT(I)=IXQ(1,I+NFT)
           ENDDO
         ENDIF
-c
+
         DO I=LFT,LLT
           J=I+NFT
           T(J) = GBUF%TEMP(I)
@@ -127,7 +124,7 @@ c
             VAL2(J)=PM(77,MAT(I))+PM(78,MAT(I))*T(J)
           ENDIF
         ENDDO
-c
+
         IF (MTN == 17)THEN
           DO I=LFT,LLT
            J=I+NFT
@@ -147,14 +144,12 @@ c
             VAL2(J)=VAL2(J) * RPR*AX*YPLUS / (A*LOG(E*YPLUS) + AX*P)
           ENDDO!next I
         ELSEIF (MTN == 18)THEN
-          CALL M18TH(
-     1   GBUF%TEMP,VAL2,     MAT,      PM,
-     2   IPM,      TF,       NPF,      NEL)
+          CALL M18TH( GBUF%TEMP,VAL2,     MAT,      PM,
+     2                IPM,      TF,       NPF,      NEL)
         ELSEIF (MTN == 26)THEN
-          CALL M26TH(
-     1   MAT,      GBUF%RHO, GBUF%TEMP,VAL2,
-     2   PM,       BUFMAT,   GBUF%RE,  NEL,
-     3   NFT)
+          CALL M26TH( MAT,      GBUF%RHO, GBUF%TEMP,VAL2,
+     2                PM,       BUFMAT,   GBUF%RE,  NEL,
+     3                NFT)
         ELSEIF (MTN == 51) THEN
           NPH1 = (M51_N0PHAS)*LLT
           NPH2 = (M51_N0PHAS + M51_NVPHAS)*LLT
@@ -163,9 +158,8 @@ c
           PH1 =>ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(NPH1+1:NPH1+1+LLT)
           PH2 =>ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(NPH2+1:NPH2+1+LLT)
           PH3 =>ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(NPH3+1:NPH3+1+LLT)
-          CALL M51TH(
-     1   T(1+NFT),      PH1,           PH2,           PH3,
-     2   BUFMAT(IADBUF),VAL2(1+NFT),   NEL)
+          CALL M51TH( T(1+NFT),      PH1,           PH2,           PH3,
+     2                BUFMAT(IADBUF),VAL2(1+NFT),   NEL)
         ELSEIF (JTUR /= 0.AND.MTN /= 11) THEN
           DO I=LFT,LLT
             J=I+NFT
@@ -182,15 +176,14 @@ c
 C-----------------------------
 C       SPMD EXCHANGE T, VAL2
 C-----------------------------
-        IF (NSPMD > 1)
-     1    CALL SPMD_EVOIS(T       ,VAL2  ,NERCVOIS,NESDVOIS,LERCVOIS,
-     2                    LESDVOIS,LENCOM)
+        IF (NSPMD > 1)THEN
+          CALL SPMD_EVOIS(T, VAL2, NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
+        ENDIF
 C------------------------------
 C     IMPOSED FLUX
 C------------------------------
       DO NG=1,NGROUP
-C     ALE ON / OFF
-        IF (IPARG(76, NG) == 1) CYCLE ! --> OFF
+        IF (IPARG(76, NG) == 1) CYCLE ! --> OFF (ALE ON/OFF)
         MTN=IPARG(1,NG)
         IF (MTN /= 11) CYCLE
         JTHE=IPARG(13,NG)
@@ -205,11 +198,9 @@ C     ALE ON / OFF
           CALL AFIMP2(PM,X,IXQ,T,FLUX(4*NFT+1),VAL2,ALE_CONNECT,FV)
         ENDIF
       ENDDO
-C
-      DO NG=1,NGROUP
-C     ALE ON / OFF
-        IF (IPARG(76, NG) == 1) CYCLE ! --> OFF
 
+      DO NG=1,NGROUP
+        IF (IPARG(76, NG) == 1) CYCLE ! --> OFF (ALE ON/OFF)
         GBUF => ELBUF_TAB(NG)%GBUF
         CALL INITBUF(IPARG    ,NG      ,                  
      2     MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,   
@@ -221,9 +212,9 @@ C     ALE ON / OFF
         IF (IPARG(8,NG) == 1)CYCLE
         IF (JTHE /= 1 .OR. ITY == 51)CYCLE
         LFT=1
+        NEL = IPARG(2, NG)
         IF (MTN == 51)THEN
           DO I=LFT,LLT
-c            EV(NB11+I-1) = ZERO
             GBUF%TEMP(I) = ZERO
           ENDDO
           IF (N2D == 0) THEN                                            

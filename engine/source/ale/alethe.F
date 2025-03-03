@@ -63,7 +63,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      A   IPM,        QMV,        ITAB,       ITABM1,
      B   LENQMV,     NV46,
      C   VOLN,       IAD_ELEM    ,GLOB_THERM   ,
-     D   FR_ELEM,    NEL,        IXTG)
+     D   FR_ELEM,    IXTG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -88,7 +88,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NEL
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
 
       INTEGER IPARG(NPARG,NGROUP), IXS(NIXS,NUMELS), IXQ(NIXQ,NUMELQ),NPF(*),
@@ -145,8 +144,7 @@ C----------------------
      2   VAL2,       PHI,        ALE_CONNECT,IXS,
      3   IXQ,        FV,         X,          BUFMAT,
      4   TF,         NPF,        NERCVOIS,   NESDVOIS,
-     5   LERCVOIS,   LESDVOIS,   LENCOM,     IPM,
-     6   NEL)
+     5   LERCVOIS,   LESDVOIS,   LENCOM,     IPM )
           ENDIF
 C------------------------
           CALL MY_BARRIER
