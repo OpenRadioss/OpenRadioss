@@ -98,6 +98,7 @@
       !||    sigeps126              ../engine/source/materials/mat/mat126/sigeps126.F90
       !||    sigeps127              ../engine/source/materials/mat/mat127/sigeps127.F90
       !||    sigeps128s             ../engine/source/materials/mat/mat128/sigeps128s.F90
+      !||    sigeps134s             ../engine/source/materials/mat/mat134/sigeps134s.F90     
       !||    sigeps163              ../engine/source/materials/mat/mat163/sigeps163.F90
       !||    sigeps187              ../engine/source/materials/mat/mat187/sigeps187.F
       !||    sigeps190              ../engine/source/materials/mat/mat190/sigeps190.F
@@ -238,6 +239,7 @@
       use sigeps126_mod
       use sigeps127_mod
       use sigeps128s_mod
+      use sigeps134s_mod
       use sigeps163_mod
       use fail_spalling_s_mod
       use prop_param_mod
@@ -2054,6 +2056,14 @@
                  s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,  &
                  lbuf%seq ,sigy     ,et       ,defp     ,dpla     ,epsd     ,  &
                  ssp      ,off      ,l_sigb   ,lbuf%sigb)
+!
+          elseif (mtn == 134) then
+            call sigeps134s(mat_elem%mat_param(imat)    ,                      &
+                 &nel      ,nuvar    ,uvar     , rho     , dt1               ,  &
+                 &de1      ,de2      ,de3      ,de4      ,de5      ,de6      ,  &
+                 &so1      ,so2      ,so3      ,so4      ,so5      ,so6      ,  &
+                 &s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,  &
+                 &ssp      ,off      )  
 !
           elseif (mtn == 163) then
             call sigeps163(                                                    &
