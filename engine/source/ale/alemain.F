@@ -270,25 +270,25 @@ C-----------------------------------------------
 
 C  IOUTPRT (assembly report)   
          IOUTPRT = 0
-         IF(MOD(NCYCLE,IABS(NCPRI)) == 0.OR.TT >= OUTPUT%TH%THIS.OR.MDESS /= 0.
-     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= OUTPUT%TH%THIS).
-     .   OR.TT >= OUTPUT%TH%THIS1(1).OR.TT >= OUTPUT%TH%THIS1(2).
-     .   OR.TT >= OUTPUT%TH%THIS1(3).OR.TT >= OUTPUT%TH%THIS1(4).OR.TT >= OUTPUT%TH%THIS1(5).
-     .   OR.TT >= OUTPUT%TH%THIS1(6).OR.TT >= OUTPUT%TH%THIS1(7).OR.TT >= OUTPUT%TH%THIS1(8).
-     .   OR.TT >= OUTPUT%TH%THIS1(9).OR.NTH /= 0.OR.NANIM /= 0          .
-     .   OR.TT >= TABFIS(1).OR.TT >= TABFIS(2).
-     .   OR.TT >= TABFIS(3).OR.TT >= TABFIS(4).OR.TT >= TABFIS(5).
-     .   OR.TT >= TABFIS(6).OR.TT >= TABFIS(7).OR.TT >= TABFIS(8).
-     .   OR.TT >= TABFIS(9).OR.TT >= TABFIS(10).
-     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= OUTPUT%TH%THIS1(1)).
-     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= OUTPUT%TH%THIS1(2)).
-     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= OUTPUT%TH%THIS1(3)).
-     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= OUTPUT%TH%THIS1(4)).
-     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= OUTPUT%TH%THIS1(5)).
-     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= OUTPUT%TH%THIS1(6)).
-     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= OUTPUT%TH%THIS1(7)).
-     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= OUTPUT%TH%THIS1(8)).
-     .   OR.(ALE%SUB%IALESUB /= 0.AND.T1S+DT2S >= OUTPUT%TH%THIS1(9)).OR.ISTAT==3) IOUTPRT=1
+         IF(MOD(NCYCLE,IABS(NCPRI)) == 0 .OR. TT >= OUTPUT%TH%THIS .OR. MDESS /= 0
+     .    .OR. (ALE%SUB%IALESUB /= 0 .AND. T1S+DT2S >= OUTPUT%TH%THIS)
+     .    .OR. TT >= OUTPUT%TH%THIS1(1) .OR. TT >= OUTPUT%TH%THIS1(2)
+     .    .OR. TT >= OUTPUT%TH%THIS1(3) .OR. TT >= OUTPUT%TH%THIS1(4) .OR. TT >= OUTPUT%TH%THIS1(5)
+     .    .OR. TT >= OUTPUT%TH%THIS1(6) .OR. TT >= OUTPUT%TH%THIS1(7) .OR. TT >= OUTPUT%TH%THIS1(8)
+     .    .OR. TT >= OUTPUT%TH%THIS1(9) .OR. NTH /= 0 .OR. NANIM /= 0
+     .    .OR. TT >= TABFIS(1) .OR. TT >= TABFIS(2)
+     .    .OR. TT >= TABFIS(3) .OR. TT >= TABFIS(4) .OR. TT >= TABFIS(5)
+     .    .OR. TT >= TABFIS(6) .OR. TT >= TABFIS(7) .OR. TT >= TABFIS(8)
+     .    .OR. TT >= TABFIS(9) .OR. TT >= TABFIS(10)
+     .    .OR. (ALE%SUB%IALESUB /= 0 .AND. T1S+DT2S >= OUTPUT%TH%THIS1(1))
+     .    .OR. (ALE%SUB%IALESUB /= 0 .AND. T1S+DT2S >= OUTPUT%TH%THIS1(2))
+     .    .OR. (ALE%SUB%IALESUB /= 0 .AND. T1S+DT2S >= OUTPUT%TH%THIS1(3))
+     .    .OR. (ALE%SUB%IALESUB /= 0 .AND. T1S+DT2S >= OUTPUT%TH%THIS1(4))
+     .    .OR. (ALE%SUB%IALESUB /= 0 .AND. T1S+DT2S >= OUTPUT%TH%THIS1(5))
+     .    .OR. (ALE%SUB%IALESUB /= 0 .AND. T1S+DT2S >= OUTPUT%TH%THIS1(6))
+     .    .OR. (ALE%SUB%IALESUB /= 0 .AND. T1S+DT2S >= OUTPUT%TH%THIS1(7))
+     .    .OR. (ALE%SUB%IALESUB /= 0 .AND. T1S+DT2S >= OUTPUT%TH%THIS1(8))
+     .    .OR. (ALE%SUB%IALESUB /= 0 .AND. T1S+DT2S >= OUTPUT%TH%THIS1(9)) .OR. ISTAT==3) IOUTPRT=1
       
       ALLOCATE(QMV(2*NV46,LENQMV)) !MM-ALE 51 only                       !OPTIM : SHOULD BE ALLOCATED IN ARRALOC
       IF(M51_IFLG6 == 1)SBUFVOIS = M51_IFLG6_SIZE
@@ -739,25 +739,25 @@ C     -------------------------
 ! CONVECTION, CONDUCTION, REZONING               !
 !------------------------------------------------! 
             CALL ALETHE(
-     1   IPARG,           ELBUF_TAB,       WA,              VAL2,
-     2   PHI,             ALE_CONNECTIVITY,IXS,             IXQ,
-     3   V,               W,               X,               PM,
-     4   MS,              VEUL,            FILL,            DFILL,
-     5   ALPH,            FV,              BUFMAT,          TF,
-     6   NPC,             ITASK,           NBRCVOIS,        NBSDVOIS,
-     7   LNRCVOIS,        LNSDVOIS,        NERCVOIS,        NESDVOIS,
-     8   LERCVOIS,        LESDVOIS,        IADS,            SEGVAR,
-     9   MSNF,            NODFT,           NODLT,           WA(IADBH),
-     A   IPM,             QMV,             ITAB,            ITABM1,
-     B   LENQMV,          NV46,
-     C   VOLN,            IAD_ELEM,        GLOB_THERM,
-     D   FR_ELEM,         NEL,             IXTG)
+     1                   IPARG,           ELBUF_TAB,       WA,              VAL2,
+     2                   PHI,             ALE_CONNECTIVITY,IXS,             IXQ,
+     3                   V,               W,               X,               PM,
+     4                   MS,              VEUL,            FILL,            DFILL,
+     5                   ALPH,            FV,              BUFMAT,          TF,
+     6                   NPC,             ITASK,           NBRCVOIS,        NBSDVOIS,
+     7                   LNRCVOIS,        LNSDVOIS,        NERCVOIS,        NESDVOIS,
+     8                   LERCVOIS,        LESDVOIS,        IADS,            SEGVAR,
+     9                   MSNF,            NODFT,           NODLT,           WA(IADBH),
+     A                   IPM,             QMV,             ITAB,            ITABM1,
+     B                   LENQMV,          NV46,
+     C                   VOLN,            IAD_ELEM,        GLOB_THERM,
+     D                   FR_ELEM,         IXTG)
          ENDIF
       ELSE
-         ALE%SUB%IFSUBM=0
-          ENDIF
+        ALE%SUB%IFSUBM=0
+      ENDIF
 C
-          CALL MY_BARRIER
+      CALL MY_BARRIER
 C
          !---------------------------------------------
          !     MULTIMATERIAL - LAW20(BIMAT)
@@ -767,7 +767,7 @@ C
               IMS(N)=0
               DO M=1,NMULT
                 IFILL(N,M)=-2
-                DFILL(N,M)=0.
+                DFILL(N,M)=ZERO
               ENDDO
             ENDDO
           ENDIF
@@ -975,7 +975,7 @@ C
      1              V       ,NBRCVOIS,NBSDVOIS,LNRCVOIS,LNSDVOIS,
      2              LENCOM  )
                  ! to be optimized depending on combination of options
-                 IF(ALE%GLOBAL%INCOMP == 1.OR. ITURB + GLOB_THERM%ITHERM == 0)
+                 IF(ALE%GLOBAL%INCOMP == 1 .OR. ITURB + GLOB_THERM%ITHERM == 0)
      .             CALL SPMD_XVOIS(X,NBRCVOIS,NBSDVOIS,LNRCVOIS,LNSDVOIS,LENCOM  )
                    ! comm adjacent elems
                  CALL SPMD_L11VOIS(
