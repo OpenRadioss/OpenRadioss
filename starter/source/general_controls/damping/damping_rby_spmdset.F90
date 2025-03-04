@@ -101,16 +101,16 @@
                       id_rby = npby(13,j)
                     endif
                   endif  
-                endif
-                if (id_rby == 0) then!  rbody not found    
-                  call ancmsg(msgid=3048,                   &
-                              msgtype=msgerror,             &
-                              anmode=aninfo,                &
-                              i1=id_damp,                   &
-                              i2=id_rby_user)
-                endif  
+                endif 
               enddo
-            dampr(25,nd) = id_rby
+              if (id_rby == 0) then!  rbody not found    
+                call ancmsg(msgid=3048,                   &
+                            msgtype=msgerror,             &
+                            anmode=aninfo,                &
+                            i1=id_damp,                   &
+                            i2=id_rby_user)
+              endif 
+              dampr(25,nd) = id_rby
             endif
           enddo
 !
