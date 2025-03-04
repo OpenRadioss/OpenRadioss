@@ -2135,7 +2135,7 @@
                       &nel       ,nupar     ,nfunc_fail,ifunc_fail ,&
                       &npf       ,tf        ,tt        ,uparamf    ,&
                       &ngl       ,ipg       ,ilayer    ,it         ,&
-                      &epsxx     ,epsyy     ,epsxy     ,&
+                      &epsxx     ,epsyy     ,epsxy     ,lf_dammx   ,&
                       &depsxx    ,depsyy    ,depsxy    ,el_pla     ,&
                       &zt        ,off       ,foff      ,tdel       ,&
                       &fld_idx   ,dam       ,dfmax     ,dt1        ,&

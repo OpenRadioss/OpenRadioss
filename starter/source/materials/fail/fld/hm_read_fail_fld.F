@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE HM_READ_FAIL_FLD(FAIL , 
      .           MAT_ID   ,FAIL_ID  ,IRUPT    ,IXFEM    ,
-     .           LSUBMODEL,UNITAB   )
+     .           LSUBMODEL,UNITAB   ,FAIL_TAG )
 C-----------------------------------------------
 c    ROUTINE DESCRIPTION :
 c    Read FLD failure model parameters
@@ -48,6 +48,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD 
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD 
+      USE ELBUFTAG_MOD            
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,6 +67,7 @@ C-----------------------------------------------
       TYPE (SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)  ! submodel table 
       INTEGER             ,INTENT(INOUT) :: IXFEM      ! XFEM activation flag
       TYPE (FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL       ! failure model data structure
+      TYPE (FAIL_TAG_)    ,INTENT(INOUT) :: FAIL_TAG   ! failure model tag for buffer allocation
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -149,13 +151,14 @@ c---------------------------
       FAIL%NUVAR   = 3
       FAIL%NFUNC   = NFUNC
       FAIL%NTABLE  = 0
-      FAIL%NMOD    = 0
+      FAIL%NMOD    = 2
       FAIL%PTHK    = PTHKF
 c            
       ALLOCATE (FAIL%UPARAM(FAIL%NUPARAM))
       ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
       ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
       ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
+      ALLOCATE (FAIL%MODE  (FAIL%NMOD))
 c
       FAIL%IFUNC(1:NFUNC) = IFUNC(1:NFUNC)
 c
@@ -169,6 +172,12 @@ c
       FAIL%IPARAM(1) = IFAIL_SH
       FAIL%IPARAM(2) = IMARGIN
       FAIL%IPARAM(3) = IENG
+c
+      FAIL%MODE(1) = "FLDF Damage factor"
+      FAIL%MODE(2) = "FLDZ Failure zone factor"
+      FAIL_TAG%LF_DAMMX = 1 + FAIL%NMOD
+      FAIL_TAG%LF_DAM   = 1 ! damage factor for ANIM output
+      FAIL_TAG%LF_INDX  = 1 ! FLD zone index for ANIM output
 c
 c--------------------------------------------------
       IF (IS_ENCRYPTED) THEN

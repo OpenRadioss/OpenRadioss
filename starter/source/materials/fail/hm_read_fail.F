@@ -314,9 +314,7 @@ c
               IRUPT = 7    
               CALL HM_READ_FAIL_FLD(MAT_PARAM(IMAT)%FAIL(IFL),
      .             MAT_ID   ,FAIL_ID  ,IRUPT    ,IXFEM    ,
-     .             LSUBMODEL,UNITAB   )
-              FAIL_TAG(IRUPT)%LF_DAM  = 1    ! damage factor for ANIM output
-              FAIL_TAG(IRUPT)%LF_INDX = 1    ! FLD zone index for ANIM output
+     .             LSUBMODEL,UNITAB   ,FAIL_TAG(IRUPT))
 c     
             ELSEIF (KEY(1:5) == 'SPALL') THEN
               IRUPT = 8    
