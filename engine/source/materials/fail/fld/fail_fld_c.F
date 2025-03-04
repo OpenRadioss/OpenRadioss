@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1     NEL      ,NUPARAM  ,NFUNC    ,IFUNC    ,
      2     NPF      ,TF       ,TIME     ,UPARAM   ,
      3     NGL      ,IPG      ,ILAY     ,IPTT     ,
-     4     EPSXX    ,EPSYY    ,EPSXY    ,
+     4     EPSXX    ,EPSYY    ,EPSXY    ,LF_DAMMX ,
      5     DEPSXX   ,DEPSYY   ,DEPSXY   ,PLA      ,
      6     ZT       ,OFF      ,FOFF     ,TDEL     ,
      7     FLD_IDX  ,DAM      ,DFMAX    ,DT1      ,
@@ -76,7 +76,8 @@ C IPT                         CURRENT INTEGRATION POINT IN THE LAYER (FOR OUTPUT
 C---------+---------+---+---+--------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NEL,NUPARAM,NFUNC,IPG,ILAY,IPTT,NIPARAM,NUVAR
+      INTEGER, INTENT(IN) :: NEL,NUPARAM,NFUNC,IPG,ILAY,IPTT,NIPARAM,NUVAR,
+     .   LF_DAMMX
       INTEGER, DIMENSION(NEL)   :: NGL
       INTEGER, DIMENSION(NFUNC) :: IFUNC
       INTEGER, DIMENSION(NIPARAM) :: IPARAM
@@ -88,7 +89,7 @@ C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
       INTEGER ,DIMENSION(NEL), INTENT(INOUT) :: FOFF,FLD_IDX
-      my_real ,DIMENSION(NEL), INTENT(INOUT) :: DFMAX
+      my_real ,DIMENSION(NEL,LF_DAMMX), INTENT(INOUT) :: DFMAX
       my_real ,DIMENSION(NEL), INTENT(INOUT) :: DAM,TDEL
       my_real, DIMENSION(NEL,NUVAR), INTENT(INOUT) :: UVAR
 C-----------------------------------------------
@@ -206,9 +207,10 @@ c
 #include "vectorize.inc"
         DO J = 1,NINDX
           I = INDX(J)
-          EM(I)    = FINTERFLD(EMIN(I),LENF,XF)
-          DAM(I)   = EMAJ(I) / EM(I)
-          DFMAX(I) = MIN(ONE, DAM(I))
+          EM(I)      = FINTERFLD(EMIN(I),LENF,XF)
+          DAM(I)     = EMAJ(I) / EM(I)
+          DFMAX(I,2) = DAM(I)
+          DFMAX(I,1) = MIN(ONE, DAM(I))
         ENDDO
         DEALLOCATE(XF)
       ! -> True strains input
@@ -229,7 +231,8 @@ c
             I = INDX(J)
             EM(I) = Y_LOC(J)
             DAM(I) = EMAJ(I) / EM(I)
-            DFMAX(I) = MIN(ONE,DAM(I))
+            DFMAX(I,2) = DAM(I)
+            DFMAX(I,1) = MIN(ONE,DAM(I))
           ENDDO    
         ! -> Non-linear path formulation
         ELSEIF (IENG == 2) THEN
@@ -247,7 +250,8 @@ c
             I = INDX(J)
             EM(I) = Y_LOC(J)
             DAM(I) = MAX(PLA(I) / EM(I),DAM(I))
-            DFMAX(I) = MIN(ONE,DAM(I))
+            DFMAX(I,2) = DAM(I)
+            DFMAX(I,1) = MIN(ONE,DAM(I))
           ENDDO             
         ENDIF
       ENDIF 
@@ -276,6 +280,7 @@ c
             ELSE
               FLD_IDX(I) = 2      ! zone 2  - high wrinkle tendency
             ENDIF
+            DFMAX(I,3) = FLD_IDX(I)
           ENDDO
         ELSE
 #include "vectorize.inc"
@@ -294,6 +299,7 @@ c
             ELSE
               FLD_IDX(I) = 2      ! zone 2  - high wrinkle tendency
             ENDIF
+            DFMAX(I,3) = FLD_IDX(I)
           ENDDO
         ENDIF
       ELSE 
@@ -314,6 +320,7 @@ c
             ELSE
               FLD_IDX(I) = MAX(2,FLD_IDX(I))      ! zone 2  - high wrinkle tendency
             ENDIF
+            DFMAX(I,3) = FLD_IDX(I)
           ENDDO
         ELSE
 #include "vectorize.inc"
@@ -332,6 +339,7 @@ c
             ELSE
               FLD_IDX(I) = MAX(2,FLD_IDX(I))      ! zone 2  - high wrinkle tendency
             ENDIF
+            DFMAX(I,3) = FLD_IDX(I)
           ENDDO
         ENDIF
       ENDIF
