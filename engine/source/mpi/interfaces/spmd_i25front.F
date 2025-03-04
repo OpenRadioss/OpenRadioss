@@ -81,6 +81,8 @@ C-----------------------------------------------
       NINTER25E = 0
       DO NIN = 1,NINTER
         INTBUF_TAB(NIN)%MPI_COMM = MPI_COMM_NULL
+        INTBUF_TAB(NIN)%RANK = -1
+        INTBUF_TAB(NIN)%NSPMD = 0
         INTBUF_TAB(NIN)%NB_INTERNAL_EDGES = 0
         INTBUF_TAB(NIN)%NB_BOUNDARY_EDGES_LOCAL = 0
         INTBUF_TAB(NIN)%NB_BOUNDARY_EDGES_REMOTE = 0
