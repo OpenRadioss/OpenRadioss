@@ -277,6 +277,8 @@ C
                       IF(INTERFRIC>0) THEN
                           EFRIC(INTERFRIC,NOD)= EFRIC(INTERFRIC,NOD)+ BBUFR(L+LEN*(I-1)+LF+1)
                           LF = LF+1
+                      ELSEIF(NINEFRIC>0) THEN
+                        LF=LF+1
                       ENDIF
                       IF(N_SCAL_CSE_EFRIC>0) THEN
                          EFRICG(NOD)= EFRICG(NOD)+ BBUFR(L+LEN*(I-1)+LF+1)

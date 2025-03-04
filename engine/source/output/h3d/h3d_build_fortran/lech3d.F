@@ -2542,7 +2542,8 @@ c        DO J=1,H3D_DATA%OUTPUT_LIST(I)%N_H3D_PART_LIST
 c          print *,'liste des parts',H3D_DATA%OUTPUT_LIST(I)%H3D_PART_LIST(J)
 c        ENDDO
 c      ENDDO
-
+C
+        H3D_DATA%N_SCAL_CSE_FRICINT = NINEFRIC
         IF (H3D_DATA%N_SCAL_CSE_FRICINT > 0)THEN
           ! Allocate INTERFACE Remote EFRICFI Array
           DO I=1,NINTER
