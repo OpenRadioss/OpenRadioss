@@ -2551,16 +2551,16 @@ C all NPTT for PID51
 
         !---Volumetric Strain EoS
         IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Volumetric Strain',17)
-        IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Volumetric Strain - 1',20)
-        IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Volumetric Strain - 2',20)
-        IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Volumetric Strain - 3',20)
-        IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Volumetric Strain - 4',20)
-        IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Volumetric Strain - 5',20)
-        IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Volumetric Strain - 6',20)
-        IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Volumetric Strain - 7',20)
-        IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Volumetric Strain - 8',20)
-        IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Volumetric Strain - 9',20)
-        IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Volumetric Strain - 10',20)
+        IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Volumetric Strain - 1',21)
+        IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Volumetric Strain - 2',21)
+        IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Volumetric Strain - 3',21)
+        IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Volumetric Strain - 4',21)
+        IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Volumetric Strain - 5',21)
+        IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Volumetric Strain - 6',21)
+        IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Volumetric Strain - 7',21)
+        IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Volumetric Strain - 8',21)
+        IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Volumetric Strain - 9',21)
+        IDX=IDX+1; IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Volumetric Strain - 10',22)
 
         !---NEXT ANIM
         !IDX=IDX+1
@@ -4687,6 +4687,16 @@ C
         ENDDO
         IF(ANIM_SE(5172)==1)CALL ANI_TXT('Region identifier in p,v diagram',32)
         IF(ANIM_SE(5173)==1)CALL ANI_TXT('Volumetric Strain',17)
+        IF(ANIM_SE(5174)==1)CALL ANI_TXT('Volumetric Strain - 1',21)
+        IF(ANIM_SE(5175)==1)CALL ANI_TXT('Volumetric Strain - 2',21)
+        IF(ANIM_SE(5176)==1)CALL ANI_TXT('Volumetric Strain - 3',21)
+        IF(ANIM_SE(5177)==1)CALL ANI_TXT('Volumetric Strain - 4',21)
+        IF(ANIM_SE(5178)==1)CALL ANI_TXT('Volumetric Strain - 5',21)
+        IF(ANIM_SE(5179)==1)CALL ANI_TXT('Volumetric Strain - 6',21)
+        IF(ANIM_SE(5180)==1)CALL ANI_TXT('Volumetric Strain - 7',21)
+        IF(ANIM_SE(5181)==1)CALL ANI_TXT('Volumetric Strain - 8',21)
+        IF(ANIM_SE(5182)==1)CALL ANI_TXT('Volumetric Strain - 9',21)
+        IF(ANIM_SE(5183)==1)CALL ANI_TXT('Volumetric Strain - 10',22)
         
 C-----------------------------------------------                                         
       ENDIF !(ISPMD==0)
@@ -6461,10 +6471,11 @@ C     Default output for SPH - diameter + nb of neignbours
         CALL DFUNC0(ELBUF_TAB ,WAFT            ,IFUNC    ,IPARG   ,
      2              MAS       ,PM              ,EL2FA    ,NNN     ,
      3              NBPART    ,IADG            ,SPBUF    ,IPART   ,
-     4              IPARTSP   ,ALE_CONNECTIVITY,IXQ      ,IPM     ,
+     4              IPARTSP   ,ALE_CONNECTIVITY,IPM      ,
      5              X         ,V               ,W        ,GLOB_THERM%ITHERM,
      6              NERCVOIS  ,NESDVOIS        ,LERCVOIS ,LESDVOIS,
-     7              BUFMAT    ,MULTI_FVM       ,KXSP     ,DEFAULT_OUTPUT)
+     7              BUFMAT    ,MULTI_FVM       ,KXSP     ,DEFAULT_OUTPUT,
+     8              MAT_PARAM)
       ENDDO
 C      
 C     other output for SPH
@@ -6475,10 +6486,11 @@ C     other output for SPH
           CALL DFUNC0(ELBUF_TAB ,WAFT            ,IFUNC    ,IPARG   ,
      2                MAS       ,PM              ,EL2FA    ,NNN     ,
      3                NBPART    ,IADG            ,SPBUF    ,IPART   ,
-     4                IPARTSP   ,ALE_CONNECTIVITY,IXQ      ,IPM     ,
+     4                IPARTSP   ,ALE_CONNECTIVITY,IPM      ,
      5                X         ,V               ,W        ,GLOB_THERM%ITHERM,
      6                NERCVOIS  ,NESDVOIS        ,LERCVOIS ,LESDVOIS,
-     7                BUFMAT    ,MULTI_FVM       ,KXSP     ,DEFAULT_OUTPUT)
+     7                BUFMAT    ,MULTI_FVM       ,KXSP     ,DEFAULT_OUTPUT,
+     8                MAT_PARAM)
         ENDIF 
       ENDDO
 C-----------------------------------------------

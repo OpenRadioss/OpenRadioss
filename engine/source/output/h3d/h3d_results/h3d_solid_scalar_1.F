@@ -49,15 +49,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE H3D_SOLID_SCALAR_1(CALLED_FROM_PYTHON,
      .                  ELBUF_TAB       ,SOLID_SCALAR ,IPARG       ,
-     .                  IXS          ,PM          ,BUFMAT      ,
-     .                  EHOUR        ,
-     .                  IPM            ,
-     .                  X            ,V         ,W           ,ALE_CONNECT ,
-     .                  ID_ELEM      ,ITY_ELEM  ,IPARTS      ,LAYER_INPUT ,
-     .                  IR_INPUT        ,IS_INPUT     ,IT_INPUT  ,IUVAR_INPUT ,H3D_PART    ,
-     .                  IS_WRITTEN_SOLID,INFO1        ,KEYWORD   ,FANI_CELL   ,
-     .                  MULTI_FVM       , NG        ,IDMDS       ,IMDSVAR     ,
-     .                  ID              ,MAT_PARAM ,MODE        )
+     .                  IXS             ,PM           ,BUFMAT      ,
+     .                  EHOUR           ,
+     .                  IPM             ,
+     .                  X               ,V            ,W           ,ALE_CONNECT ,
+     .                  ID_ELEM         ,ITY_ELEM     ,IPARTS      ,LAYER_INPUT ,
+     .                  IR_INPUT        ,IS_INPUT     ,IT_INPUT    ,IUVAR_INPUT , H3D_PART    ,
+     .                  IS_WRITTEN_SOLID,INFO1        ,KEYWORD     ,FANI_CELL   ,
+     .                  MULTI_FVM       ,NG           ,IDMDS       ,IMDSVAR     ,
+     .                  ID              ,MAT_PARAM    ,MODE        )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -142,14 +142,20 @@ C-----------------------------------------------
         LOGICAL DETECTED
         CHARACTER*5 BUFF
         TYPE(G_BUFEL_)  ,POINTER :: GBUF
-        TYPE(L_BUFEL_)  ,POINTER :: LBUF
+        TYPE(L_BUFEL_)  ,POINTER :: LBUF, LBUF1,LBUF2
         TYPE(BUF_MAT_)  ,POINTER :: MBUF
         TYPE(BUF_FAIL_) ,POINTER :: FBUF
         TYPE(BUF_EOS_)  ,POINTER :: EBUF
         my_real, DIMENSION(:), POINTER  :: UVARF,DAMF,DFMAX,TDELE
         my_real, DIMENSION(:) ,POINTER  :: UPARAM
         INTEGER :: ISUBMAT,NVAREOS,NTILLOTSON,IMAT_TILLOTSON
-
+        INTEGER :: MID,IERR
+        my_real :: vi(21) !< submaterial volumes at reference densities (max submat : 21)
+        my_real :: v0i(21) !< submaterial volumes at reference densities (max submat : 21)
+        my_real :: v0g !< global volume at reference density (mixture)
+        my_real :: RHO0i(21) !< submaterial initial mass densities (max submat : 21)
+        my_real :: RHOi(21) !< submaterial  mass densities (max submat : 21)
+        my_real :: RHO0g !< global initial mass density (mixture)
 C-----------------------------------------------
 
         CALL INITBUF(   IPARG   ,NG      ,
@@ -719,7 +725,7 @@ c UVAR=IUVAR
                     IF (ISOLNOD == 8 .AND. MLW == 59) THEN
 c                     output = global damage variables of /fail/connect
                       MT = IXS(1,NFT+1)
-                      IRUPT = MAT_PARAM(MT)%FAIL(1)%IRUPT
+                      IRUPT = mat_param(MT)%FAIL(1)%IRUPT
                       NFAIL = ELBUF_TAB(NG)%BUFLY(1)%NFAIL
                       IF (IRUPT == 20) THEN
                         NPTG = 4
@@ -1189,7 +1195,7 @@ c ILAYER=NULL IR=NULL IS=NULL IT=NULL
                   IF (ISOLNOD == 8 .AND. MLW == 83) THEN
 c                   output = damage variables of /fail/snconnect
                     MT = IXS(1,NFT+1)
-                    IRUPT = MAT_PARAM(MT)%FAIL(1)%IRUPT
+                    IRUPT = mat_param(MT)%FAIL(1)%IRUPT
                     NFAIL = ELBUF_TAB(NG)%BUFLY(1)%NFAIL! ng= ngroup
                     IF (IRUPT == 26) THEN
                       NPTG = 4
@@ -1214,7 +1220,7 @@ c ILAYER=NULL IR= IS= IT=
                   IF (ISOLNOD == 8 .AND. MLW == 83) THEN
 c                   output = damage variables of /fail/snconnect
                     MT = IXS(1,NFT+1)
-                    IRUPT = MAT_PARAM(MT)%FAIL(1)%IRUPT
+                    IRUPT = mat_param(MT)%FAIL(1)%IRUPT
                     NFAIL = ELBUF_TAB(NG)%BUFLY(1)%NFAIL! ng= ngroup
                     IF (IRUPT == 26) THEN
                       DO IIR=1,NFAIL
@@ -1239,7 +1245,7 @@ c ILAYER=NULL IR=NULL IS=NULL IT=NULL
                   IF (ISOLNOD == 8 .AND. MLW == 83) THEN
 c                   output = damage variables of /fail/snconnect
                     MT = IXS(1,NFT+1)
-                    IRUPT = MAT_PARAM(MT)%FAIL(1)%IRUPT
+                    IRUPT = mat_param(MT)%FAIL(1)%IRUPT
                     NFAIL = ELBUF_TAB(NG)%BUFLY(1)%NFAIL! ng= ngroup
                     IF (IRUPT == 26) THEN
                       NPTG = 4
@@ -1264,7 +1270,7 @@ c ILAYER=NULL IR= IS= IT=
                   IF (ISOLNOD == 8 .AND. MLW == 83) THEN
 c                   output = damage variables of /fail/snconnect
                     MT = IXS(1,NFT+1)
-                    IRUPT = MAT_PARAM(MT)%FAIL(1)%IRUPT
+                    IRUPT = mat_param(MT)%FAIL(1)%IRUPT
                     NFAIL = ELBUF_TAB(NG)%BUFLY(1)%NFAIL! ng= ngroup
                     IF (IRUPT == 26) THEN
                       DO IIR=1,NFAIL
@@ -1289,7 +1295,7 @@ c ILAYER=NULL IR=NULL IS=NULL IT=NULL
                   IF (ISOLNOD == 8 .AND. MLW == 83) THEN
 c                   output = damage variables of /fail/snconnect
                     MT = IXS(1,NFT+1)
-                    IRUPT = MAT_PARAM(MT)%FAIL(1)%IRUPT
+                    IRUPT = mat_param(MT)%FAIL(1)%IRUPT
                     NFAIL = ELBUF_TAB(NG)%BUFLY(1)%NFAIL! ng= ngroup
                     IF (IRUPT == 26) THEN
                       NPTG = 4
@@ -1314,7 +1320,7 @@ c ILAYER=NULL IR= IS= IT=
                   IF (ISOLNOD == 8 .AND. MLW == 83) THEN
 c                   output = damage variables of /fail/snconnect
                     MT = IXS(1,NFT+1)
-                    IRUPT = MAT_PARAM(MT)%FAIL(1)%IRUPT
+                    IRUPT = mat_param(MT)%FAIL(1)%IRUPT
                     NFAIL = ELBUF_TAB(NG)%BUFLY(1)%NFAIL! ng= ngroup
                     IF (IRUPT == 26) THEN
                       DO IIR=1,NFAIL
@@ -1437,9 +1443,9 @@ c ILAYER=NULL IR=NULL IS=NULL IT=NULL
                       NLAY_FAIL = 0
                       DO IL=1,NLAY
                         IMAT = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
-                        NFAIL = MAT_PARAM(IMAT)%NFAIL
+                        NFAIL = mat_param(IMAT)%NFAIL
                         DO IFAIL = 1,NFAIL
-                          FAIL_ID = MAT_PARAM(IMAT)%FAIL(IFAIL)%FAIL_ID
+                          FAIL_ID = mat_param(IMAT)%FAIL(IFAIL)%FAIL_ID
                           IF (FAIL_ID == ID) THEN
                             DO IS=1,NPTS
                               DO IT=1,NPTT
@@ -1466,9 +1472,9 @@ c ILAYER=NULL IR= IS= IT=
                         NLAY_FAIL = 0
                         DO IL=1,NLAY
                           IMAT = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
-                          NFAIL = MAT_PARAM(IMAT)%NFAIL
+                          NFAIL = mat_param(IMAT)%NFAIL
                           DO IFAIL = 1,NFAIL
-                            FAIL_ID = MAT_PARAM(IMAT)%FAIL(IFAIL)%FAIL_ID
+                            FAIL_ID = mat_param(IMAT)%FAIL(IFAIL)%FAIL_ID
                             IF (FAIL_ID == ID) THEN
                               FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IIR,IS,IT)
                               VALUE(I) = VALUE(I) + FBUF%FLOC(IFAIL)%DAMMX(I)
@@ -1483,9 +1489,9 @@ c ILAYER=NULL IR= IS= IT=
                   ELSEIF ( ILAY > 0 .AND. ILAY <= NLAY .AND. IR >= 0 .AND. IR <= NPTR .AND.
      .                     IS >= 0 .AND.  IS <= NPTS) THEN
                     IMAT = ELBUF_TAB(NG)%BUFLY(ILAY)%IMAT
-                    NFAIL = MAT_PARAM(IMAT)%NFAIL
+                    NFAIL = mat_param(IMAT)%NFAIL
                     DO IFAIL = 1,NFAIL
-                      FAIL_ID = MAT_PARAM(IMAT)%FAIL(IFAIL)%FAIL_ID
+                      FAIL_ID = mat_param(IMAT)%FAIL(IFAIL)%FAIL_ID
                       IF (FAIL_ID == ID) THEN
                         FBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%FAIL(IR,IS,IT)
                         DO I = 1,NEL
@@ -1502,10 +1508,10 @@ c ILAYER=NULL IR=NULL IS=NULL IT=NULL
                       NLAY_FAIL = 0
                       DO IL=1,NLAY
                         IMAT = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
-                        NFAIL = MAT_PARAM(IMAT)%NFAIL
+                        NFAIL = mat_param(IMAT)%NFAIL
                         DO IFAIL = 1,NFAIL
-                          FAIL_ID = MAT_PARAM(IMAT)%FAIL(IFAIL)%FAIL_ID
-                          NMOD    = MAT_PARAM(IMAT)%FAIL(IFAIL)%NMOD
+                          FAIL_ID = mat_param(IMAT)%FAIL(IFAIL)%FAIL_ID
+                          NMOD    = mat_param(IMAT)%FAIL(IFAIL)%NMOD
                           IF ((FAIL_ID == ID).AND.(MODE <= NMOD)) THEN
                             DO IS=1,NPTS
                               DO IT=1,NPTT
@@ -1532,10 +1538,10 @@ c ILAYER=NULL IR= IS= IT=
                         NLAY_FAIL = 0
                         DO IL=1,NLAY
                           IMAT = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
-                          NFAIL = MAT_PARAM(IMAT)%NFAIL
+                          NFAIL = mat_param(IMAT)%NFAIL
                           DO IFAIL = 1,NFAIL
-                            FAIL_ID = MAT_PARAM(IMAT)%FAIL(IFAIL)%FAIL_ID
-                            NMOD    = MAT_PARAM(IMAT)%FAIL(IFAIL)%NMOD
+                            FAIL_ID = mat_param(IMAT)%FAIL(IFAIL)%FAIL_ID
+                            NMOD    = mat_param(IMAT)%FAIL(IFAIL)%NMOD
                             IF ((FAIL_ID == ID).AND.(MODE <= NMOD)) THEN
                               FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IIR,IS,IT)
                               VALUE(I) = VALUE(I) + FBUF%FLOC(IFAIL)%DAMMX(MODE*NEL + I)
@@ -1550,10 +1556,10 @@ c ILAYER=NULL IR= IS= IT=
                   ELSEIF ( ILAY > 0 .AND. ILAY <= NLAY .AND. IR >= 0 .AND. IR <= NPTR .AND.
      .                     IS >= 0 .AND.  IS <= NPTS) THEN
                     IMAT  = ELBUF_TAB(NG)%BUFLY(ILAY)%IMAT
-                    NFAIL = MAT_PARAM(IMAT)%NFAIL    
+                    NFAIL = mat_param(IMAT)%NFAIL
                     DO IFAIL = 1,NFAIL
-                      FAIL_ID = MAT_PARAM(IMAT)%FAIL(IFAIL)%FAIL_ID
-                      NMOD    = MAT_PARAM(IMAT)%FAIL(IFAIL)%NMOD
+                      FAIL_ID = mat_param(IMAT)%FAIL(IFAIL)%FAIL_ID
+                      NMOD    = mat_param(IMAT)%FAIL(IFAIL)%NMOD
                       IF ((FAIL_ID == ID).AND.(MODE <= NMOD)) THEN
                         FBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%FAIL(IR,IS,IT)
                         DO I = 1,NEL
@@ -1583,7 +1589,7 @@ c
                       ! Filling the value table
                       DO IL=1,NLAY
                         IMAT = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
-                        MAT_ID = MAT_PARAM(IMAT)%MAT_ID
+                        MAT_ID = mat_param(IMAT)%MAT_ID
                         IF ((ID == -1) .OR. ((ID > 0).AND.(MAT_ID == ID))) THEN 
                           DO IS=1,NPTS
                             DO IT=1,NPTT
@@ -1607,7 +1613,7 @@ c
                       ! Filling the value table
                       DO IL=1,NLAY
                         IMAT = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
-                        MAT_ID = MAT_PARAM(IMAT)%MAT_ID
+                        MAT_ID = mat_param(IMAT)%MAT_ID
                         IF ((ID == -1) .OR. ((ID > 0).AND.(MAT_ID == ID))) THEN 
                           LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
                           DO I=1,NEL
@@ -1620,7 +1626,7 @@ c
                     ! If the layer is specified by the user
                     ELSEIF (ILAY > 0 .AND. ILAY <= NLAY) THEN
                       IMAT = ELBUF_TAB(NG)%BUFLY(ILAY)%IMAT
-                      MAT_ID = MAT_PARAM(IMAT)%MAT_ID
+                      MAT_ID = mat_param(IMAT)%MAT_ID
                       IF ((ID == -1) .OR. ((ID > 0).AND.(MAT_ID == ID))) THEN 
                         DO IS=1,NPTS
                           DO IT=1,NPTT
@@ -1644,8 +1650,8 @@ c
                       ! Filling the value table
                       DO IL=1,NLAY
                         IMAT = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
-                        NMOD = MAT_PARAM(IMAT)%NMOD
-                        MAT_ID = MAT_PARAM(IMAT)%MAT_ID
+                        NMOD = mat_param(IMAT)%NMOD
+                        MAT_ID = mat_param(IMAT)%MAT_ID
                         IF ((NMOD > 0 .AND. MODE <= NMOD) .AND. (MAT_ID == ID)) THEN 
                           DO IS=1,NPTS
                             DO IT=1,NPTT
@@ -1669,8 +1675,8 @@ c
                       ! Filling the value table
                       DO IL=1,NLAY
                         IMAT = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
-                        NMOD = MAT_PARAM(IMAT)%NMOD
-                        MAT_ID = MAT_PARAM(IMAT)%MAT_ID
+                        NMOD = mat_param(IMAT)%NMOD
+                        MAT_ID = mat_param(IMAT)%MAT_ID
                         IF ((NMOD > 0 .AND. MODE <= NMOD) .AND. (MAT_ID == ID)) THEN 
                           LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
                           DO I=1,NEL
@@ -1683,8 +1689,8 @@ c
                     ! If the layer is specified by the user
                     ELSEIF (ILAY > 0 .AND. ILAY <= NLAY) THEN
                       IMAT = ELBUF_TAB(NG)%BUFLY(ILAY)%IMAT
-                      NMOD = MAT_PARAM(IMAT)%NMOD
-                      MAT_ID = MAT_PARAM(IMAT)%MAT_ID
+                      NMOD = mat_param(IMAT)%NMOD
+                      MAT_ID = mat_param(IMAT)%MAT_ID
                       IF ((NMOD > 0 .AND. MODE <= NMOD) .AND. (MAT_ID == ID)) THEN 
                         DO IS=1,NPTS
                           DO IT=1,NPTT
@@ -2807,7 +2813,7 @@ C--------------------------------------------------
                   !count number of submaterial based on /EOS/TILLOTSON (IEOS=3)
                   NTILLOTSON = 0
                   DO IMAT=1,NLAY
-                    IEOS =  IPM(4, MAT_PARAM(MT)%MULTIMAT%MID(IMAT) )
+                    IEOS =  IPM(4, mat_param(MT)%MULTIMAT%MID(IMAT) )
                     IF(IEOS == 3)THEN
                       NTILLOTSON = NTILLOTSON + 1
                       IMAT_TILLOTSON = IMAT
@@ -2817,7 +2823,7 @@ C--------------------------------------------------
                   IF(NTILLOTSON > 1)THEN
                     FAC=ONE
                     DO IMAT=1,NLAY
-                      IEOS =  IPM(4, MAT_PARAM(MT)%MULTIMAT%MID(IMAT) )
+                      IEOS =  IPM(4, mat_param(MT)%MULTIMAT%MID(IMAT) )
                       IF(IEOS == 3)THEN
                         EBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%EOS(1,1,1)
                         NVAREOS = ELBUF_TAB(NG)%BUFLY(IMAT)%NVAR_EOS
@@ -2872,15 +2878,205 @@ C--------------------------------------------------
                     ENDDO
                 ENDIF
 !--------------------------------------------------
-              ELSEIF (KEYWORD == 'VSTRAIN') then
+              elseif(keyword == 'VSTRAIN') then
 !--------------------------------------------------
-                DO I=1,NEL
-                  MT = IXS(1,I+NFT)
-                  IF(PM(89,MT) > ZERO)THEN
-                    VALUE(I) = GBUF%RHO(I) / PM(89,MT) - ONE
-                    IS_WRITTEN_VALUE(I) = 1
-                  END IF
-                ENDDO
+                do i=1,nel
+                  mt = ixs(1,i+nft)
+                  if(mlw == 151)then
+                    !multimaterial 151 (collocated scheme)
+                      do ilay=1,nlay
+                        mid = mat_param(mt)%multimat%mid(ilay)
+                        rho0i (ilay) = pm(89,mid)
+                        Vi (ilay) = multi_fvm%phase_alpha(ilay,i+nft) * gbuf%vol(i)
+                        V0i (ilay) =  multi_fvm%phase_rho(ilay,i+nft) * Vi(ilay) / rho0i(ilay)         !rho0.V0 = rho.V
+                      enddo
+                      V0g = sum(V0i)
+                      RHO0g = zero
+                      do ilay=1,nlay
+                        RHO0g = RHO0g + rho0i(ilay)*V0i(ilay)
+                      end do
+                      RHO0g = RHO0g / V0g
+                      value(i) = multi_fvm%rho(i+nft) / RHO0g - ONE
+                      is_written_value(i) = 1
+
+                  elseif(mlw == 51)then
+                    !multimaterial 51 (staggered scheme)
+                    imat   = ixs(1,nft+1)
+                    iadbuf = ipm(7,imat)
+                    nuparam= ipm(9,imat)
+                    uparam => bufmat(iadbuf:iadbuf+nuparam)
+                    mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
+                    ipos = 1
+                    !bijective order           !indexes
+                    isubmat = nint(uparam(276+1));   iu(1)=m51_n0phas +(isubmat-1)*m51_nvphas  + ipos-1
+                    isubmat = nint(uparam(276+2));   iu(2)=m51_n0phas +(isubmat-1)*m51_nvphas  + ipos-1
+                    isubmat = nint(uparam(276+3));   iu(3)=m51_n0phas +(isubmat-1)*m51_nvphas  + ipos-1
+                    isubmat = nint(uparam(276+4));   iu(4)=m51_n0phas +(isubmat-1)*m51_nvphas  + ipos-1
+                    vfrac(i,1) = mbuf%var(i+iu(1)*nel)
+                    vfrac(i,2) = mbuf%var(i+iu(2)*nel)
+                    vfrac(i,3) = mbuf%var(i+iu(3)*nel)
+                    vfrac(i,4) = mbuf%var(i+iu(4)*nel)
+                    ipos = 12
+                    !bijective order           !indexes
+                    isubmat = nint(uparam(276+1));   iu(1)=m51_n0phas +(isubmat-1)*m51_nvphas  + ipos-1
+                    isubmat = nint(uparam(276+2));   iu(2)=m51_n0phas +(isubmat-1)*m51_nvphas  + ipos-1
+                    isubmat = nint(uparam(276+3));   iu(3)=m51_n0phas +(isubmat-1)*m51_nvphas  + ipos-1
+                    isubmat = nint(uparam(276+4));   iu(4)=m51_n0phas +(isubmat-1)*m51_nvphas  + ipos-1
+                    rhoi(1) = mbuf%var(i+iu(1)*nel)
+                    rhoi(2) = mbuf%var(i+iu(2)*nel)
+                    rhoi(3) = mbuf%var(i+iu(3)*nel)
+                    rhoi(4) = mbuf%var(i+iu(4)*nel)
+                    do ilay=1,4
+                      mid = mat_param(mt)%multimat%mid(ilay)
+                      rho0i (ilay) = pm(89,mid)
+                      Vi (ilay) = vfrac(i,ilay) * gbuf%vol(i)
+                      ipos = 12
+                      V0i (ilay) =  rhoi(ilay) * Vi(ilay) / rho0i(ilay)         !rho0.V0 = rho.V
+                    enddo
+                    V0g = sum(V0i)
+                    RHO0g = zero
+                    do ilay=1,4
+                      RHO0g = RHO0g + rho0i(ilay)*V0i(ilay)
+                    end do
+                    RHO0g = RHO0g / V0g
+                    value(i) = gbuf%rho(i) / RHO0g - ONE
+                    is_written_value(i) = 1
+
+                  elseif(mlw == 37)then
+                    !multimaterial 37 (staggered scheme)
+                    imat   = ixs(1,nft+1)
+                    iadbuf = ipm(7,imat)
+                    nuparam= ipm(9,imat)
+                    uparam => bufmat(iadbuf:iadbuf+nuparam)
+                    mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
+                    rho0i(1) = uparam(11)
+                    rho0i(2) = uparam(12)
+                    Vi(1) = mbuf%var(i+3*nel) * gbuf%vol(i) !UVAR(I,4)  = VFRAC1
+                    Vi(2) = mbuf%var(i+4*nel) * gbuf%vol(i) !UVAR(I,5)  = VFRAC2
+                    rhoi(1) = mbuf%var(i+2*nel) !UVAR(I,3)  = RHO1
+                    rhoi(2) = mbuf%var(i+1*nel) !UVAR(I,2)  = RHO2
+                    V0i(1) =  rhoi(1) * Vi(1) / rho0i(1)         !rho0.V0 = rho.V
+                    V0i(2) =  rhoi(2) * Vi(2) / rho0i(2)         !rho0.V0 = rho.V
+                    V0g = sum(V0i)
+                    RHO0g = zero
+                    do ilay=1,nlay
+                      RHO0g = RHO0g + rho0i(ilay)*V0i(ilay)
+                    end do
+                    RHO0g = RHO0g / V0g
+                    value(i) = gbuf%rho(i) / RHO0g - ONE
+                    is_written_value(i) = 1
+
+                  elseif(mlw == 20)then
+                    !multimaterial 20 (staggered scheme)
+                    lbuf1  => elbuf_tab(ng)%bufly(1)%lbuf(1,1,1)
+                    lbuf2  => elbuf_tab(ng)%bufly(2)%lbuf(1,1,1)
+                    mid = mat_param(mt)%multimat%mid(1)
+                    rho0i(1) = pm(89,mid)
+                    mid = mat_param(mt)%multimat%mid(2)
+                    rho0i(2) = pm(89,mid)
+                    Vi(1) = lbuf1%vol(i)
+                    Vi(2) = lbuf2%vol(i)
+                    rhoi(1) = lbuf1%rho(i)
+                    rhoi(2) = lbuf2%rho(i)
+                    V0i(1) =  rhoi(1) * Vi(1) / rho0i(1)         !rho0.V0 = rho.V
+                    V0i(2) =  rhoi(2) * Vi(2) / rho0i(2)         !rho0.V0 = rho.V
+                    V0g = sum(V0i)
+                    RHO0g = zero
+                    do ilay=1,nlay
+                      RHO0g = RHO0g + rho0i(ilay)*V0i(ilay)
+                    end do
+                    RHO0g = RHO0g / V0g
+                    value(i) = gbuf%rho(i) / RHO0g - ONE
+                    is_written_value(i) = 1
+
+                  else
+                    !general case (monomaterial law)
+                    if(pm(89,mt) > zero)then
+                      value(i) = gbuf%rho(i) / pm(89,mt) - one
+                      is_written_value(i) = 1
+                    end if
+                  end if
+
+                enddo
+!--------------------------------------------------
+              elseif(keyword(1:8) == 'VSTRAIN/') then
+!--------------------------------------------------
+                detected = .false.
+                read(keyword(9:), '(I2)', IOSTAT=ierr) ilay
+                if(ierr == 0 .and. ilay > 0) then
+                  if(mlw == 151 .and. ilay <= min(10,multi_fvm%nbmat))detected = .true.
+                  if(mlw ==  51 .and. ilay <= 4                      )detected = .true.
+                  if(mlw ==  37 .and. ilay <= 2                      )detected = .true.
+                  if(mlw ==  20 .and. ilay <= 2                      )detected = .true.
+                end if
+                if(detected)then
+                  do i=1,nel
+                    mt = ixs(1,i+nft)
+
+                    if(mlw == 151)then
+                      !multimaterial 151 (collocated scheme)
+                        mid = mat_param(mt)%multimat%mid(ilay)
+                        rho0i(ilay) = pm(89,mid)
+                        Vi(ilay) = multi_fvm%phase_alpha(ilay,i+nft) * gbuf%vol(i)
+                        V0i(ilay) = multi_fvm%phase_rho(ilay,i+nft) * Vi(ilay) / rho0i(ilay)         !rho0.V0 = rho.V
+                        value(i) = multi_fvm%phase_rho(ilay,i+nft) / rho0i(ilay) - ONE
+                        is_written_value(i) = 1
+
+                    elseif(mlw == 51)then
+                      !multimaterial 51 (staggered scheme)
+                      imat = ixs(1,nft+1)
+                      iadbuf = ipm(7,imat)
+                      nuparam= ipm(9,imat)
+                      uparam => bufmat(iadbuf:iadbuf+nuparam)
+                      mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
+                      mid = mat_param(mt)%multimat%mid(ilay)
+                      rho0i(ilay) = pm(89,mid)
+                      ipos = 1
+                      !bijective order           !indexes
+                      isubmat = nint(uparam(276+ilay));   iu(1)=m51_n0phas +(isubmat-1)*m51_nvphas  + ipos-1
+                      vfrac(i,ilay) = mbuf%var(i+iu(ilay)*nel)
+                      Vi(ilay) = vfrac(i,ilay) * gbuf%vol(i)
+                      ipos = 12
+                      !bijective order           !indexes
+                      isubmat = nint(uparam(276+ilay));   iu(ilay)=m51_n0phas +(isubmat-1)*m51_nvphas  + ipos-1
+                      rhoi(ilay) = mbuf%var(i+iu(ilay)*nel)
+                      V0i (ilay) =  rhoi(ilay) * Vi(ilay) / rho0i(ilay)         !rho0.V0 = rho.V
+                      value(i) = rhoi(ilay) / rho0i(ilay) - ONE
+                      is_written_value(i) = 1
+
+                    elseif(mlw == 37)then
+                      !multimaterial 37 (staggered scheme)
+                      imat = ixs(1,nft+1)
+                      iadbuf = ipm(7,imat)
+                      nuparam= ipm(9,imat)
+                      uparam => bufmat(iadbuf:iadbuf+nuparam)
+                      mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
+                      rho0i(ilay) = uparam(10+ilay)
+                      Vi(ilay) = mbuf%var(i+(ilay+2)*nel) * gbuf%vol(i)
+                      rhoi(ilay) = mbuf%var(i+(3-ilay)*nel) !UVAR(I,3)  = RHO1
+                      V0i(ilay) =  rhoi(ilay) * Vi(ilay) / rho0i(ilay)
+                      value(i) = rhoi(ilay) / rho0i(ilay) - ONE
+                      is_written_value(i) = 1
+
+                    elseif(mlw == 20)then
+                      !multimaterial 20 (staggered scheme)
+                      lbuf  => elbuf_tab(ng)%bufly(ilay)%lbuf(1,1,1)
+                      mid = mat_param(mt)%multimat%mid(ilay)
+                      rho0i(ilay) = pm(89,mid)
+                      Vi(ilay) = lbuf%vol(i)
+                      rhoi(ilay) = lbuf%rho(i)
+                      V0i(ilay) =  rhoi(ilay) * Vi(ilay) / rho0i(ilay)         !rho0.V0 = rho.V
+                      value(i) = rhoi(ilay) / rho0i(ilay) - ONE
+                      is_written_value(i) = 1
+
+                    else
+                      !general case (monomaterial law)
+                      is_written_value(i) = 0
+                    end if
+                enddo
+
+              end if
+!--------------------------------------------------
 !--------------------------------------------------
               ENDIF
 C--------------------------------------------------
