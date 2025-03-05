@@ -618,6 +618,62 @@ c-----------------------------------------------
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'div(u)'
       H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 'Volumetric dilatation rate'
 c-----------------------------------------------
+c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'VSTRAIN'
+      H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Volumetric Strain'
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 'mu=rho/rho0-1'
+c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'VSTRAIN/1'
+      H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Volumetric Strain 1'
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 'mu=rho/rho0-1'
+c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'VSTRAIN/2'
+      H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Volumetric Strain 2'
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 'mu=rho/rho0-1'
+c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'VSTRAIN/3'
+      H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Volumetric Strain 3'
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 'mu=rho/rho0-1'
+c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'VSTRAIN/4'
+      H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Volumetric Strain 4'
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 'mu=rho/rho0-1'
+c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'VSTRAIN/5'
+      H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Volumetric Strain 5'
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 'mu=rho/rho0-1'
+c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'VSTRAIN/6'
+      H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Volumetric Strain 6'
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 'mu=rho/rho0-1'
+c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'VSTRAIN/7'
+      H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Volumetric Strain 7'
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 'mu=rho/rho0-1'
+c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'VSTRAIN/8'
+      H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Volumetric Strain 8'
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 'mu=rho/rho0-1'
+c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'VSTRAIN/9'
+      H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Volumetric Strain 9'
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 'mu=rho/rho0-1'
+c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'VSTRAIN/10'
+      H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Volumetric Strain 10'
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 'mu=rho/rho0-1'
+c-----------------------------------------------
 
       NKEY=I
       END

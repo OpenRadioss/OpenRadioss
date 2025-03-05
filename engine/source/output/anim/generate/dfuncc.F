@@ -135,14 +135,21 @@ C-----------------------------------------------
       TYPE(BUF_EOS_)  ,POINTER :: EBUF  
       TYPE(L_BUFEL_DIR_) ,POINTER :: LBUF_DIR
       
-      my_real,
-     .  DIMENSION(:), POINTER  :: UVAR,OFFL
+      my_real,DIMENSION(:), POINTER  :: UVAR,OFFL
       TYPE(L_BUFEL_) ,POINTER  :: LBUF1,LBUF2 
       my_real, DIMENSION(:) ,POINTER  :: UPARAM
       TARGET :: BUFMAT
       my_real TMP(3,4)
       DATA NS/10/
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
+      INTEGER MID
+      my_real :: vi(21) !< submaterial volumes at reference densities (max submat : 21)
+      my_real :: v0i(21) !< submaterial volumes at reference densities (max submat : 21)
+      my_real :: v0g !< global volume at reference density (mixture)
+      my_real :: RHO0i(21) !< submaterial initial mass densities (max submat : 21)
+      my_real :: RHOi(21) !< submaterial  mass densities (max submat : 21)
+      my_real :: RHO0g !< global initial mass density (mixture)
+      LOGICAL detected
 C-----------------------------------------------
       CALL MY_ALLOC(WAL,NBF_L)
       NINTY = 90.
@@ -985,54 +992,212 @@ c------------------------------------ Tillotson Region id
               ENDIF
 
 c------------------------------------ Volumetric Strain (VSTRAIN)
-            ELSEIF( IFUNC == 15899 + 4*MX_PLY_ANIM  ) THEN
+            elseif(IFUNC == 15899 + 4*MX_PLY_ANIM .and. N2D > 0) then
+!--------------------------------------------------
               DO I=LFT,LLT
                 FUNC(EL2FA(NN3+NFT+I)) = ZERO
               ENDDO
-              IF(ITY == 2)THEN
-                MT = IXQ(1,NFT+1)
-              ELSEIF(ITY == 7 .AND. N2D > 0)THEN
-                MT = IXTG(1,NFT+1)
-              ENDIF
-              IF(PM(89,MT) > ZERO)THEN
-                DO I=LFT,LLT
-                  FUNC(EL2FA(NN3+NFT+I)) = GBUF%RHO(I) / PM(89,MT) - ONE
-                ENDDO
-              ENDIF
 
-           ELSEIF(IFUNC >= 14999+4*MX_PLY_ANIM+1 .AND. IFUNC <= 14999+4*MX_PLY_ANIM+21 )THEN
-              EVAR(LFT:LLT) = ZERO
-              ISUBMAT = IFUNC-(14999+4*MX_PLY_ANIM)
-                IF(ITY ==2)THEN
-                  MT = IXQ(1,1+NFT)
-                ELSEIF(ITY == 7 .AND. N2D > 0)THEN
-                  MT = IXTG(1,1+NFT)
-                ENDIF
-              IF(MLW == 151)THEN
-                MT = MAT_PARAM(MT)%MULTIMAT%MID(ISUBMAT)
-                DO I=LFT,LLT
-                  EVAR(I) = MULTI_FVM%RHO(I + NFT)  / PM(89,MT) - ONE
-                ENDDO
-              ELSEIF(MLW == 51)THEN
-                   ISUBMAT = IFUNC - 5173
-                   !bijection for iform=12
-                   IADBUF = IPM(7,MT)
-                   NUPARAM= IPM(9,MT)
-                   UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
-                   ISUBMAT = UPARAM(276+ISUBMAT) !bijective order
-                   IUS=M51_N0PHAS+(ISUBMAT-1)*M51_NVPHAS
-                   !
-                   LLT       = IPARG(2,NG)
-                   IPOS      = 20
-                   K         = LLT * ((IUS )+IPOS-1)
-                   MT = MAT_PARAM(MT)%MULTIMAT%MID(ISUBMAT)
-                   DO I=LFT,LLT
-                     EVAR(I) = MBUF%VAR(K+I) / PM(89,MT) - ONE
-                   ENDDO
-              ENDIF
-              DO I = LFT,LLT
-                FUNC(EL2FA(NN3+NFT+I)) = EVAR(I)
-              ENDDO
+              if(ity == 2)then
+                mt = ixq(1,nft+1)
+              elseif(ity == 7 .and. n2d > 0)then
+                mt = ixtg(1,nft+1)
+              endif
+              imat = mt
+
+              do i=1,nel
+
+                if(mlw == 151)then
+                  !multimaterial 151 (collocated scheme)
+                    do ilay=1,multi_fvm%nbmat
+                      mid = MAT_PARAM(mt)%multimat%mid(ilay)
+                      rho0i (ilay) = pm(89,mid)
+                      Vi (ilay) = multi_fvm%phase_alpha(ilay,i+nft) * gbuf%vol(i)
+                      V0i (ilay) =  multi_fvm%phase_rho(ilay,i+nft) * Vi(ilay) / rho0i(ilay)         !rho0.V0 = rho.V
+                    enddo
+                    V0g = sum(V0i)
+                    RHO0g = zero
+                    do ilay=1,multi_fvm%nbmat
+                      RHO0g = RHO0g + rho0i(ilay)*V0i(ilay)
+                    end do
+                    RHO0g = RHO0g / V0g
+                    FUNC(EL2FA(NN3+NFT+I)) = multi_fvm%rho(i+nft) / RHO0g - ONE
+
+                elseif(mlw == 51)then
+                  !multimaterial 51 (staggered scheme)
+                  iadbuf = ipm(7,imat)
+                  nuparam= ipm(9,imat)
+                  uparam => bufmat(iadbuf:iadbuf+nuparam)
+                  mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
+                  ipos = 1
+                  !bijective order           !indexes
+                  isubmat = nint(uparam(276+1));   iu(1)=m51_n0phas+(isubmat-1)*m51_nvphas + ipos-1
+                  isubmat = nint(uparam(276+2));   iu(2)=m51_n0phas+(isubmat-1)*m51_nvphas + ipos-1
+                  isubmat = nint(uparam(276+3));   iu(3)=m51_n0phas+(isubmat-1)*m51_nvphas + ipos-1
+                  isubmat = nint(uparam(276+4));   iu(4)=m51_n0phas+(isubmat-1)*m51_nvphas + ipos-1
+                  vfrac(i,1) = mbuf%var(i+iu(1)*nel)
+                  vfrac(i,2) = mbuf%var(i+iu(2)*nel)
+                  vfrac(i,3) = mbuf%var(i+iu(3)*nel)
+                  vfrac(i,4) = mbuf%var(i+iu(4)*nel)
+                  ipos = 12
+                  !bijective order           !indexes
+                  isubmat = nint(uparam(276+1));   iu(1)=m51_n0phas+(isubmat-1)*m51_nvphas + ipos-1
+                  isubmat = nint(uparam(276+2));   iu(2)=m51_n0phas+(isubmat-1)*m51_nvphas + ipos-1
+                  isubmat = nint(uparam(276+3));   iu(3)=m51_n0phas+(isubmat-1)*m51_nvphas + ipos-1
+                  isubmat = nint(uparam(276+4));   iu(4)=m51_n0phas+(isubmat-1)*m51_nvphas + ipos-1
+                  rhoi(1) = mbuf%var(i+iu(1)*nel)
+                  rhoi(2) = mbuf%var(i+iu(2)*nel)
+                  rhoi(3) = mbuf%var(i+iu(3)*nel)
+                  rhoi(4) = mbuf%var(i+iu(4)*nel)
+                  do ilay=1,4
+                    mid = MAT_PARAM(mt)%multimat%mid(ilay)
+                    rho0i (ilay) = pm(89,mid)
+                    Vi (ilay) = vfrac(i,ilay) * gbuf%vol(i)
+                    ipos = 12
+                    V0i (ilay) =  rhoi(ilay) * Vi(ilay) / rho0i(ilay)         !rho0.V0 = rho.V
+                  enddo
+                  V0g = sum(V0i)
+                  RHO0g = zero
+                  do ilay=1,4
+                    RHO0g = RHO0g + rho0i(ilay)*V0i(ilay)
+                  end do
+                  RHO0g = RHO0g / V0g
+                  FUNC(EL2FA(NN3+NFT+I))= gbuf%rho(i) / RHO0g - ONE
+
+                elseif(mlw == 37)then
+                  !multimaterial 37 (staggered scheme)
+                  iadbuf = ipm(7,imat)
+                  nuparam= ipm(9,imat)
+                  uparam => bufmat(iadbuf:iadbuf+nuparam)
+                  mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
+                  rho0i(1) = uparam(11)
+                  rho0i(2) = uparam(12)
+                  Vi(1) = mbuf%var(i+3*nel) * gbuf%vol(i) !UVAR(I,4)  = VFRAC1
+                  Vi(2) = mbuf%var(i+4*nel) * gbuf%vol(i) !UVAR(I,5)  = VFRAC2
+                  rhoi(1) = mbuf%var(i+2*nel) !UVAR(I,3)  = RHO1
+                  rhoi(2) = mbuf%var(i+1*nel) !UVAR(I,2)  = RHO2
+                  V0i(1) =  rhoi(1) * Vi(1) / rho0i(1)         !rho0.V0 = rho.V
+                  V0i(2) =  rhoi(2) * Vi(2) / rho0i(2)         !rho0.V0 = rho.V
+                  V0g = sum(V0i)
+                  RHO0g = zero
+                  do ilay=1,2
+                    RHO0g = RHO0g + rho0i(ilay)*V0i(ilay)
+                  end do
+                  RHO0g = RHO0g / V0g
+                  FUNC(EL2FA(NN3+NFT+I)) = gbuf%rho(i) / RHO0g - ONE
+
+                elseif(mlw == 20)then
+                  !multimaterial 20 (staggered scheme)
+                  lbuf1  => elbuf_tab(ng)%bufly(1)%lbuf(1,1,1)
+                  lbuf2  => elbuf_tab(ng)%bufly(2)%lbuf(1,1,1)
+                  mid = MAT_PARAM(mt)%multimat%mid(1)
+                  rho0i(1) = pm(89,mid)
+                  mid = MAT_PARAM(mt)%multimat%mid(2)
+                  rho0i(2) = pm(89,mid)
+                  Vi(1) = lbuf1%vol(i)
+                  Vi(2) = lbuf2%vol(i)
+                  rhoi(1) = lbuf1%rho(i)
+                  rhoi(2) = lbuf2%rho(i)
+                  V0i(1) =  rhoi(1) * Vi(1) / rho0i(1)         !rho0.V0 = rho.V
+                  V0i(2) =  rhoi(2) * Vi(2) / rho0i(2)         !rho0.V0 = rho.V
+                  V0g = sum(V0i)
+                  RHO0g = zero
+                  do ilay=1,2
+                    RHO0g = RHO0g + rho0i(ilay)*V0i(ilay)
+                  end do
+                  RHO0g = RHO0g / V0g
+                  FUNC(EL2FA(NN3+NFT+I)) = gbuf%rho(i) / RHO0g - ONE
+
+                else
+                  !general case (monomaterial law)
+                  if(pm(89,mt) > zero)then
+                    FUNC(EL2FA(NN3+NFT+I))= gbuf%rho(i) / pm(89,mt) - one
+                  end if
+                end if
+
+              enddo
+c------------------------------------ Volumetric Strain (VSTRAIN)
+            elseif(   IFUNC >= 15899 + 4*MX_PLY_ANIM +1
+     .          .and. IFUNC <= 15899 + 4*MX_PLY_ANIM +10
+     .          .and. N2D > 0) then
+!--------------------------------------------------
+                detected = .false.
+                ilay = IFUNC - (15899 + 4*MX_PLY_ANIM)
+                if(mlw == 151 .and. ilay <= min(10,multi_fvm%nbmat))detected = .true.
+                if(mlw ==  51 .and. ilay <= 4                      )detected = .true.
+                if(mlw ==  37 .and. ilay <= 2                      )detected = .true.
+                if(mlw ==  20 .and. ilay <= 2                      )detected = .true.
+
+                if(detected)then
+
+                  if(ity == 2)then
+                    mt = ixq(1,nft+1)
+                  elseif(ity == 7 .and. n2d > 0)then
+                    mt = ixtg(1,nft+1)
+                  endif
+                  imat = mt
+
+                  do i=1,nel
+
+                     if(mlw == 151)then
+                      !multimaterial 151 (collocated scheme)
+                        mid = MAT_PARAM(mt)%multimat%mid(ilay)
+                        rho0i(ilay) = pm(89,mid)
+                        Vi(ilay) = multi_fvm%phase_alpha(ilay,i+nft) * gbuf%vol(i)
+                        V0i(ilay) = multi_fvm%phase_rho(ilay,i+nft) * Vi(ilay) / rho0i(ilay)         !rho0.V0 = rho.V
+                        FUNC(EL2FA(NN3+NFT+I)) = multi_fvm%phase_rho(ilay,i+nft) / rho0i(ilay) - ONE
+
+                    elseif(mlw == 51)then
+                      !multimaterial 51 (staggered scheme)
+                      iadbuf = ipm(7,imat)
+                      nuparam= ipm(9,imat)
+                      uparam => bufmat(iadbuf:iadbuf+nuparam)
+                      mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
+                      mid = MAT_PARAM(mt)%multimat%mid(ilay)
+                      rho0i(ilay) = pm(89,mid)
+                      ipos = 1
+                      !bijective order           !indexes
+                      isubmat = nint(uparam(276+ilay));   iu(1)=m51_n0phas+(isubmat-1)*m51_nvphas + ipos-1
+                      vfrac(i,ilay) = mbuf%var(i+iu(ilay)*nel)
+                      Vi(ilay) = vfrac(i,ilay) * gbuf%vol(i)
+                      ipos = 12
+                      !bijective order           !indexes
+                      isubmat = nint(uparam(276+ilay));   iu(ilay)=m51_n0phas+(isubmat-1)*m51_nvphas + ipos-1
+                      rhoi(ilay) = mbuf%var(i+iu(ilay)*nel)
+                      V0i (ilay) =  rhoi(ilay) * Vi(ilay) / rho0i(ilay)         !rho0.V0 = rho.V
+                      FUNC(EL2FA(NN3+NFT+I)) = rhoi(ilay) / rho0i(ilay) - ONE
+
+                    elseif(mlw == 37)then
+                      !multimaterial 37 (staggered scheme)
+                      iadbuf = ipm(7,imat)
+                      nuparam= ipm(9,imat)
+                      uparam => bufmat(iadbuf:iadbuf+nuparam)
+                      mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
+                      rho0i(ilay) = uparam(10+ilay)
+                      Vi(ilay) = mbuf%var(i+(ilay+2)*nel) * gbuf%vol(i)
+                      rhoi(ilay) = mbuf%var(i+(3-ilay)*nel) !UVAR(I,3)  = RHO1
+                      V0i(ilay) =  rhoi(ilay) * Vi(ilay) / rho0i(ilay)
+                      FUNC(EL2FA(NN3+NFT+I)) = rhoi(ilay) / rho0i(ilay) - ONE
+
+                    elseif(mlw == 20)then
+                      !multimaterial 20 (staggered scheme)
+                      lbuf  => elbuf_tab(ng)%bufly(ilay)%lbuf(1,1,1)
+                      mid = MAT_PARAM(mt)%multimat%mid(ilay)
+                      rho0i(ilay) = pm(89,mid)
+                      Vi(ilay) = lbuf%vol(i)
+                      rhoi(ilay) = lbuf%rho(i)
+                      V0i(ilay) =  rhoi(ilay) * Vi(ilay) / rho0i(ilay)         !rho0.V0 = rho.V
+                      FUNC(EL2FA(NN3+NFT+I)) = rhoi(ilay) / rho0i(ilay) - ONE
+
+                    else
+                      !general case (monomaterial law)
+                      FUNC(EL2FA(NN3+NFT+I)) = ZERO
+                    end if
+                enddo
+
+              end if
+
+
 
 c------------------------------------ 
             ELSE                                                      

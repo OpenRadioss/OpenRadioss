@@ -41,10 +41,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE DFUNC0(ELBUF_TAB, FUNC             ,IFUNC     ,IPARG   ,
      2                  MASS     , PM               ,EL2FA     ,NBF     ,
      3                  NBPART   , IADG             ,SPBUF     ,IPART   ,
-     4                  IPARTSP  , ALE_CONNECTIVITY ,IXQ       ,IPM     ,
+     4                  IPARTSP  , ALE_CONNECTIVITY ,IPM       ,
      5                  X        , V                ,W         ,ITHERM  ,
      6                  NERCVOIS , NESDVOIS         ,LERCVOIS  ,LESDVOIS, 
-     7                  BUFMAT   , MULTI_FVM        ,KXSP      ,DEFAULT_OUTPUT)
+     7                  BUFMAT   , MULTI_FVM        ,KXSP      ,DEFAULT_OUTPUT,
+     8                  MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -55,6 +56,8 @@ C-----------------------------------------------
       USE SCHLIEREN_MOD    
       USE ALE_CONNECTIVITY_MOD
       USE my_alloc_mod
+      USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
+      USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,21 +71,24 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "sphcom.inc"
 #include      "scr17_c.inc"
+#include      "scr25_c.inc"
 #include      "param_c.inc"
 #include      "task_c.inc"
 #include      "spmd_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real FUNC(*), MASS(*) ,PM(NPROPM,NUMMAT),SPBUF(NSPBUF,*),BUFMAT(*),X(3,NUMNOD),V(3,NUMNOD), W(*)
+      my_real FUNC(*), MASS(*) ,PM(NPROPM,NUMMAT),SPBUF(NSPBUF,*),X(3,NUMNOD),V(3,NUMNOD), W(*)
+      my_real, TARGET :: BUFMAT(*)
       INTEGER IPARG(NPARG,NGROUP),EL2FA(*),IFUNC,NBF,
      .        NBPART,IADG(NSPMD,*),IPART(LIPART1,*),IPARTSP(*),
-     .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),IXQ(NIXQ,NUMELQ),IPM(NPROPMI,NUMMAT)
+     .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),IPM(NPROPMI,NUMMAT)
       INTEGER, INTENT(IN) :: ITHERM
       INTEGER, INTENT(IN) :: KXSP(NISP,NUMSPH),DEFAULT_OUTPUT
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
+      TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -91,10 +97,19 @@ C-----------------------------------------------
       REAL R4
       REAL,DIMENSION(:),ALLOCATABLE :: WA
       TYPE(G_BUFEL_) ,POINTER :: GBUF
-      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(L_BUFEL_) ,POINTER :: LBUF, LBUF1,LBUF2
       TYPE(BUF_MAT_) ,POINTER :: MBUF
       TYPE(BUF_EOS_)  ,POINTER :: EBUF
       my_real, DIMENSION(:),POINTER  ::  DFMAX
+      my_real, DIMENSION(:) ,POINTER  :: UPARAM
+      INTEGER MID,IMAT,NUPARAM,IPOS,IADBUF,ISUBMAT,IU(4),ILAY
+      my_real :: vi(21) !< submaterial volumes at reference densities (max submat : 21)
+      my_real :: v0i(21) !< submaterial volumes at reference densities (max submat : 21)
+      my_real :: v0g !< global volume at reference density (mixture)
+      my_real :: RHO0i(21) !< submaterial initial mass densities (max submat : 21)
+      my_real :: RHOi(21) !< submaterial  mass densities (max submat : 21)
+      my_real :: RHO0g !< global initial mass density (mixture)
+      LOGICAL detected
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -109,7 +124,7 @@ C-----------------------------------------------
       ENDIF!(IFUNC==4892)
 
 C-----------------------------------------------
-      DO 900 NG=1,NGROUP
+      DO NG=1,NGROUP
         MLW = IPARG(1,NG)     
         NEL = IPARG(2,NG)                                          
         NFT = IPARG(3,NG)
@@ -295,19 +310,7 @@ c-----------
            N = I + NFT          
            FUNC(EL2FA(NN1+N)) = DFMAX(I)    
              ENDDO
-           ENDDO  
-c-----------
-            ELSEIF(IFUNC == 4892) THEN  
-             IALEL=IPARG(7,NG)+IPARG(11,NG)
-             IF(IALEL == 0)THEN
-               EVAR(LFT:LLT) = ZERO
-             ELSE
-               CALL OUTPUT_SCHLIEREN(
-     1                        EVAR    ,IXQ    ,X           ,
-     2                        IPARG   ,WA_L   ,ELBUF_TAB   ,ALE_CONNECTIVITY   ,GBUF%VOL,
-     3                        NG      ,NIXQ   ,ITY)
-             ENDIF  
-             FUNC(EL2FA(NN1+NFT+1:NN1+NFT+LLT)) = EVAR(1:LLT)      
+           ENDDO
 c-----------      
            ELSEIF (IFUNC == 4893) THEN                     
              DO I=LFT,LLT                                               
@@ -373,7 +376,6 @@ c-----------
                ELSEIF(IFUNC==4941)THEN
                  DO I=LFT,LLT
                   N     = I + NFT
-!                  IAD0  = (I-1)*3
                   IF(EL2FA(NN1+N)/=0)THEN
                      FUNC(EL2FA(NN1+N)) = SQRT( GBUF%MOM(II(1) + I)+GBUF%MOM(II(1) + I) 
      +                                         +GBUF%MOM(II(2) + I)+GBUF%MOM(II(2) + I) )  
@@ -382,7 +384,6 @@ c-----------
                ELSEIF(IFUNC==4942)THEN
                  DO I=LFT,LLT
                   N     = I + NFT
-!                  IAD0  = (I-1)*3
                   IF(EL2FA(NN1+N)/=0)THEN
                      FUNC(EL2FA(NN1+N)) = SQRT( GBUF%MOM(II(2) + I)+GBUF%MOM(II(2) + I)
      +                                         +GBUF%MOM(II(3) + I)+GBUF%MOM(II(3) + I) )  
@@ -391,7 +392,6 @@ c-----------
                ELSEIF(IFUNC==4943)THEN
                  DO I=LFT,LLT
                   N     = I + NFT
-!                  IAD0  = (I-1)*3
                   IF(EL2FA(NN1+N)/=0)THEN
                      FUNC(EL2FA(NN1+N)) = SQRT( GBUF%MOM(II(1) + I)+GBUF%MOM(II(1) + I) 
      +                                         +GBUF%MOM(II(3) + I)+GBUF%MOM(II(3) + I) )  
@@ -400,7 +400,6 @@ c-----------
                ELSEIF(IFUNC==4944)THEN
                  DO I=LFT,LLT
                   N     = I + NFT
-!                  IAD0  = (I-1)*3
                   IF(EL2FA(NN1+N)/=0)THEN
                      FUNC(EL2FA(NN1+N)) = SQRT( GBUF%MOM(II(1) + I)+GBUF%MOM(II(1) + I) 
      +                                         +GBUF%MOM(II(2) + I)+GBUF%MOM(II(2) + I)
@@ -422,7 +421,6 @@ c-----------
                ELSEIF(IFUNC==4948)THEN
                  DO I=LFT,LLT
                   N     = I + NFT
-!                  IAD0  = (I-1)*3
                   IF(EL2FA(NN1+N)/=0)THEN
                      FUNC(EL2FA(NN1+N)) = SQRT( GBUF%MOM(II(1) + I)+GBUF%MOM(II(1) + I) 
      +                                         +GBUF%MOM(II(2) + I)+GBUF%MOM(II(2) + I) )  / GBUF%RHO(I)      
@@ -431,7 +429,6 @@ c-----------
                ELSEIF(IFUNC==4949)THEN
                  DO I=LFT,LLT
                   N     = I + NFT
-!                  IAD0  = (I-1)*3
                   IF(EL2FA(NN1+N)/=0)THEN
                      FUNC(EL2FA(NN1+N)) = SQRT( GBUF%MOM(II(2) + I)+GBUF%MOM(II(2) + I) 
      +                                         +GBUF%MOM(II(3) + I)+GBUF%MOM(II(3) + I) )  / GBUF%RHO(I)      
@@ -440,7 +437,6 @@ c-----------
                ELSEIF(IFUNC==4950)THEN
                  DO I=LFT,LLT
                   N     = I + NFT
-!                  IAD0  = (I-1)*3
                   IF(EL2FA(NN1+N)/=0)THEN
                      FUNC(EL2FA(NN1+N)) = SQRT( GBUF%MOM(II(1) + I)+GBUF%MOM(II(1) + I) 
      +                                         +GBUF%MOM(II(3) + I)+GBUF%MOM(II(3) + I) )  / GBUF%RHO(I)      
@@ -449,7 +445,6 @@ c-----------
                ELSEIF(IFUNC==4951)THEN
                  DO I=LFT,LLT
                   N     = I + NFT
-!                  IAD0  = (I-1)*3
                   IF(EL2FA(NN1+N)/=0)THEN
                      FUNC(EL2FA(NN1+N)) = SQRT( GBUF%MOM(II(1) + I)+GBUF%MOM(II(1) + I) 
      +                                         +GBUF%MOM(II(2) + I)+GBUF%MOM(II(2) + I)
@@ -578,7 +573,7 @@ c-----------
 C-----------------------------------------------
 C       FIN DE BOUCLE SUR LES GROUPES
 C-----------------------------------------------
- 900  CONTINUE
+      ENDDO ! next NG
 C-----------------------------------------------
 
       IF (NSPMD == 1) THEN

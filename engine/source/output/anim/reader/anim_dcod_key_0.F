@@ -1499,7 +1499,7 @@ c
         ELSEIF(KEY3(1:7) == 'VSTRAIN')THEN
           IDX = 15898 + 4*MX_PLY_ANIM
           read(KEY4, '(I2)') ILAY
-          if(ILAY >= 1 .and. ILAY <= 21)then
+          if(ILAY >= 1 .and. ILAY <= 10)then
             ANIM_CE(IDX+ILAY) = 1
           else
             ANIM_CE(IDX) = 1
@@ -2040,7 +2040,7 @@ C         ANIM_SE(4936) ==> !   law37 -    gas
       ELSEIF(KEY3(1:7)=='VSTRAIN')THEN
           read(KEY4, '(I2)',ERR=2206) ILAY
 2206      CONTINUE
-          if(ILAY >= 1 .and. ILAY <= 21)then
+          if(ILAY >= 1 .and. ILAY <= 10)then
             ANIM_SE(5173+ILAY) = 1
           else
             ANIM_SE(5173) = 1
@@ -2711,7 +2711,7 @@ C--------------------------
          ILAY = 0
          read(KEY4, '(I2)', ERR=2205) ILAY
 2205     CONTINUE
-         if(ILAY >= 1 .and. ILAY <= 21)then
+         if(ILAY >= 1 .and. ILAY <= 10)then
            ANIM_CE(IDX+ILAY) = 1
            ANIM_SE(5173+ILAY) = 1
          else

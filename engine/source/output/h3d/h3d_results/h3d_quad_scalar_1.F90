@@ -245,6 +245,8 @@
           integer :: isorthg
           integer :: ifailure
           integer :: jsms
+          integer :: mid !< material identifier
+          integer :: ierr
           character*5 :: buff
           type(G_BUFEL_), pointer :: gbuf
           type(L_BUFEL_), pointer :: lbuf
@@ -257,6 +259,12 @@
           my_real, dimension(:), pointer :: uparam
           logical :: detected
           my_real, parameter :: pi_ = 3.141592653589793238462643
+          my_real :: vi(21) !< submaterial volumes at reference densities (max submat : 21)
+          my_real :: v0i(21) !< submaterial volumes at reference densities (max submat : 21)
+          my_real :: v0g !< global volume at reference density (mixture)
+          my_real :: RHO0i(21) !< submaterial initial mass densities (max submat : 21)
+          my_real :: RHOi(21) !< submaterial  mass densities (max submat : 21)
+          my_real :: RHO0g !< global initial mass density (mixture)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1439,10 +1447,10 @@
                   nuparam= ipm(9,imat)
                   uparam => bufmat(iadbuf:iadbuf+nuparam)
                   !bijective order           !indexes
-                  isubmat = uparam(276+1);   iu(1)=n0phas+(isubmat-1)*nvphas
-                  isubmat = uparam(276+2);   iu(2)=n0phas+(isubmat-1)*nvphas
-                  isubmat = uparam(276+3);   iu(3)=n0phas+(isubmat-1)*nvphas
-                  isubmat = uparam(276+4);   iu(4)=n0phas+(isubmat-1)*nvphas
+                  isubmat = nint(uparam(276+1));   iu(1)=n0phas+(isubmat-1)*nvphas
+                  isubmat = nint(uparam(276+2));   iu(2)=n0phas+(isubmat-1)*nvphas
+                  isubmat = nint(uparam(276+3));   iu(3)=n0phas+(isubmat-1)*nvphas
+                  isubmat = nint(uparam(276+4));   iu(4)=n0phas+(isubmat-1)*nvphas
                   mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
                   nfrac=4
                   do  i=1,nel
@@ -1494,7 +1502,7 @@
                   !count number of submaterial based on /eos/tillotson (ieos=3)
                   ntillotson = 0
                   do imat=1,nlay
-                    ieos =  ipm(4, mat_param(mt)%multimat%mid(imat) )
+                    ieos =  ipm(4, MAT_PARAM(mt)%multimat%mid(imat) )
                     if(ieos == 3)then
                       ntillotson = ntillotson + 1
                       imat_tillotson = imat
@@ -1504,7 +1512,7 @@
                   if(ntillotson > 1)then
                     fac=one
                     do imat=1,nlay
-                      ieos =  ipm(4, mat_param(mt)%multimat%mid(imat) )
+                      ieos =  ipm(4, MAT_PARAM(mt)%multimat%mid(imat) )
                       if(ieos == 3)then
                         ebuf => elbuf_tab(ng)%bufly(imat)%eos(1,1,1)
                         nvareos = elbuf_tab(ng)%bufly(imat)%nvar_eos
@@ -1554,11 +1562,200 @@
 !--------------------------------------------------
                 do i=1,nel
                   mt = ixq(1,i+nft)
-                  if(pm(89,mt) > zero)then
-                    value(i) = gbuf%rho(i) / pm(89,mt) - one
+                  if(mlw == 151)then
+                    !multimaterial 151 (collocated scheme)
+                      do ilay=1,multi_fvm%nbmat
+                        mid = MAT_PARAM(mt)%multimat%mid(ilay)
+                        rho0i (ilay) = pm(89,mid)
+                        Vi (ilay) = multi_fvm%phase_alpha(ilay,i+nft) * gbuf%vol(i)
+                        V0i (ilay) =  multi_fvm%phase_rho(ilay,i+nft) * Vi(ilay) / rho0i(ilay)         !rho0.V0 = rho.V
+                      enddo
+                      V0g = sum(V0i)
+                      RHO0g = zero
+                      do ilay=1,multi_fvm%nbmat
+                        RHO0g = RHO0g + rho0i(ilay)*V0i(ilay)
+                      end do
+                      RHO0g = RHO0g / V0g
+                      value(i) = multi_fvm%rho(i+nft) / RHO0g - ONE
+                      is_written_value(i) = 1
+
+                  elseif(mlw == 51)then
+                    !multimaterial 51 (staggered scheme)
+                    imat   = ixq(1,nft+1)
+                    iadbuf = ipm(7,imat)
+                    nuparam= ipm(9,imat)
+                    uparam => bufmat(iadbuf:iadbuf+nuparam)
+                    mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
+                    ipos = 1
+                    !bijective order           !indexes
+                    isubmat = nint(uparam(276+1));   iu(1)=n0phas+(isubmat-1)*nvphas + ipos-1
+                    isubmat = nint(uparam(276+2));   iu(2)=n0phas+(isubmat-1)*nvphas + ipos-1
+                    isubmat = nint(uparam(276+3));   iu(3)=n0phas+(isubmat-1)*nvphas + ipos-1
+                    isubmat = nint(uparam(276+4));   iu(4)=n0phas+(isubmat-1)*nvphas + ipos-1
+                    vfrac(i,1) = mbuf%var(i+iu(1)*nel)
+                    vfrac(i,2) = mbuf%var(i+iu(2)*nel)
+                    vfrac(i,3) = mbuf%var(i+iu(3)*nel)
+                    vfrac(i,4) = mbuf%var(i+iu(4)*nel)
+                    ipos = 12
+                    !bijective order           !indexes
+                    isubmat = nint(uparam(276+1));   iu(1)=n0phas+(isubmat-1)*nvphas + ipos-1
+                    isubmat = nint(uparam(276+2));   iu(2)=n0phas+(isubmat-1)*nvphas + ipos-1
+                    isubmat = nint(uparam(276+3));   iu(3)=n0phas+(isubmat-1)*nvphas + ipos-1
+                    isubmat = nint(uparam(276+4));   iu(4)=n0phas+(isubmat-1)*nvphas + ipos-1
+                    rhoi(1) = mbuf%var(i+iu(1)*nel)
+                    rhoi(2) = mbuf%var(i+iu(2)*nel)
+                    rhoi(3) = mbuf%var(i+iu(3)*nel)
+                    rhoi(4) = mbuf%var(i+iu(4)*nel)
+                    do ilay=1,4
+                      mid = MAT_PARAM(mt)%multimat%mid(ilay)
+                      rho0i (ilay) = pm(89,mid)
+                      Vi (ilay) = vfrac(i,ilay) * gbuf%vol(i)
+                      ipos = 12
+                      V0i (ilay) =  rhoi(ilay) * Vi(ilay) / rho0i(ilay)         !rho0.V0 = rho.V
+                    enddo
+                    V0g = sum(V0i)
+                    RHO0g = zero
+                    do ilay=1,4
+                      RHO0g = RHO0g + rho0i(ilay)*V0i(ilay)
+                    end do
+                    RHO0g = RHO0g / V0g
+                    value(i) = gbuf%rho(i) / RHO0g - ONE
                     is_written_value(i) = 1
+
+                  elseif(mlw == 37)then
+                    !multimaterial 37 (staggered scheme)
+                    imat   = ixq(1,nft+1)
+                    iadbuf = ipm(7,imat)
+                    nuparam= ipm(9,imat)
+                    uparam => bufmat(iadbuf:iadbuf+nuparam)
+                    mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
+                    rho0i(1) = uparam(11)
+                    rho0i(2) = uparam(12)
+                    Vi(1) = mbuf%var(i+3*nel) * gbuf%vol(i) !UVAR(I,4)  = VFRAC1
+                    Vi(2) = mbuf%var(i+4*nel) * gbuf%vol(i) !UVAR(I,5)  = VFRAC2
+                    rhoi(1) = mbuf%var(i+2*nel) !UVAR(I,3)  = RHO1
+                    rhoi(2) = mbuf%var(i+1*nel) !UVAR(I,2)  = RHO2
+                    V0i(1) =  rhoi(1) * Vi(1) / rho0i(1)         !rho0.V0 = rho.V
+                    V0i(2) =  rhoi(2) * Vi(2) / rho0i(2)         !rho0.V0 = rho.V
+                    V0g = sum(V0i)
+                    RHO0g = zero
+                    do ilay=1,2
+                      RHO0g = RHO0g + rho0i(ilay)*V0i(ilay)
+                    end do
+                    RHO0g = RHO0g / V0g
+                    value(i) = gbuf%rho(i) / RHO0g - ONE
+                    is_written_value(i) = 1
+
+                  elseif(mlw == 20)then
+                    !multimaterial 20 (staggered scheme)
+                    lbuf1  => elbuf_tab(ng)%bufly(1)%lbuf(1,1,1)
+                    lbuf2  => elbuf_tab(ng)%bufly(2)%lbuf(1,1,1)
+                    mid = MAT_PARAM(mt)%multimat%mid(1)
+                    rho0i(1) = pm(89,mid)
+                    mid = MAT_PARAM(mt)%multimat%mid(2)
+                    rho0i(2) = pm(89,mid)
+                    Vi(1) = lbuf1%vol(i)
+                    Vi(2) = lbuf2%vol(i)
+                    rhoi(1) = lbuf1%rho(i)
+                    rhoi(2) = lbuf2%rho(i)
+                    V0i(1) =  rhoi(1) * Vi(1) / rho0i(1)         !rho0.V0 = rho.V
+                    V0i(2) =  rhoi(2) * Vi(2) / rho0i(2)         !rho0.V0 = rho.V
+                    V0g = sum(V0i)
+                    RHO0g = zero
+                    do ilay=1,2
+                      RHO0g = RHO0g + rho0i(ilay)*V0i(ilay)
+                    end do
+                    RHO0g = RHO0g / V0g
+                    value(i) = gbuf%rho(i) / RHO0g - ONE
+                    is_written_value(i) = 1
+
+                  else
+                    !general case (monomaterial law)
+                    if(pm(89,mt) > zero)then
+                      value(i) = gbuf%rho(i) / pm(89,mt) - one
+                      is_written_value(i) = 1
+                    end if
                   end if
+
                 enddo
+!--------------------------------------------------
+              elseif(keyword(1:8) == 'VSTRAIN/') then
+!--------------------------------------------------
+                detected = .false.
+                read(keyword(9:), '(I2)', IOSTAT=ierr) ilay
+                if(ierr == 0 .and. ilay > 0) then
+                  if(mlw == 151 .and. ilay <= min(10,multi_fvm%nbmat))detected = .true.
+                  if(mlw ==  51 .and. ilay <= 4                      )detected = .true.
+                  if(mlw ==  37 .and. ilay <= 2                      )detected = .true.
+                  if(mlw ==  20 .and. ilay <= 2                      )detected = .true.
+                end if
+                if(detected)then
+                  do i=1,nel
+                    mt = ixq(1,i+nft)
+
+                    if(mlw == 151)then
+                      !multimaterial 151 (collocated scheme)
+                        mid = MAT_PARAM(mt)%multimat%mid(ilay)
+                        rho0i(ilay) = pm(89,mid)
+                        Vi(ilay) = multi_fvm%phase_alpha(ilay,i+nft) * gbuf%vol(i)
+                        V0i(ilay) = multi_fvm%phase_rho(ilay,i+nft) * Vi(ilay) / rho0i(ilay)         !rho0.V0 = rho.V
+                        value(i) = multi_fvm%phase_rho(ilay,i+nft) / rho0i(ilay) - ONE
+                        is_written_value(i) = 1
+
+                    elseif(mlw == 51)then
+                      !multimaterial 51 (staggered scheme)
+                      imat = ixq(1,nft+1)
+                      iadbuf = ipm(7,imat)
+                      nuparam= ipm(9,imat)
+                      uparam => bufmat(iadbuf:iadbuf+nuparam)
+                      mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
+                      mid = MAT_PARAM(mt)%multimat%mid(ilay)
+                      rho0i(ilay) = pm(89,mid)
+                      ipos = 1
+                      !bijective order           !indexes
+                      isubmat = nint(uparam(276+ilay));   iu(1)=n0phas+(isubmat-1)*nvphas + ipos-1
+                      vfrac(i,ilay) = mbuf%var(i+iu(ilay)*nel)
+                      Vi(ilay) = vfrac(i,ilay) * gbuf%vol(i)
+                      ipos = 12
+                      !bijective order           !indexes
+                      isubmat = nint(uparam(276+ilay));   iu(ilay)=n0phas+(isubmat-1)*nvphas + ipos-1
+                      rhoi(ilay) = mbuf%var(i+iu(ilay)*nel)
+                      V0i (ilay) =  rhoi(ilay) * Vi(ilay) / rho0i(ilay)         !rho0.V0 = rho.V
+                      value(i) = rhoi(ilay) / rho0i(ilay) - ONE
+                      is_written_value(i) = 1
+
+                    elseif(mlw == 37)then
+                      !multimaterial 37 (staggered scheme)
+                      imat = ixq(1,nft+1)
+                      iadbuf = ipm(7,imat)
+                      nuparam= ipm(9,imat)
+                      uparam => bufmat(iadbuf:iadbuf+nuparam)
+                      mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
+                      rho0i(ilay) = uparam(10+ilay)
+                      Vi(ilay) = mbuf%var(i+(ilay+2)*nel) * gbuf%vol(i)
+                      rhoi(ilay) = mbuf%var(i+(3-ilay)*nel) !UVAR(I,3)  = RHO1
+                      V0i(ilay) =  rhoi(ilay) * Vi(ilay) / rho0i(ilay)
+                      value(i) = rhoi(ilay) / rho0i(ilay) - ONE
+                      is_written_value(i) = 1
+
+                    elseif(mlw == 20)then
+                      !multimaterial 20 (staggered scheme)
+                      lbuf  => elbuf_tab(ng)%bufly(ilay)%lbuf(1,1,1)
+                      mid = MAT_PARAM(mt)%multimat%mid(ilay)
+                      rho0i(ilay) = pm(89,mid)
+                      Vi(ilay) = lbuf%vol(i)
+                      rhoi(ilay) = lbuf%rho(i)
+                      V0i(ilay) =  rhoi(ilay) * Vi(ilay) / rho0i(ilay)         !rho0.V0 = rho.V
+                      value(i) = rhoi(ilay) / rho0i(ilay) - ONE
+                      is_written_value(i) = 1
+
+                    else
+                      !general case (monomaterial law)
+                      is_written_value(i) = 0
+                    end if
+                enddo
+
+              end if
 !--------------------------------------------------
               endif  ! keyword
 !--------------------------------------------------
