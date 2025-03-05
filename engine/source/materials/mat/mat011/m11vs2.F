@@ -144,7 +144,7 @@ C-----------------------------------------------
               REV(I) = GBUF%RE(IS+1)
               VIS(I)=VIS(I)+PM(81,MV)*RKV(I)**2/REV(I)
             ENDIF
-            IF (JTHE>0) TV(I)  = GBUF%TEMP(IS+1)
+            IF (GBUF%G_TEMP > 0) TV(I)  = GBUF%TEMP(IS+1)
             !MOMENTUM
             IF(ALEFVM_Param%IEnabled == 1)THEN          
               IS       = IVOI-MFT
