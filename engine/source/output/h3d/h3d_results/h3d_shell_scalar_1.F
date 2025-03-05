@@ -43,16 +43,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    stack_mod                      ../engine/share/modules/stack_mod.F
       !||====================================================================
       SUBROUTINE H3D_SHELL_SCALAR_1( CALLED_FROM_PYTHON,
-     .                  ELBUF_TAB   ,SHELL_SCALAR,IPARG       ,GEO        ,
-     .                  IXC       ,IXTG      ,PM          ,BUFMAT     ,
-     .                  EHOUR     ,
-     .                  IPM         ,IGEO      ,THKE      ,ERR_THK_SH4 ,ERR_THK_SH3,
-     .                  X         ,V         ,W           ,ALE_CONNECT,
-     .                  STACK       ,ID_ELEM   ,ITY_ELEM  ,
-     .                  IS_WRITTEN_SHELL,IPARTC,IPARTTG   ,LAYER_INPUT ,IPT_INPUT  ,
-     .                  PLY_INPUT   ,IUVAR_INPUT,H3D_PART  ,KEYWORD    ,
-     .                  D           ,NG         ,MULTI_FVM,IDMDS       ,IMDSVAR    ,
-     .                  MDS_MATID   ,ID         ,MODE     ,MAT_PARAM   )
+     .                  ELBUF_TAB       ,SHELL_SCALAR,IPARG     ,GEO        ,
+     .                  IXC             ,IXTG        ,PM        ,BUFMAT     ,
+     .                  EHOUR           ,
+     .                  IPM             ,IGEO        ,THKE      ,ERR_THK_SH4 ,ERR_THK_SH3,
+     .                  X               ,V           ,W         ,ALE_CONNECT,
+     .                  STACK           ,ID_ELEM     ,ITY_ELEM  ,
+     .                  IS_WRITTEN_SHELL,IPARTC      ,IPARTTG   ,LAYER_INPUT ,IPT_INPUT  ,
+     .                  PLY_INPUT       ,IUVAR_INPUT ,H3D_PART  ,KEYWORD     ,
+     .                  D               ,NG          ,MULTI_FVM ,IDMDS       ,IMDSVAR    ,
+     .                  MDS_MATID       ,ID          ,MODE      ,MATPARAM    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -100,7 +100,7 @@ C-----------------------------------------------
         TYPE (MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
         TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
         INTEGER ,INTENT(IN) :: MODE
-        TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
+        TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -122,7 +122,7 @@ C-----------------------------------------------
      .          IPLY,
      .          IOK_PART(MVSIZ),JJ(5),NPGT,IUVAR,
      .          IS_WRITTEN_VALUE(MVSIZ),IV,KFACE,NB_FACE,IADBUF,NUPARAM,ISUBMAT,IS_EULER,IS_ALE,
-     .          IPINCH,IPG,USER_OK,IALEL,IMODE,NMOD,MAT_ID
+     .          IPINCH,IPG,USER_OK,IALEL,IMODE,NMOD,MAT_ID,MID,IERR,MT
         LOGICAL DETECTED
         CHARACTER*5 BUFF
         TYPE(G_BUFEL_)  ,POINTER :: GBUF
@@ -134,6 +134,12 @@ C-----------------------------------------------
         TYPE(L_BUFEL_DIR_) ,POINTER :: LBUF_DIR
         my_real, DIMENSION(:), POINTER  :: UVAR
         my_real, DIMENSION(:) ,POINTER  :: UPARAM
+        my_real :: vi(21) !< submaterial volumes at reference densities (max submat : 21)
+        my_real :: v0i(21) !< submaterial volumes at reference densities (max submat : 21)
+        my_real :: v0g !< global volume at reference density (mixture)
+        my_real :: RHO0i(21) !< submaterial initial mass densities (max submat : 21)
+        my_real :: RHOi(21) !< submaterial  mass densities (max submat : 21)
+        my_real :: RHO0g !< global initial mass density (mixture)
         DATA NS/10/
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -4036,7 +4042,7 @@ c
                       DO I = 1,NEL
                         DO N = 1,NLAY
                           IMAT = ELBUF_TAB(NG)%BUFLY(N)%IMAT
-                          MAT_ID = MAT_PARAM(IMAT)%MAT_ID
+                          MAT_ID = MATPARAM(IMAT)%MAT_ID
                           IF ((ID == -1) .OR. ((ID > 0).AND.(MAT_ID == ID))) THEN 
                             IF (ELBUF_TAB(NG)%BUFLY(N)%L_DMG > 0) THEN
                               NPTT = ELBUF_TAB(NG)%BUFLY(N)%NPTT
@@ -4060,7 +4066,7 @@ c
                       IF (ELBUF_TAB(NG)%BUFLY(1)%L_DMG > 0) THEN
                         NPTT = ELBUF_TAB(NG)%BUFLY(1)%NPTT
                         IMAT = ELBUF_TAB(NG)%BUFLY(1)%IMAT
-                        MAT_ID = MAT_PARAM(IMAT)%MAT_ID
+                        MAT_ID = MATPARAM(IMAT)%MAT_ID
                         IF ((ID == -1) .OR. ((ID > 0).AND.(MAT_ID == ID))) THEN 
                           DO I = 1,NEL
                             DO IT = 1,NPTT
@@ -4082,7 +4088,7 @@ c
                   ELSEIF (IPLY > 0 .AND. IPT <= MPT .AND. IPT > 0) THEN
                     DO J = 1,NLAY
                       IMAT = ELBUF_TAB(NG)%BUFLY(J)%IMAT
-                      MAT_ID = MAT_PARAM(IMAT)%MAT_ID
+                      MAT_ID = MATPARAM(IMAT)%MAT_ID
                       IF ((ID == -1) .OR. ((ID > 0).AND.(MAT_ID == ID))) THEN 
                         IF (ELBUF_TAB(NG)%BUFLY(J)%L_DMG > 0) THEN
                           NPTT = ELBUF_TAB(NG)%BUFLY(J)%NPTT
@@ -4114,7 +4120,7 @@ c
                   ELSEIF (IPLY > 0 .AND. IPT == -1) THEN
                     DO J = 1,NLAY
                       IMAT = ELBUF_TAB(NG)%BUFLY(J)%IMAT
-                      MAT_ID = MAT_PARAM(IMAT)%MAT_ID
+                      MAT_ID = MATPARAM(IMAT)%MAT_ID
                       IF ((ID == -1) .OR. ((ID > 0).AND.(MAT_ID == ID))) THEN 
                         IF (ELBUF_TAB(NG)%BUFLY(J)%L_DMG > 0) THEN
                           NPTT = ELBUF_TAB(NG)%BUFLY(J)%NPTT
@@ -4147,7 +4153,7 @@ c
                     IPT = 1
                     IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16) THEN
                       IMAT = ELBUF_TAB(NG)%BUFLY(ILAY)%IMAT
-                      MAT_ID = MAT_PARAM(IMAT)%MAT_ID
+                      MAT_ID = MATPARAM(IMAT)%MAT_ID
                       IF ((ID == -1) .OR. ((ID > 0).AND.(MAT_ID == ID))) THEN 
                         IF (ELBUF_TAB(NG)%BUFLY(ILAY)%L_DMG > 0) THEN
                           DO I=1,NEL
@@ -4168,7 +4174,7 @@ c
                   ELSEIF (IPT <= NPT .AND. IPT > 0) THEN
                     IF (IGTYP == 1 .OR. IGTYP == 9) THEN
                       IMAT = ELBUF_TAB(NG)%BUFLY(1)%IMAT
-                      MAT_ID = MAT_PARAM(IMAT)%MAT_ID
+                      MAT_ID = MATPARAM(IMAT)%MAT_ID
                       IF ((ID == -1) .OR. ((ID > 0).AND.(MAT_ID == ID))) THEN 
                         IF (ELBUF_TAB(NG)%BUFLY(1)%L_DMG > 0) THEN
                           DO I=1,NEL
@@ -4195,8 +4201,8 @@ c
                       DO I = 1,NEL
                         DO N = 1,NLAY
                           IMAT = ELBUF_TAB(NG)%BUFLY(N)%IMAT
-                          NMOD = MAT_PARAM(IMAT)%NMOD
-                          MAT_ID = MAT_PARAM(IMAT)%MAT_ID
+                          NMOD = MATPARAM(IMAT)%NMOD
+                          MAT_ID = MATPARAM(IMAT)%MAT_ID
                           IF ((NMOD > 0 .AND. MODE <= NMOD) .AND. (MAT_ID == ID)) THEN 
                             IF (ELBUF_TAB(NG)%BUFLY(N)%L_DMG > 0) THEN
                               NPTT = ELBUF_TAB(NG)%BUFLY(N)%NPTT
@@ -4218,8 +4224,8 @@ c
                       ! -> Mean value among all layers and integration points
                     ELSEIF (MPT > 0) THEN
                       IMAT = ELBUF_TAB(NG)%BUFLY(1)%IMAT
-                      NMOD = MAT_PARAM(IMAT)%NMOD
-                      MAT_ID = MAT_PARAM(IMAT)%MAT_ID
+                      NMOD = MATPARAM(IMAT)%NMOD
+                      MAT_ID = MATPARAM(IMAT)%MAT_ID
                       IF ((NMOD > 0 .AND. MODE <= NMOD) .AND. (MAT_ID == ID)) THEN 
                         IF (ELBUF_TAB(NG)%BUFLY(1)%L_DMG > 0) THEN
                           NPTT = ELBUF_TAB(NG)%BUFLY(1)%NPTT
@@ -4243,8 +4249,8 @@ c
                   ELSEIF (IPLY > 0 .AND. IPT <= MPT .AND. IPT > 0) THEN
                     DO J = 1,NLAY
                       IMAT = ELBUF_TAB(NG)%BUFLY(J)%IMAT
-                      NMOD = MAT_PARAM(IMAT)%NMOD
-                      MAT_ID = MAT_PARAM(IMAT)%MAT_ID
+                      NMOD = MATPARAM(IMAT)%NMOD
+                      MAT_ID = MATPARAM(IMAT)%MAT_ID
                       IF ((NMOD > 0 .AND. MODE <= NMOD) .AND. (MAT_ID == ID)) THEN 
                         IF (ELBUF_TAB(NG)%BUFLY(J)%L_DMG > 0) THEN
                           NPTT = ELBUF_TAB(NG)%BUFLY(J)%NPTT
@@ -4276,8 +4282,8 @@ c
                   ELSEIF (IPLY > 0 .AND. IPT == -1) THEN
                     DO J = 1,NLAY
                       IMAT = ELBUF_TAB(NG)%BUFLY(J)%IMAT
-                      NMOD = MAT_PARAM(IMAT)%NMOD
-                      MAT_ID = MAT_PARAM(IMAT)%MAT_ID
+                      NMOD = MATPARAM(IMAT)%NMOD
+                      MAT_ID = MATPARAM(IMAT)%MAT_ID
                       IF ((NMOD > 0 .AND. MODE <= NMOD) .AND. (MAT_ID == ID)) THEN 
                         IF (ELBUF_TAB(NG)%BUFLY(J)%L_DMG > 0) THEN
                           NPTT = ELBUF_TAB(NG)%BUFLY(J)%NPTT
@@ -4310,8 +4316,8 @@ c
                     IPT = 1
                     IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16) THEN
                       IMAT = ELBUF_TAB(NG)%BUFLY(ILAY)%IMAT
-                      NMOD = MAT_PARAM(IMAT)%NMOD
-                      MAT_ID = MAT_PARAM(IMAT)%MAT_ID
+                      NMOD = MATPARAM(IMAT)%NMOD
+                      MAT_ID = MATPARAM(IMAT)%MAT_ID
                       IF ((NMOD > 0 .AND. MODE <= NMOD) .AND. (MAT_ID == ID)) THEN 
                         IF (ELBUF_TAB(NG)%BUFLY(ILAY)%L_DMG > 0) THEN
                           DO I=1,NEL
@@ -4332,8 +4338,8 @@ c
                   ELSEIF (IPT <= NPT .AND. IPT > 0) THEN
                     IF (IGTYP == 1 .OR. IGTYP == 9) THEN
                       IMAT = ELBUF_TAB(NG)%BUFLY(1)%IMAT
-                      NMOD = MAT_PARAM(IMAT)%NMOD
-                      MAT_ID = MAT_PARAM(IMAT)%MAT_ID
+                      NMOD = MATPARAM(IMAT)%NMOD
+                      MAT_ID = MATPARAM(IMAT)%MAT_ID
                       IF ((NMOD > 0 .AND. MODE <= NMOD) .AND. (MAT_ID == ID)) THEN 
                         IF (ELBUF_TAB(NG)%BUFLY(1)%L_DMG > 0) THEN
                           DO I=1,NEL
@@ -5944,6 +5950,206 @@ C--------------------------------------------------
                   IS_WRITTEN_VALUE(I) = 1
                 ENDDO
               ENDIF
+!--------------------------------------------------
+              elseif(keyword == 'VSTRAIN' .and. N2D > 0) then
+!--------------------------------------------------
+                do i=1,nel
+                  mt = ixtg(1,i+nft)
+                  if(mlw == 151)then
+                    !multimaterial 151 (collocated scheme)
+                      do ilay=1,nlay
+                        mid = MATPARAM(mt)%multimat%mid(ilay)
+                        rho0i (ilay) = pm(89,mid)
+                        Vi (ilay) = multi_fvm%phase_alpha(ilay,i+nft) * gbuf%vol(i)
+                        V0i (ilay) =  multi_fvm%phase_rho(ilay,i+nft) * Vi(ilay) / rho0i(ilay)         !rho0.V0 = rho.V
+                      enddo
+                      V0g = sum(V0i)
+                      RHO0g = zero
+                      do ilay=1,nlay
+                        RHO0g = RHO0g + rho0i(ilay)*V0i(ilay)
+                      end do
+                      RHO0g = RHO0g / V0g
+                      value(i) = multi_fvm%rho(i+nft) / RHO0g - ONE
+                      is_written_value(i) = 1
+
+                  elseif(mlw == 51)then
+                    !multimaterial 51 (staggered scheme)
+                    imat   = ixtg(1,nft+1)
+                    iadbuf = ipm(7,imat)
+                    nuparam= ipm(9,imat)
+                    uparam => bufmat(iadbuf:iadbuf+nuparam)
+                    mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
+                    ipos = 1
+                    !bijective order           !indexes
+                    isubmat = nint(uparam(276+1));   iu(1)=m51_n0phas+(isubmat-1)*m51_nvphas + ipos-1
+                    isubmat = nint(uparam(276+2));   iu(2)=m51_n0phas+(isubmat-1)*m51_nvphas + ipos-1
+                    isubmat = nint(uparam(276+3));   iu(3)=m51_n0phas+(isubmat-1)*m51_nvphas + ipos-1
+                    isubmat = nint(uparam(276+4));   iu(4)=m51_n0phas+(isubmat-1)*m51_nvphas + ipos-1
+                    vfrac(i,1) = mbuf%var(i+iu(1)*nel)
+                    vfrac(i,2) = mbuf%var(i+iu(2)*nel)
+                    vfrac(i,3) = mbuf%var(i+iu(3)*nel)
+                    vfrac(i,4) = mbuf%var(i+iu(4)*nel)
+                    ipos = 12
+                    !bijective order           !indexes
+                    isubmat = nint(uparam(276+1));   iu(1)=m51_n0phas+(isubmat-1)*m51_nvphas + ipos-1
+                    isubmat = nint(uparam(276+2));   iu(2)=m51_n0phas+(isubmat-1)*m51_nvphas + ipos-1
+                    isubmat = nint(uparam(276+3));   iu(3)=m51_n0phas+(isubmat-1)*m51_nvphas + ipos-1
+                    isubmat = nint(uparam(276+4));   iu(4)=m51_n0phas+(isubmat-1)*m51_nvphas + ipos-1
+                    rhoi(1) = mbuf%var(i+iu(1)*nel)
+                    rhoi(2) = mbuf%var(i+iu(2)*nel)
+                    rhoi(3) = mbuf%var(i+iu(3)*nel)
+                    rhoi(4) = mbuf%var(i+iu(4)*nel)
+                    do ilay=1,4
+                      mid = MATPARAM(mt)%multimat%mid(ilay)
+                      rho0i (ilay) = pm(89,mid)
+                      Vi (ilay) = vfrac(i,ilay) * gbuf%vol(i)
+                      ipos = 12
+                      V0i (ilay) =  rhoi(ilay) * Vi(ilay) / rho0i(ilay)         !rho0.V0 = rho.V
+                    enddo
+                    V0g = sum(V0i)
+                    RHO0g = zero
+                    do ilay=1,4
+                      RHO0g = RHO0g + rho0i(ilay)*V0i(ilay)
+                    end do
+                    RHO0g = RHO0g / V0g
+                    value(i) = gbuf%rho(i) / RHO0g - ONE
+                    is_written_value(i) = 1
+
+                  elseif(mlw == 37)then
+                    !multimaterial 37 (staggered scheme)
+                    imat   = ixtg(1,nft+1)
+                    iadbuf = ipm(7,imat)
+                    nuparam= ipm(9,imat)
+                    uparam => bufmat(iadbuf:iadbuf+nuparam)
+                    mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
+                    rho0i(1) = uparam(11)
+                    rho0i(2) = uparam(12)
+                    Vi(1) = mbuf%var(i+3*nel) * gbuf%vol(i) !UVAR(I,4)  = VFRAC1
+                    Vi(2) = mbuf%var(i+4*nel) * gbuf%vol(i) !UVAR(I,5)  = VFRAC2
+                    rhoi(1) = mbuf%var(i+2*nel) !UVAR(I,3)  = RHO1
+                    rhoi(2) = mbuf%var(i+1*nel) !UVAR(I,2)  = RHO2
+                    V0i(1) =  rhoi(1) * Vi(1) / rho0i(1)         !rho0.V0 = rho.V
+                    V0i(2) =  rhoi(2) * Vi(2) / rho0i(2)         !rho0.V0 = rho.V
+                    V0g = sum(V0i)
+                    RHO0g = zero
+                    do ilay=1,nlay
+                      RHO0g = RHO0g + rho0i(ilay)*V0i(ilay)
+                    end do
+                    RHO0g = RHO0g / V0g
+                    value(i) = gbuf%rho(i) / RHO0g - ONE
+                    is_written_value(i) = 1
+
+                  elseif(mlw == 20)then
+                    !multimaterial 20 (staggered scheme)
+                    lbuf1  => elbuf_tab(ng)%bufly(1)%lbuf(1,1,1)
+                    lbuf2  => elbuf_tab(ng)%bufly(2)%lbuf(1,1,1)
+                    mid = MATPARAM(mt)%multimat%mid(1)
+                    rho0i(1) = pm(89,mid)
+                    mid = MATPARAM(mt)%multimat%mid(2)
+                    rho0i(2) = pm(89,mid)
+                    Vi(1) = lbuf1%vol(i)
+                    Vi(2) = lbuf2%vol(i)
+                    rhoi(1) = lbuf1%rho(i)
+                    rhoi(2) = lbuf2%rho(i)
+                    V0i(1) =  rhoi(1) * Vi(1) / rho0i(1)         !rho0.V0 = rho.V
+                    V0i(2) =  rhoi(2) * Vi(2) / rho0i(2)         !rho0.V0 = rho.V
+                    V0g = sum(V0i)
+                    RHO0g = zero
+                    do ilay=1,nlay
+                      RHO0g = RHO0g + rho0i(ilay)*V0i(ilay)
+                    end do
+                    RHO0g = RHO0g / V0g
+                    value(i) = gbuf%rho(i) / RHO0g - ONE
+                    is_written_value(i) = 1
+
+                  else
+                    !general case (monomaterial law)
+                    if(pm(89,mt) > zero)then
+                      value(i) = gbuf%rho(i) / pm(89,mt) - one
+                      is_written_value(i) = 1
+                    end if
+                  end if
+
+                enddo
+!--------------------------------------------------
+              elseif(keyword(1:8) == 'VSTRAIN/' .and. N2D > 0) then
+!--------------------------------------------------
+                detected = .false.
+                read(keyword(9:), '(I2)', IOSTAT=ierr) ilay
+                if(ierr == 0 .and. ilay > 0) then
+                  if(mlw == 151 .and. ilay <= min(10,multi_fvm%nbmat))detected = .true.
+                  if(mlw ==  51 .and. ilay <= 4                      )detected = .true.
+                  if(mlw ==  37 .and. ilay <= 2                      )detected = .true.
+                  if(mlw ==  20 .and. ilay <= 2                      )detected = .true.
+                end if
+                if(detected)then
+                  do i=1,nel
+                    mt = ixtg(1,i+nft)
+
+                    if(mlw == 151)then
+                      !multimaterial 151 (collocated scheme)
+                        mid = MATPARAM(mt)%multimat%mid(ilay)
+                        rho0i(ilay) = pm(89,mid)
+                        Vi(ilay) = multi_fvm%phase_alpha(ilay,i+nft) * gbuf%vol(i)
+                        V0i(ilay) = multi_fvm%phase_rho(ilay,i+nft) * Vi(ilay) / rho0i(ilay)         !rho0.V0 = rho.V
+                        value(i) = multi_fvm%phase_rho(ilay,i+nft) / rho0i(ilay) - ONE
+                        is_written_value(i) = 1
+
+                    elseif(mlw == 51)then
+                      !multimaterial 51 (staggered scheme)
+                      imat = ixtg(1,nft+1)
+                      iadbuf = ipm(7,imat)
+                      nuparam= ipm(9,imat)
+                      uparam => bufmat(iadbuf:iadbuf+nuparam)
+                      mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
+                      mid = MATPARAM(mt)%multimat%mid(ilay)
+                      rho0i(ilay) = pm(89,mid)
+                      ipos = 1
+                      !bijective order           !indexes
+                      isubmat = nint(uparam(276+ilay));   iu(1)=m51_n0phas+(isubmat-1)*m51_nvphas + ipos-1
+                      vfrac(i,ilay) = mbuf%var(i+iu(ilay)*nel)
+                      Vi(ilay) = vfrac(i,ilay) * gbuf%vol(i)
+                      ipos = 12
+                      !bijective order           !indexes
+                      isubmat = nint(uparam(276+ilay));   iu(ilay)=m51_n0phas+(isubmat-1)*m51_nvphas + ipos-1
+                      rhoi(ilay) = mbuf%var(i+iu(ilay)*nel)
+                      V0i (ilay) =  rhoi(ilay) * Vi(ilay) / rho0i(ilay)         !rho0.V0 = rho.V
+                      value(i) = rhoi(ilay) / rho0i(ilay) - ONE
+                      is_written_value(i) = 1
+
+                    elseif(mlw == 37)then
+                      !multimaterial 37 (staggered scheme)
+                      imat = ixtg(1,nft+1)
+                      iadbuf = ipm(7,imat)
+                      nuparam= ipm(9,imat)
+                      uparam => bufmat(iadbuf:iadbuf+nuparam)
+                      mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
+                      rho0i(ilay) = uparam(10+ilay)
+                      Vi(ilay) = mbuf%var(i+(ilay+2)*nel) * gbuf%vol(i)
+                      rhoi(ilay) = mbuf%var(i+(3-ilay)*nel) !UVAR(I,3)  = RHO1
+                      V0i(ilay) =  rhoi(ilay) * Vi(ilay) / rho0i(ilay)
+                      value(i) = rhoi(ilay) / rho0i(ilay) - ONE
+                      is_written_value(i) = 1
+
+                    elseif(mlw == 20)then
+                      !multimaterial 20 (staggered scheme)
+                      lbuf  => elbuf_tab(ng)%bufly(ilay)%lbuf(1,1,1)
+                      mid = MATPARAM(mt)%multimat%mid(ilay)
+                      rho0i(ilay) = pm(89,mid)
+                      Vi(ilay) = lbuf%vol(i)
+                      rhoi(ilay) = lbuf%rho(i)
+                      V0i(ilay) =  rhoi(ilay) * Vi(ilay) / rho0i(ilay)         !rho0.V0 = rho.V
+                      value(i) = rhoi(ilay) / rho0i(ilay) - ONE
+                      is_written_value(i) = 1
+
+                    else
+                      !general case (monomaterial law)
+                      is_written_value(i) = 0
+                    end if
+                enddo
+
+              end if
+!--------------------------------------------------
 C--------------------------------------------------
             ENDIF  ! KEYWORD
 C--------------------------------------------------
