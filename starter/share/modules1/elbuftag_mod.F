@@ -36,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_fail_alter        ../starter/source/materials/fail/windshield_alter/hm_read_fail_alter.F
       !||    hm_read_fail_chang        ../starter/source/materials/fail/changchang/hm_read_fail_chang.F
       !||    hm_read_fail_connect      ../starter/source/materials/fail/connect/hm_read_fail_connect.F
+      !||    hm_read_fail_fld          ../starter/source/materials/fail/fld/hm_read_fail_fld.F
       !||    hm_read_fail_gene1        ../starter/source/materials/fail/gene1/hm_read_fail_gene1.F
       !||    hm_read_fail_hashin       ../starter/source/materials/fail/hashin/hm_read_fail_hashin.F
       !||    hm_read_fail_hoffman      ../starter/source/materials/fail/hoffman/hm_read_fail_hoffman.F
