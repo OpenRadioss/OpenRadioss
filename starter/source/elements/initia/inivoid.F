@@ -71,7 +71,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      D                   STRP   ,INP    ,STIFINT,MCPP   ,INR    ,
      E                   MSR    ,MSRT   ,STR    ,IPARTR ,ITAB   ,
      F                   IXR    ,IMERGE2 , IADMERGE2,NEL,DEFAULTS,
-     G                   GLOB_THERM)
+     G                   GLOB_THERM,IBEAM_VECTOR,RBEAM_VECTOR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -111,10 +111,9 @@ C-----------------------------------------------
      .        NSHNOD(*), SH4TREE(*), SH3TREE(*),SH3TRIM(*),
      .        PERTURB(NPERTURB),IXT(NIXT,*),IPARTTR(*),IXP(NIXP,*),IPARTP(*),
      .        ITAB(*),IXR(NIXR,*),IMERGE2(NUMNOD+1),NEL,IPARTR(*),
-     .        IADMERGE2(NUMNOD+1)
-
+     .        IADMERGE2(NUMNOD+1)      
       INTEGER*8 I8MI(6,*)
-
+      INTEGER,INTENT(IN) :: IBEAM_VECTOR(NUMELP)
       my_real
      .   PM(NPROPM,*), GEO(NPROPG,*),MS(*),MSC(*),MSS(8,*),
      .   MSTG(*),INTG(*),PTG(3,*),IN(*),INC(*),THKC(*),THKT(*),
@@ -125,6 +124,7 @@ C-----------------------------------------------
      .   BVOLNOD(*), BNS(8,*), VNS(8,*),RNOISE(*),PART_AREA(*),ELE_AREA(*),
      .   MST(*),MSP(*),STT(*),STP(*),STRP(*),INP(*),STIFINT(*),MCPP(*),
      .   INR(3,*),MSR(3,*),MSRT(*),STR(*)
+      my_real,INTENT(IN) :: RBEAM_VECTOR(3,NUMELP)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE(DEFAULTS_), INTENT(IN) :: DEFAULTS             
       type(glob_therm_) ,intent(inout) :: glob_therm
@@ -135,7 +135,8 @@ C-----------------------------------------------
       INTEGER MXT(MVSIZ), PID(MVSIZ), NGL(MVSIZ),
      .   IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),
      .   IX5(MVSIZ),IX6(MVSIZ),IX7(MVSIZ),IX8(MVSIZ),IBID(MVSIZ),IP,II(6),
-     .   ID, IPID, J, I0,I1,I2,I3,ITMP, KK, K,ILENG,IMASS,KK1,IMAS_DS
+     .   ID, IPID, J, I0,I1,I2,I3,ITMP, KK, K,ILENG,IMASS,KK1,IMAS_DS,
+     .   IVECT(MVSIZ)
       my_real
      .   AREA(MVSIZ), VOID(MVSIZ),RHO(MVSIZ),VOL(MVSIZ),
      .   X1(MVSIZ),X2(MVSIZ),X3(MVSIZ),X4(MVSIZ),X5(MVSIZ),X6(MVSIZ),
@@ -155,7 +156,7 @@ C-----------------------------------------------
      .   X2L(MVSIZ),X3L(MVSIZ),Y2L(MVSIZ),Y3L(MVSIZ),
      .   X31(MVSIZ),Y31(MVSIZ),Z31(MVSIZ), DELTAX(MVSIZ),
      .   BIDON, NOISE, XL(MVSIZ),LENGTH,UINER(MVSIZ),MASSR(MVSIZ),
-     .   XM, XINE,RATIO,STI,KX,EMS(MVSIZ),RHOR
+     .   XM, XINE,RATIO,STI,KX,EMS(MVSIZ),RHOR,VECT(3,MVSIZ)
          my_real, DIMENSION(:), ALLOCATABLE :: STIFNTMP !numnod
       DOUBLE PRECISION
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
@@ -371,10 +372,11 @@ C Avoid fail in output subroutine (Anim division by AREA)
 C--------------------------------------
        ELSEIF(ITY == 5)THEN
 C Beam element
-        STIFNTMP(1:NUMNOD)=ZERO
+        STIFNTMP(1:NUMNOD)=ZERO 
         CALL PCOORI(X,IXP(1,NFT+1),
-     .                    MXT,PID ,IX1,IX2,IX3,DELTAX,
-     .                    X1,X2,X3, Y1,Y2,Y3, Z1,Z2,Z3)
+     .              MXT,PID ,IX1,IX2,IX3,DELTAX,
+     .              X1,X2,X3, Y1,Y2,Y3, Z1,Z2,Z3,
+     .              IBEAM_VECTOR(NFT+1),RBEAM_VECTOR(1,NFT+1),IVECT,VECT)
 c
         CALL PMASS(GEO,PM,MS,IN,
      .             STIFNTMP,STIFNTMP,PARTSAV,V,IPARTP(NFT+1),

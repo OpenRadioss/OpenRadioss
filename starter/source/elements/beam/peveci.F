@@ -25,7 +25,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    pinit3   ../starter/source/elements/beam/pinit3.F
       !||====================================================================
-      SUBROUTINE PEVECI(RLOC, X1,X3, Y1,Y3, Z1,Z3,X2,Y2,Z2,NC2,NC3) 
+      SUBROUTINE PEVECI(RLOC, X1,X3,Y1,Y3,Z1,Z3,X2,Y2,Z2,NC2,NC3,
+     .                  IVECT,VECT) 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -37,8 +38,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER , DIMENSION(MVSIZ), INTENT(IN) :: NC2,NC3
+      INTEGER , DIMENSION(MVSIZ), INTENT(IN) :: NC2,NC3,IVECT
       my_real , DIMENSION(MVSIZ), INTENT(IN) :: X2,Y2,Z2
+      my_real , INTENT(IN) :: VECT(3,MVSIZ)
+
 C     REAL
       my_real
      .   RLOC(3,*),
@@ -51,14 +54,20 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
 C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
+C   L o c a l   V a r i a b l e s 
 C-----------------------------------------------
       INTEGER I
       my_real
      .   SUM,E1X,E1Y,E1Z
 C---------------------------------------------------------------------
       DO I=LFT,LLT
-        IF (NC3(I)==NC2(I)) THEN
+        IF (IVECT(I) > 0) THEN
+C         Plane XY defined by input vector          
+          E2X(I)=VECT(1,I)
+          E2Y(I)=VECT(2,I)
+          E2Z(I)=VECT(3,I)
+        ELSEIF ((IVECT(I) < 0).OR.(NC3(I)==NC2(I))) THEN
+C         Input vector or N1-N3 colinear with beam axis - Y or Z global are used           
           E1X=X2(I)-X1(I)
           E1Y=Y2(I)-Y1(I)
           E1Z=Z2(I)-Z1(I)
@@ -73,6 +82,7 @@ C---------------------------------------------------------------------
             E2Z(I)=ZERO
           END IF
         ELSE
+C         Plane XY defined by N1-N3      
           E2X(I)=X3(I)-X1(I)
           E2Y(I)=Y3(I)-Y1(I)
           E2Z(I)=Z3(I)-Z1(I)
