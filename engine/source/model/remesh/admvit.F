@@ -64,9 +64,8 @@ C-----------------------------------------------
       INTEGER SH4FT, SH4LT, SH3FT, SH3LT
       INTEGER N, NN, LEVEL, IP, NLEV, LL, IERR
       INTEGER SON,M(4),MC,N1,N2,N3,N4,J,NA,NB
-      my_real ,INTENT(IN) :: ITHERM_FE
-      my_real
-     .        VV, USDT
+      integer ,INTENT(IN) :: ITHERM_FE
+      my_real :: VV, USDT
 C-----------------------------------------------
       USDT=ONE/DT12
 C
