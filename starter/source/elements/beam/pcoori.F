@@ -32,7 +32,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE PCOORI(X,NCP, 
      .                  MXT,MXG,NC1,NC2,NC3,DELTAX,
-     .                  X1,X2,X3, Y1,Y2,Y3, Z1,Z2,Z3)
+     .                  X1,X2,X3, Y1,Y2,Y3, Z1,Z2,Z3,
+     .                  IBEAM_VECTOR,RBEAM_VECTOR,IVECT,VECT)
 C-----------------------------------------------
       USE MESSAGE_MOD
 C-----------------------------------------------
@@ -48,9 +49,13 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NCP(NIXP,*),NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ),
      .        MXT(MVSIZ), MXG(MVSIZ)
+      INTEGER , INTENT (IN)  :: IBEAM_VECTOR(MVSIZ)
+      INTEGER , INTENT (OUT) :: IVECT(MVSIZ)
       my_real X1(MVSIZ), X2(MVSIZ), X3(MVSIZ),
      .        Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ),
      .        Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ),X(3,*),DELTAX(MVSIZ)
+      my_real , INTENT (IN)  :: RBEAM_VECTOR(3,MVSIZ)
+      my_real , INTENT (OUT) :: VECT(3,MVSIZ)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -71,10 +76,12 @@ C--------------------------------------------------
         NC2(I)=NCP(3,I)
         NC3(I)=NCP(4,I)
         MXG(I)=NCP(5,I)
+        IVECT(I)=IBEAM_VECTOR(I)
+        VECT(1:3,I)=RBEAM_VECTOR(1:3,I)        
       END DO
 C
 C----------------------------
-C     COORDONNEES           |
+C     COORDINATES         |
 C----------------------------
       DO I=LFT,LLT
         X1(I)=X(1,NC1(I))
@@ -95,47 +102,71 @@ c
         DELTAX(I) = SQRT(XX+YY+ZZ)
       ENDDO
 C------------------------------
-C     CONSISTENCE
-C------------------------------
+C     CONSISTENCY
+C------------------------------     
       DO I=LFT,LLT
-       XP1=X2(I)-X1(I)
-       XP2=Y2(I)-Y1(I)
-       XP3=Z2(I)-Z1(I)
-       XNOR1=SQRT(XP1*XP1+XP2*XP2+XP3*XP3)
-       IF(XNOR1<=EM20) THEN
+        XP1=X2(I)-X1(I)
+        XP2=Y2(I)-Y1(I)
+        XP3=Z2(I)-Z1(I)
+        XNOR1=SQRT(XP1*XP1+XP2*XP2+XP3*XP3)
+        IF(XNOR1<=EM20) THEN
           CALL ANCMSG(MSGID=222,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
      .                I1=NCP(6,I))
-       ENDIF
+        ENDIF
 C
-C      CALCUL DE COLINEARITE DES VECTEURS N1N2 ET N1N3
-       IF (NC3(I)==NC2(I)) CYCLE
-       XP4=X3(I)-X1(I)
-       XP5=Y3(I)-Y1(I)
-       XP6=Z3(I)-Z1(I)
-       XNOR2=SQRT(XP4*XP4+XP5*XP5+XP6*XP6)
-       IF(XNOR2<EM20) THEN
-          CALL ANCMSG(MSGID=223,
+        IF (IVECT(I)>0) THEN
+C         DIRECTION DEFINED BY VECTOR : CHECK THAT VECTOR NOT COLINEAR WITH N1N2       
+          XP4=VECT(1,I)
+          XP5=VECT(2,I)
+          XP6=VECT(3,I)
+          DET1=XP1*XP5-XP2*XP4
+          DET2=XP2*XP6-XP3*XP5
+          DET3=XP3*XP4-XP1*XP6
+          DET= SQRT(DET1**2+DET2**2+DET3**2)
+          IF (DET<TOL) THEN
+C           IVECT swithed to -1 - Y or Z global axis will be used instead of the vector            
+            IVECT(I) = -1
+            CALL ANCMSG(MSGID=3090,
+     .                  MSGTYPE=MSGWARNING,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  I1=NCP(6,I),
+     .                  PRMOD=MSG_CUMU)
+          ENDIF              
+        ELSE  
+C         DIRECTION DEFINED WITH N3 : CHECK THAT N1N2 and N1N3 ARE NOT COLINEAR
+          IF (NC3(I)==NC2(I)) CYCLE
+          XP4=X3(I)-X1(I)
+          XP5=Y3(I)-Y1(I)
+          XP6=Z3(I)-Z1(I)
+          XNOR2=SQRT(XP4*XP4+XP5*XP5+XP6*XP6)
+          IF(XNOR2<EM20) THEN
+            CALL ANCMSG(MSGID=223,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
      .                I1=NCP(6,I))
-       ELSE
-         DET1=XP1*XP5-XP2*XP4
-         DET2=XP2*XP6-XP3*XP5
-         DET3=XP3*XP4-XP1*XP6
-         DET= SQRT(DET1**2+DET2**2+DET3**2)
-         IF (DET<TOL) THEN
-           CALL ANCMSG(MSGID=3051,
-     .                MSGTYPE=MSGWARNING,
-     .                ANMODE=ANINFO_BLIND_1,
-     .                I1=NCP(6,I),
-     .                PRMOD=MSG_CUMU)
-           NC3(I)=NC2(I)
-         END IF
-       ENDIF
+          ELSE
+            DET1=XP1*XP5-XP2*XP4
+            DET2=XP2*XP6-XP3*XP5
+            DET3=XP3*XP4-XP1*XP6
+            DET= SQRT(DET1**2+DET2**2+DET3**2)
+            IF (DET<TOL) THEN
+              CALL ANCMSG(MSGID=3051,
+     .                   MSGTYPE=MSGWARNING,
+     .                   ANMODE=ANINFO_BLIND_1,
+     .                   I1=NCP(6,I),
+     .                   PRMOD=MSG_CUMU)
+              NC3(I)=NC2(I)
+            ENDIF
+          ENDIF
+        ENDIF   
       ENDDO
       CALL ANCMSG(MSGID=3051,
+     .                  MSGTYPE=MSGWARNING,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  PRMOD=MSG_PRINT)
+      CALL ANCMSG(MSGID=3090,
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_1,
      .                  PRMOD=MSG_PRINT)

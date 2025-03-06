@@ -180,7 +180,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      L                  KNOD2ELC   ,NOD2ELC       ,DR               ,SLRBODY        ,DRAPEG    ,
      M                  IPARI      ,INTBUF_TAB    ,INTERFACES       ,MAT_PARAM      ,NPRELOAD_A,
      N                  PRELOAD_A  ,FAIL_FRACTAL  ,FAIL_BROKMANN    ,DEFAULTS       ,NDAMP_FREQ_RANGE,
-     L                  DAMPR)
+     L                  DAMPR      ,IBEAM_VECTOR  ,RBEAM_VECTOR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------                     
@@ -317,6 +317,9 @@ C
       INTEGER,INTENT(IN) :: NPRELOAD_A
       INTEGER,INTENT(IN) :: NDAMP_FREQ_RANGE
       my_real,INTENT(IN) :: DAMPR(NRDAMP,NDAMP)
+      INTEGER,INTENT(IN) :: IBEAM_VECTOR(NUMELP)
+      my_real,INTENT(IN) :: RBEAM_VECTOR(3,NUMELP)
+
 C
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP,NXEL) :: XFEM_TAB
@@ -915,7 +918,7 @@ C
      E        STRP       ,INP        ,STIFINT    ,MCPP      ,INR       ,
      F        MSR        ,MSRT       ,STR        ,IPART(I15F),ITAB     ,
      G        IXR       , IMERGE2    ,IADMERGE2  ,NEL       ,DEFAULTS  ,
-     H        GLOB_THERM )
+     H        GLOB_THERM,IBEAM_VECTOR,RBEAM_VECTOR)
 C
        ELSEIF( MTN == 13) THEN
 C Rigid material
@@ -1371,7 +1374,7 @@ C 2D multifluid law
      4                MSP        ,INP      ,IGEO    ,STIFINT ,STRP       ,
      5                NSIGBEAM   ,SIGBEAM  ,PTBEAM  ,IUSER   ,MCP        ,
      6                MCPP       ,TEMP     ,PRELOAD_A,IBOLTP ,NPRELOAD_A ,
-     7                GLOB_THERM)
+     7                GLOB_THERM ,IBEAM_VECTOR,RBEAM_VECTOR)
         !----------------------------------------!
         !   ITY == 6                      SPRING !
         !----------------------------------------!
@@ -1870,7 +1873,7 @@ C
      .         NBNO        , IXS         , IXC , IXTG        , GEO  ,
      .         FXBRPM(ARPM), I   , FXBIPM(29,I), LVSIG ,FXBIPM(18,I),
      .         NME         , IRCS, FXBIPM(30,I), NELT,         NELP ,
-     .         IXT         , IXP )
+     .         IXT         , IXP ,IBEAM_VECTOR,RBEAM_VECTOR)
 C
             FXBIPM(33,I)=IRCS
             ADRRPM=FXBIPM(14,I)

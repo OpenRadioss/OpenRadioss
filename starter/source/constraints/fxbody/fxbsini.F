@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   NSN   , IXS   , IXC  , IXTG  , GEO  ,
      .                   FXBRPM, NFX   , IFILE, LVSIG , NSNI ,
      .                   NME   , IRCS  , IRCM0, NELT  , NELP ,
-     .                   IXT   , IXP   )
+     .                   IXT   , IXP   ,IBEAM_VECTOR,RBEAM_VECTOR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,9 +53,11 @@ C-----------------------------------------------
      .        NSN, IXS(NIXS,*), IXC(NIXC,*), IXTG(NIXTG,*), NFX, IFILE,
      .        LVSIG, NSNI, NME, IRCS, IRCM0, NELT, NELP, IXT(NIXT,*),
      .        IXP(NIXP,*)
+      INTEGER, INTENT (IN   ) :: IBEAM_VECTOR(NELP)
       my_real
      .        FXBSIG(*), X(3,*), PM(NPROPM,*), FXBMOD(*),
      .        GEO(NPROPG,*), FXBRPM(*)
+      my_real, INTENT (IN   ) :: RBEAM_VECTOR(3,NELP)     
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -117,7 +119,8 @@ C   4. Beam elements
         IADS=IADS+NELT*2
         IF (NELP>0) CALL FSIGPINI(
      .     FXBELM(IADEL), IPARG, X,          PM,   IXP, 
-     .     GEO,           VMOD,  VSIG(IADS), RINI, NELP)
+     .     GEO,           VMOD,  VSIG(IADS), RINI, NELP,
+     .     IBEAM_VECTOR ,RBEAM_VECTOR)
 C   5. 3-nodes shell elements
         IADEL=IADEL+NELP*9
         IADS=IADS+NELP*8             

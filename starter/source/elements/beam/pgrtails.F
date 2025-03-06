@@ -41,7 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4    ITR1   ,IGRSURF,IGRBEAM  ,IGEO     ,
      5    IPM    ,IPOUOFF,TAGPRT_SMS ,
      6    NOD2EL1D,PRINT_FLAG,ITAGPRLD_BEAM,
-     7    PRELOAD_A,NPRELOAD_A)
+     7    PRELOAD_A,NPRELOAD_A,IBEAM_VECTOR,RBEAM_VECTOR,XNUM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -85,14 +85,17 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IDX,LB_MAX,ND
       INTEGER ITR1(*),IXP(6,*),IPARG(NPARG,*),EADD(*),IPARTP(*),
-     .        DD_IAD(NSPMD+1,*),CEP(*),INUM(8,*),INDEX(*),
+     .        DD_IAD(NSPMD+1,*),CEP(*),INUM(9,*),INDEX(*),
      .        IPM(NPROPMI,*),IPOUOFF(*),
      .        TAGPRT_SMS(*),NOD2EL1D(*),IGEO(NPROPGI,*)
       INTEGER, INTENT(IN) :: PRINT_FLAG !< flag to print the element group data
       INTEGER, INTENT(IN) :: NPRELOAD_A
       INTEGER ,INTENT(INOUT), DIMENSION(NUMELP) :: ITAGPRLD_BEAM
+      INTEGER ,INTENT(INOUT) :: IBEAM_VECTOR(NUMELP)
       my_real
      .   PM(NPROPM,*), GEO(NPROPG,*)
+      my_real ,INTENT(INOUT) :: RBEAM_VECTOR(3,NUMELP)
+      my_real ,INTENT(INOUT) :: XNUM(3,NUMELP)
       TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(IN) :: MAT_PARAM
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBEAM)  :: IGRBEAM
@@ -128,7 +131,6 @@ C initialisation dd_iad
 
       DO N=1,ND
         NEL = EADD(N+1)-EADD(N)
-
         DO I = 1, NEL
           INDEX(I) = I
           INUM(1,I)=IPARTP(NFT+I)
@@ -139,6 +141,8 @@ C initialisation dd_iad
           INUM(6,I)=IXP(5,NFT+I)
           INUM(7,I)=IXP(6,NFT+I)
           INUM(8,I)=IPOUOFF(NFT+I)
+          INUM(9,I)=IBEAM_VECTOR(NFT+I)   
+          XNUM(1:3,I)=RBEAM_VECTOR(1:3,NFT+I)           
         ENDDO
 
         MODE=0
@@ -152,6 +156,8 @@ C initialisation dd_iad
           IXP(5,I+NFT)=INUM(6,INDEX(I))
           IXP(6,I+NFT)=INUM(7,INDEX(I))
           IPOUOFF(NFT+I)=INUM(8,INDEX(I))
+          IBEAM_VECTOR(NFT+I)=INUM(9,INDEX(I))   
+          RBEAM_VECTOR(1:3,NFT+I)=XNUM(1:3,INDEX(I))
           ITR1(NFT+INDEX(I)) = NFT+I
         ENDDO
 C REORDERING FOR ITAGPRLD_BEAM
@@ -191,7 +197,7 @@ C
         DO I = 1, NEL
           CEP(NFT+I) = INDEX(I)
         ENDDO
-        NFT = NFT + NEL
+        NFT = NFT + NEL 
       ENDDO
 C
 C RENUMEROTATION POUR SURFACES
