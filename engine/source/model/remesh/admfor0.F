@@ -58,7 +58,7 @@ C-----------------------------------------------
       INTEGER IXC(NIXC,*), IPARTC(*), IXTG(NIXTG,*), IPARTTG(*),
      .        IPART(LIPART1,*), SH4TREE(KSH4TREE,*), SH3TREE(KSH3TREE,*)
       INTEGER ,INTENT(IN) :: NODADT_THERM
-      my_real ,INTENT(IN) :: ITHERM_FE
+      INTEGER ,INTENT(IN) :: ITHERM_FE
       my_real A(3,*), STIFN(*), AR(3,*), STIFR(*), X(3,*),
      .        STCONT(*), FTHE(*),CONDN(*)
 C-----------------------------------------------

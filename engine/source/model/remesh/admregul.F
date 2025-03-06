@@ -69,7 +69,7 @@ C-----------------------------------------------
      .        IPART(LIPART1,*),ITASK,IPARG(NPARG,*),
      .        NODFT, NODLT, IGEO(NPROPGI,*), IPM(NPROPMI,*),
      .        SH4TREE(KSH4TREE,*),SH3TREE(KSH3TREE,*)
-      my_real ,INTENT(IN) :: ITHERM_FE
+      integer ,INTENT(IN) :: ITHERM_FE
       my_real
      .        X(3,*),MS(*),IN(*),MSC(*), INC(*),
      .        MSTG(*), INTG(*), PTG(3,*), MSCND(*), INCND(*),
