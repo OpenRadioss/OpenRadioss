@@ -51,7 +51,7 @@
       !||    submodel_mod              ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       subroutine hm_read_eos_compaction2(iout,pm,unitab,lsubmodel,imideos,eos_tag,ieos,npropm,maxeos,&
-                                          eos_param)
+                                          eos_param, iunit)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -81,11 +81,12 @@
       type(eos_tag_),dimension(0:maxeos) ,intent(inout) :: eos_tag !< data structure for EoS
       integer,intent(in) :: ieos !< EoS (internal) identifier
       type(eos_param_), intent(inout) :: eos_param !< eos data structure (specific parameters)
+      integer,intent(in) :: iunit !< unit identifier
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      my_real  p0, e0, psh, rho0,rhoi,rhor
-      my_real  mu,mumin,mumax
+      my_real  p0, psh, rho0,rhoi,rhor
+      my_real  mumin,mumax
       my_real  mu0,ssp0, dpdmu
       integer iform
       logical :: is_encrypted, is_available, is_available_rho0
@@ -93,7 +94,9 @@
       integer :: P_FUNC_ID !< user function identifer
       my_real :: Fscale, Xscale !< function scale factors
       my_real :: bmin, bmax !< unload modulus
-      my_real :: dpdm0
+      my_real :: dpdm0 !< total derivative at initial time
+
+      my_real :: FAC_M,FAC_L,FAC_T,FAC_PRES !< factors for unit translation (case iunit > 0)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   External
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -148,19 +151,30 @@
          call ancmsg(MSGID=67,MSGTYPE=msgerror,ANMODE=aninfo,I1=imideos,C1='/EOS/COMPACTION2',C2='BMAX MUST BE POSITIVE')
       endif
 
-      !iform=1 : constant unload modulus bunl (old Radioss revision)
-      !iform=2 : linear uload modulus from c1 to bunl (default)
+      !Default values
       if(iform /= 1 .and. iform /= 2)then
+        !iform=1 : constant unload modulus bunl (old Radioss revision)
+        !iform=2 : linear uload modulus from c1 to bunl (default)
         iform=2 !default
       endif
 
-      if(mumax == zero) mumax=ep20
-      
-      mu = rho0/rhor-one
-      e0 = zero
-      if(pm(79)==zero)pm(79)=three100
-      pm(23) = e0
+      if(mumax == zero) mumax = ep20
 
+      if(Xscale == zero) Xscale = one
+
+       if(iunit > 0)then
+         fac_m = unitab%fac_m(iunit)
+         fac_l = unitab%fac_l(iunit)
+         fac_t = unitab%fac_t(iunit)
+         fac_pres = fac_m / (fac_l*fac_t*fac_t)
+       else
+         fac_pres = one
+       endif
+       if(Fscale == zero) Fscale = one * fac_pres
+
+      if(pm(79)==zero)pm(79)=three100
+
+      !integer parameters
       eos_param%nuparam = 7
       eos_param%niparam = 1
       eos_param%nuvar = 0
@@ -199,6 +213,7 @@
       dpdmu=max(bmin,bmax)
       if(rhor > zero) ssp0 = sqrt(dpdmu/rhor)
       pm(27) = max(ssp0, pm(27))
+      pm(23) = zero ! e0
       pm(31) = p0-psh
       pm(104)= p0-psh
 
