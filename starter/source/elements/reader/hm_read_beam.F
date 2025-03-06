@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    submodel_mod     ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_BEAM(IXP    ,ITAB ,ITABM1,IPART,IPARTP,
-     .                  IPM    ,IGEO   ,LSUBMODEL)
+     .                        IPM    ,IGEO   ,LSUBMODEL,IBEAM_VECTOR,RBEAM_VECTOR)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -86,17 +86,19 @@ C INPUT ARGUMENTS
       INTEGER,INTENT(IN)::IPART(LIPART1,*)
       INTEGER,INTENT(IN)::IGEO(NPROPGI,*)
       INTEGER,INTENT(IN)::IPM(NPROPMI,*)
-      TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(NSUBMOD)
+      TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(NSUBMOD)     
 C OUTPUT ARGUMENTS
       INTEGER,INTENT(OUT)::IXP(NIXP,*)
       INTEGER,INTENT(OUT)::IPARTP(*)
+      INTEGER,INTENT(OUT)::IBEAM_VECTOR(NUMELP) 
+      my_real,INTENT(OUT)::RBEAM_VECTOR(3,NUMELP)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, I1, I2, MID, PID,MT,IPID,ID,IDS,J,N,JC,STAT
       INTEGER CPT,INDEX_PART
       CHARACTER MESS*40, MESS2*40
-      my_real BID
+      my_real BID,NORM
       INTEGER, DIMENSION(:), ALLOCATABLE :: SUB_BEAM
       INTEGER N2,N3,N4
       REAL*8, DIMENSION(:), ALLOCATABLE :: VX,VY,VZ
@@ -152,8 +154,21 @@ C--------------------------------------------------
         IF (IXP(6,I)>ID_LIMIT%GLOBAL) THEN
           CALL ANCMSG(MSGID=509,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=IXP(6,I),C1=LINE,C2='/BEAM')
         ENDIF
+C direction input by vector VX,VY,VZ
+        NORM = SQRT(VX(I)**2 + VY(I)**2 + VZ(I)**2)
+        IF (NORM > ZERO) THEN
+          IBEAM_VECTOR(I) = 1
+          RBEAM_VECTOR(1,I) = VX(I) / NORM
+          RBEAM_VECTOR(2,I) = VY(I) / NORM
+          RBEAM_VECTOR(3,I) = VZ(I) / NORM
+          IXP(4,I) = IXP(3,I)
+        ELSE
+          IBEAM_VECTOR(I) = 0
+          RBEAM_VECTOR(1:3,I) = ZERO
+        ENDIF    
 C optional Node 3 
-        IF (IXP(4,I) == 0 .OR. IXP(4,I) == IXP(2,I) .OR. IXP(4,I) == IXP(3,I)) THEN
+        IF ((IXP(4,I)==0 .OR. IXP(4,I)==IXP(2,I) .OR. IXP(4,I)==IXP(3,I)).
+     .       AND.(IBEAM_VECTOR(I)==0)) THEN
           CALL ANCMSG(MSGID=2093,MSGTYPE=MSGINFO,ANMODE=ANINFO_BLIND_1,I1=IPART(4,INDEX_PART),I2=IXP(6,I),PRMOD=MSG_CUMU)
           IXP(4,I) = IXP(3,I)                    
         ENDIF
@@ -194,8 +209,13 @@ C-------------------------------------
         N4=IXP(4,I) 
         IF(N2>0)N2=ITAB(N2)
         IF(N3>0)N3=ITAB(N3)
-        IF(N4>0)N4=ITAB(N4)                
-        WRITE (IOUT,'(7(I10,1X))')I,IXP(6,I),MID,PID,N2,N3,N4
+        IF(N4>0)N4=ITAB(N4)
+        IF (IBEAM_VECTOR(I) == 0) THEN              
+          WRITE (IOUT,'(7(I10,1X))')I,IXP(6,I),MID,PID,N2,N3,N4
+        ELSE
+          WRITE (IOUT,'(6(I10,1X),3(1PG20.13,1X))')I,IXP(6,I),MID,PID,N2,N3,RBEAM_VECTOR(1,I),RBEAM_VECTOR(2,I),RBEAM_VECTOR(3,I)
+        ENDIF    
+C----------------------------------------------------------------------------------
       ENDDO
       IF(I2==NUMELP)GOTO 200
       I1=I1+50
@@ -206,5 +226,5 @@ C-------------------------------------
       RETURN
  300  FORMAT(/' BEAM ELEMENTS'/
      +        ' -------------'/
-     + '  LOC-EL  GLO-EL   MATER     GEOM   NODE1   NODE2   NODE3')
+     + '  LOC-EL  GLO-EL   MATER     GEOM   NODE1   NODE2   NODE3/VECTOR ')
       END

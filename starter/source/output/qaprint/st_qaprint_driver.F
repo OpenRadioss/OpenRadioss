@@ -115,7 +115,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      K                             SIGI        ,NSIGBEAM   ,SIGBEAM         ,NSIGTRUSS      ,SIGTRUSS         ,
      L                             NSIGRS      ,SIGRS      ,MERGE_NODE_TAB  ,MERGE_NODE_TOL ,
      M                             IMERGE      ,NMERGE_TOT ,IEXLNK          ,DRAPEG         ,USER_WINDOWS     ,
-     N                             OUTPUT      ,DEFAULTS   ,GLOB_THERM      ,PBLAST)
+     N                             OUTPUT      ,DEFAULTS   ,GLOB_THERM      ,PBLAST         ,IBEAM_VECTOR     ,
+     O                             RBEAM_VECTOR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -214,6 +215,8 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IMERGE(*),MERGE_NODE_TAB(*),NMERGE_TOT
       my_real, INTENT(IN) :: MERGE_NODE_TOL(*)
       INTEGER,INTENT(IN) :: IPARG(NPARG,NGROUP)
+      INTEGER, INTENT(IN) :: IBEAM_VECTOR(NUMELP)
+      my_real, INTENT(IN) :: RBEAM_VECTOR(3,NUMELP)
       TYPE(USER_WINDOWS_),INTENT(IN)      :: USER_WINDOWS
       TYPE(OUTPUT_)      ,INTENT(IN)      :: OUTPUT
       TYPE(MAT_ELEM_)    ,INTENT(IN)      :: MAT_ELEM
@@ -449,7 +452,8 @@ C-----------------------------------------------
      2                        IXT    ,X  ,IXC   ,IXTG ,THKE,
      3                        SH4ANG ,THKEC,SH3ANG,KXSP,IPARTSP,
      4                        IPART  ,IXR_KJ,KXX, IXX ,IPARTX,
-     5                        IXRI   ,IXS16 ,IXQ )       
+     5                        IXRI   ,IXS16 ,IXQ, IBEAM_VECTOR,RBEAM_VECTOR)
+      
 !
       CALL ST_QAPRINT_SET(SET    ,LSUBMODEL,ITAB     ,IGRNOD ,IGRPART,
      .                    IPART  ,IGRBRIC  ,IGRSH4N  ,IGRSH3N,IGRQUAD,

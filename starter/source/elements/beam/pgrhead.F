@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2       ITR1   ,EADD   ,INDEX   ,ITRI    ,IPARTP  ,      
      3       ND     ,IGRSURF,IGRBEAM ,CEP     ,
      4       XEP    ,IGEO   ,IPOUOFF ,TAGPRT_SMS ,IPM  ,
-     5       ITAGPRLD_BEAM)
+     5       ITAGPRLD_BEAM,IBEAM_VECTOR,RBEAM_VECTOR,XNUM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -65,12 +65,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
-      INTEGER IXP(6,*),INUM(8,*),IPARTP(*),IGEO(NPROPGI,NUMGEO),
+      INTEGER IXP(6,*),INUM(9,*),IPARTP(*),IGEO(NPROPGI,NUMGEO),
      .        EADD(*),ITR1(*),INDEX(*),ITRI(5,NUMELP),
      .        ND, CEP(*), XEP(*),IPOUOFF(*),
      .        TAGPRT_SMS(*),IPM(NPROPMI,NUMMAT)
       INTEGER ,INTENT(INOUT), DIMENSION(NUMELP) ::ITAGPRLD_BEAM
+      INTEGER ,INTENT(INOUT) :: IBEAM_VECTOR(NUMELP)
       my_real PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO)
+      my_real ,INTENT(INOUT) :: RBEAM_VECTOR(3,NUMELP)
+      my_real ,INTENT(INOUT) :: XNUM(3,NUMELP)
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBEAM)  :: IGRBEAM
       TYPE (SURF_)   , DIMENSION(NSURF)    :: IGRSURF
@@ -98,6 +101,8 @@ C
         INUM(6,I)=IXP(5,I)
         INUM(7,I)=IXP(6,I)
         INUM(8,I)=IPOUOFF(I)
+        INUM(9,I)=IBEAM_VECTOR(I)  
+        XNUM(1:3,I)=RBEAM_VECTOR(1:3,I)             
       ENDDO
       IF (IMACH==3) THEN
         DO I=1,NUMELP
@@ -156,6 +161,8 @@ C
       DO I=1,NUMELP
         IPARTP(I) = INUM(1,INDEX(I))
         IPOUOFF(I)= INUM(8,INDEX(I))
+        IBEAM_VECTOR(I)= INUM(9,INDEX(I))
+        RBEAM_VECTOR(1:3,I)= XNUM(1:3,INDEX(I))
       ENDDO
       IF (IMACH==3) THEN
         DO I=1,NUMELP

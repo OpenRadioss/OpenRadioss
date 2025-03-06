@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                              IXT    ,X  , IXC   ,IXTG ,THKE ,
      3                              SH4ANG ,THKEC,SH3ANG,KXSP ,IPARTSP,
      4                              IPART  ,IXR_KJ,KXX ,IXX  , IPARTX ,
-     5                              IXRI   ,IXS16 ,IXQ )
+     5                              IXRI   ,IXS16 ,IXQ ,IBEAM_VECTOR,RBEAM_VECTOR)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -61,9 +61,11 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IXR(NIXR,*), R_SKEW(*), ISKWN(LISKN,*), IXP(NIXP,*), IXT(NIXT,*),
      .                       IXC(NIXC,*),IXTG(NIXTG,*),KXSP(NISP,*),IPARTSP(*),IPART(LIPART1,*),
      .                       KXX(NIXX,*),IXX(*),IPARTX(*),IXRI(4,*),IXS16(8,*),IXQ(NIXQ,*)
+      INTEGER, INTENT(IN) :: IBEAM_VECTOR(NUMELP)
       my_real, INTENT(IN) ::
      .                       X(3,NUMNOD),
      .                        THKE(*),THKEC(*),SH4ANG(*),SH3ANG(*)
+      my_real, INTENT(IN) :: RBEAM_VECTOR(3,NUMELP)
 C--------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -348,7 +350,14 @@ C
             END IF
           END DO
 C
-          IF(IXP(4,NS)/=0)THEN
+          IF (IBEAM_VECTOR(NS) == 1) THEN
+            TEMP_DOUBLE = RBEAM_VECTOR(1,NS)
+            CALL QAPRINT('--> INPUT_VEC_X', 0,TEMP_DOUBLE)
+            TEMP_DOUBLE = RBEAM_VECTOR(2,NS)
+            CALL QAPRINT('--> INPUT_VEC_Y', 0,TEMP_DOUBLE)
+            TEMP_DOUBLE = RBEAM_VECTOR(3,NS)
+            CALL QAPRINT('--> INPUT_VEC_Z', 0,TEMP_DOUBLE)
+          ELSEIF(IXP(4,NS)/=0)THEN
             MY_NOD = ITAB(IXP(4,NS))
             WRITE(VARNAME,'(A,I0)') 'NODE_',J-1
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)), MY_NOD,0.0_8)
