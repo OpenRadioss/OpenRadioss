@@ -160,12 +160,30 @@ C
 C      CALCUL DU GAP, apres INITIA (lecture des epaisseurs).
 C
        IF(IGAP == 2) THEN
-         GAP_S0 => INTBUF_TAB%GAP_S(1+NSN:2*NSN)
+         GAP0 = INTBUF_TAB%VARIABLES(2)
+         CALL I21GAP3(
+     1 X         ,INTBUF_TAB%IRECTS,INTBUF_TAB%IRECTM,NRTS,NRTM,
+     2 GEO       ,PM        ,IXS       ,IXC         ,IXTG      ,
+     3 -NUMINT   ,NTY       ,NOINT     ,NSN         ,INTBUF_TAB%NSV,
+     4 GAP0,IGAP    ,INTBUF_TAB%GAP_S,INTBUF_TAB%VARIABLES(13),
+     .                                             INTBUF_TAB%VARIABLES(6),
+     5 INTBUF_TAB%VARIABLES(16),INTBUF_TAB%IELES,INTBUF_TAB%STF,
+     .                  NMN          ,INTBUF_TAB%MSR   ,
+     6 KNOD2ELS  ,KNOD2ELC   ,KNOD2ELTG ,NOD2ELS      ,NOD2ELC   ,
+     7 NOD2ELTG  ,THKNOD         ,
+     8 IKINE        ,ITAB         ,INACTI  ,INTBUF_TAB%VARIABLES(19),
+     .                                              INTBUF_TAB%STFNS,
+     9 INTBUF_TAB%VARIABLES(23),INTBUF_TAB%GAP_S(1+NSN:2*NSN),INTBUF_TAB%AREAS,
+     .                             INTBUF_TAB%XM0,INTBUF_TAB%VARIABLES(27),
+     A INTBUF_TAB%VARIABLES(28),INTBUF_TAB%VARIABLES(29),INTTH  ,INTBUF_TAB%VARIABLES(32),
+     .                                           IPARTS          , 
+     B IPARTC, IPARTG, THK_PART,INTBUF_TAB%THKNOD0      ,ID,TITR ,
+     C INTBUF_TAB%VARIABLES(46),RESORT )
+
        ELSE
          GAP_S0 => GAPS0_BID
-       ENDIF
-       GAP0 = INTBUF_TAB%VARIABLES(2)
-       CALL I21GAP3(
+         GAP0 = INTBUF_TAB%VARIABLES(2)
+         CALL I21GAP3(
      1 X         ,INTBUF_TAB%IRECTS,INTBUF_TAB%IRECTM,NRTS,NRTM,
      2 GEO       ,PM        ,IXS       ,IXC         ,IXTG      ,
      3 -NUMINT   ,NTY       ,NOINT     ,NSN         ,INTBUF_TAB%NSV,
@@ -183,6 +201,8 @@ C
      .                                           IPARTS          , 
      B IPARTC, IPARTG, THK_PART,INTBUF_TAB%THKNOD0      ,ID,TITR ,
      C INTBUF_TAB%VARIABLES(46),RESORT )
+
+       ENDIF
 C
 C      INITIALISATIONS (PRE-CALCUL DES NORMALES, etc)
 C

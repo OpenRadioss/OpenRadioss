@@ -69,7 +69,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE RESOL_HEAD( ELEMENT, NODES,
      .           ITASK       ,AF          ,IAF            ,IDATA      ,RDATA,
-     .           GRAPHE      ,IFLOW       ,RFLOW          ,MCP        ,TEMP            ,
+     .           GRAPHE      ,IFLOW       ,RFLOW          ,
      .           STACK       ,IRUNN_BIS   , TIMERS,
      .           MULTI_FVM   ,H3D_DATA    ,SUBSETS    ,IGRNOD          ,
      .           IGRBRIC     ,IGRQUAD     ,IGRSH4N        ,IGRSH3N    ,IGRTRUSS        ,
@@ -103,7 +103,6 @@ C-----------------------------------------------
       USE DRAPE_MOD
       USE FXB_MOD
       USE EIG_MOD
-      USE RBODY_MOD
       USE SENSOR_MOD
       USE EBCS_MOD
       USE DIFFUSION_MOD
@@ -149,7 +148,7 @@ C
       INTEGER ITASK,IAF(*),IDATA(*),IRUNN_BIS
 C     REAL
       my_real
-     .   AF(*),RDATA(*),MCP(NUMNOD),TEMP(NUMNOD) ,
+     .   AF(*),RDATA(*),                          
      .   FORNEQS(*)
       TYPE(PRGRAPH) :: GRAPHE(*)
       TYPE (STACK_PLY) :: STACK
@@ -221,7 +220,7 @@ C
      6  IPARG           ,DD_IAD         ,IGRV           ,IEXLNK         ,KINET       ,
      7  IPARI           ,NPRW           ,ICONX          ,NPBY           ,
      8  LPBY            ,LRIVET         ,NSTRF          ,LJOINT         ,NODPOR         ,MONVOL      ,IAD_ELEM  ,
-     9  FR_ELEM         ,MAIN_PROC      ,ILINK     ,
+     9  FR_ELEM         ,ILINK     ,
      A  LLINK           ,LINALE         ,NEFLSW         ,NNFLSW         ,ICUT           ,CLUSTER     ,
      B  ITASK           ,IAF(IF01)      ,
      C  THKE        ,DAMP               ,
@@ -258,7 +257,7 @@ C
      j  LLAGF           ,LPRW           ,ICONTACT       ,RCONTACT       ,SH4TREE        ,SH3TREE     ,
      k  IPADMESH        ,PADMESH        ,MSC            ,MSTG           ,INC            ,INTG        ,PTG              ,
      l  ISKWP           ,NSKWP          ,ISENSP         ,NSENSP         ,IACCP          ,NACCP       ,IPART_STATE      ,
-     m  ACONTACT        ,PCONTACT       ,FACTIV         ,MCP            ,TEMP,
+     m  ACONTACT        ,PCONTACT       ,FACTIV         ,
      p  SH4TRIM         ,SH3TRIM        ,MSCND          ,INCND          ,
      q  IBFFLUX         ,FBFFLUX        ,RBYM           ,IRBYM          ,LNRBYM         ,ICODRBYM,
      r  IBCV            ,FCONV          ,IBFTEMP        ,FBFTEMP        ,IAD_RBYM       ,FR_RBYM,
@@ -290,7 +289,7 @@ C
      J  IGRSPRING       ,IGRPART        ,IGRSURF        ,FORNEQS        ,
      K  NLOC_DMG        ,ISKWP_L        ,KNOTLOCPC      ,KNOTLOCEL      ,PINCH_DATA     ,TAG_SKINS6  ,ALE_CONNECTIVITY ,
      L  XCELL           , XFACE         ,NE_NERCVOIS    ,NE_NESDVOIS    ,NE_LERCVOIS    ,NE_LESDVOIS ,IBCSCYC          ,LBCSCYC   ,
-     M  T_MONVOL        ,ID_GLOBAL_VOIS ,FACE_VOIS      ,TAGSLV_RBY     ,DYNAIN_DATA    ,FCONT_MAX   ,EBCS_TAB         ,DIFFUSION ,
+     M  T_MONVOL        ,ID_GLOBAL_VOIS ,FACE_VOIS      ,DYNAIN_DATA    ,FCONT_MAX   ,EBCS_TAB         ,DIFFUSION ,
      N  KLOADPINTER     ,LOADPINTER     ,DGAPLOADINT    ,DRAPEG         ,USER_WINDOWS ,OUTPUT          ,INTERFACES,
      O  DT              ,LOADS          ,PYTHON         ,DPL0CLD        ,VEL0CLD        ,
      P  NDAMP_VREL      ,ID_DAMP_VREL   ,FR_DAMP_VREL   ,NDAMP_VREL_RBYG,NAMES_AND_TITLES,UNITAB,LIFLOW,LRFLOW,

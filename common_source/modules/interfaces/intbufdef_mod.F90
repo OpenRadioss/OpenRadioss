@@ -1008,7 +1008,7 @@ module intbufdef_mod
       my_real, dimension(:) , allocatable ::   penim
       my_real, dimension(:) , allocatable ::   penis
       my_real, dimension(:) , allocatable ::   gap_m
-      my_real, dimension(:) , pointer     ::   gap_s    ! GAP_S is associate in Starter / Pointer is need
+      my_real, dimension(:) , allocatable ::   gap_s    ! GAP_S is associate in Starter / Pointer is need
       my_real, dimension(:) , allocatable ::   xsav
       my_real, dimension(:) , allocatable ::   crit
       my_real, dimension(:) , allocatable ::   fric_p
