@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
       !||====================================================================
-      SUBROUTINE ADIFF2(PHIN,PHI,GRAD,COEF,ALE_CONNECT,VOL)
+      SUBROUTINE ADIFF2(PHIN,PHI,GRAD,ALPHA,ALE_CONNECT,VOL)
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -42,7 +42,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real PHIN(*), PHI(*), GRAD(4,*), COEF(*), VOL(*)
+      my_real,INTENT(INOUT) :: PHIN(*)  !< Eint/V [n+1]
+      my_real,INTENT(IN) :: PHI(*)      !< backup T[n]
+      my_real,INTENT(IN)   :: GRAD(4,*) !< gradient
+      my_real,INTENT(IN) :: ALPHA(*)    !< thermal diffusivity k/rhocp
+      my_real,INTENT(IN) :: VOL(*)      !< element volume
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -54,6 +58,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IE, IV1, IV2, IV3, IV4, IAD2
       my_real DPHI(MVSIZ)
+      my_real AA(0:4)     !< thermal diffusivity (updated from ALPHA for ghost cells)
+      my_real AA_FACE(4)
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -64,16 +70,37 @@ C-----------------------------------------------
         IV2 = ALE_CONNECT%ee_connect%connected(IAD2 + 2 - 1)
         IV3 = ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
         IV4 = ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
+        ! adjacent cells (IV=0 => ghost cell with same value as IE)
         IF(IV1 <= 0)IV1=IE
         IF(IV2 <= 0)IV2=IE
         IF(IV3 <= 0)IV3=IE
         IF(IV4 <= 0)IV4=IE
-        DPHI(I) = (COEF(IE)*COEF(IV1))*(PHI(IV1)-PHI(IE))*GRAD(1,I) / MAX(EM20,(COEF(IE)+COEF(IV1)))
-     3 +          (COEF(IE)*COEF(IV2))*(PHI(IV2)-PHI(IE))*GRAD(2,I) / MAX(EM20,(COEF(IE)+COEF(IV2)))
-     5 +          (COEF(IE)*COEF(IV3))*(PHI(IV3)-PHI(IE))*GRAD(3,I) / MAX(EM20,(COEF(IE)+COEF(IV3)))
-     7 +          (COEF(IE)*COEF(IV4))*(PHI(IV4)-PHI(IE))*GRAD(4,I) / MAX(EM20,(COEF(IE)+COEF(IV4)))
+        !thermal diffusivity ( *rho0cp)
+        AA(0) = ALPHA(IE)
+        AA(1) = ALPHA(IV1)
+        AA(2) = ALPHA(IV2)
+        AA(3) = ALPHA(IV3)
+        AA(4) = ALPHA(IV4)
+        !ghost cells
+        IF(AA(1) == ZERO) AA(1)=AA(0)
+        IF(AA(2) == ZERO) AA(2)=AA(0)
+        IF(AA(3) == ZERO) AA(3)=AA(0)
+        IF(AA(4) == ZERO) AA(4)=AA(0)
+        !harmonic interpolation
+        AA_FACE(1) = TWO*(AA(0)*AA(1)) / MAX(EM20,(AA(0)+AA(1)))
+        AA_FACE(2) = TWO*(AA(0)*AA(2)) / MAX(EM20,(AA(0)+AA(2)))
+        AA_FACE(3) = TWO*(AA(0)*AA(3)) / MAX(EM20,(AA(0)+AA(3)))
+        AA_FACE(4) = TWO*(AA(0)*AA(4)) / MAX(EM20,(AA(0)+AA(4)))
+C-----------------------------------------------------------
+        ! time evolution
+        DPHI(I) = (ALPHA(IE)*ALPHA(IV1))*(PHI(IV1)-PHI(IE))*GRAD(1,I) / MAX(EM20,(ALPHA(IE)+ALPHA(IV1)))
+     3 +          (ALPHA(IE)*ALPHA(IV2))*(PHI(IV2)-PHI(IE))*GRAD(2,I) / MAX(EM20,(ALPHA(IE)+ALPHA(IV2)))
+     5 +          (ALPHA(IE)*ALPHA(IV3))*(PHI(IV3)-PHI(IE))*GRAD(3,I) / MAX(EM20,(ALPHA(IE)+ALPHA(IV3)))
+     7 +          (ALPHA(IE)*ALPHA(IV4))*(PHI(IV4)-PHI(IE))*GRAD(4,I) / MAX(EM20,(ALPHA(IE)+ALPHA(IV4)))
       ENDDO!next I
 C-----------------------------------------------------------
+      ! %EINT is here Eint / V (J/m3)
+      ! => DPHI = is finally m.cp.dT = dT *rhoCp   (ALPHA is k instead k/rhocp )
       DO I=LFT,LLT
         DPHI(I)=TWO *DPHI(I)*DT1/MAX(VOL(I),EM20)
       ENDDO

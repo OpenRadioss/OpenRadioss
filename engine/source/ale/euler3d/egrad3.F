@@ -112,9 +112,9 @@ C-----------------------------------------------
         Y8(I)=X(2,IXS(9,II))
         Z8(I)=X(3,IXS(9,II))
       ENDDO
-C------------------------------------------
-C     NORMAL VECTORS
-C------------------------------------------
+C-------------------------------------------
+C     NORMAL VECTORS ( N = 2S.n where |n|=1)
+C-------------------------------------------
       DO I=LFT,LLT
         II=I+NFT
         
@@ -236,7 +236,11 @@ C------------------------------------------
      .  +X(3,IXS(2,IV6))+X(3,IXS(3,IV6))+X(3,IXS(4,IV6))+X(3,IXS(5,IV6))
      .  +X(3,IXS(6,IV6))+X(3,IXS(7,IV6))+X(3,IXS(8,IV6))+X(3,IXS(9,IV6))
       ENDDO
-C
+
+      ! DiX = 8.dx[i]
+      ! DiY = 8.dy[i]
+      ! DiZ = 8.dz[i]
+      ! => DDi = 64 (dx^2 + dy^2 + dz^2)
       DO I=LFT,LLT
         DD1(I)=D1X(I)**2+D1Y(I)**2+D1Z(I)**2
         DD2(I)=D2X(I)**2+D2Y(I)**2+D2Z(I)**2
@@ -247,6 +251,12 @@ C
       ENDDO
 C---------------------------------
 C     GRADIENTS * SURFACES
+C       Ni=2Sn,  |n|=1
+C       DiX = 8.dx[i], DiY = 8.dy[i], DiZ = 8.dz[i],
+C       DDi = 64 (dx^2 + dy^2 + dz^2)
+C       Finally
+C           GRADi =  Si . < di,ni > / di^2
+C             where di is the distance between the centers of the two elements (current and adjacent #i)
 C---------------------------------
       DO I=LFT,LLT
         GRAD(1,I)= FOUR*(D1X(I)*N1X(I)+D1Y(I)*N1Y(I)+D1Z(I)*N1Z(I)) / MAX(EM15,DD1(I))

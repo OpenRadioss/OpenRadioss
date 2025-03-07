@@ -1,4 +1,5 @@
 Copyright>        OpenRadioss
+Copyright>        OpenRadioss
 Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
@@ -84,7 +85,7 @@ C-----------------------------------------------
       INTEGER MAT(MVSIZ),NEL
       my_real RK, RE, R, YP0, XMU, AX, E, A, CMU, RPR, YPLUS, P, XMT
       my_real, DIMENSION(:) ,POINTER :: PH1,PH2,PH3
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C-----------------------------------------------
 C   S o u r c e   L i n e s 
 C-----------------------------------------------
@@ -115,6 +116,8 @@ C-----------------------------------------------
           ENDDO
         ENDIF
 
+        ! thermal diffusivity (alpha) : alpha = k / rhocp   where k=A+B*T
+        ! VAL2 is alpha*rhocp=k instead of alpha since scheme applied to E instead of T and dE = rhocp.dT
         DO I=LFT,LLT
           J=I+NFT
           T(J) = GBUF%TEMP(I)
@@ -199,6 +202,9 @@ C------------------------------
         ENDIF
       ENDDO
 
+C------------------------------
+C     NUMERICAL SCHEME
+C------------------------------
       DO NG=1,NGROUP
         IF (IPARG(76, NG) == 1) CYCLE ! --> OFF (ALE ON/OFF)
         GBUF => ELBUF_TAB(NG)%GBUF
