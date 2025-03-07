@@ -91,9 +91,9 @@ C-----------------------------------------------
         Y4(I)=X(2,IXQ(5,II))
         Z4(I)=X(3,IXQ(5,II))
       ENDDO
-C------------------------------------------
-C     RELATIVE VELOCITY ON FACE
-C------------------------------------------
+C-------------------------------------------
+C     NORMAL VECTORS ( N = 2S.n where |n|=1)
+C-------------------------------------------
       DO I=LFT,LLT
         N1Y(I)= (Z2(I)-Z1(I))
         N1Z(I)=-(Y2(I)-Y1(I))
@@ -122,7 +122,7 @@ C------------------------------------------
          N4Z(I) = N4Z(I)*(Y1(I)+Y4(I))*HALF     
        ENDDO
       ENDIF
-C--------+---------+---------+---------+---------+---------+---------+--
+C-------------------------------------------------------------
 C     DISTANCE BETWEEN ELEMS ( * 4. )
 C-------------------------------------------------------------
       DO I=LFT,LLT
@@ -146,6 +146,10 @@ C-------------------------------------------------------------
         D4Z(I) = - ZC(I) + X(3,IXQ(2,IV4)) + X(3,IXQ(3,IV4)) + X(3,IXQ(4,IV4)) + X(3,IXQ(5,IV4))
       ENDDO
 
+      ! DiX = 8.dx[i]
+      ! DiY = 8.dy[i]
+      ! DiZ = 8.dz[i]
+      ! => DDi = 64 (dx^2 + dy^2 + dz^2)
       DO I=LFT,LLT
         DD1(I)=D1Y(I)**2+D1Z(I)**2
         DD2(I)=D2Y(I)**2+D2Z(I)**2
@@ -154,6 +158,12 @@ C-------------------------------------------------------------
       ENDDO
 C---------------------------------
 C     GRADIENTS * SURFACES
+C       Ni=2Sn,  |n|=1
+C       DiX = 8.dx[i], DiY = 8.dy[i], DiZ = 8.dz[i],
+C       DDi = 64 (dx^2 + dy^2 + dz^2)
+C       Finally
+C           GRADi =  Si . < di,ni > / di^2
+C             where di is the distance between the centers of the two elements (current and adjacent #i)
 C---------------------------------
       DO I=LFT,LLT
         GRAD(1,I)= FOUR*(D1Y(I)*N1Y(I)+D1Z(I)*N1Z(I)) / MAX(EM15,DD1(I))
