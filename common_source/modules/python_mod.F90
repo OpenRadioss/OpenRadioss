@@ -180,6 +180,13 @@
             real(kind=c_float), dimension(3,numnod), intent(in) :: val
 #endif
           end subroutine python_set_node_values
+          subroutine python_update_active_node_values(name_len, name, val) bind(c, name="cpp_python_update_active_node")
+            use iso_c_binding
+            integer(kind=c_int), value, intent(in) :: name_len
+            character(kind=c_char), dimension(name_len), intent(in) :: name
+            real(kind=c_double), dimension(3), intent(in) :: val
+          end subroutine python_update_active_node_values
+
 
           subroutine python_get_number_of_nodes(number_of_nodes) bind(c, name="cpp_python_get_number_of_nodes")
             use iso_c_binding
@@ -216,7 +223,6 @@
           module procedure python_call_funct1D_sp
           module procedure python_call_funct1D_dp
         end interface python_call_funct1D
-
         interface python_deriv_funct1D
           module procedure python_deriv_funct1D_sp
           module procedure python_deriv_funct1D_dp
@@ -547,6 +553,43 @@
           y = real(argout(1),kind(1.0))
         end subroutine
 
+        subroutine python_set_active_node_values(name_len, name, val)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     Module
+! ----------------------------------------------------------------------------------------------------------------------
+          use iso_c_binding
+! --------------------------------------------------------------------------------------------------------------------------
+!                                                   Implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+          implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Included files
+! ----------------------------------------------------------------------------------------------------------------------
+#include "my_real.inc"
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          integer,                                     intent(in) :: name_len !< the length of the name
+          character(kind=c_char), dimension(name_len), intent(in) :: name      !< the name of the variable
+          my_real, dimension(3),                intent(in) :: val !< the values
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+! ----------------------------------------------------------------------------------------------------------------------
+          character(kind=c_char), dimension(name_len+1)        :: temp_name
+          double precision :: valdb(3)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                      Body
+! ----------------------------------------------------------------------------------------------------------------------
+          temp_name(1:name_len) = name
+          temp_name(name_len+1:name_len+1) = c_null_char
+          valdb(1:3) = val
+          call python_update_active_node_values(name_len, temp_name, valdb)
+        end subroutine
+
+
+
+
+
 !! \brief Adaptive derivative of the python function (double precision version)
       !||====================================================================
       !||    python_deriv_funct1d_dp   ../common_source/modules/python_mod.F90
@@ -751,7 +794,6 @@
           temp_name(name_len+1:name_len+1) = c_null_char
           call python_set_node_values(numnod, name_len, temp_name, val)
         end subroutine
-
 
 !! \brief update variables known by python functions
       !||====================================================================
