@@ -64,15 +64,17 @@
         & dpl0cld    ,vel0cld    ,d          ,dr        ,nconld     ,&
         & numnod     ,nfunct     ,anim_v     ,outp_v    ,            &
         & iparit     ,tt         ,dt1        ,n2d       ,wfext      ,&
-        & impl_s     ,python )
+        & impl_s     ,python, nodes )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use constant_mod ,only : one_over_6,zero,one,half,one_over_8
           use python_funct_mod
+          use python_call_funct_cload_mod
           use h3d_mod
           use pinchtype_mod
           use sensor_mod
+          use nodal_arrays_mod
           use th_surf_mod , only : th_surf_
           use skew_mod
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -129,6 +131,7 @@
           my_real, intent(in) :: dt1                           !< current time step
           type (sensor_str_) ,dimension(nsensor),intent(in) :: sensor_tab !< Sensors type
           type(python_), intent(in), optional :: python        !< Python functions structures
+          type(nodal_arrays_), intent(in),optional :: nodes              !< nodal arrays
           type(h3d_database), intent(in) :: h3d_data           !< H3D output structure
           type (th_surf_) , intent(inout) :: th_surf           !< Time history / surface
           ! Inout / output
@@ -231,8 +234,8 @@
                     else
                       if(present(python)) then
                         fid = -ismooth ! the id the python function is saved in the position of ismooth in the npc array
-                        call python_call_funct1d(python, fid,(ts-dt1)*fcx,f1)
-                        call python_call_funct1d(python, fid,ts*fcx,f2)
+                        call python_call_funct_cload(python,fid,(ts-dt1)*fcx,f1,n1,nodes)
+                        call python_call_funct_cload(python,fid,ts*fcx,f2,n1,nodes)
                       endif
                     endif ! if (ismooth == 0)
                     n_old = n3
@@ -255,8 +258,8 @@
                     else
                       if(present(python)) then
                         fid = -ismooth ! the id the python function is saved in the position of ismooth in the npc array
-                        call python_call_funct1d(python, fid,disp_old*fcx,f1)
-                        call python_call_funct1d(python, fid,disp*fcx,f2)
+                        call python_call_funct_cload(python,fid,disp_old*fcx,f1,n1,nodes)
+                        call python_call_funct_cload(python,fid,disp*fcx,f2,n1,nodes)
                       endif
                     endif ! if (ismooth == 0)
                     n_old = n3
@@ -279,8 +282,10 @@
                     else
                       if(present(python)) then
                         fid = -ismooth ! the id the python function is saved in the position of ismooth in the npc array
-                        call python_call_funct1d(python, fid,vel_old*fcx,f1)
-                        call python_call_funct1d(python, fid,vel*fcx,f2)
+!                       call python_call_funct1d(python, fid,vel_old*fcx,f1)
+!                       call python_call_funct1d(python, fid,vel*fcx,f2)
+                        call python_call_funct_cload(python,fid,vel_old*fcx,f1,n1,nodes)
+                        call python_call_funct_cload(python,fid,vel*fcx,f2,n1,nodes)
                       endif
                     endif ! if (ismooth == 0)
                     n_old = n3
@@ -387,7 +392,7 @@
                     else
                       if(present(python)) then
                         fid = -ismooth ! the id the python function is saved in the position of ismooth in the npc array
-                        call python_call_funct1d(python, fid,ts*fcx,f1)
+                        call python_call_funct_cload(python, fid,ts*fcx,f1,n1,nodes)
                       endif
                     endif ! if (ismooth == 0)
                     n_old = n5
@@ -409,7 +414,7 @@
                     else
                       if(present(python)) then
                         fid = -ismooth ! the id the python function is saved in the position of ismooth in the npc array
-                        call python_call_funct1d(python, fid,disp*fcx,f1)
+                        call python_call_funct_cload(python, fid,disp*fcx,f1,n1,nodes)
                       endif
                     endif ! if (ismooth == 0)
                     n_old = n5
@@ -431,7 +436,7 @@
                     else
                       if(present(python)) then
                         fid = -ismooth ! the id the python function is saved in the position of ismooth in the npc array
-                        call python_call_funct1d(python, fid,vel*fcx,f1)
+                        call python_call_funct_cload(python, fid,vel*fcx,f1,n1,nodes)
                       endif
                     endif ! if (ismooth == 0)
                     n_old = n5
@@ -745,8 +750,8 @@
                     else
                       if(present(python)) then
                         fid = -ismooth ! the id the python function is saved in the position of ismooth in the npc array
-                        call python_call_funct1d(python, fid,(ts-dt1)*fcx,f1)
-                        call python_call_funct1d(python, fid,ts*fcx,f2)
+                        call python_call_funct_cload(python, fid,(ts-dt1)*fcx,f1,n1,nodes)
+                        call python_call_funct_cload(python, fid,ts*fcx,f2,n1,nodes)
                       endif
                     endif ! if (ismooth == 0)
                     n_old = n3
@@ -769,8 +774,8 @@
                     else
                       if(present(python)) then
                         fid = -ismooth ! the id the python function is saved in the position of ismooth in the npc array
-                        call python_call_funct1d(python, fid,disp_old*fcx,f1)
-                        call python_call_funct1d(python, fid,disp*fcx,f2)
+                        call python_call_funct_cload(python,fid,disp_old*fcx,f1,n1,nodes)
+                        call python_call_funct_cload(python,fid,disp*fcx,f2,n1,nodes)
                       endif
                     endif ! if (ismooth == 0)
                     n_old = n3
@@ -793,8 +798,11 @@
                     else
                       if(present(python)) then
                         fid = -ismooth ! the id the python function is saved in the position of ismooth in the npc array
-                        call python_call_funct1d(python, fid,vel_old*fcx,f1)
-                        call python_call_funct1d(python, fid,vel*fcx,f2)
+!                       call python_call_funct1d(python, fid,vel_old*fcx,f1)
+!                       call python_call_funct1d(python, fid,vel*fcx,f2)
+                        call python_call_funct_cload(python,fid,vel_old*fcx,f1,n1,nodes)
+                        call python_call_funct_cload(python,fid,vel*fcx,f2,n1,nodes)
+
                       endif
                     endif ! if (ismooth == 0)
                     n_old = n3
@@ -903,7 +911,7 @@
                     elseif(ismooth < 0) then
                       if(present(python)) then
                         fid = -ismooth ! the id the python function is saved in the position of ismooth in the npc array
-                        call python_call_funct1d(python, fid,ts*fcx,f1)
+                        call python_call_funct_cload(python,fid,ts*fcx,f1,n1,nodes)
                       endif
                     endif ! if (ismooth == 0)
                     n_old = n5
@@ -925,7 +933,7 @@
                     elseif(ismooth < 0) then
                       if(present(python)) then
                         fid = -ismooth ! the id the python function is saved in the position of ismooth in the npc array
-                        call python_call_funct1d(python, fid,disp*fcx,f1)
+                        call python_call_funct_cload(python,fid,disp*fcx,f1,n1,nodes)
                       endif
                     endif ! if (ismooth == 0)
                     n_old = n5
@@ -947,7 +955,7 @@
                     elseif(ismooth < 0) then
                       if(present(python)) then
                         fid = -ismooth ! the id the python function is saved in the position of ismooth in the npc array
-                        call python_call_funct1d(python, fid,vel*fcx,f1)
+                        call python_call_funct_cload(python,fid,vel*fcx,f1,n1,nodes)
                       endif
                     endif ! if (ismooth == 0)
                     n_old = n5
