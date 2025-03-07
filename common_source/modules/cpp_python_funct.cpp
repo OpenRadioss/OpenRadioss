@@ -95,7 +95,7 @@ std::string element_parenthesis_to_underscore(const std::string &input, const st
 
 std::string node_parenthesis_to_underscore(const std::string &input)
 {
-    std::regex pattern(R"(\b(DX|DY|DZ|AX|AY|AZ|CX|CY|CZ|VX|VY|VZ|ARX|ARY|ARZ|VRX|VRY|VRZ|DRX|DRY|DRZ)\b\s*\(\s*(\d+)\s*\))");
+    std::regex pattern(R"(\b(DX|DY|DZ|AX|AY|AZ|CX|CY|CZ|VX|VY|VZ|ARX|ARY|ARZ|VRX|VRY|VRZ|DRX|DRY|DRZ)\b\s*\(\s*(\d+|ACTIVE_NODE)\s*\))");
     std::string result = std::regex_replace(input, pattern, "$1_$2");
     return result;
 }
@@ -1007,6 +1007,48 @@ extern "C"
         // std::cout<< "Generated code: "<<code<<std::endl;
         python_execute_code(code);
     }
+
+    // values is an array of size (3*numnod) containing the values of the nodal entities
+//  call python_update_active_node_values(name_len, temp_name, val)
+
+    void cpp_python_update_active_node(int name_len, char *name, double *values)
+    {
+        if (!python_initialized)
+        {
+            return;
+        }
+        double x_values, y_values, z_values;
+        // loop over the map nodes_uid_to_local_id
+        {
+            x_values = static_cast<double>(values[0]);
+            y_values = static_cast<double>(values[1]);
+            z_values = static_cast<double>(values[2]);
+            PyObject *py_x_values = static_cast<PyObject *>(MyFloat_FromDouble(x_values));
+            PyObject *py_y_values = static_cast<PyObject *>(MyFloat_FromDouble(y_values));
+            PyObject *py_z_values = static_cast<PyObject *>(MyFloat_FromDouble(z_values));
+            if (!py_x_values || !py_y_values || !py_z_values)
+            {
+                std::cout << "ERROR: Failed to create Python objects from C++ doubles." << std::endl;
+                return;
+            }
+            // Set the Python global variables in the main module's dictionary
+            std::string x_name = std::string(name) + "X_ACTIVE_NODE";
+            std::string y_name = std::string(name) + "Y_ACTIVE_NODE";
+            std::string z_name = std::string(name) + "Z_ACTIVE_NODE";
+            // std::cout<<" write to python: "<<x_name<<" "<<y_name<<" "<<z_name<<std::endl;
+            MyDict_SetItemString(pDict, x_name.c_str(), py_x_values);
+            MyDict_SetItemString(pDict, y_name.c_str(), py_y_values);
+            MyDict_SetItemString(pDict, z_name.c_str(), py_z_values);
+            // Release the Python objects
+            if (py_x_values != nullptr)
+                My_DecRef(py_x_values);
+            if (py_y_values != nullptr)
+                My_DecRef(py_y_values);
+            if (py_z_values != nullptr)
+                My_DecRef(py_z_values);
+        }
+    }
+
 
     // values is an array of size (3*numnod) containing the values of the nodal entities
     void cpp_python_update_nodal_entity(int numnod, int name_len, char *name, my_real *values)

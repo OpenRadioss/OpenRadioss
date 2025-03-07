@@ -3435,7 +3435,7 @@ C-------------------------------------------------------------------
      7                     DPL0CLD ,VEL0CLD  ,NODES%D        ,NODES%DR       ,NCONLD                    ,
      8                     NUMNOD  ,NFUNCT   ,ANIM_V   ,OUTP_V                    ,
      9                     IPARIT  ,TT       ,DT1      ,N2D      ,OUTPUT%WFEXT    ,
-     A                     IMPL_S  ,PYTHON=PYTHON)
+     A                     IMPL_S  ,PYTHON=PYTHON, NODES=NODES)
 C
                 IF (NPINCH > 0) THEN
                   CALL FORCEPINCH(IBCL   ,FORC    ,NPC    ,TF      ,NODES%A         ,
