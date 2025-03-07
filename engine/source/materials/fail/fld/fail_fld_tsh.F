@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3     UVAR     ,NGL      ,IPG      ,ILAY     ,IPTT     ,
      4     EPSXX    ,EPSYY    ,EPSXY    ,EPSYZ    ,EPSZX    ,
      6     OFF      ,FOFF     ,FLD_IDX  ,DAM      ,DFMAX    ,
-     7     NIPARAM  ,IPARAM   ,PLA      )
+     7     NIPARAM  ,IPARAM   ,PLA      ,LF_DAMMX )
 C-----------------------------------------------
 c    FLD failure model
 C-----------------------------------------------
@@ -72,7 +72,7 @@ C IPT                         CURRENT INTEGRATION POINT IN THE LAYER (FOR OUTPUT
 C---------+---------+---+---+--------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NEL,NUPARAM,NUVAR,NFUNC,IPG,ILAY,IPTT,NIPARAM
+      INTEGER, INTENT(IN) :: NEL,NUPARAM,NUVAR,NFUNC,IPG,ILAY,IPTT,NIPARAM,LF_DAMMX
       INTEGER ,DIMENSION(NEL)   :: NGL
       INTEGER ,DIMENSION(NFUNC) :: IFUNC
       my_real TIME
@@ -84,7 +84,7 @@ C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
       INTEGER ,DIMENSION(NEL), INTENT(INOUT) :: FOFF,FLD_IDX
-      my_real ,DIMENSION(NEL), INTENT(INOUT) :: DFMAX
+      my_real ,DIMENSION(NEL,LF_DAMMX), INTENT(INOUT) :: DFMAX
       my_real ,DIMENSION(NEL), INTENT(OUT)   :: DAM
       my_real UVAR(NEL,NUVAR)
 C-----------------------------------------------
@@ -164,9 +164,10 @@ c
 c
         DO J = 1,NINDX
           I = INDX(J)
-          EM(I)    = FINTERFLD(EMIN(I),LENF,XF)
-          DAM(I)   = EMAJ(I) / EM(I)
-          DFMAX(I) = MIN(ONE, DAM(I))
+          EM(I)  = FINTERFLD(EMIN(I),LENF,XF)
+          DAM(I) = EMAJ(I) / EM(I)
+          DFMAX(I,2) = DAM(I)
+          DFMAX(I,1) = MIN(ONE, DAM(I))
         ENDDO
         DEALLOCATE(XF)
       ! -> True strains input
@@ -177,7 +178,8 @@ c
             I = INDX(J)
             EM(I)  = FINTER(IFUNC(1),EMIN(I),NPF,TF,DYDX)
             DAM(I) = EMAJ(I) / EM(I)
-            DFMAX(I) = MIN(ONE, DAM(I))
+            DFMAX(I,2) = DAM(I)
+            DFMAX(I,1) = MIN(ONE, DAM(I))
           ENDDO
         ! -> Non-linear path formulation
         ELSEIF (IENG == 2) THEN 
@@ -185,7 +187,8 @@ c
             I = INDX(J)
             EM(I)  = FINTER(IFUNC(1),BETA(I),NPF,TF,DYDX)
             DAM(I) = PLA(I) / EM(I)
-            DFMAX(I) = MIN(ONE, DAM(I))
+            DFMAX(I,2) = DAM(I)
+            DFMAX(I,1) = MIN(ONE, DAM(I))
           ENDDO
         ENDIF
       ENDIF 
@@ -213,6 +216,7 @@ c
             ELSE
               FLD_IDX(I) = 2      ! zone 2  - high wrinkle tendency
             ENDIF
+            DFMAX(I,3) = FLD_IDX(I)
           ENDDO
         ELSE
           DO J = 1,NINDX
@@ -230,6 +234,7 @@ c
             ELSE
               FLD_IDX(I) = 2      ! zone 2  - high wrinkle tendency
             ENDIF
+            DFMAX(I,3) = FLD_IDX(I)
           ENDDO
         ENDIF
       ELSE
@@ -249,6 +254,7 @@ c
             ELSE
               FLD_IDX(I) = 2      ! zone 2  - high wrinkle tendency
             ENDIF
+            DFMAX(I,3) = FLD_IDX(I)
           ENDDO
         ELSE
           DO J = 1,NINDX
@@ -266,6 +272,7 @@ c
             ELSE
               FLD_IDX(I) = 2      ! zone 2  - high wrinkle tendency
             ENDIF
+            DFMAX(I,3) = FLD_IDX(I)
           ENDDO
         ENDIF
       ENDIF

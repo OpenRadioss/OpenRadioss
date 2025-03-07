@@ -2147,7 +2147,7 @@
                       &ngl       ,ipt       ,mpt       ,ssp       ,tensx     ,&
                       &signxx    ,signyy    ,signxy    ,signyz    ,signzx    ,&
                       &epsxx     ,epsyy     ,epsxy     ,epsyz     ,epszx     ,&
-                      &uvarf     ,gbuf%noff ,off       ,&
+                      &uvarf     ,gbuf%noff ,off       ,lf_dammx  ,&
                       &elcrkini  ,ixfem     ,ixel      ,ilayer    ,it        ,&
                       &offl      ,nptt      ,uelr1     ,dfmax     ,tdel      ,&
                       &dam       ,fld_idx   ,nipar     ,iparamf   ,el_pla    ,&

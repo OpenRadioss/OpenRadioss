@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3     NGL      ,IPT      ,NPTOT    ,SSP      ,TENS     ,
      4     SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      5     EPSXX    ,EPSYY    ,EPSXY    ,EPSYZ    ,EPSZX    ,  
-     6     UVAR     ,NOFF     ,OFF      ,
+     6     UVAR     ,NOFF     ,OFF      ,LF_DAMMX ,
      7     ELCRKINI ,IXFEM    ,IXEL     ,ILAY     ,IPTT     ,  
      8     OFFL     ,NPTT     ,NPTTF    ,DFMAX    ,TDEL     ,   
      9     DAM      ,FLD_IDX  ,NIPARAM  ,IPARAM   ,PLA      ,
@@ -85,8 +85,8 @@ C-----------------------------------------------
      .   TIME,UPARAM(NUPARAM),SIGNXX(NEL),SIGNYY(NEL),
      .   SIGNZZ(NEL),SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL),SSP(NEL),
      .   EPSXX(NEL),EPSYY(NEL),EPSXY(NEL),EPSYZ(NEL),EPSZX(NEL),
-     .   TENS(NEL,5),DFMAX(NEL),TDEL(NEL),NPTTF(NEL),DAM(NEL)
-      INTEGER, INTENT(IN) :: NIPARAM
+     .   TENS(NEL,5),DFMAX(NEL,LF_DAMMX),TDEL(NEL),NPTTF(NEL),DAM(NEL)
+      INTEGER, INTENT(IN) :: NIPARAM, LF_DAMMX
       INTEGER, DIMENSION(NIPARAM), INTENT(IN) :: IPARAM
       my_real, DIMENSION(NEL), INTENT(IN) :: PLA,DEPSXX,DEPSYY,DEPSXY
       my_real, INTENT(IN) :: DT1
@@ -201,25 +201,28 @@ c
         ENDDO
 c
         DO I = 1,NEL
-          EM(I)    = FINTERFLD(EMIN(I),LENF,XF)
-          DAM(I)   = EMAJ(I) / EM(I)
-          DFMAX(I) = MIN(ONE, DAM(I))
+          EM(I)  = FINTERFLD(EMIN(I),LENF,XF)
+          DAM(I) = EMAJ(I) / EM(I)
+          DFMAX(I,2) = DAM(I)
+          DFMAX(I,1) = MIN(ONE, DAM(I))
         ENDDO
       ! -> True strain input
       ELSE
         ! -> Classic formulation
         IF (IENG == 0) THEN 
           DO I = 1,NEL
-            EM(I)    = FINTER(IFUNC(1),EMIN(I),NPF,TF,DYDX)
-            DAM(I)   = EMAJ(I) / EM(I)
-            DFMAX(I) = MIN(ONE, DAM(I))
+            EM(I)  = FINTER(IFUNC(1),EMIN(I),NPF,TF,DYDX)
+            DAM(I) = EMAJ(I) / EM(I)
+            DFMAX(I,2) = DAM(I)
+            DFMAX(I,1) = MIN(ONE, DAM(I))
           ENDDO
         ! -> Non-linear path formulation
         ELSEIF (IENG == 2) THEN
           DO I = 1,NEL
-            EM(I)    = FINTER(IFUNC(1),EMIN(I),NPF,TF,DYDX)
-            DAM(I)   = MAX(PLA(I) / EM(I),DAM(I))
-            DFMAX(I) = MIN(ONE, DAM(I))
+            EM(I)  = FINTER(IFUNC(1),EMIN(I),NPF,TF,DYDX)
+            DAM(I) = MAX(PLA(I) / EM(I),DAM(I))
+            DFMAX(I,2) = DAM(I)
+            DFMAX(I,1) = MIN(ONE, DAM(I))
           ENDDO
         ENDIF
       ENDIF 
@@ -244,6 +247,7 @@ c
           ELSE
             FLD_IDX(I) = 2      ! zone 2  - high wrinkle tendency
           ENDIF
+          DFMAX(I,3) = FLD_IDX(I)
         ENDDO
       ELSE
         DO I = 1,NEL
@@ -260,6 +264,7 @@ c
           ELSE
             FLD_IDX(I) = MAX(2,FLD_IDX(I))      ! zone 2  - high wrinkle tendency
           ENDIF
+          DFMAX(I,3) = FLD_IDX(I)
         ENDDO
       ENDIF
 c--------------------------------------------------------------------
