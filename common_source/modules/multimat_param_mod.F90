@@ -37,6 +37,7 @@
       !||    alemain                          ../engine/source/ale/alemain.F
       !||    arezon                           ../engine/source/ale/arezon.F
       !||    atherm                           ../engine/source/ale/atherm.F
+      !||    dfunc0                           ../engine/source/output/anim/generate/dfunc0.F
       !||    dfuncc                           ../engine/source/output/anim/generate/dfuncc.F
       !||    dfuncs                           ../engine/source/output/anim/generate/dfunc6.F
       !||    ebcs10                           ../engine/source/boundary_conditions/ebcs/ebcs10.F

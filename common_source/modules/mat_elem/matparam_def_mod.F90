@@ -44,6 +44,7 @@
       !||    check_mat_elem_prop_compatibility   ../starter/source/materials/mat/check_mat_elem_prop_compatibility.F
       !||    cinit3                              ../starter/source/elements/shell/coque/cinit3.F
       !||    compute_pressure                    ../engine/source/multifluid/multi_muscl_fluxes_computation.F
+      !||    dfunc0                              ../engine/source/output/anim/generate/dfunc0.F
       !||    dfuncc                              ../engine/source/output/anim/generate/dfuncc.F
       !||    dfuncc_ply                          ../engine/source/output/anim/generate/dfuncc_ply.F
       !||    dfuncs                              ../engine/source/output/anim/generate/dfunc6.F

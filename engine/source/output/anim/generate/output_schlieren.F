@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    output_schlieren       ../engine/source/output/anim/generate/output_schlieren.F
       !||--- called by ------------------------------------------------------
-      !||    dfunc0                 ../engine/source/output/anim/generate/dfunc0.F
       !||    dfuncc                 ../engine/source/output/anim/generate/dfuncc.F
       !||    dfuncs                 ../engine/source/output/anim/generate/dfunc6.F
       !||    h3d_quad_scalar_1      ../engine/source/output/h3d/h3d_results/h3d_quad_scalar_1.F90
