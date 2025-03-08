@@ -29,11 +29,23 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
       !||====================================================================
-      SUBROUTINE ADIFF2(PHIN,PHI,GRAD,ALPHA,ALE_CONNECT,VOL)
+      SUBROUTINE ADIFF2(PHIN,PHI,GRAD,COEF,ALE_CONNECT,VOL,TEMP,RHOCP,NEL)
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C Solving Heat equation
+C    alpha = k/rhocp is thermal diffusivity
+c    coeff is k (factor simplification since originally only EINT/V was updated)
+c       PHIN is EINT/V : updated at the end of the subroutine
+C       TEMP : updated at the end of the subroutine.
+C              Since temperature is calculated incrementally, both energy and temperature must be consistently updated.
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
-C-----------------------------------------------
+      USE ALE_CONNECTIVITY_MOD
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -42,11 +54,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real,INTENT(INOUT) :: PHIN(*)  !< Eint/V [n+1]
-      my_real,INTENT(IN) :: PHI(*)      !< backup T[n]
-      my_real,INTENT(IN)   :: GRAD(4,*) !< gradient
-      my_real,INTENT(IN) :: ALPHA(*)    !< thermal diffusivity k/rhocp
-      my_real,INTENT(IN) :: VOL(*)      !< element volume
+      INTEGER,INTENT(IN) :: NEL
+      my_real,INTENT(INOUT) :: TEMP(NEL)
+      my_real,INTENT(INOUT) :: PHIN(NEL) !EINT/V
+      my_real,INTENT(IN) :: RHOCP
+      my_real,INTENT(IN) :: PHI(NEL), GRAD(4,NEL), VOL(NEL)
+      my_real,INTENT(IN) :: COEF(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -58,12 +71,11 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IE, IV1, IV2, IV3, IV4, IAD2
       my_real DPHI(MVSIZ)
-      my_real AA(0:4)     !< thermal diffusivity (updated from ALPHA for ghost cells)
-      my_real AA_FACE(4)
+      my_real :: COEFF(0:6) ! k = alpha * rhocp
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         IE =NFT+I
         IAD2 = ALE_CONNECT%ee_connect%iad_connect(IE)
         IV1 = ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
@@ -75,39 +87,36 @@ C-----------------------------------------------
         IF(IV2 <= 0)IV2=IE
         IF(IV3 <= 0)IV3=IE
         IF(IV4 <= 0)IV4=IE
-        !thermal diffusivity ( *rho0cp)
-        AA(0) = ALPHA(IE)
-        AA(1) = ALPHA(IV1)
-        AA(2) = ALPHA(IV2)
-        AA(3) = ALPHA(IV3)
-        AA(4) = ALPHA(IV4)
-        !ghost cells
-        IF(AA(1) == ZERO) AA(1)=AA(0)
-        IF(AA(2) == ZERO) AA(2)=AA(0)
-        IF(AA(3) == ZERO) AA(3)=AA(0)
-        IF(AA(4) == ZERO) AA(4)=AA(0)
-        !harmonic interpolation
-        AA_FACE(1) = TWO*(AA(0)*AA(1)) / MAX(EM20,(AA(0)+AA(1)))
-        AA_FACE(2) = TWO*(AA(0)*AA(2)) / MAX(EM20,(AA(0)+AA(2)))
-        AA_FACE(3) = TWO*(AA(0)*AA(3)) / MAX(EM20,(AA(0)+AA(3)))
-        AA_FACE(4) = TWO*(AA(0)*AA(4)) / MAX(EM20,(AA(0)+AA(4)))
-C-----------------------------------------------------------
-        ! time evolution
-        DPHI(I) = (ALPHA(IE)*ALPHA(IV1))*(PHI(IV1)-PHI(IE))*GRAD(1,I) / MAX(EM20,(ALPHA(IE)+ALPHA(IV1)))
-     3 +          (ALPHA(IE)*ALPHA(IV2))*(PHI(IV2)-PHI(IE))*GRAD(2,I) / MAX(EM20,(ALPHA(IE)+ALPHA(IV2)))
-     5 +          (ALPHA(IE)*ALPHA(IV3))*(PHI(IV3)-PHI(IE))*GRAD(3,I) / MAX(EM20,(ALPHA(IE)+ALPHA(IV3)))
-     7 +          (ALPHA(IE)*ALPHA(IV4))*(PHI(IV4)-PHI(IE))*GRAD(4,I) / MAX(EM20,(ALPHA(IE)+ALPHA(IV4)))
+        COEFF(0) = COEF(IE)
+        COEFF(1) = COEF(IV1)
+        COEFF(2) = COEF(IV2)
+        COEFF(3) = COEF(IV3)
+        COEFF(4) = COEF(IV4)
+        IF(COEFF(1) == ZERO) COEFF(1)=COEFF(0)
+        IF(COEFF(2) == ZERO) COEFF(2)=COEFF(0)
+        IF(COEFF(3) == ZERO) COEFF(3)=COEFF(0)
+        IF(COEFF(4) == ZERO) COEFF(4)=COEFF(0)
+        DPHI(I) = (COEFF(0)*COEFF(1))*(PHI(IV1)-PHI(IE))*GRAD(1,I) / MAX(EM20,(COEFF(0)+COEFF(1)))
+     2 +          (COEFF(0)*COEFF(2))*(PHI(IV2)-PHI(IE))*GRAD(2,I) / MAX(EM20,(COEFF(0)+COEFF(2)))
+     3 +          (COEFF(0)*COEFF(3))*(PHI(IV3)-PHI(IE))*GRAD(3,I) / MAX(EM20,(COEFF(0)+COEFF(3)))
+     4 +          (COEFF(0)*COEFF(4))*(PHI(IV4)-PHI(IE))*GRAD(4,I) / MAX(EM20,(COEFF(0)+COEFF(4)))
       ENDDO!next I
 C-----------------------------------------------------------
-      ! %EINT is here Eint / V (J/m3)
-      ! => DPHI = is finally m.cp.dT = dT *rhoCp   (ALPHA is k instead k/rhocp )
-      DO I=LFT,LLT
-        DPHI(I)=TWO *DPHI(I)*DT1/MAX(VOL(I),EM20)
+      DO I=1,NEL
+        DPHI(I)=TWO*DPHI(I)*DT1/MAX(VOL(I),EM20)
       ENDDO
 C-----------------------------------------------------------
-      DO I=LFT,LLT
+      ! Eint/V update
+      DO I=1,NEL
         PHIN(I)=PHIN(I)+DPHI(I)
       ENDDO
+C-----------------------------------------------------------
+      ! temperature update
+      IF(RHOCP > ZERO)THEN
+        DO I=1,NEL
+          TEMP(I) = TEMP(I) + DPHI(I)/RHOCP
+        ENDDO
+      ENDIF
 C-----------------------------------------------------------
       RETURN
       END
