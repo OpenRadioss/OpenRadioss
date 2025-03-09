@@ -46,7 +46,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6       IPART  ,SH4TREE ,NOD2ELC   ,ISHEOFF ,
      7       SH4TRIM ,TAGPRT_SMS,LGAUGE  ,IWORKSH ,
      8       STACK   ,DRAPE    ,RNOISE  ,MAT_PARAM,
-     9       SH4ANG, IDDLEVEL , DRAPEG,PRINT_FLAG,PTSHEL)
+     9       SH4ANG, IDDLEVEL , DRAPEG,PRINT_FLAG,PTSHEL,DAMP_RANGE_PART)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -109,6 +109,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IDDLEVEL
       INTEGER, INTENT(IN) :: PRINT_FLAG !< flag to print the element group data
       INTEGER , DIMENSION(NUMELC) , INTENT(INOUT):: PTSHEL
+      INTEGER , INTENT(IN) :: DAMP_RANGE_PART(NPART)     !< flag to compute the damping range
       MY_REAL
      .    PM(NPROPM,*), GEO(NPROPG,*), XNUM(*),THK(*),RNOISE(NPERTURB,*),
      .    SH4ANG(*)
@@ -134,7 +135,7 @@ C-----------------------------------------------
      .   NGP(NSPMD+1),N1,NVARV,IVISC,IFWV,IXFEM,IPTUN,IREP,
      .   ISUBSTACK,IPMAT, IPPID,
      .   IPARTR2R,NB_LAW58,IPERT,STAT,IGMAT,IPINCH,ISM0,ISEATBELT,
-     .   NSLICE,KK,NPT_DRP, IDRAPE, JJ,IEL,IEL0,ISHEL
+     .   NSLICE,KK,NPT_DRP, IDRAPE, JJ,IEL,IEL0,ISHEL,IDAMP_FREQ_RANGE
       INTEGER, DIMENSION(:), ALLOCATABLE :: INUM_R2R
       my_real, DIMENSION(:), ALLOCATABLE :: ANGLE
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEXS2,INUM_PTSHEL
@@ -968,6 +969,9 @@ C
           ISEATBELT = 0
           IF(MLN == 119) ISEATBELT = 1
           IPARG(91,NGROUP) = ISEATBELT
+C         damping frequency range apply to group
+          IDAMP_FREQ_RANGE = DAMP_RANGE_PART(IPARTC(II))
+          IPARG(93,NGROUP) = IDAMP_FREQ_RANGE
 C
           NSG = 1
           KFTS= 0

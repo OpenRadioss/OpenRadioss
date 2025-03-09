@@ -196,7 +196,11 @@ c
         IDRAPE    = IPARG(92,NG)  ! Drape group shell flag
         IDAMP_FREQ_RANGE = IPARG(93,NG)  ! Damping frequency range group flag
         LDAMP_FREQ_RANGE = 6*MIN(1,IDAMP_FREQ_RANGE)
-        NVAR_DAMP_FREQ_RANGE = 21*MIN(1,IDAMP_FREQ_RANGE)
+        IF (NPT == 0) THEN
+          NVAR_DAMP_FREQ_RANGE = (28+16)*MIN(1,IDAMP_FREQ_RANGE)
+        ELSE  
+          NVAR_DAMP_FREQ_RANGE = 21*MIN(1,IDAMP_FREQ_RANGE)
+        ENDIF  
         NINTLAY = 0                                            
 cc        NXEL    = 0
 c----
@@ -403,16 +407,7 @@ c       no non-local structure allocation if not needed
 c--------------------------------------------------------
           IF (INLOC == 0) THEN 
             ALLOCATE(ELBUF_TAB(NG)%NLOCTS(0,0))
-          ENDIF        
-c--------------------------------------------------------
-c       damping structure for damping frequency range
-c--------------------------------------------------------
-          IF (IDAMP_FREQ_RANGE > 0) THEN 
-            ALLOCATE(ELBUF_TAB(NG)%DAMP_RANGE%ALPHA(3))
-            ALLOCATE(ELBUF_TAB(NG)%DAMP_RANGE%TAU(3))
-C          ELSE  
-C            ALLOCATE(ELBUF_TAB(NG)%DAMP_RANGE(0))
-          ENDIF           
+          ENDIF                  
 c-------------------------------------------------
           CALL ZEROVARS_AUTO(ELBUF_TAB(NG))
 c-------------------------------------------------
@@ -820,8 +815,8 @@ c         GBUF%NVAR_GLOB ! number of element variables in GBUF
 c         BUFLY%NVAR_LAY ! number of element variables in BUFLY
 c         BUFLY%NVAR_LOC ! number of element variables in LBUF (defined on layer level)
 c
-          BUFLEN = NPAR_TAB + LMAT + LFAIL + LVISC + LPORO + LEOS + LIMAT + LIFAIL + LNLOCTS + 
-     .             LDAMP_FREQ_RANGE
+          BUFLEN = NPAR_TAB + LMAT + LFAIL + LVISC + LPORO + LEOS + LIMAT + LIFAIL + LNLOCTS
+
           LGLOB = 0                                 
           LGLOB = LGLOB + GBUF%G_NOFF  
           LGLOB = LGLOB + GBUF%G_IERR  
@@ -2417,6 +2412,18 @@ c------------------------------------------------------
           ALLOCATE(ELBUF_TAB(NG)%BUFLY(0))
 c------------------------------------------------------
         ENDIF   ! ITY = 1,2,51,101 (solid group)
+
+c--------------------------------------------------------
+c       damping structure for damping frequency range
+c--------------------------------------------------------
+        IF (IDAMP_FREQ_RANGE > 0) THEN
+          ALLOCATE(ELBUF_TAB(NG)%DAMP_RANGE%ALPHA(3))
+          ALLOCATE(ELBUF_TAB(NG)%DAMP_RANGE%TAU(3))
+          BUFLEN = IPARG(66,NG) + LDAMP_FREQ_RANGE
+          IPARG(66,NG) = BUFLEN 
+c        ELSE  
+c            ALLOCATE(ELBUF_TAB(NG)%DAMP_RANGE(0))
+        ENDIF  
 
          IF (DEBUG_PRINT == 1) THEN
            print*,' elbuf_ini : NG,ITY,IGTYP,buflen=',NG,ITY,IGTYP,buflen

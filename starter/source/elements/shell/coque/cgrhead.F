@@ -40,7 +40,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4       CEP     ,XEP     ,IGEO      ,IPM    ,
      5       IPART   ,SH4TREE ,NOD2ELC   ,ISHEOFF,SH4TRIM,
      6       TAGPRT_SMS, LGAUGE,IWORKSH  ,MAT_PARAM,
-     7       STACK   ,DRAPE  ,RNOISE ,SH4ANG,DRAPEG, PTSHEL )
+     7       STACK   ,DRAPE  ,RNOISE ,SH4ANG,DRAPEG, PTSHEL,
+     8       DAMP_RANGE_PART)
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
@@ -92,13 +93,14 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER IXC(NIXC,*),ISEL(*),INUM(9,*),IPARTC(*), ISHEOFF(*),
-     .        EADD(*),ITR1(*),INDEX(*),ITRI(7,*),
+     .        EADD(*),ITR1(*),INDEX(*),ITRI(8,*),
      .        ND, CEP(*), XEP(*),
      .        IGEO(NPROPGI,*),IPM(NPROPMI,*),IPART(LIPART1,*), 
      .        SH4TREE(KSH4TREE,*), NOD2ELC(*), SH4TRIM(*),
      .        TAGPRT_SMS(*) ,LGAUGE(3,*),
      .        IWORKSH(3,*)
       INTEGER , DIMENSION(NUMELC) , INTENT(INOUT):: PTSHEL
+      INTEGER , INTENT(IN) :: DAMP_RANGE_PART(NPART)     !< flag to compute the damping range
 C     REAL OU REAL*8
       my_real
      .    PM(NPROPM,*), GEO(NPROPG,*),XNUM(*),THK(*), RNOISE(NPERTURB,*),
@@ -126,7 +128,7 @@ C-----------------------------------------------
      .  MSKIST,MSKIPL,MSKITH,MSKMID,MSKPID,MSKIRP,MSKTYP,IREP,
      .  IPT,IMATLY,II0,JJ0,ILEV,PRT,IADM,DIR,II4,JJ4,N1,
      .  NFAIL,IFAIL,IXFEM,INUM_R2R(1+R2R_SIU*NUMELC),
-     .  II5,JJ5,
+     .  II5,JJ5,II6,JJ6,
      .  ISUBSTACK,IIGEO,IADI ,IPPID,NB_LAW58,IPMAT,
      .  IPERT,STAT,IP,NSLICE,KK,NPT_DRP,IE,IE0
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: INUM_WORKC !(3,NUMELC)
@@ -498,10 +500,12 @@ C       PID=MY_SHIFTL(PID,0)
         ITRI(6,I)=PID
 C --- clef7 used for type17 iworkc=0 with/out type17 (or type51) PID  
         ITRI(7,I) =  IWORKSH(2,I) 
+C --- clef 8---------------------------------          
+        ITRI(8,I )= DAMP_RANGE_PART(IPARTC(II))
       ENDDO
 C
       MODE=0
-      CALL MY_ORDERS( MODE, WORK, ITRI, INDEX, NUMELC , 7)
+      CALL MY_ORDERS( MODE, WORK, ITRI, INDEX, NUMELC , 8)
 C
        DO I=1,NUMELC
         IPARTC(I) =INUM(1,INDEX(I))
@@ -661,10 +665,14 @@ C--------------------------------------------------------------
 C for stack/ply pid
         II5=ITRI(7,INDEX(I))
         JJ5=ITRI(7,INDEX(I-1))
+C damp freq range        
+        II6=ITRI(8,INDEX(I))
+        JJ6=ITRI(8,INDEX(I-1))       
         IF (II0/=JJ0 .or. 
      *   II/=JJ .or. 
      *   II1/=JJ1 .or.
-     *   II2/=JJ2.OR.II3 /= JJ3.OR.II4 /= JJ4.OR.II5 /= JJ5) THEN
+     *   II2/=JJ2.OR.II3 /= JJ3.OR.II4 /= JJ4.OR.II5 /= JJ5 .or.
+     *   II6 /= JJ6) THEN
           ND=ND+1
           EADD(ND)=I
         ENDIF
