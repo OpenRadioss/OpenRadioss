@@ -1731,7 +1731,7 @@ C---  Allocations
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                           C1='R_SKEW')
-C     
+C
       ALLOCATE(IBEAM_VECTOR(NUMELP) ,STAT=stat)
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                          MSGTYPE=MSGERROR,
@@ -2358,7 +2358,7 @@ C-----------------------------------------------------
      .                           MSGTYPE=MSGERROR,
      .                         C1='IWORK')
       IWORK = 0
-      ALLOCATE(THK_PART(NPART)    ,STAT=stat)
+      ALLOCATE(THK_PART(NPART)    ,STAT=stat)   
 C
       CALL HM_READ_PART(IPART  ,PM      ,GEO       ,IPM     ,IGEO ,IWORK ,THK_PART,
      .                  UNITAB,LSUBMODEL,MULTI_FVM ,MLAW_TAG,MAT_ELEM%MAT_PARAM,GLOB_THERM)
@@ -5587,7 +5587,7 @@ C--------------------------------------------
      .                                    SNPC1,NPC1,NDAMP_VREL_RBY,IGRPART,DAMP_RANGE_PART)
           CALL TRACE_OUT1()
         ENDIF     
-      ENDIF
+      ENDIF      
 C
 c-----------------------------------------------------------------------
 C
@@ -5923,7 +5923,7 @@ C---------------------------
       NUMELIG3DK8  =    NUMELIG3D
       NUMSPHK8     =    NUMSPH
 ! working int8 to avoid integer overflow for large models
-      EMAX = MAX(23*NUMELCK8,24*NUMELTGK8+1,30*NUMELSK8+1,19*NUMELRK8,
+      EMAX = MAX(24*NUMELCK8,25*NUMELTGK8+1,30*NUMELSK8+1,19*NUMELRK8,
      .           19*NUMELPK8+1,17*NUMELTK8,19*NUMELQK8,
      .           15*NUMELXK8+1,24*NUMELIG3DK8+1,NUMSPHK8) + 1
 
@@ -5996,7 +5996,7 @@ C test non depassement de LDD_IAD
           END DO
           DEALLOCATE(DD_TMP2)
         END IF
-C
+C 
         GRSOL_ID1 = NGROUP
         CALL SGRTAILS(
      1       IXS      ,PM       ,IPARGTMP ,GEO      ,
@@ -6086,9 +6086,9 @@ C---------------------------------
        K2 = 11*NUMELC
        K3 = 12*NUMELC+1
        K4 = 14*NUMELC+1
-       K5 = 21*NUMELC+1
-       K6 = 22*NUMELC+1
-       K7 = 23*NUMELC+1
+       K5 = 22*NUMELC+1
+       K6 = 23*NUMELC+1
+       K7 = 24*NUMELC+1
        !warning: please also update any index change
        !         for MODIF option (MODIF_SPMD.F)
        IWORK  = 0
@@ -6109,7 +6109,8 @@ C
      4   CEP(OFF),XEP     ,IGEO    ,IPM     ,
      5   IPART   ,SH4TREE ,NOD2ELC ,ISHEOFF ,SH4TRIM ,
      6   TAGPRT_SMS,LGAUGE,IWORKSH ,MAT_ELEM%MAT_PARAM,
-     7   STACK   ,DRAPE   ,RNOISE  ,SH4ANG,DRAPEG, PTSHEL)
+     7   STACK   ,DRAPE   ,RNOISE  ,SH4ANG,DRAPEG, PTSHEL,
+     8   DAMP_RANGE_PART)
 C---------------------------------
 C-  GROUPAGE SPMD
 C---------------------------------
@@ -6138,7 +6139,7 @@ C
      6        IPART    ,SH4TREE  ,NOD2ELC  ,ISHEOFF ,
      7        SH4TRIM  ,TAGPRT_SMS, LGAUGE,IWORKSH    ,
      8        STACK    ,DRAPE   ,RNOISE  ,MAT_ELEM%MAT_PARAM,
-     9        SH4ANG, IDDLEVEL , DRAPEG,IPRI, PTSHEL)
+     9        SH4ANG, IDDLEVEL , DRAPEG,IPRI, PTSHEL,DAMP_RANGE_PART)
 
          OFF = OFF + NUMELC
 
@@ -6318,10 +6319,10 @@ C---------------------------------
        K2 = 12*NUMELTG
        K3 = 13*NUMELTG+1
        K4 = 15*NUMELTG+1
-       K5 = 22*NUMELTG+1
-       K6 = 23*NUMELTG+1
-       K7 = 24*NUMELTG+1
-       K8 = 25*NUMELTG+1
+       K5 = 23*NUMELTG+1
+       K6 = 24*NUMELTG+1
+       K7 = 25*NUMELTG+1
+       K8 = 26*NUMELTG+1
        !warning: please also update any index change
        !         for MODIF option (MODIF_SPMD.F)
        IWORK  = 0
@@ -6347,7 +6348,8 @@ C---------------------------------
      5     IGEO    ,IPM     ,IPART    ,SH3TREE ,NOD2ELTG,
      6     ITRIOFF ,SH3TRIM ,TAGPRT_SMS,
      7     IWORKSH , STACK  ,DRAPE  ,RNOISE(1,MIN(SRNOISE2,NUMELC+1)),
-     8     MULTI_FVM , SH3ANG,DRAPEG,PTSH3N,MAT_ELEM%MAT_PARAM)
+     8     MULTI_FVM , SH3ANG,DRAPEG,PTSH3N,MAT_ELEM%MAT_PARAM,
+     9     DAMP_RANGE_PART)
        ELSE
          CALL T3GRHEAD(
      1     IXTG    ,PM      ,GEO      ,INUM    ,BID13   ,
@@ -6386,7 +6388,7 @@ C
      6          IPART    ,SH3TREE  ,NOD2ELTG ,ITRIOFF  ,
      7          SH3TRIM  ,TAGPRT_SMS,IWORKSH ,STACK      ,
      8          DRAPE   ,RNOISE(1,MIN(SRNOISE2,NUMELC+1)) ,
-     9          MAT_ELEM%MAT_PARAM,SH3ANG,DRAPEG,IPRI ,PTSH3N)
+     9          MAT_ELEM%MAT_PARAM,SH3ANG,DRAPEG,IPRI ,PTSH3N,DAMP_RANGE_PART)
          ELSE
            CALL T3GRTAILS(
      1          IXTG     ,PM       ,IPARGTMP ,GEO      ,

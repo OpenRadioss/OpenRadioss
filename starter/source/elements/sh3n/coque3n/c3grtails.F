@@ -45,7 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6       IPART   ,SH3TREE,NOD2ELTG,ITRIOFF,
      7       SH3TRIM,TAGPRT_SMS,IWORKSH, STACK,
      8       DRAPE  ,RNOISE,
-     9       MAT_PARAM, SH3ANG,DRAPEG,PRINT_FLAG,PTSH3N)
+     9       MAT_PARAM, SH3ANG,DRAPEG,PRINT_FLAG,PTSH3N,DAMP_RANGE_PART)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -103,6 +103,7 @@ C-----------------------------------------------
      .        TAGPRT_SMS(*),IWORKSH(3,*)
       INTEGER, INTENT(IN) :: PRINT_FLAG !< flag to print the element group data
       INTEGER , DIMENSION(NUMELTG) , INTENT(INOUT):: PTSH3N
+      INTEGER , INTENT(IN) :: DAMP_RANGE_PART(NPART)     !< flag to compute the damping range
       MY_REAL PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO),THK(*),XNUM(*),RNOISE(NPERTURB,*), SH3ANG(*)
 C-----------------------------------------------
       TYPE (STACK_PLY) :: STACK
@@ -124,7 +125,7 @@ C-----------------------------------------------
      .   IMATLY,IXFEM,IPTUN,IREP,IFWV,
      .   ISUBSTACK,IPPID,IPMAT,ISH3N, NPG,IDROT1,NB_LAW58,IPERT,
      .   STAT, IGMAT,ISM0,JALE_FROM_MAT, JALE_FROM_PROP,NSLICE,KK,NPT_DRP,
-     .   IDRAPE, JJ,IEL,IEL0
+     .   IDRAPE, JJ,IEL,IEL0,IDAMP_FREQ_RANGE
       INTEGER WORK(70000),NGP(NSPMD+1)
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ISTOR
       INTEGER ID,IPARTR2R
@@ -962,6 +963,9 @@ C for stack
           IPARG(71,NGROUP) = ISUBSTACK
           IPARG(75,NGROUP) = IGMAT 
           IPARG(92,NGROUP) = IDRAPE  ! 
+C         damping frequency range apply to group
+          IDAMP_FREQ_RANGE = DAMP_RANGE_PART(IPARTTG(II))
+          IPARG(93,NGROUP) = IDAMP_FREQ_RANGE          
 C          
           NFT = NFT + NE1
 c  220    CONTINUE
