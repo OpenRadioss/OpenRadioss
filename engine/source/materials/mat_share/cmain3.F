@@ -172,7 +172,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,IT,MX,IGTYP,IFUNC_ALPHA,IPMAT_IPLY,ILAY,LAYNPT_MAX,NLAY_MAX
-      INTEGER MAT_IPLY(MVSIZ,NPT)
+      INTEGER MAT_IPLY(MVSIZ,NPT),IDAMP_FREQ_RANGE
       INTEGER, DIMENSION(:) , ALLOCATABLE :: MATLY   !!  MATLY(MVSIZ*LAY_MAX)
       my_real, DIMENSION(:) , ALLOCATABLE :: THKLY   !!  THKLY(MVSIZ*LAY_MAX*LAYNPT_MAX)
       my_real, DIMENSION(:,:), ALLOCATABLE :: POSLY,THK_LY
@@ -191,6 +191,7 @@ C-------------------------------------
       TYPE(BUF_FAIL_),POINTER :: FBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
+      TYPE(BUF_DAMP_RANGE_)  ,POINTER :: DAMP_BUF
 C-----------------------------------------------
        my_real FINTER 
       EXTERNAL FINTER
@@ -199,6 +200,8 @@ C=======================================================================
       IGTYP=IGEO(11,PID(1))
       MX = MAT(JFT) 
       DM = GROUP_PARAM%VISC_DM   ! membrane damping
+      IDAMP_FREQ_RANGE = IPARG(93)
+      DAMP_BUF => ELBUF_STR%DAMP_RANGE
 C--------------------------------------------------
 C     add source terme for law not user
       IF (JTHE > 0 .AND. (MTN < 28 .OR. MTN == 32)) THEN
@@ -266,7 +269,7 @@ c
      7       INDXDEL ,NGL     ,ZCFAC   ,GS      ,SIGY    ,G       ,
      8       THK0    ,EPSP    ,IPLA    ,IGEO    ,IPM     ,TABLE   ,
      9       IR      ,IS      ,F_DEF   ,ISMSTR  ,NU      ,VOL0    ,
-     A       KFTS    ,ZSHIFT  )
+     A       KFTS    ,ZSHIFT  ,IDAMP_FREQ_RANGE,MAT_ELEM,DAMP_BUF)
 c----------------------------
       ELSE IF (MTN > 28 .AND. MTN < 32 .or. MTN == 99 .or. MTN == 200) THEN
 c---    user material law libraries here
@@ -330,7 +333,8 @@ c
      K       NCYCLE  ,SNPC    ,STF,IMPL_S  ,IMCONV  ,NPROPGI,
      *       NPROPMI ,NPROPM  ,NPROPG,IMON_MAT,NUMGEO  ,
      *       NUMSTACK, DT1    ,TT  ,NXLAYMAX ,IDEL7NOK,USERL_AVAIL,
-     *       MAXFUNC,NUMMAT,VARNL_NPTTOT,    SBUFMAT ,SDIR_A  ,SDIR_B  ,NPARG)
+     *       MAXFUNC,NUMMAT,VARNL_NPTTOT,    SBUFMAT ,SDIR_A  ,SDIR_B  ,NPARG,
+     *       IDAMP_FREQ_RANGE,DAMP_BUF)
       ENDIF ! IF (NPT == 0) 
 C----------------------------------------------------------------------
       IF (IEXPAN > 0 .AND. JTHE > 0. AND. IDT_THERM==0) THEN
@@ -348,7 +352,7 @@ C----------------------------------------------------------------------
          DO I=JFT,JLT          
            DIE(I) = (EINT(I,1) + EINT(I,2) - DIE(I)) * PM(90,MAT(1))          
          ENDDO  
-       ENDIF  
+       ENDIF
 C-------------------------------------------------------------------
 C     delamination  for new formulation of shells 
 C-----------------------------------------------
