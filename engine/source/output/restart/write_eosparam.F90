@@ -32,7 +32,6 @@
       !||--- calls      -----------------------------------------------------
       !||    write_c_c              ../common_source/tools/input_output/write_routtines.c
       !||    write_db               ../common_source/tools/input_output/write_db.F
-      !||    write_db_c             ../common_source/tools/input_output/write_routtines.c
       !||    write_i_c              ../common_source/tools/input_output/write_routtines.c
       !||    write_mat_table        ../engine/source/materials/tools/write_mat_table.F
       !||--- uses       -----------------------------------------------------
@@ -97,7 +96,7 @@
         RBUF(IAD) = EOS%CP
       IAD = IAD+1
       CALL WRITE_I_C(IBUF,1)
-      CALL WRITE_DB_C(RBUF,NFIX)
+      CALL WRITE_DB(RBUF,NFIX)
       DEALLOCATE(RBUF)
       DEALLOCATE(IBUF)
 

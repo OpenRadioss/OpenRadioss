@@ -291,12 +291,13 @@ C----------------------
 C     MATERIAL BUFFER
 C----------------------
       MTAG%G_RK    = 1   
-      MTAG%G_RE    = 1   
-      MTAG%L_RK    = 1   ! NB10    
-      MTAG%L_TEMP  = 1   ! NB11 
-      MTAG%L_RE    = 1   ! NB12   
-      MTAG%L_VK    = 1   ! NB13   
-      MTAG%L_EINS  = 1   ! NB14  
+      MTAG%G_RE    = 1
+      MTAG%G_TEMP  = 1
+      MTAG%L_RK    = 1
+      MTAG%L_TEMP  = 1
+      MTAG%L_RE    = 1
+      MTAG%L_VK    = 1
+      MTAG%L_EINS  = 1
       
       ! EOS/Thermo keyword for pressure treatment in elements
       CALL INIT_MAT_KEYWORD(MATPARAM,"HYDRO_EOS")

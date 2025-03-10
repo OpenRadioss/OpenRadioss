@@ -144,7 +144,7 @@ C-----------------------------------------------
               REV(I) = GBUF%RE(IS+1)
               VIS(I)=VIS(I)+PM(81,MV)*RKV(I)**2/REV(I)
             ENDIF
-            IF (JTHE>0) TV(I)  = GBUF%TEMP(IS+1)
+            TV(I)  = GBUF%TEMP(IS+1)
             !MOMENTUM
             IF(ALEFVM_Param%IEnabled == 1)THEN          
               IS       = IVOI-MFT
@@ -170,7 +170,7 @@ C-----------------------------------------------
               REV(I) =BUFVOIS(6,IS)                                       
               VIS(I) =VIS(I)+PM(81,MV)*RKV(I)**2/REV(I)                   
             ENDIF                                                         
-            IF(JTHE>0) TV(I) = BUFVOIS(5,IS)
+            TV(I) = BUFVOIS(5,IS)
             !VxV(I)    = BUFVOIS(07,IS)                                 
             !VyV(I)    = BUFVOIS(08,IS)                                 
             !VzV(I)    = BUFVOIS(09,IS)  

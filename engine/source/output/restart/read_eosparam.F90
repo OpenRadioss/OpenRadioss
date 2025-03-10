@@ -34,7 +34,6 @@
       !||--- calls      -----------------------------------------------------
       !||    read_c_c               ../common_source/tools/input_output/write_routtines.c
       !||    read_db                ../common_source/tools/input_output/read_db.F
-      !||    read_db_c              ../common_source/tools/input_output/write_routtines.c
       !||    read_i_c               ../common_source/tools/input_output/write_routtines.c
       !||    read_mat_table         ../engine/source/materials/tools/read_mat_table.F
       !||--- uses       -----------------------------------------------------
@@ -88,7 +87,7 @@
       call read_i_c(ilen, 1)
       len = ilen(1)
       allocate (rbuf(len))
-      call read_db_c(rbuf, len)
+      call read_db(rbuf, len)
       iad = 0
       iad = iad+1 ; eos%cv = rbuf(iad)
       iad = iad+1 ; eos%cp = rbuf(iad)
