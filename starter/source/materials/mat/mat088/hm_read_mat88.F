@@ -238,11 +238,13 @@ C
       UPARAM(9) = ICASE
       NUPARAM = 9
 C      
-      DO I=1,NL + 1 
+      DO I=1,NFUNC
          UPARAM( NUPARAM + 2*I - 1) = RATE(I) 
          UPARAM( NUPARAM + 2*I    ) = YFAC(I)
       ENDDO
-      NUPARAM  = NUPARAM + 2*(NL + 1) + 5 ! 5 for pt curve intersection + flag    
+      NUPARAM  = NUPARAM + 2*NFUNC 
+      UPARAM(NUPARAM + 1 : NUPARAM + 5) = ZERO
+      NUPARAM = NUPARAM + 5 ! used inside law88_upd.F  but not used in engine
 C    
       NUVAR   =  32 
 C

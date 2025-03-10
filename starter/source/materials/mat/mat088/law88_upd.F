@@ -124,13 +124,13 @@ C  check if the curve is monotonic
           DEALLOCATE( STRETCH,STRESS)   
         ENDDO ! NFUNC   
 c
-c       Intersection - quasistatic curve and unloading curve
+c       Intersection - quasistatic curve and unloading curve but is not used 
 c
         NL = INT(UPARAM(4))
         IUNL_FOR = NINT(UPARAM(5))
         ITENS    = NINT(UPARAM(8))
         ICASE    = NINT(UPARAM(9))
-        NV = 11 + 2*NL
+        NV = 9 + 2*NFUNC
 c
         XINC = ZERO
         YINC = ZERO
@@ -182,7 +182,7 @@ C-----check E_MAX
           E0 = TWO*GS*(ONE + NU)
           EC_MAX = MAX(E0,EMAX)
           PM(24) = EC_MAX
-          WRITE(IOUT,1003) EC_MAX       
+          WRITE(IOUT,1003) EC_MAX    
 c----- ------
  1000 FORMAT
      & (5X,'TABULATED OGDEN LAW',/,
