@@ -145,7 +145,7 @@ C=======================================================================
         Vx0(I)    = Vx_1
         Vy0(I)    = Vy_1
         Vz0(I)    = Vz_1     
-        TV(I) = ZERO
+        TV(I)     = ZERO
       ENDDO
 
       DO I=1,NEL
@@ -304,7 +304,7 @@ C=======================================================================
         IF(ITFUN>0)THEN
           T(I) = T0*FINTER(ITFUN,TSCAL,NPF,TF,DYDX)
         ELSE
-          T(I)   =TV(I)
+          T(I) = TV(I)
         ENDIF
         
       IF(ALEFVM_Param%IEnabled==1)THEN   

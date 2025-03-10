@@ -105,7 +105,7 @@ C-----------------------------------------------
          IF(IVOI/=0)ML=NINT(PM(19,IXS(1,IVOI)))
          IF(ML/=11)EXIT
         ENDDO
-        IF(ML/=11)THEN
+        IF(ML /= 11)THEN
           !
           !      ADJACENT VALUES
           !       
@@ -144,7 +144,7 @@ C-----------------------------------------------
               RKV(I) = GBUF%RK(IS+1)
               REV(I) = GBUF%RE(IS+1)
             ENDIF
-            IF (JTHE>0) TV(I) = GBUF%TEMP(IS+1)
+            TV(I) = GBUF%TEMP(IS+1)
             !MOMENTUM
             IF(ALEFVM_Param%IEnabled==1)THEN
             !USE INPUT VALUE, NOT THIS!
