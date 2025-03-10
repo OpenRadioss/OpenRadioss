@@ -1979,7 +1979,7 @@ C /TH/SURF quantities reset to 0 expect for massflow (airbags)
         FSAVSURF(2,1:NSURF) = ZERO  !massflow
         FSAVSURF(3,1:NSURF) = ZERO  !velocity
         FSAVSURF(4,1:NSURF) = ZERO  !pressure
-        FSAVSURF(5,1:NSURF) = ZERO  !A (load,pload)
+        FSAVSURF(5,1:NSURF) = ZERO  !area where pressure is applied
         !FSAVSURF(6,1:NSURF)        !cumulated mass
       ENDIF 
       

@@ -331,12 +331,9 @@ C
 #include "lockon.inc"
                 DO NS=TH_SURF%LOADP_KSEGS(NSEGPL) +1,TH_SURF%LOADP_KSEGS(NSEGPL+1)
                    KSURF = TH_SURF%LOADP_SEGS(NS)
-                   TH_SURF%CHANNELS(1,KSURF)= TH_SURF%CHANNELS(1,KSURF) + AREA    ! area
-                   !TH_SURF%CHANNELS(2,KSURF)= ZERO                       ! massflow
                    TH_SURF%CHANNELS(3,KSURF)= TH_SURF%CHANNELS(3,KSURF) + AREA*VN ! velocity
                    TH_SURF%CHANNELS(4,KSURF)= TH_SURF%CHANNELS(4,KSURF) + AREA*PA ! pressure
-                   TH_SURF%CHANNELS(3,KSURF)= TH_SURF%CHANNELS(3,KSURF) + AREA*AN ! accel
-                   !TH_SURF%CHANNELS(6,KSURF)= ZERO                       ! mass
+                   TH_SURF%CHANNELS(5,KSURF)= TH_SURF%CHANNELS(5,KSURF) + AREA
                 ENDDO
 #include "lockoff.inc"
              ENDIF
@@ -494,12 +491,9 @@ C
 #include "lockon.inc"                
                 DO NS=TH_SURF%LOADP_KSEGS(NSEGPL) +1,TH_SURF%LOADP_KSEGS(NSEGPL+1)
                    KSURF = TH_SURF%LOADP_SEGS(NS)
-                   TH_SURF%CHANNELS(1,KSURF)= TH_SURF%CHANNELS(1,KSURF) + AREA    ! area
-                   !TH_SURF%CHANNELS(2,KSURF)= ZERO                       ! massflow
                    TH_SURF%CHANNELS(3,KSURF)= TH_SURF%CHANNELS(3,KSURF) + AREA*VN ! velocity
                    TH_SURF%CHANNELS(4,KSURF)= TH_SURF%CHANNELS(4,KSURF) + AREA*PA ! pressure
-                   TH_SURF%CHANNELS(3,KSURF)= TH_SURF%CHANNELS(3,KSURF) + AREA*AN ! accel
-                   !TH_SURF%CHANNELS(6,KSURF)= ZERO                       ! mass
+                   TH_SURF%CHANNELS(5,KSURF)= TH_SURF%CHANNELS(5,KSURF) + AREA
                 ENDDO
 #include "lockoff.inc"                
              ENDIF  
@@ -734,12 +728,9 @@ C
                 DO NS=TH_SURF%LOADP_KSEGS(NSEGPL) +1,TH_SURF%LOADP_KSEGS(NSEGPL+1)
 #include "lockon.inc"
                    KSURF = TH_SURF%LOADP_SEGS(NS)
-                   TH_SURF%CHANNELS(1,KSURF)= TH_SURF%CHANNELS(1,KSURF) + AREA    ! area
-                   !TH_SURF%CHANNELS(2,KSURF)= ZERO                       ! massflow
                    TH_SURF%CHANNELS(3,KSURF)= TH_SURF%CHANNELS(3,KSURF) + AREA*VN ! velocity
                    TH_SURF%CHANNELS(4,KSURF)= TH_SURF%CHANNELS(4,KSURF) + AREA*PA ! pressure
-                   TH_SURF%CHANNELS(3,KSURF)= TH_SURF%CHANNELS(3,KSURF) + AREA*AN ! accel
-                   !TH_SURF%CHANNELS(6,KSURF)= ZERO                       ! mass
+                   TH_SURF%CHANNELS(5,KSURF)= TH_SURF%CHANNELS(5,KSURF) + AREA
 #include "lockoff.inc"                                                                    
                 ENDDO
               ENDIF       
@@ -899,13 +890,9 @@ C
                 DO NS=TH_SURF%LOADP_KSEGS(NSEGPL) +1,TH_SURF%LOADP_KSEGS(NSEGPL+1)
 #include "lockon.inc"
                    KSURF = TH_SURF%LOADP_SEGS(NS)
-                   TH_SURF%CHANNELS(1,KSURF)= TH_SURF%CHANNELS(1,KSURF) + AREA    ! area
-                   !TH_SURF%CHANNELS(2,KSURF)= ZERO                       ! massflow
                    TH_SURF%CHANNELS(3,KSURF)= TH_SURF%CHANNELS(3,KSURF) + AREA*VN ! velocity
                    TH_SURF%CHANNELS(4,KSURF)= TH_SURF%CHANNELS(4,KSURF) + AREA*PA ! pressure
-                   TH_SURF%CHANNELS(3,KSURF)= TH_SURF%CHANNELS(3,KSURF) + AREA*AN ! accel
-                   !TH_SURF%CHANNELS(6,KSURF)= ZERO                       ! mass
-
+                   TH_SURF%CHANNELS(5,KSURF)= TH_SURF%CHANNELS(5,KSURF) + AREA
 #include "lockoff.inc"                                                                    
                 ENDDO
               ENDIF       
@@ -1111,13 +1098,9 @@ C
                 DO NS=TH_SURF%LOADP_KSEGS(NSEGPL) +1,TH_SURF%LOADP_KSEGS(NSEGPL+1)
 #include "lockon.inc"
                    KSURF = TH_SURF%LOADP_SEGS(NS)
-                   TH_SURF%CHANNELS(1,KSURF)= TH_SURF%CHANNELS(1,KSURF) + AREA    ! area
-                   !TH_SURF%CHANNELS(2,KSURF)= ZERO                       ! massflow
                    TH_SURF%CHANNELS(3,KSURF)= TH_SURF%CHANNELS(3,KSURF) + AREA*VN ! velocity
                    TH_SURF%CHANNELS(4,KSURF)= TH_SURF%CHANNELS(4,KSURF) + AREA*PA ! pressure
-                   TH_SURF%CHANNELS(3,KSURF)= TH_SURF%CHANNELS(3,KSURF) + AREA*AN ! accel
-                   !TH_SURF%CHANNELS(6,KSURF)= ZERO                       ! mass
-
+                   TH_SURF%CHANNELS(5,KSURF)= TH_SURF%CHANNELS(5,KSURF) + AREA
 #include "lockoff.inc"                                                                    
                 ENDDO
               ENDIF 
@@ -1278,12 +1261,9 @@ C
                 DO NS=TH_SURF%LOADP_KSEGS(NSEGPL) +1,TH_SURF%LOADP_KSEGS(NSEGPL+1)
 #include "lockon.inc"
                    KSURF = TH_SURF%LOADP_SEGS(NS)
-                   TH_SURF%CHANNELS(1,KSURF)= TH_SURF%CHANNELS(1,KSURF) + AREA    ! area
-                   !TH_SURF%CHANNELS(2,KSURF)= ZERO                       ! massflow
                    TH_SURF%CHANNELS(3,KSURF)= TH_SURF%CHANNELS(3,KSURF) + AREA*VN ! velocity
                    TH_SURF%CHANNELS(4,KSURF)= TH_SURF%CHANNELS(4,KSURF) + AREA*PA ! pressure
-                   TH_SURF%CHANNELS(3,KSURF)= TH_SURF%CHANNELS(3,KSURF) + AREA*AN ! accel
-                   !TH_SURF%CHANNELS(6,KSURF)= ZERO                       ! mass
+                   TH_SURF%CHANNELS(5,KSURF)= TH_SURF%CHANNELS(5,KSURF) + AREA
 #include "lockoff.inc"                                                                    
                 ENDDO
               ENDIF 

@@ -622,12 +622,12 @@ C
 C---------------------------------------------------------
 C      /TH/SURF : 6 output channels
 C---------------------------------------------------------
-      !FSAVSURF(1, 1:NSURF) : area           (ebcs + monvol + ploads)
-      !FSAVSURF(2, 1:NSURF) : massflow       (ebcs + monvol         )
-      !FSAVSURF(3, 1:NSURF) : velocity       (ebcs + monvol + ploads)
-      !FSAVSURF(4, 1:NSURF) : pressure       (ebcs + monvol + ploads)
-      !FSAVSURF(5, 1:NSURF) : A              (                ploads)
-      !FSAVSURF(6, 1:NSURF) : cumulated mass (ebcs + monvol         )
+      !FSAVSURF(1, 1:NSURF) : area                        (ebcs + monvol + ploads)
+      !FSAVSURF(2, 1:NSURF) : massflow                    (ebcs + monvol         )
+      !FSAVSURF(3, 1:NSURF) : velocity                    (ebcs + monvol + ploads)
+      !FSAVSURF(4, 1:NSURF) : pressure                    (ebcs + monvol + ploads)
+      !FSAVSURF(5, 1:NSURF) : area with applied pressure  (                ploads)
+      !FSAVSURF(6, 1:NSURF) : cumulated mass              (ebcs + monvol         )
 C-----------------------------------
 C      /TH/SURF (AREA) if not already computed
 C-----------------------------------
@@ -656,11 +656,11 @@ C---------------------------------------------------------
        IF(ISPMD ==0 ) THEN
          DO I=1,NSURF
            IF(IGRSURF(I)%TH_SURF == 1) THEN
-             !IF(N_S_E_G_LOADP(I) > 0) THEN
-               FSAVSURF(4,I)=FSAVSURF(4,I) ! The pressure in an average pressure
-             !ELSE
-             !  FSAVSURF(4,I)= ZERO
-             !ENDIF
+             IF( FSAVSURF(5,I) > ZERO )THEN
+               FSAVSURF(4,I) = FSAVSURF(4,I) / FSAVSURF(5,I) ! The pressure in an average pressure
+             ELSE
+               FSAVSURF(4,I) = ZERO
+             ENDIF
            ENDIF
          ENDDO
        ENDIF
@@ -680,7 +680,6 @@ C---------------------------------------------------------
              IF(FSAVSURF(1,SURF_ID) > ZERO)THEN
                FSAVSURF(3,SURF_ID) =  FSAVSURF(3,SURF_ID) / FSAVSURF(1,SURF_ID)  !mean velocity
                FSAVSURF(4,SURF_ID) =  FSAVSURF(4,SURF_ID) / FSAVSURF(1,SURF_ID)  !mean pressure
-               FSAVSURF(5,SURF_ID) =  FSAVSURF(5,SURF_ID) / FSAVSURF(1,SURF_ID)  !mean acceleration
              ENDIF
            ENDIF
          ENDDO!next K

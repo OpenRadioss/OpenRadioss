@@ -393,8 +393,8 @@ C----- /TH/SURF -------
           AREA = HALF*SQRT(NX*NX+NY*NY+NZ*NZ)
           DO NS=TH_SURF%LOADP_KSEGS(NSEGPL) +1,TH_SURF%LOADP_KSEGS(NSEGPL+1)
              KSURF = TH_SURF%LOADP_SEGS(NS)
-             th_surf%channels(4,KSURF)= th_surf%channels(4,KSURF) + P
-             th_surf%channels(5,KSURF)= th_surf%channels(5,KSURF) + AREA
+             th_surf%channels(4,KSURF)= th_surf%channels(4,KSURF) + AREA*P ! mean pressure
+             th_surf%channels(5,KSURF)= th_surf%channels(5,KSURF) + AREA   ! suface where pressure is applied
           ENDDO
         ENDIF
 
