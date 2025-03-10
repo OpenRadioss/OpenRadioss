@@ -2368,7 +2368,7 @@ C ---------------------
      .                               IXS,ELEMENT%SHELL%IXC,IXT,IXP,IXR,IXTG,
      .                               SIZE_ADDCNEL,SIZE_CNEL ,
      .                               numelsg,numelqg,numelcg,numeltrg,numelpg,
-     .                               numelrg,numeltgg )
+     .                               numelrg,numeltgg ,IXS(L1))
               ! -------------------------
 
               ! -------------------------
@@ -2547,11 +2547,11 @@ C Init var parallel SMP
                   CALL MY_BARRIER()
                   IF(NINTER25/=0.AND.INTERFACES%PARAMETERS%INT25_EROSION_SOLID > 0) THEN
                     IF(ITSK==0) THEN
-                      CHECK_NEIGH_FLAG = SHOOT_STRUCT%NUMBER_NEW_SURF
+                      CHECK_NEIGH_FLAG = SHOOT_STRUCT%NUMBER_NEW_SURF + shoot_struct%NUMBER_REMOTE_SURF
                       IF(NEED_COMM_INT25_SOLID_EROSION) THEN
                         CALL SPMD_ALLREDUCE(CHECK_NEIGH_FLAG,CHECK_NEIGH_FLAG_RES,1,SPMD_MAX,COMM_INT25_SOLID_EROSION)
                       ELSEIF(NSPMD==1) THEN
-                        CHECK_NEIGH_FLAG_RES = CHECK_NEIGH_FLAG
+                        CHECK_NEIGH_FLAG_RES = CHECK_NEIGH_FLAG 
                       ENDIF
                       IF(CHECK_NEIGH_FLAG_RES > 0 ) THEN
                         CALL GET_NEIGHBOUR_SURFACE( ISPMD,NSPMD,NINTER25,NPARI,NINTER,
@@ -5605,12 +5605,12 @@ C Init var parallel SMP
                       CALL MY_BARRIER()
                       IF(NINTER25/=0.AND.INTERFACES%PARAMETERS%INT25_EROSION_SOLID > 0) THEN
                         IF(ITSK==0) THEN
-                          CHECK_NEIGH_FLAG = SHOOT_STRUCT%NUMBER_NEW_SURF
+                          CHECK_NEIGH_FLAG = SHOOT_STRUCT%NUMBER_NEW_SURF + shoot_struct%NUMBER_REMOTE_SURF
                           IF(NEED_COMM_INT25_SOLID_EROSION) THEN
-                            CHECK_NEIGH_FLAG = SHOOT_STRUCT%NUMBER_NEW_SURF
+                            CHECK_NEIGH_FLAG = SHOOT_STRUCT%NUMBER_NEW_SURF + shoot_struct%NUMBER_REMOTE_SURF
                             CALL SPMD_ALLREDUCE(CHECK_NEIGH_FLAG,CHECK_NEIGH_FLAG_RES,1,SPMD_MAX,COMM_INT25_SOLID_EROSION)
                           ELSEIF(NSPMD==1) THEN
-                            CHECK_NEIGH_FLAG_RES = CHECK_NEIGH_FLAG
+                            CHECK_NEIGH_FLAG_RES = CHECK_NEIGH_FLAG 
                           ENDIF
                           IF(CHECK_NEIGH_FLAG_RES > 0 ) THEN
                             CALL GET_NEIGHBOUR_SURFACE( ISPMD,NSPMD,NINTER25,NPARI,NINTER,

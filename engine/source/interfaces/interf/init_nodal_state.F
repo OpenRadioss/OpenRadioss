@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                               IXS,IXC,IXT,IXP,IXR,IXTG,
      .                               SIZE_ADDCNEL,SIZE_CNEL,
      .                               numelsg,numelqg,numelcg,numeltrg,numelpg,
-     .                               numelrg,numeltgg )
+     .                               numelrg,numeltgg,ixs10 )
 !$COMMENT
 !       INIT_NODAL_STATE description
 !           initialization of structures for the new shooting node algo    
@@ -103,11 +103,12 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NIXP,NUMELP),TARGET, INTENT(in) :: IXP !< beam array
         INTEGER, DIMENSION(NIXR,NUMELR),TARGET, INTENT(in) :: IXR !< spring array
         INTEGER, DIMENSION(NIXTG,NUMELTG),TARGET, INTENT(in) :: IXTG !<triangle array
+        INTEGER, DIMENSION(6,NUMELS10), INTENT(in) :: IXS10!< tetra10 data
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         LOGICAL :: TYPE_INTER
-        INTEGER :: NIN,ITY,NSN,NMN,NRTM,NRTS,IDEL,IDELKEEP
+        INTEGER :: NIN,ITY,NSN,NMN,NRTM,NRTS,IDEL,IDELKEEP,NRTMG
         INTEGER :: I,J
         INTEGER :: NODE_ID,SHIFT,SHIFT_INTER,NEXT_INTER
         INTEGER :: TMP_,MY_ERROR,NB_PROC,NB_NODE_SURF,NB_SURF,NB_REAL_NODE
@@ -132,7 +133,7 @@ C-----------------------------------------------
 #endif
         INTEGER :: SIZ,OLD_SIZE
         INTEGER :: PROC_ID
-        INTEGER :: NB_PROC_1,NB_PROC_2,NB_RESULT_INTERSECT
+        INTEGER :: NB_PROC_1,NB_PROC_2,NB_RESULT_INTERSECT,SHIFT_INTER2
         INTEGER, DIMENSION(:), ALLOCATABLE :: INTERSECT_1,INTERSECT_2,RESULT_INTERSECT
         INTEGER, DIMENSION(2,NSPMD) :: S_BUFFER_2_INT,R_BUFFER_2_INT
         INTEGER, DIMENSION(NSPMD) :: SIZE_BUFFER_MAIN,SIZE_BUFFER_SECOND
@@ -341,6 +342,7 @@ C-----------------------------------------------
                     IF(N3/=N4) SHOOT_STRUCT%SHIFT_M_NODE_SURF(N4+1) = SHOOT_STRUCT%SHIFT_M_NODE_SURF(N4+1) + 1
                 ENDDO
             ! -----------------------------
+
             ELSEIF(ITY == 11) THEN
                 ! loop over the M edge
                 IF(IDEL>=1) THEN
@@ -400,14 +402,17 @@ C-----------------------------------------------
         WORK_ARRAY_3(1:NUMNOD) = 0
         IF(ALLOCATED(SHOOT_STRUCT%SHIFT_INTERFACE) )DEALLOCATE( SHOOT_STRUCT%SHIFT_INTERFACE ) 
         ALLOCATE( SHOOT_STRUCT%SHIFT_INTERFACE(NINTER+1,2) )
+        ALLOCATE( SHOOT_STRUCT%SHIFT_INTERFACE2(NINTER) )
         NEXT_INTER = 0
         SHIFT_INTER = 1
+        SHIFT_INTER2 = 0
         DO NIN=1,NINTER
             ITY = IPARI(7,NIN)  ! interface id
             NMN = IPARI(6,NIN)  ! number of main nodes
             NRTM = IPARI(4,NIN) ! number of main surfaces/edges
             NRTS = IPARI(3,NIN) ! number of secondary edges
             IDEL = IPARI(17,NIN)! idel option
+            NRTMG = IPARI(74,NIN) ! global number of main surfaces
             ! ---------------------------
             IF((ITY==7.OR.ITY==10.OR.ITY==22.OR.ITY==24.OR.ITY==25).AND.IDEL>=1) THEN
                 ! loop over the M surface
@@ -423,7 +428,7 @@ C-----------------------------------------------
                         SHOOT_STRUCT%M_NODE_SURF( SHIFT ) = SHIFT_INTER  - 1 + I     ! save the surface ID
                     ENDDO
                 ENDDO
-            ! ---------------------------
+
             ELSEIF(ITY==11) THEN
                 ! loop over the M edge
                 IF(IDEL>=1) THEN
@@ -454,6 +459,11 @@ C-----------------------------------------------
                 SHOOT_STRUCT%SHIFT_INTERFACE(NEXT_INTER,1) = SHIFT_INTER
                 SHOOT_STRUCT%SHIFT_INTERFACE(NEXT_INTER,2) = NIN
             ENDIF
+            IF(NRTMG>0.AND.(ITY==25.AND.IPARI(100,NIN)/=0)) THEN
+                SHOOT_STRUCT%SHIFT_INTERFACE2(NIN) = SHIFT_INTER2
+                SHIFT_INTER2 = SHIFT_INTER2 + NRTMG
+            ENDIF
+
             SHIFT_INTER = SHIFT_INTER + NRTM + NRTS
         ENDDO
         SHOOT_STRUCT%SHIFT_INTERFACE(NEXT_INTER+1,1) = SHIFT_INTER + 1
@@ -748,16 +758,16 @@ C-----------------------------------------------
             DO I=1,NSPMD
                 IF(R_BUFFER_MAIN(I)%SIZE_INT_ARRAY_1D>0) THEN
                     CALL COUNT_REMOTE_NB_ELEM_EDGE( R_BUFFER_MAIN(I)%SIZE_INT_ARRAY_1D,R_BUFFER_MAIN(I)%INT_ARRAY_1D,
-     .                                              GEO,IXS,IXC,IXT,IXP,IXR,IXTG,ADDCNEL,NODES,CNEL,CHUNK)
+     .                                              GEO,IXS,IXC,IXT,IXP,IXR,IXTG,ADDCNEL,NODES,CNEL,CHUNK,IXS10)
                     CALL MPI_ISEND( R_BUFFER_MAIN(I)%INT_ARRAY_1D,R_BUFFER_MAIN(I)%SIZE_INT_ARRAY_1D,
      .                             MPI_INTEGER,IT_SPMD(I),MSGTYP,SPMD_COMM_WORLD,REQUEST_S2(I),IERROR )     
    
                 ENDIF
                 IF(R_BUFFER_SECOND(I)%SIZE_INT_ARRAY_1D>0) THEN
                     CALL COUNT_REMOTE_NB_ELEM_EDGE( R_BUFFER_SECOND(I)%SIZE_INT_ARRAY_1D,R_BUFFER_SECOND(I)%INT_ARRAY_1D,
-     .                                              GEO,IXS,IXC,IXT,IXP,IXR,IXTG,ADDCNEL,NODES,CNEL,CHUNK)
+     .                                              GEO,IXS,IXC,IXT,IXP,IXR,IXTG,ADDCNEL,NODES,CNEL,CHUNK,IXS10 )
                     CALL MPI_ISEND( R_BUFFER_SECOND(I)%INT_ARRAY_1D,R_BUFFER_SECOND(I)%SIZE_INT_ARRAY_1D,
-     .                             MPI_INTEGER,IT_SPMD(I),MSGTYP,SPMD_COMM_WORLD,REQUEST_S3(I),IERROR )
+     .                             MPI_INTEGER,IT_SPMD(I),MSGTYP,SPMD_COMM_WORLD,REQUEST_S3(I),IERROR)
                 ENDIF
                 IF(SIZE_BUFFER_MAIN(I)>0) THEN
                     CALL MPI_IRECV( BUFFER_MAIN(I)%INT_ARRAY_1D,SIZE_BUFFER_MAIN(I),
