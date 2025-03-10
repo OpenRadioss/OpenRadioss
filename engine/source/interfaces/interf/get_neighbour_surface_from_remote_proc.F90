@@ -68,6 +68,7 @@
           use shooting_node_mod , only : shooting_node_type
           use get_segment_interface_id_mod , only : get_segment_interface_id
           use get_segment_normal_mod , only : get_segment_normal
+          use get_convexity_normals_mod , only : get_convexity_normals
           use get_segment_edge_mod , only : get_segment_edge
           use array_mod , only : array_type,alloc_my_real_1d_array,dealloc_my_real_1d_array
           use nodal_arrays_mod, only : get_local_node_id, nodal_arrays_
@@ -111,7 +112,7 @@
           integer :: shift
           integer :: my_reduced_nb
           integer :: my_size,old_size
-          integer, dimension(2,4), parameter :: egde_list = reshape( (/1,2,2,3,4,1,3,4/) , shape(egde_list) )
+          integer, dimension(2,4), parameter :: egde_list = reshape( (/1,2,2,3,3,4,4,1/) , shape(egde_list) )
           integer, dimension(4) :: segment_node_id
           integer, dimension(nb_r_segment) :: address
           integer, dimension(nb_r_segment,5) :: list_r_segment
@@ -122,7 +123,7 @@
           my_real :: my_real_variable      
           my_real, dimension(3) :: segment_position ! coordinates of the segment barycentre
           my_real, dimension(:), allocatable :: my_real_tmp_array
-          my_real, dimension(:,:), allocatable :: n_normal
+          my_real, dimension(:,:), allocatable :: n_normal, n_vconvexity
 #ifdef MYREAL8
           integer(kind=8) :: my_integer
           integer(kind=8) :: my_int_variable   
@@ -174,7 +175,7 @@
             my_integer = transfer(r_buffer(next_segment+8),my_int_variable) ! get the number of procs with the 2 nodes "node_id_1" & "node_id_2"
             proc_number = my_integer
             list_r_segment(i,5) = proc_number 
-            next_segment = next_segment + 8 + 10*nb_connected_segment+3 + proc_number
+            next_segment = next_segment + 8 + 13*nb_connected_segment+3 + proc_number + 3
           enddo
           ! -------------------------
           ! loop over the remote segment/surface
@@ -212,6 +213,7 @@
             ! ------
 
             allocate( n_normal(3,nb_result_intersect_0) )
+            allocate( n_vconvexity(3,nb_result_intersect_0) )
             allocate( n_iedge(nb_result_intersect_0) )
             allocate( my_reduced_list(nb_result_intersect_0,2) )
             allocate( my_reduced_neighbour(nb_result_intersect_0,4) )
@@ -227,6 +229,8 @@
               call get_segment_normal( n_segment_id,segment_node_id,segment_position,n_normal(1,ijk),intbuf_tab(nin),numnod,x )
               ! find the edge id of n_segment_id
               call get_segment_edge( n_segment_id,local_node_id_1,local_node_id_2,n_iedge(ijk),intbuf_tab(nin) )
+              ! compute the tangent vector to the segment around the edge "n_segment_id" 
+              call get_convexity_normals( local_node_id_1,local_node_id_2,n_normal(1,ijk),n_vconvexity(1,ijk),numnod,x )
             enddo
 
             proc_number = list_r_segment(i,5)
@@ -238,7 +242,7 @@
               if(proc_id_0/=ispmd+1) then
                 ! -----------
                 ! check if the size is enough
-                my_size = 7+10*my_reduced_nb ! get the mpi buffer size for the current new segment
+                my_size = 7+13*my_reduced_nb ! get the mpi buffer size for the current new segment
 
                 if(s_buffer_2_size(1,proc_id)+my_size>s_buffer_2(proc_id)%size_my_real_array_1d) then
                   old_size = s_buffer_2(proc_id)%size_my_real_array_1d
@@ -291,6 +295,13 @@
                   my_address = my_address + 4
                 enddo
 
+                do ijk=1,my_reduced_nb
+                  s_buffer_2(proc_id)%my_real_array_1d(my_address+1) = n_vconvexity(1,ijk) ! neighbour segment normal (x)
+                  s_buffer_2(proc_id)%my_real_array_1d(my_address+2) = n_vconvexity(2,ijk) ! neighbour segment normal (y)
+                  s_buffer_2(proc_id)%my_real_array_1d(my_address+3) = n_vconvexity(3,ijk) ! neighbour segment normal (z)    
+                  my_address = my_address + 3        
+                enddo
+
                 s_buffer_2_size(1,proc_id) = s_buffer_2_size(1,proc_id)+my_size ! size of mpi buffer
                 s_buffer_2_size(2,proc_id) = s_buffer_2_size(2,proc_id)+my_reduced_nb ! total number of connected remote sgment
                 s_buffer_2_size(3,proc_id) = s_buffer_2_size(3,proc_id)+1 ! total number of connected remote sgment
@@ -300,6 +311,7 @@
             deallocate( n_iedge )
             deallocate( my_reduced_list )
             deallocate( my_reduced_neighbour )
+              deallocate( n_vconvexity )
           enddo
 
           ! --------------------------

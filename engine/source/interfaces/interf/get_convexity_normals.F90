@@ -21,29 +21,32 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    get_segment_edge_mod                     ../engine/source/interfaces/interf/get_segment_edge.F90
+      !||    get_segment_normal_mod                   ../engine/source/interfaces/interf/get_segment_normal.F90
       !||--- called by ------------------------------------------------------
       !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
       !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+      !||    get_segment_orientation                  ../engine/source/interfaces/interf/get_segment_orientation.F90
       !||====================================================================
-      module get_segment_edge_mod
+      module get_convexity_normals_mod
       contains
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
-!! \brief This routine finds the edge id with the 2 nodes "my_node_id_1" & "my_node_id_2"
+!! \brief This routine computes  the tangent vector to a segment around the edge n X e
       !||====================================================================
-      !||    get_segment_edge                         ../engine/source/interfaces/interf/get_segment_edge.F90
+      !||    get_segment_normal                       ../engine/source/interfaces/interf/get_segment_normal.F90
       !||--- called by ------------------------------------------------------
       !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
       !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+      !||    get_segment_orientation                  ../engine/source/interfaces/interf/get_segment_orientation.F90
       !||--- uses       -----------------------------------------------------
+      !||    constant_mod                             ../common_source/modules/constant_mod.F
       !||====================================================================
-        subroutine get_segment_edge( my_segment_id,my_node_id_1,my_node_id_2,my_iedge,intbuf_tab )
+        subroutine get_convexity_normals( node_id_1,node_id_2,normal,v_convexity,numnod,x )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   modules
 ! ----------------------------------------------------------------------------------------------------------------------
-          use intbufdef_mod , only : intbuf_struct_
+          use constant_mod , only : em20
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -55,22 +58,16 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer, intent(in) :: my_segment_id  !< id of the segment
-          integer, intent(in) :: my_node_id_1 !< node id of the connected segment
-          integer, intent(in) :: my_node_id_2 !< node id of the connected segment
-          integer, intent(inout) :: my_iedge !< edge id 
-          type(intbuf_struct_), intent(in) :: intbuf_tab    !< interface data 
+          integer, intent(in) :: node_id_1,node_id_2,numnod !< number of node
+          my_real, dimension(3), intent(in) :: normal !< normal of the segment
+          my_real, dimension(3), intent(inout) :: v_convexity !< normal of the segment
+          my_real, dimension(3,numnod), intent(in) :: x !< nodal position
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: j,iedge
-          integer :: edge_number,itria
-          integer :: node_id_1,node_id_2,node_id_3,node_id_4
-          integer, dimension(2,4) :: edge_list
-          data edge_list /1,2,     &
-                          2,3,     &
-                          3,4,     &
-                          4,1/  
+          my_real :: x12,y12,z12
+          my_real :: vix,viy,viz
+          my_real :: area
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   external functions
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -80,32 +77,21 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !
           ! -------------------------
-          ! check if the segment has 3 or 4 nodes (triangle or quadrangle)
-          edge_number = 4
-          itria= 0
-          node_id_3 = intbuf_tab%irectm(4*(my_segment_id-1)+3)
-          node_id_4 = intbuf_tab%irectm(4*(my_segment_id-1)+4)
-          if( node_id_3==node_id_4 ) itria = 1
-          ! ------
-          ! loop over the edge of the segment
-          my_iedge  = -1
-          do j = 1, edge_number
-            iedge = j
-            if(itria==1.and.iedge==3 ) cycle
-            ! get the nodes of the edge
-            node_id_1 = intbuf_tab%irectm(4*(my_segment_id-1)+edge_list(1,j))
-            node_id_2 = intbuf_tab%irectm(4*(my_segment_id-1)+edge_list(2,j))
-            ! ------   
-            ! check if the nodes of the edge are the 2 remote nodes to find the edge id
+          ! loop over the new active segment/surface
+          ! compute the tangent vector to the segment around the edge n X e
 
-            if( (my_node_id_1==node_id_1.and.my_node_id_2==node_id_2).or.               &
-                (my_node_id_1==node_id_2.and.my_node_id_2==node_id_1)        ) then
-              my_iedge = iedge
-            endif
-          enddo
-          ! -------------------------
-!
-          return
+          x12= x(1,node_id_2)-x(1,node_id_1)
+          y12= x(2,node_id_2)-x(2,node_id_1)
+          z12= x(3,node_id_2)-x(3,node_id_1)
+          vix=normal(2)*z12-normal(3)*y12
+          viy=normal(3)*x12-normal(1)*z12
+          viz=normal(1)*y12-normal(2)*x12
+          area= max(em20,sqrt(vix*vix+viy*viy+viz*viz))
+          v_convexity(1)=vix/area
+          v_convexity(2)=viy/area
+          v_convexity(3)=viz/area
+
+
 ! ----------------------------------------------------------------------------------------------------------------------
-        end subroutine get_segment_edge
-      end module get_segment_edge_mod
+        end subroutine get_convexity_normals
+      end module get_convexity_normals_mod

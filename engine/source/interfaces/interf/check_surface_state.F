@@ -134,7 +134,6 @@ C-----------------------------------------------
           IDEL = IPARI(17,NIN)
           ACTIVATION =.FALSE.
           TYPE_INTER = (ITY==7.OR.ITY==10.OR.ITY==22.OR.ITY==24.OR.(IPARI(100,NIN)==0.AND.ITY==25))
-
           ! --------------
           IF(ITASK==-1) THEN
             IF((TYPE_INTER.AND.IDEL==1).OR.(IPARI(100,NIN)/=0.AND.ITY==25)) THEN
@@ -148,7 +147,6 @@ C-----------------------------------------------
             SHOOT_STRUCT%INTER(NIN)%NB_ELM_M(K) = SHOOT_STRUCT%INTER(NIN)%NB_ELM_M(K) - 1
           ENDIF
           ! --------------
-
           ! --------------
           DEACTIVATION = .FALSE.
           IF((TYPE_INTER.AND.IDEL==1).OR.(IPARI(100,NIN)/=0.AND.ITY==25)) THEN
@@ -200,6 +198,7 @@ C-----------------------------------------------
             NEW_SURFACE(NUMBER_NEW_SURFACE(MY_REAL_TASK_ID)) = SURFACE_ID(I)
           ENDIF
           ! --------------
+
         ENDDO
         ! --------------------------
        
@@ -235,6 +234,7 @@ C-----------------------------------------------
               DEALLOCATE( SAVED_SURFACE )
             ENDIF
           ENDIF
+
           IF(ITASK/=-1) CALL MY_BARRIER()
           LOW_BOUND = 1
           UP_BOUND = NUMBER_SAVED_SURFACE_TYP24_25(MY_REAL_TASK_ID)

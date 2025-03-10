@@ -212,7 +212,7 @@
           enddo
           if(recv_nb_2>0) then
             do i=1,nspmd
-              s_buffer_2(i)%size_my_real_array_1d = 8 + 10 * shoot_struct%max_surf_nb + 3
+              s_buffer_2(i)%size_my_real_array_1d = 8 + 13 * shoot_struct%max_surf_nb + 3 +3
               call alloc_my_real_1d_array(s_buffer_2(i))
             enddo
 

@@ -825,7 +825,13 @@ C -------------------------------
           !to save memory consumption at engine 
           IF(INTNITSCHE == 0) IPARI_L(3,NI) = 0
           IPARI_L(4,NI) = NRTM_L ! TOTAL
-          IPARI_L(74,NI) = NRTM_L ! FE
+
+          IF(ITY==25.AND.IPARI(100,NI) > 0) THEN
+             IPARI_L(74,NI) = NRTM ! NRTM Global
+         
+          ELSE
+             IPARI_L(74,NI) = NRTM_L ! FE
+          ENDIF
           IPARI_L(5,NI) = NSN_L ! TOTAL
           IPARI_L(78,NI) = NSN_L ! FE
           IPARI_L(6,NI) = NMN_L ! TOTAL

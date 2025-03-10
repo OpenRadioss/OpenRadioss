@@ -452,7 +452,6 @@ C----------due the fact that NRTM is modified w/ shell seg
         ! Solid erosion algorithm is ON if :
         !  * there at least 1 segment linked to a solid element in the /SURF
         !  * and if idel is /=0
-        !  * and if the surface of the interface is a /SURF/PART/ALL 
         IF(IDEL/=0.AND.SOLID_SEGMENT>0) THEN
           IF(ISU1/=0) THEN
             IF(IGRSURF(ISU1)%EXT_ALL==2) NEED_SOLID_EROSION = .TRUE.
@@ -461,7 +460,7 @@ C----------due the fact that NRTM is modified w/ shell seg
             IF(IGRSURF(ISU2)%EXT_ALL==2) NEED_SOLID_EROSION = .TRUE.
           ENDIF 
         ENDIF
-        IF(NEED_SOLID_EROSION) THEN ! Solid erosion
+        IF(IDEL > 0.AND.SOLID_SEGMENT>0) THEN ! Solid erosion
           IPARI(100) = 1 ! solid erosion is ON for this interface
           PARAMETERS%INT25_EROSION_SOLID = 1 ! global flag for solid erosion
         ENDIF
