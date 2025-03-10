@@ -481,7 +481,7 @@
                       area = half*sqrt(nx*nx+ny*ny+nz*nz)
                       do ns=th_surf%pload_ksegs(nsegpl) +1,th_surf%pload_ksegs(nsegpl+1)
                         ksurf = th_surf%pload_segs(ns)
-                        th_surf%channels(4,ksurf)= th_surf%channels(4,ksurf) + aa
+                        th_surf%channels(4,ksurf)= th_surf%channels(4,ksurf) + area*aa
                         th_surf%channels(5,ksurf)= th_surf%channels(5,ksurf) + area
                       enddo
                     endif
@@ -575,7 +575,7 @@
                       area = half*sqrt(nx*nx+ny*ny+nz*nz)
                       do ns=th_surf%pload_ksegs(nsegpl) +1,th_surf%pload_ksegs(nsegpl+1)
                         ksurf = th_surf%pload_segs(ns)
-                        th_surf%channels(4,ksurf)= th_surf%channels(4,ksurf) + aa
+                        th_surf%channels(4,ksurf)= th_surf%channels(4,ksurf) + area*aa
                         th_surf%channels(5,ksurf)= th_surf%channels(5,ksurf) + area
                       enddo
                     endif
@@ -656,7 +656,7 @@
                     area = half*sqrt(nx*nx+ny*ny+nz*nz)
                     do ns=th_surf%pload_ksegs(nsegpl) +1,th_surf%pload_ksegs(nsegpl+1)
                       ksurf = th_surf%pload_segs(ns)
-                      th_surf%channels(4,ksurf)= th_surf%channels(4,ksurf) + aa
+                      th_surf%channels(4,ksurf)= th_surf%channels(4,ksurf) + area*aa
                       th_surf%channels(5,ksurf)= th_surf%channels(5,ksurf) + area
                     enddo
                   endif
@@ -1001,7 +1001,7 @@
                       area = half*sqrt(nx*nx+ny*ny+nz*nz)
                       do ns=th_surf%pload_ksegs(nsegpl) +1,th_surf%pload_ksegs(nsegpl+1)
                         ksurf = th_surf%pload_segs(ns)
-                        th_surf%channels(4,ksurf)= th_surf%channels(4,ksurf) + aa
+                        th_surf%channels(4,ksurf)= th_surf%channels(4,ksurf) + area*aa
                         th_surf%channels(5,ksurf)= th_surf%channels(5,ksurf) + area
                       enddo
                     endif
@@ -1099,7 +1099,7 @@
                       area = half*sqrt(nx*nx+ny*ny+nz*nz)
                       do ns=th_surf%pload_ksegs(nsegpl) +1,th_surf%pload_ksegs(nsegpl+1)
                         ksurf = th_surf%pload_segs(ns)
-                        th_surf%channels(4,ksurf)= th_surf%channels(4,ksurf) + aa
+                        th_surf%channels(4,ksurf)= th_surf%channels(4,ksurf) + area*aa
                         th_surf%channels(5,ksurf)= th_surf%channels(5,ksurf) + area
                       enddo
                     endif
@@ -1184,7 +1184,7 @@
                     area = half*sqrt(nx*nx+ny*ny+nz*nz)
                     do ns=th_surf%pload_ksegs(nsegpl) +1,th_surf%pload_ksegs(nsegpl+1)
                       ksurf = th_surf%pload_segs(ns)
-                      th_surf%channels(4,ksurf)= th_surf%channels(4,ksurf) + aa
+                      th_surf%channels(4,ksurf)= th_surf%channels(4,ksurf) + area*aa
                       th_surf%channels(5,ksurf)= th_surf%channels(5,ksurf) + area
                     enddo
                   endif
