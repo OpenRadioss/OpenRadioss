@@ -30,7 +30,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    nodal_arrays_mod            ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||====================================================================
         SUBROUTINE COUNT_REMOTE_NB_ELEM_EDGE( SIZE_BUFFER,BUFFER,GEO,IXS,IXC,
-     .                                 IXT,IXP,IXR,IXTG,ADDCNEL,NODES,CNEL,CHUNK)
+     .                                 IXT,IXP,IXR,IXTG,ADDCNEL,NODES,CNEL,CHUNK,
+     .                                 IXS10)
 !$COMMENT
 !       COUNT_REMOTE_NB_ELEM_EDGE description
 !           check if a list of node is associated 
@@ -70,6 +71,7 @@ C-----------------------------------------------
         TYPE(nodal_arrays_), intent(inout) :: NODES
         my_real, DIMENSION(NPROPG,NUMGEO), INTENT(in) :: GEO
         INTEGER, DIMENSION(0:LCNEL), INTENT(in) :: CNEL ! connectivity node-->element
+
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -86,6 +88,7 @@ C-----------------------------------------------
         INTEGER :: NUMBER_ELEMENT, NUMBER_ELEMENT_HERE
         INTEGER, DIMENSION(:), ALLOCATABLE :: LIST_ELEMENT
         LOGICAL, DIMENSION(:), ALLOCATABLE :: ALREADY_HERE
+        INTEGER, DIMENSION(6,NUMELS10), INTENT(in) :: IXS10!< tetra10 data
 
 C-----------------------------------------------
         ! --------------------------
@@ -118,7 +121,7 @@ C-----------------------------------------------
             NUMBER_NODE = 2 ! for type 11, there are 2 nodes per segments
             IF(GLOBAL_NODE(3)/=0) LOCAL_NODE(3) = GET_LOCAL_NODE_ID(NODES, GLOBAL_NODE(3))
             IF(GLOBAL_NODE(4)/=0) LOCAL_NODE(4) = GET_LOCAL_NODE_ID(NODES, GLOBAL_NODE(4)) 
-            IF( (GLOBAL_NODE(3)/=0).AND.(GLOBAL_NODE(4)/=0) ) NUMBER_NODE = 4 ! for type 7, there are 4 nodes per segments
+            IF((GLOBAL_NODE(3)/=0).AND.(GLOBAL_NODE(4)/=0)) NUMBER_NODE = 4 ! for type 7, there are 4 nodes per segments
             BUFFER(J+2:J+3) = 0
             N1 = LOCAL_NODE(1)
             N2 = LOCAL_NODE(2)
@@ -140,6 +143,12 @@ C-----------------------------------------------
                         NODE_ID = IXS(K,ELEM_ID)
                         TAG_NODE(NODE_ID) = 1
                     ENDDO
+                    IF(ELEM_ID>NUMELS8.AND.ELEM_ID<=NUMELS8+NUMELS10) THEN
+                      DO K=1,6
+                        NODE_ID = IXS10(K,ELEM_ID)
+                        TAG_NODE(NODE_ID) = 1
+                      ENDDO
+                    ENDIF
                 ELSEIF(ELEM_ID>OFFSET_SHELL.AND.ELEM_ID<=OFFSET_TRUSS) THEN
                 ! -----------------
                 ! shell element
@@ -181,8 +190,7 @@ C-----------------------------------------------
                         TAG_NODE(NODE_ID) = 1
                     ENDDO
                 ENDIF
-                ! -----------------
-
+                ! ----------------- 
                 ! -----------------
                 ! check if the element has N1 & N2 & N3 & N4 (if N3 and N4 are real nodes)
                 IF( (TAG_NODE(N1)+TAG_NODE(N2)+TAG_NODE(N3)+TAG_NODE(N4)) == NUMBER_NODE) THEN

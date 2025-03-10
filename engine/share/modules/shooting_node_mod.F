@@ -107,6 +107,7 @@ C-----------------------------------------------
             INTEGER, DIMENSION(:), ALLOCATABLE :: S_NODE_EDGE       ! list of edge per node (S node)
 
             INTEGER, DIMENSION(:,:), ALLOCATABLE :: SHIFT_INTERFACE   ! shift for surface ID
+            INTEGER, DIMENSION(:), ALLOCATABLE :: SHIFT_INTERFACE2   ! shift for surface ID (global Ids)
             ! ------------------------------
             ! surface array
             INTEGER :: SIZE_REMOTE_SURF ! size of array REMOTE_SURF
