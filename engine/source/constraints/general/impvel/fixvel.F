@@ -88,7 +88,7 @@ C-----------------------------------------------
      .   DYDX,DW,DW2,DD,RX,RY,RZ,VF,VFX,VFY,VFZ,AFX,AFY,AFZ,RW_SMS(MVSIZ),
      .   R, CTH, STH, SKDIR(3), FMDIR(3), HX, HY, HZ, COEF,
      .   ER(3),ET(3),ALPHA, NOR1, NOR2, NOR3, YIMP, SKEWGLOB,
-     .   AOLD0(6,MVSIZ)
+     .   AOLD0(6,MVSIZ),DFJ,QF0(9),EJ(3),DDF,DDR,RF
 
       REAL(KIND=8) :: TSTMP,FAC,FACX,YC0(MVSIZ),YC(MVSIZ),TSC0(MVSIZ),TSC(MVSIZ),DYDXC(MVSIZ)
       INTEGER, DIMENSION(MVSIZ) :: ILENC_SMOOTH,IPOSC_SMOOTH,IADC_SMOOTH
@@ -486,15 +486,30 @@ C             Fixed velocity in moving frame (transl)
               RX  = X(1,I) - XFRAME(10,IFM)
               RY  = X(2,I) - XFRAME(11,IFM)
               RZ  = X(3,I) - XFRAME(12,IFM)
-              VFX = XFRAME(31,IFM)+XFRAME(14,IFM)*RZ-XFRAME(15,IFM)*RY
-              VFY = XFRAME(32,IFM)+XFRAME(15,IFM)*RX-XFRAME(13,IFM)*RZ
-              VFZ = XFRAME(33,IFM)+XFRAME(13,IFM)*RY-XFRAME(14,IFM)*RX
+              IF (IBFV(7,N) == 2) THEN 
+                QF0(1:9) = XFRAME(19:27,IFM)
+                EJ(1) = QF0(K1)
+                EJ(2) = QF0(K2)
+                EJ(3) = QF0(K3)
+                DD = EJ(1)*D(1,I) +EJ(2)*D(2,I) + EJ(3)*D(3,I)
+                DDF= EJ(1)*XFRAME(34,IFM)+EJ(2)*XFRAME(35,IFM)+EJ(3)*XFRAME(36,IFM) 
+                DFJ= (EJ(1)-XFRAME(K1,IFM))*RX+(EJ(2)-XFRAME(K2,IFM))*RY+
+     .               (EJ(3)-XFRAME(K3,IFM))*RZ + DDF
+                IF (NSENS(II) > 0 .and. TS(II) > ZERO) THEN
+                  YC(II) = (YC(II)-YC0(II))/DT2_DOUBLE
+                ELSE
+                  YC(II) = (YC(II)-DD+DFJ)/DT2_DOUBLE
+                ENDIF
+                VF = ZERO
+              ELSE
+                VFX = XFRAME(31,IFM)+XFRAME(14,IFM)*RZ-XFRAME(15,IFM)*RY
+                VFY = XFRAME(32,IFM)+XFRAME(15,IFM)*RX-XFRAME(13,IFM)*RZ
+                VFZ = XFRAME(33,IFM)+XFRAME(13,IFM)*RY-XFRAME(14,IFM)*RX
+                VF = XFRAME(K1,IFM)*VFX+XFRAME(K2,IFM)*VFY+XFRAME(K3,IFM)*VFZ
+              ENDIF
               VV = XFRAME(K1,IFM)*V(1,I)
      .           + XFRAME(K2,IFM)*V(2,I)
      .           + XFRAME(K3,IFM)*V(3,I)
-              VF = XFRAME(K1,IFM)*VFX
-     .           + XFRAME(K2,IFM)*VFY
-     .           + XFRAME(K3,IFM)*VFZ
               A0 = XFRAME(K1,IFM)*A(1,I)
      .           + XFRAME(K2,IFM)*A(2,I)
      .           + XFRAME(K3,IFM)*A(3,I)
@@ -551,7 +566,7 @@ c                ALPHA=-YC(II)*DT2_DOUBLE/(TWO*R)
               NOR3 = SQRT(FMDIR(1)*FMDIR(1)
      &                   +FMDIR(2)*FMDIR(2)
      &                   +FMDIR(3)*FMDIR(3))
-              FMDIR=FMDIR/MAX(NOR1,EM20)
+              FMDIR=FMDIR/MAX(NOR3,EM20)     ! bug
               RX  = X(1,I) - XFRAME(10,IFM)
               RY  = X(2,I) - XFRAME(11,IFM)
               RZ  = X(3,I) - XFRAME(12,IFM)
@@ -700,12 +715,27 @@ C             Fixed velocity in moving frame (rota)
               K1=3*J-2
               K2=3*J-1
               K3=3*J
+              IF (IBFV(7,N) == 2) THEN
+                QF0(1:9) = XFRAME(19:27,IFM)
+                EJ(1) = QF0(K1)
+                EJ(2) = QF0(K2)
+                EJ(3) = QF0(K3)
+                DDR = EJ(1)*DR(1,I) +EJ(2)*DR(2,I) + EJ(3)*DR(3,I)
+                DDF= EJ(1)*XFRAME(13,IFM)+EJ(2)*XFRAME(14,IFM)+EJ(3)*XFRAME(15,IFM) 
+                IF (NSENS(II) > 0 .and. TS(II) > ZERO) THEN
+                  YC(II) = (YC(II)-YC0(II))/DT2_DOUBLE
+                ELSE
+                  YC(II) = (YC(II)-DDR)/DT2_DOUBLE + DDF
+                ENDIF
+                VF = ZERO
+              ELSE
+                VF = XFRAME(K1,IFM)*XFRAME(13,IFM)
+     .             + XFRAME(K2,IFM)*XFRAME(14,IFM)
+     .             + XFRAME(K3,IFM)*XFRAME(15,IFM)
+              ENDIF
               VV = XFRAME(K1,IFM)*VR(1,I)
      .           + XFRAME(K2,IFM)*VR(2,I)
      .           + XFRAME(K3,IFM)*VR(3,I)
-              VF = XFRAME(K1,IFM)*XFRAME(13,IFM)
-     .           + XFRAME(K2,IFM)*XFRAME(14,IFM)
-     .           + XFRAME(K3,IFM)*XFRAME(15,IFM)
               A0 = XFRAME(K1,IFM)*AR(1,I)
      .           + XFRAME(K2,IFM)*AR(2,I)
      .           + XFRAME(K3,IFM)*AR(3,I)
@@ -1197,18 +1227,31 @@ C dw was already counted in WFEXT, in sms_fixvel...
                    RX = X(1,I) - XFRAME(10,IFM)
                    RY = X(2,I) - XFRAME(11,IFM)
                    RZ = X(3,I) - XFRAME(12,IFM)
-                   VFX = VFX + XFRAME(31,IFM)
-                   VFY = VFY + XFRAME(32,IFM)
-                   VFZ = VFZ + XFRAME(33,IFM)
-                   VFX = XFRAME(14,IFM)*RZ-XFRAME(15,IFM)*RY
-                   VFY = XFRAME(15,IFM)*RX-XFRAME(13,IFM)*RZ
-                   VFZ = XFRAME(13,IFM)*RY-XFRAME(14,IFM)*RX
+! add imposed disp here                   
+                   IF (IBFV(7,N) == 2) THEN ! 
+                     QF0(1:9) = XFRAME(19:27,IFM)
+                     EJ(1) = QF0(K1)
+                     EJ(2) = QF0(K2)
+                     EJ(3) = QF0(K3)
+                     DD = EJ(1)*D(1,I) +EJ(2)*D(2,I) + EJ(3)*D(3,I)
+                     DDF= EJ(1)*XFRAME(34,IFM)+EJ(2)*XFRAME(35,IFM)+EJ(3)*XFRAME(36,IFM) 
+                     DFJ= (EJ(1)-XFRAME(K1,IFM))*RX+(EJ(2)-XFRAME(K2,IFM))*RY+
+     .                    (EJ(3)-XFRAME(K3,IFM))*RZ + DDF
+                     IF (NSENS(II) > 0 .and. TS(II) > ZERO) THEN
+                       YC(II) = (YC(II)-YC0(II))/DT2_DOUBLE
+                     ELSE
+                       YC(II) = (YC(II)-DD+DFJ)/DT2_DOUBLE
+                     ENDIF
+                     VF = ZERO
+                   ELSE
+                     VFX = XFRAME(31,IFM)+XFRAME(14,IFM)*RZ-XFRAME(15,IFM)*RY
+                     VFY = XFRAME(32,IFM)+XFRAME(15,IFM)*RX-XFRAME(13,IFM)*RZ
+                     VFZ = XFRAME(33,IFM)+XFRAME(13,IFM)*RY-XFRAME(14,IFM)*RX
+                     VF = XFRAME(K1,IFM)*VFX+XFRAME(K2,IFM)*VFY+XFRAME(K3,IFM)*VFZ
+                   ENDIF
                    VV = XFRAME(K1,IFM)*V(1,I)
      .                + XFRAME(K2,IFM)*V(2,I)
      .                + XFRAME(K3,IFM)*V(3,I)
-                   VF = XFRAME(K1,IFM)*VFX
-     .                + XFRAME(K2,IFM)*VFY
-     .                + XFRAME(K3,IFM)*VFZ
                    A0 = XFRAME(K1,IFM)*A(1,I)
      .                + XFRAME(K2,IFM)*A(2,I)
      .                + XFRAME(K3,IFM)*A(3,I)
@@ -1284,12 +1327,27 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                      K1=3*J-2
                      K2=3*J-1
                      K3=3*J
+                     IF (IBFV(7,N) == 2) THEN
+                       QF0(1:9) = XFRAME(19:27,IFM)
+                       EJ(1) = QF0(K1)
+                       EJ(2) = QF0(K2)
+                       EJ(3) = QF0(K3)
+                       DDR = EJ(1)*DR(1,I) +EJ(2)*DR(2,I) + EJ(3)*DR(3,I)
+                       DDF= EJ(1)*XFRAME(13,IFM)+EJ(2)*XFRAME(14,IFM)+EJ(3)*XFRAME(15,IFM) 
+                       IF (NSENS(II) > 0 .and. TS(II) > ZERO) THEN
+                         YC(II) = (YC(II)-YC0(II))/DT2_DOUBLE
+                       ELSE
+                         YC(II) = (YC(II)-DDR)/DT2_DOUBLE + DDF
+                       ENDIF
+                       VF = ZERO
+                     ELSE
+                       VF = XFRAME(K1,IFM)*XFRAME(13,IFM)
+     .                    + XFRAME(K2,IFM)*XFRAME(14,IFM)
+     .                    + XFRAME(K3,IFM)*XFRAME(15,IFM)
+                     ENDIF
                      VV = XFRAME(K1,IFM)*VR(1,I)
      .                  + XFRAME(K2,IFM)*VR(2,I)
      .                  + XFRAME(K3,IFM)*VR(3,I)
-                     VF = XFRAME(K1,IFM)*XFRAME(13,IFM)
-     .                  + XFRAME(K2,IFM)*XFRAME(14,IFM)
-     .                  + XFRAME(K3,IFM)*XFRAME(15,IFM)
                      A0 = XFRAME(K1,IFM)*AR(1,I)
      .                  + XFRAME(K2,IFM)*AR(2,I)
      .                  + XFRAME(K3,IFM)*AR(3,I)
