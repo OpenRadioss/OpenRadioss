@@ -60,10 +60,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(*), ISKEW(*), LCOD(*), ITAB(*)
-C     REAL
-      my_real
-     .   X(*), V(*), A(*), SKEW(*), FN(*), MSMN(*),
-     .   FT(*), MSMT(*), MS(*) ,FSAV(NTHVKI,*)
+      my_real X(*), V(*), A(*), SKEW(*), FN(*), MSMN(*), FT(*), MSMT(*), MS(*) ,FSAV(NTHVKI,*)
 
        TYPE(INTBUF_STRUCT_) INTBUF_TAB
 C-----------------------------------------------
@@ -88,23 +85,27 @@ C-----------------------------------------------
       my_real, DIMENSION(MVSIZ) :: ZN1,ZN2,ZN3,ZN4
       my_real, DIMENSION(MVSIZ) :: XP,YP,ZP
       my_real, DIMENSION(MVSIZ) :: H1,H2,H3,H4
-      my_real
-     .   STARTT, FRIC, GAP, STOPT,DIST
+      my_real STARTT, FRIC, GAP, STOPT,DIST
       INTEGER :: NMN,NSN,NTY
       INTEGER :: LFT,LLT,NFT
 C-----------------------------------------------
-C
-      NSN   =IPARI(5)
+C   P r e c o n d i t i o n s
+C-----------------------------------------------
       NMN   =IPARI(6)
+      IF(NMN == 0)RETURN
+C-----------------------------------------------
+C   B o d y
+C-----------------------------------------------
+      NSN   =IPARI(5)
       NTY   =IPARI(7)
 C
-      IF(NMN==0)RETURN
+
 C
       FRIC =INTBUF_TAB%VARIABLES(1)
       GAP  =INTBUF_TAB%VARIABLES(2)
       NGROUS=1+(NSN-1)/NVSIZ
 C-----------------------------------------------------
-C     RECHERCHE DES POINTS IMPACTES
+C     SEARCH FOR IMPACTED POINTS
 C-----------------------------------------------------
         DO 150 NG=1,NGROUS
         NFT=(NG-1)*NVSIZ
@@ -165,7 +166,7 @@ C-----------------------------------------------------
      4   LLT,             NFT)
  150    CONTINUE
 C-----------------------------------------------------
-C     SOMME DES FORCES ET MASSES
+C     MASSES AND CUMULATIVES FORCES
 C-----------------------------------------------------
       CALL I9FRMS
      1   (X         ,SKEW      ,A         ,FN        ,FT        ,
@@ -174,7 +175,7 @@ C-----------------------------------------------------
      3    INTBUF_TAB%ILOCS,INTBUF_TAB%IRTLM,MS        ,INTBUF_TAB%N,LCOD  ,
      4    ISKEW     ,FRIC      ,MSMN      ,MSMT      , NMN, NSN)
 C-----------------------------------------------------
-C     CALCUL DES ACCEL. MAINS ET VITESSES SECONDS
+C    ACCELERATION (MAIN) AND VELOCITIES (SECOND)
 C-----------------------------------------------------
       CALL I9AVEL
      1   (X         ,SKEW      ,A         ,FN        ,FT        ,
