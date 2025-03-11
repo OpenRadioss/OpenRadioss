@@ -9,13 +9,13 @@
 **                                                                    **
 **                                                                    **
 **                    Linux 64 bits, GNU compiler                     **
+**                      Double Precision Version                      **
 **                                                                    **
 **                                                                    **
 **                                                                    **
-** CommitID: 440deeba848d606665f88afb8302e85b1ecf72bf                 **
 ************************************************************************
 ** OpenRadioss Software                                               **
-** COPYRIGHT (C) 1986-2022 Altair Engineering, Inc.                   **
+** COPYRIGHT (C) 1986-2025 Altair Engineering, Inc.                   **
 ** Licensed under GNU Affero General Public License.                  **
 ** See License file.                                                  **
 ************************************************************************
@@ -24,8 +24,11 @@
  COMPUTATION HARDWARE DESCRIPTION
   
  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
- fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
+ fr-lap281-1.europe.altair.com   Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz (x86_64), 2592 MHz,  16016 MB RAM,      0 MB swap
   
+ STACKSIZE  . . . . . . . . . . . . . . . . . . . . 16 MB
+ THREAD STACKSIZE . . . . . . . . . . . . . . . . . 400 mB
+ 
 ************************************************************************
 
 
@@ -38,7 +41,7 @@ WARNING ID : 100214
 DESCRIPTION :  
 -- BLOCK: /IOFLAG
 -- LINE: 5         0         0         0         0         0                                       0
-unsupported field exits
+unsupported field exists
 SOLUTION :     
     Please check input format and fields description defined in the Reference Guide.
 
@@ -47,7 +50,7 @@ WARNING ID : 100214
 DESCRIPTION :  
 -- BLOCK: /ANALY
 -- LINE: 0         0         0         0
-unsupported field exits
+unsupported field exists
 SOLUTION :     
     Please check input format and fields description defined in the Reference Guide.
 
@@ -66,9 +69,7 @@ SOLUTION :
                                                           MASS                LENGTH              TIME
     WORK UNIT SYSTEM . . . . . . ( g  , cm , mus ) 1.0000000000000E-03 1.0000000000000E-02 1.0000000000000E-06
     INPUT UNIT SYSTEM  . . . . . ( g  , cm , mus ) 1.0000000000000E-03 1.0000000000000E-02 1.0000000000000E-06
-
-
- ADIABATIC EXPANSION                                                             
+ADIABATIC EXPANSION
 
 
     CONTROL  PARAMETERS                                                                  
@@ -145,9 +146,6 @@ SOLUTION :
 
     INTEG8 : 8 GAUSS POINT CONDENSED INTEGRATION . . . . .         0
     IPARITH: PARALLEL ARITHMETIC FLAG (2 OFF, 1 0N). . . .         1
-    ISUB   : (OLD) SUBCYCLING (1:YES 0:NO) . . . . . . . .         0
-    MSHSUB : MEMORY ALLOCATION FOR (NEW) SHELLS SUBCYCLING
-                                         (1:YES 0:NO). . .         0
     IUSERW : GENERAL USER WINDOW FLAG. . . . . . . . . . .         0
     ISOLID : DEFAULT BRICK FORMULATION FLAG. . . . . . . .         1
     ITET4  : DEFAULT TETRA4 FORMULATION FLAG . . . . . . .      1000
@@ -163,8 +161,10 @@ SOLUTION :
     INSH   : SHELL INERTIA FLAG. . . . . . . . . . . . . .         0
     ISH3N  : DEFAULT 3 NODE SHELL FORMULATION FLAG . . . .         2
     NPTS   : SHELL PROPERTIES DEFAULT NUMBER OF           
-             INTEGRATION POINTS OR LAYERS. . . . . . . . .         0
+             INTEGRATION POINTS OR LAYERS. . . . . . . . .        -1
     IFRAME : DEFAULT SOLID FRAME FORMULATION FLAG . . . .          1
+    IOFFSET: DEFAULT SHELL OFFSET FLAG. . . . . . . . . .          0
+    ICONTROL:DEFAULT SOLID DISTORTION CONTROL FLAG. . . .          0
     ISHFRAM: LOCAL SHELL FRAME DEFINITION. . . . . . . . .         0
 
 
@@ -179,14 +179,11 @@ SOLUTION :
     SPEED PARAMETERS  
     ----------------  
 
-    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         2 THREADS             
-    NUMBER OF SPMD DOMAINS. . . . . . . . . . . . . . . .         4
-    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         2
+    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         1 THREAD              
+    NUMBER OF SPMD DOMAINS. . . . . . . . . . . . . . . .         1
+    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         1
     ARCHITECTURE OPTIMIZATION . . . . . . . . . . . . . .        18, linux64             
     SIZE OF ELEMENT BUFFER. . . . . . . . . . . . . . . .       128
- 
-     INFO : OMP_NUM_THREADS SET, DEFAULT SETTING IGNORED
-  
 
 
     LOAD CURVES
@@ -212,14 +209,14 @@ SOLUTION :
     NUMBER OF MATERIALS. . . . . . . . . =         1
 
 
-       JOHNSON COOK LAW    
-       ----------------    
-
-
 
      CUIVRE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
         MATERIAL NUMBER . . . . . . . . . . . .=         1
         MATERIAL LAW. . . . . . . . . . . . . .=         4
+
+       JOHNSON COOK LAW    
+       ----------------    
+
 
        INITIAL DENSITY . . . . . . . . . . . .=  15.75000000000    
        REFERENCE DENSITY . . . . . . . . . . .=  15.75000000000    
@@ -267,9 +264,7 @@ SOLUTION :
      H . . . . . . . . . . . . . . . . . . . . .=  1.000000000000    
      INITIAL INTERNAL ENERGY (PER UNIT VOLUME) .=  1.086702530000    
      INITIAL PRESSURE. . . . . . . . . . . . . .=  4.353384389020    
-     REFERENCE DENSITY . . . . . . . . . . . . .=  8.930000000000    
-
-
+     EOS REFERENCE DENSITY . . . . . . . . . .=  8.930000000000    
 
 
         NODAL POINT COORDINATES                                                          
@@ -294,7 +289,7 @@ SOLUTION :
 
 
 
-         PROPERTY SETS (HM_READER)
+         PROPERTY SETS
          -------------
 
 
@@ -303,6 +298,7 @@ element 3D
      PROPERTY SET NUMBER . . . . . . . . . .=         1
      SOLID FORMULATION FLAG. . . . . . . . .=         1
      SMALL STRAIN FLAG . . . . . . . . . . .=         4
+     IALE FLAG (0:LAGRANGE,1:ALE,2:EULER). .=         0
      SOLID STRESS PLASTICITY FLAG. . . . . .=         2
      COROTATIONAL SYSTEM FLAG. . . . . . . .=         1
      TETRA4 FORMULATION FLAG. . . . .  . . .=      1000
@@ -321,6 +317,7 @@ element 3D
      NUMERICAL NAVIER STOKES VISCOSITY MU. .=  0.000000000000    
      BRICK MINIMUM TIME STEP................=  0.000000000000    
      POST PROCESSING STRAIN FLAG . . . . . .=         1
+     SOLID DISTORTION CONTROL FLAG . . . . .=         0
 
      NUMBER OF INTEGRATION POINTS. .  . .  .=         1
 
@@ -333,10 +330,10 @@ element 3D
 
 PART:         1,element
 ----
-     PROPERTY:         1,element 3D
-     MATERIAL:         1,CUIVRE
-     SUBSET  :         0
- VIRT. THICKN:  0.000000000000    
+     PROPERTY    :         1 (TYPE 14),element 3D
+     MATERIAL    :         1 (LAW  04),CUIVRE
+     SUBSET      :         0
+     FRAMEWORK   :         LAGRANGE
 
 
        HIERARCHICAL SUBSET ORGANIZATION
@@ -411,21 +408,8 @@ PART:         1,element
  DOMAIN DECOMPOSITION USING MULTILEVEL KWAY
  ------------------------------------------
  DOMAIN DECOMPOSITION OPTIMIZED FOR PARALLEL ARITHMETIC ON
- DOMAIN DECOMPOSITION : OPTIMIZED FOR SANDY BRIDGE PROCESSOR
+ DOMAIN DECOMPOSITION : OPTIMIZED FOR BROADWELL PROCESSOR
 ** INFO: SIMPLIFIED DOMAIN DECOMPOSITION
-
-
-       8-NODE ELEMENT GROUPS
-       ---------------------
-
-     GROUP      MAT.     ELEM.     FIRST    BUFFER     GAUSS    A.L.E.     EULER    TURBU.    THERM.     HOUR-     INTEG       VAR    POROUS   PLASTI.     CLOS.      CODV  FAILURE     IEOS
-         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG       MID    MEDIUM      FLAG      FLAG              FLAG      TYPE
-         1         4         1         1         1         1         0         0         0         0         1         0         1         0         2         0         0         0         4
-
-
-       RESTART SIZE OF SHELL AND SOLID ELEMENT GROUPS
-       ----------------------------------------------
-
 
 
 
@@ -444,12 +428,11 @@ PART MASS & INERTIA
 -------------------
 
 
-PART :          1element
-----
- Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
-  35.43750000000      39.86718750000      28.79296875000      28.79296875000      0.000000000000      0.000000000000      0.000000000000    
- X           Y           Z           Kin. Energy Vx         Vy         Vz
--0.5000000000000     0.7500000000000     0.7500000000000      0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+PART :          1, element
+            Mass             Ixx             Iyy             Izz             Ixy             Iyz             Izx
+  3.54375000E+01  3.98671875E+01  2.87929688E+01  2.87929688E+01  0.00000000E+00  0.00000000E+00  0.00000000E+00
+               X               Y               Z     Kin. Energy              Vx              Vy              Vz
+ -5.00000000E-01  7.50000000E-01  7.50000000E-01  0.00000000E+00  0.00000000E+00  0.00000000E+00  0.00000000E+00
 
 
 PART ELEMENT/MATERIAL PARAMETER REVIEW:
@@ -457,8 +440,8 @@ PART ELEMENT/MATERIAL PARAMETER REVIEW:
 
 Part id,name:         1 element                Mat type:   4 Elm type: SOLID-HEXA             
 ----
-  Isolid  Ismstr   Icpre  Iframe    IHKT Itetra4 Itetra10 IMATVIS
-       1       4       3       1       0       0       0       0
+  Isolid  Ismstr   Icpre  Iframe    IHKT Itetra4 Itetra10 IMATVIS ICONTROL
+       1       4       3       1       0       0       0       0       0
 --      qa        qb   lamda_v      mu_v         h        dn
     1.1000    0.0500    0.0000    0.0000    0.1000    0.0000
 
@@ -481,10 +464,7 @@ Part id,name:         1 element                Mat type:   4 Elm type: SOLID-HEX
       ADDED NODAL NON-STRUCTURAL MASSES 
      -----------------------------------
 
-
-
-
-  TOTAL ADDED MASS =   0.000000000000    
+      TOTAL ADDED MASS =   0.000000000000    
 
 
   
@@ -514,8 +494,8 @@ DX        DY        DZ        VX        VY        VZ
  TH GROUP: PART      
  ---------
 
- TH PART      :         1,element,  8 VAR:
-IE        KE        XMOM      YMOM      ZMOM      MASS      HE        HEAT      
+ TH PART      :         1,element,  9 VAR:
+IE        KE        XMOM      YMOM      ZMOM      MASS      HE        ERODED    HEAT      
 
 
 
@@ -638,78 +618,10 @@ IE        KE        XMOM      YMOM      ZMOM      MASS      HE        HEAT
     STARTER STORAGE 
     --------------- 
  
-    STARTER MEMORY USAGE        122 MB
-
-
-
- STATISTICS ON DOMAIN DECOMPOSITION 
- ---------------------------------- 
-
-AVERAGE NB. OF BOUNDARY NODES :     0
-STANDARD DEVIATION            :     0
-
-AVERAGE NUMBER OF LOCAL NODES :       2
-STANDARD DEVIATION            :       3
-
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
-    1             1                     0                     0
-    2             0                     0                     0
-    3             0                     0                     0
-    4             0                     0                     0
-
- DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   1
- ----------------------------------------------------
- NUMBER OF NODES................. :           8
- NUMBER OF SOLID ELEMENTS........ :           1
- TOTAL NUMBER OF NODES FOR COMM.. :           0
+    STARTER MEMORY USAGE        152 MB
 
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     1
-     --------------------------------------------------------
-        MEMORY USED FOR REALS            5 MB 
-        MEMORY USED FOR INTEGERS         5 MB 
-        TOTAL MEMORY EVALUATION         10 MB 
-                                            
-        RESTART FILE SIZE         0 MB
-
- DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   2
- ----------------------------------------------------
- NUMBER OF NODES................. :           0
- NUMBER OF SOLID ELEMENTS........ :           0
- TOTAL NUMBER OF NODES FOR COMM.. :           0
-
-
-     LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     2
-     --------------------------------------------------------
-        MEMORY USED FOR REALS            5 MB 
-        MEMORY USED FOR INTEGERS         5 MB 
-        TOTAL MEMORY EVALUATION         10 MB 
-                                            
-        RESTART FILE SIZE         0 MB
-
- DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   3
- ----------------------------------------------------
- NUMBER OF NODES................. :           0
- NUMBER OF SOLID ELEMENTS........ :           0
- TOTAL NUMBER OF NODES FOR COMM.. :           0
-
-
-     LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     3
-     --------------------------------------------------------
-        MEMORY USED FOR REALS            5 MB 
-        MEMORY USED FOR INTEGERS         5 MB 
-        TOTAL MEMORY EVALUATION         10 MB 
-                                            
-        RESTART FILE SIZE         0 MB
-
- DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   4
- ----------------------------------------------------
- NUMBER OF NODES................. :           0
- NUMBER OF SOLID ELEMENTS........ :           0
- TOTAL NUMBER OF NODES FOR COMM.. :           0
-
-
-     LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     4
      --------------------------------------------------------
         MEMORY USED FOR REALS            5 MB 
         MEMORY USED FOR INTEGERS         5 MB 
@@ -727,20 +639,20 @@ STANDARD DEVIATION            :       3
  CPU USER TIME
  -------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .3816E+00   .1412E+00   .1975E-01   .0000E+00   .0000E+00   .0000E+00   .2599E-04
+.0000E+00   .1630E+00   .1322E+00   .2656E-02   .0000E+00   .0000E+00   .0000E+00   .1997E-05
   
   
  ELAPSED TIME
  ------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .1144E+07   .1579E+00   .1566E-01   .0000E+00   .0000E+00   .0000E+00   .1066E-04
+.0000E+00   .1610E+06   .1647E+00   .2768E-02   .0000E+00   .0000E+00   .0000E+00   .1888E-05
   
                    ** COMPUTE TIME INFORMATION **
   
- EXECUTION STARTED      :      2022/11/23  16:24:12
- EXECUTION COMPLETED    :      2022/11/23  16:24:12
+ EXECUTION STARTED      :      2025/03/24  18:50:15
+ EXECUTION COMPLETED    :      2025/03/24  18:50:15
   
- ELAPSED TIME...........=          0.62 s
+ ELAPSED TIME...........=          0.39 s
                                00:00:00
   
 ------------------------------------------------------------------------

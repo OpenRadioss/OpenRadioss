@@ -67,7 +67,7 @@
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
       !INTEGER parameters
-      NFIX = 5
+      NFIX = 6
       ALLOCATE (IBUF(NFIX + 1))
       IAD = 1
       IBUF(IAD) = NFIX
@@ -81,6 +81,8 @@
         IBUF(IAD) = EOS%NFUNC
       IAD = IAD+1
         IBUF(IAD) = EOS%NTABLE
+      IAD = IAD+1
+        IBUF(IAD) = EOS%ISFLUID
       IAD = IAD+1
       CALL WRITE_I_C(IBUF,NFIX+1)
       DEALLOCATE(IBUF)

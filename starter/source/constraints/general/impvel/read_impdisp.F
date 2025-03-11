@@ -153,7 +153,7 @@ c--------------------------------------------------
 c       READ STRING VALUES from /IMPDISP
 c--------------------------------------------------
         CALL HM_GET_INTV('rad_system_input_type'   ,SYS_TYPE ,IS_AVAILABLE,LSUBMODEL)
-        CALL HM_GET_INTV  ('curveid'       ,FCT_ID  ,IS_AVAILABLE,LSUBMODEL)  
+        CALL HM_GET_INTV  ('curveid'       ,FCT_ID  ,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_STRING('rad_dir'       ,XYZ     ,ncharfield,IS_AVAILABLE) 
 !        CALL HM_GET_INTV  ('inputsystem'   ,SKEW_ID ,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV  ('rad_sensor_id' ,SENS_ID ,IS_AVAILABLE,LSUBMODEL)  
@@ -193,13 +193,13 @@ c--------------------------------------------------
         IF ((SKEW_ID == 0).AND.(SUBID /= 0)) THEN
           SKEW_ID = LSUBMODEL(NOSUB)%SKEW
         ENDIF
-!        
+!
         IF ((SYS_TYPE == 0).OR.(SYS_TYPE == 1)) THEN
           DO J=0,NUMSKW+MIN(1,NSPCOND)*NUMSPH+NSUBMOD
-            IF (SKEW_ID == ISKN(4,J+1)) THEN               
-              NOSKEW = J+1                         
-              EXIT                           
-            ENDIF                                   
+            IF (SKEW_ID == ISKN(4,J+1)) THEN
+              NOSKEW = J+1
+              EXIT
+            ENDIF
           ENDDO
           IF (SKEW_ID > 0 .and. NOSKEW == 0)
      .      CALL ANCMSG(MSGID=137,ANMODE=ANINFO,MSGTYPE=MSGERROR,
@@ -210,14 +210,14 @@ c--------------------------------------------------
      .                  C3= TITR)
 c----
         ELSEIF (SYS_TYPE == 2) THEN
-          JJ = (NUMSKW+1) + MIN(1,NSPCOND)*NUMSPH+1 + NSUBMOD        
-          DO J=1,NUMFRAM                   
+          JJ = (NUMSKW+1) + MIN(1,NSPCOND)*NUMSPH+1 + NSUBMOD
+          DO J=1,NUMFRAM
             JJ = JJ+1
-            IF (FRAME_ID == ISKN(4,JJ)) THEN               
-              NOFRAME = J+1                         
-              NN_FM(1:3) = ISKN(1:3,JJ) 
-              EXIT                           
-            ENDIF                                   
+            IF (FRAME_ID == ISKN(4,JJ)) THEN
+              NOFRAME = J+1
+              NN_FM(1:3) = ISKN(1:3,JJ)
+              EXIT
+            ENDIF
           ENDDO
           IF (FRAME_ID > 0 .and. NOFRAME == 0)
      .      CALL ANCMSG(MSGID=137,ANMODE=ANINFO,MSGTYPE=MSGERROR,
