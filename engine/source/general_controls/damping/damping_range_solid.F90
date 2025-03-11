@@ -19,7 +19,7 @@
 !Copyright>
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
-!Copyright>    !ommercial version may interest you: https://www.altair.com/radioss/.
+!Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
       !||    damping_range_solid_mod   ../engine/source/general_controls/damping/damping_range_solid.F90
       !||--- called by ------------------------------------------------------

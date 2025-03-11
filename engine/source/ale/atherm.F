@@ -1,5 +1,4 @@
 Copyright>        OpenRadioss
-Copyright>        OpenRadioss
 Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
 Copyright>
 Copyright>        This program is free software: you can redistribute it and/or modify
