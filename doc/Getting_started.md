@@ -43,7 +43,7 @@ One Tensile Test example in LS-DYNA format can be fond here: [Tensile Test LS-Dy
 #### OpenRadioss package
 
 * Windows: preffered Zip tool
-* Linux: unzip OpenRadioss_win64.zip
+* Linux: unzip OpenRadioss_linux64.zip
 
 ![image](./openradioss_installation.png)
 
@@ -55,8 +55,8 @@ One Tensile Test example in LS-DYNA format can be fond here: [Tensile Test LS-Dy
 
 In OpenRadioss installation :
 
-* On Linux : launch openradioss_gui/OpenRadioss_gui.bash
 * On Windows : launch openradioss_gui/OpenRadioss_gui.vbs
+* On Linux : launch openradioss_gui/OpenRadioss_gui.bash
 
 ![image](./or_gui.png)
 
