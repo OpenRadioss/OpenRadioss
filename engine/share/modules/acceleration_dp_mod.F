@@ -24,7 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    acceleration_dp_mod   ../engine/share/modules/acceleration_dp_mod.F
       !||--- called by ------------------------------------------------------
       !||    resol                 ../engine/source/engine/resol.F
-      !||    spmd_exch_a           ../engine/source/mpi/forces/spmd_exch_a.F
       !||====================================================================
         MODULE ACCELERATION_DP_MOD
 !   --------------------------------------

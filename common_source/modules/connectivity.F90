@@ -21,19 +21,24 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    connectivity_mod          ../common_source/modules/connectivity.F90
+      !||    connectivity_mod              ../common_source/modules/connectivity.F90
       !||--- called by ------------------------------------------------------
-      !||    asspar4                   ../engine/source/assembly/asspar4.F
-      !||    detach_node_from_shells   ../engine/source/engine/node_spliting/detach_node.F90
-      !||    radioss2                  ../engine/source/engine/radioss2.F
-      !||    rdresb                    ../engine/source/output/restart/rdresb.F
-      !||    resol                     ../engine/source/engine/resol.F
-      !||    resol_head                ../engine/source/engine/resol_head.F
-      !||    restalloc                 ../engine/source/output/restart/arralloc.F
-      !||    update_pon_shells         ../engine/source/engine/node_spliting/update_pon.F90
-      !||    wrrestp                   ../engine/source/output/restart/wrrestp.F
+      !||    asspar4                       ../engine/source/assembly/asspar4.F
+      !||    detach_node                   ../engine/source/engine/node_spliting/detach_node.F90
+      !||    detach_node_from_interfaces   ../engine/source/engine/node_spliting/detach_node.F90
+      !||    detach_node_from_shells       ../engine/source/engine/node_spliting/detach_node.F90
+      !||    find_segment_in_list          ../engine/source/engine/node_spliting/detach_node.F90
+      !||    radioss2                      ../engine/source/engine/radioss2.F
+      !||    rdresb                        ../engine/source/output/restart/rdresb.F
+      !||    resol                         ../engine/source/engine/resol.F
+      !||    resol_head                    ../engine/source/engine/resol_head.F
+      !||    restalloc                     ../engine/source/output/restart/arralloc.F
+      !||    set_new_node_values           ../engine/source/engine/node_spliting/detach_node.F90
+      !||    test_jc_shell_detach          ../engine/source/engine/node_spliting/detach_node.F90
+      !||    update_pon_shells             ../engine/source/engine/node_spliting/update_pon.F90
+      !||    wrrestp                       ../engine/source/output/restart/wrrestp.F
       !||--- uses       -----------------------------------------------------
-      !||    parith_on_mod             ../common_source/modules/parith_on_mod.F90
+      !||    parith_on_mod                 ../common_source/modules/parith_on_mod.F90
       !||====================================================================
       module connectivity_mod
         use iso_c_binding
@@ -89,7 +94,9 @@
       !||--- called by ------------------------------------------------------
       !||    rdresb                 ../engine/source/output/restart/rdresb.F
       !||--- calls      -----------------------------------------------------
+      !||    reserve_capacity       ../common_source/tools/container/umap_mod.F90
       !||--- uses       -----------------------------------------------------
+      !||    umap_mod               ../common_source/tools/container/umap_mod.F90
       !||====================================================================
         subroutine init_global_shell_id(shell)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -127,6 +134,7 @@
       !||====================================================================
       !||    get_local_shell_id   ../common_source/modules/connectivity.F90
       !||--- uses       -----------------------------------------------------
+      !||    umap_mod             ../common_source/tools/container/umap_mod.F90
       !||====================================================================
         function get_local_shell_id(shell, global_id) result(local_id)
 ! ----------------------------------------------------------------------------------------------------------------------

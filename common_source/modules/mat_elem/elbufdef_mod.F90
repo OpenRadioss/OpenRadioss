@@ -640,6 +640,7 @@
       !||    tensorc_crk                         ../engine/source/output/anim/generate/tensorc_crk.F
       !||    tensorc_ply                         ../engine/source/output/anim/generate/tensorc_ply.F
       !||    tensors                             ../engine/source/output/anim/generate/tensor6.F
+      !||    test_jc_shell_detach                ../engine/source/engine/node_spliting/detach_node.F90
       !||    tforc3                              ../engine/source/elements/truss/tforc3.F
       !||    thcluster                           ../engine/source/output/th/thcluster.F
       !||    thcoq                               ../engine/source/output/th/thcoq.F

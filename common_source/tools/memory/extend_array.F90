@@ -21,14 +21,15 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    extend_array_mod           ../common_source/tools/memory/extend_array.F90
+      !||    extend_array_mod              ../common_source/tools/memory/extend_array.F90
       !||--- called by ------------------------------------------------------
-      !||    extend_nodal_arrays        ../engine/source/engine/node_spliting/nodal_arrays.F90
-      !||    fill_voxel_local           ../engine/source/interfaces/intsort/fill_voxel.F90
-      !||    fill_voxel_local_partial   ../engine/source/interfaces/intsort/fill_voxel.F90
-      !||    fill_voxel_remote          ../engine/source/interfaces/intsort/fill_voxel.F90
+      !||    detach_node_from_interfaces   ../engine/source/engine/node_spliting/detach_node.F90
+      !||    extend_nodal_arrays           ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    fill_voxel_local              ../engine/source/interfaces/intsort/fill_voxel.F90
+      !||    fill_voxel_local_partial      ../engine/source/interfaces/intsort/fill_voxel.F90
+      !||    fill_voxel_remote             ../engine/source/interfaces/intsort/fill_voxel.F90
       !||--- calls      -----------------------------------------------------
-      !||    build_error_message        ../common_source/tools/memory/extend_array.F90
+      !||    build_error_message           ../common_source/tools/memory/extend_array.F90
       !||====================================================================
       module extend_array_mod
         implicit none

@@ -20,6 +20,15 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    umap_mod               ../common_source/tools/container/umap_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    get_local_node_id      ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    get_local_shell_id     ../common_source/modules/connectivity.F90
+      !||    init_global_node_id    ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    init_global_shell_id   ../common_source/modules/connectivity.F90
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       module umap_mod
         use iso_c_binding
         implicit none
@@ -60,6 +69,10 @@
 
       contains
 
+      !||====================================================================
+      !||    add_entry        ../common_source/tools/container/umap_mod.F90
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
         subroutine add_entry(m, key, value)
           type(C_PTR), intent(in) :: m
           integer, intent(in)     :: key, value
@@ -68,6 +81,9 @@
 !$OMP END CRITICAL
         end subroutine add_entry
 
+      !||====================================================================
+      !||    get_value   ../common_source/tools/container/umap_mod.F90
+      !||====================================================================
         function get_value(m, key, default_value) result(val)
           type(C_PTR), intent(in) :: m
           integer, intent(in)     :: key, default_value
@@ -75,6 +91,13 @@
           val = get_value_umap(m, int(key, C_INT), int(default_value, C_INT))
         end function get_value
 
+      !||====================================================================
+      !||    reserve_capacity       ../common_source/tools/container/umap_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    init_global_node_id    ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    init_global_shell_id   ../common_source/modules/connectivity.F90
+      !||--- calls      -----------------------------------------------------
+      !||====================================================================
         subroutine reserve_capacity(m, n)
           type(C_PTR), intent(in) :: m
           integer, intent(in)     :: n

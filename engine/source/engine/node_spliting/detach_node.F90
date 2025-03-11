@@ -28,6 +28,14 @@
       module detach_node_mod
 #include "my_real.inc"
       contains
+      !||====================================================================
+      !||    find_segment_in_list          ../engine/source/engine/node_spliting/detach_node.F90
+      !||--- called by ------------------------------------------------------
+      !||    detach_node_from_interfaces   ../engine/source/engine/node_spliting/detach_node.F90
+      !||--- uses       -----------------------------------------------------
+      !||    connectivity_mod              ../common_source/modules/connectivity.F90
+      !||    constant_mod                  ../common_source/modules/constant_mod.F
+      !||====================================================================
         function find_segment_in_list(segment,list,size,elements) result(is_found)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -69,6 +77,18 @@
 
         end function find_segment_in_list
 
+      !||====================================================================
+      !||    detach_node_from_interfaces   ../engine/source/engine/node_spliting/detach_node.F90
+      !||--- called by ------------------------------------------------------
+      !||    detach_node                   ../engine/source/engine/node_spliting/detach_node.F90
+      !||--- calls      -----------------------------------------------------
+      !||    find_segment_in_list          ../engine/source/engine/node_spliting/detach_node.F90
+      !||--- uses       -----------------------------------------------------
+      !||    connectivity_mod              ../common_source/modules/connectivity.F90
+      !||    constant_mod                  ../common_source/modules/constant_mod.F
+      !||    extend_array_mod              ../common_source/tools/memory/extend_array.F90
+      !||    nodal_arrays_mod              ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||====================================================================
         subroutine detach_node_from_interfaces(nodes, node_id,npari,ninter, ipari, interf, elements, shell_list, list_size)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -219,6 +239,15 @@
 
         end subroutine detach_node_from_interfaces
         !\brief This subroutine sets the values of the new node using the values of the old node
+      !||====================================================================
+      !||    set_new_node_values   ../engine/source/engine/node_spliting/detach_node.F90
+      !||--- called by ------------------------------------------------------
+      !||    detach_node           ../engine/source/engine/node_spliting/detach_node.F90
+      !||--- uses       -----------------------------------------------------
+      !||    connectivity_mod      ../common_source/modules/connectivity.F90
+      !||    constant_mod          ../common_source/modules/constant_mod.F
+      !||    nodal_arrays_mod      ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||====================================================================
         subroutine set_new_node_values(nodes,i)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -322,15 +351,15 @@
 !                                                   procedures
 ! ======================================================================================================================
         !\brief This subroutine detaches a node from a list of shells
-        !||====================================================================
-        !||    detach_node_from_shells   ../engine/source/engine/node_spliting/detach_node.F90
-        !||--- calls      -----------------------------------------------------
-        !||    extend_nodal_arrays       ../engine/source/engine/node_spliting/nodal_arrays.F90
-        !||--- uses       -----------------------------------------------------
-        !||    connectivity_mod          ../common_source/modules/connectivity.F90
-        !||    constant_mod              ../common_source/modules/constant_mod.F
-        !||    nodal_arrays_mod          ../engine/source/engine/node_spliting/nodal_arrays.F90
-        !||====================================================================
+      !||====================================================================
+      !||    detach_node_from_shells   ../engine/source/engine/node_spliting/detach_node.F90
+      !||--- called by ------------------------------------------------------
+      !||    detach_node               ../engine/source/engine/node_spliting/detach_node.F90
+      !||--- uses       -----------------------------------------------------
+      !||    connectivity_mod          ../common_source/modules/connectivity.F90
+      !||    constant_mod              ../common_source/modules/constant_mod.F
+      !||    nodal_arrays_mod          ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||====================================================================
         subroutine detach_node_from_shells(nodes, node_id ,elements,shell_list,list_size)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -377,15 +406,20 @@
           end do
         end subroutine detach_node_from_shells
         !\brief This subroutine detaches a node from a list of shells
-        !||====================================================================
-        !||    detach_node_from_shells   ../engine/source/engine/node_spliting/detach_node.F90
-        !||--- calls      -----------------------------------------------------
-        !||    extend_nodal_arrays       ../engine/source/engine/node_spliting/nodal_arrays.F90
-        !||--- uses       -----------------------------------------------------
-        !||    connectivity_mod          ../common_source/modules/connectivity.F90
-        !||    constant_mod              ../common_source/modules/constant_mod.F
-        !||    nodal_arrays_mod          ../engine/source/engine/node_spliting/nodal_arrays.F90
-        !||====================================================================
+      !||====================================================================
+      !||    detach_node                   ../engine/source/engine/node_spliting/detach_node.F90
+      !||--- called by ------------------------------------------------------
+      !||    test_jc_shell_detach          ../engine/source/engine/node_spliting/detach_node.F90
+      !||--- calls      -----------------------------------------------------
+      !||    detach_node_from_interfaces   ../engine/source/engine/node_spliting/detach_node.F90
+      !||    detach_node_from_shells       ../engine/source/engine/node_spliting/detach_node.F90
+      !||    extend_nodal_arrays           ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    set_new_node_values           ../engine/source/engine/node_spliting/detach_node.F90
+      !||--- uses       -----------------------------------------------------
+      !||    connectivity_mod              ../common_source/modules/connectivity.F90
+      !||    constant_mod                  ../common_source/modules/constant_mod.F
+      !||    nodal_arrays_mod              ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||====================================================================
         subroutine detach_node(nodes, node_id ,elements,shell_list,list_size,npari,ninter, ipari, interf)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -444,6 +478,16 @@
 
 
         ! this is an example on how to detach nodes, it will not give physical crack propagation
+      !||====================================================================
+      !||    test_jc_shell_detach   ../engine/source/engine/node_spliting/detach_node.F90
+      !||--- calls      -----------------------------------------------------
+      !||    detach_node            ../engine/source/engine/node_spliting/detach_node.F90
+      !||--- uses       -----------------------------------------------------
+      !||    connectivity_mod       ../common_source/modules/connectivity.F90
+      !||    constant_mod           ../common_source/modules/constant_mod.F
+      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    nodal_arrays_mod       ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||====================================================================
         subroutine test_jc_shell_detach(nodes, element, interf, npari, ninter, ipari, numnod, &
           numnodg, elbuf, ngroup, ngrouc, nparg, iparg, igrouc, numelc, ispmd, &
           lcnel, cnel, addcnel)

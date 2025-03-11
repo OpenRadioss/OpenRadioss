@@ -33,11 +33,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i25optcd_e2s             ../engine/source/interfaces/intsort/i25optcd_e2s.F
       !||    i25trivox_edg            ../engine/source/interfaces/intsort/i25trivox_edg.F
       !||    prepare_debug            ../engine/share/modules/debug_mod.F
+      !||    resol                    ../engine/source/engine/resol.F
       !||    spmd_collect_multi_fvm   ../engine/source/mpi/output/spmd_collect_multi_fvm.F
       !||    spmd_collect_nlocal      ../engine/source/mpi/output/spmd_collect_nlocal.F
       !||    spmd_fiadd25e_poff       ../engine/source/mpi/interfaces/spmd_fiadd25e_poff.F
       !||    spmd_fiadd25e_pon        ../engine/source/mpi/interfaces/spmd_fiadd25e_pon.F
       !||    update_failwave          ../engine/source/materials/fail/failwave/update_failwave.F
+      !||--- uses       -----------------------------------------------------
       !||====================================================================
       MODULE DEBUG_MOD
 

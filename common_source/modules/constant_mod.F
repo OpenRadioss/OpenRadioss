@@ -46,6 +46,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    damping_vref_rby_stiff                   ../engine/source/assembly/damping_vref_rby_stiff.F90
       !||    damping_vref_sum6_rby                    ../engine/source/assembly/damping_vref_sum6_rby.F90
       !||    defbeam_sect_new                         ../starter/source/properties/beam/defbeam_sect_new.F90
+      !||    detach_node                              ../engine/source/engine/node_spliting/detach_node.F90
+      !||    detach_node_from_interfaces              ../engine/source/engine/node_spliting/detach_node.F90
       !||    detach_node_from_shells                  ../engine/source/engine/node_spliting/detach_node.F90
       !||    dim_shell_offsetp                        ../starter/source/elements/shell/shell_offset/dim_shell_offsetp.F90
       !||    dttherm                                  ../engine/source/time_step/dttherm.F90
@@ -61,6 +63,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    fill_voxel_local                         ../engine/source/interfaces/intsort/fill_voxel.F90
       !||    fill_voxel_local_partial                 ../engine/source/interfaces/intsort/fill_voxel.F90
       !||    fill_voxel_remote                        ../engine/source/interfaces/intsort/fill_voxel.F90
+      !||    find_segment_in_list                     ../engine/source/engine/node_spliting/detach_node.F90
       !||    force                                    ../engine/source/loads/general/force.F90
       !||    fpcont2_max_output                       ../engine/source/output/h3d/h3d_results/fpcont2_max_output.F90
       !||    fpcont2_min_output                       ../engine/source/output/h3d/h3d_results/fpcont2_min_output.F90
@@ -159,6 +162,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sdistor_ini                              ../engine/source/elements/solid/solide/sdistror_ini.F90
       !||    select_s2s                               ../starter/source/interfaces/inter3d1/select_s2s.F90
       !||    sensor_python                            ../engine/source/tools/sensor/sensor_python.F90
+      !||    set_new_node_values                      ../engine/source/engine/node_spliting/detach_node.F90
       !||    sfor_3n2s3                               ../engine/source/elements/solid/solide/sfor_4n2s4.F90
       !||    sfor_4n2s4                               ../engine/source/elements/solid/solide/sfor_4n2s4.F90
       !||    sfor_ns2s4                               ../engine/source/elements/solid/solide/sfor_ns2s4.F90
@@ -192,6 +196,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_update_frontier_int25               ../engine/source/mpi/interfaces/spmd_update_frontier_int25.F90
       !||    spmd_xv_inter_type1                      ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
       !||    stifint_icontrol                         ../starter/source/interfaces/interf1/stifint_icontrol.F90
+      !||    test_jc_shell_detach                     ../engine/source/engine/node_spliting/detach_node.F90
       !||    update_neighbour_segment                 ../engine/source/interfaces/interf/update_neighbour_segment.F90
       !||    updfail                                  ../starter/source/materials/updfail.F90
       !||    velrot_explicit                          ../engine/source/constraints/general/rbody/velrot_explicit.F90

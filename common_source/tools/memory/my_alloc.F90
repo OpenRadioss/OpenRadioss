@@ -28,6 +28,7 @@
       !||    admfor0                            ../engine/source/model/remesh/admfor0.F
       !||    admordr                            ../engine/source/model/remesh/admordr.F
       !||    admregul                           ../engine/source/model/remesh/admregul.F
+      !||    allocate_nodal_arrays              ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||    allocate_rbe3                      ../common_source/modules/constraints/rbe3_mod.F90
       !||    allocate_sph_work                  ../common_source/modules/mat_elem/sph_work.F90
       !||    allocbuf_auto                      ../engine/source/elements/elbuf/allocbuf_auto.F
@@ -38,7 +39,6 @@
       !||    aniofff                            ../engine/source/output/anim/generate/aniofff.F
       !||    anioffs                            ../engine/source/output/anim/generate/anioff6.F
       !||    assadd2                            ../engine/source/assembly/assadd2.F
-      !||    assign_ptrx                        ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||    boxtagn                            ../starter/source/model/box/bigbox.F
       !||    c3grhead                           ../starter/source/elements/sh3n/coque3n/c3grhead.F
       !||    c3grtails                          ../starter/source/elements/sh3n/coque3n/c3grtails.F

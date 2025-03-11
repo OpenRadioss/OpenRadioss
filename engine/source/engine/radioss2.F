@@ -118,7 +118,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    qa_out_mod                   ../common_source/qa/qa_out_mod.F
       !||    rad2r_mod                    ../engine/share/modules/rad2r.F
       !||    rbe3_mod                     ../common_source/modules/constraints/rbe3_mod.F90
-      !||    rbody_mod                    ../engine/share/modules/rbody_mod.F
       !||    restmod                      ../engine/share/modules/restart_mod.F
       !||    scratchfile_mod              ../engine/share/modules/scratchfiles_mod.F
       !||    segvar_mod                   ../engine/share/modules/segvar_mod.F
