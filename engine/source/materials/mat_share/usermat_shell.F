@@ -1565,7 +1565,7 @@ c
      3              TT        ,DT1       ,IPG       ,ILAYER    ,IT        , 
      4              EPSXX     ,EPSYY     ,EPSXY     ,DMG_FLAG  ,DMG_LOC_SCALE ,
      5              EPSPXX    ,EPSPYY    ,EPSPXY    ,ALDT      ,ISMSTR    ,
-     6              SIGNXX    ,SIGNYY    ,SIGNXY    ,   
+     6              SIGNXX    ,SIGNYY    ,SIGNXY    ,LF_DAMMX  ,   
      7              OFF       ,OFFLY     ,FOFF      ,DFMAX     ,TDEL      )
 c
               CASE (25)     !    NXT Failure

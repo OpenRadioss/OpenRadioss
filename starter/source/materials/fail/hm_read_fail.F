@@ -411,7 +411,8 @@ c
             ELSEIF (KEY(1:10) == 'ORTHSTRAIN') THEN
               IRUPT = 24 
               CALL HM_READ_FAIL_ORTHSTRAIN(MAT_PARAM(IMAT)%FAIL(IFL),
-     .             MAT_ID   ,IRUPT    ,LSUBMODEL,UNITAB   )
+     .             FAIL_ID   ,IRUPT    ,LSUBMODEL,UNITAB   ,   
+     .             FAIL_TAG(IRUPT))
 c     
             ELSEIF (KEY(1:3) == 'NXT') THEN
               IRUPT = 25   

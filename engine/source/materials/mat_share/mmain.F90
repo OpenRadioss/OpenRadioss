@@ -2415,7 +2415,7 @@
                 &es1      ,es2      ,es3      ,es4      ,es5      ,es6     ,&
                 &ss1      ,ss2      ,ss3      ,ss4      ,ss5      ,ss6     ,&
                 &uvarf    ,off      ,ipg      ,ngl      ,dfmax    ,tdel    ,&
-                &gbuf%uelr,npg      ,deltax   )
+                &gbuf%uelr,npg      ,deltax   ,lf_dammx )
               elseif (irupt == 27) then
 ! ---   extended mohr coulomb failure model
                 call fail_emc(&

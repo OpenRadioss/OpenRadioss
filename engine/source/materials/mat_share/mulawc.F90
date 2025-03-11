@@ -2243,7 +2243,7 @@
                     &tt        ,dt1       ,ipg       ,ilayer    ,it        ,&
                     &epsxx     ,epsyy     ,epsxy     ,dmg_flag  ,dmg_loc_scale ,&
                     &epspxx    ,epspyy    ,epspxy    ,aldt      ,ismstr    ,&
-                    &signxx    ,signyy    ,signxy    ,&
+                    &signxx    ,signyy    ,signxy    ,lf_dammx  ,&
                     &off       ,offly     ,foff      ,dfmax     ,tdel      )
 !
                    case (25)     !    nxt failure
