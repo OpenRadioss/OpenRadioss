@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE TILLOTSON(
      1                     IFLAG,NEL  ,PM   ,OFF   ,EINT ,MU    , MU2, 
      2                     ESPE ,DVOL ,DF   ,VNEW  ,MAT  ,PSH   ,
-     3                     PNEW ,DPDM ,DPDE ,THETA ,ECOLD,VAREOS, NVAREOS)
+     3                     PNEW ,DPDM ,DPDE ,VAREOS, NVAREOS)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -81,10 +81,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN) :: MAT(NEL), IFLAG, NEL, NVAREOS
       my_real PM(NPROPM,NUMMAT), 
-     .        OFF(NEL) , EINT(NEL), VOL0(NEL), MU(NEL)   ,
+     .        OFF(NEL) , EINT(NEL), MU(NEL)  ,
      .        MU2(NEL) , ESPE(NEL), DVOL(NEL), DF(NEL)   ,
-     .        VNEW(NEL), PNEW(NEL), DPDM(NEL), DPDE(NEL) ,
-     .        THETA(NEL),ECOLD(NEL)
+     .        VNEW(NEL), PNEW(NEL), DPDM(NEL), DPDE(NEL)
       my_real,INTENT(INOUT) :: VAREOS(NEL,NVAREOS)
       my_real,INTENT(INOUT) :: PSH(NEL)
 C-----------------------------------------------
@@ -92,10 +91,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX
       my_real AA, BB, DVV, ETA, ENEW, OMEGA, XX, EXPA, EXPB,
-     .        PP, FACC1, FACC2, FACPB, GA,
+     .        PP, FACC1, FACC2, FACPB,
      .        C1(NEL),C2(NEL),PTIA(NEL),PTIB(NEL),EZERO(NEL),
      .        ALPHA(NEL),BETA(NEL),ESUBL(NEL),VSUBL(NEL),
-     .        PC(NEL), SPH(NEL), REGION
+     .        PC(NEL), REGION
 C--------------------------------------------------------------------    
       IF(IFLAG == 0) THEN
         DO I=1,NEL
@@ -105,7 +104,6 @@ C--------------------------------------------------------------------
           PTIA(I) = PM(34,MX)
           PTIB(I) = PM(35,MX)
           PC(I)   = PM(37,MX)
-          SPH(I)  = PM(69,MX)
           EZERO(I)= PM(36,MX)
           PSH(I)  = PM(88,MX)
           ESUBL(I)= PM(160,MX)
@@ -140,15 +138,6 @@ C--------------------------------------------------------------------
      .           *PTIB(I)*FACPB/(EZERO(I)*ETA*OMEGA**2) )
           DPDE(I)=BB*ETA
           VAREOS(I,1)=REGION
-        ENDDO
-        DO I=1,NEL
-          ECOLD(I)=-THREE100*SPH(I)
-          IF(MU(I)>ZERO) THEN
-            XX  = MU(I)/(ONE+MU(I))
-            ETA=ONE+MU(I)
-            GA=PTIA(I)+PTIB(I)-TWO_THIRD
-            ECOLD(I)=ECOLD(I)*EXP(GA*XX)*ETA**TWO_THIRD+HALF*C1(I)*MU2(I)
-          ENDIF
         ENDDO
 
       ELSEIF(IFLAG == 1) THEN
@@ -197,18 +186,8 @@ C--------------------------------------------------------------------
           PNEW(I)=(AA +BB*ESPE(I))/(ONE+ BB*DVV)
           PNEW(I)= MAX(PNEW(I),PC(I))*OFF(I)
           EINT(I)= EINT(I) - HALF*DVOL(I)*PNEW(I)
+          DPDE(I) = BB
           VAREOS(I,1)=REGION
-        ENDDO
-        !Temperature
-        DO I=1,NEL
-          MX=MAT(I)
-          SPH(I)=PM(69,MX)
-        ENDDO
-        DO I=1,NEL
-          XX=-ECOLD(I)
-          IF(VNEW(I)>EM15)XX=DF(I)*EINT(I)/VNEW(I)-ECOLD(I)
-          IF(OFF(I)<ONE.OR.SPH(I)<=ZERO.OR.XX<ZERO) CYCLE
-          THETA(I)=XX/SPH(I)
         ENDDO
 
       ELSEIF(IFLAG == 2) THEN
@@ -219,7 +198,6 @@ C--------------------------------------------------------------------
           PTIA(I) = PM(34,MX)
           PTIB(I) = PM(35,MX)
           PC(I)   = PM(37,MX)
-          SPH(I)  = PM(69,MX)
           EZERO(I)= PM(36,MX)
           ESUBL(I)= PM(160,MX)
           VSUBL(I)= PM(161,MX)
@@ -236,7 +214,7 @@ C--------------------------------------------------------------------
             IF(MU(I)<ZERO) THEN
                REGION=2
                FACC2=ZERO
-               IF(DF(I)> VSUBL(I).OR.(DF(I)<=VSUBL(I).AND.ESPE(I)>=ESUBL(I))) THEN
+               IF(DF(I) > VSUBL(I) .OR. (DF(I) <= VSUBL(I) .AND. ESPE(I) >= ESUBL(I))) THEN
                   REGION=4
                   XX  = MU(I)/(ONE+MU(I))
                   EXPA= EXP(-ALPHA(I)*XX*XX)
@@ -251,8 +229,8 @@ C--------------------------------------------------------------------
             BB=PTIA(I)+FACPB*PTIB(I)/OMEGA
             PP=MAX(AA+BB*ETA*ESPE(I),PC(I))*OFF(I)
             DPDM(I)=FACC1*C1(I)+TWO*FACC2*C2(I)*MU(I)+BB*ETA*PP*DF(I)*DF(I)
-     .           +ESPE(I)*( BB+(TWO*ESPE(I)/ETA-PP*DF(I)*DF(I))
-     .           *PTIB(I)*FACPB/(EZERO(I)*ETA*OMEGA**2) )
+     .             +ESPE(I)*( BB+(TWO*ESPE(I)/ETA-PP*DF(I)*DF(I))
+     .             *PTIB(I)*FACPB/(EZERO(I)*ETA*OMEGA**2) )
             DPDE(I)=BB*ETA
           ENDIF
           VAREOS(I,1)=REGION

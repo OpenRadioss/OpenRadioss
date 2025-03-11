@@ -29,10 +29,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||====================================================================
       SUBROUTINE POWDER_BURN    (
-     1                            IFLAG , NEL    ,PM    ,OFF  , EINT  ,MU           ,MU2 ,
-     2                            ESPE  , DVOL   ,DF    ,VNEW , MAT   ,PSH          ,
-     3                            PNEW  , DPDM   ,DPDE  ,THETA, ECOLD ,MAT_PARAM    ,
-     4                            VAREOS, NVAREOS,NPROPM,NUMMAT,DT1   ,RHO0   ,BFRAC)
+     1                            IFLAG , NEL    ,PM    ,OFF       , EINT  ,MU          ,MU2 ,
+     2                            ESPE  , DVOL   ,DF    ,VNEW      , MAT   ,PSH         ,
+     3                            PNEW  , DPDM   ,DPDE  ,MAT_PARAM ,
+     4                            VAREOS, NVAREOS,NPROPM,NUMMAT    ,DT1   ,RHO0   ,BFRAC)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -76,7 +76,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN) :: NVAREOS,NUMMAT,NPROPM
       INTEGER MAT(NEL), IFLAG, NEL
       my_real,INTENT(IN) :: PM(NPROPM,NUMMAT),OFF(NEL),MU(NEL),MU2(NEL),DVOL(NEL),DF(NEL),VNEW(NEL)
-      my_real,INTENT(INOUT) :: THETA(NEL),ECOLD(NEL),PNEW(NEL),DPDM(NEL),DPDE(NEL),EINT(NEL),RHO0(NEL),ESPE(NEL)
+      my_real,INTENT(INOUT) :: PNEW(NEL),DPDM(NEL),DPDE(NEL),EINT(NEL),RHO0(NEL),ESPE(NEL)
       my_real,INTENT(INOUT) :: VAREOS(NEL,NVAREOS),BFRAC(NEL)
       my_real,INTENT(IN) :: DT1
       TYPE(MATPARAM_STRUCT_), INTENT(IN) :: MAT_PARAM !< material data structure

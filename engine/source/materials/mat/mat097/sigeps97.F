@@ -32,21 +32,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i22tri_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||====================================================================
       SUBROUTINE SIGEPS97 (
-     1     NEL    ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC    ,TBURN  ,
-     2     NPF    ,TF     ,TIME    ,TIMESTEP,UPARAM   ,BFRAC  ,
-     3     RHO0   ,RHO    ,VOLUME  ,EINT    ,SIGY     ,DELTAX ,
-     4     EPSPXX ,EPSPYY ,EPSPZZ  ,EPSPXY  ,EPSPYZ   ,EPSPZX ,
-     5     DEPSXX ,DEPSYY ,DEPSZZ  ,DEPSXY  ,DEPSYZ   ,DEPSZX ,
-     6     EPSXX  ,EPSYY  ,EPSZZ   ,EPSXY   ,EPSYZ    ,EPSZX  ,
-     7     SIGOXX ,SIGOYY ,SIGOZZ  ,SIGOXY  ,SIGOYZ   ,SIGOZX ,
-     8     SIGNXX ,SIGNYY ,SIGNZZ  ,SIGNXY  ,SIGNYZ   ,SIGNZX ,
-     9     SIGVXX ,SIGVYY ,SIGVZZ  ,SIGVXY  ,SIGVYZ   ,SIGVZX ,
-     A     SOUNDSP,VISCMAX,UVAR    ,OFF     ,NFT      ,V      ,
-     B     W      ,X      ,IX      ,N48     ,NIX      ,JTHE   ,
-     C     GEO    ,PID    ,ILAY    ,NG      ,ELBUF_TAB,PM     , 
-     D     IPARG  ,BUFVOIS ,IPM     ,BUFMAT   ,STIFN  ,
-     E     VD2    ,VDX    ,VDY     ,VDZ     ,MAT      ,VOLN   ,
-     F     QNEW   ,DDVOL  ,QOLD)  
+     1     NEL    ,NUPARAM ,NUVAR   ,TBURN    ,
+     2     TIME   ,UPARAM  ,BFRAC   ,
+     3     RHO0   ,RHO     ,EINT    ,DELTAX ,
+     4     EPSPXX ,EPSPYY ,EPSPZZ  ,
+     8     SIGNXX ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ   ,SIGNZX ,
+     9     SIGVXX ,SIGVYY  ,SIGVZZ  ,SIGVXY  ,SIGVYZ   ,SIGVZX ,
+     A     SOUNDSP,VISCMAX ,UVAR    ,OFF     ,
+     C     GEO    ,PID     ,ILAY    ,NG      ,ELBUF_TAB,
+     E     VOLN   ,
+     F     QNEW   ,QOLD    ,DPDE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -68,27 +63,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL, NUPARAM, NUVAR,NFT,N48,NIX,JTHE,
-     .        IX(NIX,*), PID(*), ILAY, NG,PM(NPROPM,*),IPARG(*),MAT(*),
-     .        IPM(NPROPMI,*)
+      INTEGER NEL, NUPARAM, NUVAR, PID(*), ILAY, NG
       my_real 
      .   TIME         ,TIMESTEP   ,UPARAM(NUPARAM),
-     .   SIGY(NEL)    ,VK(NEL)    ,
-     .   RHO(NEL)     ,RHO0(NEL)  ,VOLUME(NEL),
-     .   EINT(NEL)    ,BUFVOIS(*) ,QNEW(NEL)    ,
-     .   DDVOL(NEL)   ,QOLD(NEL)  ,
+     .   VK(NEL)      ,
+     .   RHO(NEL)     ,RHO0(NEL)  ,
+     .   EINT(NEL)    ,QNEW(NEL)  ,
+     .   QOLD(NEL)    ,
      .   EPSPXX(NEL)  ,EPSPYY(NEL),EPSPZZ(NEL),
-     .   EPSPXY(NEL)  ,EPSPYZ(NEL),EPSPZX(NEL),
-     .   DEPSXX(NEL)  ,DEPSYY(NEL),DEPSZZ(NEL),
-     .   DEPSXY(NEL)  ,DEPSYZ(NEL),DEPSZX(NEL),
-     .   EPSXX(NEL)   ,EPSYY(NEL) ,EPSZZ(NEL) ,
-     .   EPSXY(NEL)   ,EPSYZ(NEL) ,EPSZX(NEL) ,
-     .   SIGOXX(NEL)  ,SIGOYY(NEL),SIGOZZ(NEL),
-     .   SIGOXY(NEL)  ,SIGOYZ(NEL),SIGOZX(NEL),
-     .   V(3,*)       ,W(3,*)     ,X(3,*)     ,
-     .   GEO(NPROPG,*),BUFMAT(*)  ,
-     .   STIFN(MVSIZ) ,VD2(*)     ,VDX(*)     ,
-     .   VDY(*)       ,VDZ(*)     ,SSP        ,
+     .   GEO(NPROPG,*),SSP        ,
      .   VOLN(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
 C-----------------------------------------------
@@ -100,6 +83,7 @@ C-----------------------------------------------
      .    SIGVXX(NEL),SIGVYY(NEL),SIGVZZ(NEL),
      .    SIGVXY(NEL),SIGVYZ(NEL),SIGVZX(NEL),
      .    SOUNDSP(NEL),VISCMAX(NEL)
+      my_real,INTENT(INOUT) :: DPDE(NEL)
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
@@ -107,9 +91,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------
-      INTEGER NPF(*), NFUNC, IFUNC(NFUNC)
-      my_real FINTER ,TF(*)
-      EXTERNAL FINTER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -347,6 +328,8 @@ C-----------------------------------------------
         LAMBDA5       = (AL(5)*vv+BL(5))*ERLV5
         
         LAMBDA        = LAMBDA1 + LAMBDA2 + LAMBDA3 + LAMBDA4 + LAMBDA5 + WW
+
+        DPDE(I)       = LAMBDA/DF
         
         DLDV1         = AL(1)*ERLV1-(AL(1)*vv+BL(1))*RL(1)*ERLV1
         DLDV2         = AL(2)*ERLV2-(AL(2)*vv+BL(2))*RL(2)*ERLV2

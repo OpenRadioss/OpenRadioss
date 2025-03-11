@@ -26,9 +26,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    eosmain   ../common_source/eos/eosmain.F
       !||====================================================================
       SUBROUTINE NASG
-     1              (IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2 , 
-     2               ESPE ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
-     3               PNEW ,DPDM ,DPDE ,THETA,ECOLD)
+     1              (IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU  ,
+     2               ESPE ,DVOL ,VNEW ,MAT  ,PSH ,
+     3               PNEW ,DPDM ,DPDE )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -73,15 +73,15 @@ C-----------------------------------------------
       INTEGER MAT(NEL), IFLAG, NEL
       my_real PM(NPROPM,NUMMAT), 
      .        OFF(NEL)  ,EINT(NEL) ,MU(NEL)   , 
-     .        MU2(NEL)  ,ESPE(NEL) ,DVOL(NEL) ,DF(NEL)  , 
+     .        ESPE(NEL) ,DVOL(NEL) ,
      .        VNEW(NEL) ,PNEW(NEL) ,DPDM(NEL),
-     .        DPDE(NEL) ,THETA(NEL),ECOLD(NEL)
+     .        DPDE(NEL)
       my_real, INTENT(INOUT) :: PSH(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX
-      my_real :: P0,GAMMA,T0,E0,SPH,AA, BB, DVV, PP, PSTAR, PC,V0
+      my_real :: P0,GAMMA,E0,AA,BB,PP,PSTAR, PC,V0
       my_real :: Q,Q_,Cv,RHO0,NUM,DENOM,UNPMU,B,RHO
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -94,12 +94,10 @@ C-----------------------------------------------
         P0         = PM(32 ,MX)
         PSH(1:NEL) = PM(88 ,MX)
         PSTAR      = PM(160,MX)
-        SPH        = PM(69 ,MX)
         Q          = PM(35 ,MX)
         Q_         = PM(36 ,MX)
         B          = PM(161,MX)
         Cv         = PM(162,MX)
-        T0         = PM(79, MX)
         RHO0       = PM(1 , MX)
         DO I=1,NEL
           UNPMU   =  ONE+MU(I)
@@ -109,10 +107,6 @@ C-----------------------------------------------
           dPdE(I) = (GAMMA-ONE)*UNPMU / DENOM                                         !partial derivative
           DPDM(I) = (GAMMA-ONE)*NUM/DENOM/DENOM + DPDE(I)*(PP+PSH(I))/UNPMU/UNPMU     !total derivative
         ENDDO
-        DO I=1,NEL
-          ECOLD(I)=-THREE100*SPH
-          IF(MU(I)>ZERO) ECOLD(I)=ECOLD(I)*(ONE+(GAMMA-ONE)*MU(I)*(ONE-MU(I)))
-        ENDDO
 
       ELSEIF(IFLAG == 1) THEN
         MX         = MAT(1)
@@ -121,12 +115,10 @@ C-----------------------------------------------
         P0         = PM(32 ,MX)
         PSH(1:NEL) = PM(88 ,MX)
         PSTAR      = PM(160,MX)
-        SPH        = PM(69 ,MX)
         Q          = PM(35 ,MX)
         Q_         = PM(36 ,MX)
         B          = PM(161,MX)
         Cv         = PM(162,MX)
-        T0         = PM(79, MX)
         RHO0       = PM(1 , MX)
         DO I=1,NEL
           EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
@@ -136,15 +128,9 @@ C-----------------------------------------------
           DENOM   = (VNEW(I)/V0-RHO0*b)
           AA      = (GAMMA-ONE)*(-RHO0*q/DENOM)-GAMMA*PSTAR
           BB      = (GAMMA-ONE)/ DENOM
+          dPdE(I) = BB  !partial derivative
           PNEW(I) = (AA+BB*EINT(I)/V0)/(ONE+BB*DVOL(I)/TWO/V0)
           PNEW(I) = MAX(PNEW(I),-GAMMA*PSTAR)*OFF(I)
-        ENDDO
-        DO I=1,NEL
-          IF(OFF(I) < ONE .OR. SPH <= ZERO) CYCLE
-          UNPMU =  ONE+MU(I)
-          RHO = UNPMU*RHO0
-          THETA(I) = (ONE/RHO-B)*(PNEW(I)+PSTAR)/Cv/(GAMMA-ONE)
-          THETA(I) = MAX(ZERO,THETA(I))
         ENDDO
 
       ELSEIF(IFLAG == 2) THEN
@@ -154,12 +140,10 @@ C-----------------------------------------------
         P0         = PM(32 ,MX)
         PSH(1:NEL) = PM(88 ,MX)
         PSTAR      = PM(160,MX)
-        SPH        = PM(69 ,MX)
         Q          = PM(35 ,MX)
         Q_         = PM(36 ,MX)
         B          = PM(161,MX)
         Cv         = PM(162,MX)
-        T0         = PM(79, MX)
         RHO0       = PM(1 , MX)
         PC         = PM(37, MX)
         DO I=1, NEL

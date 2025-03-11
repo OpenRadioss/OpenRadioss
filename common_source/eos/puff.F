@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE PUFF(IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU   ,MU2, 
      2                ESPE ,DVOL ,DF   ,VNEW ,MAT  ,
-     3                PNEW ,DPDM ,DPDE ,THETA, ECOLD)
+     3                PNEW ,DPDM ,DPDE )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -74,14 +74,13 @@ C-----------------------------------------------
       my_real PM(NPROPM,NUMMAT), 
      .        OFF(NEL) , EINT(NEL), MU(NEL)  , 
      .        MU2(NEL) , ESPE(NEL), DVOL(NEL), DF(NEL)   , 
-     .        VNEW(NEL), PNEW(NEL), DPDM(NEL), DPDE(NEL) ,
-     .       THETA(NEL),ECOLD(NEL)
+     .        VNEW(NEL), PNEW(NEL), DPDM(NEL), DPDE(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX
       my_real AA, BB, DVV, ETA, XX, GX, PRES, CC, EXPA, EE
-      my_real C1(NEL),C2(NEL),C3(NEL),T1(NEL),T2(NEL), G0(NEL),ESUBL(NEL),HH(NEL),PC(NEL),SPH(NEL),PSH(NEL)
+      my_real C1(NEL),C2(NEL),C3(NEL),T1(NEL),T2(NEL), G0(NEL),ESUBL(NEL),HH(NEL),PC(NEL),PSH(NEL)
 C--------------------------------------------------------------------    
       IF(IFLAG == 0) THEN
         DO I=1,NEL
@@ -92,7 +91,6 @@ C--------------------------------------------------------------------
           T1(I)   = PM(35,MX)
           T2(I)   = PM(36,MX)
           PC(I)   = PM(37,MX)
-          SPH(I)  = PM(69,MX)
           ESUBL(I)= PM(160,MX)
           G0(I)   = PM(161,MX)
           HH(I)   = PM(162,MX)
@@ -106,14 +104,12 @@ C--------------------------------------------------------------------
             BB=G0(I)
             PRES=MAX(AA*GX+BB*ESPE(I),PC(I))*OFF(I)
             DPDM(I)=(C1(I)+TWO*C2(I)*MU(I)+THREE*C3(I)*MU2(I))*GX+G0(I)*DF(I)*DF(I)*(PRES-HALF*AA)
-            DPDE(I)=BB
           ELSEIF(ESPE(I) < ESUBL(I))THEN
             AA=(T1(I)+T2(I)*MU(I))*MU(I)
             GX=ONE-G0(I)*HALF*XX
             BB=G0(I)
             PRES=MAX(AA*GX+BB*ESPE(I),PC(I))*OFF(I)
             DPDM(I)=(T1(I)+TWO*T2(I)*MU(I))*GX+G0(I)*DF(I)*DF(I)*(PRES-HALF*AA)
-            DPDE(I)=BB
           ELSE
             ETA=ONE+MU(I)
             EE=SQRT(ETA)
@@ -123,15 +119,8 @@ C--------------------------------------------------------------------
             AA= BB*ESUBL(I)*(EXPA-ONE)
             PRES=MAX(AA+BB*ESPE(I),PC(I))*OFF(I)
             DPDM(I)=BB*DF(I)*DF(I)*(PRES+ESUBL(I)*EXPA*CC) +(ESPE(I)+ESUBL(I)*(EXPA-ONE))*(HH(I)+THREE_HALF*EE*(G0(I)-HH(I)))
-            DPDE(I)=BB
           ENDIF
-        ENDDO
-        DO I=1,NEL
-          ECOLD(I)=-THREE100*SPH(I)
-          IF(MU(I) > ZERO) THEN
-            XX  = MU(I)/(ONE+MU(I))
-            ECOLD(I)=ECOLD(I)*EXP(G0(I)*XX)+HALF*C1(I)*MU2(I)
-          ENDIF
+          DPDE(I)=BB
         ENDDO
 
       ELSEIF(IFLAG == 1) THEN
@@ -166,18 +155,10 @@ C--------------------------------------------------------------------
             EXPA=EXP(CC*XX)
             AA=BB*ESUBL(I)*(EXPA-ONE)
           ENDIF
+          DPDE(I)=BB
           PNEW(I)=(AA +BB*ESPE(I))/(ONE+ BB*DVV)
           PNEW(I)=MAX(PNEW(I),PC(I))*OFF(I)
           EINT(I)=EINT(I)-HALF*DVOL(I)*PNEW(I)
-        ENDDO
-        DO I=1,NEL
-          MX=MAT(I)
-          SPH(I)=PM(69,MX)
-        ENDDO
-        DO I=1,NEL
-          XX=DF(I)*EINT(I)/VNEW(I)-ECOLD(I)
-          IF(OFF(I) < ONE .OR. SPH(I) <= ZERO .OR. XX < ZERO) CYCLE
-          THETA(I)=XX/SPH(I)
         ENDDO
 
       ELSEIF(IFLAG == 2) THEN
@@ -189,7 +170,6 @@ C--------------------------------------------------------------------
           T1(I)   = PM(35,MX)
           T2(I)   = PM(36,MX)
           PC(I)   = PM(37,MX)
-          SPH(I)  = PM(69,MX)
           ESUBL(I)= PM(160,MX)
           G0(I)   = PM(161,MX)
           HH(I)   = PM(162,MX)
@@ -203,14 +183,12 @@ C--------------------------------------------------------------------
                BB=G0(I)
                PRES=MAX(AA*GX+BB*ESPE(I),PC(I))*OFF(I)
                DPDM(I)=(C1(I)+TWO*C2(I)*MU(I)+THREE*C3(I)*MU2(I))*GX+G0(I)*DF(I)*DF(I)*(PRES-HALF*AA)
-               DPDE(I)=BB
             ELSEIF(ESPE(I)<ESUBL(I))THEN
                AA=(T1(I)+T2(I)*MU(I))*MU(I)
                GX=ONE-G0(I)*HALF*XX
                BB=G0(I)
                PRES=MAX(AA*GX+BB*ESPE(I),PC(I))*OFF(I)
                DPDM(I)=(T1(I)+TWO*T2(I)*MU(I))*GX+G0(I)*DF(I)*DF(I)*(PRES-HALF*AA)
-               DPDE(I)=BB
             ELSE
                ETA=ONE+MU(I)
                EE=SQRT(ETA)
@@ -221,8 +199,8 @@ C--------------------------------------------------------------------
                PRES=MAX(AA+BB*ESPE(I),PC(I))*OFF(I)
                DPDM(I)=BB*DF(I)*DF(I)*(PRES+ESUBL(I)*EXPA*CC) +
      .              (ESPE(I)+ESUBL(I)*(EXPA-ONE))*(HH(I)+THREE_HALF*EE*(G0(I)-HH(I)))
-               DPDE(I)=BB
             ENDIF
+            DPDE(I)=BB
             PNEW(I) = PRES
           ENDIF
         ENDDO

@@ -25,9 +25,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    eosmain   ../common_source/eos/eosmain.F
       !||====================================================================
-      SUBROUTINE LSZK    ( IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2 , 
+      SUBROUTINE LSZK    ( IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU  ,
      2                     ESPE ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
-     3                     PNEW ,DPDM ,DPDE ,THETA,ECOLD)
+     3                     PNEW ,DPDM ,DPDE )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -72,14 +72,14 @@ C-----------------------------------------------
       INTEGER MAT(NEL), IFLAG, NEL
       my_real PM(NPROPM,NUMMAT), 
      .        OFF(NEL)  ,EINT(NEL) ,MU(NEL)   , 
-     .        MU2(NEL)  ,ESPE(NEL) ,DVOL(NEL) ,DF(NEL)  , 
+     .        ESPE(NEL) ,DVOL(NEL) ,DF(NEL)  ,
      .        VNEW(NEL) ,PNEW(NEL) ,DPDM(NEL),
-     .        DPDE(NEL) ,THETA(NEL),ECOLD(NEL)
+     .        DPDE(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX
-      my_real :: P0,PSH(NEL),GAMMA,T0,E0,SPH,AA, BB, DVV, PP, AR0B, B,PC
+      my_real :: P0,PSH(NEL),GAMMA,E0,AA,BB,DVV,PP,AR0B,B,PC
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -91,15 +91,10 @@ C-----------------------------------------------
         PSH(1:NEL) = PM(88,MX)
         AR0B       = PM(35,MX)
         B          = PM(36,MX)
-        SPH        = PM(69,MX)
         DO I=1,NEL
           PP      = (GAMMA-ONE)*(ONE+MU(I))*ESPE(I) + AR0B*EXP(B*LOG(ONE+MU(I)))
           DPDM(I) = (GAMMA-ONE)*ESPE(I)+AR0B*B/(ONE+MU(I))*EXP((B-ONE)*LOG(ONE+MU(I)))+(GAMMA-ONE)*DF(I)*PP   !total derivative
           DPDE(I) = (GAMMA-ONE)*(ONE+MU(I))                                                                  !partial derivative
-        ENDDO
-        DO I=1,NEL
-          ECOLD(I)=-THREE100*SPH
-          !IF(MU(I)>ZERO) ECOLD(I)=
         ENDDO
 
       ELSEIF(IFLAG == 1) THEN
@@ -110,23 +105,16 @@ C-----------------------------------------------
         PSH(1:NEL) = PM(88,MX)
         AR0B       = PM(35,MX)
         B          = PM(36,MX)
-        SPH        = PM(69,MX)
         PC         = PM(37,MX)
         DO I=1,NEL
           BB         = (GAMMA-ONE)*(ONE+MU(I))
+          DPDE(I)    = BB
           AA         = AR0B*EXP(B*LOG(ONE+MU(I)))
           DVV        = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
           PNEW(I)    = (AA + BB*ESPE(I) ) / (ONE+BB*DVV)
           PNEW(I)    = MAX(PNEW(I),PC)*OFF(I)
           EINT(I)    = EINT(I) - HALF*DVOL(I)*(PNEW(I))
           PNEW(I)    = PNEW(I) - PSH(I)
-        ENDDO
-        MX         = MAT(1)
-        SPH        = PM(69,MX)
-        DO I=1,NEL
-          IF(OFF(I) < ONE .OR. SPH <= ZERO) CYCLE
-          THETA(I) = (DF(I)*EINT(I)/VNEW(I)-ECOLD(I))/SPH
-          THETA(I)   = MAX(ZERO,THETA(I))
         ENDDO
 
       ELSEIF (IFLAG == 2) THEN
@@ -137,7 +125,6 @@ C-----------------------------------------------
         PSH(1:NEL) = PM(88,MX)
         AR0B         = PM(35,MX)
         B            = PM(36,MX)
-        SPH          = PM(69,MX)
         DO I=1, NEL
           IF (VNEW(I) > ZERO) THEN
             PNEW(I) = (GAMMA-ONE)*(ONE+MU(I))*ESPE(I) + AR0B*EXP(B*LOG(ONE+MU(I)))

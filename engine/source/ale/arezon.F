@@ -79,7 +79,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: NG, IRS, IRE, I, J, K, NM, NMN, NFX, ADD, ADD0,IDX,INDX,NEL
-      my_real, DIMENSION(:), POINTER :: VAR,SIG,VOL, TAG22
+      my_real, DIMENSION(:), POINTER :: VAR,SIG,VOL, TAG22,TEMP
 C-----------------------------------------------
 C     S o u r c e   L i n e s
 C-----------------------------------------------
@@ -113,6 +113,7 @@ C     ALE ON / OFF
         ! pressurer rezoning for outlets (continuity)
         IF( JMULT /= 0) MTN =IPARG(24+NM,NG)
         IF (NVAR == 10 .AND.(MTN == 37)) CYCLE
+        IF (NVAR == 12 .AND. ELBUF_STR(NG)%GBUF%G_TEMP == 0) CYCLE
         !-----------------------------!
         IRS=IPARG(15,NG)
         IRE=IPARG(16,NG)
@@ -174,6 +175,16 @@ C     ALE ON / OFF
             PHI(J) = VAR(I)
           ENDDO
         !----------------------------!
+        !        N V A R = 12        !
+        !             (TEMP)         !
+        !----------------------------!
+        ELSEIF (NVAR == 12) THEN
+          VAR => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%TEMP(1:LLT)
+          DO I=LFT,LLT
+            J = I+NFT
+            PHI(J) = VAR(I)
+          ENDDO
+        !----------------------------!
         !        DEFAULT             !
         !----------------------------!
         ELSE
@@ -221,6 +232,7 @@ C     ALE ON / OFF
         IF (JMULT /= 0) MTN = IPARG(24+NM,NG)
         IF (NVAR == 10.AND.(MTN == 37)) CYCLE
         IF (NVAR == 10.AND.MTN==51.AND.ITRIMAT==0) CYCLE
+        IF (NVAR == 12 .AND. ELBUF_STR(NG)%GBUF%G_TEMP == 0) CYCLE
         !-----------------------------!
         IRS=IPARG(15,NG)
         IRE=IPARG(16,NG)
@@ -245,16 +257,14 @@ C     ALE ON / OFF
           ENDIF
           IF (N2D == 0) THEN
             TAG22  => ELBUF_STR(NG)%GBUF%TAG22(1:LLT)
-            CALL AREZO3_SIG(ALE_CONNECT,SIG,INDX,PHI,NDIM,FLUX(6*NFT+1),
-     .                      VOL,TAG22,IXS,ITRIMAT,NEL)
+            CALL AREZO3_SIG(ALE_CONNECT,SIG,INDX,PHI,NDIM,FLUX(6*NFT+1),VOL,TAG22,IXS,ITRIMAT,NEL)
           ELSE
             NFX = NFT+(NM-1)*NUMELQ
             IF (NMULT == 0) THEN
               CALL AREZO2_SIG(ALE_CONNECT,SIG,INDX,PHI,NDIM,
      .                        FLUX(4*NFX+1),VOL,NEL)
             ELSE
-              CALL BREZO2_SIG(ALE_CONNECT  ,SIG   ,IDX    ,PHI   ,NDIM  ,
-     .                        FLUX(4*NFX+1) ,VOL,BHOLE,NM,NEL)
+              CALL BREZO2_SIG(ALE_CONNECT  ,SIG   ,IDX    ,PHI   ,NDIM  , FLUX(4*NFX+1) ,VOL,BHOLE,NM,NEL)
             ENDIF
           ENDIF
         !----------------------------!
@@ -290,8 +300,7 @@ C     ALE ON / OFF
             IF(NMULT == 0)THEN                                        
               CALL AREZO2(ALE_CONNECT,VAR,IDX,PHI,NDIM,FLUX(4*NFX+1),VOL)
             ELSE                                                      
-              CALL BREZO2(ALE_CONNECT,VAR,IDX,PHI,NDIM,           
-     .                    FLUX(4*NFX+1),VOL,BHOLE,NM)                          
+              CALL BREZO2(ALE_CONNECT,VAR,IDX,PHI,NDIM,FLUX(4*NFX+1),VOL,BHOLE,NM)
             ENDIF                                                     
           ENDIF                                                       
         !----------------------------!
@@ -313,10 +322,40 @@ C     ALE ON / OFF
             IF(NMULT == 0)THEN                                        
               CALL AREZO2(ALE_CONNECT,VAR,IDX,PHI,NDIM,FLUX(4*NFX+1),VOL)
             ELSE                                                      
-              CALL BREZO2(ALE_CONNECT,VAR,IDX,PHI,NDIM,           
-     .                    FLUX(4*NFX+1),VOL,BHOLE,NM)                          
+              CALL BREZO2(ALE_CONNECT,VAR,IDX,PHI,NDIM,FLUX(4*NFX+1),VOL,BHOLE,NM)
             ENDIF                                                     
-          ENDIF                                                       
+          ENDIF
+
+        !----------------------------!
+        !        N V A R = 12        !
+        !              (TEMP)        !
+        !----------------------------!
+        ELSEIF (NVAR == 12) THEN
+          INDX = IDX
+          TEMP => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%TEMP(1:LLT)
+          VOL => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%VOL(1:LLT)
+          IF (ITRIMAT /= 0) THEN
+            ADD0= M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS
+            ADD = ADD0 + 16                                ! UVAR(ADD+1) => TEMP
+            K   = LLT*(ADD-1)
+            VAR =>ELBUF_STR(NG)%BUFLY(1)%MAT(1,1,1)%VAR(K+1:K+LLT*NDIM)
+            INDX=1
+          ELSE
+            TEMP => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%TEMP(1:LLT)
+            VOL => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%VOL(1:LLT)
+          ENDIF
+          IF (N2D == 0) THEN
+            TAG22  => ELBUF_STR(NG)%GBUF%TAG22(1:LLT)
+            CALL AREZO3(ALE_CONNECT,TEMP,IDX,PHI,NDIM,FLUX(6*NFT+1),VOL,TAG22,IXS,ITRIMAT)
+          ELSE
+            NFX=NFT+(NM-1)*NUMELQ
+            IF(NMULT == 0)THEN
+              CALL AREZO2(ALE_CONNECT,TEMP,IDX,PHI,NDIM,FLUX(4*NFX+1),VOL)
+            ELSE
+              CALL BREZO2(ALE_CONNECT,TEMP,IDX,PHI,NDIM,FLUX(4*NFX+1),VOL,BHOLE,NM)
+            ENDIF
+          ENDIF
+
         ENDIF !  (NVAR == 2 .AND. IRS == 1)
        ENDDO  ! next NG
       END DO !next NM

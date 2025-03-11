@@ -81,6 +81,7 @@
       iad = iad+1 ; eos%nuvar   = ibuf(iad)
       iad = iad+1 ; eos%nfunc   = ibuf(iad)
       iad = iad+1 ; eos%ntable  = ibuf(iad)
+      iad = iad+1 ; eos%isfluid = ibuf(iad)
       deallocate( ibuf )
 
       ! read eos model parameters (real)
@@ -124,8 +125,7 @@
       if (numtabl > 0) then                      
         allocate (eos%table(numtabl))            
         call read_mat_table(eos%table, numtabl)  
-      end if                                     
-        
+      end if
 
 !-----------
       return

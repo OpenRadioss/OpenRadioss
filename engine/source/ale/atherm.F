@@ -45,7 +45,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2   VAL2,       T,          ALE_CONNECT,IXS,
      3   IXQ,        FV,         X,          BUFMAT,
      4   TF,         NPF,        NERCVOIS,   NESDVOIS,
-     5   LERCVOIS,   LESDVOIS,   LENCOM,     IPM)
+     5   LERCVOIS,   LESDVOIS,   LENCOM,     IPM,
+     6   MATPARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -53,6 +54,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD            
       USE ALE_CONNECTIVITY_MOD
       USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
+      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -77,14 +79,19 @@ C-----------------------------------------------
       my_real PM(NPROPM,NUMMAT), FLUX(*), VAL2(*), T(*), FV(*), X(3,NUMNOD),TF(*),BUFMAT(*)
       TYPE (ELBUF_STRUCT_), DIMENSION (NGROUP), TARGET :: ELBUF_TAB
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
+      TYPE(MATPARAM_STRUCT_),DIMENSION(NUMMAT),INTENT(IN) :: MATPARAM !< material buffer
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NG, I, J, NPH1, NPH2, NPH3, IADBUF
-      INTEGER MAT(MVSIZ),NEL
+      INTEGER MAT(MVSIZ)
       my_real RK, RE, R, YP0, XMU, AX, E, A, CMU, RPR, YPLUS, P, XMT
       my_real, DIMENSION(:) ,POINTER :: PH1,PH2,PH3
       TYPE(G_BUFEL_)  ,POINTER :: GBUF
+      INTEGER :: NEL !< number of elements in current group
+      INTEGER :: MID !< material identifier
+      my_real :: CP ! heat capacity at constant pressure
+      my_real :: rhocp !< density * heat capacity at constant pressure
 C-----------------------------------------------
 C   S o u r c e   L i n e s 
 C-----------------------------------------------
@@ -104,20 +111,20 @@ C-----------------------------------------------
 
         LFT=1
         NEL = IPARG(2, NG)
-
+c
         IF(N2D == 0)THEN
-          DO I=LFT,LLT
+          DO I=1,NEL
             MAT(I)=IXS(1,I+NFT)
           ENDDO
         ELSE
-          DO I=LFT,LLT
+          DO I=1,NEL
             MAT(I)=IXQ(1,I+NFT)
           ENDDO
         ENDIF
 
         ! thermal diffusivity (alpha) : alpha = k / rhocp   where k=A+B*T
         ! VAL2 is alpha*rhocp=k instead of alpha since scheme applied to E instead of T and dE = rhocp.dT
-        DO I=LFT,LLT
+        DO I=1,NEL
           J=I+NFT
           T(J) = GBUF%TEMP(I)
           IF(T(J) <= PM(80,MAT(I)))THEN
@@ -128,7 +135,7 @@ C-----------------------------------------------
         ENDDO
 
         IF (MTN == 17)THEN
-          DO I=LFT,LLT
+          DO I=1,NEL
            J=I+NFT
            RK = GBUF%RK(I)
            RE = GBUF%RE(I)
@@ -153,17 +160,17 @@ C-----------------------------------------------
      2                PM,       BUFMAT,   GBUF%RE,  NEL,
      3                NFT)
         ELSEIF (MTN == 51) THEN
-          NPH1 = (M51_N0PHAS)*LLT
-          NPH2 = (M51_N0PHAS + M51_NVPHAS)*LLT
-          NPH3 = (M51_N0PHAS + M51_NVPHAS*2)*LLT
+          NPH1 = (M51_N0PHAS)*NEL
+          NPH2 = (M51_N0PHAS + M51_NVPHAS)*NEL
+          NPH3 = (M51_N0PHAS + M51_NVPHAS*2)*NEL
           IADBUF = IPM(7,MAT(1))
-          PH1 =>ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(NPH1+1:NPH1+1+LLT)
-          PH2 =>ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(NPH2+1:NPH2+1+LLT)
-          PH3 =>ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(NPH3+1:NPH3+1+LLT)
+          PH1 =>ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(NPH1+1:NPH1+1+NEL)
+          PH2 =>ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(NPH2+1:NPH2+1+NEL)
+          PH3 =>ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(NPH3+1:NPH3+1+NEL)
           CALL M51TH( T(1+NFT),      PH1,           PH2,           PH3,
      2                BUFMAT(IADBUF),VAL2(1+NFT),   NEL)
         ELSEIF (JTUR /= 0.AND.MTN /= 11) THEN
-          DO I=LFT,LLT
+          DO I=1,NEL
             J=I+NFT
             RK = GBUF%RK(I)
             RE = GBUF%RE(I)
@@ -190,7 +197,9 @@ C------------------------------
         IF (MTN /= 11) CYCLE
         JTHE=IPARG(13,NG)
         IF (JTHE /= 1) CYCLE
+        LFT=1
         LLT=IPARG(2,NG)
+        NEL=IPARG(2,NG)
         NFT=IPARG(3,NG)
         IAD=IPARG(4,NG)
         LFT=1
@@ -217,21 +226,26 @@ C------------------------------
         IF (IPARG(8,NG) == 1)CYCLE
         IF (JTHE /= 1 .OR. ITY == 51)CYCLE
         LFT=1
-        NEL = IPARG(2, NG)
+        NEL=IPARG(2,NG)
+        MID=IPARG(18,NG)
+        rhocp = pm(69,mid)
+        if(rhocp == zero)then
+          rhocp = pm(89,mid)*matparam(MID)%eos%cp
+        end if
         IF (MTN == 51)THEN
-          DO I=LFT,LLT
+          DO I=1,NEL
             GBUF%TEMP(I) = ZERO
           ENDDO
           IF (N2D == 0) THEN                                            
-            CALL ADIFF3(GBUF%TEMP,T,FLUX(6*NFT+1),VAL2,ALE_CONNECT,GBUF%VOL)
+            CALL ADIFF3(GBUF%TEMP,T,FLUX(6*NFT+1),VAL2,ALE_CONNECT,GBUF%VOL,GBUF%TEMP,rhocp,NEL)
           ELSE                                                        
-            CALL ADIFF2(GBUF%TEMP,T,FLUX(4*NFT+1),VAL2,ALE_CONNECT,GBUF%VOL)
+            CALL ADIFF2(GBUF%TEMP,T,FLUX(4*NFT+1),VAL2,ALE_CONNECT,GBUF%VOL,GBUF%TEMP,rhocp,NEL)
           ENDIF                                                       
         ELSE
           IF (N2D == 0) THEN
-            CALL ADIFF3(GBUF%EINT,T,FLUX(6*NFT+1),VAL2,ALE_CONNECT,GBUF%VOL)
+            CALL ADIFF3(GBUF%EINT,T,FLUX(6*NFT+1),VAL2,ALE_CONNECT,GBUF%VOL,GBUF%TEMP,rhocp,NEL)
           ELSE
-            CALL ADIFF2(GBUF%EINT,T,FLUX(4*NFT+1),VAL2,ALE_CONNECT,GBUF%VOL)
+            CALL ADIFF2(GBUF%EINT,T,FLUX(4*NFT+1),VAL2,ALE_CONNECT,GBUF%VOL,GBUF%TEMP,rhocp,NEL)
           ENDIF
         ENDIF
       ENDDO!next NG
