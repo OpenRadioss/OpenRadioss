@@ -41,7 +41,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  IBCSLAG   ,IGEO      ,IPM       ,
      .                  IBFT      ,IBCV      ,IBFVEL    ,
      .                  IBCR      ,TABLE     ,NPC1      ,NPC       ,PLD      ,
-     .                  NOM_OPT   ,IBFFLUX   ,GLOB_THERM)  
+     .                  NOM_OPT   ,IBFFLUX   ,GLOB_THERM,NIMPVEL   ,NIMPDISP ,
+     .                  NIMPACC)  
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------C     
@@ -80,6 +81,7 @@ C-----------------------------------------------
      .        IPM(NPROPMI,NUMMAT), IGEO(NPROPGI,NUMGEO),IBCV(GLOB_THERM%NICONV,*),
      .        IBCR(GLOB_THERM%NIRADIA,*),IBFFLUX(GLOB_THERM%NITFLUX,*)
       INTEGER ,DIMENSION(NIFV,NFXVEL)  ,INTENT(INOUT) :: IBFVEL
+      INTEGER, INTENT(IN) :: NIMPVEL, NIMPDISP, NIMPACC
       INTEGER ,DIMENSION(GLOB_THERM%NIFT,GLOB_THERM%NFXTEMP) ,INTENT(INOUT) :: IBFT
       my_real PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO),SKEW(LSKEW,*), PLD(*),BUFMAT(*)
       TYPE(TTABLE) , DIMENSION(NTABLE) :: TABLE
@@ -1388,41 +1390,137 @@ C
      .              I1=IPRES(5,I))
  500  CONTINUE
 C
-C     6) FIXED VELOCITIES
+C     6) FIXED DISPLACEMENTS
 C
-      DO 540 I=1,NFXVEL
-        DO 520 J=1,NFUNCT
+
+      DO I=1,NIMPDISP
+        OK = 0
+        DO J=1,NFUNCT
           IF(IBFV(3,I) == NPC1(J)) THEN
             IBFV(3,I)=J
-            GOTO 540
-          ENDIF
- 520    CONTINUE
+            OK = 1
+            EXIT
+          END IF
+        END DO
+
+        IF (OK == 0) THEN
         CALL ANCMSG(MSGID=120,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO_BLIND_1,
-     .              C1='IMPOSED VELOCITIES',
+     .              C1='IMPOSED DISPLACEMENTS',
      .              I1=IBFV(3,I))
- 540  CONTINUE
+        END IF
+      END DO
 c
-      DO 560 I=1,NFXVEL
+      DO I=1,NIMPDISP
+        OK = 0
         DO J=1,NFUNCT
           IF (IBFV(15,I)== 0) THEN 
-            GOTO 560
+            OK = 1
+            EXIT
           ELSE    
             IF(IBFV(15,I) == NPC1(J)) THEN
               IBFV(15,I)=J
-              GOTO 560
+              OK = 1
+              EXIT
             ENDIF
           ENDIF
         END DO
+        IF (OK == 0) THEN
+          CALL ANCMSG(MSGID=120,
+     .                MSGTYPE=MSGERROR,
+     .                ANMODE=ANINFO_BLIND_1,
+     .                C1='IMPOSED DISPLACEMENTS',
+     .                I1=IBFV(3,I))
+        END IF
+      END DO
+C
+C     7) FIXED VELOCITIES
+C
+      DO I=1+NIMPDISP,NIMPVEL+NIMPDISP
+        OK = 0
+        DO J=1,NFUNCT
+          IF(IBFV(3,I) == NPC1(J)) THEN
+            IBFV(3,I)=J
+            OK = 1
+            EXIT
+          END IF
+        END DO
+        IF (OK == 0) THEN
+          CALL ANCMSG(MSGID=120,
+     .                MSGTYPE=MSGERROR,
+     .                ANMODE=ANINFO_BLIND_1,
+     .                C1='IMPOSED VELOCITIES',
+     .                I1=IBFV(3,I))
+        END IF
+      END DO
+c
+      DO I=1+NIMPDISP,NIMPVEL+NIMPDISP
+        OK = 0
+        DO J=1,NFUNCT
+          IF (IBFV(15,I)== 0) THEN 
+            OK = 1
+            EXIT
+          ELSE    
+            IF(IBFV(15,I) == NPC1(J)) THEN
+              IBFV(15,I)=J
+              OK = 1
+              EXIT
+            END IF
+          END IF
+        END DO
+        IF(OK == 0) THEN
         CALL ANCMSG(MSGID=120,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO_BLIND_1,
      .              C1='IMPOSED VELOCITIES',
      .              I1=IBFV(3,I))
- 560  CONTINUE
+        END IF
+      END DO
 C
+C     8) FIXED ACCELERATIONS
+C
+      DO I=1+NIMPVEL+NIMPDISP,NIMPACC+NIMPVEL+NIMPDISP
+        OK = 0
+        DO J=1,NFUNCT
+          IF(IBFV(3,I) == NPC1(J)) THEN
+            IBFV(3,I)=J
+            OK = 1
+            EXIT
+          END IF
+        END DO
 
+        IF (OK == 0) THEN
+        CALL ANCMSG(MSGID=120,
+     .              MSGTYPE=MSGERROR,
+     .              ANMODE=ANINFO_BLIND_1,
+     .              C1='IMPOSED ACCELERATIONS',
+     .              I1=IBFV(3,I))
+        END IF
+      END DO
+c
+      DO I=1+NIMPVEL+NIMPDISP,NIMPACC+NIMPVEL+NIMPDISP
+        OK = 0
+        DO J=1,NFUNCT
+          IF (IBFV(15,I)== 0) THEN 
+            OK = 1
+            EXIT
+          ELSE    
+            IF(IBFV(15,I) == NPC1(J)) THEN
+              IBFV(15,I)=J
+              OK = 1
+              EXIT
+            ENDIF
+          ENDIF
+        END DO
+        IF (OK == 0) THEN
+          CALL ANCMSG(MSGID=120,
+     .                MSGTYPE=MSGERROR,
+     .                ANMODE=ANINFO_BLIND_1,
+     .                C1='IMPOSED ACCELERATIONS',
+     .                I1=IBFV(3,I))
+        END IF
+      END DO
 C=======================================================================
 C
 C     (II) SKEW
@@ -1489,7 +1587,7 @@ c 745  CONTINUE
 
 
 C---------------------------
-C     6) FIXED temperatures
+C     9) FIXED temperatures
 C---------------------------
       DO 751 I=1,GLOB_THERM%NFXTEMP
         DO 750 J=1,NFUNCT
@@ -1505,7 +1603,7 @@ C---------------------------
      .              I1=IBFT(2,I))
  751  CONTINUE
 C------------------------------
-C     6) FIXED convective flux
+C     10 FIXED convective flux
 C------------------------------
       DO 753 I=1,GLOB_THERM%NUMCONV
         DO 752 J=1,NFUNCT
@@ -1521,7 +1619,7 @@ C------------------------------
      .              I1=IBCV(5,I))
  753  CONTINUE
 C-----------------------------
-C     6) FIXED radiative flux
+C     11) FIXED radiative flux
 C-----------------------------
       DO 755 I=1,GLOB_THERM%NUMRADIA
         DO 754 J=1,NFUNCT
@@ -1537,7 +1635,7 @@ C-----------------------------
      .              I1=IBCR(5,I))
  755  CONTINUE
 C---------------------------
-C     7) FIXED heat flux
+C     12) FIXED heat flux
 C---------------------------
       DO 757 I=1,GLOB_THERM%NFXFLUX
         DO 756 J=1,NFUNCT
