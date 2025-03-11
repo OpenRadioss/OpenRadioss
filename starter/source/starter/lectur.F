@@ -5501,7 +5501,8 @@ C------------------------------------------------------------------------
      .            IBCSLAG  ,IGEO     ,IPM      ,
      .            IBFTEMP  ,IBCV     ,IBFV      ,
      .            IBCR     ,TABLE    ,NPC1     ,NPC       ,TF                 ,
-     .            NOM_OPT(LNOPT1*INOM_OPT(3)+1),IBFFLUX   ,GLOB_THERM)
+     .            NOM_OPT(LNOPT1*INOM_OPT(3)+1),IBFFLUX   ,GLOB_THERM,NIMPVEL,NIMPDISP,
+     .            NIMPACC)
 C
 c------------------------------------------------------------------------
 c     Update & check parameters of material laws
