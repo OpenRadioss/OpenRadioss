@@ -355,7 +355,7 @@
           &iptx,ilayer,irot,dmg_flag,lf_dammx,nipar,&
           &igmat,ipgmat,nptt,ipt_all,npttot,nuvarv,ilaw,&
           &joff,siznul,ply_id,iseq,progressive_crack,&
-          &orth_damage,l_dmg,iprony,israte,nvartmp,inloc,idrape,vp
+          &orth_damage,l_dmg,iprony,israte,nvartmp,inloc,idrape,vp,jlag
           integer :: ij1,ij2,ij3,ij4,ij5
           integer :: ij(5),iflag(1)
           integer ,dimension(maxfunc) :: ifunc
@@ -424,7 +424,8 @@
           npg  = elbuf_str%nptr * elbuf_str%npts
           igtyp = igeo(11,pid(1))
           igmat = igeo(98,pid(1))
-          inloc = iparg(78)                     ! flag for non-local regularization
+          inloc = iparg(78)
+          jlag = iparg(14)                     ! flag for non-local regularization
           nsensor = sensors%nsensor
 !
           idrape = elbuf_str%idrape
@@ -1097,7 +1098,7 @@
                 &epspxx     ,epspyy    ,epspxy   ,epspyz   ,epspzx ,&
                 &lbuf%sigb(ij1),lbuf%sigb(ij2),lbuf%sigb(ij3),inloc  ,varnl(1,it),&
                 &vp         ,asrate    ,lbuf%off ,lbuf%epsd  ,&
-                &el_temp   ,fheat     )
+                &el_temp   ,fheat      ,jlag)
 !
               elseif (ilaw == 15) then
                 call sigeps15c(&

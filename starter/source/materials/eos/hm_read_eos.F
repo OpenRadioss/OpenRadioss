@@ -103,6 +103,7 @@ C-----------------------------------------------
       CHARACTER(LEN=NCHARKEY) :: KEY
       CHARACTER KEY2*32, EOS_key*32
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
+      INTEGER ISFLUID
 c--------------------------------------------------
 c     Routine reading EOS models :
       !------------------------------------!                
@@ -178,6 +179,8 @@ c
         MAT_PARAM(IMAT)%EOS%NUVAR = 0
         MAT_PARAM(IMAT)%EOS%NFUNC = 0
         MAT_PARAM(IMAT)%EOS%NTABLE = 0
+        MAT_PARAM(IMAT)%EOS%ISFLUID = 0
+        ISFLUID = 0
 
         WRITE(IOUT,1000) TRIM(TITR),IMIDEOS
         ! READ EOS
@@ -186,7 +189,7 @@ c
 c---
           CASE ('POLYNOMIAL')
             IEOS = 1     
-            CALL HM_READ_EOS_POLYNOMIAL(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)                                 
+            CALL HM_READ_EOS_POLYNOMIAL(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS,ISFLUID)
 c---
           CASE ('GRUNEISEN')
             IEOS = 2                          
@@ -206,11 +209,13 @@ c---
 c---
           CASE ('NOBLE-ABEL','NA')
             IEOS = 6  
-            CALL HM_READ_EOS_NOBLE_ABEL(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)                                    
+            CALL HM_READ_EOS_NOBLE_ABEL(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
+            ISFLUID = 1
 c---
           CASE ('IDEAL-GAS','IDEAL-GAS-VE')
             IEOS = 7      
             CALL HM_READ_EOS_IDEAL_GAS(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS,MAT_PARAM(IMAT))
+            ISFLUID = 1
 c---
           CASE ('MURNAGHAN')
             IEOS = 8                          
@@ -222,11 +227,13 @@ c---
 c---
           CASE ('STIFF-GAS','SG')
             IEOS = 10                          
-            CALL HM_READ_EOS_STIFFENED_GAS(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)                                    
+            CALL HM_READ_EOS_STIFFENED_GAS(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
+            ISFLUID = 1
 c---
           CASE ('LSZK')
             IEOS = 11                          
-            CALL HM_READ_EOS_LSZK(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)                                    
+            CALL HM_READ_EOS_LSZK(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
+            ISFLUID = 1
 c---
           CASE ('POWDER-BURN')
             IEOS = 12
@@ -239,11 +246,13 @@ c---
 c---
           CASE ('NASG')
             IEOS = 14                          
-            CALL HM_READ_EOS_NASG(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS) 
+            CALL HM_READ_EOS_NASG(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
+            ISFLUID = 1
 c---
           CASE ('IDEAL-GAS-VT')
             IEOS = 16     
-            CALL HM_READ_EOS_IDEAL_GAS_VT(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)                                
+            CALL HM_READ_EOS_IDEAL_GAS_VT(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
+            ISFLUID = 1
 c---
           CASE ('TABULATED')
             IEOS = 17     
@@ -270,6 +279,7 @@ c---
 
         IPM(4,IMAT) = IEOS
         MAT_PARAM(IMAT)%IEOS = IEOS
+        MAT_PARAM(IMAT)%EOS%ISFLUID = ISFLUID
 c--------------------------------------------------
       ENDDO      !  HM_NEOS
 c--------------------------------------------------

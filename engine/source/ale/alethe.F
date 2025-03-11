@@ -63,7 +63,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      A   IPM,        QMV,        ITAB,       ITABM1,
      B   LENQMV,     NV46,
      C   VOLN,       IAD_ELEM    ,GLOB_THERM   ,
-     D   FR_ELEM,    IXTG)
+     D   FR_ELEM,    IXTG        ,MATPARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -74,6 +74,7 @@ C-----------------------------------------------
       USE ALEMUSCL_MOD , only:ALEMUSCL_Param
       USE ALE_MOD
       use glob_therm_mod
+      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -104,6 +105,7 @@ C-----------------------------------------------
       TYPE(t_segvar) :: SEGVAR
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       type (glob_therm_) ,intent(inout)   :: glob_therm
+      TYPE(MATPARAM_STRUCT_),DIMENSION(NUMMAT),INTENT(IN) :: MATPARAM !< material buffer
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -139,12 +141,14 @@ C----------------------
         IF (GLOB_THERM%ITHERM /= 0) THEN
           IF(ITASK == 0) THEN
             !exchange : SPMD PHI+VAL2 in ATHERM
+
             CALL ATHERM(
-     1   IPARG,      PM,         ELBUF_TAB,  FLUX,
-     2   VAL2,       PHI,        ALE_CONNECT,IXS,
-     3   IXQ,        FV,         X,          BUFMAT,
-     4   TF,         NPF,        NERCVOIS,   NESDVOIS,
-     5   LERCVOIS,   LESDVOIS,   LENCOM,     IPM )
+     1                  IPARG,      PM,         ELBUF_TAB,  FLUX,
+     2                  VAL2,       PHI,        ALE_CONNECT,IXS,
+     3                  IXQ,        FV,         X,          BUFMAT,
+     4                  TF,         NPF,        NERCVOIS,   NESDVOIS,
+     5                  LERCVOIS,   LESDVOIS,   LENCOM,     IPM,
+     6                  MATPARAM)
           ENDIF
 C------------------------
           CALL MY_BARRIER
@@ -157,10 +161,12 @@ C------------------------
 C         SPMD exchange : PHI+VAL2
           CALL AKTURB(IPARG       ,ELBUF_TAB ,FLUX     ,VAL2     ,PHI         ,
      2                ALE_CONNECT ,IXS       ,IXQ      ,PM       ,ITASK       ,
-     3                NERCVOIS    ,NESDVOIS  ,LERCVOIS ,LESDVOIS ,LENCOM      )
+     3                NERCVOIS    ,NESDVOIS  ,LERCVOIS ,LESDVOIS ,LENCOM      ,
+     4                MATPARAM)
           CALL AETURB(IPARG       ,ELBUF_TAB ,FLUX     ,VAL2     ,PHI         ,
      2                ALE_CONNECT ,IXS       ,IXQ      ,PM       ,ITASK       ,
-     3                NERCVOIS    ,NESDVOIS  ,LERCVOIS ,LESDVOIS ,LENCOM      )
+     3                NERCVOIS    ,NESDVOIS  ,LERCVOIS ,LESDVOIS ,LENCOM      ,
+     4                MATPARAM)
           ENDIF
       ENDIF !(ITHERM+ITURB /= 0)
 
@@ -246,6 +252,13 @@ c---------specific to law81
      2                1       ,11       ,0       ,ITASK ,NERCVOIS   ,
      3                NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
      4                ITRIMAT ,IXS)
+        !------------------------------!
+        !     REZONING : TEMPERATURE   !
+        !------------------------------!
+          CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
+     2                1       ,12       ,1       ,ITASK ,NERCVOIS   ,
+     3                NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE      ,
+     4                ITRIMAT ,IXS)
 C-----------------------------
 C       MASS & ENERGY CONVECTION
 C-----------------------------
@@ -326,6 +339,14 @@ C----------------------
         !-----------------------------!
             CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT   ,
      2                  1       ,10      ,1        ,ITASK ,NERCVOIS,
+     3                  NESDVOIS,LERCVOIS,LESDVOIS,LENCOM ,BHOLE   ,
+     4                  ITRIMAT ,IXS)
+        !-----------------------------!
+        !     LAW51 REZONING :        !
+        !      TEMPERATURE            !
+        !-----------------------------!
+            CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT,
+     2                  1       ,12      ,1        ,ITASK ,NERCVOIS,
      3                  NESDVOIS,LERCVOIS,LESDVOIS,LENCOM ,BHOLE   ,
      4                  ITRIMAT ,IXS)
         !-----------------------------!
