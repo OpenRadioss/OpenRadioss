@@ -61,7 +61,7 @@ C=======================================================================
       SIZE  = FAILWAVE%SIZE
 c
       IF (IWAVE == 0) THEN
-        HEAD(:) = ZERO
+        HEAD(1:4) = 0
         CALL WRITE_I_C(HEAD,4)
         LEN_AM = LEN_AM + 4
 c

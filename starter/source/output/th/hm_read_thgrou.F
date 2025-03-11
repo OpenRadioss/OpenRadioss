@@ -338,10 +338,15 @@ C-----------------------------------------------
       ALLOCATE(VARS7(97200))
       VARS7(1:97200) = ' '
       ALLOCATE(VARSG2(19782))
+      VARSG2(1:19782) = ' '
       ALLOCATE(VARSG3(19782))
+      VARSG3(1:19782) = ' '
       ALLOCATE(VARS(NVARS))
+      VARS(1:NVARS) = ' '
       ALLOCATE(VARC(NVARC))
+      VARC(1:NVARC) = ' '
       ALLOCATE(VARSG(NVARSG))
+      VARSG(1:NVARSG) = ' '
 
       ! INTEGER Arrays - use MY_ALLOC
       CALL MY_ALLOC(IVARSG,18,NVARSG)
