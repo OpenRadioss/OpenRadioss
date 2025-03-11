@@ -226,5 +226,5 @@ C-------------------------------------
       RETURN
  300  FORMAT(/' BEAM ELEMENTS'/
      +        ' -------------'/
-     + '  LOC-EL  GLO-EL   MATER     GEOM   NODE1   NODE2   NODE3/VECTOR ')
+     + '      LOC-EL     GLO-EL      MATER       GEOM      NODE1      NODE2      NODE3/VECTOR')     
       END
