@@ -84,7 +84,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,JJ,NN,IVEL,IDIS,INOD,NODID,NOD,NOSKEW,NOFRAME,SENS_ID,
      .   OPTID,SYS_TYPE,UID,FCT_ID,SKEW_ID,FRAME_ID,GRN,IGS,LEN,
-     .   ILAGM,FGEO,ICOOR,IUNIT,FLAGUNIT,SUBID,NOSUB
+     .   ILAGM,FGEO,ICOOR,IUNIT,FLAGUNIT,SUBID,NOSUB,NN_FM(3)
       INTEGER ,DIMENSION(NFXVEL)   :: NODENUM
       INTEGER ,DIMENSION(3*NUMNOD) :: IKINE1
       my_real :: YSCALE,TSTART,TSTOP,XSCALE,FSCAL_T,FSCAL_V
@@ -112,6 +112,7 @@ C======================================================================|
       IS_AVAILABLE = .FALSE.
 c
       IKINE1(:) = 0
+      NN_FM(1:3)=0
 c--------------------------------------------------
 c     START browsing /IMPVEL options
 c--------------------------------------------------
@@ -214,6 +215,7 @@ c----
             JJ = JJ+1
             IF (FRAME_ID == ISKN(4,JJ)) THEN               
               NOFRAME = J+1                         
+              NN_FM(1:3) = ISKN(1:3,JJ) 
               EXIT                           
             ENDIF                                   
           ENDDO            
@@ -314,6 +316,16 @@ c
             WRITE (IOUT, 3000) NODID,NOSKEW,FRAME_ID,XYZ(1:LEN),FCT_ID,SENS_ID,
      .                         YSCALE,ONE/XSCALE,TSTART,TSTOP,ICOOR
 c
+c---------------
+c         check for N1,N2,N3 of frame not the imposed node
+c---------------
+            IF (INOD==NN_FM(1) .OR. INOD==NN_FM(2) .OR. INOD==NN_FM(3)) THEN
+              CALL ANCMSG(MSGID=3091, MSGTYPE=MSGERROR, ANMODE=ANINFO,
+     .                    I1=OPTID,
+     .                    C1=TITR,
+     .                    I2=NODID,
+     .                    I3=FRAME_ID)
+            END IF
 c
           ELSE  ! SKEW
             IF(XYZ(1:2) == XX)THEN

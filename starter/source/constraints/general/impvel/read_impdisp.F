@@ -84,7 +84,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IDISP,NN,NFVEL,IDIS,INOD,NODID,NOD,NOSKEW,NOFRAME,LEN,
      .   IUNIT,FLAGUNIT,SENS_ID,OPTID,UID,SKEW_ID,FCT_ID,GRN_ID,IGS,
-     .   IFGEO,ICOOR,ILAGM,SUBID,NOSUB
+     .   IFGEO,ICOOR,ILAGM,SUBID,NOSUB,SYS_TYPE,FRAME_ID,J,JJ,NN_FM(3)
       INTEGER ,DIMENSION(:),ALLOCATABLE :: NODENUM
       INTEGER ,DIMENSION(:),ALLOCATABLE :: IKINE1
       my_real :: YSCALE,TSTART,TSTOP,XSCALE,FSCAL_T,FSCAL_L
@@ -115,6 +115,7 @@ c
       IS_AVAILABLE = .FALSE.
 c
       IKINE1(:)= 0
+      NN_FM(1:3)= 0
 c--------------------------------------------------
 c     READ /IMPDISP cards
 c--------------------------------------------------
@@ -146,15 +147,20 @@ c
         IDIS     = 2
         LEN      = 1
         NOFRAME  = 0
+        SYS_TYPE = 1  ! skew = 1 ,frame =2
+        NOSKEW = 0
 c--------------------------------------------------
 c       READ STRING VALUES from /IMPDISP
 c--------------------------------------------------
+        CALL HM_GET_INTV('rad_system_input_type'   ,SYS_TYPE ,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV  ('curveid'       ,FCT_ID  ,IS_AVAILABLE,LSUBMODEL)  
         CALL HM_GET_STRING('rad_dir'       ,XYZ     ,ncharfield,IS_AVAILABLE) 
-        CALL HM_GET_INTV  ('inputsystem'   ,SKEW_ID ,IS_AVAILABLE,LSUBMODEL)
+!        CALL HM_GET_INTV  ('inputsystem'   ,SKEW_ID ,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV  ('rad_sensor_id' ,SENS_ID ,IS_AVAILABLE,LSUBMODEL)  
         CALL HM_GET_INTV  ('entityid'      ,GRN_ID  ,IS_AVAILABLE,LSUBMODEL)  
         CALL HM_GET_INTV  ('rad_icoor'     ,ICOOR   ,IS_AVAILABLE,LSUBMODEL)  
+        CALL HM_GET_INTV  ('skew_ID'       ,SKEW_ID  ,IS_AVAILABLE,LSUBMODEL)
+        CALL HM_GET_INTV  ('frame_ID'      ,FRAME_ID ,IS_AVAILABLE,LSUBMODEL)
 c
         CALL HM_GET_FLOATV('xscale'        ,XSCALE  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
         CALL HM_GET_FLOATV('magnitude'     ,YSCALE  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -186,21 +192,41 @@ c--------------------------------------------------
         IF ((SKEW_ID == 0).AND.(SUBID /= 0)) THEN
           SKEW_ID = LSUBMODEL(NOSUB)%SKEW
         ENDIF
+!        
+        IF ((SYS_TYPE == 0).OR.(SYS_TYPE == 1)) THEN
+          DO J=0,NUMSKW+MIN(1,NSPCOND)*NUMSPH+NSUBMOD
+            IF (SKEW_ID == ISKN(4,J+1)) THEN               
+              NOSKEW = J+1                         
+              EXIT                           
+            ENDIF                                   
+          ENDDO
+          IF (SKEW_ID > 0 .and. NOSKEW == 0)
+     .      CALL ANCMSG(MSGID=137,ANMODE=ANINFO,MSGTYPE=MSGERROR,
+     .                  I1= OPTID,
+     .                  I2= SKEW_ID,
+     .                  C1='IMPOSED DISPLACEMENT',
+     .                  C2='IMPOSED DISPLACEMENT',
+     .                  C3= TITR)
 c----
-        NOSKEW = 0
-        DO I=0,NUMSKW+MIN(1,NSPCOND)*NUMSPH+NSUBMOD
-          IF (SKEW_ID == ISKN(4,I+1)) THEN               
-            NOSKEW = I+1                         
-            EXIT                           
-          ENDIF                                   
-        ENDDO
-        IF (SKEW_ID > 0 .and. NOSKEW == 0)
-     .    CALL ANCMSG(MSGID=137,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .                I1= OPTID,
-     .                I2= NOSKEW,
-     .                C1='IMPOSED DISPLACEMENT',
-     .                C2='IMPOSED DISPLACEMENT',
-     .                C3= TITR)
+        ELSEIF (SYS_TYPE == 2) THEN
+          JJ = (NUMSKW+1) + MIN(1,NSPCOND)*NUMSPH+1 + NSUBMOD        
+          DO J=1,NUMFRAM                   
+            JJ = JJ+1
+            IF (FRAME_ID == ISKN(4,JJ)) THEN               
+              NOFRAME = J+1                         
+              NN_FM(1:3) = ISKN(1:3,JJ) 
+              EXIT                           
+            ENDIF                                   
+          ENDDO
+          IF (FRAME_ID > 0 .and. NOFRAME == 0)
+     .      CALL ANCMSG(MSGID=137,ANMODE=ANINFO,MSGTYPE=MSGERROR,
+     .                  I1= OPTID,
+     .                  I2= FRAME_ID,
+     .                  C1='IMPOSED DISPLACEMENT',
+     .                  C2='IMPOSED DISPLACEMENT',
+     .                  C3= TITR)
+        ENDIF
+c----
 c--------------------------------------------------
 c       Default scale factors
 c--------------------------------------------------
@@ -249,35 +275,73 @@ c
 c---------------
 c         TAG NODES WITH KINEMATIC CONDITIONS
 c---------------
-          IF(XYZ(1:2) == XX)THEN
-            IBFVEL(2,INUM) = 4 + NOSKEW*10
-            CALL KINSET(16,NODID,IKINE(INOD),4,NOSKEW,IKINE1(INOD))
-          ELSEIF(XYZ(1:2) == YY)THEN
-            IBFVEL(2,INUM) = 5 + NOSKEW*10
-            CALL KINSET(16,NODID,IKINE(INOD),5,NOSKEW,IKINE1(INOD))
-          ELSEIF(XYZ(1:2) == ZZ)THEN
-            IBFVEL(2,INUM) = 6 + NOSKEW*10
-            CALL KINSET(16,NODID,IKINE(INOD),6,NOSKEW,IKINE1(INOD))
-          ELSEIF (XYZ(1:1) == X)THEN
-            IBFVEL(2,INUM)=1 + NOSKEW*10
-            CALL KINSET(16,NODID,IKINE(INOD),1,NOSKEW,IKINE1(INOD))
-          ELSEIF(XYZ(1:1) == Y)THEN
-            IBFVEL(2,INUM) = 2 + NOSKEW*10
-            CALL KINSET(16,NODID,IKINE(INOD),2,NOSKEW,IKINE1(INOD))
-          ELSEIF(XYZ(1:1) == Z)THEN
-            IBFVEL(2,INUM) = 3 + NOSKEW*10
-            CALL KINSET(16,NODID,IKINE(INOD),3,NOSKEW,IKINE1(INOD))
-          ELSE
-             CALL ANCMSG(MSGID=164, MSGTYPE=MSGERROR, ANMODE=ANINFO,
-     .                  I1=OPTID,
-     .                  C1=TITR,
-     .                  C2=XYZ)
-          ENDIF
+          IF (NOFRAME > 0) THEN
+            IF(XYZ(1:2) == XX)THEN
+              IBFVEL(2,INUM) = 4
+              CALL KINSET(16,NODID,IKINE(INOD),4,NOFRAME,IKINE1(INOD))
+            ELSEIF(XYZ(1:2) == YY)THEN
+              IBFVEL(2,INUM) = 5
+              CALL KINSET(16,NODID,IKINE(INOD),5,NOFRAME,IKINE1(INOD))
+            ELSEIF(XYZ(1:2) == ZZ)THEN
+              IBFVEL(2,INUM) = 6
+              CALL KINSET(16,NODID,IKINE(INOD),6,NOFRAME,IKINE1(INOD))
+            ELSEIF (XYZ(1:1) == X)THEN
+              IBFVEL(2,INUM) = 1
+              CALL KINSET(16,NODID,IKINE(INOD),1,NOFRAME,IKINE1(INOD))
+            ELSEIF(XYZ(1:1) == Y)THEN
+              IBFVEL(2,INUM) = 2
+              CALL KINSET(16,NODID,IKINE(INOD),2,NOFRAME,IKINE1(INOD))
+            ELSEIF(XYZ(1:1) == Z)THEN
+              IBFVEL(2,INUM) = 3
+              CALL KINSET(16,NODID,IKINE(INOD),3,NOFRAME,IKINE1(INOD))
+            ELSE
+              CALL ANCMSG(MSGID=164, MSGTYPE=MSGERROR, ANMODE=ANINFO,
+     .                    I1=OPTID,
+     .                    C1=TITR,
+     .                    C2=XYZ)
+            ENDIF
+!
+            WRITE (IOUT, 3000) NODID,NOSKEW,FRAME_ID,XYZ(1:LEN),FCT_ID,SENS_ID,
+     .                         YSCALE,ONE/XSCALE,TSTART,TSTOP,ICOOR
 c---------------
-c         OUTPUT
+c         check for N1,N2,N3 of frame not the imposed node
 c---------------
-          WRITE (IOUT,2000) NODID,ISKN(4,NOSKEW),0,XYZ(1:LEN),FCT_ID,SENS_ID,
+            IF (INOD==NN_FM(1) .OR. INOD==NN_FM(2) .OR. INOD==NN_FM(3)) THEN
+              CALL ANCMSG(MSGID=3091, MSGTYPE=MSGERROR, ANMODE=ANINFO,
+     .                    I1=OPTID,
+     .                    C1=TITR,
+     .                    I2=NODID,
+     .                    I3=FRAME_ID)
+            END IF
+          ELSE  ! SKEW
+            IF(XYZ(1:2) == XX)THEN
+              IBFVEL(2,INUM) = 4 + NOSKEW*10
+              CALL KINSET(16,NODID,IKINE(INOD),4,NOSKEW,IKINE1(INOD))
+            ELSEIF(XYZ(1:2) == YY)THEN
+              IBFVEL(2,INUM) = 5 + NOSKEW*10
+              CALL KINSET(16,NODID,IKINE(INOD),5,NOSKEW,IKINE1(INOD))
+            ELSEIF(XYZ(1:2) == ZZ)THEN
+              IBFVEL(2,INUM) = 6 + NOSKEW*10
+              CALL KINSET(16,NODID,IKINE(INOD),6,NOSKEW,IKINE1(INOD))
+            ELSEIF (XYZ(1:1) == X)THEN
+              IBFVEL(2,INUM)=1 + NOSKEW*10
+              CALL KINSET(16,NODID,IKINE(INOD),1,NOSKEW,IKINE1(INOD))
+            ELSEIF(XYZ(1:1) == Y)THEN
+              IBFVEL(2,INUM) = 2 + NOSKEW*10
+              CALL KINSET(16,NODID,IKINE(INOD),2,NOSKEW,IKINE1(INOD))
+            ELSEIF(XYZ(1:1) == Z)THEN
+              IBFVEL(2,INUM) = 3 + NOSKEW*10
+              CALL KINSET(16,NODID,IKINE(INOD),3,NOSKEW,IKINE1(INOD))
+            ELSE
+               CALL ANCMSG(MSGID=164, MSGTYPE=MSGERROR, ANMODE=ANINFO,
+     .                    I1=OPTID,
+     .                    C1=TITR,
+     .                    C2=XYZ)
+            ENDIF
+!----------------
+            WRITE (IOUT,2000) NODID,ISKN(4,NOSKEW),0,XYZ(1:LEN),FCT_ID,SENS_ID,
      .       YSCALE,ONE/XSCALE,TSTART,TSTOP
+          ENDIF
 c-----------------------------------------------------------
 c
         ENDDO ! NN
@@ -296,6 +360,8 @@ c--------------------------------------------------
      .'            START_TIME                 STOP_TIME')
  2000 FORMAT(3X,I10,3X,I10,3X,I10,9X,A2,3X,I10,3X,I10,
      .       2X,1PG20.13,2X,1PG20.13,2X,G20.13,2X,G20.13)
+ 3000 FORMAT(3X,I10,3X,I10,3X,I10,9X,A2,3X,I10,3X,I10,
+     .       2X,1PG20.13,2X,1PG20.13,2X,G20.13,2X,G20.13,16X,I10)
 c--------------------------------------------------
       RETURN
       END
