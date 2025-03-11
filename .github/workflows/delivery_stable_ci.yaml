@@ -526,6 +526,7 @@ jobs:
 
             # Get some output converters from Tools repository
             jf rt download ${JF_OPTIONS} "${JF_TOOLS_OUTPUT_CONVERTERS}/${os}/*" todeliver/${os}/${{ env.OPENRADIOSS_MAINDIR_NAME }}/exec/ --flat=true
+            chmod 755 todeliver/${os}/${{ env.OPENRADIOSS_MAINDIR_NAME }}/exec/*
 
             cp -a hm_cfg_files todeliver/${os}/${{ env.OPENRADIOSS_MAINDIR_NAME }}/
 
