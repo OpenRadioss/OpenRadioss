@@ -489,6 +489,7 @@ C=======================================================================
 
       CALL MY_ALLOC(IS_WRITTEN_NODE,NUMNOD)
       CALL MY_ALLOC(IAD,SIAD)
+      IF(SIAD >0) IAD(1:SIAD) = -HUGE(IAD(1))
       CALL MY_ALLOC(INVERT,SINVERT)
       CALL MY_ALLOC(MATER,SMATER)
       CALL MY_ALLOC(EL2FA,SEL2FA)

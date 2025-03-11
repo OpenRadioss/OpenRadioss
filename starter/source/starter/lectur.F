@@ -2474,6 +2474,7 @@ C
       POIN_PART_SOL(1:2,1:NPART,1:7) = 0
 
       ALLOCATE(POIN_UMP(NUMMAT), STAT=stat)
+      POIN_UMP(1:NUMMAT) = 0
       ALLOCATE(TAB_UMP_LOC(5,NPART), STAT=stat)
       TAB_UMP_LOC(1:5,1:NPART) = 0
 C
@@ -8866,8 +8867,10 @@ C
 C
 C  NFRBYM = 28 (
 C  NIRBYM = 2
-         ALLOCATE(RBYM(NFRBYM*NRBYM),IRBYM(NRBYM*NIRBYM),
-     .                                         LNRBYM(NGSLNRBYM))
+         ALLOCATE(RBYM(NFRBYM*NRBYM),IRBYM(NRBYM*NIRBYM),LNRBYM(NGSLNRBYM))
+         RBYM = 0
+         IRBYM = 0
+         LNRBYM = 0
 C
          CALL RIGID_MAT(NRBYM   ,NGSLNRBYM ,SLNRBM, NSLNRBM ,RMSTIFN,
      .                  RMSTIFR ,X     ,V       ,MS      , IN       ,
