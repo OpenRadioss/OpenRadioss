@@ -27,9 +27,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    constant_mod   ../common_source/modules/constant_mod.F
       !||====================================================================
-      SUBROUTINE EOSPOLYNO(IFLAG,NEL,PM   ,OFF  ,EINT ,MU   ,MU2 , 
+      SUBROUTINE EOSPOLYNO(IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU   ,MU2 ,
      2                     ESPE ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
-     3                     PNEW ,DPDM ,DPDE ,THETA,ECOLD)
+     3                     PNEW ,DPDM ,DPDE )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -69,11 +69,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MAT(NEL), IFLAG, NEL
-      my_real PM(NPROPM,NUMMAT), 
-     .        OFF(NEL)  ,EINT(NEL) ,MU(NEL)   , 
-     .        MU2(NEL)  ,ESPE(NEL) ,DVOL(NEL) ,DF(NEL)  , 
+      my_real PM(NPROPM,NUMMAT),
+     .        OFF(NEL)  ,EINT(NEL) ,MU(NEL)   ,
+     .        MU2(NEL)  ,ESPE(NEL) ,DVOL(NEL) ,DF(NEL)  ,
      .        VNEW(NEL) ,PSH(NEL)  ,PNEW(NEL) ,DPDM(NEL),
-     .        DPDE(NEL) ,THETA(NEL),ECOLD(NEL)
+     .        DPDE(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -98,10 +98,6 @@ C-----------------------------------------------
           DPDM(I) = C1 + TWO*C2 *MAX(ZERO,MU(I))+THREE*C3 *MU(I)*MU(I) + C5 *ESPE(I)+(C4 +C5 *MU(I))*DF(I)*DF(I)*(PP+PSH(I) )
           DPDE(I) = C4 +C5 *MU(I)
         ENDDO
-        DO I=1,NEL
-          ECOLD(I)=-THREE100*SPH
-          IF(MU(I)>ZERO) ECOLD(I)=ECOLD(I)*(ONE+C4 *MU(I)*(ONE-MU(I)))+HALF*C1 *MU2(I)
-        ENDDO
 
       ELSEIF(IFLAG == 1) THEN
         MX  = MAT(1)
@@ -120,13 +116,7 @@ C-----------------------------------------------
           PNEW(I) = PNEW(I) + (AA+BB*(ESPE(I)-PSH(I) *DVV))/(ONE+BB*DVV)
           PNEW(I) = MAX(PNEW(I),PC )*OFF(I)
           EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I) )
-        ENDDO
-        MX     = MAT(1)
-        SPH    = PM(69,MX)
-        DO I=1,NEL
-          IF(OFF(I) < ONE .OR. SPH <= ZERO) CYCLE
-          THETA(I) = (DF(I)*EINT(I)/VNEW(I)-ECOLD(I))/SPH
-          THETA(I) = MAX(ZERO,THETA(I))
+          DPDE(I) = C4 +C5 *MU(I)
         ENDDO
 
       ELSEIF(IFLAG == 2) THEN

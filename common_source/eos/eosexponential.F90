@@ -50,7 +50,7 @@ module eosexponential_mod
       !||====================================================================
       subroutine eosexponential(iflag ,nel   ,pm   ,off  ,eint ,&
                                 dvol  ,vnew  ,mat  ,psh  ,      &
-                                pnew  ,dpdm  ,dpdE ,theta,time ,&
+                                pnew  ,dpdm  ,dpdE ,time ,&
                                 npropm,nummat)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -79,14 +79,13 @@ module eosexponential_mod
       my_real, intent(inout) :: pnew(nel)            !< pressure     
       my_real, intent(inout) :: dpdm(nel)            !< total derivative : mu = rho/rho0-1
       my_real, intent(inout) :: dpdE(nel)            !< partial derivative : E=rho0.e
-      my_real, intent(inout) :: theta(nel)           !< temperature
       my_real, intent(inout) :: psh(nel)             !< pressure shift
       my_real, intent(inout) :: eint(nel)            !< internal energy
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
       integer :: i, mx
-      my_real :: pp,p0,alpha
+      my_real :: p0,alpha
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -108,8 +107,8 @@ module eosexponential_mod
           pnew(i) = p0*exp(alpha*time)
           pnew(i) = pnew(i)*off(i)
           eint(i) = eint(i) - half*dvol(i)*(pnew(i)+psh(i))
+          dpdE(i) = zero
         enddo
-        theta(1:nel) = three100
 
       elseif(iflag == 2) then
         mx  = mat(1)

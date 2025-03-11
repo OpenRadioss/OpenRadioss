@@ -33,25 +33,26 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    glob_therm_mod   ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||====================================================================
       SUBROUTINE M2LAW(
-     1   PM,      OFF,     SIG,     EINT,
-     2   RHO,     QOLD,    EPXE,    EPSD,
-     3   VOL,     STIFN,   DT2T,    NELTST,
-     4   ITYPTST, OFFG,    GEO,     PID,
-     5   AMU,     VOL_AVG, MUMAX,   MAT,
-     6   NGL,     SSP,     DVOL,    AIRE,
-     7   VNEW,    VD2,     DELTAX,  VIS,
-     8   D1,      D2,      D3,      D4,
-     9   D5,      D6,      PNEW,    PSH,
-     A   QNEW,    SSP_EQ,  SOLD1,   SOLD2,
-     B   SOLD3,   SOLD4,   SOLD5,   SOLD6,
-     C   SIGY,    DEFP,    DPLA,
-     D   EPSP,    TSTAR,   ETSE,    MSSA,
-     E   DMELS,   TEMPEL,  SIGBAK,  AL_IMP,
-     F   SIGNOR,  CONDE,   DTEL,    G_DT,
-     G   NEL,     IPM,     RHOREF,  RHOSP,
-     H   IPG,     DMG,     ITY,     JTUR,
-     I   JTHE,    JSPH,    ISMSTR,  JSMS,
-     J   PLAP,    NPG ,    IEOS  ,  DPDM ,    FHEAT ,   glob_therm)
+     1   PM,      OFF,        SIG,     EINT,
+     2   RHO,     QOLD,       EPXE,    EPSD,
+     3   VOL,     STIFN,      DT2T,    NELTST,
+     4   ITYPTST, OFFG,       GEO,     PID,
+     5   AMU,     VOL_AVG,    MUMAX,   MAT,
+     6   NGL,     SSP,        DVOL,    AIRE,
+     7   VNEW,    VD2,        DELTAX,  VIS,
+     8   D1,      D2,         D3,      D4,
+     9   D5,      D6,         PNEW,    PSH,
+     A   QNEW,    SSP_EQ,     SOLD1,   SOLD2,
+     B   SOLD3,   SOLD4,      SOLD5,   SOLD6,
+     C   SIGY,    DEFP,       DPLA,
+     D   EPSP,    TSTAR,      ETSE,    MSSA,
+     E   DMELS,   TEMPEL,     SIGBAK,  AL_IMP,
+     F   SIGNOR,  CONDE,      DTEL,    G_DT,
+     G   NEL,     IPM,        RHOREF,  RHOSP,
+     H   IPG,     DMG,        ITY,     JTUR,
+     I   JTHE,    JSPH,       ISMSTR,  JSMS,
+     J   PLAP,    NPG ,       IEOS  ,  DPDM ,
+     K   FHEAT,   glob_therm, JLAG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -83,49 +84,45 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: JTHE
       INTEGER, INTENT(IN) :: JSPH
       INTEGER, INTENT(IN) :: IEOS
+      INTEGER, INTENT(IN) :: JLAG
 C
       INTEGER NELTST,ITYPTST,PID(NEL),G_DT,NEL,IPG
       INTEGER MAT(NEL),NGL(NEL), IPM(NPROPMI,*)
       my_real, DIMENSION(NEL) ,INTENT(INOUT) :: PLAP
       my_real :: DT2T
-C
-      my_real
-     .   PM(NPROPM,*), OFF(NEL), SIG(NEL,6), EINT(NEL), RHO(NEL), QOLD(NEL),
-     .   EPXE(NEL), EPSD(NEL), VOL(NEL), STIFN(NEL), OFFG(NEL),GEO(NPROPG,*),
-     .   MUMAX(NEL),AMU(NEL),VOL_AVG(NEL)
-      my_real
-     .   VNEW(NEL), VD2(NEL), DELTAX(NEL), SSP(NEL), AIRE(NEL), VIS(NEL), 
-     .   PSH(NEL), PNEW(NEL),QNEW(NEL) ,SSP_EQ(NEL), DVOL(NEL), 
-     .   D1(NEL), D2(NEL), D3(NEL), D4(NEL), D5(NEL), D6(NEL), 
-     .   SOLD1(MVSIZ), SOLD2(MVSIZ), SOLD3(MVSIZ),
-     .   SOLD4(MVSIZ), SOLD5(MVSIZ), SOLD6(MVSIZ),
-     .   TSTAR(MVSIZ), DPLA(MVSIZ), EPSP(MVSIZ), DMG(NEL)
+      my_real PM(NPROPM,*), OFF(NEL), SIG(NEL,6), EINT(NEL), RHO(NEL), QOLD(NEL),
+     .        EPXE(NEL), EPSD(NEL), VOL(NEL), STIFN(NEL), OFFG(NEL),GEO(NPROPG,*),
+     .        MUMAX(NEL),AMU(NEL),VOL_AVG(NEL)
+      my_real VNEW(NEL), VD2(NEL), DELTAX(NEL), SSP(NEL), AIRE(NEL), VIS(NEL),
+     .        PSH(NEL), PNEW(NEL),QNEW(NEL) ,SSP_EQ(NEL), DVOL(NEL),
+     .        D1(NEL), D2(NEL), D3(NEL), D4(NEL), D5(NEL), D6(NEL),
+     .        SOLD1(MVSIZ), SOLD2(MVSIZ), SOLD3(MVSIZ),
+     .        SOLD4(MVSIZ), SOLD5(MVSIZ), SOLD6(MVSIZ),
+     .        TSTAR(MVSIZ), DPLA(MVSIZ), EPSP(MVSIZ), DMG(NEL)
       my_real, DIMENSION(MVSIZ) ,INTENT(IN) :: DPDM
-      my_real, DIMENSION(MVSIZ) ,INTENT(INOUT) :: FHEAT
-C
-      my_real
-     .   SIGY(NEL) ,DEFP(NEL),ETSE(NEL), MSSA(NEL), DMELS(NEL), TEMPEL(NEL),
-     .   SIGBAK(NEL,6),AL_IMP(NEL),SIGNOR(MVSIZ,6),CONDE(NEL),DTEL(NEL),
-     .   RHOREF(NEL)  ,RHOSP(NEL)  
+      my_real, DIMENSION(NEL) ,INTENT(INOUT) :: FHEAT ! Heat due to plastic work for Heat Equation with lagrangian framework
+      my_real SIGY(NEL) ,DEFP(NEL),ETSE(NEL), MSSA(NEL), DMELS(NEL), TEMPEL(NEL),
+     .        SIGBAK(NEL,6),AL_IMP(NEL),SIGNOR(MVSIZ,6),CONDE(NEL),DTEL(NEL),
+     .        RHOREF(NEL)  ,RHOSP(NEL)
       type (glob_therm_) ,intent(inout) :: glob_therm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I, J, ICC,IRTY,ISRATE,VP,IDEV,MX,IBID,IKFLG,NINDX
       INTEGER :: INDX(NEL)
-      my_real
-     .   RHO0, PLAP1,POLD,PSHIFT,BULK,P, EPMX,CC,CN,EPDR, CMX, 
-     .   Z3,Z4,RHOCPI,T_REF,T_MELT,ASRATE,
-     .   E1, E2, E3, E4, E5,E6, EINC, G0,G1,G2,G3,G3H,
-     .   SCALE, BID1, BID2, BID3, DTA,MT,
-     .   DSXX,DSYY,DSZZ,DSXY,DSYZ,DSZX,ALPHA,HKIN,
-     .   FACQ0,FISOKIN,BETA,VM,VM_1,NORM_1,CA0,CB,SIGM0
-      my_real
-     .   EPD(MVSIZ),G(MVSIZ), AK(MVSIZ),PC(MVSIZ), QH(MVSIZ), 
-     .   AJ2(MVSIZ), DAV(MVSIZ),CA(MVSIZ),SIGMX(MVSIZ),
-     .   SIGEXX(MVSIZ),SIGEYY(MVSIZ),SIGEZZ(MVSIZ),
-     .   SIGEXY(MVSIZ),SIGEYZ(MVSIZ),SIGEZX(MVSIZ)
+      my_real RHO0, PLAP1,POLD,PSHIFT,BULK,P, EPMX,CC,CN,EPDR, CMX,
+     .        Z3,Z4,RHOCP,RHOCPI,T_REF,T_MELT,ASRATE,
+     .        E1, E2, E3, E4, E5,E6, EINC, G0,G1,G2,G3,G3H,
+     .        SCALE, BID1, BID2, BID3, DTA,MT,
+     .        DSXX,DSYY,DSZZ,DSXY,DSYZ,DSZX,ALPHA,HKIN,
+     .        FACQ0,FISOKIN,BETA,VM,VM_1,NORM_1,CA0,CB,SIGM0
+      my_real EPD(MVSIZ),G(MVSIZ), AK(MVSIZ),PC(MVSIZ), QH(MVSIZ),
+     .        AJ2(MVSIZ), DAV(MVSIZ),CA(MVSIZ),SIGMX(MVSIZ),
+     .        SIGEXX(MVSIZ),SIGEYY(MVSIZ),SIGEZZ(MVSIZ),
+     .        SIGEXY(MVSIZ),SIGEYZ(MVSIZ),SIGEZX(MVSIZ)
       my_real, DIMENSION(MVSIZ) :: BIDMVSIZ
+C-----------------------------------------------
+C   B o d y
 C-----------------------------------------------
       FACQ0   = ONE
 C
@@ -155,8 +152,8 @@ C
         T_REF   = PM(54,MX)
         Z4      = PM(52,MX)
       ELSE                       ! Johnson-Cook
-        RHOCPI = PM(69,MX) 
-        IF (RHOCPI > ZERO) RHOCPI = ONE / RHOCPI
+        RHOCP = PM(69,MX)
+        IF (RHOCP > ZERO) RHOCPI = ONE / RHOCP
         T_REF  = PM(79,MX)
         T_MELT = PM(80,MX)
       END IF
@@ -537,16 +534,21 @@ c .....   Parameter alpha of consistent matrix
           PLAP(I) = ASRATE * PLAP1 + (ONE - ASRATE) * PLAP(I)
         ENDDO
       ENDIF
-!---------------------------------------------------------
-!     calculate thermal load due to plastic work
-!---------------------------------------------------------
-      IF (JTHE == 0 .and. RHOCPI > ZERO) THEN  ! update temperature in adiabatic conditions
-        DO I=1,NEL       
-          TEMPEL(I) = TEMPEL(I) + SIGY(I)*DPLA(I) * RHOCPI
-        ENDDO
-      ELSE IF (JTHE < 0) THEN  ! cumulate thermal load due to plastic work for /heat/mat
-        DO I=1,NEL       
+C----------------------------------------------
+C     TEMPERATURE (Heating due to plastic work)
+C----------------------------------------------
+      IF (JTHE < 0 .AND. JLAG /= 0) THEN
+        DO I=1,NEL
           FHEAT(I) = FHEAT(I) + SIGY(I)*DPLA(I)*VOL(I)
+        ENDDO
+      ELSEIF(RHOCP > ZERO)THEN
+        DO I=1,NEL
+          TEMPEL(I) = TEMPEL(I) + SIGY(I)*DPLA(I) / RHOCP
+          ! temperature and internal energy must be incremented consistantly
+          ! internal energy is incremented later in parent subroutine (mmain)
+          ! with total energy deformation which already includes plastic work
+          !   Edef = 0.5 * VOL * sum ( sig.eps_dot , i=1..6)
+          !   so internal energy and temperature remain consistant
         ENDDO
       END IF
 !---------------------------------------------------------

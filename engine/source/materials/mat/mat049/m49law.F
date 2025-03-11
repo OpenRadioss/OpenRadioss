@@ -29,7 +29,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                  THETA  ,EPD    ,CXX    ,DF     ,D1   ,
      3                  D2     ,D3     ,D4     ,D5     ,D6   ,
      4                  RHO0   ,DPDM   ,SIGY   ,DEFP   ,DPLA ,
-     5                  ESPE   ,ECOLD  ,NEL    )  
+     5                  ESPE   ,ECOLD  ,NEL    ,JLAG   ,JTHE ,
+     6                  FHEAT  ,VOL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -47,43 +48,43 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MAT(MVSIZ),NEL
-C     REAL
-      my_real
-     .   PM(NPROPM,*),OFF(MVSIZ) ,SIG(NEL,6),EPXE(MVSIZ),
-     .   THETA(MVSIZ),EPD(MVSIZ) ,CXX(MVSIZ)  ,DF(MVSIZ)  , D1(MVSIZ)  ,
-     .   D2(MVSIZ)   ,D3(MVSIZ)  ,D4(MVSIZ)   ,D5(MVSIZ)  , D6(MVSIZ)  , 
-     .   RHO0(MVSIZ) ,DPDM(MVSIZ),SIGY(MVSIZ) ,DEFP(MVSIZ), DPLA(MVSIZ),
-     .   ESPE(MVSIZ) ,ECOLD(MVSIZ)
+      INTEGER, INTENT(IN) :: JLAG !< flag for lagrangian framework
+      INTEGER, INTENT(IN) :: JTHE !< flag for heat equation
+      my_real PM(NPROPM,*),OFF(MVSIZ) ,SIG(NEL,6),EPXE(MVSIZ),
+     .        THETA(MVSIZ),EPD(MVSIZ) ,CXX(MVSIZ)  ,DF(MVSIZ)  , D1(MVSIZ)  ,
+     .        D2(MVSIZ)   ,D3(MVSIZ)  ,D4(MVSIZ)   ,D5(MVSIZ)  , D6(MVSIZ)  ,
+     .        RHO0(MVSIZ) ,DPDM(MVSIZ),SIGY(MVSIZ) ,DEFP(MVSIZ), DPLA(MVSIZ),
+     .        ESPE(MVSIZ) ,ECOLD(MVSIZ)
+      my_real, DIMENSION(NEL) ,INTENT(INOUT) :: FHEAT ! Heat due to plastic work for Heat Equation with lagrangian framework
+      my_real, DIMENSION(NEL) ,INTENT(IN) :: VOL ! Element Volume
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX,ITB, K, J, IFRAC(MVSIZ),IQUAD(MVSIZ), 
-     .       IQUADI, IFLAGR(MVSIZ), NBE
-C     REAL
-      my_real
-C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-     .   G(MVSIZ)  ,G0   ,G1(MVSIZ)    ,G2(MVSIZ)   ,SIG0,   
-     .   CB ,CN   ,CB1   ,CB2  ,CH  ,
-     .   CF ,EPMX ,SIGMX ,SPH  ,T0  ,
-     .   P(MVSIZ)  ,DAV(MVSIZ)  ,TMELT ,EMELT(MVSIZ),QH(MVSIZ)  , 
-     .   QD(MVSIZ) ,AJ2(MVSIZ)  ,SCALE(MVSIZ) ,YLD(MVSIZ) 
-      my_real
-     .    QA, QB, QC, QE
-C======================================================================|
-      MX      =MAT(1)
-      G0   =PM(22,MX)
-      SIG0 =PM(38,MX)
-      CB   =PM(39,MX)
-      CN   =PM(40,MX)
-      EPMX =PM(41,MX)
-      SIGMX=PM(42,MX)
-      CB1  =PM(43,MX)
-      CB2  =PM(44,MX)
-      CH   =PM(45,MX)
-      SPH  =PM(69,MX)
-      CF   =PM(77,MX)
-      T0   =PM(78,MX)
-      TMELT=PM(46,MX)
+      INTEGER I, MX,ITB, K, J, IFRAC(MVSIZ),IQUAD(MVSIZ), IQUADI, IFLAGR(MVSIZ), NBE
+      my_real G(MVSIZ)  ,G0   ,G1(MVSIZ)    ,G2(MVSIZ)   ,SIG0,
+     .        CB ,CN   ,CB1   ,CB2  ,CH  ,
+     .        CF ,EPMX ,SIGMX ,SPH  ,T0  ,
+     .        P(MVSIZ)  ,DAV(MVSIZ)  ,TMELT ,EMELT(MVSIZ),QH(MVSIZ)  ,
+     .        QD(MVSIZ) ,AJ2(MVSIZ)  ,SCALE(MVSIZ) ,YLD(MVSIZ)
+      my_real QA, QB, QC, QE, RHOCP
+C-----------------------------------------------
+C   B o d y
+C-----------------------------------------------
+      MX   = MAT(1)
+      G0   = PM(22,MX)
+      SIG0 = PM(38,MX)
+      CB   = PM(39,MX)
+      CN   = PM(40,MX)
+      EPMX = PM(41,MX)
+      SIGMX= PM(42,MX)
+      CB1  = PM(43,MX)
+      CB2  = PM(44,MX)
+      CH   = PM(45,MX)
+      SPH  = PM(69,MX)
+      CF   = PM(77,MX)
+      T0   = PM(78,MX)
+      TMELT= PM(46,MX)
+      RHOCP= PM(69,MX)
 C
       DO I=1,NEL
         P(I)  =-(SIG(I,1)+SIG(I,2)+SIG(I,3))*THIRD
@@ -134,10 +135,8 @@ C---     dP/dRHO
       ENDDO
 C
       DO I=1,NEL
-        EPD(I)=OFF(I)*MAX(ABS(D1(I)),   ABS(D2(I)),   ABS(D3(I)),
-     .      HALF*ABS(D4(I)),HALF*ABS(D5(I)),HALF*ABS(D6(I)))
-        AJ2(I)=HALF*(SIG(I,1)**2+SIG(I,2)**2+SIG(I,3)**2)
-     .                +SIG(I,4)**2+SIG(I,5)**2+SIG(I,6)**2
+        EPD(I)=OFF(I)*MAX(ABS(D1(I)), ABS(D2(I)), ABS(D3(I)), HALF*ABS(D4(I)),HALF*ABS(D5(I)),HALF*ABS(D6(I)))
+        AJ2(I)=HALF*(SIG(I,1)**2+SIG(I,2)**2+SIG(I,3)**2)+SIG(I,4)**2+SIG(I,5)**2+SIG(I,6)**2
         AJ2(I)=SQRT(THREE*AJ2(I))
       ENDDO
 C---
@@ -152,11 +151,9 @@ C---      Melting
         ELSE
 C---      Hardening rule
           IF(CN>=1) THEN
-            QH(I)= QD(I)*SIG0*CB*CN
-     .           * ((ONE + CB*EPXE(I))**(CN-ONE))
+            QH(I)= QD(I)*SIG0*CB*CN * ((ONE + CB*EPXE(I))**(CN-ONE))
           ELSEIF(EPXE(I)>ZERO)THEN
-            QH(I)= QD(I)*SIG0*CB*CN
-     .           / ((ONE + CB*EPXE(I))**(ONE-CN))
+            QH(I)= QD(I)*SIG0*CB*CN / ((ONE + CB*EPXE(I))**(ONE-CN))
           ELSE
             QH(I)=ZERO
           ENDIF
@@ -190,6 +187,25 @@ C
        SIGY(I)=YLD(I)
        DEFP(I)=EPXE(I)
       ENDDO
-C 
+
+C----------------------------------------------
+C     TEMPERATURE (Heating due to plastic work)
+C----------------------------------------------
+      IF (JTHE /= 0 .AND. JLAG /= 0) THEN
+        DO I=1,NEL
+          FHEAT(I) = FHEAT(I) + SIGY(I)*DPLA(I)*VOL(I)
+        ENDDO
+      ELSEIF(RHOCP > ZERO)THEN
+        DO I=1,NEL
+          THETA(I) = THETA(I) + SIGY(I)*DPLA(I) / RHOCP
+          ! temperature and internal energy must be incremented consistantly
+          ! internal energy is incremented later in parent subroutine (mmain)
+          ! with total energy deformation which already includes plastic work
+          !   Edef = 0.5 * VOL * sum ( sig.eps_dot , i=1..6)
+          !   so internal energy and temperature remain consistant
+        ENDDO
+      END IF
+
+
       RETURN
       END

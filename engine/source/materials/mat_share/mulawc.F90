@@ -361,7 +361,7 @@
           &iptx,ilayer,irot,dmg_flag,lf_dammx,nipar,&
           &igmat,ipgmat,nptt,ipt_all,npttot,nuvarv,ilaw,&
           &joff,siznul,ply_id,iseq,progressive_crack,&
-          &orth_damage,l_dmg,iprony,israte,nvartmp,inloc,idrape,vp,nvar_damp,flag_incr
+          &orth_damage,l_dmg,iprony,israte,nvartmp,inloc,idrape,vp,nvar_damp,flag_incr,jlag
           integer :: ij1,ij2,ij3,ij4,ij5
           integer :: ij(5),iflag(1)
           integer :: l_sigb
@@ -431,7 +431,8 @@
           npg  = elbuf_str%nptr * elbuf_str%npts
           igtyp = igeo(11,pid(1))
           igmat = igeo(98,pid(1))
-          inloc = iparg(78)                     ! flag for non-local regularization
+          inloc = iparg(78)
+          jlag = iparg(14)                     ! flag for non-local regularization
           nsensor = sensors%nsensor
 !
           idrape = elbuf_str%idrape
@@ -758,14 +759,14 @@
                 signxy(1:mvsiz) = zero
                 signyz(1:mvsiz) = zero
                 signzx(1:mvsiz) = zero
-              endif  
+              endif
               if (ilaw == 58 .or. ilaw == 158 .or. ilaw==127 .or. idamp_freq_range > 0) then
                 sigvxx(1:mvsiz) = zero
                 sigvyy(1:mvsiz) = zero
                 sigvxy(1:mvsiz) = zero
                 sigvyz(1:mvsiz) = zero
                 sigvzx(1:mvsiz) = zero
-              endif  
+              endif
 !       -------------------------------
 !       igtyp = 1
 !       -------------------------------
@@ -1108,7 +1109,7 @@
                 &epspxx     ,epspyy    ,epspxy   ,epspyz   ,epspzx ,&
                 &lbuf%sigb(ij1),lbuf%sigb(ij2),lbuf%sigb(ij3),inloc  ,varnl(1,it),&
                 &vp         ,asrate    ,lbuf%off ,lbuf%epsd  ,&
-                &el_temp   ,fheat     )
+                &el_temp   ,fheat      ,jlag)
 !
               elseif (ilaw == 15) then
                 call sigeps15c(&
@@ -1889,9 +1890,9 @@
 !
 !  visco elastic model (prony) + damp_freq_range
 !
-              nvar_damp = 0 
-              if (idamp_freq_range > 0) nvar_damp = 21  
-!              
+              nvar_damp = 0
+              if (idamp_freq_range > 0) nvar_damp = 21
+!
               if (matparam%ivisc == 1 .and. ilaw /= 25) then
                 nprony = matparam%visc%iparam(1)
                 kv     = matparam%visc%uparam(1)
@@ -1909,15 +1910,15 @@
                 &sigvxx ,sigvyy ,sigvxy  ,sigvyz  ,sigvzx ,&
                 &ssp,uvarv   ,off,nvar_damp)
                 deallocate(gv,beta)
-              endif  
+              endif
 !
-              if ((idamp_freq_range > 0) .and. ilaw /= 25) then 
+              if ((idamp_freq_range > 0) .and. ilaw /= 25) then
                 flag_incr = 0
                 call damping_range_shell(damp_buf,nel     ,nuvarv  ,nvar_damp,dt1      ,           &
                                          rho     ,ssp     ,matparam%young,matparam%shear,          &
                                          epspxx  ,epspyy  ,epspxy  ,epspyz  ,epspzx    ,           &
                                          sigvxx  ,sigvyy  ,sigvxy  ,sigvyz  ,sigvzx    ,           &
-                                         uvarv   ,off     ,etse     ,flag_incr)    
+                                         uvarv   ,off     ,etse     ,flag_incr)
               endif
 !-------------------------------------------
               do i=jft,jlt
@@ -2542,7 +2543,7 @@
                     for(1:nel,5) = for(1:nel,5) + thkly(jpos:jpos+nel-1)*(signzx(1:nel)+sigvzx(1:nel))
                     mom(1:nel,1) = mom(1:nel,1) + wmc(1:nel)*(signxx(1:nel)+sigvxx(1:nel))
                     mom(1:nel,2) = mom(1:nel,2) + wmc(1:nel)*(signyy(1:nel)+sigvyy(1:nel))
-                    mom(1:nel,3) = mom(1:nel,3) + wmc(1:nel)*(signxy(1:nel)+sigvxy(1:nel))    
+                    mom(1:nel,3) = mom(1:nel,3) + wmc(1:nel)*(signxy(1:nel)+sigvxy(1:nel))
                   else
                     for(1:nel,1) = for(1:nel,1) + thkly(jpos:jpos+nel-1)*signxx(1:nel)
                     for(1:nel,2) = for(1:nel,2) + thkly(jpos:jpos+nel-1)*signyy(1:nel)
@@ -2704,7 +2705,7 @@
                   mom(i,3) = mom(i,3) + wmc(i) *tens(i,3)
                 enddo
 !
-              endif   ! igtyp    
+              endif   ! igtyp
 !-----------------------------------------------
 !         facteurs pour coques b.l. (zeng&combescure)
 !-----------------------------------------------

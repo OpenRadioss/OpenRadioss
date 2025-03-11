@@ -38,13 +38,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE AKTURB(
      1  IPARG       ,ELBUF_TAB ,FLUX     ,VAL2     ,XK     ,
      2  ALE_CONNECT ,IXS       ,IXQ      ,PM       ,ITASK  ,
-     3  NERCVOIS    ,NESDVOIS  ,LERCVOIS ,LESDVOIS ,LENCOM)
+     3  NERCVOIS    ,NESDVOIS  ,LERCVOIS ,LESDVOIS ,LENCOM ,
+     4  MATPARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
       USE ELBUFDEF_MOD            
       USE ALE_CONNECTIVITY_MOD
+      USE MATPARAM_DEF_MOD, ONLY : MATPARAM_STRUCT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,11 +68,12 @@ C-----------------------------------------------
       my_real FLUX(*), VAL2(*), XK(*), PM(NPROPM,NUMMAT)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
+      TYPE(MATPARAM_STRUCT_),DIMENSION(NUMMAT),INTENT(IN) :: MATPARAM !< material buffer
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NG, I, J, MT, ITASK
-      my_real RK, RE, R, XMT      
+      INTEGER NG, I, J, MT, ITASK, NEL, MID
+      my_real RK, RE, R, XMT, CP, rhocp
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -159,10 +162,16 @@ c
         IF (MTN == 17)        CYCLE
         IF (IPARG(8,NG) == 1) CYCLE
         LFT=1
+        NEL=IPARG(2,NG)
+        MID=IPARG(18,NG)
+        rhocp = pm(69,mid)
+        if(rhocp == zero)then
+          rhocp = pm(89,mid)*matparam(MID)%eos%cp
+        end if
         IF(N2D == 0)THEN
-         CALL ADIFF3(GBUF%RK,XK,FLUX(6*NFT+1),VAL2,ALE_CONNECT,GBUF%VOL)
+         CALL ADIFF3(GBUF%RK,XK,FLUX(6*NFT+1),VAL2,ALE_CONNECT,GBUF%VOL,GBUF%TEMP,RHOCP,NEL)
         ELSE
-         CALL ADIFF2(GBUF%RK,XK,FLUX(4*NFT+1),VAL2,ALE_CONNECT,GBUF%VOL)
+         CALL ADIFF2(GBUF%RK,XK,FLUX(4*NFT+1),VAL2,ALE_CONNECT,GBUF%VOL,GBUF%TEMP,RHOCP,NEL)
         ENDIF
       ENDDO
 C

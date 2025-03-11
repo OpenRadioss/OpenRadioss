@@ -116,9 +116,9 @@ C=======================================================================
 C=======================================================================
 C     CARD 1 : Surfaces ids
 C=======================================================================
-      ! Main surface
+      ! Lagrangian surface
       CALL HM_GET_INTV('surf_IDA', ISU1, IS_AVAILABLE, LSUBMODEL)
-      ! Secnd surface
+      ! ALE surface
       CALL HM_GET_INTV('surf_IDL', ISU2, IS_AVAILABLE, LSUBMODEL)
       ! Checks
       IS1=1
@@ -175,28 +175,28 @@ C
       WRITE(IOUT,1509) IBUC,IPARI(14),STFAC,FRIC,GAP,VISC,STENS
 C
       IF(IS1==0)THEN
-        WRITE(IOUT,'(6X,A)')'NO SECONDARY SURFACE INPUT'
+        WRITE(IOUT,'(6X,A)')'NO ALE SURFACE INPUT'
       ELSEIF(IS1==1)THEN
-        WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY SEGMENTS'
+        WRITE(IOUT,'(6X,A)')'ALE SURFACE INPUT BY SEGMENTS'
       ELSEIF(IS1==2)THEN
-        WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY NODES'
+        WRITE(IOUT,'(6X,A)')'ALE SURFACE INPUT BY NODES'
       ELSEIF(IS1==3)THEN
-        WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY SEGMENTS'
+        WRITE(IOUT,'(6X,A)')'ALE SURFACE INPUT BY SEGMENTS'
       ELSEIF(IS1==4 )THEN
-        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
+        WRITE(IOUT,'(6X,A)')'ALE SIDE INPUT BY BRICKS'
       ELSEIF(IS1==5 )THEN
-        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
+        WRITE(IOUT,'(6X,A)')'ALE SIDE INPUT BY SOLID ELEMENTS'
       ENDIF
       IF(IS2==0)THEN
-        WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'
+        WRITE(IOUT,'(6X,A)')'NO LAGRANGIAN SURFACE INPUT'
       ELSEIF(IS2==1)THEN
-        WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY SEGMENTS'
+        WRITE(IOUT,'(6X,A)')'LAGRANGIAN SURFACE INPUT BY SEGMENTS'
       ELSEIF(IS2==2)THEN
-        WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY NODES'
+        WRITE(IOUT,'(6X,A)')'LAGRANGIAN SURFACE INPUT BY NODES'
       ELSEIF(IS2==3)THEN
-        WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY SEGMENTS'
+        WRITE(IOUT,'(6X,A)')'LAGRANGIAN SURFACE INPUT BY SEGMENTS'
       ELSEIF(IS2==4)THEN
-        WRITE(IOUT,'(6X,A)')'MAIN SURFACE REFERS ',
+        WRITE(IOUT,'(6X,A)')'LAGRANGIAN SURFACE REFERS ',
      .                      'TO HYPER-ELLIPSOIDAL SURFACE'
       ENDIF
 C

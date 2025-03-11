@@ -25,10 +25,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    eosmain     ../common_source/eos/eosmain.F
       !||====================================================================
-      SUBROUTINE TABULATED(IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2 , 
+      SUBROUTINE TABULATED(IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU  ,
      2                     ESPE ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
-     3                     PNEW ,DPDM ,DPDE ,THETA,ECOLD, 
-     4                     NPF  ,TF  )
+     3                     PNEW ,DPDM ,DPDE ,
+     4                     NPF  ,TF)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -75,15 +75,15 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: MAT(NEL), IFLAG, NEL,NPF(SNPC)
       my_real, INTENT(INOUT) :: PM(NPROPM,NUMMAT), 
      .   OFF(NEL)  ,EINT(NEL) ,MU(NEL)   , 
-     .   MU2(NEL)  ,ESPE(NEL) ,DVOL(NEL) ,DF(NEL)  , 
+     .   ESPE(NEL) ,DVOL(NEL) ,DF(NEL)  ,
      .   VNEW(NEL) ,PNEW(NEL) ,DPDM(NEL),
-     .   DPDE(NEL) ,THETA(NEL),ECOLD(NEL),
+     .   DPDE(NEL) ,
      .   PSH(NEL), TF(STF)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX
-      my_real :: P0,GAMMA,T0,E0,SPH,AA, BB, DVV, PP, Cv, RHO, RHO0
+      my_real :: E0,AA,BB,DVV,PP
       my_real :: XSCALE_A,XSCALE_B,FSCALE_A,FSCALE_B
       INTEGER :: A_fun_id, B_fun_id
       my_real :: RES_A(NEL),RES_B(NEL),DERI_A(NEL),DERI_B(NEL),PC
@@ -92,52 +92,48 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       IF(IFLAG == 0) THEN
-        MX = MAT(1)
-        E0 = PM(23,MX)
-        PSH(1:NEL) = PM(88,MX)
-        SPH = PM(69,MX)
-        XSCALE_A = PM(33,MX)
-        XSCALE_B = PM(34,MX)
-        A_fun_id = PM(35,MX)
-        B_fun_id = PM(36,MX)
-        PC  = PM( 37,MX)
-        FSCALE_A = PM(160,MX)
-        FSCALE_B = PM(161,MX)
-        ! both A_fun_id & B_fun_id cannot be 0. This is ensured by the reader during the Starter process
-        IF(A_fun_id == 0)THEN
-          DO I=1,NEL
-            RES_A(I) = ZERO
-            DERI_A(I) = ZERO
-            RES_B(I) = FSCALE_B*FINTER(B_fun_id,MU(I),NPF,TF,DERI_B(I))
-          ENDDO
-        ELSEIF(B_fun_id == 0)THEN
-          DO I=1,NEL
-            RES_A(I) = FSCALE_A*FINTER(A_fun_id,MU(I),NPF,TF,DERI_A(I))
-            RES_B(I) = ZERO
-            DERI_B(I) = ZERO
-          ENDDO
-        ELSE
-          DO I=1,NEL
-            RES_A(I) = FSCALE_A*FINTER(A_fun_id,MU(I),NPF,TF,DERI_A(I))
-            RES_B(I) = FSCALE_B*FINTER(B_fun_id,MU(I),NPF,TF,DERI_B(I))
-          ENDDO
-        ENDIF
-        DO I=1,NEL
-          PP      = RES_A(I) + RES_B(I) * ESPE(I) - PSH(I) ! A(MU(I))+B(MU(I))*ESPE(I)
-          DPDM(I) = DERI_A(I)+DERI_B(I)*ESPE(I) + RES_B(I)*(PP+PSH(I))/( (ONE+MU(I))*(ONE+MU(I)) ) ! A'(MU0) + B'(MU0)*E0+B(MU0)/(ONE+MU0)/(ONE+MU0)*P0     !total derivative
-          DPDE(I) = RES_B(I) ! B(MU(I))                                               !partial derivative
-        ENDDO
-        DO I=1,NEL
-          ECOLD(I)=-THREE100*SPH
-          IF(MU(I)>ZERO) ECOLD(I)=ECOLD(I)*ONE
-        ENDDO
+         MX = MAT(1)
+         E0 = PM(23,MX)         
+         PSH(1:NEL) = PM(88,MX)
+         XSCALE_A = PM(33,MX)
+         XSCALE_B = PM(34,MX)
+         A_fun_id = PM(35,MX)
+         B_fun_id = PM(36,MX)
+         PC  = PM( 37,MX)          
+         FSCALE_A = PM(160,MX)
+         FSCALE_B = PM(161,MX)
+         
+         ! both A_fun_id & B_fun_id cannot be 0. This is ensured by the reader during the Starter process
+         IF(A_fun_id == 0)THEN
+           DO I=1,NEL
+             RES_A(I) = ZERO
+             DERI_A(I) = ZERO
+             RES_B(I) = FSCALE_B*FINTER(B_fun_id,MU(I),NPF,TF,DERI_B(I))
+           ENDDO
+         ELSEIF(B_fun_id == 0)THEN
+           DO I=1,NEL
+             RES_A(I) = FSCALE_A*FINTER(A_fun_id,MU(I),NPF,TF,DERI_A(I))
+             RES_B(I) = ZERO
+             DERI_B(I) = ZERO             
+           ENDDO         
+         ELSE
+           DO I=1,NEL        
+             RES_A(I) = FSCALE_A*FINTER(A_fun_id,MU(I),NPF,TF,DERI_A(I))
+             RES_B(I) = FSCALE_B*FINTER(B_fun_id,MU(I),NPF,TF,DERI_B(I))
+           ENDDO
+         ENDIF
+         
+         DO I=1,NEL
+           PP      = RES_A(I) + RES_B(I) * ESPE(I) - PSH(I) ! A(MU(I))+B(MU(I))*ESPE(I)
+           DPDM(I) = DERI_A(I)+DERI_B(I)*ESPE(I) + RES_B(I)*(PP+PSH(I))/( (ONE+MU(I))*(ONE+MU(I)) ) ! A'(MU0) + B'(MU0)*E0+B(MU0)/(ONE+MU0)/(ONE+MU0)*P0     !total derivative
+           DPDE(I) = RES_B(I) ! B(MU(I))                                               !partial derivative
+         ENDDO
 
 C-----------------------------------------------
       ELSEIF(IFLAG == 1) THEN
         MX = MAT(1)
         E0 = PM(23,MX)
         PSH(1:NEL) = PM(88,MX)
-        SPH = PM(69,MX)
         XSCALE_A = PM(33,MX)
         XSCALE_B = PM(34,MX)
         A_fun_id = PM(35,MX)
@@ -165,23 +161,12 @@ C-----------------------------------------------
         DO I=1,NEL
           AA      = RES_A(I)
           BB      = RES_B(I)
+          DPDE(I) = BB
           DVV     = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
           PP      = AA + BB * ESPE(I)
           PNEW(I) = (AA+BB*(ESPE(I)-PSH(I)*DVV))/(ONE+BB*DVV)
           PNEW(I) = MAX(PNEW(I),PC )*OFF(I)
           EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I) )
-        ENDDO
-        MX   = MAT(1)
-        RHO0 = PM(1 ,MX)
-        SPH  = PM(69,MX)
-        Cv   = PM(36,MX)
-        IF(SPH == ZERO)SPH=ONE
-        DO I=1,NEL
-          RHO      = RHO0*(ONE+MU(I))
-          IF(OFF(I) >= ONE)THEN
-            THETA(I) = (DF(I)*EINT(I)/VNEW(I)-ECOLD(I))/SPH
-            THETA(I) = MAX(ZERO,THETA(I))
-          ENDIF
         ENDDO
 
 C-----------------------------------------------
@@ -189,7 +174,6 @@ C-----------------------------------------------
          MX = MAT(1)
          E0 = PM(23,MX)         
          PSH(1:NEL) = PM(88,MX)
-         SPH = PM(69,MX)
          XSCALE_A = PM(33,MX)
          XSCALE_B = PM(34,MX)
          A_fun_id = PM(35,MX)

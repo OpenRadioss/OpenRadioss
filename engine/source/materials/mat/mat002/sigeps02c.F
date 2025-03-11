@@ -40,7 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      A                  EPSPXX   ,EPSPYY   ,EPSPXY   ,EPSPYZ   ,EPSPZX   ,
      B                  SIGBAKXX ,SIGBAKYY ,SIGBAKXY ,INLOC    ,DPLANL   ,
      C                  VP       ,ASRATE   ,LOFF     ,EPSD     ,
-     D                  TEMPEL   ,FHEAT    )
+     D                  TEMPEL   ,FHEAT    ,JLAG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,27 +60,23 @@ C-----------------------------------------------
       INTEGER JFT,JLT,IPLA,NEL,IOFC,JTHE,IPT,NPTT,IMAT,ISRATE
       INTEGER NGL(MVSIZ),IOFF_DUCT(*),INLOC
       INTEGER, INTENT(IN) :: VP
+      INTEGER,INTENT(IN) :: JLAG
       my_real ,DIMENSION(NEL),INTENT(IN) :: EPSPXX,EPSPYY,EPSPXY,EPSPYZ,EPSPZX
       my_real ,INTENT(IN) :: ASRATE
       my_real, DIMENSION(NEL), INTENT(IN) :: LOFF
-!---
-C     REAL
-      my_real
-     .   PM(NPROPM,*),EINT(NEL,2),
-     .   OFF(*),SIGY(*),DT1C(*),VOL(*),GS(*),THK(*),
-     .   TSTAR(*),DPLA(*),SIGKSI(MVSIZ,5),ETSE(MVSIZ),
-     .   DEPSXX(MVSIZ),DEPSYY(MVSIZ),DEPSXY(MVSIZ),DEPSYZ(MVSIZ),
-     .   DEPSZX(MVSIZ),PLA(NEL),
-     .   SIGBAKXX(NEL),SIGBAKYY(NEL),SIGBAKXY(NEL),
-     .   SIGOXX(NEL),SIGOYY(NEL),SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL),
-     .   OFF_OLD(MVSIZ),THKLYL(NEL),DPLANL(NEL)
+      my_real PM(NPROPM,*),EINT(NEL,2),
+     .        OFF(*),SIGY(*),DT1C(*),VOL(*),GS(*),THK(*),
+     .        TSTAR(*),DPLA(*),SIGKSI(MVSIZ,5),ETSE(MVSIZ),
+     .        DEPSXX(MVSIZ),DEPSYY(MVSIZ),DEPSXY(MVSIZ),DEPSYZ(MVSIZ),
+     .        DEPSZX(MVSIZ),PLA(NEL),
+     .        SIGBAKXX(NEL),SIGBAKYY(NEL),SIGBAKXY(NEL),
+     .        SIGOXX(NEL),SIGOYY(NEL),SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL),
+     .        OFF_OLD(MVSIZ),THKLYL(NEL),DPLANL(NEL)
 !
-      my_real
-     .   SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),
-     .   SIGNYZ(NEL),SIGNZX(NEL),EPCHK(MVSIZ),G_IMP(MVSIZ)
+      my_real SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),
+     .        SIGNYZ(NEL),SIGNZX(NEL),EPCHK(MVSIZ),G_IMP(MVSIZ)
 !
-      my_real
-     .   HARDM(MVSIZ),EPSPDT(MVSIZ),EZZ(MVSIZ)
+      my_real HARDM(MVSIZ),EPSPDT(MVSIZ),EZZ(MVSIZ)
       my_real, DIMENSION(NEL)  , INTENT(INOUT) :: TEMPEL
       my_real, DIMENSION(NEL)  , INTENT(INOUT) :: FHEAT
       my_real, DIMENSION(NEL)  , INTENT(INOUT) :: EPSD
@@ -88,14 +84,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ICC,IRTY,I,J,NPIF
-C     REAL
-      my_real
-     .   EPMX,CA,CB,CN,CP,CC,
-     .   DAV,DEVE1,DEVE2,DEVE3,DEVE4,Z3,Z4,FISOKIN,
-     .   EPIF,YOUNG,TI,TM,G,A11,A12,NU,
-     .   YMAX(MVSIZ),PLAP(MVSIZ),
-     .   EPDR(MVSIZ),YLD(MVSIZ),EPSDOT(MVSIZ),
-     .   T(MVSIZ),RHOCP,TREF,TMELT
+      my_real EPMX,CA,CB,CN,CP,CC,
+     .        DAV,DEVE1,DEVE2,DEVE3,DEVE4,Z3,Z4,FISOKIN,
+     .        EPIF,YOUNG,TI,TM,G,A11,A12,NU,
+     .        YMAX(MVSIZ),PLAP(MVSIZ),
+     .        EPDR(MVSIZ),YLD(MVSIZ),EPSDOT(MVSIZ),
+     .        T(MVSIZ),RHOCP,TREF,TMELT
 !=======================================================================
       ! Variable initialization
       EZZ(1:MVSIZ) = ZERO
@@ -228,18 +222,19 @@ c------------------------------------
         ENDIF
         THK(I) = THK(I) + EZZ(I) * THKLYL(I)*OFF(I)
       ENDDO
-!---------------------------------------------------------
-!     calculate temperature or thermal load due to plastic work
-!---------------------------------------------------------
-      IF (JTHE == 0 .and. RHOCP > ZERO) THEN  ! update temperature in adiabatic conditions
-        IF (IRTY /= 1) THEN                   ! Johnson-Cook only
-          DO I=1,NEL       
-            TEMPEL(I) = TEMPEL(I) + SIGY(I)*DPLA(I) / RHOCP
-          ENDDO
-        END IF
-      ELSE                                    ! cumulate thermal load due to plastic work for /heat/mat
-        DO I=1,NEL       
+C-----------------
+C     TEMPERATURE
+C-----------------
+      IF (JTHE /= 0 .AND. JLAG /= 0) THEN
+        ! heat increment due to plastic work for /heat/mat
+        DO I=1,NEL
           FHEAT(I) = FHEAT(I) + SIGY(I)*DPLA(I)*VOL(I)
+        ENDDO
+      ELSEIF(RHOCP > ZERO)THEN
+        DO I=1,NEL
+          TEMPEL(I) = TEMPEL(I) + SIGY(I)*DPLA(I) / RHOCP
+          ! internal energy incremented later in parent subroutine (mmain)
+          !  with total energy deformation which already includes plastic work
         ENDDO
       END IF
 c-----------

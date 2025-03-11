@@ -25,9 +25,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    eosmain     ../common_source/eos/eosmain.F
       !||====================================================================
-      SUBROUTINE EOSLINEAR(IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU   ,MU2  ,
+      SUBROUTINE EOSLINEAR(IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU   ,
      2                     DVOL ,VNEW ,MAT  ,PSH  ,PNEW ,DPDM ,
-     3                     DPDE ,ECOLD)
+     3                     DPDE )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -60,8 +60,8 @@ C-----------------------------------------------
       INTEGER MAT(NEL), IFLAG, NEL
       my_real PM(NPROPM,NUMMAT), 
      .        OFF(NEL) ,EINT(NEL) ,MU(NEL)   , 
-     .        MU2(NEL) ,DVOL(NEL) ,VNEW(NEL),
-     .        PNEW(NEL),DPDM(NEL) ,DPDE(NEL) ,ECOLD(NEL)
+     .        DVOL(NEL) ,VNEW(NEL),
+     .        PNEW(NEL),DPDM(NEL) ,DPDE(NEL)
       my_real,INTENT(INOUT) :: PSH(NEL)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -74,7 +74,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX
-      my_real BULK(NEL),PC(NEL),SPH(NEL),C0(NEL)
+      my_real BULK(NEL),PC(NEL),C0(NEL)
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -83,7 +83,6 @@ C-----------------------------------------------
         DO I=1,NEL
           MX = MAT(I)
           BULK(I) = PM(32,MX)
-          SPH(I) = PM(69,MX)
           C0(I) = PM(104,MX)
           PC(I) = PM(37,MX)
           PSH(I) = PM(88,MX)
@@ -94,12 +93,6 @@ C-----------------------------------------------
           PNEW(I) = C0(I)+BULK(I)*MU(I)
           PNEW(I) = MAX(PC(I)-PSH(I),PNEW(I))        !law10 : yield criteria depends on P
           PNEW(I) = PNEW(I)*OFF(I)
-        ENDDO
-        DO I=1,NEL
-          ECOLD(I)=-THREE100*SPH(I)
-          IF(MU(I) > ZERO) THEN
-            ECOLD(I)=ECOLD(I)+HALF*BULK(I)*MU2(I)
-          ENDIF
         ENDDO
 
       ELSEIF(IFLAG == 1) THEN
@@ -115,19 +108,16 @@ C-----------------------------------------------
           PNEW(I) = MAX(PNEW(I),PC(I)-PSH(I))
           PNEW(I) = PNEW(I)*OFF(I)
           EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
+          DPDE(I) = ZERO
         ENDDO
-        DO I=1,NEL
-          MX     = MAT(I)
-          SPH(I) = PM(69,MX)
-          PSH(I) = PM(88,MX)
-        ENDDO
+
 
       ELSEIF (IFLAG == 2) THEN
         DO I=1, NEL                                
            MX = MAT(I)  
            C0(I) = PM(104,MX)                                    
-           BULK(I) = PM(32,MX)                       
-           PC(I) = PM(37,MX)                       
+           BULK(I) = PM(32,MX)
+           PC(I) = PM(37,MX)
            PSH(I) = PM(88,MX)                       
         ENDDO                                      
         DO I=1, NEL                                
