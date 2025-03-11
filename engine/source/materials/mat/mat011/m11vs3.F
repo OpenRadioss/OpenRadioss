@@ -144,7 +144,9 @@ C-----------------------------------------------
               RKV(I) = GBUF%RK(IS+1)
               REV(I) = GBUF%RE(IS+1)
             ENDIF
-            TV(I) = GBUF%TEMP(IS+1)
+            IF (GBUF%G_TEMP > 0) THEN
+              TV(I) = GBUF%TEMP(IS+1)  ! The adjacent cell must have an allocated temperature; otherwise, TV is set to T0 as initialized.
+            END IF
             !MOMENTUM
             IF(ALEFVM_Param%IEnabled==1)THEN
             !USE INPUT VALUE, NOT THIS!

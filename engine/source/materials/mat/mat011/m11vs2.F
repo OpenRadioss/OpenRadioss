@@ -144,7 +144,9 @@ C-----------------------------------------------
               REV(I) = GBUF%RE(IS+1)
               VIS(I)=VIS(I)+PM(81,MV)*RKV(I)**2/REV(I)
             ENDIF
-            TV(I)  = GBUF%TEMP(IS+1)
+            IF (GBUF%G_TEMP > 0) THEN
+              TV(I) = GBUF%TEMP(IS+1)  ! The adjacent cell must have an allocated temperature; otherwise, TV is set to T0 as initialized.
+            END IF
             !MOMENTUM
             IF(ALEFVM_Param%IEnabled == 1)THEN          
               IS       = IVOI-MFT
