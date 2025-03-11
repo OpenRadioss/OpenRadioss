@@ -34,7 +34,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    submodel_mod              ../starter/share/modules1/submodel_mod.F
       !||====================================================================
        SUBROUTINE HM_READ_FAIL_ORTHSTRAIN(
-     .            FAIL     ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
+     .            FAIL     ,FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   ,
+     .            FAIL_TAG )
 C-----------------------------------------------
 c    ROUTINE DESCRIPTION :
 c    Read orthotropic strain  failure model parameters
@@ -45,6 +46,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
+      USE ELBUFTAG_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,6 +63,7 @@ C-----------------------------------------------
       TYPE(UNIT_TYPE_)   ,INTENT(IN) :: UNITAB        ! table of input units
       TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)  ! submodel table
       TYPE(FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL       ! failure model data structure
+      TYPE(FAIL_TAG_)    ,INTENT(INOUT) :: FAIL_TAG   ! failure model data structure
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -187,17 +190,33 @@ c-----------------------------------------------------
       FAIL%FAIL_ID = FAIL_ID 
       FAIL%NUPARAM = 28
       FAIL%NIPARAM = 0
-      FAIL%NUVAR   = 32
+      FAIL%NUVAR   = 13
       FAIL%NFUNC   = NFUNC
       FAIL%NTABLE  = 0
-      FAIL%NMOD    = 0
+      FAIL%NMOD    = 12
       FAIL%PTHK    = PTHKF
 c            
       ALLOCATE (FAIL%UPARAM(FAIL%NUPARAM))
       ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
       ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
       ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
-      
+      ALLOCATE (FAIL%MODE  (FAIL%NMOD))
+c
+      ! Modes of failure
+      FAIL_TAG%LF_DAMMX = FAIL_TAG%LF_DAMMX + FAIL%NMOD
+      FAIL%MODE(1)  = "Failure traction XX"
+      FAIL%MODE(2)  = "Failure traction YY"
+      FAIL%MODE(3)  = "Failure positive shear XY"
+      FAIL%MODE(4)  = "Failure compression XX"
+      FAIL%MODE(5)  = "Failure compression YY"
+      FAIL%MODE(6)  = "Failure negative shear XY"
+      FAIL%MODE(7)  = "Failure traction ZZ"
+      FAIL%MODE(8)  = "Failure compression ZZ"
+      FAIL%MODE(9)  = "Failure positive shear YZ"
+      FAIL%MODE(10) = "Failure negative shear YZ"
+      FAIL%MODE(11) = "Failure positive shear ZX"
+      FAIL%MODE(12) = "Failure negative shear ZX"
+c
       FAIL%IFUNC(1:NFUNC) = IFUNC(1:NFUNC)
 c
       FAIL%UPARAM(1)  = IDAM    

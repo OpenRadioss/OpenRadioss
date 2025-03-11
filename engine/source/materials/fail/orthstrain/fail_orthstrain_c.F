@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3     TIME     ,TIMESTEP ,IPG      ,ILAY     ,IPT      ,   
      4     EPSXX    ,EPSYY    ,EPSXY    ,DMG_FLAG ,DMG_SCALE,
      5     EPSPXX   ,EPSPYY   ,EPSPXY   ,ALDT     ,ISMSTR   ,
-     6     SIGNXX   ,SIGNYY   ,SIGNXY   ,
+     6     SIGNXX   ,SIGNYY   ,SIGNXY   ,LF_DAMMX ,
      7     OFF      ,OFFLY    ,FOFF     ,DFMAX    ,TDEL     )
 C-----------------------------------------------
 C    Orthotropic strain failure model
@@ -85,6 +85,7 @@ C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NEL,NUPARAM,NUVAR,IPG,ILAY,IPT,ISMSTR
+      INTEGER ,INTENT(IN) :: LF_DAMMX
       INTEGER ,DIMENSION(NEL) ,INTENT(IN) :: NGL
       my_real ,INTENT(IN) :: TIME,TIMESTEP
       my_real ,DIMENSION(NEL) ,INTENT(IN) :: OFF,EPSXX,EPSYY,EPSXY,
@@ -96,7 +97,8 @@ C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(OUT) :: DMG_FLAG
       INTEGER ,DIMENSION(NEL) ,INTENT(INOUT) :: OFFLY,FOFF
-      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: DFMAX,SIGNXX,SIGNYY,SIGNXY
+      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: SIGNXX,SIGNYY,SIGNXY
+      my_real ,DIMENSION(NEL,LF_DAMMX), INTENT(INOUT) :: DFMAX
       my_real ,DIMENSION(NEL) ,INTENT(OUT)   :: TDEL,DMG_SCALE
       my_real ,DIMENSION(NEL,NUVAR) ,INTENT(INOUT) :: UVAR
 C-----------------------------------------------
@@ -119,7 +121,7 @@ C-----------------------------------------------
       INTEGER I,J,NINDX,FAILI,MODE,XX,XY,YY,IFUNC_SIZ,STRDEF,STRFLAG
       INTEGER ,DIMENSION(NEL)   :: INDX,IPOSP,IADP,ILENP
       INTEGER ,DIMENSION(NEL,6) :: FMODE
-      my_real DAM(NEL,6),ODAM(NEL,6),EPSP(NEL,6),
+      my_real ODAM(NEL,6),EPSP(NEL,6),
      .  SIGOXX(NEL),SIGOYY(NEL),SIGOXY(NEL),ESCAL(NEL),DYDXE(NEL)
       my_real DYDX,FRATE,ET1,ET2,ET12,EC1,EC2,EC12,ET3,EC3,EC23,ET23,EC31,
      .  ET31,ET1M,ET2M,ET12M,EC1M,EC2M,EC12M,ET3M,EC3M,EC23M,ET23M,EC31M,
@@ -232,18 +234,18 @@ c
       END SELECT 
 c----------------------------------------------
 c     Element size scale factor
-      FSIZE => UVAR(1:NEL,32)
+      FSIZE => UVAR(1:NEL,13)
 c
       IF (FSIZE(1)==ZERO) THEN
         IF (IFUNC_SIZ > 0) THEN
-                  ESCAL(1:NEL) = ALDT(1:NEL) / REF_SIZ
+          ESCAL(1:NEL) = ALDT(1:NEL) / REF_SIZ
           IPOSP(1:NEL) = 0
           IADP (1:NEL) = NPF(IFUNC_SIZ) / 2 + 1
           ILENP(1:NEL) = NPF(IFUNC_SIZ  + 1) / 2 - IADP(1:NEL)
           CALL VINTER2(TF,IADP,IPOSP,ILENP,NEL,ESCAL,DYDXE,FSIZE)
           FSIZE(1:NEL) = FSCALE_SIZ * FSIZE(1:NEL)
         ELSE
-                  FSIZE(1:NEL) = ONE
+          FSIZE(1:NEL) = ONE
         ENDIF
       ENDIF
 c
@@ -253,15 +255,14 @@ c
 c     variable initialisation, current time
       DO  J=1 ,6
         DO I=1, NEL
-          DAM(I,J)  = UVAR(I,J)
-          ODAM(I,J) = MIN(DAM(I,J),ONE-EM3)
-          EPSP(I,J) = UVAR(I,J+6)
+          ODAM(I,J) = MIN(DFMAX(I,1+J),ONE-EM3)
+          EPSP(I,J) = UVAR(I,J)
         ENDDO
       ENDDO  
       DO I =1, NEL 
-       SIGOXX(I) = UVAR(I,12+XX)
-       SIGOYY(I) = UVAR(I,12+YY)
-       SIGOXY(I) = UVAR(I,12+XY)
+        SIGOXX(I) = UVAR(I,6+XX)
+        SIGOYY(I) = UVAR(I,6+YY)
+        SIGOXY(I) = UVAR(I,6+XY)
       ENDDO
 c      
 c     strain rate filtering
@@ -275,7 +276,7 @@ c     failure and damage calculation in each mode (dir)
 c
       NINDX = 0  
       DO I=1, NEL
-        IF (OFF(I) == ONE .and. OFFLY(I) == 1 .and. FOFF(I) == 1) THEN
+        IF (OFF(I) == ONE .AND. OFFLY(I) == 1 .AND. FOFF(I) == 1) THEN
           ET1    = UPARAM(4)
           ET1M   = UPARAM(5)
           ET2    = UPARAM(6)
@@ -311,19 +312,19 @@ c
           ELSE
             FRATE = ONE
           ENDIF
-                FRATE = FRATE*FSIZE(I)
+          FRATE = FRATE*FSIZE(I)
           ET1M = FRATE * ET1M
           ET1  = FRATE * ET1
           DEPS = EPS11(I) - ET1 
-          IF (DEPS > ZERO .and. DAM(I,MODE) < ONE) THEN
+          IF (DEPS > ZERO .AND. DFMAX(I,1+MODE) < ONE) THEN
             DEPSM = ET1M - ET1
             FACT  = ET1M / EPS11(I)
             DI    = FACT * DEPS / DEPSM 
-            DAM(I,MODE) = MAX(DAM(I,MODE), DI)
-            IF (DAM(I,MODE) >= ONE) THEN
+            DFMAX(I,1+MODE) = MAX(DFMAX(I,1+MODE), DI)
+            IF (DFMAX(I,1+MODE) >= ONE) THEN
               FAILI = 1
               FMODE(I,MODE) = 1
-              DAM(I,MODE) = ONE
+              DFMAX(I,1+MODE) = ONE
               EPSM1(I) = ET1M
             ENDIF
           ENDIF
@@ -335,19 +336,19 @@ c
           ELSE
             FRATE = ONE
           ENDIF
-                  FRATE = FRATE*FSIZE(I)
+          FRATE = FRATE*FSIZE(I)
           ET2M = FRATE * ET2M
           ET2  = FRATE * ET2
           DEPS = MAX(EPS22(I) - ET2, ZERO)
-          IF (DEPS > ZERO .and. DAM(I,MODE) < ONE) THEN
+          IF (DEPS > ZERO .AND. DFMAX(I,1+MODE) < ONE) THEN
             DEPSM = (ET2M - ET2)
             FACT  = ET2M / EPS22(I)
             DI    = FACT * DEPS / DEPSM 
-            DAM(I,MODE) = MAX(DAM(I,MODE), DI)
-            IF (DAM(I,MODE) >= ONE) THEN
+            DFMAX(I,1+MODE) = MAX(DFMAX(I,1+MODE), DI)
+            IF (DFMAX(I,1+MODE) >= ONE) THEN
               FAILI = 1
               FMODE(I,MODE) = 1
-              DAM(I,MODE) = ONE
+              DFMAX(I,1+MODE) = ONE
               EPSM2(I) = ET2M
             ENDIF
           ENDIF
@@ -359,19 +360,19 @@ c
           ELSE
             FRATE = ONE
           ENDIF
-                  FRATE = FRATE*FSIZE(I)
+          FRATE = FRATE*FSIZE(I)
           ET12M = FRATE * ET12M
           ET12  = FRATE * ET12
           DEPS  = MAX(EPS12(I) - ET12, ZERO)
-          IF (DEPS > ZERO .and. DAM(I,MODE) < ONE) THEN
+          IF (DEPS > ZERO .AND. DFMAX(I,1+MODE) < ONE) THEN
             DEPSM = (ET12M - ET12)
             FACT  = ET12M / EPS12(I)
             DI    = FACT * DEPS / DEPSM
-            DAM(I,MODE) = MAX(DAM(I,MODE), DI)
-            IF (DAM(I,MODE) >= ONE) THEN
+            DFMAX(I,1+MODE) = MAX(DFMAX(I,1+MODE), DI)
+            IF (DFMAX(I,1+MODE) >= ONE) THEN
               FAILI = 1
               FMODE(I,MODE) = 1
-              DAM(I,MODE) = ONE
+              DFMAX(I,1+MODE) = ONE
               EPSM3(I) = ET12M
             ENDIF
           ENDIF
@@ -383,19 +384,19 @@ c
           ELSE
             FRATE = ONE
           ENDIF
-                  FRATE = FRATE*FSIZE(I)
+          FRATE = FRATE*FSIZE(I)
           EC1M = FRATE * EC1M
           EC1  = FRATE * EC1
           DEPS = -EPS11(I) - EC1
-          IF (DEPS > ZERO .and. DAM(I,MODE) < ONE) THEN
+          IF (DEPS > ZERO .AND. DFMAX(I,1+MODE) < ONE) THEN
             DEPSM = (EC1M - EC1)
             FACT = EC1M / ABS(EPS11(I))
             DI = FACT * DEPS / DEPSM
-            DAM(I,MODE) = MAX(DAM(I,MODE), DI)
-            IF (DAM(I,MODE) >= ONE) THEN
+            DFMAX(I,1+MODE) = MAX(DFMAX(I,1+MODE), DI)
+            IF (DFMAX(I,1+MODE) >= ONE) THEN
               FAILI = 1
               FMODE(I,MODE) = 1
-              DAM(I,MODE) = ONE
+              DFMAX(I,1+MODE) = ONE
               EPSM4(I) = -EC1M
             ENDIF
           ENDIF
@@ -407,19 +408,19 @@ c
           ELSE
             FRATE = ONE
           ENDIF
-                  FRATE = FRATE*FSIZE(I)
+          FRATE = FRATE*FSIZE(I)
           EC2M = FRATE * EC2M
           EC2  = FRATE * EC2
           DEPS = MAX(-EPS22(I) - EC2, ZERO)
-          IF (DEPS > ZERO .and. DAM(I,MODE) < ONE) THEN
+          IF (DEPS > ZERO .AND. DFMAX(I,1+MODE) < ONE) THEN
             DEPSM = (EC2M - EC2)
             FACT  = EC2M / ABS(EPS22(I))
             DI = FACT * DEPS / DEPSM
-            DAM(I,MODE) = MAX(DAM(I,MODE), DI)
-            IF (DAM(I,MODE) >= ONE) THEN
+            DFMAX(I,1+MODE) = MAX(DFMAX(I,1+MODE), DI)
+            IF (DFMAX(I,1+MODE) >= ONE) THEN
               FAILI = 1
               FMODE(I,MODE) = 1
-              DAM(I,MODE) = ONE
+              DFMAX(I,1+MODE) = ONE
               EPSM5(I) = -EC2M
             ENDIF
           ENDIF
@@ -431,19 +432,19 @@ c
           ELSE
             FRATE = ONE
           ENDIF
-                  FRATE = FRATE*FSIZE(I)
+          FRATE = FRATE*FSIZE(I)
           EC12M = FRATE * EC12M
           EC12  = FRATE * EC12
           DEPS  = MAX(-EPS12(I) - EC12, ZERO)
-          IF (DEPS > ZERO .and. DAM(I,MODE) < ONE) THEN
+          IF (DEPS > ZERO .AND. DFMAX(I,1+MODE) < ONE) THEN
             DEPSM = (EC12M - EC12)
             FACT  = EC12M / ABS(EPS12(I))
             DI = FACT * DEPS / DEPSM
-            DAM(I,MODE) = MAX(DAM(I,MODE), DI)
-            IF (DAM(I,MODE) >= ONE) THEN
+            DFMAX(I,1+MODE) = MAX(DFMAX(I,1+MODE), DI)
+            IF (DFMAX(I,1+MODE) >= ONE) THEN
               FAILI = 1
               FMODE(I,MODE) = 1
-              DAM(I,MODE) = ONE
+              DFMAX(I,1+MODE) = ONE
               EPSM6(I) = -EC12M
             ENDIF
           ENDIF
@@ -461,7 +462,6 @@ c------------------------
         DO J=1,NINDX    
           I = INDX(J)
 #include  "lockon.inc"
-          
           WRITE(IOUT, 1000) NGL(I),IPG,ILAY,IPT
           WRITE(ISTDO,1000) NGL(I),IPG,ILAY,IPT
           IF (FMODE(I,1)==1) WRITE(IOUT, 2000) '1 - TRACTION XX',EPS11(I),EPSM1(I),EPSP(I,XX)
@@ -479,24 +479,24 @@ c     damage / direction is equal to the max of damages par mode in the same dir
 c-----------------------------------------------------------------------
       IF (DMG_FLAG == 1) THEN   ! scalar damage applied to nodal force contribution
         DO I=1, NEL
-          DAMXX  = MAX(DAM(I,1),DAM(I,4))
-          DAMYY  = MAX(DAM(I,2),DAM(I,5))
-          DAMXY  = MAX(DAM(I,3),DAM(I,6))
-          DFMAX(I) = MAX(DFMAX(I), DAMXX)
-          DFMAX(I) = MAX(DFMAX(I), DAMYY)
-          DFMAX(I) = MAX(DFMAX(I), DAMXY)
-          DFMAX(I) = MIN(ONE,DFMAX(I))
-          DMG_SCALE(I) = ONE - DFMAX(I)
+          DAMXX  = MAX(DFMAX(I,2),DFMAX(I,5))
+          DAMYY  = MAX(DFMAX(I,3),DFMAX(I,6))
+          DAMXY  = MAX(DFMAX(I,4),DFMAX(I,7))
+          DFMAX(I,1) = MAX(DFMAX(I,1), DAMXX)
+          DFMAX(I,1) = MAX(DFMAX(I,1), DAMYY)
+          DFMAX(I,1) = MAX(DFMAX(I,1), DAMXY)
+          DFMAX(I,1) = MIN(ONE,DFMAX(I,1))
+          DMG_SCALE(I) = ONE - DFMAX(I,1)
         ENDDO
       ELSE                      ! directional damage applied to stress
         DO I=1, NEL
-          DAMXX  = MAX(DAM(I,1),DAM(I,4))
-          DAMYY  = MAX(DAM(I,2),DAM(I,5))
-          DAMXY  = MAX(DAM(I,3),DAM(I,6))
-          DFMAX(I) = MAX(DFMAX(I), DAMXX)
-          DFMAX(I) = MAX(DFMAX(I), DAMYY)
-          DFMAX(I) = MAX(DFMAX(I), DAMXY)
-          DFMAX(I) = MIN(ONE,DFMAX(I))
+          DAMXX  = MAX(DFMAX(I,2),DFMAX(I,5))
+          DAMYY  = MAX(DFMAX(I,3),DFMAX(I,6))
+          DAMXY  = MAX(DFMAX(I,4),DFMAX(I,7))
+          DFMAX(I,1) = MAX(DFMAX(I,1), DAMXX)
+          DFMAX(I,1) = MAX(DFMAX(I,1), DAMYY)
+          DFMAX(I,1) = MAX(DFMAX(I,1), DAMXY)
+          DFMAX(I,1) = MIN(ONE,DFMAX(I,1))
           ODAMXX = MAX(ODAM(I,1),ODAM(I,4))
           ODAMYY = MAX(ODAM(I,2),ODAM(I,5))
           ODAMXY = MAX(ODAM(I,3),ODAM(I,6))
@@ -508,16 +508,15 @@ c         Damaged stress
           SIGNXX(I) = SIGNXX(I)* (ONE-DAMXX)
           SIGNYY(I) = SIGNYY(I)* (ONE-DAMYY)
           SIGNXY(I) = SIGNXY(I)* (ONE-DAMXY)
-          UVAR(I,13) = SIGNXX(I)
-          UVAR(I,14) = SIGNYY(I)
-          UVAR(I,15) = SIGNXY(I)
+          UVAR(I,7) = SIGNXX(I)
+          UVAR(I,8) = SIGNYY(I)
+          UVAR(I,9) = SIGNXY(I)
         ENDDO
       ENDIF
 c     Update state variables
       DO  J=1 ,6
         DO I=1, NEL
-          UVAR(I,J)   = DAM(I,J)
-          UVAR(I,J+6) = EPSP(I,J)
+          UVAR(I,J) = EPSP(I,J)
         ENDDO
       ENDDO  
 c-----------------------------------------------------------------------
