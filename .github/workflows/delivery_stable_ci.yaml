@@ -597,6 +597,10 @@ jobs:
 
             Commit message:
             ${{ env.LAST_STABLE_COMMIT_MESSAGE }}
+
+            Thank you for downloading OpenRadioss! We'd love to hear about your experience.  
+            👉 [Share your feedback here](https://app.sli.do/event/uxEN5N2jZqeUHnqZEyqrcx)
+                        
           files: |
             ${{ env.WORKDIR }}/todeliver/*
           clear_attachments: true    
