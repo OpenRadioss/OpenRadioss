@@ -600,7 +600,7 @@ jobs:
 
             Thank you for downloading OpenRadioss! We'd love to hear about your experience.  
             👉 [Share your feedback here](https://app.sli.do/event/uxEN5N2jZqeUHnqZEyqrcx)
-                        
+
           files: |
             ${{ env.WORKDIR }}/todeliver/*
           clear_attachments: true    
@@ -631,3 +631,18 @@ jobs:
               --nb_releases_to_keep ${{ env.DELIVERY_NB_RELEASES_TO_KEEP }} \
               --counter_file_dir /github_download_counter \
               --tag_prefix ${{ env.DELIVERY_TAG_PREFIX }} 
+
+      - name: Create a new GitHub Discussion Annoucement
+        id: create-discussion
+        uses: abirismyname/create-discussion@v1.x
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}      
+        with:
+          title: OpenRadioss Stable Update (${{ env.LAST_STABLE_TAG_NAME }})
+          body: |
+            We're excited to announce a new **stable release of OpenRadioss!**  
+            This version, based on **tag ${{ env.LAST_STABLE_TAG_NAME }}**, brings improved stability and performance based on community feedback.
+            🔹 [Get it now](https://github.com/${{ github.repository }}/releases/tag/${{ env.DELIVERY_TAG_PREFIX }}${{ env.DATEOFTHETAG }})
+            Please, try it out and share your appreciated feedback, thanks!
+          repository-id: ${{ secrets.DISCUSSION_REPO_ID }}
+          category-id: ${{ secrets.DISCUSSION_CAT_ID }}  
