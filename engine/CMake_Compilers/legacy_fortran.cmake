@@ -1606,7 +1606,6 @@ set_source_files_properties( ${source_directory}/source/materials/mat/mat065/sig
 set_source_files_properties( ${source_directory}/source/materials/mat/mat052/sigeps52c.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/materials/mat/mat052/sigeps52.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/materials/mat/mat038/sigeps38.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
-set_source_files_properties( ${source_directory}/source/materials/mat/mat097/sigeps97.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/materials/mat/mat060/sigeps60g.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/materials/mat/mat060/sigeps60c.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )
 set_source_files_properties( ${source_directory}/source/materials/mat/mat060/sigeps60.F PROPERTIES COMPILE_FLAGS "${legacy_flags}" )

@@ -77,9 +77,9 @@ C-----------------------------------------------
       FRIC = FRIGAP(1)
       FHEAT= FRIGAP(4)
       NIR=2
-      IF(N2D==0)NIR=4
+      IF(N2D == 0)NIR=4
       !-------------------------------------
-      !     ACCELERATIONS OF MAIN NODES
+      !     ACCELERATIONS OF LAGRANGIAN NODES
       !-------------------------------------
       DO I=1,NMN
         J=MSR(I)
@@ -110,7 +110,7 @@ C-----------------------------------------------
         CALL BCS2(A(J1),SKEW(1,ISK),ISK,LCOD)
       ENDDO
       !--------------------------------------
-      !     ACCELERATIONS OF SECOND NODES
+      !     ACCELERATIONS OF ALE NODES
       !--------------------------------------
       DO II=1,NSN
         IF(ILOC(II) >= 1) THEN
