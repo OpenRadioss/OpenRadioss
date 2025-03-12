@@ -1466,7 +1466,7 @@ C Ecriture tableaux P/ON propre au SPMD
 C-----------------------------------------------
 C
 C elements
-      CALL WRITE_I_C(ADDCNE_L,NUMNOD_L+1)
+      CALL WRITE_I_C(ADDCNE_L,NUMNOD_L+1)  ! ADSKY ?
       LEN_IA = LEN_IA + NUMNOD_L+1
       CALL WRITE_I_C(PROCNE,LCNE_L)
       LEN_IA = LEN_IA + LCNE_L

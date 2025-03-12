@@ -74,7 +74,6 @@ C-----------------------------------------------
       USE TRI7BOX
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
-      USE FSKYI_MOD
       USE HEAT_MOD
       USE H3D_MOD
       USE GROUPDEF_MOD
@@ -1157,7 +1156,7 @@ C ------------------------------------------------------------
         ENDDO
 C
         IF ( NISKY+LSKYI_CT > SISKY) THEN
-           CALL REALLOCATE_I_SKYLINE(LSKYI_CT,3,GLOB_THERM%INTHEAT,GLOB_THERM%NODADT_THERM)
+           CALL REALLOCATE_I_SKYLINE(LSKYI_CT,3,GLOB_THERM%INTHEAT,GLOB_THERM%NODADT_THERM, INTERFACES%PON)
         ENDIF
 C
 C Reception buffer et decompactage
@@ -1207,16 +1206,16 @@ C type int20 (non edge)
                   L = L + 1
                   IF(INTTH == 0) THEN
                      CALL SPMD_FIADD20F_PON(
-     1                NB      ,LEN    ,BBUFR(L),INTBUF_TAB(NIN)%NSV,FSKYI  ,
-     2                ISKY    ,IBC    ,ISECIN  ,NOINT        ,IBAG   ,
+     1                NB      ,LEN    ,BBUFR(L),INTBUF_TAB(NIN)%NSV,INTERFACES%PON%FSKYI  ,
+     2                INTERFACES%PON%ISKY    ,IBC    ,ISECIN  ,NOINT        ,IBAG   ,
      3                ICODT   ,SECFCUM,NSTRF   ,ICONTACT     ,FCONT  ,
      4                INACTI  ,IADM   ,INTTH  ,FTHESKYI,INTBUF_TAB(NIN)%NLG,
      5                H3D_DATA)
                      L = L + NB*LEN
                   ELSE
                      CALL SPMD_FIADD20F_PON(
-     1                NB      ,LEN7T    ,BBUFR(L),INTBUF_TAB(NIN)%NSV,FSKYI ,
-     2                ISKY    ,IBC    ,ISECIN  ,NOINT        ,IBAG   ,
+     1                NB      ,LEN7T    ,BBUFR(L),INTBUF_TAB(NIN)%NSV,INTERFACES%PON%FSKYI ,
+     2                INTERFACES%PON%ISKY    ,IBC    ,ISECIN  ,NOINT        ,IBAG   ,
      3                ICODT   ,SECFCUM,NSTRF   ,ICONTACT     ,FCONT  ,
      4                INACTI  ,IADM   ,INTTH   ,FTHESKYI ,INTBUF_TAB(NIN)%NLG,
      5                H3D_DATA)
@@ -1233,8 +1232,8 @@ C type int20 (non edge)
                     L = L + 1
                     IF(INTTH == 0) THEN
                      CALL SPMD_FIADD_PON(
-     1                NB      ,LEN    ,BBUFR(L),INTBUF_TAB(NIN)%NSV, FSKYI,
-     2                ISKY    ,IBC    ,ISECIN  ,NOINT        ,IBAG   ,
+     1                NB      ,LEN    ,BBUFR(L),INTBUF_TAB(NIN)%NSV, INTERFACES%PON%FSKYI,
+     2                INTERFACES%PON%ISKY    ,IBC    ,ISECIN  ,NOINT        ,IBAG   ,
      3                ICODT   ,SECFCUM,NSTRF   ,ICONTACT     ,FCONT  ,
      4                INACTI  ,IADM   ,INTTH   , FTHESKYI    ,CONDNSKYI,
      5                H3D_DATA,NIN    ,TAGNCONT,KLOADPINTER  ,LOADPINTER,
@@ -1243,8 +1242,8 @@ C type int20 (non edge)
                      L = L + NB*LEN
                     ELSE
                      CALL SPMD_FIADD_PON(
-     1                NB      ,LEN7T    ,BBUFR(L),INTBUF_TAB(NIN)%NSV, FSKYI,
-     2                ISKY    ,IBC    ,ISECIN  ,NOINT        ,IBAG   ,
+     1                NB      ,LEN7T    ,BBUFR(L),INTBUF_TAB(NIN)%NSV, INTERFACES%PON%FSKYI,
+     2                INTERFACES%PON%ISKY    ,IBC    ,ISECIN  ,NOINT        ,IBAG   ,
      3                ICODT   ,SECFCUM,NSTRF   ,ICONTACT     ,FCONT  ,
      4                INACTI  ,IADM   ,INTTH   , FTHESKYI    ,CONDNSKYI,
      5                H3D_DATA,NIN    ,TAGNCONT, KLOADPINTER ,LOADPINTER,
@@ -1261,8 +1260,8 @@ C type int20 (non edge)
                         LENI = LEN25E
                         IF(NB > 0) THEN
                           CALL SPMD_FIADD25E_PON(
-     1                     NB      ,LENI    ,BBUFR(L),NSVSIE(NIN)%P, FSKYI,
-     2                     ISKY    ,IBC    ,ISECIN  ,NOINT        ,IBAG   ,
+     1                     NB      ,LENI    ,BBUFR(L),NSVSIE(NIN)%P, INTERFACES%PON%FSKYI,
+     2                     INTERFACES%PON%ISKY    ,IBC    ,ISECIN  ,NOINT        ,IBAG   ,
      3                     ICODT   ,SECFCUM,NSTRF   ,ICONTACT     ,FCONT  ,
      4                     INACTI  ,IADM   ,INTTH   , FTHESKYI    ,CONDNSKYI,
      5                     H3D_DATA,INTBUF_TAB(NIN)%LEDGE,NLEDGE,IPARI(68,NIN),
@@ -1278,16 +1277,16 @@ C type int20 (non edge)
                     L = L + 1
                   IF(INTTH == 0) THEN
                     CALL SPMD_FIADD11_PON(
-     1                NB     ,LEN11   ,BBUFR(L),INTBUF_TAB(NIN)%IRECTS,FSKYI  ,
-     2                ISKY   ,IBC     ,ISECIN  ,NOINT        ,IBAG   ,
+     1                NB     ,LEN11   ,BBUFR(L),INTBUF_TAB(NIN)%IRECTS,INTERFACES%PON%FSKYI  ,
+     2                INTERFACES%PON%ISKY   ,IBC     ,ISECIN  ,NOINT        ,IBAG   ,
      3                ICODT  ,SECFCUM ,NSTRF   ,ICONTACT     ,FCONT  ,
      4                INTTH  ,FTHESKYI,CONDNSKYI,H3D_DATA    ,NIN    ,TAGNCONT ,
      5                 KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,GLOB_THERM%NODADT_THERM)
                     L = L + NB*LEN11
                   ELSE
                      CALL SPMD_FIADD11_PON(
-     1                NB     ,LEN11T   ,BBUFR(L),INTBUF_TAB(NIN)%IRECTS,FSKYI  ,
-     2                ISKY   ,IBC     ,ISECIN  ,NOINT        ,IBAG   ,
+     1                NB     ,LEN11T   ,BBUFR(L),INTBUF_TAB(NIN)%IRECTS,INTERFACES%PON%FSKYI  ,
+     2                INTERFACES%PON%ISKY   ,IBC     ,ISECIN  ,NOINT        ,IBAG   ,
      3                ICODT  ,SECFCUM ,NSTRF   ,ICONTACT     ,FCONT  ,
      4                INTTH  ,FTHESKYI,CONDNSKYI,H3D_DATA    ,NIN    ,TAGNCONT,
      5                KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,GLOB_THERM%NODADT_THERM)
@@ -1302,8 +1301,8 @@ C type int20 (non edge)
                     NMES= IGRBRIC(IGN)%NENTITY
 C
                     CALL SPMD_FIADD17_PON(
-     1                NB    ,LEN17  ,BBUFR(L),IGRBRIC(IGN)%ENTITY,FSKYI ,
-     2                ISKY  ,FCONT  ,IXS     ,IXS16       ,H3D_DATA)
+     1                NB    ,LEN17  ,BBUFR(L),IGRBRIC(IGN)%ENTITY,INTERFACES%PON%FSKYI ,
+     2                INTERFACES%PON%ISKY  ,FCONT  ,IXS     ,IXS16       ,H3D_DATA)
                     L = L + NB*LEN17
                 END IF
               ENDIF
@@ -1330,8 +1329,8 @@ C
                   L = L + 1
                   IF(NB > 0) THEN
                   CALL SPMD_FIADD20FE_PON(
-     1              NB     ,LEN11   ,BBUFR(L),INTBUF_TAB(NIN)%IXLINS,FSKYI  ,
-     2              ISKY   ,IBC     ,ISECIN  ,NOINT        ,IBAG   ,
+     1              NB     ,LEN11   ,BBUFR(L),INTBUF_TAB(NIN)%IXLINS,INTERFACES%PON%FSKYI  ,
+     2              INTERFACES%PON%ISKY   ,IBC     ,ISECIN  ,NOINT        ,IBAG   ,
      3              ICODT  ,SECFCUM ,NSTRF   ,ICONTACT     ,FCONT  ,
      4              INTBUF_TAB(NIN)%NLG,H3D_DATA)
                   ENDIF
