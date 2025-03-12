@@ -60,6 +60,7 @@ module interfaces_mod
    use spmd_arrays_mod
    use intbufdef_mod
    use intbuf_fric_mod
+   use parith_on_mod
    implicit none
 !-----------------------------------------------
 !   m y _ r e a l
@@ -158,6 +159,7 @@ module interfaces_mod
       type (parameters_) parameters
       type (spmd_arrays_) spmd_arrays
       integer :: ninter, npari
+      type(interface_pon_) :: pon
    end type interfaces_
 !
 end module interfaces_mod

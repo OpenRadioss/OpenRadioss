@@ -33,6 +33,7 @@
         type element_pon_ 
             integer :: SFSKY !< second dimension of FSKY 
             integer :: SADSKY !< size of ADSKY (numnod + 1 ?)
+            integer :: MAX_SFSKY  !< max size of FSKY (allocated)
             my_real, dimension(:,:), allocatable :: FSKY !< 8xSFSKY array of the skyline Forces
             my_real, dimension(:), allocatable :: FSKYM !< mass (solid only?) 
             my_real, dimension(:), allocatable :: FTHESKY !<        
@@ -68,6 +69,8 @@
 
         type interface_pon_
           my_real, dimension(:,:), allocatable :: FSKYI
+          integer, dimension(:), allocatable :: ISKY    
+          integer, dimension(:), allocatable :: ADSKYI
         end type
 
         contains 
