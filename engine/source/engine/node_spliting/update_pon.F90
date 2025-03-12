@@ -53,7 +53,7 @@
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           type(connectivity_), intent(inout) ::  elements
-          integer, intent(in) :: n
+          integer, intent(in) :: n                !< size of shell_list
           integer, dimension(n), intent(in) :: shell_list
           integer, intent(in) :: new_numnod
           integer, intent(in) :: old_id
@@ -66,10 +66,32 @@
           integer :: offset
           integer, dimension(:), allocatable :: new_adsky
           integer :: new_id
+          integer :: numelc !< number of shell elements
+          integer :: numnod
+
+          integer :: imin_fsky, imax_fsky
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   body
 ! ----------------------------------------------------------------------------------------------------------------------
 !          not tested when multiple nodes are detached at the same cycle, may not work
+            numnod = elements%pon%sadsky - 1
+          numelc = size(elements%shell%nodes, 2)
+
+            !=================== debug ===================
+            imin_fsky = elements%pon%iadc(1,1)                     
+            imax_fsky = elements%pon%iadc(1,1)
+            do i = 1, numelc
+              do j = 1, 4
+                if(elements%pon%iadc(j,i) < imin_fsky) then
+                    imin_fsky = elements%pon%iadc(j,i)
+                endif
+                if(elements%pon%iadc(j,i) > imax_fsky) then
+                    imax_fsky = elements%pon%iadc(j,i)
+                endif
+              enddo
+            enddo
+!           write(6,*) 'FSKY(', imin_fsky,':', imax_fsky,')'
+            !=================== End debug ===================
             contributions_count = 0
             new_id = new_numnod ! the new id is always the last one
             do i = 1, n
@@ -89,6 +111,7 @@
             enddo
             new_adsky(new_numnod + 1) = new_adsky(new_numnod) + contributions_count
             offset = contributions_count
+!           write(6,*) 'offset', offset
             
             call move_alloc(new_adsky,elements%pon%adsky)
             elements%pon%sadsky = new_numnod + 1
@@ -100,29 +123,50 @@
               do j = 1, 4
                 if(elements%shell%nodes(j, shell_id) == new_id) then
                     elements%pon%iadc(j,shell_id) = elements%pon%adsky(new_numnod) + contributions_count                               
+!                   if(elements%pon%iadc(j,shell_id) < imin_fsky .or. elements%pon%iadc(j,shell_id) > imax_fsky) then
+!                      write(6,*) __LINE__, 'ERROR: IADC(', shell_id, ',', j, ') = ', elements%pon%adsky(new_numnod) + contributions_count
+!                   endif
+!                   write(6,*) 'IADC(', shell_id, ',', j, ') = ', elements%pon%iadc(j,shell_id)
                     contributions_count = contributions_count + 1
                 endif
               enddo
             enddo
 
             contributions_count = 0
-            do i =1, size(elements%shell%nodes, 2)
+            do i =1, numelc
               do j = 1,4
                 if(elements%shell%nodes(j, i) == new_id) then
+                   
 
                 elseif(elements%shell%nodes(j,i) > old_id) then
                     ! the current node id, is greater than the old id, so we need to offset IADC 
                     ! by the number of contributions removed from the FSKY
                     elements%pon%iadc(j,i) = elements%pon%iadc(j,i) - offset
+!                   if(elements%pon%iadc(j,i) < imin_fsky .or. elements%pon%iadc(j,i) > imax_fsky) then
+!                       write(6,*) __LINE__, 'ERROR: IADC(', i, ',', j, ') = ', elements%pon%iadc(j,i)
+!                   endif
                 elseif(elements%shell%nodes(j,i) == old_id) then
                       ! if the node is the old id we rebuild the IADC 
                       ! because the contrubtions kept for that node, and the ones that are assigned to the new node
                       ! can be interleaved
                       elements%pon%iadc(j,i) = elements%pon%adsky(old_id) + contributions_count
+!                     if(elements%pon%iadc(j,i) < imin_fsky .or. elements%pon%iadc(j,i) > imax_fsky) then
+!                       write(6,*) __LINE__, 'ERROR: IADC(', i, ',', j, ') = ', elements%pon%iadc(j,i)
+!                     endif
                       contributions_count = contributions_count + 1
                 endif
               enddo
             enddo
+
+
+!           do i = 1, numelc
+!             do j = 1, 4
+!               if(elements%pon%iadc(j,i) < imin_fsky .or. elements%pon%iadc(j,i) > imax_fsky) then
+!               write(6,*) 'ERROR: IADC(', i, ',', j, ') = ', elements%pon%iadc(j,i)
+!               call arret(5)
+!               endif
+!             enddo
+!           enddo
 
 
         end subroutine update_pon_shells

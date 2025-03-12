@@ -623,7 +623,6 @@ C-----------------------------------------------
               USE INTERFACE_TABLE_MOD
               USE ALEFLOW_MOD
               USE RAD2R_MOD
-              USE FSKYI_MOD
               USE IMP_INTBUF
               USE MESSAGE_MOD
               USE CRACKXFEM_MOD
@@ -1066,7 +1065,7 @@ C OpenMP specific
               integer :: omp_address
               INTEGER, DIMENSION(:),ALLOCATABLE :: IGROUC
               INTEGER, DIMENSION(:),ALLOCATABLE :: IGROUNC
-              INTEGER, DIMENSION(:), ALLOCATABLE :: ADSKYI !(0:NUMNOD+1),
+!             INTEGER, DIMENSION(:), ALLOCATABLE :: ADSKYI !(0:NUMNOD+1),
               EXTERNAL OMP_GET_THREAD_NUM
               INTEGER, DIMENSION(:), ALLOCATABLE :: IBUFIDEL, INDIDEL,RENUM,IBUFSEGLO,
      .                                              INDSEGLO
@@ -1316,7 +1315,7 @@ c
               CALL MY_ALLOC(IGROUC,NGROUP)
               CALL MY_ALLOC(IGROUNC,NGROUP)
 c
-              ALLOCATE(ADSKYI(0:NUMNOD+1))
+              ALLOCATE(INTERFACES%PON%ADSKYI(0:NUMNOD+1))
               BOOL_RESTART = .TRUE.
               STATE_H3D = 0
               STATE_ANIM = 0
@@ -3753,8 +3752,12 @@ C If not reallocate them
 C ----------------------------------------------------
 
                 IF(IPARIT >0)THEN
+                  IF(SIZE(INTERFACES%PON%ADSKYI,1) < NUMNOD+2) then
+                    deallocate(INTERFACES%PON%ADSKYI)
+                    allocate(INTERFACES%PON%ADSKYI(0:NUMNOD+1))
+                  endif
                   IF ( NISKY+LSKYI_COUNT > SISKY) THEN
-                    CALL REALLOCATE_I_SKYLINE(LSKYI_COUNT,1,GLOB_THERM%INTHEAT,GLOB_THERM%nodadt_therm)
+                    CALL REALLOCATE_I_SKYLINE(LSKYI_COUNT,1,GLOB_THERM%INTHEAT,GLOB_THERM%nodadt_therm,INTERFACES%PON)
                   ENDIF
 
 C
@@ -3973,7 +3976,7 @@ C
      G               NODES%ITABM1          ,LENQMV   ,NV46          ,NODES%A           ,GRESAV             ,
      H               GRTH                  ,IGRTH    ,LGAUGE        ,GAUGE             ,MSSA               ,
      I               DMELS                 ,IGAUP    ,NGAUP         ,TABLE             ,NODES%MS0          ,
-     J               NODES%XDP             ,IGRNOD   ,SFEM_NODVAR_ALE ,FSKYI           ,ISKY               , S_SFEM_NODVAR,
+     J               NODES%XDP             ,IGRNOD   ,SFEM_NODVAR_ALE ,INTERFACES%PON%FSKYI,INTERFACES%PON%ISKY, S_SFEM_NODVAR,
      K               INTERFACES%INTBUF_TAB ,IXT      ,IGRV          ,AGRV              ,SENSORS            ,
      L               LGRAV                 ,CONDNSKY ,CONDN         ,MS_2D             ,MULTI_FVM          ,IGRTRUSS        ,
      M               IGRBRIC               ,NLOC_DMG ,ID_GLOBAL_VOIS,FACE_VOIS         ,EBCS_TAB           ,ALE_CONNECTIVITY,
@@ -4041,7 +4044,7 @@ C----------------------------------
      6          SKEWS%SKEW,DT2T      ,
      7          ELEMENT%PON%IADS      ,IPARG     ,NPC       ,IXS       ,
      8          NELTST    ,ITYPTST   ,IPART     ,IPART(K1) ,NODES%ITAB      ,
-     9          FSKYI     ,BUFGEO    ,KXX       ,IXX       ,ISKY      ,
+     9          INTERFACES%PON%FSKYI     ,BUFGEO    ,KXX       ,IXX       ,INTERFACES%PON%ISKY      ,
      A          IPART(K9) ,GRESAV    ,GRTH      ,
      B          IGRTH     ,ELBUF_TAB )
               IF (IMONM > 0) CALL STOPTIME(TIMERS,51)
@@ -4140,7 +4143,7 @@ C----------------------------------------
      1              IPARI  ,ptrX ,NODES%A ,
      2              NODES%ICODT  ,FSAV    ,WA(1),NODES%V         ,NODES%MS             ,
      3              DT2TT  ,NELTSTT ,ITYPTSTT   ,NODES%ITAB    ,NODES%STIFN   ,
-     4              NPC    ,TF      ,FSKYI     ,ISKY      ,NODES%VR              ,
+     4              NPC    ,TF      ,INTERFACES%PON%FSKYI     ,INTERFACES%PON%ISKY      ,NODES%VR              ,
      5              FANI   ,NODES%IN      ,BUFSF     ,FANI(1,NFNCA+1) ,NSENSOR,
      6              FANI(1,NFTCA+1) ,ICONTACT  ,RCONTACT  ,NUM_IMPL(1,1),
      7              NS_IMP(IADISK),NE_IMP(IADISK),NT_IMP  ,SENSORS%SENSOR_TAB,INTERFACES%INTBUF_TAB ,
@@ -4191,7 +4194,7 @@ C Init var parallel SMP
      1              IPARI  ,NODES%X       ,NODES%A(1,NDTSK) ,
      2              NODES%ICODT  ,FSAV    ,WA(NWAFTSK),NODES%V         ,NODES%MS             ,
      3              DT2TT  ,NELTSTT ,ITYPTSTT   ,NODES%ITAB      ,NODES%STIFN(NDTSK)   ,
-     4              NPC    ,TF      ,FSKYI     ,ISKY      ,NODES%VR              ,
+     4              NPC    ,TF      ,INTERFACES%PON%FSKYI     ,INTERFACES%PON%ISKY      ,NODES%VR              ,
      6              FANI   ,NODES%IN      ,IGRSURF   ,BUFSF     ,FANI(1,NFNCA+1) ,
      7              FANI(1,NFTCA+1) ,ICONTACT  ,RCONTACT  ,NUM_IMPL(1,ITSK+1),
      8              NS_IMP(IADISK),NE_IMP(IADISK),NT_IMP  ,SENSORS%SENSOR_TAB,INTERFACES%INTBUF_TAB,
@@ -4286,7 +4289,7 @@ C Init var parallel SMP
      1            IPARI             ,ptrX            ,NODES%A(1,NDTSK)     ,IGROUPS         ,ALE_CONNECTIVITY,
      2            NODES%ICODT             ,FSAV           ,NODES%V        ,NODES%MS              ,DT2TT           ,
      3            NELTSTT           ,ITYPTSTT       ,NODES%ITAB     ,NODES%STIFN(NDTSK)    ,TF              ,
-     4            FSKYI             ,ISKY           ,NODES%VR       ,FANI            ,SECFCUM         ,
+     4            INTERFACES%PON%FSKYI             ,INTERFACES%PON%ISKY           ,NODES%VR       ,FANI,SECFCUM,
      5            ITSK+1            ,NISKYFI        ,KINET          ,NEWFRONT        ,NSTRF           ,
      6            ICONTACT          ,NODES%VISCN(NDTSK),XCELL       ,
      8            NUM_IMPL(1,ITSK+1),NS_IMP(IADISK) ,NE_IMP(IADISK) ,IND_IMP(IADISK) ,NT_IMP          ,
@@ -4432,7 +4435,7 @@ C--------------------------------------------------------
               IF(NSPMD>1)THEN
                 IF(NINTSTAMP /= 0.AND.FTEMPVAR21==1) THEN
                   CALL SPMD_I21FTHECOM(IPARI  ,FTHE  ,INTERFACES%INTBUF_TAB,SENSORS%SENSOR_TAB,NISKYFI ,
-     .                                 FTHESKYI,ISKY ,FSKYI ,CONDNSKYI,NSENSOR,GLOB_THERM%NODADT_THERM)
+     .            FTHESKYI,INTERFACES%PON%ISKY ,INTERFACES%PON%FSKYI ,CONDNSKYI,NSENSOR,GLOB_THERM%NODADT_THERM)
                 ENDIF
               ENDIF
 C--------------------------------------------------------
@@ -4757,8 +4760,8 @@ C----------------------------------
      2            NODES%MS            ,W              ,ELBUF_TAB  ,WA              ,FV            ,
      3            NODES%STIFN(NDTSK)  ,TF             ,BUFMAT     ,PARTSAV(IPMTSK) ,NLOC_DMG      ,
      4            FSAV          ,DT2TT          ,ELEMENT%PON%IADS       ,IPARG           ,NPC           ,
-     5            NELTSTT       ,ITYPTSTT       ,IPART      ,NODES%ITAB            ,ISKY          ,
-     6            BUFGEO        ,FSKYI          ,XFRAME     ,KXSP            ,IXSP          ,
+     5            NELTSTT       ,ITYPTSTT       ,IPART      ,NODES%ITAB            ,INTERFACES%PON%ISKY          ,
+     6            BUFGEO        ,INTERFACES%PON%FSKYI          ,XFRAME     ,KXSP            ,IXSP          ,
      7            NOD2SP        ,IPART(K10)     ,SPBUF      ,ISPCOND         ,ISPSYM        ,
      8            XSPSYM%BUF    ,VSPSYM%BUF     ,
      9            WASPH(KSPH21) ,LPRTSPH        ,LONFSPH    ,WASPH(KSPACTIV) ,ISPHIO        ,
@@ -5014,7 +5017,7 @@ C===============================================================================
      1           NODES%A      ,SPBUF   ,IXS     ,KXSP    ,IPART(K10),
      2           NOD2SP ,IRST   ,NGROUNC  ,IGROUNC ,IPARG    ,
      3           NODES%STIFN  ,SOL2SPH,SPH2SOL  ,ELBUF_TAB,ITSK    ,
-     4           NODFTSK,NODLTSK,ISKY     ,FSKYI    ,IGEO    ,
+     4           NODFTSK,NODLTSK,INTERFACES%PON%ISKY     ,INTERFACES%PON%FSKYI    ,IGEO    ,
      5           SOL2SPH_TYP)
 
 !$OMP END PARALLEL
@@ -5170,7 +5173,7 @@ C
                   IF(ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX /=0.AND.NINTSTAMP==0) LENC = 3*LENI
                   IF(H3D_DATA%N_VECT_PCONT_MAX /=0.AND.NINTSTAMP==0) LENC = LENC+6*LENI
 
-                  CALL SPMD_EXCH2_A_PON(
+                  CALL SPMD_EXCH2_A_PON(INTERFACES,
      1             IAD_ELEM    ,FR_ELEM   ,ELEMENT%PON%ADSKY   ,PROCNE    ,FR_NBCC     ,
      2             LENGTH        ,LENR      ,LENS    ,ELEMENT%PON%FSKY      ,ELEMENT%PON%FSKY        ,
      3             ELEMENT%PON%FSKYM       ,ALE%SUB%IFSUBM    ,SIZI    ,LENI      ,ELEMENT%PON%IADSDP      ,
@@ -5219,8 +5222,8 @@ C Assembly Parith/ON spmd+multi-thread
 C------------------------
                 CALL ASSPAR4(NODES,
      2               ELEMENT%PON%FSKY   ,ELEMENT%PON%FSKY    ,ELEMENT%PON%ADSKY  ,ELEMENT%PON%FSKYM ,
-     3               MSNF   ,ISKY    ,FSKYI  ,FTHE  ,
-     4               FTHESKY,FTHESKYI,NODFTSK,NODLTSK     ,ADSKYI,
+     3               MSNF   ,INTERFACES%PON%ISKY    ,INTERFACES%PON%FSKYI  ,FTHE  ,
+     4               FTHESKY,FTHESKYI,NODFTSK,NODLTSK     ,INTERFACES%PON%ADSKYI,
      5               PARTSAV,PARTFTSK ,PARTLTSK ,ITSK     ,GREFTSK ,
      6               GRELTSK  ,GRESAV   ,AFLOW    ,FFSKY    ,MSF   ,
      7               ADSKY_PXFEM, INOD_PXFEM    ,ELEMENT%PON%FSKYD ,
@@ -5268,7 +5271,7 @@ C
                 CALL ASSPAR3(
      2               NODES%A          ,NODES%AR         ,ITSK       ,NODFTSK   ,
      3               NODLTSK    ,NODES%STIFN      ,NODES%STIFR      ,NODES%ITAB      ,ELEMENT%PON%FSKY       ,
-     4               ELEMENT%PON%FSKY       ,ISKY       ,ELEMENT%PON%ADSKY      ,FSKYI     ,
+     4               ELEMENT%PON%FSKY       ,INTERFACES%PON%ISKY       ,ELEMENT%PON%ADSKY      ,INTERFACES%PON%FSKYI     ,
      5               WA         ,PARTFTSK   ,PARTLTSK   ,PARTSAV   ,NODES%MS         ,
      6               FTHE       ,FTHESKY    ,FTHESKYI   ,GREFTSK     ,GRELTSK      ,
      7               GRESAV     ,GLOB_THERM%ITHERM_FE   ,GLOB_THERM%INTHEAT    )
@@ -5656,48 +5659,50 @@ C Init var parallel SMP
               ENDIF
 c ========================================================================================
 C                                     node splitting
-c             numnod_old = numnod
-c             call test_jc_shell_detach(nodes, element, interfaces, npari, ninter, ipari, numnod,
-c    .                numnodg, elbuf_tab, ngroup, ngrouc, nparg, iparg, igrouc, numelc, ispmd,
-c    .                lcnel, cnel, addcnel)
+!            numnod_old = numnod
+!            call test_jc_shell_detach(nodes, element, interfaces, npari, ninter, ipari, numnod,
+!    .                numnodg, elbuf_tab, ngroup, ngrouc, nparg, iparg, igrouc, numelc, ispmd,
+!    .                lcnel, cnel, addcnel)
 
-c             if(numnod_old < numnod ) then
-c               CALL INIT_NODAL_STATE( IPARI,SHOOT_STRUCT,INTERFACES%INTBUF_TAB,IAD_ELEM,FR_ELEM,
-c    .                              NODES%ITAB,NODES,GEO,ADDCNEL,CNEL,
-c    .                              IXS,ELEMENT%SHELL%IXC,IXT,IXP,IXR,IXTG,
-c    .                              SIZE_ADDCNEL,SIZE_CNEL ,
-c    .                              numelsg,numelqg,numelcg,numeltrg,numelpg,
-c    .                              numelrg,numeltgg )
+!            if(numnod_old < numnod ) then
+!              write(6,*) 'Node splitting detected:', numnod_old, numnod
+!              CALL INIT_NODAL_STATE( IPARI,SHOOT_STRUCT,INTERFACES%INTBUF_TAB,IAD_ELEM,FR_ELEM,
+!    .                              NODES%ITAB,NODES,GEO,ADDCNEL,CNEL,
+!    .                              IXS,ELEMENT%SHELL%IXC,IXT,IXP,IXR,IXTG,
+!    .                              SIZE_ADDCNEL,SIZE_CNEL ,
+!    .                              numelsg,numelqg,numelcg,numeltrg,numelpg,
+!    .                              numelrg,numeltgg )
 
 
-c               IF(IDEL7NG>0.OR.IRAD2R>0.OR.ALEMUSCL_Param%IALEMUSCL>0.OR.PDEL>0) THEN
-c                 SIZE_ADDCNEL = NUMNOD+1
-c                 SIZE_CNEL = LCNEL
-c                 NELEML = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG
-c                 S_ELEM_STATE = NELEML
-c                 DEALLOCATE(CNEL)
-c                 ALLOCATE(CNEL(0:SIZE_CNEL))
-c                 DEALLOCATE(ADDCNEL)
-c                 ALLOCATE(ADDCNEL(0:SIZE_ADDCNEL))
-c                 DEALLOCATE(ADDTMPL)
-c                 ALLOCATE(ADDTMPL(0:NUMNOD+1))
-c                 NELEML = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG
-c                 ALEMUSCL_Buffer%pCNEL => CNEL
-c                 ALEMUSCL_Buffer%pADDCNEL => ADDCNEL
-c                 ALEMUSCL_Buffer%pADDTMPL => ADDTMPL
-c               IXS(L1)  ,IXS(L2), IXS(L3)
-c                10          20       16
-c                 L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
-c                 L2 = L1+6*NUMELS10
-c                 L3 = L2+12*NUMELS20
+!              IF(IDEL7NG>0.OR.IRAD2R>0.OR.ALEMUSCL_Param%IALEMUSCL>0.OR.PDEL>0) THEN
+!                SIZE_ADDCNEL = NUMNOD+1
+!                SIZE_CNEL = LCNEL
+!                NELEML = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG
+!                S_ELEM_STATE = NELEML
+!                DEALLOCATE(CNEL)
+!                ALLOCATE(CNEL(0:SIZE_CNEL))
+!                DEALLOCATE(ADDCNEL)
+!                ALLOCATE(ADDCNEL(0:SIZE_ADDCNEL))
+!                DEALLOCATE(ADDTMPL)
+!                ALLOCATE(ADDTMPL(0:NUMNOD+1))
+!                NELEML = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG
+!                ALEMUSCL_Buffer%pCNEL => CNEL
+!                ALEMUSCL_Buffer%pADDCNEL => ADDCNEL
+!                ALEMUSCL_Buffer%pADDTMPL => ADDTMPL
+!!             IXS(L1)  ,IXS(L2), IXS(L3)
+!!              10          20       16
+!                L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
+!                L2 = L1+6*NUMELS10
+!                L3 = L2+12*NUMELS20
 
-c                 CALL CHKINIT(
-c    2              IXS        ,IXQ       ,ELEMENT%SHELL%IXC       ,IXT         ,IXP       ,
-c    3              IXR        ,IXTG      ,IXS(L1)       ,IXS(L2)     ,
-c    4              IXS(L3)      ,IXTG1     ,GEO       ,ADDCNEL     ,CNEL      ,
-c    5              ADDTMPL    ,IPARG     )
-c               ENDIF
-c             endif
+!                CALL CHKINIT(
+!    2              IXS        ,IXQ       ,ELEMENT%SHELL%IXC       ,IXT         ,IXP       ,
+!    3              IXR        ,IXTG      ,IXS(L1)       ,IXS(L2)     ,
+!    4              IXS(L3)      ,IXTG1     ,GEO       ,ADDCNEL     ,CNEL      ,
+!    5              ADDTMPL    ,IPARG     )
+
+!              ENDIF
+!            endif
 
 
 C========================================================================================
@@ -8830,14 +8835,14 @@ C===============================================================================
      2     ELEMENT%SHELL%IXC,IXT                  ,IXP         ,IXR               ,IXTG1      ,NODES%ITAB       ,NODES%ITABM1,
      3     NPC              ,IBCL                 ,IBFV        ,SENSORS%SENSOR_TAB,NNLINK     ,LNLINK      ,IPARG       ,IGRV,
      4     IPARI            ,INTERFACES%INTBUF_TAB,NPRW        ,ICONX             ,NPBY       ,LPBY             ,LRIVET      ,
-     5     NSTRF            ,LJOINT               ,NODES%ICODT ,NODES%ICODR       ,ISKY,ELEMENT%PON%ADSKY,ELEMENT%PON%IAD_CONLD,
+     5     NSTRF            ,LJOINT,NODES%ICODT ,NODES%ICODR,INTERFACES%PON%ISKY,ELEMENT%PON%ADSKY,ELEMENT%PON%IAD_CONLD,
      6     ILINK            ,LLINK                ,NODES%WEIGHT,ITASK             ,IBVEL      ,LBVEL            ,FBVEL,
      7     NODES%X          ,NODES%D              ,NODES%V     ,NODES%VR          ,NODES%DR   ,THKE     ,DAMP        ,NODES%MS,
      8     NODES%IN         ,PM                   ,SKEWS%SKEW  ,GEO               ,EANI       ,BUFMAT      ,BUFGEO      ,BUFSF,
      9     TF               ,FORC                 ,VEL         ,FSAV              ,AGRV       ,FR_WAVE,PARTS0   ,
      A     ELBUF            ,RBY                  ,RIVET       ,FR_ELEM           ,IAD_ELEM   ,NSENSOR          ,
      B     WA               ,NODES%A              ,NODES%AR    ,NODES%STIFN       ,NODES%STIFR,PARTSAV,ELEMENT%PON%FSKY,
-     C     FSKYI            ,IFRAME               ,XFRAME      ,W16               ,IACTIV     ,ELEMENT%PON%FSKYM,IGEO,IPM     ,
+     C     INTERFACES%PON%FSKYI,IFRAME            ,XFRAME      ,W16               ,IACTIV     ,ELEMENT%PON%FSKYM,IGEO,IPM     ,
      D     OUTPUT%WFEXT     ,NODFT                ,NODLT       ,NT_IMP            ,NUM_IMP    ,NS_IMP           ,NE_IMP,IND_IMP,
      L     IT               ,RWBUF                ,LPRW        ,FR_WALL           ,NBINTC     ,INTLIST          ,
      M     FANI(1,1+NFOA+2*(NSECT+NRBODY)),RWSAV  ,FSAVD       ,
@@ -8862,14 +8867,14 @@ C----       10,11,12:ELBUF_C,BUFMAT_C,X_C,13,14:DD,DDR,15,16:X_ac,V_zero,23,24:A
      2            ELEMENT%SHELL%IXC    ,IXT    ,IXP    ,IXR    ,IXTG1          ,NODES%ITAB   ,NODES%ITABM1 ,
      3            NPC    ,IBCL   ,IBFV   ,SENSORS%SENSOR_TAB,NNLINK ,LNLINK ,IPARG  ,IGRV   ,
      4            IPARI  ,INTERFACES%INTBUF_TAB,NPRW   ,ICONX  ,NPBY,LPBY   ,LRIVET ,
-     5            NSTRF  ,LJOINT ,NODES%ICODT  ,NODES%ICODR  ,ISKY  ,ELEMENT%PON%ADSKY,ELEMENT%PON%IAD_CONLD,
+     5            NSTRF  ,LJOINT ,NODES%ICODT  ,NODES%ICODR  ,INTERFACES%PON%ISKY  ,ELEMENT%PON%ADSKY,ELEMENT%PON%IAD_CONLD,
      6            ILINK  ,LLINK  ,NODES%WEIGHT         ,ITASK ,IBVEL  ,LBVEL  ,FBVEL  ,
      7            NODES%X      ,NODES%D      ,NODES%V      ,NODES%VR     ,NODES%DR     ,THKE   ,DAMP   ,NODES%MS     ,
      8            NODES%IN     ,PM     ,SKEWS   ,GEO    ,EANI   ,BUFMAT ,BUFGEO ,BUFSF  ,
      9            TF     ,FORC   ,VEL    ,FSAV   ,AGRV   ,FR_WAVE,PARTS0 ,
      A            ELBUF  ,RBY   ,RIVET,FR_ELEM,IAD_ELEM,
      B            WA     ,NODES%A      ,NODES%AR     ,NODES%STIFN  ,NODES%STIFR  ,PARTSAV,ELEMENT%PON%FSKY   ,
-     C            FSKYI  ,IFRAME ,XFRAME ,W16    ,IACTIV ,ELEMENT%PON%FSKYM  ,IGEO   ,IPM    ,
+     C            INTERFACES%PON%FSKYI  ,IFRAME ,XFRAME ,W16    ,IACTIV ,ELEMENT%PON%FSKYM  ,IGEO   ,IPM    ,
      D            OUTPUT%WFEXT  ,NODFT  ,NODLT  ,NT_IMP ,NUM_IMP,NS_IMP ,NE_IMP ,IND_IMP,
      L            IT     ,RWBUF  ,LPRW   ,FR_WALL,NBINTC ,INTLIST,
      M            FANI(1,1+NFOA+2*(NSECT+NRBODY)),RWSAV  ,FSAVD ,

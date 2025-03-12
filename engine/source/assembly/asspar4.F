@@ -129,7 +129,6 @@ C-----------------------------------------------
           ADSKYI(N) = 0
         ENDDO
 !$OMP END DO
-
 !$OMP SINGLE
       DO I=1,NISKY
         N = ISKY(I)+1

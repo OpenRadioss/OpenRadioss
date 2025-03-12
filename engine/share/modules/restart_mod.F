@@ -205,17 +205,3 @@ C=======================================================================
       END MODULE RESTMOD
 
 C=======================================================================
-      !||====================================================================
-      !||    fskyi_mod              ../engine/share/modules/restart_mod.F
-      !||--- called by ------------------------------------------------------
-      !||    reallocate_i_skyline   ../engine/source/system/reallocate_skyline.F
-      !||    resol                  ../engine/source/engine/resol.F
-      !||    restalloc              ../engine/source/output/restart/arralloc.F
-      !||    spmd_exch2_a_pon       ../engine/source/mpi/forces/spmd_exch2_a_pon.F
-      !||    spmd_i7fcom_pon        ../engine/source/mpi/forces/spmd_i7fcom_pon.F
-      !||====================================================================
-      MODULE FSKYI_MOD
-        my_real,
-     .  DIMENSION(:,:),ALLOCATABLE :: FSKYI,TEMP_FSKYI
-        INTEGER,DIMENSION(:),ALLOCATABLE :: ISKY,TEMP_ISKY
-      END MODULE FSKYI_MOD
