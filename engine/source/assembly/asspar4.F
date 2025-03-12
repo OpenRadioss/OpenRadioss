@@ -109,6 +109,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: VIND1,VIND2,VIND3
       INTEGER :: CHUNK_NODE,CHUNK_NODE_1
       INTEGER, PARAMETER :: IVSIZE = 32
+      double precision :: maxi
 C-----------------------------------------------
 C Partie ELEMENT
 C-----------------------------------------------
@@ -129,10 +130,15 @@ C-----------------------------------------------
           ADSKYI(N) = 0
         ENDDO
 !$OMP END DO
-
+!     write(6,*) __FILE__,__LINE__,ISKY(NISKY) + 1, NUMNOD
 !$OMP SINGLE
       DO I=1,NISKY
         N = ISKY(I)+1
+!       if(adskyi(n) < 0) then 
+!          write(6,*) 'ERROR ADSKYI',N,ADSKYI(N) 
+!           call flush(6)
+!           stop
+!       endif
         ADSKYI(N) = ADSKYI(N)+1
       ENDDO
 C-----------------------------------------------
@@ -490,11 +496,13 @@ C
 C-----------------------------------------------
 C Partie //
 C-----------------------------------------------
+        maxi = 0
         DO L=1,NFSKYI
 !$OMP DO SCHEDULE(guided)
           DO I=1,NISKY
             J = ISKY(I) ! address for N per contribution
             FSKY_L(J) = FSKYI(I,L) ! FSKYT : contribution triée par noeud
+            maxi = max(maxi,abs(FSKYI(I,L)))
           END DO
 !$OMP END DO
           call my_barrier()
@@ -504,6 +512,8 @@ C-----------------------------------------------
           END DO
 !$OMP END DO
         ENDDO
+
+        write(IOUT,*) 'FORCE MAXI',maxi
 C
         IF(GLOB_THERM%INTHEAT > 0 ) THEN
 !$OMP SINGLE

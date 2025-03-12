@@ -119,6 +119,7 @@ c-----------------------------
           IF(D5/=ZERO) EPSF = EPSF * (ONE + D5*TSTAR(I)) ! if d5=0, tstart is not correctly defined
           EPSF = MAX(EPSF,EPSF_MIN)
           IF (EPSF > ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF  
+!         IF(DFMAX(i) > 0.75) write(6,*) 'DFMAX(',NGL(I),') = ',DFMAX(I)
           IF (DFMAX(I) >= ONE) THEN
             NINDX = NINDX + 1
             INDX(NINDX) = I  
