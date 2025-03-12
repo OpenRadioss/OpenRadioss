@@ -83,7 +83,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      R           INDX_DRAPE,THKE      ,SEDRAPE   ,NUMEL_DRAPE,DT        ,
      Q           NCYCLE    , SNPC     ,STF       ,NXLAYMAX  ,IDEL7NOK   ,
      S           USERL_AVAIL, MAXFUNC ,VARNL_NPTTOT, SBUFMAT   ,SDIR_A    ,
-     T          SDIR_B  )
+     T          SDIR_B    ,FOR_G)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -168,6 +168,7 @@ C-----------------------------------------------
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
       TYPE (SENSORS_) ,INTENT(IN) :: SENSORS
       TYPE (DT_), INTENT(IN) :: DT
+      my_real, dimension(nel,5), intent(inout) :: FOR_G
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -269,7 +270,8 @@ c
      7       INDXDEL ,NGL     ,ZCFAC   ,GS      ,SIGY    ,G       ,
      8       THK0    ,EPSP    ,IPLA    ,IGEO    ,IPM     ,TABLE   ,
      9       IR      ,IS      ,F_DEF   ,ISMSTR  ,NU      ,VOL0    ,
-     A       KFTS    ,ZSHIFT  ,IDAMP_FREQ_RANGE,MAT_ELEM,DAMP_BUF)
+     A       KFTS    ,ZSHIFT  ,IDAMP_FREQ_RANGE,MAT_ELEM,DAMP_BUF ,
+     B       FOR_G )
 c----------------------------
       ELSE IF (MTN > 28 .AND. MTN < 32 .or. MTN == 99 .or. MTN == 200) THEN
 c---    user material law libraries here

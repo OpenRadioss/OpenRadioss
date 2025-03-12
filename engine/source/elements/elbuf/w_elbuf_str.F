@@ -56,7 +56,7 @@ C-----------------------------------------------
       INTEGER I,II,J,K,IL,IR,IS,IT,NG,NEL,NPT,L_REL,BUFLEN,NUVAR,
      .   ITY,IGTYP,ISORTH,ISRATE,ISROT,IREP,ERR,IEXPAN,ISTRA,IFAIL,   
      .   NFAIL,IEOS,IXFEM,IVISC,IXEL,NPG,NPTT,NPTTOT,INLOC,NONL,IDFAIL,
-     .   IDAMP_FREQ_RANGE
+     .   IDAMP_FREQ_RANGE,NPT0
       INTEGER ! global variables
      .   G_GAMA,G_SIG,G_OFF,G_NOFF,G_EINT,G_EINS,G_TEMP,
      .   G_RHO,G_PLA,G_VOL,G_EPSD,G_QVIS,G_DELTAX,G_TB,G_RK,G_RE,
@@ -74,7 +74,7 @@ C-----------------------------------------------
      .   G_SKEW_ID,G_GAMA_R,G_SLIPRING_ID,G_SLIPRING_STRAND,G_RETRACTOR_ID,G_RINGSLIP,
      .   G_ADD_NODE,G_UPDATE,G_INTVAR,G_BETAORTH,G_AMU,G_SLIPRING_FRAM_ID,G_FRAM_FACTOR,
      .   G_TM_YIELD,G_TM_SEQ,G_TM_EINT,G_TM_DMG,G_TM_SIG,G_TM_STRA,G_TSAIWU,G_DMGSCL,
-     .   G_SH_IOFFSET,G_EINT_DISTOR
+     .   G_SH_IOFFSET,G_EINT_DISTOR,G_FOR_G,G_FORPG_G
       INTEGER  ! layer variables
      .   LY_DMG,LY_GAMA,LY_DIRA,LY_DIRB,LY_CRKDIR,LY_PLAPT,LY_SIGPT,LY_SMSTR,
      .   LY_HOURG,LY_UELR,LY_UELR1,LY_OFFPG,LY_OFF,LEN_PLAPT,LEN_SIGPT
@@ -1025,6 +1025,8 @@ C
           G_AMU    = GBUF%G_AMU
           G_SH_IOFFSET  = GBUF%G_SH_IOFFSET
           G_EINT_DISTOR = GBUF%G_EINT_DISTOR         
+          G_FOR_G = GBUF%G_FOR_G         
+          G_FORPG_G = GBUF%G_FORPG_G         
 c---
 c 1-D elements (TRUSS, BEAM, SPRING, NSTRAND)
 c---
@@ -1226,6 +1228,10 @@ C
              L_REL = L_REL + 1 
            RBUF_L(L_REL+1) =  G_EINT_DISTOR    
              L_REL = L_REL + 1 
+           RBUF_L(L_REL+1) =  G_FOR_G    
+             L_REL = L_REL + 1 
+           RBUF_L(L_REL+1) =  G_FORPG_G    
+             L_REL = L_REL + 1 
 c---
 c 1-D elements (TRUSS, BEAM, SPRING, NSTRAND)
 c---
@@ -1407,6 +1413,8 @@ C            L_REL = L_REL + NEL*G_SMSTR
             L_REL = L_REL+NEL*G_SH_IOFFSET
           RBUF_L(L_REL+1:L_REL+NEL*G_EINT_DISTOR)= GBUF%SH_IOFFSET(1:NEL*G_EINT_DISTOR)
             L_REL = L_REL+NEL*G_EINT_DISTOR
+          RBUF_L(L_REL+1:L_REL+NEL*G_FOR_G)= GBUF%FOR_G(1:NEL*G_FOR_G)
+            L_REL = L_REL+NEL*G_FOR_G
 c-------
 c
 c        IF (NPG == 1) THEN  ! nothing to write (pointers only)                         
@@ -1437,6 +1445,8 @@ C
              L_REL = L_REL+NEL*G_STRPG                                   
            RBUF_L(L_REL+1:L_REL+NEL*G_STRWPG)= GBUF%STRWPG(1:NEL*G_STRWPG) 
             L_REL = L_REL+NEL*G_STRWPG 
+           RBUF_L(L_REL+1:L_REL+NEL*G_FORPG_G)= GBUF%FORPG_G(1:NEL*G_FORPG_G) 
+            L_REL = L_REL+NEL*G_FORPG_G 
          ENDIF                                                           
 c          print*,'    global 2 =',l_rel
 c-------

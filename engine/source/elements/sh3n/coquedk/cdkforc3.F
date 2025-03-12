@@ -450,7 +450,7 @@ C----------------------------------------------------------------------------
      R    INDX_DRAPE ,THKE      ,SEDRAPE     ,NUMEL_DRAPE ,DT   ,
      Q    NCYCLE     ,SNPC      ,  STF ,
      S    NXLAYMAX   ,IDEL7NOK  ,USERL_AVAIL ,MAXFUNC     ,NPTTOT,
-     T    SBUFMAT    ,SDIR_A    ,SDIR_B)
+     T    SBUFMAT    ,SDIR_A    ,SDIR_B,  GBUF%FORPG_G(PTF))
 C----------------------------------------------------------------------------
 C     THICKNESS CORRECTION 
 C----------------------------

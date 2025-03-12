@@ -79,7 +79,7 @@ C-----------------------------------------------
      .   G_SKEW_ID,G_MAXFRAC,G_MAXEPS,G_GAMA_R,G_SLIPRING_ID,G_SLIPRING_STRAND,G_RETRACTOR_ID,
      .   G_RINGSLIP,G_ADD_NODE,G_UPDATE,G_INTVAR,G_BETAORTH,G_AMU,G_SLIPRING_FRAM_ID,G_FRAM_FACTOR,
      .   G_TM_YIELD,G_TM_SEQ,G_TM_EINT,G_TM_DMG,G_TM_SIG,G_TM_STRA,G_TSAIWU,G_DMGSCL,
-     .   G_SH_IOFFSET,G_EINT_DISTOR
+     .   G_SH_IOFFSET,G_EINT_DISTOR,G_FOR_G,G_FORPG_G
       INTEGER  ! layer variables
      .   LY_DMG,LY_GAMA,LY_DIRA,LY_DIRB,LY_CRKDIR,LY_PLAPT,LY_SIGPT,LY_SMSTR,
      .   LY_HOURG,LY_UELR,LY_UELR1,LY_OFFPG,LY_OFF,LEN_PLAPT,LEN_SIGPT
@@ -1235,7 +1235,7 @@ c
       G_RE   =  NINT(RBUF(IAD+1))         
         IAD = IAD + 1                             
       G_SIG  =  NINT(RBUF(IAD+1))         
-        IAD = IAD + 1                               
+        IAD = IAD + 1  
       G_FOR  =  NINT(RBUF(IAD+1))         
         IAD = IAD + 1                                
       G_MOM  =  NINT(RBUF(IAD+1))         
@@ -1327,6 +1327,10 @@ C
       G_SH_IOFFSET=  NINT(RBUF(IAD+1))         
         IAD = IAD + 1
       G_EINT_DISTOR=  NINT(RBUF(IAD+1))         
+        IAD = IAD + 1
+      G_FOR_G=  NINT(RBUF(IAD+1))         
+        IAD = IAD + 1
+      G_FORPG_G=  NINT(RBUF(IAD+1))         
         IAD = IAD + 1
 c---
 c 1-D elements (TRUSS, BEAM, SPRING, NSTRAND)
@@ -1522,6 +1526,8 @@ C
       GBUF%G_AMU    = G_AMU
       GBUF%G_SH_IOFFSET  = G_SH_IOFFSET
       GBUF%G_EINT_DISTOR = G_EINT_DISTOR
+      GBUF%G_FOR_G = G_FOR_G
+      GBUF%G_FORPG_G = G_FORPG_G
 c---
 c 1-D elements (TRUSS, BEAM, SPRING, NSTRAND)
 c---
@@ -1680,6 +1686,9 @@ c          IAD = IAD+NEL*G_SMSTR
       ALLOCATE (ELBUF_STR%GBUF%EINT_DISTOR(NEL*G_EINT_DISTOR),STAT=ERR)                           
         GBUF%EINT_DISTOR(1:NEL*G_EINT_DISTOR)=RBUF(IAD+1:IAD+NEL*G_EINT_DISTOR)                           
           IAD = IAD+NEL*G_EINT_DISTOR
+      ALLOCATE (ELBUF_STR%GBUF%FOR_G(NEL*G_FOR_G),STAT=ERR)                           
+        GBUF%FOR_G(1:NEL*G_FOR_G)=RBUF(IAD+1:IAD+NEL*G_FOR_G)                           
+          IAD = IAD+NEL*G_FOR_G
 c-------
       IF (NPG == 1) THEN
         ELBUF_STR%GBUF%FORPG => GBUF%FOR
@@ -1698,6 +1707,7 @@ C
           GBUF%STRPG(1:NEL*G_STRPG) = RBUF(IAD+1:IAD+NEL*G_STRPG)                  
           IAD = IAD+NEL*G_STRPG 
         END IF
+        ELBUF_STR%GBUF%FORPG_G => GBUF%FOR_G
       ELSEIF (NPG > 1) THEN
         ALLOCATE (ELBUF_STR%GBUF%FORPG(NEL*G_FORPG) ,STAT=ERR)                     
           GBUF%FORPG(1:NEL*G_FORPG) = RBUF(IAD+1:IAD+NEL*G_FORPG)                  
@@ -1728,6 +1738,9 @@ C
         ALLOCATE (ELBUF_STR%GBUF%STRWPG(NEL*G_STRWPG),STAT=ERR)                           
         GBUF%STRWPG(1:NEL*G_STRWPG)=RBUF(IAD+1:IAD+NEL*G_STRWPG)                   
           IAD = IAD+NEL*G_STRWPG                                  
+        ALLOCATE (ELBUF_STR%GBUF%FORPG_G(NEL*G_FORPG_G),STAT=ERR)                           
+        GBUF%FORPG_G(1:NEL*G_FORPG_G)=RBUF(IAD+1:IAD+NEL*G_FORPG_G)                   
+          IAD = IAD+NEL*G_FORPG_G                                  
       ENDIF
 c------------------------------------------------
       IF (NPTTOT == 1) THEN  ! NPTTOT = 1 ! global variables are pointing to local ones     
