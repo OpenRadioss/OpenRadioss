@@ -9,13 +9,13 @@
 **                                                                    **
 **                                                                    **
 **                    Linux 64 bits, GNU compiler                     **
+**                      Double Precision Version                      **
 **                                                                    **
 **                                                                    **
 **                                                                    **
-** CommitID: 440deeba848d606665f88afb8302e85b1ecf72bf                 **
 ************************************************************************
 ** OpenRadioss Software                                               **
-** COPYRIGHT (C) 1986-2022 Altair Engineering, Inc.                   **
+** COPYRIGHT (C) 1986-2025 Altair Engineering, Inc.                   **
 ** Licensed under GNU Affero General Public License.                  **
 ** See License file.                                                  **
 ************************************************************************
@@ -24,8 +24,11 @@
  COMPUTATION HARDWARE DESCRIPTION
   
  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
- fr-shady.europe.altair.com   Intel(R) Xeon(R) CPU           X5680  @ 3.33GHz (x86_64), 1596 MHz,  20012 MB RAM,  49126 MB swap
+ FR-LAP482   13th Gen Intel(R) Core(TM) i9-13900H (x86_64), 2995 MHz,  31886 MB RAM,   8192 MB swap
   
+ STACKSIZE  . . . . . . . . . . . . . . . . . . . . 8 MB
+ THREAD STACKSIZE . . . . . . . . . . . . . . . . . 400 mB
+ 
 ************************************************************************
 
 
@@ -38,7 +41,7 @@ WARNING ID : 100214
 DESCRIPTION :  
 -- BLOCK: /IOFLAG
 -- LINE: 1                   0         0         0         0         0
-unsupported field exits
+unsupported field exists
 SOLUTION :     
     Please check input format and fields description defined in the Reference Guide.
 
@@ -57,9 +60,7 @@ SOLUTION :
                                                           MASS                LENGTH              TIME
     WORK UNIT SYSTEM . . . . . . ( kg , m  , s   ) 1.0000000000000E+00 1.0000000000000E+00 1.0000000000000E+00
     INPUT UNIT SYSTEM  . . . . . ( kg , m  , s   ) 1.0000000000000E+00 1.0000000000000E+00 1.0000000000000E+00
-
-
- Twist beam convergence                                                          
+Twist beam convergence
 
 
     CONTROL  PARAMETERS                                                                  
@@ -136,9 +137,6 @@ SOLUTION :
 
     INTEG8 : 8 GAUSS POINT CONDENSED INTEGRATION . . . . .         0
     IPARITH: PARALLEL ARITHMETIC FLAG (2 OFF, 1 0N). . . .         1
-    ISUB   : (OLD) SUBCYCLING (1:YES 0:NO) . . . . . . . .         0
-    MSHSUB : MEMORY ALLOCATION FOR (NEW) SHELLS SUBCYCLING
-                                         (1:YES 0:NO). . .         0
     IUSERW : GENERAL USER WINDOW FLAG. . . . . . . . . . .         0
     ISOLID : DEFAULT BRICK FORMULATION FLAG. . . . . . . .         1
     ITET4  : DEFAULT TETRA4 FORMULATION FLAG . . . . . . .      1000
@@ -154,8 +152,10 @@ SOLUTION :
     INSH   : SHELL INERTIA FLAG. . . . . . . . . . . . . .         0
     ISH3N  : DEFAULT 3 NODE SHELL FORMULATION FLAG . . . .         1
     NPTS   : SHELL PROPERTIES DEFAULT NUMBER OF           
-             INTEGRATION POINTS OR LAYERS. . . . . . . . .         0
+             INTEGRATION POINTS OR LAYERS. . . . . . . . .        -1
     IFRAME : DEFAULT SOLID FRAME FORMULATION FLAG . . . .          1
+    IOFFSET: DEFAULT SHELL OFFSET FLAG. . . . . . . . . .          0
+    ICONTROL:DEFAULT SOLID DISTORTION CONTROL FLAG. . . .          0
     ISHFRAM: LOCAL SHELL FRAME DEFINITION. . . . . . . . .         2
 
 
@@ -231,7 +231,7 @@ SOLUTION :
 
 
 
-         PROPERTY SETS (HM_READER)
+         PROPERTY SETS
          -------------
 
 
@@ -249,10 +249,13 @@ Part number 1
      SHELL MEMBRANE DAMPING. . . . . . . . .=  0.000000000000    
      SHELL NUMERICAL DAMPING . . . . . . . .= 1.0000000000000E-03
      SHEAR AREA REDUCTION FACTOR . . . . . .= 0.8330000000000    
-     % OF INTEG POINT THICKNESS TO FAIL. . .=  0.000000000000    
+     ELEMENT DELETION PARAMETER. . . . . . .= 0.9999990000000    
+      > 0.0 : FRACTION OF FAILED THICKNESS   
+      < 0.0 : FRACTION OF FAILED INTG. POINTS
      SHEAR FORMULATION FLAG. . . . . . . . .=         0
      THICKNESS VARIATION FLAG. . . . . . . .=         0
      PLASTICITY FORMULATION FLAG . . . . . .=         0
+     SHELL OFFSET POSITION FLAG . . . . . . =         0
 
 
 Part number 1                           
@@ -269,10 +272,13 @@ Part number 1
      SHELL MEMBRANE DAMPING. . . . . . . . .=  0.000000000000    
      SHELL NUMERICAL DAMPING . . . . . . . .= 1.0000000000000E-03
      SHEAR AREA REDUCTION FACTOR . . . . . .= 0.8330000000000    
-     % OF INTEG POINT THICKNESS TO FAIL. . .=  0.000000000000    
+     ELEMENT DELETION PARAMETER. . . . . . .= 0.9999990000000    
+      > 0.0 : FRACTION OF FAILED THICKNESS   
+      < 0.0 : FRACTION OF FAILED INTG. POINTS
      SHEAR FORMULATION FLAG. . . . . . . . .=         0
      THICKNESS VARIATION FLAG. . . . . . . .=         0
      PLASTICITY FORMULATION FLAG . . . . . .=         0
+     SHELL OFFSET POSITION FLAG . . . . . . =         0
 
 
 Part number 1                           
@@ -289,10 +295,13 @@ Part number 1
      SHELL MEMBRANE DAMPING. . . . . . . . .=  0.000000000000    
      SHELL NUMERICAL DAMPING . . . . . . . .= 1.0000000000000E-03
      SHEAR AREA REDUCTION FACTOR . . . . . .= 0.8330000000000    
-     % OF INTEG POINT THICKNESS TO FAIL. . .=  0.000000000000    
+     ELEMENT DELETION PARAMETER. . . . . . .= 0.9999990000000    
+      > 0.0 : FRACTION OF FAILED THICKNESS   
+      < 0.0 : FRACTION OF FAILED INTG. POINTS
      SHEAR FORMULATION FLAG. . . . . . . . .=         0
      THICKNESS VARIATION FLAG. . . . . . . .=         0
      PLASTICITY FORMULATION FLAG . . . . . .=         0
+     SHELL OFFSET POSITION FLAG . . . . . . =         0
 
 
 
@@ -304,24 +313,27 @@ Part number 1
 
 PART:         1,Part number 1
 ----
-     PROPERTY:         1,Part number 1
-     MATERIAL:         1,material number _      1
-     SUBSET  :         0
- VIRT. THICKN:  0.000000000000    
+     PROPERTY    :         1 (TYPE 01),Part number 1
+     MATERIAL    :         1 (LAW  01),material number _      1
+     SUBSET      :         0
+     FRAMEWORK   :         LAGRANGE
+     VIRT. THICKN:         0.000000000000    
 
 PART:         2,Part number 1
 ----
-     PROPERTY:         2,Part number 1
-     MATERIAL:         1,material number _      1
-     SUBSET  :         0
- VIRT. THICKN:  0.000000000000    
+     PROPERTY    :         2 (TYPE 01),Part number 1
+     MATERIAL    :         1 (LAW  01),material number _      1
+     SUBSET      :         0
+     FRAMEWORK   :         LAGRANGE
+     VIRT. THICKN:         0.000000000000    
 
 PART:         3,Part number 1
 ----
-     PROPERTY:         3,Part number 1
-     MATERIAL:         1,material number _      1
-     SUBSET  :         0
- VIRT. THICKN:  0.000000000000    
+     PROPERTY    :         3 (TYPE 01),Part number 1
+     MATERIAL    :         1 (LAW  01),material number _      1
+     SUBSET      :         0
+     FRAMEWORK   :         LAGRANGE
+     VIRT. THICKN:         0.000000000000    
 
 
        HIERARCHICAL SUBSET ORGANIZATION
@@ -448,46 +460,22 @@ PART:         3,Part number 1
  DOMAIN DECOMPOSITION USING MULTILEVEL KWAY
  ------------------------------------------
  DOMAIN DECOMPOSITION OPTIMIZED FOR PARALLEL ARITHMETIC ON
- DOMAIN DECOMPOSITION : OPTIMIZED FOR SANDY BRIDGE PROCESSOR
+ DOMAIN DECOMPOSITION : OPTIMIZED FOR BROADWELL PROCESSOR
  NUMBER OF DISCONNECTED COMPONENTS FIXED FOR DOMAIN DECOMP:       3
   
   ELEMENT NUMBER =        123
   EDGES FOUND    =        362
   
 #PROC    ELEMENT W.    SECND NOD W.   MAST NOD W.    CONT ELT W.        INT2 W.    KIN COND W.
-   1          6727.             0.             0.             0.             0.             0.
-   2          6510.             0.             0.             0.             0.             0.
-   3          6727.             0.             0.             0.             0.             0.
-   4          6727.             0.             0.             0.             0.             0.
+   1          7347.             0.             0.             0.             0.             0.
+   2          7110.             0.             0.             0.             0.             0.
+   3          7347.             0.             0.             0.             0.             0.
+   4          7347.             0.             0.             0.             0.             0.
   
  STATISTICS ON DECOMPOSITION WEIGHTS
  -----------------------------------
  METRIC      MINIMUM   MAXIMUM   AVERAGE   STANDARD DEVIATION
- ELEMENTS       6510      6727      6673          94
-
-
-      3D - SHELL ELEMENT GROUPS
-      -------------------------
-      GROUP   MATERIAL    ELEMENT      FIRST    ELEMENT      INTEG      SMALL        SUB     STRAIN  HOURGLASS    FAILURE   PINCHING
-                   LAW     NUMBER    ELEMENT       TYPE        PTS     STRAIN     GROUPS     OUTPUT       FLAG       FLAG       FLAG
-
-          1          1          3          1          3          0          2          1          1         11          0          0
-          2          1         24          4          3          0          2          1          1         11          0          0
-          3          1         31         28          3          0          2          1          1         11          0          0
-          4          1          3         59          3          0          2          1          1         11          0          0
-          5          1         31         62          3          0          2          1          1         11          0          0
-          6          1         31         93          3          0          2          1          1         11          0          0
-
-
-       RESTART SIZE OF SHELL AND SOLID ELEMENT GROUPS
-       ----------------------------------------------
-
-       ELEMENT GROUP         1,  SIZE=       682
-       ELEMENT GROUP         2,  SIZE=      3916
-       ELEMENT GROUP         3,  SIZE=      4994
-       ELEMENT GROUP         4,  SIZE=       682
-       ELEMENT GROUP         5,  SIZE=      4994
-       ELEMENT GROUP         6,  SIZE=      4994
+ ELEMENTS       7110      7347      7288         103
 
 
 
@@ -503,26 +491,23 @@ PART MASS & INERTIA
 -------------------
 
 
-PART :          1Part number 1
-----
- Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
- 3.0064031280669E-03 2.0111353279578E-03 4.5632563962164E-02 4.5627606813636E-02 5.3025485668989E-08-2.6463468605691E-04 1.4307503857637E-08
- X           Y           Z           Kin. Energy Vx         Vy         Vz
-  5.996773119157      2.000001226059    -2.0537743264537E-06  0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+PART :          1, Part number 1
+            Mass             Ixx             Iyy             Izz             Ixy             Iyz             Izx
+  3.00640313E-03  2.01113533E-03  4.56325640E-02  4.56276068E-02  5.30254857E-08 -2.64634686E-04  1.43075039E-08
+               X               Y               Z     Kin. Energy              Vx              Vy              Vz
+  5.99677312E+00  2.00000123E+00 -2.05377433E-06  0.00000000E+00  0.00000000E+00  0.00000000E+00  0.00000000E+00
 
-PART :          2Part number 1
-----
- Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
- 3.1034127238077E-03 6.4058303162792E-04 3.8177399833652E-02 3.8176862541034E-02 1.0669995301623E-19-1.4817439346614E-04-1.7623275462472E-19
- X           Y           Z           Kin. Energy Vx         Vy         Vz
-  5.998527164853     5.7316552696593E-18 1.0917438608875E-17  0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+PART :          2, Part number 1
+            Mass             Ixx             Iyy             Izz             Ixy             Iyz             Izx
+  3.10341272E-03  6.40583032E-04  3.81773998E-02  3.81768625E-02  1.06699953E-19 -1.48174393E-04 -1.76232755E-19
+               X               Y               Z     Kin. Energy              Vx              Vy              Vz
+  5.99852716E+00  5.73165527E-18  1.09174386E-17  0.00000000E+00  0.00000000E+00  0.00000000E+00  0.00000000E+00
 
-PART :          3Part number 1
-----
- Mass        Ixx         Iyy         Izz         Ixy        Iyz        Izx
- 3.1045863058836E-03 4.1522780593058E-04 3.7660074051656E-02 3.7660008616396E-02-3.7123082385904E-15-1.1224643411603E-04-8.8104867905602E-14
- X           Y           Z           Kin. Energy Vx         Vy         Vz
-  5.999241079922     -2.000000000019    -7.6959194978771E-12  0.000000000000      0.000000000000      0.000000000000      0.000000000000    
+PART :          3, Part number 1
+            Mass             Ixx             Iyy             Izz             Ixy             Iyz             Izx
+  3.10458631E-03  4.15227806E-04  3.76600741E-02  3.76600086E-02 -3.71230824E-15 -1.12246434E-04 -8.81048679E-14
+               X               Y               Z     Kin. Energy              Vx              Vy              Vz
+  5.99924108E+00 -2.00000000E+00 -7.69591950E-12  0.00000000E+00  0.00000000E+00  0.00000000E+00  0.00000000E+00
 
 
 PART ELEMENT/MATERIAL PARAMETER REVIEW:
@@ -530,22 +515,22 @@ PART ELEMENT/MATERIAL PARAMETER REVIEW:
 
 Part id,name:         1 Part number 1          Mat type:   1 Elm type: SHELL-4nodes           
 ----
-  Ishell  Ismstr   Idril     NPT    ITHK   IPLAS
-      12       2       2       0       0       0
+  Ishell  Ismstr   Idril     NPT    ITHK   IPLAS    IPOS
+      12       2       2       0       0       0       0
 --      hm        hf        hr        dm        dn
     0.0000    0.0000    0.0000    0.0000    0.0010
 
 Part id,name:         2 Part number 1          Mat type:   1 Elm type: SHELL-4nodes           
 ----
-  Ishell  Ismstr   Idril     NPT    ITHK   IPLAS
-      12       2       2       0       0       0
+  Ishell  Ismstr   Idril     NPT    ITHK   IPLAS    IPOS
+      12       2       2       0       0       0       0
 --      hm        hf        hr        dm        dn
     0.0000    0.0000    0.0000    0.0000    0.0010
 
 Part id,name:         3 Part number 1          Mat type:   1 Elm type: SHELL-4nodes           
 ----
-  Ishell  Ismstr   Idril     NPT    ITHK   IPLAS
-      12       2       2       0       0       0
+  Ishell  Ismstr   Idril     NPT    ITHK   IPLAS    IPOS
+      12       2       2       0       0       0       0
 --      hm        hf        hr        dm        dn
     0.0000    0.0000    0.0000    0.0000    0.0010
 
@@ -568,10 +553,7 @@ Part id,name:         3 Part number 1          Mat type:   1 Elm type: SHELL-4no
       ADDED NODAL NON-STRUCTURAL MASSES 
      -----------------------------------
 
-
-
-
-  TOTAL ADDED MASS =   0.000000000000    
+      TOTAL ADDED MASS =   0.000000000000    
 
 
 
@@ -822,7 +804,7 @@ DX        DY        DZ        VX        VY        VZ
     STARTER STORAGE 
     --------------- 
  
-    STARTER MEMORY USAGE        122 MB
+    STARTER MEMORY USAGE        151 MB
 
 
 
@@ -911,21 +893,21 @@ STANDARD DEVIATION            :       4
  CPU USER TIME
  -------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .3899E+00   .1413E+00   .1756E-01   .0000E+00   .0000E+00   .0000E+00   .2897E-04
+.0000E+00   .2825E+00   .1008E+00   .3307E-02   .0000E+00   .0000E+00   .0000E+00   .4023E-05
   
   
  ELAPSED TIME
  ------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .1144E+07   .1583E+00   .1121E-01   .0000E+00   .0000E+00   .0000E+00   .1168E-04
+.0000E+00   .2002E+04   .3042E+00   .6460E-01   .0000E+00   .0000E+00   .0000E+00   .5900E-05
   
                    ** COMPUTE TIME INFORMATION **
   
- EXECUTION STARTED      :      2022/11/23  16:25:29
- EXECUTION COMPLETED    :      2022/11/23  16:25:30
+ EXECUTION STARTED      :      2025/03/19  11:23:26
+ EXECUTION COMPLETED    :      2025/03/19  11:23:33
   
- ELAPSED TIME...........=          0.63 s
-                               00:00:00
+ ELAPSED TIME...........=          6.93 s
+                               00:00:06
   
 ------------------------------------------------------------------------
 

@@ -54,7 +54,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7           INDX   ,NGL    ,ZCFAC  ,GS    ,SIGY  ,G     ,
      8           THK0   ,EPSP   ,IPLA   ,IGEO  ,IPM   ,TABLE ,
      9           IR     ,IS     ,F_DEF  ,ISMSTR,NU    ,VOL0  ,
-     A           KFTS   ,ZSHIFT ,idamp_freq_range,mat_elem,damp_buf)
+     A           KFTS   ,ZSHIFT ,idamp_freq_range,mat_elem,damp_buf,
+     B           FOR_G  )
 C-----------------------------------------------
       USE TABLE_MOD
       USE ELBUFDEF_MOD
@@ -93,6 +94,7 @@ C-----------------------------------------------
      .   ZCFAC(MVSIZ,2),GS(*),SIGY(*),THK0(*),SHF(*),F_DEF(MVSIZ,8),
      .   A1(MVSIZ),A2(MVSIZ),G(MVSIZ),NU(MVSIZ),VOL0(*)
       my_real, INTENT(IN) :: ZSHIFT
+      my_real, DIMENSION(NEL,5), INTENT(INOUT) :: FOR_G
       TYPE(TTABLE) TABLE(*)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
       type (mat_elem_) ,intent(in) ,target      :: mat_elem
@@ -162,6 +164,7 @@ C
 !
       ETSE(1:MVSIZ) = ZERO   
       OFF_OLD(1:NEL) = OFF(1:NEL)   
+      FOR(JFT:JLT,1:5) = FOR_G(JFT:JLT,1:5)   
 C-----------------------------------------------------------
 C     EPS POINT EQUIVALENT (au sens energetique)
 C-----------------------------------------------------------
@@ -524,15 +527,16 @@ C-----------------------
 C      FORCES ET MOMENTS
 C-----------------------
       DO I=JFT,JLT
-        FOR(I,1) = SIGNXX(I)+SIGVXX(I)
-        FOR(I,2) = SIGNYY(I)+SIGVYY(I)
-        FOR(I,3) = SIGNXY(I)+SIGVXY(I)
-        FOR(I,4) = SIGNYZ(I)+SIGVYZ(I)
-        FOR(I,5) = SIGNZX(I)+SIGVZX(I)
+        FOR_G(I,1) = SIGNXX(I)+SIGVXX(I)
+        FOR_G(I,2) = SIGNYY(I)+SIGVYY(I)
+        FOR_G(I,3) = SIGNXY(I)+SIGVXY(I)
+        FOR_G(I,4) = SIGNYZ(I)+SIGVYZ(I)
+        FOR_G(I,5) = SIGNZX(I)+SIGVZX(I)
         MOM(I,1) = MOMNXX(I)
         MOM(I,2) = MOMNYY(I)
         MOM(I,3) = MOMNXY(I)
       ENDDO
+      FOR(JFT:JLT,1:5) = FOR_G(JFT:JLT,1:5)   
 C----------------------
 C     THICKNESS UPDATE
 C----------------------
