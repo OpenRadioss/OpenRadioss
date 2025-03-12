@@ -161,6 +161,7 @@ c--------------------------------------------------
         CALL HM_GET_INTV  ('rad_icoor'     ,ICOOR   ,IS_AVAILABLE,LSUBMODEL)  
         CALL HM_GET_INTV  ('skew_ID'       ,SKEW_ID  ,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV  ('frame_ID'      ,FRAME_ID ,IS_AVAILABLE,LSUBMODEL)
+        IF (SYS_TYPE /= 2) CALL HM_GET_INTV('inputsystem',SKEW_ID ,IS_AVAILABLE,LSUBMODEL)
 c
         CALL HM_GET_FLOATV('xscale'        ,XSCALE  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
         CALL HM_GET_FLOATV('magnitude'     ,YSCALE  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
