@@ -745,6 +745,8 @@
         integer  g_forpg    
         integer  g_mompg
         integer  g_gama_r   
+        integer  g_for_g    ! used for resultant stress (global modeling)
+        integer  g_forpg_g    
 !
         integer  g_forpgpinch  
         integer  g_mompgpinch 
@@ -874,6 +876,8 @@
         my_real, dimension(:) , pointer ::   forpg   ! mean gauss point value    
         my_real, dimension(:) , pointer ::   mompg
         my_real, dimension(:) , pointer ::   gama_r  ! co-rotational local sys  
+        my_real, dimension(:) , pointer ::   for_g       
+        my_real, dimension(:) , pointer ::   forpg_g       
 !
         my_real, dimension(:) , pointer ::   forpgpinch 
         my_real, dimension(:) , pointer ::   mompgpinch
