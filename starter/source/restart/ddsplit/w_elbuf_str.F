@@ -70,7 +70,7 @@ C-----------------------------------------------
      .   G_SKEW_ID,G_GAMA_R,G_SLIPRING_ID,G_SLIPRING_STRAND,G_RETRACTOR_ID,G_RINGSLIP,
      .   G_ADD_NODE,G_UPDATE,G_INTVAR,G_BETAORTH,G_AMU,G_SLIPRING_FRAM_ID,G_FRAM_FACTOR,
      .   G_TM_YIELD,G_TM_SEQ,G_TM_EINT,G_TM_DMG,G_TM_SIG,G_TM_STRA,G_TSAIWU,G_DMGSCL,
-     .   G_SH_IOFFSET,G_EINT_DISTOR
+     .   G_SH_IOFFSET,G_EINT_DISTOR,G_FOR_G,G_FORPG_G
 
       INTEGER  ! layer variables
      .   LY_DMG,LY_GAMA,LY_DIRA,LY_DIRB,LY_CRKDIR,LY_PLAPT,LY_SIGPT,LY_SMSTR,
@@ -131,7 +131,7 @@ c
           IXFEM = ELBUF%IXFEM                                  
           NEL   = ELBUF%NEL
           IDRAPE = ELBUF%IDRAPE
-cc          NPT   = IPARG(6,NG)                                                   
+cc          NPT   = IPARG(6,NG)                                             
           NPT  = ELBUF%NLAY*ELBUF%NPTR*ELBUF%NPTS*ELBUF%NPTT
 C
 c---------------------------------------------------    
@@ -1122,6 +1122,8 @@ C
           G_COR_XR = GBUF%G_COR_XR
           G_SH_IOFFSET  = GBUF%G_SH_IOFFSET
           G_EINT_DISTOR  = GBUF%G_EINT_DISTOR
+          G_FOR_G    = GBUF%G_FOR_G
+          G_FORPG_G  = GBUF%G_FORPG_G
           
 c---
 c 1-D elements (TRUSS, BEAM, SPRING)
@@ -1328,7 +1330,11 @@ C
              L_REL = L_REL + 1   
            RBUF_L(L_REL+1) =  G_SH_IOFFSET     
              L_REL = L_REL + 1   
-             RBUF_L(L_REL+1) =  G_EINT_DISTOR     
+           RBUF_L(L_REL+1) =  G_EINT_DISTOR     
+             L_REL = L_REL + 1   
+           RBUF_L(L_REL+1) =  G_FOR_G     
+             L_REL = L_REL + 1   
+           RBUF_L(L_REL+1) =  G_FORPG_G     
              L_REL = L_REL + 1   
 c---
 c 1-D elements (TRUSS, BEAM, SPRING)
@@ -1473,7 +1479,7 @@ c
           RBUF_L(L_REL+1:L_REL+NEL*G_STRA) = GBUF%STRA(1:NEL*G_STRA) 
             L_REL = L_REL+NEL*G_STRA 
           RBUF_L(L_REL+1:L_REL+NEL*G_SIGI) = GBUF%SIGI(1:NEL*G_SIGI) 
-            L_REL = L_REL+NEL*G_SIGI 
+            L_REL = L_REL+NEL*G_SIGI
           RBUF_L(L_REL+1:L_REL+NEL*G_DMG) = GBUF%DMG(1:NEL*G_DMG) 
             L_REL = L_REL+NEL*G_DMG 
           RBUF_L(L_REL+1:L_REL+NEL*G_UELR) = GBUF%UELR(1:NEL*G_UELR)
@@ -1519,6 +1525,8 @@ C
             L_REL = L_REL + NEL*G_SH_IOFFSET  
           RBUF_L(L_REL+1:L_REL+NEL*G_EINT_DISTOR) = GBUF%EINT_DISTOR(1:NEL*G_EINT_DISTOR)                
             L_REL = L_REL + NEL*G_EINT_DISTOR  
+          RBUF_L(L_REL+1:L_REL+NEL*G_FOR_G) = GBUF%FOR_G(1:NEL*G_FOR_G)                
+            L_REL = L_REL + NEL*G_FOR_G  
 c---------------------------------------------------
               IF (DEBUG_PRINT == 1) THEN
                  print*,'      COMMON GLOB=', L_REL-SUM
@@ -1552,6 +1560,8 @@ C
              L_REL = L_REL+NEL*G_STRPG                                   
            RBUF_L(L_REL+1:L_REL+NEL*G_STRWPG)= GBUF%STRWPG(1:NEL*G_STRWPG) 
             L_REL = L_REL+NEL*G_STRWPG
+           RBUF_L(L_REL+1:L_REL+NEL*G_FORPG_G)= GBUF%FORPG_G(1:NEL*G_FORPG_G) 
+            L_REL = L_REL+NEL*G_FORPG_G
          ENDIF                                                           
 c---------------------------------------------------
               IF (DEBUG_PRINT == 1) THEN

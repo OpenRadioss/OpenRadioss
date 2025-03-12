@@ -178,6 +178,10 @@ C
       GBUF%G_AMU = 0   
       IAD = IAD + 1
       GBUF%G_EINT_DISTOR  = 0  
+      IAD = IAD + 1
+      GBUF%G_FOR_G  = 0  
+      IAD = IAD + 1
+      GBUF%G_FORPG_G  = 0  
       
 C 1-D elements (TRUSS, BEAM, SPRING, NSTRAND)
       IAD = IAD + 1

@@ -411,7 +411,8 @@ C----------------------------------------------------------------------------
      P   BID       ,ITASK     ,DRAPE_SH3N  ,VAR_REG   ,NLOC_DMG  ,
      R   INDX_DRAPE,THKE      ,SEDRAPE     ,NUMEL_DRAPE ,DT      ,
      Q   NCYCLE    ,SNPC      ,STF         ,NXLAYMAX    ,IDEL7NOK  ,
-     R   USERL_AVAIL ,MAXFUNC ,NPTTOT      ,SBUFMAT     ,SDIR_A    ,SDIR_B    )
+     R   USERL_AVAIL ,MAXFUNC ,NPTTOT      ,SBUFMAT     ,SDIR_A    ,SDIR_B    ,
+     S   GBUF%FOR_G)
 C----------------------------------------------------------------------------
 C     FORCES VISCOCITE 
 C----------------------------

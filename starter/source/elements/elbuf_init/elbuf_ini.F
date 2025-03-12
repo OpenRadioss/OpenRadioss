@@ -105,7 +105,7 @@ C-----------------------------------------------
      .   IPMAT,IPMAT_IPLY,NPTTOT,NUVARN,NX,IBOLTP,CRKDIR,INLOC,LNLOC,
      .   NONL, DEBUG_PRINT,IPINCH,NUVAREOS,IEOS_TYPE,IDRAPE,LLOC_SLICE,
      .   IPNPT_LAY,IDFAIL,LNLOCTS,ICONTROL,ISHOFFSET,IDAMP_FREQ_RANGE,
-     .   LDAMP_FREQ_RANGE,NVAR_DAMP_FREQ_RANGE
+     .   LDAMP_FREQ_RANGE,NVAR_DAMP_FREQ_RANGE,NPT0
       INTEGER, ALLOCATABLE, DIMENSION(:,:) :: TFAIL,FAILID
       INTEGER, ALLOCATABLE, DIMENSION(:)   :: IMAT,ILAW
       TYPE(BUF_LAY_)     , POINTER :: BUFLY
@@ -202,6 +202,9 @@ c
           NVAR_DAMP_FREQ_RANGE = 21*MIN(1,IDAMP_FREQ_RANGE)
         ENDIF  
         NINTLAY = 0                                            
+        NVAR_DAMP_FREQ_RANGE = 21*MIN(1,IDAMP_FREQ_RANGE)
+        NINTLAY = 0  
+        NPT0 = NPT
 cc        NXEL    = 0
 c----
         NPAR_TAB  = 10 ! number of integer parameters at top structure level
@@ -1510,6 +1513,10 @@ C------------- 3 is sufficient !!!!
           ENDIF
           IF (ITY == 3 .OR. ITY == 7) THEN
             IF (DEFAULTS%SHELL%IOFFSET ==1) ELBUF_TAB(NG)%GBUF%G_SH_IOFFSET = 1
+            IF (NPT0 == 0) THEN 
+                GBUF%G_FOR_G = 5 ! avoid mem damping error
+                IF (NPG > 1) GBUF%G_FORPG_G = 5*NPG 
+            END IF
           ENDIF
 c---------for accumulate WXY
           IF (ISMSTR == 10 )THEN
@@ -1653,6 +1660,7 @@ C-------G_THK_I =  G_THK
           LGLOB = LGLOB + GBUF%G_THK_I
           LGLOB = LGLOB + GBUF%G_MAXFRAC
           LGLOB = LGLOB + GBUF%G_MAXEPS    
+          LGLOB = LGLOB + GBUF%G_FOR_G
           IF (NPG > 1) THEN
             LGLOB = LGLOB + GBUF%G_FORPG
             LGLOB = LGLOB + GBUF%G_MOMPG
@@ -1666,6 +1674,7 @@ C
             LGLOB = LGLOB + GBUF%G_STRPG
             LGLOB = LGLOB + GBUF%G_STRWPG
             LGLOB = LGLOB + GBUF%G_TEMPG
+            LGLOB = LGLOB + GBUF%G_FORPG_G
           ELSEIF (GBUF%G_STRPG > GBUF%G_STRA) THEN
             LGLOB = LGLOB + GBUF%G_STRPG
           ENDIF
