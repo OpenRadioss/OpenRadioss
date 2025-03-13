@@ -496,7 +496,7 @@ C               disconnection with slipring fram2 - ringslip must be stored in b
 C
               IF ((GBUF%SLIPRING_ID(I)==0).AND.(NFOUND > 0)) THEN
 C--             shell connected to slipring - deactivated
-                GBUF%OFF(I) = ZERO
+                GBUF%OFF(I) = -ONE
                 GBUF%SLIPRING_ID(I) = SLIP     
               ELSEIF ((GBUF%SLIPRING_ID(I) > 0).AND.(NFOUND == 0)) THEN
 C--             shell fully released by slipring - reactivated - tag -1
