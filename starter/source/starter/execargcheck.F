@@ -1159,7 +1159,7 @@ C-----------------------------------------------
          ELSE
            WRITE(6,'(A)')     BTAG(1:LEN_TRIM(BTAG))
          ENDIF
-         WRITE(6,'(A,A)') 'Hm_reader : ',READER_COMMIT_ID(1:READER_COMMIT_ID_LEN)
+         WRITE(6,'(A,A)') 'Reader : ',READER_COMMIT_ID(1:READER_COMMIT_ID_LEN)
          WRITE(6,'(A,A)')   ' '
 
         END
