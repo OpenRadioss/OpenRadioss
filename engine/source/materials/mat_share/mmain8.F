@@ -122,7 +122,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,J,JJ(6),J1,J2,IR,NFUNC,NUVAR,NUPARAM,NUVARR, 
      .        NVARF,IRUPT,NUMBER_FAILURE,IADBUF,IMAT,NTABL_FAIL
-      INTEGER IFUNC(MAXFUNC)
+      INTEGER IFUNC(MAXFUNC), LF_DAMMX
       INTEGER, DIMENSION(:), POINTER :: ITABL_FAIL
       my_real
      .   QNEW(MVSIZ),VIS(MVSIZ),EPSD(MVSIZ),ET(MVSIZ),
@@ -260,6 +260,7 @@ C----
             NVARF  =  BUFLY%FAIL(1,1,J)%FLOC(IR)%NVAR
             DFMAX  => BUFLY%FAIL(1,1,J)%FLOC(IR)%DAMMX
             TDELE  => BUFLY%FAIL(1,1,J)%FLOC(IR)%TDEL
+            LF_DAMMX = BUFLY%FAIL(1,1,J)%FLOC(IR)%LF_DAMMX
             
             J1 = 1 + NEL*(J-1)
             DO I=1,NEL
@@ -292,11 +293,11 @@ C -----------wilkins
      5                 DPLA(J1),UVARF,OFF,DFMAX,TDELE)
              ELSEIF(IRUPT == 8)THEN
 C---- JC  + spalling
-              CALL FAIL_SPALLING_S(NEL ,NUPARAM,NVARF,
+              CALL FAIL_SPALLING_S(NEL ,NUPARAM,
      2                 TT  ,DT1  ,UPARAMF,NGL ,
      4                 SXX  ,SYY  ,SZZ  ,SXY   ,SYZ   ,SZX,
-     5                 DPLA(J1),EPSP(J1),TSTAR,UVARF,OFF,
-     6                 DFMAX ,TDELE,GBUF%OFF)
+     5                 DPLA(J1),EPSP(J1),TSTAR,OFF,
+     6                 LF_DAMMX,DFMAX ,TDELE,GBUF%OFF)
              ELSEIF(IRUPT == 9)THEN
 C---- wierzbicki
                CALL FAIL_WIERZBICKI_S(NEL ,NUPARAM,NVARF,

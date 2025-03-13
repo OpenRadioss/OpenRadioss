@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE HM_READ_FAIL_SPALLING(FAIL , 
      .           MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .           LSUBMODEL,UNITAB   )
+     .           LSUBMODEL,UNITAB   ,FAIL_TAG )
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -49,6 +49,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD 
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD 
+      USE ELBUFTAG_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,6 +67,7 @@ C-----------------------------------------------
       TYPE (UNIT_TYPE_)   ,INTENT(IN) :: UNITAB        ! table of input units
       TYPE (SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*) 
       TYPE (FAIL_PARAM_)  ,INTENT(INOUT) :: FAIL
+      TYPE (FAIL_TAG_)    ,INTENT(INOUT) :: FAIL_TAG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -99,15 +101,21 @@ c---------------------------
       FAIL%FAIL_ID = FAIL_ID 
       FAIL%NUPARAM = 8
       FAIL%NIPARAM = 0
-      FAIL%NUVAR   = 1
+      FAIL%NUVAR   = 0
       FAIL%NFUNC   = 0
       FAIL%NTABLE  = 0
-      FAIL%NMOD    = 0
+      FAIL%NMOD    = 2
 c            
       ALLOCATE (FAIL%UPARAM(FAIL%NUPARAM))
       ALLOCATE (FAIL%IPARAM(FAIL%NIPARAM))
       ALLOCATE (FAIL%IFUNC (FAIL%NFUNC))
       ALLOCATE (FAIL%TABLE (FAIL%NTABLE))
+      ALLOCATE (FAIL%MODE  (FAIL%NMOD))
+c
+      ! Modes of failure
+      FAIL_TAG%LF_DAMMX = 1 + FAIL%NMOD
+      FAIL%MODE(1)  = "Johnson-Cook criterion"
+      FAIL%MODE(2)  = "Pmin criterion"
 c
       FAIL%UPARAM(1) = D1
       FAIL%UPARAM(2) = D2
