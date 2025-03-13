@@ -238,7 +238,7 @@
           integer :: ipt,jpt,ir,israte
           integer :: ifunc(maxfunc)
           integer :: idum1
-          integer :: irupt,imat,ntabl_fail
+          integer :: irupt,imat,ntabl_fail,lf_dammx
           integer :: nvarf, iexpan8,jj(6),inloc,ieos,dmg_flag
           ! floating point variables
           my_real, dimension(llt) :: cst1
@@ -929,6 +929,7 @@
 !  ---------------------------------------------------------------
             if ((itask==0).and.(imon_mat==1))call startime(TIMERS,121)
             do ir = 1,bufly%nfail
+              lf_dammx = bufly%fail(1,1,ipt)%floc(ir)%lf_dammx
               nvarf =  bufly%fail(1,1,ipt)%floc(ir)%nvar
               uvarf => bufly%fail(1,1,ipt)%floc(ir)%var
               dfmax => bufly%fail(1,1,ipt)%floc(ir)%dammx
@@ -1044,11 +1045,11 @@
 !!!
               elseif(irupt == 8)then
 !----  j     ohnson cook + spalling
-                call fail_spalling_s(llt ,npar,nvarf,&
+                call fail_spalling_s(llt ,npar,&
                 &tt  ,dt1  ,uparamf,ngl ,&
                 &s1  ,s2  ,s3  ,s4   ,s5   ,s6      ,&
-                &dpla,epsp1,tstar,uvarf    ,off     ,&
-                &dfmax,tdele,offg)
+                &dpla,epsp1,tstar,off     ,&
+                &lf_dammx ,dfmax,tdele,offg)
               elseif(irupt == 9)then
 !----  wierzbicki
                 call fail_wierzbicki_s(llt ,npar,nvarf,&

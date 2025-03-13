@@ -30,11 +30,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    usermat_solid     ../engine/source/materials/mat_share/usermat_solid.F
       !||====================================================================
       SUBROUTINE FAIL_SPALLING_S (
-     1     NEL    ,NUPARAM ,NUVAR   ,
-     2     TIME   ,TIMESTEP,UPARAM  ,NGL    ,
-     4     SIGNXX ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
-     5     DPLA   ,EPSP    ,TSTAR   ,UVAR    ,OFF   ,
-     6     DFMAX  ,TDELE   ,OFFG  )
+     1     NEL     ,NUPARAM ,
+     2     TIME    ,TIMESTEP,UPARAM  ,NGL    ,
+     3     SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY ,SIGNYZ  ,SIGNZX ,
+     4     DPLA    ,EPSP    ,TSTAR   ,OFF    ,
+     5     LF_DAMMX,DFMAX   ,TDELE   ,OFFG   )
 C-----------------------------------------------
 C     Johnson cook + spalling          
 C-----------------------------------------------
@@ -46,7 +46,6 @@ C VAR     | SIZE    |TYP| RW| DEFINITION
 C---------+---------+---+---+--------------------------------------------
 C NEL     |  1      | I | R | SIZE OF THE ELEMENT GROUP NEL 
 C NUPARAM |  1      | I | R | SIZE OF THE USER PARAMETER ARRAY
-C NUVAR   |  1      | I | R | NUMBER OF FAILURE ELEMENT VARIABLES
 C---------+---------+---+---+--------------------------------------------
 C TIME    |  1      | F | R | CURRENT TIME
 C TIMESTEP|  1      | F | R | CURRENT TIME STEP
@@ -57,7 +56,6 @@ C SIGNYY  | NEL     | F | W | NEW ELASTO PLASTIC STRESS YY
 C ...     |         |   |   |
 C ...     |         |   |   |
 C---------+---------+---+---+--------------------------------------------
-C UVAR    |NEL*NUVAR| F |R/W| USER ELEMENT VARIABLE ARRAY
 C OFF     | NEL     | F |R/W| DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C OFFG    | NEL     | F |R/W| GLOBAL ELEMENT FLAG 
 C---------+---------+---+---+--------------------------------------------
@@ -70,7 +68,8 @@ C---------+---------+---+---+--------------------------------------------
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL, NUPARAM, NUVAR,NGL(NEL)
+      INTEGER NEL, NUPARAM, NGL(NEL)
+      INTEGER, INTENT(IN) :: LF_DAMMX
       my_real TIME,TIMESTEP,UPARAM(*),
      .   SIGNXX(NEL),SIGNYY(NEL),SIGNZZ(NEL),
      .   SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL),
@@ -83,7 +82,7 @@ cc      my_real
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      my_real UVAR(NEL,NUVAR), OFF(NEL),DFMAX(NEL),TDELE(NEL)
+      my_real OFF(NEL),DFMAX(NEL,LF_DAMMX),TDELE(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -99,7 +98,7 @@ C--------------------------------------------------------------
        D4 = UPARAM(4)
        D5 = UPARAM(5)        
        EPSP0 = UPARAM(6)
-       PMIN = UPARAM(7)
+       PMIN  = UPARAM(7)
        IFLAG = INT(UPARAM(8)) 
 C-----------------------------------------------
       IDEL=0
@@ -140,8 +139,9 @@ C
      .           D2*EXP(EPSF))*(ONE 
      .                  + D4*LOG(MAX(ONE,EPSP(I)/EPSP0)))
      .                    *(ONE + D5*TSTAR(I))
-         IF(EPSF>ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF       
-         IF(DFMAX(I)>=ONE.AND.OFF(I)==ONE) THEN
+         IF(EPSF>ZERO) DFMAX(I,2) = DFMAX(I,2) + DPLA(I)/EPSF       
+         IF(DFMAX(I,2)>=ONE.AND.OFF(I)==ONE) THEN
+          DFMAX(I,2) = ONE
           OFF(I)=FOUR_OVER_5
           NINDX=NINDX+1
           INDX(NINDX)=I
@@ -165,7 +165,7 @@ Cc deviatoric will be vanished
        DO I=1,NEL
         IF(IFLAG==3.AND.OFF(I)==ONE.AND.DPLA(I)/=ZERO.AND.
      .         OFFG(I)>ZERO)THEN
-         IF(DFMAX(I)<ONE)THEN
+         IF (DFMAX(I,2)<ONE)THEN
           P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
           SXX = SIGNXX(I) - P
           SYY = SIGNYY(I) - P
@@ -178,8 +178,9 @@ Cc deviatoric will be vanished
      .           D2*EXP(EPSF))*(ONE 
      .                  + D4*LOG(MAX(ONE,EPSP(I)/EPSP0)))
      .                    *(ONE + D5*TSTAR(I))
-          IF(EPSF>ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF
-          IF(DFMAX(I)>=ONE.AND.OFF(I)==ONE) THEN
+          IF(EPSF>ZERO) DFMAX(I,2) = DFMAX(I,2) + DPLA(I)/EPSF
+          IF(DFMAX(I,2)>=ONE.AND.OFF(I)==ONE) THEN
+           DFMAX(I,2) = ONE
            NINDX=NINDX+1
            INDX(NINDX)=I
            SIGNXX(I) =   P
@@ -214,36 +215,39 @@ C...Spalling
         NINDEX = 0
         NINDX  = 0
         DO I=1,NEL
-         P= -THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
-         IF(ISPALL==1.AND.OFFG(I)>ZERO) THEN
-          IF(UVAR(I,1)==ZERO.AND.P<=PMIN)THEN
-           UVAR(I,1) = ONE
-           SIGNXX(I)= ZERO
-           SIGNYY(I)= ZERO
-           SIGNZZ(I)= ZERO
-           SIGNXY(I)= ZERO
-           SIGNZX(I)= ZERO
-           SIGNYZ(I)= ZERO
-           NINDX=NINDX+1
-           INDX(NINDX)=I 
-          ELSEIF(UVAR(I,1)==ONE)THEN
-           SIGNXX(I) = -MAX(P , ZERO)
-           SIGNYY(I) = -MAX(P , ZERO)
-           SIGNZZ(I) = -MAX(P , ZERO)
-           SIGNXY(I)= ZERO
-           SIGNZX(I)= ZERO
-           SIGNYZ(I)= ZERO
-          ENDIF
-        ELSEIF(ISPALL==2.AND.P<=PMIN.AND.OFF(I)==ONE.AND.
+          P = -THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
+          DFMAX(I,3) = MAX(DFMAX(I,3),MIN(P,ZERO)/PMIN)
+          IF (ISPALL==1 .AND. OFFG(I)>ZERO) THEN
+            IF (DFMAX(I,3) < ONE) THEN 
+              IF (DFMAX(I,3) >= ONE)THEN
+                DFMAX(I,3) = ONE
+                SIGNXX(I)= ZERO
+                SIGNYY(I)= ZERO
+                SIGNZZ(I)= ZERO
+                SIGNXY(I)= ZERO
+                SIGNZX(I)= ZERO
+                SIGNYZ(I)= ZERO
+                NINDX=NINDX+1
+                INDX(NINDX)=I 
+              ENDIF
+            ELSE
+              SIGNXX(I) = -MAX(P , ZERO)
+              SIGNYY(I) = -MAX(P , ZERO)
+              SIGNZZ(I) = -MAX(P , ZERO)
+              SIGNXY(I)= ZERO
+              SIGNZX(I)= ZERO
+              SIGNYZ(I)= ZERO
+            ENDIF
+          ELSEIF(ISPALL==2.AND.P<=PMIN.AND.OFF(I)==ONE.AND.
      .         OFFG(I)>ZERO)THEN
-          OFF(I)= FOUR_OVER_5
-          NINDEX=NINDEX+1
-          INDEX(NINDEX)=I
-          TDELE(I) = TIME  
-        ENDIF 
+            OFF(I)= FOUR_OVER_5
+            NINDEX=NINDEX+1
+            INDEX(NINDEX)=I
+            TDELE(I) = TIME  
+          ENDIF 
         ENDDO
 C
-        IF(NINDX>0.AND.IMCONV==1)THEN
+        IF (NINDX>0.AND.IMCONV==1) THEN
         DO J=1,NINDX
 #include "lockon.inc"
         WRITE(IOUT, 3000) NGL(INDX(J))
@@ -252,7 +256,7 @@ C
         END DO
        END IF
 C       
-        IF(NINDEX>0.AND.IMCONV==1)THEN
+        IF (NINDEX>0.AND.IMCONV==1) THEN
         DO J=1,NINDEX
 #include "lockon.inc"
         WRITE(IOUT, 3200) NGL(INDEX(J))
@@ -262,7 +266,7 @@ C
        END IF  
 C-------------Maximum Damage storing for output : 0 < DFMAX < 1--------------
        DO I=1,NEL
-          DFMAX(I) = MIN(ONE,DFMAX(I))
+          DFMAX(I,1) = MAX(DFMAX(I,2),DFMAX(I,3))
        ENDDO                   
 C-----------------------------------------------
  1000 FORMAT(1X,'DELETE SOLID ELEMENT NUMBER ',I10)

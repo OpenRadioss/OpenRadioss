@@ -2240,11 +2240,11 @@
 !----- removed to output (h3d)
               elseif (irupt == 8) then
 !---- johnson cook + spalling
-                call fail_spalling_s(nel ,nparf,nvarf,&
+                call fail_spalling_s(nel ,nparf,&
                 &tt  ,dt1  ,uparf,ngl ,&
                 &s1  ,s2  ,s3  ,s4   ,s5   ,s6      ,&
-                &dpla,epsp1,tstar,uvarf,off         ,&
-                &dfmax,tdel ,offg)
+                &dpla,epsp1,tstar,off         ,&
+                &lf_dammx ,dfmax,tdel ,offg)
               elseif (irupt == 9) then
 !---- wierzbicki
                 call fail_wierzbicki_s(nel ,nparf,nuvarr,&

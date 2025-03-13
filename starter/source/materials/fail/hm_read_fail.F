@@ -320,7 +320,7 @@ c
               IRUPT = 8    
               CALL HM_READ_FAIL_SPALLING(MAT_PARAM(IMAT)%FAIL(IFL),
      .             MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .             LSUBMODEL,UNITAB   )
+     .             LSUBMODEL,UNITAB   ,FAIL_TAG(IRUPT))
 c     
             ELSEIF (KEY(1:6) == 'WIERZB') THEN
               IRUPT = 9 

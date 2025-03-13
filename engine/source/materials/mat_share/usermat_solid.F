@@ -1272,11 +1272,11 @@ C   user3
           ELSEIF (IRUPT == 7)THEN                                        
           ELSEIF (IRUPT == 8)THEN                                         
 C---- Johnson cook + spalling          
-              CALL FAIL_SPALLING_S(LLT ,NPAR,NVARF,
+              CALL FAIL_SPALLING_S(LLT ,NPAR,
      2                    TT  ,DT1  ,UPARAMF,NGL ,
      4                    S1  ,S2  ,S3  ,S4   ,S5   ,S6      ,
-     5                    DPLA,EPSP1,TSTAR,UVARF,OFF         ,
-     6                    DFMAX,TDEL ,OFFG)                   
+     5                    DPLA,EPSP1,TSTAR,OFF         ,
+     6                    LF_DAMMX ,DFMAX,TDEL ,OFFG)                   
           ELSEIF (IRUPT == 9)THEN                                         
 C---- wierzbicki
               CALL FAIL_WIERZBICKI_S(LLT ,NPAR,NUVARR,

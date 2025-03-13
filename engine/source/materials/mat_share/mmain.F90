@@ -2331,11 +2331,11 @@
 !-------------------------------------------------------------------
               elseif(irupt == 8)then
 !---- jc + spalling
-                call fail_spalling_s(llt ,nparam,nvarf,&
+                call fail_spalling_s(llt ,nparam,&
                 &tt  ,dt1  ,uparamf,ngl ,&
                 &ss1  ,ss2  ,ss3  ,ss4   ,ss5   ,ss6,&
-                &dpla ,epsp ,tstar,uvarf ,off   ,&
-                &dfmax,tdel ,lbuf%off)
+                &dpla ,epsp ,tstar,off   ,&
+                &lf_dammx   ,dfmax,tdel ,lbuf%off)
 !
               elseif(irupt == 9)then
                 call fail_wierzbicki_s(llt ,nparam,nvarf,&
