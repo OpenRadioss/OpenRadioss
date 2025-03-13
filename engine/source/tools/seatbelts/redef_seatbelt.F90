@@ -230,7 +230,7 @@ contains
                   fund = -jad2(j)           ! curve id
                   an3y0(j) = zero
                   dxela(j) = dx(i) - dpx(i)
-                  if (((dxela(j) >= zero) .or. (fxep(i) >= zero)) .and. (fund > 0)) then
+                  if (((dxela(j) >= zero).or.(fxep(i)>zero).or.((fxep(i)==zero).and.(dxela(j)>=zero))).and.(fund > 0)) then
                      call python_call_funct1d(python, fund, fxep(i), y1)
                      call python_deriv_funct1d(python, fund, fxep(i), an3y0(j))
                      if (an3y0(j) == zero) then
@@ -240,11 +240,6 @@ contains
                         else
                            call python_deriv_funct1d(python, fund, fxep(i) - ddx(j), an3y0(j))
                         end if
-                     end if
-                     if((dxela(j) < zero) .and. (abs(ddx(j)) > zero)) then
-                        ddxt = -fxep(i) / an3y0(j)
-                        ddxc = ddx(j) - ddxt
-                        an3y0(j) = (ddxt / ddx(j)) * an3y0(j) + (ddxc / ddx(j)) * xkc(i)
                      end if
                      if (dxela(j) >= zero) xx(i) = xx_old(i) + ddx(i)
                   else
@@ -261,7 +256,7 @@ contains
                np2  = (npf(fund+1)-npf(fund))/2
                an3y0(j)= zero
                dxela(j)=dx(i)-dpx(i)
-               if (((dxela(j) >= zero).or.(fxep(i) >= zero)).and.(fund > 0)) then
+               if (((dxela(j) >= zero).or.(fxep(i) > zero).or.((fxep(i)==zero).and.(dxela(j) >= zero))).and.(fund > 0)) then
 !--- tension - load curve is used
                   do  k=2,np2
                      k1=2*(k-2)
@@ -276,7 +271,7 @@ contains
                      endif
                   enddo
 !
-                  if (an3y0(j)== zero)then ! extrapolation (outside of input curve points)
+                  if (an3y0(j)==zero) then ! extrapolation (outside of input curve points)
                      x1=tf(npf(fund)+(np2-2)*2)
                      x2=tf(npf(fund)+(np2-2)*2+2)
                      y1=tf(npf(fund)+(np2-2)*2+1)
@@ -288,12 +283,6 @@ contains
                      yi2=tf(npf(fund)+3)
                      if(fxep(i)>y2)an3y0(j)=(y2-y1)/ (x2-x1)
                      if(fxep(i)<yi1)an3y0(j)=(yi2-yi1)/ (xi2-xi1)
-                  endif
-!----       crossing of compression/tension line - mix stiffness computed
-                  if ((dxela(j) < zero).and.(abs(ddx(j)) > zero)) then
-                     ddxt = -fxep(i)/an3y0(j)
-                     ddxc = ddx(j) - ddxt
-                     an3y0(j) = (ddxt/ddx(j))*an3y0(j) + (ddxc/ddx(j))*xkc(i)
                   endif
 !
                   xx(j)=xx_old(i)+ddx(j)
@@ -314,14 +303,8 @@ contains
             if(iecrou(i)== 11) then
                an3y0(j)= zero
                dxela(j)=dx(i)-dpx(i)
-               if ((dxela(j) >= zero).or.(fxep(i) >= zero)) then
+               if ((dxela(j) >= zero).or.(fxep(i) > zero).or.((fxep(i)==zero).and.(dxela(j) >= zero))) then
                   an3y0(j)= xk(i)
-!----       crossing of compression/tension line - mix stiffness computed
-                  if ((dxela(j) < zero).and.(abs(ddx(j)) > zero)) then
-                     ddxt = -fxep(i)/an3y0(j)
-                     ddxc = ddx(j) - ddxt
-                     an3y0(j) = (ddxt/ddx(j))*an3y0(j) + (ddxc/ddx(j))*xkc(i)
-                  endif
                else
                   an3y0(j)= xkc(i)
                endif
@@ -453,7 +436,7 @@ contains
 !-------------------------------------
       do j=1,nel_loc
          i = indexa(j)
-         xx(j)  = xx(j) *lscale(i)
+         xx(j)  = xx(j) *lscale(i) 
       enddo
 !-------------------------------------
 !     seatbelt - elasto plastique (ecouissage isotrope) in tension - perfleclty plastic in compression
