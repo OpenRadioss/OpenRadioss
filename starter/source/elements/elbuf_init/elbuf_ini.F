@@ -771,7 +771,7 @@ c
      .                 BUFLY%L_STRA = 6                      
             IF (GBUF%G_GAMA > 0 .AND. NLAY > 1) BUFLY%L_GAMA = GBUF%G_GAMA
             IF (JTHE /= 0) BUFLY%L_TEMP = 1
-            IF (ISVIS > 0) BUFLY%L_SIGV = 6                      
+            IF (ISVIS > 0 ..OR. BUFLY%IVISC == 1 .OR. BUFLY%IVISC == 3 ) BUFLY%L_SIGV = 6 ! for th outp of viscous stress                      
             IF ((IVISC > 0).OR.(IDAMP_FREQ_RANGE > 0)) BUFLY%L_VISC = 6
 c           Allocate thermal stress and Thermal internal energy
             IF(IEXPAN > 0) THEN
@@ -1540,7 +1540,7 @@ c         local material variables
               BUFLY%LY_DIRB = 2
             ENDIF
             IF (JTHE /= 0) BUFLY%L_TEMP = 1
-            IF (ISVIS > 0) BUFLY%L_SIGV = 5                      
+            IF (ISVIS > 0 .OR. BUFLY%IVISC == 1 .OR. BUFLY%IVISC == 3) BUFLY%L_SIGV = 5                      
             IF ((BUFLY%IVISC > 0).OR.(IDAMP_FREQ_RANGE > 0)) BUFLY%L_VISC = 5
             IF (BUFLY%IVISC > 0 .and. MLW == 25) BUFLY%L_SIGD = 6
             IF (MLW == 27) BUFLY%L_DMG  = 2

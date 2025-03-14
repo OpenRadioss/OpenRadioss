@@ -468,6 +468,7 @@
           &so4(2*mvsiz),so5(2*mvsiz),so6(2*mvsiz),&
           &sxy(mvsiz),syx(mvsiz),syz(mvsiz),szy(mvsiz),szx(mvsiz),sxz(mvsiz),&
           &es1(mvsiz),es2(mvsiz),es3(mvsiz),es4(mvsiz),es5(mvsiz),es6(mvsiz),&
+          &svo1(mvsiz),svo2(mvsiz),svo3(mvsiz),svo4(mvsiz),svo5(mvsiz),svo6(mvsiz),&
           &sv1(mvsiz),sv2(mvsiz),sv3(mvsiz),sv4(mvsiz),sv5(mvsiz),sv6(mvsiz),&
           &r11(mvsiz),r12(mvsiz),r13(mvsiz),r21(mvsiz),r22(mvsiz),r23(mvsiz),&
           &r31(mvsiz),r32(mvsiz),r33(mvsiz),epsp1(mvsiz),dpla(mvsiz),&
@@ -636,6 +637,7 @@
             sv5(i) = zero
             sv6(i) = zero
             e7(i)  = zero
+            !
           enddo
           if (mtn==29.or.mtn==30.or.mtn==31.or.mtn==37.or.mtn==51.or.mtn==65.or.mtn==75.or.mtn==97.or.mtn==99.or.mtn==105) then
             s1(1:mvsiz) = zero
@@ -645,7 +647,16 @@
             s5(1:mvsiz) = zero
             s6(1:mvsiz) = zero
           endif
-
+          if (matparam%ivisc == 3) then
+              do i=1,nel
+                svo1(i) = svisc(i,1)
+                svo2(i) = svisc(i,2)
+                svo3(i) = svisc(i,3)
+                svo4(i) = svisc(i,4)
+                svo5(i) = svisc(i,5)
+                svo6(i) = svisc(i,6)
+              enddo 
+          endif
           if (jcvt > 0) then
 !---------------------------
 !       isotropic and orthotropic convected
@@ -764,6 +775,12 @@
               wyy(i)=zero
               wzz(i)=zero
             enddo
+            if (matparam%ivisc == 3) then
+                call mrotens(1,nel,svo1,svo2,svo3,svo4,svo5,svo6,&
+            &r11,r12,r13,&
+            &r21,r22,r23,&
+            &r31,r32,r33)
+            endif
           else
 !---------------------------
 !       isotropic global
@@ -2479,14 +2496,18 @@
 !----------------------------------
 !     viscous stress (/visc models + damping frequency range)
 !----------------------------------
-
+          
           if (matparam%ivisc == 1 .or.&
           &  (matparam%ivisc == 2 .and. (ismstr == 10 .or. ismstr == 12)).or.&
-          &  (idamp_freq_range > 0)) then
-!
+          &  (idamp_freq_range > 0).or. matparam%ivisc == 3) then
+
+
+!            
             call viscmain(matparam%visc    ,nel     ,&
             &nvarvis ,vbuf%var,rho0    ,vis     ,ssp     ,dt1     ,&
             &ep1     ,ep2     ,ep3     ,ep4     ,ep5     ,ep6     ,&
+            &de1     ,de2     ,de3     ,de4     ,de5     ,de6     ,&
+            &svo1    ,svo2    ,svo3    ,svo4    ,svo5    ,svo6    ,&
             &sv1     ,sv2     ,sv3     ,sv4     ,sv5     ,sv6     ,&
             &mfxx    ,mfxy    ,mfxz    ,mfyx    ,mfyy    ,mfyz    ,&
             &mfzx    ,mfzy    ,mfzz    ,&
@@ -2661,10 +2682,20 @@
             svis(i,5)= sv5(i)*off(i)
             svis(i,6)= sv6(i)*off(i)
           enddo
+          if (matparam%ivisc > 0 ) then
+              do i=1,nel
+                 lbuf%visc(nel*(1-1) + i) = svis(i,1)
+                 lbuf%visc(nel*(2-1) + i) = svis(i,2)
+                 lbuf%visc(nel*(3-1) + i) = svis(i,3)
+                 lbuf%visc(nel*(4-1) + i) = svis(i,4)
+                 lbuf%visc(nel*(5-1) + i) = svis(i,5)
+                 lbuf%visc(nel*(6-1) + i) = svis(i,6)
+              enddo
+          endif
 !
 !  isvis for outp
 !
-          if (isvis > 0) then
+          if (isvis > 0 .or. matparam%ivisc == 1 .or.  matparam%ivisc == 3) then
             do i=1,nel
               sigv(i,1) = svis(i,1)
               sigv(i,2) = svis(i,2)

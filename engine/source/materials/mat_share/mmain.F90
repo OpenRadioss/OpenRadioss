@@ -381,7 +381,7 @@
           integer i,ipg,nuvar,nparam,nfunc,ifunc_alpha,ilaw,imat,&
           &        nvarf,nfail,ntabl_fail,ir,irupt,ivisc,eostyp,npts,nptt,nptr,npg,  &
           &        isvis,nvartmp,nlay,inloc,iselect,ibpreld,nvareos,nvarvis,&   
-          &        idamp_freq_range
+          &        idamp_freq_range,visctype
           integer ifunc(maxfunc)
 
           ! Float/Double
@@ -405,6 +405,7 @@
 
           my_real ep1(mvsiz),ep2(mvsiz),ep3(mvsiz),ep4(mvsiz),ep5(mvsiz),ep6(mvsiz)
           my_real sv1(mvsiz),sv2(mvsiz),sv3(mvsiz),sv4(mvsiz),sv5(mvsiz),sv6(mvsiz)
+          my_real svo1(mvsiz),svo2(mvsiz),svo3(mvsiz),svo4(mvsiz),svo5(mvsiz),svo6(mvsiz)
 
           my_real bidon1,bidon4,bidon5,bid1(mvsiz), bid2(mvsiz),eth(mvsiz),        &
           &       stor1, stor2, stor3, stor4, stor5, stor6,&
@@ -1985,6 +1986,15 @@
               ep5(i) = d5(i) *off(i)
               ep6(i) = d6(i) *off(i)
             enddo
+            ! old viscouss stress nedeed for /visc/plas (incremental formulation)
+            do i=1,nel
+              svo1(i) = lbuf%visc(nel*(1-1) + i)
+              svo2(i) = lbuf%visc(nel*(2-1) + i)
+              svo3(i) = lbuf%visc(nel*(3-1) + i)
+              svo4(i) = lbuf%visc(nel*(4-1) + i)
+              svo5(i) = lbuf%visc(nel*(5-1) + i)
+              svo6(i) = lbuf%visc(nel*(6-1) + i)
+            enddo
             if (isorth /= 0 .and. jcvt == 0) then
               call mreploc(&
               &gama,    r11,     r12,     r13,&
@@ -2005,11 +2015,15 @@
                 ep5(i) = two*ep5(i)
                 ep6(i) = two*ep6(i)
               enddo
+              call mrotens(1,nel,svo1,svo2,svo3,svo4,svo5,svo6,&
+              &r11,r21,r31,r12,r22,r32,r13,r23,r33)             
             endif
 !---
             call viscmain(mat_elem%mat_param(imat)%visc    ,nel     ,&
             &nvarvis ,vbuf%var,rho0    ,vis     ,cxx     ,dt1     ,&
             &ep1     ,ep2     ,ep3     ,ep4     ,ep5     ,ep6     ,&
+            &es1     ,es2     ,es3     ,es4     ,es5     ,es6     ,&
+            &svo1    ,svo2    ,svo3    ,svo4    ,svo5    ,svo6    ,&
             &sv1     ,sv2     ,sv3     ,sv4     ,sv5     ,sv6     ,&
             &mfxx    ,mfxy    ,mfxz    ,mfyx    ,mfyy    ,mfyz    ,&
             &mfzx    ,mfzy    ,mfzz    ,&
@@ -2040,7 +2054,8 @@
               svis(i,5) = lbuf%visc(nel*(5-1) + i)
               svis(i,6) = lbuf%visc(nel*(6-1) + i)
             enddo
-            if (isvis > 0) then
+            visctype = mat_elem%mat_param(imat)%ivisc
+            if (isvis > 0 .or. visctype == 1 .or. visctype == 3 ) then
 !         viscous stress output
               do i=1,nel
                 lbuf%sigv(nel*(1-1) + i) = svis(i,1)
@@ -2060,7 +2075,8 @@
               lbuf%visc(nel*(5-1) + i) = svis(i,5)
               lbuf%visc(nel*(6-1) + i) = svis(i,6)
             enddo
-            if (isvis > 0) then
+            visctype = mat_elem%mat_param(imat)%ivisc
+            if (isvis > 0 .or. visctype == 1 .or. visctype == 3 ) then
 !         viscous stress output
               do i=1,nel
                 lbuf%sigv(nel*(1-1) + i) = svis(i,1)
@@ -2652,6 +2668,7 @@
           endif     !  nfail > 0  & user laws
           if ((itask==0).and.(imon_mat==1))call stoptime(timers, 121)
 !-----------------------------------------------------------------
+          visctype = mat_elem%mat_param(imat)%ivisc
           if(ipartsph/=0)then
             do i=1,nel
               if(off(i) > zero .and. off(i) < one)then
@@ -2670,7 +2687,7 @@
                   lbuf%visc(nel*(4-1) + i) = zero
                   lbuf%visc(nel*(5-1) + i) = zero
                   lbuf%visc(nel*(6-1) + i) = zero
-                  if (isvis > 0) then
+                  if (isvis > 0 .or. visctype == 1 .or. visctype == 3 ) then
 !           viscous stress output
                     lbuf%sigv(nel*(1-1) + i) = zero
                     lbuf%sigv(nel*(2-1) + i) = zero
@@ -2718,7 +2735,6 @@
           if(elbuf_tab(ng)%bufly(ilay)%l_ssp /=0 )then
             lbuf%ssp(1:nel) = cxx(1:nel)
           endif
-
 !-----------------------------------------------------------------
           return
         end
