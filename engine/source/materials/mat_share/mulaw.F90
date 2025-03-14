@@ -235,6 +235,7 @@
       use sigeps126_mod
       use sigeps127_mod
       use sigeps128s_mod
+      use fail_spalling_s_mod
       use prop_param_mod
       use dt_mod
       use glob_therm_mod
@@ -2241,10 +2242,11 @@
               elseif (irupt == 8) then
 !---- johnson cook + spalling
                 call fail_spalling_s(nel ,nparf,&
-                &tt  ,dt1  ,uparf,ngl ,&
+                &tt  ,uparf,ngl ,&
                 &s1  ,s2  ,s3  ,s4   ,s5   ,s6      ,&
                 &dpla,epsp1,tstar,off         ,&
-                &lf_dammx ,dfmax,tdel ,offg)
+                &lf_dammx ,dfmax,tdel ,offg,&
+                &niparf,iparf,mvsiz)
               elseif (irupt == 9) then
 !---- wierzbicki
                 call fail_wierzbicki_s(nel ,nparf,nuvarr,&

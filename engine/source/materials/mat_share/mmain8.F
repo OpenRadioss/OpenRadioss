@@ -73,6 +73,7 @@ C-----------------------------------------------
       USE MAT_ELEM_MOD         
       USE MULAW8_MOD
       USE ELBUFDEF_MOD
+      USE FAIL_SPALLING_S_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -121,9 +122,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,J,JJ(6),J1,J2,IR,NFUNC,NUVAR,NUPARAM,NUVARR, 
-     .        NVARF,IRUPT,NUMBER_FAILURE,IADBUF,IMAT,NTABL_FAIL
+     .        NVARF,IRUPT,NUMBER_FAILURE,IADBUF,IMAT,NTABL_FAIL,
+     .        NIPARAM
       INTEGER IFUNC(MAXFUNC), LF_DAMMX
-      INTEGER, DIMENSION(:), POINTER :: ITABL_FAIL
+      INTEGER, DIMENSION(:), POINTER :: ITABL_FAIL, IPARAMF
       my_real
      .   QNEW(MVSIZ),VIS(MVSIZ),EPSD(MVSIZ),ET(MVSIZ),
      .    DPLA(8*MVSIZ), EPSP(8*MVSIZ),TSTAR(MVSIZ),SXX(MVSIZ),
@@ -247,7 +249,9 @@ C --------------------------
 c
         DO IR = 1,NUMBER_FAILURE 
           NUPARAM = MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IR)%NUPARAM
+          NIPARAM = MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IR)%NIPARAM
           UPARAMF =>MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IR)%UPARAM(1:NUPARAM)
+          IPARAMF =>MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IR)%IPARAM(1:NIPARAM)
           NFUNC   = MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IR)%NFUNC 
           IRUPT   = MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IR)%IRUPT
           IFUNC(1:NFUNC) = MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IR)%IFUNC(1:NFUNC)     
@@ -294,10 +298,11 @@ C -----------wilkins
              ELSEIF(IRUPT == 8)THEN
 C---- JC  + spalling
               CALL FAIL_SPALLING_S(NEL ,NUPARAM,
-     2                 TT  ,DT1  ,UPARAMF,NGL ,
+     2                 TT  ,UPARAMF,NGL ,
      4                 SXX  ,SYY  ,SZZ  ,SXY   ,SYZ   ,SZX,
      5                 DPLA(J1),EPSP(J1),TSTAR,OFF,
-     6                 LF_DAMMX,DFMAX ,TDELE,GBUF%OFF)
+     6                 LF_DAMMX,DFMAX ,TDELE,GBUF%OFF,
+     7                 NIPARAM ,IPARAMF, MVSIZ)
              ELSEIF(IRUPT == 9)THEN
 C---- wierzbicki
                CALL FAIL_WIERZBICKI_S(NEL ,NUPARAM,NVARF,
