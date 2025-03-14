@@ -96,6 +96,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE TABLE_MOD
+      USE HM_READ_FAIL_SPALLING_MOD
       USE HM_READ_FRACTAL_DMG_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE, NCHARKEY
 C============================================================================
@@ -320,7 +321,7 @@ c
               IRUPT = 8    
               CALL HM_READ_FAIL_SPALLING(MAT_PARAM(IMAT)%FAIL(IFL),
      .             MAT_ID   ,FAIL_ID  ,IRUPT    ,
-     .             LSUBMODEL,UNITAB   ,FAIL_TAG(IRUPT))
+     .             LSUBMODEL,UNITAB   ,FAIL_TAG(IRUPT),IOUT       )
 c     
             ELSEIF (KEY(1:6) == 'WIERZB') THEN
               IRUPT = 9 

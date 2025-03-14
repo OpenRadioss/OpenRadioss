@@ -218,6 +218,7 @@
           use constant_mod
           use dt_mod
           use glob_therm_mod
+          use fail_spalling_s_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -2332,10 +2333,11 @@
               elseif(irupt == 8)then
 !---- jc + spalling
                 call fail_spalling_s(llt ,nparam,&
-                &tt  ,dt1  ,uparamf,ngl ,&
+                &tt  ,uparamf,ngl ,&
                 &ss1  ,ss2  ,ss3  ,ss4   ,ss5   ,ss6,&
                 &dpla ,epsp ,tstar,off   ,&
-                &lf_dammx   ,dfmax,tdel ,lbuf%off)
+                &lf_dammx   ,dfmax,tdel ,lbuf%off,&
+                niparam , iparamf, mvsiz)
 !
               elseif(irupt == 9)then
                 call fail_wierzbicki_s(llt ,nparam,nvarf,&
