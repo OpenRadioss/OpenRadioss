@@ -167,8 +167,8 @@ set(Vect_precise "/Qopenmp /fp:precise /Qftz ")
 set(Fortran "${FPP_FLAG}  /extend-source /assume:buffered_io")
 
 # Common flags
-set(common_fortran_flags "/nologo ${opt_flag} ${precision_flag} ${Fortran} ${mpi_flag} ${MUMPS_flags} -DMETIS5 ${cppmach} ${cpprel}")
-set(common_c_flags "/nologo ${optc_flag} ${precision_flag} -DMETIS5 ${h3d_inc} ${mpi_flag} ${MUMPS_flags} ${cppmach} ${cpprel} ${zlib_inc}")
+set(common_fortran_flags "/nologo ${opt_flag} ${precision_flag} ${Fortran} ${mpi_flag} ${mumps_flag} -DMETIS5 ${cppmach} ${cpprel}")
+set(common_c_flags "/nologo ${optc_flag} ${precision_flag} -DMETIS5 ${h3d_inc} ${mpi_flag} ${mumps_flag} ${cppmach} ${cpprel} ${zlib_inc}")
 set(common_cpp_flags "${common_c_flags} /Qstd=c++11")
 
 if (debug STREQUAL "1")
@@ -207,9 +207,9 @@ set (LINK "advapi32.lib"  )
 # -------------------------------------------------------------------------------------------------------------------------------------------
 # Specific set of compilation flag
 
-set (F_O1_AXSSE3 "/nologo /Qaxsse3 /Qopenmp /O1 /fp:precise /Qftz /Qimf-use-svml:true /align:array64byte ${FPP_FLAG} ${precision_flag} ${Fortran} -DMETIS5 ${mpi_flag} ${MUMPS_flags} ${cppmach} ${cpprel}")
-set (F_O2_AXSSE3 "/nologo /Qaxsse3 /Qopenmp /O2 /fp:precise /Qftz /Qimf-use-svml:true /align:array64byte ${FPP_FLAG} ${precision_flag} ${Fortran} -DMETIS5 ${mpi_flag} ${MUMPS_flags} ${cppmach} ${cpprel}")
-set (F_O3_AXSSE3 "/nologo /Qaxsse3 /Qopenmp /O3 /fp:precise /Qftz /Qimf-use-svml:true /align:array64byte ${FPP_FLAG} ${precision_flag} ${Fortran} -DMETIS5 ${mpi_flag} ${MUMPS_flags} ${cppmach} ${cpprel}")
+set (F_O1_AXSSE3 "/nologo /Qaxsse3 /Qopenmp /O1 /fp:precise /Qftz /Qimf-use-svml:true /align:array64byte ${FPP_FLAG} ${precision_flag} ${Fortran} -DMETIS5 ${mpi_flag} ${mumps_flag} ${cppmach} ${cpprel}")
+set (F_O2_AXSSE3 "/nologo /Qaxsse3 /Qopenmp /O2 /fp:precise /Qftz /Qimf-use-svml:true /align:array64byte ${FPP_FLAG} ${precision_flag} ${Fortran} -DMETIS5 ${mpi_flag} ${mumps_flag} ${cppmach} ${cpprel}")
+set (F_O3_AXSSE3 "/nologo /Qaxsse3 /Qopenmp /O3 /fp:precise /Qftz /Qimf-use-svml:true /align:array64byte ${FPP_FLAG} ${precision_flag} ${Fortran} -DMETIS5 ${mpi_flag} ${mumps_flag} ${cppmach} ${cpprel}")
 
 set (C_BASIC "${cppmach} ${cpprel}")
 
