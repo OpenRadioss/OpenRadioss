@@ -135,6 +135,7 @@ C-----------------------------------------------
       USE DT_MOD
       use glob_therm_mod
       USE TIMER_MOD
+      USE FAIL_SPALLING_S_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1273,10 +1274,11 @@ C   user3
           ELSEIF (IRUPT == 8)THEN                                         
 C---- Johnson cook + spalling          
               CALL FAIL_SPALLING_S(LLT ,NPAR,
-     2                    TT  ,DT1  ,UPARAMF,NGL ,
+     2                    TT  ,UPARAMF,NGL ,
      4                    S1  ,S2  ,S3  ,S4   ,S5   ,S6      ,
      5                    DPLA,EPSP1,TSTAR,OFF         ,
-     6                    LF_DAMMX ,DFMAX,TDEL ,OFFG)                   
+     6                    LF_DAMMX ,DFMAX,TDEL ,OFFG   ,
+     7                    NIPAR    ,IPARAMF,MVSIZ)                   
           ELSEIF (IRUPT == 9)THEN                                         
 C---- wierzbicki
               CALL FAIL_WIERZBICKI_S(LLT ,NPAR,NUVARR,

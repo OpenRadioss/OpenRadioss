@@ -115,6 +115,7 @@
       use mat_elem_mod
       use message_mod
       use sigeps50s_mod
+      use fail_spalling_s_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -240,6 +241,7 @@
           integer :: idum1
           integer :: irupt,imat,ntabl_fail,lf_dammx
           integer :: nvarf, iexpan8,jj(6),inloc,ieos,dmg_flag
+          integer :: niparf
           ! floating point variables
           my_real, dimension(llt) :: cst1
           my_real, dimension(mvsiz) :: c1
@@ -276,7 +278,7 @@
           my_real, dimension(:)  ,pointer :: sigp,siglp,strain,uvar,uvarf
           my_real, dimension(:)  ,pointer :: dfmax,tdele,uparam0,uparam,uparamf
           !
-          integer, dimension(:), pointer :: vartmp,itabl_fail,iparam
+          integer, dimension(:), pointer :: vartmp,itabl_fail,iparam,iparamf
           type(l_bufel_)  ,pointer :: lbuf
           !
           character option*256
@@ -936,7 +938,9 @@
               tdele => bufly%fail(1,1,ipt)%floc(ir)%tdel
 !
               npar    = mat_param(imat)%fail(ir)%nuparam
+              niparf  = mat_param(imat)%fail(ir)%niparam
               uparamf =>mat_param(imat)%fail(ir)%uparam(1:npar)
+              iparamf =>mat_param(imat)%fail(ir)%iparam(1:niparf)
               nfunc   = mat_param(imat)%fail(ir)%nfunc
               irupt   = mat_param(imat)%fail(ir)%irupt
               ifunc(1:nfunc) = mat_param(imat)%fail(ir)%ifunc(1:nfunc)
@@ -1046,10 +1050,11 @@
               elseif(irupt == 8)then
 !----  j     ohnson cook + spalling
                 call fail_spalling_s(llt ,npar,&
-                &tt  ,dt1  ,uparamf,ngl ,&
+                &tt  ,uparamf,ngl ,&
                 &s1  ,s2  ,s3  ,s4   ,s5   ,s6      ,&
                 &dpla,epsp1,tstar,off     ,&
-                &lf_dammx ,dfmax,tdele,offg)
+                &lf_dammx ,dfmax,tdele,offg,&
+                &niparf,iparamf,mvsiz)
               elseif(irupt == 9)then
 !----  wierzbicki
                 call fail_wierzbicki_s(llt ,npar,nvarf,&
