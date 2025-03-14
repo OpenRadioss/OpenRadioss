@@ -643,7 +643,7 @@
               ifunc(i)=ipm(10+i,imat)
             enddo
 !
-!       check if epsp arraies are used or not
+!       check if epsp arrays are used or not
 !       epsp is not used for law : 2/25/32/42/58/63/63/64/69/71/72/76/78/80/82/85/96 --> flag_epsp=.false.
 !       epsp is used for the other laws
 !       epsp is also used for the rupture : 4/5/6/14/24
@@ -651,7 +651,7 @@
             if(ilaw==1.or.ilaw==25.or.ilaw==32.or.ilaw==42.or.ilaw==58.or.ilaw==62.or.&
             &ilaw==63.or.ilaw==64.or.ilaw==69.or.ilaw==71.or.ilaw==72.or.&
             &ilaw==76.or.ilaw==78.or.ilaw==80.or.ilaw==82.or.ilaw==85.or.ilaw == 88 .or. ilaw==96) flag_epsp=.false.
-!       check if eps arraies are used or not
+!       check if eps arrays are used or not
 !       eps is not used for law : 2/25/63/64/65/66/72/76/78/93 --> flag_eps=.false.
 !       eps is used for the other laws
 !       eps is also used for the rupture : 4/5/6/7/10/24
@@ -675,8 +675,8 @@
               enddo
             endif
 
-!       depsyz/zx and epsyz/zx are it independant
-!       epsxy is it independant for igtyp/=1
+!       depsyz/zx and epsyz/zx are it independent
+!       epsxy is it independent for igtyp/=1
             depsyz(jft:jlt)=eyz(jft:jlt)
             depszx(jft:jlt)=exz(jft:jlt)
             if (flag_eps) then

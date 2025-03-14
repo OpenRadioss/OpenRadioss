@@ -52,7 +52,7 @@
            soundsp  ,off      )
 !
 ! =================================================================================
-! \brief orthotropic hill material with plastic strain rate dependancy for solids
+! \brief orthotropic hill material with plastic strain rate dependency for solids
 
 ! =================================================================================
 !   m o d u l e s

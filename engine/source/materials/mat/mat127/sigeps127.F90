@@ -351,7 +351,7 @@
                 endif
                ! matrix failure only on shear 
                 if(abs(signxy(i)) >= sc(i) ) dmg(i,6 ) = one 
-                ! failur based on effective strain
+                ! failure based on effective strain
               end do ! ndex 
             end select ! twoway    
       ! failure criteria 

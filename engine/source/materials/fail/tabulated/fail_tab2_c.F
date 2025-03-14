@@ -389,7 +389,7 @@ c
             TDELE(I)    = TIME
           ENDIF
 c
-          ! Compute the controle necking instability damage
+          ! Compute the control necking instability damage
           IF ((ITAB_INST > 0).OR.(ECRIT > ZERO)) THEN 
             DPL_DEF = DPLA(I)/MAX(EPSL(I)*RATEFAC(I)*SIZEFAC(I)*TEMPFAC2(I),EM20)
             INST(I) = INST(I) + DPL_DEF*DN*(INST(I)**(ONE-(ONE/DN)))

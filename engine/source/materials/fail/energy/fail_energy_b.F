@@ -66,9 +66,9 @@ C-----------------------------------------------
       my_real ,DIMENSION(NUPARAM) ,INTENT(IN)    :: UPARAM  ! failure model parameter array
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: EPSD    ! strain rate
       my_real ,DIMENSION(STF)     ,INTENT(IN)    :: TF
-      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: OFF     ! element desactivation flag
+      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: OFF     ! element deactivation flag
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: DFMAX   ! maximum damage
-      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: TDEL    ! desactivation time
+      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: TDEL    ! deactivation time
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: F1,F2,F3
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: M1,M2,M3
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: EPSXX,EPSXY,EPSXZ

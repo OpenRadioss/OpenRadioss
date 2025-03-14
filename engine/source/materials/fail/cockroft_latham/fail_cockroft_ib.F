@@ -54,16 +54,16 @@ C-----------------------------------------------
       my_real                     ,INTENT(IN)    :: TIME    ! current time
       my_real ,DIMENSION(NUPARAM) ,INTENT(IN)    :: UPARAM  ! failure model parameter array
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: DPLA    ! plastic strain increment
-      my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: OFF     ! element desactivation flag
+      my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: OFF     ! element deactivation flag
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: SIGNXX  ! stress component
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: SIGNXY  ! stress component
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: SIGNXZ  ! stress component
 
 
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: EPSXX 
-      INTEGER ,DIMENSION(NEL)     ,INTENT(INOUT) :: FOFF    ! integration point desactivation flag
+      INTEGER ,DIMENSION(NEL)     ,INTENT(INOUT) :: FOFF    ! integration point deactivation flag
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: DFMAX   ! maximum damage
-      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: TDEL    ! desactivation time
+      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: TDEL    ! deactivation time
       my_real ,DIMENSION(NEL,NVARF),INTENT(INOUT) :: UVAR  
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

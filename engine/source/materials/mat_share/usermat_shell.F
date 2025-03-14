@@ -474,8 +474,8 @@ c
           ENDDO
         ENDIF
 
-!       DEPSYZ/ZX and EPSYZ/ZX are IT independant
-!       EPSXY is IT independant for IGTYP/=1
+!       DEPSYZ/ZX and EPSYZ/ZX are IT independent
+!       EPSXY is IT independent for IGTYP/=1
         DEPSYZ(JFT:JLT)=EYZ(JFT:JLT)
         DEPSZX(JFT:JLT)=EXZ(JFT:JLT)
         IF (FLAG_EPS) THEN

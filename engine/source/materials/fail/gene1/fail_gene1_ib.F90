@@ -100,7 +100,7 @@
       my_real, dimension(nel)     ,intent(inout)  :: signxy   ! stress component xy
       my_real, dimension(nel)     ,intent(inout)  :: signzx   ! stress component zx
       my_real, dimension(nel)     ,intent(inout)  :: off      ! offset
-      integer, dimension(nel)     ,intent(inout)  :: foff     ! integration point desactivation flag
+      integer, dimension(nel)     ,intent(inout)  :: foff     ! integration point deactivation flag
 
       my_real, dimension(nel, lf_dammx), intent(inout) :: dfmax      ! maximum damage
       my_real, dimension(nel, nuvar), intent(inout)    :: uvar       ! user variables
@@ -195,14 +195,14 @@
       end if
 
       ! initialization of variable
-      nindx  = 0  !flag for: damage at an intergration point  
-      nindx2 = 0  !flag for: rupture of solid element  at time   
-      nindx3 = 0  !flag for: damaged volume fraction > critical value  
+      nindx  = 0  !flag for: damage at an integration point
+      nindx2 = 0  !flag for: rupture of solid element at time
+      nindx3 = 0  !flag for: damaged volume fraction > critical value
       indx(1:nel)     = 0 !Table for the initiation of element damage
       indx2(1:nel)    = 0 !Table for the element rupture
       indx3(1:nel)    = 0 !Table for the element rupture due to volime fraction
       ipmax(1:nel)    = 0  !flag for : hydrostatic pressure value > critical value
-      ipmin(1:nel)    = 0  !flag for : hydrostatic pressure value < critical value  
+      ipmin(1:nel)    = 0  !flag for : hydrostatic pressure value < critical value
       is1max(1:nel)   = 0  !flag for : 1st principal stress value > critical value
       itmax(1:nel)    = 0  !flag for : time value > critical value
       imindt(1:nel)   = 0  !flag for : element timestep value < critical value
