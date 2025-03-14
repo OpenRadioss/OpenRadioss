@@ -49,10 +49,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7           INDX   ,NGL    ,ZCFAC  ,GS    ,SIGY  ,G     ,
      8           THK0   ,EPSP   ,IPLA   ,IGEO  ,IPM   ,TABLE ,
      9           IR     ,IS     ,F_DEF  ,ISMSTR,NU    ,VOL0  ,
-     A           KFTS   ,ZSHIFT )
+     A           KFTS   ,ZSHIFT ,idamp_freq_range,mat_elem,damp_buf)
 C-----------------------------------------------
       USE TABLE_MOD
       USE ELBUFDEF_MOD
+      use mat_elem_mod
+      use damping_range_shell_mod
+      use damping_range_shell_mom_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -75,6 +78,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT, MTN, IOFC, IPLA,NEL,IR,IS,ISMSTR,KFTS
       INTEGER MAT(*), PID(*), NPF(*),NGL(*), INDX(*),IPM(NPROPMI,*)
+      integer, intent(in) :: idamp_freq_range      ! flag for damping frequency range
       my_real DM
       my_real FOR(NEL,5), MOM(NEL,3), THK(*), EINT(JLT,2),PM(NPROPM,*),
      .   OFF(*), GSTR(NEL,8), DIR(*),VISCMX(*),
@@ -86,11 +90,14 @@ C-----------------------------------------------
       my_real, INTENT(IN) :: ZSHIFT
       TYPE(TTABLE) TABLE(*)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
+      type (mat_elem_) ,intent(in) ,target      :: mat_elem
+      type (buf_damp_range_) ,intent(in)        :: damp_buf      ! buffer of damp frequency range
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IGTYP, I, NUVAR ,VP,NINDX,IGEO(NPROPGI,*),NVARTMP,
-     .        MX,IOFF_DUCT(MVSIZ),ISRATE
+     .        MX,IOFF_DUCT(MVSIZ),ISRATE,NUVARV,NVAR_DAMP,IMAT,
+     .        FLAG_INCR
       my_real 
      .   DEGMB(MVSIZ) ,DEGFX(MVSIZ) ,THKN(MVSIZ),
      .   DEPSXX(MVSIZ),DEPSYY(MVSIZ),DEPSXY(MVSIZ),DEPSYZ(MVSIZ),
@@ -107,12 +114,14 @@ C-----------------------------------------------
      .   MOMOXX(MVSIZ),MOMOYY(MVSIZ),MOMOXY(MVSIZ),
      .   MOMNXX(MVSIZ),MOMNYY(MVSIZ),MOMNXY(MVSIZ),
      .   ETSE(MVSIZ)  ,EPSPL(MVSIZ),EPSP_LOC(MVSIZ)
-      my_real,DIMENSION(:) ,POINTER :: UVAR
+      my_real, DIMENSION(:) ,POINTER :: UVAR
+      my_real, DIMENSION(:) ,POINTER :: UVARV
       my_real, DIMENSION(MVSIZ) :: DT_INV
       my_real, DIMENSION(NEL) :: OFF_OLD
 C-------------------------------------
       INTEGER, DIMENSION(:), POINTER :: VARTMP
       TYPE(L_BUFEL_) ,POINTER :: LBUF
+      type(matparam_struct_) , pointer :: matparam
 C-----------------------------------------------
 C   S o u r c e   L i n es
 C-----------------------------------------------
@@ -200,7 +209,7 @@ C-----------------------
       DO I=JFT,JLT
         MOMNXX(I) = ZERO
         MOMNYY(I) = ZERO
-        MOMNXY(I) = ZERO          
+        MOMNXY(I) = ZERO         
       ENDDO
 C
       IF (IGTYP == 1) THEN
@@ -420,7 +429,7 @@ C-------------------------------------------
      B     OFF    ,NGL    ,IPM      ,MAT     ,ETSE   ,
      C     GS     ,SIGY   ,EPSPL   ,ISRATE  ,IPLA    ,
      D     SHF    )
-      ELSEIF (MTN == 86) THEN
+      ELSEIF (MTN == 86) THEN 
         CALL SIGEPS86G(
      1     JLT    ,NUVAR  ,NPF     ,
      2     TF     ,TT     ,BUFMAT  ,RHO     ,
@@ -438,6 +447,26 @@ C-------------------------------------------
      B     OFF    ,NGL    ,IPM     ,MAT     ,ETSE   ,
      C     GS     ,SIGY   ,EPSPL   ,ISRATE  ,IPLA)
       ENDIF ! IF (MTN == 1) THEN
+C-----------------------
+C     DAMPING
+C-----------------------      
+      if (idamp_freq_range > 0) then 
+        NUVARV = ELBUF_STR%BUFLY(1)%NVAR_VISC
+        UVARV  => ELBUF_STR%BUFLY(1)%VISC(IR,IS,1)%VAR
+        IMAT = ELBUF_STR%BUFLY(1)%IMAT
+        nvar_damp = 28 + 16     
+        flag_incr = 1
+        call damping_range_shell(damp_buf,nel     ,nuvarv  ,nvar_damp,dt1      ,
+     .                           rho     ,ssp    ,mat_elem%mat_param(imat)%young,mat_elem%mat_param(imat)%shear,
+     .                           epspxx  ,epspyy ,epspxy  ,epspyz   ,epspzx   ,
+     .                           sigvxx  ,sigvyy ,sigvxy  ,sigvyz   ,sigvzx   ,
+     .                           uvarv   ,off    ,etse    ,flag_incr)
+     
+        call damping_range_shell_mom(damp_buf,nel     ,nuvarv  ,dt1     ,dt_inv  ,
+     .                               mat_elem%mat_param(imat)%young,mat_elem%mat_param(imat)%shear,depbxx  ,depbyy  ,depbxy  ,                           
+     .                               momnxx  ,momnyy  ,momnxy  ,thk0    ,uvarv   ,
+     .                               off     ,etse)
+      endif        
 C-----------------------
 C      ORTHOTROPE
 C-----------------------

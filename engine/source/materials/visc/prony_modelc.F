@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2     NPRONY   ,KV     ,GI , BETA     ,RHO0  ,
      3     EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
      4     SIGVXX ,SIGVYY ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
-     5     SOUNDSP,UVAR    ,OFF )
+     5     SOUNDSP,UVAR    ,OFF    ,NVAR_DAMP)
 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -67,6 +67,7 @@ C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
 C
       INTEGER NEL, NUVAR,NPRONY
+      INTEGER ,INTENT(IN) :: NVAR_DAMP
       my_real
      .   TIMESTEP,KV,GI(NPRONY),BETA(NPRONY),
      .   RHO0(NEL), EPSPXX(NEL),EPSPYY(NEL),
@@ -86,7 +87,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J
+      INTEGER :: I,J,II
       my_real :: G,DAV,EPXX,EPYY,EPZZ,P,
      .  AA(MVSIZ,NPRONY),BB(MVSIZ,NPRONY),H0(6),EPSPZZ(MVSIZ),
      .  H(6,NPRONY),S(6),A1(MVSIZ),A2(MVSIZ),FAC
@@ -104,6 +105,7 @@ C
           EPSPZZ(I) = ZERO
 C          
          DO J=1,NPRONY
+          II = (J-1)*(NUVAR-NVAR_DAMP)/NPRONY
           AA(I,J) =  EXP(-BETA(J)*TIMESTEP) 
           BB(I,J) =  TIMESTEP*GI(J)*EXP(-HALF*BETA(J)*TIMESTEP)
 C
@@ -133,6 +135,7 @@ c deviatorique part
           EPZZ = EPSPZZ(I) - DAV          
 C  
           DO J= 1,NPRONY
+           II = (J-1)*(NUVAR-NVAR_DAMP)/NPRONY
 C         
            H0(1) = UVAR(I, (J - 1)*6 + 1)
            H0(2) = UVAR(I, (J - 1)*6 + 2)
