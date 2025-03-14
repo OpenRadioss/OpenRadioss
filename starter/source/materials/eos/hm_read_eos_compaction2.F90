@@ -51,7 +51,7 @@
       !||    submodel_mod              ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       subroutine hm_read_eos_compaction2(iout,pm,unitab,lsubmodel,imideos,eos_tag,ieos,npropm,maxeos,&
-                                          eos_param, iunit)
+                                          eos_param, iunit, nfunc, npc, tf ,snpc ,npts )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -59,7 +59,7 @@
       use unitab_mod , only : unit_type_
       use submodel_mod , only : nsubmod, submodel_data
       use elbuftag_mod , only : eos_tag_
-      use constant_mod , only : zero, two_third, one, two, three, three100, ep20
+      use constant_mod , only : zero, em12, two_third, one, two, three, three100, ep20
       use eos_param_mod , only : eos_param_
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
@@ -82,6 +82,9 @@
       integer,intent(in) :: ieos !< EoS (internal) identifier
       type(eos_param_), intent(inout) :: eos_param !< eos data structure (specific parameters)
       integer,intent(in) :: iunit !< unit identifier
+      integer,intent(in) :: snpc, npts, nfunc
+      integer,intent(in) :: npc(snpc)
+      my_real,intent(in) :: tf(npts)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -92,9 +95,11 @@
       logical :: is_encrypted, is_available, is_available_rho0
 
       integer :: P_FUNC_ID !< user function identifer
+      integer :: jfunc !< loop
       my_real :: Fscale, Xscale !< function scale factors
       my_real :: bmin, bmax !< unload modulus
       my_real :: dpdm0 !< total derivative at initial time
+      my_real :: tmp, dpdmu_mumax, dpdmu_mumin
 
       my_real :: FAC_M,FAC_L,FAC_T,FAC_PRES !< factors for unit translation (case iunit > 0)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -207,6 +212,34 @@
           mu0 = zero ! error 683 already displayed
         endif
       endif
+
+      !check unload modulus regarding C1
+      do jfunc=1,nfunc
+        if(npc(nfunc + jfunc + 1) == P_FUNC_ID) then
+          tmp = finter(jfunc ,-em12 ,npc,tf,dpdmu_mumin)
+          dpdmu_mumin = dpdmu_mumin * fac_pres
+          if(bmin < dpdmu_mumin)  then
+            call ancmsg(MSGID=67,MSGTYPE=msgerror,ANMODE=aninfo,I1=imideos, &
+            C1='/EOS/COMPACTION2',C2='BMIN MUST BEGREATER THAN DERIVATIVE OF P(MU) AT 0.0')
+          end if
+          exit
+        end if
+      end do
+
+      !check unload modulus regarding point of maximum compaction
+      if(mumax > zero .and. mumax < 1000.)then !possible overflow with unphysical value
+        do jfunc=1,nfunc
+          if(npc(nfunc + jfunc + 1) == P_FUNC_ID) then
+            tmp = finter(jfunc ,mumax,npc,tf,dpdmu_mumax)
+            dpdmu_mumax = dpdmu_mumax * fac_pres
+            if(bmax < dpdmu_mumax)  then
+              call ancmsg(MSGID=67,MSGTYPE=msgerror,ANMODE=aninfo,I1=imideos, &
+              C1='/EOS/COMPACTION2',C2='BMAX MUST BEGREATER THAN DERIVATIVE OF P(MU) AT MUMAX')
+            end if
+            exit
+          end if
+        end do
+      end if
 
       !ssp0
       ssp0 = zero

@@ -60,7 +60,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE HM_READ_EOS(
      .           MAT_PARAM   ,IPM      ,PM       ,BUFMAT   ,
      .           BUFLEN      ,IADBUF   ,EOS_TAG  ,UNITAB   ,LSUBMODEL,
-     .           MLAW_TAG    )
+     .           MLAW_TAG    ,NPC      ,TF       ,SNPC     ,NPTS     ,SBUFMAT)
 C-----------------------------------------------
 C   A n a l y s e   M o d u l e
 C-----------------------------------------------
@@ -89,9 +89,13 @@ C-----------------------------------------------
       TYPE(MLAW_TAG_) , DIMENSION(NUMMAT),INTENT(INOUT) :: MLAW_TAG
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER  :: BUFLEN,IADBUF
+      INTEGER,INTENT(IN) :: SBUFMAT
       INTEGER ,DIMENSION(NPROPMI,NUMMAT) ,INTENT(INOUT) :: IPM
+      INTEGER,INTENT(IN) :: SNPC, NPTS
+      INTEGER,INTENT(IN) :: NPC(SNPC)
+      my_real,INTENT(IN) :: TF(NPTS)
       my_real ,DIMENSION(NPROPM ,NUMMAT) ,INTENT(INOUT) :: PM
-      my_real ,DIMENSION(*)              ,INTENT(INOUT) :: BUFMAT
+      my_real ,DIMENSION(SBUFMAT),INTENT(INOUT) :: BUFMAT
       TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(INOUT) :: MAT_PARAM
       TYPE(EOS_TAG_),DIMENSION(0:MAXEOS) ,INTENT(INOUT) :: EOS_TAG
       TYPE(SUBMODEL_DATA) ,DIMENSION(NSUBMOD)  ,INTENT(IN)    :: LSUBMODEL
@@ -128,7 +132,7 @@ c     Routine reading EOS models :
       !  17       !     TABULATED          ! 2022.2
       !  18       !     LINEAR             ! 2019.0
       !  19       !     EXPONENTIAL        ! 2024.1
-      !  20       !     COMPACTION2        !
+      !  20       !     COMPACTION2        ! 2025.1
       !------------------------------------!                      
 c======================================================================-       
 c     COUNT EOS MODELS USING CFG FILES
@@ -260,7 +264,7 @@ c---
           CASE ('COMPACTION2')
             IEOS = 20
             CALL HM_READ_EOS_COMPACTION2(IOUT,PM(1,IMAT),UNITAB,LSUBMODEL,IMIDEOS,EOS_TAG,IEOS,NPROPM,MAXEOS,
-     .                                   MAT_PARAM(IMAT)%EOS, IUNIT )
+     .                                   MAT_PARAM(IMAT)%EOS, IUNIT, NFUNCT, NPC, TF ,SNPC , NPTS)
 c---
           CASE DEFAULT
             IEOS = -1 
