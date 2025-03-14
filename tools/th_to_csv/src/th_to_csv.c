@@ -1277,7 +1277,7 @@ void csvFileWrite(char* csvFilename,char* titleFilename,int *nbglobVar,int *nbPa
                 outpuType != 6) ||
                 ((strcmp(buffer,"F1        ")==0 || strcmp(buffer,"F2        ")==0 || strcmp(buffer,"F3        ")==0 ||
                     strcmp(buffer,"M1        ")==0 || strcmp(buffer,"M2        ")==0 || strcmp(buffer,"M3        ")==0 ) &&
-                outpuType == 102) )
+                outpuType == 104) )
             {
                 isImpulse[i]=1;
             }
