@@ -128,7 +128,7 @@ c         take into account high stress rates
 c------------------------
 c         Residual stress
 c------------------------
-          SIG_COSW = SIG_COS - SIG_INI   ! Substracting initial surface stress
+          SIG_COSW = SIG_COS - SIG_INI   ! Subtracting initial surface stress
           SIG_COSW = MAX(ZERO , SIG_COSW)
 c------------------------
 c         Test criteria

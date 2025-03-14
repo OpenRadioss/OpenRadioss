@@ -294,7 +294,7 @@
                        if(emc >= one) dmg(i,5)= one 
                endif 
                if(abs(signxy(i)) >= sc(i) ) dmg(i,6 ) = one 
-               ! failur based on effetive strain
+               ! failure based on effective strain
                 eps_ef =  two_third* (epsxx(i)**2 + epsyy(i)**2 + epsxy(i)**2 ) 
                 eps_ef = sqrt(eps_ef) 
                 if(eps_ef >= efs .and. offply(i) == one ) then

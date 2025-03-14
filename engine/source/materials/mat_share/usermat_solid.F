@@ -1507,7 +1507,7 @@ c
       ENDIF   ! NFAIL
       IF ((ITASK==0).AND.(IMON_MAT==1))CALL STOPTIME(TIMERS,121)
 C-----------------------------------------------------------------------
-C     viscous stress (/VISC models + Damping freqency range) 
+C     viscous stress (/VISC models + Damping frequency range)
 C-----------------------------------------------------------------------
       IF ((MAT_ELEM%MAT_PARAM(MAT(1))%IVISC > 0).OR.(IDAMP_FREQ_RANGE > 0)) THEN
          CALL VISCMAIN(MAT_ELEM%MAT_PARAM(MAT(1))%VISC    ,NEL     ,

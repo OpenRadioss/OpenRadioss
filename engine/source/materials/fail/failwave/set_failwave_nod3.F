@@ -236,7 +236,7 @@ c--------------------------------------------------------------------
 c--------------------------------------------------------------------
                   IF (MAXLEV > FAILWAVE%SIZE) THEN
 #include "lockon.inc"
-                    WRITE(IOUT,*) 'ERROR IN FAILWAVE PROPGATION: ELEMENT =',NGL(I),
+                    WRITE(IOUT,*) 'ERROR IN FAILWAVE PROPAGATION: ELEMENT =',NGL(I),
      .                            'LEVEL=',MAXLEV
 #include "lockoff.inc"
                     MAXLEV = FAILWAVE%SIZE
@@ -367,7 +367,7 @@ c--------------------------------------------------------------------
 c--------------------------------------------------------------------
                   IF (MAXLEV > FAILWAVE%SIZE) THEN
 #include "lockon.inc"
-                    WRITE(IOUT,*) 'ERROR IN FAILWAVE PROPGATION: ELEMENT =',NGL(I),
+                    WRITE(IOUT,*) 'ERROR IN FAILWAVE PROPAGATION: ELEMENT =',NGL(I),
      .                            'LEVEL=',MAXLEV
 #include "lockoff.inc"
                     MAXLEV = FAILWAVE%SIZE

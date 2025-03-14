@@ -222,13 +222,13 @@
                   e22     = r_inter
                endif
 !c          
-            endif !type_max 
+            endif !type_max
 
           if (ema == one .and. ff /= zero .and. f_flag > 1) then
 !c-----------------------------------------------
-!c           initialialisation of the filter-coefficients 
+!c           initialisation of the filter-coefficients
 !c-----------------------------------------------
-            d  = tan(pi*f*timestep)  
+            d  = tan(pi*f*timestep)
             dd = d*d
             d2 = two*d
             dp = one + dd
