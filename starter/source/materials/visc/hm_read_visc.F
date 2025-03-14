@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
       !||    hm_read_visc_lprony    ../starter/source/materials/visc/hm_read_visc_lprony.F
       !||    hm_read_visc_prony     ../starter/source/materials/visc/hm_read_visc_prony.F
+      !||    hm_read_visc_plas      ../starter/source/materials/visc/hm_read_visc_plas.F
       !||    init_mat_keyword       ../starter/source/materials/mat/init_mat_keyword.F
       !||--- uses       -----------------------------------------------------
       !||    elbuftag_mod           ../starter/share/modules1/elbuftag_mod.F
@@ -52,6 +53,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE TABLE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARKEY
+      USE HM_READ_VISC_PLAS_MOD
 C============================================================================
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -166,6 +168,11 @@ c           -----------------------------------
               CALL HM_READ_VISC_LPRONY(
      .             MAT_PARAM(IMAT)%VISC,IVISC ,MAT_ID   ,UNITAB  ,LSUBMODEL)
 c              
+            ELSE IF (KEY(1:6) == 'PLAS') THEN 
+c           -----------------------------------   
+              IVISC = 3
+              CALL HM_READ_VISC_PLAS(
+     .             MAT_PARAM(IMAT)%VISC,IVISC  ,IOUT, UNITAB  ,LSUBMODEL)
             END IF  ! visc model
 c-------------------------
             MAT_PARAM(IMAT)%IVISC = IVISC
