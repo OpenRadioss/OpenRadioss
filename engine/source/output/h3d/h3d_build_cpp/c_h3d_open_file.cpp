@@ -452,7 +452,7 @@ void c_h3d_reopen_file_(char *name, int *size, my_real *percentage_error, int *c
         rc = Hyper3DAddString(h3d_file, SH3NPOOL, &sh3n_poolname_id);
         if( !rc ) throw rc;
 
-        char SH4NPOOL[] = "SH4N";
+        char SH4NPOOL[] = "SHELL";
         rc = Hyper3DAddString(h3d_file, SH4NPOOL, &sh4n_poolname_id);
         if( !rc ) throw rc;
 
