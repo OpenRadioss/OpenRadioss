@@ -83,7 +83,9 @@
       my_real  p0, e0, psh, rho0,rhoi,rhor
       my_real  c0,c1,c2,c3,bunl,mu,mumin,mumax
       my_real  mu0,ssp0,df, g0, bulk,bulk2, bb, pold, mu2, muold, alpha,dpdmu
+      my_real dpdmu_mumax
       integer iform, ioutp
+      integer :: jfunc !< loop
       logical :: is_encrypted, is_available, is_available_rho0
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
@@ -132,10 +134,25 @@
         iform=2 !default
         ioutp=0
       endif
-      
+
       mu = rho0/rhor-one
       p0 = c0+min(c1*mu,c1*mu+c2*mu*mu+c3*mu*mu*mu)
       e0 = zero
+
+      !check unload modulus regarding C1
+      if(Bunl < C1)then
+        call ancmsg(MSGID=67,MSGTYPE=msgerror,ANMODE=aninfo,I1=imideos, &
+        C1='/EOS/COMPACTION',C2='BUNL MUST BEGREATER THAN C1')
+      end if
+
+      !check unload modulus regarding point of maximum compaction
+      if(mumax > zero .and. mumax < 1000.)then
+        dpdmu_mumax = c1 + two*c2*mumax + three*c3*mumax**2
+        if(Bunl < dpdmu_mumax)  then
+          call ancmsg(MSGID=67,MSGTYPE=msgerror,ANMODE=aninfo,I1=imideos, &
+          C1='/EOS/COMPACTION',C2='BUNL MUST BEGREATER THAN DERIVATIVE OF P(MU) AT MUMAX')
+        end if
+      end if
 
       pm(49) = c0
       pm(32) = c1
