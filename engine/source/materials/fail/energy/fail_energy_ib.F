@@ -61,15 +61,15 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NEL)     ,INTENT(IN)    :: NGL     ! table of element identifiers
       INTEGER ,DIMENSION(100)     ,INTENT(IN)    :: IFUNC   ! table of functions identifiers
       INTEGER ,DIMENSION(SNPC)    ,INTENT(IN)    :: NPF
-      INTEGER ,DIMENSION(NEL)     ,INTENT(INOUT) :: FOFF    ! integration point desactivation flag
+      INTEGER ,DIMENSION(NEL)     ,INTENT(INOUT) :: FOFF    ! integration point deactivation flag
       my_real                     ,INTENT(IN)    :: TIME    ! current time
       my_real ,DIMENSION(NUPARAM) ,INTENT(IN)    :: UPARAM  ! failure model parameter array
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: EPSD    ! strain rate
       my_real ,DIMENSION(STF)     ,INTENT(IN)    :: TF
-      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: OFF     ! element desactivation flag
+      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: OFF     ! element deactivation flag
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: DFMAX   ! maximum damage
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: DAMSCL  !1-damage
-      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: TDEL    ! desactivation time
+      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: TDEL    ! deactivation time
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: SIGNXX,SIGNXY,SIGNXZ 
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: DEPSXX,DEPSXY,DEPSXZ 
       my_real ,DIMENSION(NEL,NVAR),INTENT(INOUT) :: UVAR

@@ -66,9 +66,9 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: AL
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: EPSXX
       my_real ,DIMENSION(STF)     ,INTENT(IN)    :: TF
-      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: OFF     ! element desactivation flag
+      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: OFF     ! element deactivation flag
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: DFMAX   ! maximum damage
-      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: TDEL    ! desactivation time
+      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: TDEL    ! deactivation time
       my_real ,DIMENSION(NEL,NUVAR),INTENT(INOUT) :: UVAR   
       my_real, DIMENSION(NEL)     ,INTENT(INOUT) :: DMGSCL 
 C-----------------------------------------------

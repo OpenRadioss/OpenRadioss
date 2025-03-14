@@ -100,9 +100,9 @@ C-----------------------------------------------
       A1      = UPARAM(7)   ! Diag. component of 3D elastic matrix
       A2      = UPARAM(8)   ! Non-diag. component of 3D elastic matrix
       BULK    = UPARAM(9)   ! Bulk modulus
-      LAMHOOK = UPARAM(10)  ! Hooke's lamba coefficient
+      LAMHOOK = UPARAM(10)  ! Hooke's lambda coefficient
       ! Hardening parameter
-      SIGY    = UPARAM(11)  ! Initial yield stress 
+      SIGY    = UPARAM(11)  ! Initial yield stress
       EPS0    = UPARAM(12)  ! Initial plastic strain (> 0)
       NEXPO   = UPARAM(13)  ! Hardening exponent
       ! Hill yield criterion parameters

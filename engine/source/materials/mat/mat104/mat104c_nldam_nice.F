@@ -463,9 +463,9 @@ c
         DSIGXY(I) = DEPSXY(I)*G
         DLAM      = ZERO      
 c        
-        ! Note     : in this part, the purpose is to compute ine one iteration
+        ! Note     : in this part, the purpose is to compute in one iteration
         ! a plastic multiplier allowing to update internal variables to satisfy
-        ! the consistency condition. 
+        ! the consistency condition.
         ! Its expression is : DLAMBDA = - (PHI_OLD + DPHI) / DPHI_DLAMBDA
         ! -> PHI_OLD : old value of yield function (known)
         ! -> DPHI : yield function prediction (to compute)

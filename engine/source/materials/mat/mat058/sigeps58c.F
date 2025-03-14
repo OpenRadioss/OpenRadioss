@@ -271,7 +271,7 @@ c
       NINDX  = 0
       NUMOFF = 0
 C-----------------------------------------------------------
-C     DESACTIVATION FOR VERY WARPED ELEMENT (QBAT)
+C     DEACTIVATION FOR VERY WARPED ELEMENT (QBAT)
 C-----------------------------------------------------------
       IF (NPT0 ==1) THEN
         DO I=1,NEL0
@@ -1757,7 +1757,7 @@ C-----------------------------------------------------------
       ENDIF
       !IF(ncycle== 2)!stop
 C-----------------------------------------------------------
-C     DESACTIVATION FOR VERY WARPED ELEMENT (QBAT)
+C     DEACTIVATION FOR VERY WARPED ELEMENT (QBAT)
 C-----------------------------------------------------------
       IF (NPT0 ==1) THEN
 #include "vectorize.inc"

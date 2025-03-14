@@ -426,7 +426,7 @@
                      
           endif
 !c
-          ! compute the controle necking instability damage
+          ! compute the control necking instability damage
           if ((itab_inst > 0).or.(ecrit > zero)) then 
             dpl_def = dpla(i)/max(epsl(i)*ratefac(i)*sizefac(i)*tempfac2(i),em20)
             inst(i) = inst(i) + dpl_def*dn*(inst(i)**(one-(one/dn)))

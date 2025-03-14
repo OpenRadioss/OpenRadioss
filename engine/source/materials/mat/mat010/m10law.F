@@ -43,7 +43,7 @@ C F = J2 - A0 + A1*P + A2*P**2
 C If F > 1 then deviatoric tensor is projected on F=1. Otherwise Elastic behavior if F<1
 C Yield surface using scale factor RATIO(I).
 C Pressure is cubic in compression linear in tension.
-C Energy integration is made in MEINT subroutine, but eos is not energy depedent...
+C Energy integration is made in MEINT subroutine, but eos is not energy dependent...
 C
 C
 C VARIABLE DEFINITIONS :

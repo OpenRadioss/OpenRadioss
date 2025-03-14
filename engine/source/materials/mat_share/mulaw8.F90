@@ -1144,7 +1144,7 @@
 !---------
               endif ! irupt
 !---------
-            enddo ! several failur model boucle ir
+            enddo ! several failure model boucle ir
 !---------
 !--------------------------------------------------------
 !     damaged stresses

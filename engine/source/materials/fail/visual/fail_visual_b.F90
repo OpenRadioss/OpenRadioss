@@ -207,7 +207,7 @@
 
           if (ema == one .and. ff /= zero .and. f_flag > 1) then
 !C-----------------------------------------------
-!C           INITIALIALISATION OF THE FILTER-COEFFICIENTS 
+!C           INITIALISATION OF THE FILTER-COEFFICIENTS
 !C-----------------------------------------------
             d  = tan(pi*f*timestep)  
             dd = d*d

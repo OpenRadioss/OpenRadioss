@@ -194,16 +194,16 @@
         tab_idfld  = 0
       end if
 
-      
+
       ! initialization of variable
-      nindx  = 0           !flag for: damage at an intergration point  
-      nindx2 = 0           !flag for: rupture of solid element  at time   
-      nindx3 = 0           !flag for: damaged volume fraction > critical value  
+      nindx  = 0           !flag for: damage at an integration point
+      nindx2 = 0           !flag for: rupture of solid element  at time
+      nindx3 = 0           !flag for: damaged volume fraction > critical value
       indx(1:nel)     = 0  !table for the initiation of element damage
       indx2(1:nel)    = 0  !table for the element rupture
       indx3(1:nel)    = 0  !table for the element rupture due to volime fraction
       ipmax(1:nel)    = 0  !flag for : hydrostatic pressure value > critical value
-      ipmin(1:nel)    = 0  !flag for : hydrostatic pressure value < critical value  
+      ipmin(1:nel)    = 0  !flag for : hydrostatic pressure value < critical value
       is1max(1:nel)   = 0  !flag for : 1st principal stress value > critical value
       itmax(1:nel)    = 0  !flag for : time value > critical value
       imindt(1:nel)   = 0  !flag for : element timestep value < critical value

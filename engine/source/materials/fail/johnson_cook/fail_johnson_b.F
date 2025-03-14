@@ -55,9 +55,9 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: PRESSURE! element pressure
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: EPSD    ! strain rate
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: TSTAR   ! normalized temperature
-      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: OFF     ! element desactivation flag
+      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: OFF     ! element deactivation flag
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: DFMAX   ! maximum damage
-      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: TDEL    ! desactivation time
+      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: TDEL    ! deactivation time
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
