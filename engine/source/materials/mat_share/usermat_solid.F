@@ -211,7 +211,7 @@ C-----------------------------------------------
       INTEGER NV46, NUMEL, INLOC, JSMS
       INTEGER I,NPAR,IADBUF,NFUNC,NUMTABL,NTABL_FAIL,ISRATE,SIZNUL,MX,IPG,NPTR,NPTS,
      .  IBID,IBIDON1,IBIDON2,IBIDON3,IBIDON4 ,N48,NIX,ILAW_USER,IGTYP,
-     .  NVARF,NVARVIS,IR,IRUPT,IMAT,ISVIS,IVISC,NUVARV,ISEQ,IADRUPBUF,IDEV
+     .  NVARF,NVARVIS,IR,IRUPT,IMAT,ISVIS,IVISC,NUVARV,ISEQ,IADRUPBUF,IDEV,VISCTYPE
       my_real 
      .E1,E2,E3,E4,E5,E6,BID1,BID3,Q1,Q2,Q3,SS1,SS2,SS3,SS4,SS5,
      .SS6,WXXF,WYYF,WZZF,P2,EPSP,DAV,ASRATE,C1(MVSIZ),
@@ -225,6 +225,7 @@ C-----------------------------------------------
      . SO4(2*MVSIZ),SO5(2*MVSIZ),SO6(2*MVSIZ),
      .ES1(MVSIZ),ES2(MVSIZ),ES3(MVSIZ),ES4(MVSIZ),ES5(MVSIZ),ES6(MVSIZ),
      .SV1(MVSIZ),SV2(MVSIZ),SV3(MVSIZ),SV4(MVSIZ),SV5(MVSIZ),SV6(MVSIZ),
+     .SVO1(MVSIZ),SVO2(MVSIZ),SVO3(MVSIZ),SVO4(MVSIZ),SVO5(MVSIZ),SVO6(MVSIZ),
      .R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),    
      .R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),EPSP1(MVSIZ),DPLA(MVSIZ),
      .PAIR(MVSIZ),ES7(MVSIZ),ES8(MVSIZ),ES9(MVSIZ),DEFP0(MVSIZ)
@@ -382,8 +383,25 @@ c
       S4(1:MVSIZ)  = ZERO
       S5(1:MVSIZ)  = ZERO
       S6(1:MVSIZ)  = ZERO
+      SVO1(1:MVSIZ) = ZERO
+      SVO2(1:MVSIZ) = ZERO
+      SVO3(1:MVSIZ) = ZERO
+      SVO4(1:MVSIZ) = ZERO
+      SVO5(1:MVSIZ) = ZERO
+      SVO6(1:MVSIZ) = ZERO
 
       SSP(1:MVSIZ)=ZERO
+
+       if (MAT_ELEM%MAT_PARAM(MAT(1))%IVISC == 3) then
+           DO I=1,NEL
+                SVO1(I) = SVISC(I,1)
+                SVO2(I) = SVISC(I,2)
+                SVO3(I) = SVISC(I,3)
+                SVO4(I) = SVISC(I,4)
+                SVO5(I) = SVISC(I,5)
+                SVO6(I) = SVISC(I,6)
+           ENDDO 
+       ENDIF
 
       IF (JCVT > 0) THEN
 C---------------------------
@@ -448,6 +466,12 @@ C---------------------------
          WYY(I)=ZERO
          WZZ(I)=ZERO 
         ENDDO
+        IF (MAT_ELEM%MAT_PARAM(MAT(1))%IVISC  == 3) THEN
+            CALL MROTENS(LFT,LLT,SVO1,SVO2,SVO3,SVO4,SVO5,SVO6,
+     .               R11,R12,R13,
+     .               R21,R22,R23,
+     .               R31,R32,R33)
+        ENDIF    
       ELSE
 C---------------------------
 C       ISOTROPE GLOBAL
@@ -1516,6 +1540,8 @@ C-----------------------------------------------------------------------
          CALL VISCMAIN(MAT_ELEM%MAT_PARAM(MAT(1))%VISC    ,NEL     ,
      .        NVARVIS ,VBUF%VAR,RHO0    ,VIS     ,SSP     ,DT1     , 
      .        EP1     ,EP2     ,EP3     ,EP4     ,EP5     ,EP6     ,
+     .        DE1     ,DE2     ,DE3     ,DE4     ,DE5     ,DE6     ,
+     .        SVO1    ,SVO2    ,SVO3    ,SVO4    ,SVO5    ,SVO6      ,
      .        SV1     ,SV2     ,SV3     ,SV4     ,SV5     ,SV6     ,
      .        MFXX    ,MFXY    ,MFXZ    ,MFYX    ,MFYY    ,MFYZ    ,
      .        MFZX    ,MFZY    ,MFZZ    ,
@@ -1623,7 +1649,8 @@ c---------------------------------------------------------
 C
 C  isvis for outp
 C      
-      IF (ISVIS > 0) THEN
+      VISCTYPE = MAT_ELEM%MAT_PARAM(MAT(1))%IVISC  
+      IF (ISVIS > 0 .OR. VISCTYPE == 1 .OR. VISCTYPE == 3) THEN
         DO I=1,NEL
           SIGV(I,1) = SVIS(I,1)
           SIGV(I,2) = SVIS(I,2)

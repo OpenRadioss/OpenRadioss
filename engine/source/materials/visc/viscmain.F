@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    damping_range_solid       ../engine/source/general_controls/damping/damping_range_solid.F90
       !||    visc_prony                ../engine/source/materials/visc/visc_prony.F
       !||    visc_prony_lstrain        ../engine/source/materials/visc/visc_prony_lstrain.F
+      !||    visc_plas                 ../engine/source/materials/visc/visc_plas.F
       !||--- uses       -----------------------------------------------------
       !||    damping_range_solid_mod   ../engine/source/general_controls/damping/damping_range_solid.F90
       !||    elbufdef_mod              ../common_source/modules/mat_elem/elbufdef_mod.F90
@@ -38,18 +39,21 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE VISCMAIN(VISC    ,NEL     ,
      .           NVARVIS ,UVARVIS ,RHO     ,VISCMAX ,SOUNDSP ,TIMESTEP, 
      .           EPSPXX  ,EPSPYY  ,EPSPZZ  ,EPSPXY  ,EPSPYZ  ,EPSPZX  , 
+     .           DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
+     .           SVO1    ,SVO2    ,SVO3    ,SVO4    ,SVO5    ,SVO6      ,
      .           SV1     ,SV2     ,SV3     ,SV4     ,SV5     ,SV6     ,
      .           MFXX    ,MFXY    ,MFXZ    ,MFYX    ,MFYY    ,MFYZ    ,
      .           MFZX    ,MFZY    ,MFZZ    ,
      .           S1      ,S2      ,S3      ,S4      ,S5      ,S6      ,
      .           DAMP_BUF,IDAMP_FREQ_RANGE ,MVSIZ   ,ET      ,YOUNG   ,
-     .           SHEAR_MODULUS,IVISC)
+     .           SHEAR_MODULUS,IVISC ) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE VISC_PARAM_MOD
       USE ELBUFDEF_MOD, only: buf_damp_range_
       USE damping_range_solid_mod
+      USE visc_plas_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,9 +72,16 @@ C-----------------------------------------------
       my_real ,INTENT(IN) :: TIMESTEP
       my_real ,INTENT(IN) :: YOUNG
       my_real, INTENT(IN) :: SHEAR_MODULUS
-      my_real, DIMENSION(NEL) :: RHO,VISCMAX,SOUNDSP,EPSPXX,EPSPYY,EPSPZZ, 
-     .   EPSPXY,EPSPYZ,EPSPZX,SV1,SV2,SV3,SV4,SV5,SV6,S1,S2,S3,S4,S5,S6,
-     .   MFXX,MFXY,MFXZ,MFYX,MFYY,MFYZ,MFZX,MFZY,MFZZ
+      my_real, DIMENSION(NEL), INTENT(INOUT):: S1,S2,S3,S4,S5,S6
+     .                            
+      my_real, DIMENSION(NEL) ,INTENT(INOUT) :: SOUNDSP
+      my_real, DIMENSION(NEL) ,INTENT(IN) :: EPSPXX,EPSPYY,EPSPZZ,EPSPXY,EPSPYZ,EPSPZX,
+     .                                       MFXX,MFXY,MFXZ,MFYX,MFYY,MFYZ,MFZX,MFZY,MFZZ,
+     .                                       DEPSXX,DEPSYY,DEPSZZ,DEPSXY,DEPSYZ,DEPSZX, 
+     .                                        SVO1,SVO2,SVO3,SVO4,SVO5,SVO6,
+     .                                        RHO,VISCMAX
+      my_real, DIMENSION(NEL) ,INTENT(OUT) :: SV1,SV2,SV3,SV4,SV5,SV6
+
       my_real, DIMENSION(NEL*NVARVIS) ,INTENT(INOUT) :: UVARVIS
       my_real, DIMENSION(MVSIZ) ,INTENT(IN) :: ET      
       TYPE(VISC_PARAM_) ,INTENT(IN) :: VISC
@@ -112,6 +123,12 @@ c
      .           TIMESTEP,MFXX    ,MFXY    ,MFXZ    ,MFYX    ,MFYY    ,
      .           MFYZ    ,MFZX    ,MFZY    ,MFZZ    ,
      .           S1      ,S2      ,S3      ,S4      ,S5      ,S6)
+        ELSEIF (VISC%ILAW == 3) THEN
+          call visc_plas(
+     .           visc    ,nel      , rho     ,soundsp   , 
+     .           depsxx  ,depsyy   ,depszz   ,depsxy    ,depsyz    ,depszx,
+     .           svo1    ,svo2     ,svo3     ,svo4      ,svo5      , svo6,               
+     .           sv1      ,sv2     ,sv3      ,sv4       ,sv5        ,sv6)    
         ENDIF  
       ENDIF
 C      
