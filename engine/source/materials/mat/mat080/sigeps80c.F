@@ -544,7 +544,7 @@ c-----------------------------------------------
         UVAR(I,1) = TEMPMIN(I)  
       ENDDO
 c-------------------------------------
-c interpolatin of yield for each phase 
+c interpolation of yield for each phase 
 c-------------------------------------
       DO I=1,NEL
         IPOS1(I,1) = VARTMP(I,1)

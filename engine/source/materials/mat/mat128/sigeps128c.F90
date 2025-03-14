@@ -52,7 +52,7 @@
            hardm    ,sighl    )
 !
 ! =================================================================================
-! \brief orthotropic hill material with plastic strain rate dependancy for shells
+! \brief orthotropic hill material with plastic strain rate dependency for shells
 
 ! =================================================================================
 !   m o d u l e s

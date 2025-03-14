@@ -151,13 +151,13 @@ c! strains EPSXX  ,EPSYY  ,EPSXY
                E11 = LOG(SQRT(E11+ONE))
              END IF
            ENDIF    
-c!  ***********************       
-c!  *** NEW ... 23.02.2020  
-c!  ***********************      
+c!  ***********************
+c!  *** NEW ... 23.02.2020
+c!  ***********************
 c! --- EMA or Butterworth filtering
         IF (EMA == ONE .and. FF /= ZERO .and. F_FLAG > 1) THEN
 C-----------------------------------------------
-C INITIALIALISATION OF THE FILTER-COEFFICIENTS 
+C INITIALISATION OF THE FILTER-COEFFICIENTS
 C-----------------------------------------------
           F  = MIN(FF,ZEP4 / MAX(TIMESTEP,EM20))
           D  = TAN(PI*F*MAX(TIMESTEP,EM20))

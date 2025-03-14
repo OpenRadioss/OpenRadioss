@@ -133,7 +133,7 @@
           !=====================================================================
           !< Recovering integer model parameter
           soft_flag = matparam%iparam(1)  !< Softening flag
-          !< Recovering real model paramter
+          !< Recovering real model parameter
           kini      = matparam%uparam(1)  !< Initial bulk modulus or scl. factor
           gini      = matparam%uparam(2)  !< Initial shear modulus or scl.factor
           tgphi     = matparam%uparam(3)  !< Friction angle
