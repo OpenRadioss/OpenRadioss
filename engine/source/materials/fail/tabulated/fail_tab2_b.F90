@@ -21,9 +21,9 @@
 !copyright>        software under a commercial license.  contact altair to discuss further if the
 !copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    fail_tab2_b_mod   ../engine/source/materials/fail/tab2/fail_tab2_b.f90
+      !||    fail_tab2_b_mod   ../engine/source/materials/fail/tabulated/fail_tab2_b.F90
       !||--- called by ------------------------------------------------------
-      !||    fail_beam3         ../engine/source/elements/beam/fail_beam3.f
+      !||    fail_beam3        ../engine/source/elements/beam/fail_beam3.F
       !||====================================================================
     module fail_tab2_b_mod
     contains
@@ -31,21 +31,21 @@
 ! \brief   tab2 failure criteria for type3 beam elements
 ! \details multiple failure models with different combinations with strain rate, thermal or mesh size dependency.
 ! ======================================================================================================================
-      !||====================================================================
-      !||    fail_tab2_b          ../engine/source/materials/fail/tab2/fail_tab2_b.f90
-      !||--- called by ------------------------------------------------------
-      !||    fail_beam3            ../engine/source/elements/beam/fail_beam3.f
-      !||--- calls      -----------------------------------------------------
-      !||    finter                ../engine/source/tools/curve/finter.f
-      !||    table2d_vinterp_log   ../engine/source/tools/curve/table2d_vinterp_log.f
-      !||    table_vinterp         ../engine/source/tools/curve/table_tools.f
-      !||--- uses       -----------------------------------------------------
-      !||    constant_mod          ../common_source/modules/constant_mod.f
-      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.f90
-      !||    interface_table_mod   ../engine/share/modules/table_mod.f
-      !||    table_mod             ../engine/share/modules/table_mod.f
-      !||====================================================================
 
+      !||====================================================================
+      !||    fail_tab2_b           ../engine/source/materials/fail/tabulated/fail_tab2_b.F90
+      !||--- called by ------------------------------------------------------
+      !||    fail_beam3            ../engine/source/elements/beam/fail_beam3.F
+      !||--- calls      -----------------------------------------------------
+      !||    finter                ../engine/source/tools/curve/finter.F
+      !||    table_vinterp         ../engine/source/tools/curve/table_tools.F
+      !||    vinter2               ../engine/source/tools/curve/vinter.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod          ../common_source/modules/constant_mod.F
+      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    interface_table_mod   ../engine/share/modules/table_mod.F
+      !||    table_mod             ../engine/share/modules/table_mod.F
+      !||====================================================================
     subroutine fail_tab2_b(                                      &
       nel   ,nuparam   ,nuvar   ,nfunc   ,ifunc  ,               &
       npf   ,table     ,tf      ,time    ,uparam ,               &

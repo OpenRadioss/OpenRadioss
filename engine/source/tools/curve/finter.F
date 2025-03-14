@@ -63,7 +63,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    fail_snconnect               ../engine/source/materials/fail/snconnect/fail_snconnect.F
       !||    fail_syazwan_c               ../engine/source/materials/fail/syazwan/fail_syazwan_c.F
       !||    fail_syazwan_s               ../engine/source/materials/fail/syazwan/fail_syazwan_s.F
+      !||    fail_tab2_b                  ../engine/source/materials/fail/tabulated/fail_tab2_b.F90
       !||    fail_tab2_c                  ../engine/source/materials/fail/tabulated/fail_tab2_c.F
+      !||    fail_tab2_ib                 ../engine/source/materials/fail/tabulated/fail_tab2_ib.F90
       !||    fail_tab2_s                  ../engine/source/materials/fail/tabulated/fail_tab2_s.F
       !||    fail_tab_c                   ../engine/source/materials/fail/tabulated/fail_tab_c.F
       !||    fail_tab_old_c               ../engine/source/materials/fail/tabulated/fail_tab_old_c.F

@@ -219,6 +219,8 @@
       !||    fail_setoff_c                       ../engine/source/materials/fail/fail_setoff_c.F
       !||    fail_setoff_npg_c                   ../engine/source/materials/fail/fail_setoff_npg_c.F
       !||    fail_setoff_wind_frwave             ../engine/source/materials/fail/fail_setoff_wind_frwave.F
+      !||    fail_tab2_b                         ../engine/source/materials/fail/tabulated/fail_tab2_b.F90
+      !||    fail_tab2_ib                        ../engine/source/materials/fail/tabulated/fail_tab2_ib.F90
       !||    fail_windshield_init                ../starter/source/materials/fail/windshield_alter/fail_windshield_init.F
       !||    failini                             ../starter/source/elements/solid/solide/failini.F
       !||    forint                              ../engine/source/elements/forint.F
