@@ -47,13 +47,13 @@ class set_graph
 
     void recur_graph(int set_id,int * dependancy_list,int current_tree,int * check)
     //  ---------------------------------------------------------------------------------
-    //  recur_graph  recursive function goes through the tree & builds dependancy array  int * check)
+    //  recur_graph  recursive function goes through the tree & builds dependency array  int * check)
     //  ---------------------------------------------------------------------------------
     //  INPUT
     //   set_id          : current set ID
-    //  dependancy_list : dependancy list to build 
-    //   current_tree    : "Root" Set to inspect need for circular dependancy check
-    //   check           : check value, if negative - gets the SET ID which has circular dependancy
+    //  dependancy_list : dependency list to build 
+    //   current_tree    : "Root" Set to inspect need for circular dependency check
+    //   check           : check value, if negative - gets the SET ID which has circular dependency
     //  OUTPUT
     //   ----------------------------------------------------------------------------
     {
@@ -64,7 +64,7 @@ class set_graph
       if (edge -> color > 0) return;                                          // Current set appears already in list
 
       if (edge->closed_tree_check == current_tree) {                         
-        // cout << "error infinite dependancy in SET found" << endl;          // if check fails this SET has been visited twice for Same Root SET.
+        // cout << "error infinite dependency in SET found" << endl;          // if check fails this SET has been visited twice for Same Root SET.
         *check = -current_tree;                                               // Do not continue
         return;
       }
@@ -80,7 +80,7 @@ class set_graph
       }
 
 
-      if (  edge->color == 0){                                                // If leave store it in dependancy list
+      if (  edge->color == 0){                                                // If leave store it in dependency list
             edge->color =edge->id;
             dependancy_list[depend_stack] = edge -> id;
             // cout << "Stack " <<  edge -> id << endl;
@@ -128,8 +128,8 @@ class set_graph
     //  when a SET depends from another SET : ensure Child SET is before.
     //  ---------------------------------------------------------------------------------
     //  INPUT
-    //   dependancy_list : dependancy list to build 
-    //   check           : check value, if negative - gets the SET ID which has circular dependancy
+    //   dependancy_list : dependency list to build 
+    //   check           : check value, if negative - gets the SET ID which has circular dependency
     //  OUTPUT
     //   ----------------------------------------------------------------------------
     {
@@ -258,7 +258,7 @@ set_graph my_set_graph;
 
  my_set_graph.print();
  cout << endl;
- cout << endl <<  "  dependancy computation " << endl  ;
+ cout << endl <<  "  dependency computation " << endl  ;
  cout <<          " ------------------------" << endl << endl ;
 
  int slist=6;

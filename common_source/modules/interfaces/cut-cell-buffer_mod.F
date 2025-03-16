@@ -101,7 +101,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         INTEGER                              :: Num      
         INTEGER                              :: NumSecndNodes        
         INTEGER                              :: FM(24)                  !Main face common face
-        INTEGER                              :: FV(24)                  !Secnd corresponding face        
+        INTEGER                              :: FV(24)                  !Secnd corresponding face
         INTEGER                              :: IV(24)                  !brick id which contains secnd cell
         INTEGER                              :: IBV(24)                 !cut cell address in cut cell buffer
         INTEGER                              :: ICELLv(24)              !secnd cell id
@@ -199,13 +199,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         INTEGER                              :: ITASK
         INTEGER                              :: SECID_Cell(8)           !cut local id in [1,8] -> [1,52] = sec type. Each possible cut is numbered from 1 to 52 ; 8 nodes => 8 possible cut cells
         INTEGER                              :: Seg_add_LFT             !EL FIRST : first lagrangian face in CAND_E
-        INTEGER                              :: Seg_add_LLT             !EL LAST  : last lagrangian face in CAND_E        
+        INTEGER                              :: Seg_add_LLT             !EL LAST  : last lagrangian face in CAND_E
         INTEGER                              :: Adjacent_Brick(6,5)     !index2: 1:IV, 2:NGV, 3:IDLOCV, 4:IBV, 5:IFV
         INTEGER                              :: MergeTarget(3,5)        !index1 (1)=Face (2)=MCELL, (3)=IB
         INTEGER                              :: NTarget                 !number of merged location
-        INTEGER                              :: ClosedSurf(6)           !tells if brick face has a double cut (only for multiple cut, in this case cell 9 has no adjacent celle, only for contact forces to get pressure differential)
+        INTEGER                              :: ClosedSurf(6)           !tells if brick face has a double cut (only for multiple cut, in this case cell 9 has no adjacent cells, only for contact forces to get pressure differential)
         INTEGER                              :: IsMergeTarget
-        my_real                              :: N(6,3)                  !unitary normal vector on each 6 faces        
+        my_real                              :: N(6,3)                  !unitary normal vector on each 6 faces
         my_real                              :: Vnew_SCell              !SuperCell volume (if exists)
         my_real                              :: Vold_SCell              !volume main (if exists)    : need for epsdot in sigeps51, merge/demerge, link switching , srho3   
         my_real                              :: SCellCenter(3)          !SuperCell centroid

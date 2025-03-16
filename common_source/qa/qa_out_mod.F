@@ -717,7 +717,7 @@ C         Remove leading blank if any
 
 ! ----------------------------------------------------------------------
 !>    @purpose 
-!>    Check if a given value is the predefined array fo available qakeys
+!>    Check if a given value is the predefined array of available qakeys
 !>    Useful to check if a qakey is allowed/available
 !>    Return true or false (false = program must exit with an error)
 !>    @ingroup utl_qa 
