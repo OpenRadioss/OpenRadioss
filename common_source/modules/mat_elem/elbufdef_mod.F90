@@ -1070,8 +1070,8 @@
 !--------------------------------------------------------------------------------
 !     buffer for damping frequency range
       Type buf_damp_range_
-        my_real, dimension(:), pointer :: alpha ! alpha paramter of maxwell damping components
-        my_real, dimension(:), pointer :: tau   ! tau paramter of maxwell damping components
+        my_real, dimension(:), pointer :: alpha ! alpha parameter of maxwell damping components
+        my_real, dimension(:), pointer :: tau   ! tau parameter of maxwell damping components
       end type buf_damp_range_
 !-------------------------------------------------------------------------------
 
@@ -1297,7 +1297,7 @@
         type (buf_nloc_)  , dimension(:,:) , pointer :: nloc   ! non-local thickness specific structure for shells
         type (buf_nlocts_), dimension(:,:) , pointer :: nlocts ! non-local thickness specific structure for thickshells
         type (buf_nlocs_)                            :: nlocs  ! non-local structure of brick element geometry configuration
-        type (buf_damp_range_)                       :: damp_range  ! strucutre for damping parameters of dampinf freq range
+        type (buf_damp_range_)                       :: damp_range  ! structure for damping parameters of damping freq range
 
       end type elbuf_struct_
 !
