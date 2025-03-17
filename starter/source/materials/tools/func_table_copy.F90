@@ -123,7 +123,7 @@
         mat_table%x(1)%values(1:npi) = x1scale   * table(func_n)%x(1)%values(1:npi)
         mat_table%y1d(1:npi)         = fscale(1) * table(func_n)%y%values(1:npi)
 ! 
-      else   ! table 2d : need to unufy all abscissas and create full value matrix
+      else   ! table 2d : need to unify all abscissas and create full value matrix
 ! 
         !--------------------------------------------------------
         !     create X,Y vectors for all curves and unify all abscissas
