@@ -25,7 +25,7 @@ execute_process(COMMAND gfortran -print-file-name=libquadmath.a OUTPUT_VARIABLE 
 
 #hm_reader
 if ( USE_OPEN_READER STREQUAL 1 )
-       set ( reader_lib "-L${OPEN_READER_ROOT}/libopen_reader/linux64 -lopen_reader_linux64")
+       set ( reader_lib "-L${source_directory}/../exec -lopen_reader_linux64")
 else ()
        set ( reader_lib "-L${source_directory}/../extlib/hm_reader/linux64/ -lhm_reader_linux64 -lapr-1 " )
 endif()

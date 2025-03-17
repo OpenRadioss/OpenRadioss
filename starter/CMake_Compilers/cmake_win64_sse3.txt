@@ -21,7 +21,7 @@ set ( cpprel  "-DCPP_rel=00" )
 
 # hm_reader / open_reader
 if ( USE_OPEN_READER STREQUAL 1 )
-       set ( reader_lib "${OPEN_READER_ROOT}/libopen_reader/win64/open_reader_win64.lib")
+       set ( reader_lib "${source_directory}/../exec/open_reader_win64.lib")
 else ()
        set ( reader_lib "${source_directory}/../extlib/hm_reader/win64/hm_reader_win64.lib")
 endif()
