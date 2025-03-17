@@ -20,7 +20,7 @@ set ( cpprel  "-DCPP_rel=75" )
 
 #hm_reader
 if ( USE_OPEN_READER STREQUAL 1 )
-       set ( reader_lib "-L${OPEN_READER_ROOT}/libopen_reader/linuxa64 -lopen_reader_linuxa64")
+       set ( reader_lib "-L${source_directory}/../exec -lopen_reader_linuxa64")
 else ()
        set ( reader_lib "-L${source_directory}/../extlib/hm_reader/linuxa64/ -lhm_reader_linuxa64 -lapr-1" )
 endif()

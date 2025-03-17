@@ -19,6 +19,7 @@
   * [Building on Linux Arm64](#building-on-linux-arm64)
   * [Build OpenRadioss on Windows with cmd Shell](#build-openradioss-on-windows-with-cmd-shell)
   * [Build OpenRadioss with Visual Studio](#build-openradioss-with-visual-studio)
+  * [Build OpenRadioss with Open_Reader](#build-openradioss-with-open_reader)
 * [How to build OpenRadioss on Linux with Container using Apptainer](#how-to-build-openradioss-on-linux-with-container-using-apptainer)
 * [How to debug with Visual Studio](./doc/Visual_Studio_Debugger.md)
 * [Notes on third party libraries](#notes-on-third-party-libraries)
@@ -762,6 +763,35 @@ Procedure was tested on Visual Studio 2019 and Visual Studio 2022
 * Launch in Menu : [Build]:[Build All]
 
 * OpenRadioss binaries are copied in **OpenRadioss/exec** directory
+
+### Build OpenRadioss with Open_Reader
+
+Compiler installation is same than for Starter.
+No further installation task is need.
+
+To build Starter with Open_Reader, add: **-open_reader** to build command line:
+
+* On Linux
+
+      ./build_linux.sh -arch=linux64_gf -open_reader
+
+* On Windows
+
+      build_windows.bat  -arch=win64 -open_reader
+
+The built library will be copied in exec directory.
+Starter is linked against this library
+
+To execute Starter with Open_Reader set PATH (for Windows) or  LD_LIBRARY (for Linux):
+
+* On Linux
+
+      export LD_LIBRARY_PATH=[PATH to OpenRadioss clone]/exec:$LD_LIBRARY_PATH
+
+* On Windows
+
+      set PATH=[PATH to OpenRadioss clone]\exec:%PATH%
+
 
 ## How to build OpenRadioss on Linux with Container using Apptainer
 

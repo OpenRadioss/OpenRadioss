@@ -1,0 +1,5 @@
+# CPP Compiler Flags
+# ------------------
+set (PRECOM_DEFINITION "-std:c++14 -Zc:__cplusplus -guard:cf -MT -O2 -GS- -W3 -w34906 -w34265 -w34928 -w34431 -GR -EHsc -FC -FS -wd4996" )
+set (CXX_FLAGS "-DNO_DECLS -DBOOST_ALL_NO_LIB -DNDEBUG -D_SECURE_SCL=0 -DWIN32 -DOS_WIN -D_MBCS -DHAVE_SNPRINTF -D_ENABLE_ATOMIC_ALIGNMENT_FIX -D_WIN64 -DPC" )
+
