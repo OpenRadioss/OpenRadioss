@@ -96,8 +96,9 @@
       call hm_get_floatv('P_min'        ,pmin   ,is_available,lsubmodel,unitab)
       call hm_get_intv  ('Ifail_so'     ,isolid ,is_available,lsubmodel)
 !---------------------------
-      if (epsp0  == 0) epsp0  =  em20
-      if (pmin   == 0) pmin   = -ep20
+      if (epsp0 == zero) epsp0 =  em20
+      pmin = -abs(pmin)
+      if (pmin == zero) pmin = -ep20
       isolid = max(1,isolid)
       isolid = min(6,isolid)
 !---------------------------
