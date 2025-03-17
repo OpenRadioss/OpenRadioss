@@ -205,13 +205,13 @@ c
 c
       ! Modes of failure
       FAIL_TAG%LF_DAMMX = FAIL_TAG%LF_DAMMX + FAIL%NMOD
-      FAIL%MODE(1)  = "Failure traction XX"
-      FAIL%MODE(2)  = "Failure traction YY"
+      FAIL%MODE(1)  = "Failure tensile XX"
+      FAIL%MODE(2)  = "Failure tensile YY"
       FAIL%MODE(3)  = "Failure positive shear XY"
       FAIL%MODE(4)  = "Failure compression XX"
       FAIL%MODE(5)  = "Failure compression YY"
       FAIL%MODE(6)  = "Failure negative shear XY"
-      FAIL%MODE(7)  = "Failure traction ZZ"
+      FAIL%MODE(7)  = "Failure tensile ZZ"
       FAIL%MODE(8)  = "Failure compression ZZ"
       FAIL%MODE(9)  = "Failure positive shear YZ"
       FAIL%MODE(10) = "Failure negative shear YZ"
