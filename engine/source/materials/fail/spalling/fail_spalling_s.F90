@@ -176,8 +176,8 @@
         !< Printing out element deletion message
         if (nindx > 0)then
           do j=1,nindx
-            write(iout ,1000) ngl(indx(j))
-            write(istdo,1100) ngl(indx(j)),time
+            write(iout ,1000) ngl(indx(j)),time
+            write(istdo,1000) ngl(indx(j)),time
           end do
         end if         
       endif
@@ -228,8 +228,10 @@
         if (nindx > 0) then
           do j = 1,nindx
             i = indx(j)
-            write(iout ,2000) ngl(i)
-            write(istdo,2100) ngl(i),time
+            write(iout ,2000) ngl(i),time
+            write(iout ,2100)
+            write(istdo,2000) ngl(i),time
+            write(istdo,2100)
           enddo
         endif           
       endif
@@ -309,15 +311,15 @@
       !< Printing out spalling message
       if (nindx > 0) then
         do j = 1,nindx
-          write(iout ,3000) ngl(indx(j))
-          write(istdo,3100) ngl(indx(j)),time
+          write(iout ,3000) ngl(indx(j)),time
+          write(istdo,3000) ngl(indx(j)),time
         enddo
       endif
 !       
       if (nindex > 0) then
         do j=1,nindex
-          write(iout ,3200) ngl(index(j))
-          write(istdo,3300) ngl(index(j)),time
+          write(iout ,3100) ngl(index(j)),time
+          write(istdo,3100) ngl(index(j)),time
         enddo
       endif  
 !
@@ -327,14 +329,14 @@
       enddo                   
 !
       !< Output message format
- 1000 format (1X,'DELETE SOLID ELEMENT NUMBER ',I10)
- 1100 format (1X,'DELETE SOLID ELEMENT NUMBER ',I10,' AT TIME :',1PE12.4)   
- 2000 format (1X,'DEVIATORIC STRESS WILL BE VANISHED',I10)
- 2100 format (1X,'DEVIATORIC STRESS WILL BE VANISHED',I10,' AT TIME :',1PE12.4)
- 3000 format (1X,'SPALLING OF SOLID ELEMENT NUMBER ',I10)
- 3100 format (1X,'SPALLING OF SOLID ELEMENT NUMBER ',I10,' AT TIME :',G11.4)
- 3200 format (1X,'DELETE SOLID ELEMENT (SPALLING) NUMBER ',I10)
- 3300 format (1X,'DELETE SOLID ELEMENT (SPALLING) NUMBER ',I10,' AT TIME :',G11.4) 
+ 1000 format (1X,'-- RUPTURE (JOHNSON-COOK) OF SOLID ELEMENT:',I10,            &
+                 ' AT TIME :',1PE12.4)   
+ 2000 format (1X,'FOR SOLID ELEMENT NUMBER:',I10,                              &
+                 ' JOHNSON-COOK CRITERION REACHED AT TIME:',1PE12.4)  
+ 2100 format (1X,'-- DEVIATORIC STRESS TENSOR WILL BE VANISHED')  
+ 3000 format (1X,'-- SPALLING OF SOLID ELEMENT:',I10,' AT TIME :',1PE12.4)
+ 3100 format (1X,'-- RUPTURE (SPALLING) OF SOLID ELEMENT:',I10,                &
+                 ' AT TIME :',1PE12.4)   
 
       end subroutine fail_spalling_s
       end module fail_spalling_s_mod
