@@ -493,7 +493,7 @@ void python_load_library()
 bool try_load_library(const std::string &path)
 {
     bool python_initialized = false;
-    handle = dlopen(path.c_str(), RTLD_LAZY);
+    handle = dlopen(path.c_str(), RTLD_LAZY |RTLD_GLOBAL);
     if (handle)
     {
         std::cout << "Trying python library: " << path << std::endl;
@@ -617,8 +617,37 @@ extern "C"
                 std::cout << "ERROR in Python: fetching main module dictionary" << std::endl;
                 return;
             }
-            MyRun_SimpleString("import math"); // Import the math module for sin and other functions
-            *ierror = 0;
+            int result = MyRun_SimpleString("import math"); // Import the math module for sin and other functions
+            if (result != 0)
+            {
+                std::cerr << "ERROR: Failed to import math module in Python." << std::endl;
+                // Print Python error traceback
+                if (MyErr_Occurred())
+                {
+                // Fetch the error details
+                PyObject *pType, *pValue, *pTraceback;
+                MyErr_Fetch(&pType, &pValue, &pTraceback);
+                if (pType)
+                    std::cout << "[PYTHON] " << MyUnicode_AsUTF8(MyObject_Str(pType)) << std::endl;
+                if (pValue)
+                    std::cout << "[PYTHON] " << MyUnicode_AsUTF8(MyObject_Str(pValue)) << std::endl;
+                if (pTraceback)
+                    std::cout << "[PYTHON]: " << MyUnicode_AsUTF8(MyObject_Str(pTraceback)) << std::endl;
+
+                // Print the error
+                //MyErr_Display(pType, pValue, pTraceback);
+
+                // Decrement reference counts for error objects
+                My_DecRef(pType);
+                My_DecRef(pValue);
+                My_DecRef(pTraceback);
+                exit_with_message("ERROR: Python function failed");
+                }
+           }else
+           {
+              *ierror = 0;
+           }
+
         }
     }
     void cpp_python_load_environment()
