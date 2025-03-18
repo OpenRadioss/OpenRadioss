@@ -1886,7 +1886,7 @@
             &dt1,         tt,         glob_therm,          &
             &impl_s,&
             &idyna,       userl_avail, nixs,        nixq,&
-            &dt,          damp_buf,    idamp_freq_range)
+            &dt,          damp_buf,    idamp_freq_range,iresp)
 
           endif
 !-----------------------------------

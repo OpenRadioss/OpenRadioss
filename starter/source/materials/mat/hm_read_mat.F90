@@ -206,6 +206,7 @@
       use hm_read_mat126_mod
       use hm_read_mat127_mod
       use hm_read_mat128_mod
+      use hm_read_mat163_mod
       use hm_read_mat169_arup_mod
       use names_and_titles_mod ,only : nchartitle, ncharline
       use reader_old_mod     ,only : key0
@@ -1192,6 +1193,13 @@
             call hm_read_mat158(matparam ,nuvar    ,nfunc    ,&
             &maxfunc  ,ifunc    ,mtag     ,unitab   ,&
             &lsubmodel,mat_id   ,titr     )
+!-------
+          case ('LAW163','CRUSHABLE_FOAM')
+            ilaw  = 163
+            call hm_read_mat163(&
+            &matparam ,nvartmp  ,parmat   ,unitab   ,mat_id   ,&
+            &titr     ,mtag     ,lsubmodel,iout     ,nuvar    ,&
+            &ilaw     ,ntable   ,table    )
 !-------
           case ('LAW169','ARUP_ADHESIVE')
             ilaw  = 169

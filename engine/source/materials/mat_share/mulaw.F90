@@ -218,7 +218,7 @@
         &dt1,         tt,          glob_therm,         &
         &impl_s,&
         &idyna,       userl_avail, nixs,        nixq,&
-        &dt   ,       damp_buf,    idamp_freq_range)
+        &dt   ,       damp_buf,    idamp_freq_range,iresp)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -236,6 +236,7 @@
       use sigeps126_mod
       use sigeps127_mod
       use sigeps128s_mod
+      use sigeps163_mod
       use fail_spalling_s_mod
       use prop_param_mod
       use dt_mod
@@ -323,6 +324,7 @@
           target  :: ipm
           integer,dimension(nixs,sz_ix),intent(in) :: ix
           integer,dimension(snpc),intent(in) ::  npf
+          integer, intent(in) :: iresp
 
           my_real,dimension(sbufmat),target,intent(inout) ::bufmat
           my_real,intent(in) :: dt2t
@@ -2054,6 +2056,18 @@
                  s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,  &
                  lbuf%seq ,sigy     ,et       ,defp     ,dpla     ,epsd     ,  &
                  ssp      ,off      ,l_sigb   ,lbuf%sigb)
+!
+          elseif (mtn == 163) then
+            call sigeps163(                                                    &
+            &nel      ,nuvar    ,uvar     ,matparam ,dt1      ,et       ,      &
+            &rho0     ,sigy     ,ssp      ,nvartmp  ,vartmp   ,mvsiz    ,      &
+            &de1      ,de2      ,de3      ,de4      ,de5      ,de6      ,      &
+            &es1      ,es2      ,es3      ,es4      ,es5      ,es6      ,      &
+            &ep1      ,ep2      ,ep3      ,ep4      ,ep5      ,ep6      ,      &
+            &so1      ,so2      ,so3      ,so4      ,so5      ,so6      ,      &
+            &s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,      &
+            &sv1      ,sv2      ,sv3      ,sv4      ,sv5      ,sv6      ,      &
+            &deltax   ,rho      ,iresp    ,defp     ,lbuf%epsd)
 !
           elseif (mtn == 187) then !barlat 2000
             call sigeps187(nel   ,npar  ,nuvar ,nfunc ,ifunc ,&
