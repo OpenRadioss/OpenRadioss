@@ -81,6 +81,7 @@ C-----------------------------------------------
       USE LAW19_UPD_MOD  
       USE LAW81_UPD_MOD
       USE LAW87_UPD_MOD
+      USE LAW163_UPD_MOD
       USE LAW190_UPD_MOD  
       USE VISC_PARAM_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
@@ -394,6 +395,9 @@ c-------------------------
             CALL LAW158_UPD(MAT_PARAM(IMAT),TITR,NPC,PLD,
      .                      NFUNC,NFUNCL,IFUNC,MAT_ID,FUNC_ID,
      .                      PM(1,IMAT),SENSORS)
+c------------------
+          CASE (163)
+            CALL LAW163_UPD(MAT_PARAM(IMAT),PM(1,IMAT),NPROPM)
 c------------------
           CASE (190) !PAth dependent foam (dubois)
             CALL LAW190_UPD(MAT_PARAM(IMAT) ,NUMTABL ,ITABLE   ,TABLE   ,PM(1,IMAT),
