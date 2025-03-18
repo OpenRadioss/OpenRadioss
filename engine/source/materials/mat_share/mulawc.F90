@@ -36,6 +36,7 @@
       !||    ancmsg                    ../engine/source/output/message/message.F
       !||    arret                     ../engine/source/system/arret.F
       !||    coqini_wm                 ../engine/source/elements/shell/coqini.F
+      !||    damping_range_shell       ../engine/source/general_controls/damping/damping_range_shell.F90
       !||    fail_biquad_c             ../engine/source/materials/fail/biquad/fail_biquad_c.F
       !||    fail_changchang_c         ../engine/source/materials/fail/changchang/fail_changchang_c.F
       !||    fail_cockroft_c           ../engine/source/materials/fail/cockroft_latham/fail_cockroft_c.F
@@ -141,6 +142,7 @@
       !||    xfem_crk_dir              ../engine/source/elements/xfem/xfem_crk_dir.F
       !||--- uses       -----------------------------------------------------
       !||    constant_mod              ../common_source/modules/constant_mod.F
+      !||    damping_range_shell_mod   ../engine/source/general_controls/damping/damping_range_shell.F90
       !||    dt_mod                    ../engine/source/modules/dt_mod.F
       !||    elbufdef_mod              ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    failwave_mod              ../common_source/modules/failwave_mod.F

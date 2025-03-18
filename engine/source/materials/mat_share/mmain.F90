@@ -92,7 +92,7 @@
       !||    fail_puck_s            ../engine/source/materials/fail/puck/fail_puck_s.F
       !||    fail_rtcl_s            ../engine/source/materials/fail/rtcl/fail_rtcl_s.F
       !||    fail_sahraei_s         ../engine/source/materials/fail/sahraei/fail_sahraei_s.F
-      !||    fail_spalling_s        ../engine/source/materials/fail/spalling/fail_spalling_s.F
+      !||    fail_spalling_s        ../engine/source/materials/fail/spalling/fail_spalling_s.F90
       !||    fail_syazwan_s         ../engine/source/materials/fail/syazwan/fail_syazwan_s.F
       !||    fail_tab2_s            ../engine/source/materials/fail/tabulated/fail_tab2_s.F
       !||    fail_tab_old_s         ../engine/source/materials/fail/tabulated/fail_tab_old_s.F
@@ -158,6 +158,7 @@
       !||    anim_mod               ../common_source/modules/output/anim_mod.F
       !||    constant_mod           ../common_source/modules/constant_mod.F
       !||    dt_mod                 ../engine/source/modules/dt_mod.F
+      !||    fail_spalling_s_mod    ../engine/source/materials/fail/spalling/fail_spalling_s.F90
       !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    message_mod            ../engine/share/message_module/message_mod.F

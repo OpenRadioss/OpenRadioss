@@ -114,7 +114,7 @@
       !||    hm_read_fail_rtcl         ../starter/source/materials/fail/rtcl/hm_read_fail_rtcl.F
       !||    hm_read_fail_sahraei      ../starter/source/materials/fail/sahraei/hm_read_fail_sahraei.F
       !||    hm_read_fail_snconnect    ../starter/source/materials/fail/snconnect/hm_read_fail_snconnect.F
-      !||    hm_read_fail_spalling     ../starter/source/materials/fail/spalling/hm_read_fail_spalling.F
+      !||    hm_read_fail_spalling     ../starter/source/materials/fail/spalling/hm_read_fail_spalling.F90
       !||    hm_read_fail_syazwan      ../starter/source/materials/fail/syazwan/hm_read_fail_syazwan.F
       !||    hm_read_fail_tab1         ../starter/source/materials/fail/tabulated/hm_read_fail_tab1.F
       !||    hm_read_fail_tab2         ../starter/source/materials/fail/tabulated/hm_read_fail_tab2.F

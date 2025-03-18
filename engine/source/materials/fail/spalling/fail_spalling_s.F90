@@ -20,8 +20,30 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    fail_spalling_s_mod   ../engine/source/materials/fail/spalling/fail_spalling_s.F90
+      !||--- called by ------------------------------------------------------
+      !||    mmain                 ../engine/source/materials/mat_share/mmain.F90
+      !||    mmain8                ../engine/source/materials/mat_share/mmain8.F
+      !||    mulaw                 ../engine/source/materials/mat_share/mulaw.F90
+      !||    mulaw8                ../engine/source/materials/mat_share/mulaw8.F90
+      !||    usermat_solid         ../engine/source/materials/mat_share/usermat_solid.F
+      !||====================================================================
       module fail_spalling_s_mod
       contains
+      !||====================================================================
+      !||    fail_spalling_s   ../engine/source/materials/fail/spalling/fail_spalling_s.F90
+      !||--- called by ------------------------------------------------------
+      !||    mmain             ../engine/source/materials/mat_share/mmain.F90
+      !||    mmain8            ../engine/source/materials/mat_share/mmain8.F
+      !||    mulaw             ../engine/source/materials/mat_share/mulaw.F90
+      !||    mulaw8            ../engine/source/materials/mat_share/mulaw8.F90
+      !||    usermat_solid     ../engine/source/materials/mat_share/usermat_solid.F
+      !||--- calls      -----------------------------------------------------
+      !||    valpvecdp_v       ../engine/source/materials/mat/mat033/sigeps33.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod      ../common_source/modules/constant_mod.F
+      !||====================================================================
       subroutine fail_spalling_s(                                              &
         nel      ,nuparam  ,time     ,uparam   ,ngl      ,                     &
         signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,           &

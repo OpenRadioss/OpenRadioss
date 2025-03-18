@@ -46,7 +46,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    fail_puck_s                 ../engine/source/materials/fail/puck/fail_puck_s.F
       !||    fail_rtcl_s                 ../engine/source/materials/fail/rtcl/fail_rtcl_s.F
       !||    fail_sahraei_s              ../engine/source/materials/fail/sahraei/fail_sahraei_s.F
-      !||    fail_spalling_s             ../engine/source/materials/fail/spalling/fail_spalling_s.F
+      !||    fail_spalling_s             ../engine/source/materials/fail/spalling/fail_spalling_s.F90
       !||    fail_syazwan_s              ../engine/source/materials/fail/syazwan/fail_syazwan_s.F
       !||    fail_tab2_s                 ../engine/source/materials/fail/tabulated/fail_tab2_s.F
       !||    fail_tab_old_s              ../engine/source/materials/fail/tabulated/fail_tab_old_s.F
@@ -73,6 +73,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    dt_mod                      ../engine/source/modules/dt_mod.F
       !||    elbufdef_mod                ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    fail_spalling_s_mod         ../engine/source/materials/fail/spalling/fail_spalling_s.F90
       !||    glob_therm_mod              ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    law_userso                  ../engine/source/user_interface/law_userso.F
       !||    mat_elem_mod                ../common_source/modules/mat_elem/mat_elem_mod.F90

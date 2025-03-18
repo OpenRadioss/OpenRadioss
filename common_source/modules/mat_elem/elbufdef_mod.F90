@@ -161,6 +161,8 @@
       !||    czforc3_crk                         ../engine/source/elements/xfem/czforc3_crk.F
       !||    czke3                               ../engine/source/elements/shell/coquez/czke3.F
       !||    damping_range_init                  ../starter/source/general_controls/damping/damping_range_init.F90
+      !||    damping_range_shell                 ../engine/source/general_controls/damping/damping_range_shell.F90
+      !||    damping_range_shell_mom             ../engine/source/general_controls/damping/damping_range_shell_mom.F90
       !||    damping_range_solid                 ../engine/source/general_controls/damping/damping_range_solid.F90
       !||    deallocate_elbuf                    ../starter/source/elements/elbuf_init/deallocate_buffer.F
       !||    deallocate_one_element_group        ../starter/source/elements/elbuf_init/deallocate_one_element_group.F

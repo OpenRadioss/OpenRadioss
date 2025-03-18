@@ -214,7 +214,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_fail_inievo                 ../starter/source/materials/fail/inievo/hm_read_fail_inievo.F
       !||    hm_read_fail_johnson                ../starter/source/materials/fail/johnson_cook/hm_read_fail_johnson.F
       !||    hm_read_fail_orthbiquad             ../starter/source/materials/fail/orthbiquad/hm_read_fail_orthbiquad.F
-      !||    hm_read_fail_spalling               ../starter/source/materials/fail/spalling/hm_read_fail_spalling.F
+      !||    hm_read_fail_spalling               ../starter/source/materials/fail/spalling/hm_read_fail_spalling.F90
       !||    hm_read_fail_syazwan                ../starter/source/materials/fail/syazwan/hm_read_fail_syazwan.F
       !||    hm_read_fail_tab1                   ../starter/source/materials/fail/tabulated/hm_read_fail_tab1.F
       !||    hm_read_fail_tab2                   ../starter/source/materials/fail/tabulated/hm_read_fail_tab2.F
