@@ -78,7 +78,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER   :: MFLAG,SFLAG,REG_FUNC,ICOUP,NFUNC,NUVAR,NUPARAM
+      INTEGER   :: MFLAG,SFLAG,REG_FUNC,ICOUP,NFUNC,NUVAR,NUPARAM,FAILIP 
       my_real   :: C1,C2,C3,C4,C5,E1,E2,E3,E4,PTHK,INST,REF_LEN,REF_SIZ_UNIT
       my_real   :: X_1(2)
       my_real   :: X_2(3)
@@ -103,6 +103,8 @@ card1
 c
 card2 damage accumulation parametars
 c
+      CALL HM_GET_INTV   ('FAILIP'   ,FAILIP   ,IS_AVAILABLE,LSUBMODEL)
+      IF (FAILIP == 0)  FAILIP  = 1
       CALL HM_GET_FLOATV ('P_thickfail' ,PTHK        ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
       CALL HM_GET_INTV   ('M_Flag'      ,MFLAG       ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV   ('S_Flag'      ,SFLAG       ,IS_AVAILABLE,LSUBMODEL)
@@ -214,7 +216,7 @@ c
       ENDIF
 c
 c---------------------------------------------------
-      NUPARAM = 16
+      NUPARAM = 17
       IF (REG_FUNC == 0) THEN
         NFUNC = 0
         NUVAR = 2
@@ -260,6 +262,7 @@ c
       FAIL%UPARAM(14) = ICOUP
       FAIL%UPARAM(15) = DCRIT 
       FAIL%UPARAM(16) = EXP  
+      FAIL%UPARAM(17)= FAILIP
 c---------------------------------------------------
       IF (IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
@@ -275,7 +278,7 @@ c---------------------------------------------------
         IF (ICOUP > 0) THEN 
           WRITE(IOUT,1800) ICOUP,DCRIT,EXP
         ENDIF
-        WRITE(IOUT, 1900) PTHK
+        WRITE(IOUT, 1900) PTHK,FAILIP
         WRITE(IOUT, 2000) 
       ENDIF      
 c-----------------------------------------------------------------------
@@ -340,7 +343,8 @@ c-----------------------------------------------------------------------
      & 5X,'-----------------                              ',/,
      & 5X,'SHELL ELEMENT DELETION PARAMETER PTHICKFAIL. .=',1PG20.13,/
      & 5X,'   > 0.0: FRACTION OF FAILED THICKNESS         ',/,
-     & 5X,'   < 0.0: FRACTION OF FAILED INTG. POINTS      ',/)
+     & 5X,'   < 0.0: FRACTION OF FAILED INTG. POINTS      ',/,
+     & 5X,'NUMBER OF FAILED INTG. POINTS PRIOR TO ELEM DELETION  .=',I10/)
  2000 FORMAT(
      & 5X,'-----------------------------------------------',/)
 c-----------------------------------------------------------------------

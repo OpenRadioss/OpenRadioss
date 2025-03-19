@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .           SNPC     ,NPF      ,STF      , 
      .           TF       ,IPT      ,FOFF     ,
      .           SIGNXX   ,SIGNXY   ,SIGNXZ   ,
-     .           DEPSXX   ,DEPSXY   ,DEPSXZ   )
+     .           DEPSXX   ,DEPSXY   ,DEPSXZ   ,UELR ,NPG)
 C-----------------------------------------------
 c    energy failure model for standard beams (TYPE 18)
 C-----------------------------------------------
@@ -73,10 +73,12 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: SIGNXX,SIGNXY,SIGNXZ 
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: DEPSXX,DEPSXY,DEPSXZ 
       my_real ,DIMENSION(NEL,NVAR),INTENT(INOUT) :: UVAR
+      my_real, DIMENSION(NEL)     ,INTENT(INOUT) :: UELR 
+      INTEGER                     ,INTENT(IN)    :: NPG    
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,NINDX,NINDXD
+      INTEGER :: I,J,NINDX,NINDXD,FAILIP
       INTEGER ,DIMENSION(NEL) :: INDX,INDXD
       my_real :: RFAC,R1,R2,DYDX,RIEF1,RIEF2,XFAC,FINTER
       EXTERNAL FINTER
@@ -86,7 +88,9 @@ C=======================================================================
       NINDXD  = 0
       RIEF1    = UPARAM(1)             
       RIEF2    = UPARAM(2)           
-      XFAC     = UPARAM(4)           
+      XFAC     = UPARAM(4)        
+      FAILIP  = MIN(NINT(UPARAM(6)),NPG) ! 	number of failed integration point prior to solid element deletion. default = 1 (integer)
+
       DO I=1,NEL
         DAMAGE(I) = ZERO
         UVAR(I,1) = UVAR(I,1) + (SIGNXX(I)*DEPSXX(I) + 
@@ -127,6 +131,10 @@ c-----------------------------
             DFMAX(I)    = ONE
             DAMSCL(I)   = ZERO
             FOFF(I)     = 0
+            UELR(I)     = UELR(I) + ONE
+            IF (NINT(UELR(I)) >= FAILIP) THEN 
+              OFF(I)    = FOUR_OVER_5
+            ENDIF
           ENDIF
         ENDIF 
       ENDDO         
@@ -148,6 +156,10 @@ c------------------------
 #include "lockon.inc"
           WRITE(IOUT, 1000) NGL(I),IPT,TIME,IE_SP(I)
           WRITE(ISTDO,1000) NGL(I),IPT,TIME,IE_SP(I)
+          IF (OFF(I) == FOUR_OVER_5) THEN 
+            WRITE(IOUT, 1111) NGL(I),TIME
+            WRITE(ISTDO,1111) NGL(I),TIME
+          ENDIF
 #include "lockoff.inc" 
         END DO                   
       END IF   ! NINDX             
@@ -156,6 +168,7 @@ c------------------
      .      ,2X,'AT TIME :',1PE12.4,1X,' , ENERGY PER VOLUME : ',1PE12.4 )
  2000 FORMAT(5X,'START DAMAGE (ENERGY) OF BEAM ELEMENT ',I10,1X,',INTEGRATION PT',I5
      .      ,2X,'AT TIME :',1PE12.4,1X,' , ENERGY PER VOLUME : ',1PE12.4 )     
+ 1111 FORMAT(1X,'DELETED BEAM ELEMENT ',I10,1X,'AT TIME :',1PE12.4)
 c------------------
       RETURN
       END

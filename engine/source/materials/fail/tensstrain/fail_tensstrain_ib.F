@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .           TDEL     ,IOUT     ,ISTDO    ,IFUNC    ,
      .           EPSXX    ,AL       ,TSTAR    ,DAMSCL   ,
      .           SNPC     ,NPF      , STF     , UVAR  ,NVARF,
-     .           TF       ,IPT      ,FOFF   ,ISMSTR)
+     .           TF       ,IPT      ,FOFF   ,ISMSTR, UELR, NPG)
 C-----------------------------------------------
 c    tens strain failure model for integrated beams (TYPE 18) !irup=10
 C-----------------------------------------------
@@ -71,11 +71,13 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: DFMAX   ! maximum damage
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: DAMSCL  !1-damage
       my_real ,DIMENSION(NEL,NVARF),INTENT(INOUT) :: UVAR   
-      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: TDEL    ! deactivation time
+      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: TDEL    ! desactivation time
+      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: UELR  
+      INTEGER                     ,INTENT(IN)    :: NPG   
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NINDXD,NINDXF,NINDX1,NINDX2,S_FLAG,SCALE_FLAG,STRDEF,STRFLAG
+      INTEGER I,J,NINDXD,NINDXF,NINDX1,NINDX2,S_FLAG,SCALE_FLAG,STRDEF,STRFLAG,FAILIP
       INTEGER ,DIMENSION(NEL) :: INDXD,INDXF,INDX1,INDX2
       my_real R1,R2,EPSF1,EPSF2,LAMBDA,FAC,DF,
      .        EL_REF,SC_EL,SCALE_TEMP,RFAC,RFAC2,
@@ -93,6 +95,8 @@ C=======================================================================
       S_FLAG     = INT(UPARAM(8))
       UNIT_T     = UPARAM(9)
       STRDEF     = INT(UPARAM(10))
+      FAILIP  = MIN(NINT(UPARAM(11)),NPG) ! 	number of failed integration point prior to solid element deletion. default = 1 (integer)
+     
 c
       DAMAGE(:NEL)  = ZERO
       EPS_MAX(:NEL) = ZERO
@@ -224,6 +228,10 @@ C-------------------
                 NINDXF  = NINDXF + 1  
                 INDXF(NINDXF) = I
                 DFMAX(I)    = ONE
+                UELR(I) = UELR(I) + ONE
+                IF (NINT(UELr(I)) >= FAILIP) THEN
+                  OFF(I) = FOUR_OVER_5
+                ENDIF 
               ENDIF 
             ENDIF          
           ENDDO
@@ -263,6 +271,10 @@ C-------------------
                 NINDXF  = NINDXF + 1  
                 INDXF(NINDXF) = I
                 DFMAX(I)    = ONE
+                UELR(I) = UELR(I) + ONE
+                IF (NINT(UELr(I)) >= FAILIP) THEN
+                  OFF(I) = FOUR_OVER_5
+                ENDIF           
               ENDIF 
             ENDIF          
           ENDDO
@@ -296,6 +308,10 @@ C-------------------
                 NINDXF  = NINDXF + 1  
                 INDXF(NINDXF) = I
                 DFMAX(I)      = ONE
+                UELR(I) = UELR(I) + ONE
+                IF (NINT(UELr(I)) >= FAILIP) THEN
+                  OFF(I) = FOUR_OVER_5
+                ENDIF 
               ENDIF 
               IF (EPSF1 > ZERO .OR. EPSF2 > ZERO) THEN               
                 IF ( EPS_EQ(I) > UVAR(I,1) .AND. UVAR(I,1) /= ZERO) THEN
@@ -303,12 +319,20 @@ C-------------------
                   TDEL(I) = TIME 
                   NINDX1  = NINDX1 + 1  
                   INDX1(NINDX1) = I
+                  UELR(I) = UELR(I) + ONE
+                  IF (NINT(UELr(I)) >= FAILIP) THEN
+                    OFF(I) = FOUR_OVER_5
+                  ENDIF 
                 ELSEIF  (EPSI(I) > EPSF2 .AND. EPSF2 > ZERO) THEN
                   FOFF(I) = 0
                   TDEL(I) = TIME 
                   NINDX2  = NINDX2 + 1  
                   INDX2(NINDX2) = I
                   EPS_EQ(I) = EPSI(I)
+                  UELR(I) = UELR(I) + ONE
+                  IF (NINT(UELr(I)) >= FAILIP) THEN
+                    OFF(I) = FOUR_OVER_5
+                  ENDIF 
                 ENDIF
                 DFMAX(I)   = MAX(DFMAX(I),MIN( ONE, (EPS_EQ(I) / UVAR(I,1))))
                 SCALE_FLAG = 0
@@ -334,11 +358,19 @@ c------------------------
 #include  "lockon.inc"
             WRITE(IOUT, 2001) NGL(I),IPT,EPSI(I)
             WRITE(ISTDO,2001) NGL(I),IPT,EPSI(I)
+            IF (OFF(i) == FOUR_OVER_5) THEN
+              WRITE(IOUT, 1111) NGL(I),TIME
+              WRITE(ISTDO,1111) NGL(I),TIME
+            ENDIF 
 #include  "lockoff.inc"
           ELSE
 #include  "lockon.inc"
             WRITE(IOUT, 2002) NGL(I),IPT,EPS_EQ(I)
             WRITE(ISTDO,2002) NGL(I),IPT,EPS_EQ(I)
+            IF (OFF(i) == FOUR_OVER_5) THEN
+              WRITE(IOUT, 1111) NGL(I),TIME
+              WRITE(ISTDO,1111) NGL(I),TIME
+            ENDIF 
 #include  "lockoff.inc"
           ENDIF
         END DO
@@ -352,10 +384,18 @@ c
 #include  "lockon.inc"
             WRITE(IOUT, 3001) NGL(I),IPT,EPSI(I)
             WRITE(ISTDO,3001) NGL(I),IPT,EPSI(I)
+            IF (OFF(i) == FOUR_OVER_5) THEN
+              WRITE(IOUT, 1111) NGL(I),TIME
+              WRITE(ISTDO,1111) NGL(I),TIME
+            ENDIF 
 #include  "lockoff.inc"
           ELSE
             WRITE(IOUT, 3101) NGL(I),IPT,EPS_EQ(I)
             WRITE(ISTDO,3101) NGL(I),IPT,EPS_EQ(I)
+            IF (OFF(i) == FOUR_OVER_5) THEN
+              WRITE(IOUT, 1111) NGL(I),TIME
+              WRITE(ISTDO,1111) NGL(I),TIME
+            ENDIF 
           ENDIF
         END DO
       END IF              
@@ -366,6 +406,10 @@ c
 #include  "lockon.inc"
           WRITE(IOUT, 4000) NGL(I),IPT,EPS_EQ(I),TIME
           WRITE(ISTDO,4100) NGL(I),IPT,EPS_EQ(I),TIME
+          IF (OFF(i) == FOUR_OVER_5) THEN
+            WRITE(IOUT, 1111) NGL(I),TIME
+            WRITE(ISTDO,1111) NGL(I),TIME
+          ENDIF 
 #include  "lockoff.inc"
         END DO
       END IF              
@@ -376,12 +420,17 @@ c
 #include  "lockon.inc"
           WRITE(IOUT, 5000) NGL(I),IPT,EPS_EQ(I),TIME
           WRITE(ISTDO,5100) NGL(I),IPT,EPS_EQ(I),TIME
+          IF (OFF(i) == FOUR_OVER_5) THEN
+            WRITE(IOUT, 1111) NGL(I),TIME
+            WRITE(ISTDO,1111) NGL(I),TIME
+          ENDIF 
 #include  "lockoff.inc"
         END DO
       END IF              
 c------------------------
              
 c------------------
+ 1111 FORMAT(1X,'DELETED BEAM ELEMENT ',I10,1X,'AT TIME :',1PE12.4)
  2001 FORMAT(1X,'START DAMAGE (TENSSTRAIN) OF BEAM ELEMENT ',I10,1X,',INTEGRATION PT',I2,  
      .       1X,'PRINCIPAL STRAIN=',G11.4)
  2002 FORMAT(1X,'START DAMAGE (TENSSTRAIN) OF BEAM ELEMENT ',I10,1X,',INTEGRATION PT',I2,

@@ -70,7 +70,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER    ::  ISHELL,ISOLID,IRFUN,FUNC_ID,FUNC_ID2,S_FLAG,STRDEF
+      INTEGER    ::  ISHELL,ISOLID,IRFUN,FUNC_ID,FUNC_ID2,S_FLAG,STRDEF,FAILIP
       my_real    ::  RF1,RF2,EPSP1,EPSP2,SCALE_EL,PTHKF,
      .               EL_REF,SCALE_TEMP,FSCAL_UNIT,UNIT_T
       LOGICAL    ::  IS_AVAILABLE,IS_ENCRYPTED
@@ -101,6 +101,8 @@ C--------------------------------------------------
       CALL HM_GET_FLOATV         ('Epsilon_f1',EPSP1 ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV         ('Epsilon_f2',EPSP2 ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_INTV           ('S_Flag'    ,S_FLAG,IS_AVAILABLE,LSUBMODEL) 
+      CALL HM_GET_INTV           ('FAILIP'       ,FAILIP  ,IS_AVAILABLE,LSUBMODEL) 
+      IF (FAILIP == 0)  FAILIP  = 1
 c
       IF (S_FLAG == 2  .or. S_FLAG == 3 .or. S_FLAG == 12 .or. S_FLAG == 13 .or. 
      .    S_FLAG == 22 .or. S_FLAG == 23) THEN
@@ -145,7 +147,7 @@ c---------------------------
       FAIL%KEYWORD = 'TENS_STRAIN' 
       FAIL%IRUPT   = IRUPT 
       FAIL%FAIL_ID = FAIL_ID 
-      FAIL%NUPARAM = 10
+      FAIL%NUPARAM = 11
       FAIL%NIPARAM = 0
       FAIL%NUVAR   = 2
       FAIL%NFUNC   = 3
@@ -168,6 +170,7 @@ c-----------------------
       FAIL%UPARAM(8) = S_FLAG
       FAIL%UPARAM(9) = UNIT_T
       FAIL%UPARAM(10)= STRDEF
+      FAIL%UPARAM(11)= FAILIP
 c       
       FAIL%IFUNC(1)  = IRFUN
       FAIL%IFUNC(2)  = FUNC_ID
@@ -176,7 +179,7 @@ C--------------------------------------------------
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT, 1000)
       ELSE
-        WRITE(IOUT, 1100) RF1,RF2,IRFUN,STRDEF
+        WRITE(IOUT, 1100) RF1,RF2,IRFUN,STRDEF,FAILIP
         IF (EPSP1 > ZERO .OR. EPSP2 > ZERO) THEN
           WRITE(IOUT, 2000)EPSP1,EPSP2
         ENDIF
@@ -201,7 +204,8 @@ C--------------------------------------------------
      & 5X,'FAILURE STRAIN INPUT TYPE . . . . . . . . . . . . . . . =',I10/
      & 5X,'                 =1 (STRAIN MEASURE DEFINED IN PROPERTY) ',/
      & 5X,'                 =2 (ENGINEERING STRAIN) . . . . . . . . ',/
-     & 5X,'                 =3 (TRUE STRAIN). . . . . . . . . . . . ')
+     & 5X,'                 =3 (TRUE STRAIN). . . . . . . . . . . . ',/
+     & 5X,'NUMBER OF FAILED INTG. POINTS PRIOR TO ELEM DELETION  .=',I10/)
  2000 FORMAT(
      & 5X,'MAXIMUM FIRST PRINCIPAL STRAIN FOR ELEMENT DELETION . . =',E12.4/ 
      & 5X,'MAXIMUM SECOND PRINCIPAL STRAIN FOR ELEMENT DELETION. . =',E12.4/)

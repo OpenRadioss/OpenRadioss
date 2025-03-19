@@ -201,13 +201,10 @@ c---------------
             TSTAR(1:NEL) = ZERO
           ENDIF
           CALL FAIL_JOHNSON_IB(
-     .         NEL       ,NGL       ,IPT       ,NPARAM    ,FAIL%UPARAM   ,
-     .         TIME      ,TSTAR     ,SIGNXX    ,SIGNXY    ,SIGNXZ    ,
-     .         DPLA_IPT  ,EPSD      ,OFF       ,FOFF      ,DFMAX     ,
-     .         TDEL      ,IOUT      ,ISTDO     )
-          DO I= 1,NEL
-            IF (FOFF(I) == 0) COUNT(I) = COUNT(I) + 1
-          END DO
+     .         NEL       ,NGL       ,IPT       ,NPARAM    ,FAIL%UPARAM,
+     .         TIME      ,TSTAR     ,SIGNXX    ,SIGNXY    ,SIGNXZ     ,
+     .         DPLA_IPT  ,EPSD      ,OFF       ,FOFF      ,DFMAX      ,
+     .         TDEL      ,IOUT      ,ISTDO     ,ELBUF_STR%GBUF%UELR   ,NPT)
 c---------------          
         CASE (10)     !    Tension Strain failure model
           IF (JTHE > 0) THEN
@@ -226,10 +223,7 @@ c---------------
      .          TDEL     ,IOUT     ,ISTDO    ,FAIL%IFUNC   ,
      .          EPSXX    ,AL       ,TSTAR    ,LBUF%DMGSCL ,
      .          SNPC     ,NPF      ,STF      ,UVARF  ,NVARF,
-     .          TF       ,IPT      ,FOFF     ,ISMSTR )
-          DO I= 1,NEL
-            IF (FOFF(I) == 0) COUNT(I) = COUNT(I) + 1
-          END DO
+     .          TF       ,IPT      ,FOFF     ,ISMSTR ,ELBUF_STR%GBUF%UELR ,NPT)
 c---------------  
         CASE (11)     ! Energy failure model                                           
           CALL FAIL_ENERGY_IB(
@@ -240,10 +234,7 @@ c---------------
      .          SNPC     ,NPF      ,STF      ,
      .          TF       ,IPT      ,FOFF     ,
      .          SIGNXX   ,SIGNXY   ,SIGNXZ   ,
-     .          DEPSXX   ,DEPSXY   ,DEPSXZ   )
-          DO I= 1,NEL
-            IF (FOFF(I) == 0) COUNT(I) = COUNT(I) + 1
-          END DO
+     .          DEPSXX   ,DEPSXY   ,DEPSXZ   ,ELBUF_STR%GBUF%UELR ,NPT)
 
 c--------------- 
         CASE (30)     !    BIQUAD                                                  
@@ -253,10 +244,8 @@ c---------------
      .          IOUT     ,ISTDO    ,NFUNC    ,FAIL%IFUNC,LBUF%DMGSCL,
      .          UVARF    ,NVARF    ,SNPC     ,NPF      ,
      .          STF      ,TF       ,IPT      ,FOFF     ,
-     .          SIGNXX   ,SIGNXY   ,SIGNXZ   ,DPLA_IPT ,AL)
-          DO I= 1,NEL
-            IF (FOFF(I) == 0) COUNT(I) = COUNT(I) + 1
-          END DO
+     .          SIGNXX   ,SIGNXY   ,SIGNXZ   ,DPLA_IPT ,AL,ELBUF_STR%GBUF%UELR ,NPT)
+
 c--------------- 
         CASE (34)     ! cockroft failure model                                        
                                      
@@ -265,10 +254,7 @@ c---------------
      .          TIME     ,DPLA_IPT ,OFF      ,DFMAX,  
      .          TDEL     ,IOUT     ,ISTDO    ,EPSXX    ,
      .          IPT      ,SIGNXX   ,SIGNXY   ,SIGNXZ   ,
-     .          NVARF    ,UVARF    ,FOFF )   
-          DO I= 1,NEL
-            IF (FOFF(I) == 0) COUNT(I) = COUNT(I) + 1
-          END DO
+     .          NVARF    ,UVARF    ,FOFF     ,ELBUF_STR%GBUF%UELR ,NPT)   
 
 C--------------
         CASE (36)     ! visual failure model                                        
@@ -294,10 +280,8 @@ c-------------
      .                     FBUF%FLOC(IFL)%DAMMX ,  AL, TABLE,    
      .                     FAIL%NTABLE  ,    
      .                     FAIL%TABLE       , FBUF%FLOC(IFL)%LF_DAMMX, FAIL%NIPARAM ,FAIL%IPARAM,    
-     .                    SNPC    ,STF      ,NTABLE,  FOFF)
-          DO I= 1,NEL
-            IF (FOFF(I) == 0) COUNT(I) = COUNT(I) + 1
-          END DO
+     .                    SNPC    ,STF      ,NTABLE,  FOFF,ELBUF_STR%GBUF%UELR ,NPT, TDEL)
+
 
 c-------------
         CASE (42)     ! Inievo failure model  
@@ -311,9 +295,6 @@ c-------------
      .                    TDEL    ,LBUF%DMGSCL  ,ELBUF_STR%GBUF%UELR ,IPT  ,NPT,
      .                    FBUF%FLOC(IFL)%DAMINI ,
      .                    NTABLE  ,OFF)  
-          DO I= 1,NEL
-            IF (FOFF(I) == 0) COUNT(I) = COUNT(I) + 1
-          END DO
 
 c-------------
         CASE (41)     ! TAB2 failure model         
@@ -336,20 +317,6 @@ c-------------------------------------
 
 C-------------------------------------
       ENDDO   ! IPT = 1,NPT :  END LOOP OVER INTEGRATION POINTS
-c-------------------------------------
-c     Check element erosion      
-c-------------------------------------
-        DO I= 1,NEL
-          IF (OFF(I) == ONE .and. COUNT(I) == NPT) THEN
-            ELBUF_STR%GBUF%OFF(I) = FOUR_OVER_5  ! element erosion started
-#include "lockon.inc"
-            WRITE(IOUT, 1000) NGL(I),TIME
-            WRITE(ISTDO,1000) NGL(I),TIME
-#include "lockoff.inc" 
-          END IF
-        END DO
-c------------------
- 1000 FORMAT(1X,'DELETED BEAM ELEMENT ',I10,1X,'AT TIME :',1PE12.4)
 c------------------
       RETURN
       END SUBROUTINE FAIL_BEAM18
