@@ -57,7 +57,7 @@
            dfmax    ,aldt     ,table    ,              &
            ntablf   ,                                  &
            itablf   ,lf_dammx ,niparam  ,iparam   ,    &
-           snpc     ,stf      ,ntable   ,foff)
+           snpc     ,stf      ,ntable   ,foff     , uelr, npg,  tdel)
 !c-----------------------------------------------
 !c   m o d u l e s
 !c-----------------------------------------------
@@ -100,11 +100,14 @@
       my_real, dimension(nel)     ,intent(inout)  :: signxy   ! stress component xy
       my_real, dimension(nel)     ,intent(inout)  :: signzx   ! stress component zx
       my_real, dimension(nel)     ,intent(inout)  :: off      ! offset
-      integer, dimension(nel)     ,intent(inout)  :: foff     ! integration point deactivation flag
+      integer, dimension(nel)     ,intent(inout)  :: foff     ! integration point desactivation flag
+      integer                     ,intent(in)     :: npg    
+      my_real ,dimension(nel)     ,intent(inout)  :: tdel    ! desactivation time
 
       my_real, dimension(nel, lf_dammx), intent(inout) :: dfmax      ! maximum damage
       my_real, dimension(nel, nuvar), intent(inout)    :: uvar       ! user variables
       type(ttable), dimension(ntable), intent(inout)   :: table      ! table data
+      my_real, dimension(nel)     ,intent(inout)  :: uelr 
 
       INTEGER ,INTENT(IN) :: SNPC
       INTEGER ,INTENT(IN) :: STF
@@ -120,7 +123,7 @@
 !c-----------------------------------------------
   integer :: i, j, nindx, nstep, crit, nmod, &
      fct_ism, fct_ips, fct_idg12, fct_idg13, fct_ide1c, fct_idel, &
-     ismooth, istrain, tab_idfld, itab, ncs, nindx3, nindx2
+     ismooth, istrain, tab_idfld, itab, ncs, nindx3, nindx2,failip
   integer, dimension(nel) :: indx, indx2, indx3, ncrit, ipmax, ipmin, &
      is1max, itmax, imindt, isigmax, isigth, iepsmax, ieffeps, ivoleps, &
      imineps, ishear, imix12, imix13, imxe1c, ifld, imaxtemp
@@ -180,7 +183,10 @@
       maxtemp    = uparam(20)   !> maximum temperature.
       fscale_el  = uparam(21)   !> element size function scale factor for fct_idel, tab_idfld (itab=2), fct_idg12, fct_idg23, fct_idg13 and fct_ide1c, default = 1.0 (real)
       el_ref     = uparam(22)   !> reference element size for fct_idel, tab_idfld (itab=2), fct_idg12, fct_idg23, fct_idg13 and fct_ide1c, default = 1.0 (real)
-!c     function & tables
+      
+      failip  = min(nint(uparam(23)),npg) ! 	number of failed integration point prior to solid element deletion. default = 1 (integer)
+   
+      !c     function & tables
       fct_ism    = ifunc(1)     !> function identifier of the maximum equivalent stress versus strain rate 
       fct_ips    = ifunc(2)     !> maximum principal strain vs strain-rate
       fct_idg12  = ifunc(3)     !> in-plane shear strain vs element size 
@@ -678,6 +684,11 @@
             nindx       = nindx + 1
             indx(nindx) = i
             foff(i)=0
+            tdel(I)     = time
+            uelr(i)     = uelr(i) + one
+            if (nint(uelr(i)) >= failip) then 
+              off(i)    = four_over_5
+            endif
           endif
         endif
 !c
@@ -702,92 +713,164 @@
             !message: hydrostatic pressure value > critical value 
             write(iout, 1002) p(i),maxpres*facl(i)
             write(istdo,1002) p(i),maxpres*facl(i)
+            if (off(i) == four_over_5) then 
+              write(iout, 1111) ngl(i),time
+              write(istdo,1111) ngl(i),time
+            endif
           endif
           if (ipmin(i) == 1) then
             !message: hydrostatic pressure value < critical value  
             write(iout, 1003) p(i),minpres*facl(i)
             write(istdo,1003) p(i),minpres*facl(i)
+            if (off(i) == four_over_5) then 
+              write(iout, 1111) ngl(i),time
+              write(istdo,1111) ngl(i),time
+            endif
           endif
           if (is1max(i) == 1) then
             !message: 1st principal stress value > critical value 
             write(iout, 1004) s11(i),abs(sigp1)*facl(i)
             write(istdo,1004) s11(i),abs(sigp1)*facl(i)
+            if (off(i) == four_over_5) then 
+              write(iout, 1111) ngl(i),time
+              write(istdo,1111) ngl(i),time
+            endif
           endif
           if (itmax(i) == 1) then 
             !message: time value:                > critical value 
             write(iout, 1005) time,tmax
             write(istdo,1005) time,tmax    
+            if (off(i) == four_over_5) then 
+              write(iout, 1111) ngl(i),time
+              write(istdo,1111) ngl(i),time
+            endif
           endif
           if (imindt(i) == 1) then 
             !message: element timestep value:    < critical value 
             write(iout, 1006) dt(i),dtmin
             write(istdo,1006) dt(i),dtmin        
+            if (off(i) == four_over_5) then 
+              write(iout, 1111) ngl(i),time
+              write(istdo,1111) ngl(i),time
+            endif
           endif
           if (isigmax(i) == 1) then 
             !message: equivalent stress value:    > critical value 
             write(iout, 1007) svm(i),sigmax(i)*facl(i)
             write(istdo,1007) svm(i),sigmax(i)*facl(i)    
+            if (off(i) == four_over_5) then 
+              write(iout, 1111) ngl(i),time
+              write(istdo,1111) ngl(i),time
+            endif
           endif
           if (isigth(i) == 1) then 
             !message: t-butcher intg. value:      > critical value
             write(iout, 1008) uvar(i,2),kf*facl(i)
             write(istdo,1008) uvar(i,2),kf*facl(i)              
+            if (off(i) == four_over_5) then 
+              write(iout, 1111) ngl(i),time
+              write(istdo,1111) ngl(i),time
+            endif
           endif
           if (iepsmax(i) == 1) then 
             !message: 1st principal strain value: > critical value
             write(iout, 1009) e11(i),epsmax(i)*facl(i)
             write(istdo,1009) e11(i),epsmax(i)*facl(i)
+            if (off(i) == four_over_5) then 
+              write(iout, 1111) ngl(i),time
+              write(istdo,1111) ngl(i),time
+            endif
           endif
           if (ieffeps(i) == 1) then
             !message: effective strain value:     > critical value
             write(iout, 1010) eff_strain(i),effeps*facl(i)
             write(istdo,1010) eff_strain(i),effeps*facl(i)
+            if (off(i) == four_over_5) then 
+              write(iout, 1111) ngl(i),time
+              write(istdo,1111) ngl(i),time
+            endif
           endif
           if (ivoleps(i) == 1) then
             if (voleps >= zero) then 
               !message: volumetric strain value:      > critical value
               write(iout, 1011) vol_strain(i),voleps*facl(i)
               write(istdo,1011) vol_strain(i),voleps*facl(i)
+              if (off(i) == four_over_5) then 
+                write(iout, 1111) ngl(i),time
+                write(istdo,1111) ngl(i),time
+              endif
             else
               !message: volumetric strain value:      < critical value
               write(iout, 1012) vol_strain(i),voleps*facl(i)
               write(istdo,1012) vol_strain(i),voleps*facl(i) 
+              if (off(i) == four_over_5) then 
+                write(iout, 1111) ngl(i),time
+                write(istdo,1111) ngl(i),time
+              endif
             endif
           endif
           if (imineps(i) == 1) then 
             !message:  3rd principal strain value:   < critical value
             write(iout, 1013) e33(i),mineps*facl(i)
             write(istdo,1013) e33(i),mineps*facl(i)
+            if (off(i) == four_over_5) then 
+              write(iout, 1111) ngl(i),time
+              write(istdo,1111) ngl(i),time
+            endif
           endif
           if (ishear(i) == 1) then 
             !message:  max. shear strain value:      > critical value
             write(iout, 1014) (e11(i) - e33(i))/two,epssh*facl(i)
             write(istdo,1014) (e11(i) - e33(i))/two,epssh*facl(i)
+            if (off(i) == four_over_5) then 
+              write(iout, 1111) ngl(i),time
+              write(istdo,1111) ngl(i),time
+            endif
           endif
           if (imix12(i) == 1) then
             !message:  in-plane sh.strain 12 value:  > critical value
             write(iout, 1015) (e11(i) - e22(i))/two,sh12(i)
             write(istdo,1015) (e11(i) - e22(i))/two,sh12(i)
+            if (off(i) == four_over_5) then 
+              write(iout, 1111) ngl(i),time
+              write(istdo,1111) ngl(i),time
+            endif
           endif
           if (imix13(i) == 1) then
             !message:  transv.  sh.strain 13 value  > critical value
             write(iout, 1016) (e11(i) - e33(i))/two,sh13(i)
             write(istdo,1016) (e11(i) - e33(i))/two,sh13(i)
+            if (off(i) == four_over_5) then 
+              write(iout, 1111) ngl(i),time
+              write(istdo,1111) ngl(i),time
+            endif
           endif
           if (imxe1c(i) == 1) then 
             !message:  in-plane princ.strain value  > critical value
             write(iout, 1017) e11(i),e1c(i)
             write(istdo,1017) e11(i),e1c(i)           
+            if (off(i) == four_over_5) then 
+              write(iout, 1111) ngl(i),time
+              write(istdo,1111) ngl(i),time
+            endif
           endif
           if (ifld(i) == 1) then 
             if (itab == 1) then 
               !message: 1st principal stress value > forming limit value 
               write(iout, 1018) e11(i),e1fld(i)*facl(i)
               write(istdo,1018) e11(i),e1fld(i)*facl(i)   
+              if (off(i) == four_over_5) then 
+                write(iout, 1111) ngl(i),time
+                write(istdo,1111) ngl(i),time
+              endif
             else
               !message: 1st principal stress value > forming limit value 
               write(iout, 1018) e11(i),e1fld(i)
               write(istdo,1018) e11(i),e1fld(i) 
+              if (off(i) == four_over_5) then 
+                write(iout, 1111) ngl(i),time
+                write(istdo,1111) ngl(i),time
+              endif
             endif
           endif
           !endif
@@ -795,6 +878,10 @@
             !message: temperature value:      > critical value
             write(iout, 1020) temp(i),maxtemp
             write(istdo,1020) temp(i),maxtemp
+            if (off(i) == four_over_5) then 
+              write(iout, 1111) ngl(i),time
+              write(istdo,1111) ngl(i),time
+            endif
           endif
         end do
       end if    
@@ -823,7 +910,7 @@
  1018 format(1X,'1ST PRINCIPAL STRESS VALUE:  ',1PE12.4,' > FORMING LIMIT VALUE : ',1PE12.4)
  1019 format(1X,'THINNING VALUE:              ',1PE12.4,' < CRITICAL VALUE: ',1PE12.4)
  1020 format(1X,'TEMPERATURE VALUE:           ',1PE12.4,' > CRITICAL VALUE: ',1PE12.4)  
- 
+ 1111 format(1X,'DELETED BEAM ELEMENT ',I10,1X,'AT TIME :',1PE12.4)
       return
 
       end subroutine fail_gene1_ib 

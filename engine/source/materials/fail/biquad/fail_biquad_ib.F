@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .           IOUT     ,ISTDO    ,NFUNC    ,IFUNC    ,DAMSCL   ,
      .           UVAR     ,NUVAR    ,SNPC     ,NPF      ,
      .           STF      ,TF       ,IPT      ,FOFF     ,          
-     .           SIGNXX   ,SIGNXY   ,SIGNXZ   ,DPLA   ,AL)
+     .           SIGNXX   ,SIGNXY   ,SIGNXZ   ,DPLA     ,AL  , UELR,NPG)
 C-----------------------------------------------C-----------------------------------------------
 c    BIQUAD- failure model for integrated beams (TYPE 18) IRUP=30
 C-----------------------------------------------
@@ -71,10 +71,12 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: TDEL    ! deactivation time
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: SIGNXX,SIGNXY,SIGNXZ 
       my_real ,DIMENSION(NEL,NUVAR),INTENT(INOUT) :: UVAR
+      my_real, DIMENSION(NEL)     ,INTENT(INOUT) :: UELR 
+      INTEGER                     ,INTENT(IN)    :: NPG    
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,NINDX,NINDXD,ICOUP,SEL
+      INTEGER :: I,J,NINDX,NINDXD,ICOUP,SEL,FAILIP
       INTEGER ,DIMENSION(NEL) :: INDX,INDXD
       my_real :: DCRIT, EXP,D1,DF,TRIAX,SCALE,SXX,SYY,SZZ
       
@@ -99,7 +101,8 @@ C=======================================================================
       ICOUP = NINT(UPARAM(14))
       DCRIT = UPARAM(15)
       EXP   = UPARAM(16)
-C
+      FAILIP  =MIN(NINT(UPARAM(17)),NPG) ! 	number of failed integration point prior to solid element deletion. default = 1 (integer)
+
       ! At initial time, compute the element size regularization factor
       IF (NFUNC > 0) THEN 
         IF (NUVAR == 3) THEN 
@@ -187,6 +190,10 @@ C
             DFMAX(I)    = ONE
             DAMSCL(I)   = ZERO
             FOFF(I)     = 0 
+            UELR(I)     = UELR(I) + ONE
+            IF (NINT(UELR(I)) >= FAILIP) then 
+              OFF(I)    = FOUR_OVER_5
+            ENDIF  
           ENDIF
         ENDIF 
       ENDDO
@@ -198,7 +205,6 @@ c------------------------
           IF (DFMAX(I) >= DCRIT .AND.OFF(I) == ONE .AND. FOFF(I) == 1) THEN 
             IF (DCRIT < ONE) THEN 
                 DAMSCL(I) = ONE - ((DFMAX(I)-DCRIT)/MAX(ONE-DCRIT,EM20))**EXP
- 
             ELSE
                 DAMSCL(I) = ZERO
             ENDIF
@@ -221,6 +227,10 @@ c--------------------
           WRITE(IOUT, 1000) NGL(I),IPT,TIME
           WRITE(ISTDO,1000) NGL(I),IPT,TIME
 #include "lockoff.inc" 
+          IF (OFF(I) == FOUR_OVER_5) THEN
+            WRITE(IOUT, 1111)NGL(i),TIME
+            WRITE(ISTDO,1111)NGL(i),TIME
+          ENDIF
         END DO                   
       END IF   ! NINDX             
 c------------------
@@ -228,6 +238,7 @@ c------------------
      .      ,2X,'AT TIME :',1PE12.4,1X )
  2000 FORMAT(5X,'START DAMAGE (BIQUAD) OF BEAM ELEMENT ',I10,1X,',INTEGRATION PT',I5
      .      ,2X,'AT TIME :',1PE12.4 )     
+ 1111 FORMAT(1X,'DELETED BEAM ELEMENT ',I10,1X,'AT TIME :',1PE12.4)    
 c------------------
       RETURN
       END

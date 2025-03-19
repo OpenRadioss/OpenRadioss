@@ -64,6 +64,7 @@ C     L o c a l  V a r i a b l e s
 C-----------------------------------------------
       my_real :: C0, EMA
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE
+      integer :: FAILIP 
 c=======================================================================
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
@@ -76,13 +77,15 @@ c=======================================================================
 !     Line 1
       CALL HM_GET_FLOATV('C0', C0, IS_AVAILABLE, LSUBMODEL, UNITAB)  
       CALL HM_GET_FLOATV('ALPHA', EMA, IS_AVAILABLE, LSUBMODEL, UNITAB)  
+      CALL HM_GET_INTV   ('FAILIP'   ,FAILIP   ,IS_AVAILABLE,LSUBMODEL)
+      IF (FAILIP == 0)  FAILIP  = 1
 !     Default values
       IF (EMA == ZERO) EMA = ONE
 c----------------------------------
       FAIL%KEYWORD = 'COCKROFT-LATHAM' 
       FAIL%IRUPT   = IRUPT 
       FAIL%FAIL_ID = FAIL_ID 
-      FAIL%NUPARAM = 2
+      FAIL%NUPARAM = 3
       FAIL%NIPARAM = 0
       FAIL%NUVAR   = 3
       FAIL%NFUNC   = 0
@@ -96,11 +99,12 @@ c
 c
       FAIL%UPARAM(1) = C0
       FAIL%UPARAM(2) = EMA
+      FAIL%UPARAM(3)= FAILIP
 c----------------------------------
       IF (IS_ENCRYPTED) THEN
          WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-         WRITE(IOUT, 1000) ABS(C0), EMA
+         WRITE(IOUT, 1000) ABS(C0), EMA,FAILIP
          IF(C0 < ZERO) THEN
             WRITE(IOUT, 1100)
          ELSE
@@ -113,7 +117,8 @@ c-----------------------------------------------------------
      &     5X,40H    --------------------------------          /,
      &     5X,' COEFFICIENT C0. . . . . . . . . . . . .=',E12.4,/,
      &     5X,' FILTER COEFFICIENT EMA. . . . . . . . .=',E12.4,/,
-     &     5X,'       ( EMA = 1.0: NO FILTERING )',/)
+     &     5X,'       ( EMA = 1.0: NO FILTERING )',/,
+     &     5X,'NUMBER OF FAILED INTG. POINTS PRIOR TO ELEM DELETION  .=',I10/)
  1100 FORMAT(
      &     5X,' TOTAL STRAIN INCTEMENT USED',/
      &     5X,' --------------------------------------------------------- ',//)
