@@ -25,9 +25,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    eosmain      ../common_source/eos/eosmain.F
       !||====================================================================
-      SUBROUTINE NOBLE_ABEL(IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU   ,MU2 ,
-     2                      ESPE ,DVOL ,DF   ,VNEW ,MAT  ,PSH  ,
-     3                      PNEW ,DPDM ,DPDE ,THETA,ECOLD)
+      SUBROUTINE NOBLE_ABEL(IFLAG,NEL, PM    ,OFF  ,EINT ,MU   ,
+     2                      ESPE ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
+     3                      PNEW ,DPDM ,DPDE )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -71,15 +71,15 @@ C-----------------------------------------------
       INTEGER MAT(NEL), IFLAG, NEL
       my_real PM(NPROPM,NUMMAT), 
      .        OFF(NEL)  ,EINT(NEL) ,MU(NEL)   , 
-     .        MU2(NEL)  ,ESPE(NEL) ,DVOL(NEL) ,DF(NEL)  , 
+     .        ESPE(NEL) ,DVOL(NEL) ,DF(NEL)  ,
      .        VNEW(NEL) ,PSH(NEL)  ,PNEW(NEL) ,DPDM(NEL),
-     .        DPDE(NEL) ,THETA(NEL),ECOLD(NEL)
+     .        DPDE(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX
       my_real GM1(NEL), DVV, PP,BB_(NEL),RHO0(NEL)
-      my_real SPH(NEL), DENOM,BB
+      my_real DENOM,BB
 C-----------------------------------------------
       IF(IFLAG == 0) THEN
         DO I=1,NEL
@@ -88,19 +88,12 @@ C-----------------------------------------------
           GM1(I)  = PM(33,MX)
           RHO0(I) = PM(34,MX)
           PSH(I)  = PM(88,MX)
-          SPH(I)  = PM(69,MX)
         ENDDO
         DO I=1,NEL
            DENOM   = ONE-BB_(I)*RHO0(I)*(ONE+MU(I))
           PP      = ESPE(I)*GM1(I)*(MU(I)+ONE)/DENOM
           DPDE(I) = GM1(I)*(ONE+MU(I))/DENOM
           DPDM(I) = GM1(I)*ESPE(I)/DENOM + PP/DENOM*BB_(I)*RHO0(I) + PP*DF(I)*DF(I)*DPDE(I)
-        ENDDO
-        DO I=1,NEL
-          ECOLD(I)=-THREE100*SPH(I)
-          IF(MU(I)>ZERO) THEN
-            ECOLD(I)=ECOLD(I)*(ONE+GM1(I)*MU(I)*(ONE-MU(I)))
-          ENDIF
         ENDDO
 
       ELSEIF(IFLAG == 1) THEN
@@ -110,25 +103,16 @@ C-----------------------------------------------
           GM1(I)  = PM(33,MX)
           RHO0(I) = PM(34,MX)
           PSH(I)  = PM(88,MX)
-          SPH(I)  = PM(69,MX)
         ENDDO
         DO I=1,NEL
           DENOM   = ONE-BB_(I)*RHO0(I)*(ONE+MU(I))
           BB      = GM1(I)*(ONE+MU(I))/DENOM
+          DPDE(I) = BB
           DVV     = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
           PNEW(I) = (BB*ESPE(I))/(ONE+BB*DVV)
           PNEW(I) = PNEW(I)*OFF(I)
           EINT(I) = EINT(I) - HALF*DVOL(I)*PNEW(I)
           PNEW(I) = PNEW(I)-PSH(I)
-        ENDDO
-        DO I=1,NEL
-          MX     =MAT(I)
-          SPH(I) =PM(69,MX)
-        ENDDO
-        DO I=1,NEL
-          IF(OFF(I) < ONE .OR. SPH(I) <= ZERO) CYCLE
-          THETA(I) = (DF(I)*EINT(I)/VNEW(I)-ECOLD(I))/SPH(I)
-          THETA(I) = MAX(ZERO,THETA(I))
         ENDDO
 
       ELSEIF(IFLAG == 2) THEN
@@ -138,7 +122,6 @@ C-----------------------------------------------
           GM1(I)  = PM(33,MX)
           RHO0(I) = PM(34,MX)
           PSH(I)  = PM(88,MX)
-          SPH(I)  = PM(69,MX)
         ENDDO
         DO I=1, NEL
           IF (VNEW(I) > ZERO) THEN

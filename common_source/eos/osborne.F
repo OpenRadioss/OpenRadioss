@@ -25,9 +25,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    eosmain   ../common_source/eos/eosmain.F
       !||====================================================================
-      SUBROUTINE OSBORNE  (IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU   ,MU2 , 
+      SUBROUTINE OSBORNE  (IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU   ,
      2                     ESPE ,DVOL ,DF   ,VNEW ,MAT  ,PSH  ,
-     3                     PNEW ,DPDM ,DPDE ,THETA,ECOLD)
+     3                     PNEW ,DPDM ,DPDE )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -72,16 +72,16 @@ C-----------------------------------------------
       INTEGER MAT(NEL), IFLAG, NEL
       my_real PM(NPROPM,NUMMAT), 
      .        OFF(NEL)  ,EINT(NEL) ,MU(NEL)   , 
-     .        MU2(NEL)  ,ESPE(NEL) ,DVOL(NEL) ,DF(NEL)  , 
+     .        ESPE(NEL) ,DVOL(NEL) ,DF(NEL)  ,
      .        VNEW(NEL) ,PNEW(NEL) ,DPDM(NEL), PSH(NEL) ,
-     .        DPDE(NEL) ,THETA(NEL),ECOLD(NEL),
-     .        DENOM,PART1,PART2,PART3
+     .        DPDE(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX
-      my_real :: P0,E0,SPH,AA, BB, DVV, PP,dPdMU
-      my_real :: A1,A2,B0,B1,B2,C0,C1,D0, A2_,RHO0,DE, ESP
+      my_real :: P0,E0,DVV,PP,dPdMU
+      my_real :: A1,A2,B0,B1,B2,C0,C1,D0, A2_,RHO0
+      my_real :: DENOM
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -99,7 +99,6 @@ C-----------------------------------------------
         D0         = PM(162,MX)
         P0         = PM(163,MX)
         PSH(1:NEL) = PM(88,MX)
-        SPH        = PM(69,MX)
         DO I=1,NEL
           A2_=A2
           IF(MU(I)<ZERO)A2_=-A2
@@ -108,9 +107,6 @@ C-----------------------------------------------
           dPdMU   = (A1+2*A2_*MU(I)+(TWO*B2*MU(I)+B1)*ESPE(I)+C1*ESPE(I)*ESPE(I))/DENOM
           dPdE(I) = (((B2*MU(I)+B1)*MU(I)+B0)+(TWO*(C1*MU(I)+C0))*ESPE(I) - PP/DENOM)/DENOM
           DPDM(I) = dPdmu + dPdE(I)*DF(I)*DF(I)*(PP)   !total derivative
-        ENDDO
-        DO I=1,NEL
-          ECOLD(I)=-THREE100*SPH
         ENDDO
 
       ELSEIF(IFLAG == 1) THEN
@@ -127,7 +123,6 @@ C-----------------------------------------------
         D0         = PM(162,MX)
         P0         = PM(163,MX)
         PSH(1:NEL) = PM(88,MX)
-        SPH        = PM(69,MX)
         DO I=1,NEL
           A2_=A2
           IF(MU(I)<ZERO)A2_=-A2
@@ -139,16 +134,10 @@ C-----------------------------------------------
           DENOM   = (ESPE(I)+D0)
           PP      = (A1*MU(I)+A2_*MU(I)*MU(I)+(B0+B1*MU(I)+B2*MU(I)*MU(I))*ESPE(I)+(C1*MU(I)+C0)*ESPE(I)*ESPE(I))/DENOM
           ESPE(I) = ESPE(I) - (PP)*DVV
-          PNEW(I) = PP
+          PNEW(I) = PP * OFF(I)
           EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I))
-          PNEW(I) = PNEW(I) + PSH(I)
-        ENDDO
-        MX     = MAT(1)
-        SPH    = PM(69,MX)
-        DO I=1,NEL
-          IF(OFF(I) < ONE .OR. SPH <= ZERO) CYCLE
-          THETA(I) = (DF(I)*EINT(I)/VNEW(I)-ECOLD(I))/SPH
-          THETA(I) = MAX(ZERO,THETA(I))
+          PNEW(I) = PNEW(I) - PSH(I)
+          dPdE(I) = (((B2*MU(I)+B1)*MU(I)+B0)+(TWO*(C1*MU(I)+C0))*ESPE(I) - PP/DENOM)/DENOM
         ENDDO
 
       ELSEIF(IFLAG == 2) THEN
@@ -165,7 +154,6 @@ C-----------------------------------------------
         D0           = PM(162,MX)
         P0           = PM(163,MX)
         PSH(1:NEL) = PM(88,MX)
-        SPH          = PM(69,MX)
         DO I=1, NEL
           IF (VNEW(I) > ZERO) THEN
             A2_=A2
@@ -175,7 +163,8 @@ C-----------------------------------------------
             dPdMU   = (A1+2*A2_*MU(I)+(TWO*B2*MU(I)+B1)*ESPE(I)+C1*ESPE(I)*ESPE(I))/DENOM
             dPdE(I) = (((B2*MU(I)+B1)*MU(I)+B0)+(TWO*(C1*MU(I)+C0))*ESPE(I) - PP/DENOM)/DENOM
             DPDM(I) = dPdmu + dPdE(I)*DF(I)*DF(I)*(PP) !total derivative
-            PNEW(I) = PP
+            PNEW(I) = PP*OFF(I)
+            PNEW(I) = PNEW(I) - PSH(I)
           ENDIF
         ENDDO
 
