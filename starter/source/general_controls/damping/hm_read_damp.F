@@ -436,7 +436,8 @@ C--         /DAMP/FREQUENCY_RANGE
             WRITE (IOUT,2000) GRPART,CDAMP,FREQ_LOW,FREQ_HIGH,TSTART,TSTOP
 C           Automatic computation of paramaters of the 3 maxwell components 
             CALL damping_range_compute_param(CDAMP,FREQ_LOW,FREQ_HIGH,MAXWELL_ALPHA,MAXWELL_TAU)
-C          
+C       
+            DAMPR(31,I)    = ONE 
             DAMPR(32:34,I) = MAXWELL_ALPHA(1:3)
             DAMPR(35:37,I) = MAXWELL_TAU(1:3)
           ENDIF
