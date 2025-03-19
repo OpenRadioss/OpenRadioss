@@ -2199,7 +2199,7 @@
                   &es1  ,es2 ,es3  ,es4  ,es5  ,es6 ,&
                   &s1   ,s2  ,s3   ,s4   ,s5   ,s6  ,&
                   &defp ,dpla,epsp1,uvarf,off  ,&
-                  &deltax,voln,user_uelr,bidon4,bidon5)
+                  &deltax,voln,user_uelr,dfmax,bidon5)
                   gbuf%uelr(1:nel) = user_uelr(1:nel)
                 else
                   ! ----------------
@@ -2222,7 +2222,7 @@
                   &es1  ,es2 ,es3  ,es4  ,es5  ,es6 ,&
                   &s1   ,s2  ,s3   ,s4   ,s5   ,s6  ,&
                   &defp ,dpla,epsp1,uvarf,off  ,&
-                  &deltax,voln,user_uelr,bidon4,bidon5)
+                  &deltax,voln,user_uelr,dfmax,bidon5)
                   gbuf%uelr(1:nel) = user_uelr(1:nel)
                 else
                   ! ----------------
@@ -2245,7 +2245,7 @@
                   &es1  ,es2 ,es3  ,es4  ,es5  ,es6 ,&
                   &s1   ,s2  ,s3   ,s4   ,s5   ,s6  ,&
                   &defp ,dpla,epsp1,uvarf,off  ,&
-                  &deltax,voln,user_uelr,bidon4,bidon5)
+                  &deltax,voln,user_uelr,dfmax,bidon5)
                   gbuf%uelr(1:nel) = user_uelr(1:nel)
                 else
                   ! ----------------
