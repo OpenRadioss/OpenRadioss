@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,I,J,ISK,IGR,ND,K,L,LL
+      INTEGER N,I,J,ISK,IGR,ND,K,L,LL,FL_FREQ_RANGE
       my_real FACTB,DAMPBR,DAMPAR,D_TSTART,D_TSTOP,DAMPT,
      .   DT2N(NUMNOD),BB,COEFF,DTN,DTN2,DAMPAI,DAMPBI,DT0,DAMPA3,
      .   ALPHA05,BETA1,DTMAX,FAC,DTMI1,FAC0    
@@ -66,7 +66,8 @@ C----------------------------------------------------------
         DTMAX = EP04
         DT0 = DTMAX
         DO I=1,NDAMP
-          IF (DAMPR(19,I)/=0) CYCLE                                               
+          FL_FREQ_RANGE = NINT(DAMPR(31,I))
+          IF ((DAMPR(19,I)/=0).OR.(FL_FREQ_RANGE > 0)) CYCLE                                                
           IGR   = NINT(DAMPR(2,I))
           DTN = DTMAX
           DO J=1,IGRNOD(IGR)%NENTITY
