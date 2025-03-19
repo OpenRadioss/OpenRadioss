@@ -1208,7 +1208,7 @@ C   user1
      5                    ES1  ,ES2 ,ES3  ,ES4  ,ES5  ,ES6 ,
      6                    S1   ,S2  ,S3   ,S4   ,S5   ,S6  ,    
      7                    DEFP ,DPLA,EPSP1,UVARF,OFF  ,                    
-     8                    DELTAX,VOLN,USER_UELR,BIDON4,BIDON5)
+     8                    DELTAX,VOLN,USER_UELR,DFMAX,BIDON5)
                GBUF%UELR(1:LLT) = USER_UELR(1:LLT)
             ELSE
 !               CALL F04LAW(LLT ,NPAR,NUVARR,NFUNC,IFUNC,
@@ -1218,7 +1218,7 @@ C   user1
 !     5                    ES1   ,ES2 ,ES3  ,ES4  ,ES5  ,ES6 ,
 !     6                    S1    ,S2  ,S3   ,S4   ,S5   ,S6  ,    
 !     7                    DEFP  ,DPLA,EPSP1,UVARF,OFF  ,                    
-!     8                    DELTAX,VOLN,GBUF%UELR,BIDON4,BIDON5)
+!     8                    DELTAX,VOLN,GBUF%UELR,DFMAX,BIDON5)
 !!!
               ! ----------------
               ! ERROR to be printed & exit
@@ -1241,7 +1241,7 @@ C   user2
      5                    ES1  ,ES2 ,ES3  ,ES4  ,ES5  ,ES6 ,
      6                    S1   ,S2  ,S3   ,S4   ,S5   ,S6  ,    
      7                    DEFP ,DPLA,EPSP1,UVARF,OFF  ,                    
-     8                    DELTAX,VOLN,USER_UELR,BIDON4,BIDON5)
+     8                    DELTAX,VOLN,USER_UELR,DFMAX,BIDON5)
                GBUF%UELR(1:LLT) = USER_UELR(1:LLT)
             ELSE
 !               CALL F05LAW(LLT ,NPAR,NUVARR,NFUNC,IFUNC,
@@ -1251,7 +1251,7 @@ C   user2
 !     5                    ES1  ,ES2 ,ES3  ,ES4  ,ES5  ,ES6 ,
 !     6                    S1   ,S2  ,S3   ,S4   ,S5   ,S6  ,    
 !     7                    DEFP ,DPLA,EPSP1,UVARF,OFF  ,                    
-!     8                    DELTAX ,VOLN,GBUF%UELR,BIDON4,BIDON5)
+!     8                    DELTAX ,VOLN,GBUF%UELR,DFMAX,BIDON5)
 !!!
               ! ----------------
               ! ERROR to be printed & exit
@@ -1274,7 +1274,7 @@ C   user3
      5                    ES1  ,ES2 ,ES3  ,ES4  ,ES5  ,ES6 ,
      6                    S1   ,S2  ,S3   ,S4   ,S5   ,S6  ,    
      7                    DEFP ,DPLA,EPSP1,UVARF,OFF  ,                    
-     8                    DELTAX,VOLN,USER_UELR,BIDON4,BIDON5)
+     8                    DELTAX,VOLN,USER_UELR,DFMAX,BIDON5)
                GBUF%UELR(1:LLT) = USER_UELR(1:LLT)
             ELSE
 !               CALL F06LAW(LLT ,NPAR,NUVARR,NFUNC,IFUNC,
@@ -1284,7 +1284,7 @@ C   user3
 !     5                    ES1  ,ES2 ,ES3  ,ES4  ,ES5  ,ES6 ,
 !     6                    S1   ,S2  ,S3   ,S4   ,S5   ,S6  ,    
 !     7                    DEFP ,DPLA,EPSP1,UVARF,OFF  ,                    
-!     8                    DELTAX,VOLN,GBUF%UELR,BIDON4,BIDON5)
+!     8                    DELTAX,VOLN,GBUF%UELR,DFMAX,BIDON5)
 !!!
               ! ----------------
               ! ERROR to be printed & exit
