@@ -77,7 +77,7 @@ C     Friction model for interface
 C-------------------------------------------
 C
       OK = 0
-      IF(NTYP==7.OR.NTYP==11.OR.NTYP==19.OR.NTYP==24.OR.NTYP==25) THEN
+      IF(NTYP==7.OR.NTYP==11.OR.NTYP==19.OR.NTYP==21.OR.NTYP==24.OR.NTYP==25) THEN
           IF (IPARI(72) > 0) THEN   
             OK = 0
             DO J=1,NINTERFRIC  
@@ -110,7 +110,7 @@ C
              IPARI(30) = INTBUF_FRIC_TAB(INTFRIC)%FRICFORM  ! we put the iform  flag to the value set in friction interface
           ENDIF
 
-          IF ((NTYP==24..OR.NTYP==25).AND.IPARI(72) > 0) THEN  ! correction of filtering parameter if Iform = 0 in friction interface
+          IF ((NTYP==21.OR.NTYP==24.OR.NTYP==25).AND.IPARI(72) > 0) THEN  ! correction of filtering parameter if Iform = 0 in friction interface
              INTFRIC = IPARI(72) 
              IFQ = INTBUF_FRIC_TAB(INTFRIC)%IFFILTER
              IF (IFQ<10) IFQ = IFQ + 10
@@ -118,7 +118,7 @@ C
              IF (IFQ==10) INTBUF_FRIC_TAB(INTFRIC)%XFILTR_FRIC = ONE
           ENDIF
 
-          IF ((NTYP==7.OR.NTYP==24..OR.NTYP==25).AND.IPARI(72) > 0) THEN ! we put the MFROT ifq flag to the value set in friction interface 
+          IF ((NTYP==7.OR.NTYP==21.OR.NTYP==24..OR.NTYP==25).AND.IPARI(72) > 0) THEN ! we put the MFROT ifq flag to the value set in friction interface 
               INTFRIC = IPARI(72) 
               IPARI(30) = INTBUF_FRIC_TAB(INTFRIC)%FRICMOD 
               IPARI(31) = INTBUF_FRIC_TAB(INTFRIC)%IFFILTER

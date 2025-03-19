@@ -427,7 +427,7 @@ C--------Default coefficients define in friction interface
              ENDDO
            ENDIF
         ENDDO
-        IF(NTY == 24.OR.NTY == 25) THEN
+        IF(NTY == 24.OR.NTY == 25.OR.NTY==21) THEN
           DO I=1,JLT-JLT_TIED
            VISCFFRIC(I) = ZERO
           ENDDO

@@ -42,14 +42,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6 NOD2ELTG ,IGRSURFS ,IGRSURFM  ,IELEM21 ,
      7 THK      ,AS        ,BS       ,IXS10   ,IXS16    ,
      8 IXS20    ,ID        ,TITR     ,IGEO    ,SH4TREE  ,
-     9 SH3TREE  ,IPART    ,IPARTC    ,IPARTTG ,PM_STACK , 
-     A IWORKSH )
+     9 SH3TREE  ,IPART     ,IPARTC   ,IPARTTG ,PM_STACK , 
+     A IWORKSH  ,INTFRIC   ,TAGPRT_FRIC,IPARTFRICS,IPARTFRICM,
+     B INTBUF_FRIC_TAB,IPARTS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE GROUPDEF_MOD
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      USE INTBUF_FRIC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,6 +68,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NRTS, NRTM, NINT, NTY, NOINT, NSN, NMN
+      INTEGER , INTENT(IN) :: INTFRIC
       INTEGER IRECTS(4,*), IRECTM(4,*), IXS(NIXS,*), IXC(NIXC,*),
      .   NSV(*), IXTG(NIXTG,*), 
      .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*),
@@ -81,11 +84,15 @@ C     REAL
       CHARACTER(LEN=NCHARTITLE) :: TITR
       TYPE (SURF_) :: IGRSURFS
       TYPE (SURF_) :: IGRSURFM
+      TYPE(INTBUF_FRIC_STRUCT_),INTENT(INOUT) ::  INTBUF_FRIC_TAB(NINTERFRIC)
+      INTEGER,INTENT(INOUT) ::  IPARTFRICS(NSN),IPARTFRICM(NRTM)
+      INTEGER,INTENT(IN) ::  TAGPRT_FRIC(NPART)
+      INTEGER, DIMENSION(NUMELS), INTENT(IN) :: IPARTS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, INRT, NELS, NELC, NELTG, IE, II, MAT,N,LLT,L,N1,N2,N3,N4
-      INTEGER ITMP(NUMNOD),NLEV, MYLEV,IP,NELEM,STAT
+      INTEGER ITMP(NUMNOD),NLEV, MYLEV,IP,NELEM,STAT,IPG,IPL,IPFMAX,IPFLMAX
       INTEGER, DIMENSION(:),ALLOCATABLE ::INRTIE
 C     REAL
       my_real
@@ -195,15 +202,48 @@ C----------------------
      .            IGRSURFM%ELEM)
       IF(NELS/=0)THEN
         IELEM21(NELS)=1
+C -----Friction model ------
+        IF(INTFRIC > 0) THEN
+           IP= IPARTS(NELS)
+           IPG = TAGPRT_FRIC(IP)
+           IF(IPG > 0) THEN
+              CALL FRICTION_PARTS_SEARCH (
+     .             IPG,INTBUF_FRIC_TAB(INTFRIC)%S_TABPARTS_FRIC,
+     .             INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL )
+              IPARTFRICM(I) = IPL
+           ENDIF
+        ENDIF
         GO TO 500
       ELSE
         CALL INELTC(NELC ,NELTG ,INRT ,IGRSURFM%ELTYP, IGRSURFM%ELEM)
         IF(NELTG/=0) THEN
           IELEM21(NUMELS+NUMELQ+NUMELC+NUMELT
      .                     +NUMELP+NUMELR+NELTG)=1
+C -----Friction model ------
+         IF(INTFRIC > 0) THEN
+            IP= IPARTTG(NELTG)
+            IPG = TAGPRT_FRIC(IP)
+            IF(IPG > 0) THEN
+              CALL FRICTION_PARTS_SEARCH (
+     .             IPG,INTBUF_FRIC_TAB(INTFRIC)%S_TABPARTS_FRIC,
+     .             INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL )
+              IPARTFRICM(I) = IPL
+            ENDIF
+          ENDIF
           GO TO 500
         ELSEIF(NELC/=0) THEN
           IELEM21(NUMELS+NUMELQ+NELC)=1
+C -----Friction model ------
+         IF(INTFRIC > 0) THEN
+            IP= IPARTC(NELC)
+            IPG = TAGPRT_FRIC(IP)
+            IF(IPG > 0) THEN
+              CALL FRICTION_PARTS_SEARCH (
+     .             IPG,INTBUF_FRIC_TAB(INTFRIC)%S_TABPARTS_FRIC,
+     .             INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL )
+              IPARTFRICM(I) = IPL
+            ENDIF
+          ENDIF
           GO TO 500
         END IF
       END IF
@@ -258,10 +298,49 @@ C
          ENDIF
        ENDIF
       ELSE
-        IF(NELS/=0)  IELEM21(NELS)=1
-        IF(NELTG/=0) IELEM21(NUMELS+NUMELQ+NUMELC+NUMELT
+        IF(NELS/=0)  THEN
+          IELEM21(NELS)=1
+C -----Friction model ------
+          IF(INTFRIC > 0) THEN
+            IP= IPARTS(NELS)
+            IPG = TAGPRT_FRIC(IP)
+            IF(IPG > 0) THEN
+              CALL FRICTION_PARTS_SEARCH (
+     .             IPG,INTBUF_FRIC_TAB(INTFRIC)%S_TABPARTS_FRIC,
+     .             INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL )
+              IPARTFRICM(I) = IPL
+            ENDIF
+           ENDIF
+        ENDIF
+        IF(NELTG/=0) THEN
+           IELEM21(NUMELS+NUMELQ+NUMELC+NUMELT
      .                     +NUMELP+NUMELR+NELTG)=1
-        IF(NELC/=0)  IELEM21(NUMELS+NUMELQ+NELC)=1
+C -----Friction model ------
+          IF(INTFRIC > 0) THEN
+            IP= IPARTTG(NELTG)
+            IPG = TAGPRT_FRIC(IP)
+            IF(IPG > 0) THEN
+              CALL FRICTION_PARTS_SEARCH (
+     .             IPG,INTBUF_FRIC_TAB(INTFRIC)%S_TABPARTS_FRIC,
+     .             INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL )
+              IPARTFRICM(I) = IPL
+            ENDIF
+          ENDIF
+        ENDIF
+        IF(NELC/=0) THEN
+          IELEM21(NUMELS+NUMELQ+NELC)=1
+C -----Friction model ------
+          IF(INTFRIC > 0) THEN
+            IP= IPARTC(NELC)
+            IPG = TAGPRT_FRIC(IP)
+            IF(IPG > 0) THEN
+              CALL FRICTION_PARTS_SEARCH (
+     .             IPG,INTBUF_FRIC_TAB(INTFRIC)%S_TABPARTS_FRIC,
+     .             INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL )
+              IPARTFRICM(I) = IPL
+            ENDIF
+          ENDIF
+        ENDIF
       END IF
   500 CONTINUE
 C---------------------------
@@ -483,6 +562,76 @@ C overwrite
       IF(INTTH > 0) THEN
         DEALLOCATE(CONTRIB_KEY,CONTRIB_VALUE)
       ENDIF
+
+C -----Friction model  secnd nodes parts------
+      IF(INTFRIC > 0) THEN
+        IF(NUMELS  /= 0)THEN
+          DO I = 1,NSN   
+             IPFMAX = 0
+             IPFLMAX = 0
+             DO J= KNOD2ELS(NSV(I))+1,KNOD2ELS(NSV(I)+1)
+               IE = NOD2ELS(J)
+               IP = IPARTS(IE)
+               IPG = TAGPRT_FRIC(IP)
+               IF(IPG > 0 .AND. IP > IPFMAX) THEN
+                  CALL FRICTION_PARTS_SEARCH (
+     .                           IPG,INTBUF_FRIC_TAB(INTFRIC)%S_TABPARTS_FRIC,
+     .                           INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL ) 
+                  IF(IPL /= 0) THEN
+                     IPFMAX = IP
+                     IPFLMAX = IPL
+                  ENDIF
+               ENDIF
+            ENDDO
+            IF(IPFMAX /= 0) THEN
+              IPARTFRICS(I) = IPFLMAX
+            ENDIF
+
+          ENDDO
+        ENDIF  
+
+        IF(NUMELC /= 0 .OR. NUMELTG  /= 0) THEN
+          DO I = 1,NSN  
+             IPFMAX = 0
+             IPFLMAX = 0
+             DO J= KNOD2ELC(NSV(I))+1,KNOD2ELC(NSV(I)+1)
+               IE = NOD2ELC(J)
+               IP = IPARTC(IE)
+               IPG = TAGPRT_FRIC(IP)
+               IF(IPG > 0 .AND. IP > IPFMAX) THEN
+                  CALL FRICTION_PARTS_SEARCH (
+     .                           IPG,INTBUF_FRIC_TAB(INTFRIC)%S_TABPARTS_FRIC,
+     .                             INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL )  
+                  IF(IPL /= 0) THEN
+                     IPFMAX = IP
+                     IPFLMAX = IPL
+                  ENDIF
+               ENDIF
+            ENDDO
+C
+            DO J= KNOD2ELTG(NSV(I))+1,KNOD2ELTG(NSV(I)+1) 
+               IE = NOD2ELTG(J)
+               IP = IPARTTG(IE)
+               IPG = TAGPRT_FRIC(IP)
+               IF(IPG > 0.AND.IP > IPFMAX) THEN 
+                  CALL FRICTION_PARTS_SEARCH (
+     .                           IPG,INTBUF_FRIC_TAB(INTFRIC)%S_TABPARTS_FRIC,
+     .                           INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL ) 
+
+                  IF(IPL /= 0) THEN
+                     IPFMAX = IP
+                     IPFLMAX = IPL
+                  ENDIF
+               ENDIF
+            ENDDO
+            IF(IPFMAX /= 0) THEN
+              IPARTFRICS(I) = IPFLMAX
+            ENDIF
+
+          ENDDO
+        ENDIF  
+      ENDIF
+
 C---------------------------
       RETURN
       END
