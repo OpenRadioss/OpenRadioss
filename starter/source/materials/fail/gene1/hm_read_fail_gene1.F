@@ -75,7 +75,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,NSTEP,NCS,fct_IDsm,fct_IDps,fct_IDg12,fct_IDg13,
      .        fct_IDe1c,fct_IDel,Itab,tab_IDfld,Istrain,CRIT,
-     .        Ismooth,NCRIT_MAX,NFUNC,NTABLE,NUPARAM,NUVAR,NMODE
+     .        Ismooth,NCRIT_MAX,NFUNC,NTABLE,NUPARAM,NUVAR,NMODE,FAILIP 
       INTEGER ,PARAMETER :: NSIZE = 6
       INTEGER ,DIMENSION(NSIZE) :: IFUNC
       my_real 
@@ -252,6 +252,8 @@ C===============================================================================
 !---------------
 ! -> Card6
 !---------------
+      CALL HM_GET_INTV   ('FAILIP'       ,FAILIP    ,IS_AVAILABLE,LSUBMODEL)
+      IF (FAILIP == 0)  FAILIP  = 1
       CALL HM_GET_FLOATV ('MAT_VOLFRAC'  ,VOLFRAC   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV ('Pthk'         ,PTHK      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_INTV   ('MAT_NCS'      ,NCS       ,IS_AVAILABLE,LSUBMODEL)
@@ -355,7 +357,7 @@ C===============================================================================
 c     Filling buffer tables
 c-----------------------------------------------------    
       NUVAR   = 8 
-      NUPARAM = 22
+      NUPARAM = 23
       NFUNC   = 6
       NTABLE  = 0
       IF (tab_IDfld > 0) NTABLE = 1
@@ -420,6 +422,7 @@ c
       FAIL%UPARAM(20) = MAXTEMP
       FAIL%UPARAM(21) = Fscale_el
       FAIL%UPARAM(22) = El_ref
+      FAIL%UPARAM(23)= FAILIP
 c--------------------------
 c     Printout data
 c-------------------------- 
@@ -480,7 +483,7 @@ c--------------------------
      .    .OR.(tab_IDfld > 0.AND.Itab == 2))) WRITE(IOUT,7100) El_ref
         ! Element deletion properties
         WRITE(IOUT,7101)
-        WRITE(IOUT,6000) VOLFRAC,PTHK
+        WRITE(IOUT,6000) VOLFRAC,PTHK,FAILIP
         WRITE(IOUT,5001) NSTEP
         WRITE(IOUT,8000)
       ENDIF
@@ -555,7 +558,8 @@ c-----------------------------------------------------
      & 5X,'VOLUME FRACTION FOR SOLID ELEMENT DELETION . . . . .=',1PG20.13,/,
      & 5X,'SHELL ELEMENT DELETION PARAMETER PTHICKFAIL. . . . .=',1PG20.13,/,
      & 5X,'  > 0.0 : FRACTION OF FAILED THICKNESS               ',/,
-     & 5X,'  < 0.0 : FRACTION OF FAILED INTG. POINTS OR LAYERS  ',/)
+     & 5X,'  < 0.0 : FRACTION OF FAILED INTG. POINTS OR LAYERS  ',/,
+     & 5X,'NUMBER OF FAILED INTG. POINTS PRIOR TO ELEM DELETION  .=',I10/)
  6001 FORMAT(
      & 5X,'MAXIMUM TEMPERATURE  . . . . . . . . . . . . . . . .=',1PG20.13,/)
  7000 FORMAT(

@@ -68,7 +68,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  :: IRFUN,DMG_FLAG
+      INTEGER  :: IRFUN,DMG_FLAG,FAILIP 
       my_real  :: RF1,RF2,RIEF1,RIEF2,SCALE_EPSP,PTHK
 C----------------------------------------
        LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
@@ -88,6 +88,8 @@ Card1
       CALL HM_GET_INTV           ('fct_ID'     ,IRFUN      ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV         ('xscale'     ,SCALE_EPSP ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_INTV           ('I_Dam'      ,DMG_FLAG   ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV           ('FAILIP'       ,FAILIP  ,IS_AVAILABLE,LSUBMODEL) 
+      IF (FAILIP == 0)  FAILIP  = 1
 C=======================================================================
       IF (RIEF1 <= ZERO) RIEF1 = EP30
       IF (RIEF2 <= ZERO) RIEF2 = TWO*EP30      
@@ -108,7 +110,7 @@ c---------------------------
       FAIL%KEYWORD = 'ENERGY' 
       FAIL%IRUPT   = IRUPT 
       FAIL%FAIL_ID = FAIL_ID 
-      FAIL%NUPARAM = 5
+      FAIL%NUPARAM = 6
       FAIL%NIPARAM = 0
       FAIL%NUVAR   = 1
       FAIL%NFUNC   = 1
@@ -127,13 +129,14 @@ c
       FAIL%UPARAM(3) = PTHK
       FAIL%UPARAM(4) = ONE/SCALE_EPSP
       FAIL%UPARAM(5) = DMG_FLAG   
+      FAIL%UPARAM(6)= FAILIP
 C
       FAIL%IFUNC(1)  = IRFUN
 C=============================================  
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT, 1000)
       ELSE       
-       WRITE(IOUT, 2000) RIEF1,RIEF2,IRFUN,SCALE_EPSP
+       WRITE(IOUT, 2000) RIEF1,RIEF2,IRFUN,SCALE_EPSP,FAILIP
       ENDIF
       RETURN
 C=============================================  
@@ -146,7 +149,8 @@ C=============================================
      & 5X,'MAXIMUM SPECIFIC ENERGY 1. . . . . . . =',E12.4/
      & 5X,'MAXIMUM SPECIFIC ENERGY 2. . . . . . . =',E12.4/
      & 5X,'MAXIMUM ENERGIES SCALING FUNCTION. . . =',I8/
-     & 5X,'ABSCISSA SCALE FACTOR FOR FUNCTION . . =',E12.4/)       
+     & 5X,'ABSCISSA SCALE FACTOR FOR FUNCTION . . =',E12.4/,
+     & 5X,'NUMBER OF FAILED INTG. POINTS PRIOR TO ELEM DELETION  .=',I10/)      
 c----------- 
       RETURN
       END

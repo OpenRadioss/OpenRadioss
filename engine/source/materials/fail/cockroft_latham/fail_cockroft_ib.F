@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .          TIME     ,DPLA     ,OFF      ,DFMAX,  
      .          TDEL     ,IOUT     ,ISTDO    ,EPSXX    ,
      .          IPT      ,SIGNXX   ,SIGNXY   ,SIGNXZ   ,
-     .          NVARF    , UVAR    ,FOFF)   
+     .          NVARF    , UVAR    ,FOFF     ,UELR,NPG)
 !====================================================================
 ! cockroft  failure model for integrated beams
 C-----------------------------------------------
@@ -54,7 +54,7 @@ C-----------------------------------------------
       my_real                     ,INTENT(IN)    :: TIME    ! current time
       my_real ,DIMENSION(NUPARAM) ,INTENT(IN)    :: UPARAM  ! failure model parameter array
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: DPLA    ! plastic strain increment
-      my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: OFF     ! element deactivation flag
+      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: OFF     ! element desactivation flag
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: SIGNXX  ! stress component
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: SIGNXY  ! stress component
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: SIGNXZ  ! stress component
@@ -65,10 +65,12 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: DFMAX   ! maximum damage
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: TDEL    ! deactivation time
       my_real ,DIMENSION(NEL,NVARF),INTENT(INOUT) :: UVAR  
+      my_real, DIMENSION(NEL)     ,INTENT(INOUT)  :: UELR 
+      INTEGER                      ,INTENT(IN)    :: NPG    
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NINDXF
+      INTEGER I,J,NINDXF,failip
       INTEGER ,DIMENSION(NEL) :: INDXF
       my_real
      .                            C0,EMA,EEQ,SIG_A,SIG_FILTRE,R,Q,I1,S11,
@@ -81,6 +83,8 @@ c     UVAR(I,3) contains the previous first principal stress
 c     UVAR(I,4) contains total strain
       C0                  = UPARAM(1)
       EMA                 = UPARAM(2)
+      FAILIP  = MIN(NINT(UPARAM(3)),NPG) ! 	Number of failed integration point prior to solid element deletion. default = 1 (integer)
+
       NINDXF              = 0                                   
 c-----------------------------   
       IF(C0 < ZERO)THEN   ! equivalent strain 
@@ -138,6 +142,10 @@ c-----------------------------
             NINDXF  = NINDXF + 1  
             INDXF(NINDXF) = I
             DFMAX(I)      = ONE
+            UELR(I)     = UELR(I) + ONE
+            IF (NINT(UELR(I)) >= FAILIP) THEN 
+              OFF(I)    = FOUR_OVER_5
+            ENDIF
           ENDIF 
         ENDIF
       ENDDO
@@ -147,12 +155,17 @@ C!
 #include "lockon.inc"
           WRITE(IOUT, 1000) NGL(I),IPT,TIME
           WRITE(ISTDO,1000) NGL(I),IPT,TIME
+          IF (OFF(I) == FOUR_OVER_5) THEN 
+            WRITE(IOUT, 1111) NGL(I),TIME
+            WRITE(ISTDO,1111) NGL(I),TIME
+          ENDIF  
 #include "lockoff.inc" 
 
        ENDDO
 c------------------
  1000 FORMAT(5X,'FAILURE (COCKROFT-LATHAM) OF BEAM ELEMENT ',I10,1X,',INTEGRATION PT',I5
      .      ,2X,'AT TIME :',1PE12.4)
+ 1111 FORMAT(1X,'DELETED BEAM ELEMENT ',I10,1X,'AT TIME :',1PE12.4)
 c------------------
 
        RETURN
