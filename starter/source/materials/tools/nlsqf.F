@@ -561,7 +561,7 @@ C=======================================================================
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE LAW69_NLSQF(LAWID,STRETCH,Y,MA,NMUAL,NPT,MUAL,
-     $                       ICHECK, NSTART, ERRTOL,ID,TITR)
+     $                       ICHECK, NSTART, ERRTOL,ID,TITR,IS_ENCRYPTED)
       USE MESSAGE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
 C-----------------------------------------------
@@ -577,6 +577,7 @@ C-----------------------------------------------
       PARAMETER (MAXA=20)
 
       INTEGER LAWID, NPT, MA, ICHECK, NSTART
+      INTEGER , INTENT(IN) :: IS_ENCRYPTED
       my_real ERRTOL
       INTEGER I,NONZERO(MAXA),IDUM,ITER,ICOUNT,J,K,NMUAL  
       my_real GAMMA,ERRNOW,GASDEV,ERRPRE,
@@ -649,9 +650,10 @@ c     the combinations
       my_real  SPREADY
       INTEGER IRET
       INTEGER IRND1
-
+! ------------------------------------------------------------------------------       
       ALLOCATE (SIG(1:NPT))
-
+!
+      !
       IF ( MAXA < MA ) THEN
         WRITE(*,*) 'ERROR, MAXA < MA'
         WRITE(*,*) __FILE__,__LINE__
@@ -1021,11 +1023,12 @@ C
           MUAL(I) = ZERO
         ENDDO
       ENDIF
-
-      WRITE(IOUT,'(//6X,A,/)')'FITTING RESULT COMPARISON:'
-      WRITE(IOUT,'(6X,A,/)')'UNIAXIAL TEST DATA'
-      WRITE(IOUT,'(A20,5X,A20,A30)') 'NOMINAL STRAIN',
+       IF(IS_ENCRYPTED == 0)THEN
+        WRITE(IOUT,'(//6X,A,/)')'FITTING RESULT COMPARISON:'
+        WRITE(IOUT,'(6X,A,/)')'UNIAXIAL TEST DATA'
+         WRITE(IOUT,'(A20,5X,A20,A30)') 'NOMINAL STRAIN',
      *      'NOMINAL STRESS(TEST)', 'NOMINAL STRESS(RADIOSS)'
+       ENDIF  
     
 c     output curcves to .csv format to simplify visualization    
       ICURV = 0
@@ -1039,17 +1042,18 @@ c     output curcves to .csv format to simplify visualization
         WRITE(ICURV,'(A)') 'NOMINAL STRAIN, NOMINAL STRESS(TEST), '//
      $                     'NOMINAL STRESS(RADIOSS)'
       ENDIF
-
-      DO I=1,NPT
-        CALL OGDEN0(STRETCH(I), A, YOGD, NMUAL)
+       IF(IS_ENCRYPTED == 0)THEN
+        DO I=1,NPT
+           CALL OGDEN0(STRETCH(I), A, YOGD, NMUAL)
 !!        WRITE(IOUT,'(F18.4,F20.4,F28.4)') 
-        WRITE(IOUT, '(1F18.6, 3X,1F20.13, 6X, 1F20.13)')
-     *   STRETCH(I)-ONE,Y(I),YOGD
-        IF (ICURV > 0) THEN
+          WRITE(IOUT, '(1F18.6, 3X,1F20.13, 6X, 1F20.13)')
+     *     STRETCH(I)-ONE,Y(I),YOGD
+          IF (ICURV > 0) THEN
            WRITE(ICURV, '(F18.4, A, F18.4, A, F18.4)') 
      $            STRETCH(I)-ONE,',',Y(I),',',YOGD
-        ENDIF
-      ENDDO      
+          ENDIF
+        ENDDO    
+      ENDIF    
 
       WRITE(IOUT, *) ''
       WRITE(IOUT, '(A)') '-------------------------------------------'

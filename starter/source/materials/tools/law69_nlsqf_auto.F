@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE LAW69_NLSQF_AUTO(LAWID,STRETCH,Y,MA,NMUAL,NPT,MUAL,
-     $                            ICHECK, NSTART, ERRTOL,ID,TITR)
+     $                            ICHECK, NSTART, ERRTOL,ID,TITR , IS_ENCRYPTED)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -53,7 +53,7 @@ C-----------------------------------------------
     !   D u m m y   A r g u m e n t s
     !----------------------------------------------- 
       INTEGER ,  INTENT(INOUT) :: LAWID, NMUAL, MA,ICHECK
-      INTEGER ,  INTENT(IN)    :: NPT, NSTART,ID
+      INTEGER ,  INTENT(IN)    :: NPT, NSTART,ID,IS_ENCRYPTED
       my_real ,  INTENT(IN)    :: ERRTOL
       my_real , DIMENSION(NPT) , INTENT(IN) :: Y,STRETCH
       my_real , DIMENSION(10), INTENT(INOUT) :: MUAL
@@ -81,6 +81,7 @@ C-----------------------------------------------
 
       my_real, DIMENSION(:), ALLOCATABLE :: SIG
 !!=======================================================================
+      !
       ISWITCH = 0 
       MINITER_LM = 5
       MAXITER_LM = 100 
@@ -341,17 +342,18 @@ C
           MUAL(I) = ZERO
         ENDDO
       ENDIF
-
-      WRITE(IOUT,'(//6X,A,/)')'FITTING RESULT COMPARISON:'
-      WRITE(IOUT,'(6X,A,/)')'UNIAXIAL TEST DATA'
-      WRITE(IOUT,'(A20,5X,A20,A30)') 'NOMINAL STRAIN',
+       IF(IS_ENCRYPTED == 0)THEN
+         WRITE(IOUT,'(//6X,A,/)')'FITTING RESULT COMPARISON:'
+        WRITE(IOUT,'(6X,A,/)')'UNIAXIAL TEST DATA'
+        WRITE(IOUT,'(A20,5X,A20,A30)') 'NOMINAL STRAIN',
      *      'NOMINAL STRESS(TEST)', 'NOMINAL STRESS(RADIOSS)'
-      DO I=1,NPT
-        CALL OGDEN0(STRETCH(I), AS, YOGD, NMUALS)
-        WRITE(IOUT, '(1F18.6, 3X,1F20.13, 6X, 1F20.13)')
-     *   STRETCH(I)-ONE,Y(I),YOGD
-      ENDDO      
-
+        DO I=1,NPT
+          CALL OGDEN0(STRETCH(I), AS, YOGD, NMUALS)
+          WRITE(IOUT, '(1F18.6, 3X,1F20.13, 6X, 1F20.13)')
+     *     STRETCH(I)-ONE,Y(I),YOGD
+        ENDDO    
+      ENDIF    
+!
       WRITE(IOUT, '(A)') '-------------------------------------------'
       WRITE(IOUT, '(A,F10.2,A)') 'AVERAGED ERROR OF FITTING : ', 
      .                            ERRAVE_MIN*100.0, '%'
