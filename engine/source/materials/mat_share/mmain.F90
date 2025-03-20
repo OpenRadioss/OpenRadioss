@@ -188,7 +188,7 @@
         &mfyy,        mfyz,        mfzx,        mfzy,&
         &mfzz,        ipm,         gama,        fr_wav,&
         &dxy,         dyx,         dyz,         dzy,&
-        &dzx,         dxz,         istrain,     tempel,&
+        &dzx,         dxz,         istrain,     tempel0,&
         &die,         iexpan,      ilay,        mssa,&
         &dmels,       iptr,        ipts,        iptt,&
         &table,       fvd2,        fdeltax,     fssp,&
@@ -283,6 +283,7 @@
           integer,intent(in) :: h3d_strain
           integer,intent(in) :: offset
           integer,dimension(n_var_iparg),intent(in) :: iparg1
+          my_real, dimension(mvsiz)     ,intent(in) :: tempel0
           !
           my_real,intent(in) :: dt2t
           my_real, dimension(mvsiz,6), intent(inout)  :: svis
@@ -360,12 +361,11 @@
           my_real, dimension(mvsiz), intent(inout) :: mfzx
           my_real, dimension(mvsiz), intent(inout) :: mfzy
           my_real, dimension(mvsiz), intent(inout) :: mfzz
-          my_real, dimension(mvsiz), intent(inout) :: tempel
           my_real, dimension(mvsiz), intent(inout) :: die
           my_real, dimension(mvsiz), intent(inout) :: r3_dam
           my_real, dimension(mvsiz), intent(inout) :: r4_amu
           my_real, dimension(mvsiz), intent(inout) :: fheat
-          target :: varnl,defp,tempel
+          target :: varnl,defp
 
           type(ttable) table(*)
           type (elbuf_struct_), target, dimension(ngroup) :: elbuf_tab
@@ -398,7 +398,7 @@
           my_real ss1(mvsiz),ss2(mvsiz), ss3(mvsiz),ss4(mvsiz),ss5(mvsiz),ss6(mvsiz)
           my_real r11(mvsiz),r12(mvsiz),r13(mvsiz),r21(mvsiz),r22(mvsiz),r23(mvsiz),r31(mvsiz),r32(mvsiz),r33(mvsiz)
           my_real dpla(mvsiz),tstar(mvsiz),epsp(mvsiz),xk(mvsiz),                  &
-          &       tempel0(mvsiz), fscal_alpha , sigl(mvsiz,6)
+          &       fscal_alpha , sigl(mvsiz,6)
           my_real es1(mvsiz), es2(mvsiz),  es3(mvsiz),  es4(mvsiz),  es5(mvsiz),   &
           &       es6(mvsiz), eint(mvsiz), dpdm(mvsiz), dpde(mvsiz),ecold(mvsiz),  &
           &       vol(mvsiz),al_imp(mvsiz),signor(mvsiz,6)
@@ -414,7 +414,7 @@
           &       p01(mvsiz), p02(mvsiz), e01(mvsiz), e02(mvsiz),                  &
           &       er1v(mvsiz), er2v(mvsiz), wdr1v(mvsiz), wdr2v(mvsiz),w1(mvsiz),  &
           &       heat_meca_l,volg(mvsiz),de1(nel),de2(nel),de3(nel),de4(nel),     &
-          &       de5(nel),de6(nel)
+          &       de5(nel),de6(nel),vecnul(nel)
 
           my_real q1,q2,q3,str1,str2,str3,str4,str5,str6,wxxf,wyyf,wzzf
 
@@ -425,7 +425,7 @@
 !
           character option*256
           integer length
-          target :: deltax
+          target :: deltax,vecnul
 !--------------------------------------------
           my_real, external :: finter
 !--------------------------------------------
@@ -515,7 +515,8 @@
           jsms = iparg(52,ng)
           ipartsph = iparg(69,ng)
           
-          fheat(:) = zero
+          vecnul(:) = zero
+          fheat(:)  = zero
 
 ! compatibility with deprecated law 20
           if(ilay < 0) then
@@ -711,10 +712,12 @@
 ! --------------------------------------------------------
 !    storage used for element temperature (in Gauss points)
 ! --------------------------------------------------------
-          if (jthe == 0 .and. elbuf_tab(ng)%bufly(ilay)%l_temp > 0) then
-            el_temp => lbuf%temp(1:nel) ! adiabatic conditions => element buffer
+          if (jthe /= 0) then
+            el_temp => gbuf%temp(1:nel)    ! calculated from nodal temp with /heat/mat
+          else if (elbuf_tab(ng)%bufly(ilay)%l_temp > 0) then
+            el_temp => lbuf%temp(1:nel) ! local temp from mat in adiabatic conditions
           else
-            el_temp => tempel(1:nel)    ! /heat/mat => local, from actualized nodal temperature
+            el_temp => vecnul(1:nel)
           end if
 ! --------------------------------------------------------
 !    thermal material istrope expansion
@@ -734,10 +737,9 @@
         do i=1,nel
           ifunc_alpha = ipm(219,imat)
           fscal_alpha = pm(191,imat)
-          tempel0(i)  = lbuf%temp(i)
-          alpha = finter(ifunc_alpha,tempel(i),npf,tf,bidon1)
+          alpha = finter(ifunc_alpha,gbuf%temp(i),npf,tf,bidon1)
           alpha = alpha * fscal_alpha
-          eth(i)= alpha *(tempel(i)-tempel0(i))*off(i)
+          eth(i)= alpha *(gbuf%temp(i)-tempel0(i))*off(i)
           lbuf%forth(i) = lbuf%forth(i) + eth(i)  ! lbuf%forth the total thermal strain over time
           epsth(i)= three*lbuf%forth(i)
           dxx(i)  = dxx(i)-eth(i)/dt1
@@ -755,9 +757,11 @@
 !-----tstar computation for jonhson cook failure : t* = (t-tref)/(tmelt-tref) => move to JC routine
       tref  = pm(79, imat)
       tmelt = pm(80, imat)
-      do i=1,nel
-        tstar(i) = max(zero,(el_temp(i)-tref) / max((tmelt-tref),em20) )
-      enddo
+      if (jthe /= 0 .or. elbuf_tab(ng)%bufly(ilay)%l_temp > 0) then
+        tstar(1:nel) = max(zero,(el_temp(1:nel)-tref) / max((tmelt-tref),em20) )
+      else
+        tstar(1:nel) = zero
+      end if
 !-----------------------------------
 !     eos part1
 !-----------------------------------
@@ -1832,7 +1836,7 @@
             &jthe,       et,         mssa,       dmels,&
             &iptr,       ipts,       iptt,       table,&
             &fvd2,       fdeltax,    fssp,       fqvis,&
-            &tempel,     iparg1,     igeo,       lbuf%sigv,&
+            &gbuf%temp,     iparg1,     igeo,       lbuf%sigv,&
             &al_imp,     signor,     istrain,    ng,&
             &elbuf_tab,  vbuf,       ilay,       lbuf%vk,&
             &iparg,      bufvois,    vdx,        vdy,&
@@ -1878,7 +1882,7 @@
             &x,           jthe,        et,          mssa,&
             &dmels,       iptr,        ipts,        iptt,&
             &table,       fvd2,        fdeltax,     fssp,&
-            &fqvis,       tempel,      igeo,        lbuf%sigv,&
+            &fqvis,       gbuf%temp,      igeo,        lbuf%sigv,&
             &al_imp,      signor,      istrain,     ng,&
             &elbuf_tab,   vbuf,        ilay,        lbuf%vk,&
             &ale_connect, iparg,       bufvois,     vdx,&
@@ -2549,7 +2553,7 @@
                 &ngl      ,gbuf%dt  ,epsp     ,uvarf    ,off      ,npg      ,&
                 &es1      ,es2      ,es3      ,es4      ,es5      ,es6      ,&
                 &ss1      ,ss2      ,ss3      ,ss4      ,ss5      ,ss6      ,&
-                &tempel   ,voln     ,dfmax    ,tdel     ,deltax   ,table    ,&
+                &el_temp  ,voln     ,dfmax    ,tdel     ,deltax   ,table    ,&
                 &ir       ,elbuf_tab(ng),ilay ,ntabl_fail,itabl_fail,lf_dammx,&
                 &niparam  ,iparamf  )
 !
@@ -2567,7 +2571,7 @@
                 &npf      ,table    ,tf       ,tt       ,uparamf,&
                 &ngl      ,el_len   ,dpla     ,epsp     ,uvarf    ,&
                 &ss1      ,ss2      ,ss3      ,ss4      ,ss5      ,ss6      ,&
-                &tempel   ,off      ,dfmax    ,tdel     ,lbuf%dmgscl,&
+                &gbuf%temp,off      ,dfmax    ,tdel     ,lbuf%dmgscl,&
                 &gbuf%uelr,ipg      ,npg      ,lbuf%off ,ntabl_fail,itabl_fail,&
                 gbuf%noff,voln      )
 !
@@ -2578,7 +2582,7 @@
                 &table    ,ntabl_fail,itabl_fail,tt       ,uparamf,&
                 &ngl      ,el_len   ,dpla     ,epsp     ,uvarf    ,&
                 &ss1      ,ss2      ,ss3      ,ss4      ,ss5      ,ss6      ,&
-                &el_pla   ,tempel   ,sigy     ,off      ,dfmax    ,&
+                &el_pla   ,gbuf%temp   ,sigy     ,off      ,dfmax    ,&
                 &tdel     ,lbuf%dmgscl,gbuf%uelr,ipg      ,npg      ,&
                 &lbuf%off ,damini   ,gbuf%vol ,inloc    )
 !
@@ -2755,13 +2759,6 @@
               end if
             end do
           end if
-!-----------------------------------------------------------------
-          if (iexpan > 0 .or. jthe <0) then
-            do i=1,nel
-              if(off(i) == zero) cycle
-              lbuf%temp(i) = tempel(i)
-            enddo
-          endif
 !----------------------------------------------------------------
 !     Shooting nodes algorithm activation
 !----------------------------------------------------------------

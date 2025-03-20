@@ -234,7 +234,7 @@ C-----------------------------------------------
      .   RY1(MVSIZ), RY2(MVSIZ), RY3(MVSIZ), RY4(MVSIZ),
      .   ZCFAC(MVSIZ,2),GS(MVSIZ),
      .   SRH1(MVSIZ),SRH2(MVSIZ),SRH3(MVSIZ),A_I(MVSIZ),
-     .   DIE(MVSIZ),TEMPEL(MVSIZ),THEM(MVSIZ,4),BID,
+     .   DIE(MVSIZ),TEMPEL0(MVSIZ),THEM(MVSIZ,4),BID,
      .   UX1(MVSIZ),UX2(MVSIZ),UX3(MVSIZ),UX4(MVSIZ),
      .   UY1(MVSIZ),UY2(MVSIZ),UY3(MVSIZ),UY4(MVSIZ),
      .   DSUB(MVSIZ,3,4),DRSUB(MVSIZ,3,4),TSUB(MVSIZ),
@@ -276,8 +276,8 @@ C-----
       NLAY = ELBUF_STR%NLAY
       SEDRAPE = SCDRAPE
       NUMEL_DRAPE = NUMELC_DRAPE
-      TEMPEL(:) = ZERO
-      FHEAT(: ) = ZERO
+      TEMPEL0(:) = ZERO
+      FHEAT(: )  = ZERO
 
 cc      NPT  = MAX(NLAY,NPTT) --> set to = IPARG(6) , keeping it original
 C                                 to allow for NPT = 0 (global LAW_3)
@@ -489,8 +489,9 @@ C
      9            WXY    ,GBUF%STRW ,F_DEF    ,NEL    )
 c-------------------------------------------
       ! transfer nodal temperature to gauss point from /heat/mat
-      IF (JTHE /= 0) THEN      
-        CALL TEMPCG(NUMNOD,NEL   ,IXC  ,TEMP ,TEMPEL )
+      IF (JTHE /= 0) THEN
+        TEMPEL0(1:NEL) = GBUF%TEMP(1:NEL)  
+        CALL TEMPCG(NUMNOD,NEL   ,IXC  ,TEMP ,GBUF%TEMP)
       ENDIF
 c-------------------------------------------
 c    COMPUTE Regularized non local variable in Gauss point
@@ -538,7 +539,7 @@ C-----------------------------
      C  KFTS        ,IHBE        ,ALPE        ,
      D  DIR_A       ,DIR_B       ,IGEO        ,
      E  IPM         ,IFAILURE    ,NPG         ,FHEAT      ,
-     F  TEMPEL      ,DIE         ,JTHE        ,IEXPAN     ,GBUF%TEMP  ,
+     F  DIE         ,JTHE        ,IEXPAN      ,TEMPEL0    ,
      G  IBID        ,BID         ,
      H  BID         ,BID         ,BID         ,BID        ,BID        ,
      I  BID         ,BID         ,BID         ,E1X        ,E1Y        ,
@@ -656,19 +657,19 @@ C----------------------------
      9            M23    ,M24    ,M31     ,M32     ,M33    ,M34    ,
      A            E1X    ,E1Y    ,E1Z     ,E2X     ,E2Y    ,E2Z    ,
      B            E3X    ,E3Y    ,E3Z     ,IHBE    ,NPTTOT ,FZERO  )
-C-------------------------
-c     Thermique des coques 
 C--------------------------
-C
-       IF (JTHE /= 0) THEN   ! /heat/mat
+c     Thermal  des coques 
+C--------------------------
+       IF (JTHE /= 0) THEN
+         !< calculate nodal thermal force for thermal equations with /heat/mat
          IF (MAT_ELEM%MAT_PARAM(MAT(1))%HEAT_FLAG == 1) THEN
-           CALL THERMC(JFT   ,JLT   ,PM     ,MAT     ,THK0  ,IXC     ,
-     .                 PX1   ,PX2   ,PY1    ,PY2     ,AREA  ,DT1C    ,
-     .                 TEMP  ,TEMPEL,FHEAT  , THEM   ,GLOB_THERM%THEACCFACT) 
+           CALL THERMC(JFT   ,JLT      ,PM     ,MAT     ,THK0  ,IXC     ,
+     .                 PX1   ,PX2      ,PY1    ,PY2     ,AREA  ,DT1C    ,
+     .                 TEMP  ,GBUF%TEMP,FHEAT  , THEM   ,GLOB_THERM%THEACCFACT) 
          ELSE
-           CALL THERMC(JFT   ,JLT   ,PM     ,MAT     ,THK0  ,IXC     ,
-     .                 PX1   ,PX2   ,PY1    ,PY2     ,AREA  ,DT1C    ,
-     .                 TEMP  ,TEMPEL,DIE   , THEM    ,GLOB_THERM%THEACCFACT) 
+           CALL THERMC(JFT   ,JLT      ,PM     ,MAT     ,THK0  ,IXC     ,
+     .                 PX1   ,PX2      ,PY1    ,PY2     ,AREA  ,DT1C    ,
+     .                 TEMP  ,GBUF%TEMP,DIE   , THEM    ,GLOB_THERM%THEACCFACT) 
          END IF
        ENDIF
 C--------------------------
@@ -676,7 +677,7 @@ C     THERMAL TIME STEP
 C--------------------------
       IF (JTHE /= 0 .AND. GLOB_THERM%IDT_THERM == 1) THEN
            call dttherm(nel     ,pm(1,mat(1))  ,npropm  ,glob_therm   ,
-     .                  jtur    ,tempel  ,vol0    ,rho       ,
+     .                  jtur    ,gbuf%temp,vol0    ,rho       ,
      .                  aldt    ,off     ,conde   ,gbuf%re   ,gbuf%rk )
       ENDIF 
 c-------------------------

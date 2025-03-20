@@ -186,7 +186,7 @@ c  indx utilise localement contrairement aux coques 4n
      .   BZ1(MVSIZ,2),BZ2(MVSIZ,2),BZ3(MVSIZ,2), BRX1(MVSIZ,3),
      .   BRX2(MVSIZ,3),BRX3(MVSIZ,3),BRY1(MVSIZ,3),BRY2(MVSIZ,3),
      .   BRY3(MVSIZ,3),AMU(MVSIZ),CDET(MVSIZ),VDEF(MVSIZ,8),DIE(MVSIZ), 
-     .   TEMPEL(MVSIZ),KRZ(MVSIZ),DIR1_CRK(NPT,MVSIZ),
+     .   TEMPEL0(MVSIZ),KRZ(MVSIZ),DIR1_CRK(NPT,MVSIZ),
      .   DIR2_CRK(NPT,MVSIZ),CONDE(MVSIZ),A11R(MVSIZ)
       my_real, 
      .   DIMENSION(1),TARGET :: BID
@@ -252,8 +252,8 @@ C---
       SEDRAPE = STDRAPE
       NUMEL_DRAPE = NUMELTG_DRAPE
       ! thermal transfert for 3n shells type cdkforc is not available
-      TEMPEL(:) = ZERO
-      FHEAT(: ) = ZERO
+      TEMPEL0(:) = ZERO
+      FHEAT(: )  = ZERO
 !
       DO J=1,5
         KK(J) = NEL*(J-1)
@@ -436,7 +436,7 @@ C----------------------------------------------------------------------------
      C     KFTS      ,IHBE      ,ALPE      ,
      D     DIR_A     ,DIR_B     ,IGEO      ,
      E     IPM       ,IFAILURE  ,NPG       ,FHEAT     ,
-     F     TEMPEL    ,DIE       ,IBID      ,IBID      ,BID       ,
+     F     DIE       ,IBID      ,IBID      ,TEMPEL0   ,
      G     IBID      ,BID       ,
      H     BID       ,BID       ,BID       ,BID       ,BID       ,
      I     BID       ,BID       ,BID       ,R11       ,R12       ,
@@ -545,7 +545,7 @@ C     THERMAL TIME STEP
 C--------------------------
         IF (JTHE /= 0 .AND. GLOB_THERM%IDT_THERM == 1) THEN
            call dttherm(nel     ,pm(1,mat(1))  ,npropm  ,glob_therm   ,
-     .                  jtur    ,tempel  ,vol0    ,rho       ,
+     .                  jtur    ,gbuf%temp  ,vol0    ,rho       ,
      .                  aldt    ,off     ,conde   ,gbuf%re   ,gbuf%rk )
          ENDIF
 C--------------------------
