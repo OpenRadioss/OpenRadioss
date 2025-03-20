@@ -470,7 +470,7 @@ C-----------------------------
      R    INDX_DRAPE ,THKE, SEDRAPE  ,NUMEL_DRAPE,DT   ,
      Q    NCYCLE     ,SNPC      ,  STF,NXLAYMAX ,
      S    IDEL7NOK   ,USERL_AVAIL ,MAXFUNC  ,NPTTOT    ,SBUFMAT,
-     T    SDIR_A     ,SDIR_B  )
+     T    SDIR_A     ,SDIR_B   ,GBUF%FOR_G)
 C-----------------------------
         IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(TIMERS,35)
 C-----------------------------
