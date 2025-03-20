@@ -1334,25 +1334,31 @@ cc                K2 = K1 - 1
                 EVAR(I) = GBUF%EINT(I) + GBUF%EINT(I+LLT)
               ENDDO
 c---
-            ELSEIF (IFUNC == 4) THEN   ! TEMP
-              DO I = LFT, LLT
-                EVAR(I) = ZERO
-              ENDDO
-              NPGT = NPG*NPTT
-              DO IL=1,NLAY                                              
-                IF(ELBUF_TAB(NG)%BUFLY(IL)%L_TEMP>0) THEN
-                  DO IS=1,NPTS                                            
-                    DO IT=1,NPTT                                          
-                      DO IR=1,NPTR    
-                        LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
-                        DO I=LFT,LLT
-                          EVAR(I) = EVAR(I) + LBUF%TEMP(I)/NPGT
+            ELSEIF (IFUNC == 4) THEN   ! ELEMENT TEMPERATURE
+              IF (JTHE /= 0) THEN
+                EVAR(1:NEL) = GBUF%TEMP(1:NEL)
+              ELSE
+                EVAR(1:NEL) = ZERO
+                NPTT = 0
+                DO IL=1,NLAY
+                  IF (ELBUF_TAB(NG)%BUFLY(IL)%L_TEMP > 0) THEN
+                    NPTT = NPTT + ELBUF_TAB(NG)%BUFLY(IL)%NPTT
+                  ENDIF
+                END DO
+                NPG = NPTR*NPTS*NPTT
+                DO IL=1,NLAY
+                  IF (ELBUF_TAB(NG)%BUFLY(IL)%L_TEMP > 0) THEN
+                    DO IT=1,ELBUF_TAB(NG)%BUFLY(IL)%NPTT
+                      DO IS=1,NPTS
+                        DO IR=1,NPTR
+                          LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
+                          EVAR(1:NEL) = EVAR(1:NEL) + LBUF%TEMP(1:NEL)/NPG
                         ENDDO
                       ENDDO
                     ENDDO
-                  ENDDO
-                ENDIF
-              ENDDO            
+                  ENDIF
+                ENDDO
+              END IF
 c---
             ELSEIF (IFUNC == 5) THEN   ! THK
              IF (ITHK >0) THEN

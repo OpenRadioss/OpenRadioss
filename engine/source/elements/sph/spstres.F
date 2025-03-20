@@ -147,7 +147,7 @@ C-----
      . RX(MVSIZ) , RY(MVSIZ) , RZ(MVSIZ) ,
      . SX(MVSIZ) , SY(MVSIZ) , SZ(MVSIZ) ,GAMA(MVSIZ,6),
      . VDX(MVSIZ), VDY(MVSIZ), VDZ(MVSIZ) ,SSP_EQ(MVSIZ),AIRE(MVSIZ),
-     . TEMPEL(MVSIZ)
+     . TEMPEL0(MVSIZ)
 C-----
 C Variables utilisees en argument par les materiaux.
       my_real
@@ -187,7 +187,7 @@ C-----------------------------------------------
       IBID = 0
       GBUF => ELBUF_TAB(NG)%GBUF
       LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
-      TEMPEL(:) = ZERO
+      TEMPEL0(:) = ZERO
 C-----------
       NF1=NFT+1
 C-----------
@@ -234,9 +234,10 @@ C     when particle is sleeping, stresses (global system) do not rotate.
      3   ISORTH)
 C-----------
 Cbm   compute temperature in element
-      IF (JTHE < 0) CALL SPTEMPEL(
-     1   KXSP,    TEMP,    TEMPEL,  LFT,
-     2   LLT,     NFT)
+      IF (JTHE < 0) THEN
+        TEMPEL0(1:NEL) = GBUF%TEMP(1:NEL)  
+        CALL SPTEMPEL(KXSP,    TEMP,    GBUF%TEMP,  LFT,    LLT,     NFT)
+      END IF
       DIE(1:MVSIZ)=ZERO
 C------------------------------------------------------
 C     CALCUL DES CONTRAINTES SUIVANT LOIS CONSTITUTIVES
@@ -265,7 +266,7 @@ C     LAW 11 uses IELVS=IBIDON and IXS=IBIDON should not be used.
      I   DYY,         DYZ,         DZX,         DZY,
      J   DZZ,         IPM,         GAMA,        BID,
      K   BID,         BID,         BID,         BID,
-     L   BID,         BID,         ISTRAIN,     TEMPEL,
+     L   BID,         BID,         ISTRAIN,     TEMPEL0,
      M   DIE,         IEXPAN,      ILAY,           BID,
      N   BID,         1,           1,           1,
      O   TABLE,       BID,         BID,         BID,

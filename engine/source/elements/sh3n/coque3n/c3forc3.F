@@ -215,7 +215,7 @@ C-----------------------------------------------
      .   NU(MVSIZ) , SHF(MVSIZ), DT1C(MVSIZ),
      .   G(MVSIZ)   , YM(MVSIZ)  , A11(MVSIZ)   , A12(MVSIZ),
      .   VOL0(MVSIZ),THK02(MVSIZ),ZCFAC(MVSIZ,2), GS(MVSIZ),
-     .   VOL00(MVSIZ),ALPE(MVSIZ),DIE(MVSIZ), TEMPEL(MVSIZ),
+     .   VOL00(MVSIZ),ALPE(MVSIZ),DIE(MVSIZ), TEMPEL0(MVSIZ),
      .   E1X0(MVSIZ), E1Y0(MVSIZ), E1Z0(MVSIZ), E2X0(MVSIZ),
      .   E2Y0(MVSIZ), E2Z0(MVSIZ), E3X0(MVSIZ), E3Y0(MVSIZ), E3Z0(MVSIZ),
      .   E1X(MVSIZ), E1Y(MVSIZ), E1Z(MVSIZ), E2X(MVSIZ),
@@ -272,8 +272,8 @@ C-----------------------------------------------
       NLAY  = ELBUF_STR%NLAY
       SEDRAPE = STDRAPE
       NUMEL_DRAPE = NUMELTG_DRAPE
-      TEMPEL(:) = ZERO
-      FHEAT(: ) = ZERO
+      TEMPEL0(:) = ZERO
+      FHEAT(: )  = ZERO
 cc      NPT  = MAX(NLAY,NPTT) --> set to = IPARG(6) , keeping it original
 C                                 to allow for NPT = 0 (global LAW_3
       NPG  = 1
@@ -523,8 +523,11 @@ c-------------------------------------------
         ENDDO
       ENDIF           
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-      IF (JTHE /= 0 ) CALL TEMP3CG(JFT   ,JLT   ,PM     ,MAT   ,IXTG,   
-     .                             TEMP ,TEMPEL )
+      ! transfer nodal temperature to gauss point from /heat/mat
+      IF (JTHE /= 0) THEN
+        TEMPEL0(1:NEL) = GBUF%TEMP(1:NEL)  
+        CALL TEMP3CG(JFT   ,JLT   ,PM     ,MAT   ,IXTG, TEMP ,GBUF%TEMP )
+      END IF
 C--------------------------
       IF ((IMON_MAT==1).AND.ITASK == 0)CALL STARTIME(TIMERS,35)
 C--------------------------
@@ -543,7 +546,7 @@ C--------------------------
      C   KFTS      ,ISH3N     ,ALPE      ,
      D   DIR_A     ,DIR_B     ,IGEO      ,
      E   IPM       ,IFAILURE  ,NPG       ,FHEAT     ,
-     F   TEMPEL    ,DIE       ,JTHE      ,IEXPAN    ,GBUF%TEMP ,
+     F   DIE       ,JTHE      ,IEXPAN    ,TEMPEL0   ,
      G   IBID      ,BID       ,
      H   BID       ,BID       ,BID       ,BID       ,BID       ,
      I   BID       ,BID       ,BID       ,E1X0      ,E1Y0       ,
@@ -626,11 +629,11 @@ C--------------------------
         IF (MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG == 1) THEN
           CALL THERM3C(NEL   ,PM(1,IMAT)      ,THK0  ,IXTG    ,
      .                 PX1   ,PY1   ,PY2    ,AREA    ,DTIME ,
-     .                 TEMP  ,TEMPEL,FHEAT  ,THEM    ,GLOB_THERM%THEACCFACT) 
+     .                 TEMP  ,GBUF%TEMP,FHEAT  ,THEM    ,GLOB_THERM%THEACCFACT) 
         ELSE
           CALL THERM3C(NEL   ,PM(1,IMAT)      ,THK0  ,IXTG    ,
      .                 PX1   ,PY1   ,PY2    ,AREA    ,DTIME   ,
-     .                 TEMP  ,TEMPEL,DIE    ,THEM    ,GLOB_THERM%THEACCFACT) 
+     .                 TEMP  ,GBUF%TEMP,DIE    ,THEM    ,GLOB_THERM%THEACCFACT) 
         END IF
       ENDIF
 C--------------------------
@@ -638,8 +641,8 @@ C     THERMAL TIME STEP
 C--------------------------
       IF (JTHE > 0 .AND. GLOB_THERM%IDT_THERM == 1)THEN
            call dttherm(nel     ,pm(1,mat(1))  ,npropm  ,glob_therm   ,
-     .                  jtur    ,tempel  ,vol0    ,rho       ,
-     .                  aldt    ,off     ,conde   ,gbuf%re   ,gbuf%rk )
+     .                  jtur    ,gbuf%temp,vol0    ,rho       ,
+     .                  aldt    ,off      ,conde   ,gbuf%re   ,gbuf%rk )
       ENDIF 
 C-------------------------
 C     ASSEMBLY

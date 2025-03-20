@@ -200,7 +200,7 @@ C-----------------------------------------------
       my_real
      . SIGY(MVSIZ),ET(MVSIZ),GAMA(MVSIZ,6),
      . R1_FREE(MVSIZ),R3_FREE(MVSIZ),R4_FREE(MVSIZ),
-     . TEMPEL(MVSIZ),DIE(MVSIZ),THEM(MVSIZ,NPE)
+     . TEMPEL0(MVSIZ),DIE(MVSIZ),THEM(MVSIZ,NPE)
       my_real, dimension(mvsiz) :: fheat
      
       ! Variables utilisees dans les routines solides uniquement (en arguments).
@@ -293,7 +293,7 @@ c
       SZ_IX=NUMELQ+NUMELS+NSVOIS
       IBID   = 0
       IBIDON = 0
-      TEMPEL(:) = ZERO
+      TEMPEL0(:) = ZERO
       FHEAT(:)  = ZERO
       NF1  = NFT+1
       NF2  = NF1-(NUMELS8+NUMELS10)
@@ -418,8 +418,9 @@ C-----------------------------
 C
 C         for heat transfert
 C
-          IF (JTHE < 0 ) THEN
-             CALL S20TEMPCG(1,NEL,NPE, NC,NI(1,IP),TEMP,TEMPEL)
+          IF (JTHE /= 0) THEN
+            TEMPEL0(1:NEL) = GBUF%TEMP(1:NEL)  
+            CALL S20TEMPCG(1,NEL,NPE, NC,NI(1,IP),TEMP,GBUF%TEMP)
           ENDIF             
 C------------------------------------------------------
 C         CALCUL DES CONTRAINTES SUIVANT LOIS CONSTITUTIVES
@@ -445,7 +446,7 @@ C------------------------------------------------------
      I   BID,         BID,         BID,         BID,
      J   BID,         IPM,         GAMA,        BID,
      K   BID,         BID,         BID,         BID,
-     L   BID,         BID,         ISTRAIN,     TEMPEL,
+     L   BID,         BID,         ISTRAIN,     TEMPEL0,
      M   DIE,         IEXPAN,      ILAY,        MBID,
      N   MBID,        IR,          IS,          IT,
      O   TABLE,       BID,         BID,         BID,
@@ -498,14 +499,14 @@ C--------------------------
               CALL S20THERM(
      1             NPE,       PM,       IMAT,       NC,
      2             VOLN,      PX(1,1,IP),PY(1,1,IP),PZ(1,1,IP),
-     3             NI(1,IP),  DT1,       TEMP,      TEMPEL,
+     3             NI(1,IP),  DT1,       TEMP,      GBUF%TEMP,
      4             FHEAT,     THEM,      GBUF%OFF,  LBUF%OFF,
      5             NEL        ,GLOB_THERM%THEACCFACT)
             ELSE
               CALL S20THERM(
      1             NPE,       PM,       IMAT,       NC,
      2             VOLN,      PX(1,1,IP),PY(1,1,IP),PZ(1,1,IP),
-     3             NI(1,IP),  DT1,       TEMP,      TEMPEL,
+     3             NI(1,IP),  DT1,       TEMP,      GBUF%TEMP,
      4             DIE ,      THEM,      GBUF%OFF,  LBUF%OFF,
      5             NEL        ,GLOB_THERM%THEACCFACT)
             END IF

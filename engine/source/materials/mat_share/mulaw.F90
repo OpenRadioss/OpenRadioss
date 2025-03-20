@@ -609,14 +609,13 @@
 !
           ! Save old value of OFF flag
           off_old(1:nel) = off(1:nel)
-
-
+!
           if (mtn == 67) then
             el_temp => uvar(nft+1:nft+nel)
-          elseif (jthe == 0 .and. elbuf_tab(ng)%bufly(ilay)%l_temp > 0) then
-            el_temp => ltemp     ! lbuf%temp
-          else
-            el_temp => tempel(1:nel)
+          else if (jthe /= 0) then
+            el_temp => tempel(1:nel)     ! gbuf%temp
+          elseif (elbuf_tab(ng)%bufly(ilay)%l_temp > 0) then
+            el_temp => ltemp             ! lbuf%temp
           endif
 
           !initial scale factor for yield stress defined per ipg,npi

@@ -193,7 +193,7 @@ c     indx utilise localement contrairement aux coques 4n
      .   NU(MVSIZ),SHF(MVSIZ),DT1C(MVSIZ),
      .   G(MVSIZ),YM(MVSIZ),A11(MVSIZ),A12(MVSIZ),
      .   VOL0(MVSIZ),THK02(MVSIZ),ZCFAC(MVSIZ,2),GS(MVSIZ),
-     .   VOL00(MVSIZ),ALPE(MVSIZ),DIE(MVSIZ),TEMPEL(MVSIZ),
+     .   VOL00(MVSIZ),ALPE(MVSIZ),DIE(MVSIZ),TEMPEL0(MVSIZ),
      .   E1X0(MVSIZ), E1Y0(MVSIZ), E1Z0(MVSIZ), E2X0(MVSIZ),
      .   E2Y0(MVSIZ), E2Z0(MVSIZ), E3X0(MVSIZ), E3Y0(MVSIZ), E3Z0(MVSIZ),
      .   E1X(MVSIZ),E1Y(MVSIZ),E1Z(MVSIZ),E2X(MVSIZ),
@@ -231,7 +231,7 @@ C
 !
       my_real,
      .  DIMENSION(:) ,POINTER  ::  OFFG,THKG,STRAG,FORG,MOMG,
-     .  EINTG,EPSDG,TEMPG,EINTTH,HOURGG
+     .  EINTG,EPSDG,EINTTH,HOURGG
       DOUBLE PRECISION,
      .  DIMENSION(:) ,POINTER  ::  SMSTRG
       my_real,
@@ -316,7 +316,7 @@ C
           ZCFAC(I,1) = ONE
           ZCFAC(I,2) = ONE
           ALPE(I)    = ONE
-          TEMPEL(I) = ZERO
+          TEMPEL0(I) = ZERO
         ENDDO
 C---
         ILEV = NXEL*(IXLAY-1) + IXEL
@@ -349,7 +349,6 @@ c
           MOMG   => LBUF%MOM
           EINTG  => LBUF%EINT
           EPSDG  => LBUF%EPSD
-          TEMPG  => LBUF%TEMP
           EINTTH => LBUF%EINTTH
           HOURGG => BUFLY%HOURG
         ELSEIF (NXLAY == 1) THEN
@@ -361,7 +360,6 @@ c
           MOMG   => GBUF%MOM
           EINTG  => GBUF%EINT
           EPSDG  => GBUF%EPSD
-          TEMPG  => GBUF%TEMP
           EINTTH => GBUF%EINTTH
           HOURGG => GBUF%HOURG
         ENDIF
@@ -444,8 +442,10 @@ c
      9               F_DEF  ,WKXY    ,GBUF%STRW,NEL     )
 C
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-        IF (JTHE > 0 ) CALL TEMP3CG(JFT  ,JLT   ,PM     ,MAT   ,IXTG,   
-     .                              TEMP ,TEMPEL)
+        IF (JTHE /= 0) THEN
+          TEMPEL0(1:NEL) = GBUF%TEMP(1:NEL)  
+          CALL TEMP3CG(JFT  ,JLT   ,PM     ,MAT   ,IXTG, TEMP ,GBUF%TEMP)
+        END IF
 C--------------------------
         IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(TIMERS,35)
 C--------------------------
@@ -464,7 +464,7 @@ C--------------------------
      C   KFTS      ,ISH3N     ,ALPE      ,
      D   DIR_A     ,DIR_B     ,IGEO      ,
      E   IPM       ,IFAILURE  ,NPG       ,FHEAT     ,
-     F   TEMPEL    ,DIE       ,JTHE     ,IEXPAN     ,TEMPG     ,
+     F   DIE       ,JTHE      ,IEXPAN    ,TEMPEL0   ,
      G   IBID      ,BID       ,
      H   BID       ,BID       ,BID       ,BID       ,BID       ,
      I   BID       ,BID       ,BID       ,E1X       ,E1Y       ,
@@ -533,11 +533,11 @@ C--------------------------
           IF (MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG == 1) THEN
             CALL THERM3C(NEL   ,PM(1,IMAT)  ,THK0 ,IXTG,
      .                   PX1   ,PY1   ,PY2  ,AREA ,DTIME ,
-     .                   TEMP  ,TEMPEL,FHEAT ,THEM ,GLOB_THERM%THEACCFACT)
+     .                   TEMP  ,GBUF%TEMP,FHEAT ,THEM ,GLOB_THERM%THEACCFACT)
           ELSE
             CALL THERM3C(NEL   ,PM (1,IMAT)  ,THK0 ,IXTG,
      .                   PX1   ,PY1   ,PY2  ,AREA  ,DTIME ,
-     .                   TEMP  ,TEMPEL,DIE  ,THEM  ,GLOB_THERM%THEACCFACT)
+     .                   TEMP  ,GBUF%TEMP,DIE  ,THEM  ,GLOB_THERM%THEACCFACT)
           END IF
         ENDIF
 C--------------------------

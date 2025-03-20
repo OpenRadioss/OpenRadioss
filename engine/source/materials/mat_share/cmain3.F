@@ -69,7 +69,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      C           KFTS      ,JHBE      ,ALPE      ,
      D           DIR_A     ,DIR_B     ,IGEO      ,  
      E           IPM       ,IFAILURE  ,NPG       ,FHEAT     ,
-     F           TEMPEL    ,DIE       ,JTHE      ,IEXPAN    ,TEMPEL0    ,
+     F           DIE       ,JTHE      ,IEXPAN    ,TEMPEL0    ,
      G           ISHPLYXFEM,PLY_EXX   ,
      H           PLY_EYY   ,PLY_EXY   ,PLY_EXZ   ,PLY_EYZ   ,PLY_F      ,
      I           DEL_PLY   ,TH_IPLY   ,SIG_IPLY  ,E1X       ,E1Y        ,
@@ -146,7 +146,7 @@ C-----------------------------------------------
      .   OFF(MVSIZ) ,THK0(MVSIZ) ,NU(MVSIZ),DT1C(MVSIZ),
      .   EXX(MVSIZ), EYY(MVSIZ), EXY(MVSIZ), EXZ(MVSIZ), EYZ(MVSIZ),
      .   KXX(MVSIZ), KYY(MVSIZ), KXY(MVSIZ), AREA(MVSIZ),
-     .   ZCFAC(MVSIZ,2),ALPE(MVSIZ),DIR_A(SDIR_A),DIR_B(SDIR_B),TEMPEL(*),DIE(*),
+     .   ZCFAC(MVSIZ,2),ALPE(MVSIZ),DIR_A(SDIR_A),DIR_B(SDIR_B),DIE(*),
      .   TEMPEL0(MVSIZ), PLY_F(MVSIZ,5,*),
      .   PLY_EXX(MVSIZ,*),PLY_EYY(MVSIZ,*),PLY_EXY(MVSIZ,*), 
      .   PLY_EXZ(MVSIZ,*),PLY_EYZ(MVSIZ,*),DEL_PLY(MVSIZ,3,*) ,
@@ -211,18 +211,15 @@ C     add source terme for law not user
       ELSE
         DIE(JFT:JLT)   = ZERO
       ENDIF
-c-----------------
+c--------------------------------------------------------------------------
       IF (IEXPAN > 0 .AND. JTHE > 0) THEN
-c
-        IF (TT == ZERO) TEMPEL0(JFT:JLT) = TEMPEL(JFT:JLT)
-        DTEMP(JFT:JLT) = TEMPEL(JFT:JLT) - TEMPEL0(JFT:JLT) 
-        TEMPEL0(JFT:JLT) = TEMPEL(JFT:JLT)
+        DTEMP(1:nel) = GBUF%TEMP(1:nel) - TEMPEL0(1:nel) 
 c
         IF (IGTYP /= 11 .AND. IGTYP /= 17 .AND. IGTYP /=51 .AND. IGTYP /= 52) THEN
           IFUNC_ALPHA = IPM(219, MX) 
           FSCAL_ALPHA = PM(191, MX)
           DO I=JFT,JLT 
-            ALPHA = FINTER(IFUNC_ALPHA,TEMPEL(I),NPF,TF,DF)
+            ALPHA = FINTER(IFUNC_ALPHA,GBUF%TEMP(I),NPF,TF,DF)
             ALPHA = ALPHA * FSCAL_ALPHA
             ETH(I) = ALPHA*DTEMP(I)
             DEINTTH = -HALF*(FOR(I,1) + FOR(I,2))*ETH(I)*THK0(I)*AREA(I)
@@ -236,7 +233,7 @@ c-----Tstar computation for Jhonson cook failure : T* = (T-T0)/(TM-T0)----
         T0 = PM(79, MX) 
         TM = PM(80, MX) 
         DO I=JFT,JLT   
-           TSTAR(I)=MAX(ZERO,(TEMPEL(I)-T0)/(TM-T0))
+           TSTAR(I)=MAX(ZERO,(GBUF%TEMP(I)-T0)/(TM-T0))
         ENDDO
       ELSE
         TSTAR(JFT:JLT) = ZERO
@@ -293,7 +290,7 @@ c
      7       INDXDEL ,NGL     ,THKLY   ,MATLY   ,ZCFAC   ,NG      ,
      8       SHF     ,GS      ,SIGY    ,THK0    ,EPSP    ,
      9       POSLY   ,IGEO    ,IPM     ,FAILWAVE,FWAVE_EL,
-     A       IFAILURE,ALDT    ,TEMPEL  ,DIE     ,
+     A       IFAILURE,ALDT    ,GBUF%TEMP  ,DIE     ,
      B       E1X     ,E1Y     ,E1Z     ,E2X     ,E2Y     ,E2Z     ,
      C       E3X     ,E3Y     ,E3Z     ,TABLE   ,IXFEM   ,ELCRKINI,
      D       DIR1_CRK,DIR2_CRK,IPARG   ,JHBE    ,ISMSTR  ,JTHE    ,
@@ -324,7 +321,7 @@ c
      7       INDXDEL ,NGL     ,THKLY   ,MATLY   ,ZCFAC   ,MAT_ELEM,
      8       SHF     ,GS      ,SIGY    ,THK0    ,EPSP    ,
      9       POSLY   ,IGEO    ,IPM     ,FAILWAVE,FWAVE_EL,
-     A       IFAILURE,ALDT    ,TEMPEL  ,DIE     ,FHEAT   ,
+     A       IFAILURE,ALDT    ,DIE     ,FHEAT   ,
      B       TABLE   ,IXFEM   ,ELCRKINI,
      D       SENSORS ,NG      ,IDT_THERM,THEACCFACT,  
      E       DIR1_CRK,DIR2_CRK,IPARG   ,JHBE    ,ISMSTR  ,JTHE    ,
@@ -347,7 +344,7 @@ C----------------------------------------------------------------------
      3                  PM   ,NPT   ,AREA        ,A11   ,A12   ,
      4                  MAT  ,MTN   ,GBUF%EINTTH ,DIR_A ,IR    ,
      5                  IS   ,NLAY  ,THK         ,NEL   ,IGTYP ,
-     6                  NPF  , TF   , IPM        , TEMPEL ,DTEMP,
+     6                  NPF  , TF   , IPM        , GBUF%TEMP ,DTEMP,
      7                  THKLY ,POSLY,MOM, MATLY )    
       ENDIF
 

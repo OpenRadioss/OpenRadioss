@@ -228,7 +228,7 @@ C-----------------------------------------------
      . AJ1(MVSIZ) , AJ2(MVSIZ) , AJ3(MVSIZ) ,
      . AJ4(MVSIZ) , AJ5(MVSIZ) , AJ6(MVSIZ) ,
      . VDX(MVSIZ) , VDY(MVSIZ) , VDZ(MVSIZ),SSP_EQ(MVSIZ),AIRE(MVSIZ),
-     . E0(MVSIZ),C1,FAC(MVSIZ),THEM(MVSIZ,8),TEMPEL(MVSIZ),NI(8),
+     . E0(MVSIZ),C1,FAC(MVSIZ),THEM(MVSIZ,8),TEMPEL0(MVSIZ),NI(8),
      . DIE(MVSIZ),CONDE(MVSIZ),CONDEN(MVSIZ),AMU(MVSIZ)
 C-----
 C Variables utilisees en argument par les materiaux.
@@ -432,7 +432,7 @@ C=======================================================================
       SZ_IX=NUMELQ+NUMELS+NSVOIS
       SZ_R1_FREE=MVSIZ
       GBUF   => ELBUF_TAB(NG)%GBUF
-      TEMPEL(:) = ZERO
+      TEMPEL0(:) = ZERO
       FHEAT(:)  = ZERO
 !
       DO I=1,6
@@ -639,14 +639,12 @@ C-----------
 C-------------------------------------------
 C    COMPUTE AVERAGE TEMPERATURE IN ELEMENT
 C-------------------------------------------
-      IF(JTHE < 0) THEN 
+      IF (JTHE /= 0) THEN 
          DO I=LFT,LLT
-           IF(GBUF%OFF(I) == ZERO) CYCLE
-           TEMPEL(I) = ONE_OVER_8 *(  TEMP(NC1(I)) + TEMP(NC2(I))  
-     .                          + TEMP(NC3(I)) + TEMP(NC4(I)) 
-     .                          + TEMP(NC5(I)) + TEMP(NC6(I)) 
-     .                          + TEMP(NC7(I)) + TEMP(NC8(I)))
-           GBUF%TEMP(I) = TEMPEL(I)
+           GBUF%TEMP(I) = ONE_OVER_8 * (TEMP(NC1(I)) + TEMP(NC2(I))  
+     .                               +  TEMP(NC3(I)) + TEMP(NC4(I)) 
+     .                               +  TEMP(NC5(I)) + TEMP(NC6(I)) 
+     .                               +  TEMP(NC7(I)) + TEMP(NC8(I))) * GBUF%OFF(I)
          ENDDO
       ENDIF
 C
@@ -891,7 +889,7 @@ C
         MX = MXT(LFT)
         DO I=LFT,LLT
           RHOO(I) = LBUF%RHO(I)
-          TEMPEL(I) = PM(79,MX)
+c          TEMPEL(I) = PM(79,MX)
         ENDDO
         IF (IGTYP == 22)  
      .     CALL SCTORTH3(
@@ -967,11 +965,11 @@ C-----------------------------
 C
 C       for heat transfert
 C
-        IF (JTHE < 0 ) THEN
+        IF (JTHE /= 0) THEN
          CALL S8ZTEMPEL(LFT,LLT,NI,
      1                 ZR,ZS,ZT,
      2                 NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,
-     3                 TEMP,TEMPEL)
+     3                 TEMP,GBUF%TEMP)
         ENDIF    
 C------------------------------------------------------
 C     CALCUL DES CONTRAINTES SUIVANT LOIS CONSTITUTIVES
@@ -1005,7 +1003,7 @@ c
      I   MFYY(1,IP),  MFYZ(1,IP),  MFZX(1,IP),  MFZY(1,IP),
      J   MFZZ(1,IP),  IPM,         GAMA,        BID,
      K   BID,         BID,         BID,         BID,
-     L   BID,         BID,         ISTRAIN,     TEMPEL,
+     L   BID,         BID,         ISTRAIN,     TEMPEL0,
      M   DIE,         IEXPAN,     CURRENT_LAYER,MSSA,
      N   DMELS,       IR,          IS,          IT,
      O   TABLE,       BID,         BID,         BID,
@@ -1144,7 +1142,7 @@ C----------------------------
 CC-------------------------
 c    finite element heat transfert  
 C--------------------------
-          IF (JTHE < 0) THEN
+          IF (JTHE /= 0) THEN
             IF (MAT_ELEM%MAT_PARAM(MX)%HEAT_FLAG == 1) THEN
               CALL S8ETHERM(
      1             PM,      MX ,    VOLN,    NI,
@@ -1156,7 +1154,7 @@ C--------------------------
      7             PX5,     PX6,     PX7,     PX8,
      8             PY5,     PY6,     PY7,     PY8,
      9             PZ5,     PZ6,     PZ7,     PZ8,
-     A             DT1,     TEMP,    TEMPEL,  FHEAT,
+     A             DT1,     TEMP,    GBUF%TEMP,  FHEAT,
      B             THEM,    GBUF%OFF,LBUF%OFF,PARTSAV,
      C             IPARTS,  LBUF%VOL,NEL,GLOB_THERM%THEACCFACT)
             ELSE
@@ -1170,7 +1168,7 @@ C--------------------------
      7             PX5,     PX6,     PX7,     PX8,
      8             PY5,     PY6,     PY7,     PY8,
      9             PZ5,     PZ6,     PZ7,     PZ8,
-     A             DT1,     TEMP,    TEMPEL,  DIE,
+     A             DT1,     TEMP,    GBUF%TEMP,  DIE,
      B             THEM,    GBUF%OFF,LBUF%OFF,PARTSAV,
      C             IPARTS,  LBUF%VOL,NEL,GLOB_THERM%THEACCFACT)
             END IF

@@ -381,24 +381,25 @@ C--------------------------------------------------
 C--------------------------------------------------
               ELSEIF(KEYWORD == 'TEMP')THEN
 C--------------------------------------------------
-                IF (GBUF%G_TEMP > 0) THEN
-                  VALUE(1:NEL) = ZERO
-                  DO IL=1,NLAY
-                    IF (ELBUF_TAB(NG)%BUFLY(IL)%L_TEMP > 0) THEN
+              IF (JTHE /= 0) THEN
+                VALUE(1:NEL) = ELBUF_TAB(NG)%GBUF%TEMP(1:NEL)
+                IS_WRITTEN_VALUE(1:NEL) = 1
+              ELSE
+                VALUE(1:NEL) = ZERO
+                DO IL=1,NLAY
+                  IF (ELBUF_TAB(NG)%BUFLY(IL)%L_TEMP > 0) THEN
+                    IS_WRITTEN_VALUE(1:NEL) = 1
+                    DO IT=1,ELBUF_TAB(NG)%BUFLY(IL)%NPTT
                       DO IS=1,NPTS
-                        DO IT=1,NPTT
-                          DO IR=1,NPTR
-                            LBUF=>ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
-                            DO I=LFT,LLT
-                              VALUE(I) = VALUE(I) + LBUF%TEMP(I)/NPTG
-                              IS_WRITTEN_VALUE(I) = 1
-                            ENDDO
-                          ENDDO
+                        DO IR=1,NPTR
+                          LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
+                          VALUE(1:NEL) = VALUE(1:NEL) + LBUF%TEMP(1:NEL)/NPTG
                         ENDDO
                       ENDDO
-                    ENDIF
-                  ENDDO
-                ENDIF
+                    ENDDO
+                  ENDIF
+                ENDDO
+              ENDIF
 C--------------------------------------------------
               ELSEIF(KEYWORD == 'P')THEN
 C--------------------------------------------------

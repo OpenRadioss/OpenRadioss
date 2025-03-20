@@ -50,7 +50,7 @@ C-----------------------------------------------
       my_real, INTENT(IN) :: THEACCFACT
       my_real :: VOL(*), PX(MVSIZ,NPE), PY(MVSIZ,NPE),PZ(MVSIZ,NPE),
      .    NI(NPE),TEMPNC(*), FPHI(MVSIZ,NPE), PM(NPROPM,*),HEAT(*),
-     .    DT1,TEMPEL(*),OFF(*),OFFG(*)
+     .    DT1,TEMPEL(NEL),OFF(*),OFFG(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
