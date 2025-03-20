@@ -112,9 +112,9 @@
  1000 format(  &
       5x,'  FREQUENCY INDEPENDENT DAMPING MODEL  :'           ,/, &
       5x,' ---------------------------------------- '         ,/)
- 1100 format(/   &
+ 1100 format(   &
        5x,'SHEAR MODULUS FOR FREQUENCY INDEPENDENT DAMPING . . . . . . =',1pg20.13 /  &
-       5x,'LIMIT STRESS FOR FREQUENCY INDEPENDENT FRICTIONAL DAMPING . =',1pg20.13  )     
+       5x,'LIMIT STRESS FOR FREQUENCY INDEPENDENT FRICTIONAL DAMPING . =',1pg20.13 / )     
      
       end subroutine hm_read_visc_plas
 !=======================================================================
