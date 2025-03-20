@@ -243,7 +243,7 @@ C-----------------------------------------------
      .   GS(MVSIZ)  ,ALPE(MVSIZ),YM(MVSIZ) ,BID,ZCFAC(MVSIZ,2),
      .   X13(MVSIZ) ,Y13(MVSIZ), X24(MVSIZ) ,AMU(MVSIZ),
      .   DD(MVSIZ,6),VOLG(MVSIZ),Y24(MVSIZ),FACN(MVSIZ,2),DIE(MVSIZ),
-     .   TEMPEL(MVSIZ),THEM(MVSIZ,4),
+     .   TEMPEL0(MVSIZ),THEM(MVSIZ,4),
      .   ZL(MVSIZ),PLY_F(MVSIZ,5, NPT), PLY_VXYZ(MVSIZ,3*NNOD,NPT),
      .   FLY11(MVSIZ, NPT), FLY21(MVSIZ, NPT), FLY31(MVSIZ, NPT),
      .   FLY12(MVSIZ, NPT), FLY22(MVSIZ, NPT), FLY32(MVSIZ, NPT),
@@ -326,8 +326,8 @@ C--------------------------
       NPINCH= IPARG(90)
       SEDRAPE = SCDRAPE
       NUMEL_DRAPE = NUMELC_DRAPE
-      TEMPEL(:) = ZERO
-      FHEAT(: ) = ZERO
+      TEMPEL0(:) = ZERO
+      FHEAT(:)   = ZERO
       IMAT = MAT(1)
 
 C
@@ -736,8 +736,10 @@ C
         ENDIF 
 C
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
+        ! transfer nodal temperature to gauss points from /heat/mat
         IF (JTHE > 0 ) THEN
-           CALL CBATEMPEL(JFT ,JLT   ,NG  ,IXC   ,TEMP ,TEMPEL)
+          TEMPEL0(1:NEL) = GBUF%TEMP(1:NEL)  
+          CALL CBATEMPEL(JFT ,JLT   ,NG  ,IXC   ,TEMP ,GBUF%TEMP)
         ENDIF
 C-----------------------------------------------------------------------
         IF (INLOC>0) THEN
@@ -766,7 +768,7 @@ C-----------------
      C    KFTS      ,IHBE      ,ALPE      ,
      D    DIR_A     ,DIR_B     ,IGEO      ,
      E    IPM       ,IFAILURE  ,NPG       ,
-     F    TEMPEL    ,DIE       ,JTHE      ,IEXPAN    ,GBUF%TEMPG(PTT) ,
+     F    DIE       ,JTHE      ,IEXPAN    ,TEMPEL0   ,
      G    ISHPLYXFEM,PLY_EXX   ,
      H    PLY_EYY   ,PLY_EXY   ,PLY_EZX   ,PLY_EYZ   ,PLY_F     ,
      I    DELG_PLY  ,TH_IPLY   ,SIG_IPLY  ,R11       ,R12       ,
@@ -795,7 +797,7 @@ C-----------------
      C    KFTS      ,IHBE      ,ALPE      ,
      D    DIR_A     ,DIR_B     ,IGEO      ,
      E    IPM       ,IFAILURE  ,NPG       ,FHEAT     ,
-     F    TEMPEL    ,DIE       ,JTHE      ,IEXPAN    ,GBUF%TEMPG(PTT) ,
+     F    DIE       ,JTHE      ,IEXPAN    ,TEMPEL0   ,
      G    ISHPLYXFEM,PLY_EXX   ,
      H    PLY_EYY   ,PLY_EXY   ,PLY_EZX   ,PLY_EYZ   ,PLY_F     ,
      I    DELG_PLY  ,TH_IPLY   ,SIG_IPLY  ,R11       ,R12       ,
@@ -876,12 +878,12 @@ C--------------------------
 C
       IF (JTHE /= 0) THEN
         IF (MAT_ELEM%MAT_PARAM(MAT(1))%HEAT_FLAG == 1) THEN
-          CALL CBATHERM(JFT   ,JLT   ,PM(1,MAT(1))     ,THK0  ,IXC     ,
-     .                  BM    ,AREA  ,DT1C(1)   ,TEMP    ,TEMPEL,FHEAT   , 
+          CALL CBATHERM(JFT   ,JLT   ,PM(1,MAT(1))    ,THK0  ,IXC     ,
+     .                  BM    ,AREA  ,DT1C(1),TEMP    ,GBUF%TEMP,FHEAT, 
      .                  NPLAT ,IPLAT,THEM    ,GLOB_THERM%THEACCFACT) 
         ELSE
-          CALL CBATHERM(JFT   ,JLT   ,PM(1,MAT(1))     ,THK0  ,IXC     ,
-     .                  BM    ,AREA  ,DT1C(1)   ,TEMP    ,TEMPEL,DIE     , 
+          CALL CBATHERM(JFT   ,JLT   ,PM(1,MAT(1))    ,THK0  ,IXC     ,
+     .                  BM    ,AREA  ,DT1C(1),TEMP    ,GBUF%TEMP,DIE  , 
      .                  NPLAT ,IPLAT,THEM    ,GLOB_THERM%THEACCFACT) 
         END IF
       ENDIF
@@ -1046,8 +1048,8 @@ C     THERMAL TIME STEP
 C--------------------------
         IF (JTHE > 0.AND. GLOB_THERM%IDT_THERM == 1)THEN
            call dttherm(nel     ,pm(1,mat(1))  ,npropm  ,glob_therm   ,
-     .                  jtur    ,tempel  ,vol0    ,rho       ,
-     .                  lc      ,off     ,conde   ,gbuf%re   ,gbuf%rk )
+     .                  jtur    ,gbuf%temp,vol0    ,rho       ,
+     .                  lc      ,off      ,conde   ,gbuf%re   ,gbuf%rk )
          ENDIF 
 C 
       IF(ISHPLYXFEM > 0) THEN                                     

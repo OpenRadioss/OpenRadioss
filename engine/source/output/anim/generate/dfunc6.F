@@ -242,20 +242,23 @@ c-----------
                 ENDDO                                                   
 c-----------
               ELSEIF (IFUNC == 4) THEN   ! element temperature
-                DO I=LFT,LLT                                            
-                  IF (GBUF%G_TEMP > 0) THEN
-                    DO IL=1,NLAY                                                           
-                      DO IS=1,NPTS                                                         
-                        DO IT=1,NPTT                                                       
-                          DO IR=1,NPTR            
-                            LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)                                                                    
-                            EVAR(I) = EVAR(I) + LBUF%TEMP(I)/NPTG              
-                          ENDDO                                                          
-                        ENDDO                                                            
-                      ENDDO                                                              
-                    ENDDO                                                                      
-                  ENDIF                                                 
-                ENDDO                                                   
+                IF (JTHE /= 0) THEN
+                  EVAR(1:NEL) = ELBUF_TAB(NG)%GBUF%TEMP(1:NEL)
+                ELSE
+                  EVAR(1:NEL) = ZERO
+                  DO IL=1,NLAY
+                    IF (ELBUF_TAB(NG)%BUFLY(IL)%L_TEMP > 0) THEN
+                      DO IT=1,ELBUF_TAB(NG)%BUFLY(IL)%NPTT
+                        DO IS=1,NPTS
+                          DO IR=1,NPTR
+                            LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
+                            EVAR(1:NEL) = EVAR(1:NEL) + LBUF%TEMP(1:NEL)/NPTG
+                          ENDDO
+                        ENDDO
+                      ENDDO
+                    ENDIF
+                  ENDDO
+              ENDIF
 c-----------
               ELSEIF(IFUNC == 6 .OR. IFUNC == 7)THEN
                   DO I=LFT,LLT

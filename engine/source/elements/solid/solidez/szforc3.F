@@ -299,7 +299,7 @@ C 8-nodes solid connectivities
      .  MFXX(MVSIZ),MFXY(MVSIZ),MFYX(MVSIZ),
      .  MFYY(MVSIZ),MFYZ(MVSIZ),MFZY(MVSIZ),
      .  MFZZ(MVSIZ),MFZX(MVSIZ),MFXZ(MVSIZ),
-     .  TEMPEL(MVSIZ),THEM(MVSIZ,8),DIE(MVSIZ),
+     .  TEMPEL0(MVSIZ),THEM(MVSIZ,8),DIE(MVSIZ),
      .  SIGY(MVSIZ), SIGO(NEL,6),ET(MVSIZ), SIGN(NEL,6),
      .  R1_FREE(MVSIZ),R3_DAM(MVSIZ),OFFG0(MVSIZ),AMU(MVSIZ),
      .  XGXA(MVSIZ),XGYA(MVSIZ),XGZA(MVSIZ),
@@ -330,7 +330,7 @@ C=======================================================================
       NPTS = IPARG(6,NG) 
       INLOC = IPARG(78,NG)
       ALLOCATE(VAR_REG(NEL))   
-      TEMPEL(:) = ZERO
+      TEMPEL0(:) = ZERO
       FHEAT(:)  = ZERO
       IBID = 0
       IBIDV = 0
@@ -654,12 +654,13 @@ C  Total strain option doesn't change the reference configuration
       END IF !(ISMSTR == 2) THEN
 C
 C Element temperature
-      IF (JTHE < 0) THEN       
+      IF (JTHE /= 0) THEN       
+        TEMPEL0(1:NEL) = GBUF%TEMP(1:NEL)  
         DO I=1,NEL
-          TEMPEL(I) = ONE_OVER_8 *(  TEMP(NC1(I)) + TEMP(NC2(I))  
-     .                             + TEMP(NC3(I)) + TEMP(NC4(I)) 
-     .                             + TEMP(NC5(I)) + TEMP(NC6(I)) 
-     .                             + TEMP(NC7(I)) + TEMP(NC8(I))) 
+          GBUF%TEMP(I) = ONE_OVER_8 * (TEMP(NC1(I)) + TEMP(NC2(I))  
+     .                              +  TEMP(NC3(I)) + TEMP(NC4(I)) 
+     .                              +  TEMP(NC5(I)) + TEMP(NC6(I)) 
+     .                              +  TEMP(NC7(I)) + TEMP(NC8(I)))
         ENDDO
       ENDIF
 C
@@ -721,7 +722,7 @@ C Compute stresses according to the material law
      I   MFYY,        MFYZ,        MFZX,        MFZY,
      J   MFZZ,        IPM,         GAMA,        BID,
      K   DXY,         DYX,         DYZ,         DZY,
-     L   DZX,         DXZ,         ISTRAIN,     TEMPEL,
+     L   DZX,         DXZ,         ISTRAIN,     TEMPEL0,
      M   DIE,         IEXPAN,      ILAY,        MSSA,
      N   DMELS,       IPTR,        IPTS,        IPTT,
      O   TABLE,       BID,         BID,         BID,
@@ -1096,7 +1097,7 @@ c===========================================================================
 c===========================================================================  
 C
 C Finite element heat transfert
-      IF (JTHE < 0) THEN
+      IF (JTHE /= 0) THEN
         IMAT = MXT(1)
         IF (MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG == 1) THEN
           CALL STHERM(
@@ -1106,7 +1107,7 @@ C Finite element heat transfert
      4         PX2,     PX3,     PX4,     PY1,
      5         PY2,     PY3,     PY4,     PZ1,
      6         PZ2,     PZ3,     PZ4,     DT1,
-     7         TEMP,    TEMPEL,  FHEAT,   THEM,
+     7         TEMP,    GBUF%TEMP,  FHEAT,   THEM,
      8         GBUF%OFF,LBUF%OFF,PARTSAV, IPARTS,
      9         GBUF%VOL,NEL     ,NUMNOD ,GLOB_THERM%THEACCFACT)
          ELSE
@@ -1117,7 +1118,7 @@ C Finite element heat transfert
      4         PX2,     PX3,     PX4,     PY1,
      5         PY2,     PY3,     PY4,     PZ1,
      6         PZ2,     PZ3,     PZ4,     DT1,
-     7         TEMP,    TEMPEL,  DIE,     THEM,
+     7         TEMP,    GBUF%TEMP,  DIE,     THEM,
      8         GBUF%OFF,LBUF%OFF,PARTSAV, IPARTS,
      9         GBUF%VOL,NEL     ,NUMNOD ,GLOB_THERM%THEACCFACT)
          END IF

@@ -120,7 +120,7 @@ C-----------------------------------------------
      .          TAG, MLW_LAY
         INTEGER PID(MVSIZ),MAT(MVSIZ),MATLY(MVSIZ*100),FAILG(100,MVSIZ),
      .          IPLY,
-     .          IOK_PART(MVSIZ),JJ(5),NPGT,IUVAR,
+     .          IOK_PART(MVSIZ),JJ(5),NPTG,IUVAR,
      .          IS_WRITTEN_VALUE(MVSIZ),IV,KFACE,NB_FACE,IADBUF,NUPARAM,ISUBMAT,IS_EULER,IS_ALE,
      .          IPINCH,IPG,USER_OK,IALEL,IMODE,NMOD,MAT_ID,MID,IERR,MT
         LOGICAL DETECTED
@@ -1046,7 +1046,7 @@ C--------------------------------------------------
               IF( GBUF%G_EPSD > 0) THEN
                 IF (MLW == 104) THEN
                   NPTT = ELBUF_TAB(NG)%BUFLY(1)%NPTT
-                  NPGT = NPTR*NPTS*NPTT
+                  NPTG = NPTR*NPTS*NPTT
                   DO I = 1,NEL
                     VALUE(I) = ZERO
                   ENDDO
@@ -1055,7 +1055,7 @@ C--------------------------------------------------
                       DO IS=1,NPTS
                         DO IR=1,NPTR
                           LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)
-                          VALUE(I) = VALUE(I) + LBUF%EPSD(I)/NPGT
+                          VALUE(I) = VALUE(I) + LBUF%EPSD(I)/NPTG
                         ENDDO
                       ENDDO
                     ENDDO
@@ -4972,10 +4972,10 @@ C--------------------------------------------------
               IF (GBUF%G_SEQ > 0) THEN
 C------------------
                 ! Total number of integration points
-                NPGT = 0
+                NPTG = 0
                 DO IL=1,NLAY
                   BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
-                  NPGT = NPGT + BUFLY%NPTT*NPTR*NPTS
+                  NPTG = NPTG + BUFLY%NPTT*NPTR*NPTS
                 ENDDO
                 ! Average equivalent stress on integration points
                 VALUE(1:NEL) = ZERO
@@ -4986,7 +4986,7 @@ C------------------
                       DO IS=1,NPTS
                         LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
                         DO I=1,NEL
-                          VALUE(I) = VALUE(I) + LBUF%SEQ(I)/NPGT
+                          VALUE(I) = VALUE(I) + LBUF%SEQ(I)/NPTG
                           IS_WRITTEN_VALUE(I) = 1
                         ENDDO
                       ENDDO
@@ -5014,13 +5014,13 @@ C--------------------------------------------------
                 ! Mean value through all integration points in the thickness
                 IF (IPT == -1) THEN
                   NPTT = ELBUF_TAB(NG)%BUFLY(1)%NPTT
-                  NPGT = NPTR*NPTS*NPTT
+                  NPTG = NPTR*NPTS*NPTT
                   DO I=1,NEL
                     DO IT = 1,NPTT
                       DO IR = 1,NPTR
                         DO IS = 1,NPTS
                           LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)
-                          VALUE(I) = VALUE(I) + LBUF%PLANL(I)/NPGT
+                          VALUE(I) = VALUE(I) + LBUF%PLANL(I)/NPTG
                         ENDDO
                       ENDDO
                     ENDDO
@@ -5028,12 +5028,12 @@ C--------------------------------------------------
                   ENDDO
                   ! Value at a given integration point in the thickness
                 ELSEIF ( IPT <= NPT .AND. IPT > 0) THEN
-                  NPGT = NPTR*NPTS
+                  NPTG = NPTR*NPTS
                   DO I=1,NEL
                     DO IR = 1,NPTR
                       DO IS = 1,NPTS
                         LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IPT)
-                        VALUE(I) = VALUE(I) + LBUF%PLANL(I)/NPGT
+                        VALUE(I) = VALUE(I) + LBUF%PLANL(I)/NPTG
                       ENDDO
                     ENDDO
                     IS_WRITTEN_VALUE(I) = 1
@@ -5052,13 +5052,13 @@ C------------------
                 ! Mean value through all integration points in the thickness
                 IF (IPT == -1) THEN
                   NPTT = ELBUF_TAB(NG)%BUFLY(1)%NPTT
-                  NPGT = NPTR*NPTS*NPTT
+                  NPTG = NPTR*NPTS*NPTT
                   DO I=1,NEL
                     DO IT = 1,NPTT
                       DO IR = 1,NPTR
                         DO IS = 1,NPTS
                           LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)
-                          VALUE(I) = VALUE(I) + LBUF%EPSDNL(I)/NPGT
+                          VALUE(I) = VALUE(I) + LBUF%EPSDNL(I)/NPTG
                         ENDDO
                       ENDDO
                     ENDDO
@@ -5066,12 +5066,12 @@ C------------------
                   ENDDO
                   ! Value at a given integration point in the thickness
                 ELSEIF ( IPT <= NPT .AND. IPT > 0) THEN
-                  NPGT = NPTR*NPTS
+                  NPTG = NPTR*NPTS
                   DO I=1,NEL
                     DO IR = 1,NPTR
                       DO IS = 1,NPTS
                         LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IPT)
-                        VALUE(I) = VALUE(I) + LBUF%EPSDNL(I)/NPGT
+                        VALUE(I) = VALUE(I) + LBUF%EPSDNL(I)/NPTG
                       ENDDO
                     ENDDO
                     IS_WRITTEN_VALUE(I) = 1
@@ -5257,40 +5257,31 @@ c
                 ENDIF
               ENDIF
 C--------------------------------------------------
-            ELSEIF (KEYWORD == 'TEMP') THEN
-              IF ((GBUF%G_TEMP > 0).AND.(MLW == 104)) THEN
-                NPTT = ELBUF_TAB(NG)%BUFLY(1)%NPTT
-                NPGT = NPTR*NPTS*NPTT
-                DO I = 1,NEL
-                  VALUE(I) = ZERO
-                ENDDO
-                DO I=1,NEL
-                  DO IT=1,NPTT
-                    DO IS=1,NPTS
-                      DO IR=1,NPTR
-                        LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)
-                        VALUE(I) = VALUE(I) + LBUF%TEMP(I)/NPGT
+            ELSEIF (KEYWORD == 'TEMP') THEN   ! ELEMENT TEMPERATURE
+              IF (JTHE /= 0) THEN
+                VALUE(1:NEL) = ELBUF_TAB(NG)%GBUF%TEMP(1:NEL)
+                IS_WRITTEN_VALUE(1:NEL) = 1
+              ELSE
+                VALUE(1:NEL) = ZERO
+                NPTT = 0
+                DO IL=1,NLAY
+                  IF (ELBUF_TAB(NG)%BUFLY(IL)%L_TEMP > 0) THEN
+                    NPTT = NPTT + ELBUF_TAB(NG)%BUFLY(IL)%NPTT
+                  ENDIF
+                END DO
+                NPTG = NPTR*NPTS*NPTT
+                DO IL=1,NLAY
+                  IF (ELBUF_TAB(NG)%BUFLY(IL)%L_TEMP > 0) THEN
+                    IS_WRITTEN_VALUE(1:NEL) = 1
+                    DO IT=1,ELBUF_TAB(NG)%BUFLY(IL)%NPTT
+                      DO IS=1,NPTS
+                        DO IR=1,NPTR
+                          LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
+                          VALUE(1:NEL) = VALUE(1:NEL) + LBUF%TEMP(1:NEL)/NPTG
+                        ENDDO
                       ENDDO
                     ENDDO
-                  ENDDO
-                  IS_WRITTEN_VALUE(I) = 1
-                ENDDO
-              ELSEIF ((GBUF%G_TEMP > 0).AND.(MLW == 110)) THEN
-                NPTT = ELBUF_TAB(NG)%BUFLY(1)%NPTT
-                NPGT = NPTR*NPTS*NPTT
-                DO I = 1,NEL
-                  VALUE(I) = ZERO
-                ENDDO
-                DO I=1,NEL
-                  DO IT=1,NPTT
-                    DO IS=1,NPTS
-                      DO IR=1,NPTR
-                        LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)
-                        VALUE(I) = VALUE(I) + LBUF%TEMP(I)/NPGT
-                      ENDDO
-                    ENDDO
-                  ENDDO
-                  IS_WRITTEN_VALUE(I) = 1
+                  ENDIF
                 ENDDO
               ENDIF
 C--------------------------------------------------
