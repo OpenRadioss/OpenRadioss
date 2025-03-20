@@ -21,9 +21,9 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>    !ommercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    visc_plas   ../engine/source/materials/visc/visc_plas.F90
+      !||    visc_plas_mod   ../engine/source/materials/visc/visc_plas.F90
       !||--- called by ------------------------------------------------------
-      !||    viscmain                  ../engine/source/materials/visc/viscmain.F
+      !||    viscmain        ../engine/source/materials/visc/viscmain.F
       !||====================================================================
       module visc_plas_mod
       contains
@@ -36,12 +36,12 @@
 !=======================================================================================================================
 !
       !||====================================================================
-      !||    dvisc_plas   ../engine/source/materials/visc/visc_plas.F90
+      !||    visc_plas        ../engine/source/materials/visc/visc_plas.F90
       !||--- called by ------------------------------------------------------
-      !||    viscmain              ../engine/source/materials/visc/viscmain.F
+      !||    viscmain         ../engine/source/materials/visc/viscmain.F
       !||--- uses       -----------------------------------------------------
-      !||    constant_mod          ../common_source/modules/constant_mod.F
-      !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    constant_mod     ../common_source/modules/constant_mod.F
+      !||    visc_param_mod   ../common_source/modules/mat_elem/visc_param_mod.F90
       !||====================================================================
         subroutine visc_plas(visc,nel     , rho, soundsp     , &
                                        depspxx  ,depspyy  ,depspzz  ,depspxy  ,depspyz  ,depspzx  , &

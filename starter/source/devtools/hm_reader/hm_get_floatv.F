@@ -348,6 +348,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_therm                 ../starter/source/materials/therm/hm_read_therm.F
       !||    hm_read_therm_stress          ../starter/source/materials/therm/hm_read_therm_stress.F90
       !||    hm_read_upwind                ../starter/source/general_controls/computation/hm_read_upwind.F
+      !||    hm_read_visc_plas             ../starter/source/materials/visc/hm_read_visc_plas.F90
       !||    hm_read_visc_prony            ../starter/source/materials/visc/hm_read_visc_prony.F
       !||    lcgeo19                       ../starter/source/elements/shell/coque/lcgeo19.F
       !||    lec_dof_jnt                   ../starter/source/properties/spring/hm_read_prop45.F

@@ -43,11 +43,13 @@
       !||    visc_param_mod         ../common_source/modules/mat_elem/visc_param_mod.F90
       !||--- called by ------------------------------------------------------
       !||    hm_read_visc_lprony    ../starter/source/materials/visc/hm_read_visc_lprony.F
+      !||    hm_read_visc_plas      ../starter/source/materials/visc/hm_read_visc_plas.F90
       !||    hm_read_visc_prony     ../starter/source/materials/visc/hm_read_visc_prony.F
       !||    matparam_def_mod       ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||    read_viscparam         ../engine/source/output/restart/read_viscparam.F
       !||    updmat                 ../starter/source/materials/updmat.F
       !||    visc_et                ../engine/source/elements/solid/solidez/visc_et.F
+      !||    visc_plas              ../engine/source/materials/visc/visc_plas.F90
       !||    visc_prony             ../engine/source/materials/visc/visc_prony.F
       !||    visc_prony_lstrain     ../engine/source/materials/visc/visc_prony_lstrain.F
       !||    viscmain               ../engine/source/materials/visc/viscmain.F

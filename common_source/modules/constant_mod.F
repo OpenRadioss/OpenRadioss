@@ -206,6 +206,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    update_neighbour_segment                 ../engine/source/interfaces/interf/update_neighbour_segment.F90
       !||    updfail                                  ../starter/source/materials/updfail.F90
       !||    velrot_explicit                          ../engine/source/constraints/general/rbody/velrot_explicit.F90
+      !||    visc_plas                                ../engine/source/materials/visc/visc_plas.F90
       !||====================================================================
       module constant_mod
         implicit none

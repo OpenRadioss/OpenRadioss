@@ -304,6 +304,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_upwind                    ../starter/source/general_controls/computation/hm_read_upwind.F
       !||    hm_read_visc                      ../starter/source/materials/visc/hm_read_visc.F
       !||    hm_read_visc_lprony               ../starter/source/materials/visc/hm_read_visc_lprony.F
+      !||    hm_read_visc_plas                 ../starter/source/materials/visc/hm_read_visc_plas.F90
       !||    hm_read_visc_prony                ../starter/source/materials/visc/hm_read_visc_prony.F
       !||    hm_read_window_user               ../starter/source/tools/userwi/hm_read_window_user.F
       !||    hm_read_xref                      ../starter/source/loads/reference_state/xref/hm_read_xref.F

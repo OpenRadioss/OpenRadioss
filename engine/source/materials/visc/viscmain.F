@@ -28,13 +28,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    usermat_solid             ../engine/source/materials/mat_share/usermat_solid.F
       !||--- calls      -----------------------------------------------------
       !||    damping_range_solid       ../engine/source/general_controls/damping/damping_range_solid.F90
+      !||    visc_plas                 ../engine/source/materials/visc/visc_plas.F90
       !||    visc_prony                ../engine/source/materials/visc/visc_prony.F
       !||    visc_prony_lstrain        ../engine/source/materials/visc/visc_prony_lstrain.F
-      !||    visc_plas                 ../engine/source/materials/visc/visc_plas.F
       !||--- uses       -----------------------------------------------------
       !||    damping_range_solid_mod   ../engine/source/general_controls/damping/damping_range_solid.F90
       !||    elbufdef_mod              ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    visc_param_mod            ../common_source/modules/mat_elem/visc_param_mod.F90
+      !||    visc_plas_mod             ../engine/source/materials/visc/visc_plas.F90
       !||====================================================================
       SUBROUTINE VISCMAIN(VISC    ,NEL     ,
      .           NVARVIS ,UVARVIS ,RHO     ,VISCMAX ,SOUNDSP ,TIMESTEP, 
