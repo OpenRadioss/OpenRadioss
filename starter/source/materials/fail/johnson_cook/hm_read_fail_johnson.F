@@ -70,7 +70,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IFAIL_SH,ISOLID,I
+      INTEGER IFAIL_SH,ISOLID,I,FAILIP 
       my_real D1,D2,D3,D4,D5,EPSP0,UNIT_T,DADV,PTHKF,EPSF_MIN
       my_real TRIAX,EPSF,DEPSF_DTRIAX
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
@@ -95,6 +95,8 @@ C--------------------------------------------------
       CALL HM_GET_FLOATV         ('EPSF_MIN'     ,EPSF_MIN,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV         ('Dadv'         ,DADV    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_INTV           ('Ixfem'        ,IXFEM   ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV           ('FAILIP'       ,FAILIP  ,IS_AVAILABLE,LSUBMODEL) 
+      IF (FAILIP == 0)  FAILIP  = 1
 !
       ! CHECK COMPATIBILITY WITH MATERIAL LAW
       IF (ILAW == 25) THEN 
@@ -142,7 +144,7 @@ c----------------------------------
       FAIL%KEYWORD = 'JOHNSON-COOK' 
       FAIL%IRUPT   = IRUPT 
       FAIL%FAIL_ID = FAIL_ID 
-      FAIL%NUPARAM = 12
+      FAIL%NUPARAM = 13
       FAIL%NIPARAM = 0
       FAIL%NUVAR   = 0
       FAIL%NFUNC   = 0
@@ -167,6 +169,7 @@ c
       FAIL%UPARAM(10)= DADV
       FAIL%UPARAM(11)= IXFEM
       FAIL%UPARAM(12)= EPSF_MIN
+      FAIL%UPARAM(13)= FAILIP
 c---------------------------
 c     OUTPUT
 c---------------------------
@@ -180,7 +183,7 @@ C---
 C for shell      
 C---
         IF (IXFEM == 0)THEN
-          WRITE(IOUT, 1000)D1,D2,D3,D4,D5,EPSF_MIN
+          WRITE(IOUT, 1000)D1,D2,D3,D4,D5,EPSF_MIN,FAILIP
           IF (IFAIL_SH == 1)THEN
             WRITE(IOUT, 1100)
           ELSEIF(IFAIL_SH == 2)THEN
@@ -224,7 +227,8 @@ c-----------------------------------------------------------
      & 5X,'THIRD  FAILURE PARAMETER (D3). . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'FORTH  FAILURE PARAMETER (D4). . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'FIFTH  FAILURE PARAMETER (D5). . . . . . . . . . . . . .=',1PG20.13/
-     & 5X,'LOWER PLASTIC STRAIN AT FAILURE (EPSF_MIN). . . . . . . =',1PG20.13//)
+     & 5X,'LOWER PLASTIC STRAIN AT FAILURE (EPSF_MIN). . . . . . . =',1PG20.13/
+     & 5X,'NUMBER OF FAILED INTG. POINTS PRIOR TO ELEM DELETION  .=',I10/)
  1100 FORMAT(
      & 5X,'   SHELL ELEMENT DELETION AFTER FAILURE') 
  2100 FORMAT(

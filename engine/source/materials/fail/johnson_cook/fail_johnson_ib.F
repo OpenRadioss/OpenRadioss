@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .           NEL      ,NGL      ,IPT      ,NUPARAM  ,UPARAM   ,
      .           TIME     ,TSTAR    ,SIGNXX   ,SIGNXY   ,SIGNZX   ,
      .           DPLA     ,EPSD     ,OFF      ,FOFF     ,DFMAX    ,
-     .           TDEL     ,IOUT     ,ISTDO    )
+     .           TDEL     ,IOUT     ,ISTDO    ,UELR  , NPG)
 C-----------------------------------------------
 c    Johnson-Cook failure model for integrated beams
 C-----------------------------------------------
@@ -54,17 +54,19 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: DPLA    ! plastic strain increment
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: EPSD    ! strain rate
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: TSTAR   ! normalized temperature
-      my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: OFF     ! element deactivation flag
+      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: OFF     ! element desactivation flag
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: SIGNXX  ! stress component
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: SIGNXY  ! stress component
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: SIGNZX  ! stress component
       INTEGER ,DIMENSION(NEL)     ,INTENT(INOUT) :: FOFF    ! integration point deactivation flag
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: DFMAX   ! maximum damage
-      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: TDEL    ! deactivation time
+      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: TDEL    ! desactivation time
+      my_real, DIMENSION(NEL)     ,INTENT(INOUT) :: UELR 
+      INTEGER                     ,INTENT(IN)    :: NPG    
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,NINDX
+      INTEGER :: I,J,NINDX,FAILIP
       INTEGER ,DIMENSION(NEL) :: INDX
       my_real :: D1,D2,D3,D4,D5,EPSD0,P,EPSF,SVM,EPSF_MIN
 C=======================================================================
@@ -76,6 +78,7 @@ C=======================================================================
       D5    = UPARAM(5)
       EPSD0 = UPARAM(6)
       EPSF_MIN = UPARAM(12)
+      FAILIP  = MIN(NINT(UPARAM(13)),NPG) 
 c-----------------------------
       DO I=1,NEL
         IF (OFF(I) == ONE .and. FOFF(I) == 1 .and. DPLA(I) > ZERO) THEN
@@ -94,6 +97,10 @@ c-----------------------------
             FOFF(I)     = 0
             TDEL(I)     = TIME
             DFMAX(I)    = ONE
+            UELR(I)     = UELR(I) + ONE
+            IF (NINT(UELR(I)) >= FAILIP) THEN 
+              OFF(I)    = FOUR_OVER_5
+            ENDIF
           ENDIF
         ENDIF 
       ENDDO      
@@ -105,11 +112,17 @@ c------------------------
           WRITE(IOUT, 1000) NGL(I),IPT,TIME
           WRITE(ISTDO,1000) NGL(I),IPT,TIME
 #include "lockoff.inc" 
+          IF (OFF(I) == FOUR_OVER_5) THEN 
+            WRITE(IOUT, 1111) NGL(I),TIME
+            WRITE(ISTDO,1111) NGL(I),TIME
+          ENDIF
         END DO                   
       END IF   ! NINDX             
 c------------------
  1000 FORMAT(5X,'FAILURE (JC) OF BEAM ELEMENT ',I10,1X,',INTEGRATION PT',I5
      .      ,2X,'AT TIME :',1PE12.4)
+
+ 1111 FORMAT(1X,'DELETED BEAM ELEMENT ',I10,1X,'AT TIME :',1PE12.4)
 c------------------
       RETURN
       END
