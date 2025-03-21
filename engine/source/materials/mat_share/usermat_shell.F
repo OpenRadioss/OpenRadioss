@@ -1347,7 +1347,7 @@ c
      5                     EPSPXX   ,EPSPYY ,EPSPXY ,EPSPYZ ,EPSPZX  ,
      6                     EPSXX    ,EPSYY  ,EPSXY  ,EPSYZ  ,EPSZX   ,
      7                     COPY_PLA ,DPLA   ,EPSPL  ,UVARF  ,UELR    ,
-     8                     OFF      ,ALDT   ,AREA   ,BIDON3,BIDON4,BIDON5 )
+     8                     OFF      ,ALDT   ,AREA   ,DFMAX,BIDON4,BIDON5 )
                 ELSE
 !                  CALL F04LAWC(NEL ,NUPAR,NVARF,NFUNC_FAIL,IFUNC_FAIL,NPF,
 !     2                     TF  ,TT  ,DT1C   ,UPARAMF,NGL ,IPT, 
@@ -1356,7 +1356,7 @@ c
 !     5                     EPSPXX   ,EPSPYY ,EPSPXY ,EPSPYZ ,EPSPZX  ,
 !     6                     EPSXX    ,EPSYY  ,EPSXY  ,EPSYZ  ,EPSZX   ,
 !     7                     COPY_PLA ,DPLA   ,EPSPL  ,UVARF  ,UELR    ,
-!     8                     OFF      ,ALDT   ,AREA   ,BIDON3,BIDON4,BIDON5 )       
+!     8                     OFF      ,ALDT   ,AREA   ,DFMAX,BIDON4,BIDON5 )       
 !!!
               ! ----------------
               ! ERROR to be printed & exit
@@ -1385,7 +1385,7 @@ c
      5                 EPSPXX   ,EPSPYY ,EPSPXY ,EPSPYZ ,EPSPZX  ,
      6                 EPSXX    ,EPSYY  ,EPSXY  ,EPSYZ  ,EPSZX   ,
      7                 COPY_PLA ,DPLA   ,EPSPL  ,UVARF  ,UELR    ,
-     8                 OFF      ,ALDT   ,AREA   ,BIDON3,BIDON4,BIDON5 )
+     8                 OFF      ,ALDT   ,AREA   ,DFMAX,BIDON4,BIDON5 )
                 ELSE
 !                  CALL F05LAWC (NEL ,NUPAR,NVARF,NFUNC_FAIL,IFUNC_FAIL,NPF,
 !     2                     TF  ,TT   ,DT1C  ,UPARAMF,NGL,IPT, 
@@ -1394,7 +1394,7 @@ c
 !     5                     EPSPXX   ,EPSPYY ,EPSPXY ,EPSPYZ ,EPSPZX  ,
 !     6                     EPSXX    ,EPSYY  ,EPSXY  ,EPSYZ  ,EPSZX   ,
 !     7                     COPY_PLA ,DPLA   ,EPSPL  ,UVARF  ,UELR    ,
-!     8                     OFF      ,ALDT   ,AREA   ,BIDON3,BIDON4,BIDON5 ) 
+!     8                     OFF      ,ALDT   ,AREA   ,DFMAX,BIDON4,BIDON5 ) 
 !!!
               ! ----------------
               ! ERROR to be printed & exit
@@ -1423,7 +1423,7 @@ c
      5                 EPSPXX   ,EPSPYY ,EPSPXY ,EPSPYZ ,EPSPZX  ,
      6                 EPSXX    ,EPSYY  ,EPSXY  ,EPSYZ  ,EPSZX   ,
      7                 COPY_PLA ,DPLA   ,EPSPL  ,UVARF  ,UELR    ,
-     8                 OFF      ,ALDT   ,AREA   ,BIDON3,BIDON4,BIDON5 )
+     8                 OFF      ,ALDT   ,AREA   ,DFMAX,BIDON4,BIDON5 )
                 ELSE
 !                  CALL F06LAWC(NEL   ,NUPAR,NVARF,NFUNC_FAIL,IFUNC_FAIL,NPF,
 !     2              TF       ,TT     ,DT1C   ,UPARAMF,NGL   ,       
@@ -1432,7 +1432,7 @@ c
 !     5              EPSPXX   ,EPSPYY ,EPSPXY ,EPSPYZ ,EPSPZX  ,             
 !     6              EPSXX    ,EPSYY  ,EPSXY  ,EPSYZ  ,EPSZX   ,             
 !     7              COPY_PLA ,DPLA   ,EPSPL  ,UVARF  ,UELR    ,             
-!     8              OFF      ,ALDT   ,AREA   ,BIDON3,BIDON4,BIDON5  )              
+!     8              OFF      ,ALDT   ,AREA   ,DFMAX,BIDON4,BIDON5  )              
 !!!
               ! ----------------
               ! ERROR to be printed & exit
