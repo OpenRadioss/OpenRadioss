@@ -69,14 +69,14 @@ c
       !=======================================================================
       INTEGER I,K,II,NINDX,INDEX(NEL),Istat
 c
-      my_real 
+       my_real ::  
      .   YOUNG,BULK,LAMHOOK,G,G2,NU,ALPHA,CFAIL,PFAIL,RHOF0
 c
       my_real, DIMENSION(NEL) ::
      .   GAMMA,EPSD,ALPHA2,BETA,SIGP
 c
-      my_real 
-     .   H,LDAV,TRDEP,DLAM,DDEP,DPHI_DSIGVM,DPHI_DSIGM,
+      real(kind=8) :: LDAV
+      my_real :: TRDEP,DLAM,DDEP,DPHI_DSIGVM,DPHI_DSIGM,
      .   DPXX,DPYY,DPZZ,DPXY,DPYZ,DPZX,TRDFDS,
      .   NORMXX,NORMYY,NORMZZ,NORMXY,NORMYZ,NORMZX,
      .   DPHI,SIG_DFDSIG,DFDSIG2,DPHI_DPLA,
@@ -390,6 +390,7 @@ c
           R  = (TWO*I1*I1*I1-NINE*I1*I2+TWENTY7*I3)/CINQUANTE4     ! (2*I3^3-9*I1*I2+27*I3)/54
           R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),ONE)
           PSI = ACOS(MAX(R_INTER,-ONE))
+
           S11 = TWO*SQRT(-Q)*COS(PSI/THREE)+THIRD*I1
           S22 = TWO*SQRT(-Q)*COS((PSI+TWO*PI)/THREE)+THIRD*I1
           S33 = TWO*SQRT(-Q)*COS((PSI+FOUR*PI)/THREE)+THIRD*I1
