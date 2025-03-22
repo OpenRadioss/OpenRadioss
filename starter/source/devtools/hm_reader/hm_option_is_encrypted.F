@@ -255,7 +255,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_visc_plas           ../starter/source/materials/visc/hm_read_visc_plas.F90
       !||    hm_read_visc_prony          ../starter/source/materials/visc/hm_read_visc_prony.F
       !||    law100_upd_ab               ../starter/source/materials/mat/mat100/law100_upd.F
-      !||    law69_upd                   ../starter/source/materials/mat/mat069/law69_upd.F
       !||    law87_upd                   ../starter/source/materials/mat/mat087/law87_upd.F90
       !||    law92_upd                   ../starter/source/materials/mat/mat092/law92_upd.F
       !||    lcgeo19                     ../starter/source/elements/shell/coque/lcgeo19.F
