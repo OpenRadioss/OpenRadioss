@@ -35,12 +35,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                  VEL   ,MS   ,X     ,SKEW   ,AR   ,
      3                  VR    ,IN   ,NSENSOR,SENSOR_TAB,
      4                  WEIGHT,DEPLA    ,RBY   ,IFRAME,
-     5                  XFRAME,DR   ,NODNX_SMS,
+     5                  XFRAME,DR   ,NODNX_SMS, NODES,  
      6                  TT_DOUBLE,DEPLA_DOUBLE, PYTHON, WFEXT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
       USE PYTHON_FUNCT_MOD
+      USE PYTHON_CALL_FUNCT_CLOAD_MOD, ONLY: PYTHON_CALL_FUNCT_CLOAD
+      USE NODAL_ARRAYS_MOD
       USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -55,7 +57,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-!#include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
 #include      "parit_c.inc"
@@ -63,6 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(NODAL_ARRAYS_) ,INTENT(IN) :: NODES
       INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NPC(*)
       INTEGER IBFV(NIFV,*),WEIGHT(*),IFRAME(LISKN,*),NODNX_SMS(*)
@@ -232,8 +234,9 @@ C------- First pass for impdisp with sensor - in the top of the list
                 TSC0_WO_SMOOTH(NINDEX_WO_SMOOTH) = TSC0(II)  
               ELSE IF(ISMOOTH<0) THEN
                 L = -ISMOOTH
-                CALL PYTHON_CALL_FUNCT1D(PYTHON,L,TSC(II),YC(II))
-                CALL PYTHON_CALL_FUNCT1D(PYTHON,L,TSC0(II),YC0(II))
+                I = IABS(IBFV(1,N))
+                CALL PYTHON_CALL_FUNCT_CLOAD(PYTHON, L, TSC(II),YC(II),I,NODES)
+                CALL PYTHON_CALL_FUNCT_CLOAD(PYTHON, L, TSC0(II),YC0(II),I,NODES)
               ENDIF 
             ENDIF       
         ENDDO
@@ -256,7 +259,8 @@ C------- Second pass
                 TSC_WO_SMOOTH(NINDEX_WO_SMOOTH) = TSC(II)  
               ELSE IF(ISMOOTH<0) THEN
                 L = -ISMOOTH
-                CALL PYTHON_CALL_FUNCT1D(PYTHON,L,TSC(II),YC(II))
+                I = IABS(IBFV(1,N))
+                CALL PYTHON_CALL_FUNCT_CLOAD(PYTHON, L, TSC(II),YC(II),I,NODES)
               ENDIF
             ENDIF        
         ENDDO
