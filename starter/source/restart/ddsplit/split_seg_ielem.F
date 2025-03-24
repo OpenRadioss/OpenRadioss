@@ -74,9 +74,13 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:),ALLOCATABLE :: IBUF1,IBUF3
 C ----------------------------------------
       ALLOCATE(IBUF1(2*NRTM_L))
-      ALLOCATE(IBUF3(4*NRTM_L))
       IBUF1(1:2*NRTM_L) = 0
-      IF(IDEL_SOLID > 0) IBUF3(1:4*NRTM_L) = 0
+      ALLOCATE(IBUF3(4*NRTM_L))
+      IF(IDEL_SOLID > 0) THEN
+        IBUF3(1:4*NRTM_L) = 0
+      ELSE
+        IBUF3(1:4*NRTM_L) = 0 !should always be allocated
+      ENDIF
       OFFSET_SHELL=NUMELS+NUMELQ
       OFFSET_SHELL3N=OFFSET_SHELL+NUMELC+NUMELT+NUMELP+NUMELR
       ! ---------------------
