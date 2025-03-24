@@ -156,7 +156,7 @@ C   L o c a l   P a r a m e t e r s
 C-----------------------------------------------
       INTEGER NKEY, NUM_ALE_KEY2
       PARAMETER (NKEY = 92)
-      PARAMETER (NUM_ALE_KEY2 = 22)
+      PARAMETER (NUM_ALE_KEY2 = 25)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -196,7 +196,7 @@ C-----------------------------------------------
       CHARACTER(LEN=NCHARLINE100) :: CARTE,KEYW,MOT1,LINE
       CHARACTER(LEN=NCHARKEY), DIMENSION(9) :: KEY_H3D
       CHARACTER(LEN=5), DIMENSION(NKEY) :: KEY0
-      CHARACTER(LEN=5), DIMENSION(24)  ::  KEYALE
+      CHARACTER(LEN=5), DIMENSION(NUM_ALE_KEY2)  ::  KEYALE
       CHARACTER(len=NCHARLINE100) :: STRING_RESTART
       LOGICAL :: lFOUND
       REAL(KIND=8) :: DTHIS0
@@ -255,7 +255,7 @@ C-----------------------------------------------
      .     'ON   '   ,'OFF  '   ,'MUSCL'   ,'SOLVE'   ,'ZERO '   ,
      .     'DONEA'   ,'STAND'   ,'SPRIN'   ,'DISP '   ,'SUPG '   ,
      .     '0    '   ,'1    '   ,'2    '   ,'3    '   ,'4    '   ,
-     .     'LOWMA'   ,'LAPLA'   ,'     '   ,'     '   /
+     .     'LOWMA'   ,'LAPLA'   ,'VOLUM'   ,'FLOW-'   ,'LAGRA'/
       
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -1634,7 +1634,7 @@ C--------------------
          ! case "/ALE  /....." (obsolete)
          StringALE(1:5)=KEY2(1:5)
        ENDIF
-       CALL WRIUSC2(IKAD(IKEY)+1,1,KEY0(IKEY)) 
+       CALL WRIUSC2(IKAD(IKEY)+1,1,KEY0(IKEY))
        !---------------------------------------!
        !    '/ALE/GRID/DONEA'                  !
        !---------------------------------------!
@@ -1680,7 +1680,7 @@ C--------------------
        ELSEIF(StringALE(1:5)=='LAPLA')THEN
         NUM_ALE_GRID = NUM_ALE_GRID + 1
         IALE_GRID_FORM=5
-        READ(IUSC2,*,ERR=9990,END=9990)ALP,A1,A2
+        READ(IUSC2,*,ERR=9990,END=9990)ALP,A1
         IF(ALP==ZERO)ALP=ONE
         IF(NINT(A1)<=ZERO)A1=ONE
         IF(A2/=ONE .AND. A2/=TWO)A2=ONE
@@ -1693,12 +1693,24 @@ C--------------------
        !---------------------------------------!
        !    '/ALE/GRID/MASS-WEIGHTED-VEL'      !
        !---------------------------------------!
-       ELSEIF(StringALE(1:5)=='MASS-')THEN
+       ELSEIF(StringALE(1:5)=='FLOW-')THEN
         NUM_ALE_GRID = NUM_ALE_GRID + 1
         IALE_GRID_FORM=7
-        READ(IUSC2,*,ERR=9990,END=9990)ALP,GAM
+        READ(IUSC2,*,ERR=9990,END=9990)A1,ALP
+        CALL WRIUSC2(IKAD(IKEY)+2,1,KEY0(IKEY))
+        READ(IUSC2,*,ERR=9990,END=9990)A2,GAM
         IF(ALP == ZERO)ALP = ONE
         IF(GAM == ZERO)GAM = ONE
+        IF(INT(A1) == 0)A1 = 1
+        IF(INT(A1) /= 1 .AND. INT(A1) /= -1)A1 = 1 !value different than expected values leads to default value
+        IF(INT(A2) == 0)A2 = 1
+        IF(INT(A2) /= 1 .AND. INT(A2) /= -1)A2 = 1 !value different than expected values leads to default value
+       !---------------------------------------!
+       !    '/ALE/GRID/LAGRANGE'               !
+       !---------------------------------------!
+       ELSEIF(StringALE(1:5)=='LAGRA')THEN
+        NUM_ALE_GRID = NUM_ALE_GRID + 1
+        IALE_GRID_FORM=8
        ELSE
         !not a keyword related to grid formulation
        ENDIF
