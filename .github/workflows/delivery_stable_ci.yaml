@@ -175,8 +175,8 @@ jobs:
       - name: Upload extlib artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: extlib
-          path: ${{ env.WORKDIR }}/extlib
+          name: extlib.zip
+          path: ${{ env.WORKDIR }}/extlib.zip
         if: ${{ matrix.build == 'starter_linux64_gf' && env.CLOSE_BRANCH == 0 }}
 
       # Close the branch (= restrict push to team devopsadmins) if needed
@@ -466,8 +466,8 @@ jobs:
       - name: Download extlib artifact
         uses: actions/download-artifact@v4
         with:
-          name: extlib
-          path: ${{ env.WORKDIR }}/extlib
+          name: extlib.zip
+          path: ${{ env.WORKDIR }}
 
       - name: Check files in exec
         working-directory: ${{ env.WORKDIR }}
@@ -493,9 +493,13 @@ jobs:
           echo "List exec : "
           find exec -type f
 
+      - name: Unzip extlib
+        run: |
+          unzip extlib.zip
+
       - name: Provide ALL binaries
         working-directory: ${{ env.WORKDIR }}
-        run: |
+        run: |          
           # Removed lfs hook (not supported in next action, not neeeded)
           rm -f .git/hooks/pre-push
 

@@ -175,8 +175,8 @@ jobs:
       - name: Upload extlib artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: extlib
-          path: ${{ env.WORKDIR }}/extlib
+          name: extlib.zip
+          path: ${{ env.WORKDIR }}/extlib.zip
         if: ${{ matrix.build == 'starter_linux64_gf' && env.CLOSE_BRANCH == 0 }}
 
       # Close the branch (= restrict push to team devopsadmins) if needed
@@ -282,12 +282,14 @@ jobs:
       - name: Download extlib artifact
         uses: actions/download-artifact@v4
         with:
-          name: extlib
-          path: extlib
+          name: extlib.zip
+
+      - name: Unzip extlib
+        run: |
+          unzip extlib.zip
 
       - name: Running qa
         run: |
-
           md5sum exec/* || echo "Nothing in exec/" 
           if [ "${{ matrix.precision }}" = "dp" ]
           then
@@ -636,8 +638,7 @@ jobs:
       - name: Download extlib artifact
         uses: actions/download-artifact@v4
         with:
-          name: extlib
-          path: extlib
+          name: extlib.zip
           
       - name: Running qa
         # Running cygwin from powershell or cmd => neither identation nor comment !
@@ -655,6 +656,7 @@ jobs:
           /cygdrive/c/mybin/clean_win10.pl;
           cd qa-tests/scripts;
           rm -f QA.summary;
+          unzip extlib.zip
           export PATH=${{ env.hm_reader_extlib }}/${{ matrix.os }}:$PATH;
           export PATH=${{ env.oneapi_exlib }}/${{ matrix.os }}:$PATH;
           cmd=\"./or_qa_script ../../exec/engine_${{ matrix.os }}_${{ env.mpi }}${precision_ext} 1.0 --env:RAD_CFG_PATH=${{ env.hm_reader_cfgfiles }} --system_run --env:KMP_STACKSIZE=400m --exec_script_args='mpiexec -np ${{ env.QA_NB_PROC }}' --env:OMP_NUM_THREADS=${{ env.QA_NB_THREAD }} --output_failures_stdout --xtra_args='--timeoutscript=${{ env.QA_TIMEOUT_PER_TEST_WIN }}' \";

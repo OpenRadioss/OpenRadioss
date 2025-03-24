@@ -124,8 +124,8 @@ jobs:
       - name: Upload extlib artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: extlib
-          path: extlib
+          name: extlib.zip
+          path: extlib.zip
         if: ${{ matrix.build == 'starter_linux64_gf' }}
   qa:
     needs: build
@@ -191,12 +191,14 @@ jobs:
       - name: Download extlib artifact
         uses: actions/download-artifact@v4
         with:
-          name: extlib
-          path: extlib
+          name: extlib.zip
+
+      - name: Unzip extlib
+        run: |
+          unzip extlib.zip
 
       - name: Running qa
         run: |
-
           md5sum exec/* || echo "Nothing in exec/" 
           if [ "${{ matrix.precision }}" = "dp" ]
           then
