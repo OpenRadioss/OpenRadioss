@@ -220,7 +220,7 @@
           dpdmu_mumin = dpdmu_mumin * fac_pres
           if(bmin < dpdmu_mumin)  then
             call ancmsg(MSGID=67,MSGTYPE=msgerror,ANMODE=aninfo,I1=imideos, &
-            C1='/EOS/COMPACTION2',C2='BMIN MUST BEGREATER THAN DERIVATIVE OF P(MU) AT 0.0')
+            C1='/EOS/COMPACTION2',C2='BMIN MUST BE GREATER THAN DERIVATIVE OF P(MU) AT 0.0')
           end if
           exit
         end if
@@ -234,7 +234,7 @@
             dpdmu_mumax = dpdmu_mumax * fac_pres
             if(bmax < dpdmu_mumax)  then
               call ancmsg(MSGID=67,MSGTYPE=msgerror,ANMODE=aninfo,I1=imideos, &
-              C1='/EOS/COMPACTION2',C2='BMAX MUST BEGREATER THAN DERIVATIVE OF P(MU) AT MUMAX')
+              C1='/EOS/COMPACTION2',C2='BMAX MUST BE GREATER THAN DERIVATIVE OF P(MU) AT MUMAX')
             end if
             exit
           end if

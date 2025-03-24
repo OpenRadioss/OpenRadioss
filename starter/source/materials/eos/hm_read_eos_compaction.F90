@@ -142,7 +142,7 @@
       !check unload modulus regarding C1
       if(Bunl < C1)then
         call ancmsg(MSGID=67,MSGTYPE=msgerror,ANMODE=aninfo,I1=imideos, &
-        C1='/EOS/COMPACTION',C2='BUNL MUST BEGREATER THAN C1')
+        C1='/EOS/COMPACTION',C2='BUNL MUST BE GREATER THAN C1')
       end if
 
       !check unload modulus regarding point of maximum compaction
@@ -150,7 +150,7 @@
         dpdmu_mumax = c1 + two*c2*mumax + three*c3*mumax**2
         if(Bunl < dpdmu_mumax)  then
           call ancmsg(MSGID=67,MSGTYPE=msgerror,ANMODE=aninfo,I1=imideos, &
-          C1='/EOS/COMPACTION',C2='BUNL MUST BEGREATER THAN DERIVATIVE OF P(MU) AT MUMAX')
+          C1='/EOS/COMPACTION',C2='BUNL MUST BE GREATER THAN DERIVATIVE OF P(MU) AT MUMAX')
         end if
       end if
 
