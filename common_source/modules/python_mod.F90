@@ -229,6 +229,7 @@
           module procedure python_deriv_funct1D_dp
         end interface python_deriv_funct1D
 
+
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                               Type definitions
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -579,7 +580,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer,                                     intent(in) :: name_len !< the length of the name
           character(kind=c_char), dimension(name_len), intent(in) :: name      !< the name of the variable
-          my_real, dimension(3),                intent(in) :: val !< the values
+          double precision, dimension(3),                intent(in) :: val !< the values
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -593,6 +594,8 @@
           valdb(1:3) = val
           call python_update_active_node_values(name_len, temp_name, valdb)
         end subroutine
+
+
 
 
 
