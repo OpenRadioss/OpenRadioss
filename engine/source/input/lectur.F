@@ -222,7 +222,7 @@ C-----------------------------------------------
      .   NSN,NRTS,NRTM,NMN,L,NCPRI1,NRLINK0,NALELK0,
      .   NSPHOF,IWIOUT,NLECSPH(10),NFXINP,NCRST1,NEIGOFF,NEOFF,
      .   NALEOF,NEULEROF,NTHERMOF,NFVMESH,MLW,LL,ISK1,ISK2,
-     .   NFVMODI,IOK, ALEStrL(0:7), NALELINK0, GR_ID,
+     .   NFVMODI,IOK, ALEStrL(0:8), NALELINK0, GR_ID,
      .   NALELK_starter, uID, NALELK_removed, JALE,USERL_COUNT,
      .   IDEL2,IS,
      .   STEXT1,MULTIREST1,NLPRI1,LOWMACH_OPT,IERROR,
@@ -237,7 +237,7 @@ C-----------------------------------------------
      .   TITLE(20), TFI,  DTF, DTM, ALP, GAM,
      .   CV1, CV2, CV3, VOLM, TSTART, TFIN,DT_INPUT, DT_CRIT
        CHARACTER*9 Label1,Label2,Label3,Label4,Label5,Label6,Label7,Label8
-       CHARACTER*16 ALEform(0:7),Cale1,Cale2,CHAR1,CHAR2,Label9
+       CHARACTER*16 ALEform(0:8),Cale1,Cale2,CHAR1,CHAR2,Label9
        CHARACTER*3 :: LABEL_DEF,LABEL_ROT
       my_real eta1,eta2,MIN_ASPECT,MIN_DEFV
       my_real, DIMENSION(:), POINTER :: OFFG
@@ -1044,12 +1044,13 @@ C----------------------------------------
          IF(ALE%GRID%NWALE_ENGINE /= ALE%GRID%NWALE_RST .AND. ALE%GRID%NWALE_ENGINE /= -1) THEN !Forbid ALE grid formulation switch
            IF(ALE%GRID%NWALE_ENGINE /= 3)THEN  !expect if new one is /ALE/ZERO
              ALEform=(/'DONEA           ','DISP            ','SPRING          ', 'ZERO            ',
-     .                 'STANDARD        ','LAPLACIAN       ','VOLUME          ', 'FLOW-TRACKING   '/)
-             ALEStrL=(/5,4,6,4,8,9,6,8/)
+     .                 'STANDARD        ','LAPLACIAN       ','VOLUME          ', 'FLOW-TRACKING   ',
+     .                 'LAGRANGE        ' /)
+             ALEStrL=(/5,4,6,4,8,9,6,13,8/)
              Cale1=ALEform(ALE%GRID%NWALE_ENGINE)
              Cale2=ALEform(ALE%GRID%NWALE_RST)
-              CALL ANCMSG(MSGID=229,ANMODE=ANINFO,
-     .                    C1=Cale1(1:ALEStrL(ALE%GRID%NWALE_ENGINE)),C2=Cale2(1:ALEStrL(ALE%GRID%NWALE_RST)))
+             CALL ANCMSG(MSGID=229,ANMODE=ANINFO,
+     .                   C1=Cale1(1:ALEStrL(ALE%GRID%NWALE_ENGINE)),C2=Cale2(1:ALEStrL(ALE%GRID%NWALE_RST)))
               CALL ARRET(2)
             ELSE
              ALE%GRID%NWALE_ENGINE = 3
@@ -1093,7 +1094,8 @@ C----------------------------------------
             MULTI_FVM%LOWMACH_OPT = .TRUE.
          ENDIF
          ALEform=(/'DONEA           ','DISP            ','SPRING          ', 'ZERO            ',
-     .             'STANDARD        ','LAPLACIAN       ','VOLUME          ', 'FLOW-TRACKING   '/)
+     .             'STANDARD        ','LAPLACIAN       ','VOLUME          ', 'FLOW-TRACKING   ',
+     .             'LAGRANGE        '/)
          !effective value which will be retained during numerical solving
          IF(ALE%GRID%NWALE_ENGINE /= -1)THEN
            ALE%GRID%NWALE = ALE%GRID%NWALE_ENGINE
@@ -1145,6 +1147,8 @@ C----------------------------------------
                IF(INT(ALE%GRID%VGX) == 1)LABEL_DEF='YES'
                IF(INT(ALE%GRID%VGY) == 1)LABEL_ROT='YES'
                WRITE(IOUT,1257) LABEL_DEF,LABEL_ROT,ALE%GRID%ALPHA,ALE%GRID%GAMMA
+             CASE(8) !LAGRANGE
+               !no parameters               
            END SELECT
          ENDIF
        ENDIF !(IALE/=0.OR.IEULER/=0)

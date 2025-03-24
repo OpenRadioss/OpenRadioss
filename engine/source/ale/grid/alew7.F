@@ -110,11 +110,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,II,JJ
-      INTEGER :: IDEFORMATION,IROTATION
+      INTEGER :: I,JJ
       my_real :: SUM_MS,MS_NODE, ksi
       my_real :: SUM_MOM(3),SUM_COG(3) !1:m*vx, 2:m*vy, 3:m*vz
-      my_real :: SUM_M, SUM_VOL
+      my_real :: SUM_M
       my_real :: SUM_ITM(6)
       my_real :: VMEAN(3),LD(6),LW(3),COG(3),ITM(6),LD_B(3,3),LD_Bp(3,3),LD_Bp_B(3,3),LD_TOT_B(3,3)
       my_real :: P_B_Bp(3,3)
@@ -125,7 +124,7 @@ C-----------------------------------------------
       my_real :: XX,YY,ZZ
       my_real :: LD_NORM
       my_real :: SCALE_DEF,SCALE_ROT
-      my_real :: RATIO(3), LAMBDA(6), DW(3)
+      my_real :: RATIO(3), DW(3)
       my_real :: BETA(6),BETA0(6)
       my_real :: FAC(3)
       my_real :: MS_ELEM_MEAN
