@@ -7778,7 +7778,7 @@ C--------------------------
      2                      VEL   ,NODES%MS    ,NODES%X      ,SKEWS%SKEW   ,NODES%AR  ,
      3                      NODES%VR    ,NODES%IN    ,NSENSOR,SENSORS%SENSOR_TAB,
      4                      NODES%WEIGHT,NODES%D     ,RBY    ,IFRAME ,
-     5                      XFRAME,NODES%DR    ,PTR_SMS,
+     5                      XFRAME,NODES%DR    ,PTR_SMS, NODES,
      6                      TT_DOUBLE,NODES%DDP,PYTHON ,WFEXT)
 
                 IF (FXVEL_FGEO ==1) THEN
