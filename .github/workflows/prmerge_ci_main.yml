@@ -655,6 +655,7 @@ jobs:
           fi;
           /cygdrive/c/mybin/clean_win10.pl;
           unzip extlib.zip;
+          chmod -R 755 extlib/*;
           cd qa-tests/scripts;
           rm -f QA.summary;
           export PATH=${{ env.hm_reader_extlib }}/${{ matrix.os }}:$PATH;
