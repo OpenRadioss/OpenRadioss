@@ -654,7 +654,7 @@ jobs:
           precision_ext=\"_${{ matrix.precision }}\";
           fi;
           /cygdrive/c/mybin/clean_win10.pl;
-          unzip extlib.zip
+          unzip extlib.zip;
           cd qa-tests/scripts;
           rm -f QA.summary;
           export PATH=${{ env.hm_reader_extlib }}/${{ matrix.os }}:$PATH;
