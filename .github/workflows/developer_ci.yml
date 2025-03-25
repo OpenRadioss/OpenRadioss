@@ -193,9 +193,12 @@ jobs:
         with:
           name: extlib.zip
 
-      - name: Running qa
+      - name: Unzip extlib
         run: |
           unzip extlib.zip
+
+      - name: Running qa
+        run: |
           md5sum exec/* || echo "Nothing in exec/" 
           if [ "${{ matrix.precision }}" = "dp" ]
           then
