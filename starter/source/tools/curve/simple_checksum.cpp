@@ -29,14 +29,32 @@
  
 extern "C" {
 
- 
-void simple_checksum(const double* vector, const int* length, int32_t* hash) {
-    uint32_t hash_value = 0;
-    const int prime     = 31;
+#define POLYNOMIAL 0xEDB88320  // standard polynomial for CRC32
+
+void init_crc32_table(uint32_t *crc32_table) {
+    for (uint32_t i = 0; i < 256; i++) {
+        uint32_t crc = i;
+        for (uint32_t j = 0; j < 8; j++) {
+            crc = (crc >> 1) ^ (POLYNOMIAL * (crc & 1));
+        }
+        crc32_table[i] = crc;
+    }
+} 
+void simple_checksum(const double* vector, const int* length, double* hash) {
+    uint32_t crc32_table[256];
+    uint32_t crc = 0xFFFFFFFF; // initial value
+
+        init_crc32_table(crc32_table);
 
         for (size_t i = 0; i < *length; i++) {
-        hash_value = hash_value * prime + (uint32_t)(vector[i] * (i+1000000));
-    }
-    *hash = hash_value & 0xFFFFFFFF;
+        uint64_t value = *(uint64_t*)&vector[i]; // Conversion of double to uint64_t
+        
+        for (size_t j = 0; j < sizeof(value); j++) {
+            uint8_t byte = value & 0xFF; // byte extraction
+            crc = (crc >> 8) ^ crc32_table[(crc ^ byte) & 0xFF];
+            value >>= 8; // shift for the next byte
+        }
+     }
+     *hash = (double) (crc ^ 0xFFFFFFFF);
   }
 } 

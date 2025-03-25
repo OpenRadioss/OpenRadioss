@@ -31,7 +31,7 @@ module simple_checksum_mod
         import :: c_int, c_double
         real(c_double), intent(in) ,dimension(length) :: vector
         integer(c_int), intent(in)  :: length
-        integer(c_int), intent(out) :: hash
+        real(c_double), intent(out) :: hash
       end subroutine simple_checksum
    end interface
 
