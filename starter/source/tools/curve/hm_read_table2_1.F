@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_option_is_encrypted     ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
       !||    hm_option_read_key         ../starter/source/devtools/hm_reader/hm_option_read_key.F
       !||    hm_option_start            ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||    simple_checksum            ../starter/source/tools/curve/simple_checksum.cpp
       !||--- uses       -----------------------------------------------------
       !||    hm_option_read_mod         ../starter/share/modules1/hm_option_read_mod.F
       !||    message_mod                ../starter/share/message_module/message_mod.F
