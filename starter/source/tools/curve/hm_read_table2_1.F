@@ -50,6 +50,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARFIELD
       use simple_checksum_mod
+      use myqsort_d_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -78,16 +79,16 @@ C-----------------------------------------------
       integer :: i1,i2,countx
       integer :: ierror,errorstop
       integer :: nx1,nx2,nx3,nx4,ny
-      integer :: h1,h2
-      integer :: chksum
       integer :: NX(4),NOK(4)
       my_real :: X0,X1,X2,X3,YY,Y1,Y2,R,XMIN,XMAX,SCALEY
       my_real :: X234(3)
+      double precision :: h1,h2
+      double precision :: chksum
       double precision :: hasht(5)
+      double precision ,dimension(:) ,allocatable :: hash
       integer ,dimension(:)   ,allocatable :: jperm1,jperm2
       integer ,dimension(:)   ,allocatable :: idfun,lenx,idxtab
       integer ,dimension(:)   ,allocatable :: nv1,nv2,nv3
-      integer ,dimension(:)   ,allocatable :: hash
       my_real ,dimension(:)   ,allocatable :: xx1,xx2,xx3,xx4,yfac
       integer ,dimension(:,:) ,allocatable :: itag
       character(LEN=NCHARTITLE) :: TITR
@@ -192,7 +193,7 @@ C-----------------------------------------------
 !-----------------------------------------------------------------------------------------
         ! check duplicated input lines
 !
-        call myqsort_int(nfun,hash,jperm2,ierror)
+        call myqsort_d(nfun,hash,jperm2,ierror)
         h1 = hash(1)
         do ifun = 2,nfun
           h2 = hash(ifun)
@@ -217,7 +218,7 @@ C-----------------------------------------------
         end do  
         ! hash of all abscissa combinations
 !
-        call myqsort_int(nfun,hash,jperm2,ierror)
+        call myqsort_d(nfun,hash,jperm2,ierror)
         h1 = hash(1)
         do ifun = 2,nfun
           h2 = hash(ifun)
