@@ -121,12 +121,12 @@ C Initializations
 C------------------------------------------------------------
 C  Line1
 C------------------------------------------------------------
-      CALL HM_GET_INTV('tempsecondaryentityids', ISU1, IS_AVAILABLE, LSUBMODEL)
+      CALL HM_GET_INTV('ALEnodesEntityids', ISU1, IS_AVAILABLE, LSUBMODEL)
       IF (.NOT. IS_AVAILABLE) THEN
         ISU1 = 0
       ENDIF
       CALL HM_GET_INTV('mainentityids', ISU2, IS_AVAILABLE, LSUBMODEL)
-      CALL HM_GET_INTV('secondaryentityids', GRBRIC_ID, IS_AVAILABLE, LSUBMODEL)
+      CALL HM_GET_INTV('ALEelemsEntityids', GRBRIC_ID, IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('Igap', IGAP, IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('Ipres', IBAG, IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('Idel', IDEL7N, IS_AVAILABLE, LSUBMODEL)
