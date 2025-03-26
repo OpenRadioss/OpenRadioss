@@ -1155,7 +1155,8 @@ C     REAL
       my_real
      .   AREA, VOL, DX, GAPM, DDX, 
      .   GAPTMP, SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,
-     .   XL,STIFC,ST,IELEM(2),BULK
+     .   XL,STIFC,ST,BULK
+      INTEGER :: IELEM(2)
       LOGICAL :: PRINT_ERROR
       INTEGER, DIMENSION(4) :: NODE_ID
 C----------------------
