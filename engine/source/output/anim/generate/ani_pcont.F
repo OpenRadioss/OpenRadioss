@@ -245,6 +245,10 @@ C
 !         
             ELSEIF( N  <= NUMELS8+NUMELS10 ) THEN
 !         
+              N1=0
+              N2=0
+              N3=0
+
           
               DO J=1,4         
                 NN1=FACES10(1,4*(IFAC-1)+J)
