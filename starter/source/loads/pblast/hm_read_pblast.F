@@ -227,6 +227,7 @@ C-----------------------------------------------
       IS_ITA_SHIFT = .FALSE.
 
       ALLOCATE( OUTPUT_USER_PARAMS(6,PBLAST%NLOADP_B))
+      OUTPUT_USER_PARAMS(:,:) = ZERO
 
       CALL HM_OPTION_START('/LOAD/PBLAST')
 
