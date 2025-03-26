@@ -75,12 +75,11 @@ C-----------------------------------------------
       my_real, INTENT(IN) :: SHEAR_MODULUS
       my_real, DIMENSION(NEL), INTENT(INOUT):: S1,S2,S3,S4,S5,S6
      .                            
-      my_real, DIMENSION(NEL) ,INTENT(INOUT) :: SOUNDSP
+      my_real, DIMENSION(NEL) ,INTENT(INOUT) :: SOUNDSP, VISCMAX
       my_real, DIMENSION(NEL) ,INTENT(IN) :: EPSPXX,EPSPYY,EPSPZZ,EPSPXY,EPSPYZ,EPSPZX,
      .                                       MFXX,MFXY,MFXZ,MFYX,MFYY,MFYZ,MFZX,MFZY,MFZZ,
      .                                       DEPSXX,DEPSYY,DEPSZZ,DEPSXY,DEPSYZ,DEPSZX, 
-     .                                        SVO1,SVO2,SVO3,SVO4,SVO5,SVO6,
-     .                                        RHO,VISCMAX
+     .                                       SVO1,SVO2,SVO3,SVO4,SVO5,SVO6,RHO
       my_real, DIMENSION(NEL) ,INTENT(OUT) :: SV1,SV2,SV3,SV4,SV5,SV6
 
       my_real, DIMENSION(NEL*NVARVIS) ,INTENT(INOUT) :: UVARVIS
