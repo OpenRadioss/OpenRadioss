@@ -94,6 +94,7 @@
       my_real ,dimension(nel)     ,intent(inout) :: off    !< element activation coefficient
       my_real ,dimension(nel)     ,intent(inout) :: pla    !< plastic strain
       my_real ,dimension(nel)     ,intent(inout) :: thk    !< element thickness
+      my_real ,dimension(nel)     ,intent(inout) :: yld    !< yield stress 
       my_real ,dimension(nel)     ,intent(out)   :: signxx !< output stress component
       my_real ,dimension(nel)     ,intent(out)   :: signyy !< output stress component
       my_real ,dimension(nel)     ,intent(out)   :: signxy !< output stress component
@@ -101,7 +102,6 @@
       my_real ,dimension(nel)     ,intent(out)   :: signzx !< output stress component
       my_real ,dimension(nel)     ,intent(out)   :: dpla   !< plastic strain increment
       my_real ,dimension(nel)     ,intent(out)   :: sighl  !< hill equivalent stress 
-      my_real ,dimension(nel)     ,intent(out)   :: yld    !< yield stress 
       my_real ,dimension(nel)     ,intent(out)   :: soundsp!< sound speed
       my_real ,dimension(nel)     ,intent(out)   :: hardm  !< tangent module
       my_real ,dimension(nel)     ,intent(out)   :: epsd   !< plastic strain rate
@@ -187,10 +187,11 @@
         signxy(1:nel) = signxy(1:nel) - sigb(1:nel,3)
         !< Save the initial yield stress in case of kinematic hardening
         if (mat_param%ntable == 0) then     ! analytical yield formulation
-         yld0(1:nel) = sigy
-         h0(1:nel)   = qr1*cr1 + qr2*cr2 + qx1*cx1 + qx2*cx2
-        else 
-          if (ndim == 2) then
+          yld0(1:nel) = sigy
+          h0(1:nel)   = qr1*cr1 + qr2*cr2 + qx1*cx1 + qx2*cx2
+          if (ndim == 1) then
+            yld0(1:nel) = sigy
+          else if (ndim == 2) then
             xvec2(1:nel,1) = zero
             xvec2(1:nel,2) = epsd(1:nel)
             call table_mat_vinterp(mat_param%table(1),nel,nel,vartmp,xvec2,yld0,h0)
