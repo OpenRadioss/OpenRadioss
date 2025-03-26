@@ -744,7 +744,7 @@ C--------------------------------------------
                 IAD_IGE = IGRSURF(ISU1)%IAD_IGE               
                 CALL INSURFIGEO(NRTS_IGE,NRTS_FE,NSN_IGE,0,IAD_IGE,IRM,IRECTS,NOINT,
      .                     SURF_NODES_IGE,ITAB,NSV,ID,TITR,
-     .                     RBID,IBID,RBID,RBID,RBID,RBID,RBID,RBID)
+     .                     IBID,RBID,RBID,RBID,IBID,RBID,RBID,RBID)
               ENDIF
             ELSEIF(IS1 == 2)THEN
               CALL INPOINT(NSN_FE,NOINT,IGRNOD(ISU1)%ENTITY,ITAB,NSV)
@@ -882,7 +882,7 @@ C--------------------------------------------
               IAD_IGE = IGRSURF(ISU2)%IAD_IGE              
                 CALL INSURFIGEO(NRTM_IGE,NRTM_FE,NMN_IGE,NSN_IGE,IAD_IGE,IRM,IRECTM,NOINT,
      .                     SURF_NODES_IGE,ITAB,MSR,ID,TITR,
-     .                     RBID,RBID,RBID,RBID,RBID,RBID,RBID,RBID)
+     .                     IBID,RBID,RBID,RBID,IBID,RBID,RBID,RBID)
               ENDIF
             ELSEIF(IS2 == 3)THEN
               LINE_NODES => IGRSLIN(ISU2)%NODES(1:NRTM,1:2)
@@ -899,7 +899,7 @@ C--------------------------------------------
               IAD_IGE = IGRSURF(ISU2)%IAD_IGE              
                 CALL INSURFIGEO(NRTM_IGE,NRTM_FE,NMN_IGE,0,IAD_IGE,IRM,IRECTM,NOINT,
      .                     SURF_NODES_IGE,ITAB,MSR,ID,TITR,
-     .                     RBID,RBID,RBID,RBID,RBID,RBID,RBID,RBID)
+     .                     IBID,RBID,RBID,RBID,IBID,RBID,RBID,RBID)
               ENDIF
             ENDIF
             NMN = NMN_FE+NMN_IGE

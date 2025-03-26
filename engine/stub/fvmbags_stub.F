@@ -37,8 +37,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real :: PNODES(*),PHOLES(*),PSEG(:),PTRI(*)
-      INTEGER :: NNP,NSEG,NHOL,NELP
+      my_real :: PNODES(*),PHOLES(*),PTRI(*)
+      INTEGER :: NNP,NSEG,NHOL,NELP,PSEG(*)
 C          
           CALL ARRET(5)
       END SUBROUTINE
