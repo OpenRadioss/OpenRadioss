@@ -185,6 +185,7 @@ void load_functions(T h, bool &python_initialized)
     load_function(h, "PyDict_New", MyDict_New, python_initialized);
     load_function(h, "PyList_New", MyList_New, python_initialized);
     load_function(h, "PyList_SetItem", MyList_SetItem, python_initialized);
+    load_function(h, "PyErr_Clear", MyErr_Clear, python_initialized);
 }
 
 
@@ -357,9 +358,10 @@ void call_python_function1D_vectors(const char *func_name, std::vector<double> &
             }
             else
             {
-                Y[i] = (std::numeric_limits<double>::infinity());
+                MyErr_Clear();
+                Y[i] = static_cast<double>(std::numeric_limits<float>::max());
             }
-            //std::cout<<"X["<<i<<"] = "<<X[i]<<" Y["<<i<<"] = "<<Y[i]<<std::endl;
+//           std::cout<<"X["<<i<<"] = "<<X[i]<<" Y["<<i<<"] = "<<Y[i]<<std::endl;
         }
     }
 }
@@ -851,6 +853,7 @@ extern "C"
         {
             *error = 1;
         }
+
         //        std::cout << "Function exists? " << *error << std::endl;
     }
 

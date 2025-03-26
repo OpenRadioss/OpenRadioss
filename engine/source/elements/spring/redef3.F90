@@ -36,7 +36,7 @@
       contains
 !! for performance reasons, this function must inlined, because it is called in a loop
 !!      \brief return .true. if the function id corresponds to a python function
-        pure integer function get_python_funct_id(nfunct, funct_id, npc) result(id)
+        pure integer function get_python_funct_id(nfunct, funct_id, npc,snpc) result(id)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     module
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -46,7 +46,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent(in) :: nfunct
           integer, intent(in) :: funct_id !< the id of the function
-          integer, intent(in) :: npc(3*nfunct+1)
+          integer, intent(in) :: snpc
+          integer, intent(in) :: npc(snpc)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -56,7 +57,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           i = 0
           id = 0
-          if (funct_id> 0) i = npc(2*nfunct+funct_id+1)
+          if (funct_id> 0 .and. 2*nfunct+funct_id+1 <= snpc) i = npc(2*nfunct+funct_id+1)
           if(i < 0) id = -i
         end function get_python_funct_id
 
@@ -237,7 +238,7 @@
           integer :: pyid1, pyid2 !< python function id
           logical :: any_python_func !< any python function?
 ! ----------------------------------------------------------------------------------------------------------------------
-          nfunct = python%funct_offset + python%nb_functs! offset = nb of non-python functions
+          nfunct = python%funct_offset + python%nb_functs -python%nb_sensors! offset = nb of non-python functions
           any_python_func = .false.
           dt11 = dt1
           if(dt11==zero)dt11 = ep30
@@ -334,8 +335,8 @@
               jpos(i)  = nint(pos(1,i))
               jpos2(i) = nint(pos(2,i))
               jpos3(i) = nint(pos(3,i))
-              pyid1 = get_python_funct_id(nfunct, ifunc(i),npf)
-              pyid2 = get_python_funct_id(nfunct, ifunc2(i),npf)
+              pyid1 = get_python_funct_id(nfunct, ifunc(i),npf,snpc)
+              pyid2 = get_python_funct_id(nfunct, ifunc2(i),npf,snpc)
               if(pyid1 > 0) then
                 jad(i) = -pyid1
                 jlen(i) = -pyid1
@@ -977,7 +978,7 @@
               do i=1,nel
                 jpos(i) = nint(pos(4,i))
                 jfunc=max(ifv(i),1)
-                pyid1 = get_python_funct_id(nfunct,jfunc,npf)
+                pyid1 = get_python_funct_id(nfunct,jfunc,npf,snpc)
                 if(pyid1>0)then
                   !python function
                   jad(i) = -pyid1
@@ -1004,7 +1005,7 @@
               do i=1,nel
                 j2pos(i) = nint(pos(5,i))
                 j2func=max(ifunc3(i),1)
-                pyid2 = get_python_funct_id(nfunct,j2func,npf)
+                pyid2 = get_python_funct_id(nfunct,j2func,npf,snpc)
                 if(pyid2>0)then
                   !python function
                   j2ad(i) = -pyid2
@@ -1021,7 +1022,7 @@
                   do i=1,nel
                     j2pos(i) = nint(pos(5,i))
                     j2func=max(ifunc3(i),1)
-                    pyid2 = get_python_funct_id(nfunct,j2func,npf)
+                    pyid2 = get_python_funct_id(nfunct,j2func,npf,snpc)
                     if(pyid2>0) max_slope(i) = max(max_slope(i), two*abs(dydxv2(i)))
                   enddo
                 endif

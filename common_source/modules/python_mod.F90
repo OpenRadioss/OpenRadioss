@@ -347,7 +347,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      Body
 ! ----------------------------------------------------------------------------------------------------------------------
-          buffer_size = 3 ! funct_offset, nb_functs
+          buffer_size = 4 ! funct_offset, nb_functs, nb_sensors
 ! compute the size of the buffer
           do i = 1, python%nb_functs
             buffer_size = buffer_size + 6! 5 integers: len_name, len_code, num_lines, num_args, num_return
@@ -366,7 +366,8 @@
             buffer(1) = buffer_size
             buffer(2) = python%funct_offset
             buffer(3) = python%nb_functs
-            pos = 4
+            buffer(4) = python%nb_sensors
+            pos = 5
             do i = 1,python%nb_functs
               buffer(pos)   = python%functs(i)%len_name
               buffer(pos+1) = python%functs(i)%len_code
@@ -415,9 +416,10 @@
           python_error = 0
           python%funct_offset = buffer(2)
           python%nb_functs = buffer(3)
+          python%nb_sensors = buffer(4)
           allocate(python%functs(python%nb_functs),stat = ierr)
           if(ierr == 0 ) then
-            pos = 4
+            pos = 5
             do i = 1,python%nb_functs
               python%functs(i)%len_name=buffer(pos)
               python%functs(i)%len_code = buffer(pos+1)
