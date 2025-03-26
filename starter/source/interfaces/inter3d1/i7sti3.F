@@ -122,11 +122,12 @@ C-----------------------------------------------
       my_real
      .   DXM, GAPMX, GAPMN, AREA, VOL, DX, GAPM, DDX, 
      .   GAPTMP, GAPSCALE,SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,
-     .   SLSFAC,XL,IELEM(2),BULK
+     .   SLSFAC,XL,BULK
       my_real, dimension(:), allocatable :: GAP_S_L_TMP
       INTEGER, DIMENSION(:),ALLOCATABLE  :: TAGELEMS,INDEXE
       LOGICAL :: PRINT_ERROR
       INTEGER, DIMENSION(4) :: NODE_ID
+      INTEGER :: IELEM(2)
       DATA JPERM/2,3,4,1/
 C-----------------------------------------------
 C   S o u r c e   L i n e s

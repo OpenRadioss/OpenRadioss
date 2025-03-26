@@ -51,6 +51,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD , ONLY : SUBMODEL_DATA, NSUBMOD
       USE ALE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
+      USE UNITAB_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -70,7 +71,8 @@ C-----------------------------------------------
       INTEGER,INTENT(INOUT) :: INTHEAT
       INTEGER NOINT
       INTEGER IPARI(NPARI),DEF_INTER(100),NPC1(SNPC1)
-      my_real STFAC,AREASL,UNITAB(*)
+      my_real STFAC,AREASL !,UNITAB(*)
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       my_real FRIGAP(NPARIR),I2RUPT(6)
       CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------

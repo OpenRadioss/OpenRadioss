@@ -118,7 +118,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------     
-      INTEGER, INTENT(INOUT) :: TIMERS
+      TYPE(TIMER_), INTENT(INOUT) :: TIMERS
       INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER NELTST,ITYPTST,NEWFRONT(*),NSTRF(*),
      .        IRLEN20, ISLEN20, IRLEN20T, ISLEN20T,

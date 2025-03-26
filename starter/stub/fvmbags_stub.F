@@ -38,7 +38,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real :: PNODES(*),PHOLES(*),PSEG(:),PTRI(*)
+      my_real :: PNODES(*),PHOLES(*)
+      INTEGER :: PTRI(*), PSEG(*)
       INTEGER :: NNP,NSEG,NHOL,NELP
 C          
           CALL ARRET(5)
