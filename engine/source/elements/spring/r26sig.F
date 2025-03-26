@@ -83,7 +83,7 @@ C-----------------------------------------------
       my_real
      .    finter
 C=======================================================================
-      NFUNCT = PYTHON%funct_offset + PYTHON%nb_functs ! total number of functions = non-python + python
+      NFUNCT = PYTHON%funct_offset + PYTHON%nb_functs - PYTHON%nb_sensors! total number of functions = non-python + python
       DT11 = DT1
       IF (DT11 == ZERO) DT11 = EP30
       DO I=1,NEL

@@ -78,7 +78,7 @@ typedef const char *(*T_PyUnicode_AsUTF8)(PyObject *);
 typedef PyObject *(*T_PyDict_New)();
 typedef PyObject *(*T_PyList_New)(My_ssize_t);  // Use Py_ssize_t for size
 typedef int (*T_PyList_SetItem)(PyObject *, My_ssize_t, PyObject *);
-
+typedef void (*T_PyErr_Clear)();
 
 
 // Python library handle
@@ -132,6 +132,7 @@ T_PyUnicode_AsUTF8 MyUnicode_AsUTF8;
 T_PyDict_New MyDict_New;
 T_PyList_New MyList_New;
 T_PyList_SetItem MyList_SetItem;
+T_PyErr_Clear MyErr_Clear;
 
 
 constexpr std::array<const char*, 89> ELEMENT_KEYWORDS = {

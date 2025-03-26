@@ -97,6 +97,7 @@
           call my_alloc(sensor_ptr%rparam,sensor_ptr%nparr)
           call my_alloc(sensor_ptr%var,sensor_ptr%nvar)
           python%nb_functs = python%nb_functs + 1
+          python%nb_sensors = python%nb_sensors + 1
           i = python%nb_functs
           sensor_ptr%python_function_id = i
           func_id = sens_id

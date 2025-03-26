@@ -129,7 +129,7 @@ contains
 !     --> flag = 2 : loop only on 2nd strand of elements in slipring - i /= j
 !        (all local arrays use j)
 !-----------------------------------------------------------------------
-      nfunct = python%funct_offset + python%nb_functs! offset = nb of non-python functions
+      nfunct = python%funct_offset + python%nb_functs - python%nb_sensors! offset = nb of non-python functions
 
       x1s = -huge(x1s)
       x2s = -huge(x2s)
@@ -186,7 +186,7 @@ contains
             i = indexa(j)
             jpos(j)  = nint(pos(i))
             jfunc =max(1,ifunc(i))
-            pyid1 = get_python_funct_id(nfunct, jfunc,npf)
+            pyid1 = get_python_funct_id(nfunct, jfunc,npf,snpc)
             if(pyid1>0)then
                jad(j) = -pyid1
                jlen(j) = -pyid1
@@ -195,7 +195,7 @@ contains
                jad(j)   = npf(jfunc) / 2  + 1
                jlen(j)  = npf(jfunc+1) / 2  - jad(j)  - jpos(j)
             endif
-            pyid2 = get_python_funct_id(nfunct, ifunc2(i),npf)
+            pyid2 = get_python_funct_id(nfunct, ifunc2(i),npf,snpc)
             if(pyid2 > 0) then
                jad2(j) = -pyid2
                jlen2(j) = -pyid2

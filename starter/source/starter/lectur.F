@@ -1200,6 +1200,7 @@ C DAMPING
 c=======================================================================
       IREAC = 0 
       PYTHON%NB_FUNCTS = 0
+      PYTHON%NB_SENSORS = 0
 !     domain decomposition statistic
       DDSTAT(1:50,1:PARASIZ)=0
       I22LEN_L = 0 
@@ -4978,6 +4979,7 @@ c
       CALL SENSOR_USER_INIT(SENSOR_USER_STRUCT)
       ! -------------
 c
+      PYTHON%NB_SENSORS = 0
       CALL HM_READ_SENSORS(PYTHON,
      .     SENSORS   ,LACCELM  ,ITABM1    ,IPART     ,LGAUGE    ,
      .     SUBSETS   ,NSETS    ,IGRSURF   ,IGRNOD    ,BUFSF     ,

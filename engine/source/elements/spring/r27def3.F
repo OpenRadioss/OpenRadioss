@@ -102,7 +102,7 @@ C     ==================================================================
 C     RECOVERING SPRING PARAMETERS
 C     ==================================================================
       ANY_PYTHON_FUNCTION = .FALSE.
-      NFUNCT = PYTHON%FUNCT_OFFSET + PYTHON%nb_functs! OFFSET = nb of non-python functions
+      NFUNCT = PYTHON%FUNCT_OFFSET + PYTHON%nb_functs - PYTHON%nb_sensors! OFFSET = nb of non-python functions
 
       DO I=1,NEL
         PID        = MGN(I) 
