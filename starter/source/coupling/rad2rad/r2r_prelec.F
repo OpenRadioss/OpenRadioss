@@ -841,10 +841,10 @@ C--> pretag of elts on second. side of contact to keep them with void material <
             ENDIF
 C
 C ---------> case of TYPE18 contact interface---------------------------------------
-          ELSEIF (KEY(1:6)=='TYPE18') THEN
+          ELSEIF (KEY(1:6) == 'TYPE18') THEN
             CONT = 1
-            CALL HM_GET_INTV('secondaryentityids',GR_BRIC,IS_AVAILABLE,LSUBMODEL)
-            CALL HM_GET_INTV('tempsecondaryentityids',GRS,IS_AVAILABLE,LSUBMODEL)
+            CALL HM_GET_INTV('ALEelemsEntityids',GR_BRIC,IS_AVAILABLE,LSUBMODEL)
+            CALL HM_GET_INTV('ALEnodesEntityids',GRS,IS_AVAILABLE,LSUBMODEL)
             CALL HM_GET_INTV('mainentityids',GRM,IS_AVAILABLE,LSUBMODEL)
 
 C--> check if the contact is between domains and if it is asymmetric  <------C
@@ -858,16 +858,16 @@ C--> check if the contact is between domains and if it is asymmetric  <------C
      .                        IGRNOD ,IGRSURF ,IGRSLIN, IGRBRIC)
             ENDIF
 C-->
-            IF (TAG>0) THEN
+            IF (TAG > 0) THEN
               COMPT_T2 = COMPT_T2 + 1
 C--> pretag of elts on main side of contact to keep them with void material <---C
-              IF ((TAG==3).OR.(TAG==1).OR.(TAG==4)) THEN
+              IF ((TAG == 3) .OR. (TAG == 1) .OR. (TAG == 4)) THEN
                 CALL TAG_ELEM_VOID_R2R(IGRSURF(G2)%NSEG,IPARTS,
      .          IPARTC,IPARTG,IPARTSP,VAL,CONT,MODIF,MEMTR,0,0,EANI,
      .          IGRSURF(G2),IGRNOD,G2)
               ENDIF
 C--> pretag of elts on second. side of contact to keep them with void material <---C
-              IF ((TAG==2).OR.(TAG==1)) THEN
+              IF ((TAG == 2) .OR. (TAG == 1)) THEN
                 IF (GRS > 0) THEN
                   CALL TAG_ELEM_VOID_R2R(IGRNOD(G1)%NENTITY,IPARTS,
      .            IPARTC,IPARTG,IPARTSP,VAL,CONT,MODIF,MEMTR,0,1,EANI,
