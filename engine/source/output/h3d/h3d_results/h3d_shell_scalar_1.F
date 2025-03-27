@@ -4991,12 +4991,12 @@ C--------------------------------------------------
 C--------------------------------------------------
             ELSEIF(KEYWORD == 'TDET' )THEN
 C--------------------------------------------------
-              IF (MLW  /= 51 .AND. MLW /=151 .AND. GBUF%G_TB > 0) THEN
+              IF (MLW  /= 51 .AND. GBUF%G_TB > 0) THEN
                 DO I=1,NEL
                   VALUE(I) = -GBUF%TB(I)
                   IS_WRITTEN_VALUE(I) = 1
                 ENDDO
-              ELSEIF (MLW == 51)THEN
+              ELSEIF (MLW == 51  .AND. GBUF%G_TB > 0)THEN
                 IPOS      = 15
                 ITRIMAT   = 4
                 MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)
@@ -5005,25 +5005,6 @@ C--------------------------------------------------
                   VALUE(I) = -MBUF%VAR(K+I)
                   IS_WRITTEN_VALUE(I) = 1
                 ENDDO
-                ELSEIF(MLW == 151 .AND. GBUF%G_TB > 0)THEN
-                   DO I=1,NEL
-                     DETECTED = .FALSE.
-                     VALUE(I) = ZERO
-                     DO ILAY=1,NLAY
-                       SUBMATLAW = ELBUF_TAB(NG)%BUFLY(ILAY)%ILAW
-                       IF(SUBMATLAW == 5 )THEN
-                         VOLFRAC = ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)%VOL(I)/GBUF%VOL(I)
-                         BFRAC = MULTI_FVM%BFRAC(ILAY,I+NFT)
-                         IF(VOLFRAC > ZERO .OR. BFRAC > ZERO)THEN
-                           DETECTED = .TRUE.
-                         ENDIF
-                       ENDIF
-                     ENDDO
-                     IF(DETECTED)THEN
-                       VALUE(I) = -GBUF%TB(I)
-                     ENDIF
-                     IS_WRITTEN_VALUE(I) = 1
-                   ENDDO
               ENDIF
 C--------------------------------------------------
             ELSEIF(KEYWORD == 'BFRAC' )THEN
