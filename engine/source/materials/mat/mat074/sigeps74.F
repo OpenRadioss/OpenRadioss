@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE SIGEPS74(
      1     NEL    ,NUPARAM,NUVAR   ,MFUNC   ,KFUNC   ,NPF    ,
      2     TF     ,TIME   ,TIMESTEP,UPARAM  ,RHO0    ,RHO    ,
-     3     VOLUME ,EINT   ,
+     3     VOLUME ,EINT   ,FHEAT   ,JLAG    ,
      4     EPSPXX ,EPSPYY ,EPSPZZ  ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
      5     DEPSXX ,DEPSYY ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
      6     EPSXX  ,EPSYY  ,EPSZZ   ,EPSXY   ,EPSYZ   ,EPSZX  ,
@@ -44,7 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      9     SIGVXX ,SIGVYY ,SIGVZZ  ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
      A     SOUNDSP,VISCMAX,UVAR    ,OFF     ,NGL     ,IPT    ,
      B     IPM    ,MAT    ,EPSP    ,IPLA    ,YLD     ,PLA    ,
-     C     DPLA   ,ETSE   ,JTHE    ,TEMPEL  ,TABLE   ,SEQ_OUTPUT,
+     C     DPLA   ,ETSE   ,JTHE    ,TEMP    ,TABLE   ,SEQ_OUTPUT,
      D     AMU    ,ISEQ   )
 C-----------------------------------------------
       USE TABLE_MOD
@@ -111,6 +111,7 @@ C---------+---------+---+---+--------------------------------------------
 C=======================================================================
       INTEGER NEL, NUPARAM, NUVAR,IPT,IPLA, JTHE,
      .   NGL(NEL),MAT(NEL),IPM(NPROPMI,*),ISEQ
+      INTEGER ,INTENT(IN) :: JLAG
       my_real
      .   TIME,TIMESTEP,UPARAM(*),
      .   RHO(NEL),RHO0(NEL),VOLUME(NEL),EINT(NEL),
@@ -122,7 +123,7 @@ C=======================================================================
      .   EPSXY(NEL) ,EPSYZ(NEL) ,EPSZX(NEL) ,
      .   SIGOXX(NEL),SIGOYY(NEL),SIGOZZ(NEL),
      .   SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL),
-     .   EPSP(NEL),ETSE(NEL), TEMPEL(NEL),SEQ_OUTPUT(NEL),
+     .   EPSP(NEL),ETSE(NEL), TEMP(NEL),SEQ_OUTPUT(NEL),
      .   AMU(NEL)
       TYPE(TTABLE) TABLE(*)
 C-----------------------------------------------
@@ -137,8 +138,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      my_real 
-     .        UVAR(NEL,NUVAR), OFF(NEL),  YLD(NEL), PLA(NEL)
+      my_real :: UVAR(NEL,NUVAR), OFF(NEL),  YLD(NEL), PLA(NEL)
+      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: FHEAT
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------
@@ -163,7 +164,7 @@ C-----------------------------------------------
       my_real
      .        E,NU,P,DAV,R,FAC,EPST,EP1,EP2,EP3,EP4,EP5,EP6,
      .        E1,E2,E3,E4,E5,E6,C,CC,D,Y,YP,E42,E52,E62,EPST2,
-     .        C1,G,G2,G3,FF,GG,HH,NN,LL,MM,
+     .        C1,G,G2,G3,FF,GG,HH,NN,LL,MM,VOL0, RHOCP,
      .        EPSMAX,H(MVSIZ),CRI(MVSIZ),
      .        FAIL(MVSIZ),EPSR1,EPSR2,P0(MVSIZ),HKIN,
      .       FISOKIN,SIGEXX(MVSIZ),SIGEYY(MVSIZ),SIGEZZ(MVSIZ),
@@ -173,8 +174,7 @@ C-----------------------------------------------
      .       XFAC, YFAC,E0(MVSIZ), G1(MVSIZ), G21(MVSIZ), G31(MVSIZ), 
      .       C11(MVSIZ),ESCALE(MVSIZ),EINF,DYDXE(MVSIZ),CE
       my_real 
-     .        YK(MVSIZ), DYDX(MVSIZ),
-     .        COEF(MVSIZ), TEMP(MVSIZ), VOL0, RHOCP
+     .        YK(MVSIZ), DYDX(MVSIZ)
       my_real,
      .        DIMENSION(NEL,3) :: XX3
       my_real,
@@ -192,9 +192,10 @@ C
       ITABLE = IPM(227,MAT(1))
       IADBUF = IPM(7,MAT(1))-1
       FISOKIN=UPARAM(IADBUF+1)
-      OPTE    = UPARAM(IADBUF+25)
-      CE    = UPARAM(IADBUF+27)
-      EINF  = UPARAM(IADBUF+26)
+      RHOCP  = UPARAM(IADBUF+23)
+      OPTE   = UPARAM(IADBUF+25)
+      CE     = UPARAM(IADBUF+27)
+      EINF   = UPARAM(IADBUF+26)
 
       IF (OPTE==1.OR. CE > ZERO)THEN
        DO I=1,NEL     
@@ -255,15 +256,16 @@ C
       MM        = UPARAM(IADBUF+11)
       NN        = UPARAM(IADBUF+12)
 C
-      IF (ISIGI==0) THEN
-        IF(TIME==ZERO)THEN
+      IF (TIME == ZERO) THEN
+        TEMP(1:NEL) = UPARAM(IADBUF + 22)
+        IF (ISIGI==0) THEN
           DO I=1,NEL
-            UVAR(I,1)=ZERO
-            UVAR(I,2)=ZERO
-            UVAR(I,3)=ZERO
-            UVAR(I,4)=ZERO
+            UVAR(I,1)= ZERO
+            UVAR(I,2)= ZERO
+            UVAR(I,3)= ZERO
+            UVAR(I,4)= ZERO
             DO J=1,6
-             UVAR(I,4 + J ) = ZERO
+              UVAR(I,4 + J) = ZERO
             ENDDO
           ENDDO
         ENDIF
@@ -401,33 +403,14 @@ C          ECROUISSAGE CINEMATIQUE
         END IF
       ELSE
 C-----------------------------------------------
-C  Calcul de la tempurature. (conduction ou adiabatique)
-C--------------------    
-        DO I=1,NEL    
-          COEF(I) = ONE
-        END DO
-C
-        IF(JTHE < 0 ) THEN
-         DO I=1,NEL     
-           TEMP(I) = TEMPEL(I)
-         ENDDO
-        ELSE
-         RHOCP=UPARAM(IADBUF+23)
-         DO I=1,NEL
-           TEMP(I) = UPARAM(IADBUF + 22)
-           TEMP(I) = TEMP(I) 
-     .             + COEF(I)*RHOCP*EINT(I)/MAX(EM15,VOLUME(I))
-         ENDDO
-        ENDIF
-C
         DO I=1,NEL
           IPOS3(I,1) = NINT(UVAR(I,2))
           IPOS3(I,2) = NINT(UVAR(I,3))
           IPOS3(I,3) = NINT(UVAR(I,4))
 C
-          XX3(I,1)=PLA (I)
-          XX3(I,2)=EPSP(I)*XFAC
-          XX3(I,3)=TEMP(I)
+          XX3(I,1) = PLA (I)
+          XX3(I,2) = EPSP(I)*XFAC
+          XX3(I,3) = TEMP(I)
         END DO      
 C
         CALL TABLE_VINTERP(TABLE(ITABLE),NEL,NEL,IPOS3,XX3,YLD,DYDX)
@@ -755,26 +738,8 @@ C          ECROUISSAGE CINEMATIQUE
            YLD(I) = MAX(YLD(I),EM20)
          ENDDO
         END IF
+c
       ELSE
-C-----------------------------------------------
-C  Calcul de la tempurature. (conduction ou adiabatique)
-C--------------------    
-        DO I=1,NEL    
-          COEF(I) = ONE
-        END DO
-C
-        IF(JTHE < 0 ) THEN
-         DO I=1,NEL     
-           TEMP(I) = TEMPEL(I)
-         ENDDO
-        ELSE
-         RHOCP=UPARAM(IADBUF+23)
-         DO I=1,NEL
-           TEMP(I) = UPARAM(IADBUF + 22)
-           TEMP(I) = TEMP(I) 
-     .             + COEF(I)*RHOCP*EINT(I)/MAX(EM15,VOLUME(I))
-         ENDDO
-        ENDIF
 C
         DO I=1,NEL
           IPOS3(I,1) = NINT(UVAR(I,2))
@@ -932,6 +897,19 @@ c     .                   SIGEYZ,SIGEZX,DPLA,G   ,H     )
       ENDIF
 c
       ENDIF ! opte==1 CE/=0
+C-----------------------------------------------
+C     Update temperature due to plastic work
+C--------------------    
+      IF (JTHE < 0 .AND. JLAG /= 0) THEN
+        DO I=1,NEL
+          FHEAT(I) = FHEAT(I) + YLD(I)*DPLA(I)*VOLUME(I)
+        ENDDO
+      ELSE IF (RHOCP > ZERO) THEN
+        DO I=1,NEL
+          TEMP(I) = TEMP(I) + YLD(I)*DPLA(I)*RHOCP/MAX(EM15,VOLUME(I))
+        ENDDO
+      ENDIF
+C
 C-------------------
       DO I=1,NEL
         IF(OFF(I)<EM01) OFF(I)=ZERO

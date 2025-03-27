@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE SIGEPS187(
      1     NEL    ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC    ,
      2     NPF    ,TF     ,TIME    ,TIMESTEP,UPARAM   ,
-     3     RHO0   ,RHO    ,VOLUME  ,EINT    ,TEMPEL,NGL , 
+     3     RHO0   ,RHO    ,VOLUME  ,EINT    ,
      4     EPSPXX ,EPSPYY ,EPSPZZ  ,EPSPXY  ,EPSPYZ  ,EPSPZX   , 
      5     DEPSXX ,DEPSYY ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX   ,
      6     EPSXX  ,EPSYY  ,EPSZZ   ,EPSXY   ,EPSYZ   ,EPSZX  ,
@@ -39,7 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      8     SIGNXX ,SIGNYY ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
      9     SIGVXX ,SIGVYY ,SIGVZZ  ,SIGVXY  ,SIGVYZ  ,SIGVZX , 
      A     SOUNDSP,VISCMAX,UVAR    ,OFF     ,YLD     ,PLA    ,
-     B     DPLA    ,ETSE   ,IPM     ,MAT     ,ISRATE ,
+     B     DPLA    ,ETSE   ,IPM    ,MAT     ,ISRATE ,
      C     FACYLDI ,EPSP     )  
 C=======================================================================
 C   BARLAT YLD2000 material model
@@ -104,8 +104,8 @@ C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
 C
-      INTEGER NEL, NUPARAM, NUVAR,
-     .        IPM(NPROPMI,*),ISRATE(NEL),MAT(NEL), NGL(NEL)
+      INTEGER :: NEL, NUPARAM, NUVAR
+      INTEGER :: IPM(NPROPMI,*),ISRATE(NEL),MAT(NEL)
       my_real 
      .   TIME,TIMESTEP,UPARAM(NUPARAM),
      .   RHO(NEL),RHO0(NEL),VOLUME(NEL),EINT(NEL),
@@ -117,7 +117,7 @@ C
      .   EPSXY(NEL) ,EPSYZ(NEL) ,EPSZX(NEL) ,
      .   SIGOXX(NEL),SIGOYY(NEL),SIGOZZ(NEL),
      .   SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL),
-     .   TEMPEL(NEL),FACYLDI(NEL),EPSP(NEL)
+     .   FACYLDI(NEL),EPSP(NEL)
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------

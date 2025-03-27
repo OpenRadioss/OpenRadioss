@@ -157,15 +157,18 @@ C-----------------------------------------------
      .   FSCAL_ALPHA,ETH(MVSIZ),DEINTTH,ALPHA,DF,VL12(MVSIZ),DTINV
 C
       my_real ::  KC,PHIX, CA,CB, AREA, FPHI(MVSIZ,2),DIE(MVSIZ)
-      my_real ,DIMENSION(NEL) ::  SIGX,SAPT
+      my_real ,DIMENSION(NEL) ::  SIGX,SAPT,VECNUL
       my_real ,DIMENSION(:) ,POINTER :: UVAR
+      my_real ,DIMENSION(:) ,POINTER :: EL_TEMP
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
+      TARGET :: TEMPEL,VECNUL
 C-----------------------------------------------      
        my_real FINTER 
       EXTERNAL FINTER
-C-----------------------------------------------
+C===============================================================================
       GBUF => ELBUF_STR%GBUF
+          vecnul(:) = zero          
 C-----------------------------------------------
       CALL PCOOR3(
      1   X,       NCC,     MAT,     PID,
@@ -234,6 +237,22 @@ c
           GBUF%EINTTH(I) = GBUF%EINTTH(I)  + DEINTTH
         ENDDO 
       ENDIF   
+!
+      if (jthe /= 0) then
+        el_temp => tempel(1:nel)
+      else if (igtyp == 3) then
+        if (elbuf_str%gbuf%g_temp > 0) then
+          el_temp => elbuf_str%gbuf%temp
+        else
+          el_temp => vecnul(1:nel)
+        end if
+      else if (igtyp == 18) then
+        if (elbuf_str%bufly(1)%l_temp > 0) then
+          el_temp => elbuf_str%bufly(1)%lbuf(1,1,1)%temp
+        else
+          el_temp => vecnul(1:nel)
+        endif
+      endif
 C---
       IF (IGTYP == 3) THEN
         ! beams type 3 (global integration)
@@ -242,7 +261,7 @@ C---
 
         CALL MAIN_BEAM3(
      .       ELBUF_STR,NEL      ,MTN      ,JTHE     ,IFAIL    ,
-     .       IPM      ,PM       ,GEO      ,TEMPEL   ,OFF      ,
+     .       IPM      ,PM       ,GEO      ,EL_TEMP  ,OFF      ,
      .       MAT      ,PID      ,NGL      ,TT       ,DT1      ,
      .       AL       ,NPF      ,TF       ,EXX      ,EXY      ,
      .       EXZ      ,KXX      ,KYY      ,KZZ      ,F1       ,
@@ -262,7 +281,7 @@ C----
      4       GBUF%EINT ,AL          ,GBUF%EPSD ,BUFMAT   ,NPF     ,       
      5       TF        ,EXX         ,EXY       ,EXZ      ,KXX     ,       
      6       KYY       ,KZZ         ,F1        ,F2       ,F3      ,       
-     7       M1        ,M2          ,M3        ,JTHE     ,TEMPEL  ,       
+     7       M1        ,M2          ,M3        ,JTHE     ,EL_TEMP ,       
      8       IFAIL     ,SBUFMAT     ,SNPC      ,STF      ,NUMMAT  ,       
      9       NUMGEO    ,IOUT        ,ISTDO     ,NPROPMI  ,NPROPM  ,
      A       NPROPG    ,TT          ,DT1       ,IDEL7NOK ,ISIGI   ,
@@ -280,7 +299,7 @@ c---------------------------
 c-----------------------------------------------------------------------  
 c     Thermal expansion
 c-----------------------------------------------------------------------  
-      IF(JTHE > 0) THEN 
+      IF (JTHE > 0) THEN 
         IF (IEXPAN > 0) THEN
           IF (IGTYP == 3) THEN   
             CALL THERMEXPPG(NEL    ,MAT       ,PID          ,PM     ,GEO  ,
@@ -352,7 +371,7 @@ C----------------------------
      .            F31      ,F32      ,M11     ,M12        ,M21,
      .            M22      ,M31      ,M32     )
 C-------------------------
-c     Thermique des coques 
+c     Thermal flux 
 C--------------------------
 C
        IF (JTHE > 0) THEN

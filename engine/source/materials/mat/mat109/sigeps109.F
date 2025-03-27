@@ -39,7 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5     DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      6     SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      7     SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     8     INLOC   ,DPLANL  ,IEOS    )
+     8     INLOC   ,DPLANL  ,IEOS    ,JLAG    ,FHEAT   ,VOLUME  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -57,20 +57,25 @@ C-----------------------------------------------
 C   D u m m y A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: IEOS
-      INTEGER NEL,NUPARAM,NUVAR,NVARTMP,NUMTABL,JTHE,INLOC
+      INTEGER ,INTENT(IN) :: JTHE
+      INTEGER ,INTENT(IN) :: JLAG
+      INTEGER NEL,NUPARAM,NUVAR,NVARTMP,NUMTABL,INLOC
       INTEGER ,DIMENSION(NUMTABL),INTENT(IN)  :: ITABLE
       INTEGER ,DIMENSION(NEL)    ,INTENT(IN)  :: NGL
 c
       my_real  :: TIME,TIMESTEP
       my_real,DIMENSION(NUPARAM) ,INTENT(IN)  :: UPARAM
+      my_real,DIMENSION(NEL)     ,INTENT(IN)  :: VOLUME
       my_real,DIMENSION(NEL)     ,INTENT(IN)  :: RHO,DPDM,OFF,
      .   DEPSXX,DEPSYY,DEPSZZ,DEPSXY,DEPSYZ,DEPSZX,
      .   SIGOXX,SIGOYY,SIGOZZ,SIGOXY,SIGOYZ,SIGOZX,DPLANL
       my_real ,DIMENSION(NEL)    ,INTENT(OUT) ::  SOUNDSP,SIGY,ET,
      .   SIGNXX,SIGNYY,SIGNZZ,SIGNXY,SIGNYZ,SIGNZX
-      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: PLA,DPLA,EPSP,TEMP
+      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: PLA,DPLA,EPSP
       my_real ,DIMENSION(NEL,NUVAR)   ,INTENT(INOUT) :: UVAR
       INTEGER ,DIMENSION(NEL,NVARTMP) ,INTENT(INOUT) :: VARTMP
+      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: TEMP
+      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: FHEAT
 c
       TYPE(TTABLE), DIMENSION(NTABLE) ::  TABLE
 C-----------------------------------------------
@@ -80,7 +85,7 @@ C-----------------------------------------------
      .   FUNC_YLD,FUNC_TEMP,FUNC_ETA,NDIM_YLD,NDIM_TEMP,NDIM_ETA
       INTEGER ,DIMENSION(NEL) :: INDEX
 c
-      my_real  :: YOUNG,BULK,LAME,G,G2,G3,NU,TREF,TINI,BETA,LDAV,
+      my_real  :: YOUNG,BULK,LAME,G,G2,G3,NU,TREF,TINI,ETA,LDAV,CP,
      .   XRATE,XSCALE,YSCALE,DTINV,J2,Q2,DPHI_DLAM,R,DLAMIN,ALPHA,ALPHI
       my_real  :: check_svm
 c
@@ -103,7 +108,7 @@ c     Material model parameters
 c-----------------------------------------------
       YOUNG   =  UPARAM(1)       ! Young modulus
       NU      =  UPARAM(2)       ! Poisson ratio
-      BETA    =  UPARAM(3)       ! Thermal work coefficient
+      ETA     =  UPARAM(3)       ! Thermal work coefficient
       TREF    =  UPARAM(4)       ! Reference temperature
       TINI    =  UPARAM(5)       ! Initial tempareture
       ISMOOTH =  NINT(UPARAM(6)) ! function interpolation flag
@@ -116,7 +121,7 @@ c-----------------------------------------------
       G3      =  UPARAM(13)      ! Shear modulus * 3
       BULK    =  UPARAM(14)      ! Bulk modulus
       LAME    =  UPARAM(15)      ! Lame parameter
-      IF (JTHE /= 0) BETA = ZERO ! No temperature calculation inside material
+      CP      =  UPARAM(20)      ! Specific heat coefficient
 c
       FUNC_YLD  = ITABLE(1)
       FUNC_TEMP = ITABLE(2)
@@ -149,40 +154,39 @@ c
       ENDIF
 c      
 c---  self heating factor and temperatiure initialization
-      IF (JTHE == 0) THEN    ! internal temperature is calculated
-        IF (TIME == ZERO) TEMP(1:NEL) = TINI
-        IF (BETA > ZERO) THEN
-          IF (FUNC_ETA > 0) THEN    ! scale factor function for Taylor-Quinney coefficient
-            IF (INLOC == 0) THEN 
-              XVEC_ETA(1:NEL,1) = EPSP(1:NEL) * XRATE 
-            ELSE
-              XVEC_ETA(1:NEL,1) = DPDT_NL(1:NEL) * XRATE 
-            ENDIF
-            IPOS_ETA(1:NEL,1) = 1
-            IF (NDIM_ETA > 1) THEN
-              XVEC_ETA(1:NEL,2) = TEMP(1:NEL)
-              IPOS_ETA(1:NEL,2) = VARTMP(1:NEL,4)
-            END IF
-            IF (NDIM_ETA > 2) THEN
-              IF (INLOC == 0) THEN 
-                XVEC_ETA(1:NEL,3) = PLA(1:NEL)
-              ELSE
-                XVEC_ETA(1:NEL,3) = PLA_NL(1:NEL)
-              ENDIF
-              IPOS_ETA(1:NEL,3) = VARTMP(1:NEL,5)
-            END IF
-
-            CALL TABLE_VINTERP(TABLE(FUNC_ETA),NEL,NEL,IPOS_ETA,XVEC_ETA,FACT_ETA,DXDYV)          
-      
-            IF (NDIM_ETA > 1) VARTMP(1:NEL,4) = IPOS_ETA(1:NEL,2)
-            IF (NDIM_ETA > 2) VARTMP(1:NEL,5) = IPOS_ETA(1:NEL,3)
-            DO I=1,NEL
-              FTHERM(I) = MIN(BETA*FACT_ETA(I), ONE)
-            END DO
+      IF (JTHE == 0 .and. TIME == ZERO) TEMP(1:NEL) = TINI
+!
+      IF (ETA > ZERO) THEN
+        IF (FUNC_ETA > 0) THEN    ! scale factor function for Taylor-Quinney coefficient
+          IF (INLOC == 0) THEN 
+            XVEC_ETA(1:NEL,1) = EPSP(1:NEL) * XRATE 
           ELSE
-            FTHERM(1:NEL) = MIN(BETA, ONE)
-          END IF 
-        END IF
+            XVEC_ETA(1:NEL,1) = DPDT_NL(1:NEL) * XRATE 
+          ENDIF
+          IPOS_ETA(1:NEL,1) = 1
+          IF (NDIM_ETA > 1) THEN
+            XVEC_ETA(1:NEL,2) = TEMP(1:NEL)
+            IPOS_ETA(1:NEL,2) = VARTMP(1:NEL,4)
+          END IF
+          IF (NDIM_ETA > 2) THEN
+            IF (INLOC == 0) THEN 
+              XVEC_ETA(1:NEL,3) = PLA(1:NEL)
+            ELSE
+              XVEC_ETA(1:NEL,3) = PLA_NL(1:NEL)
+            ENDIF
+            IPOS_ETA(1:NEL,3) = VARTMP(1:NEL,5)
+          END IF
+
+          CALL TABLE_VINTERP(TABLE(FUNC_ETA),NEL,NEL,IPOS_ETA,XVEC_ETA,FACT_ETA,DXDYV)          
+    
+          IF (NDIM_ETA > 1) VARTMP(1:NEL,4) = IPOS_ETA(1:NEL,2)
+          IF (NDIM_ETA > 2) VARTMP(1:NEL,5) = IPOS_ETA(1:NEL,3)
+          DO I=1,NEL
+            FTHERM(I) = MIN(ETA*FACT_ETA(I), ONE)
+          END DO
+        ELSE
+          FTHERM(1:NEL) = MIN(ETA, ONE)
+        END IF 
       END IF 
 c-----------------------------------------------
 c     Trial stress
@@ -336,12 +340,19 @@ c
           ET(I)  = HARDP(I) / (HARDP(I) + YOUNG)
         ENDDO                      
 c
-        ! Update the temperature
-        IF (JTHE == 0 .AND. BETA > ZERO .AND. INLOC == 0) THEN 
-          DO II = 1, NINDX 
-            I = INDEX(II)
-            TEMP(I) = TEMP(I) + FTHERM(I)*YLD(I)*DPLA(I)
-          ENDDO                      
+        ! Update the temperature or heat energy due to plastic work
+        IF (ETA > ZERO .AND. INLOC == 0) THEN 
+          IF (JTHE /= 0 .AND. JLAG /= 0) THEN
+            DO II = 1, NINDX 
+              I = INDEX(II)
+              FHEAT(I) = FHEAT(I) + FTHERM(I)*YLD(I)*DPLA(I) * VOLUME(I)
+            ENDDO
+          ELSE IF (CP > ZERO) THEN
+            DO II = 1, NINDX 
+              I = INDEX(II)
+              TEMP(I) = TEMP(I) + FTHERM(I)*YLD(I)*DPLA(I) / (CP*RHO(I))
+            ENDDO
+          ENDIF
         ENDIF
 c
       END IF     !  NINDX > 0  (plasticity)
@@ -363,10 +374,14 @@ c
 c
       SIGY(1:NEL) = YLD(1:NEL)
       EPSP(1:NEL) = ALPHA*DPLA(1:NEL)*DTINV + ALPHI*EPSP(1:NEL)
-      IF (INLOC > 0) THEN 
-        IF (JTHE == 0 .AND. BETA > ZERO) THEN 
+      IF (INLOC > 0 .AND. ETA > ZERO) THEN 
+        IF (JTHE /= 0 .AND. JLAG /= 0) THEN
+          DO II = 1, NEL
+            FHEAT(I) = FHEAT(I) + FTHERM(I)*YLD(I)*MAX(DPLANL(I),ZERO) * VOLUME(I)
+          ENDDO
+        ELSE IF (CP > ZERO) THEN
           DO I = 1,NEL     
-            TEMP(I) = TEMP(I) + FTHERM(I)*YLD(I)*MAX(DPLANL(I),ZERO) 
+            TEMP(I) = TEMP(I) + FTHERM(I)*YLD(I)*MAX(DPLANL(I),ZERO) / (CP*RHO(I))
           ENDDO
         ENDIF
       ENDIF

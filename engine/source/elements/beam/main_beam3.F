@@ -88,7 +88,7 @@ C-----------------------------------------------
       my_real ,INTENT(IN) :: TF(STF)
       my_real ,INTENT(IN) :: BUFMAT(SBUFMAT)
       my_real ,DIMENSION(NEL)  ,INTENT(IN)    :: AL
-      my_real ,DIMENSION(NEL)  ,INTENT(IN)    :: TEMPEL
+      my_real ,DIMENSION(NEL)  ,INTENT(INOUT) :: TEMPEL
       my_real ,DIMENSION(NEL)  ,INTENT(INOUT) :: EXX,EXY,EXZ
       my_real ,DIMENSION(NEL)  ,INTENT(INOUT) :: KXX,KYY,KZZ
       my_real ,DIMENSION(NEL)  ,INTENT(INOUT) :: OFF

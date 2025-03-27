@@ -86,9 +86,9 @@ C-----------------------------------------------
       my_real ,INTENT(IN) :: PM(NPROPM,NUMMAT)
       my_real ,INTENT(IN) :: GEO(NPROPG,NUMGEO)
       my_real ,DIMENSION(NEL)  ,INTENT(IN)  :: AL
-      my_real ,DIMENSION(NEL)  ,INTENT(IN)  :: TEMPEL
       my_real ,DIMENSION(NEL)  ,INTENT(OUT) :: EPSD
       my_real ,DIMENSION(SBUFMAT) ,INTENT(IN) :: BUFMAT
+      my_real ,DIMENSION(NEL)  ,INTENT(INOUT) :: TEMPEL
       my_real ,DIMENSION(NEL)  ,INTENT(INOUT) :: OFF
       my_real ,DIMENSION(NEL,2),INTENT(INOUT) :: EINT
       my_real ,DIMENSION(NEL,3),INTENT(INOUT) :: FOR,MOM

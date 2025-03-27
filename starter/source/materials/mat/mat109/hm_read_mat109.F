@@ -74,7 +74,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: ISMOOTH,ILAW,TAB_YLD,TAB_TEMP,TAB_ETA
-      my_real :: YOUNG,NU,G,LAME,BULK,A1,A2,CP,TREF,TINI,ETA,BETA,XRATE,
+      my_real :: YOUNG,NU,G,LAME,BULK,A1,A2,CP,TREF,TINI,ETA,XRATE,
      .           XSCALE,YSCALE,YSCALE_UNIT,XSCALE_UNIT
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
@@ -118,11 +118,6 @@ c------------------------
       IF (ISMOOTH == 0)   ISMOOTH = 1
       IF (TREF   == ZERO) TREF    = 293.0
       IF (TINI   == ZERO) TINI    = TREF
-      IF (CP > ZERO) THEN
-        BETA = ETA / (RHO*CP)
-      ELSE
-        BETA = ZERO
-      END IF
       IF (YSCALE == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('MAT_Yscale' ,YSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         YSCALE = ONE * YSCALE_UNIT
@@ -141,7 +136,7 @@ c-----------------------------------------------
 c-----------------------------------------------
       UPARAM(1)  = YOUNG     ! Young modulus
       UPARAM(2)  = NU        ! Poisson ratio
-      UPARAM(3)  = BETA      ! Thermal work coefficient
+      UPARAM(3)  = ETA       ! Thermal work coefficient
       UPARAM(4)  = TREF      ! Reference temperature
       UPARAM(5)  = TINI      ! Initial temperature
       UPARAM(6)  = ISMOOTH   ! table interpolation flag:
@@ -161,6 +156,7 @@ c-----------------------------------------------
       UPARAM(17) = A2
       UPARAM(18) = NU / (ONE - NU)              ! NNU
       UPARAM(19) = (ONE - TWO*NU) / (ONE - NU)  ! NNU1
+      UPARAM(20) = CP
 c----------------
       PARMAT(1) = BULK
       PARMAT(2) = YOUNG
@@ -176,6 +172,9 @@ c----------------
       MTAG%G_TEMP = 1
       MTAG%L_TEMP = 1
 c----------------
+      ! activate heat source calculation in material
+      MATPARAM%HEAT_FLAG = 1
+!
       CALL INIT_MAT_KEYWORD(MATPARAM ,"ELASTO_PLASTIC")
       CALL INIT_MAT_KEYWORD(MATPARAM ,"INCREMENTAL"   )
       CALL INIT_MAT_KEYWORD(MATPARAM ,"LARGE_STRAIN"  )
@@ -187,7 +186,7 @@ c----------------
       CALL INIT_MAT_KEYWORD(MATPARAM,"SOLID_ISOTROPIC")
       CALL INIT_MAT_KEYWORD(MATPARAM,"SPH")
 c----------------
-      NUPARAM = 19
+      NUPARAM = 20
       NUVAR   = 0
       NTABL   = 3
 c

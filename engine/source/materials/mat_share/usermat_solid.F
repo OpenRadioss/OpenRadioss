@@ -91,7 +91,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5   BUFMAT,   TF,       NPF,      STIFN,
      6   MAT,      NGL,      NUVAR,    DT2T,
      7   NELTST,   ITYPTST,  OFFG,     GEO,
-     8   PID,      EPSD,     LTEMP,    WXX,
+     8   PID,      EPSD,     EL_TEMP,  WXX,
      9   WYY,      WZZ,      JSPH,     MUMAX,
      A   SSP,      AIRE,     VOLN,     VD2,
      B   DELTAX,   VIS,      D1,       D2,
@@ -112,7 +112,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      Q   JTHE,     ET,       MSSA,     DMELS,
      R   IPTR,     IPTS,     IPTT,     TABLE,
      S   FVD2,     FDELTAX,  FSSP,     FQVIS,
-     T   TEMPEL,   IPARG1,   IGEO,     SIGV,
+     T   IPARG1,   IGEO,     SIGV,
      U   AL_IMP,   SIGNOR,   ISTRAIN,  NG,
      V   ELBUF_TAB,VBUF,     ILAY,     VK,
      W   IPARG,    BUFVOIS,  VDX,      VDY,
@@ -195,8 +195,9 @@ C
      .   ETOTSH(NEL,6),TSTAR(MVSIZ),MUOLD(NEL),CONDE(*), RHOREF(*), RHOSP(*)
       TARGET :: BUFMAT,DELTAX,VARNL,DEFP
       my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
+      my_real, DIMENSION(LLT) :: EL_TEMP
       my_real, TARGET, DIMENSION(NUVAR*LLT):: UVAR
-      my_real, TARGET, DIMENSION(LLT):: LTEMP,TEMPEL,SCALE1,INITVARF
+      my_real, TARGET, DIMENSION(LLT):: SCALE1,INITVARF
       TYPE (BUF_FAIL_), TARGET  :: FBUF
       TYPE (BUF_VISC_)  :: VBUF
       TYPE (TTABLE), DIMENSION(NTABLE) ::  TABLE
@@ -242,7 +243,7 @@ C-----------------------------------------------
       my_real TT_LOCAL
       my_real, DIMENSION(NEL), TARGET  :: LE_MAX
 C----
-      my_real, DIMENSION(:), POINTER  :: UPARAM,UPARAMF,UVARF,DFMAX,TDEL,EL_TEMP, 
+      my_real, DIMENSION(:), POINTER  :: UPARAM,UPARAMF,UVARF,DFMAX,TDEL, 
      .                                   YLDFAC,DAM,EL_LEN,EL_PLA,DAMINI
       my_real, DIMENSION(MVSIZ)       :: EL_BFRAC,EL_TB
       INTEGER :: SIZBFRAC,SIZTB
@@ -331,13 +332,6 @@ c
 !
       ! Save old value of OFF flag
       OFF_OLD(1:NEL) = OFF(1:NEL)
-
-
-      IF (JTHE == 0 .and. ELBUF_TAB(NG)%BUFLY(ILAY)%L_TEMP > 0) THEN            
-        EL_TEMP => LTEMP     ! LBUF%TEMP
-      ELSE                                                  
-        EL_TEMP => TEMPEL(LFT:LLT)                           
-      ENDIF
 
       IF (GBUF%G_BFRAC > 0) THEN
         EL_BFRAC(1:NEL) = ELBUF_TAB(NG)%GBUF%BFRAC(1:NEL)     ! burn fraction for high explosive
@@ -1448,7 +1442,7 @@ c  --- GENE1 failure model
      3          NGL      ,GBUF%DT  ,EPSP1    ,UVARF    ,OFF      ,NPG      ,     
      4          ES1      ,ES2      ,ES3      ,ES4      ,ES5      ,ES6      ,           
      5          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,
-     6          TEMPEL   ,VOLN     ,DFMAX    ,TDEL     ,DELTAX   ,TABLE    ,
+     6          EL_TEMP  ,VOLN     ,DFMAX    ,TDEL     ,DELTAX   ,TABLE    ,
      7          IR       ,ELBUF_TAB(NG),ILAY ,NTABL_FAIL,ITABL_FAIL,LF_DAMMX,
      8          NIPAR    ,IPARAMF  )
 c

@@ -40,8 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7     SIGOXX ,SIGOYY ,SIGOZZ  ,
      8     SIGNXX ,SIGNYY ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
      9     SIGVXX ,SIGVYY ,SIGVZZ  ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
-     A     SOUNDSP,VISCMAX,UVAR    ,DELTVOL ,BFRAC  ,
-     B     TEMP)
+     A     SOUNDSP,VISCMAX,UVAR    ,DELTVOL ,BFRAC   ,TEMP   )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------

@@ -110,6 +110,7 @@ C-----------------------------------------------
       MTAG%L_EPSD = 1
       MTAG%G_PLA  = 1
       MTAG%L_PLA  = 1
+      MTAG%L_TEMP = 1
       
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.

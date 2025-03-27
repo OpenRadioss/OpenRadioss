@@ -28,22 +28,20 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    finter     ../engine/source/tools/curve/finter.F
       !||====================================================================
       SUBROUTINE SIGEPS84(
-     1   NEL,     NUPARAM, NUVAR,   NFUNC,
-     2   IFUNC,   NPF,     TF,      TIME,
-     3   TIMESTEP,UPARAM,  RHO0,    RHO,
-     4   VOLUME,  EINT,    TEMPEL,  NGL,
-     5   EPSPXX,  EPSPYY,  EPSPZZ,  EPSPXY,
-     6   EPSPYZ,  EPSPZX,  DEPSXX,  DEPSYY,
-     7   DEPSZZ,  DEPSXY,  DEPSYZ,  DEPSZX,
-     8   EPSXX,   EPSYY,   EPSZZ,   EPSXY,
-     9   EPSYZ,   EPSZX,   SIGOXX,  SIGOYY,
-     A   SIGOZZ,  SIGOXY,  SIGOYZ,  SIGOZX,
-     B   SIGNXX,  SIGNYY,  SIGNZZ,  SIGNXY,
-     C   SIGNYZ,  SIGNZX,  SIGVXX,  SIGVYY,
-     D   SIGVZZ,  SIGVXY,  SIGVYZ,  SIGVZX,
-     E   SOUNDSP, VISCMAX, UVAR,    OFF,
-     F   YLD,     PLA,     DEP,     ETSE,
-     G   IPM,     MAT,     JTHE)
+     1   NEL,     NUPARAM ,NUVAR ,  JLAG,  
+     2   TIME,    TIMESTEP,UPARAM,  RHO0,    RHO,
+     3   VOLUME,  EINT,    TEMP,    JTHE,
+     4   EPSPXX,  EPSPYY,  EPSPZZ,  EPSPXY,
+     5   EPSPYZ,  EPSPZX,  DEPSXX,  DEPSYY,
+     6   DEPSZZ,  DEPSXY,  DEPSYZ,  DEPSZX,
+     7   EPSXX,   EPSYY,   EPSZZ,   EPSXY,
+     8   EPSYZ,   EPSZX,   SIGOXX,  SIGOYY,
+     9   SIGOZZ,  SIGOXY,  SIGOYZ,  SIGOZX,
+     A   SIGNXX,  SIGNYY,  SIGNZZ,  SIGNXY,
+     B   SIGNYZ,  SIGNZX,  SIGVXX,  SIGVYY,
+     C   SIGVZZ,  SIGVXY,  SIGVYZ,  SIGVZX,
+     D   SOUNDSP, VISCMAX, UVAR,    OFF,
+     E   YLD,     PLA,     DEP,     ETSE  ,FHEAT )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,20 +51,12 @@ C   G L O B A L   P A R A M E T E R S
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "param_c.inc"
-C-----------------------------------------------
-C   C O M M O N
-C-----------------------------------------------
 C---------+---------+---+---+--------------------------------------------
 C VAR     | SIZE    |TYP| RW| DEFINITION
 C---------+---------+---+---+--------------------------------------------
 C NEL     |  1      | I | R | SIZE OF THE ELEMENT GROUP NEL
 C NUPARAM |  1      | I | R | SIZE OF THE USER PARAMETER ARRAY
 C NUVAR   |  1      | I | R | NUMBER OF USER ELEMENT VARIABLES
-C---------+---------+---+---+--------------------------------------------
-C NFUNC   |  1      | I | R | NUMBER FUNCTION USED FOR THIS USER LAW
-C IFUNC   | NFUNC   | I | R | FUNCTION INDEX
-C NPF     |  *      | I | R | FUNCTION ARRAY
-C TF      |  *      | F | R | FUNCTION ARRAY
 C---------+---------+---+---+--------------------------------------------
 C TIME    |  1      | F | R | CURRENT TIME
 C TIMESTEP|  1      | F | R | CURRENT TIME STEP
@@ -104,8 +94,8 @@ C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: JTHE
-      INTEGER NEL, NUPARAM, NUVAR,
-     .        IPM(NPROPMI,*),MAT(NEL), NGL(NEL)
+      INTEGER, INTENT(IN) :: JLAG
+      INTEGER NEL, NUPARAM, NUVAR
       my_real 
      .   TIME,TIMESTEP,UPARAM(NUPARAM),
      .   RHO(NEL),RHO0(NEL),VOLUME(NEL),EINT(NEL),
@@ -116,8 +106,7 @@ C-----------------------------------------------
      .   EPSXX(NEL) ,EPSYY(NEL) ,EPSZZ(NEL) ,
      .   EPSXY(NEL) ,EPSYZ(NEL) ,EPSZX(NEL) ,
      .   SIGOXX(NEL),SIGOYY(NEL),SIGOZZ(NEL),
-     .   SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL),
-     .   TEMPEL(NEL)
+     .   SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL)
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -131,11 +120,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
-      my_real 
-     .   UVAR(NEL,NUVAR), OFF(NEL)
-      INTEGER NPF(*), NFUNC, IFUNC(NFUNC)
-      my_real 
-     .   FINTER ,TF(*)
+      my_real :: UVAR(NEL,NUVAR), OFF(NEL)
+      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: FHEAT
+      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: TEMP      
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -149,7 +136,7 @@ C-----------------------------------------------
      .   GGSIG,G2GSIG,P12,P22,P33,G12,G22,G33,OMEGA,PLAP0 
       my_real
      .   GSIG(6),PSIG(6),F_EPSP(NEL),F_TEMP(NEL),SVM(NEL),
-     .   TEMP(NEL),DLAM(NEL),DLAMIN(NEL),PLAP(NEL),
+     .   DLAM(NEL),DLAMIN(NEL),PLAP(NEL),DHEAT(NEL),
      .   SIGTRXX(NEL),SIGTRYY(NEL),SIGTRZZ(NEL),
      .   SIGTRXY(NEL),SIGTRYZ(NEL),SIGTRZX(NEL)                         
 c=========================================================================
@@ -159,8 +146,6 @@ c      UVAR(1)   = PLA  ----- equiv. plastic strain
 c      UVAR(2)   = YLD  ----- Yield
 c      UVAR(3)   = PLAP ---   Plastic Strain rate
 c      UVAR(4)   = DLAM ----- Plastic Multiplier
-c      UVAR(5)   = TEMP ----- Temperature
-c      UVAR(6)   = H    ----- Tangent module (Yield prime)
 C-----------------------------------------------
 c     Plasticity model :
 c      1- Quadratic Yield surface
@@ -241,9 +226,7 @@ C     ------------------------
           F_TEMP(I)= ONE - F_TEMP(I)
           F_EPS    = ALPHA*(AN*EPS0**NN) + (ONE-ALPHA)*K0
           YLD(I)   = F_EPS * F_TEMP(I)
-c
           UVAR(I,2) = YLD(I)
-          UVAR(I,5) = TINI
         ENDDO
       ENDIF      
 C     ------------------------
@@ -254,16 +237,6 @@ C     ------------------------
         DLAM(I) = ZERO       
         DEP(I)  = ZERO       
       ENDDO
-C
-      IF (JTHE > 0 ) THEN        
-        DO I=1,NEL     
-          TEMP(I) = TEMPEL(I)
-        ENDDO
-      ELSE
-        DO I=1,NEL     
-          TEMP(I) = UVAR(I,5)
-        ENDDO
-      ENDIF
 c
 C     Trial stress
 C     ------------
@@ -405,7 +378,6 @@ c-----
           YLDP    = ALPHA*KSWIFTP + (ONE - ALPHA)*KVOCEP                         
           YLDP    = YLDP * F_TEMP(I) * F_EPSP(I)                                
           YLDP    = YLDP + YLD(I) * CEPSPN / DLAM(I) 
-          !UVAR(I,6)=  YLDP                         
           YLD(I)  = UVAR(I,2) * F_EPSP(I)                                       
 c         f(sig)-yield                                                           
           RES  = SEFF - YLD(I)                                                  
@@ -455,23 +427,32 @@ c-----------    end Newton iterations
 c
       ENDDO     ! plastic increment loop
 c
-c----------
-C
-C     Calculate Plastic Work / Temperature depending on omega
-C     ---------------------------------
-      IF (JTHE == 0 ) THEN        
+!-------------------------------------------------------------
+!     Calculate Plastic Work / Temperature depending on omega
+!-------------------------------------------------------------
+      DO II=1,NINDX
+        I = INDX(II)
+        IF (PLAP(I) <= DEPS0)THEN
+          OMEGA = ZERO
+        ELSEIF (PLAP(I) > DEPSAD) THEN
+          OMEGA = ONE
+        ELSE
+          OMEGA = ((PLAP(I)-DEPS0)**2 )*
+     .            (THREE*DEPSAD - TWO*PLAP(I) - DEPS0)
+     .           /((DEPSAD-DEPS0)**3)
+        ENDIF
+        DHEAT(I) = ETA*OMEGA*YLD(I)*DEP(I)
+      ENDDO
+!
+      IF (JTHE < 0 .AND. JLAG /= 0) THEN
         DO II=1,NINDX
           I = INDX(II)
-          IF (PLAP(I) <= DEPS0)THEN
-            OMEGA = ZERO
-          ELSEIF (PLAP(I) > DEPSAD) THEN
-            OMEGA = ONE
-          ELSE
-            OMEGA = ((PLAP(I)-DEPS0)**2 )*
-     .              (THREE*DEPSAD - TWO*PLAP(I) - DEPS0)
-     .             /((DEPSAD-DEPS0)**3)
-          ENDIF
-          TEMP(I) = UVAR(I,5) + OMEGA*YLD(I)*DEP(I)*ETA/(RHO0(I)*CP)
+          FHEAT(I) = FHEAT(I) + DHEAT(I)*VOLUME(I)
+        ENDDO
+      ELSE     
+        DO II=1,NINDX
+          I = INDX(II)
+          TEMP(I) = TEMP(I) + DHEAT(I) / (RHO0(I)*CP)
         ENDDO
       ENDIF
 C-----------
@@ -480,7 +461,6 @@ C-----------
         UVAR(I,2) = YLD(I)
         UVAR(I,3) = PLAP(I)
         UVAR(I,4) = DLAM(I)
-        UVAR(I,5) = TEMP(I)
         ETSE(I)   = ONE
         SOUNDSP(I)= SQRT((BULK+FOUR_OVER_3*SHEAR)/RHO0(I))
         VISCMAX(I)= ZERO
