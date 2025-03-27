@@ -44,7 +44,7 @@ C  New law -- material shape memory
      D   VISCMAX, THK,     PLA,     UVAR,
      E   OFF,     NGL,     IPM,     MAT,
      F   ETSE,    GS,      YLD,     VOL,
-     G   TEMPEL,  ISMSTR,  JTHE)
+     G   TEMP,    ISMSTR,  JTHE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -123,7 +123,7 @@ C
      .   EPSXY(NEL) ,EPSYZ(NEL) ,EPSZX(NEL) ,
      .   SIGOXX(NEL),SIGOYY(NEL),
      .   SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL),
-     .   GS(*) ,VOL(NEL)  , TEMPEL(NEL) 
+     .   GS(*) ,VOL(NEL)  , TEMP(NEL) 
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -170,7 +170,7 @@ C-----------------------------------------------
      .    NX2,NY2 ,NZ2,NXY2,NYZ2,NZX2,NE,DNX,DNY,DNZ,DNXY,DNYZ,DNZX,
      .    NXX(NEL),NYY(NEL),NZZ(NEL),NXY(NEL),NYZ(NEL),NZX(NEL), 
      .    E1(NEL),E2(NEL),E3(NEL),E4(NEL),E5(NEL),E6(NEL),TRDE(NEL),
-     .    DE1(NEL),DE2(NEL),DE3(NEL),GT(NEL),KT(NEL),TEMP(NEL),
+     .    DE1(NEL),DE2(NEL),DE3(NEL),GT(NEL),KT(NEL),
      .    EE1(NEL),EE2(NEL),EE3(NEL),PP(NEL),NNE(NEL),DET(NEL),
      .    SIGXX(NEL), SIGYY(NEL), SIGZZ(NEL),DFS(NEL)
       my_real
@@ -257,15 +257,10 @@ C     rot matrix (eigenvectors)
 C-----------------------------------------------
 C  Calcul de la tempurature. (conduction ou adiabatique)
 C--------------------    
-      IF(JTHE < 0 ) THEN
-       DO I=1,NEL     
-           TEMP(I) = TEMPEL(I)
-       ENDDO
-      ELSE         
-       DO I=1,NEL
-           TEMP(I) = TINI
-     .             +(EINT(I,1)+ EINT(I,2))/VOL(I)/ RHO0(I)/CP
-       ENDDO
+      IF (JTHE == 0) THEN
+        DO I=1,NEL
+          TEMP(I) = TINI + (EINT(I,1)+ EINT(I,2))/VOL(I)/ RHO0(I)/CP
+        ENDDO
       ENDIF
       !compute limits for start and end of transformation
       RSAS = YLD_ASS *(SQDT+ALPHA)-CAS*TSAS !start from aust to martensite
@@ -582,7 +577,6 @@ C     TRANSFORM PRINCIPAL  CAUCHY STRESSES TO GLOBAL DIRECTIONS
 C ---------------update UVAR ---------------------
       UVAR(1:NEL,1)  = MIN(ONE, UVAR(1:NEL,1))
       UVAR(1:NEL,10) = EPSXX(1:NEL)
-      UVAR(1:NEL,11) = TEMP(1:NEL)
       UVAR(1:NEL,4)  = EPSZZ(1:NEL)
       UVAR(1:NEL,8)  = SIGZZ(1:NEL)
 c       sound velocity     
@@ -593,7 +587,5 @@ c       sound velocity
         SOUNDSP(I) =MAX(SSPSH ,SSPSOL)
       ENDDO  
 C------------------------------------------
-C------------------------------------------
-
       RETURN
       END SUBROUTINE SIGEPS71C

@@ -694,21 +694,39 @@ C--------------------------------------------------------------------------
 C--------------------------------------------------
 c             LOOP NEL, Filling TH Buffer
 C-----------------------------------------------------
+              ! output of element temperature
+              IF (JTHE /= 0 .and. JLAG > 0) THEN
+                WWA(13) = GBUF%TEMP(I)
+              ELSE
+                WWA(13) = ZERO
+                DO IL=1,NLAY
+                  IF (ELBUF_TAB(NG)%BUFLY(IL)%L_TEMP > 0) THEN
+                    DO IT=1,ELBUF_TAB(NG)%BUFLY(IL)%NPTT
+                      DO IS=1,NPTS
+                        DO IR=1,NPTR
+                          WWA(13) = WWA(13)+ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)%TEMP(I)/NPTG
+                        ENDDO
+                      ENDDO
+                    ENDDO
+                  ENDIF
+                ENDDO
+              ENDIF
+!--------------------------------------
               IF (MTE == 2) THEN
                 WWA(12) = GBUF%PLA(I)
-                WWA(13) = GBUF%TEMP(I)
+!                WWA(13) = GBUF%TEMP(I)
               ELSEIF (MTE == 3) THEN
                 WWA(12)=GBUF%PLA(I)
-                WWA(13)=GBUF%TEMP(I)
+!                WWA(13)=GBUF%TEMP(I)
               ELSEIF (MTE == 4) THEN
                 WWA(12)=GBUF%PLA(I)
-                WWA(13)=GBUF%TEMP(I)
+!                WWA(13)=GBUF%TEMP(I)
                 WWA(14)=GBUF%EPSD(I)
               ELSEIF (MTE == 5 .OR. MTE == 41 .OR. MTE == 97) THEN
-                WWA(13)=GBUF%TEMP(I)
+!                WWA(13)=GBUF%TEMP(I)
                 WWA(31)=GBUF%BFRAC(I)
               ELSEIF (MTE == 6) THEN
-                WWA(13)=GBUF%TEMP(I)
+!                WWA(13)=GBUF%TEMP(I)
                 WWA(26)=LBUF%RK(I)
                 WWA(27)=LBUF%RE(I)
               ELSEIF (MTE == 7.OR.MTE == 8.OR.MTE == 9) THEN
@@ -719,7 +737,7 @@ C-----------------------------------------------------
                 WWA(12)=GBUF%PLA(I)        !/TH (EPSP)
                 WWA(30)=GBUF%EPSQ(I)      !/TH (VPLA)
               ELSEIF (MTE == 11) THEN
-                WWA(13)=LBUF%TEMP(I)
+!                WWA(13)=LBUF%TEMP(I)
                 WWA(26)=LBUF%RK(I)
                 WWA(27)=LBUF%RE(I)
               ELSEIF (MTE == 14) THEN
@@ -733,14 +751,14 @@ C-----------------------------------------------------
                 WWA(34)=LBUF%DAM(KK(5)+I)
              ELSEIF (MTE == 16) THEN
                 WWA(12)=LBUF%PLA(I)   !N1
-                WWA(13)=LBUF%TEMP(I)  !N2
+!                WWA(13)=LBUF%TEMP(I)  !N2
                 WWA(14)=LBUF%EPSD(I)
               ELSEIF (MTE == 17) THEN
-                IF (ITHERM > 0) WWA(13)=LBUF%TEMP(I)
+!                IF (ITHERM > 0) WWA(13)=LBUF%TEMP(I)
                 WWA(26)=LBUF%RK(I)
                 WWA(27)=LBUF%RE(I)
               ELSEIF (MTE == 18) THEN
-                WWA(13)=LBUF%TEMP(I)
+!                WWA(13)=LBUF%TEMP(I)
               ELSEIF (MTE == 20) THEN
                 WWA(12)=ZERO
                 WWA(13)=ZERO
@@ -767,7 +785,7 @@ C-----------------------------------------------------
                 WWA(32)=LBUF%PLA(I)      !WPLA
               ELSEIF (MTE == 26) THEN
                 WWA(12)=LBUF%PLA(I)
-                WWA(13)=LBUF%TEMP(I)
+!                WWA(13)=LBUF%TEMP(I)
                 WWA(14)=LBUF%Z(I)
               ELSEIF (MTE == 32.OR.MTE == 43) THEN   ! not solid compatible !!
                 WWA(12)=ZERO
@@ -775,11 +793,11 @@ C-----------------------------------------------------
                 WWA(14)=ZERO
               ELSEIF (MTE == 46.OR.MTE == 47) THEN
                 WWA(12)=MBUF%VAR(I)
-                WWA(13)=MBUF%VAR(I+NEL)
+!                WWA(13)=MBUF%VAR(I+NEL)
 c                WWA(14)=MBUF%VAR(I+NEL*2)
               ELSEIF (MTE == 49) THEN
                 WWA(12)=LBUF%PLA(I)
-                WWA(13)=LBUF%TEMP(I)
+!                WWA(13)=LBUF%TEMP(I)
                 WWA(14)=LBUF%EPSD(I)
               ELSEIF (MTE == 28) THEN
               ELSEIF (MTE == 33) THEN
@@ -835,12 +853,12 @@ C               Solid spotwelds : damage  DAMA1 ...DAMA4
               ELSEIF (MTE == 67) THEN
 C               Temperature
                 WWA(12)=ZERO
-                WWA(13)=MBUF%VAR(I)
+!                WWA(13)=MBUF%VAR(I)
                 WWA(14)=ZERO
               ELSEIF (MTE == 103) THEN
 C             Hensel Spittel
                 WWA(12)=LBUF%PLA(I)
-                WWA(13)=MBUF%VAR(I)
+!                WWA(13)=MBUF%VAR(I)
                 WWA(14)=LBUF%EPSD(I)
               ELSEIF (MTE > 28) THEN
                 IF (ELBUF_TAB(NG)%BUFLY(1)%L_PLA > 0)THEN
@@ -848,11 +866,11 @@ C             Hensel Spittel
                 ELSE
                   WWA(12)=ZERO
                 ENDIF
-                IF (ELBUF_TAB(NG)%BUFLY(1)%L_TEMP > 0)THEN
-                  WWA(13)=LBUF%TEMP(I)
-                ELSE
-                  WWA(13)=ZERO
-                ENDIF
+!                IF (ELBUF_TAB(NG)%BUFLY(1)%L_TEMP > 0)THEN
+!                  WWA(13)=LBUF%TEMP(I)
+!                ELSE
+!                  WWA(13)=ZERO
+!                ENDIF
                 IF (ELBUF_TAB(NG)%BUFLY(1)%L_EPSD > 0)THEN
                   WWA(14)=LBUF%EPSD(I)
                 ELSE

@@ -533,10 +533,7 @@
               mtn = iparg(26,ng)
             endif
           endif
-
-
-
-
+!
           gbuf => elbuf_tab(ng)%gbuf
           damp_buf => elbuf_tab(ng)%damp_range
           lbuf => elbuf_tab(ng)%bufly(ilay)%lbuf(iptr,ipts,iptt)
@@ -889,8 +886,8 @@
                  nel,      ipm,      rhoref,   rhosp,&
                  ipg,      lbuf%dmg, ity,      jtur,&
                  jthe,     jsph,     ismstr,   jsms,&
-                 lbuf%epsd,npg ,mat_elem%mat_param(imat)%ieos , &
-                 dpdm  ,fheat ,glob_therm, jlag )
+                 lbuf%epsd,npg ,mat_elem%mat_param(imat)%ieos ,dpdm  ,  &
+                 fheat ,glob_therm,   jlag    )
 !----------------
             if (istrain > 0 .and.&
             &(h3d_strain == 1 .or. th_strain == 1 )) then
@@ -1008,29 +1005,29 @@
             &nft)
             if (jsph == 0) then
               call mqviscb(&
-              &pm,       off,      lbuf%rho, lbuf%rk,&
-              &lbuf%temp,cxx,      lbuf%re,  stifn,&
-              &dt2t,     neltst,   ityptst,  aire,&
-              &lbuf%off, geo,      pid,      voln,&
-              &vd2,      deltax,   vis,      dxx,&
-              &dyy,      dzz,      pnew,     psh,&
-              &mat,      ngl,      qvis,     ssp_eq,&
-              &lbuf%vol, mssa,     dmels,    igeo,&
-              &facq0,    conde,    gbuf%dt,  gbuf%g_dt,&
-              &ipm,      rhoref,   rhosp,    nel,&
-              &ity,      ismstr,   jtur,     jthe,&
-              &jsms,     npg   ,   glob_therm)
+              pm,       off,      lbuf%rho, lbuf%rk,&
+              el_temp ,cxx,      lbuf%re,  stifn,&
+              dt2t,     neltst,   ityptst,  aire,&
+              lbuf%off, geo,      pid,      voln,&
+              vd2,      deltax,   vis,      dxx,&
+              dyy,      dzz,      pnew,     psh,&
+              mat,      ngl,      qvis,     ssp_eq,&
+              lbuf%vol, mssa,     dmels,    igeo,&
+              facq0,    conde,    gbuf%dt,  gbuf%g_dt,&
+              ipm,      rhoref,   rhosp,    nel,&
+              ity,      ismstr,   jtur,     jthe,&
+              jsms,     npg   ,   glob_therm)
             else
               call mdtsph(&
-              &pm,       off,      lbuf%rho, lbuf%rk,&
-              &lbuf%temp,lbuf%re,  stifn,    dt2t,&
-              &neltst,   ityptst,  lbuf%off, geo,&
-              &pid,      mumax,    cxx,      voln,&
-              &vd2,      deltax,   vis,      dxx,&
-              &dyy,      dzz,      pnew,     psh,&
-              &mat,      ngl,      qvis,     ssp_eq,&
-              &gbuf%g_dt,gbuf%dt,  nel,      ity,&
-              &jtur,     jthe)
+               pm,       off,      lbuf%rho, lbuf%rk,&
+               el_temp,  lbuf%re,  stifn,    dt2t,&
+               neltst,   ityptst,  lbuf%off, geo,&
+               pid,      mumax,    cxx,      voln,&
+               vd2,      deltax,   vis,      dxx,&
+               dyy,      dzz,      pnew,     psh,&
+               mat,      ngl,      qvis,     ssp_eq,&
+               gbuf%g_dt,gbuf%dt,  nel,      ity,&
+               jtur,     jthe)
             endif
             call meint(&
             &off,      lbuf%sig, lbuf%qvis,lbuf%eint,&
@@ -1054,7 +1051,7 @@
             if (jsph == 0) then
               call mqviscb(&
               &pm,       off,      lbuf%rho, lbuf%rk,&
-              &lbuf%temp,cxx,      lbuf%re,  stifn,&
+              &el_temp,cxx,      lbuf%re,  stifn,&
               &dt2t,     neltst,   ityptst,  aire,&
               &lbuf%off, geo,      pid,      voln,&
               &vd2,      deltax,   vis,      dxx,&
@@ -1068,7 +1065,7 @@
             else
               call mdtsph(&
               &pm,       off,      lbuf%rho, lbuf%rk,&
-              &lbuf%temp,lbuf%re,  stifn,    dt2t,&
+              &el_temp,lbuf%re,  stifn,    dt2t,&
               &neltst,   ityptst,  lbuf%off, geo,&
               &pid,      mumax,    cxx,      voln,&
               &vd2,      deltax,   vis,      dxx,&
@@ -1202,7 +1199,7 @@
             if (jsph == 0) then
               call mqviscb(&
               &pm,       off,      lbuf%rho, lbuf%rk,&
-              &lbuf%temp,cxx,      lbuf%re,  stifn,&
+              &el_temp,cxx,      lbuf%re,  stifn,&
               &dt2t,     neltst,   ityptst,  aire,&
               &lbuf%off, geo,      pid,      voln,&
               &vd2,      deltax,   vis,      dxx,&
@@ -1216,7 +1213,7 @@
             else
               call mdtsph(&
               &pm,       off,      lbuf%rho, lbuf%rk,&
-              &lbuf%temp,lbuf%re,  stifn,    dt2t,&
+              &el_temp,lbuf%re,  stifn,    dt2t,&
               &neltst,   ityptst,  lbuf%off, geo,&
               &pid,      mumax,    cxx,      voln,&
               &vd2,      deltax,   vis,      dxx,&
@@ -1246,7 +1243,7 @@
             if (jsph == 0) then
               call mqviscb(&
               &pm,       off,      lbuf%rho, lbuf%rk,&
-              &lbuf%temp,cxx,      lbuf%re,  stifn,&
+              &el_temp,cxx,      lbuf%re,  stifn,&
               &dt2t,     neltst,   ityptst,  aire,&
               &lbuf%off, geo,      pid,      voln,&
               &vd2,      deltax,   vis,      dxx,&
@@ -1260,7 +1257,7 @@
             else
               call mdtsph(&
               &pm,       off,      lbuf%rho, lbuf%rk,&
-              &lbuf%temp,lbuf%re,  stifn,    dt2t,&
+              &el_temp,lbuf%re,  stifn,    dt2t,&
               &neltst,   ityptst,  lbuf%off, geo,&
               &pid,      mumax,    cxx,      voln,&
               &vd2,      deltax,   vis,      dxx,&
@@ -1284,19 +1281,12 @@
             &dvol,               voln,               pturb,               tmu,&
             &vis,                vd2,                mat,                pid,&
             &lft,                llt,                jpor,               jclose)
-            if(jthe == 1)call mtheta(&
-            &pm,       lbuf%eint,lbuf%temp,amu,&
-            &c1,       c2,       df,       psh,&
-            &pc,       mat,      nel)
-          elseif (mtn == 7) then
-!        call m7law(pm     ,off     ,lbuf%sig,lbuf%eint,lbuf%rho,
-!     .             lbuf%qvis,lbuf%vol,mbuf%var,stifn   )
-          elseif (mtn == 8) then
-!        call m8law(pm     ,off     ,lbuf%sig,lbuf%eint,lbuf%rho,
-!     .             lbuf%qvis,lbuf%vol,mbuf%var,stifn   )
-          elseif (mtn == 9) then
-!        call m9law(pm     ,off     ,lbuf%sig,lbuf%eint,lbuf%rho,
-!     .             lbuf%qvis,lbuf%vol,mbuf%var,stifn   )
+            if (jthe == 1) then
+              call mtheta(pm,       lbuf%eint,lbuf%temp,amu,   &
+                          c1,       c2,       df,       psh,   &
+                          pc,       mat,      nel)
+            end if
+!
           elseif (mtn == 10) then
             call m10law(pm      ,off      ,lbuf%sig  ,lbuf%eint,lbuf%rho,&
             &lbuf%epsq  ,lbuf%pla ,lbuf%vol  ,mat      ,cxx     ,&
@@ -1308,7 +1298,7 @@
             if (jsph == 0) then
               call mqviscb(&
               &pm,       off,      lbuf%rho, lbuf%rk,&
-              &lbuf%temp,cxx,      lbuf%re,  stifn,&
+              &el_temp  ,cxx,      lbuf%re,  stifn,&
               &dt2t,     neltst,   ityptst,  aire,&
               &lbuf%off, geo,      pid,      voln,&
               &vd2,      deltax,   vis,      dxx,&
@@ -1322,7 +1312,7 @@
             else
               call mdtsph(&
               &pm,       off,      lbuf%rho, lbuf%rk,&
-              &lbuf%temp,lbuf%re,  stifn,    dt2t,&
+              &el_temp,lbuf%re,  stifn,    dt2t,&
               &neltst,   ityptst,  lbuf%off, geo,&
               &pid,      mumax,    cxx,      voln,&
               &vd2,      deltax,   vis,      dxx,&
@@ -1340,6 +1330,7 @@
             &df,       qvis,     pnew,     vis,&
             &tmu,      einc,     mtn,      vol_avg,&
             &nel,      jtur,     jlag,     jpor)
+!
           elseif (mtn == 11) then
             call m11law(pm      ,off     ,lbuf%sig,lbuf%eint,lbuf%rho,&
             &lbuf%temp,lbuf%rk,lbuf%re ,lbuf%vk  ,&
@@ -1353,8 +1344,9 @@
             else
               lbuf%ssp(1:nel) = ssp_eq(1:nel)
             endif
+!
           elseif (mtn == 12) then
-!       tsai 3d complet
+            ! tsai 3d complet
             eostyp  = mat_elem%mat_param(imat)%ieos
             strd1(1:nel*3) => lbuf%epe(1:nel*3)
             strd2(1:nel*3) => lbuf%epe(1+nel*3:nel*6)
@@ -1378,7 +1370,7 @@
             if (jsph == 0) then
               call mqviscb(&
               &pm,       off,      lbuf%rho, lbuf%rk,&
-              &lbuf%temp,cxx,      lbuf%re,  stifn,&
+              &el_temp,cxx,      lbuf%re,  stifn,&
               &dt2t,     neltst,   ityptst,  aire,&
               &lbuf%off, geo,      pid,      voln,&
               &vd2,      deltax,   vis,      dxx,&
@@ -1392,7 +1384,7 @@
             else
               call mdtsph(&
               &pm,       off,      lbuf%rho, lbuf%rk,&
-              &lbuf%temp,lbuf%re,  stifn,    dt2t,&
+              &el_temp,lbuf%re,  stifn,    dt2t,&
               &neltst,   ityptst,  lbuf%off, geo,&
               &pid,      mumax,    cxx,      voln,&
               &vd2,      deltax,   vis,      dxx,&
@@ -1422,7 +1414,7 @@
             if (jsph == 0) then
               call mqviscb(&
               &pm,       off,      lbuf%rho, lbuf%rk,&
-              &lbuf%temp,cxx,      lbuf%re,  stifn,&
+              &el_temp,  cxx,      lbuf%re,  stifn,&
               &dt2t,     neltst,   ityptst,  aire,&
               &lbuf%off, geo,      pid,      voln,&
               &vd2,      deltax,   vis,      dxx,&
@@ -1436,7 +1428,7 @@
             else
               call mdtsph(&
               &pm,       off,      lbuf%rho, lbuf%rk,&
-              &lbuf%temp,lbuf%re,  stifn,    dt2t,&
+              &el_temp,lbuf%re,  stifn,    dt2t,&
               &neltst,   ityptst,  lbuf%off, geo,&
               &pid,      mumax,    cxx,      voln,&
               &vd2,      deltax,   vis,      dxx,&
@@ -1464,7 +1456,7 @@
             if (jsph == 0) then
               call mqviscb(&
               &pm,       off,      lbuf%rho, lbuf%rk,&
-              &lbuf%temp,cxx,      lbuf%re,  stifn,&
+              &el_temp,cxx,      lbuf%re,  stifn,&
               &dt2t,     neltst,   ityptst,  aire,&
               &lbuf%off, geo,      pid,      voln,&
               &vd2,      deltax,   vis,      dxx,&
@@ -1478,7 +1470,7 @@
             else
               call mdtsph(&
               &pm,       off,      lbuf%rho, lbuf%rk,&
-              &lbuf%temp,lbuf%re,  stifn,    dt2t,&
+              &el_temp,lbuf%re,  stifn,    dt2t,&
               &neltst,   ityptst,  lbuf%off, geo,&
               &pid,      mumax,    cxx,      voln,&
               &vd2,      deltax,   vis,      dxx,&
@@ -1506,7 +1498,7 @@
             if (jsph == 0) then
               call mqviscb(&
               &pm,       off,      lbuf%rho, lbuf%rk,&
-              &lbuf%temp,cxx,      lbuf%re,  stifn,&
+              &el_temp,cxx,      lbuf%re,  stifn,&
               &dt2t,     neltst,   ityptst,  aire,&
               &lbuf%off, geo,      pid,      voln,&
               &vd2,      deltax,   vis,      dxx,&
@@ -1520,7 +1512,7 @@
             else
               call mdtsph(&
               &pm,       off,      lbuf%rho, lbuf%rk,&
-              &lbuf%temp,lbuf%re,  stifn,    dt2t,&
+              &el_temp,lbuf%re,  stifn,    dt2t,&
               &neltst,   ityptst,  lbuf%off, geo,&
               &pid,      mumax,    cxx,      voln,&
               &vd2,      deltax,   vis,      dxx,&
@@ -1568,7 +1560,7 @@
             if (jsph == 0) then
               call mqviscb(&
               &pm,       off,      lbuf%rho, lbuf%rk,&
-              &lbuf%temp,cxx,      lbuf%re,  stifn,&
+              &el_temp,cxx,      lbuf%re,  stifn,&
               &dt2t,     neltst,   ityptst,  aire,&
               &lbuf%off, geo,      pid,      voln,&
               &vd2,      deltax,   vis,      dxx,&
@@ -1582,7 +1574,7 @@
             else
               call mdtsph(&
               &pm,       off,      lbuf%rho, lbuf%rk,&
-              &lbuf%temp,lbuf%re,  stifn,    dt2t,&
+              &el_temp,lbuf%re,  stifn,    dt2t,&
               &neltst,   ityptst,  lbuf%off, geo,&
               &pid,      mumax,    cxx,      voln,&
               &vd2,      deltax,   vis,      dxx,&
@@ -1688,7 +1680,7 @@
             if (jsph == 0) then
               call mqviscb(&
               &pm,       off,      lbuf%rho, lbuf%rk,&
-              &lbuf%temp,cxx,      lbuf%re,  stifn,&
+              &el_temp,cxx,      lbuf%re,  stifn,&
               &dt2t,     neltst,   ityptst,  aire,&
               &lbuf%off, geo,      pid,      voln,&
               &vd2,      deltax,   vis,      dxx,&
@@ -1702,7 +1694,7 @@
             else
               call mdtsph(&
               &pm,       off,      lbuf%rho, lbuf%rk,&
-              &lbuf%temp,lbuf%re,  stifn,    dt2t,&
+              &el_temp,lbuf%re,  stifn,    dt2t,&
               &neltst,   ityptst,  lbuf%off, geo,&
               &pid,      mumax,    cxx,      voln,&
               &vd2,      deltax,   vis,      dxx,&
@@ -1730,7 +1722,7 @@
             if (jsph == 0) then
               call mqvisc26(&
               &pm,       off,      lbuf%rho, lbuf%rk,&
-              &lbuf%temp,cxx,      lbuf%re,  stifn,&
+              &el_temp,cxx,      lbuf%re,  stifn,&
               &dt2t,     neltst,   ityptst,  aire,&
               &lbuf%off, geo,      pid,      voln,&
               &vd2,      deltax,   vis,      dxx,&
@@ -1741,7 +1733,7 @@
             else
               call mdtsph(&
               &pm,       off,      lbuf%rho, lbuf%rk,&
-              &lbuf%temp,lbuf%re,  stifn,    dt2t,&
+              &el_temp,lbuf%re,  stifn,    dt2t,&
               &neltst,   ityptst,  lbuf%off, geo,&
               &pid,      mumax,    cxx,      voln,&
               &vd2,      deltax,   vis,      dxx,&
@@ -1783,7 +1775,7 @@
             if (jsph == 0) then
               call mqviscb(&
               &pm,       off,      lbuf%rho, lbuf%rk,&
-              &lbuf%temp,cxx,      lbuf%re,  stifn,&
+              &el_temp,cxx,      lbuf%re,  stifn,&
               &dt2t,     neltst,   ityptst,  aire,&
               &lbuf%off, geo,      pid,      voln,&
               &vd2,      deltax,   vis,      dxx,&
@@ -1797,7 +1789,7 @@
             else
               call mdtsph(&
               &pm,       off,      lbuf%rho, lbuf%rk,&
-              &lbuf%temp,lbuf%re,  stifn,    dt2t,&
+              &el_temp,lbuf%re,  stifn,    dt2t,&
               &neltst,   ityptst,  lbuf%off, geo,&
               &pid,      mumax,    cxx,      voln,&
               &vd2,      deltax,   vis,      dxx,&
@@ -1830,7 +1822,7 @@
             &bufmat,     tf,         npf,        stifn,&
             &mat,        ngl,        nuvar,      dt2t,&
             &neltst,     ityptst,    lbuf%off,   geo,&
-            &pid,        lbuf%epsd,  lbuf%temp,  wxx,&
+            &pid,        lbuf%epsd,  el_temp,    wxx,&
             &wyy,        wzz,        jsph,       mumax,&
             &cxx,        aire,       voln,       vd2,&
             &deltax,     vis,        dxx,        dyy,&
@@ -1851,7 +1843,7 @@
             &jthe,       et,         mssa,       dmels,&
             &iptr,       ipts,       iptt,       table,&
             &fvd2,       fdeltax,    fssp,       fqvis,&
-            &tempel,     iparg1,     igeo,       lbuf%sigv,&
+            &iparg1,     igeo,       lbuf%sigv,&
             &al_imp,     signor,     istrain,    ng,&
             &elbuf_tab,  vbuf,       ilay,       lbuf%vk,&
             &iparg,      bufvois,    vdx,        vdy,&
@@ -1877,7 +1869,7 @@
             &npf,         stifn,       mat,         ngl,&
             &nuvar,       dt2t,        neltst,      ityptst,&
             &lbuf%off,    geo,         pid,         lbuf%epsd,&
-            &lbuf%temp,   wxx,         wyy,         wzz,&
+            &wxx,         wyy,         wzz,&
             &jsph,        mumax,       cxx,         aire,&
             &voln,        vd2,         deltax,      vis,&
             &dxx,         dyy,         dzz,         d4,&
@@ -1913,7 +1905,7 @@
             &imon_mat,    numnod,      numels,      ntable,&
             &numgeo,      nummat,      numelq,      idtmin,&
             &dt1,         tt,          glob_therm,  dpde  ,&
-            &impl_s,&
+            &impl_s,      jlag,        fheat   ,            &
             &idyna,       userl_avail, nixs,        nixq,&
             &dt,          damp_buf,    idamp_freq_range,iresp)
 
@@ -2000,7 +1992,7 @@
           if (jthe < 0) then
             heat_meca_l = zero
             if (mat_elem%mat_param(imat)%heat_flag == 0) then  
-              ! internal energy is used as heat source by default
+              ! total internal energy is used as heat source by default
               do i=1,nel
                 die(i) = lbuf%eint(i)*lbuf%vol(i) - die(i)
                 die(i) = die(i) * pm(90,imat)  ! mat_elem%mat_param(imat)%therm%efrac
@@ -2008,7 +2000,10 @@
               enddo
             else   
               ! exact dissipated energy is calculated by the material law as heat source 
+              ! need to add shock wave energy depending on artificial viscosity 
               do i=1,nel
+                qheat = -half*(qold(i)+lbuf%qvis(i))*dvol(i)      ! 2nd order integration
+                fheat(i) = fheat(i) + qheat
                 heat_meca_l = heat_meca_l + fheat(i)*pm(90,imat)  ! mat_elem%mat_param(imat)%therm%efrac
               enddo
             end if
@@ -2577,7 +2572,7 @@
                 &ngl      ,gbuf%dt  ,epsp     ,uvarf    ,off      ,npg      ,&
                 &es1      ,es2      ,es3      ,es4      ,es5      ,es6      ,&
                 &ss1      ,ss2      ,ss3      ,ss4      ,ss5      ,ss6      ,&
-                &tempel   ,voln     ,dfmax    ,tdel     ,deltax   ,table    ,&
+                &el_temp  ,voln     ,dfmax    ,tdel     ,deltax   ,table    ,&
                 &ir       ,elbuf_tab(ng),ilay ,ntabl_fail,itabl_fail,lf_dammx,&
                 &niparam  ,iparamf  )
 !
@@ -2595,7 +2590,7 @@
                 &npf      ,table    ,tf       ,tt       ,uparamf,&
                 &ngl      ,el_len   ,dpla     ,epsp     ,uvarf    ,&
                 &ss1      ,ss2      ,ss3      ,ss4      ,ss5      ,ss6      ,&
-                &tempel   ,off      ,dfmax    ,tdel     ,lbuf%dmgscl,&
+                &el_temp  ,off      ,dfmax    ,tdel     ,lbuf%dmgscl,&
                 &gbuf%uelr,ipg      ,npg      ,lbuf%off ,ntabl_fail,itabl_fail,&
                 gbuf%noff,voln      )
 !
@@ -2606,7 +2601,7 @@
                 &table    ,ntabl_fail,itabl_fail,tt       ,uparamf,&
                 &ngl      ,el_len   ,dpla     ,epsp     ,uvarf    ,&
                 &ss1      ,ss2      ,ss3      ,ss4      ,ss5      ,ss6      ,&
-                &el_pla   ,tempel   ,sigy     ,off      ,dfmax    ,&
+                &el_pla   ,el_temp  ,sigy     ,off      ,dfmax    ,&
                 &tdel     ,lbuf%dmgscl,gbuf%uelr,ipg      ,npg      ,&
                 &lbuf%off ,damini   ,gbuf%vol ,inloc    )
 !

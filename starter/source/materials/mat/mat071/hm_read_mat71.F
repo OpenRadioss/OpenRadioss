@@ -221,7 +221,7 @@ c-----------------------------------
       IMATVIS = 1
 c-----------------------------------
       NUPARAM = 25 
-      NUVAR = 11
+      NUVAR = 10
       MFUNC = 0
 c-----------------------------------
 c     PARMAT
@@ -239,6 +239,7 @@ c--------------------------
 c-----------------------------------
       MTAG%L_PLA  = 1
       MTAG%L_FRAC = 1   ! austenite phase fraction for output
+      MTAG%L_TEMP = 1
 c-----------------------------------
       MTAG%G_MAXEPS = 3
       MTAG%G_MAXFRAC= 1
