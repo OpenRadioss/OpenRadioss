@@ -30,8 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2               OFF     ,DEPSXX  ,DEPSXY  ,DEPSXZ  ,        
      3               SIGOXX  ,SIGOXY  ,SIGOXZ  ,EPSXX   ,EPSXY  ,    
      4               EPSXZ   ,SIGNXX  ,SIGNXY  ,SIGNXZ  ,ETSE    ,
-     5               NUVAR   ,UVAR    ,IFUNC   ,NPF     ,
-     6               TF      ,NFUNC   ,JTHE    ,TEMPEL  ,FM     ,
+     5               NUVAR   ,UVAR    ,JTHE    ,TEMP    ,FM     ,
      7               TREPS)      
 c  Law for SMA (Shape memory alloy - NiTinol)
 c  based on Auricchio 1997
@@ -48,22 +47,19 @@ C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: IMAT
-      INTEGER ,INTENT(IN) :: NEL,NUPARAM,NUVAR,
-     .   NFUNC,IFUNC(NFUNC),NPF(*),JTHE
+      INTEGER ,INTENT(IN) :: NEL,NUPARAM,NUVAR,JTHE
       INTEGER ,DIMENSION(NPROPMI,NUMMAT) ,INTENT(IN) :: IPM
+      my_real ,DIMENSION(*)   ,INTENT(IN) :: UPARAM
       my_real ,DIMENSION(NEL) ,INTENT(IN) :: EPSXX,EPSXY,EPSXZ,
-     .   DEPSXX,DEPSXY,DEPSXZ,SIGOXX,SIGOXY,SIGOXZ,TEMPEL
-      my_real ,DIMENSION(*) ,INTENT(IN) :: UPARAM
-      my_real
-     .   TF(*)
+     .   DEPSXX,DEPSXY,DEPSXZ,SIGOXX,SIGOXY,SIGOXZ
+      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: TEMP
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
       my_real ,DIMENSION(NEL) ,INTENT(OUT)   :: SIGNXX,SIGNXY,SIGNXZ,ETSE
       my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: OFF
       my_real ,DIMENSION(NEL,NUVAR) ,INTENT(INOUT):: UVAR
-      my_real
-     .   FM(NEL),TREPS(NEL)
+      my_real FM(NEL),TREPS(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -74,12 +70,10 @@ C-----------------------------------------------
      .           delta, sol1,sol2
       my_real, DIMENSION(NEL) ::E,K,EMART,G,G2, ALPHA,EPSL,GM,KM,
      .           YLD_ASS,YLD_ASF,YLD_SAS,TINI,
-     .           YLD_SAF,CAS,CSA,TSAS,TFAS, TSSA,TFSA, 
-     .          FS,TEMP,ET,GT
+     .           YLD_SAF,CAS,CSA,TSAS,TFAS, TSSA,TFSA,FS,ET,GT
 C-----------------------------------------------
 c    UVAR  2= FS0 
 c    UVAR  3= FS0 
-c    UVAR 11=  TEMP
 C=======================================================================
 
       SHFACT = FIVE_OVER_6       
@@ -109,14 +103,9 @@ C=======================================================================
         TINI(I)      = UPARAM(IADBUF+25)           
       ENDDO                           
       !  Compute temperature - adiabatic conditions
-      IF(JTHE < 0 ) THEN
-         DO I=1,NEL     
-           TEMP(I) = TEMPEL(I)
-         ENDDO
-      ELSE         
+      IF (JTHE == 0 ) THEN
          DO I=1,NEL
-           TEMP(I) = TINI (I)
-c     .             + EINT(I)/ RHO0(I)/CP/MAX(EM15,VOLUME(I))
+           TEMP(I) = TINI(I) !  + EINT(I)/ RHO0(I)/CP/MAX(EM15,VOLUME(I))
          ENDDO
       ENDIF
 C=======================================================================
@@ -210,7 +199,6 @@ C=======================================================================
           TREPS(I) =  FM(I) * SIGN(ONE,EPSXX(I)) * EPSL(I)  !transformation strain for output  
           UVAR(I,2) = FS(I) - CAS(I)*TEMP(I)
           UVAR(I,3) = FS(I) - CSA(I)*TEMP(I) 
-          UVAR(I,11) = TEMP(I)
 
 C=======================================================================
         ELSE ! constant young modulus    
@@ -235,38 +223,36 @@ C=======================================================================
             ! compute martensite phase fraction increment
              DFMAS =  MIN(ONE , - (FS(I) - FS0 )*(ONE - FM(I)) / (FS0-RFAS - (ONE - FM(I))*E(I)*EPSL(I)  )  ) 
           ENDIF
-         !---------------
-         !Check marteniste -----> austenite  
-         !---------------
-         FS(I)     =   ABS (SIGNXX(I) ) - CSA(I)*TEMP(I)! trial
-         FSAS = FS(I) - RSSA  
-         FSAF = FS(I) - RFSA  
-         FS0 = UVAR(I,3)
-         IF((FS(I) - FS0) < ZERO .AND. FSAS < ZERO .AND. FM(I) >ZERO )THEN 
-            ! transformation to austenite 
-            ! compute martensite phase fraction increment
-           DFMSA =  MAX(-ONE , FM(I) * ( FS(I) - FS0 ) / (FS0 - RFSA + FM(I) * E(I)*EPSL(I) ))
-         ENDIF
-         !--------------------------
-         !new martensite fraction increment        
-         !--------------------------
-         DFM =  DFMAS + DFMSA 
-         IF(DFM < ZERO .AND. FM(I) == ZERO) DFM = ZERO
-         !--------------------------
-         !UPDATE
-         !--------------------------
-         SIGNXX(I) = SIGNXX(I) - E(I) * DFM * EPSL(I) *  SIGN(ONE,EPSXX(I))
-         FS(I) =  ABS (SIGNXX(I) )   
+          !---------------
+          !Check marteniste -----> austenite  
+          !---------------
+          FS(I)     =   ABS (SIGNXX(I) ) - CSA(I)*TEMP(I)! trial
+          FSAS = FS(I) - RSSA  
+          FSAF = FS(I) - RFSA  
+          FS0 = UVAR(I,3)
+          IF((FS(I) - FS0) < ZERO .AND. FSAS < ZERO .AND. FM(I) >ZERO )THEN 
+             ! transformation to austenite 
+             ! compute martensite phase fraction increment
+            DFMSA =  MAX(-ONE , FM(I) * ( FS(I) - FS0 ) / (FS0 - RFSA + FM(I) * E(I)*EPSL(I) ))
+          ENDIF
+          !--------------------------
+          !new martensite fraction increment        
+          !--------------------------
+          DFM =  DFMAS + DFMSA 
+          IF(DFM < ZERO .AND. FM(I) == ZERO) DFM = ZERO
+          !--------------------------
+          !UPDATE
+          !--------------------------
+          SIGNXX(I) = SIGNXX(I) - E(I) * DFM * EPSL(I) *  SIGN(ONE,EPSXX(I))
+          FS(I) =  ABS (SIGNXX(I) )   
 c
-         FM(I) = FM(I) + DFM
-         FM(I) = MAX(ZERO,FM(I))  
-         FM(I) = MIN(ONE  ,FM(I))  
+          FM(I) = FM(I) + DFM
+          FM(I) = MAX(ZERO,FM(I))  
+          FM(I) = MIN(ONE  ,FM(I))  
 
-         UVAR(I,2) = FS(I) - CAS(I)*TEMP(I)
-         UVAR(I,3) = FS(I) - CSA(I)*TEMP(I) 
-         TREPS(I) = FM(I) * EPSL(I) *  SIGN(ONE,EPSXX(I)) !transformation strain for output
-
-         UVAR(I,11) = TEMP(I)
+          UVAR(I,2) = FS(I) - CAS(I)*TEMP(I)
+          UVAR(I,3) = FS(I) - CSA(I)*TEMP(I) 
+          TREPS(I) = FM(I) * EPSL(I) *  SIGN(ONE,EPSXX(I)) !transformation strain for output
         ENDIF ! EFLAG        
       ENDDO  
       RETURN

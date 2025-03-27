@@ -31,17 +31,16 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    valpvecdp_v   ../engine/source/materials/mat/mat033/sigeps33.F
       !||====================================================================
       SUBROUTINE SIGEPS71(
-     1     NEL    ,NUPARAM,NUVAR   ,MFUNC   ,KFUNC   ,NPF    ,
-     2     TF     ,TIME   ,TIMESTEP,UPARAM  ,RHO0    ,RHO    ,
-     3     VOLUME ,EINT   ,
-     4     EPSPXX ,EPSPYY ,EPSPZZ  ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
-     5     DEPSXX ,DEPSYY ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
-     6     EPSXX  ,EPSYY  ,EPSZZ   ,EPSXY   ,EPSYZ   ,EPSZX  ,
-     7     SIGOXX ,SIGOYY ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX ,
-     8     SIGNXX ,SIGNYY ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
-     9     SIGVXX ,SIGVYY ,SIGVZZ  ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
-     A     SOUNDSP,VISCMAX,UVAR    ,OFF     ,NGL     ,IPM    ,
-     B     MAT    ,JTHE   ,TEMPEL  ,ISMSTR  ,ETSE)
+     1     NEL    ,NUPARAM,NUVAR   ,TIME    ,TIMESTEP,UPARAM  ,
+     2     RHO0   ,RHO    ,VOLUME  ,EINT    ,
+     3     EPSPXX ,EPSPYY ,EPSPZZ  ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
+     4     DEPSXX ,DEPSYY ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
+     5     EPSXX  ,EPSYY  ,EPSZZ   ,EPSXY   ,EPSYZ   ,EPSZX  ,
+     6     SIGOXX ,SIGOYY ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX ,
+     7     SIGNXX ,SIGNYY ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
+     8     SIGVXX ,SIGVYY ,SIGVZZ  ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
+     9     SOUNDSP,VISCMAX,UVAR    ,OFF     ,NGL     ,IPM    ,
+     A     MAT    ,JTHE   ,TEMP    ,ISMSTR  ,ETSE)
 C-----------------------------------------------
 c  Law for SMA (Shape memory alloy - NiTinol)
 c  based on Auricchio 1997
@@ -60,11 +59,6 @@ C---------+---------+---+---+--------------------------------------------
 C NEL     |  1      | I | R | SIZE OF THE ELEMENT GROUP NEL 
 C NUPARAM |  1      | I | R | SIZE OF THE USER PARAMETER ARRAY
 C NUVAR   |  1      | I | R | NUMBER OF USER ELEMENT VARIABLES
-C---------+---------+---+---+--------------------------------------------
-C MFUNC   |  1      | I | R | NUMBER FUNCTION USED FOR THIS USER LAW not used
-C KFUNC   | NFUNC   | I | R | FUNCTION INDEX not used
-C NPF     |  *      | I | R | FUNCTION ARRAY   
-C TF      |  *      | F | R | FUNCTION ARRAY 
 C---------+---------+---+---+--------------------------------------------
 C TIME    |  1      | F | R | CURRENT TIME
 C TIMESTEP|  1      | F | R | CURRENT TIME STEP
@@ -100,11 +94,13 @@ C OFF     | NEL     | F |R/W| DELETED ELEMENT FLAG (=1. ON, =0. OFF)
 C---------+---------+---+---+--------------------------------------------
 #include      "param_c.inc"
 #include      "scr05_c.inc"
+C---------+---------+---+---+--------------------------------------------
 C
-      INTEGER NEL, NUPARAM, NUVAR,IPT,JTHE,
-     .   NGL(NEL),MAT(NEL),IPLA,IPM(NPROPMI,*)
+      INTEGER ,INTENT(IN) :: NEL,NUPARAM,NUVAR
+      INTEGER ,INTENT(IN) :: JTHE
+      INTEGER NGL(NEL),MAT(NEL),IPM(NPROPMI,*)
       my_real
-     .   TIME,TIMESTEP,UPARAM(*),
+     .   TIME,TIMESTEP,UPARAM(NUPARAM),
      .   RHO(NEL),RHO0(NEL),VOLUME(NEL),EINT(NEL),
      .   EPSPXX(NEL),EPSPYY(NEL),EPSPZZ(NEL),
      .   EPSPXY(NEL),EPSPYZ(NEL),EPSPZX(NEL),
@@ -113,7 +109,8 @@ C
      .   EPSXX(NEL) ,EPSYY(NEL) ,EPSZZ(NEL) ,
      .   EPSXY(NEL) ,EPSYZ(NEL) ,EPSZX(NEL) ,
      .   SIGOXX(NEL),SIGOYY(NEL),SIGOZZ(NEL),
-     .   SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL), TEMPEL(NEL)
+     .   SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL)
+      my_real, DIMENSION(NEL) ,INTENT(INOUT) :: TEMP
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -126,23 +123,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      my_real 
-     .        UVAR(NEL,NUVAR), OFF(NEL),  PLA(NEL)
-C-----------------------------------------------
-C   VARIABLES FOR FUNCTION INTERPOLATION 
-C-----------------------------------------------
-      INTEGER NPF(*), MFUNC, KFUNC(MFUNC)
-      my_real
-     .   FINTER2, TF(*),FINTER
-      EXTERNAL FINTER2,FINTER
-C   EXTERNAL FINTER, FINTER2
-C        Y = FINTER(IFUNC(J),X,NPF,TF,DYDX)
-C        Y       : y = f(x)
-C        X       : x
-C        DYDX    : f'(x) = dy/dx
-C        IFUNC(J): FUNCTION INDEX
-C              J : FIRST(J=1), SECOND(J=2) .. FUNCTION USED FOR THIS LAW
-C        NPF,TF  : FUNCTION PARAMETER
+      my_real, DIMENSION(NEL) ,INTENT(INOUT) :: OFF
+      my_real, DIMENSION(NEL,NUVAR) ,INTENT(INOUT) ::UVAR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -159,7 +141,7 @@ C-----------------------------------------------
      .    NX2,NY2 ,NZ2,NXY2,NYZ2,NZX2,NE,DNX,DNY,DNZ,DNXY,DNYZ,DNZX,
      .    NXX(NEL),NYY(NEL),NZZ(NEL),NXY(NEL),NYZ(NEL),NZX(NEL), 
      .    E1(NEL),E2(NEL),E3(NEL),E4(NEL),E5(NEL),E6(NEL),TRDE(NEL),
-     .    DE1(NEL),DE2(NEL),DE3(NEL),GT(NEL),KT(NEL),TEMP(NEL),
+     .    DE1(NEL),DE2(NEL),DE3(NEL),GT(NEL),KT(NEL),
      .    EE1(NEL),EE2(NEL),EE3(NEL),PP(NEL),NNE(NEL),DET(NEL),
      .    SIGXX(NEL), SIGYY(NEL), SIGZZ(NEL)
       my_real
@@ -251,18 +233,13 @@ C ----  STRAIN IS ENGINEERING)
          EE3(I)  = LOG(EV(I,3)*RV_PUI)
       ENDDO 
 C-----------------------------------------------
-C  Calcul de la tempurature. (conduction ou adiabatique)
+C     Temperature update in adiabatic conditions
 C--------------------    
-        IF(JTHE < 0 ) THEN
-         DO I=1,NEL     
-           TEMP(I) = TEMPEL(I)
-         ENDDO
-        ELSE         
-         DO I=1,NEL
-           TEMP(I) = TINI 
-     .             + EINT(I)/ RHO0(I)/CP/MAX(EM15,VOLUME(I))
-         ENDDO
-        ENDIF
+      IF (JTHE == 0) THEN         
+        DO I=1,NEL
+          TEMP(I) = TINI + EINT(I) / RHO0(I)/CP/MAX(EM15,VOLUME(I))
+        ENDDO
+      ENDIF
 C-----------------------------------------------
 
        IF (EFLAG > ZERO)THEN
@@ -414,7 +391,6 @@ c
            ETSE(I) = ONE
         ENDIF
         UVAR(I,10) = EPSXX(I)
-        UVAR(I,11) = temp(I)
       ENDDO  
 C=======================================================================
       ELSE !EFLAG = 0
@@ -528,7 +504,6 @@ C      TRANSFORM PRINCIPAL  CAUCHY STRESSES TO GLOBAL DIRECTIONS
         UVAR(I,4) = EPSL*DFM ! transformation strain
         UVAR(I,7) = UVAR(I,7)+EPSL*DFM
         UVAR(I,10) = EPSXX(I)
-        UVAR(I,11) = TEMP(I)
       ENDDO  
 C             
       ENDIF ! EFLAG 
