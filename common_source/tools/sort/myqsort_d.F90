@@ -21,15 +21,21 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 ! ----------------------------------------------------------------------------------------------------------------------
+      !||====================================================================
+      !||    myqsort_d_mod      ../common_source/tools/sort/myqsort_d.F90
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_table2_1   ../starter/source/tools/curve/hm_read_table2_1.F
+      !||====================================================================
       module myqsort_d_mod
       
       contains
 !
-      !||====================================================================
-      !||    myqsort_d                           ../common_source/tools/sort/myqsort_d.F
-      !||--- called by ------------------------------------------------------
-      !||====================================================================
 
+      !||====================================================================
+      !||    myqsort_d          ../common_source/tools/sort/myqsort_d.F90
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_table2_1   ../starter/source/tools/curve/hm_read_table2_1.F
+      !||====================================================================
       subroutine myqsort_d(n, a, perm, error)
 !-----------------------------------------------
 !!< brief      q u i c k s o r t algorithm using double precision input vector
