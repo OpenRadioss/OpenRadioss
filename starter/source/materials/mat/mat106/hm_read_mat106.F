@@ -209,6 +209,10 @@ C ----
       MTAG%L_PLA  = 1
       PM(100) = PARMAT(1)
 C ----
+C------------------------------
+      ! activate heat source calculation in material
+      MATPARAM%HEAT_FLAG = 1
+!
       ! MATPARAM keywords
       CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
       ! Properties compatibility

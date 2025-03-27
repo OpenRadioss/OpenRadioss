@@ -32,13 +32,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      A      NEL    , NUPARAM, NUVAR  , NFUNC   , IFUNC   , 
      B      NPF    , TF     , TIME   , TIMESTEP, UPARAM  , 
      C      RHO0   , RHO    , VOLUME , EINT    ,  
-     D      DEPSXX , DEPSYY , DEPSZZ , DEPSXY  , DEPSYZ  , DEPSZX,
-     E      EPSXX  , EPSYY  , EPSZZ  , EPSXY   , EPSYZ   , EPSZX ,
-     F      SIGOXX , SIGOYY , SIGOZZ , SIGOXY  , SIGOYZ  , SIGOZX,
-     G      SIGNXX , SIGNYY , SIGNZZ , SIGNXY  , SIGNYZ  , SIGNZX,
-     H      SIGVXX , SIGVYY , SIGVZZ , SIGVXY  , SIGVYZ  , SIGVZX,
-     I      SOUNDSP, VISCMAX, UVAR   , OFF     , PLA     , DPLA  ,
-     J      EPSD   , TEMP   , JTHE   , NFT     )
+     D      DEPSXX , DEPSYY , DEPSZZ , DEPSXY  , DEPSYZ  , DEPSZX  ,
+     E      EPSXX  , EPSYY  , EPSZZ  , EPSXY   , EPSYZ   , EPSZX   ,
+     F      SIGOXX , SIGOYY , SIGOZZ , SIGOXY  , SIGOYZ  , SIGOZX  ,
+     G      SIGNXX , SIGNYY , SIGNZZ , SIGNXY  , SIGNYZ  , SIGNZX  ,
+     H      SIGVXX , SIGVYY , SIGVZZ , SIGVXY  , SIGVYZ  , SIGVZX  ,
+     I      SOUNDSP, VISCMAX, UVAR   , OFF     , PLA     , DPLA    ,
+     J      EPSD   , TEMP   , JTHE   , JLAG    , FHEAT   )
 C------------------------------------------------------------------------
 C     Radial return for Johnson-Cook without viscous effect
 C     R = (A+B*p^n)*(1-Tr^m)    
@@ -61,14 +61,16 @@ C-----------------------------------------------
 C----------------------------------------------------------------
 C  I n p u t   A r g u m e n t s
 C----------------------------------------------------------------
-      INTEGER NEL, NUPARAM, NUVAR, JTHE, NFT
+      INTEGER NEL, NUPARAM, NUVAR
+      INTEGER ,INTENT(IN) :: JTHE
+      INTEGER ,INTENT(IN) :: JLAG
       my_real
      .   TIME       , TIMESTEP   , UPARAM(NUPARAM),
      .   RHO(NEL)   , RHO0(NEL)  , VOLUME(NEL), EINT(NEL),
      .   DEPSXX(NEL), DEPSYY(NEL), DEPSZZ(NEL), DEPSXY(NEL), DEPSYZ(NEL), DEPSZX(NEL),
      .   EPSXX (NEL), EPSYY (NEL), EPSZZ (NEL), EPSXY (NEL), EPSYZ (NEL), EPSZX (NEL),
      .   SIGOXX(NEL), SIGOYY(NEL), SIGOZZ(NEL), SIGOXY(NEL), SIGOYZ(NEL), SIGOZX(NEL),
-     .   OFF(NEL)   , PLA(NEL)   , DPLA(NEL)  , EPSD(NEL)  , TEMP(NEL)
+     .   OFF(NEL)   , PLA(NEL)   , DPLA(NEL)  , EPSD(NEL)  
 C----------------------------------------------------------------
 C  O u t p u t   A r g u m e n t s
 C----------------------------------------------------------------
@@ -82,6 +84,8 @@ C----------------------------------------------------------------
 C  I n p u t  O u t p u t   A r g u m e n t s
 C----------------------------------------------------------------
       my_real :: UVAR(NEL,NUVAR)
+      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: TEMP
+      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: FHEAT
 C----------------------------------------------------------------------
 C  V a r i a b l e s  f o r  f u n c t i o n  i n t e r p o l a t i o n 
 C----------------------------------------------------------------------
@@ -94,7 +98,7 @@ C----------------------------------------------------------------
       my_real
      .     E,NU,G,A,B,CM,CN,TM,TREF,EPSM,SIGMAM,
      .     MU,MU0,LAMBDA0,MU_RATIO,BULK,LAMBDA,
-     .     F,TOL,INTERVAL,E0, NU0,
+     .     F,TOL,INTERVAL,E0, NU0,T0,
      .     SXX,SYY,SZZ,SXY,SYZ,SZX,EQVM,TRC,RATIO,
      .     SIGXX,SIGYY,SIGZZ,SIGXY,SIGYZ,SIGZX,
      .     EXX,EYY,EZZ,EXY,EYZ,EZX,TRACE_DEPS,TRACE_SIG, PRESSURE, PRESSURE0,
@@ -151,11 +155,12 @@ C         Temperature dependent material properties
 
          INTERVAL=ONE
          DO I=1,NEL
-C         Temperature dependent material properties
+            T0 = UVAR(I,12)    ! previous temperature
+C           Temperature dependent material properties
             IF (IFUNC(1) > 0) THEN
-                IF (IFUNC(2) <= 0 .OR. TEMP(I) > UVAR(I,12)) THEN
+                IF (IFUNC(2) == 0 .OR. TEMP(I) > T0) THEN
                     E = UPARAM(1)*FINTER(IFUNC(1),TEMP(I),NPF,TF,DYDX) 
-                ELSE
+                ELSEIF (IFUNC(2) > 0) THEN
                     E = UPARAM(1)*FINTER(IFUNC(2),TEMP(I),NPF,TF,DYDX) 
                 ENDIF
             ENDIF
@@ -168,13 +173,6 @@ C         Important, values newly added element should be initialized
             ENDIF
             IF (UVAR(I,11) == ZERO) THEN
                UVAR(I,11) = NU
-            ENDIF
-            IF (UVAR(I,12) == ZERO) THEN
-               IF(JTHE >=0) THEN
-                  UVAR(I,12) = TREF
-               ELSE
-                  UVAR(I,12) = TEMP(I)
-               ENDIF
             ENDIF
 
 C     E and NU at previous time 
@@ -298,12 +296,16 @@ C     Initial condition for Newton method
               UVAR(I,2)=UVAR(I,2)
               UVAR(I,3)=UVAR(I,3)
               RATIO = (ONE - THREE * MU * V0 / EQVM)
-
-              IF(JTHE >=0 ) TEMP(I)=UVAR(I,12)+UVAR(I,2)*DPLA(I)/CS        
+!
+              IF (JTHE /= 0 .AND. JLAG /= 0) THEN
+                FHEAT(I) = FHEAT(I) + UVAR(I,2)*DPLA(I)*VOLUME(I)
+              ELSE IF (CS > ZERO) THEN 
+                TEMP(I)  = TEMP(I) + UVAR(I,2)*DPLA(I)/CS
+              ENDIF
             ENDIF
 
-            UVAR(I,10) = E  ! register as previous Young's modulus
-            UVAR(I,11) = NU  ! register as previous Poisson's ratio
+            UVAR(I,10) = E        ! register as previous Young's modulus
+            UVAR(I,11) = NU       ! register as previous Poisson's ratio
             UVAR(I,12) = TEMP(I)  ! register as previous temperature
             SIGNXX(I) = SXX * RATIO - PRESSURE
             SIGNYY(I) = SYY * RATIO - PRESSURE

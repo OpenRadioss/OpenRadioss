@@ -145,7 +145,8 @@ C=======================================================================
         Vx0(I)    = Vx_1
         Vy0(I)    = Vy_1
         Vz0(I)    = Vz_1     
-        TV(I)     = T0      ! Consequently, if the adjacent material does not have an allocated temperature, it will retain its initial value.
+        TV(I)     = T0      ! Consequently, if the adjacent material does not have an allocated temperature, 
+                            ! it will retain its initial value.
       ENDDO
 
       DO I=1,NEL

@@ -26,23 +26,18 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    mulaw       ../engine/source/materials/mat_share/mulaw.F90
       !||====================================================================
        SUBROUTINE SIGEPS103(
-     A      NEL    , NUPARAM, NUVAR  , NFUNC   , IFUNC   , 
-     B      NPF    , TF     , TIME   , TIMESTEP, UPARAM  , 
-     C      RHO0   , RHO    , VOLUME , EINT    ,  
+     A      NEL    , NUPARAM, TIME     , TIMESTEP,UPARAM , 
+     C      RHO0   , RHO    , VOLUME , EINT    , FHEAT   ,  
      D      DEPSXX , DEPSYY , DEPSZZ , DEPSXY  , DEPSYZ  , DEPSZX,
      E      EPSXX  , EPSYY  , EPSZZ  , EPSXY   , EPSYZ   , EPSZX ,
      F      SIGOXX , SIGOYY , SIGOZZ , SIGOXY  , SIGOYZ  , SIGOZX,
      G      SIGNXX , SIGNYY , SIGNZZ , SIGNXY  , SIGNYZ  , SIGNZX,
      H      SIGVXX , SIGVYY , SIGVZZ , SIGVXY  , SIGVYZ  , SIGVZX,
-     I      SOUNDSP, VISCMAX, UVAR   , OFF     , DPDM    ,
-     J      EPSD   , TEMPER , TEMPEL , JTHE    , PLA     )
+     I      SOUNDSP, VISCMAX, OFF    , DPDM    ,EPSD     , PLA   ,  
+     J      TEMP   , JTHE   , JLAG   )
 
 C------------------------------------------------------------------------
 C HENSEL SPITTEL Material Law
-C NUVAR   NUMBER OF USER ELEMENT VARIABLES
-C UVAR    USER ELEMENT VARIABLE ARRAY
-C         UVAR(I,1)   = THETA  Temperature
-C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,14 +49,14 @@ C-----------------------------------------------
 C----------------------------------------------------------------
 C  I n p u t   A r g u m e n t s
 C----------------------------------------------------------------
-      INTEGER NEL, NUPARAM, NUVAR, JTHE
+      INTEGER NEL, NUPARAM, JTHE,JLAG
       my_real
      .   TIME       , TIMESTEP   , UPARAM(NUPARAM),
      .   RHO(NEL)   , RHO0(NEL)  , VOLUME(NEL), EINT(NEL),
      .   DEPSXX(NEL), DEPSYY(NEL), DEPSZZ(NEL), DEPSXY(NEL), DEPSYZ(NEL), DEPSZX(NEL),
      .   EPSXX (NEL), EPSYY (NEL), EPSZZ (NEL), EPSXY (NEL), EPSYZ (NEL), EPSZX (NEL),
      .   SIGOXX(NEL), SIGOYY(NEL), SIGOZZ(NEL), SIGOXY(NEL), SIGOYZ(NEL), SIGOZX(NEL),
-     .   OFF(NEL)   , DPDM(NEL)  , EPSD(NEL)  , TEMPER(NEL), TEMPEL(NEL), PLA(NEL)
+     .   OFF(NEL)   , DPDM(NEL)  , EPSD(NEL)
 C----------------------------------------------------------------
 C  O u t p u t   A r g u m e n t s
 C----------------------------------------------------------------
@@ -74,21 +69,17 @@ C----------------------------------------------------------------
 C----------------------------------------------------------------
 C  I n p u t  O u t p u t   A r g u m e n t s
 C----------------------------------------------------------------
-      my_real :: UVAR(NEL,NUVAR)
-C----------------------------------------------------------------------
-C  V a r i a b l e s  f o r  f u n c t i o n  i n t e r p o l a t i o n 
-C----------------------------------------------------------------------
-      INTEGER :: NPF(*), NFUNC, IFUNC(NFUNC)
-      my_real :: TF(*)
+      my_real :: PLA(NEL)
+      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: FHEAT
+      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: TEMP
 C----------------------------------------------------------------
 C  L o c a l  V a r i a b l e s
 C----------------------------------------------------------------
       INTEGER :: I
-      my_real :: DAVG(NEL), POLD(NEL), THETA(NEL), HM(NEL), EPS(NEL)
+      my_real :: DAVG(NEL), POLD(NEL), THETA(NEL), HM(NEL), EPS(NEL),DHEAT(NEL)
       my_real :: YLD(NEL), YLD_H(NEL), YLD_SR(NEL), YLD_T(NEL), SVM(NEL)
-      my_real :: A0, EPS0, TIME_FAC, RCP, TINI, ETA, T0K, RATIO, DPLA, G, G2, G3, J2
+      my_real :: A0, EPS0, TIME_FAC, RHOCP, TINI, ETA, T0K, RATIO, DPLA, G, G2, G3, J2
       my_real :: M1, M2, M3, M4, M5, M7
-C---+----1----+----2----+----3----+----5----+----6----+----7----+----8----+----9----+----A----+----B----+----C
 C----------------------------------------------------------------
 C  I n i t i a l i z a t i o n
 C----------------------------------------------------------------
@@ -101,7 +92,7 @@ C----------------------------------------------------------------
       M4      = UPARAM(7) 
       M5      = UPARAM(8) 
       M7      = UPARAM(9) 
-      RCP     = UPARAM(10) 
+      RHOCP     = UPARAM(10) 
       TINI    = UPARAM(11) 
       ETA     = UPARAM(12) 
       T0K     = UPARAM(13) 
@@ -109,11 +100,10 @@ C----------------------------------------------------------------
       G2      = TWO*G
       G3      = THREE*G
 
-      IF(DT1 == ZERO)THEN
-        DO I=1,NEL
-           UVAR(I,1) = TINI
-        ENDDO  
+      IF (TIME == ZERO .and. JTHE == 0) THEN
+        TEMP(1:NEL) = TINI
       ENDIF
+      print*,'tt,dt1,temp0', tt,dt1,temp(1)
 
       DO I=1,NEL
          POLD(I) = -(SIGOXX(I)+SIGOYY(I)+SIGOZZ(I))*THIRD
@@ -146,17 +136,9 @@ C--------------------------------------------------------
          SVM(I) =SQRT(THREE*J2)
       ENDDO
 C--------------------------------------------------------
-C  Temperature
+C     Conversion of Kelvin to Celsius temp used in equations
 C--------------------------------------------------------
-      IF(JTHE >= 0) THEN
-        DO I=1,NEL
-           THETA(I)=UVAR(I,1)-T0K
-        ENDDO
-      ELSE
-        DO I=1,NEL
-           THETA(I)=TEMPEL(I)-T0K
-        ENDDO
-      ENDIF
+      THETA(1:NEL) = TEMP(1:NEL) - T0K    ! tok = 273.15
 C--------------------------------------------------------
 C  Yield Stress
 C--------------------------------------------------------
@@ -165,7 +147,7 @@ C Hardening scale factor
          YLD_H(I) = ONE
       ENDDO
       IF(M2 /= ZERO) THEN
-              DO I=1,NEL
+        DO I=1,NEL
            IF(EPS(I) > ZERO) YLD_H(I) = YLD_H(I)*EPS(I)**M2
         ENDDO
       ENDIF
@@ -181,7 +163,7 @@ C Hardening scale factor
       ENDIF 
 C Strain rate scale factor; convert strain rate in second-1
       IF(M3 /= ZERO) THEN
-              DO I=1,NEL
+         DO I=1,NEL
            YLD_SR(I) = (EPSD(I)*TIME_FAC)**M3
         ENDDO
       ELSE
@@ -199,7 +181,7 @@ C Temperature scale factor
            YLD_T(I) = EXP(THETA(I)*M1)
         ENDDO
       ELSEIF(M5 /= ZERO) THEN
-              DO I=1,NEL
+        DO I=1,NEL
            YLD_T(I) = (ONE+EPS(I))**(THETA(I)*M5)
         ENDDO
       ELSE
@@ -223,6 +205,7 @@ C----------------------------------------------------------------
 C----------------------------------------------------------------
 C  Update deviatoric stress tensor                   
 C----------------------------------------------------------------     
+      DHEAT(1:NEL) = ZERO
       DO I=1,NEL
          RATIO = MIN(ONE,YLD(I)/ MAX(SVM(I),EM20))
 C     plastic strain increment.
@@ -237,11 +220,10 @@ C     actual yield stress
          SIGNYZ(I) = SIGNYZ(I)*RATIO
          SIGNZX(I) = SIGNZX(I)*RATIO
          PLA(I) = PLA(I) + DPLA
-         THETA(I)= UVAR(I,1) + ETA*YLD(I)*DPLA/RCP
+         IF (DPLA > ZERO) DHEAT(I) = ETA*YLD(I)*DPLA
       ENDDO
 C
       DO I=1,NEL
-         UVAR(I,1) = THETA(I)
          VISCMAX(I)= ZERO
          SIGVXX(I) = ZERO
          SIGVYY(I) = ZERO
@@ -250,6 +232,14 @@ C
          SIGVYZ(I) = ZERO
          SIGVZX(I) = ZERO
       ENDDO
-
+C-----------------------------------------------
+C     Update temperature due to plastic work
+C--------------------    
+      IF (JTHE < 0 .AND. JLAG /= 0) THEN
+        FHEAT(1:NEL) = FHEAT(1:NEL) + DHEAT(1:NEL) * VOLUME(1:NEL)
+      ELSE IF (RHOCP > ZERO) THEN
+        TEMP(1:NEL) =  TEMP(1:NEL)  + DHEAT(1:NEL) / RHOCP
+      ENDIF
+!-----------
       RETURN
       END

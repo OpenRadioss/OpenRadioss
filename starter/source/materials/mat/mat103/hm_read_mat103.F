@@ -170,7 +170,7 @@ C-----------------------------------------------
       UPARAM(13) = 273.15
       UPARAM(14) = EPS0
 C    
-      NUVAR     = 1  ! temperature
+      NUVAR     = 0
       NFUNC     = 0 
       BULK   = E/THREE/(ONE-TWO*NU)
       PARMAT(1) = BULK 
@@ -183,7 +183,6 @@ C
       PM(69) = RCP
       PM(100)= BULK
 C   flag activation   
-      MTAG%G_TEMP = 1  ! 
       MTAG%L_TEMP = 1
       MTAG%G_EPSD = 1
       MTAG%L_EPSD = 1
@@ -195,7 +194,9 @@ C   flag activation
       MATPARAM%IEOS = 18  ! Linear EOS is used by default 
       
 !---------------------------------------------------------   
-
+      ! activate heat source calculation in material
+      MATPARAM%HEAT_FLAG = 1
+!
       ! Material compatibility with /EOS option
       CALL INIT_MAT_KEYWORD(MATPARAM,"EOS")
 
