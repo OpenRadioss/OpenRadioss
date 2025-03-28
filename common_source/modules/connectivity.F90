@@ -64,6 +64,7 @@
           integer, dimension(:), allocatable :: matid !< matid(i) :  Material ID of the i-th shell element
           integer, dimension(:), allocatable :: user_id !< user_id(i) :  user id of the shell element
           my_real, dimension(:), allocatable :: damage
+          real, dimension(:), allocatable :: dist_to_center !< maximum distance of a node to the center of the element 
           integer :: offset
           type(C_PTR) :: loc2glob
         end type shell_
