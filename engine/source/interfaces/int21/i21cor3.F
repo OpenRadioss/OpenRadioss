@@ -50,7 +50,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      K                Y4       ,Z4     ,DRAD    ,PENRAD ,TINT ,
      L                TEMPM    ,IFORM  ,H1      ,H2     ,H3   ,
      N                H4       ,DIST   ,ITAB    ,NOINT  ,DEPTH,
-     M                INVN     )
+     M                INVN     ,INTFRIC,IPARTFRICS,IPARTFRICSI,IPARTFRICM,
+     G                IPARTFRICMI,NRTM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -79,8 +80,11 @@ C-----------------------------------------------
      .        IRTLM(2,*), MSR(*), NODNX_SMS(*),
      .        JLT, NOINT, IGAP , NSN, NIN, IGSTI, IADM, NRADM, INTTH,
      .        IROT, MSTR, IFPEN(*), ILEV, IFORM,INVN
+      INTEGER , INTENT(IN) :: INTFRIC, NRTM
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ), ITRIA(MVSIZ), NSMS(MVSIZ),ITAB(*)
+      INTEGER , INTENT(IN) :: IPARTFRICS(NSN),IPARTFRICM(NRTM)
+      INTEGER , INTENT(INOUT) :: IPARTFRICSI(MVSIZ),IPARTFRICMI(MVSIZ)
 C     REAL
       my_real
      .   X(3,*), STF(*), STFN(*),GAP_S(*),
@@ -554,6 +558,17 @@ C PENRAD mesure si Gap < Dist < Dradiation
 C Out of the gap (Gap < dist < Dradiation)
         ENDDO
       END IF
+C
+C----Friction model : secnd part IDs---------
+      IF(INTFRIC > 0) THEN
+         DO I=1,JLT
+           NI = CAND_N(I)
+           L  = CAND_E(I)
+           IPARTFRICSI(I)= IPARTFRICS(NI)
+           IPARTFRICMI(I) = IPARTFRICM(L)
+C
+         ENDDO
+       ENDIF
 C---------------------
 C      PENE INITIALE
 C---------------------

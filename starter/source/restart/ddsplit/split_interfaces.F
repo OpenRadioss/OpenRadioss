@@ -1863,6 +1863,14 @@ c split Secnd candidates
             DEALLOCATE(TABI_ZERO)
           ENDIF
 
+         IF(INTFRIC>0)THEN
+            CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%IPARTFRICS,NSN_L,1,
+     .                TAG_NODE_2RY) 
+            CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%IPARTFRICM,NRTM_L,1,
+     .                TAG_SEGM) 
+          ENDIF
+
+
 c          DO I=1, NMNG_L
 c            INTBUF_TAB(NI)%MSR21(I) = INTBUF_TAB(NI)%MSR(I)
 c          ENDDO

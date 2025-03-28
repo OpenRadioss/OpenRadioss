@@ -484,7 +484,8 @@ C
      B  CONDNSKYI ,DT2T         ,NELTST     ,ITYPTST      ,KINET       ,
      C  FBSAV6    ,ISENSINT(1,N),SFBSAV6      ,NISKYFI(N)   ,H3D_DATA    ,
      D  PSKIDS    ,TAGNCONT     ,KLOADPINTER,LOADPINTER   ,LOADP_HYD_INTER,
-     E  DGAPLOADINT,S_LOADPINTER,INTEREFRIC ,NODADT_THERM,THEACCFACT)
+     E  DGAPLOADINT,S_LOADPINTER,INTEREFRIC ,NODADT_THERM,THEACCFACT   ,
+     F  INTERFACES%INTBUF_FRIC_TAB)
 C-----------------------------------------------------------------------
 C
 C-----------------------------------------------------------------------

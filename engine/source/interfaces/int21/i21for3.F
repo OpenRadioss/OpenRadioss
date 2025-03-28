@@ -29,29 +29,28 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ibcoff     ../engine/source/interfaces/interf/ibcoff.F
       !||====================================================================
       SUBROUTINE I21FOR3(JLT    ,NIN    ,NOINT  ,IBCC   ,ICODT  ,
-     2                  FSAV    ,GAP    ,STIGLO ,FRIC   ,VISC   ,
-     3                  INACTI  ,MFROT  ,IFQ    ,IBAG   ,IADM   ,
-     4                  ICURV   ,STIF    ,GAPV  ,ITAB   ,
-     5                  PENI    ,FROT_P ,ALPHA0 ,IFPEN  ,
-     6                  ICONTACT,RCONTACT,ACONTACT,PCONTACT,
-     7                  NSVG    ,X1     ,Y1     ,Z1     ,X2     ,
-     8                  Y2      ,Z2     ,X3     ,Y3     ,Z3     ,
-     9                  X4      ,Y4     ,Z4     ,XI     ,YI     ,
-     A                  ZI     ,VXI    ,VYI    ,VZI     ,MSI    ,
-     B                  VXM    ,VYM    ,VZM    ,NX      ,NY     ,
-     C                  NZ     ,PENE   ,FXT    ,FYT    ,FZT     ,
-     D                  FXN    ,FYN    ,FZN    ,RCURVI ,ANGLMI  ,
-     E                  PADM   ,CAND_N_N, WEIGHT,IGAP   ,GAP0   ,
-     F                  AREA0   ,PMAX   ,IROT   ,XG     ,MXI    ,
-     G                  MYI     ,MZI    ,STRI   ,WXM    ,WYM    ,
-     H                  WZM     ,XP     ,YP     ,ZP     ,KT     ,
-     I                  C       ,ILEV   ,FNI    ,INTTH  ,FHEAT  ,
-     J                  EFRICT  ,QFRIC  ,IFRIC  ,XFRIC  ,TEMPI  , 
-     k                  TEMPM   ,NPC    ,TF     ,IX1    ,IX2    ,
-     L                  IX3     ,IX4    ,DT2T   ,NELTST ,ITYPTST,
-     M                  KINET   ,NISUB  ,ISENSINT,FSAVPARIT,NFT ,
-     N                  IFTLIM  ,PSKIDFLAG,PRATIO,PMAXSKID,INTEREFRIC,
-     O                  EFRIC_L )
+     2                  FSAV    ,GAP    ,STIGLO ,VISC   ,INACTI  ,
+     3                  MFROT   ,IFQ    ,IBAG   ,IADM   ,ICURV   ,
+     4                  STIF    ,GAPV   ,ITAB   ,PENI   ,ALPHA0  ,
+     5                  IFPEN   ,ICONTACT,RCONTACT,ACONTACT,PCONTACT,
+     6                  NSVG    ,X1     ,Y1     ,Z1     ,X2     ,
+     7                  Y2      ,Z2     ,X3     ,Y3     ,Z3     ,
+     8                  X4      ,Y4     ,Z4     ,XI     ,YI     ,
+     9                  ZI     ,VXI    ,VYI    ,VZI     ,MSI    ,
+     A                  VXM    ,VYM    ,VZM    ,NX      ,NY     ,
+     B                  NZ     ,PENE   ,FXT    ,FYT    ,FZT     ,
+     C                  FXN    ,FYN    ,FZN    ,RCURVI ,ANGLMI  ,
+     D                  PADM   ,CAND_N_N, WEIGHT,IGAP   ,GAP0   ,
+     E                  AREA0   ,PMAX   ,IROT   ,XG     ,MXI    ,
+     F                  MYI     ,MZI    ,STRI   ,WXM    ,WYM    ,
+     G                  WZM     ,XP     ,YP     ,ZP     ,KT     ,
+     H                  C       ,ILEV   ,FNI    ,INTTH  ,FHEAT  ,
+     I                  EFRICT  ,QFRIC  ,IFRIC  ,XFRIC  ,TEMPI  , 
+     J                  TEMPM   ,NPC    ,TF     ,IX1    ,IX2    ,
+     K                  IX3     ,IX4    ,DT2T   ,NELTST ,ITYPTST,
+     L                  KINET   ,NISUB  ,ISENSINT,FSAVPARIT,NFT ,
+     M                  IFTLIM  ,PSKIDFLAG,PRATIO,PMAXSKID,INTEREFRIC,
+     N                  EFRIC_L ,FRICC  ,FRIC_COEFS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -89,8 +88,8 @@ C-----------------------------------------------
      .        ISENSINT(*),NFT,PSKIDFLAG
       INTEGER  , INTENT(IN) :: INTEREFRIC
       my_real
-     .   STIGLO, PENI(*), FROT_P(*), FSAV(*), TF(*),
-     .   ALPHA0, GAP, FRIC, VISC,DT2T,PMAXSKID ,
+     .   STIGLO, PENI(*), FSAV(*), TF(*),
+     .   ALPHA0, GAP, VISC,DT2T,PMAXSKID ,
      .   FNI(MVSIZ),
      .   FXN(MVSIZ), FYN(MVSIZ), FZN(MVSIZ), 
      .   FXT(MVSIZ), FYT(MVSIZ), FZT(MVSIZ)
@@ -114,6 +113,7 @@ C-----------------------------------------------
      .   TEMPI(MVSIZ),TEMPM(MVSIZ),XFRIC,DYDX,
      .   FSAVPARIT(NISUB+1,11,*),PRATIO(MVSIZ)
       my_real  , INTENT(INOUT) :: EFRIC_L(MVSIZ)
+      my_real  , INTENT(IN) :: FRIC_COEFS(MVSIZ,10), FRICC(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -388,21 +388,11 @@ c
 C---------------------------------
 C     NEW FRICTION MODELS
 C---------------------------------
-      IF (IFRIC/=0) THEN ! Friction coef = f(Temp)
-        DO I=1,JLT
-          TH = XFRIC *(TEMPI(I)+TEMPM(I))/2
-          FRICT(I)  = FRIC*FINTER(IFRIC,TH,NPC,TF,DYDX)     
-        ENDDO
-      ELSE
-        DO I=1,JLT
-          FRICT(I)  = FRIC 
-        ENDDO    
 
-      ENDIF
       IF (MFROT==0) THEN
 C---    Coulomb friction
         DO I=1,JLT
-          XMU(I) = FRICT(I)
+          XMU(I) = FRICC(I)
         ENDDO
       ELSEIF (MFROT==1) THEN
 C---    Viscous friction
@@ -417,8 +407,8 @@ C
 C should be the current nodal surface instead of the initial one.
           AREA = AREA0(I)
           P = -FNI(I)/AREA
-          XMU(I) = FRICT(I) + (FROT_P(1) + FROT_P(4)*P ) * P 
-     .           +(FROT_P(2) + FROT_P(3)*P) * VV + FROT_P(5)*V2
+          XMU(I) = FRICC(I)+ (FRIC_COEFS(I,1) + FRIC_COEFS(I,4)*P ) * P 
+     .           +(FRIC_COEFS(I,2) + FRIC_COEFS(I,3)*P) * VV + FRIC_COEFS(I,5)*V2
           XMU(I) = MAX(XMU(I),EM30)
         ENDDO
       ELSEIF(MFROT==2)THEN
@@ -434,10 +424,10 @@ C
 C should be the current nodal surface instead of the initial one.
           AREA = AREA0(I)
           P = -FNI(I)/AREA
-          XMU(I) = FRICT(I)
-     .           + FROT_P(1)*EXP(FROT_P(2)*VV)*P*P
-     .           + FROT_P(3)*EXP(FROT_P(4)*VV)*P
-     .           + FROT_P(5)*EXP(FROT_P(6)*VV)
+          XMU(I) = FRICC(I)
+     .           + FRIC_COEFS(I,1)*EXP(FRIC_COEFS(I,2)*VV)*P*P
+     .           + FRIC_COEFS(I,3)*EXP(FRIC_COEFS(I,4)*VV)*P
+     .           + FRIC_COEFS(I,5)*EXP(FRIC_COEFS(I,6)*VV)
           XMU(I) = MAX(XMU(I),EM30)
         ENDDO
       ELSEIF (MFROT==3) THEN
@@ -449,18 +439,18 @@ C attention : normale <> normale a l'elt
      .       + (VY(I) - NY(I)*AA)**2 
      .       + (VZ(I) - NZ(I)*AA)**2
           VV = SQRT(MAX(EM30,V2))
-          IF(VV>=0.AND.VV<=FROT_P(5)) THEN
-            DMU = FROT_P(3)-FROT_P(1)
-            VV1 = VV / FROT_P(5)
-            XMU(I) = FROT_P(1)+ DMU*VV1*(TWO-VV1)
-          ELSEIF(VV>FROT_P(5).AND.VV<FROT_P(6)) THEN
-            DMU = FROT_P(4)-FROT_P(3) 
-            VV1 = (VV - FROT_P(5))/(FROT_P(6)-FROT_P(5))
-            XMU(I) = FROT_P(3)+ DMU * (THREE-TWO*VV1)*VV1**2
+          IF(VV>=0.AND.VV<=FRIC_COEFS(I,5)) THEN
+            DMU = FRIC_COEFS(I,3)-FRIC_COEFS(I,1)
+            VV1 = VV / FRIC_COEFS(I,5)
+            XMU(I) = FRIC_COEFS(I,1)+ DMU*VV1*(TWO-VV1)
+          ELSEIF(VV>FRIC_COEFS(I,5).AND.VV<FRIC_COEFS(I,6)) THEN
+            DMU = FRIC_COEFS(I,4)-FRIC_COEFS(I,3) 
+            VV1 = (VV - FRIC_COEFS(I,5))/(FRIC_COEFS(I,6)-FRIC_COEFS(I,5))
+            XMU(I) = FRIC_COEFS(I,3)+ DMU * (THREE-TWO*VV1)*VV1**2
           ELSE
-            DMU = FROT_P(2)-FROT_P(4)
-            VV2 = (VV - FROT_P(6))**2
-            XMU(I) = FROT_P(2) - DMU / (ONE + DMU*VV2)
+            DMU = FRIC_COEFS(I,2)-FRIC_COEFS(I,4)
+            VV2 = (VV - FRIC_COEFS(I,6))**2
+            XMU(I) = FRIC_COEFS(I,2) - DMU / (ONE + DMU*VV2)
           ENDIF
           XMU(I) = MAX(XMU(I),EM30)
         ENDDO
@@ -472,8 +462,8 @@ C---        Exponential decay model
      .       + (VY(I) - NY(I)*AA)**2 
      .       + (VZ(I) - NZ(I)*AA)**2
            VV = SQRT(MAX(EM30,V2))
-           XMU(I) = FROT_P(1)
-     .            + (FRIC-FROT_P(1))*EXP(-FROT_P(2)*VV)
+           XMU(I) = FRIC_COEFS(I,1)
+     .            + (FRIC_COEFS(I,1)-FRICC(I))*EXP(-FRIC_COEFS(I,2)*VV)
            XMU(I) = MAX(XMU(I),EM30)
         ENDDO
       ENDIF
