@@ -81,11 +81,6 @@ C-----------------------------------------------
         AA(2) = ALPHA(IV2)
         AA(3) = ALPHA(IV3)
         AA(4) = ALPHA(IV4)
-        !ghost cells
-        IF(AA(1) == ZERO) AA(1)=AA(0)
-        IF(AA(2) == ZERO) AA(2)=AA(0)
-        IF(AA(3) == ZERO) AA(3)=AA(0)
-        IF(AA(4) == ZERO) AA(4)=AA(0)
         !harmonic interpolation
         AA_FACE(1) = TWO*(AA(0)*AA(1)) / MAX(EM20,(AA(0)+AA(1)))
         AA_FACE(2) = TWO*(AA(0)*AA(2)) / MAX(EM20,(AA(0)+AA(2)))
@@ -104,7 +99,6 @@ C-----------------------------------------------------------
       DO I=LFT,LLT
         DPHI(I)=TWO *DPHI(I)*DT1/MAX(VOL(I),EM20)
       ENDDO
-C-----------------------------------------------------------
       DO I=LFT,LLT
         PHIN(I)=PHIN(I)+DPHI(I)
       ENDDO
