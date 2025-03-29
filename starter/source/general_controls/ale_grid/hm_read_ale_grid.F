@@ -189,6 +189,9 @@ C-----------------------------------------------
             VGX = IS_DEF
             VGY = IS_ROT
             VGZ = ZERO
+         ELSEIF (KEY(1:8) == 'LAGRANGE') THEN
+            IS_DEFINED_ALE_GRID = .TRUE.
+            ALE%GRID%NWALE = 8
          ELSE
            !invalid keyword : error message managed by Reader itself
          ENDIF

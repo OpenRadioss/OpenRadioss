@@ -101,6 +101,7 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE MULTI_FVM_MOD
       USE ALE_MOD
+      USE ALEW8_MOD , ONLY : ALEW8
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -272,6 +273,13 @@ C----------------------------------------
      3           SX      ,SV      ,SW     ,NSPMD   )
             CALL MY_BARRIER
 
+          !-------------------------------!
+          !---/ALE/GRID/LAGRANGE (8)
+          !-------------------------------!
+          CASE(8)
+            CALL MY_BARRIER
+            CALL ALEW8(SV, SW, V ,W, NODFT, NODLT, NUMNOD, ALE_CONNECTIVITY%NALE)
+            CALL MY_BARRIER
 
         END SELECT !CASE (ALE%GRID%NWALE)
 
