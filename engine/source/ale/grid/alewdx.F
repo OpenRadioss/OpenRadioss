@@ -33,6 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    alew5                  ../engine/source/ale/grid/alew5.F
       !||    alew6                  ../engine/source/ale/grid/alew6.F
       !||    alew7                  ../engine/source/ale/grid/alew7.F
+      !||    alew8                  ../engine/source/ale/grid/alew8.F90
       !||    bcs2v                  ../engine/source/constraints/general/bcs/bcs2.F
       !||    bcs3v                  ../engine/source/ale/inter/bcs3v.F
       !||    intal3                 ../engine/source/ale/inter/intal3.F
@@ -46,6 +47,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
       !||    ale_mod                ../common_source/modules/ale/ale_mod.F
+      !||    alew8_mod              ../engine/source/ale/grid/alew8.F90
       !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    groupdef_mod           ../common_source/modules/groupdef_mod.F
       !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
