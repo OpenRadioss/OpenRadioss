@@ -183,8 +183,8 @@
       if (mtn==90) f_et(1:nel)=max(one,qh*lamgt(1:nel)/lamg)
 !
       do i=1,nel
-         ll = vol(i)**third
-         caq(i)=stif*dt1*off(i)
+         ll = off(i)*vol(i)**third
+         caq(i)=stif*dt1
          edt(i)=f_et(i)*caq(i)*ll
          fcl(i)=fvl*rho(i)*cxx(i)*ll*ll
          sti(i) = f_sti(i)*sti(i)
@@ -254,18 +254,21 @@
        enddo
 !
        do i=1,nel
-         fhour(i,1,1) = fhour(i,1,1)*off(i) + edt(i)*hgx1(i)
-         fhour(i,1,2) = fhour(i,1,2)*off(i) + edt(i)*hgx2(i)
-         fhour(i,1,3) = fhour(i,1,3)*off(i) + edt(i)*hgx3(i)
-         fhour(i,1,4) = fhour(i,1,4)*off(i) + edt(i)*hgx4(i)
-         fhour(i,2,1) = fhour(i,2,1)*off(i) + edt(i)*hgy1(i)
-         fhour(i,2,2) = fhour(i,2,2)*off(i) + edt(i)*hgy2(i)
-         fhour(i,2,3) = fhour(i,2,3)*off(i) + edt(i)*hgy3(i)
-         fhour(i,2,4) = fhour(i,2,4)*off(i) + edt(i)*hgy4(i)
-         fhour(i,3,1) = fhour(i,3,1)*off(i) + edt(i)*hgz1(i)
-         fhour(i,3,2) = fhour(i,3,2)*off(i) + edt(i)*hgz2(i)
-         fhour(i,3,3) = fhour(i,3,3)*off(i) + edt(i)*hgz3(i)
-         fhour(i,3,4) = fhour(i,3,4)*off(i) + edt(i)*hgz4(i)
+         fhour(i,1:3,1:4) = fhour(i,1:3,1:4)*off(i) 
+       enddo
+       do i=1,nel
+         fhour(i,1,1) = fhour(i,1,1) + edt(i)*hgx1(i)
+         fhour(i,1,2) = fhour(i,1,2) + edt(i)*hgx2(i)
+         fhour(i,1,3) = fhour(i,1,3) + edt(i)*hgx3(i)
+         fhour(i,1,4) = fhour(i,1,4) + edt(i)*hgx4(i)
+         fhour(i,2,1) = fhour(i,2,1) + edt(i)*hgy1(i)
+         fhour(i,2,2) = fhour(i,2,2) + edt(i)*hgy2(i)
+         fhour(i,2,3) = fhour(i,2,3) + edt(i)*hgy3(i)
+         fhour(i,2,4) = fhour(i,2,4) + edt(i)*hgy4(i)
+         fhour(i,3,1) = fhour(i,3,1) + edt(i)*hgz1(i)
+         fhour(i,3,2) = fhour(i,3,2) + edt(i)*hgz2(i)
+         fhour(i,3,3) = fhour(i,3,3) + edt(i)*hgz3(i)
+         fhour(i,3,4) = fhour(i,3,4) + edt(i)*hgz4(i)
        enddo
        do i=1,nel
          hx1(i)=(fhour(i,1,1) +  fcl(i)*hgx1(i))*eight
