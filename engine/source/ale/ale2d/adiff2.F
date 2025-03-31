@@ -81,30 +81,24 @@ C-----------------------------------------------
         AA(2) = ALPHA(IV2)
         AA(3) = ALPHA(IV3)
         AA(4) = ALPHA(IV4)
-        !ghost cells
-        IF(AA(1) == ZERO) AA(1)=AA(0)
-        IF(AA(2) == ZERO) AA(2)=AA(0)
-        IF(AA(3) == ZERO) AA(3)=AA(0)
-        IF(AA(4) == ZERO) AA(4)=AA(0)
         !harmonic interpolation
-        AA_FACE(1) = TWO*(AA(0)*AA(1)) / MAX(EM20,(AA(0)+AA(1)))
-        AA_FACE(2) = TWO*(AA(0)*AA(2)) / MAX(EM20,(AA(0)+AA(2)))
-        AA_FACE(3) = TWO*(AA(0)*AA(3)) / MAX(EM20,(AA(0)+AA(3)))
-        AA_FACE(4) = TWO*(AA(0)*AA(4)) / MAX(EM20,(AA(0)+AA(4)))
+        AA_FACE(1) = (AA(0)*AA(1)) / MAX(EM20,(AA(0)+AA(1)))
+        AA_FACE(2) = (AA(0)*AA(2)) / MAX(EM20,(AA(0)+AA(2)))
+        AA_FACE(3) = (AA(0)*AA(3)) / MAX(EM20,(AA(0)+AA(3)))
+        AA_FACE(4) = (AA(0)*AA(4)) / MAX(EM20,(AA(0)+AA(4)))
 C-----------------------------------------------------------
         ! time evolution
-        DPHI(I) = (ALPHA(IE)*ALPHA(IV1))*(PHI(IV1)-PHI(IE))*GRAD(1,I) / MAX(EM20,(ALPHA(IE)+ALPHA(IV1)))
-     3 +          (ALPHA(IE)*ALPHA(IV2))*(PHI(IV2)-PHI(IE))*GRAD(2,I) / MAX(EM20,(ALPHA(IE)+ALPHA(IV2)))
-     5 +          (ALPHA(IE)*ALPHA(IV3))*(PHI(IV3)-PHI(IE))*GRAD(3,I) / MAX(EM20,(ALPHA(IE)+ALPHA(IV3)))
-     7 +          (ALPHA(IE)*ALPHA(IV4))*(PHI(IV4)-PHI(IE))*GRAD(4,I) / MAX(EM20,(ALPHA(IE)+ALPHA(IV4)))
+        DPHI(I) = AA_FACE(1)*(PHI(IV1)-PHI(IE))*GRAD(1,I)
+     3 +          AA_FACE(2)*(PHI(IV2)-PHI(IE))*GRAD(2,I)
+     5 +          AA_FACE(3)*(PHI(IV3)-PHI(IE))*GRAD(3,I)
+     7 +          AA_FACE(4)*(PHI(IV4)-PHI(IE))*GRAD(4,I)
       ENDDO!next I
 C-----------------------------------------------------------
       ! %EINT is here Eint / V (J/m3)
       ! => DPHI = is finally m.cp.dT = dT *rhoCp   (ALPHA is k instead k/rhocp )
       DO I=LFT,LLT
-        DPHI(I)=TWO *DPHI(I)*DT1/MAX(VOL(I),EM20)
+        DPHI(I) = TWO*DPHI(I)*DT1/MAX(VOL(I),EM20)
       ENDDO
-C-----------------------------------------------------------
       DO I=LFT,LLT
         PHIN(I)=PHIN(I)+DPHI(I)
       ENDDO
