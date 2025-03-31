@@ -59,7 +59,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IE, IV1, IV2, IV3, IV4, IV5, IV6, IAD2  
+      INTEGER I, IE, IV1, IV2, IV3, IV4, IV5, IV6, IAD2
       my_real DPHI(MVSIZ)
       my_real AA(0:6)     !< thermal diffusivity (updated from ALPHA for ghost cells)
       my_real AA_FACE(6)
@@ -92,20 +92,13 @@ C-----------------------------------------------
         AA(4) = ALPHA(IV4)
         AA(5) = ALPHA(IV5)
         AA(6) = ALPHA(IV6)
-        !ghost cells
-        IF(AA(1) == ZERO) AA(1)=AA(0)
-        IF(AA(2) == ZERO) AA(2)=AA(0)
-        IF(AA(3) == ZERO) AA(3)=AA(0)
-        IF(AA(4) == ZERO) AA(4)=AA(0)
-        IF(AA(5) == ZERO) AA(5)=AA(0)
-        IF(AA(6) == ZERO) AA(6)=AA(0)
         !harmonic interpolation
-        AA_FACE(1) = TWO*(AA(0)*AA(1)) / MAX(EM20,(AA(0)+AA(1)))
-        AA_FACE(2) = TWO*(AA(0)*AA(2)) / MAX(EM20,(AA(0)+AA(2)))
-        AA_FACE(3) = TWO*(AA(0)*AA(3)) / MAX(EM20,(AA(0)+AA(3)))
-        AA_FACE(4) = TWO*(AA(0)*AA(4)) / MAX(EM20,(AA(0)+AA(4)))
-        AA_FACE(5) = TWO*(AA(0)*AA(5)) / MAX(EM20,(AA(0)+AA(5)))
-        AA_FACE(6) = TWO*(AA(0)*AA(6)) / MAX(EM20,(AA(0)+AA(6)))
+        AA_FACE(1) = (AA(0)*AA(1)) / MAX(EM20,(AA(0)+AA(1)))
+        AA_FACE(2) = (AA(0)*AA(2)) / MAX(EM20,(AA(0)+AA(2)))
+        AA_FACE(3) = (AA(0)*AA(3)) / MAX(EM20,(AA(0)+AA(3)))
+        AA_FACE(4) = (AA(0)*AA(4)) / MAX(EM20,(AA(0)+AA(4)))
+        AA_FACE(5) = (AA(0)*AA(5)) / MAX(EM20,(AA(0)+AA(5)))
+        AA_FACE(6) = (AA(0)*AA(6)) / MAX(EM20,(AA(0)+AA(6)))
 C-----------------------------------------------------------
         ! time evolution
         DPHI(I) = AA_FACE(1) * (PHI(IV1)-PHI(IE))*GRAD(1,I)
@@ -119,9 +112,8 @@ C-----------------------------------------------------------
       ! %EINT is here Eint / V (J/m3)
       ! => DPHI = is finally m.cp.dT = dT *rhoCp   (ALPHA is k instead k/rhocp )
       DO I=LFT,LLT
-        DPHI(I) = DPHI(I)*DT1/MAX(VOL(I),EM20)
+        DPHI(I) = TWO*DPHI(I)*DT1/MAX(VOL(I),EM20)
       ENDDO
-C-----------------------------------------------------------
       DO I=LFT,LLT
         PHIN(I) = PHIN(I)+DPHI(I)
       ENDDO
