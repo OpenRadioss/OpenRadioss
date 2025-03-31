@@ -84,10 +84,10 @@
       integer,intent(in) :: snpc      !< size of npc array
       integer,intent(in) :: npc(snpc) !< function working array
       integer,intent(in) :: stf       !< array size of array tf
-      integer,intent(in) :: tf(stf)   !< function working array
+      my_real,intent(in) :: tf(stf)   !< function working array
       my_real,intent(inout) :: ms(numnod) !< nodal mass
       my_real,intent(inout) :: v(3,numnod),w(3,numnod),x(3,numnod) !< mat. velocity, grid velocity, coordinates
-       my_real,intent(inout) :: la(3,nod),stifn(numnod)
+      my_real,intent(inout) :: la(3,nod),stifn(numnod)
       type(t_ebcs_propergol), intent(inout) :: ebcs !< ebcs data structure
       integer :: iparg(nparg,ngroup) !< data for all group of elems
       type(elbuf_struct_), target, dimension(ngroup) :: elbuf_tab !< element buffer
