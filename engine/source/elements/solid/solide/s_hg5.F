@@ -291,6 +291,9 @@ C
      &   HY1(I)*HGY1(I) + HY2(I)*HGY2(I) + 
      &   HY3(I)*HGY3(I) + HY4(I)*HGY4(I) ) 
       ENDDO   
+      DO I=1,NEL
+        FHOUR(I,1:3,1:4) = FHOUR(I,1:3,1:4)*OFF(I)
+      ENDDO
 C
       DO I=1,NEL
 C
