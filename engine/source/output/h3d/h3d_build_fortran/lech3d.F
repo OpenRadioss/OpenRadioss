@@ -2600,7 +2600,7 @@ c
                       H3D_KEYWORD_QUAD_SCALAR(J)%TEXT1 = TEST_CHAIN
                     ENDIF
 c
-                    CALL CREATE_H3D_QUAD_SCALAR(H3D_DATA,H3D_KEYWORD_QUAD,ID_INPUT,
+                    CALL CREATE_H3D_QUAD_SCALAR(H3D_DATA,ID_INPUT,
      .                                        TRIM(H3D_KEYWORD_QUAD_SCALAR(J)%TEXT1),
      .                                        LEN_TRIM(H3D_KEYWORD_QUAD_SCALAR(J)%TEXT1),
      .                                        H3D_KEYWORD_QUAD_SCALAR(J)%COMMENT,80,IPART,KEY3_GLOB,

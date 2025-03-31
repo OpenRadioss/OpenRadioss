@@ -123,7 +123,8 @@ C-----------------------------------------------
      .        ADSKYT(0:NUMNOD+1)
       my_real
      .        SURFX,SURFY,SURFZ,X13,Y13,Z13,X24,Y24,Z24,
-     .        FSKYT(3,LENT), FSKYT2(MAXCC), PERM(MAXCC)
+     .        FSKYT(3,LENT), FSKYT2(MAXCC)
+      INTEGER :: PERM(MAXCC)
 C-----------------------------------------------
       ADSKYT(0) = 1
       ADSKYT(1) = 1

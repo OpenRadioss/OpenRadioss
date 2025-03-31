@@ -170,14 +170,14 @@ C     REAL
       my_real
      .   STARTT, FRIC, GAP, STOPT,PMAX_GAP,PENREF(MVSIZ),
      .   VISC,VISCF,STIGLO,GAPMIN,
-     .   KMIN, KMAX, GAPMAX,RSTIF,FHEAT,TINT,RHOH,EPS,IFRIC
+     .   KMIN, KMAX, GAPMAX,RSTIF,FHEAT,TINT,RHOH,EPS
+      INTEGER :: IFRIC
 C-----------------------------------------------
 C     REAL
       my_real
      .     NX1(MVSIZ), NX2(MVSIZ), NX3(MVSIZ), NX4(MVSIZ),
      .     NY1(MVSIZ), NY2(MVSIZ), NY3(MVSIZ), NY4(MVSIZ),
      .     NZ1(MVSIZ), NZ2(MVSIZ), NZ3(MVSIZ), NZ4(MVSIZ),
-     .     SUBTRIA(MVSIZ), 
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
@@ -194,6 +194,8 @@ C     REAL
      .   XX0(MVSIZ,17),YY0(MVSIZ,17),ZZ0(MVSIZ,17),
      .   VX(MVSIZ,17),VY(MVSIZ,17),VZ(MVSIZ,17),
      .   GAPS(MVSIZ),FORNEQSI(MVSIZ,3),DIST(MVSIZ)
+      INTEGER ::   SUBTRIA(MVSIZ)
+
       my_real
      .     , DIMENSION(:,:),ALLOCATABLE :: SURF
       my_real

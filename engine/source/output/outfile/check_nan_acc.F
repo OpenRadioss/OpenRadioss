@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    nodal_arrays_mod   ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||====================================================================
       SUBROUTINE CHECK_NAN_ACC(NCYCLE,NODES)
+      USE SPMD_MOD, ONLY : SPMD_BARRIER
       USE nodal_arrays_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

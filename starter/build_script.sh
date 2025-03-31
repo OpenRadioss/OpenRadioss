@@ -360,6 +360,18 @@ then
     echo " "
 fi
 
+if [ $debug == 'analysis' ]
+then
+if [ $return_value -eq 0 ]
+then
+    pwd
+    cd ../../scripts
+    python3 ./static_analysis.py starter
+fi
+fi
+
+
+
 if [ $return_value -ne 0 ]
 then
    echo " " 
