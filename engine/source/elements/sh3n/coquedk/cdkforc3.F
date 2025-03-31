@@ -442,7 +442,7 @@ C----------------------------------------------------------------------------
      I     BID       ,BID       ,BID       ,R11       ,R12       ,
      J     R13       ,R21       ,R22       ,R23       ,R31       ,
      K     R32       ,R33       ,NG        ,TABLE     ,IBID      ,
-     L     BID       ,SENSORS   ,BID       ,IBID      ,
+     L     BID       ,SENSORS   ,IBID       ,IBID      ,
      M     BID       ,BID       ,ALDT      ,GLOB_THERM%IDT_THERM ,GLOB_THERM%THEACCFACT,
      N     ISMSTR    ,IR        ,IS        ,NLAY      ,NPT       ,
      O     IBID      ,IBID      ,ISUBSTACK ,STACK     ,

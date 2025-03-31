@@ -41,6 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
+      USE SPMD_MOD, ONLY : SPMD_BARRIER
       USE TIMER_MOD
       USE TRI7BOX
 C-----------------------------------------------

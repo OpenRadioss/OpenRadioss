@@ -601,7 +601,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-
               USE CONNECTIVITY_MOD
               USE NODAL_ARRAYS_MOD
               USE detach_node_mod
@@ -687,7 +686,7 @@ C-----------------------------------------------
               USE INTER_SH_OFFSET_MOD , only:SH_OFFSET_
               USE OFFSET_NPROJ_MOD, only : OFFSET_NPROJ
               USE get_neighbour_surface_mod , only : get_neighbour_surface
-              USE spmd_mod , only : SPMD_MAX,spmd_allreduce
+              USE spmd_mod , only : SPMD_MAX,spmd_allreduce,SPMD_BARRIER
               USE SKEW_MOD
               USE ELBUFDEF_MOD
               USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS

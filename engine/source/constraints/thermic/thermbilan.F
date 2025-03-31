@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      use spmd_mod, only : SPMD_BARRIER
       use glob_therm_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

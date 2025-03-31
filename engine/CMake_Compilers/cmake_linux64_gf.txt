@@ -183,6 +183,21 @@ set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${FSANIT
 # CXX source files
 set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${zlib_inc} ${precision_flag} ${cppmach} ${cpprel}  -O0 -g ${OPENMP} -std=c++11  " )
 
+elseif ( debug STREQUAL "analysis" )
+# Fortran
+
+set( legacy_flags " -fplugin=../../scripts/gcc_plugin/fortran_signatures.so ${FSANITIZE} -Wall -O0 -g -fdec-math -fbacktrace ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${portability} ${mpi_flag} ${ADF}  ")
+
+set( unused_dummy_arg_strict_flags "  -fplugin=../../scripts/gcc_plugin/fortran_signatures.so ${FSANITIZE} -Wall -Warray-temporaries -O0 -g -fdec-math -fbacktrace ${strict_wo_mpi} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF}  ")
+
+set_source_files_properties(${source_files}  PROPERTIES COMPILE_FLAGS " -fplugin=../../scripts/gcc_plugin/fortran_signatures.so  ${FSANITIZE} -Wall -Warray-temporaries -O0 -g -fdec-math -fbacktrace ${strict} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF}  " )
+
+# C source files
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " ${FSANITIZE} ${h3d_inc} ${zlib_inc} ${precision_flag}  ${cppmach} ${cpprel} -O0 -g  ${OPENMP} " )
+
+# CXX source files
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${zlib_inc} ${precision_flag} ${cppmach} ${cpprel}  -O0 -g ${OPENMP} -std=c++11  " )
+
 
 elseif ( debug STREQUAL "asan" )
 

@@ -74,6 +74,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE SPMD_MOD, only : spmd_barrier
       USE TIMER_MOD
       USE SPH_WORK_MOD
       USE ELBUFDEF_MOD            

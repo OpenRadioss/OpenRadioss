@@ -51,6 +51,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE SEGVAR_MOD, ONLY : t_segvar
       USE ELBUFDEF_MOD  
       USE GROUPDEF_MOD
       USE EBCS_MOD
@@ -77,7 +78,7 @@ C-----------------------------------------------
       my_real,INTENT(INOUT) :: FSAVSURF(TH_SURF_NUM_CHANNEL,NSURF)
       INTEGER IPARG(NPARG,NGROUP)
       INTEGER,INTENT(IN) :: IXQ(NIXQ,NUMELQ),IXS(NIXS,NUMELS),IXTG(NIXTG,NUMELTG),ITAB(NUMNOD),NALE(NUMNOD)
-      my_real VOLMON(*),SEGVAR(*),V(3,NUMNOD),W(3,NUMNOD),A(3,NUMNOD),X(3,NUMNOD),FSAV(NTHVKI,*),
+      my_real VOLMON(*),V(3,NUMNOD),W(3,NUMNOD),A(3,NUMNOD),X(3,NUMNOD),FSAV(NTHVKI,*),
      .        FV(*),WA(*),STIFN(NUMNOD)
       my_real,intent(inout) :: MS(NUMNOD),MSNF(NUMNOD),weight(numnod)
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
@@ -89,7 +90,9 @@ C-----------------------------------------------
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(IN) :: SENSOR_TAB
       TYPE (PYTHON_), INTENT(IN) :: PYTHON
       INTEGER,INTENT(IN) :: SNPC, STF
-      INTEGER,INTENT(IN) :: NPC(SNPC), tf(STF)
+      INTEGER,INTENT(IN) :: NPC(SNPC)
+      my_real :: tf(STF)
+      TYPE(t_segvar) :: SEGVAR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
