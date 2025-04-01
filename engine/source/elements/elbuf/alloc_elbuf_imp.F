@@ -561,6 +561,8 @@ C
         ELBUF_IMP(NG)%GBUF%G_MAXEPS = GBUF%G_MAXEPS    
         ELBUF_IMP(NG)%GBUF%G_BETAORTh = GBUF%G_BETAORTh    
         ELBUF_IMP(NG)%GBUF%G_AMU    = GBUF%G_AMU
+        ELBUF_IMP(NG)%GBUF%G_FOR_G  = GBUF%G_FOR_G
+        ELBUF_IMP(NG)%GBUF%G_FORPG_G= GBUF%G_FORPG_G
 c---
 c 1-D elements (TRUSS, BEAM, SPRING, NSTRAND)
 c---
@@ -635,6 +637,7 @@ c
         ALLOCATE (ELBUF_IMP(NG)%GBUF%MAXEPS(NEL*GBUF%G_MAXEPS)   ,STAT=ERR)      
         ALLOCATE (ELBUF_IMP(NG)%GBUF%BETAORTH(NEL*GBUF%G_BETAORTH) ,STAT=ERR)
         ALLOCATE (ELBUF_IMP(NG)%GBUF%AMU(NEL*GBUF%G_AMU)         ,STAT=ERR)                          
+        ALLOCATE (ELBUF_IMP(NG)%GBUF%FOR_G(NEL*GBUF%G_FOR_G)     ,STAT=ERR)                          
 c
         IF (NPTTOT /= 1) THEN
           ALLOCATE (ELBUF_IMP(NG)%GBUF%BFRAC(NEL*GBUF%G_BFRAC)   ,STAT=ERR)                  
@@ -675,6 +678,7 @@ C
 C                   
           ALLOCATE(ELBUF_IMP(NG)%GBUF%STRPG(NEL*GBUF%G_STRPG),STAT=ERR)                  
           ALLOCATE(ELBUF_IMP(NG)%GBUF%STRWPG(NEL*GBUF%G_STRWPG),STAT=ERR)                 
+          ALLOCATE(ELBUF_IMP(NG)%GBUF%FORPG_G(NEL*GBUF%G_FORPG_G),STAT=ERR)                           
         ENDIF
 C
 c---

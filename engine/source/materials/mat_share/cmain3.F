@@ -201,6 +201,7 @@ C=======================================================================
       IGTYP=IGEO(11,PID(1))
       MX = MAT(JFT) 
       DM = GROUP_PARAM%VISC_DM   ! membrane damping
+      IF (IMPL_S>0) DM = ZERO
       IDAMP_FREQ_RANGE = IPARG(93)
       DAMP_BUF => ELBUF_STR%DAMP_RANGE
 C--------------------------------------------------
