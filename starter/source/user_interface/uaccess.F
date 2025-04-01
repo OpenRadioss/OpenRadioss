@@ -1236,14 +1236,10 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include "units_c.inc"
 C-----------------------------------------------
-#ifndef ncharline
-#define ncharline 500
-#endif
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      CHARACTER(len=ncharline)  LINE
       INTEGER LEN1
+      CHARACTER(len=LEN1)  LINE
 C-----------------------------------------------
 
         WRITE(IOUT,'(A)') LINE(1:LEN1)
