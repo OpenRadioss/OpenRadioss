@@ -1025,6 +1025,8 @@ C--- fixing min(stif) with Inacti=-1
            DO I=1,JLT
              IF (STIF_R(I)<ZEP05) IKNON(I) = 1 
            ENDDO
+         ELSEIF (FAB >ZERO.AND.IGSTI/=2) THEN 
+           IKNON(1:JLT) = -1 ! special quadratic 
          END IF
       ELSEIF (INACTI==-1.AND.IGSTI/=2)THEN
          DO I=1,JLT

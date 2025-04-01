@@ -201,7 +201,7 @@ C-----------------------------------------------
      .     X12D,Y12D,Z12D,GAP2D,XI5D,YI5D,ZI5D,S2D, LA0,LB0,LC0,
      .     HLA, ADT,OVERW,EPS,PENE_SH,OVERW0,VOL,EPS2,DGAP,RX,RY,RZ,
      .     PENE_TM(MVSIZ),LA_TM(MVSIZ),LB_TM(MVSIZ),N_TM(3,MVSIZ),
-     .     AREA(MVSIZ)
+     .     AREA(MVSIZ),F_PENE,FAC_K,FAC_P
       INTEGER ICONTACT(MVSIZ),IT0(3,20),IT(3,20,MVSIZ),IC(10,20),
      .     ISTEP(MVSIZ),IRTLM_OLD(MVSIZ),SUBTRIA_N(MVSIZ),
      .     NSS,MGLOB,ibug,JG,IZLIM,ip,IKEEP,LARGEP,IPEN0(MVSIZ),IER,
@@ -3401,6 +3401,14 @@ C-----peneref for nonlinear stif (quadratic...)
             PENE_SH = EM01*PENE_OLDFI(NIN)%P(5,JG)
           ENDIF
           PENREF(I) = MAX(PENREF(I),PENE_SH)
+          IF (IKNON(I)<0) THEN 
+            F_PENE = EM01*PENE(I)/PENE_SH
+            PENREF(I) = ZERO ! not to do quadratic stif
+            IF (F_PENE>TWO_THIRD) THEN
+              FAC_K = MIN(TWENTY,SIX*F_PENE)
+              PENREF(I) = PENE_SH/SQRT(FAC_K)
+            END IF
+          END IF
         ENDDO
       ELSE
         DO I=1,JLT
