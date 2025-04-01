@@ -31,3 +31,7 @@ engine/extlib/v3*
 *.sif
 extlib/**
 extlib.zip
+*.F.json
+*.F90.json
+*.cpp.json
+*.c.json
