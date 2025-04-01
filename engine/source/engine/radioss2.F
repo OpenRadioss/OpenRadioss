@@ -1412,35 +1412,6 @@ C-----------------------------------------------------
      .                    BUFMAT   ,IPART    ,IGRNOD   ,IGRPART)
       END IF
 C------------------------------------------------
-C     initializations MDS
-C------------------------------------------------
-      IF(.NOT.ALLOCATED(MDS_LABEL)) THEN
-        ALLOCATE( MDS_LABEL(1024,MDS_NMAT) )
-      ENDIF
-      IF(.NOT.ALLOCATED(MDS_NDEPSVAR)) THEN
-        ALLOCATE( MDS_NDEPSVAR(MDS_NMAT) )
-      ENDIF
-      MAX_DEPVAR = 0
-#ifdef DNC
-      IF(MDS_AVAIL==1) THEN
-        NSPMD_USER = NSPMD
-        NTASK_USER = NTHREAD
-        ISPMD_USER = ISPMD
-
-        MAX_DEPVAR=0
-        DO I=1,MDS_NMAT
-           MAX_DEPVAR=MAX(MAX_DEPVAR,MDS_NDEPSVAR(I) )
-        ENDDO
-        ALLOCATE (MDS_OUTPUT_TABLE(MDS_NMAT*MAX_DEPVAR) ) 
-
-        CALL MDS_ENGINE_USER_INITIALIZE(NSPMD_USER,NTASK_USER,ISPMD_USER,TSTOP,
-     *                                  MDS_NMAT,MDS_MATID,MDS_FILES,MDS_LABEL,MDS_NDEPSVAR,MAX_DEPVAR,MDS_OUTPUT_TABLE)
-      ENDIF
-#endif
-      IF(.NOT.ALLOCATED(MDS_OUTPUT_TABLE) ) THEN
-        ALLOCATE (MDS_OUTPUT_TABLE(MDS_NMAT*MAX_DEPVAR) ) 
-      ENDIF
-C------------------------------------------------
 C     engine file reading
 C------------------------------------------------
       CALL TRACE_IN(16,2,ZERO)
@@ -1470,6 +1441,35 @@ C Close & Delete scratch file
       CALL DELETE_USER_FILE(IINFNA,LEN_IINFNA)
 C------------------------------------------------
       CALL TRACE_OUT(16)
+C------------------------------------------------
+C     initializations MDS
+C------------------------------------------------
+      IF(.NOT.ALLOCATED(MDS_LABEL)) THEN
+        ALLOCATE( MDS_LABEL(1024,MDS_NMAT) )
+      ENDIF
+      IF(.NOT.ALLOCATED(MDS_NDEPSVAR)) THEN
+        ALLOCATE( MDS_NDEPSVAR(MDS_NMAT) )
+      ENDIF
+      MAX_DEPVAR = 0
+#ifdef DNC
+      IF(MDS_AVAIL==1) THEN
+        NSPMD_USER = NSPMD
+        NTASK_USER = NTHREAD
+        ISPMD_USER = ISPMD
+
+        MAX_DEPVAR=0
+        DO I=1,MDS_NMAT
+           MAX_DEPVAR=MAX(MAX_DEPVAR,MDS_NDEPSVAR(I) )
+        ENDDO
+        ALLOCATE (MDS_OUTPUT_TABLE(MDS_NMAT*MAX_DEPVAR) ) 
+
+        CALL MDS_ENGINE_USER_INITIALIZE(NSPMD_USER,NTASK_USER,ISPMD_USER,TSTOP,
+     *                                  MDS_NMAT,MDS_MATID,MDS_FILES,MDS_LABEL,MDS_NDEPSVAR,MAX_DEPVAR,MDS_OUTPUT_TABLE)
+      ENDIF
+#endif
+      IF(.NOT.ALLOCATED(MDS_OUTPUT_TABLE) ) THEN
+        ALLOCATE (MDS_OUTPUT_TABLE(MDS_NMAT*MAX_DEPVAR) ) 
+      ENDIF
 C------------------------------------------------
       CALL TRACE_IN(19,0,ZERO)
       CALL TRACE_OUT(19)

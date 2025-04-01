@@ -1136,6 +1136,7 @@ c ILAYER=NULL NPT=NULL (mid-layer)
 c
                   IF (NLAY > 1) THEN
                     IL  = IABS(NLAY)/2 + 1
+                    NPT = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
                     IPT = IABS(NPT)/2 + 1
                   ELSE
                     IL  = 1
