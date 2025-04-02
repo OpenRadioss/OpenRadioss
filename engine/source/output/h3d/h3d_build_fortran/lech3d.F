@@ -1155,8 +1155,9 @@ c
                   IF (IS_ID_ALL > 0) THEN
 c  
                     ! First count of the failure models with IDs and number of modes
-                    IF (ALLOCATED(MODNAME))   DEALLOCATE(MODNAME)
-                    IF (ALLOCATED(FAIL_NAME)) DEALLOCATE(FAIL_NAME)
+                    IF (ALLOCATED(MODNAME))     DEALLOCATE(MODNAME)
+                    IF (ALLOCATED(FAIL_NAME))   DEALLOCATE(FAIL_NAME)
+                    IF (ALLOCATED(IRUP_ID_ALL)) DEALLOCATE(IRUP_ID_ALL)
                     CPT_IRUP = 0
                     DO IMAT = 1,NUMMAT
                       NFAIL = MAT_PARAM(IMAT)%NFAIL
@@ -1240,7 +1241,8 @@ c
                   IF (IS_ID_ALL > 0) THEN
 c  
                     ! First count of the failure models with IDs
-                    IF (ALLOCATED(FAIL_NAME)) DEALLOCATE(FAIL_NAME)
+                    IF (ALLOCATED(FAIL_NAME))   DEALLOCATE(FAIL_NAME)
+                    IF (ALLOCATED(IRUP_ID_ALL)) DEALLOCATE(IRUP_ID_ALL)
                     CPT_IRUP = 0
                     DO IMAT = 1,NUMMAT
                       NFAIL = MAT_PARAM(IMAT)%NFAIL
