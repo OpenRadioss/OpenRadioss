@@ -690,7 +690,7 @@
             &uparam   ,maxuparam ,nuparam  ,israte  ,imatvis  ,&
             &nuvar    ,ifunc     ,maxfunc  ,nfunc   ,parmat   ,&
             &unitab   ,mat_id    ,titr     ,mtag    ,lsubmodel,&
-            &pm(1,i)  ,matparam )
+            &pm(1,i)  ,matparam ,ipm(1,i))
 !-------
           case ('LAW52','GURSON')
             ilaw  = 52

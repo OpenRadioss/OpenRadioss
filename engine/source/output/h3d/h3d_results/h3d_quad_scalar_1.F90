@@ -917,37 +917,9 @@
 !--------------------------------------------------
               elseif (keyword == 'TDET') then  !  /anim/elem/tdet
 !--------------------------------------------------
-                if (mlw  /= 51 .and. mlw /= 151 .and. gbuf%g_tb > 0) then
+                if (gbuf%g_tb > 0) then
                   do i=1,nel
                     value(i) = -gbuf%tb(i)
-                    is_written_value(i) = 1
-                  enddo
-                elseif (mlw == 51)then
-                  ipos      = 15
-                  itrimat   = 4
-                  k         = iparg(2,ng) * ((n0phas + (itrimat-1)*nvphas )+ipos-1)
-                  mbuf => elbuf_tab(ng)%bufly(1)%mat(1,1,1)
-                  do i=1,iparg(2,ng)
-                    value(i) = -mbuf%var(k+i)
-                    is_written_value(i) = 1
-                  enddo
-                elseif(mlw == 151 .and. gbuf%g_tb > 0)then
-                  do i=1,nel
-                    detected = .false.
-                    value(i) = zero
-                    do ilay=1,nlay
-                      submatlaw = elbuf_tab(ng)%bufly(ilay)%ilaw
-                      if(submatlaw == 5 )then
-                        volfrac = elbuf_tab(ng)%bufly(ilay)%lbuf(1,1,1)%vol(i)/gbuf%vol(i)
-                        bfrac = multi_fvm%bfrac(ilay,i+nft)
-                        if(volfrac > zero .or. bfrac > zero)then
-                          detected = .true.
-                        endif
-                      endif
-                    enddo
-                    if(detected)then
-                      value(i) = -gbuf%tb(i)
-                    endif
                     is_written_value(i) = 1
                   enddo
                 endif
