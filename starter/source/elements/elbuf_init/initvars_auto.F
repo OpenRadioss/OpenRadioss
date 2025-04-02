@@ -373,7 +373,12 @@ c       local material variables
         IF (BUFLY%L_RHO    == 0) BUFLY%L_RHO    = MTAG%L_RHO                 
         IF (BUFLY%L_DP_DRHO== 0) BUFLY%L_DP_DRHO= MTAG%L_DP_DRHO             
         IF (BUFLY%L_DELTAX == 0) BUFLY%L_DELTAX = MTAG%L_DELTAX              
-        IF (BUFLY%L_PLA    == 0) BUFLY%L_PLA    = MTAG%L_PLA                 
+        IF (BUFLY%L_PLA    == 0) BUFLY%L_PLA    = MTAG%L_PLA          
+        IF (BUFLY%L_PLA    == 1) THEN
+            BUFLY%L_WPLA   = 1
+        ELSE 
+            BUFLY%L_WPLA   = 0
+        ENDIF  
         IF (BUFLY%L_TB     == 0) BUFLY%L_TB     = MTAG%L_TB                  
         IF (BUFLY%L_RK     == 0) BUFLY%L_RK     = MTAG%L_RK                  
         IF (BUFLY%L_RE     == 0) BUFLY%L_RE     = MTAG%L_RE                  

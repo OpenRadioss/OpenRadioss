@@ -80,7 +80,7 @@ C-----------------------------------------------
       INTEGER  ! local variables
      .   L_OFF,L_EINT,L_EINS,L_RHO,L_DP_DRHO,L_VOL,L_PLA,L_TB,L_TEMP,
      .   L_RK,L_RE,L_VK,L_ROB,L_SIG,L_SIGV,L_SIGL,L_SIGA,L_SIGD,L_SIGB,
-     .   L_SIGC,L_SIGF,L_STRA,L_EPSA,L_EPSD,L_EPSQ,L_EPSF,L_CRAK,
+     .   L_SIGC,L_SIGF,L_STRA,L_EPSA,L_EPSD,L_EPSQ,L_EPSF,L_CRAK,L_WPLA,
      .   L_ANG,L_SF,L_QVIS,L_DELTAX,L_GAMA,
      .   L_DAM,L_DSUM,L_DGLO,L_EPE,L_EPC,L_XST,L_SSP,L_Z,L_FRAC,L_VISC,
      .   L_THK,L_FOR,L_MOM,L_EPS,L_SMSTR,L_BFRAC,L_DMG,L_FORTH,L_EINTTH,
@@ -334,6 +334,7 @@ c
               L_EPSQ    = BUFLY%L_EPSQ   
               L_EPSF    = BUFLY%L_EPSF   
               L_PLA     = BUFLY%L_PLA    
+              L_WPLA    = BUFLY%L_WPLA    
               L_TEMP    = BUFLY%L_TEMP   
               L_TB      = BUFLY%L_TB     
               L_RK      = BUFLY%L_RK     
@@ -415,7 +416,9 @@ c---
               RBUF_L(L_REL+1) = L_EPSF       
                 L_REL = L_REL + 1                            
               RBUF_L(L_REL+1) = L_PLA        
-                L_REL = L_REL + 1                        
+                L_REL = L_REL + 1          
+              RBUF_L(L_REL+1) = L_WPLA        
+                L_REL = L_REL + 1                   
               RBUF_L(L_REL+1) = L_TEMP       
                 L_REL = L_REL + 1                            
               RBUF_L(L_REL+1) = L_TB         
@@ -629,6 +632,8 @@ c
                 L_REL = L_REL+NEL*L_EPSF
               RBUF_L(L_REL+1:L_REL+NEL*L_PLA)  = LBUF%PLA(1:NEL*L_PLA)       
                 L_REL = L_REL+NEL*L_PLA              
+              RBUF_L(L_REL+1:L_REL+NEL*L_WPLA)  = LBUF%WPLA(1:NEL*L_WPLA)       
+                L_REL = L_REL+NEL*L_WPLA   
               RBUF_L(L_REL+1:L_REL+NEL*L_TEMP) = LBUF%TEMP(1:NEL*L_TEMP)     
                 L_REL = L_REL+NEL*L_TEMP                                        
               RBUF_L(L_REL+1:L_REL+NEL*L_TB)   = LBUF%TB(1:NEL*L_TB)         
