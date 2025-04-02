@@ -45,7 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE HM_READ_MAT51(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
      .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   ,
      .                         UNITAB ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
-     .                         PM     ,MATPARAM )
+     .                         PM     ,MATPARAM ,IPM)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -94,6 +94,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       my_real, INTENT(INOUT)          :: PM(NPROPM),PARMAT(100),UPARAM(MAXUPARAM)
+      INTEGER,INTENT(INOUT)           :: IPM(NPROPMI)
       INTEGER, INTENT(INOUT)          :: ISRATE,IFUNC(MAXFUNC),NFUNC,MAXFUNC,MAXUPARAM,NUPARAM, NUVAR,IMATVIS
       TYPE(MLAW_TAG_),INTENT(INOUT)   :: MTAG
       INTEGER,INTENT(IN)              :: MAT_ID
@@ -153,6 +154,8 @@ C-----------------------------------------------
       MTAG%G_TEMP = 1
       MTAG%L_TEMP = 1
       MTAG%L_VK   = 1
+      MTAG%G_TB   = 1
+      MTAG%L_TB   = 1
       NUPARAM = 280
       NFUNC = 10
       UPARAM(1:NUPARAM) = ZERO
@@ -970,6 +973,7 @@ C     !============================!
       IF(.NOT.ALLOCATED(MATPARAM%multimat%mid))  ALLOCATE(MATPARAM%multimat%mid(4))
       MATPARAM%multimat%vfrac(1:4) = tAV(1:4)
       MATPARAM%multimat%mid(1:4) = tMID(1:4)
+      IPM(20+1:20+4) = tMID(1:4)
 
       !============================!
       ! Starter Listing File       !

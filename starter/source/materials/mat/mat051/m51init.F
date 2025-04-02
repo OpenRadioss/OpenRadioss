@@ -32,11 +32,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    detonators_mod         ../starter/share/modules1/detonators_mod.F
       !||====================================================================
       SUBROUTINE M51INIT(
-     .               IPM                ,DETONATORS ,PM      ,
-     .               NGL                ,NUVAR      ,UVAR    ,UPARAM  ,X       ,
+     .               IPM                ,DETONATORS ,PM      ,TB      ,
+     .               NUVAR              ,UVAR       ,UPARAM  ,X       ,
      .               MAT                ,IPARG      ,IFORM   ,IX      ,NIX     ,
      .               ALE_CONNECTIVITY   ,BUFMAT     ,RHO0    ,
-     .               GBUF               ,NEL        ,SIG)
+     .               GBUF               ,NEL        ,SIG     )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPM(NPROPMI,NUMMAT),NGL(NEL),MAT(NEL), IPARG(NPARG),IFORM,NIX,IX(NIX,*)
+      INTEGER IPM(NPROPMI,NUMMAT),MAT(NEL), IPARG(NPARG),IFORM,NIX,IX(NIX,*)
       my_real PM(NPROPM,NUMMAT),UVAR(NEL,NUVAR),UPARAM(*), X(3,NUMNOD), BUFMAT(*), RHO0
       INTEGER,INTENT(IN) :: NEL
       my_real,INTENT(INOUT) :: SIG(NEL,6)
@@ -78,6 +78,7 @@ C-----------------------------------------------
      .        GRAV,Z(3),DEPTH,RHO,POLD,DELTA_P,RHO_LIQ,RHO_GAS,DOTPROD,BZ(3),HEIGHT,VOLD,
      .        F,Fp,mu,
      .        T0_(4),C0_(4),C1_(4),C2_(4),C3_(4),C4_(4),C5_(4),E0_(4),RHO0_(4),VF(4),P0(4),PEXT,PRES_0
+      my_real,intent(inout) :: TB(NEL)
       LOGICAL IS_IFORM12
 C-----------------------------------------------
 
@@ -125,9 +126,9 @@ C-----------------------------------------------
       IF(IFLG == 1 .AND. IPARG(64) == 0)THEN   !unplug for NRF
         NPH = 1
         IF(N2D==0)THEN
-          CALL M5IN3 (PM,MAT,0,DETONATORS,UVAR(1,1),NGL,IPARG,X,IX,NIX)
+          CALL M5IN3 (PM,MAT,0,DETONATORS,TB,IPARG,X,IX,NIX)
         ELSE
-          CALL M5IN2 (PM,MAT,0,DETONATORS,UVAR(1,1),NGL,X,IX,NIX)
+          CALL M5IN2 (PM,MAT,0,DETONATORS,TB,X,IX,NIX)
         ENDIF
       ENDIF
 

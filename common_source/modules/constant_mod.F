@@ -282,6 +282,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         my_real, parameter ::  EP18  = EP17 * TEN
         my_real, parameter ::  EP19  = EP18 * TEN
         my_real, parameter ::  EP20  = EP19 * TEN
+        my_real, parameter ::  EP21  = EP20 * TEN
         my_real, parameter ::  EP29  = EP20 * EP09
         my_real, parameter ::  EP30  = EP20 * EP10
         my_real, parameter ::  EP31  = EP30 * TEN

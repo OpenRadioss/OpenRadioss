@@ -25,9 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    sigeps51        ../engine/source/materials/mat/mat051/sigeps51.F90
       !||====================================================================
-      SUBROUTINE COMPUTE_BFRAC(TIME,XL,TBURN,UPARAM,
-     .          V1,
-     .          RHO1,RHO10,BFRAC)
+      SUBROUTINE COMPUTE_BFRAC(TIME,XL,TBURN,UPARAM,V1,RHO1,RHO10,BFRAC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -35,16 +33,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      my_real 
-     .          TIME,XL,TBURN,
-     .          V1, RHO1, RHO10,
-     .          UPARAM(*),BFRAC
+      my_real TIME,XL,TBURN,V1,RHO1,RHO10,UPARAM(*),BFRAC
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ibug, IBFRAC
-      my_real 
-     .   VDET,BHE
+      my_real VDET,BHE
 C-----------------------------------------------
       VDET  = UPARAM(42)
       BHE   = UPARAM(44)

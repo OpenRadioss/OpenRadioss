@@ -236,10 +236,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    w_inivel_str_mod         ../starter/source/restart/ddsplit/w_inivel_str.F90
       !||====================================================================
       SUBROUTINE DDSPLIT(
-     1   P            ,CEP          ,CEL           ,IGEO          ,MAT_ELEM    ,
+     1   P            ,CEP          ,CEL            ,IGEO         ,MAT_ELEM    ,
      2   IPM          ,ICODE        ,ISKEW          ,ISKN         ,INSEL       ,
      3   IBCSLAG      ,IPART        ,IPARTS         ,IPARTQ       ,IPARTC      ,
-     4   IPARTT       ,IPARTP       ,IPARTR         ,IPARTTG     ,
+     4   IPARTT       ,IPARTP       ,IPARTR         ,IPARTTG      ,DETONATORS  ,
      5   IPARTX       ,NPC          ,IXTG           ,GROUP_PARAM_TAB,
      6   IXTG6        ,IXS          ,IXS10          ,IXS20        ,IXS16       ,
      7   IXQ          ,IXC          ,IXT            ,IXP          ,IXR         ,
@@ -249,7 +249,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      B   LAS          ,LACCELM      ,NNLINK         ,LLLINK       ,
      C   IPARG        ,IGRAV        ,LGRAV          ,IBVEL        ,LBVEL       ,
      D   IACTIV       ,FACTIV       ,KINET          ,IPARI        ,NPRW        ,
-     E   LPRW         ,IEXMAD       ,NPBY        ,
+     E   LPRW         ,IEXMAD       ,NPBY           ,
      F   LPBY         ,IXRI         ,NSTRF          ,LJOINT       ,PORNOD      ,
      G   MONVOL       ,ICONTACT     ,LAGBUF         ,
      H   FR_IAD       ,X            ,D              ,V            ,VR          ,
@@ -386,6 +386,7 @@ C-----------------------------------------------
       use glob_therm_mod
       use write_ale_grid_mod, only : write_ale_grid
       use PBLAST_MOD
+      USE DETONATORS_MOD , ONLY : DETONATORS_STRUCT_
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -432,7 +433,8 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER, INTENT(IN) :: LEN_CEP !< size of CEP
-      INTEGER, DIMENSION(SCEL), INTENT(IN) :: CEL !< connectivity global element id --> local element 
+      INTEGER, DIMENSION(SCEL), INTENT(IN) :: CEL !< connectivity global element id --> local element
+      TYPE(DETONATORS_STRUCT_),INTENT(IN) :: DETONATORS !< detonators data structure
       INTEGER P,
      .        LIBAGALE, LENTHG, LENLAS, NPTS,LEN,
      .        LBUFMAT, LBUFGEO, LBUFSF, LENXLAS, LNOM_OPT,
@@ -795,6 +797,7 @@ C
       TYPE(t_ebcs_tab) :: EBCS_TAB_LOC,EBCS_TAB_LOC_2
       TYPE(t_connectivity_ext1) :: ee_connect_l
       LOGICAL :: IS_EBCS_PARALLEL
+      INTEGER :: ISHADOW !< shadowing option for detonators (Eikonal equation solver)
 C-----------------------------------------------
       TYPE(SEATBELT_REMOTE_NODES_STRUCT) ANCHOR_REMOTE_L,ANCHOR_REMOTE_SEND_L
 C-----------------------------------------------
@@ -921,7 +924,9 @@ C--------------------------------------------
       NESVOIS  = 0
       NE_NERVOIS  = 0
       NE_NESVOIS  = 0
-      IF (IALE + IEULER + GLOB_THERM%ITHERM + IALELAG > 0) THEN
+      ISHADOW = 0
+      IF(DETONATORS%IS_SHADOWING_REQUIRED) ISHADOW = 1
+      IF (IALE + IEULER + GLOB_THERM%ITHERM + IALELAG + ISHADOW > 0) THEN
         NUMEL = MAX(NUMELS,NUMELQ)
         NUMEL_L = MAX(NUMELS_L,NUMELQ_L)
         IF (MULTI_FVM%IS_USED .AND. N2D /= 0) THEN
@@ -1924,7 +1929,9 @@ C--------------------------------------------
 C--------------------------------------------
 C boundary Elts CFD/ALE
 C--------------------------------------------
-      IF (IALE+IEULER+GLOB_THERM%ITHERM+IALELAG > 0) THEN
+      ISHADOW = 0
+      IF(DETONATORS%IS_SHADOWING_REQUIRED) ISHADOW = 1
+      IF (IALE+IEULER+GLOB_THERM%ITHERM+IALELAG +ISHADOW > 0) THEN
         IF(NUMELS_L+NUMELQ_L+NUMELTG_L>0) THEN
           ALLOCATE(IDGLOB_L(NUMELS_L + NSVOIS + NUMELQ_L + NQVOIS + NUMELTG_L + NTGVOIS))
           ALLOCATE(UIDGLOB_L(NUMELS_L + NSVOIS + NUMELQ_L + NQVOIS + NUMELTG_L + NTGVOIS))
@@ -1948,7 +1955,8 @@ C--------------------------------------------
         CALL C_IXFLOC(NUMEL,IXSF,IXQF,IXTGF,NSVOIS,
      +                NQVOIS,NTGVOIS,P-1,IPARG,CEP,CEL,
      +                ALE_CONNECTIVITY,ee_connect_l,IXS,IXQ,IXTG,NODLOCAL,NUMELS_L,NUMELQ_L,NUMELTG_L,MULTI_FVM,
-     +                ID_GLOBAL_VOIS,INDX_S,INDX_Q,INDX_TG,FACE_ELM_S,FACE_ELM_Q,FACE_ELM_TG,FACE_VOIS)
+     +                ID_GLOBAL_VOIS,INDX_S,INDX_Q,INDX_TG,FACE_ELM_S,FACE_ELM_Q,FACE_ELM_TG,FACE_VOIS,
+     +                DETONATORS%IS_SHADOWING_REQUIRED)
 
         CALL WRITE_I_C(IXTGF, NIXTG * NTGVOIS)
         LEN_IA = LEN_IA + NIXTG * NTGVOIS
@@ -3706,4 +3714,4 @@ C
 
 
       RETURN
-      END
+      END SUBROUTINE DDSPLIT

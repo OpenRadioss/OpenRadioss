@@ -67,6 +67,10 @@ C-----------------------------------------------
 
         !/DFS/DETPOINT                           
         DO K=1,NDETPS
+            WRITE(VARNAME,'(A,I0,A)') 'DFS_DETPOINT_',K ,'__ISHADOW_'
+            TEMP_INTEGER = DETONATORS%POINT(K)%SHADOW
+            IF(TEMP_INTEGER > 0)CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INTEGER,0.0_8)
+
             WRITE(VARNAME,'(A,I0,A)') 'DFS_DETPOINT_',K ,'__MAT_'
             TEMP_INTEGER = DETONATORS%POINT(K)%MAT
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INTEGER,0.0_8)
