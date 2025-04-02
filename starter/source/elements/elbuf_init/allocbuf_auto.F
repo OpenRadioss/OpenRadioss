@@ -187,6 +187,8 @@ c
                   LBUF%EPSF = ZERO
               CALL MY_ALLOC(LBUF%PLA,NEL*BUFLY%L_PLA)              
                   LBUF%PLA = ZERO
+             CALL MY_ALLOC(LBUF%WPLA,NEL*BUFLY%L_WPLA)              
+                  LBUF%WPLA = ZERO                  
               CALL MY_ALLOC(LBUF%TEMP,NEL*BUFLY%L_TEMP)
                   LBUF%TEMP = MIN(BUFLY%L_TEMP,1) * PM(79,IMAT) ! reference (initial) temperature
               CALL MY_ALLOC(LBUF%TB,NEL*BUFLY%L_TB)                
