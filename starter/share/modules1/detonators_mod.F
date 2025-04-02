@@ -81,6 +81,7 @@ C-----------------------------------------------
         TYPE DETONATOR_POINT_STRUCT_
           LOGICAL :: IS_MAT_VALID = .FALSE.
           INTEGER :: MAT = 0
+          INTEGER :: SHADOW = 0
           my_real :: TDET
           my_real :: XDET
           my_real :: YDET
@@ -160,6 +161,8 @@ C-----------------------------------------------
           TYPE(DETONATOR_CORD_STRUCT_), DIMENSION(:), ALLOCATABLE :: CORD
           TYPE(DETONATOR_WAVE_SHAPER_STRUCT_), DIMENSION(:), ALLOCATABLE :: WAVE_SHAPER
           TYPE(DETONATOR_PLANE_STRUCT_), DIMENSION(:), ALLOCATABLE :: PLANE
+          !global flag
+          LOGICAL IS_SHADOWING_REQUIRED
         END TYPE DETONATORS_STRUCT_
         
       CONTAINS

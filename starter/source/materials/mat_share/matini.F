@@ -205,9 +205,9 @@ C---------------------------
       ELSEIF (MTN == 5) THEN
         IPARG(16)=1   !  FLAG REZONE EPS PLAST. (BURNING TIME)
         IF(N2D == 0)THEN
-          CALL M5IN3 (PM,MAT,0,DETONATORS,TB,NGL,IPARG,X,IX,NIX)
+          CALL M5IN3 (PM,MAT,0,DETONATORS,TB,IPARG,X,IX,NIX)
         ELSE
-          CALL M5IN2 (PM,MAT,0,DETONATORS,TB,NGL,X,IX,NIX)
+          CALL M5IN2 (PM,MAT,0,DETONATORS,TB,X,IX,NIX)
         ENDIF
         IPARG(63)=1 !Loi fluide
       ELSEIF (MTN == 6) THEN
@@ -333,8 +333,8 @@ c
      2       NPF   ,TF      ,BUFMAT(IADBUF),RHO0   ,VOL    ,
      3       EINT  ,MBUF%VAR )
         ELSEIF (MTN == 51) THEN
-          CALL M51INIT(IPM                ,DETONATORS ,PM  ,
-     .                 NGL                ,NUVAR      ,MBUF%VAR ,UPARAM     ,X   ,
+          CALL M51INIT(IPM                ,DETONATORS ,PM       ,TB  ,
+     .                 NUVAR              ,MBUF%VAR   ,UPARAM   ,X   ,
      .                 MAT                ,IPARG      ,IFORM    ,IX         ,NIX ,
      .                 ALE_CONNECTIVITY   ,BUFMAT     ,RHO0     ,
      .                 GBUF               ,NEL        ,SIG)
@@ -361,9 +361,9 @@ c
           IPARG(63)=1   !  FLAG FOR FLUID MATERIAL
           CALL M97INIT(
      .                 IPM     ,DETONATORS,PM  ,
-     .                 NGL     ,NUVAR      ,MBUF%VAR  ,BUFMAT(IADBUF) ,X   ,
-     .                 MAT     ,IPARG      ,IFORM     ,IX             ,NIX ,
-     .                 BUFMAT     ,RHO0      ,TB)
+     .                 NUVAR   ,MBUF%VAR  ,BUFMAT(IADBUF) ,X   ,
+     .                 MAT     ,IPARG     ,IFORM          ,IX  ,NIX ,
+     .                 BUFMAT  ,RHO0      ,TB)
         ELSEIF (MTN == 102) THEN
           IPARG(15)=1
           IPARG(16)=1
@@ -372,9 +372,9 @@ c
           IPARG(63)=1   !  FLAG FOR FLUID MATERIAL
           CALL M105INIT(
      .                 IPM     ,DETONATORS,PM  ,
-     .                 NGL     ,NUVAR     ,MBUF%VAR ,BUFMAT(IADBUF) ,X   ,
-     .                 MAT     ,IPARG     ,IFORM    ,IX             ,NIX ,
-     .                 BUFMAT    ,RHO0     ,TB)
+     .                 NUVAR   ,MBUF%VAR  ,BUFMAT(IADBUF) ,X   ,
+     .                 MAT     ,IPARG     ,IFORM          ,IX  ,NIX ,
+     .                 BUFMAT  ,RHO0      ,TB)
 
         ENDIF
 

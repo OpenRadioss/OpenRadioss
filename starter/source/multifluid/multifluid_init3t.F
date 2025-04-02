@@ -177,7 +177,7 @@ C     Material initialization
                ENDIF
                ERROR_THROWN = .TRUE.
             ENDIF
-            CALL M5IN3(PM, MAT, IPM(1, IXS(1,1+NFT)), DETONATORS, LBUF%TB, NGL, IPARG, X, IXS, NIXS)
+            CALL M5IN3(PM, MAT, IPM(1, IXS(1,1+NFT)), DETONATORS, LBUF%TB, IPARG, X, IXS, NIXS)
          ENDIF
       ENDDO
 

@@ -32,7 +32,7 @@ C
       SUBROUTINE C_IXFLOC(NUMEL,IXSF,IXQF,IXTGF,NSVOIS,
      +                    NQVOIS,NTGVOIS,PROC,IPARG,CEP,CEL,
      +                    ALE_CONNECTIVITY,ee_connect_l,IXS,IXQ,IXTG,NODLOCAL,NUMELS_L,NUMELQ_L,NUMELTG_L,MULTI_FVM,
-     +                    ID_GLOBAL_VOIS,INDX_S,INDX_Q,INDX_TG,FACE_ELM_S,FACE_ELM_Q,FACE_ELM_TG,FACE_VOIS)
+     +                    ID_GLOBAL_VOIS,INDX_S,INDX_Q,INDX_TG,FACE_ELM_S,FACE_ELM_Q,FACE_ELM_TG,FACE_VOIS,ISHADOW)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -68,6 +68,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(3*NUMELTG,*), INTENT(in) :: FACE_ELM_TG
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
       TYPE(t_connectivity_ext1), INTENT(INOUT) :: ee_connect_l
+      LOGICAL, INTENT(IN) :: ISHADOW !< shadowing option for detonators (Eikonal equation solver)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -107,7 +108,7 @@ C-----------------------------------------------
             IF(ITY == 2)IS_QUAD=.TRUE.
             IF(ITY == 7 .AND. N2D > 0)IS_TRIA=.TRUE.
             IF(IS_HEXA .OR. IS_QUAD .OR. IS_TRIA)THEN !skip shell, sh3n, and other elem types
-              IF (IALEUL /= 0) THEN
+              IF (IALEUL /= 0 .OR. ISHADOW) THEN
                 DO I = 1, NEL
                   ! Index of the element
                   IE = I + NFT

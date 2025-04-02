@@ -41,17 +41,18 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod              ../starter/share/message_module/message_mod.F
       !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
       !||====================================================================
-      SUBROUTINE READ_DFS_DETPOINT(DETONATORS,X,IPM,ITABM1,UNITAB,LSUBMODEL,IGRNOD)
+      SUBROUTINE READ_DFS_DETPOINT(DETONATORS,X,IPM,PM,ITABM1,UNITAB,LSUBMODEL,IGRNOD)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
-      USE DETONATORS_MOD
+      USE DETONATORS_MOD , ONLY : DETONATORS_STRUCT_
       USE GROUPDEF_MOD
       USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
+      USE MATERIAL_IS_HIGH_EXPLOSIVE_MOD , ONLY : MATERIAL_IS_HIGH_EXPLOSIVE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -73,20 +74,21 @@ C-----------------------------------------------
       TYPE(SUBMODEL_DATA),INTENT(IN)             :: LSUBMODEL(NSUBMOD)
       TYPE(DETONATORS_STRUCT_),INTENT(INOUT)     :: DETONATORS
       TYPE (GROUP_),DIMENSION(NGRNOD),INTENT(IN) :: IGRNOD
+      my_real,INTENT(INOUT)                      :: PM(NPROPM,NUMMAT)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER              :: I, MAT, J, NPEM,NPCM,K,IGU,IGS,JJ,MDET,DET_ID,IDET
-      INTEGER              :: NODE_ID1, NODE_ID2,uID1,uID2,UID,internal_ID,NNOD
-      INTEGER              :: FLAG_FMT,IMAT,IFLAGUNIT,UNUSED
-      INTEGER              :: STAT
-      my_real              :: XC, YC, ZC, ALT
+      INTEGER              :: I,MAT,IGU,IGS,MDET,DET_ID,IDET
+      INTEGER              :: NODE_ID1,uID1,UID,internal_ID,NNOD
+      INTEGER              :: UNUSED
+      my_real              :: XC, YC, ZC, TDET
       CHARACTER*40         :: MESS
-      CHARACTER*64         :: chain1,chain2
       CHARACTER(LEN=NCHARTITLE) :: TITR
-      LOGICAL              :: IS_ENCRYPTED, IS_AVAILABLE
+      CHARACTER*32         :: MSG_C2
+      LOGICAL              :: IS_ENCRYPTED, IS_AVAILABLE, IS_AVAILABLE_SHADOW
       LOGICAL              :: IS_NODE_DEFINED,IS_GRNOD_DEFINED
-      INTEGER              :: NDETPS,NDETSG,NECRAN,NDETPL,NDETCORD
+      INTEGER              :: I_SHADOW
+      INTEGER              :: MLW
       CHARACTER(LEN=NCHARKEY) :: KEY, KEY2
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -107,8 +109,10 @@ C-----------------------------------------------
 
         IS_ENCRYPTED= .FALSE.
         IS_AVAILABLE = .FALSE.
+        IS_AVAILABLE_SHADOW = .FALSE.
         IS_NODE_DEFINED = .FALSE.
         IS_GRNOD_DEFINED = .FALSE.
+        I_SHADOW = 0
         IF(KEY2(1:4)=='NODE')IS_NODE_DEFINED = .TRUE.
         IF(KEY2(1:3)=='SET')IS_GRNOD_DEFINED = .TRUE.
         CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
@@ -116,32 +120,69 @@ C-----------------------------------------------
         !             READING             !
         !---------------------------------!
         IF(IS_NODE_DEFINED)THEN
-          CALL HM_GET_FLOATV('rad_det_time', ALT, IS_AVAILABLE, LSUBMODEL,UNITAB)
+          MSG_C2 = '/DFS/DETPOINT/NODE'
+          CALL HM_GET_INTV('rad_det_Ishadow', I_SHADOW, IS_AVAILABLE_SHADOW, LSUBMODEL)
+          CALL HM_GET_FLOATV('rad_det_time', TDET, IS_AVAILABLE, LSUBMODEL,UNITAB)
           CALL HM_GET_INTV('rad_det_materialid', MAT, IS_AVAILABLE, LSUBMODEL)
           CALL HM_GET_INTV('rad_det_node1', uID1, IS_AVAILABLE, LSUBMODEL)
           XC=ZERO
           YC=ZERO
           ZC=ZERO
         ELSEIF(IS_GRNOD_DEFINED)THEN
-          CALL HM_GET_FLOATV('rad_det_time', ALT, IS_AVAILABLE, LSUBMODEL,UNITAB)
+          MSG_C2 = '/DFS/DETPOINT/SET'
+          CALL HM_GET_INTV('rad_det_Ishadow', I_SHADOW, IS_AVAILABLE_SHADOW, LSUBMODEL)
+          CALL HM_GET_FLOATV('rad_det_time', TDET, IS_AVAILABLE, LSUBMODEL,UNITAB)
           CALL HM_GET_INTV('rad_det_materialid', MAT, IS_AVAILABLE, LSUBMODEL)
           CALL HM_GET_INTV('rad_det_grnod1', uID1, IS_AVAILABLE, LSUBMODEL)
           XC=ZERO
           YC=ZERO
           ZC=ZERO
         ELSE
+          I_SHADOW = 0
+          MSG_C2 = '/DFS/DETPOINT'
           CALL HM_GET_FLOATV('rad_det_locationA_X', XC, IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('rad_det_locationA_Y', YC, IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('rad_det_locationA_Z', ZC, IS_AVAILABLE, LSUBMODEL, UNITAB)
-          CALL HM_GET_FLOATV('rad_det_time', ALT, IS_AVAILABLE, LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOATV('rad_det_time', TDET, IS_AVAILABLE, LSUBMODEL,UNITAB)
           CALL HM_GET_INTV('rad_det_materialid', MAT, IS_AVAILABLE, LSUBMODEL)
         ENDIF
 
-      IF (ALT > INFINITY) ALT= INFINITY
-      IF (ALT < -INFINITY)ALT=-INFINITY
+        MDET = MAT
+
+        IF (TDET > INFINITY) TDET= INFINITY
+        IF (TDET < -INFINITY)TDET=-INFINITY
+
+        !default value for shadowing flag
+        IF(IS_AVAILABLE_SHADOW)THEN
+          IF(I_SHADOW < 0 .OR. I_SHADOW > 1)THEN
+            I_SHADOW = 0
+            CALL ANCMSG(MSGID=102,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,
+     .                  I1=DET_ID,
+     .                  C1='INVALID I_SHADOW FLAG. FLAG IS SET TO 0',
+     .                  C2=MSG_C2,
+     .                  I2=MDET)
+          END IF
+        ENDIF
+
+        IF(I_SHADOW == 1) DETONATORS%IS_SHADOWING_REQUIRED = .TRUE.
+
+        IF(I_SHADOW == 1) THEN
+          IF(MDET > 0)THEN
+            PM(96,MDET) = 1 !SHADOW FLAG SET ON
+          ELSE
+            !enable flag for all compatible material laws
+            DO I=1,NUMMAT
+              MLW = IPM(2,I)
+              IF(MATERIAL_IS_HIGH_EXPLOSIVE(MLW))PM(96,I)=1 !SHADOW FLAG SET ON
+            ENDDO
+           ENDIF
+        ENDIF
 
         IF(IS_NODE_DEFINED)THEN
           NODE_ID1=USR2SYS(uID1,ITABM1,MESS,DET_ID)
+          DETONATORS%POINT(IDET)%NNOD = 1
+          ALLOCATE(DETONATORS%POINT(IDET)%NODLIST(1))
+          DETONATORS%POINT(IDET)%NODLIST(1) = NODE_ID1 !internal id
           IF(NODE_ID1 > 0)THEN
             XC = X(1,NODE_ID1)
             YC = X(2,NODE_ID1)
@@ -205,14 +246,15 @@ C-----------------------------------------------
           IF(IS_ENCRYPTED)THEN
             WRITE(IOUT,1001)
           ELSEIF(IS_NODE_DEFINED)THEN
-            WRITE(IOUT,1401) DET_ID,uID1,XC,YC,ZC,ALT,MDET
+            WRITE(IOUT,1401) DET_ID,I_SHADOW,uID1,XC,YC,ZC,TDET,MDET
           ELSEIF(IS_GRNOD_DEFINED)THEN
-            WRITE(IOUT,1402) DET_ID,uID1,NNOD,ALT,MDET
+            WRITE(IOUT,1402) DET_ID,I_SHADOW,uID1,NNOD,TDET,MDET
           ELSE
-            WRITE(IOUT,1400) DET_ID,XC,YC,ZC,ALT,MDET
+            WRITE(IOUT,1400) DET_ID,XC,YC,ZC,TDET,MDET
           ENDIF
           ! STORAGE
-          DETONATORS%POINT(IDET)%TDET = ALT
+          DETONATORS%POINT(IDET)%SHADOW = I_SHADOW
+          DETONATORS%POINT(IDET)%TDET = TDET
           DETONATORS%POINT(IDET)%MAT = MAT
           DETONATORS%POINT(IDET)%XDET = XC
           DETONATORS%POINT(IDET)%YDET = YC
@@ -233,21 +275,23 @@ C-----------------------------------------------
      &          'X-COORDINATE              =',1PG20.13,/5X,
      &          'Y-COORDINATE              =',1PG20.13,/5X,
      &          'Z-COORDINATE              =',1PG20.13,/5X,
-     &          'LIGHTING TIME             =',1PG20.13,/5X,
+     &          'DETONATION TIME           =',1PG20.13,/5X,
      &          'EXPLOSIVE MATERIAL NUMBER =',I10 )
- 1401 FORMAT(///'DETONATION POINT           ',I10,/5X,
+ 1401 FORMAT(///'DETONATION POINT (NODE)    ',I10,/5X,
      &          '----------------           ',/5X,
+     &          'SHADOWING FLAG            =',I10     ,/5X,
      &          'NODE ID                   =',I10     ,/5X,
      &          ' X-COORDINATE             =',1PG20.13,/5X,
      &          ' Y-COORDINATE             =',1PG20.13,/5X,
      &          ' Z-COORDINATE             =',1PG20.13,/5X,
-     &          'LIGHTING TIME             =',1PG20.13,/5X,
+     &          'DETONATION TIME           =',1PG20.13,/5X,
      &          'EXPLOSIVE MATERIAL NUMBER =',I10 )
- 1402 FORMAT(///'DETONATION POINT           ',I10,/5X,
+ 1402 FORMAT(///'DETONATION POINT (SET)     ',I10,/5X,
      &          '----------------           ',/5X,
+     &          'SHADOWING FLAG            =',I10     ,/5X,
      &          'SET ID                    =',I10     ,/5X,
      &          ' NUMBER OF NODES          =',I10,/5X,
-     &          'LIGHTING TIME             =',1PG20.13,/5X,
+     &          'DETONATION TIME           =',1PG20.13,/5X,
      &          'EXPLOSIVE MATERIAL NUMBER =',I10 )
 C-----------------------------------------------            
       END SUBROUTINE
