@@ -55,7 +55,7 @@
       !||    sigeps51_boundary_material_mod   ../engine/source/materials/mat/mat051/sigeps51_boundary_material.F90
       !||====================================================================
       subroutine sigeps51 ( &
-           nel    ,nuparam     ,nuvar   ,nfunc   ,ifunc    , &
+           nel    ,nuparam     ,nuvar   ,nfunc   ,ifunc    ,tburn  , &
            npf    ,tf          ,time    ,timestep,uparam   ,numel  , &
            rho    ,volume       ,eint   ,vel_o   ,wfext    , &
            epspxx ,epspyy      ,epspzz  ,epspxy  ,epspyz   ,epspzx , &
@@ -191,6 +191,7 @@
           viscmax(nel)
       my_real,intent(inout) :: uvar(nel,nuvar),qvis(nel),stifn(nel),vdx(nel),vdy(nel),vdz(nel),v(3,numnod)
       my_real,intent(in) :: off(nel)
+      my_real,intent(inout) :: tburn(nel)
 ! ======================================================================================================================
 !                                                   External
 ! ======================================================================================================================
@@ -234,7 +235,7 @@
               C01,C02,C03,C04,EDIF1,EDIF2,EDIF3,EDIF4, &
               DE(NEL), &
               AAA, &
-              TBURN,ECOLD,T
+              ECOLD,T
       my_real DEPS(6,nel),EPD(nel), &
               P1OLD(nel),P2OLD(nel),P3OLD(nel),P4OLD(nel), &
               SIGD(6,nel), EINT0(nel),PLAS1(nel),PLAS2(nel),PLAS3(nel), &
@@ -836,7 +837,6 @@
           DDVOL4  = UVAR(I,13+KK)
           SSP4    = UVAR(I,14+KK)   ! sound speed
           TEMP4   = UVAR(I,16+KK)
-          TBURN =  UVAR(I, 15+KK)
           EDIF4   = UVAR(I,17+KK)   ! chaleur diffusee
           P4OLD(I)= UVAR(I,KK + 18) ! Pressure
           ECOLD = -T40 * SPH4
@@ -1170,7 +1170,7 @@
             !---------------------------------------------------
             !     Computation of burnt fraction
             !---------------------------------------------------
-            CALL JWLUN51 (TIME,XL,TBURN,UPARAM,DD,MU4,MU4P1, &
+            CALL JWLUN51 (TIME,XL,TBURN(I),UPARAM,DD,MU4,MU4P1, &
                  VOLUME(I),DVOL, V4OLD,EINT4,VISCMAX(I),&
                  Q4,PEXT,P4,PM4,&
                  RHO(I),RHO40,MAS4,&
@@ -1281,7 +1281,7 @@
              !---------------------------------------------------
              !     Computation of burnt fraction
              !---------------------------------------------------
-             CALL COMPUTE_BFRAC(TIME, XL, TBURN, UPARAM, V4, RHO4, RHO40, BFRAC(I))
+             CALL COMPUTE_BFRAC(TIME, XL, TBURN(I), UPARAM, V4, RHO4, RHO40, BFRAC(I))
 
              CALL JWL51 (UPARAM, &
                   V4,V4I,MU4,MU4P1,EINT4, &
@@ -1737,7 +1737,6 @@
             UVAR(I,10+KK) = Q4
             UVAR(I,11+KK) = V4
             UVAR(I,12+KK) = RHO4       ! rho_old IN rho OUT
-            UVAR(I,15+KK) = TBURN   ! -burn time ou burn fraction
             UVAR(I,17+KK) = EDIF4 / V4 ! energie diffusee IN spec OUT
             TEMP4 = T40
             UVAR(I,19+KK) = ZERO

@@ -304,7 +304,7 @@ C     Fill partial volumes
                ENDIF
                ERROR_THROWN = .TRUE.
             ENDIF
-            CALL M5IN3(PM, MAT,  IPM(1, IXS(1,1+NFT)), DETONATORS, LBUF%TB, NGL, IPARG, X, IXS, NIXS)
+            CALL M5IN3(PM, MAT,  IPM(1, IXS(1,1+NFT)), DETONATORS, LBUF%TB, IPARG, X, IXS, NIXS)
          ENDIF
          IF (MATLAW == 6) THEN
             IF (PM(24, MAT(1)) > ZERO) THEN

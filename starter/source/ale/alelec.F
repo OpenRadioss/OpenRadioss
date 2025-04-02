@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE ALELEC(
      1      ICODE    ,IXS     , IXQ      , IXC             ,IXT    ,
      2      IXTG     ,PM      , IGEO     , ITAB            ,GEO    ,
-     3      NALE_R2R ,FLAG_R2R, MULTI_FVM, ALE_CONNECTIVITY,ITHERM )
+     3      NALE_R2R ,FLAG_R2R, MULTI_FVM, ALE_CONNECTIVITY,ITHERM , ISHADOW)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -65,6 +65,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN) :: ITHERM
+      LOGICAL,INTENT(IN) :: ISHADOW !< shadowing option for detonators (Eikonal equation solver)
       INTEGER,INTENT(IN) :: ICODE(*),IXS(3,NUMNOD),IXQ(NIXQ,NUMELQ),IXC(NIXC,NUMELC),IXT(NIXT,NUMELT),IXTG(NIXTG,NUMELTG)
       INTEGER,INTENT(IN) ::  ITAB(NUMNOD), NALE_R2R(*),FLAG_R2R,IGEO(NPROPGI,NUMGEO)
       my_real,INTENT(IN) ::  PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO)
@@ -80,7 +81,7 @@ C-----------------------------------------------
       CALL ALE_CONNECTIVITY%ALE_COMPUTE_EE_CONNECTIVITY(
      .     PM     , IGEO,
      .     NPROPGI, NUMGEO, NPROPM, NUMMAT , NUMNOD , NUMELQ, NUMELTG, NUMELS, N2D, 
-     .     IALE   , IEULER, ITHERM, IALELAG, 
+     .     IALE   , IEULER, ITHERM, IALELAG, ISHADOW,
      .     NIXQ   , NIXTG , NIXS  , ITAB   , 
      .     IXQ    , IXTG  , IXS   )
       

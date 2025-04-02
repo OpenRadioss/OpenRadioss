@@ -349,12 +349,15 @@ C  equivalent stress -  (NON VON MISES / VON MISES)
              ENDIF
 c-----------     
            ELSEIF(IFUNC == 4930 )THEN   !/ANIM/ELEM/TDET
-            DO I=LFT,LLT
-             N = I + NFT
-             IF(EL2FA(NN1+N)/=0)THEN
-                FUNC(EL2FA(NN1+N)) = -GBUF%TB(I)
-             ENDIF
-            ENDDO    
+            IF(GBUF%G_TB > 0)THEN
+              DO I=LFT,LLT
+                N = I + NFT
+                IF(EL2FA(NN1+N)/=0)THEN
+                   FUNC(EL2FA(NN1+N)) = -GBUF%TB(I)
+                ENDIF
+              ENDDO
+            ENDIF
+c-----------
            ELSEIF(IFUNC == 4937 )THEN   !/ANIM/ELEM/DT
             IF(GBUF%G_DT>0)THEN
               DO I=LFT,LLT

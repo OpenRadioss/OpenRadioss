@@ -1165,18 +1165,10 @@ c-----------
                 ENDIF!IF(MLW  == 51)                         
 c-----------
               ELSEIF (IFUNC == 4930) THEN  !  /ANIM/ELEM/TDET
-                 IF (MLW  /= 51 .AND. GBUF%G_TB > 0) THEN
+                 IF (GBUF%G_TB > 0) THEN
                    DO I=LFT,LLT
                      EVAR(I) = -GBUF%TB(I)
                    ENDDO
-                 ELSEIF (MLW == 51)THEN
-                   IPOS      = 15
-                   ITRIMAT   = 4
-                   LLT       = IPARG(2,NG)      
-                   K         = LLT * ((M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS )+IPOS-1)                             
-                   DO I=LFT,LLT
-                     EVAR(I) = -MBUF%VAR(K+I)
-                   ENDDO 
                  ELSE
                    DO I=LFT,LLT
                      EVAR(I) = ZERO

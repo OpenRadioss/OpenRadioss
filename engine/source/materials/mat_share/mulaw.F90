@@ -1247,7 +1247,7 @@
             endif
             !numerical viscosity is managed inside sigeps51.f
             !facq0 = zero
-            call sigeps51(nel       ,npar        ,nuvar   ,nfunc ,ifunc     ,&
+            call sigeps51(nel       ,npar        ,nuvar   ,nfunc ,ifunc     ,lbuf%tb   ,&
             &             npf       ,tf          ,tt      ,dt1   ,uparam0   ,numel     ,&
             &             rho       ,vol         ,eint    ,vk    ,wfext     ,&
             &             ep1       ,ep2         ,ep3     ,ep4   ,ep5       ,ep6       ,&

@@ -515,23 +515,14 @@ C------------------
               ENDIF
             !=== DETONATION TIME ===!                  
             ELSEIF (IFUNC == 11889) THEN               
-              IF (MLW  /= 51 .AND. GBUF%G_TB > 0) THEN
+              IF (GBUF%G_TB > 0) THEN
                 DO I=LFT,LLT                           
                   FUNC(EL2FA(NN3+NFT+I)) = -GBUF%TB(I)   
-                ENDDO 
-              ELSEIF (MLW == 51)THEN
-                 MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)     
-                 IPOS      = 15
-                 ITRIMAT   = 4
-                 LLT       = IPARG(2,NG)      
-                 K         = LLT * ((M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS )+IPOS-1)                             
-                 DO I=LFT,LLT
-                   FUNC(EL2FA(NN3+NFT+I)) = -MBUF%VAR(K+I)
-                 ENDDO 
+                ENDDO
               ELSE
-                DO I=LFT,LLT                           
-                  FUNC(EL2FA(NN3+NFT+I)) = ZERO   
-                ENDDO 
+                DO I=LFT,LLT
+                  FUNC(EL2FA(NN3+NFT+I)) = ZERO
+                ENDDO
               ENDIF                   
             ! === LAW 20 === ! 
             !DENS BIMAT LAW20 - or future 2d law51 

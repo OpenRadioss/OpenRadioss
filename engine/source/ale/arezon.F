@@ -43,7 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE AREZON(
      1  IPARG   ,ELBUF_STR,FLUX    ,PHI   ,ALE_CONNECT   ,
-     2  NDIM    ,NVAR     ,NV     ,ITASK ,NERCVOIS,
+     2  NDIM    ,NVAR     ,NV      ,ITASK ,NERCVOIS,
      3  NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE   ,
      4  ITRIMAT ,IXS)
 C-----------------------------------------------
@@ -141,17 +141,19 @@ C     ALE ON / OFF
           ENDIF
         !----------------------------!
         !        N V A R = 10        !
-        !             (EPS_P)        !
+        !              (PLAS)        !
+        !                (TB) explo. !
+        !                (RK) turb.  !
         !----------------------------!
         ELSEIF (NVAR == 10 .AND. IRE == 1) THEN
            IF (MTN == 41) CYCLE
-          IF (MTN==51) THEN
+          IF (MTN==51 .AND. ITRIMAT /=4) THEN  !submat 4 is JWL
             IF(ITRIMAT==0)CYCLE
             ADD0= M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS
-            ADD = ADD0 + 15                               ! UVAR(ADD+1) => PLAS
+            ADD = ADD0 + 15  ! PLAS
             K   = LLT*(ADD-1)
             VAR  => ELBUF_STR(NG)%BUFLY(1)%MAT(1,1,1)%VAR(K+1:K+LLT*NDIM)
-          ELSEIF (MTN == 5 .OR. MTN ==97 .OR. MTN==105) THEN
+          ELSEIF (MTN == 5 .OR. MTN ==97 .OR. MTN==105 .OR. ITRIMAT == 4) THEN  ! DETONATION TIME
             VAR => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%TB(1:LLT)
           ELSEIF (MTN == 6) THEN
             VAR => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%RK(1:LLT)
@@ -270,20 +272,20 @@ C     ALE ON / OFF
         !----------------------------!
         !        N V A R = 10        !
         !              (PLAS)        !
-        !                (TB) law5   !
-        !                (RK) law6   !
+        !                (TB) explo. !
+        !                (RK) turb.  !
         !----------------------------!
         ELSEIF (NVAR == 10 .AND. IRE == 1) THEN
            IF (MTN == 41) CYCLE
           INDX = IDX
           VOL => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%VOL(1:LLT)
-          IF (ITRIMAT /= 0) THEN
+          IF (ITRIMAT /= 0 .AND. ITRIMAT /=4) THEN
             ADD0= M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS
             ADD = ADD0 + 15                                ! UVAR(ADD+1) => PLAS
             K   = LLT*(ADD-1)                               
             VAR =>ELBUF_STR(NG)%BUFLY(1)%MAT(1,1,1)%VAR(K+1:K+LLT*NDIM)
             INDX=1
-          ELSEIF (MTN == 5 .OR. MTN == 97 .OR. MTN==105) THEN
+          ELSEIF (MTN == 5 .OR. MTN == 97 .OR. MTN==105 .OR. ITRIMAT == 4) THEN
             VAR => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%TB(1:LLT)
           ELSEIF (MTN == 6) THEN
             VAR => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%RK(1:LLT)

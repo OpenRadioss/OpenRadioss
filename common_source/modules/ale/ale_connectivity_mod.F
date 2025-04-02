@@ -669,7 +669,7 @@ C-----------------------------------------------
       !||====================================================================
       SUBROUTINE ALE_COMPUTE_EE_CONNECTIVITY(THIS, PM, IGEO,
      .     NPROPGI,NUMGEO, NPROPM, NUMMAT, NUMNOD, NUMELQ, NUMELTG, NUMELS, N2D, 
-     .     IALE, IEULER, ITHERM, IALELAG,
+     .     IALE, IEULER, ITHERM, IALELAG, ISHADOW,
      .     NIXQ, NIXTG, NIXS, ITAB,
      .     IXQ, IXTG, IXS)
         IMPLICIT NONE
@@ -691,6 +691,7 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NIXTG, NUMELTG), INTENT(IN) :: IXTG
         INTEGER, DIMENSION(NIXS, NUMELS), INTENT(IN) :: IXS
         INTEGER, DIMENSION(NPROPGI, NUMGEO), INTENT(IN) :: IGEO
+        LOGICAL,INTENT(IN) :: ISHADOW !< shadowing option for detonators (Eikonal equation solver)
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -701,7 +702,7 @@ C-----------------------------------------------
         INTEGER, DIMENSION(:), ALLOCATABLE :: IDX
         INTEGER, DIMENSION(:), ALLOCATABLE :: IAD_CONNECT, NE_NB_CONNECT, CONNECTED, TYPE, EE_NB_CONNECT,ITAG
         INTEGER(8) :: VEC_PTR1
-        INTEGER :: JAL_FROM_MAT, JAL_FROM_PROP, JAL, JALT, MLW, IMID, TMP, COUNT
+        INTEGER :: JAL_FROM_MAT, JAL_FROM_PROP, JAL, JALT, MLW, IMID, TMP, COUNT, JTHE, JSHADOW
         INTEGER, DIMENSION(4), TARGET :: TETRA_NODES
         INTEGER, DIMENSION(6, 4), TARGET :: HEXA_FACE
         INTEGER, DIMENSION(6, 3), TARGET :: TETRA_FACE
@@ -711,8 +712,8 @@ C-----------------------------------------------
         INTEGER :: KFACE, KFACE2, NFACE, NFACE_NODE, NFACE2, NFACE_NODE2
 C-----------------------------------------------
 C     B e g i n n i n g   o f   S u b r o u t i n e
-C-----------------------------------------------  
-        IF (IALE + IEULER + IALELAG +ITHERM == 0) THEN
+C-----------------------------------------------
+        IF (IALE + IEULER + IALELAG +ITHERM == 0 .AND. .NOT.ISHADOW) THEN
            RETURN
         ENDIF
 !     List of nodes of interest for tetra
@@ -805,7 +806,9 @@ C-----------------------------------------------
            JAL_FROM_MAT = NINT(PM(72, IABS(IXTG(1, II))))
            JAL_FROM_PROP = IGEO(62, IABS(IXTG(5, II)))
            JAL = MAX(JAL_FROM_MAT, JAL_FROM_PROP)
-           JALT = JAL + NINT(PM(71, IABS(IXTG(1, II))) + PM(96, IABS(IXTG(1, II))))
+           JTHE = NINT(PM(71, IABS(IXTG(1, II))))
+           JSHADOW = NINT(PM(96, IABS(IXTG(1, II))))
+           JALT = JAL + JTHE + JSHADOW
            IMID = IABS(IXTG(1, II))
            IF (JALT == 0) CYCLE
            MLW  = NINT(PM(19,IMID))
@@ -828,7 +831,9 @@ C-----------------------------------------------
          JAL_FROM_MAT = NINT(PM(72, IABS(IXQ(1, II))))
          JAL_FROM_PROP = IGEO(62,IABS(IXQ(6, II)))
          JAL = MAX(JAL_FROM_MAT, JAL_FROM_PROP)
-         JALT = JAL + NINT(PM(71, IABS(IXQ(1, II))) + PM(96, IABS(IXQ(1, II))))
+         JTHE = NINT(PM(71, IABS(IXQ(1, II))))
+         JSHADOW =  NINT(PM(96, IABS(IXQ(1, II))))
+         JALT = JAL + JTHE + JSHADOW
          IMID = IABS(IXQ(1, II))
          IF (JALT == 0) CYCLE
          MLW  = NINT(PM(19,IMID))
@@ -848,8 +853,10 @@ C-----------------------------------------------
         DO II = 1, NUMELS
          JAL_FROM_MAT = NINT(PM(72, IABS(IXS(1, II))))
          JAL_FROM_PROP = IGEO(62, IABS(IXS(10, II)))
-         JAL = MAX(JAL_FROM_MAT, JAL_FROM_PROP) 
-         JALT = JAL + NINT(PM(71, IABS(IXS(1, II))) + PM(96, IABS(IXS(1, II))))
+         JAL = MAX(JAL_FROM_MAT, JAL_FROM_PROP)
+         JTHE = NINT(PM(71, IABS(IXS(1, II))))
+         JSHADOW = NINT(PM(96, IABS(IXS(1, II))))
+         JALT = JAL + JTHE + JSHADOW
          IMID = IABS(IXS(1, II))
          IF (JALT == 0) CYCLE
          MLW  = NINT(PM(19,IMID))
