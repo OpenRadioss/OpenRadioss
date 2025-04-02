@@ -734,6 +734,7 @@
         integer  g_epsd   
         integer  g_epsq
         integer  g_pla    
+        integer  g_wpla
         integer  g_temp   
         integer  g_tb     
         integer  g_rk     
@@ -865,6 +866,7 @@
         my_real, dimension(:) , pointer ::   epsd  
         my_real, dimension(:) , pointer ::   epsq
         my_real, dimension(:) , pointer ::   pla   
+        my_real, dimension(:) , pointer ::   wpla
         my_real, dimension(:) , pointer ::   temp  
         my_real, dimension(:) , pointer ::   tb    
         my_real, dimension(:) , pointer ::   rk    

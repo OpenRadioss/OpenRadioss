@@ -875,6 +875,7 @@ C
             LGLOB = LGLOB + GBUF%G_EPSD  
             LGLOB = LGLOB + GBUF%G_EPSQ
             LGLOB = LGLOB + GBUF%G_PLA   
+            LGLOB = LGLOB + GBUF%G_WPLA              
             LGLOB = LGLOB + GBUF%G_TEMP  
             LGLOB = LGLOB + GBUF%G_TB    
             LGLOB = LGLOB + GBUF%G_RK    
@@ -1695,6 +1696,7 @@ C
             LGLOB = LGLOB + GBUF%G_EPSD  
             LGLOB = LGLOB + GBUF%G_EPSQ  
             LGLOB = LGLOB + GBUF%G_PLA   
+            LGLOB = LGLOB + GBUF%G_WPLA             
             LGLOB = LGLOB + GBUF%G_TEMP  
             LGLOB = LGLOB + GBUF%G_TB    
             LGLOB = LGLOB + GBUF%G_RK    
@@ -2197,6 +2199,7 @@ C
           LGLOB = LGLOB + GBUF%G_EPSD  
           LGLOB = LGLOB + GBUF%G_EPSQ  
           LGLOB = LGLOB + GBUF%G_PLA   
+          LGLOB = LGLOB + GBUF%G_WPLA 
           LGLOB = LGLOB + GBUF%G_TEMP  
           LGLOB = LGLOB + GBUF%G_TB    
           LGLOB = LGLOB + GBUF%G_RK    

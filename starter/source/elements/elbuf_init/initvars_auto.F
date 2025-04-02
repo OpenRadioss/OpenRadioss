@@ -104,7 +104,12 @@ c---------------------
           IF (GBUF%G_DELTAX == 0) GBUF%G_DELTAX = MTAG%G_DELTAX            
           IF (GBUF%G_EPSD   == 0) GBUF%G_EPSD   = MTAG%G_EPSD              
           IF (GBUF%G_EPSQ   == 0) GBUF%G_EPSQ   = MTAG%G_EPSQ
-          IF (GBUF%G_PLA    == 0) GBUF%G_PLA    = MTAG%G_PLA               
+          IF (GBUF%G_PLA    == 0) GBUF%G_PLA    = MTAG%G_PLA          
+          IF (GBUF%G_PLA    == 1) THEN
+            GBUF%G_WPLA   = 1
+          ELSE 
+            GBUF%G_WPLA   = 0
+          ENDIF       
           IF (GBUF%G_RK     == 0) GBUF%G_RK     = MTAG%G_RK                
           IF (GBUF%G_RE     == 0) GBUF%G_RE     = MTAG%G_RE                
           IF (GBUF%G_TB     == 0) GBUF%G_TB     = MTAG%G_TB                
@@ -138,7 +143,12 @@ c---------------------
             IF (GBUF%G_DELTAX == 0) GBUF%G_DELTAX = MTAG%G_DELTAX              
             IF (GBUF%G_EPSD   == 0) GBUF%G_EPSD   = MTAG%G_EPSD                
             IF (GBUF%G_EPSQ   == 0) GBUF%G_EPSQ   = MTAG%G_EPSQ
-            IF (GBUF%G_PLA    == 0) GBUF%G_PLA    = MTAG%G_PLA                 
+            IF (GBUF%G_PLA    == 0) GBUF%G_PLA    = MTAG%G_PLA          
+            IF (GBUF%G_PLA    == 1) THEN
+              GBUF%G_WPLA   = 1
+            ELSE 
+              GBUF%G_WPLA   = 0
+            ENDIF         
             IF (GBUF%G_RK     == 0) GBUF%G_RK     = MTAG%G_RK                  
             IF (GBUF%G_RE     == 0) GBUF%G_RE     = MTAG%G_RE                  
             IF (GBUF%G_TB     == 0) GBUF%G_TB     = MTAG%G_TB                  

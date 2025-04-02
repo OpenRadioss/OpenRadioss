@@ -1204,7 +1204,7 @@ C Read DDP
            IRXDP=0
          ENDIF
        ENDIF
-       NPSAV = 28
+       NPSAV = 29
 C   ----------------------------------------------------------------------
 C     Utilise pour les checks point restart.
        IF(MCHECK/=0)THEN

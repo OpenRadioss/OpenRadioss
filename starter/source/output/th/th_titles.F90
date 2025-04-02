@@ -2759,7 +2759,8 @@
             'STORED HEAT',&
             'AVERAGE X-VELOCITY',&
             'AVERAGE Y-VELOCITY',&
-            'AVERAGE Z-VELOCITY'/)
+            'AVERAGE Z-VELOCITY',&
+            'PLASTIC WORK'/)
 ! frame
           varfr_title = (/&
             character(len=100) ::&

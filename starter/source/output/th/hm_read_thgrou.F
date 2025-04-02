@@ -172,7 +172,7 @@ C-----------------------------------------------
       PARAMETER (NVARFXM = 3)
       PARAMETER (NVARAC = 6,NVARSE =39,NVARJO = 6)
       PARAMETER (NVARAB = 7,NVARMV4= 9,NVARMV = 19,NVARMVENT = 150)
-      PARAMETER (NVARPA = 31)
+      PARAMETER (NVARPA = 32)
       PARAMETER (NVARF1 = 18,NVARFR = 24,NVARGAU = 8,NVARCLUS=11,NVARFLOW=1,
      .           NVARSURF = 6,NVARSLIP=6,NVARRET=3)
       CHARACTER*10 VARN(NVARN),VART(NVART)
@@ -308,6 +308,7 @@ C-----------------------------------------------
      .         VARCLUS_TITLE(NVARCLUS),VARFLOW_TITLE(NVARFLOW),
      .         VARSURF_TITLE(NVARSURF),VARSENS_TITLE(1))
 
+    
       CALL TH_TITLES(
      1      NVARN1        ,NVARN1A       ,NVARN2           ,NVARNPINCH        ,NVARS1           ,
      1      NVARS2        ,NVARS3        ,NVARS4           ,NVARS5            ,NVARS6           ,
@@ -1198,7 +1199,7 @@ C   part
      . 'IYY     ','IZZ     ','IXY     ','IYZ     ','IZX     ',
      . 'RIE     ','KERB    ','RKERB   ','RKE     ','ERODED  ',
      . 'UNUSED  ','UNUSED  ','HEAT    ','VX      ','VY      ',
-     . 'VZ      '/
+     . 'VZ      ','PW      '/
 C   rivets
       DATA VARRIV/
      . 'OFF     ','F1X     ','F1Y     ','F1Z     ','F2X     ',
