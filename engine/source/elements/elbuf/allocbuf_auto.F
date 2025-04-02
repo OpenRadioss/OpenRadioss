@@ -63,8 +63,8 @@ C-----------------------------------------------
      .  IVISC,IPORO,NFAIL,NVAR_MAT,NVAR_EOS,NVAR_VISC,NVAR_LOC,NVAR_LAY,NPTTOT,IADP,
      .  IDRAPE
       INTEGER ! global variables
-     .   G_GAMA,G_SIG,G_OFF,G_NOFF,G_EINT,G_EINS,G_TEMP,
-     .   G_RHO,G_PLA,G_VOL,G_EPSD,G_QVIS,G_DELTAX,G_TB,G_RK,G_RE,
+     .   G_GAMA,G_SIG,G_OFF,G_NOFF,G_EINT,G_EINS,G_TEMP,  
+     .   G_RHO,G_PLA,G_VOL,G_EPSD,G_QVIS,G_DELTAX,G_TB,G_RK,G_RE,G_WPLA, 
      .   G_SMSTR,G_HOURG,G_BFRAC,G_THK,G_FOR,G_MOM,G_TAG22,G_STRA,G_SIGI,
      .   G_DMG,G_FORPG,G_MOMPG,G_STRPG,G_UELR,G_UELR1,G_EPSQ,G_IERR,
      .   G_DAMDL,G_FORTH,G_EINTTH,G_FILL,G_SEQ,G_STRW,G_STRWPG,G_THK_I,
@@ -1231,7 +1231,9 @@ c
       G_EPSQ =  NINT(RBUF(IAD+1))         
         IAD = IAD + 1                            
       G_PLA  =  NINT(RBUF(IAD+1))         
-        IAD = IAD + 1                            
+        IAD = IAD + 1         
+      G_WPLA  =  NINT(RBUF(IAD+1))         
+        IAD = IAD + 1                           
       G_TEMP =  NINT(RBUF(IAD+1))         
         IAD = IAD + 1                            
       G_TB   =  NINT(RBUF(IAD+1))         
@@ -1479,7 +1481,8 @@ c---
       GBUF%G_VOL    = G_VOL      
       GBUF%G_EPSD   = G_EPSD     
       GBUF%G_EPSQ   = G_EPSQ
-      GBUF%G_PLA    = G_PLA      
+      GBUF%G_PLA    = G_PLA  
+      GBUF%G_WPLA   = G_WPLA    
       GBUF%G_TEMP   = G_TEMP     
       GBUF%G_TB     = G_TB       
       GBUF%G_RK     = G_RK       
@@ -1761,7 +1764,8 @@ c------------------------------------------------
         ELBUF_STR%GBUF%VOL    => LBUF%VOL                                             
         ELBUF_STR%GBUF%EPSD   => LBUF%EPSD                                            
         ELBUF_STR%GBUF%EPSQ   => LBUF%EPSQ
-        ELBUF_STR%GBUF%PLA    => LBUF%PLA                                             
+        ELBUF_STR%GBUF%PLA    => LBUF%PLA                  
+        ELBUF_STR%GBUF%WPLA   => LBUF%WPLA                                                
         ELBUF_STR%GBUF%TEMP   => LBUF%TEMP                                            
         ELBUF_STR%GBUF%TB     => LBUF%TB                                              
         ELBUF_STR%GBUF%RK     => LBUF%RK                                              
@@ -1806,7 +1810,10 @@ c------------------------------------------------
             IAD = IAD+NEL*G_EPSQ                                                       
         ALLOCATE (ELBUF_STR%GBUF%PLA (NEL*G_PLA)   ,STAT=ERR)                         
           GBUF%PLA(1:NEL*G_PLA)   = RBUF(IAD+1:IAD+NEL*G_PLA)                         
-            IAD = IAD+NEL*G_PLA                                                       
+            IAD = IAD+NEL*G_PLA 
+        ALLOCATE (ELBUF_STR%GBUF%WPLA (NEL*G_WPLA)   ,STAT=ERR)                         
+          GBUF%WPLA(1:NEL*G_WPLA)  = RBUF(IAD+1:IAD+NEL*G_WPLA)                         
+            IAD = IAD+NEL*G_WPLA                                                         
         ALLOCATE (ELBUF_STR%GBUF%TEMP(NEL*G_TEMP)  ,STAT=ERR)                         
           GBUF%TEMP(1:NEL*G_TEMP) = RBUF(IAD+1:IAD+NEL*G_TEMP)                        
             IAD = IAD+NEL*G_TEMP                                                      

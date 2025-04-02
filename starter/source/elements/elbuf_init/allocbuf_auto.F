@@ -493,7 +493,8 @@ c
         ELBUF_TAB(NG)%GBUF%VOL    => LBUF%VOL                                        
         ELBUF_TAB(NG)%GBUF%EPSD   => LBUF%EPSD                                       
         ELBUF_TAB(NG)%GBUF%EPSQ   => LBUF%EPSQ                                       
-        ELBUF_TAB(NG)%GBUF%PLA    => LBUF%PLA                                        
+        ELBUF_TAB(NG)%GBUF%PLA    => LBUF%PLA            
+        ELBUF_TAB(NG)%GBUF%WPLA   => LBUF%WPLA                                      
         ELBUF_TAB(NG)%GBUF%TEMP   => LBUF%TEMP                                       
         ELBUF_TAB(NG)%GBUF%TB     => LBUF%TB                                         
         ELBUF_TAB(NG)%GBUF%RK     => LBUF%RK                                         
@@ -526,7 +527,9 @@ c
         CALL MY_ALLOC(ELBUF_TAB(NG)%GBUF%EPSQ,NEL*GBUF%G_EPSQ)  
               ELBUF_TAB(NG)%GBUF%EPSQ = ZERO 
         CALL MY_ALLOC(ELBUF_TAB(NG)%GBUF%PLA,NEL*GBUF%G_PLA)                       
-              ELBUF_TAB(NG)%GBUF%PLA = ZERO               
+              ELBUF_TAB(NG)%GBUF%PLA = ZERO    
+        CALL MY_ALLOC(ELBUF_TAB(NG)%GBUF%WPLA,NEL*GBUF%G_WPLA)                       
+              ELBUF_TAB(NG)%GBUF%WPLA = ZERO                             
         CALL MY_ALLOC(ELBUF_TAB(NG)%GBUF%TEMP,NEL*GBUF%G_TEMP)                      
               ELBUF_TAB(NG)%GBUF%TEMP = ZERO               
         CALL MY_ALLOC(ELBUF_TAB(NG)%GBUF%TB,NEL*GBUF%G_TB)                        

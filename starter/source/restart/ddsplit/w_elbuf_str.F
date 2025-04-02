@@ -55,7 +55,7 @@ C-----------------------------------------------
      .   IDAMP_FREQ_RANGE
       INTEGER ! global variables
      .   G_GAMA,G_SIG,G_OFF,G_NOFF,G_EINT,G_EINS,G_TEMP,
-     .   G_RHO,G_PLA,G_VOL,G_EPSD,G_QVIS,G_DELTAX,G_TB,G_RK,G_RE,
+     .   G_RHO,G_PLA,G_VOL,G_EPSD,G_QVIS,G_DELTAX,G_TB,G_RK,G_RE,G_WPLA,
      .   G_SMSTR,G_HOURG,G_BFRAC,G_THK,G_FOR,G_MOM,G_TAG22,G_STRA,G_SIGI,
      .   G_DMG,G_FORPG,G_MOMPG,G_STRPG,G_UELR,G_UELR1,G_EPSQ,G_IERR,
      .   G_DAMDL,G_FORTH,G_EINTTH,G_FILL,G_SEQ,G_STRW,G_STRWPG,G_THK_I,
@@ -1076,6 +1076,7 @@ c
           G_EPSD  = GBUF%G_EPSD  
           G_EPSQ  = GBUF%G_EPSQ
           G_PLA   = GBUF%G_PLA   
+          G_WPLA  = GBUF%G_WPLA             
           G_TEMP  = GBUF%G_TEMP  
           G_TB    = GBUF%G_TB    
           G_RK    = GBUF%G_RK    
@@ -1233,7 +1234,9 @@ c
            RBUF_L(L_REL+1) =  G_EPSQ
              L_REL = L_REL + 1                                  
            RBUF_L(L_REL+1) =  G_PLA         
-             L_REL = L_REL + 1                               
+             L_REL = L_REL + 1  
+          RBUF_L(L_REL+1) =  G_WPLA         
+             L_REL = L_REL + 1                                            
            RBUF_L(L_REL+1) =  G_TEMP        
              L_REL = L_REL + 1                             
            RBUF_L(L_REL+1) =  G_TB          
@@ -1599,6 +1602,8 @@ c-------
             L_REL = L_REL+NEL*G_EPSQ
           RBUF_L(L_REL+1:L_REL+NEL*G_PLA)  = GBUF%PLA(1:NEL*G_PLA)
             L_REL = L_REL+NEL*G_PLA
+          RBUF_L(L_REL+1:L_REL+NEL*G_WPLA)  = GBUF%WPLA(1:NEL*G_WPLA)
+            L_REL = L_REL+NEL*G_WPLA           
           RBUF_L(L_REL+1:L_REL+NEL*G_TEMP) = GBUF%TEMP(1:NEL*G_TEMP)
             L_REL = L_REL+NEL*G_TEMP
           RBUF_L(L_REL+1:L_REL+NEL*G_TB)   = GBUF%TB(1:NEL*G_TB)

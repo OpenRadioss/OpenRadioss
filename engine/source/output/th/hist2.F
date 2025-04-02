@@ -437,6 +437,8 @@ C                                    [Izx Iyz Izz]   {ZZMOM}
                   WA(II)=PARTSAV(4,I)/MAX(PARTSAV(6,I),EM20)
                 ELSEIF(K==31) THEN 
                   WA(II)=PARTSAV(5,I)/MAX(PARTSAV(6,I),EM20)
+                ELSEIF(K==32) THEN 
+                  WA(II)=PARTSAV(29,I)
                 ELSEIF(K > 0 .AND. SIZE(PARTSAV,1) >= K) THEN
                   WA(II)=PARTSAV(K,I)
                 ELSE 

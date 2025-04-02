@@ -55,7 +55,7 @@ C-----------------------------------------------
      .   NFAIL,K,IL,IR,IS,IT,IGTYP,NPTTOT,I,NONL,INLOC,NVAR_EOS
       INTEGER ! global variables 
      .   G_GAMA,G_SIG,G_OFF,G_NOFF,G_EINT,G_EINS,G_TEMP,
-     .   G_RHO,G_PLA,G_VOL,G_EPSD,G_QVIS,G_DELTAX,G_TB,G_RK,G_RE,
+     .   G_RHO,G_PLA,G_VOL,G_EPSD,G_QVIS,G_DELTAX,G_TB,G_RK,G_RE,G_WPLA
      .   G_SMSTR,G_HOURG,G_BFRAC,G_THK,G_FOR,G_MOM,G_TAG22,G_STRA,G_SIGI,
      .   G_DMG,G_FORPG,G_MOMPG,G_STRPG,G_UELR,G_UELR1,G_EPSQ,G_IERR,
      .   G_DAMDL,G_FORTH,G_EINTTH,G_SEQ,
@@ -519,6 +519,7 @@ c
         ELBUF_IMP(NG)%GBUF%G_EPSD   = GBUF%G_EPSD     
         ELBUF_IMP(NG)%GBUF%G_EPSQ   = GBUF%G_EPSQ
         ELBUF_IMP(NG)%GBUF%G_PLA    = GBUF%G_PLA      
+        ELBUF_IMP(NG)%GBUF%G_WPLA   = GBUF%G_WPLA             
         ELBUF_IMP(NG)%GBUF%G_TEMP   = GBUF%G_TEMP     
         ELBUF_IMP(NG)%GBUF%G_TB     = GBUF%G_TB       
         ELBUF_IMP(NG)%GBUF%G_RK     = GBUF%G_RK       
@@ -652,7 +653,8 @@ c
           ALLOCATE (ELBUF_IMP(NG)%GBUF%VOL (NEL*GBUF%G_VOL)      ,STAT=ERR)                       
           ALLOCATE (ELBUF_IMP(NG)%GBUF%EPSD(NEL*GBUF%G_EPSD)     ,STAT=ERR)                       
           ALLOCATE (ELBUF_IMP(NG)%GBUF%EPSQ(NEL*GBUF%G_EPSQ)     ,STAT=ERR) 
-          ALLOCATE (ELBUF_IMP(NG)%GBUF%PLA (NEL*GBUF%G_PLA)      ,STAT=ERR)                       
+          ALLOCATE (ELBUF_IMP(NG)%GBUF%PLA (NEL*GBUF%G_PLA)      ,STAT=ERR)   
+          ALLOCATE (ELBUF_IMP(NG)%GBUF%WPLA (NEL*GBUF%G_WPLA)    ,STAT=ERR)                                
           ALLOCATE (ELBUF_IMP(NG)%GBUF%TEMP(NEL*GBUF%G_TEMP)     ,STAT=ERR)                       
           ALLOCATE (ELBUF_IMP(NG)%GBUF%TB(NEL*GBUF%G_TB)         ,STAT=ERR)                           
           ALLOCATE (ELBUF_IMP(NG)%GBUF%RK(NEL*GBUF%G_RK)         ,STAT=ERR)                           

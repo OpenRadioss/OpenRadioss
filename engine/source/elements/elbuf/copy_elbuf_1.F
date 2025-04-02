@@ -56,7 +56,7 @@ C-----------------------------------------------
      .   NPG,NEL,IGTYP,LEN1,LEN2,NPTTOT,I,NONL,INLOC
       INTEGER ! global variables 
      .   G_GAMA,G_SIG,G_OFF,G_NOFF,G_EINT,G_EINS,G_TEMP,
-     .   G_RHO,G_PLA,G_VOL,G_EPSD,G_QVIS,G_DELTAX,G_TB,G_RK,G_RE,
+     .   G_RHO,G_PLA,G_VOL,G_EPSD,G_QVIS,G_DELTAX,G_TB,G_RK,G_RE,G_WPLA, 
      .   G_SMSTR,G_HOURG,G_BFRAC,G_THK,G_FOR,G_MOM,G_TAG22,G_STRA,G_SIGI,
      .   G_DMG,G_FORPG,G_MOMPG,G_STRPG,G_EPSQ,G_UELR,G_UELR1,G_IERR,
      .   G_DAMDL,G_FORTH,G_EINTTH,G_SEQ,G_STRW,G_STRWPG,
@@ -608,6 +608,7 @@ c
           G_EPSD  = GBUFS%G_EPSD      
           G_EPSQ  = GBUFS%G_EPSQ
           G_PLA   = GBUFS%G_PLA       
+          G_WPLA  = GBUFS%G_WPLA                
           G_TEMP  = GBUFS%G_TEMP      
           G_TB    = GBUFS%G_TB        
           G_RK    = GBUFS%G_RK        
@@ -748,6 +749,7 @@ c
             ELBUF_TGT(NG)%GBUF%EPSD   => LBUFT%EPSD
             ELBUF_TGT(NG)%GBUF%EPSQ   => LBUFT%EPSQ      
             ELBUF_TGT(NG)%GBUF%PLA    => LBUFT%PLA
+            ELBUF_TGT(NG)%GBUF%WPLA    => LBUFT%WPLA
             ELBUF_TGT(NG)%GBUF%TEMP   => LBUFT%TEMP
             ELBUF_TGT(NG)%GBUF%TB     => LBUFT%TB
             ELBUF_TGT(NG)%GBUF%RK     => LBUFT%RK
@@ -770,6 +772,7 @@ c
             GBUFT%EPSD(1:NEL*G_EPSD)    =  GBUFS%EPSD(1:NEL*G_EPSD)
             GBUFT%EPSQ(1:NEL*G_EPSQ)    =  GBUFS%EPSQ(1:NEL*G_EPSQ)
             GBUFT%PLA(1:NEL*G_PLA)      =  GBUFS%PLA(1:NEL*G_PLA)
+            GBUFT%WPLA(1:NEL*G_WPLA)    =  GBUFS%WPLA(1:NEL*G_WPLA)           
             GBUFT%TEMP(1:NEL*G_TEMP)    =  GBUFS%TEMP(1:NEL*G_TEMP)
             GBUFT%TB(1:NEL*G_TB)        =  GBUFS%TB(1:NEL*G_TB)
             GBUFT%RK(1:NEL*G_RK)        =  GBUFS%RK(1:NEL*G_RK)
