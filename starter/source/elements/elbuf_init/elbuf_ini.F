@@ -998,6 +998,7 @@ c           ! tags for local variables : NVAR_LOC = 51
             LLOC = LLOC + BUFLY%L_EPSQ   
             LLOC = LLOC + BUFLY%L_EPSF   
             LLOC = LLOC + BUFLY%L_PLA    
+            LLOC = LLOC + BUFLY%L_WPLA  
             LLOC = LLOC + BUFLY%L_TEMP       
             LLOC = LLOC + BUFLY%L_TB     
             LLOC = LLOC + BUFLY%L_RK     
@@ -1850,6 +1851,7 @@ c
             LLOC = LLOC + BUFLY%L_EPSQ   
             LLOC = LLOC + BUFLY%L_EPSF   
             LLOC = LLOC + BUFLY%L_PLA    
+            LLOC = LLOC + BUFLY%L_WPLA    
             LLOC = LLOC + BUFLY%L_TEMP 
             LLOC = LLOC + BUFLY%L_TB     
             LLOC = LLOC + BUFLY%L_RK     
@@ -2354,6 +2356,7 @@ c
             LLOC = LLOC + BUFLY%L_EPSQ   
             LLOC = LLOC + BUFLY%L_EPSF   
             LLOC = LLOC + BUFLY%L_PLA    
+            LLOC = LLOC + BUFLY%L_WPLA    
             LLOC = LLOC + BUFLY%L_TEMP 
             LLOC = LLOC + BUFLY%L_TB     
             LLOC = LLOC + BUFLY%L_RK     

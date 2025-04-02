@@ -339,6 +339,8 @@ c
         IAD = IAD + 1
         BUFLY%L_PLA    = 0
         IAD = IAD + 1
+        BUFLY%L_WPLA   = 0
+        IAD = IAD + 1
         BUFLY%L_TEMP   = 0
         IAD = IAD + 1
         BUFLY%L_TB     = 0

@@ -1001,6 +1001,7 @@
         my_real, dimension(:) , pointer ::   epsq   
         my_real, dimension(:) , pointer ::   epsf   
         my_real, dimension(:) , pointer ::   pla    
+        my_real, dimension(:) , pointer ::   wpla    
         my_real, dimension(:) , pointer ::   temp   
         my_real, dimension(:) , pointer ::   tb     
         my_real, dimension(:) , pointer ::   rk     
@@ -1190,7 +1191,8 @@
         integer  l_epsd                    
         integer  l_epsq   
         integer  l_epsf   
-        integer  l_pla             
+        integer  l_pla           
+        integer  l_wpla  
         integer  l_temp   
         integer  l_tb     
         integer  l_rk     
