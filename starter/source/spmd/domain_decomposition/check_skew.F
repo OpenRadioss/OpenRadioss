@@ -60,7 +60,7 @@ C-----------------------------------------------
         INTEGER, DIMENSION(LISKN,SISKWN/LISKN), INTENT(IN) :: ISKN
         INTEGER, DIMENSION(NPROPMI,NUMMAT), INTENT(IN) :: IPM
         TYPE(PLIST_SKEW_), DIMENSION(NUMSKW+1), INTENT(INOUT) :: MULTIPLE_SKEW
-        INTEGER, INTENT(IN) :: OFFSET
+        INTEGER :: OFFSET
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
 !       NSKWP : integer ; dimension = NSPMD
 !               number of skew per processor

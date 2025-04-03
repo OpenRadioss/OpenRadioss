@@ -98,6 +98,22 @@ set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${FSANIT
 # CXX source files
 set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc}  -O0 -g  ${OPENMP} -std=c++14  " )
 
+elseif ( debug STREQUAL "analysis" )
+
+# Fortran
+
+set( legacy_flags "  -fplugin=../../scripts/gcc_plugin/fortran_signatures.so  -Wall ${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_GFORTRAN=1 -fdec-math -g -O0 -ffp-contract=off -frounding-math ${OPENMP} -fbacktrace -ffixed-line-length-none -Wdo-subscript ${ADF} ${portability}") 
+
+set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " -fplugin=../../scripts/gcc_plugin/fortran_signatures.so  ${FSANITIZE} -Wall ${strict} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -DCPP_comp=f90 -DCOMP_GFORTRAN=1 -fdec-math -g -O0 -ffp-contract=off -frounding-math ${OPENMP} -fbacktrace -ffixed-line-length-none ${ADF} " )
+
+
+# C source files
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} -O0 -g ${OPENMP} " )
+
+# CXX source files
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc}  -O0 -g  ${OPENMP} -std=c++14  " )
+
+
 elseif ( debug STREQUAL "asan" )
 
 set( FSANITIZE "-fsanitize=address -fsanitize=undefined -fsanitize=bounds-strict -DSANITIZE") 

@@ -428,6 +428,18 @@ then
    exit 1
 fi
 
+if [ $debug == 'analysis' ]
+then
+if [ $return_value -eq 0 ]
+then
+    pwd
+    cd ../../scripts
+    python3 ./static_analysis.py engine 
+fi
+fi
+
+
+
 cd ..
 echo " "
 

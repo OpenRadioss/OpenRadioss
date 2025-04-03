@@ -392,7 +392,7 @@ C---------
      F   IGRTH(NF1), MSSA(NF1),       DMELS(NF1), TABLE,
      G   XDP,        SFEM_NODVAR,     VOLN,       CONDN,
      H   CONDNSKY,   D,               SENSORS,    IPRI,
-     I   MAT_ELEM,   IBID,            DT,         IDEL7NOK,NSVOIS,SBID,
+     I   MAT_ELEM,   IBID,            DT,         IDEL7NOK,NSVOIS,IBID,
      *   SNPC,       STF,             SBUFMAT,    SVIS,IDTMINS,IRESP,
      *   IDEL7NG,    MAXFUNC,         USERL_AVAIL, GLOB_THERM,
      V   impl_s,     idyna,           S_SFEM_NODVAR)
@@ -1032,7 +1032,7 @@ C
      G         CONDN     ,CONDNSKY  ,
      H         D         ,TAGPRT_SMS,SENSORS  ,IPRI      ,
      I         NALE      ,NLOC_DMG  ,MAT_ELEM,IBID,DT,
-     J         OUTPUT,NSVOIS,SBID,SNPC,STF,SBUFMAT,SVIS,IRESP,
+     J         OUTPUT,NSVOIS,IBID,SNPC,STF,SBUFMAT,SVIS,IRESP,
      K         MAXFUNC,  USERL_AVAIL, GLOB_THERM, impl_s   ,idyna)
 C
             ELSE
@@ -1071,7 +1071,7 @@ C-------------------------
      Q   IGRV,       LGRAV,      SENSORS,    SKEW,
      R   NALE,       D,          IPRI,       NLOC_DMG,
      S   MAt_ELEM,   IBID,       DT,         IDEL7NOK,NSVOIS,
-     T   SBID,       SNPC,       STF,        SBUFMAT,SVIS,IDTMINS,
+     T   IBID,       SNPC,       STF,        SBUFMAT,SVIS,IDTMINS,
      U   IRESP,      IDEL7NG,    MAXFUNC,    USERL_AVAIL, GLOB_THERM, 
      V   impl_s,     idyna,      OUTPUT%WFEXT)
 
@@ -1164,7 +1164,7 @@ C----6---------------------------------------------------------------7---------8
      7        IPARG(10,NG),NG    ,
      8        IPM         ,BID   ,QMVBID  ,GRESAV   ,GRTH        ,
      9        IGRTH(OFF_IGRTH+NF1),TABLE     ,IGEO      ,ITASK   ,IEXPAN,
-     A        MS_2D      ,FSKYM   ,IPRI      ,MAT_ELEM  ,IBID,SBID,SNPC,
+     A        MS_2D      ,FSKYM   ,IPRI      ,MAT_ELEM  ,IBID,IBID,SNPC,
      B        STF,SBUFMAT,SVIS,NSVOIS,IDTMINS,IRESP,TT,DT1,      
      .        IDEL7NG,     IDEL7NOK,    IDTMIN,      MAXFUNC,IMON_MAT,
      V        USERL_AVAIL, impl_s,     idyna,
@@ -1181,7 +1181,7 @@ C----6---------------------------------------------------------------7---------8
      9        IPM     ,BID    ,QMVBID       ,
      A        GRESAV  ,GRTH   ,IGRTH(OFF_IGRTH+NF1),TABLE,IGEO ,
      B        VOLN    ,ITASK  ,MS_2D   ,FSKYM     ,IPRI        ,
-     C        MAT_ELEM,H3D_DATA%STRAIN,SBID,SNPC,STF,SBUFMAT,
+     C        MAT_ELEM,H3D_DATA%STRAIN,IBID,SNPC,STF,SBUFMAT,
      D        SVIS,NSVOIS,IRESP,TT,DT1,      
      .        IDEL7NOK,    IDTMIN,     MAXFUNC,  
      .        IMON_MAT,USERL_AVAIL, impl_s,     idyna,
