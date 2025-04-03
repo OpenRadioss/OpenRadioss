@@ -231,6 +231,15 @@ extern "C"
                                 LAYERPOOL = strcat(LAYERPOOL, PLY_STRING);
 #endif
                         }
+                        else if (*ply > 0 && *ipt == -4)
+                        {
+                                sprintf(PLY_STRING, "PLY/MEMB %d", *ply);
+#ifdef _WIN64
+                                strcat_s(LAYERPOOL, 100, PLY_STRING);
+#else
+                                LAYERPOOL = strcat(LAYERPOOL, PLY_STRING);
+#endif
+                        }                        
                         else if (*ipt > 0)
                         {
                                 sprintf(IPT_STRING, "IPT %d ", *ipt);
@@ -282,6 +291,15 @@ extern "C"
                         if (*ipt == -3)
                         {
                                 sprintf(IPT_STRING, "npt Upper ");
+#ifdef _WIN64
+                                strcat_s(LAYERPOOL, 100, IPT_STRING);
+#else
+                                LAYERPOOL = strcat(LAYERPOOL, IPT_STRING);
+#endif
+                        }
+                        if (*ipt == -4)
+                        {
+                                sprintf(IPT_STRING, "npt Membrane ");
 #ifdef _WIN64
                                 strcat_s(LAYERPOOL, 100, IPT_STRING);
 #else
