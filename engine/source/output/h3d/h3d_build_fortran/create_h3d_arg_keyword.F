@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                                  KEY7, KEY8 , IS_ALL,IS_LOWER, IS_UPPER ,
      .                                   ARG , S_ARG, IS_ARG, VALUE, 
      .                                   IS_ARG_ALL,IS_ARG_LOWER,IS_ARG_UPPER, IS_DEF,
-     .                                   IS_ARG_DEF)
+     .                                   IS_ARG_DEF,IS_MEMB,IS_ARG_MEMB)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -50,7 +50,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IS_ALL, IS_UPPER, IS_LOWER, S_ARG, VALUE, IS_ARG, IS_ARG_ALL, IS_ARG_LOWER, IS_ARG_UPPER,
-     .        IS_DEF, IS_ARG_DEF
+     .        IS_DEF, IS_ARG_DEF, IS_MEMB, IS_ARG_MEMB
       CHARACTER(LEN=NCHARKEY) ::  KEY2, KEY3, KEY4,KEY5,KEY6,KEY7,KEY8
       CHARACTER(LEN=S_ARG) ::  ARG
 C-----------------------------------------------
@@ -65,6 +65,7 @@ C-----------------------------------------------
          IS_ARG_LOWER = 0
          IS_ARG_UPPER = 0
          IS_ARG_DEF = 0
+         IS_ARG_MEMB = 0
 
          IF ( KEY4(1:S_ARG) == ARG(1:S_ARG)) IS_ARG_KEY(1) = 1
          IF ( KEY5(1:S_ARG) == ARG(1:S_ARG)) IS_ARG_KEY(2) = 1
@@ -104,6 +105,13 @@ C-----------------------------------------------
      .          (KEY7(S_ARG+1:S_ARG+4) == '=DEF' .AND. IS_ARG_KEY(4) == 1)  .OR. 
      .          (KEY8(S_ARG+1:S_ARG+4) == '=ALL' .AND. IS_ARG_KEY(5) == 1)) )THEN
              IS_ARG_DEF = 1
+           ELSEIF ( IS_MEMB == 1 .AND.
+     .          ((KEY4(S_ARG+1:S_ARG+5) == '=MEMB' .AND. IS_ARG_KEY(1) == 1) .OR. 
+     .           (KEY5(S_ARG+1:S_ARG+5) == '=MEMB' .AND. IS_ARG_KEY(2) == 1) .OR. 
+     .           (KEY6(S_ARG+1:S_ARG+5) == '=MEMB' .AND. IS_ARG_KEY(3) == 1)  .OR. 
+     .           (KEY7(S_ARG+1:S_ARG+5) == '=MEMB' .AND. IS_ARG_KEY(4) == 1)  .OR. 
+     .           (KEY8(S_ARG+1:S_ARG+5) == '=MEMB' .AND. IS_ARG_KEY(5) == 1)) )THEN
+             IS_ARG_MEMB = 1
            ELSE
              IF (IS_ARG_KEY(1) == 1) READ (KEY4(S_ARG+2:S_ARG+11),'(I10)',ERR=100) VALUE
              IF (IS_ARG_KEY(2) == 1) READ (KEY5(S_ARG+2:S_ARG+11),'(I10)',ERR=100) VALUE
