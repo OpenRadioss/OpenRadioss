@@ -17,7 +17,6 @@ set debug_suffix=
 set build_type=
 set cbuild=0
 set use_openreader=0
-set openreader_root=
 
 IF (%1) == () GOTO ERROR
 
@@ -63,9 +62,8 @@ IF (%1) == () GOTO END_ARG_LOOP
        set jobsv=%2
        )
 
-   IF %1==-open_reader_root (
+   IF %1==-open_reader (
        set use_openreader=1
-       set openreader_root=%2
    )
 
 SHIFT
@@ -132,8 +130,7 @@ echo  debug =                     : %debug%
 echo  static_link =               : %static_link%
 if %use_openreader%==1 (
 echo.
-echo  linking with open_reader:
-echo  open_reader repository root : %openreader_root%
+echo  Using open_reader
 )
 
 echo.
@@ -142,8 +139,26 @@ echo.
 echo  verbose=               : %verbose%
 echo.
 echo  Build directory        : %build_directory%
-
 echo.
+
+:: OpenReader Build
+if %use_openreader%==1 (
+  echo.
+  echo Build OpenReader
+  echo ----------------
+  echo.
+  cd ..\reader
+  call build_windows.bat -arch=%arch% -nt=%jobsv% -debug=%debug% 
+  if errorLevel=1 (
+    echo.
+    echo.
+    echo Errors in OpenReader build !!!
+    echo.
+    exit /b 1
+  )
+  echo OpenReader build done
+  cd ..\starter
+)
 
 if exist %build_directory% (
 
@@ -169,10 +184,9 @@ if %debug%==0 (
     set build_type=Debug
 )
 
-cmake -G Ninja -DVS_BUILD=1 %dc% -DEXEC_NAME=%starter% -Darch=%arch% -Dprecision=%prec% -Ddebug=%debug%  -Dstatic_link=%static% -DCMAKE_BUILD_TYPE=%build_type% -DCMAKE_Fortran_COMPILER=%Fortran_comp% -DCMAKE_C_COMPILER=%C_comp% -DCMAKE_CPP_COMPILER=%CPP_comp% -DCMAKE_CXX_COMPILER=%CXX_comp% -DUSE_OPEN_READER=%use_openreader% -DOPEN_READER_ROOT=%openreader_root% ..
+cmake -G Ninja -DVS_BUILD=1 %dc% -DEXEC_NAME=%starter% -Darch=%arch% -Dprecision=%prec% -Ddebug=%debug%  -Dstatic_link=%static% -DCMAKE_BUILD_TYPE=%build_type% -DCMAKE_Fortran_COMPILER=%Fortran_comp% -DCMAKE_C_COMPILER=%C_comp% -DCMAKE_CPP_COMPILER=%CPP_comp% -DCMAKE_CXX_COMPILER=%CXX_comp% -DUSE_OPEN_READER=%use_openreader% ..
 
 if errorLevel=1 (
-
   echo.
   echo.
   echo Errors in CMAKE configuration !!!
@@ -226,7 +240,7 @@ GOTO END_STARTER
   echo                                              0 no debug flags (default)
   echo                                              1 usual debug flags
   echo                                              chkb Check bounds build
-  echo     -open_reader_root=[PATH]             : link with libopen_reader, set open_reader root directory
+  echo     -open_reader                        : link with open_reader
   echo     -release                            : set build for release (optimized)
   echo.
   echo Execution control 

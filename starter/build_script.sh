@@ -22,7 +22,7 @@ function my_help()
   echo "                                          0 : no debug flags (default)"
   echo "                                          1 : usual debug flag"
   echo "                                          asan : gfortran address sanitizer"
-  echo " -open_reader_root=[PATH]            : link with libopen_reader, set open_reader root directory"
+  echo " -open_reader                        : link with open_reader"
   echo " -release                            : Set build for release (optimized)"
   echo " "
   echo " -addflag=\"list of additional flags\" : add compiler flags to usual set"
@@ -66,7 +66,14 @@ com=0
 release=0
 ad=none
 use_openreader=0
-openreader_root=""
+
+if [ "`uname -m`" == "x86_64" ]
+then
+  built_in_arch=linux64
+else
+  built_in_arch=linuxa64
+fi
+
 
 if [ $number_of_arguments = 0 ]
 then
@@ -127,10 +134,9 @@ else
          threads=`echo $var|awk -F '=' '{print $2}'`
        fi
 
-       if [ "$arg" == "-open_reader_root" ]
+       if [ "$arg" == "-open_reader" ]
        then
          use_openreader=1
-         openreader_root=`echo $var|awk -F '=' '{print $2}'`
        fi
 
        if [ "$arg" == "-static-link" ]
@@ -200,8 +206,7 @@ build_directory=cbuild_${starter_exec}${cf}
    if [ $use_openreader == 1 ]
    then
        echo " "
-       echo " linking with open_reader:"
-       echo " open_reader repository root : ${openreader_root}"
+       echo " linking with open_reader"
    fi
 
    echo " " 
@@ -226,6 +231,29 @@ then
    fi
    echo " " 
    exit 0
+fi
+
+#
+# OpenReader if -open_reader was set 
+# Build open_reader 
+#
+if [ $use_openreader == 1 ]
+then
+    echo " "
+    echo "Build open_reader: ${built_in_arch} "
+    echo "----------------"
+    cd ../reader
+    ./build_script.bash -arch=${built_in_arch} -nt=${threads}
+    return_value=$?
+    if [ $return_value -ne 0 ]
+    then
+       echo " " 
+       echo " " 
+       echo "-- Errors in Build found"
+       cd ..
+       exit 1
+    fi
+    cd ../starter
 fi
 
 # create build directory
@@ -299,7 +327,7 @@ then
   CXX_path_w=`cygpath.exe -m "${CXX_path}"`
   cmake.exe -G "Unix Makefiles" -Darch=${arch} -Dprecision=${prec} ${DAD} -Ddebug=${debug} -DEXEC_NAME=${starter_exec} ${dc} -Dno_python=${no_python} -Dstatic_link=$static_link -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER="${Fortran_path_w}" -DCMAKE_C_COMPILER="${C_path_w}" -DCMAKE_CPP_COMPILER="${CPP_path_w}" -DCMAKE_CXX_COMPILER="${CXX_path_w}" .. 
 else
-  cmake -Darch=${arch} -Dprecision=${prec} ${DAD} -Ddebug=${debug} -DEXEC_NAME=${starter_exec} -Dstatic_link=$static_link -Dno_python=${no_python} ${dc} -Dsanitize=${sanitize}  -DCMAKE_Fortran_COMPILER=${Fortran_path} -DCMAKE_C_COMPILER=${C_path} -DCMAKE_CPP_COMPILER=${CPP_path} -DCMAKE_CXX_COMPILER=${CXX_path} -DUSE_OPEN_READER=${use_openreader} -DOPEN_READER_ROOT=${openreader_root} ..
+  cmake -Darch=${arch} -Dprecision=${prec} ${DAD} -Ddebug=${debug} -DEXEC_NAME=${starter_exec} -Dstatic_link=$static_link -Dno_python=${no_python} ${dc} -Dsanitize=${sanitize}  -DCMAKE_Fortran_COMPILER=${Fortran_path} -DCMAKE_C_COMPILER=${C_path} -DCMAKE_CPP_COMPILER=${CPP_path} -DCMAKE_CXX_COMPILER=${CXX_path} -DUSE_OPEN_READER=${use_openreader} ..
 fi
 
 return_value=$?

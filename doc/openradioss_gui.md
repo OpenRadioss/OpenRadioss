@@ -11,6 +11,11 @@ It is distributed with the [OpenRadioss Stable releases](https://github.com/Open
 * Python 3 + tk version 3.8 or higher must be installed on the machine.
 
   * On ***Windows***, install Python from [https://www.python.org/downloads/](https://www.python.org/downloads/)
+
+    During Python installation: Make sure to select "Add python.exe to PATH"
+
+    ![image](./python_install.jpg)
+
   * On ***Linux***, install python from your OS Repository.
 
     * On RedHat, CentOS, Rocky Linux
