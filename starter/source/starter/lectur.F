@@ -7512,7 +7512,7 @@ C
      .             NOD2ELTG ,INTBUF_TAB,KNOD2ELS ,NOD2ELS                      ,IXS10  ,
      .             IXS16    ,IXS20     ,NIGE     ,RIGE                         ,XIGE   ,
      .             VIGE     ,IGRBRIC   ,MULTI_FVM,ALE_CONNECTIVITY%NALE        ,IGEO   ,
-     .             INTERFACES)
+     .             INTERFACES,S_NOD2ELS,S_NOD2ELTG)
 C
 cc     DEALLOCATE(XFILTR)
 cc     DEALLOCATE(STFAC)
