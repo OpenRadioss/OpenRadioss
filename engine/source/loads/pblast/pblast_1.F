@@ -88,7 +88,7 @@ C-----------------------------------------------
      .           ID, ITA_SHIFT,IMODEL,NN(4),NS,KSURF,NDT
      
       my_real :: Zx,Zy,Zz,NORM,Nx,Ny,Nz,AREA,
-     .           LAMBDA,cos_theta, alpha_inci, alpha_refl, P_inci, P_refl_,P_inci_, P_refl,Z,
+     .           cos_theta, alpha_inci, alpha_refl, P_inci, P_refl_,P_inci_, P_refl,Z,
      .           I_inci,I_refl,I_inci_,I_refl_, dt_0, t_a,dt_0_,
      .           WAVE_refl,WAVE_inci, W13,
      .           DNORM, Xdet,Ydet,Zdet,Tdet,Wtnt,PMIN,T_STOP,Dx,Dy,Dz,P,
@@ -267,30 +267,32 @@ C-----------------------------------------------
           !display warning message if out of bounds
           ! precondition for SUBROUTINE PBLAST_PARAMETERS__FREE_AIR
           IF(Z <= 0.5 .AND. PBLAST%PBLAST_TAB(IL)%TAGMSG(I) == 0 )THEN
-            if (N4 == 0)then
-              write(IOUT,FMT='(A,3I11)')
-     .         "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3)
-              write(ISTDO,FMT='(A,3I11)')
-     .         "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3)
+            write(iout, fmt='(A,I0,A)')   "Warning : /LOAD/PBLAST id=",ID," R/W**(1/3) < 0.5 cm/g**(1/3)"
+            write(istdo,fmt='(A,I0,A)')   "Warning : /LOAD/PBLAST id=",ID," R/W**(1/3) < 0.5 cm/g**(1/3)"
+            write(iout, fmt='(A)')        "          Radial Distance R too close to the charge"
+            write(istdo,fmt='(A)')        "          Radial Distance R too close to the charge"
+
+            if (N4 == 0 .OR. N3 == N4)then
+             write(iout, fmt='(A,3I11)')  "         -> Segment nodes : ", itab(n1),itab(n2),itab(n3)
+             write(istdo,fmt='(A,3I11)')  "         -> Segment nodes : ", itab(n1),itab(n2),itab(n3)
             else
-              write(IOUT,FMT='(A,4I11)')
-     .         "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
-              write(ISTDO,FMT='(A,4I11)')
-     .         "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
+             write(iout, fmt='(A,4I11)')  "         -> Segment nodes : ", itab(n1),itab(n2),itab(n3),itab(n4)
+             write(istdo,fmt='(A,4I11)')  "         -> Segment nodes : ", itab(n1),itab(n2),itab(n3),itab(n4)
             endif
             PBLAST%PBLAST_TAB(IL)%TAGMSG(I) = 1
+
           ELSEIF(Z > 400. AND. PBLAST%PBLAST_TAB(IL)%TAGMSG(I) == 0)THEN
-              if (N4 == 0)then
-              write(IOUT,FMT='(A,3I11)')
-     .         "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3)
-              write(ISTDO,FMT='(A,3I11)')
-     .         "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3)
-              else
-              write(IOUT,FMT='(A,4I11)')
-     .         "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
-              write(ISTDO,FMT='(A,4I11)')
-     .         "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
-              endif
+            write(iout, fmt='(A,I0,A)')   "Warning : /LOAD/PBLAST id=",ID," R/W**(1/3) > 400. cm/g**(1/3)"
+            write(istdo,fmt='(A,I0,A)')   "Warning : /LOAD/PBLAST id=",ID," R/W**(1/3) > 400. cm/g**(1/3)"
+            WRITE(iout, FMT='(A)')        "          Radial Distance R too far from the charge"
+            WRITE(istdo,FMT='(A)')        "          Radial Distance R too far from the charge"
+            if (N4 == 0 .OR. N3 == N4)then
+             write(iout, fmt='(A,3I11)')  "         -> Segment nodes : ", itab(n1),itab(n2),itab(n3)
+             write(istdo,fmt='(A,3I11)')  "         -> Segment nodes : ", itab(n1),itab(n2),itab(n3)
+            else
+             write(iout, fmt='(A,4I11)')  "         -> Segment nodes : ", itab(n1),itab(n2),itab(n3),itab(n4)
+             write(istdo,fmt='(A,4I11)')  "         -> Segment nodes : ", itab(n1),itab(n2),itab(n3),itab(n4)
+            endif
               PBLAST%PBLAST_TAB(IL)%TAGMSG(I) = 1
           ENDIF
 

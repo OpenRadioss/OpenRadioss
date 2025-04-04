@@ -112,7 +112,6 @@ C-----------------------------------------------
       my_real ZC ! scaled height of charge
       my_real alpha_zc,angle_g,HZ
       my_real Lg,Zg,tmp_var,Z_struct,Zx,Zy,Zz,ProjZ(3),ProjDet(3)
-      my_real kk ! lb/ft**1/3 -> mm/g**1/3
       my_real P_inci,P_refl,decay_inci,decay_refl,I_inci,I_refl
       my_real DT_0,TSTOP,TA_PBLAST
       my_real b_min, b_max
@@ -799,29 +798,30 @@ C-----------------------------------------------
                 !Warning Message if Z is out of bounds (precondition for subroutine BLAST_PARAMETERS__FREE_AIR_MODEL)
                 IF(Z > 0.5 .AND. Z < 400.)THEN
                 ELSEIF(Z <= 0.5)THEN
-                  IF (N4 == 0)THEN
-                    WRITE(IOUT,FMT='(A,3I11)')
-     .               "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   cm/g**(1/3)    .Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3)
-                    WRITE(ISTDO,FMT='(A,3I11)')
-     .               "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   cm/g**(1/3)    .Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3)
+                  WRITE(IOUT, FMT='(A,I0,A)')   "Warning : /LOAD/PBLAST id=",ID," R/W**(1/3) < 0.5 cm/g**(1/3)"
+                  WRITE(ISTDO,FMT='(A,I0,A)')   "Warning : /LOAD/PBLAST id=",ID," R/W**(1/3) < 0.5 cm/g**(1/3)"
+                  WRITE(IOUT, FMT='(A)')        "          Radial Distance too close to the charge"
+                  WRITE(ISTDO,FMT='(A)')        "          Radial Distance too close to the charge"
+                  IF (N4 == 0 .OR. N3 == N4)THEN
+                    WRITE(IOUT, FMT='(A,3I11)') "          -> Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3)
+                    WRITE(ISTDO,FMT='(A,3I11)') "          -> Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3)
                   ELSE
-                    WRITE(IOUT,FMT='(A,4I11)')"Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   cm/g**(1/3)    .Segment nodes : ",
-     .               ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
-                    WRITE(ISTDO,FMT='(A,4I11)')"Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   cm/g**(1/3)    .Segment nodes : ",
-     .               ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
+                    WRITE(IOUT, FMT='(A,4I11)') "          -> Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
+                    WRITE(ISTDO,FMT='(A,4I11)') "          -> Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
                   ENDIF
                   PBLAST%PBLAST_TAB(ILD_PBLAST)%TAGMSG(I) = 1
+
                 ELSEIF(Z > 400.)THEN
-                  IF (N4==0)THEN
-                    WRITE(IOUT,FMT='(A,3I11)')
-     .               "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3)
-                    WRITE(ISTDO,FMT='(A,3I11)')
-     .               "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3)
+                  WRITE(IOUT, FMT='(A,I0,A)')   "Warning : /LOAD/PBLAST id=",ID," R/W**(1/3) > 400. cm/g**(1/3)"
+                  WRITE(ISTDO,FMT='(A,I0,A)')   "Warning : /LOAD/PBLAST id=",ID," R/W**(1/3) > 400. cm/g**(1/3)"
+                  WRITE(IOUT,  FMT='(A)')       "          Radial Distance too far from the charge"
+                  WRITE(ISTDO, FMT='(A)')       "          Radial Distance too far from the charge"
+                  IF (N4 == 0 .OR. N3 == N4)THEN
+                    WRITE(IOUT, FMT='(A,3I11)') "          -> Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3)
+                    WRITE(ISTDO,FMT='(A,3I11)') "          -> Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3)
                   ELSE
-                    WRITE(IOUT,FMT='(A,4I11)')"Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ",
-     .               ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
-                    WRITE(ISTDO,FMT='(A,4I11)')"Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ",
-     .               ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
+                    WRITE(IOUT, FMT='(A,4I11)') "          -> Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
+                    WRITE(ISTDO,FMT='(A,4I11)') "          -> Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
                   ENDIF
                   PBLAST%PBLAST_TAB(ILD_PBLAST)%TAGMSG(I) = 1
                 ENDIF
@@ -898,32 +898,33 @@ C-----------------------------------------------
 
                   !finding index for TM5-1300 abacuses from bijection.
                   IF(Z > 0.5 .AND. Z < 400.)THEN
+                    !inside interpolation table
+
                   ELSEIF(Z <= 0.5)THEN
-                    IF (N4 == 0)THEN
-                      WRITE(IOUT,FMT='(A,3I11)')
-     .                 "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   cm/g**(1/3)    .Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3)
-                      WRITE(ISTDO,FMT='(A,3I11)')
-     .                 "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   cm/g**(1/3)    .Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3)
+                    WRITE(IOUT, FMT='(A,I0,A)')"Warning : /LOAD/PBLAST id=",ID," Rg/W**(1/3) < 0.5 cm/g**(1/3)"
+                    WRITE(ISTDO,FMT='(A,I0,A)')"Warning : /LOAD/PBLAST id=",ID," Rg/W**(1/3) < 0.5 cm/g**(1/3)"
+                    WRITE(IOUT, FMT='(A)')     "          Horizontal Distance on Ground (Rg) is too close to the charge"
+                    WRITE(ISTDO,FMT='(A)')     "          Horizontal Distance on Ground (Rg) is too close to the charge"
+                    IF (N4 == 0 .OR. N3 == N4)THEN
+                      WRITE(IOUT, FMT='(A,3I11)')  "         -> Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3)
+                      WRITE(ISTDO,FMT='(A,3I11)')  "         -> Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3)
                     ELSE
-                      WRITE(IOUT,FMT='(A,4I11)')
-     .                 "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
-                      WRITE(ISTDO,FMT='(A,4I11)')
-     .                 "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
+                      WRITE(IOUT, FMT='(A,4I11)')  "         -> Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
+                      WRITE(ISTDO,FMT='(A,4I11)')  "         -> Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
                     ENDIF
                     PBLAST%PBLAST_TAB(ILD_PBLAST)%TAGMSG(I) = 1
+
                   ELSEIF(Z > 400.)THEN
-                    IF (N4==0)THEN
-                      WRITE(IOUT,FMT='(A,3I11)')
-     .                 "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3)
-                      WRITE(ISTDO,FMT='(A,3I11)')
-     .                 "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3)
+                    WRITE(IOUT, FMT='(A,I0,A)')"Warning : /LOAD/PBLAST id=",ID," Rg/W**(1/3) > 400. cm/g**(1/3)"
+                    WRITE(ISTDO,FMT='(A,I0,A)')"Warning : /LOAD/PBLAST id=",ID," Rg/W**(1/3) > 400. cm/g**(1/3)"
+                    WRITE(IOUT, FMT='(A)')     "          Horizontal Distance on Ground (Rg) is too far from the charge"
+                    WRITE(ISTDO,FMT='(A)')     "          Horizontal Distance on Ground (Rg) is too far from the charge"
+                    IF (N4 == 0 .OR. N3 == N4)THEN
+                      WRITE(IOUT, FMT='(A,3I11)')  "         -> Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3)
+                      WRITE(ISTDO,FMT='(A,3I11)')  "         -> Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3)
                     ELSE
-                      WRITE(IOUT,FMT='(A,4I11)')
-     .                 "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ",
-     .                 ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
-                      WRITE(ISTDO,FMT='(A,4I11)')
-     .                 "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ",
-     .                 ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
+                      WRITE(IOUT, FMT='(A,4I11)')  "         -> Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
+                      WRITE(ISTDO,FMT='(A,4I11)')  "         -> Segment nodes : ", ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
                     ENDIF
                     PBLAST%PBLAST_TAB(ILD_PBLAST)%TAGMSG(I) = 1
                   ENDIF
@@ -1001,19 +1002,29 @@ C-----------------------------------------------
                   ANGLE_g = acos(ANGLE_g)
                   ANGLE_g = cst_180/PI_*ANGLE_g !debug purpose
                   IF(ANGLE_g < ZERO)THEN
-                    WRITE(IOUT,*) ' ** WARNING : /LOAD/PBLAST id=',ID,' NEGATIVE ANGLE,',ANGLE_g,' FACE:',ITAB((/N1,N2,N3,N4/)),
-     .                            ' SEEMS TO BE BELOW THE GROUND'
-                    WRITE(ISTDO,*)' ** WARNING : /LOAD/PBLAST id=',ID,' NEGATIVE ANGLE,',ANGLE_g,' FACE:',ITAB((/N1,N2,N3,N4/)),
-     .                            ' SEEMS TO BE BELOW THE GROUND'
-                    ANGLE_g = ZERO
-                    PBLAST%PBLAST_TAB(ILD_PBLAST)%TAGMSG(I) = 1
+                   WRITE(IOUT,*)                'Warning : /LOAD/PBLAST id=',ID,' NEGATIVE ANGLE,',ANGLE_g
+                   WRITE(ISTDO,*)               'Warning : /LOAD/PBLAST id=',ID,' NEGATIVE ANGLE,',ANGLE_g
+                   IF(N4 == 0 .OR. N3 == N4)THEN
+                     WRITE(IOUT,FMT= '(A,3I11)')'           FACE:',ITAB((/N1,N2,N3/)),' SEEMS TO BE BELOW THE GROUND'
+                     WRITE(ISTDO,FMT='(A,3I11)')'           FACE:',ITAB((/N1,N2,N3/)),' SEEMS TO BE BELOW THE GROUND'
+                   ELSE
+                     WRITE(IOUT,FMT= '(A,4I11)')'           FACE:',ITAB((/N1,N2,N3,N4/)),' SEEMS TO BE BELOW THE GROUND'
+                     WRITE(ISTDO,FMT='(A,4I11)')'           FACE:',ITAB((/N1,N2,N3,N4/)),' SEEMS TO BE BELOW THE GROUND'
+                   ENDIF
+                   ANGLE_g = ZERO
+                   PBLAST%PBLAST_TAB(ILD_PBLAST)%TAGMSG(I) = 1
                   ELSEIF(ANGLE_g > 85.00000)THEN
-                    WRITE(IOUT,FMT='(A,I0,A,E10.4,A,4I11)')
-     .              ' ** WARNING : /LOAD/PBLAST id=',ID,' ANGLE IS OVER THE UPPER BOUND,',ANGLE_g,
-     .                                            '. ANGLE SET TO 85.00 FOR FACE:',ITAB((/N1,N2,N3,N4/))
-                    WRITE(ISTDO,FMT='(A,I0,A,E10.4,A,4I11)')
-     .              ' ** WARNING : /LOAD/PBLAST id=',ID,' ANGLE IS OVER THE UPPER BOUND,',ANGLE_g,
-     .                                            '. ANGLE SET TO 85.00 FOR FACE:',ITAB((/N1,N2,N3,N4/))
+                    WRITE(IOUT, FMT='(A,I0,A,E10.4)')
+     .                'Warning : /LOAD/PBLAST id=',ID,' ANGLE IS OVER THE UPPER BOUND,',ANGLE_g
+                    WRITE(ISTDO,FMT='(A,I0,A,E10.4)')
+     .                'Warning : /LOAD/PBLAST id=',ID,' ANGLE IS OVER THE UPPER BOUND,',ANGLE_g
+                    IF(N4 == 0 .OR. N3 == N4)THEN
+                      WRITE(IOUT, FMT='(A,3I11)')'          ANGLE SET TO 85.00 FOR FACE:',ITAB((/N1,N2,N3/))
+                      WRITE(ISTDO,FMT='(A,3I11)')'          ANGLE SET TO 85.00 FOR FACE:',ITAB((/N1,N2,N3/))
+                    ELSE
+                      WRITE(IOUT, FMT='(A,4I11)')'          ANGLE SET TO 85.00 FOR FACE:',ITAB((/N1,N2,N3,N4/))
+                      WRITE(ISTDO,FMT='(A,4I11)')'          ANGLE SET TO 85.00 FOR FACE:',ITAB((/N1,N2,N3,N4/))
+                    ENDIF
                     ANGLE_g = 85.00000
                     PBLAST%PBLAST_TAB(ILD_PBLAST)%TAGMSG(I) = 1
                   ENDIF
