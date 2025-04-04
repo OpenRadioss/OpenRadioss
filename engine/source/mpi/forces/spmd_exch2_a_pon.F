@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    heat_mod               ../engine/share/modules/heat_mod.F
       !||    plyxfem_mod            ../engine/share/modules/plyxfem_mod.F
       !||====================================================================
-      SUBROUTINE SPMD_EXCH2_A_PON(
+      SUBROUTINE SPMD_EXCH2_A_PON(INTERFACES,
      1   IAD_ELEM,FR_ELEM,ADDCNE,PROCNE,FR_NBCC,
      2   SIZE    ,LENR   ,LENS  ,FSKY  ,FSKYV  ,
      3   FSKYM   ,IFSUBM ,SIZI  ,LENI  ,IADSDP ,
@@ -47,12 +47,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      9   FNCONT   ,FTCONT   ,GLOB_THERM)
 C--------------------------------------
        USE PLYXFEM_MOD
-       USE FSKYI_MOD
        USE CRACKXFEM_MOD
        USE PLYXFEM_MOD
        USE HEAT_MOD
        USE H3D_MOD
        USE GLOB_THERM_MOD
+       USE INTERFACES_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -78,6 +78,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(INTERFACES_) :: INTERFACES
       INTEGER IAD_ELEM(2,*),FR_ELEM(*),FR_NBCC(2,*),
      .        ADDCNE(*), PROCNE(*),
      .        IADSDP(*), IADRCP(*), ISENDP(*), IRECVP(*),
@@ -187,7 +188,7 @@ C
           ITAGX(I) = 0
         ENDDO
         DO I = 1, NISKY
-          ITAGX(ISKY(I)) = -1
+          ITAGX(INTERFACES%PON%ISKY(I)) = -1
         ENDDO
         DO I = 1, NSPMD
           IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0) THEN
@@ -206,25 +207,25 @@ C
          IF(GLOB_THERM%INTHEAT == 0 ) THEN
           IF(NFSKYI==4) THEN
            DO I = 1, NISKY
-             IF(ITAGX(ISKY(I))==1)THEN
+             IF(ITAGX(INTERFACES%PON%ISKY(I))==1)THEN
                NISKYF=NISKYF+1
-               ISKYF(NISKYF) = ISKY(I)
-               FSKYIF(1,NISKYF) = FSKYI(I,1)
-               FSKYIF(2,NISKYF) = FSKYI(I,2)
-               FSKYIF(3,NISKYF) = FSKYI(I,3)
-               FSKYIF(4,NISKYF) = FSKYI(I,4)
+               ISKYF(NISKYF) = INTERFACES%PON%ISKY(I)
+               FSKYIF(1,NISKYF) = INTERFACES%PON%FSKYI(I,1)
+               FSKYIF(2,NISKYF) = INTERFACES%PON%FSKYI(I,2)
+               FSKYIF(3,NISKYF) = INTERFACES%PON%FSKYI(I,3)
+               FSKYIF(4,NISKYF) = INTERFACES%PON%FSKYI(I,4)
              ENDIF
            ENDDO
           ELSE
            DO I = 1, NISKY
-             IF(ITAGX(ISKY(I))==1)THEN
+             IF(ITAGX(INTERFACES%PON%ISKY(I))==1)THEN
                NISKYF=NISKYF+1
-               ISKYF(NISKYF) = ISKY(I)
-               FSKYIF(1,NISKYF) = FSKYI(I,1)
-               FSKYIF(2,NISKYF) = FSKYI(I,2)
-               FSKYIF(3,NISKYF) = FSKYI(I,3)
-               FSKYIF(4,NISKYF) = FSKYI(I,4)
-               FSKYIF(5,NISKYF) = FSKYI(I,5)
+               ISKYF(NISKYF) = INTERFACES%PON%ISKY(I)
+               FSKYIF(1,NISKYF) = INTERFACES%PON%FSKYI(I,1)
+               FSKYIF(2,NISKYF) = INTERFACES%PON%FSKYI(I,2)
+               FSKYIF(3,NISKYF) = INTERFACES%PON%FSKYI(I,3)
+               FSKYIF(4,NISKYF) = INTERFACES%PON%FSKYI(I,4)
+               FSKYIF(5,NISKYF) = INTERFACES%PON%FSKYI(I,5)
              ENDIF
            ENDDO
           ENDIF
@@ -233,27 +234,27 @@ C + la t hermique
           IF(GLOB_THERM%NODADT_THERM == 1) THEN
            IF(NFSKYI==4) THEN
             DO I = 1, NISKY
-             IF(ITAGX(ISKY(I))==1)THEN
+             IF(ITAGX(INTERFACES%PON%ISKY(I))==1)THEN
                NISKYF=NISKYF+1
-               ISKYF(NISKYF) = ISKY(I)
-               FSKYIF(1,NISKYF) = FSKYI(I,1)
-               FSKYIF(2,NISKYF) = FSKYI(I,2)
-               FSKYIF(3,NISKYF) = FSKYI(I,3)
-               FSKYIF(4,NISKYF) = FSKYI(I,4)
+               ISKYF(NISKYF) = INTERFACES%PON%ISKY(I)
+               FSKYIF(1,NISKYF) = INTERFACES%PON%FSKYI(I,1)
+               FSKYIF(2,NISKYF) = INTERFACES%PON%FSKYI(I,2)
+               FSKYIF(3,NISKYF) = INTERFACES%PON%FSKYI(I,3)
+               FSKYIF(4,NISKYF) = INTERFACES%PON%FSKYI(I,4)
                FTHESKYIF(NISKYF) = FTHESKYI(I)
                CONDNSKYIF(NISKYF) = CONDNSKYI(I)
              ENDIF
             ENDDO
            ELSE
             DO I = 1, NISKY
-             IF(ITAGX(ISKY(I))==1)THEN
+             IF(ITAGX(INTERFACES%PON%ISKY(I))==1)THEN
                NISKYF=NISKYF+1
-               ISKYF(NISKYF) = ISKY(I)
-               FSKYIF(1,NISKYF) = FSKYI(I,1)
-               FSKYIF(2,NISKYF) = FSKYI(I,2)
-               FSKYIF(3,NISKYF) = FSKYI(I,3)
-               FSKYIF(4,NISKYF) = FSKYI(I,4)
-               FSKYIF(5,NISKYF) = FSKYI(I,5)
+               ISKYF(NISKYF) = INTERFACES%PON%ISKY(I)
+               FSKYIF(1,NISKYF) = INTERFACES%PON%FSKYI(I,1)
+               FSKYIF(2,NISKYF) = INTERFACES%PON%FSKYI(I,2)
+               FSKYIF(3,NISKYF) = INTERFACES%PON%FSKYI(I,3)
+               FSKYIF(4,NISKYF) = INTERFACES%PON%FSKYI(I,4)
+               FSKYIF(5,NISKYF) = INTERFACES%PON%FSKYI(I,5)
                FTHESKYIF(NISKYF) = FTHESKYI(I)
                CONDNSKYIF(NISKYF) = CONDNSKYI(I)
              ENDIF
@@ -262,26 +263,26 @@ C + la t hermique
           ELSE
            IF(NFSKYI==4) THEN
             DO I = 1, NISKY
-             IF(ITAGX(ISKY(I))==1)THEN
+             IF(ITAGX(INTERFACES%PON%ISKY(I))==1)THEN
                NISKYF=NISKYF+1
-               ISKYF(NISKYF) = ISKY(I)
-               FSKYIF(1,NISKYF) = FSKYI(I,1)
-               FSKYIF(2,NISKYF) = FSKYI(I,2)
-               FSKYIF(3,NISKYF) = FSKYI(I,3)
-               FSKYIF(4,NISKYF) = FSKYI(I,4)
+               ISKYF(NISKYF) = INTERFACES%PON%ISKY(I)
+               FSKYIF(1,NISKYF) = INTERFACES%PON%FSKYI(I,1)
+               FSKYIF(2,NISKYF) = INTERFACES%PON%FSKYI(I,2)
+               FSKYIF(3,NISKYF) = INTERFACES%PON%FSKYI(I,3)
+               FSKYIF(4,NISKYF) = INTERFACES%PON%FSKYI(I,4)
                FTHESKYIF(NISKYF) = FTHESKYI(I)
              ENDIF
             ENDDO
            ELSE
             DO I = 1, NISKY
-             IF(ITAGX(ISKY(I))==1)THEN
+             IF(ITAGX(INTERFACES%PON%ISKY(I))==1)THEN
                NISKYF=NISKYF+1
-               ISKYF(NISKYF) = ISKY(I)
-               FSKYIF(1,NISKYF) = FSKYI(I,1)
-               FSKYIF(2,NISKYF) = FSKYI(I,2)
-               FSKYIF(3,NISKYF) = FSKYI(I,3)
-               FSKYIF(4,NISKYF) = FSKYI(I,4)
-               FSKYIF(5,NISKYF) = FSKYI(I,5)
+               ISKYF(NISKYF) = INTERFACES%PON%ISKY(I)
+               FSKYIF(1,NISKYF) = INTERFACES%PON%FSKYI(I,1)
+               FSKYIF(2,NISKYF) = INTERFACES%PON%FSKYI(I,2)
+               FSKYIF(3,NISKYF) = INTERFACES%PON%FSKYI(I,3)
+               FSKYIF(4,NISKYF) = INTERFACES%PON%FSKYI(I,4)
+               FSKYIF(5,NISKYF) = INTERFACES%PON%FSKYI(I,5)
                FTHESKYIF(NISKYF) = FTHESKYI(I)
              ENDIF
             ENDDO
@@ -293,13 +294,13 @@ C! + Plyxfem + type 24
          IF(GLOB_THERM%INTHEAT == 0 ) THEN
           IF(NFSKYI==4) THEN
            DO I = 1, NISKY
-             IF(ITAGX(ISKY(I))==1)THEN
+             IF(ITAGX(INTERFACES%PON%ISKY(I))==1)THEN
                NISKYF=NISKYF+1
-               ISKYF(NISKYF) = ISKY(I)
-               FSKYIF(1,NISKYF) = FSKYI(I,1)
-               FSKYIF(2,NISKYF) = FSKYI(I,2)
-               FSKYIF(3,NISKYF) = FSKYI(I,3)
-               FSKYIF(4,NISKYF) = FSKYI(I,4)
+               ISKYF(NISKYF) = INTERFACES%PON%ISKY(I)
+               FSKYIF(1,NISKYF) = INTERFACES%PON%FSKYI(I,1)
+               FSKYIF(2,NISKYF) = INTERFACES%PON%FSKYI(I,2)
+               FSKYIF(3,NISKYF) = INTERFACES%PON%FSKYI(I,3)
+               FSKYIF(4,NISKYF) = INTERFACES%PON%FSKYI(I,4)
 C               
                FSKYIF_PXFEM(1,NISKYF) = PLYSKYI%FSKYI(I,1)
                FSKYIF_PXFEM(2,NISKYF) = PLYSKYI%FSKYI(I,2)
@@ -310,14 +311,14 @@ C
            ENDDO
           ELSE
            DO I = 1, NISKY
-             IF(ITAGX(ISKY(I))==1)THEN
+             IF(ITAGX(INTERFACES%PON%ISKY(I))==1)THEN
                NISKYF=NISKYF+1
-               ISKYF(NISKYF) = ISKY(I)
-               FSKYIF(1,NISKYF) = FSKYI(I,1)
-               FSKYIF(2,NISKYF) = FSKYI(I,2)
-               FSKYIF(3,NISKYF) = FSKYI(I,3)
-               FSKYIF(4,NISKYF) = FSKYI(I,4)
-               FSKYIF(5,NISKYF) = FSKYI(I,5)
+               ISKYF(NISKYF) = INTERFACES%PON%ISKY(I)
+               FSKYIF(1,NISKYF) =INTERFACES%PON%FSKYI(I,1)
+               FSKYIF(2,NISKYF) =INTERFACES%PON%FSKYI(I,2)
+               FSKYIF(3,NISKYF) =INTERFACES%PON%FSKYI(I,3)
+               FSKYIF(4,NISKYF) =INTERFACES%PON%FSKYI(I,4)
+               FSKYIF(5,NISKYF) =INTERFACES%PON%FSKYI(I,5)
 C               
                FSKYIF_PXFEM(1,NISKYF) = PLYSKYI%FSKYI(I,1)
                FSKYIF_PXFEM(2,NISKYF) = PLYSKYI%FSKYI(I,2)
@@ -332,13 +333,13 @@ C + la t hermique
           IF(GLOB_THERM%NODADT_THERM == 1) THEN
            IF(NFSKYI==4) THEN
             DO I = 1, NISKY
-             IF(ITAGX(ISKY(I))==1)THEN
+             IF(ITAGX(INTERFACES%PON%ISKY(I))==1)THEN
                NISKYF=NISKYF+1
-               ISKYF(NISKYF) = ISKY(I)
-               FSKYIF(1,NISKYF) = FSKYI(I,1)
-               FSKYIF(2,NISKYF) = FSKYI(I,2)
-               FSKYIF(3,NISKYF) = FSKYI(I,3)
-               FSKYIF(4,NISKYF) = FSKYI(I,4)
+               ISKYF(NISKYF) = INTERFACES%PON%ISKY(I)
+               FSKYIF(1,NISKYF) =INTERFACES%PON%FSKYI(I,1)
+               FSKYIF(2,NISKYF) =INTERFACES%PON%FSKYI(I,2)
+               FSKYIF(3,NISKYF) =INTERFACES%PON%FSKYI(I,3)
+               FSKYIF(4,NISKYF) =INTERFACES%PON%FSKYI(I,4)
                FTHESKYIF(NISKYF) = FTHESKYI(I)
                CONDNSKYIF(NISKYF) = CONDNSKYI(I)
 C               
@@ -351,14 +352,14 @@ C
             ENDDO
            ELSE
             DO I = 1, NISKY
-             IF(ITAGX(ISKY(I))==1)THEN
+             IF(ITAGX(INTERFACES%PON%ISKY(I))==1)THEN
                NISKYF=NISKYF+1
-               ISKYF(NISKYF) = ISKY(I)
-               FSKYIF(1,NISKYF) = FSKYI(I,1)
-               FSKYIF(2,NISKYF) = FSKYI(I,2)
-               FSKYIF(3,NISKYF) = FSKYI(I,3)
-               FSKYIF(4,NISKYF) = FSKYI(I,4)
-               FSKYIF(5,NISKYF) = FSKYI(I,5)
+               ISKYF(NISKYF) = INTERFACES%PON%ISKY(I)
+               FSKYIF(1,NISKYF) =INTERFACES%PON%FSKYI(I,1)
+               FSKYIF(2,NISKYF) =INTERFACES%PON%FSKYI(I,2)
+               FSKYIF(3,NISKYF) =INTERFACES%PON%FSKYI(I,3)
+               FSKYIF(4,NISKYF) =INTERFACES%PON%FSKYI(I,4)
+               FSKYIF(5,NISKYF) =INTERFACES%PON%FSKYI(I,5)
                FTHESKYIF(NISKYF) = FTHESKYI(I)
                CONDNSKYIF(NISKYF) = CONDNSKYI(I)
 C               
@@ -373,13 +374,13 @@ C
           ELSE
            IF(NFSKYI==4) THEN
             DO I = 1, NISKY
-             IF(ITAGX(ISKY(I))==1)THEN
+             IF(ITAGX(INTERFACES%PON%ISKY(I))==1)THEN
                NISKYF=NISKYF+1
-               ISKYF(NISKYF) = ISKY(I)
-               FSKYIF(1,NISKYF) = FSKYI(I,1)
-               FSKYIF(2,NISKYF) = FSKYI(I,2)
-               FSKYIF(3,NISKYF) = FSKYI(I,3)
-               FSKYIF(4,NISKYF) = FSKYI(I,4)
+               ISKYF(NISKYF) = INTERFACES%PON%ISKY(I)
+               FSKYIF(1,NISKYF) =INTERFACES%PON%FSKYI(I,1)
+               FSKYIF(2,NISKYF) =INTERFACES%PON%FSKYI(I,2)
+               FSKYIF(3,NISKYF) =INTERFACES%PON%FSKYI(I,3)
+               FSKYIF(4,NISKYF) =INTERFACES%PON%FSKYI(I,4)
                FTHESKYIF(NISKYF) = FTHESKYI(I)
 C               
                FSKYIF_PXFEM(1,NISKYF) = PLYSKYI%FSKYI(I,1)
@@ -391,14 +392,14 @@ C
             ENDDO
            ELSE
             DO I = 1, NISKY
-             IF(ITAGX(ISKY(I))==1)THEN
+             IF(ITAGX(INTERFACES%PON%ISKY(I))==1)THEN
                NISKYF=NISKYF+1
-               ISKYF(NISKYF) = ISKY(I)
-               FSKYIF(1,NISKYF) = FSKYI(I,1)
-               FSKYIF(2,NISKYF) = FSKYI(I,2)
-               FSKYIF(3,NISKYF) = FSKYI(I,3)
-               FSKYIF(4,NISKYF) = FSKYI(I,4)
-               FSKYIF(5,NISKYF) = FSKYI(I,5)
+               ISKYF(NISKYF) = INTERFACES%PON%ISKY(I)
+               FSKYIF(1,NISKYF) = INTERFACES%PON%FSKYI(I,1)
+               FSKYIF(2,NISKYF) = INTERFACES%PON%FSKYI(I,2)
+               FSKYIF(3,NISKYF) = INTERFACES%PON%FSKYI(I,3)
+               FSKYIF(4,NISKYF) = INTERFACES%PON%FSKYI(I,4)
+               FSKYIF(5,NISKYF) = INTERFACES%PON%FSKYI(I,5)
                FTHESKYIF(NISKYF) = FTHESKYI(I)
 C               
                FSKYIF_PXFEM(1,NISKYF) = PLYSKYI%FSKYI(I,1)
@@ -2271,14 +2272,14 @@ C SISKY - LSKYI : ISKY Size
 C SFSKYI : FSKYI size (LSKYI*NFSKYI)
 
       IF ( NISKY+NBIRCT > SISKY) THEN
-         CALL REALLOCATE_I_SKYLINE(NBIRCT,2,GLOB_THERM%INTHEAT,GLOB_THERM%NODADT_THERM)
+         CALL REALLOCATE_I_SKYLINE(NBIRCT,2,GLOB_THERM%INTHEAT,GLOB_THERM%NODADT_THERM,INTERFACES%PON)
       ENDIF
 C
 C Traitement interface si concerne le proc
 C
       IF(NBIRCT>0.OR.NBISDT>0) THEN
         CALL SPMD_EXCHI_A_PON(
-     1    IAD_ELEM,FR_ELEM,SIZI     ,ISKY  ,FSKYI ,
+     1    IAD_ELEM,FR_ELEM,SIZI     ,INTERFACES%PON%ISKY  ,INTERFACES%PON%FSKYI ,
      2    FSKYIF  ,ITAGX  ,ADSKYI(0),NBIRCT,NBISDT,
      3    NBIRCP  ,NBISDP ,FTHESKYI, FTHESKYIF,CONDNSKYI,
      4    CONDNSKYIF,FSKYIF_PXFEM,GLOB_THERM%INTHEAT,GLOB_THERM%NODADT_THERM)
