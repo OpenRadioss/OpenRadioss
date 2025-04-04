@@ -290,30 +290,37 @@ C-----------------------------------------------
 
            !checking bounds
             IF(Z > 0.5 .AND. Z < 400.) then
-              !inside interpolation tables
+              !Ground Distance inside the interpolation table
+
             elseif(Z <= 0.5 .AND. PBLAST%PBLAST_TAB(IL)%TAGMSG(I) == 0)then
-              if (N4==0)then
-                write(*,FMT='(A,3I11)')
-     .           "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3)
+              write(iout, fmt='(A,I0,A)')   "Warning : /LOAD/PBLAST id=",ID," Rg/W**(1/3) < 0.5 cm/g**(1/3)"
+              write(istdo,fmt='(A,I0,A)')   "Warning : /LOAD/PBLAST id=",ID," Rg/W**(1/3) < 0.5 cm/g**(1/3)"
+              write(iout, FMT='(A)')        "          Horizontal Distance on Ground (Rg) is too close to the charge"
+              write(istdo,FMT='(A)')        "          Horizontal Distance on Ground (Rg) is too close to the charge"
+              if (N4 == 0 .OR. N3 == N4)then
+                write(iout, FMT='(A,3I11)') "          -> Segment nodes : ",itab(n1),itab(n2),itab(n3)
+                write(istdo,FMT='(A,3I11)') "          -> Segment nodes : ",itab(n1),itab(n2),itab(n3)
               else
-                write(*,FMT='(A,4I11)')
-     .           "Warning : /LOAD/PBLAST, R/W**(1/3) < 0.5   cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
+                write(iout, FMT='(A,4I11)') "          -> Segment nodes : ",itab(n1),itab(n2),itab(n3),itab(n4)
+                write(istdo,FMT='(A,4I11)') "          -> Segment nodes : ",itab(n1),itab(n2),itab(n3),itab(n4)
               endif
               PBLAST%PBLAST_TAB(IL)%TAGMSG(I) = 1
+
             elseif(Z > 400. .AND. PBLAST%PBLAST_TAB(IL)%TAGMSG(I) == 0)then
-              if (N4 == 0)then
-                write(IOUT,FMT='(A,3I11)')
-     .           "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3)
-                write(ISTDO,FMT='(A,3I11)')
-     .           "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3)
+              write(iout, fmt='(A,I0,A)')   "Warning : /LOAD/PBLAST id=",ID," Rg/W**(1/3) > 400. cm/g**(1/3)"
+              write(istdo,fmt='(a,i0,a)')   "warning : /load/pblast id=",id," rg/w**(1/3) > 400. cm/g**(1/3)"
+              write(iout, FMT='(A)')        "          Horizontal Distance on Ground (Rg) is too far from the charge"
+              write(istdo,FMT='(A)')        "          Horizontal Distance on Ground (Rg) is too far from the charge"
+              if (N4 == 0 .OR. N3 == N4)then
+                write(iout, FMT='(A,3I11)') "          -> Segment nodes : ",itab(n1),itab(n2),itab(n3)
+                write(istdo,FMT='(A,3I11)') "          -> Segment nodes : ",itab(n1),itab(n2),itab(n3)
               else
-                write(IOUT,FMT='(A,4I11)')
-     .           "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
-                write(ISTDO,FMT='(A,4I11)')
-     .           "Warning : /LOAD/PBLAST, R/W**(1/3) > 400.0 cm/g**(1/3)    .Segment nodes : ",ITAB(N1),ITAB(N2),ITAB(N3),ITAB(N4)
+                write(iout, FMT='(A,4I11)') "          -> Segment nodes : ",itab(n1),itab(n2),itab(n3),itab(n4)
+                write(istdo,FMT='(A,4I11)') "          -> Segment nodes : ",itab(n1),itab(n2),itab(n3),itab(n4)
               endif
               PBLAST%PBLAST_TAB(IL)%TAGMSG(I) = 1
-            ENDIF
+
+            endif
 
             !------------------------------------------------------------------!
             CALL PBLAST_PARAMETERS__SURFACE_BURST( PBLAST,

@@ -361,19 +361,28 @@ C-----------------------------------------------
             ANGLE_g = acos(ANGLE_g)
             ANGLE_g = cst_180/PI_*ANGLE_g !debug purpose
             IF(ANGLE_g < ZERO .AND. PBLAST%PBLAST_TAB(IL)%TAGMSG(I) == 0 )THEN
-              WRITE(IOUT,*) ' ** WARNING : /LOAD/PBLAST id=',ID,' NEGATIVE ANGLE,',ANGLE_g,
-     .         ' FACE:',ITAB((/N1,N2,N3,N4/)),' SEEMS TO BE BELOW THE GROUND'
-              WRITE(ISTDO,*)' ** WARNING : /LOAD/PBLAST id=',ID,' NEGATIVE ANGLE,',ANGLE_g,
-     .          ' FACE:',ITAB((/N1,N2,N3,N4/)),' SEEMS TO BE BELOW THE GROUND'
+              write(iout,*)                'Warning : /LOAD/PBLAST id=',ID,' NEGATIVE ANGLE,',ANGLE_g
+              write(istdo,*)               'Warning : /LOAD/PBLAST id=',ID,' NEGATIVE ANGLE,',ANGLE_g
+              if(n4 == 0 .or. n3 == n4)then
+                write(iout,FMT= '(A,3I11)')'           FACE:',itab((/n1,n2,n3/)),' SEEMS TO BE BELOW THE GROUND'
+                write(istdo,FMT='(A,3I11)')'           FACE:',itab((/n1,n2,n3/)),' SEEMS TO BE BELOW THE GROUND'
+              else
+                write(iout,FMT= '(A,4I11)')'           FACE:',itab((/n1,n2,n3,n4/)),' SEEMS TO BE BELOW THE GROUND'
+                write(istdo,FMT='(A,4I11)')'           FACE:',itab((/n1,n2,n3,n4/)),' SEEMS TO BE BELOW THE GROUND'
+              endif
               ANGLE_g = ZERO
               PBLAST%PBLAST_TAB(IL)%TAGMSG(I) = 1
             ELSEIF(ANGLE_g > 85.00000 .AND. PBLAST%PBLAST_TAB(IL)%TAGMSG(I) == 0)THEN
-              WRITE(IOUT,FMT='(A,I0,A,E10.4,A,4I11)')
-     .        ' ** WARNING : /LOAD/PBLAST id=',ID,' ANGLE IS OVER THE UPPER BOUND,',ANGLE_g,
-     .          '. ANGLE SET TO 85.00 FOR FACE:',ITAB((/N1,N2,N3,N4/))
-              WRITE(ISTDO,FMT='(A,I0,A,E10.4,A,4I11)')
-     .        ' ** WARNING : /LOAD/PBLAST id=',ID,' ANGLE IS OVER THE UPPER BOUND,',ANGLE_g,
-     .          '. ANGLE SET TO 85.00 FOR FACE:',ITAB((/N1,N2,N3,N4/))
+              write(iout, FMT='(A,I0,A,E10.4)')'Warning : /LOAD/PBLAST id=',ID,' ANGLE IS OVER THE UPPER BOUND,',ANGLE_g
+              write(istdo,FMT='(A,I0,A,E10.4)')'Warning : /LOAD/PBLAST id=',ID,' ANGLE IS OVER THE UPPER BOUND,',ANGLE_g
+              if(n4 == 0 .or. n3 == n4)then
+                write(iout, FMT='(A,3I11)')    '          ANGLE SET TO 85.00 FOR FACE:',itab((/n1,n2,n3/))
+                write(istdo,FMT='(A,3I11)')    '          ANGLE SET TO 85.00 FOR FACE:',itab((/n1,n2,n3/))
+              else
+                write(iout, FMT='(A,4I11)')    '          ANGLE SET TO 85.00 FOR FACE:',itab((/n1,n2,n3,n4/))
+                write(istdo,FMT='(A,4I11)')    '          ANGLE SET TO 85.00 FOR FACE:',itab((/n1,n2,n3,n4/))
+              endif
+
               ANGLE_g = 85.00000
               PBLAST%PBLAST_TAB(IL)%TAGMSG(I) = 1
             ENDIF
@@ -500,7 +509,7 @@ C----- /TH/SURF -------
         write(IOUT ,FMT='(A,I10,A,E16.8,A,E16.8)') "Updated parameters for /LOAD/PBLAST id=",
      .                                             ID,' previous first arrival time :',ZETA,
      .                                             ' is now updated to :',FAC(07,NL)
-        write(ISTDO,FMT='(A,I10,A,E16.8,A,E16.8)') "Updated parameters for /LOAD/PBLAST id=",
+        write(istdo,FMT='(A,I10,A,E16.8,A,E16.8)') "Updated parameters for /LOAD/PBLAST id=",
      .                                             ID,' previous first arrival time :',ZETA,
      .                                             ' is now updated to :',FAC(07,NL)
 !$OMP END SINGLE
@@ -595,8 +604,8 @@ C----- /TH/SURF -------
 
 C-----------------------------------------------
        IF (IERR1/=0) THEN
-         WRITE(IOUT,*)' ** ERROR IN MEMORY ALLOCATION - PBLAST LOADING'
-         WRITE(ISTDO,*)' ** ERROR IN MEMORY ALLOCATION - PBLAST LOADING'
+         write(iout,*)' ** ERROR IN MEMORY ALLOCATION - PBLAST LOADING'
+         write(istdo,*)' ** ERROR IN MEMORY ALLOCATION - PBLAST LOADING'
          CALL ARRET(2)
        END IF
 C-----------------------------------------------
