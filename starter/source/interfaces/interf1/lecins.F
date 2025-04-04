@@ -53,7 +53,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  IXC     ,IXTG       ,KNOD2ELC ,KNOD2ELTG ,NOD2ELC ,
      .                  NOD2ELTG,INTBUF_TAB ,KNOD2ELS ,NOD2ELS   ,IXS10   ,
      .                  IXS16   ,IXS20      ,NIGE,RIGE,XIGE      ,VIGE    ,
-     .                  IGRBRIC ,MULTI_FVM  ,NALE     ,IGEO      ,INTERFACES)
+     .                  IGRBRIC ,MULTI_FVM  ,NALE     ,IGEO      ,INTERFACES,
+     .                  S_NOD2ELS,S_NOD2ELTG)
 C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -85,6 +86,7 @@ C-----------------------------------------------
      .        IXC(*),IXTG(*),KNOD2ELC(*),KNOD2ELTG(*),
      .        NOD2ELC(*),NOD2ELTG(*),KNOD2ELS(*),NOD2ELS(*),
      .        IXS10(6,*), IXS16(8,*), IXS20(12,*),NIGE(*)
+      INTEGER ,INTENT(IN) :: S_NOD2ELS,S_NOD2ELTG
       INTEGER LIXINT, NBRIC
       INTEGER,INTENT(IN) :: IPM(NPROPMI,NUMMAT), IGEO(NPROPGI,NUMGEO)
       my_real,INTENT(IN) :: BUFMAT(SBUFMAT)
@@ -418,7 +420,11 @@ C-------
      2                       NMN     ,INTBUF_TAB(NI)%MSR,INTBUF_TAB(NI)%MSEGTYP,
      3                       FRIGAP(4,NI),X       ,NUMNOD,ITAB ,IPRI ,IOUT  ,
      4                       IXS     ,NUMELS  ,NOINT   ,INTBUF_TAB(NI)%IRTLM    ,
-     5                       INTBUF_TAB(NI)%CSTS,INTBUF_TAB(NI)%DPARA  )
+     5                       INTBUF_TAB(NI)%CSTS,INTBUF_TAB(NI)%DPARA,IXC      ,
+     6                       IXTG    , KNOD2ELC ,KNOD2ELTG,NOD2ELC   ,NOD2ELTG ,
+     7                       KNOD2ELS,NOD2ELS   ,IXS10    ,IXS16     ,IXS20    ,
+     8                       S_NOD2ELS,S_NOD2ELTG,NUMELC  ,NUMELTG   ,NUMELS10 ,
+     9                       NUMELS16,NUMELS20 ,ID,TITR)
           END IF
 C-------
         ELSEIF (NTYP == 3 .OR. NTYP == 4 .OR. NTYP == 9) THEN
