@@ -132,10 +132,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7                  IGRNOD     ,IGRSURF       ,BUFSF            ,VR             ,
      8                  BUFMAT     ,XLAS          ,LAS              ,DTELEM         ,MSS       ,
      9                  MSQ        ,MSC           ,MST              ,MSP            ,MSR       ,
-     A                  MSTG       ,PTG           ,INC              ,
+     A                  MSTG       ,PTG           ,INC              ,NOD2ELTG       ,KNOD2ELTG ,
      B                  INP        ,INR           ,INTG             ,INDEX          ,
      C                  ITRI       ,KXX           ,IXX              ,XELEMWA        ,
-     E                  IWA        ,
+     E                  IWA        ,NOD2ELQ       ,KNOD2ELQ         ,NOD2ELS        ,KNOD2ELS  ,
      F                  KXSP       ,IXSP          ,NOD2SP           ,ISPCOND        ,ICODE     ,
      G                  ISKEW      ,ISKN          ,ISPSYM           ,XFRAME         ,ISPTAG    ,
      H                  SPBUF      ,MSSX          ,NSIGI            ,
@@ -213,9 +213,11 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE ELBUFDEF_MOD
       USE MULTIMAT_PARAM_MOD , ONLY : M51_LC0MAX, M51_SSP0MAX, M51_TCP_REF, M51_lSET_IFLG6, M51_IFLG6, M51_ILOOP_NRF
-      use brokmann_random_def_mod
-      use glob_therm_mod
-      use damping_range_init_mod
+      USE BROKMANN_RANDOM_DEF_MOD
+      USE GLOB_THERM_MOD
+      USE DAMPING_RANGE_INIT_MOD
+      USE EIKONAL_SOLVER_MOD, ONLY : EIKONAL_SOLVER
+      USE DETONATION_TIMES_PRINTOUT_MOD , ONLY : DETONATION_TIMES_PRINTOUT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -392,6 +394,12 @@ C      INTEGER *8 I8MI(6,NUMNOD)
       INTEGER ID,ISTOT, NF1,NNOD,NSROT,IDRAPE,ICPRE
       CHARACTER(LEN=NCHARTITLE)::TITR
       LOGICAL :: ERROR_THROWN
+      INTEGER,INTENT(IN) :: NOD2ELTG(3*NUMELTG)
+      INTEGER,INTENT(IN) :: NOD2ELQ(3*NUMELQ)
+      INTEGER,INTENT(IN) :: NOD2ELS(3*NUMELS)
+      INTEGER,INTENT(IN) :: KNOD2ELTG(NUMNOD+1)
+      INTEGER,INTENT(IN) :: KNOD2ELQ(NUMNOD+1)
+      INTEGER,INTENT(IN) :: KNOD2ELS(NUMNOD+1)
 C-----------------------------------------------
 C   D e r i v e d   T y p e   D e f i n i t i o n s
 C-----------------------------------------------
@@ -1519,6 +1527,25 @@ C
 C
        ENDIF
       END DO ! End loop on element group NG
+
+
+C-----------
+!DETONATION TIMES WITH SHADOWING EFFECTS
+!FAST MARCHING METHOD
+      CALL EIKONAL_SOLVER(ixq      , nixq     , numelq   ,
+     .                    ixs      , nixs     , numels   ,
+     .                    ixtg     , nixtg    , numeltg  ,
+     .                    x        , numnod   , titre(55),
+     .                    elbuf_tab, ngroup   , nparg    ,
+     .                    nod2eltg , knod2eltg,
+     .                    nod2elq  , knod2elq ,
+     .                    nod2els  , knod2els ,
+     .                    iparg    , ale_connectivity, npropm, nummat, pm, n2d, detonators,
+     .                    npropmi  , ipm     )
+! DETONATION TIMES PRINTOUT
+! + DEFAULT INITIALIZATION TO 0.0 IN CASE OF NO DETONATOR
+      CALL DETONATION_TIMES_PRINTOUT(NPARG,NGROUP,IPARG,N2D,IPRI,ELBUF_TAB,
+     .                               NIXS,NIXQ,NIXTG,NUMELS,NUMELQ,NUMELTG,IXS,IXQ,IXTG)
 C-----------
       !loop over material initialisation done.
       !IF NRF outlet, print its automatic characteristic

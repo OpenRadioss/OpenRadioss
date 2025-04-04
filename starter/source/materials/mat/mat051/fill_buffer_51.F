@@ -396,6 +396,7 @@ C-----------------------------------------------
               ALPHA_UNIT     = PM_(168)
               !---WRITING LAW51 SUBMATERIAL BUFFER
               UPARAM(42) = VDET
+              PM(38,INTERNAL_ID) = VDET
               UPARAM(43) = PCJ
               IF(PCJ > EM20)THEN
                 UPARAM(44) = RHO40 * VDET**2 / PCJ

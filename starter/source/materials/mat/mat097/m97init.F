@@ -32,9 +32,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE M97INIT(
      .               IPM     ,DETONATORS,PM      ,
-     .               NGL     ,NUVAR     ,UVAR    ,UPARAM  ,X       ,
+     .               NUVAR   ,UVAR      ,UPARAM  ,X       ,
      .               MAT     ,IPARG     ,IFORM   ,IX      ,NIX     ,
-     .               BUFMAT    ,RHO0    ,TB)
+     .               BUFMAT  ,RHO0      ,TB)
       USE DETONATORS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -48,7 +48,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPM(NPROPMI,*),NGL(*),MAT(*), IPARG(NPARG),IFORM,NIX,IX(NIX,*)
+      INTEGER IPM(NPROPMI,*),MAT(*), IPARG(NPARG),IFORM,NIX,IX(NIX,*)
       my_real  
      .   PM(NPROPM,*),UVAR(*),
      .   UPARAM(*), X(3,*), BUFMAT(*), RHO0, TB(*)
@@ -65,9 +65,9 @@ C-----------------------------------------------
       !---------------------------------!
       NPH = 1
       IF(N2D==0)THEN
-        CALL M5IN3 (PM,MAT,0,DETONATORS,TB,NGL,IPARG,X,IX,NIX)
+        CALL M5IN3 (PM,MAT,0,DETONATORS,TB,IPARG,X,IX,NIX)
       ELSE
-        CALL M5IN2 (PM,MAT,0,DETONATORS,TB,NGL,X,IX,NIX)
+        CALL M5IN2 (PM,MAT,0,DETONATORS,TB,X,IX,NIX)
       ENDIF
 
 C-----------------------------------------------
