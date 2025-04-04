@@ -50,7 +50,12 @@
                          nmn     ,msr     ,msegtyp ,dsearch ,                &
                          x       ,numnod  ,itab    ,ipri    ,                &
                          iout    ,ixs     ,numels  ,noint   ,                &
-                         irtl    ,st      ,dmin    )
+                         irtl    ,st      ,dmin    ,ixc     ,                &
+                         ixtg    ,knod2elc,knod2eltg,nod2elc,                &
+                         nod2eltg,knod2els,nod2els  ,ixs10  ,                &
+                         ixs16   ,ixs20   ,s_nod2els,s_nod2eltg,             &
+                         numelc  ,numeltg ,numels10 ,numels16,               &
+                         numels20,int_ID  ,TITR)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -58,7 +63,7 @@
           use select_s2s_mod,   only : select_s2s
           use message_mod
           use constant_mod,     only : nine,ep20
-          use connectivity_size_mod, only : nixs
+          use connectivity_size_mod, only : nixs,nixc,nixtg
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -77,7 +82,12 @@
           integer,                                   intent(in) :: nsn                 !< number of secondary nodes
           integer,                                   intent(in) :: nrtm                !< number of main segs
           integer,                                   intent(in) :: nmn                 !< number of main nodes
-          integer,                                   intent(in) :: numnod              !< the size of ipari
+          integer,                                   intent(in) :: numnod              !< the number of nodes
+          integer,                                   intent(in) :: numelc              !< the number of shell 4n
+          integer,                                   intent(in) :: numeltg             !< the number of shell 3n
+          integer,                                   intent(in) :: numels10            !< the number of tet10
+          integer,                                   intent(in) :: numels16            !< the number of s16
+          integer,                                   intent(in) :: numels20            !< the number of s20
           integer,   dimension(nsn),              intent(inout) :: nsv                 !< secondary node array
           integer,   dimension(nmn),              intent(inout) :: msr                 !< main node array
           integer,   dimension(4,nrtm),           intent(inout) :: irect               !< main seg array
@@ -93,10 +103,25 @@
           integer,    dimension(nsn),             intent(inout) :: irtl                !< interface node array irtlm
           my_real,    dimension(2,nsn),           intent(inout) :: st                  !< interface node work array csts
           my_real,    dimension(nsn),             intent(inout) :: dmin                !< interface node work array dpara
+          integer,    dimension(nixc,numelc),        intent(in) :: ixc                 !< shell 4n connectivity
+          integer,    dimension(nixtg,numeltg),      intent(in) :: ixtg                !< shell 3n connectivity
+          integer,    dimension(6,numels10)      ,intent(in)    :: ixs10               !< solid tet10 connectivity
+          integer,    dimension(8,numels16)      ,intent(in)    :: ixs16               !< solid s16 connectivity
+          integer,    dimension(12,numels20)     ,intent(in)    :: ixs20               !< solid s20 connectivity
+          integer,    dimension(numnod+1)        ,intent(in)    :: knod2elc            !< node to element shell 4n connectivity index 
+          integer,    dimension(numnod+1)        ,intent(in)    :: knod2eltg           !< node to element shell 3n connectivity index 
+          integer,    dimension(numnod+1)        ,intent(in)    :: knod2els            !< node to element solid connectivity index 
+          integer,                                intent(in)    :: s_nod2els           !< size of nod2els
+          integer,                                intent(in)    :: s_nod2eltg          !< size of nod2eltg
+          integer,    dimension(s_nod2els)       ,intent(in)    :: nod2els             !< node to element solid connectivity
+          integer,    dimension(4*numelc)        ,intent(in)    :: nod2elc             !< node to element shell 4n connectivity
+          integer,    dimension(s_nod2eltg)      ,intent(in)    :: nod2eltg            !< node to element shell 3n connectivity
+          integer,                                intent(in)    :: int_ID              !< id of interfaces
+          character(len=nchartitle)                             :: titr                !< title of interface
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,l,k,m,n,ns,isu1,isu2,nsu1,nsu2,l1,l2,id,inrt, nels, nelc, neltg,nint
+          integer :: i,j,l,k,m,n,ns,isu1,isu2,nsu1,nsu2,l1,l2,id,inrt, nels, nelc, neltg,nint,iad,ii,ix(4),seg_n
           integer,  dimension(:), allocatable :: itags1,itags2,itagn,igrelem
           my_real :: rem,area
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -123,7 +148,7 @@
         l = l + 1
         irect(1:4,l) = igrsurf(isu1)%nodes(i,1:4)
         msegtyp(l) = igrsurf(isu1)%eltyp(i)
-        if (msegtyp(l)==0) msegtyp(l) = 10
+        if (msegtyp(l)==0) msegtyp(l) = i+nrtm
         igrelem(l) = igrsurf(isu1)%elem(i)
       end if
     end do
@@ -144,7 +169,7 @@
         l = l + 1
         irect(1:4,l) = igrsurf(isu2)%nodes(i,1:4)
         msegtyp(l) = igrsurf(isu2)%eltyp(i)
-        if (msegtyp(l)==0) msegtyp(l) = 10
+        if (msegtyp(l)==0) msegtyp(l) = i+nrtm
         igrelem(l) = igrsurf(isu2)%elem(i)
       end if
     end do
@@ -202,9 +227,52 @@
         else
           call ineltc(nelc ,neltg ,inrt ,msegtyp, igrelem)
         end if
-        if(nels+nelc+neltg==0)then
-           call ancmsg(msgid=93,msgtype=msgwarning,                          &
-                       anmode=aninfo_blind_2,i2=noint,i1=i)
+        if(nels+nelc+neltg/=0) cycle
+!      
+        call insol3(x,irect,ixs,nint,nels,inrt,                             &
+                   area,noint,knod2els ,nod2els ,0 ,ixs10,                  &
+                   ixs16,ixs20)
+        nelc=0
+        neltg=0
+        ix(1:4) = irect(1:4,i)
+        if(ix(3)==ix(4).and.numeltg/=0)then
+          do iad=knod2eltg(ix(1))+1,knod2eltg(ix(1)+1)
+            n = nod2eltg(iad)
+            do 220 j=1,3
+              ii=ix(j)
+              do k=1,3
+                if(ixtg(k+1,n)==ii) goto 220
+              end do
+              goto 230
+  220       continue
+            neltg = n
+  230       continue
+          end do
+        endif
+!
+        if(numelc/=0) then
+          do iad=knod2elc(ix(1))+1,knod2elc(ix(1)+1)
+            n = nod2elc(iad)
+            do 240 j=1,4
+              ii=ix(j)
+              do k=1,4
+                if(ixc(k+1,n)==ii) goto 240
+              end do
+              goto 250
+  240       continue
+            nelc = n
+  250       continue
+          end do
+        endif
+        if(nels+nelc+neltg==0) then
+            seg_n = msegtyp(i) - nrtm
+           if(i<=l1) then ! 1er surf
+             call ancmsg(msgid=3092,msgtype=msgwarning,                          &
+                       anmode=aninfo_blind_2,i1=int_id,c1=titr,i2=seg_n)
+           else
+             call ancmsg(msgid=3093,msgtype=msgwarning,                          &
+                       anmode=aninfo_blind_2,i1=int_id,c1=titr,i2=seg_n)
+           end if
         endif
     end do
 ! ns
