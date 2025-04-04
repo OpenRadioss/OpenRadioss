@@ -242,7 +242,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real, DIMENSION(MVSIZ,6) :: SVIS
-      INTEGER N, M, NG, NVC, NF1,OFFSET,ISOLNOD,  NSG, NEL,I, LENCOM,ISTRA, IBID,IOUTPRT
+      INTEGER N, M, NG, NVC, NF1,OFFSET,ISOLNOD,NSG,NEL,I,LENCOM,ISTRA,IBID,IOUTPRT
       INTEGER IPLA
       INTEGER IADBH, IAD22, NIN, NBRIC_L
       INTEGER SBUFVOIS,SZ_BUFVOIS
@@ -739,19 +739,19 @@ C     -------------------------
 ! CONVECTION, CONDUCTION, REZONING               !
 !------------------------------------------------! 
             CALL ALETHE(
-     1                   IPARG,           ELBUF_TAB,       WA,              VAL2,
-     2                   PHI,             ALE_CONNECTIVITY,IXS,             IXQ,
-     3                   V,               W,               X,               PM,
-     4                   MS,              VEUL,            FILL,            DFILL,
-     5                   ALPH,            FV,              BUFMAT,          TF,
-     6                   NPC,             ITASK,           NBRCVOIS,        NBSDVOIS,
-     7                   LNRCVOIS,        LNSDVOIS,        NERCVOIS,        NESDVOIS,
-     8                   LERCVOIS,        LESDVOIS,        IADS,            SEGVAR,
-     9                   MSNF,            NODFT,           NODLT,           WA(IADBH),
-     A                   IPM,             QMV,             ITAB,            ITABM1,
-     B                   LENQMV,          NV46,
-     C                   VOLN,            IAD_ELEM,        GLOB_THERM,
-     D                   FR_ELEM,         IXTG)
+     1   IPARG,           ELBUF_TAB,       WA,              VAL2,
+     2   PHI,             ALE_CONNECTIVITY,IXS,             IXQ,
+     3   V,               W,               X,               PM,
+     4   MS,              VEUL,            FILL,            DFILL,
+     5   ALPH,            FV,              BUFMAT,          TF,
+     6   NPC,             ITASK,           NBRCVOIS,        NBSDVOIS,
+     7   LNRCVOIS,        LNSDVOIS,        NERCVOIS,        NESDVOIS,
+     8   LERCVOIS,        LESDVOIS,        IADS,            SEGVAR,
+     9   MSNF,            NODFT,           NODLT,           WA(IADBH),
+     A   IPM,             QMV,             ITAB,            ITABM1,
+     B   LENQMV,          NV46,
+     C   VOLN,            IAD_ELEM,        GLOB_THERM,
+     D   FR_ELEM,         IXTG,            MATPARAM)
          ENDIF
       ELSE
         ALE%SUB%IFSUBM=0

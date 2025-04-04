@@ -24,9 +24,9 @@
  COMPUTATION HARDWARE DESCRIPTION
   
  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
- FR-LAP482   13th Gen Intel(R) Core(TM) i9-13900H (x86_64), 2995 MHz,  31886 MB RAM,   8192 MB swap
+ fr-lap281-1.europe.altair.com   Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz (x86_64), 2592 MHz,  16016 MB RAM,      0 MB swap
   
- STACKSIZE  . . . . . . . . . . . . . . . . . . . . 8 MB
+ STACKSIZE  . . . . . . . . . . . . . . . . . . . . 16 MB
  THREAD STACKSIZE . . . . . . . . . . . . . . . . . 400 mB
  
 ************************************************************************
@@ -170,17 +170,14 @@ TEST 1 ELEMENT 3D 8 PT INT
     SPEED PARAMETERS  
     ----------------  
 
-    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         2 THREADS             
-    NUMBER OF SPMD DOMAINS. . . . . . . . . . . . . . . .         4
-    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         2
+    STARTER RUNNING ON. . . . . . . . . . . . . . . . . .         1 THREAD              
+    NUMBER OF SPMD DOMAINS. . . . . . . . . . . . . . . .         1
+    NUMBER OF THREADS PER DOMAIN. . . . . . . . . . . . .         1
     ARCHITECTURE OPTIMIZATION . . . . . . . . . . . . . .        18, linux64             
     SIZE OF ELEMENT BUFFER. . . . . . . . . . . . . . . .       128
  
     INFO : NUMBER OF SPMD DOMAIN AND THREADS DEFINED IN COMMAND LINE
            /SPMD CARD PARAMETER ARE IGNORED
- 
-     INFO : OMP_NUM_THREADS SET, DEFAULT SETTING IGNORED
-  
 
 
     LOAD CURVES
@@ -626,78 +623,10 @@ IE        KE        XMOM      YMOM      ZMOM      MASS      HE        ERODED    
     STARTER STORAGE 
     --------------- 
  
-    STARTER MEMORY USAGE        153 MB
-
-
-
- STATISTICS ON DOMAIN DECOMPOSITION 
- ---------------------------------- 
-
-AVERAGE NB. OF BOUNDARY NODES :     0
-STANDARD DEVIATION            :     0
-
-AVERAGE NUMBER OF LOCAL NODES :       2
-STANDARD DEVIATION            :       4
-
- PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS
-    1             1                     0                     0
-    2             0                     0                     0
-    3             0                     0                     0
-    4             0                     0                     0
-
- DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   1
- ----------------------------------------------------
- NUMBER OF NODES................. :           9
- NUMBER OF SOLID ELEMENTS........ :           1
- TOTAL NUMBER OF NODES FOR COMM.. :           0
+    STARTER MEMORY USAGE        152 MB
 
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     1
-     --------------------------------------------------------
-        MEMORY USED FOR REALS            5 MB 
-        MEMORY USED FOR INTEGERS         5 MB 
-        TOTAL MEMORY EVALUATION         10 MB 
-                                            
-        RESTART FILE SIZE         0 MB
-
- DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   2
- ----------------------------------------------------
- NUMBER OF NODES................. :           0
- NUMBER OF SOLID ELEMENTS........ :           0
- TOTAL NUMBER OF NODES FOR COMM.. :           0
-
-
-     LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     2
-     --------------------------------------------------------
-        MEMORY USED FOR REALS            5 MB 
-        MEMORY USED FOR INTEGERS         5 MB 
-        TOTAL MEMORY EVALUATION         10 MB 
-                                            
-        RESTART FILE SIZE         0 MB
-
- DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   3
- ----------------------------------------------------
- NUMBER OF NODES................. :           0
- NUMBER OF SOLID ELEMENTS........ :           0
- TOTAL NUMBER OF NODES FOR COMM.. :           0
-
-
-     LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     3
-     --------------------------------------------------------
-        MEMORY USED FOR REALS            5 MB 
-        MEMORY USED FOR INTEGERS         5 MB 
-        TOTAL MEMORY EVALUATION         10 MB 
-                                            
-        RESTART FILE SIZE         0 MB
-
- DOMAIN DECOMPOSITION SUMMARY FOR SPMD PROCESSOR   4
- ----------------------------------------------------
- NUMBER OF NODES................. :           0
- NUMBER OF SOLID ELEMENTS........ :           0
- TOTAL NUMBER OF NODES FOR COMM.. :           0
-
-
-     LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     4
      --------------------------------------------------------
         MEMORY USED FOR REALS            5 MB 
         MEMORY USED FOR INTEGERS         5 MB 
@@ -715,21 +644,21 @@ STANDARD DEVIATION            :       4
  CPU USER TIME
  -------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .3174E+00   .9359E-01   .3526E-02   .0000E+00   .0000E+00   .0000E+00   .4023E-05
+.0000E+00   .2050E+00   .1386E+00   .2006E-02   .0000E+00   .0000E+00   .0000E+00   .3994E-05
   
   
  ELAPSED TIME
  ------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .2420E+04   .3066E+00   .5857E-01   .0000E+00   .0000E+00   .0000E+00   .4161E-05
+.0000E+00   .1609E+06   .2037E+00   .2792E-02   .0000E+00   .0000E+00   .0000E+00   .2344E-05
   
                    ** COMPUTE TIME INFORMATION **
   
- EXECUTION STARTED      :      2025/02/20  10:52:05
- EXECUTION COMPLETED    :      2025/02/20  10:52:12
+ EXECUTION STARTED      :      2025/03/24  18:49:51
+ EXECUTION COMPLETED    :      2025/03/24  18:49:52
   
- ELAPSED TIME...........=          7.78 s
-                               00:00:07
+ ELAPSED TIME...........=          0.47 s
+                               00:00:00
   
 ------------------------------------------------------------------------
 

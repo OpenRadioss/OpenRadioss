@@ -32,15 +32,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4   D6,      RHO0,    DPDM,    EPD,
      5   IPLA,    SIGY,    DEFP,    DPLA,
      6   EPSP,    TSTAR,   TEMPEL,  NEL,
-     7   JTHE,    IEOS ,   FHEAT )
+     7   JTHE,    FHEAT ,  JLAG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -50,30 +46,30 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: JTHE
-      INTEGER, INTENT(IN) :: IEOS
       INTEGER, INTENT(IN) :: NEL
       INTEGER, INTENT(IN) :: IPLA
-      INTEGER, INTENT(IN) :: MAT(MVSIZ)
+      INTEGER, INTENT(IN) :: MAT(NEL)
+      INTEGER, INTENT(IN) :: JLAG
       my_real, INTENT(IN) :: PM(NPROPM,*)
       my_real, INTENT(IN) :: VOL(NEL)
       my_real :: SIG(NEL,6)
-      my_real ,DIMENSION(MVSIZ) :: OFF,EPXE,SSP,D1,D2,D3,D4,D5,D6, 
-     .                             RHO0,DPDM,EPD,SIGY,DEFP,DPLA,EPSP
-      my_real ,DIMENSION(MVSIZ) ,INTENT(IN)    :: TSTAR
-      my_real ,DIMENSION(NEl)   ,INTENT(INOUT) :: TEMPEL
-      my_real, DIMENSION(MVSIZ) ,INTENT(INOUT) :: FHEAT
+      my_real ,DIMENSION(NEL) :: OFF,EPXE,SSP,D1,D2,D3,D4,D5,D6,RHO0,DPDM,EPD,SIGY,DEFP,DPLA,EPSP
+      my_real ,DIMENSION(NEL) ,INTENT(IN)    :: TSTAR
+      my_real ,DIMENSION(NEl) ,INTENT(INOUT) :: TEMPEL
+      my_real, DIMENSION(NEL) ,INTENT(INOUT) :: FHEAT ! Heat due to plastic work for Heat Equation with lagrangian framework
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,MX
       my_real :: RHOCP,TMAX,CT, CE, CH
-      my_real
-     .   G(MVSIZ)    ,G1(MVSIZ)   ,G2(MVSIZ)  ,QS(MVSIZ) ,AK(MVSIZ), 
-     .   QH(MVSIZ)   ,TMELT(MVSIZ),AJ2(MVSIZ) ,DAV(MVSIZ),P(MVSIZ) ,
-     .   EPMX(MVSIZ) ,CA(MVSIZ)  ,CB(MVSIZ) ,CC(MVSIZ), 
-     .   CN(MVSIZ)   ,EPXO(MVSIZ) ,EPDR(MVSIZ),CMX(MVSIZ),SIGMX(MVSIZ),
-     .   SCALE(MVSIZ),T0(MVSIZ)
-!=======================================================================
+      my_real G(NEL)    ,G1(NEL)   ,G2(NEL)  ,QS(NEL) ,AK(NEL),
+     .        QH(NEL)   ,TMELT(NEL),AJ2(NEL) ,DAV(NEL),P(NEL) ,
+     .        EPMX(NEL) ,CA(NEL)   ,CB(NEL)  ,CC(NEL) ,
+     .        CN(NEL)   ,EPXO(NEL) ,EPDR(NEL),CMX(NEL),SIGMX(NEL),
+     .        SCALE(NEL),T0(NEL)
+C-----------------------------------------------
+C   B o d y
+C-----------------------------------------------
       MX = MAT(1)
       TMAX  = PM(47,MX)
       RHOCP =  PM(69,MX)  
@@ -226,19 +222,22 @@ C
        SIGY(I)=AK(I)
        DEFP(I)=EPXE(I)
       ENDDO 
-C-----------------
-C     TEMPERATURE
-C-----------------
-      IF (JTHE == 0 .and. IEOS == 18 .and. RHOCP > ZERO) THEN     ! linear EOS
-        DO I=1,NEL
-          TEMPEL(I) = TEMPEL(I) + SIGY(I)*DPLA(I) / RHOCP
-        ENDDO
-      ELSE IF (JTHE /= 0) THEN  ! cumulate thermal load due to plastic work for /heat/mat
+C----------------------------------------------
+C     TEMPERATURE (Heating due to plastic work)
+C----------------------------------------------
+      IF (JTHE /= 0 .AND. JLAG /= 0) THEN
         DO I=1,NEL       
           FHEAT(I) = FHEAT(I) + SIGY(I)*DPLA(I)*VOL(I)
         ENDDO
-      ELSE IF (IEOS > 0) THEN       !   nonlinear EOS must calculate temperature itself
-         ! need to send energy increment to EOS for temperature calculation 
+      ELSEIF(RHOCP > ZERO)THEN
+        DO I=1,NEL
+          TEMPEL(I) = TEMPEL(I) + SIGY(I)*DPLA(I) / RHOCP
+          ! temperature and internal energy must be incremented consistantly
+          ! internal energy is incremented later in parent subroutine (mmain)
+          ! with total energy deformation which already includes plastic work
+          !   Edef = 0.5 * VOL * sum ( sig.eps_dot , i=1..6)
+          !   so internal energy and temperature remain consistant
+        ENDDO
       END IF
 c----------
       RETURN

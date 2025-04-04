@@ -29,9 +29,18 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
       !||====================================================================
-      SUBROUTINE ADIFF3(PHIN,PHI,GRAD,ALPHA,ALE_CONNECT,VOL)
+      SUBROUTINE ADIFF3(PHIN,PHI,GRAD,ALPHA,ALE_CONNECT,VOL,TEMP,RHOCP,NEL)
 C-----------------------------------------------
-C   S o u r c e   L i n e s
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C Solving Heat equation
+C    alpha = k/rhocp is thermal diffusivity
+c    coeff is k (factor simplification since originally only EINT/V was updated)
+c       PHIN is EINT/V : updated at the end of the subroutine
+C       TEMP : updated at the end of the subroutine.
+C              Since temperature is calculated incrementally, both energy and temperature must be consistently updated.
+C-----------------------------------------------
+C   M o d u l e s
 C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
@@ -45,11 +54,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real,INTENT(INOUT) :: PHIN(*) !< Eint/V [n+1]
-      my_real,INTENT(IN) :: PHI(*)     !< backup T[n]
-      my_real,INTENT(IN)   :: GRAD(6,*)  !< gradient
-      my_real,INTENT(IN) :: ALPHA(*)   !< thermal diffusivity k/rhocp
-      my_real,INTENT(IN) :: VOL(*)     !< element volume
+      INTEGER,INTENT(IN) :: NEL
+      my_real,INTENT(INOUT) :: TEMP(NEL)
+      my_real,INTENT(INOUT) :: PHIN(NEL) ! EINT/V
+      my_real,INTENT(IN) :: RHOCP
+      my_real,INTENT(IN) :: PHI(*), GRAD(6,NEL), VOL(NEL)
+      my_real,INTENT(IN) :: ALPHA(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -62,11 +72,11 @@ C-----------------------------------------------
       INTEGER I, IE, IV1, IV2, IV3, IV4, IV5, IV6, IAD2
       my_real DPHI(MVSIZ)
       my_real AA(0:6)     !< thermal diffusivity (updated from ALPHA for ghost cells)
-      my_real AA_FACE(6)
+      my_real AA_FACE(6)  ! k = alpha * rhocp
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         IE =NFT+I
         IAD2 = ALE_CONNECT%ee_connect%iad_connect(IE)
         IV1 = ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
@@ -109,14 +119,24 @@ C-----------------------------------------------------------
      6          + AA_FACE(6) * (PHI(IV6)-PHI(IE))*GRAD(6,I)
       ENDDO!next I
 C-----------------------------------------------------------
+      ! time integration for Eint/V
       ! %EINT is here Eint / V (J/m3)
       ! => DPHI = is finally m.cp.dT = dT *rhoCp   (ALPHA is k instead k/rhocp )
-      DO I=LFT,LLT
+      DO I=1,NEL
         DPHI(I) = TWO*DPHI(I)*DT1/MAX(VOL(I),EM20)
       ENDDO
-      DO I=LFT,LLT
+C-----------------------------------------------------------
+      ! Eint/V updated
+      DO I=1,NEL
         PHIN(I) = PHIN(I)+DPHI(I)
       ENDDO
+C-----------------------------------------------------------
+      ! temperature updated
+      IF(RHOCP > ZERO)THEN
+        DO I=1,NEL
+          TEMP(I) = TEMP(I) + DPHI(I)/RHOCP
+        ENDDO
+      ENDIF
 C-----------------------------------------------------------
       RETURN
       END

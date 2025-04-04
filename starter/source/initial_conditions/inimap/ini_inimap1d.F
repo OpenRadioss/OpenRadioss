@@ -819,6 +819,7 @@ C     CYLINDRICAL
                DO II = IFIRST, ILAST
                   ELEMID = ELEM_LIST(II)
                   GBUF%EINT(ELEMID - NFT) = GBUF%EINT(ELEMID - NFT) * GBUF%RHO(ELEMID - NFT)
+                  GBUF%TEMP(ELEMID - NFT) = 300*(GBUF%RHO(ELEMID - NFT) )**0.4
                ENDDO
                
                IF (MLW /= 51 .AND. MLW /= 151) THEN
