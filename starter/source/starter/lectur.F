@@ -2125,9 +2125,9 @@ c------------------------------------
 c---------------------------------------------------------------
       CALL READ_MATERIAL_MODELS(
      .     MAT_ELEM    ,MLAW_TAG ,FAIL_TAG ,EOS_TAG    ,
-     .     RWORK       ,SBUFMAT  ,IPM      ,PM         ,UNITAB    ,
+     .     RWORK       ,SRWORK   ,IPM      ,PM         ,UNITAB    ,
      .     MULTI_FVM   ,FAILWAVE ,NLOC_DMG ,LSUBMODEL  ,TABLE     ,
-     .     LTITR       ,MAT20_DISCRETE_FILL,USERL_AVAIL,MAT_NUMBER,
+     .     LTITR       ,USERL_AVAIL,MAT_NUMBER,
      .     NPC         ,TF       ,SNPC     ,NPTS       ,SBUFMAT   )
 c---------------------------------------------------------------
       ALLOCATE(BUFMAT(SBUFMAT)    ,STAT=stat)

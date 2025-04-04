@@ -52,10 +52,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE READ_MATERIAL_MODELS(
      .             MAT_ELEM    ,MLAW_TAG ,FAIL_TAG ,EOS_TAG  ,
-     .             BUFMAT      ,BUFLEN   ,IPM      ,PM       ,UNITAB   ,
+     .             BUFMAT      ,SBUFMAT  ,IPM      ,PM       ,UNITAB   ,
      .             MULTI_FVM   ,FAILWAVE ,NLOC_DMG ,LSUBMODEL,TABLE    ,
-     .             LTITR       ,MAT20_DISCRETE_FILL,USERL_AVAIL,MAT_NUMBER,
-     .             NPC         ,TF       ,SNPC     ,NPTS    ,SBUFMAT)
+     .             LTITR       ,USERL_AVAIL,MAT_NUMBER,
+     .             NPC         ,TF       ,SNPC     ,NPTS    ,BUFLEN)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -97,14 +97,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: LTITR
-      INTEGER, INTENT(IN) :: USERL_AVAIL
-      INTEGER, INTENT(INOUT) :: MAT_NUMBER
-      LOGICAL, INTENT(INOUT) :: MAT20_DISCRETE_FILL
-      INTEGER :: BUFLEN
+      INTEGER ,INTENT(IN)    :: LTITR
+      INTEGER ,INTENT(IN)    :: USERL_AVAIL
+      INTEGER ,INTENT(IN)    :: SBUFMAT
+      INTEGER ,INTENT(INOUT) :: MAT_NUMBER
+      INTEGER ,INTENT(INOUT) :: BUFLEN
       INTEGER ,DIMENSION(NPROPMI,NUMMAT), INTENT(INOUT) :: IPM
       my_real ,DIMENSION(NPROPM ,NUMMAT), INTENT(INOUT) :: PM
-      INTEGER,INTENT(IN) :: SBUFMAT
       my_real ,DIMENSION(SBUFMAT)       , INTENT(INOUT) :: BUFMAT
       TYPE (UNIT_TYPE_),INTENT(IN) :: UNITAB 
       TYPE(MLAW_TAG_) , DIMENSION(NUMMAT)  , INTENT(INOUT) :: MLAW_TAG
