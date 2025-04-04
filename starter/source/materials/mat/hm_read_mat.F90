@@ -227,10 +227,9 @@
       integer, intent(in)                  :: userl_avail
       type (unit_type_),intent(in)         :: unitab
       type(submodel_data),intent(in)       :: lsubmodel(nsubmod)
-      !
-      integer, intent(inout)                  :: trimat
-      integer, intent(inout)                  :: ialelag
-      integer, intent(inout)                  :: mat_number
+      integer, intent(inout)               :: trimat
+      integer, intent(inout)               :: ialelag
+      integer, intent(inout)               :: mat_number
       integer ,intent(inout) :: buflen,iadbuf
       integer ,dimension(npropmi,nummat), intent(inout) :: ipm
       !
@@ -1395,11 +1394,13 @@
                ipm(226+j,i) = itable(j)
             enddo
 !---------------------------------------------------------
-!         fill uparam buffer
+!           fill uparam buffer
 !---------------------------------------------------------
-            do j=1,nuparam
-               bufmat(iadbuf+j-1) = uparam(j)
-            enddo
+            if (nuparam > 0) then
+              do j=1,nuparam
+                bufmat(iadbuf+j-1) = uparam(j)
+              enddo
+            end if
             iadbuf = iadbuf + nuparam
             buflen = buflen + nuparam
 !

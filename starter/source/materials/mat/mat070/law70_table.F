@@ -57,11 +57,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,IPT,NPTX,IPOS,NDIM,FUNC_ID,IERROR,STAT
+      INTEGER :: I,J,IPT,NPTX,NPTM,IPOS,NDIM,FUNC_ID,IERROR,STAT
       INTEGER ,DIMENSION(NFUNC) :: PERM
       INTEGER ,PARAMETER :: NPTMAX = 100   ! max number of function points
       my_real :: X1,X2,Y1,Y2,DERI
-      my_real ,DIMENSION(:)   ,ALLOCATABLE :: XF
+      my_real ,DIMENSION(:)   ,ALLOCATABLE :: XF,XS,YS
       my_real ,DIMENSION(:,:) ,ALLOCATABLE :: YF
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -88,7 +88,6 @@ c
         DO I = 1,NFUNC
           CALL TABLE_VALUES_2D(LENGTH(I) ,NPTX ,XI(1,I) ,YI(1,I) ,XF ,YF(1,I) )
         END DO      
-        LENGTH(1:NFUNC) = NPTX
 c
 c--------------------------------------------------------
 c       check and correct intersections
@@ -102,7 +101,9 @@ c     d) check and correct monotonicity
 c--------------------------------------------------------
       DO I = 1,NFUNC
         DO IPT = 2,NPTX
-          IF (YF(IPT,I) < YF(IPT-1,I)) YF(IPT,I) = YF(IPT-1,I)
+          IF (YF(IPT,I) < YF(IPT-1,I)) THEN
+            YF(IPT,I) = YF(IPT-1,I)
+          END IF
         END DO
       END DO
 c--------------------------------------------------------
@@ -110,11 +111,18 @@ c     second reduction of number of points of the 1st curve
 c     and reinterpolate all table functions based on its abscissa distribution
 c--------------------------------------------------------
       IF (NPTX > NPTMAX) THEN
+        NPTM = NPTX
+        ALLOCATE (XS(NPTM))
+        ALLOCATE (YS(NPTM))
+        XS(1:NPTM) = XF(1:NPTM)
         CALL VW_SMOOTH(NPTX,NPTMAX,XF,YF(1:NPTX,1))
 c
         DO I = 2,NFUNC
-          CALL TABLE_VALUES_2D(LENGTH(I) ,NPTX ,XI(1,I) ,YI(1,I) ,XF ,YF(1,I) )
-        END DO      
+          YS(1:NPTM) = YF(1:NPTM,I)
+          CALL TABLE_VALUES_2D(NPTM ,NPTX ,XS ,YS ,XF ,YF(1,I) )
+        END DO
+        DEALLOCATE(YS)     
+        DEALLOCATE(XS)     
       END IF
 c--------------------------------------------------------------------------
 c     e) create 2D function table
@@ -137,6 +145,7 @@ c--------------------------------------------------------
         END DO
       END IF      
 c
+      LENGTH(1:NFUNC) = NPTX
 c--------------------
       DEALLOCATE (XF)
       DEALLOCATE (YF)
