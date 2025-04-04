@@ -74,7 +74,7 @@ C-----------------------------------------------
      .   LY_DMG,LY_GAMA,LY_DIRA,LY_DIRB,LY_CRKDIR,LY_PLAPT,LY_SIGPT,LY_HOURG,
      .   LY_UELR,LY_UELR1,LY_OFFPG,LY_OFF,LEN_PLAPT,LEN_SIGPT
       INTEGER  ! local variables
-     .   L_OFF,L_EINT,L_EINS,L_RHO,L_DP_DRHO,L_VOL,L_PLA,L_TB,L_TEMP,
+     .   L_OFF,L_EINT,L_EINS,L_RHO,L_DP_DRHO,L_VOL,L_PLA,L_TB,L_TEMP,L_WPLA,
      .   L_RK,L_RE,L_VK,L_ROB,L_SIG,L_SIGV,L_SIGL,L_SIGA,L_SIGD,L_SIGB,
      .   L_SIGC,L_SIGF,L_STRA,L_EPSA,L_EPSD,L_EPSQ,L_EPSF,L_CRAK,
      .   L_ANG,L_SF,L_QVIS,L_DELTAX,L_GAMA,
@@ -184,6 +184,7 @@ c
            L_EPSQ   = BUFLY%L_EPSQ          
            L_EPSF   = BUFLY%L_EPSF          
            L_PLA    = BUFLY%L_PLA           
+           L_WPLA   = BUFLY%L_WPLA              
            L_TEMP   = BUFLY%L_TEMP          
            L_TB     = BUFLY%L_TB            
            L_RK     = BUFLY%L_RK            
@@ -278,6 +279,7 @@ c
                LBUFT%EPSQ(1:NEL*L_EPSQ)      =LBUFS%EPSQ(1:NEL*L_EPSQ)
                LBUFT%EPSF(1:NEL*L_EPSF)      =LBUFS%EPSF(1:NEL*L_EPSF)
                LBUFT%PLA(1:NEL*L_PLA)        =LBUFS%PLA(1:NEL*L_PLA)  
+               LBUFT%WPLA(1:NEL*L_WPLA)      =LBUFS%WPLA(1:NEL*L_WPLA)                
                LBUFT%TEMP(1:NEL*L_TEMP)      =LBUFS%TEMP(1:NEL*L_TEMP)
                LBUFT%TB(1:NEL*L_TB)          =LBUFS%TB(1:NEL*L_TB)    
                LBUFT%RK(1:NEL*L_RK)          =LBUFS%RK(1:NEL*L_RK)    

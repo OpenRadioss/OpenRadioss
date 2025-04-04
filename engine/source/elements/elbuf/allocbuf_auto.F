@@ -88,7 +88,7 @@ C-----------------------------------------------
       INTEGER  ! local variables
      .   L_OFF,L_EINT,L_EINS,L_RHO,L_DP_DRHO,L_VOL,L_PLA,L_TB,L_TEMP,
      .   L_RK,L_RE,L_VK,L_ROB,L_SIG,L_SIGV,L_SIGL,L_SIGA,L_SIGD,L_SIGB,
-     .   L_SIGC,L_SIGF,L_STRA,L_EPSA,L_EPSD,L_EPSQ,L_EPSF,L_CRAK,
+     .   L_SIGC,L_SIGF,L_STRA,L_EPSA,L_EPSD,L_EPSQ,L_EPSF,L_CRAK,L_WPLA,
      .   L_ANG,L_SF,L_QVIS,L_DELTAX,L_GAMA,
      .   L_DAM,L_DSUM,L_DGLO,L_EPE,L_EPC,L_XST,L_SSP,L_Z,L_FRAC,L_VISC,
      .   L_THK,L_FOR,L_MOM,L_EPS,L_SMSTR,L_BFRAC,L_DMG,L_FORTH,L_EINTTH,
@@ -305,7 +305,9 @@ c
         L_EPSF   = NINT(RBUF(IAD+1))  
           IAD = IAD+1                                         
         L_PLA    = NINT(RBUF(IAD+1))  
-          IAD = IAD+1                                         
+          IAD = IAD+1    
+        L_WPLA    = NINT(RBUF(IAD+1))  
+          IAD = IAD+1                                                  
         L_TEMP   = NINT(RBUF(IAD+1))  
           IAD = IAD+1                                         
         L_TB     = NINT(RBUF(IAD+1))  
@@ -442,6 +444,7 @@ c
         BUFLY%L_EPSQ    = L_EPSQ   
         BUFLY%L_EPSF    = L_EPSF   
         BUFLY%L_PLA     = L_PLA    
+        BUFLY%L_WPLA    = L_WPLA           
         BUFLY%L_TEMP    = L_TEMP        
         BUFLY%L_TB      = L_TB     
         BUFLY%L_RK      = L_RK     
@@ -626,7 +629,10 @@ c--------
               IAD = IAD+NEL*L_EPSF                                               
           ALLOCATE(LBUF%PLA   (NEL*L_PLA)   ,STAT=ERR)                           
             LBUF%PLA(1:NEL*L_PLA)    = RBUF(IAD+1:IAD+NEL*L_PLA)                 
-              IAD = IAD+NEL*L_PLA                                                
+              IAD = IAD+NEL*L_PLA    
+          ALLOCATE(LBUF%WPLA   (NEL*L_WPLA)   ,STAT=ERR)                           
+            LBUF%WPLA(1:NEL*L_WPLA)    = RBUF(IAD+1:IAD+NEL*L_WPLA)                 
+              IAD = IAD+NEL*L_WPLA                                                            
           ALLOCATE(LBUF%TEMP(NEL*L_TEMP), STAT=ERR)                              
             LBUF%TEMP(1:NEL*L_TEMP)   = RBUF(IAD+1:IAD+NEL*L_TEMP)               
               IAD = IAD+NEL*L_TEMP                                               

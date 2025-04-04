@@ -74,7 +74,7 @@ C-----------------------------------------------
       INTEGER  ! local variables
      .   L_OFF,L_EINT,L_EINS,L_RHO,L_DP_DRHO,L_VOL,L_PLA,L_TB,L_TEMP,
      .   L_RK,L_RE,L_VK,L_ROB,L_SIG,L_SIGV,L_SIGL,L_SIGA,L_SIGD,L_SIGB,
-     .   L_SIGC,L_SIGF,L_STRA,L_EPSA,L_EPSD,L_EPSQ,L_EPSF,L_CRAK,
+     .   L_SIGC,L_SIGF,L_STRA,L_EPSA,L_EPSD,L_EPSQ,L_EPSF,L_CRAK,L_WPLA,
      .   L_ANG,L_SF,L_QVIS,L_DELTAX,L_GAMA,
      .   L_DAM,L_DSUM,L_DGLO,L_EPE,L_EPC,L_XST,L_SSP,L_Z,L_FRAC,L_VISC,
      .   L_THK,L_FOR,L_MOM,L_SMSTR,L_BFRAC,L_DMG,L_FORTH,L_EINTTH,L_SEQ,
@@ -216,6 +216,7 @@ c
          BUFLY_IMP%L_EPSQ    = BUFLY%L_EPSQ   
          BUFLY_IMP%L_EPSF    = BUFLY%L_EPSF   
          BUFLY_IMP%L_PLA     = BUFLY%L_PLA    
+         BUFLY_IMP%L_WPLA    = BUFLY%L_WPLA    
          BUFLY_IMP%L_TEMP    = BUFLY%L_TEMP        
          BUFLY_IMP%L_TB      = BUFLY%L_TB     
          BUFLY_IMP%L_RK      = BUFLY%L_RK     
@@ -285,7 +286,8 @@ c
             ALLOCATE(LBUF%EPSD  (NEL*BUFLY%L_EPSD)  ,STAT=ERR)                           
             ALLOCATE(LBUF%EPSQ  (NEL*BUFLY%L_EPSQ)  ,STAT=ERR)                           
             ALLOCATE(LBUF%EPSF  (NEL*BUFLY%L_EPSF)  ,STAT=ERR)                           
-            ALLOCATE(LBUF%PLA   (NEL*BUFLY%L_PLA)   ,STAT=ERR)                           
+            ALLOCATE(LBUF%PLA   (NEL*BUFLY%L_PLA)   ,STAT=ERR)      
+            ALLOCATE(LBUF%WPLA  (NEL*BUFLY%L_WPLA)   ,STAT=ERR)                                       
             ALLOCATE(LBUF%TEMP(NEL*BUFLY%L_TEMP), STAT=ERR)                              
             ALLOCATE(LBUF%TB(NEL*BUFLY%L_TB), STAT=ERR)                                  
             ALLOCATE(LBUF%RK(NEL*BUFLY%L_RK), STAT=ERR)                                  
