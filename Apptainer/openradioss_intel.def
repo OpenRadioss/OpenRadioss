@@ -6,34 +6,31 @@ oneAPI.repo /etc/yum.repos.d/oneAPI.repo
 
 %post
 dnf group install -y "Development Tools"
+dnf upgrade --refresh -y
 dnf install -y \
-gcc gcc-gfortran gcc-c++ make perl git-lfs \
+gcc gcc-gfortran gcc-c++ cmake make perl git-lfs \
 python3 python-unversioned-command wget git patch diffutils \
 pkgconfig libxcrypt-compat procps which
 dnf install -y --enablerepo=devel compat-libpthread-nonshared
 
-cd /tmp
-wget https://github.com/Kitware/CMake/releases/download/v3.24.3/cmake-3.24.3-linux-x86_64.sh
-sh cmake-3.24.3-linux-x86_64.sh --skip-license --prefix=/usr/local
-
-dnf install -y intel-hpckit-2024.2
+dnf install -y intel-oneapi-hpc-toolkit-2025.1
 
 sed -i "1i source /opt/intel/oneapi/setvars.sh" /etc/bashrc
 
 source /opt/intel/oneapi/setvars.sh
-export MKLROOT=/opt/intel/oneapi/mkl/2024.2
-export I_MPI_ROOT=/opt/intel/oneapi/mpi/2021.13
+export MKLROOT=/opt/intel/oneapi/mkl/2025.1
+export I_MPI_ROOT=/opt/intel/oneapi/mpi/2021.15
 export NCPU=$(nproc)
 
 cd /opt
 git lfs install
-git clone https://github.com/OpenRadioss/OpenRadioss.git
+git clone https://github.com/OpenRadioss/OpenRadioss.git --depth=1
 cd OpenRadioss
 cd /opt/OpenRadioss/starter
-./build_script.sh -arch=linux64_intel -nt=$NCPU -release
+./build_script.sh -arch=linux64_ifx -nt=$NCPU -release
 cd /opt/OpenRadioss/engine
-./build_script.sh -arch=linux64_intel -nt=$NCPU -release
-./build_script.sh -arch=linux64_intel -mpi=impi -nt=$NCPU -release
+./build_script.sh -arch=linux64_ifx -nt=$NCPU -release
+./build_script.sh -arch=linux64_ifx -mpi=impi -nt=$NCPU -release
 cd /opt/OpenRadioss/tools/anim_to_vtk/linux64
 ./build.bash
 cd /opt/OpenRadioss/tools/th_to_csv/linux64
@@ -44,10 +41,10 @@ export OPENRADIOSS_PATH=/opt/OpenRadioss
 export RAD_CFG_PATH=$OPENRADIOSS_PATH/hm_cfg_files
 export OMP_STACKSIZE=400m
 export PATH=$OPENRADIOSS_PATH/exec:$PATH
-export LD_LIBRARY_PATH=$OPENRADIOSS_PATH/extlib/hm_reader/linux64/:$OPENRADIOSS_PATH/extlib/h3d/lib/linux64/:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=$OPENRADIOSS_PATH/exec:$OPENRADIOSS_PATH/extlib/hm_reader/linux64/:$OPENRADIOSS_PATH/extlib/h3d/lib/linux64/:$LD_LIBRARY_PATH
 
-export PATH=/opt/intel/oneapi/mpi/2021.13/bin:$PATH
-export LD_LIBRARY_PATH=/opt/intel/oneapi/mpi/2021.13/lib:$LD_LIBRARY_PATH
+export PATH=/opt/intel/oneapi/2025.1/bin:$PATH
+export LD_LIBRARY_PATH=/opt/intel/oneapi/2025.1/lib/:$LD_LIBRARY_PATH
 
 %runscript
 source /opt/intel/oneapi/setvars.sh
