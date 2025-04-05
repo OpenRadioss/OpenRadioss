@@ -332,6 +332,7 @@ C
       !||    frictionparts_model_isot   ../engine/source/interfaces/int07/frictionparts_model.F
       !||--- called by ------------------------------------------------------
       !||    i11mainf                   ../engine/source/interfaces/int11/i11mainf.F
+      !||    i21mainf                   ../engine/source/interfaces/int21/i21mainf.F
       !||    i24mainf                   ../engine/source/interfaces/int24/i24main.F
       !||    i25mainf                   ../engine/source/interfaces/int25/i25mainf.F
       !||    i7mainf                    ../engine/source/interfaces/int07/i7mainf.F

@@ -47,11 +47,14 @@
       !||    hm_read_inter_struct            ../starter/source/interfaces/reader/hm_read_inter_struct.F
       !||    hm_read_inter_type07            ../starter/source/interfaces/int07/hm_read_inter_type07.F
       !||    hm_read_inter_type11            ../starter/source/interfaces/int11/hm_read_inter_type11.F
+      !||    hm_read_inter_type21            ../starter/source/interfaces/int21/hm_read_inter_type21.F
       !||    hm_read_inter_type24            ../starter/source/interfaces/int24/hm_read_inter_type24.F
       !||    hm_read_inter_type25            ../starter/source/interfaces/int25/hm_read_inter_type25.F
       !||    hm_read_interfaces              ../starter/source/interfaces/reader/hm_read_interfaces.F
       !||    i11mainf                        ../engine/source/interfaces/int11/i11mainf.F
       !||    i11sti3                         ../starter/source/interfaces/inter3d1/i11sti3.F
+      !||    i21els3                         ../starter/source/interfaces/inter3d1/i21els3.F
+      !||    i21mainf                        ../engine/source/interfaces/int21/i21mainf.F
       !||    i24gapm                         ../starter/source/interfaces/inter3d1/i24sti3.F
       !||    i24mainf                        ../engine/source/interfaces/int24/i24main.F
       !||    i24sti3                         ../starter/source/interfaces/inter3d1/i24sti3.F

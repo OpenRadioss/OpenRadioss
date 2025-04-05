@@ -1279,6 +1279,7 @@ C
       !||--- called by ------------------------------------------------------
       !||    hm_read_friction_orientations   ../starter/source/interfaces/friction/reader/hm_read_friction_orientations.F
       !||    i11sti3                         ../starter/source/interfaces/inter3d1/i11sti3.F
+      !||    i21els3                         ../starter/source/interfaces/inter3d1/i21els3.F
       !||    i24gapm                         ../starter/source/interfaces/inter3d1/i24sti3.F
       !||    i24sti3                         ../starter/source/interfaces/inter3d1/i24sti3.F
       !||    i25gapm                         ../starter/source/interfaces/inter3d1/i25sti3.F
