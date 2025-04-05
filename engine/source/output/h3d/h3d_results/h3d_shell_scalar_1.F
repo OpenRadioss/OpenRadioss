@@ -128,7 +128,7 @@ C-----------------------------------------------
         TYPE(G_BUFEL_)  ,POINTER :: GBUF
         TYPE(L_BUFEL_)  ,POINTER :: LBUF
         TYPE(BUF_LAY_)  ,POINTER :: BUFLY
-        TYPE(BUF_FAIL_) ,POINTER :: FBUF
+        TYPE(BUF_FAIL_) ,POINTER :: FBUF,FBUF1,FBUF2
         TYPE(L_BUFEL_) ,POINTER  :: LBUF1,LBUF2,LBUF3,LBUF4
         TYPE(BUF_MAT_)  ,POINTER :: MBUF
         TYPE(L_BUFEL_DIR_) ,POINTER :: LBUF_DIR
@@ -3685,6 +3685,54 @@ c PLY=IPLY NPT=-1
                     ENDDO
                   ENDIF
 c
+                ELSEIF ( IPLY > 0 .AND. IPT == -4 ) THEN
+                  DO J=1,NLAY
+                    NPTT = ELBUF_TAB(NG)%BUFLY(J)%NPTT
+                    ID_PLY = 0
+                    IF (IGTYP == 17 .OR. IGTYP == 51) THEN
+                      ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
+                    ELSEIF (IGTYP == 52) THEN
+                      ID_PLY=PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK)
+                    ENDIF
+                    IF (ID_PLY  == IPLY ) THEN
+                      IF (MOD(NPTT,2) == 0) THEN 
+                        DO I=1,NEL
+                          DO IR = 1, NPTR
+                            DO IS = 1, NPTS
+                              FBUF1 => ELBUF_TAB(NG)%BUFLY(J)%FAIL(IR,IS,NINT(HALF*NPTT))
+                              FBUF2 => ELBUF_TAB(NG)%BUFLY(J)%FAIL(IR,IS,NINT(HALF*NPTT)+1)
+                              DMGMX = ZERO
+                              DO IFAIL = 1,ELBUF_TAB(NG)%BUFLY(J)%NFAIL
+                                IF (FBUF1%FLOC(IFAIL)%IDFAIL == ID) THEN
+                                  DMGMX = HALF*(FBUF1%FLOC(IFAIL)%DAMMX(I) +
+     .                                          FBUF2%FLOC(IFAIL)%DAMMX(I))
+                                  VALUE(I) = VALUE(I) + DMGMX/(NPTR*NPTS)
+                                  IS_WRITTEN_VALUE(I) = 1
+                                ENDIF
+                              ENDDO                              
+                            ENDDO
+                          ENDDO
+                        ENDDO
+                      ELSE
+                        DO I=1,NEL
+                          DO IR = 1, NPTR
+                            DO IS = 1, NPTS
+                              FBUF => ELBUF_TAB(NG)%BUFLY(J)%FAIL(IR,IS,NINT(HALF*NPTT))
+                              DMGMX = ZERO
+                              DO IFAIL = 1,ELBUF_TAB(NG)%BUFLY(J)%NFAIL
+                                IF (FBUF%FLOC(IFAIL)%IDFAIL == ID) THEN
+                                  DMGMX = FBUF%FLOC(IFAIL)%DAMMX(I)
+                                  VALUE(I) = VALUE(I) + DMGMX/(NPTR*NPTS)
+                                  IS_WRITTEN_VALUE(I) = 1
+                                ENDIF
+                              ENDDO
+                            ENDDO
+                          ENDDO
+                        ENDDO
+                      ENDIF
+                    ENDIF
+                  ENDDO
+c
 c ILAYER=ILAY NPT=IPT
                 ELSEIF (ILAY <= NLAY .AND. ILAY > 0 .AND. IPT <= MPT .AND. IPT > 0 ) THEN
                   IF (IFAILURE > 0) THEN
@@ -3770,6 +3818,47 @@ c NPT=IPT
                           ENDDO
                         ENDDO
                       ENDDO     !  I=1,NEL
+                    ENDIF
+                  ENDIF
+c NPT=MEMB
+                ELSEIF (IPT == -4) THEN
+                  IF (IFAILURE > 0) THEN
+                    IF (IGTYP == 1 .OR. IGTYP == 9 ) THEN
+                      IF (MOD(NPT,2) == 0) THEN
+                        DO I = 1,NEL
+                          DO IR = 1,NPTR
+                            DO IS = 1,NPTS
+                              FBUF1 => ELBUF_TAB(NG)%BUFLY(1)%FAIL(IR,IS,NINT(HALF*NPT))
+                              FBUF2 => ELBUF_TAB(NG)%BUFLY(1)%FAIL(IR,IS,NINT(HALF*NPT)+1)
+                              DMGMX = ZERO
+                              DO IFAIL = 1,ELBUF_TAB(NG)%BUFLY(1)%NFAIL
+                                IF (FBUF1%FLOC(IFAIL)%IDFAIL == ID) THEN
+                                  DMGMX = HALF*(FBUF1%FLOC(IFAIL)%DAMMX(I) + 
+     .                                          FBUF2%FLOC(IFAIL)%DAMMX(I))
+                                  IS_WRITTEN_VALUE(I) = 1
+                                ENDIF
+                              ENDDO
+                              VALUE(I) = VALUE(I) + DMGMX/(NPTR*NPTS)
+                            ENDDO
+                          ENDDO
+                        ENDDO
+                      ELSE
+                        DO I = 1,NEL
+                          DO IR = 1,NPTR
+                            DO IS = 1,NPTS
+                              FBUF => ELBUF_TAB(NG)%BUFLY(1)%FAIL(IR,IS,NINT(HALF*NPT))
+                              DMGMX = ZERO
+                              DO IFAIL = 1,ELBUF_TAB(NG)%BUFLY(1)%NFAIL
+                                IF (FBUF%FLOC(IFAIL)%IDFAIL == ID) THEN
+                                  DMGMX = FBUF%FLOC(IFAIL)%DAMMX(I)
+                                  IS_WRITTEN_VALUE(I) = 1
+                                ENDIF
+                              ENDDO
+                              VALUE(I) = VALUE(I) + DMGMX/(NPTR*NPTS)
+                            ENDDO
+                          ENDDO
+                        ENDDO
+                      ENDIF
                     ENDIF
                   ENDIF
                 ENDIF
@@ -3886,6 +3975,54 @@ c PLY=IPLY NPT=-1
                     ENDDO
                   ENDIF
 c
+                ELSEIF ( IPLY > 0 .AND. IPT == -4 ) THEN
+                  DO J=1,NLAY
+                    NPTT = ELBUF_TAB(NG)%BUFLY(J)%NPTT
+                    ID_PLY = 0
+                    IF (IGTYP == 17 .OR. IGTYP == 51) THEN
+                      ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
+                    ELSEIF (IGTYP == 52) THEN
+                      ID_PLY=PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK)
+                    ENDIF
+                    IF (ID_PLY  == IPLY ) THEN
+                      IF (MOD(NPTT,2) == 0) THEN 
+                        DO I=1,NEL
+                          DO IR = 1, NPTR
+                            DO IS = 1, NPTS
+                              FBUF1 => ELBUF_TAB(NG)%BUFLY(J)%FAIL(IR,IS,NINT(HALF*NPTT))
+                              FBUF2 => ELBUF_TAB(NG)%BUFLY(J)%FAIL(IR,IS,NINT(HALF*NPTT)+1)
+                              DMGMX = ZERO
+                              DO IFAIL = 1,ELBUF_TAB(NG)%BUFLY(J)%NFAIL
+                                IF (FBUF1%FLOC(IFAIL)%IDFAIL == ID) THEN
+                                  DMGMX = HALF*(FBUF1%FLOC(IFAIL)%DAMMX(NEL*MODE+I) +
+     .                                          FBUF2%FLOC(IFAIL)%DAMMX(NEL*MODE+I))
+                                  VALUE(I) = VALUE(I) + DMGMX/(NPTR*NPTS)
+                                  IS_WRITTEN_VALUE(I) = 1
+                                ENDIF
+                              ENDDO                              
+                            ENDDO
+                          ENDDO
+                        ENDDO
+                      ELSE
+                        DO I=1,NEL
+                          DO IR = 1, NPTR
+                            DO IS = 1, NPTS
+                              FBUF => ELBUF_TAB(NG)%BUFLY(J)%FAIL(IR,IS,NINT(HALF*NPTT))
+                              DMGMX = ZERO
+                              DO IFAIL = 1,ELBUF_TAB(NG)%BUFLY(J)%NFAIL
+                                IF (FBUF%FLOC(IFAIL)%IDFAIL == ID) THEN
+                                  DMGMX = FBUF%FLOC(IFAIL)%DAMMX(NEL*MODE+I)
+                                  VALUE(I) = VALUE(I) + DMGMX/(NPTR*NPTS)
+                                  IS_WRITTEN_VALUE(I) = 1
+                                ENDIF
+                              ENDDO
+                            ENDDO
+                          ENDDO
+                        ENDDO
+                      ENDIF
+                    ENDIF
+                  ENDDO
+c
 c ILAYER=ILAY NPT=IPT
                 ELSEIF (ILAY <= NLAY .AND. ILAY > 0 .AND. IPT <= MPT .AND. IPT > 0 ) THEN
                   IF (IFAILURE > 0) THEN
@@ -3930,7 +4067,7 @@ c ILAYER=IL NPT=NULL
                           ENDDO
                         ENDDO
                       ENDDO     !  I=1,NEL
-c  
+c
                     ELSEIF (IGTYP == 51 .OR. IGTYP == 52) THEN
                       NPTT = ELBUF_TAB(NG)%BUFLY(ILAY)%NPTT
                       DO I=1,NEL
@@ -3971,6 +4108,47 @@ c NPT=IPT
                           ENDDO
                         ENDDO
                       ENDDO     !  I=1,NEL
+                    ENDIF
+                  ENDIF
+c NPT=MEMB
+                ELSEIF (IPT == -4) THEN
+                  IF (IFAILURE > 0) THEN
+                    IF (IGTYP == 1 .OR. IGTYP == 9 ) THEN
+                      IF (MOD(NPT,2) == 0) THEN
+                        DO I = 1,NEL
+                          DO IR = 1,NPTR
+                            DO IS = 1,NPTS
+                              FBUF1 => ELBUF_TAB(NG)%BUFLY(1)%FAIL(IR,IS,NINT(HALF*NPT))
+                              FBUF2 => ELBUF_TAB(NG)%BUFLY(1)%FAIL(IR,IS,NINT(HALF*NPT)+1)
+                              DMGMX = ZERO
+                              DO IFAIL = 1,ELBUF_TAB(NG)%BUFLY(1)%NFAIL
+                                IF (FBUF1%FLOC(IFAIL)%IDFAIL == ID) THEN
+                                  DMGMX = HALF*(FBUF1%FLOC(IFAIL)%DAMMX(NEL*MODE+I) + 
+     .                                          FBUF2%FLOC(IFAIL)%DAMMX(NEL*MODE+I))
+                                  IS_WRITTEN_VALUE(I) = 1
+                                ENDIF
+                              ENDDO
+                              VALUE(I) = VALUE(I) + DMGMX/(NPTR*NPTS)
+                            ENDDO
+                          ENDDO
+                        ENDDO
+                      ELSE
+                        DO I = 1,NEL
+                          DO IR = 1,NPTR
+                            DO IS = 1,NPTS
+                              FBUF => ELBUF_TAB(NG)%BUFLY(1)%FAIL(IR,IS,NINT(HALF*NPT))
+                              DMGMX = ZERO
+                              DO IFAIL = 1,ELBUF_TAB(NG)%BUFLY(1)%NFAIL
+                                IF (FBUF%FLOC(IFAIL)%IDFAIL == ID) THEN
+                                  DMGMX = FBUF%FLOC(IFAIL)%DAMMX(NEL*MODE+I)
+                                  IS_WRITTEN_VALUE(I) = 1
+                                ENDIF
+                              ENDDO
+                              VALUE(I) = VALUE(I) + DMGMX/(NPTR*NPTS)
+                            ENDDO
+                          ENDDO
+                        ENDDO
+                      ENDIF
                     ENDIF
                   ENDIF
                 ENDIF
@@ -4147,6 +4325,50 @@ c
                         ENDIF
                       ENDIF
                     ENDDO
+c
+                  ! If ply input + membrane: PLY=IPLY LAYER=null NPT=MEMB
+                  ! -> Properties type 17/51/52 only
+                  ELSEIF ( IPLY > 0 .AND. IPT == -4 ) THEN
+                    DO J=1,NLAY
+                      IMAT = ELBUF_TAB(NG)%BUFLY(J)%IMAT
+                      MAT_ID = MATPARAM(IMAT)%MAT_ID
+                      IF ((ID == -1) .OR. ((ID > 0).AND.(MAT_ID == ID))) THEN 
+                        IF (ELBUF_TAB(NG)%BUFLY(J)%L_DMG > 0) THEN
+                          NPTT = ELBUF_TAB(NG)%BUFLY(J)%NPTT
+                          ID_PLY = 0
+                          IF (IGTYP == 17 .OR. IGTYP == 51) THEN
+                            ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
+                          ELSEIF (IGTYP == 52) THEN
+                            ID_PLY=PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK)
+                          ENDIF
+                          IF (ID_PLY  == IPLY ) THEN
+                            IF (MOD(NPTT,2) == 0) THEN 
+                              DO I=1,NEL
+                                DO IR = 1, NPTR
+                                  DO IS = 1, NPTS
+                                    LBUF1 => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,NINT(HALF*NPTT))
+                                    LBUF2 => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,NINT(HALF*NPTT)+1)
+                                    VALUE(I) = VALUE(I) + HALF*(LBUF1%DMG(I) + LBUF2%DMG(I)
+     .                                                          /(NPTR*NPTS))
+                                    IS_WRITTEN_VALUE(I) = 1
+                                  ENDDO
+                                ENDDO                              
+                              ENDDO
+                            ENDIF
+                          ELSE
+                            DO I=1,NEL
+                              DO IR = 1, NPTR
+                                DO IS = 1, NPTS
+                                  LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,NINT(HALF*NPTT))
+                                  VALUE(I) = VALUE(I) + LBUF%DMG(I)/(NPTR*NPTS)
+                                  IS_WRITTEN_VALUE(I) = 1
+                                ENDDO
+                              ENDDO
+                            ENDDO
+                          ENDIF
+                        ENDIF
+                      ENDIF
+                    ENDDO
 c  
                     ! If layer input : PLY=null LAYER=ILAY NPT=null/IPT
                     ! -> Properties type 10/11/16 only
@@ -4187,6 +4409,38 @@ c
                             ENDDO
                             IS_WRITTEN_VALUE(I) = 1
                           ENDDO
+                        ENDIF
+                      ENDIF
+                    ENDIF
+c
+                  ELSEIF (IPT == -4) THEN
+                    IF (IGTYP == 1 .OR. IGTYP == 9 ) THEN
+                      IMAT = ELBUF_TAB(NG)%BUFLY(1)%IMAT
+                      MAT_ID = MATPARAM(IMAT)%MAT_ID
+                      IF ((ID == -1) .OR. ((ID > 0).AND.(MAT_ID == ID))) THEN 
+                        IF (ELBUF_TAB(NG)%BUFLY(1)%L_DMG > 0) THEN
+                          IF (MOD(NPT,2) == 0) THEN
+                            DO I = 1,NEL
+                              DO IR = 1,NPTR
+                                DO IS = 1,NPTS
+                                  LBUF1 => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,NINT(HALF*NPT))
+                                  LBUF2 => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,NINT(HALF*NPT)+1)
+                                  VALUE(I) = VALUE(I) + HALF*(LBUF1%DMG(I) + LBUF2%DMG(I))/(NPTR*NPTS)
+                                ENDDO
+                              ENDDO
+                              IS_WRITTEN_VALUE(I) = 1
+                            ENDDO
+                          ELSE
+                            DO I = 1,NEL
+                              DO IR = 1,NPTR
+                                DO IS = 1,NPTS
+                                  LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,NINT(HALF*NPT))
+                                  VALUE(I) = VALUE(I) + LBUF%DMG(I)/(NPTR*NPTS)
+                                ENDDO
+                              ENDDO
+                              IS_WRITTEN_VALUE(I) = 1
+                            ENDDO
+                          ENDIF
                         ENDIF
                       ENDIF
                     ENDIF
@@ -4310,6 +4564,50 @@ c
                         ENDIF
                       ENDIF
                     ENDDO
+c
+                  ! If ply input + membrane: PLY=IPLY LAYER=null NPT=MEMB
+                  ! -> Properties type 17/51/52 only
+                  ELSEIF ( IPLY > 0 .AND. IPT == -4 ) THEN
+                    DO J=1,NLAY
+                      IMAT = ELBUF_TAB(NG)%BUFLY(J)%IMAT
+                      MAT_ID = MATPARAM(IMAT)%MAT_ID
+                      IF ((ID == -1) .OR. ((ID > 0).AND.(MAT_ID == ID))) THEN 
+                        IF (ELBUF_TAB(NG)%BUFLY(J)%L_DMG > 0) THEN
+                          NPTT = ELBUF_TAB(NG)%BUFLY(J)%NPTT
+                          ID_PLY = 0
+                          IF (IGTYP == 17 .OR. IGTYP == 51) THEN
+                            ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
+                          ELSEIF (IGTYP == 52) THEN
+                            ID_PLY=PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK)
+                          ENDIF
+                          IF (ID_PLY  == IPLY ) THEN
+                            IF (MOD(NPTT,2) == 0) THEN 
+                              DO I=1,NEL
+                                DO IR = 1, NPTR
+                                  DO IS = 1, NPTS
+                                    LBUF1 => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,NINT(HALF*NPTT))
+                                    LBUF2 => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,NINT(HALF*NPTT)+1)
+                                    VALUE(I) = VALUE(I) + HALF*(LBUF1%DMG(NEL*MODE+I) + 
+     .                                                          LBUF2%DMG(NEL*MODE+I)/(NPTR*NPTS))
+                                    IS_WRITTEN_VALUE(I) = 1
+                                  ENDDO
+                                ENDDO                              
+                              ENDDO
+                            ELSE
+                              DO I=1,NEL
+                                DO IR = 1, NPTR
+                                  DO IS = 1, NPTS
+                                    LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,NINT(HALF*NPTT))
+                                    VALUE(I) = VALUE(I) + LBUF%DMG(NEL*MODE+I)/(NPTR*NPTS)
+                                    IS_WRITTEN_VALUE(I) = 1
+                                  ENDDO
+                                ENDDO
+                              ENDDO
+                            ENDIF
+                          ENDIF
+                        ENDIF
+                      ENDIF
+                    ENDDO
 c  
                   ! If layer input : PLY=null LAYER=ILAY NPT=null/IPT
                   ! -> Properties type 10/11/16 only
@@ -4352,6 +4650,40 @@ c
                             ENDDO
                             IS_WRITTEN_VALUE(I) = 1
                           ENDDO
+                        ENDIF
+                      ENDIF
+                    ENDIF
+c
+                  ELSEIF (IPT == -4) THEN
+                    IF (IGTYP == 1 .OR. IGTYP == 9) THEN
+                      IMAT = ELBUF_TAB(NG)%BUFLY(1)%IMAT
+                      NMOD = MATPARAM(IMAT)%NMOD
+                      MAT_ID = MATPARAM(IMAT)%MAT_ID
+                      IF ((NMOD > 0 .AND. MODE <= NMOD) .AND. (MAT_ID == ID)) THEN 
+                        IF (ELBUF_TAB(NG)%BUFLY(1)%L_DMG > 0) THEN
+                          IF (MOD(NPT,2) == 0) THEN
+                            DO I = 1,NEL
+                              DO IR = 1,NPTR
+                                DO IS = 1,NPTS
+                                  LBUF1 => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,NINT(HALF*NPT))
+                                  LBUF2 => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,NINT(HALF*NPT)+1)
+                                  VALUE(I) = VALUE(I) + HALF*(LBUF1%DMG(NEL*MODE+I) + 
+     .                                                        LBUF2%DMG(NEL*MODE+I))/(NPTR*NPTS)
+                                ENDDO
+                              ENDDO
+                              IS_WRITTEN_VALUE(I) = 1
+                            ENDDO
+                          ELSE
+                            DO I = 1,NEL
+                              DO IR = 1,NPTR
+                                DO IS = 1,NPTS
+                                  LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,NINT(HALF*NPT))
+                                  VALUE(I) = VALUE(I) + LBUF%DMG(NEL*MODE+I)/(NPTR*NPTS)
+                                ENDDO
+                              ENDDO
+                              IS_WRITTEN_VALUE(I) = 1
+                            ENDDO
+                          ENDIF
                         ENDIF
                       ENDIF
                     ENDIF
