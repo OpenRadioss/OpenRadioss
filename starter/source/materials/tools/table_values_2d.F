@@ -52,7 +52,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: IPT,IDX
+      INTEGER :: IPT,IDX,IPTM1
       my_real :: X1,X2,Y1,Y2,DERI
 c=======================================================================
       IF (NPTF >= LEN) THEN
@@ -81,15 +81,20 @@ c=======================================================================
         Y2  = YI(2)
         DERI = (Y2 - Y1) / (X2 - X1)
         YF(1) = Y1
+        IPTM1 = 1
         DO IPT = 2,LEN
-          IF (XI(IPT) >= XF(IDX) .and. IDX < nptf) THEN
-            IDX = IDX + 1
-            X1 = XI(IPT-1)
-            Y1 = YI(IPT-1)
-            X2 = XI(IPT)
-            Y2 = YI(IPT)
-            DERI  = (Y2 - Y1) / (X2 - X1)
-            YF(IDX) = Y1 + DERI * (XF(IDX) - X1)
+          IF (IDX < nptf) THEN                                              ! NPTF is the length of XF last IDX is updated bellow
+            IF (XF(IDX+1) >= XI(IPTM1)  .and. XF(IDX+1) <= XI(IPT) ) THEN   ! XF(IDX+1) - the new X - must be between lower and upper bound of XI
+                                                                            ! IPTM1 is the lower bound of previous used IPT
+               IDX = IDX + 1
+               X1 = XI(IPTM1)
+               Y1 = YI(IPTM1)
+               X2 = XI(IPT)
+               Y2 = YI(IPT)
+               DERI  = (Y2 - Y1) / (X2 - X1)
+               YF(IDX) = Y1 + DERI * (XF(IDX) - X1)
+               IPTM1 = IPT
+            ENDIF
           END IF
         END DO
       END IF
