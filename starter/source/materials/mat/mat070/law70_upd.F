@@ -73,7 +73,7 @@ C-----------------------------------------------
       my_real :: E0,EMAX,EPSMAX,STIFFMIN,STIFFMAX,STIFFINI,C1,G,NU,XMAX,
      .   S1,S2,T1,T2,X1,X2,Y1,Y2,DERI,YY,EPS0,EPST
       INTEGER ,DIMENSION(NFUNC) :: FUNC,PERM,LEN
-      my_real ,DIMENSION(NFUNC) :: RATE,YFAC
+      my_real ,DIMENSION(NFUNC*2) :: RATE,YFAC
       my_real ,DIMENSION(:)   ,ALLOCATABLE :: XF
       my_real ,DIMENSION(:,:) ,ALLOCATABLE :: XI,YI,YF
 C=======================================================================
@@ -181,7 +181,7 @@ c
         DO I = 1,NULOAD
           K  = NLOAD + I
           FUNC(I) = IFUNC (K)
-          RATE(I) = UPARAM(K + 8)
+          RATE(I+NLOAD) = UPARAM(K + 8)
           YFAC(I) = UPARAM(K + 8 + NFUNC)
           LEN(I)  = (NPC(FUNC(I)+1) - NPC(FUNC(I))) / 2
           LMAX    = MAX(LMAX,LEN(I))
@@ -244,7 +244,7 @@ c       reduce number of points if necessary
         END DO
 c--------------------------------------------------------
         CALL LAW70_TABLE(
-     .       MAT_PARAM%TABLE(UNLOAD)  ,NULOAD  ,LEN     ,LMAX   ,RATE  ,
+     .       MAT_PARAM%TABLE(UNLOAD)  ,NULOAD  ,LEN     ,LMAX   ,RATE(NLOAD+1)  ,
      .       XI    , YI     )      
       
         DEALLOCATE (YI)
@@ -416,7 +416,7 @@ c-----------
      .       5X,/'      X,              Y')
  1102 FORMAT(5X,/,'YIELD STRESS FUNCTION=',I10,
      .       5X,'STRAIN RATE = ',1PG20.13,/,
-     .       5X,'      X,              Y')
- 2000 FORMAT(2G16.9)
+     .       5X,'              X                   Y')
+ 2000 FORMAT(2G20.13)
 c------------------------------------
       END
