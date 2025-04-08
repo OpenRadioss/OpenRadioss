@@ -343,7 +343,7 @@ C
      .                      ANMODE=ANINFO_BLIND_1,
      .                      I1=NOINTF,
      .                      C1=TITR,
-     .                      I2=IGRPART1)
+     .                      I2=GRPART1)
             ENDIF
           ENDIF
 C
@@ -364,7 +364,7 @@ C
      .                      ANMODE=ANINFO_BLIND_1,
      .                      I1=NOINTF,
      .                      C1=TITR,
-     .                      I2=IGRPART2)
+     .                      I2=GRPART2)
              ENDIF
           ENDIF
 
