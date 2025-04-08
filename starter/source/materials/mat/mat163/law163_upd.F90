@@ -21,13 +21,19 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    law190_upd_mod   ../starter/source/materials/mat/mat190/law190_upd.F90
+      !||    law163_upd_mod   ../starter/source/materials/mat/mat163/law163_upd.F90
       !||--- called by ------------------------------------------------------
       !||    updmat           ../starter/source/materials/updmat.F
       !||====================================================================
       module law163_upd_mod
       contains
 !! \brief update material law 190
+      !||====================================================================
+      !||    law163_upd         ../starter/source/materials/mat/mat163/law163_upd.F90
+      !||--- called by ------------------------------------------------------
+      !||    updmat             ../starter/source/materials/updmat.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
         subroutine law163_upd(  matparam ,pm , npropm   )
 ! ----------------------------------------------------------------------------------------------------------------------
 !   M o d u l e s

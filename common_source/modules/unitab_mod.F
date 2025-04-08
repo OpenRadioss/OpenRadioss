@@ -169,6 +169,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_inter_lagmul_type02     ../starter/source/interfaces/int02/hm_read_inter_lagmul_type02.F
       !||    hm_read_inter_lagmul_type07     ../starter/source/interfaces/int07/hm_read_inter_lagmul_type07.F
       !||    hm_read_inter_struct            ../starter/source/interfaces/reader/hm_read_inter_struct.F
+      !||    hm_read_inter_type02            ../starter/source/interfaces/int02/hm_read_inter_type02.F
       !||    hm_read_inter_type03            ../starter/source/interfaces/int03/hm_read_inter_type03.F
       !||    hm_read_inter_type05            ../starter/source/interfaces/int05/hm_read_inter_type05.F
       !||    hm_read_inter_type06            ../starter/source/interfaces/int06/hm_read_inter_type06.F
@@ -236,6 +237,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_mat151                  ../starter/source/materials/mat/mat151/hm_read_mat151.F
       !||    hm_read_mat158                  ../starter/source/materials/mat/mat158/hm_read_mat158.F
       !||    hm_read_mat16                   ../starter/source/materials/mat/mat016/hm_read_mat16.F
+      !||    hm_read_mat163                  ../starter/source/materials/mat/mat163/hm_read_mat163.F90
       !||    hm_read_mat169_arup             ../starter/source/materials/mat/mat169/hm_read_mat169.F90
       !||    hm_read_mat18                   ../starter/source/materials/mat/mat018/hm_read_mat18.F
       !||    hm_read_mat19                   ../starter/source/materials/mat/mat019/hm_read_mat19.F

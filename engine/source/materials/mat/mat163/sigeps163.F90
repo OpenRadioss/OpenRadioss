@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    sigeps163_mod   ../engine/source/materials/mat/mat163/sigeps163.F90
+      !||--- called by ------------------------------------------------------
+      !||    mulaw           ../engine/source/materials/mat_share/mulaw.F90
+      !||====================================================================
       module sigeps163_mod
         contains
 ! ======================================================================================================================
@@ -30,6 +35,19 @@
 !          computed according to the user choice (engineering or true strain rate).
 !          A viscous damping is added to the stress tensor.
 ! ======================================================================================================================       
+      !||====================================================================
+      !||    sigeps163               ../engine/source/materials/mat/mat163/sigeps163.F90
+      !||--- called by ------------------------------------------------------
+      !||    mulaw                   ../engine/source/materials/mat_share/mulaw.F90
+      !||--- calls      -----------------------------------------------------
+      !||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
+      !||    valpvec_v               ../engine/source/materials/mat/mat033/sigeps33.F
+      !||    valpvecdp_v             ../engine/source/materials/mat/mat033/sigeps33.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod            ../common_source/modules/constant_mod.F
+      !||    matparam_def_mod        ../common_source/modules/mat_elem/matparam_def_mod.F90
+      !||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
+      !||====================================================================
         subroutine sigeps163(                                                  &
           nel      ,nuvar    ,uvar     ,matparam ,timestep ,et       ,         &
           rho0     ,sigy     ,ssp      ,nvartmp  ,vartmp   ,mvsiz    ,         &

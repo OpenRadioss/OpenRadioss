@@ -39,6 +39,7 @@
       !||    ancmsg                  ../starter/source/output/message/message.F
       !||    ineltc                  ../starter/source/interfaces/inter3d1/inelt.F
       !||    inelts                  ../starter/source/interfaces/inter3d1/inelt.F
+      !||    insol3                  ../starter/source/interfaces/inter3d1/insol3.F
       !||    select_s2s              ../starter/source/interfaces/inter3d1/select_s2s.F90
       !||--- uses       -----------------------------------------------------
       !||    message_mod             ../starter/share/message_module/message_mod.F

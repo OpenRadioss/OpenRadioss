@@ -27,6 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i20sti3     ../starter/source/interfaces/inter3d1/i20sti3.F
       !||    i21els3     ../starter/source/interfaces/inter3d1/i21els3.F
       !||    i23gap3     ../starter/source/interfaces/inter3d1/i23gap3.F
+      !||    i2_surfi    ../starter/source/interfaces/inter3d1/i2_surfi.F90
       !||    i2buc1      ../starter/source/interfaces/inter3d1/i2buc1.F
       !||    i2chk3      ../starter/source/interfaces/inter3d1/i2chk3.F
       !||    i2cor3      ../starter/source/interfaces/inter3d1/i2cor3.F

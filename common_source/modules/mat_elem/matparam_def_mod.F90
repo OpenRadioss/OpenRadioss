@@ -123,6 +123,7 @@
       !||    hm_read_mat151                      ../starter/source/materials/mat/mat151/hm_read_mat151.F
       !||    hm_read_mat158                      ../starter/source/materials/mat/mat158/hm_read_mat158.F
       !||    hm_read_mat16                       ../starter/source/materials/mat/mat016/hm_read_mat16.F
+      !||    hm_read_mat163                      ../starter/source/materials/mat/mat163/hm_read_mat163.F90
       !||    hm_read_mat169_arup                 ../starter/source/materials/mat/mat169/hm_read_mat169.F90
       !||    hm_read_mat18                       ../starter/source/materials/mat/mat018/hm_read_mat18.F
       !||    hm_read_mat19                       ../starter/source/materials/mat/mat019/hm_read_mat19.F
@@ -215,6 +216,7 @@
       !||    inivol_set                          ../starter/source/initial_conditions/inivol/inivol_set.F
       !||    law104_upd                          ../starter/source/materials/mat/mat104/law104_upd.F
       !||    law158_upd                          ../starter/source/materials/mat/mat158/law158_upd.F
+      !||    law163_upd                          ../starter/source/materials/mat/mat163/law163_upd.F90
       !||    law190_upd                          ../starter/source/materials/mat/mat190/law190_upd.F90
       !||    law19_upd                           ../starter/source/materials/mat/mat019/law19_upd.F90
       !||    law42_upd                           ../starter/source/materials/mat/mat042/law42_upd.F
@@ -278,6 +280,7 @@
       !||    sigeps127c                          ../engine/source/materials/mat/mat127/sigeps127c.F90
       !||    sigeps128c                          ../engine/source/materials/mat/mat128/sigeps128c.F90
       !||    sigeps128s                          ../engine/source/materials/mat/mat128/sigeps128s.F90
+      !||    sigeps163                           ../engine/source/materials/mat/mat163/sigeps163.F90
       !||    sigeps190                           ../engine/source/materials/mat/mat190/sigeps190.F
       !||    sigeps25c                           ../engine/source/materials/mat/mat025/sigeps25c.F
       !||    sigeps25cp                          ../engine/source/materials/mat/mat025/sigeps25cp.F
