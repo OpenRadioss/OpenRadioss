@@ -190,6 +190,7 @@
               nsn=ipari(5,n)
               do j = 1, nsn
                 ns = intbuf_tab(n)%nsv(j)
+                if (ns>numnod) cycle
                 if (itag(ns)==0) stifint(ns) =  sfac_max*stifint(ns)
               end do
             endif
