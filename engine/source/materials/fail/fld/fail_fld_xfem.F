@@ -185,7 +185,10 @@ c
         DEMIN(I)  = ALPHA*DEMIN(I) + (ONE - ALPHA)*UVAR(I,3) 
         BETA(I)   = DEMIN(I)/SIGN(MAX(ABS(DEMAJ(I)),EM20),DEMAJ(I))
         UVAR(I,2) = DEMAJ(I)
-        UVAR(I,3) = DEMIN(I)        
+        UVAR(I,3) = DEMIN(I)
+        IF (IENG == 2) THEN
+          DFMAX(I,4) = BETA(I)
+        ENDIF 
       ENDDO
 c
       !=================================================================

@@ -148,6 +148,9 @@ c
           EMAJ(I) = SS
         ENDIF
         BETA(I) = EMIN(I)/MAX(EMAJ(I),EM20)
+        IF (IENG == 2) THEN
+          DFMAX(I,4) = BETA(I)
+        ENDIF 
       ENDDO
 c
       !=================================================================
