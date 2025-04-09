@@ -327,7 +327,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    splissv                                      ../engine/source/elements/sph/splissv.F
       !||    split_asspar4                                ../engine/source/assembly/split_asspar4.F
       !||    spmd_allglob_isum9                           ../engine/source/mpi/generic/spmd_allglob_isum9.F
-      !||    spmd_barrier                                 ../engine/source/mpi/generic/spmd_barrier.F
+      !||    spmd_barrier                                 ../engine/source/mpi/spmd_mod.F90
       !||    spmd_chkw                                    ../engine/source/mpi/generic/spmd_chkw.F
       !||    spmd_collect                                 ../engine/source/mpi/output/spmd_collect.F
       !||    spmd_collect_multi_fvm                       ../engine/source/mpi/output/spmd_collect_multi_fvm.F
@@ -445,7 +445,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    error_mod                                    ../engine/share/modules/error_mod.F
       !||    failwave_mod                                 ../common_source/modules/failwave_mod.F
       !||    force_mod                                    ../engine/source/loads/general/force.F90
-      !||    fskyi_mod                                    ../engine/share/modules/restart_mod.F
       !||    funct_python_update_elements_mod             ../engine/source/tools/curve/funct_python_update_elements.F90
       !||    fvbag_mod                                    ../engine/share/modules/fvbag_mod.F
       !||    get_neighbour_surface_mod                    ../engine/source/interfaces/interf/get_neighbour_surface.F90

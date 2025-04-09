@@ -23,9 +23,13 @@
       !||====================================================================
       !||    spmd_mod                        ../engine/source/mpi/spmd_mod.F90
       !||--- called by ------------------------------------------------------
+      !||    check_nan_acc                   ../engine/source/output/outfile/check_nan_acc.F
+      !||    inttri                          ../engine/source/interfaces/intsort/inttri.F
       !||    python_element_init             ../engine/source/mpi/python_spmd_mod.F90
       !||    python_element_sync             ../engine/source/mpi/python_spmd_mod.F90
       !||    resol                           ../engine/source/engine/resol.F
+      !||    sphprep                         ../engine/source/elements/sph/sphprep.F
+      !||    sphtri0                         ../engine/source/elements/sph/sphtri0.F
       !||    spmd_all_dmax                   ../engine/source/mpi/elements/spmd_sph.F
       !||    spmd_e1vois                     ../engine/source/mpi/fluid/spmd_cfd.F
       !||    spmd_e4vois                     ../engine/source/mpi/fluid/spmd_cfd.F
@@ -96,6 +100,7 @@
       !||    spmd_wvois                      ../engine/source/mpi/fluid/spmd_cfd.F
       !||    spmd_xv_inter_type1             ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
       !||    spmd_xvois                      ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    thermbilan                      ../engine/source/constraints/thermic/thermbilan.F
       !||====================================================================
       module spmd_mod
         implicit none
@@ -210,6 +215,7 @@
       !||    spmd_allreduce_ints      ../engine/source/mpi/spmd_mod.F90
       !||    spmd_allreduce_real      ../engine/source/mpi/spmd_mod.F90
       !||    spmd_allreduce_reals     ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_barrier             ../engine/source/mpi/spmd_mod.F90
       !||    spmd_comm_rank           ../engine/source/mpi/spmd_mod.F90
       !||    spmd_comm_size           ../engine/source/mpi/spmd_mod.F90
       !||    spmd_irecv_double        ../engine/source/mpi/spmd_mod.F90
@@ -291,6 +297,7 @@
       !||    spmd_allreduce_ints      ../engine/source/mpi/spmd_mod.F90
       !||    spmd_allreduce_real      ../engine/source/mpi/spmd_mod.F90
       !||    spmd_allreduce_reals     ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_barrier             ../engine/source/mpi/spmd_mod.F90
       !||    spmd_comm_rank           ../engine/source/mpi/spmd_mod.F90
       !||    spmd_comm_size           ../engine/source/mpi/spmd_mod.F90
       !||    spmd_irecv_double        ../engine/source/mpi/spmd_mod.F90
@@ -498,7 +505,7 @@
 !   See MPI documentation for the meaning of the arguments.
 ! ======================================================================================================================
       !||====================================================================
-      !||    spmd_barrier    ../engine/source/mpi/generic/spmd_barrier.F
+      !||    spmd_barrier    ../engine/source/mpi/spmd_mod.F90
       !||--- called by ------------------------------------------------------
       !||    check_nan_acc   ../engine/source/output/outfile/check_nan_acc.F
       !||    inttri          ../engine/source/interfaces/intsort/inttri.F
@@ -507,6 +514,8 @@
       !||    sphtri0         ../engine/source/elements/sph/sphtri0.F
       !||    thermbilan      ../engine/source/constraints/thermic/thermbilan.F
       !||--- calls      -----------------------------------------------------
+      !||    spmd_in         ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_out        ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
         subroutine spmd_barrier(comm)
           implicit none

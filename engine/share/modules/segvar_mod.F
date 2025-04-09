@@ -42,6 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ebcs5                            ../engine/source/boundary_conditions/ebcs/ebcs5.F
       !||    ebcs6                            ../engine/source/boundary_conditions/ebcs/ebcs6.F
       !||    ebcs7                            ../engine/source/boundary_conditions/ebcs/ebcs7.F
+      !||    ebcs_main                        ../engine/source/boundary_conditions/ebcs/ebcs_main.F
       !||    ebcs_vol2seg                     ../engine/source/boundary_conditions/ebcs/ebcs_vol2seg.F
       !||    gradient_reconstruction          ../engine/source/ale/alemuscl/gradient_reconstruction.F
       !||    gradient_reconstruction2         ../engine/source/ale/alemuscl/gradient_reconstruction2.F

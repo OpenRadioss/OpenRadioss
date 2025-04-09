@@ -45,7 +45,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    drape_mod               ../engine/share/modules/drape_mod.F
       !||    ecnd_mod                ../engine/share/modules/ecdn_mod.F
       !||    eig_mod                 ../engine/share/modules/eig_mod.F
-      !||    fskyi_mod               ../engine/share/modules/restart_mod.F
       !||    fxb_mod                 ../engine/share/modules/fxb_mod.F
       !||    glob_therm_mod          ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    h3d_mod                 ../engine/share/modules/h3d_mod.F

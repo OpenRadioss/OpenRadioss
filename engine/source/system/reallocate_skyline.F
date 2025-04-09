@@ -30,9 +30,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ancmsg                 ../engine/source/output/message/message.F
       !||    arret                  ../engine/source/system/arret.F
       !||--- uses       -----------------------------------------------------
-      !||    fskyi_mod              ../engine/share/modules/restart_mod.F
       !||    heat_mod               ../engine/share/modules/heat_mod.F
       !||    message_mod            ../engine/share/message_module/message_mod.F
+      !||    parith_on_mod          ../common_source/modules/parith_on_mod.F90
       !||    plyxfem_mod            ../engine/share/modules/plyxfem_mod.F
       !||====================================================================
       SUBROUTINE REALLOCATE_I_SKYLINE(NEW_COUNT,CALL_ID,INTHEAT,NODADT_THERM, PON)

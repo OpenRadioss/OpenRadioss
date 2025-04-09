@@ -27,12 +27,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    my_barrier      ../engine/source/system/machine.F
       !||    spmd_all_dmax   ../engine/source/mpi/elements/spmd_sph.F
-      !||    spmd_barrier    ../engine/source/mpi/generic/spmd_barrier.F
+      !||    spmd_barrier    ../engine/source/mpi/spmd_mod.F90
       !||    spmd_sphvox     ../engine/source/mpi/sph/spmd_sphvox.F
       !||    spmd_sphvox0    ../engine/source/mpi/elements/spmd_sph.F
       !||    startime        ../engine/source/system/timer_mod.F90
       !||    stoptime        ../engine/source/system/timer_mod.F90
       !||--- uses       -----------------------------------------------------
+      !||    spmd_mod        ../engine/source/mpi/spmd_mod.F90
       !||    timer_mod       ../engine/source/system/timer_mod.F90
       !||    tri7box         ../engine/share/modules/tri7box.F
       !||====================================================================

@@ -71,7 +71,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    intmass_update            ../engine/source/interfaces/interf/intmass_update.F
       !||    my_barrier                ../engine/source/system/machine.F
       !||    spmd_allglob_isum9        ../engine/source/mpi/generic/spmd_allglob_isum9.F
-      !||    spmd_barrier              ../engine/source/mpi/generic/spmd_barrier.F
+      !||    spmd_barrier              ../engine/source/mpi/spmd_mod.F90
       !||    spmd_exch_sorting_efric   ../engine/source/mpi/interfaces/spmd_exch_sorting_efric.F
       !||    spmd_get_inacti_global    ../engine/source/mpi/interfaces/spmd_get_inacti_global.F
       !||    spmd_get_stif25_edg       ../engine/source/mpi/interfaces/spmd_getstif25_edg.F
@@ -96,6 +96,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    multi_fvm_mod             ../common_source/modules/ale/multi_fvm_mod.F90
       !||    outputs_mod               ../common_source/modules/outputs_mod.F
       !||    sensor_mod                ../common_source/modules/sensor_mod.F90
+      !||    spmd_mod                  ../engine/source/mpi/spmd_mod.F90
       !||    timer_mod                 ../engine/source/system/timer_mod.F90
       !||    tri7box                   ../engine/share/modules/tri7box.F
       !||====================================================================

@@ -27,9 +27,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    resol              ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
       !||    my_isnan           ../engine/source/system/my_isnan.F
-      !||    spmd_barrier       ../engine/source/mpi/generic/spmd_barrier.F
+      !||    spmd_barrier       ../engine/source/mpi/spmd_mod.F90
       !||--- uses       -----------------------------------------------------
       !||    nodal_arrays_mod   ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    spmd_mod           ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
       SUBROUTINE CHECK_NAN_ACC(NCYCLE,NODES)
       USE SPMD_MOD, ONLY : SPMD_BARRIER

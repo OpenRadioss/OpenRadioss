@@ -37,7 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sphtri               ../engine/source/elements/sph/sphtri.F
       !||    sphtri0              ../engine/source/elements/sph/sphtri0.F
       !||    spmd_allglob_isum9   ../engine/source/mpi/generic/spmd_allglob_isum9.F
-      !||    spmd_barrier         ../engine/source/mpi/generic/spmd_barrier.F
+      !||    spmd_barrier         ../engine/source/mpi/spmd_mod.F90
       !||    spmd_min_max         ../engine/source/mpi/anim/spmd_min_max.F
       !||    spmd_spamaj          ../engine/source/mpi/sph/spmd_spamaj.F
       !||    spmd_sphgat          ../engine/source/mpi/sph/spmd_sphgat.F
@@ -56,6 +56,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod          ../engine/share/message_module/message_mod.F
       !||    sph_struct_mod       ../engine/share/modules/sph_struct_mod.F
       !||    sph_work_mod         ../common_source/modules/mat_elem/sph_work.F90
+      !||    spmd_mod             ../engine/source/mpi/spmd_mod.F90
       !||    timer_mod            ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE SPHPREP(TIMERS,

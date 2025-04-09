@@ -25,10 +25,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    resol                 ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
-      !||    spmd_barrier          ../engine/source/mpi/generic/spmd_barrier.F
+      !||    spmd_barrier          ../engine/source/mpi/spmd_mod.F90
       !||    spmd_glob_rsum_poff   ../engine/source/mpi/generic/spmd_glob_rsum_poff.F
       !||--- uses       -----------------------------------------------------
       !||    glob_therm_mod        ../common_source/modules/mat_elem/glob_therm_mod.F90
+      !||    spmd_mod              ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
       SUBROUTINE THERMBILAN(GLOB_THERM)
 C-----------------------------------------------

@@ -355,10 +355,13 @@
       !||    detach_node_from_shells   ../engine/source/engine/node_spliting/detach_node.F90
       !||--- called by ------------------------------------------------------
       !||    detach_node               ../engine/source/engine/node_spliting/detach_node.F90
+      !||--- calls      -----------------------------------------------------
+      !||    update_pon_shells         ../engine/source/engine/node_spliting/update_pon.F90
       !||--- uses       -----------------------------------------------------
       !||    connectivity_mod          ../common_source/modules/connectivity.F90
       !||    constant_mod              ../common_source/modules/constant_mod.F
       !||    nodal_arrays_mod          ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||    update_pon_mod            ../engine/source/engine/node_spliting/update_pon.F90
       !||====================================================================
         subroutine detach_node_from_shells(nodes, node_id ,elements,shell_list,list_size)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -493,6 +496,16 @@
 !       !\brief This subroutine detaches a node from a list of shells
         ! it is just a proof of concept to demonstrate how to detach a node from a list of shells
         ! the crack propagation is non phsyical (based on Jonhson-Cook damage)
+      !||====================================================================
+      !||    test_jc_shell_detach   ../engine/source/engine/node_spliting/detach_node.F90
+      !||--- calls      -----------------------------------------------------
+      !||    detach_node            ../engine/source/engine/node_spliting/detach_node.F90
+      !||--- uses       -----------------------------------------------------
+      !||    connectivity_mod       ../common_source/modules/connectivity.F90
+      !||    constant_mod           ../common_source/modules/constant_mod.F
+      !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    nodal_arrays_mod       ../engine/source/engine/node_spliting/nodal_arrays.F90
+      !||====================================================================
         subroutine test_jc_shell_detach(nodes, element, interf, npari, ninter, ipari, numnod, &
           numnodg, elbuf, ngroup, ngrouc, nparg, iparg, igrouc, numelc, ispmd, &
           lcnel, cnel, addcnel)
