@@ -41,8 +41,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||    submodel_mod           ../starter/share/modules1/submodel_mod.F
       !||====================================================================
-      SUBROUTINE READ_DETONATORS(ITABM1     ,ITAB   ,IGRNOD,
-     .                           IPM        ,X      ,UNITAB,
+      SUBROUTINE READ_DETONATORS(ITABM1     ,ITAB      ,IGRNOD ,
+     .                           PM         ,IPM       ,X      ,UNITAB,
      .                           LSUBMODEL  ,DETONATORS)
 C-----------------------------------------------
 C   M o d u l e s
@@ -53,7 +53,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD
-      USE DETONATORS_MOD
+      USE DETONATORS_MOD , ONLY : DETONATORS_STRUCT_
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARKEY
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -71,6 +71,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN)                  :: UNITAB
       INTEGER,INTENT(IN)                            :: ITABM1(SITABM1),ITAB(NUMNOD)
+      my_real,INTENT(INOUT)                         :: PM(NPROPM,NUMMAT)
       INTEGER,INTENT(IN)                            :: IPM(NPROPMI,NUMMAT)
       my_real,INTENT(IN)                            :: X(3,NUMNOD)
       TYPE(SUBMODEL_DATA),INTENT(IN)                :: LSUBMODEL(NSUBMOD)
@@ -79,7 +80,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER              :: I, MAT, J, NPCM, NPEM, N1,N2,ID,I1,I2,K
+      INTEGER              :: ID,K
       INTEGER              :: IUNIT, UID
       INTEGER              :: IFLAGUNIT
       INTEGER              :: DET_ID,STAT
@@ -103,6 +104,7 @@ C-----------------------------------------------
       CALL HM_OPTION_COUNT('/DFS', NDFS)
       CALL HM_OPTION_START('/DFS')
       WRITE(IOUT,1000)
+      DETONATORS%IS_SHADOWING_REQUIRED = .FALSE.
       DO K=1,NDFS
         CALL HM_OPTION_READ_KEY(LSUBMODEL,OPTION_ID=DET_ID, UNIT_ID=UID,KEYWORD2=KEY,KEYWORD3=KEY2)
         IF (LEN_TRIM(KEY) > 0) KEY = KEY(1:7)
@@ -127,14 +129,12 @@ C-----------------------------------------------
       CALL PRELECDET(IGRNOD, LSUBMODEL, DETONATORS)
 
       ! --- READING ALL DETONATOR TYPES
-      CALL READ_DFS_DETPOINT(DETONATORS,X,IPM,ITABM1,UNITAB,LSUBMODEL,IGRNOD)
+      CALL READ_DFS_DETPOINT(DETONATORS,X,IPM,PM,ITABM1,UNITAB,LSUBMODEL,IGRNOD)
       CALL READ_DFS_DETLINE(DETONATORS,X,IPM,ITABM1,UNITAB,LSUBMODEL)
       CALL READ_DFS_WAVE_SHAPER(DETONATORS,IGRNOD,IPM,ITABM1,UNITAB,LSUBMODEL,ITAB)
       CALL READ_DFS_DETPLAN(DETONATORS,X,IPM,ITABM1,UNITAB,LSUBMODEL)
       CALL READ_DFS_DETCORD(DETONATORS,X,IGRNOD,IPM,ITABM1,UNITAB,LSUBMODEL,ITAB)
       WRITE(IOUT,2000)
-C-------------------------------------------
- 999  RETURN
 C-----------------------------------------------
 C   O u t p u t   F o r m a t
 C-----------------------------------------------

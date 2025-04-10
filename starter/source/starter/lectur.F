@@ -4391,6 +4391,17 @@ C--------------------------------------------
      3           D       ,UNITAB  ,IKINE1LAG,NOM_OPT(LNOPT1*INOM_OPT(18)+1),LSUBMODEL)
       CALL TRACE_OUT1()
 C--------------------------------------------
+C     READER FOR DETONATOR OPTIONS (/DFS/DET*)
+C--------------------------------------------
+      ERR_MSG='DETONATORS'
+      ERR_CATEGORY='DETONATORS'
+      CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
+      !new Reader
+      CALL READ_DETONATORS(ITABM1   ,ITAB      ,IGRNOD  ,
+     .                     PM       ,IPM       ,X       ,UNITAB ,
+     .                     LSUBMODEL,DETONATORS)
+      CALL TRACE_OUT1()
+C--------------------------------------------
 C     A.L.E.
 C     TABLEAUX DE VOISINS (OU FACETTES) DES ELEMENTS
 C     TABLEAUX DES NOEUDS VOISINS
@@ -4415,12 +4426,12 @@ C--------------------------------------------
         ALLOCATE(LINALE(0))
       ENDIF
       ERR_MSG='ALE NEIGHBOURS'
-      IF(IALE+IEULER+IALELAG/=0)THEN
+      IF(IALE+IEULER+IALELAG /= 0)THEN
        WRITE(ISTDO,'(A)')TITRE(30)
        CALL ALELEC(
      1     ICODE    ,IXS      ,IXQ       ,IXC               ,IXT     ,
      2     IXTG     ,PM       ,IGEO      ,ITAB              ,GEO     ,
-     3     NALE_R2R ,NSUBDOM  ,MULTI_FVM ,ALE_CONNECTIVITY,GLOB_THERM%ITHERM)
+     3     NALE_R2R ,NSUBDOM  ,MULTI_FVM ,ALE_CONNECTIVITY,GLOB_THERM%ITHERM,DETONATORS%IS_SHADOWING_REQUIRED)
 C     ---------------------------------------------------------------
 C     Unplug neighbor elements in case of direct lagrangian coupling
 C     ---------------------------------------------------------------
@@ -4885,17 +4896,6 @@ C
      .            IBFFLUX(0),FBFFLUX(0),IBCR(0),FRADIA(0))
        ENDIF
 C
-      CALL TRACE_OUT1()
-C--------------------------------------------
-C     LECTURE DES POINTS DE DETONATION
-C--------------------------------------------
-      ERR_MSG='DETONATORS'
-      ERR_CATEGORY='DETONATORS'
-      CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
-      !new Reader
-      CALL READ_DETONATORS(ITABM1   ,ITAB   ,IGRNOD  ,
-     .                     IPM      ,X      ,UNITAB  ,
-     .                     LSUBMODEL,DETONATORS)
       CALL TRACE_OUT1()
 C--------------------------------------------
       IF(ISIGI==2 .OR. ISIGI==4) THEN
@@ -7322,7 +7322,7 @@ C--------------------------------------------
       ENDIF
       CALL ALE_CONNECTIVITY%ALE_COMPUTE_EE_CONNECTIVITY(PM,IGEO,
      .     NPROPGI,NUMGEO, NPROPM, NUMMAT , NUMNOD, NUMELQ, NUMELTG, NUMELS, N2D,
-     .     IALE  , IEULER, GLOB_THERM%ITHERM, IALELAG,
+     .     IALE  , IEULER, GLOB_THERM%ITHERM, IALELAG,DETONATORS%IS_SHADOWING_REQUIRED,
      .     NIXQ  , NIXTG , NIXS  , ITAB   ,
      .     IXQ   , IXTG  , IXS   )
 C--------------------------------------------
@@ -8649,10 +8649,10 @@ C
      &            IGRNOD     , IGRSURF        , BUFSF            , VR                 ,
      &            BUFMAT     , XLAS           , ILAS             , DTELEM             , MSS      ,
      &            MSQ        , MSC            , MSTR             , MSP                , MSR      ,
-     &            MSTG       , PTG            , INC              , 
+     &            MSTG       , PTG            , INC              , NOD2ELTG           , KNOD2ELTG,
      &            INP        , INR            , INTG             , INDEX              ,
      &            ITRI       , KXX            , IXX              , XELEMWA            ,
-     &            IWA        ,
+     &            IWA        , NOD2ELQ        , KNOD2ELQ         , NOD2ELS            , KNOD2ELS ,
      &            KXSP       , IXSP           , NOD2SP           , ISPCOND            , ICODE    ,
      &            ISKEW      , ISKWN          , ISPSYM           , XFRAME             , ISPTAG   ,
      &            SPBUF      , MSSX           , NSIGI            ,
@@ -10927,7 +10927,7 @@ c
      1         P            ,CEP         ,CEL            ,IGEO        ,MAT_ELEM   ,
      2         IPM          ,ICODE       ,ISKEW          ,ISKWN       ,BID13      ,
      3         IBCSLAG      ,IPART       ,IPARTS         ,IPARTQ      ,IPARTC     ,
-     4         IPARTT       ,IPARTP      ,IPARTR         ,IPARTG     ,
+     4         IPARTT       ,IPARTP      ,IPARTR         ,IPARTG      ,DETONATORS ,
      5         IPARTX       ,NPC         ,IXTG           ,GROUP_PARAM_TAB,
      6         IXTG1        ,IXS         ,IXS10          ,IXS20       ,IXS16      ,
      7         IXQ          ,IXC         ,IXT            ,IXP         ,IXR        ,
