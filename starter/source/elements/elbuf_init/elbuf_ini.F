@@ -201,9 +201,7 @@ c
         ELSE  
           NVAR_DAMP_FREQ_RANGE = 21*MIN(1,IDAMP_FREQ_RANGE)
         ENDIF  
-        NINTLAY = 0                                            
-        NVAR_DAMP_FREQ_RANGE = 21*MIN(1,IDAMP_FREQ_RANGE)
-        NINTLAY = 0  
+        NINTLAY = 0
         NPT0 = NPT
 cc        NXEL    = 0
 c----
