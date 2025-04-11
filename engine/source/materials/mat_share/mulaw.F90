@@ -217,7 +217,7 @@
         &sbufmat,     svis,        n2d,         ngroup,&
         &imon_mat,    numnod,      numels,      ntable,&
         &numgeo,      nummat,      numelq,      idtmin,&
-        &dt1,         tt,          glob_therm,         &
+        &dt1,         tt,          glob_therm,  dpde  ,&
         &impl_s,&
         &idyna,       userl_avail, nixs,        nixq,&
         &dt   ,       damp_buf,    idamp_freq_range,iresp)
@@ -446,6 +446,8 @@
           my_real, dimension(mvsiz), intent(inout) :: rhosp
           my_real, dimension(mvsiz), intent(inout) :: stifn
           my_real, dimension(mvsiz,6), intent(inout) :: svis
+
+          my_real,intent(inout) :: dpde(nel) !< partial derivative at constant volume
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1730,21 +1732,16 @@
               n48 = 4
               nix = nixq
             endif
-            call sigeps97(nel       ,npar   ,nuvar    ,nfunc  ,ifunc     ,lbuf%tb   ,&
-            &npf       ,tf     ,tt       ,dt1    ,uparam0    ,lbuf%bfrac,&
-            &rho0      ,rho    ,vol      ,eint   ,sigy      ,deltax    ,&
-            &ep1       ,ep2    ,ep3      ,ep4    ,ep5       ,ep6       ,&
-            &de1       ,de2    ,de3      ,de4    ,de5       ,de6       ,&
-            &es1       ,es2    ,es3      ,es4    ,es5       ,es6       ,&
-            &so1       ,so2    ,so3      ,so4    ,so5       ,so6       ,&
-            &s1        ,s2     ,s3       ,s4     ,s5        ,s6        ,&
-            &sv1       ,sv2    ,sv3      ,sv4    ,sv5       ,sv6       ,&
-            &ssp       ,vis    ,uvar     ,off    ,nft       ,v         ,&
-            &w         ,x      ,ix       ,n48    ,nix       ,jthe      ,&
-            &geo       ,pid    ,ilay     ,ng     ,elbuf_tab ,pm        ,&
-            &iparg     ,bufvois  ,ipm    ,bufmat ,stifn     ,&
-            &vd2       ,vdx    ,vdy      ,vdz    ,mat       ,voln      ,&
-            &gbuf%qvis ,dvol   ,qold     )
+            call sigeps97(nel       ,npar   ,nuvar    ,lbuf%tb   ,&
+            &             tt        ,uparam0,lbuf%bfrac,&
+            &             rho0      ,rho    ,eint     ,deltax    ,&
+            &             ep1       ,ep2    ,ep3      ,&
+            &             s1        ,s2     ,s3       ,s4        ,s5        ,s6        ,&
+            &             sv1       ,sv2    ,sv3      ,sv4       ,sv5       ,sv6       ,&
+            &             ssp       ,vis    ,uvar     ,off       ,&
+            &             geo       ,pid    ,ilay     ,ng        ,elbuf_tab ,&
+            &             voln      ,&
+            &             gbuf%qvis ,qold   ,dpde)
 !
           elseif (mtn == 100) then
             ir = int (bufmat(iadbuf+2))

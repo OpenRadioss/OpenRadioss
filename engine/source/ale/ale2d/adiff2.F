@@ -29,7 +29,19 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
       !||====================================================================
-      SUBROUTINE ADIFF2(PHIN,PHI,GRAD,ALPHA,ALE_CONNECT,VOL)
+      SUBROUTINE ADIFF2(PHIN,PHI,GRAD,ALPHA,ALE_CONNECT,VOL,TEMP,RHOCP,NEL)
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C Solving Heat equation
+C    alpha = k/rhocp is thermal diffusivity
+c    coeff is k (factor simplification since originally only EINT/V was updated)
+c       PHIN is EINT/V : updated at the end of the subroutine
+C       TEMP : updated at the end of the subroutine.
+C              Since temperature is calculated incrementally, both energy and temperature must be consistently updated.
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -42,11 +54,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real,INTENT(INOUT) :: PHIN(*)  !< Eint/V [n+1]
-      my_real,INTENT(IN) :: PHI(*)      !< backup T[n]
-      my_real,INTENT(IN)   :: GRAD(4,*) !< gradient
-      my_real,INTENT(IN) :: ALPHA(*)    !< thermal diffusivity k/rhocp
-      my_real,INTENT(IN) :: VOL(*)      !< element volume
+      INTEGER,INTENT(IN) :: NEL
+      my_real,INTENT(INOUT) :: TEMP(NEL)
+      my_real,INTENT(INOUT) :: PHIN(NEL) !EINT/V
+      my_real,INTENT(IN) :: RHOCP
+      my_real,INTENT(IN) :: PHI(*), GRAD(4,NEL), VOL(NEL)
+      my_real,INTENT(IN) :: ALPHA(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -63,7 +76,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         IE =NFT+I
         IAD2 = ALE_CONNECT%ee_connect%iad_connect(IE)
         IV1 = ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
@@ -81,6 +94,11 @@ C-----------------------------------------------
         AA(2) = ALPHA(IV2)
         AA(3) = ALPHA(IV3)
         AA(4) = ALPHA(IV4)
+        !ghost cells
+        IF(AA(1) == ZERO) AA(1)=AA(0)
+        IF(AA(2) == ZERO) AA(2)=AA(0)
+        IF(AA(3) == ZERO) AA(3)=AA(0)
+        IF(AA(4) == ZERO) AA(4)=AA(0)
         !harmonic interpolation
         AA_FACE(1) = (AA(0)*AA(1)) / MAX(EM20,(AA(0)+AA(1)))
         AA_FACE(2) = (AA(0)*AA(2)) / MAX(EM20,(AA(0)+AA(2)))
@@ -94,14 +112,24 @@ C-----------------------------------------------------------
      7 +          AA_FACE(4)*(PHI(IV4)-PHI(IE))*GRAD(4,I)
       ENDDO!next I
 C-----------------------------------------------------------
+      ! time integration for Eint/V
       ! %EINT is here Eint / V (J/m3)
       ! => DPHI = is finally m.cp.dT = dT *rhoCp   (ALPHA is k instead k/rhocp )
-      DO I=LFT,LLT
+      DO I=1,NEL
         DPHI(I) = TWO*DPHI(I)*DT1/MAX(VOL(I),EM20)
       ENDDO
-      DO I=LFT,LLT
+C-----------------------------------------------------------
+      ! Eint/V updated
+      DO I=1,NEL
         PHIN(I)=PHIN(I)+DPHI(I)
       ENDDO
+C-----------------------------------------------------------
+      ! temperature updated
+      IF(RHOCP > ZERO)THEN
+        DO I=1,NEL
+          TEMP(I) = TEMP(I) + DPHI(I)/RHOCP
+        ENDDO
+      ENDIF
 C-----------------------------------------------------------
       RETURN
       END

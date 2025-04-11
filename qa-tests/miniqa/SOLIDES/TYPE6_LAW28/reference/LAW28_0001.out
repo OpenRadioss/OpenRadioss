@@ -8,7 +8,7 @@
 **                                                                    **
 **                                                                    **
 **                                                                    **
-**                Linux 64 bits, GNU compiler, OpenMPI                **
+**                    Linux 64 bits, GNU compiler                     **
 **                      Double Precision Version                      **
 **                                                                    **
 **                                                                    **
@@ -20,19 +20,16 @@
 ** See License file.                                                  **
 ************************************************************************
  
- NUMBER OF SPMD DOMAINS           4
- NUMBER OF THREADS PER DOMAIN     2
- NUMBER OF HMPP PROCESSES         8
+ NUMBER OF SPMD DOMAINS           1
+ NUMBER OF THREADS PER DOMAIN     1
+ NUMBER OF HMPP PROCESSES         1
   
  COMPUTATION HARDWARE DESCRIPTION
   
- CPU#  HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
-   1   FR-LAP482   13th Gen Intel(R) Core(TM) i9-13900H (x86_64), 2995 MHz,  31886 MB RAM,   8192 MB swap
-   2   FR-LAP482   13th Gen Intel(R) Core(TM) i9-13900H (x86_64), 2995 MHz,  31886 MB RAM,   8192 MB swap
-   3   FR-LAP482   13th Gen Intel(R) Core(TM) i9-13900H (x86_64), 2995 MHz,  31886 MB RAM,   8192 MB swap
-   4   FR-LAP482   13th Gen Intel(R) Core(TM) i9-13900H (x86_64), 2995 MHz,  31886 MB RAM,   8192 MB swap
+ HOSTNAME     CPU TYPE, FREQUENCY AND MEMORY
+ fr-lap281-1.europe.altair.com   Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz (x86_64), 2592 MHz,  16016 MB RAM,      0 MB swap
   
- STACKSIZE  . . . . . . . . . . . . . . . . . . . . 8 MB
+ STACKSIZE  . . . . . . . . . . . . . . . . . . . . 16 MB
  THREAD STACKSIZE . . . . . . . . . . . . . . . . . 400 mB
  
 ************************************************************************
@@ -163,7 +160,7 @@
 
  NUMBER OF NEW BOUNDARY CONDITIONS. . . . . . . .        0
 
- 20/02/2025
+ 24/03/2025
    CYCLE    TIME      TIME-STEP  ELEMENT          ERROR  I-ENERGY    K-ENERGY T  K-ENERGY R  EXT-WORK     MAS.ERR     TOTAL MASS  MASS ADDED
        0   0.000      0.1657     SOLID          1   0.0%   0.000      0.2500E+07   0.000       0.000       0.000      0.2001E+06   0.000    
      ANIMATION FILE: LAW28A001 WRITTEN
@@ -183,7 +180,7 @@
      ANIMATION FILE: LAW28A010 WRITTEN
      600   45.91      0.1469     SOLID          1   1.0%  0.3198E+06  0.2225E+07   0.000      0.1798E+05   0.000      0.2001E+06   0.000    
 
-     RESTART FILES: LAW28_0001_[0001-0004].rst WRITTEN
+     RESTART FILES: LAW28_0001_[0001-0001].rst WRITTEN
      -------------
 
   
@@ -193,30 +190,19 @@
                         ** SUMMARY **
   
  #PROC  ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
-   1   .4892E-01 .5215E-02 .4122E-02 .2545E+00 .1452E+01 .2279E-01 .1904E+01
-   2   .4614E-02 .5856E-02 .4202E-02 .2906E+00 .1083E+01 .7725E-02 .1531E+01
-   3   .5586E-02 .5489E-02 .4784E-02 .2913E+00 .1070E+01 .8801E-02 .1525E+01
-   4   .1438E-01 .1543E-01 .4161E-02 .2972E+00 .1107E+01 .7534E-02 .1566E+01
-  
-                 ** SPMD COM. TIME **
-  
- #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
-   1   .9938E-03 .0000E+00 .0000E+00 .7443E-03 .1738E-02 .9127E-01
-   2   .1456E-02 .0000E+00 .0000E+00 .1127E-02 .2582E-02 .1687E+00
-   3   .1650E-02 .0000E+00 .0000E+00 .1171E-02 .2821E-02 .1850E+00
-   4   .3546E-02 .0000E+00 .0000E+00 .1063E-02 .4608E-02 .2943E+00
+   1   .6718E-02 .4043E-02 .2991E-02 .2213E-01 .2489E-02 .1863E-02 .5619E-01
   
  
                    ** CUMULATIVE CPU TIME SUMMARY **
   
  CONTACT SORTING.............: .0000E+00     0.00 % 
- CONTACT FORCES..............: .1171E-02     0.02 % 
- ELEMENT FORCES..............: .7350E-01     1.13 % 
- KINEMATIC COND..............: .3199E-01     0.49 % 
- INTEGRATION.................: .1727E-01     0.26 % 
- ASSEMBLING..................: .4685E-01     0.72 % 
- OTHERS (including I/O)......: .6356E+01    97.38 % 
- TOTAL.......................: .6526E+01   100.00 % 
+ CONTACT FORCES..............: .3000E-03     0.53 % 
+ ELEMENT FORCES..............: .6718E-02    11.96 % 
+ KINEMATIC COND..............: .4043E-02     7.20 % 
+ INTEGRATION.................: .2991E-02     5.32 % 
+ ASSEMBLING..................: .1863E-02     3.32 % 
+ OTHERS (including I/O)......: .4027E-01    71.67 % 
+ TOTAL.......................: .5619E-01   100.00 % 
   
   
                            ** ELAPSED TIME **
@@ -225,51 +211,29 @@
                         ** SUMMARY **
   
  #PROC  ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
-   1   .8592E-01 .8433E-02 .4187E-02 .2998E+00 .7771E+00 .2830E-02 .1302E+01
-   2   .4204E-02 .5878E-02 .4267E-02 .2417E+00 .8983E+00 .5105E-02 .1293E+01
-   3   .4663E-02 .5579E-02 .4809E-02 .2358E+00 .8980E+00 .3121E-02 .1292E+01
-   4   .4483E-02 .5613E-02 .4176E-02 .2406E+00 .8941E+00 .5668E-02 .1292E+01
-  
-        ELEMENT   KINCOND   INTEG     IO        T0        ASM       RESOL    
- MIN   .4204E-02 .5579E-02 .4176E-02 .2358E+00 .7771E+00 .2830E-02 .1292E+01
- MAX   .8592E-01 .8433E-02 .4809E-02 .2998E+00 .8983E+00 .5668E-02 .1302E+01
- AVG   .2482E-01 .6376E-02 .4360E-02 .2545E+00 .8669E+00 .4181E-02 .1295E+01
-  
-                 ** SPMD COM. TIME **
-  
- #PROC  FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
-   1   .1013E-02 .0000E+00 .0000E+00 .3602E-02 .4615E-02 .3544E+00
-   2   .5757E-02 .0000E+00 .0000E+00 .4496E-02 .1025E-01 .7932E+00
-   3   .7910E-02 .0000E+00 .0000E+00 .4683E-02 .1259E-01 .9746E+00
-   4   .7879E-02 .0000E+00 .0000E+00 .3780E-02 .1166E-01 .9021E+00
-  
-        FORCES    RBYFOR    RBYVEL    VEL       TOT       %        
- MIN   .1013E-02 .0000E+00 .0000E+00 .3602E-02 .4615E-02 .3544E+00
- MAX   .7910E-02 .0000E+00 .0000E+00 .4683E-02 .1259E-01 .9746E+00
- AVG   .5640E-02 .0000E+00 .0000E+00 .4140E-02 .9780E-02 .7561E+00
+   1   .1275E-01 .7795E-02 .5219E-02 .3780E-01 .4526E-02 .3330E-02 .9899E-01
   
                    ** MEMORY USAGE STATISTICS **
   
- TOTAL MEMORY USED .........................:      261 MB
- MAXIMUM MEMORY PER PROCESSOR...............:        0 MB
- MINIMUM MEMORY PER PROCESSOR...............:       64 MB
- AVERAGE MEMORY PER PROCESSOR...............:       65 MB
+ TOTAL MEMORY USED .........................:       46 MB
+ MAXIMUM MEMORY PER PROCESSOR...............:       46 MB
+ MINIMUM MEMORY PER PROCESSOR...............:       46 MB
+ AVERAGE MEMORY PER PROCESSOR...............:       46 MB
   
                    ** DISK USAGE STATISTICS **
   
- TOTAL DISK SPACE USED .....................:          1 MB
+ TOTAL DISK SPACE USED .....................:          0 MB
  ANIMATION/H3D/TH/OUTP SIZE ................:          0 MB
- RESTART FILE SIZE .........................:          1 MB
+ RESTART FILE SIZE .........................:          0 MB
   
                    ** COMPUTE TIME INFORMATION **
                         ** CURRENT ENGINE **
   
- EXECUTION STARTED .........................:      2025/02/20  10:52:13
- EXECUTION COMPLETED .......................:      2025/02/20  10:52:14
+ EXECUTION STARTED .........................:      2025/03/24  18:49:52
+ EXECUTION COMPLETED .......................:      2025/03/24  18:49:52
   
- ELAPSED TIME     =          1.53 s
-                          0:00:01
- ESTIMATED SPEEDUP=          4.25
+ ELAPSED TIME     =          0.12 s
+                          0:00:00
 
 
 
@@ -282,8 +246,8 @@
   
                    ** COMPUTE RUNTIME INFORMATION SUMMARY **
   
-        STARTER RUNTIME =          7.78s (00:00:07)
- # 001   ENGINE RUNTIME =          1.53s (00:00:01)
+        STARTER RUNTIME =          0.47s (00:00:00)
+ # 001   ENGINE RUNTIME =          0.12s (00:00:00)
  ------------------------------ 
- STARTER+ENGINE RUNTIME =          9.31s (00:00:09)
+ STARTER+ENGINE RUNTIME =          0.59s (00:00:00)
   
