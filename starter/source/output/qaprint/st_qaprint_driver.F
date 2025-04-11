@@ -116,7 +116,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      L                             NSIGRS      ,SIGRS      ,MERGE_NODE_TAB  ,MERGE_NODE_TOL ,
      M                             IMERGE      ,NMERGE_TOT ,IEXLNK          ,DRAPEG         ,USER_WINDOWS     ,
      N                             OUTPUT      ,DEFAULTS   ,GLOB_THERM      ,PBLAST         ,IBEAM_VECTOR     ,
-     O                             RBEAM_VECTOR)
+     O                             RBEAM_VECTOR,DAMP_RANGE_PART)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -217,6 +217,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN) :: IPARG(NPARG,NGROUP)
       INTEGER, INTENT(IN) :: IBEAM_VECTOR(NUMELP)
       my_real, INTENT(IN) :: RBEAM_VECTOR(3,NUMELP)
+      INTEGER ,INTENT(IN) :: DAMP_RANGE_PART(NPART)     !< flag to compute the damping range
       TYPE(USER_WINDOWS_),INTENT(IN)      :: USER_WINDOWS
       TYPE(OUTPUT_)      ,INTENT(IN)      :: OUTPUT
       TYPE(MAT_ELEM_)    ,INTENT(IN)      :: MAT_ELEM
@@ -425,7 +426,8 @@ C-----------------------------------------------
 
       CALL ST_QAPRINT_GENERAL_CONTROLS(NOM_OPT   ,INOM_OPT  ,DAMPR, IRAND, ALEA, 
      1                                 XSEED     ,UNITAB    ,QP_IPERTURB       ,
-     2                                 QP_RPERTURB,EIGIPM   , EIGRPM, DEFAULTS )
+     2                                 QP_RPERTURB,EIGIPM   , EIGRPM, DEFAULTS ,
+     3                                 DAMP_RANGE_PART)
       CALL ST_QAPRINT_INTERFACES(NOM_OPT   ,INOM_OPT  ,IPARI  ,INTBUF_TAB,I2RUPT ,  
      1                           AREASL,GLOB_THERM%INTHEAT)      
       CALL ST_QAPRINT_CLUSTERS(NOM_OPT   ,INOM_OPT  ,CLUSTERS)
