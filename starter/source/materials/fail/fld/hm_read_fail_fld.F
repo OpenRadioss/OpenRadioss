@@ -152,7 +152,11 @@ c---------------------------
       FAIL%NUVAR   = 3
       FAIL%NFUNC   = NFUNC
       FAIL%NTABLE  = 0
-      FAIL%NMOD    = 2
+      IF (IENG == 2) THEN 
+        FAIL%NMOD  = 3
+      ELSE
+        FAIL%NMOD  = 2
+      ENDIF
       FAIL%PTHK    = PTHKF
 c            
       ALLOCATE (FAIL%UPARAM(FAIL%NUPARAM))
@@ -176,6 +180,9 @@ c
 c
       FAIL%MODE(1) = "FLDF Damage factor"
       FAIL%MODE(2) = "FLDZ Failure zone factor"
+      IF (IENG == 2) THEN 
+        FAIL%MODE(3) = "Incremental Strains ratio Beta"
+      ENDIF
       FAIL_TAG%LF_DAMMX = 1 + FAIL%NMOD
       FAIL_TAG%LF_DAM   = 1 ! damage factor for ANIM output
       FAIL_TAG%LF_INDX  = 1 ! FLD zone index for ANIM output
