@@ -231,11 +231,13 @@ C-----------------
           FHEAT(I) = FHEAT(I) + SIGY(I)*DPLA(I)*VOL(I)
         ENDDO
       ELSEIF(RHOCP > ZERO)THEN
-        DO I=1,NEL
-          TEMPEL(I) = TEMPEL(I) + SIGY(I)*DPLA(I) / RHOCP
-          ! internal energy incremented later in parent subroutine (mmain)
-          !  with total energy deformation which already includes plastic work
-        ENDDO
+        IF(IRTY /= 1)THEN ! Johnson-Cook only
+          DO I=1,NEL
+            TEMPEL(I) = TEMPEL(I) + SIGY(I)*DPLA(I) / RHOCP
+            ! internal energy incremented later in parent subroutine (mmain)
+            !  with total energy deformation which already includes plastic work
+          ENDDO
+        ENDIF
       END IF
 c-----------
       RETURN
