@@ -270,6 +270,7 @@ c
       IFLAG  = 0
       IFLAG0 = 0
       IF (E0 < STIFFINI) THEN
+        E0 = STIFFINI
         IF (EMAX < E0) EMAX = E0        
         IFLAG0 = 1
       END IF
