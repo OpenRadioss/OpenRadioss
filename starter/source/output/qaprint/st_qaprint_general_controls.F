@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE ST_QAPRINT_GENERAL_CONTROLS(NOM_OPT ,INOM_OPT  ,DAMPR  , IRAND, ALEA,
      1                                       XSEED   ,UNITAB    ,QP_IPERTURB,QP_RPERTURB,
-     2                                       EIGIPM  , EIGRPM   ,DEFAULTS)
+     2                                       EIGIPM  , EIGRPM   ,DEFAULTS,DAMP_RANGE_PART)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -46,7 +46,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
+#include      "com01_c.inc"  
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "scr03_c.inc"
@@ -68,6 +68,7 @@ C-----------------------------------------------
      .                       IRAND(*),QP_IPERTURB(NPERTURB,6),EIGIPM(NEIPM,*)
       my_real, INTENT(IN) :: DAMPR(NRDAMP,*),ALEA(*),XSEED(*),EIGRPM(NERPM,*)
       my_real, INTENT(IN) :: QP_RPERTURB(NPERTURB,4)
+      INTEGER, INTENT(IN) :: DAMP_RANGE_PART(NPART)     !< flag to compute the damping range
       TYPE (UNIT_TYPE_) ::UNITAB
       TYPE(DEFAULTS_)    , INTENT(IN)     :: DEFAULTS             
 C--------------------------------------------------
@@ -158,6 +159,43 @@ C
             TEMP_DOUBLE = IDAMP_RDOF
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
           ENDIF
+C
+        END DO ! MY_DAMP=1,NDAMP
+      END IF
+C-----------------------------------------------
+C     /DAMP/FREQ_RANGE
+C-----------------------------------------------     
+      IF (MYQAKEY('/DAMP/FREQ_RANGE')) THEN
+        DO MY_DAMP=1,NDAMP
+C
+          IF (NINT(DAMPR(31,MY_DAMP))==1) THEN
+            TITR(1:nchartitle)=''
+            MY_ID = NINT(DAMPR(1,MY_DAMP))
+            IF(LEN_TRIM(TITR)/=0)THEN
+              CALL QAPRINT(TITR(1:LEN_TRIM(TITR)),MY_ID,0.0_8)
+            ELSE
+              CALL QAPRINT('A_DAMP_INTER_FAKE_NAME', MY_ID,0.0_8)
+            END IF
+C
+            DO I=1,NRDAMP
+              IF(DAMPR(I,MY_DAMP)/=ZERO)THEN
+C
+C               VARNAME: variable name in ref.extract (without blanks)
+                WRITE(VARNAME,'(A,I0)') 'DAMPR_',I
+                TEMP_DOUBLE = DAMPR(I,MY_DAMP)
+                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+              END IF
+            END DO
+C
+            DO I=1,NPART
+              IF (DAMP_RANGE_PART(I) == MY_DAMP) THEN   
+                WRITE(VARNAME,'(A)') 'PART_'
+                TEMP_INT = I
+                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)
+              ENDIF   
+            ENDDO  
+C                     
+          ENDIF    
 C
         END DO ! MY_DAMP=1,NDAMP
       END IF
