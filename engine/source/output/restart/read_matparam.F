@@ -223,6 +223,8 @@ c
 
       ! read eos model parameters
       DO IMAT = 1,NUMMAT
+        MAT_ELEM%MAT_PARAM(IMAT)%EOS%CV=ZERO
+        MAT_ELEM%MAT_PARAM(IMAT)%EOS%CP=ZERO
         IF (MAT_ELEM%MAT_PARAM(IMAT)%IEOS > 0) THEN
           CALL READ_EOSPARAM(MAT_ELEM%MAT_PARAM(IMAT)%EOS)
         END IF
