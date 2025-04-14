@@ -57,37 +57,23 @@
           !< Integer variables
           integer :: i,j                                  !< iterators
           integer :: ndim                                 !< dimension
-          integer :: npt                                  !< number of integration points / max number of integration points
+          integer :: npt                                  !< number ofintegration points / max number of integration points
+          integer :: nf                                   !< number of functions
 !
           !< Real variables
           my_real :: x_i,y_i
-          my_real :: ener,dx,dy,dydx,youngmax,nu,g,bulk,lam
+          my_real :: ener,dx,dy,dydx,nu,g,bulk,lam
+          my_real :: youngmin,youngini,youngmax
+          my_real :: xmax
           type(table_4d_), dimension(:) ,pointer :: table_mat
 !
 !--------------------------------------------------------------------------
 !     copy global functions/tables to matparam data structure
 !--------------------------------------------------------------------------
 !
-          !< Loading table
-          table_mat => matparam%table(1:matparam%ntable) ! material table pointer
-          ndim = table_mat(1)%ndim               ! number of dimensions
-          npt  = size(table_mat(1)%x(1)%values)  ! number of points
-!
-          !< Compute the maximum tabulated slope
+          !< Get the maximum tabulated slope
           youngmax = zero
-          do i = 1,npt-1
-            dx = table_mat(1)%x(1)%values(i+1) - table_mat(1)%x(1)%values(i)
-            dy = zero
-            if (ndim == 1) then
-              dy = table_mat(1)%y1d(i+1) - table_mat(1)%y1d(i)
-            elseif (ndim == 2) then
-              do j = 1,ndim
-                dy = max(dy,table_mat(1)%y2d(i+1,j) - table_mat(1)%y2d(i,j))
-              enddo
-            endif
-            dydx = dy/dx
-            youngmax = max(youngmax, dy/dx)
-          enddo
+          call table_slope(matparam%table(1),youngini,youngmin,youngmax,xmax)
 !
           !< Update material parameters
           ! -> Young's modulus

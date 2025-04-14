@@ -103,8 +103,8 @@ c
             IF (X1 == ZERO .or. X2 == ZERO) THEN
               STIFFINI = MAX(STIFFINI, DYDX)
             ENDIF
-            Y1 = Y2
-          ENDDO      
+          ENDDO
+          Y1 = Y2
           X1 = X2
         ENDDO
 c        
