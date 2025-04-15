@@ -11,7 +11,7 @@ function my_help()
   echo "          linux64  : X86_64 Linux"
   echo "          linuxa64 : ARM64" 
   echo " " 
-  echo " Execution control "
+  echo " Execution control"
   echo " -nt=[threads]      : number of threads for build "
   echo " -verbose           : Verbose build"
   echo " -clean             : clean build directory"
