@@ -629,16 +629,25 @@ void sdiD2R::ConvertLoad::ConvertLoadBody()
                             radskewRead.GetValue(sdiIdentifier(attribskew2Vect[i]), tempValue);
                             tempValue.GetValue(cidVect2[i]);
                         }
-                        cidVect1 = cidVect1.Normalize();
-                        cidVect2 = cidVect2.Normalize();
+                        cidVect1 = cidVect1.Normalize();  // (Reference Y axis) is the second direction of ICID
+                        cidVect2 = cidVect2.Normalize();  // (Reference Z axis) is the third direction of ICID
+                        cidVect3 = cidVect1 * cidVect2;   // (Reference X axis) is the first direction of ICID
+                        cidVect3 = cidVect3.Normalize();
                     }
-                    if ((inputDirVect * sdiTriple(0.0, 1.0, 0.0)).Len() != 0.0)
-                        skew2Vect = inputDirVect * sdiTriple(0.0, 1.0, 0.0);
+
+                    // othogonal projection of the velocity vector (VX, VY, VZ) on the local fix frame
+                    double newVx = cidVect3[0] * lsdVX + cidVect1[0] * lsdVY + cidVect2[0] * lsdVZ;
+                    double newVy = cidVect3[1] * lsdVX + cidVect1[1] * lsdVY + cidVect2[1] * lsdVZ;
+                    double newVz = cidVect3[2] * lsdVX + cidVect1[2] * lsdVY + cidVect2[2] * lsdVZ;
+                    sdiTriple newinputDirVect(newVx, newVy, newVz);
+
+                    if ((newinputDirVect * cidVect3).Len() != 0.0)
+                        skew2Vect = newinputDirVect * cidVect3;
                     else
-                        skew2Vect = inputDirVect * sdiTriple(1.0, 0.0, 0.0);
-                   
+                        skew2Vect = newinputDirVect * cidVect2;
+
                     skew2Vect = skew2Vect.Normalize();
-                    skew1Vect = skew2Vect * inputDirVect;
+                    skew1Vect = skew2Vect * newinputDirVect;
                     skew1Vect = skew1Vect.Normalize();
                 }
 

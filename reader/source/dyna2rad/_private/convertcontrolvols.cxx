@@ -50,6 +50,8 @@ void sdiD2R::ConvertControlVolume::ConvertEntities()
 void sdiD2R::ConvertControlVolume::ConvertAirbagPressureVolume()
 {
     EntityType radFunctType = p_radiossModel->GetEntityType("/FUNCT");
+    EntityType radSurfType = p_radiossModel->GetEntityType("/SURF");
+
     SelectionRead selAirbagPressure(p_lsdynaModel, "*AIRBAG_SIMPLE_PRESSURE_VOLUME");
     while (selAirbagPressure.Next())
     {
@@ -64,6 +66,10 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagPressureVolume()
         tempValue = sdiValue(lsdCNLcidOpt);
         selAirbagPressure->GetValue(sdiIdentifier("LSD_LCIDOpt"), tempValue);
         tempValue.GetValue(lsdCNLcidOpt);
+        
+        int lsdSSTYP;
+        selAirbagPressure->GetValue(sdiIdentifier("SIDTYP"), tempValue);
+        tempValue.GetValue(lsdSSTYP);
 
         selAirbagPressure->GetEntityHandle(sdiIdentifier("LCID"), lcidHandle);
 
@@ -74,8 +80,16 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagPressureVolume()
         {
             selAirbagPressure->GetValue(sdiIdentifier("SID"), tempValue);
             tempValue.GetValue(surfSet);
-            if (surfSet.GetId())
-                radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(p_radiossModel->GetEntityType("/SURF"), surfSet.GetId())));
+            
+
+            if(lsdSSTYP == 0)
+            {
+                radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSurfType, DynaToRad::GetRadiossSetIdFromLsdSet(surfSet.GetId(), "*SET_SEGMENT"))));
+            }
+            else
+            {
+                radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSurfType, DynaToRad::GetRadiossSetIdFromLsdSet(surfSet.GetId(), "*SET_PART"))));
+            }
 
             tempValue = sdiValue(lsdBETA);
             selAirbagPressure->GetValue(sdiIdentifier("BETA"), tempValue);
@@ -133,6 +147,7 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagSimpleModel()
     EntityType radFunctType =  p_radiossModel->GetEntityType("/FUNCT");
     EntityType radMatType = p_radiossModel->GetEntityType("/MAT");
     EntityType radPropType = p_radiossModel->GetEntityType("/PROP");
+    EntityType radSurfType = p_radiossModel->GetEntityType("/SURF");
     SelectionRead selSimpleAirbag(p_lsdynaModel, "*AIRBAG_SIMPLE_AIRBAG_MODEL");
     while (selSimpleAirbag.Next())
     {
@@ -160,6 +175,10 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagSimpleModel()
         sdiValueEntity surfSet;
         selSimpleAirbag->GetValue(sdiIdentifier("SID"), tempValue);
         tempValue.GetValue(surfSet);
+        
+        int lsdSSTYP;
+        selSimpleAirbag->GetValue(sdiIdentifier("SIDTYP"), tempValue);
+        tempValue.GetValue(lsdSSTYP);
 
         vector<reference_wrapper<double>> attribVals({ lsdCV, lsdCP, lsdaT, lsdMu, lsdPE, lsdTExt,
                                                        lsdaB, lsdMW, lsdGasc, lsdArea, lsdaA, lsdRO});
@@ -184,8 +203,16 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagSimpleModel()
         p_radiossModel->CreateEntity(radAirbagHEdit, "/MONVOL/AIRBAG1/", selSimpleAirbag->GetName(), airbagId);
 
         EntityEdit radAirbagEdit(p_radiossModel, radAirbagHEdit);
-        if (surfSet.GetId())
-            radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(p_radiossModel->GetEntityType("/SET/GENERAL"), surfSet.GetId())));
+
+        if(lsdSSTYP == 0)
+        {
+            radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSurfType, DynaToRad::GetRadiossSetIdFromLsdSet(surfSet.GetId(), "*SET_SEGMENT"))));
+        }
+        else
+        {
+            radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSurfType, DynaToRad::GetRadiossSetIdFromLsdSet(surfSet.GetId(), "*SET_PART"))));
+        }
+            
         radAirbagEdit.SetValue(sdiIdentifier("Pext"), sdiValue(lsdPE));
         radAirbagEdit.SetValue(sdiIdentifier("T0"), sdiValue(lsdTExt));
 
@@ -324,6 +351,7 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagSimpleModel()
 
 void sdiD2R::ConvertControlVolume::ConvertAirbagAdiabaticGasModel()
 {
+    EntityType radSurfType = p_radiossModel->GetEntityType("/SURF");
     SelectionRead selAirbagAdiabaticGasModel(p_lsdynaModel, "*AIRBAG_ADIABATIC_GAS_MODEL");
     while (selAirbagAdiabaticGasModel.Next())
     {
@@ -334,6 +362,10 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagAdiabaticGasModel()
         double radPini = 0.0;
         sdiValue tempValue;
         sdiValueEntity surfSet;
+        
+        int lsdSSTYP;
+        selAirbagAdiabaticGasModel->GetValue(sdiIdentifier("SIDTYP"), tempValue);
+        tempValue.GetValue(lsdSSTYP);
 
         HandleEdit radAirbagHEdit;
         p_radiossModel->CreateEntity(radAirbagHEdit, "/MONVOL/GAS", selAirbagAdiabaticGasModel->GetName(), selAirbagAdiabaticGasModel->GetId());
@@ -361,8 +393,15 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagAdiabaticGasModel()
 //
             selAirbagAdiabaticGasModel->GetValue(sdiIdentifier("SID"), tempValue);
             tempValue.GetValue(surfSet);
-            if (surfSet.GetId())
-                radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(p_radiossModel->GetEntityType("/SET"), surfSet.GetId())));
+
+            if(lsdSSTYP == 0)
+            {
+                radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSurfType, DynaToRad::GetRadiossSetIdFromLsdSet(surfSet.GetId(), "*SET_SEGMENT"))));
+            }
+            else
+            {
+                radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSurfType, DynaToRad::GetRadiossSetIdFromLsdSet(surfSet.GetId(), "*SET_PART"))));
+            }
 //
             sdiConvert::SDIHandlReadList sourceConVol = { {selAirbagAdiabaticGasModel->GetHandle()} };
             sdiConvert::Convert::PushToConversionLog(std::make_pair(radAirbagHEdit, sourceConVol));
@@ -405,6 +444,7 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagLoadCurve()
 {
     SelectionRead selAirbagLoadFunc(p_lsdynaModel, "*AIRBAG_LOAD_CURVE");
     EntityType radFunctType = p_radiossModel->GetEntityType("/FUNCT");
+    EntityType radSurfType = p_radiossModel->GetEntityType("/SURF");
 
     HandleEdit functEdit;
 
@@ -420,8 +460,19 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagLoadCurve()
         sdiValueEntity surfSet;
         selAirbagLoadFunc->GetValue(sdiIdentifier("SID"), tempValue);
         tempValue.GetValue(surfSet);
-        if (surfSet.GetId())
-            radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(p_radiossModel->GetEntityType("/SURF"), surfSet.GetId())));
+        
+        int lsdSSTYP;
+        selAirbagLoadFunc->GetValue(sdiIdentifier("SIDTYP"), tempValue);
+        tempValue.GetValue(lsdSSTYP);
+
+        if(lsdSSTYP == 0)
+        {
+            radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSurfType, DynaToRad::GetRadiossSetIdFromLsdSet(surfSet.GetId(), "*SET_SEGMENT"))));
+        }
+        else
+        {
+            radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(radSurfType, DynaToRad::GetRadiossSetIdFromLsdSet(surfSet.GetId(), "*SET_PART"))));
+        }
 
         double LSD_STIME = 0.0;
         sdiValue tempVal(LSD_STIME);
@@ -2634,10 +2685,7 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagLinearFluid()
             if (surfSet.GetId())
                 radAirbagEdit.SetValue(sdiIdentifier("surf_IDex"), sdiValue(sdiValueEntity(p_radiossModel->GetEntityType("/SET"), surfSet.GetId())));
 
-            sdiValueEntity lsdLCBULK;
-            tempValue = sdiValue(lsdLCBULK);
-            selAirbagLinearFluid->GetValue(sdiIdentifier("LCBULK"), tempValue);
-            tempValue.GetValue(lsdLCBULK);
+            sdiValueEntity lsdLCBULK = GetValue<sdiValueEntity>(*selAirbagLinearFluid, "LCBULK");
             unsigned int LCBULKID=lsdLCBULK.GetId();
 
             if(LCBULKID > 0)
@@ -2647,10 +2695,7 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagLinearFluid()
             {
               // create new fuction (from scalar)
               HandleEdit functHEdit;
-              double lsdBULK;
-              tempValue = sdiValue(lsdBULK);
-              selAirbagLinearFluid->GetValue(sdiIdentifier("BULK"), tempValue);
-              tempValue.GetValue(lsdBULK);
+              double lsdBULK = GetValue<double>(*selAirbagLinearFluid, "BULK");
 
               p_ConvertUtils.CreateCurve(selAirbagLinearFluid->GetName()+"_LCBULK", 2, { {0, lsdBULK, 1, lsdBULK} }, functHEdit);
 
@@ -2664,46 +2709,31 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagLinearFluid()
 
             p_ConvertUtils.CopyValue(*selAirbagLinearFluid, radAirbagEdit, "RO", "Rho");
 
-            sdiValueEntity lsdLCINT;
-            tempValue = sdiValue(lsdLCINT);
-            selAirbagLinearFluid->GetValue(sdiIdentifier("LCINT"), tempValue);
-            tempValue.GetValue(lsdLCINT);
+            sdiValueEntity lsdLCINT = GetValue<sdiValueEntity>(*selAirbagLinearFluid, "LCINT");
             unsigned int LCINTID=lsdLCINT.GetId();
 
             if(LCINTID > 0)
               radAirbagHEdit.SetValue(p_radiossModel, sdiIdentifier("fct_Mtin"), sdiValue(sdiValueEntity(p_radiossModel->GetEntityType("/FUNCT"), LCINTID)));
 
-            sdiValueEntity lsdLCOUTT;
-            tempValue = sdiValue(lsdLCOUTT);
-            selAirbagLinearFluid->GetValue(sdiIdentifier("LCOUTT"), tempValue);
-            tempValue.GetValue(lsdLCOUTT);
+            sdiValueEntity lsdLCOUTT = GetValue<sdiValueEntity>(*selAirbagLinearFluid, "LCOUTT");
             unsigned int LCOUTTID=lsdLCOUTT.GetId();
 
             if(LCOUTTID > 0)
               radAirbagHEdit.SetValue(p_radiossModel, sdiIdentifier("Fct_Mtout"), sdiValue(sdiValueEntity(p_radiossModel->GetEntityType("/FUNCT"), LCOUTTID)));
 
-            sdiValueEntity lsdLCOUTP;
-            tempValue = sdiValue(lsdLCOUTP);
-            selAirbagLinearFluid->GetValue(sdiIdentifier("LCOUTP"), tempValue);
-            tempValue.GetValue(lsdLCOUTP);
+            sdiValueEntity lsdLCOUTP = GetValue<sdiValueEntity>(*selAirbagLinearFluid, "LCOUTP");
             unsigned int LCOUTPID=lsdLCOUTP.GetId();
 
             if(LCOUTPID > 0)
               radAirbagHEdit.SetValue(p_radiossModel, sdiIdentifier("Fct_Mpout"), sdiValue(sdiValueEntity(p_radiossModel->GetEntityType("/FUNCT"), LCOUTPID)));
 
-            sdiValueEntity lsdLCFIT;
-            tempValue = sdiValue(lsdLCFIT);
-            selAirbagLinearFluid->GetValue(sdiIdentifier("LCFIT"), tempValue);
-            tempValue.GetValue(lsdLCFIT);
+            sdiValueEntity lsdLCFIT = GetValue<sdiValueEntity>(*selAirbagLinearFluid, "LCFIT");
             unsigned int LCFITID=lsdLCFIT.GetId();
 
             if(LCFITID > 0)
               radAirbagHEdit.SetValue(p_radiossModel, sdiIdentifier("Fct_Padd"), sdiValue(sdiValueEntity(p_radiossModel->GetEntityType("/FUNCT"), LCFITID)));
 
-            sdiValueEntity lsdPLIMLC;
-            tempValue = sdiValue(lsdPLIMLC);
-            selAirbagLinearFluid->GetValue(sdiIdentifier("P_LIMLC"), tempValue);
-            tempValue.GetValue(lsdPLIMLC);
+            sdiValueEntity lsdPLIMLC = GetValue<sdiValueEntity>(*selAirbagLinearFluid, "P_LIMLC");
             unsigned int PLIMLCID=lsdPLIMLC.GetId();
 
             if(PLIMLCID > 0)
@@ -2713,12 +2743,12 @@ void sdiD2R::ConvertControlVolume::ConvertAirbagLinearFluid()
             {
               // create new fuction (from scalar)
               HandleEdit functHEdit;
-              double lsdPLIMIT;
-              tempValue = sdiValue(lsdPLIMIT);
-              selAirbagLinearFluid->GetValue(sdiIdentifier("P_LIMIT"), tempValue);
-              tempValue.GetValue(lsdPLIMIT);
 
-              p_ConvertUtils.CreateCurve(selAirbagLinearFluid->GetName()+" _ P_LIMLC", 2, { {0, lsdPLIMIT, 1, lsdPLIMIT} }, functHEdit);
+              double lsdPLIMIT = GetValue<double>(*selAirbagLinearFluid, "P_LIMIT");
+
+              if(lsdPLIMIT == 0.0) lsdPLIMIT = 1E+20;
+
+              p_ConvertUtils.CreateCurve(selAirbagLinearFluid->GetName()+"_P_LIMLC", 2, { {0, lsdPLIMIT, 1, lsdPLIMIT} }, functHEdit);
 
               if (functHEdit.IsValid())
               {
