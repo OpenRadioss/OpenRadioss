@@ -81,6 +81,7 @@
       !||    hm_read_mat127            ../starter/source/materials/mat/mat127/hm_read_mat127.F90
       !||    hm_read_mat128            ../starter/source/materials/mat/mat128/hm_read_mat128.F90
       !||    hm_read_mat13             ../starter/source/materials/mat/mat013/hm_read_mat13.F
+      !||    hm_read_mat134             ../starter/source/materials/mat/mat134/hm_read_mat134.F
       !||    hm_read_mat14             ../starter/source/materials/mat/mat014/hm_read_mat14.F
       !||    hm_read_mat15             ../starter/source/materials/mat/mat015/hm_read_mat15.F
       !||    hm_read_mat151            ../starter/source/materials/mat/mat151/hm_read_mat151.F
@@ -167,6 +168,7 @@
       !||    hm_read_mat126_mod        ../starter/source/materials/mat/mat126/hm_read_mat126.F90
       !||    hm_read_mat127_mod        ../starter/source/materials/mat/mat127/hm_read_mat127.F90
       !||    hm_read_mat128_mod        ../starter/source/materials/mat/mat128/hm_read_mat128.F90
+      !||    hm_read_mat134_mod        ../starter/source/materials/mat/mat128/hm_read_mat134.F90 
       !||    hm_read_mat163_mod        ../starter/source/materials/mat/mat163/hm_read_mat163.F90
       !||    hm_read_mat169_arup_mod   ../starter/source/materials/mat/mat169/hm_read_mat169.F90
       !||    hm_read_mat50_mod         ../starter/source/materials/mat/mat050/hm_read_mat50.F90
@@ -208,6 +210,7 @@
       use hm_read_mat126_mod
       use hm_read_mat127_mod
       use hm_read_mat128_mod
+      use hm_read_mat134_mod
       use hm_read_mat163_mod
       use hm_read_mat169_arup_mod
       use names_and_titles_mod ,only : nchartitle, ncharline
@@ -1182,7 +1185,13 @@
             call hm_read_mat128(                                &
             matparam ,mtag     ,parmat   ,nuvar    ,nvartmp  ,  &
             ntable   ,table    ,mat_id   ,titr     ,iout     ,  &
-            unitab   ,lsubmodel)                      
+            unitab   ,lsubmodel)     
+!-------                             
+          case ('LAW134','VISCOUS_FOAM')
+            ilaw  = 134
+            call hm_read_mat134(mtag     ,&
+            &matparam  ,   parmat , nuvar  ,  unitab    ,lsubmodel,&
+            &mat_id    ,titr       ,iout     )
 !-------
           case ('LAW151','MULTIFLUID')
             ilaw  = 151
@@ -1436,15 +1445,11 @@
          ipm(3,i)   = israte
 !
          if (pm(9,i) == zero.and.ilaw /=2 ) pm(9,i) = asrate    ! old mat laws fill it directly
-
-
-
          pm(19,i)   = ilaw + em01     ! double stockage - a nettoyer
          pm(70,i)   = jtur + em01
          pm(71,i)   = jthe + em01
          pm(72,i)   = jale + em01
-
-
+         !
          ipm(217,i) = iuser_law
 !---------------------------------------------------------
 !
