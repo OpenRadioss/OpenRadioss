@@ -133,7 +133,7 @@ C-------------------------------------------------
                     BETASDT_(3)= -MIN(DAMP_B(3),DAMPT)*DT1/MAX(DT1*DT1,EM30)
                     OMEGA_(3)  = ONE/ (ONE + HALF * DAMP_A(3) * DT1)
                     ! --------------
-#include "vectorize.inc"
+
                     DO N=1,IGRNOD(IGR)%NENTITY
                         I=IGRNOD(IGR)%ENTITY(N)
                         IF(TAGSLV_RBY(I)==0) THEN
@@ -178,7 +178,7 @@ C
                     BETASDT_(3)= -MIN(DAMP_B(3),DAMPT)*DT1/MAX(DT1*DT1,EM30)
                     OMEGA_(3)  = ONE/ (ONE + HALF * DAMP_A(3) * DT1)
                     ! --------------
-#include "vectorize.inc"
+ 
                     DO N=1,IGRNOD(IGR)%NENTITY
                         I=IGRNOD(IGR)%ENTITY(N)
                         IF(TAGSLV_RBY(I)==0) THEN
@@ -256,7 +256,7 @@ C---------------alpha = Cdamp_M / dt--------------
                 OMEGA_(2)  = ONE/ (ONE + HALF * DAMP_A(2) * DT1)
                 OMEGA_(3)  = ONE/ (ONE + HALF * DAMP_A(3) * DT1)   
 C-------------------------------------------------
-#include "vectorize.inc"
+
                 DO N=1,IGRNOD(IGR)%NENTITY
                   I=IGRNOD(IGR)%ENTITY(N)
                   IF(TAGSLV_RBY(I)==0) THEN
@@ -269,7 +269,7 @@ C-------------------------------------------------
                   ENDIF
                 ENDDO
 C-------------------------------------------------
-#include "vectorize.inc"
+
                 DO N=1,IGRNOD(IGR)%NENTITY
                   I=IGRNOD(IGR)%ENTITY(N)
                   IF(TAGSLV_RBY(I)==0) THEN
@@ -282,7 +282,6 @@ C-------------------------------------------------
                   ENDIF
                 ENDDO
 C-------------------------------------------------
-#include "vectorize.inc"
                 DO N=1,IGRNOD(IGR)%NENTITY
                   I=IGRNOD(IGR)%ENTITY(N)
                   IF(TAGSLV_RBY(I)==0) THEN
@@ -333,7 +332,7 @@ C-------------------------------------------------
                     DAMP_B(3) = DAMPR(8,ND)
                     BETASDT_(3)= -MIN(DAMP_B(3),DAMPT)*DT1/MAX(DT1*DT1,EM30)
                     OMEGA_(3)  = ONE/ (ONE + HALF * DAMP_A(3) * DT1)
-#include "vectorize.inc"
+
                     DO N=1,IGRNOD(IGR)%NENTITY
                         I=IGRNOD(IGR)%ENTITY(N)
                         IF(TAGSLV_RBY(I)==0) THEN
@@ -430,7 +429,7 @@ C-------------------------------------------------
                     DAMP_B(3) = DAMPR(14,ND)
                     BETASDT_(3)= -MIN(DAMP_B(3),DAMPT)*DT1/MAX(DT1*DT1,EM30)
                     OMEGA_(3)  = ONE/ (ONE + HALF * DAMP_A(3) * DT1)
-#include "vectorize.inc"
+
                     DO N=1,IGRNOD(IGR)%NENTITY
                         I=IGRNOD(IGR)%ENTITY(N)
                         IF(TAGSLV_RBY(I)==0) THEN
@@ -557,7 +556,6 @@ C---------------alpha = Cdamp_M / dt--------------
                 OMEGA_(2)  = ONE/ (ONE + HALF * DAMP_A(2) * DT1)
                 OMEGA_(3)  = ONE/ (ONE + HALF * DAMP_A(3) * DT1)                            
 C-------------------------------------------------
-#include "vectorize.inc"
                 DO N=1,IGRNOD(IGR)%NENTITY
                   I=IGRNOD(IGR)%ENTITY(N)
                   IF(TAGSLV_RBY(I)==0) THEN
@@ -626,7 +624,7 @@ C-------------------------------------------------
            DAMPB = DAMPR(10,ND)
            BETASDT= -MIN(DAMPB,DAMPT)*DT1/MAX(DT1*DT1,EM30)
            OMEGA  = ONE/ (ONE + HALF * DAMPA * DT1)
-#include "vectorize.inc"
+
            DO N=1,IGRNOD(IGR)%NENTITY
             I=IGRNOD(IGR)%ENTITY(N)
             IF(TAGSLV_RBY(I)/=0) CYCLE
@@ -648,7 +646,7 @@ C--------------------------------------------------------
            DAMPB = DAMPR(12,ND)
            BETASDT= -MIN(DAMPB,DAMPT)*DT1/MAX(DT1*DT1,EM30)
            OMEGA  = ONE/ (ONE + HALF * DAMPA * DT1)
-#include "vectorize.inc"
+
            DO N=1,IGRNOD(IGR)%NENTITY
             I=IGRNOD(IGR)%ENTITY(N)
             IF(TAGSLV_RBY(I)/=0) CYCLE
@@ -669,7 +667,7 @@ C--------------------------------------------------------
            DAMPB = DAMPR(14,ND)
            BETASDT= -MIN(DAMPB,DAMPT)*DT1/MAX(DT1*DT1,EM30)
            OMEGA  = ONE/ (ONE + HALF * DAMPA * DT1)
-#include "vectorize.inc"
+
            DO N=1,IGRNOD(IGR)%NENTITY
             I=IGRNOD(IGR)%ENTITY(N)
             IF(TAGSLV_RBY(I)/=0) CYCLE
@@ -725,7 +723,7 @@ C--------------------------------------------------------
            DAMPB = DAMPR(10,ND)
            BETASDT= -MIN(DAMPB,DAMPT)*DT1/MAX(DT1*DT1,EM30)
            OMEGA  = ONE/ (ONE + HALF * DAMPA * DT1)
-#include "vectorize.inc"
+
            DO N=1,IGRNOD(IGR)%NENTITY
             I=IGRNOD(IGR)%ENTITY(N)
             IF(TAGSLV_RBY(I)/=0) CYCLE
@@ -748,7 +746,7 @@ C--------------------------------------------------------
            DAMPB = DAMPR(12,ND)
            BETASDT= -MIN(DAMPB,DAMPT)*DT1/MAX(DT1*DT1,EM30)
            OMEGA  = ONE/ (ONE + HALF * DAMPA * DT1)
-#include "vectorize.inc"
+
            DO N=1,IGRNOD(IGR)%NENTITY
             I=IGRNOD(IGR)%ENTITY(N)
             IF(TAGSLV_RBY(I)/=0) CYCLE
@@ -770,7 +768,7 @@ C--------------------------------------------------------
            DAMPB = DAMPR(14,ND)
            BETASDT= -MIN(DAMPB,DAMPT)*DT1/MAX(DT1*DT1,EM30)
            OMEGA  = ONE/ (ONE + HALF * DAMPA * DT1)
-#include "vectorize.inc"
+
            DO N=1,IGRNOD(IGR)%NENTITY
             I=IGRNOD(IGR)%ENTITY(N)
             IF(TAGSLV_RBY(I)/=0) CYCLE
@@ -881,7 +879,6 @@ C======================================================================|
         OMEGA  = ONE/ (ONE + HALF * DAMPA * DT1)
         DO J=1,3
           IF(IRODDL==0)THEN
-#include "vectorize.inc"
             DO N=1,IGRNOD(IGR)%NENTITY
               I=IGRNOD(IGR)%ENTITY(N)
               IF(TAGSLV_RBY(I)/=0) CYCLE
@@ -892,7 +889,6 @@ C======================================================================|
               DW =DW+MS(I)*DA*(V(J,I)+HALF*A(J,I)*DT1)*DT12*WEIGHT(I)
             ENDDO
           ELSE
-#include "vectorize.inc"
             DO N=1,IGRNOD(IGR)%NENTITY
               I=IGRNOD(IGR)%ENTITY(N)
               IF(TAGSLV_RBY(I)/=0) CYCLE
@@ -1003,7 +999,6 @@ C
       IF(IDAMPG==0)THEN
        DO J=1,3
         IF(IRODDL==0)THEN
-#include "vectorize.inc"
          DO I=NODFT,NODLT
           IF(TAGSLV_RBY(I)/=0) CYCLE
           DA = A(J,I) - DAMPA*V(J,I) - BETASDT *(A(J,I) - DAMP(J,I))
@@ -1013,7 +1008,6 @@ C
           DW=DW+WEIGHT(I)*(MS(I)*DA*(V(J,I)+HALF*A(J,I)*DT1)*DT12)
          ENDDO
         ELSE
-#include "vectorize.inc"
          DO I=NODFT,NODLT
           IF(TAGSLV_RBY(I)/=0) CYCLE
           DA = A(J,I) - DAMPA*V(J,I) - BETASDT *(A(J,I) - DAMP(J,I))
@@ -1032,7 +1026,6 @@ C
       ELSEIF(ITASK==0)THEN
        DO J=1,3
         IF(IRODDL==0)THEN
-#include "vectorize.inc"
          DO N=1,IGRNOD(IDAMPG)%NENTITY
           I=IGRNOD(IDAMPG)%ENTITY(N)
           IF(TAGSLV_RBY(I)/=0) CYCLE
@@ -1043,7 +1036,6 @@ C
           DW =DW+WEIGHT(I)*MS(I)*DA*(V(J,I)+HALF*A(J,I)*DT1)*DT12
          ENDDO
         ELSE
-#include "vectorize.inc"
          DO N=1,IGRNOD(IDAMPG)%NENTITY
           I=IGRNOD(IDAMPG)%ENTITY(N)
           IF(TAGSLV_RBY(I)/=0) CYCLE

@@ -136,7 +136,6 @@
 !
           if (isk == 1) then
 !-------- computation of forces in global skew -----
-#include "vectorize.inc"
             do n=1,nsn
               i=igrnod(igr)%entity(n)
               if (tagslv_rby(i)==0) then
@@ -174,7 +173,6 @@
             enddo
           else
 !-------- computation of forces in local skew -----
-#include "vectorize.inc"
             do n=1,nsn
               i=igrnod(igr)%entity(n)
               if (tagslv_rby(i)==0) then
