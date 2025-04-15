@@ -169,6 +169,7 @@
       !||    delamination                        ../engine/source/properties/composite_options/stack/delamination.F
       !||    deltax22                            ../engine/source/interfaces/int22/deltax22.F
       !||    desacti                             ../engine/source/elements/desacti.F
+      !||    detonation_times_printout           ../starter/source/initial_conditions/detonation/detonation_times_printout.F90
       !||    dfunc0                              ../engine/source/output/anim/generate/dfunc0.F
       !||    dfuncc                              ../engine/source/output/anim/generate/dfuncc.F
       !||    dfuncc_crk                          ../engine/source/output/anim/generate/dfuncc_crk.F
@@ -207,6 +208,9 @@
       !||    eigcond                             ../engine/stub/eigcond.F
       !||    eigoff                              ../engine/source/output/anim/generate/eigoff.F
       !||    eigp                                ../engine/stub/eigp.F
+      !||    eikonal_fast_marching_method        ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
+      !||    eikonal_init_mixture_vel            ../starter/source/initial_conditions/detonation/eikonal_ini_mixture_vel.F90
+      !||    eikonal_solver                      ../starter/source/initial_conditions/detonation/eikonal_solver.F90
       !||    eloff                               ../engine/source/elements/eloff.F
       !||    enrichc_ini                         ../engine/source/elements/xfem/enrichc_ini.F
       !||    enrichtg_ini                        ../engine/source/elements/xfem/enrichtg_ini.F

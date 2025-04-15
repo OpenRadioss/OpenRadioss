@@ -109,6 +109,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    eig1                             ../engine/stub/eig1.F
       !||    eigcond                          ../engine/stub/eigcond.F
       !||    eigp                             ../engine/stub/eigp.F
+      !||    eikonal_compute_adjacent         ../starter/source/initial_conditions/detonation/eikonal_compute_adjacent.F90
+      !||    eikonal_fast_marching_method     ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
+      !||    eikonal_init_start_list_2d       ../starter/source/initial_conditions/detonation/eikonal_init_start_list_2d.F90
+      !||    eikonal_solver                   ../starter/source/initial_conditions/detonation/eikonal_solver.F90
       !||    eporin3                          ../starter/source/ale/ale3d/eporin3.F
       !||    findele                          ../starter/source/boundary_conditions/ebcs/findele.F
       !||    forint                           ../engine/source/elements/forint.F

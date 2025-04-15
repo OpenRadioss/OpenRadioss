@@ -186,7 +186,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sigeps92                     ../engine/source/materials/mat/mat092/sigeps92.F
       !||    sigeps94                     ../engine/source/materials/mat/mat094/sigeps94.F
       !||    sigeps95                     ../engine/source/materials/mat/mat095/sigeps95.F
-      !||    sigeps97                     ../engine/source/materials/mat/mat097/sigeps97.F
       !||    sms_gravit                   ../engine/source/ams/sms_gravit.F
       !||    thermexpc                    ../engine/source/materials/mat_share/thermexpc.F
       !||    volp_lfluid                  ../engine/source/airbag/volp_lfluid.F

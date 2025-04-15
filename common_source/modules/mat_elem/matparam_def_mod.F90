@@ -32,7 +32,11 @@
       !||====================================================================
       !||    matparam_def_mod                    ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||--- called by ------------------------------------------------------
+      !||    aeturb                              ../engine/source/ale/turbulence/aeturb.F
+      !||    akturb                              ../engine/source/ale/turbulence/akturb.F
       !||    alemain                             ../engine/source/ale/alemain.F
+      !||    alethe                              ../engine/source/ale/alethe.F
+      !||    atherm                              ../engine/source/ale/atherm.F
       !||    binit2                              ../starter/source/ale/bimat/binit2.F
       !||    brest2                              ../engine/source/ale/bimat/brest2.F
       !||    c3grhead                            ../starter/source/elements/sh3n/coque3n/c3grhead.F

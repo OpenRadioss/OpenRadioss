@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    detonation_times_printout_mod   ../starter/source/initial_conditions/detonation/detonation_times_printout.F90
+      !||--- called by ------------------------------------------------------
+      !||    initia                          ../starter/source/elements/initia/initia.F
+      !||====================================================================
       module detonation_times_printout_mod
       contains
 ! ======================================================================================================================
@@ -27,6 +32,12 @@
 ! ======================================================================================================================
 !! \brief Output Detonation Times for relevant elements
 !! \details default detonation time set to 0.0 if no detonator is related
+      !||====================================================================
+      !||    detonation_times_printout   ../starter/source/initial_conditions/detonation/detonation_times_printout.F90
+      !||--- called by ------------------------------------------------------
+      !||    initia                      ../starter/source/elements/initia/initia.F
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
         subroutine detonation_times_printout(NPARG,NGROUP,IPARG,N2D,IPRI,ELBUF_TAB, &
                                               NIXS,NIXQ,NIXTG,NUMELS,NUMELQ,NUMELTG,IXS,IXQ,IXTG)
 ! ----------------------------------------------------------------------------------------------------------------------

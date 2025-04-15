@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    eikonal_solver_mod   ../starter/source/initial_conditions/detonation/eikonal_solver.F90
+      !||--- called by ------------------------------------------------------
+      !||    initia               ../starter/source/elements/initia/initia.F
+      !||====================================================================
       module eikonal_solver_mod
       contains
 ! ======================================================================================================================
@@ -28,6 +33,16 @@
 !! \brief Solver for the Eikonal equation (arrival time depending on medium velocity)
 !! \details a numerical scheme is used to solve the Eikonal equation on the relevant domain.
 !! \details Option available for Detonators for which flag I_SHADOW is available.
+      !||====================================================================
+      !||    eikonal_solver                     ../starter/source/initial_conditions/detonation/eikonal_solver.F90
+      !||--- called by ------------------------------------------------------
+      !||    initia                             ../starter/source/elements/initia/initia.F
+      !||--- calls      -----------------------------------------------------
+      !||    eikonal_fast_marching_method       ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
+      !||--- uses       -----------------------------------------------------
+      !||    detonators_mod                     ../starter/share/modules1/detonators_mod.F
+      !||    eikonal_fast_marching_method_mod   ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
+      !||====================================================================
         subroutine eikonal_solver(ixq      , nixq     , numelq  , &
                                   ixs      , nixs     , numels  , &
                                   ixtg     , nixtg    , numeltg , &

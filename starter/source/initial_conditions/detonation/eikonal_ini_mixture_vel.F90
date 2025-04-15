@@ -20,11 +20,25 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    eikonal_init_mixture_vel_mod   ../starter/source/initial_conditions/detonation/eikonal_ini_mixture_vel.F90
+      !||--- called by ------------------------------------------------------
+      !||    eikonal_fast_marching_method   ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
+      !||====================================================================
       module eikonal_init_mixture_vel_mod
       contains
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
+      !||====================================================================
+      !||    eikonal_init_mixture_vel         ../starter/source/initial_conditions/detonation/eikonal_ini_mixture_vel.F90
+      !||--- called by ------------------------------------------------------
+      !||    eikonal_fast_marching_method     ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
+      !||--- calls      -----------------------------------------------------
+      !||    material_is_high_explosive       ../starter/source/materials/material_is_high_explosive.F90
+      !||--- uses       -----------------------------------------------------
+      !||    material_is_high_explosive_mod   ../starter/source/materials/material_is_high_explosive.F90
+      !||====================================================================
         subroutine eikonal_init_mixture_vel(lgth,vel,idx_ng,idx_i,multimat_id,mid, &
                                             ngroup,nummat,npropm,pm,npropmi,ipm,elbuf_tab,&
                                             nparg,iparg)

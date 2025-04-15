@@ -32,6 +32,8 @@
       !||    law163_upd         ../starter/source/materials/mat/mat163/law163_upd.F90
       !||--- called by ------------------------------------------------------
       !||    updmat             ../starter/source/materials/updmat.F
+      !||--- calls      -----------------------------------------------------
+      !||    table_slope        ../starter/source/materials/tools/table_slope.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================
         subroutine law163_upd(  matparam ,pm , npropm   )

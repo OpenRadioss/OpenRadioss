@@ -20,6 +20,11 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    eikonal_fast_marching_method_mod   ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
+      !||--- called by ------------------------------------------------------
+      !||    eikonal_solver                     ../starter/source/initial_conditions/detonation/eikonal_solver.F90
+      !||====================================================================
       module eikonal_fast_marching_method_mod
       contains
 ! ======================================================================================================================
@@ -29,6 +34,24 @@
 !! \details The Fast Marching Method (FMM) is used to solve this equation on elem centroids.
 !! \details Connectivity is provided with nod2el and knod2el arrays
 !! \details updown(:) array is used to define narrow band 1:frozen, 0:narrow_band, -1:far
+      !||====================================================================
+      !||    eikonal_fast_marching_method     ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
+      !||--- called by ------------------------------------------------------
+      !||    eikonal_solver                   ../starter/source/initial_conditions/detonation/eikonal_solver.F90
+      !||--- calls      -----------------------------------------------------
+      !||    eikonal_compute_adjacent         ../starter/source/initial_conditions/detonation/eikonal_compute_adjacent.F90
+      !||    eikonal_init_mixture_vel         ../starter/source/initial_conditions/detonation/eikonal_ini_mixture_vel.F90
+      !||    eikonal_init_start_list_2d       ../starter/source/initial_conditions/detonation/eikonal_init_start_list_2d.F90
+      !||    eikonal_remove_first             ../starter/source/initial_conditions/detonation/eikonal_remove_first.F90
+      !||    eikonal_sort_narrow_band         ../starter/source/initial_conditions/detonation/eikonal_sort_narrow_band.F90
+      !||--- uses       -----------------------------------------------------
+      !||    detonators_mod                   ../starter/share/modules1/detonators_mod.F
+      !||    eikonal_compute_adjacent_mod     ../starter/source/initial_conditions/detonation/eikonal_compute_adjacent.F90
+      !||    eikonal_init_mixture_vel_mod     ../starter/source/initial_conditions/detonation/eikonal_ini_mixture_vel.F90
+      !||    eikonal_init_start_list_2d_mod   ../starter/source/initial_conditions/detonation/eikonal_init_start_list_2d.F90
+      !||    eikonal_remove_first_mod         ../starter/source/initial_conditions/detonation/eikonal_remove_first.F90
+      !||    eikonal_sort_narrow_band_mod     ../starter/source/initial_conditions/detonation/eikonal_sort_narrow_band.F90
+      !||====================================================================
         subroutine eikonal_fast_marching_method(&
                                      ix,nix,numel,x,numnod, &
                                      elbuf_tab,ngroup,nparg,iparg,ale_connectivity,npropm,nummat,pm,&

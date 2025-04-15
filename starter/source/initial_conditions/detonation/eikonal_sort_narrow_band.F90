@@ -20,11 +20,23 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    eikonal_sort_narrow_band_mod   ../starter/source/initial_conditions/detonation/eikonal_sort_narrow_band.F90
+      !||--- called by ------------------------------------------------------
+      !||    eikonal_fast_marching_method   ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
+      !||====================================================================
       module eikonal_sort_narrow_band_mod
       contains
 ! ======================================================================================================================
 !                                                   procedures
 ! ======================================================================================================================
+      !||====================================================================
+      !||    eikonal_sort_narrow_band         ../starter/source/initial_conditions/detonation/eikonal_sort_narrow_band.F90
+      !||--- called by ------------------------------------------------------
+      !||    eikonal_fast_marching_method     ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
         subroutine eikonal_sort_narrow_band(priority_queue_id,priority_queue_tt,n_queue)
 !! \brief The narrow band is list of narrow element ordered along arrival time (ascending order)
 !! \details Re-ordering required whenever a new element ios added in the list.

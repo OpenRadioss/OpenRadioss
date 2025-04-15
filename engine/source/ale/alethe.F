@@ -48,6 +48,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    elbufdef_mod                     ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    glob_therm_mod                   ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    i22tri_mod                       ../common_source/modules/interfaces/cut-cell-search_mod.F
+      !||    matparam_def_mod                 ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||    segvar_mod                       ../engine/share/modules/segvar_mod.F
       !||====================================================================
       SUBROUTINE ALETHE(

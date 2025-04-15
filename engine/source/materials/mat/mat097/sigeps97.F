@@ -24,8 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sigeps97         ../engine/source/materials/mat/mat097/sigeps97.F
       !||--- called by ------------------------------------------------------
       !||    mulaw            ../engine/source/materials/mat_share/mulaw.F90
-      !||--- calls      -----------------------------------------------------
-      !||    finter           ../engine/source/tools/curve/finter.F
       !||--- uses       -----------------------------------------------------
       !||    elbufdef_mod     ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    i22bufbric_mod   ../common_source/modules/interfaces/cut-cell-search_mod.F

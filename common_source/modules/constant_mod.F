@@ -24,6 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    constant_mod                             ../common_source/modules/constant_mod.F
       !||--- called by ------------------------------------------------------
       !||    alew8                                    ../engine/source/ale/grid/alew8.F90
+      !||    allocbuf_auto                            ../engine/source/elements/elbuf/allocbuf_auto.F
       !||    anim_nodal_ssp_elems                     ../engine/source/output/anim/generate/anim_nodal_ssp_elems.F90
       !||    bcs_wall_trigger                         ../engine/source/boundary_conditions/bcs_wall_trigger.F90
       !||    brent_algo                               ../common_source/modules/root_finding_algo_mod.F90
@@ -52,9 +53,18 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    detach_node                              ../engine/source/engine/node_spliting/detach_node.F90
       !||    detach_node_from_interfaces              ../engine/source/engine/node_spliting/detach_node.F90
       !||    detach_node_from_shells                  ../engine/source/engine/node_spliting/detach_node.F90
+      !||    detonation_times_printout                ../starter/source/initial_conditions/detonation/detonation_times_printout.F90
       !||    dim_shell_offsetp                        ../starter/source/elements/shell/shell_offset/dim_shell_offsetp.F90
       !||    dttherm                                  ../engine/source/time_step/dttherm.F90
       !||    ebcs11                                   ../engine/source/boundary_conditions/ebcs/ebcs11.F90
+      !||    eikonal_compute_adjacent                 ../starter/source/initial_conditions/detonation/eikonal_compute_adjacent.F90
+      !||    eikonal_fast_marching_method             ../starter/source/initial_conditions/detonation/eikonal_fast_marching_method.F90
+      !||    eikonal_godunov_operator_2d              ../starter/source/initial_conditions/detonation/eikonal_godunov_operator_2d.F90
+      !||    eikonal_godunov_operator_3d              ../starter/source/initial_conditions/detonation/eikonal_godunov_operator_3d.F90
+      !||    eikonal_init_mixture_vel                 ../starter/source/initial_conditions/detonation/eikonal_ini_mixture_vel.F90
+      !||    eikonal_init_start_list_2d               ../starter/source/initial_conditions/detonation/eikonal_init_start_list_2d.F90
+      !||    eikonal_remove_first                     ../starter/source/initial_conditions/detonation/eikonal_remove_first.F90
+      !||    eikonal_solver                           ../starter/source/initial_conditions/detonation/eikonal_solver.F90
       !||    eosexponential                           ../common_source/eos/eosexponential.F90
       !||    eospolyno                                ../common_source/eos/eospolyno.F
       !||    fail_gene1_b                             ../engine/source/materials/fail/gene1/fail_gene1_b.F90
@@ -131,6 +141,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    law81_upd                                ../starter/source/materials/mat/mat081/law81_upd.F90
       !||    law87_upd                                ../starter/source/materials/mat/mat087/law87_upd.F90
       !||    m21law                                   ../engine/source/materials/mat/mat021/m21law.F
+      !||    m5in2                                    ../starter/source/initial_conditions/detonation/m5in2.F
+      !||    m5in2t                                   ../starter/source/initial_conditions/detonation/m5in2t.F
+      !||    m5in3                                    ../starter/source/initial_conditions/detonation/m5in3.F
       !||    mat25_crasurv_c                          ../engine/source/materials/mat/mat025/mat25_crasurv_c.F90
       !||    mat25_crasurv_s                          ../engine/source/materials/mat/mat025/mat25_crasurv_s.F90
       !||    mat25_tsaiwu_c                           ../engine/source/materials/mat/mat025/mat25_tsaiwu_c.F90
