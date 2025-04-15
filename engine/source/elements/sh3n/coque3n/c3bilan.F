@@ -343,7 +343,6 @@ C
                 PARTSAV(22,MX)=PARTSAV(22,MX) + REK(I)
               ENDDO
             ELSE
-#include "vectorize.inc"
               DO I=JST(II),JST(II+1)-1
                 IF (ICRACK3D > 0 .AND. IXFEM > 0 .AND. ACTIFXFEM > 0) THEN
                   IF(OFF(I)/=ZERO)THEN
@@ -440,7 +439,6 @@ C
                 ENDIF
               ENDDO
             ELSE
-#include "vectorize.inc"
               DO I=JST(II),JST(II+1)-1
                 IF (ICRACK3D > 0 .AND. IXFEM > 0 .AND. ACTIFXFEM > 0) THEN
                   IF(OFF(I)/=ZERO)THEN
