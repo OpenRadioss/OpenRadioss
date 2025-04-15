@@ -71,6 +71,8 @@ namespace sdiD2R
         void p_ConvertControlOutput();
 
         void p_ConvertControlParallel();
+
+        void p_ConvertDbNodalForceGroup();
     };
 }
 

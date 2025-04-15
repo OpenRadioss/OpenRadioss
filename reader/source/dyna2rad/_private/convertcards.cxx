@@ -63,6 +63,9 @@ void sdiD2R::ConvertCard::ConvertEntities()
     
     /*convert control parallel*/
     p_ConvertControlParallel();
+
+    /*convert *DATABASE_NODAL_FORCE_GROUP*/
+    p_ConvertDbNodalForceGroup();
 }
 
 
@@ -849,5 +852,66 @@ void sdiD2R::ConvertCard::p_ConvertControlParallel()
     if (lsdConst == 1)
     {
         parithHEdit.SetValue(p_radiossModel, sdiIdentifier("KEYWORD2"), sdiValue(sdiString("ON")));
+    }
+}
+
+void sdiD2R::ConvertCard::p_ConvertDbNodalForceGroup()
+{
+    SelectionRead seldbNodalForce(p_lsdynaModel, "*DATABASE_NODAL_FORCE_GROUP");
+
+    while (seldbNodalForce.Next())
+    {
+        sdiValueEntity nsidEntity = GetValue<sdiValueEntity>(*seldbNodalForce, "NSID");
+        unsigned int NSID = nsidEntity.GetId();
+
+        sdiString optionName = seldbNodalForce->GetName();
+        sdiString keyWord = seldbNodalForce->GetKeyword();
+        sdiString TITLE;
+
+        if(keyWord.find("DATABASE_NODAL_FORCE_GROUP_TITLE") != keyWord.npos)
+            TITLE = optionName;
+        else
+            TITLE = "DATABASE NODAL FORCE GROUP NSET "+to_string(nsidEntity.GetId());
+
+        sdiValueEntity cidEntity = GetValue<sdiValueEntity>(*seldbNodalForce, "CID");
+        unsigned int CID = cidEntity.GetId();
+
+        // create /TH/NODE card
+
+        HandleEdit thHandleEdit;
+        if (NSID)
+        {
+            sdiUIntList NSIDList;
+            sdiUIntList allExtratedNodes;
+            sdiUIntList skewList;
+            HandleRead NsidHRead;
+            p_radiossModel->FindById(p_radiossModel->GetEntityType("/SET/GENERAL"), NSID, NsidHRead);
+            p_ConvertUtils.ExtractNodesFromRadiossSet(NsidHRead, NSIDList);
+            if (!NSIDList.empty())
+            {
+                allExtratedNodes.reserve((int)NSIDList.size());
+                skewList.reserve((int)NSIDList.size());
+                for (unsigned int nodeId : NSIDList)
+                {
+                    allExtratedNodes.push_back(nodeId);
+                    skewList.push_back(CID);
+                }
+            }
+
+            int idArrSIze = (int)allExtratedNodes.size();
+            if (idArrSIze)
+            {
+                p_radiossModel->CreateEntity(thHandleEdit, "/TH/NODE", TITLE);
+                EntityEdit  thEdit(p_radiossModel, thHandleEdit);
+                thEdit.SetValue(sdiIdentifier("idsmax"), sdiValue(idArrSIze));
+                thEdit.SetValue(sdiIdentifier("Number_Of_Variables"), sdiValue(1));
+                thEdit.SetValue(sdiIdentifier("elem_ID"), sdiValue(sdiValueEntityList(p_radiossModel->GetEntityType("/NODE"), allExtratedNodes)));
+                thEdit.SetValue(sdiIdentifier("skew_ID"), sdiValue(sdiValueEntityList(p_radiossModel->GetEntityType("/SKEW"), skewList)));
+                thEdit.SetValue(sdiIdentifier("var"), sdiValue(sdiStringList({ "DEF" })));
+        
+                sdiConvert::SDIHandlReadList sourceHandles = { {seldbNodalForce->GetHandle()} };
+                sdiConvert::Convert::PushToConversionLog(std::make_pair(thHandleEdit, sourceHandles));
+            }
+        }
     }
 }

@@ -287,6 +287,8 @@ void sdiD2R::ConvertTimeHistory::p_ConvertAllDBHistroy()
             entityList.GetIdList(nodeidList);
             containKeywordVsElemIds["/NODE"] = nodeidList;
             outVars.push_back("A");
+            outVars.push_back("AR");
+            outVars.push_back("VR");
         }
         
         else if (entityType == "SPH")
@@ -412,7 +414,6 @@ void sdiD2R::ConvertTimeHistory::p_UpdateThBasedOnREFFlag(const sdi::EntityRead&
                             skewEntRead.GetValue(sdiIdentifier(skewNodeAttrbStrList[j]), tempValue);
                             framEntEdit.SetValue(sdiIdentifier(skewNodeAttrbStrList[j]), tempValue);
                         }
-                        // to be added
                         sdiString radDIR;
                         sdiValue tempVal(radDIR);
                         skewEntRead.GetValue(sdiIdentifier("DIR"), tempVal);
@@ -421,6 +422,45 @@ void sdiD2R::ConvertTimeHistory::p_UpdateThBasedOnREFFlag(const sdi::EntityRead&
 
                         framEntEdit.SetValue(sdiIdentifier("titlestr"), sdiValue("FrameFix_TH_NODE_" + to_string(dynaDH.GetId())));
                         skewIdList[i] = framEntEdit.GetId();
+                    }
+                    else if (skewEntRead.GetKeyword() == "/SKEW/FIX")
+                    {
+                        // create anyway a "/FRAME/MOV"
+                        SelectionRead systSelect(p_lsdynaModel, "*DEFINE_COORDINATE_NODES");
+                        while(systSelect.Next())
+                        {
+                            if(systSelect->GetId() == skewIdList[i])
+                            {
+                                EntityType radNodeType = p_radiossModel->GetEntityType("/NODE");
+                                HandleRead handleN1;
+                                HandleRead handleN2;
+                                HandleRead handleN3;
+                                vector<sdiString> attribName({"N1", "N2", "N3"});
+                                vector<reference_wrapper<HandleRead>> attribVals({ handleN1, handleN2, handleN3 });
+                                p_ConvertUtils.GetEntityHandles(*systSelect, attribName, attribVals);
+
+                                if (!handleN1.IsValid() || !handleN2.IsValid() || !handleN3.IsValid())
+                                  continue;
+
+                                sdiString lsdDir;
+                                sdiValue tempVal(lsdDir);
+                                systSelect->GetValue(sdiIdentifier("DIR"), tempVal);
+                                tempVal.GetValue(lsdDir);
+                                if(lsdDir == "" ) lsdDir = "X";
+
+                                HandleEdit frameHandleEdit;
+                                p_radiossModel->CreateEntity(frameHandleEdit, "/FRAME/MOV", "", p_ConvertUtils.GetDynaMaxEntityID(lsdDefCoordType));
+                                EntityEdit framEntEdit(p_radiossModel, frameHandleEdit);
+
+                                for (size_t j = 0; j < 3; ++j)
+                                {
+                                    framEntEdit.SetValue(sdiIdentifier(attribName[j]),sdiValue(sdiValueEntity(sdiValueEntityType(radNodeType), attribVals[j].get().GetId(p_lsdynaModel))));
+                                }
+                                framEntEdit.SetValue(sdiIdentifier("DIR"), sdiValue(lsdDir));
+                                framEntEdit.SetValue(sdiIdentifier("titlestr"), sdiValue("FrameFix_TH_NODE_" + to_string(dynaDH.GetId())));
+                                skewIdList[i] = framEntEdit.GetId();
+                            }
+                        }
                     }
                     else
                         skewIdList[i] = 0;

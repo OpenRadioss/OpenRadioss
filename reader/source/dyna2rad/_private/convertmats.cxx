@@ -4611,6 +4611,8 @@ void ConvertMat::p_ConvertMatL81(const sdi::EntityRead& dynaMat, sdiString& dest
     vector<reference_wrapper<double>> attribVals({ lsdEPPF, lsdEPPFR, lsdVP });
     vector<sdiString> attribNames({ "EPPF", "EPPFR", "VP" });
     p_ConvertUtils.GetAttribValues(dynaMat, attribNames, attribVals);
+    if(lsdEPPF == 0.0) lsdEPPF =1e+14;
+    if(lsdEPPFR == 0.0) lsdEPPFR =1e+14;
 
     if (destCard == "/MAT/LAW36")
     {
