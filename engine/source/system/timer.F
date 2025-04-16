@@ -505,7 +505,7 @@ C-----------------------------------------------
       !||    time_mod          ../engine/share/modules/time_mod.F
       !||    timer_mod         ../engine/source/system/timer_mod.F90
       !||====================================================================
-      SUBROUTINE PRINTIME(T,ITHERM)
+      SUBROUTINE PRINTIME(T,ITHERM,OUTPUT)
 C     routine d'affichage des timers
 C-----------------------------------------------
 C   M o d u l e s
@@ -513,6 +513,7 @@ C-----------------------------------------------
       USE TIMER_MOD
       USE TIME_MOD
       USE INOUTFILE_MOD
+      USE OUTPUT_MOD  
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -539,6 +540,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(TIMER_), INTENT(INOUT) :: T
       INTEGER ,INTENT(IN) :: ITHERM
+      TYPE(OUTPUT_), INTENT(INOUT) :: OUTPUT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1057,7 +1059,9 @@ C---------------------------
 C Elapsed time & Estimated Speedup
 C---------------------------
       CALL ELAPSTIME(T,SECS)
-      CALL DATE_AND_TIME(DATE,TIME) 
+      CALL DATE_AND_TIME(DATE,TIME)
+      OUTPUT%CHECKSUM%DATE = DATE
+      OUTPUT%CHECKSUM%TIME = TIME
 !     ---------------------------
       IF(ISPMD==0) THEN
         CURRENT_RUN = GLOBAL_COMP_TIME%RUN_NBR

@@ -63,6 +63,10 @@ set (h3d_inc "-I${source_directory}/../extlib/h3d/includes")
 set (zlib_inc "-I${source_directory}/../extlib/zlib/win64_mt/include")
 set (zlib_lib "  ${source_directory}/../extlib/zlib/win64_mt/zlib1.lib")
 
+# MD5
+set (md5_inc "-I${source_directory}/../extlib/md5/include")
+set (md5_lib "${source_directory}/../extlib/md5/win64/md5.lib")
+
 #
 # compiler Flags
 # --------------
@@ -168,8 +172,8 @@ set(Fortran "${FPP_FLAG}  /extend-source /assume:buffered_io")
 
 # Common flags
 set(common_fortran_flags "/nologo ${opt_flag} ${precision_flag} ${Fortran} ${mpi_flag} ${mumps_flag} -DMETIS5 ${cppmach} ${cpprel}")
-set(common_c_flags "/nologo ${optc_flag} ${precision_flag} -DMETIS5 ${h3d_inc} ${mpi_flag} ${mumps_flag} ${cppmach} ${cpprel} ${zlib_inc}")
-set(common_cpp_flags "${common_c_flags} /Qstd=c++11")
+set(common_c_flags "/nologo ${optc_flag} ${precision_flag} -DMETIS5 ${h3d_inc} ${mpi_flag} ${mumps_flag} ${cppmach} ${cpprel} ${zlib_inc} ${md5_inc}")
+set(common_cpp_flags "${common_c_flags} ${md5_inc} /Qstd=c++11")
 
 if (debug STREQUAL "1")
     set(fortran_flags "${common_fortran_flags} /Qopenmp /Od /debug:full /Qftz ${FPP_FLAG} /extend-source /assume:buffered_io")
@@ -198,7 +202,7 @@ set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${c_flag
 set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${cpp_flags}")
 
 # Linking flags
-set (CMAKE_EXE_LINKER_FLAGS " /F1500000000 /STACK:1500000000 ${MKL_libraries} ${mpi_lib} ${zlib_lib} libifport.lib svml_dispmt.lib libifcoremt.lib libmmt.lib Psapi.lib libvcruntime.lib" )
+set (CMAKE_EXE_LINKER_FLAGS " /F1500000000 /STACK:1500000000 ${MKL_libraries} ${mpi_lib} ${zlib_lib} ${md5_lib} libifport.lib svml_dispmt.lib libifcoremt.lib libmmt.lib Psapi.lib libvcruntime.lib" )
 
 #Libraries
 set (LINK "advapi32.lib"  )

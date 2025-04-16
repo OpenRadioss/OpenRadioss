@@ -388,6 +388,8 @@ C-----------------------------------------------
       use write_ale_grid_mod, only : write_ale_grid
       use PBLAST_MOD
       USE DETONATORS_MOD , ONLY : DETONATORS_STRUCT_
+      use checksum_starter_option_mod, only : checksum_write_starter_restart
+
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1855,6 +1857,7 @@ C--------------------------------------
       CALL WRITE_I_C(TABVINT,LVARINT)
       LEN_IA = LEN_IA + LVARINT
 C--------------------------------------
+      CALL checksum_write_starter_restart(OUTPUT)
 #ifdef DNC
       CALL WRDUM_INFO()
 #endif

@@ -180,7 +180,7 @@ C
       !||====================================================================
       !||    anend                 ../starter/source/output/analyse/analyse_arret.F
       !||--- called by ------------------------------------------------------
-      !||    starter0              ../starter/source/starter/starter0.F
+      !||    analyse.c              ../starter/source/starter/starter0.F
       !||--- calls      -----------------------------------------------------
       !||    anfile                ../starter/source/output/analyse/analyse_arret.F
       !||    anprint               ../starter/source/output/analyse/analyse_arret.F
@@ -211,6 +211,82 @@ C
       CALL ANFILE()
 C
       ANEND = 0
+#ifdef DNC
+      CALL starter_lic_release();
+#endif
+      IF(IERR==0)THEN
+        IEX=0
+      ELSE
+        IEX=2
+      END IF
+c
+      IF (IPID/=0) THEN
+        INQUIRE(UNIT=RES_MES, EXIST=FILE_EXIST)
+        IF (FILE_EXIST) CLOSE(UNIT=RES_MES,STATUS='DELETE')
+        INQUIRE(UNIT=RES_CHECK, EXIST=FILE_EXIST)
+        IF (FILE_EXIST) CLOSE(UNIT=RES_CHECK,STATUS='DELETE')
+        INQUIRE(UNIT=RES_TMP, EXIST=FILE_EXIST)
+        IF (FILE_EXIST) CLOSE(UNIT=RES_TMP,STATUS='DELETE')
+      ENDIF
+c
+      CALL MY_EXIT(IEX)
+      END
+
+!||====================================================================
+!||    anend                 ../starter/source/output/analyse/analyse_arret.F
+!||--- called by ------------------------------------------------------
+!||    starter0              ../starter/source/starter/starter0.F
+!||--- calls      -----------------------------------------------------
+!||    anfile                ../starter/source/output/analyse/analyse_arret.F
+!||    anprint               ../starter/source/output/analyse/analyse_arret.F
+!||    my_exit               ../starter/source/output/analyse/analyse.c
+!||--- uses       -----------------------------------------------------
+!||    message_mod           ../starter/share/message_module/message_mod.F
+!||====================================================================
+      SUBROUTINE F_ANEND(FILENAME,LEN_FILENAME,ROOTNAME,ROOTLEN,ENDDATE,ENDTIME,OUTPUT)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MESSAGE_MOD
+      USE checksum_starter_option_mod
+      USE output_mod
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "units_c.inc"
+#include      "warn_c.inc"
+#include      "r2r_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER,INTENT(IN) :: ROOTLEN
+      INTEGER,INTENT(IN) :: LEN_FILENAME
+      CHARACTER(LEN=ROOTLEN),INTENT(IN)  :: ROOTNAME
+      CHARACTER(LEN=LEN_FILENAME),INTENT(IN),TARGET  :: FILENAME
+      CHARACTER(LEN=8),INTENT(IN) :: ENDDATE
+      CHARACTER(LEN=10),INTENT(IN) :: ENDTIME
+      TYPE(OUTPUT_),INTENT(INOUT) :: OUTPUT
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER IEX
+      LOGICAL :: FILE_EXIST
+      CHARACTER(LEN=4)::CHRUN
+      INTEGER IZIP
+C
+      CALL ANPRINT()
+C
+      CALL ANFILE()  ! Closes *000.out file
+      IF (OUTPUT%CHECKSUM%checksum_count >0)THEN
+         IZIP=0
+         CALL COMPUTE_BINARY_CHECKSUM(OUTPUT%CHECKSUM%FILES_CHECKSUM,C_LOC(FILENAME),LEN_FILENAME,IZIP )
+         CALL st_checksum_file_print(output,rootname,ROOTLEN,ENDDATE,ENDTIME)
+      ENDIF
+C
 #ifdef DNC
       CALL starter_lic_release();
 #endif

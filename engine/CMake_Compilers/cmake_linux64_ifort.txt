@@ -68,6 +68,11 @@ set (h3d_inc "-I${source_directory}/../extlib/h3d/includes")
 set (zlib_inc "-I${source_directory}/../extlib/zlib/linux64/include")
 set (zlib_lib "${source_directory}/../extlib/zlib/linux64/lib/libz.a")
 
+# MD5
+set (md5_inc "-I${source_directory}/../extlib/md5/include")
+set (md5_lib "${source_directory}/../extlib/md5/linux64/md5.a")
+
+
 if ( NOT DEFINED WITH_LINEAR_ALGEBRA) 
 set ( wo_linalg "-DWITHOUT_LINALG" )
 endif()
@@ -157,10 +162,10 @@ set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " ${opt_f
 
 # C source files
 
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS   "${optc_flag} ${h3d_inc} ${zlib_inc} ${precision_flag} ${mpi_flag} ${mumps_flags} ${cppmach} ${cpprel} -O2 " )
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS   "${optc_flag} ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag} ${mpi_flag} ${mumps_flags} ${cppmach} ${cpprel} -O2 " )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${optc_flag} ${h3d_inc} ${zlib_inc} ${precision_flag} ${mpi_flag} ${mumps_flags} ${cppmach} ${cpprel} -O2  -std=c++11 " )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${optc_flag} ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag} ${mpi_flag} ${mumps_flags} ${cppmach} ${cpprel} -O2  -std=c++11 " )
 
 # Linking flags
 
@@ -175,7 +180,7 @@ endif()
 string(STRIP ${CMAKE_EXE_LINKER_FLAGS} CMAKE_EXE_LINKER_FLAGS)
 
 #Libraries
-set (LINK "dl ${mumps_libs} ${MKL_lib} ${mpi_lib} ${zlib_lib} -ldl -lrt -lstdc++ ")
+set (LINK "dl ${mumps_libs} ${MKL_lib} ${mpi_lib} ${zlib_lib} ${md5_lib} -ldl -lrt -lstdc++ ")
 
 string(STRIP ${LINK} LINK)
 

@@ -20,19 +20,20 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-      !||====================================================================
-      !||    file_descriptor_mod            ../starter/source/modules/file_descriptor_mod.F90
-      !||--- called by ------------------------------------------------------
-      !||    fill_igr                       ../starter/source/model/sets/fill_igr.F
-      !||    hm_read_inivol                 ../starter/source/initial_conditions/inivol/hm_read_inivol.F90
-      !||    hm_read_mat                    ../starter/source/materials/mat/hm_read_mat.F90
-      !||====================================================================
-      module file_descriptor_mod
-      !=======================================================================================================================
-      !!\brief default type : Hosts the parameters for Starter File Descriptors
-      !=======================================================================================================================
-         integer, parameter :: istdo = 6
-         integer, parameter :: iout = 7
-         integer, parameter :: fchecksum = 4566
-         integer, parameter :: tmp_engine = 4567
-      end module file_descriptor_mod
+
+!! \brief Write line in text outut file, file given by its descriptor.
+!! \details This routine will be used in C file (C calls Fortran).
+        subroutine write_out_file(fd,line,len1)
+!----------------------------------------------
+!   i m p l i c i t   t y p e s
+!-----------------------------------------------
+        implicit none
+!-----------------------------------------------
+!   d u m m y   a r g u m e n t s
+!-----------------------------------------------
+        integer, intent(in) :: fd  ! File descriptor
+        integer len1               ! Length of line to write
+        character(len=len1)  line  ! Line to write
+!-----------------------------------------------
+                write(fd,'(a)') line(1:len1)
+        end

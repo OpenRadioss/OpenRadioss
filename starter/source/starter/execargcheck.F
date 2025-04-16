@@ -68,6 +68,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
        INTEGER ARGN
        INTEGER PHELPI,PEXECI,PINPUTI,PNCPUI, PNTHI, PTIMER, PUSERLNAMI,MDS_PATHI
+       INTEGER PCHECKSUMI             !< Flag for -checksum - stores Iteration in command line
        INTEGER :: MDS_DIRI            !< Flag for -mdsdir - stores Iteration in command line
        INTEGER I,STRL,STRLN,ERR,LENLIST,ISIN,STRLNA,BEGIN
        INTEGER IDUM
@@ -75,6 +76,7 @@ C-----------------------------------------------
        CHARACTER C
        INTEGER GLOBAL_ERROR
        CHARACTER*2096 INPUTR,INPUTC,STRING,ARGP,ARGS
+       CHARACTER*2096 CHECKSUMR,CHECKSUMC    ! checksumr : read from command line / checksumc : capital_letter(checksumr)
        CHARACTER*4096 ULIBC
        character(len=2096) ARGS2,ARGS_REDUCE
        INTEGER :: LEN_DOMDEC_CPU_TYPE
@@ -84,8 +86,8 @@ C-----------------------------------------------
        INTEGER :: RANDM_SEED,RANDM_ALEA
        REAL(kind=8) :: RANDM_SEED_NBR,RANDM_ALEA_NBR
        INTEGER :: GOT_GRP_SIZE
-       PARAMETER (LENLIST=32)
-       CHARACTER (LEN=12) ::  ARGLIST(LENLIST)
+       PARAMETER (LENLIST=33)
+       CHARACTER (LEN=20) ::  ARGLIST(LENLIST)
        EXTERNAL IARGC
        DATA ARGLIST/
      .    '-VERSION',  '-V',
@@ -101,7 +103,7 @@ C-----------------------------------------------
      .    '-INSPIRE_ALM' , '-FLUSH_RST', '-CHECK',
      .    '-HSTP_READ' , '-HSTP_WRITE', '-RXALEA', '-RSEED',
      .    '-PREVIEW',
-     .    '-GRP_SIZE' , '-PYTHON' , '-THNMS1'/
+     .    '-GRP_SIZE' , '-PYTHON' , '-THNMS1','-CHECKSUM_READ'/
 
 C-----------------------------------------------
        IDUM=-1
@@ -179,6 +181,7 @@ c
 !       ------------------------
         
         OUTPUT%TH%DUMP_THNMS1_FILE = 0
+        OUTPUT%CHECKSUM%ST_CHECKSUM_READ = 0
 
        ARGS2(1:2096) = ''
 
@@ -304,40 +307,44 @@ C------------------------------------------------
 C------------------------------------------------
             CASE ( '-THNMS1')
                 OUTPUT%TH%DUMP_THNMS1_FILE = 1
-C------------------------------------------------
-C Lignes de commande qui ne sont pas definies
+            CASE ( '-CHECKSUM_READ')
+                OUTPUT%CHECKSUM%ST_CHECKSUM_READ = 1
+                IF (PCHECKSUMI==0) PCHECKSUMI = I
             CASE DEFAULT
-            ERR = 0
-            IF (I == 1)THEN
-               ERR = 1
-            ELSE
-               CALL GET_COMMAND_ARGUMENT(I-1,ARGP)       !GETARG(I-1,ARGP)
-               CALL UPCASE(ARGP)
-               STRLN=LEN_TRIM(ARGP)
-C Check if argument string is a variable to an argument
-               IF (ARGP == '-I' .OR. ARGP =='-INPUT'  .OR.
-     *             ARGP == '-NP' .OR. ARGP =='-NSPMD' .OR.
-     *             ARGP == '-NT' .OR. ARGP =='-NTHREAD'.OR.
-     *             ARGP == '-TIMER' .OR. ARGP =='-DYLIB'.OR.
-     *             ARGP == '-DYNAMIC_LIB' .OR. ARGP == '-DD_TUNING'.OR.
-     *             ARGP == '-RSEED' .OR. ARGP == '-RXALEA'.OR.
-     *             ARGP == '-GRP_SIZE' .OR. ARGP == '-MDS_LIBPATH' .OR. ARGP == '-MDSDIR'  )THEN 
-                 ERR = 0
-               ELSE
-                 ERR = 1
-               ENDIF
-            ENDIF
-            IF (ERR == 1)THEN
-               CALL GET_COMMAND_ARGUMENT(I,ARGP)       !GETARG(I,ARGP)
-               STRLN=LEN_TRIM(ARGP) 
-               WRITE(6,'(A,A)') ' '
-               WRITE(6,'(A,A)') 
-     *           '***  ERROR : Unknown command line argument: ',
-     *            ARGP(1:STRLN)
-                  WRITE(6,'(A,A)') ' '
-               CALL PRHELPINFO()
-               CALL MY_EXIT(2)
-            ENDIF
+            ! ------------------------------------------------
+            ! unknown command line argument
+                ERR = 0
+
+                IF (I == 1)THEN
+                   ERR = 1
+                ELSE
+                   CALL GET_COMMAND_ARGUMENT(I-1,ARGP)       !GETARG(I-1,ARGP)
+                   CALL UPCASE(ARGP)
+                   STRLN=LEN_TRIM(ARGP)
+
+                   ! Check if argument string is a variable to an argument
+                   IF (ARGP == '-I' .OR. ARGP =='-INPUT'  .OR.
+     *                 ARGP == '-NP' .OR. ARGP =='-NSPMD' .OR.
+     *                 ARGP == '-NT' .OR. ARGP =='-NTHREAD'.OR.
+     *                 ARGP == '-TIMER' .OR. ARGP =='-DYLIB'.OR.
+     *                 ARGP == '-DYNAMIC_LIB' .OR. ARGP == '-DD_TUNING'.OR.
+     *                 ARGP == '-RSEED' .OR. ARGP == '-RXALEA'.OR.
+     *                 ARGP == '-GRP_SIZE' .OR. ARGP == '-MDS_LIBPATH' .OR. ARGP == '-MDSDIR' .OR. ARGP == '-CHECKSUM_READ' )THEN 
+                       ERR = 0
+                   ELSE
+                       ERR = 1
+                   ENDIF
+                ENDIF
+
+                IF (ERR == 1)THEN
+                   CALL GET_COMMAND_ARGUMENT(I,ARGP)       !GETARG(I,ARGP)
+                   STRLN=LEN_TRIM(ARGP) 
+                   WRITE(6,'(A,A)') ' '
+                   WRITE(6,'(A,A)') '***  ERROR : Unknown command line argument: ',ARGP(1:STRLN)
+                   WRITE(6,'(A,A)') ' '
+                   CALL PRHELPINFO()
+                   CALL MY_EXIT(2)
+                ENDIF
 C------------------------------------------------
             END SELECT
 
@@ -452,6 +459,46 @@ C check if -i has got an argument or if the next string is an input command
            CALL BUILD_MSG()
          ENDIF
        ENDIF
+
+       ! ------------------------------------------------
+       ! -CHECKSUM ROOTNAME
+       ! ------------------------------------------------
+       IF (PCHECKSUMI /= 0)THEN
+
+         IF (PCHECKSUMI + 1 > ARGN) THEN                    ! Case -CHECKSUM is last argument in the list.
+
+           CALL GET_COMMAND_ARGUMENT(PCHECKSUMI,ARGP)       ! GETARG(PINPUTI,ARGP)
+           STRLN=LEN_TRIM(ARGP) 
+           WRITE(6,'(A)') ' '
+           WRITE(6,'(A,A)') '*** ERROR : Missing argument to ',ARGP(1:STRLN)
+           CALL PHELPINFO()
+           GLOBAL_ERROR = 1
+
+         ELSE
+           CALL GET_COMMAND_ARGUMENT(PCHECKSUMI+1,CHECKSUMR)  
+           LENI=LEN_TRIM(CHECKSUMR)
+           CHECKSUMC = CHECKSUMR
+           CALL UPCASE(CHECKSUMC)
+
+           ! check if -checksum has got an argument or if the next string is an input command
+           ISIN = 0
+           CALL ISANARGUMENT(ARGLIST,LENLIST,CHECKSUMC,ISIN)
+
+           IF ( ISIN==1 )THEN
+               CALL GET_COMMAND_ARGUMENT(PINPUTI,ARGP)      
+               STRLN=LEN_TRIM(ARGP) 
+               WRITE(6,'(A)') ' '
+               WRITE(6,'(A,A)') '*** ERROR : Missing argument to ',ARGP(1:STRLN)
+               CALL PHELPINFO()
+               GLOBAL_ERROR = 1
+
+           ELSE
+               OUTPUT%CHECKSUM%ROOTNAME = ''
+               OUTPUT%CHECKSUM%ROOTNAME(1:LENI) = CHECKSUMR(1:LENI)
+           ENDIF
+         ENDIF
+       ENDIF
+
 C------------------------------------------------
 C -INPUT SET
 C------------------------------------------------
@@ -514,10 +561,12 @@ C               CALL PRHELPINFO()
          ENDIF
        ELSE
            ! PINPUTI is 0, which means -input/-i was not set
-           WRITE(6,'(A)') ' '
-           WRITE(6,'(A)') '*** ERROR : No input deck set. Use -input [Starter input file] '
-           WRITE(6,'(A)') ' '
-           CALL PHELPINFO()
+           if (PCHECKSUMI == 0)THEN    ! -checksum option is set, does not need -i
+              WRITE(6,'(A)') ' '
+              WRITE(6,'(A)') '*** ERROR : No input deck set. Use -input [Starter input file] '
+              WRITE(6,'(A)') ' '
+              CALL PHELPINFO()
+           endif
        ENDIF
  100    CONTINUE
 C------------------------------------------------
@@ -1243,6 +1292,8 @@ C-----------------------------------------------
      *                  'Optional value, set the seed value for nodal random noise'
        WRITE(6,'(A,A)') '  -python                              : ',
      *                  'Python function in model is safe and can be used'
+       WRITE(6,'(A,A)') '  -checksum_read [rootname]            : ',
+     *                  'Parse output files for /CHECKSUM fingerprints and [rootname].report file'
 
        WRITE(6,'(A)') ' '
        WRITE(6,'(A)') ' '
