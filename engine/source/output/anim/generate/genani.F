@@ -231,10 +231,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      Z                  STACK    ,SPH2SOL  ,STIFN       ,STIFR       ,IGRNOD    ,
      1                  H3D_DATA ,SUBSET   ,MULTI_FVM   ,KNOTLOCPC   ,KNOTLOCEL ,
      2                  FCONT_MAX,FNCONTP2 ,FTCONTP2    ,GLOB_THERM  ,
-     .                  DRAPE_SH4N, DRAPE_SH3N, DRAPEG)
+     .                  DRAPE_SH4N, DRAPE_SH3N, DRAPEG,OUTPUT    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE checksum_output_option_mod
       USE FVBAG_MOD
       USE PLYXFEM_MOD
       USE MESSAGE_MOD
@@ -252,6 +253,8 @@ C-----------------------------------------------
       use glob_therm_mod
       use my_alloc_mod
       use drape_mod
+      USE OUTPUT_MOD , ONLY : OUTPUT_
+
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -350,6 +353,7 @@ C-----------------------------------------------
       TYPE (DRAPE_)  ,INTENT(IN) :: DRAPE_SH4N(NUMELC_DRAPE)
       TYPE (DRAPE_)  ,INTENT(IN) :: DRAPE_SH3N(NUMELTG_DRAPE)
       TYPE (DRAPEG_) ,INTENT(IN) :: DRAPEG
+      TYPE(OUTPUT_),INTENT(INOUT) :: OUTPUT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -377,7 +381,7 @@ C-----------------------------------------------
       INTEGER,DIMENSION(:),ALLOCATABLE :: IOFFX2
       INTEGER,DIMENSION(:),ALLOCATABLE :: IOFFX3
       INTEGER,DIMENSION(:),ALLOCATABLE :: IG3DSOLID
-      INTEGER SZ16,SHFT16,IADGPS,NSN,IADISO,FIRST_NODE_IG3D
+      INTEGER SZ16,SHFT16,IADGPS,NSN,IADISO,FIRST_NODE_IG3D,IADCHKSUM
   
       REAL
      .       , DIMENSION(:), ALLOCATABLE :: WA4, MAS4, WA4_FVM
@@ -473,7 +477,7 @@ C
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: IAD_CRKG
 
       INTEGER :: LEN_TMP_NAME
-      CHARACTER(len=2048) :: TMP_NAME
+      CHARACTER(len=2048),TARGET :: TMP_NAME
       LOGICAL :: CONDITION
       INTEGER :: IS_WRITTEN_NODE_FVM(AIRBAGS_TOTAL_FVM_IN_H3D)
       INTEGER,DIMENSION(:),ALLOCATABLE :: IS_WRITTEN_NODE
@@ -1883,6 +1887,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   N FUNC TEXT
 C-----------------------------------------------
+      ! All spmd domains need to have the ANIM_N set
+      IADCHKSUM = IAD_GPS+500
+      DO I=1,OUTPUT%CHECKSUM%CHECKSUM_COUNT
+           ANIM_N(IADCHKSUM+I) = 1
+      ENDDO
+
       IF (ISPMD==0) THEN
        CTEXT(81)=0
        IF(ANIM_N(01)==1) CALL ANI_TXT('Time Step',9)
@@ -1984,6 +1994,16 @@ c strain gps
        IF(ANIM_N(IADGPS+4)==1) CALL ANI_TXT('GPSTRAIN EPSXY',14)
        IF(ANIM_N(IADGPS+5)==1) CALL ANI_TXT('GPSTRAIN EPSZY',14)
        IF(ANIM_N(IADGPS+6)==1) CALL ANI_TXT('GPSTRAIN EPSXZ',14)
+C-----------------------------------------------
+       IADCHKSUM = IAD_GPS+500
+       IF(OUTPUT%CHECKSUM%CHECKSUM_COUNT > 0) THEN
+         ! print *,'OUTPUT%CHECKSUM%CHECKSUM_COUNT = ',OUTPUT%CHECKSUM%CHECKSUM_COUNT
+         DO I=1,OUTPUT%CHECKSUM%CHECKSUM_COUNT
+           CALL ANI_TXT('ZCHKSM_'//OUTPUT%CHECKSUM%CHECKSUMS(I), 7+LEN_TRIM(OUTPUT%CHECKSUM%CHECKSUMS(I)))
+           ! print *, 'ANIM_N(IADCHKSUM+I) = ', ANIM_N(IADCHKSUM+I)
+           ! print *, 'OUTPUT%CHECKSUM%CHECKSUMS(I) = ', OUTPUT%CHECKSUM%CHECKSUMS(I)
+         ENDDO
+       ENDIF
 C-----------------------------------------------
 C   E(quad+shell+truss+..) FUNC TEXT
 C-----------------------------------------------
@@ -2674,7 +2694,19 @@ C------------dama type2 : % damage inter type2 with pena
               DO N=1,NUMNOD
                 WA4(N)=ZERO
               ENDDO
-            ENDIF     
+            ENDIF  
+C checksum
+C
+          ELSEIF (I > IADCHKSUM .AND. I < IADCHKSUM + 256 -1) THEN
+            DO J=1,256
+              IF (I == IADCHKSUM + J) THEN
+               ! print *, 'ANIM_N(IADCHKSUM + J) == 1',IADCHKSUM + J
+               DO N=1,NUMNOD
+                 WA4(N) = ZERO
+               ENDDO
+              ENDIF
+            ENDDO
+C
           ELSEIF(I==19)THEN
             DO N=1,NUMNOD
               WA4(N)=STIFN(N)
@@ -3034,7 +3066,10 @@ C------------gps part
      .                     IXS      ,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
      .                     IXC      ,IXTG    ,IXT     ,IXP     ,IXR     ,
      .                     X        ,ITAGPS  ,PM      )
-           ENDIF
+           
+          
+          ENDIF
+
            J = I-IAD_GP4
            ! --------------------------
            IF(NSPMD > 1)THEN
@@ -6703,6 +6738,11 @@ C=======================================================================
 
         CALL FILE_SIZE(ANIMSIZE)
         CALL CLOSE_C()
+
+        IF (OUTPUT%checksum%checksum_count > 0) THEN
+          CALL COMPUTE_BINARY_CHECKSUM(OUTPUT%checksum%files_checksum,C_LOC(TMP_NAME),LEN_TMP_NAME,IZIP) 
+        ENDIF
+
         ANIMTOTALSIZE=ANIMTOTALSIZE+ANIMSIZE
 C-----------------------------------------------
         WRITE (IOUT,1000)  FILNAM(1:FILEN)

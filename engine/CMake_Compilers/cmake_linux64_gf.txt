@@ -76,6 +76,10 @@ set (h3d_inc "-I${source_directory}/../extlib/h3d/includes")
 set (zlib_inc "-I${source_directory}/../extlib/zlib/linux64/include")
 set (zlib_lib "${source_directory}/../extlib/zlib/linux64/lib/libz.a")
 
+# MD5
+set (md5_inc "-I${source_directory}/../extlib/md5/include")
+set (md5_lib "${source_directory}/../extlib/md5/linux64/libmd5.a")
+
 #MUMPS linear solver, used for Implicit, FSI. 
 #  1) get MUMPS
 #     a) using a script
@@ -178,10 +182,10 @@ set( unused_dummy_arg_strict_flags "${FSANITIZE} -Wall -Warray-temporaries -O0 -
 set_source_files_properties(${source_files}  PROPERTIES COMPILE_FLAGS "${FSANITIZE} -Wall -Warray-temporaries -O0 -g -fdec-math -fbacktrace ${strict} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF}  " )
 
 # C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${zlib_inc} ${precision_flag}  ${cppmach} ${cpprel} -O0 -g  ${OPENMP} " )
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag}  ${cppmach} ${cpprel} -O0 -g  ${OPENMP} " )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${zlib_inc} ${precision_flag} ${cppmach} ${cpprel}  -O0 -g ${OPENMP} -std=c++11  " )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag} ${cppmach} ${cpprel}  -O0 -g ${OPENMP} -std=c++11  " )
 
 elseif ( debug STREQUAL "analysis" )
 # Fortran
@@ -193,10 +197,10 @@ set( unused_dummy_arg_strict_flags "  -fplugin=../../scripts/gcc_plugin/fortran_
 set_source_files_properties(${source_files}  PROPERTIES COMPILE_FLAGS " -fplugin=../../scripts/gcc_plugin/fortran_signatures.so  ${FSANITIZE} -Wall -Warray-temporaries -O0 -g -fdec-math -fbacktrace ${strict} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF}  " )
 
 # C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " ${FSANITIZE} ${h3d_inc} ${zlib_inc} ${precision_flag}  ${cppmach} ${cpprel} -O0 -g  ${OPENMP} " )
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " ${FSANITIZE} ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag}  ${cppmach} ${cpprel} -O0 -g  ${OPENMP} " )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${zlib_inc} ${precision_flag} ${cppmach} ${cpprel}  -O0 -g ${OPENMP} -std=c++11  " )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${zlib_inc} ${md5_inc} ${precision_flag} ${cppmach} ${cpprel}  -O0 -g ${OPENMP} -std=c++11  " )
 
 
 elseif ( debug STREQUAL "asan" )
@@ -211,10 +215,10 @@ set_source_files_properties(${source_files}  PROPERTIES COMPILE_FLAGS "${FSANITI
 
 
 # C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${precision_flag}  ${cppmach} ${cpprel} -O0 -g  ${OPENMP}  ${zlib_inc}" )
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${precision_flag}  ${cppmach} ${cpprel} -O0 -g  ${OPENMP}  ${zlib_inc} ${md5_inc}" )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${precision_flag} ${cppmach} ${cpprel}  -O0 -g ${OPENMP}  ${zlib_inc} -std=c++11" )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${precision_flag} ${cppmach} ${cpprel}  -O0 -g ${OPENMP}  ${zlib_inc} ${md5_inc} -std=c++11" )
 
 
 else ()
@@ -228,10 +232,10 @@ set( unused_dummy_arg_strict_flags " -nostdinc -O3 -fdec-math ${strict_wo_mpi} $
 set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " -nostdinc -O3 -fdec-math ${strict}  ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none ${mpi_flag} ${ADF} " )
 
 # C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " -w -O2 ${h3d_inc} ${zlib_inc} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} " )
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " -w -O2 ${h3d_inc} ${zlib_inc} ${md5_inc} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} " )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "-w -O2 ${h3d_inc} ${zlib_inc} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -std=c++11  " )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "-w -O2 ${h3d_inc} ${zlib_inc} ${md5_inc} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -std=c++11  " )
 
 endif()
 
@@ -242,9 +246,9 @@ set (CMAKE_EXE_LINKER_FLAGS "-rdynamic ${OPENMP}  -ldl -lrt -lstdc++ ${FSANITIZE
 #Libraries
 
 if ( static_link STREQUAL "1" )
-  set (LINK "rt  ${mumps_libs} ${zlib_lib} -ldl -static-libgfortran -static-libstdc++ -static-libgcc ${mpi_lib} -Wunused-function")
+  set (LINK "rt  ${mumps_libs} ${zlib_lib} ${md5_lib} -ldl -static-libgfortran -static-libstdc++ -static-libgcc ${mpi_lib} -Wunused-function")
 else()
-  set (LINK "rt  ${mumps_libs} ${zlib_lib} ${mpi_lib} -ldl -Wunused-function")
+  set (LINK "rt  ${mumps_libs} ${zlib_lib} ${md5_lib} ${mpi_lib} -ldl -Wunused-function")
 endif()
 string(STRIP ${LINK} LINK)
 

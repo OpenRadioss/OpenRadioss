@@ -111,6 +111,7 @@ C-----------------------------------------------
       USE TH_SURF_MOD , only : TH_SURF_NUM_CHANNEL
       use glob_therm_mod
       USE OUTPUT_MOD , ONLY : OUTPUT_
+      use thsechecksum_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1371,6 +1372,16 @@ C-----------------------------
      .           IAD    ,IAD+NN-1 ,IADV   ,IADV+NVAR-1,ITHBUF   ,
      .           WA     ,ITTYP    ,SITHBUF)
 C
+c
+          ELSEIF (ITYP == 121) THEN
+C-----------------------------
+C           SENSORS
+C-----------------------------
+            CALL THSECHECKSUM (
+     .           IAD    ,IAD+NN-1 ,IADV   ,IADV+NVAR-1,ITHBUF   ,
+     .           WA     ,ITTYP    ,SITHBUF,SWA,ISPMD)
+C
+c----
 c----
           ENDIF  ! ITYP
        ENDDO

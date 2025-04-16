@@ -180,7 +180,7 @@ C-----------------------------------------------
       !||--- calls      -----------------------------------------------------
       !||    elapstime       ../starter/source/system/timer.F
       !||====================================================================
-      SUBROUTINE PRINTIME(ITASK,GOT_TIMER,STARTDATE,STARTTIME)
+      SUBROUTINE PRINTIME(ITASK,GOT_TIMER,STARTDATE,STARTTIME,ENDDATE,ENDTIME)
 C     routine d'affichage des timers
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -200,6 +200,9 @@ C-----------------------------------------------
         DOUBLE PRECISION ELAPSED
         CHARACTER(len=8), INTENT(IN) ::  STARTDATE
         CHARACTER(len=10), INTENT(IN) :: STARTTIME
+        CHARACTER(len=8), INTENT(OUT) ::  ENDDATE
+        CHARACTER(len=10), INTENT(OUT) :: ENDTIME
+
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -219,6 +222,8 @@ C-----------------------------------------------
         IS=SECS-IH*3600-IM*60
 
         CALL DATE_AND_TIME(DATE,TIME) 
+        ENDDATE = DATE
+        ENDTIME = TIME
 
         WRITE(IOUT,*)  ' '
         WRITE(ISTDO,*) ' '

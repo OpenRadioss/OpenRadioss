@@ -36,6 +36,10 @@ set (metis_lib "${source_directory}/../extlib/metis/linux64/libmetis_linux64_gcc
 set (zlib_inc "-I${source_directory}/../extlib/zlib/linux64/include")
 set (zlib_lib "${source_directory}/../extlib/zlib/linux64/lib/libz.a")
 
+# MD5
+set (md5_inc "-I${source_directory}/../extlib/md5/include")
+set (md5_lib "-L${source_directory}/../extlib/md5/linux64/ -lmd5")
+
 #
 # compiler Flags
 # --------------
@@ -93,10 +97,10 @@ set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS "${FSANIT
 
 
 # C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} -O0 -g ${OPENMP} " )
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} -O0 -g ${OPENMP}  ${md5_inc} " )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc}  -O0 -g  ${OPENMP} -std=c++14  " )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc}  -O0 -g  ${OPENMP}  ${md5_inc} -std=c++14  " )
 
 elseif ( debug STREQUAL "analysis" )
 
@@ -108,10 +112,10 @@ set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " -fplugi
 
 
 # C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} -O0 -g ${OPENMP} " )
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} ${md5_inc} -O0 -g ${OPENMP} " )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc}  -O0 -g  ${OPENMP} -std=c++14  " )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc}  ${md5_inc} -O0 -g  ${OPENMP} -std=c++14  " )
 
 
 elseif ( debug STREQUAL "asan" )
@@ -127,10 +131,10 @@ set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS "${FSANIT
 
 
 # C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -O0 -g ${OPENMP} ${zlib_inc}" )
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} -O0 -g ${OPENMP} ${zlib_inc} ${md5_inc}" )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel}  -O0 -g  ${OPENMP} ${zlib_inc} -std=c++14 ")
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${precision_flag} -DMETIS5 ${cppmach} ${cpprel}  -O0 -g  ${OPENMP} ${zlib_inc}  ${md5_inc} -std=c++14 ")
 
 else ()
 
@@ -142,10 +146,10 @@ set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " ${preci
 
 
 # C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "-w ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} -O2 ${OPENMP} " )
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "-w ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} ${md5_inc} -O2 ${OPENMP} " )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "-w ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} -O2 ${OPENMP} -std=c++14 " )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "-w ${precision_flag} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} ${md5_inc} -O2 ${OPENMP} -std=c++14 " )
 
 endif()
 
@@ -155,9 +159,9 @@ set (CMAKE_EXE_LINKER_FLAGS " -rdynamic -no-pie -O2 ${OPENMP} ${FSANITIZE}" )
 
 #Libraries
 if ( static_link STREQUAL "1" )
-set (LINK "dl ${flexpipe_lib} ${metis_lib} ${reader_lib}  ${lapack_lib} ${zlib_lib} -ldl -static-libgfortran -static-libstdc++ -static-libgcc -Wunused-function" )
+set (LINK "dl ${flexpipe_lib} ${metis_lib} ${reader_lib}  ${lapack_lib} ${zlib_lib} ${md5_lib} -ldl -static-libgfortran -static-libstdc++ -static-libgcc -Wunused-function" )
 else()
-set (LINK "dl ${flexpipe_lib} ${metis_lib} ${reader_lib}  ${lapack_lib} ${zlib_lib} -ldl -Wunused-function" )
+set (LINK "dl ${flexpipe_lib} ${metis_lib} ${reader_lib}  ${lapack_lib} ${zlib_lib} ${md5_lib} -ldl -Wunused-function" )
 endif()
 string(STRIP ${LINK} LINK)
 

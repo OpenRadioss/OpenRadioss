@@ -37,6 +37,10 @@ set (MKL_Lib "mkl_intel_lp64_dll.lib mkl_intel_thread_dll.lib mkl_core_dll.lib")
 set (zlib_inc "-I${source_directory}/../extlib/zlib/win64_mt/include")
 set (zlib_lib "  ${source_directory}/../extlib/zlib/win64_mt/zlib1.lib")
 
+# MD5
+set (md5_inc "-I${source_directory}/../extlib/md5/include")
+set (md5_lib "${source_directory}/../extlib/md5/win64/md5.lib")
+
 #
 # compiler Flags
 # --------------
@@ -125,7 +129,7 @@ set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " ${pre
 endif()
 
 # Linking flags
-set (CMAKE_EXE_LINKER_FLAGS "/F1500000000 /STACK:1500000000 ${reader_lib} ${MKL_Lib}  ${metis_lib}  ${zlib_lib} svml_dispmd.lib")
+set (CMAKE_EXE_LINKER_FLAGS "/F1500000000 /STACK:1500000000 ${reader_lib} ${MKL_Lib}  ${metis_lib}  ${zlib_lib} ${md5_lib} svml_dispmd.lib")
 
 #Libraries
 set (LINK "advapi32.lib")
