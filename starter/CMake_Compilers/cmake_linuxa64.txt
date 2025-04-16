@@ -34,6 +34,10 @@ set (metis_lib "${source_directory}/../extlib/metis/linuxa64/libmetis_linuxa64.a
 set (zlib_inc "-I${source_directory}/../extlib/zlib/linuxa64/include")
 set (zlib_lib "${source_directory}/../extlib/zlib/linuxa64/lib/libz.a")
 
+# MD5
+set (md5_inc "-I${source_directory}/../extlib/md5/include")
+set (md5_lib "-L${source_directory}/../extlib/md5/linuxa64/ -lmd5")
+
 #
 # compiler Flags
 # --------------
@@ -72,10 +76,10 @@ set(ARCH_OPT "-O0 -march=armv8-a  -DCOMP_ARMFLANG=1 -DARCH_CPU=ARM  -nofma -fope
 set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " -g ${precision_flag} ${Tet_mesher_inc} -DMETIS5 ${cppmach} ${cpprel} ${ARCH_OPT} ${FLAG_PRECISE} ${Fortran}  ${ADF} " )
 
 # C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " -g ${precision_flag} ${Tet_mesher_inc} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} ${ARCH_OPT}  " )
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " -g ${precision_flag} ${Tet_mesher_inc} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} ${md5_inc} ${ARCH_OPT}  " )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " -g ${precision_flag} ${Tet_mesher_inc} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} ${ARCH_OPT} " )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " -g ${precision_flag} ${Tet_mesher_inc} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} ${md5_inc} ${ARCH_OPT} " )
 
 elseif ( debug STREQUAL "asan" )
 #  No address sanitizer with Linux/ARM - Same than debug=1
@@ -85,10 +89,10 @@ set(ARCH_OPT "-O0 -march=armv8-a  -DCOMP_ARMFLANG=1 -DARCH_CPU=ARM  -nofma -fope
 set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " -g ${precision_flag} ${Tet_mesher_inc} -DMETIS5 ${cppmach} ${cpprel} ${ARCH_OPT} ${FLAG_PRECISE} ${Fortran}  ${ADF} " )
 
 # C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " -g ${precision_flag} ${Tet_mesher_inc} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} ${ARCH_OPT}  " )
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " -g ${precision_flag} ${Tet_mesher_inc} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} ${md5_inc} ${ARCH_OPT}  " )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " -g ${precision_flag} ${Tet_mesher_inc} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} ${ARCH_OPT} " )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " -g ${precision_flag} ${Tet_mesher_inc} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} ${md5_inc} ${ARCH_OPT} " )
 
 
 
@@ -98,10 +102,10 @@ else ()
 set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " ${precision_flag} ${Tet_mesher_inc} -DMETIS5 ${cppmach} ${cpprel} ${ARCH_OPT} ${FLAG_PRECISE} ${Fortran}  ${ADF} " )
 
 # C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${precision_flag} ${Tet_mesher_inc} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} ${ARCH_OPT}  " )
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${precision_flag} ${Tet_mesher_inc} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} ${md5_inc} ${ARCH_OPT}  " )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${precision_flag} ${Tet_mesher_inc} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} -O2 -march=armv8-a -nofma -D COMP_ARMFLANG=1 -D ARCH_CPU=ARM -fopenmp " )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS "${precision_flag} ${Tet_mesher_inc} -DMETIS5 ${cppmach} ${cpprel} ${zlib_inc} ${md5_inc} -O2 -march=armv8-a -nofma -D COMP_ARMFLANG=1 -D ARCH_CPU=ARM -fopenmp " )
 
 endif()
 
@@ -109,7 +113,7 @@ endif()
 set (CMAKE_EXE_LINKER_FLAGS " -march=armv8-a -nofma -D COMP_ARMFLANG=1  -ffp-contract=off -fno-unsafe-math-optimizations -fno-fast-math -O2  -fopenmp  -ffixed-line-length-none -fno-backslash      -rdynamic -armpl     -armpl   " )
 
 #Libraries
-set (LINK "dl ${metis_lib} ${xml_lib} ${flexpipe_lib} ${reader_lib} ${flexpipe} ${Tet_mesher_lib} ${zlib_lib} -lrt  -lm -lstdc++")
+set (LINK "dl ${metis_lib} ${xml_lib} ${flexpipe_lib} ${reader_lib} ${flexpipe} ${Tet_mesher_lib} ${zlib_lib} ${md5_lib} -lrt  -lm -lstdc++")
 
 
 # -------------------------------------------------------------------------------------------------------------------------------------------

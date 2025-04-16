@@ -93,6 +93,8 @@ C-----------------------------------------------
       use glob_therm_mod
       use glob_therm_init_mod
       USE PBLAST_MOD
+      use checksum_starter_option_mod
+      use checksum_check_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -165,16 +167,19 @@ C
       CHARACTER(LEN=NCHARLINE) :: ERR_MSG
       CHARACTER(len=8)  :: STARTDATE
       CHARACTER(len=10) :: STARTTIME
-      CHARACTER(len=2048) :: TMP_NAME 
+      CHARACTER(len=8)  :: ENDDATE
+      CHARACTER(len=10) :: ENDTIME      
+      CHARACTER(len=2048) :: TMP_NAME
+      CHARACTER(len=2048) :: OUT_FILE_NAME
       INTEGER :: NB_DYNA_INCLUDE
 C
       my_real UNITE, RTITR
 C
       TYPE(MULTI_FVM_STRUCT)                          :: MULTI_FVM
       TYPE(SUBMODEL_DATA) , DIMENSION(:), ALLOCATABLE :: LSUBMODEL
-      TYPE(DETONATORS_STRUCT_),TARGET                  :: DETONATORS
+      TYPE(DETONATORS_STRUCT_),TARGET                 :: DETONATORS
       TYPE(t_ebcs_tab)                                :: EBCS_TAB
-      TYPE(OUTPUT_)                                   :: OUTPUT
+      TYPE(OUTPUT_),TARGET                            :: OUTPUT
 c      TYPE(SENSORS_) :: SENSORS    ! declared as global in USER_SENSOR_MOD
       TYPE(MAT_ELEM_)                                 :: MAT_ELEM
       CHARACTER(LEN=NCHARLINE) :: CWD
@@ -188,7 +193,8 @@ c      TYPE(SENSORS_) :: SENSORS    ! declared as global in USER_SENSOR_MOD
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER  ANEND      
+      INTEGER  ANEND
+      EXTERNAL ANEND
 C--------------------------------------------------------
 C     LAM MAX LENGTH REAL ARRAY
 C     LMA MAX LENGTH INTEGER ARRAY
@@ -202,6 +208,15 @@ C=======================================================================
 C -------------------------------------------------
 C First task check the exec arguments (fill common)
       CALL EXECARGCHECK(OUTPUT)
+
+      ! Options not requiering Starter deck read
+      ! ----------------------------------------
+      
+      ! -checksum_read [rootname]
+      IF ( OUTPUT%CHECKSUM%ST_CHECKSUM_READ == 1 ) THEN
+         CALL CHECKSUM_CHECK(OUTPUT%CHECKSUM%ROOTNAME,PATH,CPUNAM,ARCHTITLE,IRESP)
+         STOP
+      ENDIF
 C -------------------------------------------------
 C     Constants
       CALL INICONSTANT
@@ -219,6 +234,7 @@ C ===================================================
 C=======================================================================
       CALL  RADIOSS_TITLE(ISTDO,CPUNAM,ARCHTITLE,FILNAM,ROOTLEN,CHRUN,IRESP,1)
 C=======================================================================
+c
 
 C-------------------------------------------------------------------
 C     Version number
@@ -237,20 +253,20 @@ C-------------------------------------------------------------------
       LOAD_ERROR = 0
       CALL  hm_reader_variables(LOAD_ERROR,CODVERS)
       IF(LOAD_ERROR /= 0) THEN
-        WRITE(IOUT,'(A)') ' '
-        WRITE(IOUT,'(A)') '------------------------------------------------------------------------'
-        WRITE(IOUT,'(A)') '  ERROR : '
-        WRITE(IOUT,'(A)') '  Reader configuration files are not available'
-        WRITE(IOUT,'(A)') '  Check and set RAD_CFG_PATH variable.'
-        WRITE(IOUT,'(A)') '  '
-        WRITE(IOUT,'(A)') '  Standard configuration file installation is '
+        WRITE(ISTDO,'(A)') ' '
+        WRITE(ISTDO,'(A)') '------------------------------------------------------------------------'
+        WRITE(ISTDO,'(A)') '  ERROR : '
+        WRITE(ISTDO,'(A)') '  Reader configuration files are not available'
+        WRITE(ISTDO,'(A)') '  Check and set RAD_CFG_PATH variable.'
+        WRITE(ISTDO,'(A)') '  '
+        WRITE(ISTDO,'(A)') '  Standard configuration file installation is '
 #ifdef _WIN64
-        WRITE(IOUT,'(A)') '  %ALTAIR_HOME%\hwsolvers\radioss\cfg'
+        WRITE(ISTDO,'(A)') '  %ALTAIR_HOME%\hwsolvers\radioss\cfg'
 #else
-        WRITE(IOUT,'(A)') '  $ALTAIR_HOME/hwsolvers/radioss/cfg'
+        WRITE(ISTDO,'(A)') '  $ALTAIR_HOME/hwsolvers/radioss/cfg'
 #endif
-        WRITE(IOUT,'(A)') '------------------------------------------------------------------------'
-        WRITE(IOUT,'(A)') ' '
+        WRITE(ISTDO,'(A)') '------------------------------------------------------------------------'
+        WRITE(ISTDO,'(A)') ' '
         CALL MY_EXIT(2)
       ENDIF
 
@@ -424,10 +440,10 @@ C Runnumber is taken from input name
       ENDIF
 
       IF(IRUN > 0)THEN
-          WRITE(IOUT,'(A)') ' '
-          WRITE(IOUT,'(A,I4)') '** ERROR : INPUT FILE RUN NUMBER SET TO ',IRUN
-          WRITE(IOUT,'(A)') '           MODIF FILES OPTION IS DEPRECATED'
-          WRITE(IOUT,'(A)') ' '
+          WRITE(ISTDO,'(A)') ' '
+          WRITE(ISTDO,'(A,I4)') '** ERROR : INPUT FILE RUN NUMBER SET TO ',IRUN
+          WRITE(ISTDO,'(A)') '           MODIF FILES OPTION IS DEPRECATED'
+          WRITE(ISTDO,'(A)') ' '
           CALL MY_EXIT(2)
        ENDIF
 
@@ -436,13 +452,16 @@ C-------------------------------------------------------------------
 C     message file id
 C-------------------------------------------------------------------
       WRITE(CHRUN,'(I4.4)')IRUN
+      OUT_FILE_NAME=''
 C    
       IF (IPID==1) THEN
       FILNAM  =OUTFILE_NAME(1:OUTFILE_NAME_LEN)//
      .         ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'.out'
-      OPEN(UNIT=IOUT,FILE=FILNAM(1:OUTFILE_NAME_LEN+ROOTLEN+9),
+       OPEN(UNIT=IOUT,FILE=FILNAM(1:OUTFILE_NAME_LEN+ROOTLEN+9),
      .     ACCESS='SEQUENTIAL',
      .     FORM='FORMATTED',STATUS='UNKNOWN')
+
+      OUT_FILE_NAME(1:LEN_TRIM(FILNAM))=FILNAM(1:LEN_TRIM(FILNAM))
 
       WRITE(IOUT, '(1X,A)')TRIM(FILNAM)
 C
@@ -457,7 +476,10 @@ C
        FILNAM  =OUTFILE_NAME(1:OUTFILE_NAME_LEN)//ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'.out'
        OPEN(UNIT=IOUT,FILE=FILNAM(1:ROOTLEN+9+OUTFILE_NAME_LEN),
      .     ACCESS='SEQUENTIAL',
-     .     FORM='FORMATTED',STATUS='UNKNOWN')     
+     .     FORM='FORMATTED',STATUS='UNKNOWN')
+
+      OUT_FILE_NAME(1:ROOTLEN+9+OUTFILE_NAME_LEN)=FILNAM(1:ROOTLEN+9+OUTFILE_NAME_LEN)
+
       ENDIF
       CALL TITRE1
 C------------------------------------------------
@@ -791,6 +813,10 @@ c----------- Child process creation for multidomains-----
 c       start CPU timer for lectur
         CALL STARTIME(2,1)
 C--------------------------------------------------
+C      Checksum option
+C--------------------------------------------------
+       call hm_read_checksum(LENI,INPUT,LENP,PATH,OUTPUT)
+C--------------------------------------------------
 C      Main reading routine
 C--------------------------------------------------
         CALL LECTUR(
@@ -835,7 +861,7 @@ C
         WRITE(IOUT,'(A)')TITRE(47)
       ENDIF
 c     print timers
-      CALL PRINTIME(1,GOT_TIMER,STARTDATE,STARTTIME)
+      CALL PRINTIME(1,GOT_TIMER,STARTDATE,STARTTIME,ENDDATE,ENDTIME)
 C
       IF (IPID/=0) THEN
 #if CPP_mach == CPP_w95 || CPP_mach == CPP_win64_spmd || CPP_mach == CPP_p4win64_spmd || CPP_mach == CPP_wnt || CPP_mach == CPP_wmr || CPP_mach == CPP_p4win64 || CPP_mach == CPP_p4win32
@@ -852,8 +878,11 @@ C
       ENDIF
 C
       CALL TRACE_OUT1()
-      ANERROR=ANEND()
+
+      CALL F_ANEND(OUT_FILE_NAME,LEN_TRIM(OUT_FILE_NAME),ROOTNAM,
+     *             ROOTLEN,ENDDATE,ENDTIME,OUTPUT)
 C---  
+      print*,'done'
       RETURN
 C---  
       END

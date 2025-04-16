@@ -40,6 +40,10 @@ set (metis_lib "${source_directory}/../extlib/metis/linux64/libmetis_linux64_gcc
 set (zlib_inc "-I${source_directory}/../extlib/zlib/linux64/include")
 set (zlib_lib "${source_directory}/../extlib/zlib/linux64/lib/libz.a")
 
+# MD5
+set (md5_inc "-I${source_directory}/../extlib/md5/include")
+set (md5_lib "-L${source_directory}/../extlib/md5/linux64/ -lmd5")
+
 #
 # compiler Flags
 # --------------
@@ -108,9 +112,9 @@ set (CMAKE_EXE_LINKER_FLAGS " -Wl,--export-dynamic -Wl,-no-pie -O2" )
 
 #Libraries
 if ( static_link STREQUAL "1" )
-set (LINK "dl ${flexpipe_lib} ${metis_lib} ${reader_lib} ${lapack_lib} ${zlib_lib} ${LIBGFORTRAN_PATH} ${LIBGCC_PATH} ${LIBQUADMATH_PATH} -ldl -Bstatic_pgi -Bstatic_c++libs -Bstatic_gcc " )
+set (LINK "dl ${flexpipe_lib} ${metis_lib} ${reader_lib} ${lapack_lib} ${zlib_lib} ${md5_lib} ${LIBGFORTRAN_PATH} ${LIBGCC_PATH} ${LIBQUADMATH_PATH} -ldl -Bstatic_pgi -Bstatic_c++libs -Bstatic_gcc " )
 else()
-set (LINK "dl ${flexpipe_lib} ${metis_lib} ${reader_lib} ${lapack_lib} ${zlib_lib} ${LIBGFORTRAN_PATH} ${LIBGCC_PATH} ${LIBQUADMATH_PATH} -ldl" )
+set (LINK "dl ${flexpipe_lib} ${metis_lib} ${reader_lib} ${lapack_lib} ${zlib_lib} ${md5_lib} ${LIBGFORTRAN_PATH} ${LIBGCC_PATH} ${LIBQUADMATH_PATH} -ldl" )
 endif()
 string(STRIP ${LINK} LINK)
 

@@ -38,8 +38,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
          TYPE TH_
             INTEGER  NITHGR
+            ! Global Time History
             INTEGER, DIMENSION(:), ALLOCATABLE :: ITHBUF
             INTEGER  SITHBUF
+            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRP
+            INTEGER  SITHGRP
+            character (len=2048) :: TH_FILENAME
+            !
             INTEGER, DIMENSION(:), ALLOCATABLE :: ITHBUFA
             INTEGER  SITHBUFA
             INTEGER, DIMENSION(:), ALLOCATABLE :: ITHBUFB
@@ -59,8 +64,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             INTEGER, DIMENSION(:), ALLOCATABLE :: ITHBUFI
             INTEGER  SITHBUFI
 
-            INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRP
-            INTEGER  SITHGRP
             INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRPA
             INTEGER  SITHGRPA
             INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRPB
@@ -79,12 +82,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             INTEGER  SITHGRPH
             INTEGER, DIMENSION(:), ALLOCATABLE :: ITHGRPI
             INTEGER  SITHGRPI
+            !
             REAL(KIND=8) :: THIS    ! time of next TH file
             REAL(KIND=8), DIMENSION(9) :: THIS1 ! time of next TH files (aTH,bTH,...)
             REAL(KIND=8) :: DTHIS   ! time step of TH file
             REAL(KIND=8), DIMENSION(9) :: DTHIS1 ! time step of TH files (aTH,bTH,...)
-C
+            
             TYPE (TH_SURF_) TH_SURF
+            
 C
             INTEGER  DUMP_THNMS1_FILE
 C

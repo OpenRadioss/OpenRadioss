@@ -437,6 +437,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       USE QA_OUT_MOD
       USE DYNLIB_MOD
       USE SCRATCHFILE_MOD
+      USE OUTPUT_MOD
+      USE file_descriptor_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -447,7 +449,6 @@ C-----------------------------------------------
 #include      "comlock.inc"
 #include      "scr20_c.inc"
 #include      "com01_c.inc"
-#include      "units_c.inc"
 #include      "task_c.inc"
 #include      "scr06_c.inc"
 #include      "scr07_c.inc"
@@ -465,6 +466,7 @@ C-----------------------------------------------
       INTEGER IFIL
       INTEGER :: LEN_TMP_NAME
       CHARACTER(len=2148) :: TMP_NAME
+      INTEGER :: IZIP
 C-----------------------------------------------
 C Different End Values
 C ----------------------------------------------
@@ -487,6 +489,24 @@ C TEMPO FILES Clean
 C-----------------------------------------------
        IF(ISPMD == 0 )THEN
          IF(IS_H3D_USED) CALL C_H3D_CLOSE_FILE()
+       ENDIF
+C -----------------------------------------------
+C TH FILES
+C -----------------------------------------------
+       IF (ISPMD == 0) THEN
+            ! Close the TH file
+            IFIL = FD_BIN_TH
+            CALL CUR_FIL_C(IFIL)
+            CALL CLOSE_C(IFIL)
+
+            ! Compute checksum if option is present
+            IF (OUTPUT_PTR%CHECKSUM%CHECKSUM_COUNT >0)THEN
+               IZIP=0
+               CALL COMPUTE_BINARY_CHECKSUM(OUTPUT_PTR%CHECKSUM%files_checksum,
+     *                                      C_LOC(OUTPUT_PTR%TH%TH_FILENAME),
+     *                                      LEN_TRIM(OUTPUT_PTR%TH%TH_FILENAME),
+     *                                      IZIP)
+            ENDIF
        ENDIF
 C -----------------------------------------------
 C ABF FILES
@@ -631,6 +651,7 @@ C
                 WRITE(ISTDO,1250) NCYCLE
                 CALL PRINT_RUNTIME( )
 
+
                 IF (IHTML == 1) CALL REPORT(IH3DREADER,N,IMVW)                ! Htlm report
                 IF (IMVW /= 0) CALL SORTIE_MVW(IMVW,IMVW_REF)               ! MVW output
                 IF ((IRAD2R==1).AND.(ISPMD==0)) CALL SEND_IBUF_C(1,1)      ! Rad2rad termination
@@ -638,11 +659,28 @@ C
               ENDIF
 
               CLOSE(UNIT=IOUT)
+              IF (ISPMD==0)THEN
+                 IF (OUTPUT_PTR%CHECKSUM%CHECKSUM_COUNT > 0 ) THEN
+                     IZIP=0
+                     CALL COMPUTE_BINARY_CHECKSUM(OUTPUT_PTR%checksum%files_checksum , 
+     *                                            C_LOC(OUTPUT_PTR%OUT_FILENAME),
+     *                                            LEN_TRIM(OUTPUT_PTR%OUT_FILENAME),
+     *                                            IZIP)
+                 ENDIF
+              ENDIF
+
               IF(ISPMD /=0) THEN
                  CALL DELETE_USER_FILE(IUSC4_FNAM,LEN_IUSC4_FNAM)
               ENDIF
 
               CLOSE(UNIT=IUHIS)
+
+              if (ispmd==0)then
+                if (output_ptr%checksum%checksum_count > 0) then
+                    CALL checksum_option_checksum_file(output_ptr%checksum,ROOTNAM,ROOTLEN,CHRUN)   ! Deck checksums print
+                end if
+              endif
+
               CALL MY_EXIT(0)
  
         CASE (2)

@@ -139,8 +139,8 @@ C-----------------------------------------------
            WRITE(IOUT ,'(///A/A/,5X,I10,A)')TITRE(8)(1:40),TITRE(5),IWARN,TITRE(8)(41:60)
         ENDIF
       ENDIF
-
       CLOSE (UNIT=IOUT)
+
 
       IF(N == 2.OR. N ==3 )THEN
         CALL MY_EXIT(N)

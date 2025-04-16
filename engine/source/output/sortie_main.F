@@ -649,7 +649,7 @@ c
      Z         STACK      ,SPH2SOL   ,STIFN       ,STIFR       ,IGRNOD    ,
      1         H3D_DATA   ,SUBSET    ,MULTI_FVM   ,KNOTLOCPC   ,KNOTLOCEL ,
      2         FCONT_MAX  ,FNCONTP2  ,FTCONTP2    ,GLOB_THERM  ,
-     .         DRAPE_SH4N, DRAPE_SH3N, DRAPEG)
+     .         DRAPE_SH4N, DRAPE_SH3N, DRAPEG,OUTPUT    )
 c
        ENDIF
       IF((TT>=TANIM .AND. TT<=TANIM_STOP))TANIM=TANIM+DTANIM
