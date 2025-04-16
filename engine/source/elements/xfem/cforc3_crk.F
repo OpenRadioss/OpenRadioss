@@ -210,7 +210,7 @@ C
      .   RX1(MVSIZ),RX2(MVSIZ),RX3(MVSIZ),RX4(MVSIZ), 
      .   RY1(MVSIZ),RY2(MVSIZ),RY3(MVSIZ),RY4(MVSIZ),
      .   ZCFAC(MVSIZ,2),GS(MVSIZ),SRH1(MVSIZ),SRH2(MVSIZ),SRH3(MVSIZ),
-     .   DIE(MVSIZ),TEMPEL(MVSIZ),THEM(MVSIZ,4),
+     .   DIE(MVSIZ),TEMPEL0(MVSIZ),THEM(MVSIZ,4),
      .   UX1(MVSIZ),UX2(MVSIZ),UX3(MVSIZ),UX4(MVSIZ),
      .   UY1(MVSIZ),UY2(MVSIZ),UY3(MVSIZ),UY4(MVSIZ),A11R(MVSIZ),
      .   THKE0(MVSIZ)
@@ -307,7 +307,7 @@ C
           ZCFAC(I,1) = ONE
           ZCFAC(I,2) = ONE
           ALPE(I)    = ONE
-          TEMPEL(I)  = ZERO
+          TEMPEL0(I)  = ZERO
         ENDDO
 C---
         ILEV = NXEL*(IXLAY-1) + IXEL
@@ -433,11 +433,10 @@ c         CDLEN3 must be always called for tissue property/law for time step cor
      8              UY4    ,PX1      ,PX2      ,PY1    ,PY2 ,
      9              BID    ,BID      ,BID      ,NEL    )
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-        DO I = JLT,JFT
-          TEMPEL(I) = ZERO
-        ENDDO
-C
-        IF (JTHE > 0) CALL TEMPCG(NUMNOD, NEL  ,IXC ,TEMP ,TEMPEL)
+        IF (JTHE > 0) THEN
+          TEMPEL0(1:NEL) = GBUF%TEMP(1:NEL)
+          CALL TEMPCG(NUMNOD, NEL  ,IXC ,TEMP ,GBUF%TEMP)
+        END IF
 C-----------------------------
         IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(TIMERS,35)
 C-----------------------------
@@ -456,7 +455,7 @@ C-----------------------------
      C    KFTS      ,IHBE      ,ALPE      ,
      D    DIR_A     ,DIR_B     ,IGEO      ,
      E    IPM       ,IFAILURE  ,NPG       ,FHEAT     ,
-     F    TEMPEL    ,DIE       ,JTHE      ,IEXPAN    ,TEMPG     ,
+     F    DIE       ,JTHE      ,IEXPAN    ,TEMPEL0   ,
      G    IBID      ,BID       ,
      H    BID       ,BID       ,BID       ,BID       ,BID       ,
      I    BID       ,BID       ,BID       ,E1X       ,E1Y       ,
@@ -582,11 +581,11 @@ C--------------------------
           IF (MAT_ELEM%MAT_PARAM(MAT(1))%HEAT_FLAG == 1) THEN
             CALL THERMC(JFT   ,JLT   ,PM     ,MAT     ,THK0  ,IXC     ,
      .                  PX1   ,PX2   ,PY1    ,PY2     ,AREA  ,DT1C    ,
-     .                  TEMP  ,TEMPEL,FHEAT  ,THEM    ,GLOB_THERM%THEACCFACT) 
+     .                  TEMP  ,GBUF%TEMP,FHEAT  ,THEM    ,GLOB_THERM%THEACCFACT) 
           ELSE
-            CALL THERMC(JFT   ,JLT   ,PM     ,MAT     ,THK0  ,IXC     ,
-     .                  PX1   ,PX2   ,PY1    ,PY2     ,AREA  ,DT1C    ,
-     .                  TEMP  ,TEMPEL,DIE    ,THEM    ,GLOB_THERM%THEACCFACT) 
+            CALL THERMC(JFT   ,JLT ,PM     ,MAT     ,THK0  ,IXC     ,
+     .                  PX1   ,PX2 ,PY1    ,PY2     ,AREA  ,DT1C    ,
+     .                  TEMP  ,GBUF%TEMP,DIE    ,THEM    ,GLOB_THERM%THEACCFACT) 
           END IF
         ENDIF
 C--------------------------

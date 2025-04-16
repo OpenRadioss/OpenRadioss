@@ -223,7 +223,7 @@ C--------------------------------
      .  LXYZ(MVSIZ,8),DD(MVSIZ,6),DB(MVSIZ,12),AMU(MVSIZ),
      .  GSR(MVSIZ), A11SR(MVSIZ), A12SR(MVSIZ), NUSR(MVSIZ),
      .  SHFSR(MVSIZ),PX2(MVSIZ),PY1(MVSIZ),PY2(MVSIZ),PX1(MVSIZ),
-     .  DIE(MVSIZ), TEMPEL(MVSIZ),THEM(MVSIZ,4),
+     .  DIE(MVSIZ), TEMPEL0(MVSIZ),THEM(MVSIZ,4),
      .  R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
      .  R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),
      .  R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),
@@ -292,7 +292,7 @@ C-----
       NLAY  = ELBUF_STR%NLAY
       SEDRAPE = SCDRAPE
       NUMEL_DRAPE = NUMELC_DRAPE
-      TEMPEL(:) = ZERO
+      TEMPEL0(:) = ZERO
       FHEAT(:)  = ZERO
 c
 c      NPT  = MAX(NLAY,NPTT) --> set to = IPARG(6) , keeping it original
@@ -562,7 +562,8 @@ c-------------------------------------------
 C-----------------
       ! transfer nodal temperature to gauss points (/heat/mat)
       IF (JTHE /= 0) THEN      
-        CALL TEMPCG(NUMNOD,NEL   ,IXC  ,TEMP ,TEMPEL )
+        TEMPEL0(1:NEL) = GBUF%TEMP(1:NEL)  
+        CALL TEMPCG(NUMNOD,NEL   ,IXC  ,TEMP ,GBUF%TEMP )
       ENDIF
 C-----------------------------------------------     
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(TIMERS,35)
@@ -582,7 +583,7 @@ C-----------------------------------------------
      C      KFTS      ,IHBE      ,ALPE      ,
      D      DIR_A     ,DIR_B     ,IGEO      ,
      E      IPM       ,IFAILURE  ,NPG       ,FHEAT     ,
-     F      TEMPEL    ,DIE       ,JTHE      ,IEXPAN    ,GBUF%TEMP  ,
+     F      DIE       ,JTHE      ,IEXPAN    ,TEMPEL0    ,
      G      IBID      ,BID       ,
      H      BID       ,BID       ,BID       ,BID       ,BID        ,
      I      BID       ,BID       ,BID       ,R11       ,R12        ,
@@ -734,13 +735,13 @@ c     Thermique des coques
 C--------------------------
         IF (JTHE /= 0) THEN  
           IF (MAT_ELEM%MAT_PARAM(IMAT)%HEAT_FLAG == 1) THEN
-            CALL THERMC(JFT    ,JLT     ,PM      ,MAT  ,THK0 ,IXC  ,
-     .                  Y24    ,PX2     ,PY1     ,PY2  ,AREA ,DT1C ,
-     .                  TEMP   ,TEMPEL  ,FHEAT   ,THEM ,GLOB_THERM%THEACCFACT)
+            CALL THERMC(JFT    ,JLT      ,PM      ,MAT  ,THK0 ,IXC  ,
+     .                  Y24    ,PX2      ,PY1     ,PY2  ,AREA ,DT1C ,
+     .                  TEMP   ,GBUF%TEMP,FHEAT   ,THEM ,GLOB_THERM%THEACCFACT)
           ELSE
-            CALL THERMC(JFT    ,JLT     ,PM      ,MAT  ,THK0 ,IXC  ,
-     .                  Y24    ,PX2     ,PY1     ,PY2  ,AREA ,DT1C ,
-     .                  TEMP   ,TEMPEL  ,DIE    ,THEM  ,GLOB_THERM%THEACCFACT)
+            CALL THERMC(JFT    ,JLT      ,PM      ,MAT  ,THK0 ,IXC  ,
+     .                  Y24    ,PX2      ,PY1     ,PY2  ,AREA ,DT1C ,
+     .                  TEMP   ,GBUF%TEMP,DIE    ,THEM  ,GLOB_THERM%THEACCFACT)
           END IF
         ENDIF 
 c--------------------------
@@ -748,8 +749,8 @@ c     THERMAL TIME STEP
 c--------------------------
         IF (JTHE /= 0 .AND. GLOB_THERM%IDT_THERM == 1) THEN
            call dttherm(nel     ,pm(1,mat(1))  ,npropm  ,glob_therm   ,
-     .                  jtur    ,tempel  ,vol0    ,rho       ,
-     .                  ll      ,off     ,conde   ,gbuf%re   ,gbuf%rk )
+     .                  jtur    ,gbuf%temp,vol0    ,rho       ,
+     .                  ll      ,off      ,conde   ,gbuf%re   ,gbuf%rk )
         ENDIF
 C
 C--------------------------

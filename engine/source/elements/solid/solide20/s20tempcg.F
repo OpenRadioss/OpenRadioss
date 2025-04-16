@@ -40,7 +40,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPE,NC(MVSIZ,NPE),JFT,JLT
       my_real
-     .   TEMP(*),NI(NPE),TEMPEL(*)
+     .   TEMP(*),NI(NPE),TEMPEL(JLT)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

@@ -274,7 +274,7 @@ C   Variables utilisees dans les routines solides uniquement (en arguments).
      . R1_FREE(MVSIZ),R3_FREE(MVSIZ),R4_FREE(MVSIZ)
       my_real
      .   VX0(MVSIZ,8),VY0(MVSIZ,8),VZ0(MVSIZ,8),
-     .   TEMPEL(MVSIZ),THEM(MVSIZ,8),DIE(MVSIZ)
+     .   TEMPEL0(MVSIZ),THEM(MVSIZ,8),DIE(MVSIZ)
       INTEGER NNPT,IDEG(MVSIZ)
       PARAMETER (NNPT = 8)
       my_real
@@ -453,7 +453,7 @@ C
       ALLOCATE(VAR_REG(NEL,NPTR*NPTS*NPTT))
       NBPRELD = GBUF%G_BPRELD
       BPRELD =>GBUF%BPRELD(1:NBPRELD*NEL)
-      TEMPEL(:) = ZERO
+      TEMPEL0(:) = ZERO
       BID(:)    = ZERO
       SZ_R1_FREE=MVSIZ
       SZ_IX=NUMELQ+NUMELS+NSVOIS
@@ -652,14 +652,13 @@ C-----------
 C-------------------------------------------
 C    COMPUTE AVERAGE TEMPERATURE IN ELEMENT (for output)
 C-------------------------------------------
-      IF(JTHE < 0 ) THEN 
+      IF (JTHE /= 0) THEN 
+        TEMPEL0(1:NEL) = GBUF%TEMP(1:NEL)  
         DO I=1,NEL
-           IF(GBUF%OFF(I) == ZERO) CYCLE
-           TEMPEL(I) = ONE_OVER_8 *(  TEMP(NC1(I)) + TEMP(NC2(I))  
-     .                          + TEMP(NC3(I)) + TEMP(NC4(I)) 
-     .                          + TEMP(NC5(I)) + TEMP(NC6(I)) 
-     .                          + TEMP(NC7(I)) + TEMP(NC8(I)))
-           GBUF%TEMP(I) = TEMPEL(I)
+           GBUF%TEMP(I) = ONE_OVER_8 * (TEMP(NC1(I)) + TEMP(NC2(I))  
+     .                               +  TEMP(NC3(I)) + TEMP(NC4(I)) 
+     .                               +  TEMP(NC5(I)) + TEMP(NC6(I)) 
+     .                               +  TEMP(NC7(I)) + TEMP(NC8(I))) * GBUF%OFF(I)
         ENDDO
       ENDIF
 c-------------------------------------------
@@ -855,7 +854,7 @@ c
      I   MFYY(1,IP),   MFYZ(1,IP),   MFZX(1,IP),   MFZY(1,IP),
      J   MFZZ(1,IP),   IPM,          GAMA,         BID,
      K   BID,          BID,          BID,          BID,
-     L   BID,          BID,          ISTRAIN,      TEMPEL,
+     L   BID,          BID,          ISTRAIN,      TEMPEL0,
      M   DIE,          IEXPAN,       ILAY,         MSSA,
      N   DMELS,        IR,           IS,           IT,
      O   TABLE,        BID,          BID,          BID,
