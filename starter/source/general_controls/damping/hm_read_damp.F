@@ -266,6 +266,9 @@ C---------Tag of all parts-----------------------------
           WRITE(IOUT,1900)
           ISK = 0
           FULL_FORMAT = .TRUE.  
+          ALPHA = ZERO
+          BETA = ZERO
+          FACTB = ONE
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------
