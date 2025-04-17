@@ -49,7 +49,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ITFUN,ITYPFUN
-      my_real VOL,P0,V0,DYDX,AREA,VEPS,VINC,POLD,VOLP,PEXT,VOLD,PRES,Q,QOLD,DV,SCALE,XFUN
+      my_real VOL,V0,DYDX,AREA,VEPS,VINC,POLD,PEXT,VOLD,PRES,Q,QOLD,DV,SCALE,XFUN
       my_real FINTER 
       EXTERNAL FINTER
 C-----------------------------------------------

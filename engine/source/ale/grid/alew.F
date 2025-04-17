@@ -33,8 +33,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE ALEW(
      1     X              ,D       ,V        ,W       ,WA      ,
-     2     ALE_NN_CONNECT ,NALE    ,NODFT    ,NODLT   ,ITASK   ,
-     3     NBRCVOIS       ,NBSDVOIS,LNRCVOIS ,LNSDVOIS,ITAB         )
+     2     ALE_NN_CONNECT ,NALE    ,NODFT    ,NODLT   ,
+     3     NBRCVOIS       ,NBSDVOIS,LNRCVOIS ,LNSDVOIS         )
 C-----------------------------------------------
 C     M o d u l e s 
 C-----------------------------------------------
@@ -63,9 +63,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NALE(*), NODFT, NODLT, ITASK,
+      INTEGER NALE(*), NODFT, NODLT,
      .     NBRCVOIS(*),NBSDVOIS(*),
-     .     LNRCVOIS(*),LNSDVOIS(*) ,ITAB(NUMNOD) 
+     .     LNRCVOIS(*),LNSDVOIS(*)
       my_real X(3,SX/3), D(3,SD/3), V(3,SV/3), W(3,SW/3), WA(3,*)
       TYPE(t_connectivity), INTENT(IN) :: ALE_NN_CONNECT
 C-----------------------------------------------

@@ -227,7 +227,7 @@ C-----------------------------------------------
           CALL IDEALGAS(
      1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT ,MU  ,
      2                  ESPE  ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
-     3                  PNEW  ,DPDM ,DPDE ,TAB_TEMP)
+     3                  PNEW  ,DPDM ,DPDE )
 
        CASE(8)
          !--------------------------------------------------!

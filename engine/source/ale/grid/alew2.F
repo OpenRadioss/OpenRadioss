@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1   X       ,D      ,V       ,W     ,WA    ,
      2   NALE    ,IPARG  ,NC      ,WB    ,
      3   IAD_ELEM,FR_ELEM,FR_NBCC ,SIZEN ,ADDCNE,
-     4   PROCNE  ,FSKY   ,FSKYV   ,IADS  ,ITAB)
+     4   PROCNE  ,FSKY   ,FSKYV   ,IADS  )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -74,8 +74,7 @@ C-----------------------------------------------
 !      idem with D(SD), and V(SV)
 C-----------------------------------------------
       INTEGER NALE(NUMNOD), IPARG(NPARG,NGROUP), NC(11,*), ADDCNE(*), PROCNE(*),
-     .        IAD_ELEM(2,*), FR_ELEM(*), FR_NBCC(2,*), IADS(8,*),ITAB(NUMNOD),
-     .        SIZEN
+     .        IAD_ELEM(2,*), FR_ELEM(*), FR_NBCC(2,*), IADS(8,*),SIZEN
       my_real X(3,SX/3), D(3,SD/3), V(3,SV/3), W(3,SW/3), WA(3,*), WB(3,*),
      .        FSKY(8,LSKY), FSKYV(LSKY,8)
 C-----------------------------------------------

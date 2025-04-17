@@ -45,7 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE AFLUX0(IPARG       ,ELBUF_STR ,PM    ,IXS         ,IXQ  ,
      .                  V           ,W         ,X     ,FLUX        ,FLU2 ,
-     .                  MS          ,VEUL      ,FILL  ,DFILL       ,VOL  ,
+     .                  VEUL        ,FILL      ,DFILL              ,VOL  ,
      .                  ALE_CONNECT ,ALPH      ,ITASK ,NV46        ,IPM  )
 C-----------------------------------------------
 C   M o d u l e s
@@ -75,7 +75,7 @@ C-----------------------------------------------
       my_real PM, V, W, X
       INTEGER IPARG(NPARG,NGROUP), IXS(NIXS,NUMELS), IXQ(7,NUMELQ), IPM(NPROPMI,NUMMAT)
       INTEGER ITASK,NV46
-      my_real FLUX(*), FLU2(*), MS(*), VEUL(*), FILL(NUMNOD,*),DFILL(NUMNOD,*), VOL(*), ALPH(2,*)
+      my_real FLUX(*), FLU2(*), VEUL(*), FILL(NUMNOD,*),DFILL(NUMNOD,*), VOL(*), ALPH(2,*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_STR    
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------

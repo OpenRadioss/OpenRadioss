@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
       !||====================================================================
-      SUBROUTINE AREZO2(ALE_CONNECT,VAR,IDX,PHI,NDIM,FLUX,VOL)
+      SUBROUTINE AREZO2(ALE_CONNECT,VAR,PHI,FLUX,VOL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -44,8 +44,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NDIM,IDX
-      my_real VAR(NDIM,*), PHI(*), FLUX(4,*), VOL(*)
+      INTEGER NDIM
+      my_real VAR(*), PHI(*), FLUX(4,*), VOL(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -66,7 +66,7 @@ C-----------------------------------------------
          IF (IV3 <= 0)IV3=IE
          IF (IV4 <= 0)IV4=IE
          IF (VOL(I) > ZERO) THEN
-           VAR(IDX,I)=VAR(IDX,I) + HALF*DT1*(PHI(IE)* (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
+           VAR(I)=VAR(I) + HALF*DT1*(PHI(IE)* (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
      .                -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)-PHI(IV4)*FLUX(4,I)) / VOL(I)
          ENDIF
         ENDDO    
@@ -85,7 +85,7 @@ C-----------------------------------------------
         IF(IV4 <= 0)IV4=IE
         VOLN=VOL(I)-DT1 * (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
         IF (VOLN > EM15) THEN
-          VAR(IDX,I) = VAR(IDX,I) + HALF * DT1 * (PHI(IE)*(FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
+          VAR(I) = VAR(I) + HALF * DT1 * (PHI(IE)*(FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
      3                 -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)-PHI(IV4)*FLUX(4,I)) / MAX(EM15,VOLN)
          ENDIF
         ENDDO

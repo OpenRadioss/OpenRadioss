@@ -33,9 +33,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ale_mod                ../common_source/modules/ale/ale_mod.F
       !||====================================================================
       SUBROUTINE ALEW5( 
-     1     X         ,D       ,V       ,W       ,WA      ,
+     1     X         ,V       ,W       ,WA      ,
      2     ALE_NN_CONNECT     ,NALE    ,NODFT   ,NODLT   ,ITASK   ,
-     3     NBRCVOIS  ,NBSDVOIS,LNRCVOIS,LNSDVOIS,ITAB    ,
+     3     NBRCVOIS  ,NBSDVOIS,LNRCVOIS,LNSDVOIS,
      4     SKEW,ISKEW, ICODT)
 C-----------------------------------------------
 C     M o d u l e s
@@ -79,16 +79,17 @@ C-----------------------------------------------
 !  (1:3, NUMNOD+1:) additional nodes (also on adjacent domains but connected to the boundary of the current domain)
 !      idem with D(SD), and V(SV)
 C-----------------------------------------------
-      INTEGER NALE(NUMNOD), NODFT, NODLT, ITASK,
+      INTEGER,INTENT(IN) :: ITASK
+      INTEGER NALE(NUMNOD), NODFT, NODLT,
      .     NBRCVOIS(*),NBSDVOIS(*),
-     .     LNRCVOIS(*),LNSDVOIS(*),ITAB(NUMNOD),ISKEW(*),ICODT(*)
-      my_real X(3,SX/3), D(3,SD/3), V(3,SV/3), W(3,SW/3), WA(3,*), SKEW(LSKEW,*)   
+     .     LNRCVOIS(*),LNSDVOIS(*),ISKEW(*),ICODT(*)
+      my_real X(3,SX/3),V(3,SV/3), W(3,SW/3), WA(3,*), SKEW(LSKEW,*)
       TYPE(t_connectivity), INTENT(IN) :: ALE_NN_CONNECT
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, LENCOM, K, ITER,NITER,NUM
-      my_real VEC(3),LAMBDA,ETA,IFORM, WEIGHT(6),SOM,SOM2,MIN_DIST,MAX_DIST
+      my_real VEC(3),LAMBDA,IFORM, WEIGHT(6),SOM,SOM2,MIN_DIST,MAX_DIST
       my_real, DIMENSION(:), ALLOCATABLE :: DIST
       INTEGER :: IAD, IAD1, IAD2, NODE_ID
 C-----------------------------------------------

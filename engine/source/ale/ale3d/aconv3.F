@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i22tri_mod             ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||====================================================================
       SUBROUTINE ACONV3(VTOT ,PHI,FLUX,FLU1,IXS,
-     .                  ALE_CONNECT,IOFF,QMV,IFLG,ITRIMAT,
+     .                  ALE_CONNECT,IOFF,QMV,IFLG,
      .                  TAG22,NVAR,ITASK)
 C-----------------------------------------------
 C   M o d u l e s
@@ -64,7 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I, IE, IV,J,ITRIMAT,IAD2,LGTH
+      INTEGER :: I, IE, IV,J,IAD2,LGTH
       my_real :: VALVOIS(6,MVSIZ),VALEL(MVSIZ),VL(6,MVSIZ), DELTA(MVSIZ)
       LOGICAL debug_outp
 C-----------------------------------------------
@@ -143,7 +143,7 @@ C-----------
       ! DEBUG OUTPUT                                            !
       !---------------------------------------------------------!
       !INTERFACE 22 ONLY - OUTPUT---------------!
-                debug_outp = .false.
+      debug_outp = .false.
       if(int22>0)then
         debug_outp=.false. 
         if(ibug22_convec /= 0 .AND. IBUG22_NVAR==NVAR)then
@@ -155,11 +155,6 @@ C-----------
           call my_barrier
           
           if(itask==0)then
-            !print *, "    |------ale3d_conv3.F------ |"
-            !print *, "    |     THREAD INFORMATION   |"
-            !print *, "    |--------------------------|" 
-            !print *, "    NCYCLE  =", NCYCLE      
-            !print *, "    ITRIMAT =", ITRIMAT         
             if(IBUG22_NVAR==NVAR)then
               do i=lft,llt
                 if(int22>0)then;if (tag22(i)/=zero)then;cycle                 ;endif;endif

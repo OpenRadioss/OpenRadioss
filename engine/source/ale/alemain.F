@@ -746,12 +746,12 @@ C     -------------------------
      5   ALPH,            FV,              BUFMAT,          TF,
      6   NPC,             ITASK,           NBRCVOIS,        NBSDVOIS,
      7   LNRCVOIS,        LNSDVOIS,        NERCVOIS,        NESDVOIS,
-     8   LERCVOIS,        LESDVOIS,        IADS,            SEGVAR,
+     8   LERCVOIS,        LESDVOIS,        SEGVAR,
      9   MSNF,            NODFT,           NODLT,           WA(IADBH),
      A   IPM,             QMV,             ITAB,            ITABM1,
      B   LENQMV,          NV46,
-     C   VOLN,            IAD_ELEM,        GLOB_THERM,
-     D   FR_ELEM,         IXTG,            MATPARAM)
+     C   IAD_ELEM,        GLOB_THERM,
+     D   FR_ELEM,         MATPARAM)
          ENDIF
       ELSE
         ALE%SUB%IFSUBM=0

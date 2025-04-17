@@ -50,13 +50,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IDEF,IV, II
-      my_real
-     .   VINC,GAMA,PRES,PMAX,VEPS,AREA,POLD,VOLD,
-     .   Q,QOLD,DV,AMU,ROT,
-     .   AMTOT,AMTOT_OLD,ENERGY,ENERG_OLD,DMOUT,DEOUT,FAC,
-     .   PDEF,DTPDEFC,M0, VOL0
-      my_real
-     .   TRELAX,DEIN, PEXT, PINI, CV, TEMPERATURE
+      my_real VINC,GAMA,PRES,PMAX,VEPS,AREA,POLD,VOLD,
+     .        Q,QOLD,DV,AMU,ROT,
+     .        AMTOT,ENERGY,ENERG_OLD,DMOUT,DEOUT,FAC,
+     .        PDEF,DTPDEFC,M0, VOL0
+      my_real TRELAX,DEIN, PEXT, PINI, CV, TEMPERATURE
       INTEGER :: IEQUI
       my_real :: MIN_TVENT
       DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
@@ -241,13 +239,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, K,IDEF,KK,PMAIN,
-     .   II,IPVENT,NNC,KAD,IPORT,IPORP,IPORA,
-     .   IOFF,NG,NEL,ISTRA,IEXPAN,IOK
+      INTEGER K,IDEF,KK,PMAIN,
+     .        II,IPVENT,NNC,KAD,IPORT,IPORP,IPORA,
+     .        IOFF,NG,NEL,ISTRA,IEXPAN,IOK
 
       my_real
      .   GAMA, PEXT, PDEF, AVENT, VOL, VINC,
-     .   AMTOT, ENERGY, P, RO, TEMP(4), M0, VOL0,
+     .   AMTOT, ENERGY, P, RO,
      .   U, DEOUT, DMOUT, TVENT,AREA, PCRIT, AOUTOT,
      .   APVENT,AOUT,FLOUT,DE,DERI,DTPDEFI,DTPDEFC,
      .   F1(NN),SCALT,SCALP,SCALS

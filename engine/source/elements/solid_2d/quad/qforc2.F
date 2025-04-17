@@ -568,7 +568,7 @@ C     FORCES DE TRANSPORT
 C------------------------
        IF(JALE>0.AND.MTN/=11)
      .   CALL AMOMT2(
-     1   PM,      V,       W,       GBUF%RHO,
+     1   PM,      W,       GBUF%RHO,
      2   Y1,      Y2,      Y3,      Y4,
      3   Z1,      Z2,      Z3,      Z4,
      4   T11,     T12,     T13,     T14,

@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ale_mod   ../common_source/modules/ale/ale_mod.F
       !||====================================================================
       SUBROUTINE AMOMT2(
-     .   PM , V     , W  ,  RHO,
+     .   PM , W  ,  RHO,
      .   Y1, Y2, Y3, Y4, Z1, Z2, Z3, Z4,
      .   T11, T12   , T13,  T14, T21  , T22, T23 , T24, 
      .   PY1, PY2   , PZ1,  PZ2, AIREM,
@@ -67,7 +67,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
-     .   PM(NPROPM,NUMMAT), V(3,NUMNOD), W(3,NUMNOD), RHO(*),
+     .   PM(NPROPM,NUMMAT), W(3,NUMNOD), RHO(*),
      .   Y1(*), Y2(*), Y3(*), Y4(*), Z1(*), Z2(*), Z3(*), Z4(*),
      .   T11(*), T12(*), T13(*), T14(*), T21(*), T22(*), T23(*),T24(*), 
      .   PY1(*), PY2(*), PZ1(*), PZ2(*), AIREM(*),

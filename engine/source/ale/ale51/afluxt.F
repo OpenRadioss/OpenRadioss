@@ -53,12 +53,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    segvar_mod              ../engine/share/modules/segvar_mod.F
       !||    trimat_mod              ../engine/share/modules/trimat.F
       !||====================================================================
-      SUBROUTINE AFLUXT(IPARG   ,ELBUF_TAB,PM      ,IXS     ,IXQ     ,
-     2                  V       ,W        ,X,      FLUX    ,FLU2    ,
-     3                  MS      ,VEUL     ,ALPHA   ,ALE_CONNECT   ,ITASK   ,
-     4                  ITRIMAT ,FLUX_SAV ,NERCVOIS,NESDVOIS,
-     5                  LERCVOIS,LESDVOIS ,LENCOM  ,QMV     ,ITAB    ,
-     6                  ITABM1  ,NV46     ,SEGVAR)
+      SUBROUTINE AFLUXT(IPARG   ,ELBUF_TAB   ,PM       ,IXS     ,IXQ     ,
+     2                  X       ,FLUX        ,FLU2     ,
+     3                  ALPHA   ,ALE_CONNECT ,ITASK    ,
+     4                  ITRIMAT ,FLUX_SAV    ,NERCVOIS ,NESDVOIS,
+     5                  LERCVOIS,LESDVOIS    ,LENCOM   ,QMV     ,ITAB    ,
+     6                  ITABM1  ,NV46        ,SEGVAR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -88,8 +88,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real PM(NPROPM,NUMMAT), V(3,NUMNOD), W(3,NUMNOD), X(3,NUMNOD),
-     .         FLUX(NV46,*), FLU2(*), MS(*), VEUL(*), 
+      my_real PM(NPROPM,NUMMAT), X(3,NUMNOD),
+     .         FLUX(NV46,*), FLU2(*),
      .         ALPHA(*), FLUX_SAV(NV46,*), QMV(2*NV46,*)
 
       INTEGER IPARG(NPARG,NGROUP), IXS(NIXS,NUMELS), IXQ(7,NUMELQ)

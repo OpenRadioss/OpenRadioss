@@ -56,10 +56,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
-#include      "mvsiz_p.inc"
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
@@ -67,37 +63,36 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER MAT(*),NEL
-      my_real
-     .   PM(NPROPM,*), OFF(*), SIG(NEL,6), MU_OLD(*), EPSEQ(*), EINT(*),
-     .   RHO(*), VOL(*), PNEW(*), PSH(*),SEQ_OUTPUT(*)
-      my_real
-     .   VNEW(*), SSP(*), SIGY(*),DEFP(*),
-     .   D1(*), D2(*), D3(*), D4(*), D5(*), D6(*),
-     .   DVOL(*), MU_NEW(*),    
-     .   SOLD1(MVSIZ), SOLD2(MVSIZ), SOLD3(MVSIZ),
-     .   SOLD4(MVSIZ), SOLD5(MVSIZ), SOLD6(MVSIZ),
-     .   DPDM(MVSIZ)
+      INTEGER,INTENT(IN) :: NEL
+      INTEGER,INTENT(IN) :: MAT(NEL)
+      my_real PM(NPROPM,*), SIG(NEL,6), MU_OLD(NEL), EPSEQ(NEL), EINT(NEL), RHO(NEL), VOL(NEL),SEQ_OUTPUT(NEL)
+      my_real,INTENT(INOUT) :: PNEW(NEL)
+      my_real,INTENT(INOUT) :: PSH(NEL)
+      my_real,INTENT(IN) :: OFF(NEL)               
+      my_real VNEW(NEL), SSP(NEL), SIGY(NEL),DEFP(NEL),
+     .         D1(NEL), D2(NEL), D3(NEL), D4(NEL), D5(NEL), D6(NEL),
+     .         DVOL(NEL), MU_NEW(NEL),
+     .         SOLD1(NEL), SOLD2(NEL), SOLD3(NEL),
+     .         SOLD4(NEL), SOLD5(NEL), SOLD6(NEL),
+     .         DPDM(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX
-      my_real
-     .   T1(MVSIZ), T2(MVSIZ), T3(MVSIZ), T4(MVSIZ), 
-     .   T5(MVSIZ), T6(MVSIZ), POLD(MVSIZ), P(MVSIZ), PNE1(MVSIZ),
-     .    G(MVSIZ), BULK(MVSIZ), A0(MVSIZ), A1(MVSIZ),
-     .   A2(MVSIZ), AMX(MVSIZ), AJ2(MVSIZ), G0(MVSIZ), GG(MVSIZ), 
-     .   MU2(MVSIZ), SVRT(MVSIZ), RATIO(MVSIZ), 
-     .   YIELD2(MVSIZ), G43(MVSIZ), 
-     .   RHO0(MVSIZ),PTOT,PSTAR(MVSIZ),
-     .   G43_1,C0_1,C1_1,C2_1,C3_1,
-     .   BULK_1,BULK2_1,MU_MAX_1,PSH_1,
-     .   PSTAR_1,A0_1,A1_1,A2_1,AMX_1,
-     .   RHO0_1,PFRAC
+      my_real T1(NEL), T2(NEL), T3(NEL), T4(NEL),
+     .        T5(NEL), T6(NEL), POLD(NEL), P(NEL), PNE1(NEL),
+     .        G(NEL), BULK(NEL), A0(NEL), A1(NEL),
+     .        A2(NEL), AMX(NEL), AJ2(NEL), G0(NEL), GG(NEL),
+     .        MU2(NEL), SVRT(NEL), RATIO(NEL),
+     .        YIELD2(NEL), G43(NEL),
+     .        RHO0(NEL),PTOT,PSTAR(NEL),
+     .        G43_1,C0_1,C1_1,C2_1,C3_1,
+     .        BULK_1,BULK2_1,MU_MAX_1,PSH_1,
+     .        PSTAR_1,A0_1,A1_1,A2_1,AMX_1,
+     .        RHO0_1,PFRAC
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
-
       !----------------------------------------------------------------!
       !  PARAMETER INITIALIZATION                                      !
       !----------------------------------------------------------------!
@@ -110,7 +105,7 @@ C-----------------------------------------------
       AMX_1    = PM(41,MX)          
       RHO0_1   = PM(1,MX)   
       PSH_1    = PM(88,MX)  
-      PFRAC    = PM(37,MX)      
+      PFRAC    = PM(37,MX)
       DO I=1,NEL
         G(I)     = DT1*PM(22,MX)
         G43(I)   = G43_1
@@ -167,7 +162,7 @@ C-----------------------------------------------
 
       !----------------------------------------------------------------!
       !  YIELD SURFACE                                                 !
-      !----------------------------------------------------------------!      
+      !----------------------------------------------------------------!
       DO I=1,NEL
         AJ2(I)= HALF*(T1(I)**2+T2(I)**2+T3(I)**2)+T4(I)**2+T5(I)**2+T6(I)**2
         PTOT  = PNEW(I)+PSH(I)

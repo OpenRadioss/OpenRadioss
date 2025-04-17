@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
       !||====================================================================
-      SUBROUTINE AREZO3(ALE_CONNECT,VAR,NV,PHI,NDIM,FLUX,VOL,IAD22,IXS,ITRIMAT)
+      SUBROUTINE AREZO3(ALE_CONNECT,VAR,PHI,FLUX,VOL,IAD22)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -44,9 +44,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER :: NDIM,NV,ITRIMAT
-      INTEGER :: IXS(NIXS,NUMELS)
-      my_real :: VAR(NDIM,*), PHI(*), FLUX(6,MVSIZ), VOL(MVSIZ), IAD22(MVSIZ)
+      my_real :: VAR(*), PHI(*), FLUX(6,MVSIZ), VOL(MVSIZ), IAD22(MVSIZ)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -64,7 +62,7 @@ C-----------------------------------------------
 
 C NOT YET TREATED WITH INTER22(OBSOLETE), MUST STACK REZONED VALUE WITH SUPERCELLS
 
-      IF(INT22==0)THEN
+      IF(INT22 == 0)THEN
         DO I=LFT,LLT
           IE =NFT+I
           IAD2 = ALE_CONNECT%ee_connect%iad_connect(IE)
@@ -80,7 +78,7 @@ C NOT YET TREATED WITH INTER22(OBSOLETE), MUST STACK REZONED VALUE WITH SUPERCEL
           IF(IV4 <= 0)IV4=IE
           IF(IV5 <= 0)IV5=IE
           IF(IV6 <= 0)IV6=IE
-          IF (VOL(I) > ZERO) VAR(NV,I) = VAR(NV,I) + HALF*DT1*(PHI(IE)*
+          IF (VOL(I) > ZERO) VAR(I) = VAR(I) + HALF*DT1*(PHI(IE)*
      2     (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I)+FLUX(5,I)+FLUX(6,I))
      3     -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)
      4     -PHI(IV4)*FLUX(4,I)-PHI(IV5)*FLUX(5,I)-PHI(IV6)*FLUX(6,I))/
@@ -90,7 +88,7 @@ C NOT YET TREATED WITH INTER22(OBSOLETE), MUST STACK REZONED VALUE WITH SUPERCEL
         DO I=LFT,LLT
           IE =NFT+I
           IAD2 = ALE_CONNECT%ee_connect%iad_connect(IE)
-          IF(IAD22(I)==ZERO)CYCLE
+          IF(IAD22(I) == ZERO)CYCLE
           IV1=ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
           IV2=ALE_CONNECT%ee_connect%connected(IAD2 + 2 - 1)
           IV3=ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
@@ -103,7 +101,7 @@ C NOT YET TREATED WITH INTER22(OBSOLETE), MUST STACK REZONED VALUE WITH SUPERCEL
           IF(IV4 <= 0)IV4=IE
           IF(IV5 <= 0)IV5=IE
           IF(IV6 <= 0)IV6=IE
-          IF (VOL(I) > ZERO) VAR(NV,I) = VAR(NV,I) + HALF*DT1*(PHI(IE)*
+          IF (VOL(I) > ZERO) VAR(I) = VAR(I) + HALF*DT1*(PHI(IE)*
      2     (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I)+FLUX(5,I)+FLUX(6,I))
      3     -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)
      4     -PHI(IV4)*FLUX(4,I)-PHI(IV5)*FLUX(5,I)-PHI(IV6)*FLUX(6,I))/
@@ -121,7 +119,7 @@ C-----------
       !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
       !||====================================================================
       SUBROUTINE AREZO3_SIG(ALE_CONNECT,SIG,NV,PHI,NDIM,FLUX,
-     .                      VOL,IAD22,IXS,ITRIMAT,NEL)
+     .                      VOL,IAD22,NEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -137,8 +135,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER :: NDIM,NV,ITRIMAT,NEL
-      INTEGER :: IXS(NIXS,NUMELS)
+      INTEGER :: NDIM,NV,NEL
       my_real :: SIG(NEL,NDIM), PHI(*), FLUX(6,MVSIZ), VOL(MVSIZ), IAD22(MVSIZ)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------

@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
       !||====================================================================
-      SUBROUTINE BREZO2(ALE_CONNECT,VAR,NV,PHI,NDIM,FLUX,VOL,BHOLE,NM)
+      SUBROUTINE BREZO2(ALE_CONNECT,VAR,PHI,FLUX,VOL,BHOLE,NM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -45,9 +45,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NDIM,NV
       INTEGER BHOLE(NMULT,*),NM
-      my_real VAR(NDIM,*), PHI(*), FLUX(4,*), VOL(*)
+      my_real VAR(*), PHI(*), FLUX(4,*), VOL(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -58,77 +57,75 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       IF(JMULT == 0)THEN
-       DO 10 I=LFT,LLT
-       IE =NFT+I
-       IAD2 = ALE_CONNECT%ee_connect%iad_connect(IE)
-       IV1=ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
-       IV2=ALE_CONNECT%ee_connect%connected(IAD2 + 2 - 1)
-       IV3=ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
-       IV4=ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
-       IF(IV1 <= 0.)THEN
-         IV1=IE       
-       ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV1)) /= ABS(BHOLE(NM,IE)))THEN
-         IV1=IE
-       ENDIF
-       IF(IV2 <= 0)THEN
-         IV2=IE       
-       ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV2)) /= ABS(BHOLE(NM,IE)))THEN
-         IV2=IE
-       ENDIF
-       IF(IV3 <= 0)THEN
-         IV3=IE       
-       ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV3)) /= ABS(BHOLE(NM,IE)))THEN
-         IV3=IE
-       ENDIF
-       IF(IV4 <= 0)THEN
-         IV4=IE
-       ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV4)) /= ABS(BHOLE(NM,IE)))THEN
-         IV4=IE
-       ENDIF
-       VAR(NV,I) = VAR(NV,I) + HALF * DT1 * (PHI(IE)*
-     2 (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
-     3 -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)
-     4 -PHI(IV4)*FLUX(4,I)) / VOL(I)
-  10  CONTINUE
+        DO I=LFT,LLT
+          IE =NFT+I
+          IAD2 = ALE_CONNECT%ee_connect%iad_connect(IE)
+          IV1=ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
+          IV2=ALE_CONNECT%ee_connect%connected(IAD2 + 2 - 1)
+          IV3=ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
+          IV4=ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
+          IF(IV1 <= ZERO)THEN
+            IV1=IE
+          ELSEIF(BHOLE(NM,IE) < ZERO .AND.ABS(BHOLE(NM,IV1)) /= ABS(BHOLE(NM,IE)))THEN
+            IV1=IE
+          ENDIF
+          IF(IV2 <= 0)THEN
+            IV2=IE
+          ELSEIF(BHOLE(NM,IE) < ZERO .AND.ABS(BHOLE(NM,IV2)) /= ABS(BHOLE(NM,IE)))THEN
+            IV2=IE
+          ENDIF
+          IF(IV3 <= 0)THEN
+            IV3=IE
+          ELSEIF(BHOLE(NM,IE) < ZERO .AND.ABS(BHOLE(NM,IV3)) /= ABS(BHOLE(NM,IE)))THEN
+            IV3=IE
+          ENDIF
+          IF(IV4 <= 0)THEN
+            IV4=IE
+          ELSEIF(BHOLE(NM,IE) < ZERO .AND.ABS(BHOLE(NM,IV4)) /= ABS(BHOLE(NM,IE)))THEN
+            IV4=IE
+          ENDIF
+          VAR(I) = VAR(I) + HALF * DT1 * (PHI(IE)*
+     2    (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
+     3    -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)
+     4    -PHI(IV4)*FLUX(4,I)) / VOL(I)
+        ENDDO !nexi i
       ELSE
-         DO 20 I=LFT,LLT
-            IE =NFT+I
-            IAD2 = ALE_CONNECT%ee_connect%iad_connect(IE)
-            IV1=ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
-            IV2=ALE_CONNECT%ee_connect%connected(IAD2 + 2 - 1)
-            IV3=ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
-            IV4=ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
-      
-       IF(IV1 <= 0.)THEN
-         IV1=IE       
-       ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV1)) /= ABS(BHOLE(NM,IE)))THEN
-         IV1=IE
-       ENDIF
-       IF(IV2 <= 0.)THEN 
-         IV2=IE       
-       ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV2)) /= ABS(BHOLE(NM,IE)))THEN
-         IV2=IE
-       ENDIF
-       IF(IV3 <= 0.)THEN 
-         IV3=IE       
-       ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV3)) /= ABS(BHOLE(NM,IE)))THEN
-         IV3=IE
-       ENDIF
-       IF(IV4 <= 0.)THEN 
-         IV4=IE       
-       ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV4)) /= ABS(BHOLE(NM,IE)))THEN
-         IV4=IE
-       ENDIF
-        VOLN=VOL(I)-DT1 * (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
-       IF (VOLN > EM15) THEN
-         VAR(NV,I) = VAR(NV,I) + HALF * DT1 * (PHI(IE)*
-     2 (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
-     3 -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)
-     4 -PHI(IV4)*FLUX(4,I)) / MAX(EM15,VOLN)
-        ENDIF
-  20  CONTINUE
+        DO I=LFT,LLT
+          IE =NFT+I
+          IAD2 = ALE_CONNECT%ee_connect%iad_connect(IE)
+          IV1=ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
+          IV2=ALE_CONNECT%ee_connect%connected(IAD2 + 2 - 1)
+          IV3=ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
+          IV4=ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
+          IF(IV1 <= ZERO)THEN
+            IV1=IE
+          ELSEIF(BHOLE(NM,IE) < ZERO .AND.ABS(BHOLE(NM,IV1)) /= ABS(BHOLE(NM,IE)))THEN
+            IV1=IE
+          ENDIF
+          IF(IV2 <= ZERO)THEN
+            IV2=IE
+          ELSEIF(BHOLE(NM,IE) < ZERO .AND.ABS(BHOLE(NM,IV2)) /= ABS(BHOLE(NM,IE)))THEN
+            IV2=IE
+          ENDIF
+          IF(IV3 <= ZERO)THEN
+            IV3=IE
+          ELSEIF(BHOLE(NM,IE) < ZERO .AND.ABS(BHOLE(NM,IV3)) /= ABS(BHOLE(NM,IE)))THEN
+            IV3=IE
+          ENDIF
+          IF(IV4 <= ZERO)THEN
+            IV4=IE
+          ELSEIF(BHOLE(NM,IE) < ZERO .AND.ABS(BHOLE(NM,IV4)) /= ABS(BHOLE(NM,IE)))THEN
+            IV4=IE
+          ENDIF
+           VOLN=VOL(I)-DT1 * (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
+          IF (VOLN > EM15) THEN
+            VAR(I) = VAR(I) + HALF * DT1 * (PHI(IE)*
+     2                  (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
+     3                  -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)
+     4                  -PHI(IV4)*FLUX(4,I)) / MAX(EM15,VOLN)
+          ENDIF
+        ENDDO
       ENDIF
-C
       RETURN
       END
       !||====================================================================
@@ -174,24 +171,24 @@ C-----------------------------------------------
           IV3=ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
           IV4=ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
        
-         IF(IV1 <= 0.)THEN
+         IF(IV1 <= ZERO)THEN
            IV1=IE       
-         ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV1)) /= ABS(BHOLE(NM,IE)))THEN
+         ELSEIF(BHOLE(NM,IE) < ZERO .AND.ABS(BHOLE(NM,IV1)) /= ABS(BHOLE(NM,IE)))THEN
            IV1=IE
          ENDIF
          IF(IV2 <= 0)THEN
            IV2=IE       
-         ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV2)) /= ABS(BHOLE(NM,IE)))THEN
+         ELSEIF(BHOLE(NM,IE) < ZERO .AND.ABS(BHOLE(NM,IV2)) /= ABS(BHOLE(NM,IE)))THEN
            IV2=IE
          ENDIF
          IF(IV3 <= 0)THEN
            IV3=IE       
-         ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV3)) /= ABS(BHOLE(NM,IE)))THEN
+         ELSEIF(BHOLE(NM,IE) < ZERO .AND.ABS(BHOLE(NM,IV3)) /= ABS(BHOLE(NM,IE)))THEN
            IV3=IE
          ENDIF
          IF(IV4 <= 0)THEN
            IV4=IE
-         ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV4)) /= ABS(BHOLE(NM,IE)))THEN
+         ELSEIF(BHOLE(NM,IE) < ZERO .AND.ABS(BHOLE(NM,IV4)) /= ABS(BHOLE(NM,IE)))THEN
            IV4=IE
          ENDIF
          SIG(I,NV) = SIG(I,NV) + HALF * DT1 * ( 
@@ -207,24 +204,24 @@ C-----------------------------------------------
          IV2=ALE_CONNECT%ee_connect%connected(IAD2 + 2 - 1)
          IV3=ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
          IV4=ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
-         IF(IV1 <= 0.)THEN
+         IF(IV1 <= ZERO)THEN
            IV1=IE       
-         ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV1)) /= ABS(BHOLE(NM,IE)))THEN
+         ELSEIF(BHOLE(NM,IE) < ZERO .AND.ABS(BHOLE(NM,IV1)) /= ABS(BHOLE(NM,IE)))THEN
            IV1=IE
            ENDIF
-         IF(IV2 <= 0.)THEN 
+         IF(IV2 <= ZERO)THEN
            IV2=IE       
-         ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV2)) /= ABS(BHOLE(NM,IE)))THEN
+         ELSEIF(BHOLE(NM,IE) < ZERO .AND.ABS(BHOLE(NM,IV2)) /= ABS(BHOLE(NM,IE)))THEN
            IV2=IE
          ENDIF
-         IF(IV3 <= 0.)THEN 
+         IF(IV3 <= ZERO)THEN
            IV3=IE       
-         ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV3)) /= ABS(BHOLE(NM,IE)))THEN
+         ELSEIF(BHOLE(NM,IE) < ZERO .AND.ABS(BHOLE(NM,IV3)) /= ABS(BHOLE(NM,IE)))THEN
            IV3=IE
          ENDIF
-         IF(IV4 <= 0.)THEN 
+         IF(IV4 <= ZERO)THEN
            IV4=IE       
-         ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV4)) /= ABS(BHOLE(NM,IE)))THEN
+         ELSEIF(BHOLE(NM,IE) < ZERO .AND.ABS(BHOLE(NM,IV4)) /= ABS(BHOLE(NM,IE)))THEN
            IV4=IE
          ENDIF
           VOLN=VOL(I)-DT1 * (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))

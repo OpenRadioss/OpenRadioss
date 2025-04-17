@@ -52,7 +52,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,J,N,N1,N2,N3,N4,IG,IAD2
+      INTEGER I,II,J,N,IG,IAD2
       my_real ALPHA,XG,YG,ZG,
      . det_12_1P,det_23_2P,det_34_3P,det_41_4P,
      . Y1,Z1,Y2,Z2,Y3,Z3,Y4,Z4
