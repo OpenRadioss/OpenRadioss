@@ -460,6 +460,7 @@
           logical_userl_avail = .false.
           l_mulaw_called=.false.
           if(userl_avail/=0) logical_userl_avail = .true.
+
           lft = 1
           if(present(opt_mtn)) then
             mtn     = opt_mtn
@@ -866,26 +867,26 @@
           elseif (mtn == 2) then
 !
             call m2law(&
-            &pm,       off,      lbuf%sig, lbuf%eint,&
-            &lbuf%rho, lbuf%qvis,lbuf%pla, lbuf%epsd,&
-            &lbuf%vol, stifn,    dt2t,     neltst,&
-            &ityptst,  lbuf%off, geo,      pid,&
-            &amu,      vol_avg,  mumax,    mat,&
-            &ngl,      cxx,      dvol,     aire,&
-            &voln,     vd2,      deltax,   vis,&
-            &dxx,      dyy,      dzz,      d4,&
-            &d5,       d6,       pnew,     psh,&
-            &qvis,     ssp_eq,   s1,       s2,&
-            &s3,       s4,       s5,       s6,&
-            &sigy,     defp,     dpla,&
-            &epsp,     tstar,    et,       mssa,&
-            &dmels,    el_temp,  lbuf%sigb,al_imp,&
-            &signor,   conde,    gbuf%dt,  gbuf%g_dt,&
-            &nel,      ipm,      rhoref,   rhosp,&
-            &ipg,      lbuf%dmg, ity,      jtur,&
-            &jthe,     jsph,     ismstr,   jsms,&
-            &lbuf%epsq,npg ,mat_elem%mat_param(imat)%ieos ,dpdm  ,fheat ,&
-             glob_therm, jlag)
+                 pm,       off,      lbuf%sig, lbuf%eint,&
+                 lbuf%rho, lbuf%qvis,lbuf%pla, lbuf%epsd,&
+                 lbuf%vol, stifn,    dt2t,     neltst,&
+                 ityptst,  lbuf%off, geo,      pid,&
+                 amu,      vol_avg,  mumax,    mat,&
+                 ngl,      cxx,      dvol,     aire,&
+                 voln,     vd2,      deltax,   vis,&
+                 dxx,      dyy,      dzz,      d4,&
+                 d5,       d6,       pnew,     psh,&
+                 qvis,     ssp_eq,   s1,       s2,&
+                 s3,       s4,       s5,       s6,&
+                 sigy,     defp,     dpla,&
+                 epsp,     tstar,    et,       mssa,&
+                 dmels,    el_temp,  lbuf%sigb,al_imp,&
+                 signor,   conde,    gbuf%dt,  gbuf%g_dt,&
+                 nel,      ipm,      rhoref,   rhosp,&
+                 ipg,      lbuf%dmg, ity,      jtur,&
+                 jthe,     jsph,     ismstr,   jsms,&
+                 lbuf%epsd,npg ,mat_elem%mat_param(imat)%ieos , &
+                 dpdm  ,fheat ,glob_therm, jlag )
 !----------------
             if (istrain > 0 .and.&
             &(h3d_strain == 1 .or. th_strain == 1 )) then

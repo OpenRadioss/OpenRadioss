@@ -108,7 +108,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I, J, ICC,IRTY,ISRATE,VP,IDEV,MX,IBID,IKFLG,NINDX
+      INTEGER :: I, J, ICC,IRTY,ISRATE,VP,IDEV,MX,IBID,NINDX
       INTEGER :: INDX(NEL)
       my_real RHO0, PLAP1,POLD,PSHIFT,BULK,P, EPMX,CC,CN,EPDR, CMX,
      .        Z3,Z4,RHOCP,RHOCPI,T_REF,T_MELT,ASRATE,
@@ -168,18 +168,16 @@ C
 C------------------------------------------
 C     ECROUISSAGE CINE
 C------------------------------------------
-      IKFLG=0
-      DO I=1,NEL
-        IF (FISOKIN /= ZERO ) THEN
+      IF (FISOKIN > ZERO) THEN
+        DO I=1,NEL
          SIG(I,1)=SIG(I,1)-SIGBAK(I,1)
          SIG(I,2)=SIG(I,2)-SIGBAK(I,2)
          SIG(I,3)=SIG(I,3)-SIGBAK(I,3)
          SIG(I,4)=SIG(I,4)-SIGBAK(I,4)
          SIG(I,5)=SIG(I,5)-SIGBAK(I,5)
          SIG(I,6)=SIG(I,6)-SIGBAK(I,6)
-         IKFLG = IKFLG + 1
-        ENDIF           
-      ENDDO
+        ENDDO
+      ENDIF           
 C      
       DO I=1,NEL
         P  =-THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
@@ -202,7 +200,7 @@ c      -- von Mises stress at elastic predictor
       ENDDO
 C
 c     --  storing elastic predictors for stiffness computation
-      IF (IMPL_S>0.OR.IKFLG>0) THEN
+      IF (IMPL_S>0 .OR. FISOKIN>ZERO) THEN
         DO I=1,NEL
          SIGEXX(I) = SIG(I,1)
          SIGEYY(I) = SIG(I,2)
@@ -220,8 +218,8 @@ C-------------
      .                  D1,      D2,      D3,      D4,       D5,      D6)
 
       EPSP(1:NEL) = EPSD(1:NEL)                   
+      EPD(1:NEL)  = ONE                 
 c
-
       IF (CC /= ZERO) THEN
         IF(VP == 1)THEN
           DO I=1,NEL
@@ -250,15 +248,14 @@ c
              EPD(I)=ONE
           ENDDO
         END IF
-      ELSE
-        DO I=1,NEL
-          EPD(I)=ONE
-        ENDDO
+      ELSEIF (IRTY == 0) THEN  
+        MT = MAX(EM15,Z3)
+        EPD(1:NEL) = ONE - TSTAR(1:NEL)**MT
       ENDIF
 C-------------
 C     CRITERE
 C-------------
-      IF (IKFLG == 0 ) THEN  ! isotropic hardening
+      IF (FISOKIN == ZERO) THEN  ! isotropic hardening
         IF(CN==ONE) THEN
           AK(1:NEL)= CA(1:NEL)+CB*EPXE(1:NEL)
           QH(1:NEL)= CB*EPD(1:NEL)
@@ -290,7 +287,7 @@ C-------------
           ENDIF
         ENDDO
 !
-      ELSE     ! IKFLG > 0 => kinematic hardening
+      ELSE     ! kinematic hardening
 !
         DO I=1,NEL
           BETA = ONE-FISOKIN
@@ -325,8 +322,8 @@ C-------------
             AK(I)=ZERO
             QH(I)=ZERO
           ENDIF
-        END DO !I=1,NEL
-      END IF !(IKFLG == 0 ) THEN
+        END DO ! I=1,NEL
+      END IF   ! (FISOKIN == 0 ) THEN
 !---------------------------------------------------------
       IF (IMPL_S==0) THEN
         DO I=1,NEL
@@ -353,7 +350,7 @@ C         actual yield stress.
 !
       END IF ! IMPL_S
 c-----------------------------------------
-      IF (IKFLG > 0 ) THEN
+      IF (FISOKIN > ZERO) THEN
        DO I=1,NEL
           DSXX = SIGEXX(I) - SIG(I,1) 
           DSYY = SIGEYY(I) - SIG(I,2)
@@ -379,7 +376,7 @@ C       ..gets stresses from shifted stresses and back stresses
           SIG(I,5)=SIG(I,5) + SIGBAK(I,5)
           SIG(I,6)=SIG(I,6) + SIGBAK(I,6)
        ENDDO
-      END IF !(IKFLG > 0 ) THEN
+      END IF !(FISOKIN > 0 ) THEN
 c-----------------------------------------
 !
       BIDMVSIZ(1:MVSIZ) = ZERO
@@ -479,20 +476,20 @@ C
 !----------------------------------------------------------------     
       IF (IMPL_S>0) THEN
         IF (IKT==0) RETURN
-        IF (IKFLG==0)THEN
+        IF (FISOKIN == ZERO) THEN
           DO I=1,NEL
            IF (DPLA(I)>0)THEN
-            IF(CN==ONE) THEN
-             QH(I)= CB*EPD(I)
-            ELSEIF(CN>ONE) THEN
-             QH(I)= (CB*CN*EPXE(I)**(CN - ONE))*EPD(I)
-            ELSE
-             QH(I)= (CB*CN/EPXE(I)**(ONE -CN))*EPD(I)
-            ENDIF
+             IF(CN==ONE) THEN
+               QH(I)= CB*EPD(I)
+             ELSEIF(CN>ONE) THEN
+               QH(I)= (CB*CN*EPXE(I)**(CN - ONE))*EPD(I)
+             ELSE
+               QH(I)= (CB*CN/EPXE(I)**(ONE -CN))*EPD(I)
+             ENDIF
            ENDIF
           ENDDO
         ENDIF
-C      -----IKT=4------------
+C
         DO I = 1,NEL
          IF (DPLA(I)>ZERO) THEN
 

@@ -25,7 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    sigeps02c   ../engine/source/materials/mat/mat002/sigeps02c.F
       !||====================================================================
-      SUBROUTINE M2CPLR(JFT    ,JLT    ,EZZ      ,OFF      ,EPSEQ   ,
+      SUBROUTINE M2CPLR(JFT    ,JLT    ,EZZ      ,OFF      ,PLA   ,
      2                  IPLA   ,TEMP   ,Z3       ,Z4       ,
      3                  IRTY   ,ETSE   ,GS       ,EPSP     ,
      4                  ISRATE ,YLD    ,G        ,A1       ,A2      ,
@@ -56,7 +56,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN) :: VP
 C     REAL
       my_real
-     .   EZZ(*), OFF(*), EPSEQ(*),TEMP(*),Z3,Z4,
+     .   EZZ(*), OFF(*), PLA(*),TEMP(*),Z3,Z4,
      .   ETSE(*),GS(*),EPSP(*)
       my_real
      .   A1, A2, G, YMAX0, 
@@ -166,17 +166,29 @@ C-------------
             CA(I) = CA(I) + Q(I)
           ENDDO
         ENDIF ! IRTY
-      ENDIF ! IF (CC /= ZERO)
+      ELSE           ! CC = ZERO  , no strain rate effect
+        IF (IRTY == 0) THEN       ! J-C
+          MT = MAX(EM20,Z3)
+          DO I=JFT,JLT          
+            IF (TSTAR(I) /= ZERO) THEN
+              Q(I)  = ONE - EXP(MT*LOG(TSTAR(I)))
+              Q(I)  = MAX(Q(I),EM20)
+              CA(I) = CA(I) * Q(I)
+              CB(I) = CB(I) * Q(I)
+            END IF
+          ENDDO
+        ENDIF ! IRTY
+      ENDIF   ! IF (CC /= ZERO)
 C-----------------------------------
 C     YIELD
 C-----------------------------------
       DO I=JFT,JLT
         DPLA(I) = ZERO
-        IF (EPSEQ(I) == ZERO) THEN
+        IF (PLA(I) == ZERO) THEN
            YLD(I)= CA(I)
         ELSE
            BETA = CB(I)*(ONE-FISOKIN)
-           YLD(I)= CA(I)+BETA*EXP(CN*LOG(EPSEQ(I)))
+           YLD(I)= CA(I)+BETA*EXP(CN*LOG(PLA(I)))
         ENDIF
         YLD(I)= MIN(YLD(I),YMAX(I))
       ENDDO
@@ -204,12 +216,12 @@ C projection radiale
             DPLA(I) =  OFF(I) * MAX(ZERO,(SVM(I)-YLD(I))/YOUNG)
             S1=HALF*(SIGNXX(I)+SIGNYY(I))
             EZZ(I) = DPLA(I) * S1 /YLD(I)
-            EPSEQ(I) = EPSEQ(I) + DPLA(I)
-            EPCHK(I) = MAX(EPSEQ(I),EPCHK(I))     
+            PLA(I) = PLA(I) + DPLA(I)
+            EPCHK(I) = MAX(PLA(I),EPCHK(I))     
             IF (YLD(I) >=YMAX(I)) THEN
               H(I)=ZERO
             ELSE
-              H(I)=CN*CB(I)*EXP((CN-ONE)*LOG(EPSEQ(I)+SMALL))
+              H(I)=CN*CB(I)*EXP((CN-ONE)*LOG(PLA(I)+SMALL))
             ENDIF
             ETSE(I)= H(I)/(H(I)+YOUNG)
           ENDIF
@@ -263,7 +275,7 @@ C---------------------------
           IF (YLD(I) >= YMAX(I)) THEN
             H(I)=ZERO
           ELSE
-            H(I)=CN*CB(I)*EXP((CN-ONE)*LOG(EPSEQ(I)+SMALL))
+            H(I)=CN*CB(I)*EXP((CN-ONE)*LOG(PLA(I)+SMALL))
           ENDIF
           DPLA_J(I)=(SVM(I)-YLD(I))/(THREE*G+H(I))
           ETSE(I)= H(I)/(H(I)+YOUNG)
@@ -278,7 +290,7 @@ C-----just keep at least old performance--to update H(I) inside iteration for im
             DO J=1,NINDX
               I=INDEX(J)
               DPLA_I(I)=DPLA_J(I)
-              PLA_I =EPSEQ(I)+DPLA_I(I)
+              PLA_I =PLA(I)+DPLA_I(I)
               DPLA(I) = DPLA_J(I)
               IF (PLA_I == ZERO) THEN
                 YLD_I =MIN(YMAX(I),CA(I))
@@ -322,7 +334,7 @@ C----------kinematic&mix hardening
             DO J=1,NINDX
               I=INDEX(J)
               DPLA_I(I)=DPLA_J(I)
-              PLA_I =EPSEQ(I)+DPLA_I(I)
+              PLA_I =PLA(I)+DPLA_I(I)
               DPLA(I) = DPLA_J(I)
               BETA = ONE-FISOKIN
               IF (PLA_I == ZERO) THEN
@@ -353,8 +365,8 @@ C------------------------------------------
 #include "vectorize.inc" 
         DO J=1,NINDX
           I=INDEX(J)
-          EPSEQ(I) = EPSEQ(I) + DPLA_I(I)
-          EPCHK(I) = MAX(EPSEQ(I),EPCHK(I))
+          PLA(I) = PLA(I) + DPLA_I(I)
+          EPCHK(I) = MAX(PLA(I),EPCHK(I))
           S1=(SIGNXX(I)+SIGNYY(I))*P(I)
           S2=(SIGNXX(I)-SIGNYY(I))*Q(I)
           SIGNXX(I)=HALF*(S1+S2)
@@ -396,7 +408,7 @@ C-------------
             IF (YLD(I) >= YMAX(I)) THEN
               H(I)=ZERO
             ELSE
-              H(I)=CN*CB(I)*EXP((CN-ONE)*LOG(EPSEQ(I)+SMALL))
+              H(I)=CN*CB(I)*EXP((CN-ONE)*LOG(PLA(I)+SMALL))
             ENDIF
             ETSE(I)= H(I)/(H(I)+YOUNG)
 C
@@ -409,7 +421,7 @@ C
             SIGNYY(I)=S2
             SIGNXY(I)=S3
             DPLA(I) = OFF(I)*(SVM(I)-YLD(I))/(THREE*G+H(I))
-            EPSEQ(I) = EPSEQ(I) + DPLA(I)
+            PLA(I) = PLA(I) + DPLA(I)
 C
             YLD(I) =YLD(I)+H(I)*DPLA(I)
           END DO ! DO J=1,NINDX
@@ -437,7 +449,7 @@ C------------------------------------------
           DO I = JFT,JLT
             IF (DPLA(I) > ZERO) THEN
 c ...... Parameter d(gama)
-              PLA_I =EPSEQ(I)
+              PLA_I =PLA(I)
               BETA = ONE-FISOKIN
               YLD(I) =MIN(YMAX(I),CA(I)+BETA*CB(I)*EXP(CN*LOG(PLA_I)))
               GAMA_IMP(I)= THREE_HALF*DPLA(I)/YLD(I)
@@ -462,7 +474,7 @@ C------------------------------------------
 #include "vectorize.inc" 
           DO J=1,NINDX
             I=INDEX(J)
-            PLA_I =EPSEQ(I)
+            PLA_I =PLA(I)
             BETA = ONE-FISOKIN
 C------YLD, H(I) should not be updated----
             IF (PLA_I == ZERO) THEN
