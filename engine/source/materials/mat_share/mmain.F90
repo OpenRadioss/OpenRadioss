@@ -461,7 +461,6 @@
           logical_userl_avail = .false.
           l_mulaw_called=.false.
           if(userl_avail/=0) logical_userl_avail = .true.
-
           lft = 1
           if(present(opt_mtn)) then
             mtn     = opt_mtn
@@ -764,13 +763,14 @@
 !     eos part1
 !-----------------------------------
           eostyp = mat_elem%mat_param(imat)%ieos
+          pnew(:) = zero
           if (eostyp > 0 .and. mtn /= 12 ) then
             call eosmain(0         ,nel      ,eostyp  ,pm        ,off      ,lbuf%eint,&
                          lbuf%rho  ,rho0     ,amu     ,amu2      ,espe     ,&
                          dvol      ,df       ,voln    ,mat       ,psh      ,&
-                         pnew      ,dpdm     ,dpde    ,lbuf%temp ,ecold    ,&
+                         pnew      ,dpdm     ,dpde    ,el_temp   ,ecold    ,&
                          bufmat    ,lbuf%sig ,lbuf%mu ,mtn       ,pold     ,&
-                         npf       ,tf       ,ebuf%var,nvareos , mat_elem%mat_param(imat),&
+                         npf       ,tf       ,ebuf%var,nvareos   ,mat_elem%mat_param(imat),&
                          lbuf%bfrac)
           endif
 !-----------------------------------
@@ -880,7 +880,8 @@
             &nel,      ipm,      rhoref,   rhosp,&
             &ipg,      lbuf%dmg, ity,      jtur,&
             &jthe,     jsph,     ismstr,   jsms,&
-            &lbuf%epsq,npg ,mat_elem%mat_param(imat)%ieos ,dpdm  ,fheat ,glob_therm)
+            &lbuf%epsq,npg ,mat_elem%mat_param(imat)%ieos ,dpdm  ,fheat ,&
+             glob_therm, jlag)
 !----------------
             if (istrain > 0 .and.&
             &(h3d_strain == 1 .or. th_strain == 1 )) then
@@ -1759,8 +1760,8 @@
             &            lbuf%temp,lbuf%epsd,cxx     ,df      ,dxx     , &
             &            dyy      ,dzz      ,d4      ,d5      ,d6      , &
             &            rho0     ,dpdm     ,sigy    ,defp    ,dpla    , &
-            &            espe     ,ecold    ,nel     ,jlag    ,fheat   , &
-            &            lbuf%vol)
+            &            espe     ,ecold    ,nel     ,jlag    ,jthe    , &
+            &            fheat   , lbuf%vol)
             if (jsph == 0) then
               call mqviscb(&
               &pm,       off,      lbuf%rho, lbuf%rk,&
@@ -1920,10 +1921,10 @@
             if (mtn /= 6 .and. mtn /= 17) then
               pnew(:) = zero
             endif
-            call eosmain(1       ,nel      ,eostyp  ,pm       ,off      ,lbuf%eint,&
+            call eosmain(1         ,nel      ,eostyp  ,pm       ,off      ,lbuf%eint,&
                        & lbuf%rho  ,rho0     ,amu     ,amu2     ,espe     ,&
                        & dvol      ,df       ,voln    ,mat      ,psh      ,&
-                       & pnew      ,dpdm     ,dpde    ,lbuf%temp,ecold    ,&
+                       & pnew      ,dpdm     ,dpde    ,el_temp  ,ecold    ,&
                        & bufmat    ,lbuf%sig ,lbuf%mu ,mtn      ,pold     ,&
                        & npf       ,tf       ,ebuf%var,nvareos , mat_elem%mat_param(imat),&
                        & lbuf%bfrac)

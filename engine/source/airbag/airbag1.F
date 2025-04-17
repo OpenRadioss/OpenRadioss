@@ -68,13 +68,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IMASS, ITEMP, ISENS, K, IFLU, IEQUI,
+      INTEGER I, IMASS, ITEMP, ISENS, IFLU, IEQUI,
      .        IDEF, NAV, II, IS, IDTPDEF,IDPDEF,
      .        IV, IJ,ITTF
       my_real
      .   PDEF, PEXT, PVOIS, DTPDEFC,
      .   GAMA, AMU, TSTART, TSG,
-     .   AMTOT, P, RO, DTX, POLD, DV,
+     .   AMTOT, P, POLD, DV,
      .   ROT, DYDX, FTEMP, FMASS, DT, AREA,
      .   CV, CP, CVG, CPG, CPA, CPB, CPC, CVI, CPI, CPAI, CPBI, CPCI,
      .   RMWI, RMWG,
@@ -98,27 +98,25 @@ C------------------------
         IDTPDEF= IBAGHOL(11,IV)
         IDPDEF = IBAGHOL(12,IV)
 C
-        IF (IDTPDEF==0) THEN
-        IF(IDEF==0.AND.POLD>PDEF+PEXT) THEN
+        IF (IDTPDEF == 0) THEN
+        IF(IDEF == 0 .AND. POLD > PDEF+PEXT) THEN
           DTPDEFC = DTPDEFC+DT1
         END IF
-        ELSE IF (IDTPDEF==1) THEN
-          IF (POLD>PDEF+PEXT) THEN
+        ELSE IF (IDTPDEF == 1) THEN
+          IF (POLD > PDEF+PEXT) THEN
             IDPDEF = 1
           END IF
-          IF (IDPDEF==1) THEN
+          IF (IDPDEF == 1) THEN
             DTPDEFC = DTPDEFC+DT1
           END IF
         END IF
         IBAGHOL(12,IV) = IDPDEF 
         RBAGHOL(5,IV)  = DTPDEFC
       ENDDO
-      IF(IMACH/=3.OR.ISPMD+1==PMAIN) THEN
+      IF(IMACH /= 3 .OR. ISPMD+1 == PMAIN) THEN
         DO IV=1,NVENT
-          RBAGHOL(19,IV)= RBAGHOL(19,IV)
-     .                           +RBAGHOL(21,IV)*DT1
-          RBAGHOL(20,IV)= RBAGHOL(20,IV)
-     .                           +RBAGHOL(22,IV)*DT1
+          RBAGHOL(19,IV)= RBAGHOL(19,IV)+RBAGHOL(21,IV)*DT1
+          RBAGHOL(20,IV)= RBAGHOL(20,IV)+RBAGHOL(22,IV)*DT1
         ENDDO
       END IF
 C     AIRBAG COMMUNIQUANTS
@@ -128,13 +126,8 @@ C     AIRBAG COMMUNIQUANTS
          IDEF   = ICBAG(3,I)
          PDEF   = RCBAG(1,I)
          DTPDEFC= RCBAG(5,I)
-c         PVOIS  =RVOLUV(12,II)
-c           afin d'eviter probleme de meme adressage memoire
-c           de RVOLU(12) et RVOLUV(12) on utilise RVOLU(31)
-c           qui etait dispo
-         PVOIS  =RVOLUV(31,II)
-         IF(IDEF==0.AND.POLD>PDEF+PVOIS)
-     .      RCBAG(5,I)=DTPDEFC+DT1
+         PVOIS  = RVOLUV(31,II)
+         IF(IDEF == 0 .AND .POLD > PDEF+PVOIS)RCBAG(5,I)=DTPDEFC+DT1
       ENDDO
 C---------------------
       AMU      =RVOLU(2)
@@ -145,24 +138,24 @@ C       changement d'etat ?
       ITTF=IVOLU(17)
         DO IJ=1,NJET
           ISENS=IBAGJET(4,IJ)
-          IF(ISENS==0)THEN
+          IF(ISENS == 0)THEN
            TSTART=ZERO
           ELSE
            TSTART=SENSOR_TAB(ISENS)%TSTART
           ENDIF
-          IF(TT>=TSTART)IS=1
-        IF(IEQUI==0)THEN
+          IF(TT >= TSTART)IS=1
+        IF(IEQUI == 0)THEN
           DGMOUT=RBAGJET(9,IJ)
-          IF(DGMOUT/=0.)IS=1
+          IF(DGMOUT /= ZERO)IS=1
         END IF
-        IF (IS==1.AND.(ITTF==1.OR.ITTF==2.OR.ITTF==3)) THEN
+        IF (IS == 1 .AND. (ITTF == 1 .OR. ITTF == 2 .OR. ITTF == 3)) THEN
           ITTF=ITTF+10
 C store in rvolu(60) airbag time to fire
             RVOLU(60)=TSTART
           IVOLU(17)=ITTF
           END IF
         ENDDO
-      IF(IEQUI==0)THEN
+      IF(IEQUI == 0)THEN
         TBAG_OLD =RVOLU(13)
         VOLD     =RVOLU(16)
         VEPS     =RVOLU(17)
@@ -175,9 +168,9 @@ C
         IF(DGMOUT/=ZERO)IS=1
 C
         DV = VOL-VOLD
-        IF(DV/=ZERO)IS=1
+        IF(DV /= ZERO)IS=1
       ELSE
-        IF(IS==1)THEN
+        IF(IS == 1)THEN
           TBAG_OLD =RVOLU(13)
           AREA     =RVOLU(18)
           IF(IEQUI==1)THEN
@@ -193,15 +186,11 @@ C           equilibre initial.
             RVOLU(14)= RMWI*GMI
             RVOLU(20)= GMI
             IF(IMACH/=3.OR.ISPMD+1==PMAIN) THEN
-         WRITE(IOUT,*)
-     .   ' *** MONITORED VOLUME : INITIAL EQUILIBRIUM IS SET ***'
-         WRITE(IOUT,'(A,I10,A,G20.13,A)') 
-     .   ' *** MONITORED VOLUME ',IVOLU(1),' VOLUME ',VOL,' ***'
-         WRITE(ISTDO,*)
-     .   ' *** MONITORED VOLUME : INITIAL EQUILIBRIUM IS SET ***'
+         WRITE(IOUT,*)' *** MONITORED VOLUME : INITIAL EQUILIBRIUM IS SET ***'
+         WRITE(IOUT,'(A,I10,A,G20.13,A)') ' *** MONITORED VOLUME ',IVOLU(1),' VOLUME ',VOL,' ***'
+         WRITE(ISTDO,*)' *** MONITORED VOLUME : INITIAL EQUILIBRIUM IS SET ***'
             ENDIF
             IVOLU(15)= -1
-C
             VOL      =VOL + VEPS
             VOLD     =VOL
             QOLD     =ZERO
@@ -217,7 +206,7 @@ C
       END IF
 C---------------------
 C
-      IF (IS/=0)THEN
+      IF (IS /= 0)THEN
 C---------------------
 C      FRACTION MOLAIRE
 C              inclus caracteristiques du gaz a l'initial.
@@ -225,7 +214,6 @@ C---------------------
 C      RNM=R*NM=R*M/MW
        RNM_OLD  =RVOLU(14)
        AMTOT_OLD=RVOLU(20)
-C
        LEFT =ZERO
        RIGHT=ZERO
        AMTOT=AMTOT_OLD
@@ -238,23 +226,19 @@ C---------------------
         IMASS=IBAGJET(1,IJ)
         IFLU =IBAGJET(2,IJ)
         ITEMP=IBAGJET(3,IJ)
-C
         ISENS=IBAGJET(4,IJ)
         IF(ISENS==0)THEN
          TSTART=ZERO
         ELSE
          TSTART=SENSOR_TAB(ISENS)%TSTART
         ENDIF
-C
         RMWG=RBAGJET(1,IJ)
         CPA =RBAGJET(2,IJ)
         CPB =RBAGJET(3,IJ)
         CPC =RBAGJET(4,IJ)
-C
-        IF(TT>=TSTART)THEN
+        IF(TT >= TSTART)THEN
          TSG = (TT-TSTART)*RVOLU(26)
-C
-         IF(ITEMP>0) THEN
+         IF(ITEMP > 0) THEN
            TEMP=FTEMP*FINTER(ITEMP,TSG,NPC,TF,DYDX)
          ELSE
            TEMP=FTEMP
@@ -265,10 +249,10 @@ C
 C
         GMTOT_OLD=RBAGJET(8,IJ)
         GMASS_OLD=RBAGJET(7,IJ)
-        IF(TT>=TSTART)THEN
-         IF(IMASS>0) THEN
+        IF(TT >= TSTART)THEN
+         IF(IMASS > 0) THEN
            GMASS=FMASS*FINTER(IMASS,TSG,NPC,TF,DYDX)
-           IF(IFLU==1)GMASS = GMASS*RVOLU(26)*DT1 + GMASS_OLD
+           IF(IFLU == 1)GMASS = GMASS*RVOLU(26)*DT1 + GMASS_OLD
          ELSE
            GMASS=FMASS
          ENDIF
@@ -278,32 +262,23 @@ C
          DGMASS=ZERO
          GMASS =ZERO
         ENDIF
-C
         DGMOUT=RBAGJET( 9,IJ)*DT1
         GMTOT =GMTOT_OLD+DGMASS-DGMOUT
         DGEOUT=RBAGJET(10,IJ)*DT1
-C
         RIGHT= RIGHT-DGEOUT
-        RIGHT= RIGHT+(DGMOUT-DGMASS)*TBAG_OLD*
-     .                 (CPA+HALF*CPB*TBAG_OLD
-     .                     +THIRD*CPC*TBAG_OLD*TBAG_OLD-RMWG)
-C
+        RIGHT= RIGHT+(DGMOUT-DGMASS)*TBAG_OLD*(CPA+HALF*CPB*TBAG_OLD+THIRD*CPC*TBAG_OLD*TBAG_OLD-RMWG)
         CVG  = CPA+CPB*TBAG_OLD+CPC*TBAG_OLD*TBAG_OLD-RMWG
         LEFT = LEFT +GMTOT*CVG
         RIGHT= RIGHT+GMTOT*CVG*TBAG_OLD
-C
         RBAGJET(8,IJ)=GMTOT
         RBAGJET(7,IJ)=GMASS
         AMTOT=AMTOT+GMTOT-GMTOT_OLD
-C
        ENDDO
-C
+
 C---------------------
 C      contribution du GAZ A L'INITIAL...
 C---------------------
-C
        DGMOUT=RVOLU(24)*DT1
-C
        CPAI   =RVOLU(7)
        CPBI   =RVOLU(8)
        CPCI   =RVOLU(9)
@@ -313,13 +288,9 @@ C
        GMI=GMI_OLD-DGMOUT
        DGEOUT=RVOLU(22)*DT1
 C
-       RIGHT=RIGHT+DGMOUT*TBAG_OLD*
-     .             (CPAI+HALF*CPBI*TBAG_OLD
-     .                  +THIRD*CPCI*TBAG_OLD*TBAG_OLD-RMWI)
-     .            -DGEOUT
+       RIGHT=RIGHT+DGMOUT*TBAG_OLD*(CPAI+HALF*CPBI*TBAG_OLD+THIRD*CPCI*TBAG_OLD*TBAG_OLD-RMWI)-DGEOUT
        LEFT  = LEFT+GMI*CVI
        RIGHT = RIGHT+GMI*CVI*TBAG_OLD
-C
        AMTOT=AMTOT-DGMOUT
        RVOLU(11)=GMI
 C---------------------
@@ -362,8 +333,6 @@ C---------------------
         CP   =CP+GMTOT*CPG
         CV   =CV+GMTOT*CVG
        ENDDO
-C      CP =CP/AMTOT
-C      CV =CV/AMTOT
        GAMA=CP/CV
 C------
        RVOLU(1) =GAMA
@@ -392,7 +361,7 @@ C------
        ENDDO
 C------
 C      DP/DRO GAZ PARFAIT+ADIABATIQUE=GAMA*R/MW*TBAG
-       CX = SQRT(2.*GAMA*P*VOL/(GAMA-1.)/(AMTOT+AREA*ROT))
+       CX = SQRT(TWO*GAMA*P*VOL/(GAMA-ONE)/(AMTOT+AREA*ROT))
        QX = AMU*CX
        DT = DTFAC1(9)*VOL/AREA/MAX(EM20,QX+SQRT(QX*QX+CX*CX))
        IF(DT<DT2)THEN
@@ -400,13 +369,13 @@ C      DP/DRO GAZ PARFAIT+ADIABATIQUE=GAMA*R/MW*TBAG
           NELTS =IVOLU(1)
           ITYPTS=9
        ENDIF
-       IF(IDTMIN(9)==1.AND.DT<DTMIN1(9)) THEN
+       IF(IDTMIN(9) == 1 .AND. DT < DTMIN1(9)) THEN
          TSTOP = TT
          IF (IMACH/=3.OR.ISPMD+1==PMAIN) THEN
            WRITE(IOUT,*)  '-- MINIMUM MONITORED VOLUME TIME STEP '
            WRITE(ISTDO,*) '-- MINIMUM MONITORED VOLUME TIME STEP '
          ENDIF
-       ELSEIF(IDTMIN(9)==5.AND.DT<DTMIN1(9)) THEN
+       ELSEIF(IDTMIN(9) == 5 .AND. DT < DTMIN1(9)) THEN
          MSTOP = 2
          IF (IMACH/=3.OR.ISPMD+1==PMAIN) THEN
            WRITE(IOUT,*)  '-- MINIMUM MONITORED VOLUME TIME STEP '

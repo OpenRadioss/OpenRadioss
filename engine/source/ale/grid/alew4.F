@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2   NALE    ,IPARG  ,NC      ,WB    ,
      3   IAD_ELEM,FR_ELEM,FR_NBCC ,SIZEN ,ADDCNE,
      4   PROCNE  ,FSKY   ,FSKYV   ,IADX  ,WMA   ,
-     5   NIX,     NIADX  ,ITAB  )
+     5   NIX,     NIADX  )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -74,7 +74,7 @@ C-----------------------------------------------
 !  (1:3, NUMNOD+1:) additional nodes (also on adjacent domains but connected to the boundary of the current domain)
 !      idem with D(SD), and V(SV)
 C-----------------------------------------------
-      INTEGER NALE(NUMNOD), IPARG(NPARG,NGROUP), NC(NIX,*), ADDCNE(*), PROCNE(*),ITAB(NUMNOD),
+      INTEGER NALE(NUMNOD), IPARG(NPARG,NGROUP), NC(NIX,*), ADDCNE(*), PROCNE(*),
      .        IAD_ELEM(2,*), FR_ELEM(*), FR_NBCC(2,*), IADX(NIADX,*) ,
      .        SIZEN, NIX, NIADX
       my_real X(3,SX/3), D(3,SD/3), V(3,SV/3), W(3,SW/3), WA(3,*), WB(3,*),

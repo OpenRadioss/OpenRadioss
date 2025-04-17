@@ -414,12 +414,71 @@
 
         contains
           procedure :: destruct => destruct_matparam
+          procedure :: zeroing => zeroing_matparam
 
       end type matparam_struct_
 
 
 
       contains
+
+      !||====================================================================
+      !||    zeroing_matparam   ../common_source/modules/mat_elem/matparam_def_mod.F90
+      !||====================================================================
+        subroutine zeroing_matparam(this)
+          use constant_mod , only : zero
+          implicit none
+          class(matparam_struct_), intent(inout) :: this
+
+            !initialize to 0 integer and real from data structure
+
+            this%rho = zero
+            this%rho0 = zero
+            this%young = zero
+            this%bulk = zero
+            this%shear = zero
+            this%nu = zero
+            this%stiff_contact = zero
+            this%stiff_hglass = zero
+            this%stiff_tstep = zero
+
+            !VISC
+            this%visc%ilaw = 0
+            this%visc%title = ''
+            this%visc%nuparam = 0
+            this%visc%niparam = 0
+            this%visc%nuvar = 0
+            this%visc%nfunc = 0
+            this%visc%ntable = 0
+
+            !THERM
+            this%therm%iform = 0
+            this%therm%func_thexp = 0
+            this%therm%tref = zero
+            this%therm%tmelt = zero
+            this%therm%rhocp = zero
+            this%therm%as = zero
+            this%therm%bs = zero
+            this%therm%al = zero
+            this%therm%bl = zero
+            this%therm%efrac = zero
+            this%therm%scale_thexp = zero
+
+            !EOS
+            this%eos%title = ''
+            this%eos%nuparam = 0
+            this%eos%niparam = 0
+            this%eos%nuvar = 0
+            this%eos%nfunc = 0
+            this%eos%ntable = 0
+            this%eos%isfluid = 0
+            this%eos%cv = zero
+            this%eos%cp = zero
+
+            !MULTIMAT
+            this%multimat%nb = 0
+
+        end subroutine zeroing_matparam
 
       !||====================================================================
       !||    destruct_matparam   ../common_source/modules/mat_elem/matparam_def_mod.F90

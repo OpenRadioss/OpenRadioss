@@ -71,15 +71,13 @@ C-----------------------------------------------
       INTEGER IPARG(NPARG,NGROUP), ITASK, LENCOM,IXTG(NIXTG,NUMELTG),
      .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),
      .        IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ),LGAUGE(3,NBGAUGE),IGAUP(NBGAUGE),NGAUP(NSPMD)   
-C     REAL
       my_real PHI(SPHI),GAUGE(LLGAUGE,NBGAUGE),X(3,NUMNOD),V(3,NUMNOD)
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_STR
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NG, JMUL, IADR, I, II,J,JJ(6), K,N,IG,IS,IGAUGE,IG0,
-     .        ITAG(NBGAUGE),NEL,NUMEL,NCONNECT
+      INTEGER NG, JMUL, IADR, I, II,J,JJ(6), N,IG,IS,IGAUGE,IG0,ITAG(NBGAUGE),NEL,NUMEL,NCONNECT
       my_real P,RHO,E,PA,U2,ALPHA(NBGAUGE)
       TYPE(G_BUFEL_) ,POINTER :: GBUF
 C-----------------------------------------------

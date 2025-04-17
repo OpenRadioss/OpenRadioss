@@ -51,7 +51,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2  ALE_CONNECT ,NVAR      ,ITASK   ,NERCVOIS ,NESDVOIS,
      3  LERCVOIS    ,LESDVOIS  ,LENCOM  ,SEGVAR   ,BHOLE   ,
      4  ITRIMAT     ,QMV       ,IFLG    ,IXS      ,IXQ     ,
-     5  PM          ,IPM       ,BUFMAT  ,X  )
+     5  PM          ,X  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -87,7 +87,7 @@ C-----------------------------------------------
       INTEGER IPARG(NPARG,NGROUP),NVAR,ITRIMAT, 
      .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*), LESDVOIS(*),
      .        BHOLE(*),IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ), LENCOM,
-     .        IFLG, ITASK, BUFMAT(*),IPM(NPROPMI,NUMMAT) 
+     .        IFLG, ITASK
 
       my_real FLUX(*), FLU1(*)          , PHI(*)     , 
      .        QMV(*) , PM(NPROPM,NUMMAT), X(3, NUMNOD)
@@ -137,10 +137,10 @@ C     ALE ON / OFF
          !-----------------------------!
          ! UNPLUG CONDITIONS           !
          !-----------------------------!
-         IF (JALE+JEUL == 0)              CYCLE
-         IF (IPARG(8,NG) == 1)            CYCLE
-         IF (MAX(1,JMUL) < NM)            CYCLE
-         IF (ITRIMAT /= 0.AND.MTN /= 51)  CYCLE
+         IF (JALE+JEUL == 0) CYCLE
+         IF (IPARG(8,NG) == 1) CYCLE
+         IF (MAX(1,JMUL) < NM) CYCLE
+         IF (ITRIMAT /= 0 .AND. MTN /= 51) CYCLE
          !-----------------------------!
          ! POINTERS FOR CURRENT GROUP  !
          !-----------------------------!
@@ -187,7 +187,7 @@ C     ALE ON / OFF
           !          out : EINT  (J)   !
           !----------------------------!
           ELSEIF (NVAR == 2) THEN 
-            IF(ITRIMAT==0)THEN
+            IF(ITRIMAT == 0)THEN
               pEINT=> LBUF%EINT(1:LLT)
               pVOL => LBUF%VOL(1:LLT)
             ELSE
@@ -268,7 +268,7 @@ C     ALE ON / OFF
           !          out : RHO*v_x *VOL   !         
           !-------------------------------!   
           ELSEIF (NVAR == 6) THEN
-            IF(ITRIMAT==0)THEN
+            IF(ITRIMAT == 0)THEN
               IDX      = 1
               NDIM     = 3
               VAR => GBUF%MOM(1:LLT*NDIM)  
@@ -287,7 +287,7 @@ C     ALE ON / OFF
           !          out : RHO*v_y *VOL !               
           !-----------------------------!         
           ELSEIF (NVAR == 7) THEN
-            IF(ITRIMAT==0)THEN         
+            IF(ITRIMAT == 0)THEN
               IDX      = 2
               NDIM     = 3
               VAR => GBUF%MOM(1:LLT*NDIM)  
@@ -306,7 +306,7 @@ C     ALE ON / OFF
           !          out : RHO*v_z *VOL !               
           !-----------------------------!                     
           ELSEIF (NVAR == 8) THEN
-            IF(ITRIMAT==0)THEN
+            IF(ITRIMAT == 0)THEN
               IDX      = 3
               NDIM     = 3
               VAR      => GBUF%MOM(1:LLT*NDIM)  
@@ -319,8 +319,8 @@ C     ALE ON / OFF
               ENDDO                                     
             ENDIF   
                        
-          ELSEIF (NVAR == 9 .AND. ISILENT==1) THEN
-          ELSEIF (NVAR ==10 .AND. ISILENT==1) THEN
+          ELSEIF (NVAR ==  9 .AND. ISILENT == 1) THEN
+          ELSEIF (NVAR == 10 .AND. ISILENT == 1) THEN
           ELSE
             !--------------------------!
             !    DEFAULT 3D CASE       !
@@ -355,12 +355,12 @@ C     ALE ON / OFF
           !    INTERFACE 22          !
           !--------------------------! 
          !Fill Secnd cells linked to current main cell with main cell value.
-         IF(INT22>0)THEN
+         IF(INT22 > 0)THEN
            NIN = 1
            pIAD22 => ELBUF_TAB(NG)%GBUF%TAG22(LFT:LLT) 
            DO I=LFT,LLT                   
              J                                      = I+NFT          
-             IB                                     = pIAD22(I)
+             IB                                     = NINT(pIAD22(I))
              IF(IB==0)CYCLE
              NUM                                    = BRICK_LIST(NIN,IB)%SecndList%Num
              MCELL                                  = BRICK_LIST(NIN,IB)%mainID
@@ -465,9 +465,9 @@ C=======================================================================
           NF1=NFT+1+(NM-1)*NUMELS
           NFX=NFT+(NM-1)*NUMELS      
           CALL A22CONV3(
-     1             PHI      , FLUX(6*NFX+1), FLU1(NF1)    ,
-     2             IOFF         , QMV(12*NFX+1), IFLG     ,
-     3             ITRIMAT  , NVAR         , ITASK        ,
+     1             PHI      , FLUX(6*NFX+1), FLU1(NF1),
+     2             IOFF     , QMV(12*NFX+1), IFLG     ,
+     3             ITRIMAT  , NVAR         , ITASK    ,
      4             ELBUF_TAB, IXS          , IPARG)      
         ENDIF
 
@@ -476,15 +476,15 @@ C     ALE ON / OFF
            IF (IPARG(76, NG)  ==  1) CYCLE ! --> OFF
            CALL VARCONDEC(JCODV,IPARG(34,NG),CODTOT)                                         
            IF (JCODV(NVAR) == 0) CYCLE                                                       
-           CALL INITBUF(IPARG    ,NG      ,                                                 
-     2           MTN     ,LLT     ,NFT     ,IADR    ,ITY     ,                               
-     3           NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,                               
-     4           JTHE    ,JLAG    ,JMUL    ,JHBE    ,JIVF    ,                               
-     5           NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,                               
-     6           IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,                               
-     7           ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )                               
+           CALL INITBUF(  IPARG   ,NG      ,
+     2                    MTN     ,LLT     ,NFT     ,IADR    ,ITY     ,
+     3                    NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4                    JTHE    ,JLAG    ,JMUL    ,JHBE    ,JIVF    ,
+     5                    NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6                    IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
+     7                    ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
            ISILENT = IPARG(64,NG)                                                            
-           IF (ISILENT==1)                   CYCLE  !silent boundaries law 11 & 51           
+           IF (ISILENT == 1)                   CYCLE  !silent boundaries law 11 & 51
            IF (IPARG(8,NG) == 1)             CYCLE                                           
            IF (MAX(1,JMUL) < NM)             CYCLE                                           
            IF (ITRIMAT /= 0 .AND. MTN /= 51) CYCLE                                           
@@ -507,7 +507,7 @@ C     ALE ON / OFF
            !        N V A R = 1         !                                                    
            !----------------------------!                                                    
            IF (NVAR == 1) THEN                                                               
-              IF(ITRIMAT==0)THEN                                                             
+              IF(ITRIMAT == 0)THEN
                 pRHO => LBUF%RHO(1:LLT)                                                      
               ELSE                                                                           
                 !USE PHASIS DATA                                                             
@@ -521,7 +521,7 @@ C     ALE ON / OFF
            !        N V A R = 2         !                                                    
            !----------------------------!                                                    
            ELSEIF (NVAR == 2) THEN                                                           
-              IF(ITRIMAT==0)THEN                                                             
+              IF(ITRIMAT == 0)THEN
                 pEINT=> LBUF%EINT(1:LLT)                                                     
               ELSE                                                                           
                 !USE PHASIS DATA                                                             
@@ -563,7 +563,7 @@ C     ALE ON / OFF
            !        N V A R = 7         !                                                    
            !----------------------------!                                                    
            ELSEIF (NVAR == 7) THEN                                                           
-             IF(ALEFVM_Param%IEnabled==0)THEN                                                              
+             IF(ALEFVM_Param%IEnabled == 0)THEN
                VAR => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(2*LLT+1:3*LLT)                   
              ELSE                                                                                                                                          
                VAR => ELBUF_TAB(NG)%GBUF%MOM(  LLT*1+1 : LLT*1+LLT )                                                         
@@ -594,9 +594,9 @@ C     ALE ON / OFF
              pVOL => LBUF%VOL(1:LLT)                                                         
              IF (ISOLNOD /= 4) THEN                                                          
                CALL ACONV3(                                                                  
-     1              VAR   , PHI    ,FLUX(6*NFX+1), FLU1(NF1) ,IXS    ,                       
-     2              ALE_CONNECT , IOFF   ,QMV(12*NFX+1), IFLG      ,ITRIMAT,                       
-     3              pIAD22, NVAR   ,ITASK)                                                            
+     1              VAR         , PHI    ,FLUX(6*NFX+1), FLU1(NF1) ,IXS    ,
+     2              ALE_CONNECT , IOFF   ,QMV(12*NFX+1), IFLG      ,                       
+     3              pIAD22      , NVAR   ,ITASK)
              ELSE                                                                            
                CALL A4CONV3(                                                                 
      1              VAR ,PHI,FLUX(6*NFX+1),FLU1(NF1),                                        
@@ -609,11 +609,11 @@ C     ALE ON / OFF
              NF1=NFT+1+(NM-1)*NUMELQ                                                         
              NFX=NFT+(NM-1)*NUMELQ                                                           
              IF (NMULT == 0) THEN                                                            
-               CALL ACONV2(VAR ,PHI,FLUX(4*NFX+1),FLU1(NF1),                                 
-     .                     ALE_CONNECT  ,QMV(8*NFX+1),IFLG, IXQ, X, NVAR,IOFF,ITRIMAT)                                
+               CALL ACONV2(VAR          ,PHI         ,FLUX(4*NFX+1),FLU1(NF1),
+     .                     ALE_CONNECT  ,QMV(8*NFX+1),IFLG         ,IXQ      ,
+     .                     X            ,IOFF         )
              ELSE                                                                            
-               CALL BCONV2(VAR ,PHI  ,FLUX(4*NFX+1),FLU1(NF1),                               
-     .                     ALE_CONNECT  ,BHOLE  ,NM )                                              
+               CALL BCONV2(VAR, PHI, FLUX(4*NFX+1), FLU1(NF1), ALE_CONNECT ,BHOLE ,NM)
              ENDIF                                                                           
            ENDIF !(N2D == 0)                                                                 
            !----------------------------!         

@@ -90,10 +90,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IADPOLH, N, ITYP, NNFV, NTRFV, NPOLH, IFV, INFO, IDONE
+      INTEGER N, ITYP, NNFV, NTRFV, NPOLH, IFV, INFO, IDONE
       INTEGER NJET, IADJET, RADJET, NVENT, IADHOL, RADHOL
       INTEGER K1,  K2,  KIBJET, KIBHOL, KIBALE
-      INTEGER KK1, KK2, KRBJET, KRBHOL, KRBALE,IERR
+      INTEGER KK1, KK2, KRBJET, KRBHOL, KRBALE
       INTEGER NNS, NTG, NBA, NTGA, NNA, NNI, NTGI, NNT, NTGT
       INTEGER KI1, KI2, KI3, KI4, KI5
       INTEGER KR1, KR2, KR3, KR4, KR5, KR6, KR7, KR8, KR9

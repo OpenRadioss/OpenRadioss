@@ -64,53 +64,49 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         LOGICAL :: ACTIVE_ALE_ELEMENT
-        INTEGER :: NG,I,II,NFT
-        INTEGER :: FIRST,LAST,LENCOM
+        INTEGER :: NG,I,NFT
+        INTEGER :: FIRST,LAST
         INTEGER :: ITY,MTN,JEUL
-
-        INTEGER :: INDX_RCV,INDX_SD,INDX_RCV_TMP,INDX_SD_TMP
-        INTEGER :: NUMBER_NODE
         my_real :: OFF_VALUE
-
+#ifdef MPI
         INTEGER :: IERROR
+#endif
 C-----------------------------------------------
         ! ---------------------------------
         IF(IALE+IEULER+ITHERM /= 0) THEN
-            ACTIVE_ALE_ELEMENT = .FALSE.
-            ! -------------------
-            ! loop over the element groups to find the deactivated ALE elements
-            DO NG=1,NGROUP
-                ITY = IPARG_L(5,NG)    
-                MTN = IPARG_L(1,NG) 
-                IF(ITY==1.OR.ITY==2)THEN
-                    JEUL = IPARG_L(11,NG) 
-                ELSEIF (MTN == 151 .AND. ITY == 7) THEN
-                    JEUL = IPARG_L(11,NG) 
-                ELSE
-                    JEUL = 0
-                END IF    
-                IF(IPARG_L(7,NG)+JEUL == 0)CYCLE
-                FIRST = 1
-                LAST = IPARG_L(2,NG)
-                NFT = IPARG_L(3,NG)
-                DO I=FIRST,LAST
-                    OFF_VALUE = ELBUF_TAB(NG)%GBUF%OFF(I)
-                    IF(OFF_VALUE/=ZERO) THEN
-                        ACTIVE_ALE_ELEMENT = .TRUE.
-                    ENDIF        
-                ENDDO
-            ENDDO
-            ! -------------------
-
-
-            IF(NSPMD>1) THEN
-#ifdef MPI
-                CALL MPI_ALLREDUCE(ACTIVE_ALE_ELEMENT,GLOBAL_ACTIVE_ALE_ELEMENT,1,
-     .                         MPI_LOGICAL,MPI_LOR,SPMD_COMM_WORLD,IERROR)
-#endif
+          ACTIVE_ALE_ELEMENT = .FALSE.
+          ! -------------------
+          ! loop over the element groups to find the deactivated ALE elements
+          DO NG=1,NGROUP
+            ITY = IPARG_L(5,NG)
+            MTN = IPARG_L(1,NG)
+            IF(ITY == 1 .OR. ITY == 2)THEN
+              JEUL = IPARG_L(11,NG)
+            ELSEIF (MTN == 151 .AND. ITY == 7) THEN
+              JEUL = IPARG_L(11,NG)
             ELSE
-                GLOBAL_ACTIVE_ALE_ELEMENT = ACTIVE_ALE_ELEMENT
-            ENDIF
+              JEUL = 0
+            END IF
+            IF(IPARG_L(7,NG)+JEUL == 0)CYCLE
+            FIRST = 1
+            LAST = IPARG_L(2,NG)
+            NFT = IPARG_L(3,NG)
+            DO I=FIRST,LAST
+                OFF_VALUE = ELBUF_TAB(NG)%GBUF%OFF(I)
+                IF(OFF_VALUE /= ZERO) THEN
+                    ACTIVE_ALE_ELEMENT = .TRUE.
+                ENDIF
+            ENDDO
+          ENDDO
+          ! -------------------
+
+          IF(NSPMD>1) THEN
+#ifdef MPI
+            CALL MPI_ALLREDUCE(ACTIVE_ALE_ELEMENT,GLOBAL_ACTIVE_ALE_ELEMENT,1,MPI_LOGICAL,MPI_LOR,SPMD_COMM_WORLD,IERROR)
+#endif
+          ELSE
+              GLOBAL_ACTIVE_ALE_ELEMENT = ACTIVE_ALE_ELEMENT
+          ENDIF
         ELSE
             GLOBAL_ACTIVE_ALE_ELEMENT = .TRUE.
         ENDIF

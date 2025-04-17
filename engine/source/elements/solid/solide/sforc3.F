@@ -986,7 +986,7 @@ C Stress computation according to material laws
 C
       CALL MMAIN(TIMERS,
      1   ELBUF_TAB,   NG,          PM,          GEO,
-     2                ALE_CONNECT, IXS,         IPARG,
+     2   ALE_CONNECT, IXS,         IPARG,
      3   V,           TF,          NPF,         BUFMAT,
      4   STI,         X,           DT2T,        NELTST,
      5   ITYPTST,     OFFSET,      NEL,         W,
@@ -1014,7 +1014,7 @@ C
      R   H3D_STRAIN,  JPLASOL,     JSPH,        SZ_BUFVOIS,
      T   SNPC,        STF,         SBUFMAT,     GLOB_THERM,
      .   SVIS,        SZ_IX,       IRESP,       
-     .   N2D,         th_strain,   NGROUP,TT, 
+     .   N2D,         th_strain,   NGROUP,      TT,
      .   DT1,         NTABLE,      NUMELQ,      nummat,
      .   numgeo,      numnod,      numels,            
      .   IDEL7NOK,    IDTMIN,      MAXFUNC,

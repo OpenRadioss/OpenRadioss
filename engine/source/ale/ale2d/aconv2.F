@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
       !||====================================================================
-      SUBROUTINE ACONV2(VTOT,PHI,FLUX,FLU1,ALE_CONNECT,QMV,IFLG, IXQ, X,NVAR, IOFF, ITRIMAT)
+      SUBROUTINE ACONV2(VTOT,PHI,FLUX,FLU1,ALE_CONNECT,QMV,IFLG, IXQ, X, IOFF)
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -46,8 +46,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IFLG, IXQ(NIXQ, NUMELQ),NVAR
-      INTEGER,INTENT(IN) :: IOFF, ITRIMAT
+      INTEGER IFLG, IXQ(NIXQ, NUMELQ)
+      INTEGER,INTENT(IN) :: IOFF
       my_real VTOT(*), PHI(*), FLUX(4,*), FLU1(*), QMV(8,*), X(3,NUMNOD)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------

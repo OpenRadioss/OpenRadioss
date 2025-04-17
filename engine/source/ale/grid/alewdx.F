@@ -181,8 +181,8 @@ C----------------------------------------
             CALL MY_BARRIER
             CALL ALEW(
      1           X         ,D      ,V       ,W       ,WA      ,
-     2           ALE_CONNECTIVITY%NN_CONNECT     ,ALE_CONNECTIVITY%NALE   ,NODFT   ,NODLT   ,ITASK   ,
-     3           NBRCVOIS,NBSDVOIS,LNRCVOIS ,LNSDVOIS,ITAB         )
+     2           ALE_CONNECTIVITY%NN_CONNECT     ,ALE_CONNECTIVITY%NALE   ,NODFT   ,NODLT ,
+     3           NBRCVOIS,NBSDVOIS,LNRCVOIS ,LNSDVOIS  )
             CALL MY_BARRIER
 
           !-------------------------!
@@ -190,9 +190,9 @@ C----------------------------------------
           !-------------------------!
           CASE(1)
             CALL ALEW1(
-     1           X         ,D       ,V       ,W       ,
-     2           ALE_CONNECTIVITY%NN_CONNECT     ,ALE_CONNECTIVITY%NALE    ,NODFT   ,NODLT   ,ITASK   ,
-     3           NBRCVOIS  ,NBSDVOIS,LNRCVOIS,LNSDVOIS,ITAB         )
+     1           D       ,V       ,W       ,
+     2           ALE_CONNECTIVITY%NN_CONNECT     ,ALE_CONNECTIVITY%NALE    ,NODFT   ,NODLT   ,
+     3           NBRCVOIS  ,NBSDVOIS,LNRCVOIS,LNSDVOIS         )
             CALL MY_BARRIER
 
           !-------------------------!
@@ -204,7 +204,7 @@ C----------------------------------------
      1            X       ,D      ,V       ,W    ,WA   ,
      2            ALE_CONNECTIVITY%NALE    ,IPARG  ,IXS     ,WB   ,
      3            IAD_ELEM,FR_ELEM,FR_NBCC ,SIZEN,ADSKY,
-     4            PROCNE  ,FSKY   ,FSKY    ,IADS ,ITAB      )
+     4            PROCNE  ,FSKY   ,FSKY    ,IADS )
             ENDIF
 
           !-------------------------!
@@ -227,15 +227,15 @@ C----------------------------------------
      2               ALE_CONNECTIVITY%NALE    ,IPARG  ,IXS     ,WB   ,
      3               IAD_ELEM,FR_ELEM,FR_NBCC ,SIZEN,ADSKY         ,
      4               PROCNE  ,FSKY   ,FSKY    ,IADS ,WB(1+3*NUMNOD),
-     5               NIXS    ,NIADX  ,ITAB )
+     5               NIXS    ,NIADX  )
               ELSE
                 NIADX=4
                 CALL ALEW4(
-     1               X       ,D      ,V       ,W    ,WA            ,
-     2               ALE_CONNECTIVITY%NALE    ,IPARG  ,IXQ     ,WB   ,
-     3               IAD_ELEM,FR_ELEM,FR_NBCC ,SIZEN,ADSKY         ,
-     4               PROCNE  ,FSKY   ,FSKY    ,IADQ ,WB(1+3*NUMNOD),
-     5               NIXQ    ,NIADX  ,ITAB  )
+     1               X                      ,D       ,V       ,W     ,WA            ,
+     2               ALE_CONNECTIVITY%NALE  ,IPARG   ,IXQ     ,WB    ,
+     3               IAD_ELEM               ,FR_ELEM ,FR_NBCC ,SIZEN ,ADSKY         ,
+     4               PROCNE                 ,FSKY    ,FSKY    ,IADQ  ,WB(1+3*NUMNOD),
+     5               NIXQ                   ,NIADX  )
               ENDIF
             ENDIF
 
@@ -245,10 +245,10 @@ C----------------------------------------
           CASE(5)
             CALL MY_BARRIER
             CALL ALEW5(
-     1           X         ,D       ,V       ,W       ,WA       ,
-     2           ALE_CONNECTIVITY%NN_CONNECT     ,ALE_CONNECTIVITY%NALE    ,NODFT   ,NODLT   ,ITASK   ,
-     3           NBRCVOIS  ,NBSDVOIS,LNRCVOIS,LNSDVOIS,ITAB       ,
-     4           SKEW, ISKEW,ICODT)
+     1           X                           ,V                     ,W       , WA     ,
+     2           ALE_CONNECTIVITY%NN_CONNECT ,ALE_CONNECTIVITY%NALE ,NODFT   , NODLT  ,
+     3           NBRCVOIS                    ,NBSDVOIS              ,LNRCVOIS, LNSDVOIS,
+     4           SKEW                        ,ISKEW                 ,ICODT)
             CALL MY_BARRIER
 
           !-------------------------!
@@ -257,11 +257,11 @@ C----------------------------------------
           CASE(6)
             CALL MY_BARRIER
             CALL ALEW6(
-     1           X         ,D       ,V       ,W       ,WA       ,
-     .           XCELL, XFACE,
-     2           ALE_CONNECTIVITY%NN_CONNECT     ,ALE_CONNECTIVITY%NE_CONNECT,ALE_CONNECTIVITY%NALE    ,NODFT   ,NODLT   ,ITASK   ,
-     3           NBRCVOIS  ,NBSDVOIS,LNRCVOIS,LNSDVOIS,ITAB,NE_NERCVOIS, NE_NESDVOIS, NE_LERCVOIS, NE_LESDVOIS,
-     4           ELBUF_TAB, IPARG, IXS, IXQ)
+     1           X                          , V                        ,W          , WA          ,
+     .           XCELL                      , XFACE                    ,
+     2           ALE_CONNECTIVITY%NE_CONNECT, ALE_CONNECTIVITY%NALE    ,NODFT      , NODLT       ,ITASK   ,
+     3           NE_NERCVOIS                , NE_NESDVOIS              ,NE_LERCVOIS, NE_LESDVOIS,
+     4           ELBUF_TAB                  , IPARG                    ,IXS        , IXQ)
             CALL MY_BARRIER
 
           !-------------------------------!

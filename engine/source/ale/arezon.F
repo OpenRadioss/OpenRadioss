@@ -45,7 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1  IPARG   ,ELBUF_STR,FLUX    ,PHI   ,ALE_CONNECT   ,
      2  NDIM    ,NVAR     ,NV      ,ITASK ,NERCVOIS,
      3  NESDVOIS,LERCVOIS ,LESDVOIS,LENCOM,BHOLE   ,
-     4  ITRIMAT ,IXS)
+     4  ITRIMAT )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -72,7 +72,7 @@ C-----------------------------------------------
       INTEGER NDIM, NVAR, ITASK, LENCOM,ITRIMAT,NV,
      .        IPARG(NPARG,NGROUP), 
      .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),
-     .        BHOLE(*),IXS(NIXS,NUMELS)
+     .        BHOLE(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_STR
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
@@ -106,10 +106,11 @@ C     ALE ON / OFF
         !-----------------------------!
         ! UNPLUG CONDITIONS           !
         !-----------------------------!
+        IF (ITRIMAT > 0 .AND. MTN /= 51) CYCLE
         IF (NVAR == 11 .AND. MTN /= 81) CYCLE
-        IF (JALE+JEUL == 0)             CYCLE
-        IF (IPARG(8,NG) == 1)           CYCLE
-        IF (MAX(1,JMULT) < NM)         CYCLE
+        IF (JALE+JEUL == 0) CYCLE
+        IF (IPARG(8,NG) == 1) CYCLE
+        IF (MAX(1,JMULT) < NM) CYCLE
         ! pressurer rezoning for outlets (continuity)
         IF( JMULT /= 0) MTN =IPARG(24+NM,NG)
         IF (NVAR == 10 .AND.(MTN == 37)) CYCLE
@@ -125,7 +126,7 @@ C     ALE ON / OFF
         !            (SIGMA)         !
         !----------------------------!
         IF (NVAR == 2 .AND. IRS == 1) THEN
-          IF (ITRIMAT>0.AND.MTN == 51) THEN
+          IF (ITRIMAT > 0 .AND. MTN == 51) THEN
             ADD    = M51_N0PHAS + (ITRIMAT-1)*M51_NVPHAS + IDX          ! ADD+1 => SIG(1)
             ADD    = ADD *LLT
             DO I=LFT,LLT
@@ -232,8 +233,8 @@ C     ALE ON / OFF
         IF (IPARG(8,NG) == 1)           CYCLE
         IF (ITRIMAT /= 0.AND.MTN /= 51) CYCLE
         IF (JMULT /= 0) MTN = IPARG(24+NM,NG)
-        IF (NVAR == 10.AND.(MTN == 37)) CYCLE
-        IF (NVAR == 10.AND.MTN==51.AND.ITRIMAT==0) CYCLE
+        IF (NVAR == 10 .AND. (MTN == 37)) CYCLE
+        IF (NVAR == 10 .AND. MTN==51 .AND. ITRIMAT == 0) CYCLE
         IF (NVAR == 12 .AND. ELBUF_STR(NG)%GBUF%G_TEMP == 0) CYCLE
         !-----------------------------!
         IRS=IPARG(15,NG)
@@ -259,7 +260,7 @@ C     ALE ON / OFF
           ENDIF
           IF (N2D == 0) THEN
             TAG22  => ELBUF_STR(NG)%GBUF%TAG22(1:LLT)
-            CALL AREZO3_SIG(ALE_CONNECT,SIG,INDX,PHI,NDIM,FLUX(6*NFT+1),VOL,TAG22,IXS,ITRIMAT,NEL)
+            CALL AREZO3_SIG(ALE_CONNECT,SIG,INDX,PHI,NDIM,FLUX(6*NFT+1),VOL,TAG22,NEL)
           ELSE
             NFX = NFT+(NM-1)*NUMELQ
             IF (NMULT == 0) THEN
@@ -296,13 +297,13 @@ C     ALE ON / OFF
           ENDIF        
           IF (N2D == 0) THEN 
             TAG22  => ELBUF_STR(NG)%GBUF%TAG22(1:LLT) 
-            CALL AREZO3(ALE_CONNECT,VAR,IDX,PHI,NDIM,FLUX(6*NFT+1),VOL,TAG22,IXS,ITRIMAT)
+            CALL AREZO3(ALE_CONNECT,VAR,PHI,FLUX(6*NFT+1),VOL,TAG22)
           ELSE                                                        
             NFX=NFT+(NM-1)*NUMELQ                                     
             IF(NMULT == 0)THEN                                        
-              CALL AREZO2(ALE_CONNECT,VAR,IDX,PHI,NDIM,FLUX(4*NFX+1),VOL)
+              CALL AREZO2(ALE_CONNECT,VAR,PHI,FLUX(4*NFX+1),VOL)
             ELSE                                                      
-              CALL BREZO2(ALE_CONNECT,VAR,IDX,PHI,NDIM,FLUX(4*NFX+1),VOL,BHOLE,NM)
+              CALL BREZO2(ALE_CONNECT,VAR,PHI,FLUX(4*NFX+1),VOL,BHOLE,NM)
             ENDIF                                                     
           ENDIF                                                       
         !----------------------------!
@@ -318,13 +319,13 @@ C     ALE ON / OFF
           ENDDO  
           IF (N2D == 0) THEN                                   
             TAG22  => ELBUF_STR(NG)%GBUF%TAG22(1:LLT)
-            CALL AREZO3(ALE_CONNECT,VAR,IDX,PHI,NDIM,FLUX(6*NFT+1),VOL,TAG22,IXS,ITRIMAT)
+            CALL AREZO3(ALE_CONNECT,VAR,PHI,FLUX(6*NFT+1),VOL,TAG22)
           ELSE                                                        
             NFX=NFT+(NM-1)*NUMELQ                                     
             IF(NMULT == 0)THEN                                        
-              CALL AREZO2(ALE_CONNECT,VAR,IDX,PHI,NDIM,FLUX(4*NFX+1),VOL)
+              CALL AREZO2(ALE_CONNECT,VAR,PHI,FLUX(4*NFX+1),VOL)
             ELSE                                                      
-              CALL BREZO2(ALE_CONNECT,VAR,IDX,PHI,NDIM,FLUX(4*NFX+1),VOL,BHOLE,NM)
+              CALL BREZO2(ALE_CONNECT,VAR,PHI,FLUX(4*NFX+1),VOL,BHOLE,NM)
             ENDIF                                                     
           ENDIF
 
@@ -348,13 +349,13 @@ C     ALE ON / OFF
           ENDIF
           IF (N2D == 0) THEN
             TAG22  => ELBUF_STR(NG)%GBUF%TAG22(1:LLT)
-            CALL AREZO3(ALE_CONNECT,TEMP,IDX,PHI,NDIM,FLUX(6*NFT+1),VOL,TAG22,IXS,ITRIMAT)
+            CALL AREZO3(ALE_CONNECT,TEMP,PHI,FLUX(6*NFT+1),VOL,TAG22)
           ELSE
             NFX=NFT+(NM-1)*NUMELQ
             IF(NMULT == 0)THEN
-              CALL AREZO2(ALE_CONNECT,TEMP,IDX,PHI,NDIM,FLUX(4*NFX+1),VOL)
+              CALL AREZO2(ALE_CONNECT,TEMP,PHI,FLUX(4*NFX+1),VOL)
             ELSE
-              CALL BREZO2(ALE_CONNECT,TEMP,IDX,PHI,NDIM,FLUX(4*NFX+1),VOL,BHOLE,NM)
+              CALL BREZO2(ALE_CONNECT,TEMP,PHI,FLUX(4*NFX+1),VOL,BHOLE,NM)
             ENDIF
           ENDIF
 

@@ -65,7 +65,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,NJ1,NJ2,NJ3,IPT,IPA,IPZ,
-     .        N1,N2,N3,N4,IJ,ISENS,K,
+     .        N1,N2,N3,N4,IJ,ISENS,
      .        ITYP
       my_real PRES,FX,FY,FZ,P,PEXT,DP,Q,PJ,PJ0,DYDX,XX,YY,ZZ,
      .   THETA,NX1,NX2,NY1,NY2,NZ1,NZ2,AN1,AN,

@@ -36,11 +36,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    elbufdef_mod           ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||====================================================================
       SUBROUTINE ALEW6( 
-     1     X             ,D             , V       ,W       ,WA      ,
-     .     XCELL         , XFACE        ,
-     2     ALE_NN_CONNECT,ALE_NE_CONNECT, NALE    ,NODFT   ,NODLT   ,ITASK   ,
-     3     NBRCVOIS      ,NBSDVOIS      , LNRCVOIS,LNSDVOIS,ITAB    ,NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS,
-     4     ELBUF_TAB     , IPARG        , IXS     , IXQ)
+     1     X             , V        ,W       ,WA       ,
+     .     XCELL         ,XFACE     ,
+     2     ALE_NE_CONNECT,NALE      ,NODFT   ,NODLT    ,ITASK   ,
+     3     NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS,
+     4     ELBUF_TAB     ,IPARG     ,IXS     ,IXQ)
 C-----------------------------------------------
 C     D e s c r i p t i o n
 C-----------------------------------------------
@@ -79,16 +79,15 @@ C-----------------------------------------------
 !      idem with D(SD), and V(SV)
 C-----------------------------------------------
       INTEGER NALE(NUMNOD), NODFT, NODLT, ITASK,
-     .        NBRCVOIS(*),NBSDVOIS(*),
-     .        LNRCVOIS(*),LNSDVOIS(*),ITAB(NUMNOD),IPARG(NPARG,NGROUP),IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ)
-      my_real X(3,SX/3), D(3,SD/3), V(3,SV/3), W(3,SW/3), WA(3,*), XCELL(3, *), XFACE(3,6,*)  
-      TYPE(t_connectivity), INTENT(IN) :: ALE_NN_CONNECT, ALE_NE_CONNECT
+     .        IPARG(NPARG,NGROUP),IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ)
+      my_real X(3,SX/3), V(3,SV/3), W(3,SW/3), WA(3,*), XCELL(3, *), XFACE(3,6,*)
+      TYPE(t_connectivity), INTENT(IN) :: ALE_NE_CONNECT
       INTEGER, INTENT(IN) :: NERCVOIS(*), NESDVOIS(*), LERCVOIS(*), LESDVOIS(*)
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IA(6), LENCOM
+      INTEGER I, LENCOM
       INTEGER :: IAD1, IAD2, NG, NEL, NFT, ITY, ISOLNOD, IEL, ELT_ID
       my_real :: SUM_VOL, Y1, Y2, Y3, Y4, Z1, Z2, Z3, Z4, A1, A2
 C     ---------------------------------------------
