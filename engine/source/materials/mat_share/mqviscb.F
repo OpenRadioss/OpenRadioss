@@ -42,7 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE MQVISCB(
      1   PM,      OFF,     RHO,     RK,
-     2   T,       SSP,     RE,      STI,
+     2   TEMP,    SSP,     RE,      STI,
      3   DT2T,    NELTST,  ITYPTST, AIRE,
      4   OFFG,    GEO,     PID,     VOL,
      5   VD2,     DELTAX,  VIS,     D1,
@@ -97,7 +97,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: JSMS,NPG
       INTEGER NELTST,ITYPTST,PID(*),MAT(*), NGL(*),IGEO(NPROPGI,NUMGEO),G_DT,IPM(NPROPMI,NUMMAT)
       my_real DT2T
-      my_real PM(NPROPM,NUMMAT), OFF(*), RHO(*), RK(*), T(*), RE(*),STI(*),
+      my_real PM(NPROPM,NUMMAT), OFF(*), RHO(*), RK(*), TEMP(*), RE(*),STI(*),
      .        OFFG(*),GEO(NPROPG,NUMGEO),
      .        VOL(*), VD2(*), DELTAX(*), SSP(*), AIRE(*), VIS(*), 
      .        PSH(*), PNEW(*),QVIS(*) ,SSP_EQ(*),CONDE(*), 
@@ -286,10 +286,10 @@ C
         BK2 = PM(78,MT)
         TLI = PM(80,MT)
        DO I=1,NEL       
-        IF(T(I)<TLI)THEN
-         AKK=AK1+BK1*T(I)
+        IF(TEMP(I)<TLI)THEN
+         AKK=AK1+BK1*TEMP(I)
         ELSE
-         AKK=AK2+BK2*T(I)
+         AKK=AK2+BK2*TEMP(I)
         ENDIF
         IF(JTUR/=0)THEN
          XMU = RHO(I)*PM(24,MT)
@@ -597,10 +597,10 @@ C
           AK2 = PM(77,MT)
           BK2 = PM(78,MT)
           TLI = PM(80,MT)
-          IF(T(I)<TLI)THEN
-           AKK=AK1+BK1*T(I)
+          IF(TEMP(I)<TLI)THEN
+           AKK=AK1+BK1*TEMP(I)
           ELSE
-           AKK=AK2+BK2*T(I)
+           AKK=AK2+BK2*TEMP(I)
           ENDIF
           IF(JTUR/=0)THEN
            XMU = RHO(I)*PM(24,MT)
@@ -648,10 +648,10 @@ C--------------------------
         BK2 = PM(78,MT)
         TLI = PM(80,MT)
        DO I=1,NEL
-        IF(T(I)<TLI)THEN
-         AKK=AK1+BK1*T(I)
+        IF(TEMP(I)<TLI)THEN
+         AKK=AK1+BK1*TEMP(I)
         ELSE
-         AKK=AK2+BK2*T(I)
+         AKK=AK2+BK2*TEMP(I)
         ENDIF
         IF(JTUR/=0)THEN
          XMU = RHO(I)*PM(24,MT)
