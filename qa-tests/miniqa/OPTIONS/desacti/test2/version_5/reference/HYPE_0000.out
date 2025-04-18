@@ -3403,7 +3403,7 @@ IE        KE        XMOM      YMOM      ZMOM      MASS      HE        ERODED    
     STARTER STORAGE 
     --------------- 
  
-    STARTER MEMORY USAGE        154 MB
+    STARTER MEMORY USAGE        152 MB
 
 
      LOCAL ENGINE STORAGE EVALUATION FOR SPMD PROCESSOR     1
@@ -3424,20 +3424,20 @@ IE        KE        XMOM      YMOM      ZMOM      MASS      HE        ERODED    
  CPU USER TIME
  -------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .2106E+00   .1638E+00   .3651E-02   .3010E-05   .3010E-05   .9802E-04   .1997E-05
+.0000E+00   .2495E+00   .2032E+00   .4801E-02   .3010E-05   .2980E-05   .1500E-03   .3010E-05
   
   
  ELAPSED TIME
  ------------
  TRANSLATOR  FREEFORM    LECTURE     DDSPLIT     IPARI_L_INI INTBUF_INI  SPL_INTS    W_FI        
-.0000E+00   .1609E+06   .1938E+00   .3774E-02   .2547E-05   .2924E-05   .9804E-04   .1891E-05
+.0000E+00   .6872E+04   .2490E+00   .5026E-02   .3595E-05   .3899E-05   .1505E-03   .2519E-05
   
                    ** COMPUTE TIME INFORMATION **
   
- EXECUTION STARTED      :      2025/03/24  18:49:34
- EXECUTION COMPLETED    :      2025/03/24  18:49:35
+ EXECUTION STARTED      :      2025/04/18  11:52:53
+ EXECUTION COMPLETED    :      2025/04/18  11:52:54
   
- ELAPSED TIME...........=          0.92 s
+ ELAPSED TIME...........=          0.95 s
                                00:00:00
   
 ------------------------------------------------------------------------

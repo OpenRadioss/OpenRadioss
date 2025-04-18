@@ -449,7 +449,6 @@
           &irep,iint,igtyp,jcvt,isrot,israt,isorth,isorthg,icsen,ifailure,&
           &jsms, ihet, ipartsph,lf_dammx,niparam
           integer, dimension(:) ,pointer  :: iparamf
-          integer isfluid
           my_real :: cv,cp     !< specific heat capacity (J/K)
           my_real :: mcv       !< mass.Cv (J/K)
           my_real :: qheat     !< HEat due to pseudo-viscosity
@@ -1963,13 +1962,6 @@
                 endif
                enddo
             endif
-            isfluid = mat_elem%mat_param(imat)%eos%isfluid
-            if(isfluid == 0)then
-             !solid material modeling
-              do i=1,nel
-                lbuf%temp(i) = max(lbuf%temp(i), three100)
-              end do
-            end if
 
           end if
 
