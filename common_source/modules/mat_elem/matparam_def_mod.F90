@@ -424,6 +424,8 @@
 
       !||====================================================================
       !||    zeroing_matparam   ../common_source/modules/mat_elem/matparam_def_mod.F90
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod       ../common_source/modules/constant_mod.F
       !||====================================================================
         subroutine zeroing_matparam(this)
           use constant_mod , only : zero

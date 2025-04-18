@@ -224,6 +224,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    updfail                                  ../starter/source/materials/updfail.F90
       !||    velrot_explicit                          ../engine/source/constraints/general/rbody/velrot_explicit.F90
       !||    visc_plas                                ../engine/source/materials/visc/visc_plas.F90
+      !||    zeroing_matparam                         ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||====================================================================
       module constant_mod
         implicit none

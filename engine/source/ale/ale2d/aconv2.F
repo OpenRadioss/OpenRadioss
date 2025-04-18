@@ -24,8 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    aconv2                 ../engine/source/ale/ale2d/aconv2.F
       !||--- called by ------------------------------------------------------
       !||    aconve                 ../engine/source/ale/aconve.F
-      !||--- calls      -----------------------------------------------------
-      !||    nvar                   ../engine/source/input/nvar.F
       !||--- uses       -----------------------------------------------------
       !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
       !||====================================================================
