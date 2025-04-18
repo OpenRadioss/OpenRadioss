@@ -106,7 +106,7 @@ C
            ENDIF
 
             SIZ = L-L0
-c                  print *,'recoit siz',ispmd+1,i,siz
+c                  print *,'recoit siz',ispmd+1,i,ni25,siz
             IF(SIZ > 0)THEN
               MSGTYP = MSGOFF
               NBIRECV = NBIRECV + 1
@@ -139,6 +139,8 @@ C                WRITE(6,"(2I10,A,I10,3Z20)") E,M," SEND TO",I-1,NOD_NORMAL(1,E,
 C                ENDIF
 C#endif 
 c                  print *,'envoi',ispmd+1,i,j-IAD_FREDG(NI25,I)+1,mseglo(m),mvoisin(e,m)
+c       if((ispmd==1.or.ispmd==3).and.(i==2.or.i==4).and.ni25==1)print *,'envoi',ispmd+1,NI25,i,j-IAD_FREDG(NI25,I)+1,mseglo(m),mvoisin(e,m)
+
               ENDDO
             ENDIF
             IF(IAD_FRNOR(NI25,I+1)-IAD_FRNOR(NI25,I)>0) THEN
@@ -175,7 +177,7 @@ c                  print *,'envoi',ispmd+1,i,j-IAD_FREDG(NI25,I)+1,mseglo(m),mvo
             ENDIF
 
             SIZ = L-L0
-c                  print *,'envoi siz',ispmd+1,i,siz
+c                  print *,'envoi siz',ispmd+1,i,ni25,siz
             IF(SIZ > 0)THEN
               MSGTYP = MSGOFF
               NBISEND = NBISEND + 1

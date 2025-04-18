@@ -69,7 +69,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !
           ! --------------------------
-          criteria = abs(local_normal(1)*remote_normal(1) + local_normal(2)*remote_normal(2) + local_normal(3)*remote_normal(3)) ! compute the angle between the 2 segments "segment_id" and the "n_segment_id"
+          criteria = local_normal(1)*remote_normal(1) + local_normal(2)*remote_normal(2) + local_normal(3)*remote_normal(3) ! compute the angle between the 2 segments "segment_id" and the "n_segment_id"
           ! --------------------------
 !
 ! ----------------------------------------------------------------------------------------------------------------------
