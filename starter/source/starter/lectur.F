@@ -10600,7 +10600,8 @@ C----------------------------------------------
      K        SIGI        ,NSIGBEAM   ,SIGBEAM         ,NSIGTRUSS     ,SIGTRUSS         ,
      L        NSIGRS      ,SIGRS      ,MERGE_NODE_TAB  ,MERGE_NODE_TOL,
      M        IMERGE      ,NMERGE_TOT ,IEXLNK ,DRAPEG  ,USER_WINDOWS  ,OUTPUT           ,
-     N        DEFAULTS    ,GLOB_THERM ,PBLAST ,IBEAM_VECTOR,RBEAM_VECTOR)
+     N        DEFAULTS    ,GLOB_THERM ,PBLAST          ,IBEAM_VECTOR  ,RBEAM_VECTOR     ,
+     O        DAMP_RANGE_PART)
 !
       DEALLOCATE(SIGI)
       DEALLOCATE(SIGSH)
