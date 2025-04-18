@@ -246,7 +246,7 @@ C----------------------------------------
             CALL MY_BARRIER
             CALL ALEW5(
      1           X                           ,V                     ,W       , WA     ,
-     2           ALE_CONNECTIVITY%NN_CONNECT ,ALE_CONNECTIVITY%NALE ,NODFT   , NODLT  ,
+     2           ALE_CONNECTIVITY%NN_CONNECT ,ALE_CONNECTIVITY%NALE ,NODFT   , NODLT  , ITASK,
      3           NBRCVOIS                    ,NBSDVOIS              ,LNRCVOIS, LNSDVOIS,
      4           SKEW                        ,ISKEW                 ,ICODT)
             CALL MY_BARRIER

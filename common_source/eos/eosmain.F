@@ -134,14 +134,14 @@ C-----------------------------------------------
       INTEGER,INTENT(IN)::NPF(SNPC)
       my_real,INTENT(IN)::TF(STF)
       TYPE(MATPARAM_STRUCT_), INTENT(IN) :: MAT_PARAM !material data structure
-      my_real :: DTEMP         !< temperature increment
+      my_real :: DTEMP(NEL)    !< temperature increment
       my_real :: CV            !< specific heat at constant volume
       my_real :: CP            !< specific heat at constant pressure
       my_real :: TAB_TEMP(NEL) !< temporary array,tabulated temperatures
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
+      INTEGER I, ISFLUID
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -366,6 +366,7 @@ C-----------------------------------------------
            DO I=1,NEL
              IF(OFF(I) == ONE .AND. VNEW(I) > ZERO) THEN
                THETA(I) = TAB_TEMP(I)
+               DTEMP(I) = ZERO
              ENDIF
            ENDDO
 
@@ -376,9 +377,7 @@ C-----------------------------------------------
            IF(CV > ZERO)THEN
              DO I=1,NEL
                IF(OFF(I) == ONE .AND. VNEW(I) > ZERO) THEN
-                 DTEMP = (PNEW(I)+PSH(I))*DVOL(I)/CV
-                 THETA(I) = THETA(I) + DTEMP
-                 THETA(I) = MAX(ZERO,THETA(I))
+                 DTEMP(I) = (PNEW(I)+PSH(I))*DVOL(I)/CV
                ENDIF
              ENDDO
            ENDIF
@@ -387,13 +386,29 @@ C-----------------------------------------------
            !gruneisen parameter is strictly positive (most of EoS)
            DO I=1,NEL
              IF(OFF(I) == ONE .AND. VNEW(I) > ZERO) THEN
-               DTEMP = -(THETA(I)*DPDE(I)*DF(I))*DVOL(I)/VNEW(I) ! no conduction => Cv does not play any role
-               THETA(I) = THETA(I) + DTEMP
-               THETA(I) = MAX(ZERO,THETA(I))
+               DTEMP(I) = -(THETA(I)*DPDE(I)*DF(I))*DVOL(I)/VNEW(I) ! no conduction => Cv does not play any role
              ENDIF
            ENDDO
 
       END SELECT
+
+
+      isfluid = mat_param%eos%isfluid
+      if(isfluid == 0)then
+       !solid material modeling
+        do i=1,nel
+          IF(DTEMP(I) > ZERO)THEN
+            THETA(I) = THETA(I) + DTEMP(I)
+          endif
+          THETA(I) = MAX(ZERO,THETA(I))
+        end do
+      else
+       !fluid material modeling
+        do i=1,nel
+          THETA(I) = THETA(I) + DTEMP(I)
+          THETA(I) = MAX(ZERO,THETA(I))
+        end do
+      end if
 
       
       RETURN
