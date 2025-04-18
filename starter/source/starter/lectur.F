@@ -1487,7 +1487,7 @@ C--------------------------------------------
         SDAMPR = NRDAMP*NDAMP
         SDAMP  = 3*(1+MAX(IRODDL,IRODDL0))*NUMNOD
         CALL HM_OPTION_COUNT('/DAMP/FREQUENCY_RANGE',NDAMP_FREQ_RANGE)
-C        IF (NDAMP == NDAMP_FREQ_RANGE) SDAMP = 0
+        IF (NDAMP == NDAMP_FREQ_RANGE) SDAMP = 0
         ALLOCATE(DAMPR(SDAMPR+SDAMP)     ,STAT=stat)
         IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,

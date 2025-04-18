@@ -432,7 +432,11 @@ C
 C
       IF (NDAMP>0) THEN
         TABVINT(168) = NRDAMP*NDAMP
-        TABVINT(169) = 3*NUMNOD_L*(1+IRODDL)
+        IF (SDAMP > 0) THEN
+          TABVINT(169) = 3*NUMNOD_L*(1+IRODDL)          
+        ELSE
+          TABVINT(169) = 0
+        ENDIF
       ELSE
         TABVINT(168) = 0
         TABVINT(169) = 0

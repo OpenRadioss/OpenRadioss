@@ -2746,11 +2746,13 @@ C--------------------------------------------
       IF (NDAMP>0) THEN
         CALL WRITE_DB(DAMPR,NRDAMP*NDAMP)
         LEN_AM = LEN_AM + NRDAMP*NDAMP
-        IF(IRODDL>0)THEN
-          CALL W_RNNLOC(DAMP,NODGLOB,NUMNOD_L,6,LEN_AM)
-        ELSE
-          CALL W_R3NLOC(DAMP,NODGLOB,NUMNOD_L,LEN_AM)
-        ENDIF
+        IF (SDAMP > 0) THEN
+          IF(IRODDL>0)THEN
+            CALL W_RNNLOC(DAMP,NODGLOB,NUMNOD_L,6,LEN_AM)
+          ELSE
+            CALL W_R3NLOC(DAMP,NODGLOB,NUMNOD_L,LEN_AM)
+          ENDIF
+        ENDIF  
       ENDIF
 C--------------------------------------------
 C Mass et Inertia
