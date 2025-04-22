@@ -263,7 +263,7 @@ void GetSolverFolderHierachy(map<ApplicationMode_e, string>& appfolderhierachy, 
     if (false == first)
     {
         app_folder_hierachy[HCDI_SOLVER_LSDYNA]     = "Keyword971_R16.0:Keyword971_R15.0:Keyword971_R14.1:Keyword971_R14.0:Keyword971_R13.1:Keyword971_R13.0:Keyword971_R12.0:Keyword971_R11.2:Keyword971_R11.1:Keyword971_R11.0:Keyword971_R10.1:Keyword971_R9.3:Keyword971_R9.0:Keyword971_R8.0:Keyword971_R7.1:Keyword971_R6.1:Keyword971";
-        app_folder_hierachy[HCDI_SOLVER_RADIOSS]    = "radioss2025:radioss2024:radioss2023:radioss2022:radioss2021:radioss2020:radioss2019:radioss2018:radioss2017:radioss140:radioss130:radioss120:radioss110:radioss100:radioss90:radioss51:radioss44:radioss42:radioss41";
+        app_folder_hierachy[HCDI_SOLVER_RADIOSS]    = "radioss2026:radioss2025:radioss2024:radioss2023:radioss2022:radioss2021:radioss2020:radioss2019:radioss2018:radioss2017:radioss140:radioss130:radioss120:radioss110:radioss100:radioss90:radioss51:radioss44:radioss42:radioss41";
         buildfileformatLookup(app_folder_hierachy);
         first = true;
     }

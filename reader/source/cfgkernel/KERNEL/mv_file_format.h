@@ -97,6 +97,7 @@ enum MvFileFormat_s {
   FF_D00_2023,
   FF_D00_2024,
   FF_D00_2025,
+  FF_D00_2026,
   FF_D00_LAST,
   /* Dyna subprofiles*/
   FF_DYNA,
