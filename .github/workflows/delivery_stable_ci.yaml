@@ -433,7 +433,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: ${{ env.WORKDIR }}
-          clean: 'false'
           lfs: 'true'
           ref: ${{ env.LAST_STABLE_TAG_NAME }}
 
