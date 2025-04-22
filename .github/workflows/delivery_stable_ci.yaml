@@ -494,6 +494,7 @@ jobs:
           find exec -type f
 
       - name: Unzip extlib
+        working-directory: ${{ env.WORKDIR }}
         run: |
           unzip extlib.zip
 
