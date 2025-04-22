@@ -543,6 +543,7 @@
             enddo
           endif
           ! needed in mqviscb
+          vecnul(1:nel) = zero
           facq0  = one
           imat   = mat(1)
           npar   = ipm(9,imat)
@@ -610,12 +611,12 @@
           ! Save old value of OFF flag
           off_old(1:nel) = off(1:nel)
 !
-          if (mtn == 67) then
-            el_temp => uvar(nft+1:nft+nel)
-          else if (jthe /= 0) then
+          if (jthe /= 0) then
             el_temp => tempel(1:nel)     ! gbuf%temp
           elseif (elbuf_tab(ng)%bufly(ilay)%l_temp > 0) then
             el_temp => ltemp             ! lbuf%temp
+          else
+            el_temp => vecnul(1:nel)
           endif
 
           !initial scale factor for yield stress defined per ipg,npi
@@ -1093,7 +1094,6 @@
               sigbyz => lbuf%sigb(4*nel+1:5*nel)
               sigbzx => lbuf%sigb(5*nel+1:6*nel)
             else
-              vecnul(1:nel) = zero
               sigbxx => vecnul(1:nel)
               sigbyy => vecnul(1:nel)
               sigbzz => vecnul(1:nel)

@@ -476,6 +476,8 @@
           if( (jhbe>=21.and.jhbe<=29).or.(impl_s>0)) flag_zcfac=.true.
           flag_etimp=.false.
           if(impl_s>0 .and. mtn==78) flag_etimp=.true.
+!
+          vecnul(1:nel) = zero
           scale1(1:nel) = one
           iflag(1) = ipla
           bidon1 = zero
@@ -726,6 +728,8 @@
                 el_temp => gbuf%temp(1:nel) ! calculated from nodal temp with /heat/mat
               else if (bufly%l_temp > 0) then
                 el_temp => lbuf%temp(1:nel) ! local temp from mat in adiabatic conditions
+              else
+                el_temp => vecnul(1:nel)
               endif
 !---------------------------------------------------
 !         initial scale factor for yield stress defined per ipg,npi
@@ -1238,7 +1242,6 @@
                   sigbyy => lbuf%sigb(nel+1  :2*nel)
                   sigbxy => lbuf%sigb(3*nel+1:4*nel)
                 else
-                  vecnul(1:nel) = zero
                   sigbxx => vecnul(1:nel)
                   sigbyy => vecnul(1:nel)
                   sigbxy => vecnul(1:nel)
