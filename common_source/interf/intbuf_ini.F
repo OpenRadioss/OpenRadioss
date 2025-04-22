@@ -1224,13 +1224,13 @@ C----------to be cleaned later
         SIZ = INTBUF_TAB(NI)%S_CAND_OPT_N
         ALLOCATE(INTBUF_TAB(NI)%CAND_OPT_N(SIZ))
         IF(SIZ>0)THEN
-          CALL READ_I_C(INTBUF_TAB(NI)%CAND_OPT_N,SIZ)
+          CALL DECOMPRESS_I_NNZ(INTBUF_TAB(NI)%CAND_OPT_N,SIZ)
         ENDIF
 
         SIZ = INTBUF_TAB(NI)%S_CAND_OPT_E
         ALLOCATE(INTBUF_TAB(NI)%CAND_OPT_E(SIZ))
         IF(SIZ>0)THEN
-          CALL READ_I_C(INTBUF_TAB(NI)%CAND_OPT_E,SIZ)
+          CALL DECOMPRESS_I_NNZ(INTBUF_TAB(NI)%CAND_OPT_E,SIZ)
         ENDIF
 
         SIZ = INTBUF_TAB(NI)%S_IF_ADH
@@ -1274,15 +1274,12 @@ C----------to be cleaned later
         SIZ = INTBUF_TAB(NI)%S_IFPEN_E
         ALLOCATE(INTBUF_TAB(NI)%IFPEN_E(SIZ))
         IF(SIZ>0)THEN
-c          INTBUF_TAB(NI)%IFPEN_E(1:SIZ) = 0
-c          SIZ =INTBUF_TAB(NI)%I_STOK_E(1)
           CALL READ_I_C(INTBUF_TAB(NI)%IFPEN_E,SIZ)
         ENDIF
 
         SIZ = INTBUF_TAB(NI)%S_IFPEN_E2S
         ALLOCATE(INTBUF_TAB(NI)%IFPEN_E2S(SIZ))
         IF(SIZ>0)THEN
-c          INTBUF_TAB(NI)%IFPEN_E2S(1:SIZ) = 0
           SIZ =INTBUF_TAB(NI)%I_STOK_E(2)
           CALL READ_I_C(INTBUF_TAB(NI)%IFPEN_E2S,SIZ)
         ENDIF
@@ -2074,19 +2071,19 @@ C=======================================================================
         SIZ = INTBUF_TAB(NI)%S_FTSAVX_E
         ALLOCATE(INTBUF_TAB(NI)%FTSAVX_E(SIZ))
         IF(SIZ>0)THEN
-          CALL READ_DB(INTBUF_TAB(NI)%FTSAVX_E,SIZ)
+          CALL DECOMPRESS_R_NNZ(INTBUF_TAB(NI)%FTSAVX_E,SIZ)
         ENDIF
 
         SIZ = INTBUF_TAB(NI)%S_FTSAVY_E
         ALLOCATE(INTBUF_TAB(NI)%FTSAVY_E(SIZ))
         IF(SIZ>0)THEN
-          CALL READ_DB(INTBUF_TAB(NI)%FTSAVY_E,SIZ)
+          CALL DECOMPRESS_R_NNZ(INTBUF_TAB(NI)%FTSAVY_E,SIZ)
         ENDIF
 
         SIZ = INTBUF_TAB(NI)%S_FTSAVZ_E
         ALLOCATE(INTBUF_TAB(NI)%FTSAVZ_E(SIZ))
         IF(SIZ>0)THEN
-          CALL READ_DB(INTBUF_TAB(NI)%FTSAVZ_E,SIZ)
+          IF(SIZ>0) CALL DECOMPRESS_R_NNZ(INTBUF_TAB(NI)%FTSAVZ_E,SIZ)
         ENDIF
 
         SIZ = INTBUF_TAB(NI)%S_FTSAVX_E2S
@@ -2094,7 +2091,7 @@ C=======================================================================
         IF(SIZ>0)THEN
           INTBUF_TAB(NI)%FTSAVX_E2S(1:SIZ) = ZERO
           SIZ =INTBUF_TAB(NI)%I_STOK_E(2)*4
-          CALL READ_DB(INTBUF_TAB(NI)%FTSAVX_E2S,SIZ)
+          IF(SIZ>0) CALL DECOMPRESS_R_NNZ(INTBUF_TAB(NI)%FTSAVX_E2S,SIZ)
         ENDIF
 
         SIZ = INTBUF_TAB(NI)%S_FTSAVY_E2S
@@ -2102,7 +2099,7 @@ C=======================================================================
         IF(SIZ>0)THEN
           INTBUF_TAB(NI)%FTSAVY_E2S(1:SIZ) = ZERO
           SIZ =INTBUF_TAB(NI)%I_STOK_E(2)*4
-          CALL READ_DB(INTBUF_TAB(NI)%FTSAVY_E2S,SIZ)
+          IF(SIZ>0) CALL DECOMPRESS_R_NNZ(INTBUF_TAB(NI)%FTSAVY_E2S,SIZ)
         ENDIF
 
         SIZ = INTBUF_TAB(NI)%S_FTSAVZ_E2S
@@ -2110,7 +2107,7 @@ C=======================================================================
         IF(SIZ>0)THEN
           INTBUF_TAB(NI)%FTSAVZ_E2S(1:SIZ) = ZERO
           SIZ =INTBUF_TAB(NI)%I_STOK_E(2)*4
-          CALL READ_DB(INTBUF_TAB(NI)%FTSAVZ_E2S,SIZ)
+          IF(SIZ >0) CALL DECOMPRESS_R_NNZ(INTBUF_TAB(NI)%FTSAVZ_E2S,SIZ)
         ENDIF
 
         SIZ = INTBUF_TAB(NI)%S_E2S_NOD_NORMAL
@@ -2167,7 +2164,6 @@ C-----------------------------------------------
        
        CALL READ_I_C(SIZ,1)
        T8%S_COMM = SIZ
-C      WRITE(6,*) __FILE__,__LINE__,"S_COMM=",SIZ
        ALLOCATE(T8%SPMD_COMM_PATTERN(SIZ))
        DO K=1,T8%S_COMM 
          CALL READ_I_C(T8%SPMD_COMM_PATTERN(K)%NUMLOC,1)
@@ -2203,27 +2199,9 @@ C      WRITE(6,*) __FILE__,__LINE__,"S_COMM=",SIZ
           IF(NBS_INTERF > 0) THEN
             ALLOCATE(T8%BUFFER(P2)%SECND_ID(NBS_INTERF))
             ALLOCATE(T8%BUFFER(P2)%SECND_UID(NBS_INTERF))
-C           ALLOCATE(T8%BUFFER(P2)%NEW_MAIN_UID(NBS_INTERF))
-C           ALLOCATE(T8%BUFFER(P2)%DISTANCE(NBS_INTERF))
-C           T8%BUFFER(P2)%NEW_MAIN_UID(1:NBS_INTERF) = 0
-C           T8%BUFFER(P2)%DISTANCE(1:NBS_INTERF) = 0
-C           CALL READ_I_C(T8%BUFFER(P2)%SECND_ID,NBS_INTERF)
-C           CALL READ_I_C(T8%BUFFER(P2)%SECND_UID,NBS_INTERF)
-            !WRITE(6,*) "SID ="
-            !WRITE(6,*) T8%BUFFER(P2)%SECND_ID(1:NBS_INTERF)
-            !WRITE(6,*) "SUID ="
-            !WRITE(6,*) T8%BUFFER(P2)%SECND_UID(1:NBS_INTERF)
-         
-c           ALLOCATE(T8%BUFFER(P2)%BUFR(NBS_INTERF*2))
-c           ALLOCATE(T8%BUFFER(P2)%BUFI(NBS_INTERF*3))
-          !WRITE(6,*) ISPMD+1,T8%BUFFER(P2)%SECND_UID(1:NBS_INTERF)
          ELSE
            ALLOCATE(T8%BUFFER(P2)%SECND_ID(1))
            ALLOCATE(T8%BUFFER(P2)%SECND_UID(1))
-c           ALLOCATE(T8%BUFFER(P2)%NEW_MAIN_UID(1))
-c           ALLOCATE(T8%BUFFER(P2)%DISTANCE(1))
-c           ALLOCATE(T8%BUFFER(P2)%BUFR(1))
-c           ALLOCATE(T8%BUFFER(P2)%BUFI(1))
           ENDIF
        ENDDO
        ENDIF !NSPMD > 1

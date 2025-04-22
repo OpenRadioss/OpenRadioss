@@ -824,6 +824,44 @@ C ----------------------------------------
 
       RETURN
       END
+      SUBROUTINE SPLIT_NODE_RVAL_DUMMY(DIM1,DIM2,TAG)
+c
+c split & write node array (type REAL) with global value
+c
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE INTBUFDEF_MOD 
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER TAG(*),DIM1,DIM2
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER I,J,K
+
+      my_real, DIMENSION(:),ALLOCATABLE :: RBUF
+C ----------------------------------------
+      ALLOCATE(RBUF(DIM1*DIM2))
+      DO I=1, DIM1
+        K=TAG(I)
+        DO J=1,DIM2
+          RBUF(DIM2*(I-1)+J) = 0
+        ENDDO
+      ENDDO
+
+      !CALL WRITE_DB(RBUF,DIM1*DIM2)
+      IF(DIM1*DIM2 > 0) CALL COMPRESS_R_NNZ(RBUF,DIM1*DIM2)
+      DEALLOCATE(RBUF)
+
+      RETURN
+      END
+ 
       !||====================================================================
       !||    split_seg_nodloc   ../starter/source/restart/ddsplit/inter_tools.F
       !||--- called by ------------------------------------------------------
@@ -965,6 +1003,41 @@ C ----------------------------------------
 
       RETURN
       END
+      SUBROUTINE COPY_IVAL_DUMMY(DIM1,DIM2)
+c 
+c copy and write array value (type INTEGER)
+c
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE INTBUFDEF_MOD 
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER DIM1,DIM2
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER I,J
+      INTEGER, DIMENSION(:),ALLOCATABLE :: IBUF
+C ----------------------------------------
+      ALLOCATE(IBUF(DIM1*DIM2))
+
+      DO I=1, DIM1
+        DO J=1, DIM2
+          IBUF(DIM2*(I-1)+J) = 0 
+        ENDDO
+      ENDDO
+      IF(DIM1*DIM2 >0) CALL COMPRESS_I_NNZ(IBUF,DIM1*DIM2)
+      DEALLOCATE(IBUF)
+
+      RETURN
+      END
+ 
       !||====================================================================
       !||    copy_ival_igeo     ../starter/source/restart/ddsplit/inter_tools.F
       !||--- called by ------------------------------------------------------
@@ -1221,6 +1294,52 @@ C ----------------------------------------
 
       RETURN
       END
+      !||====================================================================
+      !||    split_cand_rval    ../starter/source/restart/ddsplit/inter_tools.F
+      !||--- called by ------------------------------------------------------
+      !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
+      SUBROUTINE SPLIT_CAND_RVAL_DUMMY(II_STOK_L,TAG_II,MULTIMP,NCONT)
+c
+c split & write candidates (REALs arrays sized MULTIMP*NCONT)
+c
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE INTBUFDEF_MOD 
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER TAG_II(*),II_STOK_L,MULTIMP,NCONT
+
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER I,K
+      my_real, DIMENSION(:),ALLOCATABLE :: RBUF
+C ----------------------------------------
+      ALLOCATE(RBUF(MULTIMP*NCONT))
+      RBUF(1:MULTIMP*NCONT) = 0
+
+      DO I=1, II_STOK_L
+        K=TAG_II(I)
+        RBUF(I) =  0
+      ENDDO
+
+      !CALL WRITE_DB(RBUF,MULTIMP*NCONT)
+    
+      IF(MULTIMP * NCONT > 0) CALL COMPRESS_R_NNZ(RBUF,MULTIMP*NCONT)
+      DEALLOCATE(RBUF)
+
+      RETURN
+      END
+
 
 C=======================================================================
 C END GENERIC ROUTINES TO SPLIT & WRITE ON DISK

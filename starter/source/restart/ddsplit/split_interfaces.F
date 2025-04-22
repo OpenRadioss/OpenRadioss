@@ -2682,8 +2682,9 @@ C----------write KNOR2MSR & NOR2MSR
           CALL COPY_IVAL(KNOR2MSR,NADMSR_L+1,1)
           CALL COPY_IVAL(NOR2MSR ,4*NRTM_L,1)
 C----------No need to split CAND_OPT_N & CAND_OPT_E (no need in Rfile) : Null values could be written.
-          CALL COPY_IVAL(INTBUF_TAB(NI)%CAND_OPT_N,MULTIMP*NCONT,1)
-          CALL COPY_IVAL(INTBUF_TAB(NI)%CAND_OPT_E,MULTIMP*NCONT,1)
+          CALL COPY_IVAL_DUMMY(MULTIMP*NCONT,1)
+          CALL COPY_IVAL_DUMMY(MULTIMP*NCONT,1)
+
 C---------Adhesion case
           IF(IVIS2==-1) THEN
             CALL SPLIT_NODE_IVAL(INTBUF_TAB(NI)%IF_ADH,NSN_L,1,
@@ -2763,17 +2764,10 @@ c split and write on disk floating arrays
 
 C         IF(IEDGE/=0.AND.INACTI==5)THEN
           IF(IEDGE/=0)THEN
-C           CALL COPY_RVAL(INTBUF_TAB(NI)%CAND_P ,INTBUF_TAB_L(NI)%S_CAND_P ,1) ! attention SPMD
-C           CALL COPY_RVAL(INTBUF_TAB(NI)%CAND_PS,INTBUF_TAB_L(NI)%S_CAND_PS,1) ! attention SPMD
-C           WRITE(6,*) __FILE__,__LINE__
             NCONTE = IPARI_L(88,NI)
             MULTIMPE = IPARI_L(87,NI)
-C           WRITE(6,*) NI,"S_CAND_P=",MULTIMPE*NCONTE,INTBUF_TAB_L(NI)%S_CAND_P,INTBUF_TAB(NI)%S_CAND_P
- 
             CALL SPLIT_CAND_RVAL(INTBUF_TAB(NI)%CAND_P,
      .                II_STOK_E_L,TAG_II_E2E,MULTIMPE,NCONTE)
-
-C           WRITE(6,*) NI,"S_CAND_PS=",II_STOK_S_L*4,INTBUF_TAB_L(NI)%S_CAND_PS
             CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%CAND_PS,II_STOK_S_L,4,
      .                            TAG_II_E2S) 
 
@@ -2818,20 +2812,27 @@ C           WRITE(6,*) NI,"S_CAND_PS=",II_STOK_S_L*4,INTBUF_TAB_L(NI)%S_CAND_PS
           IF(IEDGE/=0)THEN
             NCONTE = IPARI_L(88,NI)
             MULTIMPE = IPARI_L(87,NI)
+!           call write_i_c(0,1)
 
-            CALL SPLIT_CAND_RVAL(INTBUF_TAB(NI)%FTSAVX_E,
-     .                II_STOK_E_L,TAG_II_E2E,MULTIMPE,NCONTE)
-            CALL SPLIT_CAND_RVAL(INTBUF_TAB(NI)%FTSAVY_E,
-     .                II_STOK_E_L,TAG_II_E2E,MULTIMPE,NCONTE)
-            CALL SPLIT_CAND_RVAL(INTBUF_TAB(NI)%FTSAVZ_E,
-     .                II_STOK_E_L,TAG_II_E2E,MULTIMPE,NCONTE)
+!           CALL SPLIT_CAND_RVAL(INTBUF_TAB(NI)%FTSAVX_E,
+!    .                II_STOK_E_L,TAG_II_E2E,MULTIMPE,NCONTE)
+!           CALL SPLIT_CAND_RVAL(INTBUF_TAB(NI)%FTSAVY_E,
+!    .                II_STOK_E_L,TAG_II_E2E,MULTIMPE,NCONTE)
+!           CALL SPLIT_CAND_RVAL(INTBUF_TAB(NI)%FTSAVZ_E,
+!    .                II_STOK_E_L,TAG_II_E2E,MULTIMPE,NCONTE)
 
-            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%FTSAVX_E2S,II_STOK_S_L,4,
-     .                            TAG_II_E2S) 
-            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%FTSAVY_E2S,II_STOK_S_L,4,
-     .                            TAG_II_E2S) 
-            CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%FTSAVZ_E2S,II_STOK_S_L,4,
-     .                            TAG_II_E2S) 
+!           CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%FTSAVX_E2S,II_STOK_S_L,4,
+!    .                            TAG_II_E2S) 
+!           CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%FTSAVY_E2S,II_STOK_S_L,4,
+!    .                            TAG_II_E2S) 
+!           CALL SPLIT_NODE_RVAL(INTBUF_TAB(NI)%FTSAVZ_E2S,II_STOK_S_L,4,
+!    .                            TAG_II_E2S) 
+            CALL SPLIT_CAND_RVAL_DUMMY(II_STOK_E_L,TAG_II_E2E,MULTIMPE,NCONTE)
+            CALL SPLIT_CAND_RVAL_DUMMY(II_STOK_E_L,TAG_II_E2E,MULTIMPE,NCONTE)
+            CALL SPLIT_CAND_RVAL_DUMMY(II_STOK_E_L,TAG_II_E2E,MULTIMPE,NCONTE)
+            CALL SPLIT_NODE_RVAL_DUMMY(II_STOK_S_L,4,TAG_II_E2S) 
+            CALL SPLIT_NODE_RVAL_DUMMY(II_STOK_S_L,4,TAG_II_E2S) 
+            CALL SPLIT_NODE_RVAL_DUMMY(II_STOK_S_L,4,TAG_II_E2S) 
 
 
           END IF
