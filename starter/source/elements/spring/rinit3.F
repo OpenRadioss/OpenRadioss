@@ -323,7 +323,6 @@ c      CALL ANCNTS(IDS, CNT2)
            ILENG = NINT(UPARAM(IADBUF + 2))
            IMASS =  IGEO(4,I0)
            MTN   = IPM(2,IMAT)
-           IF(MTN == 108) IMASS = 2
            IF(MTN == 114) THEN
              IMASS = 1
              LMIN = MAX(UPARAM(IADBUF + 119),UPARAM(IADBUF + 126))
@@ -440,7 +439,6 @@ C
             IMASS = IGEO(4,I0)
             MTN   = IPM(2,IMAT)
             UINER(I) = ZERO
-            IF(MTN == 108) IMASS = 2
 C---- For mat law108 skew per element is used if available
             IF ((MTN == 108).AND.( R_SKEW(I+NFT) > 0)) THEN
               GBUF%SKEW_ID(I) = R_SKEW(I+NFT)
