@@ -270,7 +270,7 @@ C
       !||====================================================================
       SUBROUTINE HM_READ_BEM(IGRSURF, IFLOW   , RFLOW  ,
      .                    NPC    , IGRNOD  , MEMFLOW,UNITAB,
-     .                    X      , NOM_OPT , LGAUGE ,IGRV, LSUBMODEL)
+     .                    X      , NOM_OPT , LGAUGE ,IGRV, LSUBMODEL,IRESP)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -302,6 +302,7 @@ C-----------------------------------------------
       INTEGER(KIND=8) MEMFLOW(*)
       my_real RFLOW(*), X(3,*)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
+      INTEGER,INTENT(IN) :: IRESP
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
@@ -331,7 +332,7 @@ C-----------------------------------------------
       CHARACTER(LEN=NCHARTITLE) :: TITR
       LOGICAL :: IS_AVAILABLE
       INTEGER :: HM_NDAA, HM_NFLOW
-      
+C-----------------------------------------------
       HM_NDAA = 0
       HM_NFLOW = 0
       CALL HM_OPTION_COUNT('/BEM/DAA', HM_NDAA)
@@ -1160,11 +1161,11 @@ C-------------------------------------------------------------------------------
             IF(NEL < NELMAX) THEN
                ALLOCATE(CBEM(NEL,NEL))
                CALL MASS_FLUID_QD(NNO, NEL, IFLOW(II1), IFLOW(II2), IFLOW(II3), X,
-     .              RFLOW(IR2), RFLOW(IR4), RFLOW(IR7), CBEM, RHO)
+     .              RFLOW(IR2), RFLOW(IR4), RFLOW(IR7), CBEM, RHO,IRESP)
                DEALLOCATE(CBEM)
             ELSE
                CALL MASS_FLUID_QD(NNO, NEL, IFLOW(II1), IFLOW(II2), IFLOW(II3),  X,
-     .              RFLOW(IR2), RFLOW(IR4), RFLOW(IR7), RFLOW(IR11), RHO)
+     .              RFLOW(IR2), RFLOW(IR4), RFLOW(IR7), RFLOW(IR11), RHO,IRESP)
             ENDIF
             IF(NBGAUGE > 0) THEN
                WRITE (IOUT,'(/5X,A)') 'GAUGE   ELEMENT   ELEMENT'

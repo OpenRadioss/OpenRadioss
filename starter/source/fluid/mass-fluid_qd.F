@@ -37,7 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod     ../starter/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE MASS_FLUID_QD(NNO, NEL, IFLOW, IBUF, ELEM, X,
-     .                         NORMAL, AF, MFLE, CBEM, RHO)
+     .                         NORMAL, AF, MFLE, CBEM, RHO,IRESP)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -55,6 +55,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NNO, NEL, IFLOW(*), IBUF(*), ELEM(5,*)
       my_real X(3,*), AF(*), NORMAL(3,*), MFLE(NEL,*), CBEM(NEL,*), RHO
+      INTEGER,INTENT(IN):: IRESP
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -316,27 +317,28 @@ C         MFLE(1:NEL,1:NEL) = MATMUL(CMAT(1:NEL,1:NEL),CBEM(1:NEL,1:NEL))
 C         CMAT(1:NEL,1:NEL) = TRANSPOSE(CBEM(1:NEL,1:NEL))
 C         MFLE(1:NEL,1:NEL) = MFLE(1:NEL,1:NEL) + MATMUL(CMAT(1:NEL,1:NEL),BBEM(1:NEL,1:NEL))
 C         CMAT(1:NEL,1:NEL) = CBEM(1:NEL,1:NEL)
-#if defined(mkl)
-C #warning "MKL used: DAA will be fast"
+  
+         IF (IRESP == 0)THEN
+         ! Double Precision version : use either Lapack / MKP or ARMPL
 
-         ALPHA = 1.0D0
-         BETA = 0.0D0
-         CALL DGEMM('T','N',NEL,NEL,NEL,ALPHA,CBEM,NEL,BBEM,NEL,BETA,MFLE,NEL)
-         ALPHA = 1.0D0
-         BETA = 1.0D0
-         CALL DGEMM('N','T',NEL,NEL,NEL,ALPHA,BBEM,NEL,CBEM,NEL,BETA,MFLE,NEL)
-#else
-C #warning "MKL not used: DAA will be slow"
-         DO JN=1,NEL
-            DO IN=1,NEL
+           ALPHA = 1.0D0
+           BETA = 0.0D0
+           CALL DGEMM('T','N',NEL,NEL,NEL,ALPHA,CBEM,NEL,BBEM,NEL,BETA,MFLE,NEL)
+           ALPHA = 1.0D0
+           BETA = 1.0D0
+           CALL DGEMM('N','T',NEL,NEL,NEL,ALPHA,BBEM,NEL,CBEM,NEL,BETA,MFLE,NEL)
+         ELSE
+         ! Single Precision version / Bad performance 
+           DO JN=1,NEL
+             DO IN=1,NEL
                SUM=ZERO
                DO KN=1,NEL
                   SUM=SUM+BBEM(KN,IN)*CBEM(KN,JN)+CBEM(KN,IN)*BBEM(KN,JN)
                ENDDO
                MFLE(IN,JN)=SUM
-            ENDDO
-         ENDDO
-#endif
+             ENDDO
+           ENDDO
+         ENDIF
          RETURN
       ENDIF
 C---------------------------------------------------

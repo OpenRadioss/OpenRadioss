@@ -9459,7 +9459,7 @@ C
 C
          CALL HM_READ_BEM(IGRSURF, IFLOW,   RFLOW,
      .                 NPC1   , IGRNOD , MEMFLOW(1,1),UNITAB,
-     .                 X, NOM_OPT(LNOPT1*INOM_OPT(12)+1),LGAUGE, IGRV, LSUBMODEL)
+     .                 X, NOM_OPT(LNOPT1*INOM_OPT(12)+1),LGAUGE, IGRV, LSUBMODEL,IRESP)
 C
       ELSE
          ALLOCATE(IFLOW(0), RFLOW(0))
