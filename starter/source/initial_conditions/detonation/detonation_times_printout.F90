@@ -92,7 +92,7 @@
        !---------------------------------!
        do ng = 1,ngroup
          nel = iparg(2,ng)
-         mlw = iparg(1,ng) 
+         mlw = iparg(1,ng)
          if(elbuf_tab(ng)%gbuf%g_tb > 0)then
            do i=1,nel
              tdet = elbuf_tab(ng)%gbuf%tb(i)
