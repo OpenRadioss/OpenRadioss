@@ -160,10 +160,12 @@ int readr(int pipe, char *buf, int nbytes);
 int writer(int pipe   , char *buf, int nbytes);
 #endif
 
+#ifdef DNC
 extern void syserr(char *msg);
 extern void syserr_fatal(char *msg);
 extern void fatal(char *msg);
 extern void catch_sig_c(int *pid);
+#endif
 /**************************************************************************/
 
 void openfifo_c(iroot,len,fdw,fdr,sd,ispmd,nthr,ppid)
@@ -172,6 +174,7 @@ int *iroot, *len, *fdw, *fdr, *sd, *ispmd, *nthr, *ppid;
 int i, naps, sock,val;
 void syserr();
 char messtop[512];
+#ifdef DNC
 
         nthreads = *nthr;
         ispmd_glob = *ispmd;
@@ -238,6 +241,7 @@ char messtop[512];
 #elif 1                  
         if (flag_siu==0) if (sem_init(&sem_int, 0, 0) == -1) perror("error creation semahpore");
 #endif          
+#endif
 }
 
 
@@ -313,6 +317,7 @@ int shmid,shmidi;
 #endif
 
 void syserr();
+#ifdef DNC
 
          shmvr_size = 150;
          shmvs_size = 150;
@@ -368,6 +373,7 @@ void syserr();
 
          bid = 0;
          writer(fidw, (void *) &bid, sizeof(int)); 
+#endif
 }
 
 
@@ -2228,6 +2234,7 @@ void close_r2r_pipe_c__()
 void connection_sock_init_c(sd)
 int *sd;
 {
+#ifdef DNC
   int num,i,nb,flags,compt,capt,compt2,port2,finished;
   struct  hostent *hp;
   struct linger so_linger;  
@@ -2335,6 +2342,7 @@ int *sd;
     }
 
     *sd = sock;     
+#endif
 }
 
 void _FCALL CONNECTION_SOCK_INIT_C(int *sd)
@@ -2356,6 +2364,7 @@ void send_sock_init_c(int *iroot,int *len,int *ispmd,int *sd,int *maxproc,int *i
 #endif
   char nom[512];
   char PUF[512];
+#ifdef DNC
                     
     sock=*sd;
     num = *ispmd;
@@ -2395,6 +2404,7 @@ void send_sock_init_c(int *iroot,int *len,int *ispmd,int *sd,int *maxproc,int *i
            exit(1);
        }
     }
+#endif
 }
 
 void _FCALL SEND_SOCK_INIT_C(iroot,len,ispmd,sd,maxproc,imach)
@@ -2413,6 +2423,7 @@ void connection_sock_c(ispmd,sd,addr)
 int *ispmd,*sd;
 char *addr;
 {
+#ifdef DNC
   int nb,port2,compt,capt;
   struct  hostent *hp;
   struct linger so_linger;  
@@ -2475,6 +2486,7 @@ char *addr;
               
     *sd=sock;
     sock=*sd;
+#endif
 }
 
 void _FCALL CONNECTION_SOCK_C(ispmd,sd,addr)
