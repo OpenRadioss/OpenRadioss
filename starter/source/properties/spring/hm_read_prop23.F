@@ -100,6 +100,9 @@ C--------------------------------------------------
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------
+C     Default value of Imass is 2
+      IF (ITYPE==0) ITYPE = 2
+C      
       CALL HM_GET_FLOATV('INERTIA',INERTIA,IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF (ITYPE == 1) THEN
         CALL HM_GET_FLOATV('AREA',VOL_AIR,IS_AVAILABLE,LSUBMODEL,UNITAB)
