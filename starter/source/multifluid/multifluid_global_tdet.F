@@ -49,10 +49,12 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE MESSAGE_MOD
       USE MULTI_FVM_MOD
+      USE CONSTANT_MOD , ONLY : ZERO, EP21
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc"
+          implicit none
+#include      "my_real.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -63,7 +65,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN)                 :: IPARG(NPARG,NGROUP),IPM(NPROPMI,NUMMAT)
+      INTEGER,INTENT(IN) :: IPARG(NPARG,NGROUP),IPM(NPROPMI,NUMMAT)
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP),INTENT(INOUT) :: ELBUF_TAB
       TYPE(MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM     
 C-----------------------------------------------
@@ -78,9 +80,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-     
       IF(MULTI_FVM%IS_USED)THEN
-
         DO NG=1,NGROUP    
               MTN     = IPARG(1,NG)
               NEL     = IPARG(2,NG)
@@ -100,7 +100,7 @@ C-----------------------------------------------
                     IS_JWL = .FALSE.
                     !Number of layers ( = number of material in law 151)
                     IF (NLAY > 1) THEN
-                       GBUF%TB(LFT:LLT) = -EP37
+                       GBUF%TB(LFT:LLT) = -EP21
                        DO ILAY = 1, NLAY
                           !SUBMATLAW = IPM(2, IPM(20 + ILAY, MTN))
                           SUBMATLAW = ELBUF_TAB(NG)%BUFLY(ILAY)%ILAW  
@@ -121,7 +121,7 @@ C-----------------------------------------------
                          ENDDO   
                        ELSE
                          DO II = LFT, LLT
-                           IF(GBUF%TB(II) == -EP37)THEN
+                           IF(GBUF%TB(II) <= -EP21)THEN
                              GBUF%TB(II) = ZERO
                            ENDIF
                          ENDDO                                        
