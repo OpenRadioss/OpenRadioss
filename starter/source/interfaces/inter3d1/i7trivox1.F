@@ -181,6 +181,11 @@ c     .   maxaaa
       integer, dimension(:), allocatable, save :: address_cand_n,address_cand_e
       type(array_type_int_1d) :: local_cand_n
       type(array_type_int_1d) :: local_cand_e
+
+      integer :: my_size,mode
+      integer, dimension(:), allocatable :: my_index
+      integer, dimension(:,:), allocatable :: sort_array,save_array
+      integer, dimension(70000) :: work
 C-----------------------------------------------
       ! allocation of local arrays 
       itask = omp_get_thread_num()
@@ -534,7 +539,7 @@ c    sousestimation de la distance**2 pour elimination de candidats
       ! ------------
       ! check the size of global cand_n & cand_e
       my_old_size = ipari(18)*ipari(23)
-      i_stok_old = i_stok
+      i_stok_old = i_stok 
       i_stok =  i_stok + cand_n_size(nthreads+1) ! total number of cand_n/cand_e (= sum( cand_n/e per proc))
       if(i_stok > my_old_size) then ! total number of candidates > size of cand_n/e --> need to extend the 2 arrays
         multimp = i_stok/ipari(18) + 1
@@ -542,6 +547,8 @@ c    sousestimation de la distance**2 pour elimination de candidats
       endif
       ! ------------
 !$OMP END SINGLE
+
+!$OMP BARRIER
 
       ! ------------
       my_address = i_stok_old + address_cand_n(itask+1) ! get the address for each thread
@@ -556,6 +563,39 @@ c    sousestimation de la distance**2 pour elimination de candidats
 
 !$OMP BARRIER
 
+      ! Sort the candidates to ensure the same domain decomposition
+!$OMP SINGLE
+      ! ------------
+      my_size = cand_n_size(nthreads+1)
+      allocate(my_index(2*my_size))
+      allocate(sort_array(2,my_size))
+      allocate(save_array(2,my_size))
+      
+      my_address = i_stok_old + address_cand_n(1) ! get the address of the first pair of candidate
+      sort_array(1,1:my_size) = intbuf_tab%cand_n(my_address+1:my_address+my_size)
+      my_address = i_stok_old + address_cand_e(1) ! get the address of the first pair of candidate
+      sort_array(2,1:my_size) = intbuf_tab%cand_e(my_address+1:my_address+my_size)
+      do i=1,my_size
+        my_index(i) = i
+      enddo
+      save_array(1:2,1:my_size) = sort_array(1:2,1:my_size)
+      mode = 0
+
+      call my_orders( mode,work,sort_array,my_index,my_size,2)
+      my_address = i_stok_old + address_cand_n(1) ! get the address of the first pair of candidate
+      do i=1,my_size 
+        intbuf_tab%cand_n(my_address+i) = save_array(1,my_index(i))
+      enddo 
+      my_address = i_stok_old + address_cand_e(1) ! get the address of the first pair of candidate
+      do i=1,my_size
+        intbuf_tab%cand_e(my_address+i) = save_array(2,my_index(i))
+      enddo
+      deallocate(my_index)
+      deallocate(sort_array)
+      deallocate(save_array)
+      ! ------------
+!$OMP END SINGLE    
+
 !$OMP DO SCHEDULE(guided)
       DO I=1,NSN
         IF(IIX(I)/=0)THEN
@@ -564,10 +604,10 @@ c    sousestimation de la distance**2 pour elimination de candidats
       ENDDO
 !$OMP END DO
 
-!$OMP MASTER
+!$OMP SINGLE
       deallocate( cand_n_size,cand_e_size )
       deallocate( address_cand_n,address_cand_e )
-!$OMP END MASTER
+!$OMP END SINGLE
 
       RETURN
       END
