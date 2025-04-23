@@ -156,6 +156,11 @@ C
       integer, dimension(:), allocatable, save :: address_cand_n,address_cand_e
       type(array_type_int_1d) :: local_cand_n
       type(array_type_int_1d) :: local_cand_e
+
+      integer :: my_size,mode
+      integer, dimension(:), allocatable :: my_index
+      integer, dimension(:,:), allocatable :: sort_array,save_array
+      integer, dimension(70000) :: work
 C-----------------------------------------------
       ! allocation of local arrays 
       itask = omp_get_thread_num()
@@ -566,6 +571,42 @@ C=======================================================================
       call dealloc_1d_array(local_cand_e)
 
 !$OMP BARRIER
+
+
+
+      
+      ! Sort the candidates to ensure the same domain decomposition
+!$OMP SINGLE
+      ! ------------
+      my_size = cand_n_size(nthreads+1)
+      allocate(my_index(2*my_size))
+      allocate(sort_array(2,my_size))
+      allocate(save_array(2,my_size))
+      
+      my_address = address_cand_n(1) ! get the address of the first pair of candidate
+      sort_array(1,1:my_size) = intbuf_tab%cand_n(my_address+1:my_address+my_size)
+      my_address = address_cand_e(1) ! get the address of the first pair of candidate
+      sort_array(2,1:my_size) = intbuf_tab%cand_e(my_address+1:my_address+my_size)
+      do i=1,my_size
+        my_index(i) = i
+      enddo
+      save_array(1:2,1:my_size) = sort_array(1:2,1:my_size)
+      mode = 0
+
+      call my_orders( mode,work,sort_array,my_index,my_size,2)
+      my_address = address_cand_n(1) ! get the address of the first pair of candidate
+      do i=1,my_size 
+        intbuf_tab%cand_n(my_address+i) = save_array(1,my_index(i))
+      enddo 
+      my_address = address_cand_e(1) ! get the address of the first pair of candidate
+      do i=1,my_size
+        intbuf_tab%cand_e(my_address+i) = save_array(2,my_index(i))
+      enddo
+      deallocate(my_index)
+      deallocate(sort_array)
+      deallocate(save_array)
+      ! ------------
+!$OMP END SINGLE    
 
 
 !$OMP DO SCHEDULE(guided)
