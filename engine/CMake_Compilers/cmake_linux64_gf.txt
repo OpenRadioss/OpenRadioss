@@ -274,6 +274,10 @@ set_source_files_properties( ${source_directory}/source/engine/resol_init.F PROP
 # resol.F
 set_source_files_properties( ${source_directory}/source/engine/resol.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
 
+set_source_files_properties( ${source_directory}/source/interfaces/int22/i22clip_tools.F PROPERTIES COMPILE_FLAGS ${F_O1_compiler_flags} )
+
+
+
 # arralloc.F
 set_source_files_properties( ${source_directory}/source/output/restart/arralloc.F PROPERTIES COMPILE_FLAGS ${F_O2_compiler_flags} )
 
