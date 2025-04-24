@@ -208,7 +208,7 @@ C-----
      . MFXX(MVSIZ),MFXY(MVSIZ),MFYX(MVSIZ),
      . MFYY(MVSIZ),MFYZ(MVSIZ),MFZY(MVSIZ),
      . MFZZ(MVSIZ),MFZX(MVSIZ),MFXZ(MVSIZ),
-     . GAMA(MVSIZ,6),BID(MVSIZ),TEMPEL0(MVSIZ),DIE(MVSIZ),
+     . GAMA(MVSIZ,6),BID(MVSIZ),TEMPEL(MVSIZ),DIE(MVSIZ),
      . STIG(MVSIZ,NCTRL)
 C 
       my_real 
@@ -334,7 +334,6 @@ c a modifier
         VDY(I)=ZERO
         VDZ(I)=ZERO
         VD2(I)=ZERO
-        TEMPEL0(I) = ZERO
 c
         DO J=1,NCTRL
           IF( J <= KXIG3D(3,I+NFT) ) THEN
@@ -548,7 +547,7 @@ C------------------------------------------------------
      I   MFYY,        MFYZ,        MFZX,        MFZY,
      J   MFZZ,        IPM,         GAMA,        BID,
      K   DXY,         DYX,         DYZ,         DZY,
-     L   DZX,         DXZ,         ISTRAIN,     TEMPEL0,
+     L   DZX,         DXZ,         ISTRAIN,     TEMPEL,
      M   DIE,         IEXPAN,      ILAY,        MSSA,
      N   DMELS,       I,           J,           K,
      O   TABLE,       BID,         BID,         BID,

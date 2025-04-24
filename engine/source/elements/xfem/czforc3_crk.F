@@ -199,7 +199,7 @@ C--------------------------------
      .   ALPE(MVSIZ),YM(MVSIZ),FACN(MVSIZ,2),LXYZ(MVSIZ,8),
      .   DD(MVSIZ,6),DB(MVSIZ,12),AMU(MVSIZ),GSR(MVSIZ),
      .   A11SR(MVSIZ),A12SR(MVSIZ),NUSR(MVSIZ),SHFSR(MVSIZ),
-     .   PX2(MVSIZ),PY1(MVSIZ),PY2(MVSIZ),DIE(MVSIZ),TEMPEL0(MVSIZ),
+     .   PX2(MVSIZ),PY1(MVSIZ),PY2(MVSIZ),DIE(MVSIZ),TEMPEL(MVSIZ),
      .   THEM(MVSIZ,4),R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
      .   R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),R31(MVSIZ),
      .   R32(MVSIZ),R33(MVSIZ),RLZ(MVSIZ,4),VHGZK(MVSIZ,5),
@@ -467,10 +467,10 @@ C----------------------------------
 C-----------------
 C     CONTRAINTES
 C-----------------
-        IF (JTHE /= 0 ) then
-          TEMPEL0(1:NEL) = GBUF%TEMP(1:NEL)  
-          CALL TEMPCG(NUMNOD, NEL  ,IXC ,TEMP ,GBUF%TEMP)
-        end if
+        DO I = JFT,JLT
+          TEMPEL(I) = ZERO
+        ENDDO
+        IF (JTHE /= 0 ) CALL TEMPCG(NUMNOD, NEL  ,IXC ,TEMP ,TEMPEL)
 C-----------------------------
         IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(TIMERS,35)
 C-----------------------------
@@ -489,7 +489,7 @@ C-----------------------------
      C       KFTS      ,IHBE      ,ALPE      ,
      D       DIR_A     ,DIR_B     ,IGEO      ,
      E       IPM       ,IFAILURE  ,NPG       ,FHEAT     ,
-     F       DIE       ,JTHE      ,IEXPAN    ,TEMPEL0   ,
+     F       TEMPEL    ,DIE       ,JTHE      ,IEXPAN    ,TEMPG   ,
      G       IBID      ,BID       ,
      H       BID       ,BID       ,BID       ,BID       ,BID     ,
      I       BID       ,BID       ,BID       ,R11       ,R12     ,
@@ -601,11 +601,11 @@ C
           IF (MAT_ELEM%MAT_PARAM(MAT(1))%HEAT_FLAG == 1) THEN
             CALL THERMC(JFT    ,JLT     ,PM      ,MAT  ,THK0 ,IXC  ,
      .                  Y24    ,PX2     ,PY1     ,PY2  ,AREA ,DT1C ,
-     .                  TEMP   ,GBUF%TEMP  ,FHEAT   ,THEM ,GLOB_THERM%THEACCFACT)
+     .                  TEMP   ,TEMPEL  ,FHEAT   ,THEM ,GLOB_THERM%THEACCFACT)
           ELSE
             CALL THERMC(JFT    ,JLT     ,PM      ,MAT  ,THK0 ,IXC  ,
      .                  Y24    ,PX2     ,PY1     ,PY2  ,AREA ,DT1C ,
-     .                  TEMP   ,GBUF%TEMP  ,DIE     ,THEM ,GLOB_THERM%THEACCFACT)
+     .                  TEMP   ,TEMPEL  ,DIE     ,THEM ,GLOB_THERM%THEACCFACT)
           ENDIF 
         ENDIF 
 C

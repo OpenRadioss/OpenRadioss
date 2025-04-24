@@ -271,7 +271,7 @@ C
      .   N4X(MVSIZ), N5X(MVSIZ), N6X(MVSIZ),
      .   N4Y(MVSIZ), N5Y(MVSIZ), N6Y(MVSIZ),
      .   N4Z(MVSIZ), N5Z(MVSIZ), N6Z(MVSIZ),AMU(MVSIZ),AREA(MVSIZ)
-      my_real THEM(MVSIZ,6),TEMPEL0(MVSIZ),DIE(MVSIZ),CONDEN(MVSIZ)
+      my_real THEM(MVSIZ,6),TEMPEL(MVSIZ),DIE(MVSIZ),CONDEN(MVSIZ)
       my_real, dimension(mvsiz) :: fheat
       DOUBLE PRECISION 
      .   VOLDP(MVSIZ),FACDP
@@ -587,14 +587,14 @@ C--------------------------------------
 C-------------------------------------------
 C Element temperature
 C-------------------------------------------
-      TEMPEL0(:) = ZERO
+      TEMPEL(:) = ZERO
       FHEAT(:)  = ZERO
       IF (JTHE < 0) THEN       
-        TEMPEL0(1:NEL) = GBUF%TEMP(1:NEL)  
         DO I=1,NEL
-          GBUF%TEMP(I) = ONE_OVER_6 * (TEMP(NC1(I)) + TEMP(NC2(I))  
-     .                              +  TEMP(NC3(I)) + TEMP(NC4(I)) 
-     .                              +  TEMP(NC5(I)) + TEMP(NC6(I)))
+          TEMPEL(I) = ONE_OVER_6 *(TEMP(NC1(I)) + TEMP(NC2(I))  
+     .                           + TEMP(NC3(I)) + TEMP(NC4(I)) 
+     .                           + TEMP(NC5(I)) + TEMP(NC6(I)))
+          GBUF%TEMP(I) = TEMPEL(I)
         ENDDO
       ENDIF
       IOFFS=0
@@ -692,7 +692,7 @@ C------------------------------------------------------
      I   DYY,         DYZ,         DZX,         DZY,
      J   DZZ,         IPM,         GAMA,        BID,
      K   BID,         BID,         BID,         BID,
-     L   BID,         BID,         ISTRAIN,     TEMPEL0,
+     L   BID,         BID,         ISTRAIN,     TEMPEL,
      M   DIE,         IEXPAN,      CURRENT_LAYER,MSSA,
      N   DMELS,       IR,          IS,          IT,
      O   TABLE,       BID,         BID,         BID,
@@ -792,7 +792,7 @@ C--------------------------
      3           NC6      ,PX1     ,PX2      ,PX3      ,
      4           PX4      ,PY1     ,PY2      ,PY3      ,
      5           PY4      ,PZ1     ,PZ2      ,PZ3      ,
-     6           PZ4      ,DT1     ,TEMP     ,GBUF%TEMP   ,
+     6           PZ4      ,DT1     ,TEMP     ,TEMPEL   ,
      7           FHEAT    ,THEM    ,GBUF%OFF ,LBUF%OFF ,
      8           NEL      ,GLOB_THERM%THEACCFACT)
           ELSE
@@ -803,7 +803,7 @@ C--------------------------
      3           NC6      ,PX1     ,PX2      ,PX3      ,
      4           PX4      ,PY1     ,PY2      ,PY3      ,
      5           PY4      ,PZ1     ,PZ2      ,PZ3      ,
-     6           PZ4      ,DT1     ,TEMP     ,GBUF%TEMP   ,
+     6           PZ4      ,DT1     ,TEMP     ,TEMPEL   ,
      7           DIE      ,THEM    ,GBUF%OFF ,LBUF%OFF ,
      8           NEL      ,GLOB_THERM%THEACCFACT)
         ENDIF 

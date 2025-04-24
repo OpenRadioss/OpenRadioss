@@ -277,7 +277,7 @@ C
      .   DH5(MVSIZ),DH6(MVSIZ),EINTM(MVSIZ),DDHV(MVSIZ),EINTO(MVSIZ),
      .   SIGZM(MVSIZ),VOLM(MVSIZ),MM(MVSIZ,2),USB(MVSIZ),ET(MVSIZ),
      .   R1_FREE(MVSIZ),R3_FREE(MVSIZ),R4_FREE(MVSIZ),
-     .   TEMPEL0(MVSIZ),THEM(MVSIZ,8),DIE(MVSIZ),
+     .   TEMPEL(MVSIZ),THEM(MVSIZ,8),DIE(MVSIZ),
      .   STIN(MVSIZ),DSV(MVSIZ),BID(MVSIZ),CONDEN(MVSIZ),DTI
        my_real
      .       NU1(MVSIZ),FAC(MVSIZ),DIVDE(MVSIZ),FOR(MVSIZ,6),
@@ -432,7 +432,7 @@ C=======================================================================
       IPPOS = 0
       MTN0= 0
 
-      TEMPEL0(:) = ZERO
+      TEMPEL(:) = ZERO
       FHEAT(:)  = ZERO
       INLOC = IPARG(78,NG)
       ALLOCATE(VAR_REG(NEL,NLAY))
@@ -643,13 +643,13 @@ C-------------------------------------------
 C-------------------------------------------
 C Element temperature
 C-------------------------------------------
-      IF (JTHE < 0) THEN       
-        TEMPEL0(1:NEL) = GBUF%TEMP(1:NEL)  
+      IF(JTHE < 0) THEN       
         DO I=1,NEL
-          GBUF%TEMP(I) = ONE_OVER_8 *(TEMP(NC1(I)) + TEMP(NC2(I))  
-     .                              + TEMP(NC3(I)) + TEMP(NC4(I)) 
-     .                              + TEMP(NC5(I)) + TEMP(NC6(I)) 
-     .                              + TEMP(NC7(I)) + TEMP(NC8(I)))
+          TEMPEL(I) = ONE_OVER_8 *(  TEMP(NC1(I)) + TEMP(NC2(I))  
+     .                         + TEMP(NC3(I)) + TEMP(NC4(I)) 
+     .                         + TEMP(NC5(I)) + TEMP(NC6(I)) 
+     .                         + TEMP(NC7(I)) + TEMP(NC8(I)))
+          GBUF%TEMP(I) = TEMPEL(I)
         ENDDO
       ENDIF
       IOFFS=0
@@ -776,7 +776,7 @@ C------------------------------------------------------
      I   DYY,          DYZ,         DZX,       DZY,
      J   DZZ,          IPM,         GAMA,      BID,
      K   BID,          BID,         BID,       BID,
-     L   BID,          BID,         ISTRAIN,   TEMPEL0,
+     L   BID,          BID,         ISTRAIN,   TEMPEL,
      M   DIE,          IEXPAN,      CURRENT_LAYER,MSSA,
      N   DMELS,        IR,          IS,        IT,
      O   TABLE,        BID,         BID,       BID,
@@ -868,7 +868,7 @@ C--------------------------
      4           PX2,     PX3,     PX4,     PY1,
      5           PY2,     PY3,     PY4,     PZ1,
      6           PZ2,     PZ3,     PZ4,     DT1,
-     7           TEMP,    GBUF%TEMP,  FHEAT,  THEM,
+     7           TEMP,    TEMPEL,  FHEAT,  THEM,
      8           GBUF%OFF,LBUF%OFF,NEL,GLOB_THERM%THEACCFACT)
           ELSE
             CALL SCTHERM(
@@ -878,7 +878,7 @@ C--------------------------
      4           PX2,     PX3,     PX4,     PY1,
      5           PY2,     PY3,     PY4,     PZ1,
      6           PZ2,     PZ3,     PZ4,     DT1,
-     7           TEMP,    GBUF%TEMP,  DIE,    THEM,
+     7           TEMP,    TEMPEL,  DIE,    THEM,
      8           GBUF%OFF,LBUF%OFF,NEL,GLOB_THERM%THEACCFACT)
           END IF
         ENDIF 

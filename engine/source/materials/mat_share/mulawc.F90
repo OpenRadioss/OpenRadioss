@@ -162,28 +162,28 @@
       !||    timer_mod                 ../engine/source/system/timer_mod.F90
       !||====================================================================
         subroutine mulawc(timers,elbuf_str ,&
-        & jft      ,jlt      ,nel      ,pm        ,for      ,mom      ,     &
-        & gstr     ,thk      ,eint     ,off       ,dir_a    ,dir_b    ,     &
-        & mat      ,area     ,exx      ,eyy       ,exy      ,exz      ,     &
-        & eyz      ,kxx      ,kyy      ,kxy       ,geo      ,thk_ly   ,     &
-        & pid      ,tf       ,npf      ,mtn       ,dt1c     ,dm       ,     &
-        & bufmat   ,ssp      ,rho      ,viscmx    ,ipla     ,iofc     ,     &
-        & indx     ,ngl      ,thkly    ,matly     ,zcfac    ,mat_elem ,     &
-        & shf      ,gs       ,sigy     ,thk0      ,epsp     ,               &
-        & posly    ,igeo     ,ipm      ,failwave  ,fwave_el ,               &
-        & ifailure ,aldt     ,die      ,fheat     ,                         &
-        & table    ,ixfem    ,elcrkini ,                                    &
-        & sensors  ,ng       ,idt_therm,theaccfact,                         &
-        & dir1_crk ,dir2_crk ,iparg    ,jhbe      ,ismstr   ,jthe     ,     &
-        & tensx    ,ir       ,is       ,nlay      ,npt      ,ixlay    ,     &
-        & ixel     ,ithk     ,f_def    ,ishplyxfem                    ,     &
-        & itask    ,isubstack,stack    ,tstar     ,alpe               ,     &
-        & ply_exx  ,ply_eyy  ,ply_exy  ,ply_exz   ,ply_eyz  ,ply_f    ,     &
-        & varnl    ,etimp    ,nloc_dmg ,nlay_max  ,laynpt_max,dt      ,     &
-        & ncycle   ,snpc     ,stf      ,impl_s    ,imconv    ,npropgi ,     &
-        & npropmi  ,npropm   ,npropg   ,imon_mat  ,numgeo    ,              &
-        & numstack ,dt1      ,tt       ,nxlaymax  ,idel7nok ,userl_avail,   &
-        & maxfunc  ,nummat   ,varnl_npttot,sbufmat,sdir_a   ,sdir_b ,nparg, &
+        & jft      ,jlt      ,nel      ,pm        ,for      ,mom      , &
+        & gstr     ,thk      ,eint     ,off       ,dir_a    ,dir_b    , &
+        & mat      ,area     ,exx      ,eyy       ,exy      ,exz      , &
+        & eyz      ,kxx      ,kyy      ,kxy       ,geo      ,thk_ly   , &
+        & pid      ,tf       ,npf      ,mtn       ,dt1c     ,dm       , &
+        & bufmat   ,ssp      ,rho      ,viscmx    ,ipla     ,iofc     , &
+        & indx     ,ngl      ,thkly    ,matly     ,zcfac    ,mat_elem , &
+        & shf      ,gs       ,sigy     ,thk0      ,epsp     ,           &
+        & posly    ,igeo     ,ipm      ,failwave  ,fwave_el ,           &
+        & ifailure ,aldt     ,tempel   ,die       ,fheat    ,           &
+        & table     ,ixfem   ,elcrkini ,                                &
+        & sensors  ,ng       ,idt_therm,theaccfact,                     &
+        & dir1_crk ,dir2_crk ,iparg    ,jhbe      ,ismstr   ,jthe     , &
+        & tensx    ,ir       ,is       ,nlay      ,npt      ,ixlay    , &
+        & ixel     ,ithk     ,f_def    ,ishplyxfem                    , &
+        & itask    ,isubstack,stack    ,alpe                ,           &
+        & ply_exx  ,ply_eyy  ,ply_exy  ,ply_exz   ,ply_eyz  ,ply_f    , &
+        & varnl    ,etimp    ,nloc_dmg ,nlay_max  ,laynpt_max,dt      , &
+        & ncycle   ,snpc     ,stf      ,impl_s    ,imconv    ,npropgi , &
+        & npropmi  ,npropm   ,npropg   ,imon_mat  ,numgeo    ,          &
+        & numstack ,dt1      ,tt       ,nxlaymax  ,idel7nok ,userl_avail, &
+        & maxfunc  ,nummat   ,varnl_npttot,sbufmat,sdir_a   ,sdir_b ,nparg,&
         & idamp_freq_range,damp_buf)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -300,6 +300,7 @@
           my_real, intent(inout), dimension(mvsiz) :: kxy
           !
           my_real, intent(inout), dimension(mvsiz) :: off
+          my_real, intent(inout), dimension(mvsiz) :: tempel
           my_real, intent(inout), dimension(mvsiz) :: viscmx
           my_real, intent(inout), dimension(mvsiz) :: area
           my_real, intent(inout), dimension(mvsiz) :: exx
@@ -310,7 +311,6 @@
           my_real, intent(inout), dimension(mvsiz) :: thk0
           my_real, intent(inout), dimension(mvsiz) :: ssp
           my_real, intent(inout), dimension(mvsiz) :: rho
-          my_real, intent(inout), dimension(mvsiz) :: tstar
           my_real, intent(inout), dimension(mvsiz) :: alpe
           my_real, intent(inout), dimension(mvsiz) :: shf
           my_real, intent(inout), dimension(mvsiz) :: gs
@@ -375,7 +375,7 @@
           &sigoyy,sigoxy,sigoyz,sigozx,signxx,signyy,signxy,signyz,&
           &signzx,sigvxx,sigvyy,sigvxy,sigvyz,sigvzx,&
           &wmc, epspl, yld,dpla,vol0, coef,hardm,la0,g_imp,visc,wplar,&
-          &epsp_loc,signxx_fail,signyy_fail,signxy_fail,signyz_fail,&
+          &epsp_loc,signxx_fail,signyy_fail,signxy_fail,signyz_fail,tstar,    &
           &signzx_fail,areamin,dareamin,dmg_glob_scale,dmg_loc_scale,et_imp, epsthtot
           my_real, dimension(nel,5) :: dmg_orth_scale
 !
@@ -389,7 +389,7 @@
           my_real, dimension(:) ,pointer  :: el_temp,yldfac,crklen,crkdir,dadv,tfail,el_len,&
           &el_pla
           my_real, dimension(nel), target :: el_pla_dum
-          target :: bufmat,scale1
+          target :: tempel,bufmat,scale1
 !----
           type(ttable) table(*)
           type(ulawcintbuf) :: userbuf
@@ -725,7 +725,7 @@
               endif
 !---------------------------------------------------
               if (jthe /= 0) then
-                el_temp => gbuf%temp(1:nel) ! calculated from nodal temp with /heat/mat
+                el_temp => tempel(1:nel)    ! calculated from nodal temp with /heat/mat
               else if (bufly%l_temp > 0) then
                 el_temp => lbuf%temp(1:nel) ! local temp from mat in adiabatic conditions
               else
@@ -1086,11 +1086,13 @@
             sigoyz(1:nel) = lbuf%sig(ij4:ij4+nel-1)
             sigozx(1:nel) = lbuf%sig(ij5:ij5+nel-1)
 !
-            if (jthe /= 0 .and. elbuf_str%bufly(ilayer)%l_temp > 0) then 
+            if (jthe /= 0 .or. elbuf_str%bufly(ilayer)%l_temp > 0) then 
               ! case of temp calculated locally in material
               t0 = pm(79, imat)
               tm = pm(80, imat)
-              tstar(1:nel) = max(zero, (lbuf%temp(1:nel) - t0) / (tm - t0))
+              tstar(1:nel) = max(zero, (el_temp(1:nel) - t0) / (tm - t0))
+            else
+              tstar(1:nel) = zero
             end if
 !------------------------------------------
 !         elastic stress +
@@ -1472,7 +1474,7 @@
                 &sigvxy,       sigvyz,       sigvzx,       ssp,&
                 &viscmx,       thkn,         lbuf%pla,     uvar,&
                 &off,          ngl,          etse,         gs,&
-                &vol0,         sigy,         gbuf%temp,       die,&
+                &vol0,         sigy,         el_temp,       die,&
                 &coef,         inloc,        varnl(1,it),  jthe,&
                 &lbuf%off)
               elseif (ilaw == 64) then
@@ -1492,7 +1494,7 @@
                 &viscmx,       thkn,         lbuf%pla,     uvar,&
                 &off,          ngl,          ipm,          matly(jmly),&
                 &etse,         gs,           vol0,         sigy,&
-                &gbuf%temp,       die,          coef,         inloc,&
+                &el_temp,       die,          coef,         inloc,&
                 &varnl(1,it),  jthe,         lbuf%off)
               elseif (ilaw == 65) then
                 call sigeps65c(&
@@ -1557,7 +1559,7 @@
                 &viscmx,       thkn,         lbuf%pla,     uvar,&
                 &off,          ngl,          ipm,          matly(jmly),&
                 &etse,         gs,           sigy,         vol0,&
-                &gbuf%temp,       ismstr,       jthe)
+                &el_temp,       ismstr,       jthe)
               elseif (ilaw == 72) then
                 call sigeps72c(&
                 &jlt      ,nuparam0  ,nuvar    ,&
@@ -1583,7 +1585,7 @@
                 &ssp,          viscmx,       thkn,         lbuf%pla,&
                 &uvar,         off,          ngl,          itable,&
                 &etse,         gs,           sigy,         dpla,&
-                &epspl,        table,        vol0,         gbuf%temp,&
+                &epspl,        table,        vol0,         el_temp,&
                 &die,          coef,         npf,          nfunc,&
                 &ifunc,        tf,           shf,          hardm,&
                 &lbuf%seq,     inloc,        varnl(1,it),  jthe,&
@@ -1644,7 +1646,7 @@
                 &viscmx,       thkn,         lbuf%pla,     uvar,&
                 &off,          ngl,          pm,           ipm,&
                 &matly(jmly),  etse,         gs,           vol0,&
-                &sigy,         gbuf%temp,       die,          coef,&
+                &sigy,         el_temp,       die,          coef,&
                 &shf,          epspl,        table,        ithk,&
                 &nvartmp,      vartmp,       epsthtot,     jthe,&
                 &idt_therm,    theaccfact)
@@ -1733,7 +1735,7 @@
                 call sigeps96c(&
                 &jlt     ,ngl     ,nuparam0 ,nuvar   ,nfunc   ,ifunc   ,&
                 &npf     ,tf      ,uparam0  ,uvar    ,jthe    ,gs      ,&
-                &rho     ,gbuf%temp  ,lbuf%pla,ssp     ,off     ,epspl   ,&
+                &rho     ,el_temp  ,lbuf%pla,ssp     ,off     ,epspl   ,&
                 &epspxx  ,epspyy  ,epspxy  ,epspyz  ,epspzx  ,thklyl  ,&
                 &depsxx  ,depsyy  ,depsxy  ,depsyz  ,depszx  ,thkn    ,&
                 &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
@@ -1743,7 +1745,7 @@
 !
                 call sigeps104c(&
                 &jlt     ,ngl     ,ipg     ,ilayer  ,it      ,nuparam0 ,nuvar    ,&
-                &dt1c    ,tt      ,uparam0 ,uvar    ,jthe    ,rho      ,gbuf%temp   ,&
+                &dt1c    ,tt      ,uparam0 ,uvar    ,jthe    ,rho      ,el_temp   ,&
                 &lbuf%pla,dpla    ,ssp     ,lbuf%off,lbuf%epsd,epspl   ,gs       ,&
                 &depsxx  ,depsyy  ,depsxy  ,depsyz  ,depszx  ,thklyl   ,off      ,&
                 &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
@@ -1782,7 +1784,7 @@
                 &epspxx  ,epspyy  ,epspxy  ,epspyz  ,epspzx   ,&
                 &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
                 &signxx  ,signyy  ,signxy  ,signyz  ,signzx   ,thklyl  ,&
-                &thkn    ,sigy    ,etse    ,gbuf%temp  ,lbuf%temp,lbuf%seq,&
+                &thkn    ,sigy    ,etse    ,el_temp  ,lbuf%temp,lbuf%seq,&
                 &tf      ,numtabl ,itable  ,table   ,nvartmp  ,vartmp  ,&
                 &lbuf%siga,inloc  ,varnl(1,it),epspl,lbuf%off ,ioff_duct)
 !

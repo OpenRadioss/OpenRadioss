@@ -337,7 +337,7 @@ C
 C
       my_real
      . VXR(MVSIZ),VYR(MVSIZ),VZR(MVSIZ),FR_WAV(MVSIZ),
-     . TEMPEL0(MVSIZ),THEM(MVSIZ,8),DIE(MVSIZ)
+     . TEMPEL(MVSIZ),THEM(MVSIZ,8),DIE(MVSIZ)
 C
       my_real
      .  MX1(MVSIZ),MY1(MVSIZ),MZ1(MVSIZ),
@@ -440,7 +440,7 @@ C=======================================================================
       ISM12_11 = ELBUF_TAB(NG)%BUFLY(1)%L_SIGL
       INLOC = IPARG(78)
       ALLOCATE(VAR_REG(NEL))
-      TEMPEL0(:) = ZERO
+      TEMPEL(:) = ZERO
       FHEAT(:)  = ZERO
 C
       IBOLTP = IPARG1(72) !IPARG(72,NG)
@@ -827,14 +827,13 @@ C Total strain option doesn't change the reference configuration
        ENDIF
       END IF
 C
-C Element Temperature
       IF (JTHE < 0) THEN 
-        TEMPEL0(1:NEL) = GBUF%TEMP(1:NEL)  
+C Element Temperature
         DO I=1,NEL
-          GBUF%TEMP(I) = ONE_OVER_8 *(TEMP(NC1(I)) + TEMP(NC2(I))  
-     .                              + TEMP(NC3(I)) + TEMP(NC4(I)) 
-     .                              + TEMP(NC5(I)) + TEMP(NC6(I)) 
-     .                              + TEMP(NC7(I)) + TEMP(NC8(I)))       
+          TEMPEL(I) = ONE_OVER_8 *(  TEMP(NC1(I)) + TEMP(NC2(I))  
+     .                             + TEMP(NC3(I)) + TEMP(NC4(I)) 
+     .                             + TEMP(NC5(I)) + TEMP(NC6(I)) 
+     .                             + TEMP(NC7(I)) + TEMP(NC8(I)))       
         ENDDO
       ENDIF
 C
@@ -1006,7 +1005,7 @@ C
      I   MFYY,        MFYZ,        MFZX,        MFZY,
      J   MFZZ,        IPM,         GAMA,        FR_WAV,
      K   DXY,         DYX,         DYZ,         DZY,
-     L   DZX,         DXZ,         ISTRAIN,     TEMPEL0,
+     L   DZX,         DXZ,         ISTRAIN,     TEMPEL,
      M   DIE,         IEXPAN,      ILAY,        MSSA,
      N   DMELS,       IPTR,        IPTS,        IPTT,
      O   TABLE,       FVD2,        FDELTAX,     FCXX,
@@ -1582,7 +1581,7 @@ C Finite element heat transfert forces
      4         PX2,     PX3,     PX4,     PY1,
      5         PY2,     PY3,     PY4,     PZ1,
      6         PZ2,     PZ3,     PZ4,     DT1,
-     7         TEMP,    GBUF%TEMP,  FHEAT,   THEM,
+     7         TEMP,    TEMPEL,  FHEAT,   THEM,
      8         GBUF%OFF,LBUF%OFF,PARTSAV, IPARTS,
      9         GBUF%VOL,NEL     ,NUMNOD ,GLOB_THERM%THEACCFACT)
         ELSE
@@ -1593,7 +1592,7 @@ C Finite element heat transfert forces
      4         PX2,     PX3,     PX4,     PY1,
      5         PY2,     PY3,     PY4,     PZ1,
      6         PZ2,     PZ3,     PZ4,     DT1,
-     7         TEMP,    GBUF%TEMP,  DIE,     THEM,
+     7         TEMP,    TEMPEL,  DIE,     THEM,
      8         GBUF%OFF,LBUF%OFF,PARTSAV, IPARTS,
      9         GBUF%VOL,NEL     ,NUMNOD ,GLOB_THERM%THEACCFACT)
         END IF

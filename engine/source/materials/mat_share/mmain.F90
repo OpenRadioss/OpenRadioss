@@ -188,7 +188,7 @@
         &mfyy,        mfyz,        mfzx,        mfzy,&
         &mfzz,        ipm,         gama,        fr_wav,&
         &dxy,         dyx,         dyz,         dzy,&
-        &dzx,         dxz,         istrain,     tempel0,&
+        &dzx,         dxz,         istrain,     tempel,&
         &die,         iexpan,      ilay,        mssa,&
         &dmels,       iptr,        ipts,        iptt,&
         &table,       fvd2,        fdeltax,     fssp,&
@@ -283,7 +283,6 @@
           integer,intent(in) :: h3d_strain
           integer,intent(in) :: offset
           integer,dimension(n_var_iparg),intent(in) :: iparg1
-          my_real, dimension(mvsiz)     ,intent(in) :: tempel0
           !
           my_real,intent(in) :: dt2t
           my_real, dimension(mvsiz,6), intent(inout)  :: svis
@@ -361,11 +360,12 @@
           my_real, dimension(mvsiz), intent(inout) :: mfzx
           my_real, dimension(mvsiz), intent(inout) :: mfzy
           my_real, dimension(mvsiz), intent(inout) :: mfzz
+          my_real, dimension(mvsiz), intent(inout) :: tempel
           my_real, dimension(mvsiz), intent(inout) :: die
           my_real, dimension(mvsiz), intent(inout) :: r3_dam
           my_real, dimension(mvsiz), intent(inout) :: r4_amu
           my_real, dimension(mvsiz), intent(inout) :: fheat
-          target :: varnl,defp
+          target :: varnl,defp,tempel
 
           type(ttable) table(*)
           type (elbuf_struct_), target, dimension(ngroup) :: elbuf_tab
@@ -398,7 +398,7 @@
           my_real ss1(mvsiz),ss2(mvsiz), ss3(mvsiz),ss4(mvsiz),ss5(mvsiz),ss6(mvsiz)
           my_real r11(mvsiz),r12(mvsiz),r13(mvsiz),r21(mvsiz),r22(mvsiz),r23(mvsiz),r31(mvsiz),r32(mvsiz),r33(mvsiz)
           my_real dpla(mvsiz),tstar(mvsiz),epsp(mvsiz),xk(mvsiz),                  &
-          &       fscal_alpha , sigl(mvsiz,6)
+          &       tempel0(mvsiz), fscal_alpha , sigl(mvsiz,6)
           my_real es1(mvsiz), es2(mvsiz),  es3(mvsiz),  es4(mvsiz),  es5(mvsiz),   &
           &       es6(mvsiz), eint(mvsiz), dpdm(mvsiz), dpde(mvsiz),ecold(mvsiz),  &
           &       vol(mvsiz),al_imp(mvsiz),signor(mvsiz,6)
@@ -713,7 +713,7 @@
 !    storage used for element temperature (in Gauss points)
 ! --------------------------------------------------------
           if (jthe /= 0) then
-            el_temp => gbuf%temp(1:nel)    ! calculated from nodal temp with /heat/mat
+            el_temp => tempel(1:nel)    ! calculated from nodal temp with /heat/mat
           else if (elbuf_tab(ng)%bufly(ilay)%l_temp > 0) then
             el_temp => lbuf%temp(1:nel) ! local temp from mat in adiabatic conditions
           else
@@ -737,9 +737,10 @@
         do i=1,nel
           ifunc_alpha = ipm(219,imat)
           fscal_alpha = pm(191,imat)
-          alpha = finter(ifunc_alpha,gbuf%temp(i),npf,tf,bidon1)
+          tempel0(i)  = lbuf%temp(i)
+          alpha = finter(ifunc_alpha,tempel(i),npf,tf,bidon1)
           alpha = alpha * fscal_alpha
-          eth(i)= alpha *(gbuf%temp(i)-tempel0(i))*off(i)
+          eth(i)= alpha *(tempel(i)-tempel0(i))*off(i)
           lbuf%forth(i) = lbuf%forth(i) + eth(i)  ! lbuf%forth the total thermal strain over time
           epsth(i)= three*lbuf%forth(i)
           dxx(i)  = dxx(i)-eth(i)/dt1
@@ -1836,7 +1837,7 @@
             &jthe,       et,         mssa,       dmels,&
             &iptr,       ipts,       iptt,       table,&
             &fvd2,       fdeltax,    fssp,       fqvis,&
-            &gbuf%temp,     iparg1,     igeo,       lbuf%sigv,&
+            &tempel,     iparg1,     igeo,       lbuf%sigv,&
             &al_imp,     signor,     istrain,    ng,&
             &elbuf_tab,  vbuf,       ilay,       lbuf%vk,&
             &iparg,      bufvois,    vdx,        vdy,&
@@ -1882,7 +1883,7 @@
             &x,           jthe,        et,          mssa,&
             &dmels,       iptr,        ipts,        iptt,&
             &table,       fvd2,        fdeltax,     fssp,&
-            &fqvis,       gbuf%temp,      igeo,        lbuf%sigv,&
+            &fqvis,       el_temp,     igeo,        lbuf%sigv,&
             &al_imp,      signor,      istrain,     ng,&
             &elbuf_tab,   vbuf,        ilay,        lbuf%vk,&
             &ale_connect, iparg,       bufvois,     vdx,&
@@ -2553,7 +2554,7 @@
                 &ngl      ,gbuf%dt  ,epsp     ,uvarf    ,off      ,npg      ,&
                 &es1      ,es2      ,es3      ,es4      ,es5      ,es6      ,&
                 &ss1      ,ss2      ,ss3      ,ss4      ,ss5      ,ss6      ,&
-                &el_temp  ,voln     ,dfmax    ,tdel     ,deltax   ,table    ,&
+                &tempel   ,voln     ,dfmax    ,tdel     ,deltax   ,table    ,&
                 &ir       ,elbuf_tab(ng),ilay ,ntabl_fail,itabl_fail,lf_dammx,&
                 &niparam  ,iparamf  )
 !
@@ -2571,7 +2572,7 @@
                 &npf      ,table    ,tf       ,tt       ,uparamf,&
                 &ngl      ,el_len   ,dpla     ,epsp     ,uvarf    ,&
                 &ss1      ,ss2      ,ss3      ,ss4      ,ss5      ,ss6      ,&
-                &gbuf%temp,off      ,dfmax    ,tdel     ,lbuf%dmgscl,&
+                &tempel   ,off      ,dfmax    ,tdel     ,lbuf%dmgscl,&
                 &gbuf%uelr,ipg      ,npg      ,lbuf%off ,ntabl_fail,itabl_fail,&
                 gbuf%noff,voln      )
 !
@@ -2582,7 +2583,7 @@
                 &table    ,ntabl_fail,itabl_fail,tt       ,uparamf,&
                 &ngl      ,el_len   ,dpla     ,epsp     ,uvarf    ,&
                 &ss1      ,ss2      ,ss3      ,ss4      ,ss5      ,ss6      ,&
-                &el_pla   ,gbuf%temp   ,sigy     ,off      ,dfmax    ,&
+                &el_pla   ,tempel   ,sigy     ,off      ,dfmax    ,&
                 &tdel     ,lbuf%dmgscl,gbuf%uelr,ipg      ,npg      ,&
                 &lbuf%off ,damini   ,gbuf%vol ,inloc    )
 !
@@ -2772,7 +2773,6 @@
             call put_etfac(nel ,et  ,mtn)
             call putsignor3(1,nel ,mtn,iptr,ipts,iptt,al_imp ,signor)
           end if
-!-----------
 !-----------------------------------------------------------------
 !  sound speed (ssp)  post-treatment
 !-----------------------------------------------------------------
@@ -2780,8 +2780,18 @@
             lbuf%ssp(1:nel) = cxx(1:nel)
           endif
 !-----------------------------------------------------------------
-          return
-        end
+!      ! save local element temperature for output
+!-----------------------------------------------------------------
+       if (jthe < 0) then
+!-----------------------------------------------------------------
+         gbuf%temp(1:nel) = tempel(1:nel)
+         do i=1,nel
+           if (off(i) /= zero) lbuf%temp(i) = tempel(i)
+         enddo
+       endif
+!-----------------------------------------------------------------
+      return
+      end
 !-----
       end module mmain_mod
 

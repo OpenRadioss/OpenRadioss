@@ -229,7 +229,7 @@ C For solid elements
 
       my_real
      .  TX(MVSIZ),TY(MVSIZ),TZ(MVSIZ),OFF(MVSIZ),VOLP(MVSIZ,5),
-     .  RHOO(MVSIZ),OFFS(MVSIZ),THEM(MVSIZ,10),TEMPEL0(MVSIZ),
+     .  RHOO(MVSIZ),OFFS(MVSIZ),THEM(MVSIZ,10),TEMPEL(MVSIZ),
      .  VX(MVSIZ,10),VY(MVSIZ,10),VZ(MVSIZ,10),
      .  PX(MVSIZ,10,5),PY(MVSIZ,10,5),PZ(MVSIZ,10,5),
      .  NX(MVSIZ,10,5),VDXX(MVSIZ,10),VDYY(MVSIZ,10),VDZZ(MVSIZ,10),
@@ -321,7 +321,7 @@ c
       BETA(4,5)=ONE_OVER_6
       BETA(5,5)=FOURTH
 C   
-      TEMPEL0(:) = ZERO
+      TEMPEL(:) = ZERO
       FHEAT(:)  = ZERO
       IF (JTHE < 0) THEM(LFT:LLT,1:10) = ZERO
 C      
@@ -595,21 +595,23 @@ C-----------------------------
      2   WZZ,        WXXG,       WYYG,       WZZG,
      3   WIP(IP,NPT),NEL,        ISMSTR,     JLAG)
            
-        IF (JTHE < 0) THEN                                        
-          GBUF%TEMP(1:NEL) = ZERO                                       
-          IF (ISOLNOD == 10) THEN      
-            DO J = 1,10                                             
-              DO I=LFT,LLT                                          
-                GBUF%TEMP(I) = GBUF%TEMP(I) + NX(I,J,IP)*TEMP(NC(I,J))       
-              ENDDO                                                 
-            ENDDO                                                   
-          ELSEIF (ISOLNOD == 4) THEN
+        IF(JTHE < 0 ) THEN                                        
+          DO I=LFT,LLT                                            
+            TEMPEL(I)= ZERO                                       
+          ENDDO                                                   
+          IF(ISOLNOD == 10) THEN      
+          DO J = 1,10                                             
+            DO I=LFT,LLT                                          
+              TEMPEL(I)= TEMPEL(I) +  NX(I,J,IP)*TEMP(NC(I,J))       
+            ENDDO                                                 
+          ENDDO                                                   
+          ELSEIF(ISOLNOD == 4) THEN
             DO J = 1,4                                             
               DO I=LFT,LLT                                          
-                GBUF%TEMP(I) = GBUF%TEMP(I) + NXT4(I,J,IP)*TEMP(NC(I,J))
+                TEMPEL(I)= TEMPEL(I) +  NXT4(I,J,IP)*TEMP(NC(I,J))
               ENDDO 
             ENDDO 
-          ENDIF                                                     
+        ENDIF                                                     
         ENDIF                                                     
 C------------------------------------------------------
 C     CALCUL DES CONTRAINTES SUIVANT LOIS CONSTITUTIVES
@@ -641,7 +643,7 @@ C
      I   MFYY(1,IP),  MFYZ(1,IP),  MFZX(1,IP),  MFZY(1,IP),
      J   MFZZ(1,IP),  IPM,         GAMA,        BID,
      K   BID,         BID,         BID,         BID,
-     L   BID,         BID,         ISTRAIN,     TEMPEL0,
+     L   BID,         BID,         ISTRAIN,     TEMPEL,
      M   DIE,         IEXPAN,      ILAY,        MSSA,
      N   DMELS,       IPTR,        IPTS,        IPTT,
      O   TABLE,       BID,         BID,         BID,
@@ -717,14 +719,14 @@ C
             CALL S10THERM(
      1           PM,        IMAT,       NC,        VOLN,
      2           PX(1,1,IP),PY(1,1,IP),PZ(1,1,IP),NX(1,1,IP),
-     3           DT1,       TEMP,      GBUF%TEMP,    FHEAT,
+     3           DT1,       TEMP,      TEMPEL,    FHEAT,
      4           THEM,      GBUF%OFF,  LBUF%OFF,  NEL,
      5           GLOB_THERM%THEACCFACT)
           ELSE
             CALL S10THERM(
      1           PM,        IMAT,       NC,        VOLN,
      2           PX(1,1,IP),PY(1,1,IP),PZ(1,1,IP),NX(1,1,IP),
-     3           DT1,       TEMP,      GBUF%TEMP,    DIE,
+     3           DT1,       TEMP,      TEMPEL,    DIE,
      4           THEM,      GBUF%OFF,  LBUF%OFF,  NEL,
      5           GLOB_THERM%THEACCFACT)
           END IF

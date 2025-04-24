@@ -204,7 +204,7 @@
         &x,           jthe,        et,          mssa,&
         &dmels,       iptr,        ipts,        iptt,&
         &table,       fvd2,        fdeltax,     fssp,&
-        &fqvis,       tempel,      igeo,        sigv,&
+        &fqvis,       el_temp,     igeo,        sigv,&
         &al_imp,      signor,      istrain,     ng,&
         &elbuf_tab,   vbuf,        ilay,        vk,&
         &ale_connect, iparg,       bufvois,     vdx,&
@@ -370,7 +370,7 @@
           my_real, dimension(nel), intent(inout) :: qold
           !
           my_real, target, dimension(nel),intent(inout) :: ltemp
-          my_real, target, dimension(nel),intent(inout) :: tempel
+          my_real, target, dimension(nel),intent(inout) :: el_temp
           my_real, target, dimension(nuvar*nel)   :: uvar
 
           ! mvsiz arrays / working array
@@ -493,7 +493,7 @@
           my_real, dimension(nel), target  :: le_max
 !----
           my_real, dimension(:), pointer   :: uparam,uparam0,uparf,uparvis,uvarf,dfmax,&
-          &tdel,el_temp,yldfac,dam,el_len,&
+          &tdel,yldfac,dam,el_len,&
           &el_pla,damini
           my_real, dimension(:), allocatable ,target  :: bufzero
           type(l_bufel_)  ,pointer         :: lbuf
@@ -614,14 +614,6 @@
           ! Save old value of OFF flag
           off_old(1:nel) = off(1:nel)
 !
-          if (jthe /= 0) then
-            el_temp => tempel(1:nel)     ! gbuf%temp
-          elseif (elbuf_tab(ng)%bufly(ilay)%l_temp > 0) then
-            el_temp => ltemp             ! lbuf%temp
-          else
-            el_temp => vecnul(1:nel)
-          endif
-
           !initial scale factor for yield stress defined per ipg,npi
           scale1(1:nel) = one
           yldfac => scale1(1:nel)
@@ -1465,7 +1457,7 @@
             &s1  ,s2  ,s3  ,s4   ,s5   ,s6  ,&
             &sv1 ,sv2 ,sv3 ,sv4  ,sv5  ,sv6 ,&
             &ssp ,vis ,uvar,off  ,ngl ,ipm,&
-            &mat ,jthe,tempel,ismstr,et)!,et
+            &mat ,jthe,el_temp,ismstr,et)!,et
           elseif (mtn == 72) then
             call sigeps72(nel      ,npar     ,nuvar    ,&
             &tt       ,dt1      ,uparam0   ,rho0     ,rho      ,&
@@ -1490,7 +1482,7 @@
             &sv1 ,sv2 ,sv3 ,sv4  ,sv5  ,sv6 ,&
             &ssp ,vis ,uvar,off  ,ngl  ,0   ,&
             &ipm ,mat ,epsd,ipla ,sigy ,defp,&
-            &dpla,et  ,jthe,tempel,table,lbuf%seq,&
+            &dpla,et  ,jthe,el_temp,table,lbuf%seq,&
             &amu ,iseq)
 !
           elseif (mtn == 75) then
@@ -1571,7 +1563,7 @@
             &s3,      s4,      s5,      s6,&
             &ssp,     vis,     uvar,    off,&
             &ngl,     ipm,     mat,     epsd,&
-            &sigy,    defp,    table,   tempel,&
+            &sigy,    defp,    table,   el_temp,&
             &nvartmp, vartmp,  trepsth, eintth,&
             &jthe,    glob_therm%idt_therm,glob_therm%theaccfact)
             do i=1,nel
@@ -1611,7 +1603,7 @@
             &nel,     npar,    nuvar,   nfunc,&
             &ifunc,   npf,     tf,      tt,&
             &dt1,     uparam0,  rho0,    rho,&
-            &voln,    eint,    tempel,  ngl,&
+            &voln,    eint,    el_temp,  ngl,&
             &ep1,     ep2,     ep3,     ep4,&
             &ep5,     ep6,     de1,     de2,&
             &de3,     de4,     de5,     de6,&
@@ -1720,7 +1712,7 @@
             call sigeps96(&
             &nel     ,ngl     ,npar    ,nuvar    ,nfunc   ,ifunc   ,&
             &npf     ,tf      ,uparam0,uvar,jthe   ,&
-            &rho     ,tempel  ,defp    ,ssp      ,gbuf%off,epsd    ,&
+            &rho     ,el_temp  ,defp    ,ssp      ,gbuf%off,epsd    ,&
             &ep1     ,ep2     ,ep3     ,ep4      ,ep5     ,ep6     ,&
             &de1     ,de2     ,de3     ,de4      ,de5     ,de6     ,&
             &so1     ,so2     ,so3     ,so4      ,so5     ,so6     ,&
@@ -1766,7 +1758,7 @@
             &              so1 ,so2 ,so3 ,so4  ,so5  ,so6 ,    &
             &              s1  ,s2  ,s3  ,s4   ,s5   ,s6  ,    &
             &              mfxx,mfxy,mfxz,mfyx ,mfyy ,mfyz,    &
-            &              mfzx ,mfzy,mfzz,tempel,             &
+            &              mfzx ,mfzy,mfzz,el_temp,             &
             &              ssp ,vis ,uvar,et ,                 &
             &              ihet,epsth,iexpan ,nparf,           &
             &              uparf,uvarf, nvarf,                 &
@@ -1823,7 +1815,7 @@
             &s1  ,s2  ,s3  ,s4   ,s5   ,s6  ,&
             &sv1 ,sv2 ,sv3 ,sv4  ,sv5  ,sv6 ,&
             &ssp ,vis ,uvar,off  ,ismstr,et ,&
-            &ihet,gbuf%off ,epsth,iexpan,tempel,&
+            &ihet,gbuf%off ,epsth,iexpan,el_temp,&
             &fpsxx    , fpsxy  , fpsxz  , fpsyx  ,&
             &fpsyy  ,fpsyz    , fpszx  , fpszy  , fpszz  ,&
             &upsxx  ,upsyy    , upszz  , upsxy  , upsyz  ,&
@@ -1853,7 +1845,7 @@
             &s1     ,s2       ,s3     ,s4     , s5            ,s6   ,&
             &sv1    ,sv2      ,sv3    ,sv4    , sv5           ,sv6  ,&
             &ssp    ,vis      ,uvar   ,off    , dpdm          ,&
-            &epsd   ,ltemp    ,tempel ,jthe   , lbuf%pla      )
+            &epsd   ,ltemp    ,el_temp ,jthe   , lbuf%pla      )
 !
 !
           elseif (mtn == 104) then
@@ -1864,7 +1856,7 @@
             &de1    ,de2    ,de3    ,de4    ,de5    ,de6    ,&
             &so1    ,so2    ,so3    ,so4    ,so5    ,so6    ,&
             &s1     ,s2     ,s3     ,s4     ,s5     ,s6     ,&
-            &sigy   ,et     ,tempel ,varnl  ,off    ,ipg    ,&
+            &sigy   ,et     ,el_temp ,varnl  ,off    ,ipg    ,&
             &lbuf%dmg,l_dmg ,lbuf%planl,l_planl,lbuf%epsdnl,l_epsdnl,&
             &lbuf%temp,lbuf%seq,inloc)
 !
@@ -1970,7 +1962,7 @@
 
             call sigeps120(nel    ,npar   ,nuvar  ,nvartmp,numtabl,itable ,&
             &table  ,tt     ,dt1    ,ssp    ,uvar   ,vartmp ,&
-            &uparam0 ,ngl    ,off    ,defp   ,epsd   ,tempel ,&
+            &uparam0 ,ngl    ,off    ,defp   ,epsd   ,el_temp ,&
             &ep1    ,ep2    ,ep3    ,ep4    ,ep5    ,ep6    ,&
             &de1    ,de2    ,de3    ,de4    ,de5    ,de6    ,&
             &so1    ,so2    ,so3    ,so4    ,so5    ,so6    ,&
@@ -2081,7 +2073,7 @@
           elseif (mtn == 187) then !barlat 2000
             call sigeps187(nel   ,npar  ,nuvar ,nfunc ,ifunc ,&
             &npf   ,tf    ,tt    ,dt1   ,uparam0,&
-            &rho0  ,rho   ,voln  ,eint  ,tempel,ngl   ,&
+            &rho0  ,rho   ,voln  ,eint  ,el_temp,ngl   ,&
             &ep1   ,ep2   ,ep3   ,ep4   ,ep5   ,ep6   ,&
             &de1   ,de2   ,de3   ,de4   ,de5   ,de6   ,&
             &es1   ,es2   ,es3   ,es4   ,es5   ,es6   ,&

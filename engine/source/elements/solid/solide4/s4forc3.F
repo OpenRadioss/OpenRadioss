@@ -251,7 +251,7 @@ C-----------------------------------------------
      .  E1X(MVSIZ) , E1Y(MVSIZ) , E1Z(MVSIZ) , 
      .  E2X(MVSIZ) , E2Y(MVSIZ) , E2Z(MVSIZ) , 
      .  E3X(MVSIZ) , E3Y(MVSIZ) , E3Z(MVSIZ) ,RHO_0,
-     .  TEMPEL0(MVSIZ), THEM(MVSIZ,4) , DIE(MVSIZ)
+     .  TEMPEL(MVSIZ), THEM(MVSIZ,4) , DIE(MVSIZ)
 
       my_real
      .  VX0(MVSIZ,4),VY0(MVSIZ,4),VZ0(MVSIZ,4),
@@ -286,7 +286,7 @@ C-----special traitment when switching Ismstr from 12 to 11
       IBID = 0
       IBIDON(1) = 0
 
-      TEMPEL0(:) = ZERO
+      TEMPEL(:) = ZERO
       FHEAT(:)  = ZERO
 C
       SZ_IX=NUMELQ+NUMELS+NSVOIS
@@ -558,12 +558,11 @@ C--------------------------
 C-----------------------------
 C     heat transfert 
 C
-      IF (JTHE /= 0) THEN
-        TEMPEL0(1:NEL) = GBUF%TEMP(1:NEL)  
-        DO I = LFT, LLT
-          GBUF%TEMP(I) =  FOURTH*(TEMP(NC1(I)) + TEMP(NC2(I))  +
-     .                            TEMP(NC3(I)) + TEMP(NC4(I))  )    
-        ENDDO  
+      IF (JTHE < 0 ) THEN
+         DO I = LFT, LLT
+           TEMPEL(I) =  FOURTH*( TEMP(NC1(I)) + TEMP(NC2(I))  +
+     .                           TEMP(NC3(I)) + TEMP(NC4(I))  )    
+         ENDDO  
       ENDIF
 c-------------------------------------------
 c    COMPUTE Regularized non local variable in Gauss point
@@ -628,7 +627,7 @@ Cpour le fluide en SPMD : BUFVOIS LOI11
      I   MFYY,        MFYZ,        MFZX,        MFZY,
      J   MFZZ,        IPM,         GAMA,        BID,
      K   BID,         BID,         BID,         BID,
-     L   BID,         BID,         ISTRAIN,     TEMPEL0,
+     L   BID,         BID,         ISTRAIN,     TEMPEL,
      M   DIE,         IEXPAN,      ILAY,        MSSA,
      N   DMELS,       IPTR,        IPTS,        IPTT,
      O   TABLE,       BID,         BID,         BID,
@@ -785,7 +784,7 @@ C --------------------------
      3         PX2,     PX3,     PX4,     PY1,
      4         PY2,     PY3,     PY4,     PZ1,
      5         PZ2,     PZ3,     PZ4,     DT1,
-     6         TEMP,    GBUF%TEMP,  FHEAT,   THEM,
+     6         TEMP,    TEMPEL,  FHEAT,   THEM,
      7         GBUF%OFF,LBUF%OFF,NEL,GLOB_THERM%THEACCFACT)
         ELSE
           CALL S4THERM (
@@ -794,7 +793,7 @@ C --------------------------
      3         PX2,     PX3,     PX4,     PY1,
      4         PY2,     PY3,     PY4,     PZ1,
      5         PZ2,     PZ3,     PZ4,     DT1,
-     6         TEMP,    GBUF%TEMP,  DIE,    THEM,
+     6         TEMP,    TEMPEL,  DIE,    THEM,
      7         GBUF%OFF,LBUF%OFF,NEL,GLOB_THERM%THEACCFACT)
         END IF
       
