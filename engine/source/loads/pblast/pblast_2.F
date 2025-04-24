@@ -83,21 +83,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N1, N2, N3, N4, IL, IS, IAD, I, IANIM_OR_H3D,IZ_UPDATE,ABAC_ID,ISIZ_SEG,IERR1,
-     .        ID, ITA_SHIFT,NS,KSURF,NDT,
-     .        IMODEL,NN(4)
+      INTEGER :: N1, N2, N3, N4, IL, IS, IAD, I, IANIM_OR_H3D,IZ_UPDATE,ABAC_ID,ISIZ_SEG,IERR1,ID, ITA_SHIFT,NS,KSURF
+      INTEGER :: NDT,IMODEL,NN(4)
+      INTEGER :: ISHAPE
       my_real :: Zx,Zy,Zz,NORM,Nx,Ny,Nz,NNx,NNy,NNz,Hz,AREA
-      my_real LAMBDA,cos_theta, alpha_inci, alpha_refl, P_inci,P_refl,Z,
-     .        I_inci,I_refl,dt_0,t_a,WAVE_refl,WAVE_inci, W13
-      my_real Xdet,Ydet,Zdet,Tdet,Wtnt,PMIN,T_STOP,
-     .        P,
-     .        FAC_M_bb, FAC_L_bb, FAC_T_bb, FAC_P_bb, FAC_I_bb, TA_FIRST, TT_STAR
-      my_real Z1_
-      my_real DECAY_inci,DECAY_refl
+      my_real :: LAMBDA,cos_theta, alpha_inci, alpha_refl, P_inci,P_refl,Z
+      my_real :: I_inci,I_refl,dt_0,t_a,WAVE_refl,WAVE_inci, W13
+      my_real :: Xdet,Ydet,Zdet,Tdet,Wtnt,PMIN,T_STOP,P,FAC_M_bb, FAC_L_bb, FAC_T_bb, FAC_P_bb, FAC_I_bb, TA_FIRST, TT_STAR
+      my_real :: Z1_
+      my_real :: DECAY_inci,DECAY_refl
       my_real :: cst_255_div_ln_Z1_on_ZN,  log10_, NPT, FF(3)
       my_real :: PROJZ(3), tmp(3), LG, ZG, HC
       my_real :: Base_x,Base_y,Base_z
       my_real :: TA_INF_LOC,ZETA
+      my_real :: DNORM, Dx, Dy, Dz
       TYPE(FRIEDLANDER_PARAMS_) :: FRIEDLANDER_PARAMS
       LOGICAL IS_UPDATED,IS_DECAY_TO_BE_COMPUTED
 
@@ -118,7 +117,7 @@ C-----------------------------------------------
 C   P r e - C o n d i t i o n
 C-----------------------------------------------
       !--- subroutine not relevant if no /LOAD/PBLAST option
-      IF(PBLAST%NLOADP_B==0)RETURN
+      IF(PBLAST%NLOADP_B == 0)RETURN
 
       !--- time step
       TA_FIRST = FAC(07,NL) ! arrival time for first segment to be loaded
@@ -176,6 +175,7 @@ C-----------------------------------------------
       HC         = FAC(11,NL)
       T_STOP     = FAC(13,NL)
       IS         = ILOADP(02,NL)
+      ISHAPE     = ILOADP(03,NL)
       IZ_UPDATE  = ILOADP(06,NL)
       ABAC_ID    = ILOADP(07,NL)
       ID         = ILOADP(08,NL) !user_id
@@ -206,7 +206,7 @@ C-----------------------------------------------
         NN(3)=N3
         NN(4)=N4
 
-        IF(N4==0 .OR. N3==N4 )THEN
+        IF(N4 == 0 .OR. N3 == N4 )THEN
           !3-NODE-SEGMENT
           PBLAST%PBLAST_TAB(IL)%NPt(I)   = THREE
           NPT = THREE
@@ -262,7 +262,7 @@ C-----------------------------------------------
 
           DTMIN_LOC = EP20
 
-          IF(HZ > ZERO)THEN
+          IF(HZ > ZERO .OR. ISHAPE == 2)THEN
 
             !OVER GROUND
 
@@ -285,8 +285,18 @@ C-----------------------------------------------
             cos_theta = (Xdet-ProjZ(1))*Nx +  (Ydet-ProjZ(2))*Ny + (Zdet-ProjZ(3))*Nz
             cos_theta = cos_theta/MAX(EM20,LG*NORM)
 
-            !scaled distance
-            Z = ZG    !in abac unit ID  g,cm,mus
+            ! scaled distance
+            SELECT CASE(ISHAPE)
+              CASE (1,2)
+                ! Dist
+                Dx = (Xdet - Zx)*FAC_L_bb
+                Dy = (Ydet - Zy)*FAC_L_bb
+                Dz = (Zdet - Zz)*FAC_L_bb
+                DNORM = SQRT(Dx*Dx+Dy*Dy+Dz*Dz) ! *FAC_L_bb  cm->work unit    /FAC_L_bb : WORK_UNIT -> cm
+                Z = DNORM / W13    !spherical
+             CASE(3)
+                Z = ZG             !cylindrical - in abac unit ID  g,cm,mus
+            END SELECT
 
            !checking bounds
             IF(Z > 0.5 .AND. Z < 400.) then

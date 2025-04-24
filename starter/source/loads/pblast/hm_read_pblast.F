@@ -126,7 +126,7 @@ C-----------------------------------------------
       INTEGER SURF_ID_ground,internal_SURF_ID_GROUND
       INTEGER curve_id1,curve_id2,SEG_UNDERGROUND
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
-
+      INTEGER :: ISHAPE
       TYPE(FRIEDLANDER_PARAMS_) :: FRIEDLANDER_PARAMS
 C-----------------------------------------------
 C   C o n s t a n t   V a l u e s
@@ -271,6 +271,7 @@ C-----------------------------------------------
         CALL HM_GET_FLOATV('Tstop',TSTOP,IS_AVAILABLE_TSTOP, LSUBMODEL, UNITAB)
         !---line-4
         CALL HM_GET_INTV('surf_ground_ID', SURF_ID_GROUND, IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV('Ishape', ISHAPE, IS_AVAILABLE, LSUBMODEL)
 
          OUTPUT_USER_PARAMS(1,K_BLAST)=SURF_ID
          OUTPUT_USER_PARAMS(2,K_BLAST)=SURF_ID_GROUND
@@ -397,6 +398,12 @@ C-----------------------------------------------
         !  3: AIR BURST
         IF(IABAC <= 0)IABAC=1
         IF(IABAC >= 4)IABAC=1
+
+        !ISHAPE
+        !  1: spherical (with ground) - default
+        !  2: spherical (without ground)
+        !  3: cylindrical (with ground)
+        IF(ISHAPE <= 0 .OR. ISHAPE >= 4) ISHAPE=1
 
         !--------------------------------------------------------------
         !   S u r f a c e   S e g m e n t s
@@ -661,6 +668,7 @@ C-----------------------------------------------
         IF(internal_SURF_ID /= 0)THEN
           ILOADP( 1,K) = 4*NUMSEG
           ILOADP( 2,K) = internal_SURF_ID
+          ILOADP( 3,K) = ISHAPE
           ILOADP( 4,K) = IAD
           ILOADP( 5,K) = 3
           ILOADP( 6,K) = IZ_UPDATE
@@ -857,7 +865,7 @@ C-----------------------------------------------
 
                 HZ = ( Nx_SURF*Zx + Ny_SURF*Zy + Nz_SURF*Zz  - Nx_SURF*Xdet - Ny_SURF*Ydet - Nz_SURF*Zdet )
 
-                IF(HZ < ZERO)THEN
+                IF(HZ < ZERO .AND. ISHAPE /= 2)THEN
 
                   !FACE IS UNDERGROUND
                   P_inci = zero
@@ -894,7 +902,12 @@ C-----------------------------------------------
                   ZG = LG*FAC_L_bb/W13     !scaled horizontal distance (ground)
 
                   ! scaled distance
-                  Z = ZG !in abac unit ID  g,cm,mus
+                  SELECT CASE(ISHAPE)
+                    CASE (1,2)
+                      Z = DNORM / W13    !spherical
+                   CASE(3)
+                      Z = ZG             !cylindrical - in abac unit ID  g,cm,mus
+                  END SELECT
 
                   !finding index for TM5-1300 abacuses from bijection.
                   IF(Z > 0.5 .AND. Z < 400.)THEN
@@ -1168,6 +1181,9 @@ C---------------------------------
         IF(IABAC >=2)THEN
           WRITE(IOUT,2034)NX_SURF,NY_SURF,NZ_SURF
         ENDIF
+        IF(IABAC == 2)THEN
+          WRITE(IOUT,2036)ISHAPE
+        ENDIF
         IF(IABAC == 3) WRITE(IOUT,2023) HC
         IF(ITA_SHIFT == 2)THEN
            WRITE (IOUT,2013)OUTPUT_USER_PARAMS(6,K_BLAST)
@@ -1250,6 +1266,8 @@ C-------------------------------------------------------------------------------
  2035 FORMAT(
      .     5X,'TIME SHIFT VALUE',/,
      .     5X,'  (MINIMUM AMONG ALL PBLAST OPTIONS). =',E12.4//)
+ 2036 FORMAT(
+     .     5X,'ISHAPE FLAG  . . . . . . . . . . . .  =',I10)
 
 C-----------------------------------------------
  1000 CONTINUE
