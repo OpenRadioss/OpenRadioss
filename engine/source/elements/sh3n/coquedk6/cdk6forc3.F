@@ -197,7 +197,7 @@ c  indx utilise localement contrairement aux coques 4n
      .   VLX(MVSIZ,2),VLY(MVSIZ,2),VLZ(MVSIZ,6),
      .   VZ4(MVSIZ,3),VZ5(MVSIZ,3),VZ6(MVSIZ,3),
      .   ALDT(MVSIZ),AMU(MVSIZ),VDEF(MVSIZ,8),DIE(MVSIZ),
-     .   TEMPEL0(MVSIZ),BID,KRZ(MVSIZ),CONDE(MVSIZ),A11R(MVSIZ)
+     .   TEMPEL(MVSIZ),BID,KRZ(MVSIZ),CONDE(MVSIZ),A11R(MVSIZ)
       my_real , DIMENSIOn(NEL)  ::  ZOFFSET
       my_real, 
      .    ALLOCATABLE, DIMENSION(:), TARGET :: DIRA,DIRB
@@ -239,8 +239,8 @@ C============================== =========================================
       SEDRAPE = STDRAPE
       NUMEL_DRAPE = NUMELTG_DRAPE
       ! thermal transfert for 3n shells type cdkforc is not available
-      TEMPEL0(:) = ZERO
-      FHEAT(:)   = ZERO
+      TEMPEL(:) = ZERO
+      FHEAT(:)  = ZERO
 cc      NPT  = MAX(NLAY,NPTT) --> set to = IPARG(6) , keeping it original
 C                                 to allow for NPT = 0 (global LAW_3
       NPG  = 0
@@ -398,7 +398,7 @@ C----------------------------------------------------------------------------
      C   KFTS      ,IHBE      ,ALPE      ,
      D   DIR_A     ,DIR_B     ,IGEO      ,
      E   IPM       ,IFAILURE  ,NPG       ,FHEAT     ,
-     F   DIE       ,IBID      ,IBID      ,TEMPEL0   ,
+     F   TEMPEL    ,DIE       ,IBID      ,IBID      ,BID        ,
      G   IBID      ,BID       ,
      H   BID       ,BID       ,BID       ,BID       ,BID        ,
      I   BID       ,BID       ,BID       ,R11       ,R12        ,
@@ -454,8 +454,8 @@ C     THERMAL TIME STEP
 C--------------------------
          IF (JTHE /= 0 .AND. GLOB_THERM%IDT_THERM == 1)THEN
            call dttherm(nel     ,pm(1,mat(1))  ,npropm  ,glob_therm   ,
-     .                  jtur    ,gbuf%temp,vol0    ,rho       ,
-     .                  aldt    ,off      ,conde   ,gbuf%re   ,gbuf%rk )
+     .                  jtur    ,tempel  ,vol0    ,rho       ,
+     .                  aldt    ,off     ,conde   ,gbuf%re   ,gbuf%rk )
          ENDIF
 c-------------------------
 c     Virtual internal forces of regularized non local ddl 

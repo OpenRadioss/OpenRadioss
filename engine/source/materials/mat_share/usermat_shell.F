@@ -106,7 +106,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      D       DIR1_CRK ,DIR2_CRK ,IPARG    ,JHBE      ,ISMSTR   ,JTHE     ,                        
      E       TENSX    ,IR       ,IS       ,NLAY      ,NPT      ,IXLAY    ,             
      F       IXEL     ,ITHK     ,F_DEF    ,ISHPLYXFEM,                        
-     G       ITASK    ,PM_STACK , ISUBSTACK,STACK    ,TSTAR    ,ALPE     ,
+     G       ITASK    ,PM_STACK , ISUBSTACK,STACK    ,ALPE     ,
      H       PLY_EXX  ,PLY_EYY  ,PLY_EXY  ,PLY_EXZ   ,PLY_EYZ  ,PLY_F    ,
      I       VARNL    ,NLOC_DMG ,NLAY_MAX ,LAYNPT_MAX,DT       )
 C-----------------------------------------------
@@ -167,7 +167,7 @@ C-----------------------------------------------
      .   R21(MVSIZ), R22(MVSIZ), R23(MVSIZ),
      .   R31(MVSIZ), R32(MVSIZ), R33(MVSIZ),
      .   DIR1_CRK(*),DIR2_CRK(*),TENSX(NEL,5),
-     .   F_DEF(MVSIZ,8),PM_STACK(20,*),TSTAR(MVSIZ),ALPE(MVSIZ),
+     .   F_DEF(MVSIZ,8),PM_STACK(20,*),ALPE(MVSIZ),
      .   PLY_EXX(MVSIZ,*),PLY_EYY(MVSIZ,*),PLY_EXY(MVSIZ,*), 
      .   PLY_EXZ(MVSIZ,*),PLY_EYZ(MVSIZ,*),PLY_F(MVSIZ,5,*)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
@@ -205,7 +205,7 @@ c
      .   SIGNZX(MVSIZ),SIGVXX(MVSIZ),SIGVYY(MVSIZ),SIGVXY(MVSIZ),
      .   SIGVYZ(MVSIZ),SIGVZX(MVSIZ),TENS(MVSIZ,5),
      .   WMC(MVSIZ), EPSPL(MVSIZ), YLD(MVSIZ),DPLA(MVSIZ),
-     .   VOL0(MVSIZ), COEF(MVSIZ),HARDM(MVSIZ),
+     .   VOL0(MVSIZ), COEF(MVSIZ),HARDM(MVSIZ),TSTAR(MVSIZ),
      .   PLA0(MVSIZ),G_IMP(MVSIZ), SIGKSI(MVSIZ,5),
      .   DAMCR(MVSIZ,2),DMAXT(MVSIZ),
      .   VISC(MVSIZ),OFF_OLD(MVSIZ),EPSP_LOC(MVSIZ),EINT_LOC(2,MVSIZ),
@@ -215,7 +215,7 @@ c
      .   FPSXX(MVSIZ),FPSYY(MVSIZ),FPSZZ(MVSIZ),FPSXY(MVSIZ),FPSYX(MVSIZ),
      .   EPCHK(MVSIZ),EPSPDT(MVSIZ)
       my_real 
-     .   ZT,DTINV, VOL2,FCUT,ASRATE,EPS_M2,EPS_K2,
+     .   ZT,DTINV, VOL2,FCUT,ASRATE,EPS_M2,EPS_K2,T0,TM,
      .   R1,R2,S1,S2,R12A,R22A,S12B,S22B,RS1,RS2,RS3,
      .   T1,T2,T3,FACT,R3R3,S3S3,TRELAX, 
      .   BIDON1,BIDON2,BIDON3,BIDON4,BIDON5,VV,AA
@@ -278,6 +278,17 @@ C-----------------------------------------------
 C      
       IPT_ALL = 0
       NPTTOT  = 0
+c
+c----- Tstar  : T* = (T-T0)/(TM-T0)----
+      IF (JTHE > 0) THEN
+        T0 = PM(79, MX) 
+        TM = PM(80, MX) 
+        DO I=JFT,JLT   
+           TSTAR(I)=MAX(ZERO,(TEMPEL(I)-T0)/(TM-T0))
+        ENDDO
+      ELSE
+        TSTAR(JFT:JLT) = ZERO
+      ENDIF  
 !
 !  Check visco elastic model 
 !             

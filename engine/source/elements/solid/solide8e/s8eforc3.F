@@ -321,7 +321,7 @@ C Variables utilisees dans les routines solides uniquement (en arguments).
      . R1_FREE(MVSIZ),R3_FREE(MVSIZ)
       my_real
      .   VX0(MVSIZ,8),VY0(MVSIZ,8),VZ0(MVSIZ,8),
-     .   TEMPEL0(MVSIZ),THEM(MVSIZ,8),DIE(MVSIZ)
+     .   TEMPEL(MVSIZ),THEM(MVSIZ,8),DIE(MVSIZ)
       INTEGER NNPT,IDEG(MVSIZ),ISTAB(MVSIZ),ICP0
       PARAMETER (NNPT = 8)
       my_real
@@ -1090,14 +1090,16 @@ C-----------
 C-------------------------------------------
 C    COMPUTE AVERAGE TEMPERATURE IN ELEMENT
 C-------------------------------------------
-      TEMPEL0(:) = ZERO
-      FHEAT(:)   = ZERO
-      IF (JTHE /= 0) THEN 
+      TEMPEL(:) = ZERO
+      FHEAT(:)  = ZERO
+      IF(JTHE < 0 ) THEN 
         DO I=LFT,LLT
-           GBUF%TEMP(I) = ONE_OVER_8 * (TEMP(NC1(I)) + TEMP(NC2(I))  
-     .                               +  TEMP(NC3(I)) + TEMP(NC4(I)) 
-     .                               +  TEMP(NC5(I)) + TEMP(NC6(I)) 
-     .                               +  TEMP(NC7(I)) + TEMP(NC8(I))) * GBUF%OFF(I)
+           IF(GBUF%OFF(I) == ZERO) CYCLE
+           TEMPEL(I) = ONE_OVER_8 *(  TEMP(NC1(I)) + TEMP(NC2(I))  
+     .                          + TEMP(NC3(I)) + TEMP(NC4(I)) 
+     .                          + TEMP(NC5(I)) + TEMP(NC6(I)) 
+     .                          + TEMP(NC7(I)) + TEMP(NC8(I)))
+           GBUF%TEMP(I) = TEMPEL(I)
         ENDDO
       ENDIF
 c-------------------------------------------
@@ -1503,12 +1505,12 @@ C-----------------------------
 C
 C    for heat transfert
 C
-      IF (JTHE < 0) THEN
+      IF (JTHE < 0 ) THEN
             CALL S8ZTEMPEL(
      .           LFT,LLT,NI,
      .           A_GAUSS(IR,NPTR),A_GAUSS(IS,NPTS),A_GAUSS(IT,NPTT),
      .           NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,
-     .           TEMP,GBUF%TEMP)
+     .           TEMP,TEMPEL)
       ENDIF 
        DELTAXI(1:NEL) = FAC_NU*DELTAX(1:NEL)   
 C------------------------------------------------------
@@ -1542,7 +1544,7 @@ c
      I   MFYY(1,IP),   MFYZ(1,IP),   MFZX(1,IP),   MFZY(1,IP),
      J   MFZZ(1,IP),   IPM,          GAMA,         BID,
      K   BID,          BID,          BID,          BID,
-     L   BID,          BID,          ISTRAIN,      TEMPEL0,
+     L   BID,          BID,          ISTRAIN,      TEMPEL,
      M   DIE,          IEXPAN,       ILAY,         MSSA,
      N   DMELS,        IR,           IS,           IT,
      O   TABLE,        BID,          BID,          BID,
@@ -1717,7 +1719,7 @@ C
      7            PX5(1,IP),PX6(1,IP),PX7(1,IP),PX8(1,IP),
      8            PY5(1,IP),PY6(1,IP),PY7(1,IP),PY8(1,IP),
      9            PZ5(1,IP),PZ6(1,IP),PZ7(1,IP),PZ8(1,IP),
-     A            DT1,      TEMP,     GBUF%TEMP,   FHEAT,
+     A            DT1,      TEMP,     TEMPEL,   FHEAT,
      B            THEM,     GBUF%OFF, LBUF%OFF, PARTSAV,
      C            IPARTS,   LBUF%VOL, NEL,GLOB_THERM%THEACCFACT)
            ELSE
@@ -1731,7 +1733,7 @@ C
      7            PX5(1,IP),PX6(1,IP),PX7(1,IP),PX8(1,IP),
      8            PY5(1,IP),PY6(1,IP),PY7(1,IP),PY8(1,IP),
      9            PZ5(1,IP),PZ6(1,IP),PZ7(1,IP),PZ8(1,IP),
-     A            DT1,      TEMP,     GBUF%TEMP,   DIE,
+     A            DT1,      TEMP,     TEMPEL,   DIE,
      B            THEM,     GBUF%OFF, LBUF%OFF, PARTSAV,
      C            IPARTS,   LBUF%VOL, NEL,GLOB_THERM%THEACCFACT)
            END IF

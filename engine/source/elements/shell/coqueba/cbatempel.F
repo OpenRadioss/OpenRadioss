@@ -42,7 +42,7 @@ C-----------------------------------------------
       INTEGER I,KSI ,ETA ,SF1,SF2 ,SF3 ,SF4
       MY_REAL 
      .   VPG(2,4),PG1,PG
-       PARAMETER (PG = .577350269189626)
+       PARAMETER (PG=.577350269189626)
        PARAMETER (PG1=-.577350269189626)
 C--------------------------
 C     INITIALISATION
