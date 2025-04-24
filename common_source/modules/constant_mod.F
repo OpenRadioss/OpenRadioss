@@ -113,6 +113,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_mat126                           ../starter/source/materials/mat/mat126/hm_read_mat126.F90
       !||    hm_read_mat127                           ../starter/source/materials/mat/mat127/hm_read_mat127.F90
       !||    hm_read_mat128                           ../starter/source/materials/mat/mat128/hm_read_mat128.F90
+      !||    hm_read_mat134                           ../starter/source/materials/mat/mat134/hm_read_mat134.F90
       !||    hm_read_mat163                           ../starter/source/materials/mat/mat163/hm_read_mat163.F90
       !||    hm_read_mat169_arup                      ../starter/source/materials/mat/mat169/hm_read_mat169.F90
       !||    hm_read_mat50                            ../starter/source/materials/mat/mat050/hm_read_mat50.F90
@@ -158,6 +159,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    mulaw8                                   ../engine/source/materials/mat_share/mulaw8.F90
       !||    mulawc                                   ../engine/source/materials/mat_share/mulawc.F90
       !||    multi_propergol_ebcs                     ../engine/source/multifluid/multi_propergol_ebcs.F90
+      !||    multifluid_global_tdet                   ../starter/source/multifluid/multifluid_global_tdet.F
       !||    newman_raju                              ../common_source/fail/newman_raju.F90
       !||    offset_nproj                             ../engine/source/interfaces/shell_offset/offset_nproj.F90
       !||    polygon_addpoint                         ../common_source/tools/clipping/polygon_mod.F90
@@ -204,6 +206,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sigeps127c                               ../engine/source/materials/mat/mat127/sigeps127c.F90
       !||    sigeps128c                               ../engine/source/materials/mat/mat128/sigeps128c.F90
       !||    sigeps128s                               ../engine/source/materials/mat/mat128/sigeps128s.F90
+      !||    sigeps134s                               ../engine/source/materials/mat/mat134/sigeps134s.F90
       !||    sigeps163                                ../engine/source/materials/mat/mat163/sigeps163.F90
       !||    sigeps169_connect                        ../engine/source/materials/mat/mat169/sigeps169_connect.F90
       !||    sigeps50s                                ../engine/source/materials/mat/mat050/sigeps50s.F90

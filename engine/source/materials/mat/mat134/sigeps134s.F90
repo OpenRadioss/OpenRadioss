@@ -32,16 +32,12 @@
 
 
       !||====================================================================
-      !||    sigeps128s              ../engine/source/materials/mat/mat128/sigeps128s.F90
+      !||    sigeps134s         ../engine/source/materials/mat/mat134/sigeps134s.F90
       !||--- called by ------------------------------------------------------
-      !||    mulaw                   ../engine/source/materials/mat_share/mulaw.F90
-      !||--- calls      -----------------------------------------------------
-      !||    table_mat_vinterp       ../engine/source/materials/tools/table_mat_vinterp.F
+      !||    mulaw              ../engine/source/materials/mat_share/mulaw.F90
       !||--- uses       -----------------------------------------------------
-      !||    constant_mod            ../common_source/modules/constant_mod.F
-      !||    matparam_def_mod        ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||    table4d_mod             ../common_source/modules/table4d_mod.F
-      !||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
+      !||    constant_mod       ../common_source/modules/constant_mod.F
+      !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||====================================================================
        subroutine sigeps134s(mat_param  ,                                       &
            nel      ,nuvar     ,uvar     ,rho      ,timestep ,                  &
