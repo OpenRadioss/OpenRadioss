@@ -313,7 +313,7 @@ C----------- NSK could be > mvsiz
              DO II=1,NSK,MVSIZ
                NSKI = MIN(NSK-IDEB,MVSIZ)
                N = 1+IDEB
-               CALL TENS3DTO2D(NSKI,IXSK(1,N),X,T6GPS,EVAR)
+               CALL TENS3DTO2D(NSKI,IXSK(:,N),X,T6GPS,EVAR)
                DO I=1,NSKI
                  VALUE(I) = ZERO
                  IS_WRITTEN_VALUE(I) = 0

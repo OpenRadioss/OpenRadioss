@@ -82,6 +82,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE FORMAT_MOD , ONLY : FMT_10I
       use glob_therm_mod
+      USE DRAPE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -170,6 +171,8 @@ C
       TYPE(ELBUF_STRUCT_) ,POINTER :: BIDBUF
       TYPE (STACK_PLY) :: STACK
       TYPE(G_BUFEL_),POINTER :: GBUF
+      TYPE (DRAPE_), DIMENSION(NUMELC_DRAPE + NUMELTG_DRAPE) :: DRAPE
+
 C-----------------------------------------------
       ALLOCATE(STIFNTMP(NUMNOD))
       GBUF => ELBUF_STR%GBUF
@@ -310,7 +313,7 @@ C
      .              NSHNOD ,STC(NFT+1),SH4TREE ,MCP   ,MCPC(NFT+1) ,
      .              TEMP    ,BID , BID,BID,BID,
      .              BID,BID,ISUBSTACK,IBID,BIDBUF,
-     .              STACK,BIDG ,RNOISE,BID,GLOB_THERM,
+     .              STACK,BIDG ,RNOISE,DRAPE,GLOB_THERM%NINTEMP,
      .              PERTURB,IX1     ,IX2      ,IX3     ,IX4     ,IBID, IBID)
 
         NDEPAR=NUMELS+NFT
@@ -345,8 +348,8 @@ C
      .               PTG(1,NFT+1),IGEO ,IMAT  ,IPROP   ,AREA    ,
      .               ETNOD,NSHNOD,STTG(NFT+1), SH3TREE,MCP   ,
      .               MCPS(1,NFT+1) , TEMP,SH3TRIM,ISUBSTACK,IBID,
-     .               BIDBUF, STACK,BIDG ,RNOISE,
-     .               BID,PERTURB,IX1   ,IX2      ,IX3    ,GLOB_THERM%NINTEMP,
+     .               BIDBUF, STACK,BIDG ,RNOISE, DRAPE,
+     .               PERTURB,IX1   ,IX2      ,IX3    ,GLOB_THERM%NINTEMP,
      .               X2L      ,X3L    ,Y3L   ,IBID, IBID)
 
         NDEPAR=NUMELS+NUMELC+NUMELT+NUMELP+NUMELR+NFT

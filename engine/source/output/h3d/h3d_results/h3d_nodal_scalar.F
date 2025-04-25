@@ -58,7 +58,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  IXP                ,IXT          ,N_H3D_PART_LIST ,INTERFRIC              ,CSEFRIC ,
      .                  CSEFRICG           ,CSEFRIC_STAMP,CSEFRICG_STAMP  ,NODAL_SCALAR_FVM       ,AIRBAGS_TOTAL_FVM_IN_H3D,
      .                  IS_WRITTEN_NODE_FVM,ISPMD        ,FVDATA_P        ,AIRBAGS_NODE_ID_SHIFT  ,MULTI_FVM,
-     .                  ITHERM_FE          )
+     .                  ITHERM_FE          ,NFVBAG )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -118,7 +118,8 @@ C-----------------------------------------------
       my_real  , INTENT(IN) :: CSEFRIC(NINEFRIC,S_EFRICINT) ,CSEFRICG(S_EFRIC),
      .                         CSEFRIC_STAMP(NINEFRIC_STAMP,S_EFRICINTG) ,CSEFRICG_STAMP(S_EFRICG)
       INTEGER,INTENT(INOUT) :: IS_WRITTEN_NODE_FVM(AIRBAGS_TOTAL_FVM_IN_H3D)
-      TYPE(FVBAG_DATA), INTENT(IN) :: FVDATA_P
+      INTEGER, INTENT(IN) :: NFVBAG
+      TYPE(FVBAG_DATA), INTENT(IN) :: FVDATA_P(NFVBAG)
       TYPE (MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

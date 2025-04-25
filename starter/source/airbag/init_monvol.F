@@ -128,6 +128,7 @@ C-----------------------------------------------
       INTEGER :: RET_VAL,NFVMBAGS
       my_real :: PARAM, TMP
       INTEGER :: IMESH_ALL, ICOPY, NJET_NEW(NVOLU)
+      TYPE(GROUP_) :: DUMMY(2)
 
       my_real
      .     AMU, PEXT, PINI, TI,  RHOI, EI,RHOEI,
@@ -393,7 +394,7 @@ C
                CALL FVBRIC0(
      .              IBUFSSG_TEMP,IXS_TEMP              ,2    ,NB_TETRA,
      .              T_MONVOL(N)%ID  ,T_MONVOL(N)%IVOLU(44)           ,TITR ,TAGNODBR,
-     .              T_MONVOL(N)%TBRIC    ,T_MONVOL(N)%TFAC,NB_TOTAL_NODE ,IBID,IBRIC,ITYPE)
+     .              T_MONVOL(N)%TBRIC    ,T_MONVOL(N)%TFAC,NB_TOTAL_NODE ,DUMMY,IBRIC,ITYPE)
                IF (T_MONVOL(N)%INT_SURFID > 0) THEN
                   CALL FVBRIC01(T_MONVOL(N)%NODES, T_MONVOL(N)%ELEM(1, NTG + 1), NTGI, NB_TOTAL_NODE, 
      .                 NB_TETRA, IXS_TEMP, T_MONVOL(N)%TBRIC, T_MONVOL(N)%TFAC)

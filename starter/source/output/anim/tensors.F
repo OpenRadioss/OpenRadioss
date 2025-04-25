@@ -142,7 +142,7 @@ C                 pour JHBE=14, valeurs moyennes est dans rep. corota.
                     GAMA(5)=ONE                                           
                     GAMA(6)=ZERO                                         
                   END IF                                                 
-                  CALL SROTA6(X,IXS(1,N),KCVT,EVAR(1,I),GAMA)                                    
+                  CALL SROTA6(X,IXS(1:NIXS,N),KCVT,EVAR(1:6,I),GAMA)                                    
                 ENDIF                                                    
               ENDDO                                                      
             ENDIF                                                       
@@ -381,7 +381,7 @@ C             DAMAGE IN GLOBAL SYSTEM
                     GAMA(5)=ONE                                           
                     GAMA(6)=ZERO                                         
                   END IF                                                 
-                  CALL SROTA6(X,IXS(1,N),KCVT,EVAR(1,I),GAMA)                                    
+                  CALL SROTA6(X,IXS(1:NIXS,N),KCVT,EVAR(1:6,I),GAMA)                                    
                 ENDIF                                                    
               ENDDO                                                      
             ENDIF                                                        

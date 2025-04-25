@@ -112,7 +112,7 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: N_H3D_PART_LIST
       my_real, INTENT(INOUT) :: NODAL_VECTOR_FVM(3,AIRBAGS_TOTAL_FVM_IN_H3D)
       INTEGER, INTENT(INOUT) :: IS_WRITTEN_NODE_FVM(AIRBAGS_TOTAL_FVM_IN_H3D)   
-      TYPE(FVBAG_DATA),INTENT(IN) ::  FVDATA_P  
+      TYPE(FVBAG_DATA),INTENT(IN) ::  FVDATA_P(NFVBAG) 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
