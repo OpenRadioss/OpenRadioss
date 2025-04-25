@@ -36,13 +36,13 @@ Choose the binaries according to the operating system:
 
 OpenRadioss example models can be found on [openRadioss.org/models](https://openradioss.org/models/)
 
-One Tensile Test example in LS-DYNA format can be fond here: [Tensile Test LS-Dyna format](https://openradioss.atlassian.net/wiki/download/attachments/21364914/zug_test3_RS.zip?api=v2)
+One Tensile Test example in LS-DYNA format can be found here: [Tensile Test LS-Dyna format](https://openradioss.atlassian.net/wiki/download/attachments/21364914/zug_test3_RS.zip?api=v2)
 
 ### Unzip the packages in installation directory
 
 #### OpenRadioss package
 
-* Windows: preffered Zip tool
+* Windows: preferred Zip tool
 * Linux: unzip OpenRadioss_linux64.zip
 
 ![image](./openradioss_installation.png)
