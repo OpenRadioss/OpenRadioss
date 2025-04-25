@@ -64,8 +64,9 @@ C-----------------------------------------------
      .    THETL(4),SPH(4) , PLAMX(4), SIGMX(4), XKA(4)  ,
      .    XKB(4),  NU(4),   A0(4),    A1(4),    A2(4)   ,
      .    AMX(4),
-     .    B1,B2,R1,R2,W,VDET,PCJ,IBFRAC,
+     .    B1,B2,R1,R2,W,VDET,PCJ,
      .    PEXT,VIS,VISV
+      INTEGER :: IBFRAC
       my_real BID
       TYPE(SUBMODEL_DATA),INTENT(IN)        :: LSUBMODEL(NSUBMOD)
 C-----------------------------------------------

@@ -1032,10 +1032,10 @@ C-----------------------------------------------
        DO I=1,NMANIM      ! Don't work !!!
           DO J=1,2
              IFUNC=NMFUNC(J)
-             CALL TENSORC(MBUFEL(1,I), IPARG, IFUNC,
-     .                    INVERT, NELCUT, EL2FA, NBF, WAFT,
-     .                    IAD, NBF_L, NBPART,
-     .                    X, IXC, IGEO, IXTG)
+!            CALL TENSORC(MBUFEL(1,I), IPARG, IFUNC,
+!    .                    INVERT, NELCUT, EL2FA, NBF, WAFT,
+!    .                    IAD, NBF_L, NBPART,
+!    .                    X, IXC, IGEO, IXTG)
              R4 = ZERO
              DO K=1,NESBW2
               CALL WRITE_R_C(R4,1)
@@ -1434,9 +1434,9 @@ C-----------------------------------------------
       DO I=1,NMANIM
          DO J=1,1
             IFUNC=NMFUNC(J)
-            CALL TENSORS(MBUFEL(1,I), IPARG,  IFUNC, IXS,   PM,
-     .                   EL2FA,       NNN,    WAFT,
-     .                   X,     IPART,IPARTSP,     ISPH3D, IPM  )
+!           CALL TENSORS(MBUFEL(1,I), IPARG,  IFUNC, IXS,   PM,
+!    .                   EL2FA,       NNN,    WAFT,
+!    .                   X,     IPART,IPARTSP,     ISPH3D, IPM  )
          ENDDO
       ENDDO
 C-----------------------------------------------
@@ -1685,10 +1685,10 @@ C
       DO I=1,NMANIM
          DO J=1,8
             IFUNC=NMFUNC(J)
-            CALL DFUNCF(MBUFEL(1,I), WAFT, IFUNC, IPARG,  GEO,
-     .                  IXT,         IXP,  IXR,   MAS,    PM,
-     .                  EL2FA,       NB1D, IAD,   NBPART,
-     .                  XFUNC1)
+!           CALL DFUNCF(MBUFEL(1,I), WAFT, IFUNC, IPARG,  GEO,
+!    .                  IXT,         IXP,  IXR,   MAS,    PM,
+!    .                  EL2FA,       NB1D, IAD,   NBPART,
+!    .                  XFUNC1)
             R4 = ZERO
             DO K=1,NERBY
               CALL WRITE_R_C(R4,1)

@@ -73,6 +73,7 @@ C-----------------------------------------------
       USE GROUP_PARAM_MOD            
       USE DEFAULTS_MOD
       use glob_therm_mod
+      USE DRAPE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -149,6 +150,8 @@ C-----------------------------------------------
 C
       TYPE(ELBUF_STRUCT_) ,POINTER :: BIDBUF
       TYPE (STACK_PLY) :: STACK
+      TYPE (DRAPE_) , DIMENSION(NUMELC_DRAPE+NUMELTG_DRAPE), TARGET :: DRAPE
+
       DOUBLE PRECISION 
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
      .   XD5(MVSIZ), XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ),
@@ -408,7 +411,7 @@ C
      .              NSHNOD ,STC(NFT+1),SH4TREE ,MCP   ,MCPC(NFT+1) , 
      .              TEMP    ,BID , BID,BID,BID,
      .              BID,BID,ISUBSTACK,IBID,BIDBUF,
-     .              STACK,BIDG, RNOISE ,BID ,GLOB_THERM%NINTEMP,
+     .              STACK,BIDG, RNOISE ,DRAPE ,GLOB_THERM%NINTEMP,
      .              PERTURB,IX1     ,IX2      ,IX3     ,IX4    ,IBID, IBID )
         CALL CDERII(PX1 ,PX2 ,PY1   ,PY2,
      .              X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  , 
@@ -501,8 +504,8 @@ C
      .               PTG(1,NFT+1),IGEO ,IMAT  ,IPROP   ,AREA    ,
      .               ETNOD,NSHNOD,STTG(NFT+1), SH3TREE,MCP   ,
      .               MCPS(1,NFT+1) , TEMP,SH3TRIM,ISUBSTACK,IBID,
-     .               BIDBUF, STACK,BIDG ,RNOISE,
-     .               BID,PERTURB,IX1   ,IX2      ,IX3    ,GLOB_THERM%NINTEMP,
+     .               BIDBUF, STACK,BIDG ,RNOISE,DRAPE,
+     .               PERTURB,IX1   ,IX2      ,IX3    ,GLOB_THERM%NINTEMP,
      .               X2L      ,X3L    ,Y3L , IBID, IBID   )
         CALL C3DERII(LFT,LLT,PM,GEO,PX1,PY1,PY2,S
      .               TIFN   ,STIFR   ,IXTG(1,NFT+1),

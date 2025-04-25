@@ -87,7 +87,8 @@ C-----------------------------------------------
       INTEGER,INTENT(IN) :: MONVOL(SMONVOL)
       my_real,INTENT(IN) :: VOLMON(SVOLMON)
       INTEGER,INTENT(INOUT) :: IS_WRITTEN_NODE_FVM(AIRBAGS_TOTAL_FVM_IN_H3D),IS_WRITTEN_NODE(NUMNOD)
-      TYPE(FVBAG_DATA),INTENT(IN) :: FVDATA_P
+      TYPE(FVBAG_DATA), INTENT(IN) :: FVDATA_P(NFVBAG) 
+
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
