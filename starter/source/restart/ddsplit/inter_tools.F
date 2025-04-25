@@ -824,6 +824,13 @@ C ----------------------------------------
 
       RETURN
       END
+      !||====================================================================
+      !||    split_node_rval_dummy   ../starter/source/restart/ddsplit/inter_tools.F
+      !||--- called by ------------------------------------------------------
+      !||    split_interfaces        ../starter/source/restart/ddsplit/split_interfaces.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE SPLIT_NODE_RVAL_DUMMY(DIM1,DIM2,TAG)
 c
 c split & write node array (type REAL) with global value
@@ -1003,6 +1010,13 @@ C ----------------------------------------
 
       RETURN
       END
+      !||====================================================================
+      !||    copy_ival_dummy    ../starter/source/restart/ddsplit/inter_tools.F
+      !||--- called by ------------------------------------------------------
+      !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
       SUBROUTINE COPY_IVAL_DUMMY(DIM1,DIM2)
 c 
 c copy and write array value (type INTEGER)
@@ -1295,9 +1309,9 @@ C ----------------------------------------
       RETURN
       END
       !||====================================================================
-      !||    split_cand_rval    ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_cand_rval_dummy   ../starter/source/restart/ddsplit/inter_tools.F
       !||--- called by ------------------------------------------------------
-      !||    split_interfaces   ../starter/source/restart/ddsplit/split_interfaces.F
+      !||    split_interfaces        ../starter/source/restart/ddsplit/split_interfaces.F
       !||--- calls      -----------------------------------------------------
       !||--- uses       -----------------------------------------------------
       !||====================================================================

@@ -28,6 +28,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    wrrestp           ../engine/source/output/restart/wrrestp.F
       !||--- calls      -----------------------------------------------------
       !||    arret             ../engine/source/system/arret.F
+      !||    compress_i_nnz    ../common_source/comm/compress_nnz.F
+      !||    compress_r_nnz    ../common_source/comm/compress_nnz.F
       !||    write_db          ../common_source/tools/input_output/write_db.F
       !||    write_i_c         ../common_source/tools/input_output/write_routtines.c
       !||    write_intbuf_t8   ../engine/source/output/restart/write_intbuf.F

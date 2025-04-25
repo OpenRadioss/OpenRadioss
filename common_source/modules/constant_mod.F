@@ -87,6 +87,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    fractal_elem_renum                       ../starter/source/materials/fail/fractal/fractal_elem_spmd_renum.F90
       !||    fractal_element_neighbor                 ../starter/source/materials/fail/fractal/fractal_element_neighbor.F90
       !||    func_table_copy                          ../starter/source/materials/tools/func_table_copy.F90
+      !||    get_convexity_normals                    ../engine/source/interfaces/interf/get_convexity_normals.F90
       !||    get_list_remnode                         ../starter/source/interfaces/inter3d1/get_list_remnode.F90
       !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
       !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90

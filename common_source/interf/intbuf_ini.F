@@ -21,16 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    intbuf_ini      ../common_source/interf/intbuf_ini.F
+      !||    intbuf_ini         ../common_source/interf/intbuf_ini.F
       !||--- called by ------------------------------------------------------
-      !||    rdresb          ../engine/source/output/restart/rdresb.F
+      !||    rdresb             ../engine/source/output/restart/rdresb.F
       !||--- calls      -----------------------------------------------------
-      !||    arret           ../engine/source/system/arret.F
-      !||    intbuf_ini_t8   ../common_source/interf/intbuf_ini.F
-      !||    read_db         ../common_source/tools/input_output/read_db.F
-      !||    read_i_c        ../common_source/tools/input_output/write_routtines.c
+      !||    arret              ../engine/source/system/arret.F
+      !||    decompress_i_nnz   ../common_source/comm/decompress_nnz.F
+      !||    decompress_r_nnz   ../common_source/comm/decompress_nnz.F
+      !||    intbuf_ini_t8      ../common_source/interf/intbuf_ini.F
+      !||    read_db            ../common_source/tools/input_output/read_db.F
+      !||    read_i_c           ../common_source/tools/input_output/write_routtines.c
       !||--- uses       -----------------------------------------------------
-      !||    message_mod     ../engine/share/message_module/message_mod.F
+      !||    message_mod        ../engine/share/message_module/message_mod.F
       !||====================================================================
       SUBROUTINE INTBUF_INI(INTBUF_TAB)  
 C-----------------------------------------------

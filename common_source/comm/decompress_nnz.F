@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    decompress_i_nnz   ../common_source/comm/decompress_nnz.F
       !||--- called by ------------------------------------------------------
+      !||    intbuf_ini         ../common_source/interf/intbuf_ini.F
       !||    rdresb             ../engine/source/output/restart/rdresb.F
       !||--- calls      -----------------------------------------------------
       !||    read_i_c           ../common_source/tools/input_output/write_routtines.c
@@ -60,6 +61,7 @@ C---------------------------------------------
       !||====================================================================
       !||    decompress_r_nnz   ../common_source/comm/decompress_nnz.F
       !||--- called by ------------------------------------------------------
+      !||    intbuf_ini         ../common_source/interf/intbuf_ini.F
       !||    rdresb             ../engine/source/output/restart/rdresb.F
       !||--- calls      -----------------------------------------------------
       !||    read_db            ../common_source/tools/input_output/read_db.F

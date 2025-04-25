@@ -78,12 +78,14 @@ C        WRITE(6,*) LEN,"compressed into ",J, dble(J)/dble(LEN)
 
 
       !||====================================================================
-      !||    compress_i_nnz   ../common_source/comm/compress_nnz.F
+      !||    compress_i_nnz    ../common_source/comm/compress_nnz.F
       !||--- called by ------------------------------------------------------
-      !||    ddsplit          ../starter/source/restart/ddsplit/ddsplit.F
-      !||    wrrestp          ../engine/source/output/restart/wrrestp.F
+      !||    copy_ival_dummy   ../starter/source/restart/ddsplit/inter_tools.F
+      !||    ddsplit           ../starter/source/restart/ddsplit/ddsplit.F
+      !||    write_intbuf      ../engine/source/output/restart/write_intbuf.F
+      !||    wrrestp           ../engine/source/output/restart/wrrestp.F
       !||--- calls      -----------------------------------------------------
-      !||    write_i_c        ../common_source/tools/input_output/write_routtines.c
+      !||    write_i_c         ../common_source/tools/input_output/write_routtines.c
       !||====================================================================
        SUBROUTINE COMPRESS_I_NNZ(ARRAY,LEN)
        IMPLICIT NONE
@@ -136,14 +138,17 @@ C        WRITE(6,*) LEN,"I compressed into ",J, dble(J)/dble(LEN)
        END SUBROUTINE 
 
       !||====================================================================
-      !||    compress_r_nnz   ../common_source/comm/compress_nnz.F
+      !||    compress_r_nnz          ../common_source/comm/compress_nnz.F
       !||--- called by ------------------------------------------------------
-      !||    ddsplit          ../starter/source/restart/ddsplit/ddsplit.F
-      !||    w_geo            ../starter/source/restart/ddsplit/w_geo.F
-      !||    wrrestp          ../engine/source/output/restart/wrrestp.F
+      !||    ddsplit                 ../starter/source/restart/ddsplit/ddsplit.F
+      !||    split_cand_rval_dummy   ../starter/source/restart/ddsplit/inter_tools.F
+      !||    split_node_rval_dummy   ../starter/source/restart/ddsplit/inter_tools.F
+      !||    w_geo                   ../starter/source/restart/ddsplit/w_geo.F
+      !||    write_intbuf            ../engine/source/output/restart/write_intbuf.F
+      !||    wrrestp                 ../engine/source/output/restart/wrrestp.F
       !||--- calls      -----------------------------------------------------
-      !||    write_db         ../common_source/tools/input_output/write_db.F
-      !||    write_i_c        ../common_source/tools/input_output/write_routtines.c
+      !||    write_db                ../common_source/tools/input_output/write_db.F
+      !||    write_i_c               ../common_source/tools/input_output/write_routtines.c
       !||====================================================================
        SUBROUTINE COMPRESS_R_NNZ(ARRAY,LEN)
 #include      "implicit_f.inc"

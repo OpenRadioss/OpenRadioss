@@ -21,11 +21,10 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    get_segment_normal_mod                   ../engine/source/interfaces/interf/get_segment_normal.F90
+      !||    get_convexity_normals_mod                ../engine/source/interfaces/interf/get_convexity_normals.F90
       !||--- called by ------------------------------------------------------
       !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
       !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
-      !||    get_segment_orientation                  ../engine/source/interfaces/interf/get_segment_orientation.F90
       !||====================================================================
       module get_convexity_normals_mod
       contains
@@ -34,11 +33,10 @@
 ! ======================================================================================================================
 !! \brief This routine computes  the tangent vector to a segment around the edge n X e
       !||====================================================================
-      !||    get_segment_normal                       ../engine/source/interfaces/interf/get_segment_normal.F90
+      !||    get_convexity_normals                    ../engine/source/interfaces/interf/get_convexity_normals.F90
       !||--- called by ------------------------------------------------------
       !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
       !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
-      !||    get_segment_orientation                  ../engine/source/interfaces/interf/get_segment_orientation.F90
       !||--- uses       -----------------------------------------------------
       !||    constant_mod                             ../common_source/modules/constant_mod.F
       !||====================================================================

@@ -47,6 +47,7 @@
       !||--- calls      -----------------------------------------------------
       !||    alloc_my_real_1d_array            ../common_source/modules/array_mod.F
       !||    dealloc_my_real_1d_array          ../common_source/modules/array_mod.F
+      !||    get_convexity_normals             ../engine/source/interfaces/interf/get_convexity_normals.F90
       !||    get_segment_edge                  ../engine/source/interfaces/interf/get_segment_edge.F90
       !||    get_segment_interface_id          ../engine/source/interfaces/interf/get_segment_interface_id.F90
       !||    get_segment_normal                ../engine/source/interfaces/interf/get_segment_normal.F90
@@ -57,6 +58,7 @@
       !||--- uses       -----------------------------------------------------
       !||    array_mod                         ../common_source/modules/array_mod.F
       !||    constant_mod                      ../common_source/modules/constant_mod.F
+      !||    get_convexity_normals_mod         ../engine/source/interfaces/interf/get_convexity_normals.F90
       !||    get_segment_criteria_mod          ../engine/source/interfaces/interf/get_segment_criteria.F90
       !||    get_segment_edge_mod              ../engine/source/interfaces/interf/get_segment_edge.F90
       !||    get_segment_interface_id_mod      ../engine/source/interfaces/interf/get_segment_interface_id.F90
