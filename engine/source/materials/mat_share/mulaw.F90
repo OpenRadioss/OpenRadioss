@@ -240,6 +240,7 @@
       use sigeps126_mod
       use sigeps127_mod
       use sigeps128s_mod
+      use sigeps133_mod , only : sigeps133
       use sigeps134s_mod
       use sigeps163_mod
       use fail_spalling_s_mod
@@ -2050,13 +2051,23 @@
                  lbuf%seq ,sigy     ,et       ,defp     ,dpla     ,epsd     ,  &
                  ssp      ,off      ,l_sigb   ,lbuf%sigb)
 !
+          elseif (mtn == 133) then
+            call sigeps133( &
+                 nel  ,matparam ,et            ,&
+                 sigy ,dpla     ,defp          ,amu  ,&
+                 de1  ,de2      ,de3           ,de4      ,de5   ,de6  ,&
+                 so1  ,so2      ,so3           ,so4      ,so5   ,so6  ,&
+                 s1   ,s2       ,s3            ,s4       ,s5    ,s6   ,&
+                 ssp  ,off      ,matparam%ieos ,pnew ,&
+                 dpdm ,rho      ,nvartmp       ,vartmp )
+!
           elseif (mtn == 134) then
             call sigeps134s(mat_elem%mat_param(imat)    ,                      &
                  &nel      ,nuvar    ,uvar     , rho     , dt1               ,  &
                  &de1      ,de2      ,de3      ,de4      ,de5      ,de6      ,  &
                  &so1      ,so2      ,so3      ,so4      ,so5      ,so6      ,  &
                  &s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,  &
-                 &ssp      ,off      )  
+                 &ssp      ,off      )
 !
           elseif (mtn == 163) then
             call sigeps163(                                                    &

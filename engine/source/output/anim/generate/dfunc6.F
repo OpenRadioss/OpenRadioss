@@ -215,9 +215,7 @@ C-----------
 C-----------
               IF(IFUNC == 1 .AND. (MLW /= 12 .AND. MLW /=14 .AND. MLW /= 25))THEN
                 DO I=LFT,LLT     
-                  IF (MLW == 10 .OR. MLW == 21) THEN
-                    EVAR(I) = LBUF%EPSQ(I)
-                  ELSEIF (GBUF%G_PLA > 0) THEN  
+                  IF (GBUF%G_PLA > 0) THEN
                     EVAR(I) = GBUF%PLA(I)
                   ENDIF
                 ENDDO                         

@@ -92,6 +92,7 @@ C-----------------------------------------------
      .   BID2 ,BID3 ,BID4 ,BID5 ,
      .   BID2_,BID3_,BID4_,BID5_,
      .   C0,C1,C2,C3,C4,C5,E0,PSH,RHO0,RHOR
+      CHARACTER*32 :: MTL_MSG
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -104,6 +105,8 @@ C-----------------------------------------------
       
       IS_ENCRYPTED=.FALSE.
       IS_AVAILABLE=.FALSE.
+      
+      MTL_MSG = ''
             
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 
@@ -146,7 +149,8 @@ C-----------------------------------------------
       ENDIF
       
       IF(NU<ZERO.OR.NU>=HALF)THEN
-        CALL ANCMSG(MSGID=1514,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1 = MAT_ID,C1 = TITR)
+        MTL_MSG = "LAW49 (STEINBERG GUINAN)"
+        CALL ANCMSG(MSGID=1514,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=MAT_ID,C1=MTL_MSG,C2=TITR)
       ENDIF
       
       IF(EPSM==ZERO) EPSM  = EP20

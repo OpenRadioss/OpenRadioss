@@ -210,6 +210,7 @@
       use hm_read_mat126_mod
       use hm_read_mat127_mod
       use hm_read_mat128_mod
+      use hm_read_mat133_mod , only : hm_read_mat133
       use hm_read_mat134_mod
       use hm_read_mat163_mod
       use hm_read_mat169_arup_mod
@@ -1185,8 +1186,15 @@
             call hm_read_mat128(                                &
             matparam ,mtag     ,parmat   ,nuvar    ,nvartmp  ,  &
             ntable   ,table    ,mat_id   ,titr     ,iout     ,  &
-            unitab   ,lsubmodel)     
-!-------                             
+            unitab   ,lsubmodel)
+!-------
+          case ('LAW133','GRANULAR')
+            ilaw = 133
+            call hm_read_mat133( &
+             nuvar    ,mtag     , matparam ,iout     ,parmat   , &
+             unitab   ,lsubmodel, mat_id   ,titr     ,nvartmp  , &
+             ntable   ,table )
+!-------
           case ('LAW134','VISCOUS_FOAM')
             ilaw  = 134
             call hm_read_mat134(mtag     ,&

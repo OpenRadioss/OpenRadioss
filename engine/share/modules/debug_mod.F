@@ -44,10 +44,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       MODULE DEBUG_MOD
 
         USE ISO_C_BINDING
-        INTEGER, DIMENSION(:),ALLOCATABLE :: ITAB_DEBUG
+        INTEGER, DIMENSION(:),ALLOCATABLE :: ITAB_DEBUG !< User Node Identifiers
+        INTEGER :: NC_DEBUG                             !< Engine Cycle number
 !       double precision, DIMENSION(:),ALLOCATABLE :: DETACH_SHELL
-
-
 
 
         CONTAINS
@@ -231,10 +230,11 @@ C-----------------------------------------------
 C-----------------------------------------------
             INTEGER, INTENT(IN) :: NUMNOD
             INTEGER, DIMENSION(:), INTENT(IN) :: ITAB(NUMNOD)
-
-
-       ALLOCATE  (ITAB_DEBUG(NUMNOD))
+C-----------------------------------------------
+       ALLOCATE (ITAB_DEBUG(NUMNOD))
        ITAB_DEBUG(1:NUMNOD)=ITAB(1:NUMNOD)
-
+C-----------------------------------------------
+       NC_DEBUG = 0 ! updated in resol loop
+C-----------------------------------------------
       END
       

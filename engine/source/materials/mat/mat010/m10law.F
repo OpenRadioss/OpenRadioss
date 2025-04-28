@@ -25,13 +25,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    mmain    ../engine/source/materials/mat_share/mmain.F90
       !||====================================================================
-      SUBROUTINE M10LAW(PM ,OFF ,SIG    ,EINT    ,RHO    ,
-     2           MU_OLD    ,EPSEQ       ,VOL     ,MAT    ,SSP     ,
-     3           DVOL      ,VNEW        , D1     ,D2     ,D3      ,
-     4           D4        ,D5          ,D6      ,SOLD1  ,SOLD2   ,
-     5           SOLD3     ,SOLD4       ,SOLD5   ,SOLD6  ,SIGY    ,
-     6           DEFP      ,PNEW        ,PSH     ,MU_NEW ,SEQ_OUTPUT,
-     7           NEL       ,DPDM)
+      SUBROUTINE M10LAW(PM      ,OFF     ,SIG    ,EINT    ,RHO       ,
+     2                  EPSQ    ,EPXE    ,VOL    ,MAT     ,SSP       ,
+     3                  DVOL    ,VNEW    ,D1     ,D2      ,D3        ,
+     4                  D4      ,D5      ,D6     ,SOLD1   ,SOLD2     ,
+     5                  SOLD3   ,SOLD4   ,SOLD5  ,SOLD6   ,SIGY      ,
+     6                  DEFP    ,PNEW    ,PSH    ,MU_NEW  ,SEQ_OUTPUT,
+     7                  NEL     ,DPDM    ,DPLA   ,MU_BAK)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -50,7 +50,10 @@ C VARIABLE DEFINITIONS :
 C
 C G0    : YIELD ENVELOPE
 C AJ2   : 2ND INVARIANT FROM DEVIATORIC TENSOR
-C EPSEQ : VOLUMETRIC PLASTIC STRAIN
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+              use debug_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,10 +68,13 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN) :: NEL
       INTEGER,INTENT(IN) :: MAT(NEL)
-      my_real PM(NPROPM,*), SIG(NEL,6), MU_OLD(NEL), EPSEQ(NEL), EINT(NEL), RHO(NEL), VOL(NEL),SEQ_OUTPUT(NEL)
+      my_real PM(NPROPM,*), SIG(NEL,6), MU_OLD(NEL), EPXE(NEL), EINT(NEL), RHO(NEL), VOL(NEL),SEQ_OUTPUT(NEL)
       my_real,INTENT(INOUT) :: PNEW(NEL)
       my_real,INTENT(INOUT) :: PSH(NEL)
-      my_real,INTENT(IN) :: OFF(NEL)               
+      my_real,INTENT(IN) :: OFF(NEL)
+      my_real,INTENT(INOUT) :: DPLA(NEL)
+      my_real,INTENT(INOUT) :: EPSQ(NEL)
+      my_real,INTENT(INOUT) :: MU_BAK(NEL)
       my_real VNEW(NEL), SSP(NEL), SIGY(NEL),DEFP(NEL),
      .         D1(NEL), D2(NEL), D3(NEL), D4(NEL), D5(NEL), D6(NEL),
      .         DVOL(NEL), MU_NEW(NEL),
@@ -90,6 +96,9 @@ C-----------------------------------------------
      .        BULK_1,BULK2_1,MU_MAX_1,PSH_1,
      .        PSTAR_1,A0_1,A1_1,A2_1,AMX_1,
      .        RHO0_1,PFRAC
+
+       integer nc
+       nc = nc_debug
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -196,15 +205,17 @@ C-----------------------------------------------
         SIG(I,4)=RATIO(I)*T4(I)*OFF(I)
         SIG(I,5)=RATIO(I)*T5(I)*OFF(I)
         SIG(I,6)=RATIO(I)*T6(I)*OFF(I)
-        EPSEQ(I)=EPSEQ(I)+(ONE -RATIO(I))*SQRT(ABS(AJ2(I)))*DT1 / MAX(EM20,THREE*G(I))
+        DPLA(I) = (ONE -RATIO(I))*SQRT(THREE*ABS(AJ2(I)))*DT1 / MAX(EM20,THREE*G(I))   !G <- G*DT1
       ENDDO !next I     
 
       !----------------------------------------------------------------!
       !  OUTPUT / MISC.                                                !
       !----------------------------------------------------------------!      
       DO I=1,NEL
-        SIGY(I)=G0(I)     !YIELD SURFACE
-        DEFP(I)=EPSEQ(I)  !VOLUMETRIC PLASTIC STRAIN
+        SIGY(I) = G0(I)     !YIELD SURFACE
+        EPXE(I) = EPXE(I) + DPLA(I)
+        DEFP(I) = EPXE(I)
+        EPSQ(I) = MU_BAK(I) ! updated if compaction EoS defined
       ENDDO !next I
 
       RETURN

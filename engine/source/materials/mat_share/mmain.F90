@@ -1300,7 +1300,7 @@
             &d4         ,d5       ,d6        ,s1       ,s2      ,&
             &s3         ,s4       ,s5        ,s6       ,sigy    ,&
             &defp       ,pnew     ,psh       ,amu      ,lbuf%seq,&
-            &nel        ,dpdm)
+            &nel        ,dpdm     ,dpla      ,lbuf%mu)
             if (jsph == 0) then
               call mqviscb(&
               &pm,       off,      lbuf%rho, lbuf%rk,&
@@ -1559,7 +1559,8 @@
             &d4       ,d5      ,d6      ,s1       ,s2      ,&
             &s3       ,s4      ,s5      ,s6       ,tf      ,&
             &npf      ,sigy    ,defp    ,ipm      ,pnew    ,&
-            &psh      ,amu     ,lbuf%seq,nel      ,nummat      )
+            &psh      ,amu     ,lbuf%seq,nel      ,nummat  ,&
+            dpla      ,lbuf%mu)
             if (jsph == 0) then
               call mqviscb(&
               &pm,       off,      lbuf%rho, lbuf%rk,&
