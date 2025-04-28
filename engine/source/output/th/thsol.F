@@ -716,8 +716,8 @@ C-----------------------------------------------------
                 WWA(13)=ZERO
                 WWA(14)=ZERO
               ELSEIF (MTE == 10) THEN
-                WWA(12)=GBUF%EPSQ(I)     !/TH (EPSP)
-                WWA(30)=GBUF%PLA(I)      !/TH (VPLA)
+                WWA(12)=GBUF%PLA(I)        !/TH (EPSP)
+                WWA(30)=GBUF%EPSQ(I)      !/TH (VPLA)
               ELSEIF (MTE == 11) THEN
                 WWA(13)=LBUF%TEMP(I)
                 WWA(26)=LBUF%RK(I)
@@ -745,8 +745,8 @@ C-----------------------------------------------------
                 WWA(12)=ZERO
                 WWA(13)=ZERO
               ELSEIF (MTE == 21) THEN
-                WWA(12)=LBUF%EPSQ(I) ! NB11
-                WWA(30)=GBUF%PLA(I)  ! NB10
+                WWA(12)=GBUF%PLA(I)
+                WWA(30)=GBUF%EPSQ(I)
               ELSEIF (MTE == 22.OR.MTE == 23) THEN
                 WWA(12)=LBUF%PLA(I)
               ELSEIF (MTE == 24) THEN

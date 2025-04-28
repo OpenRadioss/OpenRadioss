@@ -66,7 +66,19 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod                   ../engine/share/message_module/message_mod.F
       !||    table4d_mod                   ../common_source/modules/table4d_mod.F
       !||====================================================================
-      SUBROUTINE TABLE_MAT_VINTERP(TABLE,DIMX,NEL,IPOS,XX,YY,DYDX)
+      SUBROUTINE TABLE_MAT_VINTERP(TABLE,DIMX,NEL,IPOS,XX,YY,DYDX, OPT_EXTRAPOLATE)
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C This subroutine is proceeding to table interpolation.
+C   example with case dim=1 (table <=> function)
+C    nel is number interpolatation
+C    ipos is index backup to prevent from starting the loop from 1 to npt during each cycle (input/output)
+C    XX(nel) are abscissa on which the interpolation is required (input)
+C    YY(nel) are the interpolated value (output)
+C    DYDX(nel) is the slope (output)
+C-----------------------------------------------
+C   M o d u l e s
 C-----------------------------------------------
       USE TABLE4D_MOD
       USE MESSAGE_MOD
@@ -84,6 +96,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(DIMX,TABLE%NDIM),INTENT(INOUT) :: IPOS
       my_real, DIMENSION(DIMX)           ,INTENT(INOUT) :: YY
       my_real, DIMENSION(DIMX)           ,INTENT(INOUT) :: DYDX
+      LOGICAL, OPTIONAL, INTENT(IN)                     :: OPT_EXTRAPOLATE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -94,18 +107,25 @@ C-----------------------------------------------
       INTEGER, DIMENSION(4)   :: LDIM
       my_real :: DX,DY,ALPHA,ALPHAI,BETA,BETAI,GAMMA,GAMMAI,DELTA,DELTAI
       my_real, DIMENSION(NEL,4) :: FAC
-c=======================================================================
+      LOGICAL DO_EXTRAPOLATION
+C-----------------------------------------------
+C   Source Lines
+C-----------------------------------------------
+      DO_EXTRAPOLATION = .TRUE.
+      IF(PRESENT(OPT_EXTRAPOLATE)) THEN
+        DO_EXTRAPOLATION = OPT_EXTRAPOLATE
+      ENDIF
+
       NDIM = TABLE%NDIM
       IF (SIZE(XX,2) < NDIM ) THEN
-        CALL ANCMSG(MSGID=36,ANMODE=ANINFO,
-     .              C1='TABLE INTERPOLATION')
+        CALL ANCMSG(MSGID=36,ANMODE=ANINFO,C1='TABLE INTERPOLATION')
         CALL ARRET(2)
       END IF
-C-----
+
       DO K=1,NDIM
         LDIM(K) = SIZE(TABLE%X(K)%VALUES)
       END DO
-c
+
       DO K=1,NDIM
         IPOS(1:NEL,K) = MAX(IPOS(1:NEL,K),1)
         NINDX_1 = 0
@@ -123,7 +143,6 @@ c
           ENDIF
         ENDDO
 
-
         DO J=1,NINDX_1
           I = INDX_1(J)
           M = IPOS(I,K)
@@ -139,8 +158,6 @@ c
           ENDDO
         ENDDO
 
-c
-
         DO J=1,NINDX_2
           I = INDX_2(J)
           M = IPOS(I,K) 
@@ -155,22 +172,30 @@ c
              ENDIF
           ENDDO
         ENDDO
-
       ENDDO ! K=1,NDIM
-c
+
       DO K=1,NDIM
 #include "vectorize.inc"
         DO I=1,NEL
           N = IPOS(I,K)
-          FAC(I,K) = (TABLE%X(K)%VALUES(N+1) - XX(I,K))
-     .             / (TABLE%X(K)%VALUES(N+1) - TABLE%X(K)%VALUES(N))
+          FAC(I,K) = (TABLE%X(K)%VALUES(N+1) - XX(I,K)) / (TABLE%X(K)%VALUES(N+1) - TABLE%X(K)%VALUES(N))
         END DO
       END DO
+
+      IF(.NOT. DO_EXTRAPOLATION)THEN
+      DO K=1,NDIM
+#include "vectorize.inc"
+        DO I=1,NEL
+          N = IPOS(I,K)
+          FAC(I,K) = MIN(ONE,MAX(FAC(I,K),ZERO))
+        END DO
+      END DO
+      ENDIF
 c----------------------------------------------
+
       SELECT CASE(NDIM)
 
        CASE(4)
-C
 #include "vectorize.inc"
         DO I=1,NEL                                                                         
           I1 = IPOS(I,1)                                                                   
@@ -188,8 +213,7 @@ C
           ALPHAI = ONE - ALPHA                                                                 
           BETAI  = ONE - BETA                                                                 
           GAMMAI = ONE - GAMMA                                                                 
-          DELTAI = ONE - DELTA                                                                 
-c
+          DELTAI = ONE - DELTA
           YY(I)  =                                                                          
      .        DELTA* (GAMMA*(BETA * (ALPHA  * TABLE%Y4D(I1,J1,K1,L1)                    
      .                            +  ALPHAI * TABLE%Y4D(I2,J1,K1,L1))                   
@@ -207,8 +231,7 @@ c
      .              +GAMMAI*(BETA * (ALPHA  * TABLE%Y4D(I1,J1,K2,L1)                    
      .                            +  ALPHAI * TABLE%Y4D(I2,J1,K2,L1))                   
      .                     + BETAI* (ALPHA  * TABLE%Y4D(I1,J2,K2,L1)                    
-     .                            +  ALPHAI * TABLE%Y4D(I2,J2,K2,L1))))                 
-c
+     .                            +  ALPHAI * TABLE%Y4D(I2,J2,K2,L1))))
           DY =  DELTA * (GAMMA *(BETA *(TABLE%Y4D(I2,J1,K1,L1)-TABLE%Y4D(I1,J1,K1,L1))                                                                                 
      .                         + BETAI*(TABLE%Y4D(I2,J2,K1,L1)-TABLE%Y4D(I1,J2,K1,L1)))   
      .                + GAMMAI *(BETA *(TABLE%Y4D(I2,J1,K2,L1)-TABLE%Y4D(I1,J1,K2,L1))    
@@ -217,14 +240,11 @@ c
      .                         + BETAI*(TABLE%Y4D(I2,J2,K1,L1)-TABLE%Y4D(I1,J2,K1,L1)))   
      .                + GAMMAI *(BETA *(TABLE%Y4D(I2,J1,K2,L1)-TABLE%Y4D(I1,J1,K2,L1))    
      .                         + BETAI*(TABLE%Y4D(I2,J2,K2,L1)-TABLE%Y4D(I1,J2,K2,L1))))
-     .    
-     .                                                                                     
           DX = TABLE%X(1)%VALUES(I2) - TABLE%X(1)%VALUES(I1)
           DYDX(I) = DY / DX                                                                
         END DO                                                                             
 C-----
       CASE(3)
-C
 #include "vectorize.inc"
         DO I=1,NEL
           I1 = IPOS(I,1)
@@ -238,13 +258,12 @@ C
           GAMMA  = FAC(I,3)
           ALPHAI = ONE - ALPHA                                                                 
           BETAI  = ONE - BETA                                                                 
-          GAMMAI = ONE - GAMMA                                                                 
-C
+          GAMMAI = ONE - GAMMA
           YY(I)=(GAMMA * (BETA* (ALPHA*TABLE%Y3D(I1,J1,K1) + ALPHAI*TABLE%Y3D(I2,J1,K1))
      .                  + BETAI* (ALPHA*TABLE%Y3D(I1,J2,K1) + ALPHAI*TABLE%Y3D(I2,J2,K1)) )
      .       + GAMMAI *  (BETA* (ALPHA*TABLE%Y3D(I1,J1,K2) + ALPHAI*TABLE%Y3D(I2,J1,K2))
      .                  + BETAI* (ALPHA*TABLE%Y3D(I1,J2,K2) + ALPHAI*TABLE%Y3D(I2,J2,K2))))
-c
+
           DY =  GAMMA * ( BETA*(TABLE%Y3D(I2,J1,K1) - TABLE%Y3D(I1,J1,K1))
      .                  + BETAI*(TABLE%Y3D(I2,J2,K1) - TABLE%Y3D(I1,J2,K1)))
      .       + GAMMAI * ( BETA*(TABLE%Y3D(I2,J1,K2) - TABLE%Y3D(I1,J1,K2))
@@ -253,9 +272,8 @@ c
      .                           
           DYDX(I) = DY / DX                                                                
         END DO
-C-----
+
       CASE(2)
-C
 #include "vectorize.inc"
         DO I=1,NEL
           I1 = IPOS(I,1)
@@ -265,30 +283,25 @@ C
           ALPHA  = FAC(I,1)
           BETA   = FAC(I,2)
           ALPHAI = ONE - ALPHA                                                                 
-          BETAI  = ONE - BETA                                                                 
-c
+          BETAI  = ONE - BETA
           YY(I)  = (BETA * (ALPHA*TABLE%Y2D(I1,J1) + ALPHAI*TABLE%Y2D(I2,J1))
      .           + BETAI * (ALPHA*TABLE%Y2D(I1,J2) + ALPHAI*TABLE%Y2D(I2,J2)) )
-c
           DYDX(I) = (BETA *(TABLE%Y2D(I2,J1) - TABLE%Y2D(I1,J1))
      .            + BETAI *(TABLE%Y2D(I2,J2) - TABLE%Y2D(I1,J2)))
      .                   / (TABLE%X(1)%VALUES(I2)-TABLE%X(1)%VALUES(I1))
         END DO
-C-----
+
       CASE(1)
-c
 #include "vectorize.inc"
         DO I=1,NEL
           I1 = IPOS(I,1)
           I2 = I1 + 1
           ALPHA  = FAC(I,1)
-          ALPHAI = ONE - ALPHA                                                                 
-c
+          ALPHAI = ONE - ALPHA
           YY(I)   = ALPHA*TABLE%Y1D(I1) + ALPHAI*TABLE%Y1D(I2)
-          DYDX(I) = (TABLE%Y1D(I2) - TABLE%Y1D(I1)) 
-     .            / (TABLE%X(1)%VALUES(I2) - TABLE%X(1)%VALUES(I1))
+          DYDX(I) = (TABLE%Y1D(I2) - TABLE%Y1D(I1)) / (TABLE%X(1)%VALUES(I2) - TABLE%X(1)%VALUES(I1))
         END DO
-C-----
+
       END SELECT
 c-----------
       RETURN

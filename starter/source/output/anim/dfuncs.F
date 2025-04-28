@@ -110,9 +110,7 @@ c
 C                                                                       
               IF (IFUNC == 1) THEN                                           
                 DO I=LFT,LLT     
-                  IF (MLW == 10 .OR. MLW == 21) THEN
-                    EVAR(I) = ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)%EPSQ(I)
-                  ELSEIF (GBUF%G_PLA > 0) THEN  
+                  IF (GBUF%G_PLA > 0) THEN
                     EVAR(I) = GBUF%PLA(I)
                   ENDIF
                 ENDDO                         

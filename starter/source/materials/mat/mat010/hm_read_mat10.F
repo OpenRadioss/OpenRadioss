@@ -345,9 +345,11 @@ C---- Buffer Size for specific element buffer allocations
 
       MTAG%G_PLA   = 1
       MTAG%G_EPSQ  = 1
+      MTAG%G_MU    = 1 !unloading history (volumetric plastic strain)
 
-      MTAG%L_PLA   = 1     ! /TH(VPLA)
-      MTAG%L_EPSQ  = 1     ! /TH(EPSP) 
+      MTAG%L_PLA   = 1 ! /TH(VPLA)
+      MTAG%L_EPSQ  = 1 ! /TH(EPSP)
+      MTAG%L_MU    = 1 ! unloading history (volumetric plastic strain)
       
       ! Material compatibility with /EOS option
       CALL INIT_MAT_KEYWORD(MATPARAM,"EOS")

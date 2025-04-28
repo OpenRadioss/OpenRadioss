@@ -203,9 +203,11 @@ C---- Definition des variables internes (stockage elementaire)
 c
       MTAG%G_PLA   = 1
       MTAG%G_EPSQ  = 1
+      MTAG%G_MU    = 1 !unloading history (volumetric plastic strain)
 c
       MTAG%L_PLA   = 1     ! /TH(VPLA)
       MTAG%L_EPSQ  = 1     ! /TH(EPSP)
+      MTAG%L_MU    = 1 !unloading history
 c
       ! MATPARAM keywords
       CALL INIT_MAT_KEYWORD(MATPARAM,"ELASTO_PLASTIC")

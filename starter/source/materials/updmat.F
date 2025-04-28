@@ -80,11 +80,12 @@ C-----------------------------------------------
       USE MESSAGE_MOD   
       USE MATPARAM_DEF_MOD
       USE SENSOR_MOD
-      USE LAW19_UPD_MOD  
-      USE LAW81_UPD_MOD
-      USE LAW87_UPD_MOD
-      USE LAW163_UPD_MOD
-      USE LAW190_UPD_MOD  
+      USE LAW19_UPD_MOD , ONLY : LAW19_UPD
+      USE LAW81_UPD_MOD , ONLY : LAW81_UPD
+      USE LAW87_UPD_MOD , ONLY : LAW87_UPD
+      USE LAW133_UPD_MOD , ONLY : LAW133_UPD
+      USE LAW163_UPD_MOD , ONLY : LAW163_UPD
+      USE LAW190_UPD_MOD , ONLY : LAW190_UPD
       USE VISC_PARAM_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       USE EOSFUN_USR2SYS_MOD , ONLY : EOSFUN_USR2SYS
@@ -390,6 +391,9 @@ c------------------
 c------------------
           CASE (120)    ! TAPO material for adhesives
             CALL LAW120_UPD(NPARAM ,NUMTABL ,ITABLE ,TABLE ,UPARAM)          
+c------------------
+          CASE (133)
+            CALL LAW133_UPD(MAT_PARAM(IMAT),PM(1,IMAT),NPROPM)
 c-------------------------
           CASE (158) 
             NFUNCL =  IPM(6,IMAT)
