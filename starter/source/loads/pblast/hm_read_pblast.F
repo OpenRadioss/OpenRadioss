@@ -897,16 +897,21 @@ C-----------------------------------------------
                   tmp(2) = (ProjZ(2)-ProjDet(2))
                   tmp(3) = (ProjZ(3)-ProjDet(3))
                   LG = SQRT(TMP(1)*TMP(1)+TMP(2)*TMP(2)+TMP(3)*TMP(3))
-                  cos_theta = (ProjDet(1)-ProjZ(1))*Nx_SEG + (ProjDet(2)-ProjZ(2))*Ny_SEG + (ProjDet(3)-ProjZ(3))*Nz_SEG
-                  cos_theta = cos_theta/MAX(EM20,LG*NORM_)
-                  ZG = LG*FAC_L_bb/W13     !scaled horizontal distance (ground)
+                  ZG = LG*FAC_L_bb/W13
 
                   ! scaled distance
                   SELECT CASE(ISHAPE)
                     CASE (1,2)
                       Z = DNORM / W13    !spherical
+                      !Angle from detonation point
+                      cos_theta = Dx*Nx_SEG + Dy*Ny_SEG + Dz*Nz_SEG
+                      cos_theta = cos_theta/MAX(EM20,NORM_*DNORM)
                    CASE(3)
                       Z = ZG             !cylindrical - in abac unit ID  g,cm,mus
+                      !Angle from detonation point
+                      !   is here cos between (Det-ProjZ) and normal
+                      cos_theta = (ProjDet(1)-ProjZ(1))*Nx_SEG + (ProjDet(2)-ProjZ(2))*Ny_SEG + (ProjDet(3)-ProjZ(3))*Nz_SEG
+                      cos_theta = cos_theta/MAX(EM20,LG*NORM_)
                   END SELECT
 
                   !finding index for TM5-1300 abacuses from bijection.
