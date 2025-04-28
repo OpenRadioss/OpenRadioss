@@ -282,8 +282,6 @@ C-----------------------------------------------
             LG = SQRT(TMP(1)*TMP(1)+TMP(2)*TMP(2)+TMP(3)*TMP(3))
             ZG = LG*FAC_L_bb/W13     !scaled horizontal distance (ground)  {g,cm,mus}
 
-            cos_theta = (Xdet-ProjZ(1))*Nx +  (Ydet-ProjZ(2))*Ny + (Zdet-ProjZ(3))*Nz
-            cos_theta = cos_theta/MAX(EM20,LG*NORM)
 
             ! scaled distance
             SELECT CASE(ISHAPE)
@@ -294,8 +292,14 @@ C-----------------------------------------------
                 Dz = (Zdet - Zz)*FAC_L_bb
                 DNORM = SQRT(Dx*Dx+Dy*Dy+Dz*Dz) ! *FAC_L_bb  cm->work unit    /FAC_L_bb : WORK_UNIT -> cm
                 Z = DNORM / W13    !spherical
+                !Angle from detonation point
+                cos_theta = Dx*Nx + Dy*Ny + Dz*Nz
+                cos_theta = cos_theta/MAX(EM20,NORM*DNORM)
              CASE(3)
                 Z = ZG             !cylindrical - in abac unit ID  g,cm,mus
+                ! Angle from detonation point
+                cos_theta = (Xdet-ProjZ(1))*Nx +  (Ydet-ProjZ(2))*Ny + (Zdet-ProjZ(3))*Nz
+                cos_theta = cos_theta/MAX(EM20,LG*NORM)
             END SELECT
 
            !checking bounds
