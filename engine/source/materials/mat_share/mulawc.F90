@@ -1090,7 +1090,7 @@
               ! case of temp calculated locally in material
               t0 = pm(79, imat)
               tm = pm(80, imat)
-              tstar(1:nel) = max(zero, (el_temp(1:nel) - t0) / (tm - t0))
+              tstar(1:nel) = max(zero, (el_temp(1:nel) - t0) / max(tm - t0, em20))
             else
               tstar(1:nel) = zero
             end if
