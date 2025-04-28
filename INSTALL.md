@@ -59,7 +59,7 @@ Set the following environment variables:
    The Intel oneAPI compiler installed and used for building the binaries could be more recent than the one used for building the Releases.
    In this case the Runtimes may not be compatible.
 
-   In a typical installation, OneAPI variables are load with following command : 
+   In a typical installation, OneAPI variables are loaded with following command : 
 
         call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat" intel64 vs2019
 
@@ -135,7 +135,7 @@ Note that variables `RAD_CFG_PATH` and `RAD_H3D_PATH` start with `c:` unlike the
 
 #### Under Windows in cmd shell
 
-* Intel OneAPI MPI must be installed and setup. Variables can le load separately:
+* Intel OneAPI MPI must be installed and setup. Variables can be loaded separately:
 
         call [Path to Intel OneAPI]\env\vars.bat
 
@@ -218,4 +218,3 @@ Set the variables like running under Cygwin.
 
         export OMP_NUM_THREADS=[N]
         perl ./or_qa_script ../../exec/engine_win64_impi.exe --exec_script_args="mpiexec -delegate -np [P]"  1.0
-

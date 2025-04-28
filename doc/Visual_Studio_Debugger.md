@@ -119,4 +119,4 @@ The breakpoint is set.
 The menus on top permit to continue.
 Highlight with the mouse on variables to highlight values etc...
 
-![image](./stoped_at_breadkpoint.png)
+![image](./stopped_at_breakpoint.png)

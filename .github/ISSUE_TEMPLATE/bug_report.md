@@ -18,7 +18,7 @@ A clear and concise description of what you expected to happen.
 
 **Output**
 If applicable, add screenshots to help explain your problem.
-You can also add the `*.rad` ,`*.out` files.
+You can also add the `*.rad`, `*.out` files.
 
 **Desktop (please complete the following information):**
  - Version [commit id]

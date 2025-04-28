@@ -568,7 +568,7 @@ Those bellongs to the most commonly used architectures:
 
   Execution Control
 
-  * `-nt=N` use N threads to fasten build
+  * `-nt=N` use N threads for faster build
   * `-verbose`: compilation process is in Verbose mode
   * `-clean`: deletes compilation files and execution.
 
