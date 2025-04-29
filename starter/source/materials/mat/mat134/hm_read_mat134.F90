@@ -148,7 +148,7 @@
               !< Properties compatibility  
           call init_mat_keyword(matparam,"SOLID_ISOTROPIC") 
           !< Properties compatibility  
-          call init_mat_keyword(matparam ,"INCRMENTAL" )
+          call init_mat_keyword(matparam ,"INCREMENTAL" )
           call init_mat_keyword(matparam ,"HOOK")
           call init_mat_keyword(matparam ,"ISOTROPIC")   
 !-------------------------------------------------
