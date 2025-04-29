@@ -97,7 +97,7 @@
           my_real, dimension(nel), intent(inout) :: ssp !< sound speed
           my_real, dimension(nel), intent(inout) :: off !< element deletion flag
           my_real, dimension(nel), intent(inout) :: dpdm !< pressure total derivative
-          my_real, dimension(nel), intent(in) :: pnew !< pressure total derivative
+          my_real, dimension(nel), intent(in) :: pnew !< current pressure from mmain > eosmain
           integer ,intent(in) :: nvartmp                       !< number of temporary internal variables
           integer ,dimension(nel,nvartmp) ,intent(inout) :: vartmp    !< temporary internal variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -113,7 +113,6 @@
           my_real :: G2(nel)  !< G2 = 2*G
           my_real :: j2, vm(nel), g0, yield2, ratio  !< variables for yield function projection
           my_real :: dav
-          my_real :: Fscale_G, Fscale_Y
           logical, parameter :: opt_extrapolate = .false.
 
           integer nc
@@ -127,9 +126,7 @@
           !========================================================================
 
           nu = matparam%nu
-          Fscale_G = matparam%uparam(1)
-          Fscale_Y = matparam%uparam(2)
-          pmin = matparam%uparam(3)
+          pmin = matparam%uparam(1)
 
           !========================================================================
           !< Recovering shear modulus for each element : G = G(rho)
@@ -142,7 +139,6 @@
           ! shear : ordinate for table interpolation (out)
           ! slope : slope for table interpolation (out)
           call table_mat_vinterp(matparam%table(1),nel,nel,vartmp(1,1),xvec1,shear,slope,opt_extrapolate)
-          !shear(1:nel) = Fscale_G * shear(1:nel)
           g2(1:nel) = two*shear(1:nel)
 
           !========================================================================
@@ -161,7 +157,7 @@
             vm(i)     = sqrt(three*j2)
           enddo
 
-          !========================================================================
+           !========================================================================
           !< Solid sound speed
           !========================================================================
           do i=1,nel
@@ -173,7 +169,6 @@
           !========================================================================
           xvec1(1:nel,1) = pold(1:nel)
           call table_mat_vinterp(matparam%table(2),nel,nel,vartmp(1,2),xvec1,sigy,slope,opt_extrapolate)
-          !sigy(1:nel) = Fscale_Y * sigy(1:nel)
 
           !========================================================================
           !< Apply the yield function with user function Y=Y(P)
@@ -181,16 +176,15 @@
           do i=1,nel
             g0 = sigy(i)
             g0 = max(zero,g0)
-            if( pold(i) < pmin ) g0=zero
-            yield2 = vm(i) - g0
-            if( yield2 <= zero )then     ! at the yield surface or within the yield surface
-              ratio = one
-            else
+            if( pnew(i) <= pmin ) g0 = zero
+            ratio = one
+            if(g0 == zero)then
+              ratio = zero
+            elseif( vm(i) > g0 )then     ! at the yield surface or within the yield surface
               ratio = g0/vm(i)
+              dpla(i) = (one-ratio)*vm(i) / max(em20,three*shear(i))
+              defp(i) = defp(i) + dpla(i)
             endif
-            !dpla(i) = (one-ratio)*vm(i)*timestep/ max(em20,three*shear(i))
-            dpla(i) = (one-ratio)*vm(i) / max(em20,three*shear(i))
-            defp(i) = defp(i) + dpla(i)
             signxx(i) = ratio*signxx(i)*off(i) - pnew(i)
             signyy(i) = ratio*signyy(i)*off(i) - pnew(i)
             signzz(i) = ratio*signzz(i)*off(i) - pnew(i)

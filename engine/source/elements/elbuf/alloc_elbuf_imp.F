@@ -52,7 +52,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NG,ITY,ERR,BUFLEN,NEL,NPT,NPG,NLAY,NPTR,NPTS,NPTT,NUVAR,NVARTMP,
-     .   NFAIL,K,IL,IR,IS,IT,IGTYP,NPTTOT,I,NONL,INLOC,NVAR_EOS
+     .   NFAIL,K,IL,IR,IS,IT,IGTYP,NPTTOT,I,NONL,INLOC,NVAR_EOS,NVARTMP_EOS
       INTEGER ! global variables 
      .   G_GAMA,G_SIG,G_OFF,G_NOFF,G_EINT,G_EINS,G_TEMP,
      .   G_RHO,G_PLA,G_VOL,G_EPSD,G_QVIS,G_DELTAX,G_TB,G_RK,G_RE,G_WPLA
@@ -151,7 +151,9 @@ c
          BUFLY_IMP%IVISC     = BUFLY%IVISC    
          BUFLY_IMP%NFAIL     = BUFLY%NFAIL    
          BUFLY_IMP%NVAR_MAT  = BUFLY%NVAR_MAT    
+         BUFLY_IMP%NVAR_EOS  = BUFLY%NVAR_EOS         
          BUFLY_IMP%NVARTMP   = BUFLY%NVARTMP    
+         BUFLY_IMP%NVARTMP_EOS = BUFLY%NVARTMP_EOS         
          BUFLY_IMP%NVAR_VISC = BUFLY%NVAR_VISC    
          BUFLY_IMP%NVAR_LOC  = BUFLY%NVAR_LOC    
          BUFLY_IMP%NVAR_LAY  = BUFLY%NVAR_LAY   
@@ -483,7 +485,8 @@ c-------------------------------
 c         EoS buffer
 c-------------------------------
       DO IL = 1, NLAY 
-        NVAR_EOS = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_EOS                                                                                         
+        NVAR_EOS = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_EOS 
+        NVARTMP_EOS = ELBUF_TAB(NG)%BUFLY(IL)%NVARTMP_EOS
         IF (IGTYP == 51 .OR. IGTYP == 52) THEN
           NPTT = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
         ELSE
@@ -492,11 +495,12 @@ c-------------------------------
         DO IR = 1,NPTR                                                    
           DO IS = 1,NPTS                                                  
             DO IT = 1,NPTT                                                           
-              ALLOCATE( ELBUF_TAB(NG)%BUFLY(IL)%EOS(IR,IS,IT)%VAR(NEL*NVAR_EOS), STAT=ERR)                                                                                                                                      
+              ALLOCATE( ELBUF_TAB(NG)%BUFLY(IL)%EOS(IR,IS,IT)%VAR(NEL*NVAR_EOS), STAT=ERR)  
+              ALLOCATE( ELBUF_TAB(NG)%BUFLY(IL)%EOS(IR,IS,IT)%VARTMP(NEL*NVARTMP_EOS), STAT=ERR)                                                                                                                                                    
             ENDDO                                                             
           ENDDO                                                              
         ENDDO                                                             
-      ENDDO         
+      ENDDO       
 c-------------------------------------------------
 c       allocation of global buffer variables
 c-------------------------------------------------

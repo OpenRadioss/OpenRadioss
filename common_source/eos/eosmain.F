@@ -55,13 +55,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    compaction_mod       ../common_source/eos/compaction.F90
       !||    matparam_def_mod     ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||====================================================================
-      SUBROUTINE EOSMAIN(IFLAG ,NEL   ,EOSTYP ,PM      ,OFF      ,EINT  ,
-     2                   RHO   ,RHO0  ,MU     ,MU2     ,ESPE     ,
-     3                   DVOL  ,DF    ,VNEW   ,MAT     ,PSH      ,
-     4                   PNEW  ,DPDM  ,DPDE   ,THETA   ,ECOLD    ,
-     5                   BUFMAT,SIG   ,MU_BAK ,MLW     ,POLD     ,
-     6                   NPF   ,TF    ,VAREOS ,NVAREOS ,MAT_PARAM,
-     7                   BFRAC)
+      SUBROUTINE EOSMAIN(IFLAG ,NEL    ,EOSTYP ,PM      ,OFF      ,EINT  ,
+     2                   RHO   ,RHO0   ,MU     ,MU2     ,ESPE     ,
+     3                   DVOL  ,DF     ,VNEW   ,MAT     ,PSH      ,
+     4                   PNEW  ,DPDM   ,DPDE   ,THETA   ,ECOLD    ,
+     5                   BUFMAT,SIG    ,MU_BAK ,MLW     ,POLD     ,
+     6                   NPF   ,TF     ,VAREOS ,NVAREOS ,MAT_PARAM,
+     7                   BFRAC ,NVARTMP,VARTMP)
 C-----------------------------------------------
       use eosexponential_mod
 C-----------------------------------------------
@@ -101,9 +101,10 @@ C depending on EOSTYP(INTEGER) value.
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
-      USE COMPACTION_MOD   , ONLY : COMPACTION
-      USE COMPACTION2_MOD  , ONLY : COMPACTION2
+      USE MATPARAM_DEF_MOD       , ONLY : MATPARAM_STRUCT_
+      USE COMPACTION_MOD         , ONLY : COMPACTION
+      USE COMPACTION2_MOD        , ONLY : COMPACTION2
+      USE COMPACTION_TAB_MOD , ONLY : COMPACTION_TAB
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -137,6 +138,8 @@ C-----------------------------------------------
       my_real :: CV            !< specific heat at constant volume
       my_real :: CP            !< specific heat at constant pressure
       my_real :: TAB_TEMP(NEL) !< temporary array,tabulated temperatures
+      integer ,intent(in) :: nvartmp                              !< number of temporary internal variables
+      integer ,dimension(nel,nvartmp) ,intent(inout) :: vartmp    !< temporary internal variables
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -348,6 +351,17 @@ C-----------------------------------------------
      2                  DVOL  ,MAT  ,PSH  ,
      3                  PNEW  ,DPDM ,DPDE ,MU_BAK,
      4                  NPF   ,TF   ,SNPC ,STF   ,NPROPM,NUMMAT,
+     5                  MAT_PARAM%EOS)
+
+       CASE(21)
+         !--------------------------------------------------!
+         !         COMPACTIONTAB EOS                        !
+         !--------------------------------------------------!
+          CALL COMPACTION_TAB(
+     1                  IFLAG ,NEL   ,PM     ,OFF   ,EINT  ,
+     2                  DVOL  ,MAT   ,PSH    ,DT1   ,RHO   ,RHO0 ,
+     3                  PNEW  ,DPDM  ,DPDE   ,MU_BAK,
+     4                  NPROPM,NUMMAT,NVAREOS,VAREOS,NVARTMP,VARTMP,
      5                  MAT_PARAM%EOS)
 
        END SELECT

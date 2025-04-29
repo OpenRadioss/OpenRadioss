@@ -1011,7 +1011,7 @@
             &uparam   ,maxuparam,nuparam  ,israte  ,imatvis  ,&
             &nuvar    ,ifunc    ,maxfunc  ,nfunc   ,parmat   ,&
             &unitab   ,mat_id   ,titr     ,mtag    ,lsubmodel,&
-            &pm(1,i)  ,matparam )
+            &pm(1,i)  ,ipm(1,i) ,matparam )
 !-------
           case ('LAW103','HENSEL-SPI', 'FLAW103')
             ilaw  = 103
@@ -1195,7 +1195,8 @@
             call hm_read_mat133( &
              nuvar    ,mtag     , matparam ,iout     ,parmat   , &
              unitab   ,lsubmodel, mat_id   ,titr     ,nvartmp  , &
-             ntable   ,table )
+             ntable   ,table    , npropm   ,npropmi  , &
+             pm(1,i)  ,ipm(1,i) )
 !-------
           case ('LAW134','VISCOUS_FOAM')
             ilaw  = 134

@@ -723,8 +723,8 @@
 ** ERROR IN EOS DEFINITION
 
 /MESSAGE/67/DESCRIPTION
-   -- EOS ID        : %d
-   -- EOS TYPE      : %s
+   -- EOS ID          : %d
+   -- EOS KEY         : %s
    %i1="/EOS"
    %s
 

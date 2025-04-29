@@ -72,8 +72,6 @@
       IAD = IAD+1
         IBUF(IAD) = EOS%NIPARAM
       IAD = IAD+1
-        IBUF(IAD) = EOS%NUVAR
-      IAD = IAD+1
         IBUF(IAD) = EOS%NFUNC
       IAD = IAD+1
         IBUF(IAD) = EOS%NTABLE

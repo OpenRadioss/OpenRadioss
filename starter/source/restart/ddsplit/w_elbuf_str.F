@@ -49,7 +49,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,IL,IR,IS,IT,NG,NEL,NPT,P,L_REL,BUFLEN,NUVAR,NVARTMP,
+      INTEGER I,J,K,IL,IR,IS,IT,NG,NEL,NPT,P,L_REL,BUFLEN,NUVAR,
      .   ITY,IGTYP,ERR,IFAIL,IDFAIL,DEBUG_PRINT,IAD,
      .   NFAIL,IXFEM,IVISC,II,NINTLAY,NPG,IPT,NPTT,NPTTOT,INLOC,NONL,
      .   IDAMP_FREQ_RANGE
@@ -248,9 +248,11 @@ c
                    L_REL = L_REL+1                                    
               RBUF_L(L_REL+1) = BUFLY%NVAR_MAT           
                    L_REL = L_REL+1                                    
-              RBUF_L(L_REL+1) = BUFLY%NVARTMP           
-                   L_REL = L_REL+1 
-              RBUF_L(L_REL+1) = BUFLY%NVAR_EOS           
+              RBUF_L(L_REL+1) = BUFLY%NVAR_EOS                         
+                   L_REL = L_REL+1                                    
+              RBUF_L(L_REL+1) = BUFLY%NVARTMP 
+                   L_REL = L_REL+1                                    
+              RBUF_L(L_REL+1) = BUFLY%NVARTMP_EOS
                    L_REL = L_REL+1                                    
               RBUF_L(L_REL+1) = BUFLY%NVAR_VISC           
                    L_REL = L_REL+1                                    
@@ -943,7 +945,7 @@ c-----    EoS
 c
           DO IL = 1,ELBUF%NLAY 
             BUFLY => ELBUF_TAB(NG)%BUFLY(IL)              
-            NUVAR = BUFLY%NVAR_EOS 
+            NUVAR = BUFLY%NVAR_EOS
             IF(ASSOCIATED(BUFLY%EOS))THEN
               IF (IGTYP == 51 .OR. IGTYP == 52) THEN
                 NPTT = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
@@ -988,9 +990,9 @@ c
             RBUF_L(L_REL+1) = INTLAY%NFAIL             
                  L_REL = L_REL+1                                      
             RBUF_L(L_REL+1) = INTLAY%NVAR_MAT             
-                 L_REL = L_REL+1                                      
+                 L_REL = L_REL+1
             RBUF_L(L_REL+1) = INTLAY%NVARTMP             
-                 L_REL = L_REL+1                                      
+                 L_REL = L_REL+1
 c
 c          ! write inter layer variables for each layer
            RBUF_L(L_REL+1:L_REL+NEL*LY_EINT)  = INTLAY%EINT(1:NEL*LY_EINT)          

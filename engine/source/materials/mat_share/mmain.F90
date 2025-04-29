@@ -382,6 +382,7 @@
           &        isvis,nvartmp,nlay,inloc,iselect,ibpreld,nvareos,nvarvis,&   
           &        idamp_freq_range,visctype
           integer ifunc(maxfunc)
+          integer nvartmp_eos
 
           ! Float/Double
           my_real facq0,e1,e2,e3,e4,e5,e6,alpha,tref,tmelt
@@ -772,6 +773,7 @@
 !-----------------------------------
           eostyp = mat_elem%mat_param(imat)%ieos
           pnew(:) = zero
+          nvartmp_eos = elbuf_tab(ng)%bufly(ilay)%nvartmp_eos
           if (eostyp > 0 .and. mtn /= 12 ) then
             call eosmain(0         ,nel      ,eostyp  ,pm        ,off      ,lbuf%eint,&
                          lbuf%rho  ,rho0     ,amu     ,amu2      ,espe     ,&
@@ -779,7 +781,7 @@
                          pnew      ,dpdm     ,dpde    ,el_temp   ,ecold    ,&
                          bufmat    ,lbuf%sig ,lbuf%mu ,mtn       ,pold     ,&
                          npf       ,tf       ,ebuf%var,nvareos   ,mat_elem%mat_param(imat),&
-                         lbuf%bfrac)
+                         lbuf%bfrac,nvartmp_eos  ,ebuf%vartmp)
           endif
 !-----------------------------------
 !     stresses deviatoric/total
@@ -1937,13 +1939,14 @@
           eostyp = mat_elem%mat_param(imat)%ieos
           if (eostyp > 0 .and. mtn /=12 ) then
             l_eos_called = .true.
-            call eosmain(1         ,nel      ,eostyp  ,pm       ,off      ,lbuf%eint,&
-                       & lbuf%rho  ,rho0     ,amu     ,amu2     ,espe     ,&
-                       & dvol      ,df       ,voln    ,mat      ,psh      ,&
-                       & pnew      ,dpdm     ,dpde    ,el_temp  ,ecold    ,&
-                       & bufmat    ,lbuf%sig ,lbuf%mu ,mtn      ,pold     ,&
-                       & npf       ,tf       ,ebuf%var,nvareos , mat_elem%mat_param(imat),&
-                       & lbuf%bfrac)
+            nvartmp_eos = elbuf_tab(ng)%bufly(ilay)%nvartmp_eos
+            call eosmain(1         ,nel         ,eostyp     ,pm       ,off      ,lbuf%eint,&
+                       & lbuf%rho  ,rho0        ,amu        ,amu2     ,espe     ,&
+                       & dvol      ,df          ,voln       ,mat      ,psh      ,&
+                       & pnew      ,dpdm        ,dpde       ,el_temp  ,ecold    ,&
+                       & bufmat    ,lbuf%sig    ,lbuf%mu    ,mtn      ,pold     ,&
+                       & npf       ,tf          ,ebuf%var   ,nvareos , mat_elem%mat_param(imat),&
+                       & lbuf%bfrac,nvartmp_eos ,ebuf%vartmp)
              if (jtur /= 0 .or. mtn == 17) pnew(1:nel) = pnew(1:nel) + pturb(1:nel)
             !total stress tensor
             if(mtn /=102 .and. mtn /=133)then

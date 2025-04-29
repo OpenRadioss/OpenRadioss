@@ -182,7 +182,6 @@
       !integer parameters
       eos_param%nuparam = 7
       eos_param%niparam = 1
-      eos_param%nuvar = 0
       eos_param%nfunc = 1
       eos_param%ntable = 0
       call eos_param%construct() !allocations

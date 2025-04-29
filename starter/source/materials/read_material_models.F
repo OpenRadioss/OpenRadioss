@@ -170,10 +170,10 @@ c-------------------------------------------------------------------
 c-------------------------------------------------------------------
 c     /EOS : Equations of State P=P(µ,E)
 c-------------------------------------------------------------------
-      CALL HM_READ_EOS(MAT_ELEM%MAT_PARAM ,IPM      ,PM       ,BUFMAT   ,
+      CALL HM_READ_EOS(MAT_ELEM%MAT_PARAM ,IPM      ,PM       ,BUFMAT   ,NUMMAT, NFUNCT,
      .                 BUFLEN   ,IADBUF   ,EOS_TAG  ,UNITAB   ,LSUBMODEL,
-     .                 MLAW_TAG ,NPC      ,TF       ,SNPC     ,NPTS     ,
-     .                 SBUFMAT)
+     .                 MLAW_TAG ,NPC      ,TF       ,SNPC     ,NPTS     ,SBUFMAT,
+     .                 NTABLE   ,TABLE)
 
 c-------------------------------------------------------------------
 c     /FAIL : Failure Models

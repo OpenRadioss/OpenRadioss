@@ -1090,7 +1090,8 @@
 !-------------------------------------------------------------------------------
 
       Type buf_eos_
-        my_real, dimension(:)  , pointer ::  var 
+        my_real, dimension(:)  , pointer ::  var
+        integer, dimension(:)  , pointer ::  vartmp
       end type buf_eos_
 
       Type buf_poro_
@@ -1164,6 +1165,7 @@
         integer  nvar_mat
         integer  nvar_eos        
         integer  nvartmp
+        integer  nvartmp_eos
         integer  nvar_visc
         integer  nvar_lay   ! max nb of layer variables = 9
         integer  nvar_loc   ! max nb of local variables in lbuf = 51 (below)

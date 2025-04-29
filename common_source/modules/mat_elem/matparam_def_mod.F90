@@ -476,7 +476,6 @@
             this%eos%title = ''
             this%eos%nuparam = 0
             this%eos%niparam = 0
-            this%eos%nuvar = 0
             this%eos%nfunc = 0
             this%eos%ntable = 0
             this%eos%isfluid = 0

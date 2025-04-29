@@ -53,10 +53,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,J,K,IL,IR,IS,IT,NG,NEL,NPT,L_REL,BUFLEN,NUVAR,
-     .   ITY,IGTYP,ISORTH,ISRATE,ISROT,IREP,ERR,IEXPAN,ISTRA,IFAIL,   
-     .   NFAIL,IEOS,IXFEM,IVISC,IXEL,NPG,NPTT,NPTTOT,INLOC,NONL,IDFAIL,
-     .   IDAMP_FREQ_RANGE,NPT0
+      INTEGER I,J,K,IL,IR,IS,IT,NG,NEL,NPT,L_REL,BUFLEN,NUVAR,
+     .   ITY,IGTYP,ISRATE,ERR,IFAIL,
+     .   NFAIL,IXFEM,NPG,NPTT,NPTTOT,INLOC,NONL,IDFAIL,
+     .   IDAMP_FREQ_RANGE
       INTEGER ! global variables
      .   G_GAMA,G_SIG,G_OFF,G_NOFF,G_EINT,G_EINS,G_TEMP,
      .   G_RHO,G_PLA,G_VOL,G_EPSD,G_QVIS,G_DELTAX,G_TB,G_RK,G_RE,G_WPLA,
@@ -76,7 +76,7 @@ C-----------------------------------------------
      .   G_TM_YIELD,G_TM_SEQ,G_TM_EINT,G_TM_DMG,G_TM_SIG,G_TM_STRA,G_TSAIWU,G_DMGSCL,
      .   G_SH_IOFFSET,G_EINT_DISTOR,G_FOR_G,G_FORPG_G
       INTEGER  ! layer variables
-     .   LY_DMG,LY_GAMA,LY_DIRA,LY_DIRB,LY_CRKDIR,LY_PLAPT,LY_SIGPT,LY_SMSTR,
+     .   LY_DMG,LY_GAMA,LY_DIRA,LY_DIRB,LY_CRKDIR,LY_PLAPT,LY_SIGPT,
      .   LY_HOURG,LY_UELR,LY_UELR1,LY_OFFPG,LY_OFF,LEN_PLAPT,LEN_SIGPT
       INTEGER  ! interlayer variables
      .   LY_EINT,LY_COUNT
@@ -92,8 +92,8 @@ C-----------------------------------------------
       INTEGER  ! failure variables
      .   LF_DAM,LF_DAMMX,LF_DAMINI,LF_TDEL,LF_INDX,LF_OFF
       INTEGER sum
-      my_real,
-     .   ALLOCATABLE, DIMENSION (:)  :: RBUF_L
+      my_real, ALLOCATABLE, DIMENSION (:)  :: RBUF_L
+      INTEGER :: NVAR_EOS
 
       DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE :: DP_RBUF
       INTEGER SDP_RBUF
@@ -214,11 +214,13 @@ c
               RBUF_L(L_REL+1) = BUFLY%NFAIL           
                    L_REL = L_REL+1                                    
               RBUF_L(L_REL+1) = BUFLY%NVAR_MAT           
-                   L_REL = L_REL+1                                    
+                   L_REL = L_REL+1
+              RBUF_L(L_REL+1) = BUFLY%NVAR_EOS
+                   L_REL = L_REL+1
               RBUF_L(L_REL+1) = BUFLY%NVARTMP           
-                   L_REL = L_REL+1                                    
-              RBUF_L(L_REL+1) = BUFLY%NVAR_EOS           
-                   L_REL = L_REL+1                                    
+                   L_REL = L_REL+1
+              RBUF_L(L_REL+1) = BUFLY%NVARTMP_EOS
+                   L_REL = L_REL+1
               RBUF_L(L_REL+1) = BUFLY%NVAR_VISC           
                    L_REL = L_REL+1                                    
               RBUF_L(L_REL+1) = BUFLY%NVAR_LOC        
@@ -850,7 +852,7 @@ c
           !-----------------------------------------------------                                                                 
           ! EoS         
           DO IL = 1,ELBUF%NLAY                                          
-            NUVAR  = BUFLY%NVAR_EOS
+            NVAR_EOS  = BUFLY%NVAR_EOS
             BUFLY => ELBUF_TAB(NG)%BUFLY(IL)                                                 
             IF (IGTYP == 51 .OR. IGTYP == 52) THEN
               NPTT = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
@@ -860,8 +862,8 @@ c
             DO IR = 1,ELBUF%NPTR                                             
               DO IS = 1,ELBUF%NPTS                                           
                 DO IT = 1,NPTT
-                  RBUF_L(L_REL+1:L_REL+NEL*NUVAR)= BUFLY%EOS(IR,IS,IT)%VAR(1:NEL*NUVAR)
-                  L_REL = L_REL+NEL*NUVAR
+                  RBUF_L(L_REL+1:L_REL+NEL*NVAR_EOS)= BUFLY%EOS(IR,IS,IT)%VAR(1:NEL*NVAR_EOS)
+                  L_REL = L_REL+NEL*NVAR_EOS
                 ENDDO                                                       
               ENDDO                                                         
             ENDDO                                                           
