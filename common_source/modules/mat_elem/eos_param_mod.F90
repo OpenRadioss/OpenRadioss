@@ -52,7 +52,7 @@
         character(len=nchartitle) :: title = ''  !< eos model input name
         integer :: nuparam                       !< number of real value paraameters
         integer :: niparam                       !< number of int value parameters
-        integer :: nuvar                         !< number of internal state variables
+        !integer :: nuvar                         !< number of internal state variables    --> elbuf%bufly%eos%var(nel*nvar_eos)bg
         integer :: nfunc                         !< number of local functions in material
         integer :: ntable                        !< number of local function tables
         integer :: isfluid                      !< indicated if EoS is designed for fluid

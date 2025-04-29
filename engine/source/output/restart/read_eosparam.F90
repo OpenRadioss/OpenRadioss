@@ -78,7 +78,6 @@
       iad = 0
       iad = iad+1 ; eos%nuparam = ibuf(iad)
       iad = iad+1 ; eos%niparam = ibuf(iad)
-      iad = iad+1 ; eos%nuvar   = ibuf(iad)
       iad = iad+1 ; eos%nfunc   = ibuf(iad)
       iad = iad+1 ; eos%ntable  = ibuf(iad)
       iad = iad+1 ; eos%isfluid = ibuf(iad)

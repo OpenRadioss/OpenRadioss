@@ -143,7 +143,9 @@ c
             ELBUF_TGT(NG)%BUFLY(IL)%IPORO = ELBUF_SRC(NG)%BUFLY(IL)%IPORO                         
             ELBUF_TGT(NG)%BUFLY(IL)%NFAIL = ELBUF_SRC(NG)%BUFLY(IL)%NFAIL                         
             ELBUF_TGT(NG)%BUFLY(IL)%NVAR_MAT = ELBUF_SRC(NG)%BUFLY(IL)%NVAR_MAT                           
+            ELBUF_TGT(NG)%BUFLY(IL)%NVAR_EOS = ELBUF_SRC(NG)%BUFLY(IL)%NVAR_EOS 
             ELBUF_TGT(NG)%BUFLY(IL)%NVARTMP = ELBUF_SRC(NG)%BUFLY(IL)%NVARTMP                           
+            ELBUF_TGT(NG)%BUFLY(IL)%NVARTMP_EOS = ELBUF_SRC(NG)%BUFLY(IL)%NVARTMP_EOS
             ELBUF_TGT(NG)%BUFLY(IL)%NVAR_EOS = ELBUF_SRC(NG)%BUFLY(IL)%NVAR_EOS                           
             ELBUF_TGT(NG)%BUFLY(IL)%NVAR_VISC = ELBUF_SRC(NG)%BUFLY(IL)%NVAR_VISC                        
             ELBUF_TGT(NG)%BUFLY(IL)%NVAR_LOC = ELBUF_SRC(NG)%BUFLY(IL)%NVAR_LOC                        
@@ -568,7 +570,8 @@ c-------------------------------
 c         EoS                            
 c-------------------------------
           DO IL = 1, NLAY  
-            NUVAR = ELBUF_SRC(NG)%BUFLY(IL)%NVAR_EOS                                                
+            NUVAR = ELBUF_SRC(NG)%BUFLY(IL)%NVAR_EOS 
+            NVARTMP = ELBUF_SRC(NG)%BUFLY(IL)%NVARTMP_EOS                                               
             IF (IGTYP == 51 .OR. IGTYP == 52) THEN
               NPTT = ELBUF_SRC(NG)%BUFLY(IL)%NPTT
             ELSE
@@ -580,6 +583,7 @@ c-------------------------------
                   EOSS => ELBUF_SRC(NG)%BUFLY(IL)%EOS(IR,IS,IT)
                   EOST => ELBUF_TGT(NG)%BUFLY(IL)%EOS(IR,IS,IT)
                   EOST%VAR(1:NEL*NUVAR) = EOSS%VAR(1:NEL*NUVAR)
+                  EOST%VARTMP(1:NEL*NVARTMP) = EOSS%VARTMP(1:NEL*NVARTMP)                  
                 ENDDO                                                         
               ENDDO                                                          
             ENDDO                                                         

@@ -55,7 +55,8 @@
         subroutine hm_read_mat133(                             &
            nuvar    ,mtag     , matparam ,iout     ,parmat   , &
            unitab   ,lsubmodel, mat_uid  ,titr     ,nvartmp  , &
-           ntable   ,table    )
+           ntable   ,table    , npropm   ,npropmi  , &
+           pm       , ipm)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -64,7 +65,7 @@
           use unitab_mod , only : unit_type_
           use submodel_mod , only : submodel_data, nsubmod
           use matparam_def_mod , only : matparam_struct_
-          use constant_mod , only : zero, half, one, two, three
+          use constant_mod , only : zero, em20, half, one, two, three
           use names_and_titles_mod , only : nchartitle
           use table_mod , only : ttable
           use mat_table_copy_mod , only : mat_table_copy
@@ -89,6 +90,9 @@
           integer,intent(in)                                :: ntable       !< array size for table
           type(ttable),dimension(ntable),intent(in)         :: table        !< tables data structure
           integer,intent(inout)                             :: nvartmp      !< number of temporary variables
+          integer,intent(in)                                :: npropm,npropmi ! array size
+          integer,intent(inout)                             :: ipm(npropmi) !< material parameter (integer)
+          my_real,intent(inout)                             :: pm(npropm)   !< material parameter (real)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -112,6 +116,9 @@
           is_encrypted = .false.
           is_available = .false.
           mtl_msg = ''
+
+          matparam%ieos = 18  ! linear eos is used by default
+          ipm(4)        = 18
 !----------------------------------------------------------------
           call hm_option_is_encrypted(is_encrypted)
 !----------------------------------------------------------------
@@ -147,9 +154,14 @@
             call ancmsg(msgid=1514,msgtype=msgerror,anmode=aninfo,i1 = mat_uid,c1=mtl_msg,c2=titr)
           endif
 
+          if(pmin == zero)then
+            pmin = em20
+          end if
+          pm(37) = pmin
+
 !-------------------------------------
           matparam%niparam = 0          !< Number of integer material parameters
-          matparam%nuparam = 3          !< Number of real material parameters
+          matparam%nuparam = 1          !< Number of real material parameters
           matparam%ntable = 2           !< Number of user functions
           nuvar = 0                     !< Number of user variables
           nvartmp = 2                   !< Number of temporary variables
@@ -190,12 +202,11 @@
           matparam%shear = shear !initial
           matparam%bulk  = bulk  !intial
 
-          matparam%uparam(1) = Fscale_G
-          matparam%uparam(2) = Fscale_Y
-          matparam%uparam(3) = Pmin
+          matparam%uparam(1) = Pmin
 
           !< PARMAT table
           parmat(1) = bulk !max
+          pm(32) = bulk ! default EoS
 
           !< Initial and reference density
           matparam%rho0 = rho0

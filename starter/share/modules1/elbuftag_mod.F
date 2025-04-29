@@ -352,12 +352,13 @@ c---    uvar
         INTEGER ::  L_ABURN     !  afterburning   
         INTEGER ::  L_BFRAC     !  burn fraction 
         
-        INTEGER ::  NVAR        !  EOS%VAR buffer size     
+        INTEGER ::  NVAR        !  EOS%VAR buffer size
+        INTEGER ::  NVARTMP     !  EOS%VARTMP buffer size
       END TYPE EOS_TAG_    
       
       !EOS PARAM
       INTEGER,SAVE :: MAXEOS
-      DATA MAXEOS /21/          !Number of EOS types :'LINEAR', 'POLYNOMIAL', 'IDEAL-GAS' , etc ...
+      DATA MAXEOS /22/          !Number of EOS types :'LINEAR', 'POLYNOMIAL', 'IDEAL-GAS' , etc ...
                 
 
 C

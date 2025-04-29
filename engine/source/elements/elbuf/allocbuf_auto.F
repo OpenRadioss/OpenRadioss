@@ -58,7 +58,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K,IL,IR,IS,IT,IAD,ERR,NUVAR,NVARTMP,IGTYP,IXFEM,NLAY,
+      INTEGER I,K,IL,IR,IS,IT,IAD,ERR,NUVAR,NVARTMP,NVARTMP_EOS,IGTYP,IXFEM,NLAY,
      .  NINTLAY,NPTR,NPTS,NPTT,NEL,NPG,IPT,LEN1,LEN2,ILAW,IMAT,IEOS,NONL,
      .  IVISC,IPORO,NFAIL,NVAR_MAT,NVAR_EOS,NVAR_VISC,NVAR_LOC,NVAR_LAY,NPTTOT,IADP,
      .  IDRAPE
@@ -229,11 +229,13 @@ c
         NFAIL = NINT(RBUF(IAD+1))                        
           IAD = IAD+1                                                  
         NVAR_MAT = NINT(RBUF(IAD+1))               
-          IAD = IAD+1                                                  
+          IAD = IAD+1   
+        NVAR_EOS = NINT(RBUF(IAD+1))               
+          IAD = IAD+1                                                          
         NVARTMP = NINT(RBUF(IAD+1))               
           IAD = IAD+1                                                  
-        NVAR_EOS = NINT(RBUF(IAD+1))               
-          IAD = IAD+1                                                  
+        NVARTMP_EOS = NINT(RBUF(IAD+1))               
+          IAD = IAD+1                                     
         NVAR_VISC= NINT(RBUF(IAD+1))                        
           IAD = IAD+1                                                  
         NVAR_LOC = NINT(RBUF(IAD+1))                        
@@ -406,9 +408,10 @@ c
         BUFLY%IVISC     = IVISC            
         BUFLY%IPORO     = IPORO            
         BUFLY%NFAIL     = NFAIL            
-        BUFLY%NVAR_MAT  = NVAR_MAT         
-        BUFLY%NVARTMP   = NVARTMP         
+        BUFLY%NVAR_MAT  = NVAR_MAT  
         BUFLY%NVAR_EOS  = NVAR_EOS
+        BUFLY%NVARTMP   = NVARTMP
+        BUFLY%NVARTMP_EOS = NVARTMP_EOS
         BUFLY%NVAR_VISC = NVAR_VISC        
         BUFLY%NVAR_LOC  = NVAR_LOC         
         BUFLY%NVAR_LAY  = NVAR_LAY         
@@ -1072,7 +1075,8 @@ c-------------------------------
 c         EoS buffer
 c-------------------------------
       DO IL = 1, NLAY 
-        NVAR_EOS = ELBUF_STR%BUFLY(IL)%NVAR_EOS                                                                                         
+        NVAR_EOS = ELBUF_STR%BUFLY(IL)%NVAR_EOS
+        NVARTMP_EOS = ELBUF_STR%BUFLY(IL)%NVARTMP_EOS
         IF (IGTYP == 51 .OR. IGTYP == 52) THEN
           NPTT = ELBUF_STR%BUFLY(IL)%NPTT
         ELSE
@@ -1081,9 +1085,11 @@ c-------------------------------
         DO IR = 1,NPTR                                                    
           DO IS = 1,NPTS                                                  
             DO IT = 1,NPTT                                                           
-              ALLOCATE( ELBUF_STR%BUFLY(IL)%EOS(IR,IS,IT)%VAR(NEL*NVAR_EOS), STAT=ERR)                        
+              ALLOCATE( ELBUF_STR%BUFLY(IL)%EOS(IR,IS,IT)%VAR(NEL*NVAR_EOS), STAT=ERR)
+              ALLOCATE( ELBUF_STR%BUFLY(IL)%EOS(IR,IS,IT)%VARTMP(NEL*NVARTMP_EOS), STAT=ERR)
               ELBUF_STR%BUFLY(IL)%EOS(IR,IS,IT)%VAR(1:NEL*NVAR_EOS) = RBUF(IAD+1:IAD+NEL*NVAR_EOS)                          
-              IAD = IAD+NEL*NVAR_EOS                                                                                                                   
+              ELBUF_STR%BUFLY(IL)%EOS(IR,IS,IT)%VARTMP(1:NEL*NVARTMP_EOS) = 0
+              IAD = IAD+NEL*NVAR_EOS
             ENDDO                                                             
           ENDDO                                                              
         ENDDO                                                             

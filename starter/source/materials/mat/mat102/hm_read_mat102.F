@@ -38,7 +38,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE HM_READ_MAT102(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
      .                          NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   , 
      .                          UNITAB ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
-     .                          PM     ,MATPARAM )
+     .                          PM     ,IPM      ,MATPARAM )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -62,7 +62,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE ELBUFTAG_MOD            
       USE MESSAGE_MOD      
-      USE SUBMODEL_MOD
+      USE SUBMODEL_MOD , ONLY : SUBMODEL_DATA, NSUBMOD
       USE MATPARAM_DEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY, NCHARFIELD
 C-----------------------------------------------
@@ -77,17 +77,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)     :: PM     
-      my_real, DIMENSION(100)    ,INTENT(INOUT)     :: PARMAT
-      my_real, DIMENSION(MAXUPARAM) ,INTENT(INOUT)  :: UPARAM
-      INTEGER, DIMENSION(MAXFUNC)   ,INTENT(INOUT)  :: IFUNC
-      INTEGER, INTENT(INOUT)          :: ISRATE,IMATVIS,NFUNC,MAXFUNC,MAXUPARAM,NUPARAM,NUVAR
-      TYPE(MLAW_TAG_),INTENT(INOUT)   :: MTAG
-      INTEGER,INTENT(IN)              :: MAT_ID
-      CHARACTER(LEN=NCHARTITLE) ,INTENT(IN) :: TITR
-      TYPE(SUBMODEL_DATA),INTENT(IN)  :: LSUBMODEL(*)
-      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
+      TYPE (UNIT_TYPE_),INTENT(IN)                 :: UNITAB
+      my_real, DIMENSION(NPROPM),INTENT(INOUT)     :: PM
+      my_real, DIMENSION(100),INTENT(INOUT)        :: PARMAT
+      my_real, DIMENSION(MAXUPARAM) ,INTENT(INOUT) :: UPARAM
+      INTEGER, DIMENSION(NPROPMI),INTENT(INOUT)    :: IPM
+      INTEGER, DIMENSION(MAXFUNC),INTENT(INOUT)    :: IFUNC
+      INTEGER, INTENT(INOUT)                       :: ISRATE,IMATVIS,NFUNC,MAXFUNC,MAXUPARAM,NUPARAM,NUVAR
+      TYPE(MLAW_TAG_),INTENT(INOUT)                :: MTAG
+      INTEGER,INTENT(IN)                           :: MAT_ID
+      CHARACTER(LEN=NCHARTITLE) ,INTENT(IN)        :: TITR
+      TYPE(SUBMODEL_DATA),INTENT(IN)               :: LSUBMODEL(NSUBMOD)
+      TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT)        :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -160,26 +161,12 @@ C-----------------------------------------------
 
       IF(E<=ZERO)THEN
         chain='YOUNG MODULUS MUST BE DEFINED                           '
-        CALL ANCMSG(MSGID=829,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO,
-     .                I1=10,
-     .                I2=MAT_ID,
-     .                C1='ERROR',
-     .                C2=TITR,
-     .                C3=chain)   
+        CALL ANCMSG(MSGID=829, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=10, I2=MAT_ID, C1='ERROR', C2=TITR, C3=chain)
       ENDIF 
 
       IF(NU<=ZERO)THEN
         chain='POISSON RATIO MUST BE DEFINED                           '
-        CALL ANCMSG(MSGID=829,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO,
-     .                I1=10,
-     .                I2=MAT_ID,
-     .                C1='ERROR',
-     .                C2=TITR,
-     .                C3=chain)   
+        CALL ANCMSG(MSGID=829, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=10, I2=MAT_ID, C1='ERROR', C2=TITR, C3=chain)
       ENDIF 
 
       PSTAR = -INFINITY
@@ -195,14 +182,7 @@ C-----------------------------------------------
         ELSE
           PSTAR = -A1/TWO/A2 ! extremum          
     !      chain='FITTED YIELD FUNCTION HAS NO ROOT. CHECK INPUT PARAMETER        '      
-    !      CALL ANCMSG(  MSGID=829,
-    ! .                  MSGTYPE=MSGWARNING,
-    ! .                  ANMODE=ANINFO,
-    ! .                  I1=10,
-    ! .                  I2=MAT_ID,
-    ! .                  C1='WARNING',
-    ! .                  C2=TITR,
-    ! .                  C3=chain)               
+    !      CALL ANCMSG(  MSGID=829, MSGTYPE=MSGWARNING, ANMODE=ANINFO, I1=10, I2=MAT_ID, C1='WARNING', C2=TITR, C3=chain)
         ENDIF
       ELSE
         !do nothing let user do what he wants
@@ -245,9 +225,9 @@ c---------------------------
       MTAG%L_PLA  = 1
 !---------------------------------------------------------   
       !MATPARAM keywords
-      
-      MATPARAM%IEOS = 18  ! Linear EOS is used by default 
-      
+      MATPARAM%IEOS = 18  ! Linear EOS is used by default
+      IPM(4)        = 18
+      PM(32)        = E / three/(one - two*NU) ! Bulk modulus for default EOS
 !---------------------------------------------------------   
 
       CALL INIT_MAT_KEYWORD(MATPARAM,"ELASTO_PLASTIC")

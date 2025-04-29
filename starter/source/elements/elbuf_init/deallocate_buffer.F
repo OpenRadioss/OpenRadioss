@@ -299,6 +299,7 @@ c---------
                 IF(ASSOCIATED(ELBUF_TAB(NG)%BUFLY(IL)%VISC(IR,IS,IT)%VAR)) DEALLOCATE(ELBUF_TAB(NG)%BUFLY(IL)%VISC(IR,IS,IT)%VAR)       
                 IF(ASSOCIATED(ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC))DEALLOCATE(ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC)
                 IF(ASSOCIATED(ELBUF_TAB(NG)%BUFLY(IL)%EOS(IR,IS,IT)%VAR))DEALLOCATE(ELBUF_TAB(NG)%BUFLY(IL)%EOS(IR,IS,IT)%VAR)
+                IF(ASSOCIATED(ELBUF_TAB(NG)%BUFLY(IL)%EOS(IR,IS,IT)%VARTMP))DEALLOCATE(ELBUF_TAB(NG)%BUFLY(IL)%EOS(IR,IS,IT)%VARTMP)
               ENDDO                                                           
             ENDDO                                                          
            ENDDO 
@@ -382,16 +383,13 @@ C
           ENDDO                                                                    
 
           DO IL = 1, NLAY
-           NUVARM = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT
-           NUVARV = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC
            NFAIL  = ELBUF_TAB(NG)%BUFLY(IL)%NFAIL
            NPTT   = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
            DO IR = 1,NPTR                                       
             DO IS = 1,NPTS                                      
               DO IT = 1,NPTT
                 DO J = 1,NFAIL
-                  FLOC=>ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC(J)         
- 
+                  FLOC=>ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC(J)
                   IF(ASSOCIATED(FLOC%VAR)) DEALLOCATE(FLOC%VAR)
                   IF(ASSOCIATED(FLOC%DAM)) DEALLOCATE(FLOC%DAM)
                   IF(ASSOCIATED(FLOC%DAMMX)) DEALLOCATE(FLOC%DAMMX)
@@ -400,7 +398,6 @@ C
                   IF(ASSOCIATED(FLOC%INDX)) DEALLOCATE(FLOC%INDX)
                   IF(ASSOCIATED(FLOC%OFF)) DEALLOCATE(FLOC%OFF)
                 ENDDO
-
                 IF(ASSOCIATED(ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)%VAR))DEALLOCATE(ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)%VAR)
                 IF(ASSOCIATED(ELBUF_TAB(NG)%BUFLY(IL)%VISC(IR,IS,IT)%VAR))DEALLOCATE(ELBUF_TAB(NG)%BUFLY(IL)%VISC(IR,IS,IT)%VAR)
                 IF(ASSOCIATED(ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC))DEALLOCATE(ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)%FLOC)
