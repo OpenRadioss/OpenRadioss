@@ -21,7 +21,7 @@ set ( cpprel  "-DCPP_rel=70" )
 if ( USE_OPEN_READER STREQUAL 1 )
        set ( reader_lib "-L${source_directory}/../exec -lopen_reader_linuxa64")
 else ()
-       set ( reader_lib "-L${source_directory}/../extlib/hm_reader/linuxa64/ -lhm_reader_linux64 -lapr-1 " )
+       set ( reader_lib "-L${source_directory}/../extlib/hm_reader/linuxa64/ -lhm_reader_linuxa64 -lapr-1 " )
 endif()
 
 #Lapack
@@ -62,7 +62,7 @@ message (STATUS "modules: ${CMAKE_Fortran_MODULE_DIRECTORY}")
 
 #Generic Compilation flags
 ###########################
-set(ARCH_OPT "-O2 -march=armv8-a  -DCOMP_ARMFLANG=1 -DARCH_CPU=ARM  -nofma -fopenmp")
+set(ARCH_OPT "-O2 -march=armv8-a  -DCOMP_ARMFLANG=1 -DARCH_CPU=ARM  -nofma -fopenmp -fveclib=none")
 set(FLAG_PRECISE "-ffp-contract=off -fno-unsafe-math-optimizations -fno-fast-math")
 set(Fortran "-DCPP_comp=f90 -ffixed-line-length-none -fno-backslash ")
 

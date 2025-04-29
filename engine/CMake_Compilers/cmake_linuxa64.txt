@@ -95,14 +95,8 @@ if ( NOT DEFINED WITH_LINEAR_ALGEBRA)
 set ( wo_linalg "-DWITHOUT_LINALG" )
 endif()
 
-if ( CMAKE_C_COMPILER_VERSION  VERSION_GREATER 18)
- set (veclib "-fveclib=none")
-else()
- set (veclib "-fno-simdmath")
-endif()
-
 set(Vect_opt "-march=armv8-a  -D COMP_ARMFLANG=1 -D ARCH_CPU=ARM -fopenmp")
-set(Vect_precise "-nofma -ffp-contract=off -fno-unsafe-math-optimizations -fno-fast-math ${veclib}")
+set(Vect_precise "-nofma -ffp-contract=off -fno-unsafe-math-optimizations -fno-fast-math -fveclib=none")
 set(Fortran "-ffixed-line-length-none")
 
 if ( debug STREQUAL "1" )
