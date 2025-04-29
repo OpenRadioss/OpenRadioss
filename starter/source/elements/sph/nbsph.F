@@ -40,6 +40,7 @@ C-----------------------------------------------
       USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARKEY
+      USE MESSAGE_MOD
 C----------------------------------------------------------
 C     Format par BLOCS.
 C-----------------------------------------------
@@ -83,6 +84,14 @@ c
 c NSPHRES (number of SPH reserve for inlet) for each proc
 c in order to assure an suffisant number of reserve for inlet in SPMD
       NSPHRES = NSPHRES*MAX(1,NSPMD)
+
+      IF (NBPARTINLET > 0 .AND. NSPHRES == 0) THEN
+          WRITE(MESS,*)'SPH/RESERVE option is missing'
+          CALL ANCMSG(MSGID=3094,
+     .                MSGTYPE=MSGERROR,
+     .                ANMODE=ANINFO,
+     .                I1=ID)
+      ENDIF
 C-------------------------------------
       RETURN
 C-------------------------------------
