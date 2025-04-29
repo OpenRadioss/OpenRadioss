@@ -105,7 +105,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,J,IPT,IPID,IPLA,NPAR,IADBUF,NFUNC,ISRATE,IPY,IPZ,IPA,II(3)
       my_real :: DTINV,ASRATE,EPSDI,DMPM,DMPF,SPE,SPG,RHO,FACT,AREA,
-     .           DMM,DMPFL,IXX,IYY,IZZ,G,E,DAMAGE_LOC,DFXX,DFXY,DFXZ
+     .           DMM,DMPFL,IXX,IYY,IZZ,G,E,DAMAGE_LOC,DFXX,DFXY,DFXZ,VM,
+     .           SIGNXX,SIGNXY,SIGNXZ,P,SXX,SYY,SZZ
       my_real ,DIMENSION(NEL ):: DEGMB,DEGSH,DEGFX,YPT,ZPT,APT,OFF_OLD
       my_real ,DIMENSION(:,:) ,ALLOCATABLE :: DPLA, SIGY
 C=======================================================================
@@ -164,7 +165,8 @@ C
       IPLA = ELBUF_STR%BUFLY(1)%L_PLA
       ALLOCATE (DPLA(NEL*IPLA,NPT*IPLA))
       ALLOCATE (SIGY(NEL*IPLA,NPT*IPLA))      
-      IF (IFAIL > 0 .and. IPLA > 0) THEN
+
+      IF (IPLA > 0) THEN
         DO I = 1,NEL
           DO J=1,NPT
             DPLA(I,J) = ELBUF_STR%BUFLY(1)%LBUF(1,1,J)%PLA(I)
@@ -193,19 +195,43 @@ c
      5                EXX     ,EXY     ,EXZ     ,KXX     ,
      6                KYY     ,KZZ     ,JTHE    ,TEMPEL  ,SIGY  )
       ENDIF
+
+c---------------------------
+c     Plastic Work
+c---------------------------
+      AREA = GEO(1 ,IPID)
+
+      IF (IPLA > 0) THEN
+        DO I = 1,NEL
+          DO J=1,NPT
+            DPLA(I,J) = ELBUF_STR%BUFLY(1)%LBUF(1,1,J)%PLA(I) - DPLA(I,J)
+            SIGNXX = ELBUF_STR%BUFLY(1)%LBUF(1,1,J)%SIG(I)
+            SIGNXY = ELBUF_STR%BUFLY(1)%LBUF(1,1,J)%SIG(NEL+I)
+            SIGNXZ = ELBUF_STR%BUFLY(1)%LBUF(1,1,J)%SIG(2*NEL+I)
+
+            P   = -THIRD*SIGNXX
+            !  -> equivalent stress of von mises
+            SXX    = SIGNXX + P
+            SYY    = P
+            SZZ    = P
+
+            VM = HALF*(SXX**2 + SYY**2 + SZZ**2) + SIGNXY**2 + SIGNXZ**2 
+            VM = SQRT(THREE*VM)
+
+            ELBUF_STR%GBUF%WPLA(I) = ELBUF_STR%GBUF%WPLA(I) + DPLA(I,J)*VM*AL(I)*AREA/NPT
+          ENDDO
+        ENDDO
+      ENDIF  
+
+
+
+
+
 c---------------------------
 c     failure models
 c---------------------------
       IF (IFAIL > 0) THEN
-        IF (IPLA > 0) THEN
-          DO I = 1,NEL
-            DO J=1,NPT
-              DPLA(I,J) = ELBUF_STR%BUFLY(1)%LBUF(1,1,J)%PLA(I) -DPLA(I,J)
-            ENDDO
-          ENDDO
-        END IF           
 c
-        AREA = GEO(1 ,IPID)
         CALL FAIL_BEAM18(
      .              ELBUF_STR,MAT_PARAM%FAIL(1),NUMMAT  ,NUMGEO  ,
      .              NPROPM   ,NPROPG  ,SNPC    ,STF     ,

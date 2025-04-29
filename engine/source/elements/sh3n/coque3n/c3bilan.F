@@ -42,7 +42,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5   GRTH,     IGRTH,    OFF,      IXFEM,
      6   ILEV,     IEL_CRK,  IADTG_CRK,NFT1,
      7   IEXPAN,   EINTTH,   ITASK,    MAT,
-     8   GVOL,     ACTIFXFEM,IGRE,SENSORS)
+     8   GVOL,     ACTIFXFEM,IGRE,     SENSORS, 
+     9   NEL,      WPLA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -76,6 +77,8 @@ C     REAL
      .   GRESAV(*), OFF(*),EINTTH(*)
       my_real, INTENT(IN) :: GVOL(MVSIZ)
       type (sensors_),INTENT(INOUT) :: SENSORS
+      my_real,DIMENSION(NEL), INTENT(IN) :: WPLA
+      INTEGER,INTENT(IN) :: NEL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -102,6 +105,7 @@ C     REAL
      .   VL1(MVSIZ,3),VL2(MVSIZ,3),VL3(MVSIZ,3),
      .   VRL1(MVSIZ,3),VRL2(MVSIZ,3),VRL3(MVSIZ,3)
 C-----------------------------------------------
+      
       IF(IXFEM == 0)THEN
         DO I=JFT,JLT
           VX1(I)=V(1,IXTG(2,I))
@@ -303,6 +307,7 @@ C
             PARTSAV(20,MX)=PARTSAV(20,MX) + IZX(I)
             PARTSAV(21,MX)=PARTSAV(21,MX) + REI(I)
             PARTSAV(22,MX)=PARTSAV(22,MX) + REK(I)
+            PARTSAV(29,MX)=PARTSAV(29,MX) + WPLA(I)
           ENDDO
         ELSE
           DO II=1,IC
@@ -341,6 +346,7 @@ C
                 PARTSAV(20,MX)=PARTSAV(20,MX) + IZX(I)
                 PARTSAV(21,MX)=PARTSAV(21,MX) + REI(I)
                 PARTSAV(22,MX)=PARTSAV(22,MX) + REK(I)
+                PARTSAV(29,MX)=PARTSAV(29,MX) + WPLA(I)
               ENDDO
             ELSE
               DO I=JST(II),JST(II+1)-1
@@ -376,6 +382,7 @@ C
                 PARTSAV(20,MX)=PARTSAV(20,MX) + IZX(I)
                 PARTSAV(21,MX)=PARTSAV(21,MX) + REI(I)
                 PARTSAV(22,MX)=PARTSAV(22,MX) + REK(I)
+                PARTSAV(29,MX)=PARTSAV(29,MX) + WPLA(I)
               ENDDO
             ENDIF ! IF (JST(II+1)-JST(II)>15)
           ENDDO

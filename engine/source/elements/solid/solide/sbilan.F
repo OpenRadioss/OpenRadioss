@@ -43,7 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
-     .   ITASK,IPARG,SENSORS)
+     .   ITASK,IPARG,SENSORS,WPLA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -75,6 +75,7 @@ C-----------------------------------------------
      .  X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
      .  Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),
      .  Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*)
+      my_real,DIMENSION(NEL), INTENT(IN) :: WPLA
       INTEGER IEXPAN,ITASK,
      .  IPARTS(*),GRTH(*),IGRTH(*),IPARG(*),NEL
       INTEGER,INTENT(IN) :: IFVM22
@@ -264,6 +265,7 @@ C
             PARTSAV(20,M)=PARTSAV(20,M) + IZX(I)
             PARTSAV(21,M)=PARTSAV(21,M) + REI(I)
             PARTSAV(22,M)=PARTSAV(22,M) + REK(I) 
+            PARTSAV(29,M)=PARTSAV(29,M) + WPLA(I)*FILL(I)
           ENDDO
         ELSE
           DO I=1,NEL
@@ -282,6 +284,7 @@ C
               PARTSAV(20,M)=PARTSAV(20,M) + IZX(I)
               PARTSAV(21,M)=PARTSAV(21,M) + REI(I)
               PARTSAV(22,M)=PARTSAV(22,M) + REK(I)
+              PARTSAV(29,M)=PARTSAV(29,M) + WPLA(I)*FILL(I)
           ENDDO
         END IF
       ENDIF

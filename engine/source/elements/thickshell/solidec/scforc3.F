@@ -421,6 +421,7 @@ C-----
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C=======================================================================
+    
       SZ_IX=NUMELQ+NUMELS+NSVOIS
       SZ_R1_FREE=MVSIZ
       GBUF => ELBUF_TAB(NG)%GBUF
@@ -835,7 +836,8 @@ C----------------------------
      .        LBUF%EINT,LBUF%RHO,LBUF%QVIS,LBUF%PLA,LBUF%EPSD,GBUF%EPSD,
      .        GBUF%SIG,EINTM,EINTO,RHOM,GBUF%QVIS,GBUF%PLA,
      .        NU1,ZT  ,WT   ,VOLG,MM,OFF,
-     .        LBUF%VOL,GBUF%VOL,L_PLA,L_EPSD,NEL,SVIS)
+     .        LBUF%VOL,GBUF%VOL,L_PLA,L_EPSD,NEL,SVIS,
+     .        GBUF%WPLA, LBUF%WPLA )
         ELSE
           CALL SCFINT3(LBUF%SIG,
      .        PX1, PX2, PX3, PX4,
@@ -853,7 +855,8 @@ C----------------------------
      .        LBUF%EINT,LBUF%RHO,LBUF%QVIS,LBUF%PLA,LBUF%EPSD,GBUF%EPSD,
      .        GBUF%SIG,EINTM,EINTO,RHOM,GBUF%QVIS,GBUF%PLA,
      .        NU1,A_GAUSS(ILAY,NLAY),W_GAUSS(ILAY,NLAY),VOLG,MM,OFF,
-     .        LBUF%VOL,GBUF%VOL,L_PLA,L_EPSD,NEL,SVIS)
+     .        LBUF%VOL,GBUF%VOL,L_PLA,L_EPSD,NEL,SVIS,
+     .        GBUF%WPLA, LBUF%WPLA )
         ENDIF
 C-------------------------
 C Finite element heat transfert  
@@ -1016,7 +1019,8 @@ C--------------------------------------
      .                  VGXA   ,VGYA     ,VGZA    ,VGA2    ,VOLG    ,
      .                  IPARTS ,GRESAV   ,GRTH    ,IGRTH   ,GBUF%OFF,
      .                  IEXPAN ,GBUF%EINTTH,GBUF%FILL, XGXA, XGYA, XGZA,
-     .                  XGXA2,XGYA2,XGZA2,XGXYA,XGYZA,XGZXA,ITASK,IPARG(1,NG),SENSORS)
+     .                  XGXA2,XGYA2,XGZA2,XGXYA,XGYZA,XGZXA,ITASK,IPARG(1,NG),SENSORS,
+     .                  NEL,GBUF%WPLA)
       ENDIF
 C
 C----------------------------

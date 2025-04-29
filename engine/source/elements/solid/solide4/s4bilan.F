@@ -35,7 +35,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .   VZ1, VZ2, VZ3, VZ4, VNEW,IPARTS,GRESAV,
      .   GRTH,IGRTH,IEXPAN,EINTTH,FILL ,
      .   X1, X2, X3, X4, Y1, Y2, Y3, Y4, 
-     .   Z1, Z2, Z3, Z4,ITASK,IPARG,OFFG,SENSORS)
+     .   Z1, Z2, Z3, Z4,ITASK,IPARG,OFFG,SENSORS,
+     .   NEL, WPLA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -67,6 +68,8 @@ C     REAL
      .  X1(*), X2(*), X3(*), X4(*), 
      .  Y1(*), Y2(*), Y3(*), Y4(*), 
      .  Z1(*), Z2(*), Z3(*), Z4(*)
+      my_real,DIMENSION(NEL), INTENT(IN) :: WPLA
+      INTEGER,INTENT(IN) :: NEL
       INTEGER IEXPAN,ITASK,
      .  IPARTS(*),GRTH(*),IGRTH(*),IPARG(*)
       my_real, INTENT(IN) :: OFFG(MVSIZ)
@@ -189,6 +192,7 @@ C
           PARTSAV(20,M)=PARTSAV(20,M) + IZX(I)
           PARTSAV(21,M)=PARTSAV(21,M) + REI(I)
           PARTSAV(22,M)=PARTSAV(22,M) + REK(I) 
+          PARTSAV(29,M)=PARTSAV(29,M) + WPLA(I)*FILL(I)
         ENDDO 
       ENDIF
 C

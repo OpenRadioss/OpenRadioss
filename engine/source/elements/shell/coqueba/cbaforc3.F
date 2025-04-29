@@ -314,6 +314,7 @@ C-------------------------------------
 C=======================================================================
 C     INITIALISATION
 C--------------------------
+     
       ISTACK = 0
       GBUF => ELBUF_STR%GBUF
       IDRAPE = ELBUF_STR%IDRAPE
@@ -1001,7 +1002,8 @@ C--------------------------
      A   Y2G,        Y3G,        Y4G,        Z1G,
      B   Z2G,        Z3G,        Z4G,        IBID,
      C   IEXPAN,     GBUF%EINTTH,ITASK,      GBUF%VOL,
-     D   ACTIFXFEM,  IGRE,SENSORS)
+     D   ACTIFXFEM,  IGRE,       SENSORS,    NEL,
+     E   GBUF%WPLA )
 C----------------------------
 C     CALCUL  DT
 C----------------------------

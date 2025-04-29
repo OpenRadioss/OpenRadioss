@@ -480,7 +480,7 @@
           &svo1(mvsiz),svo2(mvsiz),svo3(mvsiz),svo4(mvsiz),svo5(mvsiz),svo6(mvsiz),&
           &sv1(mvsiz),sv2(mvsiz),sv3(mvsiz),sv4(mvsiz),sv5(mvsiz),sv6(mvsiz),&
           &r11(mvsiz),r12(mvsiz),r13(mvsiz),r21(mvsiz),r22(mvsiz),r23(mvsiz),&
-          &r31(mvsiz),r32(mvsiz),r33(mvsiz),epsp1(mvsiz),dpla(mvsiz),&
+          &r31(mvsiz),r32(mvsiz),r33(mvsiz),epsp1(mvsiz),dpla(mvsiz),vm(mvsiz),    &
           &pair(mvsiz),defp0(mvsiz)
           my_real  facq0,bulk
           my_real fpsxx(mvsiz),fpsyy(mvsiz),fpszz(mvsiz),fpsxy(mvsiz),&
@@ -2094,6 +2094,37 @@
 !
 !----------------------------------------
           endif  ! mtn
+
+!------------------------------------------------------------
+!     Calculation of the Plastic Work
+!------------------------------------------------------------   
+          if(ipg == 1 .and. npg > 1) then 
+            do i = 1,nel
+              gbuf%wpla(i) = zero
+            enddo 
+          endif  
+                  
+          if (elbuf_tab(ng)%bufly(ilay)%l_pla > 0) then  
+            if (elbuf_tab(ng)%bufly(ilay)%l_seq > 0) then
+               do i = 1,nel 
+                 lbuf%wpla(i) = lbuf%wpla(i) + lbuf%seq(i)*dpla(i)*lbuf%vol(i)
+               enddo
+            else
+               do i = 1,nel
+                ss1 = lbuf%sig(nel*(1-1) + i)
+                ss2 = lbuf%sig(nel*(2-1) + i)
+                ss3 = lbuf%sig(nel*(3-1) + i)
+                ss4 = lbuf%sig(nel*(4-1) + i)
+                ss5 = lbuf%sig(nel*(5-1) + i)
+                ss6 = lbuf%sig(nel*(6-1) + i)
+                vm(i)= SQRT(THREE*(ss4*ss4  +  ss5*ss5 + ss6*ss6)  &
+                       & + HALF*((ss1-ss2)*(ss1-ss2) + (ss2-ss3)*(ss2-ss3) &
+                       & + (ss3-ss1)*(ss3-ss1)) )
+                lbuf%wpla(i) = lbuf%wpla(i) + vm(i)*dpla(i)*lbuf%vol(i)
+               enddo
+           endif
+          endif
+          
 !=======================================================================
 !                  failure model
 !=======================================================================

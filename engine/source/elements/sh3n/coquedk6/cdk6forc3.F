@@ -227,6 +227,7 @@ C     NB5    |2*JLT    | ENERGIES
 C     NB6    |JLT      | OFF
 C     NB8    |8*JLT    | DEFORMATIONS
 C============================== =========================================
+
       GBUF   => ELBUF_STR%GBUF
       IDRAPE = ELBUF_STR%IDRAPE
       IUN  = 1
@@ -482,7 +483,8 @@ C--------------------------
      5   GRTH,       IGRTH,      OFF,        IBID,
      6   IBID,       IBID,       IBID,       IBID,
      7   IEXPAN,     GBUF%EINTTH,ITASK,      MAT,
-     8   GBUF%VOL,   ACTIFXFEM,  IGRE,SENSORS)
+     8   GBUF%VOL,   ACTIFXFEM,  IGRE,       SENSORS,
+     9   NEL,        GBUF%WPLA  )
       IF(IPARIT==0)THEN
         CALL CDK6UPDT3(JFT  ,JLT  ,F   ,M   ,NVC  ,
      2             GBUF%OFF,OFF  ,STI ,STIR,STIFN,

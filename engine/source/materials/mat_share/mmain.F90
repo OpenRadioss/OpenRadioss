@@ -397,7 +397,7 @@
 
           my_real ss1(mvsiz),ss2(mvsiz), ss3(mvsiz),ss4(mvsiz),ss5(mvsiz),ss6(mvsiz)
           my_real r11(mvsiz),r12(mvsiz),r13(mvsiz),r21(mvsiz),r22(mvsiz),r23(mvsiz),r31(mvsiz),r32(mvsiz),r33(mvsiz)
-          my_real dpla(mvsiz),tstar(mvsiz),epsp(mvsiz),xk(mvsiz),                  &
+          my_real dpla(mvsiz),tstar(mvsiz),epsp(mvsiz),xk(mvsiz),vm(nel),          &
           &       tempel0(mvsiz), fscal_alpha , sigl(mvsiz,6)
           my_real es1(mvsiz), es2(mvsiz),  es3(mvsiz),  es4(mvsiz),  es5(mvsiz),   &
           &       es6(mvsiz), eint(mvsiz), dpdm(mvsiz), dpde(mvsiz),ecold(mvsiz),  &
@@ -2140,7 +2140,39 @@
               enddo
             endif
           endif
-!-----------------------------------------------------------------------
+!------------------------------------------------------------
+!     Calculation of the Plastic Work
+!------------------------------------------------------------
+
+          if ( l_mulaw_called.eqv. .false.)  then
+            if(ipg == 1 .and. npg > 1) then 
+              do i = 1,nel
+                gbuf%wpla(i) = zero
+              enddo 
+            endif  
+
+            if (elbuf_tab(ng)%bufly(ilay)%l_pla > 0) then  
+              if (elbuf_tab(ng)%bufly(ilay)%l_seq > 0) then
+                 do i = 1,nel 
+                 lbuf%wpla(i) = lbuf%wpla(i) + lbuf%seq(i)*dpla(i)*lbuf%vol(i)
+                 enddo
+              else
+                 do i = 1,nel
+                 ss1(i) = lbuf%sig(nel*(1-1) + i)
+                 ss2(i) = lbuf%sig(nel*(2-1) + i)
+                 ss3(i) = lbuf%sig(nel*(3-1) + i)
+                 ss4(i) = lbuf%sig(nel*(4-1) + i)
+                 ss5(i) = lbuf%sig(nel*(5-1) + i)
+                 ss6(i) = lbuf%sig(nel*(6-1) + i)
+                 vm(i)= SQRT(THREE*(ss4(i)*ss4(i)  +  ss5(i)*ss5(i) + ss6(i)*ss6(i))  &
+                       & + HALF*((ss1(i)-ss2(i))*(ss1(i)-ss2(i)) + (ss2(i)-ss3(i))*(ss2(i)-ss3(i)) &
+                       & + (ss3(i)-ss1(i))*(ss3(i)-ss1(i))) )
+                 lbuf%wpla(i) = lbuf%wpla(i) + vm(i)*dpla(i)*lbuf%vol(i)
+                 enddo
+              endif
+            endif
+         endif
+!-----------------------------------------------------------------------visc
 !     failure for law no user ---
 !-----------------------------------------------------------------------
           if ((itask==0).and.(imon_mat==1))call startime(timers, 121)

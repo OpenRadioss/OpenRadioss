@@ -33,7 +33,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE S10BILAN(PARTSAV,EINT,RHO,RK,VOL,
      .   VX, VY, VZ, NX, VNEW,IPARTS,
      .   GRESAV,GRTH,IGRTH,IEXPAN,EINTTH,
-     .   FILL  ,X, Y, Z,ITASK,IPARG,OFFG,SENSORS)
+     .   FILL  ,X, Y, Z,ITASK,IPARG,OFFG,SENSORS, 
+     .   NEL, WPLA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -61,8 +62,10 @@ C     REAL
      .  NX(MVSIZ,10),VNEW(*),GRESAV(*),EINTTH(*),
      .  FILL(*),
      .  X(MVSIZ,10),Y(MVSIZ,10),Z(MVSIZ,10)
+      my_real,DIMENSION(NEL),INTENT(IN) :: WPLA      
       INTEGER IEXPAN,ITASK,
      .  IPARTS(*),GRTH(*),IGRTH(*),IPARG(*)
+      INTEGER,INTENT(IN) :: NEL
       my_real, INTENT(IN) :: OFFG(MVSIZ)
       type (sensors_),INTENT(INOUT) :: SENSORS
 C-----------------------------------------------
@@ -287,6 +290,7 @@ C
           PARTSAV(20,M)=PARTSAV(20,M) + IZX(I)
           PARTSAV(21,M)=PARTSAV(21,M) + REI(I)
           PARTSAV(22,M)=PARTSAV(22,M) + REK(I) 
+          PARTSAV(29,M)=PARTSAV(29,M) + WPLA(I)*FILL(I)
         ENDDO
       ENDIF
 C-----------------------------------------------

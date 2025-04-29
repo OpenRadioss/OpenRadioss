@@ -33,7 +33,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE S20BILAN(PARTSAV,EINTG,RHOG, VOLG,
      .   VX, VY, VZ,IPARTS, VOL0G,
      .   GRESAV,GRTH,IGRTH,IEXPAN,EINTTH,
-     .   FILL ,X, Y, Z,ITASK,IPARG,OFFG,SENSORS)
+     .   FILL ,X, Y, Z,ITASK,IPARG,OFFG,SENSORS,
+     .   NEL,WPLA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -64,6 +65,8 @@ C     REAL
      .  FILL(*),
      .  X(MVSIZ,*),Y(MVSIZ,*),Z(MVSIZ,*)
       my_real, INTENT(IN) :: OFFG(MVSIZ)
+      my_real,DIMENSION(NEL), INTENT(IN) :: WPLA
+      INTEGER,INTENT(IN) :: NEL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -278,6 +281,7 @@ C
           PARTSAV(20,M)=PARTSAV(20,M) + IZX(I)
           PARTSAV(21,M)=PARTSAV(21,M) + REI(I)
           PARTSAV(22,M)=PARTSAV(22,M) + REK(I) 
+          PARTSAV(29,M)=PARTSAV(29,M) + WPLA(I)*FILL(I)
         ENDDO
       ENDIF
 C

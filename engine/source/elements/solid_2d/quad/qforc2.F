@@ -228,6 +228,7 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       GBUF => ELBUF_TAB(NG)%GBUF
+      
 c
       IBIDON=0
       IBID = 0
@@ -467,7 +468,8 @@ c
      5   EHOU,       R22,        R23,        R32,
      6   R33,        GRESAV,     GRTH,       IGRTH,
      7   IBIDON(1),  GBUF%EINTTH,ITASK,      NEL,
-     8   JTUR,       JCVT,       IGRE,SENSORS)
+     8   JTUR,       JCVT,       IGRE,       SENSORS,
+     9   GBUF%WPLA)
         ENDIF
         RETURN
       ENDIF
@@ -560,7 +562,8 @@ c
      5   EHOU,       R22,        R23,        R32,
      6   R33,        GRESAV,     GRTH,       IGRTH,
      7   IBIDON(1),  GBUF%EINTTH,ITASK,      NEL,
-     8   JTUR,       JCVT,       IGRE,SENSORS)
+     8   JTUR,       JCVT,       IGRE,       SENSORS,
+     9   GBUF%WPLA)
       ENDIF
 C
 C------------------------

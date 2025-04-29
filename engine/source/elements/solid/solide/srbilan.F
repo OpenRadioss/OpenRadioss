@@ -40,7 +40,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .   VXA, VYA, VZA, VA2, VNEW,IPARTS ,
      .   GRESAV,GRTH,IGRTH,OFF,IEXPAN,EINTTH,
      .   FILL  ,XX, YY, ZZ,
-     .   XX2,YY2,ZZ2,XY,YZ,ZX,ITASK,IPARG,SENSORS)
+     .   XX2,YY2,ZZ2,XY,YZ,ZX,ITASK,IPARG,SENSORS,
+     .   NEL, WPLA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -69,6 +70,8 @@ C     REAL
      .  XX(MVSIZ), YY(MVSIZ), ZZ(MVSIZ),
      .  XX2(MVSIZ), YY2(MVSIZ), ZZ2(MVSIZ),
      .  XY(MVSIZ), YZ(MVSIZ), ZX(MVSIZ)
+      my_real,DIMENSION(NEL), INTENT(IN) :: WPLA
+      INTEGER,INTENT(IN) :: NEL
       INTEGER IEXPAN,ITASK,
      .  IPARTS(*),GRTH(*),IGRTH(*),IPARG(*)
       type (sensors_),INTENT(INOUT) :: SENSORS
@@ -91,6 +94,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     CALCUL BILAN SORTIES DEF 
 C-----------------------------------------------
+
       DO I=LFT,LLT
         VXA(I) = VXA(I)*ONE_OVER_8
         VYA(I) = VYA(I)*ONE_OVER_8
@@ -180,6 +184,7 @@ C
             PARTSAV(20,M)=PARTSAV(20,M) + IZX(I)
             PARTSAV(21,M)=PARTSAV(21,M) + REI(I)
             PARTSAV(22,M)=PARTSAV(22,M) + REK(I) 
+            PARTSAV(29,M)=PARTSAV(29,M) + WPLA(I)*FILL(I)
 C           PARTSAV(8,M)=PARTSAV(8,M) + EHOU(I)
           END DO
         ELSE
@@ -200,6 +205,7 @@ C           PARTSAV(8,M)=PARTSAV(8,M) + EHOU(I)
             PARTSAV(20,M)=PARTSAV(20,M) + IZX(I)
             PARTSAV(21,M)=PARTSAV(21,M) + REI(I)
             PARTSAV(22,M)=PARTSAV(22,M) + REK(I) 
+            PARTSAV(29,M)=PARTSAV(29,M) + WPLA(I)*FILL(I)
 C           PARTSAV(8,M)=PARTSAV(8,M) + EHOU(I)
           END DO
         END IF
