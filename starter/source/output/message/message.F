@@ -694,6 +694,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    nbadigemesh                         ../starter/source/elements/ige3d/nbadigemesh.F
       !||    nbadmesh                            ../starter/source/model/remesh/nbadmesh.F
       !||    nboxlst                             ../starter/source/model/box/nboxlist.F
+      !||    nbsph                               ../starter/source/elements/sph/nbsph.F
       !||    new_seatbelt                        ../starter/source/tools/seatbelts/new_seatbelt.F
       !||    newdbl2                             ../starter/source/system/sysfus.F
       !||    ngr2usr                             ../starter/source/system/nintrr.F
