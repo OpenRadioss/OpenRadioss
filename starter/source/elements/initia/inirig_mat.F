@@ -49,6 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    smass3            ../starter/source/elements/solid/solide/smass3.F
       !||--- uses       -----------------------------------------------------
       !||    defaults_mod      ../starter/source/modules/defaults_mod.F90
+      !||    drape_mod         ../starter/share/modules1/drape_mod.F
       !||    stack_mod         ../starter/share/modules1/stack_mod.F
       !||====================================================================
       SUBROUTINE INIRIG_MAT(IXC ,IXS    ,IXTG   ,IXS10  ,X      ,

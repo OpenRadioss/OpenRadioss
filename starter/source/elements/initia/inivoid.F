@@ -50,6 +50,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    tmass                  ../starter/source/elements/truss/tmass.F
       !||--- uses       -----------------------------------------------------
       !||    defaults_mod           ../starter/source/modules/defaults_mod.F90
+      !||    drape_mod              ../starter/share/modules1/drape_mod.F
       !||    format_mod             ../starter/share/modules1/format_mod.F90
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||    stack_mod              ../starter/share/modules1/stack_mod.F

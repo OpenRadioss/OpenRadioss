@@ -37,7 +37,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    corthini                       ../starter/source/elements/shell/coque/corthini.F
       !||    ddsplit                        ../starter/source/restart/ddsplit/ddsplit.F
       !||    hm_read_drape                  ../starter/source/properties/composite_options/drape/hm_read_drape.F
+      !||    inirig_mat                     ../starter/source/elements/initia/inirig_mat.F
       !||    initia                         ../starter/source/elements/initia/initia.F
+      !||    inivoid                        ../starter/source/elements/initia/inivoid.F
       !||    layini1                        ../starter/source/elements/shell/coqueba/layini1.F
       !||    lectur                         ../starter/source/starter/lectur.F
       !||    pre_stackgroup                 ../starter/source/stack/pres_stackgroup.F
