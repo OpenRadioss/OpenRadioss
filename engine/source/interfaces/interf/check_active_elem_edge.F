@@ -130,7 +130,7 @@ C-----------------------------------------------
                     ENDDO
                     IF(ELEM_ID>NUMELS8.AND.ELEM_ID<=NUMELS8+NUMELS10) THEN
                       DO K=1,6
-                        NODE_ID = IXS10(K,ELEM_ID)
+                        NODE_ID = IXS10(K,ELEM_ID-NUMELS8)
                         TAG_NODE(NODE_ID) = 1
                       ENDDO
                     ENDIF
