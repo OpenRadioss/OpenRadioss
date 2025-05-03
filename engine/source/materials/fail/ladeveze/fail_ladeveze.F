@@ -212,10 +212,10 @@ C
              ENDIF
 C             
             ELSEIF(IFLAG == 2) THEN    ! iflag = 2 
-C-------------------------------     
+C-------------------------------
 C     OFF = 0. all layer fiber or matrix criteria is reached
-C      is not actived this flag
-C-------------------------------              
+C      is not activated this flag
+C-------------------------------
                IF(UVAR(I,12) == ZERO )THEN
                 SIGNXX(I) = ZERO
                 SIGNYY(I) = ZERO

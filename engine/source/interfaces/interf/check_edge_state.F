@@ -60,9 +60,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         INTEGER, INTENT(in) :: ITASK ! omp thread ID
         INTEGER, INTENT(in) :: M_EDGE_NB,S_EDGE_NB  ! number of local edge surface
-        INTEGER, DIMENSION(M_EDGE_NB), INTENT(in) :: M_EDGE_ID  ! id of main edge that need to be deactivated
-        INTEGER, DIMENSION(S_EDGE_NB), INTENT(in) :: S_EDGE_ID  ! id of secon. edge that need to be deactivated
-        INTEGER, DIMENSION(NINTER), INTENT(inout) :: NEWFRONT   !< flag to force some exchanges related to S nodes between processor (if a S node becomes a shooting node - all interface) / force the collision detection algo if a new segment is activated for the (interface 25 + solid erosion)
+        INTEGER, DIMENSION(M_EDGE_NB), INTENT(in) :: M_EDGE_ID  ! id of main edge that needs to be deactivated
+        INTEGER, DIMENSION(S_EDGE_NB), INTENT(in) :: S_EDGE_ID  ! id of second edge that needs to be deactivated
+        INTEGER, DIMENSION(NINTER), INTENT(inout) :: NEWFRONT   !< flag to force some exchanges related to S nodes between processor (if an S node becomes a shooting node - all interface) / force the collision detection algo if a new segment is activated for the (interface 25 + solid erosion)
         INTEGER, DIMENSION(NINTER+1,2), INTENT(in) :: SHIFT_INTERFACE ! interface shift
         TYPE(INTBUF_STRUCT_), DIMENSION(NINTER), INTENT(inout) :: INTBUF_TAB    ! interface data 
         INTEGER, DIMENSION(NPARI,NINTER), INTENT(in) :: IPARI

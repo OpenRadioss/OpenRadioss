@@ -72,9 +72,9 @@ C-----------------------------------------------
         INTEGER, INTENT(in) :: NINTER !< number of interface
         INTEGER, INTENT(in) :: NSPMD !< number of mpi tasks
         INTEGER, INTENT(inout) :: NUMBER_INTER18 !< number of interface 18
-        INTEGER, INTENT(in) :: SXCELL !< size of characteristic lenght array
+        INTEGER, INTENT(in) :: SXCELL !< size of characteristic length array
         INTEGER, DIMENSION(NUMBER_INTER18), INTENT(inout) :: INTER18_LIST !< list of interface 18
-        my_real, DIMENSION(3,SXCELL), INTENT(in) :: XCELL !< characteristic lenght
+        my_real, DIMENSION(3,SXCELL), INTENT(in) :: XCELL !< characteristic length
         TYPE(MULTI_FVM_STRUCT), INTENT(inout) :: MULTI_FVM
         TYPE(array_type), DIMENSION(NINTER), INTENT(inout) :: XCELL_REMOTE !< remote data structure for interface 18 
         TYPE(INTBUF_STRUCT_), DIMENSION(NINTER), INTENT(inout) :: INTBUF_TAB    !< interface data 

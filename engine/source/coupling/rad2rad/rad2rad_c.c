@@ -1654,7 +1654,7 @@ int i, j, k, nn, nm, offset;
               {com->iactv[i] = 0;
                if (*numsph_glo > 0)
                  if (off_sph[nm] != 0)
-                   {/*printf("desactivation %d %d - %e %e %e\n",nm,off_sph[nm],x[nn],x[nn+1],x[nn+2]);*/
+                   {/*printf("deactivation %d %d - %e %e %e\n",nm,off_sph[nm],x[nn],x[nn+1],x[nn+2]);*/
                 for (j = 0; j < 3; j++) {com->fx_buf[k+j] =  x[nn+j];}
                     com->iactv[i] = off_sph[nm];}}
             

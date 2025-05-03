@@ -765,7 +765,7 @@ c
       ENDDO
 C----------
 #include "lockon.inc"
-      ECONT  = ECONT + ECONTT   ! Elatic Energy
+      ECONT  = ECONT + ECONTT  ! Elastic Energy
       ECONTD = ECONTD + ECONVT ! Damping Energy
       FSAV(26) = FSAV(26) + ECONTT
       FSAV(28) = FSAV(28) + ECONVT

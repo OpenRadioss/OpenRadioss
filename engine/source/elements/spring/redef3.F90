@@ -512,7 +512,7 @@
             enddo
           endif
 !-------------------------------------
-!        elasto perfeclty plastic (isotropic hardening) - input by values
+!        elasto perfectly plastic (isotropic hardening) - input by values
 !-------------------------------------
           if(jecrou(9)>0)then
             do i=1,nel
@@ -531,7 +531,7 @@
             enddo
           endif
 !-------------------------------------
-!        elasto plastique (isotropic hardening) - perfeclty plastic in compression
+!        elasto plastique (isotropic hardening) - perfectly plastic in compression
 !-------------------------------------
 
 

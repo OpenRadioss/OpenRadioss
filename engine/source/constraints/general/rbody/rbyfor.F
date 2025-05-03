@@ -97,7 +97,7 @@ C-----------------------------------------------
      .         ISU,ADRSRF,IM, L, LSEND, LRECV, NRBDIM,IPARSENS,ISECT,
      .         DIM    
 C-------------------------------------
-C INIT RBY6 to ZERO for desactivated Rigid Bodies (non multi-thread)
+C INIT RBY6 to ZERO for deactivated Rigid Bodies (non multi-thread)
 C-------------------------------------
 !$OMP SINGLE
       RBID = ZERO

@@ -284,7 +284,7 @@ c
 c TYPE NAME                FUNCTION
 c  I   JFT,JLT           - element id limit
 c  I   AREA(NEL)         - element area A
-c  I   X2,X3,Y2,Y3(NEL)  - relative local nodal co-ordinates: X2->X21
+c  I   X2,X3,Y2,Y3(NEL)  - relative local nodal coordinates: X2->X21
 c  O   BM0RZ(I,J,NEL)   - constant terms of derivations for membrane
 C                       I=1:A*Nx,x;I=2:A*Ny,y;I=3:A*(Nx,y+Ny,x); J=1,2(node)
 C                        only store J=1,2 as f(j=3)=-f(j=1)-f(j=2)

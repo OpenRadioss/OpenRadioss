@@ -496,7 +496,7 @@ C-----------
             MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)
 C-----
             IF ((ITSOL2SPH==1).OR.(NSUBS==0)) THEN
-C           Desactivation of solid element if id of sph part is different
+C           Deactivation of solid element if id of sph part is different
 C-----
             DO I=LFT,LLT
               IF(GBUF%OFF(I)/=ZERO) THEN
@@ -541,7 +541,7 @@ C Solid will be deleted at next cycle
             ENDDO
 C-----
             ELSEIF (ITSOL2SPH==2) THEN
-C           Desactivation of solid element if id of subset is different
+C           Deactivation of solid element if id of subset is different
 C-----
             DO I=LFT,LLT
               IF(GBUF%OFF(I)/=ZERO) THEN

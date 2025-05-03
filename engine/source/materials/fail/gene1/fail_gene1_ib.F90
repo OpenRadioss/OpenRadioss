@@ -100,9 +100,9 @@
       my_real, dimension(nel)     ,intent(inout)  :: signxy   ! stress component xy
       my_real, dimension(nel)     ,intent(inout)  :: signzx   ! stress component zx
       my_real, dimension(nel)     ,intent(inout)  :: off      ! offset
-      integer, dimension(nel)     ,intent(inout)  :: foff     ! integration point desactivation flag
-      integer                     ,intent(in)     :: npg    
-      my_real ,dimension(nel)     ,intent(inout)  :: tdel    ! desactivation time
+      integer, dimension(nel)     ,intent(inout)  :: foff     ! integration point deactivation flag
+      integer                     ,intent(in)     :: npg
+      my_real ,dimension(nel)     ,intent(inout)  :: tdel     ! deactivation time
 
       my_real, dimension(nel, lf_dammx), intent(inout) :: dfmax      ! maximum damage
       my_real, dimension(nel, nuvar), intent(inout)    :: uvar       ! user variables

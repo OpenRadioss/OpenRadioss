@@ -94,7 +94,7 @@ C-----------------------------------------------
             ALLOCATE(USER_AR(3*USER_WINDOWS%N_USERNODS))
 
             ! -----------------------------------------------------
-            !  User Windows will only recieve the nodes it defined 
+            !  User Windows will only receive the nodes it defined
             ! -----------------------------------------------------
             DO I=1,USER_WINDOWS%N_USERNODS
                ND = USER_WINDOWS%USERNODS(I)

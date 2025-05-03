@@ -54,15 +54,15 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: DPLA    ! plastic strain increment
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: EPSD    ! strain rate
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: TSTAR   ! normalized temperature
-      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: OFF     ! element desactivation flag
+      my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: OFF     ! element deactivation flag
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: SIGNXX  ! stress component
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: SIGNXY  ! stress component
       my_real ,DIMENSION(NEL)     ,INTENT(IN)    :: SIGNZX  ! stress component
       INTEGER ,DIMENSION(NEL)     ,INTENT(INOUT) :: FOFF    ! integration point deactivation flag
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: DFMAX   ! maximum damage
       my_real ,DIMENSION(NEL)     ,INTENT(INOUT) :: TDEL    ! desactivation time
-      my_real, DIMENSION(NEL)     ,INTENT(INOUT) :: UELR 
-      INTEGER                     ,INTENT(IN)    :: NPG    
+      my_real, DIMENSION(NEL)     ,INTENT(INOUT) :: UELR
+      INTEGER                     ,INTENT(IN)    :: NPG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

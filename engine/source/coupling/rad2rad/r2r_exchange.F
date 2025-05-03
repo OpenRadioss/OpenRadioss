@@ -171,7 +171,7 @@ C----- Check activation flag of current subdomain
           CALL GET_IBUF_C(R2R_ACTIV,1)
 
           IF (OLD_ACTIV == 1 .AND. R2R_ACTIV == 0) THEN
-            WRITE(IOUT,*)' PROCESS DESACTIVATION'
+            WRITE(IOUT,*)' PROCESS DEACTIVATION'
           ENDIF
 C------------------------------------------------------
           IF (R2R_ACTIV /= -1) THEN
