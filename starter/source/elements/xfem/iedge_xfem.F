@@ -66,7 +66,7 @@ C
       DATA NEXTK3/2,3,1/
 C=======================================================================
       NLMAX  = 4*ECRKXFEC + 3*ECRKXFETG   ! max edges
-      NELALL = ECRKXFEC+ECRKXFETG         ! max eleemnts
+      NELALL = ECRKXFEC+ECRKXFETG         ! max elements
 C
       ALLOCATE (LINEIX(2,NLMAX)      ,STAT=stat)
       ALLOCATE (LINEIX2(2,NLMAX)     ,STAT=stat)

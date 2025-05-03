@@ -32,7 +32,7 @@
 ! ======================================================================================================================
 !
 !=======================================================================================================================
-!\brief This subroutine transfer parameters of maxwell compoment in group buffer
+!\brief This subroutine transfer parameters of maxwell component in group buffer
 !=======================================================================================================================
 !
       !||====================================================================
@@ -63,7 +63,7 @@
           integer,                                intent(in   ) :: ngroup                 !< number of groups
           integer,                                intent(in   ) :: nparg                  !< number of groups          
           integer,                                intent(in   ) :: iparg(nparg,ngroup)    !< structure of integer per group
-          my_real,                                intent(in   ) :: dampr(nrdamp,ndamp)    !< strucutre of damping parameters           
+          my_real,                                intent(in   ) :: dampr(nrdamp,ndamp)    !< structure of damping parameters           
           type (elbuf_struct_), target, dimension(ngroup), intent(inout) :: elbuf_tab     !< structure of group buffer
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables

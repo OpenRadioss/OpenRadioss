@@ -570,9 +570,9 @@ C
                   IF (MID > 0) THEN
                     MTYP = IPM(2,MID)
                     IF (MTYP == 114) THEN
-C                     in case of 1D/2D connection the loop must start on the rigt spring                        
+C                     in case of 1D/2D connection the loop must start on the right spring
                       IF (((BELT_END_NFRAM(I)==1).and.(TAG_SPRING_2D(ELEM_CUR)==0)).OR.
-     .                  ((BELT_END_NFRAM(I) >1).and.(TAG_SPRING_2D(ELEM_CUR)==1))) THEN  
+     .                  ((BELT_END_NFRAM(I) >1).and.(TAG_SPRING_2D(ELEM_CUR)==1))) THEN
 C--                     Loop on belt elements
                         NB_BRANCH = 0
                         BRANCH_CPT = 0

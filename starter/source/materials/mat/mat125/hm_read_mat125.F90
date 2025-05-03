@@ -120,41 +120,41 @@
       call hm_get_floatv('LSD_MAT_GAB'   ,g12      ,is_available, lsubmodel, unitab)
       call hm_get_floatv('LSD_MAT_GBC'   ,g23      ,is_available, lsubmodel, unitab)
       call hm_get_floatv('LSD_MAT_GCA'   ,g13      ,is_available, lsubmodel, unitab)
-!card4 -  poisson's ratio
+!card4 - poisson's ratio
       call hm_get_floatv('LSD_MAT_PRBA'  ,nu21     ,is_available, lsubmodel, unitab)
       call hm_get_floatv('LSDYNA_PRCB'  ,nu32     ,is_available, lsubmodel, unitab)
       call hm_get_floatv('LSDYNA_PRCA'  ,nu31     ,is_available, lsubmodel, unitab) 
-!card5 - dir 11 tention 
+!card5 - dir 11 tension 
       call hm_get_floatv  ('LSD_M11T'        ,em11t      ,is_available, lsubmodel, unitab)
       call hm_get_floatv  ('LSD_MAT_XT'      ,xt         ,is_available, lsubmodel, unitab)
       call hm_get_floatv  ('MATL58_SLIMT1'   ,slimt1     ,is_available, lsubmodel, unitab)
       call hm_get_intv ('LSD_LCID12'  ,ifem11t     ,is_available, lsubmodel)
       call hm_get_intv ('LSD_LCID2'   ,ifxt       ,is_available, lsubmodel)
-! card6 - dir 11 compression 
+!card6 - dir 11 compression 
       call hm_get_floatv  ('LSD_M11C'         ,em11c      ,is_available, lsubmodel, unitab)
       call hm_get_floatv  ('LSD_MAT_XC'       ,xc         ,is_available, lsubmodel, unitab)
       call hm_get_floatv  ('MATL58_SLIMC1'    ,slimc1     ,is_available, lsubmodel, unitab)
       call hm_get_intv  ('LSD_LCID11'  ,ifem11c   ,is_available, lsubmodel)
       call hm_get_intv  ('LSD_LCID'    ,ifxc     ,is_available, lsubmodel)  
-!card7 - dir 22 tention 
+!card7 - dir 22 tension 
       call hm_get_floatv  ('LSD_M22T'         ,em22t      ,is_available, lsubmodel, unitab)
       call hm_get_floatv  ('LSD_MAT_YT'       ,yt         ,is_available, lsubmodel, unitab)
       call hm_get_floatv  ('MATL58_SLIMT2'    ,slimt2     ,is_available, lsubmodel, unitab)
       call hm_get_intv ('LSD_LCID14'  ,ifem22t     ,is_available, lsubmodel)
       call hm_get_intv ('LSD_LCID4'   ,ifyt       ,is_available, lsubmodel)
-! card8 - dir 22 compression 
+!card8 - dir 22 compression 
       call hm_get_floatv  ('LSD_M22C'         ,em22c      ,is_available, lsubmodel, unitab)
       call hm_get_floatv  ('LSD_MAT_YC'       ,yc         ,is_available, lsubmodel, unitab)
       call hm_get_floatv  ('MATL58_SLIMC2'    ,slimc2     ,is_available, lsubmodel, unitab)
       call hm_get_intv  ('LSD_LCID13'  ,ifem22c   ,is_available, lsubmodel)
       call hm_get_intv  ('LSD_LCID3'   ,ifyc     ,is_available, lsubmodel) 
-!card9 - dir 33 tention  only for solid
+!card9 - dir 33 tension only for solid
       call hm_get_floatv  ('LSD_MAT_E33T'         ,em33t      ,is_available, lsubmodel, unitab)
       call hm_get_floatv  ('LSD_MAT_157_ZT'       ,zt         ,is_available, lsubmodel, unitab)
       call hm_get_floatv  ('LSD_MAT_SLIMT3'   ,slimt3     ,is_available, lsubmodel, unitab)
       call hm_get_intv ('LSD_MAT_LCE33T'  ,ifem33t     ,is_available, lsubmodel)
       call hm_get_intv ('LSD_MAT_LCZT'     ,ifzt       ,is_available, lsubmodel)
-! card10- dir 33 compression only for solid
+!card10 - dir 33 compression only for solid
       call hm_get_floatv  ('LSD_MAT_E33C'     ,em33c      ,is_available, lsubmodel, unitab)
       call hm_get_floatv  ('LSD_MAT_157_ZC'       ,zc         ,is_available, lsubmodel, unitab)
       call hm_get_floatv  ('LSD_MAT_SLIMC3'   ,slimc3     ,is_available, lsubmodel, unitab)

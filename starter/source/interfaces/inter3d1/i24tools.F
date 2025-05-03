@@ -181,7 +181,7 @@ c
 c TYPE NAME                FUNCTION
 c  I   NC1(1:4),NC2(1:4) - connectivity
 c  I   I1,I2             - common nodes of two seg
-c  I   X(3,*)            - co-ordinates
+c  I   X(3,*)            - coordinates
 c  O   INV               - flag : 0 same orientation; 1 inverse one
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

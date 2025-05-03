@@ -122,7 +122,7 @@ C=======================================================================
       DO I=1,NSECT
 
         NG=NG+1
-C----------Multidomain --> non taged sections ignored----
+C----------Multidomain --> non tagged sections ignored----
         IF (FLAG_R2R == 0) THEN
             IF( NSUBDOM > 0 ) THEN
                 IF( TAGSEC(NG) == 0 ) CALL HM_SZ_R2R(TAGSEC,NG,LSUBMODEL)

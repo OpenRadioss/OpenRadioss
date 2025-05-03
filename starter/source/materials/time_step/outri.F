@@ -424,7 +424,7 @@ C
       DO I=1,NUMNOD
              IF(DT(I)/=EP30)DT(I)=SQRT(ABS(TWO*DT(I)))
       END DO
-C---- Multidomains : Nodal time step is deactivated for splited RBODY
+C---- Multidomains : Nodal time step is deactivated for split RBODY
       IF(NSUBDOM>0) THEN
         DO I=1,NUMNOD
           IF(TAGNO(I+N_PART)==3) DT(I) = EP30

@@ -90,7 +90,7 @@ C======================================================================|
       ! python functions are not associated with a table
       WRITE (IOUT,2000) NTABLE-(NFUNCT0-NFUNCT_PYTHON)
 
-      L      =NFUNCT0 ! total numbre /TABLE + /FUNCT
+      L      =NFUNCT0 ! total number /TABLE + /FUNCT
       CALL HM_OPTION_COUNT('/TABLE/0', NTABLE0)
       CALL HM_OPTION_COUNT('/TABLE/1', NTABLE1)
 C----------------------------

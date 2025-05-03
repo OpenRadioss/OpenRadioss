@@ -262,7 +262,7 @@ C
         IF(IGTYP == 52) THEN
           ! Initialization of stack thickness
           GEO_STACK(1,I) = ZERO
-          !--- generalizing ZSHIFT ! kepp only IPOS= 2 as before
+          !--- generalizing ZSHIFT ! keep only IPOS= 2 as before
           IPOS =IGEO_STACK(99,I) 
           ZSHIFT = GEO_STACK(199, I)
           IF(IPOS == 0 )THEN                         

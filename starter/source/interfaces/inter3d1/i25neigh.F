@@ -1302,7 +1302,7 @@ c  I   N2,IED2(N2)       - number and neighbour segment id list of node I2
 c  O   NE,ICE(NE)        - Number and neighbour segment id list of segment id ISELF
 c  I   ISELF,I1,I2       - input segment id ISELF w/ nodes I1,I2 (I25NEIGH_un nodes)
 c  I   IRECT(4,*)        - connectivity of segment id *
-c  I   X(3,*)            - node co-ordinates
+c  I   X(3,*)            - node coordinates
 c  O   IE(NE)            - final (reduced) neighbour segment,array
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

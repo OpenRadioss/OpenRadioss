@@ -248,7 +248,7 @@ c-----------------------------------------------------------------
               IF(IALLO == 2)MSR(NMN) = I
 c              TAGB(I) = BITSET(TAGB(I),4)
             ENDIF
-c     taged nodes on S2 -> negative value
+c     tagged nodes on S2 -> negative value
             IF(TAG(I) == 2 .OR. TAG(I) == 3)THEN
               TAG(I) = - TAG(I)
                  IF ( ILEV == 2.AND.TAGS(I) == 0 ) THEN
@@ -278,7 +278,7 @@ c-----------------------------------------------------------------
                IF(ILEV == 2)NBINFLG(NSN) = BITSET(NBINFLG(NSN),0)
               END IF
             ENDIF
-c     taged nodes on S1 -> negative value, ->+3 for nodes on both
+c     tagged nodes on S1 -> negative value, ->+3 for nodes on both
             IF(TAG(I) == 1 .or. TAG(I) == -3)THEN
               TAG(I) = - TAG(I)
               NMN = NMN + 1

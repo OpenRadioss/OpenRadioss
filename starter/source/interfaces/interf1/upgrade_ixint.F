@@ -43,7 +43,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         INTEGER, INTENT(in) :: NELEMINT !< number of pair of candidate
         INTEGER, INTENT(in) :: NEW_SIZE !< number of pair of candidate for the current interface
-        TYPE(INTER_CAND_), INTENT(inout) :: INTER_CAND !< struture of pair of candidate
+        TYPE(INTER_CAND_), INTENT(inout) :: INTER_CAND !< structure of pair of candidate
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

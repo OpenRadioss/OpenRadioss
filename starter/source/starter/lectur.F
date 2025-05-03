@@ -834,9 +834,9 @@ c tab IBUFSSG_IO specific inlet/outlet
 
       INTEGER, DIMENSION(:), ALLOCATABLE :: IXR_KJ,R_SKEW
 C
-C  intial direction for beams   
-      INTEGER, DIMENSION(:), ALLOCATABLE :: IBEAM_VECTOR   
-      my_real, DIMENSION(:,:), ALLOCATABLE :: RBEAM_VECTOR 
+C  initial direction for beams
+      INTEGER, DIMENSION(:), ALLOCATABLE :: IBEAM_VECTOR
+      my_real, DIMENSION(:,:), ALLOCATABLE :: RBEAM_VECTOR
 C
 C Sol2sph
       INTEGER, DIMENSION(:), ALLOCATABLE :: SOL2SPH_TYP
@@ -3796,7 +3796,7 @@ C-------------------------
                ENDDO ! nbre of slice
              ENDDO                                                                                  
            ENDDO 
-           !! Dallocation of work drape momory 
+           !! Deallocation of work drape memory 
            DO I=1,NUMELC_DRAPE + NUMELTG_DRAPE
              IDSHEL = INDXSH(I)                                                 
              NPT = IWORKSH(1,IDSHEL)  
@@ -4699,7 +4699,7 @@ C NCONLD ET NPRELD sont modifies dans LECCLD et LECPRE
       CALL TRACE_OUT1()
       IF(NSUBDOM>0) DEALLOCATE(NNCL)
 c
-c     pressure load in cylindrical coordintes
+c     pressure load in cylindrical coordinates
 c
       CALL HM_READ_PCYL(LOADS   ,IGRSURF ,SENSORS%NSENSOR,SENSORS%SENSOR_TAB ,TABLE   ,
      .                  IFRAME  ,UNITAB  ,LSUBMODEL,NUMBER_LOAD_CYL  )

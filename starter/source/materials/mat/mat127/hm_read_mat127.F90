@@ -128,7 +128,7 @@
       call hm_get_floatv('LSDYNA_PRBA'  ,nu21     ,is_available, lsubmodel, unitab)
       call hm_get_floatv('LSDYNA_PRCB'  ,nu32     ,is_available, lsubmodel, unitab)
       call hm_get_floatv('LSDYNA_PRCA'  ,nu31    ,is_available, lsubmodel, unitab) 
-! - dir 11 tention 
+! - dir 11 tension 
       call hm_get_floatv  ('LSD_MAT_XT'       ,xt         ,is_available, lsubmodel, unitab)
       call hm_get_floatv  ('LSD_MAT_SLIMT1'   ,slimt1     ,is_available, lsubmodel, unitab)
       call hm_get_intv  ('LSD_LCXT'           ,ifxt     ,is_available, lsubmodel)  
@@ -138,7 +138,7 @@
       call hm_get_floatv  ('LSD_MAT_SLIMC1'   ,slimc1     ,is_available, lsubmodel, unitab)
       call hm_get_intv  ('LSD_LCXC'           ,ifxc  ,is_available, lsubmodel)  
       call hm_get_floatv  ('MAT_SCALCXC'     ,yfac_xc     ,is_available, lsubmodel, unitab)
-!  - dir 22 tention 
+!  - dir 22 tension 
       call hm_get_floatv  ('LSD_MAT_YT'       ,yt         ,is_available, lsubmodel, unitab)
       call hm_get_floatv  ('LSD_MAT_SLIMT2'   ,slimt2     ,is_available, lsubmodel, unitab)
       call hm_get_intv  ('LSD_LCYT'           ,ifyt     ,is_available, lsubmodel)
@@ -292,7 +292,7 @@
       if(slimt2 == zero) slimt2 = one
       if(slimc2 == zero) slimc2 = one
       if(slims == zero) slims = one
-      ! scale for function fo strain rate dependency 
+      ! scale for function of strain rate dependency
       if(yfac_xc == zero) yfac_xc= one
       if(yfac_xt == zero) yfac_xt= one
       if(yfac_yc == zero) yfac_yc= one
