@@ -71,13 +71,13 @@ C-----------------------------------------------
         INTEGER CCPL_T4_EXPO,CCPL_T4_IMPO,OFF,TAG10,TAG20
         my_real AREA
 C=======================================================================
-C---Pre-counting of nodes/elements/surfaces/lines kept after split------
+C---Precounting of nodes/elements/surfaces/lines kept after split-------
 C=======================================================================
 
         OFF = NPART + NUMNOD
 
 C--------------------------------------------------------------------C
-C------Precounting of nb of taged nodes of GRNOD---------------------C
+C------Precounting of nb of tagged nodes of GRNOD--------------------C
 C--------------------------------------------------------------------C
         DO I=1,NGRNOD
 

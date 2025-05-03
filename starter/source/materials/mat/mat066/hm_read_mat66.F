@@ -397,9 +397,9 @@ c-----------------------------------------------------------------
      & 5X,'STRAIN RATE PARAMETER C . . . . . . . . .=',1PG20.13)
  1530 FORMAT(
      & 5X,'OPTIONAL STRAIN RATE EFFECT : . . . . . .=',I10/,
-     & 5X,'          0 : STRAIN RATE EFFECT IS ACTIVED ',/,
-     & 5X,'          1 : VISCPLASTIC OPTION IS ACTIVED ',/,
-     & 5X,'OPTIONAL INITIAL YIELD STRESS . . . . . .=',1PG20.13/)      
+     & 5X,'          0 : STRAIN RATE EFFECT IS ACTIVATED ',/,
+     & 5X,'          1 : VISCPLASTIC OPTION IS ACTIVATED ',/,
+     & 5X,'OPTIONAL INITIAL YIELD STRESS . . . . . .=',1PG20.13/)
  1600 FORMAT(
      & 5X,
      . 'COMPRESSION STRAIN RATE SCALING EFFECT FUNCTION NUMBER .=',I10/

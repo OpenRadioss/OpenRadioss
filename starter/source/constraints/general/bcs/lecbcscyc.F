@@ -285,7 +285,7 @@ C
      .     CY_X1(3,NBCY_N), CY_X2(3,NBCY_N),DIS1(NBCY_N),DIS2(NBCY_N),LMIN,
      .     CY_TMP(3,NBCY_N),RI,ZI,TOL,ERR_TH,ERMAX
 C========================================================================|
-C-----for each cut-section nodes, compute cylindrical co-ordinates and dis
+C-----for each cut-section nodes, compute cylindrical coordinates and dis
       DO I=1,NBCY_N
         N1(I) = IXCYCL(1,I)
         N2(I) = IXCYCL(2,I)
@@ -378,7 +378,7 @@ C
       my_real
      .     XX,YY,ZZ,XL,YL,ZL,R2,TH_MEAN,TH_MAX,ZL_MIN
 C========================================================================|
-C----- compute cylindrical co-ordinates(r,cos(theta),z) and dis=r*r+z*z
+C----- compute cylindrical coordinates(r,cos(theta),z) and dis=r*r+z*z
       TH_MEAN =ZERO
       ZL_MIN = EP20
       DO I=1,NBCY_N

@@ -81,7 +81,7 @@
             ENDIF                              
           ENDDO                                
           IF (OK == 0) THEN
-            !eos error with function identifer
+            !eos error with function identifier
             CALL ANCMSG(MSGID=135,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,I1=EOS_ID,C1=TITR,I2=ID)
           ENDIF                                 
         ENDIF                                 

@@ -811,12 +811,12 @@ C
      .       '    BUCKET FACTOR . . . . . . . . . . . . . . . ',1PG20.13/,
      .       '    DE-ACTIVATION OF INITIAL PENETRATIONS . . . ',I10/,
      .       '    CRITICAL DAMPING FACTOR . . . . . . . . . . ',1PG20.13/,
-     .       '    MAXIMUM PRESURE DUE TO THICKNESS VARIATION  '/,
+     .       '    MAXIMUM PRESSURE DUE TO THICKNESS VARIATION '/,
      .       '                    CASE OF IGAP=2. . . . . . . ',1PG20.13/,
      .       '    MEAN POSSIBLE NUMBER OF IMPACT/NODE . . . . ',I5/,
      .       '    INVERTED NORMALS DETECTION FLAG . . . . . . ',I5/,
      .       '    TANGENTIAL FORCE LIMITATION FLAG . . . . . . ',I5/,
-     .       '    MAXIMUM PRESURE FOR SKID LINE OUTPUT         ',1PG20.13)
+     .       '    MAXIMUM PRESSURE FOR SKID LINE OUTPUT        ',1PG20.13)
  2104 FORMAT(//
      .       '    TYPE==21   PARALLEL/STAMPING              ' //,
      .       '    BOUND. COND. DELETED AFTER IMPACT IN X DIR  ',I1/,
@@ -843,12 +843,12 @@ C
      .       '    BUCKET FACTOR . . . . . . . . . . . . . . ',1PG20.13/,
      .       '    DE-ACTIVATION OF INITIAL PENETRATIONS . . ',I10/,
      .       '    CRITICAL DAMPING FACTOR . . . . . . . . . ',1PG20.13/,
-     .       '    MAXIMUM PRESURE DUE TO THICKNESS VARIATION'/,
+     .       '    MAXIMUM PRESSURE DUE TO THICKNESS VARIATION'/,
      .       '                    CASE OF IGAP=2. . . . . . ',1PG20.13/,
      .       '    MEAN POSSIBLE NUMBER OF IMPACT/NODE . . . ',I5/,
      .       '    INVERTED NORMALS DETECTION FLAG . . . . . . ',I5/,
      .       '    TANGENTIAL FORCE LIMITATION FLAG . . . . . . ',I5/,
-     .       '    MAXIMUM PRESURE FOR SKID LINE OUTPUT         ',1PG20.13)        
+     .       '    MAXIMUM PRESSURE FOR SKID LINE OUTPUT         ',1PG20.13)        
  2102   FORMAT(//
      .      '    Thermal interface                          ' //,
      .      '    Thermal heat exchange coefficient . . . . .',1PG20.13/,

@@ -1035,7 +1035,7 @@ C             N3(I) = N3(I)*NN
             ELSE
 C
               NNE(I)=NNE(I)-GAPS(I)
-              IF(-BB(I,IT) < GAPV(I,IT)+NNE(I))THEN ! Test 45 degres !
+              IF(-BB(I,IT) < GAPV(I,IT)+NNE(I))THEN ! Test 45 degrees !
 C
 C               Normale horizonale
 C               N1(I) = NN1(I)
