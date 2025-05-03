@@ -203,9 +203,9 @@ C-------- LAYER_INPUT not available yet fix in function of JHBE+IJK
              IS = 1
            END IF
           END IF
-! tet10 to hav 4 ipt		   
+! tet10 to have 4 ipt
           IF(ISOLNOD == 10.OR.(ISOLNOD == 4 .AND. ISROT == 1))THEN
-            NPTS = 2                 
+            NPTS = 2
             NPTT = 2
           END IF
 C-----------------------------------------------

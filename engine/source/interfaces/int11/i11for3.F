@@ -1324,7 +1324,7 @@ C
       IF (INCONV==1) THEN
 #include "lockon.inc"
         ECONTV = ECONTV + ECONVT  ! Frictional Energy
-        ECONT  = ECONT + ECONTT   ! Elatic Energy
+        ECONT  = ECONT + ECONTT   ! Elastic Energy
         ECONTD = ECONTD + ECONTDT ! Damping Energy
         FSAV(26) = FSAV(26) + ECONTT
         FSAV(27) = FSAV(27) + ECONVT

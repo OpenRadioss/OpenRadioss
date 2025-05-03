@@ -2011,7 +2011,7 @@ C             IC : dir XYZ
 C             IM : formulation option -1,0,1
 C             id*: node_id list or grnod_id
 C
-C      N<0 means that ALE LINK is taged in FRALNK() as defined from a grnod_id.
+C      N<0 means that ALE LINK is tagged in FRALNK() as defined from a grnod_id.
 
 C
 C   +--RADIOSS2
@@ -3351,7 +3351,7 @@ C--------MIX-----
         IF (ISCAU > 0) THEN
          IF (ISMDISP > 0) THEN
           IF(IPRINT==1) THEN
-         WRITE(IOUT,*) ' ** WARNING ** : SMALL DISPLACEMENT IS IGNORED',' UNCOMPATIBLE WITH CAUCHY STRESS OUTPUT OPTION;'
+         WRITE(IOUT,*) ' ** WARNING ** : SMALL DISPLACEMENT IS IGNORED',' INCOMPATIBLE WITH CAUCHY STRESS OUTPUT OPTION;'
           ENDIF
           ISMDISP = 0
          ENDIF

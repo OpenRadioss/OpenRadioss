@@ -264,7 +264,7 @@ C
      .    CCOS(NBCY_N),CSIN(NBCY_N),V_C1(3,NBCY_N),V_C2(3,NBCY_N),
      .    DV,DVMAX,DVMEAN
 C========================================================================|
-C-----for each cut-section nodes, compute cylindrical co-ordinates and vel
+C-----for each cut-section nodes, compute cylindrical coordinates and vel
       DO I=1,NBCY_N
         N1(I) = IXCYCL(1,I)
         N2(I) = IXCYCL(2,I)

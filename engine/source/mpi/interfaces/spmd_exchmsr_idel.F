@@ -114,7 +114,7 @@ C Proc sends the same BUFS to everybody
       IDEB = 1
       IOFF = 0
       LEN = 0
-C Proc recieve only if IRECV(I) > 0
+C Proc receive only if IRECV(I) > 0
       DO I = 1, NSPMD
         IF(IRECV(I)>0) THEN
           MSGTYP = MSGOFF2 

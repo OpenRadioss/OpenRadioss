@@ -2232,16 +2232,16 @@ c gama_i*vz_i = vhi-hx*(y24*v13-y13*v24)-hy*(-x24*v13+x13*v24)
         PX2V    = PX2(I)*HXA
         PY1V    = PY1(I)*HYA
         PY2V    = PY2(I)*HYA
-C        J=1,2 STOCK LA PARTIE ANTISYM (F(1)=-F(3),F(2)=-F(4))                                  
+C        J=1,2 STOCK LA PARTIE ANTISYM (F(1)=-F(3),F(2)=-F(4))
 C        J=3,4 STOCK LA PARTIE SYM (F(1)=F(3),F(2)=F(4))
         GAMA1(I)= - PX1V-PY1V
         GAMA3(I)= FOURTH
         GAMA2(I)= - PX2V-PY2V
         GAMA4(I)= -FOURTH
       ENDDO
-C----fixing fac as Q4, can be changed w/ G(i)     
+C----fixing fac as Q4, can be changed w/ G(i)
             FAC = 0.83*EM02
-C--- same as Q4, no more daming but elatic w/ FAC*G     
+C--- same as Q4, no more damping but elastic w/ FAC*G
       DO I=JFT,JLT
         HVL=FAC*G(I)*THK(I)*OFF(I)*DT1
         VGLAS(I,10)=VGLAS(I,10)+HVL*GAMAVZ(I)

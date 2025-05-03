@@ -69,7 +69,7 @@ C ******  IF /STOP/LSENSOR *****
              TS = EP20
              IF (SENSORS%SENSOR_TAB(ISENS)%STATUS == 1) TS = TT
              IF (TT >= TS) THEN
-                IF(SENSORS%STOP_NSTH/=0)THEN  !IF THIST FILE
+                IF(SENSORS%STOP_NSTH/=0)THEN  !IF THIS FILE
                    THIS_L= TT
                 ENDIF
                 IF(SENSORS%STOP_NSABF/=0)THEN  !IF ABF FILE

@@ -222,7 +222,7 @@ c
 c! ---    EMA or Butterworth filtering
           IF (EMA == ONE .and. FF /= ZERO .and. F_FLAG > 1) THEN
 C-----------------------------------------------
-C           INITIALIALISATION OF THE FILTER-COEFFICIENTS 
+C           INITIALISATION OF THE FILTER-COEFFICIENTS
 C-----------------------------------------------
 C         
             D  = TAN(PI*F*TIMESTEP)  

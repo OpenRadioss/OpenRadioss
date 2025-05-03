@@ -594,7 +594,7 @@ c
 C---------------------------------
 #include "lockon.inc"
       ECONTV = ECONTV + ECONVT  ! Frictional Energy
-      ECONT  = ECONT + ECONTT   ! Elatic Energy
+      ECONT  = ECONT + ECONTT   ! Elastic Energy
       ECONTD = ECONTD + ECONTDT ! Damping Energy
       IF (INTTH/=0) THEN
          QFRIC = QFRIC + FHEAT*QFRICT ! FRICTIONAL HEAT ADDED TO INTERNAL ENERGY

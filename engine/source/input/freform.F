@@ -2199,7 +2199,7 @@ C--------------------
           CALL ERRMSG(KEY2)
         ELSEIF(KEY2=='ON')THEN
           IRAD2R = 1
-          !initial connexion with rad2rad
+          !initial connection with rad2rad
           IF (ISPMD==0) CALL CONNECTION_SOCK_INIT_C(SOCK0)
         ENDIF
         K=K+1

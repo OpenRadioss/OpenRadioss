@@ -3494,7 +3494,7 @@ C---------------------------------
 #include "lockon.inc"
       IF (INCONV==1) THEN
         ECONTV = ECONTV + ECONVT ! Frictional Energy
-        ECONT  = ECONT + ECONTT  ! Elatic Energy
+        ECONT  = ECONT + ECONTT  ! Elastic Energy
         ECONTD = ECONTD + ECONTDT ! Damping Energy
         ECONT_CUMU = ECONT_CUMU + ECONTTIED ! Elastic energy for tied contact : it is cumulated energy
       END IF !(INCONV==1) THEN
