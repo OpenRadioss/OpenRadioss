@@ -99,8 +99,14 @@ c
       ! Strain-rate filtering (if Ivisc = 0)
       AFILTR       = MIN(ONE, UPARAM(14)*TIMESTEP)
       ! Initial yield stress vs strain-rate curve
-      Xscale_SIG0  = UPARAM(16) ! Strain-rate scale factor
-      Yscale_SIG0  = UPARAM(17) ! Initial yield stress scale factor
+      IF (IFUNC(1) > 0) THEN
+        Xscale_SIG0  = UPARAM(16) ! Strain-rate scale factor
+        Yscale_SIG0  = UPARAM(17) ! Initial yield stress scale factor
+        YLD0(1:NEL)  = ZERO
+      ELSE
+        YLD0(1:NEL)  = UPARAM(17) ! Constant yield stress
+        DYLD0DEPSD(1:NEL) = ZERO
+      ENDIF
       ! Young modulus vs strain-rate curve
       Xscale_YOUN  = UPARAM(18) ! Strain-rate scale factor
       Yscale_YOUN  = UPARAM(19) ! Young modulus scale factor
@@ -111,16 +117,17 @@ c
         TANG(1:NEL)  = ZERO
       ELSE
         TANG(1:NEL)  = UPARAM(21) ! Constant tangent modulus
+        DTANGDEPSD(1:NEL) = ZERO
       ENDIF
-      DTINV          = ONE/MAX(TIMESTEP,EM20) ! Inverse of timestep
+      DTINV = ONE/MAX(TIMESTEP,EM20) ! Inverse of timestep
 c      
       ! Recovering internal variables
       DO I=1,NEL
         IF (OFF(I) < EM01) OFF(I) = ZERO
-        IF (OFF(I) < ONE)   OFF(I) = OFF(I)*FOUR_OVER_5
+        IF (OFF(I) <  ONE) OFF(I) = OFF(I)*FOUR_OVER_5
         ! Standard inputs
         DPLA(I)       = ZERO ! Initialization of the plastic strain increment
-        ET(I)         = ONE   ! Initialization of hourglass coefficient
+        ET(I)         = ONE  ! Initialization of hourglass coefficient
         HARDP(I)      = ZERO ! Initialization of hourglass coefficient
         DPXX(I)       = ZERO ! Initialization of the XX plastic strain increment
         DPYY(I)       = ZERO ! Initialization of the YY plastic strain increment
@@ -153,12 +160,14 @@ c
       ENDIF   
 c   
       ! Compute the initial yield stress
-      IPOS(1:NEL) = 1
-      IAD (1:NEL) = NPF(IFUNC(1)) / 2 + 1
-      ILEN(1:NEL) = NPF(IFUNC(1)+1) / 2 - IAD(1:NEL) - IPOS(1:NEL)
-      CALL VINTER2(TF,IAD,IPOS,ILEN,NEL,EPSD/Xscale_SIG0,DYLD0DEPSD,YLD0)
-      YLD0(1:NEL) = Yscale_SIG0*YLD0(1:NEL)
-      DYLD0DEPSD(1:NEL) = Yscale_SIG0*DYLD0DEPSD(1:NEL)
+      IF (IFUNC(1) > 0) THEN
+        IPOS(1:NEL) = 1
+        IAD (1:NEL) = NPF(IFUNC(1)) / 2 + 1
+        ILEN(1:NEL) = NPF(IFUNC(1)+1) / 2 - IAD(1:NEL) - IPOS(1:NEL)
+        CALL VINTER2(TF,IAD,IPOS,ILEN,NEL,EPSD/Xscale_SIG0,DYLD0DEPSD,YLD0)
+        YLD0(1:NEL) = Yscale_SIG0*YLD0(1:NEL)
+        DYLD0DEPSD(1:NEL) = Yscale_SIG0*DYLD0DEPSD(1:NEL)
+      ENDIF
       ! Compute the Young modulus
       IF (IFUNC(2) > 0) THEN
         IPOS(1:NEL)  = 1

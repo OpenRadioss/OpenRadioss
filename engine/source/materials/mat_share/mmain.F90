@@ -219,6 +219,7 @@
           use constant_mod
           use dt_mod
           use glob_therm_mod
+          use fail_lemaitre_s_mod
           use fail_spalling_s_mod
           use eosmain_mod , only : eosmain
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -2664,6 +2665,14 @@
                 &de1      ,de2      ,de3      ,de4      ,de5      ,de6      ,&
                 &ss1      ,ss2      ,ss3      ,ss4      ,ss5      ,ss6      ,&
                 &tt       ,tdel     ,dfmax    ,deltax   ,lbuf%dmgscl)
+!
+              elseif (irupt == 50) then
+!---- Lemaitre damage model
+                call fail_lemaitre_s(&
+                &llt      ,nparam   ,uparamf,tt,ngl,mat_elem%mat_param(imat),&
+                &ss1      ,ss2      ,ss3      ,ss4      ,ss5      ,ss6      ,&
+                &dpla     ,el_pla   ,lbuf%off ,off      ,dfmax    ,tdel     ,&
+                &niparam  ,iparamf  ,lbuf%dmgscl,gbuf%noff,npg    )
 !---------
               endif ! irupt
 !

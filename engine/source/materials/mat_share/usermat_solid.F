@@ -136,6 +136,7 @@ C-----------------------------------------------
       USE DT_MOD
       use glob_therm_mod
       USE TIMER_MOD
+      USE FAIL_LEMAITRE_S_MOD
       USE FAIL_SPALLING_S_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1528,6 +1529,14 @@ c---- Orthotropic energy failure
      3          DE1      ,DE2      ,DE3      ,DE4      ,DE5      ,DE6      ,
      5          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,
      6          TT       ,TDEL     ,DFMAX    ,DELTAX   ,LBUF%DMGSCL)
+c
+          ELSEIF (IRUPT == 50) THEN
+c---- Lemaitre damage model
+              CALL FAIL_LEMAITRE_S(
+     1          NEL      ,NPAR     ,UPARAMF  ,TT,NGL,MAT_ELEM%MAT_PARAM(MX),
+     2          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,
+     3          DPLA     ,EL_PLA   ,LBUF%OFF ,OFF      ,DFMAX    ,TDEL     ,
+     4          NIPAR    ,IPARAMF  ,LBUF%DMGSCL,GBUF%NOFF,NPG    )
 c         
           ENDIF
         ENDDO ! IR = 1,NFAIL

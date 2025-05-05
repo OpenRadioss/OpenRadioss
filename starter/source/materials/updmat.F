@@ -167,7 +167,7 @@ c-----------------------------------------------------------------------
             ! -> Isotropic stress softening 
             ELSE IF (IRUP == 10 .OR. IRUP == 11 .OR. IRUP == 13 .OR. IRUP == 30 .OR.
      .               IRUP == 41 .OR. IRUP == 42 .OR. IRUP == 44 .OR. IRUP == 45 .OR.
-     .               IRUP == 46 .OR. IRUP == 47) THEN             
+     .               IRUP == 46 .OR. IRUP == 47 .OR. IRUP == 50) THEN             
               MTAG%L_DMGSCL = 1
               MTAG%G_DMGSCL = 1
             ! -> Orthotropic stress softening
