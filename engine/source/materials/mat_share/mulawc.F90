@@ -205,6 +205,7 @@
           use file_descriptor_mod
           use constant_mod
           use damping_range_shell_mod
+          use fail_lemaitre_c_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -2502,6 +2503,16 @@
                     &depsxx    ,depsyy    ,depsxy    ,dmg_flag  ,dmg_orth_scale,&
                     &aldt      ,foff      ,dfmax     ,tdel      ,&
                     &signxx    ,signyy    ,signxy    ,igtyp     ,ply_id    )
+!
+                   case (50)     !    Lemaitre continuum damage model
+!
+                    call fail_lemaitre_c(&
+                    &nel       ,nupar     ,uparamf   ,matparam  ,&
+                    &signxx    ,signyy    ,signxy    ,dpla      ,el_pla   ,&
+                    &foff      ,off       ,dfmax     ,tdel      ,dmg_flag ,&
+                    &dmg_loc_scale,ipg    ,ply_id    ,ilayer    ,it       ,&
+                    &ngl       ,tt        ,igtyp     )
+!
 !-------------
                   end select
 !-------------

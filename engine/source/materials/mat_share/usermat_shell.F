@@ -123,6 +123,7 @@ C-----------------------------------------------
       USE NLOCAL_REG_MOD
       USE ELBUFDEF_MOD
       USE DT_MOD
+      USE FAIL_LEMAITRE_C_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1802,6 +1803,15 @@ c
      3            DEPSXX    ,DEPSYY    ,DEPSXY    ,DMG_FLAG  ,DMG_ORTH_SCALE,
      4            ALDT      ,FOFF      ,DFMAX     ,TDEL      ,
      5            SIGNXX    ,SIGNYY    ,SIGNXY    ,IGTYP     ,PLY_ID    )
+c
+              CASE (50)     !    Lemaitre continuum damage model
+c
+                CALL FAIL_LEMAITRE_C(
+     1            NEL       ,NUPAR     ,UPARAMF   ,MAT_ELEM%MAT_PARAM(IMAT),
+     2            SIGNXX    ,SIGNYY    ,SIGNXY    ,DPLA      ,EL_PLA   ,
+     3            FOFF      ,OFF       ,DFMAX     ,TDEL      ,DMG_FLAG ,
+     4            DMG_LOC_SCALE,IPG    ,PLY_ID    ,ILAYER    ,IT       ,
+     5            NGL       ,TT        ,IGTYP     )
 c 
 c-------------
               END SELECT
