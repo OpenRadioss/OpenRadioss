@@ -246,6 +246,7 @@
       use sigeps134s_mod
       use sigeps163_mod
       use fail_spalling_s_mod
+      use fail_lemaitre_s_mod
       use prop_param_mod
       use dt_mod
       use glob_therm_mod
@@ -2519,6 +2520,14 @@
                 &de1      ,de2      ,de3      ,de4      ,de5      ,de6      ,&
                 &s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,&
                 &tt       ,tdel     ,dfmax    ,deltax   ,lbuf%dmgscl)
+!
+              elseif (irupt == 50) then
+!---- Lemaitre damage model
+                call fail_lemaitre_s(&
+                &nel      ,nparf    ,uparf    ,tt       ,ngl      ,matparam ,&
+                &s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,&
+                &dpla     ,el_pla   ,lbuf%off ,off      ,dfmax    ,tdel     ,&
+                &niparf   ,iparf    ,lbuf%dmgscl,gbuf%noff,npg    )
 !
               endif
             enddo ! ir = 1,nfail

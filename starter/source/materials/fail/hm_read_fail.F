@@ -99,6 +99,7 @@ C-----------------------------------------------
       USE TABLE_MOD
       USE HM_READ_FAIL_SPALLING_MOD
       USE HM_READ_FRACTAL_DMG_MOD
+      USE HM_READ_FAIL_LEMAITRE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE, NCHARKEY
 C============================================================================
 C   I m p l i c i t   T y p e s
@@ -542,6 +543,11 @@ c
               IRUPT = 48
               CALL HM_READ_FAIL_ORTHENERG(MAT_PARAM(IMAT)%FAIL(IFL),
      .             FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB   )
+c
+            ELSEIF (KEY(1:8) == 'LEMAITRE') THEN
+              IRUPT = 50
+              CALL HM_READ_FAIL_LEMAITRE(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB ,IOUT     )
 c
             ENDIF
 c-------  --

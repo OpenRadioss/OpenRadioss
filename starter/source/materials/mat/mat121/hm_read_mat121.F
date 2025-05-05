@@ -172,7 +172,7 @@ c-----------------------------
       ! Failure criterion flag
       Ifail = MIN(MAX(Ifail,0),3)
       ! Check initial yield stress function is defined 
-      IF (Fct_SIG0 == 0) THEN 
+      IF ((Fct_SIG0 == 0).AND.(Yscale_SIG0 == ZERO)) THEN 
         CALL ANCMSG(MSGID=2060,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO_BLIND_2,
@@ -300,7 +300,11 @@ c--------------------------
         IF (Ivisc == 0) THEN 
           WRITE(IOUT,1380) Fcut
         ENDIF
-        WRITE(IOUT,1400) Fct_SIG0,Xscale_SIG0,Yscale_SIG0
+        IF (Fct_SIG0 > 0) THEN 
+          WRITE(IOUT,1400) Fct_SIG0,Xscale_SIG0,Yscale_SIG0
+        ELSE
+          WRITE(IOUT,1450) Yscale_SIG0
+        ENDIF
         IF (Fct_YOUN > 0) THEN 
           WRITE(IOUT,1500) Fct_YOUN,Xscale_YOUN,Yscale_YOUN
         ENDIF
@@ -349,6 +353,8 @@ c-----------------------------------------------------------------------
      & 5X,'INITIAL YIELD STRESS FUNCTION ID. . . .=',I10/
      & 5X,'STRAIN-RATE SCALE FACTOR. . . . . . . .=',1PG20.13/
      & 5X,'YIELD STRESS SCALE FACTOR . . . . . . .=',1PG20.13/)
+ 1450 FORMAT(
+     & 5X,'CONSTANT INITIAL YIELD STRESS . . . . .=',1PG20.13/)
  1500 FORMAT(
      & 5X,'YOUNG MODULUS FUNCTION ID . . . . . . .=',I10/
      & 5X,'STRAIN-RATE SCALE FACTOR. . . . . . . .=',1PG20.13/
