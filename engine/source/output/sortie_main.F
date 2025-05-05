@@ -645,7 +645,8 @@ c
      Y         LESDVOIS   ,CRKEDGE   ,INDX_CRK    ,XEDGE4N     ,XEDGE3N   ,
      Z         STACK      ,SPH2SOL   ,STIFN       ,STIFR       ,IGRNOD    ,
      1         H3D_DATA   ,SUBSET    ,MULTI_FVM   ,KNOTLOCPC   ,KNOTLOCEL ,
-     2         FCONT_MAX  ,FNCONTP2  ,FTCONTP2    ,GLOB_THERM  )
+     2         FCONT_MAX  ,FNCONTP2  ,FTCONTP2    ,GLOB_THERM  ,
+     .         DRAPE_SH4N, DRAPE_SH3N, DRAPEG)
 c
        ENDIF
       IF((TT>=TANIM .AND. TT<=TANIM_STOP))TANIM=TANIM+DTANIM

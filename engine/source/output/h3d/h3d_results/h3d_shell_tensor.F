@@ -307,7 +307,7 @@ c
      .                   MAT          ,PID    ,THKLY            ,MATLY  ,POSLY   ,
      .                   IGTYP        ,IXFEM  ,IXLAY            ,NLAY   ,MPT0     ,
      .                   ISUBSTACK    ,STACK  ,DRAPE_SH3N       ,NFT    ,GBUF%THK,
-     .                   NEL         ,THK_LY ,DRAPEG%INDX_SH3N ,SEDRAPE,NUMEL_DRAPE   )
+     .                   NEL          ,THK_LY ,DRAPEG%INDX_SH3N ,SEDRAPE,NUMEL_DRAPE   )
               ELSE ! ITY = 3
                      NUMEL_DRAPE = NUMELC_DRAPE  
                      SEDRAPE = SCDRAPE
@@ -426,7 +426,7 @@ c               /TENS/STRESS/PLY=.../NPT=...
                 ENDDO    ! NLAY
 c
               ELSEIF (ILAY > 0 .AND. ILAY <= NLAY .AND. IPLY == -1) THEN  
-c               /TENS/STRESS/LAYER=
+                ! /TENS/STRESS/LAYER=
                 IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16) THEN   ! shells type 10,11,16 only   
                   ISELECT = 1
                   IMAT  = ELBUF_TAB(NG)%BUFLY(ILAY)%IMAT                          
@@ -740,7 +740,7 @@ c
               ELSEIF (ILAY > 0 .AND. ILAY <= NLAY .AND. IPLY == -1) THEN
 c               ILAYER=IL  PLY=NULL NPT=NULL
                 IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16) THEN
-                 IF(NPG > 1) THEN
+                 IF (NPG > 1) THEN
                   LENS = NEL*GBUF%G_STRPG/NPG
                   DO I=1,NEL
                     N = I + NFT
