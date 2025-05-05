@@ -36,9 +36,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    stack_mod            ../engine/share/modules/stack_mod.F
       !||====================================================================
       SUBROUTINE TENSORC(ELBUF_TAB,IPARG ,ITENS ,INVERT,NELCUT,
-     2                   EL2FA    ,NBF   ,TENS  ,EPSDOT,IADP  ,
-     3                   NBF_L    ,NBPART,IADG  ,X     ,IXC   ,
-     4                   IGEO     ,IXTG  ,IPM   ,STACK ,MAT_PARAM)
+     .                   EL2FA    ,NBF   ,TENS  ,EPSDOT,IADP  ,
+     .                   NBF_L    ,NBPART,IADG  ,X     ,IXC   ,
+     .                   IGEO     ,IXTG  ,IPM   ,STACK ,MAT_PARAM,
+     .                   GEO      ,DRAPE_SH4N, DRAPE_SH3N, DRAPEG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -46,6 +47,7 @@ C-----------------------------------------------
       USE STACK_MOD
       USE MATPARAM_DEF_MOD
       USE MY_ALLOC_MOD
+      USE DRAPE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,11 +71,14 @@ C-----------------------------------------------
      .   NELCUT,NBF,IADP(*),NBF_L,NBPART,IADG(NSPMD,*),
      .   IXTG(NIXTG,*),IPM(NPROPMI,*)
 C     REAL
-      my_real
-     .   TENS(3,*),EPSDOT(6,*),X(3,*)
+      my_real TENS(3,*),EPSDOT(6,*),X(3,*)
+      my_real, INTENT(IN) :: GEO(NPROPG,NUMGEO)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (STACK_PLY) :: STACK
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
+      TYPE (DRAPE_) , INTENT(IN) :: DRAPE_SH4N(NUMELC_DRAPE)
+      TYPE (DRAPE_) , INTENT(IN) :: DRAPE_SH3N(NUMELTG_DRAPE)
+      TYPE (DRAPEG_), INTENT(IN) :: DRAPEG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -85,8 +90,8 @@ C     REAL
      .        N,J,LLT,MLW,ISTRAIN,IL,IR,IS,IT,NPTR,NPTS,NLAY,
      .        IPID,I1,I2,NS1,NS2,ISTRE,INPUT_ERROR,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,NNI,N0,
-     .        IHBE,IREP,BUF,NPG,K,ISROT,NUVARV,IVISC,
-     .        IPMAT,IGTYP,MATLY,ISUBSTACK,IIGEO,IADI,IPMAT_IPLY,
+     .        IHBE,BUF,NPG,K,ISROT,NUVARV,IVISC,
+     .        IPMAT,IGTYP,ISUBSTACK,IIGEO,IADI,IPMAT_IPLY,IXFEM,IXLAY,
      .        NPT_ALL,NPTT,ILAY,IUS,ID_PLY,IPLY,IPANG,IPPOS,IPTHK,JJ(8),
      .        IDX,IDX_MSTRESS,IDX_IDPLY_MSTRESS,IGMAT,IDRAPE,IDIR,IMAT,MAT_ORTH
       INTEGER PID(MVSIZ),MAT(MVSIZ)
@@ -97,9 +102,13 @@ C
       TYPE(L_BUFEL_) ,POINTER :: LBUF 
       TYPE(L_BUFEL_DIR_) ,POINTER :: LBUF_DIR
 C
-      my_real,
-     .   DIMENSION(:), POINTER :: DIR_A,DIR_B
+      my_real, DIMENSION(:), POINTER :: DIR_A,DIR_B
       REAL,DIMENSION(:),ALLOCATABLE :: WA
+      !
+      INTEGER :: NLAY_MAX,LAYNPT_MAX,NUMEL_DRAPE,SEDRAPE
+      INTEGER, DIMENSION(:)  , ALLOCATABLE :: MATLY   !!  MATLY(MVSIZ*LAY_MAX)
+      my_real, DIMENSION(:)  , ALLOCATABLE :: THKLY   !!  THKLY(MVSIZ*LAY_MAX*LAYNPT_MAX)
+      my_real, DIMENSION(:,:), ALLOCATABLE :: POSLY,THK_LY
 C-----------------------------------------------
       CALL MY_ALLOC(WA,3*NBF_L)
 !
@@ -170,10 +179,20 @@ C
               N0 = 0
               NNI = NN4
               IF (IHBE == 11) NPG = 4
+              IPID = IXC(6,NFT+1)
+              DO I=LFT,LLT
+                MAT(I)=IXC(1,NFT+I)
+                PID(I)=IXC(6,NFT+I)
+              ENDDO
             ELSE
               N0 = NUMELC
               NNI = NN5
               IF (IHBE == 11) NPG = 3
+              IPID = IXTG(5,NFT+1)
+              DO I=LFT,LLT
+                MAT(I)=IXTG(1,NFT+I)
+                PID(I)=IXTG(5,NFT+I)
+              ENDDO
             ENDIF
 c
             DO I=LFT,LLT                   
@@ -185,6 +204,7 @@ c
 C
             IF (MLW == 0) GOTO 490
 C
+            INPUT_ERROR = 0
             A1    = ZERO
             A2    = ZERO
             A3    = ZERO         
@@ -192,7 +212,44 @@ C
             IPT   = 1
             NPT   = IABS(IPARG(6,NG))
             MPT   = MAX(1,NPT)
-            INPUT_ERROR = 0
+!
+            LAYNPT_MAX = 1
+            IF (IGTYP == 51 .OR. IGTYP == 52) THEN
+              DO ILAY=1,NLAY
+                LAYNPT_MAX = MAX(LAYNPT_MAX ,ELBUF_TAB(NG)%BUFLY(ILAY)%NPTT)
+              ENDDO  
+            ENDIF
+            IXFEM = 0 
+            IXLAY = 0 
+            NLAY_MAX = MAX(NLAY,NPT)
+            ALLOCATE(MATLY(MVSIZ*NLAY_MAX))
+            ALLOCATE(THKLY(MVSIZ*NLAY_MAX*LAYNPT_MAX))
+            ALLOCATE(POSLY(MVSIZ,NLAY_MAX*LAYNPT_MAX))
+            ALLOCATE(THK_LY(NEL ,NLAY_MAX*LAYNPT_MAX))
+            MATLY(:) = 0
+            THKLY(:) = ZERO
+            POSLY(:,:)  = ZERO
+            THK_LY(:,:) = ZERO
+            ! computing position of slice or Ply
+            IF (ITY == 7) THEN
+              NUMEL_DRAPE = NUMELTG_DRAPE
+              SEDRAPE     = STDRAPE
+              CALL LAYINI(
+     .             ELBUF_TAB(NG),1   ,NEL            ,GEO    ,IGEO       ,
+     .             MAT      ,PID    ,THKLY           ,MATLY  ,POSLY      ,
+     .             IGTYP    ,IXFEM  ,IXLAY           ,NLAY   ,NPT        ,
+     .             ISUBSTACK,STACK  ,DRAPE_SH3N      ,NFT    ,GBUF%THK   ,
+     .             NEL      ,THK_LY ,DRAPEG%INDX_SH3N,SEDRAPE,NUMEL_DRAPE)
+             ELSE ! ITY = 3
+               NUMEL_DRAPE = NUMELC_DRAPE  
+               SEDRAPE     = SCDRAPE
+               CALL LAYINI(
+     .              ELBUF_TAB(NG),1  ,NEL             ,GEO    ,IGEO       ,
+     .              MAT      ,PID    ,THKLY           ,MATLY  ,POSLY      ,  
+     .              IGTYP    ,IXFEM  ,IXLAY           ,NLAY   ,NPT        ,  
+     .              ISUBSTACK,STACK  ,DRAPE_SH4N      ,NFT    ,GBUF%THK   ,    
+     .              NEL      ,THK_LY ,DRAPEG%INDX_SH4N,SEDRAPE,NUMEL_DRAPE)     
+            ENDIF 
 C
             IF (IGTYP == 51 .OR. IGTYP == 52) THEN
               NPT_ALL = 0
@@ -344,7 +401,7 @@ C-----
                 A2  = ZERO
               ENDIF
 C------------------------
-C        STRAIN
+C             STRAIN
 C------------------------
             ELSEIF (ITENS == 5) THEN  ! membrane
               ISTRE = 0
@@ -385,6 +442,10 @@ C------------------------
               IF ((ITENS - 200 > MPT) .OR. IGTYP == 51 .OR. IGTYP == 52 .OR. IGTYP == 17) THEN
                 A1 = ZERO
                 A2 = ZERO
+              ELSE IF (IGTYP == 11) THEN
+                IPT = ITENS-200
+                A1  = ONE
+                A2  = POSLY(1,IPT)
               ELSE
                 A1 = ONE
                 A2 = HALF*(((2*IPT-ONE)/MPT)-ONE)
@@ -429,7 +490,7 @@ c                      A2 = STACK%GEO(IPPOS+J,ISUBSTACK)
             ELSEIF (ITENS > 1610 + 3*MX_PLY_ANIM  .AND. 
      .              ITENS < 1711 + 3*MX_PLY_ANIM) THEN
 !-------------------
-              ! STRAI/ILAY/UPPER -> UPPER strain within each layer (PID51,52)
+              ! STRAIN/ILAY/UPPER -> UPPER strain within each layer (PID51,52)
 !-------------------
               ISTRE = 0
               A1 = ZERO
@@ -536,7 +597,7 @@ c                      A2 = STACK%GEO(IPPOS+J,ISUBSTACK)
                 ENDIF ! IF (IL <= NLAY)
               ENDIF ! IF (IGTYP == 51 .OR. IGTYP == 52)
 C------------------------
-C        STRAIN RATE
+C           STRAIN RATE
 C------------------------
             ELSEIF (ITENS == 91) THEN
               ISTRE = 2
@@ -709,25 +770,12 @@ c                      A2 = STACK%GEO(IPPOS+J,ISUBSTACK)
             !next available animation file
             ENDIF  !  IF (ITENS == 1)
 c-----------------------------------------------------------
+c-----------------------------------------------------------
+!
             IF (ISTRE == 1) THEN
 C------------------------
 C             STRESS
 C------------------------
-              IF (ITY == 3) THEN
-                IPID = IXC(6,NFT+1)
-                DO I=LFT,LLT
-                  MAT(I)=IXC(1,NFT+I)
-                  PID(I)=IXC(6,NFT+I)
-                ENDDO
-              ELSE  ! ITY == 7
-                IPID = IXTG(5,NFT+1)
-                DO I=LFT,LLT
-                  MAT(I)=IXTG(1,NFT+I)
-                  PID(I)=IXTG(5,NFT+I)
-                ENDDO
-              ENDIF
-c
-              IREP = IGEO(6,IPID)
               IVISC = 0
 
 C----------        
@@ -1355,7 +1403,7 @@ C--------
 C------------------------
             ELSEIF (ISTRE == 2) THEN
 C---------
-C          STRAIN RATE
+C             STRAIN RATE
 C---------
 c------------------------------------
               DO I=LFT,LLT
@@ -1380,6 +1428,7 @@ c------------------------------------
         ENDIF    ! IF(ITY == 2)
 
 c
+        DEALLOCATE(MATLY, THKLY,POSLY,THK_LY)
 C-----------------------------------------------
  490  CONTINUE   ! NGROUP
  500  CONTINUE

@@ -229,7 +229,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      Y                  LESDVOIS ,CRKEDGE  ,INDX_CRK    ,XEDGE4N     ,XEDGE3N   ,
      Z                  STACK    ,SPH2SOL  ,STIFN       ,STIFR       ,IGRNOD    ,
      1                  H3D_DATA ,SUBSET   ,MULTI_FVM   ,KNOTLOCPC   ,KNOTLOCEL ,
-     2                  FCONT_MAX,FNCONTP2 ,FTCONTP2    ,GLOB_THERM  )
+     2                  FCONT_MAX,FNCONTP2 ,FTCONTP2    ,GLOB_THERM  ,
+     .                  DRAPE_SH4N, DRAPE_SH3N, DRAPEG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -249,6 +250,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD
       use glob_therm_mod
       use my_alloc_mod
+      use drape_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -344,6 +346,9 @@ C-----------------------------------------------
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
       TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
       type (glob_therm_) ,intent(in)       :: glob_therm
+      TYPE (DRAPE_)  ,INTENT(IN) :: DRAPE_SH4N(NUMELC_DRAPE)
+      TYPE (DRAPE_)  ,INTENT(IN) :: DRAPE_SH3N(NUMELTG_DRAPE)
+      TYPE (DRAPEG_) ,INTENT(IN) :: DRAPEG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -3858,7 +3863,8 @@ C-----------------------------------------------
           CALL TENSORC(ELBUF_TAB,IPARG ,IFUNC ,INVERT,NELCUT,
      .                 EL2FA    ,NBF   ,WAFT  ,TANI  ,IAD   ,
      .                 NBF_L    ,NBPART,IADG  ,X     ,IXC   ,
-     .                 IGEO     ,IXTG  ,IPM   ,STACK ,MAT_PARAM)
+     .                 IGEO     ,IXTG  ,IPM   ,STACK ,MAT_PARAM,
+     .                 GEO      ,DRAPE_SH4N, DRAPE_SH3N, DRAPEG)
           IF (ISPMD==0) THEN
             R4 = ZERO
             DO J=1,NESBW2
