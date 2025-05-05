@@ -255,112 +255,6 @@ void do_lf_convert (int fdi, int fdo)
 
 
 
-void lf_convert_c(got_input, rootname, rootlen, filename, namelen, outname, ierr)
-        int    *got_input, *rootlen, *namelen, *ierr;
-        char   *rootname, *filename, *outname;
-{
-        char  *inname;
-        char   tmpstr[20];
-        int    pid;
-#ifdef _WIN64
-        HANDLE fdi,fdo;
-        int count,fd;
-#else
-        int fdo, fdi;
-#endif
-        *ierr = 0;
-        if (*got_input == 1) {
-
-                inname = (char *) calloc(*namelen+1, sizeof (char)); 
-#ifdef _WIN64
-                strncpy_s(inname,*namelen+1,filename,*namelen);
-                fdi = CreateFile(inname,             // file to open
-                                 GENERIC_READ,       // open for reading
-                                 FILE_SHARE_READ,    // share for reading
-                                 NULL,               // default security
-                                 OPEN_EXISTING,      // existing file only
-                                 FILE_ATTRIBUTE_NORMAL | FILE_FLAG_OVERLAPPED, // normal file
-                                 NULL);                 // no attr. template
-                if (fdi == NULL) {
-                        fprintf (stderr, "*** ERROR INPUT FILE:   %s NOT FOUND!\n", inname);
-                        *ierr = 1;
-                }
-#else                
-                strncpy(inname,filename,*namelen);
-                if ((fdi = open (inname, O_RDONLY,"r")) == -1) {
-                        fprintf (stderr, "*** ERROR INPUT FILE:   %s NOT FOUND!\n", inname);
-                        *ierr = 1;
-                }
-#endif
-        }
-        else {
-
-#ifdef _WIN64
-                fd = _fileno(stdin);
-                fdi =(HANDLE) _get_osfhandle(fd);
-#else                
-                fdi =fileno(stdin);
-#endif
-        }
-
-        if( *ierr==0 ) {
-#ifdef _WIN64
-                pid = _getpid();
-#else                
-                pid = getpid();
-#endif
-                sprintf(tmpstr,"%d",pid);
-                char * cwd = cwd_c();
-                
-#ifdef _WIN64
-                strcpy_s(outname,2048,cwd );    // Size in Radioss2.F is 2048
-                strcat_s(outname,2048, "\\");
-                strncat_s(outname,2048,rootname, *rootlen);
-                strcat_s(outname,2048,"_");
-                strcat_s(outname,2048,tmpstr);
-#else                
-                strcpy(outname, cwd );
-                strcat(outname,"/");  
-                strncat(outname, rootname, *rootlen);
-                strcat(outname, "_");
-                strcat(outname, tmpstr);
-#endif
-                *namelen =  (int) strlen(outname);
-                free(cwd);
-
-#ifdef _WIN64
-                        fdo = CreateFile(outname,                // filename
-                                         GENERIC_WRITE,          // open for writing
-                                         0,                      // do not share
-                                         NULL,                   // default security
-                                         CREATE_NEW,             // create new file only
-                                         FILE_ATTRIBUTE_NORMAL,  // normal file
-                                         NULL);                  // no attr. template
-                        if (fdo == INVALID_HANDLE_VALUE){             
-                            fprintf (stderr, "*** ERROR INPUT FILE: CANNOT CREATE TEMP FILE\n");    
-                            *ierr = 1;
-                        }                                                                         
-#else
-                if ((fdo = open (outname, O_CREAT | O_RDWR,S_IRWXU)) == -1) {             
-                        fprintf (stderr, "*** ERROR INPUT FILE: CANNOT CREATE TEMP FILE\n");    
-                        *ierr = 1;
-                }                                                                         
-#endif
-
-                do_lf_convert (fdi, fdo);
-
-
-#ifdef _WIN64
-                if (CloseHandle(fdi) == 0 || CloseHandle(fdo) == 0)
-                        syserr("Error: close");
-#else
-                if (close(fdi) == -1 || close (fdo) == -1)
-                        syserr("Error: close");
-#endif
-        }
-}
-
-
 void convertfile(FILE *stream,  int level,FILE *stream_out,char *filename,int ncharline,int *ierr){
 
     char *line,*line1,*tag;
@@ -484,10 +378,7 @@ void convertfile(FILE *stream,  int level,FILE *stream_out,char *filename,int nc
 }
 
 
-void lf_convert_c_flat(got_input, rootname, rootlen, filename, namelen, outname, ierr, ncharline,len_path,path,len_path2,path2)
-    int    *got_input, *rootlen, *namelen, *ierr, *ncharline;
-    int    *len_path,*len_path2;
-    char   *rootname, *filename, *outname, *path, *path2;
+void lf_convert_c_flat(int *got_input, char *rootname, int *rootlen, char *filename, int *namelen, char *outname, int *ierr, int *ncharline,int *len_path,char *path,int *len_path2,char *path2)
 {
     char  *inname, *outname_local ;
     char   tmpstr[20];
@@ -495,6 +386,7 @@ void lf_convert_c_flat(got_input, rootname, rootlen, filename, namelen, outname,
     FILE * stream;
     FILE * stream_out;
     int sz_lenpath;
+    int hostname_err;
 
 #ifdef _WIN64
         char tmpstr_host[MAX_COMPUTERNAME_LENGTH+1];
@@ -549,8 +441,12 @@ void lf_convert_c_flat(got_input, rootname, rootlen, filename, namelen, outname,
 #ifdef _WIN64
                 pid = _getpid();
                 nRet = WSAStartup(version,&wsadata);
-                gethostname(tmpstr_host,size_tmpstr_host);
+                hostname_err=gethostname(tmpstr_host,size_tmpstr_host);
                 le=WSAGetLastError();
+                if (hostname_err != 0) {
+                     strcpy_s(tmpstr_host,size_tmpstr_host,"Unknown");
+                }
+
 #else
                 pid = getpid();
                 gethostname(tmpstr_host,size_tmpstr_host);
@@ -632,41 +528,14 @@ void lf_convert_c_flat(got_input, rootname, rootlen, filename, namelen, outname,
 
 /*-------------------------------------------------------------------------------*/
 
-void _FCALL LF_CONVERT_C_FLAT(got_input, rootname, rootlen, filename, namelen, outname, ierr, ncharline,len_path,path,len_path2,path2)
-        int    *got_input, *rootlen, *namelen, *ierr, *ncharline;
-        int    *len_path, *len_path2 ;
-        char   *rootname, *filename, *outname;
-        char   *path, *path2 ;
+void _FCALL LF_CONVERT_C_FLAT(int *got_input, char *rootname, int *rootlen, char *filename, int *namelen, char *outname, int *ierr, int *ncharline,int *len_path,char *path,int *len_path2,char *path2)
 {	lf_convert_c_flat(got_input, rootname, rootlen, filename, namelen, outname, ierr, ncharline,len_path,path,len_path2,path2);}
 
-void lf_convert_c_flat_(got_input, rootname, rootlen, filename, namelen, outname, ierr, ncharline,len_path,path,len_path2,path2)
-        int    *got_input, *rootlen, *namelen, *ierr, *ncharline;
-        int    *len_path, *len_path2 ;
-        char   *rootname, *filename, *outname;
-        char   *path, *path2 ;
+void lf_convert_c_flat_(int *got_input, char *rootname, int *rootlen, char *filename, int *namelen, char *outname, int *ierr, int *ncharline,int *len_path,char *path,int *len_path2,char *path2)
 {	lf_convert_c_flat(got_input, rootname, rootlen, filename, namelen, outname, ierr, ncharline,len_path,path,len_path2,path2);}
 
-void lf_convert_c_flat__(got_input, rootname, rootlen, filename, namelen, outname, ierr, ncharline,len_path,path,len_path2,path2)
-        int    *got_input, *rootlen, *namelen, *ierr, *ncharline;
-        int    *len_path, *len_path2 ;
-        char   *rootname, *filename, *outname;
-        char   *path, *path2 ;
+void lf_convert_c_flat__(int *got_input, char *rootname, int *rootlen, char *filename, int *namelen, char *outname, int *ierr, int *ncharline,int *len_path,char *path,int *len_path2,char *path2)
 { lf_convert_c_flat(got_input, rootname, rootlen, filename, namelen, outname, ierr, ncharline,len_path,path,len_path2,path2);}
 
-/*----*/
 
-void _FCALL LF_CONVERT_C(got_input, rootname, rootlen, filename, namelen, outname, ierr)
-        int    *got_input, *rootlen, *namelen, *ierr;
-        char   *rootname, *filename, *outname;
-{	lf_convert_c(got_input, rootname, rootlen, filename, namelen, outname, ierr);}
-
-void lf_convert_c_(got_input, rootname, rootlen, filename, namelen, outname, ierr)
-        int    *got_input, *rootlen, *namelen, *ierr;
-        char   *rootname, *filename, *outname;
-{	lf_convert_c(got_input, rootname, rootlen, filename, namelen, outname, ierr);}
-
-void lf_convert_c__(got_input, rootname, rootlen, filename, namelen, outname, ierr)
-        int    *got_input, *rootlen, *namelen, *ierr;
-        char   *rootname, *filename, *outname;
-{ lf_convert_c(got_input, rootname, rootlen, filename, namelen, outname, ierr);}
 /*-------------------------------------------------------------------------------*/
