@@ -67,12 +67,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,NOD_START,SEATBELT_ID,COMPT,ELEM_CUR,
+      INTEGER I,J,K,L,JJ,NOD_START,SEATBELT_ID,COMPT,ELEM_CUR,
      .        FLAG,NNOD,MTYP,MID,NDIR,
      .        I1,I2,IADBUF,TAG_PRINT,ISENS_LOC(2),IPID,OFFC,OFFR,NB_ELEM,NODE,
      .        NB_2D_SEATBELT,COMPT_BELT_END,COMPT_FRAM,NEXT_NODE,NODE_CUR,COMPT_2D,MID_2D,NODE_LONGI,
      .        IADBUF_2D,FUNC1,FUNC2,ISK,N1,N2,SEATBELT_ELEM_FOUND,IMOV,IECROU,NB_ELEM_1D,NB_BRANCH,
-     .        BRANCH_CPT,NB_ELEM_2D,J1,NPT,NPT2,STAT,WARNFUNC,SAME_FUNC,MID2,MTYP2
+     .        BRANCH_CPT,NB_ELEM_2D,J1,NPT,NPT2,STAT,WARNFUNC,SAME_FUNC,MID2,MTYP2,FLAG_SHELL
       my_real DIST2,LMIN,RHO,XK,XC,AREA,LONGI_DIRECTION(3),EDGE_DIRECTION(3),SCAL,E11,E22,G12,DET,
      .        N12,N21,NU,FSCALE1,FSCALE2,A11,A22,A12,C1,SSP,RHO0,YOUNG,FSCALET,KMAX,A1C,A2C
       my_real X1,X2,Y1,Y2,SHIFT,DERI,MIN_SLOPE,MIN_SLOPE_ABS,DERI_P
@@ -572,7 +572,7 @@ C
                     IF (MTYP == 114) THEN
 C                     in case of 1D/2D connection the loop must start on the right spring
                       IF (((BELT_END_NFRAM(I)==1).and.(TAG_SPRING_2D(ELEM_CUR)==0)).OR.
-     .                  ((BELT_END_NFRAM(I) >1).and.(TAG_SPRING_2D(ELEM_CUR)==1))) THEN
+     .                  ((BELT_END_NFRAM(I) >1).and.(TAG_SPRING_2D(ELEM_CUR)==1))) THEN  
 C--                     Loop on belt elements
                         NB_BRANCH = 0
                         BRANCH_CPT = 0
@@ -657,31 +657,35 @@ C--           count of 1d elements of the seatbelt
               MID = IXR(5,J)
               IF (TAG_MAT_2D(MID)==0) TAG_MAT_2D(MID) = -MID
 C--           count and tag of 2d elements of the seatbelt
-              DO K=2,3
-                NODE = IXR(K,J)
-                DO L=KNOD2ELC(NODE)+1,KNOD2ELC(NODE+1)
-                  ELEM_CUR = NOD2ELC(L)
-                  MID_2D = IXC(1,ELEM_CUR)
-                  MTYP = IPM(2,MID_2D)
-                  IF (MTYP==119) THEN
-                    IF (TAG_SHELL(ELEM_CUR)==0) THEN
-                      TAG_SHELL(ELEM_CUR) = I
-                      COMPT_2D = COMPT_2D + 1
-                      TAG_MAT_2D(MID) = MID_2D
-                      IF (SECTION_MAT(MID_2D) == ZERO) THEN
-                        SECTION_MAT(MID_2D) = SEATBELT_TAB(I)%SECTION
-                      ELSEIF (ABS(SEATBELT_TAB(I)%SECTION-SECTION_MAT(MID_2D)) > EM05) THEN
-                        CALL ANCMSG(MSGID=2075,
-     .                          MSGTYPE=MSGERROR,
-     .                          ANMODE=ANINFO_BLIND_1,
-     .                          I1=IPM(1,MID_2D))
-                      ENDIF
+              NODE = IXR(2,J)
+              N2 = IXR(3,J)
+              DO L=KNOD2ELC(NODE)+1,KNOD2ELC(NODE+1)
+                ELEM_CUR = NOD2ELC(L)
+                MID_2D = IXC(1,ELEM_CUR)
+                MTYP = IPM(2,MID_2D)
+                FLAG_SHELL = 0
+                DO JJ=2,5
+                  IF (IXC(JJ,ELEM_CUR)==N2) FLAG_SHELL = 1
+                ENDDO
+C               FLAG_SHELL needed in case of 1D/2D connection
+                IF ((MTYP==119).AND.(FLAG_SHELL==1)) THEN
+                  IF (TAG_SHELL(ELEM_CUR)==0) THEN
+                    TAG_SHELL(ELEM_CUR) = I
+                    COMPT_2D = COMPT_2D + 1
+                    TAG_MAT_2D(MID) = MID_2D
+                    IF (SECTION_MAT(MID_2D) == ZERO) THEN
+                      SECTION_MAT(MID_2D) = SEATBELT_TAB(I)%SECTION
+                    ELSEIF (ABS(SEATBELT_TAB(I)%SECTION-SECTION_MAT(MID_2D)) > EM05) THEN
+                      CALL ANCMSG(MSGID=2075,
+     .                            MSGTYPE=MSGERROR,
+     .                            ANMODE=ANINFO_BLIND_1,
+     .                            I1=IPM(1,MID_2D))
                     ENDIF
                   ENDIF
-                ENDDO
+                ENDIF
               ENDDO 
             ENDIF
-          ENDDO 
+          ENDDO        
           SEATBELT_TAB(I)%NSPRING = COMPT
           SEATBELT_TAB(I)%NSHELL = COMPT_2D
           IF (IDDLEVEL == 0) CALL MY_ALLOC(SEATBELT_TAB(I)%SPRING,COMPT)
@@ -787,7 +791,7 @@ C--             specific non linear formulation for 2d seatblets
                 BUFMAT(IADBUF+76) = IECROU + EM01          
               ENDIF
             ENDIF       
-          ENDIF       
+          ENDIF  
         ENDDO
 C
         DEALLOCATE(CPT_MAT,AV_LEN_MAT,AV_AREA_MAT,ELEMSIZE_MAT,TAG_MAT_2D)
