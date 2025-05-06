@@ -49,6 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    eigcond            ../engine/stub/eigcond.F
       !||    eigp               ../engine/stub/eigp.F
       !||    forintc            ../engine/source/elements/forintc.F
+      !||    genani             ../engine/source/output/anim/generate/genani.F
       !||    gendynain          ../engine/source/output/dynain/gendynain.F
       !||    genh3d             ../engine/source/output/h3d/h3d_results/genh3d.F
       !||    genoutp            ../engine/source/output/sty/genoutp.F
@@ -72,6 +73,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sortie_main        ../engine/source/output/sortie_main.F
       !||    stat_c_strafg      ../engine/source/output/sta/stat_c_strafg.F
       !||    stat_c_strsfg      ../engine/source/output/sta/stat_c_strsfg.F
+      !||    tensorc            ../engine/source/output/anim/generate/tensorc.F
       !||    wrcomi             ../engine/source/output/restart/wrcomm.F
       !||    wrrestp            ../engine/source/output/restart/wrrestp.F
       !||====================================================================
