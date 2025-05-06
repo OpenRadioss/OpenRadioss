@@ -2995,7 +2995,7 @@ C------ one routine for EIG
      R                            DRAPE_SH4N    , DRAPE_SH3N    ,H3D_DATA  ,SUBSETS    ,IGRNOD   ,
      S                            FCONT_MAX   ,FANI(1,NFNCA2+1),FANI(1,NFTCA2+1), ALE_CONNECTIVITY ,
      T                            ITASK       ,NDDL0        ,NNZK0     ,IMPBUF_TAB , DRAPEG,
-     U                            GLOB_THERM)
+     U                            GLOB_THERM, OUTPUT      ,MULTI_FVM)
 #endif
                   DT2 = MAX(EM20,TSTOP-TT)
                   MSTOP=2
