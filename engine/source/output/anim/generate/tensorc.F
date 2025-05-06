@@ -1428,9 +1428,11 @@ c------------------------------------
             ENDIF  !   (STRESS) ISTRE == 1 
           ENDIF   ! IF (MLW /= 13)
         ENDIF    ! IF(ITY == 2)
-
 c
-        DEALLOCATE(MATLY, THKLY,POSLY,THK_LY)
+        IF(ALLOCATED(MATLY))  DEALLOCATE(MATLY)
+        IF(ALLOCATED(THKLY))  DEALLOCATE(THKLY)
+        IF(ALLOCATED(POSLY))  DEALLOCATE(POSLY)
+        IF(ALLOCATED(THK_LY)) DEALLOCATE(THK_LY)
 C-----------------------------------------------
  490  CONTINUE   ! NGROUP
  500  CONTINUE
