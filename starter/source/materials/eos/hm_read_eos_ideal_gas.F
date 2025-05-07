@@ -139,7 +139,11 @@ C-----------------------------------------------
       ENDIF
 
       IF(T0 == ZERO)T0=THREE100
-      Cv = E0/RHO0/T0
+      Cv = ZERO
+      IF(RHO0*T0 /= ZERO) THEN
+        ! this situation is not expected unless in case of input inconsistency (eos_uid does not match mat_uid)
+        Cv = E0/RHO0/T0
+      ENDIF
       
       PM(32) = GAMMA
       PM(88) = PSH

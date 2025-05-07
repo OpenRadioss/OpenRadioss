@@ -808,7 +808,7 @@ c----------------------------------------------------
           CALL INITVARS_AUTO(
      .         ELBUF_TAB(NG),MLAW_TAG ,PROP_TAG ,
      .         IMID         ,MLW      ,IGTYP    ,JMULT    ,IFAIL  ,
-     .         IEOS         ,EOS_TAG  ,ISNOD    )  
+     .         IEOS         ,EOS_TAG  ,ISNOD    )
 c-------------------------------------------------
 c       taille du tableau local ELBUF pour restart
 c-------------------------------------------------
