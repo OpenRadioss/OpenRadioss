@@ -24,14 +24,7 @@ jobs:
   build_linux:
     if: ${{ github.repository_owner == 'OpenRadioss' }}
     # DEV ONLY # runs-on: ["${{ matrix.build }}","dev_pmci"]
-    runs-on: ["${{ matrix.build }}","prmerge_ci"]
-    container: 
-      image: fr-qafactorydev.europe.altair.com/build-linux64_gf:cos8-ompi411-devts11
-      credentials: 
-        username: ${{secrets.DOCKER_REGISTRY_USER}}
-        password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
-      volumes: 
-        - /etc/localtime:/etc/localtime:ro
+    runs-on: ["${{ matrix.build }}","delivery_stable_ci"]
 
     env:
       BUILD_NB_THREAD: 2
@@ -43,37 +36,80 @@ jobs:
       fail-fast: true
       matrix:
         include:
+          ### LINUX64 ###
           - build: starter_linux64_gf
             precision: dp
             os: linux64
             binary: starter
-
+            image_name: build-linux64_gf:cos8-ompi411-devts11
           - build: starter_linux64_gf_sp
             precision: sp
             os: linux64
             binary: starter
-
+            image_name: build-linux64_gf:cos8-ompi411-devts11
           - build: engine_linux64_gf_ompi
             precision: dp
             os: linux64
             binary: engine
             mpi: ompi
-
+            image_name: build-linux64_gf:cos8-ompi411-devts11
           - build: engine_linux64_gf_ompi_sp
             precision: sp
             os: linux64
             binary: engine
             mpi: ompi
-
+            image_name: build-linux64_gf:cos8-ompi411-devts11
           - build: engine_linux64_gf
             precision: dp
             os: linux64
             binary: engine
-
+            image_name: build-linux64_gf:cos8-ompi411-devts11
           - build: engine_linux64_gf_sp
             precision: sp
             os: linux64 
             binary: engine
+            image_name: build-linux64_gf:cos8-ompi411-devts11
+          ### LINUXA64 ###
+          - build: starter_linuxa64
+            binary: starter
+            precision: dp
+            os: linuxa64
+            image_name: linuxa64-rl8.9-bld:armfl24.04-ompi4.1.2-ts11
+          - build: starter_linuxa64_sp
+            binary: starter
+            precision: sp
+            os: linuxa64
+            image_name: linuxa64-rl8.9-bld:armfl24.04-ompi4.1.2-ts11
+          - build: engine_linuxa64
+            binary: engine
+            precision: dp
+            os: linuxa64
+            image_name: linuxa64-rl8.9-bld:armfl24.04-ompi4.1.2-ts11
+          - build: engine_linuxa64_sp
+            binary: engine
+            precision: sp
+            os: linuxa64
+            image_name: linuxa64-rl8.9-bld:armfl24.04-ompi4.1.2-ts11
+          - build: engine_linuxa64_ompi
+            binary: engine
+            precision: dp
+            os: linuxa64
+            mpi: ompi
+            image_name: linuxa64-rl8.9-bld:armfl24.04-ompi4.1.2-ts11
+          - build: engine_linuxa64_ompi_sp
+            binary: engine
+            precision: sp
+            os: linuxa64
+            mpi: ompi
+            image_name: linuxa64-rl8.9-bld:armfl24.04-ompi4.1.2-ts11
+
+    container: 
+      image: fr-qafactorydev.europe.altair.com/${{ matrix.image_name }}
+      credentials: 
+        username: ${{secrets.DOCKER_REGISTRY_USER}}
+        password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
+      volumes: 
+        - /etc/localtime:/etc/localtime:ro
 
     steps:
 
@@ -110,12 +146,27 @@ jobs:
             mpi_opts="-mpi=${{ matrix.mpi }}"
           fi
 
-          cmd="./build_script.sh -release -arch=${{ matrix.os }}_gf -prec=${{ matrix.precision }} -nt=${{ env.BUILD_NB_THREAD }} -static-link $mpi_opts"
+          arch_suffix=''
+          extra_opts=''
+          if [ "${{ matrix.os }}" = "linux64" ]
+          then
+            echo "Running BUILD for linux GF"
+            arch_suffix='_gf'
+            extra_opts='-static-link'
+            source /home/adminqa/.bashrc
+          else
+            echo "Running BUILD for arm"
+            export MODULEPATH=$MODULEPATH:/opt/arm/modulefiles
+            source /etc/profile.d/modules.sh
+            module load binutils/13.2.0 gnu/13.2.0 acfl/24.04
+            export LD_LIBRARY_PATH=/opt/openmpi/lib:$LD_LIBRARY_PATH           
+          fi
+
+          cmd="./build_script.sh -release -arch=${{ matrix.os }}$arch_suffix -prec=${{ matrix.precision }} -nt=${{ env.BUILD_NB_THREAD }} $extra_opts $mpi_opts"
           echo "========================================="
           echo "--  BUILD ${{ matrix.build }} --"   
           echo "--  $cmd --"   
           echo "========================================="
-          source /home/adminqa/.bashrc
           chmod 755 Compiling_tools/script/*
           chmod 755 ${{ matrix.binary }}/build_script.sh 
 
@@ -476,7 +527,7 @@ jobs:
 
           mv exec_tmp/extlib.zip ./
 
-          for os in linux64 win64 
+          for os in linux64 linuxa64 win64 
           do
             mkdir -p exec/${os}
             cp -p exec_tmp/*${os}* exec/${os}/
@@ -500,7 +551,7 @@ jobs:
           # Prepare tree architecture
           rm -rf todeliver
 
-          for os in linux64 win64 
+          for os in linux64 linuxa64 win64 
           do      
             mkdir -p todeliver/${os}/${{ env.OPENRADIOSS_MAINDIR_NAME }}/extlib/h3d/lib/${os} todeliver/${os}/${{ env.OPENRADIOSS_MAINDIR_NAME }}/extlib/hm_reader todeliver/${os}/${{ env.OPENRADIOSS_MAINDIR_NAME }}/exec
             cp -a extlib/h3d/lib/${os}/* todeliver/${os}/${{ env.OPENRADIOSS_MAINDIR_NAME }}/extlib/h3d/lib/${os}/
