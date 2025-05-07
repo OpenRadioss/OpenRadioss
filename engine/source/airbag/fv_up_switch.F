@@ -208,6 +208,7 @@ C-----------------------------------------------
 C   S O U R C E   L I N E S
 C-----------------------------------------------
       VOLPH = ZERO
+      TEMP = ZERO
       
       IF(NBGAUGE > 0 ) THEN
          ALLOCATE(FVSPMD(IFV)%GGG(3,NNT))
