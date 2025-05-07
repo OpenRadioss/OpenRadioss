@@ -502,7 +502,7 @@ C--------   Check of alignment of anchorage nodes
               VECTJ(2) = (X(2,N_FIRST)-X(2,NJ))/NORMJ
               VECTJ(3) = (X(3,N_FIRST)-X(3,NJ))/NORMJ 
               SCAL =  ONE - ABS(VECT(1)*VECTJ(1)+VECT(2)*VECTJ(2)+VECT(3)*VECTJ(3))
-              IF (ABS(SCAL) > EM08) THEN
+              IF (ABS(SCAL) > EM07) THEN
                 CALL ANCMSG(MSGID=2051,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO_BLIND_1,
