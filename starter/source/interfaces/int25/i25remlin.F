@@ -271,7 +271,7 @@ C--- lines with common nodes with main lines are already removed - no need to st
                   ENDIF
                 ENDIF
               ENDIF
-            ENDDO
+            ENDDO            
             KREMNODE(I+1) = KREMNODE(I) + CPT1
 
 C
@@ -371,10 +371,10 @@ C-----------------------------------------------
      .       COMPTEUR,I,L,L1,IS,IIS,NS,IADA,III,JJJ,NNOD_2,
      .       FIRST,LAST,NNREM_EDG_SAVE,
      .        OFFSET, NBR_INTRA,NBR_EXTRA,TOTAL_INSERTED,
-     .        OLDSIZE,MAX_INSERTED_EDG,
+     .        OLDSIZE,
      .        NREMOV_EDG,NEDGE,MAX_INSERTED_I2,ND_TAG,
      .        SOL_EDGE,SH_EDGE,IEDGE,NRTM
-       INTEGER(8) :: SIZE_INSERTED_EDG
+      INTEGER(8) :: SIZE_INSERTED_EDG,MAX_INSERTED_EDG,DIFF_INT8
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAGD_EDG
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE) :: TITR
@@ -454,7 +454,8 @@ C--------------------------------------------------------------------
 
            MAX_INSERTED_EDG = 0
            DO I=1,NUMNOD
-                MAX_INSERTED_EDG = MAX( MAX_INSERTED_EDG,(INOD2LIN(I+1)-INOD2LIN(I)) ) 
+              DIFF_INT8 = INOD2LIN(I+1)-INOD2LIN(I)
+              MAX_INSERTED_EDG = MAX(MAX_INSERTED_EDG,DIFF_INT8) 
            ENDDO
 
            ALLOCATE( NBR_INSERT_II(NRTM) )
@@ -465,7 +466,7 @@ C--------------------------------------------------------------------
            KREMNODE_EDG_SAVE(1:NRTM+1) = 0
            NBR_INSERT_II(1:NRTM) = 0
            JJJ = 0
-           NNREM_EDG = 0
+           NNREM_EDG = 0         
            DO II=1,NRTM
               K = INTBUF_TAB(N)%KREMNODE(II)+1
               L = INTBUF_TAB(N)%KREMNODE(II+1)               
@@ -477,7 +478,7 @@ C--------------------------------------------------------------------
                     IF (TAGD_EDG(IEDGS)==0) THEN
                        NNREM_EDG = NNREM_EDG + 1  
                        TAGD_EDG(IEDGS)=1  
-                       JJJ = JJJ + 1
+                       JJJ = JJJ + 1                                        
                        INSERTED_EDG(JJJ) = IEDGS  
                        NBR_INSERT_II(II) = NBR_INSERT_II(II) +1
                     ENDIF
@@ -500,7 +501,7 @@ C--------------------------------------------------------------------
 
            INTBUF_TAB(N)%REMNODE_E2S(1:NNREM_EDG) = INSERTED_EDG(1:NNREM_EDG)
            INTBUF_TAB(N)%KREMNODE_E2S(1:NRTM+1) = KREMNODE_EDG_SAVE(1:NRTM+1) 
-           INTBUF_TAB(N)%KREMNODE_E2S(1)=0
+           INTBUF_TAB(N)%KREMNODE_E2S(1)=0         
            DO II=1,NRTM+1
               INTBUF_TAB(N)%KREMNODE_E2S(II) =INTBUF_TAB(N)%KREMNODE_E2S(II)+1
            ENDDO
@@ -681,10 +682,10 @@ C extend INSERTED_EDG if needed
                 ENDDO
                ENDIF
             END DO ! 
-            
+           
            !   -------------------
            !   Adding edges where 2 nodes already tagged 
-           !  Two nodes of what? type25 or type2, which tag?
+           !  Two nodes of what? type25 or type2, which tag?        
           
             DO ND = 1,ND_TAG
               NES = IDX_ND( ND)
@@ -706,7 +707,7 @@ C extend INSERTED_EDG if needed
                  ENDIF
               ENDIF
             ENDDO
-
+            
             
            !   -------------------
            !   number of inserted edges
@@ -857,10 +858,10 @@ C
             CALL UPGRADE_REMNODE_EDG2(IPARI(1,N),NNREM_EDG,INTBUF_TAB(N))
             INTBUF_TAB(N)%REMNODE_EDG(1:NNREM_EDG) = REMNODE_EDG(1:NNREM_EDG)
             INTBUF_TAB(N)%KREMNODE_EDG(2:NEDGE+1) = KREMNODE_EDG_SAVE(1:NEDGE) 
-            INTBUF_TAB(N)%KREMNODE_EDG(1)=0
+            INTBUF_TAB(N)%KREMNODE_EDG(1)=0         
             DO II=1,NEDGE+1
               INTBUF_TAB(N)%KREMNODE_EDG(II) =INTBUF_TAB(N)%KREMNODE_EDG(II)+1
-            ENDDO
+            ENDDO          
              ! ---------
             IF(FLAG_OUTPUT>0) THEN
               ! Output message 
