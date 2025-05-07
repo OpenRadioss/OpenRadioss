@@ -91,7 +91,7 @@ C-----------------------------------------------
      7        NISUBN, INFLG, MAXADD, STAT
       INTEGER IX1, IX2, IX3, IX4,
      ,        JX1, JX2, JX3, JX4,
-     .        NA, NB, EA, EB,JM,MJ
+     .        NA, NB, EA, EB,JM,MJ,DN_EI
       INTEGER, DIMENSION(:),ALLOCATABLE :: MVOI
       INTEGER, DIMENSION(:,:),ALLOCATABLE :: EIDNOD
       my_real
@@ -298,7 +298,7 @@ C----seg 1-2------
             I1 =IRECT(1,I)
             I2 =IRECT(2,I)
             CALL I25NEIGH_SEG_E(ITAG(I1),EIDNOD(1,I1),ITAG(I2),EIDNOD(1,I2),N_EI,MVOI,I,
-     .                          I1,I2,IRECT,NRTM,MSEGTYP ,MVOISIN)
+     .                          I1,I2,IRECT,NRTM,MSEGTYP ,MVOISIN)         
             MNEIGH_SOLID(1:N_EI,1,I) = MVOI(1:N_EI)
             NE0 =N_EI
 C----seg 2-3------
@@ -306,22 +306,24 @@ C----seg 2-3------
             I2 =IRECT(3,I)
             CALL I25NEIGH_SEG_E(ITAG(I1),EIDNOD(1,I1),ITAG(I2),EIDNOD(1,I2),N_EI,MVOI,I,
      .                          I1,I2,IRECT,NRTM,MSEGTYP ,MVOISIN)
-            MNEIGH_SOLID(1:N_EI,2,I) = MVOI(NE0+1:N_EI)
+            DN_EI = N_EI - NE0  
+            MNEIGH_SOLID(1:DN_EI,2,I) = MVOI(NE0+1:N_EI)
             NE0 =N_EI
 C----seg 3-4------
             I1 =IRECT(3,I)
             I2 =IRECT(4,I)
             CALL I25NEIGH_SEG_E(ITAG(I1),EIDNOD(1,I1),ITAG(I2),EIDNOD(1,I2),N_EI,MVOI,I,
      .                          I1,I2,IRECT,NRTM,MSEGTYP ,MVOISIN)
-            MNEIGH_SOLID(1:N_EI,3,I) = MVOI(NE0+1:N_EI)
+            DN_EI = N_EI - NE0
+            MNEIGH_SOLID(1:DN_EI,3,I) = MVOI(NE0+1:N_EI)
             NE0 =N_EI
 C----seg 1-4------
             I1 =IRECT(4,I)
             I2 =IRECT(1,I)
             CALL I25NEIGH_SEG_E(ITAG(I1),EIDNOD(1,I1),ITAG(I2),EIDNOD(1,I2),N_EI,MVOI,I,
      .                          I1,I2,IRECT,NRTM,MSEGTYP ,MVOISIN)
-            MNEIGH_SOLID(1:N_EI,4,I) = MVOI(NE0+1:N_EI)
-
+            DN_EI = N_EI - NE0      
+            MNEIGH_SOLID(1:DN_EI,4,I) = MVOI(NE0+1:N_EI)
 C
             MVOI(1:N_EI)=0 ! Reset MVOI    
           ENDIF      
@@ -1378,7 +1380,7 @@ C----6---------------------------------------------------------------7---------8
       !||    same_seg          ../starter/source/interfaces/inter3d1/i24tools.F
       !||====================================================================
       SUBROUTINE I25NEIGH_SEG_E(N1,IED1,N2,IED2,N,IC,ISELF,
-     .                      I1,I2,IRECT,NRTM,MSEGTYP,MVOISIN)
+     .                          I1,I2,IRECT,NRTM,MSEGTYP,MVOISIN)
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

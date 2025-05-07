@@ -48,7 +48,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      B      ADMSR,EDG_BISECTOR,VTX_BISECTOR,
      C      CANDM_E2S,CANDS_E2S,CAND_B,CAND_PS,GAPE ,
      D      GAP_E_L  ,DGAPLOAD,FLAG_REMOVED_NODE,
-     E      S_KREMNODE_E2S,S_REMNODE_E2S,KREMNODE_E2S,REMNODE_E2S)
+     E      S_KREMNODE_E2S,S_REMNODE_E2S,KREMNODE_E2S,REMNODE_E2S,
+     F      S_KREMNODE_EDG)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -86,10 +87,11 @@ C-----------------------------------------------
      .        IRECT(4,*), VOXEL(NBX+2,NBY+2,NBZ+2),II_STOK,LL_STOK,ITAB(*),
      .        MBINFLG(*),EBINFLG(*),ILEV,CAND_A(*),LEDGE(NLEDGE,*),ADMSR(4,*),MSEGTYP(*),
      .        CANDM_E2S(*),CANDS_E2S(*),CAND_B(*),
-     .        FLAGREMNODE,KREMNODE(S_REMNODE_EDG),REMNODE(*)
+     .        FLAGREMNODE,KREMNODE(S_KREMNODE_EDG),REMNODE(*)
       LOGICAL, INTENT(in) :: FLAG_REMOVED_NODE !< flag to remove some S node from the list of candidates
       INTEGER, INTENT(in) :: S_KREMNODE_E2S !< size of KREMNODE_E2S array
       INTEGER, INTENT(in) :: S_REMNODE_E2S !< size of REMNODE_E2S array
+      INTEGER, INTENT(in) :: S_KREMNODE_EDG
       INTEGER, DIMENSION(S_KREMNODE_E2S), INTENT(in) :: KREMNODE_E2S !< adress of forbidden S edge
       INTEGER, DIMENSION(S_REMNODE_E2S), INTENT(in) :: REMNODE_E2S !< list of forbidden S edge
 C     REAL
@@ -468,7 +470,7 @@ C=======================================================================
         IZ2=MAX(1,2+MIN(NBZ,IZ2))
 
 C--- IREMGAP - tag of deactivated lines
-        IF(FLAG_REMOVED_NODE .AND. S_REMNODE_EDG > 0)THEN
+        IF(FLAG_REMOVED_NODE .AND. S_KREMNODE_EDG > 0)THEN
           K = KREMNODE(IEDG)
           L = KREMNODE(IEDG+1)-1
           DO M=K,L
@@ -582,7 +584,7 @@ C       Reset TAGEDG
         ENDDO     !NEXT IZ 
 
 C--- IREMGAP - clean of tagremline
-        IF(FLAG_REMOVED_NODE .AND. S_REMNODE_EDG > 0)THEN
+        IF(FLAG_REMOVED_NODE .AND. S_KREMNODE_EDG > 0)THEN
           K = KREMNODE(IEDG)
           L = KREMNODE(IEDG+1)-1
           DO M=K,L
