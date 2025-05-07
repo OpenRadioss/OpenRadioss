@@ -63,6 +63,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, NMN,NOINT,IDT,INACTI,IGAP0
+      LOGICAL, INTENT(in) :: FLAG_REMOVED_NODE !< flag to remove some S node from the list of candidates
+      INTEGER, INTENT(in) :: S_KREMNODE_E2S !< size of KREMNODE_E2S array
+      INTEGER, INTENT(in) :: S_REMNODE_E2S !< size of REMNODE_E2S array
+      INTEGER, INTENT(in) :: S_KREMNODE_EDG
+
       INTEGER IRECT(4,*),ITASK,ILEV, IGAP, IEDGE, NEDGE, ESHIFT,NEDGE_T,SSHIFT,NRTM_T 
       INTEGER CANDM_E2E(*),CANDS_E2E(*),CAND_A(*),CANDM_E2S(*),CANDS_E2S(*),CAND_B(*)
       INTEGER, INTENT(in) :: S_REMNODE_EDG
@@ -70,10 +75,6 @@ C-----------------------------------------------
      .        II_STOK, LL_STOK, ITAB(*),MBINFLG(*), EBINFLG(*), LEDGE(NLEDGE,*), ADMSR(*),
      .        MSEGTYP(*),
      .        FLAGREMNODE, KREMNOD(S_KREMNODE_EDG), REMNOD(*)
-      LOGICAL, INTENT(in) :: FLAG_REMOVED_NODE !< flag to remove some S node from the list of candidates
-      INTEGER, INTENT(in) :: S_KREMNODE_E2S !< size of KREMNODE_E2S array
-      INTEGER, INTENT(in) :: S_REMNODE_E2S !< size of REMNODE_E2S array
-      INTEGER, INTENT(in) :: S_KREMNODE_EDG
       INTEGER, DIMENSION(S_KREMNODE_E2S), INTENT(in) :: KREMNODE_E2S !< adress of forbidden S edge
       INTEGER, DIMENSION(S_REMNODE_E2S), INTENT(in) :: REMNODE_E2S !< list of forbidden S edge
       my_real
