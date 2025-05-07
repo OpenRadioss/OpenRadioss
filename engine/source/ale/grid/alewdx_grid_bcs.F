@@ -45,7 +45,8 @@ C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN) :: NODE_ID
-      INTEGER,INTENT(INOUT) :: ISKEW(*),ICODT(*),NALE(NUMNOD),ITASK
+       INTEGER,INTENT(IN) :: ITASK
+      INTEGER,INTENT(INOUT) :: ISKEW(*),ICODT(*),NALE(NUMNOD)
       my_real,INTENT(INOUT) :: SKEW(LSKEW,*),VEC(3)
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
