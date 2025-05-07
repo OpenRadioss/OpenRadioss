@@ -96,10 +96,10 @@
 !--------------------------------------------------------
 !     read input fields
 !--------------------------------------------------------
-      call hm_get_floatv('Rho'            ,rho0    ,is_available, lsubmodel, unitab)
+      call hm_get_floatv('MAT_RHO'     ,rho0,is_available, lsubmodel, unitab)
       !line2
       call hm_get_floatv('LSD_MAT_E1'  ,e1  ,is_available, lsubmodel, unitab)
-      call hm_get_floatv('Nu'          ,nu  ,is_available, lsubmodel, unitab)
+      call hm_get_floatv('MAT_NU'      ,nu  ,is_available, lsubmodel, unitab)
       call hm_get_floatv('LSD_MAT_N1'  ,n1  ,is_available, lsubmodel, unitab)
       call hm_get_floatv('LSD_MAT_E2'  ,e2  ,is_available, lsubmodel, unitab)
        call hm_get_floatv('LSD_MAT_N2' ,n2  ,is_available, lsubmodel, unitab)
