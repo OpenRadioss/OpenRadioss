@@ -62,7 +62,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER II,I,J,K,L,N,IP,IH,NG,IPT,NPT,ITY,MTE,LWA,JJ,IK,
+      INTEGER II,I,K,L,N,IP,IH,NG,IPT,NPT,ITY,MTE,JJ,IK,
      .        ILAYER,NEL,NFT,IGTYP,IPA,KK(3)
       INTEGER :: NITER,IAD,NN,IADV,NVAR,ITYP,IJK,PID
 C
@@ -96,10 +96,9 @@ C-------------------------
                 IF (IH >= IAD+NN) GOTO 666                
 C
                 DO NG=1,NGROUP
-                    ITY=IPARG(5,NG)
-                    GBUF => ELBUF_TAB(NG)%GBUF
+                    ITY = IPARG(5,NG)
                     ILAYER = 1
-                    BUFLY => ELBUF_TAB(NG)%BUFLY(ILAYER)
+                    GBUF => ELBUF_TAB(NG)%GBUF
 
                     IF (ITY == 5) THEN
                         MTE=IPARG(1,NG)
@@ -107,9 +106,12 @@ C
                         NFT=IPARG(3,NG)
                         NPT  = IPARG(6,NG)
                         IGTYP =IPARG(38,NG)
+                        IF (IGTYP == 18) THEN
+                          BUFLY => ELBUF_TAB(NG)%BUFLY(ILAYER)
+                        END IF
 
                         DO I=1,3
-                            KK(I) = NEL*(I-1)
+                          KK(I) = NEL*(I-1)
                         ENDDO
 
                         DO I=1,NEL

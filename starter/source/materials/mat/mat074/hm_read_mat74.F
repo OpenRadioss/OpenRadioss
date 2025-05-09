@@ -111,6 +111,8 @@ C-----------------------------------------------
       MTAG%G_SEQ  = 1
       MTAG%L_EPSD = 1
       MTAG%L_PLA  = 1
+      MTAG%L_TEMP = 1
+!
       ISRATE=0
       IMATVIS=0
       ILAW=74
@@ -276,6 +278,9 @@ CC     Formulation for solid elements time step computation.
       PARMAT(16) = 2
       PARMAT(17) =  (ONE - TWO*NU)/(ONE - NU) ! == TWO*G/(C1+FOUR_OVER_3*G)
 C
+      ! activate heat source calculation in material
+      MATPARAM%HEAT_FLAG = 1
+!
       ! MATPARAM keywords
       CALL INIT_MAT_KEYWORD(MATPARAM,"ORTHOTROPIC")
 C

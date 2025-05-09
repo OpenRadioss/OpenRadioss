@@ -61,10 +61,9 @@ C-----------------------------------------------
       my_real 
      .   GEO(NPROPG,*),EPSP(*),BUFMAT(*),
      .   OFF(*),TF(*),
-     .   EXX(NEL),EXY(NEL),
-     .   EXZ(NEL),KXX(NEL),KYY(NEL),KZZ(NEL),
-     .   TEMPEL(NEL)
-      my_real , INTENT(INOUT)::SIGY(NEL,NPT)
+     .   EXX(NEL),EXY(NEL),EXZ(NEL),KXX(NEL),KYY(NEL),KZZ(NEL)   
+      my_real , INTENT(INOUT) :: TEMPEL(NEL)
+      my_real , INTENT(INOUT) :: SIGY(NEL,NPT)
 C
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TARGET :: BUFMAT
@@ -195,8 +194,7 @@ C---
      2         OFF      ,DEPSXX   ,DEPSXY   ,DEPSXZ   ,
      3         SIGOXX   ,SIGOXY   ,SIGOXZ   ,EPSXX    ,EPSXY  ,
      4         EPSXZ    ,SIGNXX   ,SIGNXY   ,SIGNXZ   ,ETSE     ,
-     5         NUVAR    ,UVAR     ,IFUNC    ,NPF      ,
-     6         TF       ,NFUNC    ,JTHE     ,TEMPEL   ,LBUF%FRAC,
+     5         NUVAR    ,UVAR     ,JTHE     ,TEMPEL   ,LBUF%FRAC,
      7         LBUF%PLA)   ! transformation strain is stored in PLA
 
                DO I = 1,NEL

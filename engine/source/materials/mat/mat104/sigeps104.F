@@ -41,9 +41,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4     DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      5     SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      6     SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     7     SIGY    ,ET      ,TEMPEL  ,VARNL   ,OFF     ,IPG     ,
+     7     SIGY    ,ET      ,TEMP    ,VARNL   ,OFF     ,IPG     ,
      8     DMG     ,L_DMG   ,PLA_NL  ,L_PLANL ,PLAP_NL ,L_EPSDNL,
-     9     TEMP    ,SEQ     ,INLOC   )
+     9     SEQ     ,INLOC   ,JLAG    ,FHEAT   ,VOLUME  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -66,18 +66,20 @@ C-----------------------------------------------
       INTEGER NEL,NUPARAM,NUVAR,JTHE,IPG,NPG,INLOC
       INTEGER ,DIMENSION(NEL), INTENT(IN) :: NGL
       INTEGER ,INTENT(IN) :: L_DMG,L_PLANL,L_EPSDNL 
+      INTEGER ,INTENT(IN) :: JLAG
       my_real 
      .   TIME,TIMESTEP
       my_real, DIMENSION(NUPARAM), INTENT(IN) :: 
      .   UPARAM
       my_real, DIMENSION(NEL), INTENT(IN)     :: 
-     .   RHO0,RHO,TEMPEL,
+     .   RHO0,RHO,
      .   DEPSXX,DEPSYY,DEPSZZ,DEPSXY,DEPSYZ,DEPSZX,
      .   SIGOXX,SIGOYY,SIGOZZ,SIGOXY,SIGOYZ,SIGOZX
       my_real, DIMENSION(NEL*L_PLANL), INTENT(IN) :: 
      .   PLA_NL
       my_real, DIMENSION(NEL*L_EPSDNL), INTENT(IN) :: 
      .   PLAP_NL
+      my_real ,DIMENSION(NEL), INTENT(IN) :: VOLUME
       my_real, DIMENSION(NEL), INTENT(OUT)   :: 
      .   SOUNDSP,SIGY,ET,
      .   SIGNXX,SIGNYY,SIGNZZ,SIGNXY,SIGNYZ,SIGNZX
@@ -85,8 +87,8 @@ C-----------------------------------------------
      .   PLA,DPLA,EPSD,VARNL,LOFF,OFF,TEMP,SEQ,UELR
       my_real, DIMENSION(NEL*L_DMG), INTENT(INOUT) :: 
      .   DMG
-      my_real, DIMENSION(NEL,NUVAR), INTENT(INOUT) :: 
-     .   UVAR
+      my_real, DIMENSION(NEL,NUVAR), INTENT(INOUT) :: UVAR
+      my_real ,DIMENSION(NEL)      , INTENT(INOUT) :: FHEAT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -109,72 +111,72 @@ c
 c                   
           IF ((NICE == 1).OR.(NICE == 3)) THEN
             CALL MAT104_NODAM_NICE(
-     1         NEL     ,NGL     ,NUPARAM ,NUVAR   , 
-     2         TIME    ,TIMESTEP,UPARAM  ,UVAR    ,JTHE    ,OFF    ,
+     1         NEL     ,NGL     ,NUPARAM ,NUVAR   ,VOLUME  ,FHEAT   , 
+     2         TIME    ,TIMESTEP,UPARAM  ,UVAR    ,JTHE    ,OFF     ,
      3         RHO0    ,RHO     ,PLA     ,DPLA    ,EPSD    ,SOUNDSP ,
      4         DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      5         SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      6         SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     7         SIGY    ,ET      ,TEMPEL  ,TEMP    ,SEQ     ,INLOC   ,
-     8         VARNL   )
+     7         SIGY    ,ET      ,TEMP    ,SEQ     ,INLOC   ,VARNL   ,
+     8         JLAG    )
           ELSE  ! Newton
             CALL MAT104_NODAM_NEWTON(
-     1         NEL     ,NGL     ,NUPARAM ,NUVAR   , 
-     2         TIME    ,TIMESTEP,UPARAM  ,UVAR    ,JTHE    ,OFF    ,
+     1         NEL     ,NGL     ,NUPARAM ,NUVAR   ,VOLUME  ,FHEAT   , 
+     2         TIME    ,TIMESTEP,UPARAM  ,UVAR    ,JTHE    ,OFF     ,
      3         RHO0    ,RHO     ,PLA     ,DPLA    ,EPSD    ,SOUNDSP ,
      4         DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      5         SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      6         SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     7         SIGY    ,ET      ,TEMPEL  ,TEMP    ,SEQ     ,INLOC   ,
-     8         VARNL   )
+     7         SIGY    ,ET      ,TEMP    ,SEQ     ,INLOC   ,VARNL   ,
+     8         JLAG    )
           ENDIF
 c
         CASE(1,2)   ! Drucker material law with local Gurson damage
 c 
           IF ((NICE == 1).OR.(NICE == 3)) THEN
             CALL MAT104_LDAM_NICE(
-     1         NEL     ,NGL     ,NUPARAM ,NUVAR   , 
+     1         NEL     ,NGL     ,NUPARAM ,NUVAR   ,VOLUME  ,FHEAT   , 
      2         TIME    ,TIMESTEP,UPARAM  ,UVAR    ,JTHE    ,LOFF    ,
      3         RHO0    ,RHO     ,PLA     ,DPLA    ,EPSD    ,SOUNDSP ,
      4         DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      5         SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      6         SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     7         SIGY    ,ET      ,TEMPEL  ,VARNL   ,DMG     ,TEMP    ,
+     7         SIGY    ,ET      ,VARNL   ,DMG     ,TEMP    ,JLAG    ,
      8         SEQ     ,PLA_NL  ,L_PLANL ,PLAP_NL ,L_EPSDNL)
           ELSE  ! Newton
             CALL MAT104_LDAM_NEWTON(
-     1         NEL     ,NGL     ,NUPARAM ,NUVAR   , 
+     1         NEL     ,NGL     ,NUPARAM ,NUVAR   ,VOLUME  , 
      2         TIME    ,TIMESTEP,UPARAM  ,UVAR    ,JTHE    ,LOFF    ,
      3         RHO0    ,RHO     ,PLA     ,DPLA    ,EPSD    ,SOUNDSP ,
      4         DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      5         SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      6         SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     7         SIGY    ,ET      ,TEMPEL  ,VARNL   ,DMG     ,TEMP    ,
-     8         SEQ     ,PLA_NL  ,L_PLANL ,PLAP_NL ,L_EPSDNL)
+     7         SIGY    ,ET      ,VARNL   ,DMG     ,TEMP    ,FHEAT   ,
+     8         SEQ     ,PLA_NL  ,L_PLANL ,PLAP_NL ,L_EPSDNL,JLAG    )
           ENDIF
 c
         CASE(3)   ! Drucker material law with non local (Peerling) damage model
 c
           IF ((NICE == 1).OR.(NICE == 3)) THEN
             CALL MAT104_NLDAM_NICE(
-     1         NEL     ,NGL     ,NUPARAM ,NUVAR   , 
+     1         NEL     ,NGL     ,NUPARAM ,NUVAR   ,VOLUME  ,FHEAT   , 
      2         TIME    ,TIMESTEP,UPARAM  ,UVAR    ,JTHE    ,LOFF    ,
      3         RHO0    ,RHO     ,PLA     ,DPLA    ,EPSD    ,SOUNDSP ,
      4         DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      5         SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      6         SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     7         SIGY    ,ET      ,TEMPEL  ,VARNL   ,DMG     ,TEMP    ,
-     8         SEQ     ,PLA_NL  ,PLAP_NL )
+     7         SIGY    ,ET      ,VARNL   ,DMG     ,TEMP    ,SEQ     ,
+     8         PLA_NL  ,PLAP_NL ,JLAG    )
           ELSE  ! Newton
             CALL MAT104_NLDAM_NEWTON(
-     1         NEL     ,NGL     ,NUPARAM ,NUVAR   , 
+     1         NEL     ,NGL     ,NUPARAM ,NUVAR   ,VOLUME  ,FHEAT   , 
      2         TIME    ,TIMESTEP,UPARAM  ,UVAR    ,JTHE    ,LOFF    ,
      3         RHO0    ,RHO     ,PLA     ,DPLA    ,EPSD    ,SOUNDSP ,
      4         DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      5         SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      6         SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     7         SIGY    ,ET      ,TEMPEL  ,VARNL   ,DMG     ,TEMP    ,
-     8         SEQ     ,PLA_NL  ,PLAP_NL )
+     7         SIGY    ,ET      ,VARNL   ,DMG     ,TEMP    ,SEQ     ,
+     8         PLA_NL  ,PLAP_NL ,JLAG    )
           ENDIF
 c
       END SELECT        
