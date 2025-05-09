@@ -95,6 +95,7 @@ C-----------------------------------------------
            PP      = (GAMMA-ONE)*(ONE+MU(I))*ESPE(I)
            DPDM(I) = (GAMMA-ONE)*(ESPE(I)+PP*DF(I))     !total derivative
            DPDE(I) = (GAMMA-ONE)*(ONE+MU(I))            !partial derivative
+           PNEW(I) = (MAX(PP,ZERO)-PSH(I))*OFF(I)       ! P(mu[n+1],E[n])
          ENDDO
 C-----------------------------------------------
       ELSEIF(IFLAG == 1) THEN
@@ -110,7 +111,7 @@ C-----------------------------------------------
            BB          = (GAMMA-ONE)*(ONE+MU(I))
            DPDE(I)     = BB  !partial derivative
            DVV         = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
-           PNEW(I)     = BB*ESPE(I) / (ONE+BB*DVV)
+           PNEW(I)     = BB*ESPE(I) / (ONE+BB*DVV) ! P(mu[n+1],E[n+1])
            PNEW(I)     = (MAX(PNEW(I),ZERO)-PSH(I))*OFF(I)
            EINT(I)     = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
          ENDDO

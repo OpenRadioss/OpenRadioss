@@ -261,7 +261,8 @@ C-----------------------------------------------
         DEFP(I) = DEFP(I) + DPLA(I)
         EPXE(I) = DEFP(I)
         EPSQ(I) = MU_BAK(I) ! volumetric plastic strain
-      ENDDO 
+      ENDDO
+
 
       RETURN
 

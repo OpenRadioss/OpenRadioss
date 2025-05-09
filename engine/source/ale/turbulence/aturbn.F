@@ -26,7 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    mmain    ../engine/source/materials/mat_share/mmain.F90
       !||====================================================================
       SUBROUTINE ATURBN(PM,OFF  ,RHO  ,RK   ,RE   ,GEO  , 
-     2               EINC ,DVOL ,VNEW ,PNEW ,TMU  ,VIS  ,
+     2               EINC ,DVOL ,VNEW ,PTURB ,TMU  ,VIS  ,
      3               VD2  ,MAT  ,NGEO,
      5               LFT, LLT,   JPOR,   JCLOSE)
 C-----------------------------------------------
@@ -46,7 +46,8 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) ::   LFT, LLT,   JPOR,   JCLOSE
 
       my_real PM(NPROPM,NUMMAT), OFF(*), RHO(*), RK(*), RE(*),GEO(NPROPG,NUMGEO)
-      my_real EINC(*), DVOL(*), VNEW(*), PNEW(*), TMU(*), VIS(*), VD2(*)
+      my_real EINC(*), DVOL(*), VNEW(*), TMU(*), VIS(*), VD2(*)
+      my_real,intent(inout) :: Pturb(1:LLT) ! turbulent pressure (additional term)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -60,8 +61,8 @@ C
       
        DO I=LFT,LLT
          XFAC=TMU(I)/VIS(I)
-         PNEW(I)=TWO*RK(I)/(VNEW(I)*THREE)
-         EI  =XFAC*EINC(I)-DVOL(I)*PNEW(I)
+         Pturb(I)=TWO*RK(I)/(VNEW(I)*THREE)
+         EI  =XFAC*EINC(I)-DVOL(I)*Pturb(I)
          EI  =MAX(ZERO,EI)
          RK(I)  =RK(I)+(EI-RE(I)*DT1)*OFF(I)
          ARK= MAX(RK(I),EM15)

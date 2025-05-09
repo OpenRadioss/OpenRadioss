@@ -93,10 +93,12 @@ C-----------------------------------------------
         C5         = PM( 36,MX)
         SPH        = PM( 69,MX)
         PSH(1:NEL) = PM( 88,MX)
+        PC         = PM( 37,MX)
         DO I=1,NEL
           PP      = C0 +(C1 +C3 *MU(I)*MU(I))*MU(I)+C2 *MU2(I) + (C4 +C5 *MU(I))*ESPE(I)
           DPDM(I) = C1 + TWO*C2 *MAX(ZERO,MU(I))+THREE*C3 *MU(I)*MU(I) + C5 *ESPE(I)+(C4 +C5 *MU(I))*DF(I)*DF(I)*(PP+PSH(I) )
           DPDE(I) = C4 +C5 *MU(I)
+          PNEW(I) = MAX(PP,PC)*OFF(I)! P(mu[n+1],E[n])
         ENDDO
 
       ELSEIF(IFLAG == 1) THEN
@@ -113,9 +115,9 @@ C-----------------------------------------------
           AA      = C0 +MU(I)*(C1 +C3 *MU(I)*MU(I))+C2 *MU2(I)
           BB      = C4 +C5 *MU(I)
           DVV     = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
-          PNEW(I) = PNEW(I) + (AA+BB*(ESPE(I)-PSH(I) *DVV))/(ONE+BB*DVV)
-          PNEW(I) = MAX(PNEW(I),PC )*OFF(I)
-          EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I) )
+          PNEW(I) = (AA+BB*(ESPE(I)-PSH(I) *DVV))/(ONE+BB*DVV)
+          PNEW(I) = MAX(PNEW(I),PC )*OFF(I) ! P(mu[n+1],E[n+1])
+          EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
           DPDE(I) = C4 +C5 *MU(I)
         ENDDO
 

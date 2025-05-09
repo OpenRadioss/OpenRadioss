@@ -76,7 +76,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      my_real POLD(MVSIZ), VAVG, E1, E2, E3, E4, E5, E6, DTA, WFEXTT   
+      my_real POLD(MVSIZ), E1, E2, E3, E4, E5, E6, DTA, WFEXTT
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -126,10 +126,11 @@ C
 C
       DO I=1,NEL
         QOLD(I)=QNEW(I)
-        ESPE(I)=EINT(I)*DF(I) / MAX(EM15,VNEW(I))
+        ESPE(I)=EINT(I)*DF(I) / MAX(EM15,VNEW(I)) !ESPE = 'rho0.e'
       ENDDO
 
       !NO NEED TO UPDATE PRESSURE CALLING EOSMAIN SUBROUTINE FOR THESE TWO MATERIAL LAWS SINCE PRESSURE IS NOT ENERGY DEPENDANT.
+      ! embedded pressure function
       IF(MLN==21)THEN
         DO I=1,NEL
           EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))

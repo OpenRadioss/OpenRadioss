@@ -45,12 +45,12 @@
       !||====================================================================
         subroutine sigeps133(                                          &
           nel      ,matparam ,et       , &
-          sigy     ,dpla     ,defp     ,amu      , &
+          sigy     ,dpla     ,defp     , &
           depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   , &
           sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   , &
           signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   , &
-          ssp      ,off      ,ieos     ,pnew     , &
-          dpdm     ,rho      ,nvartmp  ,vartmp )
+          ssp      ,off      ,pnew     , &
+          dpdm     ,rho      ,rho0     ,nvartmp  ,vartmp )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -72,11 +72,11 @@
           type(matparam_struct_), intent(in) :: matparam !< material parameters data
           my_real, dimension(nel), intent(inout) :: et ! Coefficient for hourglass
           my_real, dimension(nel), intent(in) :: rho !< mass density
+          my_real, dimension(nel), intent(in) :: rho0 !< mass density
           my_real, dimension(nel), intent(inout) :: sigy !< yield stress
           my_real, dimension(nel), intent(inout) :: dpla !< cumulated plastic strain increment 
           my_real, dimension(nel), intent(inout) :: defp !< cumulated plastic strain
-          my_real, dimension(nel), intent(in) :: amu !< volumetric strain
-          my_real, dimension(nel), intent(in) :: depsxx !< strain increment xx 
+          my_real, dimension(nel), intent(in) :: depsxx !< strain increment xx
           my_real, dimension(nel), intent(in) :: depsyy !< strain increment yy
           my_real, dimension(nel), intent(in) :: depszz !< strain increment zz 
           my_real, dimension(nel), intent(in) :: depsxy !< strain increment xy 
@@ -96,9 +96,8 @@
           my_real, dimension(nel), intent(out) :: signzx !< new stress zx
           my_real, dimension(nel), intent(inout) :: ssp !< sound speed
           my_real, dimension(nel), intent(inout) :: off !< element deletion flag
-          integer,intent(in) :: ieos  !< equation of state identifier (if defined, 0 otherwise)
-          my_real, dimension(nel), intent(inout) :: pnew !< current pressure from mmain > eosmain
           my_real, dimension(nel), intent(inout) :: dpdm !< pressure total derivative
+          my_real, dimension(nel), intent(in) :: pnew !< pressure total derivative
           integer ,intent(in) :: nvartmp                       !< number of temporary internal variables
           integer ,dimension(nel,nvartmp) ,intent(inout) :: vartmp    !< temporary internal variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -106,7 +105,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           my_real :: pold(nel) !< old pressure
           my_real :: pmin  !< minimum pressure (or fracture pressure)
-          my_real :: bulk(nel)  !< bulk modulus
           my_real :: nu    !< Poisson's ratio
           integer :: i !< loop index
           my_real, dimension(nel,1) :: xvec1 !<temporary array for table interpolation
@@ -164,28 +162,16 @@
           enddo
 
           !========================================================================
-          !< Pressure update in case of no EoS is defined
-          !========================================================================
-          if(ieos == 0)then
-            bulk(1:nel) = (two*shear(1:nel) * (one+nu)) / (three*(one-two*nu))    ! K = 2G(1+nu)/3(1-2nu)
-            pnew(1:nel) = bulk(1:nel) * amu(1:nel)   ! P = K*mu
-            dpdm(1:nel) = bulk(1:nel) ! total derivative of pressure P(mu,E)
-            do i=1,nel
-              pnew(i) = max(pmin, pnew(i))
-            end do
-          else
-            ! Pnew = P(mu,E) was updated by EoS subroutine (see eosmain)
-          end if
-
-          !========================================================================
           !< Solid sound speed
           !========================================================================
-          ssp(1:nel) = sqrt((dpdm(1:nel) + four_over_3*shear(1:nel))/rho(1:nel))
+          do i=1,nel
+            ssp(i) = sqrt(  (dpdm(i) + four_over_3*shear(i)) / rho0(i) )
+          end do
 
           !========================================================================
           !< Recovering Yield function for each element : sigy=Y(P)
           !========================================================================
-          xvec1(1:nel,1) = pnew(1:nel)
+          xvec1(1:nel,1) = pold(1:nel)
           call table_mat_vinterp(matparam%table(2),nel,nel,vartmp(1,2),xvec1,sigy,slope,opt_extrapolate)
           !sigy(1:nel) = Fscale_Y * sigy(1:nel)
 
@@ -195,7 +181,7 @@
           do i=1,nel
             g0 = sigy(i)
             g0 = max(zero,g0)
-            if( pnew(i) < pmin ) g0=zero
+            if( pold(i) < pmin ) g0=zero
             yield2 = vm(i) - g0
             if( yield2 <= zero )then     ! at the yield surface or within the yield surface
               ratio = one

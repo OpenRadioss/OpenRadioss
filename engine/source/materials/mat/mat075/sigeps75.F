@@ -262,7 +262,6 @@ C------------------
 C--------------
 C EOS FOR SOLID
 C--------------
-      PNEW(1:NEL) = ZERO
       CALL EOSMAIN(0      ,NEL    ,EOSTYP  ,PM     ,OFF    ,EINTN ,
      .             RHOS   ,RHOS0  ,MUS     ,MU2S   ,ESPES  ,
      .             DVOLS  ,DFS    ,VNEWS   ,MATS   ,PSH    ,
@@ -368,7 +367,6 @@ C------------------
 C--------------
 C EOS FOR SOLID
 C--------------
-      PNEW(1:NEL) = ZERO
       CALL EOSMAIN(0     ,NEL   ,EOSTYP ,PM    ,OFF   ,EINTN ,
      .             RHOS  ,RHOS0 ,MUS    ,MU2S  ,ESPES ,
      .             DVOLS ,DFS   ,VNEWS  ,MATS  ,PSH   ,

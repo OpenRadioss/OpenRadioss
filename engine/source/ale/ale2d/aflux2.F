@@ -62,7 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER MAT(mvsiz), NC1(mvsiz), NC2(mvsiz), NC3(mvsiz), NC4(mvsiz), I,II,J,M,IAD2
+      INTEGER MAT(mvsiz), NC1(mvsiz), NC2(mvsiz), NC3(mvsiz), NC4(mvsiz), I,II,J,IAD2
       my_real
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ), 
      .   N1Y(MVSIZ), N2Y(MVSIZ), N3Y(MVSIZ), N4Y(MVSIZ), N1Z(MVSIZ), N2Z(MVSIZ), N3Z(MVSIZ), N4Z(MVSIZ),

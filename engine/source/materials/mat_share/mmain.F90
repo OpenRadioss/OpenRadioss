@@ -407,7 +407,7 @@
           my_real sv1(mvsiz),sv2(mvsiz),sv3(mvsiz),sv4(mvsiz),sv5(mvsiz),sv6(mvsiz)
           my_real svo1(mvsiz),svo2(mvsiz),svo3(mvsiz),svo4(mvsiz),svo5(mvsiz),svo6(mvsiz)
 
-          my_real bidon1,bidon4,bidon5,bid1(mvsiz), bid2(mvsiz),eth(mvsiz),        &
+          my_real bidon1,bidon5,bid1(mvsiz), bid2(mvsiz),eth(mvsiz),        &
           &       stor1, stor2, stor3, stor4, stor5, stor6,&
           &       sigkk(mvsiz), epsth(mvsiz), rhoref(mvsiz), rhosp(mvsiz),user_uelr(mvsiz)
           my_real alogey(mvsiz), pold(mvsiz),                                      &
@@ -421,7 +421,8 @@
           my_real, dimension(nel), target :: le_max
           integer, dimension(:) ,pointer  :: itabl_fail
           my_real, dimension(:) ,pointer  :: strd1,strd2,el_len,el_pla
-          logical :: logical_userl_avail, l_mulaw_called
+          my_real :: Pturb(nel)
+          logical :: logical_userl_avail, l_mulaw_called, l_eos_called
 !
           character option*256
           integer length
@@ -459,7 +460,10 @@
 !-----------------------------------------------
           logical_userl_avail = .false.
           l_mulaw_called=.false.
+          l_eos_called = .false.
           if(userl_avail/=0) logical_userl_avail = .true.
+
+          Pturb(1:nel)=zero ! additional turbulent pressure
 
           lft = 1
           if(present(opt_mtn)) then
@@ -1274,10 +1278,10 @@
             &df,       qvis,     pnew,     vis,&
             &tmu,      einc,     mtn,      vol_avg,&
             &nel,      jtur,     jlag,     jpor)
-            if(jtur/=0)call aturbn(&
+            if(jtur /= 0)call aturbn(&
             &pm,                 off,                lbuf%rho,&
             &lbuf%rk,            lbuf%re,            geo,                einc,&
-            &dvol,               voln,               pnew,               tmu,&
+            &dvol,               voln,               pturb,               tmu,&
             &vis,                vd2,                mat,                pid,&
             &lft,                llt,                jpor,               jclose)
             if(jthe == 1)call mtheta(&
@@ -1526,25 +1530,25 @@
               &jtur,     jthe)
             endif
             call meint(&
-            &off,      lbuf%sig, lbuf%qvis,lbuf%eint,&
-            &voln,     espe,     s1,       s2,&
-            &s3,       s4,       s5,       s6,&
-            &dxx,      dyy,      dzz,      d4,&
-            &d5,       d6,       psh,      dvol,&
-            &df,       qvis,     pnew,     vis,&
-            &tmu,      einc,     mtn,      vol_avg,&
-            &nel,      jtur,     jlag,     jpor)
+                        off,      lbuf%sig, lbuf%qvis,lbuf%eint,&
+                        voln,     espe,     s1,       s2,&
+                        s3,       s4,       s5,       s6,&
+                        dxx,      dyy,      dzz,      d4,&
+                        d5,       d6,       psh,      dvol,&
+                        df,       qvis,     pnew,     vis,&
+                        tmu,      einc,     mtn,      vol_avg,&
+                        nel,      jtur,     jlag,     jpor)
             call atur17(&
-            &pm,      off,     lbuf%rho,lbuf%rk,&
-            &lbuf%re, geo,     voln,    mat,&
-            &deltax,  pid,     vis,     voln,&
-            &vd2,     dvol,    aire,    einc,&
-            &pnew,    tmu,     alogey,  nel,&
-            &lft,     llt,     jpor)
-            if(jthe == 1)call mtheta(&
-            &pm,       lbuf%eint,lbuf%temp,amu,&
-            &c1,       c2,       df,       psh,&
-            &pc,       mat,      nel)
+                        pm,      off,     lbuf%rho,lbuf%rk,&
+                        lbuf%re, geo,     voln,    mat,&
+                        deltax,  pid,     vis,     voln,&
+                        vd2,     dvol,    aire,    einc,&
+                        Pturb,    tmu,     alogey,  nel,&
+                        lft,     llt,     jpor)
+             if(jthe == 1)call mtheta(&
+                        pm,       lbuf%eint,lbuf%temp,amu,&
+                        c1,       c2,       df,       psh,&
+                        pc,       mat,      nel)
           elseif (mtn == 18) then
             call m18law(&
             &pm,         lbuf%vol,   lbuf%eint,  lbuf%temp,&
@@ -1597,7 +1601,15 @@
             &df,       qvis,     pnew,     vis,&
             &tmu,      einc,     mtn,      vol_avg,&
             &nel,      jtur,     jlag,     jpor)
-            call eosupda(off  ,lbuf%sig ,lbuf%eint, lbuf%vol ,pnew ,nel)
+            do i=1,nel
+              lbuf%sig(        i) = lbuf%sig(        i) - pnew(i)
+              lbuf%sig(  nel + i) = lbuf%sig(  nel + i) - pnew(i)
+              lbuf%sig(2*nel + i) = lbuf%sig(2*nel + i) - pnew(i)
+              lbuf%sig(3*nel + i) = lbuf%sig(3*nel + i)
+              lbuf%sig(4*nel + i) = lbuf%sig(4*nel + i)
+              lbuf%sig(5*nel + i) = lbuf%sig(5*nel + i)
+              lbuf%eint(i) = lbuf%eint(i) / max(em15,lbuf%vol(i))
+            enddo
           elseif (mtn == 22) then
             call m22law(&
             &pm,       off,      lbuf%sig, lbuf%eint,&
@@ -1912,6 +1924,7 @@
 
           ! --- TEMPERATURE UPDATE (ISENTROPIC) ---!
           ! JWL EoS Temperature (currently not treated by eosmain)
+          ! These material laws are EoS
           if(mtn == 5 .or. mtn == 97)then
             DO I=1,NEL
              IF(OFF(I) == ONE) THEN
@@ -1924,9 +1937,7 @@
 
           eostyp = mat_elem%mat_param(imat)%ieos
           if (eostyp > 0 .and. mtn /=12 ) then
-            if (mtn /= 6 .and. mtn /= 17) then
-              pnew(:) = zero
-            endif
+            l_eos_called = .true.
             call eosmain(1         ,nel      ,eostyp  ,pm       ,off      ,lbuf%eint,&
                        & lbuf%rho  ,rho0     ,amu     ,amu2     ,espe     ,&
                        & dvol      ,df       ,voln    ,mat      ,psh      ,&
@@ -1934,19 +1945,29 @@
                        & bufmat    ,lbuf%sig ,lbuf%mu ,mtn      ,pold     ,&
                        & npf       ,tf       ,ebuf%var,nvareos , mat_elem%mat_param(imat),&
                        & lbuf%bfrac)
-!
-            call eosupda(off  ,lbuf%sig ,lbuf%eint, lbuf%vol ,pnew,nel)
-!
-          elseif(l_mulaw_called)then
-            if(l_mulaw_called)then
+             if (jtur /= 0 .or. mtn == 17) pnew(1:nel) = pnew(1:nel) + pturb(1:nel)
+            !total stress tensor
+            if(mtn /=102 .and. mtn /=133)then
               do i=1,nel
-                if(lbuf%vol(i) > zero)then
-                  lbuf%eint(i)=lbuf%eint(i)/max(lbuf%vol(i),em20)
-                else
-                  lbuf%eint(i)=zero
-                endif
+                lbuf%sig(        i) = lbuf%sig(        i) * off(i) - pnew(i)
+                lbuf%sig(  nel + i) = lbuf%sig(  nel + i) * off(i) - pnew(i)
+                lbuf%sig(2*nel + i) = lbuf%sig(2*nel + i) * off(i) - pnew(i)
+                lbuf%sig(3*nel + i) = lbuf%sig(3*nel + i) * off(i)
+                lbuf%sig(4*nel + i) = lbuf%sig(4*nel + i) * off(i)
+                lbuf%sig(5*nel + i) = lbuf%sig(5*nel + i) * off(i)
               enddo
             endif
+          endif
+
+          ! --- ENERGY(rho.e.V) ---> ENERGY DENSITY(rho.e) ---!
+          if(l_mulaw_called .or. l_eos_called)then
+            do i=1,nel
+              if(lbuf%vol(i) > zero)then
+                lbuf%eint(i)=lbuf%eint(i)/max(lbuf%vol(i),em20)
+              else
+                lbuf%eint(i)=zero
+              endif
+            enddo
           endif
 
           ! --- TEMPERATURE UPDATE (SHOCK-INDUCED ENTROPY) ---!

@@ -69,7 +69,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,K,JV(6),KV(6),IAD2,IAD3
       my_real
-     .   VOL0,AV0,UAV0,ALPHI,UALPHI,PHISE,AAA,FF(6),UDT,PHI0
+     .   VOL0,AV0,UAV0,ALPHI,UALPHI,AAA,FF(6),UDT,PHI0
 C-----------------------------------------------
 C   S o u r c e   L i n e s 
 C-----------------------------------------------  

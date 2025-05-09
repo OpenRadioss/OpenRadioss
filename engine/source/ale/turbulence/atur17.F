@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2   RE,      GEO,     VOLN,    MAT,
      3   DELTAX,  NGEO,    VIS,     VNEW,
      4   VD2,     DVOL,    AIRE,    EINC,
-     5   PNEW,    TMU,     ALOGEY,  NEL,
+     5   PTURB,   TMU,     ALOGEY,  NEL,
      6   LFT,     LLT,     JPOR)
 
 C-----------------------------------------------
@@ -56,8 +56,8 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL, LFT,     LLT,     JPOR
       my_real PM(NPROPM,NUMMAT), OFF(*), RHO(*), RK(*), RE(*),GEO(NPROPG,NUMGEO),VOLN(MVSIZ),
-     .        DELTAX(*), VIS(*), VNEW(*), VD2(*), DVOL(*), AIRE(*), EINC(*), PNEW(*),
-     .        TMU(*), ALOGEY(*)
+     .        DELTAX(*), VIS(*), VNEW(*), VD2(*), DVOL(*), AIRE(*), EINC(*),TMU(*), ALOGEY(*)
+      my_real,INTENT(INOUT) :: PTURB(1:LLT)
       INTEGER MAT(*),NGEO(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -84,8 +84,8 @@ C-----------------
           AX=PM(47,MAT(I))
           A=PM(49,MAT(I))
           GM=ONE -GF+GF*ALOGEY(I)
-          PNEW(I)=TWO*RK(I)/(VOLN(I)*THREE)
-          EI(I)=GM*EINC(I)/ALOGEY(I)-DVOL(I)*PNEW(I)
+          PTURB(I)=TWO*RK(I)/(VOLN(I)*THREE)
+          EI(I)=GM*EINC(I)/ALOGEY(I)-DVOL(I)*PTURB(I)
           EI(I)=MAX(ZERO,EI(I))
           RK(I)=RK(I)+(EI(I)-RE(I)*DT1)*OFF(I)
           RK(I)= MAX(EM15,RK(I)/VOLN(I))

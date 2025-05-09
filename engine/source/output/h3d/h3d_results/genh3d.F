@@ -311,11 +311,9 @@ C-----------------------------------------------
      .          IPARI(NPARI,*),IRBE2(NRBE2L,*),IRBE3(NRBE3L,*),
      .          WEIGHT_MD(*),NODGLOBXFE(*),IPARTIG3D(*)
         INTEGER CTEXT(111), IB
-        INTEGER DD_IAD(NSPMD+1,*),
-     .          NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
-     .          N1,N2,N3
+        INTEGER DD_IAD(NSPMD+1,*)
         INTEGER FR_SEC(NSPMD+1,*),FR_RBY2(3,*),IAD_RBY2(4,*),
-     .          NERBT(NRBODY),LOC_PROC,PROC,NERBE2T(NRBE2G),
+     .          NERBE2T(NRBE2G),
      .          NERBE3T(NRBE3G),IAD_RBE2(4,*),NV46,KXIG3D(*),
      .          IXIG3D(*),SIG3DSOLID,MDS_MATID(*)
         INTEGER LLOADP(SLLOADP)
@@ -350,40 +348,22 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         my_real, DIMENSION(:), ALLOCATABLE :: WAFT  , MAS   
-        INTEGER IAD(SIAD),INVERT(SINVERT),EL2FA(SEL2FA),
-     .          IADG(NSPMD,SIADG),
-     .          FIRST_NODE_IG3D
-
+        INTEGER IAD(SIAD),INVERT(SINVERT),EL2FA(SEL2FA),IADG(NSPMD,SIADG),FIRST_NODE_IG3D
         my_real ,DIMENSION (:), ALLOCATABLE :: CBUF
         INTEGER ,DIMENSION (:), ALLOCATABLE :: ICBUF
         SAVE CBUF,ICBUF
-
-        CHARACTER*80 STR, MES*30, TITL*100, H3DTITLE
+        CHARACTER*80 STR,H3DTITLE
         CHARACTER(LEN=NCHARLINE100):: KEYWORD
         CHARACTER CH_H3D*4,FILNAM*100
-        INTEGER I, NBF, NBPART, MAGIC, J, IFUNC, FILEN, NSENSOR,
-     .          NELCUT,
-     .          N,K,
-     .          NERBY,ISK(6),
-     .          LAYER,IPT,GAUSS,ID_PLY,IUVAR,
-     .          ALL_SUB_CHILDS,IDMDS,IMDSVAR,ID
-        INTEGER II,II_L,INC,P,NSLARB_L,NDMA2,NUMELS_T,NSKEWA,NB1D,
-     .          M1,M2,M3,M,M01,NBONED_T, NBF_L, LEN, NUMELT_T,
-     .          NUMELR_T, NUMELP_T
-        INTEGER NERBE2,NERBE3
-        INTEGER I161,I16A,I16B,I16C,I16D,I16E,I16F,I16G,I16H,I16I,I16J,
-     .          I16K,I16L,I16M,I16N
+        INTEGER I, NBF, NBPART, J, IFUNC, FILEN, NSENSOR,NELCUT,N,K,NERBY,ISK(6),LAYER,IPT,GAUSS,ID_PLY,IUVAR
+        INTEGER II,II_L,INC,NDMA2,NB1D,NBONED_T, NBF_L, LEN
+        INTEGER NERBE2,NERBE3,ALL_SUB_CHILDS,IDMDS,IMDSVAR,ID
+        INTEGER I161,I16A,I16B,I16C,I16D,I16E,I16F,I16G,I16H,I16I,I16J,I16K,I16L,I16M,I16N
         INTEGER NNN
         INTEGER ISPH3D
         INTEGER SBUFSPM,SBUFRECVM,SBUFSPO,SPORBY,N_OUTP_DATA,LEN_H3DTITLE,N_H3D_PART_LIST
-        my_real
-     .     CDG(3),XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX, SCALE,
-     .     RVAL
-        INTEGER 
-     .          JJ, 
-     .          NBPART2D, ISUBG,IR,IS,IT,INTER_INPUT,INTERSKID,
-     .          NI, ITYSKID, INTERFRIC
-
+        my_real CDG(3),XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX, SCALE
+        INTEGER JJ, SUBG,IR,IS,IT,INTER_INPUT,INTERSKID,NI,ITYSKID,INTERFRIC
         INTEGER, DIMENSION(:), ALLOCATABLE :: SHELL_ID,SHELL_ID_P,
      .                                        SHELL_ITY,SHELL_ITY_P,ONED_ID,ONED_ID_P,
      .                                        ONED_ITY,ONED_ITY_P,SOLID_ID,SOLID_ID_P,
@@ -398,7 +378,7 @@ C-----------------------------------------------
      .                                        ISOLNOD,ISOLNOD_P
         INTEGER, DIMENSION(:), ALLOCATABLE :: IS_WRITEN_NODE_FVM,NODE_ID_FVM
         INTEGER  INFO1,INFO2,IS_CORNER_DATA, COMPID_RBODIES, COMPID_RBE2S, COMPID_RBE3S, MAX_PART_ID
-        INTEGER  ERROR_LOAD,NUMNOD_H3DPART,WORK(70000)
+        INTEGER  ERROR_LOAD,NUMNOD_H3DPART
 c a mettre en allocatable
         INTEGER, DIMENSION(:,:), ALLOCATABLE ::
      .           IXC_P,
@@ -442,16 +422,10 @@ c a mettre en allocatable
      .           IMAPSKP
         my_real, DIMENSION(:), ALLOCATABLE :: X_P,D_P
         INTEGER, DIMENSION(:), ALLOCATABLE :: ITAB_P
-
         INTEGER :: IAD_H3DPART,IAD_P,NUMNODG0,IP0 ,NIXSKIN
-        INTEGER :: NUMELC_P(NSPMD),NUMNOD_P(NSPMD)
-
-
-
-C
+        INTEGER :: NUMNOD_P(NSPMD)
         INTEGER MAX_NOD_ID,MAX_NCORN
-        my_real
-     .         , DIMENSION(:), ALLOCATABLE :: NODAL_SCALAR,NODAL_SCALAR_P,
+        my_real, DIMENSION(:), ALLOCATABLE :: NODAL_SCALAR,NODAL_SCALAR_P,
      .                                        NODAL_VECTOR,NODAL_VECTOR_P,
      .                                        NODAL_TENSOR,NODAL_TENSOR_P,
      .                                        ONED_SCALAR,ONED_SCALAR_P,
@@ -476,29 +450,22 @@ C
      .                                        NODAL_VECTOR_FVM
         INTEGER, DIMENSION(:), ALLOCATABLE :: TAGNOD,TAGNOD_P,
      .                                        ITAB_P_PART,ITABM1_P
-        my_real
-     .     XWL(NRWALL) ,YWL(NRWALL) , ZWL(NRWALL), V1(NRWALL), V2(NRWALL), V3(NRWALL),
-     .     VV1(NRWALL), VV2(NRWALL), VV3(NRWALL), XL(NRWALL), XN(NRWALL), YN(NRWALL),
-     .     ZN(NRWALL)
-
+        my_real XWL(NRWALL) ,YWL(NRWALL) , ZWL(NRWALL), V1(NRWALL), V2(NRWALL), V3(NRWALL),
+     .          VV1(NRWALL), VV2(NRWALL), VV3(NRWALL), XL(NRWALL), XN(NRWALL), YN(NRWALL),
+     .          ZN(NRWALL)
         LOGICAL IS_FILE_EXISTS
-!
         INTEGER, DIMENSION(:), ALLOCATABLE :: SUB_CHILD,SUB_IAD,SUB_TITLE
         INTEGER, DIMENSION(:), ALLOCATABLE :: SUB_NCHILD
         INTEGER, DIMENSION(:), ALLOCATABLE :: SUB_LEVEL
         INTEGER, DIMENSION(:), ALLOCATABLE :: SUB_ID
         INTEGER (KIND=8) :: H3DTOTALSIZE8
-
         INTEGER :: LEN_TMP_NAME,LEN_RADVERS,OBJECT_ID, NPOLH, NPOLHG, NPOLH_ANIM, NPOLH_ANIM_G, NPOLH_P(0:NSPMD-1)
         INTEGER :: AIRBAGS_TOTAL_FVM_IN_H3D_G
         CHARACTER(len=2148) :: TMP_NAME
         CHARACTER RADVERS*68
-
         TYPE(FVBAG_DATA), DIMENSION(:), ALLOCATABLE :: FVDATA_P
         my_real, DIMENSION(:), ALLOCATABLE :: FVDATA_1D_ARRAY,FVDATA_1D_ARRAY_P
-        my_real TMP
         INTEGER ITMP,MODE
-
         TYPE USER_NOD_ID_
           !VIRTUAL NODES MANAGEMENT
           !some option are writing virtual entities in H3D files. it requires to generate nodes which must have identifiers.

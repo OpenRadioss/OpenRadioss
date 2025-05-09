@@ -127,6 +127,7 @@ C-----------------------------------------------
            PP      = RES_A(I) + RES_B(I) * ESPE(I) - PSH(I) ! A(MU(I))+B(MU(I))*ESPE(I)
            DPDM(I) = DERI_A(I)+DERI_B(I)*ESPE(I) + RES_B(I)*(PP+PSH(I))/( (ONE+MU(I))*(ONE+MU(I)) ) ! A'(MU0) + B'(MU0)*E0+B(MU0)/(ONE+MU0)/(ONE+MU0)*P0     !total derivative
            DPDE(I) = RES_B(I) ! B(MU(I))                                               !partial derivative
+           PNEW(I) = MAX(PP,PC)*OFF(I)    ! P(mu[n+1],E[n])
          ENDDO
 
 C-----------------------------------------------
@@ -165,7 +166,7 @@ C-----------------------------------------------
           DVV     = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
           PP      = AA + BB * ESPE(I)
           PNEW(I) = (AA+BB*(ESPE(I)-PSH(I)*DVV))/(ONE+BB*DVV)
-          PNEW(I) = MAX(PNEW(I),PC )*OFF(I)
+          PNEW(I) = MAX(PNEW(I),PC )*OFF(I)    ! P(mu[n+1],E[n+1])
           EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I) )
         ENDDO
 
