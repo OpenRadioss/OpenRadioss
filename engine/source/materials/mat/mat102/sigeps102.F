@@ -154,9 +154,9 @@ C----------------------------------------------------------------
       !  UPDATE DEVIATORIC STRESS TENSOR IN SIG(:,:)                   !
       !----------------------------------------------------------------!      
       DO I=1,NEL
-        SIGNXX(I)=RATIO(I)*T1(I)*OFF(I)
-        SIGNYY(I)=RATIO(I)*T2(I)*OFF(I)
-        SIGNZZ(I)=RATIO(I)*T3(I)*OFF(I)
+        SIGNXX(I)=RATIO(I)*T1(I)*OFF(I) - PNEW(I)
+        SIGNYY(I)=RATIO(I)*T2(I)*OFF(I) - PNEW(I)
+        SIGNZZ(I)=RATIO(I)*T3(I)*OFF(I) - PNEW(I)
         SIGNXY(I)=RATIO(I)*T4(I)*OFF(I)
         SIGNYZ(I)=RATIO(I)*T5(I)*OFF(I)
         SIGNZX(I)=RATIO(I)*T6(I)*OFF(I)

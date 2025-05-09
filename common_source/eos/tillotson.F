@@ -138,6 +138,7 @@ C--------------------------------------------------------------------
      .           *PTIB(I)*FACPB/(EZERO(I)*ETA*OMEGA**2) )
           DPDE(I)=BB*ETA
           VAREOS(I,1)=REGION
+          PNEW(I) = MAX(PP,PC(I))*OFF(I)! P(mu[n+1],E[n])
         ENDDO
 
       ELSEIF(IFLAG == 1) THEN
@@ -184,7 +185,7 @@ C--------------------------------------------------------------------
           OMEGA= ONE+ENEW/(EZERO(I)*ETA**2)
           BB=(PTIA(I)+FACPB*PTIB(I)/OMEGA)*ETA
           PNEW(I)=(AA +BB*ESPE(I))/(ONE+ BB*DVV)
-          PNEW(I)= MAX(PNEW(I),PC(I))*OFF(I)
+          PNEW(I)= MAX(PNEW(I),PC(I))*OFF(I)! P(mu[n+1],E[n+1])
           EINT(I)= EINT(I) - HALF*DVOL(I)*PNEW(I)
           DPDE(I) = BB
           VAREOS(I,1)=REGION

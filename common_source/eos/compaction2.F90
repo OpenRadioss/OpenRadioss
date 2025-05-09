@@ -170,7 +170,7 @@
       !----------------------------------------------------------------!
       do i=1,nel
         p(i)=max(pfrac,p(i))*off(i)
-        pnew(i) = p(i)-psh(i)
+        pnew(i) = p(i)-psh(i)   ! P(mu[n+1],E[n+1])
       enddo !next i
 
       IF(iflag == 1) THEN

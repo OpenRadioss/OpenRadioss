@@ -91,8 +91,8 @@ C-----------------------------------------------
           DPDM(I) = BULK(I)
           DPDE(I) = ZERO
           PNEW(I) = C0(I)+BULK(I)*MU(I)
-          PNEW(I) = MAX(PC(I)-PSH(I),PNEW(I))        !law10 : yield criteria depends on P
-          PNEW(I) = PNEW(I)*OFF(I)
+          PNEW(I) = MAX(PC(I)-PSH(I),PNEW(I))  !law10 : yield criteria depends on P
+          PNEW(I) = PNEW(I)*OFF(I)  ! P(mu[n+1],E[n]) = P(mu[n+1],E[n+1]) since there is no energy depedency
         ENDDO
 
       ELSEIF(IFLAG == 1) THEN
@@ -106,7 +106,7 @@ C-----------------------------------------------
         DO I=1,NEL
           PNEW(I) = C0(I)+BULK(I)*MU(I)
           PNEW(I) = MAX(PNEW(I),PC(I)-PSH(I))
-          PNEW(I) = PNEW(I)*OFF(I)
+          PNEW(I) = PNEW(I)*OFF(I)  ! P(mu[n+1],E[n+1])
           EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
           DPDE(I) = ZERO
         ENDDO

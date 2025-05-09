@@ -189,7 +189,6 @@
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use timer_mod
-          use law_usersh
           use table_mod
           use mat_elem_mod
           use stack_mod
@@ -213,6 +212,7 @@
           implicit none
 #include "my_real.inc"
 #include "comlock.inc"
+#include "mvsiz_p.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -353,14 +353,14 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: numtabl
           integer :: ipt
-          integer ::i,j,k,ii,jj,kk,ic,jmly,ipg,it,ifl,ilay,npg,mpt,mx,imat,&
-          &irupt,nfail,iadbuf,iadbufr,maxnulvar,igtyp,nuvar,nvarf,jdir,&
-          &nfunc, jpos, nindx,nupar,niparam,nuparam,nuparam0,nfunc_fail,ntabl_fail,&
-          &ifailwv,nlocal,nsensor,iun,ibidon1,ibidon2,ibidon3,&
-          &iptx,ilayer,irot,dmg_flag,lf_dammx,nipar,&
-          &igmat,ipgmat,nptt,ipt_all,npttot,nuvarv,ilaw,&
-          &joff,siznul,ply_id,iseq,progressive_crack,&
-          &orth_damage,l_dmg,iprony,israte,nvartmp,inloc,idrape,vp,nvar_damp,flag_incr,jlag
+          integer :: i,k,ii,jj,jmly,ipg,it,ifl,ilay,npg,mpt,mx,imat, &
+                     irupt,nfail,iadbuf,igtyp,nuvar,nvarf,jdir,&
+                     nfunc, jpos, nindx,nupar,niparam,nuparam,nuparam0,nfunc_fail,ntabl_fail,&
+                     ifailwv,nsensor,iun,ibidon1,ibidon2,ibidon3,&
+                     iptx,ilayer,irot,dmg_flag,lf_dammx,nipar,&
+                     igmat,ipgmat,nptt,ipt_all,npttot,nuvarv,ilaw,&
+                     ply_id,iseq,progressive_crack,&
+                     orth_damage,l_dmg,iprony,israte,nvartmp,inloc,idrape,vp,nvar_damp,flag_incr,jlag
           integer :: ij1,ij2,ij3,ij4,ij5
           integer :: ij(5),iflag(1)
           integer :: l_sigb
@@ -368,21 +368,21 @@
           integer ,dimension(mvsiz)   :: ioff_duct,nfis1,nfis2,nfis3
 !
           my_real sigdmg(mvsiz,5),sigksi(mvsiz,5),tens(mvsiz,5)
-          my_real ,dimension(mvsiz) :: fpsxx,fpsyy,fpszz,fpsxy,fpsyx,epchk,epspdt,dt_inv,copy_pla,pla0,&
-          &degmb ,degfx ,sigoff,thklyl,thkn  ,etse,off_old,&
-          &depsxx,depsyy,depsxy,depsyz,depszx,epsxx ,epsyy ,epsxy,&
-          &epsyz ,epszx ,epspxx,epspyy,epspxy,epspyz,epspzx,sigoxx,&
-          &sigoyy,sigoxy,sigoyz,sigozx,signxx,signyy,signxy,signyz,&
-          &signzx,sigvxx,sigvyy,sigvxy,sigvyz,sigvzx,&
-          &wmc, epspl, yld,dpla,vol0, coef,hardm,la0,g_imp,visc,wplar,&
-          &epsp_loc,signxx_fail,signyy_fail,signxy_fail,signyz_fail,tstar,    &
-          &signzx_fail,areamin,dareamin,dmg_glob_scale,dmg_loc_scale,et_imp, epsthtot
+          my_real ,dimension(mvsiz) :: epchk,epspdt,dt_inv,copy_pla,pla0,&
+                                       degmb ,degfx ,sigoff,thklyl,thkn  ,etse,off_old,&
+                                       depsxx,depsyy,depsxy,depsyz,depszx,epsxx ,epsyy ,epsxy,&
+                                       epsyz ,epszx ,epspxx,epspyy,epspxy,epspyz,epspzx,sigoxx,&
+                                       sigoyy,sigoxy,sigoyz,sigozx,signxx,signyy,signxy,signyz,&
+                                       signzx,sigvxx,sigvyy,sigvxy,sigvyz,sigvzx,&
+                                       wmc, epspl, yld,dpla,vol0, coef,hardm,g_imp,visc,wplar,&
+                                       epsp_loc,tstar,    &
+                                       areamin,dareamin,dmg_glob_scale,dmg_loc_scale,et_imp, epsthtot
           my_real, dimension(nel,5) :: dmg_orth_scale
 !
-          my_real :: zt,dtinv, vol2,fcut,asrate,eps_m2,eps_k2,&
-          &r1,r2,r3,s1,s2,s3,r12a,r22a,s12b,s22b,rs1,rs2,rs3,&
-          &t1,t2,t3,phi,sum1,sum2,fact,r3r3,s3s3,&
-          &bidon1,bidon2,bidon3,bidon4,bidon5,ratio,vv,aa,trelax,t0,tm
+          my_real :: zt,dtinv, vol2,asrate,eps_m2,eps_k2,&
+                     r1,r2,s1,s2,r12a,r22a,s12b,s22b,rs1,rs2,rs3,&
+                     t1,t2,t3,fact,r3r3,s3s3,&
+                     bidon1,bidon2,bidon3,bidon4,bidon5,vv,aa,trelax,t0,tm
           my_real  scale1(nel)
           my_real ,dimension(nel), target :: le_max
           my_real tt_local
@@ -392,13 +392,10 @@
           target :: tempel,bufmat,scale1
 !----
           type(ttable) table(*)
-          type(ulawcintbuf) :: userbuf
           type(buf_lay_) ,pointer :: bufly
           type(l_bufel_) ,pointer :: lbuf
           type(g_bufel_) ,pointer :: gbuf
-          type(buf_mat_) ,pointer :: mbuf
           type(buf_fail_),pointer :: fbuf
-          type(buf_visc_),pointer :: vbuf
 !----
           integer, dimension(:) ,pointer  :: fld_idx,foff,offly,itable,ifunc_fail,&
           &itabl_fail,vartmp,iparam,iparamf
@@ -416,7 +413,7 @@
           integer size
           integer :: nrate,nprony
           my_real :: fisokin,kv,zshift
-          my_real, dimension(nel) :: deps1,deps2,eps1,eps2
+          my_real, dimension(nel) :: eps1,eps2
           my_real, dimension(nel), target :: vecnul
           my_real, dimension(:), pointer  :: sigbxx,sigbyy,sigbxy
           my_real, dimension(:), allocatable :: gv,beta

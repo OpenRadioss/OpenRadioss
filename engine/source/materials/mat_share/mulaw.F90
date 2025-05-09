@@ -465,7 +465,7 @@
           integer nv46, numel, inloc
           integer i,npar,nuparam,niparam,nparf,iadbuf,nfunc,numtabl,israte,ipg,nptr,npts,&
           &ibid,ibidon1,ibidon2,ibidon3,ibidon4 ,n48,nix,ilaw_user,igtyp,&
-          &nvarf,ir,irupt,imat,isvis,ivisc,nuvarv,nuparv,iseq,idev,ntabl_fail,&
+          &nvarf,ir,irupt,imat,isvis,nuvarv,iseq,idev,ntabl_fail,&
           &l_planl,l_epsdnl,l_dmg,l_sigb
 
           my_real e1,e2,e3,e4,e5,e6,bid1,bid3,q1,q2,q3,ss1,ss2,ss3,ss4,ss5,&
@@ -485,7 +485,7 @@
           &r11(mvsiz),r12(mvsiz),r13(mvsiz),r21(mvsiz),r22(mvsiz),r23(mvsiz),&
           &r31(mvsiz),r32(mvsiz),r33(mvsiz),epsp1(mvsiz),dpla(mvsiz),&
           &pair(mvsiz),defp0(mvsiz)
-          my_real  facq0,bulk
+          my_real  facq0
           my_real fpsxx(mvsiz),fpsyy(mvsiz),fpszz(mvsiz),fpsxy(mvsiz),&
           &fpsyz(mvsiz),fpszx(mvsiz),fpsyx(mvsiz),fpszy(mvsiz),&
           &fpsxz(mvsiz),&
@@ -494,8 +494,9 @@
           my_real rho0(mvsiz),bidon1,bidon2,bidon3,bidon4,bidon5,pold,volg(mvsiz)
           my_real tt_local
           my_real, dimension(nel), target  :: le_max
+          my_real :: wfextt !< external force work accumulation
 !----
-          my_real, dimension(:), pointer   :: uparam,uparam0,uparf,uparvis,uvarf,dfmax,&
+          my_real, dimension(:), pointer   :: uparam,uparam0,uparf,uvarf,dfmax,&
           &tdel,yldfac,dam,el_len,&
           &el_pla,damini
           my_real, dimension(:), allocatable ,target  :: bufzero
@@ -2055,13 +2056,13 @@
 !
           elseif (mtn == 133) then
             call sigeps133( &
-                 nel  ,matparam ,et            ,&
-                 sigy ,dpla     ,defp          ,amu  ,&
-                 de1  ,de2      ,de3           ,de4      ,de5   ,de6  ,&
-                 so1  ,so2      ,so3           ,so4      ,so5   ,so6  ,&
-                 s1   ,s2       ,s3            ,s4       ,s5    ,s6   ,&
-                 ssp  ,off      ,matparam%ieos ,pnew ,&
-                 dpdm ,rho      ,nvartmp       ,vartmp )
+                 nel  ,matparam ,et     ,&
+                 sigy ,dpla     ,defp   ,&
+                 de1  ,de2      ,de3    ,de4      ,de5   ,de6  ,&
+                 so1  ,so2      ,so3    ,so4      ,so5   ,so6  ,&
+                 s1   ,s2       ,s3     ,s4       ,s5    ,s6   ,&
+                 ssp  ,off      ,pnew   ,&
+                 dpdm ,rho      ,rho0   ,nvartmp       ,vartmp )
 !
           elseif (mtn == 134) then
             call sigeps134s(mat_elem%mat_param(imat)    ,                      &
@@ -2696,6 +2697,7 @@
             endif
           endif
 !------------------------------------------------------------
+          ! updating lbuf%sig <- sigma[n+1]
           do i=1,nel
             sig(i,1) = s1(i)*off(i)
             sig(i,2) = s2(i)*off(i)
@@ -2843,8 +2845,8 @@
               e6 = d6(i)*(sold6(i)+sig(i,6)    + two*svis(i,6))
               eint(i)=eint(i)+(e1+e2+e3+e4+e5+e6)*vol_avg(i)*dt1*half
             end do
-          elseif (mtn == 102) then
-            !case of material law using /eos
+          elseif (mtn == 102 .or. mtn == 133) then
+            !case of material law using /eos  (pressure for updated later in mmain > eosmain)
             do i=1,nel
               p2  = -(sold1(i)+sig(i,1)+sold2(i)+sig(i,2)+sold3(i)+sig(i,3))* third
               pold= -(sold1(i)+sold2(i)+sold3(i))* third
@@ -2855,9 +2857,16 @@
               e5  =  d5(i)*(sold5(i)+sig(i,5) + two*svis(i,5))
               e6  =  d6(i)*(sold6(i)+sig(i,6) + two*svis(i,6))
               eint(i)=eint(i)-&
-              &(q(i)+qold(i)+pold)*dvol(i)*half +&
+              &(q(i)+qold(i)+pold+psh(i))*dvol(i)*half +&    !pold+psh is total pressure
               &(e1+e2+e3+e4+e5+e6+e7(i))*vol_avg(i)*dt1*half
             end do
+            ! external force work (psh)
+            wfextt = zero
+            do i=1,nel
+              wfextt = wfextt - dvol(i)*psh(i)
+            enddo
+!$OMP ATOMIC
+            wfext = wfext + wfextt
           else
             !other material laws without /eos
 #include "vectorize.inc"

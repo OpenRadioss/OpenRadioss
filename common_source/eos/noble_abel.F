@@ -90,10 +90,12 @@ C-----------------------------------------------
           PSH(I)  = PM(88,MX)
         ENDDO
         DO I=1,NEL
-           DENOM   = ONE-BB_(I)*RHO0(I)*(ONE+MU(I))
+          DENOM   = ONE-BB_(I)*RHO0(I)*(ONE+MU(I))
           PP      = ESPE(I)*GM1(I)*(MU(I)+ONE)/DENOM
           DPDE(I) = GM1(I)*(ONE+MU(I))/DENOM
           DPDM(I) = GM1(I)*ESPE(I)/DENOM + PP/DENOM*BB_(I)*RHO0(I) + PP*DF(I)*DF(I)*DPDE(I)
+          PNEW(I) = MAX(PP,ZERO)*OFF(I)! P(mu[n+1],E[n])
+          PNEW(I) = PNEW(I)-PSH(I)
         ENDDO
 
       ELSEIF(IFLAG == 1) THEN
@@ -110,7 +112,7 @@ C-----------------------------------------------
           DPDE(I) = BB
           DVV     = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
           PNEW(I) = (BB*ESPE(I))/(ONE+BB*DVV)
-          PNEW(I) = PNEW(I)*OFF(I)
+          PNEW(I) = PNEW(I)*OFF(I)! P(mu[n+1],E[n])
           EINT(I) = EINT(I) - HALF*DVOL(I)*PNEW(I)
           PNEW(I) = PNEW(I)-PSH(I)
         ENDDO
