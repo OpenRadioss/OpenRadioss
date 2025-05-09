@@ -222,15 +222,13 @@
 
             call get_segment_interface_id( ninter,nb_result_intersect_0,result_intersect_0, &
                                            nin,my_reduced_nb,my_reduced_list,my_reduced_neighbour, &
-                                           shoot_struct,intbuf_tab)
+                                           shoot_struct,intbuf_tab,local_node_id_1,local_node_id_2,n_iedge)
 
             do ijk=1,my_reduced_nb
               ! segment/surface orientation
               n_segment_id = my_reduced_list(ijk,1) ! connected segment id
               ! compute the normal to the segment "n_segment_id"
               call get_segment_normal( n_segment_id,segment_node_id,segment_position,n_normal(1,ijk),intbuf_tab(nin),numnod,x )
-              ! find the edge id of n_segment_id
-              call get_segment_edge( n_segment_id,local_node_id_1,local_node_id_2,n_iedge(ijk),intbuf_tab(nin) )
               ! compute the tangent vector to the segment around the edge "n_segment_id" 
               call get_convexity_normals( local_node_id_1,local_node_id_2,n_normal(1,ijk),n_vconvexity(1,ijk),numnod,x )
             enddo

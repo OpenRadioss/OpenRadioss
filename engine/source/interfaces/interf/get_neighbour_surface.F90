@@ -92,7 +92,6 @@
           use get_segment_orientation_mod , only : get_segment_orientation
           use get_segment_criteria_mod , only : get_segment_criteria
           use get_segment_interface_id_mod , only : get_segment_interface_id
-          use get_segment_edge_mod , only : get_segment_edge
           use spmd_update_frontier_int25_mod , only : spmd_update_frontier_int25
           use spmd_exch_neighbour_segment_mod , only : spmd_exch_neighbour_segment
           use update_neighbour_segment_mod , only : update_neighbour_segment
@@ -355,10 +354,11 @@
 
                       call get_segment_interface_id( ninter,nb_result_intersect_0,result_intersect_0, &
                                                      nin,my_reduced_nb,my_reduced_list,my_reduced_neighbour, &
-                                                     shoot_struct,intbuf_tab)
+                                                     shoot_struct,intbuf_tab,node_id_1,node_id_2,n_iedge)
 
                       ! compute the tangent vector to the segment around the edge "segment_id" 
                       call get_convexity_normals( node_id_1,node_id_2,normal,v_convexity,numnod,x )
+
 
                       do ijk=1,my_reduced_nb
                        ! segment/surface orientation
@@ -366,14 +366,12 @@
                        ! compute the normal to the segment "n_segment_id"
                        call get_segment_normal( n_segment_id,segment_node_id,segment_position,n_normal(1,ijk), &
                                                 intbuf_tab(nin),numnod,x )
-                       ! find the edge id of n_segment_id
-                       call get_segment_edge( n_segment_id,node_id_1,node_id_2,n_iedge(ijk),intbuf_tab(nin) )
                        ! compute the tangent vector to the segment around the edge "n_segment_id" 
                        call get_convexity_normals( node_id_1,node_id_2,n_normal(1,ijk),n_vconvexity(1,ijk),numnod,x )
                       enddo
                       ! ---------------  
 
-                      ! ---------------    
+
                       ! intersection of processor list
                       ! ------
                       ! 1srt node
