@@ -58,7 +58,6 @@
           integer :: npt                                  !< number of integration points / max number of integration points
           integer :: i,j                                  !< index loops
           my_real :: shear_max, young_max,nu,bulk_max
-          my_real :: shear_ini,shear_min,xmax
           type(table_4d_), dimension(:) ,pointer :: table_mat
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
@@ -91,9 +90,7 @@
           matparam%young = young_max
           matparam%bulk = bulk_max
           pm(20) = young_max
-          pm(22) = shear_max
           pm(24) = young_max
-          pm(32) = bulk_max
 
 ! ----------------------------------------------------------------------------------------------------------------------
         end subroutine law133_upd

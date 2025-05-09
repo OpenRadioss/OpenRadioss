@@ -121,6 +121,7 @@ C--------------------------------------------------------------------
             DPDM(I)=BB*DF(I)*DF(I)*(PRES+ESUBL(I)*EXPA*CC) +(ESPE(I)+ESUBL(I)*(EXPA-ONE))*(HH(I)+THREE_HALF*EE*(G0(I)-HH(I)))
           ENDIF
           DPDE(I)=BB
+          PNEW(I) = MAX(PRES,PC(I))*OFF(I)! P(mu[n+1],E[n])
         ENDDO
 
       ELSEIF(IFLAG == 1) THEN
@@ -157,7 +158,7 @@ C--------------------------------------------------------------------
           ENDIF
           DPDE(I)=BB
           PNEW(I)=(AA +BB*ESPE(I))/(ONE+ BB*DVV)
-          PNEW(I)=MAX(PNEW(I),PC(I))*OFF(I)
+          PNEW(I)=MAX(PNEW(I),PC(I))*OFF(I)! P(mu[n+1],E[n+1])
           EINT(I)=EINT(I)-HALF*DVOL(I)*PNEW(I)
         ENDDO
 

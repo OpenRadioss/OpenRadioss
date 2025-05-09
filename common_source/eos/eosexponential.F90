@@ -97,6 +97,8 @@ module eosexponential_mod
         psh(1:nel) = pm( 88,mx)
         dpdm(1:nel) = zero
         dpdE(1:nel) = zero
+        pnew(i) = p0*exp(alpha*time)
+        pnew(i) = pnew(i)*off(i)
 
       elseif(iflag == 1) then
         mx = mat(1)
