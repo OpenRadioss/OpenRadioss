@@ -81,6 +81,7 @@ C-----------------------------------------------
       IF(IFLAG == 0) THEN
         DO I=1,NEL
           MX  = MAT(I)
+          PC(I)   = PM(37,MX)
           NR  = NINT(PM(33,MX))
           NT  = NINT(PM(34,MX))
           IDR = NINT(PM(35,MX))
@@ -93,6 +94,7 @@ C-----------------------------------------------
           CALL MINTP1_RT(BUFMAT(IDR),NR,BUFMAT(IDT),NT,BUFMAT(IDP),RHO(I),THETA(I),PRES,DPDR,DPDT)
           DPDM(I) = RHO0(I)*DPDR
           DPDE(I) = DPDT*DTDE/RHO0(I)
+          PNEW(I) = MAX(PRES,PC(I))*OFF(I)! P(mu[n+1],E[n])
         ENDDO
 
       ELSEIF(IFLAG == 1) THEN
@@ -108,7 +110,7 @@ C-----------------------------------------------
           ESPEM=ESPE(I)/RHO0(I)
           CALL MINTP_RE(BUFMAT(IDR),NR,BUFMAT(IDT),NT,BUFMAT(IDE),RHO(I),THETA(I),ESPEM,DTDE)
           CALL MINTP_RT(BUFMAT(IDR),NR,BUFMAT(IDT),NT,BUFMAT(IDP),RHO(I),THETA(I),PNEW(I),DPDR)
-          PNEW(I)= MAX(PNEW(I),PC(I))*OFF(I)
+          PNEW(I)= MAX(PNEW(I),PC(I))*OFF(I)! P(mu[n+1],E[n+1])
           EINT(I)= EINT(I)-HALF*DVOL(I)*PNEW(I)
         ENDDO
 

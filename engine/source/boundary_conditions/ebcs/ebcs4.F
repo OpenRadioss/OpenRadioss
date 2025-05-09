@@ -28,10 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ebcs_mod     ../common_source/modules/boundary_conditions/ebcs_mod.F90
       !||    segvar_mod   ../engine/share/modules/segvar_mod.F
       !||====================================================================
-      SUBROUTINE EBCS4(NSEG,ISEG,SEGVAR,
-     .                 A,V,X,
-     .                 LISTE,NOD,IRECT,
-     .                 LA,FV,MS,STIFN,EBCS)
+      SUBROUTINE EBCS4(NSEG,ISEG,SEGVAR,A,V,X,LISTE,NOD,IRECT,LA,FV,MS,STIFN,EBCS)
       USE EBCS_MOD
       USE SEGVAR_MOD
 C-----------------------------------------------
@@ -47,59 +44,53 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSEG,NOD,ISEG(NSEG),LISTE(NOD),IRECT(4,NSEG)
-      my_real
-     .        A(3,*),V(3,*),X(3,*),
-     .        LA(3,NOD),MS(*),STIFN(*),FV(*)
+      my_real A(3,*),V(3,*),X(3,*),LA(3,NOD),MS(*),STIFN(*),FV(*)
       TYPE(t_ebcs_vel), INTENT(IN) :: EBCS
       TYPE(t_segvar) :: SEGVAR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IS,K,L,KSEG,N1,N2,N3,N4,NG1,NG2,NG3,NG4,N,
-     . IVX,IVY,IVZ,IRHO,IENER
-      my_real
-     .       ORIENT,RHO,C,FC,ROC,ALP,FAC,
-     .       X13,Y13,Z13,X24,Y24,Z24,NX,NY,NZ,S,
-     .       ROOU,ENOU,VMX,VMY,VMZ,FLUXI,FLUXO,P,DVX,DVY,DVZ,ENER,
-     .       VX,VY,VZ
+      INTEGER I,IS,L,KSEG,N1,N2,N3,N4,NG1,NG2,NG3,NG4,N,IVX,IVY,IVZ,IRHO,IENER
+      my_real ORIENT,RHO,C,ROC,FAC,X13,Y13,Z13,X24,Y24,Z24,NX,NY,NZ,S,ROOU,ENOU,VMX,VMY,VMZ,FLUXI,FLUXO
+      my_real P,DVX,DVY,DVZ,ENER,VX,VY,VZ
+C-----------------------------------------------
+C   B o d y
 C-----------------------------------------------
       IVX=EBCS%ivx
       IVY=EBCS%ivy
       IVZ=EBCS%ivz
       IRHO=EBCS%irho
       IENER=EBCS%iener
-      IF(IVX>0)THEN
+      IF(IVX > 0)THEN
         VX=EBCS%vx*FV(IVX)
       ELSE
         VX=EBCS%vx
       ENDIF
-      IF(IVY>0)THEN
+      IF(IVY > 0)THEN
         VY=EBCS%vy*FV(IVY)
       ELSE
         VY=EBCS%vy
       ENDIF
-      IF(IVZ>0)THEN
+      IF(IVZ > 0)THEN
         VZ=EBCS%vz*FV(IVZ)
       ELSE
         VZ=EBCS%vz
       ENDIF
-       IF(IRHO>0)THEN
+       IF(IRHO > 0)THEN
         RHO=EBCS%rho*FV(IRHO)
       ELSE
         RHO=EBCS%rho
       ENDIF
-      IF(IENER>0)THEN
+      IF(IENER > 0)THEN
         ENER=EBCS%ener*FV(IENER)
       ELSE
         ENER=EBCS%ener
       ENDIF
-c      write(6,*)'ebcs5 V rho e',VIMP,RHO,ENER
       C=EBCS%c
       ROC=RHO*C
-C
-C     INITIALISATION DES DENSITES ET ENERGIES INITIALES
-C
-C SURFACE NORMALE NODALES
+
+!INIT. MASS DENSITY AND ENERGY
+! NORMAL AT NODES
       DO I=1,NOD
          LA(1,I)=ZERO
          LA(2,I)=ZERO
@@ -118,7 +109,6 @@ C SURFACE NORMALE NODALES
         ELSE
           FAC=ONE_OVER_8*ORIENT
         ENDIF
-c
         NG1=LISTE(N1)
         NG2=LISTE(N2)
         NG3=LISTE(N3)
@@ -129,11 +119,9 @@ c
         X24=X(1,NG4)-X(1,NG2)
         Y24=X(2,NG4)-X(2,NG2)
         Z24=X(3,NG4)-X(3,NG2)
-c
         NX=(Y13*Z24-Z13*Y24)*FAC
         NY=(Z13*X24-X13*Z24)*FAC
         NZ=(X13*Y24-Y13*X24)*FAC
-c
         LA(1,N1)=LA(1,N1)+NX
         LA(2,N1)=LA(2,N1)+NY
         LA(3,N1)=LA(3,N1)+NZ
@@ -142,8 +130,7 @@ c
         LA(3,N2)=LA(3,N2)+NZ
         LA(1,N3)=LA(1,N3)+NX
         LA(2,N3)=LA(2,N3)+NY
-        LA(3,N3)=LA(3,N3)+NZ 
-C
+        LA(3,N3)=LA(3,N3)+NZ
         VMX=V(1,NG1)+V(1,NG2)+V(1,NG3)
         VMY=V(2,NG1)+V(2,NG2)+V(2,NG3)
         VMZ=V(3,NG1)+V(3,NG2)+V(3,NG3)
@@ -155,26 +142,19 @@ C
            VMY=VMY+V(2,NG4)
            VMZ=VMZ+V(3,NG4)
         ENDIF
-C
-c bilan masse et energie totale
-c
+! mass and energy balance
         ROOU = SEGVAR%RHO(KSEG)
         ENOU = SEGVAR%EINT(KSEG)
-c
         FLUXO=(VMX*NX+VMY*NY+VMZ*NZ)*DT1
         FLUXI=MIN(FLUXO,ZERO)
         FLUXO=MAX(FLUXO,ZERO)
-c
         DMF=DMF-FLUXO*ROOU-FLUXI*RHO
         DEF=DEF-FLUXO*ENOU-FLUXI*ENER
-C
-C stockage densit  et  nergie entrante dans buffer facette
-C
+! masse density and incoming energy stored in face buffer
         SEGVAR%RHO(KSEG)=RHO
         SEGVAR%EINT(KSEG)=ENER
       ENDDO
-C
-      IF(TT==0)THEN
+      IF(TT == 0)THEN
         DO I=1,NOD
           N=LISTE(I)
           V(1,N)=VX
@@ -182,23 +162,20 @@ C
           V(3,N)=VZ
         ENDDO
       ENDIF
-C
+
       DO I=1,NOD
         N=LISTE(I)
         S=SQRT(LA(1,I)**2+LA(2,I)**2+LA(3,I)**2)
         DVX=V(1,N)-VX
         DVY=V(2,N)-VY
         DVZ=V(3,N)-VZ
-c        write(6,*)I,N,v(3,N),v0(3,I),roc
         P=ROC*(DVX*LA(1,I)+DVY*LA(2,I)+DVZ*LA(3,I))/S
-c
         A(1,N)=A(1,N)-P*LA(1,I)
         A(2,N)=A(2,N)-P*LA(2,I)
         A(3,N)=A(3,N)-P*LA(3,I)
         STIFN(N)=STIFN(N)+(TWO*(S*ROC)**2)/MS(N)
       ENDDO
-c      write(6,*)'ebcs4',vx,vy,vz
-c
+
       RETURN
       END
 

@@ -132,6 +132,8 @@ C-----------------------------------------------
          GAMMA = CP(I)/CV
          DPDM(I) = RHO0*GAMMA*r_GAS*THETA(I)     !total derivative
          DPDE(I) = GAMMA*(ONE+MU(I))
+         PNEW(I) = RHO0*(ONE+MU(I))*r_GAS*THETA(I)    ! P(mu[n+1],E[n])
+         PNEW(I) = PNEW(I)-PSH(I)
        ENDDO
          
 C-----------------------------------------------
@@ -172,7 +174,7 @@ C-----------------------------------------------
           CP(I) = A0 + A1 * TEMP + A2 * TEMP**2 + A3 * TEMP**3 + A4 * TEMP**4
         ENDDO
         DO I=1,NEL
-          PNEW(I) = RHO0*(ONE+MU(I))*r_GAS*THETA(I)
+          PNEW(I) = RHO0*(ONE+MU(I))*r_GAS*THETA(I)    ! P(mu[n+1],E[n+1])
           EINT(I) = EINT(I) - HALF*DVOL(I)*PNEW(I)
           PNEW(I) = PNEW(I)-PSH(I)
           CV = CP(I) - r_GAS

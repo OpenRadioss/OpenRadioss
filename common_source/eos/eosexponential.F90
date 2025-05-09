@@ -97,15 +97,17 @@ module eosexponential_mod
         psh(1:nel) = pm( 88,mx)
         dpdm(1:nel) = zero
         dpdE(1:nel) = zero
+        pnew(1:nel) = p0*exp(alpha*time)
+        pnew(1:nel) = pnew(1:nel)*off(1:nel)
 
       elseif(iflag == 1) then
         mx = mat(1)
         p0 = pm(104,mx) !starter:p0-psh
         alpha = pm( 32,mx)
         psh(1:nel) = pm( 88,mx)
+        pnew(1:nel) = p0*exp(alpha*time)
+        pnew(1:nel) = pnew(1:nel)*off(1:nel)
         do i=1,nel
-          pnew(i) = p0*exp(alpha*time)
-          pnew(i) = pnew(i)*off(i)
           eint(i) = eint(i) - half*dvol(i)*(pnew(i)+psh(i))
           dpdE(i) = zero
         enddo

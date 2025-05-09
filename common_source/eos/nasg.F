@@ -106,6 +106,7 @@ C-----------------------------------------------
           PP      = (GAMMA-ONE)*UNPMU*NUM/DENOM - GAMMA*PSTAR
           dPdE(I) = (GAMMA-ONE)*UNPMU / DENOM                                         !partial derivative
           DPDM(I) = (GAMMA-ONE)*NUM/DENOM/DENOM + DPDE(I)*(PP+PSH(I))/UNPMU/UNPMU     !total derivative
+          PNEW(I) = MAX(PP,-GAMMA*PSTAR)*OFF(I)   ! P(mu[n+1],E[n])
         ENDDO
 
       ELSEIF(IFLAG == 1) THEN
@@ -129,7 +130,7 @@ C-----------------------------------------------
           AA      = (GAMMA-ONE)*(-RHO0*q/DENOM)-GAMMA*PSTAR
           BB      = (GAMMA-ONE)/ DENOM
           dPdE(I) = BB  !partial derivative
-          PNEW(I) = (AA+BB*EINT(I)/V0)/(ONE+BB*DVOL(I)/TWO/V0)
+          PNEW(I) = (AA+BB*EINT(I)/V0)/(ONE+BB*DVOL(I)/TWO/V0)   ! P(mu[n+1],E[n+1])
           PNEW(I) = MAX(PNEW(I),-GAMMA*PSTAR)*OFF(I)
         ENDDO
 

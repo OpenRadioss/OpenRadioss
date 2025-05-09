@@ -91,10 +91,13 @@ C-----------------------------------------------
         PSH(1:NEL) = PM(88,MX)
         AR0B       = PM(35,MX)
         B          = PM(36,MX)
+        PC         = PM(37,MX)
         DO I=1,NEL
           PP      = (GAMMA-ONE)*(ONE+MU(I))*ESPE(I) + AR0B*EXP(B*LOG(ONE+MU(I)))
           DPDM(I) = (GAMMA-ONE)*ESPE(I)+AR0B*B/(ONE+MU(I))*EXP((B-ONE)*LOG(ONE+MU(I)))+(GAMMA-ONE)*DF(I)*PP   !total derivative
-          DPDE(I) = (GAMMA-ONE)*(ONE+MU(I))                                                                  !partial derivative
+          DPDE(I) = (GAMMA-ONE)*(ONE+MU(I))                                                                   !partial derivative
+          PNEW(I) = MAX(PP,PC)*OFF(I)  ! P(mu[n+1],E[n])
+          PNEW(I) = PNEW(I) - PSH(I)
         ENDDO
 
       ELSEIF(IFLAG == 1) THEN
@@ -112,7 +115,7 @@ C-----------------------------------------------
           AA         = AR0B*EXP(B*LOG(ONE+MU(I)))
           DVV        = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
           PNEW(I)    = (AA + BB*ESPE(I) ) / (ONE+BB*DVV)
-          PNEW(I)    = MAX(PNEW(I),PC)*OFF(I)
+          PNEW(I)    = MAX(PNEW(I),PC)*OFF(I)   ! P(mu[n+1],E[n+1])
           EINT(I)    = EINT(I) - HALF*DVOL(I)*(PNEW(I))
           PNEW(I)    = PNEW(I) - PSH(I)
         ENDDO

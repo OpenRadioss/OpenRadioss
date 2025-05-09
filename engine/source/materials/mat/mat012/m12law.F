@@ -364,8 +364,7 @@ C
           T2(I)=T2(I)+D12(I)*DEVE1(I)+D22(I)*DEVE2(I)+D23(I)*DEVE3(I)-POLD(I)
           T3(I)=T3(I)+D13(I)*DEVE1(I)+D23(I)*DEVE2(I)+D33(I)*DEVE3(I)-POLD(I)
         ENDDO
-C     
-        PNEW(:)        = ZERO
+C
         MUOLD(1:NEL)   =( RHO(1:NEL)/RHO0)-ONE
         SIG(1:NEL,1:6) = ZERO
         CALL EOSMAIN(0       ,NEL     ,EOSTYP ,PM    ,OFF  , ENER ,

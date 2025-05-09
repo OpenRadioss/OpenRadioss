@@ -89,9 +89,13 @@ C-----------------------------------------------
         P0         = PM(32,MX)
         PSH(1:NEL) = PM(88,MX)
         K1         = PM(35,MX)
+        PC         = PM(37,MX)
         DO I=1,NEL
           DPDM(I) = K0*EXP( K1*LOG(1+MU(I)) )/(ONE+MU(I))     !total derivative
-          DPDE(I) = ZERO                                       !partial derivative
+          DPDE(I) = ZERO                                      !partial derivative
+          PNEW(I) = K0/K1 * (EXP(K1*LOG(ONE+MU(I))) - ONE )  + P0
+          PNEW(I) = MAX(PNEW(I),PC)*OFF(I)
+          PNEW(I) = PNEW(I)-PSH(I)
         ENDDO
 
       ELSEIF(IFLAG == 1) THEN
@@ -102,7 +106,7 @@ C-----------------------------------------------
         K1         = PM(35,MX)
         PC         = PM(37,MX)
         DO I=1,NEL
-          PNEW(I) = K0/K1 * (EXP(K1*LOG(1+MU(I))) - ONE )  + P0
+          PNEW(I) = K0/K1 * (EXP(K1*LOG(ONE+MU(I))) - ONE )  + P0
           PNEW(I) = MAX(PNEW(I),PC)*OFF(I)
           EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
           PNEW(I) = PNEW(I)-PSH(I)

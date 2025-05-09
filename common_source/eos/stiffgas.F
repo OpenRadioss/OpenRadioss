@@ -92,10 +92,12 @@ C-----------------------------------------------
         PSH(1:NEL) = PM(88,MX)
         PSTAR      = PM(35,MX)
         SPH        = PM(69,MX)
+        PC         = PM(37,MX)
         DO I=1,NEL
           PP      = -GAMMA*PSTAR-PSH(I) + (GAMMA-ONE)*(ONE+MU(I))*ESPE(I)
           DPDM(I) =  (GAMMA-ONE) *ESPE(I)+(GAMMA-ONE)*(ONE+MU(I))*DF(I)*DF(I)*(PP+PSH(I) )
           DPDE(I) = (GAMMA-ONE)*(ONE+MU(I))
+          PNEW(I) = MAX(PP,PC-PSH(I))*OFF(I) ! P(mu[n+1],E[n])
         ENDDO
 
       ELSEIF(IFLAG == 1) THEN
@@ -106,14 +108,14 @@ C-----------------------------------------------
         PSH(1:NEL) = PM(88,MX)
         PSTAR      = PM(35,MX)
         SPH        = PM(69,MX)
-        PC         = PM(37, MX)
+        PC         = PM(37,MX)
         DO I=1,NEL
           AA      = -GAMMA*PSTAR-PSH(I)
           BB      = (GAMMA-ONE)*(ONE+MU(I))
           DPDE(I) = (GAMMA-ONE)*(ONE+MU(I))
           DVV     = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
-          PNEW(I) = PNEW(I) + (AA+BB*(ESPE(I)-PSH(I) *DVV))/(ONE+BB*DVV)
-          PNEW(I) = MAX(PNEW(I),PC-PSH(I) )*OFF(I)
+          PNEW(I) = (AA+BB*(ESPE(I)-PSH(I) *DVV))/(ONE+BB*DVV)
+          PNEW(I) = MAX(PNEW(I),PC-PSH(I) )*OFF(I)  ! P(mu[n+1],E[n+1])
           EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I) )
         ENDDO
 

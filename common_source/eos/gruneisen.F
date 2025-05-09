@@ -117,6 +117,8 @@ C-----------------------------------------------
         PP=MAX(AA+BB*ESPE(I),PC(I))*OFF(I) ! total pressure need for sound speed calculation (=> no pressure shift)
         DPDM(I)=FAC1*RHO0(I)*CC(I)*CC(I)+PP*DF(I)*DF(I)*BB+GA(I)*ESPE(I)
         DPDE(I)=BB
+        PNEW(I) = MAX(PP,PC(I))*OFF(I)! P(mu[n+1],E[n])
+        PNEW(I) = PNEW(I) - PSH(I)
        ENDDO
 
       ELSEIF(IFLAG == 1) THEN  !--- P[n+1] and EINT[n+1]
@@ -148,7 +150,7 @@ C-----------------------------------------------
         DPDE(I) = BB
         DVV=HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
         PNEW(I)=(AA+BB*ESPE(I))/(ONE+BB*DVV)
-        PNEW(I)= MAX(PNEW(I),PC(I))*OFF(I)
+        PNEW(I)= MAX(PNEW(I),PC(I))*OFF(I) ! P(mu[n+1],E[n+1])
         EINT(I)=EINT(I) - HALF*DVOL(I)*PNEW(I) !total pressure for energy integration
         PNEW(I) = PNEW(I) - PSH(I)
        ENDDO
