@@ -352,6 +352,7 @@ C-----------------------------------------------
       IBID = 0
       IBIDON(1) = 0
       BID(:) = ZERO
+    
 C
       DO I=LFT,LLT
         EZX(I)=ZERO
@@ -609,7 +610,8 @@ C       COMPUTE ELEMENT AVERAGE & SUMMERY DATA
      5   STI,        STIM,       ICPG,       OFF,
      6   LBUF%VOL,   GBUF%VOL,   GBUF%G_PLA, GBUF%G_EPSD,
      7   LBUF%EINTTH,GBUF%EINTTH,IEXPAN,     NEL,
-     8   BID,        BID,SVIS,GLOB_THERM%NODADT_THERM)
+     8   BID,        BID,SVIS,GLOB_THERM%NODADT_THERM,
+     9   GBUF%WPLA,  LBUF%WPLA)
 C
          DO I=LFT,LLT
            OFFG(I)=MIN(OFFG(I),OFF(I))
@@ -679,7 +681,8 @@ c
      5   EHOU,       R22,        R23,        R32,
      6   R33,        GRESAV,     GRTH,       IGRTH,
      7   IBIDON(1),  GBUF%EINTTH,ITASK,      NEL,
-     8   JTUR,       JCVT,       IGRE,       SENSORS)
+     8   JTUR,       JCVT,       IGRE,       SENSORS,
+     9   GBUF%WPLA)
       ENDIF
 C
 C     PROJECT NODAL INTERNAL FORCE INTO GLOBAL SYSTEM FOR CO-ROTATIONAL CASE

@@ -142,10 +142,9 @@ c-------------------
       ENDDO
 c
       IPLA = ELBUF_STR%GBUF%G_PLA
-   
-      ! Cumulated plastic strain increment
-      IF (IFAIL > 0 .and. IPLA > 0) THEN
 
+      ! Cumulated plastic strain increment
+      IF (IPLA > 0) THEN
         DO I = 1,NEL
           DPLA(I) = ELBUF_STR%GBUF%PLA(I)
         ENDDO
@@ -201,16 +200,14 @@ c
      .         IFUNC    ,TF       ,NPF      ,SIGY )
 c
       END SELECT
-c
+
 c---------------------------
-c     failure models
+c     Plastic Work
 c---------------------------
-      IF (IFAIL > 0) THEN
-        IF (IPLA > 0) THEN
-          DO I = 1,NEL
-            DPLA(I) = ELBUF_STR%GBUF%PLA(I) - DPLA(I)
-          ENDDO
-        ENDIF
+      IF (IPLA > 0 .OR. IFAIL  > 0) THEN
+        DO I = 1,NEL
+          DPLA(I) = ELBUF_STR%GBUF%PLA(I) - DPLA(I)
+        ENDDO
         AREA = GEO(1 ,IPID)
         IXX  = GEO(4 ,IPID)
         IYY  = GEO(2 ,IPID)
@@ -223,6 +220,19 @@ c---------------------------
           SVM(I) = SQRT(SVM(I)) / AREA
           PRESSURE(I) = THIRD * F1(I) / AREA
         ENDDO
+        
+        IF (IPLA > 0) THEN
+          DO I = 1,NEL
+            ELBUF_STR%GBUF%WPLA(I) = ELBUF_STR%GBUF%WPLA(I) + DPLA(I)*SVM(I)*AREA*AL(I)
+          ENDDO
+        ENDIF 
+
+      ENDIF
+
+c---------------------------
+c     failure models
+c---------------------------
+      IF (IFAIL > 0) THEN
 c
         CALL FAIL_BEAM3(ELBUF_STR    ,MAT_PARAM%FAIL(1),NUMMAT  ,
      .              NPROPM  ,SNPC    ,STF     ,

@@ -778,7 +778,7 @@ C----------------------------
      I   GBUF%QVIS,         GBUF%PLA,          A_GAUSS(ILAY,NLAY),W_GAUSS(ILAY,NLAY),
      J   VOLG,              OFF,               NU1,               LBUF%VOL,
      K   GBUF%VOL,          L_PLA,             L_EPSD,            NEL,
-     L   SVIS)
+     L   SVIS,              GBUF%WPLA,         LBUF%WPLA     )
         ENDIF ! IF (ISORTH > 0)
 C-------------------------
 C Finite element heat transfert  
@@ -890,6 +890,7 @@ C-----------------------------
      .     GBUF%RHO,VOLG,CXX,GBUF%HOURG,
      .     OFF,GBUF%VOL,GBUF%EINT,DT1,STIN,NEL)
         ELSE
+C          
           CALL S6CHOUR3(GBUF%RHO,VOLG,CXX,
      .     X1, X2, X3, X3, X4, X5, X6, X6,
      .     Y1, Y2, Y3, Y3, Y4, Y5, Y6, Y6,
@@ -914,7 +915,7 @@ C--------------------------------------
      .       GRESAV,GRTH,IGRTH,GBUF%OFF,IEXPAN,GBUF%EINTTH,
      .       GBUF%FILL, XGXA, XGYA, XGZA,XGXA2,XGYA2,XGZA2,
      .       XGXYA,XGYZA,XGZXA,ITASK,IPARG(1,NG),GBUF%OFF,
-     .       SENSORS)
+     .       SENSORS,NEL,GBUF%WPLA)
       ENDIF
 C--------------------------------
 C Convected frame to global frame

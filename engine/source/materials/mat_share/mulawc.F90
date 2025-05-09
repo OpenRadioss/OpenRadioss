@@ -373,7 +373,7 @@
           &depsxx,depsyy,depsxy,depsyz,depszx,epsxx ,epsyy ,epsxy,&
           &epsyz ,epszx ,epspxx,epspyy,epspxy,epspyz,epspzx,sigoxx,&
           &sigoyy,sigoxy,sigoyz,sigozx,signxx,signyy,signxy,signyz,&
-          &signzx,sigvxx,sigvyy,sigvxy,sigvyz,sigvzx,&
+          &signzx,sigvxx,sigvyy,sigvxy,sigvyz,sigvzx, vm,   &
           &wmc, epspl, yld,dpla,vol0, coef,hardm,la0,g_imp,visc,wplar,&
           &epsp_loc,signxx_fail,signyy_fail,signxy_fail,signyz_fail,tstar,    &
           &signzx_fail,areamin,dareamin,dmg_glob_scale,dmg_loc_scale,et_imp, epsthtot
@@ -1078,7 +1078,6 @@
                   pla0(1:jlt) = zero
                 endif
               endif
-!
             !< Old stress tensor
             sigoxx(1:nel) = lbuf%sig(ij1:ij1+nel-1)
             sigoyy(1:nel) = lbuf%sig(ij2:ij2+nel-1)
@@ -1937,6 +1936,26 @@
 !-------------------------------------------
 !         end of material laws
 !-----------------------------------------------
+!------------------------------------------------------------
+!     Calculation of the Plastic Work
+!------------------------------------------------------------           
+              
+              if (bufly%l_pla > 0) then  
+                if (bufly%l_seq > 0) then
+                   do i = jft,jlt
+                     gbuf%wpla(i) = gbuf%wpla(i) + lbuf%seq(i)*dpla(i)*thklyl(i)*area(i)
+                   enddo
+                else
+                   do i = jft,jlt
+                    vm(i)= sqrt(three*(signxy(i)*signxy(i)  +  signzx(i)*signzx(i) + signyz(i)*signyz(i))  &
+                           & + half*((signxx(i)-signyy(i))*(signxx(i)-signyy(i)) + signyy(i)*signyy(i) &
+                           & + signxx(i)*signxx(i)) )
+    
+                    gbuf%wpla(i) = gbuf%wpla(i) + vm(i)*dpla(i)*thklyl(i)*area(i)
+                   enddo
+               endif
+              endif
+!-----------------------------------------------
 !         failure models
 !-----------------------------------------------
               if (ifailure == 1) then
@@ -2541,7 +2560,7 @@
                 lbuf%sig(nel*(5-1)+i) = signzx(i) * sigoff(i)
               enddo
 !
-!------------------------------------------------
+!-----------------------------------------------
               if (igtyp == 1) then
                 select case (dmg_flag)
                  case (0)
@@ -2784,7 +2803,6 @@
                   enddo
                 endif
               endif
-!-------------------------------------
             enddo  !  it=1,nptt
             ipt_all = ipt_all + nptt
           enddo  !  do ilay =1,nlay
@@ -2934,7 +2952,7 @@
             mom(jft:jlt,2)=mom(jft:jlt,2)*gbuf%intvar(jft:jlt)
             mom(jft:jlt,3)=mom(jft:jlt,3)*gbuf%intvar(jft:jlt)
           endif
-!
+
           degmb(jft:jlt) = degmb(jft:jlt)+ for(jft:jlt,1)*exx(jft:jlt)+for(jft:jlt,2)*eyy(jft:jlt)&
           &+ for(jft:jlt,3)*exy(jft:jlt)+for(jft:jlt,4)*eyz(jft:jlt)+ for(jft:jlt,5)*exz(jft:jlt)
           degfx(jft:jlt) = degfx(jft:jlt)+ mom(jft:jlt,1)*kxx(jft:jlt)+mom(jft:jlt,2)*kyy(jft:jlt)+mom(jft:jlt,3)*kxy(jft:jlt)

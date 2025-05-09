@@ -35,7 +35,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5   STI,     STIN,    ICP,     OFF,
      6   VOL0,    VOL0G,   G_PLA,   G_EPSD,
      7   EINTTH,  EINTTHM, IEXPAN,  NEL,
-     8   CONDE,   CONDEN,  SVIS  ,NODADT_THERM)
+     8   CONDE,   CONDEN,  SVIS  ,NODADT_THERM,
+     9   G_WPLA,  L_WPLA)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,6 +62,8 @@ C-----------------------------------------------
      .   VOLG(*),STI(*),STIN(*),OFF(*),VOL0(*),VOL0G(*),
      .   EINTTH(*),EINTTHM(*),CONDE(*),CONDEN(*)
       my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
+      my_real,DIMENSION(NEL), INTENT(INOUT) :: G_WPLA
+      my_real,DIMENSION(NEL), INTENT(IN) :: L_WPLA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -81,6 +84,7 @@ C   - post-traitement-valeur moyenne au sens a'=(_/  a dv ) /v
          SIGM(I,6) = SIGM(I,6) + FAC(I) * SIGOR(I,6)
          RHOM(I)   = RHOM(I)   + FAC2(I) * RHO(I)
          EINTM(I)  = EINTM(I)  + EINT(I)*VOL0(I)/VOL0G(I)
+         G_WPLA(I) = G_WPLA(I)  +  L_WPLA(I)
          QM(I)     = QM(I)     + FAC(I) * Q(I)
          STIN(I)     = STIN(I)     + STI(I)
       ENDDO

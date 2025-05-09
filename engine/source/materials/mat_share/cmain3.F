@@ -83,7 +83,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      R           INDX_DRAPE,THKE      ,SEDRAPE   ,NUMEL_DRAPE,DT        ,
      Q           NCYCLE    , SNPC     ,STF       ,NXLAYMAX  ,IDEL7NOK   ,
      S           USERL_AVAIL, MAXFUNC ,VARNL_NPTTOT, SBUFMAT   ,SDIR_A    ,
-     T          SDIR_B    ,FOR_G)
+     T           SDIR_B    ,FOR_G)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
