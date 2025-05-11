@@ -29,7 +29,7 @@
       !||    fill_voxel_local_partial      ../engine/source/interfaces/intsort/fill_voxel.F90
       !||    fill_voxel_remote             ../engine/source/interfaces/intsort/fill_voxel.F90
       !||--- calls      -----------------------------------------------------
-      !||    build_error_message           ../common_source/tools/memory/shrink_array.F90
+      !||    build_error_message           ../common_source/tools/memory/extend_array.F90
       !||====================================================================
       module extend_array_mod
         implicit none
@@ -71,7 +71,7 @@
 !                                                     TOOLS
 ! ======================================================================================================================
       !||====================================================================
-      !||    build_error_message   ../common_source/tools/memory/shrink_array.F90
+      !||    build_error_message   ../common_source/tools/memory/extend_array.F90
       !||--- called by ------------------------------------------------------
       !||    extend_array_mod      ../common_source/tools/memory/extend_array.F90
       !||    shrink_array_mod      ../common_source/tools/memory/shrink_array.F90
@@ -93,7 +93,7 @@
         end function build_error_message
 
       !||====================================================================
-      !||    check_error_and_write         ../common_source/tools/memory/shrink_array.F90
+      !||    check_error_and_write         ../common_source/tools/memory/extend_array.F90
       !||--- called by ------------------------------------------------------
       !||    extend_array_double_1d        ../common_source/tools/memory/extend_array.F90
       !||    extend_array_double_2d        ../common_source/tools/memory/extend_array.F90
@@ -183,7 +183,7 @@
       !||====================================================================
       !||    extend_array_integer_1d   ../common_source/tools/memory/extend_array.F90
       !||--- calls      -----------------------------------------------------
-      !||    check_error_and_write     ../common_source/tools/memory/shrink_array.F90
+      !||    check_error_and_write     ../common_source/tools/memory/extend_array.F90
       !||====================================================================
         subroutine extend_array_integer_1d(a, oldsize, newsize, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -225,7 +225,7 @@
       !||====================================================================
       !||    extend_array_integer_2d   ../common_source/tools/memory/extend_array.F90
       !||--- calls      -----------------------------------------------------
-      !||    check_error_and_write     ../common_source/tools/memory/shrink_array.F90
+      !||    check_error_and_write     ../common_source/tools/memory/extend_array.F90
       !||====================================================================
         subroutine extend_array_integer_2d(a, oldsize1, oldsize2, newsize1, newsize2, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -305,7 +305,7 @@
       !||====================================================================
       !||    extend_array_integer_3d   ../common_source/tools/memory/extend_array.F90
       !||--- calls      -----------------------------------------------------
-      !||    check_error_and_write     ../common_source/tools/memory/shrink_array.F90
+      !||    check_error_and_write     ../common_source/tools/memory/extend_array.F90
       !||====================================================================
         subroutine extend_array_integer_3d(a, oldsize1, oldsize2, oldsize3, newsize1, newsize2, newsize3, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -384,7 +384,7 @@
       !||====================================================================
       !||    extend_array_real_1d    ../common_source/tools/memory/extend_array.F90
       !||--- calls      -----------------------------------------------------
-      !||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+      !||    check_error_and_write   ../common_source/tools/memory/extend_array.F90
       !||====================================================================
         subroutine extend_array_real_1d(a, oldsize, newsize, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -426,7 +426,7 @@
       !||====================================================================
       !||    extend_array_real_2d    ../common_source/tools/memory/extend_array.F90
       !||--- calls      -----------------------------------------------------
-      !||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+      !||    check_error_and_write   ../common_source/tools/memory/extend_array.F90
       !||====================================================================
         subroutine extend_array_real_2d(a, oldsize1, oldsize2, newsize1, newsize2, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -506,7 +506,7 @@
       !||====================================================================
       !||    extend_array_real_3d    ../common_source/tools/memory/extend_array.F90
       !||--- calls      -----------------------------------------------------
-      !||    check_error_and_write   ../common_source/tools/memory/shrink_array.F90
+      !||    check_error_and_write   ../common_source/tools/memory/extend_array.F90
       !||====================================================================
         subroutine extend_array_real_3d(a, oldsize1, oldsize2, oldsize3, newsize1, newsize2, newsize3, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -587,7 +587,7 @@
       !||====================================================================
       !||    extend_array_double_1d   ../common_source/tools/memory/extend_array.F90
       !||--- calls      -----------------------------------------------------
-      !||    check_error_and_write    ../common_source/tools/memory/shrink_array.F90
+      !||    check_error_and_write    ../common_source/tools/memory/extend_array.F90
       !||====================================================================
         subroutine extend_array_double_1d(a, oldsize, newsize, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -629,7 +629,7 @@
       !||====================================================================
       !||    extend_array_double_2d   ../common_source/tools/memory/extend_array.F90
       !||--- calls      -----------------------------------------------------
-      !||    check_error_and_write    ../common_source/tools/memory/shrink_array.F90
+      !||    check_error_and_write    ../common_source/tools/memory/extend_array.F90
       !||====================================================================
         subroutine extend_array_double_2d(a, oldsize1, oldsize2, newsize1, newsize2, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -709,7 +709,7 @@
       !||====================================================================
       !||    extend_array_double_3d   ../common_source/tools/memory/extend_array.F90
       !||--- calls      -----------------------------------------------------
-      !||    check_error_and_write    ../common_source/tools/memory/shrink_array.F90
+      !||    check_error_and_write    ../common_source/tools/memory/extend_array.F90
       !||====================================================================
         subroutine extend_array_double_3d(a, oldsize1, oldsize2, oldsize3, newsize1, newsize2, newsize3, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -789,7 +789,7 @@
       !||====================================================================
       !||    reallocate_array_integer_1d   ../common_source/tools/memory/extend_array.F90
       !||--- calls      -----------------------------------------------------
-      !||    check_error_and_write         ../common_source/tools/memory/shrink_array.F90
+      !||    check_error_and_write         ../common_source/tools/memory/extend_array.F90
       !||====================================================================
         subroutine reallocate_array_integer_1d(a, newsize, msg, stat)
 ! ----------------------------------------------------------------------------------------------------------------------
