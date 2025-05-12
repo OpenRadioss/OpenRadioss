@@ -393,12 +393,12 @@ C---
 C
               NEL = IGRPART(IGRS)%NENTITY
 C-----------Multidomaines : on ne peut pas splitter la masse dans ce cas--------------
-              IF ((NSUBDOM > 0) .AND.(NEL /= IGRPART(IGRS)%R2R_ALL)) THEN
-              CALL ANCMSG(MSGID=893,
-     .                    MSGTYPE=MSGERROR,
-     .                    ANMODE=ANINFO,
-     .                    I1=ID)
-                ENDIF        
+              IF ((NSUBDOM > 0) .AND.(NEL /= IGRPART(IGRS)%R2R_ALL).AND.(NEL > 0)) THEN
+                CALL ANCMSG(MSGID=893,
+     .                      MSGTYPE=MSGERROR,
+     .                      ANMODE=ANINFO,
+     .                      I1=ID)
+              ENDIF        
               DO J=1,NEL
                 IDP=IGRPART(IGRS)%ENTITY(J)
                 IPMAS(I)%PARTID(J) = IDP

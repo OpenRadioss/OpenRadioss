@@ -68,7 +68,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER STAT,I,J,LEN1,LEN2,NUM,LL,P,N,ANA,
      .          MAT_ID,K,ADD,COMPT,NB_PART,F2,IGTYP,L,PID,COMPT_STACK_TOT,COMPT_STACK,
-     .          COMPT_STACK_REMOV
+     .          COMPT_STACK_REMOV,COMPT_PCOMP_TOT,COMPT_PCOMP,COMPT_PCOMP_REMOV
         INTEGER, DIMENSION(:), ALLOCATABLE :: NUMGEOSTACK1_TEMP,NUMGEOSTACK2_TEMP
         INTEGER, DIMENSION(:,:), ALLOCATABLE :: IPM_TEMP,IGEO_TEMP
         CHARACTER(LEN=NCHARTITLE) TITR
@@ -121,16 +121,20 @@ C---------tag of external parts-----------------------------------C
 
 C--------------------------------------------------------------C
         COMPT = 0
+        COMPT_PCOMP_TOT = 0
+        COMPT_PCOMP_REMOV = 0
         COMPT_STACK_TOT = 0
         COMPT_STACK_REMOV = 0
         IPART_PCOMPP = 0
+        IPART_STACK = 0
 C
         DO K=1,NPART
           IPART_R2R(1,K) = IPARTL(1,K) !mat_id
           IPART_R2R(2,K) = IPARTL(5,K) !user_mat_id
           IPART_R2R(3,K) = 0
           IGTYP = IGEO(NPROPGI*(IPARTL(2,K)-1)+11)
-          IF (IGTYP==52) COMPT_STACK_TOT = COMPT_STACK_TOT + 1
+          IF (IGTYP==51) COMPT_STACK_TOT = COMPT_STACK_TOT + 1
+          IF (IGTYP==52) COMPT_PCOMP_TOT = COMPT_PCOMP_TOT + 1
           IPART_R2R(4,K) = IPARTL(2,K) !prop_id
           IF (TAG_PART(K)==1) THEN
             COMPT=COMPT+1
@@ -140,13 +144,19 @@ C-- Multilayer shells to be changed to void
             ELSEIF (IGTYP.EQ.52) THEN
 C-- /PROP/PCOMP shells to be changed to void
               TAG_PART(K) = 3
-              COMPT_STACK_REMOV = COMPT_STACK_REMOV + 1
+              COMPT_PCOMP_REMOV = COMPT_PCOMP_REMOV + 1
+            ELSEIF (IGTYP.EQ.51) THEN
+C-- /PROP/TYPE51 shells to be changed to void
+              TAG_PART(K) = 4         
+              COMPT_STACK_REMOV = COMPT_STACK_REMOV + 1                
             ENDIF
           ENDIF
         END DO
 
+        COMPT_PCOMP = COMPT_PCOMP_TOT - COMPT_PCOMP_REMOV
+        IF (COMPT_PCOMP > 0) IPART_PCOMPP = 1
         COMPT_STACK = COMPT_STACK_TOT - COMPT_STACK_REMOV
-        IF (COMPT_STACK > 0) IPART_PCOMPP = 1
+        IF (COMPT_STACK > 0) IPART_STACK = 1
 
         IF (COMPT==0) GOTO 150
 
@@ -215,7 +225,7 @@ C---------------Creation of new void materials -------------------C
             NUM = NUM+1
             NUMMAT = NUMMAT+1
 C
-            IF ((TAG_PART(K) == 1).OR.(TAG_PART(K) == 3)) THEN
+            IF ((TAG_PART(K)==1).OR.(TAG_PART(K)==3).OR.(TAG_PART(K) == 4)) THEN
 C--> standard elements
               F2 = IPARTL(1,K)
               PM_TEMP(1,NUMMAT)= 1e-20
