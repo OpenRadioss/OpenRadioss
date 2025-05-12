@@ -915,6 +915,8 @@ C-----------------------------------------------
       INTEGER NUSPHCEL
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: IXSPS
       LOGICAL MAT20_DISCRETE_FILL
+      INTEGER, DIMENSION(:,:), ALLOCATABLE :: FLAG_ELEM_INTER25     
+      INTEGER, DIMENSION(:), ALLOCATABLE :: LIST_NIN25
 C-----------------------------------------------
 C Model Checker Memory
       DATA IUN/1/
@@ -7437,6 +7439,17 @@ C--------------------------------------------------------------
 C
        IF(.NOT. ALLOCATED(ALE_CONNECTIVITY%NALE)) ALLOCATE(ALE_CONNECTIVITY%NALE(0))
 
+       IF(NINTER > 0) THEN 
+         ALLOCATE(LIST_NIN25(NINTER))
+         LIST_NIN25(1:NINTER) = 0
+       ENDIF
+       IF(NINTER25 >0.AND.NUMELS > 0)  THEN
+         ALLOCATE(FLAG_ELEM_INTER25(NINTER25,NUMELS))
+         FLAG_ELEM_INTER25 (1:NINTER25,1:NUMELS) = 0
+       ELSE
+         ALLOCATE(FLAG_ELEM_INTER25(0,0))
+       ENDIF
+
        CALL LECINT (IPARI       ,NINTER    ,IPM                           ,BUFMAT         ,
      .              NMNT        ,ITAB      ,ITABM1                        ,GEO            ,
      .              PM          ,X         ,IGRNOD                        ,IGRSURF        ,IGRSLIN  ,
@@ -7450,7 +7463,8 @@ C
      .              IXS16       ,IXS20     ,DEF_INTER                     ,MAXNSNE        ,
      .              NPC1        ,MULTI_FVM ,NOM_OPT(LNOPT1*INOM_OPT(29)+1),INTBUF_FRIC_TAB,            
      .              IGRBRIC     ,IGRSH3N   ,IGRTRUSS                      ,MAXRTM_T2      ,NSN_MULTI_CONNEC,
-     .              T2_NB_CONNEC,IDDLEVEL  ,ALE_CONNECTIVITY%NALE         ,INTERFACES     ,SNPC1)
+     .              T2_NB_CONNEC,IDDLEVEL  ,ALE_CONNECTIVITY%NALE         ,INTERFACES     ,SNPC1   ,
+     .              FLAG_ELEM_INTER25      ,LIST_NIN25)
 
        !need to allocate only once at first passage in lectur
        FLAG_ALLOCATE = 1
@@ -7512,7 +7526,7 @@ C
      .             NOD2ELTG ,INTBUF_TAB,KNOD2ELS ,NOD2ELS                      ,IXS10  ,
      .             IXS16    ,IXS20     ,NIGE     ,RIGE                         ,XIGE   ,
      .             VIGE     ,IGRBRIC   ,MULTI_FVM,ALE_CONNECTIVITY%NALE        ,IGEO   ,
-     .             INTERFACES,S_NOD2ELS,S_NOD2ELTG)
+     .             INTERFACES,S_NOD2ELS,S_NOD2ELTG,FLAG_ELEM_INTER25           ,LIST_NIN25)
 C
 cc     DEALLOCATE(XFILTR)
 cc     DEALLOCATE(STFAC)
@@ -7640,7 +7654,7 @@ C
      F               SEGQUADFR ,TAGPRT_FRIC,INTBUF_FRIC_TAB              ,IPARTT           ,
      G               IPARTP    ,IPARTX     ,IPARTR                       ,NSN_MULTI_CONNEC ,T2_NB_CONNEC,
      H               SICODE    ,ICODE      ,ISKEW                        ,MULTI_FVM        ,S_NOD2ELS   ,
-     I               SITAB     ,SITABM1)
+     I               SITAB     ,SITABM1    ,FLAG_ELEM_INTER25            ,LIST_NIN25  )
       IF(IDDLEVEL == 0) CALL STOPTIME(12,1)
       IF(IDDLEVEL == 1) CALL STOPTIME(13,1)
 
@@ -7651,7 +7665,10 @@ C
          ENDIF
       ENDDO
       IF(IDEL_SOLID == 0) INTERFACES%PARAMETERS%INT25_EROSION_SOLID = 0
-         
+ 
+        DEALLOCATE (FLAG_ELEM_INTER25)  
+        DEALLOCATE (LIST_NIN25)  
+      
         DEALLOCATE (T2_NB_CONNEC)
         DEALLOCATE (RWORK)
         DEALLOCATE (IWORK)
