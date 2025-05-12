@@ -55,7 +55,8 @@ C
      F              IT19       ,KXIG3D ,IXIG3D        ,INTFRIC  ,IPARTS   ,
      G              TAGPRT_FRIC,IPARTFRICS,IPARTFRICM ,INTBUF_FRIC_TAB,NRT_IGE,
      I              IREM_GAP   ,GAPM_MX,GAPS_MX       ,GAPM_L_MX,GAPS_L_MX,
-     J              IPARTT     ,IPARTP ,IPARTR        ,ELEM_LINKED_TO_SEGMENT)
+     J              IPARTT     ,IPARTP ,IPARTR        ,ELEM_LINKED_TO_SEGMENT,
+     K              FLAG_ELEM_INTER25     ) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -109,6 +110,7 @@ C-----------------------------------------------
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
       TYPE (SURF_) :: IGRSURF
       INTEGER, DIMENSION(NUMELS), INTENT(INOUT):: ELEM_LINKED_TO_SEGMENT !< working array, dim=numels
+      INTEGER, INTENT(IN) :: FLAG_ELEM_INTER25(NINTER25,NUMELS)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -116,7 +118,7 @@ C-----------------------------------------------
      .   MG, NUM, NPT, LL, L, NN, NELTG,N1,N2,N3,N4,IE,
      .   IP, NLEV, MYLEV, K, P, R, T,IGTYP,IPGMAT,IGMAT,
      .   ISUBSTACK,NELIG3D, COIN_IGE(8), IPID, PX, PY, PZ, IAD ,IPFMAX,IPL,
-     .   IPFLMAX,IPG,NINV,ICONTR
+     .   IPFLMAX,IPG,NINV,ICONTR,NIN25
       INTEGER JPERM(4)
       LOGICAL TYPE18
       my_real
@@ -652,10 +654,12 @@ C----------------------
 C       SOLID ELEMENTS
 C----------------------
         PRINT_ERROR = .FALSE.
+        NIN25 = 0
         CALL INSOL3D(X     ,IRECT ,IXS      ,NINT    ,NELS,INRT,
      .               AREA  ,NOINT ,KNOD2ELS ,NOD2ELS ,0   ,
      .               IXS10 ,IXS16 ,IXS20    ,TAGELEMS,INDEXE,NINV,IELEM,
-     .               ELEM_LINKED_TO_SEGMENT ,PRINT_ERROR)
+     .               ELEM_LINKED_TO_SEGMENT ,PRINT_ERROR,
+     .               NIN25,NTY, FLAG_ELEM_INTER25 )
         IF(PRINT_ERROR) THEN
           NODE_ID(1:4) = ITAB(IRECT(1:4,INRT))
           

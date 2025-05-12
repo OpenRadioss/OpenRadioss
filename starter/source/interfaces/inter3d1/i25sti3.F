@@ -53,7 +53,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      I KNOD2EL1D ,NOD2EL1D   ,INTFRIC   ,TAGPRT_FRIC,IPARTFRICS,
      J IPARTFRICM,INTBUF_FRIC_TAB,IVIS2 ,GAPM_MX   ,GAPS_MX    ,
      K GAPM_L_MX ,GAPS_L_MX  ,IPARTSM   ,DRAD      ,IPARTT     ,
-     J IPARTP    ,IPARTR     ,IELEM_M   ,IDEL_SOLID,ELEM_LINKED_TO_SEGMENT)
+     J IPARTP    ,IPARTR     ,IELEM_M   ,IDEL_SOLID,ELEM_LINKED_TO_SEGMENT,
+     K NIN25     , FLAG_ELEM_INTER25)
 C-----------------------------------------------
       USE MY_ALLOC_MOD
       USE INTBUF_FRIC_MOD
@@ -106,6 +107,8 @@ C     REAL
       INTEGER  , INTENT(INOUT) :: IDEL_SOLID
       INTEGER  , INTENT(INOUT) :: IELEM_M(2,NRT+NRT_SH)
       INTEGER, DIMENSION(NUMELS), INTENT(INOUT):: ELEM_LINKED_TO_SEGMENT !< working array, dim=numels
+      INTEGER, INTENT(IN) :: NIN25
+      INTEGER, INTENT(IN) :: FLAG_ELEM_INTER25(NINTER25,NUMELS)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -424,7 +427,8 @@ C------------------------------------
      G ID     ,TITR    ,IGEO      ,FILLSOL ,NRTT ,
      H PM_STACK, IWORKSH,INTFRIC,TAGPRT_FRIC,IPARTFRICS,
      I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB,IPARTSM,INRTIE,
-     J IVIS2  ,IELEM_M  ,IDEL_SOLID,ELEM_LINKED_TO_SEGMENT)
+     J IVIS2  ,IELEM_M  ,IDEL_SOLID,ELEM_LINKED_TO_SEGMENT,
+     K NIN25  ,FLAG_ELEM_INTER25  )
 C---------------------------
 C     GAP
 C---------------------------
@@ -727,7 +731,8 @@ C
      G ID     ,TITR    ,IGEO      ,FILLSOL ,NRTT ,
      H PM_STACK, IWORKSH,INTFRIC,TAGPRT_FRIC,IPARTFRICS,
      I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB,IPARTSM,INRTIE,
-     J IVIS2  ,IELEM_M  ,IDEL_SOLID,ELEM_LINKED_TO_SEGMENT)
+     J IVIS2  ,IELEM_M  ,IDEL_SOLID,ELEM_LINKED_TO_SEGMENT,
+     F NIN25  ,FLAG_ELEM_INTER25)
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTBUF_FRIC_MOD
@@ -772,6 +777,8 @@ C-----------------------------------------------
       INTEGER  , INTENT(INOUT) :: IELEM_M(2,NRTT)
       INTEGER  , INTENT(INOUT) :: IDEL_SOLID
       INTEGER, DIMENSION(NUMELS), INTENT(INOUT):: ELEM_LINKED_TO_SEGMENT !< working array, dim=numels
+      INTEGER, INTENT(IN) :: NIN25
+      INTEGER, INTENT(INOUT) :: FLAG_ELEM_INTER25(NINTER25,NUMELS)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -821,7 +828,8 @@ C----------------------
      .             AREA,NOINT,KNOD2ELS ,NOD2ELS ,0,
      .             IXS10,IXS16,IXS20,TAGELEMS,INDEXE,
      .             NINV ,IELEM_M(1,I),
-     .             ELEM_LINKED_TO_SEGMENT ,PRINT_ERROR)
+     .             ELEM_LINKED_TO_SEGMENT ,PRINT_ERROR,
+     .             NIN25,NTY, FLAG_ELEM_INTER25 )
 
         IF(PRINT_ERROR) THEN
           NODE_ID(1:4) = ITAB(IRECT(1:4,I))

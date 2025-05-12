@@ -188,7 +188,8 @@ C
       SUBROUTINE INSOL3D(X   ,IRECT ,IXS     ,NINT   ,NEL,I ,
      .                  AREA ,NOINT ,KNOD2ELS,NOD2ELS,IR ,
      .                  IXS10,IXS16,IXS20    ,TAGELEMS,INDEXE,
-     .                  NINV ,IELEM_M ,ELEM_LINKED_TO_SEGMENT,PRINT_ERROR)
+     .                  NINV ,IELEM_M ,ELEM_LINKED_TO_SEGMENT,PRINT_ERROR,
+     .                  NIN25,NTY     , FLAG_ELEM_INTER25 )
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -216,6 +217,8 @@ C-----------------------------------------------
       INTEGER  , INTENT(INOUT) :: IELEM_M(2) ! ID of 1 or 2 solid elements attached to main segment
       INTEGER, DIMENSION(NUMELS), INTENT(INOUT) :: ELEM_LINKED_TO_SEGMENT !< working array, dim=numels
       LOGICAL, INTENT(INOUT) :: PRINT_ERROR !< flag : true if several elements seem to be duplicated
+      INTEGER, INTENT(IN) :: NIN25, NTY
+      INTEGER, INTENT(IN) :: FLAG_ELEM_INTER25(NINTER25,NUMELS)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -351,6 +354,17 @@ C
             IELEM_M(1) = IELEM_M(2)
             IELEM_M(2) = IELS
           ENDIF
+          IF(NTY==25) THEN
+            IF(FLAG_ELEM_INTER25(NIN25,IELEM_M(1)) ==1.AND.FLAG_ELEM_INTER25(NIN25,IELEM_M(2)) ==0) THEN
+              IC = 1  
+            ELSEIF(FLAG_ELEM_INTER25(NIN25,IELEM_M(1)) ==0.AND.FLAG_ELEM_INTER25(NIN25,IELEM_M(2)) ==1) THEN
+              IC = 1
+              NEL = IELEM_M(2)
+              IELEM_M(1) = IELEM_M(2)
+              IELEM_M(2) = 0
+            ENDIF
+          ENDIF
+          
        ELSE
           IELEM_M(1:2) = ELEM_LINKED_TO_SEGMENT(1:2)
           PRINT_ERROR = .TRUE.

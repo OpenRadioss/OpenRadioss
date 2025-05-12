@@ -60,7 +60,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      F                  SEGQUADFR,TAGPRT_FRIC,INTBUF_FRIC_TAB   ,IPARTT          ,
      G                  IPARTP    ,IPARTX    ,IPARTR            ,NSN_MULTI_CONNEC,T2_NB_CONNEC,
      H                  SICODE    ,ICODE     ,ISKEW             ,MULTI_FVM       ,S_NOD2ELS   ,
-     I                  SITAB     ,SITABM1)
+     I                  SITAB     ,SITABM1   ,FLAG_ELEM_INTER25 ,LIST_NIN25      )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -115,6 +115,8 @@ C-----------------------------------------------
      .        THK(*),THK_PART(*),FRIGAP(NPARIR,NINTER),
      .        LELX(*), FILLSOL(*),PM_STACK(*)
       INTEGER NOM_OPT(LNOPT1,*),KXX(*),IXX(*)
+      INTEGER, INTENT(IN) :: LIST_NIN25(NINTER)
+      INTEGER, INTENT(IN) :: FLAG_ELEM_INTER25(NINTER25,NUMELS)   
       TYPE(INTERSURFP) :: INTERCEP(3,NINTER)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE(SCRATCH_STRUCT_) INSCR(*)
@@ -133,7 +135,7 @@ C-----------------------------------------------
       INTEGER NTY, NSN2T, NMN2T,ID,
      .        NSNET  ,NMNET  ,MULTIMP, IREMNODE, NREMNODE,
      .        NREMN(NINTER),NREMN_OLD(NINTER),IEDG,IEDGN,ST2_CONNEC,
-     .        REMNODE_SIZE,LEN_FILNAM,REMNODE_SIZE_EDG,IREMNODE_EDG
+     .        REMNODE_SIZE,LEN_FILNAM,REMNODE_SIZE_EDG,IREMNODE_EDG,NIN25
       CHARACTER*(2148) FILNAM
       CHARACTER(LEN=NCHARTITLE) :: TITR
       INTEGER, DIMENSION(:),ALLOCATABLE :: REMNODE,KREMNODE,T2_ADD_CONNEC,T2_CONNEC,IKINE1
@@ -332,6 +334,7 @@ C---     Initial dimension of REMNODE arrays
             NIN=N
             ID=NOM_OPT(1,NIN)
             CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,NIN),LTITR)
+            NIN25 = LIST_NIN25(NIN)
 
             IF(N2D == 0)THEN
 
@@ -355,7 +358,7 @@ C---     Initial dimension of REMNODE arrays
      G               T2_CONNEC               , NOM_OPT               , ICODE                 , ISKEW          , IREMNODE_EDG     ,
      H               MULTI_FVM%S_APPEND_ARRAY, MULTI_FVM%X_APPEND    , MULTI_FVM%MASS_APPEND , N2D            , FLAG_REMOVED_NODE,
      I               NSPMD                   ,INTER_TYPE2_NUMBER     , ELEM_LINKED_TO_SEGMENT, INSCR(N)%SINSCR, SICODE           ,
-     J               SITAB )
+     J               SITAB                   ,NIN25                  , FLAG_ELEM_INTER25      )
 
               IF (I_MEM /= 0) GOTO 200
             ELSE

@@ -42,7 +42,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5                    IXTG    ,KNOD2ELC,KNOD2ELTG,NOD2ELC,
      6                    NOD2ELTG,KNOD2ELS,NOD2ELS  ,IXS    ,
      7                    IXS10   ,IXS16   ,IXS20    ,IRTSE  ,
-     8                    IS2SE   ,IS2PT   ,IS2ID    ,PARAMETERS)
+     8                    IS2SE   ,IS2PT   ,IS2ID    ,PARAMETERS,
+     A                    NIN25   ,FLAG_ELEM_INTER25      )
 C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -78,6 +79,8 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:),ALLOCATABLE :: INDEX
       INTEGER, DIMENSION(:,:),ALLOCATABLE :: IRECTMP
       INTEGER, DIMENSION(:,:),ALLOCATABLE :: IRECTMP_SAV
+      INTEGER, INTENT(IN) ::  NIN25
+      INTEGER, INTENT(INOUT) :: FLAG_ELEM_INTER25(NINTER25,NUMELS)
       my_real
      .   X(3,*),FRIGAP(*)
 C-----------------------------------------------
@@ -94,7 +97,7 @@ C-----------------------------------------------
       INTEGER NSU1,NLS1,NLS2,NRTM_SH,ETYP,NRTM0,
      .        IMBIN,IM,IDEB,ISN
       LOGICAL :: NEED_SOLID_EROSION
-      INTEGER :: IDEL,SOLID_SEGMENT  
+      INTEGER :: IDEL,SOLID_SEGMENT,ELEM
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -163,7 +166,10 @@ c---------------------------------------
      .                 KNOD2ELC ,KNOD2ELTG ,NOD2ELC ,NOD2ELTG,
      .                 KNOD2ELS,NOD2ELS,IXS ,IXS10 ,IXS16 ,IXS20 )
           IF(IMBIN /= 0)IRECTMP(6,L) = BITSET(IRECTMP(6,L),0) ! MBINFLG
-
+          IF(ILEV==1.OR.ILEV==2) THEN
+             ELEM = IGRSURF(ISU1)%ELEM(J)
+             IF(ELEM/=0.AND.IGRSURF(ISU1)%ELTYP(J)==1) FLAG_ELEM_INTER25(NIN25,ELEM) = 1 ! tag solid elements included in surface 
+          ENDIF
         ENDDO
       ENDIF
       NSU1 = L
@@ -180,7 +186,8 @@ c---------------------------------------
      .                 KNOD2ELC ,KNOD2ELTG ,NOD2ELC ,NOD2ELTG,
      .                 KNOD2ELS,NOD2ELS,IXS ,IXS10 ,IXS16 ,IXS20 )
           IF(IMBIN /= 0) IRECTMP(6,L) = BITSET(IRECTMP(6,L),1) ! MBINFLG
-
+          ELEM = IGRSURF(ISU2)%ELEM(J)
+          IF(ELEM/=0.AND.IGRSURF(ISU2)%ELTYP(J)==1) FLAG_ELEM_INTER25(NIN25,ELEM) = 1 ! tag solid elements included in surface 
         ENDDO
       ENDIF
 C=======================================================================

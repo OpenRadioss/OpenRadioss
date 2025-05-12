@@ -167,12 +167,13 @@ C-----------------------------------------------
           ELSEIF(TYPE_INTER.AND.IDEL==2) THEN
               DEACTIVATION = .TRUE.
           ENDIF
+
           IF(.NOT.DEACTIVATION.AND.(IPARI(100,NIN)/=0.AND.ITY==25)) THEN
             NB_CONNECTED_ELM = SHOOT_STRUCT%INTER(NIN)%NB_ELM_M(K)
             ! ---------
-            IF((NB_CONNECTED_ELM<1).AND.(INTBUF_TAB(NIN)%STFM(k)>ZERO)) THEN
-              DEACTIVATION=.TRUE.
-            ELSEIF(NB_CONNECTED_ELM==1.AND.(INTBUF_TAB(NIN)%STFM(k)<ZERO)) THEN
+c            IF((NB_CONNECTED_ELM<1).AND.(INTBUF_TAB(NIN)%STFM(k)>ZERO)) THEN
+c              DEACTIVATION=.TRUE.
+            IF(NB_CONNECTED_ELM==1.AND.(INTBUF_TAB(NIN)%STFM(k)<ZERO)) THEN
               ACTIVATION = .TRUE.
             ENDIF
             ! ---------
