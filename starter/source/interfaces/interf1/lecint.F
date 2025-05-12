@@ -61,7 +61,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  IXS16   ,IXS20   ,DEF_INTER,MAXNSNE,
      .                  NPC1    ,MULTI_FVM,NOM_OPTFRIC,INTBUF_FRIC_TAB,
      .                  IGRBRIC,IGRSH3N ,IGRTRUSS ,MAXRTM_T2,NSN_MULTI_CONNEC,T2_NB_CONNEC,
-     .                  IDDLEVEL,NALE   ,INTERFACES,SNPC1)
+     .                  IDDLEVEL,NALE   ,INTERFACES,SNPC1  ,FLAG_ELEM_INTER25,LIST_NIN25)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -106,6 +106,8 @@ C-----------------------------------------------
      .        NPC1(SNPC1),NOM_OPTFRIC(LNOPT1,*),MAXRTM_T2,
      .        T2_NB_CONNEC(*),NSN_MULTI_CONNEC
       INTEGER, INTENT(IN) :: NALE(NUMNOD)
+      INTEGER, INTENT(INOUT) :: LIST_NIN25(NINTER)
+      INTEGER, INTENT(INOUT) :: FLAG_ELEM_INTER25(NINTER25,NUMELS)
       my_real
      .   GEO(NPROPG,NUMGEO), PM(*), XFILTR(*),STFAC(*),
      .   FRIC_P(10,NINTER),I2RUPT(6,NINTER),FRIGAP(NPARIR,NINTER),AREASL(*)
@@ -136,7 +138,7 @@ C-----------------------------------------------
      .        NRTM_IGE,NRTMM_IGE,
      .        NRTS_IGE,NRTMS_IGE,NRTS_FE,
      .        NMN_IGE,NMN_FE,NSN_IGE,NSN_FE,IAD_IGE,
-     .        IEDGE,NCONTE,MULTIMPE,MULTIMPS,ISTIFF
+     .        IEDGE,NCONTE,MULTIMPE,MULTIMPS,ISTIFF,NIN25
       INTEGER KD(50),JD(50),IBID,NRTM_SH,ETYP,INTPLY
       INTEGER, DIMENSION(:), ALLOCATABLE :: IRECTS,IRECTM,NSV,MSR
       INTEGER ID,ISL, GRBRIC_ID
@@ -270,6 +272,7 @@ C-----------------------------------------------
       NRTMM_IGE = 0
       NRTMS_IGE = 0
       STIFF_STAT = ZERO
+      NIN25 = 0
       
       DO NI=1,LINTER
 C
@@ -439,6 +442,8 @@ C
         ELSEIF(NTYP == 25)THEN
           IALLO = 1  ! memory evaluation
           INTPLY = 0
+          NIN25 = NIN25 + 1
+          LIST_NIN25(NI) = NIN25
           CALL I25SURFI(
      1      IALLO        ,IPARI(1,NI)  ,IGRNOD     ,IGRSURF      ,
      2      IBID         ,FRIGAP(1,NI) ,
@@ -448,7 +453,8 @@ C
      6      IXTG         ,KNOD2ELC     ,KNOD2ELTG   ,NOD2ELC      ,
      7      NOD2ELTG     ,KNOD2ELS     ,NOD2ELS     ,IXS          ,
      8      IXS10        ,IXS16        ,IXS20       ,IBID         ,
-     9      IBID         ,IBID         ,IBID        ,INTERFACES%PARAMETERS)
+     9      IBID         ,IBID         ,IBID        ,INTERFACES%PARAMETERS,
+     A      NIN25        ,FLAG_ELEM_INTER25)
             IPARI(66,NI) = INTPLY
             IF(INTPLY > 0) INTPLYXFEM = 1          
 C----------NRTS,NRTM is calculated in I25SURFI     

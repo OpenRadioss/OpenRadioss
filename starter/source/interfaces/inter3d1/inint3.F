@@ -140,7 +140,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      G                  T2_CONNEC     ,NOM_OPT             ,ICODE                 ,ISKEW        ,IREMNODE_EDG,
      H                  S_APPEND_ARRAY,X_APPEND            ,MASS_APPEND           ,N2D          ,FLAG_REMOVED_NODE,
      I                  NSPMD         ,INTER_TYPE2_NUMBER  ,ELEM_LINKED_TO_SEGMENT,SINSCR       ,SICODE  ,
-     J                  SITAB)
+     J                  SITAB         ,NIN25               ,FLAG_ELEM_INTER25     )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -225,6 +225,8 @@ C-----------------------------------------------
       LOGICAL, INTENT(in) :: FLAG_REMOVED_NODE !< flag to remove some S node from the list of candidates
       TYPE(INTER_CAND_), iNTENT(inout) :: INTER_CAND
       INTEGER, DIMENSION(NUMELS), INTENT(INOUT):: ELEM_LINKED_TO_SEGMENT
+      INTEGER, INTENT(IN) ::  NIN25
+      INTEGER, INTENT(IN) :: FLAG_ELEM_INTER25(NINTER25,NUMELS)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -701,7 +703,8 @@ C----------------
      G    IT19             ,KXIG3D                  ,IXIG3D           ,IPARI(72,NIN)    , IPARTS          ,
      H    TAGPRT_FRIC      ,INTBUF_TAB(NIN)%IPARTFRICS   ,INTBUF_TAB(NIN)%IPARTFRICM ,INTBUF_FRIC_TAB,NRTM_IGE      ,
      I    IPARI(63,NIN)    ,GAPM_MX                 ,GAPS_MX          ,GAPM_L_MX        ,GAPS_L_MX        ,
-     J    IPARTT           ,IPARTP                  ,IPARTR           ,ELEM_LINKED_TO_SEGMENT)
+     J    IPARTT           ,IPARTP                  ,IPARTR           ,ELEM_LINKED_TO_SEGMENT,
+     K    FLAG_ELEM_INTER25       ) 
        IPARI(21,NIN) = IGAP 
 C
 C----------------
@@ -1489,7 +1492,7 @@ C----  INTBUF_TAB(NIN)%CRIT V/A is used temporarily for sorting and Pen-max
      H PM_STACK  ,IWORKSH    ,IPARI(72,NIN)  ,TAGPRT_FRIC   , INTBUF_TAB(NIN)%IPARTFRICS,
      G INTBUF_TAB(NIN)%IPARTFRICM,INTBUF_FRIC_TAB,IPARI(86,NIN) , NRTS   ,INTBUF_TAB(NIN)%IRECTS ,
      I INTBUF_TAB(NIN)%IELNRTS,INTBUF_TAB(NIN)%ADRECTS,INTBUF_TAB(NIN)%FACNRTS,NMN,INTBUF_TAB(NIN)%MSR ,
-     J IPARTT   ,IPARTP   ,IPARTR  ,ELEM_LINKED_TO_SEGMENT,IGSTI)  
+     J IPARTT   ,IPARTP   ,IPARTR  ,ELEM_LINKED_TO_SEGMENT,IGSTI, FLAG_ELEM_INTER25 )  
        IPARI(21,NIN) = IGAP
 C---------GAP_S for fictive nodes       
         IF (NSNE >0) THEN
@@ -1906,7 +1909,8 @@ C-----------------------------------------------------------
      I KNOD2EL1D  ,NOD2EL1D         ,IPARI(72,NIN)       ,TAGPRT_FRIC    ,INTBUF_TAB(NIN)%IPARTFRICS   ,
      J INTBUF_TAB(NIN)%IPARTFRICM,INTBUF_FRIC_TAB,IVIS2   ,GAPM_MX       , GAPS_MX               ,
      K GAPM_L_MX  ,GAPS_L_MX        ,IPARTSM         ,DRAD          ,IPARTT                 ,
-     J IPARTP     ,IPARTR           ,INTBUF_TAB(NIN)%IELEM_M , IPARI(100,NIN),ELEM_LINKED_TO_SEGMENT)
+     J IPARTP     ,IPARTR           ,INTBUF_TAB(NIN)%IELEM_M , IPARI(100,NIN),ELEM_LINKED_TO_SEGMENT,
+     K NIN25      , FLAG_ELEM_INTER25)
        IPARI(21,NIN) = IGAP
 C-----------------------------------------------------------
 C      ELEMENT NEIGHBROURS & FREE EDGES
