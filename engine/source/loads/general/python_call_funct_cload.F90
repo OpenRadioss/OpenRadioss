@@ -72,6 +72,7 @@
           if(n <= size(nodes%x,2) .and. n > 0) then
             tmp = nodes%X(:,n)
             call python_set_active_node_values(1,"C",tmp)
+            call python_set_active_node_ids(n,nodes%itab(n))
           else
             tmp(1:3) = 0.0d0
             call python_set_active_node_values(1,"C",tmp)

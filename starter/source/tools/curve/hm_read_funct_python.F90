@@ -27,24 +27,35 @@
       !||====================================================================
       module read_funct_python_mod
       contains
+        function array_to_string(char_array) result(string)
+          use iso_c_binding, only : c_char
+          character(kind=c_char), dimension(:), intent(in) :: char_array
+          character(len=:), allocatable :: string
+          integer :: i
+
+          allocate(character(len=size(char_array)) :: string)
+          do i = 1, size(char_array)
+            string(i:i) = char_array(i)
+          end do
+        end function array_to_string
 !! \details Read the python function defined by /FUNCT_PYTHON/
-      !||====================================================================
-      !||    hm_read_funct_python      ../starter/source/tools/curve/hm_read_funct_python.F90
-      !||--- called by ------------------------------------------------------
-      !||    lectur                    ../starter/source/starter/lectur.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                    ../starter/source/output/message/message.F
-      !||    hm_get_intv               ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_get_string_index       ../starter/source/devtools/hm_reader/hm_get_string_index.F
-      !||    hm_option_count           ../starter/source/devtools/hm_reader/hm_option_count.F
-      !||    hm_option_read_key        ../starter/source/devtools/hm_reader/hm_option_read_key.F
-      !||    hm_option_start           ../starter/source/devtools/hm_reader/hm_option_start.F
-      !||--- uses       -----------------------------------------------------
-      !||    hm_option_read_mod        ../starter/share/modules1/hm_option_read_mod.F
-      !||    message_mod               ../starter/share/message_module/message_mod.F
-      !||    submodel_mod              ../starter/share/modules1/submodel_mod.F
-      !||    table_mod                 ../starter/share/modules1/table_mod.F
-      !||====================================================================
+        !||====================================================================
+        !||    hm_read_funct_python      ../starter/source/tools/curve/hm_read_funct_python.F90
+        !||--- called by ------------------------------------------------------
+        !||    lectur                    ../starter/source/starter/lectur.F
+        !||--- calls      -----------------------------------------------------
+        !||    ancmsg                    ../starter/source/output/message/message.F
+        !||    hm_get_intv               ../starter/source/devtools/hm_reader/hm_get_intv.F
+        !||    hm_get_string_index       ../starter/source/devtools/hm_reader/hm_get_string_index.F
+        !||    hm_option_count           ../starter/source/devtools/hm_reader/hm_option_count.F
+        !||    hm_option_read_key        ../starter/source/devtools/hm_reader/hm_option_read_key.F
+        !||    hm_option_start           ../starter/source/devtools/hm_reader/hm_option_start.F
+        !||--- uses       -----------------------------------------------------
+        !||    hm_option_read_mod        ../starter/share/modules1/hm_option_read_mod.F
+        !||    message_mod               ../starter/share/message_module/message_mod.F
+        !||    submodel_mod              ../starter/share/modules1/submodel_mod.F
+        !||    table_mod                 ../starter/share/modules1/table_mod.F
+        !||====================================================================
         subroutine hm_read_funct_python(python,npc,snpc,total_nb_funct,&
         &lsubmodel,nbsubmod, pld, npts, table, ntable)
 #include "my_real.inc"
@@ -92,10 +103,12 @@
           double precision :: XX(funct_python_nsamples)
           double precision :: YY(funct_python_nsamples)
 
+
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      body
 ! ----------------------------------------------------------------------------------------------------------------------
           allocate(character(kind=c_char, len=max_code_length) :: code)
+
           call hm_option_count('/FUNCT_PYTHON', nb_funct)
           allocate(python%functs(nb_funct))
           python%nb_functs = nb_funct
@@ -158,17 +171,27 @@
                 allocate(table(l)%Y)
                 allocate(table(l)%X(1)%values(funct_python_nsamples))
                 allocate(table(l)%Y%values(funct_python_nsamples))
-                call python_sample_function(python%functs(i)%name,XX,YY,funct_python_nsamples)
+                !write(6,*) "Python test: funct_id",func_id,"name is",array_to_string(python%functs(i)%name)
+                if(array_to_string(python%functs(i)%name) =="sync"//C_NULL_CHAR) then
+                  !write(6,*) "Python test: funct_id",func_id,"is sync"
+                else if(array_to_string(python%functs(i)%name) == "initialize_environment"//C_NULL_CHAR) then
+                  !write(6,*) "Python test: funct_id",func_id," is initialize_environment"
+                else
 
-                do ipt =1, funct_python_nsamples
-                  !write(6,*) ipt,"X",table(l)%X(1)%values(ipt),"Y",table(l)%Y%values(ipt)
-                  table(l)%X(1)%values(ipt) = XX(ipt)                         
-                  PLD(NPC(L+1)) = table(l)%X(1)%values(ipt)
-                  NPC(L + 1) = NPC(L + 1) + 1 
-                  table(l)%Y%values(ipt) = YY(ipt)
-                  PLD(NPC(l+1)) = table(l)%Y%values(ipt)
-                  NPC(L + 1) = NPC(L + 1) + 1 
-                enddo
+                  !write(6,*) "sample python function: ",array_to_string(python%functs(i)%name)
+                  !write(6,*) "test1",array_to_string(python%functs(i)%name) == "sync"//c_null_char
+                  !write(6,*) "test2",array_to_string(python%functs(i)%name) == "initialize_environment"//c_null_char
+                  call python_sample_function(python%functs(i)%name,XX,YY,funct_python_nsamples)
+                  do ipt =1, funct_python_nsamples
+                    !write(6,*) ipt,"X",table(l)%X(1)%values(ipt),"Y",table(l)%Y%values(ipt)
+                    table(l)%X(1)%values(ipt) = XX(ipt)
+                    PLD(NPC(L+1)) = table(l)%X(1)%values(ipt)
+                    NPC(L + 1) = NPC(L + 1) + 1
+                    table(l)%Y%values(ipt) = YY(ipt)
+                    PLD(NPC(l+1)) = table(l)%Y%values(ipt)
+                    NPC(L + 1) = NPC(L + 1) + 1
+                  enddo
+                endif
               else
               endif
             enddo
