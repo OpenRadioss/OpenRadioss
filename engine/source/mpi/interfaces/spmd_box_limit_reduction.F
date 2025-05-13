@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    inter_struct_mod           ../engine/share/modules/inter_struct_mod.F
       !||    spmd_mod                   ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
-        SUBROUTINE SPMD_BOX_LIMIT_REDUCTION(NB_INTER_SORTED)
+        SUBROUTINE SPMD_BOX_LIMIT_REDUCTION(NB_INTER_SORTED,box_limit)
 !$COMMENT
 !       SPMD_GRID_LIMIT_REDUCTION description :
 !       compute the minimal & maximal positions      
@@ -43,7 +43,6 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
         USE INTER_STRUCT_MOD
-        USE INTER_SORTING_MOD
         USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -56,7 +55,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        INTEGER, INTENT(in) :: NB_INTER_SORTED        !   number of interfaces that need to be sorted
+        INTEGER, INTENT(in) :: NB_INTER_SORTED        !< number of interfaces that need to be sorted
+        my_real, dimension(6), intent(inout) :: box_limit !< upper & lower bound of the box
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

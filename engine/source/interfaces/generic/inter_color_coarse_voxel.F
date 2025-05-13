@@ -83,8 +83,8 @@ C-----------------------------------------------
         ! ------------------
         ! allocation of global omp array 
         IF(ITASK==0) THEN
-            ALLOCATE(CELL_BOOL(4,4,4))
-            CELL_BOOL(1:4,1:4,1:4) = .FALSE.
+            ALLOCATE(CELL_BOOL(NB_BOX_COARSE_GRID,NB_BOX_COARSE_GRID,NB_BOX_COARSE_GRID))
+            CELL_BOOL(1:NB_BOX_COARSE_GRID,1:NB_BOX_COARSE_GRID,1:NB_BOX_COARSE_GRID) = .FALSE.
         ENDIF
         CALL MY_BARRIER()
         ! ------------------
@@ -103,7 +103,7 @@ C-----------------------------------------------
                 XMINB = BOX_LIMIT(4)
                 YMINB = BOX_LIMIT(5)
                 ZMINB = BOX_LIMIT(6)
-                IF(ITASK==0) CELL_BOOL(1:4,1:4,1:4) = .FALSE.
+                IF(ITASK==0) CELL_BOOL(1:NB_BOX_COARSE_GRID,1:NB_BOX_COARSE_GRID,1:NB_BOX_COARSE_GRID) = .FALSE.
                 CALL MY_BARRIER()
                 ! ------------------
                 !   loop over the secondary node to color the coarse grid
@@ -129,9 +129,9 @@ C-----------------------------------------------
                     ENDIF
                     SORT_COMM(NIN)%COARSE_GRID(1:NB_BOX_COARSE_GRID**3 + 1) = 0
                     NEXT = 0
-                    DO IZ=1,4
-                        DO IY=1,4
-                            DO IX=1,4
+                    DO IZ=1,NB_BOX_COARSE_GRID
+                        DO IY=1,NB_BOX_COARSE_GRID
+                            DO IX=1,NB_BOX_COARSE_GRID
                                 IF(CELL_BOOL(IX,IY,IZ)) THEN
                                     NEXT = NEXT + 1
                                     SORT_COMM(NIN)%COARSE_GRID(NEXT) = 

@@ -713,6 +713,7 @@ C-----------------------------------------------
               USE ams_work_mod
               USE UPDATE_PON_MOD
               USE DEBUG_MOD
+              use inter_init_component_mod , only : inter_init_component
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1306,6 +1307,8 @@ C-------------------------------------------------------------------------------
 C-----------------------------------------------------------------------------------
               type(SPH_WORK_)  :: SPH_WORK   !< working Areas for SPLISSV and SPHPREP
               type (ams_work_) :: ams_work   !< Working areas for AMS
+
+              type(component_), dimension(:), allocatable :: component
 C-----------------------------------------------------------------------------------
               ELEMENT%SHELL%OFFSET = NUMELS + NUMELQ
               CALL PREPARE_DEBUG(NODES%ITAB,NUMNOD)
@@ -2391,6 +2394,11 @@ C ---------------------
      .                               numelrg,numeltgg ,IXS(L1))
               ! -------------------------
 
+              ! -------------------------
+              allocate(component(ninter))
+              call inter_init_component(ninter,npari,numnod,ispmd,nspmd,ipari,nodes%x,interfaces%intbuf_tab,component)
+              ! -------------------------
+              
               ! -------------------------
               ! initialization of SPH_WORK
               call ALLOCATE_SPH_WORK(SPH_WORK,
@@ -3746,7 +3754,7 @@ C===============================================================================
      M             LSKYI_SMS_NEW    ,FORNEQS  ,INT7ITIED,IDEL7NOK_SAV,MAXDGAP,
      N             T2FAC_SMS,NODES%ICODT,NODES%ISKEW ,FSKYN25  ,ADDCSRECT,PROCNOR,
      O             INTER_STRUCT,SORT_COMM,RNUM_SIZ,NATIV_SMS_SIZ,TEMP_SIZ,
-     P             INTERFACES,GLOB_THERM)
+     P             INTERFACES,GLOB_THERM,component)
 C
 #include "lockon.inc"
                 IF(DT2TT<DT2T)THEN

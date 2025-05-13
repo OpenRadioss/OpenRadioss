@@ -129,7 +129,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      M       LSKYI_SMS_NEW,FORNEQS,INT7ITIED,IDEL7NOK_SAV,MAXDGAP,
      N       T2FAC_SMS,ICODT,ISKEW,FSKYN25,ADDCSRECT,PROCNOR,
      O       INTER_STRUCT,SORT_COMM,RENUM_SIZ,NODNX_SMS_SIZ,TEMP_SIZ,
-     P       INTERFACES,GLOB_THERM)
+     P       INTERFACES,GLOB_THERM,component)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -232,6 +232,7 @@ C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
       TYPE (GROUP_)  , DIMENSION(NGRSH3N) :: IGRSH3N
       TYPE (glob_therm_) ,INTENT(IN) :: GLOB_THERM
+      type(component_), dimension(ninter), intent(inout) :: component
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -475,12 +476,10 @@ C-----------------------------------------------
             PTR_X => X
             PTR_V => V
           ENDIF
-
        CALL I7MAIN_CRIT_TRI(
      1      IPARI ,PTR_X        ,N        ,
      2      ITASK ,PTR_V        ,XSLV(1,N)    ,XMSR(1,N),VSLV(1,N),
      3      VMSR(1,N),INTBUF_TAB(N))
-
 C-----------------------------------------------
         ELSEIF(NTY == 24.AND.TT>=TS)THEN
 C-----------------------------------------------
@@ -688,7 +687,6 @@ C Fin Partie non parallele smt
 
       IF(ITASK==0)CALL STOPTIME(TIMERS,120) 
 
-
       RETRI = 0
       ! ------------------------
       ! new sorting algorithm     
@@ -699,6 +697,7 @@ C Fin Partie non parallele smt
       ! globalize NEED_TO_SORT : 1= one or several interface(s) must be sorted 
       IF(NSPMD>1.AND.ITASK==0) CALL SPMD_ALLGLOB_ISUM9(NEED_TO_SORT,1)
       CALL MY_BARRIER()
+
       ! ------------------------
 
       ! ------------------------
@@ -730,7 +729,7 @@ C Fin Partie non parallele smt
      .                               IPARI,IAD_ELEM,FR_ELEM,X,V,
      .                               MS,TEMP,KINET,NODNX_SMS,ITAB,
      .                               WEIGHT,INTBUF_TAB,INTER_STRUCT,SORT_COMM,NODNX_SMS_SIZ,
-     .                               TEMP_SIZ )
+     .                               TEMP_SIZ,component )
             ! -----------
             ! sorting computation
             CALL INTER_SORT(TIMERS, ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,RETRI,IPARI,

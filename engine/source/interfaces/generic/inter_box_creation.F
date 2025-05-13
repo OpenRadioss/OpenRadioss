@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    inter_sorting_mod    ../engine/share/modules/inter_sorting_mod.F
       !||====================================================================
-        SUBROUTINE INTER_BOX_CREATION( )
+        SUBROUTINE INTER_BOX_CREATION(nb_cell_x,nb_cell_y,nb_cell_z,box_limit)
 !$COMMENT
 !       INTER_BOX_CREATION description :
 !       creation of the global box
@@ -41,7 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-        USE INTER_SORTING_MOD
+        USE INTER_SORTING_MOD , ONLY : NB_BOX_COARSE_GRID,NB_BOX_LIMIT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,7 +54,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-
+        integer, intent(inout) :: nb_cell_x !< number of cell in the x direction
+        integer, intent(inout) :: nb_cell_y !< number of cell in the y direction
+        integer, intent(inout) :: nb_cell_z !< number of cell in the z direction
+        my_real, dimension(6), intent(inout) :: box_limit !< upper & lower bound of the box
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

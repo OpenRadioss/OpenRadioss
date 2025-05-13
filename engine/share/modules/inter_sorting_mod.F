@@ -65,7 +65,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             INTEGER :: REQUEST_INACTI   ! request for inacti communication
 
             my_real, DIMENSION(6) :: BOX_LIMIT  ! min & max positions of the grid
-            INTEGER, PARAMETER :: NB_BOX_COARSE_GRID=4
+            INTEGER, PARAMETER :: NB_BOX_COARSE_GRID=8
             INTEGER, PARAMETER :: NB_BOX_LIMIT=128
             INTEGER :: NB_CELL_X,NB_CELL_Y,NB_CELL_Z    !   number of cell of the global voxel
 
@@ -116,6 +116,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
                 INTEGER, DIMENSION(:), ALLOCATABLE :: SEND_DISPLS_NB_CELL  ! displacement for send
                 INTEGER, DIMENSION(:), ALLOCATABLE :: RCV_DISPLS_NB_CELL   ! displacement for recv
 
+                integer :: request_s_nb
+                integer :: request_r_nb
+                integer, dimension(:), allocatable :: request_s
+                integer, dimension(:), allocatable :: request_r,index_r
+
                 !   -----------------------------
                 !   exchange of cell (fine grid) : mode = 2
                 INTEGER :: REQUEST_NB_CELL                              ! request for cell size exchange
@@ -159,6 +164,45 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
                 INTEGER, DIMENSION(:), ALLOCATABLE :: REQ_SD3       ! request for Send : IREM comm
                 !   -----------------------------
             END TYPE sorting_comm_type
+
+
+            type s_list_
+              integer :: node_nb
+              integer, dimension(:), allocatable :: node
+              my_real, dimension(:), allocatable :: bound
+            end type s_list_
+            type m_list_
+              integer :: node_nb
+              integer, dimension(:), allocatable :: node
+              integer, dimension(:), allocatable :: seg 
+              my_real, dimension(:), allocatable :: bound
+            end type m_list_
+
+            type proc_comp_
+              logical :: need_comm0
+              logical :: need_comm_s
+              logical :: need_comm_r
+              integer :: remote_m_comp_nb
+              my_real, dimension(:,:), allocatable :: remote_m_comp
+              integer :: remote_s_comp_nb
+              my_real, dimension(:,:), allocatable :: remote_s_comp
+              my_real, dimension(:), allocatable :: remote_comp
+            end type proc_comp_
+            type component_
+              integer :: s_comp_nb
+              integer :: m_comp_nb
+              integer :: total_m_remote_comp_nb
+              integer :: total_s_remote_comp_nb
+              integer :: request_s_nb
+              integer :: request_r_nb
+              integer, dimension(:), allocatable :: request_s
+              integer, dimension(:), allocatable :: request_r
+              integer, dimension(:), allocatable :: index_r
+              my_real, dimension(:), allocatable :: s_buffer_comp
+              type(s_list_), dimension(:), allocatable :: s_list
+              type(m_list_), dimension(:), allocatable :: m_list
+              type(proc_comp_), dimension(:), allocatable :: proc_comp
+            end type component_
               
 !   -------------------------    
         END MODULE INTER_SORTING_MOD

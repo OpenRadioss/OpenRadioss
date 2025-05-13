@@ -82,7 +82,7 @@ C-----------------------------------------------
      .        XMINE,YMINE,ZMINE,XMAXE,YMAXE,ZMAXE,
      .        XX1,XX2,XX3,XX4,YY1,YY2,YY3,YY4,ZZ1,ZZ2,ZZ3,ZZ4
         INTEGER :: IX_COARSE,IY_COARSE,IZ_COARSE
-        my_real :: VALUE
+        my_real :: VALUE,real_value
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -154,17 +154,19 @@ C-----------------------------------------------
             IY2=MAX(1,MIN(NBY,IY2))
             IZ2=MAX(1,MIN(NBZ,IZ2))
 
+            real_value = float(NB_BOX_COARSE_GRID)
+
             !   loop over the cell and cell coloration
             DO IZ = IZ1, IZ2             
-                VALUE = 4.*float(IZ)/float(NB_CELL_Z)
+                VALUE = real_value*float(IZ)/float(NB_CELL_Z)
                 IZ_COARSE = MIN(INT(VALUE),NB_BOX_COARSE_GRID)
                 IZ_COARSE = MAX(IZ_COARSE,1)
                 DO IY = IY1, IY2
-                    VALUE = 4.*float(IY)/float(NB_CELL_Y)
+                    VALUE = real_value*float(IY)/float(NB_CELL_Y)
                     IY_COARSE = MIN(INT(VALUE),NB_BOX_COARSE_GRID)
                     IY_COARSE = MAX(IY_COARSE,1)
                     DO IX = IX1, IX2
-                        VALUE = 4.*float(IX)/float(NB_CELL_X)
+                        VALUE = real_value*float(IX)/float(NB_CELL_X)
                         IX_COARSE = MIN(INT(VALUE),NB_BOX_COARSE_GRID)
                         IX_COARSE = MAX(IX_COARSE,1)
                         IF(CELL_BOOL(IX,IY,IZ)) THEN

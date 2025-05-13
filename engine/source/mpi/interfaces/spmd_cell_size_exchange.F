@@ -115,7 +115,7 @@ C-----------------------------------------------
 
         INTEGER :: LOC_PROC
         INTEGER :: IX,IY,IZ,NB
-        INTEGER, DIMENSION(NUMNOD) :: INDEX
+        INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX
         INTEGER :: ISHIFT,RSHIFT
 
         INTEGER :: MSGOFF, MSGOFF2, MSGOFF3, MSGOFF4, MSGOFF5
@@ -167,6 +167,7 @@ C-----------------------------------------------
 
                 SORT_COMM(NIN)%NB(P) = 0
                 NB = 0
+                ALLOCATE(INDEX(2*NUMNOD))
                 !   --------------------------
                 IF(ITIED/=0.AND.ITYP==7) THEN
                     !   itied/=0 --> need to send all nodes 
@@ -417,6 +418,7 @@ C -- IDTMINS_INT /= 0
                         L2 = L2 + ISIZ
                     END DO  
                 ENDIF   !   if nb/=0
+                DEALLOCATE(INDEX)
                 !   ------------------------------
             ENDIF      
         ENDIF ! nsn>0 or nmn > 0
