@@ -23,8 +23,8 @@
       !||====================================================================
       !||    get_segment_edge_mod                     ../engine/source/interfaces/interf/get_segment_edge.F90
       !||--- called by ------------------------------------------------------
-      !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
       !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+      !||    get_segment_interface_id                 ../engine/source/interfaces/interf/get_segment_interface_id.F90
       !||====================================================================
       module get_segment_edge_mod
       contains
@@ -33,10 +33,9 @@
 ! ======================================================================================================================
 !! \brief This routine finds the edge id with the 2 nodes "my_node_id_1" & "my_node_id_2"
       !||====================================================================
-      !||    get_segment_edge                         ../engine/source/interfaces/interf/get_segment_edge.F90
+      !||    get_segment_edge           ../engine/source/interfaces/interf/get_segment_edge.F90
       !||--- called by ------------------------------------------------------
-      !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
-      !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+      !||    get_segment_interface_id   ../engine/source/interfaces/interf/get_segment_interface_id.F90
       !||--- uses       -----------------------------------------------------
       !||====================================================================
         subroutine get_segment_edge( my_segment_id,my_node_id_1,my_node_id_2,my_iedge,intbuf_tab )

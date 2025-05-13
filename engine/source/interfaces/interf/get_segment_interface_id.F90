@@ -37,8 +37,11 @@
       !||--- called by ------------------------------------------------------
       !||    get_neighbour_surface                    ../engine/source/interfaces/interf/get_neighbour_surface.F90
       !||    get_neighbour_surface_from_remote_proc   ../engine/source/interfaces/interf/get_neighbour_surface_from_remote_proc.F90
+      !||--- calls      -----------------------------------------------------
+      !||    get_segment_edge                         ../engine/source/interfaces/interf/get_segment_edge.F90
       !||--- uses       -----------------------------------------------------
       !||    constant_mod                             ../common_source/modules/constant_mod.F
+      !||    get_segment_edge_mod                     ../engine/source/interfaces/interf/get_segment_edge.F90
       !||    shooting_node_mod                        ../engine/share/modules/shooting_node_mod.F
       !||====================================================================
         subroutine get_segment_interface_id( ninter,nb_segment,list_segment_id, &
