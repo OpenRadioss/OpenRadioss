@@ -82,7 +82,7 @@
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-          integer :: i,set1,set2,n_rwalk,seed,debug
+          integer :: n_rwalk,seed,debug
           integer :: grsh4n_1,grsh3n_1,grsh4n_2,grsh3n_2
           my_real :: dmg,probability
           logical :: is_available,is_encrypted

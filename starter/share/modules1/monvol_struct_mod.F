@@ -331,9 +331,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     L o c a l   v a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: II, JJ, KK, I, ICOPY, N
+      INTEGER :: II, JJ, KK, I, ICOPY
       INTEGER :: NVENT, NJET
-      INTEGER :: SHIFT
 !     *****    !
 !     RVOLU    !
 !     *****    !
@@ -454,14 +453,13 @@ C-----------------------------------------------
       INTEGER :: JJ, NEDGE, NELEM, IEDGE, NODE1, NODE2, INODE
       INTEGER :: NB_FREE_EDGE
       INTEGER(8) :: graph_ptr, tri_ptr, tri_ptr_global
-      INTEGER, DIMENSION(:), ALLOCATABLE :: FREE_EDGES_ID, FREE_EDGES, LOCAL_NODE_ID, 
-     .     GLOBAL_NODE_ID
-      INTEGER :: NB_CONNECTED_COMPS, TOTAL_SIZE, II, ITRI
+      INTEGER, DIMENSION(:), ALLOCATABLE :: FREE_EDGES_ID, FREE_EDGES, LOCAL_NODE_ID, GLOBAL_NODE_ID
+      INTEGER :: NB_CONNECTED_COMPS, TOTAL_SIZE, II
       INTEGER, DIMENSION(:), ALLOCATABLE :: PATHS, SIZES, CYCLES, SHIFT
-      INTEGER :: NPT, NTRI
+      INTEGER ::  NTRI
       my_real, DIMENSION(:), ALLOCATABLE :: NODE_COORD
       INTEGER, DIMENSION(:), ALLOCATABLE :: TRI_LIST
-      CHARACTER(LEN=1024) :: FILENAME
+      !CHARACTER(LEN=1024) :: FILENAME
 C-----------------------------------------------
 C     B e g i n n i n g   o f   s o u r c e
 C-----------------------------------------------
@@ -1188,7 +1186,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     L o c a l   v a r i a b l e s
 C-----------------------------------------------
-      INTEGER NSEG,ISH34,JJ,II(4),IIK(4),KK, IELEM_ADJ,IDX,IDX_A,IDX_B,IFIRST,ILAST,IREAD,ICUR,IPAIR,INBLOCK,NPAIR,NB_ADJACENT,LL
+      INTEGER NSEG,ISH34,JJ,II(4),KK, IELEM_ADJ,IDX,IDX_A,IDX_B,IPAIR,NPAIR,LL
       INTEGER IDX1,IDX2
       INTEGER NEDG, SUM_ADJ
       !temporary memory
@@ -1201,13 +1199,10 @@ C-----------------------------------------------
       INTEGER :: NPT_A, NPT_B, IELEM1, IELEM2, ELTYP1, ELTYP2, NB_COMMON_NODE, 
      .     NODELIST1(4), NODELIST2(4), ELEM1ID, ELEM2ID, ELEMTG, ELEMC, IELEMTG, IELEMC
       LOGICAL :: lFOUND, lFOUND_ADJ
-      INTEGER, POINTER, DIMENSION(:) :: ptrADJ
       INTEGER :: NB_DUPLICATED_ELTS
       INTEGER, DIMENSION(:), ALLOCATABLE :: DUPLICATED_ELTS
-      CHARACTER(LEN=1024) :: FILENAME, FILENAME1, FILENAME2
-      INTEGER(8) :: edge_ptr, duplicate_ptr
-      INTEGER, DIMENSION(3) :: FOUND_TABLE
-      INTEGER :: NOT_FOUND
+      CHARACTER(LEN=1024) :: FILENAME
+      INTEGER(8) :: duplicate_ptr
       LOGICAL debug_output
       INTEGER :: NTRI, NB_CON
       INTEGER, DIMENSION(:), ALLOCATABLE :: IAD_COMP_CONNEX
@@ -1943,7 +1938,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: EDGE_ARRAY_N1, EDGE_ARRAY_N2, EDGE_ARRAY_ELEM, 
      .     NB_CONNECT
       INTEGER(8) :: edge_ptr
-      INTEGER :: JJ, II(4), IDX, ELTYP, NEDG, KK
+      INTEGER :: JJ, II(4), IDX, ELTYP, NEDG
 C-----------------------------------------------
 C     S o u r c e   L i n e s
 C-----------------------------------------------

@@ -83,15 +83,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX
+      INTEGER I
       my_real :: bulk,P0,PSH,DD,EG,Gr,CC,ALPHA,FSCALE_B,FSCALE_P,FSCALE_G,FSCALE_RHO, C1,C2
-      my_real :: SPH
       my_real :: TMP, TMP2
       my_real :: compac
       my_real :: TOTAL_BFRAC
       my_real :: DPDM_gas, DPDM_powder
-      my_real :: MASS,PS,PG,PG_,RHO_S, RHO_G,POLD
-      my_real :: DIFF
+      my_real :: MASS,PS,PG,RHO_S, RHO_G,POLD
       my_real :: RHO(NEL)
       INTEGER :: funcb,funcg
 C-----------------------------------------------

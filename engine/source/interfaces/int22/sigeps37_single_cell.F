@@ -82,13 +82,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J, ISOLVER, NITER, ITER,MT, LLT_, IADBUF
+      INTEGER NITER, ITER,MT, LLT_, IADBUF
       my_real 
-     .   SSP,VIS,VIS2,VIS3,VV,C1,C2,C12,R1,R2,PMIN,A2,RHO10,RHO20,
-     .   RHO1,RHO2,A1,A,B,C, B1,B2,P,GAM,P0,GPR,POLD,
-     .   PN2,RHN2,VISA1,VISB1,VISA2,VISB2,DYDX,RHOSCALE,TOL,  MAS, MAS1, MAS2,
-     .   RHO1T,RHO2T, ERROR, P1,P2,F1,F2,DF11,DF12,DF21,DF22,DET,DRHO1,DRHO2,
-     .   MU1P1, MU2P1, DP0, PSH, SSP1, SSP2, RHO,  UVAR(5)
+     .   SSP,C1,R1,PMIN,RHO10,RHO20,
+     .   RHO1,RHO2, P,GAM,P0,
+     .   TOL,  MAS, MAS1, MAS2,
+     .   ERROR, P1,P2,F1,F2,DF11,DF12,DF21,DF22,DET,DRHO1,DRHO2,
+     .   PSH, SSP1, SSP2, RHO,  UVAR(5)
 C-----------------------------------------------
 C   S o u r c e   C o d e
 C-----------------------------------------------

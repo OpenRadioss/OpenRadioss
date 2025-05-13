@@ -66,6 +66,7 @@
 
       VOL(1:NEL) = ZERO
       OFF(1:NEL) = ONE
+      DVOL(1:NEL) = ZERO
       ERROR(1:NEL) = ZERO
       CONVERGED(1:NEL) = .TRUE.
       REMAINING_ELTS = 0

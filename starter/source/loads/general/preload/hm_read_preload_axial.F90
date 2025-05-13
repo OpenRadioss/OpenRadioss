@@ -189,7 +189,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer i,j,nld,iset,nn,id,uid,ifun,is,np,iflagunit,isens,itype
+          integer i,j,iset,nn,id,uid,ifun,is,np,iflagunit,isens,itype
           character (len=nchartitle) :: titr
           character (len=ncharline)  :: key
           my_real loadval,damp

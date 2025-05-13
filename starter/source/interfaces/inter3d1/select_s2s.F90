@@ -69,10 +69,10 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,j,l,k,m,n,ns,nj(4),ii,ifound,iwork(4),nj1(4),ier,jmin,i_old,n_buck,ihuge
-          integer :: n_dir(3),ix,iy,iz,nsu_1,nsu_2,ichange,jj,ndiv,ndiv_min,nb_seg1(3),nb_seg2(3)
+          integer :: i,j,k,m,nj(4),ii,ifound,iwork(4),nj1(4),ier,jmin,i_old,n_buck,ihuge
+          integer :: n_dir(3),ix,iy,iz,nsu_1,nsu_2,jj,ndiv_min,nb_seg1(3),nb_seg2(3)
           my_real :: area1(nsu1),area2(nsu2),xs1(3,nsu1),xs2(3,nsu2),n1(3,nsu1),n2(3,nsu2)
-          my_real :: ds,ds2,dsn,dmin,xj(3,4),marge1(nsu1),marge2(nsu2),angle,angle_min
+          my_real :: ds,dsn,dmin,xj(3,4),marge1(nsu1),marge2(nsu2),angle,angle_min
           my_real :: marge,xmin(3),xmax(3),xmin2(3),xmax2(3),tol_d,xmin_i(3),xmax_i(3)
           my_real :: sz_g(3),sz_max,sz_min,marge_1,marge_2,xming(3),xmaxg(3),marge_g,ll,marge_max
           integer,  dimension(:), allocatable   :: ind_1,ind_2

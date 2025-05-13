@@ -133,7 +133,7 @@ C     At least one card is one char, so we do 1039 / 2 (one char one comma...)
       integer preci
       integer i
       logical RD_extract_file
-      character *100 env, idx_str
+      character *100 env
       character(len=*) :: step
 
       RD_extract_file=.false.
@@ -394,13 +394,11 @@ C         enddo
       integer idin, id
       double precision value    !(2)
       real rvalue
-      integer ivalue
       character *20 srvalue
       character *6  siid
       character*4 simg
-      integer i, nvals, intstart, is, namelen
-      logical chk
-      integer ma4cmplx, idx
+      integer intstart, is
+      integer ma4cmplx
       data ma4cmplx/-999/
       character *40 qaprint_limit_char
       character(len=512) :: warning_msg
@@ -442,7 +440,7 @@ C       Forcing the id to 0, we don't want to add any name suffix in this case
       simg = '<i> '
       is = 4
 
-      rvalue = value  !(i)
+      rvalue = real(value)  !(i)
       if ( rvalue == 0.0 ) then
 !     normalize zero to limit p4 differences between platforms
          srvalue = ' 0.00000'
@@ -513,9 +511,8 @@ C       If the value (double precision) variable is 0.0 we consider using the id
       character *20 srvalue2
       character *6  siid
       character*4 simg
-      integer i, nvals, intstart, is, namelen
-      logical chk
-      integer ma4cmplx, idx
+      integer intstart, is
+      integer ma4cmplx
       data ma4cmplx/-999/
 
       if ( doqa /= 1  ) return
@@ -538,7 +535,7 @@ C       If the value (double precision) variable is 0.0 we consider using the id
       simg = '<i> '
       is = 4
 
-      rvalue = value  !(i)
+      rvalue = real(value)  !(i)
       if ( rvalue == 0.0 ) then
 !     normalize zero to limit p4 differences between platforms
          srvalue = ' 0.00000'
@@ -546,7 +543,7 @@ C       If the value (double precision) variable is 0.0 we consider using the id
         write(srvalue,qa_format) value    !(i)
       endif
 
-      rvalue2 = value2  !(i)
+      rvalue2 = real(value2)  !(i)
       if ( rvalue2 == 0.0 ) then
 !     normalize zero to limit p4 differences between platforms
          srvalue2 = ' 0.00000'
@@ -596,7 +593,6 @@ C       If the value (double precision) variable is 0.0 we consider using the id
       integer          pos
       character(*)     title
       integer          i
-      integer          nlen
 
       qa_storage(pos)%itype=1
       write(qa_storage(pos)%title,'(A)')title(1:LEN_TRIM(title))
@@ -617,7 +613,6 @@ C       If the value (double precision) variable is 0.0 we consider using the id
       integer          pos
       character(*)     title
       double precision r
-      integer          nlen
 
       qa_storage(pos)%itype=2
       write(qa_storage(pos)%title,'(A)')title(1:LEN_TRIM(title))
@@ -759,8 +754,6 @@ C         Remove leading blank if any
       integer function lastchar(a)
 #include "implicit_f.inc"
       character *(*) a
-
-      integer l,lmax
 
 c      lmax = len(a)
 c      do while ( l <= lmax .and. a(l:l) > ' ' )

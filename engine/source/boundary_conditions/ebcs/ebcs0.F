@@ -68,11 +68,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IS,K,L,KSEG,ESEG,N1,N2,N3,N4,NG1,NG2,NG3,NG4,N,
+      INTEGER I,IS,KSEG,ESEG,N1,N2,N3,N4,NG1,NG2,NG3,NG4,N,
      .        KLT,KTY,MFT,EAD,IRHO,IENER,II(6)
 C      
       my_real
-     .       ORIENT,PRES,RHO,C,LCAR,ROC,ALP,FAC,
+     .       ORIENT,RHO,C,LCAR,ROC,ALP,FAC,
      .       X13,Y13,Z13,X24,Y24,Z24,NX,NY,NZ,S,
      .       ROOU,ENOU,VMX,VMY,VMZ,FLUXI,FLUXO,VN,PN,DU,DP,P,
      .       ENER,R1,R2,S2,DPDV

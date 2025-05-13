@@ -69,14 +69,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,M,J,K,IG,JG,JK, IREDUCE, NVOIS, IERROR, NVOIS1, NVOIS2,
-     .        JVOIS(NUMSPH), JSTOR(NUMSPH), JPERM(NUMSPH)
-      INTEGER MS, NS, WASPACT(NUMSPH), IPRT
-      my_real
-     .        XI, YI, ZI, XJ, YJ, ZJ, DK,
-     .        CMS2, DMS, DMS2,
-     .        DVOIS(NUMSPH), BMINMA(6), MYSPATRUE,
-     .        XMAX, YMAX, ZMAX
+      INTEGER N,J,K, IREDUCE, NVOIS, IERROR,JVOIS(NUMSPH), JSTOR(NUMSPH), JPERM(NUMSPH)
+      INTEGER NS, WASPACT(NUMSPH), IPRT
+      my_real DVOIS(NUMSPH), BMINMA(6), MYSPATRUE,XMAX, YMAX, ZMAX
 C-----------------------------------------------
       NVOIS = 0
 C-----------------------------------------------      

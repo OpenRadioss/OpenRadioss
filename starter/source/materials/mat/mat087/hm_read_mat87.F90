@@ -98,10 +98,10 @@
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-        integer :: i,j,nbmat,iflagsr,iflag,flag_fit,ilaw,nrate,offset,         &
-          tab_id0,ismooth,ierr2,ifunc(maxfunc),itable(3),ikin
+        integer :: i,iflagsr,iflag,flag_fit,ilaw,nrate,offset,         &
+          ierr2,ifunc(maxfunc),itable(3),ikin
         my_real :: e,nu,g,bulk,fcut,al1,al2,al3,al4,al5,al6,al7,al8,           &
-          fisokin,expn,invp,invc,unspt,unsct,aswift,epso,qvoce,beta,           &
+          fisokin,invp,invc,unspt,unsct,aswift,epso,qvoce,beta,           &
           ko,alpha,nexp,unsp,unsc,rho0,rhor,rate(maxfunc),yfac(maxfunc),       &
           yfac_unit(maxfunc),k1,k2,ahs,bhs,mhs,eps0hs,nhs,hmart,temp0,         &
           tref,eta,cp,am,bm,cm,dm,ppm,qm,e0mart,vm0,ckh(4),akh(4),fscale0,     &

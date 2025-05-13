@@ -85,7 +85,6 @@
       my_real  mu0,ssp0,df, g0, bulk,bulk2, bb, pold, mu2, muold, alpha,dpdmu
       my_real dpdmu_mumax
       integer iform, ioutp
-      integer :: jfunc !< loop
       logical :: is_encrypted, is_available, is_available_rho0
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body

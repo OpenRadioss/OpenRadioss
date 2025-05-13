@@ -80,7 +80,7 @@
           integer :: mpr
           integer :: iel
           integer :: mlw
-          my_real :: tdet, deto_time
+          my_real :: tdet
           integer,dimension(:,:),pointer :: ix
           integer :: nix
 ! ----------------------------------------------------------------------------------------------------------------------

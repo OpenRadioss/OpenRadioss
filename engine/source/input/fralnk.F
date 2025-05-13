@@ -63,7 +63,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N, NBC, K, KK, NS, K4,IKEY, M1, M2,IERR
-      CHARACTER KEYA*80, KEY2*5, KEY3*5, KEY4*5
+      CHARACTER KEY2*5, KEY3*5, KEY4*5
       CHARACTER(LEN=NCHARLINE100) :: CARTE
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -203,8 +203,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, NBC, K, KK, NS, K4,IKEY, M1, M2, IFORM,IERR
-      CHARACTER KEYA*80, KEY1*5, KEY2*5, KEY3*5, KEY4*5, IOPT*5
+      INTEGER I, N, NBC, K, KK, NS, IKEY, M1, M2, IFORM,IERR
+      CHARACTER KEY1*5, KEY2*5, KEY3*5, KEY4*5
       CHARACTER(LEN=NCHARLINE100) :: CARTE
 C
       K=0

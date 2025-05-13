@@ -64,12 +64,10 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, M, FLAG
-      INTEGER NC(8,MVSIZ)
-C     REAL
+      INTEGER I, M, FLAG
       my_real
      .   VXA(MVSIZ), VYA(MVSIZ) , VZA(MVSIZ), 
-     .   VA2(MVSIZ), XMAS(MVSIZ), RBIDON(1),
+     .   VA2(MVSIZ), XMAS(MVSIZ),
      .   OFF(MVSIZ), EI(MVSIZ) , EK(MVSIZ),
      .   XM(MVSIZ) , YM(MVSIZ) , ZM(MVSIZ),
      .   XX(MVSIZ) , YY(MVSIZ) , ZZ(MVSIZ),

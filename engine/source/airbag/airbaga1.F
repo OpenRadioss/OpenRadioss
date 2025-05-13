@@ -71,14 +71,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IMASS, ITEMP, ISENS, K, IFLU, IEQUI,
+      INTEGER I, IMASS, ITEMP, ISENS, IFLU, IEQUI,
      .        IDEF, NAV, II, IS, IDTPDEF,IDPDEF,
      .        IV, IJ,ITTF
       INTEGER IK, KK, I_GAS, I_INJ, IMOL, NGASES, I_TYPINJ
       my_real
      .   PDEF, PEXT, PVOIS, DTPDEFC,
      .   GAMA, AMU, TSTART, TSG,TSG2,
-     .   AMTOT, P, RO, DTX, POLD, DV,
+     .   AMTOT, P, POLD, DV,
      .   ROT, DYDX, FTEMP, FMASS, DT, AREA,
      .   CV, CP, CVG, CPG, CPA, CPB, CPC, CVI, CPI, CPAI, CPBI, CPCI,
      .   RMWI, RMWG,

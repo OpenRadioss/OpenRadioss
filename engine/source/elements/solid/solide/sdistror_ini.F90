@@ -94,7 +94,7 @@
 !-----------------------------------------------
 !   l o c a l   v a r i a b l e s
 !-----------------------------------------------
-          integer :: i,j,mx
+          integer :: i,mx
           my_real :: nu,f_nu,c1,caq,c2,es,f_es,aj2,f_min
 !=======================================================================
 !
@@ -106,7 +106,7 @@
              f_nu = em02
          elseif (nu>0.4) then
              f_nu = one-two*nu
-             mu=f_nu*mu 
+             mu=f_nu*mu
          else
              f_nu = one
              if (pm(107,mx) >= hundred80*pm(32,mx)) f_nu = ten 

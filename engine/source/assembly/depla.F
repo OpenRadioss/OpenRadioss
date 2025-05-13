@@ -25,9 +25,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    resol   ../engine/source/engine/resol.F
       !||====================================================================
-      SUBROUTINE DEPLA(V    ,D    ,X     ,VR   ,DR    ,
-     2                 XDP,DDP,NUMNOD)
-C----6---------------------------------------------------------------7---------8
+      SUBROUTINE DEPLA(V, D, X, VR, DR, XDP, DDP, NUMNOD)
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -40,23 +39,21 @@ C-----------------------------------------------
 #include      "scr05_c.inc"
 #include      "scr06_c.inc"
 #include      "scr16_c.inc"
-C-----------------------------------------------------------------
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(in) :: NUMNOD !< number of node
-C     REAL
-      my_real
-     .   X(3,NUMNOD) ,D(3,NUMNOD) ,V(3,NUMNOD) ,DR(3,NUMNOD)  ,VR(3,NUMNOD)
-      DOUBLE PRECISION
-     .   XDP(3,NUMNOD), DDP(3,NUMNOD)
+      INTEGER, INTENT(IN) :: NUMNOD !< number of node
+      my_real :: X(3,NUMNOD) ,D(3,NUMNOD) ,V(3,NUMNOD) ,DR(3,NUMNOD)  ,VR(3,NUMNOD)
+      DOUBLE PRECISION :: XDP(3,NUMNOD), DDP(3,NUMNOD)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,K,N,J
-      my_real
-     .   VDT
+      INTEGER  I,N
+      my_real VDT
       DOUBLE PRECISION VDT2
-C
+C-----------------------------------------------
+C   B o d y
+C-----------------------------------------------
       IF(N2D==1)THEN
 !$OMP DO SCHEDULE(guided)
           DO I=1,NUMNOD
@@ -65,7 +62,7 @@ C
 !$OMP END DO
       ENDIF
 C-------------------------------------------------------------
-C         CALCUL DES  DEPLACEMENTS TRANSLATIONS PUIS ROTATIONS
+C         DISPLACEMENT (TRANSLATION & ROTATIONS)
 C-------------------------------------------------------------
       IF (IRESP==1) THEN
 !$OMP DO SCHEDULE(guided)
@@ -113,6 +110,6 @@ C-------------------------------------------------------------
         ENDDO
 !$OMP END DO
       ENDIF
-C
+
       RETURN
       END

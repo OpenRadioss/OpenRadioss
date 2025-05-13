@@ -103,7 +103,7 @@
           my_real :: v_refmx,v_refmy,v_refmz,fdamp_x,fdamp_y,fdamp_z
           my_real :: fdamp_x_old,fdamp_y_old,fdamp_z_old
           my_real :: dvskw_x,dvskw_y,dvskw_z,fskw_x,fskw_y,fskw_z,dv_x,dv_y,dv_z
-          my_real :: dist2,dt2n,fac,bb,stif_damp,stifr_damp,cc
+          my_real :: dist2,cc
           my_real :: f1(nsn),f2(nsn),f3(nsn),f4(nsn),f5(nsn),f6(nsn),f7(nsn),f8(nsn),f9(nsn),f10(nsn)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body

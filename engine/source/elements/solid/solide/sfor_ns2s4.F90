@@ -90,22 +90,21 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      integer i,j,ifctl1
+      integer i
 !                                                                    
       my_real :: rx,ry,rz,sx,sy,sz,nx(mvsiz),ny(mvsiz),nz(mvsiz),               &
                  pene(mvsiz),xa(mvsiz),ya(mvsiz),za(mvsiz),hj(mvsiz,4),         &
                  xb(mvsiz),yb(mvsiz),zb(mvsiz),fn(mvsiz),                       &
                  xc(mvsiz),yc(mvsiz),zc(mvsiz),                                 &
                  la(mvsiz),lb(mvsiz),lc(mvsiz),fkt,                             &
-                 x42,y42, z42, x31, y31, z31,fx,fy,fz,                          &
-                 sax,say,saz,sbx,sby,sbz,scx,scy,scz,                           &
-                 trx,try,trz,tsx,tsy,tsz,ttx,tty,ttz,                           &
-                 tr2,ts2,tt2,aaa,bbb,vr,vs,vt,nnx,nny,nnz,                      &
+                 fx,fy,fz,                          &
+                 sax,say,saz,sbx,sby,sbz,                                       &
+                 aaa,bbb,                                               &
                  xab,xbc,xca,yab,ybc,yca,zab,zbc,zca,                           &
                  xia,  xib,  xic, yia,  yib,  yic,                              &
                  zia,  zib,  zic, norm,s2,fac,                                  &
-                 f_q,f_c,kts,zerom,tx,ty,tz,pendr,lj,                           &
-                 dx,dy,dz,dn,area,dmin
+                 f_q,pendr,lj,                                   &
+                 dx,dy,dz,dn,area
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------

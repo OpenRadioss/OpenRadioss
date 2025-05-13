@@ -57,7 +57,6 @@ C--------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MY_ID, N , IP
-      CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER (LEN=255) :: VARNAME
       DOUBLE PRECISION TEMP_DOUBLE
 C-----------------------------------------------

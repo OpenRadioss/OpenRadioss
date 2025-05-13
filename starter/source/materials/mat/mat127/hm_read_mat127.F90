@@ -82,11 +82,11 @@
  !-----------------------------------------------
  !   L o c a l   V a r i a b l e s
  !-----------------------------------------------
-      integer ifxc,ifxt,ifyc,ifyt,ifsc,ilaw, crit, twoway, ti,ncyred
+      integer ifxc,ifxt,ifyc,ifyt,ifsc,ilaw, twoway, ti,ncyred
       my_real                                                                &
          ! Material properties
          rho0, e1, e2, e3, g12, g23, g13, nu12, nu21, nu23, nu31, nu13, nu32, &
-         young, nu, g31, gmax, ssp, asrate, ms13, fac, fbrt, ycfac,           &
+         young, nu, g31, gmax, ssp, asrate, fac, fbrt, ycfac,           &
          beta, alpha, epsf, epsr, tsmd, c1,                                      &
          ! Strength parameters
          xc, xt, yc, yt, sc,                                                  &
@@ -94,14 +94,12 @@
          dfailc, dfailm, dfails, dfailt, efs, ratio,                          &
          ! Scaling factors
          yfac_xt, yfac_xc, yfac_yt, yfac_yc, yfac_sc,                         &
-         ! Softening parameters
-         soft,                                                                &
          ! Slenderness limits
          slimt1, slimc1, slimt2, slimc2, slims,                               &
          ! Matrix coefficients
          a11, a22, a12, c11, c22, c33, c12, c13, c23, detc,  c21,c32,c31 ,     &
          ! Inverse matrix elements
-         d11, d22, d33, d12, d13, d23, d21,d32,d31, invd ,                     &
+         d11, d22, d33, d12, d13, d23, invd ,                     &
          e2_mod, nu12_mod, nu31_mod, nu13_mod, nu23_mod,                       &
          ! Cut-off frequency
          fcut
