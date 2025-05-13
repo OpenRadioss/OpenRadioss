@@ -42,7 +42,7 @@
       !||    python_spmd_mod                        ../engine/source/mpi/python_spmd_mod.F90
       !||    user_id_mod                            ../common_source/modules/element_user_id.F90
       !||====================================================================
-        subroutine python_register(py, itab, numnod,&
+        subroutine python_register(py, nodes, numnod,&
         & ixs, nixs, numels, &
         & ixc, nixc, numelc, &
         & ixp, nixp, numelp, &
@@ -55,6 +55,7 @@
 !                                                     Module
 ! ----------------------------------------------------------------------------------------------------------------------
           use iso_c_binding, only : c_char, c_null_char
+          use nodal_arrays_mod
           use python_spmd_mod, only : python_element_init
           use python_element_mod, only : python_get_number_elemental_entities, python_get_elemental_entity
           use python_funct_mod, only : python_, max_code_length, max_line_length, NAME_LEN, python_create_node_mapping, &
@@ -69,7 +70,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           type(python_),intent(inout) :: py          !< the Fortran structure that holds the python function
           integer,      intent(in) :: numnod         !< the global number of nodes
-          integer,      intent(in) :: itab(numnod)   !< the global node ids
+          type(nodal_arrays_), intent(in) :: nodes   !< the nodal arrays
           integer, intent(in) :: nixs                !< number of integers in the solid data structure
           integer, intent(in) :: numels              !< number of solids
           integer, intent(in) :: ixs(nixs,numels)    !< solid data structure
@@ -132,7 +133,7 @@
           end do
 
           ! creates a mapping between the global node ids and the local node ids
-          call python_create_node_mapping(itab, numnod)
+          call python_create_node_mapping(nodes%itab, numnod)
           call element_user_id(user_id, group_id, local_id, nelem, &
             ixs, nixs, numels, &
             ixc, nixc, numelc, &
@@ -168,7 +169,7 @@
           enddo
 
           call python_element_init(py%elements, n, group_id, local_id, user_id)
-          if(py%nb_functs >0 )  call python_load_environment()
+          if(py%nb_functs >0 ) call python_load_environment()
           deallocate(code)
           deallocate(user_id)
           deallocate(local_id)

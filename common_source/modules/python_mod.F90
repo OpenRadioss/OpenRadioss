@@ -188,6 +188,12 @@
             character(kind=c_char), dimension(name_len), intent(in) :: name
             real(kind=c_double), dimension(3), intent(in) :: val
           end subroutine python_update_active_node_values
+          ! call python_set_node_ids(n,nodes%itab(n))
+          subroutine python_set_active_node_ids(id, uid) bind(c, name="cpp_python_update_active_node_ids")
+            use iso_c_binding
+            integer(kind=c_int), value, intent(in) :: id
+            integer(kind=c_int), value,  intent(in) :: uid
+          end subroutine python_set_active_node_ids
 
 
           subroutine python_get_number_of_nodes(number_of_nodes) bind(c, name="cpp_python_get_number_of_nodes")
@@ -219,6 +225,41 @@
             integer(kind=c_int), intent(in) :: num_nodes
             integer(kind=c_int), intent(in) :: itab(*)
           end subroutine python_create_node_mapping
+
+
+          subroutine python_add_ints_to_dict(context, name, len_name, values, nvalues) &
+            bind(c, name="cpp_python_add_ints_to_dict")
+            use iso_c_binding
+            type(c_ptr), value, intent(in) :: context
+            integer(kind=c_int), value, intent(in) :: nvalues
+            character(kind=c_char), dimension(len_name), intent(in) :: name
+            type(c_ptr), value , intent(in) :: values
+          end subroutine python_add_ints_to_dict
+
+          subroutine python_add_doubles_to_dict(context, name, len_name, values, nvalues) &
+            bind(c, name="cpp_python_add_doubles_to_dict")
+            use iso_c_binding
+            type(c_ptr), value, intent(in) :: context
+            integer(kind=c_int), value, intent(in) :: nvalues
+            character(kind=c_char), dimension(len_name), intent(in) :: name 
+            type(c_ptr), value :: values
+          end subroutine python_add_doubles_to_dict
+
+          function python_create_context() bind(c, name="cpp_python_create_context")
+            use iso_c_binding
+            type(c_ptr) :: python_create_context
+          end function python_create_context
+
+          subroutine python_free_context(context) bind(c, name="cpp_python_free_context")
+            use iso_c_binding
+            type(c_ptr), value, intent(in) :: context
+          end subroutine python_free_context
+
+ !/             void cpp_python_sync(void* pcontext, int num_args)
+          subroutine python_sync(pcontext) bind(c, name="cpp_python_sync")
+            use iso_c_binding
+            type(c_ptr), value, intent(in) :: pcontext
+          end subroutine python_sync
 
         end interface
         interface python_call_funct1D
@@ -254,6 +295,7 @@
           integer :: sensor_offset !< the local id of the python sensor starts after the id of other kind of sensors
           integer :: nb_sensors !< the number of python sensors
           type(python_element) :: elements !< element quantities requested from Python code
+          type(c_ptr) :: context
         end type python_
 ! ----------------------------------------------------------------------------------------------------------------------
 
@@ -914,5 +956,62 @@
           call python_finalize()
         end subroutine python_funct_test
 
-! python_init
+        subroutine python_expose_ints(py, name, name_len, val, len_val)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     Module
+! ----------------------------------------------------------------------------------------------------------------------
+          use iso_c_binding
+! --------------------------------------------------------------------------------------------------------------------------
+!                                                   Implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+          implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          type(python_),                      intent(inout) :: py !< the Fortran structure that holds the python function
+          integer,                                     intent(in) :: name_len !< the length of the name
+          character(kind=c_char), dimension(name_len), intent(in) :: name      !< the name of the variable
+          type(c_ptr), value,             intent(in) :: val !< the values
+          integer,                                     intent(in) :: len_val !< the length of the values
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+! ----------------------------------------------------------------------------------------------------------------------
+          character(kind=c_char), dimension(name_len+1)        :: temp_name
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                      Body
+! ----------------------------------------------------------------------------------------------------------------------
+          temp_name(1:name_len) = name
+          temp_name(name_len+1:name_len+1) = c_null_char
+          call python_add_ints_to_dict(py%context, temp_name, name_len, val, len_val)
+        end subroutine
+
+        subroutine python_expose_doubles(py, name, name_len, val, len_val)
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     Module
+! ----------------------------------------------------------------------------------------------------------------------
+          use iso_c_binding
+! --------------------------------------------------------------------------------------------------------------------------
+!                                                   Implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+          implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                     Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          type(python_),                      intent(inout) :: py !< the Fortran structure that holds the python function
+          integer,                                     intent(in) :: name_len !< the length of the name
+          character(kind=c_char), dimension(name_len), intent(in) :: name      !< the name of the variable
+          type(c_ptr),  value,            intent(in) :: val !< the values
+          integer,                                     intent(in) :: len_val !< the length of the values
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local variables
+! ----------------------------------------------------------------------------------------------------------------------
+          character(kind=c_char), dimension(name_len+1)        :: temp_name
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                      Body
+! ----------------------------------------------------------------------------------------------------------------------
+          temp_name(1:name_len) = name
+          temp_name(name_len+1:name_len+1) = c_null_char
+          call python_add_doubles_to_dict(py%context, temp_name, name_len, val, len_val)
+        end subroutine
+
       end module python_funct_mod
