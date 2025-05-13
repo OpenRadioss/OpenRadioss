@@ -151,28 +151,13 @@ static my_real_c in_rby_buf[3*BUFSIZE];
   static int fidw, fidr;
 #endif  
 
+#include <rad2rad_c.h>
 /*---------------------------------------------------------------------*/
-#ifdef _WIN64
-int readr(HANDLE pipe, char *buf, int nbytes);
-int writer(HANDLE pipe, char*buf, int nbytes);
-#else
-int readr(int pipe, char *buf, int nbytes);
-int writer(int pipe   , char *buf, int nbytes);
-#endif
 
-#ifdef DNC
-extern void syserr(char *msg);
-extern void syserr_fatal(char *msg);
-extern void fatal(char *msg);
-extern void catch_sig_c(int *pid);
-#endif
-/**************************************************************************/
 
-void openfifo_c(iroot,len,fdw,fdr,sd,ispmd,nthr,ppid)
-int *iroot, *len, *fdw, *fdr, *sd, *ispmd, *nthr, *ppid;
+void openfifo_c(int *iroot,int *len,int *fdw,int *fdr,int *sd,int *ispmd,int *nthr,int *ppid)
 {
 int i, naps, sock,val;
-void syserr();
 char messtop[512];
 #ifdef DNC
 
@@ -245,27 +230,22 @@ char messtop[512];
 }
 
 
-void _FCALL OPENFIFO_C(iroot,len,fdw,fdr,sd,ispmd,nthr,ppid)
-int *iroot, *len, *fdw, *fdr, *sd, *ispmd, *nthr, *ppid;
-{
+void _FCALL OPENFIFO_C(int *iroot,int *len,int *fdw,int *fdr,int *sd,int *ispmd,int *nthr,int *ppid){
     openfifo_c(iroot,len,fdw,fdr,sd,ispmd,nthr,ppid);
 }
-void openfifo_c_(iroot,len,fdw,fdr,sd,ispmd,nthr,ppid)
-int *iroot, *len, *fdw, *fdr, *sd, *ispmd, *nthr, *ppid;
-{
+
+void openfifo_c_(int *iroot,int *len,int *fdw,int *fdr,int *sd,int *ispmd,int *nthr,int *ppid){
     openfifo_c(iroot,len,fdw,fdr,sd,ispmd,nthr,ppid);
 }
-void openfifo_c__(iroot,len,fdw,fdr,sd,ispmd,nthr,ppid)
-int *iroot, *len, *fdw, *fdr, *sd, *ispmd, *nthr, *ppid;
-{openfifo_c(iroot,len,fdw,fdr,sd,ispmd,nthr,ppid);}
+
+void openfifo_c__(int *iroot,int *len,int *fdw,int *fdr,int *sd,int *ispmd,int *nthr,int *ppid){
+    openfifo_c(iroot,len,fdw,fdr,sd,ispmd,nthr,ppid);}
 
 /******************************************************************************/
 
-void opensem_c(iroot,len,ispmd,nthr,ppid)
-int *iroot, *len, *ispmd, *nthr, *ppid;
+void opensem_c(int *iroot,int *len,int *ispmd,int *nthr,int *ppid)
 {
 int i, naps, sock,val;
-void syserr();
 char messtop[512];
 
      flag_siu = 1;
@@ -289,19 +269,16 @@ char messtop[512];
 }
 
 
-void _FCALL OPENSEM_C(iroot,len,ispmd,nthr,ppid)
-int *iroot, *len, *ispmd, *nthr, *ppid;
-{
+void _FCALL OPENSEM_C(int *iroot,int *len,int *ispmd,int *nthr,int *ppid){
     opensem_c(iroot,len,ispmd,nthr,ppid);
 }
-void opensem_c_(iroot,len,ispmd,nthr,ppid)
-int *iroot, *len, *ispmd, *nthr, *ppid;
-{
+
+void opensem_c_(int *iroot,int *len,int *ispmd,int *nthr,int *ppid){
     opensem_c(iroot,len,ispmd,nthr,ppid);
 }
-void opensem_c__(iroot,len,ispmd,nthr,ppid)
-int *iroot, *len, *ispmd, *nthr, *ppid;
-{opensem_c(iroot,len,ispmd,nthr,ppid);}
+
+void opensem_c__(int *iroot,int *len,int *ispmd,int *nthr,int *ppid){
+    opensem_c(iroot,len,ispmd,nthr,ppid);}
 
 /******************************************************************************/
 void openshm_c()
@@ -316,7 +293,6 @@ HANDLE shmid,shmidi;
 int shmid,shmidi;
 #endif
 
-void syserr();
 #ifdef DNC
 
          shmvr_size = 150;
@@ -390,35 +366,40 @@ void openshm_c__()
 
 /******************************************************************************/
 
-void r2r_unlock_threads_c(nthr)
-int *nthr;
-{ 
-int i;
-
-    for (i = 0; i < *nthr; i++)
-        {
+void r2r_unlock_threads_c(int *nthr) {
+    int i;
+    for (i = 0; i < *nthr; i++) {
 #ifdef _WIN64
-     if (!ReleaseSemaphore(sem_int,1,NULL) ) {printf("release semaphore: %lu\n", GetLastError());}
-#elif 1        
-     if (flag_siu == 0) {if (sem_post(&sem_int)==-1) {perror("send");exit(1);}}
-     else {if (sem_post(sem_glob)==-1) {perror("send");exit(1);}}
-#endif         
-        } 
+        if (!ReleaseSemaphore(sem_int, 1, NULL)) {
+            printf("release semaphore: %lu\n", GetLastError());
+        }
+#elif 1
+        if (flag_siu == 0) {
+            if (sem_post(&sem_int) == -1) {
+                perror("send");
+                exit(1);
+            }
+        } else {
+            if (sem_post(sem_glob) == -1) {
+                perror("send");
+                exit(1);
+            }
+        }
+#endif
+    }
 }
 
-void _FCALL R2R_UNLOCK_THREADS_C(nthr)
-int *nthr;
-{
+void _FCALL R2R_UNLOCK_THREADS_C(int *nthr){
     r2r_unlock_threads_c(nthr);
 }
-void r2r_unlock_threads_c_(nthr)
-int *nthr;
-{
+
+void r2r_unlock_threads_c_(int *nthr){
     r2r_unlock_threads_c(nthr);
 }
-void r2r_unlock_threads__(nthr)
-int *nthr;
-{r2r_unlock_threads_c(nthr);}
+
+void r2r_unlock_threads__(int *nthr){
+    r2r_unlock_threads_c(nthr);
+}
 
 /******************************************************************************/
 
@@ -467,883 +448,754 @@ void r2r_sem__()
 
 /******************************************************************************/
 
-void init_link_c(igd, nng, itab, nodbuf, x,addcnel,cnel,ixc,ofc,info,typ,cdt,cdr,print,rddl,nlink,dx)
-int *igd, *nng, *nodbuf, *itab,*addcnel,*cnel,*ixc,*ofc,*info,*typ,*cdt,*cdr,*print,*rddl,*nlink;
-my_real_c *x,*dx;
+void init_link_c(int *igd, int *nng, int *itab, int *nodbuf, my_real_c *x, int *addcnel, int *cnel, int *ixc, int *ofc, int *info, int *typ, int *cdt, int *cdr, int *print, int *rddl, int *nlink, my_real_c *dx)
 {
-int i,j,t,nn, lbuf, lbuf1, init_buf[6],lbufa,lbufb,lbufel,dimno,k,capt,g,m,w,nbel,id,ref,lus;
-int *nodid,*nbelem,*cnelem,*cnelem2,*cnelem3,*listel,*listelnbn,*listel2,*listel2nbn,*listelno,**tabl,nbn,*bcs;
-my_real_c *crd;
+    int i, j, t, nn, lbuf, lbuf1, init_buf[6], lbufa, lbufb, lbufel, dimno, k, capt, g, m, w, nbel, id, ref, lus;
+    int *nodid, *nbelem, *cnelem, *cnelem2, *cnelem3, *listel, *listelnbn, *listel2, *listel2nbn, *listelno, **tabl, nbn, *bcs;
+    my_real_c *crd;
 
-    lbuf = *nng*sizeof(my_real_c);
-    flagrot  = (int *) malloc(*nlink*2*sizeof(int));
+    lbuf = *nng * sizeof(my_real_c);
+    flagrot = (int *)malloc(*nlink * 2 * sizeof(int));
     iroddl = *rddl;
-    crd  = (my_real_c *) malloc(3*lbuf);
-    lbuf1  = *nng*sizeof(int);
-    dimno = 0 ;
-    nbel = 0 ;
-    t=0;
-    k=0;    
-    nodid  = (int *) malloc(lbuf1);
-    bcs  = (int *) malloc(lbuf1);
-
-    if (*typ > 3)
-    {
-        /************************coupling type 4, 5 and 6*****************************/
-    /*****************************************************************************/        
-      for (i = 0; i < *nng; i++)
-      {
-        nn = nodbuf[i]-1;
-        crd[3*i]   = x[3*nn]-dx[3*nn];        
-        crd[3*i+1] = x[3*nn+1]-dx[3*nn+1];
-        crd[3*i+2] = x[3*nn+2]-dx[3*nn+2];
-        
-        nodid[i]   = itab[nn];        
-        bcs[i] = 10*cdt[nn];
-        if (*rddl) bcs[i] += cdr[nn];
-          }    
-
-      id = *igd;                            
-      init_buf[0] = *igd;
-      init_buf[1] = *nng;
-      init_buf[2] = dimno ;
-      init_buf[3] = 0 ;
-      init_buf[4] = 0 ;    
-      init_buf[5] = *print;        
-                    
-      writer(fidw, (void *) init_buf,6*sizeof(int));                            
-      writer(fidw, (void *) nodid, lbuf1);
-      writer(fidw, (void *) bcs, lbuf1);
-      writer(fidw, (void *) crd, 3*lbuf);
-    }
-    else
-    {
-    /************************coupling type 1 and 2********************************/
-    /*****************************************************************************/
-    nbelem  = (int *) malloc(lbuf1);
-    cnelem  = (int *) malloc(sizeof(int));
-    cnelem3  = (int *) malloc(sizeof(int));
-    listel2  = (int *) malloc(sizeof(int));
-    tabl = (int **) malloc(sizeof(int*));        
-    listel2nbn  = (int *) malloc(sizeof(int));        
-           
-    /********Creation of buffers************/
-        
-    for (i = 0; i < *nng; i++)
-    {
-        nn = nodbuf[i]-1;
-        crd[3*i]   = x[3*nn]-dx[3*nn];
-        crd[3*i+1] = x[3*nn+1]-dx[3*nn+1];
-        crd[3*i+2] = x[3*nn+2]-dx[3*nn+2];    
-        nodid[i]   = itab[nn];
-        bcs[i] = 10*cdt[nn];
-        if (*rddl) bcs[i] += cdr[nn];
-        
-        nbelem[i]  = addcnel[nn+2]-addcnel[nn+1];
-        cnelem  = (int *) realloc(cnelem, (dimno + nbelem[i]) * sizeof(int));
-        cnelem3  = (int *) realloc(cnelem3, (dimno + nbelem[i]) * sizeof(int));
-
-            for (j = 0; j < nbelem[i] ; j++)
-         { 
-           capt = 0;         
-           cnelem[dimno+j]=cnel[addcnel[nn+1]+j];
-
-           for (k = 0; k < t ; k++)
-            {                    
-             if (cnelem[dimno+j]==listel2[k])
-              {            
-               capt=1;
-               tabl[k]  = (int *) realloc(tabl[k], (listel2nbn[k]+1) * sizeof(int));               
-               tabl[k][listel2nbn[k]]=nodid[i];                           
-               listel2nbn[k]++;
-               cnelem3[dimno+j]=k;                                   
-              }
-            }
-             if (capt == 0)
-              {
-               listel2  = (int *) realloc(listel2, (t+1) * sizeof(int));               
-               listel2nbn  = (int *) realloc(listel2nbn, (t+1) * sizeof(int));
-               tabl  = (int **) realloc(tabl, (t+1) * sizeof(int*));                   
-                       tabl[t]  = (int *) malloc(sizeof(int));                                     
-               listel2[t]=cnelem[dimno+j];
-               listel2nbn[t]=1;
-               tabl[t][0]=nodid[i];
-               cnelem3[dimno+j]=t;                                              
-                t++;                  
-              }
-          }  
-        dimno = dimno + nbelem[i];                         
-    }
-            
-    /********Sorting of element buffer************/
-    g = 0;
-    w = 0;    
-    listel  = (int *) (malloc(sizeof(int)));
-    listelnbn  = (int *) (malloc(sizeof(int)));        
-    listelno  = (int *) (malloc(sizeof(int)));
-        
-    for (i = 0; i < t; i++)
-    {
-      if ((listel2nbn[i]>1) || ((listel2nbn[i] == 1)&&(*nng == 1)))
-      {
-       listel  = (int *) realloc(listel, (w+1) * sizeof(int));
-       listelnbn  = (int *) realloc(listelnbn, (w+1) * sizeof(int));
-       listel[w]=listel2[i];
-       listelnbn[w]=listel2nbn[i];               
-       for (j = 0; j < listel2nbn[i] ; j++)
-        {
-          listelno  = (int *) realloc(listelno, (g+1) * sizeof(int));        
-              listelno[g]=tabl[i][j];          
-          g++;                    
-        }
-       w++;        
-      }    
-    }
-    
-    /*********filtering of buffer of nodes**************/
-    /*----(some elements are removed from buffer:
-             - type 1,2 : elements with only one node on the interface----*/
+    crd = (my_real_c *)malloc(3 * lbuf);
+    lbuf1 = *nng * sizeof(int);
+    dimno = 0;
+    nbel = 0;
     t = 0;
     k = 0;
-    m = 0;
-    cnelem2  = (int *) malloc(sizeof(int));
-    for (i = 0; i < *nng; i++)
-      {
-       lus = nbelem[i];
-       for (j = 0; j < lus ; j++)
-        {
-           m = cnelem3[k];
-           
-               if ((listel2nbn[m]>1) || ((listel2nbn[m] == 1)&&(*nng == 1)))           
-             {cnelem2  = (int *) realloc(cnelem2, (t+1) * sizeof(int));
-              cnelem2[t]=cnelem[k];
-              t++;}
-           else
-                 {nbelem[i] = nbelem[i] -1 ;}
-           k++; 
+    nodid = (int *)malloc(lbuf1);
+    bcs = (int *)malloc(lbuf1);
+
+    if (*typ > 3) {
+        /************************coupling type 4, 5 and 6*****************************/
+        /*****************************************************************************/
+        for (i = 0; i < *nng; i++) {
+            nn = nodbuf[i] - 1;
+            crd[3 * i] = x[3 * nn] - dx[3 * nn];
+            crd[3 * i + 1] = x[3 * nn + 1] - dx[3 * nn + 1];
+            crd[3 * i + 2] = x[3 * nn + 2] - dx[3 * nn + 2];
+
+            nodid[i] = itab[nn];
+            bcs[i] = 10 * cdt[nn];
+            if (*rddl)
+                bcs[i] += cdr[nn];
         }
-          }
-      
-      dimno = t;
-      
-        /********send of buffers to Rad2rad**************/    
-    
-    id = *igd;
-                            
-    init_buf[0] = *igd;
-    init_buf[1] = *nng;
-    init_buf[2] = dimno ;
-    init_buf[3] = w ;
-    init_buf[4] = g ;
-    init_buf[5] = *print;    
-    lbufel = w*sizeof(int);
-    lbufa = dimno*sizeof(int);
-    lbufb = g*sizeof(int);
 
-    writer(fidw, (void *) init_buf,6*sizeof(int));                            
-    writer(fidw, (void *) nodid, lbuf1);
-    writer(fidw, (void *) bcs, lbuf1);
-    writer(fidw, (void *) crd, 3*lbuf);
-        writer(fidw, (void *) nbelem, lbuf1);            
-    writer(fidw, (void *) cnelem2, lbufa);
-    writer(fidw, (void *) listel, lbufel);
-    writer(fidw, (void *) listelnbn, lbufel);
-    writer(fidw, (void *) listelno, lbufb);
-    
-    /*********Deallocation****************************/
-    free(nbelem);    
-    free(cnelem);
-    free(tabl);
-    free(nodid);
-    free(crd);    
-    free(listel2);        
-    free(listel2nbn);    
-    free(listel);        
-    free(listelnbn);
-    free(listelno);}                        
+        id = *igd;
+        init_buf[0] = *igd;
+        init_buf[1] = *nng;
+        init_buf[2] = dimno;
+        init_buf[3] = 0;
+        init_buf[4] = 0;
+        init_buf[5] = *print;
+
+        writer(fidw, (void *)init_buf, 6 * sizeof(int));
+        writer(fidw, (void *)nodid, lbuf1);
+        writer(fidw, (void *)bcs, lbuf1);
+        writer(fidw, (void *)crd, 3 * lbuf);
+    } else {
+        /************************coupling type 1 and 2********************************/
+        /*****************************************************************************/
+        nbelem = (int *)malloc(lbuf1);
+        cnelem = (int *)malloc(sizeof(int));
+        cnelem3 = (int *)malloc(sizeof(int));
+        listel2 = (int *)malloc(sizeof(int));
+        tabl = (int **)malloc(sizeof(int *));
+        listel2nbn = (int *)malloc(sizeof(int));
+
+        /********Creation of buffers************/
+        for (i = 0; i < *nng; i++) {
+            nn = nodbuf[i] - 1;
+            crd[3 * i] = x[3 * nn] - dx[3 * nn];
+            crd[3 * i + 1] = x[3 * nn + 1] - dx[3 * nn + 1];
+            crd[3 * i + 2] = x[3 * nn + 2] - dx[3 * nn + 2];
+            nodid[i] = itab[nn];
+            bcs[i] = 10 * cdt[nn];
+            if (*rddl)
+                bcs[i] += cdr[nn];
+
+            nbelem[i] = addcnel[nn + 2] - addcnel[nn + 1];
+            cnelem = (int *)realloc(cnelem, (dimno + nbelem[i]) * sizeof(int));
+            cnelem3 = (int *)realloc(cnelem3, (dimno + nbelem[i]) * sizeof(int));
+
+            for (j = 0; j < nbelem[i]; j++) {
+                capt = 0;
+                cnelem[dimno + j] = cnel[addcnel[nn + 1] + j];
+
+                for (k = 0; k < t; k++) {
+                    if (cnelem[dimno + j] == listel2[k]) {
+                        capt = 1;
+                        tabl[k] = (int *)realloc(tabl[k], (listel2nbn[k] + 1) * sizeof(int));
+                        tabl[k][listel2nbn[k]] = nodid[i];
+                        listel2nbn[k]++;
+                        cnelem3[dimno + j] = k;
+                    }
+                }
+                if (capt == 0) {
+                    listel2 = (int *)realloc(listel2, (t + 1) * sizeof(int));
+                    listel2nbn = (int *)realloc(listel2nbn, (t + 1) * sizeof(int));
+                    tabl = (int **)realloc(tabl, (t + 1) * sizeof(int *));
+                    tabl[t] = (int *)malloc(sizeof(int));
+                    listel2[t] = cnelem[dimno + j];
+                    listel2nbn[t] = 1;
+                    tabl[t][0] = nodid[i];
+                    cnelem3[dimno + j] = t;
+                    t++;
+                }
+            }
+            dimno = dimno + nbelem[i];
+        }
+
+        /********Sorting of element buffer************/
+        g = 0;
+        w = 0;
+        listel = (int *)(malloc(sizeof(int)));
+        listelnbn = (int *)(malloc(sizeof(int)));
+        listelno = (int *)(malloc(sizeof(int)));
+
+        for (i = 0; i < t; i++) {
+            if ((listel2nbn[i] > 1) || ((listel2nbn[i] == 1) && (*nng == 1))) {
+                listel = (int *)realloc(listel, (w + 1) * sizeof(int));
+                listelnbn = (int *)realloc(listelnbn, (w + 1) * sizeof(int));
+                listel[w] = listel2[i];
+                listelnbn[w] = listel2nbn[i];
+                for (j = 0; j < listel2nbn[i]; j++) {
+                    listelno = (int *)realloc(listelno, (g + 1) * sizeof(int));
+                    listelno[g] = tabl[i][j];
+                    g++;
+                }
+                w++;
+            }
+        }
+
+        /*********filtering of buffer of nodes**************/
+        /*----(some elements are removed from buffer:
+                 - type 1,2 : elements with only one node on the interface----*/
+        t = 0;
+        k = 0;
+        m = 0;
+        cnelem2 = (int *)malloc(sizeof(int));
+        for (i = 0; i < *nng; i++) {
+            lus = nbelem[i];
+            for (j = 0; j < lus; j++) {
+                m = cnelem3[k];
+
+                if ((listel2nbn[m] > 1) || ((listel2nbn[m] == 1) && (*nng == 1))) {
+                    cnelem2 = (int *)realloc(cnelem2, (t + 1) * sizeof(int));
+                    cnelem2[t] = cnelem[k];
+                    t++;
+                } else {
+                    nbelem[i] = nbelem[i] - 1;
+                }
+                k++;
+            }
+        }
+
+        dimno = t;
+
+        /********send of buffers to Rad2rad**************/
+        id = *igd;
+
+        init_buf[0] = *igd;
+        init_buf[1] = *nng;
+        init_buf[2] = dimno;
+        init_buf[3] = w;
+        init_buf[4] = g;
+        init_buf[5] = *print;
+        lbufel = w * sizeof(int);
+        lbufa = dimno * sizeof(int);
+        lbufb = g * sizeof(int);
+
+        writer(fidw, (void *)init_buf, 6 * sizeof(int));
+        writer(fidw, (void *)nodid, lbuf1);
+        writer(fidw, (void *)bcs, lbuf1);
+        writer(fidw, (void *)crd, 3 * lbuf);
+        writer(fidw, (void *)nbelem, lbuf1);
+        writer(fidw, (void *)cnelem2, lbufa);
+        writer(fidw, (void *)listel, lbufel);
+        writer(fidw, (void *)listelnbn, lbufel);
+        writer(fidw, (void *)listelno, lbufb);
+
+        /*********Deallocation****************************/
+        free(nbelem);
+        free(cnelem);
+        free(tabl);
+        free(nodid);
+        free(crd);
+        free(listel2);
+        free(listel2nbn);
+        free(listel);
+        free(listelnbn);
+        free(listelno);
+    }
 }
 
-void _FCALL  INIT_LINK_C (igd, nng, itab, nodbuf, x,addcnel,cnel,ixc,ofc,info,typ,cdt,cdr,print,rddl,nlink,dx)
-int *igd, *nng, *nodbuf, *itab,*addcnel,*cnel,*ixc,*ofc,*info,*typ,*cdt,*cdr,*print,*rddl,*nlink;
-my_real_c *x,*dx;
-{
+void _FCALL  INIT_LINK_C (int *igd, int *nng, int *itab, int *nodbuf, my_real_c *x, int *addcnel, int *cnel, int *ixc, int *ofc, int *info, int *typ, int *cdt, int *cdr, int *print, int *rddl, int *nlink, my_real_c *dx){
     init_link_c(igd, nng, itab, nodbuf, x,addcnel,cnel,ixc,ofc,info,typ,cdt,cdr,print,rddl,nlink,dx);
 }
 
-void _FCALL init_link_c_(igd, nng, itab, nodbuf, x,addcnel,cnel,ixc,ofc,info,typ,cdt,cdr,print,rddl,nlink,dx)
-int *igd, *nng, *nodbuf, *itab,*addcnel,*cnel,*ixc,*ofc,*info,*typ,*cdt,*cdr,*print,*rddl,*nlink;
-my_real_c *x,*dx;
-{
+void _FCALL init_link_c_(int *igd, int *nng, int *itab, int *nodbuf, my_real_c *x, int *addcnel, int *cnel, int *ixc, int *ofc, int *info, int *typ, int *cdt, int *cdr, int *print, int *rddl, int *nlink, my_real_c *dx){
     init_link_c(igd, nng, itab, nodbuf, x,addcnel,cnel,ixc,ofc,info,typ,cdt,cdr,print,rddl,nlink,dx);
 }
 
-void _FCALL init_link_c__(igd, nng, itab, nodbuf, x,addcnel,cnel,ixc,ofc,info,typ,cdt,cdr,print,rddl,nlink,dx)
-int *igd, *nng, *nodbuf, *itab,*addcnel,*cnel,*ixc,*ofc,*info,*typ,*cdt,*cdr,*print,*rddl,*nlink;
-my_real_c *x,*dx;
-{init_link_c(igd, nng, itab, nodbuf, x,addcnel,cnel,ixc,ofc,info,typ,cdt,cdr,print,rddl,nlink,dx);}
+void _FCALL init_link_c__(int *igd, int *nng, int *itab, int *nodbuf, my_real_c *x, int *addcnel, int *cnel, int *ixc, int *ofc, int *info, int *typ, int *cdt, int *cdr, int *print, int *rddl, int *nlink, my_real_c *dx){
+    init_link_c(igd, nng, itab, nodbuf, x,addcnel,cnel,ixc,ofc,info,typ,cdt,cdr,print,rddl,nlink,dx);
+}
 
-void init_link_nl_c(igd, nng, itab, nodbuf, x,print,dx,ndof_nl,nb_tot_dof,nlnk)
-int *igd, *nng, *nodbuf, *itab,*print,*ndof_nl,*nb_tot_dof,*nlnk;
-my_real_c *x,*dx;
-{
-int i,j,tt,nn,lbuf,lbuf1,init_buf[6],id;
-int *nodid,*bcs;
-my_real_c *crd;
+// -------------------------------------------------------------
+void init_link_nl_c(int *igd, int *nng, int *itab, int *nodbuf, my_real_c *x, int *print, my_real_c *dx, int *ndof_nl, int *nb_tot_dof, int *nlnk){
+
+    int i, j, tt, nn, lbuf, lbuf1, init_buf[6], id;
+    int *nodid, *bcs;
+    my_real_c *crd;
 
     /************************coupling for non local dof***************************/
     /*****************************************************************************/
-    flagrot  = (int *) malloc(*nlnk*2*sizeof(int));
-    lbuf = *nb_tot_dof*sizeof(my_real_c);
-    crd  = (my_real_c *) malloc(3*lbuf);
-    lbuf1  = *nb_tot_dof*sizeof(int);   
-    nodid  = (int *) malloc(lbuf1);
-    bcs  = (int *) malloc(lbuf1);
-        
-    tt = 0;
-    for (i = 0; i < *nng; i++)
-      {
-        nn = nodbuf[i]-1;
-        for (j = 0; j < ndof_nl[i]; j++)
-          {
-           crd[3*tt]   = x[3*nn]-dx[3*nn];        
-           crd[3*tt+1] = x[3*nn+1]-dx[3*nn+1];
-           crd[3*tt+2] = x[3*nn+2]-dx[3*nn+2];        
-           nodid[tt]   = itab[nn]+10000*j;
-           bcs[tt] = 0;
-           tt++;
-          }    
-      }
+    flagrot = (int *)malloc(*nlnk * 2 * sizeof(int));
+    lbuf = *nb_tot_dof * sizeof(my_real_c);
+    crd = (my_real_c *)malloc(3 * lbuf);
+    lbuf1 = *nb_tot_dof * sizeof(int);
+    nodid = (int *)malloc(lbuf1);
+    bcs = (int *)malloc(lbuf1);
 
-    id = *igd;                            
+    tt = 0;
+    for (i = 0; i < *nng; i++) {
+        nn = nodbuf[i] - 1;
+        for (j = 0; j < ndof_nl[i]; j++) {
+            crd[3 * tt] = x[3 * nn] - dx[3 * nn];
+            crd[3 * tt + 1] = x[3 * nn + 1] - dx[3 * nn + 1];
+            crd[3 * tt + 2] = x[3 * nn + 2] - dx[3 * nn + 2];
+            nodid[tt] = itab[nn] + 10000 * j;
+            bcs[tt] = 0;
+            tt++;
+        }
+    }
+
+    id = *igd;
     init_buf[0] = *igd;
     init_buf[1] = *nb_tot_dof;
-    init_buf[2] = 0 ;
-    init_buf[3] = 0 ;
-    init_buf[4] = 0 ;    
-    init_buf[5] = *print;        
-                    
-    writer(fidw, (void *) init_buf,6*sizeof(int));                            
-    writer(fidw, (void *) nodid, lbuf1);
-    writer(fidw, (void *) bcs, lbuf1);
-    writer(fidw, (void *) crd, 3*lbuf);   
+    init_buf[2] = 0;
+    init_buf[3] = 0;
+    init_buf[4] = 0;
+    init_buf[5] = *print;
+
+    writer(fidw, (void *)init_buf, 6 * sizeof(int));
+    writer(fidw, (void *)nodid, lbuf1);
+    writer(fidw, (void *)bcs, lbuf1);
+    writer(fidw, (void *)crd, 3 * lbuf);
 
     /*********Deallocation****************************/
-    free(crd);    
+    free(crd);
     free(nodid);
-    free(bcs);                   
+    free(bcs);
 }
 
-void _FCALL  INIT_LINK_NL_C (igd, nng, itab, nodbuf, x,print,dx,ndof_nl,nb_tot_dof,nlnk)
-int *igd, *nng, *nodbuf, *itab,*print,*ndof_nl,*nb_tot_dof,*nlnk;
-my_real_c *x,*dx;
-{
+void _FCALL  INIT_LINK_NL_C (int *igd, int *nng, int *itab, int *nodbuf, my_real_c *x, int *print, my_real_c *dx, int *ndof_nl, int *nb_tot_dof, int *nlnk){
     init_link_nl_c(igd, nng, itab, nodbuf, x,print,dx,ndof_nl,nb_tot_dof,nlnk);
 }
 
-void _FCALL init_link_nl_c_(igd, nng, itab, nodbuf, x,print,dx,ndof_nl,nb_tot_dof,nlnk)
-int *igd, *nng, *nodbuf, *itab,*print,*ndof_nl,*nb_tot_dof,*nlnk;
-my_real_c *x,*dx;
-{
+void _FCALL init_link_nl_c_ (int *igd, int *nng, int *itab, int *nodbuf, my_real_c *x, int *print, my_real_c *dx, int *ndof_nl, int *nb_tot_dof, int *nlnk){
     init_link_nl_c(igd, nng, itab, nodbuf, x,print,dx,ndof_nl,nb_tot_dof,nlnk);
 }
 
-void _FCALL init_link_nl_c__(igd, nng, itab, nodbuf, x,print,dx,ndof_nl,nb_tot_dof,nlnk)
-int *igd, *nng, *nodbuf, *itab,*print,*ndof_nl,*nb_tot_dof,*nlnk;
-my_real_c *x,*dx;
-{init_link_nl_c(igd, nng, itab, nodbuf, x,print,dx,ndof_nl,nb_tot_dof,nlnk);}
+void _FCALL init_link_nl_c__ (int *igd, int *nng, int *itab, int *nodbuf, my_real_c *x, int *print, my_real_c *dx, int *ndof_nl, int *nb_tot_dof, int *nlnk){
+    init_link_nl_c(igd, nng, itab, nodbuf, x,print,dx,ndof_nl,nb_tot_dof,nlnk);
+}
 
 
-void init_buf_spmd_c(igd, nng, itab, nodbuf, x,addcnel,cnel,ixc,ofc,tlel,lel,lelnb,tleln,leln,nbelem,tcnel,cnelem2,wgt,tcneldb,cnelemdb,info,typ,nglob)
-int *igd, *nng, *nodbuf, *itab,*addcnel,*cnel,*ixc,*ofc,*tlel,*lel,*lelnb,*tleln,*leln,*nbelem,*tcnel,*cnelem2,*wgt,*tcneldb,*cnelemdb,*info,*typ,*nglob;
-my_real_c *x;
+void init_buf_spmd_c(int *igd, int *nng, int *itab, int *nodbuf, my_real_c *x, int *addcnel, int *cnel, int *ixc, int *ofc, int *tlel, int *lel, int *lelnb, int *tleln, int *leln, int *nbelem, int *tcnel, int *cnelem2, int *wgt, int *tcneldb, int *cnelemdb, int *info, int *typ, int *nglob)
 {
-int i,j,t,nn, lbuf, lbuf1, init_buf[5],lbufa,lbufb,lbufel,dimno,k,capt,g,m,w,nbel,weight,zz,zz2;
-int *nodid,*cnelem,*cnelem3,*listel,*listelnbn,*listel2,*listel2nbn,*listelno,**tabl,nbn,lus;
-my_real_c *crd;
+    int i, j, t, nn, lbuf, lbuf1, init_buf[5], lbufa, lbufb, lbufel, dimno, k, capt, g, m, w, nbel, weight, zz, zz2;
+    int *nodid, *cnelem, *cnelem3, *listel, *listelnbn, *listel2, *listel2nbn, *listelno, **tabl, nbn, lus;
+    my_real_c *crd;
 
-    lbuf = *nng*sizeof(my_real_c);
-    crd  = (my_real_c *) malloc(3*lbuf);
-    lbuf1  = *nng*sizeof(int);
-    dimno = 0 ;
-    nbel = 0 ;
-    t=0;
-    k=0;
+    lbuf = *nng * sizeof(my_real_c);
+    crd = (my_real_c *)malloc(3 * lbuf);
+    lbuf1 = *nng * sizeof(int);
+    dimno = 0;
+    nbel = 0;
+    t = 0;
+    k = 0;
     zz = 0;
-    zz2 = 0;    
-    nodid  = (int *) malloc(lbuf1);
-    /*nbelem  = (int *) malloc(lbuf1);*/
-    cnelem  = (int *) malloc(sizeof(int));
-    cnelem3  = (int *) malloc(sizeof(int));
-    listel2  = (int *) malloc(sizeof(int));    
-    tabl = (int **) malloc(sizeof(int*));        
-    listel2nbn  = (int *) malloc(sizeof(int));
+    zz2 = 0;
+    nodid = (int *)malloc(lbuf1);
+    cnelem = (int *)malloc(sizeof(int));
+    cnelem3 = (int *)malloc(sizeof(int));
+    listel2 = (int *)malloc(sizeof(int));
+    tabl = (int **)malloc(sizeof(int *));
+    listel2nbn = (int *)malloc(sizeof(int));
 
     /********Creation of buffers************/
-        
-    for (i = 0; i < *nng; i++)
-    {
-        nn = nodbuf[i]-1;
-        crd[3*i]   = x[3*nn];
-        crd[3*i+1] = x[3*nn+1];
-        crd[3*i+2] = x[3*nn+2];        
-        nodid[i]   = itab[nn];
+    for (i = 0; i < *nng; i++) {
+        nn = nodbuf[i] - 1;
+        crd[3 * i] = x[3 * nn];
+        crd[3 * i + 1] = x[3 * nn + 1];
+        crd[3 * i + 2] = x[3 * nn + 2];
+        nodid[i] = itab[nn];
         weight = wgt[nn];
-        nbelem[i]  = addcnel[nn+2]-addcnel[nn+1];        
-        cnelem  = (int *) realloc(cnelem, (dimno + nbelem[i]) * sizeof(int));
-                cnelem3  = (int *) realloc(cnelem3, (dimno + nbelem[i]) * sizeof(int));
-        
-            for (j = 0; j < nbelem[i] ; j++)
-         { 
-           capt = 0;         
-           cnelem[dimno+j]=cnel[addcnel[nn+1]+j];
+        nbelem[i] = addcnel[nn + 2] - addcnel[nn + 1];
+        cnelem = (int *)realloc(cnelem, (dimno + nbelem[i]) * sizeof(int));
+        cnelem3 = (int *)realloc(cnelem3, (dimno + nbelem[i]) * sizeof(int));
 
-           for (k = 0; k < t ; k++)
-            {                    
-             if (cnelem[dimno+j]==listel2[k])
-              {            
-               capt=1;
-               tabl[k]  = (int *) realloc(tabl[k], (listel2nbn[k]+1) * sizeof(int));           
-               tabl[k][listel2nbn[k]]=nodid[i];                           
-               listel2nbn[k]++;
-               cnelem3[dimno+j]=k;                                   
-              }
+        for (j = 0; j < nbelem[i]; j++) {
+            capt = 0;
+            cnelem[dimno + j] = cnel[addcnel[nn + 1] + j];
+
+            for (k = 0; k < t; k++) {
+                if (cnelem[dimno + j] == listel2[k]) {
+                    capt = 1;
+                    tabl[k] = (int *)realloc(tabl[k], (listel2nbn[k] + 1) * sizeof(int));
+                    tabl[k][listel2nbn[k]] = nodid[i];
+                    listel2nbn[k]++;
+                    cnelem3[dimno + j] = k;
+                }
             }
-            
-             if (capt == 0)
-              {
-               listel2  = (int *) realloc(listel2, (t+1) * sizeof(int));
-               listel2nbn  = (int *) realloc(listel2nbn,(t+1) * sizeof(int));
-               tabl  = (int **) realloc(tabl,(t+1) * sizeof(int*));
-                       tabl[t]  = (int *) malloc(sizeof(int));                                 
-               listel2[t]=cnelem[dimno+j];
-               listel2nbn[t]=1;
-               tabl[t][0]=nodid[i];
-               cnelem3[dimno+j]=t;                                              
-                t++;                          
-              }              
-          }  
-        dimno = dimno + nbelem[i];                         
+
+            if (capt == 0) {
+                listel2 = (int *)realloc(listel2, (t + 1) * sizeof(int));
+                listel2nbn = (int *)realloc(listel2nbn, (t + 1) * sizeof(int));
+                tabl = (int **)realloc(tabl, (t + 1) * sizeof(int *));
+                tabl[t] = (int *)malloc(sizeof(int));
+                listel2[t] = cnelem[dimno + j];
+                listel2nbn[t] = 1;
+                tabl[t][0] = nodid[i];
+                cnelem3[dimno + j] = t;
+                t++;
+            }
+        }
+        dimno = dimno + nbelem[i];
     }
-            
+
     /********sorting of element buffer************/
-    
     g = 0;
     w = 0;
-    listel  = (int *) (malloc(sizeof(int)));
-    listelnbn  = (int *) (malloc(sizeof(int)));        
-    listelno  = (int *) (malloc(sizeof(int)));    
-    for (i = 0; i < t; i++)
-    {      
-     if ((listel2nbn[i]>1) || ((listel2nbn[i] == 1)&&(*nglob == 1)))
-      {
-       listel  = (int *) realloc(listel, (w+1) * sizeof(int));
-       listelnbn  = (int *) realloc(listelnbn, (w+1) * sizeof(int));
-       listel[w]=listel2[i];
-       lel[w]=listel[w];
-       listelnbn[w]=listel2nbn[i];
-       lelnb[w]=listel2nbn[i];               
-       for (j = 0; j < listel2nbn[i] ; j++)
-        {
-          listelno  = (int *) realloc(listelno, (g+1) * sizeof(int));        
-              listelno[g]=tabl[i][j];
-          leln[g]=listelno[g];          
-          g++;                    
+    listel = (int *)(malloc(sizeof(int)));
+    listelnbn = (int *)(malloc(sizeof(int)));
+    listelno = (int *)(malloc(sizeof(int)));
+    for (i = 0; i < t; i++) {
+        if ((listel2nbn[i] > 1) || ((listel2nbn[i] == 1) && (*nglob == 1))) {
+            listel = (int *)realloc(listel, (w + 1) * sizeof(int));
+            listelnbn = (int *)realloc(listelnbn, (w + 1) * sizeof(int));
+            listel[w] = listel2[i];
+            lel[w] = listel[w];
+            listelnbn[w] = listel2nbn[i];
+            lelnb[w] = listel2nbn[i];
+            for (j = 0; j < listel2nbn[i]; j++) {
+                listelno = (int *)realloc(listelno, (g + 1) * sizeof(int));
+                listelno[g] = tabl[i][j];
+                leln[g] = listelno[g];
+                g++;
+            }
+            w++;
         }
-       w++;        
-      }    
     }
-    
+
     *tlel = w;
     *tleln = g;
-    
+
     /*********filtering of buffer of nodes**************/
-    /*----(some elements are removed from buffer:
-             - type 1,2 : elements with only one node on the interface----*/
     t = 0;
     k = 0;
     m = 0;
 
-    for (i = 0; i < *nng; i++)
-      {
-       nn = nodbuf[i]-1;
-       weight = wgt[nn];
-       lus = nbelem[i];
-       for (j = 0; j < lus ; j++)
-        {
-           m = cnelem3[k];
-                          
-           if ((listel2nbn[m]>1) || ((listel2nbn[m] == 1)&&(*nglob == 1)))           
-             {
-          if (weight == 1)
-            {cnelem2[zz]=cnelem[k];
-             zz++;
+    for (i = 0; i < *nng; i++) {
+        nn = nodbuf[i] - 1;
+        weight = wgt[nn];
+        lus = nbelem[i];
+        for (j = 0; j < lus; j++) {
+            m = cnelem3[k];
+
+            if ((listel2nbn[m] > 1) || ((listel2nbn[m] == 1) && (*nglob == 1))) {
+                if (weight == 1) {
+                    cnelem2[zz] = cnelem[k];
+                    zz++;
+                }
+                if (weight == 0) {
+                    cnelemdb[zz2] = cnelem[k];
+                    zz2++;
+                }
+            } else {
+                nbelem[i] = nbelem[i] - 1;
             }
-            if (weight == 0)
-            {cnelemdb[zz2]=cnelem[k];
-             zz2++;
-            }    
-         }
-           else
-                 {nbelem[i] = nbelem[i] -1 ;}
-           k++; 
+            k++;
         }
-          }
-      
-     dimno = t;
+    }
+
+    dimno = t;
     *tcnel = zz;
-    *tcneldb =zz2;
-    
+    *tcneldb = zz2;
+
     /*********Deallocation****************************/
     free(cnelem);
     free(tabl);
     free(nodid);
-    free(crd);    
-    free(listel2);        
-    free(listel2nbn);    
-    free(listel);        
+    free(crd);
+    free(listel2);
+    free(listel2nbn);
+    free(listel);
     free(listelnbn);
-    free(listelno);                            
+    free(listelno);
 }
 
-void _FCALL  INIT_BUF_SPMD_C (igd, nng, itab, nodbuf, x,addcnel,cnel,ixc,ofc,tlel,lel,lelnb,tleln,leln,nbelem,tcnel,cnelem2,wgt,tcneldb,cnelemdb,info,typ,nglob)
-int *igd, *nng, *nodbuf, *itab,*addcnel,*cnel,*ixc,*ofc,*tlel,*lel,*lelnb,*tleln,*leln,*nbelem,*tcnel,*cnelem2,*wgt,*tcneldb,*cnelemdb,*info,*typ,*nglob;
-my_real_c *x;
-{
+void _FCALL  INIT_BUF_SPMD_C(int *igd, int *nng, int *itab, int *nodbuf, my_real_c *x, int *addcnel, int *cnel, int *ixc, int *ofc, int *tlel, int *lel, int *lelnb, int *tleln, int *leln, int *nbelem, int *tcnel, int *cnelem2, int *wgt, int *tcneldb, int *cnelemdb, int *info, int *typ, int *nglob){
     init_buf_spmd_c(igd, nng, itab, nodbuf, x,addcnel,cnel,ixc,ofc,tlel,lel,lelnb,tleln,leln,nbelem,tcnel,cnelem2,wgt,tcneldb,cnelemdb,info,typ,nglob);
 }
 
-void _FCALL init_buf_spmd_c_(igd, nng, itab, nodbuf, x,addcnel,cnel,ixc,ofc,tlel,lel,lelnb,tleln,leln,nbelem,tcnel,cnelem2,wgt,tcneldb,cnelemdb,info,typ,nglob)
-int *igd, *nng, *nodbuf, *itab,*addcnel,*cnel,*ixc,*ofc,*tlel,*lel,*lelnb,*tleln,*leln,*nbelem,*tcnel,*cnelem2,*wgt,*tcneldb,*cnelemdb,*info,*typ,*nglob;
-my_real_c *x;
-{
+void _FCALL init_buf_spmd_c_(int *igd, int *nng, int *itab, int *nodbuf, my_real_c *x, int *addcnel, int *cnel, int *ixc, int *ofc, int *tlel, int *lel, int *lelnb, int *tleln, int *leln, int *nbelem, int *tcnel, int *cnelem2, int *wgt, int *tcneldb, int *cnelemdb, int *info, int *typ, int *nglob){
     init_buf_spmd_c(igd, nng, itab, nodbuf, x,addcnel,cnel,ixc,ofc,tlel,lel,lelnb,tleln,leln,nbelem,tcnel,cnelem2,wgt,tcneldb,cnelemdb,info,typ,nglob);
 }
 
-void _FCALL init_buf_spmd_c__(igd, nng, itab, nodbuf, x,addcnel,cnel,ixc,ofc,tlel,lel,lelnb,tleln,leln,nbelem,tcnel,cnelem2,wgt,tcneldb,cnelemdb,info,typ,nglob)
-int *igd, *nng, *nodbuf, *itab,*addcnel,*cnel,*ixc,*ofc,*tlel,*lel,*lelnb,*tleln,*leln,*nbelem,*tcnel,*cnelem2,*wgt,*tcneldb,*cnelemdb,*info,*typ,*nglob;
-my_real_c *x;
-{init_buf_spmd_c(igd, nng, itab, nodbuf, x,addcnel,cnel,ixc,ofc,tlel,lel,lelnb,tleln,leln,nbelem,tcnel,cnelem2,wgt,tcneldb,cnelemdb,info,typ,nglob);}
+void _FCALL init_buf_spmd_c__(int *igd, int *nng, int *itab, int *nodbuf, my_real_c *x, int *addcnel, int *cnel, int *ixc, int *ofc, int *tlel, int *lel, int *lelnb, int *tleln, int *leln, int *nbelem, int *tcnel, int *cnelem2, int *wgt, int *tcneldb, int *cnelemdb, int *info, int *typ, int *nglob){
+    init_buf_spmd_c(igd, nng, itab, nodbuf, x,addcnel,cnel,ixc,ofc,tlel,lel,lelnb,tleln,leln,nbelem,tcnel,cnelem2,wgt,tcneldb,cnelemdb,info,typ,nglob);
+}
 
 
-void init_link_spmd_c(igd,nng,dbnod,nbproc,ibuf,dbibuf,dbnbuf,ddbuf,rbuf,dim,ibufnb,ibufcnel,nbel,dimel,ibufel,ibufelnbnod,ibufelnod,dimb,ibufcneldb,ibufnbeldb,typ,bcs,print,rddl,nl,nlnk,iex)
-int *igd, *nng, *nbproc, *ibuf, *dbibuf,*dbnbuf,*ddbuf,*dbnod,*dim,*ibufnb,*ibufcnel,*nbel,*dimel,*ibufel,*ibufelnbnod,*ibufelnod,*dimb,*ibufcneldb,*ibufnbeldb,*typ,*bcs,*print,*rddl,*nl,*nlnk,*iex;
-my_real_c *rbuf;
-{
-int i,j,lbuf, lbuf1,lbufb,lbufp,init_buf[8],lbufa,lbufel,lbufdimel,lbufc,offset,offsetb,offsett,iproc;
-       
-        nspmd = *nbproc;
+void init_link_spmd_c(int *igd, int *nng, int *dbnod, int *nbproc, int *ibuf, int *dbibuf, int *dbnbuf, int *ddbuf, my_real_c *rbuf, int *dim, int *ibufnb, int *ibufcnel, int *nbel, int *dimel, int *ibufel, int *ibufelnbnod, int *ibufelnod, int *dimb, int *ibufcneldb, int *ibufnbeldb, int *typ, int *bcs, int *print, int *rddl, int *nl, int *nlnk, int *iex){
+
+    int i, j, lbuf, lbuf1, lbufb, lbufp, init_buf[8], lbufa, lbufel, lbufdimel, lbufc, offset, offsetb, offsett, iproc;
+
+    nspmd = *nbproc;
 
     init_buf[0] = *igd;
     init_buf[1] = *nng;
-    init_buf[2] = *dim;    
+    init_buf[2] = *dim;
     init_buf[3] = *nbel;
     init_buf[4] = *dimel;
-    init_buf[5] = *print;            
+    init_buf[5] = *print;
     init_buf[6] = *dbnod;
     init_buf[7] = *dimb;
-    flagrot  = (int *) malloc((*nl+1)*sizeof(int));
-    iroddl = *rddl;    
-                
-    writer(fidw, (void *) init_buf, 8*sizeof(int));        
-    lbuf = *nng*sizeof(my_real_c);
-    lbuf1  = *nng*sizeof(int);
-    lbufb  = *dbnod*sizeof(int);
-    lbufp  = *nbproc*sizeof(int);
-    lbufa  = *dim*sizeof(int);
-    lbufc  = *dimb*sizeof(int);
-    lbufel  = *nbel*sizeof(int);
-    lbufdimel  = *dimel*sizeof(int);
-        
-        /*************determination of the master for db nodes******************************/
-        if (*iex == 1) {masterdb = malloc(*nlnk*sizeof(int*));}
-            
-        offset = 0;
-        offsetb = 0;
-        offsett = 0;                      
-        masterdb[*iex-1] = malloc((*nng+(*dbnod))*sizeof(int));
-        for (iproc = 0; iproc < nspmd; iproc++)                 
-      {
-           for (i = 0; i < ddbuf[iproc]; i++) masterdb[*iex-1][offset+i] = offsetb + i;
-           offset += ddbuf[iproc];
-           offsetb += ddbuf[iproc];           
-           for (i = 0; i < dbnbuf[iproc]; i++)
-             for (j = 0; j < *nng; j++)
-           {if (ibuf[j] == dbibuf[offsett+i]) masterdb[*iex-1][offset+i] = j;}           
-           offset += dbnbuf[iproc];
-           offsett += dbnbuf[iproc];
-          }                                                          
-        /*************************************************************************************/        
-                 
-    writer(fidw, (void *) ibuf, lbuf1);
-    writer(fidw, (void *) bcs, lbuf1);                            
-    writer(fidw, (void *) rbuf, 3*lbuf);                        
-    writer(fidw, (void *) dbibuf, lbufb);            
-    writer(fidw, (void *) dbnbuf, lbufp);
-    writer(fidw, (void *) ddbuf, lbufp);
-    
+    flagrot = (int *)malloc((*nl + 1) * sizeof(int));
+    iroddl = *rddl;
+
+    writer(fidw, (void *)init_buf, 8 * sizeof(int));
+    lbuf = *nng * sizeof(my_real_c);
+    lbuf1 = *nng * sizeof(int);
+    lbufb = *dbnod * sizeof(int);
+    lbufp = *nbproc * sizeof(int);
+    lbufa = *dim * sizeof(int);
+    lbufc = *dimb * sizeof(int);
+    lbufel = *nbel * sizeof(int);
+    lbufdimel = *dimel * sizeof(int);
+
+    /*************determination of the master for db nodes******************************/
+    if (*iex == 1)
+    {
+        masterdb = malloc(*nlnk * sizeof(int *));
+    }
+
+    offset = 0;
+    offsetb = 0;
+    offsett = 0;
+    masterdb[*iex - 1] = malloc((*nng + (*dbnod)) * sizeof(int));
+    for (iproc = 0; iproc < nspmd; iproc++)
+    {
+        for (i = 0; i < ddbuf[iproc]; i++)
+            masterdb[*iex - 1][offset + i] = offsetb + i;
+        offset += ddbuf[iproc];
+        offsetb += ddbuf[iproc];
+        for (i = 0; i < dbnbuf[iproc]; i++)
+            for (j = 0; j < *nng; j++)
+            {
+                if (ibuf[j] == dbibuf[offsett + i])
+                    masterdb[*iex - 1][offset + i] = j;
+            }
+        offset += dbnbuf[iproc];
+        offsett += dbnbuf[iproc];
+    }
+    /*************************************************************************************/
+
+    writer(fidw, (void *)ibuf, lbuf1);
+    writer(fidw, (void *)bcs, lbuf1);
+    writer(fidw, (void *)rbuf, 3 * lbuf);
+    writer(fidw, (void *)dbibuf, lbufb);
+    writer(fidw, (void *)dbnbuf, lbufp);
+    writer(fidw, (void *)ddbuf, lbufp);
+
     /****infos on elements (sent only for coupling type 1 and 2)*********************/
-        if(*typ < 4) 
-    {writer(fidw, (void *) ibufnb, lbuf1);    
-     writer(fidw, (void *) ibufcnel, lbufa);
-     writer(fidw, (void *) ibufel, lbufel);    
-     writer(fidw, (void *) ibufelnbnod, lbufel);
-     writer(fidw, (void *) ibufelnod, lbufdimel);
-     writer(fidw, (void *) ibufnbeldb, lbufb);
-     writer(fidw, (void *) ibufcneldb, lbufc);}
-    /*********************************************************************************/                    
+    if (*typ < 4)
+    {
+        writer(fidw, (void *)ibufnb, lbuf1);
+        writer(fidw, (void *)ibufcnel, lbufa);
+        writer(fidw, (void *)ibufel, lbufel);
+        writer(fidw, (void *)ibufelnbnod, lbufel);
+        writer(fidw, (void *)ibufelnod, lbufdimel);
+        writer(fidw, (void *)ibufnbeldb, lbufb);
+        writer(fidw, (void *)ibufcneldb, lbufc);
+    }
+    /*********************************************************************************/
 }
 
-void _FCALL  INIT_LINK_SPMD_C(igd,nng,dbnod,nbproc,ibuf,dbibuf,dbnbuf,ddbuf,rbuf,dim,ibufnb,ibufcnel,nbel,dimel,ibufel,ibufelnbnod,ibufelnod,dimb,ibufcneldb,ibufnbeldb,typ,bcs,print,rddl,nl,nlnk,iex)
-int *igd, *nng, *nbproc, *ibuf, *dbibuf,*dbnbuf,*ddbuf,*dbnod,*dim,*ibufnb,*ibufcnel,*nbel,*dimel,*ibufel,*ibufelnbnod,*ibufelnod,*dimb,*ibufcneldb,*ibufnbeldb,*typ,*bcs,*print,*rddl,*nl,*nlnk,*iex;
-my_real_c *rbuf;
-{
+void _FCALL  INIT_LINK_SPMD_C(int *igd, int *nng, int *dbnod, int *nbproc, int *ibuf, int *dbibuf, int *dbnbuf, int *ddbuf, my_real_c *rbuf, int *dim, int *ibufnb, int *ibufcnel, int *nbel, int *dimel, int *ibufel, int *ibufelnbnod, int *ibufelnod, int *dimb, int *ibufcneldb, int *ibufnbeldb, int *typ, int *bcs, int *print, int *rddl, int *nl, int *nlnk, int *iex){
   init_link_spmd_c(igd,nng,dbnod,nbproc,ibuf,dbibuf,dbnbuf,ddbuf,rbuf,dim,ibufnb,ibufcnel,nbel,dimel,ibufel,ibufelnbnod,ibufelnod,dimb,ibufcneldb,ibufnbeldb,typ,bcs,print,rddl,nl,nlnk,iex);
 }
 
-void _FCALL init_link_spmd_c_(igd,nng,dbnod,nbproc,ibuf,dbibuf,dbnbuf,ddbuf,rbuf,dim,ibufnb,ibufcnel,nbel,dimel,ibufel,ibufelnbnod,ibufelnod,dimb,ibufcneldb,ibufnbeldb,typ,bcs,print,rddl,nl,nlnk,iex)
-int *igd, *nng, *nbproc, *ibuf, *dbibuf,*dbnbuf,*ddbuf,*dbnod,*dim,*ibufnb,*ibufcnel,*nbel,*dimel,*ibufel,*ibufelnbnod,*ibufelnod,*dimb,*ibufcneldb,*ibufnbeldb,*typ,*bcs,*print,*rddl,*nl,*nlnk,*iex;
-my_real_c *rbuf;
-{
+void _FCALL init_link_spmd_c_(int *igd, int *nng, int *dbnod, int *nbproc, int *ibuf, int *dbibuf, int *dbnbuf, int *ddbuf, my_real_c *rbuf, int *dim, int *ibufnb, int *ibufcnel, int *nbel, int *dimel, int *ibufel, int *ibufelnbnod, int *ibufelnod, int *dimb, int *ibufcneldb, int *ibufnbeldb, int *typ, int *bcs, int *print, int *rddl, int *nl, int *nlnk, int *iex){
    init_link_spmd_c(igd,nng,dbnod,nbproc,ibuf,dbibuf,dbnbuf,ddbuf,rbuf,dim,ibufnb,ibufcnel,nbel,dimel,ibufel,ibufelnbnod,ibufelnod,dimb,ibufcneldb,ibufnbeldb,typ,bcs,print,rddl,nl,nlnk,iex);
 }
 
-void _FCALL init_link_spmd_c__(igd,nng,dbnod,nbproc,ibuf,dbibuf,dbnbuf,ddbuf,rbuf,dim,ibufnb,ibufcnel,nbel,dimel,ibufel,ibufelnbnod,ibufelnod,dimb,ibufcneldb,ibufnbeldb,typ,bcs,print,rddl,nl,nlnk,iex)
-int *igd, *nng, *nbproc, *ibuf,*dbibuf,*dbnbuf,*ddbuf,*dbnod,*dim,*ibufnb,*ibufcnel,*nbel,*dimel,*ibufel,*ibufelnbnod,*ibufelnod,*dimb,*ibufcneldb,*ibufnbeldb,*typ,*bcs,*print,*rddl,*nl,*nlnk,*iex;
-my_real_c *rbuf;
-{
+void _FCALL init_link_spmd_c__(int *igd, int *nng, int *dbnod, int *nbproc, int *ibuf, int *dbibuf, int *dbnbuf, int *ddbuf, my_real_c *rbuf, int *dim, int *ibufnb, int *ibufcnel, int *nbel, int *dimel, int *ibufel, int *ibufelnbnod, int *ibufelnod, int *dimb, int *ibufcneldb, int *ibufnbeldb, int *typ, int *bcs, int *print, int *rddl, int *nl, int *nlnk, int *iex){
    init_link_spmd_c(igd,nng,dbnod,nbproc,ibuf,dbibuf,dbnbuf,ddbuf,rbuf,dim,ibufnb,ibufcnel,nbel,dimel,ibufel,ibufelnbnod,ibufelnod,dimb,ibufcneldb,ibufnbeldb,typ,bcs,print,rddl,nl,nlnk,iex);
 }
 
-void send_ibuf_c(ibuf, len)
-int *ibuf, *len;
-{
+void send_ibuf_c(int *ibuf, int *len){
     writer(fidw, (void *) ibuf, *len*sizeof(int));
 }
-void _FCALL SEND_IBUF_C(ibuf, len)
-int *ibuf, *len;
-{
+
+void _FCALL SEND_IBUF_C(int *ibuf, int *len){
     send_ibuf_c(ibuf, len);
 }
-void _FCALL send_ibuf_c_(ibuf, len)
-int *ibuf, *len;
-{
+
+void _FCALL send_ibuf_c_(int *ibuf, int *len){
     send_ibuf_c(ibuf, len);
 }
-void _FCALL send_ibuf_c__(ibuf, len)
-int *ibuf, *len;
-{send_ibuf_c(ibuf, len);}
+
+void _FCALL send_ibuf_c__(int *ibuf, int *len){
+    send_ibuf_c(ibuf, len);
+}
 
 /************************************************************************/
 
-void send_fbuf_c(fbuf, len)
-my_real_c *fbuf;
-int *len;
-{
+void send_fbuf_c(my_real_c *fbuf, int *len){
     writer(fidw, (void *) fbuf, *len*sizeof(my_real_c));
 }
-void _FCALL SEND_FBUF_C(fbuf, len)
-my_real_c *fbuf;
-int *len;
-{
+
+void _FCALL SEND_FBUF_C(my_real_c *fbuf, int *len){
     send_fbuf_c(fbuf, len);
 }
-void send_fbuf_c_(fbuf, len)
-my_real_c *fbuf;
-int *len;
-{
+
+void send_fbuf_c_(my_real_c *fbuf, int *len){
     send_fbuf_c(fbuf, len);
 }
-void send_fbuf_c__(fbuf, len)
-my_real_c *fbuf;
-int *len;
-{send_fbuf_c(fbuf, len);}
+
+void send_fbuf_c__(my_real_c *fbuf, int *len){
+    send_fbuf_c(fbuf, len);
+}
 
 
 /************************************************************************/
 
-void send_fbufdp_c(fbuf, len)
-double *fbuf;
-int *len;
-{
+void send_fbufdp_c(double *fbuf, int *len){
     writer(fidw, (void *) fbuf, *len*sizeof(double));
 }
-void _FCALL SEND_FBUFDP_C(fbuf, len)
-double *fbuf;
-int *len;
-{
+
+void _FCALL SEND_FBUFDP_C(double *fbuf, int *len){
     send_fbufdp_c(fbuf, len);
 }
-void send_fbufdp_c_(fbuf, len)
-double *fbuf;
-int *len;
-{
+
+void send_fbufdp_c_(double *fbuf, int *len){
     send_fbufdp_c(fbuf, len);
 }
-void send_fbufdp_c__(fbuf, len)
-double *fbuf;
-int *len;
-{send_fbufdp_c(fbuf, len);}
+
+void send_fbufdp_c__(double *fbuf, int *len){
+    send_fbufdp_c(fbuf, len);
+}
 
 /***************************************************************************/
 
-void get_fbuf_c(fbuf, len)
-my_real_c *fbuf;
-int *len;
-{
+void get_fbuf_c(my_real_c *fbuf, int *len){
     readr(fidr, (void *) fbuf, *len*sizeof(my_real_c));
 }
-void _FCALL GET_FBUF_C(fbuf, len)
-my_real_c *fbuf;
-int *len;
-{
+
+void _FCALL GET_FBUF_C(my_real_c *fbuf, int *len){
     get_fbuf_c(fbuf, len);
 }
-void get_fbuf_c_(fbuf, len)
-my_real_c *fbuf;
-int *len;
-{
+
+void get_fbuf_c_(my_real_c *fbuf, int *len){
     get_fbuf_c(fbuf, len);
 }
-void get_fbuf_c__(fbuf, len)
-my_real_c *fbuf;
-int *len;
-{get_fbuf_c(fbuf, len);}
+
+void get_fbuf_c__(my_real_c *fbuf, int *len){
+    get_fbuf_c(fbuf, len);
+}
 
 /***************************************************************************/
 
-void get_fbufdp_c(fbuf, len)
-double *fbuf;
-int *len;
-{
+void get_fbufdp_c(double *fbuf, int *len){
     readr(fidr, (void *) fbuf, *len*sizeof(double));
 }
-void _FCALL GET_FBUFDP_C(fbuf, len)
-double *fbuf;
-int *len;
-{
+
+void _FCALL GET_FBUFDP_C(double *fbuf, int *len){
     get_fbufdp_c(fbuf, len);
 }
-void get_fbufdp_c_(fbuf, len)
-double *fbuf;
-int *len;
-{
+
+void get_fbufdp_c_(double *fbuf, int *len){
     get_fbufdp_c(fbuf, len);
 }
-void get_fbufdp_c__(fbuf, len)
-double *fbuf;
-int *len;
-{get_fbufdp_c(fbuf, len);}
+
+void get_fbufdp_c__(double *fbuf, int *len){
+    get_fbufdp_c(fbuf, len);
+}
 
 /******************************************************************************/
 
-void get_ibuf_c(ibuf, len)
-int *ibuf, *len;
-{
+void get_ibuf_c(int *ibuf, int *len){
     readr(fidr, (void *) ibuf, *len*sizeof(int));
 }
-void _FCALL GET_IBUF_C(ibuf, len)
-int *ibuf, *len;
-{
+
+void _FCALL GET_IBUF_C(int *ibuf, int *len){
     get_ibuf_c(ibuf, len);
 }
-void get_ibuf_c_(ibuf, len)
-int *ibuf, *len;
-{
+
+void get_ibuf_c_(int *ibuf, int *len){
     get_ibuf_c(ibuf, len);
 }
-void get_ibuf_c__(ibuf, len)
-int *ibuf, *len;
-{get_ibuf_c(ibuf, len);}
 
-
-void send_mass_c(idp, nng, nodbuf, ms, in)
-int *idp, *nng, *nodbuf;
-my_real_c *ms, *in;
-{
-int i, nn, lbuf, flag;
-my_real_c *mbuf, *ibuf;
-
-    writer(fidw, (void *) idp, sizeof(int));    
-    readr(fidr, (void *) &flag, sizeof(int));
-    flagrot[*idp]=flag;
-    
-    lbuf = *nng*sizeof(my_real_c);
-    mbuf = (my_real_c *) malloc(lbuf);
-    if (flagrot[*idp]) ibuf = (my_real_c *) malloc(lbuf);
-
-    for (i = 0; i < *nng; i++)
-    {
-        nn = nodbuf[i]-1;
-        mbuf[i] = ms[nn];
-        if (flagrot[*idp]) ibuf[i] = in[nn];
-    }    
-    writer(fidw, (void *) mbuf, lbuf);    
-    if (flagrot[*idp]) writer(fidw, (void *) ibuf, lbuf);
-    
-    free(mbuf);
-    if (flagrot[*idp]) free(ibuf);
+void get_ibuf_c__(int *ibuf, int *len){
+    get_ibuf_c(ibuf, len);
 }
 
-void _FCALL SEND_MASS_C(idp, nng, nodbuf, ms, in)
-int *idp, *nng, *nodbuf;
-my_real_c *ms, *in;
-{
-    send_mass_c(idp, nng, nodbuf, ms, in);
-}
-void send_mass_c_(idp, nng, nodbuf, ms, in)
-int *idp, *nng, *nodbuf;
-my_real_c *ms, *in;
-{
-    send_mass_c(idp, nng, nodbuf, ms, in);
-}
-void send_mass_c__(idp, nng, nodbuf, ms, in)
-int *idp, *nng, *nodbuf;
-my_real_c *ms, *in;
-{send_mass_c(idp, nng, nodbuf, ms, in);}
 
-void send_mass_nl_c(idp, nng, iadd_nl, ms)
-int *idp, *nng, *iadd_nl;
-my_real_c *ms;
-{
-int i, j,nn, lbuf, flag;
-my_real_c *mbuf;
+void send_mass_c(int *idp, int *nng, int *nodbuf, my_real_c *ms, my_real_c *in){
+    int i, nn, lbuf, flag;
+    my_real_c *mbuf, *ibuf;
 
-    writer(fidw, (void *) idp, sizeof(int));    
-    readr(fidr, (void *) &flag, sizeof(int));
-    flagrot[*idp]=0;
-    
-    lbuf = *nng*sizeof(my_real_c);
-    mbuf = (my_real_c *) malloc(lbuf);
+    writer(fidw, (void *)idp, sizeof(int));
+    readr(fidr, (void *)&flag, sizeof(int));
+    flagrot[*idp] = flag;
 
-    for (i = 0; i < *nng; i++)
-      {
-       mbuf[i] = ms[iadd_nl[i]-1];
-      }
-    
-    writer(fidw, (void *) mbuf, lbuf);    
-    free(mbuf);
-}
-
-void _FCALL SEND_MASS_NL_C(idp, nng, iadd_nl, ms)
-int *idp, *nng, *iadd_nl;
-my_real_c *ms;
-{
-    send_mass_nl_c(idp, nng, iadd_nl, ms);
-}
-void send_mass_nl_c_(idp, nng, iadd_nl, ms)
-int *idp, *nng, *iadd_nl;
-my_real_c *ms;
-{
-    send_mass_nl_c(idp, nng, iadd_nl, ms);
-}
-void send_mass_nl_c__(idp, nng, iadd_nl, ms)
-int *idp, *nng, *iadd_nl;
-my_real_c *ms;
-{send_mass_nl_c(idp, nng, iadd_nl, ms);}
-
-void send_mass_rby_c(idp, nng, nodbuf, ms, in, npby, nrbody, rby, tag, add_rby, nnpby, nrby)
-int *idp, *nng, *nodbuf, *nrbody, *npby, *tag, *add_rby, *nnpby, *nrby;
-my_real_c *ms, *in, *rby;
-{
-int i, k,l,nn, lbuf, flag, *cbuf;
-my_real_c *mbuf, *ibuf, *m2buf, *matrix_buf;
-
-    writer(fidw, (void *) idp, sizeof(int));    
-    readr(fidr, (void *) &flag, sizeof(int));
-    flagrot[*idp]=flag;
-    
-    lbuf = *nng*sizeof(my_real_c);
-    mbuf = (my_real_c *) malloc(lbuf);
-    m2buf = (my_real_c *) malloc(lbuf);    
-    cbuf = (int *) malloc(lbuf);
+    lbuf = *nng * sizeof(my_real_c);
+    mbuf = (my_real_c *)malloc(lbuf);
     if (flagrot[*idp])
-      {ibuf = (my_real_c *) malloc(lbuf);
-       matrix_buf = (my_real_c *) malloc(9*lbuf);}
-    
+        ibuf = (my_real_c *)malloc(lbuf);
+
     for (i = 0; i < *nng; i++)
     {
-        nn = nodbuf[i]-1;
+        nn = nodbuf[i] - 1;
+        mbuf[i] = ms[nn];
+        if (flagrot[*idp])
+            ibuf[i] = in[nn];
+    }
+    writer(fidw, (void *)mbuf, lbuf);
+    if (flagrot[*idp])
+        writer(fidw, (void *)ibuf, lbuf);
+
+    free(mbuf);
+    if (flagrot[*idp])
+        free(ibuf);
+}
+
+void _FCALL SEND_MASS_C(int *idp, int *nng, int *nodbuf, my_real_c *ms, my_real_c *in){
+    send_mass_c(idp, nng, nodbuf, ms, in);
+}
+
+void send_mass_c_(int *idp, int *nng, int *nodbuf, my_real_c *ms, my_real_c *in){
+    send_mass_c(idp, nng, nodbuf, ms, in);
+}
+
+void send_mass_c__(int *idp, int *nng, int *nodbuf, my_real_c *ms, my_real_c *in){
+    send_mass_c(idp, nng, nodbuf, ms, in);
+}
+
+//-------------------------------------------------------------
+void send_mass_nl_c(int *idp, int *nng, int *iadd_nl, my_real_c *ms){
+    int i, j, nn, lbuf, flag;
+    my_real_c *mbuf;
+
+    writer(fidw, (void *)idp, sizeof(int));
+    readr(fidr, (void *)&flag, sizeof(int));
+    flagrot[*idp] = 0;
+
+    lbuf = *nng * sizeof(my_real_c);
+    mbuf = (my_real_c *)malloc(lbuf);
+
+    for (i = 0; i < *nng; i++) {
+        mbuf[i] = ms[iadd_nl[i] - 1];
+    }
+
+    writer(fidw, (void *)mbuf, lbuf);
+    free(mbuf);
+}
+
+void _FCALL SEND_MASS_NL_C(int *idp, int *nng, int *iadd_nl, my_real_c *ms){
+    send_mass_nl_c(idp, nng, iadd_nl, ms);
+}
+
+void send_mass_nl_c_(int *idp, int *nng, int *iadd_nl, my_real_c *ms){
+    send_mass_nl_c(idp, nng, iadd_nl, ms);
+}
+
+void send_mass_nl_c__(int *idp, int *nng, int *iadd_nl, my_real_c *ms){
+    send_mass_nl_c(idp, nng, iadd_nl, ms);
+}
+
+void send_mass_rby_c(int *idp, int *nng, int *nodbuf, my_real_c *ms, my_real_c *in, int *npby, int *nrbody, my_real_c *rby, int *tag, int *add_rby, int *nnpby, int *nrby){
+    int i, k, l, nn, lbuf, flag, *cbuf;
+    my_real_c *mbuf, *ibuf, *m2buf, *matrix_buf;
+
+    writer(fidw, (void *)idp, sizeof(int));
+    readr(fidr, (void *)&flag, sizeof(int));
+    flagrot[*idp] = flag;
+
+    lbuf = *nng * sizeof(my_real_c);
+    mbuf = (my_real_c *)malloc(lbuf);
+    m2buf = (my_real_c *)malloc(lbuf);
+    cbuf = (int *)malloc(lbuf);
+    if (flagrot[*idp]) {
+        ibuf = (my_real_c *)malloc(lbuf);
+        matrix_buf = (my_real_c *)malloc(9 * lbuf);
+    }
+
+    for (i = 0; i < *nng; i++) {
+        nn = nodbuf[i] - 1;
         mbuf[i] = ms[nn];
         if (flagrot[*idp]) ibuf[i] = in[nn];
-        for (k = 0; k < *nrbody; k++)
-           if (npby[*nnpby*k]==nn+1)
-             {tag[*add_rby+i] = k;             
-              cbuf[i] = npby[*nnpby*k+2];
-              m2buf[i] = rby[*nrby*k+14];
-              for (l = 0; l < 9; l++)
-                 matrix_buf[9*i+l]=rby[*nrby*k+16+l];}   
+        for (k = 0; k < *nrbody; k++) {
+            if (npby[*nnpby * k] == nn + 1) {
+                tag[*add_rby + i] = k;
+                cbuf[i] = npby[*nnpby * k + 2];
+                m2buf[i] = rby[*nrby * k + 14];
+                for (l = 0; l < 9; l++) {
+                    matrix_buf[9 * i + l] = rby[*nrby * k + 16 + l];
+                }
+            }
+        }
     }
-        
-    writer(fidw, (void *) mbuf, lbuf);    
-    if (flagrot[*idp]) writer(fidw, (void *) ibuf, lbuf);    
-    writer(fidw, (void *) cbuf, lbuf);     
-    writer(fidw, (void *) m2buf, lbuf);
-    writer(fidw, (void *) matrix_buf, 9*lbuf);
-                   
+
+    writer(fidw, (void *)mbuf, lbuf);
+    if (flagrot[*idp]) writer(fidw, (void *)ibuf, lbuf);
+    writer(fidw, (void *)cbuf, lbuf);
+    writer(fidw, (void *)m2buf, lbuf);
+    writer(fidw, (void *)matrix_buf, 9 * lbuf);
+
     free(mbuf);
     free(m2buf);
-    free(matrix_buf);    
+    free(matrix_buf);
     if (flagrot[*idp]) free(ibuf);
-    free(cbuf);    
+    free(cbuf);
 }
 
-void _FCALL SEND_MASS_RBY_C(idp, nng, nodbuf, ms, in, npby, nrbody, rby, tag, add_rby, nnpby, nrby)
-int *idp, *nng, *nodbuf, *nrbody, *npby, *tag, *add_rby, *nnpby, *nrby;
-my_real_c *ms, *in, *rby;
-{
+void _FCALL SEND_MASS_RBY_C(int *idp, int *nng, int *nodbuf, my_real_c *ms, my_real_c *in, int *npby, int *nrbody, my_real_c *rby, int *tag, int *add_rby, int *nnpby, int *nrby){
     send_mass_rby_c(idp, nng, nodbuf, ms, in, npby, nrbody, rby, tag, add_rby, nnpby, nrby);
 }
-void send_mass_rby_c_(idp, nng, nodbuf, ms, in, npby, nrbody, rby, tag, add_rby, nnpby, nrby)
-int *idp, *nng, *nodbuf, *nrbody, *npby, *tag, *add_rby, *nnpby, *nrby;
-my_real_c *ms, *in, *rby;
-{
+
+void send_mass_rby_c_(int *idp, int *nng, int *nodbuf, my_real_c *ms, my_real_c *in, int *npby, int *nrbody, my_real_c *rby, int *tag, int *add_rby, int *nnpby, int *nrby){
     send_mass_rby_c(idp, nng, nodbuf, ms, in, npby, nrbody, rby, tag, add_rby, nnpby, nrby);
 }
-void send_mass_rby_c__(idp, nng, nodbuf, ms, in, npby, nrbody, rby, tag, add_rby, nnpby, nrby)
-int *idp, *nng, *nodbuf, *nrbody, *npby, *tag, *add_rby, *nnpby, *nrby;
-my_real_c *ms, *in, *rby;
-{send_mass_rby_c(idp, nng, nodbuf, ms, in, npby, nrbody, rby, tag, add_rby, nnpby, nrby);}
+
+void send_mass_rby_c__(int *idp, int *nng, int *nodbuf, my_real_c *ms, my_real_c *in, int *npby, int *nrbody, my_real_c *rby, int *tag, int *add_rby, int *nnpby, int *nrby){
+    send_mass_rby_c(idp, nng, nodbuf, ms, in, npby, nrbody, rby, tag, add_rby, nnpby, nrby);
+}
 
 
-
-void init_activ_c(activ)
-int *activ;
-{
+//-------------------------------------------------------------
+void init_activ_c(int *activ){
     readr(fidr, (void *) activ, sizeof(int));
 }
 
 
-void  _FCALL INIT_ACTIV_C(activ)
-int *activ;
-{    init_activ_c(activ);}
-void init_activ_c_(activ)
-int *activ;
-{    init_activ_c(activ);}
-void init_activ_c__(activ)
-int *activ;
-{init_activ_c(activ);}
-
-/*void check_roddl_c()
-{
-    readr(fidr, (void *) &flagrot[*idp], sizeof(int));
-}*/
-
-/*void  _FCALL CHECK_RODDL_C()
-{
-    check_roddl_c();
+void  _FCALL INIT_ACTIV_C(int *activ){
+    init_activ_c(activ);
 }
-void check_roddl_c_()
-{
-    check_roddl_c();
+
+void init_activ_c_(int *activ){
+    init_activ_c(activ);
 }
-void check_roddl_c__()
-{check_roddl_c();}*/
 
+void init_activ_c__(int *activ){
+    init_activ_c(activ);}
 
-void send_mass_spmd_c(idp, nng, buf1, buf2, iroddl)
-int *idp, *nng, *iroddl;
-my_real_c *buf1, *buf2;
-{
+//-------------------------------------------------------------
+void send_mass_spmd_c(int *idp, int *nng, my_real_c *buf1, my_real_c *buf2, int *iroddl){
 int lbuf, flag;
     writer(fidw, (void *) idp, sizeof(int));;    
     readr(fidr, (void *) &flag, sizeof(int));        
@@ -1353,30 +1205,24 @@ int lbuf, flag;
     writer(fidw, (void *) buf1, lbuf);    
     if (flagrot[*idp]) writer(fidw, (void *) buf2, lbuf);
 }
-void _FCALL SEND_MASS_SPMD_C(idp, nng, buf1, buf2, iroddl)
-int *idp, *nng, *iroddl;
-my_real_c *buf1, *buf2;
-{
+
+void _FCALL SEND_MASS_SPMD_C(int *idp, int *nng, my_real_c *buf1, my_real_c *buf2, int *iroddl){
     send_mass_spmd_c(idp, nng, buf1, buf2, iroddl);
 }
-void send_mass_spmd_c_(idp, nng, buf1, buf2, iroddl)
-int *idp, *nng, *iroddl;
-my_real_c *buf1, *buf2;
-{
+
+void send_mass_spmd_c_(int *idp, int *nng, my_real_c *buf1, my_real_c *buf2, int *iroddl){
     send_mass_spmd_c(idp, nng, buf1, buf2, iroddl);
 }
-void send_mass_spmd_c__(idp, nng, buf1, buf2, iroddl)
-int *idp, *nng, *iroddl;
-my_real_c *buf1, *buf2;
-{send_mass_spmd_c(idp, nng, buf1, buf2, iroddl);}
+
+void send_mass_spmd_c__(int *idp, int *nng, my_real_c *buf1, my_real_c *buf2, int *iroddl){
+    send_mass_spmd_c(idp, nng, buf1, buf2, iroddl);
+}
 
 
-
-void send_mass_rby_spmd_c(idp,nng,buf1,buf2,buf3,buf4,buf5,iroddl)
-int *idp, *nng, *iroddl, *buf3;
-my_real_c *buf1,*buf2,*buf4,*buf5;
-{
+//-------------------------------------------------------------
+void send_mass_rby_spmd_c(int *idp,int *nng,my_real_c *buf1,my_real_c *buf2,int *buf3,my_real_c *buf4,my_real_c *buf5,int *iroddl){
 int lbuf, flag;
+
     writer(fidw, (void *) idp, sizeof(int));;    
     readr(fidr, (void *) &flag, sizeof(int));        
     flagrot[*idp]=flag;
@@ -1389,29 +1235,22 @@ int lbuf, flag;
     writer(fidw, (void *) buf5, 9*lbuf);
     
 }
-void _FCALL SEND_MASS_RBY_SPMD_C(idp,nng,buf1,buf2,buf3,buf4,buf5,iroddl)
-int *idp, *nng, *iroddl, *buf3;
-my_real_c *buf1,*buf2,*buf4,*buf5;
-{
+
+void _FCALL SEND_MASS_RBY_SPMD_C(int *idp,int *nng,my_real_c *buf1,my_real_c *buf2,int *buf3,my_real_c *buf4,my_real_c *buf5,int *iroddl){
     send_mass_rby_spmd_c(idp,nng,buf1,buf2,buf3,buf4,buf5,iroddl);
 }
-void send_mass_rby_spmd_c_(idp,nng,buf1,buf2,buf3,buf4,buf5,iroddl)
-int *idp, *nng, *iroddl, *buf3;
-my_real_c *buf1,*buf2,*buf4,*buf5;
-{
+
+void send_mass_rby_spmd_c_(int *idp,int *nng,my_real_c *buf1,my_real_c *buf2,int *buf3,my_real_c *buf4,my_real_c *buf5,int *iroddl){
     send_mass_rby_spmd_c(idp,nng,buf1,buf2,buf3,buf4,buf5,iroddl);
 }
-void send_mass_rby_spmd_c__(idp,nng,buf1,buf2,buf3,buf4,buf5,iroddl)
-int *idp, *nng, *iroddl, *buf3;
-my_real_c *buf1,*buf2,*buf4,*buf5;
-{send_mass_rby_spmd_c(idp,nng,buf1,buf2,buf3,buf4,buf5,iroddl);}
+
+void send_mass_rby_spmd_c__(int *idp,int *nng,my_real_c *buf1,my_real_c *buf2,int *buf3,my_real_c *buf4,my_real_c *buf5,int *iroddl){
+    send_mass_rby_spmd_c(idp,nng,buf1,buf2,buf3,buf4,buf5,iroddl);
+}
 
 
 
-void get_mass_c(idp, nng, nodbuf, ms, in)
-int *idp, *nng, *nodbuf;
-my_real_c *ms, *in;
-{
+void get_mass_c(int *idp, int *nng, int *nodbuf, my_real_c *ms, my_real_c *in){
 int i, nn, lbuf;
 my_real_c *mbuf, *ibuf;
 
@@ -1434,118 +1273,95 @@ my_real_c *mbuf, *ibuf;
     if (flagrot[*idp]) free(ibuf);
 }
 
-void _FCALL GET_MASS_C(igd, nng, nodbuf, ms, in)
-int *igd, *nng, *nodbuf;
-my_real_c *ms, *in;
-{
-    get_mass_c(igd, nng, nodbuf, ms, in);
+void _FCALL GET_MASS_C(int *idp, int *nng, int *nodbuf, my_real_c *ms, my_real_c *in){
+    get_mass_c(idp, nng, nodbuf, ms, in);
 }
-void get_mass_c_(igd, nng, nodbuf, ms, in)
-int *igd, *nng, *nodbuf;
-my_real_c *ms, *in;
-{
-    get_mass_c(igd, nng, nodbuf, ms, in);
+
+void get_mass_c_(int *idp, int *nng, int *nodbuf, my_real_c *ms, my_real_c *in){
+    get_mass_c(idp, nng, nodbuf, ms, in);
 }
-void get_mass_c__(igd, nng, nodbuf, ms, in)
-int *igd, *nng, *nodbuf;
-my_real_c *ms, *in;
-{get_mass_c(igd, nng, nodbuf, ms, in);}
+
+void get_mass_c__(int *idp, int *nng, int *nodbuf, my_real_c *ms, my_real_c *in){
+    get_mass_c(idp, nng, nodbuf, ms, in);
+}
 
 
+//-------------------------------------------------------------
+void get_mass_rby_c(int *idp, int *nng, int *nodbuf, my_real_c *ms, my_real_c *in, my_real_c *x, int *npby, int *nrbody, my_real_c *rby, int *nnpby, int *nrby){
+    int i, k, l, nn, lbuf, idrby;
+    my_real_c *mbuf, *ibuf, *xbuf, *matrix_buf;
 
-void get_mass_rby_c(idp, nng, nodbuf, ms, in, x, npby, nrbody, rby, nnpby, nrby)
-int *idp, *nng, *nodbuf, *nrbody, *npby, *nnpby, *nrby;
-my_real_c *ms, *in, *x, *rby;
-{
-int i,k,l,nn, lbuf, idrby;
-my_real_c *mbuf, *ibuf, *xbuf, *matrix_buf;
+    writer(fidw, (void *)idp, sizeof(int));
 
-    writer(fidw, (void *) idp, sizeof(int));    
-
-    lbuf = *nng*sizeof(my_real_c);
-    mbuf = (my_real_c *) malloc(lbuf);
-    xbuf = (my_real_c *) malloc(3*lbuf);    
-    if (flagrot[*idp])
-      {ibuf = (my_real_c *) malloc(lbuf);
-       matrix_buf = (my_real_c *) malloc(9*lbuf);}
-    
-    readr(fidr, (void *) mbuf, lbuf);    
-    if (flagrot[*idp]) readr(fidr, (void *) ibuf, lbuf);
-    readr(fidr, (void *) xbuf, 3*lbuf);    
-    readr(fidr, (void *) matrix_buf, 9*lbuf);
-    
-    for (i = 0; i < *nng; i++)
-    {
-       nn = nodbuf[i]-1;
-       ms[nn] = mbuf[i];         
-       if (flagrot[*idp]) in[nn] = ibuf[i];
-       x[3*nn] = xbuf[3*i];
-       x[3*nn+1] = xbuf[3*i+1];
-       x[3*nn+2] = xbuf[3*i+2];
-       for (k = 0; k < *nrbody; k++)
-          if (npby[*nnpby*k]==nn+1)
-        for (l = 0; l < 9; l++)
-            rby[*nrby*k+16+l]=matrix_buf[9*i+l];                      
+    lbuf = *nng * sizeof(my_real_c);
+    mbuf = (my_real_c *)malloc(lbuf);
+    xbuf = (my_real_c *)malloc(3 * lbuf);
+    if (flagrot[*idp]) {
+        ibuf = (my_real_c *)malloc(lbuf);
+        matrix_buf = (my_real_c *)malloc(9 * lbuf);
     }
-        
+
+    readr(fidr, (void *)mbuf, lbuf);
+    if (flagrot[*idp]) readr(fidr, (void *)ibuf, lbuf);
+    readr(fidr, (void *)xbuf, 3 * lbuf);
+    readr(fidr, (void *)matrix_buf, 9 * lbuf);
+
+    for (i = 0; i < *nng; i++) {
+        nn = nodbuf[i] - 1;
+        ms[nn] = mbuf[i];
+        if (flagrot[*idp]) in[nn] = ibuf[i];
+        x[3 * nn] = xbuf[3 * i];
+        x[3 * nn + 1] = xbuf[3 * i + 1];
+        x[3 * nn + 2] = xbuf[3 * i + 2];
+        for (k = 0; k < *nrbody; k++) {
+            if (npby[*nnpby * k] == nn + 1) {
+                for (l = 0; l < 9; l++) {
+                    rby[*nrby * k + 16 + l] = matrix_buf[9 * i + l];
+                }
+            }
+        }
+    }
+
     free(mbuf);
     if (flagrot[*idp]) free(ibuf);
-    free(xbuf);    
+    free(xbuf);
 }
 
-void _FCALL GET_MASS_RBY_C(igd, nng, nodbuf, ms, in, x, npby, nrbody, rby, nnpby, nrby)
-int *igd, *nng, *nodbuf, *nrbody, *npby, *nnpby, *nrby;
-my_real_c *ms, *in, *x, *rby;
-{
-    get_mass_rby_c(igd, nng, nodbuf, ms, in, x, npby, nrbody, rby, nnpby, nrby);
+void _FCALL GET_MASS_RBY_C(int *idp, int *nng, int *nodbuf, my_real_c *ms, my_real_c *in, my_real_c *x, int *npby, int *nrbody, my_real_c *rby, int *nnpby, int *nrby){
+    get_mass_rby_c(idp, nng, nodbuf, ms, in, x, npby, nrbody, rby, nnpby, nrby);
 }
-void get_mass_rby_c_(igd, nng, nodbuf, ms, in, x, npby, nrbody, rby, nnpby, nrby)
-int *igd, *nng, *nodbuf, *nrbody, *npby, *nnpby, *nrby;
-my_real_c *ms, *in, *x, *rby;
-{
-    get_mass_rby_c(igd, nng, nodbuf, ms, in, x, npby, nrbody, rby, nnpby, nrby);
+
+void get_mass_rby_c_(int *idp, int *nng, int *nodbuf, my_real_c *ms, my_real_c *in, my_real_c *x, int *npby, int *nrbody, my_real_c *rby, int *nnpby, int *nrby){
+    get_mass_rby_c(idp, nng, nodbuf, ms, in, x, npby, nrbody, rby, nnpby, nrby);
 }
-void get_mass_rby_c__(igd, nng, nodbuf, ms, in, x, npby, nrbody, rby, nnpby, nrby)
-int *igd, *nng, *nodbuf, *nrbody, *npby, *nnpby, *nrby;
-my_real_c *ms, *in, *x, *rby;
-{get_mass_rby_c(igd, nng, nodbuf, ms, in, x, npby, nrbody, rby, nnpby, nrby);}
+void get_mass_rby_c__(int *idp, int *nng, int *nodbuf, my_real_c *ms, my_real_c *in, my_real_c *x, int *npby, int *nrbody, my_real_c *rby, int *nnpby, int *nrby){
+    get_mass_rby_c(idp, nng, nodbuf, ms, in, x, npby, nrbody, rby, nnpby, nrby);
+}
 
 
-
-void get_mass_spmd_c(idp, nng, buf1, buf2)
-int *idp, *nng;
-my_real_c *buf1, *buf2;
-{
-int lbuf;
-
+//-------------------------------------------------------------
+void get_mass_spmd_c(int *idp, int *nng, my_real_c *buf1, my_real_c *buf2){
+    int lbuf;
     writer(fidw, (void *) idp, sizeof(int));    
     lbuf = *nng*sizeof(my_real_c);
     readr(fidr, (void *) buf1, lbuf);    
     if (flagrot[*idp]) readr(fidr, (void *) buf2, lbuf);    
 }
-void _FCALL GET_MASS_SPMD_C(igd, nng, buf1, buf2)
-int *igd, *nng;
-my_real_c *buf1, *buf2;
-{
-    get_mass_spmd_c(igd, nng, buf1, buf2);
+
+void _FCALL GET_MASS_SPMD_C(int *idp, int *nng, my_real_c *buf1, my_real_c *buf2){
+    get_mass_spmd_c(idp, nng, buf1, buf2);
 }
-void get_mass_spmd_c_(igd, nng, buf1, buf2)
-int *igd, *nng;
-my_real_c *buf1, *buf2;
-{
-    get_mass_spmd_c(igd, nng, buf1, buf2);
+
+void get_mass_spmd_c_(int *idp, int *nng, my_real_c *buf1, my_real_c *buf2){
+    get_mass_spmd_c(idp, nng, buf1, buf2);
 }
-void get_mass_spmd_c__(igd, nng, buf1, buf2)
-int *igd, *nng;
-my_real_c *buf1, *buf2;
-{get_mass_spmd_c(igd, nng, buf1, buf2);}
 
+void get_mass_spmd_c__(int *idp, int *nng, my_real_c *buf1, my_real_c *buf2){
+get_mass_spmd_c(idp, nng, buf1, buf2);
+}
 
-
-void get_mass_rby_spmd_c(idp,nng,buf1,buf2,buf3,buf4)
-int *idp, *nng;
-my_real_c *buf1,*buf2,*buf3,*buf4;
-{
+//-------------------------------------------------------------
+void get_mass_rby_spmd_c(int *idp,int *nng,my_real_c *buf1,my_real_c *buf2,my_real_c *buf3,my_real_c *buf4){
 int lbuf;
 
     writer(fidw, (void *) idp, sizeof(int));    
@@ -1555,28 +1371,22 @@ int lbuf;
     readr(fidr, (void *) buf3, 3*lbuf);
     readr(fidr, (void *) buf4, 9*lbuf);            
 }
-void _FCALL GET_MASS_RBY_SPMD_C(idp,nng,buf1,buf2,buf3,buf4)
-int *idp, *nng;
-my_real_c *buf1,*buf2,*buf3,*buf4;
-{
+
+void _FCALL GET_MASS_RBY_SPMD_C(int *idp,int *nng,my_real_c *buf1,my_real_c *buf2,my_real_c *buf3,my_real_c *buf4){
     get_mass_rby_spmd_c(idp,nng,buf1,buf2,buf3,buf4);
 }
-void get_mass_rby_spmd_c_(idp,nng,buf1,buf2,buf3,buf4)
-int *idp, *nng;
-my_real_c *buf1,*buf2,*buf3,*buf4;
-{
+
+void get_mass_rby_spmd_c_(int *idp,int *nng,my_real_c *buf1,my_real_c *buf2,my_real_c *buf3,my_real_c *buf4){
     get_mass_rby_spmd_c(idp,nng,buf1,buf2,buf3,buf4);
 }
-void get_mass_rby_spmd_c__(idp,nng,buf1,buf2,buf3,buf4)
-int *idp, *nng;
-my_real_c *buf1,*buf2,*buf3,*buf4;
-{get_mass_rby_spmd_c(idp,nng,buf1,buf2,buf3,buf4);}
+
+void get_mass_rby_spmd_c__(int *idp,int *nng,my_real_c *buf1,my_real_c *buf2,my_real_c *buf3,my_real_c *buf4){
+    get_mass_rby_spmd_c(idp,nng,buf1,buf2,buf3,buf4);
+}
 
 
-
-void check_dtnoda_c(i7kglo)
-int *i7kglo;
-{
+//-------------------------------------------------------------
+void check_dtnoda_c(int *i7kglo){
     if(i7flag == 0)
     {
         writer(fidw, (void *)i7kglo, sizeof(int));
@@ -1584,332 +1394,356 @@ int *i7kglo;
         i7flag = *i7kglo;
     }
 }
-void check_dtnoda_c_(i7kglo)
-int *i7kglo;
-{
+
+void check_dtnoda_c_(int *i7kglo){
     check_dtnoda_c(i7kglo);
 }
-void _FCALL CHECK_DTNODA_C(i7kglo)
-int *i7kglo;
-{
+
+void _FCALL CHECK_DTNODA_C(int *i7kglo){
     check_dtnoda_c(i7kglo);
 }
-void check_dtnoda_c__(i7kglo)
-int *i7kglo;
-{check_dtnoda_c(i7kglo);}
-/******************************************************************/
+
+void check_dtnoda_c__(int *i7kglo){
+    check_dtnoda_c(i7kglo);
+}
 
 
-void send_data_c(idp, nng, nodbuf, fx, fr, stx, str, vx,  vr,  ms,  in,  dx, x, typ, npas, rby, tag_rby, add_rby, rbylnk, kin, dr, dt2, iex, off_sph, numsph_glo, nrby)
-int *idp, *nng, *nodbuf, *typ, *npas, *tag_rby, *add_rby, *rbylnk, *kin, *iex, *off_sph, *numsph_glo, *nrby;
-my_real_c *fx, *fr, *stx, *str, *vx, *vr, *ms, *in, *rby, *dt2, *x;
-double *dx,*dr;
-{
-int buflen, lbuf, rest, next, chunk;
-int i, j, k, nn, nm, offset;
+void send_data_c(int *idp, int *nng, int *nodbuf, 
+                 my_real_c *fx, my_real_c *fr, my_real_c *stx, my_real_c *str, 
+                 my_real_c *vx, my_real_c *vr, my_real_c *ms, my_real_c *in, 
+                 double *dx, my_real_c *x, int *typ, int *npas, my_real_c *rby, 
+                 int *tag_rby, int *add_rby, int *rbylnk, int *kin, double *dr, 
+                 my_real_c *dt2, int *iex, int *off_sph, int *numsph_glo, int *nrby){
+                    
+    int buflen, lbuf, rest, next, chunk;
+    int i, j, k, nn, nm, offset;
 
     rest = *nng;
-        if (*iex == 1) off_link = 0;
-        
-    if(*typ != 7)    
-    {
-                chunk = rest / nthreads;
-            #pragma omp parallel for schedule(static,chunk) if (chunk>350) private(k,i,j,nm,nn)                                
-        for (next = 0; next < rest; next++)
-        {
-                        i = off_link + next;
-            k = 3*i;
-            nm = nodbuf[next]-1;
-            nn = 3*nm;
-            for (j = 0; j < 3; j++)
-            {
-                com->fx_buf[k+j] =  fx[nn+j];
-                com->fr_buf[k+j] =  fr[nn+j];
-                if ((*typ <= 4)||(*npas == 0)) 
-                  {com->vx_buf[k+j] =  vx[nn+j];}
-                if(*typ == 5)
-                  {
-                   if (*kin == 1)
-                     {dr[3*next+j] += *dt2*vr[nn+j];
-                      com->dx_buf[2*k+j] =  dx[nn+j];
-                      com->dx_buf[2*k+j+3] =  dr[3*next+j];}                                   
-                   else
-                     {com->dx_buf[k+j] =  dx[nn+j];}
-                  }                                  
+    if (*iex == 1) off_link = 0;
+
+    if (*typ != 7) {
+        chunk = rest / nthreads;
+        #pragma omp parallel for schedule(static, chunk) if (chunk > 350) private(k, i, j, nm, nn)
+        for (next = 0; next < rest; next++) {
+            i = off_link + next;
+            k = 3 * i;
+            nm = nodbuf[next] - 1;
+            nn = 3 * nm;
+            for (j = 0; j < 3; j++) {
+                com->fx_buf[k + j] = fx[nn + j];
+                com->fr_buf[k + j] = fr[nn + j];
+                if ((*typ <= 4) || (*npas == 0)) {
+                    com->vx_buf[k + j] = vx[nn + j];
+                }
+                if (*typ == 5) {
+                    if (*kin == 1) {
+                        dr[3 * next + j] += *dt2 * vr[nn + j];
+                        com->dx_buf[2 * k + j] = dx[nn + j];
+                        com->dx_buf[2 * k + j + 3] = dr[3 * next + j];
+                    } else {
+                        com->dx_buf[k + j] = dx[nn + j];
+                    }
+                }
             }
             com->mass_buf[i] = ms[nm];
-            if(*typ == 5) com->sx_buf[i] = stx[nm];
-            if(flagrot[*idp])
-            {
-                if(*typ == 5) com->sr_buf[i] = str[nm];
+            if (*typ == 5) com->sx_buf[i] = stx[nm];
+            if (flagrot[*idp]) {
+                if (*typ == 5) com->sr_buf[i] = str[nm];
                 com->iner_buf[i] = in[nm];
-                if (*rbylnk==1)
-                  for (j = 0; j < 9; j++) 
-                     com->iner_rby_buf[9*i+j] = rby[*nrby*tag_rby[*add_rby+next]+j+16];                
-                if ((*typ <= 4)||(*npas == 0)) 
-                  for (j = 0; j < 3; j++) com->vr_buf[k+j] =  vr[nn+j];
+                if (*rbylnk == 1)
+                    for (j = 0; j < 9; j++)
+                        com->iner_rby_buf[9 * i + j] = rby[*nrby * tag_rby[*add_rby + next] + j + 16];
+                if ((*typ <= 4) || (*npas == 0))
+                    for (j = 0; j < 3; j++) com->vr_buf[k + j] = vr[nn + j];
             }
-            /************ change of state - activation or deactivation of SPH - coordinates are transmitted instead of forces**************/
-            if (flg_sphinout == 1)
-              {com->iactv[i] = 0;
-               if (*numsph_glo > 0)
-                 if (off_sph[nm] != 0)
-                   {/*printf("deactivation %d %d - %e %e %e\n",nm,off_sph[nm],x[nn],x[nn+1],x[nn+2]);*/
-                for (j = 0; j < 3; j++) {com->fx_buf[k+j] =  x[nn+j];}
-                    com->iactv[i] = off_sph[nm];}}
-            
-        }              
+            /************ change of state - activation or deactivation of SPH - coordinates are transmitted instead of forces **************/
+            if (flg_sphinout == 1) {
+                com->iactv[i] = 0;
+                if (*numsph_glo > 0)
+                    if (off_sph[nm] != 0) {
+                        /* printf("deactivation %d %d - %e %e %e\n",nm,off_sph[nm],x[nn],x[nn+1],x[nn+2]); */
+                        for (j = 0; j < 3; j++) {
+                            com->fx_buf[k + j] = x[nn + j];
+                        }
+                        com->iactv[i] = off_sph[nm];
+                    }
+            }
+        }
         off_link += rest;
-    }    
+    }
 }
 
-/******************************************************************/
-void _FCALL SEND_DATA_C(idp, nng, nodbuf, fx, fr, stx, str,vx,  vr,  ms,  in,  dx, x, typ, npas, rby, tag_rby, add_rby, rbylnk, kin, dr, dt2, iex, off_sph, numsph_glo, nrby)
-int *idp, *nng, *nodbuf, *typ, *npas, *tag_rby, *add_rby, *rbylnk, *kin, *iex, *off_sph, *numsph_glo, *nrby;
-my_real_c *fx, *fr, *stx, *str, *vx, *vr, *ms, *in, *rby, *dt2, *x;
-double *dx, *dr;
-{
-    send_data_c(idp, nng, nodbuf, fx, fr, stx, str, vx,  vr,  ms,  in,  dx, x, typ, npas, rby, tag_rby, add_rby, rbylnk, kin, dr, dt2, iex, off_sph, numsph_glo, nrby);
-}
-void send_data_c_(idp, nng, nodbuf,fx, fr, stx, str, vx,  vr,  ms,  in, dx, x, typ, npas, rby, tag_rby, add_rby, rbylnk, kin, dr, dt2, iex, off_sph, numsph_glo, nrby)
-int *idp, *nng, *nodbuf, *typ, *npas, *tag_rby, *add_rby, *rbylnk, *kin, *iex, *off_sph, *numsph_glo, *nrby;
-my_real_c *fx, *fr, *stx, *str, *vx, *vr, *ms, *in, *rby, *dt2, *x;
-double *dx, *dr;
-{
-    send_data_c(idp, nng, nodbuf, fx, fr, stx, str, vx,  vr,  ms,  in,  dx, x, typ, npas, rby, tag_rby, add_rby, rbylnk, kin, dr, dt2, iex, off_sph, numsph_glo, nrby);
-}
-void send_data_c__(idp, nng, nodbuf,fx, fr, stx, str, vx,  vr,  ms,  in,  dx, x, typ, npas, rby, tag_rby, add_rby, rbylnk, kin, dr, dt2, iex, off_sph, numsph_glo, nrby)
-int *idp, *nng, *nodbuf, *typ, *npas, *tag_rby, *add_rby, *rbylnk, *kin, *iex, *off_sph, *numsph_glo, *nrby;
-my_real_c *fx, *fr, *stx, *str, *vx, *vr, *ms, *in, *rby, *dt2, *x;
-double *dx, *dr;
-{send_data_c(idp, nng, nodbuf, fx, fr, stx, str, vx,  vr,  ms,  in,  dx, x, typ, npas, rby, tag_rby, add_rby, rbylnk, kin, dr, dt2, iex, off_sph, numsph_glo, nrby);}
-/******************************************************************/
 
-void send_data_nl_c(idp, nng, iadd_nl, fx, vx,  ms, npas, iex)
-int *idp, *nng, *iadd_nl, *npas, *iex;
-my_real_c *fx, *vx, *ms;
-{
-int rest, next, chunk;
-int i;
+void _FCALL SEND_DATA_C(int *idp, int *nng, int *nodbuf, 
+                 my_real_c *fx, my_real_c *fr, my_real_c *stx, my_real_c *str, 
+                 my_real_c *vx, my_real_c *vr, my_real_c *ms, my_real_c *in, 
+                 double *dx, my_real_c *x, int *typ, int *npas, my_real_c *rby, 
+                 int *tag_rby, int *add_rby, int *rbylnk, int *kin, double *dr, 
+                 my_real_c *dt2, int *iex, int *off_sph, int *numsph_glo, int *nrby){
+    send_data_c(idp, nng, nodbuf, 
+                fx, fr, stx, str, 
+                vx,  vr,  ms,  in,
+                dx, x, typ, npas, rby,
+                tag_rby, add_rby, rbylnk, kin, dr,
+                dt2, iex, off_sph, numsph_glo, nrby);
+}
+
+void send_data_c_(int *idp, int *nng, int *nodbuf, 
+                 my_real_c *fx, my_real_c *fr, my_real_c *stx, my_real_c *str, 
+                 my_real_c *vx, my_real_c *vr, my_real_c *ms, my_real_c *in, 
+                 double *dx, my_real_c *x, int *typ, int *npas, my_real_c *rby, 
+                 int *tag_rby, int *add_rby, int *rbylnk, int *kin, double *dr, 
+                 my_real_c *dt2, int *iex, int *off_sph, int *numsph_glo, int *nrby){
+    send_data_c(idp, nng, nodbuf, 
+                fx, fr, stx, str, 
+                vx,  vr,  ms,  in,
+                dx, x, typ, npas, rby,
+                tag_rby, add_rby, rbylnk, kin, dr,
+                dt2, iex, off_sph, numsph_glo, nrby);
+}
+
+void send_data_c__(int *idp, int *nng, int *nodbuf, 
+                 my_real_c *fx, my_real_c *fr, my_real_c *stx, my_real_c *str, 
+                 my_real_c *vx, my_real_c *vr, my_real_c *ms, my_real_c *in, 
+                 double *dx, my_real_c *x, int *typ, int *npas, my_real_c *rby, 
+                 int *tag_rby, int *add_rby, int *rbylnk, int *kin, double *dr, 
+                 my_real_c *dt2, int *iex, int *off_sph, int *numsph_glo, int *nrby){
+    send_data_c(idp, nng, nodbuf, 
+                fx, fr, stx, str, 
+                vx,  vr,  ms,  in,
+                dx, x, typ, npas, rby,
+                tag_rby, add_rby, rbylnk, kin, dr,
+                dt2, iex, off_sph, numsph_glo, nrby);
+}
+
+
+//-------------------------------------------------------------
+void send_data_nl_c(int *idp, int *nng, int *iadd_nl, my_real_c *fx, my_real_c *vx, my_real_c *ms, int *npas, int *iex){
+    int rest, next, chunk;
+    int i;
 
     rest = *nng;
     chunk = rest / nthreads;
 
-    #pragma omp parallel for schedule(static,chunk) if (chunk>350) private(i)                                
-    for (next = 0; next < rest; next++)
-      {
-       i = next;
-       com->mass_buf[off_link+i] = ms[iadd_nl[i]-1];
-       com->fx_buf[3*(off_link+i)] = fx[iadd_nl[i]-1];    
-      }
+    #pragma omp parallel for schedule(static, chunk) if (chunk > 350) private(i)
+    for (next = 0; next < rest; next++) {
+        i = next;
+        com->mass_buf[off_link + i] = ms[iadd_nl[i] - 1];
+        com->fx_buf[3 * (off_link + i)] = fx[iadd_nl[i] - 1];
+    }
 
-    if (*npas==0)    
-      {
-        #pragma omp parallel for schedule(static,chunk) if (chunk>350) private(i)                                
-        for (next = 0; next < rest; next++)
-          {
-           i = next;
-           com->vx_buf[3*(off_link+i)] = vx[iadd_nl[i]-1];
-          }              
-      }
-             
-    off_link += rest;     
+    if (*npas == 0) {
+        #pragma omp parallel for schedule(static, chunk) if (chunk > 350) private(i)
+        for (next = 0; next < rest; next++) {
+            i = next;
+            com->vx_buf[3 * (off_link + i)] = vx[iadd_nl[i] - 1];
+        }
+    }
+
+    off_link += rest;
 }
 
-/******************************************************************/
-void _FCALL SEND_DATA_NL_C(idp, nng, iadd_nl, fx, vx,  ms, npas, iex)
-int *idp, *nng, *iadd_nl, *npas, *iex;
-my_real_c *fx, *vx, *ms;
-{
+void _FCALL SEND_DATA_NL_C(int *idp, int *nng, int *iadd_nl, my_real_c *fx, my_real_c *vx, my_real_c *ms, int *npas, int *iex){
     send_data_nl_c(idp, nng, iadd_nl, fx, vx,  ms, npas, iex);
 }
-void send_data_nl_c_(idp, nng, iadd_nl, fx, vx,  ms, npas, iex)
-int *idp, *nng, *iadd_nl, *npas, *iex;
-my_real_c *fx, *vx, *ms;
-{
+
+void send_data_nl_c_(int *idp, int *nng, int *iadd_nl, my_real_c *fx, my_real_c *vx, my_real_c *ms, int *npas, int *iex){
     send_data_nl_c(idp, nng, iadd_nl, fx, vx,  ms, npas, iex);
 }
-void send_data_nl_c__(idp, nng, iadd_nl, fx, vx,  ms, npas, iex)
-int *idp, *nng, *iadd_nl, *npas, *iex;
-my_real_c *fx, *vx, *ms;
-{send_data_nl_c(idp, nng, iadd_nl, fx, vx,  ms, npas, iex);}
-/******************************************************************/
 
-/* el51g1+++ */
-void send_data_spmd_c(idp, nng, bufr1, bufr2, bufr3, bufr4, bufr5, bufr6, bufr7, bufr8, bufr9, buf_rby, flg_rby, typ, npas, iex)
-int *idp, *nng, *typ, *npas, *flg_rby, *iex;
-my_real_c *bufr1, *bufr2, *bufr3, *bufr4, *bufr5, *bufr6, *bufr8, *bufr9, *buf_rby;
-double *bufr7;
-{
-int buflen, lbuf, rest, next, nn, nm, i, j, k, chunk;
+void send_data_nl_c__(int *idp, int *nng, int *iadd_nl, my_real_c *fx, my_real_c *vx, my_real_c *ms, int *npas, int *iex){
+    send_data_nl_c(idp, nng, iadd_nl, fx, vx,  ms, npas, iex);
+}
+
+
+//-------------------------------------------------------------
+void send_data_spmd_c(int *idp, int *nng, 
+                      my_real_c *bufr1, my_real_c *bufr2, my_real_c *bufr3, 
+                      my_real_c *bufr4, my_real_c *bufr5, my_real_c *bufr6, 
+                      double *bufr7, my_real_c *bufr8, my_real_c *bufr9, 
+                      my_real_c *buf_rby, int *flg_rby, int *typ, int *npas, int *iex){
+    int buflen, lbuf, rest, next, nn, nm, i, j, k, chunk;
 
     rest = *nng;
-        if (*iex == 1) off_link = 0;
-        
-    if(*typ != 7)    
-    {
-                chunk = rest / nthreads;
-            #pragma omp parallel for schedule(static,chunk) if (chunk>350) private(k,i,nn,nm)                                
-        for (next = 0; next < rest; next++)
-        {
-                        i = off_link + next;
-            k = 3*i;
-                        nm = next;
-                        nn = 3*next;
-            for (j = 0; j < 3; j++)
-            {
-                com->fx_buf[k+j] =  bufr1[nn+j];
-                com->fr_buf[k+j] =  bufr2[nn+j];
-                if((*typ <= 4)||(*npas == 0)) com->vx_buf[k+j] =  bufr5[nn+j];
-                com->dx_buf[k+j] =  bufr7[nn+j];                                  
+    if (*iex == 1) 
+        off_link = 0;
+
+    if (*typ != 7) {
+        chunk = rest / nthreads;
+        #pragma omp parallel for schedule(static, chunk) if (chunk > 350) private(k, i, nn, nm)
+        for (next = 0; next < rest; next++) {
+            i = off_link + next;
+            k = 3 * i;
+            nm = next;
+            nn = 3 * next;
+            for (j = 0; j < 3; j++) {
+                com->fx_buf[k + j] = bufr1[nn + j];
+                com->fr_buf[k + j] = bufr2[nn + j];
+                if ((*typ <= 4) || (*npas == 0)) 
+                    com->vx_buf[k + j] = bufr5[nn + j];
+                com->dx_buf[k + j] = bufr7[nn + j];
             }
             com->mass_buf[i] = bufr8[nm];
-            if(*typ == 5) com->sx_buf[i] = bufr3[nm];
-            if(flagrot[*idp])
-            {
-                if(*typ == 5) com->sr_buf[i] = bufr4[nm];
+            if (*typ == 5) 
+                com->sx_buf[i] = bufr3[nm];
+            if (flagrot[*idp]) {
+                if (*typ == 5) 
+                    com->sr_buf[i] = bufr4[nm];
                 com->iner_buf[i] = bufr9[nm];
                 if (*flg_rby == 1)
-                  for (j = 0; j < 9; j++) 
-                    com->iner_rby_buf[9*i+j] = buf_rby[9*next+j];                
-                if((*typ <= 4)||(*npas == 0)) 
-                  for (j = 0; j < 3; j++) com->vr_buf[k+j] =  bufr6[nn+j];
+                    for (j = 0; j < 9; j++) 
+                        com->iner_rby_buf[9 * i + j] = buf_rby[9 * next + j];
+                if ((*typ <= 4) || (*npas == 0)) 
+                    for (j = 0; j < 3; j++) 
+                        com->vr_buf[k + j] = bufr6[nn + j];
             }
-        }              
+        }
         off_link += rest;
-    }    
+    }
 }
 
 /******************************************************************/
-void _FCALL SEND_DATA_SPMD_C(idp, nng, bufr1, bufr2, bufr3, bufr4, bufr5, bufr6, bufr7, bufr8, bufr9, buf_rby, flg_rby, typ, npas, iex)
-int *idp, *nng, *typ, *npas, *flg_rby, *iex;
-my_real_c *bufr1, *bufr2, *bufr3, *bufr4, *bufr5, *bufr6, *bufr8, *bufr9, *buf_rby;
-double *bufr7;
-{
+void _FCALL SEND_DATA_SPMD_C(int *idp, int *nng, 
+                      my_real_c *bufr1, my_real_c *bufr2, my_real_c *bufr3, 
+                      my_real_c *bufr4, my_real_c *bufr5, my_real_c *bufr6, 
+                      double *bufr7, my_real_c *bufr8, my_real_c *bufr9, 
+                      my_real_c *buf_rby, int *flg_rby, int *typ, int *npas, int *iex){
     send_data_spmd_c(idp, nng, bufr1, bufr2, bufr3, bufr4, bufr5, bufr6, bufr7, bufr8, bufr9, buf_rby, flg_rby, typ, npas, iex);
 }
-void send_data_spmd_c_(idp, nng, bufr1, bufr2, bufr3, bufr4, bufr5, bufr6, bufr7, bufr8, bufr9, buf_rby, flg_rby, typ, npas, iex)
-int *idp, *nng, *typ, *npas, *flg_rby, *iex;
-my_real_c *bufr1, *bufr2, *bufr3, *bufr4, *bufr5, *bufr6, *bufr8, *bufr9, *buf_rby;
-double *bufr7;
-{
+
+void send_data_spmd_c_(int *idp, int *nng, 
+                      my_real_c *bufr1, my_real_c *bufr2, my_real_c *bufr3, 
+                      my_real_c *bufr4, my_real_c *bufr5, my_real_c *bufr6, 
+                      double *bufr7, my_real_c *bufr8, my_real_c *bufr9, 
+                      my_real_c *buf_rby, int *flg_rby, int *typ, int *npas, int *iex){
     send_data_spmd_c(idp, nng, bufr1, bufr2, bufr3, bufr4, bufr5, bufr6, bufr7, bufr8, bufr9, buf_rby, flg_rby, typ, npas, iex);
 }
-void send_data_spmd_c__(idp, nng, bufr1, bufr2, bufr3, bufr4, bufr5, bufr6, bufr7, bufr8, bufr9, buf_rby, flg_rby, typ, npas, iex)
-int *idp, *nng, *typ, *npas, *flg_rby, *iex;
-my_real_c *bufr1, *bufr2, *bufr3, *bufr4, *bufr5, *bufr6, *bufr8, *bufr9, *buf_rby;
-double *bufr7;
-{
-        send_data_spmd_c(idp, nng, bufr1, bufr2, bufr3, bufr4, bufr5, bufr6, bufr7, bufr8, bufr9, buf_rby, flg_rby, typ, npas, iex);}
+
+void send_data_spmd_c__(int *idp, int *nng, 
+                      my_real_c *bufr1, my_real_c *bufr2, my_real_c *bufr3, 
+                      my_real_c *bufr4, my_real_c *bufr5, my_real_c *bufr6, 
+                      double *bufr7, my_real_c *bufr8, my_real_c *bufr9, 
+                      my_real_c *buf_rby, int *flg_rby, int *typ, int *npas, int *iex){
+        send_data_spmd_c(idp, nng, bufr1, bufr2, bufr3, bufr4, bufr5, bufr6, bufr7, bufr8, bufr9, buf_rby, flg_rby, typ, npas, iex);
+}
     
-/******************************************************************/
 
-/* el51g1--- */
-
-void get_stiff_c(idp, nng, nodbuf, ms, ir, stx, str, typ, npas, iex)
-int *idp, *nng, *nodbuf, *typ, *npas, *iex;
-my_real_c *ms, *ir, *stx, *str;
-{
-int buflen, lbuf, rest, next;
-int i, j, k, nn, nm, offset, chunk;
-my_real_c df, dm;    
+//-------------------------------------------------------------
+void get_stiff_c(int *idp, int *nng, int *nodbuf, 
+                 my_real_c *ms, my_real_c *ir,
+                 my_real_c *stx, my_real_c *str,
+                 int *typ, int *npas, int *iex){
+    int buflen, lbuf, rest, next;
+    int i, j, k, nn, nm, offset, chunk;
+    my_real_c df, dm;
 
     rest = *nng;
-    if (*iex == 1) off_link = 0;
-    
-    if(*typ == 5)    
-      { 
-         chunk = rest / nthreads;
-         #pragma omp parallel for schedule(static,chunk) if (chunk>350) private(i,k,nm,nn)             
-         for (next = 0; next < rest; next++) {
-            i  = off_link + next;
-            k = 3*i;
-            nm = (nodbuf[next]-1);
-            nn = 3*nm;
-            if (*npas == 0) ms[nm] = com->mass_buf[i];
+    if (*iex == 1) 
+        off_link = 0;
+
+    if (*typ == 5) {
+        chunk = rest / nthreads;
+        #pragma omp parallel for schedule(static, chunk) if (chunk > 350) private(i, k, nm, nn)
+        for (next = 0; next < rest; next++) {
+            i = off_link + next;
+            k = 3 * i;
+            nm = (nodbuf[next] - 1);
+            nn = 3 * nm;
+            if (*npas == 0) 
+                ms[nm] = com->mass_buf[i];
             stx[nm] = com->sx_buf[i];
             if (flagrot[*idp]) {
-                if (*npas == 0) ir[nm] = com->iner_buf[i];
+                if (*npas == 0) 
+                    ir[nm] = com->iner_buf[i];
                 str[nm] = com->sr_buf[i];
-                }
-            }                 
-       }
-       off_link += rest;      
+            }
+        }
+    }
+    off_link += rest;
 }
 /******************************************************************/
-void _FCALL GET_STIFF_C(idp, nng, nodbuf, ms, ir, stx, str, typ, npas, iex)
-int    *idp, *nng, *nodbuf, *typ, *npas, *iex;
-my_real_c *ms, *ir, *stx, *str;
-{   get_stiff_c(idp, nng, nodbuf, ms, ir, stx, str, typ, npas, iex);  }
+void _FCALL GET_STIFF_C(int *idp, int *nng, int *nodbuf, 
+                 my_real_c *ms, my_real_c *ir,
+                 my_real_c *stx, my_real_c *str,
+                 int *typ, int *npas, int *iex){
+    get_stiff_c(idp, nng, nodbuf, ms, ir, stx, str, typ, npas, iex);
+}
 
-void get_stiff_c_(idp, nng, nodbuf, ms, ir, stx, str, typ, npas, iex)
-int    *idp, *nng, *nodbuf, *typ, *npas, *iex;
-my_real_c *ms, *ir, *stx, *str;
-{   get_stiff_c(idp, nng, nodbuf, ms, ir, stx, str, typ, npas, iex);  }
+void get_stiff_c_(int *idp, int *nng, int *nodbuf, 
+                 my_real_c *ms, my_real_c *ir,
+                 my_real_c *stx, my_real_c *str,
+                 int *typ, int *npas, int *iex){
+    get_stiff_c(idp, nng, nodbuf, ms, ir, stx, str, typ, npas, iex);  
+}
 
-void get_stiff_c__(idp, nng, nodbuf, ms, ir, stx, str, typ, npas, iex)
-int    *idp, *nng, *nodbuf, *typ, *npas, *iex;
-my_real_c *ms, *ir, *stx, *str;
-{   get_stiff_c(idp, nng, nodbuf, ms, ir, stx, str, typ, npas, iex);  }
-/******************************************************************/
+void get_stiff_c__(int *idp, int *nng, int *nodbuf, 
+                 my_real_c *ms, my_real_c *ir,
+                 my_real_c *stx, my_real_c *str,
+                 int *typ, int *npas, int *iex){
+    get_stiff_c(idp, nng, nodbuf, ms, ir, stx, str, typ, npas, iex);
+}
 
-void get_stiff_spmd_c(idp, nng, bufr1, bufr2, bufr3, bufr4, typ, npas, iex, nglob)
-int *idp, *nng, *typ, *npas, *iex, *nglob;
-my_real_c *bufr1, *bufr2, *bufr3, *bufr4;
-{
-int buflen, lbuf, rest, next, nm, nn, i, k, chunk;
-my_real_c df, dm;
 
+//-------------------------------------------------------------
+void get_stiff_spmd_c(int *idp, int *nng, 
+                      my_real_c *bufr1, my_real_c *bufr2, my_real_c *bufr3, my_real_c *bufr4, 
+                      int *typ, int *npas, int *iex, int *nglob){
+    int buflen, lbuf, rest, next, nm, nn, i, k, chunk;
+    my_real_c df, dm;
 
     rest = *nglob;
-    if (*iex == 1) off_link = 0;
-   
-    if(*typ == 5)    
-      { 
-         chunk = rest / nthreads;
-         #pragma omp parallel for schedule(static,chunk) if (chunk>350) private(i,k,nm,nn)             
-         for (next = 0; next < rest; next++) {               
-            i = off_link + masterdb[*iex-1][next];                
-            k = 3*i;
+    if (*iex == 1) 
+        off_link = 0;
+
+    if (*typ == 5) {
+        chunk = rest / nthreads;
+        #pragma omp parallel for schedule(static, chunk) if (chunk > 350) private(i, k, nm, nn)
+        for (next = 0; next < rest; next++) {
+            i = off_link + masterdb[*iex - 1][next];
+            k = 3 * i;
             nm = next;
-            nn = 3*nm;
-            if (*npas == 0) bufr1[nm] = com->mass_buf[i];            
+            nn = 3 * nm;
+            if (*npas == 0) 
+                bufr1[nm] = com->mass_buf[i];
             bufr2[nm] = com->sx_buf[i];
             if (flagrot[*idp]) {
-                if (*npas == 0) bufr3[nm] = com->iner_buf[i];
+                if (*npas == 0) 
+                    bufr3[nm] = com->iner_buf[i];
                 bufr4[nm] = com->sr_buf[i];
-                }
-            }                 
-       }      
-       off_link += *nng;
-            
+            }
+        }
+    }
+    off_link += *nng;
 }
-/******************************************************************/
-void _FCALL GET_STIFF_SPMD_C(idp, nng, bufr1, bufr2, bufr3, bufr4, typ, npas, iex, nglob)
-int    *idp, *nng, *typ, *npas, *iex, *nglob;
-my_real_c *bufr1, *bufr2, *bufr3, *bufr4;
-{   get_stiff_spmd_c(idp, nng, bufr1, bufr2, bufr3, bufr4, typ, npas, iex, nglob);  }
 
-void get_stiff_spmd_c_(idp, nng, bufr1, bufr2, bufr3, bufr4, typ, npas, iex, nglob)
-int    *idp, *nng, *typ, *npas, *iex, *nglob;
-my_real_c *bufr1, *bufr2, *bufr3, *bufr4;
-{   get_stiff_spmd_c(idp, nng, bufr1, bufr2, bufr3, bufr4, typ, npas, iex, nglob);  }
+void _FCALL GET_STIFF_SPMD_C(int *idp, int *nng, 
+                      my_real_c *bufr1, my_real_c *bufr2, my_real_c *bufr3, my_real_c *bufr4, 
+                      int *typ, int *npas, int *iex, int *nglob){
+    get_stiff_spmd_c(idp, nng, bufr1, bufr2, bufr3, bufr4, typ, npas, iex, nglob);
+}
 
-void get_stiff_spmd_c__(idp, nng, bufr1, bufr2, bufr3, bufr4, typ, npas, iex, nglob)
-int    *idp, *nng, *typ, *npas, *iex, *nglob;
-my_real_c *bufr1, *bufr2, *bufr3, *bufr4;
-{   get_stiff_spmd_c(idp, nng, bufr1, bufr2, bufr3, bufr4, typ, npas, iex, nglob);  }
+void get_stiff_spmd_c_(int *idp, int *nng, 
+                      my_real_c *bufr1, my_real_c *bufr2, my_real_c *bufr3, my_real_c *bufr4, 
+                      int *typ, int *npas, int *iex, int *nglob){
+    get_stiff_spmd_c(idp, nng, bufr1, bufr2, bufr3, bufr4, typ, npas, iex, nglob);  
+}
 
-/******************************************************************/
+void get_stiff_spmd_c__(int *idp, int *nng, 
+                      my_real_c *bufr1, my_real_c *bufr2, my_real_c *bufr3, my_real_c *bufr4, 
+                      int *typ, int *npas, int *iex, int *nglob){
+    get_stiff_spmd_c(idp, nng, bufr1, bufr2, bufr3, bufr4, typ, npas, iex, nglob);
+}
 
-void get_force_c(idp, nng, nodbuf, wf, wm, wf2, wm2, v, vr, fx, fr, ms, in, x, xdp, dx, typ, kin, wgt, iex, iresp, tfext)
-int *idp, *nng, *nodbuf, *typ, *kin, *wgt, *iex, *iresp;
-my_real_c *wf, *wm, *wf2, *wm2, *v, *vr, *fx, *fr, *ms, *in, *x, *dx;
-double *xdp,*tfext;
-{
-int buflen, lbuf, rest, next, weight;
-int i, j, k, nn, nm, chunk;
-my_real_c df, dm, wfl,wf2l,wml,wm2l;
+//-------------------------------------------------------------
+void get_force_c(int *idp, int *nng, int *nodbuf, my_real_c *wf, 
+                 my_real_c *wm, my_real_c *wf2, my_real_c *wm2, my_real_c *v,
+                 my_real_c *vr, my_real_c *fx, my_real_c *fr, my_real_c *ms, 
+                 my_real_c *in, my_real_c *x, double *xdp, my_real_c *dx, 
+                 int *typ, int *kin, int *wgt, int *iex, int *iresp, double *tfext){
+
+    int buflen, lbuf, rest, next, weight;
+    int i, j, k, nn, nm, chunk;
+    my_real_c df, dm, wfl, wf2l, wml, wm2l;
 
     rest = *nng;
     wfl = 0;
@@ -1917,87 +1751,112 @@ my_real_c df, dm, wfl,wf2l,wml,wm2l;
     wml = 0;
     wm2l = 0;
 
-    if (*iex == 1) off_link = 0;
-    
-    if (*typ != 7) 
-    {                
-        chunk = rest / nthreads;            
-        #pragma omp parallel for schedule(static,chunk) if (chunk>350) private(i,k,nm,nn,weight,j,dm,df) reduction(+:wfl,wf2l,wml,wm2l)
-        for (next = 0; next < rest; next++)   {                  
+    if (*iex == 1)
+        off_link = 0;
+
+    if (*typ != 7) {
+        chunk = rest / nthreads;
+        #pragma omp parallel for schedule(static, chunk) if (chunk > 350) private(i, k, nm, nn, weight, j, dm, df) reduction(+:wfl, wf2l, wml, wm2l)
+        for (next = 0; next < rest; next++) {
             i = off_link + next;
-            k = 3*i;
-            nm = (nodbuf[next]-1);
-            nn = 3*nm;
+            k = 3 * i;
+            nm = (nodbuf[next] - 1);
+            nn = 3 * nm;
             weight = wgt[nm];
-            if ((*typ == 5)&&(*kin ==1)) ms[nm] = com->mass_buf[i];
-            if ((*typ == 5)&&(*kin ==1)) in[nm] = com->iner_buf[i]; 
-            for (j = 0; j < 3; j++)   {
-               if (*typ < 4) v[nn+j] = com->vx_buf[k+j];
-           /************ Activation/deactivation of SPH particles ***********/
-            if (flg_sphinout == 1){
-                if (com->iactv[i] == 1){                      /* activation of particle */
-                    x[nn+j] = com->fx_buf[k+j];
-                    if (*iresp==1) {xdp[nn+j] = com->fx_buf[k+j];}
-                    com->fx_buf[k+j] = 0;
-                    v[nn+j]  = com->vx_buf[k+j] ;
-                    dx[nn+j] = com->dx_buf[k+j];
-                    weight = 0;
-               }else{
-                    if (com->iactv[i] == -1){                      /* deactivation of particle */
-                        x[nn+j] = com->fx_buf[k+j];
-                        if (*iresp==1) xdp[nn+j] = com->fx_buf[k+j];
-                        com->fx_buf[k+j] = 0;
-                        v[nn+j] = 0;
-                        dx[nn+j] = 0;
+            if ((*typ == 5) && (*kin == 1))
+                ms[nm] = com->mass_buf[i];
+            if ((*typ == 5) && (*kin == 1))
+                in[nm] = com->iner_buf[i];
+            for (j = 0; j < 3; j++) {
+                if (*typ < 4)
+                    v[nn + j] = com->vx_buf[k + j];
+                /************ Activation/deactivation of SPH particles ***********/
+                if (flg_sphinout == 1) {
+                    if (com->iactv[i] == 1) { /* activation of particle */
+                        x[nn + j] = com->fx_buf[k + j];
+                        if (*iresp == 1) {
+                            xdp[nn + j] = com->fx_buf[k + j];
+                        }
+                        com->fx_buf[k + j] = 0;
+                        v[nn + j] = com->vx_buf[k + j];
+                        dx[nn + j] = com->dx_buf[k + j];
                         weight = 0;
+                    } else {
+                        if (com->iactv[i] == -1) { /* deactivation of particle */
+                            x[nn + j] = com->fx_buf[k + j];
+                            if (*iresp == 1)
+                                xdp[nn + j] = com->fx_buf[k + j];
+                            com->fx_buf[k + j] = 0;
+                            v[nn + j] = 0;
+                            dx[nn + j] = 0;
+                            weight = 0;
+                        }
                     }
-               }
+                }
+                df = weight * (com->fx_buf[k + j] * ms[nm] - fx[nn + j]);
+                fx[nn + j] = com->fx_buf[k + j] * ms[nm];
+                wfl += df * v[nn + j] / 2.0;
+                if (ms[nm] > 0)
+                    wf2l += df * fx[nn + j] / (2.0 * ms[nm]);
+                if (flagrot[*idp]) {
+                    if (*typ < 4)
+                        vr[nn + j] = com->vr_buf[k + j];
+                    dm = weight * (com->fr_buf[k + j] * in[nm] - fr[nn + j]);
+                    fr[nn + j] = com->fr_buf[k + j] * in[nm];
+                    wml += dm * vr[nn + j] / 2.0;
+                    if (in[nm] > 0)
+                        wm2l += dm * fr[nn + j] / (2.0 * in[nm]);
+                }
             }
-            /*if (j==0) *tfext = *tfext - 0.5*weight*ms[nm]*(v[nn]*v[nn]+v[nn+1]*v[nn+1]+v[nn+2]*v[nn+2]);*/            
-           /*****************************************/      
-               df = weight*(com->fx_buf[k+j]*ms[nm] - fx[nn+j]);
-           fx[nn+j] = com->fx_buf[k+j]*ms[nm];           
-               wfl += df * v[nn+j] / 2.0;
-           if (ms[nm] > 0) wf2l += df * fx[nn+j] / (2.0 * ms[nm]);           
-               if (flagrot[*idp])
-             {if (*typ < 4) vr[nn+j] = com->vr_buf[k+j];
-          dm = weight*(com->fr_buf[k+j]*in[nm] - fr[nn+j]);
-          fr[nn+j] = com->fr_buf[k+j]*in[nm];
-          wml += dm * vr[nn+j] / 2.0;
-          if (in[nm] > 0) wm2l += dm * fr[nn+j] / (2.0 * in[nm]);}     
-               }
-            }
-        
+        }
+
         *wf += wfl;
         *wf2 += wf2l;
         *wm += wml;
-        *wm2 += wm2l; 
-        off_link += rest;        
-    }    
+        *wm2 += wm2l;
+        off_link += rest;
+    }
 }
 
-/******************************************************************/
-void _FCALL GET_FORCE_C(idp, nng, nodbuf, wf, wm, wf2, wm2, v, vr, fx, fr, ms, in, x, xdp, dx, typ, kin, wgt, iex, iresp, tfext)
-int *idp, *nng, *nodbuf, *typ, *kin, *wgt, *iex, *iresp;
-my_real_c *wf, *wm, *wf2, *wm2, *v, *vr, *fx, *fr, *ms, *in, *x, *dx;
-double *xdp,*tfext;
-{    get_force_c(idp, nng, nodbuf, wf, wm, wf2, wm2, v, vr, fx, fr, ms, in, x, xdp, dx, typ, kin, wgt, iex, iresp, tfext);}
-void get_force_c_(idp, nng, nodbuf, wf, wm, wf2, wm2, v, vr, fx, fr, ms, in, x, xdp, dx, typ, kin, wgt, iex, iresp, tfext)
-int *idp, *nng, *nodbuf, *typ, *kin, *wgt, *iex, *iresp;
-my_real_c *wf, *wm, *wf2, *wm2, *v, *vr, *fx, *fr, *ms, *in, *x, *dx;
-double *xdp,*tfext;
-{    get_force_c(idp, nng, nodbuf, wf, wm, wf2, wm2, v, vr, fx, fr, ms, in, x, xdp, dx, typ, kin, wgt, iex, iresp, tfext);}
-void get_force_c__(idp, nng, nodbuf, wf, wm, wf2, wm2, v, vr, fx, fr, ms, in, x, xdp, dx, typ, kin, wgt, iex, iresp, tfext)
-int *idp, *nng, *nodbuf, *typ, *kin, *wgt, *iex, *iresp;
-my_real_c *wf, *wm, *wf2, *wm2, *v, *vr, *fx, *fr, *ms, *in, *x, *dx;
-double *xdp,*tfext;
-{    get_force_c(idp, nng, nodbuf, wf, wm, wf2, wm2, v, vr, fx, fr, ms, in, x, xdp, dx, typ, kin, wgt, iex, iresp, tfext);}
-/******************************************************************/
+//-----------------------------------------------------
+void _FCALL GET_FORCE_C(int *idp, int *nng, int *nodbuf, my_real_c *wf, 
+                 my_real_c *wm, my_real_c *wf2, my_real_c *wm2, my_real_c *v,
+                 my_real_c *vr, my_real_c *fx, my_real_c *fr, my_real_c *ms, 
+                 my_real_c *in, my_real_c *x, double *xdp, my_real_c *dx, 
+                 int *typ, int *kin, int *wgt, int *iex, int *iresp, double *tfext){
+        get_force_c(idp, nng, nodbuf, wf, 
+                    wm, wf2, wm2, v, 
+                    vr, fx, fr, ms,
+                    in, x, xdp, dx,
+                    typ, kin, wgt, iex, iresp, tfext);
+}
+void get_force_c_(int *idp, int *nng, int *nodbuf, my_real_c *wf, 
+                 my_real_c *wm, my_real_c *wf2, my_real_c *wm2, my_real_c *v,
+                 my_real_c *vr, my_real_c *fx, my_real_c *fr, my_real_c *ms, 
+                 my_real_c *in, my_real_c *x, double *xdp, my_real_c *dx, 
+                 int *typ, int *kin, int *wgt, int *iex, int *iresp, double *tfext){
+        get_force_c(idp, nng, nodbuf, wf, 
+                    wm, wf2, wm2, v, 
+                    vr, fx, fr, ms,
+                    in, x, xdp, dx,
+                    typ, kin, wgt, iex, iresp, tfext);
+}
 
-void get_force_nl_c(idp, nng, iadd_nl, fx, ms, iex)
-int *idp, *nng, *iadd_nl, *iex;
-my_real_c *fx, *ms;
-{
+void get_force_c__(int *idp, int *nng, int *nodbuf, my_real_c *wf, 
+                 my_real_c *wm, my_real_c *wf2, my_real_c *wm2, my_real_c *v,
+                 my_real_c *vr, my_real_c *fx, my_real_c *fr, my_real_c *ms, 
+                 my_real_c *in, my_real_c *x, double *xdp, my_real_c *dx, 
+                 int *typ, int *kin, int *wgt, int *iex, int *iresp, double *tfext){
+        get_force_c(idp, nng, nodbuf, wf, 
+                    wm, wf2, wm2, v, 
+                    vr, fx, fr, ms,
+                    in, x, xdp, dx,
+                    typ, kin, wgt, iex, iresp, tfext);
+}
+
+
+//-----------------------------------------------------
+void get_force_nl_c(int *idp, int *nng, int *iadd_nl, my_real_c *fx, my_real_c *ms, int *iex){
 int rest, next;
 int i, chunk;
 
@@ -2016,202 +1875,188 @@ int i, chunk;
       off_link += rest;          
 }
 
-/******************************************************************/
-void _FCALL GET_FORCE_NL_C(idp, nng, iadd_nl, fx, ms, iex)
-int *idp, *nng, *iadd_nl, *iex;
-my_real_c *fx, *ms;
-{    get_force_nl_c(idp, nng, iadd_nl, fx, ms, iex);}
-void get_force_nl_c_(idp, nng, iadd_nl, fx, ms, iex)
-int *idp, *nng, *iadd_nl, *iex;
-my_real_c *fx, *ms;
-{    get_force_nl_c(idp, nng, iadd_nl, fx, ms, iex);}
-void get_force_nl_c__(idp, nng, iadd_nl, fx, ms, iex)
-int *idp, *nng, *iadd_nl, *iex;
-my_real_c *fx, *ms;
-{    get_force_nl_c(idp, nng, iadd_nl, fx, ms, iex);}
-/******************************************************************/
-
-void get_force_spmd_c(idp, nng, bufr1, bufr2, bufr3, bufr4, typ, iex, nglob)
-int *idp, *nng, *typ, *iex, *nglob;
-my_real_c *bufr1, *bufr2, *bufr3, *bufr4;
-{
-int buflen, lbuf, rest, next, chunk, i, j, k, nn, nm;
-
-    rest = *nglob;
-    if (*iex == 1) off_link = 0;
-   
-    if(*typ != 7)    
-      { 
-         chunk = rest / nthreads;
-         #pragma omp parallel for schedule(static,chunk) if (chunk>350) private(i,k,nm,nn)             
-         for (next = 0; next < rest; next++) {
-            i = off_link + masterdb[*iex-1][next]; 
-            k = 3*i;
-            nm = next;
-            nn = 3*nm; 
-            for (j = 0; j < 3; j++)   {
-               if (*typ < 4) bufr3[nn+j] = com->vx_buf[k+j]; 
-           bufr1[nn+j] = com->fx_buf[k+j];                  
-               if (flagrot[*idp])
-             {if (*typ < 4) bufr4[nn+j] = com->vr_buf[k+j];
-          bufr2[nn+j] = com->fr_buf[k+j];}
-               }         
-            }                 
-       }
-       off_link += *nng;    
+void _FCALL GET_FORCE_NL_C(int *idp, int *nng, int *iadd_nl, my_real_c *fx, my_real_c *ms, int *iex){
+    get_force_nl_c(idp, nng, iadd_nl, fx, ms, iex);
 }
 
-/******************************************************************/
-void _FCALL GET_FORCE_SPMD_C(idp, nng, bufr1, bufr2, bufr3, bufr4, typ, iex, nglob)
-int *idp, *nng, *typ, *iex, *nglob;
-my_real_c *bufr1, *bufr2, *bufr3, *bufr4;
-{    get_force_spmd_c(idp, nng, bufr1, bufr2, bufr3, bufr4, typ, iex, nglob);}
-void get_force_spmd_c_(idp, nng, bufr1, bufr2, bufr3, bufr4, typ, iex, nglob)
-int *idp, *nng, *typ, *iex, *nglob;
-my_real_c *bufr1, *bufr2, *bufr3, *bufr4;
-{    get_force_spmd_c(idp, nng, bufr1, bufr2, bufr3, bufr4, typ, iex, nglob);}
-void get_force_spmd_c__(idp, nng, bufr1, bufr2, bufr3, bufr4, typ, iex, nglob)
-int *idp, *nng, *typ, *iex, *nglob;
-my_real_c *bufr1, *bufr2, *bufr3, *bufr4;
-{    get_force_spmd_c(idp, nng, bufr1, bufr2, bufr3, bufr4, typ, iex, nglob);}
+void get_force_nl_c_(int *idp, int *nng, int *iadd_nl, my_real_c *fx, my_real_c *ms, int *iex){
+    get_force_nl_c(idp, nng, iadd_nl, fx, ms, iex);
+}
+
+void get_force_nl_c__(int *idp, int *nng, int *iadd_nl, my_real_c *fx, my_real_c *ms, int *iex){
+    get_force_nl_c(idp, nng, iadd_nl, fx, ms, iex);
+}
 
 
-static void do_activ_c(iflg)
-int *iflg;
+//-----------------------------------------------------
+void get_force_spmd_c(int *idp, int *nng, my_real_c *bufr1, my_real_c *bufr2, my_real_c *bufr3, my_real_c *bufr4, int *typ, int *iex, int *nglob)
 {
+    int buflen, lbuf, rest, next, chunk, i, j, k, nn, nm;
+
+    rest = *nglob;
+    if (*iex == 1) 
+        off_link = 0;
+
+    if (*typ != 7) {
+        chunk = rest / nthreads;
+        #pragma omp parallel for schedule(static, chunk) if (chunk > 350) private(i, k, nm, nn)
+        for (next = 0; next < rest; next++) {
+            i = off_link + masterdb[*iex - 1][next];
+            k = 3 * i;
+            nm = next;
+            nn = 3 * nm;
+            for (j = 0; j < 3; j++) {
+                if (*typ < 4) 
+                    bufr3[nn + j] = com->vx_buf[k + j];
+                bufr1[nn + j] = com->fx_buf[k + j];
+                if (flagrot[*idp]) {
+                    if (*typ < 4) 
+                        bufr4[nn + j] = com->vr_buf[k + j];
+                    bufr2[nn + j] = com->fr_buf[k + j];
+                }
+            }
+        }
+        off_link += *nng;
+    }
+}
+
+void _FCALL GET_FORCE_SPMD_C(int *idp, int *nng, 
+                             my_real_c *bufr1,  my_real_c *bufr2,  my_real_c *bufr3,  
+                             my_real_c *bufr4, int *typ, int *iex, int *nglob){
+        get_force_spmd_c(idp, nng, bufr1, bufr2, bufr3, bufr4, typ, iex, nglob);
+}
+
+void get_force_spmd_c_(int *idp, int *nng, 
+                             my_real_c *bufr1,  my_real_c *bufr2,  my_real_c *bufr3,  
+                             my_real_c *bufr4, int *typ, int *iex, int *nglob){
+        get_force_spmd_c(idp, nng, bufr1, bufr2, bufr3, bufr4, typ, iex, nglob);
+}
+
+void get_force_spmd_c__(int *idp, int *nng, 
+                             my_real_c *bufr1,  my_real_c *bufr2,  my_real_c *bufr3,  
+                             my_real_c *bufr4, int *typ, int *iex, int *nglob){
+        get_force_spmd_c(idp, nng, bufr1, bufr2, bufr3, bufr4, typ, iex, nglob);
+}
+
+//-----------------------------------------------------
+static void do_activ_c(int *iflg){
     readr(fidr, (void *) iflg, sizeof(int));    
 }
 
-void _FCALL DO_ACTIV_C(iflg)
-int *iflg;
-{ do_activ_c(iflg);  }
-void do_activ_c_(iflg)
-int *iflg;
-{  do_activ_c(iflg);}
-void do_activ_c__(iflg)
-int *iflg;
-{  do_activ_c(iflg);}
-
-/**************************************/
-
-void send_mass_kine_c(idp, nng, nodbuf, ms, in, iex, offset)
-int *idp, *nng, *nodbuf, *iex, *offset;
-my_real_c *ms,*in;
-{
-int buflen, lbuf, rest, next;
-int i, j, k, nn, nm, chunk;
-
-    rest = *nng; 
-        
-        chunk = rest / nthreads;
-        #pragma omp parallel for schedule(static,chunk) if (chunk>350) private(k,i,nm,nn)                                
-        for (next = 0; next < rest; next++)
-          {
-                        i = *offset + next;
-            k = 3*i;
-            nm = nodbuf[next]-1;
-            nn = 3*nm;
-            com->mass_buf[i] = ms[nm];
-            if(flagrot[*idp]) com->iner_buf[i] = in[nm];
-       }                  
+void _FCALL DO_ACTIV_C(int *iflg){
+    do_activ_c(iflg);
 }
 
-void _FCALL SEND_MASS_KINE_C(idp, nng, nodbuf, ms, in, iex, offset)
-int *idp, *nng, *nodbuf, *iex, *offset;
-my_real_c *ms,*in;
-{ send_mass_kine_c(idp, nng, nodbuf, ms, in, iex, offset); }
-void send_mass_kine_c_(idp, nng, nodbuf, ms, in, iex, offset)
-int *idp, *nng, *nodbuf, *iex, *offset;
-my_real_c *ms,*in;
-{ send_mass_kine_c(idp, nng, nodbuf, ms, in, iex, offset); }
-void send_mass_kine_c__(idp,nng, nodbuf, ms, in, iex, offset)
-int *idp, *nng, *nodbuf, *iex, *offset;
-my_real_c *ms,*in;
-{ send_mass_kine_c(idp, nng, nodbuf, ms, in, iex, offset); }
+void do_activ_c_(int *iflg){
+    do_activ_c(iflg);
+}
 
-/**************************************/
+void do_activ_c__(int *iflg){
+    do_activ_c(iflg);
+}
 
 
-void get_displ_c(idp, nng, nodbuf, x)
-int *idp, *nng, *nodbuf;
-my_real_c *x;
-{
-int buflen, lbuf, rest, next;
-int i, j, k, nn, nm;
+//-----------------------------------------------------
+void send_mass_kine_c(int *idp, int *nng, int *nodbuf, my_real_c *ms, my_real_c *in, int *iex, int *offset){
+    int buflen, lbuf, rest, next;
+    int i, j, k, nn, nm, chunk;
 
-    writer(fidw, (void *) idp, sizeof(int));    
+    rest = *nng;
+
+    chunk = rest / nthreads;
+    #pragma omp parallel for schedule(static, chunk) if (chunk > 350) private(k, i, nm, nn)
+    for (next = 0; next < rest; next++) {
+        i = *offset + next;
+        k = 3 * i;
+        nm = nodbuf[next] - 1;
+        nn = 3 * nm;
+        com->mass_buf[i] = ms[nm];
+        if (flagrot[*idp]) com->iner_buf[i] = in[nm];
+    }
+}
+
+void _FCALL SEND_MASS_KINE_C(int *idp, int *nng, int *nodbuf, my_real_c *ms, my_real_c *in, int *iex, int *offset){
+    send_mass_kine_c(idp, nng, nodbuf, ms, in, iex, offset); 
+}
+
+void send_mass_kine_c_(int *idp, int *nng, int *nodbuf, my_real_c *ms, my_real_c *in, int *iex, int *offset){
+    send_mass_kine_c(idp, nng, nodbuf, ms, in, iex, offset); 
+}
+
+void send_mass_kine_c__(int *idp, int *nng, int *nodbuf, my_real_c *ms, my_real_c *in, int *iex, int *offset){
+    send_mass_kine_c(idp, nng, nodbuf, ms, in, iex, offset);
+}
+
+
+//---------------------------------------------
+void get_displ_c(int *idp, int *nng, int *nodbuf, my_real_c *x){
+    int buflen, lbuf, rest, next;
+    int i, j, k, nn, nm;
+
+    writer(fidw, (void *)idp, sizeof(int));
 
     rest = *nng;
     next = 0;
-    while(rest > 0)
-    {
-        buflen = (rest/nbufvar > 0 ? nbufvar : rest%nbufvar);
+    while (rest > 0) {
+        buflen = (rest / nbufvar > 0 ? nbufvar : rest % nbufvar);
         lbuf = buflen * sizeof(my_real_c);
-        readr(fidr, (void *) dx_buf, 3*lbuf);    
+        readr(fidr, (void *)dx_buf, 3 * lbuf);
 
-        for (i = 0; i < buflen; i++, next++)
-        {
-            k = 3*i;
-            nm = (nodbuf[next]-1);
-            nn = 3*nm;
+        for (i = 0; i < buflen; i++, next++) {
+            k = 3 * i;
+            nm = (nodbuf[next] - 1);
+            nn = 3 * nm;
             for (j = 0; j < 3; j++)
-               x[nn+j]  = dx_buf[k+j];  
-         }
+                x[nn + j] = dx_buf[k + j];
+        }
         rest -= buflen;
-    }    
+    }
 }
 
-void _FCALL GET_DISPL_C(idp, nng, nodbuf, x)
-int *idp, *nng, *nodbuf;
-my_real_c *x;
-{ get_displ_c(idp, nng, nodbuf, x); }
-void get_displ_c_(idp, nng, nodbuf, x)
-int *idp, *nng, *nodbuf;
-my_real_c *x;
-{ get_displ_c(idp, nng, nodbuf, x); }
-void get_displ_c__(idp,nng, nodbuf, x)
-int *idp, *nng, *nodbuf;
-my_real_c *x;
-{ get_displ_c(idp, nng, nodbuf, x); }
-/**************************************/
+void _FCALL GET_DISPL_C(int *idp, int *nng, int *nodbuf, my_real_c *x){
+    get_displ_c(idp, nng, nodbuf, x); 
+}
+
+void get_displ_c_(int *idp, int *nng, int *nodbuf, my_real_c *x){
+    get_displ_c(idp, nng, nodbuf, x);
+}
+
+void get_displ_c__(int *idp, int *nng, int *nodbuf, my_real_c *x){
+    get_displ_c(idp, nng, nodbuf, x);
+}
 
 
- void get_displ_spmd_c(idp, nng, bufr)
-int *idp, *nng;
-my_real_c *bufr;
-{
-int buflen, lbuf, rest, next;
+//---------------------------------------------
+void get_displ_spmd_c(int *idp, int *nng, my_real_c *bufr){
+    int buflen, lbuf, rest, next;
 
-    writer(fidw, (void *) idp, sizeof(int));    
+    writer(fidw, (void *)idp, sizeof(int));
 
     rest = *nng;
     next = 0;
-    while(rest > 0)
-    {
-        buflen = (rest/nbufvar > 0 ? nbufvar : rest%nbufvar);
+    while (rest > 0) {
+        buflen = (rest / nbufvar > 0 ? nbufvar : rest % nbufvar);
         lbuf = buflen * sizeof(my_real_c);
-        readr(fidr, (void *) &bufr[3*next], 3*lbuf);    
-                next += buflen;
+        readr(fidr, (void *)&bufr[3 * next], 3 * lbuf);
+        next += buflen;
         rest -= buflen;
-    }    
+    }
 }
 
-void _FCALL GET_DISPL_SPMD_C(idp, nng, bufr)
-int *idp, *nng;
-my_real_c *bufr;
-{ get_displ_spmd_c(idp, nng, bufr); }
-void get_displ_spmd_c_(idp, nng, bufr)
-int *idp, *nng;
-my_real_c *bufr;
-{ get_displ_spmd_c(idp, nng, bufr); }
-void get_displ_spmd_c__(idp,nng, bufr)
-int *idp, *nng;
-my_real_c *bufr;
-{ get_displ_spmd_c(idp, nng, bufr); }
+void _FCALL GET_DISPL_SPMD_C(int *idp, int *nng, my_real_c *bufr){
+    get_displ_spmd_c(idp, nng, bufr);
+}
 
-/* el51g1 --- */
+void get_displ_spmd_c_(int *idp, int *nng, my_real_c *bufr){
+    get_displ_spmd_c(idp, nng, bufr);
+}
+
+void get_displ_spmd_c__(int *idp, int *nng, my_real_c *bufr){
+    get_displ_spmd_c(idp, nng, bufr);
+}
 
 
+//-------------------------------------------------------------
 static void close_r2r_pipe_c()
 {
 #ifdef _WIN64
@@ -2231,9 +2076,7 @@ void close_r2r_pipe_c__()
 
 /***************Routines for socket communication***********************/
 
-void connection_sock_init_c(sd)
-int *sd;
-{
+void connection_sock_init_c(int *sd){
 #ifdef DNC
   int num,i,nb,flags,compt,capt,compt2,port2,finished;
   struct  hostent *hp;
@@ -2354,8 +2197,9 @@ void connection_sock_init_c_(int *sd)
 void connection_sock_init_c__(int *sd)
 {connection_sock_init_c(sd);}
 
-void send_sock_init_c(int *iroot,int *len,int *ispmd,int *sd,int *maxproc,int *imach)
-{
+
+//-------------------------------------------------------------
+void send_sock_init_c(int *iroot,int *len,int *ispmd,int *sd,int *maxproc,int *imach){
   int num,i,nb,code,spmd,vers,compt2,imachine,flag_error;
 #ifdef _WIN64
   SOCKET sock;
@@ -2407,135 +2251,137 @@ void send_sock_init_c(int *iroot,int *len,int *ispmd,int *sd,int *maxproc,int *i
 #endif
 }
 
-void _FCALL SEND_SOCK_INIT_C(iroot,len,ispmd,sd,maxproc,imach)
-int *iroot,*len,*ispmd,*sd,*maxproc,*imach;
-{send_sock_init_c(iroot,len,ispmd,sd,maxproc,imach);}
+void _FCALL SEND_SOCK_INIT_C(int *iroot, int *len, int *ispmd, int *sd, int *maxproc, int *imach){
+    send_sock_init_c(iroot,len,ispmd,sd,maxproc,imach);
+}
 
-void send_sock_init_c_(iroot,len,ispmd,sd,maxproc,imach)
-int *iroot,*len,*ispmd,*sd,*maxproc,*imach;
-{send_sock_init_c(iroot,len,ispmd,sd,maxproc,imach);}
+void send_sock_init_c_(int *iroot, int *len, int *ispmd, int *sd, int *maxproc, int *imach){
+    send_sock_init_c(iroot,len,ispmd,sd,maxproc,imach);
+}
 
-void send_sock_init_c__(iroot,len,ispmd,sd,maxproc,imach)
-int *iroot,*len,*ispmd,*sd,*maxproc,*imach;
-{send_sock_init_c(iroot,len,ispmd,sd,maxproc,imach);}
+void send_sock_init_c__(int *iroot, int *len, int *ispmd, int *sd, int *maxproc, int *imach){
+    send_sock_init_c(iroot,len,ispmd,sd,maxproc,imach);
+}
 
-void connection_sock_c(ispmd,sd,addr)
-int *ispmd,*sd;
-char *addr;
-{
+
+//-------------------------------------------------------------
+void connection_sock_c(int *ispmd, int *sd, char *addr){
 #ifdef DNC
-  int nb,port2,compt,capt;
-  struct  hostent *hp;
-  struct linger so_linger;  
+    int nb, port2, compt, capt;
+    struct hostent *hp;
+    struct linger so_linger;
 
 #ifdef _WIN64
-  SOCKET sock;
-  SOCKADDR_IN server;
+    SOCKET sock;
+    SOCKADDR_IN server;
 #else
-  struct  hostent *gethostbyname();
-  struct sockaddr_in server;  
-  int sock;
+    struct hostent *gethostbyname();
+    struct sockaddr_in server;
+    int sock;
 #endif
 
-  char nom[512];
-  char PUF[512];
-                 
-    gethostname(PUF,sizeof(PUF));    
+    char nom[512];
+    char PUF[512];
+
+    gethostname(PUF, sizeof(PUF));
     hp = gethostbyname(addr);
     nb = *ispmd;
 
-    memcpy ( &(server.sin_addr.s_addr), hp->h_addr,  hp->h_length);
+    memcpy(&(server.sin_addr.s_addr), hp->h_addr, hp->h_length);
     server.sin_family = AF_INET;
-    
+
     compt = 0;
     capt = -1;
-                 
+
 /********************Iteration on ports to find a free one***************/
-     
-    while ((capt == -1) && compt < 3)              
-    {port2 = SERV_TCP_PORT1-compt;
-    sock = socket (AF_INET,SOCK_STREAM,0);    
-    server.sin_port = htons(port2);
-    so_linger.l_onoff = TRUE;
-    so_linger.l_linger = 0;    
-    if (setsockopt(sock, SOL_SOCKET, SO_LINGER,(send_type) &so_linger, sizeof(so_linger))==-1) {perror("setsockopt linger");exit(1);}     
-    capt = connect(sock, (struct sockaddr *)&server, sizeof(server));     
-    if ( capt == -1) 
-       {compt++;
+    while ((capt == -1) && compt < 3) {
+        port2 = SERV_TCP_PORT1 - compt;
+        sock = socket(AF_INET, SOCK_STREAM, 0);
+        server.sin_port = htons(port2);
+        so_linger.l_onoff = TRUE;
+        so_linger.l_linger = 0;
+        if (setsockopt(sock, SOL_SOCKET, SO_LINGER, (send_type)&so_linger, sizeof(so_linger)) == -1) {
+            perror("setsockopt linger");
+            exit(1);
+        }
+        capt = connect(sock, (struct sockaddr *)&server, sizeof(server));
+        if (capt == -1) {
+            compt++;
 #ifdef _WIN64
-        closesocket(sock);}}
-#else       
-        close(sock);}}
-#endif           
-               
-    if ( compt >= 3) {
+            closesocket(sock);
+#else
+            close(sock);
+#endif
+        }
+    }
+
+    if (compt >= 3) {
         perror("Can't connect socket...");
 #ifdef _WIN64
         closesocket(sock);
-#else       
-        close(sock);
-#endif    
-        exit(1);
-     }
-     
-/**************************************************************************************/     
-
-     if (send(sock,(send_type)&nb,sizeof(nb), 0) == -1){
-     perror("send ispmd");
-     exit(1);}          
-              
-    *sd=sock;
-    sock=*sd;
-#endif
-}
-
-void _FCALL CONNECTION_SOCK_C(ispmd,sd,addr)
-int *ispmd,*sd;
-char *addr;
-{connection_sock_c(ispmd,sd,addr);}
-
-void connection_sock_c_(ispmd,sd,addr)
-int *ispmd,*sd;
-char *addr;
-{connection_sock_c(ispmd,sd,addr);}
-
-void connection_sock_c__(ispmd,sd,addr)
-int *ispmd,*sd;
-char *addr;
-{connection_sock_c(ispmd,sd,addr);}
-
-void mess_sock_c(sd)
-int *sd;
-{
-#ifdef _WIN64
-  SOCKET sock;
 #else
-  int sock;
+        close(sock);
 #endif
-  char nom[512];                    
-    
-     sock=*sd;    
-    
-     if (recv(sock,(send_type)nom,3*sizeof(char), 0) == -1)
-        {perror("recv norm");
-         exit(1);}     
+        exit(1);
+    }
+
+/**************************************************************************************/
+
+    if (send(sock, (send_type)&nb, sizeof(nb), 0) == -1) {
+        perror("send ispmd");
+        exit(1);
+    }
+
+    *sd = sock;
+    sock = *sd;
+#endif
 }
 
-void _FCALL MESS_SOCK_C(sd)
-int *sd;
-{mess_sock_c(sd);}
+void _FCALL CONNECTION_SOCK_C(int *ispmd, int *sd, char *addr){
+    connection_sock_c(ispmd,sd,addr);
+}
 
-void mess_sock_c_(sd)
-int *sd;
-{mess_sock_c(sd);}
+void connection_sock_c_(int *ispmd, int *sd, char *addr){
+    connection_sock_c(ispmd,sd,addr);
+}
 
-void mess_sock_c__(sd)
-int *sd;
-{mess_sock_c(sd);}
+void connection_sock_c__(int *ispmd, int *sd, char *addr){
+    connection_sock_c(ispmd,sd,addr);
+}
 
-void send_sock_c(sd)
-int *sd;
-{
+
+//-------------------------------------------------------------
+void mess_sock_c(int *sd){
+#ifdef _WIN64
+    SOCKET sock;
+#else
+    int sock;
+#endif
+    char nom[512];
+
+    sock = *sd;
+
+    if (recv(sock, (send_type)nom, 3 * sizeof(char), 0) == -1) {
+        perror("recv norm");
+        exit(1);
+    }
+}
+
+void _FCALL MESS_SOCK_C(int *sd){
+    mess_sock_c(sd);}
+
+void mess_sock_c_(int *sd){
+    mess_sock_c(sd);
+}
+
+void mess_sock_c__(int *sd){
+     mess_sock_c(sd);
+}
+
+
+//-------------------------------------------------------------
+void send_sock_c(int *sd){
+
 #ifdef _WIN64
   SOCKET sock;
 #else
@@ -2550,23 +2396,20 @@ int *sd;
      exit(1);}
 }
 
-void _FCALL SEND_SOCK_C(sd)
-int *sd;
-{send_sock_c(sd);}
+void _FCALL SEND_SOCK_C(int *sd){
+    send_sock_c(sd);}
 
-void send_sock_c_(sd)
-int *sd;
-{send_sock_c(sd);}
+void send_sock_c_(int *sd){
+    send_sock_c(sd);
+}
 
-void send_sock_c__(sd)
-int *sd;
-{send_sock_c(sd);}
+void send_sock_c__(int *sd){
+    send_sock_c(sd);
+}
 
-/****************************************/
 
-void get_sock_ibuf_c(sd, ibuf, len)
-int *sd, *ibuf, *len;
-{
+//--------------------------------------------------------------
+void get_sock_ibuf_c(int *sd, int *ibuf, int *len){
 #ifdef _WIN64
   SOCKET sock;
 #else
@@ -2577,25 +2420,23 @@ int *sd, *ibuf, *len;
      perror("send sock ibuf ");
      exit(1);}     
 }
-void _FCALL GET_SOCK_IBUF_C(sd, ibuf, len)
-int *sd, *ibuf, *len;
-{
+void _FCALL GET_SOCK_IBUF_C(int *sd, int *ibuf, int *len){
+
     get_sock_ibuf_c(sd, ibuf, len);
 }
-void get_sock_ibuf_c_(sd, ibuf, len)
-int *sd, *ibuf, *len;
-{
+
+void get_sock_ibuf_c_(int *sd, int *ibuf, int *len){
+
     get_sock_ibuf_c(sd, ibuf, len);
 }
-void get_sock_ibuf_c__(sd, ibuf, len)
-int *sd, *ibuf, *len;
-{get_sock_ibuf_c(sd, ibuf, len);}
 
-/****************************************/
+void get_sock_ibuf_c__(int *sd, int *ibuf, int *len){
+     get_sock_ibuf_c(sd, ibuf, len);
+}
 
-void send_sock_ibuf_c(sd, ibuf, len)
-int *sd, *ibuf, *len;
-{
+
+//--------------------------------------------------------------
+void send_sock_ibuf_c(int *sd, int *ibuf, int *len){
 #ifdef _WIN64
   SOCKET sock;
 #else
@@ -2606,27 +2447,22 @@ int *sd, *ibuf, *len;
      perror("send sock ibuf ");
      exit(1);}     
 }
-void _FCALL SEND_SOCK_IBUF_C(sd, ibuf, len)
-int *sd, *ibuf, *len;
-{
+void _FCALL SEND_SOCK_IBUF_C(int *sd, int *ibuf, int *len){
     send_sock_ibuf_c(sd, ibuf, len);
 }
-void send_sock_ibuf_c_(sd, ibuf, len)
-int *sd, *ibuf, *len;
-{
+
+void send_sock_ibuf_c_(int *sd, int *ibuf, int *len){
     send_sock_ibuf_c(sd, ibuf, len);
 }
-void send_sock_ibuf_c__(sd, ibuf, len)
-int *sd, *ibuf, *len;
-{send_sock_ibuf_c(sd, ibuf, len);}
+
+void send_sock_ibuf_c__(int *sd, int *ibuf, int *len){
+    send_sock_ibuf_c(sd, ibuf, len);
+}
 
 
-/****************************************/
+//---------------------------------------------
+void send_sock_rbuf_c(int *sd, my_real_c *rbuf, int *len){
 
-void send_sock_rbuf_c(sd, rbuf, len)
-int *sd, *len;
-my_real_c *rbuf;
-{
 #ifdef _WIN64
   SOCKET sock;
 #else
@@ -2637,29 +2473,23 @@ my_real_c *rbuf;
      perror("send sock rbuf ");
      exit(1);}     
 }
-void _FCALL SEND_SOCK_RBUF_C(sd, rbuf, len)
-int *sd, *len;
-my_real_c *rbuf;
-{
+
+void _FCALL SEND_SOCK_RBUF_C(int *sd, my_real_c *rbuf, int *len){
     send_sock_rbuf_c(sd, rbuf, len);
 }
-void send_sock_rbuf_c_(sd, rbuf, len)
-int *sd, *len;
-my_real_c *rbuf;
-{
+
+void send_sock_rbuf_c_(int *sd, my_real_c *rbuf, int *len){
     send_sock_rbuf_c(sd, rbuf, len);
 }
-void send_sock_rbuf_c__(sd, rbuf, len)
-int *sd, *len;
-my_real_c *rbuf;
-{send_sock_rbuf_c(sd, rbuf, len);}
 
-/****************************************/
+void send_sock_rbuf_c__(int *sd, my_real_c *rbuf, int *len){
+    send_sock_rbuf_c(sd, rbuf, len);
+}
 
-void get_sock_rbuf_c(sd, rbuf, len)
-int *sd, *len;
-my_real_c *rbuf;
-{
+
+//---------------------------------------------
+void get_sock_rbuf_c(int *sd, my_real_c *rbuf, int *len){
+
 #ifdef _WIN64
   SOCKET sock;
 #else
@@ -2670,29 +2500,22 @@ my_real_c *rbuf;
      perror("send sock rbuf ");
      exit(1);}     
 }
-void _FCALL GET_SOCK_RBUF_C(sd, rbuf, len)
-int *sd, *len;
-my_real_c *rbuf;
-{
+void _FCALL GET_SOCK_RBUF_C(int *sd, my_real_c *rbuf, int *len){
     get_sock_rbuf_c(sd, rbuf, len);
 }
-void get_sock_rbuf_c_(sd, rbuf, len)
-int *sd, *len;
-my_real_c *rbuf;
-{
+
+void get_sock_rbuf_c_(int *sd, my_real_c *rbuf, int *len){
     get_sock_rbuf_c(sd, rbuf, len);
 }
-void get_sock_rbuf_c__(sd, rbuf, len)
-int *sd, *len;
-my_real_c *rbuf;
-{get_sock_rbuf_c(sd, rbuf, len);}
 
-/****************************************/
+void get_sock_rbuf_c__(int *sd, my_real_c *rbuf, int *len){
+    get_sock_rbuf_c(sd, rbuf, len);
+}
 
-void send_sock_mess_c(sd, mess, len)
-int *sd, *len;
-char *mess;
-{
+
+//---------------------------------------------
+void send_sock_mess_c(int *sd, char *mess, int *len){
+
 #ifdef _WIN64
   SOCKET sock;
 #else
@@ -2703,30 +2526,23 @@ char *mess;
      perror("send sock mess ");
      exit(1);}     
 }
-void _FCALL SEND_SOCK_MESS_C(sd, mess, len)
-int *sd, *len;
-char *mess;
-{
-    send_sock_mess_c(sd, mess, len);
-}
-void send_sock_mess_c_(sd, mess, len)
-int *sd, *len;
-char *mess;
-{
+
+void _FCALL SEND_SOCK_MESS_C(int *sd, char *mess, int *len){
     send_sock_mess_c(sd, mess, len);
 }
 
-void send_sock_mess_c__(sd, mess, len)
-int *sd, *len;
-char *mess;
-{send_sock_mess_c(sd, mess, len);}
+void send_sock_mess_c_(int *sd, char *mess, int *len){
+    send_sock_mess_c(sd, mess, len);
+}
 
-/****************************************/
+void send_sock_mess_c__(int *sd, char *mess, int *len){
+    send_sock_mess_c(sd, mess, len);
+}
 
-void get_sock_mess_c(sd, mess, len)
-int *sd, *len;
-char *mess;
-{
+
+//-------------------------------------
+void get_sock_mess_c(int *sd, char *mess, int *len){
+
 #ifdef _WIN64
   SOCKET sock;
 #else
@@ -2737,29 +2553,23 @@ char *mess;
      perror("send sock mess ");
      exit(1);}     
 }
-void _FCALL GET_SOCK_MESS_C(sd, mess, len)
-int *sd, *len;
-char *mess;
-{
-    get_sock_mess_c(sd, mess, len);
-}
-void get_sock_mess_c_(sd, mess, len)
-int *sd, *len;
-char *mess;
-{
+
+void _FCALL GET_SOCK_MESS_C(int *sd, char *mess, int *len){
     get_sock_mess_c(sd, mess, len);
 }
 
-void get_sock_mess_c__(sd, mess, len)
-int *sd, *len;
-char *mess;
-{get_sock_mess_c(sd, mess, len);}
+void get_sock_mess_c_(int *sd, char *mess, int *len){
+    get_sock_mess_c(sd, mess, len);
+}
 
-/****************************************/
+void get_sock_mess_c__(int *sd, char *mess, int *len){
+    get_sock_mess_c(sd, mess, len);
+}
 
-void close_sock_c(sd)
-int *sd;
-{
+
+//------------------------------------------------è
+void close_sock_c(int *sd){
+
 #ifdef _WIN64
   SOCKET sock;
 #else
@@ -2780,44 +2590,42 @@ int *sd;
 #endif    
 }
 
-void _FCALL CLOSE_SOCK_C(sd)
-int *sd;
-{close_sock_c(sd);}
+void _FCALL CLOSE_SOCK_C(int *sd){
+    close_sock_c(sd);
+}
 
-void close_sock_c_(sd)
-int *sd;
-{close_sock_c(sd);}
+void close_sock_c_(int *sd){
+    close_sock_c(sd);
+}
 
-void close_sock_c__(sd)
-int *sd;
-{close_sock_c(sd);}
+void close_sock_c__(int *sd){
+    close_sock_c(sd);
+}
 
 /****************************************/
 
-void get_name_c(name)
-char *name;
-{
-/*memset(name,0,sizeof(name));*/    
- gethostname(name,512);   
+void get_name_c(char *name){   
+    gethostname(name,512);   
 }
 
-void _FCALL GET_NAME_C(name)
-char *name;
-{get_name_c(name);}
+void _FCALL GET_NAME_C(char *name){
+    get_name_c(name);
+}
 
-void get_name_c_(name)
-char *name;
-{get_name_c(name);}
+void get_name_c_(char *name){
+    get_name_c(name);
+}
 
-void get_name_c__(name)
-char *name;
-{get_name_c(name);}
+void get_name_c__(char *name){
+    get_name_c(name);
+}
 
 /**************************************/
 
-void exch_itag_c(idp, nng, nodbuf, itag, itag2, iex, offset, flag)
-int *idp, *nng, *nodbuf, *iex, *offset, *itag, *itag2, *flag;
-{
+void exch_itag_c(int *idp, int *nng, int *nodbuf,
+                 int *itag, int *itag2, int *iex, int *offset,
+                 int *flag){
+
 int buflen, lbuf, rest, next;
 int i, j, k, nn, nm, chunk,nmods,nmod;
 
@@ -2840,145 +2648,172 @@ int i, j, k, nn, nm, chunk,nmods,nmod;
        }
 }
 
-void _FCALL EXCH_ITAG_C(idp, nng, nodbuf, itag, itag2, iex, offset, flag)
-int *idp, *nng, *nodbuf, *iex, *offset, *itag, *itag2, *flag;
-{ exch_itag_c(idp, nng, nodbuf, itag, itag2, iex, offset, flag); }
-void exch_itag_c_(idp, nng, nodbuf, itag, itag2, iex, offset, flag)
-int *idp, *nng, *nodbuf, *iex, *offset, *itag, *itag2, *flag;
-{ exch_itag_c(idp, nng, nodbuf, itag, itag2, iex, offset, flag); }
-void exch_itag_c__(idp,nng, nodbuf, itag, itag2, iex, offset, flag)
-int *idp, *nng, *nodbuf, *iex, *offset, *itag, *itag2, *flag;
-{ exch_itag_c(idp, nng, nodbuf, itag, itag2, iex, offset, flag); }
-
-/****************************************/
-void realloc_shmvs_c(newsize)
-int newsize;
-{
-int i,*shmloc,new_tot_size,old_tot_size;
-
-  old_tot_size = shmvr_size + shmvs_size;
-  newsize = my_max(newsize,old_tot_size+150);
-  new_tot_size = shmvr_size + newsize;
-  
-  shmloc = malloc(old_tot_size*sizeof(int));
-  for (i = 0; i < old_tot_size; i++) shmloc[i] = shmv[i];
-  
-#ifdef _WIN64
-  UnmapViewOfFile(shmv);
-  CloseHandle(shmidv);
-  compt_resize++;
-  sprintf(add_shmv,"Adress_shmv_%d_%d_%d_%d",proc_id,ispmd_glob,r2r_id,compt_resize);
-  shmidv = CreateFileMapping (INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, new_tot_size*sizeof(int), add_shmv);
-  shmv = MapViewOfFile(shmidv, FILE_MAP_READ | FILE_MAP_WRITE, 0, 0, 0);
-#elif 1
-  munmap(shmv,old_tot_size*sizeof(int));
-  if (ftruncate(shmidv, new_tot_size*sizeof(int)) == -1) {perror("ftruncate");exit(1);}
-  shmv = mmap(NULL, new_tot_size*sizeof(int),PROT_WRITE | PROT_READ, MAP_SHARED, shmidv, 0);
-  if (shmv == MAP_FAILED) {perror("mmap");exit(1);}
-#endif
-
-  for (i = 0; i < new_tot_size; i++) shmv[i] = 0;
-  for (i = 0; i < old_tot_size; i++) shmv[i] = shmloc[i];
-    
-  shmvs_size = newsize;
-  com->tagelr = shmv ;
-  com->tagels = shmv + shmvr_size;
-  free(shmloc);
+void _FCALL EXCH_ITAG_C(int *idp, int *nng, int *nodbuf,
+                 int *itag, int *itag2, int *iex, int *offset,
+                 int *flag){
+    exch_itag_c(idp, nng, nodbuf, itag, itag2, iex, offset, flag); 
 }
 
-void realloc_shmvr_c(newsize)
-int newsize;
-{
-int i,new_tot_size,old_tot_size;
+void exch_itag_c_(int *idp, int *nng, int *nodbuf,
+                 int *itag, int *itag2, int *iex, int *offset,
+                 int *flag){
+    exch_itag_c(idp, nng, nodbuf, itag, itag2, iex, offset, flag);
+}
 
-  old_tot_size = shmvr_size + shmvs_size;
-  newsize = my_max(newsize,old_tot_size+150);
-  new_tot_size = shmvs_size + newsize;
+void exch_itag_c__(int *idp, int *nng, int *nodbuf,
+                 int *itag, int *itag2, int *iex, int *offset,
+                 int *flag){
+    exch_itag_c(idp, nng, nodbuf, itag, itag2, iex, offset, flag);
+}
+
+
+//-------------------------------------------------------------
+void realloc_shmvs_c(int newsize)
+{
+    int i, *shmloc, new_tot_size, old_tot_size;
+
+    old_tot_size = shmvr_size + shmvs_size;
+    newsize = my_max(newsize, old_tot_size + 150);
+    new_tot_size = shmvr_size + newsize;
+
+    shmloc = malloc(old_tot_size * sizeof(int));
+    for (i = 0; i < old_tot_size; i++) 
+        shmloc[i] = shmv[i];
 
 #ifdef _WIN64
-  UnmapViewOfFile(shmv);
-  CloseHandle(shmidv);
-  compt_resize++;
-  sprintf(add_shmv,"Adress_shmv_%d_%d_%d_%d",proc_id,ispmd_glob,r2r_id,compt_resize);
-  shmidv = CreateFileMapping (INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, new_tot_size*sizeof(int), add_shmv);
-  shmv = MapViewOfFile(shmidv, FILE_MAP_READ | FILE_MAP_WRITE, 0, 0, 0);
+    UnmapViewOfFile(shmv);
+    CloseHandle(shmidv);
+    compt_resize++;
+    sprintf(add_shmv, "Adress_shmv_%d_%d_%d_%d", proc_id, ispmd_glob, r2r_id, compt_resize);
+    shmidv = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, new_tot_size * sizeof(int), add_shmv);
+    shmv = MapViewOfFile(shmidv, FILE_MAP_READ | FILE_MAP_WRITE, 0, 0, 0);
 #elif 1
-  munmap(shmv,old_tot_size*sizeof(int));
-  if (ftruncate(shmidv, new_tot_size*sizeof(int)) == -1) {perror("ftruncate");exit(1);}
-  shmv = mmap(NULL, new_tot_size*sizeof(int),PROT_WRITE | PROT_READ, MAP_SHARED, shmidv, 0);
-  if (shmv == MAP_FAILED) {perror("mmap");exit(1);}
+    munmap(shmv, old_tot_size * sizeof(int));
+    if (ftruncate(shmidv, new_tot_size * sizeof(int)) == -1) {
+        perror("ftruncate");
+        exit(1);
+    }
+    shmv = mmap(NULL, new_tot_size * sizeof(int), PROT_WRITE | PROT_READ, MAP_SHARED, shmidv, 0);
+    if (shmv == MAP_FAILED) {
+        perror("mmap");
+        exit(1);
+    }
 #endif
 
-  shmvr_size = newsize;
-  com->tagelr = shmv ;
-  com->tagels = shmv + shmvr_size;
+    for (i = 0; i < new_tot_size; i++) 
+        shmv[i] = 0;
+    for (i = 0; i < old_tot_size; i++) 
+        shmv[i] = shmloc[i];
+
+    shmvs_size = newsize;
+    com->tagelr = shmv;
+    com->tagels = shmv + shmvr_size;
+    free(shmloc);
 }
 
-/**************************************/
+//----------------------------------------
+void realloc_shmvr_c(int newsize) {
+    int i, new_tot_size, old_tot_size;
 
-void exch_tagel_c(int *ntagel,int *tagel,int *flag)
+    old_tot_size = shmvr_size + shmvs_size;
+    newsize = my_max(newsize, old_tot_size + 150);
+    new_tot_size = shmvs_size + newsize;
+
+#ifdef _WIN64
+    UnmapViewOfFile(shmv);
+    CloseHandle(shmidv);
+    compt_resize++;
+    sprintf(add_shmv, "Adress_shmv_%d_%d_%d_%d", proc_id, ispmd_glob, r2r_id, compt_resize);
+    shmidv = CreateFileMapping(INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, new_tot_size * sizeof(int), add_shmv);
+    shmv = MapViewOfFile(shmidv, FILE_MAP_READ | FILE_MAP_WRITE, 0, 0, 0);
+#elif 1
+    munmap(shmv, old_tot_size * sizeof(int));
+    if (ftruncate(shmidv, new_tot_size * sizeof(int)) == -1) {
+        perror("ftruncate");
+        exit(1);
+    }
+    shmv = mmap(NULL, new_tot_size * sizeof(int), PROT_WRITE | PROT_READ, MAP_SHARED, shmidv, 0);
+    if (shmv == MAP_FAILED) {
+        perror("mmap");
+        exit(1);
+    }
+#endif
+
+    shmvr_size = newsize;
+    com->tagelr = shmv;
+    com->tagels = shmv + shmvr_size;
+}
+
+
+//------------------------------------------------
+void exch_tagel_c(int *ntagel, int *tagel, int *flag)
 {
-int i;
+    int i;
 
-        if (((*ntagel)*3 > shmvr_size)&&(*flag == 1)) realloc_shmvr_c((*ntagel)*3);
-        if (((*ntagel)*3 > shmvs_size)&&(*flag == 0)) realloc_shmvs_c((*ntagel)*3);
-    
-        for (i = 0; i < (*ntagel)*3; i++)
-          {
-            if (*flag == 0) /* *send* */
-                {com->tagels[com->buf[2]+i] = tagel[i];}
-            else if (*flag == 1) /* *receive* */
-              {tagel[i] = com->tagelr[i];}
-       }
+    if (((*ntagel) * 3 > shmvr_size) && (*flag == 1))
+        realloc_shmvr_c((*ntagel) * 3);
+    if (((*ntagel) * 3 > shmvs_size) && (*flag == 0))
+        realloc_shmvs_c((*ntagel) * 3);
 
-         if (*flag == 0) com->buf[2] += (*ntagel)*3;       
+    for (i = 0; i < (*ntagel) * 3; i++)
+    {
+        if (*flag == 0) /* *send* */
+        {
+            com->tagels[com->buf[2] + i] = tagel[i];
+        }
+        else if (*flag == 1) /* *receive* */
+        {
+            tagel[i] = com->tagelr[i];
+        }
+    }
+
+    if (*flag == 0)
+        com->buf[2] += (*ntagel) * 3;
 }
 
-void _FCALL EXCH_TAGEL_C(ntagel,tagel,flag)
-int *ntagel,*tagel,*flag;
-{ exch_tagel_c(ntagel,tagel,flag); }
-void exch_tagel_c_(ntagel,tagel,flag)
-int *ntagel,*tagel,*flag;
-{ exch_tagel_c(ntagel,tagel,flag); }
-void exch_tagel_c__(ntagel,tagel,flag)
-int *ntagel,*tagel,*flag;
-{ exch_tagel_c(ntagel,tagel,flag); }
-
-/****************************************/
-void get_shmbuf_c(val1,val2)
-int *val1,*val2;
-{
-*val1 = com->buf[*val2-1];
+void _FCALL EXCH_TAGEL_C(int *ntagel, int *tagel, int *flag){
+    exch_tagel_c(ntagel,tagel,flag); 
 }
 
-void _FCALL GET_SHMBUF_C(val1,val2)
-int *val1,*val2;
-{get_shmbuf_c(val1,val2);}
-
-void get_shmbuf_c_(val1,val2)
-int *val1,*val2;
-{get_shmbuf_c(val1,val2);}
-
-void get_shmbuf_c__(val1,val2)
-int *val1,*val2;
-{get_shmbuf_c(val1,val2);}
-
-/****************************************/
-void send_shmbuf_c(val1,val2)
-int *val1,*val2;
-{
-com->buf[*val2-1] = *val1;
+void exch_tagel_c_(int *ntagel, int *tagel, int *flag){
+    exch_tagel_c(ntagel,tagel,flag);
 }
 
-void _FCALL SEND_SHMBUF_C(val1,val2)
-int *val1,*val2;
-{send_shmbuf_c(val1,val2);}
+void exch_tagel_c__(int *ntagel, int *tagel, int *flag){
+    exch_tagel_c(ntagel,tagel,flag); 
+}
 
-void send_shmbuf_c_(val1,val2)
-int *val1,*val2;
-{send_shmbuf_c(val1,val2);}
+//---------------------------------------------------------------
+void get_shmbuf_c(int *val1, int *val2){
+    *val1 = com->buf[*val2-1];
+}
 
-void send_shmbuf_c__(val1,val2)
-int *val1,*val2;
-{send_shmbuf_c(val1,val2);}
+void _FCALL GET_SHMBUF_C(int *val1, int *val2){
+    get_shmbuf_c(val1,val2);
+}
+
+void get_shmbuf_c_(int *val1, int *val2){
+    get_shmbuf_c(val1,val2);
+}
+
+void get_shmbuf_c__(int *val1, int *val2){
+    get_shmbuf_c(val1,val2);
+}
+
+
+//---------------------------------------
+void send_shmbuf_c(int *val1,int *val2){
+    com->buf[*val2-1] = *val1;
+}
+
+void _FCALL SEND_SHMBUF_C(int *val1,int *val2){
+    send_shmbuf_c(val1,val2);}
+
+void send_shmbuf_c_(int *val1,int *val2){
+    send_shmbuf_c(val1,val2);
+}
+
+void send_shmbuf_c__(int *val1,int *val2){
+    send_shmbuf_c(val1,val2);
+}
 
