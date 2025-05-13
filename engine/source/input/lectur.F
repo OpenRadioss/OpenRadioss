@@ -126,6 +126,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE glob_therm_mod
       USE PBLAST_MOD
+      USE PRELECH3D_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -697,6 +698,9 @@ C
 C-------------------------------------------
 C     .h3d files
 C-------------------------------------------
+      CALL PRELECH3D(NUMGEO   ,NPROPGI  ,NPROPMI  ,NUMMAT   ,NUMPLY   ,
+     .               IGEO     ,IPM      ,H3D_DATA ,MULTI_FVM,MDS_OUTPUT_TABLE,
+     .               MDS_NMAT ,MAX_DEPVAR,MDS_NDEPSVAR,MAT_PARAM)
       CALL LECH3D(GEO,IGEO,IPM,IPART,H3D_DATA,MULTI_FVM,IPARI,IPARG,TAG_SKINS6,
      .            MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,MDS_NDEPSVAR,
      .            ELBUF_STR,STACK,IBCL,ILOADP,LLOADP,LOADS,MAT_PARAM,PBLAST)
