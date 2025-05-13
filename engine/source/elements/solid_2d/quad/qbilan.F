@@ -40,7 +40,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5   EHOU,    R22,     R23,     R32,
      6   R33,     GRESAV,  GRTH,    IGRTH,
      7   IEXPAN,  EINTTH,  ITASK,   NEL,
-     8   JTUR,    JCVT,    IGRE,SENSORS)
+     8   JTUR,    JCVT,    IGRE,SENSORS,
+     9   WPLA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -72,6 +73,7 @@ C-----------------------------------------------
       INTEGER IEXPAN,ITASK,
      .   IPARTQ(*),GRTH(*),IGRTH(*)
       type (sensors_),INTENT(INOUT) :: SENSORS
+      my_real,DIMENSION(NEL), INTENT(IN) :: WPLA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -88,7 +90,7 @@ C-----------------------------------------------
       XM_SAV = ZERO
       YM_SAV = ZERO
       ZM_SAV = ZERO
-
+      
       DO I=1,NEL
         VYA(I)=VY1(I)+VY2(I)+VY3(I)+VY4(I)
         VZA(I)=VZ1(I)+VZ2(I)+VZ3(I)+VZ4(I)
@@ -139,6 +141,7 @@ C-----------------------------------------------
         PARTSAV(4,M)=PARTSAV(4,M) + XMAS(I)*VYA(I)*FOURTH
         PARTSAV(5,M)=PARTSAV(5,M) + XMAS(I)*VZA(I)*FOURTH
         PARTSAV(6,M)=PARTSAV(6,M) + XMAS(I)
+        PARTSAV(29,M)=PARTSAV(29,M) + WPLA(I)
       ENDDO
 
       IF(JTUR/=0)THEN

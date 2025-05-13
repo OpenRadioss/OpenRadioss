@@ -682,7 +682,8 @@ C--------------------------
      .   VZ1, VZ2, VZ3, VZ4, VOLN,IPARTS,GRESAV,
      .   GRTH,IGRTH,IEXPAN,GBUF%EINTTH,GBUF%FILL,
      .   X1, X2, X3, X4, Y1, Y2, Y3, Y4, 
-     .   Z1, Z2, Z3, Z4,ITASK,IPARG(1,NG),OFF,SENSORS)
+     .   Z1, Z2, Z3, Z4,ITASK,IPARG(1,NG),OFF,SENSORS,
+     .   NEL,GBUF%WPLA)
       ENDIF
 C
       IF(JLAG+JALE+JEUL == 0)RETURN

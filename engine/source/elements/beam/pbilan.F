@@ -42,7 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      8   VY1G,    VY2G,    VZ1G,    VZ2G,
      9   X1G,     X2G,     Y1G,     Y2G,
      A   Z1G,     Z2G,     ITASK,   H3D_DATA,
-     B   IGRE,    SENSORS)
+     B   IGRE,    SENSORS, WPLA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -78,6 +78,8 @@ C     REAL
      .   Z1G(MVSIZ),Z2G(MVSIZ)
       TYPE(H3D_DATABASE) :: H3D_DATA
       type (sensors_),INTENT(INOUT) :: SENSORS
+      my_real,DIMENSION(NEL),INTENT(IN) :: WPLA
+      
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -192,6 +194,7 @@ C
         PARTSAV(20,M)=PARTSAV(20,M) + IZX(I)
         PARTSAV(21,M)=PARTSAV(21,M) + REI(I)
         PARTSAV(22,M)=PARTSAV(22,M) + REK(I) 
+        PARTSAV(29,M)=PARTSAV(29,M) + WPLA(I)
       ENDDO
 C
       IF (ANIM_FT(1) /= 0 .OR. H3D_DATA%UND_FORC /= 0) THEN
