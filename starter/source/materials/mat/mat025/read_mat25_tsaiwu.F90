@@ -100,12 +100,9 @@
             fmax, sigyt1, sigyt2, sigyc1, sigyc2, sigyt12, sigyc12,             &
             c1, ssp, f1, f2, f11, f22, f33, f12, ft1, wplamx,                   &
             epsm1, epsm2, dmax,dmx2,shrdam, shrmax, shrdmax,alpha,cc,epdr,      &
-            cbt1,cnt1,sigmxt1,cct1,cbt2,cnt2,sigmxt2,cct2,detc,                 &
-            cbc1,cnc1,sigmxc1,ccc1,cbc2,cnc2,sigmxc2,ccc2,fcut,                 &
-            cbt12,cnt12,sigmxt12,cct12,cbc12,cnc12,sigmxc12,ccc12,              &
-            eps1t1,eps2t1,sigrst1,wplamxt1,eps1t2,eps2t2,sigrst2,               &
-            wplamxt2,eps1c1,eps2c1,sigrsc1,wplamxc1,eps1c2,eps2c2,              &
-            sigrsc2,wplamxc2,eps1t12,eps2t12,sigrst12,wplamxt12,wplaref,        &
+            detc,                                                               &
+            fcut,                                                               &
+            wplaref,                                                            &
             epsf1,epsf2,ratio,d11,d22,d12,dmin,fac,fscal_unit
           ! -------------------------
           ! simple precision issue

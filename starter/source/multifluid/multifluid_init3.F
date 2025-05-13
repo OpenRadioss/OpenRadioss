@@ -93,7 +93,7 @@ C-----------------------------------------------
       INTEGER IXS(NIXS,*),IPARG(NPARG,NGROUP),
      .     IPARG_GR(NPARG),IPARTS(*),IGEO(NPROPGI,*),
      .     IPM(NPROPMI,NUMMAT),IPART(LIPART1,*),PTSOL(*),
-     .     NG,NDDIM, NSIGI ,NVC,NEL,IUSER, NSIGS, NPF(*),
+     .     NG, NSIGI ,NVC,NEL,IUSER, NSIGS, NPF(*),
      .     STRSGLOB(*),STRAGLOB(*),FAIL_INI(*), 
      .     KXSP(NISP,*), IPARTSP(*), NOD2SP(*), SOL2SPH(2,*), IRST(3,*)
       my_real
@@ -118,14 +118,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,J, NF1, NCC, IBID, JHBE, IREP,IGTYP, NUVAR,NUVARR,IDEF,
+      INTEGER I,II,J, NF1, IBID, JHBE, IREP,IGTYP, NUVAR, IDEF,
      .     IPT,LVLOC,IPID1,NPTR,NPTS,NPTT,NLAY,
-     .     NSPHDIR, NCELF, NCELL,L_PLA
+     .     NSPHDIR, L_PLA
       INTEGER MAT(MVSIZ), PID(MVSIZ), NGL(MVSIZ),
      .     IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),
      .     IX5(MVSIZ),IX6(MVSIZ),IX7(MVSIZ),IX8(MVSIZ)
       my_real
-     .     V8LOC(51,MVSIZ),VOLU(MVSIZ),DTX(MVSIZ),
+     .     VOLU(MVSIZ),DTX(MVSIZ),
      .     X1(MVSIZ),X2(MVSIZ),X3(MVSIZ),X4(MVSIZ),X5(MVSIZ),X6(MVSIZ),
      .     X7(MVSIZ),X8(MVSIZ),Y1(MVSIZ),Y2(MVSIZ),Y3(MVSIZ),Y4(MVSIZ),
      .     Y5(MVSIZ),Y6(MVSIZ),Y7(MVSIZ),Y8(MVSIZ),Z1(MVSIZ),Z2(MVSIZ),
@@ -159,9 +159,6 @@ C-----------------------------------------------
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
       TYPE(BUF_MAT_) ,POINTER :: MBUF
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
-      my_real,
-     .     DIMENSION(:), POINTER  :: UVARF   
-      INTEGER :: NODE1, NODE2, NODE3, NODE4, NODE5, NODE6, NODE7, NODE8
 C-----------------------------------------------
 C     S o u r c e  L i n e s
 C=======================================================================

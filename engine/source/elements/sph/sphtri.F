@@ -53,21 +53,19 @@ C-----------------------------------------------
       INTEGER KXSP(NISP,*),IXSP(KVOISPH,*),NOD2SP(*), WSP2SORT(*),
      .        IREDUCE,NSP2SORTF,NSP2SORTL,ITASK, KREDUCE(*),
      .        LGAUGE(3,*)
-      my_real
-     .        X(3,*),SPBUF(NSPBUF,*), BMINMA(12), GAUGE(LLGAUGE,*)
+      my_real X(3,*),SPBUF(NSPBUF,*), BMINMA(12), GAUGE(LLGAUGE,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NSN,IG,JG
       INTEGER
-     .   N,INOD,JNOD,J,NVOIS,M,NCAND,NVOIS1,NVOIS2,
-     .   KL, K, L, JK, JL, IERROR, NS, SS,
+     .   N,INOD,J,NVOIS,M,NCANDNCAND,
+     .   K, L, JK, JL, IERROR, NS, SS,
      .   MWA(15*(NUMSPH+NSPHR)),
      .   JVOIS(NUMSPH+NSPHR), JSTOR(NUMSPH+NSPHR),
      .   JPERM(NUMSPH+NSPHR)
       my_real
-     .       CMS2,DMS,DMS2,
-     .       XI,YI,ZI,XJ,YJ,ZJ,D,DK,DL,
+     .       XI,YI,ZI,XJ,YJ,ZJ,D,DL,
      .       DVOIS(NUMSPH+NSPHR)    
 C-----------------------------------------------
          NSN=0

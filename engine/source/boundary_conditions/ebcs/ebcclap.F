@@ -33,6 +33,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ebcs_mod   ../common_source/modules/boundary_conditions/ebcs_mod.F90
       !||====================================================================
       SUBROUTINE EBCCLAP(V, A, FV, EBCS_TAB)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE EBCS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -45,14 +48,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real
-     .       V(*),A(*),FV(*)
+      my_real V(*),A(*),FV(*)
       TYPE(t_ebcs_tab), TARGET, INTENT(INOUT) :: EBCS_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,TYP,
-     .        NOD,J
+      INTEGER I,TYP,NOD
       CLASS(t_ebcs), POINTER :: EBCS
 
       DO I=1,NEBCS

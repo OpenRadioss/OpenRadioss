@@ -154,7 +154,7 @@
           integer :: i,j,k,l,ii,jj,kk
           character :: chi*3,chj*3
           character :: chk*1
-          character :: chjj*3,chii*2,chjkk*4,chjs*1,chkk*3
+          character :: chjj*3,chjs*1,chkk*3
           character :: var_tmp*10
           ! ----------------------------------------------------------------------------------------------------------------------
           !                                                   External functions

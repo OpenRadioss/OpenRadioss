@@ -83,7 +83,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-        integer i,j,k,n,ii,mid,pid,icontr,nty,igsti,nsn,ns
+        integer i,j,n,ii,mid,pid,icontr,nty,igsti,nsn,ns
         integer, dimension(:)  ,  allocatable :: itag    
         my_real sfac,sfac_max
 !

@@ -103,7 +103,7 @@
       my_real ,dimension(nel) :: aa,bb,e1t,v2t
       my_real ,dimension(6) :: sigv_old,sigv,dsig,dsige
       my_real ::       &
-        young, shear, bulk, nu, rho0, detc_nu, nu_shear, e1, n1, e2, v2, n2,   &
+        young, shear, bulk, nu, rho0, nu_shear, e1, n1, e2, v2, n2,   &
         r, dtime, nu_c  ,beta, cc      
 !===============================================================================    
       dtime  = max(timestep, em20)

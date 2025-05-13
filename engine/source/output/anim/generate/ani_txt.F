@@ -41,7 +41,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER CTEXT(81),I
+      INTEGER CTEXT(81)
 C
       CTEXT(1    :MIN(LEN,80)) = ICHAR(TEXT(1:MIN(LEN,80)))
       CTEXT(LEN+1:81 ) = 0
@@ -71,12 +71,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER CTEXT(81),I
-C
+      INTEGER CTEXT(81)
 
       CTEXT(1    :LEN) = ICHAR(TEXT(1:LEN))
       CTEXT(LEN+1:81 ) = 0
-C
       CALL WRITE_C_C(CTEXT,50)
 C
       RETURN

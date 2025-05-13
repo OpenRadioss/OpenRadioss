@@ -68,14 +68,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,ISU,SENS,MONVOL,SURF,
-     .        IPRES,IRHO,NOD,IAD,J,K1,K2,NSEG,IENER,IVX,IVY,IVZ,IALPHA
-      INTEGER LISTE(NUMNOD), IMAT,IVEL_TYP,U_IALPHA,U_IRHO,U_IPRES,IFLAGUNIT,FLAG_FMT,
-     .        CHECK_CUMUL_VF(2)
-      my_real C,PRES,RHO,LCAR,R1,R2,ENER,VX,VY,VZ, ALPHA, TCAR_VF, TCAR_P
-      CHARACTER MESS*40,chain*9, chain1*64
-      CHARACTER(LEN=NCHARKEY) :: KEY
-      LOGICAL FOUND
+      INTEGER ISU,SURF,J,NSEG
+      INTEGER IMAT,IFLAGUNIT
+      my_real TCAR_VF,TCAR_P
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
       INTEGER, EXTERNAL :: NGR2USR
 C-----------------------------------------------

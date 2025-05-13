@@ -78,7 +78,7 @@ C       END IF
           DTX=MAX(SQRT(ONE+DT2**2*GAMA*P*S/V/ROT),DTX)
         ENDIF
        ENDIF
- 100   CONTINUE
+! 100   CONTINUE
        K1  = K1  + NIMV
        KK1 = KK1 + NRVOLU
       ENDDO

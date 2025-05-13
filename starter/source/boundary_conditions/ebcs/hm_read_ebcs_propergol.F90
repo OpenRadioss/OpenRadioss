@@ -37,7 +37,7 @@
       !||    message_mod              ../starter/share/message_module/message_mod.F
       !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
       !||====================================================================
-      subroutine hm_read_ebcs_propergol(igrsurf, multi_fvm, unitab, id, titr, uid, lsubmodel,  nsurf, numnod, ebcs)
+      subroutine hm_read_ebcs_propergol(igrsurf, multi_fvm, unitab, id, titr, uid, lsubmodel,  nsurf, ebcs)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -61,7 +61,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-      integer,intent(in) :: nsurf, numnod !< array sizes
+      integer,intent(in) :: nsurf !< array sizes
       type (unit_type_),intent(in) ::unitab
       integer id,uid
       type (multi_fvm_struct), intent(inout) :: multi_fvm
@@ -73,15 +73,12 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      integer i,isu,sens,monvol,surf,ipres,irho,nod,iad,j,k1,k2,nseg,iener,ivx,ivy,ivz,ialpha
-      integer liste(numnod), imat,ivel_typ,u_ialpha,u_irho,u_ipres,iflagunit,flag_fmt,check_cumul_vf(2)
+      integer isu,surf,j,nseg
+      integer imat,iflagunit
       integer sensor_id, submat_id
       integer ffunc_id, gfunc_id, hfunc_id
       my_real :: fscaleX,fscaleY,gscaleX,gscaleY,hscaleX,hscaleY
-      my_real :: c,pres,rho,lcar,r1,r2,ener,vx,vy,vz, alpha, param_a, param_n, param_q, param_rho0s,param_t
-      character mess*40,chain*9, chain1*64
-      character(len=ncharkey) :: key
-      logical found
+      my_real :: param_a, param_n, param_q, param_rho0s,param_t
       integer, dimension(:), pointer :: ingr2usr
       integer, external :: ngr2usr
 ! ----------------------------------------------------------------------------------------------------------------------

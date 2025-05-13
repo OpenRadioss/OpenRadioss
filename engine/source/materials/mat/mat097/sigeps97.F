@@ -63,8 +63,7 @@ C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL, NUPARAM, NUVAR, PID(*), ILAY, NG
       my_real 
-     .   TIME         ,TIMESTEP   ,UPARAM(NUPARAM),
-     .   VK(NEL)      ,
+     .   TIME         ,UPARAM(NUPARAM),
      .   RHO(NEL)     ,RHO0(NEL)  ,
      .   EINT(NEL)    ,QNEW(NEL)  ,
      .   QOLD(NEL)    ,
@@ -104,10 +103,9 @@ c      INTEGER :: IBID, IBFRAC, QOPT, I
 c      my_real :: XL, MASS, DF, TB
       
       my_real
-     .     W1, D, PCJ, E0, P0, VCJ,C,PSH,
+     .     D, PCJ, E0, P0, VCJ,C,PSH,
      .     A(5),R(5),AL(5),BL(5),RL(5),
-     .     DPDMU,
-     .     PNEW,FACM,ESPE,DVOL,
+     .     PNEW,ESPE,DVOL,
      .     QA,QB,QAL,QBL,DD,BHE,
      .     LAMBDA1,LAMBDA2,LAMBDA3,LAMBDA4,LAMBDA5,
      .     LAMBDA,
@@ -119,11 +117,10 @@ c      my_real :: XL, MASS, DF, TB
      .     RV1,RV2,RV3,RV4,RV5,
      .     RHOC2_1,RHOC2_2,RHOC2_3,RHOC2_4,RHOC2_5,
      .     Dv, vv, vv_,
-     .     EINC,
-     .     WW, DENOM, POLD, P, V0
+     .     WW, DENOM,  P, V0
      
-      INTEGER :: IBID, IBFRAC, I      
-      my_real :: XL, MASS, DF, TB
+      INTEGER :: IBFRAC, I
+      my_real :: XL,  DF, TB
       
       TYPE(G_BUFEL_)  ,POINTER :: GBUF
       TYPE(L_BUFEL_)  ,POINTER :: LBUF      
@@ -258,7 +255,7 @@ C-----------------------------------------------
 
       P0     = UPARAM(01)    
       PSH    = UPARAM(02)    
-      IBFRAC = UPARAM(03)    
+      IBFRAC = NINT(UPARAM(03))
       D      = UPARAM(04)    
       PCJ    = UPARAM(05)    
       E0     = UPARAM(06)    
@@ -360,8 +357,7 @@ C-----------------------------------------------
         !EINC          = -HALF*(UVAR(I,5)+P+PSH+PSH)*Dv
         
         RHOC2         = RHOC2_1 + RHOC2_2 + RHOC2_3 + RHOC2_4 + RHOC2_5 
-        RHOC2         = RHOC2 + C*((WW+ONE)*(ONE-LAMBDA/WW)+vv*DLDV/WW)*EXP(-WW*LOG(vv)) 
-        !RHOC2         = RHOC2 + (ESPE+EINC)*LAMBDA + LAMBDA*vv*P - (ESPE+EINC)*vv*DLDV
+        RHOC2         = RHOC2 + C*((WW+ONE)*(ONE-LAMBDA/WW)+vv*DLDV/WW)*EXP(-WW*LOG(vv))
         RHOC2         = RHOC2 + (ESPE)*LAMBDA + LAMBDA*vv*(P+PSH) - (ESPE)*vv*DLDV         
 
         SSP           = SQRT(MAX(RHOC2/RHO0(I),EM20)) 

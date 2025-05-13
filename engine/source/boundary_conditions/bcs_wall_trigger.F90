@@ -67,7 +67,7 @@ module bcs_wall_trigger_mod
         integer :: ilen,ii,id,jj
         my_real :: tstart, tstop
         logical :: is_enabled
-        integer :: iad, nb_face, ielem, iface, sensor_id
+        integer :: iad, ielem, iface, sensor_id
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Preconditions
 ! ----------------------------------------------------------------------------------------------------------------------

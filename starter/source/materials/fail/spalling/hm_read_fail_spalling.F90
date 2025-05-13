@@ -74,7 +74,7 @@
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-      integer :: ishell,isolid
+      integer :: isolid
       my_real :: d1,d2,d3,d4,d5,epsp0,pmin
       logical :: is_available,is_encrypted
 !-----------------------------------------------

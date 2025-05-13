@@ -104,13 +104,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
-     .   V12(MVSIZ,3),V34(MVSIZ,3),V13(MVSIZ,3),V14(MVSIZ,3),
-     .   V24(MVSIZ,3),V23(MVSIZ,3),
      .   F1(MVSIZ),F2(MVSIZ),F3(MVSIZ),
      .   A1(MVSIZ),A2(MVSIZ),A3(MVSIZ),A4(MVSIZ),GAM(MVSIZ),
-     .   R(MVSIZ,3),S(MVSIZ,3),T(MVSIZ,3),FAC,
-     .   AJV(MVSIZ),AJ0(MVSIZ,3),AJ1(MVSIZ,3),AJ2(MVSIZ,3),AJ3(MVSIZ,3)
-      INTEGER I,J
+     .   R(MVSIZ,3),S(MVSIZ,3),T(MVSIZ,3),FAC
+      INTEGER I
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------

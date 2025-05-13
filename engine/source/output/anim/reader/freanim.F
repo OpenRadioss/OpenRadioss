@@ -75,7 +75,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IDX, NBC, K, IKEY, N1, N2, N3, ITYP,IADG, J,NTITLE,IUS, IXITKEY
+      INTEGER I, NBC, K, IKEY, N1, N2, N3, ITYP,J,NTITLE, IXITKEY
       CHARACTER  TITLE*72,  TITLE2*80
       CHARACTER(LEN=LINE120)::LINE
       CHARACTER(LEN=NCHARLINE100)::CARTE

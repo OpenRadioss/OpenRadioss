@@ -275,7 +275,6 @@
           integer :: icur_1 !< cursor position for loop on Clipped Polygon
           integer :: icur_list !< current cursor position (list 1 or 2)
           integer,allocatable,dimension(:) :: icur_2  !< cursor position for loop on Clipping Polygon
-          integer :: icur_edg, icur_point
           integer,allocatable,dimension(:) :: index   !< bijection array for sorting algorithm
           integer ierr !< error code to check if something went wrong
           integer :: point_id !< to identify common intersection points on both Clipping and Clipped polygons
@@ -298,7 +297,6 @@
           type(polygon_point_) ::  p1,p2, q1,q2, tmpPoint                  !< temporary points
           type(points_on_edge_), dimension(:), allocatable :: list_edges_1 !clipped polygon (elem mesh)
           type(points_on_edge_), dimension(:), allocatable :: list_edges_2 !clipping polygon (user mesh)
-          type(points_on_edge_) :: current_edge
           type(pointer_to_point_) :: starting_point
           type(pointer_to_point_) :: current_point
           type(pointer_to_point_), dimension(:), allocatable :: pointer_entering_points_1  !data structure used to mark all entering points on list 1
