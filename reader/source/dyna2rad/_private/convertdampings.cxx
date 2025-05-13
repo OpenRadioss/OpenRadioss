@@ -23,6 +23,7 @@
 
 #include <dyna2rad/convertdampings.h>
 #include <dyna2rad/dyna2rad.h>
+#include <dyna2rad/sdiUtils.h>
 
 using namespace sdi;
 using namespace std;
@@ -39,6 +40,8 @@ void sdiD2R::ConvertDamping::ConvertEntities()
     ConvertDampingPartStiffness();
     
     ConvertDampingRelative();
+
+    ConvertDampingFrequencyRange();
 }
 
 void sdiD2R::ConvertDamping::ConvertDampingGlobal()
@@ -290,5 +293,90 @@ void sdiD2R::ConvertDamping::ConvertDampingRelative()
             sdiConvert::Convert::PushToConversionLog(std::make_pair(dampingHEdit, sourceDamping));
         }
 
+    }
+}
+
+void sdiD2R::ConvertDamping::ConvertDampingFrequencyRange()
+{
+    EntityType radDampingType = p_radiossModel->GetEntityType("/DAMP/FREQUENCY_RANGE");
+    EntityType radSetType = p_radiossModel->GetEntityType("/SET/GENERAL");
+    SelectionRead selDampingFrequencyRange(p_lsdynaModel, "*DAMPING_FREQUENCY_RANGE");
+
+    sdiUIntList listSetPartFrequencyRange;
+    while (selDampingFrequencyRange.Next())
+    {
+        sdiValueEntity lsdPSID = GetValue<sdiValueEntity>(*selDampingFrequencyRange, "PSID");
+        unsigned PSID = lsdPSID.GetId();
+        if(PSID)
+        {
+            listSetPartFrequencyRange.push_back(PSID);
+        }
+        sdiVectorSort(listSetPartFrequencyRange);
+        sdiVectorUnique(listSetPartFrequencyRange);
+    }
+    selDampingFrequencyRange.Restart();
+
+    while (selDampingFrequencyRange.Next())
+    {
+        sdiString dampingFrequencyRangeName = selDampingFrequencyRange->GetName();
+
+        unsigned int dampingFrequencyRangeId = selDampingFrequencyRange->GetId();
+        if (!p_radiossModel->IsIdAvailable(radDampingType, dampingFrequencyRangeId))
+        dampingFrequencyRangeId = p_ConvertUtils.GetDynaMaxEntityID(srcEntityType);
+        
+        HandleEdit dampingHEdit;
+        p_radiossModel->CreateEntity(dampingHEdit, "/DAMP/FREQUENCY_RANGE", selDampingFrequencyRange->GetName(), dampingFrequencyRangeId);
+        EntityEdit dampingEdit(p_radiossModel, dampingHEdit);
+
+        double lsdCDAMP = GetValue<double>(*selDampingFrequencyRange, "CDAMP");
+        double lsdFLOW = GetValue<double>(*selDampingFrequencyRange, "FLOW");
+        double lsdFHIGH = GetValue<double>(*selDampingFrequencyRange, "FHIGH");
+        sdiValueEntity lsdPSID = GetValue<sdiValueEntity>(*selDampingFrequencyRange, "PSID");
+        unsigned PSID = lsdPSID.GetId();
+
+        p_ConvertUtils.CopyValue(*selDampingFrequencyRange, dampingEdit, "CDAMP", "Cdamp");
+        p_ConvertUtils.CopyValue(*selDampingFrequencyRange, dampingEdit, "FLOW", "Freq_low");
+        p_ConvertUtils.CopyValue(*selDampingFrequencyRange, dampingEdit, "FHIGH", "Freq_high");
+       
+        HandleEdit radSetHEdit;
+        if(PSID == 0)
+        {  
+            p_radiossModel->CreateEntity(radSetHEdit, "/SET/GENERAL", dampingFrequencyRangeName);
+            EntityEdit SetEntityEdit(p_radiossModel, radSetHEdit);
+            SetEntityEdit.SetValue(sdiIdentifier("clausesmax"), sdiValue(1+(int)listSetPartFrequencyRange.size()));
+            SetEntityEdit.SetValue(sdiIdentifier("KEY_type", 0, 0), sdiValue(sdiString("ALL")));
+
+            /*
+                - PSID -> Part set ID.
+                The requested damping is applied only to the parts in
+                the set. If PSID = 0, the damping is applied to all parts except
+                those referred to by other *DAMPING_FREQUENCY_RANGE
+                cards.
+            */
+           for (size_t i = 0; i < (int)listSetPartFrequencyRange.size(); i ++)
+            {
+                SetEntityEdit.SetValue(sdiIdentifier("opt_D", 0, i+1), sdiValue(1));
+                SetEntityEdit.SetValue(sdiIdentifier("KEY_type", 0, i+1), sdiValue(sdiString("SET")));
+                SetEntityEdit.SetValue(sdiIdentifier("idsmax", 0, i+1), sdiValue(1));
+                SetEntityEdit.SetValue(sdiIdentifier("ids", 0, i+1), sdiValue(sdiValueEntityList(radSetType, 
+                sdiUIntList(1, DynaToRad::GetRadiossSetIdFromLsdSet(listSetPartFrequencyRange[i], "*SET_PART")))));
+            }
+            dampingEdit.SetEntityHandle(sdiIdentifier("grpart_id"), radSetHEdit);
+        }
+        else
+            dampingEdit.SetValue(sdiIdentifier("grpart_id"), sdiValue(sdiValueEntity(radSetType, DynaToRad::GetRadiossSetIdFromLsdSet(PSID, "*SET_PART"))));
+
+
+        if (dampingHEdit.IsValid())
+        {
+            sdiConvert::SDIHandlReadList sourceDamping = { {selDampingFrequencyRange->GetHandle()} };
+            sdiConvert::Convert::PushToConversionLog(std::make_pair(dampingHEdit, sourceDamping));
+        }
+
+        if (dampingHEdit.IsValid() && radSetHEdit.IsValid())
+        {
+            sdiConvert::SDIHandlReadList sourceDamping = { {selDampingFrequencyRange->GetHandle()} };
+            sdiConvert::Convert::PushToConversionLog(std::make_pair(radSetHEdit, sourceDamping));
+        }
     }
 }

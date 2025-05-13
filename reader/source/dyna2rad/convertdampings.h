@@ -60,6 +60,8 @@ namespace sdiD2R
         void ConvertDampingPartStiffness();
         
         void ConvertDampingRelative();
+
+        void ConvertDampingFrequencyRange();
     };
 }
 

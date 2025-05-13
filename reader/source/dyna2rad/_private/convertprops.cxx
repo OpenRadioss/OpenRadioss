@@ -54,17 +54,19 @@ void ConvertProp::ConvertEntities()
     bool isControlHourglass = false;
     int lsdControlHourglassIHQ = 0;
     int lsdHourglassIHQ = 0;
+    double lsdControlHourglassQH = 0.0;
 
     sdiValue queryValue(lsdControlHourglassIHQ);
     SelectionRead controlHourglassSelect(p_lsdynaModel, "*CONTROL_HOURGLASS");
-    if (controlHourglassSelect.Count() > 0 )
+
+    while (controlHourglassSelect.Next())
     {
         isControlHourglass = true;
-        controlHourglassSelect.Next();
         HandleRead controlHourglassHRead = controlHourglassSelect->GetHandle();
         EntityRead controlHourglassEntRead(p_lsdynaModel, controlHourglassHRead);
         controlHourglassEntRead.GetValue(sdiIdentifier("LSD_IHQ"), queryValue);
         queryValue.GetValue(lsdControlHourglassIHQ);
+        lsdControlHourglassQH = GetValue<double>(controlHourglassEntRead,"QH");
     }
 
     SelectionRead partsSelect(p_lsdynaModel, "*PART");
@@ -84,7 +86,8 @@ void ConvertProp::ConvertEntities()
 
         EntityRead partEntRead(p_lsdynaModel, p_PartBeingConverted);
         sdiString partCard = partEntRead.GetKeyword();
-        sdiString destCard;  
+        sdiString destCard;
+        int rad_Isolid = 0;
         if( partCard.find("COMPOSITE") != string::npos)
         {
             if (radEditPart.IsValid())
@@ -94,7 +97,11 @@ void ConvertProp::ConvertEntities()
                 p_ConvertPartComposites(partEntRead, radPropEdit);
 
                 if (radPropEdit.IsValid())
+                {
                     radEditPart.SetEntityHandle(p_radiossModel, sdiIdentifier("prop_ID"), radPropEdit);
+                    EntityEdit radEntPropEdit(p_radiossModel, radPropEdit);
+                    rad_Isolid = GetValue<int>(radEntPropEdit, "ISOLID");
+                }
             }
         }
         else
@@ -135,7 +142,8 @@ void ConvertProp::ConvertEntities()
                 {
                     EntityEdit radPartEntEdit(p_radiossModel, radEditPart);
                     radPartEntEdit.SetEntityHandle(sdiIdentifier("prop_ID"), radPropEdit);
-                    //radEditPart.SetEntityHandle(p_radiossModel, sdiIdentifier("prop_ID"), radPropEdit);
+                    EntityEdit radEntPropEdit(p_radiossModel, radPropEdit);
+                    rad_Isolid = GetValue<int>(radEntPropEdit, "ISOLID"); 
                 }
                 else
                     radEditPart.SetValue(p_radiossModel, sdiIdentifier("prop_ID"), sdiValue(sdiValueEntity(sdiValueEntityType(destEntityType), 0)));
@@ -143,6 +151,7 @@ void ConvertProp::ConvertEntities()
 
             bool isHourglass = false;
             int lsdHourglassIHQ = 0;
+            double lsdHourglassQM = 0.0;
 
             HandleRead hourglassHRead;
             sdiValueEntity hourglassEntity;
@@ -156,8 +165,9 @@ void ConvertProp::ConvertEntities()
                 hourglassEntRead.GetValue(sdiIdentifier("IHQ"), queryValue);
                 queryValue.GetValue(lsdHourglassIHQ);
                 isHourglass = true;
+                lsdHourglassQM = GetValue<double>(hourglassEntRead, "QM");
             }
-                
+
             if(isHourglass || isControlHourglass)
             {
                 sdiString matCard ;
@@ -199,50 +209,52 @@ void ConvertProp::ConvertEntities()
                     if (hourglassHRead.IsValid())
                     {
                         EntityRead hourglassEntRead(p_lsdynaModel, hourglassHRead);
-                        if (propCard.compare(0,9,"/PROP/SPH")) p_ConvertUtils.CopyValue(hourglassEntRead, radPropEntityEdit, "QM", "h");
+                        if (!propCard.compare(0,9,"/PROP/SPH"))  p_ConvertUtils.CopyValue(hourglassEntRead, radPropEntityEdit, "QM", "h");
                     }
                 }
                 else if (isControlHourglass)
                 {
                     HandleRead controlHourglassHRead = controlHourglassSelect->GetHandle();
                     EntityRead controlHourglassEntRead(p_lsdynaModel, controlHourglassHRead);
-                    if (propCard.compare(0,9,"/PROP/SPH")) p_ConvertUtils.CopyValue(controlHourglassEntRead, radPropEntityEdit, "QH", "h");
+                    if (!propCard.compare(0,9,"/PROP/SPH")) p_ConvertUtils.CopyValue(controlHourglassEntRead, radPropEntityEdit, "QH", "h");
                 }
                 
-                if (!propCard.compare(0,12,"/PROP/TYPE14") && elform != 2 )
+                if (!propCard.compare(0,12,"/PROP/TYPE14") && elform != 2 && (rad_Isolid !=14 && rad_Isolid !=17 && rad_Isolid !=18))
                 {
-                    
-                    if (isControlHourglass && (lsdControlHourglassIHQ == 1 ||
-                                               lsdControlHourglassIHQ == 2 ||
-                                               lsdControlHourglassIHQ == 3)) 
-                        radPropEntityEdit.SetValue(sdiIdentifier("ISOLID"), sdiValue(1));
+                    EntityEdit radEntPropEdit(p_radiossModel, radPropEdit);
+                    double rad_h = GetValue<double>(radEntPropEdit, "h");
 
-                    if (isControlHourglass && (lsdControlHourglassIHQ == 4 ||
-                                               lsdControlHourglassIHQ == 5 ||
-                                               lsdControlHourglassIHQ == 6 ||
-                                               lsdControlHourglassIHQ == 7))
-                        radPropEntityEdit.SetValue(sdiIdentifier("ISOLID"), sdiValue(5));
-                    //* (*HOURGLASS if referenced in the *PART overwrites *CONTROL_HOURGLASS)
-                    
-                    if(isHourglass && (lsdHourglassIHQ == 1 ||
-                                       lsdHourglassIHQ == 2 ||
-                                       lsdHourglassIHQ == 3))
-                        radPropEntityEdit.SetValue(sdiIdentifier("ISOLID"), sdiValue(1));
-
-                    if(isHourglass && (lsdHourglassIHQ == 4 ||
-                                       lsdHourglassIHQ == 5 ||
-                                       lsdHourglassIHQ == 6 ||
-                                       lsdHourglassIHQ == 7 ))
-                        radPropEntityEdit.SetValue(sdiIdentifier("ISOLID"), sdiValue(5));
-                }
-                else
-                {
-                    // to be implemented (as new specifications for *CONTROL_HOURGLASS and *HOURGLASS)
+                    if(isControlHourglass && rad_h == 0.0) 
+                    {
+                        radPropEntityEdit.SetValue(sdiIdentifier("h"), sdiValue(lsdControlHourglassQH));
+                        if(lsdControlHourglassIHQ == 1 || lsdControlHourglassIHQ == 2 || lsdControlHourglassIHQ == 3 )
+                            radPropEntityEdit.SetValue(sdiIdentifier("ISOLID"), sdiValue(1));
+ 
+                         if (lsdControlHourglassIHQ == 4 || lsdControlHourglassIHQ == 5 )
+                            radPropEntityEdit.SetValue(sdiIdentifier("ISOLID"), sdiValue(5));
+ 
+                         if (lsdControlHourglassIHQ == 6 || lsdControlHourglassIHQ == 7 )
+                            radPropEntityEdit.SetValue(sdiIdentifier("ISOLID"), sdiValue(24));
+                    }
+                    // ---
+                    // If *HOURGLASS is referenced in the *PART than it overwrites *CONTROL_HOURGLASS
+                    //---
+                    if(isHourglass) 
+                    {
+                        radPropEntityEdit.SetValue(sdiIdentifier("h"), sdiValue(lsdHourglassQM));
+                        if(lsdHourglassIHQ == 1 || lsdHourglassIHQ == 2 || lsdHourglassIHQ == 3)
+                            radPropEntityEdit.SetValue(sdiIdentifier("ISOLID"), sdiValue(1));
+ 
+                         if (lsdHourglassIHQ == 4 || lsdHourglassIHQ == 5)
+                             radPropEntityEdit.SetValue(sdiIdentifier("ISOLID"), sdiValue(5));
+ 
+                         if (lsdHourglassIHQ == 6 || lsdHourglassIHQ == 7)
+                             radPropEntityEdit.SetValue(sdiIdentifier("ISOLID"), sdiValue(24));
+                    }
                 }
             }
         }
     }
-
 }
 
 void ConvertProp::p_ConvertPropBasedOnCard(const EntityRead& dynaProp, const sdiString& sourceCard, sdi::HandleEdit& radProp,sdiString& destCard)
@@ -422,6 +434,18 @@ void ConvertProp::p_ConvertPropBasedOnCard(const EntityRead& dynaProp, const sdi
                     radPropEdit.SetValue(sdiIdentifier("Lambda"), sdiValue(lsdDAMP/3.0));
                     radPropEdit.SetValue(sdiIdentifier("Ismstr"), sdiValue(10));
                 }
+                else if ( (matCard.find("*MAT_LOW_DENSITY_FOAM") != string::npos || matCard.find("*MAT_057") != string::npos) ||
+                          (matCard.find("*MAT_FU_CHANG_FOAM") != string::npos || matCard.find("*MAT_083") != string::npos) )
+                {
+                    double lsdDAMP = 0.0;
+                    sdiValue tempVal(lsdDAMP);
+                    matEntityRead.GetValue(sdiIdentifier("DAMP"), tempVal);
+                    tempVal.GetValue(lsdDAMP);
+                    lsdDAMP = (lsdDAMP == 0.0) ? 0.05 : lsdDAMP;
+
+                    radPropEdit.SetValue(sdiIdentifier("Mu"), sdiValue(lsdDAMP));
+                    radPropEdit.SetValue(sdiIdentifier("Lambda"), sdiValue(lsdDAMP/3.0));
+                }
             }
             else if (keyword == "*SECTION_SEATBELT")
             {
@@ -592,8 +616,31 @@ void ConvertProp::p_ConvertSectionShell(const sdi::EntityRead& matEntityRead, co
         tempValue = sdiValue(lsdFORM);
         matEntityRead.GetValue(sdiIdentifier("FORM"), tempValue);
         tempValue.GetValue(lsdFORM);
+        
+        //---------------
+        // check if curves LCA, LCB, LCAB, LCUA, LCUB, LCUAB are defined
+        //---------------
 
-        if(lsdFORM != 14.0 && lsdFORM != -14.0)
+        sdiValueEntity lsdLCAId = GetValue<sdiValueEntity>(matEntityRead, "LCA");
+        unsigned int LCA_ID=lsdLCAId.GetId();
+
+        sdiValueEntity lsdLCBId = GetValue<sdiValueEntity>(matEntityRead, "LCB");
+        unsigned int LCB_ID=lsdLCBId.GetId();
+
+        sdiValueEntity lsdLCABId = GetValue<sdiValueEntity>(matEntityRead, "LCAB");
+        unsigned int LCAB_ID=lsdLCABId.GetId();
+
+        sdiValueEntity lsdLCUAId = GetValue<sdiValueEntity>(matEntityRead, "LCUA");
+        unsigned int LCUA_ID=lsdLCUAId.GetId();
+
+        sdiValueEntity lsdLCUBId = GetValue<sdiValueEntity>(matEntityRead, "LCUB");
+        unsigned int LCUB_ID=lsdLCUBId.GetId();
+
+        sdiValueEntity lsdLCUABId = GetValue<sdiValueEntity>(matEntityRead, "LCUAB");
+        unsigned int LCUAB_ID=lsdLCUABId.GetId();
+
+        if((lsdFORM != 14.0 && lsdFORM != -14.0) || (lsdFORM == 14.0 || lsdFORM == -14.0) && 
+           (LCA_ID == 0 && LCB_ID == 0 && LCAB_ID == 0 && LCUA_ID == 0 && LCUB_ID == 0 && LCUAB_ID == 0))
         {
             destCard = "/PROP/TYPE9";
             ConvertSecShellsRelatedMatFabric(matEntityRead, dynaProp, destCard, radProp);
@@ -790,6 +837,7 @@ void ConvertProp::p_ConvertSectionDiscrete(const EntityRead& matEntityRead, cons
     if (radmatHRead.IsValid())
     {
         EntityEdit radMatEdit(p_radiossModel, radmatHRead);
+        radMatEdit.SetValue(sdiIdentifier("RHO_I"), sdiValue(1E-12));
         switch (matLawNum)
         {
         case 501:
@@ -1548,8 +1596,8 @@ void ConvertProp::ConvertSecShellsRelatedMatFabric(const EntityRead& matEntityRe
         p_radiossModel->CreateEntity(radProp, destCard, dynaPropName, p_ConvertUtils.GetDynaMaxEntityID(srcEntityType));
 
     EntityEdit radPropEntityEdit(p_radiossModel, radProp);
-
-    double thick = GetValue<double>(dynaProp, "T1");
+    int lsdElform = GetValue<int>(dynaProp, "LSD_ELFORM");
+    double thick = GetValue<double>(dynaProp,   "T1");
     int lsdAOPT = GetValue<int>(matEntityRead, "axisOptFlag");
     double lsdBETA = GetValue<double>(matEntityRead, "BETA");
 
@@ -1671,7 +1719,10 @@ void ConvertProp::ConvertSecShellsRelatedMatFabric(const EntityRead& matEntityRe
         radProp.SetValue(p_radiossModel, sdiIdentifier("Ip"), sdiValue(0));
     }
     radProp.SetValue(p_radiossModel, sdiIdentifier("Thick"), sdiValue(thick));
-    radProp.SetValue(p_radiossModel, sdiIdentifier("Ishell"), sdiValue(12));
+    if(lsdElform == 9)
+        radProp.SetValue(p_radiossModel, sdiIdentifier("Ishell"), sdiValue(12));
+    else
+        radProp.SetValue(p_radiossModel, sdiIdentifier("Ishell"), sdiValue(24));
     radProp.SetValue(p_radiossModel, sdiIdentifier("Ismstr"), sdiValue(4));
     radProp.SetValue(p_radiossModel, sdiIdentifier("Ish3n"), sdiValue(2));
     radProp.SetValue(p_radiossModel, sdiIdentifier("N"), sdiValue(1));
@@ -3134,7 +3185,6 @@ void ConvertProp::ConvertSecShells16RelatedMatFabric(const sdi::EntityRead& matE
     sdiValue tempVal;
 
     p_ConvertUtils.CopyValue(dynaProp, radPropEntity, "T1", "Thick");
-
     radProp.SetValue(p_radiossModel, sdiIdentifier("Ishell"), sdiValue(24));
     radProp.SetValue(p_radiossModel, sdiIdentifier("Ismstr"), sdiValue(4));
     radProp.SetValue(p_radiossModel, sdiIdentifier("Ish3n"), sdiValue(2));

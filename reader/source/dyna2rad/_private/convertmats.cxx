@@ -1996,77 +1996,101 @@ void ConvertMat::p_ConvertMatL34(const EntityRead& dynaMat, sdiString& destCard,
     dynaMat.GetValue(sdiIdentifier("FORM"), tempValue);
     tempValue.GetValue(lsdFORM);
 
-    if(lsdFORM != 14.0 && lsdFORM != -14.0)
-    {
-    //---
-    //--- convert to /MAT/FABRI ( /MAT/LAW19 )
-    //---
-    attribMap = {{"RO", "RHO_I"}, {"EA", "E11"}, {"LSD_MAT_PRBA", "NU12"}};
-    destCard = "/MAT/FABRI";
+    //---------------
+    // check if curves LCA, LCB, LCAB, LCUA, LCUB, LCUAB are defined
+    //---------------
 
-    if (matToPropsReferenceCount > 1)
-        p_radiossModel->CreateEntity(radMat, destCard, dynaMatName, p_ConvertUtils.GetDynaMaxEntityID(srcEntityType));
-    else
-        p_radiossModel->CreateEntity(radMat, destCard, dynaMatName, dynaMatId);
+    sdiValueEntity lsdLCAId = GetValue<sdiValueEntity>(dynaMat, "LCA");
+    unsigned int LCA_ID=lsdLCAId.GetId();
 
-    double lsdGAB;
-    double lsdGBC;
-    double lsdGCA;
-    double lsdCSE;
-    // double lsdEA;
-    double lsdEB;
-    double lsdPRBA;
+    sdiValueEntity lsdLCBId = GetValue<sdiValueEntity>(dynaMat, "LCB");
+    unsigned int LCB_ID=lsdLCBId.GetId();
+
+    sdiValueEntity lsdLCABId = GetValue<sdiValueEntity>(dynaMat, "LCAB");
+    unsigned int LCAB_ID=lsdLCABId.GetId();
+
+    sdiValueEntity lsdLCUAId = GetValue<sdiValueEntity>(dynaMat, "LCUA");
+    unsigned int LCUA_ID=lsdLCUAId.GetId();
+
+    sdiValueEntity lsdLCUBId = GetValue<sdiValueEntity>(dynaMat, "LCUB");
+    unsigned int LCUB_ID=lsdLCUBId.GetId();
+
+    sdiValueEntity lsdLCUABId = GetValue<sdiValueEntity>(dynaMat, "LCUAB");
+    unsigned int LCUAB_ID=lsdLCUABId.GetId();
+    //---------------
     
-    vector<reference_wrapper<double>> attrValList = {/*lsdEA,*/ lsdEB,lsdPRBA, lsdGAB, lsdGBC, lsdGCA, lsdCSE};
-    vector<sdiString> attrNameList = {/*"EA",*/"EB","LSD_MAT_PRBA", "GAB","LSD_MAT_GBC","LSD_MAT_GCA","CSE"};
-    p_ConvertUtils.GetAttribValues(dynaMat, attrNameList, attrValList);
-
-    EntityEdit radmatEntityEdit(p_radiossModel, radMat);
-
-    /* Legacy code without parameterization kept here for reference:
-    if (lsdGAB == 0.0)
-        lsdGAB = lsdEA * 2 * (1+ lsdPRBA);
-
-    if (lsdGBC == 0.0)
-        lsdGBC= lsdGAB;
-
-    if (lsdGCA == 0.0)
-        lsdGCA = lsdGAB;
-
-    if (lsdEB == 0.0)
-        lsdEB = lsdEA ;
-    */
-
-    radmatEntityEdit.SetValue(sdiIdentifier("R_E"), sdiValue((lsdCSE == 0) ? 0.0 : 0.01));
-
-    /* TBD: parameterized GAB? To be exact, we should have this here, to be discussed with PM:
-    if(dynaMat.IsParameterized(sdiIdentifier("GAB")))
+    if((lsdFORM != 14.0 && lsdFORM != -14.0) || (lsdFORM == 14.0 || lsdFORM == -14.0) && 
+       (LCA_ID == 0 && LCB_ID == 0 && LCAB_ID == 0 && LCUA_ID == 0 && LCUB_ID == 0 && LCUAB_ID == 0))
     {
-        p_ConvertUtils.SetExpressionValue(dynaMat, radmatEntityEdit,
-        "(GAB!=0)*GAB+(GAB==0)*EA*2*(1+LSD_MAT_PRBA)", "G12");
-    }
-    else */
-    if(lsdGAB != 0.0) p_ConvertUtils.CopyValue(dynaMat, radmatEntityEdit, "GAB", "G12");
-    else p_ConvertUtils.SetExpressionValue(dynaMat, radmatEntityEdit, "EA/(2*(1+PRBA))", "G12");
+      //---
+      //--- convert to /MAT/FABRI ( /MAT/LAW19 )
+      //---
+      attribMap = {{"RO", "RHO_I"}, {"EA", "E11"}, {"LSD_MAT_PRBA", "NU12"}};
+      destCard = "/MAT/FABRI";
 
-    // TBD: parameterized GBC and/or GAB, cf. above?
-    if(lsdGBC != 0.0) p_ConvertUtils.CopyValue(dynaMat, radmatEntityEdit, "LSD_MAT_GBC", "G23");
-    else if(lsdGAB != 0.0) p_ConvertUtils.CopyValue(dynaMat, radmatEntityEdit, "GAB", "G23");
-    else p_ConvertUtils.SetExpressionValue(dynaMat, radmatEntityEdit, "EA/(2*(1+PRBA))", "G23");
+      if (matToPropsReferenceCount > 1)
+          p_radiossModel->CreateEntity(radMat, destCard, dynaMatName, p_ConvertUtils.GetDynaMaxEntityID(srcEntityType));
+      else
+          p_radiossModel->CreateEntity(radMat, destCard, dynaMatName, dynaMatId);
 
-    // TBD: parameterized GCA and/or GAB, cf. above?
-    if(lsdGCA != 0.0) p_ConvertUtils.CopyValue(dynaMat, radmatEntityEdit, "LSD_MAT_GCA", "G31");
-    else if(lsdGAB != 0.0) p_ConvertUtils.CopyValue(dynaMat, radmatEntityEdit, "GAB", "G31");
-    else p_ConvertUtils.SetExpressionValue(dynaMat, radmatEntityEdit, "EA/(2*(1+PRBA))", "G31");
+      double lsdGAB;
+      double lsdGBC;
+      double lsdGCA;
+      double lsdCSE;
+      // double lsdEA;
+      double lsdEB;
+      double lsdPRBA;
+    
+      vector<reference_wrapper<double>> attrValList = {/*lsdEA,*/ lsdEB,lsdPRBA, lsdGAB, lsdGBC, lsdGCA, lsdCSE};
+      vector<sdiString> attrNameList = {/*"EA",*/"EB","LSD_MAT_PRBA", "GAB","LSD_MAT_GBC","LSD_MAT_GCA","CSE"};
+      p_ConvertUtils.GetAttribValues(dynaMat, attrNameList, attrValList);
 
-    radmatEntityEdit.SetValue(sdiIdentifier("ZEROSTRESS"), sdiValue(1.0)); 
+      EntityEdit radmatEntityEdit(p_radiossModel, radMat);
 
-    // TBD: parameterized EB?
-    if(lsdEB != 0.0) p_ConvertUtils.CopyValue(dynaMat, radmatEntityEdit, "EB", "E22");
-    else p_ConvertUtils.CopyValue(dynaMat, radmatEntityEdit, "EA", "E22");
+      /* Legacy code without parameterization kept here for reference:
+      if (lsdGAB == 0.0)
+          lsdGAB = lsdEA * 2 * (1+ lsdPRBA);
 
-    //The rest of parameters are set to default 0 values in converson 
-    radmatEntityEdit.SetValue(sdiIdentifier("FSCALE_POR"), sdiValue(0.0)); 
+      if (lsdGBC == 0.0)
+          lsdGBC= lsdGAB;
+
+      if (lsdGCA == 0.0)
+          lsdGCA = lsdGAB;
+
+      if (lsdEB == 0.0)
+          lsdEB = lsdEA ;
+      */
+
+      radmatEntityEdit.SetValue(sdiIdentifier("R_E"), sdiValue((lsdCSE == 0) ? 0.0 : 0.01));
+
+      /* TBD: parameterized GAB? To be exact, we should have this here, to be discussed with PM:
+      if(dynaMat.IsParameterized(sdiIdentifier("GAB")))
+      {
+          p_ConvertUtils.SetExpressionValue(dynaMat, radmatEntityEdit,
+          "(GAB!=0)*GAB+(GAB==0)*EA*2*(1+LSD_MAT_PRBA)", "G12");
+      }
+      else */
+      if(lsdGAB != 0.0) p_ConvertUtils.CopyValue(dynaMat, radmatEntityEdit, "GAB", "G12");
+      else p_ConvertUtils.SetExpressionValue(dynaMat, radmatEntityEdit, "EA/(2*(1+PRBA))", "G12");
+
+      // TBD: parameterized GBC and/or GAB, cf. above?
+      if(lsdGBC != 0.0) p_ConvertUtils.CopyValue(dynaMat, radmatEntityEdit, "LSD_MAT_GBC", "G23");
+      else if(lsdGAB != 0.0) p_ConvertUtils.CopyValue(dynaMat, radmatEntityEdit, "GAB", "G23");
+      else p_ConvertUtils.SetExpressionValue(dynaMat, radmatEntityEdit, "EA/(2*(1+PRBA))", "G23");
+
+      // TBD: parameterized GCA and/or GAB, cf. above?
+      if(lsdGCA != 0.0) p_ConvertUtils.CopyValue(dynaMat, radmatEntityEdit, "LSD_MAT_GCA", "G31");
+      else if(lsdGAB != 0.0) p_ConvertUtils.CopyValue(dynaMat, radmatEntityEdit, "GAB", "G31");
+      else p_ConvertUtils.SetExpressionValue(dynaMat, radmatEntityEdit, "EA/(2*(1+PRBA))", "G31");
+
+      radmatEntityEdit.SetValue(sdiIdentifier("ZEROSTRESS"), sdiValue(1.0)); 
+
+      // TBD: parameterized EB?
+      if(lsdEB != 0.0) p_ConvertUtils.CopyValue(dynaMat, radmatEntityEdit, "EB", "E22");
+      else p_ConvertUtils.CopyValue(dynaMat, radmatEntityEdit, "EA", "E22");
+
+      //The rest of parameters are set to default 0 values in converson 
+      radmatEntityEdit.SetValue(sdiIdentifier("FSCALE_POR"), sdiValue(0.0)); 
     }
     else if(lsdFORM == 14.0 || lsdFORM == -14.0)
     {
@@ -2102,7 +2126,7 @@ void ConvertMat::p_ConvertMatL34(const EntityRead& dynaMat, sdiString& destCard,
       if(lsdGAB != 0.0) p_ConvertUtils.CopyValue(dynaMat, radmatEntityEdit, "GAB", "G0");
       else
       {
-         p_ConvertUtils.SetExpressionValue(dynaMat, radmatEntityEdit, "EA/2", "G0");
+         p_ConvertUtils.SetExpressionValue(dynaMat, radmatEntityEdit, "EA/2", "G0"); // ??? to be checked (with spec)
          p_ConvertUtils.CopyValue(dynaMat, radmatEntityEdit, "EA", "GT");
          radmatEntityEdit.SetValue(sdiIdentifier("AlphaT"), sdiValue(18.0)); 
       }
@@ -2710,10 +2734,11 @@ void ConvertMat::p_ConvertMatL34(const EntityRead& dynaMat, sdiString& destCard,
       }
       else
       {
-      // create a new one
-          tempValue = sdiValue(lsdGAB);
-          dynaMat.GetValue(sdiIdentifier("GAB"), tempValue);
-          tempValue.GetValue(lsdGAB);
+          // create a new function
+          double lsdGAB = GetValue<double>(dynaMat, "GAB");
+          double lsdEA = GetValue<double>(dynaMat, "EA");
+          double lsdEB = GetValue<double>(dynaMat, "EB");
+          if(lsdGAB == 0.0) lsdGAB = (lsdEA + lsdEB) / 2.0;
 
           sdiDoubleList abscissaList({ -57.0, 0.0, 57.0 });
           sdiDoubleList ordonateList({ -lsdGAB, 0.0, lsdGAB });
@@ -4454,6 +4479,17 @@ void ConvertMat::p_ConvertMatL77(const EntityRead& dynaMat, sdiString& destCard,
     dynaMat.GetValue(sdiIdentifier("N"), tempValue);
     tempValue.GetValue(lsdN);
     
+    double lsdG = 0.;
+    tempValue = sdiValue(lsdG);
+    dynaMat.GetValue(sdiIdentifier("G"), tempValue);
+    tempValue.GetValue(lsdG);
+    
+    double lsdSIGF = 0.;
+    tempValue = sdiValue(lsdSIGF);
+    dynaMat.GetValue(sdiIdentifier("SIGF"), tempValue);
+    tempValue.GetValue(lsdSIGF);
+
+    
     if (lsdN==0)
     {
         destCard = "/MAT/LAW42";
@@ -4589,6 +4625,22 @@ void ConvertMat::p_ConvertMatL77(const EntityRead& dynaMat, sdiString& destCard,
         }
         radmatEntityEdit.SetValue(sdiIdentifier("FSCALE"), sdiValue(0.0));
         radmatEntityEdit.SetValue(sdiIdentifier("ICHECK"), sdiValue(0));
+    }
+    
+ 
+    if(lsdG > 0 && lsdSIGF > 0)
+    {
+        sdiString matName = dynaMat.GetName();
+        HandleEdit viscTabEdit;
+        p_radiossModel->CreateEntity(viscTabEdit, "/VISC/PLAS", matName, radMat.GetId(p_radiossModel));
+        if (viscTabEdit.IsValid() && radMat.IsValid())
+        {
+            EntityEdit viscTabEntEdit(p_radiossModel, viscTabEdit);
+            p_ConvertUtils.CopyValue(dynaMat, viscTabEntEdit, "G", "LSD_G");
+            p_ConvertUtils.CopyValue(dynaMat, viscTabEntEdit, "SIGF", "LSDYNA_SIGF");
+            sdiConvert::SDIHandlReadList sourcemat = { {dynaMat.GetHandle()} };
+            sdiConvert::Convert::PushToConversionLog(std::make_pair(viscTabEdit, sourcemat));
+        }
     }
 }
 
