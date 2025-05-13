@@ -39,7 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         SUBROUTINE SPMD_CELL_LIST_EXCHANGE(IRCVFROM,ISENDTO,MODE,WEIGHT,IAD_ELEM,
      .             FR_ELEM,X,V,MS,TEMP,
      .             KINET,NODNX_SMS,ITAB,INTBUF_TAB,IPARI,
-     .             NIN,INTER_STRUCT,SORT_COMM,NODNX_SMS_SIZ,TEMP_SIZE, GOT_PREVIEW)
+     .             NIN,INTER_STRUCT,SORT_COMM,NODNX_SMS_SIZ,TEMP_SIZE, GOT_PREVIEW,component)
 !$COMMENT
 !       SPMD_CELL_LIST_EXCHANGE description :
 !       exchange of remote cell and preparation of comm "send/rcv the data of remote nodes"
@@ -60,6 +60,7 @@ C-----------------------------------------------
         USE INTER_SORTING_MOD
         USE INTER_STRUCT_MOD
         USE TRI7BOX
+        use spmd_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -99,12 +100,13 @@ C-----------------------------------------------
         TYPE(inter_struct_type), DIMENSION(NINTER), INTENT(inout) :: INTER_STRUCT   !   structure for interface
         TYPE(sorting_comm_type), DIMENSION(NINTER), INTENT(inout) :: SORT_COMM   ! structure for interface sorting comm
         INTEGER, INTENT(IN) :: GOT_PREVIEW
+        type(component_), dimension(ninter), intent(inout) :: component
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C----------------------------------------------- 
 #ifdef MPI        
         LOGICAL :: IS_EXCHANGE_NEEDED
-        INTEGER :: KK,I,J
+        INTEGER :: KK,I,J,ijk
         INTEGER :: P,P_LOC,LOCAL_RANK,REMOTE_PROC
         INTEGER :: SIZE_,OLD_POINTER
         INTEGER :: ADRESS,SHIFT_
@@ -120,11 +122,14 @@ C-----------------------------------------------
         LOGICAL, DIMENSION(:,:,:), ALLOCATABLE :: ALREADY_SEND
         INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX_ALREADY_SEND
 
-        INTEGER :: MSGTYP
+        INTEGER :: MSGTYP,my_size
         INTEGER :: MSGOFF
         DATA MSGOFF/13000/
+        integer, parameter :: my_tag = 13001
+        logical :: my_condition
 !   --------------------------------------------------------------------
         LOC_PROC = ISPMD + 1
+
 
         !   ----------------------------
         !   mode = 1
@@ -155,7 +160,7 @@ C-----------------------------------------------
                 SIZE_ = SORT_COMM(NIN)%PROC_NUMBER
                 ALLOCATE(SORT_COMM(NIN)%RCV_DISPLS_NB_CELL(SIZE_))
             ENDIF
-
+            my_size = 0
             TOTAL_RCV_SIZE = 0
             DO I=1,SORT_COMM(NIN)%PROC_NUMBER
                 ID_PROC = SORT_COMM(NIN)%PROC_LIST(I)
@@ -164,14 +169,6 @@ C-----------------------------------------------
                     SORT_COMM(NIN)%SEND_NB_CELL(I) = 1
                 ENDIF
                 SORT_COMM(NIN)%SEND_DISPLS_NB_CELL(I) = 0
-                !   if current proc and remote proc don't need to comm, send a 0 size 
-                IF(ISENDTO(NIN,ID_PROC)>0) THEN    !   nsn of proc ID_PROC >0
-                    IF(SORT_COMM(NIN)%PROC_NUMBER>NSPMD/2) THEN
-                        IF(.NOT.SORT_COMM(NIN)%KEEP_PROC(I)) THEN
-                            SORT_COMM(NIN)%SEND_DISPLS_NB_CELL(I) = 1
-                        ENDIF
-                    ENDIF
-                ENDIF
 
                 SORT_COMM(NIN)%RCV_NB_CELL(I) = 0
                 IF(ISENDTO(NIN,LOC_PROC)>0) THEN   !   nsn of current proc >0
@@ -182,17 +179,51 @@ C-----------------------------------------------
                     TOTAL_RCV_SIZE = TOTAL_RCV_SIZE + 1
                 ENDIF
             ENDDO
+            
             TOTAL_SEND_SIZE = 2
-            CALL SPMD_IALLTOALLV_INT(SORT_COMM(NIN)%SIZE_CELL_LIST,
-     .           SORT_COMM(NIN)%NB_CELL_PROC,SORT_COMM(NIN)%SEND_NB_CELL,TOTAL_SEND_SIZE,
-     .           SORT_COMM(NIN)%SEND_DISPLS_NB_CELL,TOTAL_RCV_SIZE,SORT_COMM(NIN)%RCV_NB_CELL,
-     .           SORT_COMM(NIN)%RCV_DISPLS_NB_CELL,SORT_COMM(NIN)%REQUEST_NB_CELL,
-     .           SORT_COMM(NIN)%COMM,SORT_COMM(NIN)%PROC_NUMBER)
 
+            if(.not.allocated(sort_comm(nin)%request_s)) then
+              allocate(sort_comm(nin)%request_s(sort_comm(nin)%proc_number))
+            endif
+            if(.not.allocated(sort_comm(nin)%request_r)) then
+              allocate(sort_comm(nin)%request_r(sort_comm(nin)%proc_number))
+            endif
+            if(.not.allocated(sort_comm(nin)%index_r)) then
+              allocate(sort_comm(nin)%index_r(sort_comm(nin)%proc_number))
+            endif 
             IF(.NOT.ALLOCATED(SORT_COMM(NIN)%SEND_SIZE_CELL)) THEN
-                SIZE_ = SORT_COMM(NIN)%PROC_NUMBER
-                ALLOCATE(SORT_COMM(NIN)%SEND_SIZE_CELL(SIZE_))
+              SIZE_ = SORT_COMM(NIN)%PROC_NUMBER
+              ALLOCATE(SORT_COMM(NIN)%SEND_SIZE_CELL(SIZE_))
             ENDIF
+
+            sort_comm(nin)%request_s_nb = 0
+            sort_comm(nin)%request_r_nb = 0                       
+            my_size = 0            
+            itied = ipari(85,nin)
+            do i=1,sort_comm(nin)%proc_number
+              id_proc = sort_comm(nin)%proc_list(i)
+              sort_comm(nin)%nb_cell_proc(i) = 0
+              sort_comm(nin)%send_size_cell(i) = 0
+              my_condition = (itied/=0.and.id_proc-1/=ispmd).or.component(nin)%proc_comp(id_proc)%need_comm_r
+              my_condition = my_condition.and.(isendto(nin,ispmd+1)>0)
+              my_condition = my_condition.and.id_proc/=loc_proc
+              if(my_condition) then
+                sort_comm(nin)%request_r_nb = sort_comm(nin)%request_r_nb + 1
+                sort_comm(nin)%index_r(sort_comm(nin)%request_r_nb) = i
+                call spmd_irecv(sort_comm(nin)%nb_cell_proc(i),1,id_proc-1,my_tag, 
+     .                       sort_comm(nin)%request_r(sort_comm(nin)%request_r_nb),SPMD_COMM_WORLD)    
+              endif
+              my_condition = (itied/=0.and.id_proc-1/=ispmd).or.component(nin)%proc_comp(id_proc)%need_comm_s
+              my_condition = my_condition.and.(isendto(nin,id_proc)>0)
+              my_condition = my_condition.and.id_proc/=loc_proc
+              if(my_condition) then
+                sort_comm(nin)%request_s_nb = sort_comm(nin)%request_s_nb + 1
+                call spmd_isend(sort_comm(nin)%size_cell_list(1),1,id_proc-1,my_tag, 
+     .                        sort_comm(nin)%request_s(sort_comm(nin)%request_s_nb),SPMD_COMM_WORLD)
+                             my_size = my_size + 1
+                sort_comm(nin)%send_size_cell(i) = sort_comm(nin)%size_cell_list(1)
+              endif
+            enddo
 
             IF(.NOT.ALLOCATED(SORT_COMM(NIN)%RCV_SIZE_CELL)) THEN
                 SIZE_ = SORT_COMM(NIN)%PROC_NUMBER
@@ -211,6 +242,7 @@ C-----------------------------------------------
        ENDIF
         !   ----------------------------
 
+
         !   ----------------------------
         !   mode = 2
         !   wait the previous comm 
@@ -218,13 +250,14 @@ C-----------------------------------------------
        IF(MODE==2) THEN
             !   -------------------------
             !   wait the previous comm
-            IF(IRCVFROM(NIN,LOC_PROC)==0.AND.ISENDTO(NIN,LOC_PROC)==0) RETURN
-
-            CALL MPI_WAIT(SORT_COMM(NIN)%REQUEST_NB_CELL,STATUS,IERROR) 
-
             SORT_COMM(NIN)%NB_REQUEST_CELL_SEND = 0
             SORT_COMM(NIN)%NB_REQUEST_CELL_RCV = 0
+            SORT_COMM(NIN)%RCV_SIZE_CELL(:) = 0
+
+            IF(IRCVFROM(NIN,LOC_PROC)==0.AND.ISENDTO(NIN,LOC_PROC)==0) RETURN
+
             IF(IRCVFROM(NIN,LOC_PROC)==0.AND.ISENDTO(NIN,LOC_PROC)==0) RETURN !CYCLE
+            SORT_COMM(NIN)%RCV_SIZE_CELL(:) = 0
 
             IF(.NOT.ALLOCATED(SORT_COMM(NIN)%REQUEST_CELL_SEND)) THEN
                 ALLOCATE(SORT_COMM(NIN)%REQUEST_CELL_SEND(SORT_COMM(NIN)%PROC_NUMBER))
@@ -239,18 +272,12 @@ C-----------------------------------------------
                 SORT_COMM(NIN)%INDEX_RCV(1:SORT_COMM(NIN)%PROC_NUMBER) = 0
             ENDIF
             TOTAL_RCV_SIZE = 0
-            DO I=1,SORT_COMM(NIN)%PROC_NUMBER
-                ID_PROC = SORT_COMM(NIN)%PROC_LIST(I)
-                SORT_COMM(NIN)%SEND_SIZE_CELL(I) = 0
-                IF(ISENDTO(NIN,ID_PROC)>0) THEN    !   nsn of proc ID_PROC >0
-                    SORT_COMM(NIN)%SEND_SIZE_CELL(I) = SORT_COMM(NIN)%SIZE_CELL_LIST(1)
-                    !   if current proc and remote proc don't need to communicate, skip the comm
-                    IF(SORT_COMM(NIN)%PROC_NUMBER>NSPMD/2) THEN
-                        IF(.NOT.SORT_COMM(NIN)%KEEP_PROC(I)) THEN
-                            SORT_COMM(NIN)%SEND_SIZE_CELL(I) = 0
-                        ENDIF
-                    ENDIF
-                ENDIF
+            do ijk=1,sort_comm(nin)%request_r_nb
+              call spmd_waitany(sort_comm(nin)%request_r_nb,sort_comm(nin)%request_r,index_r,status)         
+              i = sort_comm(nin)%index_r(index_r)
+            enddo
+            do i=1,sort_comm(nin)%proc_number
+              id_proc = sort_comm(nin)%proc_list(i)
 
                 SORT_COMM(NIN)%SEND_DISPLS_CELL(I) = 0
 
@@ -263,6 +290,11 @@ C-----------------------------------------------
                     TOTAL_RCV_SIZE = TOTAL_RCV_SIZE + SORT_COMM(NIN)%NB_CELL_PROC(I)
                 ENDIF
             ENDDO
+
+            do ijk=1,sort_comm(nin)%request_s_nb
+              call spmd_waitany(sort_comm(nin)%request_s_nb,sort_comm(nin)%request_s,index_r,status)
+            enddo
+
             TOTAL_SEND_SIZE = SORT_COMM(NIN)%SIZE_CELL_LIST(1)
 
             IF(ALLOCATED(SORT_COMM(NIN)%CELL) ) DEALLOCATE(SORT_COMM(NIN)%CELL)
@@ -274,7 +306,10 @@ C-----------------------------------------------
             !   rcv of remote cell 
             DO I=1,SORT_COMM(NIN)%PROC_NUMBER
                 ID_PROC = SORT_COMM(NIN)%PROC_LIST(I)
-                IF((ITIED/=0.OR.SORT_COMM(NIN)%RCV_SIZE_CELL(I)>0).AND.ID_PROC/=LOC_PROC) THEN   
+                my_condition = (itied/=0.or.SORT_COMM(NIN)%RCV_SIZE_CELL(I)>0)
+                my_condition = my_condition.and.(isendto(nin,ispmd+1)>0) 
+                my_condition = my_condition.and.id_proc/=loc_proc                     
+                IF(my_condition) THEN                  
                     MSGTYP = MSGOFF    
                     SORT_COMM(NIN)%NB_REQUEST_CELL_RCV = SORT_COMM(NIN)%NB_REQUEST_CELL_RCV + 1  
                     SORT_COMM(NIN)%INDEX_RCV(SORT_COMM(NIN)%NB_REQUEST_CELL_RCV) = I  
@@ -289,7 +324,10 @@ C-----------------------------------------------
             !   send of cell 
             DO I=1,SORT_COMM(NIN)%PROC_NUMBER
                 ID_PROC = SORT_COMM(NIN)%PROC_LIST(I)
-                IF((ITIED/=0.OR.SORT_COMM(NIN)%SEND_SIZE_CELL(I)>0).AND.ID_PROC/=LOC_PROC) THEN   
+                my_condition = (itied/=0.or.SORT_COMM(NIN)%SEND_SIZE_CELL(I)>0)
+                my_condition = my_condition.and.(isendto(nin,id_proc)>0)
+                my_condition = my_condition.and.id_proc/=loc_proc               
+                IF(my_condition) THEN 
                     MSGTYP = MSGOFF   
                     SORT_COMM(NIN)%NB_REQUEST_CELL_SEND = 
      .                  SORT_COMM(NIN)%NB_REQUEST_CELL_SEND + 1  
@@ -316,7 +354,7 @@ C-----------------------------------------------
 
             ITIED = IPARI(85,NIN)
             IF(SORT_COMM(NIN)%SIZE_CELL_LIST(1)>0.OR.ITIED/=0) THEN !   need to prepare the reception only if there are still some NMN on the current proc
-                CALL SPMD_CELL_SIZE_POST_RCV(IRCVFROM,ISENDTO,NIN,SORT_COMM,ITIED)  
+                CALL SPMD_CELL_SIZE_POST_RCV(IRCVFROM,ISENDTO,NIN,SORT_COMM,ITIED,component)  
             ENDIF
             ALLOCATE( ALREADY_SEND(NB_CELL_X,NB_CELL_Y,NB_CELL_Z) )
             IF(ISENDTO(NIN,LOC_PROC)/=0) ALREADY_SEND(1:NB_CELL_X,1:NB_CELL_Y,1:NB_CELL_Z) = .FALSE.

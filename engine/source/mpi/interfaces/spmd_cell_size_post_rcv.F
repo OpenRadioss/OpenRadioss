@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_comm_world_mod       ../engine/source/mpi/spmd_comm_world.F90
       !||    tri7box                   ../engine/share/modules/tri7box.F
       !||====================================================================
-        SUBROUTINE SPMD_CELL_SIZE_POST_RCV(IRCVFROM,ISENDTO,NIN,SORT_COMM,ITIED)
+        SUBROUTINE SPMD_CELL_SIZE_POST_RCV(IRCVFROM,ISENDTO,NIN,SORT_COMM,ITIED,component)
 !$COMMENT
 !       SPMD_CELL_SIZE_POST_RCV description :
 !       prepare the reception of number of remote secondary nodes
@@ -64,6 +64,7 @@ C-----------------------------------------------
         INTEGER, INTENT(in) :: ITIED
         INTEGER, DIMENSION(NINTER+1,NSPMD+1), INTENT(in) :: ISENDTO,IRCVFROM
         TYPE(sorting_comm_type), DIMENSION(NINTER), INTENT(inout) :: SORT_COMM   ! structure for interface sorting comm
+        type(component_), dimension(ninter), intent(inout) :: component
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C----------------------------------------------- 
@@ -95,11 +96,7 @@ C-----------------------------------------------
                 IF(ISENDTO(NIN,P)/=0) THEN  !   remote nsn>0
                     IF(LOC_PROC/=P) THEN
                         NEED_TO_RCV = .TRUE.
-                        IF(SORT_COMM(NIN)%PROC_NUMBER>NSPMD/2) THEN
-                            IF(.NOT.SORT_COMM(NIN)%KEEP_PROC(P_LOC)) THEN
-                                NEED_TO_RCV = .FALSE.
-                            ENDIF
-                        ENDIF
+                        if(.not.component(nin)%proc_comp(p)%need_comm_s) need_to_rcv = .false.
                         IF(ITIED/=0) NEED_TO_RCV = .TRUE.    ! itied option : force the exchange
                         IF(NEED_TO_RCV) THEN
                             MSGTYP = MSGOFF3 

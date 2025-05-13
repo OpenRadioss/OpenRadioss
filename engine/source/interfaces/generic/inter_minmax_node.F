@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    inter_struct_mod     ../engine/share/modules/inter_struct_mod.F
       !||    message_mod          ../engine/share/message_module/message_mod.F
       !||====================================================================
-        SUBROUTINE INTER_MINMAX_NODE( ITASK,X )
+        SUBROUTINE INTER_MINMAX_NODE( ITASK,box_limit,X )
 !$COMMENT
 !       INTER_MINMAX_NODE description :
 !       compute the minimal & maximal positions      
@@ -45,7 +45,6 @@ C   M o d u l e s
 C-----------------------------------------------
         USE INTBUFDEF_MOD  
         USE INTER_STRUCT_MOD
-        USE INTER_SORTING_MOD
         USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -61,6 +60,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         INTEGER, INTENT(in) :: ITASK
+        my_real, dimension(6), intent(inout) :: box_limit !< upper & lower bound of the box
         my_real, DIMENSION(3,NUMNOD), INTENT(in) :: X            !   position
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

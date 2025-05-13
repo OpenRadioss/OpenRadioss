@@ -89,6 +89,7 @@ C-----------------------------------------------
         my_real :: MX,MY,MZ
         my_real, DIMENSION(3) :: MAX_LIMIT,MIN_LIMIT
         my_real, DIMENSION(3) :: MAX_LIMIT_MAIN,MIN_LIMIT_MAIN
+        my_real, dimension(3) :: max_limit_s,min_limit_s
         my_real, DIMENSION(3) :: SIGMA,SIGMA2
 !   ----------------------------------------
         INTER_STRUCT(NIN)%CURV_MAX_MAX = ZERO
@@ -144,6 +145,22 @@ C-----------------------------------------------
 
         !   ------------------
         !   MIN/MAX secondary node computation 
+        max_limit_s(1:3) = -ep30
+        min_limit_s(1:3) = ep30
+        first = 1+itask*nsn/nthread
+        last = (itask+1)*nsn/nthread
+        do i=first,last
+          nod = intbuf_tab(nin)%nsv(i)
+          if(intbuf_tab(nin)%stfns(i)/=0) then
+            max_limit_s(1) = max(max_limit_s(1),x(1,nod))
+            max_limit_s(2) = max(max_limit_s(2),x(2,nod))
+            max_limit_s(3) = max(max_limit_s(3),x(3,nod))
+
+            min_limit_s(1) = min(min_limit_s(1),x(1,nod))
+            min_limit_s(2) = min(min_limit_s(2),x(2,nod))
+            min_limit_s(3) = min(min_limit_s(3),x(3,nod))            
+          endif
+        enddo
 
         IF(INCONV==1) THEN
             FIRST = 1+ITASK*NSN/NTHREAD
@@ -191,8 +208,16 @@ C-----------------------------------------------
         INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(9) = INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(9)+SIGMA(3)
         INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(10)= INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(10)+SIGMA2(1)
         INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(11)= INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(11)+SIGMA2(2)
-        INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(12)= INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(12)+SIGMA2(3)
+        INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(12)= INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(12)+SIGMA2(3)        
         INTER_STRUCT(NIN)%NMN_G = INTER_STRUCT(NIN)%NMN_G + NMN_L
+
+        box_limit(1) = max(box_limit(1),max_limit_main(1),max_limit_s(1))
+        box_limit(2) = max(box_limit(2),max_limit_main(2),max_limit_s(2))
+        box_limit(3) = max(box_limit(3),max_limit_main(3),max_limit_s(3))
+
+        box_limit(4) = min(box_limit(4),min_limit_main(1),min_limit_s(1))
+        box_limit(5) = min(box_limit(5),min_limit_main(2),min_limit_s(2))
+        box_limit(6) = min(box_limit(6),min_limit_main(3),min_limit_s(3))
 #include "lockoff.inc"
         !   ------------------
         CALL MY_BARRIER
