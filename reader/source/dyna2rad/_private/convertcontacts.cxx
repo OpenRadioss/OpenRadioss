@@ -73,7 +73,6 @@ void sdiD2R::ConvertContact::ConvertEntities()
         p_ConvertUtils.GetAttribValues(*selContact, contactSetAttrNames, contactSetEntities);
         unsigned int ssid = ssidEntity.GetId();
         unsigned int msid = msidEntity.GetId();
-
         int lsdSSTYP;
         int lsdMSTYP;
         int lsdSOFT;
@@ -121,7 +120,8 @@ void sdiD2R::ConvertContact::ConvertEntities()
             keyWord.find("AUTOMATIC_NODES_TO_SURFACE")   != keyWord.npos ||
             keyWord.find("AUTOMATIC_SINGLE_SURFACE")     != keyWord.npos ||
             keyWord.find("ERODING_SINGLE_SURFACE")       != keyWord.npos ||
-            keyWord.find("AUTOMATIC_BEAMS_TO_SURFACE")   != keyWord.npos)
+            keyWord.find("AUTOMATIC_BEAMS_TO_SURFACE")   != keyWord.npos ||
+            keyWord.find("AUTOMATIC_ONE_WAY_SURFACE_TO_SURFACE_TIEBREAK") != keyWord.npos )
         {
             if (keyWord.find("AUTOMATIC_NODES_TO_SURFACE") != keyWord.npos || keyWord.find("AUTOMATIC_BEAMS_TO_SURFACE")   != keyWord.npos)
                 surfAttrNames[0] = "grnd_IDs";
@@ -546,20 +546,23 @@ void sdiD2R::ConvertContact::ConvertEntities()
                  keyWord.find("ERODING_SURFACE_TO_SURFACE")     != keyWord.npos ||
                  keyWord.find("AUTOMATIC_SINGLE_SURFACE")       != keyWord.npos ||
                  keyWord.find("AUTOMATIC_NODES_TO_SURFACE")       != keyWord.npos ||
-                 keyWord.find("AUTOMATIC_BEAMS_TO_SURFACE")       != keyWord.npos)
+                 keyWord.find("AUTOMATIC_BEAMS_TO_SURFACE")       != keyWord.npos ||
+                 keyWord.find("AUTOMATIC_ONE_WAY_SURFACE_TO_SURFACE_TIEBREAK") != keyWord.npos)
         {
             radInterEdit.SetValue(sdiIdentifier("Istf"), sdiValue(2));
             int lsdDEPTH = GetValue<int>(*selContact, "LSDYNA_DEPTH");
-            if (lsdSOFT == 0)
+            // read Optional card A:
+            int option_A = GetValue<int>(*selContact, "Group_Option");
+            if (option_A == 0 || lsdSOFT == 0)
             {
                 radInterEdit.SetValue(sdiIdentifier("Istf"), sdiValue(2));
-                radInterEdit.SetValue(sdiIdentifier("IPSTIF"), sdiValue(1));
+                //radInterEdit.SetValue(sdiIdentifier("IPSTIF"), sdiValue(1));
             }
-            else if (lsdSOFT == 1)
+            else if (option_A == 1 && lsdSOFT == 1)
             {
                 radInterEdit.SetValue(sdiIdentifier("Istf"), sdiValue(4));
             }
-            else if (lsdSOFT == 2)
+            else if (option_A == 1 && lsdSOFT == 2)
             {
                 radInterEdit.SetValue(sdiIdentifier("Istf"), sdiValue(2));
                 radInterEdit.SetValue(sdiIdentifier("IPSTIF"), sdiValue(1));

@@ -775,8 +775,8 @@ void GlobalEntitySDIConvertInterType19(int *INTER_MAXID,int *GRNOD_MAXID,int *LI
     found =  g_pEntity->GetValue(sdiIdentifier("Igap"), tempValInt);
     if(found) tempValInt.GetValue(Igap);
 //
-    found =  g_pEntity->GetValue(sdiIdentifier("Iedge_Type19"), tempValInt);
-    if(found) tempValInt.GetValue(Iedge_Type19);
+//    found =  g_pEntity->GetValue(sdiIdentifier("Iedge_Type19"), tempValInt);
+//    if(found) tempValInt.GetValue(Iedge_Type19);
 //
     found =  g_pEntity->GetValue(sdiIdentifier("Ibag"), tempValInt);
     if(found) tempValInt.GetValue(Ibag);
@@ -2364,22 +2364,21 @@ void GlobalEntitySDIConvert2dElementsSeatbelt(int *PART_MAT119,int *PART_MAXID,i
                 node2Tag = nodeTag[nodeIndexes[aNodeId[1]]];
                 node3Tag = nodeTag[nodeIndexes[aNodeId[2]]];
                 node4Tag = nodeTag[nodeIndexes[aNodeId[3]]];
-
                 if (node1Tag == node2Tag)
                 {
-                    tmpNodes.push_back( make_pair(aNodeId[0],aNodeId[1]) );
-                    tmpNodes.push_back( make_pair(aNodeId[3],aNodeId[2]) );
+                    tmpNodes.push_back (make_pair(std::minmax(aNodeId[0], aNodeId[1]).first, std::minmax(aNodeId[0], aNodeId[1]).second));
+                    tmpNodes.push_back (make_pair(std::minmax(aNodeId[3], aNodeId[2]).first, std::minmax(aNodeId[3], aNodeId[2]).second));
                 }
                 else
                 {
-                    tmpNodes.push_back( make_pair(aNodeId[1],aNodeId[2]) );
-                    tmpNodes.push_back( make_pair(aNodeId[0],aNodeId[3]) );
+                    tmpNodes.push_back (make_pair(std::minmax(aNodeId[1], aNodeId[2]).first, std::minmax(aNodeId[1], aNodeId[2]).second));
+                    tmpNodes.push_back (make_pair(std::minmax(aNodeId[0], aNodeId[3]).first, std::minmax(aNodeId[0], aNodeId[3]).second));
                 } 
             }
             else
             {
-                tmpNodes.push_back( make_pair(aNodeId[0],aNodeId[1]) );
-                tmpNodes.push_back( make_pair(aNodeId[3],aNodeId[2]) ); 
+                tmpNodes.push_back (make_pair(std::minmax(aNodeId[0], aNodeId[1]).first, std::minmax(aNodeId[0], aNodeId[1]).second));
+                tmpNodes.push_back (make_pair(std::minmax(aNodeId[3], aNodeId[2]).first, std::minmax(aNodeId[3], aNodeId[2]).second));
             }
 // next     
             aNodeId.resize(0);  
@@ -2411,8 +2410,8 @@ void GlobalEntitySDIConvert2dElementsSeatbelt(int *PART_MAT119,int *PART_MAXID,i
 // Get Elem Connectivity
             elems->GetNodeIds(aNodeId); 
 // push Spring Elem Connectivity 
-            tmpNodes.push_back( make_pair(aNodeId[0],aNodeId[1]) );
-            tmpNodes.push_back( make_pair(aNodeId[3],aNodeId[2]) ); 
+            tmpNodes.push_back (make_pair(std::minmax(aNodeId[0], aNodeId[1]).first, std::minmax(aNodeId[0], aNodeId[1]).second));
+            tmpNodes.push_back (make_pair(std::minmax(aNodeId[3], aNodeId[2]).first, std::minmax(aNodeId[3], aNodeId[2]).second));
 // next     
             aNodeId.resize(0);  
             index.push_back(idx); 

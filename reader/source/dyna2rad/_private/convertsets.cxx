@@ -49,9 +49,9 @@ void sdiD2R::ConvertSet::p_ConvertAllSets()
 {
     SelectionRead selDynaSetParAdd(p_lsdynaModel, "*SET_PART_ADD");
     SelectionRead selDynaSet(p_lsdynaModel, "*SET");
-    unsigned int setId = UINT_MAX;
-    unsigned int setIdPrevious = UINT_MAX;
-    unsigned int RenumberedSetIdPrevious = UINT_MAX;
+    unsigned int setId = UINT32_MAX;
+    unsigned int setIdPrevious = UINT32_MAX;
+    unsigned int RenumberedSetIdPrevious = UINT32_MAX;
     sdiString setType = "\0";
     sdiString keyWord = "\0";
     HandleEdit setHEdit;

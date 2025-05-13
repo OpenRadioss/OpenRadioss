@@ -156,7 +156,18 @@ void sdiD2R::ConvertCard::p_ConvertCtrlTimeStep()
             dtNodaEdit.SetValue(sdiIdentifier("ENG_DT_NODA_CST_0"), sdiValue(1));
             dtNodaEdit.SetValue(sdiIdentifier("FScale33"), sdiValue(lsdTSSFAC));
             dtNodaEdit.SetValue(sdiIdentifier("Tmin3"), sdiValue(abs(lsdDT2MS) * lsdTSSFAC));
+            sdiConvert::Convert::PushToConversionLog(std::make_pair(dtNodaHandleEdit, sourceCards));
         }
+        else
+        {
+            HandleEdit dtHandleEdit;
+            p_radiossModel->CreateEntity(dtHandleEdit, "/DT");
+            EntityEdit dtEdit(p_radiossModel, dtHandleEdit);
+            dtEdit.SetValue(sdiIdentifier("SCALE"), sdiValue(lsdTSSFAC));
+            dtEdit.SetValue(sdiIdentifier("Tmin"), sdiValue(0.0));
+            sdiConvert::Convert::PushToConversionLog(std::make_pair(dtHandleEdit, sourceCards));
+        }
+        
 
         HandleRead lctmHandle;
         selectCtrlTS->GetEntityHandle(sdiIdentifier("LCTM"), lctmHandle);
