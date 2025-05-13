@@ -111,7 +111,10 @@ C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: MAT_NZ, NG, II, NEL, ITY, MATLAW, NFT, I, JJ, KK
-      INTEGER :: GLOB_DIM, MAX_ID, IERR, IAD, LGTH
+      INTEGER :: GLOB_DIM, MAX_ID, IAD, LGTH
+#ifdef MPI
+      INTEGER IERR
+#endif
 
       this%NRHS = NRHS
 !     number of non zero values for the diffusion matrix elem <-> elem matrix

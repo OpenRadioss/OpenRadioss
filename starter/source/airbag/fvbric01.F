@@ -58,8 +58,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: II, KK, KKK, KKKK, JJ, CONNECT_MAX, NODEID, COUNT, ELID, ELID1, NODE_LIST(8), SURFELE
-      INTEGER :: NSEG, IFACE, ITYPE, NNODE, NSURFNODE, SUM, NNF
+      INTEGER :: II, KK, KKK, KKKK, JJ, CONNECT_MAX, NODEID, COUNT, ELID, ELID1
+      INTEGER :: NSEG, IFACE, ITYPE, NNODE, NSURFNODE, SUM
       INTEGER, DIMENSION(:), ALLOCATABLE :: IFLAG
       INTEGER, DIMENSION(:, :), ALLOCATABLE :: N_E_CONNECT, N_E_CONNECT_LOCID
       INTEGER, TARGET :: REDIRT(4), REDIRP(6), REDIRB(8), REDIRPY(5), 

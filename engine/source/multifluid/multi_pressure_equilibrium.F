@@ -83,19 +83,16 @@ C-----------------------------------------------
       INTEGER :: NEL
       INTEGER :: NBMAT, IMAT, LOCAL_MATID, MATLAW
       my_real :: VOL_FRAC
-      my_real, DIMENSION(:), POINTER :: RHO, SSP, VOL, PRES, EINT, TAU, SPEEINT, 
-     .     FEINT, FP
-      my_real :: ONE_OVER_RHOC2, MASS
+      my_real, DIMENSION(:), POINTER :: RHO, SSP, VOL, PRES, EINT, TAU, SPEEINT, FEINT, FP
       INTEGER :: ITER, MAX_ITER, REMAINING_ELTS
       my_real :: TOL, TOLE
       LOGICAL :: CONT
-      my_real :: GRUN(MVSIZ, MULTI_FVM%NBMAT), COEF(MVSIZ), OLD_PRES(MVSIZ), COEF2(MVSIZ)
+      my_real :: GRUN(MVSIZ, MULTI_FVM%NBMAT), COEF(MVSIZ)
       my_real :: FE(MVSIZ)
       INTEGER :: NBMAT_INCELL(MVSIZ)
       my_real :: ONE_OVER_GRUN
       my_real :: ERROR(MVSIZ), RELAXED_PRESSURE(MVSIZ)
-      my_real :: PRES_INCR(MVSIZ), TAU_INCR(MVSIZ, MULTI_FVM%NBMAT), 
-     .     SPEEINT_INCR(MVSIZ, MULTI_FVM%NBMAT)
+      my_real :: PRES_INCR(MVSIZ), TAU_INCR(MVSIZ, MULTI_FVM%NBMAT)
       INTEGER :: CV_INDICATOR(MVSIZ)
       my_real, TARGET :: VOLWT(MVSIZ, MULTI_FVM%NBMAT), EINTWT(MVSIZ, MULTI_FVM%NBMAT), 
      .     RHOWT(MVSIZ, MULTI_FVM%NBMAT), PRESWT(MVSIZ, MULTI_FVM%NBMAT),
@@ -109,7 +106,7 @@ C-----------------------------------------------
       INTEGER :: NIX,NVAREOS
       LOGICAL :: IDBG
       INTEGER :: NVARTMP_EOS
-      my_real :: DUMMY, PSHIFT
+      my_real :: PSHIFT
       my_real :: SIGOLD(MVSIZ*6)
 C-----------------------------------------------
 C     B e g i n n i n g   o f   s u b r o u t i n e

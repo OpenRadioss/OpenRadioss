@@ -400,8 +400,6 @@
 
           integer :: ii, type
 
-          class (t_ebcs), pointer :: ebcs
-
       if (nebcs > 0) then
          allocate(this%tab(nebcs))
          this%is_created = .true.
@@ -462,7 +460,6 @@
           implicit none
           class (t_ebcs_tab), intent(inout) :: this
 
-          integer :: ii
           if (allocated(this%tab)) then
 ! this is not useful and it causes a bug with Intel OneAPI 2023
 !        do ii = 1, this%nebcs
@@ -1654,7 +1651,6 @@
         subroutine read_data_nrf(this)
           implicit none
           class (t_ebcs_nrf), intent(inout) :: this
-          integer :: itmp
 
       call read_db(this%tcar_p, 1)
       call read_db(this%tcar_vf, 1)

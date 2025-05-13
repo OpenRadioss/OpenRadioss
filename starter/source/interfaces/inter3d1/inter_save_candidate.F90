@@ -97,7 +97,7 @@
           ! and increase the size if it is not the case
           if(local_i_stok+k_stok>local_cand_n%size_int_array_1d) then
             my_old_size = local_cand_n%size_int_array_1d
-            my_size = (my_old_size+k_stok) * 1.25
+            my_size = nint((my_old_size+k_stok) * 1.25)
             allocate( tmp_array_1( my_size ) )
             allocate( tmp_array_2( my_size ) )
             tmp_array_1(1:my_old_size) = local_cand_n%int_array_1d(1:my_old_size)

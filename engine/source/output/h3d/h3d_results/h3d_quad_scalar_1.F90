@@ -145,8 +145,6 @@
           my_real :: s3
           my_real :: fac
           my_real :: vfrac(mvsiz, 1:21)
-          my_real :: volfrac
-          my_real :: bfrac
           my_real :: s11
           my_real :: s22
           my_real :: s33
@@ -185,7 +183,6 @@
           integer :: ius
           integer :: nfail
           integer :: n
-          integer :: k
           integer :: jturb
           integer :: mt
           integer :: ialel
@@ -195,7 +192,6 @@
           integer :: imat
           integer :: ivisc
           integer :: ipos
-          integer :: itrimat
           integer :: iu(4)
           integer :: ieos
 
@@ -214,7 +210,6 @@
           integer :: nvareos
           integer :: ntillotson
           integer :: imat_tillotson
-          integer :: submatlaw
 
           integer :: nft
           integer :: iad

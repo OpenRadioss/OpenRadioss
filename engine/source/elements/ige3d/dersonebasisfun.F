@@ -59,15 +59,11 @@ C-------------------------------------------------------------------------------
 C--------------------------------------------------------------------------------------------------------
 C Local variables 
 C--------------------------------------------------------------------------------------------------------
-      INTEGER J, JJ, K, L, NDERS
-      my_real 
-     .  SAVED, TEMP, ALEFT, RIGHT
-      my_real, 
-     .  DIMENSION(2) :: DERS, A
-      my_real, 
-     .  DIMENSION(PXI+1,PXI+1) :: ANDU
-      my_real, 
-     .  DIMENSION(PXI+1) :: ND
+      INTEGER J, JJ, K, NDERS
+      my_real SAVED, TEMP, ALEFT, RIGHT
+      my_real, DIMENSION(2) :: DERS
+      my_real, DIMENSION(PXI+1,PXI+1) :: ANDU
+      my_real, DIMENSION(PXI+1) :: ND
 
       NDERS=1
       ANDU(:,:)=ZERO

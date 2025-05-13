@@ -88,8 +88,7 @@
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-      integer :: i,ith,mat_id,imat,ilaw,jthe,ntherm_st,ifunc_alpha
-      integer ,dimension(nummat) :: itherm_for
+      integer :: ith,mat_id,imat,ilaw,jthe,ntherm_st,ifunc_alpha
       my_real ::  fscal_alpha
       character(len=nchartitle) :: titr
       character key*80

@@ -56,19 +56,9 @@
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-          !< Integer variables
-          integer :: i,j                                  !< iterators
-          integer :: ndim                                 !< dimension
-          integer :: npt                                  !< number ofintegration points / max number of integration points
-          integer :: nf                                   !< number of functions
-!
-          !< Real variables
-          my_real :: x_i,y_i
-          my_real :: ener,dx,dy,dydx,nu,g,bulk,lam
+          my_real :: nu,g,bulk,lam
           my_real :: youngmin,youngini,youngmax
           my_real :: xmax
-          type(table_4d_), dimension(:) ,pointer :: table_mat
-!
 !--------------------------------------------------------------------------
 !     copy global functions/tables to matparam data structure
 !--------------------------------------------------------------------------

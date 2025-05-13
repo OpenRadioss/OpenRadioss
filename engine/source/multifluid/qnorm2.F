@@ -55,7 +55,7 @@ C-----------------------------------------------
       my_real ::  
      .     X1(3), X2(3), X3(3), X4(3), 
      .     W1(3), W2(3), W3(3), W4(3)
-      my_real, POINTER :: NX, NY, NZ
+      my_real, POINTER :: NY, NZ
 
 
       DO II = 1, NEL

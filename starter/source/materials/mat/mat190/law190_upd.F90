@@ -63,15 +63,11 @@
           ! integer variables
           integer :: i,j,k,kk                             !< iterators
           integer :: ndim                                 !< dimension
-          integer :: npt,nptmax                           !< number of integration points / max number of integration points
-          integer :: fun_1,func_id,func_t,func_c,func_s   !< function identifiers
-          integer :: iconv,sizetozero,ifx,ify,stat,len2,len3
+          integer :: npt                           !< number of integration points / max number of integration points
+          integer :: fun_1                                !< function identifiers
+          integer :: sizetozero,stat,len2,len3
 
           ! real variables
-          my_real :: xfac
-          my_real :: epdt_min
-          my_real :: epdt_max,epdc_min,epdc_max,epds_min,epds_max
-          my_real :: xint,yint
           my_real :: x_i,x_ii,y_i,y_ii
           my_real :: ener,scalefac,dx,dy,dydx,stiffini,nu,g,c1
           my_real ,dimension(:)  ,allocatable :: x_ener,y_ener

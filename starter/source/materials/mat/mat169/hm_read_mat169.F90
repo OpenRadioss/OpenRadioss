@@ -88,7 +88,7 @@
       logical :: is_available,is_encrypted
       integer :: ilaw,pwrt, pwrs
       my_real :: rho0, young,shear, nu, tenmax, gcten ,shrmax,gcshr,shrp 
-      my_real :: sht_sl,unit_l,dp,dfs,dfn,limit_sh,eps_n0,eps_sh0             
+      my_real :: sht_sl,dp,dfs,dfn,limit_sh,eps_n0,eps_sh0
 !=======================================================================
       is_encrypted = .false.
       is_available = .false.

@@ -51,24 +51,17 @@ C-------------------------------------------------------------------------------
 C Dummy Arguments 
 C--------------------------------------------------------------------------------------------------------
       INTEGER PXI, IDXI
-      my_real, 
-     .  INTENT(IN) :: XI
-      my_real, 
-     .  DIMENSION(*), INTENT(IN) :: KXI
-      my_real, 
-     .  DIMENSION(*), INTENT(OUT) :: DERS1, DERS2
+      my_real, INTENT(IN) :: XI
+      my_real, DIMENSION(*), INTENT(IN) :: KXI
+      my_real, DIMENSION(*), INTENT(OUT) :: DERS1, DERS2
 C--------------------------------------------------------------------------------------------------------
 C Local variables 
 C--------------------------------------------------------------------------------------------------------
-      INTEGER I, J, K, L, KR, KP, J1, J2, NDERS, LS1, LS2
-      my_real 
-     .  SAVED, TEMP, D
-      my_real, 
-     .  DIMENSION(PXI+1) :: ALEFT, RIGHT
-      my_real, 
-     .  DIMENSION(2,PXI+1) :: DERS, A
-      my_real, 
-     .  DIMENSION(PXI+1,PXI+1) :: ANDU
+      INTEGER J, K, L, KR, KP, J1, J2, NDERS, LS1, LS2
+      my_real SAVED, TEMP, D
+      my_real, DIMENSION(PXI+1) :: ALEFT, RIGHT
+      my_real, DIMENSION(2,PXI+1) :: DERS, A
+      my_real, DIMENSION(PXI+1,PXI+1) :: ANDU
 
       NDERS=1
       ANDU(1,1)=ONE
@@ -176,22 +169,16 @@ C-------------------------------------------------------------------------------
 C Dummy Arguments 
 C--------------------------------------------------------------------------------------------------------
       INTEGER PXI, IDXI
-      my_real, 
-     .  INTENT(IN) :: XI
-      my_real, 
-     .  DIMENSION(*), INTENT(IN) :: KXI
-      my_real, 
-     .  DIMENSION(*), INTENT(OUT) :: DERS1
+      my_real, INTENT(IN) :: XI
+      my_real, DIMENSION(*), INTENT(IN) :: KXI
+      my_real, DIMENSION(*), INTENT(OUT) :: DERS1
 C--------------------------------------------------------------------------------------------------------
 C Local variables 
 C--------------------------------------------------------------------------------------------------------
-      INTEGER I, J, K, L
-      my_real 
-     .  SAVED, TEMP
-      my_real, 
-     .  DIMENSION(PXI+1) :: ALEFT, RIGHT
-      my_real, 
-     .  DIMENSION(PXI+1,PXI+1) :: ANDU
+      INTEGER J, L
+      my_real SAVED, TEMP
+      my_real, DIMENSION(PXI+1) :: ALEFT, RIGHT
+      my_real, DIMENSION(PXI+1,PXI+1) :: ANDU
 
       ANDU(1,1)=ONE
 

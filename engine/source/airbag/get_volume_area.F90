@@ -101,7 +101,7 @@
           integer :: segment_number,surf_id,ityp
           integer :: number_entity
           integer :: monvol_address,rvolu_address
-          integer :: i,ijk,ii,is,k,nod1,nod2,nod3,nod4
+          integer :: i,ijk,ii,nod1,nod2,nod3,nod4
           my_real :: area,xx,yy,zz,x13,y13,z13,x24,y24,z24
           my_real :: nx, ny, nz
           my_real, dimension(:), allocatable :: f1, f2

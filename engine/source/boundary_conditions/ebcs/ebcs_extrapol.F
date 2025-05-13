@@ -124,20 +124,15 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPOINT
-C     REAL
-      my_real
-     .   TT, F
-C     REAL
-      my_real
-     .   TF(2,*)
+      my_real TT, F
+      my_real TF(2,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, M
-C     REAL
-      my_real
-     .   DT1, DT2, D1, D2, TG
 
+C-----------------------------------------------
+C   B o d y
+C-----------------------------------------------
       !!! If tt (=current time) is lower than tmin (=TF(1,1)) then take first value
       !!! If tt (=current time) is greater than tmax (=TF(1,NPOINT)= then take last value
 

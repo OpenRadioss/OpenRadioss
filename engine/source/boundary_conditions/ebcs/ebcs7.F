@@ -56,9 +56,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IS,K,L,KSEG,N1,N2,N3,N4,NG1,NG2,NG3,NG4,N
+      INTEGER I,IS,KSEG,N1,N2,N3,N4,NG1,NG2,NG3,NG4,N
       my_real
-     .       ORIENT,RHO,C,FC,ROC,ALP,FAC,
+     .       ORIENT,RHO,C,ROC,FAC,
      .       X13,Y13,Z13,X24,Y24,Z24,NX,NY,NZ,S,
      .       ROOU,ENOU,VMX,VMY,VMZ,FLUXI,FLUXO,P,DVX,DVY,DVZ
 C-----------------------------------------------

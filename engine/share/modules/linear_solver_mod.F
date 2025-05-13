@@ -527,9 +527,6 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: NRHS
       TYPE(T_VECTOR), INTENT(INOUT), TARGET :: RHS
 
-      INTEGER :: II
-      INTEGER :: LGTH
-      
       this%RHS => RHS
       this%NRHS = NRHS
       
