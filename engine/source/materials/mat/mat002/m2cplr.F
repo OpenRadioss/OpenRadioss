@@ -118,11 +118,17 @@ C---------------------------
 C     CONTRAINTES ELASTIQUES
 C---------------------------
       DO I=JFT,JLT
+    !!    write(*,*) 'Plastic_SIGNXX', SIGNXX(I)
+    !!    write(*,*) 'Plastic_SIGNYY', SIGNYY(I)
+    !!    write(*,*) 'Plastic_SIGNXY', SIGNXY(I)
         SIGNXX(I)=SIGNXX(I)+A1*DEPSXX(I)+A2*DEPSYY(I)
         SIGNYY(I)=SIGNYY(I)+A2*DEPSXX(I)+A1*DEPSYY(I)
         SIGNXY(I)=SIGNXY(I)+G*DEPSXY(I)
         SIGNYZ(I)=SIGNYZ(I)+GS(I)*DEPSYZ(I)
         SIGNZX(I)=SIGNZX(I)+GS(I)*DEPSZX(I)
+    !!    write(*,*) 'Elastic_SIGNXX', SIGNXX(I)
+    !!    write(*,*) 'Elastic_SIGNYY', SIGNYY(I)
+    !!    write(*,*) 'Elastic_SIGNXY', SIGNXY(I)
       ENDDO
       DO I=JFT,JLT
         LOGEP(I) = ZERO
@@ -192,6 +198,7 @@ C-------------------
      .               +SIGNYY(I)*SIGNYY(I)
      .               -SIGNXX(I)*SIGNYY(I)
      .         +THREE*SIGNXY(I)*SIGNXY(I))
+        !write(*,*) '3SVM(I)',SVM(I)
         ENDDO
 C projection radiale 
 #include "vectorize.inc" 
@@ -220,12 +227,22 @@ C-------------------------
 C     CRITERE DE VON MISES
 C-------------------------
         DO  I=JFT,JLT
+        !  write(*,*) '222SIGNXX', SIGNXX(I)
+        !  write(*,*) '222SIGNYY', SIGNYY(I)
+        !  write(*,*) '222SIGNXY', SIGNXY(I)
           S1=SIGNXX(I)+SIGNYY(I)
+        !  write(*,*) '222S1',S1
           S2=SIGNXX(I)-SIGNYY(I)
+        !  write(*,*) '222S2',S2
           S3=SIGNXY(I)
+        !  write(*,*) '222S3',S3
           A(I)=FOURTH*S1*S1
+        !  write(*,*) '222A(I)',A(I)
           B(I)=THREE_OVER_4*S2*S2+THREE*S3*S3
+        !  write(*,*) '222B(I)',B(I)
           SVM(I)=SQRT(A(I)+B(I))  
+          !write(*,*) '111VM(I)',VM(I)
+        !  write(*,*) '222SVM(I)',SVM(I)
         ENDDO
 C-------------------------
 C     GATHER PLASTIC FLOW

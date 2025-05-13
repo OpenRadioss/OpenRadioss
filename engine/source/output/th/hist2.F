@@ -1412,9 +1412,11 @@ C---------------------------------------
            IF(IUNIT==3)THEN
             DO M=1,NPART+NTHPART
 C Reset after gather on all partitions where no accumulation occurs
-              DO I=1,NPSAV
+               DO I=1,NPSAV
+                WRITE(*,*) "I = ", I
                 IF((I<23.OR.I>26.OR.I==25).AND.I/=8 .AND. NABFILE==0
      .               .AND. (MSTOP /= 1 .OR. ICTLSTOP == 1) ) then
+                 WRITE(*,*) "PAR LA"
                  PARTSAV(I,M)=0
                 ENDIF
               END DO

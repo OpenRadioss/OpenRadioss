@@ -282,6 +282,7 @@ C=======================================================================
       GBUF => ELBUF_STR%GBUF
       IDRAPE = ELBUF_STR%IDRAPE
       
+      
 C-----
       IBID = 0
       BID  = ZERO

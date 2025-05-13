@@ -369,12 +369,12 @@
 !
           my_real sigdmg(mvsiz,5),sigksi(mvsiz,5),tens(mvsiz,5)
           my_real ,dimension(mvsiz) :: fpsxx,fpsyy,fpszz,fpsxy,fpsyx,epchk,epspdt,dt_inv,copy_pla,pla0,&
-          &degmb ,degfx ,sigoff,thklyl,thkn  ,etse,off_old,&
+          &degmb ,degfx ,sigoff,thklyl,thkn  ,etse,off_old, thknlyl,&
           &depsxx,depsyy,depsxy,depsyz,depszx,epsxx ,epsyy ,epsxy,&
           &epsyz ,epszx ,epspxx,epspyy,epspxy,epspyz,epspzx,sigoxx,&
           &sigoyy,sigoxy,sigoyz,sigozx,signxx,signyy,signxy,signyz,&
-          &signzx,sigvxx,sigvyy,sigvxy,sigvyz,sigvzx, vm,   &
-          &wmc, epspl, yld,dpla,vol0, coef,hardm,la0,g_imp,visc,wplar,&
+          &signzx,sigvxx,sigvyy,sigvxy,sigvyz,sigvzx, vm, A,B, dwpla, &
+          &wmc, epspl, yld,dpla,vol0, coef,hardm,la0,g_imp,visc,wplar, pla_old,&
           &epsp_loc,signxx_fail,signyy_fail,signxy_fail,signyz_fail,tstar,    &
           &signzx_fail,areamin,dareamin,dmg_glob_scale,dmg_loc_scale,et_imp, epsthtot
           my_real, dimension(nel,5) :: dmg_orth_scale
@@ -425,6 +425,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
+          write(*,*) 'Innnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn subroutine mulawc'
           gbuf => elbuf_str%gbuf
           ipg  = (is-1)*elbuf_str%nptr + ir     ! current gauss point
           npg  = elbuf_str%nptr * elbuf_str%npts
@@ -496,6 +497,7 @@
           degmb(jft:jlt) = for(jft:jlt,1)*exx(jft:jlt)+for(jft:jlt,2)*eyy(jft:jlt)  &
           &            + for(jft:jlt,3)*exy(jft:jlt)+for(jft:jlt,4)*eyz(jft:jlt)    &
           &            + for(jft:jlt,5)*exz(jft:jlt)
+          
           degfx(jft:jlt) = mom(jft:jlt,1)*kxx(jft:jlt)+mom(jft:jlt,2)*kyy(jft:jlt)  &
           &            + mom(jft:jlt,3)*kxy(jft:jlt)
 !
@@ -605,6 +607,10 @@
 !-----------------------------------------------------------
 !     loop over thickness integration points (layers)
 !-----------------------------------------------------------
+          !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+          dwpla(1:mvsiz) = zero
+
           do ilay =1,nlay
             if (ixfem == 1 .and. ixlay > 0) then  !  multilayer xfem
               ilayer = ixlay
@@ -703,8 +709,9 @@
 !----------------------------------------------------------------------
 !---
             l_dmg = bufly%l_dmg
-!---
+!---!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             do it=1,nptt
+              write(*,*) 'iiiiiiiiiiiiiiiiiiiiiiiiitttttttttttttttit',it
               ipt = ipt_all + it        ! count all nptt through all layers
               jpos = 1 + (ipt-1)*jlt
 !
@@ -744,7 +751,18 @@
 !-----------------------------------------
               !zz   => posly(1:nel,ipt)
               !thly => thkly(jpos:jpos+nel-1)
+              !thk0: initial thickness of shell elements
+              !thkly: Weight of intergration point along the thickness
+              !thklyl: thickness of each intergration point  
               thklyl(1:nel) = thkly(jpos:jpos+nel-1)*thk0(1:nel)
+              
+        !      do i = jft,jlt
+        !        write(*,*) 'i',i
+        !        write(*,*) 'thklyl',thklyl(i)
+        !        write(*,*) 'thk0',thk0(i)
+        !        write(*,*) 'thkly',thkly(jpos+i-1)
+        !        write(*,*) 'vol0', vol0(i)
+        !      enddo
 !
               if ((igtyp == 1 .or. igtyp == 9).and.zshift==zero) then
                 ! initialize wm matrix
@@ -1071,6 +1089,15 @@
                 enddo
               endif
               dpla(1:mvsiz) = zero
+
+              !pla_old(1:mvsiz) = zero
+
+           !   do i=jft,jlt
+           !     write(*,*) 'initial dpla',dpla(i)
+           !     pla_old(i) = lbuf%pla(i)
+           !     write(*,*) 'initial pla_old(i)',pla_old(i)
+           !   enddo
+
               if (ifailure == 1) then
                 if (elbuf_str%bufly(ilayer)%l_pla > 0) then
                   pla0(1:jlt) = lbuf%pla(1:jlt)
@@ -1939,7 +1966,6 @@
 !------------------------------------------------------------
 !     Calculation of the Plastic Work
 !------------------------------------------------------------           
-              
               if (bufly%l_pla > 0) then  
                 if (bufly%l_seq > 0) then
                    do i = jft,jlt
@@ -1947,11 +1973,52 @@
                    enddo
                 else
                    do i = jft,jlt
-                    vm(i)= sqrt(three*(signxy(i)*signxy(i)  +  signzx(i)*signzx(i) + signyz(i)*signyz(i))  &
-                           & + half*((signxx(i)-signyy(i))*(signxx(i)-signyy(i)) + signyy(i)*signyy(i) &
-                           & + signxx(i)*signxx(i)) )
-    
-                    gbuf%wpla(i) = gbuf%wpla(i) + vm(i)*dpla(i)*thklyl(i)*area(i)
+                      vm(i)= sqrt(three*signxy(i)*signxy(i) + signxx(i)*signxx(i) + signyy(i)*signyy(i) - signxx(i)*signyy(i)) 
+                      !write(*,*) '1aavm(i)', vm(i)
+                  !!    write(*,*) '111SIGNXX', SIGNXX(I)
+                  !!    write(*,*) '111SIGNYY', SIGNYY(I)
+                  !!    write(*,*) '111SIGNXY', SIGNXY(I)
+
+                    !  S1=SIGNXX(I)+SIGNYY(I)
+                  !!    write(*,*) '111S1',S1
+                    !  S2=SIGNXX(I)-SIGNYY(I)
+                  !!    write(*,*) '111S2',S2
+                    !  S3=SIGNXY(I)
+                  !!    write(*,*) '111S3',S3
+                    !  A(I)=FOURTH*S1*S1
+                  !!    write(*,*) '111A(I)',A(I)
+                    !  B(I)=THREE_OVER_4*S2*S2+THREE*S3*S3
+                  !!    write(*,*) '111B(I)',B(I)
+                    !  VM(I)=SQRT(A(I)+B(I)) 
+                  !!    write(*,*) '111VM(I)',VM(I)
+                  !!    write(*,*) '111SIGY(I)',SIGY(I)
+                  !!    write(*,*) '111YLD(I)',YLD(I)
+                  !!    write(*,*) '111DPLA(I)',DPLA(I)
+      !                write(*,*) 'it' , it
+      !                write(*,*) 'area(i)' , area(i)
+      !                write(*,*) 'thklyl(i)',thklyl(i)
+      !                write(*,*) 'vol0(i)', vol0(i)
+                   !   write(*,*) 'dpla(i)', dpla(i)
+                     ! gbuf%wpla(i) = gbuf%wpla(i) + vm(i)*dpla(i)*thklyl(i)*area(i)
+                      write(*,*) '(i)' , i
+                      write(*,*) 'area(i)' , area(i)
+                      write(*,*) 'thklyl(i)',thklyl(i)
+                      write(*,*) 'lbuf%pla(i)' , lbuf%pla(i)
+                     ! write(*,*) 'lbuf%pla(i)- pla_old(i)' , lbuf%pla(i)- pla_old(i)
+                      write(*,*) 'exx ',exx(i)
+                      write(*,*) 'eyy ',eyy(i)
+                      write(*,*) 'exy ',exy(i)
+                      write(*,*) 'eyz ',eyz(i)
+                      write(*,*) 'exz ',exz(i)   
+                      write(*,*) 'dpla' , dpla(i)
+                      write(*,*) 'vm()*dpla()*thklyl()*area()' , vm(i)*dpla(i)*thklyl(i)*area(i)
+                      !gbuf%wpla(i) = gbuf%wpla(i) + vm(i)*(lbuf%pla(i)- pla_old(i))*thklyl(i)*area(i)
+
+                     ! gbuf%wpla(i) = gbuf%wpla(i) + vm(i)*dpla(i)*thklyl(i)*area(i)
+                      dwpla(i) = dwpla(i) + vm(i)*dpla(i)*thkly(i)
+                      write(*,*) 'gbuf%wpla(i)' , gbuf%wpla(i)
+                     ! lbuf%wpla(i) = lbuf%wpla(i) + vm(i)*(lbuf%pla(i)- pla_old(i))*thklyl(i)*area(i)
+                     
                    enddo
                endif
               endif
@@ -2561,6 +2628,10 @@
               enddo
 !
 !-----------------------------------------------
+             ! write(*,*) 'igtyp ',igtyp 
+             ! do i=jft,jlt
+             !      write(*,*) 'for ',for(i,1),for(i,2),for(i,3),for(i,4),for(i,5)
+             ! enddo             
               if (igtyp == 1) then
                 select case (dmg_flag)
                  case (0)
@@ -2574,6 +2645,7 @@
                     mom(1:nel,2) = mom(1:nel,2) + wmc(1:nel)*(signyy(1:nel)+sigvyy(1:nel))
                     mom(1:nel,3) = mom(1:nel,3) + wmc(1:nel)*(signxy(1:nel)+sigvxy(1:nel))
                   else
+              !      write(*,*) 'BBBB'
                     for(1:nel,1) = for(1:nel,1) + thkly(jpos:jpos+nel-1)*signxx(1:nel)
                     for(1:nel,2) = for(1:nel,2) + thkly(jpos:jpos+nel-1)*signyy(1:nel)
                     for(1:nel,3) = for(1:nel,3) + thkly(jpos:jpos+nel-1)*signxy(1:nel)
@@ -2582,6 +2654,9 @@
                     mom(1:nel,1) = mom(1:nel,1) + wmc(1:nel) *signxx(1:nel)
                     mom(1:nel,2) = mom(1:nel,2) + wmc(1:nel) *signyy(1:nel)
                     mom(1:nel,3) = mom(1:nel,3) + wmc(1:nel) *signxy(1:nel)
+               !     do i=jft,jlt
+                !      write(*,*) 'for ',for(i,1),for(i,2),for(i,3),for(i,4),for(i,5)
+                 !   enddo  
                   endif
                  case (1)  ! softening with dmg_loc_scale from failure model
                   if (ilaw==58 .or. ilaw == 158 .or. iprony == 1) then
@@ -2645,6 +2720,7 @@
                     tens(jft:jlt,4) = signyz(jft:jlt)+sigvyz(jft:jlt)
                     tens(jft:jlt,5) = signzx(jft:jlt)+sigvzx(jft:jlt)
                   else
+      
                     tens(jft:jlt,1) = signxx(jft:jlt)
                     tens(jft:jlt,2) = signyy(jft:jlt)
                     tens(jft:jlt,3) = signxy(jft:jlt)
@@ -2803,6 +2879,58 @@
                   enddo
                 endif
               endif
+
+          !    if (bufly%l_pla > 0) then  
+          !      if (bufly%l_seq > 0) then
+         !          do i = jft,jlt
+         !            gbuf%wpla(i) = gbuf%wpla(i) + lbuf%seq(i)*dpla(i)*thklyl(i)*area(i)
+         !          enddo
+           !     else
+         !          do i = jft,jlt
+         !             vm(i)= sqrt(three*signxy(i)*signxy(i) + signxx(i)*signxx(i) + signyy(i)*signyy(i) - signxx(i)*signyy(i)) 
+                      !write(*,*) '1aavm(i)', vm(i)
+                  !!    write(*,*) '111SIGNXX', SIGNXX(I)
+                  !!    write(*,*) '111SIGNYY', SIGNYY(I)
+                  !!    write(*,*) '111SIGNXY', SIGNXY(I)
+
+                    !  S1=SIGNXX(I)+SIGNYY(I)
+                  !!    write(*,*) '111S1',S1
+                    !  S2=SIGNXX(I)-SIGNYY(I)
+                  !!    write(*,*) '111S2',S2
+                    !  S3=SIGNXY(I)
+                  !!    write(*,*) '111S3',S3
+                    !  A(I)=FOURTH*S1*S1
+                  !!    write(*,*) '111A(I)',A(I)
+                    !  B(I)=THREE_OVER_4*S2*S2+THREE*S3*S3
+                  !!    write(*,*) '111B(I)',B(I)
+                    !  VM(I)=SQRT(A(I)+B(I)) 
+                  !!    write(*,*) '111VM(I)',VM(I)
+                  !!    write(*,*) '111SIGY(I)',SIGY(I)
+                  !!    write(*,*) '111YLD(I)',YLD(I)
+                  !!    write(*,*) '111DPLA(I)',DPLA(I)
+      !                write(*,*) 'it' , it
+      !                write(*,*) 'area(i)' , area(i)
+      !                write(*,*) 'thklyl(i)',thklyl(i)
+      !                write(*,*) 'vol0(i)', vol0(i)
+                   !   write(*,*) 'dpla(i)', dpla(i)
+                     ! gbuf%wpla(i) = gbuf%wpla(i) + vm(i)*dpla(i)*thklyl(i)*area(i)
+          !            write(*,*) '(i)' , i
+          !            write(*,*) 'area(i)' , area(i)
+          !            write(*,*) 'thklyl(i)',thklyl(i)
+          !            write(*,*) 'lbuf%pla(i)' , lbuf%pla(i)
+          !            write(*,*) 'lbuf%pla(i)- pla_old(i)' , lbuf%pla(i)- pla_old(i)
+           !           write(*,*) 'dpla' , dpla(i)
+          !            write(*,*) 'vm()*(lbuf%pla()- pla_old())*thklyl()*area()' , vm(i)*(lbuf%pla(i)- pla_old(i))*thklyl(i)*area(i)
+          !            gbuf%wpla(i) = gbuf%wpla(i) + vm(i)*(lbuf%pla(i)- pla_old(i))*thklyl(i)*area(i)
+
+
+           !           write(*,*) 'gbuf%wpla(i)' , gbuf%wpla(i)
+                    !  lbuf%wpla(i) = lbuf%wpla(i) + vm(i)*(lbuf%pla(i)- pla_old(i))*thklyl(i)*area(i)
+                    ! gbuf%wpla(i) = gbuf%wpla(i) + sigy(i)*dpla(i)*thklyl(i)*area(i)
+            !       enddo
+            !   endif
+            !  endif
+!---------------------
             enddo  !  it=1,nptt
             ipt_all = ipt_all + nptt
           enddo  !  do ilay =1,nlay
@@ -2953,9 +3081,23 @@
             mom(jft:jlt,3)=mom(jft:jlt,3)*gbuf%intvar(jft:jlt)
           endif
 
+        !  do i=jft,jlt
+        !    write(*,*) 'i' , i
+        !    write(*,*) 'exx ',exx(i)
+        !    write(*,*) 'eyy ',eyy(i)
+        !    write(*,*) 'exy ',exy(i)
+        !    write(*,*) 'eyz ',eyz(i)
+        !    write(*,*) 'exz ',exz(i)          
+        !  enddo  
           degmb(jft:jlt) = degmb(jft:jlt)+ for(jft:jlt,1)*exx(jft:jlt)+for(jft:jlt,2)*eyy(jft:jlt)&
           &+ for(jft:jlt,3)*exy(jft:jlt)+for(jft:jlt,4)*eyz(jft:jlt)+ for(jft:jlt,5)*exz(jft:jlt)
           degfx(jft:jlt) = degfx(jft:jlt)+ mom(jft:jlt,1)*kxx(jft:jlt)+mom(jft:jlt,2)*kyy(jft:jlt)+mom(jft:jlt,3)*kxy(jft:jlt)
+          write(*,*) 'it===' , it
+          do i=jft,jlt
+            write(*,*) 'i===', i
+            write(*,*) 'degmb===', degmb(i)
+            write(*,*) 'degfx===', degfx(i)
+          enddo
 !-----------------------------------------------------------------------
 !---
           if (mtn == 25) then
@@ -2998,9 +3140,20 @@
 !---
           do i=jft,jlt
             vol2 = half*vol0(i)
+            gbuf%wpla(i) = gbuf%wpla(i)+dwpla(i)*vol2
             if (mtn == 22) vol2 = vol2*off(i)
             eint(i,1) = eint(i,1) + degmb(i)*vol2
             eint(i,2) = eint(i,2) + degfx(i)*thk0(i)*vol2
+            write(*,*) 'eint(i,1)+eint(i,2)', eint(i,1)+eint(i,2)
+            write(*,*) 'gbuf%wpla(i)',  gbuf%wpla(i)
+
+           ! for(1:nel,1) = for(1:nel,1) + thkly(jpos:jpos+nel-1)*signxx(1:nel)
+           ! for(1:nel,2) = for(1:nel,2) + thkly(jpos:jpos+nel-1)*signyy(1:nel)
+           ! for(1:nel,3) = for(1:nel,3) + thkly(jpos:jpos+nel-1)*signxy(1:nel)
+           ! for(1:nel,4) = for(1:nel,4) + thkly(jpos:jpos+nel-1)*signyz(1:nel)
+           ! for(1:nel,5) = for(1:nel,5) + thkly(jpos:jpos+nel-1)*signzx(1:nel)
+           ! vm(i)= sqrt(three*for(i,3)*for(i,3) + for(i,1)*for(i,1) + for(i,2)*for(i,2) - for(i,1)*for(i,2))
+           ! gbuf%wpla(i) = gbuf%wpla(i) + vm(i)*vol0(i)
           enddo
 !
           if (jthe > 0 .and. mtn /= 2) then
