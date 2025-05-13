@@ -171,7 +171,8 @@ C     Global buffer of the current group
      5                              GBUF%TEMP,             LBUF%BFRAC,   GBUF%TB,       GBUF%DELTAX,
      6                              CURRENT_TIME,          SIGOLD,       SNPC,          STF,
      7                              NPF,                   TF,           EBUF%VAR,      NVAREOS,
-     7                              MATPARAM(LOCAL_MATID), NVARTMP_EOS,  EBUF%VARTMP,   NUMMAT )
+     7                              MATPARAM(LOCAL_MATID), NVARTMP_EOS,  EBUF%VARTMP,   NUMMAT ,
+     8                              GBUF%ABURN)
                DO II = 1, NEL
                   IF (MULTI_FVM%SOUND_SPEED(II + NFT) > ZERO) THEN
                      MULTI_FVM%SOUND_SPEED(II + NFT) = SQRT(MULTI_FVM%SOUND_SPEED(II + NFT))
@@ -294,7 +295,8 @@ C     Compute EOS
      5                                 LBUF%TEMP,             LBUF%BFRAC,      GBUF%TB,            GBUF%DELTAX,
      6                                 CURRENT_TIME,          SIGOLD,          SNPC,               STF,
      7                                 NPF,                   TF,              EBUF%VAR,           NVAREOS,
-     7                                 MATPARAM(LOCAL_MATID), NVARTMP_EOS,     EBUF%VARTMP,        NUMMAT )
+     7                                 MATPARAM(LOCAL_MATID), NVARTMP_EOS,     EBUF%VARTMP,        NUMMAT ,
+     8                                 GBUF%ABURN)
 C     Relaxed pressure initialization
                   DO II = 1, NEL
                      P0(II) = P0(II) + ALPHAWT(II, IMAT) * PRES(II)
@@ -469,7 +471,8 @@ C     Compute EOS
      5                                    LBUF%TEMP,             LBUF%BFRAC,      GBUF%TB,        GBUF%DELTAX,
      6                                    CURRENT_TIME,          SIGOLD,          SNPC,           STF,
      7                                    NPF,                   TF,              EBUF%VAR,       NVAREOS,
-     7                                    MATPARAM(LOCAL_MATID), NVARTMP_EOS,     EBUF%VARTMP ,   NUMMAT )
+     8                                    MATPARAM(LOCAL_MATID), NVARTMP_EOS,     EBUF%VARTMP ,   NUMMAT ,
+     9                                    GBUF%ABURN)
                   ENDDO         ! IMAT = 1, NBMAT 
                   
                ENDDO            !ITER = 1, MAX_ITER
@@ -532,7 +535,8 @@ C     Compute EOS
      5                                 LBUF%TEMP,             LBUF%BFRAC,      GBUF%TB,       GBUF%DELTAX,
      6                                 CURRENT_TIME,          SIGOLD,          SNPC,          STF,
      7                                 NPF,                   TF,              EBUF%VAR,      NVAREOS,
-     7                                 MATPARAM(LOCAL_MATID), NVARTMP_EOS,     EBUF%VARTMP,   NUMMAT )
+     8                                 MATPARAM(LOCAL_MATID), NVARTMP_EOS,     EBUF%VARTMP,   NUMMAT ,
+     9                                 GBUF%ABURN)
 
                ENDDO            ! IMAT = 1, NBMAT                             
                
@@ -663,7 +667,8 @@ C     Call equation of state for the submaterial
      5                                    LBUF%TEMP,            LBUF%BFRAC,      GBUF%TB,        GBUF%DELTAX,
      6                                    CURRENT_TIME,         SIGOLD,          SNPC,           STF,
      7                                    NPF,                  TF,              EBUF%VAR,       NVAREOS,
-     7                                    MATPARAM(LOCAL_MATID),NVARTMP_EOS,     EBUF%VARTMP,    NUMMAT   )
+     8                                    MATPARAM(LOCAL_MATID),NVARTMP_EOS,     EBUF%VARTMP,    NUMMAT  ,
+     9                                    GBUF%ABURN)
                   ENDDO  ! IMAT = 1, NBMAT
                   DO II = 1, NEL
                      IF (CV_INDICATOR(II) /= 1) THEN

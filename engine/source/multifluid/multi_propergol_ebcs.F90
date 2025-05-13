@@ -82,15 +82,15 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      INTEGER :: IELEM, ELEMID, NODE_ID
-      INTEGER :: KFACE, NB_NOD_FOUND, KNOD, KK, JJ
-      my_real :: X1(3), X2(3), X3(3), X4(3), P, NORMVEL, VX, VY, VZ, SSP, SURF, NX, NY, NZ
-      my_real :: RHO, SSTAR, PSTAR, PFAC, SL, SR, WFAC(3), VII(5),  VEL2, NORMALW
-      my_real :: FII(5), FJJ(5), VIISTAR(5),  FIISTAR(5), FJJSTAR(5), PP(5)
-      INTEGER :: NODE1, NODE2, IMAT, NBMAT
+      INTEGER :: IELEM, ELEMID
+      INTEGER :: KFACE
+      my_real :: SURF, NX, NY, NZ
+      my_real :: SSTAR, PSTAR, SL, SR, WFAC(3), VII(5), NORMALW
+      my_real :: FII(5), VIISTAR(5),  FIISTAR(5), PP(5)
+      INTEGER :: IMAT, NBMAT
       INTEGER :: MATLAW(MULTI_FVM%NBMAT), LOCAL_MATID(MULTI_FVM%NBMAT)
       my_real :: PHASE_RHOII(MULTI_FVM%NBMAT), PHASE_PRESII(MULTI_FVM%NBMAT)
-      my_real :: PHASE_EINTII(MULTI_FVM%NBMAT), PHASE_SSPII(MULTI_FVM%NBMAT)
+      my_real :: PHASE_EINTII(MULTI_FVM%NBMAT)
       my_real :: PHASE_ALPHAII(MULTI_FVM%NBMAT), PHASE_RHOJJ(MULTI_FVM%NBMAT)
       my_real :: PHASE_PRESJJ(MULTI_FVM%NBMAT), PHASE_EINTJJ(MULTI_FVM%NBMAT)
       my_real :: PHASE_SSPJJ(MULTI_FVM%NBMAT), PHASE_ALPHAJJ(MULTI_FVM%NBMAT)
@@ -98,7 +98,7 @@
       my_real :: P_JJ, NORMAL_VELJJ, VXJJ, VYJJ, VZJJ, VELII2, ALPHAII, SUB_RHOII, SUB_RHOEINTII, SUB_VIISTAR(3)
       my_real :: SUB_FIISTAR(3), ALPHASTAR, SUB_RHOSTAR, SUB_PII, VELJJ2, SUB_ESTAR, EINTJJ
       INTEGER :: IELEM_START, IELEM_END, ID_SURF
-      my_real :: TCAR_P, TCAR_VF,ALPHA,BETA,DP0,Vnew,Vold,Pvois,POld,MACH,RHOC2,ROC,PSURF
+      my_real :: TCAR_P, TCAR_VF,ALPHA,BETA,DP0,Vnew,Vold,Pvois,POld,MACH,RHOC2,ROC,PSURF,ABURN(1)
       INTEGER :: VARTMP_EOS(1,128) !nel=1
       INTEGER :: NVARTMP_EOS !upper bound
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -111,6 +111,7 @@
       TCAR_P = EBCS%TCAR_P
       TCAR_VF = EBCS%TCAR_VF
       ID_SURF = EBCS%SURF_ID
+      ABURN(:) = zero
 
       if(1==2)print *, XGRID(1,1),WGRID(1,1),EBCS_ID,func_value(1)
       
@@ -208,7 +209,8 @@
                         DUMMY,                       MULTI_FVM%BFRAC(IMAT,ELEMID), MULTI_FVM%TBURN(ELEMID), DUMMY, &
                         DUMMY(1),                    DUMMY,                        SNPC,                    STF, &
                         NPF,                         TF,                           DUMMY,                   1, &
-                        MATPARAM(LOCAL_MATID(IMAT)), NVARTMP_EOS,                  VARTMP_EOS,              NUMMAT)
+                        MATPARAM(LOCAL_MATID(IMAT)), NVARTMP_EOS,                  VARTMP_EOS,              NUMMAT, &
+                        ABURN )
                  SSPJJ = SSPJJ + PHASE_ALPHAJJ(IMAT) * PHASE_RHOJJ(IMAT) *  MAX(EM20, PHASE_SSPJJ(IMAT))
                  P_JJ = P_JJ + PHASE_PRESJJ(IMAT) * PHASE_ALPHAJJ(IMAT)
                  EINTJJ = EINTJJ + PHASE_ALPHAJJ(IMAT) * PHASE_EINTJJ(IMAT)

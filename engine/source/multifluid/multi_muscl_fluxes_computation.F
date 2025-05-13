@@ -317,7 +317,7 @@ C     Reconstructed density current element
      .                 EINTII(1), RHOII(1), PII(1), SSPII(1),
      .                 MULTI_FVM%BFRAC(1, I), GBUF%TB(II:), GBUF%DELTAX(II:), CURRENT_TIME,
      .                 BUFMAT, GBUF%OFF(II:), GBUF%SIG(II+IDX(1):II+IDX(6)), SNPC, STF, NPF, TF, EBUF%VAR, NVAREOS(1),
-     .                 MATPARAM(LOCAL_MATID(1)) ,NVARTMP_EOS(1), EBUF%VARTMP,NUMMAT)
+     .                 MATPARAM(LOCAL_MATID(1)) ,NVARTMP_EOS(1), EBUF%VARTMP,NUMMAT,GBUF%ABURN(II:))
                   SSPII = SQRT(SSPII)
 
                ELSE
@@ -360,7 +360,7 @@ C     Global reconstructed density
      .                       MULTI_FVM%BFRAC(IMAT, I), GBUF%TB(II:), GBUF%DELTAX(II:), CURRENT_TIME,
      .                       BUFMAT, LBUFS(IMAT)%LBUF%OFF(II:),LBUFS(IMAT)%LBUF%SIG(II+IDX(1):II+IDX(6)), SNPC,STF,NPF,TF,
      .                       EBUFS(IMAT)%EBUF%VAR,NVAREOS(IMAT), MATPARAM(LOCAL_MATID(IMAT)),
-     .                       NVARTMP_EOS(IMAT),EBUFS(IMAT)%EBUF%VARTMP,NUMMAT)
+     .                       NVARTMP_EOS(IMAT),EBUFS(IMAT)%EBUF%VARTMP,NUMMAT,GBUF%ABURN(II:))
 C     Global reconstructed pressure
                         PII(1) = PII(1) + PHASE_ALPHAII(IMAT) * PHASE_PRESII(IMAT)
                         EINTII(1) = EINTII(1) + PHASE_ALPHAII(IMAT) * PHASE_EINTII(IMAT)
@@ -418,7 +418,7 @@ C     Reconstructed density adjacent element
      .                 MULTI_FVM%BFRAC(1, J), GBUF%TB(II:), GBUF%DELTAX(II:), CURRENT_TIME,
      .                 BUFMAT, GBUF%OFF(II:),GBUF%SIG(II+IDX(1):II+IDX(6)), SNPC,STF,NPF,TF,EBUF%VAR,NVAREOS(1),
      .                 MATPARAM(LOCAL_MATID(1)),
-     .                 NVARTMP_EOS(1),EBUF%VARTMP,NUMMAT)
+     .                 NVARTMP_EOS(1),EBUF%VARTMP,NUMMAT,GBUF%ABURN(II:))
                   SSPJJ(1) = SQRT(SSPJJ(1))
                ELSE
                   RHOJJ(1) = ZERO
@@ -459,7 +459,7 @@ C     Global reconstructed density
      .                       MULTI_FVM%BFRAC(IMAT, J), GBUF%TB(II:), GBUF%DELTAX(II:), CURRENT_TIME,
      .                       BUFMAT, LBUFS(IMAT)%LBUF%OFF(II:),LBUFS(IMAT)%LBUF%SIG(II+IDX(1):II+IDX(6)),SNPC,STF,NPF,TF,
      .                       EBUFS(IMAT)%EBUF%VAR,NVAREOS(IMAT), MATPARAM(LOCAL_MATID(IMAT)),
-     .                       NVARTMP_EOS(IMAT),EBUFS(IMAT)%EBUF%VARTMP,NUMMAT)
+     .                       NVARTMP_EOS(IMAT),EBUFS(IMAT)%EBUF%VARTMP,NUMMAT,GBUF%ABURN(II:))
 C     Global reconstructed pressure
                         PJJ(1) = PJJ(1) + PHASE_ALPHAJJ(IMAT) * PHASE_PRESJJ(IMAT)
                         EINTJJ = EINTJJ + PHASE_ALPHAJJ(IMAT) * PHASE_EINTJJ(IMAT)
@@ -776,5 +776,3 @@ C     Boundary fluxes
 C----------------------
       END SUBROUTINE MULTI_MUSCL_FLUXES_COMPUTATION
       END MODULE MULTI_MUSCL_FLUXES_COMPUTATION_MOD
-
-

@@ -60,9 +60,9 @@ C-----------------------------------------------
       my_real
      .   EINC(MVSIZ) , ESPE(MVSIZ), W1DF(MVSIZ)
       my_real
-     .   TBEGIN, TEND, TT0, 
+     .   TBEGIN, TEND,
      .   VOLO(MVSIZ),FACM(MVSIZ),POLD(MVSIZ),PNEW(MVSIZ),
-     .   EADD, LAMBDA,RR,RR2,A,M,N,XSI, BULK
+     .   EADD, LAMBDA,RR,RR2,A,M,N,BULK
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -77,7 +77,7 @@ C-----------------------------------------------
 
       !================      AFTERBURNING     ============================!
       ! computes E <- E + lambda(t)*E_add
-      QOPT       = PM(042,MAT(1))
+      QOPT       = NINT(PM(042,MAT(1)))
       EADD       = PM(160,MAT(1))
       TBEGIN     = PM(161,MAT(1))
       TEND       = PM(162,MAT(1))

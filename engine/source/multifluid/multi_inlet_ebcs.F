@@ -89,7 +89,7 @@ C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: IELEM, ELEMID, NODE_ID
-      INTEGER :: KFACE, NB_NOD_FOUND, KNOD, KK, JJ
+      INTEGER :: KFACE, NB_NOD_FOUND, KK, JJ
       my_real :: X1(3), X2(3), X3(3), X4(3), P, NORMVEL, VX, VY, VZ, SSP, SURF, NX, NY, NZ
       my_real :: RHO, SSTAR, PSTAR, PFAC, SL, SR, WFAC(3), VII(5), VJJ(5), VEL2, NORMALW
       my_real :: FII(5), FJJ(5), VIISTAR(5), VJJSTAR(5), FIISTAR(5), FJJSTAR(5), PP(5)
@@ -104,6 +104,7 @@ C-----------------------------------------------
      .           PJJ, NORMAL_VELJJ, VXJJ, VYJJ, VZJJ, VELII2, ALPHAII, SUB_RHOII, SUB_RHOEINTII, SUB_VIISTAR(3),
      .           SUB_FIISTAR(3), ALPHASTAR, SUB_RHOSTAR, SUB_PII, VELJJ2, SUB_ESTAR, EINTJJ, PSURF
       INTEGER :: IFUNC, IELEM_START, IELEM_END
+      my_real :: ABURN(1) !< afterburning
       INTEGER :: VARTMP_EOS(1,128) !nel=1
       INTEGER :: NVARTMP_EOS !upper bound
 C-----------------------------------------------
@@ -116,6 +117,7 @@ C-----------------------------------------------
       IELEM_END = (1 + ITASK) * NELEM / NTHREAD
       DUMMY(1:6) = ZERO
       DUMMY2(1) = ONE
+      ABURN(:) = ZERO
       DO IELEM = IELEM_START, IELEM_END
          ELEMID = ELEM_LIST(IELEM)
          IF (ELEMID  <=  NUMELS) THEN
@@ -211,7 +213,8 @@ C     VE formulation
      5                    DUMMY,              MULTI_FVM%BFRAC(IMAT,ELEMID), MULTI_FVM%TBURN(ELEMID), DUMMY ,
      6                    DUMMY(1),           DUMMY,                        SNPC                   , STF   ,
      7                    NPF,                TF,                           DUMMY(1)               , 1     ,
-     8                    MATPARAM(LOCAL_MATID(IMAT)),NVARTMP_EOS,         VARTMP_EOS              ,NUMMAT)
+     8                    MATPARAM(LOCAL_MATID(IMAT)),NVARTMP_EOS,         VARTMP_EOS              ,NUMMAT ,
+     9                    ABURN)
                   SSPJJ = SSPJJ + PHASE_ALPHAJJ(IMAT) * PHASE_RHOJJ(IMAT) * MAX(EM20, PHASE_SSPJJ(IMAT))
                   PJJ = PJJ + PHASE_PRESJJ(IMAT) * PHASE_ALPHAJJ(IMAT)
                   EINTJJ = EINTJJ + PHASE_ALPHAJJ(IMAT) * PHASE_EINTJJ(IMAT)
@@ -235,11 +238,11 @@ C     VP formulation
 C     Need to solve p(RHO, EINT) = PHASE_PRESJJ(IMAT) for EINT
 C     INITIALIZE INTERNAL ENERGY
                PHASE_EINTJJ(IMAT) = PM(23, LOCAL_MATID(IMAT))
-               CALL MULTI_SOLVE_EINT(MATLAW(IMAT), LOCAL_MATID(IMAT), PM, IPM, NPROPM, NPROPMI, 
+               CALL MULTI_SOLVE_EINT(MATLAW(IMAT), LOCAL_MATID(IMAT), PM, IPM, NPROPM, NPROPMI,
      .              PHASE_EINTJJ(IMAT), PHASE_RHOJJ(IMAT), PHASE_PRESJJ(IMAT), PHASE_SSPJJ(IMAT),
      .              MULTI_FVM%BFRAC(IMAT, ELEMID), MULTI_FVM%TBURN(ELEMID), DUMMY(1), DUMMY(1),
      .              DUMMY, DUMMY2, SNPC, STF, NPF, TF, DUMMY, 1, MATPARAM(LOCAL_MATID(IMAT)),
-     ?              NVARTMP_EOS, VARTMP_EOS, NUMMAT)
+     ?              NVARTMP_EOS, VARTMP_EOS, NUMMAT, ABURN)
                
                SSPJJ = SSPJJ + PHASE_ALPHAJJ(IMAT) * PHASE_RHOJJ(IMAT) * MAX(EM20, PHASE_SSPJJ(IMAT))
                EINTJJ = EINTJJ + PHASE_ALPHAJJ(IMAT) * PHASE_EINTJJ(IMAT)
@@ -495,4 +498,3 @@ C     E n d   o f   s u b r o u t i n e
 C-----------------------------------------------
       END SUBROUTINE MULTI_INLET_EBCS
       END MODULE MULTI_INLET_EBCS_MOD
-

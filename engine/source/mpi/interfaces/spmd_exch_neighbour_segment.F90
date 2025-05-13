@@ -131,8 +131,6 @@
           integer, dimension(nspmd) :: request_s_4,request_r_4
           integer, dimension(nspmd) :: index_r_proc,index_r_proc_2,index_r_proc_3,index_r_proc_4
           integer :: status_mpi(mpi_status_size)
-
-          integer :: ierror,count
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   external functions
 ! ----------------------------------------------------------------------------------------------------------------------

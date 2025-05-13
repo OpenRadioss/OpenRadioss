@@ -57,16 +57,22 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5   THETA,       BURNFRAC,    BURNTIME,    DELTAX,
      6   CURRENT_TIME,SIGOLD,      SNPC,        STF,
      7   NPF,         TF,          VAREOS,      NVAREOS,
-     8   MAT_PARAM,   NVARTMP_EOS, VARTMP_EOS,  NUMMAT)
+     8   MAT_PARAM,   NVARTMP_EOS, VARTMP_EOS,  NUMMAT,
+     9   ABURN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
       USE EOSMAIN_MOD , ONLY : EOSMAIN
+      USE ALEMUSCL_MOD , only : ALEMUSCL_Param
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
+C-----------------------------------------------
+C     C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "com08_c.inc"
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -86,23 +92,30 @@ C-----------------------------------------------
       TYPE(MATPARAM_STRUCT_), INTENT(IN) :: MAT_PARAM !material data structure
       INTEGER,INTENT(IN) :: NVARTMP_EOS
       INTEGER,INTENT(INOUT) :: VARTMP_EOS(NEL,NVARTMP_EOS)
+      my_real,INTENT(INOUT) :: ABURN(NEL) !< after burning
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: II, EOSTYPE
-      my_real :: C0, C1, C2, C3, C4, C5, RHO0(NEL)
+      my_real :: C0, C1, RHO0(NEL)
       my_real :: MU(NEL), MU2(NEL), ESPE(NEL), DPDE(NEL), ECOLD(NEL), DVOL(NEL),
      .     DF(NEL), PSH(NEL),MUOLD(NEL)
       INTEGER :: MAT(NEL)
       my_real :: GAMMA, PSTAR
       my_real :: B1, B2, R1, R2, W1, VDET, BHE
       my_real :: R1V, R2V, WDR1V, WDR2V, DR1V, ER1V, ER2V
-      my_real :: TB, BFRAC1, BFRAC2, PMIN
+      my_real :: R1DF(NEL), R2DF(NEL)
+      my_real :: TB, BFRAC1, BFRAC2
       INTEGER :: IBFRAC
-      INTEGER :: LFT, LLT 
+      INTEGER :: LFT, LLT
+      my_real :: QOPT,EADD,TBEGIN,TEND,RR,A,M,N,RR2,ALPHA_UNIT,LAMBDA !< jwl afterburning
+      my_real :: pold(nel)
+      my_real :: FAC_pred
 C-----------------------------------------------  
 C     B e g i n n i n g   o f   s u b r o u t i n e
 C-----------------------------------------------
+      FAC_pred = one
+      IF(ALEMUSCL_Param%IALEMUSCL /= 0) FAC_pred = HALF ! with prediction /correction steps, Miller's extension for JWL must use a half time step
       LFT = 1
       LLT = NEL
       RHO0(1:NEL) = PM(1, LOCAL_MATID)
@@ -142,11 +155,21 @@ C     JWL material
             BHE    = PM(40, LOCAL_MATID)
             C0     = PM(43, LOCAL_MATID)
             C1     = PM(44, LOCAL_MATID)
+            QOPT   = PM(42, LOCAL_MATID)
+            EADD   = PM(160,LOCAL_MATID)
+            TBEGIN = PM(161,LOCAL_MATID)
+            TEND   = PM(162,LOCAL_MATID)
+            RR     = PM(163,LOCAL_MATID)
+            A      = PM(164,LOCAL_MATID)
+            M      = PM(165,LOCAL_MATID)
+            N      = PM(166,LOCAL_MATID)
+            RR2    = PM(167,LOCAL_MATID)
+            ALPHA_UNIT = PM(168,MAT(1))
             IBFRAC = NINT(PM(41, LOCAL_MATID))
             GRUN(1:NEL) = ZERO
             DO II = 1, NEL
                IF (VOL(II) > ZERO) THEN 
-C     Burnt fraction
+                  !================    BURNT FRACTION     ============================!
                   IF (IFLAG == 1) THEN
                      IF (BURNFRAC(II) < ONE) THEN
                         TB = - BURNTIME(II)
@@ -171,17 +194,116 @@ C     Burnt fraction
                         ENDIF
                      ENDIF
                   ENDIF
-                  R1V = B1 * W1 / (R1 * DF(II))
-                  R2V = B2 * W1 / (R2 * DF(II))
+                  !================  END BURNT FRACTION   ============================!
+               ENDIF
+            ENDDO
+
+            ! POLD
+            POLD(:) = ZERO
+            R1DF(1:NEL) = ZERO ! JWL may be used to model ideal gas, this way R1 and R2 = 0. We cannot divide.
+            R2DF(1:NEL) = ZERO
+            IF (R1 /= ZERO) R1DF(1:NEL) = ONE/DF(1:NEL)/R1
+            IF (R2 /= ZERO) R2DF(1:NEL) = ONE/DF(1:NEL)/R2
+            DO II = 1, NEL
+               IF (VOL(II) > ZERO) THEN
+                  R1V = B1 * W1 * R1DF(II)
+                  R2V = B2 * W1 * R1DF(II)
+                  WDR1V = B1 - R1V
+                  WDR2V = B2 - R2V
+                  DR1V = W1 * EINT(II)
+                  ER1V = EXP(-R1 * DF(II))
+                  ER2V = EXP(-R2 * DF(II))
+                  POLD(II) = - PSH(II) + WDR1V * ER1V + WDR2V * ER2V + DR1V
+                  POLD(II) = BURNFRAC(II) * POLD(II) + (ONE - BURNFRAC(II)) * (-PSH(II)+(C0 + C1 * MU(II)))
+               ENDIF
+            ENDDO
+
+            !================     AFTERBURNING      ============================!
+            IF(EADD /= ZERO)THEN
+              SELECT CASE (NINT(QOPT))
+                CASE(0) !=== instantaneous release
+                  DO II=1,NEL
+                    IF (VOL(II) > ZERO) THEN
+                      LAMBDA = ZERO
+                      IF(CURRENT_TIME > TEND .AND. ABURN(II)==ONE)THEN
+                        LAMBDA   = ONE
+                        ABURN(II) = ONE
+                      ELSEIF (CURRENT_TIME <= TBEGIN)THEN
+                        LAMBDA   = ZERO
+                        ABURN(II) = ZERO
+                      ELSE
+                        LAMBDA   = ONE
+                        EINT(II)  = EINT(II)+(LAMBDA-ABURN(II))*EADD*MAX(EM20,VOL(II)/DF(II))
+                        ABURN(II) = ONE
+                      ENDIF
+                    ENDIF !VOL(II) > ZERO
+                  ENDDO
+                CASE(1) !=== afterburning with constant rate from Tbegin to Tend
+                  DO II=1,NEL
+                    IF (VOL(II) > ZERO) THEN
+                      LAMBDA = ZERO
+                      IF(CURRENT_TIME > TEND .AND. ABURN(II)==ONE)THEN
+                        LAMBDA   = ONE
+                        ABURN(II) = ONE
+                      ELSEIF (CURRENT_TIME <= TBEGIN)THEN
+                        LAMBDA   = ZERO
+                        ABURN(II) = ZERO
+                      ELSE
+                        LAMBDA   = (CURRENT_TIME-TBEGIN)*RR
+                        LAMBDA   = MIN(ONE,LAMBDA)
+                        EINT(II)  = EINT(II)+(LAMBDA-ABURN(II))*EADD*MAX(EM20,VOL(II)/DF(II))
+                        ABURN(II) = LAMBDA
+                      ENDIF
+                    ENDIF !VOL(II) > ZERO
+                  ENDDO
+                CASE(2) !=== afterburning with linear rate from Tbegin to Tend
+                  DO II=1,NEL
+                    IF (VOL(II) > ZERO) THEN
+                      LAMBDA = ZERO
+                      IF(CURRENT_TIME > TEND .AND. ABURN(II)==ONE)THEN    ! .AND. ABURN(II)==ONE  needed to add last increment
+                        LAMBDA   = ONE
+                        ABURN(II) = ONE
+                      ELSEIF (CURRENT_TIME <= TBEGIN)THEN
+                        LAMBDA   = ZERO
+                        ABURN(II) = ZERO
+                      ELSE
+                        LAMBDA   = HALF*RR*CURRENT_TIME**2 - RR*TBEGIN*CURRENT_TIME + RR2
+                        LAMBDA   = MAX(ZERO,MIN(ONE,LAMBDA))
+                        EINT(II)  = EINT(II)+(LAMBDA-ABURN(II))*EADD*MAX(EM20,VOL(II)/DF(II))
+                        ABURN(II) = LAMBDA
+                      ENDIF
+                    ENDIF !VOL(II) > ZERO
+                  ENDDO
+                CASE(3) !=== Miller s extension, rate is depedent on Pressure
+                  DO II=1,NEL
+                    IF (VOL(II) > ZERO) THEN
+                      LAMBDA = ZERO
+                      IF(POLD(II)+PSH(II) > ZERO )THEN
+                        LAMBDA=ABURN(II)+ FAC_pred*DT1*A*EXP( M*LOG(ONE+ABURN(II)) )*EXP(N*LOG(ALPHA_UNIT*(POLD(II)+PSH(II))))
+                        LAMBDA  = MAX(LAMBDA,ZERO)
+                        LAMBDA  = MIN(LAMBDA,ONE)
+                        EINT(II) = EINT(II)+(LAMBDA-ABURN(II))*EADD*MAX(EM20,VOL(II)/DF(II))/FAC_pred
+                        ABURN(II)= LAMBDA
+                      ENDIF
+                    ENDIF !VOL(II) > ZERO
+                  ENDDO
+               END SELECT
+            ENDIF !EADD /= ZERO
+            !================  END AFTERBURNING     ============================!
+
+            DO II = 1, NEL
+               IF (VOL(II) > ZERO) THEN
+                  R1V = B1 * W1 * R1DF(II)
+                  R2V = B2 * W1 * R2DF(II)
                   WDR1V = B1 - R1V
                   WDR2V = B2 - R2V
                   DR1V = W1 * EINT(II)
                   ER1V = EXP(-R1 * DF(II))
                   ER2V = EXP(-R2 * DF(II))
                   PRES(II) = - PSH(II) + WDR1V * ER1V + WDR2V * ER2V + DR1V
-                  SSP(II) = B1 * ER1V * (-W1 / DF(II) / R1 + R1 * DF(II) - W1)
-     .                 + B2 * ER2V * (-W1 / DF(II) / R2 + R2 * DF(II) - W1)
-     .                 + DR1V + (PRES(II) + PSH(II)) * W1
+                  SSP(II) = DR1V + (PRES(II) + PSH(II)) * W1
+     .                    + B1 * ER1V * (-W1 * R1DF(II) + R1 * DF(II) - W1)
+     .                    + B2 * ER2V * (-W1 * R2DF(II) + R2 * DF(II) - W1)
                   PRES(II) = BURNFRAC(II) * PRES(II) + 
      .                 (ONE - BURNFRAC(II)) * (-PSH(II)+(C0 + C1 * MU(II)))
                   GRUN(II) = BURNFRAC(II) * W1

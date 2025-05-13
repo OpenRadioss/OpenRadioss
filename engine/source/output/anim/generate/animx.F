@@ -87,10 +87,10 @@ C     REAL
      .     OFF, MASSELE, EINTELE
       INTEGER IPRT, NG, MYNEL, MYNFT, MYIAD, MYITY,
      .   I, J, K, IPROP, IMAT, NX,
-     .   NB1, NB2, NB3, NB4, NB5, NBFI, UID,
-     .   IGTYP,NUVAR,NUVARN,NUPARAM,
+     .   UID,
+     .   IGTYP,NUVAR,NUVARN,
      .   L, NAX1D, NAX2D, NAX3D, NEDGE, NFACET, NSOLID,
-     .   IADNOD, NUSR, NOSYS,KVAR,KVARN
+     .   IADNOD, KVAR,KVARN
       CHARACTER*40 MESS
 C
       TYPE(G_BUFEL_)  ,POINTER :: GBUF
@@ -126,13 +126,6 @@ C
             IGTYP =  NINT(GEO(12,IPROP))
             NUVAR =  NINT(GEO(25,IPROP))
             NUVARN=  NINT(GEO(35,IPROP))
-C
-cc            NB1 =(I-1)*(3+NUVAR+NUVARN*NX)+MYIAD
-cc            NB2 =NB1 +1
-cc            NB3 =NB2 +1
-cc            NB4 =NB3 +1
-cc            NB5 =NB4 +NUVAR
-cc            NBFI=NB5 +NUVARN*NX
             KVAR  = NUVAR*(I-1)+1
             KVARN = NUVARN*NX*(I-1)+1
 C-------
