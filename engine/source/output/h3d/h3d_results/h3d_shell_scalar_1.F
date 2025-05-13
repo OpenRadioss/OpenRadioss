@@ -52,7 +52,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  IS_WRITTEN_SHELL,IPARTC      ,IPARTTG   ,LAYER_INPUT ,IPT_INPUT  ,
      .                  PLY_INPUT       ,IUVAR_INPUT ,H3D_PART  ,KEYWORD     ,
      .                  D               ,NG          ,MULTI_FVM ,IDMDS       ,IMDSVAR    ,
-     .                  MDS_MATID       ,ID          ,MODE      ,MATPARAM    )
+     .                  MDS_MATID       ,ID          ,MODE      ,MATPARAM    ,
+     .                  H3D_LIGHT       )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -101,6 +102,7 @@ C-----------------------------------------------
         TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
         INTEGER ,INTENT(IN) :: MODE
         TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MATPARAM
+        INTEGER ,INTENT(IN) :: H3D_LIGHT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -124,6 +126,7 @@ C-----------------------------------------------
      .          IS_WRITTEN_VALUE(MVSIZ),IV,KFACE,NB_FACE,IADBUF,NUPARAM,ISUBMAT,IS_EULER,IS_ALE,
      .          IPINCH,IPG,USER_OK,IALEL,IMODE,NMOD,MAT_ID,MID,IERR,MT
         LOGICAL DETECTED
+        LOGICAL IS_LIGHTER
         CHARACTER*5 BUFF
         TYPE(G_BUFEL_)  ,POINTER :: GBUF
         TYPE(L_BUFEL_)  ,POINTER :: LBUF
@@ -167,6 +170,7 @@ C-----------------------------------------------
             JJ(I) = NEL*(I-1)
           ENDDO
 
+          IS_LIGHTER = .FALSE.
           DO I=1,NEL
             VALUE(I) = ZERO
             IS_WRITTEN_VALUE(I) = 0
@@ -3573,7 +3577,11 @@ C
 C--------------------------------------------------
             ELSE IF (KEYWORD == 'FAILURE') THEN
 C--------------------------------------------------
-              IF (MODE == -1) THEN 
+c
+              !< Check if the variable can be lightened
+              IS_LIGHTER = .TRUE.
+c
+              IF (MODE == -1) THEN
 c IPLY=NULL ILAYER=NULL NPT=NULL
                 IF ( ILAY == -1 .AND. IPT == -1 .AND. IPLY == -1) THEN
                   IF(IFAILURE > 0) THEN
@@ -4202,6 +4210,9 @@ c
 C--------------------------------------------------
             ELSEIF (KEYWORD == 'DAMG') THEN
 C--------------------------------------------------
+c
+              ! Check if the variable can be lightened
+              IS_LIGHTER = .TRUE.
 c
               ! Output only if global damage flag is activated
               IF (GBUF%G_DMG > 0) THEN
@@ -6452,6 +6463,16 @@ C--------------------------------------------------
             IF(CALLED_FROM_PYTHON) THEN
               SHELL_SCALAR(1:MVSIZ) = VALUE(1:MVSIZ)
             ELSE
+              !< If LIGHT output activated, write only non-zero values
+              IF ((H3D_LIGHT > 0).AND.(IS_LIGHTER)) THEN
+                DO I = 1, NEL
+                  IF (VALUE(I) /= ZERO) THEN
+                    IS_WRITTEN_VALUE(I) = 1
+                  ELSE
+                    IS_WRITTEN_VALUE(I) = 0
+                  ENDIF
+                ENDDO
+              ENDIF
               CALL H3D_WRITE_SCALAR(IOK_PART,IS_WRITTEN_SHELL,SHELL_SCALAR,NEL,OFFSET,NFT,VALUE,IS_WRITTEN_VALUE)
             ENDIF
           ENDIF  ! ITY

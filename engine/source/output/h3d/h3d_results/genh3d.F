@@ -2553,7 +2553,7 @@ c         IF(ISPMD == 0)  print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPUT
      .                       IS_WRITEN_SHELL,IPARTC ,IPARTTG     ,LAYER        ,IPT        ,
      .                       ID_PLY     ,IUVAR ,H3D_DATA%OUTPUT_LIST(I)%PART,KEYWORD,GLOB_THERM%ITHERM,
      .                       D          ,MULTI_FVM ,IDMDS        ,IMDSVAR      ,MDS_MATID  ,
-     .                       OBJECT_ID  ,MODE      ,MAT_PARAM    )
+     .                       OBJECT_ID  ,MODE      ,MAT_PARAM    ,H3D_DATA%LIGHT)
 
 c
             IF (NSPMD > 1 ) THEN

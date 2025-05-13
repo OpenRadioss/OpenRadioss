@@ -48,7 +48,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  IS_WRITTEN_SHELL,IPARTC,IPARTTG   ,LAYER_INPUT ,IPT_INPUT  ,
      .                  PLY_INPUT   ,IUVAR_INPUT,H3D_PART  ,KEYWORD    ,ITHERM     ,
      .                  D           , MULTI_FVM ,IDMDS    ,IMDSVAR     ,MDS_MATID  ,
-     .                  ID          ,MODE      ,MAT_PARAM )
+     .                  ID          ,MODE      ,MAT_PARAM ,H3D_LIGHT   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -96,6 +96,7 @@ C-----------------------------------------------
         TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
         INTEGER ,INTENT(IN) :: MODE
         TYPE (MATPARAM_STRUCT_) ,DIMENSION(NUMMAT) ,INTENT(IN) :: MAT_PARAM
+        INTEGER ,INTENT(IN) :: H3D_LIGHT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -132,7 +133,8 @@ C-----------------------------------------------
      .                     IS_WRITTEN_SHELL,IPARTC,IPARTTG   ,LAYER_INPUT ,IPT_INPUT  ,
      .                     PLY_INPUT   ,IUVAR_INPUT,H3D_PART  ,KEYWORD    ,
      .                     D           ,NG         ,MULTI_FVM,IDMDS       ,IMDSVAR    ,
-     .                     MDS_MATID   ,ID         ,MODE     ,MAT_PARAM   )
+     .                     MDS_MATID   ,ID         ,MODE     ,MAT_PARAM   ,
+     .                     H3D_LIGHT   )
 
         ENDDO
 C-----------------------------------------------

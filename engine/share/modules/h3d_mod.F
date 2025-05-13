@@ -442,6 +442,7 @@ C-----------------------------------------------
         INTEGER ::  N_INPUT_H3D = 0
         INTEGER ::  IPART_SELECT = 0
         INTEGER ::  MH3D = 0
+        INTEGER ::  LIGHT = 0
 
         INTEGER ::  N_SCAL_DT = 0               !ANIM_N(1)
         INTEGER ::  N_SCAL_DMAS   = 0           !ANIM_N(2)
