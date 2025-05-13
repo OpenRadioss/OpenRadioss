@@ -78,7 +78,7 @@ C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: IELEM, ELEMID, NODE_ID
-      INTEGER :: KFACE, NB_NOD_FOUND, KNOD, KK, JJ
+      INTEGER :: KFACE, NB_NOD_FOUND, KK, JJ
       my_real :: X1(3), X2(3), X3(3), X4(3), P, NORMVEL, VX, VY, VZ, SSP, SURF, NX, NY, NZ
       my_real :: RHO, SSTAR, PSTAR, PFAC, SL, SR, WFAC(3), VII(5), VJJ(5), VEL2, NORMALW
       my_real :: FII(5), FJJ(5), VIISTAR(5), VJJSTAR(5), FIISTAR(5), FJJSTAR(5), PP(5)
@@ -93,6 +93,7 @@ C-----------------------------------------------
      .           PJJ, NORMAL_VELJJ, VXJJ, VYJJ, VZJJ, VELII2, ALPHAII, SUB_RHOII, SUB_RHOEINTII, SUB_VIISTAR(3),
      .           SUB_FIISTAR(3), ALPHASTAR, SUB_RHOSTAR, SUB_PII, VELJJ2, SUB_ESTAR, EINTJJ, PSURF
       INTEGER :: IFUNC, IELEM_START, IELEM_END
+      my_real :: ABURN(1) !< afterburning
 C-----------------------------------------------
 C     B e g i n n i n g   o f   s u b r o u t i n e
 C-----------------------------------------------
@@ -100,6 +101,7 @@ C-----------------------------------------------
       IELEM_START = 1 + ITASK * NELEM / NTHREAD 
       IELEM_END = (1 + ITASK) * NELEM / NTHREAD
       DUMMY(1:6)=ZERO
+      ABURN(:) = ZERO
       DO IELEM = IELEM_START, IELEM_END
          ELEMID = ELEM_LIST(IELEM)
          IF (ELEMID  <=  NUMELS) THEN
@@ -194,7 +196,7 @@ C     VE formulation
      4                    NPROPM,             NPROPMI,                      DUMMY,                   ONE,
      5                    DUMMY,              MULTI_FVM%BFRAC(IMAT,ELEMID), MULTI_FVM%TBURN(ELEMID), DUMMY,
      6                    DUMMY,              DUMMY,                        NPF,                     TF,
-     7                    DUMMY(1),           1,                            MATPARAM(LOCAL_MATID(IMAT)))
+     7                    DUMMY(1),           1,                            ABURN,                   MATPARAM(LOCAL_MATID(IMAT)))
                   SSPJJ = SSPJJ + PHASE_ALPHAJJ(IMAT) * PHASE_RHOJJ(IMAT) * MAX(EM20, PHASE_SSPJJ(IMAT))
                   PJJ = PJJ + PHASE_PRESJJ(IMAT) * PHASE_ALPHAJJ(IMAT)
                   EINTJJ = EINTJJ + PHASE_ALPHAJJ(IMAT) * PHASE_EINTJJ(IMAT)
@@ -221,7 +223,7 @@ C     INITIALIZE INTERNAL ENERGY
                CALL SOLVE_EINT(MATLAW(IMAT), LOCAL_MATID(IMAT), PM, IPM, NPROPM, NPROPMI, 
      .              PHASE_EINTJJ(IMAT), PHASE_RHOJJ(IMAT), PHASE_PRESJJ(IMAT), PHASE_SSPJJ(IMAT),
      .              MULTI_FVM%BFRAC(IMAT, ELEMID), MULTI_FVM%TBURN(ELEMID), DUMMY(1), DUMMY,
-     .              DUMMY, ONE, NPF, TF, DUMMY, 1, MATPARAM(LOCAL_MATID(IMAT)))
+     .              DUMMY, ONE, NPF, TF, DUMMY, 1, ABURN , MATPARAM(LOCAL_MATID(IMAT)))
                
                SSPJJ = SSPJJ + PHASE_ALPHAJJ(IMAT) * PHASE_RHOJJ(IMAT) * MAX(EM20, PHASE_SSPJJ(IMAT))
                EINTJJ = EINTJJ + PHASE_ALPHAJJ(IMAT) * PHASE_EINTJJ(IMAT)
@@ -490,7 +492,7 @@ C-----------------------------------------------
      .                      EINT    , RHO        , PRES  , SSP         , 
      .                      BURNFRAC, BURNTIME   , DELTAX, CURRENT_TIME,
      .                      BUFMAT  , OFF        , NPF   , TF          ,VAREOS, NVAREOS,
-     .                      MAT_PARAM)
+     .                      ABURN   , MAT_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -510,6 +512,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: NPF(SNPC),NVAREOS
       my_real, INTENT(IN) :: TF(STF),VAREOS(NVAREOS*1)
       TYPE(MATPARAM_STRUCT_), INTENT(IN) :: MAT_PARAM !material data structure
+      my_real,INTENT(INOUT) :: ABURN !< after burgning
 C-----------------------------------------------
 C     A r g u m e n t s
 C-----------------------------------------------
@@ -541,7 +544,7 @@ C     Initialization
      4   NPROPM,      NPROPMI,     BUFMAT,      OFF,
      5   TEMP,        BURNFRAC,    BURNTIME,    DELTAX,
      6   CURRENT_TIME,DUMMY,       NPF,         TF,
-     7   VAREOS,      NVAREOS,     MAT_PARAM)
+     7   VAREOS,      NVAREOS,     ABURN,       MAT_PARAM)
          FUNC = PRESK - PRES
          ERROR  = ABS(FUNC)
          IF (ERROR  <  TOL * (ABS(PRES) + ONE)) THEN

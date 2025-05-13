@@ -161,7 +161,7 @@ C-----------------------------------------------
       UPARAM(1:NUPARAM) = ZERO
       IFUNC(1:NFUNC)    = 0
       P0(:) = ZERO
-      IF (ALEMUSCL_Param%IALEMUSCl > 0) ALEMUSCL_Param%I_LAW = 51  ! Communicate LAW to ALEMUSC_MOD
+      IF (ALEMUSCL_Param%IALEMUSCl > 0) ALEMUSCL_Param%I_LAW = 51  ! Communicate LAW to ALEMUSCL_MOD
       IFLG6_SUBMAT_DEFINED(1:4)=.TRUE.
       !----------------!
       NITER  = 10
