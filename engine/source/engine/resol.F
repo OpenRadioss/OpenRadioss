@@ -674,6 +674,7 @@ C-----------------------------------------------
               USE DEBUG_CHKSM_MOD ,  ONLY : SPMD_FLUSH_ACCEL
               USE DT_MOD
               USE PYTHON_FUNCT_MOD
+              USE PYTHON_SHARE_MEMORY_MOD
               USE PYTHON_REGISTER_MOD, ONLY : PYTHON_REGISTER
               USE FUNCT_PYTHON_UPDATE_ELEMENTS_MOD, ONLY : FUNCT_PYTHON_UPDATE_ELEMENTS
               USE OUTMAX_MOD
@@ -2068,7 +2069,7 @@ c  Equivalent nodal force
 C========================================================================================
 
 C save the Python functions into the Python interpreter dictionarry
-              CALL PYTHON_REGISTER(PYTHON,NODES%ITAB,NUMNOD,
+              CALL PYTHON_REGISTER(PYTHON,NODES,NUMNOD,
      .                             IXS, NIXS, NUMELS,
      .                             ELEMENT%SHELL%IXC, NIXC, NUMELC,
      .                             IXP, NIXP, NUMELP,
@@ -2077,6 +2078,18 @@ C save the Python functions into the Python interpreter dictionarry
      .                             IXTG, NIXTG, NUMELTG,
      .                             IXR, NIXR, NUMELR,
      .                             IPARG, NGROUP, NPARG, MVSIZ)
+
+             IF(PYTHON%NB_FUNCTS > 0) CALL PYTHON_SHARE_MEMORY(PYTHON,NODES,NUMNOD,
+     .                             IXS, NIXS, NUMELS,
+     .                             ELEMENT%SHELL%IXC, NIXC, NUMELC,
+     .                             IXP, NIXP, NUMELP,
+     .                             IXT, NIXT, NUMELT,
+     .                             IXQ, NIXQ, NUMELQ,
+     .                             IXTG, NIXTG, NUMELTG,
+     .                             IXR, NIXR, NUMELR,
+     .                             IPARG, NGROUP, NPARG)
+ 
+
 
               K1=1+LIPART1*(NPART+NTHPART)+2*9*(NPART+NTHPART)
               K2=K1+NUMELS
@@ -3137,11 +3150,10 @@ C First: try with reduced bounding box
               ! ----------------------
               CALL PYTHON_UPDATE_TIME(TT,DT2)
               CALL PYTHON_UPDATE_NODAL_ENTITIES(NUMNOD, X=NODES%X,A=NODES%A,V=NODES%V,D=NODES%D,DR=NODES%DR,VR=NODES%VR)
-C=======================================================================
-C----------------------------------------
-C     BEGINNING OF EXPLICIT ITERATION LOOP
-C----------------------------------------
-
+              CALL PYTHON_SYNC(PYTHON%CONTEXT)
+C===========================================================================
+C                 BEGINNING OF EXPLICIT ITERATION LOOP
+C===========================================================================                                        
  100          CONTINUE
 
               NC_DEBUG = NCYCLE
@@ -9215,8 +9227,8 @@ C===============================================================================
                   IF(IMON>0) CALL STOPTIME(TIMERS,TIMER_INTEG)
                 ENDIF
               ENDIF
-
-              CALL PYTHON_UPDATE_NODAL_ENTITIES(NUMNOD,X= NODES%X, D=NODES%D, DR=NODES%DR)
+              CALL PYTHON_SYNC(PYTHON%CONTEXT)
+              CALL PYTHON_UPDATE_NODAL_ENTITIES(NUMNOD,X=NODES%X, D=NODES%D, DR=NODES%DR)
 C========================================================================================
 C                                   NON PARALLEL SECTION (SMP)
 C========================================================================================
