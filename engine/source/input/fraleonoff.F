@@ -53,7 +53,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------      
       INTEGER K, IKEY, II, NB_PARTS, KK
-      CHARACTER KEY1*5, IOPT*5
+      CHARACTER KEY1*5
       INTEGER, DIMENSION(:), ALLOCATABLE :: PART_IDS
       K = 0
       IKEY = KALEONOFF

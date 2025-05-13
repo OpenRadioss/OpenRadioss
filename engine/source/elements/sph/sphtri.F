@@ -57,16 +57,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NSN,IG,JG
-      INTEGER
-     .   N,INOD,J,NVOIS,M,NCANDNCAND,
-     .   K, L, JK, JL, IERROR, NS, SS,
-     .   MWA(15*(NUMSPH+NSPHR)),
-     .   JVOIS(NUMSPH+NSPHR), JSTOR(NUMSPH+NSPHR),
-     .   JPERM(NUMSPH+NSPHR)
-      my_real
-     .       XI,YI,ZI,XJ,YJ,ZJ,D,DL,
-     .       DVOIS(NUMSPH+NSPHR)    
+      INTEGER NSN,IG
+      INTEGER N, INOD, NS
+      INTEGER MWA(15*(NUMSPH+NSPHR)), JVOIS(NUMSPH+NSPHR), JSTOR(NUMSPH+NSPHR), JPERM(NUMSPH+NSPHR)
+      my_real DVOIS(NUMSPH+NSPHR)
 C-----------------------------------------------
          NSN=0
          DO NS=1,NSP2SORT

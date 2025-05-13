@@ -62,32 +62,21 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER
-     .         IH3DREADER,N,IMVW
+      INTEGER IH3DREADER,N,IMVW
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER
-     .         IOUTREP,I,LEN_CWD, OUT_TMP, IS_MESSAGE, IS_WARNING,IS_FILE_FOUND, IEND
+      INTEGER IOUTREP,LEN_CWD, OUT_TMP, IS_MESSAGE, IS_WARNING,IS_FILE_FOUND, IEND
       INTEGER*4 GETCWD, STATUS
-
       CHARACTER FILNAM*100,MVWNAM*100
-      CHARACTER LINE*200
       CHARACTER(LEN=LPATH) :: CWD
-      CHARACTER*100  FMW
       CHARACTER*8  DATE
       CHARACTER*10  TIME
       CHARACTER ELTYP(0:105)*5
       CHARACTER*256 OUTNAME
       CHARACTER*120 CART  
-      my_real
-     .   ENTOT, ENTOT1, ERR, ERR1, X99, EMASS,MAS,
-     .   VX,VY,VZ,DT05,ENTMP(20)  ,RTMP(10),
-     .   MVX, MVY, MVZ, TS, MAS2, WEWE2, ENTOT1B
-      DOUBLE PRECISION ETIME, RETIME, TT0,
-     .                 ENCIND, XMOMTD, YMOMTD, ZMOMTD,
-     .                 XMASSD, ENROTD, ENINTD, ENCIND2,
-     .                 ENROTD2, ENTOTB, EAMSD 
+      my_real ENTOT, ENTOT1, ERR, ERR1, X99, EMASS,ENTOT1B
+      DOUBLE PRECISION ENTOTB
       INTEGER :: LEN_TMP_NAME
       CHARACTER(len=2148) :: TMP_NAME
 C-----------------------------------------------

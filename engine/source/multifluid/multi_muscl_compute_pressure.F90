@@ -42,7 +42,7 @@
                                   EINT, RHO, PRES, SSP, &
                                   BURNFRAC, BURNTIME, DELTAX, CURRENT_TIME, &
                                   BUFMAT, OFF, SIG, SNPC, STF, NPF, TF, VAREOS,NVAREOS, MAT_PARAM, &
-                                  NVARTMP_EOS, VARTMP_EOS, NUMMAT)
+                                  NVARTMP_EOS, VARTMP_EOS, NUMMAT, ABURN)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -61,7 +61,7 @@
       my_real, INTENT(IN) :: PM(NPROPM, *), CURRENT_TIME
       INTEGER, INTENT(IN) :: IPM(NPROPMI, *)
       my_real, INTENT(IN) :: SIG(6)
-      my_real, INTENT(INOUT) :: SSP(1), PRES(1), EINT(1), RHO(1), BURNFRAC(1), BURNTIME(1), DELTAX(1)
+      my_real, INTENT(INOUT) :: SSP(1), PRES(1), EINT(1), RHO(1), BURNFRAC(1), BURNTIME(1), DELTAX(1), ABURN(1)
       my_real, INTENT(OUT) :: OFF(1)
       my_real, INTENT(INOUT) :: BUFMAT(*)
       INTEGER,INTENT(IN)::NPF(SNPC),NVAREOS
@@ -98,7 +98,8 @@
          TEMP,        BURNFRAC,    BURNTIME,    DELTAX, &
          CURRENT_TIME,SIG(1:6),    SNPC    ,    STF, &
          NPF,         TF,          VAREOS,      NVAREOS, &
-         MAT_PARAM   ,NVARTMP_EOS, VARTMP_EOS,  NUMMAT)
+         MAT_PARAM   ,NVARTMP_EOS, VARTMP_EOS,  NUMMAT, &
+         ABURN)
 
       END SUBROUTINE MULTI_MUSCL_COMPUTE_PRESSURE
       END MODULE MULTI_MUSCL_COMPUTE_PRESSURE_MOD

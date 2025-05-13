@@ -48,7 +48,7 @@
                                   EINT     , RHO        , PRES      , SSP         , &
                                   BURNFRAC , BURNTIME   , DELTAX    , CURRENT_TIME, &
                                   BUFMAT   , OFF        , SNPC,STF  , NPF         , TF     , VAREOS , NVAREOS,&
-                                  MAT_PARAM, NVARTMP_EOS, VARTMP_EOS, NUMMAT      )
+                                  MAT_PARAM, NVARTMP_EOS, VARTMP_EOS, NUMMAT      ,ABURN)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Module
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -80,12 +80,13 @@
       TYPE(MATPARAM_STRUCT_), INTENT(IN) :: MAT_PARAM !material data structure
       INTEGER,INTENT(IN) :: NVARTMP_EOS
       INTEGER,INTENT(INOUT) :: VARTMP_EOS(1,NVARTMP_EOS)
+      my_real,INTENT(INOUT) :: ABURN(1) !< after burning (JWL extension)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
       INTEGER :: ITER, MAX_ITER
       my_real :: TOL, ERROR
-      my_real :: FUNC, DFUNC, PSTAR, GRUN(1), VOL(1), INCR, TEMP(1), PRESK(1), DUMMY(6)
+      my_real :: FUNC, DFUNC, GRUN(1), VOL(1), INCR, TEMP(1), PRESK(1), DUMMY(6)
       LOGICAL :: CONT
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
@@ -112,7 +113,8 @@
          TEMP,        BURNFRAC,    BURNTIME,    DELTAX, &
          CURRENT_TIME,DUMMY,       SNPC    ,    STF , &
          NPF,         TF,          VAREOS,      NVAREOS, &
-         MAT_PARAM,   NVARTMP_EOS, VARTMP_EOS,  NUMMAT)
+         MAT_PARAM,   NVARTMP_EOS, VARTMP_EOS,  NUMMAT , &
+         ABURN )
          FUNC = PRESK(1) - PRES(1)
          ERROR  = ABS(FUNC)
          IF (ERROR  <  TOL * (ABS(PRES(1)) + ONE)) THEN

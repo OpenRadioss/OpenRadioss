@@ -53,7 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I, J, ISENS, SENS_ID 
+      INTEGER :: I, J, ISENS
       my_real :: THIS_L, TS, TABFIS_L(10)
 C---------------------------------------------------------------------------
 C   ITHOUT : flag to check if TH file will be written for CAREA output
