@@ -62,7 +62,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-      use constant_mod,          only : one,zero,zep05,onep333,ep03,ep02,em02,third,fourth,hundred80,ten
+      use constant_mod, only : one,zero,two,zep05,onep333,em03,ep02,em02,third,fourth,hundred80,ten,three,half,em20
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -95,7 +95,7 @@
 !   l o c a l   v a r i a b l e s
 !-----------------------------------------------
           integer :: i,j,mx
-          my_real :: nu,f_nu,c1,caq,c2
+          my_real :: nu,f_nu,c1,caq,c2,es,f_es,aj2,f_min
 !=======================================================================
 !
          mu=zep05
@@ -104,15 +104,24 @@
          fqmax = ep02
          if (nu > 0.48999) then 
              f_nu = em02
-         else 
+         elseif (nu>0.4) then
+             f_nu = one-two*nu
+             mu=f_nu*mu 
+         else
              f_nu = one
              if (pm(107,mx) >= hundred80*pm(32,mx)) f_nu = ten 
          end if
          c1 = max(pm(32,mx),pm(100,mx))+onep333*pm(22,mx)
          c2 = f_nu*c1
+         f_min = em03
          do i=1,nel
+          aj2=half*(sig(i,1)**2+sig(i,2)**2+sig(i,3)**2)          &
+                  + sig(i,4)**2+sig(i,5)**2+sig(i,6)**2
+          es = sqrt(three*aj2)/c1
+          f_es = max(f_min,ep02*es)
+          f_es = min(one,f_es)
           ll(i) = vol(i)**third
-          caq=mu*rho(i)*ll(i)
+          caq=f_es*mu*rho(i)*ll(i)
           fld(i)=fourth*caq*cxx(i)*off(i)
           sti_c(i) = c2 * ll(i) *off(i)
          enddo

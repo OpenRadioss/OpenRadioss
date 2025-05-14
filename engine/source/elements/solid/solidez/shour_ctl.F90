@@ -66,7 +66,7 @@
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
       use constant_mod,   only : one,two,eight,ten,zero,zep5,half,third,fourth,zep00666666667,      &
-                                 four_over_3,one_over_8,one_over_64,em01,two_third
+                                 four_over_3,one_over_8,one_over_64,em01,two_third,four
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -126,7 +126,7 @@
                  g13(mvsiz),g23(mvsiz),g33(mvsiz),g43(mvsiz),             &
                  g53(mvsiz),g63(mvsiz),g73(mvsiz),g83(mvsiz),             &
                  e0,g0,c1,nu,qh,lamg ,stif ,ll ,fvl,lamgt(mvsiz),         &
-                 f_et(mvsiz),f_sti(mvsiz),sfac,e_max,s_max,sfac1
+                 f_et(mvsiz),f_sti(mvsiz),sfac,e_max,s_max,sfac1,f_gt(mvsiz)
 ! ----------------------------------------------------------------------------------------------------------------------
       mx = mat(1)
       nu=pm(21,mx)
@@ -143,6 +143,7 @@
         case (42,69)
           c1 = third*e0/(1-two*nu)
           g0 = half*g0
+          f_gt(1:nel)=max(one,(lamgt(1:nel)-c1)/g0/four_over_3)
         case (62)
 ! ten for the moment
           g0 = half*g0
@@ -157,22 +158,33 @@
 !      fvl = fourth*dn*zep00666666667   
       fvl = fourth*dn*em01   ! 1/10 of isolid=5
 ! special case for stiffing      
-      if (mtn==62) then
+      select case (mtn)
+        case (42,69)
+          do i=1,nel
+            sfac = min(four,sqrt(f_gt(i)))
+            f_et(i)=sfac*f_et(i)
+            f_sti(i)=sfac*f_sti(i)
+          enddo
+        case (62)
           do i=1,nel
             sfac = min(ten,f_et(i))
             if (sfac>two) sfac=ten
             f_et(i)=sfac*f_et(i)
             f_sti(i)=sfac*f_sti(i)
           enddo
-      end if !(mtn==62) then
+        case (90)
+          f_et(1:nel)=max(one,qh*lamgt(1:nel)/lamg)
+      end select
+! law1,62 need high stiffness for distortion ctl but dt decreasing       
+! increasing stif only after some hourglass strain for law1,62      
       if (mtn==1.or.mtn==62) then
-! hourglass max_strain estimation      
         do i=1,nel
             s_max=zero
           do j=1,4
             s_max=max(s_max,abs(fhour(i,1,j)),abs(fhour(i,2,j)),abs(fhour(i,3,j)))
           end do
           sfac=f_et(i)*stif*vol(i)**two_third
+! hourglass max_strain estimation      
           e_max=s_max/sfac
           sfac1 = min(ten,2500*e_max)
           sfac1 = max(one,sfac1)
@@ -180,7 +192,6 @@
           f_sti(i)=sfac1*f_sti(i)
         end do
       end if
-      if (mtn==90) f_et(1:nel)=max(one,qh*lamgt(1:nel)/lamg)
 !
       do i=1,nel
          ll = off(i)*vol(i)**third
