@@ -92,7 +92,7 @@ C-----------------------------------------------
       my_real :: BULK,YOUNG
       my_real :: G0,GI,BETA
       my_real :: P0,PHI,GAMA0 
-      my_real :: RHOR,RHO0   
+      my_real :: RHOR,RHO0,NU   
       LOGICAL :: IS_ENCRYPTED,IS_AVAILABLE
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -138,8 +138,13 @@ C-----------------------------------------------
       
       YOUNG = (NINE*BULK*G0)/(THREE*BULK + G0)
 
-      PARMAT(1) = TWO*GI
+      PARMAT(1) = BULK
+!      PARMAT(1) = TWO*GI
       PARMAT(2) = YOUNG
+      NU = HALF*YOUNG/G0 -ONE
+      NU = MAX(ZERO,NU)
+      NU = MIN(HALF,NU)
+      PARMAT(3) = NU
 C     Formulation for solid elements time step computation.
       PARMAT(16) = 2
       PARMAT(17) = TWO*G0/(BULK + FOUR_OVER_3*G0) 
