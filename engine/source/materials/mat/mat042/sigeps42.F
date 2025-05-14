@@ -239,12 +239,13 @@ c
       ENDIF
 c--- avoid buckling
       P_FAC(1:NEL) = ONE
-      NU_1 = FOURTY*(HALF-(3*RBULK-GMAX)/(6*RBULK+GMAX))
-      DO I=1,NEL
-        AMIN = MIN(EV(I,1),EV(I,2),EV(I,3))
-        IF (AMIN<ZEP2) P_FAC(I) = MAX(ONE,NU_1/MAX(EM20,AMIN))
-      ENDDO
-!        
+      IF (RBULK > 90*GMAX) THEN
+        NU_1 = FOURTY*(HALF-(3*RBULK-GMAX)/(6*RBULK+GMAX))
+        DO I=1,NEL
+          AMIN = MIN(EV(I,1),EV(I,2),EV(I,3))
+          IF (AMIN<ZEP2) P_FAC(I) = MAX(ONE,NU_1/MAX(EM20,AMIN))
+        ENDDO
+      END IF 
 c 
       ! Compute normalized (deviatoric) stretches and bulk modulus
       ! (Deviatoric principal stretches = lambda_bar_i)
