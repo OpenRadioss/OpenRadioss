@@ -121,7 +121,8 @@ C     REAL
      .   G13(MVSIZ),G23(MVSIZ),G33(MVSIZ),G43(MVSIZ),
      .   G53(MVSIZ),G63(MVSIZ),G73(MVSIZ),G83(MVSIZ),
      .   E0,G0,C1,NU,EHOURT ,QH,LAMG,SFAC,FDAMP,DT05,
-     .   LAMGT(MVSIZ),F_ET(MVSIZ),F_STI(MVSIZ),E_MAX,S_MAX,FAC1,SFAC1  
+     .   LAMGT(MVSIZ),F_ET(MVSIZ),F_STI(MVSIZ),E_MAX,S_MAX,FAC1,SFAC1,
+     .   F_GT(MVSIZ)  
 C----------------------------------------------- 
 C------recompute modulus for law42,88,90
       MX = MAT(1)
@@ -142,6 +143,7 @@ C------recompute modulus for law42,88,90
           G0 = HALF*G0
           LAMG = C1+FOUR_OVER_3*G0
           F_ET(1:NEL)=MAX(ONE,LAMGT(1:NEL)/LAMG)
+          F_GT(1:NEL)=MAX(ONE,(LAMGT(1:NEL)-C1)/G0/FOUR_OVER_3)
         CASE (1)
           LAMG = C1+FOUR_OVER_3*G0
         CASE (62)
@@ -172,9 +174,18 @@ C------recompute modulus for law42,88,90
           F_ET(I)=SFAC1*F_ET(I)
           F_STI(I)=SFAC1*F_STI(I)
         ENDDO
+      ELSEIF (MTN==42.OR.MTN==69) THEN
+        DO I=1,NEL
+          IF (F_ET(I)>ONE) THEN
+            SFAC1 = MIN(FOUR,F_GT(I))
+            F_ET(I)=SFAC1*F_ET(I)
+            F_STI(I)=SFAC1*F_STI(I)
+          END IF 
+        ENDDO
       END IF
+! law1,62 need high stiffness for distortion ctl (QH>1) but dt decreasing     
+! reset QH=1 and increasing stif only after some hourglass strain      
       IF (MTN==1.OR.MTN==62) THEN
-! AVOID ADDED MASS AT THE BEGINNING      
           DO I=1,NEL
               S_MAX=ZERO
             DO J=1,4
