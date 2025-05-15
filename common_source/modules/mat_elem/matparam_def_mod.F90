@@ -264,6 +264,7 @@
       !||    multifluid_init3t                   ../starter/source/multifluid/multifluid_init3t.F
       !||    pgrtails                            ../starter/source/elements/beam/pgrtails.F
       !||    powder_burn                         ../common_source/eos/powder_burn.F
+      !||    prelech3d                           ../engine/source/output/h3d/h3d_build_fortran/prelech3d.F90
       !||    qgrhead                             ../starter/source/elements/solid_2d/quad/qgrhead.F
       !||    qgrtails                            ../starter/source/elements/solid_2d/quad/qgrtails.F
       !||    r2r_group                           ../starter/source/coupling/rad2rad/r2r_group.F

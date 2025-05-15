@@ -98,6 +98,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    lectur                         ../engine/source/input/lectur.F
       !||    mulawc                         ../engine/source/materials/mat_share/mulawc.F90
       !||    outp_c_tf                      ../engine/source/output/sty/outp_c_t.F
+      !||    prelech3d                      ../engine/source/output/h3d/h3d_build_fortran/prelech3d.F90
       !||    radioss2                       ../engine/source/engine/radioss2.F
       !||    rdresb                         ../engine/source/output/restart/rdresb.F
       !||    resol                          ../engine/source/engine/resol.F

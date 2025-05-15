@@ -36,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    pblast_1              ../engine/source/loads/pblast/pblast_1.F
       !||    pblast_2              ../engine/source/loads/pblast/pblast_2.F
       !||    pblast_3              ../engine/source/loads/pblast/pblast_3.F
+      !||    prelech3d             ../engine/source/output/h3d/h3d_build_fortran/prelech3d.F90
       !||    resol_init            ../engine/source/engine/resol_init.F
       !||====================================================================
       MODULE H3D_INC_MOD

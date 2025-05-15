@@ -147,7 +147,6 @@
       !||    elbufdef_mod              ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    failwave_mod              ../common_source/modules/failwave_mod.F
       !||    file_descriptor_mod       ../engine/source/modules/file_descriptor_mod.F90
-      !||    law_usersh                ../engine/source/user_interface/law_usersh.F
       !||    mat_elem_mod              ../common_source/modules/mat_elem/mat_elem_mod.F90
       !||    message_mod               ../engine/share/message_module/message_mod.F
       !||    nlocal_reg_mod            ../common_source/modules/nlocal_reg_mod.F

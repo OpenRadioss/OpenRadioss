@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    law_usersh        ../engine/source/user_interface/law_usersh.F
       !||--- called by ------------------------------------------------------
-      !||    mulawc            ../engine/source/materials/mat_share/mulawc.F90
       !||    nolib_usermat99   ../engine/source/user_interface/nolib_usermat99.F
       !||    usermat_shell     ../engine/source/materials/mat_share/usermat_shell.F
       !||====================================================================

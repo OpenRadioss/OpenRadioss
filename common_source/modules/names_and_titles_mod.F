@@ -797,6 +797,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    pornod                            ../starter/source/ale/pornod.F
       !||    pre_stackgroup                    ../starter/source/stack/pres_stackgroup.F
       !||    prelecdet                         ../starter/source/initial_conditions/detonation/prelecdet.F
+      !||    prelech3d                         ../engine/source/output/h3d/h3d_build_fortran/prelech3d.F90
       !||    preleclas                         ../starter/source/loads/laser/lpreleclas.F
       !||    prelecsec                         ../starter/source/tools/sect/prelecsec.F
       !||    prelecsec4bolt                    ../starter/source/tools/sect/prelecsec4bolt.F

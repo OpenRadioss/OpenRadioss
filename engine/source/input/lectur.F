@@ -46,6 +46,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    lecnoise               ../engine/source/general_controls/computation/lecnoise.F
       !||    lecstat                ../engine/source/input/lecstat.F
       !||    ngr2usr                ../engine/source/input/freform.F
+      !||    prelech3d              ../engine/source/output/h3d/h3d_build_fortran/prelech3d.F90
       !||    rbyonf                 ../engine/source/constraints/general/rbody/rbyonf.F
       !||    read_dynain            ../engine/source/output/dynain/read_dynain.F
       !||    rlink0                 ../engine/source/constraints/general/rlink/rlink0.F
@@ -73,6 +74,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    names_and_titles_mod   ../common_source/modules/names_and_titles_mod.F
       !||    output_mod             ../common_source/modules/output/output_mod.F90
       !||    outputs_mod            ../common_source/modules/outputs_mod.F
+      !||    prelech3d_mod          ../engine/source/output/h3d/h3d_build_fortran/prelech3d.F90
       !||    sensor_mod             ../common_source/modules/sensor_mod.F90
       !||    stack_mod              ../engine/share/modules/stack_mod.F
       !||    state_mod              ../common_source/modules/state_mod.F

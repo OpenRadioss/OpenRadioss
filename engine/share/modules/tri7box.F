@@ -234,6 +234,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    mpp_init                        ../engine/source/mpi/interfaces/spmd_i7tool.F
       !||    multi_i18_force_poff            ../engine/source/interfaces/int18/multi_i18_force_poff.F
       !||    multi_i18_force_pon             ../engine/source/interfaces/int18/multi_i18_force_pon.F
+      !||    prelech3d                       ../engine/source/output/h3d/h3d_build_fortran/prelech3d.F90
       !||    print_stif                      ../engine/source/implicit/imp_solv.F
       !||    reallocate_fi1                  ../engine/source/mpi/interfaces/spmd_i25slide.F
       !||    reallocate_fi2                  ../engine/source/mpi/interfaces/spmd_i25slide.F

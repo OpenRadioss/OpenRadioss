@@ -460,6 +460,7 @@
       !||    preinicrk3n                         ../starter/source/elements/xfem/preinicrk3N.F
       !||    preinicrk4n                         ../starter/source/elements/xfem/preinicrk4N.F
       !||    prelecflow                          ../engine/source/elements/solid/solide/prelecflow.F
+      !||    prelech3d                           ../engine/source/output/h3d/h3d_build_fortran/prelech3d.F90
       !||    projecig3d                          ../engine/source/elements/ige3d/projecig3d.F
       !||    q4forc2                             ../engine/source/elements/solid_2d/quad4/q4forc2.F
       !||    q4init2                             ../starter/source/elements/solid_2d/quad4/q4init2.F

@@ -238,6 +238,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    pblast_load_computation                      ../engine/source/loads/pblast/pblast.F
       !||    pfluid                                       ../engine/source/loads/general/pfluid/pfluid.F
       !||    pforc3                                       ../engine/source/elements/beam/pforc3.F
+      !||    prelech3d                                    ../engine/source/output/h3d/h3d_build_fortran/prelech3d.F90
       !||    pressure_cyl                                 ../engine/source/loads/general/load_pcyl/pressure_cyl.F
       !||    r1tors                                       ../engine/source/elements/spring/r1tors.F
       !||    r23forc3                                     ../engine/source/elements/spring/r23forc3.F

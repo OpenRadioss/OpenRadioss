@@ -176,6 +176,7 @@
       !||    multifluid_init3                 ../starter/source/multifluid/multifluid_init3.F
       !||    nodalssp                         ../engine/source/output/anim/generate/nodalssp.F
       !||    ns_fvm_diffusion                 ../engine/source/multifluid/ns_fvm_diffusion.F
+      !||    prelech3d                        ../engine/source/output/h3d/h3d_build_fortran/prelech3d.F90
       !||    prepare_split_i7                 ../starter/source/restart/ddsplit/inter_tools.F
       !||    radioss2                         ../engine/source/engine/radioss2.F
       !||    rdcomi                           ../engine/source/output/restart/rdcomm.F

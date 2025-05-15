@@ -73,7 +73,6 @@
       !||    atur17                 ../engine/source/ale/turbulence/atur17.F
       !||    aturbn                 ../engine/source/ale/turbulence/aturbn.F
       !||    eosmain                ../common_source/eos/eosmain.F
-      !||    eosupda                ../common_source/eos/eosupda.F
       !||    fail_biquad_s          ../engine/source/materials/fail/biquad/fail_biquad_s.F
       !||    fail_changchang_s      ../engine/source/materials/fail/changchang/fail_changchang_s.F
       !||    fail_cockroft_s        ../engine/source/materials/fail/cockroft_latham/fail_cockroft_s.F

@@ -120,6 +120,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    outp_sp_tt                       ../engine/source/output/sty/outp_sp_t.F
       !||    output_schlieren                 ../engine/source/output/anim/generate/output_schlieren.F
       !||    prelecflow                       ../engine/source/elements/solid/solide/prelecflow.F
+      !||    prelech3d                        ../engine/source/output/h3d/h3d_build_fortran/prelech3d.F90
       !||    rgwat2                           ../engine/source/interfaces/int09/rgwat2.F
       !||    rgwat3                           ../engine/source/interfaces/int09/rgwat3.F
       !||    s4alesfem                        ../engine/source/elements/solid/solide4_sfem/s4alesfem.F

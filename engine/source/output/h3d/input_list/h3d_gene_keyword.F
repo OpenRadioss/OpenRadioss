@@ -24,6 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    h3d_gene_keyword       ../engine/source/output/h3d/input_list/h3d_gene_keyword.F
       !||--- called by ------------------------------------------------------
       !||    lech3d                 ../engine/source/output/h3d/h3d_build_fortran/lech3d.F
+      !||    prelech3d              ../engine/source/output/h3d/h3d_build_fortran/prelech3d.F90
       !||--- uses       -----------------------------------------------------
       !||    h3d_mod                ../engine/share/modules/h3d_mod.F
       !||    message_mod            ../engine/share/message_module/message_mod.F

@@ -306,6 +306,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ndof_fv                            ../engine/source/implicit/ind_glob_k.F
       !||    plot_curve                         ../common_source/sortie/plot_curve.F
       !||    ply_info_rest                      ../engine/source/output/restart/rdresb.F
+      !||    prelech3d                          ../engine/source/output/h3d/h3d_build_fortran/prelech3d.F90
       !||    projecig3d                         ../engine/source/elements/ige3d/projecig3d.F
       !||    qstat_ini                          ../engine/source/implicit/imp_dyna.F
       !||    qvolu2                             ../engine/source/elements/solid_2d/quad/qvolu2.F
