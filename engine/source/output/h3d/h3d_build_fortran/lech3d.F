@@ -163,7 +163,7 @@ C-----------------------------------------------
      .          IS_MODE,MODE,MODE_MAX,IS_MODE_ALL,NFAIL,NIP_PLY_MAX,NIP_ELEM_MAX,
      .          ITYP,ID_DEF,NBC,DUM,NDEF,IS_MEMB
         INTEGER MLW,NEL,NG,JTURB,NLAY,NUVAR,IPLY,IMAT,ISUBSTACK,ID_PLY_TMP
-        INTEGER CPT_MOD,NMOD,CPT_LAWID
+        INTEGER CPT_MOD,NMOD,CPT_LAWID,SIZE_INPUT
         INTEGER IERROR  ! Error value from Allocate
         INTEGER LENS    ! Size of Remote interface send values
         INTEGER LENR    ! Size of Remote interface receive values
@@ -968,17 +968,19 @@ C
 C
               ! NPT=ALL
               ISH_NPT0 = 0
-              DO K=1,NUMGEO
-                IF(IGEO(11,K) == 1 .OR. IGEO(11,K) == 9) THEN
-                  NIP_ELEM_MAX = MAX(NIP_ELEM_MAX,IGEO(4,K))
-                  IF (IGEO(4,K)==0) THEN
-                    ISH_NPT0=1
-                    NIP_ELEM_MAX = NIP_ELEM_MAX + 1
+              IF (IS_IPT_ALL ==1) THEN 
+                DO K=1,NUMGEO
+                  IF(IGEO(11,K) == 1 .OR. IGEO(11,K) == 9) THEN
+                    NIP_ELEM_MAX = MAX(NIP_ELEM_MAX,IGEO(4,K))
+                    IF (IGEO(4,K)==0) THEN
+                      ISH_NPT0=1
+                      NIP_ELEM_MAX = NIP_ELEM_MAX + 1
+                    ENDIF
+                  ELSEIF(IGEO(11,K) == 18)THEN
+                    NIP_ELEM_MAX = MAX(NIP_ELEM_MAX,IGEO(3,K))
                   ENDIF
-                ELSEIF(IGEO(11,K) == 18)THEN
-                  NIP_ELEM_MAX = MAX(NIP_ELEM_MAX,IGEO(3,K))
-                ENDIF
-              ENDDO
+                ENDDO
+              ENDIF
               IF(IS_IPT_ALL == 1 .AND. NIP_ELEM_MAX == 0) ISHELL_NPT_CHECK = 1
 C
               ! PLY=ALL
@@ -1489,51 +1491,25 @@ c
               ENDIF
               !=====================================================================================
 c
-              ALLOCATE (LAYER_INPUT(MAX(1,NLAY_MAX)*MAX(1,NIP_MAX)*MAX(1,NPLY_MAX)*MAX(1,NUVAR_MAX)*
-     .                   MAX(1,IR_MAX)*MAX(1,IS_MAX)*MAX(1,IT_MAX)*MAX(1,NMDSVAR_MAX)*MAX(1,ID_MAX)*
-     .                   MAX(1,MODE_MAX)))
-              ALLOCATE (IPT_INPUT(MAX(1,NLAY_MAX)*MAX(1,NIP_MAX)*MAX(1,NPLY_MAX)*MAX(1,NUVAR_MAX)*
-     .                   MAX(1,IR_MAX)*MAX(1,IS_MAX)*MAX(1,IT_MAX)*MAX(1,NMDSVAR_MAX)*MAX(1,ID_MAX)*
-     .                   MAX(1,MODE_MAX)))
-              ALLOCATE (PLY_INPUT(MAX(1,NLAY_MAX)*MAX(1,NIP_MAX)*MAX(1,NPLY_MAX)*MAX(1,NUVAR_MAX)*
-     .                   MAX(1,IR_MAX)*MAX(1,IS_MAX)*MAX(1,IT_MAX)*MAX(1,NMDSVAR_MAX)*MAX(1,ID_MAX)*
-     .                   MAX(1,MODE_MAX)))
-              ALLOCATE (UVAR_INPUT(MAX(1,NLAY_MAX)*MAX(1,NIP_MAX)*MAX(1,NPLY_MAX)*MAX(1,NUVAR_MAX)*
-     .                   MAX(1,IR_MAX)*MAX(1,IS_MAX)*MAX(1,IT_MAX)*MAX(1,NMDSVAR_MAX)*MAX(1,ID_MAX)*
-     .                   MAX(1,MODE_MAX)))
-              ALLOCATE (GAUSS_INPUT(MAX(1,NLAY_MAX)*MAX(1,NIP_MAX)*MAX(1,NPLY_MAX)*MAX(1,NUVAR_MAX)*
-     .                   MAX(1,IR_MAX)*MAX(1,IS_MAX)*MAX(1,IT_MAX)*MAX(1,NMDSVAR_MAX)*MAX(1,ID_MAX)*
-     .                   MAX(1,MODE_MAX)))
-              ALLOCATE (IR_INPUT(MAX(1,NLAY_MAX)*MAX(1,NIP_MAX)*MAX(1,NPLY_MAX)*MAX(1,NUVAR_MAX)*
-     .                   MAX(1,IR_MAX)*MAX(1,IS_MAX)*MAX(1,IT_MAX)*MAX(1,NMDSVAR_MAX)*MAX(1,ID_MAX)*
-     .                   MAX(1,MODE_MAX)))
-              ALLOCATE (IS_INPUT(MAX(1,NLAY_MAX)*MAX(1,NIP_MAX)*MAX(1,NPLY_MAX)*MAX(1,NUVAR_MAX)*
-     .                   MAX(1,IR_MAX)*MAX(1,IS_MAX)*MAX(1,IT_MAX)*MAX(1,NMDSVAR_MAX)*MAX(1,ID_MAX)*
-     .                   MAX(1,MODE_MAX)))
-              ALLOCATE (IT_INPUT(MAX(1,NLAY_MAX)*MAX(1,NIP_MAX)*MAX(1,NPLY_MAX)*MAX(1,NUVAR_MAX)*
-     .                   MAX(1,IR_MAX)*MAX(1,IS_MAX)*MAX(1,IT_MAX)*MAX(1,NMDSVAR_MAX)*MAX(1,ID_MAX)*
-     .                   MAX(1,MODE_MAX)))
-              ALLOCATE (IS_AVAILABLE_KEY(MAX(1,NLAY_MAX)*MAX(1,NIP_MAX)*MAX(1,NPLY_MAX)*MAX(1,NUVAR_MAX)*
-     .                   MAX(1,IR_MAX)*MAX(1,IS_MAX)*MAX(1,IT_MAX)*MAX(1,NMDSVAR_MAX)*MAX(1,ID_MAX)*
-     .                   MAX(1,MODE_MAX)))
-              ALLOCATE (MDSVAR_INPUT(MAX(1,NLAY_MAX)*MAX(1,NIP_MAX)*MAX(1,NPLY_MAX)*MAX(1,NUVAR_MAX)*
-     .                   MAX(1,IR_MAX)*MAX(1,IS_MAX)*MAX(1,IT_MAX)*MAX(1,NMDSVAR_MAX)*MAX(1,ID_MAX)*
-     .                   MAX(1,MODE_MAX)))
-              ALLOCATE (MDSVAR_INPUT1(MAX(1,NLAY_MAX)*MAX(1,NIP_MAX)*MAX(1,NPLY_MAX)*MAX(1,NUVAR_MAX)*
-     .                   MAX(1,IR_MAX)*MAX(1,IS_MAX)*MAX(1,IT_MAX)*MAX(1,NMDSVAR_MAX)*MAX(1,ID_MAX)*
-     .                   MAX(1,MODE_MAX)))
-              ALLOCATE (MDSVAR_INPUT2(MAX(1,NLAY_MAX)*MAX(1,NIP_MAX)*MAX(1,NPLY_MAX)*MAX(1,NUVAR_MAX)*
-     .                   MAX(1,IR_MAX)*MAX(1,IS_MAX)*MAX(1,IT_MAX)*MAX(1,NMDSVAR_MAX)*MAX(1,ID_MAX)*
-     .                   MAX(1,MODE_MAX)))
-              ALLOCATE (IDS_INPUT(MAX(1,NLAY_MAX)*MAX(1,NIP_MAX)*MAX(1,NPLY_MAX)*MAX(1,NUVAR_MAX)*
-     .                   MAX(1,IR_MAX)*MAX(1,IS_MAX)*MAX(1,IT_MAX)*MAX(1,NMDSVAR_MAX)*MAX(1,ID_MAX)*
-     .                   MAX(1,MODE_MAX)))
-              ALLOCATE (IRUP_H3D(MAX(1,NLAY_MAX)*MAX(1,NIP_MAX)*MAX(1,NPLY_MAX)*MAX(1,NUVAR_MAX)*
-     .                   MAX(1,IR_MAX)*MAX(1,IS_MAX)*MAX(1,IT_MAX)*MAX(1,NMDSVAR_MAX)*MAX(1,ID_MAX)*
-     .                   MAX(1,MODE_MAX)))
-              ALLOCATE (MODES_INPUT(MAX(1,NLAY_MAX)*MAX(1,NIP_MAX)*MAX(1,NPLY_MAX)*MAX(1,NUVAR_MAX)*
-     .                   MAX(1,IR_MAX)*MAX(1,IS_MAX)*MAX(1,IT_MAX)*MAX(1,NMDSVAR_MAX)*MAX(1,ID_MAX)*
-     .                   MAX(1,MODE_MAX)))
+              !< SIZE of each input array (+1 for global integration shell to add lower layer output)
+              SIZE_INPUT = MAX(1,NLAY_MAX)*MAX(1,NIP_MAX)*MAX(1,NPLY_MAX)*MAX(1,NUVAR_MAX)*
+     .                     MAX(1,IR_MAX)*MAX(1,IS_MAX)*MAX(1,IT_MAX)*MAX(1,NMDSVAR_MAX)*MAX(1,ID_MAX)*
+     .                     MAX(1,MODE_MAX)+1
+              ALLOCATE (LAYER_INPUT(SIZE_INPUT))
+              ALLOCATE (IPT_INPUT(SIZE_INPUT))
+              ALLOCATE (PLY_INPUT(SIZE_INPUT))
+              ALLOCATE (UVAR_INPUT(SIZE_INPUT))
+              ALLOCATE (GAUSS_INPUT(SIZE_INPUT))
+              ALLOCATE (IR_INPUT(SIZE_INPUT))
+              ALLOCATE (IS_INPUT(SIZE_INPUT))
+              ALLOCATE (IT_INPUT(SIZE_INPUT))
+              ALLOCATE (IS_AVAILABLE_KEY(SIZE_INPUT))
+              ALLOCATE (MDSVAR_INPUT(SIZE_INPUT))
+              ALLOCATE (MDSVAR_INPUT1(SIZE_INPUT))
+              ALLOCATE (MDSVAR_INPUT2(SIZE_INPUT))
+              ALLOCATE (IDS_INPUT(SIZE_INPUT))
+              ALLOCATE (IRUP_H3D(SIZE_INPUT))
+              ALLOCATE (MODES_INPUT(SIZE_INPUT))
 C--------------------------------------------------
               CPT = 0
               ALLOCATE (MDSVAR_INPUT_TMP(MAX(1,NMDSVAR_MAX)))
@@ -1839,7 +1815,8 @@ c
                           ENDDO
                         ENDDO
 C-----------IPT=ALL  w/ NPT=0 add lower
-                        IF(ISH_NPT0 == 1) THEN
+                        IF ((ISH_NPT0 == 1).AND.(KEY3_GLOB(1:7) /= 'FAILURE') 
+     .                      .AND.(KEY3_GLOB(1:4) /= 'DAMG')) THEN
                           IF (IPT_INPUT(CPT_H3D)==1) IPT_INPUT(CPT_H3D)=-2
                           CPT_H3D = CPT_H3D + 1
                           LAYER_INPUT(CPT_H3D) = -1
