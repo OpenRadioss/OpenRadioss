@@ -237,11 +237,12 @@ C-----------------------------------------------
      .     ALEON_PARTIDS_TMP, ALEON_PARTIDS
       INTEGER, DIMENSION(:), ALLOCATABLE :: ALELIN_ON_OFF
       my_real
-     .   TITLE(20), TFI,  DTF, DTM, ALP, GAM,
+     .   TFI,  DTF, DTM, ALP, GAM,
      .   CV1, CV2, CV3, VOLM, TSTART, TFIN,DT_INPUT, DT_CRIT
        CHARACTER*9 Label1,Label2,Label3,Label4,Label5,Label6,Label7,Label8
        CHARACTER*16 ALEform(0:8),Cale1,Cale2,CHAR1,CHAR2,Label9
        CHARACTER*3 :: LABEL_DEF,LABEL_ROT
+      CHARACTER(LEN=4), DIMENSION(20) :: TITLE
       my_real eta1,eta2,MIN_ASPECT,MIN_DEFV
       my_real, DIMENSION(:), POINTER :: OFFG
       TYPE (SENSOR_STR_) ,DIMENSION(:) ,POINTER :: SENSOR_TAB
