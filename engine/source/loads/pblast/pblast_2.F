@@ -262,7 +262,7 @@ C-----------------------------------------------
 
           DTMIN_LOC = EP20
 
-          IF(HZ > ZERO .OR. ISHAPE == 2)THEN
+          IF(HZ >= -em10 .OR. ISHAPE == 2)THEN
 
             !OVER GROUND
 
