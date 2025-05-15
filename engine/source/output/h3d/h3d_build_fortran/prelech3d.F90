@@ -630,7 +630,7 @@
         enddo  
 ! 
         !< Allocation of the output list
-        if (sizetot > 0) then 
+        if (h3d_data%n_input_h3d > 0) then 
           sizetot = max(sizetot,10000)
           allocate(h3d_data%output_list(sizetot))
           h3d_data%output_list(1:sizetot)%ok = 0
