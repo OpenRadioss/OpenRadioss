@@ -45,6 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 c-----------------------------------------------
 C   M o d u l e s
 c-----------------------------------------------
+      USE SPMD_MOD
       USE GROUPDEF_MOD
       USE SENSOR_MOD
 C-----------------------------------------------
@@ -175,7 +176,7 @@ c--------------------
       ! -----------------
       ! reduction with mpi comm
       IF(NSPMD>1) THEN
-        CALL SPMD_ALLREDUCE_DB(LOCAL_VALUE,GLOBAL_VALUE,COMM_SENS16%NUM_SENS,"MIN")
+        CALL SPMD_ALLREDUCE(LOCAL_VALUE,GLOBAL_VALUE,COMM_SENS16%NUM_SENS,SPMD_MIN)
       ELSE
         GLOBAL_VALUE(1:COMM_SENS16%NUM_SENS) = LOCAL_VALUE(1:COMM_SENS16%NUM_SENS)
       ENDIF

@@ -44,6 +44,7 @@ C   M o d u l e s
 C-----------------------------------------------
         USE INTER_STRUCT_MOD
         USE INTER_SORTING_MOD
+        USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -76,7 +77,7 @@ C-----------------------------------------------
         MY_OPERATION(1:4) = ''
         MY_OPERATION(1:3) = "MAX"
         
-        CALL SPMD_ALLREDUCE_DB(BUFFER_S,BUFFER_R,6,MY_OPERATION)
+        CALL SPMD_ALLREDUCE(BUFFER_S,BUFFER_R,6,SPMD_MAX)
         !   ------------------
         IF(NB_INTER_SORTED>0) THEN
             DO I=1,3
