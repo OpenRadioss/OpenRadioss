@@ -66,7 +66,9 @@ typedef PyObject *(*T_PyImport_AddModule)(const char *);
 typedef PyObject *(*T_PyModule_GetDict)(PyObject *);
 typedef int (*T_PyRun_SimpleString)(const char *);
 typedef int (*T_PyTuple_SetItem)(PyObject *, My_ssize_t, PyObject *);  // Use Py_ssize_t for index
+typedef int (*T_PyList_SetItem)(PyObject* , My_ssize_t , PyObject* );
 typedef void (*T_Py_DecRef)(PyObject *);
+typedef void (*T_Py_IncRef)(PyObject *);
 typedef double (*T_PyFloat_AsDouble)(PyObject *);
 typedef int (*T_PyDict_SetItemString)(PyObject *, const char *, PyObject *);
 typedef void (*T_PyErr_Fetch)(PyObject **, PyObject **, PyObject **);
@@ -77,8 +79,10 @@ typedef PyObject *(*T_PyObject_Str)(PyObject *);
 typedef const char *(*T_PyUnicode_AsUTF8)(PyObject *);
 typedef PyObject *(*T_PyDict_New)();
 typedef PyObject *(*T_PyList_New)(My_ssize_t);  // Use Py_ssize_t for size
-typedef int (*T_PyList_SetItem)(PyObject *, My_ssize_t, PyObject *);
 typedef void (*T_PyErr_Clear)();
+typedef PyObject *(*T_PyLong_FromLong)(long int);
+typedef PyObject *(*T_PyLong_FromVoidPtr)(void *); 
+typedef PyObject *(*T_PyUnicode_FromString)(const char *); // Added this line to declare the function pointer
 
 
 // Python library handle
@@ -120,7 +124,9 @@ T_PyImport_AddModule MyImport_AddModule;
 T_PyModule_GetDict MyModule_GetDict;
 T_PyRun_SimpleString MyRun_SimpleString;
 T_PyTuple_SetItem MyTuple_SetItem;
+T_PyList_SetItem MyList_SetItem;
 T_Py_DecRef My_DecRef;
+T_Py_IncRef My_IncRef;
 T_PyFloat_AsDouble MyFloat_AsDouble;
 T_PyDict_SetItemString MyDict_SetItemString;
 T_PyErr_Fetch MyErr_Fetch;
@@ -131,9 +137,10 @@ T_PyObject_Str MyObject_Str;
 T_PyUnicode_AsUTF8 MyUnicode_AsUTF8;
 T_PyDict_New MyDict_New;
 T_PyList_New MyList_New;
-T_PyList_SetItem MyList_SetItem;
 T_PyErr_Clear MyErr_Clear;
-
+T_PyLong_FromLong MyLong_FromLong;
+T_PyLong_FromVoidPtr MyLong_FromVoidPtr; // Added this line to declare the function pointer
+T_PyUnicode_FromString MyUnicode_FromString; // Added this line to declare the function pointer
 
 constexpr std::array<const char*, 89> ELEMENT_KEYWORDS = {
 "ALPHA",
@@ -248,3 +255,26 @@ KeywordPair get_keyword_pair(const KeywordPairs& keywordPairs, size_t n) {
     auto it = std::next(keywordPairs.begin(), n);
     return *it;
 }
+
+
+// Utility function to add a key-value pair to a dictionary with proper reference counting
+//static int add_to_dict(PyObject* dict, PyObject* key, PyObject* value) {
+//    int result = MyDict_SetItem(dict, key, value);
+//    My_DecRef(key);    // PyDict_SetItem doesn't steal references
+//    My_DecRef(value);  // so we need to decrease them ourselves
+//    return result;
+//}
+
+// Utility function to format a key with the array name
+//static PyObject* create_key(const char* array_name, const char* suffix) {
+//    return MyUnicode_FromFormat("%s_%s", array_name, suffix);
+//}
+
+// Utility function to check if a Python object is a valid dictionary
+//static int check_context(PyObject* context) {
+//    if (!context || !MyDict_Check(context)) {
+//        std::cerr << "Error: Invalid context pointer" << std::endl;
+//        return -1;
+//    }
+//    return 0;
+//}

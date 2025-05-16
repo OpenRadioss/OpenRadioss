@@ -174,7 +174,9 @@ void load_functions(T h, bool &python_initialized)
     load_function(h, "PyModule_GetDict", MyModule_GetDict, python_initialized);
     load_function(h, "PyRun_SimpleString", MyRun_SimpleString, python_initialized);
     load_function(h, "PyTuple_SetItem", MyTuple_SetItem, python_initialized);
+    load_function(h, "PyList_SetItem", MyList_SetItem, python_initialized);
     load_function(h, "Py_DecRef", My_DecRef, python_initialized);
+    load_function(h, "Py_IncRef", My_IncRef, python_initialized);
     load_function(h, "PyFloat_AsDouble", MyFloat_AsDouble, python_initialized);
     load_function(h, "PyDict_SetItemString", MyDict_SetItemString, python_initialized);
     load_function(h, "PyErr_Fetch", MyErr_Fetch, python_initialized);
@@ -184,8 +186,10 @@ void load_functions(T h, bool &python_initialized)
     load_function(h, "PyUnicode_AsUTF8", MyUnicode_AsUTF8, python_initialized);
     load_function(h, "PyDict_New", MyDict_New, python_initialized);
     load_function(h, "PyList_New", MyList_New, python_initialized);
-    load_function(h, "PyList_SetItem", MyList_SetItem, python_initialized);
     load_function(h, "PyErr_Clear", MyErr_Clear, python_initialized);
+    load_function(h, "PyLong_FromLong", MyLong_FromLong, python_initialized);
+    load_function(h, "PyLong_FromVoidPtr", MyLong_FromVoidPtr, python_initialized);
+    load_function(h, "PyUnicode_FromString", MyUnicode_FromString, python_initialized);
 }
 
 
@@ -664,6 +668,68 @@ extern "C"
             "    initialize_environment()\n";
         int result = MyRun_SimpleString(code);
     }
+
+    void cpp_python_sync(void* pcontext)
+    {
+        //std::cout<<"[PYTHON] cpp_python_sync called"<<std::endl;
+        if (!python_initialized)
+        {
+            return;
+        }
+        // cast the context to a double pointer as a PyObject
+        char func_name[100];
+        // func_name = "sync" 
+        func_name[0] = 's';
+        func_name[1] = 'y';
+        func_name[2] = 'n';
+        func_name[3] = 'c';
+        func_name[4] = '\0';
+        //std::cout<<"[PYTHON] cpp_python_sync called with function name: "<<func_name<<std::endl;
+
+        PyObject *context = static_cast<PyObject *>(pcontext);
+        PyObject* args = MyTuple_New(1);
+        if(!args)
+        {
+            std::cout << "ERROR: Failed to create Python tuple." << std::endl;
+        }
+        My_IncRef(context);
+        MyTuple_SetItem(args, 0, context);  // This steals the reference
+        PyObject *pFunc = static_cast<PyObject *>(MyDict_GetItemString(pDict, func_name));
+        if (!pFunc)
+        {
+            std::cout << "ERROR: Python function not found: " << func_name << std::endl;
+            My_DecRef(args);
+        }
+
+        if (!MyCallable_Check(pFunc)) {
+        std::cerr << "[PYTHON] Error: '" << func_name << "' is not callable" << std::endl;
+        My_DecRef(args);
+        }
+
+        PyObject* result = MyObject_CallObject(pFunc, args);
+         if (MyErr_Occurred())
+         {
+             // Fetch the error details
+             PyObject *pType, *pValue, *pTraceback;
+             MyErr_Fetch(&pType, &pValue, &pTraceback);
+             if (pType)
+                 std::cout << "[PYTHON] " << MyUnicode_AsUTF8(MyObject_Str(pType)) << std::endl;
+             if (pValue)
+                 std::cout << "[PYTHON] " << MyUnicode_AsUTF8(MyObject_Str(pValue)) << std::endl;
+             if (pTraceback)
+                 std::cout << "[PYTHON]: " << MyUnicode_AsUTF8(MyObject_Str(pTraceback)) << std::endl;
+
+             // Decrement reference counts for error objects
+             My_DecRef(pType);
+             My_DecRef(pValue);
+             My_DecRef(pTraceback);
+             exit_with_message("ERROR: Python function failed");
+         }
+ 
+        My_DecRef(args);
+    }
+
+
     void cpp_python_finalize()
     {
         My_Finalize();
@@ -1080,6 +1146,18 @@ extern "C"
                 My_DecRef(py_z_values);
         }
     }
+    void cpp_python_update_active_node_ids(int id, int uid)
+    { // set ACTIVE_NODE as id, and ACTIVE_NODE_UID as uid
+        if (!python_initialized)
+        {
+            return;
+        }
+        // Set the Python global variables in the main module's dictionary
+        std::string id_name = "ACTIVE_NODE";
+        std::string uid_name = "ACTIVE_NODE_UID";
+        MyDict_SetItemString(pDict, id_name.c_str(), static_cast<PyObject *>(MyLong_FromLong(static_cast<long>(id))));
+        MyDict_SetItemString(pDict, uid_name.c_str(), static_cast<PyObject *>(MyLong_FromLong(static_cast<long>(uid))));
+    }
 
 
     // values is an array of size (3*numnod) containing the values of the nodal entities
@@ -1199,6 +1277,84 @@ extern "C"
             y[i] = static_cast<my_real>(new_y[i]);
         }
     }
+
+
+//
+//          subroutine python_add_ints_to_dict(context, name, len_name, values, nvalues) &
+//            bind(c, name="cpp_python_add_ints_to_dict")
+//            use iso_c_binding
+//            type(c_ptr), value, intent(in) :: context
+//            integer(kind=c_int), value, intent(in) :: nvalues
+//            character(kind=c_char), dimension(len_name), intent(in) :: name
+//            integer(kind=c_int), dimension(nvalues), intent(in) :: values
+//          end subroutine python_add_ints_to_dict
+         //subroutine python_add_doubles_to_dict(context, name, len_name, values, nvalues) &
+void cpp_python_add_ints_to_dict(void* context_ptr, const char* name, int len_name,  int* values, int nvalues)
+{ // expose the array without copying
+    if (!python_initialized)
+    {
+        return;
+    }
+    PyObject * context = static_cast<PyObject*>(context_ptr); 
+    char ptr_key[100],size_key[100],type_key[100];
+    snprintf(ptr_key, sizeof(ptr_key), "%s_ptr", name);
+    snprintf(size_key, sizeof(size_key), "%s_size", name);
+    snprintf(type_key, sizeof(type_key), "%s_type", name);
+    PyObject* ptr_value  = MyLong_FromVoidPtr(values);
+    PyObject* size_value = MyLong_FromLong(static_cast<long>(nvalues));
+    PyObject* type_value = MyUnicode_FromString("int");
+
+    // set the values in the context dictionary
+    MyDict_SetItemString(context, ptr_key, ptr_value);
+    MyDict_SetItemString(context, size_key, size_value);
+    MyDict_SetItemString(context, type_key, type_value);
+
+    // release the references
+    My_DecRef(ptr_value);
+    My_DecRef(size_value);
+    My_DecRef(type_value);
+
+}
+
+void cpp_python_add_doubles_to_dict(void* context_ptr, const char* name, int len_name,  double* values, int nvalues)
+{ // expose the array without copying
+    if (!python_initialized)
+    {
+        return;
+    }
+    PyObject * context = static_cast<PyObject*>(context_ptr); 
+    char ptr_key[100],size_key[100],type_key[100];
+    snprintf(ptr_key, sizeof(ptr_key), "%s_ptr", name);
+    snprintf(size_key, sizeof(size_key), "%s_size", name);
+    snprintf(type_key, sizeof(type_key), "%s_type", name);
+    PyObject* ptr_value  = MyLong_FromVoidPtr(values);
+    PyObject* size_value = MyLong_FromLong(static_cast<long>(nvalues));
+    PyObject* type_value = MyUnicode_FromString("double");
+    // set the values in the context dictionary
+    MyDict_SetItemString(context, ptr_key, ptr_value);
+    MyDict_SetItemString(context, size_key, size_value);
+    MyDict_SetItemString(context, type_key, type_value);
+    // release the references
+    My_DecRef(ptr_value);
+    My_DecRef(size_value);
+    My_DecRef(type_value);
+}
+    // set the values in the context dictionary
+
+
+void* cpp_python_create_context() {
+    PyObject* context = MyDict_New();
+    if (!context) {
+        return NULL;
+    }
+    return context;
+}
+
+void cpp_python_free_context(void* context) {
+    if (context) {
+        My_DecRef(static_cast<PyObject*>(context));
+    }
+}
 
 } // extern "C"
 
