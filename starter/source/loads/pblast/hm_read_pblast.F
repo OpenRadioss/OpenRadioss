@@ -865,7 +865,7 @@ C-----------------------------------------------
 
                 HZ = ( Nx_SURF*Zx + Ny_SURF*Zy + Nz_SURF*Zz  - Nx_SURF*Xdet - Ny_SURF*Ydet - Nz_SURF*Zdet )
 
-                IF(HZ < ZERO .AND. ISHAPE /= 2)THEN
+                IF(HZ < -em10 .AND. ISHAPE /= 2)THEN
 
                   !FACE IS UNDERGROUND
                   P_inci = zero
