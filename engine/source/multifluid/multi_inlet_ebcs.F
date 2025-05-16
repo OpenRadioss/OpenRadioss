@@ -20,6 +20,8 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      MODULE MULTI_INLET_EBCS_MOD
+      CONTAINS
       !||====================================================================
       !||    multi_inlet_ebcs   ../engine/source/multifluid/multi_inlet_ebcs.F
       !||--- called by ------------------------------------------------------
@@ -42,6 +44,8 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE TH_SURF_MOD , only : TH_SURF_NUM_CHANNEL
       USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
+      USE MULTI_SOLVE_EINT_MOD , ONLY : MULTI_SOLVE_EINT
+      USE MULTI_SUBMATLAW_MOD , ONLY : MULTI_SUBMATLAW
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -89,17 +93,22 @@ C-----------------------------------------------
      .           PHASE_ALPHAII(MULTI_FVM%NBMAT), PHASE_RHOJJ(MULTI_FVM%NBMAT),
      .           PHASE_PRESJJ(MULTI_FVM%NBMAT), PHASE_EINTJJ(MULTI_FVM%NBMAT),
      .           PHASE_SSPJJ(MULTI_FVM%NBMAT), PHASE_ALPHAJJ(MULTI_FVM%NBMAT)
-      my_real :: DUMMY(6), RHOII, PII, EINTII, VXII, VYII, VZII, SSPII, NORMAL_VELII, RHOJJ, SSPJJ, 
+      my_real :: DUMMY(6), DUMMY2(1), RHOII, PII, EINTII, VXII, VYII, VZII, SSPII, NORMAL_VELII, RHOJJ, SSPJJ,
      .           PJJ, NORMAL_VELJJ, VXJJ, VYJJ, VZJJ, VELII2, ALPHAII, SUB_RHOII, SUB_RHOEINTII, SUB_VIISTAR(3),
      .           SUB_FIISTAR(3), ALPHASTAR, SUB_RHOSTAR, SUB_PII, VELJJ2, SUB_ESTAR, EINTJJ, PSURF
       INTEGER :: IFUNC, IELEM_START, IELEM_END
+      INTEGER :: VARTMP_EOS(1,128) !nel=1
+      INTEGER :: NVARTMP_EOS !upper bound
 C-----------------------------------------------
-C     B e g i n n i n g   o f   s u b r o u t i n e
+C     B o d y
 C-----------------------------------------------
+      NVARTMP_EOS = 128
+      VARTMP_EOS(1,:) = 1
       NBMAT = MULTI_FVM%NBMAT
       IELEM_START = 1 + ITASK * NELEM / NTHREAD 
       IELEM_END = (1 + ITASK) * NELEM / NTHREAD
-      DUMMY(1:6)=ZERO
+      DUMMY(1:6) = ZERO
+      DUMMY2(1) = ONE
       DO IELEM = IELEM_START, IELEM_END
          ELEMID = ELEM_LIST(IELEM)
          IF (ELEMID  <=  NUMELS) THEN
@@ -190,11 +199,12 @@ C     VE formulation
                   CALL MULTI_SUBMATLAW(
      1                    0,                  MATLAW(IMAT),                 LOCAL_MATID(IMAT),       1,
      2                    PHASE_EINTJJ(IMAT), PHASE_PRESJJ(IMAT),           PHASE_RHOJJ(IMAT),       PHASE_SSPJJ(IMAT),
-     3                    ONE,                DUMMY,                        PM,                      IPM,
-     4                    NPROPM,             NPROPMI,                      DUMMY,                   ONE,
-     5                    DUMMY,              MULTI_FVM%BFRAC(IMAT,ELEMID), MULTI_FVM%TBURN(ELEMID), DUMMY,
-     6                    DUMMY,              DUMMY,                        NPF,                     TF,
-     7                    DUMMY(1),           1,                            MATPARAM(LOCAL_MATID(IMAT)))
+     3                    DUMMY2,             DUMMY,                        PM,                      IPM,
+     4                    NPROPM,             NPROPMI,                      DUMMY,                   DUMMY2,
+     5                    DUMMY,              MULTI_FVM%BFRAC(IMAT,ELEMID), MULTI_FVM%TBURN(ELEMID), DUMMY ,
+     6                    DUMMY(1),           DUMMY,                        SNPC                   , STF   ,
+     7                    NPF,                TF,                           DUMMY(1)               , 1     ,
+     8                    MATPARAM(LOCAL_MATID(IMAT)),NVARTMP_EOS,         VARTMP_EOS              ,NUMMAT)
                   SSPJJ = SSPJJ + PHASE_ALPHAJJ(IMAT) * PHASE_RHOJJ(IMAT) * MAX(EM20, PHASE_SSPJJ(IMAT))
                   PJJ = PJJ + PHASE_PRESJJ(IMAT) * PHASE_ALPHAJJ(IMAT)
                   EINTJJ = EINTJJ + PHASE_ALPHAJJ(IMAT) * PHASE_EINTJJ(IMAT)
@@ -218,10 +228,11 @@ C     VP formulation
 C     Need to solve p(RHO, EINT) = PHASE_PRESJJ(IMAT) for EINT
 C     INITIALIZE INTERNAL ENERGY
                PHASE_EINTJJ(IMAT) = PM(23, LOCAL_MATID(IMAT))
-               CALL SOLVE_EINT(MATLAW(IMAT), LOCAL_MATID(IMAT), PM, IPM, NPROPM, NPROPMI, 
+               CALL MULTI_SOLVE_EINT(MATLAW(IMAT), LOCAL_MATID(IMAT), PM, IPM, NPROPM, NPROPMI, 
      .              PHASE_EINTJJ(IMAT), PHASE_RHOJJ(IMAT), PHASE_PRESJJ(IMAT), PHASE_SSPJJ(IMAT),
-     .              MULTI_FVM%BFRAC(IMAT, ELEMID), MULTI_FVM%TBURN(ELEMID), DUMMY(1), DUMMY,
-     .              DUMMY, ONE, NPF, TF, DUMMY, 1, MATPARAM(LOCAL_MATID(IMAT)))
+     .              MULTI_FVM%BFRAC(IMAT, ELEMID), MULTI_FVM%TBURN(ELEMID), DUMMY(1), DUMMY(1),
+     .              DUMMY, DUMMY2, SNPC, STF, NPF, TF, DUMMY, 1, MATPARAM(LOCAL_MATID(IMAT)),
+     ?              NVARTMP_EOS, VARTMP_EOS, NUMMAT)
                
                SSPJJ = SSPJJ + PHASE_ALPHAJJ(IMAT) * PHASE_RHOJJ(IMAT) * MAX(EM20, PHASE_SSPJJ(IMAT))
                EINTJJ = EINTJJ + PHASE_ALPHAJJ(IMAT) * PHASE_EINTJJ(IMAT)
@@ -476,85 +487,5 @@ C-----------------------------------------------
 C     E n d   o f   s u b r o u t i n e 
 C-----------------------------------------------
       END SUBROUTINE MULTI_INLET_EBCS
+      END MODULE MULTI_INLET_EBCS_MOD
 
-      !||====================================================================
-      !||    solve_eint         ../engine/source/multifluid/multi_inlet_ebcs.F
-      !||--- called by ------------------------------------------------------
-      !||    multi_inlet_ebcs   ../engine/source/multifluid/multi_inlet_ebcs.F
-      !||--- calls      -----------------------------------------------------
-      !||    multi_submatlaw    ../engine/source/multifluid/multi_submatlaw.F
-      !||--- uses       -----------------------------------------------------
-      !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||====================================================================
-      SUBROUTINE SOLVE_EINT(MATLAW  , LOCAL_MATID, PM    , IPM         ,NPROPM, NPROPMI, 
-     .                      EINT    , RHO        , PRES  , SSP         , 
-     .                      BURNFRAC, BURNTIME   , DELTAX, CURRENT_TIME,
-     .                      BUFMAT  , OFF        , NPF   , TF          ,VAREOS, NVAREOS,
-     .                      MAT_PARAM)
-C-----------------------------------------------
-C   M o d u l e s
-C-----------------------------------------------
-      USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
-C-----------------------------------------------
-C     I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-#include      "tabsiz_c.inc"
-      INTEGER, INTENT(IN) :: MATLAW, LOCAL_MATID, NPROPM, NPROPMI
-      my_real, INTENT(IN) :: PM(NPROPM, *)
-      INTEGER, INTENT(IN) :: IPM(NPROPMI, *)
-      my_real, INTENT(INOUT) :: RHO
-      my_real, INTENT(INOUT) :: SSP, PRES, EINT
-      my_real, INTENT(INOUT) :: BURNFRAC, BURNTIME, DELTAX, CURRENT_TIME, BUFMAT(*)
-      my_real, INTENT(INOUT) :: OFF
-      INTEGER, INTENT(IN) :: NPF(SNPC),NVAREOS
-      my_real, INTENT(IN) :: TF(STF),VAREOS(NVAREOS*1)
-      TYPE(MATPARAM_STRUCT_), INTENT(IN) :: MAT_PARAM !material data structure
-C-----------------------------------------------
-C     A r g u m e n t s
-C-----------------------------------------------
-      INTEGER :: ITER, MAX_ITER
-      my_real :: TOL, ERROR
-      my_real :: FUNC, DFUNC, PSTAR, GRUN, VOL, INCR, TEMP, PRESK, DUMMY(6)
-      LOGICAL :: CONT
-C-----------------------------------------------
-C     S o u r c e   L i n e s
-C-----------------------------------------------
-      MAX_ITER = 50
-      TOL = EM06
-      ERROR = ONE
-      DUMMY(1:6)=ZERO
-      
-C     Dummy
-      VOL = ONE
-
-C     Initialization
-      TEMP = ZERO
-      ITER = 0
-      CONT = .TRUE.
-      DO WHILE (CONT .AND. ITER  <  MAX_ITER) 
-         ITER = ITER + 1
-         CALL MULTI_SUBMATLAW(
-     1   0,           MATLAW,      LOCAL_MATID, 1,
-     2   EINT,        PRESK,       RHO,         SSP,
-     3   VOL,         GRUN,        PM,          IPM,
-     4   NPROPM,      NPROPMI,     BUFMAT,      OFF,
-     5   TEMP,        BURNFRAC,    BURNTIME,    DELTAX,
-     6   CURRENT_TIME,DUMMY,       NPF,         TF,
-     7   VAREOS,      NVAREOS,     MAT_PARAM)
-         FUNC = PRESK - PRES
-         ERROR  = ABS(FUNC)
-         IF (ERROR  <  TOL * (ABS(PRES) + ONE)) THEN
-            CONT = .FALSE.
-         ENDIF
-         DFUNC = GRUN
-         IF (GRUN  >  ZERO) THEN
-            INCR = -FUNC / DFUNC
-            EINT = EINT + INCR
-         ELSE
-            CONT = .FALSE.
-            EINT = ZERO
-         ENDIF
-
-      ENDDO
-      END SUBROUTINE SOLVE_EINT

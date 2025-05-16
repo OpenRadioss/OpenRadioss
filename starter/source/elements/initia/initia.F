@@ -1729,7 +1729,7 @@ C---------------------------------
      .                     IPART(I15B) ,X         ,V       ,IXS     ,IXQ        , 
      .                     IXTG        ,PM        ,IPM     ,BUFMAT  ,MULTI_FVM  ,
      .                     PLD         ,NPC       ,IGRBRIC ,IGRQUAD ,IGRSH3N    ,
-     .                     NPTS        ,MAT_PARAM )
+     .                     NPTS        ,MAT_PARAM ,SNPC    ,STF)
       ENDIF
 C---------------------------------
 C Initialization on 2D functions

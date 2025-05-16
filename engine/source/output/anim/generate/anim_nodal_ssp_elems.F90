@@ -100,7 +100,7 @@ module anim_nodal_ssp_elems_mod
                 do j=2,nnod+1
                   jj=ix(j,nft+i)
                   is_written_node(jj)=1
-                  wa4(jj)=wa4(jj)+weight*ssp
+                  wa4(jj)=wa4(jj)+ real(weight*ssp)
                   sum_weight(jj) = sum_weight(jj) + weight !cumulated volume
                 enddo
               enddo!next i
@@ -112,7 +112,7 @@ module anim_nodal_ssp_elems_mod
               do j=2,nnod+1
                 jj=ix(j,nft+i)
                 is_written_node(jj)=1
-                wa4(jj)=wa4(jj)+weight*ssp
+                wa4(jj)=wa4(jj)+real(weight*ssp)
                 sum_weight(jj) = sum_weight(jj) + weight !cumulated volume
               enddo
             enddo!next i
@@ -123,7 +123,7 @@ module anim_nodal_ssp_elems_mod
         !divinding by sum of weights to get finally weighting factors
         do i=1,numnod
           if(sum_weight(i)/=zero)then
-            wa4(i)=wa4(i)/sum_weight(i)
+            wa4(i)=wa4(i)/real(sum_weight(i))
           endif
         enddo
 

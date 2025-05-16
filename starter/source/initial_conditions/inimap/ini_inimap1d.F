@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                        IPARTQ   ,XGRID     ,VEL    ,IXS     ,IXQ      ,
      .                        IXTG     ,PM        ,IPM    ,BUFMAT  ,MULTI_FVM, 
      .                        PLD      ,NPC       ,IGRBRIC,IGRQUAD ,IGRSH3N  ,
-     .                        NPTS     ,MAT_PARAM )
+     .                        NPTS     ,MAT_PARAM ,SNPC   ,STF)
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
@@ -47,6 +47,7 @@ C-----------------------------------------------
       USE ALEFVM_MOD , only:ALEFVM_Param
       USE MATPARAM_DEF_MOD
       USE MULTIMAT_PARAM_MOD , ONLY : M51_N0PHAS, M51_NVPHAS
+      USE MULTI_SOLVE_EINT_MOD , ONLY : MULTI_SOLVE_EINT
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,6 +66,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER,INTENT(IN) :: SNPC, STF !< array sizes
       TYPE(INIMAP1D_STRUCT), TARGET, DIMENSION(NINIMAP1D), INTENT(INOUT) :: INIMAP1D
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP), INTENT(INOUT), TARGET :: ELBUF_TAB
       INTEGER, INTENT(IN) :: IPART(LIPART1, *), NPC(*)
@@ -112,6 +114,7 @@ C-----------------------------------------------
       TYPE(BUF_EOS_), POINTER :: EBUF
       INTEGER NVAREOS
       INTEGER GMID !< global material identifier (multimaterial law)
+      INTEGER :: NVARTMP_EOS
       
 C-----------------------------------------------
 C     S o u r c e   L i n e s
@@ -845,12 +848,13 @@ C     Compute EINT from pressure
                   ELSEIF (ITY  ==  7) THEN
                      MATID = IXTG(1, 1 + NFT)
                   ENDIF
+                  NVARTMP_EOS = ELBUF_TAB(NG)%BUFLY(1)%NVARTMP_EOS
                   SUBMAT(1)%TEMP(1:NEL) => ELBUF_TAB(NG)%GBUF%TEMP(1:NEL)
                   EBUF => ELBUF_TAB(NG)%BUFLY(1)%EOS(1,1,1)
                   NVAREOS = ELBUF_TAB(NG)%BUFLY(1)%NVAR_EOS 
-                  CALL SOLVE_EINT(MATID, NFT, NEL, PRES(:, 1), GBUF%EINT, GBUF%RHO, IFIRST, ILAST, ELEM_LIST, 
-     .                 IPM, PM, BUFMAT, MLW,NG,0,SUBMAT(1)%TEMP,NPC,PLD, EBUF%VAR, NVAREOS,
-     .                    MAT_PARAM(MATID))
+                  CALL MULTI_SOLVE_EINT(MATID, NFT, NEL, PRES(:, 1), GBUF%EINT, GBUF%RHO, IFIRST, ILAST, ELEM_LIST, 
+     .                 IPM, PM, BUFMAT, MLW, SUBMAT(1)%TEMP,SNPC,STF,NPC,PLD, EBUF%VAR, NVAREOS,
+     .                    MAT_PARAM(MATID),NVARTMP_EOS,EBUF%VARTMP,NUMMAT,NPROPMI,NPROPM)
                ELSE IF (MLW == 151) THEN
                   DO IMAT = 1, NBMAT
                      IF (ITY  ==  1) THEN
@@ -863,13 +867,14 @@ C     Compute EINT from pressure
                         GMID = IXTG(1, 1 + NFT)
                         MATID = MAT_PARAM(GMID)%MULTIMAT%MID(IMAT)
                      ENDIF
+                     NVARTMP_EOS = ELBUF_TAB(NG)%BUFLY(IMAT)%NVARTMP_EOS
                      SUBMAT(IMAT)%TEMP(1:NEL) => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%TEMP(1:NEL)
                      EBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%EOS(1,1,1)
                      NVAREOS = ELBUF_TAB(NG)%BUFLY(IMAT)%NVAR_EOS                      
-                     CALL SOLVE_EINT(MATID, NFT, NEL, PRES(:, IMAT), ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%EINT, 
+                     CALL MULTI_SOLVE_EINT(MATID, NFT, NEL, PRES(:, IMAT), ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%EINT, 
      .                    ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%RHO, IFIRST, ILAST, ELEM_LIST, 
-     .                    IPM, PM, BUFMAT, MLW, NG,IMAT,SUBMAT(IMAT)%TEMP,NPC,PLD,EBUF%VAR,NVAREOS,
-     .                    MAT_PARAM(MATID))
+     .                    IPM, PM, BUFMAT, MLW,SUBMAT(IMAT)%TEMP,SNPC,STF,NPC,PLD,EBUF%VAR,NVAREOS,
+     .                    MAT_PARAM(MATID),NVARTMP_EOS,EBUF%VARTMP,NUMMAT,NPROPMI,NPROPM)
                   ENDDO
                ELSE
                   DO IMAT = 1, NBMAT
@@ -883,15 +888,16 @@ C     Compute EINT from pressure
                         GMID = IXTG(1, 1 + NFT)
                         MATID = MAT_PARAM(GMID)%MULTIMAT%MID(IMAT)
                      ENDIF
+                     NVARTMP_EOS = ELBUF_TAB(NG)%BUFLY(IMAT)%NVARTMP_EOS
                      KPHASE = M51_N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * M51_NVPHAS
                      SUBMAT(IMAT)%TEMP(1:NEL) => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(1+NEL*(16+KPHASE-1) : NEL*(16+KPHASE )) 
                      EBUF => ELBUF_TAB(NG)%BUFLY(1)%EOS(1,1,1)
                      NVAREOS = ELBUF_TAB(NG)%BUFLY(1)%NVAR_EOS                      
-                     CALL SOLVE_EINT(MATID, NFT, NEL, PRES(:, IMAT), EINT(:, IMAT), 
+                     CALL MULTI_SOLVE_EINT(MATID, NFT, NEL, PRES(:, IMAT), EINT(:, IMAT), 
      .                    ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(1 + NEL * (9 + KPHASE - 1):NEL + NEL * (9 + KPHASE - 1)), 
      .                    IFIRST, ILAST, ELEM_LIST, 
-     .                    IPM, PM, BUFMAT, MLW, NG,IMAT,SUBMAT(IMAT)%TEMP,NPC,PLD,EBUF%VAR,NVAREOS,
-     .                    MAT_PARAM(MATID))
+     .                    IPM, PM, BUFMAT, MLW, SUBMAT(IMAT)%TEMP,SNPC,STF,NPC,PLD,EBUF%VAR,NVAREOS,
+     .                    MAT_PARAM(MATID),NVARTMP_EOS,EBUF%VARTMP,NUMMAT,NPROPMI,NPROPM)
                      DO II = IFIRST, ILAST
                         ELEMID = ELEM_LIST(II)
                         RES = EINT(ELEMID - NFT, IMAT)
@@ -935,141 +941,3 @@ C     ===================
 
       END SUBROUTINE INI_INIMAP1D
 
-      !||====================================================================
-      !||    solve_eint         ../starter/source/initial_conditions/inimap/ini_inimap1d.F
-      !||--- called by ------------------------------------------------------
-      !||    ini_inimap1d       ../starter/source/initial_conditions/inimap/ini_inimap1d.F
-      !||--- calls      -----------------------------------------------------
-      !||--- uses       -----------------------------------------------------
-      !||====================================================================
-      SUBROUTINE SOLVE_EINT(MATID, NFT,    NEL, PRESIN, EINT, RHO,   IFIRST, ILAST, ELEM_LIST, IPM, 
-     .                      PM   , BUFMAT, MLW, NG,     IMAT, THETA, NPC,    TF, VAREOS, NVAREOS,
-     .                      MAT_PARAM)
-C-----------------------------------------------
-C   M o d u l e s
-C-----------------------------------------------
-      USE MATPARAM_DEF_MOD
-C-----------------------------------------------
-C     I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc" 
-C-----------------------------------------------
-C     C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "param_c.inc"
-!     MVSIZ
-#include      "com04_c.inc"
-#include      "tabsiz_c.inc"
-C-----------------------------------------------
-C     D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER, INTENT(IN) :: MATID, NFT, NEL, IFIRST, ILAST, ELEM_LIST(*), IPM(NPROPMI, NUMMAT), MLW, NG,NVAREOS
-      my_real, INTENT(IN) :: PM(NPROPM, NUMMAT), BUFMAT(*), RHO(NEL), PRESIN(NEL)
-      my_real, INTENT(OUT) :: EINT(NEL)
-      my_real, INTENT(INOUT) :: THETA(NEL), VAREOS(NVAREOS*NEL)
-      INTEGER,INTENT(IN) :: IMAT !debug purpose
-      INTEGER,INTENT(IN)::NPC(SNPC)
-      my_real,INTENT(IN)::TF(STF)
-      TYPE(MATPARAM_STRUCT_) ,INTENT(IN) :: MAT_PARAM
-C-----------------------------------------------
-C     L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER :: II, ELEMID, EOSTYPE,LOCALID, REMAINING_ELTS, ITER, MAX_ITER
-      INTEGER :: MAT(NEL)
-      INTEGER :: IBID(NEL) ! bfrac not used in this context
-      my_real :: VOL(NEL), ERROR(NEL), TOL, OFF(NEL), RHOZERO(NEL), RHO0
-      my_real :: MU(NEL), DF(NEL), MU2(NEL), ESPE(NEL), DVOL(NEL), PSH(NEL),
-     .     SSP(NEL), DPDE(NEL), ECOLD(NEL), PRES(NEL), POLD(NEL)
-      my_real :: FUNC, DFUNC, INCR,SIG(NEL,6),MUOLD(NEL)
-      LOGICAL :: CONVERGED(NEL)
-
-C-----------------------------------------------
-C     P r e C o n d i t i o n
-C-----------------------------------------------
-      IF(IFIRST>ILAST .OR. IFIRST<1)RETURN !DO NO INIT TO 0.
-      
-C-----------------------------------------------
-C     S o u r c e   L i n e s
-C-----------------------------------------------
-
-      EOSTYPE = MAT_PARAM%IEOS  ! should use that except law5 with internal EOS
-      EOSTYPE = IPM(4, MATID)
-      RHO0 = PM(1, MATID)
-
-      VOL(1:NEL) = ZERO
-      OFF(1:NEL) = ONE
-      ERROR(1:NEL) = ZERO
-      CONVERGED(1:NEL) = .TRUE.
-      REMAINING_ELTS = 0
-      RHOZERO(1:NEL) = RHO0
-      MAT(1:NEL) = MATID
-      PSH(1:NEL) = PM(88, MATID)
-      SIG(1:NEL,1)=-PM(31,MATID)
-      SIG(1:NEL,2)=-PM(31,MATID)
-      SIG(1:NEL,3)=-PM(31,MATID)
-      SIG(1:NEL,4)= ZERO
-      SIG(1:NEL,5)= ZERO
-      SIG(1:NEL,6)= ZERO
-      MUOLD(1:NEL)   = ZERO
-      THETA(1:NEL) = ZERO
-
-      DO II = IFIRST, ILAST
-         ELEMID = ELEM_LIST(II)
-         LOCALID = ELEMID - NFT
-         VOL(LOCALID) = ONE
-         ERROR(LOCALID) = EP30
-         CONVERGED(LOCALID) = .FALSE.
-         REMAINING_ELTS = REMAINING_ELTS + 1
-      ENDDO
-
-      MAX_ITER = 30
-      ITER = 0
-      TOL = EM06
-      POLD(1:NEL)=PRESIN(1:NEL)
-      DO II=1,NEL
-        SIG(II,1:3)=-POLD(II)
-      ENDDO
-      DO WHILE(REMAINING_ELTS  /=  0 .AND. ITER  <  MAX_ITER) 
-         ITER = ITER + 1
-         DO II = IFIRST, ILAST
-            ELEMID = ELEM_LIST(II)
-            LOCALID = ELEMID - NFT
-            MU(LOCALID) = RHO(LOCALID) / RHOZERO(LOCALID) - ONE
-            DF(LOCALID) = RHOZERO(LOCALID) / RHO(LOCALID)
-         ENDDO
-         
-         CALL EOSMAIN(2, NEL, EOSTYPE, PM, OFF, EINT(1:NEL), 
-     .        RHO(1:NEL), RHOZERO, MU, MU2, ESPE, 
-     .        DVOL, DF, VOL, MAT, PSH, 
-     .        PRES, SSP, DPDE, THETA, ECOLD, BUFMAT, SIG, MUOLD, MLW, POLD, NPC, TF, VAREOS, NVAREOS, MAT_PARAM,
-     .        IBID)
-         
-         DO II = IFIRST, ILAST
-            ELEMID = ELEM_LIST(II)
-            LOCALID = ELEMID - NFT
-            IF (.NOT. CONVERGED(LOCALID)) THEN
-               FUNC  = PRES(LOCALID) - PRESIN(LOCALID)
-               DFUNC = DPDE(LOCALID) / (ONE + MU(LOCALID))      !variable is EINT=rho.e, but EoS solves P(mu,E:=rho0.e) and returns dPdE.  variable change : d(rho.e)=(1+mu)d(rho0.e)=(1+mu)dE  => dP/d(rho.e) = dPdE/(1+mu)
-               IF (DFUNC  ==  ZERO) THEN
-                  REMAINING_ELTS = REMAINING_ELTS - 1
-                  CONVERGED(LOCALID) = .TRUE.
-                  VOL(LOCALID) = ZERO
-               ELSE
-                  INCR = - FUNC / DFUNC
-                  ERROR(LOCALID) = ABS(INCR) / ABS(INCR + EINT(LOCALID))
-                  EINT(LOCALID) = EINT(LOCALID) + INCR
-                  IF (ERROR(LOCALID)  <  TOL) THEN
-                     REMAINING_ELTS = REMAINING_ELTS - 1
-                     CONVERGED(LOCALID) = .TRUE.
-                     VOL(LOCALID) = ZERO
-                  ENDIF
-               ENDIF
-            ENDIF
-         ENDDO
-      ENDDO
-      
-      IF (REMAINING_ELTS  /=  0) THEN
-         PRINT*, "*** Convergence issue in /INIMAP1D or /INIMAP2D option"
-      ENDIF
-
-      END SUBROUTINE SOLVE_EINT

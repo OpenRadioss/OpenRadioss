@@ -509,6 +509,7 @@
           integer, dimension(:) ,pointer   :: fld_idx,foff,ifunc,itable,itabl_fail,iparf,iparam
           integer                          :: mat_comp,mat_smstr,mat_formu
           integer                          :: dmg_flag,lf_dammx,niparf
+          integer :: nvartmp_eos
 !
           character option*256
           integer size,nvareos,nvarvis
@@ -1490,6 +1491,7 @@
             &amu ,iseq)
 !
           elseif (mtn == 75) then
+            nvartmp_eos = elbuf_tab(ng)%bufly(ilay)%nvartmp_eos
             call sigeps75(nel     ,npar   ,nuvar ,nfunc ,ifunc ,&
             &npf     ,tf     ,tt    ,dt1   ,uparam0,&
             &rho0    ,rho    ,voln  ,eint  ,muold ,&
@@ -1501,7 +1503,7 @@
             &sv1     ,sv2    ,sv3   ,sv4   ,sv5   ,sv6 ,&
             &ssp     ,vis    ,uvar  ,off   ,dvol  ,vol ,&
             &pm      ,ipm    ,mat   ,psh   ,bufmat,&
-            &ebuf%var,nvareos,mat_elem%mat_param)
+            &ebuf%var,nvareos,mat_elem%mat_param, nvartmp_eos, ebuf%var)
 !
           elseif (mtn == 76) then
             call sigeps76(nel      ,npar     ,nuvar    ,nfunc    ,ifunc    ,ngl       ,&

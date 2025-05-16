@@ -41,8 +41,9 @@ C     M o d u l e s
 C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE EBCS_MOD
-      USE TH_SURF_MOD , only : TH_SURF_NUM_CHANNEL
+      USE TH_SURF_MOD , ONLY : TH_SURF_NUM_CHANNEL
       USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
+      USE MULTI_SUBMATLAW_MOD , ONLY : MULTI_SUBMATLAW
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -92,14 +93,19 @@ C-----------------------------------------------
      .           PHASE_ALPHAII(MULTI_FVM%NBMAT), PHASE_RHOJJ(MULTI_FVM%NBMAT),
      .           PHASE_PRESJJ(MULTI_FVM%NBMAT), PHASE_EINTJJ(MULTI_FVM%NBMAT),
      .           PHASE_SSPJJ(MULTI_FVM%NBMAT), PHASE_ALPHAJJ(MULTI_FVM%NBMAT)
-      my_real :: DUMMY(6), RHOII, PII, EINTII, VXII, VYII, VZII, SSPII, NORMAL_VELII, RHOJJ, SSPJJ, 
+      my_real :: DUMMY(6),DUMMY2(1), RHOII, PII, EINTII, VXII, VYII, VZII, SSPII, NORMAL_VELII, RHOJJ, SSPJJ,
      .           P_JJ, NORMAL_VELJJ, VXJJ, VYJJ, VZJJ, VELII2, ALPHAII, SUB_RHOII, SUB_RHOEINTII, SUB_VIISTAR(3),
      .           SUB_FIISTAR(3), ALPHASTAR, SUB_RHOSTAR, SUB_PII, VELJJ2, SUB_ESTAR, EINTJJ
       INTEGER :: IELEM_START, IELEM_END, ID_SURF
       my_real :: TCAR_P, TCAR_VF,ALPHA,BETA,DP0,Vnew,Vold,Pvois,POld,MACH,RHOC2,ROC,PSURF
+      INTEGER :: VARTMP_EOS(1,128) !nel=1
+      INTEGER :: NVARTMP_EOS !upper bound
 C-----------------------------------------------
-C     B e g i n n i n g   o f   s u b r o u t i n e
+C     B o d y
 C-----------------------------------------------
+      NVARTMP_EOS = 128
+      VARTMP_EOS(1,:) = 1
+
       TCAR_P = EBCS%TCAR_P
       TCAR_VF = EBCS%TCAR_VF
       ID_SURF = EBCS%SURF_ID
@@ -116,7 +122,8 @@ C-----------------------------------------------
       NBMAT = MULTI_FVM%NBMAT
       IELEM_START = 1 + ITASK * NELEM / NTHREAD 
       IELEM_END = (1 + ITASK) * NELEM / NTHREAD
-      DUMMY(1:6)=ZERO
+      DUMMY(1:6) = ZERO
+      DUMMY2(:) = ONE
       DO IELEM = IELEM_START, IELEM_END
          ELEMID = ELEM_LIST(IELEM)
          IF (ELEMID  <=  NUMELS) THEN
@@ -192,11 +199,12 @@ C     VE formulation
                  CALL MULTI_SUBMATLAW(
      1                  0,                  MATLAW(IMAT),                 LOCAL_MATID(IMAT),       1,
      2                  PHASE_EINTJJ(IMAT), PHASE_PRESJJ(IMAT),           PHASE_RHOJJ(IMAT),       PHASE_SSPJJ(IMAT),
-     3                  ONE,                DUMMY,                        PM,                      IPM,
-     4                  NPROPM,             NPROPMI,                      DUMMY,                   ONE,
+     3                  DUMMY2,             DUMMY,                        PM,                      IPM,
+     4                  NPROPM,             NPROPMI,                      DUMMY,                   DUMMY2,
      5                  DUMMY,              MULTI_FVM%BFRAC(IMAT,ELEMID), MULTI_FVM%TBURN(ELEMID), DUMMY,
-     6                  DUMMY,              DUMMY,                        NPF,                     TF,
-     7                  DUMMY,              1,                            MATPARAM(LOCAL_MATID(IMAT)))
+     6                  DUMMY(1),           DUMMY,                        SNPC,                    STF,
+     7                  NPF,                TF,                           DUMMY,                   1,
+     7                  MATPARAM(LOCAL_MATID(IMAT)), NVARTMP_EOS, VARTMP_EOS, NUMMAT)
                  SSPJJ = SSPJJ + PHASE_ALPHAJJ(IMAT) * PHASE_RHOJJ(IMAT) *  MAX(EM20, PHASE_SSPJJ(IMAT))
                  P_JJ = P_JJ + PHASE_PRESJJ(IMAT) * PHASE_ALPHAJJ(IMAT)
                  EINTJJ = EINTJJ + PHASE_ALPHAJJ(IMAT) * PHASE_EINTJJ(IMAT)
