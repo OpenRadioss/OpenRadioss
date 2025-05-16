@@ -47,7 +47,7 @@
       !||====================================================================
       subroutine sigeps50s (mat_param,                                        &
                  nel    ,timestep,nuvar  ,nvartmp,uvar   ,vartmp ,            &
-                 rho    ,soundsp,off     ,amu    ,eplas  ,                    &
+                 rho    ,soundsp,off     ,amu    ,eplas  ,epsd   ,            &
                  epspxx ,epspyy ,epspzz  ,epspxy ,epspyz ,epspzx ,            &
                  depsxx ,depsyy ,depszz  ,depsxy ,depsyz ,depszx ,            &
                  epsxx  ,epsyy  ,epszz   ,epsxy  ,epsyz  ,epszx  ,            &
@@ -82,6 +82,7 @@
       my_real ,dimension(nel) ,intent(out)   :: soundsp
       my_real ,dimension(nel) ,intent(inout) :: eplas
       my_real ,dimension(nel) ,intent(inout) :: off
+      my_real ,dimension(nel) ,intent(out)   :: epsd
       type(matparam_struct_)  ,intent(in)    :: mat_param
       my_real ,intent(inout) :: uvar(nel,nuvar)
       integer ,intent(inout) :: vartmp(nel,nvartmp) ! last interpolation positions in function tables
@@ -91,7 +92,7 @@
       integer :: i,ii,nindx,nindxc
       integer :: icomp,irate,iflag1,iflag2
       my_real :: emx11,emx22,emx33,emx12,emx23,emx31
-      my_real :: muold,dmudt,asrate,epsd
+      my_real :: muold,dmudt,asrate
       my_real :: ecomp,gcomp,bulk,sigy,hcomp,vcomp
       my_real :: depsv,pres,svm,rfact,yld
       my_real :: stxx,styy,stzz,stxy,styz,stzx
@@ -237,19 +238,21 @@
           dep4(i)   = abs(uvar(i,4))
           dep5(i)   = abs(uvar(i,5))
           dep6(i)   = abs(uvar(i,6))
+          epsd(i) = (dep1(i)**2 + dep2(i)**2 + dep3(i)**2)          &
+                  + (dep4(i)**2 + dep5(i)**2 + dep6(i)**2)*half          ! just for ouptput
         enddo
       else                     ! irate = 1 : equivalent strain rate common for all directions
         do i=1,nel
-          epsd = (epspxx(i)**2 + epspyy(i)**2 + epspzz(i)**2)          &
-               + (epspxy(i)**2 + epspyz(i)**2 + epspzx(i)**2)*half        
+          epsd(i) = (epspxx(i)**2 + epspyy(i)**2 + epspzz(i)**2)          &
+                  + (epspxy(i)**2 + epspyz(i)**2 + epspzx(i)**2)*half        
           epsd = asrate*sqrt(epsd) + (one -asrate)*uvar(i,1)
-          dep1(i)   = epsd
-          dep2(i)   = epsd
-          dep3(i)   = epsd
-          dep4(i)   = epsd
-          dep5(i)   = epsd
-          dep6(i)   = epsd
-          uvar(i,1) = epsd
+          dep1(i)   = epsd(i)
+          dep2(i)   = epsd(i)
+          dep3(i)   = epsd(i)
+          dep4(i)   = epsd(i)
+          dep5(i)   = epsd(i)
+          dep6(i)   = epsd(i)
+          uvar(i,1) = epsd(i)
         enddo
       end if
 !-------------------------------------------------------------------------------
