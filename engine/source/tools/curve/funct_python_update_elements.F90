@@ -230,7 +230,7 @@
                 &       is_written,ipartc,iparttg   ,layer_input ,ipt_input  ,       &
                 &       ply_input   ,iuvar_input,h3d_part  ,keyword    ,                   &
                 &       nodes%d     ,ng         ,multi_fvm,idmds       ,imdsvar    ,       &
-                &       mds_matid   ,id         ,mode     ,mat_param   )
+                &       mds_matid   ,id         ,mode     ,mat_param   ,0          )
               elseif (ity == 1) then ! solid
                 call h3d_solid_scalar_1(.true.,                                              &
                 &         elbuf_tab       ,scalar_results ,iparg       ,                      &
