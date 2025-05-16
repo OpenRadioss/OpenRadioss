@@ -301,11 +301,7 @@ extern "C" int mysort_ptr(void **array,int size_array) {
   if(array==NULL) return -1;
   if(size_array<1) return -1;
 
-#if (!defined SUN) 
   qsort(array,size_array,sizeof(void *),(int (*)(const void *,const void *))mycmp_ptr);
-#else 
-  std::qsort(array,size_array,sizeof(void *),(int (*)(const void *,const void *))mycmp_ptr);
-#endif
 
   return 0;
 }
