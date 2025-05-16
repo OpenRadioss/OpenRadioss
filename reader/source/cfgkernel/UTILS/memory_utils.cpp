@@ -67,11 +67,7 @@ static char *get_real_filename (char *path)
 extern "C" void	*myfree_with_info (void	*ptr/*, int line, char *filename, char* varname*/)
 {
 	
-#if (!defined SUN) 
   if ( ptr ) ::free ( ptr ) ;
-#else 
-  if ( ptr ) std::free ( ptr ) ;
-#endif
 
   return ( NULL ) ;
  /* printf ("MEM_INFO ** myfree\tcalled\tby\t%s:L %d :\tFREE of 0x%8x  \n"  ,   
@@ -86,11 +82,7 @@ extern "C" void	*myfree_with_info (void	*ptr/*, int line, char *filename, char* 
 extern "C" void	*myfree_without_info (void	*ptr/*, int line, char *filename, char* varname*/) 
 {
 
-#if (!defined SUN) 
   if ( ptr ) ::free ( ptr ) ;
-#else 
-  if ( ptr ) std::free ( ptr ) ;
-#endif
 
   return ( NULL ) ;
 }
@@ -118,11 +110,7 @@ extern "C" void	*mymalloc_without_info (size_t size)
   void	*ptr = NULL ;
   if ( size <= 0 ) return ( NULL ) ;
 
-#if (!defined SUN) 
   ptr = ::calloc ( size, sizeof (char) ) ;
-#else 
-  ptr = std::calloc ( size, sizeof (char) ) ;
-#endif
 
   return ( ptr ) ;
 }
@@ -147,11 +135,7 @@ extern "C" void	*myrealloc_without_info(void *ptr,size_t size)
   if(!ptr)    return mymalloc(size);
   if(size<=0) return myfree(ptr);
 
-#if (!defined SUN) 
   ptmp = ::realloc ( ptr, size ) ;
-#else 
-  ptmp = std::realloc ( ptr, size ) ;
-#endif
 
   return ( ptmp ) ;
 }
