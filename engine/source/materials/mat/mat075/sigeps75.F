@@ -45,7 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      9      SIGVXX , SIGVYY , SIGVZZ  , SIGVXY, SIGVYZ, SIGVZX,
      A      SOUNDSP, VISCMAX, UVAR    , OFF   , DVOL  , VOL0  ,
      B      PM     , IPM    , MAT     , PSH   , BUFMAT,
-     C      VAREOS ,NVAREOS ,MAT_PARAM)
+     C      VAREOS ,NVAREOS ,MAT_PARAM,NVARTMP_EOS, VARTMP_EOS)
 C
 C---------+---------+---+---+--------------------------------------------
 C VAR     | SIZE    |TYP| RW| DEFINITION
@@ -98,6 +98,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE MATPARAM_DEF_MOD
+      USE EOSMAIN_MOD , ONLY : EOSMAIN
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -112,7 +113,6 @@ C  I N P U T   A R G U M E N T S
 C----------------------------------------------------------------
       INTEGER NEL, NUPARAM, NUVAR, IPM(NPROPMI,NUMGEO), MAT(NEL)
       INTEGER,INTENT(IN) ::NVAREOS
-C
       my_real
      .      TIME       , TIMESTEP   , UPARAM(NUPARAM),
      .      RHO   (NEL), RHO0  (NEL), VNEW(NEL), EINT(NEL),
@@ -129,6 +129,8 @@ C
      
       my_real,INTENT(INOUT) :: VAREOS(NVAREOS*NEL)
       TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(IN) :: MAT_PARAM
+      INTEGER,INTENT(IN) :: NVARTMP_EOS
+      INTEGER,INTENT(INOUT) :: VARTMP_EOS(NEL,NVARTMP_EOS)
 C----------------------------------------------------------------
 C  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
@@ -153,7 +155,7 @@ C  L o c a l   V a r i a b l e s
 C----------------------------------------------------------------
       INTEGER I, ITER, MATS(NEL),IPLA(NEL), MXS, IFLAG1,
      .        IFLAG2, ITEMAX, IMAX, IPLAS, EOSTYP
-      INTEGER IBID(1) !bfrac not used in this context
+      my_real :: BID(1) !bfrac not used in this context
       my_real
      .   DFS(NEL), MUS(NEL), MU2S(NEL), DPDM(NEL), ECOLD(NEL),
      .   THETA(NEL), DPDE(NEL)
@@ -267,15 +269,15 @@ C--------------
      .             DVOLS  ,DFS    ,VNEWS   ,MATS   ,PSH    ,
      .             PNEW   ,DPDM   ,DPDE    ,THETA  ,ECOLD  ,
      .             BUFMAT ,SIGOLD ,MUOLD   ,75     ,POLD   ,
-     .             NPF    ,TF     ,VAREOS  ,NVAREOS,MAT_PARAM,
-     .             IBID)
+     .             NPF    ,TF     ,VAREOS  ,NVAREOS,MAT_PARAM(MXS),
+     .             BID    ,NVARTMP_EOS, VARTMP_EOS)
       CALL EOSMAIN(1      ,NEL    ,EOSTYP  ,PM     ,OFF    ,EINTN ,
      .             RHOS   ,RHOS0  ,MUS     ,MU2S   ,ESPES  ,
      .             DVOLS  ,DFS    ,VNEWS   ,MATS   ,PSH    ,
      .             PNEW   ,DPDM   ,DPDE    ,THETA  ,ECOLD  ,
      .             BUFMAT ,SIGOLD ,MUOLD   ,75     ,POLD   ,
-     .             NPF    ,TF     ,VAREOS  ,NVAREOS,MAT_PARAM,
-     .             IBID)
+     .             NPF    ,TF     ,VAREOS  ,NVAREOS,MAT_PARAM(MXS),
+     .             BID   ,NVARTMP_EOS, VARTMP_EOS)
       IF(IFLAG1 == 2) THEN
         DO I=1,NEL
            PNEW(I)=PNEW(I)/ALPHA(I)
@@ -372,15 +374,15 @@ C--------------
      .             DVOLS ,DFS   ,VNEWS  ,MATS  ,PSH   ,
      .             PNEW  ,DPDM  ,DPDE   ,THETA ,ECOLD ,
      .             BUFMAT,SIGOLD,MUOLD  ,75    ,POLD  ,
-     .             NPF   ,TF    ,VAREOS ,NVAREOS,MAT_PARAM,
-     .             IBID)
+     .             NPF   ,TF    ,VAREOS ,NVAREOS,MAT_PARAM(MXS),
+     .             BID,   NVARTMP_EOS, VARTMP_EOS)
       CALL EOSMAIN(1     ,NEL   ,EOSTYP ,PM    ,OFF   ,EINTN ,
      .             RHOS  ,RHOS0 ,MUS    ,MU2S  ,ESPES ,
      .             DVOLS ,DFS   ,VNEWS  ,MATS  ,PSH   ,
      .             PNEW  ,DPDM  ,DPDE   ,THETA ,ECOLD ,
      .             BUFMAT,SIGOLD,MUOLD  ,75    ,POLD  ,
-     .             NPF   ,TF    ,VAREOS ,NVAREOS,MAT_PARAM,
-     .             IBID)
+     .             NPF   ,TF    ,VAREOS ,NVAREOS,MAT_PARAM(MXS),
+     .             BID,   NVARTMP_EOS, VARTMP_EOS)
       IF(IFLAG1 == 2) THEN
         DO I=1,NEL
            PNEW(I)=PNEW(I)/ALPHA(I)

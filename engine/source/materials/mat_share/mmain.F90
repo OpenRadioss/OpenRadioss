@@ -219,6 +219,7 @@
           use dt_mod
           use glob_therm_mod
           use fail_spalling_s_mod
+          use eosmain_mod , only : eosmain
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -1359,23 +1360,24 @@
             eostyp  = mat_elem%mat_param(imat)%ieos
             strd1(1:nel*3) => lbuf%epe(1:nel*3)
             strd2(1:nel*3) => lbuf%epe(1+nel*3:nel*6)
+            nvartmp_eos = elbuf_tab(ng)%bufly(ilay)%nvartmp_eos
             call m12law(&
-            &pm,         off,        lbuf%sig,   lbuf%eint,&
-            &lbuf%pla,   lbuf%sigf,  lbuf%epsf,  lbuf%dam,&
-            &strd1,      strd2,      gama,       lbuf%vol,&
-            &rx,         ry,         rz,         sx,&
-            &sy,         sz,         mat,        voln,&
-            &dvol,       cxx,        dxx,        dyy,&
-            &dzz,        d4,         d5,         d6,&
-            &s1,         s2,         s3,         s4,&
-            &s5,         s6,         sigy,       defp,&
-            &ngl,        lbuf%seq,   nel,        eostyp,&
-            &rho0,       amu,        amu2,       espe,&
-            &df,         psh,        pnew,       dpdm,&
-            &dpde,       lbuf%rho,   lbuf%temp,  ecold,&
-            &bufmat,     npf,        tf,         lbuf%tsaiwu,&
-            &ebuf%var,   nvareos,    jcvt,       jsph,&
-            &mat_elem%mat_param(imat))
+            &pm,         off,         lbuf%sig,   lbuf%eint,&
+            &lbuf%pla,   lbuf%sigf,   lbuf%epsf,  lbuf%dam,&
+            &strd1,      strd2,       gama,       lbuf%vol,&
+            &rx,         ry,          rz,         sx,&
+            &sy,         sz,          mat,        voln,&
+            &dvol,       cxx,         dxx,        dyy,&
+            &dzz,        d4,          d5,         d6,&
+            &s1,         s2,          s3,         s4,&
+            &s5,         s6,          sigy,       defp,&
+            &ngl,        lbuf%seq,    nel,        eostyp,&
+            &rho0,       amu,         amu2,       espe,&
+            &df,         psh,         pnew,       dpdm,&
+            &dpde,       lbuf%rho,    lbuf%temp,  ecold,&
+            &bufmat,     npf,         tf,         lbuf%tsaiwu,&
+            &ebuf%var,   nvareos,     jcvt,       jsph,&
+            &mat_elem%mat_param(imat),nvartmp_eos,ebuf%vartmp )
             if (jsph == 0) then
               call mqviscb(&
               &pm,       off,      lbuf%rho, lbuf%rk,&

@@ -49,6 +49,7 @@
       USE TH_SURF_MOD , only : TH_SURF_NUM_CHANNEL
       USE CONSTANT_MOD , ONLY : EM20, EP20, ONE, ZERO, HALF
       USE MATPARAM_DEF_MOD , ONLY :  MATPARAM_STRUCT_
+      USE MULTI_SUBMATLAW_MOD , ONLY : MULTI_SUBMATLAW
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -92,14 +93,20 @@
       my_real :: PHASE_ALPHAII(MULTI_FVM%NBMAT), PHASE_RHOJJ(MULTI_FVM%NBMAT)
       my_real :: PHASE_PRESJJ(MULTI_FVM%NBMAT), PHASE_EINTJJ(MULTI_FVM%NBMAT)
       my_real :: PHASE_SSPJJ(MULTI_FVM%NBMAT), PHASE_ALPHAJJ(MULTI_FVM%NBMAT)
-      my_real :: DUMMY(6), RHOII, PII, EINTII, VXII, VYII, VZII, SSPII, NORMAL_VELII, RHOJJ, SSPJJ
+      my_real :: DUMMY(6), DUMMY2(1), RHOII, PII, EINTII, VXII, VYII, VZII, SSPII, NORMAL_VELII, RHOJJ, SSPJJ
       my_real :: P_JJ, NORMAL_VELJJ, VXJJ, VYJJ, VZJJ, VELII2, ALPHAII, SUB_RHOII, SUB_RHOEINTII, SUB_VIISTAR(3)
       my_real :: SUB_FIISTAR(3), ALPHASTAR, SUB_RHOSTAR, SUB_PII, VELJJ2, SUB_ESTAR, EINTJJ
       INTEGER :: IELEM_START, IELEM_END, ID_SURF
       my_real :: TCAR_P, TCAR_VF,ALPHA,BETA,DP0,Vnew,Vold,Pvois,POld,MACH,RHOC2,ROC,PSURF
+      INTEGER :: VARTMP_EOS(1,128) !nel=1
+      INTEGER :: NVARTMP_EOS !upper bound
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
+
+      NVARTMP_EOS = 128
+      VARTMP_EOS(1,:) = 1
+
       TCAR_P = EBCS%TCAR_P
       TCAR_VF = EBCS%TCAR_VF
       ID_SURF = EBCS%SURF_ID
@@ -118,7 +125,8 @@
       NBMAT = MULTI_FVM%NBMAT
       IELEM_START = 1 + ITASK * NELEM / NTHREAD 
       IELEM_END = (1 + ITASK) * NELEM / NTHREAD
-      DUMMY(1:6)=ZERO
+      DUMMY(1:6) = ZERO
+      DUMMY2(1) = ONE
       DO IELEM = IELEM_START, IELEM_END
          ELEMID = ELEM_LIST(IELEM)
          IF (ELEMID  <=  NUMELS) THEN
@@ -192,13 +200,14 @@
                PHASE_EINTJJ(IMAT) = PHASE_EINTII(IMAT)
                IF (PHASE_ALPHAJJ(IMAT)  >  ZERO) THEN
                  CALL MULTI_SUBMATLAW( &
-                        0,                  MATLAW(IMAT),                 LOCAL_MATID(IMAT),       1, &
-                        PHASE_EINTJJ(IMAT), PHASE_PRESJJ(IMAT),           PHASE_RHOJJ(IMAT),       PHASE_SSPJJ(IMAT), &
-                        ONE,                DUMMY,                        PM,                      IPM, &
-                        NPROPM,             NPROPMI,                      DUMMY,                   ONE, &
-                        DUMMY,              MULTI_FVM%BFRAC(IMAT,ELEMID), MULTI_FVM%TBURN(ELEMID), DUMMY, &
-                        DUMMY,              DUMMY,                        NPF,                     TF, &
-                        DUMMY,              1,                            MATPARAM(LOCAL_MATID(IMAT)))
+                        0,                           MATLAW(IMAT),                 LOCAL_MATID(IMAT),       1, &
+                        PHASE_EINTJJ(IMAT),          PHASE_PRESJJ(IMAT),           PHASE_RHOJJ(IMAT),       PHASE_SSPJJ(IMAT), &
+                        DUMMY2,                      DUMMY,                        PM,                      IPM, &
+                        NPROPM,                      NPROPMI,                      DUMMY,                   DUMMY2, &
+                        DUMMY,                       MULTI_FVM%BFRAC(IMAT,ELEMID), MULTI_FVM%TBURN(ELEMID), DUMMY, &
+                        DUMMY(1),                    DUMMY,                        SNPC,                    STF, &
+                        NPF,                         TF,                           DUMMY,                   1, &
+                        MATPARAM(LOCAL_MATID(IMAT)), NVARTMP_EOS,                  VARTMP_EOS,              NUMMAT)
                  SSPJJ = SSPJJ + PHASE_ALPHAJJ(IMAT) * PHASE_RHOJJ(IMAT) *  MAX(EM20, PHASE_SSPJJ(IMAT))
                  P_JJ = P_JJ + PHASE_PRESJJ(IMAT) * PHASE_ALPHAJJ(IMAT)
                  EINTJJ = EINTJJ + PHASE_ALPHAJJ(IMAT) * PHASE_EINTJJ(IMAT)

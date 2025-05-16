@@ -33,26 +33,27 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||====================================================================
       SUBROUTINE M12LAW(
-     1   PM,        OFF,       SIG,       EINT,
-     2   PLA,       SIGF,      EPSF,      DAM,
-     3   EPE,       EPC,       A,         VOL,
-     4   RX,        RY,        RZ,        SX,
-     5   SY,        SZ,        MAT,       VNEW,
-     6   DVOL,      SSP,       D1,        D2,
-     7   D3,        D4,        D5,        D6,
-     8   SOLD1,     SOLD2,     SOLD3,     SOLD4,
-     9   SOLD5,     SOLD6,     SIGY,      DEFP,
-     A   NGL,       SEQ_OUTPUT,NEL,       EOSTYP,
-     B   RHO0,      AMU,       AMU2,      ESPE,
-     C   DF,        PSH,       PNEW,      DPDM,
-     D   DPDE,      RHO,       TEMP,      ECOLD,
-     E   BUFMAT,    NPC,       TF,        TSAIWU,
-     F   VAREOS,    NVAREOS,   JCVT,      JSPH,
-     G   MAT_PARAM)
+     1   PM,        OFF,        SIG,       EINT,
+     2   PLA,       SIGF,       EPSF,      DAM,
+     3   EPE,       EPC,        A,         VOL,
+     4   RX,        RY,         RZ,        SX,
+     5   SY,        SZ,         MAT,       VNEW,
+     6   DVOL,      SSP,        D1,        D2,
+     7   D3,        D4,         D5,        D6,
+     8   SOLD1,     SOLD2,      SOLD3,     SOLD4,
+     9   SOLD5,     SOLD6,      SIGY,      DEFP,
+     A   NGL,       SEQ_OUTPUT, NEL,       EOSTYP,
+     B   RHO0,      AMU,        AMU2,      ESPE,
+     C   DF,        PSH,        PNEW,      DPDM,
+     D   DPDE,      RHO,        TEMP,      ECOLD,
+     E   BUFMAT,    NPC,        TF,        TSAIWU,
+     F   VAREOS,    NVAREOS,    JCVT,      JSPH,
+     G   MAT_PARAM, NVARTMP_EOS,VARTMP_EOS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
+      USE EOSMAIN_MOD , ONLY : EOSMAIN
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -95,13 +96,15 @@ C-----------------------------------------------
      .   TEMP(NEL), ECOLD(NEL), BUFMAT(*),MUOLD(NEL)
       INTEGER,INTENT(IN)::NPC(SNPC)
       my_real,INTENT(IN)::TF(STF)
+      INTEGER,INTENT(IN) :: NVARTMP_EOS
+      INTEGER,INTENT(INOUt) :: VARTMP_EOS(NEL,NVARTMP_EOS)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER KD1(MVSIZ), KD2(MVSIZ), KD3(MVSIZ), 
      .   KD4(MVSIZ),ICC(MVSIZ),
      .   I, IDAM, KDX, MX, NINDX, INDEX(MVSIZ), J, ICC_1
-      INTEGER IBID(1) !bfrac argument not used in this context
+      my_real BID(1) !bfrac argument not used in this context
       my_real
      .   AX(MVSIZ), AY(MVSIZ), AZ(MVSIZ), BX(MVSIZ), BY(MVSIZ), 
      .   BZ(MVSIZ), CX(MVSIZ), CY(MVSIZ),CZ(MVSIZ),
@@ -372,13 +375,13 @@ C
      3               DVOL    ,DF      ,VNEW   ,MAT   ,PSH  ,
      4               PNEW    ,DPDM    ,DPDE   ,TEMP  ,ECOLD,
      5               BUFMAT  ,SIG     ,MUOLD  ,12    ,POLD,
-     6               NPC     ,TF      ,VAREOS ,NVAREOS, MAT_PARAM, IBID)
+     6               NPC     ,TF      ,VAREOS ,NVAREOS, MAT_PARAM, BID, NVARTMP_EOS,VARTMP_EOS)
         CALL EOSMAIN(1       ,NEL     ,EOSTYP ,PM    ,OFF  , ENER ,
      2               RHO     ,RHO0    ,AMU    ,AMU2  ,ESPE ,
      3               DVOL    ,DF      ,VNEW   ,MAT   ,PSH  ,
      4               PNEW    ,DPDM    ,DPDE   ,TEMP  ,ECOLD,
      5               BUFMAT  ,SIG     ,MUOLD  ,12    ,POLD,
-     6               NPC     ,TF      ,VAREOS ,NVAREOS, MAT_PARAM, IBID)
+     6               NPC     ,TF      ,VAREOS ,NVAREOS, MAT_PARAM, BID, NVARTMP_EOS,VARTMP_EOS)
         DO  I=1,NEL
           T1(I)=T1(I)-PNEW(I)
           T2(I)=T2(I)-PNEW(I)

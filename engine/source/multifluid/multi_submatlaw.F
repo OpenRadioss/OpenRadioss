@@ -20,6 +20,8 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      MODULE MULTI_SUBMATLAW_MOD
+      CONTAINS
       !||====================================================================
       !||    multi_submatlaw              ../engine/source/multifluid/multi_submatlaw.F
       !||--- called by ------------------------------------------------------
@@ -34,43 +36,44 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    eosmain                      ../common_source/eos/eosmain.F
       !||--- uses       -----------------------------------------------------
       !||    matparam_def_mod             ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||====================================================================
+      !||====================================================================     
       SUBROUTINE MULTI_SUBMATLAW(
      1   IFLAG,       MATLAW,      LOCAL_MATID, NEL,
      2   EINT,        PRES,        RHO,         SSP,
      3   VOL,         GRUN,        PM,          IPM,
      4   NPROPM,      NPROPMI,     BUFMAT,      OFF,
      5   THETA,       BURNFRAC,    BURNTIME,    DELTAX,
-     6   CURRENT_TIME,SIGOLD,      NPF,         TF,
-     7   VAREOS,      NVAREOS,     MAT_PARAM)
+     6   CURRENT_TIME,SIGOLD,      SNPC,        STF,
+     7   NPF,         TF,          VAREOS,      NVAREOS,
+     8   MAT_PARAM,   NVARTMP_EOS, VARTMP_EOS,  NUMMAT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MATPARAM_DEF_MOD , ONLY : MATPARAM_STRUCT_
+      USE EOSMAIN_MOD , ONLY : EOSMAIN
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C     C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "tabsiz_c.inc"
-C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER,INTENT(IN) :: SNPC, STF,NUMMAT
       INTEGER, INTENT(IN) :: IFLAG
       INTEGER, INTENT(IN) :: MATLAW, LOCAL_MATID, NEL, NPROPM, NPROPMI
-      my_real, INTENT(IN) :: PM(NPROPM, *),SIGOLD(NEL,6)
-      INTEGER, INTENT(IN) :: IPM(NPROPMI, *)
+      my_real, INTENT(IN) :: PM(NPROPM, NUMMAT),SIGOLD(NEL,6)
+      INTEGER, INTENT(IN) :: IPM(NPROPMI, NUMMAT)
       my_real, INTENT(IN) :: VOL(NEL), OFF(NEL)
       my_real, INTENT(OUT) :: GRUN(NEL)
       my_real, INTENT(INOUT) :: EINT(NEL), RHO(NEL), THETA(NEL)
       my_real, INTENT(OUT) :: PRES(NEL), SSP(NEL)
-      my_real, INTENT(IN) :: BURNTIME(*), DELTAX(*), CURRENT_TIME
-      my_real, INTENT(INOUT) :: BURNFRAC(*), BUFMAT(*)
+      my_real, INTENT(IN) :: BURNTIME(NEL), DELTAX(NEL), CURRENT_TIME
+      my_real, INTENT(INOUT) :: BURNFRAC(NEL), BUFMAT(*)
       INTEGER, INTENT(IN) :: NPF(SNPC),NVAREOS
       my_real, INTENT(IN) :: TF(STF),VAREOS(NVAREOS*NEL)
       TYPE(MATPARAM_STRUCT_), INTENT(IN) :: MAT_PARAM !material data structure
+      INTEGER,INTENT(IN) :: NVARTMP_EOS
+      INTEGER,INTENT(INOUT) :: VARTMP_EOS(NEL,NVARTMP_EOS)
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -180,13 +183,13 @@ C     Burnt fraction
             EOSTYPE      = IPM(4, LOCAL_MATID)
             MUOLD(1:NEL) = MU(1:NEL)
 C     -> FLAG = 2 : compute pressure as a function of rho and e, as well as dpdm and dpde
-            CALL EOSMAIN(2     , NEL   , EOSTYPE   , PM     , OFF  , EINT,
-     .                   RHO   , RHO0  , MU        , MU2    , ESPE ,
-     .                   DVOL  , DF    , VOL       , MAT    , PSH  ,
-     .                   PRES  , SSP   , DPDE      , THETA  , ECOLD,
-     .                   BUFMAT, SIGOLD, MUOLD     , MATLAW , PRES ,
-     .                   NPF   , TF    , VAREOS    , NVAREOS, MAT_PARAM,
-     .                   BURNFRAC)
+            CALL EOSMAIN(2       , NEL        , EOSTYPE   , PM     , OFF  , EINT,
+     .                   RHO     , RHO0       , MU        , MU2    , ESPE ,
+     .                   DVOL    , DF         , VOL       , MAT    , PSH  ,
+     .                   PRES    , SSP        , DPDE      , THETA  , ECOLD,
+     .                   BUFMAT  , SIGOLD     , MUOLD     , MATLAW , PRES ,
+     .                   NPF     , TF         , VAREOS    , NVAREOS, MAT_PARAM,
+     .                   BURNFRAC, NVARTMP_EOS, VARTMP_EOS)
 C     SQUARE sound speed : c^2 = 1/rho0 * dp/dmu
             DO II = 1, NEL
                IF (VOL(II) > ZERO) THEN
@@ -205,3 +208,6 @@ C-----------------------------------------------
 C     E n d   o f   s u b r o u t i n e
 C-----------------------------------------------
       END SUBROUTINE MULTI_SUBMATLAW
+
+
+      END MODULE MULTI_SUBMATLAW_MOD

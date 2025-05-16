@@ -20,6 +20,8 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      MODULE EOSMAIN_MOD
+      contains
       !||====================================================================
       !||    eosmain              ../common_source/eos/eosmain.F
       !||--- called by ------------------------------------------------------
@@ -103,9 +105,9 @@ C depending on EOSTYP(INTEGER) value.
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MATPARAM_DEF_MOD       , ONLY : MATPARAM_STRUCT_
-      USE COMPACTION_MOD         , ONLY : COMPACTION
-      USE COMPACTION2_MOD        , ONLY : COMPACTION2
+      USE MATPARAM_DEF_MOD   , ONLY : MATPARAM_STRUCT_
+      USE COMPACTION_MOD     , ONLY : COMPACTION
+      USE COMPACTION2_MOD    , ONLY : COMPACTION2
       USE COMPACTION_TAB_MOD , ONLY : COMPACTION_TAB
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -118,12 +120,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc" 
 #include      "com04_c.inc"
-#include      "com06_c.inc"
 #include      "com08_c.inc"
-#include      "vect01_c.inc"
-#include      "scr06_c.inc"
 #include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -429,4 +427,5 @@ C-----------------------------------------------
 
       
       RETURN
-      END
+      END SUBROUTINE EOSMAIN
+      END MODULE EOSMAIN_MOD

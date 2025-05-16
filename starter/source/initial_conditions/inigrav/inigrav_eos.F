@@ -34,6 +34,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE MATPARAM_DEF_MOD
+      USE EOSMAIN_MOD , ONLY : EOSMAIN
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,8 +61,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,K
-      INTEGER :: EOSTYPE, ITER, MAX_ITER, MAT(NEL), REMAINING_ELTS, NBMAT, NVAREOS
-      INTEGER :: IBID(NEL) !bfrac not used int his context
+      INTEGER :: EOSTYPE, ITER, MAX_ITER, MAT(NEL), REMAINING_ELTS, NBMAT, NVAREOS, NVARTMP_EOS
+      my_real :: BID(NEL) !bfrac not used int his context
       my_real :: TOL, INCR
       my_real :: FUNC(NEL), DFUNC(NEL), ERROR(NEL), RHOZERO(NEL), RHO(NEL), 
      .           MU(NEL), MU2(NEL), ESPE(NEL), DVOL(NEL), DF(NEL), VOL(NEL), PSH(NEL), 
@@ -84,12 +85,14 @@ C IMAT : relevant for multifluid eos. imat=0 => monomaterial law
       GBUF => ELBUF_TAB(NG)%GBUF
       NULLIFY(LBUF)
       NULLIFY(EBUF)
-      NVAREOS = ELBUF_TAB(NG)%BUFLY(1)%NVAR_EOS
       EBUF =>  ELBUF_TAB(NG)%BUFLY(1)%EOS(1, 1, 1)
+      NVAREOS = ELBUF_TAB(NG)%BUFLY(1)%NVAR_EOS
+      NVARTMP_EOS = ELBUF_TAB(NG)%BUFLY(1)%NVARTMP_EOS
       IF(IMAT>0)THEN
         LBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1, 1, 1)
         EBUF =>  ELBUF_TAB(NG)%BUFLY(IMAT)%EOS(1, 1, 1)
         NVAREOS = ELBUF_TAB(NG)%BUFLY(IMAT)%NVAR_EOS
+        NVARTMP_EOS = ELBUF_TAB(NG)%BUFLY(IMAT)%NVARTMP_EOS
       ENDIF
       
       EOSTYPE          = MAT_PARAM(MATID)%IEOS   
@@ -141,7 +144,7 @@ C IMAT : relevant for multifluid eos. imat=0 => monomaterial law
       !EINT=Eint/V in this context with law 151
       !===================================================================!
       !                     ITERATIONS                                    !
-      !===================================================================! 
+      !===================================================================!
       POLD(1:NEL)=PRES(1:NEL)   
       REMAINING_ELTS = NEL                      !Number of elements for which convergence is not achieved 
       DO WHILE(CONT .AND. ITER < MAX_ITER)   !Start nonlinear solver loop
@@ -151,13 +154,13 @@ C IMAT : relevant for multifluid eos. imat=0 => monomaterial law
             DF(K) = RHOZERO(K) / RHO(K)
             EINT(K) = EINT(K) / DF(K) !with IFLAG==2 we need ESPE=Df*EINT
          ENDDO
-         CALL EOSMAIN(2     , NEL    , EOSTYPE  , PM     , OFF  , EINT, 
-     .                RHO   , RHOZERO, MU       , MU2    , ESPE , 
-     .                DVOL  , DF     , VOL      , MAT    , PSH  , 
-     .                PRES  , DPDM   , DPDE     , THETA  , ECOLD, 
-     .                BUFMAT, SIG    , MU       , MLW    , POLD ,
-     .                NPF   , TF     , EBUF%VAR , NVAREOS, MAT_PARAM(MATID),
-     .                IBID)
+         CALL EOSMAIN(2     , NEL        , EOSTYPE  , PM     , OFF  , EINT,
+     .                RHO   , RHOZERO    , MU       , MU2    , ESPE ,
+     .                DVOL  , DF         , VOL      , MAT    , PSH  ,
+     .                PRES  , DPDM       , DPDE     , THETA  , ECOLD,
+     .                BUFMAT, SIG        , MU       , MLW    , POLD ,
+     .                NPF   , TF         , EBUF%VAR , NVAREOS, MAT_PARAM(MATID),
+     .                BID  , NVARTMP_EOS, EBUF%VARTMP)
           DO K=1,NEL
             EINT(K)=EINT(K)*DF(K) ! set back to Eint/V
           ENDDO
