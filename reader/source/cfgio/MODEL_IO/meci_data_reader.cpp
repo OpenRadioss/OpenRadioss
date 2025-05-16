@@ -3957,6 +3957,22 @@ MYOBJ_INT MECIDataReader::readSubobject(MECIDataReader               *subobj_rea
     a_id = a_subobj->GetId();
     if (!a_ok) return 0;
 
+    // assign default title if not read
+    const char* title_p = a_subobj->GetTitle();
+    if (subobj_descr_p && (!title_p || (title_p && title_p[0] == '\0')))
+    {
+        string title = ((const MvDescriptor_t *)subobj_descr_p)->getKeyword();
+        MYOBJ_INT id = a_subobj->GetId();
+        if (0 < id && title != "")
+        {
+            title = title + string("_") + std::to_string(id);
+        }
+        if (title != "")
+        {
+            a_subobj->SetTitle(title.c_str());
+        }
+    }
+
     //int a_id = model_p->AddObject(*a_subobj);
     return a_id;
 }

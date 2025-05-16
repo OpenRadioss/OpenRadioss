@@ -149,13 +149,13 @@ public:
     InputInfos* GetInputInfo()  { return m_pinputInfo.get(); }
 
 private:
-    HWCFGReader*                    m_preader = nullptr;
     ModelFactoryReaderPO*           m_pmodel = nullptr;
     std::unique_ptr<ISyntaxInfos>   m_psyntaxInfos;
     std::unique_ptr<InputInfos>     m_pinputInfo;
     MvFileFormat_e                  m_prev_loaded_fileformat;
     MvFileFormat_e                  m_loaded_fileformat;
     bool                            m_set_cur_kernel = false;
+    const ReadFileFactorySP         m_pfileFactory;
 };
 
 /*class to load kernel and unload it by setting prevoius kernel active*/

@@ -303,8 +303,9 @@ static bool loc_is_operator_begin(char op) {
     a_operators.insert('*');
     a_operators.insert('/');
     a_operators.insert('^');
-    a_operators.insert('�');
-    a_operators.insert('�');  }
+    a_operators.insert('²');
+    a_operators.insert('³');
+  }
   //
   return a_operators.find(op)!=a_operators.end();
 }
@@ -317,8 +318,8 @@ static bool loc_is_scalar(const string &s) {
 
 static string loc_get_unit(const string &unit,double power) {
   if(power==1) return unit;
-  if(power==2) return unit+"�";
-  if(power==3) return unit+"�";
+  if(power==2) return unit+"²";
+  if(power==3) return unit+"³";
   return str_printf("%s^%lg",unit.c_str(),power);
 }
 
@@ -558,8 +559,8 @@ static MuQuantitiesUnitsOperand_t *loc_evaluate_next_operator(MuQuantitiesUnitsO
       a_ind=ind0;
     }
     break;
-    case '�':
-    // case '�':
+  case '²':
+  case '³':
     case '^':
     if(level==0) {
       if(a_char=='^') {
@@ -570,7 +571,7 @@ static MuQuantitiesUnitsOperand_t *loc_evaluate_next_operator(MuQuantitiesUnitsO
 	  return NULL;
 	}
       } else {
-        double a_exp=(a_char=='�' ? 2. : 3.);
+	double a_exp=(a_char=='²' ? 2. : 3.);
         a_operand_p=new MuScalarOperand_t(a_exp);
       }
       //

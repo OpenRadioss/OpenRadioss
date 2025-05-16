@@ -349,7 +349,9 @@ bool HCLocEvaluateAttributeExpression(
     }
 
     if (a_is_indexed && ind < 0) return false;
-
+    attribute_type_e atype = descr_p->getAttributeType(a_expr_p->my_ikeyword);
+    if ((atype == ATYPE_DYNAMIC_ARRAY || atype == ATYPE_STATIC_ARRAY) && (a_is_indexed == 0))
+        return false;
     switch (dtype)
     {
     case VTYPE_BOOL:

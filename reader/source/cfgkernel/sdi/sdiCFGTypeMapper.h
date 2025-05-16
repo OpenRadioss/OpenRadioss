@@ -46,8 +46,9 @@ class SDICFGTypeMapper : public SDITypeMapper
 
 public:
     // Constructors and destructor
-    SDICFGTypeMapper(const sdiString& keywordprefix = "", bool useCurrentCFGKernel = true) :
-        SDITypeMapper(keywordprefix)
+    SDICFGTypeMapper(const sdiString& keywordprefix = "", bool useCurrentCFGKernel = true,
+                     char keywordseparator = '_') :
+        SDITypeMapper(keywordprefix, keywordseparator)
     {
         if(useCurrentCFGKernel)
         {
@@ -118,6 +119,14 @@ protected:
                              { // control cards have to keep their order, to distinguish Starter and Engine
                                  return false;
                              }
+                             else if(lhs.myDBtype == HCDI_OBJ_TYPE_CARDS)
+                             { // in order not to mess up the sorting, we have to put all control cards...
+                                 return false;
+                             }
+                             else if(rhs.myDBtype == HCDI_OBJ_TYPE_CARDS)
+                             { // ... together in the end
+                                 return true;
+                             }
                              return lhs.mykeyword < rhs.mykeyword;
                          });
     }
@@ -130,7 +139,7 @@ protected:
 
 private: // used by constructor from CFGKernel
     void AddKeywordsRecursively(const MvPreDatasHierarchy_t* data_cfg_p,
-                                object_type_e type)
+                                object_type_e type, bool useLastLevel = true)
     {
         if(nullptr == data_cfg_p) return; // shouldn't happen
 
@@ -154,7 +163,7 @@ private: // used by constructor from CFGKernel
                     p_tmpkeywordlist.push_back(
                         myKeywordInfo(username, (unsigned int) type, idpool));
                 }
-                return;
+                useLastLevel = false; // if we have user names in higher levels, we don't use the last level
             }
         }
 
@@ -167,7 +176,8 @@ private: // used by constructor from CFGKernel
         // then get the first USER_NAMES in the last level
         if(data_cfg_p->getChildList().size() == 0 &&
            !data_cfg_p->getKeyword().empty() &&
-           data_cfg_p->getKeyword() != "NO_KEYWORD")
+           data_cfg_p->getKeyword() != "NO_KEYWORD" &&
+           useLastLevel)
         {
             auto pSubtype = data_cfg_p->getSubtypePtr();
             if(nullptr != pSubtype)
@@ -210,7 +220,7 @@ private: // used by constructor from CFGKernel
         MvPreDatasHierarchyList_t::const_iterator it;
         for(it = it_begin; it != it_end; ++it)
         {
-            AddKeywordsRecursively(*it, (*it)->getType());
+            AddKeywordsRecursively(*it, (*it)->getType(), useLastLevel);
         }
     }
 
