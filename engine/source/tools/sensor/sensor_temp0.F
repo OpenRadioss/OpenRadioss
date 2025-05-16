@@ -25,7 +25,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    resol               ../engine/source/engine/resol.F
       !||--- calls      -----------------------------------------------------
-      !||    spmd_allreduce_db   ../engine/source/mpi/generic/spmd_allreduce_db.F
       !||    sum_6_float         ../engine/source/system/parit.F
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod        ../common_source/modules/groupdef_mod.F
@@ -44,6 +43,7 @@ c-----------------------------------------------------------------------
 c-----------------------------------------------
 C   M o d u l e s
 c-----------------------------------------------
+      USE SPMD_MOD
       USE GROUPDEF_MOD
       USE SENSOR_MOD
 C-----------------------------------------------
@@ -152,8 +152,9 @@ c
             !   --------------------
             ! reduction with mpi comm
             IF (NSPMD > 1) THEN
-                CALL SPMD_ALLREDUCE_DB(SBUFF_MAX,RBUFF_MAX,COMM_SENS17%BUFFER_SIZE_MIN_MAX,"MAX" )
-                CALL SPMD_ALLREDUCE_DB(SBUFF_MIN,RBUFF_MIN,COMM_SENS17%BUFFER_SIZE_MIN_MAX,"MIN" )
+                CALL SPMD_ALLREDUCE(SBUFF_MAX,RBUFF_MAX,COMM_SENS17%BUFFER_SIZE_MIN_MAX,SPMD_MAX )
+                CALL SPMD_ALLREDUCE(SBUFF_MIN,RBUFF_MIN,COMM_SENS17%BUFFER_SIZE_MIN_MAX,SPMD_MIN)
+                 
             ELSE
                 RBUFF_MAX(:) = SBUFF_MAX(:)
                 RBUFF_MIN(:) = SBUFF_MIN(:)
@@ -199,7 +200,7 @@ c
           !   ----------------
           ! reduction with mpi comm
           IF (NSPMD > 1) THEN
-              CALL SPMD_ALLREDUCE_DB( SBUFF_MEAN,RBUFF_MEAN,COMM_SENS17%BUFFER_SIZE_MEAN,"SUM" )
+               CALL SPMD_ALLREDUCE(SBUFF_MEAN,RBUFF_MEAN,COMM_SENS17%BUFFER_SIZE_MEAN,SPMD_SUM )
           ELSE
               RBUFF_MEAN(:) = SBUFF_MEAN(:)
           ENDIF

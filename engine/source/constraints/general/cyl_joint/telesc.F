@@ -47,6 +47,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 !        - all the processor (weight = 1 or 0) computes the acc / ... of the secondary nodes        
 !       
 !$ENDCOMMENT
+        USE SPMD_MOD
         USE JOINT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -244,7 +245,7 @@ C----------------------------
             ENDIF
             BUF_R(1:24) = ZERO
             IF(NSPMD>1) THEN    
-                CALL SPMD_ALLREDUCE_DB_COMM(BUF_S,BUF_R,4*6,"SUM",CYL_JOIN(N_JOINT)%COMM_MPI%COMM)
+                CALL SPMD_ALLREDUCE(BUF_S,BUF_R,24,SPMD_SUM,CYL_JOIN(N_JOINT)%COMM_MPI%COMM)
             ELSE
                 BUF_R(1:24) = BUF_S(1:24)
             ENDIF
@@ -376,7 +377,7 @@ C----------------------------
             ENDIF
 
             IF(NSPMD>1) THEN
-                CALL SPMD_ALLREDUCE_DB_COMM(BUF_S,BUF_R,13*6,"SUM",CYL_JOIN(N_JOINT)%COMM_MPI%COMM)
+                CALL SPMD_ALLREDUCE(BUF_S,BUF_R,13*6,SPMD_SUM,CYL_JOIN(N_JOINT)%COMM_MPI%COMM)
             ELSE
                 BUF_R(1:78) = BUF_S(1:78)
             ENDIF
