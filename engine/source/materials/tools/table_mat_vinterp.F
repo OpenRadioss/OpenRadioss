@@ -25,6 +25,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    asso_plas76                   ../engine/source/materials/mat/mat076/asso_plas76.F
       !||    asso_qplas76c                 ../engine/source/materials/mat/mat076/asso_qplas76c.F
+      !||    compaction_tab                ../common_source/eos/compaction_tab.F90
+      !||    compaction_tab_init           ../common_source/eos/compaction_tab.F90
       !||    condamage                     ../engine/source/materials/mat/mat190/condamage.F
       !||    conversion                    ../engine/source/materials/mat/mat190/conversion.F
       !||    mat87c_tabulated              ../engine/source/materials/mat/mat087/mat87c_tabulated.F90
@@ -47,6 +49,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    asso_plas76                   ../engine/source/materials/mat/mat076/asso_plas76.F
       !||    asso_qplas76c                 ../engine/source/materials/mat/mat076/asso_qplas76c.F
+      !||    compaction_tab                ../common_source/eos/compaction_tab.F90
+      !||    compaction_tab_init           ../common_source/eos/compaction_tab.F90
       !||    condamage                     ../engine/source/materials/mat/mat190/condamage.F
       !||    conversion                    ../engine/source/materials/mat/mat190/conversion.F
       !||    mat87c_tabulated              ../engine/source/materials/mat/mat087/mat87c_tabulated.F90

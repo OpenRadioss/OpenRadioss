@@ -37,6 +37,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    clipping_weiler_atherton                 ../common_source/tools/clipping/polygon_clipping_mod.F90
       !||    compaction                               ../common_source/eos/compaction.F90
       !||    compaction2                              ../common_source/eos/compaction2.F90
+      !||    compaction_tab                           ../common_source/eos/compaction_tab.F90
+      !||    compaction_tab_init                      ../common_source/eos/compaction_tab.F90
       !||    compute_voxel_dimensions                 ../engine/source/interfaces/intsort/voxel_dimensions.F90
       !||    crack_depth_init                         ../starter/source/materials/fail/windshield_alter/crack_depth_init.F90
       !||    create_plane_clause                      ../starter/source/model/sets/create_plane_clause.F90
@@ -65,6 +67,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    eikonal_init_start_list_2d               ../starter/source/initial_conditions/detonation/eikonal_init_start_list_2d.F90
       !||    eikonal_remove_first                     ../starter/source/initial_conditions/detonation/eikonal_remove_first.F90
       !||    eikonal_solver                           ../starter/source/initial_conditions/detonation/eikonal_solver.F90
+      !||    eos_table_copy                           ../starter/source/materials/tools/eos_table_copy.F90
       !||    eosexponential                           ../common_source/eos/eosexponential.F90
       !||    eospolyno                                ../common_source/eos/eospolyno.F
       !||    fail_gene1_b                             ../engine/source/materials/fail/gene1/fail_gene1_b.F90
@@ -104,6 +107,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_ebcs_propergol                   ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_propergol.F90
       !||    hm_read_eos_compaction                   ../starter/source/materials/eos/hm_read_eos_compaction.F90
       !||    hm_read_eos_compaction2                  ../starter/source/materials/eos/hm_read_eos_compaction2.F90
+      !||    hm_read_eos_compaction_tab               ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
       !||    hm_read_eos_exponential                  ../starter/source/materials/eos/hm_read_eos_exponential.F90
       !||    hm_read_eos_powderburn                   ../starter/source/materials/eos/hm_read_eos_powderburn.F90
       !||    hm_read_fail_spalling                    ../starter/source/materials/fail/spalling/hm_read_fail_spalling.F90

@@ -23,7 +23,7 @@
       !||====================================================================
       !||    hm_read_eos_compaction_tab_mod   ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
       !||--- called by ------------------------------------------------------
-      !||    hm_read_eos                   ../starter/source/materials/eos/hm_read_eos.F
+      !||    hm_read_eos                      ../starter/source/materials/eos/hm_read_eos.F
       !||====================================================================
       module hm_read_eos_compaction_tab_mod
       contains
@@ -37,17 +37,22 @@
       !||====================================================================
       !||    hm_read_eos_compaction_tab   ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
       !||--- called by ------------------------------------------------------
-      !||    hm_read_eos               ../starter/source/materials/eos/hm_read_eos.F
+      !||    hm_read_eos                  ../starter/source/materials/eos/hm_read_eos.F
       !||--- calls      -----------------------------------------------------
-      !||    ancmsg                    ../starter/source/output/message/message.F
-      !||    finter                    ../starter/source/tools/curve/finter.F
-      !||    hm_get_floatv             ../starter/source/devtools/hm_reader/hm_get_floatv.F
-      !||    hm_get_intv               ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_option_is_encrypted    ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+      !||    ancmsg                       ../starter/source/output/message/message.F
+      !||    eos_table_copy               ../starter/source/materials/tools/eos_table_copy.F90
+      !||    hm_get_floatv                ../starter/source/devtools/hm_reader/hm_get_floatv.F
+      !||    hm_get_floatv_dim            ../starter/source/devtools/hm_reader/hm_get_floatv_dim.F
+      !||    hm_get_intv                  ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_option_is_encrypted       ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+      !||    table_mat_vinterp            ../starter/source/materials/tools/table_mat_vinterp.F
       !||--- uses       -----------------------------------------------------
-      !||    elbuftag_mod              ../starter/share/modules1/elbuftag_mod.F
-      !||    message_mod               ../starter/share/message_module/message_mod.F
-      !||    submodel_mod              ../starter/share/modules1/submodel_mod.F
+      !||    elbuftag_mod                 ../starter/share/modules1/elbuftag_mod.F
+      !||    eos_table_copy_mod           ../starter/source/materials/tools/eos_table_copy.F90
+      !||    message_mod                  ../starter/share/message_module/message_mod.F
+      !||    submodel_mod                 ../starter/share/modules1/submodel_mod.F
+      !||    table_mat_vinterp_mod        ../starter/source/materials/tools/table_mat_vinterp.F
+      !||    table_mod                    ../starter/share/modules1/table_mod.F
       !||====================================================================
       subroutine hm_read_eos_compaction_tab(iout,pm,unitab,lsubmodel,uid,eos_tag,ieos,npropm, &
                                             maxeos,eos_param,ntable,table)

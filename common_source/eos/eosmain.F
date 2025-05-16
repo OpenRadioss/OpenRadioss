@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    compaction           ../common_source/eos/compaction.F90
       !||    compaction2          ../common_source/eos/compaction2.F90
+      !||    compaction_tab       ../common_source/eos/compaction_tab.F90
       !||    eosexponential       ../common_source/eos/eosexponential.F90
       !||    eoslinear            ../common_source/eos/eoslinear.F
       !||    eospolyno            ../common_source/eos/eospolyno.F
@@ -53,6 +54,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    compaction2_mod      ../common_source/eos/compaction2.F90
       !||    compaction_mod       ../common_source/eos/compaction.F90
+      !||    compaction_tab_mod   ../common_source/eos/compaction_tab.F90
       !||    matparam_def_mod     ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||====================================================================
       SUBROUTINE EOSMAIN(IFLAG ,NEL    ,EOSTYP ,PM      ,OFF      ,EINT  ,

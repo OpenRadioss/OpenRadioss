@@ -294,6 +294,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_ebcs_vel                  ../starter/source/boundary_conditions/ebcs/hm_read_ebcs_vel.F
       !||    hm_read_eig                       ../starter/source/general_controls/computation/hm_read_eig.F
       !||    hm_read_eos                       ../starter/source/materials/eos/hm_read_eos.F
+      !||    hm_read_eos_compaction_tab        ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
       !||    hm_read_eos_sesame                ../starter/source/materials/eos/hm_read_eos_sesame.F
       !||    hm_read_eref                      ../starter/source/loads/reference_state/eref/hm_read_eref.F
       !||    hm_read_fail                      ../starter/source/materials/fail/hm_read_fail.F

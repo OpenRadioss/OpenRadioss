@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       !||    mattab_usr2sys         ../starter/source/materials/tools/mattab_usr2sys.F
       !||--- called by ------------------------------------------------------
+      !||    eos_table_copy         ../starter/source/materials/tools/eos_table_copy.F90
       !||    func_table_copy        ../starter/source/materials/tools/func_table_copy.F90
       !||    mat_table_copy         ../starter/source/materials/tools/mat_table_copy.F90
       !||    updfail                ../starter/source/materials/updfail.F90
