@@ -1227,7 +1227,7 @@
           elseif (mtn == 50) then
             call sigeps50s(mat_elem%mat_param(imat),                  &
                  nel    ,dt1    ,nuvar  ,nvartmp,uvar  ,vartmp,       &
-                 rho    ,ssp    ,off    ,amu    ,defp  ,              &
+                 rho    ,ssp    ,off    ,amu    ,defp  ,epsd  ,       &
                  ep1    ,ep2    ,ep3    ,ep4    ,ep5   ,ep6   ,       &
                  de1    ,de2    ,de3    ,de4    ,de5   ,de6   ,       &
                  es1    ,es2    ,es3    ,es4    ,es5   ,es6   ,       &

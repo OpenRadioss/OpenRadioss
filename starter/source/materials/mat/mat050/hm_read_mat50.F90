@@ -429,6 +429,8 @@
 !-----------------
       mtag%g_pla  = 1
       mtag%l_pla  = 1
+      mtag%g_epsd = 1
+      mtag%l_epsd = 1
 !--------------------------------------------------
       call init_mat_keyword(mat_param,"HOOK")
       call init_mat_keyword(mat_param,"COMPRESSIBLE")
