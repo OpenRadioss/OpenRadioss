@@ -1883,6 +1883,19 @@ public:
                 return type;
             }
         }
+        // if it's not a "main" preobject, it might be a subobject.
+        // type is the highest type for CFGType, so we loop backwards and try
+        EntityType type2 = type;
+        while(GetCFGType(type2) == CFGType)
+        {
+            if(p_typesMainAndSubobjects.count(type2) > 0)
+            {
+                HandleRead handle;
+                bool found = P_FindById(id, type2, handle);
+                if(found) return type2;
+            }
+            --type2;
+        }
 
         // ideally we shouldn't come here
         return type;

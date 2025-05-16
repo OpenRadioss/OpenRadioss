@@ -314,7 +314,8 @@ CLoadCFGKernel::~CLoadCFGKernel()
 /* Implemetation of CommonDataReaderCFG  */
 CommonDataReaderCFG::CommonDataReaderCFG(const std::string& profile, const std::string& subprofile,
                                          const string& cfg_dir_path, bool set_cur_kernel,
-                                         const ReadFileFactorySP& p_fileFactory)
+                                         const ReadFileFactorySP& p_fileFactory) :
+    m_pfileFactory(p_fileFactory)
 {
     m_set_cur_kernel = set_cur_kernel;
     m_prev_loaded_fileformat = MultiCFGKernelMgr::getInstance().GetActiveUserProfile();
@@ -357,12 +358,14 @@ void CommonDataReaderCFG::ReadModel(const std::string& filepath, vector<IMECPreO
     // In the future, as the CFG files are incrementally corrected, this check can be removed.
     if (m_psyntaxInfos->getAppMode() == HCDI_SOLVER_LSDYNA)
     {
-        HWCFGReaderLSDyna  a_reader(filepath.c_str(), a_fileformat, *m_psyntaxInfos, *m_pinputInfo);
+        HWCFGReaderLSDyna  a_reader(filepath.c_str(), a_fileformat, *m_psyntaxInfos, *m_pinputInfo,
+                                    m_pfileFactory);
         a_reader.readModel(m_pmodel);
     }
     else
     {
-        HWCFGReader  a_reader(filepath.c_str(), a_fileformat, *m_psyntaxInfos, *m_pinputInfo);
+        HWCFGReader  a_reader(filepath.c_str(), a_fileformat, *m_psyntaxInfos, *m_pinputInfo,
+                              m_pfileFactory);
         a_reader.readModel(m_pmodel);
     }
 

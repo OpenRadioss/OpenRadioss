@@ -34,7 +34,7 @@
 #define	NFICH	  10
 #define L_PATH    512
           
-#define L_LINE    160
+#define L_LINE    297 
 
 #define	FREE_UNKOWN	-1 
 #define	FREE_ACCEL	 0
