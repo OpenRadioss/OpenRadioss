@@ -97,12 +97,14 @@ C-----------------------------------------------
      .           SUB_FIISTAR(3), ALPHASTAR, SUB_RHOSTAR, SUB_PII, VELJJ2, SUB_ESTAR, EINTJJ
       INTEGER :: IELEM_START, IELEM_END, ID_SURF
       my_real :: TCAR_P, TCAR_VF,ALPHA,BETA,DP0,Vnew,Vold,Pvois,POld,MACH,RHOC2,ROC,PSURF
+      my_real :: ABURN(1)
 C-----------------------------------------------
 C     B e g i n n i n g   o f   s u b r o u t i n e
 C-----------------------------------------------
       TCAR_P = EBCS%TCAR_P
       TCAR_VF = EBCS%TCAR_VF
       ID_SURF = EBCS%SURF_ID
+      ABURN(:) = ZERO
       
       ALPHA = TIMESTEP/TCAR_P
       BETA = TIMESTEP/MAX(TIMESTEP,TCAR_VF)
@@ -111,7 +113,6 @@ C-----------------------------------------------
         ALPHA = ONE !zero
         BETA = ONE
       ENDIF
-      
       
       NBMAT = MULTI_FVM%NBMAT
       IELEM_START = 1 + ITASK * NELEM / NTHREAD 
@@ -196,7 +197,7 @@ C     VE formulation
      4                  NPROPM,             NPROPMI,                      DUMMY,                   ONE,
      5                  DUMMY,              MULTI_FVM%BFRAC(IMAT,ELEMID), MULTI_FVM%TBURN(ELEMID), DUMMY,
      6                  DUMMY,              DUMMY,                        NPF,                     TF,
-     7                  DUMMY,              1,                            MATPARAM(LOCAL_MATID(IMAT)))
+     7                  DUMMY,              1,                            ABURN,                   MATPARAM(LOCAL_MATID(IMAT)))
                  SSPJJ = SSPJJ + PHASE_ALPHAJJ(IMAT) * PHASE_RHOJJ(IMAT) *  MAX(EM20, PHASE_SSPJJ(IMAT))
                  P_JJ = P_JJ + PHASE_PRESJJ(IMAT) * PHASE_ALPHAJJ(IMAT)
                  EINTJJ = EINTJJ + PHASE_ALPHAJJ(IMAT) * PHASE_EINTJJ(IMAT)

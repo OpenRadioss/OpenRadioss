@@ -2107,7 +2107,7 @@ C
       RATIO22       = TABVREA(RVARINT)
 C
       RVARINT       = RVARINT + 1
-      M51_IFLG6     = TABVREA(RVARINT)      
+      M51_IFLG6     = NINT(TABVREA(RVARINT))
 C
       RVARINT       = RVARINT + 1
       MS_ND         = TABVREA(RVARINT)      
