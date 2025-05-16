@@ -204,9 +204,8 @@ c
        UPARAM(27) =GAMA     
        UPARAM(28) =CFRAC   
        UPARAM(29) =NFRAC    
-
 C
-       NUVAR   = 9
+       NUVAR   = 4
        NUPARAM = 29 
        PARMAT(1) = YOUNG/THREE/(ONE - TWO*NU)
        PARMAT(2) = YOUNG
@@ -215,6 +214,10 @@ C      Formulation for solid elements time step computation.
        PARMAT(16) = 2
        PARMAT(17) =  (ONE - TWO*NU)/(ONE - NU) ! == TWO*G/(C1+FOUR_OVER_3*G)
 C
+C------------------------------
+      ! activate heat source calculation in material
+      MATPARAM%HEAT_FLAG = 1
+!
       ! MATPARAM keywords
       CALL INIT_MAT_KEYWORD(MATPARAM,"HOOK")
       CALL INIT_MAT_KEYWORD(MATPARAM,"ORTHOTROPIC")

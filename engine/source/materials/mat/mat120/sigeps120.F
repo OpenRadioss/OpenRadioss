@@ -41,7 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      5           DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      6           SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      7           SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     8           JTHE    ,INLOC   ,DPLANL  ,DMG     ,DMG_SCALE)
+     8           INLOC   ,DPLANL  ,DMG     ,DMG_SCALE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -58,7 +58,7 @@ C-----------------------------------------------
 C----------------------------------------------------------------
 C  D u m m y   A R G U M E N T S
 C----------------------------------------------------------------
-      INTEGER :: NEL,NUPARAM,NUVAR,NVARTMP,NUMTABL,JTHE,INLOC
+      INTEGER :: NEL,NUPARAM,NUVAR,NVARTMP,NUMTABL,INLOC
       my_real :: TIME,TIMESTEP
       INTEGER ,DIMENSION(NEL)     ,INTENT(IN) :: NGL
       INTEGER ,DIMENSION(NUMTABL) ,INTENT(IN) :: ITABLE
@@ -92,7 +92,7 @@ c------------------------------------------------------------------
      5         SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      6         SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      7         NUMTABL ,ITABLE  ,TABLE   ,NVARTMP ,VARTMP  ,TEMP    ,
-     8         JTHE    ,INLOC   ,DPLANL  ,DMG     , DMG_SCALE)
+     8         INLOC   ,DPLANL  ,DMG     , DMG_SCALE)
         ELSE                     ! tabulated Von-Mises formulation
           CALL SIGEPS120_TAB_VM(
      1         NEL     ,NGL     ,NUPARAM ,NUVAR   ,TIME    ,TIMESTEP,
@@ -102,7 +102,7 @@ c------------------------------------------------------------------
      5         SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      6         SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      7         NTABLE  ,ITABLE  ,TABLE   ,NVARTMP ,VARTMP  ,TEMP    ,
-     8         JTHE    ,INLOC   ,DPLANL  ,DMG     , DMG_SCALE)
+     8         INLOC   ,DPLANL  ,DMG     , DMG_SCALE)
         END IF
 c
       ELSE

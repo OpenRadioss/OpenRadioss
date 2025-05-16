@@ -396,38 +396,33 @@ c
             UVAR(I,35)=VOL(I) 
             UVAR(I,43)=RHO(I)
             IF(HEATFLAG == 1)THEN
-               UVAR(I,2) = ZERO!  ! fraction of austenite
-               UVAR(I,3) = ONE ! ! fraction of ferrite
+               UVAR(I,2) = ZERO    ! fraction of austenite
+               UVAR(I,3) = ONE     ! fraction of ferrite
             ELSE
-               UVAR(I,2) = ONE! fraction of austenite
+               UVAR(I,2) = ONE     ! fraction of austenite
             ENDIF
-            UVAR(I,8)   = UPARAM(45) !temperature 
-            UVAR(I,1)   = UPARAM(45) !TINI
+            UVAR(I,8) = TINI       ! initial temperature 
+            UVAR(I,1) = TINI
  
-            IF(JTHE==-1) UVAR(I,8)  =TEMP(I)
-            !UVAR(I,9)=FINTER(KFUNC(2),ZERO,NPF,TF,DYDX1(I))!  initial yield
-            XX1(I,1)=ZERO
-            XX1(I,2)=UVAR(I,8) ! temp initial
-            XX1(I,3)=ZERO
+            IF (JTHE == -1) UVAR(I,8) = TEMP(I)
+            XX1(I,1) = ZERO
+            XX1(I,2) = TINI
+            XX1(I,3) = ZERO
             IPOS1(I,1) = 0
             IPOS1(I,2) = 0
             IPOS1(I,3) = 0 
           ENDDO 
+!
           CALL TABLE_VINTERP(TABLE(ITABLE(1)),NEL,NEL,IPOS1,XX1,Y1,DYDX1)!  initial yield
-          DO I=1,NEL        
-           UVAR(I,9)= Y1 (I)
-          ENDDO 
+!
+          UVAR(1:NEL,9) = Y1(1:NEL)
         ENDIF                
       ENDIF
-      IF(JTHE /= 0 ) THEN
-         DO I=1,NEL     
-           TEMPEL(I) = TEMP(I)
-         ENDDO
+!
+      IF (JTHE /= 0 ) THEN
+        TEMPEL(1:NEL) = TEMP(1:NEL)
       ELSE
-         !RHOCP=UPARAM(21)
-         DO I=1,NEL
-           TEMPEL(I) = TINI
-         ENDDO
+        TEMPEL(1:NEL) = TINI
       ENDIF
       DO I=1,NEL
         TEMPO(I)   = UVAR(I,8)
@@ -444,13 +439,11 @@ c         IF (UVAR(I,8)<=EP03)THEN
 c           CP(I)= 1.117*EP06/(1010.0-TEMPO(I))/(1010.0-TEMPO(I))+12622.
 c     .        /(1010.0 - TEMPO(I) )+ 0.3485*TEMPO(I)+ 355.6
 c         ELSE
-c           CP(I)= 1.225*EP08/((TEMPO(I)-990.)**4)+0.1381*TEMPO(I)
-c     .       + 585.7
+c           CP(I)= 1.225*EP08/((TEMPO(I)-990.)**4)+0.1381*TEMPO(I) + 585.7
 c         ENDIF
 c         TEMP = UPARAM(45)
-c         VOL0    = VOL(I) * RHO0(I)
-         !TEMPEL(I) = UPARAM(45)  
-c     .    +(EINT(I,1)+ EINT(I,2))/VOL(I)/(RHO0(I)*CP(I))
+c         VOL0 = VOL(I) * RHO0(I)
+c         ! TEMPEL(I) = TINI + (EINT(I,1)+ EINT(I,2))/VOL(I)/(RHO0(I)*CP(I))
 c       ENDDO
 c      ENDIF
 c-------------------------------------        
@@ -1260,8 +1253,12 @@ C
      .             +            FRAC3(I)-UVAR(I,4)
      .             +            FRAC4(I)-UVAR(I,5) ) ) *VOL (I) 
    
-         ENDIF !(OFF(I) == ONE ) 
+         ENDIF ! OFF(I) == ONE
       ENDDO
-      
+!-----------
+      IF (JTHE == 0) THEN
+        TEMP(1:NEL) = TEMPEL(1:NEL)   ! for output
+      END IF     
+!-----------      
       RETURN
       END
