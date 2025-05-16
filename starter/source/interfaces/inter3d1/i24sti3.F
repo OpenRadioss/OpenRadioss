@@ -51,7 +51,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      G IPARTFRICM,INTBUF_FRIC_TAB ,INTNITSCHE,NRTS,IRECTS,
      I IELNRTS ,ADRECTS ,FACNRTS  ,NMN       ,MSR ,
      J IPARTT ,IPARTP   ,IPARTR   ,ELEM_LINKED_TO_SEGMENT,
-     K IGSTI  )
+     K IGSTI  ,FLAG_ELEM_INTER25  ) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -105,6 +105,7 @@ C     REAL
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
       TYPE (SURF_) :: IGRSURF
       TYPE (SURF_) :: IGRSURF2
+      INTEGER, INTENT(IN) :: FLAG_ELEM_INTER25(NINTER25,NUMELS)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -745,7 +746,8 @@ C------------ISU1 first
      F GAPMX  , GAPMN  ,GAPSCALE  ,NSHIF   ,GAPMAX_M,
      G ID     ,TITR    ,IGEO      ,FILLSOL ,NRTT    ,
      H PM_STACK, IWORKSH,INTFRIC ,TAGPRT_FRIC,IPARTFRICS,
-     I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB ,ELEM_LINKED_TO_SEGMENT,IGSTI)
+     I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB ,ELEM_LINKED_TO_SEGMENT,
+     J IGSTI  , FLAG_ELEM_INTER25)
        NRT2=IGRSURF%NSEG
        NSHIF = NRT1
        CALL I24GAPM(
@@ -764,7 +766,8 @@ C------------ISU1 first
      F GAPMX  , GAPMN  ,GAPSCALE  ,NSHIF   ,GAPMAX_M,
      G ID     ,TITR    ,IGEO      ,FILLSOL ,NRTT  ,
      H PM_STACK , IWORKSH,INTFRIC,TAGPRT_FRIC,IPARTFRICS,
-     I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB ,ELEM_LINKED_TO_SEGMENT,IGSTI)
+     I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB ,ELEM_LINKED_TO_SEGMENT,
+     J IGSTI  , FLAG_ELEM_INTER25)
       ELSE
        CALL I24GAPM(
      1 X     ,IRECT ,STF   ,IXS   ,PM    ,
@@ -781,7 +784,8 @@ C------------ISU1 first
      F GAPMX  , GAPMN  ,GAPSCALE  ,NSHIF   ,GAPMAX_M,
      G ID     ,TITR    ,IGEO      ,FILLSOL ,NRTT ,
      H PM_STACK , IWORKSH,INTFRIC,TAGPRT_FRIC,IPARTFRICS,
-     I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB ,ELEM_LINKED_TO_SEGMENT,IGSTI)
+     I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB ,ELEM_LINKED_TO_SEGMENT,
+     J IGSTI  , FLAG_ELEM_INTER25)
       END IF
 
 
@@ -1095,7 +1099,8 @@ C-----------------------------------------------
      F GAPMX  , GAPMN  ,GAPSCALE  ,NSHIFT  ,GAPMAX_M,
      G ID     ,TITR    ,IGEO      ,FILLSOL ,NRTT    ,
      H PM_STACK , IWORKSH ,INTFRIC,TAGPRT_FRIC,IPARTFRICS,
-     I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB,ELEM_LINKED_TO_SEGMENT,IGSTI)
+     I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB,ELEM_LINKED_TO_SEGMENT,IGSTI,
+     J FLAG_ELEM_INTER25 ) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1143,13 +1148,14 @@ C     REAL
       CHARACTER(LEN=NCHARTITLE) :: TITR
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*) 
       TYPE (SURF_) :: IGRSURF
+      INTEGER, INTENT(IN) :: FLAG_ELEM_INTER25(NINTER25,NUMELS)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, INRT, NELS, MT, JJ, JJJ, NELC,
      .   MG, NUM, NPT, LL, L, NN, NELTG,N1,N2,N3,N4,IE,
      .   IP, NLEV, MYLEV, K, P, R, T,IAD,NREV,IGTYP,IPGMAT,IGMAT,
-     .   ISUBSTACK,IPL,IPG,NINV,ICONTR
+     .   ISUBSTACK,IPL,IPG,NINV,ICONTR,NIN25
       INTEGER, DIMENSION(:),ALLOCATABLE  :: TAGELEMS,INDEXE
 C     REAL
       my_real
@@ -1316,10 +1322,12 @@ C ----Friction model ------
 C-------coating shell  stif=max(sol,shell)         
           IF (MSEGTYP(I)>NRTT) THEN
              PRINT_ERROR = .FALSE.
+             NIN25 = 0
              CALL INSOL3D(X,IRECT,IXS,NINT,NELS,I   ,
      .            AREA,NOINT,KNOD2ELS ,NOD2ELS ,0,
      .            IXS10,IXS16,IXS20,TAGELEMS,INDEXE,
-     .            NINV,IELEM,ELEM_LINKED_TO_SEGMENT,PRINT_ERROR)
+     .            NINV,IELEM,ELEM_LINKED_TO_SEGMENT,PRINT_ERROR,
+     .            NIN25,NTY, FLAG_ELEM_INTER25 )
              IF(PRINT_ERROR) THEN
                 NODE_ID(1:4) = ITAB(IRECT(1:4,I))
           
@@ -1441,10 +1449,12 @@ C------------------------------------
 C-------coating shell  stif=max(sol,shell)         
           IF (MSEGTYP(I)>NRTT) THEN
              PRINT_ERROR = .FALSE.
+             NIN25 = 0
              CALL INSOL3D(X,IRECT,IXS,NINT,NELS,I   ,
      .            AREA,NOINT,KNOD2ELS ,NOD2ELS ,0,
      .            IXS10,IXS16,IXS20,TAGELEMS,INDEXE ,
-     .            NINV,IELEM,ELEM_LINKED_TO_SEGMENT,PRINT_ERROR)
+     .            NINV,IELEM,ELEM_LINKED_TO_SEGMENT,PRINT_ERROR,
+     .            NIN25,NTY, FLAG_ELEM_INTER25 ,NINTER25)
              IF(PRINT_ERROR) THEN
                 NODE_ID(1:4) = ITAB(IRECT(1:4,I))
           
@@ -1493,10 +1503,12 @@ C----------------------
 C     ELEMENTS SOLIDES
 C----------------------
        PRINT_ERROR = .FALSE.
+       NIN25 = 0
        CALL INSOL3D(X,IRECT,IXS,NINT,NELS,I   ,
      .            AREA,NOINT,KNOD2ELS ,NOD2ELS ,0,
      .            IXS10,IXS16,IXS20,TAGELEMS,INDEXE,
-     .            NINV ,IELEM,ELEM_LINKED_TO_SEGMENT,PRINT_ERROR)
+     .            NINV ,IELEM,ELEM_LINKED_TO_SEGMENT,PRINT_ERROR,
+     .            NIN25,NTY, FLAG_ELEM_INTER25 ,NINTER25)
        IF(PRINT_ERROR) THEN
             NODE_ID(1:4) = ITAB(IRECT(1:4,I))
           

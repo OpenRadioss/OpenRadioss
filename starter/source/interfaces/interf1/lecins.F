@@ -54,7 +54,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  NOD2ELTG,INTBUF_TAB ,KNOD2ELS ,NOD2ELS   ,IXS10   ,
      .                  IXS16   ,IXS20      ,NIGE,RIGE,XIGE      ,VIGE    ,
      .                  IGRBRIC ,MULTI_FVM  ,NALE     ,IGEO      ,INTERFACES,
-     .                  S_NOD2ELS,S_NOD2ELTG)
+     .                  S_NOD2ELS,S_NOD2ELTG,FLAG_ELEM_INTER25   ,LIST_NIN25)
 C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -95,7 +95,9 @@ C-----------------------------------------------
       my_real, INTENT(IN) :: PM(*)
       INTEGER NOM_OPT(LNOPT1,*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
-      INTEGER, INTENT(IN) :: NALE(NUMNOD)      
+      INTEGER, INTENT(IN) :: NALE(NUMNOD)   
+      INTEGER, INTENT(INOUT) :: LIST_NIN25(NINTER)
+      INTEGER, INTENT(INOUT) :: FLAG_ELEM_INTER25(NINTER25,NUMELS)   
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
@@ -112,7 +114,7 @@ C-----------------------------------------------
      .   ISU1,ISU2,NRTM0,NRTM_SH,
      .   NRTS_NEW, NRTM_NEW,IBID,INTTH,
      .   NRTM_IGE,NRTM_FE,NRTS_IGE,NRTS_FE,
-     .   NMN_IGE,NMN_FE,NSN_IGE,NSN_FE,INTNITSCHE,IAD_IGE,GRBRIC_ID
+     .   NMN_IGE,NMN_FE,NSN_IGE,NSN_FE,INTNITSCHE,IAD_IGE,GRBRIC_ID,NIN25
 
       INTEGER :: STAT
       INTEGER, DIMENSION(:), ALLOCATABLE, TARGET ::  NTAG_TARGET
@@ -132,6 +134,7 @@ C=======================================================================
         NTAG(K) = 0
        ENDDO
       LIXINT = 0
+      NIN25 = 0
 C---------------------
       DO NI = 1,LINTER
 C
@@ -617,6 +620,8 @@ C           necessaire au 2eme passage (cf IDDLEVEL)
             INTBUF_TAB(NI)%NBINFLG(1:INTBUF_TAB(NI)%S_NBINFLG)=0
             INTBUF_TAB(NI)%MBINFLG(1:INTBUF_TAB(NI)%S_MBINFLG)=0
           END IF
+          NIN25 = NIN25 + 1
+          LIST_NIN25(NI) = NIN25
           CALL I25SURFI(
      1      IALLO                  ,IPARI(1,NI)            ,IGRNOD                   , IGRSURF               ,
      2      INTBUF_TAB(NI)%IRECTM  , FRIGAP(1,NI)          ,
@@ -626,7 +631,8 @@ C           necessaire au 2eme passage (cf IDDLEVEL)
      6      IXTG                   ,KNOD2ELC               ,KNOD2ELTG                ,NOD2ELC                ,
      7      NOD2ELTG               ,KNOD2ELS               ,NOD2ELS                  ,IXS                    ,
      8      IXS10                  ,IXS16                  ,IXS20                    ,INTBUF_TAB(NI)%IRTSE   ,
-     9      INTBUF_TAB(NI)%IS2SE   ,INTBUF_TAB(NI)%IS2PT   ,INTBUF_TAB(NI)%IS2ID     ,INTERFACES%PARAMETERS  )
+     9      INTBUF_TAB(NI)%IS2SE   ,INTBUF_TAB(NI)%IS2PT   ,INTBUF_TAB(NI)%IS2ID     ,INTERFACES%PARAMETERS  ,
+     A      NIN25                  ,FLAG_ELEM_INTER25      )
 C------initialization of doubler M_seg pour shells ---> move inside I24SURFI
         ENDIF
 C

@@ -289,9 +289,9 @@ C---------------------------------------
 C         Solid on secnd side !
 C---------------------------------------
 
-          IF(IAS(I)==0 .OR. IBS(I)==0) THEN
-            print *,' internal error - i25dst3_e2s'
-          END IF
+c          IF(IAS(I)==0 .OR. IBS(I)==0) THEN
+c            print *,' internal error - i25dst3_e2s'   ! This error message is desactivated : E2E solid erosion will be taken into account
+c          END IF
 
 
           DO EJ=1,4
