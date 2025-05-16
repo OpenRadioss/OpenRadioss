@@ -47,6 +47,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE SENSOR_MOD
       USE GROUPDEF_MOD
+      USE SPMD_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -81,7 +82,9 @@ C-----------------------------------------------
 
       INTEGER :: MY_SIZE
       CHARACTER(len=4) :: MY_OPERATION
-      REAL(kind=8), DIMENSION(:,:,:,:), ALLOCATABLE :: SBUF_DOUBLE,RBUF_DOUBLE
+      REAL(kind=8), DIMENSION(:), ALLOCATABLE :: SBUF_DOUBLE,RBUF_DOUBLE
+      INTEGER :: I2,I3,I4,IDX
+     
 C=======================================================================
 C
        ISENST1 = 0
@@ -251,23 +254,36 @@ C
        ! mpi communication for energy sensor (type 14)
        IF(COMM_SENS14%BOOL) THEN
             IF(IPARIT>0) THEN 
-                ALLOCATE( SBUF_DOUBLE(COMM_SENS14%NUM_SENS,2,6,NTHREAD) )
-                ALLOCATE( RBUF_DOUBLE(COMM_SENS14%NUM_SENS,2,6,NTHREAD) )
-                DO K=1,COMM_SENS14%NUM_SENS
-                    J = COMM_SENS14%ID_SENS(K)
-                    SBUF_DOUBLE(K,1:2,1:6,1:NTHREAD) = SENSOR_STRUCT(J)%FBSAV6_SENS(1:2,1:6,1:NTHREAD)
-                ENDDO
-                
-                MY_SIZE = COMM_SENS14%NUM_SENS*2*6*NTHREAD
-                MY_OPERATION = "SUM"
-                CALL SPMD_ALLREDUCE_DB(SBUF_DOUBLE,RBUF_DOUBLE,MY_SIZE,MY_OPERATION)
+              MY_SIZE = COMM_SENS14%NUM_SENS*2*6*NTHREAD
+              ALLOCATE( SBUF_DOUBLE(MY_SIZE) )
+              ALLOCATE( RBUF_DOUBLE(MY_SIZE) )
+              DO K=1,COMM_SENS14%NUM_SENS
+                J = COMM_SENS14%ID_SENS(K)
+                DO I2=1,2
+                  DO I3=1,6
+                    DO I4=1,NTHREAD
+                      IDX = ((K-1)*2*6*NTHREAD) + ((I2-1)*6*NTHREAD) + ((I3-1)*NTHREAD) + I4
+                      SBUF_DOUBLE(IDX) = SENSOR_STRUCT(J)%FBSAV6_SENS(I2,I3,I4)
+                    END DO
+                  END DO
+                END DO
+              ENDDO
 
-                DO K=1,COMM_SENS14%NUM_SENS
-                    J = COMM_SENS14%ID_SENS(K)
-                    SENSOR_STRUCT(J)%FBSAV6_SENS(1:2,1:6,1:NTHREAD) = RBUF_DOUBLE(K,1:2,1:6,1:NTHREAD)
-                ENDDO
-                DEALLOCATE( SBUF_DOUBLE )
-                DEALLOCATE( RBUF_DOUBLE )
+              CALL SPMD_ALLREDUCE(SBUF_DOUBLE,RBUF_DOUBLE,MY_SIZE,SPMD_SUM)
+
+              DO K=1,COMM_SENS14%NUM_SENS
+                J = COMM_SENS14%ID_SENS(K)
+                DO I2=1,2
+                  DO I3=1,6
+                    DO I4=1,NTHREAD
+                      IDX = ((K-1)*2*6*NTHREAD) + ((I2-1)*6*NTHREAD) + ((I3-1)*NTHREAD) + I4
+                      SENSOR_STRUCT(J)%FBSAV6_SENS(I2,I3,I4) = RBUF_DOUBLE(IDX)
+                    END DO
+                  END DO
+                END DO
+              ENDDO
+              DEALLOCATE( SBUF_DOUBLE )
+              DEALLOCATE( RBUF_DOUBLE )
             ELSE
                 CALL SPMD_GLOB_DSUM9(PARTSAV2,2*NPART)
                 CALL SPMD_RBCAST(PARTSAV2,PARTSAV2,2,NPART,0,2)
