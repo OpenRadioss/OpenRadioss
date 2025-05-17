@@ -1,7 +1,12 @@
+      !||====================================================================
+      !||    multi_solve_eint_mod   ../starter/source/initial_conditions/inimap/multi_solve_eint.F90
+      !||--- called by ------------------------------------------------------
+      !||    ini_inimap1d           ../starter/source/initial_conditions/inimap/ini_inimap1d.F
+      !||====================================================================
       MODULE MULTI_SOLVE_EINT_MOD
       CONTAINS
       !||====================================================================
-      !||    solve_eint         ../starter/source/initial_conditions/inimap/ini_inimap1d.F
+      !||    multi_solve_eint   ../starter/source/initial_conditions/inimap/multi_solve_eint.F90
       !||--- called by ------------------------------------------------------
       !||    ini_inimap1d       ../starter/source/initial_conditions/inimap/ini_inimap1d.F
       !||--- calls      -----------------------------------------------------

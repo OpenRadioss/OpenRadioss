@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    eosmain            ../common_source/eos/eosmain.F
       !||    finter             ../engine/source/tools/curve/finter.F
       !||--- uses       -----------------------------------------------------
+      !||    eosmain_mod        ../common_source/eos/eosmain.F
       !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||    message_mod        ../engine/share/message_module/message_mod.F
       !||====================================================================

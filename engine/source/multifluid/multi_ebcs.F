@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ebcs_mod               ../common_source/modules/boundary_conditions/ebcs_mod.F90
       !||    matparam_def_mod       ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||    multi_fvm_mod          ../common_source/modules/ale/multi_fvm_mod.F90
+      !||    multi_inlet_ebcs_mod   ../engine/source/multifluid/multi_inlet_ebcs.F
       !||    th_surf_mod            ../common_source/modules/interfaces/th_surf_mod.F
       !||====================================================================
       SUBROUTINE MULTI_EBCS(ITASK, MULTI_FVM, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM,

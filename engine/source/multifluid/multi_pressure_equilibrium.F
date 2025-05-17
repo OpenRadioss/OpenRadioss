@@ -31,6 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    initbuf_mod                  ../engine/share/resol/initbuf.F
       !||    matparam_def_mod             ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F90
+      !||    multi_submatlaw_mod          ../engine/source/multifluid/multi_submatlaw.F
       !||====================================================================
       SUBROUTINE MULTI_PRESSURE_EQUILIBRIUM(TIMESTEP, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG, 
      .     PM, IPM, MULTI_FVM, CURRENT_TIME, BUFMAT, NPF, TF, NUMMAT,MATPARAM)

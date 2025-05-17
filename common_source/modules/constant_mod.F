@@ -165,7 +165,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    mulaw                                    ../engine/source/materials/mat_share/mulaw.F90
       !||    mulaw8                                   ../engine/source/materials/mat_share/mulaw8.F90
       !||    mulawc                                   ../engine/source/materials/mat_share/mulawc.F90
+      !||    multi_muscl_compute_pressure             ../engine/source/multifluid/multi_muscl_compute_pressure.F90
       !||    multi_propergol_ebcs                     ../engine/source/multifluid/multi_propergol_ebcs.F90
+      !||    multi_solve_eint                         ../engine/source/multifluid/multi_solve_eint.F90
       !||    multifluid_global_tdet                   ../starter/source/multifluid/multifluid_global_tdet.F
       !||    newman_raju                              ../common_source/fail/newman_raju.F90
       !||    offset_nproj                             ../engine/source/interfaces/shell_offset/offset_nproj.F90

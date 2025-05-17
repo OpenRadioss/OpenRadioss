@@ -20,22 +20,29 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    multi_muscl_fluxes_computation_mod   ../engine/source/multifluid/multi_muscl_fluxes_computation.F
+      !||--- called by ------------------------------------------------------
+      !||    multi_timeevolution                  ../engine/source/multifluid/multi_timeevolution.F
+      !||====================================================================
       MODULE MULTI_MUSCL_FLUXES_COMPUTATION_MOD
       CONTAINS
       !||====================================================================
-      !||    multi_muscl_fluxes_computation   ../engine/source/multifluid/multi_muscl_fluxes_computation.F
+      !||    multi_muscl_fluxes_computation     ../engine/source/multifluid/multi_muscl_fluxes_computation.F
       !||--- called by ------------------------------------------------------
-      !||    multi_timeevolution              ../engine/source/multifluid/multi_timeevolution.F
+      !||    multi_timeevolution                ../engine/source/multifluid/multi_timeevolution.F
       !||--- calls      -----------------------------------------------------
-      !||    arret                            ../engine/source/system/arret.F
-      !||    compute_pressure                 ../engine/source/multifluid/multi_muscl_fluxes_computation.F
-      !||    my_flush                         ../engine/source/system/machine.F
+      !||    arret                              ../engine/source/system/arret.F
+      !||    multi_muscl_compute_pressure       ../engine/source/multifluid/multi_muscl_compute_pressure.F90
+      !||    my_flush                           ../engine/source/system/machine.F
       !||--- uses       -----------------------------------------------------
-      !||    ale_connectivity_mod             ../common_source/modules/ale/ale_connectivity_mod.F
-      !||    elbufdef_mod                     ../common_source/modules/mat_elem/elbufdef_mod.F90
-      !||    initbuf_mod                      ../engine/share/resol/initbuf.F
-      !||    matparam_def_mod                 ../common_source/modules/mat_elem/matparam_def_mod.F90
-      !||    multi_fvm_mod                    ../common_source/modules/ale/multi_fvm_mod.F90
+      !||    ale_connectivity_mod               ../common_source/modules/ale/ale_connectivity_mod.F
+      !||    elbufdef_mod                       ../common_source/modules/mat_elem/elbufdef_mod.F90
+      !||    initbuf_mod                        ../engine/share/resol/initbuf.F
+      !||    matparam_def_mod                   ../common_source/modules/mat_elem/matparam_def_mod.F90
+      !||    multi_fvm_mod                      ../common_source/modules/ale/multi_fvm_mod.F90
+      !||    multi_muscl_compute_pressure_mod   ../engine/source/multifluid/multi_muscl_compute_pressure.F90
+      !||    multi_submatlaw_mod                ../engine/source/multifluid/multi_submatlaw.F
       !||====================================================================
       SUBROUTINE MULTI_MUSCL_FLUXES_COMPUTATION(
      .             NG, ELBUF_TAB, IPARG, ITASK,

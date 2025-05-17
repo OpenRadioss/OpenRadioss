@@ -47,7 +47,6 @@
       !||    cgrtails                            ../starter/source/elements/shell/coque/cgrtails.F
       !||    check_mat_elem_prop_compatibility   ../starter/source/materials/mat/check_mat_elem_prop_compatibility.F
       !||    cinit3                              ../starter/source/elements/shell/coque/cinit3.F
-      !||    compute_pressure                    ../engine/source/multifluid/multi_muscl_fluxes_computation.F
       !||    dfunc0                              ../engine/source/output/anim/generate/dfunc0.F
       !||    dfuncc                              ../engine/source/output/anim/generate/dfuncc.F
       !||    dfuncc_ply                          ../engine/source/output/anim/generate/dfuncc_ply.F
@@ -252,10 +251,12 @@
       !||    mulaw                               ../engine/source/materials/mat_share/mulaw.F90
       !||    multi_ebcs                          ../engine/source/multifluid/multi_ebcs.F
       !||    multi_inlet_ebcs                    ../engine/source/multifluid/multi_inlet_ebcs.F
+      !||    multi_muscl_compute_pressure        ../engine/source/multifluid/multi_muscl_compute_pressure.F90
       !||    multi_muscl_fluxes_computation      ../engine/source/multifluid/multi_muscl_fluxes_computation.F
       !||    multi_nrf_ebcs                      ../engine/source/multifluid/multi_nrf_ebcs.F
       !||    multi_pressure_equilibrium          ../engine/source/multifluid/multi_pressure_equilibrium.F
       !||    multi_propergol_ebcs                ../engine/source/multifluid/multi_propergol_ebcs.F90
+      !||    multi_solve_eint                    ../engine/source/multifluid/multi_solve_eint.F90
       !||    multi_submatlaw                     ../engine/source/multifluid/multi_submatlaw.F
       !||    multi_timeevolution                 ../engine/source/multifluid/multi_timeevolution.F
       !||    multifluid_init2                    ../starter/source/multifluid/multifluid_init2.F
@@ -305,7 +306,6 @@
       !||    sigeps81                            ../engine/source/materials/mat/mat081/sigeps81.F90
       !||    sigeps87c                           ../engine/source/materials/mat/mat087/sigeps87c.F90
       !||    sinit3                              ../starter/source/elements/solid/solide/sinit3.F
-      !||    solve_eint                          ../engine/source/multifluid/multi_inlet_ebcs.F
       !||    spgrhead                            ../starter/source/elements/sph/spgrhead.F
       !||    spgrtails                           ../starter/source/elements/sph/spgrtails.F
       !||    stat_inimap1d_file_spmd             ../engine/source/output/sta/stat_inimap1d_file_spmd.F

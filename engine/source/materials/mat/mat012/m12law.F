@@ -30,6 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    m14ftg             ../engine/source/materials/mat/mat014/m14ftg.F
       !||    m14gtf             ../engine/source/materials/mat/mat014/m14gtf.F
       !||--- uses       -----------------------------------------------------
+      !||    eosmain_mod        ../common_source/eos/eosmain.F
       !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||====================================================================
       SUBROUTINE M12LAW(

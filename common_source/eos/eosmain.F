@@ -20,6 +20,16 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    eosmain_mod        ../common_source/eos/eosmain.F
+      !||--- called by ------------------------------------------------------
+      !||    inigrav_eos        ../starter/source/initial_conditions/inigrav/inigrav_eos.F
+      !||    m12law             ../engine/source/materials/mat/mat012/m12law.F
+      !||    mmain              ../engine/source/materials/mat_share/mmain.F90
+      !||    multi_solve_eint   ../engine/source/multifluid/multi_solve_eint.F90
+      !||    multi_submatlaw    ../engine/source/multifluid/multi_submatlaw.F
+      !||    sigeps75           ../engine/source/materials/mat/mat075/sigeps75.F
+      !||====================================================================
       MODULE EOSMAIN_MOD
       contains
       !||====================================================================
@@ -28,9 +38,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    inigrav_eos          ../starter/source/initial_conditions/inigrav/inigrav_eos.F
       !||    m12law               ../engine/source/materials/mat/mat012/m12law.F
       !||    mmain                ../engine/source/materials/mat_share/mmain.F90
+      !||    multi_solve_eint     ../engine/source/multifluid/multi_solve_eint.F90
       !||    multi_submatlaw      ../engine/source/multifluid/multi_submatlaw.F
       !||    sigeps75             ../engine/source/materials/mat/mat075/sigeps75.F
-      !||    solve_eint           ../engine/source/multifluid/multi_inlet_ebcs.F
       !||--- calls      -----------------------------------------------------
       !||    compaction           ../common_source/eos/compaction.F90
       !||    compaction2          ../common_source/eos/compaction2.F90
