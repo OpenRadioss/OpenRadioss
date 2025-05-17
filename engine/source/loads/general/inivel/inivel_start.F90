@@ -117,12 +117,12 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      integer  :: i,j,id,n,ng,itype,igr,nosys,sens_id,iremain,iupdate
+      integer  :: i,j,id,n,ng,itype,nosys,sens_id,iremain,iupdate
       integer  :: igrs,igbric,igqd,igtria,isk,ifra,idir,ifm,k1,k2,k3
       integer  :: mtn,nel,nft,ii,n_ini
       integer , dimension(:) , allocatable :: itagvel
       my_real  :: tstart,tstart_s,tstart1,vx,vy,vz,vl(3), nixj(6),vlt(3),mas
-      my_real :: vl1, vl2, vl3,vra, ox, oy, oz,vr1,vr2,vr3,vrl1,vrl2,vrl3
+      my_real :: vra, ox, oy, oz
       type(g_bufel_), pointer :: gbuf
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body

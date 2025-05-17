@@ -49,17 +49,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IS,K,L,KSEG,SEGAD,IRECT(4)
-      my_real
-     .       ORIENT,
-     .       PEXT,PRES,VOL,RO,EN,
-     .       FAC,X13,Y13,Z13,X24,Y24,Z24,NX,NY,NZ,S,
-     .       VN1,VN2,VN3,VN4,VEL,VN,VPLUS,VMOINS,
-     .       GAM1,GAMRP,VCRT2,FLUXM,FLUXE,FLUX,
-     .       GV,RV,RSR,PN,ENIN,ROIN,ENOU,ROOU,PNS,FX,FY,FZ,
-     .       GAM,NORM,DMIN,DMOU,HIN,HOU,PNA
-      my_real
-     . PNA1,PNA2,PNA3,PNA4,RSR1,RSR2,RSR3,RSR4,AIRE
+      INTEGER IS,K,KSEG,SEGAD,IRECT(4)
+      my_real ORIENT,
+     .        PEXT,PRES,VOL,RO,EN,
+     .        FAC,X13,Y13,Z13,X24,Y24,Z24,NX,NY,NZ,S,
+     .        VN1,VN2,VN3,VN4,VEL,VN,VPLUS,VMOINS,
+     .        GAM1,GAMRP,VCRT2,FLUXM,FLUXE,FLUX,
+     .        GV,RV,RSR,PN,ENIN,ROIN,ENOU,ROOU,PNS,FX,FY,FZ,
+     .        GAM,NORM,DMIN,DMOU,HIN,HOU,PNA
+      my_real PNA1,PNA2,PNA3,PNA4,RSR1,RSR2,RSR3,RSR4,AIRE
 C=======================================================================
 C VOLUME MONITORE
       GAM   =VOLMON(1)
@@ -67,22 +65,20 @@ C VOLUME MONITORE
       PRES  =VOLMON(12)
       VOL   =VOLMON(16)
       RO    =VOLMON(20)/VOL
-C Energie volumique
+C volumetric Energy
       EN    =VOLMON(13)/VOL
-C Enthalpie massique
+C massic Enthalpy
       HIN   = (EN+PRES)/RO
-C
+
       GAM1 = ONE/(GAM-ONE)
       GAMRP= HALF*(GAM-ONE)/GAM
       VCRT2= TWO*GAM*PRES/RO/(GAM+ONE)
-C
+
       FLUX =ZERO
       FLUXM=ZERO
       FLUXE=ZERO
       AIRE =ZERO
-c
-c      write(7,*)pres
-C
+
       DO IS=1,NSEG
         DO K=1,4
           IRECT(K)=SURF_NODES(IS,K)
@@ -94,14 +90,12 @@ C
           FAC=FOURTH
         ENDIF
 C
-C INDEX SEGMENT ET ORIENTATION
+C INDICES FOR SEGMENTS, AND OREINTATIONS
 C
         KSEG=ABS(ISEG(IS))
         ORIENT=FLOAT(ISEG(IS)/KSEG)
-c        write(6,*)iseg(is),orient
-C
-C Normale surface
-C
+
+C NORMAL VECTORS
         X13=X(1,IRECT(3))-X(1,IRECT(1))
         Y13=X(2,IRECT(3))-X(2,IRECT(1))
         Z13=X(3,IRECT(3))-X(3,IRECT(1))
@@ -121,9 +115,7 @@ C
         ENDIF
         
 
-C
-C       VITESSE NORMALE
-C
+C NORMAL VELOCITIES
 c        write(6,*)iseg(is),nx,ny,nz
         VN1=V(1,IRECT(1))*NX+V(2,IRECT(1))*NY+V(3,IRECT(1))*NZ
         VN2=V(1,IRECT(2))*NX+V(2,IRECT(2))*NY+V(3,IRECT(2))*NZ
@@ -134,14 +126,10 @@ c        write(6,*)iseg(is),nx,ny,nz
         ELSE
           VN=FAC*(VN1+VN2+VN3+VN4)
         ENDIF
-c        VEL=(MIN(VN1,VN2,VN3,VN4))**2
-c        VEL=VN**2
-c        write(6,*)iseg(is),vn1,vn2,vn3,vn4
         VPLUS =MAX(VN,ZERO)
         VMOINS=MIN(VN,ZERO)
-c        IF(VN>=0.)VEL=0.
 C
-C CONDITION D'ARRET
+C STAGNATION POINT
 C
         VEL=MIN(VN1,ZERO)**2
         VEL=MIN(VEL,VCRT2)
@@ -202,24 +190,20 @@ C
           PNA=FAC*(PNA1+PNA2+PNA3+PNA4)
           RSR=FAC*(RSR1+RSR2+RSR3+RSR4)
         ENDIF
-C VALEURS FLUIDE RENTRANT
+C INCOMING FLOW
         ENIN = PNA*GAM1
         ROIN = RSR*RO
 C        ROIN =RO
 C        ENIN =EN
-C VALEURS FLUIDE SORTANT
+C OUTGOING FLOW
         SEGAD=ALE%GLOBAL%NVCONV*(KSEG-1)
         ROOU = SEGVAR%RHO(KSEG)
         ENOU = SEGVAR%EINT(KSEG)
-c        write(7,*)iseg(is),enin,roin,pn,vel,vn,s
-c        write(7,*)'       ',enou,roou
-C
-C stockage densit  et  nergie dans buffer facette
-C
+
         SEGVAR%RHO(KSEG)=ROIN
         SEGVAR%EINT(KSEG)=ENIN
 C
-C FLUX MASS ET ENTHALPIE VERS AIRBAG (>0 si rentrant)
+C MASS FLUX AND ENTHALPY TO AIRBAGS (>0 si rentrant)
 C airbag -> fluid 
 C hin  =  (Ea+Pa)/roa 
 C fluide -> airbag 
@@ -227,29 +211,24 @@ C hou = (Ef+P)/rof +1/2 v+^2
 C        HOU=(ENOU+PNA)/ROOU+0.5*VPLUS**2
 c
         HOU=GAM*ENOU/ROOU+HALF*VPLUS**2
-c        hin=enin/roin
-c        hou=enou/roou
-c        write(6,*)HIN,HOU,roin,roou,enin,enou
         DMIN=ROIN*VMOINS
         DMOU=ROOU*VPLUS        
         AIRE =AIRE +S
         FLUX =FLUX +S*VN
         FLUXM=FLUXM+S*(DMOU+DMIN)
         FLUXE=FLUXE+S*(HIN*DMIN+HOU*DMOU)
-c
-c application de la pression
-c 
-C PRESSION RELATIVE FLUIDE
+
+C RELATIVE PRESSURE
         PN  = PNA1-PEXT
         PNS=-PN*S*FAC
         FX=PNS*NX
         FY=PNS*NY
         FZ=PNS*NZ
-C
+
         A(1,IRECT(1))=A(1,IRECT(1))+FX
         A(2,IRECT(1))=A(2,IRECT(1))+FY
         A(3,IRECT(1))=A(3,IRECT(1))+FZ
-C
+
         PN  = PNA2-PEXT
         PNS=-PN*S*FAC
         FX=PNS*NX
@@ -258,7 +237,7 @@ C
         A(1,IRECT(2))=A(1,IRECT(2))+FX
         A(2,IRECT(2))=A(2,IRECT(2))+FY
         A(3,IRECT(2))=A(3,IRECT(2))+FZ
-C
+
         PN  = PNA3-PEXT
         PNS=-PN*S*FAC
         FX=PNS*NX
@@ -267,7 +246,7 @@ C
         A(1,IRECT(3))=A(1,IRECT(3))+FX
         A(2,IRECT(3))=A(2,IRECT(3))+FY
         A(3,IRECT(3))=A(3,IRECT(3))+FZ
-C
+
         IF(IRECT(4)/=IRECT(3))THEN
         PN  = PNA4-PEXT
         PNS=-PN*S*FAC
@@ -278,9 +257,9 @@ C
           A(2,IRECT(4))=A(2,IRECT(4))+FY
           A(3,IRECT(4))=A(3,IRECT(4))+FZ
         ENDIF
-C
+
       ENDDO
-C
+
        VOLMON(22)=VOLMON(22) - FLUXE
        VOLMON(24)=VOLMON(24) - FLUXM
        FLUX=-FLUX+FSAV(9)*FSAV(8)

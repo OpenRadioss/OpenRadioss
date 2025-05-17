@@ -58,11 +58,9 @@ C-------------------------------------------------------------------------------
 C--------------------------------------------------------------------------------------------------------
 C Local variables 
 C--------------------------------------------------------------------------------------------------------
-      INTEGER J, JJ, K, L, NDERS
-      my_real 
-     .  SAVED, TEMP, ALEFT, RIGHT
-      my_real, 
-     .  DIMENSION(PXI+1,PXI+1) :: ANDU
+      INTEGER J, K
+      my_real SAVED, TEMP, ALEFT, RIGHT
+      my_real, DIMENSION(PXI+1,PXI+1) :: ANDU
 
       ANDU(:,:)=ZERO
       ANDU(IDXII,1)=ONE

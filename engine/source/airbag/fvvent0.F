@@ -78,11 +78,9 @@ C-----------------------------------------------
       INTEGER IEL, K, N1, N2, N3, 
      .   IDEF,    IVENT,   IVENTYP,
      .   IPORT,   IPORP,   IPORA,  IPORT1, IPORP1, IPORA1,
-     .   NG,      IM,      IFVENT,  NFUNC,    MTN,
+     .   NG,      IM,      NFUNC,  MTN,
      .   ILEAKAGE,IBLOCKAGE
       INTEGER JEL, NFT, NELG
-C
-C     REAL
       my_real
      .   PEXT,  AVENT, BVENT, AOUT,   AOUT1, 
      .   FPORT, FPORP, FPORA, FPORT1, FPORP1, FPORA1, DERI, 
@@ -92,24 +90,23 @@ C     REAL
       my_real GET_U_FUNC
       EXTERNAL GET_U_FUNC
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-C
       PEXT =RVOLU(3)
       SCALT=RVOLU(26)    
       SCALP=RVOLU(27)    
       SCALS=RVOLU(28)
       TTF  =RVOLU(60)
-C
+
       DO IVENT=1,NVENT
          SVENT(IVENT)=ZERO
       ENDDO
-C
+
       DO IEL=1,NELT
          IF (ITAGEL(IEL)<0) THEN
             IVENT=-ITAGEL(IEL)
             SVENT(IVENT)=SVENT(IVENT)+ELAREA(IEL)
          ENDIF
       ENDDO
-C
+
       DO IVENT=1,NVENT
         RBAGHOL(16,IVENT)=ZERO
         RBAGHOL(17,IVENT)=ZERO
@@ -137,53 +134,42 @@ C-------------
 C  VENT HOLES
 C-------------
            IF(IVENTYP==0)THEN
-C
+
             AINI=ELSINI(IEL)
             EXTEN=AREA/AINI
-C            
+
             IDEF=IBAGHOL(1,IVENT)
             IF (IDEF==0.OR.IDEF==2) CYCLE
             AVENT =RBAGHOL(2,IVENT)
             BVENT =RBAGHOL(6,IVENT)
             TVENT =RBAGHOL(3,IVENT)
-C
+
             IPORT =IBAGHOL(3,IVENT)
             IPORP =IBAGHOL(4,IVENT)
             IPORA =IBAGHOL(5,IVENT)
             IPORT1=IBAGHOL(6,IVENT)
             IPORP1=IBAGHOL(7,IVENT)
             IPORA1=IBAGHOL(8,IVENT)
-C
+
             FPORT =RBAGHOL(7,IVENT) 
             FPORP =RBAGHOL(8,IVENT) 
             FPORA =RBAGHOL(9,IVENT) 
             FPORT1=RBAGHOL(10,IVENT)
             FPORP1=RBAGHOL(11,IVENT)
             FPORA1=RBAGHOL(12,IVENT)
-C
+
             AOUT=AVENT*AREA*(ONE-PORO(IEL))
             AOUT1=BVENT*AREA*PORO(IEL)
             TT1=TT-TTF
             IF (ITTF==13) TT1=TT-TTF-TVENT
-            IF (IPORA/=0) 
-     .         AOUT=AOUT*FPORA
-     .                  *GET_U_FUNC(IPORA,EXTEN,DERI)
-            IF (IPORT/=0)
-     .         AOUT=AOUT*FPORT
-     .                  *GET_U_FUNC(IPORT,TT1*SCALT,DERI)
-            IF (IPORP/=0)
-     .         AOUT=AOUT*FPORP
-     .                  *GET_U_FUNC(IPORP,(PMEAN-PEXT)*SCALP,DERI)
+            IF (IPORA/=0) AOUT=AOUT*FPORA*GET_U_FUNC(IPORA,EXTEN,DERI)
+            IF (IPORT/=0)AOUT=AOUT*FPORT*GET_U_FUNC(IPORT,TT1*SCALT,DERI)
+            IF (IPORP/=0)AOUT=AOUT*FPORP*GET_U_FUNC(IPORP,(PMEAN-PEXT)*SCALP,DERI)
 C
-            IF (IPORA1/=0) 
-     .         AOUT1=AOUT1*FPORA1
-     .                    *GET_U_FUNC(IPORA1,EXTEN,DERI)
-            IF (IPORT1/=0)
-     .         AOUT1=AOUT1*FPORT1
-     .                    *GET_U_FUNC(IPORT1,TT1*SCALT,DERI)
-            IF (IPORP1/=0)
-     .         AOUT1=AOUT1*FPORP1
-     .                    *GET_U_FUNC(IPORP1,(PMEAN-PEXT)*SCALP,DERI)
+            IF (IPORA1/=0) AOUT1=AOUT1*FPORA1*GET_U_FUNC(IPORA1,EXTEN,DERI)
+            IF (IPORT1/=0)AOUT1=AOUT1*FPORT1*GET_U_FUNC(IPORT1,TT1*SCALT,DERI)
+            IF (IPORP1/=0)AOUT1=AOUT1*FPORP1*GET_U_FUNC(IPORP1,(PMEAN-PEXT)*SCALP,DERI)
+
 C------------------
 C POROSITY
 C------------------
@@ -195,11 +181,11 @@ C------------------
             TT1=TT-TTF-TVENT
             ENDIF
             SVTFAC=ZERO
-C
+
             IM  = MATTG(IEL)
             MTN = IPM(2,IM)
             IF (MTN/=19.AND.MTN/=58) CYCLE
-C
+
             ILEAKAGE = IPM(4,IM)
             NFUNC    = IPM(10,IM)+IPM(6,IM)
             IF(ILEAKAGE==0) THEN
@@ -246,15 +232,14 @@ C
                   NELG = IPARG(2,NG)
                   NFT  = IPARG(3,NG)
                   JEL  = K-NFT
-                  CALL PORFORM5(SVTFAC,IM,IPM,PM,ELBUF_TAB(NG),P,PEXT,
-     .                          JEL,NELG)
+                  CALL PORFORM5(SVTFAC,IM,IPM,PM,ELBUF_TAB(NG),P,PEXT,JEL,NELG)
                   AREA=ELSINI(IEL)
                 ENDIF
             ELSEIF(ILEAKAGE==6) THEN
                 AINI=ELSINI(IEL)
                 CALL PORFORM6(SVTFAC,IM,PM,AREA,AINI,P,PEXT)
             ENDIF
-C
+
             IF(INTBAG==0) THEN
                AOUT = AREA*SVTFAC
                AOUT1= ZERO
@@ -277,12 +262,12 @@ C
                ENDIF
             ENDIF
            ENDIF  ! vent hole or porous surface
-C
+
            ELSOUT(IEL)=AOUT+AOUT1
            AOUTOT=AOUTOT+ELSOUT(IEL)
            RBAGHOL(16,IVENT)=RBAGHOL(16,IVENT)+AOUT
            RBAGHOL(17,IVENT)=RBAGHOL(17,IVENT)+AOUT1
-C Triangle interne
+C internal Triangle
            IF(IEL > NEL) THEN
               POROSITY(IEL-NEL)=MIN(ONE,ELSOUT(IEL)/AREA)
            ENDIF

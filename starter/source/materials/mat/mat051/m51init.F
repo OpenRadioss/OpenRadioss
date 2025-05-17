@@ -67,17 +67,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NUVAR, GG1, GG2, GG3, ISFLUID
-      INTEGER NPH,IFLG,NV46,ISUBW,ISUBA,NL
-      INTEGER M_IID,M_UID,IE,IMAT
-      INTEGER N(3,8),ITER,NITER,KK,NUMEL
-      my_real C0,C1,C2,C3,C4,C5,E0,EF,PF,RHOF,EINTF,RHOE
-      my_real A1,RHO0_LIQ,RHO0_GAS,GAM,PMIN,PSH,
-     .        XBAS,YBAS,ZBAS,
-     .        NX,NY,NZ,
-     .        GRAV,Z(3),DEPTH,RHO,POLD,DELTA_P,RHO_LIQ,RHO_GAS,DOTPROD,BZ(3),HEIGHT,VOLD,
-     .        F,Fp,mu,
-     .        T0_(4),C0_(4),C1_(4),C2_(4),C3_(4),C4_(4),C5_(4),E0_(4),RHO0_(4),VF(4),P0(4),PEXT,PRES_0
+      INTEGER I,NUVAR, GG1, GG2, GG3, ISFLUID
+      INTEGER NPH,IFLG,NV46
+      INTEGER IMAT
+      INTEGER KK,NUMEL
+      my_real VOLD,T0_(4),C0_(4),C1_(4),C2_(4),C3_(4),C4_(4),C5_(4),E0_(4),RHO0_(4),VF(4),P0(4),PEXT,PRES_0
       my_real,intent(inout) :: TB(NEL)
       LOGICAL IS_IFORM12
 C-----------------------------------------------

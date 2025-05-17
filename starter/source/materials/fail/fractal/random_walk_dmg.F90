@@ -95,9 +95,9 @@
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-      integer :: i,j,k,k_prv,k_nxt,nix
+      integer :: i,j,k,k_nxt,nix
       integer :: seed,i_seed
-      integer :: n_rwalk,nstart,ntarget,iwalk,istart
+      integer :: n_rwalk,nstart,iwalk
       integer :: iel,count,stop_walk,prv,current,nxt
       integer :: curr_id,nxt_id,trgt_id
       integer :: igr4n_start,igr3n_start,igr4n_target,igr3n_target
@@ -109,7 +109,7 @@
       my_real :: dmg,probability
       my_real :: random_value
       logical :: random_start,random_target
-      integer :: debug,ibid
+      integer :: debug
       integer ,external :: ngr2usrn
 
       data nxtk4/2,3,4,1,2,3/

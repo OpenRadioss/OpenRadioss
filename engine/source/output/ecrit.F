@@ -684,13 +684,7 @@ C----------------
  1000 FORMAT('   CYCLE    TIME      TIME-STEP  ELEMENT          ',
      +       'ERROR  I-ENERGY    K-ENERGY T  K-ENERGY R  ',
      +       'EXT-WORK     MAS.ERR     TOTAL MASS  MASS ADDED')
- 1050 FORMAT(1H1,'  CYCLE',4X,'TIME',6X,'TIME-STEP',2X,'ELEMENT',5X,
-     +       'K-ENERGY R',2X,'K-ENERGY T',4X,'I-ENERGY',4X,'ERROR',3X,
-     +       'MASS',7X,'X-MOMENT',4X,'Y-MOMENT',4X,'Z-MOMENT' )
  1100 FORMAT(I8,2(1X,G11.4),1X,A5,1X,I10,1X,F5.1,1H%,7(1X,G11.4))
- 1200 FORMAT(' TIME=',G10.4,
-     +          'I-ENERGY   ','K-ENERGY   ','MASS       ',
-     +          'X-MOMENT   ','Y-MOMENT   ','Z-MOMENT   '  )
 C
       RETURN
       END

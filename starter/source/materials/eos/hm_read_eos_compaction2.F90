@@ -98,7 +98,6 @@
       integer :: jfunc !< loop
       my_real :: Fscale, Xscale !< function scale factors
       my_real :: bmin, bmax !< unload modulus
-      my_real :: dpdm0 !< total derivative at initial time
       my_real :: tmp, dpdmu_mumax, dpdmu_mumin
 
       my_real :: FAC_M,FAC_L,FAC_T,FAC_PRES !< factors for unit translation (case iunit > 0)
@@ -119,6 +118,7 @@
       is_available = .false.
       is_available_rho0 = .false.
       iform=0
+      p0=zero
 
       eos_tag(ieos)%g_mu = 1
       eos_tag(ieos)%l_mu = 1

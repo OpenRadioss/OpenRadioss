@@ -85,7 +85,7 @@ C-----------------------------------------------
       INTEGER :: NEL  !< number of elems in current group
       INTEGER IV(6), IE
       my_real :: GRAD(3) , Xi(8), Yi(8), Zi(8) , SCH 
-      INTEGER :: MAT , NC(8)
+      INTEGER :: NC(8)
       my_real :: N(3,6,MVSIZ), RHO(6),  VALVOIS(6), AREA(MVSIZ), NX, A1, A2
       INTEGER :: IAD2, LGTH
 C-----------------------------------------------

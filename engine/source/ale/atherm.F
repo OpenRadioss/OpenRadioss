@@ -91,7 +91,6 @@ C-----------------------------------------------
       TYPE(G_BUFEL_)  ,POINTER :: GBUF
       INTEGER :: NEL !< number of elements in current group
       INTEGER :: MID !< material identifier
-      my_real :: CP ! heat capacity at constant pressure
       my_real :: rhocp !< density * heat capacity at constant pressure
 C-----------------------------------------------
 C   S o u r c e   L i n e s 

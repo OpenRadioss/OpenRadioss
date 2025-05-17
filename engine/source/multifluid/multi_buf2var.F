@@ -59,7 +59,7 @@ C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: NBMAT, IMAT, II, I, NG, MATLAW, NEL, NFT
-      my_real :: VOL, CUMUL_ALPHA(MVSIZ)
+      my_real :: VOL
       TYPE(G_BUFEL_), POINTER :: GBUF
       TYPE(L_BUFEL_), POINTER :: LBUF
 

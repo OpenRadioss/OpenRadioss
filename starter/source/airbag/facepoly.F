@@ -63,7 +63,7 @@ C-----------------------------------------------
      .        TEDGE(3*NTRI,3), EDGE(3*NTRI,3), N1, N2, IPOUT, M, MM,
      .        NHOL, IADHOL(NPOLMAX), ISEG3_OLD(5*NTRI), IDIFF, NSEC,
      .        KSMIN,NOK,ISSEGOLD
-      INTEGER ID0, KSEG, JSEG(4), J3, ID3, IP0SEG
+      INTEGER  JSEG(4), IP0SEG
       INTEGER IADR(4), I1, I2, I3, I4, L, ICMAX, IMIN, IMAX, ALGO
       INTEGER TEMP(5*NTRI),JTAG(2,5*NTRI)
       my_real

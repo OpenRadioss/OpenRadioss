@@ -84,7 +84,7 @@
  !-----------------------------------------------
       integer fs, ifem11t,ifxc,ifem11c,ifxt,ifem22t,ifyc,ifyt,      &
        ifzt,ifzc,ifem33t,ifem33c, ifems, ifems13,ifsc13,            &
-       ifem23, ifsc23,ifsc,ifgamma,iferods,ifgamma2,ifgamma3,       &
+       ifsc23,ifsc,ifgamma,iferods,ifgamma2,ifgamma3,       &
        iftau, iftau2,iftau3,ifem22c,ifems23,ilaw,damage
       my_real                                                         &
          rho0,e1,e2,e3,g12,g23,g13,nu12,nu21,nu23,nu31,nu13,soft,     &

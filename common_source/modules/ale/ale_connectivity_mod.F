@@ -699,11 +699,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER :: II, JJ,KK, NODE_ID, NODE1, NODE2, INODE
+        INTEGER :: II, JJ,KK, NODE_ID, INODE
         LOGICAL :: DUPLICATE
         INTEGER, DIMENSION(:), ALLOCATABLE :: ADSKY
-        INTEGER :: IAD1, IAD2, ITMP, IAD
-        INTEGER, DIMENSION(:), ALLOCATABLE :: IDX
+        INTEGER :: IAD1, ITMP, IAD
         INTEGER, DIMENSION(:), ALLOCATABLE :: IAD_CONNECT, NE_NB_CONNECT, CONNECTED, TYPE, EE_NB_CONNECT,ITAG
         INTEGER(8) :: VEC_PTR1
         INTEGER :: JAL_FROM_MAT, JAL_FROM_PROP, JAL, JALT, MLW, IMID, TMP, COUNT, JTHE, JSHADOW

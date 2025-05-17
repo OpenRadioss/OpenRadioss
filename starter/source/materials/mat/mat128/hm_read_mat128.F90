@@ -93,7 +93,7 @@
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
       logical :: is_available,is_encrypted
-      integer :: i,j,ilaw,func_id,ndim,npt,nepsd,ierr
+      integer :: ilaw,func_id,ndim,ierr
       my_real :: rho0,young,shear,bulk,nu
       my_real :: qr1,qr2,qx1,qx2,cr1,cr2,cx1,cx2
       my_real :: r00,r45,r90,rr          
@@ -103,7 +103,7 @@
       my_real :: fcut,asrate,xfac,yfac,fisokin
       my_real :: epsp_unit,pres_unit
       my_real :: x1scale,x2scale,x3scale,x4scale
-      my_real :: x1vect(1),x2vect(1),x3vect(1),x4vect(1),fscale(1)
+      my_real :: x2vect(1),x3vect(1),x4vect(1),fscale(1)
 !-----------------------------------------------
 !   S o u r c e   L i n e s 
 !===============================================================================    

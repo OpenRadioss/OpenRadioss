@@ -79,7 +79,7 @@
 !-----------------------------------------------
 !    L o c a l   v a r i a b l e s
 !-----------------------------------------------
-      integer :: i,j,ib,nix,p_switch,iter,irand,idebug
+      integer :: i,ib,p_switch,iter,irand,idebug
       my_real :: v0,vm,randp,a_drb,exp_n,k_ic,kcm,af,afp,al,crleN
       my_real :: eta,eta1,eta2,beta1,beta2,tau1,tau2,eta_drb,beta_drb,tau_drb,betai
       my_real :: p_scale,ff,phi,facn,ns1,ns2,ns3,ns4,m1,m2,thkm,aldtm,yiter

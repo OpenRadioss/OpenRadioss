@@ -74,7 +74,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K,MX
+      INTEGER I,MX
       my_real AMU(MVSIZ), SUM,DTR,DTREP_R,DIVDE(MVSIZ),JAC_M(MVSIZ),JAC(MVSIZ),FAC,BASE,JFAC,DVDP
       DOUBLE PRECISION VOL0DP(*),VOLDP(*),SUMDP
 C-----------------------------------------------

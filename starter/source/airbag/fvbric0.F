@@ -63,9 +63,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: ADSKY, ADDCNEL, CNE
-      INTEGER I, J, NG, NNO, NFAC, NV, NG2, NNF, NNF2, NNOF, NNOF2, 
-     .        NC, NNO2, K, TNC(4), TNV(5,6), KK, L, NN1, K2, 
-     .        LL, NTYPE, NTYPE2, NODEID 
+      INTEGER I, J, NG, NNO, NG2, NNF, NNF2, NNOF, NNOF2,
+     .        NNO2, K, KK, K2,
+     .        NTYPE, NTYPE2, NODEID
       INTEGER, TARGET :: REDIRT(4), REDIRP(6), REDIRB(8), REDIRPY(5)
       INTEGER, DIMENSION(:), POINTER :: REDIR2, REDIR
 C

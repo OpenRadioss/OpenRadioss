@@ -122,7 +122,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,j,l,k,m,n,ns,isu1,isu2,nsu1,nsu2,l1,l2,id,inrt, nels, nelc, neltg,nint,iad,ii,ix(4),seg_n
+          integer :: i,j,l,k,n,ns,isu1,isu2,nsu1,nsu2,l1,l2,id,inrt, nels, nelc, neltg,nint,iad,ii,ix(4),seg_n
           integer,  dimension(:), allocatable :: itags1,itags2,itagn,igrelem
           my_real :: rem,area
 ! ----------------------------------------------------------------------------------------------------------------------
