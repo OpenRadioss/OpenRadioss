@@ -82,6 +82,8 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
       USE SPH_STRUCT_MOD
+      USE spmd_mod
+      USE sph_crit_voxel_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -141,15 +143,20 @@ C-----------------------------------------------
       INTEGER I,N,NG,JFT,JLT,K,NELEM,NEL,OFFSET,
      .   ISORTSP,INOD,JNOD,J,NVOIS,M,IREDUCE,NS,
      .   KVNORM,IPRT,NSP2SORTF,NSP2SORTL,
-     .   ISORTSPG,IERROR
+     .   ISORTSPG,IERROR,NBK,VOXSIZ
       my_real
      .       DX,DY,DZ,
      .       DXMIN,DXMAX,DYMIN,DYMAX,DZMIN,DZMAX,MAJORD,
      .       DXMINL,DXMAXL,DYMINL,DYMAXL,DZMINL,DZMAXL,
      .       DSX,DSY,DSZ,MAXDS,MAJORDS,SPALINR,MYSPATRUE,
      .       XMAX,YMAX,ZMAX, DMAX, BUFTMP(6),DBUC, BMINMA
+      my_real   
+     .       XMIN,YMIN,ZMIN,DIAM_MAX,MAJORD_VOX,
+     .       XMINL,YMINL,ZMINL,XMAXL,YMAXL,ZMAXL,DIAM_MAXL,
+     .       TMP1(13),TMPO(13)
 C-----------------------------------------------
-      SAVE ISORTSPG,DXMIN,DXMAX,DYMIN,DYMAX,DZMIN,DZMAX
+      SAVE   ISORTSPG,DXMIN,DXMAX,DYMIN,DYMAX,DZMIN,DZMAX,
+     .       XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX,DIAM_MAX
 C=======================================================================
       KVNORM=16*NUMSPH+1
 C
@@ -215,7 +222,15 @@ C
         DZMIN= EP20
         DXMAX=-EP20
         DYMAX=-EP20
-        DZMAX=-EP20     
+        DZMAX=-EP20  
+C        
+        XMIN = EP20
+        YMIN = EP20
+        ZMIN = EP20
+        XMAX =-EP20
+        YMAX =-EP20
+        ZMAX =-EP20
+        DIAM_MAX = -EP20   
       END IF
 C-----------------------------------------------
 C
@@ -238,7 +253,16 @@ C       echange des particules reelles/symetriques si traversee.
         DZMINL= EP20
         DXMAXL=-EP20
         DYMAXL=-EP20
-        DZMAXL=-EP20     
+        DZMAXL=-EP20             
+C
+        XMINL = EP20
+        YMINL = EP20
+        ZMINL = EP20
+        XMAXL =-EP20
+        YMAXL =-EP20
+        ZMAXL =-EP20
+        DIAM_MAXL = -EP20
+C
         DO NS=NSP2SORTF,NSP2SORTL
           N=WSP2SORT(NS)
           INOD=KXSP(3,N)
@@ -251,6 +275,14 @@ C       echange des particules reelles/symetriques si traversee.
           DXMAXL=MAX(DXMAXL,DX)
           DYMAXL=MAX(DYMAXL,DY)
           DZMAXL=MAX(DZMAXL,DZ)
+C
+          XMINL=MIN(XMINL,X(1,INOD))
+          YMINL=MIN(YMINL,X(2,INOD))
+          ZMINL=MIN(ZMINL,X(3,INOD))
+          XMAXL=MAX(XMAXL,X(1,INOD))
+          YMAXL=MAX(YMAXL,X(2,INOD))
+          ZMAXL=MAX(ZMAXL,X(3,INOD))
+          DIAM_MAXL = MAX(DIAM_MAXL, SPBUF(1,N))
         ENDDO
 C
         DO N=ITASK+1,NBGAUGE,NTHREAD
@@ -264,16 +296,31 @@ C
             DXMAXL=MAX(DXMAXL,DX)
             DYMAXL=MAX(DYMAXL,DY)
             DZMAXL=MAX(DZMAXL,DZ)
+C
+            XMINL=MIN(XMINL,GAUGE(2,N))
+            YMINL=MIN(YMINL,GAUGE(3,N))
+            ZMINL=MIN(ZMINL,GAUGE(4,N))
+            XMAXL=MAX(XMAXL,GAUGE(2,N))
+            YMAXL=MAX(YMAXL,GAUGE(3,N))
+            ZMAXL=MAX(ZMAXL,GAUGE(4,N))
+            DIAM_MAXL = MAX(DIAM_MAXL, SPBUF(1,N))
           END IF
         END DO
 C
-#include      "lockon.inc"
+#include      "lockon.inc"              
         DXMIN=MIN(DXMIN,DXMINL)
         DYMIN=MIN(DYMIN,DYMINL)
         DZMIN=MIN(DZMIN,DZMINL)
         DXMAX=MAX(DXMAX,DXMAXL)
         DYMAX=MAX(DYMAX,DYMAXL)
-        DZMAX=MAX(DZMAX,DZMAXL)
+        DZMAX=MAX(DZMAX,DZMAXL)     
+        XMIN=MIN(XMIN,XMINL)   
+        YMIN=MIN(YMIN,YMINL)
+        ZMIN=MIN(ZMIN,ZMINL)
+        XMAX=MAX(XMAX,XMAXL)
+        YMAX=MAX(YMAX,YMAXL)
+        ZMAX=MAX(ZMAX,ZMAXL)
+        DIAM_MAX=MAX(DIAM_MAX,DIAM_MAXL)
 #include      "lockoff.inc"
 C-----------------------------------------------
 C  Communication Min/Max en SPMD
@@ -283,7 +330,33 @@ C
 C
         IF(ITASK==0)THEN
           IF(NSPMD>1)THEN
-            CALL SPMD_MIN_MAX(DXMIN,DYMIN,DZMIN,DXMAX,DYMAX,DZMAX)
+            TMP1(1)  = -DXMIN
+            TMP1(2)  = -DYMIN
+            TMP1(3)  = -DZMIN
+            TMP1(4)  = -XMIN
+            TMP1(5)  = -YMIN
+            TMP1(6)  = -ZMIN
+            TMP1(7)  = DXMAX
+            TMP1(8)  = DYMAX
+            TMP1(9)  = DZMAX
+            TMP1(10) = XMAX
+            TMP1(11) = YMAX
+            TMP1(12) = ZMAX
+            TMP1(13) = DIAM_MAX
+            CALL SPMD_ALLREDUCE(TMP1,TMPO,13,SPMD_MAX)
+            DXMIN = -TMPO(1)
+            DYMIN = -TMPO(2)
+            DZMIN = -TMPO(3)
+            XMIN  = -TMPO(4)
+            YMIN  = -TMPO(5)
+            ZMIN  = -TMPO(6)
+            DXMAX =  TMPO(7)
+            DYMAX =  TMPO(8)
+            DZMAX =  TMPO(9)
+            XMAX  =  TMPO(10)
+            YMAX  =  TMPO(11)
+            ZMAX  =  TMPO(12)
+            DIAM_MAX = TMPO(13)
           END IF   
 C
           DX=DXMAX-DXMIN
@@ -307,21 +380,55 @@ C-----------------------------------------------
             CALL SPMD_ALLGLOB_ISUM9(ISORTSP,1)
             IF(ISORTSP>1)ISORTSP=1
           END IF
+          ISORTSPG = ISORTSP
+        ENDIF       
+C   
+        CALL MY_BARRIER
+        IF (ITASK/= 0) ISORTSP = ISORTSPG 
+C 
+C-----------------------------------------------
+C  Use of voxels to improve evaluation of majord for sorting criteria
+C-----------------------------------------------
+        IF (ISORTSP==1) THEN
+          NBK = SPH_WORK%voxel_nb      
+          VOXSIZ = 7*NBK*NBK*NBK
+          call sph_crit_voxel(xmax     ,ymax     ,zmax      ,xmin      ,ymin    ,
+     1                        zmin     ,diam_max ,voxsiz    ,majord_vox,nbk     ,
+     2                        nsp2sortf,nsp2sortl,itask     ,nbgauge   ,nthread ,
+     3                        lgauge   ,numels   ,spbuf     ,wsp2sort  ,kxsp    ,
+     4                        nisp     ,nspbuf   ,numsph    ,x         ,numnod  ,
+     5                        llgauge  ,gauge    ,nspmd     ,sph_work%voxel)  
 C
-        ENDIF    ! fin tache 0
+          IF (ITASK==0) THEN
+            ISORTSP=0
+            DO NS=1,NSP2SORT
+              N=WSP2SORT(NS)
+              IF(SPALINR*SPBUF(8,N)-majord_vox<=SPBUF(1,N))THEN
+               ISORTSP=1
+               EXIT
+              ENDIF
+            ENDDO
+            IF(NSPMD>1)THEN
+              CALL SPMD_ALLGLOB_ISUM9(ISORTSP,1)
+              IF(ISORTSP>1)ISORTSP=1
+            END IF
+          ENDIF   
+          
+        ENDIF     
+C
       ENDIF ! IF(ISORTSP==0)THEN
 C   
       IF(ITASK==0)THEN
         ISPHRED=0
         ISORTSPG = ISORTSP
-      ENDIF    
+      ENDIF        
 C   
       IREDUCE=0
 C    /---------------/      
       CALL MY_BARRIER
 C    /---------------/
 
-      IF (ITASK/= 0) ISORTSP = ISORTSPG
+      IF (ITASK/= 0) ISORTSP = ISORTSPG 
 
       SPH_WORK%WREDUCE(1+ITASK*NUMSPH/NTHREAD:(ITASK+1)*NUMSPH/NTHREAD)=0
       
@@ -470,8 +577,8 @@ C
         MYSPATRUE=SPATRUE
 C       re-tri voisins (voisins vrais, voisins dans la zone de securite).
         CALL SPCLASV(X     ,SPBUF ,KXSP    ,IXSP   ,NOD2SP   ,
-     1         ISPSYM,XSPSYM%BUF,WSP2SORT ,ITASK  ,MYSPATRUE,
-     2         IREDUCE,SPH_WORK%WREDUCE,LGAUGE ,GAUGE ,ISORTSP)
+     1               ISPSYM,XSPSYM%BUF,WSP2SORT ,ITASK  ,MYSPATRUE,
+     2               IREDUCE,SPH_WORK%WREDUCE,LGAUGE ,GAUGE ,ISORTSP)
 C
 C      /---------------/
         CALL MY_BARRIER
@@ -575,7 +682,7 @@ C       re-tri voisins (voisins vrais, voisins dans la zone de securite).
         MYSPATRUE=ZERO
         CALL SPCLASV(X     ,SPBUF ,KXSP    ,IXSP   ,NOD2SP  ,
      1               ISPSYM,XSPSYM%BUF,WSP2SORT ,ITASK  ,MYSPATRUE,
-     2         IREDUCE,SPH_WORK%WREDUCE,LGAUGE ,GAUGE ,ISORTSP)
+     2               IREDUCE,SPH_WORK%WREDUCE,LGAUGE ,GAUGE ,ISORTSP)
 C      /---------------/
         CALL MY_BARRIER
 C      /---------------/
