@@ -564,8 +564,8 @@ jobs:
         if: ${{ always() && env.CLOSE_BRANCH == 1 && steps.close_branch_build.outputs.status != 200 }} 
 
   qa_windows_no_container:
-
-    needs: build_windows_no_container
+    # QA windows needs build linux because extlib is provided as artifact there
+    needs: [build_linux,build_windows_no_container]
     runs-on: ["qa_${{ matrix.os }}","prmerge_ci"]
 
     env:
