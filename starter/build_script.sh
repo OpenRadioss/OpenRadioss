@@ -367,6 +367,7 @@ then
     pwd
     cd ../../scripts
     python3 ./static_analysis.py starter
+    return_value=$?
 fi
 fi
 

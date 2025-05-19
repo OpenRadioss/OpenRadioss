@@ -415,15 +415,26 @@ if __name__ == "__main__":
     print("\n\n")
     print("=== SUMMARY ===")
     count_new_errors = 0 
+    count_new_warnings = 0
     #compare the two lists
     for hash in list_of_hashes:
         if hash not in list_of_old_hashes:
-            count_new_errors += 1
             print("New issue found: ", hash)
             print(new_errors[hash])
+            #if new_errors[hash] contains "WARNING", then it is a warning
+            if "WARNING" in new_errors[hash]:
+                count_new_warnings += 1
+            else:
+                count_new_errors += 1
 #       else:
 #           print("Issue already known: ")
 #           print(new_errors[hash])
 #           print(old_errors[hash])
 
-    print("Total number of new issues: ", count_new_errors)
+    print("Total number of new errors: ", count_new_errors)
+    #if count_new_errors > 0 , return an error code
+    if count_new_errors > 0:
+        sys.exit(1)
+    else:
+        sys.exit(0)
+

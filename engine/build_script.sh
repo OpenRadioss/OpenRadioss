@@ -419,15 +419,6 @@ then
     echo " "
 fi
 
-if [ $return_value -ne 0 ]
-then
-   echo " " 
-   echo " " 
-   echo "-- Errors in Build found"
-   cd ..
-   exit 1
-fi
-
 if [ $debug == 'analysis' ]
 then
 if [ $return_value -eq 0 ]
@@ -435,7 +426,17 @@ then
     pwd
     cd ../../scripts
     python3 ./static_analysis.py engine 
+    return_value=$?
 fi
+fi
+
+if [ $return_value -ne 0 ]
+then
+   echo " " 
+   echo " " 
+   echo "-- Errors in Build found"
+   cd ..
+   exit 1
 fi
 
 
