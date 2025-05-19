@@ -24,7 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spmd_min_max    ../engine/source/mpi/anim/spmd_min_max.F
       !||--- called by ------------------------------------------------------
       !||    scanor          ../engine/source/output/anim/generate/scanor.F
-      !||    sphprep         ../engine/source/elements/sph/sphprep.F
       !||--- calls      -----------------------------------------------------
       !||====================================================================
       SUBROUTINE SPMD_MIN_MAX(X1,Y1,Z1,X2,Y2,Z2)

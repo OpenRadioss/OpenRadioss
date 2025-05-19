@@ -225,6 +225,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sigeps57c                                ../engine/source/materials/mat/mat057/sigeps57c.F90
       !||    sigeps81                                 ../engine/source/materials/mat/mat081/sigeps81.F90
       !||    sigeps87c                                ../engine/source/materials/mat/mat087/sigeps87c.F90
+      !||    sph_crit_voxel                           ../engine/source/elements/sph/sph_crit_voxel.F90
       !||    spmd_exch_flow_tracking_data             ../engine/source/ale/grid/spmd_exch_flow_tracking_data.F90
       !||    spmd_exch_flow_tracking_data2            ../engine/source/ale/grid/spmd_exch_flow_tracking_data2.F90
       !||    spmd_exch_flow_tracking_data3            ../engine/source/ale/grid/spmd_exch_flow_tracking_data3.F90

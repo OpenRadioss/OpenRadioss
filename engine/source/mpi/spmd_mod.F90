@@ -28,6 +28,7 @@
       !||    python_element_init             ../engine/source/mpi/python_spmd_mod.F90
       !||    python_element_sync             ../engine/source/mpi/python_spmd_mod.F90
       !||    resol                           ../engine/source/engine/resol.F
+      !||    sph_crit_voxel                  ../engine/source/elements/sph/sph_crit_voxel.F90
       !||    sphprep                         ../engine/source/elements/sph/sphprep.F
       !||    sphtri0                         ../engine/source/elements/sph/sphtri0.F
       !||    spmd_all_dmax                   ../engine/source/mpi/elements/spmd_sph.F

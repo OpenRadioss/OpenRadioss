@@ -21,13 +21,14 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
-      !||    sph_work_mod   ../common_source/modules/mat_elem/sph_work.F90
+      !||    sph_work_mod     ../common_source/modules/mat_elem/sph_work.F90
       !||--- called by ------------------------------------------------------
-      !||    forintp        ../engine/source/elements/forintp.F
-      !||    resol          ../engine/source/engine/resol.F
-      !||    sphprep        ../engine/source/elements/sph/sphprep.F
-      !||    splissv        ../engine/source/elements/sph/splissv.F
-      !||    sponfv         ../engine/source/elements/sph/sponfv.F
+      !||    forintp          ../engine/source/elements/forintp.F
+      !||    resol            ../engine/source/engine/resol.F
+      !||    sph_crit_voxel   ../engine/source/elements/sph/sph_crit_voxel.F90
+      !||    sphprep          ../engine/source/elements/sph/sphprep.F
+      !||    splissv          ../engine/source/elements/sph/splissv.F
+      !||    sponfv           ../engine/source/elements/sph/sponfv.F
       !||====================================================================
       module sph_work_mod
 !=======================================================================================      

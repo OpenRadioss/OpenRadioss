@@ -34,11 +34,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    spclasv              ../engine/source/elements/sph/spclasv.F
       !||    spcompl              ../engine/source/elements/sph/spcompl.F
       !||    spechan              ../engine/source/elements/sph/spechan.F
+      !||    sph_crit_voxel       ../engine/source/elements/sph/sph_crit_voxel.F90
       !||    sphtri               ../engine/source/elements/sph/sphtri.F
       !||    sphtri0              ../engine/source/elements/sph/sphtri0.F
       !||    spmd_allglob_isum9   ../engine/source/mpi/generic/spmd_allglob_isum9.F
       !||    spmd_barrier         ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_min_max         ../engine/source/mpi/anim/spmd_min_max.F
       !||    spmd_spamaj          ../engine/source/mpi/sph/spmd_spamaj.F
       !||    spmd_sphgat          ../engine/source/mpi/sph/spmd_sphgat.F
       !||    spmd_sphgetisph      ../engine/source/mpi/elements/spmd_sph.F
@@ -54,6 +54,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    elbufdef_mod         ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    groupdef_mod         ../common_source/modules/groupdef_mod.F
       !||    message_mod          ../engine/share/message_module/message_mod.F
+      !||    sph_crit_voxel_mod   ../engine/source/elements/sph/sph_crit_voxel.F90
       !||    sph_struct_mod       ../engine/share/modules/sph_struct_mod.F
       !||    sph_work_mod         ../common_source/modules/mat_elem/sph_work.F90
       !||    spmd_mod             ../engine/source/mpi/spmd_mod.F90
