@@ -945,7 +945,8 @@ C
      G            IT19       ,BID                     ,BID              ,IBIDON          ,IPARTS  ,
      H            IBIDON     ,IBIDON                  ,IBIDON           ,IBIDON          ,IBIDON  ,
      I            IPARI(63,NIN),GAPM_MX               ,GAPS_MX          ,GAPM_L_MX        ,GAPS_L_MX,
-     J            IPARTT     ,IPARTP                  ,IPARTR        ,ELEM_LINKED_TO_SEGMENT)
+     J            IPARTT     ,IPARTP                  ,IPARTR        ,ELEM_LINKED_TO_SEGMENT,
+     K            FLAG_ELEM_INTER25       )
 C
 C      REMAINING BUCKET SORT IN STARTER
 C
