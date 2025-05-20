@@ -86,9 +86,10 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IGTYP,NDEPAR,IPID
+      INTEGER I,IPT,IGTYP,NDEPAR,IPID,IMAT,NIP
       INTEGER NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ),MXT(MVSIZ),MXG(MVSIZ), 
      .   IREL(6,MVSIZ),IVECT(MVSIZ)
+      my_real :: TEMP0
       my_real
      .   X1(MVSIZ),X2(MVSIZ),X3(MVSIZ),
      .   Y1(MVSIZ),Y2(MVSIZ),Y3(MVSIZ), 
@@ -110,15 +111,35 @@ C
      .            MXT,MXG ,NC1,NC2,NC3,DELTAX,
      .            X1,X2,X3,Y1,Y2,Y3,Z1,Z2,Z3,
      .            IBEAM_VECTOR(NFT+1),RBEAM_VECTOR(1,NFT+1),IVECT,VECT)
+     
+      IMAT = MXT(1)
 c
       CALL PEVECI(GBUF%SKEW,X1,X3,Y1,Y3,Z1,Z3,X2,Y2,Z2,NC2,NC3,
      .            IVECT,VECT)
 C      
+      IF (GLOB_THERM%NINTEMP > 0) THEN
+        IF (IGTYP == 18) THEN
+          IF (ELBUF_STR%BUFLY(1)%L_TEMP > 0) THEN
+            NIP  = IGEO(3,MXG(1))
+            DO I = 1,NEL                                       
+              TEMP0 = HALF * (TEMP(NC1(I)) + TEMP(NC2(I))) 
+              DO IPT=1,NIP                                            
+                ELBUF_STR%BUFLY(1)%LBUF(1,1,IPT)%TEMP(I) = TEMP0
+              ENDDO                                               
+            ENDDO
+          END IF
+        ELSE IF (IGTYP == 3 .and. ELBUF_STR%GBUF%G_TEMP > 0) THEN                                             
+          DO I = 1,NEL                                       
+            ELBUF_STR%GBUF%TEMP(I) = HALF * (TEMP(NC1(I)) + TEMP(NC2(I)))
+          ENDDO
+        END IF
+      END IF                                               
+!
       CALL PMASS(GEO,PM,XMAS,TINER,
      .           STIFN,STIFR,PARTSAV,V,IPART(NFT+1),
      .           MSP(NFT+1),INP(NFT+1),IGEO , STIFINT, STP(NFT+1),
      .           X1,X2, Y1,Y2, Z1,Z2,
-     .           NC1,NC2,MXT,MXG,AREA,DELTAX,STRP(NFT+1),MCP   ,
+     .           NC1,NC2,IMAT,MXG,AREA,DELTAX,STRP(NFT+1),MCP   ,
      .           MCPP(NFT+1) , TEMP ,GLOB_THERM%NINTEMP)
       CALL PIBUF3(GEO,GBUF%OFF,GBUF%LENGTH,DELTAX,MXG,IREL)
 C------------------------------------------

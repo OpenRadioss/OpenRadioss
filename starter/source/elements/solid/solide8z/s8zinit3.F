@@ -168,6 +168,7 @@ C-----------------------------------------------
      .   YD5(MVSIZ), YD6(MVSIZ), YD7(MVSIZ), YD8(MVSIZ),
      .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ),
      .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ)     
+      my_real :: TEMPEL(NEL)
 C-----------------------------------------------
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
@@ -328,7 +329,9 @@ c
         ENDDO
         ENDDO
 C   cas LBUF%L_PIJ>24 local system w/ assumed strain and return to global only for Isolid=18
+!
        ELSE
+!
         CALL SRCOOR3(X,BID(1),IXS(1,NF1)   ,GEO  ,MAT  ,PID  ,NGL  ,JHBE ,
      .           IX1  ,IX2  ,IX3  ,IX4  ,IX5  ,IX6  ,IX7  ,IX8  ,
      .           X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
@@ -375,7 +378,7 @@ c
         ENDDO
         ENDDO
         ENDDO
-       
+!
          NNPT = 8
          DO I=LFT,LLT
           NU(I)=MIN(HALF,PM(21,MAT(I)))
@@ -413,6 +416,21 @@ c
      .           YD1  ,YD2  ,YD3  ,YD4  ,YD5  ,YD6  ,YD7  ,YD8   ,
      .           ZD1  ,ZD2  ,ZD3  ,ZD4  ,ZD5  ,ZD6  ,ZD7  ,ZD8   )
       ENDIF
+       
+!
+!       Initialize element temperature from /initemp
+!       
+        IF (JTHE == 0 .and. GLOB_THERM%NINTEMP > 0) THEN
+          DO I=1,NEL
+            TEMPEL(I) = ONE_OVER_8 *(TEMP(IXS(2,I)) + TEMP(IXS(3,I))
+     .                             + TEMP(IXS(4,I)) + TEMP(IXS(5,I))      
+     .                             + TEMP(IXS(6,I)) + TEMP(IXS(7,I))      
+     .                             + TEMP(IXS(8,I)) + TEMP(IXS(9,I))) 
+          ENDDO
+        ELSE
+          TEMPEL(1:NEL) = TEMP0(1:NEL)
+        END IF
+!
       IF (IGTYP == 6) THEN
         CALL SMORTH3(PID  ,GEO  ,IGEO ,SKEW ,IREP ,GBUF%GAMA  ,
      .         RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
@@ -441,7 +459,7 @@ C
      .            MAT      ,IPM    ,NSIGS      ,NUMSOL     ,PTSOL  ,
      .            IP       ,NGL    ,NPF        ,TF         ,BUFMAT ,
      .            GBUF     ,LBUF   ,MBUF       ,ELBUF_STR  ,IlOADP ,
-     .            FACLOAD, DELTAX)
+     .            FACLOAD, DELTAX  ,TEMPEL    )
           ENDDO
         ENDDO
       ENDDO
@@ -515,7 +533,7 @@ c
      .               MAT     ,IPM    ,NSIGS     ,NUMSOL    ,PTSOL  ,
      .               IP      ,NGL    ,NPF       ,TF        ,BUFMAT ,
      .               GBUF    ,LBUF   ,MBUF      ,ELBUF_STR ,ILOADP ,
-     .               FACLOAD, DELTAX)
+     .               FACLOAD, DELTAX,TEMPEL    )
 C
          IF(JTHE /=0) CALL ATHERI(MAT,PM,LBUF%TEMP)
 C

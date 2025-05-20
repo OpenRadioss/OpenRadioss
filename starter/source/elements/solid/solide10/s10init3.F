@@ -115,7 +115,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IP,NF1,NF2,IBID,IGTYP,NUVAR,IREP,NCC,IDEF,JHBE,IPID
+      INTEGER I,J,IP,NF1,NF2,IBID,IGTYP,NUVAR,IREP,NCC,IDEF,JHBE,IPID
       INTEGER ID,NPTR,NPTS,NPTT,NLAY,L_PLA,L_SIGB,IBOLTP,IINT,IMAS_DS
       CHARACTER(LEN=NCHARTITLE)::TITR
       INTEGER NC(MVSIZ,10),MAT(MVSIZ), PID(MVSIZ), NGL(MVSIZ)
@@ -134,6 +134,7 @@ C-----------------------------------------------
      .   E2Y(MVSIZ),E2Z(MVSIZ),E3X(MVSIZ),E3Y(MVSIZ),E3Z(MVSIZ),
      .   NX(MVSIZ,10,5), WIP(5,5) ,ALPH(5,5),BETA(5,5),MASSCP(MVSIZ),
      .   RHOCP(MVSIZ),TEMP0(MVSIZ), AIRE(MVSIZ), DTX(MVSIZ)
+      my_real :: TEMPEL(NEL)
 C
 C-----------------------------------------------
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
@@ -237,6 +238,16 @@ C
           ENDDO
         ENDIF
         IF(JTHE /=0) CALL ATHERI(MAT,PM,LBUF%TEMP)
+        IF (JTHE == 0 .and. GLOB_THERM%NINTEMP > 0) THEN
+          TEMPEL(1:NEL) = ZERO
+          DO J = 1,10                                             
+            DO I=1,NEL                                          
+              TEMPEL(I)= TEMPEL(I) +  NX(I,J,IP)*TEMP(NC(I,J))       
+            ENDDO                                                 
+          ENDDO                                                   
+        ELSE
+          TEMPEL(1:NEL) = TEMP0(1:NEL)
+        END IF
 
         CALL MATINI(PM       ,IXS      ,NIXS       ,X        ,
      .              GEO      ,ALE_CONNECTIVITY    ,DETONATORS,IPARG     ,
@@ -245,7 +256,7 @@ C
      .              MAT      ,IPM      ,NSIGS    ,NUMSOL     ,PTSOL  ,
      .              IP       ,NGL      ,NPF      ,TF         ,BUFMAT ,
      .              GBUF     ,LBUF     ,MBUF     ,ELBUF_STR  ,ILOADP ,
-     .              FACLOAD, DELTAX)
+     .              FACLOAD, DELTAX    ,TEMPEL   )
 C------------------------------------------
 C       CALCUL DES DT ELEMENTAIRES
 C------------------------------------------

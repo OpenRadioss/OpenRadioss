@@ -133,6 +133,7 @@ C-----------------------------------------------
      .   DELTAX(MVSIZ), AIRE(MVSIZ),LLSH(MVSIZ)
       my_real, DIMENSION(8,MVSIZ) :: BID8MVSIZ
       my_real, DIMENSION(MVSIZ) :: BIDMVSIZ
+      my_real :: TEMPEL(NEL)
 C--------------------------------
 C-----------------------------------------------
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
@@ -277,6 +278,17 @@ C
         ENDDO
       END IF        
 C
+      IF (JTHE == 0 .and. GLOB_THERM%NINTEMP > 0) THEN
+        DO I=1,NEL
+          TEMPEL(I) = ONE_OVER_8 *(TEMP(IXS(2,I)) + TEMP(IXS(3,I))
+     .                           + TEMP(IXS(4,I)) + TEMP(IXS(5,I))        
+     .                           + TEMP(IXS(6,I)) + TEMP(IXS(7,I))        
+     .                           + TEMP(IXS(8,I)) + TEMP(IXS(9,I))) 
+        ENDDO
+      ELSE
+        TEMPEL(1:NEL) = TEMP0(1:NEL)
+      END IF
+!
       IP=0
       CALL MATINI(PM      ,IXS    ,NIXS       ,X      ,
      .            GEO     ,ALE_CONNECTIVITY  ,DETONATORS ,IPARG     ,
@@ -285,7 +297,7 @@ C
      .            MAT     ,IPM    ,NSIGS      ,NUMSOL    ,PTSOL  ,
      .            IP      ,NGL    ,NPF        ,TF        ,BUFMAT ,
      .            GBUF    ,LBUF   ,MBUF       ,ELBUF_STR ,ILOADP ,
-     .            FACLOAD, DELTAX)
+     .            FACLOAD, DELTAX ,TEMPEL     )
 C
       IF (IGTYP == 22) CALL SCZERO3(GBUF%RHO,GBUF%SIG,GBUF%EINT,NEL)
 C----------------------------------------
@@ -323,7 +335,18 @@ C
      .         E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  ,
      .         NGL  ,ANGLE,NSIGI,SIGSP,NSIGS,SIGI ,IXS(1,NF1) ,IS   ,
      .         ORTHOGLOB,PTSOL,NEL)
-c
+C
+        IF (JTHE == 0 .and. GLOB_THERM%NINTEMP > 0) THEN
+          DO I=1,NEL
+            TEMPEL(I) = ONE_OVER_8 *(TEMP(IXS(2,I)) + TEMP(IXS(3,I))
+     .                             + TEMP(IXS(4,I)) + TEMP(IXS(5,I))      
+     .                             + TEMP(IXS(6,I)) + TEMP(IXS(7,I))      
+     .                             + TEMP(IXS(8,I)) + TEMP(IXS(9,I))) 
+          ENDDO
+        ELSE
+          TEMPEL(1:NEL) = TEMP0(1:NEL)
+        END IF
+!
         CALL MATINI(PM     ,IXS    ,NIXS        ,X        ,
      .             GEO     ,ALE_CONNECTIVITY  ,DETONATORS  ,IPARG    ,
      .             SIGI    ,NEL    ,SKEW        ,IGEO     ,
@@ -331,7 +354,7 @@ c
      .             MAT     ,IPM    ,NSIGS       ,NUMSOL   ,PTSOL,
      .             IS      ,NGL    ,NPF         ,TF       ,BUFMAT,
      .             GBUF    ,LBUF   ,MBUF        ,ELBUF_STR,ILOADP,
-     .             FACLOAD, DELTAX)
+     .             FACLOAD, DELTAX ,TEMPEL      )
 c
          NUVAR = ELBUF_STR%BUFLY(IS)%NVAR_MAT
          IF(MTN>=28)THEN

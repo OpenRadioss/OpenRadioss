@@ -54,8 +54,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      A           NPF      ,TF       ,STRSGLOB,STRAGLOB,FAIL_INI  ,
      B           ILOADP   ,FACLOAD  ,RNOISE  ,PERTURB ,MAT_PARAM ,
      C           GLOB_THERM)
-      USE MESSAGE_MOD
-      use glob_therm_mod
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -64,6 +62,9 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      USE MESSAGE_MOD
+      use glob_therm_mod
+      use s20temp_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -122,6 +123,8 @@ C-----------------------------------------------
      .  TX(MVSIZ),TY(MVSIZ),TZ(MVSIZ),UL(MVSIZ,20),
      .  NI(MVSIZ,20),DNIDR(MVSIZ,20),DNIDS(MVSIZ,20),DNIDT(MVSIZ,20),
      .  DTX(MVSIZ), WI,RHOCP(MVSIZ),TEMP0(MVSIZ), AIRE(MVSIZ)
+      my_real :: TEMPEL(NEL)
+      INTEGER ,PARAMETER :: NPE=20
 C-----------------------------------------------
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
@@ -243,6 +246,10 @@ c
      5    LBUF%VOL,DELTAX ,DELTAX2,IR*IS*IT,NPTR*NPTS*NPTT,UL ,
      6    GBUF%VOL,LBUF%VOL0DP)
 C
+          IF (JTHE == 0 .and. GLOB_THERM%NINTEMP > 0) THEN
+            CALL S20TEMP(NEL,NUMNOD,MVSIZ,NPE, NC,NI(1,IP),TEMP,TEMPEL)
+          ENDIF             
+!
           CALL MATINI(PM      ,IXS      ,NIXS      ,X         ,
      .               GEO      ,ALE_CONNECTIVITY    ,DETONATORS,IPARG     ,
      .               SIGI     ,NEL      ,SKEW      ,IGEO      ,
@@ -250,7 +257,7 @@ C
      .               MAT      ,IPM      ,NSIGS     ,NUMSOL    ,PTSOL  ,
      .               IP       ,NGL      ,NPF       ,TF        ,BUFMAT ,
      .               GBUF     ,LBUF     ,MBUF      ,ELBUF_STR ,ILOADP ,
-     .               FACLOAD, DELTAX)
+     .               FACLOAD, DELTAX    ,TEMPEL)
 C----------------------------------------
           AIRE(:) = ZERO
           CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,

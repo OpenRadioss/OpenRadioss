@@ -95,6 +95,7 @@ C-----------------------------------------------
       my_real :: Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ),Y4(MVSIZ),
      .           Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ),Z4(MVSIZ),
      .           SY(MVSIZ), SZ(MVSIZ), TY(MVSIZ),TZ(MVSIZ),PRES,VFRAC
+      my_real :: TEMPEL(NEL)
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(G_BUFEL_) ,POINTER :: GBUF  
       TYPE(BUF_MAT_) ,POINTER :: MBUF
@@ -122,7 +123,7 @@ C     Compute deltax
      .        Y1, Y2, Y3, Y4,
      .        Z1, Z2, Z3, Z4)
       ENDIF
-
+      TEMPEL(:) = ZERO
       PM(104,IXQ(1, 1 + NFT)) = ZERO  !global pressure
 
 C     Loop over the materials
@@ -146,7 +147,7 @@ C     Material initialization
      .        MAT, IPM, NSIGS, NUMQUAD, PTQUAD,
      .        IP, NGL,NPF, TF, BUFMAT,
      .        GBUF, LBUF, MBUF, ELBUF_STR, ILOADP,
-     .        FACLOAD, GBUF%DELTAX)
+     .        FACLOAD, GBUF%DELTAX,TEMPEL)
      
          VFRAC = MAT_PARAM( IXQ(1,1+NFT) )%MULTIMAT%VFRAC(ILAY)
          PRES  = PM(104, MAT_PARAM( IXQ(1,1+NFT) )%MULTIMAT%MID(ILAY) )
