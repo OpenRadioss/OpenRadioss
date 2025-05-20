@@ -103,6 +103,7 @@ C-----------------------------------------------
      .        X1(MVSIZ),Y1(MVSIZ),Z1(MVSIZ),RBID(1), AIRE(MVSIZ)
       my_real
      .        DIST,STI,FV,MP,BID,RHOCP
+      my_real :: TEMPEL(NEL)
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(BUF_MAT_) ,POINTER :: MBUF
@@ -209,6 +210,12 @@ C--------------------------------------------------
          CALL SPORTH3(IPART ,IPARTSP(NFT+1) ,IGEO ,GBUF%GAMA,SKEW,
      .                NEL   )
        END IF
+!
+      IF (JTHE == 0 .and. GLOB_THERM%NINTEMP > 0) THEN
+        TEMPEL(1:NEL) = TEMP(NC1(1:NEL))      
+      ELSE
+        TEMPEL(1:NEL) = PM(79,MXT(1:NEL))
+      END IF
 C--------------------------------------------------
 C     GENERAL CELLS, END.
 C--------------------------------------------------
@@ -220,7 +227,7 @@ C--------------------------------------------------
      .            MXT     ,IPM    ,NSIGSPH    ,NUMSPHY   ,PTSPH  ,
      .            IP      ,NGL    ,NPF        ,TF        ,BUFMAT ,
      .            GBUF    ,LBUF   ,MBUF       ,ELBUF_STR,ILOADP ,
-     .            FACLOAD, DELTAX)
+     .            FACLOAD, DELTAX ,TEMPEL     )
 C--------------------------------------------------
 C      INITIAL DIAMETER (Y files )
 C--------------------------------------------------

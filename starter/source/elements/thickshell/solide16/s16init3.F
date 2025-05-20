@@ -64,6 +64,7 @@ C-----------------------------------------------
       USE MATPARAM_DEF_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       use glob_therm_mod
+      use s20temp_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -108,6 +109,7 @@ C-----------------------------------------------
       INTEGER NF1,IBID,I,IGTYP,IP,NF2,NPTR,NPTS,NPTT,NLAY,IL,IR,IS,IT,
      .        N, NUVAR,IINT, NCC,IDEF,JHBE,IPID1,L_PLA,L_SIGB
       INTEGER NC(MVSIZ,16),MAT(MVSIZ), PID(MVSIZ), NGL(MVSIZ),RBID(1)
+      INTEGER ,PARAMETER :: NPE=16
       CHARACTER(LEN=NCHARTITLE)::TITR1
       my_real
      .   BID, FV,WI,AA,BB
@@ -122,6 +124,7 @@ C-----------------------------------------------
      .  TX(MVSIZ),TY(MVSIZ),TZ(MVSIZ),UL(MVSIZ,16),
      .  NI(MVSIZ,16),DNIDR(MVSIZ,16),DNIDS(MVSIZ,16),DNIDT(MVSIZ,16),
      .  DTX(MVSIZ),STIN(MVSIZ,16), RHOCP(MVSIZ),TEMP0(MVSIZ), AIRE(MVSIZ)
+      my_real :: TEMPEL(NEL)
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
       TYPE(BUF_MAT_) ,POINTER :: MBUF
@@ -388,6 +391,10 @@ c
      5      LBUF%VOL,DELTAX ,STIN   ,NI     ,VOLG   ,UL        ,LBUF%VOL0DP )
          ENDIF
 c
+         IF (JTHE == 0 .and. GLOB_THERM%NINTEMP > 0) THEN
+           CALL S20TEMP(NEL,NUMNOD,MVSIZ,NPE, NC,NI(1,IP),TEMP,TEMPEL)
+         ENDIF             
+!
          CALL MATINI(PM       ,IXS    ,NIXS        ,X          ,
      .               GEO      ,ALE_CONNECTIVITY  ,DETONATORS  ,IPARG      ,
      .               SIGI     ,NEL    ,SKEW        ,IGEO(1,1)  ,
@@ -395,7 +402,7 @@ c
      .               MAT      ,IPM    ,NSIGS       ,NUMSOL     ,PTSOL    ,
      .               IP       ,NGL    ,NPF         ,TF         ,BUFMAT   ,
      .               GBUF     ,LBUF   ,MBUF        ,ELBUF_STR  ,ILOADP   ,
-     .               FACLOAD, DELTAX)
+     .               FACLOAD, DELTAX  ,TEMPEL     )
 C----------------------------------------
 C     INITIALISATION DES MASSES
 C----------------------------------------

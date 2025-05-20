@@ -165,6 +165,7 @@ C-----------------------------------------------
      .   YD5(MVSIZ), YD6(MVSIZ), YD7(MVSIZ), YD8(MVSIZ),
      .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ),
      .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ)     
+      my_real :: TEMPEL(NEL)
 C-----------------------------------------------
       CHARACTER(LEN=NCHARTITLE)::TITR1
 C
@@ -267,7 +268,20 @@ C Orthotropy wrt reference geometry
      .           ZD1  ,ZD2  ,ZD3  ,ZD4  ,ZD5  ,ZD6  ,ZD7  ,ZD8   )
 
       ENDIF
-C
+!
+!     Initialize element temperature from /initemp
+!      
+      IF (JTHE == 0 .and. GLOB_THERM%NINTEMP > 0) THEN
+        DO I=1,NEL
+          TEMPEL(I) = ONE_OVER_8 *(TEMP(IXS(2,I)) + TEMP(IXS(3,I))
+     .                           + TEMP(IXS(4,I)) + TEMP(IXS(5,I))        
+     .                           + TEMP(IXS(6,I)) + TEMP(IXS(7,I))        
+     .                           + TEMP(IXS(8,I)) + TEMP(IXS(9,I))) 
+        ENDDO
+      ELSE
+        TEMPEL(1:NEL) = TEMP0(1:NEL)
+      END IF
+!
 C Orthotropy
       IF (ISORTH == 1)
      .  CALL SMORTH3(PID  ,GEO  ,IGEO ,SKEW ,IREP ,GBUF%GAMA  , 
@@ -342,7 +356,7 @@ c
      5            MAT      ,IPM    ,NSIGS      ,NUMSOL    ,PTSOL  ,
      6            IPT      ,NGL    ,NPF        ,TF        ,BUFMAT ,
      7            GBUF     ,LBUF   ,MBUF       ,ELBUF_STR ,ILOADP ,
-     8            FACLOAD, DELTAX)
+     8            FACLOAD, DELTAX  ,TEMPEL     )
           END DO
         END DO
       END DO

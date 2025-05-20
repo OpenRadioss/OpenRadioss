@@ -101,6 +101,7 @@ C-----------------------------------------------
      .     Y3(MVSIZ), Z3(MVSIZ),
      .     NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ),
      .     LGTH1(MVSIZ), LGTH2(MVSIZ), LGTH3(MVSIZ),PRES,VFRAC
+      my_real :: TEMPEL(NEL)
       INTEGER :: II, I, IP, IBID, ILAY, MATLAW
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
@@ -114,6 +115,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     B e g i n n i n g   o f   s u b r o u t i n e
 C-----------------------------------------------
+      TEMPEL(:) = ZERO
 C     Global buffer
       GBUF => ELBUF_STR%GBUF
 C     Number of layers ( = number of material in law 151)
@@ -179,7 +181,7 @@ C     Material initialization
      .        MAT, IPM, NSIGS, NUMSH3N, PTSH3N,
      .        IP, NGL, NPF, TF, BUFMAT,
      .        GBUF, LBUF, MBUF, ELBUF_STR, ILOADP,
-     .        FACLOAD, GBUF%DELTAX)
+     .        FACLOAD, GBUF%DELTAX,TEMPEL)
      
          VFRAC = MAT_PARAM( IXTG(1,1+NFT) )%MULTIMAT%VFRAC(ILAY)
          PRES  = PM(104,  MAT_PARAM( IXTG(1,1+NFT) )%MULTIMAT%MID(ILAY)   )

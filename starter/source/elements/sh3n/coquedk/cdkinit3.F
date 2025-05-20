@@ -72,6 +72,7 @@ C-----------------------------------------------
       USE NLOCAL_REG_MOD   
       USE DRAPE_MOD           
       use glob_therm_mod
+      use initemp_shell_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -184,6 +185,13 @@ C-----------------------------------------------
      .             Z1  ,Z2  ,Z3  ,E1X ,E2X ,E3X ,
      .             E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z ,
      .             X31, Y31, Z31 ,X2L ,X3L ,Y3L )
+C-----------------------------------------------------------------------
+!     Initialize element temperature from /initemp
+!      
+      IF (JTHE == 0 .and. GLOB_THERM%NINTEMP > 0) THEN
+        CALL INITEMP_SHELL(ELBUF_STR,TEMP,NEL,NUMNOD,NUMELTG,3,NIXTG,IXTG)    
+      END IF
+C-----------------------------------------------------------------------
       IF(IDRAPE > 0 ) THEN
         ALLOCATE(INDX(NUMELTG))
         INDX = 0

@@ -380,7 +380,7 @@ C-----------
         ENDDO
       END IF !(JHBE==14 .OR. JHBE==24 .OR. JHBE==17 ) THEN
 C
-        IF(JTHE < 0 ) THEN             
+        IF (JTHE < 0 .or. NINTEMP > 0) THEN             
            IF(NINTEMP > 0 ) THEN  
             DO I= LFT,LLT
               IF(TEMP(IX1(I))== ZERO) TEMP(IX1(I)) = TEMP0(I)

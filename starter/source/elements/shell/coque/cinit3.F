@@ -91,6 +91,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       use brokmann_random_def_mod
       use glob_therm_mod
+      use initemp_shell_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -156,6 +157,7 @@ C-----------------------------------------------
      .                             E1X,E2X,E3X,E1Y,E2Y,E3Y,E1Z,E2Z,E3Z,
      .                             X2S,Y2S,X3S,Y3S,X4S,Y4S,
      .                             X2L,X3L,X4L,Y2L,Y3L,Y4L
+      my_real, DIMENSION(NEL) :: TEMPEL
       my_real, DIMENSION(:) ,POINTER :: UVAR,DIR1,DIR2
       my_real, ALLOCATABLE, DIMENSION(:) :: DIR_A,DIR_B
       my_real, DIMENSION(:), ALLOCATABLE :: PHI1,PHI2,COOR1,COOR2,COOR3,COOR4
@@ -283,6 +285,12 @@ C         PART_AREA(IP) = PART_AREA(IP) + AREA(I)
           IF (GBUF%G_AREA > 0) GBUF%AREA(I) = AREA(I)
         ENDDO
       ENDIF
+!
+!     Initialize element temperature from /initemp
+!      
+      IF (JTHE == 0 .and. GLOB_THERM%NINTEMP > 0) THEN
+        CALL INITEMP_SHELL(ELBUF_STR,TEMP,NEL,NUMNOD,NUMELC,4,NIXC,IXC)    
+      END IF
 C------------
       CALL CINMAS(X     ,XREFC(1,1,NFT+1),IXC       ,GEO       ,PM,
      .            XMAS  ,IN              ,THK       ,IHBE       ,PARTSAV,
