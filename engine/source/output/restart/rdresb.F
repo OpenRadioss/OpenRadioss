@@ -315,7 +315,7 @@ C
 
         CALL checksum_restart_read(OUTPUT%CHECKSUM)
 
-        CALL READ_I_C(NODGLOB,SNODGLOB)
+        CALL READ_I_C(NODES%NODGLOB,SNODGLOB)
 
         CALL READ_I_C(NODES%MAIN_PROC,SWEIGHT)
 
@@ -674,7 +674,7 @@ c        CALL READ_I_C(INBUF,SINBUF)
 
         CALL READ_I_C(FR_MV,SFR_MV)
 
-        CALL READ_I_C(IAD_ELEM,SIAD_ELEM)
+        CALL READ_I_C(NODES%BOUNDARY_ADD,SIAD_ELEM)
 
         CALL READ_I_C(IAD_RBY,SIAD_RBY)
 
@@ -700,7 +700,7 @@ C
 
         CALL READ_I_C(IAD_RBYM2,SIAD_RBYM2)
 C
-        CALL READ_I_C(FR_ELEM,SFR_ELEM)
+        CALL READ_I_C(NODES%BOUNDARY,SFR_ELEM)
 
         CALL READ_I_C(FR_RBY,SFR_RBY)
 
@@ -821,7 +821,7 @@ C lecture directe de ADDCNE
         IF(IPARIT==1) THEN
           CALL READ_I_C(ELEMENT%PON%ADSKY,NUMNOD+1)
 C lecture directe de PROCNE
-          CALL READ_I_C(PROCNE,LCNE0)
+          CALL READ_I_C(ELEMENT%PON%PROCNE,LCNE0)
 C lecture directe structure interface type2
           IF (I2NSNT > 0) THEN
             CALL READ_I_C(ADDCNI2,NUMNOD+1)

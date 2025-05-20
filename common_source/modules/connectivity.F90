@@ -43,7 +43,7 @@
       module connectivity_mod
         use iso_c_binding
         USE parith_on_mod
-#include "my_real.inc"
+        use precision_mod, only: wp
 !       INTEGER, PARAMETER :: NIXS = 11
 !       INTEGER, PARAMETER :: NIXC = 7
 !       INTEGER, PARAMETER :: NIXQ = 7
@@ -63,11 +63,26 @@
           integer, dimension(:), allocatable :: pid !< pid(i) :  PID of the i-th shell element
           integer, dimension(:), allocatable :: matid !< matid(i) :  Material ID of the i-th shell element
           integer, dimension(:), allocatable :: user_id !< user_id(i) :  user id of the shell element
-          my_real, dimension(:), allocatable :: damage
+          real(kind=wp), dimension(:), allocatable :: damage
           real, dimension(:), allocatable :: dist_to_center !< maximum distance of a node to the center of the element 
+          integer, dimension(:), allocatable :: permutation !< permutation of the shell element in order to have the shells sorted by user_id
           integer :: offset
           type(C_PTR) :: loc2glob
         end type shell_
+
+        type list_of_shells_
+          integer, dimension(:), allocatable :: index !< local id of the shell element to send to the other process
+        end type list_of_shells_
+        type ghost_shell_
+          integer, dimension(:,:), allocatable :: nodes !< nodes(1:4,i) :  nodes of the i-th shell element
+          real(kind=wp), dimension(:), allocatable :: damage 
+          type(list_of_shells_), dimension(:), allocatable :: shells_to_send !< local id of the shell element to send to the other process
+          integer, dimension(:), allocatable :: offset !< offset of the shell element to receive from the other process 
+          integer, dimension(:), allocatable :: addcnel !< address for the node to elemenent (shell) connectivity
+          integer, dimension(:), allocatable :: cnel ! element index in nodes arrays
+        end type ghost_shell_
+
+
         type solid_
           ! old storage of solids
           integer, dimension(:,:), allocatable :: ixs !< ixs(1,i) : Material ID of the i-th solid element
@@ -84,6 +99,7 @@
 
         type connectivity_
           type(shell_) :: shell
+          type(ghost_shell_) :: ghost_shell
           type(solid_) :: solid
           type(element_pon_) :: pon
         end type connectivity_ 
@@ -109,26 +125,26 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Included files
-! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
-! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-            type(shell_) :: shell!< connectivity of elements
+            type(shell_) :: shell !< connectivity of elements
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
             integer :: i
+            integer :: numelc
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
             shell%loc2glob = create_umap()
-            call reserve_capacity(shell%loc2glob, size(shell%user_id))
-            do i = 1, size(shell%user_id)
+            numelc = size(shell%user_id)
+            allocate(shell%permutation(numelc))
+            call reserve_capacity(shell%loc2glob, numelc)
+            do i = 1, numelc
               call add_entry_umap(shell%loc2glob, shell%user_id(i), i)
+              shell%permutation(i) = i
             end do
-
+            CALL STLSORT_INT_INT(numelc,shell%user_id,shell%permutation)
         end subroutine init_global_shell_id
 
 
