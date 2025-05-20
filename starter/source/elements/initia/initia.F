@@ -1179,7 +1179,7 @@ C Case total strain
      .             DETONATORS  ,GEO       ,VEUL  ,ALE_CONNECTIVITY ,IPARG(1,NG),
      .             DTELEM,SIGI      ,NEL   ,SKEW       ,IGEO       ,
      .             STIFN ,PARTSAV   ,V     ,IPART(I15A),MSS,
-     .             IPART ,SIGSP     ,GLOB_THERM, 
+     .             IPART ,SIGSP     ,GLOB_THERM,TEMP   , 
      .             NSIGI ,IN        ,VR    ,IPM        ,NSIGS   ,
      .             VOLNOD ,BVOLNOD  ,VNS   ,BNS        ,PTSOL   ,
      .             BUFMAT ,NPC      ,PLD   ,FAIL_INI   ,INS     ,

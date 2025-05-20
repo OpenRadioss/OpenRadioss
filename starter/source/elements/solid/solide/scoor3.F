@@ -324,31 +324,31 @@ C
         E2Y(I) = E2Y(I)*SUMA                             
         E2Z(I) = E2Z(I)*SUMA                             
       ENDDO
-        IF (JTHE < 0 ) THEN             
-           IF (NINTEMP > 0 ) THEN  
-            DO I= LFT,LLT
-              IF(TEMP(IX1(I))== ZERO) TEMP(IX1(I)) = TEMP0(I)
-              IF(TEMP(IX2(I))== ZERO) TEMP(IX2(I)) = TEMP0(I) 
-              IF(TEMP(IX3(I))== ZERO) TEMP(IX3(I)) = TEMP0(I)
-              IF(TEMP(IX4(I))== ZERO) TEMP(IX4(I)) = TEMP0(I) 
-              IF(TEMP(IX5(I))== ZERO) TEMP(IX5(I)) = TEMP0(I)
-              IF(TEMP(IX6(I))== ZERO) TEMP(IX6(I)) = TEMP0(I) 
-              IF(TEMP(IX7(I))== ZERO) TEMP(IX7(I)) = TEMP0(I)
-              IF(TEMP(IX8(I))== ZERO) TEMP(IX8(I)) = TEMP0(I)
-            ENDDO        
-           ELSE
-            DO I=LFT,LLT
-              TEMP(IX1(I))=TEMP0(I)
-              TEMP(IX2(I))=TEMP0(I)
-              TEMP(IX3(I))=TEMP0(I)
-              TEMP(IX4(I))=TEMP0(I)
-              TEMP(IX5(I))=TEMP0(I)
-              TEMP(IX6(I))=TEMP0(I)
-              TEMP(IX7(I))=TEMP0(I)
-              TEMP(IX8(I))=TEMP0(I)
-            ENDDO              
-           ENDIF
-         ENDIF        
+      IF (JTHE < 0 .or. NINTEMP > 0) THEN             
+        IF (NINTEMP > 0) THEN  
+         DO I= LFT,LLT
+           IF(TEMP(IX1(I))== ZERO) TEMP(IX1(I)) = TEMP0(I)
+           IF(TEMP(IX2(I))== ZERO) TEMP(IX2(I)) = TEMP0(I) 
+           IF(TEMP(IX3(I))== ZERO) TEMP(IX3(I)) = TEMP0(I)
+           IF(TEMP(IX4(I))== ZERO) TEMP(IX4(I)) = TEMP0(I) 
+           IF(TEMP(IX5(I))== ZERO) TEMP(IX5(I)) = TEMP0(I)
+           IF(TEMP(IX6(I))== ZERO) TEMP(IX6(I)) = TEMP0(I) 
+           IF(TEMP(IX7(I))== ZERO) TEMP(IX7(I)) = TEMP0(I)
+           IF(TEMP(IX8(I))== ZERO) TEMP(IX8(I)) = TEMP0(I)
+         ENDDO        
+        ELSE
+         DO I=LFT,LLT
+           TEMP(IX1(I))=TEMP0(I)
+           TEMP(IX2(I))=TEMP0(I)
+           TEMP(IX3(I))=TEMP0(I)
+           TEMP(IX4(I))=TEMP0(I)
+           TEMP(IX5(I))=TEMP0(I)
+           TEMP(IX6(I))=TEMP0(I)
+           TEMP(IX7(I))=TEMP0(I)
+           TEMP(IX8(I))=TEMP0(I)
+         ENDDO              
+        ENDIF
+      ENDIF        
 C-----------
       RETURN
       END

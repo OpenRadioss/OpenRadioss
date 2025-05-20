@@ -345,7 +345,7 @@ C----------------------------------------
      4               IMAT    ,IPM    ,NSIGS     ,NUMSOL ,PTSOL  ,
      5               IBID    ,NGL    ,NPF       ,TF     ,BUFMAT ,
      6               GBUF    ,LBUF   ,MBUF      ,ELBUF_STR,IBID ,
-     7               TBID    ,TBID   )
+     7               TBID    ,TBID   ,TBID  )
 
 C------------------------------------------
 C       CALCUL DES DT ELEMENTAIRES

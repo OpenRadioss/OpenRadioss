@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE MATING(PM   ,VOL ,OFF    ,EINT  ,RHO ,
      .                  SIG  ,IX  ,NIX    ,SIGI  ,EPSP,
      .                  NSIG ,MAT ,NUMS   ,PT    ,NEL ,
-     .                  FILL ,TEMP)
+     .                  FILL ,TEMP,TEMPEL )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,7 +48,8 @@ C-----------------------------------------------
       INTEGER   NIX, NSIG, NUMS, NEL
       INTEGER   IX(NIX,*),PT(*),MAT(*)
       my_real :: PM(NPROPM,*), SIG(NEL,6), SIGI(NSIG,*)
-      my_real, DIMENSION(NEL) :: VOL,OFF,EINT,RHO,EPSP,FILL,TEMP
+      my_real, DIMENSION(NEL) :: VOL,OFF,EINT,RHO,EPSP,FILL
+      my_real, DIMENSION(NEL) :: TEMP,TEMPEL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -61,7 +62,11 @@ C=======================================================================
        IF(MA == 0)CYCLE
        EINT(I)=PM(23,MA)
        RHO(I) =PM(89,MA)
-       TEMP(I)=PM(79,MA)
+       IF (TEMPEL(I) > ZERO) THEN
+         TEMP(I) = TEMPEL(I)
+       ELSE
+         TEMP(I) = PM(79,MA)
+       END IF
 C-----------------------------
        IF (ISIGI == 0) THEN
 C-----------------------------

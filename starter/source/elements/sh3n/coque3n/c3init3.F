@@ -90,6 +90,7 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
       use brokmann_random_def_mod
       use glob_therm_mod
+      use initemp_shell_mod
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -298,6 +299,12 @@ C         PART_AREA(J) = PART_AREA(J) + AREA(I)
           IF (GBUF%G_AREA > 0) GBUF%AREA(I) = AREA(I)
         ENDDO
       ENDIF
+C-----------------------------------------------------------------------
+!     Initialize element temperature from /initemp
+!      
+      IF (JTHE == 0 .and. GLOB_THERM%NINTEMP > 0) THEN
+        CALL INITEMP_SHELL(ELBUF_STR,TEMP,NEL,NUMNOD,NUMELTG,3,NIXTG,IXTG)    
+      END IF
 C------------
       IF(IDRAPE > 0 ) THEN
         ALLOCATE(INDX(NUMELTG))

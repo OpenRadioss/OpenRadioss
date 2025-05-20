@@ -141,6 +141,7 @@ C-----------------------------------------------
      .     PY1(MVSIZ),PY2(MVSIZ),PY3(MVSIZ),PY4(MVSIZ),
      .     PZ1(MVSIZ),PZ2(MVSIZ),PZ3(MVSIZ),PZ4(MVSIZ),
      .     RHOF(MVSIZ),ALPHA(MVSIZ), DELTAX(MVSIZ), AIRE(MVSIZ), DUMMY, PRES, VFRAC
+      my_real :: TEMPEL(NEL)
       my_real
      .     BID, FV, STI
       DOUBLE PRECISION
@@ -181,6 +182,7 @@ C     ???
       NPTS  =  ELBUF_STR%NPTS
       NPTT  =  ELBUF_STR%NPTT
 
+      TEMPEL(:) = ZERO
       DO I=1,NEL
          RHOCP(I) =  PM(69,IXS(1,NFT+I))
          TEMP0(I) =  PM(79,IXS(1,NFT+I))
@@ -285,7 +287,7 @@ C     Fill partial volumes
      5        MAT      ,IPM    ,NSIGS     ,NUMSOL    ,PTSOL  ,
      6        IPT      ,NGL    ,NPF       ,TF        ,BUFMAT ,
      7        GBUF     ,LBUF   ,MBUF      ,ELBUF_STR ,ILOADP ,
-     8        FACLOAD, DELTAX)
+     8        FACLOAD, DELTAX  ,TEMPEL)
      
          VFRAC = MAT_PARAM( IXS(1,1+NFT) )%MULTIMAT%VFRAC(ILAY)
          PRES  = PM(104, MAT_PARAM( IXS(1,1+NFT) )%MULTIMAT%MID(ILAY))

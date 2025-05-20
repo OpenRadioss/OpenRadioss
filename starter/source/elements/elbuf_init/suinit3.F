@@ -46,7 +46,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                   DETONATORS,GEO     ,VEUL   ,ALE_CONNECTIVITY ,IPARG   ,
      .                   DTELEM   ,SIGI    ,NEL    ,SKEW     ,IGEO    ,
      .                   STIFN    ,PARTSAV ,V      ,IPARTS   ,MSS     ,
-     .                   IPART    ,SIGSP   ,GLOB_THERM,
+     .                   IPART    ,SIGSP   ,GLOB_THERM,TEMP  ,
      .                   NSIGI    ,IN      ,VR     ,IPM      ,NSIGS   ,
      .                   VOLNOD   ,BVOLNOD ,VNS    ,BNS      ,PTSOL   ,
      .                   BUFMAT   ,NPF     ,TF     ,FAIL_INI ,INS     ,
@@ -93,7 +93,7 @@ C-----------------------------------------------
      .   MS(*), X(3,*), GEO(NPROPG,*),PM(NPROPM,*),
      .   VEUL(LVEUL,*), DTELEM(*),SIGI(NSIGS,*),SKEW(LSKEW,*),STIFN(*),
      .   PARTSAV(20,*), V(3,*), MSS(8,*),RNOISE(NPERTURB,*), 
-     . SIGSP(NSIGI,*) , IN(*), VR(3,*),
+     . SIGSP(NSIGI,*) , IN(*), VR(3,*),TEMP(*),
      . VOLNOD(*), BVOLNOD(*), VNS(8,*), BNS(8,*),BUFMAT(*), TF(*),
      . INS(8,*)     
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
@@ -141,6 +141,7 @@ C-----------------------------------------------
      .   YD5(MVSIZ), YD6(MVSIZ), YD7(MVSIZ), YD8(MVSIZ),
      .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ),
      .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ),THICK(MVSIZ)       
+      my_real :: TEMPEL(NEL)
 C-----------------------------------------------
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
@@ -207,6 +208,19 @@ c--------------------------
      .           YD1  ,YD2  ,YD3  ,YD4  ,YD5  ,YD6  ,YD7  ,YD8   ,
      .           ZD1  ,ZD2  ,ZD3  ,ZD4  ,ZD5  ,ZD6  ,ZD7  ,ZD8   )
       ENDIF
+!
+!     Initialize element temperature from /initemp
+!      
+      IF (JTHE == 0 .and. GLOB_THERM%NINTEMP > 0) THEN
+        DO I=1,NEL
+          TEMPEL(I) = ONE_OVER_8 *(TEMP(IXS(2,I)) + TEMP(IXS(3,I))
+     .                           + TEMP(IXS(4,I)) + TEMP(IXS(5,I))        
+     .                           + TEMP(IXS(6,I)) + TEMP(IXS(7,I))        
+     .                           + TEMP(IXS(8,I)) + TEMP(IXS(9,I))) 
+        ENDDO
+      ELSE
+        TEMPEL(1:NEL) = PM(79,MAT(1:NEL))
+      END IF
 c--------------------------
       CALL SUDERI3(NEL ,GBUF%VOL,
      .            X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
@@ -227,7 +241,7 @@ C
      .              MAT     ,IPM    ,NSIGS     ,NUMSOL    ,PTSOL  ,  
      .              IP      ,NGL    ,NPF       ,TF        ,BUFMAT ,  
      .              GBUF    ,LBUF   ,MBUF      ,ELBUF_STR ,ILOADP ,
-     .              FACLOAD, DELTAX)
+     .              FACLOAD, DELTAX ,TEMPEL    )
       ENDIF      
 C-----------------------------------------------
       DO J=1,8

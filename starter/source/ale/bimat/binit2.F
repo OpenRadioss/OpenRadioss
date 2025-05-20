@@ -96,6 +96,7 @@ C-----------------------------------------------
      .     Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
      .     AIRE(MVSIZ), DELTAX(MVSIZ),
      .     SY(MVSIZ), SZ(MVSIZ), TY(MVSIZ), TZ(MVSIZ)
+      my_real :: TEMPEL(NEL)
       INTEGER PID(MVSIZ), IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ)
 C-----------------------------------------------
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
@@ -109,6 +110,7 @@ C-----------------------------------------------
       IGTYP= IPARG(38)
       NF1  = NFT+1
       IBID = 0
+      TEMPEL(:) = ZERO
 c
       CALL QCOOR2(X,IXQ(1,NF1),NGL,MAT, 
      .     PID, IX1, IX2, IX3, IX4, 
@@ -155,7 +157,7 @@ C---------------------------------------
      .            MAT    ,IPM    ,NSIGS  ,NUMQUAD   ,PTQUAD ,
      .            IP     ,NGL    ,NPF    ,TF        ,BUFMAT ,
      .            GBUF   ,LBUF   ,MBUF   ,ELBUF_STR ,ILOADP ,
-     .            FACLOAD, DELTAX)
+     .            FACLOAD, DELTAX,TEMPEL )
       !----------------------------------------
       !     INITIALISATION DE LA THERMIQUE ET TURBULENCE
       !----------------------------------------
@@ -196,7 +198,7 @@ C---------------------------------------
      .            MAT    , IPM               ,NSIGS     ,NUMQUAD   ,PTQUAD ,
      .            IP     , NGL               ,NPF       ,TF        ,BUFMAT ,
      .            GBUF   , LBUF              ,MBUF      ,ELBUF_STR ,ILOADP ,
-     .            FACLOAD, DELTAX)
+     .            FACLOAD, DELTAX,TEMPEL )
       !----------------------------------------
       !     INITIALISATION DE LA THERMIQUE ET TURBULENCE
       !----------------------------------------
