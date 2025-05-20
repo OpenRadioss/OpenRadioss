@@ -63,11 +63,12 @@
                             iflag , nel   , pm    , off  , eint , mu   , mu2 , &
                             dvol  , mat   , psh   , &
                             pnew  , dpdm  , dpde  , mu_bak,&
-                            npropm, nummat)
+                            npropm, nummat, eos_param)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
        use constant_mod , only : zero, half, one, two, three, three100
+       use eos_param_mod , only : eos_param_
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -84,16 +85,22 @@
       integer,intent(in) :: mat(nel), iflag
       my_real,intent(inout) :: pm(npropm,nummat),off(nel),eint(nel),mu(nel),mu2(nel),dvol(nel)
       my_real,intent(inout) :: pnew(nel),dpdm(nel),dpde(nel),mu_bak(nel)
+      type(eos_param_),intent(in) :: eos_param !< data structure for EoS parameters
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
       integer i, mx, iform
       my_real :: p0,psh(nel),e0,sph, b(nel),pne1,pfrac
-      my_real :: c0,c1,c2,c3,bunl,mu_max,p(nel),p_
-      my_real :: alpha,mumin
+      my_real :: c0,c1,c2,c3,bunl,p(nel),p_
+      my_real :: alpha,mu_min,mu_max
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
+       mu_max = eos_param%uparam(1)
+       mu_min = eos_param%uparam(2)
+       bunl = eos_param%uparam(3)
+       iform = eos_param%iparam(1)
+
        mx         = mat(1)
        e0         = pm(23,mx)
        c0         = pm(49,mx)
@@ -106,7 +113,7 @@
        sph        = pm(69,mx)
        p0         = pm(31,mx)
        pfrac      = pm(37,mx)
-       mumin      = pm(47,mx)
+       mu_min     = pm(47,mx)
        iform      = nint(pm(48,mx))
 
       !----------------------------------------------------------------!
@@ -119,7 +126,7 @@
           p_   = c0+c1*mu_bak(i)+(c2+c3*mu_bak(i))*mu_bak(i)*mu_bak(i)
           b(i) = bunl
           pne1 = p_-(mu_bak(i)-mu(i))*b(i)
-          if(mu_bak(i) > mumin) p(i) = min(pne1, p(i))
+          if(mu_bak(i) > mu_min) p(i) = min(pne1, p(i))
           p(i) = max(p(i),pfrac)*off(i)
         enddo !next i
       !--- continuous unload slope (increases with compaction) ---!
@@ -134,7 +141,7 @@
           endif
           b(i) = alpha*bunl+(one-alpha)*c1
           pne1 = p_-(mu_bak(i)-mu(i))*b(i)
-          if(mu_bak(i) > mumin) p(i) = min(pne1, p(i))
+          if(mu_bak(i) > mu_min) p(i) = min(pne1, p(i))
           p(i) = max(p(i),pfrac)  *off(i)
         enddo !next i
       endif

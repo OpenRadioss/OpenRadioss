@@ -254,7 +254,7 @@
         5X,'INITIAL DENSITY. . . . . . . . . . . . . .  =',1PG20.13/)
   400 format(/                                                        &
         5X,'POISSON''S RATIO  . . . . . . . . . . . . .  =',1PG20.13/, &
-        5X,'YOUNG MODULUS E (COMPUTED) . . . . . . . .  =',1PG20.13/, &
+        5X,'INITIAL YOUNG MODULUS E (COMPUTED) . . . .  =',1PG20.13/, &
         5X,"MINIMUM PRESSURE (FRACTURE). . . . . . . .  =",1PG20.13/)
   500 format(/                                                        &
         5X,'SHEAR MODULUS FUNCTION ID - G(RHO) . . . .  =',I10/,      &

@@ -120,7 +120,7 @@
 
       integer :: vartmp(1,3)
       my_real :: slope(1)
-      my_real :: yy(1)
+      my_real :: yy(2)
 
       integer ipt
 
@@ -140,17 +140,17 @@
            
       call hm_option_is_encrypted(is_encrypted)
 
+      call hm_get_floatv('RHO_TMD', rho_tmd, is_available,lsubmodel,unitab)
+      call hm_get_intv('IPLAS', IPLAS, is_available,lsubmodel)
+
       call hm_get_intv('P_FUNC', P_FUNC_ID, is_available,lsubmodel)
       call hm_get_floatv('PSCALE', Pscale, is_available,lsubmodel,unitab)
       call hm_get_intv('c_FUNC', C_FUNC_ID, is_available,lsubmodel)
       call hm_get_floatv('cSCALE', Cscale, is_available,lsubmodel,unitab)
+
+      !optionnal
       call hm_get_intv('G_FUNC', G_FUNC_ID, is_available,lsubmodel)
       call hm_get_floatv('GSCALE', Gscale, is_available,lsubmodel,unitab)
-
-      call hm_get_floatv('RHO_TMD', rho_tmd, is_available,lsubmodel,unitab)
-      call hm_get_floatv('C_SOLID', c_solid, is_available,lsubmodel,unitab)
-
-      call hm_get_intv('IPLAS', IPLAS, is_available,lsubmodel)
 
       !dimension / unit
       call hm_get_floatv_dim('RHO_TMD',density_unit,is_available,lsubmodel,unitab)
@@ -168,9 +168,6 @@
                                                                     C2='RHO_TMD MUST BE GREATER THAN INITIAL DENSITY')
       endif
 
-      if(c_solid <= zero)then
-         call ancmsg(MSGID=67,MSGTYPE=msgerror,ANMODE=aninfo,I1=uid,C1='/EOS/COMPACTION_TAB',C2='C_SOLID MUST BE POSITIVE')
-      endif
 
       if(PSCALE == zero) PSCALE = one
 
@@ -238,6 +235,37 @@
           call ancmsg(MSGID=67,MSGTYPE=msgwarning,ANMODE=aninfo,I1=uid,C1='/EOS/COMPACTION_TAB', &
                       C2='FUNCTION GAMMA(RHO) SHOULD DECAY TO 0.0 WHEN DENSITY APPROACHES RHO_TMD')
          end if
+      endif
+
+      !automatic c_solid value and check if it is positive
+      if(C_FUNC_ID > 0 )then
+         xvec1(1:1,1) = rho_tmd
+         call table_mat_vinterp(eos_param%table(2),1,1,vartmp(1,2),xvec1,yy,slope)
+         c_solid = yy(1)
+      elseif( cscale > zero )then
+        c_solid = cscale
+      endif
+      if(c_solid <= zero)then
+         call ancmsg(MSGID=67,MSGTYPE=msgerror,ANMODE=aninfo,I1=uid, &
+                     C1='/EOS/COMPACTION_TAB',C2='Cunload(RHO_TMD) MUST BE POSITIVE')
+      endif
+
+      ! c(rho) function must be monotonic
+      if(C_FUNC_ID > 0 )then
+        NPT = size(eos_param%table(2)%X(1)%VALUES)
+        ierror = 0
+        do ipt =2,npt
+          YY(1) = gscale * eos_param%table(2)%Y1D(ipt-1)
+          YY(2) = gscale * eos_param%table(2)%Y1D(ipt)
+          IF (YY(2) < YY(1)) then
+            ierror = 1
+            exit
+          endif
+        end do
+        if(ierror == 1)then
+          call ancmsg(MSGID=67,MSGTYPE=msgwarning,ANMODE=aninfo,I1=uid, &
+                      C1='/EOS/COMPACTION_TAB',C2='Cunload FUNCTION SHOULD BE MONOTONIC')
+        endif
       endif
 
       !Iplas check and default (plastic expansion flag)
@@ -338,7 +366,7 @@
       5X,'  ------------------------    ',/)
  1500 format(&
       5X,'RHO_TMD . . . . . . . . . . . . . . . . =',E12.4/&
-      5X,'C_SOLID . . . . . . . . . . . . . . . . =',E12.4/&
+      5X,'C_SOLID ( Cunload(RHO_TMD) )  . . . . . =',E12.4/&
       5X,'PLASTIC EXPANSION FLAG . . . . . . . .  =',I10)
  2000 format( &
       5X,'PLASTIC COMPACTION CURVE RHO_C(P_C) :',/ &

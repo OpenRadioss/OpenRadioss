@@ -49,7 +49,7 @@
       !||    message_mod              ../starter/share/message_module/message_mod.F
       !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
       !||====================================================================
-      subroutine hm_read_eos_compaction(iout,pm,unitab,lsubmodel,imideos,eos_tag,ieos,npropm,maxeos)
+      subroutine hm_read_eos_compaction(iout,pm,unitab,lsubmodel,imideos,eos_tag,ieos,npropm,maxeos,eos_param)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -58,6 +58,7 @@
       use submodel_mod , only : nsubmod, submodel_data
       use elbuftag_mod , only : eos_tag_
       use constant_mod , only : zero, two_third, one, two, three, three100
+      use eos_param_mod , only : eos_param_
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -77,6 +78,7 @@
       integer,intent(in) :: imideos
       type(eos_tag_),dimension(0:maxeos) ,intent(inout) :: eos_tag !< data structure for EoS
       integer,intent(in) :: ieos !< EoS (internal) identifier
+      type(eos_param_), intent(inout) :: eos_param !< eos data structure (specific parameters)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -152,6 +154,18 @@
           C1='/EOS/COMPACTION',C2='BUNL MUST BE GREATER THAN DERIVATIVE OF P(MU) AT MUMAX')
         end if
       end if
+
+      eos_param%nuparam = 3
+      eos_param%niparam = 1
+      eos_param%nfunc = 0
+      eos_param%ntable = 0
+      call eos_param%construct() !allocations
+
+      eos_param%uparam(1) = mumax
+      eos_param%uparam(2) = mumin
+      eos_param%uparam(3) = bunl
+
+      eos_param%iparam(1) = iform
 
       pm(49) = c0
       pm(32) = c1

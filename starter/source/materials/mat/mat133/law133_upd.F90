@@ -38,8 +38,9 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-          use constant_mod
+          use constant_mod , only : one, two, zero, three
           use matparam_def_mod
+          use table_mat_vinterp_mod , only : table_mat_vinterp
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -57,11 +58,33 @@
           integer :: ndim                                 !< dimension
           integer :: npt                                  !< number of integration points / max number of integration points
           integer :: i,j                                  !< index loops
-          my_real :: shear_max, young_max,nu,bulk_max
+          integer :: ieos
+          my_real :: shear_max, young_max, nu, bulk_max, rho_tmd, rho0
+          my_real :: mu_max
+          my_real :: xvec1(1,1), yy(1), dydx(1)
+          integer :: vartmp(1,1)
           type(table_4d_), dimension(:) ,pointer :: table_mat
+          logical :: is_compaction
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
+
+          rho0 = matparam%rho0
+
+          ieos = matparam%ieos
+          is_compaction = .false.
+          if(ieos == 13)then!      /EOS/COMPACTION
+            mu_max = matparam%eos%uparam(1)
+            rho_tmd = rho0*(mu_max + one)
+            is_compaction = .true.
+          elseif(ieos == 20)then ! /EOS/COMPACTION2
+            mu_max = matparam%eos%uparam(4)
+            rho_tmd = rho0*(mu_max + one)
+            is_compaction = .true.
+          elseif(ieos == 21)then ! /EOS/COMPACTION_TAB
+            rho_tmd = matparam%eos%uparam(1)
+            is_compaction = .true.
+          end if
 
           !< Loading table
           table_mat => matparam%table(1:matparam%ntable) ! material table pointer
@@ -69,16 +92,26 @@
           npt  = size(table_mat(1)%x(1)%values)  ! number of points
 
           !< Compute the maximum tshear modulus
+          !  if famility Eos pf type 'compaction' is used then evaluate G(rho_tmd)
+          !   otherwise use Gmax
           shear_max = zero
-          do i = 1,npt
-            if (ndim == 1) then
-              shear_max = max(shear_max, table_mat(1)%y1d(i))
-            elseif (ndim == 2) then
-              do j = 1,ndim
-                shear_max = max(shear_max,table_mat(1)%y2d(i,j))
-              enddo
-            endif
-          enddo
+
+          if(is_compaction)then
+            vartmp(1,1)=1
+            xvec1(1,1) = rho_tmd
+            call table_mat_vinterp(table_mat(1),1,1,vartmp(1,1),xvec1,yy,dydx)
+            shear_max = yy(1)
+          else
+            do i = 1,npt
+              if (ndim == 1) then
+                shear_max = max(shear_max, table_mat(1)%y1d(i))
+              elseif (ndim == 2) then
+                do j = 1,ndim
+                  shear_max = max(shear_max,table_mat(1)%y2d(i,j))
+                enddo
+              endif
+            enddo
+          endif
 
           nu = matparam%nu
           young_max =  two*shear_max*(one+nu)
