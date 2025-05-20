@@ -889,7 +889,7 @@ C     Compute EINT from pressure
                         GMID = IXTG(1, 1 + NFT)
                         MATID = MAT_PARAM(GMID)%MULTIMAT%MID(IMAT)
                      ENDIF
-                     NVARTMP_EOS = ELBUF_TAB(NG)%BUFLY(IMAT)%NVARTMP_EOS
+                     NVARTMP_EOS = ELBUF_TAB(NG)%BUFLY(1)%NVARTMP_EOS
                      KPHASE = M51_N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * M51_NVPHAS
                      SUBMAT(IMAT)%TEMP(1:NEL) => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(1+NEL*(16+KPHASE-1) : NEL*(16+KPHASE )) 
                      EBUF => ELBUF_TAB(NG)%BUFLY(1)%EOS(1,1,1)
