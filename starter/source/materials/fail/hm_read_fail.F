@@ -49,6 +49,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_fail_inievo         ../starter/source/materials/fail/inievo/hm_read_fail_inievo.F
       !||    hm_read_fail_johnson        ../starter/source/materials/fail/johnson_cook/hm_read_fail_johnson.F
       !||    hm_read_fail_ladeveze       ../starter/source/materials/fail/ladeveze/hm_read_fail_ladeveze.F
+      !||    hm_read_fail_lemaitre       ../starter/source/materials/fail/lemaitre/hm_read_fail_lemaitre.F90
       !||    hm_read_fail_maxstrain      ../starter/source/materials/fail/max_strain/hm_read_fail_maxstrain.F
       !||    hm_read_fail_nxt            ../starter/source/materials/fail/nxt/hm_read_fail_nxt.F
       !||    hm_read_fail_orthbiquad     ../starter/source/materials/fail/orthbiquad/hm_read_fail_orthbiquad.F
@@ -76,6 +77,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    elbuftag_mod                ../starter/share/modules1/elbuftag_mod.F
       !||    hm_option_read_mod          ../starter/share/modules1/hm_option_read_mod.F
+      !||    hm_read_fail_lemaitre_mod   ../starter/source/materials/fail/lemaitre/hm_read_fail_lemaitre.F90
       !||    hm_read_fail_spalling_mod   ../starter/source/materials/fail/spalling/hm_read_fail_spalling.F90
       !||    hm_read_fractal_dmg_mod     ../starter/source/materials/fail/fractal/hm_read_fractal_dmg.F90
       !||    message_mod                 ../starter/share/message_module/message_mod.F

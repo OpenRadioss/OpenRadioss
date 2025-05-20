@@ -20,8 +20,25 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    fail_lemaitre_s_mod   ../engine/source/materials/fail/lemaitre/fail_lemaitre_s.F90
+      !||--- called by ------------------------------------------------------
+      !||    mmain                 ../engine/source/materials/mat_share/mmain.F90
+      !||    mulaw                 ../engine/source/materials/mat_share/mulaw.F90
+      !||    usermat_solid         ../engine/source/materials/mat_share/usermat_solid.F
+      !||====================================================================
       module fail_lemaitre_s_mod
       contains
+      !||====================================================================
+      !||    fail_lemaitre_s    ../engine/source/materials/fail/lemaitre/fail_lemaitre_s.F90
+      !||--- called by ------------------------------------------------------
+      !||    mmain              ../engine/source/materials/mat_share/mmain.F90
+      !||    mulaw              ../engine/source/materials/mat_share/mulaw.F90
+      !||    usermat_solid      ../engine/source/materials/mat_share/usermat_solid.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod       ../common_source/modules/constant_mod.F
+      !||    matparam_def_mod   ../common_source/modules/mat_elem/matparam_def_mod.F90
+      !||====================================================================
       subroutine fail_lemaitre_s(                                              &
         nel      ,nuparam  ,uparam   ,time     ,ngl      ,matparam ,           &
         signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   ,           &

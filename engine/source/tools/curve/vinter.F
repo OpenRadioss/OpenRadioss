@@ -277,7 +277,6 @@ C
       !||    sigeps65      ../engine/source/materials/mat/mat065/sigeps65.F
       !||    sigeps66      ../engine/source/materials/mat/mat066/sigeps66.F
       !||    sigeps66c     ../engine/source/materials/mat/mat066/sigeps66c.F
-      !||    sigeps71      ../engine/source/materials/mat/mat071/sigeps71.F
       !||    sigeps74      ../engine/source/materials/mat/mat074/sigeps74.F
       !||====================================================================
       my_real FUNCTION FINTER2(TF,IAD,IPOS,ILEN,XX,DYDX)

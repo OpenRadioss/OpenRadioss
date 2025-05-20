@@ -24,8 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sigeps84   ../engine/source/materials/mat/mat084/sigeps84.F
       !||--- called by ------------------------------------------------------
       !||    mulaw      ../engine/source/materials/mat_share/mulaw.F90
-      !||--- calls      -----------------------------------------------------
-      !||    finter     ../engine/source/tools/curve/finter.F
       !||====================================================================
       SUBROUTINE SIGEPS84(
      1   NEL,     NUPARAM ,NUVAR ,  JLAG,  

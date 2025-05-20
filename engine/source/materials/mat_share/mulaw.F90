@@ -49,6 +49,7 @@
       !||    fail_hoffman_s         ../engine/source/materials/fail/hoffman/fail_hoffman_s.F
       !||    fail_inievo_s          ../engine/source/materials/fail/inievo/fail_inievo_s.F
       !||    fail_johnson           ../engine/source/materials/fail/johnson_cook/fail_johnson.F
+      !||    fail_lemaitre_s        ../engine/source/materials/fail/lemaitre/fail_lemaitre_s.F90
       !||    fail_maxstrain_s       ../engine/source/materials/fail/max_strain/fail_maxstrain_s.F
       !||    fail_mullins_or_s      ../engine/source/materials/fail/mullins_or/fail_mullins_OR_s.F
       !||    fail_orthbiquad_s      ../engine/source/materials/fail/orthbiquad/fail_orthbiquad_s.F
@@ -125,7 +126,6 @@
       !||    sigeps62               ../engine/source/materials/mat/mat062/sigeps62.F
       !||    sigeps65               ../engine/source/materials/mat/mat065/sigeps65.F
       !||    sigeps66               ../engine/source/materials/mat/mat066/sigeps66.F
-      !||    sigeps67               ../engine/source/materials/mat/mat067/sigeps67.F
       !||    sigeps68               ../engine/source/materials/mat/mat068/sigeps68.F
       !||    sigeps69               ../engine/source/materials/mat/mat069/sigeps69.F
       !||    sigeps70               ../engine/source/materials/mat/mat070/sigeps70.F
@@ -147,7 +147,6 @@
       !||    sigeps93               ../engine/source/materials/mat/mat093/sigeps93.F
       !||    sigeps94               ../engine/source/materials/mat/mat094/sigeps94.F
       !||    sigeps95               ../engine/source/materials/mat/mat095/sigeps95.F
-      !||    sigeps96               ../engine/source/materials/mat/mat096/sigeps96.F
       !||    sigeps97               ../engine/source/materials/mat/mat097/sigeps97.F
       !||    sreploc3               ../engine/source/elements/solid/solide/sreploc3.F
       !||    startime               ../engine/source/system/timer_mod.F90
@@ -157,6 +156,7 @@
       !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
       !||    constant_mod           ../common_source/modules/constant_mod.F
       !||    dt_mod                 ../engine/source/modules/dt_mod.F
+      !||    fail_lemaitre_s_mod    ../engine/source/materials/fail/lemaitre/fail_lemaitre_s.F90
       !||    fail_spalling_s_mod    ../engine/source/materials/fail/spalling/fail_spalling_s.F90
       !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90

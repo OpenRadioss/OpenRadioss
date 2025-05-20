@@ -58,6 +58,8 @@
       !||    eigp                                ../engine/stub/eigp.F
       !||    eosmain                             ../common_source/eos/eosmain.F
       !||    fail_init                           ../starter/source/materials/fail/fail_init.F
+      !||    fail_lemaitre_c                     ../engine/source/materials/fail/lemaitre/fail_lemaitre_c.F90
+      !||    fail_lemaitre_s                     ../engine/source/materials/fail/lemaitre/fail_lemaitre_s.F90
       !||    fail_windshield_init                ../starter/source/materials/fail/windshield_alter/fail_windshield_init.F
       !||    failini                             ../starter/source/elements/solid/solide/failini.F
       !||    fill_buffer_51                      ../starter/source/materials/mat/mat051/fill_buffer_51.F

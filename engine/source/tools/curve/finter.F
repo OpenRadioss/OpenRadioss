@@ -162,11 +162,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sigeps65c                    ../engine/source/materials/mat/mat065/sigeps65c.F
       !||    sigeps66                     ../engine/source/materials/mat/mat066/sigeps66.F
       !||    sigeps66c                    ../engine/source/materials/mat/mat066/sigeps66c.F
-      !||    sigeps67                     ../engine/source/materials/mat/mat067/sigeps67.F
       !||    sigeps68                     ../engine/source/materials/mat/mat068/sigeps68.F
       !||    sigeps69                     ../engine/source/materials/mat/mat069/sigeps69.F
       !||    sigeps70                     ../engine/source/materials/mat/mat070/sigeps70.F
-      !||    sigeps71                     ../engine/source/materials/mat/mat071/sigeps71.F
       !||    sigeps71c                    ../engine/source/materials/mat/mat071/sigeps71c.F
       !||    sigeps73c                    ../engine/source/materials/mat/mat073/sigeps73c.F
       !||    sigeps74                     ../engine/source/materials/mat/mat074/sigeps74.F
@@ -178,7 +176,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sigeps82                     ../engine/source/materials/mat/mat082/sigeps82.F
       !||    sigeps82c                    ../engine/source/materials/mat/mat082/sigeps82c.F
       !||    sigeps83                     ../engine/source/materials/mat/mat083/sigeps83.F
-      !||    sigeps84                     ../engine/source/materials/mat/mat084/sigeps84.F
       !||    sigeps85c_void               ../engine/source/materials/mat/mat085/sigeps85c_void.F
       !||    sigeps86c                    ../engine/source/materials/mat/mat086/sigeps86c.F
       !||    sigeps88                     ../engine/source/materials/mat/mat088/sigeps88.F

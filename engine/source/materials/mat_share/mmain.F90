@@ -84,6 +84,7 @@
       !||    fail_inievo_s          ../engine/source/materials/fail/inievo/fail_inievo_s.F
       !||    fail_johnson           ../engine/source/materials/fail/johnson_cook/fail_johnson.F
       !||    fail_ladeveze          ../engine/source/materials/fail/ladeveze/fail_ladeveze.F
+      !||    fail_lemaitre_s        ../engine/source/materials/fail/lemaitre/fail_lemaitre_s.F90
       !||    fail_maxstrain_s       ../engine/source/materials/fail/max_strain/fail_maxstrain_s.F
       !||    fail_orthbiquad_s      ../engine/source/materials/fail/orthbiquad/fail_orthbiquad_s.F
       !||    fail_orthenerg_s       ../engine/source/materials/fail/orthenerg/fail_orthenerg_s.F
@@ -158,6 +159,7 @@
       !||    constant_mod           ../common_source/modules/constant_mod.F
       !||    dt_mod                 ../engine/source/modules/dt_mod.F
       !||    eosmain_mod            ../common_source/eos/eosmain.F
+      !||    fail_lemaitre_s_mod    ../engine/source/materials/fail/lemaitre/fail_lemaitre_s.F90
       !||    fail_spalling_s_mod    ../engine/source/materials/fail/spalling/fail_spalling_s.F90
       !||    glob_therm_mod         ../common_source/modules/mat_elem/glob_therm_mod.F90
       !||    mat_elem_mod           ../common_source/modules/mat_elem/mat_elem_mod.F90

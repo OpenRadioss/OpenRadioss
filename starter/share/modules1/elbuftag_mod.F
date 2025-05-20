@@ -41,6 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_fail_gene1           ../starter/source/materials/fail/gene1/hm_read_fail_gene1.F
       !||    hm_read_fail_hashin          ../starter/source/materials/fail/hashin/hm_read_fail_hashin.F
       !||    hm_read_fail_hoffman         ../starter/source/materials/fail/hoffman/hm_read_fail_hoffman.F
+      !||    hm_read_fail_lemaitre        ../starter/source/materials/fail/lemaitre/hm_read_fail_lemaitre.F90
       !||    hm_read_fail_maxstrain       ../starter/source/materials/fail/max_strain/hm_read_fail_maxstrain.F
       !||    hm_read_fail_nxt             ../starter/source/materials/fail/nxt/hm_read_fail_nxt.F
       !||    hm_read_fail_orthstrain      ../starter/source/materials/fail/orthstrain/hm_read_fail_orthstrain.F
