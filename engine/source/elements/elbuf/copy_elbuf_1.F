@@ -739,6 +739,7 @@ c
           GBUFT%BETAORTH(1:NEL*G_BETAORTH) = GBUFS%BETAORTH(1:NEL*G_BETAORTH)
           GBUFT%AMU(1:NEL*G_AMU)       = GBUFS%AMU(1:NEL*G_AMU)   
           GBUFT%FOR_G(1:NEL*G_FOR_G)   = GBUFS%FOR_G(1:NEL*G_FOR_G)   
+          GBUFT%WPLA(1:NEL*G_WPLA)     = GBUFS%WPLA(1:NEL*G_WPLA)           
 c
           IF (NPTTOT == 1) THEN  ! global variables are pointing to local ones
             LBUFT => ELBUF_TGT(NG)%BUFLY(1)%LBUF(1,1,1)
@@ -753,7 +754,7 @@ c
             ELBUF_TGT(NG)%GBUF%EPSD   => LBUFT%EPSD
             ELBUF_TGT(NG)%GBUF%EPSQ   => LBUFT%EPSQ      
             ELBUF_TGT(NG)%GBUF%PLA    => LBUFT%PLA
-            ELBUF_TGT(NG)%GBUF%WPLA    => LBUFT%WPLA
+            ELBUF_TGT(NG)%GBUF%WPLA   => LBUFT%WPLA
             ELBUF_TGT(NG)%GBUF%TEMP   => LBUFT%TEMP
             ELBUF_TGT(NG)%GBUF%TB     => LBUFT%TB
             ELBUF_TGT(NG)%GBUF%RK     => LBUFT%RK
@@ -776,7 +777,6 @@ c
             GBUFT%EPSD(1:NEL*G_EPSD)    =  GBUFS%EPSD(1:NEL*G_EPSD)
             GBUFT%EPSQ(1:NEL*G_EPSQ)    =  GBUFS%EPSQ(1:NEL*G_EPSQ)
             GBUFT%PLA(1:NEL*G_PLA)      =  GBUFS%PLA(1:NEL*G_PLA)
-            GBUFT%WPLA(1:NEL*G_WPLA)    =  GBUFS%WPLA(1:NEL*G_WPLA)           
             GBUFT%TEMP(1:NEL*G_TEMP)    =  GBUFS%TEMP(1:NEL*G_TEMP)
             GBUFT%TB(1:NEL*G_TB)        =  GBUFS%TB(1:NEL*G_TB)
             GBUFT%RK(1:NEL*G_RK)        =  GBUFS%RK(1:NEL*G_RK)

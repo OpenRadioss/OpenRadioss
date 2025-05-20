@@ -680,7 +680,8 @@ C
      6   GBUF%EINT, GBUF%RHO,  GBUF%QVIS, GBUF%PLA,
      7   WI,        VOLG,      LBUF%VOL,  GBUF%VOL,
      8   L_PLA,     NEL,       CONDE,     DELTAX,
-     9   CONDEG,    ISRAT,     SVIS      ,GLOB_THERM%NODADT_THERM)
+     9   CONDEG,    ISRAT,     SVIS      ,GLOB_THERM%NODADT_THERM,
+     A  GBUF%WPLA, LBUF%WPLA,   GBUF%G_WPLA )
       !-------------------------
       !    finite element heat transfert  
       !--------------------------
@@ -727,7 +728,7 @@ C
      .             VX     ,VY       ,VZ      ,IPARTS     ,GRESAV    ,
      .             GRTH   ,IGRTH    ,IEXPAN  ,GBUF%EINTTH, GBUF%FILL,
      .             XX     ,YY       ,ZZ      ,ITASK      ,IPARG(1,NG),
-     .             GBUF%OFF,SENSORS)
+     .             GBUF%OFF,SENSORS,NEL,GBUF%G_WPLA,GBUF%WPLA)
       ENDIF
 C
 c-----------------------------

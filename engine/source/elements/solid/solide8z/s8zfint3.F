@@ -62,7 +62,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      X   F13,     F23,     F33,     F14,
      Y   F24,     F34,     F15,     F25,
      Z   F35,     F16,     F26,     F36,
-     1   F17,     F27,     F37,     F18,
+     1   F17,     F27,     F37,     F18,  
      2   F28,     F38,     VOL,     QVIS,
      3   PP,      EINT,    RHO,     Q,
      4   DEFP,    EPSD,    EPSDM,   SIGM,
@@ -71,7 +71,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      7   OFF,     VOL0,    VOL0G,   G_PLA,
      8   G_EPSD,  JFAC,    EINTTH,  EINTTHM,
      9   IEXPAN,  NEL,     IDEG,    CONDE,
-     A   CONDEN,  MTN,     ISMSTR,  SVIS ,NODADT_THERM)
+     A   CONDEN,  MTN,     ISMSTR,  SVIS ,NODADT_THERM,
+     B   G_WPLA,  L_WPLA,  G_WPLA_FLAG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -133,7 +134,10 @@ C     REAL
      .   SIGM(NEL,6),EINTM(*),RHOM(*),QM(*),EPSD(*),EPSDM(*),
      .   VOLG(*),STI(*),STIN(*),OFF(*),VOL0(*),VOL0G(*),JFAC(*),
      .   EINTTH(*),EINTTHM(*),CONDE(MVSIZ),CONDEN(MVSIZ)
+      INTEGER, INTENT(IN) :: G_WPLA_FLAG
       my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
+      my_real,DIMENSION(NEL*G_WPLA_FLAG), INTENT(INOUT) :: G_WPLA
+      my_real,DIMENSION(NEL*G_WPLA_FLAG), INTENT(IN) :: L_WPLA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -251,6 +255,7 @@ C   - post-traitement-valeur moyenne au sens a'=(_/  a dv ) /v
          SIGM(I,6) = SIGM(I,6) + FAC(I) * SIGOR(I,6)
          RHOM(I)   = RHOM(I)   + FAC(I) * RHO(I)
          EINTM(I)  = EINTM(I)  + EINT(I)*VOL0(I)/VOL0G(I)
+         IF (G_WPLA_FLAG > 0) G_WPLA(I) = G_WPLA(I) + L_WPLA(I)
          QM(I)     = QM(I)     + FAC(I) * Q(I)
 C
          STIN(I)   = STIN(I)   + STI(I)

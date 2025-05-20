@@ -377,7 +377,7 @@
                                        sigoyy,sigoxy,sigoyz,sigozx,signxx,signyy,signxy,signyz,&
                                        signzx,sigvxx,sigvyy,sigvxy,sigvyz,sigvzx,&
                                        wmc, epspl, yld,dpla,vol0, coef,hardm,g_imp,visc,wplar,&
-                                       epsp_loc,tstar,    &
+                                       epsp_loc,tstar,  vm, vm0, seq0, &
                                        areamin,dareamin,dmg_glob_scale,dmg_loc_scale,et_imp, epsthtot
           my_real, dimension(nel,5) :: dmg_orth_scale
 !
@@ -523,6 +523,7 @@
           mom(jft:jlt,2)  = zero
           mom(jft:jlt,3)  = zero
           yld(jft:jlt)    = zero
+          seq0(jft:jlt)   = zero
           sigy(jft:jlt)   = zero
           if(flag_zcfac .and. mtn /= 22) zcfac(jft:jlt,1)= zero
           zcfac(jft:jlt,2)= zero
@@ -1070,29 +1071,28 @@
                 enddo
               endif
               dpla(1:mvsiz) = zero
-              if (ifailure == 1) then
-                if (elbuf_str%bufly(ilayer)%l_pla > 0) then
-                  pla0(1:jlt) = lbuf%pla(1:jlt)
-                else
-                  pla0(1:jlt) = zero
-                endif
-              endif
-!
-            !< Old stress tensor
-            sigoxx(1:nel) = lbuf%sig(ij1:ij1+nel-1)
-            sigoyy(1:nel) = lbuf%sig(ij2:ij2+nel-1)
-            sigoxy(1:nel) = lbuf%sig(ij3:ij3+nel-1)
-            sigoyz(1:nel) = lbuf%sig(ij4:ij4+nel-1)
-            sigozx(1:nel) = lbuf%sig(ij5:ij5+nel-1)
-!
-            if (jthe /= 0 .or. elbuf_str%bufly(ilayer)%l_temp > 0) then 
-              ! case of temp calculated locally in material
-              t0 = pm(79, imat)
-              tm = pm(80, imat)
-              tstar(1:nel) = max(zero, (el_temp(1:nel) - t0) / max(tm - t0, em20))
-            else
-              tstar(1:nel) = zero
-            end if
+              if (elbuf_str%bufly(ilayer)%l_pla > 0) then
+                pla0(1:jlt) = lbuf%pla(1:jlt)
+              else
+                pla0(1:jlt) = zero
+              endif   
+              !< Old stress tensor
+              sigoxx(1:nel) = lbuf%sig(ij1:ij1+nel-1)
+              sigoyy(1:nel) = lbuf%sig(ij2:ij2+nel-1)
+              sigoxy(1:nel) = lbuf%sig(ij3:ij3+nel-1)
+              sigoyz(1:nel) = lbuf%sig(ij4:ij4+nel-1)
+              sigozx(1:nel) = lbuf%sig(ij5:ij5+nel-1)
+              !< Old equivalent stress
+              if (bufly%l_seq > 0) seq0(1:nel) = lbuf%seq(1:nel)
+!  
+              if (jthe /= 0 .or. elbuf_str%bufly(ilayer)%l_temp > 0) then 
+                ! case of temp calculated locally in material
+                t0 = pm(79, imat)
+                tm = pm(80, imat)
+                tstar(1:nel) = max(zero, (el_temp(1:nel) - t0) / max(tm - t0, em20))
+              else
+                tstar(1:nel) = zero
+              end if
 !------------------------------------------
 !         elastic stress +
 !         plasticly admissible stress
@@ -1935,6 +1935,31 @@
               enddo
 !-------------------------------------------
 !         end of material laws
+!-----------------------------------------------
+!------------------------------------------------------------
+!     Calculation of the Plastic Work
+!------------------------------------------------------------ 
+              if ((gbuf%g_wpla > 0).and.(bufly%l_pla > 0)) then  
+                !< Case where equivalent stress is computed in the material law
+                if (bufly%l_seq > 0) then
+                  do i = jft,jlt
+                    dpla(i) = lbuf%pla(i) - pla0(i)
+                    gbuf%wpla(i) = gbuf%wpla(i) +                               &
+                        half*(seq0(i) + lbuf%seq(i))*dpla(i)*thklyl(i)*area(i)
+                  enddo
+                !< Default case using Von Mises stress
+                else
+                  do i = jft,jlt
+                    dpla(i) = lbuf%pla(i) - pla0(i)
+                    vm0(i) = sqrt(sigoxx(i)*sigoxx(i) + sigoyy(i)*sigoyy(i) -   &
+                           sigoxx(i)*sigoyy(i) + three*sigoxy(i)*sigoxy(i))
+                    vm(i)  = sqrt(signxx(i)*signxx(i) + signyy(i)*signyy(i) -   &
+                             signxx(i)*signyy(i) + three*signxy(i)*signxy(i))
+                    gbuf%wpla(i) = gbuf%wpla(i) +                               &
+                               half*(vm0(i) + vm(i))*dpla(i)*thklyl(i)*area(i)
+                  enddo
+                endif
+              endif
 !-----------------------------------------------
 !         failure models
 !-----------------------------------------------

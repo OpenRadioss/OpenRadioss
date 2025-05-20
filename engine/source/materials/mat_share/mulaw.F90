@@ -485,8 +485,8 @@
           &svo1(mvsiz),svo2(mvsiz),svo3(mvsiz),svo4(mvsiz),svo5(mvsiz),svo6(mvsiz),&
           &sv1(mvsiz),sv2(mvsiz),sv3(mvsiz),sv4(mvsiz),sv5(mvsiz),sv6(mvsiz),&
           &r11(mvsiz),r12(mvsiz),r13(mvsiz),r21(mvsiz),r22(mvsiz),r23(mvsiz),&
-          &r31(mvsiz),r32(mvsiz),r33(mvsiz),epsp1(mvsiz),dpla(mvsiz),&
-          &pair(mvsiz),defp0(mvsiz)
+          &r31(mvsiz),r32(mvsiz),r33(mvsiz),epsp1(mvsiz),dpla(mvsiz),vm(mvsiz),    &
+          &pair(mvsiz),defp0(mvsiz),seq0(mvsiz),vm0(mvsiz)
           my_real  facq0
           my_real fpsxx(mvsiz),fpsyy(mvsiz),fpszz(mvsiz),fpsxy(mvsiz),&
           &fpsyz(mvsiz),fpszx(mvsiz),fpsyx(mvsiz),fpszy(mvsiz),&
@@ -616,6 +616,11 @@
             defp0(1:nel) = lbuf%pla(1:nel)
           else
             defp0(1:nel) = zero
+          endif
+!
+          !< Save old equivalent stress value
+          if (elbuf_tab(ng)%bufly(ilay)%l_seq > 0) then 
+            seq0(1:nel) = lbuf%seq(1:nel)
           endif
 !
           ! Save old value of OFF flag
@@ -2090,6 +2095,42 @@
 !
 !----------------------------------------
           endif  ! mtn
+!
+!------------------------------------------------------------
+!     Calculation of the Plastic Work
+!------------------------------------------------------------   
+          if (elbuf_tab(ng)%bufly(ilay)%l_pla > 0) then 
+            !< Reset plastic work in case of fully integrated element
+            if ((npg > 1) .and. (ipg == 1)) then 
+              do i = 1,nel
+                gbuf%wpla(i) = zero
+              enddo
+            endif 
+            !< Case where equivalent stress is computed in the material law
+            if (elbuf_tab(ng)%bufly(ilay)%l_seq > 0) then
+              do i = 1,nel 
+                dpla(i) = defp(i) - defp0(i)
+                lbuf%wpla(i) = lbuf%wpla(i) +                        &
+                    half*(seq0(i)+lbuf%seq(i))*dpla(i)*voln(i)
+              enddo
+            !< Default case using Von Mises stress
+            else
+              do i = 1,nel
+                dpla(i) = defp(i) - defp0(i)
+                vm0(i)= sqrt(half*(                                  &
+                       (so1(i)-so2(i))**2  + (so2(i)-so3(i))**2  +   &
+                       (so3(i)-so1(i))**2) + three*(so4(i)**2    +   &
+                               so5(i)**2   + so6(i)**2))
+                vm (i)= sqrt(half*(                                  &
+                       (s1(i)-s2(i))**2  + (s2(i)-s3(i))**2      +   &
+                       (s3(i)-s1(i))**2) + three*(s4(i)**2       +   &
+                                s5(i)**2 +    s6(i)**2))                  
+                lbuf%wpla(i) = lbuf%wpla(i) +                        &
+                         half*(vm0(i)+vm(i))*dpla(i)*voln(i)
+              enddo
+            endif
+          endif
+!          
 !=======================================================================
 !                  failure model
 !=======================================================================

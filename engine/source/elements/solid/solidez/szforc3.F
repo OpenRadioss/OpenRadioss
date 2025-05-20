@@ -807,7 +807,7 @@ C Balance thermal material
      .         GRESAV,GRTH,IGRTH,GBUF%OFF,IEXPAN,GBUF%EINTTH,
      .         GBUF%FILL, XGXA, XGYA, XGZA,
      .         XGXA2,XGYA2,XGZA2,XGXYA,XGYZA,XGZXA,ITASK,IPARG(1,NG),
-     .         SENSORS)
+     .         SENSORS,NEL,GBUF%G_WPLA,GBUF%WPLA)
         ENDIF
         RETURN
       ENDIF
@@ -1055,7 +1055,7 @@ C Energy, momentum, mass balance per part in case of output
      .       GRESAV,GRTH,IGRTH,GBUF%OFF,IEXPAN,GBUF%EINTTH,
      .       GBUF%FILL, XGXA, XGYA, XGZA,
      .       XGXA2,XGYA2,XGZA2,XGXYA,XGYZA,XGZXA,ITASK,IPARG(1,NG),
-     .       SENSORS)                                  
+     .       SENSORS,NEL,GBUF%G_WPLA,GBUF%WPLA)                                 
       ENDIF
 C
 C Compute nodal internal forces

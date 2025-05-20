@@ -466,7 +466,8 @@ c
      5   EHOU,       R22,        R23,        R32,
      6   R33,        GRESAV,     GRTH,       IGRTH,
      7   IBIDON(1),  GBUF%EINTTH,ITASK,      NEL,
-     8   JTUR,       JCVT,       IGRE,SENSORS)
+     8   JTUR,       JCVT,       IGRE,       SENSORS,
+     9   GBUF%G_WPLA,GBUF%WPLA)
         ENDIF
         RETURN
       ENDIF
@@ -559,7 +560,8 @@ c
      5   EHOU,       R22,        R23,        R32,
      6   R33,        GRESAV,     GRTH,       IGRTH,
      7   IBIDON(1),  GBUF%EINTTH,ITASK,      NEL,
-     8   JTUR,       JCVT,       IGRE,SENSORS)
+     8   JTUR,       JCVT,       IGRE,       SENSORS,
+     9   GBUF%G_WPLA,GBUF%WPLA)
       ENDIF
 C
 C------------------------
