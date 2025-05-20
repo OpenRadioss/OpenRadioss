@@ -1454,7 +1454,7 @@ C-------coating shell  stif=max(sol,shell)
      .            AREA,NOINT,KNOD2ELS ,NOD2ELS ,0,
      .            IXS10,IXS16,IXS20,TAGELEMS,INDEXE ,
      .            NINV,IELEM,ELEM_LINKED_TO_SEGMENT,PRINT_ERROR,
-     .            NIN25,NTY, FLAG_ELEM_INTER25 ,NINTER25)
+     .            NIN25,NTY, FLAG_ELEM_INTER25)
              IF(PRINT_ERROR) THEN
                 NODE_ID(1:4) = ITAB(IRECT(1:4,I))
           
@@ -1508,7 +1508,7 @@ C----------------------
      .            AREA,NOINT,KNOD2ELS ,NOD2ELS ,0,
      .            IXS10,IXS16,IXS20,TAGELEMS,INDEXE,
      .            NINV ,IELEM,ELEM_LINKED_TO_SEGMENT,PRINT_ERROR,
-     .            NIN25,NTY, FLAG_ELEM_INTER25 ,NINTER25)
+     .            NIN25,NTY, FLAG_ELEM_INTER25)
        IF(PRINT_ERROR) THEN
             NODE_ID(1:4) = ITAB(IRECT(1:4,I))
           
