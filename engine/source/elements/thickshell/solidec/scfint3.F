@@ -41,7 +41,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .   EINT,RHO,Q,EPLAS,EPSD,
      .   EPSDM,SIGM,EINTM,EINTO,RHOM,QM,EPLASM,
      .   NU,ZI,WI,VOLG,MM,OFF,
-     .   VOL0,VOL0G,G_PLA,G_EPSD,NEL,SVIS)
+     .   VOL0,VOL0G,G_PLA,G_EPSD,NEL,SVIS,
+     .   G_WPLA,L_WPLA,  G_WPLA_FLAG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -76,6 +77,9 @@ C     REAL
      .   NU(*),ZI,WI,VOLG(*),MM(MVSIZ,2),OFF(*),
      +   VOL0(*),VOL0G(*)
       my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
+      INTEGER, INTENT(IN) :: G_WPLA_FLAG
+      my_real,DIMENSION(NEL*G_WPLA_FLAG), INTENT(INOUT) :: G_WPLA
+      my_real,DIMENSION(NEL*G_WPLA_FLAG), INTENT(IN) :: L_WPLA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -281,6 +285,7 @@ C   - post-traitement-valeur moyenne au sens a'=(_/  a dv ) /v
          SIGM(I,6) = SIGM(I,6) + FAC(I) * SIG(I,6)
          RHOM(I)   = RHOM(I)   + FAC(I) * RHO(I)
          EINTM(I)  = EINTM(I)+OFF(I)*VOL0(I)/VOL0G(I)*(EINT(I)-EINTO(I))
+         IF (G_WPLA_FLAG > 0)  G_WPLA(I) = G_WPLA(I) + L_WPLA(I)
          QM(I)     = QM(I)     + FAC(I) * Q(I)
       ENDDO
 c

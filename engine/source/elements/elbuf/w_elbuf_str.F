@@ -1425,6 +1425,8 @@ C            L_REL = L_REL + NEL*G_SMSTR
             L_REL = L_REL+NEL*G_EINT_DISTOR
           RBUF_L(L_REL+1:L_REL+NEL*G_FOR_G)= GBUF%FOR_G(1:NEL*G_FOR_G)
             L_REL = L_REL+NEL*G_FOR_G
+          RBUF_L(L_REL+1:L_REL+NEL*G_WPLA) = GBUF%WPLA(1:NEL*G_WPLA)
+            L_REL = L_REL+NEL*G_WPLA  
 c-------
 c
 c        IF (NPG == 1) THEN  ! nothing to write (pointers only)                         
@@ -1483,8 +1485,6 @@ c-------
             L_REL = L_REL+NEL*G_EPSQ
           RBUF_L(L_REL+1:L_REL+NEL*G_PLA)  = GBUF%PLA(1:NEL*G_PLA)
             L_REL = L_REL+NEL*G_PLA
-          RBUF_L(L_REL+1:L_REL+NEL*G_WPLA)  = GBUF%WPLA(1:NEL*G_WPLA)
-            L_REL = L_REL+NEL*G_WPLA            
           RBUF_L(L_REL+1:L_REL+NEL*G_TEMP) = GBUF%TEMP(1:NEL*G_TEMP)
             L_REL = L_REL+NEL*G_TEMP
           RBUF_L(L_REL+1:L_REL+NEL*G_TB)   = GBUF%TB(1:NEL*G_TB)

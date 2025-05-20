@@ -1238,7 +1238,7 @@ c
         IAD = IAD + 1                            
       G_PLA  =  NINT(RBUF(IAD+1))         
         IAD = IAD + 1         
-      G_WPLA  =  NINT(RBUF(IAD+1))         
+      G_WPLA =  NINT(RBUF(IAD+1))         
         IAD = IAD + 1                           
       G_TEMP =  NINT(RBUF(IAD+1))         
         IAD = IAD + 1                            
@@ -1704,6 +1704,9 @@ c          IAD = IAD+NEL*G_SMSTR
       ALLOCATE (ELBUF_STR%GBUF%FOR_G(NEL*G_FOR_G),STAT=ERR)                           
         GBUF%FOR_G(1:NEL*G_FOR_G)=RBUF(IAD+1:IAD+NEL*G_FOR_G)                           
           IAD = IAD+NEL*G_FOR_G
+      ALLOCATE (ELBUF_STR%GBUF%WPLA (NEL*G_WPLA)   ,STAT=ERR)                         
+        GBUF%WPLA(1:NEL*G_WPLA)  = RBUF(IAD+1:IAD+NEL*G_WPLA)                         
+          IAD = IAD+NEL*G_WPLA    
 c-------
       IF (NPG == 1) THEN
         ELBUF_STR%GBUF%FORPG => GBUF%FOR
@@ -1817,9 +1820,6 @@ c------------------------------------------------
         ALLOCATE (ELBUF_STR%GBUF%PLA (NEL*G_PLA)   ,STAT=ERR)                         
           GBUF%PLA(1:NEL*G_PLA)   = RBUF(IAD+1:IAD+NEL*G_PLA)                         
             IAD = IAD+NEL*G_PLA 
-        ALLOCATE (ELBUF_STR%GBUF%WPLA (NEL*G_WPLA)   ,STAT=ERR)                         
-          GBUF%WPLA(1:NEL*G_WPLA)  = RBUF(IAD+1:IAD+NEL*G_WPLA)                         
-            IAD = IAD+NEL*G_WPLA                                                         
         ALLOCATE (ELBUF_STR%GBUF%TEMP(NEL*G_TEMP)  ,STAT=ERR)                         
           GBUF%TEMP(1:NEL*G_TEMP) = RBUF(IAD+1:IAD+NEL*G_TEMP)                        
             IAD = IAD+NEL*G_TEMP                                                      

@@ -402,7 +402,7 @@
 
           my_real ss1(mvsiz),ss2(mvsiz), ss3(mvsiz),ss4(mvsiz),ss5(mvsiz),ss6(mvsiz)
           my_real r11(mvsiz),r12(mvsiz),r13(mvsiz),r21(mvsiz),r22(mvsiz),r23(mvsiz),r31(mvsiz),r32(mvsiz),r33(mvsiz)
-          my_real dpla(mvsiz),tstar(mvsiz),epsp(mvsiz),xk(mvsiz),                  &
+          my_real dpla(mvsiz),tstar(mvsiz),epsp(mvsiz),xk(mvsiz),vm(nel),vm0(nel), &
           &       tempel0(mvsiz), fscal_alpha , sigl(mvsiz,6)
           my_real es1(mvsiz), es2(mvsiz),  es3(mvsiz),  es4(mvsiz),  es5(mvsiz),   &
           &       es6(mvsiz), eint(mvsiz), dpdm(mvsiz), dpde(mvsiz),ecold(mvsiz),  &
@@ -2166,7 +2166,46 @@
               enddo
             endif
           endif
-!-----------------------------------------------------------------------
+!------------------------------------------------------------
+!     Computation of the Plastic Work
+!------------------------------------------------------------
+          if (.not.l_mulaw_called)  then
+
+            if (elbuf_tab(ng)%bufly(ilay)%l_pla > 0) then  
+              !< Reset plastic work in case of fully integrated element
+              if ((npg > 1) .and. (ipg == 1)) then 
+                do i = 1,nel
+                  gbuf%wpla(i) = zero
+                enddo
+              endif
+
+              !< Case where equivalent stress is computed in the material law
+              if (elbuf_tab(ng)%bufly(ilay)%l_seq > 0) then
+                do i = 1,nel 
+                  lbuf%wpla(i) = lbuf%wpla(i) + lbuf%seq(i)*dpla(i)*voln(i)
+                enddo
+              !< Default case using Von Mises stress
+              else
+                do i = 1,nel
+                  vm0(i) = sqrt(half*(                                         &
+                    (s1(i)-s2(i))**2 + (s2(i)-s3(i))**2 + (s3(i)-s1(i))**2) +  &
+                      three*(s4(i)**2 + s5(i)**2 + s6(i)**2))
+                  ss1(i) = lbuf%sig(nel*(1-1) + i)
+                  ss2(i) = lbuf%sig(nel*(2-1) + i)
+                  ss3(i) = lbuf%sig(nel*(3-1) + i)
+                  ss4(i) = lbuf%sig(nel*(4-1) + i)
+                  ss5(i) = lbuf%sig(nel*(5-1) + i)
+                  ss6(i) = lbuf%sig(nel*(6-1) + i)
+                  vm(i) = sqrt(half*(                                          &
+                    (ss1(i)-ss2(i))**2  + (ss2(i)-ss3(i))**2 +                 &
+                    (ss3(i)-ss1(i))**2) + three*(ss4(i)**2 + ss5(i)**2 +       &
+                             ss6(i)**2))  
+                  lbuf%wpla(i) = lbuf%wpla(i) + vm(i)*dpla(i)*voln(i)
+                enddo
+              endif
+            endif
+         endif
+!-----------------------------------------------------------------------visc
 !     failure for law no user ---
 !-----------------------------------------------------------------------
           if ((itask==0).and.(imon_mat==1))call startime(timers, 121)

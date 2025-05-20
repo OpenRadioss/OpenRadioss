@@ -105,14 +105,16 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,J,IPT,IPID,IPLA,NPAR,IADBUF,NFUNC,ISRATE,IPY,IPZ,IPA,II(3)
       my_real :: DTINV,ASRATE,EPSDI,DMPM,DMPF,SPE,SPG,RHO,FACT,AREA,
-     .           DMM,DMPFL,IXX,IYY,IZZ,G,E,DAMAGE_LOC,DFXX,DFXY,DFXZ
+     .           DMM,DMPFL,IXX,IYY,IZZ,G,E,DAMAGE_LOC,DFXX,DFXY,DFXZ,
+     .           SIGNXX,SIGNXY,SIGNXZ,SIGOXX,SIGOXY,SIGOXZ
       my_real ,DIMENSION(NEL ):: DEGMB,DEGSH,DEGFX,YPT,ZPT,APT,OFF_OLD
-      my_real ,DIMENSION(:,:) ,ALLOCATABLE :: DPLA, SIGY
+      my_real ,DIMENSION(:,:) ,ALLOCATABLE :: DPLA,SIGY,VM,VM0
 C=======================================================================
       IPY  = 200        
       IPZ  = 300        
       IPA  = 400        
       IPID = PID(1)
+      AREA = GEO(1 ,IPID)
       DO I=1,3
         II(I) = NEL*(I-1)
       ENDDO
@@ -161,14 +163,22 @@ C
           MOM(I,3) = ZERO
         ENDDO
       ENDIF
+c
+      ! Plasticity specific tables
       IPLA = ELBUF_STR%BUFLY(1)%L_PLA
       ALLOCATE (DPLA(NEL*IPLA,NPT*IPLA))
-      ALLOCATE (SIGY(NEL*IPLA,NPT*IPLA))      
-      IF (IFAIL > 0 .and. IPLA > 0) THEN
-        DO I = 1,NEL
-          DO J=1,NPT
+      ALLOCATE (SIGY(NEL*IPLA,NPT*IPLA)) 
+      ALLOCATE (VM0(NEL*IPLA,NPT*IPLA))   
+      ALLOCATE (VM(NEL*IPLA,NPT*IPLA))  
+      IF (IPLA > 0) THEN
+        DO J=1,NPT
+          DO I = 1,NEL
             DPLA(I,J) = ELBUF_STR%BUFLY(1)%LBUF(1,1,J)%PLA(I)
             SIGY(I,J) = 1.E30 
+            SIGOXX    = ELBUF_STR%BUFLY(1)%LBUF(1,1,J)%SIG(II(1)+I)
+            SIGOXY    = ELBUF_STR%BUFLY(1)%LBUF(1,1,J)%SIG(II(2)+I)
+            SIGOXZ    = ELBUF_STR%BUFLY(1)%LBUF(1,1,J)%SIG(II(3)+I) 
+            VM0(I,J)  = SQRT(SIGOXX**2 + THREE*(SIGOXY**2 + SIGOXZ**2))
           ENDDO
         ENDDO
       ENDIF
@@ -193,19 +203,28 @@ c
      5                EXX     ,EXY     ,EXZ     ,KXX     ,
      6                KYY     ,KZZ     ,JTHE    ,TEMPEL  ,SIGY  )
       ENDIF
+!
+c---------------------------
+c     Computation of Plastic Work
+c---------------------------
+      IF (IPLA > 0) THEN
+        DO J=1,NPT
+          DO I = 1,NEL
+            DPLA(I,J) = ELBUF_STR%BUFLY(1)%LBUF(1,1,J)%PLA(I) - DPLA(I,J)
+            SIGNXX = ELBUF_STR%BUFLY(1)%LBUF(1,1,J)%SIG(II(1)+I)
+            SIGNXY = ELBUF_STR%BUFLY(1)%LBUF(1,1,J)%SIG(II(2)+I)
+            SIGNXZ = ELBUF_STR%BUFLY(1)%LBUF(1,1,J)%SIG(II(3)+I)
+            VM(I,J) = SQRT(SIGNXX**2 + THREE*(SIGNXY**2 + SIGNXZ**2))
+            IF (ELBUF_STR%GBUF%G_WPLA > 0) ELBUF_STR%GBUF%WPLA(I) = ELBUF_STR%GBUF%WPLA(I) + 
+     .             HALF*(VM(I,J)+VM0(I,J))*DPLA(I,J)*AL(I)*AREA/NPT
+          ENDDO
+        ENDDO
+      ENDIF  
 c---------------------------
 c     failure models
 c---------------------------
       IF (IFAIL > 0) THEN
-        IF (IPLA > 0) THEN
-          DO I = 1,NEL
-            DO J=1,NPT
-              DPLA(I,J) = ELBUF_STR%BUFLY(1)%LBUF(1,1,J)%PLA(I) -DPLA(I,J)
-            ENDDO
-          ENDDO
-        END IF           
 c
-        AREA = GEO(1 ,IPID)
         CALL FAIL_BEAM18(
      .              ELBUF_STR,MAT_PARAM%FAIL(1),NUMMAT  ,NUMGEO  ,
      .              NPROPM   ,NPROPG  ,SNPC    ,STF     ,

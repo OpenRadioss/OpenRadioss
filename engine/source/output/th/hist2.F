@@ -568,6 +568,8 @@ C                                    [Izx Iyz Izz]   {ZZMOM}
                  WA(II)=SUBSAV(4)/MAX(SUBSAV(6),EM20)
               ELSEIF(K==31) THEN 
                  WA(II)=SUBSAV(5)/MAX(SUBSAV(6),EM20)
+              ELSEIF(K==32) THEN
+                 WA(II)=SUBSAV(29)
               ELSEIF(K > 0) THEN
                  WA(II)=SUBSAV(K)
               ELSE 
