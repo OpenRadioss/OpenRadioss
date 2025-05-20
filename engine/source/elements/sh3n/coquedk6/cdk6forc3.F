@@ -482,7 +482,8 @@ C--------------------------
      5   GRTH,       IGRTH,      OFF,        IBID,
      6   IBID,       IBID,       IBID,       IBID,
      7   IEXPAN,     GBUF%EINTTH,ITASK,      MAT,
-     8   GBUF%VOL,   ACTIFXFEM,  IGRE,SENSORS)
+     8   GBUF%VOL,   ACTIFXFEM,  IGRE,       SENSORS,
+     9   NEL,        GBUF%G_WPLA,GBUF%WPLA)
       IF(IPARIT==0)THEN
         CALL CDK6UPDT3(JFT  ,JLT  ,F   ,M   ,NVC  ,
      2             GBUF%OFF,OFF  ,STI ,STIR,STIFN,

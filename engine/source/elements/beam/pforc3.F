@@ -337,7 +337,7 @@ C--------------------------
      8   VY1G,     VY2G,     VZ1G,     VZ2G,
      9   X1,       X2,       Y1,       Y2,
      A   Z1,       Z2,       ITASK,    H3D_DATA,
-     B   IGRE,     SENSORS)
+     B   IGRE,     SENSORS,GBUF%G_WPLA,GBUF%WPLA)
 C-------------------------
 C     /PRELOAD/AXIAL
 C-------------------------

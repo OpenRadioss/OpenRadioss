@@ -35,7 +35,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .   VZ1, VZ2, VZ3, VZ4, VNEW,IPARTS,GRESAV,
      .   GRTH,IGRTH,IEXPAN,EINTTH,FILL ,
      .   X1, X2, X3, X4, Y1, Y2, Y3, Y4, 
-     .   Z1, Z2, Z3, Z4,ITASK,IPARG,OFFG,SENSORS)
+     .   Z1, Z2, Z3, Z4,ITASK,IPARG,OFFG,SENSORS,
+     .   NEL, G_WPLA, WPLA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -71,6 +72,8 @@ C     REAL
      .  IPARTS(*),GRTH(*),IGRTH(*),IPARG(*)
       my_real, INTENT(IN) :: OFFG(MVSIZ)
       type (sensors_),INTENT(INOUT) :: SENSORS
+      INTEGER, INTENT(IN) :: NEL,G_WPLA
+      my_real,DIMENSION(NEL*G_WPLA), INTENT(IN) :: WPLA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -127,6 +130,7 @@ C
         PARTSAV(4,M)=PARTSAV(4,M) + YM(I)
         PARTSAV(5,M)=PARTSAV(5,M) + ZM(I)
         IF (OFFG(I) >= ONE) PARTSAV(6,M)=PARTSAV(6,M) + XMAS(I)
+        IF (G_WPLA > 0)  PARTSAV(29,M)=PARTSAV(29,M) + WPLA(I)
       ENDDO 
 C-----------------------------------------------
 C     CALCUL BILAN SORTIES ADDITIONNELLES 

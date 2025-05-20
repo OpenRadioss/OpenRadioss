@@ -547,7 +547,8 @@ c        IFLAG = MOD(NCYCLE,NCPRI)
      A   Y2G,      Y3G,      Y4G,      Z1G,
      B   Z2G,      Z3G,      Z4G,      IXFEM,
      C   IEXPAN,   EINTTH,   ITASK,    GBUF%VOL,
-     D   ACTIFXFEM,IGRE,SENSORS)
+     D   ACTIFXFEM,IGRE,SENSORS,NEL,GBUF%G_WPLA,
+     E   GBUF%WPLA )
        ENDIF
 C--------------------------
 C     PAS DE TEMPS

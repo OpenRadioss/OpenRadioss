@@ -862,6 +862,7 @@ c           LGLOB = LGLOB + GBUF%G_SMSTR
           LGLOB = LGLOB + GBUF%G_MAXEPS   
           LGLOB = LGLOB + GBUF%G_AMU 
           LGLOB = LGLOB + GBUF%G_EINT_DISTOR
+          LGLOB = LGLOB + GBUF%G_WPLA
 
           IF (NPG > 1) THEN
             LGLOB = LGLOB + GBUF%G_FORPG
@@ -890,7 +891,6 @@ C
             LGLOB = LGLOB + GBUF%G_EPSD  
             LGLOB = LGLOB + GBUF%G_EPSQ
             LGLOB = LGLOB + GBUF%G_PLA   
-            LGLOB = LGLOB + GBUF%G_WPLA              
             LGLOB = LGLOB + GBUF%G_TEMP  
             LGLOB = LGLOB + GBUF%G_TB    
             LGLOB = LGLOB + GBUF%G_RK    
@@ -1682,6 +1682,7 @@ C-------G_THK_I =  G_THK
           LGLOB = LGLOB + GBUF%G_MAXFRAC
           LGLOB = LGLOB + GBUF%G_MAXEPS    
           LGLOB = LGLOB + GBUF%G_FOR_G
+          LGLOB = LGLOB + GBUF%G_WPLA             
           IF (NPG > 1) THEN
             LGLOB = LGLOB + GBUF%G_FORPG
             LGLOB = LGLOB + GBUF%G_MOMPG
@@ -1717,7 +1718,6 @@ C
             LGLOB = LGLOB + GBUF%G_EPSD  
             LGLOB = LGLOB + GBUF%G_EPSQ  
             LGLOB = LGLOB + GBUF%G_PLA   
-            LGLOB = LGLOB + GBUF%G_WPLA             
             LGLOB = LGLOB + GBUF%G_TEMP  
             LGLOB = LGLOB + GBUF%G_TB    
             LGLOB = LGLOB + GBUF%G_RK    

@@ -33,7 +33,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE S10BILAN(PARTSAV,EINT,RHO,RK,VOL,
      .   VX, VY, VZ, NX, VNEW,IPARTS,
      .   GRESAV,GRTH,IGRTH,IEXPAN,EINTTH,
-     .   FILL  ,X, Y, Z,ITASK,IPARG,OFFG,SENSORS)
+     .   FILL  ,X, Y, Z,ITASK,IPARG,OFFG,SENSORS, 
+     .   NEL, L_WPLA, WPLA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -60,11 +61,13 @@ C     REAL
      .  VX(MVSIZ,10),VY(MVSIZ,10),VZ(MVSIZ,10),
      .  NX(MVSIZ,10),VNEW(*),GRESAV(*),EINTTH(*),
      .  FILL(*),
-     .  X(MVSIZ,10),Y(MVSIZ,10),Z(MVSIZ,10)
+     .  X(MVSIZ,10),Y(MVSIZ,10),Z(MVSIZ,10)   
       INTEGER IEXPAN,ITASK,
      .  IPARTS(*),GRTH(*),IGRTH(*),IPARG(*)
       my_real, INTENT(IN) :: OFFG(MVSIZ)
       type (sensors_),INTENT(INOUT) :: SENSORS
+      INTEGER, INTENT(IN) :: NEL,L_WPLA
+      my_real,DIMENSION(NEL*L_WPLA),INTENT(IN) :: WPLA   
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -171,6 +174,7 @@ C
         PARTSAV(4,M)=PARTSAV(4,M) + YM(I)
         PARTSAV(5,M)=PARTSAV(5,M) + ZM(I)
         IF (OFFG(I) >= ONE) PARTSAV(6,M)=PARTSAV(6,M) + XMAS(I)
+        IF (L_WPLA > 0)  PARTSAV(29,M)=PARTSAV(29,M) + WPLA(I)
       ENDDO
 C
 C-----------------------------------------------

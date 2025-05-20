@@ -105,7 +105,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,IPID,IPLA,ISRATE,NUPARAM,NFUNC,IADBUF,IFUNC(100)
       my_real :: AREA,IYY,IZZ,IXX,ASRATE,EPSDI,FACT
-      my_real ,DIMENSION(NEL) :: DPLA,SVM,PRESSURE,DEGMB,DEGFX,DEGSH,SIGY
+      my_real ,DIMENSION(NEL) :: DPLA,SVM,PRESSURE,DEGMB,DEGFX,DEGSH,SIGY,
+     .   SVM0
 c=======================================================================
       IPID = PID(1)
 c-------------------
@@ -113,6 +114,12 @@ c     STRAIN RATE
 c-------------------
       ISRATE = IPM(3,IMAT)                      
       ASRATE = MIN(ONE, PM(9,IMAT)*DTIME)
+c
+      ! Geometric properties of the beam element
+      AREA = GEO(1 ,IPID)
+      IXX  = GEO(4 ,IPID)
+      IYY  = GEO(2 ,IPID)
+      IZZ  = GEO(18,IPID)
 c
       DO I = 1,NEL                                              
         EPSDI  = HALF*(EXX(I)**2) + (HALF*EXY(I))**2 + (HALF*EXZ(I))**2
@@ -141,16 +148,6 @@ c-------------------
         DEGFX(I) = MOM(I,1)*KXX(I)+MOM(I,2)*KYY(I)+MOM(I,3)*KZZ(I)
       ENDDO
 c
-      IPLA = ELBUF_STR%GBUF%G_PLA
-   
-      ! Cumulated plastic strain increment
-      IF (IFAIL > 0 .and. IPLA > 0) THEN
-
-        DO I = 1,NEL
-          DPLA(I) = ELBUF_STR%GBUF%PLA(I)
-        ENDDO
-      ENDIF
-
       ! Compute undamaged forces and internal energy increment
       IF (ELBUF_STR%GBUF%G_DMGSCL > 0) THEN 
         DO I = 1,NEL
@@ -160,6 +157,19 @@ c
           MOM(I,1) = MOM(I,1)/MAX(EM20,ELBUF_STR%GBUF%DMGSCL(I))
           MOM(I,2) = MOM(I,2)/MAX(EM20,ELBUF_STR%GBUF%DMGSCL(I))
           MOM(I,3) = MOM(I,3)/MAX(EM20,ELBUF_STR%GBUF%DMGSCL(I))
+        ENDDO
+      ENDIF
+c
+      IPLA = ELBUF_STR%GBUF%G_PLA
+      ! Cumulated plastic strain increment
+      IF (IPLA > 0) THEN
+        DO I = 1,NEL
+          DPLA(I) = ELBUF_STR%GBUF%PLA(I)
+          SVM0(I) = FOR(I,1)*FOR(I,1) + THREE * AREA *
+     .             ( MOM(I,1)*MOM(I,1) / MAX(IXX,EM20)
+     .             + MOM(I,2)*MOM(I,2) / MAX(IYY,EM20)
+     .             + MOM(I,3)*MOM(I,3) / MAX(IZZ,EM20))
+          SVM0(I) = SQRT(SVM0(I)) / AREA
         ENDDO
       ENDIF
 c
@@ -203,18 +213,13 @@ c
       END SELECT
 c
 c---------------------------
-c     failure models
+c     Plastic Work
 c---------------------------
-      IF (IFAIL > 0) THEN
-        IF (IPLA > 0) THEN
-          DO I = 1,NEL
-            DPLA(I) = ELBUF_STR%GBUF%PLA(I) - DPLA(I)
-          ENDDO
-        ENDIF
-        AREA = GEO(1 ,IPID)
-        IXX  = GEO(4 ,IPID)
-        IYY  = GEO(2 ,IPID)
-        IZZ  = GEO(18,IPID)
+      IF (IPLA > 0 .OR. IFAIL  > 0) THEN
+        DO I = 1,NEL
+          DPLA(I) = ELBUF_STR%GBUF%PLA(I) - DPLA(I)
+        ENDDO
+
         DO I = 1,NEL
           SVM(I) = F1(I)*F1(I) + THREE * AREA *
      .             ( M1(I)*M1(I) / MAX(IXX,EM20)
@@ -223,6 +228,20 @@ c---------------------------
           SVM(I) = SQRT(SVM(I)) / AREA
           PRESSURE(I) = THIRD * F1(I) / AREA
         ENDDO
+        
+        IF (IPLA > 0) THEN
+          DO I = 1,NEL
+            IF (ELBUF_STR%GBUF%G_WPLA > 0)   ELBUF_STR%GBUF%WPLA(I) = ELBUF_STR%GBUF%WPLA(I) + 
+     .             HALF*(SVM(I)+SVM0(I))*DPLA(I)*AREA*AL(I)
+          ENDDO
+        ENDIF 
+
+      ENDIF
+c
+c---------------------------
+c     failure models
+c---------------------------
+      IF (IFAIL > 0) THEN
 c
         CALL FAIL_BEAM3(ELBUF_STR    ,MAT_PARAM%FAIL(1),NUMMAT  ,
      .              NPROPM  ,SNPC    ,STF     ,

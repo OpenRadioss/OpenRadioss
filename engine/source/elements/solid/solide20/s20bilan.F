@@ -33,7 +33,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE S20BILAN(PARTSAV,EINTG,RHOG, VOLG,
      .   VX, VY, VZ,IPARTS, VOL0G,
      .   GRESAV,GRTH,IGRTH,IEXPAN,EINTTH,
-     .   FILL ,X, Y, Z,ITASK,IPARG,OFFG,SENSORS)
+     .   FILL ,X, Y, Z,ITASK,IPARG,OFFG,SENSORS,
+     .   NEL,G_WPLA,WPLA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -64,6 +65,8 @@ C     REAL
      .  FILL(*),
      .  X(MVSIZ,*),Y(MVSIZ,*),Z(MVSIZ,*)
       my_real, INTENT(IN) :: OFFG(MVSIZ)
+      INTEGER, INTENT(IN) :: NEL,G_WPLA
+      my_real,DIMENSION(NEL*G_WPLA), INTENT(IN) :: WPLA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -157,6 +160,7 @@ C
         PARTSAV(4,M)=PARTSAV(4,M) + XMAS(I)*VYA(I)
         PARTSAV(5,M)=PARTSAV(5,M) + XMAS(I)*VZA(I)
         IF (OFFG(I) >= ONE) PARTSAV(6,M)=PARTSAV(6,M) + XMAS(I)
+        IF (G_WPLA > 0)  PARTSAV(29,M)=PARTSAV(29,M) + WPLA(I)
       ENDDO
 C
       IF(IEXPAN/=0)THEN
@@ -278,6 +282,7 @@ C
           PARTSAV(20,M)=PARTSAV(20,M) + IZX(I)
           PARTSAV(21,M)=PARTSAV(21,M) + REI(I)
           PARTSAV(22,M)=PARTSAV(22,M) + REK(I) 
+
         ENDDO
       ENDIF
 C

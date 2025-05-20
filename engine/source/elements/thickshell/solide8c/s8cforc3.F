@@ -1082,7 +1082,8 @@ C
      7   OFF,             LBUF%VOL,        GBUF%VOL,        GBUF%G_PLA*L_PLA,
      8   L_EPSD,          FAC,             LBUF%EINTTH,     GBUF%EINTTH,
      9   IEXPAN,          NEL,             IDEG,            CONDE,
-     A   CONDEN,          MTN,             ISMSTR,          SVIS ,GLOB_THERM%NODADT_THERM)
+     A   CONDEN,          MTN,             ISMSTR,          SVIS ,GLOB_THERM%NODADT_THERM,
+     B   GBUF%WPLA,       LBUF%WPLA,       GBUF%G_WPLA       )
         ELSE
 C----------------------------
 C         INTERNAL FORCES
@@ -1132,7 +1133,8 @@ C----------------------------
      7   OFF,        LBUF%VOL,   GBUF%VOL,   L_PLA,
      8   L_EPSD,     FAC,        LBUF%EINTTH,GBUF%EINTTH,
      9   IEXPAN,     NEL,        IDEG,       CONDE,
-     A   CONDEN,     MTN,        ISMSTR,     SVIS,GLOB_THERM%NODADT_THERM)
+     A   CONDEN,     MTN,        ISMSTR,     SVIS,GLOB_THERM%NODADT_THERM,
+     B   GBUF%WPLA,  LBUF%WPLA,  GBUF%G_WPLA  )
         ENDIF
         DO I=LFT,LLT                                        
           OFFL(I)=MIN(OFFL(I),OFF(I))                        
@@ -1306,13 +1308,14 @@ C--------------------------
      .                  X1, X2, X3, X4, X5, X6, X7, X8,
      .                  Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .                  Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
-     .                  ITASK,IPARG(1,NG),SENSORS)
+     .                  ITASK,IPARG(1,NG),SENSORS,GBUF%G_WPLA,GBUF%WPLA)
            ELSE
             CALL SRBILAN(PARTSAV,GBUF%EINT,GBUF%RHO,GBUF%RK,GBUF%VOL,
      .                   VGXA, VGYA, VGZA, VGA2, VOLG,IPARTS,
      .                   GRESAV,GRTH,IGRTH,GBUF%OFF,IEXPAN,GBUF%EINTTH,
      .                   GBUF%FILL,XGXA, XGYA, XGZA,
-     .                   XGXA2,XGYA2,XGZA2,XGXYA,XGYZA,XGZXA,ITASK,IPARG(1,NG),SENSORS)
+     .                   XGXA2,XGYA2,XGZA2,XGXYA,XGYZA,XGZXA,ITASK,IPARG(1,NG),SENSORS,
+     .                   NEL,GBUF%G_WPLA,GBUF%WPLA)
            ENDIF
       ENDIF
 C----------------------------

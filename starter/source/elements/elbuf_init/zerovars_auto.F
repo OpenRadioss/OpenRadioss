@@ -79,7 +79,7 @@ c
       IAD = IAD + 1
       GBUF%G_PLA   = 0   
       IAD = IAD + 1
-      GBUF%G_WPLA   = 0   
+      GBUF%G_WPLA  = 0   
       IAD = IAD + 1    
       GBUF%G_TEMP  = 0   
       IAD = IAD + 1
