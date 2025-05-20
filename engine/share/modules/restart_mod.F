@@ -88,14 +88,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       INTEGER, DIMENSION(:), ALLOCATABLE :: IBFTEMP, IBCV, IBCR, IBFFLUX
 
         INTEGER , DIMENSION(:), ALLOCATABLE :: 
-     .      IAD_ELEM,  IAD_RBY,  IAD_RBY2, IAD_I2M, 
-     .      IADCJ,     IAD_RBM,  IAD_RBM2, IAD_SEC,    IAD_CUT,   FR_ELEM, 
+     .      IAD_RBY,  IAD_RBY2, IAD_I2M, 
+     .      IADCJ,     IAD_RBM,  IAD_RBM2, IAD_SEC,    IAD_CUT,    
      .      FR_RBY,    FR_WALL,  FR_RBY2,  FR_I2M,     FR_MV,    FR_LL, 
      .      FR_CJ,     FR_RBM,   FR_RBM2,  FR_SEC,     FR_CUT,    RG_CUT, 
-     .      FR_MAD,    FR_I18,   NEWFRONT,   NODGLOB,   NBRCVOIS, 
+     .      FR_MAD,    FR_I18,   NEWFRONT,   NBRCVOIS, 
      .      LNRCVOIS,  NBSDVOIS, LNSDVOIS, NERCVOIS,   LERCVOIS,  NESDVOIS, 
      .      LESDVOIS,  NPSEGCOM, LSEGCOM,  NPORGEO, 
-     .      LNODPOR,   PROCNE,
+     .      LNODPOR,   
      .      ADDCNI2,   PROCNI2,   IADWAL, 
      .      IADRBK,    IADI2,    IADMV2,   IADMV3,     IADLL,     IADRBM, 
      .      IADI18,    ILINK,    FR_RL,    LLINK,      IADRL,     LINALE,
@@ -113,7 +113,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
         my_real , 
      .    DIMENSION(:), ALLOCATABLE :: 
-!    .      X,       D,       V,       VR,      DR,      THKE,
      .      THKE,
      .      DAMPR,   DAMP,    TF,      PM, 
      .      XFRAME,  GEO,     EANI,    BUFMAT,  BUFGEO,

@@ -43,6 +43,7 @@
             my_real, dimension(:), allocatable :: FSKYD !< sph ?
             integer, dimension(:), allocatable :: ADSKY !< pointers to FSKY
              !spmd:
+            integer, dimension(:), allocatable :: PROCNE !< processor ID of each contribution to FSKY
             integer, dimension(:), allocatable :: IADRCP !< reception of forces
             integer, dimension(:), allocatable :: IRECVP !< reception of forces
             integer, dimension(:), allocatable :: IADSDP !< send forces
