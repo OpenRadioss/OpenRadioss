@@ -295,7 +295,7 @@ C-----------------------------------------------
      1                  IFLAG ,NEL  ,PM   ,OFF   ,EINT  ,MU  ,MU2,
      2                  DVOL  ,MAT  ,PSH  ,
      3                  PNEW  ,DPDM ,DPDE ,MU_BAK,
-     4                  NPROPM,NUMMAT)
+     4                  NPROPM,NUMMAT,MAT_PARAM%EOS)
 
        CASE(14)
          !--------------------------------------------------!
