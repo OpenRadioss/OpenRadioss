@@ -53,11 +53,12 @@
 !! \details     EOSMAIN / IFLG = 2 : SINGLE PASS FOR P[n+1] AND DERIVATIVES
 !----------------------------------------------------------------------------
       !||====================================================================
-      !||    compaction     ../common_source/eos/compaction.F90
+      !||    compaction      ../common_source/eos/compaction.F90
       !||--- called by ------------------------------------------------------
-      !||    eosmain        ../common_source/eos/eosmain.F
+      !||    eosmain         ../common_source/eos/eosmain.F
       !||--- uses       -----------------------------------------------------
-      !||    constant_mod   ../common_source/modules/constant_mod.F
+      !||    constant_mod    ../common_source/modules/constant_mod.F
+      !||    eos_param_mod   ../common_source/modules/mat_elem/eos_param_mod.F90
       !||====================================================================
       subroutine compaction(&
                             iflag , nel   , pm    , off  , eint , mu   , mu2 , &

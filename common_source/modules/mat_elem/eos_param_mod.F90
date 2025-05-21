@@ -24,10 +24,12 @@
       !||====================================================================
       !||    eos_param_mod                ../common_source/modules/mat_elem/eos_param_mod.F90
       !||--- called by ------------------------------------------------------
+      !||    compaction                   ../common_source/eos/compaction.F90
       !||    compaction2                  ../common_source/eos/compaction2.F90
       !||    compaction_tab               ../common_source/eos/compaction_tab.F90
       !||    compaction_tab_init          ../common_source/eos/compaction_tab.F90
       !||    eos_table_copy               ../starter/source/materials/tools/eos_table_copy.F90
+      !||    hm_read_eos_compaction       ../starter/source/materials/eos/hm_read_eos_compaction.F90
       !||    hm_read_eos_compaction2      ../starter/source/materials/eos/hm_read_eos_compaction2.F90
       !||    hm_read_eos_compaction_tab   ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
       !||    matparam_def_mod             ../common_source/modules/mat_elem/matparam_def_mod.F90

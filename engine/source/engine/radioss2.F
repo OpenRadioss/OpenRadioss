@@ -67,8 +67,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    restalloc                    ../engine/source/output/restart/arralloc.F
       !||    setignorecore                ../engine/source/system/traceback_handler.c
       !||    solver_stacksize             ../common_source/comm/stacksize.cpp
-      !||    spmd_allreduce_db            ../engine/source/mpi/generic/spmd_allreduce_db.F
-      !||    spmd_allreduce_int           ../engine/source/mpi/generic/spmd_allreduce_db.F
       !||    spmd_reduce_db               ../engine/source/mpi/generic/spmd_reduce_db.F
       !||    spmd_rst_check               ../engine/source/mpi/init/spmd_rst_check.F
       !||    stack_ply_alloc              ../engine/share/modules/stack_mod.F
@@ -124,6 +122,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sensor_mod                   ../common_source/modules/sensor_mod.F90
       !||    skew_mod                     ../common_source/modules/skew_mod.F90
       !||    soltosph_mod                 ../engine/share/modules/soltosph_mod.F
+      !||    spmd_mod                     ../engine/source/mpi/spmd_mod.F90
       !||    stack_mod                    ../engine/share/modules/stack_mod.F
       !||    state_mod                    ../common_source/modules/state_mod.F
       !||    table_glob_mod               ../engine/share/modules/table_glob_mod.F

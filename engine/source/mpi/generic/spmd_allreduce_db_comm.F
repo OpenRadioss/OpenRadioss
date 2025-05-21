@@ -22,8 +22,6 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
       !||    spmd_allreduce_db_comm   ../engine/source/mpi/generic/spmd_allreduce_db_comm.F
-      !||--- called by ------------------------------------------------------
-      !||    telesc                   ../engine/source/constraints/general/cyl_joint/telesc.F
       !||--- calls      -----------------------------------------------------
       !||====================================================================
         SUBROUTINE SPMD_ALLREDUCE_DB_COMM(VALUE,RES,MY_SIZE,MY_OPERATION,MY_COMM)

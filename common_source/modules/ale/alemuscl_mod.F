@@ -40,6 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_mat37                    ../starter/source/materials/mat/mat037/hm_read_mat37.F
       !||    hm_read_mat51                    ../starter/source/materials/mat/mat051/hm_read_mat51.F
       !||    lectur                           ../engine/source/input/lectur.F
+      !||    multi_submatlaw                  ../engine/source/multifluid/multi_submatlaw.F
       !||    radioss2                         ../engine/source/engine/radioss2.F
       !||    rdcomi                           ../engine/source/output/restart/rdcomm.F
       !||    resol                            ../engine/source/engine/resol.F

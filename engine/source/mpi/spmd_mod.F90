@@ -27,11 +27,16 @@
       !||    inttri                          ../engine/source/interfaces/intsort/inttri.F
       !||    python_element_init             ../engine/source/mpi/python_spmd_mod.F90
       !||    python_element_sync             ../engine/source/mpi/python_spmd_mod.F90
+      !||    radioss2                        ../engine/source/engine/radioss2.F
       !||    resol                           ../engine/source/engine/resol.F
+      !||    sensor_dist_surf0               ../engine/source/tools/sensor/sensor_dist_surf0.F
+      !||    sensor_spmd                     ../engine/source/tools/sensor/sensor_spmd.F
+      !||    sensor_temp0                    ../engine/source/tools/sensor/sensor_temp0.F
       !||    sph_crit_voxel                  ../engine/source/elements/sph/sph_crit_voxel.F90
       !||    sphprep                         ../engine/source/elements/sph/sphprep.F
       !||    sphtri0                         ../engine/source/elements/sph/sphtri0.F
       !||    spmd_all_dmax                   ../engine/source/mpi/elements/spmd_sph.F
+      !||    spmd_box_limit_reduction        ../engine/source/mpi/interfaces/spmd_box_limit_reduction.F
       !||    spmd_e1vois                     ../engine/source/mpi/fluid/spmd_cfd.F
       !||    spmd_e4vois                     ../engine/source/mpi/fluid/spmd_cfd.F
       !||    spmd_e6vois                     ../engine/source/mpi/fluid/spmd_cfd.F
@@ -101,6 +106,7 @@
       !||    spmd_wvois                      ../engine/source/mpi/fluid/spmd_cfd.F
       !||    spmd_xv_inter_type1             ../engine/source/mpi/nodes/spmd_sd_xv_inter1.F90
       !||    spmd_xvois                      ../engine/source/mpi/fluid/spmd_cfd.F
+      !||    telesc                          ../engine/source/constraints/general/cyl_joint/telesc.F
       !||    thermbilan                      ../engine/source/constraints/thermic/thermbilan.F
       !||====================================================================
       module spmd_mod
@@ -213,6 +219,7 @@
       !||--- called by ------------------------------------------------------
       !||    spmd_allreduce_double    ../engine/source/mpi/spmd_mod.F90
       !||    spmd_allreduce_doubles   ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_allreduce_int       ../engine/source/mpi/spmd_mod.F90
       !||    spmd_allreduce_ints      ../engine/source/mpi/spmd_mod.F90
       !||    spmd_allreduce_real      ../engine/source/mpi/spmd_mod.F90
       !||    spmd_allreduce_reals     ../engine/source/mpi/spmd_mod.F90
@@ -295,6 +302,7 @@
       !||--- called by ------------------------------------------------------
       !||    spmd_allreduce_double    ../engine/source/mpi/spmd_mod.F90
       !||    spmd_allreduce_doubles   ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_allreduce_int       ../engine/source/mpi/spmd_mod.F90
       !||    spmd_allreduce_ints      ../engine/source/mpi/spmd_mod.F90
       !||    spmd_allreduce_real      ../engine/source/mpi/spmd_mod.F90
       !||    spmd_allreduce_reals     ../engine/source/mpi/spmd_mod.F90
@@ -452,7 +460,7 @@
       !||--- called by ------------------------------------------------------
       !||    spmd_allreduce_double    ../engine/source/mpi/spmd_mod.F90
       !||    spmd_allreduce_doubles   ../engine/source/mpi/spmd_mod.F90
-      !||    spmd_allreduce_int       ../engine/source/mpi/generic/spmd_allreduce_db.F
+      !||    spmd_allreduce_int       ../engine/source/mpi/spmd_mod.F90
       !||    spmd_allreduce_ints      ../engine/source/mpi/spmd_mod.F90
       !||    spmd_allreduce_real      ../engine/source/mpi/spmd_mod.F90
       !||    spmd_allreduce_reals     ../engine/source/mpi/spmd_mod.F90
@@ -1632,11 +1640,11 @@
         end subroutine spmd_reduce_double
 ! ======================================================================================================================
       !||====================================================================
-      !||    spmd_allreduce_int   ../engine/source/mpi/generic/spmd_allreduce_db.F
-      !||--- called by ------------------------------------------------------
-      !||    radioss2             ../engine/source/engine/radioss2.F
+      !||    spmd_allreduce_int   ../engine/source/mpi/spmd_mod.F90
       !||--- calls      -----------------------------------------------------
       !||    get_mpi_operator     ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_in              ../engine/source/mpi/spmd_mod.F90
+      !||    spmd_out             ../engine/source/mpi/spmd_mod.F90
       !||====================================================================
         subroutine spmd_allreduce_int(sendbuf, recvbuf, buf_count, operation, comm)
           implicit none

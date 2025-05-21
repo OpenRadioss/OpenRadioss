@@ -25,6 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    hm_read_eos_compaction_tab   ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
       !||    hm_read_mat133               ../starter/source/materials/mat/mat133/hm_read_mat133.F90
+      !||    law133_upd                   ../starter/source/materials/mat/mat133/law133_upd.F90
       !||    law87_upd                    ../starter/source/materials/mat/mat087/law87_upd.F90
       !||    sigeps70                     ../starter/source/materials/mat/mat070/sigeps70.F
       !||====================================================================
@@ -35,6 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    hm_read_eos_compaction_tab   ../starter/source/materials/eos/hm_read_eos_compaction_tab.F90
       !||    hm_read_mat133               ../starter/source/materials/mat/mat133/hm_read_mat133.F90
+      !||    law133_upd                   ../starter/source/materials/mat/mat133/law133_upd.F90
       !||    law87_upd                    ../starter/source/materials/mat/mat087/law87_upd.F90
       !||    sigeps70                     ../starter/source/materials/mat/mat070/sigeps70.F
       !||--- uses       -----------------------------------------------------

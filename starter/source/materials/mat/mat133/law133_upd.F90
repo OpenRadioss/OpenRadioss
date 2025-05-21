@@ -29,10 +29,13 @@
       contains
 !! \brief update material law 190
       !||====================================================================
-      !||    law133_upd         ../starter/source/materials/mat/mat133/law133_upd.F90
+      !||    law133_upd              ../starter/source/materials/mat/mat133/law133_upd.F90
       !||--- called by ------------------------------------------------------
-      !||    updmat             ../starter/source/materials/updmat.F
+      !||    updmat                  ../starter/source/materials/updmat.F
+      !||--- calls      -----------------------------------------------------
+      !||    table_mat_vinterp       ../starter/source/materials/tools/table_mat_vinterp.F
       !||--- uses       -----------------------------------------------------
+      !||    table_mat_vinterp_mod   ../starter/source/materials/tools/table_mat_vinterp.F
       !||====================================================================
         subroutine law133_upd(  matparam ,pm , npropm   )
 ! ----------------------------------------------------------------------------------------------------------------------
