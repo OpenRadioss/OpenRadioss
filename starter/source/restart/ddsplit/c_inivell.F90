@@ -70,7 +70,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      integer  :: i,j,id,n,itype,igr,node,nel,ilocal(ninivelt) 
+      integer  :: j,n,itype,igr,node,nel,ilocal(ninivelt)
       integer  :: igrs,igbric,igqd,igtria,igbric_loc,igqd_loc,igtria_loc 
 !      TYPE(INIVEL_TYPE), DIMENSION(:), ALLOCATABLE :: INIVEL_L
 ! ----------------------------------------------------------------------------------------------------------------------

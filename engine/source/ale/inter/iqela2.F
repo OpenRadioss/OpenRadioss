@@ -31,10 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    message_mod   ../engine/share/message_module/message_mod.F
       !||====================================================================
-      SUBROUTINE IQELA2(
-     1                  X,SKEW,A,E,MSM,IRECT,LMSR,CRST,MSR,NSV,
-     2                  ILOC,IRTL,LCODE,V,ISKEW,NOR,ITAB,NSN,NMN
-     .                  )
+      SUBROUTINE IQELA2(SKEW,A,E,MSM,IRECT,CRST,MSR,NSV,IRTL,LCODE,V,ISKEW,NOR,ITAB,NSN,NMN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -55,8 +52,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IRECT(4,*), LMSR(4,*), MSR(*), NSV(*), ILOC(*), IRTL(*), LCODE(*), ISKEW(*), ITAB(*)
-      my_real X(3,NUMNOD), SKEW(LSKEW,*), A(SA), E(*), MSM(*), CRST(2,*), V(SV),NOR(3,*)
+      INTEGER IRECT(4,*), MSR(*), NSV(*), IRTL(*), LCODE(*), ISKEW(*), ITAB(*)
+      my_real SKEW(LSKEW,*), A(SA), E(*), MSM(*), CRST(2,*), V(SV),NOR(3,*)
       INTEGER, INTENT(IN) :: NSN,NMN
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

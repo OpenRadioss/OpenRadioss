@@ -43,7 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    trimat_mod                      ../engine/share/modules/trimat.F
       !||====================================================================
       SUBROUTINE ALE51_GRADIENT_RECONSTRUCTION(IPARG   , ELBUF_TAB, IXS    ,  X       , ALE_CONNECT,
-     .                                         NV46    , NERCVOIS ,NESDVOIS,  LERCVOIS, LESDVOIS   ,LENCOM, ITASK,
+     .                                         NERCVOIS ,NESDVOIS,  LERCVOIS, LESDVOIS   ,LENCOM, ITASK,
      .                                         IAD_ELEM, FR_ELEM  ,SEGVAR)
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -76,7 +76,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C----------------------------------------------- 
-      INTEGER :: NV46, ITASK
+      INTEGER :: ITASK
       INTEGER IPARG(NPARG,*), IXS(NIXS,*)
       my_real :: X(3,*)
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
@@ -280,7 +280,7 @@ C     ALE ON / OFF
          LFT = 1
          !!!   Reconstruct gradient
          DO ITRIMAT = 1, TRIMAT
-            CALL GRADIENT_RECONSTRUCTION(ITASK, IXS, X, ALE_CONNECT, NV46, ITRIMAT, SEGVAR) 
+            CALL GRADIENT_RECONSTRUCTION( IXS, X, ALE_CONNECT, ITRIMAT, SEGVAR)
          ENDDO  !  ITRIMAT = 1, TRIMAT     
       END DO  !  NG=ITASK+1,NGROUP,NTHREAD 
 

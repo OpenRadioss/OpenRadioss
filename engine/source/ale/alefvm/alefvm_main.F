@@ -39,21 +39,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    segvar_mod             ../engine/share/modules/segvar_mod.F
       !||====================================================================
       SUBROUTINE ALEFVM_MAIN(
-     1         PM        , GEO       ,X         ,A        ,AR       ,V       ,
-     2         MS        , WA        ,ELBUF_TAB ,BUFMAT   ,PARTSAV  ,TF      ,
-     3         VEUL      , FV        ,FSKY      ,VR       ,
-     4         SKEW      , W         ,
-     5         D         , DT2T      ,DT2SAVE   ,ALE_CONNECT    ,
-     6         IPARG     , NPC       ,IXS       ,IXQ      ,IADS     ,IADQ    ,
-     7         NALE      , ISKEW     ,
-     8         NELTST    , ITYPTST   ,IPART     ,IPARTS   ,IPARTQ   ,ITASK   ,
-     A         NODFT     , NODLT     ,NBRCVOIS  ,
-     B         NBSDVOIS  , LNRCVOIS  ,LNSDVOIS  ,NERCVOIS ,NESDVOIS ,LERCVOIS,
-     C         LESDVOIS  , ISIZXV    ,IAD_ELEM  ,FR_ELEM  ,FSKYM    ,MSNF    ,
-     D         IPARI     , SEGVAR    ,ITAB      ,ISKWN    ,
-     E         FSAV      ,
-     F         WEIGHT    , NPSEGCOM  ,LSEGCOM   ,IPM      ,IGEO     ,
-     G         ITABM1    ,NV46     )
+     1         X          , V       ,
+     2         ELBUF_TAB  , VR      ,
+     3         ALE_CONNECT, IPARG   , IXS    ,
+     4         NALE       ,
+     5         ITASK      , NODFT   , NODLT  ,IPM, NV46 ,MSNF     )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -91,32 +81,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXS(NIXS,*),IXQ(NIXQ,*),
-     .   NPC(*), IPARG(NPARG,*),
-     .   IADS(8,*),IADQ(4,*),NALE(*),ISKEW(*), 
-     .   IGEO(NPROPGI,*),
-     .   IPART(LIPART1,*) ,IPARTS(*) ,IPARTQ(*),IPM(NPROPMI,*),NODFT,
-     .   NELTST ,ITYPTST, ITASK, 
-     .   NBRCVOIS(*),NBSDVOIS(*), LNRCVOIS(*), LNSDVOIS(*),
-     .   NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),
-     .   NPSEGCOM(*),LSEGCOM(*),
-     .   IAD_ELEM(*),FR_ELEM(*), IPARI(*),ITAB(*),ISKWN(*),
-     .   WEIGHT(*), ITABM1(*),
-     .   ISIZXV, NV46,
-     .   NODLT
+      INTEGER IXS(NIXS,*),IPARG(NPARG,NGROUP),NALE(*),NODFT,ITASK,NV46,NODLT,IPM(NPROPMI,NUMMAT)
            
-      my_real
-     .   X(3,*)    ,V(3,*)   ,MS(*)   ,PM(NPROPM,*),SKEW(LSKEW,*),
-     .   GEO(NPROPG,*),BUFMAT(*) ,W(3,*)    ,VEUL(*),
-     .   TF(*) ,
-     .   FV(*)     ,A(3,*)    ,AR(3,*)     ,
-     .   PARTSAV(*) ,D(3,*),WA(*),
-     .   FSKY(*), FSKYM(*),
-     .   DT2T, DT2SAVE,
-     .   MSNF(*),FSAV(NTHVKI,*),
-     .   VR(3,*)
+      my_real X(3,*),V(3,*),VR(3,*),MSNF(*)
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
-      TYPE(t_segvar) :: SEGVAR
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -157,15 +125,7 @@ C-----------------------------------------------
       CALL MY_BARRIER
       
       IF(INT22/=0)THEN
-         CALL ALEFVM_SFINT3_INT22
-     .                     (                                                            
-     1                      IXS     , NV46    ,  IALEFVM_FLG, ITASK,          
-     2                      IPM     , IPARG   ,  NG      , NALE       , A    ,          
-     3                      X       , V       ,  BID     , BID        , MS   ,          
-     4                      BID     , BID     ,  W       , NBF        , NBL  ,
-     5                      tNB     , NIN                                  
-     .                     )  
-  
+         CALL ALEFVM_SFINT3_INT22(IXS, NV46, ITASK, NBF, NBL, NIN)
       ENDIF
 
 
@@ -210,14 +170,13 @@ C-----------------------------------------------
              IALEFVM_FLG = IPM(251,IMAT)                                                    
              IF (IALEFVM_FLG <= 1) CYCLE                                                  
              CALL ALEFVM_SFINT3(                                                            
-     1                          IXS     , NV46    ,  ALE_CONNECT   , IALEFVM_FLG, ITASK,          
-     2                          IPM     , IPARG   ,  NG      , NALE       , A    ,          
-     3                          X       , V       ,  GBUF%RHO, GBUF%VOL   , MS   ,          
-     4                          GBUF%MOM, GBUF%SIG,  W       , GBUF%TAG22 ,NEL   )
+     1                          IXS     , NV46       ,  ALE_CONNECT   , IALEFVM_FLG,
+     2                          IPM     , IPARG      ,  NG      ,
+     3                          X       , GBUF%TAG22 ,NEL   )
              CALL ALEFVM_SCHEME(                                                            
-     1                          IXS     , NV46    ,  IALEFVM_FLG, ITASK      ,          
-     2                          GBUF%MOM, GBUF%VOL,  GBUF%RHO, V          , VEUL       ,          
-     3                          IPM     , MSNF    ,  X       , NALE       , GBUF%TAG22 ,
+     1                          IXS     , IALEFVM_FLG,
+     2                          GBUF%MOM, GBUF%VOL,  GBUF%RHO,
+     3                          IPM     , GBUF%TAG22 ,
      4                          LBUF%SSP,GBUF%SIG ,  NEL     )
            ELSEIF (ITY == 2 .AND. JMULT == 0) THEN                                          
              !CALL QFORC2()                                                                 

@@ -110,11 +110,11 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,IFL,IADBUF,IPT,NFUNC,IPY,IPZ,IPA,NVARF,NPARAM,IRUPT
+      INTEGER :: I,IFL,IPT,NFUNC,IPY,IPZ,IPA,NVARF,NPARAM,IRUPT
       INTEGER :: II(3)
       INTEGER ,DIMENSION(NEL) :: COUNT
       my_real :: T0,TM
-      my_real ,DIMENSION(NEL) :: SHFACT,G,E,ETSE,EPSXX,EPSXY,EPSXZ,
+      my_real ,DIMENSION(NEL) :: SHFACT,EPSXX,EPSXY,EPSXZ,
      .   SIGNXX,SIGNXY,SIGNXZ,YPT,ZPT,APT,TSTAR,DEPSXX,DEPSXY,DEPSXZ
       my_real ,DIMENSION(NEL) :: DPLA_IPT,PLA_IPT,SIGY_IPT
       my_real :: bidon

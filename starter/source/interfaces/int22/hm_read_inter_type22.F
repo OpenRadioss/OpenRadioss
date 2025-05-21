@@ -77,19 +77,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      CHARACTER(LEN=NCHARTITLE) ::  TITR1
-      INTEGER I,J, NTYP, IBID,INACTI,IGSTI, IVIS2,ILEV,INTKG,
-     .    IS1, IS2, IGAP,MULTIMP,IFQ, KK,II,I22GRSH3N,I22GRNOD,
-     .    IDELKEEP,INTTH,I22LEN1,I22GRTRUS,I22GRNOD2,I22GRNOD3
-      my_real
-     .    FRIC,GAP,STARTT,BUMULT,STOPT,VISC,VISCF,RATIO22_
-      LOGICAL LOGI1, LOGI2, LOGI_I22GRSH3N, LOGI_I22GRTRUS,LOGI_I22GRNOD
+      INTEGER J, NTYP, IBID,INACTI,IGSTI, IVIS2,ILEV,INTKG,
+     .        IS1, IS2, IGAP,MULTIMP,I22GRSH3N,I22GRNOD,
+     .        INTTH,I22LEN1,I22GRTRUS,I22GRNOD2,I22GRNOD3
+      my_real :: FRIC,GAP,STARTT,BUMULT,STOPT,VISC,VISCF,RATIO22_
+      LOGICAL LOGI_I22GRSH3N, LOGI_I22GRTRUS,LOGI_I22GRNOD
       LOGICAL IS_AVAILABLE
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS,SUR2USR,NGR2USR
+      INTEGER NGR2USR
 C=======================================================================
 C     READING ALE INTERFACE /INTER/TYPE22
 C=======================================================================
@@ -98,13 +96,10 @@ C Initializations
       IS2=0
       ILEV=0
       INTKG =0
-C
       NTYP = 22
       IPARI(15)=NOINT
       IPARI(7)=NTYP
-      
       IS_AVAILABLE=.FALSE.
-
 C------------------------------------------------------------
 C  Card1 
 C------------------------------------------------------------
@@ -389,7 +384,7 @@ C--------------------------------------------------------------
       ENDIF
 C
 C--------------------------------------------------------------
- 1000 FORMAT(/1X,'  INTERFACE NUMBER :',I10,1X,A)
+
 C------------
       RETURN
 

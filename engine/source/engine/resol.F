@@ -3971,14 +3971,14 @@ C     Init var parallel SMP
 
 C
                 CALL ALEMAIN(TIMERS,
-     1               PM                    ,GEO      ,NODES%X       ,NODES%A(1,NDTSK)  ,NODES%AR(1,NDTSK) ,NODES%V ,
+     1               PM                    ,GEO      ,NODES%X       ,NODES%A(1,NDTSK)  ,NODES%V ,
      2               NODES%MS              ,WA       ,ELBUF_TAB     ,BUFMAT            ,PARTSAV(IPMTSK)     ,TF,
      3               VAL2                  ,VEUL     ,FV            ,NODES%STIFN(NDTSK),ELEMENT%PON%FSKY,EANI,
      4               PHI                   ,FILL     ,DFILL         ,ALPH              ,SKEWS%SKEW          ,W,
      5               NODES%D               ,DSAVE    ,ASAVE         ,DT2TT             ,DT2SAVE             ,XCELL,
      6               IPARG                 ,NPC      ,IXS           ,IXQ,   IXTG             ,ELEMENT%PON%IADS,
-     7               IFILL                 ,NODPOR   ,NODES%ICODT   ,NODES%ISKEW       ,IMS ,ELEMENT%PON%IADQ     ,
-     8               NELTSTT               ,ITYPTSTT ,IPART         ,IPART(K1)         ,IPART(K2)           ,ITSK    ,
+     7               IFILL                 ,NODES%ICODT,NODES%ISKEW ,IMS               ,ELEMENT%PON%IADQ     ,
+     8               NELTSTT               ,ITYPTSTT ,IPART(K1)     ,IPART(K2)        ,ITSK                  ,
      A               NODFTSK               ,NODLTSK  ,NBRCVOIS      ,NODES%TEMP              ,OUTPUT%TH%TH_SURF%CHANNELS,
      B               NBSDVOIS              ,LNRCVOIS ,LNSDVOIS      ,NERCVOIS          ,NESDVOIS           ,LERCVOIS  ,
      C               LESDVOIS              ,ISIZXV   ,IAD_ELEM      ,FR_ELEM           ,ELEMENT%PON%FSKYM,MSNF      ,
@@ -6403,30 +6403,21 @@ C-----------------------------
 C========================================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
-
 !$OMP PARALLEL
 !$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK,IGMTSK)
 !$OMP+ PRIVATE(PARTFTSK,PARTLTSK,NWAFTSK,DT2TT,NELTSTT,ITYPTSTT)
 !$OMP+ PRIVATE(GREFTSK,GRELTSK)
-
 C Init var parallel SMP
-                CALL SMP_INIT(
-     1            ITSK  ,NODFTSK  ,NODLTSK  ,NUMNTSK,NDTSK   ,
-     2            IPMTSK,PARTFTSK,PARTLTSK,NWAFTSK,IGMTSK  ,
-     3                GREFTSK,GRELTSK)
-
-
+                CALL SMP_INIT(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK,PARTFTSK,PARTLTSK,NWAFTSK,IGMTSK,GREFTSK,GRELTSK)
                 DT2TT = DT2T
                 NELTSTT = NELTST
                 ITYPTSTT= ITYPTST
-
                 CALL ALESUB2(
-     1             ALE_CONNECTIVITY%NALE   ,NODES%V      ,DSAVE  ,NODES%ICODT  ,NODES%ISKEW,
-     2             SKEWS%SKEW    ,ASAVE ,NODES%A      ,NODES%D      ,NELTSTT,
-     3             ITYPTSTT,ITSK  ,NODFTSK,NODLTSK,DT2SAVE,
-     4             NODES%STIFN   ,DT2TT ,NELTSA ,ITYPTSA,NELTS  ,
-     5             NODES%WEIGHT ,ELEMENT%PON%FSKY   ,ELEMENT%PON%FSKY   )
-
+     1             ALE_CONNECTIVITY%NALE,NODES%V ,DSAVE     ,NODES%ICODT  ,NODES%ISKEW,
+     2             SKEWS%SKEW           ,ASAVE   ,NODES%A   ,NODES%D      ,NELTSTT,
+     3             ITYPTSTT             ,ITSK    ,NODFTSK   ,NODLTSK      ,DT2SAVE,
+     4             DT2TT                ,NELTSA  ,ITYPTSA   ,NELTS        ,
+     5             NODES%WEIGHT         ,ELEMENT%PON%FSKY   ,ELEMENT%PON%FSKY   )
 #include "lockon.inc"
                 IF(DT2TT<DT2T)THEN
                   DT2T = DT2TT
@@ -6434,53 +6425,42 @@ C Init var parallel SMP
                   ITYPTST= ITYPTSTT
                 END IF
 #include "lockoff.inc"
-
 !$OMP END PARALLEL
-
 C========================================================================================
 C                                     NON PARALLEL SECTION (SMP)
 C========================================================================================
                 ALE%SUB%IFSUB=0
                 ALE%SUB%IFSUBM=0
-
 C-----------------------------
-C       MAJ SPMD ecriture L01
+C  SPMD update restart writing
 C-----------------------------
                 IF(NSPMD>1.AND.IWIOUT>0) THEN
                   CALL SPMD_WIOUT(IOUT,IWIOUT)
                   IWIOUT = 0
                 ENDIF
                 GOTO 21
-
               ENDIF
-
               IF (IMON>0) CALL STARTIME(TIMERS,6)
-
 C----------------------------------
 C       SCALE TIME STEP FOR OLD AIRBAGS
 C----------------------------------
-              IF(NRBAG>0)THEN
+              IF(NRBAG > 0)THEN
                 IF (IMONM > 0) CALL STARTIME(TIMERS,50)
                 CALL RBAGDT(GEO,IGEO)
                 IF (IMONM > 0) CALL STOPTIME(TIMERS,50)
               ENDIF
-
 C----------------------------------
 C       SCALE TIME STEP FOR
 C       - MONITORED VOLUMES
 C       - a M + b K DAMPING
 C----------------------------------
-
-              IF(NVOLU>0)THEN
+              IF(NVOLU > 0)THEN
                 IF (IMONM > 0) CALL STARTIME(TIMERS,50)
-                IF(NSPMD>1)
-     .            CALL SPMD_GLOB_MINV(DT2,ITYPTS,NELTS,VOLMON, FR_MV)
-
+                IF(NSPMD>1)CALL SPMD_GLOB_MINV(DT2,ITYPTS,NELTS,VOLMON, FR_MV)
 C========================================================================================
 C                                   DOMAIN 0
 C========================================================================================
-
-                IF(ISPMD==0) CALL MVOLUDT(MONVOL,VOLMON)
+                IF(ISPMD == 0) CALL MVOLUDT(MONVOL,VOLMON)
                 IF (IMONM > 0) CALL STOPTIME(TIMERS,50)
               ENDIF
 C----------------------------------
@@ -6878,7 +6858,7 @@ C-----------------------
 C         MULTIMATERIAL
 C-----------------------
                   IF (NMULT>0) THEN
-                    CALL BMULTN(FILL,DFILL,IMS,IFILL,NODFTSK,NODLTSK)
+                    CALL BMULTN(FILL,DFILL,IMS,NODFTSK,NODLTSK)
                   ENDIF
                   CALL IMP_FANII(FANI ,NODES%A     ,NFIA      ,NODFT    ,NODLT    ,
      .                         H3D_DATA )
@@ -7014,7 +6994,7 @@ C--- //   ----------------
 C         MULTIMATERIAL
 C-------  ----------------
                 IF(NMULT>0) THEN
-                  CALL BMULTN(FILL,DFILL,IMS,IFILL,NODFTSK,NODLTSK)
+                  CALL BMULTN(FILL,DFILL,IMS,NODFTSK,NODLTSK)
                 ENDIF
 
 !$OMP END PARALLEL
@@ -7129,10 +7109,7 @@ C-----------------------------------------------
                 !FINITE VOLUME METHOD FOR ALE
                 !-----------------------------
                 IF(ALEFVM_Param%IEnabled>0)THEN
-                  CALL ALEFVM_ACCELE(
-     1                               NODES%A      , NODES%AR     , NODES%V   , NODES%VR   , FZERO,
-     2                               NODFTSK, NODLTSK, NODES%ITAB, MSNF , NODES%MS   ,
-     3                               ALE_CONNECTIVITY%NALE     )
+                  CALL ALEFVM_ACCELE(NODES%A, NODES%AR, NODFTSK, NODLTSK, ALE_CONNECTIVITY%NALE)
                 ENDIF
 
                 CALL ACCELE(NODES%A       ,NODES%AR      ,NODES%V    ,NODES%MS     ,NODES%IN     ,
@@ -7452,10 +7429,10 @@ C----------------------
                       CALL STARTIME(TIMERS,6)
                       CALL STARTIME(TIMERS,TIMER_CONTSORT)
                     ENDIF
-                    CALL INTAL1(IPARI,NODES%X    ,NODES%V ,
-     2                          NODES%A    ,NODES%ISKEW           ,SKEWS%SKEW            ,NODES%ICODT,WA,
-     3                          NODES%MS   ,NODES%ITAB            ,FSAV            ,INTERFACES%INTBUF_TAB ,
-     4                          FANI ,FANI(1,NFNCA+1) ,FANI(1,NFTCA+1) ,H3D_DATA   )
+                    CALL INTAL1(IPARI      ,NODES%X         ,NODES%V      ,
+     2                          NODES%A    ,NODES%ISKEW     ,SKEWS%SKEW   ,NODES%ICODT,WA,
+     3                          NODES%MS   ,NODES%ITAB      ,FSAV         ,INTERFACES%INTBUF_TAB ,
+     4                          FANI       ,FANI(1,NFNCA+1) ,H3D_DATA   )
                     IF (IMON>0) THEN
                       CALL STOPTIME(TIMERS,TIMER_CONTSORT)
                       CALL STOPTIME(TIMERS,6)
@@ -8527,21 +8504,11 @@ C Init var parallel SMP
                 ITYPTSTT = ITYPTST
                 IF(IPARIT == 1) NDTSK = 1
                 CALL ALEFVM_MAIN(
-     1           PM         ,GEO      ,NODES%X          ,NODES%A(1,NDTSK)   ,NODES%AR(1,NDTSK)    ,NODES%V         ,
-     2           NODES%MS         ,WA       ,ELBUF_TAB  ,BUFMAT       ,PARTSAV(IPMTSK),TF        ,
-     3           VEUL       ,FV       ,ELEMENT%PON%FSKY       ,NODES%VR           ,
-     4           SKEWS%SKEW       ,W        ,
-     5           NODES%D          ,DT2TT    ,DT2SAVE    ,ALE_CONNECTIVITY        ,
-     6           IPARG      ,NPC      ,IXS        ,IXQ          ,ELEMENT%PON%IADS ,ELEMENT%PON%IADQ,
-     7           ALE_CONNECTIVITY%NALE       ,NODES%ISKEW    ,
-     8           NELTSTT    ,ITYPTSTT ,IPART      ,IPART(K1)    ,IPART(K2)      ,ITSK      ,
-     A           NODFTSK    ,NODLTSK  ,NBRCVOIS   ,
-     B           NBSDVOIS   ,LNRCVOIS ,LNSDVOIS   ,NERCVOIS     ,NESDVOIS       ,LERCVOIS  ,
-     C           LESDVOIS   ,ISIZXV   ,IAD_ELEM   ,FR_ELEM      ,ELEMENT%PON%FSKYM,MSNF      ,
-     D           IPARI      ,SEGVAR   ,NODES%ITAB       ,ISKWN        ,
-     E           FSAV     ,
-     F           NODES%WEIGHT     ,NPSEGCOM ,LSEGCOM    ,IPM          ,IGEO           ,
-     G           NODES%ITABM1   ,NV46       )
+     1           NODES%X               , NODES%V     ,
+     2           ELBUF_TAB             , NODES%VR    ,
+     3           ALE_CONNECTIVITY      , IPARG       , IXS        ,
+     4           ALE_CONNECTIVITY%NALE ,
+     5           ITSK                  ,NODFTSK      , NODLTSK    ,IPM , NV46  ,MSNF     )
 
 !$OMP END PARALLEL
               ENDIF
@@ -9185,22 +9152,22 @@ C===============================================================================
                   NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
                   NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
                   CALL ALEWDX(TIMERS,
-     1              GEO             ,NODES%X             ,NODES%D           ,NODES%V           ,NODES%VR         ,
-     2              W               ,WA            ,WB          ,RBY         ,SKEWS%SKEW       ,
-     3              PM              ,XLAS          ,NODES%MS          ,FSAV        ,
-     4              NODES%A               ,TF            ,RWBUF       ,
-     5              DT2SAVE         , PYTHON,
-     6              IPARG           ,IXS           ,IXQ         ,NODPOR      ,
-     7              NODES%ISKEW           ,NODES%ICODT         ,ELBUF_TAB   ,
-     8              NPC             ,LINALE        ,NPRW        ,LAS         ,
-     9              IPARI           ,NODFTSK       ,NODLTSK     ,ITSK        ,
-     A              IAD_ELEM        ,FR_ELEM       ,NBRCVOIS    ,NBSDVOIS    ,LNRCVOIS   ,
-     B              LNSDVOIS        ,NODES%WEIGHT        ,ELEMENT%PON%ADSKY,ELEMENT%PON%FSKY,ELEMENT%PON%IADS,
-     C              FR_WALL         ,NPORGEO       ,PROCNE      ,
-     D              FR_NBCC         ,ELEMENT%PON%IADQ    ,NODES%XDP         ,IGRNOD      ,
-     E              NODES%DR              ,INTERFACES%INTBUF_TAB    ,NODES%ITAB        ,MULTI_FVM   ,
-     F              ALE_CONNECTIVITY,NODES%DDP           ,NE_NERCVOIS ,NE_NESDVOIS ,
-     G              NE_LERCVOIS     ,NE_LESDVOIS   ,XCELL       ,XFACE      , OUTPUT%WFEXT)
+     1              GEO             ,NODES%X               ,NODES%D     ,NODES%V     ,NODES%VR   ,
+     2              W               ,WA                    ,WB          ,SKEWS%SKEW  ,
+     3              PM              ,XLAS                  ,NODES%MS    ,FSAV        ,
+     4              NODES%A         ,TF                    ,RWBUF       ,
+     5              DT2SAVE         ,PYTHON                ,
+     6              IPARG           ,IXS                   ,IXQ         ,NODPOR      ,
+     7              NODES%ISKEW     ,NODES%ICODT           ,ELBUF_TAB   ,
+     8              NPC             ,LINALE                ,NPRW        ,LAS         ,
+     9              IPARI           ,NODFTSK               ,NODLTSK     ,ITSK        ,
+     A              IAD_ELEM        ,FR_ELEM               ,NBRCVOIS    ,NBSDVOIS    ,LNRCVOIS   ,
+     B              LNSDVOIS        ,NODES%WEIGHT          ,ELEMENT%PON%ADSKY,ELEMENT%PON%FSKY,ELEMENT%PON%IADS,
+     C              FR_WALL         ,NPORGEO               ,PROCNE      ,
+     D              FR_NBCC         ,ELEMENT%PON%IADQ      ,NODES%XDP   ,IGRNOD      ,
+     E              NODES%DR        ,INTERFACES%INTBUF_TAB ,MULTI_FVM   ,
+     F              ALE_CONNECTIVITY,NODES%DDP             ,NE_NERCVOIS ,NE_NESDVOIS ,
+     G              NE_LERCVOIS     ,NE_LESDVOIS           ,XCELL       ,XFACE       , OUTPUT%WFEXT)
 
 !$OMP END PARALLEL
 

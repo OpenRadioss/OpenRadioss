@@ -104,7 +104,6 @@ C-----------------------------------------------
       INTEGER IX(*), IPARG(*), NPF(*),MAT(*),NC(*),NGL(*),
      .        NEL, NELTST, ITYPTST, PID(MVSIZ,*),IPM(NPROPMI,*),
      .        ITASK
-C     REAL
       my_real
      .   PM(NPROPM,*), GEO(*), FV(*), V(*), TF(*), 
      .   BUFMAT(*), STIFN(*), X(3,*),WXX(*),WYY(*),WZZ(*),
@@ -122,7 +121,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,J,JJ(6),J1,J2,IR,NFUNC,NUVAR,NUPARAM,NUVARR, 
+      INTEGER I,J,JJ(6),J1,J2,IR,NFUNC,NUVAR,NUPARAM,NUVARR,
      .        NVARF,IRUPT,NUMBER_FAILURE,IADBUF,IMAT,NTABL_FAIL,
      .        NIPARAM
       INTEGER IFUNC(MAXFUNC), LF_DAMMX

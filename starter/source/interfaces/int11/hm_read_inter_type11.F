@@ -88,7 +88,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ISU1,ISU2,IBC1, IBC2, IBC3, NTYP,INTTH,
      .    INACTI, IBC1M, IBC2M, IBC3M, IGSTI, IS1, IS2,
-     .    IGAP,MULTIMP, IDEL11,KK,II, IDSENS,
+     .    IGAP,MULTIMP, IDEL11,IDSENS,
      .    IPRINT,INTFRIC,IASSIGN,IFORM,IFORM_TH,IDELKEEP,
      .    IKTHE,FIELD6,FLAGREMNOD,IEDGE,IB1,IB2,IB3,NTYP0,
      .    NLIN1,NLIN2,I,MODFR
@@ -612,10 +612,6 @@ C--------------------------------------------------------------
       ENDIF
 C
 C--------------------------------------------------------------
- 1000 FORMAT(/1X,'  INTERFACE NUMBER :',I10,1X,A)
- 1300 FORMAT(    /1X,'   INTERFACES               ' /
-     .            1X,' --------------             '// )
-C------------
       RETURN
 C------------
  1518 FORMAT( '    FRICTION FORMULATION: INCREMENTAL (STIFFNESS) ',

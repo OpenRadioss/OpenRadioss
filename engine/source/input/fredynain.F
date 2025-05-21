@@ -63,7 +63,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, NBC, K, IKEY, N1, KK, IV2(10), J
+      INTEGER I, NBC, K, IKEY, IV2(10), J
       CHARACTER(LEN=120) :: LINE
       CHARACTER(LEN=NCHARKEY) :: KEY2
       CHARACTER(LEN=NCHARKEY) :: KEY3

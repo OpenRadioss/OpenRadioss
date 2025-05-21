@@ -62,8 +62,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,NG,MLW,ITY,NEL,NFT,IAD,II,NALL,J,FXBTAG(NSN),
-     .        NOD(NSN),LMOD,MNTAG,IT,INT,IAD1,IAD2,NN, NNG, NNGT, IG,
-     .        ITT(2,5), N, NTY, IADI, IADR, NRTS, NRTM, NMN, INS,
+     .        NN, NNG, NNGT, IG,
+     .        ITT(2,5), N, NTY, NRTS, NRTM, NMN, INS,
      .        IFAC, INM
 C
       DO I=1,NUMNOD

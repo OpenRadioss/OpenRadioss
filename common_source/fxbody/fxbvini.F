@@ -45,11 +45,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NFX,I,J,AVAR,ARPM,IDMAST
-      my_real
-     .   P11,P12,P13,P21,P22,P23,P31,P32,P33,W1,W2,W3,
-     .   WL1,WL2,WL3
-C
+      INTEGER NFX,I,AVAR,ARPM,IDMAST
+      my_real P11,P12,P13,P21,P22,P23,P31,P32,P33,W1,W2,W3,WL1,WL2,WL3
+
       DO NFX=1,NFXBODY
          IDMAST=FXBIPM(2,NFX)
          AVAR=FXBIPM(13,NFX)

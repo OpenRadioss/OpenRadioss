@@ -159,7 +159,6 @@ C-----------------------------------------------
       INTEGER MAT(MVSIZ),NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ),NC4(MVSIZ),
      .        NGL(MVSIZ),NGEO(MVSIZ), IBIDV(1) ,L_TEMP, L_PLA, L_BFRAC,L_BULK,SZ_IX
       INTEGER :: ILAY
-      my_real  SOFF
       my_real Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .        Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
      .        AIRE(MVSIZ),AIRES(MVSIZ),AIREM(MVSIZ),VD2(MVSIZ),DVOL(MVSIZ),
@@ -253,16 +252,14 @@ C------------
      .             LBUF2%SIG,LBUF2%EINT,LBUF2%VOL,LBUF2%RHO,
      .             FLUX(1,NF2),FLU1(NF2),LBUF2%OFF,
      .             GBUF%SIG,GBUF%EINT,GBUF%RHO,GBUF%TEMP,
-     .             MTN1,MTN2,NGL,GBUF%G_TEMP,GBUF%BFRAC,GBUF%G_BFRAC,
+     .             GBUF%G_TEMP,GBUF%BFRAC,GBUF%G_BFRAC,
      .             GBUF%PLA,GBUF%G_PLA,VOLN,GBUF%QVIS,GBUF%G_QVIS,NEL, 
      .             AIRE, AIRES, 
      .             EYY, EZZ, ETT, EYZ, EYT, EZT,
      .             EYYS, EZZS, ETTS, EYZS, EYTS, EZTS, 
      .             MAT, NC1, NC2, NC3, NC4, 
      .             DALPH1, DALPH2)
-       CALL BAFIL2(PM,V,W,FILL,DFILL,IMS,X,LBUF1%FRAC,LBUF2%FRAC, 
-     .      AIRE, PY1, PY2, PZ1, PZ2, DALPH1, DALPH2, 
-     .      MAT, NC1, NC2, NC3, NC4)
+       CALL BAFIL2(V,W,FILL,DFILL,IMS,X, DALPH1, DALPH2, NC1, NC2, NC3, NC4)
 C-----------
 C      EULER
 C-----------
@@ -280,16 +277,16 @@ C-----------
      .             LBUF2%SIG,LBUF2%EINT,LBUF2%VOL,LBUF2%RHO,
      .             FLUX(1,NF2),FLU1(NF2),LBUF2%OFF,
      .             GBUF%SIG,GBUF%EINT,GBUF%RHO,GBUF%TEMP,
-     .             MTN1,MTN2,NGL,GBUF%G_TEMP,GBUF%BFRAC,GBUF%G_BFRAC,
+     .             GBUF%G_TEMP,GBUF%BFRAC,GBUF%G_BFRAC,
      .             GBUF%PLA,GBUF%G_PLA,VOLN,GBUF%QVIS,GBUF%G_QVIS,NEL, 
      .             AIRE, AIRES, 
      .             EYY, EZZ, ETT, EYZ, EYT, EZT,
      .             EYYS, EZZS, ETTS, EYZS, EYTS, EZTS, 
      .             MAT, NC1, NC2, NC3, NC4, 
      .             DALPH1, DALPH2)
-       CALL BEFIL2(PM,V,FILL,DFILL,IMS,X,LBUF1%FRAC,LBUF2%FRAC, 
-     .      AIRE, PY1, PY2, PZ1, PZ2, DALPH1, DALPH2, 
-     .      MAT, NC1, NC2, NC3, NC4)
+       CALL BEFIL2(V,FILL,DFILL,IMS,X,
+     .      DALPH1, DALPH2,
+     .      NC1, NC2, NC3, NC4)
       ENDIF
 C-----------------------------------------------------
 C     SUBMATERIAL 1 (MAT LAW20)
@@ -304,16 +301,14 @@ C-----------------------------------------------------
       L_BFRAC= ELBUF_TAB(NG)%BUFLY(JMULT)%L_BFRAC 
       L_BULK = ELBUF_TAB(NG)%BUFLY(JMULT)%L_QVIS
 
-      CALL BREST2(LBUF1%FRAC,GBUF%VOL,PM,
-     .            LBUF1%OFF,LBUF1%VOL,SOFF,IC(LCO),VOLN,
+      CALL BREST2(GBUF%VOL,IC(LCO),VOLN,
      .            AIRE, AIRES, 
      .            EYY, EZZ, ETT, EYZ, EYT, EZT,
      .            EYYS, EZZS, ETTS, EYZS, EYTS, EZTS,
-     .            VD2, DVOL,
      .            MAT,MAT_ELEM%MAT_PARAM, NUMMAT)
-      CALL BLERO2(LBUF1%FRAC,LBUF2%FRAC,LBUF1%VOL,LBUF1%RHO,
-     .            FLUX(1,NF1),FLU1(NF1),LBUF1%OFF,PM,NGL,VOLN, 
-     .            AIRE, EYY, EZZ, ETT, EYZ, EYT, EZT, VD2, DVOL, 
+      CALL BLERO2(LBUF1%FRAC,LBUF1%VOL,LBUF1%RHO,
+     .            FLUX(1,NF1),FLU1(NF1),LBUF1%OFF,PM,NGL,VOLN,
+     .            AIRE, EYY, EZZ, ETT, EYZ, EYT, EZT, VD2, DVOL,
      .            VY1, VY2, VY3, VY4, 
      .            VZ1, VZ2, VZ3, VZ4,
      .            MAT)
@@ -483,7 +478,7 @@ C--------------
      5                                      1,NEL,NEL)
 
       IF (IPARIT == 0) THEN
-      CALL BCUMU2 (LBUF1%FRAC,LBUF2%FRAC,A,FILL(1,1),
+      CALL BCUMU2 (LBUF1%FRAC,A,
      .             LBUF%SIG,LBUF%EINT,LBUF%RHO,LBUF%QVIS,GBUF%QVIS,
      .             GBUF%SIG,GBUF%EINT,GBUF%RHO,GBUF%TEMP,LBUF%TEMP,
      .             GBUF%PLA,LBUF%PLA,GBUF%BFRAC,LBUF%BFRAC,    
@@ -491,16 +486,16 @@ C--------------
      .             T11,T12,T13,T14,T21,T22,T23,T24, 
      .             B11,B12,B13,B14,B21,B22,B23,B24,
      .             NC1,NC2,NC3,NC4,STI,STIFN,
-     .             L_TEMP, L_PLA, L_BFRAC, L_BULK,NEL)
+     .             L_TEMP, L_PLA, L_BFRAC, L_BULK, NEL)
       ELSE
-       CALL BCUMU2P(LBUF1%FRAC,LBUF2%FRAC,FILL(1,1),
+       CALL BCUMU2P(LBUF1%FRAC,
      .              LBUF%SIG,LBUF%EINT,LBUF%RHO,LBUF%QVIS,GBUF%QVIS,
      .              GBUF%SIG,GBUF%EINT,GBUF%RHO,GBUF%TEMP,LBUF%TEMP,
      .              GBUF%PLA,LBUF%PLA,GBUF%BFRAC,LBUF%BFRAC,    
      .              F11, F12, F21, F22, AX1,AX2,
      .              T11,T12,T13,T14,T21,T22,T23,T24, 
      .              B11,B12,B13,B14,B21,B22,B23,B24,
-     .              FSKY,FSKY,IADQ,STI,NC1,NC2,NC3,NC4,
+     .              FSKY,FSKY,IADQ,STI,
      .              L_TEMP,L_PLA,L_BFRAC,L_BULK,NEL)
       ENDIF
       
@@ -522,14 +517,12 @@ C-----------------------------------------------------
         L_BFRAC= ELBUF_TAB(NG)%BUFLY(JMULT)%L_BFRAC
         L_BULK = ELBUF_TAB(NG)%BUFLY(JMULT)%L_QVIS
 
-      CALL BREST2(LBUF2%FRAC,GBUF%VOL,PM,
-     .            LBUF%OFF,LBUF%VOL,SOFF,IC(LCO),VOLN,
+      CALL BREST2(GBUF%VOL,IC(LCO),VOLN,
      .            AIRE, AIRES, 
      .            EYY, EZZ, ETT, EYZ, EYT, EZT,
      .            EYYS, EZZS, ETTS, EYZS, EYTS, EZTS,
-     .            VD2, DVOL,
      .            MAT, MAT_ELEM%MAT_PARAM, NUMMAT)
-      CALL BLERO2(LBUF2%FRAC,LBUF1%FRAC,LBUF%VOL,LBUF%RHO,
+      CALL BLERO2(LBUF2%FRAC,LBUF%VOL,LBUF%RHO,
      .            FLUX(1,NF2),FLU1(NF2),LBUF%OFF,PM,NGL,VOLN, 
      .            AIRE, EYY, EZZ, ETT, EYZ, EYT, EZT, VD2, DVOL, 
      .            VY1, VY2, VY3, VY4, 
@@ -701,23 +694,24 @@ C--------------
      4                                      BIDM,BIDM,BIDM,BIDM,GBUF%OFF,
      5                                      1,NEL,NEL)
         IF(IPARIT == 0)THEN
-          CALL BCUMU2(LBUF2%FRAC,LBUF1%FRAC,A,FILL(1,2),
+          CALL BCUMU2(LBUF2%FRAC,A,
      .             LBUF%SIG,LBUF%EINT,LBUF%RHO,LBUF%QVIS,GBUF%QVIS,
      .             GBUF%SIG,GBUF%EINT,GBUF%RHO,GBUF%TEMP,LBUF%TEMP,
      .             GBUF%PLA,LBUF%PLA,GBUF%BFRAC,LBUF%BFRAC,
      .             F11, F12, F21, F22, AX1,AX2,
      .             T11,T12,T13,T14,T21,T22,T23,T24, 
      .             B11,B12,B13,B14,B21,B22,B23,B24,
-     .             NC1,NC2,NC3,NC4,STI,STIFN,L_TEMP,L_PLA,L_BFRAC,L_BULK,NEL)
+     .             NC1,NC2,NC3,NC4,STI,STIFN,
+     .             L_TEMP,L_PLA,L_BFRAC,L_BULK,NEL)
         ELSE
-          CALL BCUMU2PA(LBUF2%FRAC,LBUF1%FRAC,FILL(1,2),
+          CALL BCUMU2PA(LBUF2%FRAC,
      .                 LBUF%SIG,LBUF%EINT,LBUF%RHO,LBUF%QVIS,GBUF%QVIS,
      .                 GBUF%SIG,GBUF%EINT,GBUF%RHO,GBUF%TEMP,LBUF%TEMP,
      .                 GBUF%PLA,LBUF%PLA,GBUF%BFRAC,LBUF%BFRAC,     
      .                 F11, F12, F21, F22, AX1,AX2,
      .                 T11,T12,T13,T14,T21,T22,T23,T24, 
      .                 B11,B12,B13,B14,B21,B22,B23,B24,
-     .                 FSKY,FSKY,IADQ,STI,NC1,NC2,NC3,NC4,L_TEMP,L_PLA,
+     .                 FSKY,FSKY,IADQ,STI,L_TEMP,L_PLA,
      .                 L_BFRAC,L_BULK,NEL)
         ENDIF
       ENDIF

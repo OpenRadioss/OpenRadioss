@@ -209,10 +209,10 @@ C-----------------------
         !-----------------------------!
         ITRIMAT  = 0
         IF (TRIMAT  > 0) THEN
-          CALL ALE51_INIT(IPARG  ,PM      ,IXS  ,IXQ         ,
-     2                    V      ,W       ,X    ,FLUX        ,VAL2 ,
-     3                    MS     ,VEUL    ,PHI  ,ALE_CONNECT ,ITASK,
-     4                    ITRIMAT,FLUX_SAV,QMV  ,NV46        ,ELBUF_TAB)
+          CALL ALE51_INIT(IPARG       ,PM    ,IXS  ,IXQ      ,
+     2                    X           ,FLUX  ,VAL2 ,
+     3                    ALE_CONNECT ,ITASK ,
+     4                    FLUX_SAV    ,QMV   ,NV46 ,ELBUF_TAB)
         ENDIF
         !-----------------------------!
         !     REZONE DEVIATEUR        !
@@ -287,7 +287,7 @@ C----------------------
          IF (TRIMAT   >  0 .AND. ALEMUSCL_Param%IALEMUSCL   >  0) THEN
             IF (N2D  ==  0) THEN
                CALL ALE51_GRADIENT_RECONSTRUCTION(IPARG, ELBUF_TAB, IXS, X, ALE_CONNECT,
-     .              NV46,NERCVOIS,NESDVOIS,  LERCVOIS,LESDVOIS,LENCOM, ITASK, 
+     .              NERCVOIS,NESDVOIS,  LERCVOIS,LESDVOIS,LENCOM, ITASK,
      .              IAD_ELEM, FR_ELEM, SEGVAR)
             ELSE
                CALL ALE51_GRADIENT_RECONSTRUCTION2(IPARG, ELBUF_TAB, IXQ, X, ALE_CONNECT,
@@ -371,9 +371,8 @@ C----------------------
          ENDDO!next ITRIMAT
         !-----------------------------!
          IF (TRIMAT > 0) THEN
-           CALL ALE51_FINISH(IPARG,ELBUF_TAB   ,PM   ,IXS     ,IXQ,
-     .                       V    ,W           ,X    ,FLUX    ,VAL2 ,MS  ,VEUL,
-     .                       PHI  ,ALE_CONNECT ,ITASK,FLUX_SAV,QMV  ,NV46,ELBUF_TAB      )
+           CALL ALE51_FINISH(IPARG,PM   ,IXS  ,IXQ,
+     .                       X    ,FLUX ,VAL2 ,PHI  ,ALE_CONNECT ,ITASK,FLUX_SAV,QMV  ,NV46,ELBUF_TAB      )
          ENDIF
 C----------------------
       ENDIF

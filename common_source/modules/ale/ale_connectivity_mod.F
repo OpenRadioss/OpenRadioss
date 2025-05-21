@@ -307,7 +307,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    quicksort_i2               ../common_source/tools/sort/quicksort.F
       !||====================================================================
       SUBROUTINE ALE_COMPUTE_CONNECTIVITY(THIS, NUMNOD, NUMELQ, NUMELTG, NUMELS, 
-     .     NIXQ, NIXTG, NIXS, ITAB,
+     .     NIXQ, NIXTG, NIXS,
      .     IXQ, IXTG, IXS)
         IMPLICIT NONE
 C-----------------------------------------------
@@ -322,7 +322,6 @@ C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
         CLASS(T_ALE_CONNECTIVITY), INTENT(INOUT) :: THIS
         INTEGER, INTENT(IN) :: NUMNOD, NUMELQ, NUMELTG, NUMELS, NIXQ, NIXTG, NIXS
-        INTEGER, DIMENSION(NUMNOD), INTENT(IN) :: ITAB
         INTEGER, DIMENSION(NIXQ, NUMELQ), INTENT(IN) :: IXQ
         INTEGER, DIMENSION(NIXTG, NUMELTG), INTENT(IN) :: IXTG
         INTEGER, DIMENSION(NIXS, NUMELS), INTENT(IN) :: IXS
@@ -674,7 +673,7 @@ C-----------------------------------------------
       SUBROUTINE ALE_COMPUTE_EE_CONNECTIVITY(THIS, PM, IGEO,
      .     NPROPGI,NUMGEO, NPROPM, NUMMAT, NUMNOD, NUMELQ, NUMELTG, NUMELS, N2D, 
      .     IALE, IEULER, ITHERM, IALELAG, ISHADOW,
-     .     NIXQ, NIXTG, NIXS, ITAB,
+     .     NIXQ, NIXTG, NIXS,
      .     IXQ, IXTG, IXS)
         IMPLICIT NONE
 C-----------------------------------------------
@@ -690,7 +689,6 @@ C-----------------------------------------------
         INTEGER, INTENT(IN) :: NUMNOD, NUMELQ, NUMELTG, NUMELS, NPROPGI
         INTEGER, INTENT(IN) :: NIXQ, NIXTG, NIXS, N2D, IALE, IEULER, ITHERM, IALELAG, NPROPM, NUMMAT,NUMGEO
         MY_REAL, DIMENSION(NPROPM, NUMMAT), INTENT(IN) :: PM
-        INTEGER, DIMENSION(NUMNOD), INTENT(IN) :: ITAB
         INTEGER, DIMENSION(NIXQ, NUMELQ), INTENT(IN) :: IXQ
         INTEGER, DIMENSION(NIXTG, NUMELTG), INTENT(IN) :: IXTG
         INTEGER, DIMENSION(NIXS, NUMELS), INTENT(IN) :: IXS

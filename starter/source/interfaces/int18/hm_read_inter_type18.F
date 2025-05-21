@@ -84,10 +84,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER GRBRIC_ID,GRQUAD_ID,GRTRIA_ID,IBAG,IDEL7N,IGAP,IGAP0,IDUM,NTYP,INACTI,
+      INTEGER GRBRIC_ID,IBAG,IDEL7N,IGAP,IGAP0,NTYP,INACTI,
      .        IDELKEEP,ISU1_user,ISU2_user,ISU3_user,ISTIFF
       my_real GAP,STARTT,STOPT,BUMULT,VISC,FRIC,VREF,SCALE
-      CHARACTER(LEN=40)::MESS
       CHARACTER(LEN=NCHARTITLE)::MSGTITL
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
       INTEGER,EXTERNAL :: NGR2USR

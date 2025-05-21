@@ -52,16 +52,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real
-     .   X1, X2, X3, X4, Y1, Y2, Y3, Y4, Z1, Z2, Z3, Z4,
-     .   E1X, E1Y, E1Z, E2X,E2Y, E2Z, E3X, E3Y, E3Z
+      my_real X1, X2, X3, X4, Y1, Y2, Y3, Y4, Z1, Z2, Z3, Z4, E1X, E1Y, E1Z, E2X,E2Y, E2Z, E3X, E3Y, E3Z
       INTEGER NIR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real  :: 
-     .   E11,E12,E13,E21,E22,E23,RX,RY,RZ,SX,SY,SZ,
-     .   SUM,S1,S2
+      my_real :: SUM_,S1,S2
 C-----------------------------------------------
 
         IF(NIR==4)THEN
@@ -83,26 +79,26 @@ C-----------------------------------------------
         E3Y = E1Z*E2X - E1X*E2Z                           
         E3Z = E1X*E2Y - E1Y*E2X                           
 C
-        SUM = E3X*E3X+E3Y*E3Y+E3Z*E3Z                      
-        SUM = ONE / MAX(SQRT(SUM),EM20)                     
-        E3X = E3X * SUM                                    
-        E3Y = E3Y * SUM                                    
-        E3Z = E3Z * SUM                                    
+        SUM_ = E3X*E3X+E3Y*E3Y+E3Z*E3Z                      
+        SUM_ = ONE / MAX(SQRT(SUM_),EM20)                     
+        E3X = E3X * SUM_                                    
+        E3Y = E3Y * SUM_                                    
+        E3Z = E3Z * SUM_                                    
 C
         IF (NIR == 4) THEN
           S1  = E1X*E1X+E1Y*E1Y+E1Z*E1Z                      
           S2  = E2X*E2X+E2Y*E2Y+E2Z*E2Z                      
-          SUM = SQRT(S1/S2)                                  
-          E1X = E1X + (E2Y*E3Z-E2Z*E3Y)*SUM                  
-          E1Y = E1Y + (E2Z*E3X-E2X*E3Z)*SUM                  
-          E1Z = E1Z + (E2X*E3Y-E2Y*E3X)*SUM
+          SUM_ = SQRT(S1/S2)                                  
+          E1X = E1X + (E2Y*E3Z-E2Z*E3Y)*SUM_                  
+          E1Y = E1Y + (E2Z*E3X-E2X*E3Z)*SUM_                  
+          E1Z = E1Z + (E2X*E3Y-E2Y*E3X)*SUM_
         ENDIF                  
 C
-        SUM = E1X*E1X+E1Y*E1Y+E1Z*E1Z                      
-        SUM = ONE / MAX(SQRT(SUM),EM20)                     
-        E1X = E1X * SUM                                    
-        E1Y = E1Y * SUM                                    
-        E1Z = E1Z * SUM                                    
+        SUM_ = E1X*E1X+E1Y*E1Y+E1Z*E1Z                      
+        SUM_ = ONE / MAX(SQRT(SUM_),EM20)                     
+        E1X = E1X * SUM_                                    
+        E1Y = E1Y * SUM_                                    
+        E1Z = E1Z * SUM_                                    
 C
         E2X = E3Y * E1Z - E3Z * E1Y                        
         E2Y = E3Z * E1X - E3X * E1Z                        

@@ -79,15 +79,15 @@
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-        integer :: k,j,error,iflag,niter,iok,ipos(1,2)
+        integer :: k,error,iflag,niter,iok,ipos(1,2)
         my_real ::                                                             &
-            gamma,delta,fct,yield,dx,dy,scale,g1,g2,g3,g13,g23,g33,g15,g25,g35,&
-            dydx,df1,df2,df3,df13,df23,df33,df15,df25,df35,f1,f2,al1,al2,al3,  &
-            al4,al5,al6,al7,al8,s00,s45,s90,sb,dv1a7,dv11a8,dw11a8,r00,r45,r90,&
-            rb,x1,x2,x11,x22 ,v1,v11,w11,tal7,tal8,aswift,epso,qvoce,beta,ko,  &
+            gamma,delta,fct,yield,dx,dy,g1,g2,g3,g13,g23,g33,g15,g25,g35,&
+            df1,df2,df3,df13,df23,df33,df15,df25,df35,f1,f2,  &
+            dv1a7,dv11a8,dw11a8,r00,r45,r90,rb,s00,s45,s90,sb,&
+            x1,x2,x11,x22 ,v1,v11,w11,tal7,tal8,aswift,epso,qvoce,beta,ko,  &
             alpha,nexp,conjtf4a8,tf4a8,dal78(2),expv,kswift,kvoce,puis,pla,    &
-            residu,g(2),dal(8),dftest(6,6),dg(2,2),al(8),f(8),df(6,6),         &
-            dfinv(6,6),res(6,6),test(3,3),testinv(3,3),dginv(2,2),dyld_dp(1),  &
+            residu,g(2),dal(8),dg(2,2),al(8),f(8),df(6,6),         &
+            dfinv(6,6),dginv(2,2),dyld_dp(1),  &
             xvec(1,2),yld(1),expa,expam2,k1,k2,ahs,bhs,mhs,eps0hs,nhs,hmart,   &
             temp0,expo,aexp,atemp,vm0
 !      
@@ -435,8 +435,7 @@
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-        integer :: idfc,idfd ,aa
-        my_real :: s00,s45,s90,sb,r00,r45,r90,rb  
+        integer :: aa
 !=======================================================================
        aa = a - 2 
        dx = al(1)*(gamma*al(1)-delta*al(2))    *(abs(gamma*al(1)    - delta*al(2)     ))**aa  &
@@ -519,7 +518,7 @@
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-        integer i, j, k
+        integer i, j
 !=======================================================================
 !
         do i = 1, n

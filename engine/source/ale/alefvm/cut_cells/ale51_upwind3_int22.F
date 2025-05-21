@@ -35,8 +35,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    multimat_param_mod    ../common_source/modules/multimat_param_mod.F90
       !||====================================================================
       SUBROUTINE ALE51_UPWIND3_INT22(
-     .                         PM     , IXS  , ITRIMAT,        IFLG ,
-     .                         NV46   , IPARG, ELBUF_TAB, ITASK  )
+     .                         PM     , IXS      , ITRIMAT,        IFLG ,
+     .                         IPARG  , ELBUF_TAB, ITASK  )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -77,8 +77,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN) :: ITRIMAT,IFLG
-      INTEGER IXS(NIXS,*), NV46,IPARG(NPARG,*),ITASK
-      my_real :: PM(NPROPM,*),DDVOLi(MVSIZ)
+      INTEGER IXS(NIXS,*), IPARG(NPARG,*),ITASK
+      my_real :: PM(NPROPM,*)
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB      
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

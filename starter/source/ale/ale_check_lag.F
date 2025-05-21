@@ -77,7 +77,7 @@ C--------------------------------------------------------------
           IMAT = IABS(IXQ(1,M)) !/EULER/MAT or /ALE/MAT
           IPROP = IABS(IXQ(6,M))!/PROP/TYPE14 (IALE_FLAG)
           IF(IMAT == 0)CYCLE
-          JALE_FROM_MAT = PM(72,IMAT)
+          JALE_FROM_MAT = NINT(PM(72,IMAT))
           JALE_FROM_PROP = IGEO(62,IPROP)
           IAL = JALE_FROM_MAT + JALE_FROM_PROP
           IF(IAL /= 0)CYCLE
@@ -102,7 +102,7 @@ C--------------------------------------------------------------
           IMAT = IABS(IXS(1,M)) !/EULER/MAT or /ALE/MAT
           IPROP = IABS(IXS(10,M))!/PROP/TYPE14 (IALE_FLAG)
           IF(IMAT == 0)CYCLE
-          JALE_FROM_MAT = PM(72,IMAT)
+          JALE_FROM_MAT = NINT(PM(72,IMAT))
           JALE_FROM_PROP = IGEO(62,IPROP)
           IAL = JALE_FROM_MAT + JALE_FROM_PROP
           IF(IAL /= 0)CYCLE

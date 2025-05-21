@@ -33,9 +33,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i22tri_mod         ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||====================================================================
       SUBROUTINE EFLUX3_INT22_FVM(
-     .           PM         , IXS   , V      , FLUX     , FLU1    ,
-     .           VEUL       , IPARG  , ELBUF_TAB, ITASK   ,
-     .           NV46       , IPM   , X)
+     .           PM    , IXS      , FLUX     , FLU1    ,
+     .           IPARG , ELBUF_TAB, ITASK   ,
+     .           NV46  , IPM      , X)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C----------------------------------------------- 
@@ -86,37 +86,27 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER :: IXS(NIXS,*), IPARG(NPARG,*),ISILENT, NV46,IPM(NPROPMI,*)
-      my_real :: PM(NPROPM,*), V(3,*), FLUX(6,*), FLU1(*),VEUL(LVEUL,*),X(3,*)
+      my_real :: PM(NPROPM,*),FLUX(6,*), FLU1(*),X(3,*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP),TARGET :: ELBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER MAT, MLW, NC(8), I, IE,J, K, Kv,L,ITASK, IDm, IDV, IDV2, IFLAG,IFV,IFvv,IC,II
-      INTEGER ID, IDvm, IBvm, NGvm, IEvm, IEV, Jm, IMAT, IALEFVM_FLG
-      INTEGER IB,IBv,IBvv, NIN, NBCUT,NBCUTv, ICELL,NCELL,NCELLv,FV,NGv,NGm, IPOS,NadjCell
-      my_real
-     .   X1(1), X2(1), X3(1), X4(1), X5(1), X6(1), X7(1), X8(1),
-     .   Y1(1), Y2(1), Y3(1), Y4(1), Y5(1), Y6(1), Y7(1), Y8(1), Z1(1),
-     .   Z2(1), Z3(1), Z4(1), Z5(1), Z6(1), Z7(1), Z8(1), NX(6),
-     .   NY(6), NZ(6),VX1(MVSIZ), VX2(MVSIZ), VX3(MVSIZ), VX4(MVSIZ), VX5(MVSIZ), VX6(MVSIZ),
-     .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ), VY5(MVSIZ), VY6(MVSIZ), VZ1(MVSIZ), VZ2(MVSIZ),
-     .   VZ3(MVSIZ), VZ4(MVSIZ), VZ5(MVSIZ), VZ6(MVSIZ), VD(3,8),cellFLUX(6,9,NB,5),
-     .   UPW(1),REDUC,UPWL(6),MLN
-      my_real :: RATIOFACE(6), VF(3), Norm(3,6), LNorm(6),TERM2
-      INTEGER :: NBF,NBL, MCELL,MNOD,iNOD,NNOD(6),ICELLv,ICELLvv, numnod, numnodV
-      INTEGER,DIMENSION(:),   POINTER     :: pIsMain, pIsMainV  
-      INTEGER,                POINTER     :: pNum, pNumv
-      TYPE(G_BUFEL_)  ,POINTER            :: GBUF   
-      my_real                             :: AREA , BAK , PHI , SGN, FACE , Z(3), Zadj(3), ZZadj_, CF(3), ZCf(3),ZZadj(3)
-      my_real                             :: PS, LAMBDA
-      INTEGER,POINTER                     :: pMainID, pMainIDv 
-      INTEGER                             :: NUM, NADJ, IADJ, JV, NG, IE_M, IEm, IBm
-      my_real                             :: FACEv, DDVOL, VALEL(6), VALVOIS(6,6,5), SR1, SR2, SRF
-      LOGICAL debug_outp,bFOUND
+      INTEGER MAT, MLW, NC(8), I, IE,J, K, Kv,L,ITASK, IDm, IDV
+      INTEGER IDvm, IBvm, NGvm, IEvm, IEV, Jm, IMAT, IALEFVM_FLG
+      INTEGER IB,IBv,NIN, NBCUT,ICELL,NCELL,NGm
+      my_real cellFLUX(6,9,NB,5),REDUC,UPWL(6)
+      my_real :: VF(3), Norm(3,6), LNorm(6),TERM2
+      INTEGER :: NBF,NBL, MCELL,iNOD,ICELLv,numnod, numnodV
+      TYPE(G_BUFEL_)  ,POINTER         :: GBUF
+      my_real                          :: FACE , Z(3), Zadj(3), ZZadj_, CF(3), ZCf(3),ZZadj(3)
+      my_real                          :: PS, LAMBDA
+      INTEGER                          :: NUM, NADJ, IADJ, JV, NG, IE_M, IEm, IBm
+      my_real                          :: FACEv, DDVOL, VALEL(6), VALVOIS(6,6,5), SR1, SR2, SRF
+      LOGICAL debug_outp
 C-----------------------------------------------
 C   P r e - C o n d i t i o n 
 C-----------------------------------------------
-      IF(INT22==0)RETURN      
+      IF(INT22 == 0)RETURN
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------      

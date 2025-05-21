@@ -56,7 +56,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE ALEWDX(TIMERS,
      1     GEO             ,X             ,D          ,V          ,VR         ,
-     2     W               ,WA            ,WB         ,RBY        ,SKEW       ,
+     2     W               ,WA            ,WB         ,SKEW       ,
      3     PM              ,XLAS          ,MS         ,FSAV       ,
      4     A               ,TF            ,RWBUF      ,
      5     DT2SAVE         ,PYTHON, 
@@ -68,7 +68,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      B     LNSDVOIS        ,WEIGHT        ,ADSKY      ,FSKY       ,IADS       ,
      C     FR_WALL         ,NPORGEO       ,PROCNE     ,
      D     FR_NBCC         ,IADQ          ,XDP        ,IGRNOD     ,
-     E     DR              ,INTBUF_TAB    ,ITAB       ,MULTI_FVM  ,
+     E     DR              ,INTBUF_TAB    ,MULTI_FVM  ,
      F     ALE_CONNECTIVITY,DDP           ,NE_NERCVOIS,NE_NESDVOIS,
      G     NE_LERCVOIS     ,NE_LESDVOIS   ,XCELL      ,XFACE      ,WFEXT)
 C-----------------------------------------------
@@ -135,12 +135,12 @@ C-----------------------------------------------
      .     WEIGHT(*), FR_ELEM(*), IAD_ELEM(*), ADSKY(*), NPORGEO(*),
      .     IADS(*) ,FR_WALL(*),
      .     IADQ(*), NIADX
-      INTEGER, INTENT(IN) :: ITAB(NUMNOD)
       DOUBLE PRECISION    :: XDP(3,*),DDP(3,*)
       my_real X(3,SX/3) ,D(3,SD/3), V(3,SV/3) ,VR(3,SVR/3) ,A(3,SA/3) , FSKY(*),
      .        MS(*)   ,PM(NPROPM,NUMMAT),SKEW(LSKEW,*),GEO(NPROPG,NUMGEO),
      .        W(3,SW/3), WB(*), TF(*), FSAV(NTHVKI,*) ,XLAS(*),
-     .        RWBUF(NRWLP,*),RBY(NRBY,*),WA(3,*),DR(3,SDR/3),XCELL(3,SXCELL), XFACE(3,6,*)
+     .        WA(3,*),DR(3,SDR/3),XCELL(3,SXCELL), XFACE(3,6,*)
+      my_real :: RWBUF(NRWLP,*)
       my_real DT2SAVE
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
@@ -246,7 +246,7 @@ C----------------------------------------
             CALL MY_BARRIER
             CALL ALEW5(
      1           X                           ,V                     ,W       , WA     ,
-     2           ALE_CONNECTIVITY%NN_CONNECT ,ALE_CONNECTIVITY%NALE ,NODFT   , NODLT  , ITASK,
+     2           ALE_CONNECTIVITY%NN_CONNECT ,ALE_CONNECTIVITY%NALE ,NODFT   , NODLT  ,
      3           NBRCVOIS                    ,NBSDVOIS              ,LNRCVOIS, LNSDVOIS,
      4           SKEW                        ,ISKEW                 ,ICODT)
             CALL MY_BARRIER
@@ -298,8 +298,8 @@ C
       IF (ITASK == 0) THEN
 C----------------------------------------
          IF(NUMPOR > 0)
-     1        CALL WPOR(GEO,NODPOR,X                    ,V       ,VR  ,
-     2                  W  ,RBY   ,ALE_CONNECTIVITY%NALE,NPORGEO       )
+     1        CALL WPOR(GEO,NODPOR               ,X       ,V       ,VR  ,
+     2                  W  ,ALE_CONNECTIVITY%NALE,NPORGEO       )
 C----------------------------------------
 C     BOUNDARY CONDITIONS AT NODES
 C----------------------------------------
@@ -359,7 +359,7 @@ C     /ALE/LINK/VEL
 C--------------------------------------
          IF(NALELK /= 0) THEN
             IF(IMON > 0 .AND. ITASK == 0) CALL STARTIME(TIMERS,4)
-            CALL ALELIN(NALELK,LINALE,W,WEIGHT,IGRNOD,ITAB)
+            CALL ALELIN(NALELK,LINALE,W,WEIGHT,IGRNOD)
             IF(IMON > 0 .AND. ITASK == 0) CALL STOPTIME(TIMERS,4)
          ENDIF
 C-----------------------------------
@@ -380,12 +380,12 @@ C-----------------------
          IF(NRWALL > 0) THEN
             IF(IMON > 0 .AND. ITASK == 0) CALL STARTIME(TIMERS,4)
             CALL RGWAL1(
-     1           X                   ,A                      ,V          ,W       ,RWBUF           ,
-     2           NPRW(1+NNPRW*NRWALL),NPRW                   , PYTHON, 
-     3           ICODT               ,ISKEW                  ,SKEW       ,MS      ,FSAV(1,NINTER+1),
-     4           IXS                 ,IXQ                    ,ELBUF_TAB  ,IPARG   ,
-     5           PM                  ,ALE_CONNECTIVITY%NALE  ,TF         ,NPF     ,WEIGHT          ,
-     6           IAD_ELEM            ,FR_ELEM                ,FR_WALL    ,WFEXT    )
+     1           X                   ,A                   ,V          ,W       ,
+     2           RWBUF               ,NPRW(1+NNPRW*NRWALL),NPRW                ,PYTHON ,
+     3           MS                  ,FSAV(1,NINTER+1),
+     4           IXS                 ,IXQ                 ,ELBUF_TAB  ,IPARG   ,
+     5           PM                  ,TF                  ,NPF        ,WEIGHT          ,
+     6           IAD_ELEM            ,FR_ELEM             ,FR_WALL        )
             IF(IMON > 0.AND. ITASK == 0) CALL STOPTIME(TIMERS,4)
          ENDIF
 C-----------------------

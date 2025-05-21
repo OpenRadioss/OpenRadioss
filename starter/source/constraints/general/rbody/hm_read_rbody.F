@@ -534,7 +534,6 @@ C
      .       /10X,'CENTER OF MASS FLAG                     ',I10
      .       /10X,'ADDED MASS                              ',1PG20.4
      .       /10X,'ADDED INERTIA                           ',1P6G20.4)
-1101  FORMAT(/10X,'RIGID BODIES SAVED FOR TIME HISTORY',/)
 1151  FORMAT(/10X,'FAILURE CRITERIA : ')
 1152  FORMAT(/10X,'NORMAL FORCE AT FAILURE. . . . . . . . . . . . .',1PG20.4
      .       /10X,'FAILURE EXPONENT PARAMETER IN NORMAL DIRECTION  ',1PG20.4
@@ -599,9 +598,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, L, ISENS, IG, NSN, II, NALL, IGU, N, ID, IRBYON, IOPT, NN, JJ, NRB
+      INTEGER I, ISENS, IG, NSN, II, NALL, IGU, N, ID, IRBYON, IOPT, NN, JJ, NRB
       INTEGER, DIMENSION(:), ALLOCATABLE :: ITAG
-      CHARACTER :: MESS*40
       CHARACTER(LEN=NCHARTITLE) :: TITR
       LOGICAL IS_AVAILABLE
 C-----------------------------------

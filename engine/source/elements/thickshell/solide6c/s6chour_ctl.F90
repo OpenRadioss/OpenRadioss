@@ -109,7 +109,7 @@
                x17(mvsiz) , x28(mvsiz) , x35(mvsiz) , x46(mvsiz),         &
                y17(mvsiz) , y28(mvsiz) , y35(mvsiz) , y46(mvsiz),         &
                z17(mvsiz) , z28(mvsiz) , z35(mvsiz) , z46(mvsiz),         &
-               hx,hy,hz,h1x,h1y,h1z,h2x,h2y,h2z,h3x,h3y,h3z,h4x,h4y,h4z,  &
+               hx,hy,hz,h1x,h1y,h1z,h2x,h2y,h2z,h3x,h3y,h3z,  &
                px1(mvsiz), px2(mvsiz), px3(mvsiz), px4(mvsiz),            &
                py1(mvsiz), py2(mvsiz), py3(mvsiz), py4(mvsiz),            &
                pz1(mvsiz), pz2(mvsiz), pz3(mvsiz), pz4(mvsiz),            &

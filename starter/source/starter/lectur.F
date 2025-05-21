@@ -4970,9 +4970,7 @@ C--------------------------------------------
      .                           MSGTYPE=MSGERROR,
      .                         C1='GAUGE')
       IF(NBGAUGE > 0) GAUGE=ZERO
-      IF(NBGAUGE > 0) CALL HM_READ_GAUGE(
-     1          LGAUGE,GAUGE ,ITABM1 ,UNITAB,IXC,
-     2          ISKWN,NOM_OPT(LNOPT1*INOM_OPT(27)+1),LSUBMODEL)
+      IF(NBGAUGE > 0) CALL HM_READ_GAUGE(LGAUGE,GAUGE,ITABM1,UNITAB,IXC,NOM_OPT(LNOPT1*INOM_OPT(27)+1),LSUBMODEL)
       CALL TRACE_OUT1()
 C--------------------------------------------
 C     LECTURE DES SENSORS
@@ -7324,13 +7322,13 @@ C--------------------------------------------
       CALL ALE_CONNECTIVITY%ALE_CONNECTIVITY_INIT()
       IF(ALE_CONNECTIVITY%has_ne_connect) THEN
          CALL ALE_CONNECTIVITY%ALE_COMPUTE_CONNECTIVITY(NUMNOD, NUMELQ, NUMELTG, NUMELS,
-     .        NIXQ, NIXTG, NIXS, ITAB,
+     .        NIXQ, NIXTG, NIXS,
      .        IXQ, IXTG, IXS)
       ENDIF
       CALL ALE_CONNECTIVITY%ALE_COMPUTE_EE_CONNECTIVITY(PM,IGEO,
      .     NPROPGI,NUMGEO, NPROPM, NUMMAT , NUMNOD, NUMELQ, NUMELTG, NUMELS, N2D,
      .     IALE  , IEULER, GLOB_THERM%ITHERM, IALELAG,DETONATORS%IS_SHADOWING_REQUIRED,
-     .     NIXQ  , NIXTG , NIXS  , ITAB   ,
+     .     NIXQ  , NIXTG , NIXS  ,
      .     IXQ   , IXTG  , IXS   )
 C--------------------------------------------
       IF(NSUBDOM > 0) THEN

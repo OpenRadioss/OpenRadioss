@@ -92,22 +92,18 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER MAT(MVSIZ), PID(MVSIZ), NGL(MVSIZ)
-      INTEGER NF1, IELVS, IX, I, IGTYP, IP, IBID, IPID1
-      my_real
-     .   E1Y(MVSIZ),E1Z(MVSIZ),E2Y(MVSIZ),E2Z(MVSIZ),
-     .   BID(1), DTX(MVSIZ),
-     .   SY(MVSIZ) ,SZ(MVSIZ) ,TY(MVSIZ) ,TZ(MVSIZ)
-      my_real
-     .   FV
+      INTEGER NF1, I, IGTYP, IP, IBID, IPID1
+      my_real E1Y(MVSIZ),E1Z(MVSIZ),E2Y(MVSIZ),E2Z(MVSIZ),
+     .        BID(1), DTX(MVSIZ),
+     .        SY(MVSIZ) ,SZ(MVSIZ) ,TY(MVSIZ) ,TZ(MVSIZ)
+      my_real FV
       CHARACTER(LEN=NCHARTITLE)::TITR
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
       TYPE(L_BUFEL_), POINTER :: LBUF     
       TYPE(BUF_MAT_) ,POINTER :: MBUF
-      my_real
-     .     X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
-     .     Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
-     .     Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
-     .     AIRE(MVSIZ), DELTAX(MVSIZ)
+      my_real Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
+     .        Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
+     .        AIRE(MVSIZ), DELTAX(MVSIZ)
       my_real :: TEMPEL(NEL)
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ)
 C-----------------------------------------------

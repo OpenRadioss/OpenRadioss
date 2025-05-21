@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i22tri_mod             ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||    segvar_mod             ../engine/share/modules/segvar_mod.F
       !||====================================================================
-      SUBROUTINE ALEMUSCL_UPWIND(FLUX, ALE_CONNECT, ALPH, X, IXS, FLUX_VOIS,
+      SUBROUTINE ALEMUSCL_UPWIND(FLUX, ALE_CONNECT, X, IXS, FLUX_VOIS,
      .                           N4_VOIS, ITAB, NV46, ITRIMAT, SEGVAR)
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -62,7 +62,6 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NV46
       my_real, INTENT(OUT) :: FLUX(NV46, *)
-      my_real, INTENT(IN) :: ALPH(*)
       my_real, INTENT(IN) :: X(3,NUMNOD)
       INTEGER, INTENT(IN) :: IXS(NIXS,NUMELS)
       my_real, INTENT(OUT) :: FLUX_VOIS(NUMELS+NSVOIS, NV46)

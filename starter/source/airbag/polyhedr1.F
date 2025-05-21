@@ -52,9 +52,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, ICMAX, ICUR, II, J, JJ, K, KK, IEL, M
-      INTEGER L, LL, ICUR_OLD, ITY, JMIN, PMIN, POLD, NEDGE, NVERTEX
-      INTEGER IMIN, IMAX, I1, I2, I3, I4, N1, N2, N3, K1, K2
+      INTEGER I, ICMAX, II, J, JJ, K, KK, IEL
+      INTEGER L, LL, ITY, JMIN, PMIN, POLD, NEDGE, NVERTEX
+      INTEGER IMIN, IMAX, I1, I2, I3, I4, N1, N2, K1, K2
       INTEGER M1, M2, L1, L2
       INTEGER ITAG(2,NPOLB), POLEDG(NPOLB,NPPMAX+1), ITYP(NPOLB) 
       INTEGER NTYP(3), REDIR(4), TEMP1(4), TEMP2(4)
@@ -65,7 +65,7 @@ C-----------------------------------------------
       INTEGER, ALLOCATABLE :: PSEG(:,:),PTRI(:,:)
       my_real
      .        X1, Y1, Z1, X2, Y2, Z2, XX1, YY1, ZZ1, XX2, YY2, ZZ2,
-     .        DD11, DD12, DD13, DD21, DD22, TOLE
+     .        DD11, DD12, DD21, DD22, TOLE
       my_real
      .        TST12, TST13, TST21, TST32, TST14,
      .        NX, NY, NZ, NX1, NY1, NZ1
