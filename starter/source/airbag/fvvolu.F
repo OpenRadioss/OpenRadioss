@@ -20,6 +20,8 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      MODULE FVVOLU_MOD
+      CONTAINS
       !||====================================================================
       !||    fvvolu     ../starter/source/airbag/fvvolu.F
       !||--- called by ------------------------------------------------------
@@ -27,12 +29,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    fvnormal   ../starter/source/airbag/fvmbag1.F
       !||====================================================================
-      SUBROUTINE FVVOLU(IFV    ,ITYP   ,NNS    ,NNTR    ,NPOLH,
+      SUBROUTINE FVVOLU(ITYP   ,NNS    ,NNTR   ,NPOLH,
      1                  IBUF   ,IBUFA  ,ELEMA  ,TAGELA ,
      2                  X      ,IVOLU  ,RVOLU  ,
      3                  IFVNOD ,RFVNOD ,IFVTRI , 
      4                  IFVPOLY,IFVTADR,IFVPOLH, 
-     5                  IFVPADR,IDPOLH ,MPOLH  ,
+     5                  IFVPADR,MPOLH  ,
      6                  EPOLH  ,VPOLH_INI)
 C-----------------------------------------------
 C   M o d u l e s 
@@ -49,9 +51,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IFV, ITYP, NNS, NNTR, NPOLH
+      INTEGER ITYP, NNS, NNTR, NPOLH
       INTEGER IBUF(*),   IBUFA(*),  ELEMA(3,*), TAGELA(*), 
-     .        IVOLU(*),  IDPOLH(*), IFVNOD(3,*),IFVTRI(6,*),
+     .        IVOLU(*),  IFVNOD(3,*),IFVTRI(6,*),
      .        IFVPOLY(*),IFVTADR(*),IFVPOLH(*), IFVPADR(*)
       my_real
      .        X(3,*), RVOLU(*), RFVNOD(2,*), 
@@ -227,7 +229,7 @@ C---------------------------------------------------
       CPDI=RVOLU(56)
       CPEI=RVOLU(57)
       CPFI=RVOLU(58)
-      IF(ITYP==8) THEN
+      IF(ITYP == 8) THEN
          EFAC=EFAC+FOURTH*CPDI*TI2*TI2-CPEI/TI+ONE_FIFTH*CPFI*TI2*TI2*TI          
       ENDIF
       DO I=1,NPOLH
@@ -247,4 +249,5 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
      .       /5X,'SUM VOLUME OF FINITE VOLUMES. . . . . . .=',1PG20.13,
      .       /5X,'SUM AREA SURFACE TRIANGLES. . . . . . . .=',1PG20.13/)
       RETURN
-      END
+      END SUBROUTINE FVVOLU
+      END MODULE FVVOLU_MOD

@@ -20,6 +20,8 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      MODULE HM_READ_MONVOL_TYPE10_MOD
+      CONTAINS
       !||====================================================================
       !||    hm_read_monvol_type10    ../starter/source/airbag/hm_read_monvol_type10.F
       !||--- called by ------------------------------------------------------
@@ -40,10 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    monvol_struct_mod        ../starter/share/modules1/monvol_struct_mod.F
       !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
       !||====================================================================
-      SUBROUTINE HM_READ_MONVOL_TYPE10(T_MONVOLN, IPM, IGEO, ITABM1, 
-     .     NPT, PLD,
-     .     UNITAB, LUID, NPC, IGRSURF, ITAB, X, PM, GEO, IXC, IXTG,
-     .     LSUBMODEL)
+      SUBROUTINE HM_READ_MONVOL_TYPE10(T_MONVOLN, UNITAB, NPC, IGRSURF, ITAB, X, PM, GEO, IXC, IXTG, LSUBMODEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -70,9 +69,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(UNIT_TYPE_), INTENT(IN) :: UNITAB
-      INTEGER, INTENT(IN) :: LUID, IPM(NPROPMI, *), IGEO(NPROPGI, *), ITABM1(*)
-      INTEGER, INTENT(IN) :: NPC(*), ITAB(*), IXC(NIXC, *), IXTG(NIXTG, *), NPT(*)
-      my_real, INTENT(IN) :: X(3, *), GEO(NPROPG, *), PM(NPROPM, *),PLD(2, *)
+      INTEGER, INTENT(IN) :: NPC(*), ITAB(*), IXC(NIXC, *), IXTG(NIXTG, *)
+      my_real, INTENT(IN) :: X(3, *), GEO(NPROPG, *), PM(NPROPM, *)
       TYPE (SURF_), INTENT(INOUT), DIMENSION(NSURF) :: IGRSURF
       TYPE(MONVOL_STRUCT_), INTENT(INOUT) :: T_MONVOLN
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
@@ -80,9 +78,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: II
-      INTEGER :: SURFID, IFUNC, ITYPFUN, IFUNCT_ID(6), IFBULK, IFMIN, 
-     .     IFMOUTT, IFMOUTP, IFP0, IFPMAX
-      my_real :: FFUNC, FAC_GEN
+      INTEGER :: SURFID, IFUNCT_ID(6), IFBULK, IFMIN, IFMOUTT, IFMOUTP, IFP0, IFPMAX
+      my_real :: FAC_GEN
       my_real :: SCAL_T, SCAL_P
       my_real :: SA, ROT, VOL, VMIN, VEPS, AMU, SV
       my_real :: RHOI, SFBULK, SFMIN, SFMOUTT, SFMOUTP, SFP0, SFPMAX
@@ -303,10 +300,7 @@ C-----------------------------------------------
      .     5X,'UNIT SCALE FOR TIME FUNCTIONS          =',1PG20.13,
      .     /5X,'UNIT SCALE FOR PRESSURE FUNCTIONS      =',1PG20.13)
  1005 FORMAT( 5X,'EXTERNAL SURFACE ID . . . . . . . . . .=',I10)
- 1200 FORMAT( 5X,'LOAD CURVE NUMBER . . . . . . . . . . .=',I10,
-     .     /5X,'CURVE TYPE  . . . . . . . . . . . . . .=',I10,
-     .     /5X,'  0 : P=F(V)',
-     .     /5X,'  1 : P=F(T)'/)
+
  1800 FORMAT(
      .     5X,'FLUID DENSITY. . . . . . . . . . . . . . . . . . . . . =',1PG20.13,
      .     /5X,'BULK TIME FUNCTION. . . . . . . . . . . . . . . . . . .=',I10,
@@ -322,3 +316,4 @@ C-----------------------------------------------
      .     /5X,'MAXIMUM PRESSURE TIME FUNCTION. . . . . . . . . . . . .=',I10,
      .     /5X,'MAXIMUM PRESSURE TIME FUNCTION SCALE FACTOR. . . . . . =',1PG20.13)
       END SUBROUTINE HM_READ_MONVOL_TYPE10
+      END MODULE HM_READ_MONVOL_TYPE10_MOD

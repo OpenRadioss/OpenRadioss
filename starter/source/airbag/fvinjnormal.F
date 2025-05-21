@@ -20,12 +20,14 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      MODULE FVINJNORMAL_MOD
+      CONTAINS
       !||====================================================================
       !||    fvinjnormal   ../starter/source/airbag/fvinjnormal.F
       !||--- called by ------------------------------------------------------
       !||    fvmesh0       ../starter/source/airbag/fvmesh0.F
       !||====================================================================
-      SUBROUTINE FVINJNORMAL(IBUF, ELEM, IXC, IXTG, ITAGEL, ELTG,
+      SUBROUTINE FVINJNORMAL(IBUF, ELEM, IXC, IXTG, ELTG,
      .                       NEL, ILVOUT, MINUS_SIGN_REVERSE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -40,7 +42,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXC(NIXC,*), IXTG(NIXTG,*)
-      INTEGER IBUF(*), ELEM(3,*), ELTG(*), ITAGEL(*)
+      INTEGER IBUF(*), ELEM(3,*), ELTG(*)
       INTEGER NEL, ILVOUT
       INTEGER MINUS_SIGN_REVERSE(NEL)
 C-----------------------------------------------
@@ -122,4 +124,5 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
      .       /5X,'---------------------------------------------')
  1100 FORMAT( 5X,'TRIANGLE',I8,5X,A,I8)
       RETURN
-      END
+      END SUBROUTINE FVINJNORMAL
+      END MODULE FVINJNORMAL_MOD

@@ -20,6 +20,8 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      MODULE FVELINTE_MOD
+      CONTAINS
       !||====================================================================
       !||    fvelinte    ../starter/source/airbag/fvelinte.F
       !||--- called by ------------------------------------------------------
@@ -28,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    fvbag_mod   ../starter/share/modules1/fvbag_mod.F
       !||====================================================================
       SUBROUTINE FVELINTE(IBUF, ELEM, IXC, IXTG, PM, IPM, ILVOUT, IFV, 
-     .                    NNT, NTG, POROSITY, ITAB, NSEG,SURF_ELTYP,
+     .                    NNT, NTG, POROSITY, NSEG,SURF_ELTYP,
      .                    NTGI,ELTG,NB_NODE,SURF_ELEM)
 C-----------------------------------------------
 C   M o d u l e s 
@@ -48,11 +50,9 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXC(NIXC,*), IXTG(NIXTG,*), IPM(NPROPMI,*), ILVOUT, IFV
-      INTEGER IBUF(*), ELEM(3,*), NNT, NTG, ITAB(*),SURF_ELTYP(*),SURF_ELEM(*)
+      INTEGER IBUF(*), ELEM(3,*), NNT, NTG, SURF_ELTYP(*),SURF_ELEM(*)
       INTEGER NSEG,NTGI, ELTG(*), NB_NODE
-C     REAL
-      my_real
-     .   PM(NPROPM,*), POROSITY(*)
+      my_real PM(NPROPM,*), POROSITY(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -183,12 +183,12 @@ C TAG elements of internal surface
         IF(ITY==3) ITAGC(II)=1
         IF(ITY==7) ITAGTG(II)=1
       ENDDO
-C
+
       ICMAX=0
       DO I=1,NB_NODE
          ICMAX=MAX(ICMAX,ITAG(I))
       ENDDO
-C
+
       ALLOCATE(CNS(NB_NODE,1+ICMAX*2))
       DO I=1,NB_NODE
          CNS(I,1)=0
@@ -215,11 +215,11 @@ C
             CNS(JJ,1+2*(NC-1)+2)=I
          ENDDO
       ENDDO   
-C
+
       DO I=1,NB_NODE
          ITAG(I) = 0
       ENDDO
-C
+
       NNT_TMP = 0
       DO I=1,FVDATA(IFV)%NNTR
          IEL=FVDATA(IFV)%IFVTRI(4,I)
@@ -275,9 +275,9 @@ C     Triangle interne appuye sur element solide
             ENDIF            
          ENDIF
       ENDDO
-C     
+
 C REDEFINE INTERNAL TRIANGLE FOR COMPATIBILITY WITH BRICKS
-C
+
       DO I=1,NNT
         J=IBUF(I)
         ITAG(J)=I
@@ -305,9 +305,9 @@ C
            ENDIF
          ENDIF
       ENDDO
-C
+
 C DEFINE POROSITY
-C
+
       IF(ILVOUT >= 1) WRITE(IOUT,1000)
       DO I=1,NTGI
            IEL=ELTG(NTG+I)
@@ -321,7 +321,7 @@ C
              KK  =IXTG(NIXTG,JJ)
              TITL='SH3N: '
            ENDIF
-C
+
            ILAW=IPM(2,MAT)
            LEAK=IPM(4,MAT)
            IF (ILAW == 0) THEN
@@ -339,7 +339,7 @@ C
              ENDIF
            ENDIF
       ENDDO
-C
+
       IF(ILVOUT >= 5) THEN
         WRITE(IOUT,1200)
         DO I=1,FVDATA(IFV)%NNTR
@@ -351,7 +351,7 @@ C
           N3=FVDATA(IFV)%IFVTRI(6,I)
           WRITE(IOUT,'(5X,7I8)') I,I1,I2,I3,N1,N2,N3
         ENDDO
-C
+
         WRITE(IOUT,1300)
         DO I=1,FVDATA(IFV)%NNS
           N1=FVDATA(IFV)%IFVNOD(1,I)
@@ -369,12 +369,13 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
  1150 FORMAT( 5X,'TRIANGLE:',I8,' <-> ',A,I10,10X,F6.3)
  1200 FORMAT(/5X,'TRIANGLE',9X,'NODES',10X,'ELEMENT',4X,'FINITE VOLUME')
  1300 FORMAT(/5X,'FV POINT',4X,'FLAG',1X,'ELEM/NODE',2X,'NODE')
-C
+
       DEALLOCATE(CNS)
       DEALLOCATE(ITAG)
       DEALLOCATE(ITAGC)
       DEALLOCATE(ITAGTG)
 
-C     
+
       RETURN
-      END
+      END SUBROUTINE FVELINTE
+      END MODULE FVELINTE_MOD

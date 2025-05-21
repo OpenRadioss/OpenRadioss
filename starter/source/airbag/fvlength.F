@@ -20,6 +20,8 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      MODULE FVLENGTH_MOD
+      CONTAINS
       !||====================================================================
       !||    fvlength   ../starter/source/airbag/fvlength.F
       !||--- called by ------------------------------------------------------
@@ -27,12 +29,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    fvnormal   ../starter/source/airbag/fvmbag1.F
       !||====================================================================
-      SUBROUTINE FVLENGTH(IFV  ,NNS    ,NNTR   ,NPOLH,
-     1                  IBUF   ,IBUFA  ,ELEMA  ,TAGELA ,
-     2                  X      ,IVOLU  ,RVOLU  ,
-     3                  IFVNOD ,RFVNOD ,IFVTRI , 
-     4                  IFVPOLY,IFVTADR,IFVPOLH, 
-     5                  IFVPADR,IBPOLH ,DLH    )
+      SUBROUTINE FVLENGTH(NNS   ,NNTR   ,NPOLH,
+     1                   IBUF   ,IBUFA  ,ELEMA  ,TAGELA ,
+     2                   X      ,IVOLU  ,
+     3                   IFVNOD ,RFVNOD ,IFVTRI ,
+     4                   IFVPOLY,IFVTADR,IFVPOLH,
+     5                   IFVPADR,IBPOLH ,DLH    )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -44,12 +46,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IFV, NNS, NNTR, NPOLH
+      INTEGER NNS, NNTR, NPOLH
       INTEGER IBUF(*),   IBUFA(*),  ELEMA(3,*), TAGELA(*), 
      .        IVOLU(*),  IBPOLH(*), IFVNOD(3,*),IFVTRI(6,*),
      .        IFVPOLY(*),IFVTADR(*),IFVPOLH(*), IFVPADR(*)
-      my_real
-     .        X(3,*), RVOLU(*), RFVNOD(2,*), DLH 
+      my_real X(3,*), RFVNOD(2,*), DLH
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -286,4 +287,5 @@ C
      .    /5X,'    MINIMUM LENGTH BASED ON VOLUME/AREA. . .=',1PG20.13,' (FINITE VOLUME ID ',I10,')',' (BRICK ID ',I10,')',/)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+----0----+----1----+----2----+----3--
       RETURN
-      END
+      END SUBROUTINE FVLENGTH
+      END MODULE FVLENGTH_MOD
