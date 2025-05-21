@@ -32,9 +32,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i22tri_mod           ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||====================================================================
       SUBROUTINE ALEFVM_SCHEME (
-     1                          IXS,  NV46,  IALEFVM_FLG, ITASK ,    
-     2                          MOM,  VOL ,  RHO  , V          , VEUL  ,
-     3                          IPM,  MSNF,  X    , NALE       , IAD22 ,
+     1                          IXS,  IALEFVM_FLG,
+     2                          MOM,  VOL ,  RHO  ,
+     3                          IPM,  IAD22 ,
      4                          SSP,  SIG ,  NEL  )
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -76,13 +76,13 @@ C using finit volume scheme
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER :: IXS(NIXS,*), NV46, IALEFVM_FLG, ITASK,IPM(NPROPMI,*),NALE(*),NEL
-      my_real :: MOM(NEL,3), VOL(MVSIZ), RHO(MVSIZ), V(3,*),VEUL(*),MSNF(NUMNOD),X(3,*),IAD22(*),SSP(*),SIG(NEL,6)
+      INTEGER :: IXS(NIXS,*), IALEFVM_FLG, IPM(NPROPMI,*),NEL
+      my_real :: MOM(NEL,3), VOL(MVSIZ), RHO(MVSIZ), IAD22(*),SSP(*),SIG(NEL,6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I, II, IV, J, IMAT, ILAW, NIN, IB
-      my_real :: FORCE(3,6), F0(3), MASS, DMOM(3,MVSIZ)
+      INTEGER :: I, II, J, IMAT, ILAW, NIN, IB
+      my_real :: DMOM(3,MVSIZ)
       LOGICAL :: debug_outp
       INTEGER :: idbf,idbl
 C-----------------------------------------------
@@ -171,9 +171,7 @@ C-----------------------------------------------
       
       !EXPAND MOMENTUM TO NODES FOR POST-TREATMENT
       !call my_barrier
-      CALL ALEFVM_EXPAND_MOM2 (
-     .                        X   ,V   , IXS  , NV46,
-     .                        MOM ,VEUL, ITASK, NALE , NEL )
+      CALL ALEFVM_EXPAND_MOM2 (IXS, MOM, NEL)
       
       DO I=1,NEL
         !MOM=[rhoU]*VOL -> U : needed for fluxes calculation

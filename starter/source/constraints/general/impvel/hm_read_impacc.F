@@ -81,7 +81,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,ID,UID,IACC,FCT_ID,INP_ID,SENS_ID,GRN,NACC,
+      INTEGER J,ID,UID,IACC,FCT_ID,INP_ID,SENS_ID,GRN,NACC,
      .        NOSKEW,NOFRAME,NUM0,NN,I_VDA,INOD,NODID,IGS,
      .        L_XYZ,SUBID,NOSUB,NODENUM(NFXVEL0)
       INTEGER ,DIMENSION(3*NUMNOD) :: IKINE1

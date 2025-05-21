@@ -60,7 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,M,N,NBC,K,K3,IV1(40),IKEY,JJ,ISK,IFM,IOS,IGN
+      INTEGER I,J,M,N,NBC,K,K3,IV1(40),IKEY,JJ,IFM,IOS,IGN
       my_real V,VTX,VTY,VTZ
       CHARACTER KEY2*5, KEY3*5
       CHARACTER(LEN=NCHARLINE100)::CARTE

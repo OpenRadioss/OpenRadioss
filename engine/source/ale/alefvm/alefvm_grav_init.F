@@ -32,9 +32,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sensor_mod            ../common_source/modules/sensor_mod.F90
       !||====================================================================
       SUBROUTINE ALEFVM_GRAV_INIT(PYTHON, 
-     1                          AGRV, IGRV, LGRAV, NSENSOR,SENSOR_TAB,
-     2                          IXS , ITASK, NPC , TF    ,SKEW    ,
-     3                          ITAB )
+     1                          AGRV, IGRV, LGRAV, NSENSOR, SENSOR_TAB,
+     2                          ITASK, NPC , TF    ,SKEW )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -76,17 +75,17 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(PYTHON_) , INTENT(IN) :: PYTHON
       INTEGER ,INTENT(IN) :: NSENSOR
-      INTEGER :: IXS(NIXS,*), IGRV(NIGRV,*), ITASK,LGRAV(*),NPC(*),ITAB(*)
+      INTEGER :: IGRV(NIGRV,*), ITASK,LGRAV(*),NPC(*)
       my_real :: AGRV(LFACGRV,*),TF(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER          :: I, J, K, K1, K2, K3, NL, NN, ISK, IFUNC, N2
-      INTEGER          :: IADF,IADL,ISENS,N1,NVERTEX,INOd,II
-      my_real          :: TS,AA,FCX,FCY,VV,A0,DYDX,GAMA,WFEXTT
-      my_real          :: M_CELL(MVSIZ),ACCEL(3,MVSIZ),SKEW(LSKEW,*)
+      INTEGER          :: J, K, K1, K2, K3, NL, NN, ISK, IFUNC, N2
+      INTEGER          :: IADF,IADL,ISENS,N1
+      my_real          :: TS,AA,FCX,FCY,A0,DYDX,GAMA,WFEXTT
+      my_real          :: SKEW(LSKEW,*)
       my_real,EXTERNAL :: FINTER      
-      INTEGER           :: ISMOOTH
+      INTEGER          :: ISMOOTH
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
@@ -147,7 +146,7 @@ C-----------------------------------------------
         K2    = 3*N2-1
         K3    = 3*N2
         
-        IF(NL==1)THEN
+        IF(NL == 1)THEN
          !initialisation
 #include "vectorize.inc"
           DO J=IADF,IADL

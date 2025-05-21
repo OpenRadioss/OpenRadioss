@@ -37,10 +37,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i22tri_mod             ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||    initbuf_mod            ../engine/share/resol/initbuf.F
       !||====================================================================
-      SUBROUTINE ALE51_FINISH(IPARG,EV  ,PM   ,IXS  ,IXQ   ,
-     .                        V     ,W   ,X    ,FLUX ,FLU2   ,
-     .                        MS    ,VEUL,ALPHA,
-     .                        ALE_CONNECT ,ITASK,FLUX_SAV,QMV,NV46,ELBUF_TAB)
+      SUBROUTINE ALE51_FINISH(IPARG, PM   ,IXS  ,IXQ   ,
+     .                        X    ,FLUX ,FLU2   ,
+     .                        ALPHA, ALE_CONNECT ,ITASK,FLUX_SAV,QMV,NV46,ELBUF_TAB)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -66,8 +65,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB      
-      my_real PM(NPROPM,NUMMAT), V(3,NUMNOD), W(3,NUMNOD),X(3,NUMNOD),
-     .        EV(*), FLUX(NV46,*), FLU2(*), MS(*), VEUL(*), 
+      my_real PM(NPROPM,NUMMAT), X(3,NUMNOD),
+     .        FLUX(NV46,*), FLU2(*),
      .        ALPHA(*), FLUX_SAV(NV46,*), QMV(*)
       INTEGER IPARG(NPARG,NGROUP), IXS(NIXS,NUMELS), IXQ(7,NUMELQ),ITASK,NV46, J
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
@@ -182,7 +181,7 @@ C--------------------
         !Computing Upwind fluxes (inter22 - obsolete)
         CALL ALE51_UPWIND3_INT22
      +                      (PM  , IXS  ,   0     ,  0, 
-     +                       NV46, IPARG,   ELBUF_TAB  ,ITASK     )
+     +                       IPARG,   ELBUF_TAB  ,ITASK     )
 
       ENDIF
 

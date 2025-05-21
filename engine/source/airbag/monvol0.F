@@ -103,7 +103,7 @@ C     PORO(*) STOCKE DANS WA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,ITYP,NCA,IAD,NN,IS,K1,K2,K6,KK1,KK2,PMAIN,KIBJET,KRBJET,KIBHOL,KRBHOL,NJET,IADJET,RADJET,NVENT,IADHOL,RADHOL
+      INTEGER  I,ITYP,NCA,NN,IS,K1,K2,K6,KK1,KK2,PMAIN,KIBJET,KRBJET,KIBHOL,KRBHOL,NJET,IADJET,RADJET,NVENT,IADHOL,RADHOL
       my_real, dimension(nvolu) :: vol
 C---------------------------------------------------------
 C

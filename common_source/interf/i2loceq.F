@@ -58,12 +58,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER J
-C     REAL
-      my_real
-     .   FAC,MX,MY,MZ,D1,D2,DD,RAX,RBX,RAY,RBY,
-     .   MXY,MYX,MYZ,MZY,MXZ,MZX,MXX,MYY,MZZ,RXX,RYY,FXX,FYY,FZZ,FA,FB
-      my_real
-     .   RSX(4),RSY(4),RSZ(4),DF(NIR),MAT(3,3),MATI(3,3),BX,BY,BZ
+      my_real MX,MY,MZ,D1,D2,DD,RAX,RBX,RAY,RBY, MXY,MYX,MYZ,MZY,MXZ,MZX,MXX,MYY,MZZ,RXX,RYY,FXX,FYY,FA,FB
+      my_real RSX(4),RSY(4),RSZ(4),DF(NIR),MAT(3,3),MATI(3,3),BX,BY,BZ
 C=======================================================================
 C     Moment equilibrium in LOCAL coordinates
 C-------------------------------------------------
@@ -247,13 +243,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER J
-C     REAL
-      my_real
-     .   FAC,MX,MY,MZ,D1,D2,DD,RAX,RBX,RAY,RBY,
-     .   MXY,MYX,MYZ,MZY,MXZ,MZX,MXX,MYY,MZZ,RXX,RYY,FXX,FYY,FZZ,FA,FB
-      my_real
-     .   RSX(4),RSY(4),RSZ(4),DF(NIR),MAT(3,3),MATI(3,3),BX,BY,BZ,ALPHA,
-     .   LX1,LX2,LX3,LX4,LXMIN
+      my_real MX,MY,MZ,D1,D2,DD,RAX,RBX,RAY,RBY,MXY,MYX,MYZ,MZY,MXZ,MZX,MXX,MYY,MZZ,RXX,RYY,FXX,FYY,FA,FB
+      my_real RSX(4),RSY(4),RSZ(4),DF(NIR),MAT(3,3),MATI(3,3),BX,BY,BZ,ALPHA
 C=======================================================================
 C     Moment equilibrium in LOCAL coordinates
 C-------------------------------------------------

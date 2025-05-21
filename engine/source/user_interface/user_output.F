@@ -32,7 +32,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IOUT,ILAW,ROOTLEN,INPF
+      INTEGER IOUT,ILAW,ROOTLEN
       CHARACTER*80 ROOTN
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

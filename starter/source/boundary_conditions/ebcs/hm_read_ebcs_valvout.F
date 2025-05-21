@@ -67,7 +67,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ISU,SURF,NGR2USR,IPRES,IRHO,NOD,J,NSEG,IENER
+      INTEGER ISU,SURF,NGR2USR,IPRES,IRHO,J,NSEG,IENER
       my_real C,PRES,RHO,LCAR,R1,R2,ENER
       EXTERNAL NGR2USR
       INTEGER, DIMENSION(:), POINTER :: INGR2USR

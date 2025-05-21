@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE BALPH2(PM,ALPH1,ALPH2,VOLT,FILL,
      .                  SIG1,EINT1,VOLO1,RHON1,FLUX1,FLU11,OFF1,
      .                  SIG2,EINT2,VOLO2,RHON2,FLUX2,FLU12,OFF2,
-     .                  SIGT,EINTT,RHOT ,TEMPT,MTN1,MTN2,NGL,L_TEMP,
+     .                  SIGT,EINTT,RHOT ,TEMPT,L_TEMP,
      .                  BFRACT,L_BFRAC,PLAST,L_PLAS,VOLN, BULKT, L_BULK,NEL,
      .                  AIRE, AIRES, 
      .                  D1, D2, D3, D4, D5, D6,
@@ -60,7 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER MTN1, MTN2, NGL(*), L_TEMP, L_PLAS, L_BFRAC,L_BULK,NEL
+      INTEGER L_TEMP, L_PLAS, L_BFRAC,L_BULK,NEL
       INTEGER MAT(*), NC1(*), NC2(*), NC3(*), NC4(*)
       my_real
      .   PM(NPROPM,*), ALPH1(*), ALPH2(*), VOLT(*), FILL(NUMNOD,*),

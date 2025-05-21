@@ -54,9 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPARI(NPARI,NINTER), ICODE(*) ,
-     .        IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ), IPARG(NPARG,NGROUP),
-     .        ISKEW(*), NALE(*)
+      INTEGER IPARI(NPARI,NINTER), ICODE(*),IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ), IPARG(NPARG,NGROUP),ISKEW(*), NALE(*)
       my_real X(3,NUMNOD), V(3,NUMNOD), A(3,NUMNOD), VG(*), SKEW(*), PM(NPROPM,NUMMAT)
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
@@ -68,12 +66,10 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       DO N=1,NINTER
-       NTY   =IPARI(7,N)
+       NTY = IPARI(7,N)
        IF(NTY == 1)THEN
         IF(ISPMD == 0)THEN
-         CALL INTAL4(
-     1        IPARI(1,N),INTBUF_TAB(N),X            ,V     ,
-     2        A         ,VG           ,ICODE        ,ISKEW ,SKEW  )
+         CALL INTAL4(IPARI(1,N),INTBUF_TAB(N),V ,VG)
         END IF
        ELSEIF(NTY == 9) THEN
          CALL I9WALE(
@@ -86,9 +82,7 @@ C-----------------------------------------------
            ITIED=NINT(INTBUF_TAB(N)%VARIABLES(1))
 C Grid Velocities of secondary nodes are not interpolated
 C ONLY in case "TIED"
-         IF (ITIED  == 1 .OR. ITIED == 2) CALL INT12W(
-     1        IPARI(1,N),INTBUF_TAB(N),X            ,V     ,
-     2        A         ,VG           ,ICODE        ,ISKEW ,SKEW  )
+         IF (ITIED  == 1 .OR. ITIED == 2) CALL INT12W(IPARI(1,N),INTBUF_TAB(N),VG)
         ENDIF
        ENDIF
       ENDDO!next N

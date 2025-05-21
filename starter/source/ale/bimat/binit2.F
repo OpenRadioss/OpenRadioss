@@ -88,10 +88,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, NF1, IMULT, MLW, IGTYP, IP,IBID
-      INTEGER MAT(MVSIZ), NGL(MVSIZ), GAMA(6,MVSIZ)
+      INTEGER I, NF1, IMULT, IGTYP, IP,IBID
+      INTEGER MAT(MVSIZ), NGL(MVSIZ)
       my_real
-     .     X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .     Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .     Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
      .     AIRE(MVSIZ), DELTAX(MVSIZ),

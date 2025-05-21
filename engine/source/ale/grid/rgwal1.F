@@ -31,12 +31,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    elbufdef_mod          ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    python_funct_mod      ../common_source/modules/python_mod.F90
       !||====================================================================
-      SUBROUTINE RGWAL1(X       ,A  ,V    ,W    ,RWBUF   ,
-     2                  LPRW    ,NPRW  , PYTHON,  
-     3                  ICODT   ,ISKEW  ,SKEW    ,MS    ,FSAV    ,
-     4                  IXS     ,IXQ  ,ELBUF_TAB,IPARG  ,
-     5                  PM      ,NALE  ,TF    ,NPF    ,WEIGHT  ,
-     6                  IAD_ELEM,FR_ELEM,FR_WALL ,WFEXT)
+      SUBROUTINE RGWAL1(X       ,A       ,V        ,W      ,
+     2                  RWBUF   ,LPRW    ,NPRW     , PYTHON,
+     3                  MS      ,FSAV    ,
+     4                  IXS     ,IXQ     ,ELBUF_TAB,IPARG  ,
+     5                  PM      ,TF      ,NPF      ,WEIGHT ,
+     6                  IAD_ELEM,FR_ELEM,FR_WALL )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -59,14 +59,13 @@ C-----------------------------------------------
       TYPE(PYTHON_), INTENT(inout) :: PYTHON
       INTEGER LPRW(*), NPRW(*), IXS(NIXS,NUMELS),
      .        IXQ(NIXQ,NUMELQ),IPARG(NPARG,NGROUP),
-     .        ICODT(*), ISKEW(*), NALE(*),NPF(*),
+     .        NPF(*),
      .        WEIGHT(*),IAD_ELEM(*), FR_ELEM(*),
      .        FR_WALL(NSPMD+2,*)
       my_real X(3,NUMNOD), A(3,NUMNOD), V(3,NUMNOD), W(3,NUMNOD), RWBUF(NRWLP,*), MS(*),
-     .        FSAV(NTHVKI,*), SKEW(LSKEW,*),
+     .        FSAV(NTHVKI,*),
      .        PM(NPROPM,NUMMAT), TF(*)
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
-      DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

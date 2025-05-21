@@ -37,10 +37,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i22tri_mod             ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||    initbuf_mod            ../engine/share/resol/initbuf.F
       !||====================================================================
-      SUBROUTINE ALE51_INIT(IPARG  ,PM      ,IXS     ,IXQ           ,
-     2                      V      ,W       ,X       ,FLUX          ,FLU2    , 
-     3                      MS     ,VEUL    ,ALPHA   ,ALE_CONNECT   ,ITASK   , 
-     4                      ITRIMAT,FLUX_SAV,QMV     ,NV46          ,ELBUF_TAB)          
+      SUBROUTINE ALE51_INIT(IPARG      ,PM      ,IXS     ,IXQ      ,
+     2                      X          ,FLUX    ,FLU2    ,
+     3                      ALE_CONNECT,ITASK   ,
+     4                      FLUX_SAV   ,QMV     ,NV46    ,ELBUF_TAB)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -66,10 +66,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB      
-      my_real PM(NPROPM,NUMMAT), V(3,NUMNOD), W(3,NUMNOD), X(3,NUMNOD),
-     .        FLUX(NV46,*), FLU2(*), MS(*), VEUL(*), 
-     .        ALPHA(*), FLUX_SAV(NV46,*), QMV(*)
-      INTEGER IPARG(NPARG,NGROUP), IXS(NIXS,NUMELS), IXQ(7,NUMELQ), ITASK,ITRIMAT,NV46, J
+      my_real PM(NPROPM,NUMMAT), X(3,NUMNOD),
+     .        FLUX(NV46,*), FLU2(*),
+     .        FLUX_SAV(NV46,*), QMV(*)
+      INTEGER IPARG(NPARG,NGROUP), IXS(NIXS,NUMELS), IXQ(7,NUMELQ), ITASK, NV46, J
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -171,8 +171,8 @@ C--------------------
         
         !Computing Upwind fluxes
         CALL ALE51_UPWIND3_INT22
-     +                      (PM  , IXS  ,   0     ,  1, 
-     +                       NV46, IPARG,   ELBUF_TAB  ,ITASK     )
+     +                      (PM   , IXS        ,0     ,  1,
+     +                       IPARG, ELBUF_TAB  ,ITASK     )
       ENDIF
 
 C-----------------------------------------------

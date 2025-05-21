@@ -147,9 +147,9 @@ c
          IF(ALEFVM_Param%IEnabled==0)THEN        
            CALL AFLUX3(PM,IXS,V,W,X,FLUX(6*NFT+1),FLU2(NF1),ALE_CONNECT,NSG,GBUF%TAG22)
          ELSE
-           CALL ALEFVM_AFLUX3(PM       ,IXS  ,V    ,W           ,FLUX(6*NFT+1),
-     2                        FLU2(NF1),VEUL ,ALE_CONNECT,GBUF%TAG22   ,
-     3                        IPM      ,NV46 ,GBUF%MOM  ,ITASK  ,X            ,
+           CALL ALEFVM_AFLUX3(PM       ,IXS         ,W  ,FLUX(6*NFT+1),
+     2                        FLU2(NF1),ALE_CONNECT,
+     3                        IPM      ,NV46       ,X   ,
      4                        NEL      )        
          ENDIF
         ELSEIF(N2D /= 0.AND.JEUL == 0)THEN
@@ -160,9 +160,9 @@ c
          IF(ALEFVM_Param%IEnabled==0)THEN
            CALL EFLUX3(PM,IXS,V,FLUX(6*NFT+1),FLU2(NF1),VEUL,ALE_CONNECT,GBUF%TAG22)
          ELSE
-           CALL ALEFVM_EFLUX3(PM   ,IXS     ,V           ,FLUX(6*NFT+1),FLU2(NF1),
-     2                        VEUL ,ALE_CONNECT   ,GBUF%TAG22  ,IPM      ,
-     3                        NV46 ,GBUF%MOM,ITASK       ,X            ,NEL      )
+           CALL ALEFVM_EFLUX3(PM   ,IXS          ,FLUX(6*NFT+1), FLU2(NF1),
+     2                        VEUL ,ALE_CONNECT  ,IPM          ,
+     3                        NV46 ,X            ,NEL      )
          ENDIF
         ELSEIF(N2D /= 0.AND.JEUL /= 0)THEN
          CALL EFLUX2(PM,IXQ,V,X,FLUX(4*NFT+1),FLU2(NF1),FILL,DFILL,VOL,ALE_CONNECT,ALPH)
@@ -176,13 +176,13 @@ C-----------
       IF(INT22 > 0)THEN
         IF(I22_ALEUL == 2)THEN
           CALL EFLUX3_INT22_FVM(
-     .      PM         , IXS          , V            , FLUX(1)   , FLU2(1)   ,
-     .      VEUL       , IPARG        , ELBUF_STR    , ITASK     ,
+     .      PM         , IXS          , FLUX(1)   , FLU2(1)   ,
+     .      IPARG      , ELBUF_STR    , ITASK     ,
      .      NV46       , IPM          , X)         
         ELSE
           CALL AFLUX3_INT22_FVM(
-     .      PM         , IXS          , V            , FLUX(1)   , FLU2(1)   ,
-     .      VEUL       , IPARG        , ELBUF_STR    , ITASK     ,
+     .      PM         , IXS          , FLUX(1)   , FLU2(1)   ,
+     .      IPARG      , ELBUF_STR    , ITASK     ,
      .      NV46       , IPM          , X            , W)         
        ENDIF
       ENDIF

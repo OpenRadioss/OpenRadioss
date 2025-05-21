@@ -25,8 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    alew5             ../engine/source/ale/grid/alew5.F
       !||====================================================================
-      SUBROUTINE ALEWDX_GRID_BCS(
-     1     SKEW, ISKEW,  ICODT, VEC, NALE, ITASK, NODE_ID)
+      SUBROUTINE ALEWDX_GRID_BCS( SKEW, ISKEW,  ICODT, VEC, NALE, NODE_ID)
 C-----------------------------------------------
 C     D e s c r i p t i o n
 C-----------------------------------------------
@@ -45,7 +44,6 @@ C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN) :: NODE_ID
-       INTEGER,INTENT(IN) :: ITASK
       INTEGER,INTENT(INOUT) :: ISKEW(*),ICODT(*),NALE(NUMNOD)
       my_real,INTENT(INOUT) :: SKEW(LSKEW,*),VEC(3)
 C-----------------------------------------------

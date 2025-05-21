@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    groupdef_mod      ../common_source/modules/groupdef_mod.F
       !||====================================================================
-      SUBROUTINE ALELIN(NALELK ,LINALE ,W ,WEIGHT ,IGRNOD , ITAB)
+      SUBROUTINE ALELIN(NALELK ,LINALE ,W ,WEIGHT ,IGRNOD)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -48,7 +48,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN)   :: NALELK
-      INTEGER,INTENT(IN)   :: LINALE(*), WEIGHT(*),ITAB(NUMNOD) 
+      INTEGER,INTENT(IN)   :: LINALE(*), WEIGHT(*)
       my_real, INTENT(INOUT) :: W(3,NUMNOD)
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
 C-----------------------------------------------

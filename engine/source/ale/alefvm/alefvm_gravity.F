@@ -27,11 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    alefvm_mod       ../common_source/modules/ale/alefvm_mod.F
       !||====================================================================
-      SUBROUTINE ALEFVM_GRAVITY(
-     1                          AGRV, IGRV, LGRAV,
-     2                          VOLN, IXS , ITASK, NPC   , TF     ,
-     3                          SKEW, RHO 
-     .                          )
+      SUBROUTINE ALEFVM_GRAVITY(VOLN, IXS, RHO)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -67,15 +63,14 @@ C finite volume scheme (IALEFVM==1)
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER :: IXS(NIXS,*), IGRV(NIGRV,*), ITASK, LGRAV(*),NPC(*)
-      my_real :: VOLN(MVSIZ), AGRV(LFACGRV,*),TF(*),RHO(MVSIZ)
+      INTEGER :: IXS(NIXS,*)
+      my_real :: VOLN(MVSIZ), RHO(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER          :: I, J, K
-      INTEGER          :: ISENS,NVERTEX,INOd,II
-      my_real          :: TS,A0
-      my_real          :: M_CELL(MVSIZ),ACCEL(3,MVSIZ),SKEW(LSKEW,*)
+      INTEGER          :: I, J
+      INTEGER          :: NVERTEX,INOd,II
+      my_real          :: M_CELL(MVSIZ),ACCEL(3,MVSIZ)
       LOGICAL          :: debug_outp
       INTEGER          :: idbf,idbl    
 C-----------------------------------------------

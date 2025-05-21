@@ -28,9 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    alefvm_mod       ../common_source/modules/ale/alefvm_mod.F
       !||    i22bufbric_mod   ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||====================================================================
-      SUBROUTINE ALEFVM_FRESET (
-     1                          ITASK, IAD22
-     .                          )
+      SUBROUTINE ALEFVM_FRESET ( IAD22 )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -65,7 +63,6 @@ C This subroutines initializes cell forces (IALEFVM==1)
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER :: ITASK
       my_real :: IAD22(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -78,9 +75,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s 
 C-----------------------------------------------
-
       NIN = 1
-
       !-------------------------------------------------------------!
       ! FORCES INITIALIZATION                                       !
       !-------------------------------------------------------------!  
@@ -103,7 +98,6 @@ C-----------------------------------------------
           ENDIF               
         ENDDO!next I             
       ENDIF
-      
 C-----------------------------------------------
       RETURN
       END

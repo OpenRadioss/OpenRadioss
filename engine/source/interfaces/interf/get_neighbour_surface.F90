@@ -138,7 +138,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,j,k,ijk,kji,ni,nii,seg,nrtm,idel25_solid,nty,mvoisin_change,itria
+          integer :: i,j,k,ijk,kji,ni,nrtm,idel25_solid,nty,mvoisin_change,itria
           integer :: nin
           integer :: iedge,my_iedge
           integer :: segment_id,n_segment_id

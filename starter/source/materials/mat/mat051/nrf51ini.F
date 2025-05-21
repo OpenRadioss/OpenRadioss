@@ -79,8 +79,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IVMAT,IMAT, IID, MLN, J, J2, IADBUF,
-     .        IFLGv, IE, IEV, NUPARAM,MUID,K,IFORM,IAD1,LGTH
+      INTEGER I, IVMAT,IMAT,IID,MLN,J,J2,IADBUF,IFLGv,IE,IEV,NUPARAM,K,IFORM,IAD1,LGTH
       my_real
      .   C01,C02,C03,C04,         C01v,C02v,C03v,C04v,
      .   C11,C12,C13,C14,         C11v,C12v,C13v,C14v,
@@ -170,7 +169,7 @@ C=======================================================================
           UVAR(I,4)            =  P0_NRF  ! default initialization for corner elems
           IAD1 = ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
           LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(IE+1) - IAD1
-          IVMAT = ZERO
+          IVMAT = 0
           DO J=1,LGTH
             IEV = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + J - 1)
             IF(IEV == 0)CYCLE

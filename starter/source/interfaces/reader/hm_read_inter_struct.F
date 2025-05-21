@@ -113,7 +113,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NTYP,UID,IFLAGUNIT,FLAG_FMT,FLAG_FMT_TMP,IERR1,SUB_ID,IFIX_TMP,ID_TYPE19
+      INTEGER NTYP,ID_TYPE19
       CHARACTER(LEN=NCHARKEY) :: KEY
       LOGICAL IS_AVAILABLE
 !

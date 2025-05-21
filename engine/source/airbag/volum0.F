@@ -57,13 +57,10 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,IS,K,NOD1,NOD2,NOD3,NOD4
-      my_real
-     .   AREA,XX,YY,ZZ,X12,Y12,Z12,X13,Y13,Z13,X24,Y24,Z24,DIR,
-     .     NX, NY, NZ
+      INTEGER I,II,K,NOD1,NOD2,NOD3,NOD4
+      my_real AREA,XX,YY,ZZ,X13,Y13,Z13,X24,Y24,Z24,NX, NY, NZ
       my_real, DIMENSION(:), ALLOCATABLE :: F1, F2
-      DOUBLE PRECISION 
-     .   FRMV6(2,6)
+      DOUBLE PRECISION FRMV6(2,6)
 C--------------------------------------------------------------
 C CALCUL DU VOLUME (variable locale dans MONVOL0)
 C CALCUL DE LA SURFACE (stockee dans RVOLU(18))

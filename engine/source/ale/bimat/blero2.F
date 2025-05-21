@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    message_mod   ../engine/share/message_module/message_mod.F
       !||====================================================================
-      SUBROUTINE BLERO2(ALPH,ALPHC,VOLO,RHON,FLUX,FLU1,OFF,PM,NGL,VOLN,
+      SUBROUTINE BLERO2(ALPH,VOLO,RHON,FLUX,FLU1,OFF,PM,NGL,VOLN,
      .     AIRE, D1, D2, D3, D4, D5, D6, VD2, DVOL, 
      .     VY1, VY2, VY3, VY4,
      .     VZ1, VZ2, VZ3, VZ4, 
@@ -56,7 +56,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
-     .   ALPH(*), ALPHC(*), VOLO(*), RHON(*), FLUX(4,*), FLU1(*),
+     .   ALPH(*), VOLO(*), RHON(*), FLUX(4,*), FLU1(*),
      .   OFF(*), PM(NPROPM,*),VOLN(MVSIZ), 
      .   AIRE(*), D1(*), D2(*), D3(*), D4(*), D5(*), D6(*), VD2(*), DVOL(*),
      .   VY1(*), VY2(*), VY3(*), VY4(*), 

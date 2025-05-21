@@ -93,17 +93,14 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX,IPID,IGTYP,IGMAT,IPGMAT
-C     REAL
-      my_real
-     .   BB(MVSIZ),
-     .   H1L(MVSIZ), H2L(MVSIZ), H1Q(MVSIZ), H2Q(MVSIZ), HG1(MVSIZ),
-     .   HG2(MVSIZ), FAC(MVSIZ), YM(MVSIZ), PR(MVSIZ), 
-     .   GAMA1(MVSIZ), GAMA2(MVSIZ), GAMA3(MVSIZ), GAMA4(MVSIZ),
-     .   H4(MVSIZ), H4L(MVSIZ), H4Q(MVSIZ),THK02(MVSIZ),
-     .   G(MVSIZ) ,  B1(MVSIZ),  B2(MVSIZ),A11(MVSIZ),EHOU(MVSIZ), 
-     .   PX1V, PX2V, PY1V, PY2V, EHOURT,VV ,SCALE(MVSIZ),FAC1 
+      my_real H1L(MVSIZ), H2L(MVSIZ), H1Q(MVSIZ), H2Q(MVSIZ), HG1(MVSIZ),
+     .        HG2(MVSIZ), FAC(MVSIZ), YM(MVSIZ), PR(MVSIZ),
+     .        GAMA1(MVSIZ), GAMA2(MVSIZ), GAMA3(MVSIZ), GAMA4(MVSIZ),
+     .        H4(MVSIZ), H4L(MVSIZ), H4Q(MVSIZ),THK02(MVSIZ),
+     .        G(MVSIZ) ,  B1(MVSIZ),  B2(MVSIZ),A11(MVSIZ),EHOU(MVSIZ),
+     .        PX1V, PX2V, PY1V, PY2V, EHOURT,VV ,SCALE(MVSIZ),FAC1
 C-----------------------------------------------
-      IF(ISMSTR/=3.AND.IHBE>=1)THEN
+      IF(ISMSTR /=3 .AND. IHBE >= 1)THEN
        DO I=JFT,JLT
          PX1V    = PX1(I)*VHX(I)
          PX2V    = PX2(I)*VHX(I)
@@ -123,7 +120,7 @@ C-----------------------------------------------
        ENDDO
       ENDIF
 C
-      IF(INVSTR>=35)THEN
+      IF(INVSTR >= 35)THEN
        MX=MAT(JFT)
        DO I=JFT,JLT
         IPID=PID(I)
@@ -138,58 +135,54 @@ C
 C
       ENDIF
 C
-      DO 300 I=JFT,JLT
-      FAC(I)=FOURTH*RHO(I)*THK0(I)
-      H1L(I)= ZERO
-      H1Q(I)= ZERO
-      H2L(I)= ZERO
-      H2Q(I)= ZERO
-      H4L(I)=FAC(I)*SQRT(HVISC*H4(I)*AREA(I))
-      H4Q(I)=SQRT(HVISC*H4(I))*H4L(I)*HUNDRED
-      H4L(I)=H4L(I)*SSP(I)
+      DO I=JFT,JLT
+        FAC(I)=FOURTH*RHO(I)*THK0(I)
+        H1L(I)= ZERO
+        H1Q(I)= ZERO
+        H2L(I)= ZERO
+        H2Q(I)= ZERO
+        H4L(I)=FAC(I)*SQRT(HVISC*H4(I)*AREA(I))
+        H4Q(I)=SQRT(HVISC*H4(I))*H4L(I)*HUNDRED
+        H4L(I)=H4L(I)*SSP(I)
+      ENDDO
 C
- 300  CONTINUE
-C
-      DO 350 I=JFT,JLT
-       THK02(I)= THK0(I)*THK0(I)
-       B1(I) = PX1(I)*PX1(I)+PY1(I)*PY1(I)
-       B2(I) = PX2(I)*PX2(I)+PY2(I)*PY2(I)
-      FAC(I)=FOURTH*YM(I)*THK0(I)*DT1C(I)*HELAS
-      H1(I)=H1(I)*FAC(I)
-      H2(I)=H2(I)*FAC(I)
- 350  CONTINUE
+      DO I=JFT,JLT
+        THK02(I)= THK0(I)*THK0(I)
+        B1(I) = PX1(I)*PX1(I)+PY1(I)*PY1(I)
+        B2(I) = PX2(I)*PX2(I)+PY2(I)*PY2(I)
+        FAC(I)=FOURTH*YM(I)*THK0(I)*DT1C(I)*HELAS
+        H1(I)=H1(I)*FAC(I)
+        H2(I)=H2(I)*FAC(I)
+      ENDDO
 C-----------------------------------
 C     TRIANGLES
 C-----------------------------------
-      DO 360 I=JFT,JLT
-      IF(IXC(4,I)/=IXC(5,I))GOTO 360
-       H1Q(I)=ZERO
-       H1L(I)=ZERO
-       H2Q(I)=ZERO
-       H2L(I)=ZERO
-       H4L(I)=ZERO
-       H4Q(I)=ZERO
-       H1(I)=ZERO
-       H2(I)=ZERO     
- 360  CONTINUE
+      DO I=JFT,JLT
+        IF(IXC(4,I)/=IXC(5,I))CYCLE
+        H1Q(I)=ZERO
+        H1L(I)=ZERO
+        H2Q(I)=ZERO
+        H2L(I)=ZERO
+        H4L(I)=ZERO
+        H4Q(I)=ZERO
+        H1(I)=ZERO
+        H2(I)=ZERO
+      ENDDO
 C-----------------------------------
 C     STIFFNESS - DT
 C-----------------------------------
       DO I=JFT,JLT
-         SCALE(I)= ZERO
-        ENDDO
+        SCALE(I)= ZERO
+      ENDDO
       IPID=PID(1)
       IGTYP = IGEO(11,IPID) 
       IGMAT = IGEO(98,IPID)
       IPGMAT  = 700
-      IF(NODADT/=0.OR.IDT1SH==1.OR.IDTMINS==2)THEN
-C    
-        !!IF(IDTMINS == 2) IGMAT = 1
+      IF(NODADT /= 0 .OR. IDT1SH == 1.OR. IDTMINS == 2)THEN
+C
         DO I=JFT,JLT
-             SCALE(I)= MAX(GAMA1(I)*GAMA1(I),GAMA2(I)*GAMA2(I),
-     .              GAMA3(I)*GAMA3(I),GAMA4(I)*GAMA4(I)) *
-     .        DT1C(I)*MAX(H1(I)+H1L(I),H2(I)+H2L(I),H4L(I)) /
-     .        MAX(DT1C(I)*DT1C(I),EM20)
+             SCALE(I)= MAX(GAMA1(I)*GAMA1(I),GAMA2(I)*GAMA2(I),GAMA3(I)*GAMA3(I),GAMA4(I)*GAMA4(I)) *
+     .        DT1C(I)*MAX(H1(I)+H1L(I),H2(I)+H2L(I),H4L(I)) / MAX(DT1C(I)*DT1C(I),EM20)
               STI(I)=STI(I) + SCALE(I)
         ENDDO
         IF(IGTYP == 11 .AND. IGMAT > 0) THEN
@@ -208,8 +201,7 @@ C
      .                    FAC1 *  A11(I)*THK0(I)*AREA(I)*ONE_OVER_9 +
      .             FAC1*SCALE(I)*(ONE_OVER_12*THK0(I)**2 +  AREA(I)*ONE_OVER_9)
            ENDIF 
-         ENDDO        
-!!        
+         ENDDO
         ELSE  !
           MX = MAT(JFT)        
           DO I=JFT,JLT
@@ -217,15 +209,13 @@ C
            G(I)  =PM(22,MX)
           ENDDO
           IF (MTN==58) A11(JFT:JLT)=A1(JFT:JLT)
-!!        
           DO I=JFT,JLT
             IF (OFF(I)==ZERO) THEN
                 STI(I) = ZERO
                 STIR(I) = ZERO
             ELSE
                 VV = VISCMX(I) * VISCMX(I)  * ALPE(I)
-                STI(I) =  STI(I) + MAX(B1(I),B2(I)) 
-     .                          * THK0(I) * A11(I) / (AREA(I) * VV)
+                STI(I) =  STI(I) + MAX(B1(I),B2(I)) * THK0(I) * A11(I) / (AREA(I) * VV)
               STIR(I) = STI(I)*(THK02(I) * ONE_OVER_12 + AREA(I) * ONE_OVER_9)
            ENDIF 
          ENDDO
@@ -234,144 +224,134 @@ C
 C-----------------------------------
 C     ANTI-HOURGLASS MEMBRANE FORCES
 C-----------------------------------
-      IF(ISMSTR==3.OR.IHBE<1)THEN
-       DO 400 I=JFT,JLT
-       HG1(I)=VX1(I)-VX2(I)+VX3(I)-VX4(I)
-       HG2(I)=VY1(I)-VY2(I)+VY3(I)-VY4(I)
- 400   CONTINUE
-       DO 500 I=JFT,JLT
-       HOUR(I,1)=HOUR(I,1)+HG1(I)*H1(I)
-       HOUR(I,2)=HOUR(I,2)+HG2(I)*H1(I)
-       HG1(I)=HG1(I)*(H1L(I)+H1Q(I)*ABS(HG1(I)))
-       HG2(I)=HG2(I)*(H1L(I)+H1Q(I)*ABS(HG2(I)))
-       H11(I)= HOUR(I,1)+HG1(I)
-       H12(I)=-HOUR(I,1)-HG1(I)
-       H13(I)= HOUR(I,1)+HG1(I)
-       H14(I)=-HOUR(I,1)-HG1(I)
-       H21(I)= HOUR(I,2)+HG2(I)
-       H22(I)=-HOUR(I,2)-HG2(I)
-       H23(I)= HOUR(I,2)+HG2(I)
-       H24(I)=-HOUR(I,2)-HG2(I)
- 500   CONTINUE
+      IF(ISMSTR == 3 .OR. IHBE < 1)THEN
+       DO I=JFT,JLT
+         HG1(I)=VX1(I)-VX2(I)+VX3(I)-VX4(I)
+         HG2(I)=VY1(I)-VY2(I)+VY3(I)-VY4(I)
+       ENDDO
+
+       DO I=JFT,JLT
+         HOUR(I,1)=HOUR(I,1)+HG1(I)*H1(I)
+         HOUR(I,2)=HOUR(I,2)+HG2(I)*H1(I)
+         HG1(I)=HG1(I)*(H1L(I)+H1Q(I)*ABS(HG1(I)))
+         HG2(I)=HG2(I)*(H1L(I)+H1Q(I)*ABS(HG2(I)))
+         H11(I)= HOUR(I,1)+HG1(I)
+         H12(I)=-HOUR(I,1)-HG1(I)
+         H13(I)= HOUR(I,1)+HG1(I)
+         H14(I)=-HOUR(I,1)-HG1(I)
+         H21(I)= HOUR(I,2)+HG2(I)
+         H22(I)=-HOUR(I,2)-HG2(I)
+         H23(I)= HOUR(I,2)+HG2(I)
+         H24(I)=-HOUR(I,2)-HG2(I)
+       ENDDO
       ELSE
-       DO 540 I=JFT,JLT
-       HG1(I)=VX1(I)*GAMA1(I)+VX2(I)*GAMA2(I)
-     .       +VX3(I)*GAMA3(I)+VX4(I)*GAMA4(I)
-       HG2(I)=VY1(I)*GAMA1(I)+VY2(I)*GAMA2(I)
-     .       +VY3(I)*GAMA3(I)+VY4(I)*GAMA4(I)
- 540   CONTINUE
-       DO 560 I=JFT,JLT
-       HOUR(I,1)=HOUR(I,1)+HG1(I)*H1(I)
-       HOUR(I,2)=HOUR(I,2)+HG2(I)*H1(I)
-       HG1(I)=HG1(I)*(H1L(I)+H1Q(I)*ABS(HG1(I)))
-       HG2(I)=HG2(I)*(H1L(I)+H1Q(I)*ABS(HG2(I)))
-       H11(I)=(HOUR(I,1)+HG1(I))*GAMA1(I)
-       H12(I)=(HOUR(I,1)+HG1(I))*GAMA2(I)
-       H13(I)=(HOUR(I,1)+HG1(I))*GAMA3(I)
-       H14(I)=(HOUR(I,1)+HG1(I))*GAMA4(I)
-       H21(I)=(HOUR(I,2)+HG2(I))*GAMA1(I)
-       H22(I)=(HOUR(I,2)+HG2(I))*GAMA2(I)
-       H23(I)=(HOUR(I,2)+HG2(I))*GAMA3(I)
-       H24(I)=(HOUR(I,2)+HG2(I))*GAMA4(I)
- 560   CONTINUE
+       DO I=JFT,JLT
+         HG1(I)=VX1(I)*GAMA1(I)+VX2(I)*GAMA2(I)+VX3(I)*GAMA3(I)+VX4(I)*GAMA4(I)
+         HG2(I)=VY1(I)*GAMA1(I)+VY2(I)*GAMA2(I)+VY3(I)*GAMA3(I)+VY4(I)*GAMA4(I)
+       ENDDO
+       DO I=JFT,JLT
+         HOUR(I,1)=HOUR(I,1)+HG1(I)*H1(I)
+         HOUR(I,2)=HOUR(I,2)+HG2(I)*H1(I)
+         HG1(I)=HG1(I)*(H1L(I)+H1Q(I)*ABS(HG1(I)))
+         HG2(I)=HG2(I)*(H1L(I)+H1Q(I)*ABS(HG2(I)))
+         H11(I)=(HOUR(I,1)+HG1(I))*GAMA1(I)
+         H12(I)=(HOUR(I,1)+HG1(I))*GAMA2(I)
+         H13(I)=(HOUR(I,1)+HG1(I))*GAMA3(I)
+         H14(I)=(HOUR(I,1)+HG1(I))*GAMA4(I)
+         H21(I)=(HOUR(I,2)+HG2(I))*GAMA1(I)
+         H22(I)=(HOUR(I,2)+HG2(I))*GAMA2(I)
+         H23(I)=(HOUR(I,2)+HG2(I))*GAMA3(I)
+         H24(I)=(HOUR(I,2)+HG2(I))*GAMA4(I)
+       ENDDO
       ENDIF
       EHOURT = 0.
       DO I=JFT,JLT
-       EHOU(I) = 
-     .         VX1(I)*H11(I) + VX2(I)*H12(I) 
-     .       + VX3(I)*H13(I) + VX4(I)*H14(I)
-     .       + VY1(I)*H21(I) + VY2(I)*H22(I) 
-     .       + VY3(I)*H23(I) + VY4(I)*H24(I) 
+       EHOU(I) = VX1(I)*H11(I) + VX2(I)*H12(I) + VX3(I)*H13(I) + VX4(I)*H14(I)
+     .         + VY1(I)*H21(I) + VY2(I)*H22(I) + VY3(I)*H23(I) + VY4(I)*H24(I)
       ENDDO
 C----------------------------------------------------------------
 C     HYPERBOLIC SHAPE ANTI-HOURGLASS BENDING FORCES
 C----------------------------------------------------------------
       IF(ISMSTR==3.OR.IHBE<1)THEN
-       DO 600 I=JFT,JLT
-       HG1(I)=VZ1(I)-VZ2(I)+VZ3(I)-VZ4(I)
- 600   CONTINUE
-C
-       DO 700 I=JFT,JLT
-       HOUR(I,3)=HOUR(I,3)+HG1(I)*H2(I)
-       HG1(I)=HG1(I)*(H2L(I)+H2Q(I)*ABS(HG1(I)))
-       H31(I)= HOUR(I,3)+HG1(I)
-       H32(I)=-HOUR(I,3)-HG1(I)
-       H33(I)= HOUR(I,3)+HG1(I)
-       H34(I)=-HOUR(I,3)-HG1(I)
- 700   CONTINUE
+       DO I=JFT,JLT
+         HG1(I)=VZ1(I)-VZ2(I)+VZ3(I)-VZ4(I)
+       ENDDO
+
+       DO I=JFT,JLT
+         HOUR(I,3)=HOUR(I,3)+HG1(I)*H2(I)
+         HG1(I)=HG1(I)*(H2L(I)+H2Q(I)*ABS(HG1(I)))
+         H31(I)= HOUR(I,3)+HG1(I)
+         H32(I)=-HOUR(I,3)-HG1(I)
+         H33(I)= HOUR(I,3)+HG1(I)
+         H34(I)=-HOUR(I,3)-HG1(I)
+       ENDDO
       ELSE
-       DO 740 I=JFT,JLT
-       HG1(I)=VZ1(I)*GAMA1(I)+VZ2(I)*GAMA2(I)
-     .       +VZ3(I)*GAMA3(I)+VZ4(I)*GAMA4(I)
- 740   CONTINUE
-       DO 760 I=JFT,JLT
-       HOUR(I,3)=HOUR(I,3)+HG1(I)*H2(I)
-       HG1(I)=HG1(I)*(H2L(I)+H2Q(I)*ABS(HG1(I)))
-       H31(I)=(HOUR(I,3)+HG1(I))*GAMA1(I)
-       H32(I)=(HOUR(I,3)+HG1(I))*GAMA2(I)
-       H33(I)=(HOUR(I,3)+HG1(I))*GAMA3(I)
-       H34(I)=(HOUR(I,3)+HG1(I))*GAMA4(I)
- 760   CONTINUE
+       DO I=JFT,JLT
+         HG1(I)=VZ1(I)*GAMA1(I)+VZ2(I)*GAMA2(I)+VZ3(I)*GAMA3(I)+VZ4(I)*GAMA4(I)
+       ENDDO
+       DO I=JFT,JLT
+         HOUR(I,3)=HOUR(I,3)+HG1(I)*H2(I)
+         HG1(I)=HG1(I)*(H2L(I)+H2Q(I)*ABS(HG1(I)))
+         H31(I)=(HOUR(I,3)+HG1(I))*GAMA1(I)
+         H32(I)=(HOUR(I,3)+HG1(I))*GAMA2(I)
+         H33(I)=(HOUR(I,3)+HG1(I))*GAMA3(I)
+         H34(I)=(HOUR(I,3)+HG1(I))*GAMA4(I)
+      ENDDO
       ENDIF
 C------------------------------------------------------
 C     V-SHAPE ANTI-HOURGLASS BENDING FORCES
 C------------------------------------------------------
-       DO 780 I=JFT,JLT
-       HG1(I)=+VZ1(I)+VZ2(I)-VZ3(I)-VZ4(I)
- 780   CONTINUE
+       DO I=JFT,JLT
+         HG1(I)=+VZ1(I)+VZ2(I)-VZ3(I)-VZ4(I)
+       ENDDO
 C
-       DO 785 I=JFT,JLT
-C       HOUR(I,3)=HOUR(I,3)+HG1(I)*H2(I)
-       HG1(I)=HG1(I)*(H4L(I)+H4Q(I)*ABS(HG1(I)))
-       H31(I)=H31(I) +HG1(I)
-       H32(I)=H32(I) +HG1(I)
-       H33(I)=H33(I) -HG1(I)
-       H34(I)=H34(I) -HG1(I)
- 785   CONTINUE
+       DO I=JFT,JLT
+         HG1(I)=HG1(I)*(H4L(I)+H4Q(I)*ABS(HG1(I)))
+         H31(I)=H31(I) +HG1(I)
+         H32(I)=H32(I) +HG1(I)
+         H33(I)=H33(I) -HG1(I)
+         H34(I)=H34(I) -HG1(I)
+       ENDDO
 C
-       DO 790 I=JFT,JLT
-       HG1(I)=VZ1(I)-VZ2(I)-VZ3(I)+VZ4(I)
- 790   CONTINUE
+       DO I=JFT,JLT
+         HG1(I)=VZ1(I)-VZ2(I)-VZ3(I)+VZ4(I)
+       ENDDO
 C
-       DO 795 I=JFT,JLT
-C       HOUR(I,3)=HOUR(I,3)+HG1(I)*H2(I)
-       HG1(I)=HG1(I)*(H4L(I)+H4Q(I)*ABS(HG1(I)))
-       H31(I)=H31(I) +HG1(I)
-       H32(I)=H32(I) -HG1(I)
-       H33(I)=H33(I) -HG1(I)
-       H34(I)=H34(I) +HG1(I)
- 795   CONTINUE
+       DO I=JFT,JLT
+         HG1(I)=HG1(I)*(H4L(I)+H4Q(I)*ABS(HG1(I)))
+         H31(I)=H31(I) +HG1(I)
+         H32(I)=H32(I) -HG1(I)
+         H33(I)=H33(I) -HG1(I)
+         H34(I)=H34(I) +HG1(I)
+       ENDDO
 C------------------------------------------------
       DO I=JFT,JLT
-       B11(I)= ZERO
-       B12(I)= ZERO
-       B13(I)= ZERO
-       B14(I)= ZERO
-       B21(I)= ZERO
-       B22(I)= ZERO
-       B23(I)= ZERO
-       B24(I)= ZERO
+        B11(I)= ZERO
+        B12(I)= ZERO
+        B13(I)= ZERO
+        B14(I)= ZERO
+        B21(I)= ZERO
+        B22(I)= ZERO
+        B23(I)= ZERO
+        B24(I)= ZERO
       ENDDO
 C------------------------------------------------
       DO I=JFT,JLT
-      EHOU(I) = EHOU(I)  
-     .       + VZ1(I)*H31(I) + VZ2(I)*H32(I) 
-     .       + VZ3(I)*H33(I) + VZ4(I)*H34(I) 
+      EHOU(I) = EHOU(I)  + VZ1(I)*H31(I) + VZ2(I)*H32(I) + VZ3(I)*H33(I) + VZ4(I)*H34(I)
       EHOU(I) = DT1C(I) * EHOU(I)
       EHOURT = EHOURT + EHOU(I)
       ENDDO
-C
+
       DO I=JFT,JLT
-         MX = IPARTC(I)
-         PARTSAV(8,MX)=PARTSAV(8,MX) + EHOU(I)
+        MX = IPARTC(I)
+        PARTSAV(8,MX)=PARTSAV(8,MX) + EHOU(I)
       ENDDO
-C
+
 !$OMP ATOMIC
         EHOUR = EHOUR + EHOURT
-C
+
       DO I=JFT,JLT
         EANI(NFT+NUMELS+I) = EANI(NFT+NUMELS+I)+EHOU(I)
       ENDDO
-C
       RETURN
       END

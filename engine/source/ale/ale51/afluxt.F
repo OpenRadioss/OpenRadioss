@@ -275,7 +275,7 @@ C     ALE ON / OFF
         VOLG => ELBUF_TAB(NG)%GBUF%VOL
         IF(N2D == 0)THEN
            IF (ALEMUSCL_Param%IALEMUSCL  >  0) THEN
-              CALL ALEMUSCL_UPWIND(FLUX, ALE_CONNECT, ALPHA  ,    X, IXS, FLUX_VOIS, N4_VOIS, 
+              CALL ALEMUSCL_UPWIND(FLUX, ALE_CONNECT, X, IXS, FLUX_VOIS, N4_VOIS,
      .                             ITAB, NV46       , ITRIMAT,SEGVAR)
            ELSE
               CALL ALE51_ANTIDIFF3(FLUX, ALE_CONNECT, ALPHA  , VOLG, IXS, FLUX_VOIS, N4_VOIS, 
@@ -283,7 +283,7 @@ C     ALE ON / OFF
            ENDIF
         ELSE
            IF (ALEMUSCL_Param%IALEMUSCL  >  0) THEN
-              CALL ALEMUSCL_UPWIND2(FLUX, ALE_CONNECT, ALPHA  , X    , IXQ, FLUX_VOIS, N4_VOIS, 
+              CALL ALEMUSCL_UPWIND2(FLUX, ALE_CONNECT, X    , IXQ, FLUX_VOIS, N4_VOIS,
      .                              ITAB, NV46       , ITRIMAT,SEGVAR)
            ELSE
               CALL ALE51_ANTIDIFF2(FLUX   ,ALE_CONNECT,ALPHA  ,VOLG  ,IXQ,FLUX_VOIS,
@@ -293,8 +293,8 @@ C     ALE ON / OFF
       ENDDO !next NG
 
       IF(INT22 /= 0)THEN
-        CALL ALE51_ANTIDIFF3_INT22(FLUX   , ITRIMAT,IXS ,FLUX_VOIS,
-     .                             N4_VOIS, ITAB   ,NV46,ELBUF_TAB,IPARG,ITASK,ALPHA)
+        CALL ALE51_ANTIDIFF3_INT22(FLUX   , ITRIMAT,IXS ,
+     .                            NV46,  ELBUF_TAB,ITASK,ALPHA)
       ENDIF
 
 C--------------------
@@ -344,7 +344,7 @@ C     ALE ON / OFF
         !------------------------------!
         IF(N2D == 0)THEN
           IF(NSPMD > 1)THEN
-            CALL ALE51_SPMD3(IXS,FLUX(1,NF1),FLU2(NF1),ALE_CONNECT,
+            CALL ALE51_SPMD3(IXS,FLUX(1,NF1),ALE_CONNECT,
      .                       FLUX_VOIS,N4_VOIS,ITABM1 ,NV46)
           ENDIF
           CALL ALE51_UPWIND3(PM,IXS,FLUX(1,NF1),FLU2(NF1),ALE_CONNECT,
@@ -352,7 +352,7 @@ C     ALE ON / OFF
      .                       NV46)
         ELSE
           IF(NSPMD > 1)THEN
-            CALL ALE51_SPMD2(IXQ,FLUX(1,NF1),FLU2(NF1),ALE_CONNECT,
+            CALL ALE51_SPMD2(IXQ,FLUX(1,NF1),ALE_CONNECT,
      .                       FLUX_VOIS,N4_VOIS, ITABM1,NV46)
           ENDIF
           CALL ALE51_UPWIND2(PM,X,IXQ,FLUX(1,NF1),FLU2(NF1),ALE_CONNECT,
@@ -362,7 +362,7 @@ C     ALE ON / OFF
       
       IF(INT22 /= 0)THEN
           CALL ALE51_UPWIND3_INT22(PM  , IXS      , ITRIMAT, 1,
-     .                             NV46, IPARG, ELBUF_TAB, ITASK )      
+     .                             IPARG, ELBUF_TAB, ITASK )
       ENDIF
 
 C--------------------

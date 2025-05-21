@@ -54,7 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,NFX,REF,IFO,TIN,TOUT,POLAR,NCOL,DUM,DUM2,SIZE,TRIANGLE,ID_NOD1,ID_NOD2,J,K,ISTOP
+      INTEGER I,REF,IFO,TIN,TOUT,POLAR,NCOL,DUM,ID_NOD1,ID_NOD2,J,ISTOP
       my_real RELL
       CHARACTER DEBUT*8,NAME*8,MATRIX_TYPE*16,NWLINE*100,MESS*40
 

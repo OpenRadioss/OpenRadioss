@@ -94,7 +94,7 @@
       my_real :: PHASE_ALPHAII(MULTI_FVM%NBMAT), PHASE_RHOJJ(MULTI_FVM%NBMAT)
       my_real :: PHASE_PRESJJ(MULTI_FVM%NBMAT), PHASE_EINTJJ(MULTI_FVM%NBMAT)
       my_real :: PHASE_SSPJJ(MULTI_FVM%NBMAT), PHASE_ALPHAJJ(MULTI_FVM%NBMAT)
-      my_real :: DUMMY(6), DUMMY2(1), RHOII, PII, EINTII, VXII, VYII, VZII, SSPII, NORMAL_VELII, RHOJJ, SSPJJ
+      my_real :: DUMMY(6), DUMMY2(1), DUMMY3(1), RHOII, PII, EINTII, VXII, VYII, VZII, SSPII, NORMAL_VELII, RHOJJ, SSPJJ
       my_real :: P_JJ, NORMAL_VELJJ, VXJJ, VYJJ, VZJJ, VELII2, ALPHAII, SUB_RHOII, SUB_RHOEINTII, SUB_VIISTAR(3)
       my_real :: SUB_FIISTAR(3), ALPHASTAR, SUB_RHOSTAR, SUB_PII, VELJJ2, SUB_ESTAR, EINTJJ
       INTEGER :: IELEM_START, IELEM_END, ID_SURF
@@ -129,6 +129,7 @@
       IELEM_END = (1 + ITASK) * NELEM / NTHREAD
       DUMMY(1:6) = ZERO
       DUMMY2(1) = ONE
+      DUMMY3(1) = ZERO
       DO IELEM = IELEM_START, IELEM_END
          ELEMID = ELEM_LIST(IELEM)
          IF (ELEMID  <=  NUMELS) THEN
@@ -204,7 +205,7 @@
                  CALL MULTI_SUBMATLAW( &
                         0,                           MATLAW(IMAT),                 LOCAL_MATID(IMAT),       1, &
                         PHASE_EINTJJ(IMAT),          PHASE_PRESJJ(IMAT),           PHASE_RHOJJ(IMAT),       PHASE_SSPJJ(IMAT), &
-                        DUMMY2,                      DUMMY,                        PM,                      IPM, &
+                        DUMMY2,                      DUMMY3,                       PM,                      IPM, &
                         NPROPM,                      NPROPMI,                      DUMMY,                   DUMMY2, &
                         DUMMY,                       MULTI_FVM%BFRAC(IMAT,ELEMID), MULTI_FVM%TBURN(ELEMID), DUMMY, &
                         DUMMY(1),                    DUMMY,                        SNPC,                    STF, &

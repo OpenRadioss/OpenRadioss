@@ -45,8 +45,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    th_surf_mod        ../common_source/modules/interfaces/th_surf_mod.F
       !||====================================================================
       SUBROUTINE EBCS_MAIN(IGRSURF,SEGVAR,VOLMON,A,V,W,X,
-     .                     FSAV,FV,WA,MS,MSNF,WEIGHT,STIFN,IPARG,ELBUF_TAB,EBCS_TAB,MULTI_FVM,IXQ,IXS,IXTG,
-     .                     ITAB,NALE,FSKY,FSAVSURF,TIME,DT1,
+     .                     FSAV,FV,MS,STIFN,IPARG,ELBUF_TAB,EBCS_TAB,MULTI_FVM,IXQ,IXS,IXTG,
+     .                     FSKY,FSAVSURF,TIME,DT1,
      .                     NSENSOR,SENSOR_TAB,PYTHON,
      .                     NPC, TF ,SNPC, STF)
 C-----------------------------------------------
@@ -78,10 +78,10 @@ C-----------------------------------------------
       my_real,INTENT(IN) :: TIME !simulation time
       my_real,INTENT(INOUT) :: FSAVSURF(TH_SURF_NUM_CHANNEL,NSURF)
       INTEGER IPARG(NPARG,NGROUP)
-      INTEGER,INTENT(IN) :: IXQ(NIXQ,NUMELQ),IXS(NIXS,NUMELS),IXTG(NIXTG,NUMELTG),ITAB(NUMNOD),NALE(NUMNOD)
+      INTEGER,INTENT(IN) :: IXQ(NIXQ,NUMELQ),IXS(NIXS,NUMELS),IXTG(NIXTG,NUMELTG)
       my_real VOLMON(*),V(3,NUMNOD),W(3,NUMNOD),A(3,NUMNOD),X(3,NUMNOD),FSAV(NTHVKI,*),
-     .        FV(*),WA(*),STIFN(NUMNOD)
-      my_real,intent(inout) :: MS(NUMNOD),MSNF(NUMNOD),weight(numnod)
+     .        FV(*),STIFN(NUMNOD)
+      my_real,intent(inout) :: MS(NUMNOD)
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
       TYPE(t_ebcs_tab), TARGET, INTENT(INOUT) :: EBCS_TAB
@@ -97,7 +97,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,TYP,ISU,NSEG,VOLU,NOD,J
+      INTEGER I,TYP,ISU,NSEG,VOLU,NOD
       CLASS(t_ebcs), POINTER :: EBCS
       LOGICAL HAS_TH
 C-----------------------------------------------
@@ -138,7 +138,7 @@ C-----------------------------------------------
      .           A,V,X,
      .           EBCS%node_list,NOD,EBCS%elem_list,
      .           EBCS%vold,EBCS%pold,EBCS%la,
-     .           FV,MS,STIFN,TYP,EBCS_TAB, I)
+     .           FV,MS,STIFN,EBCS_TAB, I)
          ELSE IF (TYP == 4) THEN
             select type (twf => EBCS_TAB%tab(i)%poly)
             type is (t_ebcs_vel) 
@@ -163,7 +163,7 @@ C-----------------------------------------------
      .           EBCS%node_list,NOD,EBCS%elem_list,
      .           EBCS%ro0,EBCS%en0,EBCS%p0,
      .           EBCS%vold,EBCS%pold,EBCS%la,
-     .           MS,STIFN,IPARG,twf)
+     .           MS,STIFN,twf)
             end select
          ELSE IF (TYP == 7) THEN
             select type (twf => EBCS_TAB%tab(i)%poly)
@@ -180,9 +180,8 @@ C-----------------------------------------------
               CALL EBCS10(NSEG,twf%iseg,SEGVAR,
      .             A,V,W,X,
      .             twf%node_list,NOD,twf%elem_list,twf%ielem,twf%iface,
-     .             twf%ro0,twf%en0,
-     .             twf%la,MS,STIFN,twf,IPARG,ELBUF_TAB,MULTI_FVM,IXQ,IXS,IXTG,
-     .             ITAB, NALE, EBCS_PARITHON(I)%ELEM_ADRESS,FSKY,FSAVSURF)
+     .             twf%la,twf,IPARG,ELBUF_TAB,MULTI_FVM,IXQ,IXS,IXTG,
+     .             EBCS_PARITHON(I)%ELEM_ADRESS,FSKY,FSAVSURF)
              end select
          ELSE IF (TYP == 11) THEN
             select type (twf => EBCS)

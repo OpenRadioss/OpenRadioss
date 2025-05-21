@@ -134,9 +134,9 @@ C-----------------------------------------------
 C--------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IS,IPRE, MY_ID, MY_LOAD,J,K0,NSMAX,NS,LPRELOADTAB,
+      INTEGER I,IPRE, MY_ID, MY_LOAD,J,
      .        IDS(NSPHIO),IDX(NSPHIO),II,MY_SPHIO,LVAD(NSPHIO),
-     .        IADSPHIO_1,IADSPHIO_2,FIRST,LAST
+     .        FIRST,LAST
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER (LEN=255) :: VARNAME
       DOUBLE PRECISION TEMP_DOUBLE

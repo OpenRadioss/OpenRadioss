@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
        SUBROUTINE WPOR(
      1    GEO,NODPOR,X   ,V      ,VR     ,
-     2    W  ,RBY   ,NALE,NPORGEO        )
+     2    W  ,NALE,NPORGEO        )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -47,7 +47,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NODPOR(*), NALE(*), NPORGEO(*)
-      my_real GEO(NPROPG,NUMGEO),X(3,NUMNOD),V(3,NUMNOD),VR(3,NUMNOD),W(3,NUMNOD),RBY(NRBY,*)
+      my_real GEO(NPROPG,NUMGEO),X(3,NUMNOD),V(3,NUMNOD),VR(3,NUMNOD),W(3,NUMNOD)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

@@ -279,7 +279,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J ,N1(NBCY_N),N2(NBCY_N),INDEX(NBCY_N),NN(NBCY_N),IER1
+      INTEGER I, J ,N1(NBCY_N),N2(NBCY_N),INDEX(NBCY_N),IER1
 C
       my_real
      .     CY_X1(3,NBCY_N), CY_X2(3,NBCY_N),DIS1(NBCY_N),DIS2(NBCY_N),LMIN,
@@ -373,10 +373,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J 
-C
-      my_real
-     .     XX,YY,ZZ,XL,YL,ZL,R2,TH_MEAN,TH_MAX,ZL_MIN
+      INTEGER I
+      my_real XX,YY,ZZ,XL,YL,ZL,R2,TH_MEAN,TH_MAX,ZL_MIN
 C========================================================================|
 C----- compute cylindrical coordinates(r,cos(theta),z) and dis=r*r+z*z
       TH_MEAN =ZERO
@@ -452,10 +450,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,N,NTY,NSN,NMN,ISL,NKIN,NOINT,IMODI,II,N1,N2,ND
-      INTEGER K,ILEV,NUVAR,IDEL7N,INTTH,IPR,IML,ICOM
-      CHARACTER(LEN=NCHARTITLE) :: TITR
-      LOGICAL IS1,IS2,ISD
+      INTEGER I,N,NTY,NSN,ISL,NOINT
+      INTEGER ILEV
 C=======================================================================
        DO N=1,NINTER
         NTY  = IPARI(7,N)

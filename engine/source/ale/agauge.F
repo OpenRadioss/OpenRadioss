@@ -77,7 +77,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NG, JMUL, IADR, I, II,J,JJ(6), N,IG,IS,IGAUGE,IG0,ITAG(NBGAUGE),NEL,NUMEL,NCONNECT
+      INTEGER NG, JMUL, IADR, I, II,J,JJ(6),N,IG,IS,IGAUGE,IG0,ITAG(NBGAUGE),NEL,NUMEL,NCONNECT
       my_real P,RHO,E,PA,U2,ALPHA(NBGAUGE)
       TYPE(G_BUFEL_) ,POINTER :: GBUF
 C-----------------------------------------------

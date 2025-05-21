@@ -57,7 +57,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER J, N, NBC, K, IKEY, JJ, K3, IV2(10),INT
+      INTEGER J, N, NBC, K, IKEY, JJ, IV2(10),INT
       CHARACTER KEY2*5,KEY3*5
 C
       K=0

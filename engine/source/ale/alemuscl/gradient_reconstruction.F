@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    alemuscl_mod                    ../common_source/modules/ale/alemuscl_mod.F
       !||    segvar_mod                      ../engine/share/modules/segvar_mod.F
       !||====================================================================
-      SUBROUTINE GRADIENT_RECONSTRUCTION(ITASK, IXS, X, ALE_CONNECT, NV46, ITRIMAT,SEGVAR)
+      SUBROUTINE GRADIENT_RECONSTRUCTION(IXS, X, ALE_CONNECT, ITRIMAT,SEGVAR)
 C-----------------------------------------------
 C  D e s c r i p t i o n
 C  This subroutine computes a gradient of the scalar field value in each 
@@ -56,10 +56,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: ITASK
       INTEGER, INTENT(IN) :: IXS(NIXS,NUMELS)
       my_real, INTENT(IN) :: X(3,NUMNOD)
-      INTEGER, INTENT(IN) :: NV46
       INTEGER, INTENT(IN) :: ITRIMAT
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
@@ -67,8 +65,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I, II, KK, IAD2, LGTH
       my_real :: XK, YK, ZK, XL, YL, ZL, XF, YF, ZF
-      my_real :: VALK, VALL, VALNODE
-      INTEGER :: NODE_ID
+      my_real :: VALK, VALL
       my_real :: mat(3, 3), rhs(3), sol(3)
       INTEGER :: VOIS_ID
       INTEGER :: FACE_TO_NODE_LOCAL_ID(6, 4)

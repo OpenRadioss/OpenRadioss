@@ -51,7 +51,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NSVOIS, NQVOIS, NTGVOIS, PROC, NUMEL, NSEGFL_L,
+      INTEGER NSVOIS, NQVOIS, NTGVOIS, PROC, NUMEL,
      .        NUMELS_L,NUMELQ_L,NUMELTG_L,
      .        IXSF(NIXS,NSVOIS) ,IXQF(NIXQ,NQVOIS),IXTGF(NIXTG,NTGVOIS),
      .        IPARG(NPARG,*),CEP(*),CEL(*),
@@ -72,8 +72,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, N, NG, IFS, IFQ, IFTG,IE_LOC, IV_LOC
-      INTEGER ILAW,JTUR,JTHE,ITY,IE,NFT,NEL,IV,PROC2,NFT_LOC,IAD1, LGTH, IAD2
+      INTEGER I, J, K, NG, IFS, IFQ, IFTG,IE_LOC, IV_LOC
+      INTEGER JTUR,JTHE,ITY,IE,NFT,NEL,IV,PROC2,NFT_LOC,IAD1, LGTH, IAD2
       INTEGER NUMEL_L, TMP, IALEUL
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGE, nb_connect_l
       LOGICAL IS_HEXA,IS_QUAD,IS_TRIA

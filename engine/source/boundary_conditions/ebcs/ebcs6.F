@@ -33,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                 LISTE,NOD,IRECT,
      .                 RO0,EN0,P0,
      .                 VO,PO,LA,
-     .                 MS,STIFN,IPARG,EBCS)
+     .                 MS,STIFN,EBCS)
       USE EBCS_MOD
       USE SEGVAR_MOD
 C-----------------------------------------------
@@ -51,8 +51,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NSEG,NOD,ISEG(NSEG),LISTE(NOD),IRECT(4,NSEG),
-     .        IPARG(NPARG,*)
+      INTEGER NSEG,NOD,ISEG(NSEG),LISTE(NOD),IRECT(4,NSEG)
       my_real
      .        A(3,*),X(3,*),V(3,*),LA(3,NOD),
      .        RO0(NSEG),EN0(NSEG),P0(NOD),VO(NOD),PO(NOD),
@@ -62,13 +61,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IS,K,L,KSEG,ESEG,N1,N2,N3,N4,NG1,NG2,NG3,NG4,N,
-     .        KLT,KTY,MFT,EAD
-C      
-      my_real
-     .       ORIENT,PRES,RHO,C,LCAR,ROC,ALP,FAC,
-     .       X13,Y13,Z13,X24,Y24,Z24,NX,NY,NZ,S,
-     .       ROOU,ENOU,VMX,VMY,VMZ,FLUXI,FLUXO,VN,PN,DU,DP,P,DPDV
+      INTEGER I,IS,KSEG,N1,N2,N3,N4,NG1,NG2,NG3,NG4,N
+      my_real ORIENT,RHO,C,LCAR,ROC,ALP,FAC,
+     .        X13,Y13,Z13,X24,Y24,Z24,NX,NY,NZ,S,
+     .        ROOU,ENOU,VMX,VMY,VMZ,FLUXI,FLUXO,VN,PN,DU,DP,P,DPDV
 C-----------------------------------------------
       C=EBCS%c
       RHO=EBCS%rho

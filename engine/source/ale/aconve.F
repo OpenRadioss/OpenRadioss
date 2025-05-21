@@ -465,8 +465,8 @@ C=======================================================================
           NF1=NFT+1+(NM-1)*NUMELS
           NFX=NFT+(NM-1)*NUMELS      
           CALL A22CONV3(
-     1             PHI      , FLUX(6*NFX+1), FLU1(NF1),
-     2             IOFF     , QMV(12*NFX+1), IFLG     ,
+     1             PHI      ,
+     2             IFLG     ,
      3             ITRIMAT  , NVAR         , ITASK    ,
      4             ELBUF_TAB, IXS          , IPARG)      
         ENDIF

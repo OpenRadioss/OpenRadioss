@@ -29,7 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
       !||====================================================================
-      SUBROUTINE ALE51_SPMD2(IXQ      ,FLUX   ,FLU1  ,ALE_CONNECT,
+      SUBROUTINE ALE51_SPMD2(IXQ      ,FLUX   ,ALE_CONNECT,
      .                       FLUX_VOIS,N4_VOIS,ITABM1,NV46)
 C-----------------------------------------------
 C   M o d u l e s
@@ -49,13 +49,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXQ(NIXQ,NUMELQ), N4_VOIS(NUMELQ+NQVOIS,4), ITABM1(*),NV46
-      my_real FLUX(4,*), FLU1(*),FLUX_VOIS(NUMELQ+NQVOIS,NV46)
+      my_real FLUX(4,*),FLUX_VOIS(NUMELQ+NQVOIS,NV46)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,K,KK,L,IV,NN,IPERM(2,4),TAG(0:NUMNOD), NI(2), IAD2
-      my_real M1E20
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -65,7 +64,6 @@ C-----------------------------------------------
      .           2,3,
      .           3,4,
      .           4,1/
-      M1E20 = -EP20
 C-----------------------------------------------
 C   S o u r c e   L i n e s 
 C-----------------------------------------------
@@ -84,11 +82,10 @@ C-----------------------------------------------
               IF(IV > NUMELS)THEN
                 DO KK=1,4
                  IF(N4_VOIS(IV,1) /= 0.AND.
-     .              FLUX_VOIS(IV,KK) /= M1E20)THEN
+     .              FLUX_VOIS(IV,KK) /= -EP20)THEN
                   NN =0
                   DO L=1,2
-                    NI(L) = SYSFUS2(N4_VOIS(IV,IPERM(L,KK)),ITABM1,
-     .                              NUMNOD                        )                    
+                    NI(L) = SYSFUS2(N4_VOIS(IV,IPERM(L,KK)),ITABM1,NUMNOD                        )
                     TAG(NI(L)) = 1
                   ENDDO
                   DO L=1,2

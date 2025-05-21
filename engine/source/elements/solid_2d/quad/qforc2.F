@@ -186,8 +186,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER LCO, NF1, IFLAG,I,II,IPTR,IPTS,IPTT,ILAY,ISTRAIN
-      INTEGER IBIDON(1),IBID,N,SZ_IX,DUMMY_IPARG1(NPARG)
+      INTEGER LCO, NF1, IFLAG,I,IPTR,IPTS,IPTT,ILAY,ISTRAIN
+      INTEGER IBIDON(1),IBID,SZ_IX,DUMMY_IPARG1(NPARG)
 
       my_real RX(MVSIZ),RY(MVSIZ),RZ(MVSIZ),SX(MVSIZ),SY(MVSIZ),SZ(MVSIZ),TX(MVSIZ),TY(MVSIZ),TZ(MVSIZ)
 
@@ -209,7 +209,7 @@ C-----------------------------------------------
       my_real WYY(MVSIZ),WZZ(MVSIZ),VDX(MVSIZ)
 
       ! SPH case
-      my_real MUVOID(MVSIZ), STI(MVSIZ),BID(MVSIZ), MBID(MVSIZ),RSDA(1)
+      my_real MUVOID(MVSIZ), STI(MVSIZ),BID(MVSIZ), MBID(MVSIZ)
       ! void MMAIN
       my_real SIGY(MVSIZ),ET(MVSIZ),GAMA(MVSIZ,6),R3_FREE(MVSIZ),R4_FREE(MVSIZ)
       my_real  R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
@@ -377,10 +377,9 @@ C-----------
 C      EULER
 C-----------
         IF (MTN == 11) CALL EDE112(
-     1   PM,         V,          VEUL,       X,
+     1   PM,         V,          X,
      2   IC,         ALE_CONNECT,WYZ,        DYZ,
-     3   DZY,        EYY,        EZZ,        ETT,
-     4   EYZ,        EYT,        EZT)
+     3   DZY,        EYY,        EZZ)
         CALL EDEFO2(
      1   GBUF%VOL,V,       VEUL,    Y1,
      2   Y2,      Y3,      Y4,      Z1,
@@ -394,7 +393,7 @@ C-----------
      A   VDZ,     VD2,     NC1,     NC2,
      B   NC3,     NC4)
         CALL EULRO2(
-     1   GBUF%VOL,   GBUF%RHO,   FLUX(1,NF1),FLU1(NF1),
+     1   GBUF%RHO,   FLUX(1,NF1),FLU1(NF1),
      2   VOLN,       DVOL,       NGL)
         CALL QROTA2(
      1   GBUF%SIG,S1,      S2,      S3,
@@ -566,8 +565,8 @@ C
 C------------------------
 C     FORCES DE TRANSPORT
 C------------------------
-       IF(JALE>0.AND.MTN/=11)
-     .   CALL AMOMT2(
+       IF(JALE > 0 .AND. MTN /= 11)THEN
+         CALL AMOMT2(
      1   PM,      W,       GBUF%RHO,
      2   Y1,      Y2,      Y3,      Y4,
      3   Z1,      Z2,      Z3,      Z4,
@@ -580,8 +579,10 @@ C------------------------
      A   DZY,     NC1,     NC2,     NC3,
      B   NC4,     MAT,     GBUF%OFF,QMV,
      C   BUFMAT,  DELTAX,  VIS, IPM)
-       IF(JEUL>0.)
-     .   CALL EMOMT2(
+       ENDIF
+
+       IF(JEUL > 0)THEN
+        CALL EMOMT2(
      1   PM,      GBUF%RHO,Y1,      Y2,
      2   Y3,      Y4,      Z1,      Z2,
      3   Z3,      Z4,      VY1,     VY2,
@@ -591,9 +592,9 @@ C------------------------
      7   T23,     T24,     PY1,     PY2,
      8   PZ1,     PZ2,     AIRE,    EYY,
      9   EZZ,     DYZ,     DZY,     VDY,
-     A   VDZ,     DELTAX,  VIS,     VD2,
-     B   NC1,     NC2,     NC3,     NC4,
+     A   VDZ,     DELTAX,  VIS,
      C   MAT,     QMV,     BUFMAT,  IPM)
+       ENDIF
 C--------------------
 C     FORCES INTERNES
 C--------------------

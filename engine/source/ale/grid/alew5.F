@@ -33,10 +33,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ale_mod                ../common_source/modules/ale/ale_mod.F
       !||====================================================================
       SUBROUTINE ALEW5( 
-     1     X         ,V       ,W       ,WA      ,
-     2     ALE_NN_CONNECT     ,NALE    ,NODFT   ,NODLT   ,ITASK   ,
-     3     NBRCVOIS  ,NBSDVOIS,LNRCVOIS,LNSDVOIS,
-     4     SKEW,ISKEW, ICODT)
+     1     X               ,V       ,W       , WA      ,
+     2     ALE_NN_CONNECT  ,NALE    ,NODFT   , NODLT   ,
+     3     NBRCVOIS        ,NBSDVOIS,LNRCVOIS, LNSDVOIS,
+     4     SKEW            ,ISKEW   ,ICODT  )
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
@@ -79,7 +79,6 @@ C-----------------------------------------------
 !  (1:3, NUMNOD+1:) additional nodes (also on adjacent domains but connected to the boundary of the current domain)
 !      idem with D(SD), and V(SV)
 C-----------------------------------------------
-      INTEGER,INTENT(IN) :: ITASK
       INTEGER NALE(NUMNOD), NODFT, NODLT,
      .     NBRCVOIS(*),NBSDVOIS(*),
      .     LNRCVOIS(*),LNSDVOIS(*),ISKEW(*),ICODT(*)
@@ -132,7 +131,7 @@ C-----------------------------------------------
                   VEC(3) = VEC(3) / NUM - WA(3,I)     
 
                   !update VEC depending on boundary conditions
-                  CALL ALEWDX_GRID_BCS(SKEW, ISKEW,  ICODT, VEC, NALE, ITASK, I)   !set VEC to 0 depending on user BCS
+                  CALL ALEWDX_GRID_BCS(SKEW, ISKEW,  ICODT, VEC, NALE, I)   !set VEC to 0 depending on user BCS
                   W(1,I) = WA(1,I) + LAMBDA * VEC(1)
                   W(2,I) = WA(2,I) + LAMBDA * VEC(2)
                   W(3,I) = WA(3,I) + LAMBDA * VEC(3)
@@ -182,7 +181,7 @@ C-----------------------------------------------
                   ENDDO
                            
                   !update VEC depending on boundary conditions
-                  CALL ALEWDX_GRID_BCS(SKEW, ISKEW,  ICODT, VEC ,NALE, ITASK, I)
+                  CALL ALEWDX_GRID_BCS(SKEW, ISKEW,  ICODT, VEC ,NALE, I)
                   W(1,I) = WA(1,I) + LAMBDA * VEC(1)
                   W(2,I) = WA(2,I) + LAMBDA * VEC(2)
                   W(3,I) = WA(3,I) + LAMBDA * VEC(3)                  

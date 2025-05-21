@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                 A,V,X,
      .                 LISTE,NOD,IRECT,
      .                 VO,PO,LA,
-     .                 FV,MS,STIFN,TYP,EBCS_TAB, IEBCS)
+     .                 FV,MS,STIFN,EBCS_TAB, IEBCS)
       USE EBCS_MOD
       USE SEGVAR_MOD
 C-----------------------------------------------
@@ -47,7 +47,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NSEG,NOD,ISEG(NSEG),LISTE(NOD),TYP,IRECT(4,NSEG)
+      INTEGER NSEG,NOD,ISEG(NSEG),LISTE(NOD),IRECT(4,NSEG)
       my_real
      .        A(3,*),X(3,*),V(3,*),LA(3,NOD),
      .        VO(NOD),PO(NOD),FV(*),MS(*),STIFN(*)
