@@ -55,11 +55,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, K, NSL, NSLT, ITYP, NUSER,  NM,M, NI,
-     .        ISK, ISENS, INGU, IGM, J, P,IAD,NS,NN,J6(6),JJ,II,
-     .        IC,IC1,IC2,IROT,ISKS,IADS,IERR1,NC,ID,IRAD
+      INTEGER I,NUSER,NM,NN,J6(6)
       CHARACTER(LEN=NCHARTITLE)::TITR
-      CHARACTER(LEN=NCHARKEY)::KEY
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -69,10 +66,7 @@ C=====================================================================|
       ICR =0
       CALL HM_OPTION_START('/RBE3')
       DO I=1,NRBE3
-        CALL HM_OPTION_READ_KEY(LSUBMODEL,
-     .                       OPTION_ID = NUSER,
-     .                       OPTION_TITR = TITR)
-C
+        CALL HM_OPTION_READ_KEY(LSUBMODEL,OPTION_ID = NUSER,OPTION_TITR = TITR)
         CALL HM_GET_INTV('dependentnode',NM,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV('LTX',J6(1),IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV('LTY',J6(2),IS_AVAILABLE,LSUBMODEL)
@@ -91,7 +85,7 @@ C
        ICR = J6(4) + J6(5) + J6(6)
        IF (ICR >0) RETURN
       ENDDO
-C
+
       RETURN
-C
+
       END SUBROUTINE CONTRBE3

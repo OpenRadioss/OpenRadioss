@@ -80,11 +80,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-       INTEGER ::I,J,II,JJ,K,INDI,NBR_MID_PID_GRP
-       INTEGER :: NG,NGG,NGG_LOC,ITY
+       INTEGER ::I,J,II,JJ,NBR_MID_PID_GRP
+       INTEGER :: NG,NGG,NGG_LOC
        INTEGER :: MARQUEUR,MARQUEUR_2,MARQUEUR_3,COMPTEUR_MAT_PROP_SHELL,COMPTEUR
        INTEGER :: FIRST,LAST,SHIFT,GR_ID,GR_ID2
-       INTEGER :: NBR_MID,NFT
        INTEGER :: MID,MAX_MID
        INTEGER :: PID,MAX_PID,PID_1,PID_2
        INTEGER, DIMENSION(:), ALLOCATABLE :: PID_INDEX,INDEX

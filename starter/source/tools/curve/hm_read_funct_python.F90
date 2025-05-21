@@ -103,8 +103,6 @@
           character(kind=c_char, len=:), allocatable :: code
           integer :: line_len
           integer :: error,error_old
-          double precision :: argin(1), argout(1)
-
 !         character(len=:), allocatable :: titr !function name
           character(len=nchartitle) :: titr !function name
           double precision :: XX(funct_python_nsamples)

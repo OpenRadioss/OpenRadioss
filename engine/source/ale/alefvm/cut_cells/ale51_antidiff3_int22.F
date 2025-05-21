@@ -30,8 +30,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i22bufbric_mod          ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||    i22tri_mod              ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||====================================================================
-      SUBROUTINE ALE51_ANTIDIFF3_INT22(FLUX   , ITRIMAT, IXS      , FLUX_VOIS,
-     .                                 N4_VOIS, ITAB , NV46   , ELBUF_TAB, IPARG    ,
+      SUBROUTINE ALE51_ANTIDIFF3_INT22(FLUX   , ITRIMAT, IXS  ,
+     .                                 NV46   , ELBUF_TAB,
      .                                 ITASK  , VFRAC)
 C-----------------------------------------------
 C   M o d u l e s
@@ -66,10 +66,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXS(NIXS,*),N4_VOIS(NUMELS+NSVOIS,8),ITAB(*),NV46,ITRIMAT,ITASK
-      INTEGER IPARG(NPARG,*)      
+      INTEGER IXS(NIXS,*),NV46,ITRIMAT,ITASK
       my_real
-     .    FLUX(NV46,*),FLUX_VOIS(NUMELS+NSVOIS,NV46),VFRAC(*)
+     .    FLUX(NV46,*),VFRAC(*)
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB     
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

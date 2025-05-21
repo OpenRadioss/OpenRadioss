@@ -48,8 +48,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N
-      my_real
-     .     VN,LCAR,ALP,ALPDT,AX,AY,AZ,C
+      my_real LCAR,ALP,ALPDT,AX,AY,AZ,C
 C
       IF(TT==ZERO)THEN
           DO I=1,NOD

@@ -47,7 +47,6 @@ C-----------------------------------------------
       CHARACTER(LEN = 100) :: RAD_INTER, RAD_HEADER, RAD_BEGIN, RAD_END
       INTEGER :: II, N1, N2, N3, N4
 
-      INTEGER LEN_FILNAM
       INTEGER :: LEN_TMP_NAME
       CHARACTER(len=4096) :: TMP_NAME
 

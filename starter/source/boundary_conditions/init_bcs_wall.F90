@@ -67,9 +67,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-        my_real :: tstart,tstop
-        integer :: user_grnod_id, user_sensor_id
-        integer :: internal_grnod_id, internal_sensor_id
+        integer :: internal_grnod_id
         integer :: ii,jj,kk,kv
         integer :: num_nodes_in_group
         integer :: icode !< binary code

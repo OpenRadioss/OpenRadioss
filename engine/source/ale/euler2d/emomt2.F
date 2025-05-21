@@ -35,8 +35,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  T11, T12, T13, T14, T21, T22, T23 , T24, 
      .                  PY1, PY2, PZ1, PZ2, AIRE,
      .                  DYY, DZZ, DYZ, DZY,VDY,VDZ,
-     .                  DELTAX,VIS,VD2,
-     .                  NC1,NC2,NC3,NC4,MAT,
+     .                  DELTAX,VIS,
+     .                  MAT,
      .                  QMV,BUFMAT,IPM)
 C-----------------------------------------------
 C   M o d u l e s
@@ -66,8 +66,8 @@ C-----------------------------------------------
      .        T11(*), T12(*), T13(*), T14(*), T21(*), T22(*), T23(*), T24(*), 
      .        PY1(*), PY2(*), PZ1(*), PZ2(*), AIRE(*),
      .        DYY(*), DZZ(*), DYZ(*), DZY(*),VDY(*),VDZ(*),
-     .        DELTAX(*),VIS(*),VD2(*),QMV(8,*),BUFMAT(*)
-      INTEGER MAT(*), NC1(*), NC2(*), NC3(*), NC4(*)
+     .        DELTAX(*),VIS(*),QMV(8,*),BUFMAT(*)
+      INTEGER,INTENT(IN) :: MAT(*)
       INTEGER,INTENT(IN)::IPM(NPROPMI,NUMMAT)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

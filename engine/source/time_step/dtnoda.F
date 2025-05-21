@@ -83,10 +83,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, NN, K, KMAX, ISTOP,I,J,
-     .   INDTN(1024), TAG(NUMNOD),IOK, NOD_LAG_COUNT
-      my_real DTN(1024),
-     .   DTNOD, DT2P, MAS, INER, MAS0, DMM, MASS, STI, DT2S
+      INTEGER N, NN, K, KMAX, ISTOP,I,INDTN(1024), TAG(NUMNOD),IOK
+      my_real DTN(1024),DTNOD, DT2P, MAS, INER, MASS, STI, DT2S
 C----------------------------------------------------------
 C     TAG NODAL GROUP 
 C----------------------------------------------------------

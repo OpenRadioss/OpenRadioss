@@ -64,7 +64,7 @@ C-----------------------------------------------
       INTEGER :: IAD,NFIX,NFIXR,LEN,LENR,NMOD,MOD
       INTEGER ,DIMENSION(NCHARTITLE) :: NAME
       INTEGER ,DIMENSION(:) ,ALLOCATABLE :: IBUF
-      INTEGER :: NBSUBMAT, ISUB
+      INTEGER :: NBSUBMAT
       my_real ,DIMENSION(:) ,ALLOCATABLE :: RBUF
 c=======================================================================
 c     read MATPARAM data

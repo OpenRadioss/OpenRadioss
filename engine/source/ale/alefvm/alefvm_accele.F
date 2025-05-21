@@ -25,11 +25,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    resol           ../engine/source/engine/resol.F
       !||====================================================================
-      SUBROUTINE ALEFVM_ACCELE(
-     1                  A       ,AR    ,V    ,VR      ,IN   ,
-     2                  NODFT   ,NODLT ,ITAB ,MSNF    ,MS   ,
-     3                  NALE
-     .                  )
+      SUBROUTINE ALEFVM_ACCELE( A, AR, NODFT, NODLT, NALE)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -51,12 +47,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER :: NODFT, NODLT, ITAB(*), NALE(*)
-      my_real :: A(3,NUMNOD) , V(3,NUMNOD) , VR(3,NUMNOD),  AR(3,NUMNOD), MS(NUMNOD)  , MSNF(NUMNOD),  IN(*)
+      INTEGER,INTENT(IN) :: NODFT, NODLT, NALE(NUMNOD)
+      my_real,INTENT(INOUT) :: A(3,NUMNOD), AR(3,NUMNOD)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: J,K,N
+      INTEGER :: N
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -67,17 +63,15 @@ C they are still nodal momentum up to vitesse.F
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-
-
 #include "vectorize.inc"
         !---TRANSLATIONS---!
         DO N=NODFT,NODLT
-            IF(NALE(N)==0)CYCLE
+            IF(NALE(N) == 0)CYCLE
             A(1,N)    = ZERO
             A(2,N)    = ZERO
             A(3,N)    = ZERO
         ENDDO
-        IF (IRODDL/=0) THEN
+        IF (IRODDL /= 0) THEN
 #include "vectorize.inc"
           !---TROTATIONS---!
           DO N=NODFT,NODLT
@@ -87,8 +81,6 @@ C-----------------------------------------------
               AR(3,N) = ZERO      
           ENDDO
         ENDIF
-
-       
 C-----------------------------------------------        
       RETURN
       END

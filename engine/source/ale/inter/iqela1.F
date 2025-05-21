@@ -30,9 +30,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    anim_mod   ../common_source/modules/output/anim_mod.F
       !||    h3d_mod    ../engine/share/modules/h3d_mod.F
       !||====================================================================
-      SUBROUTINE IQELA1(X,SKEW,A,E,MSM,IRECT,LMSR,CRST,MSR,
-     1                 NSV,ILOC,IRTL,MS,NOR,LCODE,ISKEW,FSAV,ITAB,
-     2                 FCONT,FNCONT,FTCONT,H3D_DATA,NSN,NMN)
+      SUBROUTINE IQELA1(A,E,MSM,IRECT,CRST,MSR,
+     1                 NSV,ILOC,IRTL,MS,NOR,LCODE,ISKEW,FSAV,
+     2                 FCONT,FNCONT,H3D_DATA,NSN,NMN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -64,9 +64,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(INOUT) :: IRECT(4,*), LMSR(4,*), MSR(*), NSV(*), ILOC(*), IRTL(*),LCODE(*), ISKEW(*),ITAB(NUMNOD)
-      my_real,INTENT(INOUT) :: X(3,NUMNOD), SKEW(LSKEW,*), A(SA), E(*), MSM(*), CRST(2,*), MS(*),NOR(3,*),FSAV(*)
-      my_real,INTENT(INOUT) :: FCONT(3,*),FNCONT(3,*),FTCONT(3,*)
+      INTEGER,INTENT(INOUT) :: IRECT(4,*), MSR(*), NSV(*), ILOC(*), IRTL(*),LCODE(*), ISKEW(*)
+      my_real,INTENT(INOUT) :: A(SA), E(*), MSM(*), CRST(2,*), MS(*),NOR(3,*),FSAV(*)
+      my_real,INTENT(INOUT) :: FCONT(3,*),FNCONT(3,*)
       INTEGER, INTENT(IN) :: NSN,NMN
       TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------

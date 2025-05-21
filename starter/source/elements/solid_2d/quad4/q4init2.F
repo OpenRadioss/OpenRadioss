@@ -116,23 +116,19 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER MAT(MVSIZ), PID(MVSIZ), NGL(MVSIZ)
-      INTEGER NF1, IELVS, IX, I, IGTYP, IHBE, IP
+      INTEGER NF1, I, IGTYP, IHBE, IP
       INTEGER IR,IS,NPTR,NPTS,IBID, IPID1
-      my_real
-     +   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
-     +   Y1(MVSIZ),Y2(MVSIZ),Y3(MVSIZ),Y4(MVSIZ),
-     +   Z1(MVSIZ),Z2(MVSIZ),Z3(MVSIZ),Z4(MVSIZ),
-     +   Y12(MVSIZ),Y34(MVSIZ),Y13(MVSIZ),Y24(MVSIZ),
-     +   Y14(MVSIZ),Y23(MVSIZ),
-     +   Z12(MVSIZ),Z34(MVSIZ),Z13(MVSIZ),Z24(MVSIZ),
-     +   Z14(MVSIZ),Z23(MVSIZ),YAVG(MVSIZ),AREA(MVSIZ),
-     +   VOLU(MVSIZ),DET(MVSIZ),BID(1),AA(MVSIZ), DTX(MVSIZ),
-     +   SY(MVSIZ) ,SZ(MVSIZ) ,TY(MVSIZ) ,TZ(MVSIZ),
-     .   E1Y(MVSIZ),E1Z(MVSIZ),E2Y(MVSIZ),E2Z(MVSIZ)
-      my_real
-     +   QN1,QN2,QN3,QN4,YAVG1,WI,KSI,ETA,FV
-      my_real
-     .     DELTAX(MVSIZ),Y234(MVSIZ),Y124(MVSIZ)
+      my_real Y1(MVSIZ),Y2(MVSIZ),Y3(MVSIZ),Y4(MVSIZ),
+     +        Z1(MVSIZ),Z2(MVSIZ),Z3(MVSIZ),Z4(MVSIZ),
+     +        Y12(MVSIZ),Y34(MVSIZ),Y13(MVSIZ),Y24(MVSIZ),
+     +        Y14(MVSIZ),Y23(MVSIZ),
+     +        Z12(MVSIZ),Z34(MVSIZ),Z13(MVSIZ),Z24(MVSIZ),
+     +        Z14(MVSIZ),Z23(MVSIZ),YAVG(MVSIZ),AREA(MVSIZ),
+     +        BID(1),DTX(MVSIZ),
+     +        SY(MVSIZ) ,SZ(MVSIZ) ,TY(MVSIZ) ,TZ(MVSIZ),
+     .        E1Y(MVSIZ),E1Z(MVSIZ),E2Y(MVSIZ),E2Z(MVSIZ)
+      my_real WI,KSI,ETA,FV
+      my_real DELTAX(MVSIZ),Y234(MVSIZ),Y124(MVSIZ)
       my_real :: TEMPEL(NEL)
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ)
 
@@ -301,7 +297,7 @@ C
      .            MAT     ,IPM     ,NSIGS      ,NUMQUAD      ,PTQUAD  ,
      .            IP      ,NGL     ,NPF        ,TF           ,BUFMAT  ,
      .            GBUF    ,LBUF    ,MBUF       ,ELBUF_STR    ,ILOADP  ,
-     .            FACLOAD, DELTAX  ,TEMPEL  )  
+     .            FACLOAD, DELTAX  ,TEMPEL  )
 C
         ENDDO
       ENDDO

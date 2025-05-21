@@ -29,9 +29,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    iqela3          ../engine/source/ale/inter/iqela3.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================
-      SUBROUTINE INT12W(
-     1                  IPARI, INTBUF_TAB, X      ,V     ,A  ,
-     2                  VG   , ICODE     ,IBCS    ,BCS )
+      SUBROUTINE INT12W( IPARI, INTBUF_TAB, VG  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -47,10 +45,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPARI(SIPARI), ICODE,IBCS
-      my_real VG(*),X,V,A,BCS
+      INTEGER IPARI(SIPARI)
+      my_real VG(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
-
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -60,10 +57,7 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
       NSN   =IPARI(5)
       ITIED=INT(INTBUF_TAB%VARIABLES(1))
-      CALL IQELA3
-     1  (VG          ,VG              ,INTBUF_TAB%IRECTM,INTBUF_TAB%CSTS,INTBUF_TAB%NSV,
-     2   INTBUF_TAB%ILOCS,INTBUF_TAB%IRTLM,ICODE      ,IBCS           ,BCS           ,
-     3   INTBUF_TAB%MSR, NSN)
+      CALL IQELA3(VG,VG,INTBUF_TAB%IRECTM,INTBUF_TAB%CSTS,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,INTBUF_TAB%MSR,NSN)
       IF(ITIED == 2) THEN
         CALL IN12R(VG,INTBUF_TAB%VARIABLES(1),INTBUF_TAB%NSV,NSN,2,INTBUF_TAB%FCOUNT)
       ENDIF

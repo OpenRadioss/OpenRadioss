@@ -67,10 +67,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,NUVAR, GG1, GG2, GG3, ISFLUID
+      INTEGER I,NUVAR, ISFLUID
       INTEGER NPH,IFLG,NV46
       INTEGER IMAT
       INTEGER KK,NUMEL
+      my_real :: GG1, GG2, GG3
       my_real VOLD,T0_(4),C0_(4),C1_(4),C2_(4),C3_(4),C4_(4),C5_(4),E0_(4),RHO0_(4),VF(4),P0(4),PEXT,PRES_0
       my_real,intent(inout) :: TB(NEL)
       LOGICAL IS_IFORM12
@@ -92,11 +93,11 @@ C-----------------------------------------------
       !---------------------------------!
       ! Test if only fluids are defined !
       !---------------------------------!
-      GG1   = UPARAM(101)
-      GG2   = UPARAM(151)
-      GG3   = UPARAM(201)
+      GG1 = UPARAM(101)
+      GG2 = UPARAM(151)
+      GG3 = UPARAM(201)
       ISFLUID = 0      
-      IF (GG1==ZERO .AND. GG2==ZERO .AND .GG3==ZERO)ISFLUID=1
+      IF (GG1 == ZERO .AND. GG2 == ZERO .AND. GG3 == ZERO) ISFLUID=1
       IF (ISFLUID==1) THEN 
         IPARG(15) = 1  !  FLAG REZONE SIG                                 =>  KEPT TO 1 FOR BACKWARD COMPATIBILITY
         IPARG(16) = 1  !  FLAG REZONE EPS PLAST.                          =>  KEPT TO 1 FOR BACKWARD COMPATIBILITY

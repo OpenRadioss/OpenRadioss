@@ -1538,16 +1538,16 @@
                         tmu,      einc,     mtn,      vol_avg,&
                         nel,      jtur,     jlag,     jpor)
             call atur17(&
-                        pm,      off,     lbuf%rho,lbuf%rk,&
-                        lbuf%re, geo,     voln,    mat,&
-                        deltax,  pid,     vis,     voln,&
-                        vd2,     dvol,    aire,    einc,&
-                        Pturb,    tmu,     alogey,  nel,&
-                        lft,     llt,     jpor)
-             if(jthe == 1)call mtheta(&
-                        pm,       lbuf%eint,lbuf%temp,amu,&
-                        c1,       c2,       df,       psh,&
-                        pc,       mat,      nel)
+            &pm,      off,     lbuf%rho,lbuf%rk,&
+            &lbuf%re, geo,     voln,    mat,&
+            &deltax,  pid,&
+            &vd2,     dvol,    aire,    einc,&
+            &pturb,   alogey,  nel,&
+            &lft,     llt,     jpor)
+            if(jthe == 1)call mtheta(&
+            &pm,       lbuf%eint,lbuf%temp,amu,&
+            &c1,       c2,       df,       psh,&
+            &pc,       mat,      nel)
           elseif (mtn == 18) then
             call m18law(&
             &pm,         lbuf%vol,   lbuf%eint,  lbuf%temp,&
@@ -2008,7 +2008,7 @@
               enddo
             else   
               ! exact dissipated energy is calculated by the material law as heat source 
-              ! need to add shock wave energy depending on artificial viscosity 
+              ! need to add shock wave energy depending on artificial viscosity
               do i=1,nel
                 qheat = -half*(qold(i)+lbuf%qvis(i))*dvol(i)      ! 2nd order integration
                 fheat(i) = fheat(i) + qheat

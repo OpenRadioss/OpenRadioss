@@ -56,12 +56,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N
-      my_real XX1, YY1, ZZ1, XX2, YY2, ZZ2, XX3, YY3, ZZ3,
-     .        AL4, AL6, AL5, D13, MAS, X1N, Y1N, Z1N
-C
-C
+      my_real XX1, YY1, ZZ1, XX2, YY2, ZZ2, XX3, YY3, ZZ3, AL4, AL6, AL5, D13, MAS, X1N, Y1N, Z1N
+C-----------------------------------------------
+C   B o d y
+C-----------------------------------------------
       IF(IFRAM<10)THEN
-C      CALCUL DES MOMEMTS/REPERE N1 N2 N3
+C      MOMENTUM (SKEW N1 N2 N3)
        XX1=X(1,N1)
        YY1=X(2,N1)
        ZZ1=X(3,N1)
@@ -101,7 +101,7 @@ C
        ZZN=ZZ6
 C
        ELSEIF (N1/=0) THEN
-C      CALCUL DES MOMEMTS/REPERE GLOBAL
+C      MOMENTUM / GLOBAL SYSTEM
        XX4=X(1,N2)-X(1,N1)
        YY4=X(2,N2)-X(2,N1)
        ZZ4=X(3,N2)-X(3,N1)
@@ -141,7 +141,7 @@ C
 C
       ENDIF
 C
-C     CALCUL DE L'ORIGINE DU REPERE
+C     ORIGIN CALCULATION
 C
       IF(IFRAM==0)THEN
         D13=(XX3-XX1)*XX4+(YY3-YY1)*YY4+(ZZ3-ZZ1)*ZZ4

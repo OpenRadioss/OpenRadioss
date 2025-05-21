@@ -82,7 +82,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IDISP,NN,NFVEL,IDIS,INOD,NODID,NOD,NOSKEW,NOFRAME,LEN,
+      INTEGER I,IDISP,NN,IDIS,INOD,NODID,NOSKEW,NOFRAME,LEN,
      .   IUNIT,FLAGUNIT,SENS_ID,OPTID,UID,SKEW_ID,FCT_ID,GRN_ID,IGS,
      .   IFGEO,ICOOR,ILAGM,SUBID,NOSUB,SYS_TYPE,FRAME_ID,J,JJ,NN_FM(3)
       INTEGER ,DIMENSION(:),ALLOCATABLE :: NODENUM

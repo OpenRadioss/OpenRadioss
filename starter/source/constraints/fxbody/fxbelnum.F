@@ -50,8 +50,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,NG,NEL,NFT,ITY,II,NALL,NEL2,J,IAD,MAT,JHBE,
-     .        IT1,IT2,IT3,IT4,IT5,IT6,IT7,IT8,JSROT
+      INTEGER I,NG,NEL,NFT,ITY,II,NALL,NEL2,J,IAD,MAT,JHBE,IT1,IT2,IT3,IT4,IT5,IT6,IT7,IT8
 C=======================================================================
       DO I=1,NUMNOD
          ITAG(I)=0

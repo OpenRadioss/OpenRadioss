@@ -58,7 +58,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,ID,IGU,IGS,NN,UID,NIMPACC
+      INTEGER I,ID,IGU,IGS,NN,NIMPACC
       CHARACTER(nchartitle)  :: TITR
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
@@ -84,9 +84,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 C EXTRACT DATA OF /IMPACC/... LINE
 C--------------------------------------------------
-        CALL HM_OPTION_READ_KEY(LSUBMODEL,
-     .                          OPTION_ID = ID,
-     .                          OPTION_TITR = TITR)
+        CALL HM_OPTION_READ_KEY(LSUBMODEL,OPTION_ID = ID, OPTION_TITR = TITR)
 C--------------------------------------------------
 C EXTRACT DATA (INTEGER VALUES)
 C--------------------------------------------------

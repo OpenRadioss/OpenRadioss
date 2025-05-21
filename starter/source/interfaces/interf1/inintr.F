@@ -134,11 +134,11 @@ C-----------------------------------------------
       INTEGER N, JINSCR, NIN,IWRN, I
       INTEGER NTY, NSN2T, NMN2T,ID,
      .        NSNET  ,NMNET  ,MULTIMP, IREMNODE, NREMNODE,
-     .        NREMN(NINTER),NREMN_OLD(NINTER),IEDG,IEDGN,ST2_CONNEC,
+     .        NREMN(NINTER),ST2_CONNEC,
      .        REMNODE_SIZE,LEN_FILNAM,REMNODE_SIZE_EDG,IREMNODE_EDG,NIN25
       CHARACTER*(2148) FILNAM
       CHARACTER(LEN=NCHARTITLE) :: TITR
-      INTEGER, DIMENSION(:),ALLOCATABLE :: REMNODE,KREMNODE,T2_ADD_CONNEC,T2_CONNEC,IKINE1
+      INTEGER, DIMENSION(:),ALLOCATABLE :: T2_ADD_CONNEC,T2_CONNEC,IKINE1
       
       INTEGER :: NS
       INTEGER :: NSN,NMN
@@ -158,7 +158,7 @@ C-----------------------------------------------
       LOGICAL :: IS_INTER18_AND_LAW151
       INTEGER :: FLAG_OUTPUT !< flag for output
       LOGICAL :: FLAG_REMOVED_NODE !< flag to remove some S node from the list of candidates
-      INTEGER :: FLAGREMNODE,IJK
+      INTEGER :: IJK
       INTEGER :: KIND_INTERFACE
       INTEGER, DIMENSION(3) :: NEXT_INTER ! number of interface (3 different kinds of interface : type2,type24 and other)
       INTEGER, DIMENSION(3) :: ADDRESS_INTER ! address in the INTERFACE_INDEX array

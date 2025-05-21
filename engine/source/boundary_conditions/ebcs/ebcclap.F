@@ -68,7 +68,7 @@ C-----------------------------------------------
          ELSE IF(TYP == 4)THEN
             select type (twf => EBCS_TAB%tab(i)%poly)
             type is(t_ebcs_vel)
-            CALL EBCVIT4(V, A, twf%node_list, NOD, FV, twf%reso,twf%la, twf)
+            CALL EBCVIT4(V, A, twf%node_list, NOD, FV, twf%reso, twf)
             end select
          ELSE IF (TYP == 5)THEN
             select type (twf => EBCS_TAB%tab(i)%poly)

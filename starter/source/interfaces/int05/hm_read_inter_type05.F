@@ -63,11 +63,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN) :: NPARI, NPARIR !< array sizes (IPARI and FRIGAP)
-      INTEGER ISU1,ISU2,ILAGM,NI,NOINT
+      INTEGER ISU1,ISU2,NI,NOINT
       INTEGER NOM_OPT(LNOPT1,*),IPARI(NPARI)
       my_real STFAC,XFILTR
       my_real FRIGAP(NPARIR),FRIC_P(10)
-      CHARACTER(LEN=NCHARTITLE) :: TITR,TITR1
+      CHARACTER(LEN=NCHARTITLE) :: TITR
 C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
@@ -84,18 +84,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,L,IBC1, IBC2, IBC3, IBUC,  NTYP, IVOID,
-     .    INACTI, IBC1M, IBC2M, IBC3M, IGSTI, IS1, IS2,
-     .    ILEV, MFROT,IFQ,IBAG,MODFR, IDEL5,IDSENS,IDELKEEP,
-     .    INTKG,IADM,MULTIMP,IBID,IRM,NRADM
-      my_real
-     .   FRIC,GAP,STARTT,STOPT,C1,C2,C3,C4,C5,C6,ALPHA,
-     .   VISC,VISCF,PTMAX,PADM,ANGLADM
-      CHARACTER(LEN=40)::MESS
-      CHARACTER(LEN=NCHARTITLE)::MSGTITL
-      CHARACTER(LEN=NCHARKEY)::OPT,KEY,KEY1
-      CHARACTER(LEN=NCHARFIELD)::BCFLAG,BCFLAGM
-!
+      INTEGER I,IBC1, IBC2, IBC3, IBUC,  NTYP, INACTI, IBC1M, IBC2M, IBC3M, IGSTI, IS1, IS2
+      INTEGER ILEV, MFROT,IFQ,IBAG,IDEL5,IDSENS,IDELKEEP, INTKG,IADM,MULTIMP,IRM,NRADM
+      my_real FRIC,GAP,STARTT,STOPT,C1,C2,C3,C4,C5,C6,ALPHA,VISC,PTMAX,PADM,ANGLADM
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -393,8 +384,6 @@ C--------------------------------------------------------------
       ENDIF
 C
 C--------------------------------------------------------------
- 1000 FORMAT(/1X,'  INTERFACE NUMBER :',I10,1X,A)
-C------------
       RETURN
 
 C------------
@@ -430,10 +419,6 @@ C------------
      .    '    C4 . . . . . . . . . . . . . . . . . . . ',1PG20.13/,
      .    '    C5 . . . . . . . . . . . . . . . . . . . ',1PG20.13/,
      .    '    TANGENTIAL PRESSURE LIMIT. . .. . . . . .',1PG20.13/)
- 1518 FORMAT( '    FRICTION FORMULATION: INCREMENTAL (STIFFNESS) ',
-     .             'FORMULATION')
- 1519 FORMAT( '    FRICTION FORMULATION: TOTAL (VISCOUS) ',
-     .             'FORMULATION')
  1520 FORMAT(
      .    '    FRICTION FILTERING FLAG. . . . . . . . . ',I10/,
      .    '    FILTERING FACTOR . . . . . . . . . . . . ',1PG20.13)
@@ -458,12 +443,6 @@ C------------
  1524 FORMAT(/
      .    '    FRICTION MODEL 0 (Coulomb Law) :'/,
      .    '      FRICTION COEFFICIENT . . . . . . . . . ',1PG20.13/)
- 1525   FORMAT(//
-     .    '    FRICTION MODEL 0 (Coulomb Law) :'/,
-     .  '   Function for FRICTION COEFFICIENT wrt TEMPERATURE',I10/,
-     .      '    Abscissa scale factor on IFUNTCF. . . .  . ',1PG20.13/,
-     .      '    Ordinate scale factor on IFUNTCF .  . .  . ',1PG20.13/)
-
  1557 FORMAT(
      .'  NUMBER OF ELEMENTS WITHIN A 90 DEGREES FILLET         ',I5/,
      .'  ---------------------------------------------         '/,

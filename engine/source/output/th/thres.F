@@ -66,13 +66,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: II,I,N,IH,NG,ITY,MTE,K,IP,L
-      INTEGER :: IJK,LWA,NEL,NFT,IPROP,IGTYP,J,JJ(6)
+      INTEGER :: IJK,NEL,NFT,IPROP,IGTYP,JJ(6)
       INTEGER :: NITER,IAD,NN,IADV,NVAR,ITYP,NODE1,NODE2,NODE3
-      my_real
-     . WWA(100)
-      my_real
-     . V1,V2,V3,E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z
-C
+      my_real WWA(100)
+      my_real V1,V2,V3,E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z
       TYPE(G_BUFEL_)  ,POINTER :: GBUF
 !$COMMENT
 !       THRES description

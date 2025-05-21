@@ -41,7 +41,7 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-      INTEGER IFUNC,I,NPFI,NPFIP
+      INTEGER IFUNC,NPFI,NPFIP
       CALL GET_VAR_USER_I(5,IFUNC,NPFI)
       CALL GET_VAR_USER_I(5,IFUNC+1,NPFIP)
       GET_U_FUNC_N=(NPFIP-NPFI)/2
@@ -175,10 +175,8 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "scr05_c.inc"
-C
-      INTEGER IFUNC,I,NPFI,NPFIP,DEPLA
-      my_real 
-     .    ABC,DERI,XX,DX1,DX2,TFI,TFI1,TFI2,TFIP,VAL
+      INTEGER IFUNC,I,NPFI,NPFIP
+      my_real  DERI,XX,DX1,DX2,TFI,TFI1,TFI2,TFIP,VAL
 C-----------------------------------------------
         GET_U_FUNC = ZERO
         CALL GET_VAR_USER_I(5,IFUNC,NPFI)
@@ -237,10 +235,8 @@ C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "scr05_c.inc"
 C
-      INTEGER IFUNC(*),JPOS(*),I,LLT,JAD(MVSIZ),JLEN(MVSIZ)
-      INTEGER DEPLA
-      my_real
-     .    DYDX(*),XX(*),YY(*),VAR,TF
+      INTEGER IFUNC(*),JPOS(*),LLT,JAD(MVSIZ),JLEN(MVSIZ)
+      my_real DYDX(*),XX(*),YY(*)
 
       CALL GET_VAR_USER_VFUNC(5,LLT,IFUNC,JPOS,JAD,JLEN)
       IF (IRESP==1) THEN
@@ -313,9 +309,8 @@ C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "scr05_c.inc"
 C
-      INTEGER IFUNC,I,NPFI,NPFIP,DEPLA
-      my_real 
-     .    ABC,YY,DERI,DY1,DY2,TFI,TFI1,TFI2,TFIP,VAL
+      INTEGER IFUNC,I,NPFI,NPFIP
+      my_real YY,DERI,DY1,DY2,TFI,TFI1,TFI2,TFIP,VAL
 C-----------------------------------------------
       GET_U_FUNC_INV = ZERO
       CALL GET_VAR_USER_I(5,IFUNC,NPFI)

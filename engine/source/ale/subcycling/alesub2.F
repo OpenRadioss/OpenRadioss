@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1   NALE   ,V    ,DSAVE ,ICODT  ,ISKEW  ,
      2   SKEW   ,ASAVE,A     ,D      ,NELTST ,
      3   ITYPTST,ITASK,NODFT ,NODLT  ,DT2SAVE,
-     4   STIFN  ,DT2T ,NELTSA,ITYPTSA,NELTS  ,
+     4   DT2T   ,NELTSA,ITYPTSA,NELTS  ,
      5   WEIGHT ,FSKY ,FSKYV )
 C-----------------------------------------------
 C   M o d u l e s
@@ -67,7 +67,7 @@ C-----------------------------------------------
       INTEGER NALE(*),ICODT(*),ISKEW(*), WEIGHT(*), NELTST ,ITYPTST,
      .        ITASK,NODFT,NODLT,NELTSA ,ITYPTSA, NELTS
       my_real V(3,NUMNOD),DSAVE(3,*),SKEW(LSKEW,*),ASAVE(3,*),A(3,NUMNOD),D(3,NUMNOD),
-     .         DT2SAVE,STIFN(*),DT2T,FSKY(8,LSKY),FSKYV(LSKY,8)
+     .         DT2SAVE,DT2T,FSKY(8,LSKY),FSKYV(LSKY,8)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

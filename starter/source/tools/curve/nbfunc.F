@@ -56,8 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,IT,ID,NPARAM,NPT,NFUNCT0,IBID,NTABLE0,NTABLE1,NTABLETOT
-C     REAL
+      INTEGER I,ID,NPARAM,NPT,NFUNCT0,NTABLE0,NTABLE1
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER :: KEY*20,MESS*40
       DATA MESS/' FUNCTION COUNTING                      '/

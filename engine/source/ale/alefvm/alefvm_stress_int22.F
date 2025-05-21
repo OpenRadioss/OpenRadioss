@@ -30,12 +30,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i22bufbric_mod        ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||====================================================================
       SUBROUTINE ALEFVM_STRESS_INT22 (
-     1                          IXS,      NV46, SIG,  QVIS, 
+     1                          IXS,      SIG,  QVIS,
      2                          N1X,      N2X,  N3X,  N4X,  N5X,  N6X,
      3                          N1Y,      N2Y,  N3Y,  N4Y,  N5Y,  N6Y,
      4                          N1Z,      N2Z,  N3Z,  N4Z,  N5Z,  N6Z,
-     5                          X  ,      IPM,  RHO,  VOL,  A  ,  IAD22,
-     6                          ELBUF_TAB,NEL,  MOM,  SSP,  ITASK,SVIS)
+     5                          IPM,      RHO,  VOL,  IAD22,
+     6                          NEL,      MOM,  SSP,  SVIS)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -76,28 +76,25 @@ C subroutine is unplugged
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER :: NEL, ITASK
-      INTEGER :: IXS(NIXS,*),NV46,IPM(NPROPMI,*)
-      my_real :: SIG(NEL,6),QVIS(NEL),X(3,*),RHO(NEL), VOL(NEL), A(3,*), IAD22(*)
+      INTEGER :: NEL
+      INTEGER :: IXS(NIXS,*),IPM(NPROPMI,*)
+      my_real :: SIG(NEL,6),QVIS(NEL),RHO(NEL), VOL(NEL), IAD22(*)
       my_real :: N1X(*), N2X(*),  N3X(*), N4X(*), N5X(*), N6X(*),
      .           N1Y(*), N2Y(*),  N3Y(*), N4Y(*), N5Y(*), N6Y(*),
      .           N1Z(*), N2Z(*),  N3Z(*), N4Z(*), N5Z(*), N6Z(*),
      .           MOM(NEL,3), SSP(NEL), ISGN, V(3), W(3), VmW(3)
       my_real, DIMENSION(MVSIZ,6), INTENT(INOUT) :: SVIS
-      TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB     
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I, II, J, K, IMAT, IALEFVM_FLG, IB, NIN, IBM, NGM, IDLOCM, ICUT,MCELL,NUM,IBv,ICELLv
-      INTEGER :: ISECND, ID, NP, IBs, ICELLs, Js, NumSECND
+      INTEGER :: I, II, K, IMAT, IALEFVM_FLG, IB, NIN, IBM, NGM, IDLOCM, ICUT,MCELL,NUM
+      INTEGER :: ISECND, ID, IBs, ICELLs, Js, NumSECND
       
       my_real :: P(MVSIZ) , 
      .           S1(MVSIZ)     , S2(MVSIZ)          , S3(MVSIZ), 
      .           S4(MVSIZ)     , S5(MVSIZ)          , S6(MVSIZ),
-     .           PVOIS(6,MVSIZ), NORM    , S(0:6), S0(14)
-      my_real
-     .   N0X(14), N0Y(14), N0Z(14),
-     .   NS(3,0:6), MASS,U_N(0:6), SURF(6)
+     .           NORM          , S(0:6)             , S0(14)
+      my_real :: N0X(14), N0Y(14), N0Z(14),MASS,U_N(0:6)
      
       INTEGER :: idbf,idbl,ICELL,NBCUT,NCELL,NBCUTv,IDEB,IFIN
       LOGICAL :: debug_outp

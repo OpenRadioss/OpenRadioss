@@ -68,36 +68,28 @@ C-----------------------------------------------
       INTEGER UID,HM_NLEAK,IFLAGUNIT,IUNIT
       INTEGER I, K, ILAW, IMID, IMAT, ILEAKAGE, IFTLC, IFTAC, IFTACP,
      .        NFUNC
-      my_real 
-     .   ASCALET, ASCALEP, SCALELC, SCALEAC, FLC, FAC,
-     .   X0, X1, X2, X3,
-     .   LR1,LR2,FTHK,C1,C2,C3,
-     .   FACP, SCALEACP
-C
+      my_real ASCALET, ASCALEP, SCALELC, SCALEAC, FLC, FAC,
+     .        X0, X1, X2, X3, LR1, FTHK, C1, C2, C3, FACP, SCALEACP
+
       CHARACTER(len=nchartitle) :: TITR
-      CHARACTER(len=ncharline) :: LINESAVE
       LOGICAL :: IS_AVAILABLE
       IS_AVAILABLE = .FALSE.
 C=================================================================================
 C     START READING
 C=================================================================================
-c
+
       ! Count number of /LEAK
       CALL HM_OPTION_COUNT('/LEAK/MAT',HM_NLEAK)
-c
+
       ! Start reading /LEAK
       CALL HM_OPTION_START('/LEAK/MAT')
-c
+
       ! Loop over /LEAK cards
       DO K = 1, HM_NLEAK
 c
         ! Read keys
         TITR = ''
-        CALL HM_OPTION_READ_KEY(LSUBMODEL,
-     .                          OPTION_ID   = IMAT  ,
-     .                          OPTION_TITR = TITR  ,
-     .                          UNIT_ID     = UID   )
-     
+        CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=IMAT, OPTION_TITR=TITR, UNIT_ID=UID)
 c
         ! Checking unit IDs
         IFLAGUNIT = 0

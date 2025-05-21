@@ -25,14 +25,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    bforc2   ../engine/source/ale/bimat/bforc2.F
       !||====================================================================
-      SUBROUTINE BCUMU2(ALPH,ALPHC,E,FILL,
+      SUBROUTINE BCUMU2(ALPH,E,
      .                  SIG,EINT,RHO,BULK,BULKT,
      .                  SIGT,EINTT,RHOT,TEMPT,TEMP,
      .                  PLAST,PLAS,BFRACT,BFRAC,
      .                  F11, F12, F21, F22, AX1,AX2,
      .                  T11,T12,T13,T14,T21,T22,T23,T24, 
      .                  B11,B12,B13,B14,B21,B22,B23,B24,
-     .                  NC1,NC2,NC3,NC4,STI,STIFN,
+     .                  NC1,NC2,NC3,NC4, STI,STIFN,
      .                  L_TEMP, L_PLA,L_BFRAC, L_BULK,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -43,7 +43,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NC1(*), NC2(*), NC3(*), NC4(*), L_TEMP, L_PLA, L_BFRAC,L_BULK,NEL
       my_real
-     .   ALPH(*), ALPHC(*), E(3,*)   , FILL(*)  , SIG(NEL,6), EINT(*) ,
+     .   ALPH(*), E(3,*)   , SIG(NEL,6), EINT(*) ,
      .   RHO(*) , BULK(*) , SIGT(NEL,6), EINTT(*) , RHOT(*) , TEMPT(*),
      .   TEMP(*), PLAST(*), PLAS(*)  , BFRACT(*), BFRAC(*), BULKT(*)
       my_real
@@ -147,14 +147,14 @@ C-------------------------
       !||--- called by ------------------------------------------------------
       !||    bforc2    ../engine/source/ale/bimat/bforc2.F
       !||====================================================================
-      SUBROUTINE BCUMU2P(ALPH,ALPHC,FILL,
+      SUBROUTINE BCUMU2P(ALPH,
      .                   SIG,EINT,RHO,BULK,BULKT,
      .                   SIGT,EINTT,RHOT,TEMPT,TEMP,
      .                   PLAST,PLAS,BFRACT,BFRAC,
      .                   F11, F12, F21, F22, AX1,AX2,
      .                   T11,T12,T13,T14,T21,T22,T23,T24, 
      .                   B11,B12,B13,B14,B21,B22,B23,B24,
-     .                   FSKY,FSKYV,IADQ,STI,NC1,NC2,NC3,NC4,
+     .                   FSKY,FSKYV,IADQ,STI,
      .                   L_TEMP, L_PLA, L_BFRAC,L_BULK,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -167,10 +167,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IADQ(4,*),NC1(*),NC2(*),NC3(*),NC4(*),L_TEMP, L_PLA,L_BFRAC,
+      INTEGER IADQ(4,*),L_TEMP, L_PLA,L_BFRAC,
      .   L_BULK,NEL
       my_real
-     .   ALPH(*), ALPHC(*), FILL(*), SIG(NEL,6), EINT(*),
+     .   ALPH(*),SIG(NEL,6), EINT(*),
      .   RHO(*), BULK(*), SIGT(NEL,6), EINTT(*), RHOT(*),TEMPT(*),
      .   TEMP(*),PLAST(*), PLAS(*), BFRACT(*), BFRAC(*), BULKT(*)
       my_real
@@ -310,14 +310,14 @@ C-------------------------
       !||--- called by ------------------------------------------------------
       !||    bforc2     ../engine/source/ale/bimat/bforc2.F
       !||====================================================================
-      SUBROUTINE BCUMU2PA(ALPH,ALPHC,FILL,
+      SUBROUTINE BCUMU2PA(ALPH,
      .                    SIG,EINT,RHO,BULK,BULKT,
      .                    SIGT,EINTT,RHOT,TEMPT,TEMP,
      .                    PLAST,PLAS,BFRACT,BFRAC,
      .                    F11, F12, F21, F22, AX1,AX2,
      .                    T11,T12,T13,T14,T21,T22,T23,T24, 
      .                    B11,B12,B13,B14,B21,B22,B23,B24,
-     .                    FSKY,FSKYV,IADQ,STI,NC1,NC2,NC3,NC4,
+     .                    FSKY,FSKYV,IADQ,STI,
      .                    L_TEMP, L_PLA,L_BFRAC,L_BULK,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -330,10 +330,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IADQ(4,*),NC1(*),NC2(*),NC3(*),NC4(*),L_TEMP,L_PLA,L_BFRAC,
+      INTEGER IADQ(4,*),L_TEMP,L_PLA,L_BFRAC,
      .   L_BULK,NEL
       my_real
-     .   ALPH(*), ALPHC(*), FILL(*), SIG(NEL,6), EINT(*),
+     .   ALPH(*), SIG(NEL,6), EINT(*),
      .   RHO(*), BULK(*), SIGT(NEL,6), EINTT(*), RHOT(*),TEMPT(*),
      .   TEMP(*), PLAST(*), PLAS(*), BFRACT(*), BFRAC(*),BULKT(*)
       my_real

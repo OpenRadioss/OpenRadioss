@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    message_mod   ../engine/share/message_module/message_mod.F
       !||====================================================================
-      SUBROUTINE EULRO2(VOLO,RHON,FLUX,FLU1,VOLN,DVOL,NGL)
+      SUBROUTINE EULRO2(RHON,FLUX,FLU1,VOLN,DVOL,NGL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -48,7 +48,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real VOLO(*), RHON(*), FLUX(4,*), FLU1(*),VOLN(*), DVOL(*)
+      my_real RHON(*), FLUX(4,*), FLU1(*),VOLN(*), DVOL(*)
       INTEGER NGL(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

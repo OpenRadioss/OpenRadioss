@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE INTAL1(IPARI,X      ,V       ,
      2                  A    ,ISKEW  ,SKEW    ,LCOD   ,WA      ,
      3                  MS   ,ITAB   ,FSAV    ,INTBUF_TAB      ,
-     4                  FCONT,FNCONT ,FTCONT  ,H3D_DATA )
+     4                  FCONT,FNCONT ,H3D_DATA )
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -56,7 +56,7 @@ C-----------------------------------------------
       INTEGER,INTENT(INOUT)              :: IPARI(NPARI,NINTER), ISKEW(*), LCOD(*), ITAB(NUMNOD)
       my_real,INTENT(INOUT)              :: X(3,NUMNOD), V(3,NUMNOD), A(3,NUMNOD), SKEW(*), WA(*), MS(*),FSAV(NTHVKI,*)
       TYPE(INTBUF_STRUCT_),INTENT(INOUT) :: INTBUF_TAB(*)
-      my_real,INTENT(INOUT) :: FCONT(3,*),FNCONT(3,*),FTCONT(3,*)
+      my_real,INTENT(INOUT) :: FCONT(3,*),FNCONT(3,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -74,7 +74,7 @@ C-----------------------------------------------
      1        IPARI(1,N)   ,INTBUF_TAB(N)       ,X           ,V    ,
      2        A            ,ISKEW        ,SKEW  ,LCOD        ,WA   ,
      3        WA(3*NMN+1)  ,MS           ,ITAB  ,FSAV(1,NINT),FCONT,
-     4        FNCONT       ,FTCONT       ,H3D_DATA )
+     4        FNCONT       ,H3D_DATA )
        ELSEIF(NTY == 9) THEN
          NMN   =IPARI(6,N)
          NINT=N

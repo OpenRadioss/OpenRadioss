@@ -119,20 +119,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER II,IMAT,ILAW,IRUP,MAT_ID,IADD,IFC,FLAG_HE,NFUNC,NFUNCL,NUMTABL,
-     .        NPARAM,NUPARF,NFAIL,IR,FLAG_FIT,IFAILG,NORDRE,IALGO,
-     .        IADD_VISC , NPARAM_VISC,IVISC,NPRONY,J,ITYPE_VISC,FORM
-      INTEGER :: KK !< loop
-      my_real :: GAMA_INF,EMAX
+      INTEGER IMAT,ILAW,IRUP,MAT_ID,IADD,IFC,FLAG_HE,NFUNC,NFUNCL,NUMTABL,
+     .        NPARAM,NUPARF,NFAIL,IR,FLAG_FIT,IFAILG,
+     .        NPRONY,J,ITYPE_VISC,FORM
+      my_real :: GAMA_INF
       INTEGER, DIMENSION(NUMMAT)     :: MULLINS,GURSON
       INTEGER, DIMENSION(MAXTAB)     :: TABLE_ID
       INTEGER, DIMENSION(:), POINTER :: IFUNC,ITABLE
-      my_real, DIMENSION(:), POINTER :: UPARAM,UPARF,UPARAM_VISC
+      my_real, DIMENSION(:), POINTER :: UPARAM,UPARF
       TYPE(MLAW_TAG_), POINTER :: MTAG
       CHARACTER(LEN=NCHARTITLE)::TITR, TITLE
       TYPE(MATPARAM_STRUCT_) , POINTER :: MATPARAM
       TYPE (VISC_PARAM_)     , POINTER :: VISC
-      INTEGER :: NFUNC_EOS,FUNC_EOS_ID
+      INTEGER :: NFUNC_EOS
 C=======================================================================
 c     TRAITEMENT OF MATERIAL PARAMETERS AND FUNCTIONS
 c-----------------------------------------------------------------------

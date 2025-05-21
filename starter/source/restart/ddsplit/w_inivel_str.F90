@@ -77,7 +77,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      integer  :: i,j,id,n,itype,igr,node,nel,ilocal(ninivelt),itmp(10),nl,nr 
+      integer  :: j,n,itype,igr,node,nel,ilocal(ninivelt),itmp(10),nl,nr
       integer  :: igrs,igbric,igqd,igtria,igbric_loc,igqd_loc,igtria_loc 
       my_real  :: rtmp(6)
 !      TYPE(INIVEL_TYPE), DIMENSION(:), ALLOCATABLE :: INIVEL_L

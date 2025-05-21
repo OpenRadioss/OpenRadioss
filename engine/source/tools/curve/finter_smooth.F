@@ -44,9 +44,13 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
       INTEGER IFUNC,NPF(*),I
-      my_real TF(*),DERI,XX,DX,DERI1,DERI2,DERI3,DX1,DX2,DIV0,DIV,
-     . XX_FIRST,XX_LAST
+      my_real TF(*),DERI,XX,DERI1,DERI2,DERI3,DX1,DX2,DIV0,DIV,XX_FIRST,XX_LAST
+C-----------------------------------------------
+C   B o d y
 C-----------------------------------------------
       FINTER_SMOOTH = ZERO
 !

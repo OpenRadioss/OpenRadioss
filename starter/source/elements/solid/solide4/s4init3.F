@@ -120,8 +120,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NF1,IBID,I,IGTYP,IREP,NCC, IP, NUVAR, IDEF,
-     .   NUVARR ,JHBE,IPID1,NPTR,NPTS,NPTT,NLAY,L_SIGB,L_PLA,IMAS_DS
+      INTEGER NF1,I,IGTYP,IREP,NCC,IP,NUVAR,IDEF,JHBE,IPID1,NPTR,NPTS,NPTT,NLAY,L_SIGB,L_PLA,IMAS_DS
       INTEGER MAT(MVSIZ), PID(MVSIZ), NGL(MVSIZ), IXT4(MVSIZ,4)
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ)
       INTEGER NSPHDIR,NCELF,NCELL,IBOLTP
@@ -140,7 +139,7 @@ C-----------------------------------------------
      .   PX1(MVSIZ),PX2(MVSIZ),PX3(MVSIZ),PX4(MVSIZ),
      .   PY1(MVSIZ),PY2(MVSIZ),PY3(MVSIZ),PY4(MVSIZ),
      .   PZ1(MVSIZ),PZ2(MVSIZ),PZ3(MVSIZ),PZ4(MVSIZ),
-     .   V8LOC(51,MVSIZ), VOLU(MVSIZ), DTX(MVSIZ),RHOCP(MVSIZ),
+     .   VOLU(MVSIZ), DTX(MVSIZ),RHOCP(MVSIZ),
      .   TEMP0(MVSIZ), DELTAX(MVSIZ), AIRE(MVSIZ)
       my_real :: TEMPEL(NEL)
 C-----------------------------------------------

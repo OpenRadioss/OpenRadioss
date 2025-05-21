@@ -78,12 +78,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real FCX,FCY,FAC_FCX,FAC_FCY,FCX1,FCY1,FCX2,FCY2
-      INTEGER I,J,K, 
-     .        SUB_INDEX, SUB_ID, UID, ID, IFLAGUNIT,
-     .        NN,IAD,TSENS,ISENS,IS,ISU,IFRA,
+      INTEGER J,K, SUB_INDEX, SUB_ID, UID, ID, IFLAGUNIT,NN,IAD,TSENS,ISENS,IS,ISU,
      .        FUN_HSP,FUN_CX,FUN_VEL,IFRA1,IFRA2,ICFIELD8,ICFIELD12,ICFIELD9,ICFIELD13,
-     .        NCUR_HSP,NCUR_VEL,NCUR_CX,
-     .        H, CAPT
+     .        NCUR_HSP,NCUR_VEL,NCUR_CX
       CHARACTER MESS*40,char_X*1, char_Y*1, char_Z*1, char_XX*2, char_YY*2, char_ZZ*2
       CHARACTER(LEN=NCHARFIELD) :: XYZ, XYZ1
       CHARACTER(LEN=NCHARTITLE) :: TITR

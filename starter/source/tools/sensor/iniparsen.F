@@ -49,8 +49,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,NOSYS,ISECT,IINT,IRWAL,IRBOD,COMPTEUR,SENS_TYPE,
-     .   SECT_ID,INT_ID,SUB_ID,RWAL_ID,RBOD_ID
+      INTEGER I,NOSYS,ISECT,IINT,IRWAL,IRBOD,COMPTEUR,SENS_TYPE,SECT_ID,INT_ID,SUB_ID,RWAL_ID,RBOD_ID
       INTEGER, DIMENSION(0:NSECT+NINTER+NINTSUB+NRWALL+NRBODY) :: TABLOCAL
 C-----------------------------------------------
 C     Special treatment of sensors with Parith/on (type 6,11,12,13)

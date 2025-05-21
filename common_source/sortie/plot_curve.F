@@ -59,30 +59,21 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real
-     . X(NB_POINTS),Y(NB_POINTS)
+      my_real X(NB_POINTS),Y(NB_POINTS)
       INTEGER NB_POINTS,INPUT_SIZE_X,INPUT_SIZE_Y, INPUT_CURVE_TYPE
-      my_real
-     . INPUT_X_MINVALUE, INPUT_X_MAXVALUE, INPUT_Y_MINVALUE, INPUT_Y_MAXVALUE
+      my_real INPUT_X_MINVALUE, INPUT_X_MAXVALUE, INPUT_Y_MINVALUE, INPUT_Y_MAXVALUE
       CHARACTER*1 INPUT_SYMBOL
       CHARACTER(*) INPUT_TXT_X, INPUT_TXT_Y
 C-----------------------------------------------
-      OPTIONAL ::
-     .                 INPUT_SIZE_X, INPUT_SIZE_Y, INPUT_X_MINVALUE, INPUT_Y_MINVALUE, 
-     .                 INPUT_X_MAXVALUE, INPUT_Y_MAXVALUE, INPUT_SYMBOL, 
-     .                 INPUT_CURVE_TYPE, INPUT_TXT_X, INPUT_TXT_Y
+      OPTIONAL :: INPUT_SIZE_X, INPUT_SIZE_Y, INPUT_X_MINVALUE, INPUT_Y_MINVALUE,
+     .            INPUT_X_MAXVALUE, INPUT_Y_MAXVALUE, INPUT_SYMBOL,
+     .            INPUT_CURVE_TYPE, INPUT_TXT_X, INPUT_TXT_Y
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      CHARACTER(len=60) :: FMTA,FMTB,FMTC
-      INTEGER KK,FLAG_FMT,I,J,K,IGS,ID,FLAG_FMT_TMP,IFIX_TMP,
-     .   ISU,NUMA,J10(10),IGAUSS,IFUNC,UID,SUB_ID,MAX_PART,
-     .   CPT_PART,NG,ITY,NEL,NFT,II,MAX_CURVE,CURVE(NB_POINTS),
-     .   SIZE_X,SIZE_Y,CURVE_TYPE,COORDX,COORDY,LENA
-      my_real
-     . MEAN,SD,MEAN_INPUT,SD_INPUT,TEMP,INTERV,
-     . VALUE,INCR_X,INCR_Y,
-     . X_MINVALUE, X_MAXVALUE, Y_MINVALUE, Y_MAXVALUE
+      CHARACTER(len=60) :: FMTA
+      INTEGER I,J,II,CURVE(NB_POINTS),SIZE_X,SIZE_Y,CURVE_TYPE,COORDX,COORDY,LENA
+      my_real INCR_X,INCR_Y,X_MINVALUE, X_MAXVALUE, Y_MINVALUE, Y_MAXVALUE
       CHARACTER(LEN=NCHARLINE) :: CHAR(100)
       CHARACTER(LEN=NCHARLINE) :: CHAR1(100)
       CHARACTER(LEN=NCHARLINE) :: CHAR2
