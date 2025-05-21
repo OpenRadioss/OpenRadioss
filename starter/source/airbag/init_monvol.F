@@ -20,6 +20,8 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      MODULE INIT_MONVOL_MOD
+      CONTAINS
       !||====================================================================
       !||    init_monvol                      ../starter/source/airbag/init_monvol.F
       !||--- called by ------------------------------------------------------
@@ -49,17 +51,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    r2r_mod                          ../starter/share/modules1/r2r_mod.F
       !||====================================================================
       SUBROUTINE INIT_MONVOL(T_MONVOL, T_MONVOL_METADATA,
-     2     GEO       ,PM      ,
-     3     IXC       ,IXTG    ,X       ,NPC     ,
-     4     ITABM1    ,ITAB    ,IGRSURF ,
-     5     SENSORS   ,IGRBRIC ,MFI     ,
-     6     NAIRWA    ,IXS     ,V       ,LIBAGALE,
-     7     NPT       ,PLD     ,LRBAGALE,IPM     ,IGEO    ,
-     8     UNITAB    )
+     1                       IXC       ,IXTG    ,X       ,NPC     ,
+     2                       ITAB      ,IGRSURF ,
+     3                       SENSORS   ,IGRBRIC ,MFI     ,
+     4                       IXS       ,V       ,LIBAGALE,
+     5                       LRBAGALE  )
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
-      USE UNITAB_MOD
       USE R2R_MOD
       USE MESSAGE_MOD
       USE FVMBAG_MESHCONTROL_MOD
@@ -68,6 +67,8 @@ C-----------------------------------------------
       USE SENSOR_MOD
       USE MY_ALLOC_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARKEY
+      USE FVBRIC1_MOD , ONLY : FVBRIC1
+      USE FVBRIC2_MOD , ONLY : FVBRIC2
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,14 +84,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER  IXC(NIXC,*),IXTG(NIXTG,*),NPC(*),
-     .     ITABM1(*),ITAB(*),
-     .     MFI,NAIRWA ,IXS(NIXS,*),
-     .     LIBAGALE,NPT(*),LRBAGALE,IPM(NPROPMI,NUMMAT),IGEO(NPROPGI,NUMGEO)
-      my_real
-     .     GEO(NPROPG,NUMGEO), PM(NPROPM,NUMMAT), X(3,*), V(3,*),
-     .     PLD(2,*)
+      INTEGER  IXC(NIXC,*),IXTG(NIXTG,*),NPC(*),ITAB(*),MFI,IXS(NIXS,*),LIBAGALE,LRBAGALE
+      my_real X(3,*), V(3,*)
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
@@ -101,10 +96,10 @@ C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: NN, LCA, LIBJET, LRBJET, LIBHOL, LRBHOL
-      INTEGER I, J, J1, ID, ITYPE, K, NCA, N,
-     .     IMASS, ITEMP, IFLU, ISENS, IS,
+      INTEGER I, J, ID, ITYPE, K, NCA, N,
+     .     IMASS, ITEMP, IFLU, ISENS,
      .     IJET,NJ1,NJ2,NJ3,IPT,IPA,IPZ,
-     .     NNI,NTGI,P,
+     .     NNI,NTGI,
      .     NJET,NVENT,
      .     NGROOT,
      .     NP,
@@ -113,7 +108,7 @@ C-----------------------------------------------
      .     IADALE5, IADALE6, IADALE7, IADALE8, NTGA, NNA, IADALE9,
      .     IADALE10, IADALE11,
      .     IADALE12,
-     .     NVB,ITY,ITY1,
+     .     NVB,
      .     IADALE13, NTGT, II, IBID(1), JJ
       INTEGER ID1,ID2
       INTEGER  MAX_ID
@@ -124,7 +119,7 @@ C-----------------------------------------------
       INTEGER :: NJET_NEW(NVOLU)
       TYPE(GROUP_) :: DUMMY(2)
 
-      my_real TI,GAMAI, CPAI, CPBI, CPCI, CPDI, CPEI, CPFI,MI,GAMA, CPA, CPB, CPC,RMWG, CPG, CVG, FMASS, FTEMP
+      my_real TI,GAMAI, CPAI, CPBI, CPCI, CPDI, CPEI, CPFI, GAMA, CPA, CPB, CPC,RMWG, CPG, CVG, FMASS, FTEMP
       CHARACTER MESS*40
       CHARACTER(len=nchartitle) :: TITR,TITR1
       CHARACTER*10 MONVOLTYP(11)
@@ -151,9 +146,7 @@ C-----------------------------------------------
       K   = 0
       MFI = 0
       NVB = 0
-!     
       IBID = 0
-
 C-------------------------------------
 C     Allocate KMESH (for type 8 airbags)
 C-------------------------------------
@@ -303,7 +296,6 @@ C
                ALLOCATE(T_MONVOL(N)%THSURF_TAG(NSURF, NTGI + 1))
             ENDIF
 
-
             IF (T_MONVOL(N)%INT_SURFID /= 0) THEN
                IF (.NOT. TETRAMESHER_USED) THEN
                   CALL FVBRIC01(T_MONVOL(N)%NODES, T_MONVOL(N)%ELEM(1, NTG + 1), NTGI, NUMNOD, NBRIC, IXS,
@@ -418,7 +410,6 @@ C--------------------------------------
             ENDIF
             DEALLOCATE(TAGVENT)
             DEALLOCATE(T_MONVOL(N)%FVBAG_ELEMID)
-        
 C     
             IF (TETRAMESHER_USED) THEN
                CALL FVELPRINT(
@@ -460,7 +451,7 @@ C----------------------------------
                T_MONVOL(N)%TAGELS(:) = 0
                IF (TETRAMESHER_USED) THEN
                   CALL FVBRIC1(T_MONVOL(N),
-     .                 T_MONVOL(N)%NODES, T_MONVOL(N)%ELEM, IXS_TEMP,     IBRIC,
+     .                 T_MONVOL(N)%NODES, T_MONVOL(N)%ELEM, IXS_TEMP,
      .                 T_MONVOL(N)%TBRIC,NTG,              NTGA,    NBRIC,
      .                 T_MONVOL(N)%TFAC,T_MONVOL(N)%TAGELS, T_MONVOL(N)%ID, NTGI,
      .                 NNA,              T_MONVOL(N)%IVOLU(44),
@@ -468,7 +459,7 @@ C----------------------------------
      .                 NB_TOTAL_NODE)
                ELSE
                   CALL FVBRIC1(T_MONVOL(N),
-     .                 T_MONVOL(N)%NODES, T_MONVOL(N)%ELEM, IXS,     IBRIC,
+     .                 T_MONVOL(N)%NODES, T_MONVOL(N)%ELEM, IXS,
      .                 T_MONVOL(N)%TBRIC,NTG,              NTGA,    NBRIC,
      .                 T_MONVOL(N)%TFAC,T_MONVOL(N)%TAGELS, T_MONVOL(N)%ID, NTGI,
      .                 NNA,              T_MONVOL(N)%IVOLU(44),
@@ -480,14 +471,14 @@ C
                IADALE11=IADALE10+NTGA
                IF (TETRAMESHER_USED) THEN
                   CALL FVBRIC2(
-     .                 T_MONVOL(N)%NODES,   T_MONVOL(N)%ELEM, IXS_TEMP,  NTG+NTGI, NBRIC,
+     .                 T_MONVOL(N)%ELEM,   IXS_TEMP,         NTG+NTGI,          NBRIC,
      .                 T_MONVOL(N)%TBRIC,  T_MONVOL(N)%TFAC, T_MONVOL(N)%TAGELS, NTGA,
      .                 T_MONVOL(N)%IBUFA,  NNA,              T_MONVOL(N)%ELEMA,
      .                 T_MONVOL(N)%TAGELA, T_MONVOL(N)%BRNA, 
      .                 NB_TOTAL_NODE)
                ELSE
                   CALL FVBRIC2(
-     .                 T_MONVOL(N)%NODES,   T_MONVOL(N)%ELEM, IXS,  NTG+NTGI, NBRIC,
+     .                 T_MONVOL(N)%ELEM,   IXS,              NTG+NTGI,           NBRIC,
      .                 T_MONVOL(N)%TBRIC,  T_MONVOL(N)%TFAC, T_MONVOL(N)%TAGELS, NTGA,
      .                 T_MONVOL(N)%IBUFA,  NNA,              T_MONVOL(N)%ELEMA,
      .                 T_MONVOL(N)%TAGELA, T_MONVOL(N)%BRNA, NUMNOD)
@@ -1018,4 +1009,5 @@ C
  3000 FORMAT(
      .     //,'      MONITORED VOLUMES TYPE COMMU : GAS ORGANIZATION'/
      .     '      -----------------------------------------------')
-      END
+      END SUBROUTINE INIT_MONVOL
+      END MODULE INIT_MONVOL_MOD

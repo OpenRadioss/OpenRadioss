@@ -20,6 +20,8 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      MODULE FVBRIC1_MOD
+      CONTAINS
       !||====================================================================
       !||    fvbric1                ../starter/source/airbag/fvbric1.F
       !||--- called by ------------------------------------------------------
@@ -31,7 +33,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||    monvol_struct_mod      ../starter/share/modules1/monvol_struct_mod.F
       !||====================================================================
-      SUBROUTINE FVBRIC1(T_MONVOLN, IBUF , ELEM  , IXS    , IBRIC,
+      SUBROUTINE FVBRIC1(T_MONVOLN, IBUF , ELEM  , IXS    ,
      .                   TBRIC, NEL   , NELA   , NBRIC, 
      .                   TFAC , TAGELS, MONVID , NELI,
      .                   NNA   , ILVOUT ,
@@ -52,7 +54,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(MONVOL_STRUCT_), INTENT(INOUT) :: T_MONVOLN
       INTEGER IXS(NIXS,*),
-     .        IBRIC, NEL, NELA, NBRIC, 
+     .        NEL, NELA, NBRIC,
      .        MONVID, NNA, ILVOUT,
      .        NELI, NB_NODE
       INTEGER, DIMENSION(T_MONVOLN%NNS + T_MONVOLN%NNI), INTENT(IN) :: IBUF
@@ -66,8 +68,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, ITAG(NB_NODE), IAD, J, NG, NNO, NFAC, NV, NG2, NALL, 
-     .        NC, NNO2, K, KK, L, JJ, II,
+      INTEGER I, ITAG(NB_NODE), IAD, J, NFAC, NV, NALL,
+     .        K, KK, L, JJ, II,
      .        ITAG2(NB_NODE), NALL2, LL, N1, N2, N3, N4,
      .        INFO, NFAC2, NN1, NN2, NN3, NN4,
      .        IERROR, ISPLIT, IFOUND, NTYPE, NTYPE2, NELT
@@ -102,9 +104,8 @@ C
       DATA NOD5 /3,3,3,3,4/
       DATA NFACE/6,4,5,5/
       INTEGER, DIMENSION(:), ALLOCATABLE :: ADSKY, ADDCNET, CNT
-      INTEGER :: IAD1, IAD2, IP1(4), IP2(4), NODEID, TRIID, NOD1(4), NOD2(4), IS
-      LOGICAL :: FOUND
-      INTEGER :: FNOD1(4), NID(4), NID2(3)
+      INTEGER :: IAD1, IAD2, NODEID, TRIID
+      INTEGER :: NID(4), NID2(3)
       INTEGER, DIMENSION(:, :), POINTER :: FAC
       INTEGER, DIMENSION(:), POINTER :: NOD
 
@@ -572,5 +573,6 @@ C
       IF (ALLOCATED(ADSKY)) DEALLOCATE(ADSKY)
       IF (ALLOCATED(CNT)) DEALLOCATE(CNT)
       RETURN
-      END
+      END SUBROUTINE FVBRIC1
+      END MODULE FVBRIC1_MOD
 

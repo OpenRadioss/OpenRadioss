@@ -20,6 +20,8 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      MODULE HM_READ_MONVOL_TYPE4_MOD
+      CONTAINS
       !||====================================================================
       !||    hm_read_monvol_type4           ../starter/source/airbag/hm_read_monvol_type4.F
       !||--- called by ------------------------------------------------------
@@ -44,7 +46,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    monvol_struct_mod              ../starter/share/modules1/monvol_struct_mod.F
       !||    submodel_mod                   ../starter/share/modules1/submodel_mod.F
       !||====================================================================
-      SUBROUTINE HM_READ_MONVOL_TYPE4(T_MONVOLN, IPM, IGEO, ITABM1,
+      SUBROUTINE HM_READ_MONVOL_TYPE4(T_MONVOLN, ITABM1,
      .     SENSORS, NPT, PLD,
      .     UNITAB, LUID, NPC, IGRSURF, ITAB, X, PM, GEO, IXC, IXTG, 
      .     LSUBMODEL)
@@ -77,7 +79,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(UNIT_TYPE_), INTENT(IN) :: UNITAB
-      INTEGER, INTENT(IN) :: LUID, IPM(NPROPMI, *), IGEO(NPROPGI, *),ITABM1(*), NPT(*)
+      INTEGER, INTENT(IN) :: LUID, ITABM1(*), NPT(*)
       INTEGER, INTENT(IN) :: NPC(*), ITAB(*), IXC(NIXC, *), IXTG(NIXTG, *)
       my_real, INTENT(IN) :: X(3, *), GEO(NPROPG, *), PM(NPROPM, *),PLD(2, *)
       TYPE (SURF_), INTENT(INOUT), DIMENSION(NSURF) :: IGRSURF
@@ -878,3 +880,4 @@ C-----------------------------------------------
      .     /15X,'POROSITY PRESSURE FUNCTION SCALE FACTOR=',1PG20.13,
      .     /15X,'POROSITY AREA FUNCTION SCALE FACTOR . .=',1PG20.13)
       END SUBROUTINE HM_READ_MONVOL_TYPE4
+      END MODULE HM_READ_MONVOL_TYPE4_MOD
