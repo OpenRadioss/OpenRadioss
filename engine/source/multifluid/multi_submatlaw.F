@@ -46,7 +46,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    arret                          ../engine/source/system/arret.F
       !||    eosmain                        ../common_source/eos/eosmain.F
       !||--- uses       -----------------------------------------------------
-      !||    alemuscl_mod                   ../common_source/modules/ale/alemuscl_mod.F
       !||    eosmain_mod                    ../common_source/eos/eosmain.F
       !||    matparam_def_mod               ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||====================================================================
@@ -105,14 +104,13 @@ C-----------------------------------------------
       my_real :: GAMMA, PSTAR
       my_real :: B1, B2, R1, R2, W1, VDET, BHE
       my_real :: R1V, R2V, WDR1V, WDR2V, DR1V, ER1V, ER2V
-      my_real :: R1DF(NEL), R2DF(NEL)
       my_real :: TB, BFRAC1, BFRAC2
       INTEGER :: IBFRAC
       INTEGER :: LFT, LLT
       my_real :: QOPT,EADD,TBEGIN,TEND,RR,A,M,N,RR2,ALPHA_UNIT,LAMBDA !< jwl afterburning
       my_real :: pold(nel)
       my_real :: FAC_pred
-C-----------------------------------------------  
+C-----------------------------------------------
 C     B e g i n n i n g   o f   s u b r o u t i n e
 C-----------------------------------------------
       FAC_pred = one
@@ -142,7 +140,7 @@ C-----------------------------------------------
             MU(II) = ZERO
             DF(II) = ONE
             PSH(II) = -1E20
-         ENDIF            
+         ENDIF
       ENDDO
       SELECT CASE (MATLAW)
          CASE (5)
@@ -169,7 +167,7 @@ C     JWL material
             IBFRAC = NINT(PM(41, LOCAL_MATID))
             GRUN(1:NEL) = ZERO
             DO II = 1, NEL
-               IF (VOL(II) > ZERO) THEN 
+               IF (VOL(II) > ZERO) THEN
                   !================    BURNT FRACTION     ============================!
                   IF (IFLAG == 1) THEN
                      IF (BURNFRAC(II) < ONE) THEN
@@ -201,14 +199,10 @@ C     JWL material
 
             ! POLD
             POLD(:) = ZERO
-            R1DF(1:NEL) = ZERO ! JWL may be used to model ideal gas, this way R1 and R2 = 0. We cannot divide.
-            R2DF(1:NEL) = ZERO
-            IF (R1 /= ZERO) R1DF(1:NEL) = ONE/DF(1:NEL)/R1
-            IF (R2 /= ZERO) R2DF(1:NEL) = ONE/DF(1:NEL)/R2
             DO II = 1, NEL
                IF (VOL(II) > ZERO) THEN
-                  R1V = B1 * W1 * R1DF(II)
-                  R2V = B2 * W1 * R1DF(II)
+                  R1V = B1 * W1 / (R1 * DF(II))
+                  R2V = B2 * W1 / (R2 * DF(II))
                   WDR1V = B1 - R1V
                   WDR2V = B2 - R2V
                   DR1V = W1 * EINT(II)
@@ -294,17 +288,17 @@ C     JWL material
 
             DO II = 1, NEL
                IF (VOL(II) > ZERO) THEN
-                  R1V = B1 * W1 * R1DF(II)
-                  R2V = B2 * W1 * R2DF(II)
+                  R1V = B1 * W1 / (R1 * DF(II))
+                  R2V = B2 * W1 / (R2 * DF(II))
                   WDR1V = B1 - R1V
                   WDR2V = B2 - R2V
                   DR1V = W1 * EINT(II)
                   ER1V = EXP(-R1 * DF(II))
                   ER2V = EXP(-R2 * DF(II))
                   PRES(II) = - PSH(II) + WDR1V * ER1V + WDR2V * ER2V + DR1V
-                  SSP(II) = DR1V + (PRES(II) + PSH(II)) * W1
-     .                    + B1 * ER1V * (-W1 * R1DF(II) + R1 * DF(II) - W1)
-     .                    + B2 * ER2V * (-W1 * R2DF(II) + R2 * DF(II) - W1)
+                  SSP(II) = B1 * ER1V * (-W1 / DF(II) / R1 + R1 * DF(II) - W1)
+     .                 + B2 * ER2V * (-W1 / DF(II) / R2 + R2 * DF(II) - W1)
+     .                 + DR1V + (PRES(II) + PSH(II)) * W1
                   PRES(II) = BURNFRAC(II) * PRES(II) + 
      .                 (ONE - BURNFRAC(II)) * (-PSH(II)+(C0 + C1 * MU(II)))
                   GRUN(II) = BURNFRAC(II) * W1

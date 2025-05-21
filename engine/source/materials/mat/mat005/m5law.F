@@ -121,25 +121,15 @@ C-----------------------------------------------
       ENDDO
 
       ! working arrays to save CPU operations. ER1V ER2V, WDR1V, WDR2V used later from mjwl.F
-      R1V(1:NEL) = ZERO
-      R2V(1:NEL) = ZERO
       DO I=1,NEL
+        R1V(I)   = A*W/(R1*DF(I))
+        R2V(I)   = B*W/(R2*DF(I))
         WDR1V(I) = A-R1V(I)
         WDR2V(I) = B-R2V(I)
         DR1V(I)  = W*EINT(I)/MAX(EM20,VOLN(I))    !w*Eint/V = w*E/v  where v=V/V0
         ER1V(I)  = EXP(-R1*DF(I))
         ER2V(I)  = EXP(-R2*DF(I))
       ENDDO
-      IF(R1 /= ZERO)THEN ! JWL may be used to model Ideal Gas A=0,B=0,R1=0,R2=0, W=gamma-1 , E0=P0 / (gamma-1)
-        DO I=1,NEL
-          R1V(I)   = A*W/(R1*DF(I))
-        ENDDO
-      ENDIF
-      IF(R2 /= ZERO)THEN
-        DO I=1,NEL
-          R2V(I)   = B*W/(R2*DF(I))
-        ENDDO
-      ENDIF
 
       ! Pressure Calculation
       IF (BULK == ZERO) THEN
@@ -163,21 +153,12 @@ C-----------------------------------------------
       ENDDO
 
       ! Sound Speed Calculation
-      SSP(1:NEL) = DR1V(1:NEL)  +   (P(1:NEL) + PSH(1:NEL))*W
-      IF(R1 /= ZERO)THEN
-        DO I=1,NEL
-          SSP(I) = SSP(I) + A*ER1V(I)*( (-W/DF(I)/R1) + R1*DF(I) - W)
-        ENDDO
-      ENDIF
-      IF(R2 /= ZERO)THEN
-        DO I=1,NEL
-          SSP(I) = SSP(I) + B*ER2V(I)*( (-W/DF(I)/R2) + R2*DF(I) - W)
-        ENDDO
-      ENDIF
       DO I=1,NEL
+        SSP(I) = A*ER1V(I)*( (-W/DF(I)/R1) + R1*DF(I) - W)
+     .         + B*ER2V(I)*( (-W/DF(I)/R2) + R2*DF(I) - W)
+     .         + DR1V(I)  +   (P(I) + PSH(I))*W
         SSP(I) = SSP(I) * DF(I)
       ENDDO
-
       IF (BULK == ZERO) THEN
          DO I=1,NEL
             SSP(I) = SQRT(ABS(SSP(I))/RHO0(I))
