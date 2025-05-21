@@ -628,6 +628,7 @@ C-----------------------------------------------
       use hm_read_inivol_mod
       use pblast_mod
       use iniebcs_propergol_
+      use init_monvol_mod ,only : init_monvol
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -5335,14 +5336,12 @@ C----------------------------------
      .       UNITAB, NPC1, NPC, TF, IGRSURF, IGRBRIC, NOM_OPT(LNOPT1*INOM_OPT(2)+1),IFRAME, XFRAME,
      .       LSUBMODEL)
 
-        CALL INIT_MONVOL(T_MONVOL   , T_MONVOL_METADATA,
-     2       GEO     ,PM      ,
-     3       IXC     ,IXTG    ,X       ,NPC1    ,
-     4       ITABM1  ,ITAB      ,IGRSURF ,
-     5       SENSORS ,IGRBRIC  ,SBUFALE ,
-     6       NAIRWA  ,IXS     ,V       ,LIBAGALE,
-     7       NPC     ,TF      ,LRBAGALE,IPM     ,IGEO    ,
-     8       UNITAB  )
+        CALL INIT_MONVOL(T_MONVOL, T_MONVOL_METADATA,
+     3                   IXC     , IXTG             ,X       ,NPC1    ,
+     4                   ITAB    , IGRSURF          ,
+     5                   SENSORS , IGRBRIC          ,SBUFALE ,
+     6                   IXS     , V                ,LIBAGALE,
+     7                   LRBAGALE      )
 
         LIBAGJET=0
         LRBAGJET=0
@@ -6417,13 +6416,8 @@ C
        DEALLOCATE(XNUM)
       ENDIF
 
-      IF(TETRAMESHER_USED) THEN
-         CALL APPLYSORT2FVM(T_MONVOL, IXS_TEMP, IXC, IXTG,
-     .        ITAB, NOM_OPT(LNOPT1*INOM_OPT(2)+1), NB_TOTAL_NODE)
-      ELSE
-         CALL APPLYSORT2FVM(T_MONVOL, IXS, IXC, IXTG,
-     .        ITAB, NOM_OPT(LNOPT1*INOM_OPT(2)+1), NUMNOD)
-      ENDIF
+      CALL APPLYSORT2FVM(T_MONVOL)
+
 C---------------------------------
       IF(NUMSPH/=0) THEN
             if ( .NOT. ALLOCATED(IXSPS) ) ALLOCATE(IXSPS(KVOISPH,NUMSPH),STAT=stat)
@@ -9444,13 +9438,9 @@ C
       ERR_CATEGORY='FVMBAG MESHING'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       IF(TETRAMESHER_USED) THEN
-         CALL FVMESH0(T_MONVOL, NODE_COORD,  IXS_TEMP, IXC, IXTG, PM,
-     .        IPM, ITAB,  IGRSURF, XYZREF  ,
-     .        NOM_OPT(LNOPT1*INOM_OPT(2)+1), NB_TOTAL_NODE)
+         CALL FVMESH0(T_MONVOL, NODE_COORD, IXS_TEMP, IXC, IXTG, PM,IPM, IGRSURF, XYZREF ,NB_TOTAL_NODE)
       ELSE
-         CALL FVMESH0(T_MONVOL, X,  IXS, IXC, IXTG, PM,
-     .        IPM, ITAB,  IGRSURF, XYZREF  ,
-     .        NOM_OPT(LNOPT1*INOM_OPT(2)+1), NUMNOD)
+         CALL FVMESH0(T_MONVOL, X,          IXS,      IXC, IXTG, PM,IPM, IGRSURF, XYZREF ,NUMNOD)
       ENDIF
 
       CALL COPY_TO_VOLMON(T_MONVOL, LRCBAG, T_MONVOL_METADATA%RCBAG, SVOLMON, VOLMON)

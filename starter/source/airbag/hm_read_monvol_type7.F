@@ -20,6 +20,8 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      MODULE HM_READ_MONVOL_TYPE7_MOD
+      CONTAINS
       !||====================================================================
       !||    hm_read_monvol_type7           ../starter/source/airbag/hm_read_monvol_type7.F
       !||--- called by ------------------------------------------------------
@@ -46,7 +48,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    submodel_mod                   ../starter/share/modules1/submodel_mod.F
       !||====================================================================
       SUBROUTINE HM_READ_MONVOL_TYPE7(T_MONVOLN, IPM, IGEO, ITABM1, 
-     .     SENSORS, NPT, PLD,
+     .     SENSORS,
      .     UNITAB, LUID, NPC, IGRSURF, ITAB, X, PM, GEO, IXC, IXTG,
      .     LSUBMODEL)
 C-----------------------------------------------
@@ -77,9 +79,9 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(UNIT_TYPE_), INTENT(IN) :: UNITAB
-      INTEGER, INTENT(IN) :: LUID, IPM(NPROPMI, *), IGEO(NPROPGI, *), ITABM1(*), NPT(*)
+      INTEGER, INTENT(IN) :: LUID, IPM(NPROPMI, *), IGEO(NPROPGI, *), ITABM1(*)
       INTEGER, INTENT(IN) :: NPC(*), ITAB(*), IXC(NIXC, *), IXTG(NIXTG, *)
-      my_real, INTENT(IN) :: X(3, *), GEO(NPROPG, *), PM(NPROPM, *), PLD(2, *)
+      my_real, INTENT(IN) :: X(3, *), GEO(NPROPG, *), PM(NPROPM, *)
       TYPE (SURF_), INTENT(INOUT), DIMENSION(NSURF) :: IGRSURF
       TYPE(MONVOL_STRUCT_), INTENT(INOUT) :: T_MONVOLN
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
@@ -1184,3 +1186,4 @@ C-----------------------------------------------
      .     /15X,'LEAKAGE AREA TIME FUNCTION. . . . . . .=',I10,
      .     /15X,'        SCALE FACTOR. . . . . . . . . .=',1PG20.13)
       END SUBROUTINE HM_READ_MONVOL_TYPE7
+      END MODULE HM_READ_MONVOL_TYPE7_MOD

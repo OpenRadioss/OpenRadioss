@@ -20,16 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      MODULE FVBAG_GPOLCUT_MOD
+      CONTAINS
       !||====================================================================
       !||    gpolcut   ../starter/source/airbag/gpolcut.F
       !||--- called by ------------------------------------------------------
       !||    fvmesh1   ../starter/source/airbag/fvmesh.F
       !||====================================================================
-      SUBROUTINE GPOLCUT(IPOLY , RPOLY  , IPOLY_OLD, RPOLY_OLD , INEDGE,
-     .                   RNEDGE, NBNEDGE, NX       , NY        , NZ    , 
-     .                   X0    , Y0     , Z0       , INS       , RNS   ,
-     .                   NN    , NHOL   , INZ      , IZ        , NNS3  ,
-     .                   NPOLY , NS     , IELNOD   , IELNOD_OLD)
+      SUBROUTINE FVBAG_GPOLCUT(IPOLY , RPOLY  , IPOLY_OLD, RPOLY_OLD , INEDGE,
+     .                         RNEDGE, NBNEDGE, NX       , NY        , NZ    ,
+     .                         X0    , Y0     , Z0       , INS       , RNS   ,
+     .                         NN    , NHOL   , INZ      , IZ        , NNS3  ,
+     .                         NPOLY , NS     , IELNOD   , IELNOD_OLD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -609,4 +611,5 @@ C
       ENDDO     
 C 
       RETURN
-      END
+      END SUBROUTINE FVBAG_GPOLCUT
+      END MODULE FVBAG_GPOLCUT_MOD

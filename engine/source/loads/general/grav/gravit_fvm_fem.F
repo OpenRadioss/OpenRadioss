@@ -62,7 +62,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NSENSOR
       INTEGER, INTENT(IN) :: NALE(ALE%GLOBAL%SNALE)
-      INTEGER NPC(*),NDDIM,NVDIM
+      INTEGER NPC(*)
       INTEGER IGRV(NIGRV,*),IB(*)
       INTEGER WEIGHT(*), ITASK
       my_real AGRV(LFACGRV,*), TF(*), A(3,*), V(3,*), MS(*), X(3,*), SKEW(LSKEW,*)
@@ -73,7 +73,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NL, N1, ISK, N2, IFUNC, K1, K2, K3, ISENS,K,NN, IAD,J, IADF, IADL, ISMOOTH
-      my_real NX, NY, NZ, AXI, A0, AA, VV, FX, FY, FZ, AX, DYDX, TS, GAMA, WFEXTT,FCX,FCY
+      my_real AXI, A0, AA, VV, DYDX, TS, GAMA, WFEXTT,FCX,FCY
       my_real, EXTERNAL :: FINTER,FINTER_SMOOTH
 C-----------------------------------------------
 C   S o u r c e   L i n e s
