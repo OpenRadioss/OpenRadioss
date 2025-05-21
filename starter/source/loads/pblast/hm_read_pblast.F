@@ -127,6 +127,7 @@ C-----------------------------------------------
       INTEGER curve_id1,curve_id2,SEG_UNDERGROUND
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
       INTEGER :: ISHAPE
+      INTEGER :: NWARN !< number of segment for which it is not possible to correlate the positive impulse. It may happen that for a given Pmax and dt0 value even building a triangle shape leads to a lower impulse that the targeted one.
       TYPE(FRIEDLANDER_PARAMS_) :: FRIEDLANDER_PARAMS
 C-----------------------------------------------
 C   C o n s t a n t   V a l u e s
@@ -224,6 +225,7 @@ C-----------------------------------------------
       HC = ZERO
       BOOL_SKIP_CALC = .FALSE.
       IS_ITA_SHIFT = .FALSE.
+      NWARN = 0
 
       ALLOCATE( OUTPUT_USER_PARAMS(6,PBLAST%NLOADP_B))
       OUTPUT_USER_PARAMS(:,:) = ZERO
@@ -843,7 +845,7 @@ C-----------------------------------------------
                  CALL PBLAST_PARAMETERS__FREE_AIR(PBLAST,Z, W13, TDET,
      +                                            FAC_P_bb, FAC_I_bb, FAC_T_bb,
      +                                            IS_DECAY_TO_BE_COMPUTED,
-     +                                            FRIEDLANDER_PARAMS)
+     +                                            FRIEDLANDER_PARAMS, NWARN)
 
                  P_inci     = FRIEDLANDER_PARAMS%P_inci
                  P_refl     = FRIEDLANDER_PARAMS%P_refl
@@ -950,7 +952,7 @@ C-----------------------------------------------
                   CALL PBLAST_PARAMETERS__SURFACE_BURST( PBLAST,Z, W13, TDET,
      +                                             FAC_P_bb, FAC_I_bb, FAC_T_bb,
      +                                             IS_DECAY_TO_BE_COMPUTED,
-     +                                             FRIEDLANDER_PARAMS )
+     +                                             FRIEDLANDER_PARAMS,NWARN )
                   P_inci     = FRIEDLANDER_PARAMS%P_inci
                   P_refl     = FRIEDLANDER_PARAMS%P_refl
                   I_inci     = FRIEDLANDER_PARAMS%I_inci
@@ -1052,7 +1054,7 @@ C-----------------------------------------------
      +                                            FAC_P_bb, FAC_I_bb, FAC_T_bb,
      +                                            IS_DECAY_TO_BE_COMPUTED,
      +                                            ID,'LOAD',.TRUE.,
-     +                                            FRIEDLANDER_PARAMS)
+     +                                            FRIEDLANDER_PARAMS,NWARN)
 
                  P_inci     = FRIEDLANDER_PARAMS%P_inci
                  P_refl     = FRIEDLANDER_PARAMS%P_refl
@@ -1107,6 +1109,15 @@ C-----------------------------------------------
              MSGOUT2='THERE WILL NOT BE LOADED WITH BLAST PRESSURE'
              CALL ANCMSG(MSGID=1907,MSGTYPE=MSGWARNING,ANMODE=ANINFO,C1=TRIM(TITR),I1=ID,C2=MSGOUT1,C3=MSGOUT2)
            ENDIF
+           IF(IMODEL == 2 .AND. NWARN > 0)THEN
+             MSGOUT1=''
+             WRITE(MSGOUT1,FMT='(I0,A)') NWARN,
+     .       ' SEGMENT(S) HAS EXCESSIVE POSITIVE IMPULSE REGARDING THE PEAK PRESSURE AND POSITIVE DURATION.'
+             MSGOUT2=''
+             MSGOUT2='A TRIANGULAR WAVEFORM WILL BE USED INSTEAD TO MAXIMIZE THE IMPULSE. DEFINING A PMIN VALUE IS STRONGLY RECOMMENDED'
+             CALL ANCMSG(MSGID=1907,MSGTYPE=MSGWARNING,ANMODE=ANINFO,C1=TRIM(TITR),I1=ID,C2=MSGOUT1,C3=MSGOUT2)
+           ENDIF
+
 
         ENDIF
 

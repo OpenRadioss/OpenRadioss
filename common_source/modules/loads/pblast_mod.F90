@@ -3221,7 +3221,7 @@ type (pblast_) :: pblast
    subroutine pblast_parameters__free_air( pblast,z, w13, tdet,          &
    &                                       fac_p_bb, fac_i_bb, fac_t_bb, &
    &                                       is_decay_to_be_computed,      &
-   &                                       output_params )
+   &                                       output_params, nwarn )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -3240,6 +3240,7 @@ type (pblast_) :: pblast
       my_real,intent(in) :: z,w13,tdet
       my_real,intent(in) :: fac_p_bb, fac_i_bb, fac_t_bb
       type(friedlander_params_), intent(out) :: output_params
+      integer,intent(inout) :: nwarn !< number of segments in the warning message (for which idmodel=2 method did not converge)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -3389,6 +3390,7 @@ type (pblast_) :: pblast
             endif
             res = abs(funct)   !g(x_new)
          enddo
+         if(zeta < em10) nwarn = nwarn+1
          decay_inci=max(zero,zeta)   ! lower value may have few change on positive impulse but large change to negative impulse (potential unphysical solution)
 
          iter=0
@@ -3415,6 +3417,7 @@ type (pblast_) :: pblast
             endif
             res = abs(funct)   !g(x_new)
          enddo
+         if(zeta < em10) nwarn = nwarn + 1
          decay_refl=max(zero,zeta)   ! lower value may have few change on positive impulse but large change to negative impulse (potential unphysical solution)
       endif
 
@@ -3452,7 +3455,7 @@ type (pblast_) :: pblast
    subroutine pblast_parameters__surface_burst(  pblast,z, w13, tdet,         &
    &                                            fac_p_bb, fac_i_bb, fac_t_bb, &
    &                                            is_decay_to_be_computed,      &
-   &                                            output_params)
+   &                                            output_params, nwarn)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -3471,6 +3474,7 @@ type (pblast_) :: pblast
       my_real,intent(in) :: z,w13,tdet
       my_real,intent(in) :: fac_p_bb, fac_i_bb, fac_t_bb
       type(friedlander_params_), intent(out) :: output_params
+      integer,intent(inout) :: nwarn !< number of segments in the warning message (for which idmodel=2 method did not converge)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -3592,6 +3596,7 @@ type (pblast_) :: pblast
             endif
             res = abs(funct)   !g(x_new)
          enddo
+         if(zeta < em10) nwarn = nwarn+1
          decay_inci=max(zero,zeta)    ! lower value may have few change on positive impulse but large change to negative impulse (potential unphysical solution)
 
          iter=0
@@ -3618,6 +3623,7 @@ type (pblast_) :: pblast
             endif
             res = abs(funct)   !g(x_new)
          enddo
+         if(zeta < em10) nwarn = nwarn+1
          decay_refl=max(zero,zeta)    ! lower value may have few change on positive impulse but large change to negative impulse (potential unphysical solution)
 
       endif! is_decay_to_be_computed
@@ -3653,7 +3659,7 @@ type (pblast_) :: pblast
    &                                        fac_p_bb, fac_i_bb, fac_t_bb,                &
    &                                        is_decay_to_be_computed,                     &
    &                                        id,label,is_output_enabled,                  &
-   &                                        output_params )
+   &                                        output_params, nwarn )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -3677,6 +3683,7 @@ type(pblast_) :: pblast
       my_real,intent(in) :: fac_p_bb, fac_i_bb, fac_t_bb
       character*4,intent(in)::label  !'ebcs' or 'load'
       type(friedlander_params_), intent(out) :: output_params
+      integer,intent(inout) :: nwarn !< number of segments in the warning message (for which idmodel=2 method did not converge)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -4054,6 +4061,7 @@ type(pblast_) :: pblast
             endif
             res = abs(funct)   !g(x_new)
          enddo
+         if(zeta < em10) nwarn = nwarn+1
          decay_inci=max(zero,zeta)    ! lower value may have few change on positive impulse but large change to negative impulse (potential unphysical solution)
 
          iter=0
@@ -4080,6 +4088,7 @@ type(pblast_) :: pblast
             endif
             res = abs(funct)   !g(x_new)
          enddo
+         if(zeta < em10) nwarn = nwarn+1
          decay_refl=max(zero,zeta)    ! lower value may have few change on positive impulse but large change to negative impulse (potential unphysical solution)
 
       endif! is_decay_to_be_computed

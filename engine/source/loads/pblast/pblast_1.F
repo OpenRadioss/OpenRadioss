@@ -46,6 +46,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD      
       USE H3D_INC_MOD 
       USE TH_SURF_MOD , ONLY : TH_SURF_
+      USE NAMES_AND_TITLES_MOD , ONLY : NCHARLINE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -86,7 +87,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: N1, N2, N3, N4,IL,IS,IAD,I,IANIM_OR_H3D,IZ_UPDATE,ABAC_ID,ISIZ_SEG,IERR1,
      .           ID, ITA_SHIFT,IMODEL,NN(4),NS,KSURF,NDT
-     
+      INTEGER :: NWARN !< number of segment for which it is not possible to correlate the positive impulse. It may happen that for a given Pmax and dt0 value even building a triangle shape leads to a lower impulse that the targeted one.
+
       my_real :: Zx,Zy,Zz,NORM,Nx,Ny,Nz,AREA,
      .           cos_theta, alpha_inci, alpha_refl, P_inci, P_refl_,P_inci_, P_refl,Z,
      .           I_inci,I_refl,I_inci_,I_refl_, dt_0, t_a,dt_0_,
@@ -99,6 +101,8 @@ C-----------------------------------------------
       INTEGER, EXTERNAL :: OMP_GET_THREAD_NUM
 
       LOGICAL IS_UPDATED,IS_DECAY_TO_BE_COMPUTED
+
+      CHARACTER(LEN=NCHARLINE) ::  MSGOUT1,MSGOUT2
       
       DATA cst_255_div_ln_Z1_on_ZN/-38.147316611455952998/
       DATA log10_ /2.30258509299405000000/
@@ -185,6 +189,7 @@ C-----------------------------------------------
 
       IS_DECAY_TO_BE_COMPUTED = .FALSE.
       IF(IMODEL == 2)IS_DECAY_TO_BE_COMPUTED=.TRUE.
+      NWARN = 0
 
       !---------------------------------------------                                                                  
       !   LOOP ON SEGMENTS (4N or 3N)                                                                  
@@ -300,7 +305,7 @@ C-----------------------------------------------
           CALL PBLAST_PARAMETERS__FREE_AIR(PBLAST,Z, W13, TDET,
      +                                     FAC_P_bb, FAC_I_bb, FAC_T_bb,
      +                                     IS_DECAY_TO_BE_COMPUTED,
-     +                                     FRIEDLANDER_PARAMS)
+     +                                     FRIEDLANDER_PARAMS,NWARN)
 
           P_inci     = FRIEDLANDER_PARAMS%P_inci
           P_inci_    = FRIEDLANDER_PARAMS%P_inci_
@@ -402,6 +407,16 @@ C----- /TH/SURF -------
 
       ENDDO!next I                                                                                                                                                                                    
 !$OMP END DO
+
+      IF(IMODEL == 2 .AND. NWARN > 0)THEN
+        MSGOUT1=''
+        WRITE(MSGOUT1,FMT='(I0,A)') NWARN,
+     .  ' SEGMENT(S) HAS EXCESSIVE POSITIVE IMPULSE REGARDING THE PEAK PRESSURE AND POSITIVE DURATION.'
+        MSGOUT2=''
+        MSGOUT2='A TRIANGULAR WAVEFORM WILL BE USED INSTEAD TO MAXIMIZE THE IMPULSE. DEFINING A PMIN VALUE IS STRONGLY RECOMMENDED'
+        write(IOUT , FMT='(A,I10,/A,/A)') "Updated parameters for /LOAD/PBLAST id=", ID, MSGOUT1, MSGOUT2
+        write(ISTDO, FMT='(A,I10,/A,/A)') "Updated parameters for /LOAD/PBLAST id=", ID, MSGOUT1, MSGOUT2
+      ENDIF
          
       IF(IS_UPDATED)THEN
 #include "lockon.inc"
