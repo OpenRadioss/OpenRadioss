@@ -90,11 +90,13 @@
 !--------------------------
       !< Check values and set default values
       if (epsd == zero) epsd = infinity
+      if (s    == zero) s = infinity
       dc = max(dc,zero)
-      dc = min(dc,one)
+      dc = min(dc, one)
+      if (dc   == zero) dc = one 
       failip = max(failip,1)
-      pthk = max(pthk,zero)
-      pthk = min(pthk,one)
+      pthk = max(pthk,-one)
+      pthk = min(pthk, one)
       if (pthk == zero) pthk = one
 !--------------------------
 !     Filling buffer tables
@@ -146,7 +148,7 @@
  1100 format(/                                                                 &
      & 5X,'ELEMENT DELETION:                                        ',/,       &
      & 5X,'-----------------                                        ',/,       &
-     & 5X,'SHELL ELEMENT DELETION PARAMETER PTHICKFAIL. . . . . . .=',1pg20.13,/&
+     & 5X,'SHELL ELEMENT DELETION PARAMETER PTHICKFAIL. . . . . . .=',1pg20.13/&
      & 5X,'   > 0.0: FRACTION OF FAILED THICKNESS                   ',/,       &
      & 5X,'   < 0.0: FRACTION OF FAILED INTG. POINTS                ',/,       &
      & 5X,'NUMBER OF FAILED INTG. POINTS PRIOR TO ELEM DELETION . .=',i10/)    
