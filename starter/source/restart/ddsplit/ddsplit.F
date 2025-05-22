@@ -939,9 +939,7 @@ C--------------------------------------------
      3              P-1     ,IXS    ,IXQ     ,IXTG,
      4              NERVOIS ,NESVOIS,NODLOCAL,NUMNOD_L,NUMEL_L,
      5              CEL, MULTI_FVM,ALE_ELM,SIZE_ALE_ELM)
-      ENDIF
-
-!     Node element connectivity
+!       Node element connectivity
         IF(ALE_CONNECTIVITY%has_ne_connect)THEN
           CALL C_SPMD_NE_CONNECT(ALE_CONNECTIVITY, P - 1, CEP, CEL,
      .                           NODGLOB, NODLOCAL,
@@ -949,7 +947,8 @@ C--------------------------------------------
      .                           NUMELS_L, NUMELQ_L, NUMELTG_L,
      .                           NE_NERVOIS, NE_NESVOIS,
      .                           NE_NSVOIS, NE_NQVOIS, NE_NTGVOIS)
-        ENDIF
+        ENDIF   
+      ENDIF
 C
 C--------------------------------------
 C     count ebcs (multifluid)
