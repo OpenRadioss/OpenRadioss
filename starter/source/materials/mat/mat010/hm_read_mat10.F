@@ -158,70 +158,30 @@ C-----------------------------------------------
       IF(YOUNG <= ZERO)THEN
         chain='YOUNG MODULUS MUST BE DEFINED                                   '
         chain2=''
-        CALL ANCMSG(MSGID=829,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO,
-     .                I1=10,
-     .                I2=MAT_ID,
-     .                C1='ERROR',
-     .                C2=TITR,
-     .                C3=chain,
-     .                C4=chain2)   
+        CALL ANCMSG(MSGID=829, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=10, I2=MAT_ID, C1='ERROR', C2=TITR, C3=chain, C4=chain2)
       ENDIF 
 
       IF(ANU <= ZERO)THEN
         chain='POISSON RATIO MUST BE DEFINED                                   '
         chain2=''
-        CALL ANCMSG(MSGID=829,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO,
-     .                I1=10,
-     .                I2=MAT_ID,
-     .                C1='ERROR',
-     .                C2=TITR,
-     .                C3=chain,
-     .                C4=chain2)   
+        CALL ANCMSG(MSGID=829,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=10,I2=MAT_ID,C1='ERROR',C2=TITR,C3=chain,C4=chain2)
       ENDIF 
       
       IF(A1 < ZERO .AND. A2 == ZERO)THEN  
         chain ='INVERTED YIELD SURFACE BECAUSE A1 IS NEGATIVE.                  '
         chain2='CHECK A0,A1,A2 YIELD PARAMETERS                                 '
-        CALL ANCMSG(MSGID=829,
-     .                MSGTYPE=MSGWARNING,
-     .                ANMODE=ANINFO,
-     .                I1=10,
-     .                I2=MAT_ID,
-     .                C1='WARNING',
-     .                C2=TITR,
-     .                C3=chain,
-     .                C4=chain2)   
+        CALL ANCMSG(MSGID=829,MSGTYPE=MSGWARNING,ANMODE=ANINFO,I1=10,I2=MAT_ID,C1='WARNING',C2=TITR,C3=chain,C4=chain2)
       ENDIF 
     
       IF(A2 < ZERO)THEN
         chain ='UNEXPECTED YIELD SURFACE : A2 IS NEGATIVE                       '
         chain2='CHECK A0,A1,A2 YIELD PARAMETERS                                 '
-        CALL ANCMSG(MSGID=829,
-     .                MSGTYPE=MSGWARNING,
-     .                ANMODE=ANINFO,
-     .                I1=10,
-     .                I2=MAT_ID,
-     .                C1='WARNING',
-     .                C2=TITR,
-     .                C3=chain,
-     .                C4=chain2)     
+        CALL ANCMSG(MSGID=829,MSGTYPE=MSGWARNING,ANMODE=ANINFO,I1=10,I2=MAT_ID,C1='WARNING',C2=TITR,C3=chain,C4=chain2)
       ENDIF           
       IF(IFORM == 1 .AND. C1 <= ZERO) THEN
         chain='TENSILE BULK MODULUS C1 IS LOWER OR EQUAL TO 0.                 '
         chain2=''
-        CALL ANCMSG(MSGID=829,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO,
-     .                I1=10,
-     .                I2=MAT_ID,
-     .                C1='ERROR',
-     .                C2=TITR,
-     .                C3=chain,
-     .                C4=chain2)
+        CALL ANCMSG(MSGID=829,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=10,I2=MAT_ID,C1='ERROR',C2=TITR,C3=chain,C4=chain2)
       END IF  
 
       IF(A2==ZERO.AND.A1/=ZERO)THEN   !(A2=A1=ZERO => error message)
@@ -238,15 +198,7 @@ C-----------------------------------------------
           chain ='YIELD SURFACE J2(P)=A0+A1.P+A2.P^2 HAS NO INTERSECTION WITH     '
           chain2='PRESSURE AXIS. ASSUMING SURFACE CLOSURE AT P=                   '
           WRITE(chain2(46:59),FMT=('(E13.6)'))   PSTAR   
-          CALL ANCMSG(  MSGID=829,
-     .                  MSGTYPE=MSGWARNING,
-     .                  ANMODE=ANINFO,
-     .                  I1=10,
-     .                  I2=MAT_ID,
-     .                  C1='WARNING',
-     .                  C2=TITR,
-     .                  C3=chain,
-     .                  C4=chain2)               
+          CALL ANCMSG(  MSGID=829,MSGTYPE=MSGWARNING,ANMODE=ANINFO,I1=10,I2=MAT_ID,C1='WARNING',C2=TITR,C3=chain,C4=chain2)
         ENDIF
       ELSE
         !do nothing let user do what he wants
@@ -262,15 +214,7 @@ C
         IF(XMUMX == ZERO.AND.BUNL /= ZERO)THEN
          chain= 'MISSING MUMAX VALUE IS AUTOMATICALLY ESTIMATED FROM BUNL VALUE. '
          chain2=''
-         CALL ANCMSG(MSGID=829,
-     .               MSGTYPE=MSGWARNING,
-     .               ANMODE=ANINFO,
-     .               I1=10,
-     .               I2=MAT_ID,
-     .               C1='WARNING',
-     .               C2=TITR,
-     .               C3=chain,
-     .               C4=chain2)         
+         CALL ANCMSG(MSGID=829,MSGTYPE=MSGWARNING,ANMODE=ANINFO,I1=10,I2=MAT_ID,C1='WARNING',C2=TITR,C3=chain,C4=chain2)
          IF(C3 == ZERO)THEN
           IF(C2 == ZERO)THEN
            XMUMX=EP20 
@@ -286,15 +230,7 @@ C
         IF(XMUMX /= ZERO.AND.BUNL == ZERO)THEN
          chain= 'MISSING BUNL VALUE IS AUTOMATICALLY ESTIMATED FROM MUMAX        '     
          chain2='' 
-         CALL ANCMSG(MSGID=829,
-     .               MSGTYPE=MSGWARNING,
-     .               ANMODE=ANINFO,
-     .               I1=10,
-     .               I2=MAT_ID,
-     .               C1='WARNING',
-     .               C2=TITR,
-     .               C3=chain,
-     .               C4=chain2)
+         CALL ANCMSG(MSGID=829,MSGTYPE=MSGWARNING,ANMODE=ANINFO,I1=10,I2=MAT_ID,C1='WARNING',C2=TITR,C3=chain,C4=chain2)
          IF(C3 == ZERO)THEN
           IF(C2 == ZERO)THEN
            BUNL = C1 
@@ -350,6 +286,19 @@ C---- Buffer Size for specific element buffer allocations
       MTAG%L_PLA   = 1 ! /TH(VPLA)
       MTAG%L_EPSQ  = 1 ! /TH(EPSP)
       MTAG%L_MU    = 1 ! unloading history (volumetric plastic strain)
+
+      IF(COUNT == 5) THEN
+        !embedded compaction eos (old format)
+        MATPARAM%eos%nuparam = 3
+        MATPARAM%eos%niparam = 1
+        MATPARAM%eos%nfunc = 0
+        MATPARAM%eos%ntable = 0
+        call MATPARAM%eos%construct() !allocations
+        MATPARAM%eos%uparam(1) = XMUMX
+        MATPARAM%eos%uparam(2) = zero
+        MATPARAM%eos%uparam(3) = bunl
+        MATPARAM%eos%iparam(1) = iform
+      ENDIF
       
       ! Material compatibility with /EOS option
       CALL INIT_MAT_KEYWORD(MATPARAM,"EOS")
