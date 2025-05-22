@@ -156,7 +156,8 @@
       ! MAT_PARAM
       mat_param%eos%title = 'powder-burn'
       mat_param%eos%nuparam = 15
-      allocate(mat_param%eos%uparam(15))
+      call mat_param%eos%construct()
+
       mat_param%eos%uparam(1)  = bulk
       mat_param%eos%uparam(1)  = p0
       mat_param%eos%uparam(3)  = psh
