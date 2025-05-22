@@ -246,6 +246,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    printime_interf                              ../engine/source/system/timer_interf.F
       !||    printimeg                                    ../engine/source/system/timer.F
       !||    python_register                              ../engine/source/tools/curve/python_register.F90
+      !||    python_share_memory                          ../engine/source/coupling/python/python_share_memory.F90
       !||    python_update_nodal_entities                 ../common_source/modules/python_mod.F90
       !||    r2r_block_c                                  ../engine/source/coupling/rad2rad/rad2rad_c.c
       !||    r2r_exchange                                 ../engine/source/coupling/rad2rad/r2r_exchange.F
@@ -485,6 +486,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    plyxfem_mod                                  ../engine/share/modules/plyxfem_mod.F
       !||    python_funct_mod                             ../common_source/modules/python_mod.F90
       !||    python_register_mod                          ../engine/source/tools/curve/python_register.F90
+      !||    python_share_memory_mod                      ../engine/source/coupling/python/python_share_memory.F90
       !||    rad2r_mod                                    ../engine/share/modules/rad2r.F
       !||    rbe3_mod                                     ../common_source/modules/constraints/rbe3_mod.F90
       !||    remesh_mod                                   ../engine/share/modules/remesh_mod.F

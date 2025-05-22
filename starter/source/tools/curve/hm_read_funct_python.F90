@@ -27,6 +27,12 @@
       !||====================================================================
       module read_funct_python_mod
       contains
+      !||====================================================================
+      !||    array_to_string        ../starter/source/tools/curve/hm_read_funct_python.F90
+      !||--- called by ------------------------------------------------------
+      !||    hm_read_funct_python   ../starter/source/tools/curve/hm_read_funct_python.F90
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
         function array_to_string(char_array) result(string)
           use iso_c_binding, only : c_char
           character(kind=c_char), dimension(:), intent(in) :: char_array
@@ -39,23 +45,24 @@
           end do
         end function array_to_string
 !! \details Read the python function defined by /FUNCT_PYTHON/
-        !||====================================================================
-        !||    hm_read_funct_python      ../starter/source/tools/curve/hm_read_funct_python.F90
-        !||--- called by ------------------------------------------------------
-        !||    lectur                    ../starter/source/starter/lectur.F
-        !||--- calls      -----------------------------------------------------
-        !||    ancmsg                    ../starter/source/output/message/message.F
-        !||    hm_get_intv               ../starter/source/devtools/hm_reader/hm_get_intv.F
-        !||    hm_get_string_index       ../starter/source/devtools/hm_reader/hm_get_string_index.F
-        !||    hm_option_count           ../starter/source/devtools/hm_reader/hm_option_count.F
-        !||    hm_option_read_key        ../starter/source/devtools/hm_reader/hm_option_read_key.F
-        !||    hm_option_start           ../starter/source/devtools/hm_reader/hm_option_start.F
-        !||--- uses       -----------------------------------------------------
-        !||    hm_option_read_mod        ../starter/share/modules1/hm_option_read_mod.F
-        !||    message_mod               ../starter/share/message_module/message_mod.F
-        !||    submodel_mod              ../starter/share/modules1/submodel_mod.F
-        !||    table_mod                 ../starter/share/modules1/table_mod.F
-        !||====================================================================
+      !||====================================================================
+      !||    hm_read_funct_python      ../starter/source/tools/curve/hm_read_funct_python.F90
+      !||--- called by ------------------------------------------------------
+      !||    lectur                    ../starter/source/starter/lectur.F
+      !||--- calls      -----------------------------------------------------
+      !||    ancmsg                    ../starter/source/output/message/message.F
+      !||    array_to_string           ../starter/source/tools/curve/hm_read_funct_python.F90
+      !||    hm_get_intv               ../starter/source/devtools/hm_reader/hm_get_intv.F
+      !||    hm_get_string_index       ../starter/source/devtools/hm_reader/hm_get_string_index.F
+      !||    hm_option_count           ../starter/source/devtools/hm_reader/hm_option_count.F
+      !||    hm_option_read_key        ../starter/source/devtools/hm_reader/hm_option_read_key.F
+      !||    hm_option_start           ../starter/source/devtools/hm_reader/hm_option_start.F
+      !||--- uses       -----------------------------------------------------
+      !||    hm_option_read_mod        ../starter/share/modules1/hm_option_read_mod.F
+      !||    message_mod               ../starter/share/message_module/message_mod.F
+      !||    submodel_mod              ../starter/share/modules1/submodel_mod.F
+      !||    table_mod                 ../starter/share/modules1/table_mod.F
+      !||====================================================================
         subroutine hm_read_funct_python(python,npc,snpc,total_nb_funct,&
         &lsubmodel,nbsubmod, pld, npts, table, ntable)
 #include "my_real.inc"

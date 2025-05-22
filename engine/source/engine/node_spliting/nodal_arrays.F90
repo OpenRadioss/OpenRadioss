@@ -41,6 +41,8 @@
       !||    init_nodal_state                         ../engine/source/interfaces/interf/init_nodal_state.F
       !||    python_call_funct_cload_dp               ../engine/source/loads/general/python_call_funct_cload.F90
       !||    python_call_funct_cload_sp               ../engine/source/loads/general/python_call_funct_cload.F90
+      !||    python_register                          ../engine/source/tools/curve/python_register.F90
+      !||    python_share_memory                      ../engine/source/coupling/python/python_share_memory.F90
       !||    radioss2                                 ../engine/source/engine/radioss2.F
       !||    rbe3t1                                   ../engine/source/constraints/general/rbe3/rbe3f.F
       !||    rbe3v                                    ../engine/source/constraints/general/rbe3/rbe3v.F

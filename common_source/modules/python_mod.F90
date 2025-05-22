@@ -59,6 +59,7 @@
       !||    python_call_funct_cload_sp     ../engine/source/loads/general/python_call_funct_cload.F90
       !||    python_duplicate_nodes         ../starter/source/spmd/domain_decomposition/python_duplicate_nodes.F90
       !||    python_register                ../engine/source/tools/curve/python_register.F90
+      !||    python_share_memory            ../engine/source/coupling/python/python_share_memory.F90
       !||    r1def3                         ../engine/source/elements/spring/r1def3.F
       !||    r23forc3                       ../engine/source/elements/spring/r23forc3.F
       !||    r23l108def3                    ../engine/source/elements/spring/r23l108def3.F
@@ -956,6 +957,13 @@
           call python_finalize()
         end subroutine python_funct_test
 
+      !||====================================================================
+      !||    python_expose_ints        ../common_source/modules/python_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    python_share_memory       ../engine/source/coupling/python/python_share_memory.F90
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
         subroutine python_expose_ints(py, name, name_len, val, len_val)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Module
@@ -985,6 +993,13 @@
           call python_add_ints_to_dict(py%context, temp_name, name_len, val, len_val)
         end subroutine
 
+      !||====================================================================
+      !||    python_expose_doubles        ../common_source/modules/python_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    python_share_memory          ../engine/source/coupling/python/python_share_memory.F90
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||====================================================================
         subroutine python_expose_doubles(py, name, name_len, val, len_val)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Module

@@ -46,6 +46,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    arret                          ../engine/source/system/arret.F
       !||    eosmain                        ../common_source/eos/eosmain.F
       !||--- uses       -----------------------------------------------------
+      !||    alemuscl_mod                   ../common_source/modules/ale/alemuscl_mod.F
       !||    eosmain_mod                    ../common_source/eos/eosmain.F
       !||    matparam_def_mod               ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||====================================================================
