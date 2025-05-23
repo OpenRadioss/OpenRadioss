@@ -2112,7 +2112,7 @@ C
 
 C
         IF (NUMPLY > 0) THEN
-          ALLOCATE (PLY_INFO(2,NUMPLY),STAT=IERR)
+          ALLOCATE (PLY_INFO(3,NUMPLY),STAT=IERR)
           IF (IERR /= 0) GOTO 1000
           PLY_INFO = 0
         ELSE

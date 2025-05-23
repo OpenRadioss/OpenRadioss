@@ -97,7 +97,6 @@ C-----------------------------------------------
         USE H3D_MOD
         USE MULTI_FVM_MOD
         USE ELBUFDEF_MOD
-        USE STACK_MOD
         USE H3D_INC_MOD
         USE LOADS_MOD
         USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100,NCHARKEY
@@ -150,7 +149,7 @@ C-----------------------------------------------
      .          IS_IPT_ALL,IS_IPT_LOWER,IS_IPT_UPPER,IS_IPT_MEMB,IS_IPT_BEND,
      .          IS_GAUSS_ALL,PLY,LAYER,IPT,GAUSS,IOK_H3DKEY,CPT_H3D,IUVAR,IS_UVAR,
      .          IS_UVAR_ALL,IS_UVAR_KEY4,IS_UVAR_KEY5,IS_UVAR_KEY6,IS_UVAR_KEY7,IS_UVAR_KEY8,
-     .          ID_PLY(NUMGEO+NUMPLY),
+     .          ID_PLY(NUMGEO+NUMPLY),MAT_PLY(NUMGEO+NUMPLY),
      .          IPT_PLY(NUMGEO+NUMPLY),IS_SCALAR,IS_VECTOR,IS_TENSOR,IS_TORSOR,
      .          IR,IS_IR,IS_IR_ALL,IS_IR_LOWER,IS_IR_UPPER ,
      .          IS,IS_IS,IS_IS_ALL,IS_IS_LOWER,IS_IS_UPPER ,
@@ -775,7 +774,7 @@ c
             IF(IGEO(11,K) == 10 .OR. IGEO(11,K) == 11 .OR. IGEO(11,K) == 16)
      .        IS_MODEL_LAYER = 1
             IF(IGEO(11,K) == 17 .OR. IGEO(11,K) == 51 .OR. IGEO(11,K) == 52)
-     .       IS_MODEL_PLY = 1
+     .        IS_MODEL_PLY = 1
           ENDDO
 C
           CPT = 0
@@ -984,22 +983,34 @@ C
               IF(IS_IPT_ALL == 1 .AND. NIP_ELEM_MAX == 0) ISHELL_NPT_CHECK = 1
 C
               ! PLY=ALL
-              ID_PLY(1:NUMGEO) = 0
-              IPT_PLY(1:NUMGEO) = 0
+              ID_PLY (1:NUMGEO+NUMPLY) = 0
+              IPT_PLY(1:NUMGEO+NUMPLY) = 0
+              MAT_PLY(1:NUMGEO+NUMPLY) = 0
               IF (IS_PLY_ALL == 1) THEN
                 DO K=1,NUMGEO
                   IF(IGEO(11,K) == 19) THEN
                     NPLY_MAX = NPLY_MAX + 1
-                    ID_PLY(NPLY_MAX) = IGEO(1,K)
+                    ID_PLY(NPLY_MAX)  = IGEO(1,K)
                     IPT_PLY(NPLY_MAX) = IGEO(4,K)
+                    MAT_PLY(NPLY_MAX) = IGEO(101,K)
                     NIP_PLY_MAX = MAX(NIP_PLY_MAX,IGEO(44,K))
                   ENDIF
                 ENDDO
                 DO K=1,NUMPLY
                   NPLY_MAX = NPLY_MAX + 1
-                  ID_PLY(NPLY_MAX) = PLY_INFO(1,K)
+                  ID_PLY(NPLY_MAX)  = PLY_INFO(1,K)
                   IPT_PLY(NPLY_MAX) = PLY_INFO(2,K)
+                  MAT_PLY(NPLY_MAX) = PLY_INFO(3,K)
                   NIP_PLY_MAX = MAX(NIP_PLY_MAX,PLY_INFO(2,K))
+                ENDDO
+                !< Convert internal mat_id to user mat_id
+                DO K=1,NPLY_MAX
+                  DO IMAT=1,NUMMAT
+                    IF (MAT_PLY(K) == IMAT) THEN
+                      MAT_PLY(K) = MAT_PARAM(IMAT)%MAT_ID
+                      EXIT
+                    ENDIF
+                  ENDDO
                 ENDDO
               ENDIF
               NIP_MAX = MAX(NIP_ELEM_MAX,NIP_PLY_MAX)
@@ -1687,6 +1698,46 @@ C
                                 DO O=1,MAX(1,MAX(IS_MDSVAR_ALL,IS_MDSVAR_DEF)*MAX(NMDSVAR_MAX,1))
                                   DO P=1,MAX(1,IS_ID_ALL*MAX(ID_MAX,1))
                                     DO Q=1,MAX(1,IS_MODE_ALL*MAX(MODE_MAX,1))
+
+                                      !< Check if the current output exist for failure/damage 
+                                      !< witch stack composite properties using plys
+                                      ! -> Failure criteria case
+                                      IF (KEY3_GLOB(1:7) == "FAILURE") THEN 
+                                        IF (NPLY_MAX > 0) THEN 
+                                          FOUND = .FALSE.
+                                          DO IMAT = 1,NUMMAT
+                                            !< Check if the material ID is the same as the ply material ID
+                                            IF (MAT_PARAM(IMAT)%MAT_ID == MAT_PLY(M)) THEN 
+                                              !< Number of ply failure criteria
+                                              NFAIL = MAT_PARAM(IMAT)%NFAIL
+                                              IF (NFAIL > 0) THEN 
+                                                !< Loop over ply failure criteria IDs
+                                                DO IFAIL = 1,NFAIL
+                                                  IF (IS_ID_ALL == 1) THEN 
+                                                    IF (MAT_PARAM(IMAT)%FAIL(IFAIL)%FAIL_ID == IRUP_ID_ALL(P)) THEN 
+                                                      FOUND = .TRUE.
+                                                    ENDIF
+                                                  ELSE
+                                                    IF (MAT_PARAM(IMAT)%FAIL(IFAIL)%FAIL_ID == ID) THEN 
+                                                      FOUND = .TRUE.
+                                                    ENDIF
+                                                  ENDIF
+                                                ENDDO   
+                                              ENDIF  
+                                            ENDIF
+                                          ENDDO
+                                          !< If the combination of ply and failure ID is not found
+                                          !< in the material list, skip this output
+                                          IF (.NOT.FOUND) CYCLE
+                                        ENDIF
+                                      ! -> Coupled damage model case
+                                      ELSEIF (KEY3_GLOB(1:4) == "DAMG") THEN 
+                                        IF ((NPLY_MAX > 0).AND.(ID > 0)) THEN
+                                          !< If the ply ID is not the same as the material ID, skip this output 
+                                          IF (ID /= MAT_PLY(M)) CYCLE
+                                        ENDIF
+                                      ENDIF
+
                                       CPT_H3D = CPT_H3D + 1
 c
                                       LAYER_INPUT(CPT_H3D) = -1
