@@ -8393,7 +8393,7 @@ C
       NSIGTRUSS = 0
       IF(ISIGI/=0)THEN
         NSIGSH = NVSHELL
-        NSIGRS = 54  ! not cover NUVAR --> to be replaced by NSIGRS = NVSPRI
+        NSIGRS = NVSPRI  
         NSIGBEAM = NVBEAM
         NSIGTRUSS = NVTRUSS
         IF(NUBEAM > 0) NSIGBEAM = NSIGBEAM + NUBEAM
