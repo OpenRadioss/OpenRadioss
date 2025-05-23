@@ -2279,7 +2279,7 @@ C
       ENDIF
 C
       IF(NUMPLY /= 0) THEN
-        ALLOCATE(PLY_INFO(2,NUMPLY),STAT=stat)
+        ALLOCATE(PLY_INFO(3,NUMPLY),STAT=stat)
         IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                            MSGTYPE=MSGERROR,
      .                            C1='PLY')

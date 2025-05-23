@@ -245,6 +245,7 @@ C
         ENDIF
         PLY_INFO(1,II) = IG
         PLY_INFO(2,II) = IGEO_STACK(4,I)
+        PLY_INFO(3,II) = IGEO_STACK(101,I)
         IGEO_STACK(1,I) =IG     
       ENDDO
 C
