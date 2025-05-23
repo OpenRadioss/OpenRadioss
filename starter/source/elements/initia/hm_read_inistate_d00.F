@@ -4683,7 +4683,7 @@ C------!
                     CALL HM_GET_FLOAT_ARRAY('VR'  ,TMPVAL,SIZE,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
 !
                     DO K=1,NUVAR
-                      SIGBEAM(PT+K,I) = TMPVAL(K)
+                      SIGRS(PT+K,I) = TMPVAL(K)
                     ENDDO ! DO K=1,NUVAR
                     PT = PT + NUVAR
 !
