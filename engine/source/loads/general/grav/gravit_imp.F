@@ -71,7 +71,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NL, N1, ISK, N2, IFUNC, K1, K2, K3, ISENS,K,NN, IAD,J, PROC, IADF, IADL, ISMOOTH
-      my_real  NX, NY, NZ, AXI, A0, AA, VV, FX, FY, FZ, AX, DYDX, TS,GAMA, MA
+      my_real AXI, A0, AA, VV, DYDX, TS,GAMA, MA
       my_real MS0(NUMNOD)
       my_real FINTER,FINTER_SMOOTH
       EXTERNAL FINTER,FINTER_SMOOTH

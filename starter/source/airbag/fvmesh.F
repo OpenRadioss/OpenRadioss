@@ -46,7 +46,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE FVMESH1(IBUF , ELEM  , X     , IVOLU, BRIC ,
      .                   XB   , RVOLU , NEL   , NELI,  NBRIC, TBRIC,
-     .                   SFAC , DXM   , NBA   , NELA , NNA  ,
+     .                   SFAC , DXM   , NBA   , NELA ,
      .                   TBA  , TFACA , TAGELS, IBUFA,
      .                   ELEMA, TAGELA, IXS   ,ID    ,TITR, NB_NODE, ITYP)
 C-----------------------------------------------
@@ -56,6 +56,7 @@ C-----------------------------------------------
       USE FVBAG_MOD
       USE REORDER_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      USE FVBAG_GPOLCUT_MOD, ONLY : FVBAG_GPOLCUT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,34 +70,32 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IBUF(*), ELEM(3,*), IVOLU(*), BRIC(8,*),
-     .        NEL, NELI, NBRIC, TBRIC(13,*), NBA, NELA, NNA, TBA(2,*),
+     .        NEL, NELI, NBRIC, TBRIC(13,*), NBA, NELA, TBA(2,*),
      .        TFACA(12,*), TAGELS(*), IBUFA(*), ELEMA(3,*), TAGELA(*),
      .        IXS(NIXS,*), NB_NODE, ITYP
-      my_real
-     .        X(3,*), XB(3,*), RVOLU(*), SFAC(6,4,*), DXM
+      my_real X(3,*), XB(3,*), RVOLU(*), SFAC(6,4,*), DXM
       INTEGER ID
       CHARACTER(len=nchartitle) :: TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ILVOUT, NLAYER, NFACMAX, NPPMAX, I, J, IEL, N1, N2, N3,
-     .        NN1, NN2, NN3, GRBRIC, IAD, NPOLY, NNS, ITAGB(NBRIC),
-     .        NVMAX, NG, INFO, ICUT, NVERTS, NF1, NF2, NF3, NF4, NS,
+     .        NN1, NN2, NN3, IAD, NPOLY, NNS, ITAGB(NBRIC),
+     .        NVMAX, INFO, ICUT, NVERTS, NF1, NF2, NF3, NF4, NS,
      .        NSMAX, NV, K, KK, NNP, NPOLMAX, NRPMAX, N, M, MM, NPOLH,
      .        NPOLB, ITY, NN, NPHMAX, NPOLHMAX, JJ, JJJ, II,
      .        NNS_OLD, NNP_OLD, NPA, JMAX, IMAX, JJMAX, NP, NNTR,
      .        NPOLY_OLD, IPSURF, IC1, IC2, NHOL, NELP, NPOLH_OLD,
      .        L, LL, IFV, NNS2, NPOLY2, NPL, POLC, NSPOLY, NCPOLY,
-     .        NPOLHF, NNB, FILEN, LENP, LENH, IP, JMIN, LENIMAX,
-     .        LENRMAX, KKK, NSEG, IMIN, NFAC, N4, NN4, IB, IFOUND,
-     .        ITAGBA(NBA), IBSA(NBA), ITAGN(NB_NODE), NALL, III,
+     .        NPOLHF, LENP, LENH, IP, LENIMAX,
+     .        LENRMAX, KKK, NSEG, IMIN, NFAC, N4, NN4,
+     .        ITAGBA(NBA), IBSA(NBA), ITAGN(NB_NODE), NALL,
      .        NNS_ANIM, NBZ, NBNEDGE, NNS3, NPOLY_NEW, NNSP, NEDGE,
      .        ITYZ, INZ, J0, NNS1, K0, I1, I2, IDEP, NSTR, NCTR, IIZ,
-     .        NNS_OLD_SAVE,ITYZINT,IAD1, IAD2, ITMP1, ITMP2
+     .        NNS_OLD_SAVE,ITYZINT,IAD1, IAD2, ITMP1
       INTEGER, DIMENSION(:), ALLOCATABLE :: IFLAG
       PARAMETER (NVMAX=12)
-      my_real
-     .        X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3, X12, Y12, Z12, 
+      my_real X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3, X12, Y12, Z12,
      .        X13, Y13, Z13, NRX, NRY, NRZ, AREA2, ELAREA(NEL+NELI),
      .        NORM(3,NEL+NELI), XBMAX, YBMAX, ZBMAX, XBMIN, YBMIN, ZBMIN,
      .        XC, YC, ZC, XX, YY, ZZ, PP(3,3), XL7(3), BCENTER(3),
@@ -108,17 +107,13 @@ C-----------------------------------------------
      .        AREAMAX, VOLPH, AREAP, AREAEL, VPX, VPY, VPZ, 
      .        V1X, V1Y, V1Z, V2X, V2Y, V2Z, NRM1, VX, VY, VZ, SS,
      .        NORMF(3,4), KSI, ETA, VX1, VY1, VZ1, VX2, VY2, VZ2,
-     .        VMIN, VTMP, X4, Y4, Z4, X14, Y14, Z14, NORMA(3,NELA),
+     .        VMIN, X4, Y4, Z4, NORMA(3,NELA),
      .        DD2, XN(3), ZLMIN, ZLMAX, ZL, VNORM, VX3, VY3, VZ3, LZ,
      .        DZ, ALPHA, GAMAI, CPAI, CPBI, CPCI, RMWI, PINI, TI, CPI,
      .        CVI, RHOI, ZL1, ZL2, ZL3, ZLC, VAL, TMASS,
-     .        TI2, CPDI, CPEI, CPFI, R1, RTMP1, RTMP2
-
+     .        TI2, CPDI, CPEI, CPFI, R1
       INTEGER :: COUNT_ELEM_INT, COUNT_ELEM_EXT, COUNT_TRIA_INTERNE
       INTEGER :: COUNT_ELEM_INT_OLD, COUNT_ELEM_EXT_OLD, COUNT_TRIA_INTERNE_OLD
-C
-      CHARACTER CHFVB*7, CHMESH*5, FILNAM*116
-C
       INTEGER, ALLOCATABLE :: FACET(:,:), IPOLY(:,:),
      .                        IELNOD(:,:), POLH(:,:), IPOLY_F(:,:),
      .                        POLH_F(:,:), IFVNOD(:), IFVNOD_OLD(:),
@@ -128,15 +123,14 @@ C
      .                        TRI(:,:), ADR(:), ADR_OLD(:), IMERGED(:),
      .                        IPOLY_F_OLD(:,:), INEDGE(:,:), NREF(:,:),
      .                        IZ(:,:), LEDGE(:), IFVNOD2(:,:)
-      my_real
-     .       , ALLOCATABLE :: NORMT(:,:), POLY(:,:), RPOLY(:,:),
+      my_real, ALLOCATABLE :: NORMT(:,:), POLY(:,:), RPOLY(:,:),
      .                        RPOLY_F(:,:), VOLU(:), PNODES(:,:),
-     .                        PHOLES(:,:), RPOLY_OLD(:), VOLUSORT(:),
+     .                        PHOLES(:,:), RPOLY_OLD(:),
      .                        VOLU_OLD(:), RPOLY_F_OLD(:,:),
-     .                        RFVNOD_OLD(:,:), XNEW(:,:), RNEDGE(:,:),
+     .                        RNEDGE(:,:),
      .                        AREF(:,:), RFVNOD2(:,:), XNS(:,:), 
      .                        XNS2(:,:), AREATR(:)
-C
+
       INTEGER FAC(4,6), FACNOR(4,6), FAC4(3,4), FAC6(4,5)
       INTEGER FAC5(4,5), NFACE(4), NTYPE, IQUAD
       DATA FAC /1,4,3,2,
@@ -172,10 +166,8 @@ C liste chainee polygones
          INTEGER IZ(3), NNSP
          INTEGER, DIMENSION(:), POINTER :: IPOLY, IELNOD
          INTEGER, DIMENSION(:,:), POINTER :: NREF
-         my_real
-     .          , DIMENSION(:), POINTER :: RPOLY
-         my_real
-     .          , DIMENSION(:,:), POINTER ::  AREF
+         my_real, DIMENSION(:), POINTER :: RPOLY
+         my_real, DIMENSION(:,:), POINTER ::  AREF
          TYPE(POLYGONE), POINTER :: PTR
       END TYPE POLYGONE
       TYPE(POLYGONE), POINTER :: FIRST, PTR_PREC, PTR_CUR, PTR_TMP,
@@ -878,7 +870,7 @@ C
      .                     IELNOD(2*NN,NN),
      .                     NREF(2,NN), AREF(4,NN),
      .                     IZ(3,NN))
-                  CALL GPOLCUT(
+                  CALL FVBAG_GPOLCUT(
      .    IPOLY,   RPOLY,   PTR_CUR%IPOLY, PTR_CUR%RPOLY,  INEDGE,
      .    RNEDGE,  NBNEDGE, VX3,           VY3,            VZ3,   
      .    X0,      Y0,      Z0,            NREF,           AREF,    
