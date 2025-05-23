@@ -78,7 +78,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,ID,ISEN,IGSH,IGSH3,IGBR,IGQU,IGBM,IGTR,IGSP,IERR1
-      INTEGER IDUM,IFORM, NPRI
+      INTEGER IFORM
       my_real STARTT, STOPT
       LOGICAL :: IS_AVAILABLE
       CHARACTER(LEN=NCHARTITLE) :: TITR

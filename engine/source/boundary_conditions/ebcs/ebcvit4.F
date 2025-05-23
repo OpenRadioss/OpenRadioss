@@ -27,7 +27,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    ebcs_mod   ../common_source/modules/boundary_conditions/ebcs_mod.F90
       !||====================================================================
-      SUBROUTINE EBCVIT4(V, A, LISTE, NOD, FV, RESO, LA, EBCS)
+      SUBROUTINE EBCVIT4(V, A, LISTE, NOD, FV, RESO, EBCS)
       USE EBCS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -41,16 +41,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LISTE(*),NOD
-      my_real
-     .       V(3,*),A(3,*),LA(3,NOD),RESO(3,NOD),FV(*)
+      my_real V(3,*),A(3,*),RESO(3,NOD),FV(*)
       TYPE(t_ebcs_vel), INTENT(IN) :: EBCS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N,IVX,IVY,IVZ
-      my_real
-     .     C,LCAR,ALP,ALPDT,AX,AY,AZ,VIMP,VX,VY,VZ
-C
+      my_real C,LCAR,ALP,ALPDT,AX,AY,AZ,VX,VY,VZ
+
       IVX = EBCS%ivx
       IVY = EBCS%ivy
       IVZ = EBCS%ivz

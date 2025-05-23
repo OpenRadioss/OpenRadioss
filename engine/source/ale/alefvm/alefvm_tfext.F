@@ -29,12 +29,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    alefvm_mod             ../common_source/modules/ale/alefvm_mod.F
       !||====================================================================
       SUBROUTINE ALEFVM_TFEXT  (
-     1                          IXS,  NV46, SIG,  QVIS, ALE_CONNECT, VOL ,
+     1                          IXS,  NV46, SIG,  ALE_CONNECT,
      2                          N1X,  N2X,  N3X,  N4X,  N5X,   N6X ,
      3                          N1Y,  N2Y,  N3Y,  N4Y,  N5Y,   N6Y ,
      4                          N1Z,  N2Z,  N3Z,  N4Z,  N5Z,   N6Z ,
-     5                          DXX,  DYY,  DZZ,  X  ,  IPM,   NALE,
-     6                          W  ,  P  ,  VEUL, NEL,  WFEXT)
+     5                          X  ,  IPM,  NALE,
+     6                          W  ,  P  ,  NEL,  WFEXT)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -78,28 +78,21 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER :: IXS(NIXS,*),NV46,IPM(NPROPMI,*),NALE(*),NEL
-      my_real :: SIG(NEL,6),QVIS(*),VOL(MVSIZ),DXX(MVSIZ),DYY(MVSIZ), DZZ(MVSIZ),X(3,*),W(3,*),P(MVSIZ)
+      my_real :: SIG(NEL,6),X(3,*),W(3,*),P(MVSIZ)
       my_real :: N1X(*), N2X(*),  N3X(*), N4X(*), N5X(*), N6X(*),
      .           N1Y(*), N2Y(*),  N3Y(*), N4Y(*), N5Y(*), N6Y(*),
-     .           N1Z(*), N2Z(*),  N3Z(*), N4Z(*), N5Z(*), N6Z(*),
-     .           VEUL(LVEUL,*)
+     .           N1Z(*), N2Z(*),  N3Z(*), N4Z(*), N5Z(*), N6Z(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       DOUBLE PRECISION,INTENT(INOUT) :: WFEXT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I, II, IV, J, MT, IALEFVM_FLG, ICF(4,6),IX(4)
-      my_real :: VALEL(MVSIZ)  , VALVOIS(NV46,MVSIZ),  
-     .           S1(MVSIZ)     , S2(MVSIZ)          , S3(MVSIZ), 
-     .           S4(MVSIZ)     , S5(MVSIZ)          , S6(MVSIZ),
-     .           PVOIS(6,MVSIZ), Vface(3,6)         , GradV(3,3) ,
-     .           EPSDOT(6) 
       INTEGER :: NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ),NC4(MVSIZ),NC5(MVSIZ),NC6(MVSIZ),NC7(MVSIZ),NC8(MVSIZ)
-      my_real
-     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ) , X4(MVSIZ), X5(MVSIZ), X6(MVSIZ), X7(MVSIZ), X8(MVSIZ),
-     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ) , Y4(MVSIZ), Y5(MVSIZ), Y6(MVSIZ), Y7(MVSIZ), Y8(MVSIZ),
-     .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ) , Z4(MVSIZ), Z5(MVSIZ), Z6(MVSIZ), Z7(MVSIZ), Z8(MVSIZ),
-     .   SWn(6)   ,  Wface(3,6,MVSIZ), WFEXT_ADD, WFEXTT
+      my_real ::  X1(MVSIZ), X2(MVSIZ), X3(MVSIZ) , X4(MVSIZ), X5(MVSIZ), X6(MVSIZ), X7(MVSIZ), X8(MVSIZ),
+     .            Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ) , Y4(MVSIZ), Y5(MVSIZ), Y6(MVSIZ), Y7(MVSIZ), Y8(MVSIZ),
+     .            Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ) , Z4(MVSIZ), Z5(MVSIZ), Z6(MVSIZ), Z7(MVSIZ), Z8(MVSIZ),
+     .            SWn(6)   ,  Wface(3,6,MVSIZ), WFEXT_ADD, WFEXTT
 
       DATA ICF/1,4,3,2,3,4,8,7,5,6,7,8,1,2,6,5,2,3,7,6,1,5,8,4/
       INTEGER :: IAD2

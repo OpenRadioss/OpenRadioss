@@ -31,14 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i22bufbric_mod        ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||    i22tri_mod            ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||====================================================================
-      SUBROUTINE ALEFVM_SFINT3_INT22
-     .                         (
-     1                          IXS ,  NV46 ,  IALEFVM_FLG, ITASK,
-     2                          IPM ,  IPARG,  NG   , NALE       , A    ,
-     3                          X   ,  V    ,  BID1 , BID2       , MS   ,
-     4                          BID3,  BID4 ,  W    , NBF        , NBL  ,
-     5                          tNB ,  NIN
-     .                          )
+      SUBROUTINE ALEFVM_SFINT3_INT22(IXS,  NV46,  ITASK, NBF ,NBL  ,NIN)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -80,19 +73,17 @@ C subroutine is unplugged
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER :: IXS(NIXS,NUMELS),NV46,IALEFVM_FLG, ITASK,IPM(NPROPMI,NUMMAT),IPARG(NPARG,NGROUP),NG ,NALE(*)
-      INTEGER :: NBF, NBL, tNB, NIN
-      my_real :: A(3,NUMNOD),X(3,NUMNOD),V(3,NUMNOd),MS(*),W(3,NUMNOD),BID1,BID2,BID3,BID4
+      INTEGER :: IXS(NIXS,NUMELS),NV46, ITASK
+      INTEGER :: NBF, NBL, NIN
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      LOGICAL :: debug_outp
-      INTEGER :: idebug, idbf,idbl, IB, IBm, IBs, IADJ, MCELL, NumSECND, NADJ, ISECND
+      INTEGER :: IB, IBm, IBs, IADJ, MCELL, NumSECND, NADJ, ISECND
       INTEGER :: I, II, J, IBv, NBCUT, NBCUTv, K, IV
       INTEGER :: ICELLv, JV, ICELLs, ClosedSurface, IPRES_MOM, ISGN_NORM
       my_real :: F0(3), SURF, Pf
-      my_real :: NORM, FN,FNX,FNY,FNZ, Z1,Z2, P1,P2, UN1,UN2, DENOM
-      my_real :: N(3), AREA, AREAv, AREAmin, Js, SumAREAv, AREA_trunc, COEF1, COEF2
+      my_real :: NORM, Z1,Z2, P1,P2, UN1,UN2, DENOM
+      my_real :: N(3), AREA, AREAv, Js, COEF1, COEF2
       my_real :: THETA, M1, M2, Mf
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s

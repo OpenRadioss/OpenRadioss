@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE INTAL2(IPARI,INTBUF_TAB         , X        ,V         ,
      1           A           ,ISKEW   ,SKEW      ,LCOD      ,E         ,
      2           MSM         ,MS      ,ITAB      ,FSAV      ,FCONT     ,
-     3           FNCONT      ,FTCONT  ,H3D_DATA  )
+     3           FNCONT      ,H3D_DATA  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -56,7 +56,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(INOUT) :: IPARI(SIPARI), ISKEW(*), LCOD(*), ITAB(NUMNOD)
       my_real,INTENT(INOUT) :: X(3,NUMNOD), V(3,NUMNOD), A(3,NUMNOD), SKEW(*), E(*), MSM(*), MS(*),FSAV(*)
-      my_real,INTENT(INOUT) :: FCONT(3,*),FNCONT(3,*),FTCONT(3,*)       
+      my_real,INTENT(INOUT) :: FCONT(3,*),FNCONT(3,*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
       TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
@@ -82,17 +82,17 @@ C-----------------------------------------------
       ENDIF
 
       CALL IQELA1
-     1   (X         ,SKEW      ,A         ,E         ,MSM       ,
-     2    INTBUF_TAB%IRECTM,INTBUF_TAB%NRT,INTBUF_TAB%CSTS,INTBUF_TAB%MSR,INTBUF_TAB%NSV,
-     3    INTBUF_TAB%ILOCS,INTBUF_TAB%IRTLM,MS        ,INTBUF_TAB%N,LCOD      ,
-     4    ISKEW           ,FSAV,ITAB ,FCONT,FNCONT,FTCONT,H3D_DATA, 
-     5    NSN, NMN)
+     1   (A                ,E               ,MSM           ,
+     2    INTBUF_TAB%IRECTM,INTBUF_TAB%CSTS ,INTBUF_TAB%MSR,INTBUF_TAB%NSV,
+     3    INTBUF_TAB%ILOCS ,INTBUF_TAB%IRTLM,MS            ,INTBUF_TAB%N  ,LCOD    ,
+     4    ISKEW            ,FSAV            ,FCONT         ,FNCONT        ,H3D_DATA,
+     5    NSN              ,NMN)
 
       CALL IQELA2
-     1   (X         ,SKEW      ,A         ,E         ,MSM       ,
-     2    INTBUF_TAB%IRECTM,INTBUF_TAB%NRT,INTBUF_TAB%CSTS,INTBUF_TAB%MSR,INTBUF_TAB%NSV,
-     3    INTBUF_TAB%ILOCS,INTBUF_TAB%IRTLM,LCOD      ,V         ,ISKEW     ,
-     4    INTBUF_TAB%N,ITAB, NSN, NMN     )
+     1   (SKEW             ,A              ,E             ,MSM           ,
+     2    INTBUF_TAB%IRECTM,INTBUF_TAB%CSTS,INTBUF_TAB%MSR,INTBUF_TAB%NSV,
+     3    INTBUF_TAB%IRTLM ,LCOD           ,V             ,ISKEW         ,
+     4    INTBUF_TAB%N     ,ITAB           ,NSN           , NMN     )
 
       RETURN
       END

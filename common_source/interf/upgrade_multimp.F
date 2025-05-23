@@ -72,7 +72,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ITY,IFQ,INACTI,MFROT,NCONT,ITIED,
      .        NCONTE,NSN,NRTM,IEDGE1,FLAGREMNODE
-      INTEGER I,N,OLD_SIZE,NEW_SIZE,MULTIMP,
+      INTEGER I,OLD_SIZE,NEW_SIZE,MULTIMP,
      .        OLD_SIZE2,NEW_SIZE2,IERR,
      .        OLD_SIZE_OPT, NEW_SIZE_OPT
 
@@ -1145,10 +1145,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ITY,IFQ,INACTI,MFROT,NCONT,
-     .        NCONTE,NSN,NRTM,IEDGE1,FLAGREMNODE
-      INTEGER I,N,OLD_SIZE,NEW_SIZE,MULTIMP,
-     .        OLD_SIZE2,NEW_SIZE2,IERR
+      INTEGER ITY,IFQ,INACTI,MFROT,NSN,NRTM
+      INTEGER I,OLD_SIZE,NEW_SIZE,MULTIMP,IERR
 
       INTEGER, DIMENSION (:), ALLOCATABLE :: OLD_TAB_I
       my_real, DIMENSION (:), ALLOCATABLE :: OLD_TAB_R
@@ -1344,7 +1342,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ITY,INACTI,NCONTE
-      INTEGER I,N,OLD_SIZE,NEW_SIZE,MULTIMP,IERR,IFQ
+      INTEGER I,OLD_SIZE,NEW_SIZE,MULTIMP,IERR,IFQ
 
       INTEGER, DIMENSION (:), ALLOCATABLE :: OLD_TAB_I
       my_real, DIMENSION (:), ALLOCATABLE :: OLD_TAB_R
@@ -1545,7 +1543,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ITY,INACTI,NCONTE
-      INTEGER I,N,OLD_SIZE,NEW_SIZE,MULTIMP,IERR,IFQ
+      INTEGER I,OLD_SIZE,NEW_SIZE,MULTIMP,IERR,IFQ
 
       INTEGER, DIMENSION (:), ALLOCATABLE :: OLD_TAB_I
       my_real, DIMENSION (:), ALLOCATABLE :: OLD_TAB_R

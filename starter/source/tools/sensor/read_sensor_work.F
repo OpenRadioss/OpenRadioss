@@ -69,7 +69,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: NOD1,NOD2,N1,N2,NS,NPARIS,NPARRS,NVAR,SENS_TYPE,
-     .   SECT_ID,INT_ID,RBOD_ID,RWAL_ID,P
+     .   SECT_ID,INT_ID,RBOD_ID,RWAL_ID
       my_real :: TDEL,WMAX,TMIN
       CHARACTER MESS*40
       LOGICAL :: IS_AVAILABLE

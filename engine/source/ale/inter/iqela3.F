@@ -30,8 +30,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE IQELA3(
      1                  V    ,W    ,IRECT ,CRST ,NSV ,
-     2                  ILOC ,IRTL ,ICODE ,IBCS ,BCS ,
-     3                  MSR, NSN 
+     2                  IRTL ,
+     3                  MSR  ,NSN
      .                  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -46,8 +46,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN)    :: IRECT(4,*), NSV(*), ILOC(*), IRTL(*), ICODE(*), IBCS(*), MSR(*)
-      my_real,INTENT(IN)    :: V(3,NUMNOD), CRST(2,*), BCS(9,*)
+      INTEGER,INTENT(IN)    :: IRECT(4,*), NSV(*), IRTL(*), MSR(*)
+      my_real,INTENT(IN)    :: V(3,NUMNOD), CRST(2,*)
       INTEGER, INTENT(IN)   :: NSN
       my_real,INTENT(INOUT) :: W(3,NUMNOD)
 C-----------------------------------------------

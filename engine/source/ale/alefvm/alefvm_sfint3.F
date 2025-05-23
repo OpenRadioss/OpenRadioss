@@ -31,10 +31,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i22tri_mod             ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||====================================================================
       SUBROUTINE ALEFVM_SFINT3 (
-     1                          IXS,  NV46 ,  ALE_CONNECT, IALEFVM_FLG, ITASK,
-     2                          IPM,  IPARG,  NG   , NALE       , A    ,
-     3                          X  ,  V    ,  RHO  , VOL        , MS   ,
-     4                          MOM,  SIG  ,  W    , IAD22      ,NEL   )
+     1                          IXS,  NV46 ,  ALE_CONNECT, IALEFVM_FLG,
+     2                          IPM,  IPARG,  NG   ,
+     3                          X  ,  IAD22,  NEL   )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -77,26 +76,25 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-      INTEGER :: IXS(NIXS,*),NV46,IALEFVM_FLG, ITASK,IPM(NPROPMI,*),IPARG(NPARG,*),NG ,NALE(*)
-      my_real :: A(3,*),X(3,*),V(3,*),RHO(*),VOL(*),MS(*),MOM(NEL,3),SIG(NEL,6),W(3,*)
+      INTEGER :: IXS(NIXS,*),NV46,IALEFVM_FLG, IPM(NPROPMI,*),IPARG(NPARG,*),NG
+      my_real :: X(3,*)
       my_real :: IAD22(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      LOGICAL :: debug_outp
-      INTEGER :: idebug, idbf,idbl, IAD2, IAD3
+      INTEGER :: IAD2, IAD3
       INTEGER :: I, II, IV, J, JV, IMAT, ILAW,IFLG_ALE,IFLG_EUL
       INTEGER :: NIN, IB, IPRES_MOM
       INTEGER :: NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8
-      my_real :: F0(3,MVSIZ), FFACE(3,NV46,MVSIZ),LMAX
-      my_real :: NX(6,mvsiz), NY(6,mvsiz),  NZ(6,mvsiz),  NF1, NF2,P1,P2,DENOM,Pf
-      my_real :: THETA, MACH, VEL, M1, M2, Mf
+      my_real :: F0(3,MVSIZ), FFACE(3,NV46,MVSIZ)
+      my_real :: NX(6,mvsiz), NY(6,mvsiz),  NZ(6,mvsiz), P1,P2,DENOM,Pf
+      my_real :: THETA, M1, M2, Mf
       my_real :: 
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ), X5(MVSIZ), X6(MVSIZ), X7(MVSIZ), X8(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ), Y5(MVSIZ), Y6(MVSIZ), Y7(MVSIZ), Y8(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ), Z5(MVSIZ), Z6(MVSIZ), Z7(MVSIZ), Z8(MVSIZ),
-     .   Z_1, Z_2, U1(3), U2(3),  U1N1, U2N1, R_1, R_2
+     .   Z_1, Z_2, U1N1, U2N1
       
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s

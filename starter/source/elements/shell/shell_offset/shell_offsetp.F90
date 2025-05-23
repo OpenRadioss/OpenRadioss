@@ -95,7 +95,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer i,j,n,nel,nft,nn,ie,igtyp,nf1,ity,nnode,pid,ng,nshel,nneoset_g,ix(4),id
+          integer i,j,n,nel,nft,nn,ie,igtyp,ity,nnode,pid,ng,nshel,nneoset_g,ix(4)
           integer, dimension(:), allocatable   :: intag,idnneoset
           integer, dimension(:,:), allocatable :: ixnneoset
           my_real, dimension(:), allocatable   :: shoset_n,sh_oset,thk_g

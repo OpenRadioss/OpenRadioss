@@ -96,7 +96,7 @@ C-----------------------------------------------
      .    INACTI, IBC1M, IBC2M, IBC3M, IGSTI, IVIS2,IS1, IS2,
      .    ILEV, IGAP,MULTIMP,MFROT,IFQ,IBAG,MODFR,
      .    IEDGE,NOD1,
-     .    IGAP0,FLAGREMNOD,IDSENS,IDELKEEP,INTKG,IREM7I2,IPRINT,    
+     .    FLAGREMNOD,IDSENS,IDELKEEP,INTKG,IREM7I2,IPRINT,
      .    INTFRIC,IASSIGN,IGAP_TYPE19,IRSTH,IDEL7N,
      .    ICURV,IFRICTH,NA1,NA2,IFORM,IADM,NRADM,FIELD6,ITIED,
      .    IB1,IB2,IB3,ISU1,ISU2,ISU3,NTYP0
@@ -992,8 +992,6 @@ C--------------------------------------------------------------
       ENDIF
 C
 C--------------------------------------------------------------
- 1000 FORMAT(/1X,'  INTERFACE NUMBER :',I10,1X,A)
-C------------
       RETURN
 
 
@@ -1273,14 +1271,6 @@ C
      .       '          1 : heat Exchange between pieces in contact',/,
      .       '  Frictional heat transfer on SECONDARY surface . ',1PG20.13/,
      .       '  Frictional heat transfer on MAIN surface. ',1PG20.13/)
- 2501   FORMAT(//
-     .       '    TYPE==7   thermal interface          ' //,
-     .       '    Heat conduction per surface unit. . . .  . ',1PG20.13/,
-     .       '    Interface temperature  . . . . . . . . . . ',1PG20.13/,
-     .       '    FORMULATION CHOICE : . . . . . . . . . . . . ',I10,/,
-     .       '          0 : heat transfer between shells(SECONDARY side)',/,
-     .       '                 and constant temperature in interface',/,
-     .       '          1 : heat Exchange between pieces in contact')
 2503   FORMAT(//
      .       '    TYPE==7   thermal interface          ' //,
      .  '   Function for thermal heat exchange coefficient wrt contact pressure',I10/,

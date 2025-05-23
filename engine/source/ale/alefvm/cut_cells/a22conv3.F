@@ -34,8 +34,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i22tri_mod           ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||    multimat_param_mod   ../common_source/modules/multimat_param_mod.F90
       !||====================================================================
-      SUBROUTINE A22CONV3(            PHI  ,  FLUX ,   FLU1,
-     .                    IOFF ,  QMV  ,   IFLG,
+      SUBROUTINE A22CONV3(PHI  ,
+     .                    IFLG      ,
      .                    ITRIMAT   , NVAR ,  ITASK,
      .                    ELBUF_TAB , IXS  ,  IPARG)
 C-----------------------------------------------
@@ -73,9 +73,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IOFF, IFLG,ITASK,NVAR, IXS(NIXS,*),IPARG(NPARG,*)
-      my_real
-     .    PHI(*), FLUX(6,*), FLU1(*), QMV(12,*)
+      INTEGER IFLG,ITASK,NVAR, IXS(NIXS,*),IPARG(NPARG,*)
+      my_real PHI(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB     
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -89,18 +88,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IE, IV,J,ITRIMAT,NIN,NBF,NBL,IB,IADJ,IFACE, NG,IDLOC,
-     . IBV,JV,ICELL,ICELLv,NCELL,NUM, MCELL,MLW, NADJ, LLT_
-      my_real
-     .   VALVOIS,VALEL,VL, dPHI
-      INTEGER               , POINTER      :: pNum     
+      INTEGER IE, IV,J,ITRIMAT,NIN,NBF,NBL,IB,IADJ,NG,IDLOC,IBV,JV,ICELL,ICELLv,NCELL,NUM, MCELL,MLW, NADJ, LLT_
+      my_real VALVOIS,VALEL,VL, dPHI
       TYPE(L_BUFEL_)        , POINTER      :: LBUF     
       TYPE(BUF_MAT_)        , POINTER      :: MBUF 
-      my_real,  DIMENSION(:), POINTER      :: VAR, pRHO , pVOL , pEINT ,pIAD22
+      my_real,  DIMENSION(:), POINTER      :: VAR, pRHO , pEINT
       INTEGER                              :: ADD, ADD0 ,K    
       INTEGER,DIMENSION(:,:),  POINTER     :: pAdjBRICK                  
-      LOGICAL :: debug_outp              
-      my_real, TARGET                      :: tmpVAR(MVSIZ)      
+      LOGICAL :: debug_outp
 C-----------------------------------------------
 
       !---------------------------------------------------------!
@@ -180,7 +175,6 @@ C-----------------------------------------------
             ENDDO!next IADJ 
           ENDDO!next J      
           VALEL = BRICK_LIST(NIN,IB)%POLY(ICELL)%PHI
-!          dPHI = dPHI + VALEL* BRICK_LIST(NIN,IB)%upwFLU1(ICELL)
           dPHI = dPHI + VALEL* BRICK_LIST(NIN,IB)%POLY(ICELL)%Adjacent_FLU1
           dPHI = -HALF * DT1 * dPHI
           BRICK_LIST(NIN,IB)%POLY(ICELL)%dPHI = dPHI 

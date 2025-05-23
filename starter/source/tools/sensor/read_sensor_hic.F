@@ -68,7 +68,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: K,SENS_TYPE,INP_FLAG,ACC_ID,NOD_ID,IACC,IDIR,
+      INTEGER :: K,SENS_TYPE,INP_FLAG,ACC_ID,IACC,IDIR,
      .   NPOINT,NPARIS,NPARRS,NVAR
       my_real :: TDEL,PERIOD,HIC_CRIT,DEF_GRAVITY,GRAVITY,TMIN,
      .   FAC_GRAV,Time_Unit

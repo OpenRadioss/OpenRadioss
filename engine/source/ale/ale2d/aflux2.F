@@ -55,9 +55,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXQ(NIXQ,NUMELQ)
-      my_real
-     .   PM(NPROPM,NUMMAT), V(3,NUMNOD), W(3,NUMNOD), X(3,NUMNOD), FLUX(4,*), FLU1(*),
-     .   FILL(*), DFILL(*), VOL(*), ALPH(*)
+      my_real PM(NPROPM,NUMMAT),V(3,NUMNOD),W(3,NUMNOD),X(3,NUMNOD),FLUX(4,*),FLU1(*),FILL(*),DFILL(*),VOL(*),ALPH(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

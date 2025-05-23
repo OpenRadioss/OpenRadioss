@@ -87,14 +87,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    timer_mod                    ../engine/source/system/timer_mod.F90
       !||====================================================================
       SUBROUTINE ALEMAIN( TIMERS,
-     1         PM          ,GEO         ,X               ,A          ,AR                ,V               ,
+     1         PM          ,GEO         ,X               ,A          ,V                 ,
      2         MS          ,WA          ,ELBUF_TAB       ,BUFMAT     ,PARTSAV           ,TF              ,
      3         VAL2        ,VEUL        ,FV              ,STIFN      ,FSKY              ,EANI            ,
      4         PHI         ,FILL        ,DFILL           ,ALPH       ,SKEW              ,W               ,
      5         D           ,DSAVE       ,ASAVE           ,DT2T       ,DT2SAVE           ,XCELL           ,
      6         IPARG       ,NPC         ,IXS             ,IXQ        ,IXTG              ,IADS            ,
-     7         IFILL       ,NODPOR      ,ICODT           ,ISKEW      ,IMS               ,IADQ            ,
-     8         NELTST      ,ITYPTST     ,IPART           ,IPARTS     ,IPARTQ            ,ITASK           ,
+     7         IFILL       ,ICODT       ,ISKEW           ,IMS        ,IADQ              ,
+     8         NELTST      ,ITYPTST     ,IPARTS          ,IPARTQ     ,ITASK             ,
      A         NODFT       ,NODLT       ,NBRCVOIS        ,TEMP       ,FSAVSURF          ,
      B         NBSDVOIS    ,LNRCVOIS    ,LNSDVOIS        ,NERCVOIS   ,NESDVOIS          ,LERCVOIS        ,
      C         LESDVOIS    ,ISIZXV      ,IAD_ELEM        ,FR_ELEM    ,FSKYM             ,MSNF            ,
@@ -184,10 +184,10 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IDYNA
       my_real,INTENT(INOUT) :: FSAVSURF(TH_SURF_NUM_CHANNEL,NSURF)
       INTEGER IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ),IXTG(NIXTG,NUMELTG), ISKY(*),
-     .   IFILL(NUMNOD,*), NPC(*), IPARG(NPARG,NGROUP),NODPOR(*),
+     .   IFILL(NUMNOD,*), NPC(*), IPARG(NPARG,NGROUP),
      .   IADS(8,*),IADQ(4,*),ICODT(*),ISKEW(*), IMS(*),
      .   IGEO(NPROPGI,NUMGEO),
-     .   IPART(LIPART1,*) ,IPARTS(*) ,IPARTQ(*),IPM(NPROPMI,*),NODFT,
+     .   IPARTS(*) ,IPARTQ(*),IPM(NPROPMI,*),NODFT,
      .   NELTST ,ITYPTST, ITASK, 
      .   NBRCVOIS(*),NBSDVOIS(*), LNRCVOIS(*), LNSDVOIS(*),
      .   NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),
@@ -206,7 +206,7 @@ C-----------------------------------------------
       my_real X(3,NUMNOD),V(3,NUMNOD),MS(*),PM(NPROPM,NUMMAT),SKEW(LSKEW,*),
      .        GEO(NPROPG,NGROUP),BUFMAT(*) ,W(3,NUMNOD),VEUL(*),FILL(NUMNOD,*),
      .        DFILL(NUMNOD,*),ALPH(*),TF(*),
-     .        FV(*),A(3,NUMNOD),AR(3,NUMNOD),VAL2(*),PHI(*),
+     .        FV(*),A(3,NUMNOD),VAL2(*),PHI(*),
      .        PARTSAV(*) ,STIFN(*) ,D(3,NUMNOD),DSAVE(3,*),ASAVE(3,*),WA(*),
      .        FSKY(*),EANI(*), FSKYM(*),
      .        DT2T, DT2SAVE,
@@ -251,7 +251,6 @@ C-----------------------------------------------
       my_real, TARGET  :: BID
       my_real, DIMENSION(:,:),ALLOCATABLE,TARGET  :: QMV
       my_real, POINTER :: pQMV
-      my_real :: SUM_MASS
       ! SPMD array for adjacent data ALE/CFD
       my_real, DIMENSION(:,:),ALLOCATABLE ::BUFVOIS
 
@@ -447,9 +446,9 @@ C
                  I=1+NINTER+NRWALL+NRBODY+NSECT+NJOINT+NRBAG
                  CALL EBCS_MAIN(IGRSURF,SEGVAR,VOLMON,
      .                          A,V,W,X,FSAV(1,I),FV,
-     .                          WA,MS,MSNF,WEIGHT,STIFN,IPARG,
+     .                          MS,STIFN,IPARG,
      .                          ELBUF_TAB,EBCS_TAB,MULTI_FVM,IXQ,IXS,IXTG,
-     .                          ITAB,ALE_CONNECTIVITY%NALE,FSKY,FSAVSURF,TT,DT1,
+     .                          FSKY,FSAVSURF,TT,DT1,
      .                          SENSORS%NSENSOR,SENSORS%SENSOR_TAB,PYTHON,
      .                          NPC, TF ,SNPC, STF)
                ENDIF
@@ -614,9 +613,7 @@ C     Gravity terms
 C     -------------------------
                CALL ALEFVM_GRAV_INIT(PYTHON, 
      1              AGRAV, IGRV    , LGRAV, SENSORS%NSENSOR,SENSORS%SENSOR_TAB,
-     2              IXS  , ITASK   , NPC  , TF    , SKEW   ,
-     3              ITAB 
-     .              )
+     2              ITASK, NPC     , TF    , SKEW  )
 
 C     -------------------------
 C     Wall boundary condition
@@ -780,9 +777,7 @@ C
             ! VERTEX(4,1:NUMNOD) = ZERO  !-> not needed, nodes remain the same ones and VERTEX is initialized on allocation
             CALL ALEFVM_GRAV_INIT(PYTHON, 
      1                           AGRAV, IGRV    , LGRAV, SENSORS%NSENSOR,SENSORS%SENSOR_TAB,
-     2                           IXS  , ITASK   , NPC  , TF    , SKEW   ,
-     3                           ITAB 
-     .                           )
+     2                            ITASK   , NPC  , TF    , SKEW   )
           ENDIF       
           
 

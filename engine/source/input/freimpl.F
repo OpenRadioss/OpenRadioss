@@ -76,11 +76,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, NBC, K, IKEY,IM,J,NJ,KK, IOERR,E_ID
+      INTEGER I, NBC, K, IKEY,IM,J,NJ,KK
       CHARACTER  TITLE*72, KEY2*5, KEY3*5, KEY4*5
       CHARACTER(LEN=NCHARLINE100)::CARTE
-      my_real
-     .   TMP
 C----------------------------------------
       IKEY=KIMPL
       IMPL_S=0

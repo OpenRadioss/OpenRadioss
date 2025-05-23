@@ -31,9 +31,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE ATUR17(
      1   PM,      OFF,     RHO,     RK,
      2   RE,      GEO,     VOLN,    MAT,
-     3   DELTAX,  NGEO,    VIS,     VNEW,
+     3   DELTAX,  NGEO,
      4   VD2,     DVOL,    AIRE,    EINC,
-     5   PTURB,   TMU,     ALOGEY,  NEL,
+     5   PTURB,    ALOGEY,  NEL,
      6   LFT,     LLT,     JPOR)
 
 C-----------------------------------------------
@@ -56,7 +56,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL, LFT,     LLT,     JPOR
       my_real PM(NPROPM,NUMMAT), OFF(*), RHO(*), RK(*), RE(*),GEO(NPROPG,NUMGEO),VOLN(MVSIZ),
-     .        DELTAX(*), VIS(*), VNEW(*), VD2(*), DVOL(*), AIRE(*), EINC(*),TMU(*), ALOGEY(*)
+     .        DELTAX(*), VD2(*), DVOL(*), AIRE(*), EINC(*), ALOGEY(*)
       my_real,INTENT(INOUT) :: PTURB(1:LLT)
       INTEGER MAT(*),NGEO(*)
 C-----------------------------------------------

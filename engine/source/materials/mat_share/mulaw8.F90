@@ -273,7 +273,7 @@
           my_real :: ss1,ss2,ss3,ss4,ss5,ss6
           my_real :: q1,q2,q3
           my_real :: asrate,epsp
-          my_real :: bid,dum1,bidon,bidon1,bidon2,bidon3,bidon4,bidon5
+          my_real :: bidon,bidon1,bidon2,bidon3,bidon4,bidon5
           my_real tt_local
           !
           my_real, dimension(:)  ,pointer :: sigp,siglp,strain,uvar,uvarf

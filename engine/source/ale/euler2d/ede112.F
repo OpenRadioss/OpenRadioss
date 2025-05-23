@@ -27,8 +27,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- uses       -----------------------------------------------------
       !||    ale_connectivity_mod   ../common_source/modules/ale/ale_connectivity_mod.F
       !||====================================================================
-      SUBROUTINE EDE112(PM  ,V   ,VEUL ,X   ,IXQ ,ALE_CONNECT ,
-     .                  WYZ ,DYZ ,DZY  ,EYY ,EZZ ,ETT         ,EYZ ,EYT ,EZT)
+      SUBROUTINE EDE112(PM  ,V   ,X   ,IXQ ,ALE_CONNECT ,
+     .                  WYZ ,DYZ ,DZY  ,EYY ,EZZ )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -57,7 +57,7 @@ C-----------------------------------------------
 !  (1:3, NUMNOD+1:) additional nodes (also on adjacent domains but connected to the boundary of the current domain)
       my_real,INTENT(IN) :: X(3,SX/3)
 !
-      my_real,INTENT(IN) :: V(3,NUMNOD), VEUL(10,*), PM(NPROPM,NUMMAT), ETT(*), EYZ(*), EYT(*), EZT(*)
+      my_real,INTENT(IN) :: V(3,NUMNOD), PM(NPROPM,NUMMAT)
       my_real,INTENT(INOUT) :: EYY(*),EZZ(*),DYZ(*), DZY(*),WYZ(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------

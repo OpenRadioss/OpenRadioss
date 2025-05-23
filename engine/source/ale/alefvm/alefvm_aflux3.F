@@ -29,9 +29,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    alefvm_mod             ../common_source/modules/ale/alefvm_mod.F
       !||    i22tri_mod             ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||====================================================================
-      SUBROUTINE ALEFVM_AFLUX3(PM   ,IXS  ,V     ,W       ,FLUX ,
-     2                         FLU1 ,VEUL ,ALE_CONNECT  ,TAG22,
-     3                         IPM  ,NV46 ,MOM   ,ITASK   ,X    ,
+      SUBROUTINE ALEFVM_AFLUX3(PM   ,IXS  ,W            ,FLUX ,
+     2                         FLU1 ,ALE_CONNECT  ,
+     3                         IPM  ,NV46 ,X            ,
      4                         NEL  )
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -67,13 +67,13 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER :: IXS(NIXS,*), NV46, IPM(NPROPMI,*),NEL
-      my_real :: PM(NPROPM,*), V(3,*), FLUX(6,*), FLU1(*), VEUL(LVEUL,*), TAG22(*),MOM(NEL,3),X(3,*),W(3,*)
+      my_real :: PM(NPROPM,*), FLUX(6,*), FLU1(*), X(3,*),W(3,*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER MAT(MVSIZ), NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), NC5(MVSIZ), NC6(MVSIZ),
-     .   NC7(MVSIZ), NC8(MVSIZ), I, II,J,IMAT,IALEFVM_FLG,IDV, ITASK,ICF(4,6),
+     .   NC7(MVSIZ), NC8(MVSIZ), I, II,J,IMAT,IALEFVM_FLG,IDV, ICF(4,6),
      .   IX1,IX2,IX3,IX4
       my_real
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ), X5(MVSIZ), X6(MVSIZ), X7(MVSIZ), X8(MVSIZ),
@@ -84,10 +84,7 @@ C-----------------------------------------------
      .   N6Z(MVSIZ), FLUX1(MVSIZ), FLUX2(MVSIZ), FLUX3(MVSIZ), FLUX4(MVSIZ), FLUX5(MVSIZ),
      .   FLUX6(MVSIZ), VX1(MVSIZ), VX2(MVSIZ), VX3(MVSIZ), VX4(MVSIZ), VX5(MVSIZ), VX6(MVSIZ),
      .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ), VY5(MVSIZ), VY6(MVSIZ), VZ1(MVSIZ), VZ2(MVSIZ),
-     .   VZ3(MVSIZ), VZ4(MVSIZ), VZ5(MVSIZ), VZ6(MVSIZ), VDX1(MVSIZ), VDX2(MVSIZ), VDX3(MVSIZ),
-     .   VDX4(MVSIZ), VDX5(MVSIZ), VDX6(MVSIZ), VDX7(MVSIZ), VDX8(MVSIZ), VDY1(MVSIZ), VDY2(MVSIZ),
-     .   VDY3(MVSIZ), VDY4(MVSIZ), VDY5(MVSIZ), VDY6(MVSIZ), VDY7(MVSIZ), VDY8(MVSIZ), VDZ1(MVSIZ),
-     .   VDZ2(MVSIZ), VDZ3(MVSIZ), VDZ4(MVSIZ), VDZ5(MVSIZ), VDZ6(MVSIZ), VDZ7(MVSIZ), VDZ8(MVSIZ),
+     .   VZ3(MVSIZ), VZ4(MVSIZ), VZ5(MVSIZ), VZ6(MVSIZ),
      .   REDUC,UPWL(6,MVSIZ),VALVOIS(6,NV46,MVSIZ), VALEL(6,MVSIZ),VEC(3,6),Cf(3,MVSIZ),
      .   Z(3),Zadj(3),ZCf(3),ZZadj(3),Zcf_,ZZadj_,cos, PS, denom, denom1,denom2,lambda,Xsi,Wface(3,6,MVSIZ),SR1,SR2,
      .   SURF(6), TERM2, N(3,6,MVSIZ)
@@ -266,12 +263,29 @@ C-----------------------------------------------
         N6Y(I)=(Z8(I)-Z1(I))*(X4(I)-X5(I)) - (X8(I)-X1(I))*(Z4(I)-Z5(I))
         N6Z(I)=(X8(I)-X1(I))*(Y4(I)-Y5(I)) - (Y8(I)-Y1(I))*(X4(I)-X5(I))
         ! Stack
-        N(1:3,1,I) = (/N1X(I),N1Y(I),N1Z(I)/)
-        N(1:3,2,I) = (/N2X(I),N2Y(I),N2Z(I)/)
-        N(1:3,3,I) = (/N3X(I),N3Y(I),N3Z(I)/)
-        N(1:3,4,I) = (/N4X(I),N4Y(I),N4Z(I)/)
-        N(1:3,5,I) = (/N5X(I),N5Y(I),N5Z(I)/)
-        N(1:3,6,I) = (/N6X(I),N6Y(I),N6Z(I)/)
+        N(1,1,I) = N1X(I)
+        N(2,1,I) = N1Y(I)
+        N(3,1,I) = N1Z(I)
+        !
+        N(1,2,I) = N2X(I)
+        N(2,2,I) = N2Y(I)
+        N(3,2,I) = N2Z(I)
+        !
+        N(1,3,I) = N3X(I)
+        N(2,3,I) = N3Y(I)
+        N(3,3,I) = N3Z(I)
+        !
+        N(1,4,I) = N4X(I)
+        N(2,4,I) = N4Y(I)
+        N(3,4,I) = N4Z(I)
+        !
+        N(1,5,I) = N5X(I)
+        N(2,5,I) = N5Y(I)
+        N(3,5,I) = N5Z(I)
+        !
+        N(1,6,I) = N6X(I)
+        N(2,6,I) = N6Y(I)
+        N(3,6,I) = N6Z(I)
       END DO
       
       !======================================================!

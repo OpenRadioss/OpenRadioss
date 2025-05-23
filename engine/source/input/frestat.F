@@ -73,7 +73,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, NBC, K, IKEY, N1, KK, IV2(10), K_STAT, J
+      INTEGER I, NBC, K, IKEY, IV2(10), J
       CHARACTER(LEN=NCHARKEY)::KEY2
       CHARACTER(LEN=NCHARKEY)::KEY3
       CHARACTER(LEN=NCHARKEY)::KEY4

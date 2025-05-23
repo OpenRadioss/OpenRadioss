@@ -66,7 +66,7 @@
 !   l o c a l   v a r i a b l e s
 !-----------------------------------------------
           integer i,j,k,n,nnod
-          my_real  shelloff,r(3),s(3),t(3),xv(3,4),nnorme(3,4),norm2
+          my_real r(3),s(3),t(3),xv(3,4),norm2
           double precision  dx(3)
           my_real, dimension(:,:), allocatable   :: norm_nod
 ! ----------------------------------------------------------------------------------------------------------------------

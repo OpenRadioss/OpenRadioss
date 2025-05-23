@@ -476,7 +476,7 @@ C FEM velocity
      .     XDP,IPARG, NG , NEL)
        ELSE
 C FVM velocity
-         CALL SCOOR3_FVM(X,IXS(1,NF1),V,W,GBUF%GAMA,GAMA,
+         CALL SCOOR3_FVM(X,IXS(1,NF1),V,W,GAMA,
      .     X1, X2, X3, X4, X5, X6, X7, X8,
      .     Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .     Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
@@ -486,13 +486,12 @@ C FVM velocity
      .     VDX1, VDX2, VDX3, VDX4, VDX5, VDX6, VDX7, VDX8,
      .     VDY1, VDY2, VDY3, VDY4, VDY5, VDY6, VDY7, VDY8,
      .     VDZ1, VDZ2, VDZ3, VDZ4, VDZ5, VDZ6, VDZ7, VDZ8,
-     .     VDX,VDY,VDZ,VD2,VIS,GBUF%OFF,OFF,GBUF%SMSTR,GBUF%RHO,
+     .     VDX,VDY,VDZ,VD2,VIS,GBUF%OFF,OFF,GBUF%RHO,
      .     RHOO,NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,NGL,MXT,NGEO,
-     .     VR,VXR,VYR,VZR,FR_WAVE,FR_WAV,
      .     XD1, XD2 , XD3, XD4, XD5, XD6, XD7, XD8,
      .     YD1, YD2 , YD3, YD4, YD5, YD6, YD7, YD8,
      .     ZD1, ZD2 , ZD3, ZD4, ZD5, ZD6, ZD7, ZD8,
-     .     XDP, IPARG, NG , NEL, GBUF%MOM,GBUF%TAG22,GBUF%VOL)
+     .     XDP, IPARG, NG , NEL, GBUF%MOM,GBUF%TAG22)
        ENDIF
       ELSE
 C Gather nodal variables Belytschko co-rotational formulation
@@ -865,9 +864,9 @@ C
 C Law 77 internal gas flow of open cell solved with ALE formulation
 C AFGLOB ----> ZERO is not activated
         CALL ALEFLOW (
-     .     PM     ,IPM   ,MXT    ,X      ,IPARG ,
-     .     MBUF   ,NEL   ,NPF    ,TF     ,MBUF%VAR      ,
-     .     DF     ,IXS   ,ALE_CONNECT    ,VF     ,AFGLOB,              
+     .     PM     ,MXT   ,X      ,
+     .     MBUF   ,NEL   ,
+     .     IXS    ,ALE_CONNECT   ,VF     ,AFGLOB,
      .     WF     ,DFE   ,FRHO0  ,ALPHA  ,                  
      .     NC1    ,NC2   ,NC3    ,NC4    ,NC5    ,NC6   ,              
      .     NC7    ,NC8   ,FX1    ,FX2    ,FX3    ,FX4   ,              
@@ -883,7 +882,7 @@ C AFGLOB ----> ZERO is not activated
      .     FVDX7  ,FVDX8 ,FVDY1  ,FVDY2  ,FVDY3  ,FVDY4 ,              
      .     FVDY5  ,FVDY6 ,FVDY7  ,FVDY8  ,FVDZ1  ,FVDZ2 ,              
      .     FVDZ3  ,FVDZ4 ,FVDZ5  ,FVDZ6  ,FVDZ7  ,FVDZ8 ,              
-     .     FVDX   ,FVDY  ,FVDZ   ,FVD2   ,NGL    ,
+     .     FVDX   ,FVDY  ,FVDZ   ,FVD2   ,
      .     VX1    ,VX2   ,VX3    ,VX4    ,VX5    ,VX6   ,              
      .     VX7    ,VX8   ,VY1    ,VY2    ,VY3    ,VY4   ,              
      .     VY5    ,VY6   ,VY7    ,VY8    ,VZ1    ,VZ2   ,              
@@ -953,7 +952,7 @@ C
       IF (IALEFVM_MAT  > 1) THEN
 C ALEFVM strain rates
           CALL ALEFVM_EPSDOT(
-     1   IXS,     NV46,    GBUF%SIG,QVIS,
+     1   IXS,
      2   VOLN,    N1X,     N2X,     N3X,
      3   N4X,     N5X,     N6X,     N1Y,
      4   N2Y,     N3Y,     N4Y,     N5Y,
@@ -1506,53 +1505,40 @@ C
 C ALEFVM forces
 C External forces work
           CALL ALEFVM_TFEXT(
-     1   IXS,        NV46,       GBUF%SIG,   QVIS,
-     2   ALE_CONNECT,VOLN,       N1X,        N2X,
-     3   N3X,        N4X,        N5X,        N6X,
-     4   N1Y,        N2Y,        N3Y,        N4Y,
-     5   N5Y,        N6Y,        N1Z,        N2Z,
-     6   N3Z,        N4Z,        N5Z,        N6Z,
-     7   DXX,        DYY,        DZZ,        X,
-     8   IPM,        NALE,       W,          P,
-     9   VEUL,       NEL,        WFEXT)
+     1   IXS,  NV46 ,   GBUF%SIG,  ALE_CONNECT,
+     2   N1X,  N2X,     N3X,       N4X,         N5X,   N6X,
+     4   N1Y,  N2Y,     N3Y,       N4Y,         N5Y,   N6Y,
+     5   N1Z,  N2Z,     N3Z,       N4Z,         N5Z,   N6Z,
+     7   X,    IPM,     NALE,
+     8   W,    P,       NEL,        WFEXT)
 C
 C Initial forces
-          CALL ALEFVM_FRESET(
-     1   ITASK,     GBUF%TAG22)
+          CALL ALEFVM_FRESET(GBUF%TAG22)
 C
 C Gravity forces
-          CALL ALEFVM_GRAVITY(
-     1   AGRAV,   IGRV,    LGRAV,   GBUF%VOL,
-     2   IXS,     ITASK,   NPF,     TF,
-     3   SKEW,    GBUF%RHO)
+          CALL ALEFVM_GRAVITY(GBUF%VOL, IXS, GBUF%RHO)
           IF(INT22/=0)THEN
-            CALL ALEFVM_GRAVITY_INT22(
-     1   AGRAV,     IGRV,      LGRAV,     GBUF%VOL,
-     2   IXS,       ITASK,     NPF,       TF,
-     3   SKEW,      GBUF%RHO,  GBUF%TAG22)
+            CALL ALEFVM_GRAVITY_INT22(GBUF%VOL, IXS, GBUF%RHO,  GBUF%TAG22)
           ENDIF
 C
 C Internal forces
           CALL ALEFVM_STRESS(
-     1   IXS,       NV46,      GBUF%SIG,  QVIS,
+     1   IXS,       GBUF%SIG,  QVIS,
      2   N1X,       N2X,       N3X,       N4X,
      3   N5X,       N6X,       N1Y,       N2Y,
      4   N3Y,       N4Y,       N5Y,       N6Y,
      5   N1Z,       N2Z,       N3Z,       N4Z,
      6   N5Z,       N6Z,       X,         IPM,
-     7   GBUF%RHO,  GBUF%VOL,  A,         GBUF%TAG22,
+     7   GBUF%RHO,  GBUF%VOL,
      8   NEL,       GBUF%MOM,  LBUF%SSP,  SVIS)
           IF(INT22/=0)THEN
             CALL ALEFVM_STRESS_INT22(
-     1   IXS,       NV46,      GBUF%SIG,  QVIS,
-     2   N1X,       N2X,       N3X,       N4X,
-     3   N5X,       N6X,       N1Y,       N2Y,
-     4   N3Y,       N4Y,       N5Y,       N6Y,
-     5   N1Z,       N2Z,       N3Z,       N4Z,
-     6   N5Z,       N6Z,       X,         IPM,
-     7   GBUF%RHO,  GBUF%VOL,  A,         GBUF%TAG22,
-     8   ELBUF_TAB, NEL,       GBUF%MOM,  LBUF%SSP,
-     9   ITASK,     SVIS)
+     1   IXS,       GBUF%SIG,  QVIS,
+     2   N1X,       N2X,       N3X,       N4X,      N5X,       N6X,
+     3   N1Y,       N2Y,       N3Y,       N4Y,      N5Y,       N6Y,
+     4   N1Z,       N2Z,       N3Z,       N4Z,      N5Z,       N6Z,
+     5   IPM,       GBUF%RHO,  GBUF%VOL,  GBUF%TAG22,
+     6   NEL,       GBUF%MOM,  LBUF%SSP,  SVIS)
           ENDIF    
       ENDIF ! IALEFVM_MAT > 1 
 C

@@ -69,14 +69,12 @@
           character(len=ncharline) :: rline
           logical :: is_available
           integer :: nlines
-          integer :: nb_funct
           integer :: i,j,l
           integer :: func_id
           integer :: position_in_code
           character(kind=c_char, len=:), allocatable :: code
           integer :: line_len
-          integer :: error,error_old
-          double precision :: argin(1), argout(1)
+          integer :: error
           character(len=nchartitle) :: titr !function name
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      body

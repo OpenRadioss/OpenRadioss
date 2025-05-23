@@ -68,9 +68,9 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer i,j,k,l,stat,iep,ll,i1,i2,i1m,i2m,nl,is,li,ie,ied,iem
-          integer nextk(4),iwork(70000),ix(4),i1n,i2n,ien,n0,nn,nl_max,mode
-          integer isame(3),is_im,is_in,is_mn
+          integer j,k,l,ll,i1,i2,i1m,i2m,nl,li,ie,iem
+          integer nextk(4),iwork(70000),ix(4),i1n,i2n,ien,nl_max,mode
+          integer is_im,is_in,is_mn
           integer, dimension(:,:), allocatable :: lineix
           integer, dimension(:), allocatable   :: index
 !

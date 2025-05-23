@@ -36,9 +36,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE EBCS10(NSEG,ISEG,SEGVAR,
      .                 A,V,W,X,
      .                 LISTE,NOD,IRECT,IELEM,IFACE,
-     .                 RO0,EN0,
-     .                 LA,MS,STIFN,EBCS,IPARG,ELBUF_TAB,MULTI_FVM,IXQ,IXS,IXTG,
-     .                 ITAB,NALE,ELEM_ADRESS,FSKY,FSAVSURF)
+     .                 LA,EBCS,IPARG,ELBUF_TAB,MULTI_FVM,IXQ,IXS,IXTG,
+     .                 ELEM_ADRESS,FSKY,FSAVSURF)
       USE EBCS_MOD
       USE ELBUFDEF_MOD
       USE MULTI_FVM_MOD
@@ -64,9 +63,8 @@ C-----------------------------------------------
       my_real, INTENT(INOUT) :: FSAVSURF(TH_SURF_NUM_CHANNEL,NSURF)
       INTEGER,INTENT(IN) :: NSEG,NOD,ISEG(NSEG),LISTE(NOD),IRECT(4,NSEG),IELEM(NSEG),IFACE(NSEG)
       INTEGER,INTENT(IN) :: IXQ(NIXQ,NUMELQ),IXS(NIXS,NUMELS),IXTG(NIXTG,NUMELTG)
-      INTEGER,INTENT(IN) :: ITAB(NUMNOD),NALE(NUMNOD)
-      my_real,INTENT(INOUT) :: A(3,NUMNOD), MS(NUMNOD)
-      my_real V(3,NUMNOD),W(3,NUMNOD),X(3,NUMNOD),RO0(NSEG),EN0(NSEG),LA(3,NOD),STIFN(NUMNOD)
+      my_real,INTENT(INOUT) :: A(3,NUMNOD)
+      my_real V(3,NUMNOD),W(3,NUMNOD),X(3,NUMNOD),LA(3,NOD)
       TYPE(t_ebcs_nrf), INTENT(INOUT) :: EBCS
       INTEGER :: IPARG(NPARG,NGROUP)
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB      
@@ -79,17 +77,14 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       TYPE(G_BUFEL_), POINTER :: GBUF
       TYPE(L_BUFEL_)  ,POINTER :: LBUF     
-      INTEGER II,IS,KK,K1,LL,KSEG,NN(4),NNG(4),NUM,KTY,KLT,MFT,NGRP,ILOC,NPT,IVOI,IDX(6),IX(4)
+      INTEGER II,IS,KK,KSEG,NN(4),NNG(4),NUM,KTY,KLT,MFT,NGRP,ILOC,NPT,IVOI,IDX(6),IX(4)
       INTEGER ICF_2d(2,4), ICF_3d(4,6), JJ, ISUBMAT, IPOS, NBMAT, MTN
-      my_real
-     .       ORIENT,RHO,C,FC,ROC,ALP,FAC1,FAC2,VOL,MASS,
-     .       X13,Y13,Z13,X24,Y24,Z24,NX,NY,Z,S,
-     .       ROOU,ENOU,VMX,VMY,VMZ,FLUXI,FLUXO,P,DVX,DVY,DVZ,
-     .       ALPHA, BETA, V0(3,NOD),
-     .       XSN,YSN,ZSN,
-     .       XN, YN, ZN, TMP(3), Vold, Vnew, Pold, Pvois,
-     .       DP0,MACH,PP,SSP,RHOC2,
-     .       TCAR_P, TCAR_VF, SURF, TIME, EINT,PHASE_ALPHA(21),PHASE_RHO(21), PHASE_EINT(21)
+      my_real ORIENT,RHO,ROC,FAC1,FAC2,VOL,MASS,
+     .        X13,Y13,Z13,X24,Y24,Z24,
+     .        ALPHA, BETA, V0(3,NOD),
+     .        XN, YN, ZN, TMP(3), Vold, Vnew, Pold, Pvois,
+     .        DP0,MACH,PP,SSP,RHOC2,
+     .        TCAR_P, TCAR_VF, SURF, TIME, EINT,PHASE_ALPHA(21),PHASE_RHO(21), PHASE_EINT(21)
       LOGICAL bFOUND
       TYPE(BUF_MAT_)  ,POINTER :: MBUF  
       INTEGER :: ADRESS ! adress for parit/on array

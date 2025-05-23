@@ -97,11 +97,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real
-     .   FCX,FCY,FAC_FCX,FAC_FCY
-      INTEGER I, NOD, NCUR, NOSKEW,NSKW, ISENS,NN,IGU,IGS,IG,UID,
-     .        IAD,NS,IWA,J,K,ID,K1,K2,NCURS,N1,N2,NC,L,
-     .        ITAG, TSENS, IFLAGUNIT, SUB_INDEX
+      my_real FCX,FCY,FAC_FCX,FAC_FCY
+      INTEGER I, NCUR, NOSKEW,NSKW, ISENS,NN,IGU,IGS,UID,IAD,NS,J,K,ID,NCURS,TSENS, IFLAGUNIT, SUB_INDEX
       CHARACTER(LEN=NCHARFIELD) :: XYZ
       CHARACTER :: X*1, Y*1, Z*1, XX*2, YY*2, ZZ*2, MESS*40
       CHARACTER(LEN=NCHARTITLE)::TITR

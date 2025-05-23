@@ -104,7 +104,7 @@
         integer nb_key,cpt_key,is_inter,inter,is_inter_all
         integer is_mdsvar_def,is_mdsvar,is_model_npt,is_model_ply
         integer is_model_layer,is_id,id,is_id_all,is_mode,mode
-        integer is_mode_all,nfail,is_memb,imat,nmod,npt
+        integer is_mode_all,nfail,is_memb,imat,nmod
         integer ibid1,ibid2,ibid3,ibid4,is_mdsvar_all,imdsvar
         character(len=ncharkey) :: key2,key3,key4,key5,key6,key7,key8,         &
           key2_read

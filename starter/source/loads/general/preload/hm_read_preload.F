@@ -31,7 +31,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_option_read_key     ../starter/source/devtools/hm_reader/hm_option_read_key.F
       !||    hm_option_start        ../starter/source/devtools/hm_reader/hm_option_start.F
       !||    sectarea               ../starter/source/loads/bolt/sectarea.F
-      !||    usr2sys                ../starter/source/system/sysfus.F
       !||--- uses       -----------------------------------------------------
       !||    hm_option_read_mod     ../starter/share/modules1/hm_option_read_mod.F
       !||    message_mod            ../starter/share/message_module/message_mod.F
@@ -72,18 +71,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ISEC, IG, K, M, I1, I2, I3, I4, IFU, I, ISENS,NPR0,NN,
-     .        IAD,ID,J,UID,IFLAGUNIT,FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,
-     .        JS,SENSNUM
+      INTEGER ISEC, K, I1, I2, I, ISENS,NPR0,NN,ID,J,UID,IFLAGUNIT,JS,SENSNUM
       INTEGER IUGRP(NPRELOAD),IDSENSOR(NPRELOAD)
       INTEGER K0,K1,K2,K3,IS,IE,II,NS,NI,ITYPE,IN1,IN2,IN3
-      INTEGER NDEB, NFIN
-      my_real
-     .   LVAL(NPRELOAD),TS(NPRELOAD),TE(NPRELOAD),
-     .   NX(NPRELOAD),NY(NPRELOAD),NZ(NPRELOAD)
-      my_real
-     .   TDEB,TFIN, LOADVAL,
-     .   X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,N3,AREA(NPRELOAD)
+      my_real LVAL(NPRELOAD),TS(NPRELOAD),TE(NPRELOAD),NX(NPRELOAD),NY(NPRELOAD),NZ(NPRELOAD)
+      my_real TDEB,TFIN, LOADVAL,X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,N3,AREA(NPRELOAD)
       CHARACTER MESS*40
       CHARACTER(LEN=NCHARTITLE) :: TITR
       CHARACTER(LEN=NCHARLINE) ::KEY
@@ -92,7 +84,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS
       DATA MESS/'BOLT PRELOADING DEFINITION              '/
 C=======================================================================
       IS_AVAILABLE = .FALSE.

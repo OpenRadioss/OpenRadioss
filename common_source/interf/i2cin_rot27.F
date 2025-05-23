@@ -55,7 +55,7 @@ C     REAL
      .   R(3),
      .   X12,X22,X32,X42,Y12,Y22,Y32,Y42,Z12,Z22,Z32,Z42,
      .   XX,YY,ZZ,XXX,YYY,ZZZ,XY,YZ,ZX,XY2,YZ2,ZX2,
-     .   A1,A2,A3,B1,B2,B3,C1,C2,C3,DET,BB1,BB2,BB3,CC1,CC2,CC3,
+     .   B1,B2,B3,C1,C2,C3,DET,BB1,BB2,BB3,CC1,CC2,CC3,
      .   MLOC(3,3),MLOC2(3,3),MGLOB(3,3),PASS(3,3),TPASS(3,3),
      .   VECT_SX,VECT_SY,VECT_SZ,SURF,RATIO,L12_2,L23_2,L34_2,L41_2
 C======================================================================= 

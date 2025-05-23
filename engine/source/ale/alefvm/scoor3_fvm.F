@@ -31,7 +31,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i22bufbric_mod   ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||    i22tri_mod       ../common_source/modules/interfaces/cut-cell-search_mod.F
       !||====================================================================
-      SUBROUTINE SCOOR3_FVM(X,IXS,V,W,GAMA0,GAMA,
+      SUBROUTINE SCOOR3_FVM(X,IXS,V,W,GAMA,
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
@@ -41,13 +41,12 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .   VDX1, VDX2, VDX3, VDX4, VDX5, VDX6, VDX7, VDX8,
      .   VDY1, VDY2, VDY3, VDY4, VDY5, VDY6, VDY7, VDY8,
      .   VDZ1, VDZ2, VDZ3, VDZ4, VDZ5, VDZ6, VDZ7, VDZ8,
-     .   VDX,VDY,VDZ,VD2,VIS,OFFG,OFF,SAV,RHO,
+     .   VDX,VDY,VDZ,VD2,VIS,OFFG,OFF,RHO,
      .   RHOO,NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,NGL,MXT,NGEO,
-     .   VR,VXR,VYR,VZR,FR_WAVE,FR_WAV,
      .   XD1, XD2  , XD3, XD4, XD5, XD6,  XD7, XD8,
      .   YD1, YD2  , YD3, YD4, YD5, YD6,  YD7, YD8,
      .   ZD1, ZD2  , ZD3, ZD4, ZD5, ZD6,  ZD7, ZD8,
-     .   XDP, IPARG, NG , NEL, MOM, TAG22, VOL)
+     .   XDP, IPARG, NG , NEL, MOM, TAG22)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -83,9 +82,9 @@ C-----------------------------------------------
 ! MOM(K \in [1:3]) => GBUF%MOM((K-1)*NEL + I)
 
       INTEGER IXS(NIXS,*),IPARG(NPARG,*),NG,NEL
-      my_real, INTENT(IN) :: MOM(NEL,*), TAG22(NEL), VOL(NEL)
+      my_real, INTENT(IN) :: MOM(NEL,*), TAG22(NEL)
       my_real
-     .  X(3,*),V(3,*),W(3,*), VIS(*),VR(3,*),VXR(*),VYR(*),VZR(*),
+     .  X(3,*),V(3,*),W(3,*), VIS(*),
      .  X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
      .  Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),
      .  Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*),
@@ -96,13 +95,13 @@ C-----------------------------------------------
      .  VDY1(*),VDY2(*),VDY3(*),VDY4(*),VDY5(*),VDY6(*),VDY7(*),VDY8(*),
      .  VDZ1(*),VDZ2(*),VDZ3(*),VDZ4(*),VDZ5(*),VDZ6(*),VDZ7(*),VDZ8(*),
      .  VDX(*), VDY(*), VDZ(*),VD2(*),OFFG(*),OFF(*),RHO(*),
-     .  RHOO(*),GAMA0(NEL,6),GAMA(MVSIZ,6),FR_WAVE(*),FR_WAV(*)
+     .  RHOO(*),GAMA(MVSIZ,6)
 
       INTEGER NC1(*), NC2(*), NC3(*), NC4(*),
      .        NC5(*), NC6(*), NC7(*), NC8(*), MXT(*), NGL(*),NGEO(*)
 
       DOUBLE PRECISION
-     .  XDP(3,*),SAV(NEL,21),
+     .  XDP(3,*),
      .  XD1(*), XD2(*), XD3(*), XD4(*), XD5(*), XD6(*), XD7(*), XD8(*),
      .  YD1(*), YD2(*), YD3(*), YD4(*), YD5(*), YD6(*), YD7(*), YD8(*),
      .  ZD1(*), ZD2(*), ZD3(*), ZD4(*), ZD5(*), ZD6(*), ZD7(*), ZD8(*)
@@ -114,7 +113,7 @@ C-----------------------------------------------
      .   RX, RY, RZ, SX, SY, SZ, TX, TY, TZ,
      .   E1X, E1Y, E1Z, E2X, E2Y, E2Z, E3X, E3Y, E3Z
       my_real
-     .   OFF_L,WDX(MVSIZ),WDY(MVSIZ),WDZ(MVSIZ), rho_,mom_,vel_,VW,VWN,VW1,VW2,VW3,SURF,SUM_SURF,
+     .   OFF_L,WDX(MVSIZ),WDY(MVSIZ),WDZ(MVSIZ),VW,VWN,VW1,VW2,VW3,SURF,SUM_SURF,
      .   WW1,WW2,WW3
 
       LOGICAL IsCutCell

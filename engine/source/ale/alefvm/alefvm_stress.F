@@ -28,11 +28,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    alefvm_mod      ../common_source/modules/ale/alefvm_mod.F
       !||====================================================================
       SUBROUTINE ALEFVM_STRESS (
-     1                          IXS,  NV46, SIG,  QVIS, 
+     1                          IXS,  SIG,  QVIS,
      2                          N1X,  N2X,  N3X,  N4X,  N5X,  N6X,
      3                          N1Y,  N2Y,  N3Y,  N4Y,  N5Y,  N6Y,
      4                          N1Z,  N2Z,  N3Z,  N4Z,  N5Z,  N6Z,
-     5                          X  ,  IPM,  RHO,  VOL,  A  ,  IAD22,
+     5                          X  ,  IPM,  RHO,  VOL,
      .                          NEL,  MOM,  SSP,  SVIS)
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -73,8 +73,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER :: NEL
-      INTEGER :: IXS(NIXS,*),NV46,IPM(NPROPMI,*)
-      my_real :: SIG(NEL,6),QVIS(*),X(3,*),RHO(*), VOL(*), A(3,*), IAD22(*)
+      INTEGER :: IXS(NIXS,*),IPM(NPROPMI,*)
+      my_real :: SIG(NEL,6),QVIS(*),X(3,*),RHO(*), VOL(*)
       my_real,INTENT(IN) :: MOM(NEL,3), SSP(*)
       my_real :: N1X(*), N2X(*),  N3X(*), N4X(*), N5X(*), N6X(*),
      .           N1Y(*), N2Y(*),  N3Y(*), N4Y(*), N5Y(*), N6Y(*),
@@ -83,30 +83,26 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I, II, IV, J, IMAT, IALEFVM_FLG, IB
+      INTEGER :: I, II, IMAT, IALEFVM_FLG
       INTEGER :: NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ),NC4(MVSIZ),NC5(MVSIZ),NC6(MVSIZ),NC7(MVSIZ),NC8(MVSIZ)
       
-      my_real :: VALEL(MVSIZ)  , VALVOIS(NV46,MVSIZ), P(MVSIZ) , 
-     .           S1(MVSIZ)     , S2(MVSIZ)          , S3(MVSIZ), 
-     .           S4(MVSIZ)     , S5(MVSIZ)          , S6(MVSIZ),
-     .           PVOIS(6,MVSIZ), FN                 , FAC      , MASS
-      my_real
-     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ), X5(MVSIZ), X6(MVSIZ), X7(MVSIZ), X8(MVSIZ),
-     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ), Y5(MVSIZ), Y6(MVSIZ), Y7(MVSIZ), Y8(MVSIZ),
-     .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ), Z5(MVSIZ), Z6(MVSIZ), Z7(MVSIZ), Z8(MVSIZ),
-     .   U_N(6), SURF(6), NORM(6)
-     
-      my_real :: trSIG(mVSIZ), trSVIS(MVSIZ),AF(3),An
-     
-      INTEGER :: idbf,idbl,IX(4)
+      my_real :: P(MVSIZ) ,
+     .           S1(MVSIZ), S2(MVSIZ), S3(MVSIZ),
+     .           S4(MVSIZ), S5(MVSIZ), S6(MVSIZ),
+     .           MASS
+      my_real X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ), X5(MVSIZ), X6(MVSIZ), X7(MVSIZ), X8(MVSIZ),
+     .        Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ), Y5(MVSIZ), Y6(MVSIZ), Y7(MVSIZ), Y8(MVSIZ),
+     .        Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ), Z5(MVSIZ), Z6(MVSIZ), Z7(MVSIZ), Z8(MVSIZ),
+     .        U_N(6), SURF(6), NORM(6)
+
+      INTEGER :: idbf,idbl
       LOGICAL :: debug_outp
-      INTEGER :: ICF(4,6)
-      DATA ICF/1,4,3,2,3,4,8,7,5,6,7,8,1,2,6,5,2,3,7,6,1,5,8,4/            
+
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------      
       IF(ALEFVM_Param%IEnabled==0)RETURN
-      IMAT        = IXS(1,1+NFT)
+      IMAT = IXS(1,1+NFT)
       IALEFVM_FLG = IPM(251,IMAT)  
       IF(IALEFVM_FLG <= 1)RETURN       
 C-----------------------------------------------
@@ -131,14 +127,13 @@ C-----------------------------------------------
       ENDDO 
       
       DO I=1,NEL
-        P(I)      = -THIRD*(S1(I)+S2(I)+S3(I))        
+        P(I) = -THIRD*(S1(I)+S2(I)+S3(I))
       ENDDO
       
       
       !-------------------------------------------------------------!
       ! NORMAL VECTOR FOR ALE                                       !
       !-------------------------------------------------------------!                                       
-!      IF(JALE==1 .OR. JEUL==0)THEN  !lagrangian bricks also
         DO I=1,NEL
           II     = I + NFT
             !---8 local node numbers NC1 TO NC8 for solid element I ---!
@@ -210,7 +205,6 @@ C-----------------------------------------------
           N6Y(I)=(Z8(I)-Z1(I))*(X4(I)-X5(I)) - (X8(I)-X1(I))*(Z4(I)-Z5(I))
           N6Z(I)=(X8(I)-X1(I))*(Y4(I)-Y5(I)) - (Y8(I)-Y1(I))*(X4(I)-X5(I))
         ENDDO
-!      ENDIF
 
       !--------------------------------------------------------------!
       ! PREPARING BUFFER FOR ALEFVM_SFINT3                           !

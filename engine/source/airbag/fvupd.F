@@ -298,13 +298,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IEL, N1, N2, N3, NN1, NN2, NN3, J, JJ, K, KK, NPA,
+      INTEGER I, IEL, N1, N2, N3, J, JJ, K, KK, NPA,
      .        IMAX, IP1, IP2, ITAG(NPOLH), ITAGP(NPOLY),
      .        COUNT(NPOLH), II, CC, LEN, NPOLH_OLD, NNP,
      .        IFVPADR_OLD(NPOLH+1), REDIR(NPOLH), ILOOP,
-     .        POLHAPP(2,NPOLY), CMAX, JMIN, ITYPM,
+     .        POLHAPP(2,NPOLY), CMAX, ITYPM,
      .        IDP1, IDP2, IDPOLH_OLD(NPOLH), IBPOLH_OLD(NPOLH), I1, I2,
-     .        NNSA,JJJ,KKK,IP3,ITYPL,DTMERGV12
+     .        NNSA,KKK,IP3,ITYPL,DTMERGV12
       my_real
      .        KSI, ETA, X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3,
      .        PNOD(3,NNS), X12, Y12, Z12, X13, Y13, Z13, NRX, NRY,
@@ -313,8 +313,8 @@ C-----------------------------------------------
      .        QPOLH_OLD(3,NPOLH), EPOLH_OLD(NPOLH), PVOLU_OLD(NPOLH),
      .        VOLUMIN, AREAPOLY(NPOLY), CPAPOLH_OLD(NPOLH),
      .        CPBPOLH_OLD(NPOLH), CPCPOLH_OLD(NPOLH), 
-     .        RMWPOLH_OLD(NPOLH), GPOLH_OLD(NPOLH), VOLUSORT(NPOLH),
-     .        VMIN, VTMP, VPOLH_INI_OLD(NPOLH), VVMAX(NPOLH), VOL1,
+     .        RMWPOLH_OLD(NPOLH), GPOLH_OLD(NPOLH),
+     .        VPOLH_INI_OLD(NPOLH), VVMAX(NPOLH), VOL1,
      .        VOL2, DTMIN, FAC, DTPOLH_OLD(NPOLH),
      .        TPOLH_OLD(NPOLH), CPDPOLH_OLD(NPOLH), CPEPOLH_OLD(NPOLH), 
      .        CPFPOLH_OLD(NPOLH), EFAC, CPA, CPB, CPC, CPD, CPE, CPF,
