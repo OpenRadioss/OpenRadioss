@@ -45,7 +45,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE Q4INIT2(ELBUF_STR  ,MS       ,IXQ          ,PM         ,X     ,
      2                  DETONATORS  ,GEO      ,VEUL         ,ALE_CONNECTIVITY  ,IPARG ,
-     3                  DTELEM      ,SIGI       ,IGEO  ,
+     3                  DTELEM      ,SIGI     ,IGEO  ,
      4                  NEL         ,SKEW     ,MSQ          ,IPART      ,IPARTQ,
      5                  IPM         ,NSIGS    ,WMA          ,PTQUAD     ,BUFMAT,
      6                  NPF         ,TF       ,IPARGG       ,ILOADP     ,FACLOAD,
@@ -133,6 +133,7 @@ C-----------------------------------------------
      +   QN1,QN2,QN3,QN4,YAVG1,WI,KSI,ETA,FV
       my_real
      .     DELTAX(MVSIZ),Y234(MVSIZ),Y124(MVSIZ)
+      my_real :: TEMPEL(NEL)
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ)
 
 C-----------------------------------------------
@@ -214,6 +215,7 @@ c
       ISORTH = 0
       IBID = 0
       BID = ZERO
+      TEMPEL(:) = ZERO
 C
       NF1 = NFT+1
       IF(JCVT==0)THEN
@@ -271,7 +273,7 @@ C
      .            MAT       ,IPM      ,NSIGS      ,NUMQUAD      ,PTQUAD  ,
      .            IP        ,NGL      ,NPF        ,TF           ,BUFMAT  ,
      .            GBUF      ,LBUF     ,MBUF       ,ELBUF_STR    ,ILOADP  ,
-     .            FACLOAD   ,DELTAX)
+     .            FACLOAD   ,DELTAX   ,TEMPEL  )
 
 C     ENTER THE INTEGRATION POINTS LOOP -->
       NPTR = 2
@@ -291,12 +293,6 @@ C
      3             Z12,Z34,Z13,Z24,Z14,Z23,
      4             Y1,Y2,Y3,Y4,YAVG,IHBE,NGL)
 C
-Ccw<<<
-c      DO I=LFT,LLT
-c        AA(I) = AA(I) + EV(NB6+I-1)
-c      ENDDO
-Ccw>>>
-C
           CALL MATINI(
      .            PM      ,IXQ     ,NIXQ       ,X            ,
      .            GEO     ,ALE_CONNECTIVITY   ,DETONATORS ,IPARG        ,
@@ -305,18 +301,11 @@ C
      .            MAT     ,IPM     ,NSIGS      ,NUMQUAD      ,PTQUAD  ,
      .            IP      ,NGL     ,NPF        ,TF           ,BUFMAT  ,
      .            GBUF    ,LBUF    ,MBUF       ,ELBUF_STR    ,ILOADP  ,
-     .            FACLOAD, DELTAX)  
+     .            FACLOAD, DELTAX  ,TEMPEL  )  
 C
         ENDDO
       ENDDO
 C     EXIT THE INTEGRATION POINTS LOOP <--
-C
-Ccw<<<
-c      DO I=LFT,LLT
-c        WRITE(*, *) EV(NB06+I-1),AA(I)
-c      ENDDO
-Ccw>>>
-C
 C----------------------------------------
 C     INITIALISATION DE LA THERMIQUE ET TURBULENCE
 C----------------------------------------

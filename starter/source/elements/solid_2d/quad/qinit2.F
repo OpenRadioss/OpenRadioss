@@ -108,6 +108,7 @@ C-----------------------------------------------
      .     Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .     Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
      .     AIRE(MVSIZ), DELTAX(MVSIZ)
+      my_real :: TEMPEL(NEL)
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ)
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -120,6 +121,7 @@ c
       JCVT  = IPARG(37)
       IBID = 0
       BID = ZERO
+      TEMPEL(:) = ZERO
       NF1 = NFT+1
 c
       IF(JCVT == 0)THEN
@@ -157,7 +159,7 @@ C
      .            MAT     ,IPM     ,NSIGS     ,NUMQUAD   ,PTQUAD  ,
      .            IP      ,NGL     ,NPF       ,TF        ,BUFMAT  ,
      .            GBUF    ,LBUF    ,MBUF      ,ELBUF_STR ,ILOADP  ,
-     .            FACLOAD, DELTAX)
+     .            FACLOAD, DELTAX  ,TEMPEL    )
 C----------------------------------------
 C     INITIALISATION DE LA THERMIQUE ET TURBULENCE
 C----------------------------------------

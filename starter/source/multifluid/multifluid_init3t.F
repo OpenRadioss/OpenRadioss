@@ -109,6 +109,7 @@ C-----------------------------------------------
      .     PY1(MVSIZ),PY2(MVSIZ),PY3(MVSIZ),PY4(MVSIZ),
      .     PZ1(MVSIZ),PZ2(MVSIZ),PZ3(MVSIZ),PZ4(MVSIZ),
      .     VOLU(MVSIZ), BID(MVSIZ), DUMMY, PRES,VFRAC
+      my_real :: TEMPEL(NEL)
       INTEGER :: II, IP, IBID, MATLAW,IMAS_DS
       DOUBLE PRECISION 
      .   VOLDP(MVSIZ)
@@ -137,6 +138,7 @@ C     Volume
      .     GBUF%DELTAX, VOLU, NGL, PID, MAT,
      .     PM ,VOLDP)
 
+      TEMPEL(:) = ZERO
       PM(104,IXS(1, 1 + NFT)) = ZERO  !global pressure
       
 C     Loop over the materials
@@ -161,7 +163,7 @@ C     Material initialization
      .        MAT, IPM, NSIGS, NUMSOL, PTSOL,
      .        IP, NGL,NPF, TF, BUFMAT,
      .        GBUF, LBUF, MBUF, ELBUF_STR, ILOADP,
-     .        FACLOAD, GBUF%DELTAX)
+     .        FACLOAD, GBUF%DELTAX,TEMPEL)
      
          VFRAC = MAT_PARAM( IXS(1,1+NFT) )%MULTIMAT%VFRAC(ILAY)
          PRES  = PM(104, MAT_PARAM( IXS(1,1+NFT) )%MULTIMAT%MID(ILAY))

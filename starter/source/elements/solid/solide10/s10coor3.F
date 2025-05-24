@@ -178,7 +178,7 @@ C
 C
 C   initial nodal temperature
 C
-        IF(JTHE < 0 ) THEN
+        IF (JTHE < 0 .or. NINTEMP > 0) THEN             
          IF(NINTEMP > 0 ) THEN
           DO N =1,10
             DO I=LFT,LLT  
@@ -364,7 +364,7 @@ C
 C
 C   initial nodal temperature
 C
-        IF(JTHE < 0 ) THEN
+        IF (JTHE < 0 .or. NINTEMP > 0) THEN             
          IF(NINTEMP > 0 ) THEN
           DO N =1,10
             DO I=LFT,LLT  

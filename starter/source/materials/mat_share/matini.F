@@ -77,7 +77,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                  MAT      ,IPM              ,NSIG        ,NUMS      ,PT     ,
      .                  IPT      ,NGL              ,NPF         ,TF        ,BUFMAT ,
      .                  GBUF     ,LBUF             ,MBUF        ,ELBUF_STR ,ILOADP ,
-     .                  FACLOAD  ,DDELTAX)   
+     .                  FACLOAD  ,DDELTAX          ,TEMPEL      )   
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -114,6 +114,7 @@ C-----------------------------------------------
       my_real X(*), GEO(*), PM(NPROPM,*),SIGI(NSIG,*),SKEW(LSKEW,*),BUFMAT(*),TF(*)
       my_real,INTENT(IN) :: FACLOAD(LFACLOAD,*)
       my_real, INTENT(IN) :: DDELTAX(*)
+      my_real, INTENT(IN) :: TEMPEL(NEL)
       TYPE(G_BUFEL_), TARGET  :: GBUF     
       TYPE(L_BUFEL_), TARGET  :: LBUF     
       TYPE(BUF_MAT_) :: MBUF
@@ -187,7 +188,7 @@ c
       CALL MATING(PM      ,VOL     ,OFF     ,EINT     ,RHO      ,
      .            SIG     ,IX      ,NIX     ,SIGI     ,EPLAS    ,
      .            NSIG    ,MAT     ,NUMS    ,PT       ,NEL      ,
-     .            FILL    ,TEMP    )
+     .            FILL    ,TEMP    ,TEMPEL  )
      
 C--------------------
       IF(JMULT <= 1)THEN  !reset only once

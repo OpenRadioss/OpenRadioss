@@ -108,11 +108,11 @@ C--------------------------------------------------
      .                      OPTION_ID = ID,
      .                      OPTION_TITR = TITR)
 
-        IF (ITHERM_FE == 0) THEN
-          CALL ANCMSG(MSGID=858,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO)
-        ENDIF
+!        IF (ITHERM_FE == 0) THEN
+!          CALL ANCMSG(MSGID=858,
+!     .                MSGTYPE=MSGERROR,
+!     .                ANMODE=ANINFO)
+!        ENDIF
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
