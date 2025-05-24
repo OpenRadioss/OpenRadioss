@@ -39,7 +39,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C
-      CALL WRITE_I_C(PLY_INFO,2*NUMPLY)
+      CALL WRITE_I_C(PLY_INFO,3*NUMPLY)
 C
       RETURN
       END
