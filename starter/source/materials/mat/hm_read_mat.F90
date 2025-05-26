@@ -176,6 +176,7 @@
 !||    hm_read_mat02_zerilli_mod   ../starter/source/materials/mat/mat002/hm_read_mat02_zerilli.F90
 !||    hm_read_mat105_mod          ../starter/source/materials/mat/mat105/hm_read_mat105.F90
 !||    hm_read_mat106_mod          ../starter/source/materials/mat/mat106/hm_read_mat106.F90
+!||    hm_read_mat123_mod          ../starter/source/materials/mat/mat123/hm_read_mat123.F90
 !||    hm_read_mat125_mod          ../starter/source/materials/mat/mat125/hm_read_mat125.F90
 !||    hm_read_mat126_mod          ../starter/source/materials/mat/mat126/hm_read_mat126.F90
 !||    hm_read_mat127_mod          ../starter/source/materials/mat/mat127/hm_read_mat127.F90
@@ -228,6 +229,7 @@
           use hm_read_mat105_mod , only : hm_read_mat105
           use hm_read_mat88_mod
           use hm_read_mat106_mod
+          use hm_read_mat123_mod
           use hm_read_mat125_mod
           use hm_read_mat126_mod
           use hm_read_mat127_mod
@@ -1167,13 +1169,21 @@
               &pm(1,i)  ,lsubmodel,israte   ,mat_id   ,titr     ,&
               &matparam )
 !-------
-             case ('LAW122','MODIFIED_LADEVEZE')
-              ilaw = 122
-              call hm_read_mat122(&
-              &uparam   ,maxuparam,nuparam  ,nuvar    ,maxfunc  ,&
-              &nfunc    ,ifunc    ,mtag     ,parmat   ,unitab   ,&
-              &pm(1,i)  ,lsubmodel,israte   ,mat_id   ,titr     ,&
-              &matparam ,nvartmp  )
+          case ('LAW122','MODIFIED_LADEVEZE')
+            ilaw = 122
+            call hm_read_mat122(&
+            &uparam   ,maxuparam,nuparam  ,nuvar    ,maxfunc  ,&
+            &nfunc    ,ifunc    ,mtag     ,parmat   ,unitab   ,&
+            &pm(1,i)  ,lsubmodel,israte   ,mat_id   ,titr     ,&
+            &matparam ,nvartmp  )
+
+          case ('LAW123','LAMINATED_FRACTURE_DAIMLER_PINHO')
+            ilaw = 123
+            call hm_read_mat123(                              &
+           &nuvar    ,maxfunc  ,npropm  , iout   ,            & 
+           & mtag     ,parmat   ,unitab  ,ntable   ,table,    &
+           &pm(1,i)  ,lsubmodel,israte   ,mat_id   ,titr ,    &
+           &matparam ,nvartmp )     
 !-------
              case ('LAW124','CDPM2')
               ilaw  = 124
