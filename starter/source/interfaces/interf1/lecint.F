@@ -741,10 +741,6 @@ C--------------------------------------------
               CALL INSURF(NRTS_FE,NSN_FE,IRS,IRECTS,
      .                    SURF_NODES,ITAB,NSV,ID,TITR,
      .                    NTAG,S_NSV,S_IRECTS,TYPE18)
-              IF (NTYP == 1)THEN
-                CALL INTER1_CHECK_ALE_LAG_SIDES(N2D, IGRSURF(ISU1)%ID, ID, TITR,
-     .                                          NUMNOD, ITAB, NRTS_FE, IRECTS, NALE, 'ALE', IDDLEVEL)
-              ENDIF
               IF (IGRSURF(ISU1)%NSEG_IGE >= 1) THEN
                 SURF_NODES_IGE => IGRSURF(ISU1)%NODES_IGE(1:NRTS_IGE,1:4)
                 IAD_IGE = IGRSURF(ISU1)%IAD_IGE               
@@ -880,8 +876,12 @@ C--------------------------------------------
      .                    SURF_NODES,ITAB,MSR,ID,TITR,
      .                    NTAG,S_MSR,S_IRECTM,TYPE18)
               IF (NTYP == 1)THEN
-                CALL INTER1_CHECK_ALE_LAG_SIDES(N2D, IGRSURF(ISU2)%ID, ID, TITR,
-     .                                          NUMNOD, ITAB, NRTM_FE, IRECTM, NALE, 'LAG', IDDLEVEL)
+                CALL INTER1_CHECK_ALE_LAG_SIDES(N2D, IGRSURF(ISU1)%ID, IGRSURF(ISU2)%ID,  ID, TITR,
+     .                                          NUMNOD, ITAB, NRTS_FE, NRTM_FE, IRECTS, IRECTM,NALE, IDDLEVEL)
+                IGRSURF(ISU1)%NSEG = NRTS_FE
+                IGRSURF(ISU2)%NSEG = NRTM_FE
+                IPARI(74,NI) = NRTM_FE
+                IPARI(76,NI) = NRTS_FE
               ENDIF
               IF (IGRSURF(ISU2)%NSEG_IGE >= 1) THEN
               SURF_NODES_IGE => IGRSURF(ISU2)%NODES_IGE(1:NRTM_IGE,1:4)
