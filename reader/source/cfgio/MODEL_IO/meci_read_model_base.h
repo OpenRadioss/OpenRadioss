@@ -25,7 +25,7 @@
 #ifndef MECI_READ_MODEL_BASE_H
 #define MECI_READ_MODEL_BASE_H
 
-#include "mec_read_file.h"
+#include "mec_read_file_factory.h"
 #include "meci_model_factory.h"
 
 #include "meci_input_infos.h"
@@ -102,13 +102,13 @@ protected: /** @name Reading model (protected) */
   /// Reading all the objects of given type
   void readObjects(MECIModelFactory *model_p, const char *keyword,const char *otype);
     /// Sets reading status (internal)
-
+public:
     inline void SetReadingStatus(int a_stat) 
     {
         //if(myReadingStatus != READ_STATUS_SINGLE_KEYWORD)
         myReadingStatus = a_stat;
     } 
-
+protected:
     /// Gets reading status (internal)
 
     inline int  GetReadingStatus() {return myReadingStatus;}            

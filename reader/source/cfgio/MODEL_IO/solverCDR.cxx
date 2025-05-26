@@ -175,14 +175,47 @@ IParameter* ModelFactoryReaderPO::GetParameterObject(const char* param_str, cons
     for (int i = first_indx; i < a_nb_objects; i++) 
     {
         IMECPreObject* obj = a_vec[i];
-        string cur_paramval(obj->GetStringValue(paramname_skey.c_str()));
+        int sky_indx = obj->GetIndex(IMECPreObject::ATY_SINGLE, IMECPreObject::VTY_STRING, paramname_skey);
+        string cur_paramval = "";
+        if (sky_indx > -1)
+            cur_paramval = obj->GetStringValue(paramname_skey.c_str());
         if (cur_paramval == param_str) {
-            string cur_pscope(obj->GetStringValue(scope_skey.c_str()));
+            sky_indx = obj->GetIndex(IMECPreObject::ATY_SINGLE, IMECPreObject::VTY_STRING, scope_skey);
+            string cur_pscope = "";
+            if (sky_indx > -1)
+                cur_pscope = obj->GetStringValue(scope_skey.c_str());
             if (cur_pscope == "LOCAL") {
                 int ifileindx = obj->GetFileIndex();
                 if (ifileindx == file_index) {
                     found = obj; // Found a local object with matching a
                     break;
+                }
+                else
+                {
+                    // get to topmost parent, match local param there
+                    MECSubdeck* sub = MECSubdeck::mySubdeckVector[file_index];
+
+                    obj_type_e stype = sub->GetSubtype();
+                    int a_ind = -1;
+                    bool match_found = false;
+                    while (a_ind != 0)
+                    {
+                        a_ind = sub->GetParentIdx();
+                        if (a_ind < 0)
+                        {
+                            break;
+                        }
+
+                        if (a_ind == ifileindx)
+                        {
+                            found = obj;
+                            match_found = true;
+                            break;
+                        }
+                        sub = MECSubdeck::mySubdeckVector[a_ind];
+                    }
+                    if (match_found)
+                        break;
                 }
             }
             else if (found == nullptr) {
@@ -322,7 +355,7 @@ CommonDataReaderCFG::CommonDataReaderCFG(const std::string& profile, const std::
 
     string str_error("");
 
-    m_prev_loaded_fileformat = MV_get_file_format(subprofile);
+
 
     const CFGKernel* cfgKernel = MultiCFGKernelMgr::getInstance().InitCFGKernel(cfg_dir_path, profile, subprofile, "", false, { "HM_SUPPORTED" }, str_error);
     if (!cfgKernel || str_error != "")

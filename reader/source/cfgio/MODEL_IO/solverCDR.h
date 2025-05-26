@@ -39,6 +39,7 @@
 #include <MODEL_IO/meci_syntax_infos.h>
 #include <MODEL_IO/meci_input_infos.h>
 #include <MODEL_IO/mv_solver_input_infos.h>
+#include <MODEL_IO/mec_read_file_factory.h>
 // Forward declaration
 class HWCFGReader;
 

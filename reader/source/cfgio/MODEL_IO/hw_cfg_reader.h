@@ -84,6 +84,18 @@ public:
     virtual  char* GetDecryptLine(const char* iline, const char* ref, bool& isdecrypted) { return const_cast<char *>(iline); }
 };
 
+class EncryptionLSDyna : public IEncryption
+{
+public:
+    bool IsKeySupported() override { return false; }
+};
+
+class EncryptionRadioss : public IEncryption
+{
+public:
+    bool IsKeySupported() override  { return true; }
+};
+
 
 /// Base class for reading files
 class HCIO_DATA_DLL_API HWCFGReader : public MECIReadModelBase {

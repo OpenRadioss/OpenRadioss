@@ -229,8 +229,8 @@ public: /** @name Parsing */
 private:
     const char                         **mycomment;
     int                                 *mycommentlen;
-    int                                  mysizecomment;
-    const std::vector<const char *>     *myheader;
+    int                                  mysizecomment=0;
+    const std::vector<const char *>     *myheader=nullptr;
     std::vector<int>*                    myheaderlen;
     char                                 myfreeformat;
     const char*                          myparameterSymbol;

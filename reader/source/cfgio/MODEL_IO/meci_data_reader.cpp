@@ -286,7 +286,22 @@ int MECIDataReader::getNbBlocks(void* model_p, const PseudoFileFormatCard_t* car
         MCDS_get_ff_cell_attributes(a_cell_format_p, CELL_TYPE, &a_cell_type, END_ARGS);
 
         int a_size = GetCellSize(a_cell_format_p);
-        if (!a_size && a_cell_type != CELL_COMMENT)
+        if (a_cell_type == CELL_COND)
+        {
+            int a_nb_ccls = 0;
+            MCDS_get_ff_cell_attributes(a_cell_format_p, CELL_NB_COND_CELL, &a_nb_ccls, END_ARGS);
+            if (a_nb_ccls > 0)
+            {
+                ff_condcell_t* a_ccl_p = NULL;
+                expression_t* a_expr_p = NULL;
+                MCDS_get_ff_cell_tab(a_cell_format_p, CELL_COND_CELL, 0, &a_ccl_p);
+                MCDS_get_ff_condcell_expression(a_ccl_p, &a_expr_p);
+                ff_cell_t* a_sub_cell_p = NULL;
+                MCDS_get_ff_condcell_cell(a_ccl_p, &a_sub_cell_p);
+                a_size = GetCellSize(a_sub_cell_p);
+            }
+        }
+        else if (!a_size && a_cell_type != CELL_COMMENT)
         {
             *is_free_format = true;
             a_nb_value_cell++;
@@ -609,18 +624,24 @@ bool MECIDataReader::readNextCard(const PseudoFileFormatCard_t *card_format_p,
     break;
   case CARD_SINGLE:
     {
+        ff_card_type_e a_next_card_type = CARD_UNKNOWN;
+        bool is_next_card_cell_list = false;
+        if (next_card_format_p)
+        {
+            const ff_card_t* a_next_card_format_p = (const ff_card_t*)next_card_format_p;
+            MCDS_get_ff_card_attributes(a_next_card_format_p, CARD_TYPE, &a_next_card_type, END_ARGS);
+            is_next_card_cell_list = (a_next_card_type == CARD_CELL_LIST) ? true : false;
+            assert(a_next_card_type == CARD_CELL_LIST);
+        }
         a_ok=readSingleCard(card_format_p,object_p,model_p,descr_p,
-                            ind, 0, &a_do_continue); 
+                            ind, 0, &a_do_continue, is_next_card_cell_list);
         if (a_ok && cur_s_card_indx_p && (*cur_s_card_indx_p) >= 0) (*cur_s_card_indx_p)++;
         if (next_card_format_p && a_do_continue)
         {
-            const ff_card_t* a_next_card_format_p = (const ff_card_t*)next_card_format_p;
-            ff_card_type_e a_next_card_type = CARD_UNKNOWN;
-            MCDS_get_ff_card_attributes(a_next_card_format_p, CARD_TYPE, &a_next_card_type, END_ARGS);
-            assert(a_next_card_type == CARD_CELL_LIST);
             if (a_next_card_type == CARD_CELL_LIST)
             {
                 int a_is_free = 0;
+                const ff_card_t* a_next_card_format_p = (const ff_card_t*)next_card_format_p;
                 MCDS_get_ff_card_attributes(a_next_card_format_p, CARD_IS_FREE, &a_is_free, END_ARGS);
                 //
                 if (a_is_free) a_ok = readFreeCellList(next_card_format_p, object_p, model_p, descr_p, format_p, card_format_p);
@@ -787,15 +808,12 @@ void MECIDataReader::assign(const PseudoFileFormatCard_t       *card_format_p,
 
     assign_operator_e atype = (*a_assign_card_format_p).assign_card_type;
     int assign_card_attrib_ikey = a_assign_card_format_p->attribute_ikw;
-
-    if (VTYPE_STRING == a_result && !(atype == ASSIGN_COMBINE || atype == ASSIGN_ERASE))
+    std::string value_str = "";
+    if (VTYPE_STRING == a_result && !(atype == ASSIGN_COMBINE || atype == ASSIGN_ERASE || atype == ASSIGN_ATTRIB || atype == ASSIGN_GET_ENTITY_VALUE || atype == ASSIGN_GET_CURRENT_ENTITY || atype == ASSIGN_PUSH))
     {
         string exp_str;
         const char *p_exp_str = a_assign_card_format_p->exp_str;
 
-        if (!(atype == ASSIGN_GET_ENTITY_VALUE || atype == ASSIGN_GET_CURRENT_ENTITY || atype == ASSIGN_PUSH
-            || atype == ASSIGN_ATTRIB))
-        { 
             int a_ikeyword = a_descr_p->getIKeyword(p_exp_str);
 
             if (a_ikeyword > 0)
@@ -826,7 +844,6 @@ void MECIDataReader::assign(const PseudoFileFormatCard_t       *card_format_p,
                     }
                 }
             }
-        }
 
         if (ind < 0)
         {
@@ -843,6 +860,7 @@ void MECIDataReader::assign(const PseudoFileFormatCard_t       *card_format_p,
             else if (a_atype == ATYPE_DYNAMIC_ARRAY)
             {
                 a_cell_ind = object_p->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_STRING, skeyword);
+                if (a_cell_ind < 0) a_cell_ind = loc_reserve_array(a_assign_card_format_p->attribute_ikw, skeyword, IMECPreObject::VTY_STRING, a_descr_p, object_p);
                 if (a_cell_ind >= 0)
                     object_p->SetStringValue(a_cell_ind, ind, p_exp_str);
             }
@@ -1048,11 +1066,22 @@ void MECIDataReader::assign(const PseudoFileFormatCard_t       *card_format_p,
             std::string final_str = "";
             final_str.append(first_str);
             final_str.append(second_str);
+            if (ind < 0)
+            {
             int a_skey_ind = object_p->GetIndex(IMECPreObject::ATY_SINGLE, IMECPreObject::VTY_STRING, skeyword);
             if (a_skey_ind >= 0)
                 object_p->SetStringValue(a_skey_ind, final_str.c_str());
             else
                 object_p->AddStringValue(skeyword.c_str(), final_str.c_str());
+        }
+            else
+            {
+                int a_skey_ind = object_p->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_STRING, skeyword);
+                if (a_skey_ind >= 0)
+                    object_p->SetStringValue(a_skey_ind, ind, final_str.c_str());
+                else
+                    object_p->AddStringValue(skeyword.c_str(), ind, final_str.c_str());
+            }
         }
         else if (atype == ASSIGN_FIND)
         {
@@ -1071,11 +1100,22 @@ void MECIDataReader::assign(const PseudoFileFormatCard_t       *card_format_p,
             size_t pos = first_str.find(second_str);
             if (pos != std::string::npos)
                 first_str.erase(pos, second_str.length());
+            if (ind < 0)
+            {
             int a_skey_ind = object_p->GetIndex(IMECPreObject::ATY_SINGLE, IMECPreObject::VTY_STRING, skeyword);
             if (a_skey_ind >= 0)
                 object_p->SetStringValue(a_skey_ind, first_str.c_str());
             else
                 object_p->AddStringValue(skeyword.c_str(), first_str.c_str());
+        }
+            else
+            {
+                int a_skey_ind = object_p->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_STRING, skeyword);
+                if (a_skey_ind >= 0)
+                    object_p->SetStringValue(a_skey_ind, ind, first_str.c_str());
+                else
+                    object_p->AddStringValue(skeyword.c_str(), ind, first_str.c_str());
+            }
         }
         return;
     }
@@ -1083,7 +1123,6 @@ void MECIDataReader::assign(const PseudoFileFormatCard_t       *card_format_p,
     case ASSIGN_SUB:
     case ASSIGN_DIV:
     case ASSIGN_MUL:
-    case ASSIGN_ATTRIB:
         {
             const ff_card_assign_basic_operations_t* a_basic_opera_assign_card_format_p = (const ff_card_assign_basic_operations_t*)card_format_p;
             double first_val = 0.0, sec_val = 0.0;
@@ -1141,6 +1180,139 @@ void MECIDataReader::assign(const PseudoFileFormatCard_t       *card_format_p,
             }
         }
         break;
+    case ASSIGN_ATTRIB:
+    case ASSIGN_STOI:
+    case ASSIGN_STOF:
+    {
+        const ff_card_assign_Copy_t* a_assign_Copy_card_format_p = (const ff_card_assign_Copy_t*)card_format_p;
+        int ikeyword = a_assign_Copy_card_format_p->ikeyword;
+        attribute_type_e a_attrib_atype = a_descr_p->getAttributeType(ikeyword);
+        attribute_type_e assign_attrib_atype = a_descr_p->getAttributeType(assign_card_attrib_ikey);
+        int index_ikey = a_assign_Copy_card_format_p->index_ikey;
+        int last_index_ikey = a_assign_Copy_card_format_p->last_index_ikey;
+        int index = -1, last_index = -1;
+        int a_size = 0;
+        value_type_e ikey_des_vtype = a_descr_p->getValueType(ikeyword);
+        value_type_e assign_attrib_vtype = a_descr_p->getValueType(assign_card_attrib_ikey);
+        //Getting the size of the array attributes
+        if (a_attrib_atype == ATYPE_DYNAMIC_ARRAY || a_attrib_atype == ATYPE_STATIC_ARRAY)
+        {
+            IMECPreObject::MyValueType_e ikey_pre_obj_Vtype = HCDIGetPVTypeFromDVType(ikey_des_vtype);
+
+            string a_skeyword = a_descr_p->getSKeyword(ikeyword);
+            int a_array_index = object_p->GetIndex(IMECPreObject::ATY_ARRAY, ikey_pre_obj_Vtype, a_skeyword.c_str());
+            if (a_array_index < 0)
+                return;
+            a_size = object_p->GetNbValues(ikey_pre_obj_Vtype, a_array_index);
+            if (a_size == 0)
+                return;
+        }
+
+        // Getting the index of the array attribute whose value has to be assigned(Second Argument of Assign card which is inside _ATTRIB()).
+        if (index_ikey > 0) // ASSIGN(single_att, _ATTRIB(array_att, index_att), EXPORT) index_att is given here.
+        {
+            std::string index_val_str = "";
+            double index_val = 0.0;
+            object_p->GetExpressionValue(a_descr_p, index_ikey, -1, index_val, index_val_str); // Getting the value of the index_att from its ikeyword.
+            index = (int)index_val;
+            if (last_index_ikey > 0) // last_index_ikey is allowed only when index_ikey > 0(parser doesn't allow otherwise)
+            {
+                double last_index_val = 0.0;
+                object_p->GetExpressionValue(a_descr_p, last_index_ikey, -1, last_index_val, index_val_str);// Getting the value of the last_index_att from its ikeyword.
+                last_index = (int)last_index_val;
+                if (last_index < 0 || ((ikey_des_vtype != VTYPE_STRING && assign_attrib_vtype != VTYPE_STRING) && (last_index <= index)))
+                    return;
+            }
+        }
+        /* a_attrib_atype -> Attribute whose value has to be assigned(Second Argument of Assign card which is inside _ATTRIB()) and
+               assign_attrib_atype -> attribute to which value has to be assigned(First Argument of Assign card)*/
+        else if ((a_attrib_atype == ATYPE_DYNAMIC_ARRAY || a_attrib_atype == ATYPE_STATIC_ARRAY) &&
+            (assign_attrib_atype == ATYPE_VALUE || assign_attrib_atype == ATYPE_SIZE))
+        {
+            if (ind < 0) index = 0; //ASSIGN(single_att, _ATTRIB(array_att), EXPORT) Index is 0 to copy the arrat_att[0] to the single_att
+            else index = ind; //CARD_LIST{ASSIGN(single_att, _ATTRIB(array_att), EXPORT)} Here the index is nothing but the index of CARD_LIST i.e., 'ind'.
+        }
+        //else ASSIGN(single_att, _ATTRIB(single_att), EXPORT) Index will be '-1' as single_att is being copied here.
+
+        if (assign_attrib_atype == ATYPE_VALUE || assign_attrib_atype == ATYPE_SIZE) // Copying (Single_Att to Single_Att) & (Arr_Att[index] to Single_Att).
+        {
+            object_p->GetExpressionValue(a_descr_p, ikeyword, index, value, value_str);
+            if (assign_attrib_atype == ATYPE_SIZE)
+                HCDI_UpdatePreObjectConnectedSizeIkeywords(*object_p, descr_p, ikeyword);
+            if (ikey_des_vtype == VTYPE_STRING && assign_attrib_vtype == VTYPE_STRING)
+            {
+                // copy the length last_index, from the string at index
+                int a_str_size = (int)value_str.size();
+                if (last_index > a_str_size || last_index == -1)
+                    last_index = a_str_size;
+                value_str = value_str.substr(0, last_index);
+            }
+        }
+        else if (assign_attrib_atype == ATYPE_DYNAMIC_ARRAY || assign_attrib_atype == ATYPE_STATIC_ARRAY) // copying Array_Att to Array_Att
+        {
+            if (index_ikey == -1)
+            {
+                if (ind < 0) index = 0;
+                else index = ind;
+            }
+            if (index < 0 || index >= a_size || last_index >= a_size)
+                return;
+
+            int start_ind_value = 0, end_ind_value = a_size;
+            int updated_array_size = a_size;
+            if (index >= 0)
+            {
+                start_ind_value = index;
+                if (last_index >= 0)
+                {
+                    end_ind_value = last_index + 1;
+                    updated_array_size = end_ind_value - start_ind_value;
+                }
+            }
+            if (assign_attrib_atype == ATYPE_DYNAMIC_ARRAY)
+            {
+                HCDI_AddArrayAttributesToPreObject(*object_p, descr_p, assign_card_attrib_ikey, updated_array_size);
+                int a_size_ikeyword = a_descr_p->getSizeIKeyword(assign_card_attrib_ikey);
+                HCDI_UpdatePreObjectConnectedSizeIkeywords(*object_p, descr_p, a_size_ikeyword);
+            }
+            else if (assign_attrib_atype == ATYPE_STATIC_ARRAY)
+            {
+                int size = a_descr_p->getSize(assign_card_attrib_ikey);
+                HCDI_AddArrayAttributesToPreObject(*object_p, descr_p, assign_card_attrib_ikey, size);
+                if (size < updated_array_size)
+                {
+                    updated_array_size = size;
+                    end_ind_value = start_ind_value + size;
+                }
+            }
+            if (ikey_des_vtype == VTYPE_STRING && assign_attrib_vtype == VTYPE_STRING)
+            {
+                // copy the length end_ind_value, from the string at start_ind_value
+                std::string a_value_str = "";
+                object_p->GetExpressionValue(a_descr_p, ikeyword, start_ind_value, value, a_value_str);
+                int a_str_size = (int)a_value_str.size();
+                if (end_ind_value > a_str_size || end_ind_value == -1)
+                    end_ind_value = a_str_size;
+                a_value_str = a_value_str.substr(0, end_ind_value);
+                HCDI_UpdatePreObjectValue(*object_p, descr_p, assign_card_attrib_ikey, value, a_value_str, start_ind_value);
+            }
+            else
+            {
+                for (int i = start_ind_value; i < end_ind_value; i++)
+                {
+                    std::string a_value_str = "";
+                    object_p->GetExpressionValue(a_descr_p, ikeyword, i, value, a_value_str);
+                    if (atype == ASSIGN_STOI)
+                        value = std::stoi(a_value_str.c_str());
+                    else if (atype == ASSIGN_STOF)
+                        value = std::stof(a_value_str.c_str());
+                    HCDI_UpdatePreObjectValue(*object_p, descr_p, assign_card_attrib_ikey, value, a_value_str, i);
+                }
+            }
+            return;
+        }
+        break;
+    }
     default:
         break;
     }
@@ -1286,7 +1458,7 @@ void MECIDataReader::assign(const PseudoFileFormatCard_t       *card_format_p,
         break;
     case VTYPE_STRING:
         {
-            string a_svalue(a_assign_card_format_p->exp_str);
+            string a_svalue(value_str);
             if(ind<0) 
             {
                 object_p->AddStringValue(skeyword.c_str(), a_svalue.c_str());
@@ -1433,7 +1605,8 @@ bool MECIDataReader::readSingleCard(const PseudoFileFormatCard_t *card_format_p,
                                     const PseudoDescriptor_t     *descr_p,
                                     int                           ind,
                                     unsigned int                  offset,
-                                    bool                         *do_continue_p) 
+                                    bool                         *do_continue_p,
+                                    bool                          is_next_card_cell_list) 
 {
   // setObject (object_p); 
   
@@ -1453,10 +1626,18 @@ bool MECIDataReader::readSingleCard(const PseudoFileFormatCard_t *card_format_p,
   myReadContext_p->killNLEnd(a_card);
   myReadContext_p->completeWithBlanks(a_card,myLineLength); 
   int flag = 0;
+  const char* a_offset_fmt = NULL;
+  const char* a_offset_val = NULL;
+  bool has_offset = false;
   MCDS_get_ff_card_attributes(a_card_format_p, CARD_FLAGS, &flag, END_ARGS);
   bool no_end_flag = false;
   if (flag)
+  {
       no_end_flag = (flag & CARD_FLAG_NO_END) ? true : false;
+      has_offset = (flag & CARD_FLAG_OFFSET) ? true : false;
+  }
+  if (has_offset)
+      MCDS_get_ff_card_attributes(a_card_format_p, CARD_CELL_LIST_OFFSET_FORMAT, &a_offset_fmt, CARD_CELL_LIST_OFFSET_VALUE, &a_offset_val, END_ARGS);
   // 
   int a_is_header = mySyntaxInfos_p->isHeader(a_card);
 
@@ -1569,7 +1750,7 @@ bool MECIDataReader::readSingleCard(const PseudoFileFormatCard_t *card_format_p,
 			object_p,
 			model_p,
 			descr_p,
-          ind, is_free_size_format, a_card_type);
+            ind, is_free_size_format, a_card_type, (j == a_nb_cells - 1) ? no_end_flag: false, has_offset, a_offset_fmt, a_offset_val, is_next_card_cell_list);
 
     if (mySyntaxInfos_p->IsFormatSupportedForContinueNextLine())
     {
@@ -1872,7 +2053,7 @@ bool MECIDataReader::readHeaderCard(const PseudoFileFormatCard_t *card_format_p,
         {
             const char* a_cur_cell_0 = a_cur_cell;
             a_cur_cell =  readCell_COMMENT(a_cur_cell, a_cell_format_p);
-            cur_fmt_size += a_cur_cell - a_cur_cell_0;
+            cur_fmt_size += static_cast<int>(a_cur_cell - a_cur_cell_0);
 
 
             
@@ -2036,6 +2217,70 @@ void MECIDataReader::reserveCell(const PseudoFileFormatCell_t *cell_format_p,
     MCDS_get_ff_cell_attributes(a_cell_format_p,CELL_TYPE,&a_cell_type,END_ARGS);
     //
     switch(a_cell_type) {
+    case CELL_APPEND_OPTIONS:
+    {
+
+        const char* a_cell_fmt = NULL;
+
+        MCDS_get_ff_cell_attributes(a_cell_format_p, CELL_FORMAT, &a_cell_fmt, END_ARGS);
+
+        ff_append_option_cell_t* a_cell_p = (ff_append_option_cell_t*)a_cell_format_p;
+        if (a_cell_p)
+        {
+            vector<AppendOptions_t*>& a_vect = a_cell_p->options;
+            int size = (int)a_vect.size();
+
+            for (int i = 0; i < size; i++)
+            {
+                AppendOptions_t* data = a_vect[i];
+                if (data == NULL)
+                    continue;
+
+                value_type_e vtype = data->vtype;
+
+                switch (vtype) {
+                case VTYPE_BOOL:
+                {
+                    AppendOptionsOthers_t<int>* data2 = ((AppendOptionsOthers_t<int>*)data);
+                    const string& skw = data2->getSkeyword();
+                    object_p->AddBoolArray(skw.c_str(), nb_values);
+                }
+                    break;
+                case VTYPE_INT:
+                {
+                    AppendOptionsOthers_t<int>* data2 = ((AppendOptionsOthers_t<int>*)data);
+                    const string& skw = data2->getSkeyword();
+                    object_p->AddIntArray(skw.c_str(), nb_values);
+                    break;
+                }
+                case VTYPE_UINT:  
+                {
+                    AppendOptionsOthers_t<unsigned int>* data2 = ((AppendOptionsOthers_t<unsigned int>*)data);
+                    const string& skw = data2->getSkeyword();
+                    object_p->AddUIntArray(skw.c_str(), nb_values);
+                    break;
+                }
+                case VTYPE_FLOAT:  
+                {
+                    AppendOptionsOthers_t<double>* data2 = ((AppendOptionsOthers_t<double>*)data);
+                    const string& skw = data2->getSkeyword();
+                    object_p->AddFloatArray(skw.c_str(), nb_values);
+                    break;
+                }
+                case VTYPE_STRING: 
+                {
+                    AppendOptionsOthers_t<string>* data2 = ((AppendOptionsOthers_t<string>*)data);
+                    const string& skw = data2->getSkeyword();
+                    object_p->AddStringArray(skw.c_str(), nb_values);
+                    break;
+                }
+                default:           
+                    break;
+                }
+            }
+        }
+    }
+    break;
     case CELL_VALUE:
     case CELL_PAIR:
       {
@@ -2489,7 +2734,7 @@ bool MECIDataReader::readFreeCellList(const PseudoFileFormatCard_t *card_format_
         else
         {
             
-            myReadContext_p->completeWithBlanks(a_card, a_line_length);
+             
             len = (int)strlen(a_card);
             a_line_length_new = len;
         }
@@ -2520,7 +2765,7 @@ bool MECIDataReader::readFreeCellList(const PseudoFileFormatCard_t *card_format_
                     else
                     {
                         
-                        myReadContext_p->completeWithBlanks(a_card, a_line_length);
+                        
                         len = (int)strlen(a_card);
                         a_line_length_new = len;
                     }
@@ -3348,9 +3593,9 @@ EXIT_LOOPS:
                 IMECPreObject::MyValueType_e  a_secondary_vtype = object_p->GetValueType(IMECPreObject::ATY_ARRAY, a_secondary_skw.c_str());
                 int            a_secondary_index = object_p->GetIndex(IMECPreObject::ATY_ARRAY, a_secondary_vtype, a_secondary_skw);
                 if (a_secondary_index >= 0)
-                    object_p->resizeArray(a_secondary_vtype, a_secondary_index, j);
+                    object_p->resizeArray(a_secondary_vtype, a_secondary_index, a_size); 
             }
-            object_p->SetIntValue(a_size_ind, j);
+            object_p->SetIntValue(a_size_ind, a_size);
         }
     }
 
@@ -4042,6 +4287,7 @@ bool MECIDataReader::checkCard(const PseudoFileFormat_t *format_p,
     }
         break;
     default:
+         a_ok = true;
          goto end_of_function;
     }
 
@@ -4059,7 +4305,12 @@ const char* MECIDataReader::readCell(const char* cell,
     const PseudoDescriptor_t* descr_p,
     int                           ind,
     bool                          is_free_size_format,
-    int                           card_type)
+    int                           card_type,
+    bool                          no_end_flag,
+    bool                          has_offset,
+    const char*                   offset_fmt,
+    const char*                   offset_val,
+    bool                          is_next_card_cell_list)
 {
 
     string a_cell_skw;
@@ -4080,7 +4331,7 @@ const char* MECIDataReader::readCell(const char* cell,
     case CELL_VALUE:
     {
         
-        a_cur_cell = readCell_VALUE(cell, cell_format_p, object_p, model_p, descr_p, ind, is_free_size_format);
+        a_cur_cell = readCell_VALUE(cell, cell_format_p, object_p, model_p, descr_p, ind, is_free_size_format, END_ARGS, no_end_flag, has_offset, offset_fmt, offset_val, is_next_card_cell_list);
         
     }
     break;
@@ -4771,6 +5022,22 @@ const char* MECIDataReader::readCell(const char* cell,
             size_t result = name_value.find(pair_char);
             if (result == string::npos)
             {
+                string param_str = "";
+                bool is_param_cell = false, is_parameter_negated = false;
+                is_param_cell = isParameterCell(name_value.c_str(), a_cell_size, param_str, &is_parameter_negated);
+                bool is_text_param_replaced = is_param_cell ?
+                    replaceTextParameter(name_value.c_str(), a_cell_size, param_str, model_p, object_p->GetFileIndex(), &a_ok) :
+                    false;
+                string text_param_value = "";
+                IParameter::Type param_type = IParameter::TYPE_UNKNOWN;
+                if (model_p != NULL)
+                {
+                    MECIModelFactory* nc_model_p = (MECIModelFactory*)model_p;
+                    param_type = nc_model_p->GetParameterValueType(param_str.c_str(), object_p->GetFileIndex());
+                    if (IParameter::TYPE_STRING == param_type)
+                        text_param_value = nc_model_p->GetTextParameter(param_str.c_str(), object_p->GetFileIndex());
+                }
+
                 for (int j = 0; j < nb_cells; j++)
                 {
                     pair <int, string> a_pair = ikw_str_vect.at(j);
@@ -4795,9 +5062,22 @@ const char* MECIDataReader::readCell(const char* cell,
                                 for (int k = 0; k < nb_items; k++)
                                 {
                                     string item = rad_feat->getRadioStringValue(k);
-                                    if (item == name_value)
+                                    string a_skw = a_descr_p->getSKeyword(aikw);
+                                    if (is_param_cell && !is_text_param_replaced && a_ok && (IParameter::TYPE_STRING == param_type))
                                     {
-                                        string a_skw = a_descr_p->getSKeyword(aikw);
+                                        if (ind >= 0)
+                                            object_p->AddStringValue(a_skw.c_str(), ind, text_param_value.c_str());
+                                        else
+                                            object_p->AddStringValue(a_skw.c_str(), text_param_value.c_str());
+                                        object_p->SetParameterName(param_str.c_str(), a_skw.c_str(), ind, is_parameter_negated);
+                                        if_found = true;
+                                        break;
+                                    }
+                                    else if (item == name_value)
+                                    {
+                                        if(ind >= 0)
+                                            object_p->AddStringValue(a_skw.c_str(), ind, name_value.c_str());
+                                        else
                                         object_p->AddStringValue(a_skw.c_str(), name_value.c_str());
                                         if_found = true;
                                         break;
@@ -4810,8 +5090,96 @@ const char* MECIDataReader::readCell(const char* cell,
                         if (if_found)
                             break;
 
-                        // get the data type in name_value, scan the ikeywords with no string value, set to a matched data type
                         int a_nb_read = 0;
+                        if (is_param_cell && !is_text_param_replaced && a_ok)
+                        {
+                            if (param_type == IParameter::TYPE_INTEGER || param_type == IParameter::TYPE_INTEGER_EXPRESSION)
+                            {
+                                int a_ivalue = 0;
+                                if (model_p != NULL)
+                                {
+                                    MECIModelFactory* nc_model_p = (MECIModelFactory*)model_p;
+                                    a_ivalue = nc_model_p->GetIntParameter(param_str.c_str(), object_p->GetFileIndex());
+                                }
+                                if (is_parameter_negated)
+                                {
+                                    a_ivalue = -1 * a_ivalue;
+                                }
+                                for (int k = 0; k < nb_cells; k++)
+                                {
+                                    pair <int, string> a_pair = ikw_str_vect.at(k);
+                                    if (a_pair.second == "")
+                                    {
+                                        int ikw = a_pair.first;
+                                        value_type_e a_vtype = a_descr_p->getValueType(ikw);
+                                        if (a_vtype != VTYPE_INT && a_vtype != VTYPE_BOOL)
+                                            continue;
+                                        string a_skw = a_descr_p->getSKeyword(ikw);
+                                        if (a_vtype == VTYPE_INT)
+                                        {
+                                            if (ind >= 0)
+                                                object_p->AddIntValue(a_skw.c_str(), ind, a_ivalue);
+                                            else
+                                                object_p->AddIntValue(a_skw.c_str(), a_ivalue);
+                                            object_p->SetParameterName(param_str.c_str(), a_skw.c_str(), ind, is_parameter_negated);
+                                            if_found = true;
+                                        }
+                                        else if (a_vtype == VTYPE_BOOL)
+                                        {
+                                            if (ind >= 0)
+                                                object_p->AddBoolValue(a_skw.c_str(), ind, (a_ivalue > 0) ? true : false);
+                                            else
+                                                object_p->AddBoolValue(a_skw.c_str(), (a_ivalue > 0) ? true : false);
+                                            object_p->SetParameterName(param_str.c_str(), a_skw.c_str(), ind, is_parameter_negated);
+                                            if_found = true;
+                                        }
+                                        if (if_found)
+                                            break;
+                                    }
+                                }
+                                if (if_found)
+                                    break;
+                            }
+                            else if (param_type == IParameter::TYPE_DOUBLE || param_type == IParameter::TYPE_DOUBLE_EXPRESSION)
+                            {
+                                double a_fvalue = 0;
+                                void* ent_param_ptr = NULL;
+                                if (model_p != NULL)
+                                {
+                                    MECIModelFactory* nc_model_p = (MECIModelFactory*)model_p;
+                                    a_fvalue = nc_model_p->GetFloatParameter(param_str.c_str(), object_p->GetFileIndex(), &ent_param_ptr);
+                                }
+                                if (is_parameter_negated)
+                                {
+                                    a_fvalue = -1 * a_fvalue;
+                                }
+                                for (int k = 0; k < nb_cells; k++)
+                                {
+                                    pair <int, string> a_pair = ikw_str_vect.at(k);
+                                    if (a_pair.second == "")
+                                    {
+                                        int ikw = a_pair.first;
+                                        value_type_e a_vtype = a_descr_p->getValueType(ikw);
+                                        if (a_vtype != VTYPE_FLOAT)
+                                            continue;
+                                        string a_skw = a_descr_p->getSKeyword(ikw);
+                                        if (ind >= 0)
+                                            object_p->AddFloatValue(a_skw.c_str(), ind, a_fvalue);
+                                        else
+                                            object_p->AddFloatValue(a_skw.c_str(), a_fvalue);
+
+                                        object_p->SetParameterName(param_str.c_str(), a_skw.c_str(), ind, is_parameter_negated, ent_param_ptr);
+                                        if_found = true;
+                                        break;
+                                    }
+                                }
+                                if (if_found)
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                        // get the data type in name_value, scan the ikeywords with no string value, set to a matched data type
                         int a_ivalue = 0;
                         a_nb_read = sscanf(name_value.c_str(), "%d", &a_ivalue);
                         if (a_nb_read > 0)
@@ -4826,10 +5194,27 @@ const char* MECIDataReader::readCell(const char* cell,
                                     if (a_vtype != VTYPE_INT && a_vtype != VTYPE_BOOL)
                                         continue;
                                     string a_skw = a_descr_p->getSKeyword(ikw);
+                                        if (a_vtype == VTYPE_INT)
+                                        {
+                                            if (ind >= 0)
+                                                object_p->AddIntValue(a_skw.c_str(), ind, a_ivalue);
+                                            else
                                     object_p->AddIntValue(a_skw.c_str(), a_ivalue);
+                                            if_found = true;
+                                        }
+                                        else if (a_vtype == VTYPE_BOOL)
+                                        {
+                                            if (ind >= 0)
+                                                object_p->AddBoolValue(a_skw.c_str(), ind, (a_ivalue > 0) ? true : false);
+                                            else
+                                                object_p->AddBoolValue(a_skw.c_str(), (a_ivalue > 0) ? true : false);
+                                            if_found = true;
+                                        }
+                                        if (if_found)
                                     break;
                                 }
                             }
+                                if (if_found)
                             break;
                         }
                         double a_fvalue = 0.;
@@ -4846,10 +5231,15 @@ const char* MECIDataReader::readCell(const char* cell,
                                     if (a_vtype != VTYPE_FLOAT)
                                         continue;
                                     string a_skw = a_descr_p->getSKeyword(ikw);
+                                        if (ind >= 0)
+                                            object_p->AddFloatValue(a_skw.c_str(), ind, a_fvalue);
+                                        else
                                     object_p->AddFloatValue(a_skw.c_str(), a_fvalue);
+                                        if_found = true;
                                     break;
                                 }
                             }
+                                if (if_found)
                             break;
                         }
                         for (int k = 0; k < nb_cells; k++)
@@ -4862,6 +5252,9 @@ const char* MECIDataReader::readCell(const char* cell,
                                 if (a_vtype != VTYPE_STRING)
                                     continue;
                                 string a_skw = a_descr_p->getSKeyword(ikw);
+                                    if (ind >= 0)
+                                        object_p->AddStringValue(a_skw.c_str(), ind, name_value.c_str());
+                                    else
                                 object_p->AddStringValue(a_skw.c_str(), name_value.c_str());
                                 if_found = true;
                                 break;
@@ -4869,6 +5262,7 @@ const char* MECIDataReader::readCell(const char* cell,
                         }
                         if (if_found)
                             break;
+                        }
                         int ikw = a_pair.first;
                         value_type_e a_vtype = a_descr_p->getValueType(ikw);
                         string a_skw = a_descr_p->getSKeyword(ikw);
@@ -4878,51 +5272,226 @@ const char* MECIDataReader::readCell(const char* cell,
                             case VTYPE_INT:
                             case VTYPE_BOOL:
                             {
+                                if (is_param_cell && !is_text_param_replaced && a_ok)
+                                {
+                                    int a_ivalue = 0;
+                                    if (model_p != NULL)
+                                    {
+                                        MECIModelFactory* nc_model_p = (MECIModelFactory*)model_p;
+                                        a_ivalue = nc_model_p->GetIntParameter(param_str.c_str(), object_p->GetFileIndex());
+                                        if (is_parameter_negated)
+                                        {
+                                            a_ivalue = -1 * a_ivalue;
+                                        }
+                                        if (a_vtype == VTYPE_INT)
+                                        {
+                                            if (ind >= 0)
+                                                object_p->AddIntValue(a_skw.c_str(), ind, a_ivalue);
+                                            else
+                                                object_p->AddIntValue(a_skw.c_str(), a_ivalue);
+                                        }
+                                        else if(a_vtype == VTYPE_BOOL)
+                                        {
+                                            if (ind >= 0)
+                                                object_p->AddBoolValue(a_skw.c_str(), ind, a_ivalue > 0 ? true : false);
+                                            else
+                                                object_p->AddBoolValue(a_skw.c_str(), a_ivalue > 0 ? true : false);
+                                        }
+                                        object_p->SetParameterName(param_str.c_str(), a_skw.c_str(), ind, is_parameter_negated);
+                                    }
+                                }
+                                else
+                                {
                                 int a_ivalue = 0;
                                 a_nb_read = sscanf(name_value.c_str(), "%d", &a_ivalue);
                                 if (a_nb_read > 0)
                                 {
+                                        if (a_vtype == VTYPE_INT)
+                                        {
+                                            if (ind >= 0)
+                                                object_p->AddIntValue(a_skw.c_str(), ind, a_ivalue);
+                                            else
                                     object_p->AddIntValue(a_skw.c_str(), a_ivalue);
+                                }
+                                        else if (a_vtype == VTYPE_BOOL)
+                                        {
+                                            if (ind >= 0)
+                                                object_p->AddBoolValue(a_skw.c_str(), ind, (a_ivalue > 0) ? true : false);
+                                            else
+                                                object_p->AddBoolValue(a_skw.c_str(), (a_ivalue > 0) ? true : false);
+                                        }
+                                    }
                                 }
                             }
                             break;
                             case VTYPE_UINT:
                             {
+                                if (is_param_cell && !is_text_param_replaced && a_ok)
+                                {
+                                    int a_ivalue = 0;
+                                    if (model_p != NULL)
+                                    {
+                                        MECIModelFactory* nc_model_p = (MECIModelFactory*)model_p;
+                                        a_ivalue = nc_model_p->GetIntParameter(param_str.c_str(), object_p->GetFileIndex());
+                                        if (is_parameter_negated)
+                                        {
+                                            a_ivalue = -1 * a_ivalue;
+                                        }
+                                        if (ind >= 0)
+                                            object_p->AddUIntValue(a_skw.c_str(), ind, (unsigned int)a_ivalue);
+                                        else
+                                            object_p->AddUIntValue(a_skw.c_str(), (unsigned int)a_ivalue);
+                                        object_p->SetParameterName(param_str.c_str(), a_skw.c_str(), ind, is_parameter_negated);
+                                    }
+                                }
+                                else
+                                {
                                 unsigned int a_uvalue = 0;
                                 a_nb_read = sscanf(name_value.c_str(), "%u", &a_uvalue);
                                 if (a_nb_read > 0)
                                 {
+                                        if (ind >= 0)
+                                            object_p->AddUIntValue(a_skw.c_str(), ind, a_uvalue);
+                                        else
                                     object_p->AddUIntValue(a_skw.c_str(), a_uvalue);
                                 }
+                            }
                             }
                             break;
                             case VTYPE_FLOAT:
                             {
+                                if (is_param_cell && !is_text_param_replaced && a_ok)
+                                {
+                                    double a_fvalue = 0;
+                                    if (model_p != NULL)
+                                    {
+                                        MECIModelFactory* nc_model_p = (MECIModelFactory*)model_p;
+                                        void* ent_param_ptr = NULL;
+                                        a_fvalue = nc_model_p->GetFloatParameter(param_str.c_str(), object_p->GetFileIndex(), &ent_param_ptr);
+                                        if (is_parameter_negated)
+                                        {
+                                            a_fvalue = -1 * a_fvalue;
+                                        }
+                                        if (ind >= 0)
+                                            object_p->AddFloatValue(a_skw.c_str(), ind, a_fvalue);
+                                        else
+                                            object_p->AddFloatValue(a_skw.c_str(), a_fvalue);
+                                        object_p->SetParameterName(param_str.c_str(), a_skw.c_str(), ind, is_parameter_negated, ent_param_ptr);
+                                    }
+                                }
+                                else
+                                {
                                 double a_fvalue = 0.;
                                 a_nb_read = sscanf(name_value.c_str(), "%lg", &a_fvalue);
                                 if (a_nb_read > 0)
                                 {
+                                        if (ind >= 0)
+                                            object_p->AddFloatValue(a_skw.c_str(), ind, a_fvalue);
+                                        else
                                     object_p->AddFloatValue(a_skw.c_str(), a_fvalue);
                                 }
                             }
+                            }
                             break;
                             case VTYPE_STRING:
+                            {
+                                if (is_param_cell && !is_text_param_replaced && a_ok)
+                                {
+                                    if (model_p != NULL)
+                                    {
+                                        MECIModelFactory* nc_model_p = (MECIModelFactory*)model_p;
+                                        string str_val = nc_model_p->GetTextParameter(param_str.c_str(), object_p->GetFileIndex());
+
+                                        if (ind >= 0)
+                                            object_p->AddStringValue(a_skw.c_str(), ind, str_val.c_str());
+                                        else
+                                            object_p->AddStringValue(a_skw.c_str(), str_val.c_str());
+                                        object_p->SetParameterName(param_str.c_str(), a_skw.c_str(), ind, is_parameter_negated);
+                                    }
+                                }
+                                else
+                                {
+                                    if (ind >= 0)
+                                        object_p->AddStringValue(a_skw.c_str(), ind, name_value.c_str());
+                                    else
                                 object_p->AddStringValue(a_skw.c_str(), name_value.c_str());
+                                }
+                            }
                             break;
                             case VTYPE_OBJECT:
                             {
                                 object_type_e  a_cell_otype = a_descr_p->getObjectType(ikw);
                                 const string& a_cell_otype_str = MV_get_type(a_cell_otype);
+
+                                if (is_param_cell && !is_text_param_replaced && a_ok)
+                                {
+                                    int a_ivalue = 0;
+                                    if (model_p != NULL)
+                                    {
+                                        MECIModelFactory* nc_model_p = (MECIModelFactory*)model_p;
+                                        a_ivalue = nc_model_p->GetIntParameter(param_str.c_str(), object_p->GetFileIndex());
+                                        if (is_parameter_negated)
+                                        {
+                                            a_ivalue = -1 * a_ivalue;
+                                        }
+                                        if (ind >= 0)
+                                            object_p->AddObjectValue(a_skw.c_str(), ind, a_cell_otype_str.c_str(), (unsigned int)a_ivalue, -1);
+                                        else
+                                            object_p->AddObjectValue(a_skw.c_str(), a_cell_otype_str.c_str(), (unsigned int)a_ivalue, -1);
+                                        object_p->SetParameterName(param_str.c_str(), a_skw.c_str(), ind, is_parameter_negated);
+                                    }
+                                }
+                                else
+                                {
                                 MYOBJ_INT a_ovalue = 0;
                                 a_nb_read = sscanf(name_value.c_str(), "%u", &a_ovalue);
                                 if (a_nb_read > 0)
                                 {
+                                        if (ind >= 0)
+                                            object_p->AddObjectValue(a_skw.c_str(), ind, a_cell_otype_str.c_str(), a_ovalue, -1);
+                                        else
                                     object_p->AddObjectValue(a_skw.c_str(), a_cell_otype_str.c_str(), a_ovalue, -1);
                                 }
+                            }
                             }
                             break;
                         }
                         break;
+                    }
+                    else
+                    {
+                        int ikw = a_pair.first;
+                        value_type_e a_vtype = a_descr_p->getValueType(ikw);
+                        string a_skw = a_descr_p->getSKeyword(ikw);
+                        if (a_vtype == VTYPE_BOOL)
+                        {
+                            if (is_param_cell && !is_text_param_replaced && a_ok)
+                            {
+                                int a_ivalue = 0;
+                                if (model_p != NULL)
+                                {
+                                    MECIModelFactory* nc_model_p = (MECIModelFactory*)model_p;
+                                    a_ivalue = nc_model_p->GetIntParameter(param_str.c_str(), object_p->GetFileIndex());
+                                    if (is_parameter_negated)
+                                    {
+                                        a_ivalue = -1 * a_ivalue;
+                                    }
+                                    if (ind >= 0)
+                                        object_p->AddBoolValue(a_skw.c_str(), ind, a_ivalue > 0 ? true : false);
+                                    else
+                                        object_p->AddBoolValue(a_skw.c_str(), a_ivalue > 0 ? true : false);
+                                    object_p->SetParameterName(param_str.c_str(), a_skw.c_str(), ind, is_parameter_negated);
+                                }
+                            }
+                            else if (a_pair.second == name_value)
+                            {
+                                if (ind >= 0)
+                                    object_p->AddBoolValue(a_skw.c_str(), ind, true);
+                                else
+                                    object_p->AddBoolValue(a_skw.c_str(), true);
+                                break;
+                            }
+                        }
                     }
                 }
             }
@@ -4943,52 +5512,181 @@ const char* MECIDataReader::readCell(const char* cell,
                             value_type_e a_vtype = a_descr_p->getValueType(ikw);
                             string a_skw = a_descr_p->getSKeyword(ikw);
                             int a_nb_read = 0;
+                            string param_str = "";
+                            bool is_param_cell = false, is_parameter_negated = false;
+                            is_param_cell = isParameterCell(name_value2.c_str(), a_cell_size, param_str, &is_parameter_negated);
+                            bool is_text_param_replaced = is_param_cell ?
+                                replaceTextParameter(name_value2.c_str(), a_cell_size, param_str, model_p, object_p->GetFileIndex(), &a_ok) :
+                                false;
+
                             switch (a_vtype)
                             {
                                 case VTYPE_INT:
-                                case VTYPE_BOOL:
+                                {
+                                    if (is_param_cell && !is_text_param_replaced && a_ok)
+                                    {
+                                        int a_ivalue = 0;
+                                        if (model_p != NULL)
+                                        {
+                                            MECIModelFactory* nc_model_p = (MECIModelFactory*)model_p;
+                                            a_ivalue = nc_model_p->GetIntParameter(param_str.c_str(), object_p->GetFileIndex());
+                                            if (is_parameter_negated)
+                                            {
+                                                a_ivalue = -1 * a_ivalue;
+                                            }
+                                            if (ind >= 0)
+                                                object_p->AddIntValue(a_skw.c_str(), ind, a_ivalue);
+                                            else
+                                                object_p->AddIntValue(a_skw.c_str(), a_ivalue);
+
+                                            object_p->SetParameterName(param_str.c_str(), a_skw.c_str(), ind, is_parameter_negated);
+                                        }
+                                    }
+                                    else
                                 {
                                     int a_ivalue = 0;
                                     a_nb_read = sscanf(name_value2.c_str(), "%d", &a_ivalue);
                                     if (a_nb_read > 0)
                                     {
+                                            if (ind >= 0)
+                                                object_p->AddIntValue(a_skw.c_str(), ind, a_ivalue);
+                                            else
                                         object_p->AddIntValue(a_skw.c_str(), a_ivalue);
                                     }
+                                }
                                 }
                                 break;
                                 case VTYPE_UINT:
                                 {
+                                    if (is_param_cell && !is_text_param_replaced && a_ok)
+                                    {
+                                        int a_ivalue = 0;
+                                        if (model_p != NULL)
+                                        {
+                                            MECIModelFactory* nc_model_p = (MECIModelFactory*)model_p;
+                                            a_ivalue = nc_model_p->GetIntParameter(param_str.c_str(), object_p->GetFileIndex());
+                                            if (is_parameter_negated)
+                                            {
+                                                a_ivalue = -1 * a_ivalue;
+                                            }
+                                            if (ind >= 0)
+                                                object_p->AddUIntValue(a_skw.c_str(), ind, (unsigned int)a_ivalue);
+                                            else
+                                                object_p->AddUIntValue(a_skw.c_str(), (unsigned int)a_ivalue);
+
+                                            object_p->SetParameterName(param_str.c_str(), a_skw.c_str(), ind, is_parameter_negated);
+                                        }
+                                    }
+                                    else
+                                    {
                                     unsigned int a_uvalue = 0;
                                     a_nb_read = sscanf(name_value2.c_str(), "%u", &a_uvalue);
                                     if (a_nb_read > 0)
                                     {
+                                            if (ind >= 0)
+                                                object_p->AddUIntValue(a_skw.c_str(), ind, a_uvalue);
+                                            else
                                         object_p->AddUIntValue(a_skw.c_str(), a_uvalue);
                                     }
+                                }
                                 }
                                 break;
                                 case VTYPE_FLOAT:
                                 {
+                                    if (is_param_cell && !is_text_param_replaced && a_ok)
+                                    {
+                                        double a_fvalue = 0;
+                                        if (model_p != NULL)
+                                        {
+                                            MECIModelFactory* nc_model_p = (MECIModelFactory*)model_p;
+                                            void* ent_param_ptr = NULL;
+                                            a_fvalue = nc_model_p->GetFloatParameter(param_str.c_str(), object_p->GetFileIndex(), &ent_param_ptr);
+                                            if (is_parameter_negated)
+                                            {
+                                                a_fvalue = -1 * a_fvalue;
+                                            }
+                                            if (ind >= 0)
+                                                object_p->AddFloatValue(a_skw.c_str(), ind, a_fvalue);
+                                            else
+                                                object_p->AddFloatValue(a_skw.c_str(), a_fvalue);
+
+                                            object_p->SetParameterName(param_str.c_str(), a_skw.c_str(), ind, is_parameter_negated, ent_param_ptr);
+                                        }
+                                    }
+                                    else
+                                    {
                                     double a_fvalue = 0.;
                                     a_nb_read = sscanf(name_value2.c_str(), "%lg", &a_fvalue);
                                     if (a_nb_read > 0)
                                     {
+                                            if (ind >= 0)
+                                                object_p->AddFloatValue(a_skw.c_str(), ind, a_fvalue);
+                                            else
                                         object_p->AddFloatValue(a_skw.c_str(), a_fvalue);
                                     }
                                 }
+                                }
                                 break;
                                 case VTYPE_STRING:
+                                {
+                                    if (is_param_cell && !is_text_param_replaced && a_ok)
+                                    {
+                                        if (model_p != NULL)
+                                        {
+                                            MECIModelFactory* nc_model_p = (MECIModelFactory*)model_p;
+                                            string str_val = nc_model_p->GetTextParameter(param_str.c_str(), object_p->GetFileIndex());
+
+                                            if (ind >= 0)
+                                                object_p->AddStringValue(a_skw.c_str(), ind, str_val.c_str());
+                                            else
+                                                object_p->AddStringValue(a_skw.c_str(), str_val.c_str());
+                                            object_p->SetParameterName(param_str.c_str(), a_skw.c_str(), ind, is_parameter_negated);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (ind >= 0)
+                                            object_p->AddStringValue(a_skw.c_str(), ind, name_value2.c_str());
+                                        else
                                     object_p->AddStringValue(a_skw.c_str(), name_value2.c_str());
+                                    }
+                                }
                                 break;
                                 case VTYPE_OBJECT:
                                 {
                                     object_type_e  a_cell_otype = a_descr_p->getObjectType(ikw);
                                     const string& a_cell_otype_str = MV_get_type(a_cell_otype);
+
+                                    if (is_param_cell && !is_text_param_replaced && a_ok)
+                                    {
+                                        int a_ivalue = 0;
+                                        if (model_p != NULL)
+                                        {
+                                            MECIModelFactory* nc_model_p = (MECIModelFactory*)model_p;
+                                            a_ivalue = nc_model_p->GetIntParameter(param_str.c_str(), object_p->GetFileIndex());
+                                            if (is_parameter_negated)
+                                            {
+                                                a_ivalue = -1 * a_ivalue;
+                                            }
+                                            if (ind >= 0)
+                                                object_p->AddObjectValue(a_skw.c_str(), ind, a_cell_otype_str.c_str(), (unsigned int)a_ivalue, -1);
+                                            else
+                                                object_p->AddObjectValue(a_skw.c_str(), a_cell_otype_str.c_str(), (unsigned int)a_ivalue, -1);
+                                            object_p->SetParameterName(param_str.c_str(), a_skw.c_str(), ind, is_parameter_negated);
+                                        }
+                                    }
+                                    else
+                                    {
                                     MYOBJ_INT a_ovalue = 0;
                                     a_nb_read = sscanf(name_value2.c_str(), "%u", &a_ovalue);
                                     if (a_nb_read > 0)
                                     {
+                                            if (ind >= 0)
+                                                object_p->AddObjectValue(a_skw.c_str(), ind, a_cell_otype_str.c_str(), a_ovalue, -1);
+                                            else
                                         object_p->AddObjectValue(a_skw.c_str(), a_cell_otype_str.c_str(), a_ovalue, -1);
                                     }
+                                }
                                 }
                                 break;
                             }
@@ -5069,6 +5767,9 @@ const char* MECIDataReader::readCell(const char* cell,
                         int a_lvalue = (*iter).second;
                         if (pos != std::string::npos)
                         {
+                            if (ind >= 0)
+                                object_p->AddIntValue(skw.c_str(), ind, a_lvalue);
+                            else
                             object_p->AddIntValue(skw.c_str(), a_lvalue);
                             a_lcell_size = (int)text.size();
                             total_size += a_lcell_size;
@@ -5076,6 +5777,10 @@ const char* MECIDataReader::readCell(const char* cell,
                             test_str.erase(pos, pos + a_lcell_size);
                             a_cur_cell = test_str.c_str();
                         }
+                    }
+                    if (is_param_cell)
+                    {
+                        object_p->SetParameterName(param_str.c_str(), skw.c_str(), ind);
                     }
                 }
                 else if (vtype == VTYPE_FLOAT)
@@ -5095,6 +5800,9 @@ const char* MECIDataReader::readCell(const char* cell,
                         if (pos != std::string::npos)
                         {
                             int a_lcell_size = 0;
+                            if (ind >= 0)
+                                object_p->AddFloatValue(skw.c_str(), ind, a_lvalue);
+                            else
                             object_p->AddFloatValue(skw.c_str(), a_lvalue);
                             a_lcell_size = (int)text.size();
                             total_size += a_lcell_size;
@@ -5102,6 +5810,10 @@ const char* MECIDataReader::readCell(const char* cell,
                             test_str.erase(pos, pos + a_lcell_size);
                             a_cur_cell = test_str.c_str();
                         }
+                    }
+                    if (is_param_cell)
+                    {
+                        object_p->SetParameterName(param_str.c_str(), skw.c_str(), ind);
                     }
                 }
                 else if (vtype == VTYPE_BOOL)
@@ -5121,6 +5833,9 @@ const char* MECIDataReader::readCell(const char* cell,
                         bool a_lvalue = (*iter).second;
                         if (pos != std::string::npos)
                         {
+                            if (ind >= 0)
+                                object_p->AddBoolValue(skw.c_str(), ind, a_lvalue);
+                            else
                             object_p->AddBoolValue(skw.c_str(), a_lvalue);
                             a_lcell_size = (int)text.size();
                             total_size += a_lcell_size;
@@ -5128,6 +5843,10 @@ const char* MECIDataReader::readCell(const char* cell,
                             test_str.erase(pos, pos + a_lcell_size);
                             a_cur_cell = test_str.c_str();
                         }
+                    }
+                    if (is_param_cell)
+                    {
+                        object_p->SetParameterName(param_str.c_str(), skw.c_str(), ind);
                     }
                 }
                 else if (vtype == VTYPE_UINT)
@@ -5143,17 +5862,31 @@ const char* MECIDataReader::readCell(const char* cell,
                     {
                         int a_lcell_size = 0;
                         string text = (*iter).first;
-                        size_t pos = test_str.find(text);
+                        size_t pos;// = test_str.find(text);
                         unsigned int a_lvalue = (*iter).second;
+                        if (a_cell_size > 0)
+                            pos = test_str.substr(0, a_cell_size).find(text);
+                        else
+                            pos = test_str.find(text);
+
                         if (pos != std::string::npos)
                         {
+                            if(ind >= 0)
+                               object_p->AddUIntValue(skw.c_str(), ind, a_lvalue);
+                            else
                             object_p->AddUIntValue(skw.c_str(), a_lvalue);
                             a_lcell_size = (int)text.size();
                             total_size += a_lcell_size;
                             total_str += text;
                             test_str.erase(pos, pos + a_lcell_size);
                             a_cur_cell = test_str.c_str();
+                            if (a_cell_size && a_lcell_size == a_cell_size)
+                                break;
                         }
+                        }
+                    if (is_param_cell)
+                    {
+                        object_p->SetParameterName(param_str.c_str(), skw.c_str(), ind);
                     }
                 }
                 else if (vtype == VTYPE_STRING)
@@ -5173,6 +5906,9 @@ const char* MECIDataReader::readCell(const char* cell,
                         string a_lvalue = (*iter).second;
                         if (pos != std::string::npos)
                         {
+                            if (ind >= 0)
+                                object_p->AddStringValue(skw.c_str(), ind, a_lvalue.c_str());
+                            else
                             object_p->AddStringValue(skw.c_str(), a_lvalue.c_str());
                             a_lcell_size = (int)text.size();
                             total_size += a_lcell_size;
@@ -5180,6 +5916,10 @@ const char* MECIDataReader::readCell(const char* cell,
                             test_str.erase(pos, pos + a_lcell_size);
                             a_cur_cell = test_str.c_str();
                         }
+                    }
+                    if (is_param_cell)
+                    {
+                        object_p->SetParameterName(param_str.c_str(), skw.c_str(), ind);
                     }
                 }
             }
@@ -5227,7 +5967,12 @@ const char *MECIDataReader::readCell_VALUE(const char                   *cell,
                                            const PseudoDescriptor_t     *descr_p,
                                            int                           ind,
                                            bool                          is_free_size_format, 
-                                           int                           ikeyword)
+                                           int                           ikeyword,
+                                           bool                          no_end_flag,
+                                           bool                          has_offset,
+                                           const char                    *offset_fmt,
+                                           const char                    *offset_val,
+                                           bool                           is_next_card_cell_list)
 {
     const IDescriptor* a_descr_p = (const MvDescriptor_t*)descr_p;
     const ff_cell_t* a_cell_format_p = (const ff_cell_t*)cell_format_p;
@@ -5286,6 +6031,9 @@ const char *MECIDataReader::readCell_VALUE(const char                   *cell,
             a_cur_cell += a_cell_size;
             if (ind < 0 && (!has_empty_field || is_param_cell))
             {
+                if (a_cell_vtype == VTYPE_BOOL)
+                    object_p->AddBoolValue(a_cell_skw, a_value > 0 ? true : false);
+                else
                 object_p->AddIntValue(a_cell_skw, a_value);
             }
             else if (!has_empty_field || is_param_cell)
@@ -5294,12 +6042,32 @@ const char *MECIDataReader::readCell_VALUE(const char                   *cell,
                 attribute_type_e a_atype = a_descr_p->getAttributeType(a_cell_ikw);
                 if (ATYPE_STATIC_ARRAY == a_atype || ATYPE_DYNAMIC_ARRAY == a_atype)
                 {
+                    if (a_cell_vtype == VTYPE_BOOL)
+                    {
+                        a_cell_ind = object_p->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_BOOL, a_cell_skw);
+                        if (a_cell_ind < 0)
+                            a_cell_ind = loc_reserve_array(a_cell_ikw, a_cell_skw, IMECPreObject::VTY_BOOL, a_descr_p, object_p);
+                        object_p->SetBoolValue(a_cell_ind, ind, a_value > 0 ? true: false);
+                    }
+                    else
+                    {
                     a_cell_ind = object_p->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_INT, a_cell_skw);
                     if (a_cell_ind < 0)
                         a_cell_ind = loc_reserve_array(a_cell_ikw, a_cell_skw, IMECPreObject::VTY_INT, a_descr_p, object_p);
 
                     object_p->SetIntValue(a_cell_ind, ind, a_value);
                 }
+                }
+                else
+                {
+                    if (a_cell_vtype == VTYPE_BOOL)
+                    {
+                        a_cell_ind = object_p->GetIndex(IMECPreObject::ATY_SINGLE, IMECPreObject::VTY_BOOL, a_cell_skw);
+                        if (a_cell_ind < 0)
+                            object_p->AddBoolValue(a_cell_skw, a_value > 0 ? true: false);
+                        else
+                            object_p->SetBoolValue(a_cell_ind, a_value > 0 ? true: false);
+                    }
                 else
                 {
                     a_cell_ind = object_p->GetIndex(IMECPreObject::ATY_SINGLE, IMECPreObject::VTY_INT, a_cell_skw);
@@ -5309,6 +6077,7 @@ const char *MECIDataReader::readCell_VALUE(const char                   *cell,
                         object_p->SetIntValue(a_cell_ind, a_value);
                 }
             }
+        }
         }
         if (is_param_cell)
         {
@@ -5393,7 +6162,7 @@ const char *MECIDataReader::readCell_VALUE(const char                   *cell,
         a_cell_fmt = GetFormatSize(a_cell_fmt, is_free_size_format, a_cell_size);// loc_get_fmt_size(a_cell_fmt, is_free_size_format);
         double a_value = 0;  
 
-        if (is_free_size_format && !a_cell_size)
+        if (is_free_size_format && !a_cell_size && !IsCellSeparator(a_cur_cell[0]))
             a_cell_size = GetCellFreeSize(a_cur_cell);
 
         is_param_cell = isParameterCell(a_cur_cell, a_cell_size, param_str, &is_parameter_negated);
@@ -5489,6 +6258,11 @@ const char *MECIDataReader::readCell_VALUE(const char                   *cell,
               is_param_cell = false;
               a_ok = true;
           }
+          else
+          {
+              string str_val = nc_model_p->GetTextParameter(param_str.c_str(), object_p->GetFileIndex());
+              strcpy(a_value, str_val.c_str());
+          }
       }
 
       if(is_param_cell && !is_text_param_replaced && a_ok && myCanReadAgainFlag)
@@ -5562,6 +6336,74 @@ const char *MECIDataReader::readCell_VALUE(const char                   *cell,
                         object_p->AddStringValue(a_cell_skw, a_value_p);
                     else
                         object_p->SetStringValue(a_cell_ind, a_value_p);
+                }
+            }
+                            // keep appending the lines, until a header is found
+            if (no_end_flag && !is_next_card_cell_list)
+            {
+                bool a_continue = true;
+                while (a_continue)
+                {
+                    char* line = readBuffer();
+                    if (line == NULL)
+                        break;
+                    myReadContext_p->killBlanksEnd(line);
+                    a_continue = (line != NULL && !mySyntaxInfos_p->isHeader(line));
+                    if (a_continue)
+                    {
+                        if (a_ok)
+                        {
+                            if (has_offset)
+                            {
+                                int a_offset_length = 0;
+                                if (!is_free_size_format)
+                                    offset_fmt = GetFormatSize(offset_fmt, false, a_offset_length);
+                                else
+                                    a_offset_length = GetCellFreeSize(line); // This includes free format 
+
+                                char offset_str[100];
+                                offset_str[0] = '\0';
+                                strncpy(offset_str, line, a_offset_length);
+                                offset_str[a_offset_length] = '\0';
+                                char *a_offset_str = (char *)myReadContext_p->killBlanksBegin(offset_str);
+                                myReadContext_p->killBlanksEnd(a_offset_str);
+                                char* a_offset_val = (char*)myReadContext_p->killBlanksBegin(offset_val);
+                                myReadContext_p->killBlanksEnd(a_offset_val);
+                                if (strcmp(a_offset_str, a_offset_val)!=0)
+                                {
+                                    // stop reading if data found, offset range data does not match with offset value
+                                    a_continue = false;
+                                    break;
+                                }
+                                line += a_offset_length;
+                            }
+                            line = (char*)myReadContext_p->killBlanksBegin(line);
+                            int a_cell_ind = -1;
+                            attribute_type_e a_atype = a_descr_p->getAttributeType(a_cell_ikw);
+                            if (ATYPE_STATIC_ARRAY == a_atype || ATYPE_DYNAMIC_ARRAY == a_atype)
+                            {
+                                a_cell_ind = object_p->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_STRING, a_cell_skw);
+                                if (a_cell_ind < 0)
+                                    a_cell_ind = loc_reserve_array(a_cell_ikw, a_cell_skw, IMECPreObject::VTY_STRING, a_descr_p, object_p);
+
+                                string old_value = (char*)object_p->GetStringValue(a_cell_ind, ind);
+                                old_value += line;
+                                object_p->SetStringValue(a_cell_ind, ind, old_value.c_str());
+                            }
+                            else
+                            {
+                                a_cell_ind = object_p->GetIndex(IMECPreObject::ATY_SINGLE, IMECPreObject::VTY_STRING, a_cell_skw);
+                                if (a_cell_ind < 0)
+                                    object_p->AddStringValue(a_cell_skw, a_value);
+                                else
+                                {
+                                    string old_value = (char*)object_p->GetStringValue(a_cell_ind);
+                                    old_value += line;
+                                    object_p->SetStringValue(a_cell_ind, old_value.c_str());
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
