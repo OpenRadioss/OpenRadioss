@@ -125,7 +125,8 @@ public:
                                  const IMECPreObject           &pre_object,
                                  const PseudoDescriptor_t     *descr_p,
                                  int                           ind=-1,
-                                 int                          cell_ind0=0);
+                                 int                          cell_ind0=0,
+                                 bool                         is_next_card_cell_list=false);
 
     virtual bool AppendHeaderCardOptions(const PseudoFileFormatCard_t*  card_p,
                                      const IMECPreObject&           pre_object,
@@ -204,13 +205,23 @@ public:
     virtual void WriteCell(const PseudoFileFormatCell_t *cell_p,
                            const IMECPreObject           &pre_object,
                            const PseudoDescriptor_t     *descr_p,
-                           int                           ind=-1);
+                           int                           ind=-1,
+                           bool                          no_end_flag=false,
+                           bool                          has_offset = false,
+                           const char                    *offset_fmt = NULL,
+                           const char                    *offset_val = NULL,
+                           bool                           is_next_card_cell_list = false);
     /// Writing CELL_VALUE-type cell. If an ikeyword is given, method can be used to write other values than CELL_IKEYWORD.
     virtual void WriteCell_VALUE(const PseudoFileFormatCell_t *cell_p,
                                  const IMECPreObject           &pre_object,
                                  const PseudoDescriptor_t     *descr_p,
                                  int                           ind=-1,
-                                 int                           ikeyword=0);
+                                 int                           ikeyword=0,
+                                 bool                          no_end_flag = false,
+                                 bool                          has_offset = false,
+                                 const char                   *offset_fmt = NULL,
+                                 const char                   *offset_val = NULL,
+                                 bool                          is_next_card_cell_list = false);
 
 
     void WriteCell_VALUE_LIST(const PseudoFileFormatCell_t *cell_p,

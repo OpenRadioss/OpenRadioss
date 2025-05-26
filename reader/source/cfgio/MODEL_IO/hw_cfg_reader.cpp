@@ -69,6 +69,8 @@ extern "C"
 #include <boost/algorithm/string/split.hpp> // Include for boost::split
 #include <boost/algorithm/string.hpp>
 #include <mec_data_writer.h>
+#include <fstream>
+
 typedef InputInfos::MyKeywordSet_t     LocKeywordSet_t;
 typedef InputInfos::MyObjectKeywords_t LocObjectKeywords_t;
 
@@ -102,7 +104,40 @@ static int                 loc_get_cell_size(const ff_cell_t* cell_format_p);
 static const fileformat_t* loc_get_file_format_ptr(const IDescriptor* descr_p, MvFileFormat_e version);
 
 static bool isDigitString(const char* test_str);
+static bool file_exists(const std::string& path);
 
+
+bool file_exists(const std::string& path) 
+{
+    std::ifstream f(path.c_str());
+    return f.good();
+}
+
+// Trim trailing spaces
+static std::string trimRight(const std::string& str) {
+    size_t end = str.find_last_not_of(" \t\r\n");
+    return (end == std::string::npos) ? "" : str.substr(0, end + 1);
+}
+
+// Compatible endsWith
+static bool endsWith(const std::string& str, const std::string& suffix) {
+    if (suffix.size() > str.size()) return false;
+    return std::equal(suffix.rbegin(), suffix.rend(), str.rbegin());
+}
+
+static bool hasContinuation(const std::string& currentLine, const std::string& nextLine) {
+    std::string trimmed = trimRight(currentLine);
+
+    if (endsWith(trimmed, " +") || endsWith(trimmed, "...") || endsWith(trimmed, "&")) {
+        return true;
+    }
+
+    if (!nextLine.empty() && nextLine[0] == '+') {
+        return true;
+    }
+
+    return false;
+}
 
 static string loc_manage_slash_name(char** header_tab_p, int start_index, int stop_index)
 {
@@ -147,7 +182,7 @@ HWCFGReader::HWCFGReader(const char* full_name, MvFileFormat_e version, ISyntaxI
     mySyntaxInfo = &syntaxSolverInfos;
     myDataReader = this->newDataReader(); //new MECIDataReader(this, mySyntaxInfo, mySyntaxInfo->getLineLength());
     myDataReader->setFormatId(version);
-    myCommentsHeader.resize(InputInfos::SOLVER_PROCESS_KEYWORD_COMMENT_BEFORE_AFTER);
+    myCommentsHeader.resize(InputInfos::SOLVER_PROCESS_KEYWORD_COMMENT_BEFORE_AFTER+1);
     myEncryptionPtr = newEncryption();
 }
 
@@ -166,7 +201,7 @@ HWCFGReader::HWCFGReader(MECReadFile* file, MvFileFormat_e version, ISyntaxInfos
     mySyntaxInfo = &syntaxSolverInfos;
     myDataReader = this->newDataReader(); //new MECIDataReader(this, mySyntaxInfo, myCellLength * myLineNbCells);
     myDataReader->setFormatId(version);
-    myCommentsHeader.resize(InputInfos::SOLVER_PROCESS_KEYWORD_COMMENT_BEFORE_AFTER);
+    myCommentsHeader.resize(InputInfos::SOLVER_PROCESS_KEYWORD_COMMENT_BEFORE_AFTER+1);
     myEncryptionPtr = newEncryption();
 }
 
@@ -187,7 +222,21 @@ MECIDataReader* HWCFGReader::newDataReader()
 IEncryption* HWCFGReader::newEncryption()
 {
     IEncryption* encryp = nullptr;
+    ApplicationMode_e a_mode = (ApplicationMode_e)myInputInfosPtr->GetAppMode(); 
+    switch (a_mode)
+    {
+    case HCDI_SOLVER_RADIOSS:
+        encryp = new EncryptionRadioss();
+        encryp->InitializeCrypting();
+        break;
+    case HCDI_SOLVER_LSDYNA:
+        encryp = new EncryptionLSDyna();
+        encryp->InitializeCrypting();
+        break;
+    default:
     encryp = new IEncryption();
+        break;
+    }
     return encryp;
 }
 
@@ -243,6 +292,12 @@ void HWCFGReader::readHeaderPositions(MECIModelFactory* model_p) {
     bool isexactmatch = myInputInfosPtr->IsExactUsername();
     string a_cur_keyword_str("");
     vector<pair<string, int>>  vec_key_count;
+    bool first_begin_found = false;
+
+    //no begin block to start reading.
+    if (begin_str == "") 
+        first_begin_found = true;
+
     while (a_continue)
     {
         const char* a_buffer = ReadBuffer(true); 
@@ -303,7 +358,10 @@ void HWCFGReader::readHeaderPositions(MECIModelFactory* model_p) {
                         const char* begin_proc_str = NULL;
                         begin_proc_str = mySyntaxInfo->getNormalisedHeader(begin_str.c_str());
                         if (strncmp(a_buffer_d, begin_proc_str, (int)strlen(begin_proc_str)) == 0)
+                        {
                             begin_key_found = true;
+                            first_begin_found = true;
+                        }
                         if (begin_key_found)
                         {
                             UnreadBuffer();
@@ -316,7 +374,8 @@ void HWCFGReader::readHeaderPositions(MECIModelFactory* model_p) {
                         }
                     }
                 }
-
+                if (!first_begin_found)
+                    continue;
 
 
                 //can get this information fro solverinfo whether to store or not..
@@ -1383,6 +1442,9 @@ bool HWCFGReader::IsIncludedFile(const char* buffer, char** full_name_p, char** 
     bool a_is_include = myInputInfosPtr->IsIncludeHeader(buffer); 
   //
     if (a_is_include) {
+        bool cont = true;
+        std::string result;
+        string a_name, a_name_prev = "";
 
         //get descriptor
         //create preobject based on format defined wiht common datanames + some solver 
@@ -1393,41 +1455,71 @@ bool HWCFGReader::IsIncludedFile(const char* buffer, char** full_name_p, char** 
         {
             char* a_buffer = strdup(buffer + strlen(myInputInfosPtr->GetIncludeKeyword()));
             killBlanksNLEnd(a_buffer);
-            string a_name = killBlanksBegin(a_buffer);
-            boost::erase_all(a_name, "'");
+            a_name_prev = killBlanksBegin(a_buffer);
+            boost::erase_all(a_name_prev, "'");
             myfree(a_buffer);
-            //
-
-            string a_full_name;
-            string a_relative_name;
-
-            string a_main_name_file = myMainFile;
-            string last_current_path = my_dir_get_current_path();
-            //my_dir_set_current_path(my_get_tmp_dir());
-            bool is_include_relative = my_is_file_path_relative(a_name);
-            // case include in absolute path
-            if (!is_include_relative)
-            {
-                a_full_name = a_name;
-                a_relative_name = "";
-            }
-            else
-            {
-                a_full_name = my_file_full_name_modify_with_relative(a_main_name_file, a_name);
-                a_relative_name = a_name;
-            }
-
-            *relative_name_p = strdup(a_relative_name.c_str());
-            *full_name_p = strdup(a_full_name.c_str());
-            my_dir_restore_current_path(last_current_path);
         }
+
+
+            //my_dir_set_current_path(my_get_tmp_dir());
+        int curmode = GetReadingStatus();  // need to set this to avoid again going to isinclude/iscomponent
+        SetReadingStatus(READ_STATUS_SINGLE_KEYWORD);
+        char* cLine = nullptr;
+        if (a_name_prev != "")
+            cLine = &a_name_prev[0];
         else
-        {
-            char* a_buffer = ReadBuffer();
-            killBlanksNLEnd(a_buffer);
-            string a_name = killBlanksBegin(a_buffer);
+            cLine = ReadBuffer();
+            // case include in absolute path
+        std::string nextLine = "";
+        while (cont) {
+            if (!cLine) break;
+            killBlanksNLEnd(cLine);
+            string line = killBlanksBegin(cLine);
+            std::string trimmed = trimRight(line);
 
+            if (endsWith(trimmed, " +")) {
+                trimmed = trimRight(trimmed.substr(0, trimmed.size() - 2));
+            }
+            else if (endsWith(trimmed, "...")) {
+                trimmed = trimRight(trimmed.substr(0, trimmed.size() - 3));
+            }
+            else if (endsWith(trimmed, "&")) {
+                trimmed = trimRight(trimmed.substr(0, trimmed.size() - 1));
+            }
+            else if (!result.empty() && !line.empty() && line[0] == '+') {
+                // Remove '+' and leading spaces
+                size_t start = 1;
+                while (start < line.size() && isspace(line[start])) ++start;
+                trimmed = line.substr(start);
+                trimmed = trimRight(trimmed);
+            }
+            result += trimmed;
+            char* peeked = ReadBuffer();
+            if (peeked)
+            {
+                bool  a_is_header = isHeader(peeked);
+                if (a_is_header)
+            {
+                    UnreadBuffer();
+                    break;
+                }
+                killBlanksNLEnd(peeked);
+            }
+            else
+            {
+                UnreadBuffer();
+                break;
+            }
+            nextLine = peeked ? peeked : "";
+            if (!hasContinuation(line, nextLine)) {
+                UnreadBuffer();
+                break;
+            }
+            cLine = &nextLine[0];
+        }
+        SetReadingStatus(curmode);
             //
+        a_name = result;
 
             string a_full_name;
             string a_relative_name;
@@ -1444,7 +1536,18 @@ bool HWCFGReader::IsIncludedFile(const char* buffer, char** full_name_p, char** 
             }
             else
             {
+            MECReadFile* a_cur_file_p = GetCurrentFilePtr();
+            if (a_cur_file_p)
+            {
+                a_main_name_file = a_cur_file_p->GetFullName();
+            }
+
                 a_full_name = my_file_full_name_modify_with_relative(a_main_name_file, a_name);
+
+            if (!file_exists(a_full_name) && myMainFile != a_main_name_file)
+            {
+                a_full_name = my_file_full_name_modify_with_relative(myMainFile, a_name);
+            }
                 a_relative_name = a_name;
             }
 
@@ -1452,7 +1555,7 @@ bool HWCFGReader::IsIncludedFile(const char* buffer, char** full_name_p, char** 
             *full_name_p = strdup(a_full_name.c_str());
             my_dir_restore_current_path(last_current_path);
 
-        }
+  
     }
     //
     return a_is_include;
@@ -1655,6 +1758,19 @@ MECComponent* HWCFGReader::ManageComponent(const char* buffer, bool& continue_fl
                         a_new_file_p->SetRelativeName(a_relative_name.c_str());
                         // MECSubdeck::mySubdeckVector.back()->SetFileRelativeName(a_relative_name);
                         *new_file_p = a_new_file_p;
+                        
+
+                        
+                        IMECPreObject* last_include_po = MECSubdeck::mySubdeckVector.back()->GetPreObject();
+                        if (last_include_po)
+                        {
+                            IDescriptor* pdescrp = HCDI_GetDescriptorHandle(last_include_po->GetKernelFullType());
+                            if (pdescrp)
+                            {
+                                string filemname_skey = GetAttribNameFromDrawable(pdescrp, cdr::g_AttribFileName);
+                                last_include_po->AddStringValue(filemname_skey.c_str(), a_relative_name.c_str());
+                            }
+                        }
                     }
                     else
                         *new_file_p = GetCurrentFilePtr();
@@ -1886,6 +2002,8 @@ void HWCFGReader::pushPosition()
 
 void HWCFGReader::popPosition()
 {
+    if (myCurrentLoc < 0) // may have reached end of file
+        return;
     SetHierarchyFile(myIndCurrentFile);
     GetCurrentFilePtr()->SetCurrentLocation(myCurrentLoc);
     GetCurrentFilePtr()->SetCurrentLine(myCurrentLine);

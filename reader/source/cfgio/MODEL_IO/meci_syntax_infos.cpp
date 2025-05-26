@@ -272,7 +272,8 @@ const char* SolverSyntaxInfos::GetFormatSize(const char* fmt_p, bool is_free_siz
     static const string fmt_long_lf = "%" + to_string(long_cell_width) + "lf";
     static const string fmt_16lf = "%" + to_string(long_cell_width) + "lf";
     static const string fmt_16lg = "%" + to_string(long_cell_width) + "lg";
-
+    static const string fmt_19_base_s = "%" + to_string(19) + "s"; // for parameter, dyna
+    static const string fmt_19_base_s_l = "%" + string("-") + to_string(19) + "s";// for parameter, dyna
 
     if (fmt_p[1] == 'F') /*in-case %F10d: fixed format is defined*/
     {
@@ -281,13 +282,6 @@ const char* SolverSyntaxInfos::GetFormatSize(const char* fmt_p, bool is_free_siz
         //fmt_size = a_size < 0 ? (-a_size) : a_size;
 
         const char* start = fmt_p + 2;
-        const char* end = start;
-
-        while (*end && *end != '.' && *end != 's' && *end != 'd' && *end != 'i' &&
-            *end != 'l' && *end != 'f' && *end != 'e' && *end != 'g')
-        {
-            ++end;
-        }
 
         int a_size = atoi(start);
         fmt_size = a_size < 0 ? -a_size : a_size;
@@ -342,12 +336,6 @@ const char* SolverSyntaxInfos::GetFormatSize(const char* fmt_p, bool is_free_siz
     if (!IsScalableFormat() || !fmt_type)
     {
         const char* start = fmt_p + 1;
-        const char* end = start;
-        while (*end && *end != '.' && *end != 's' && *end != 'd' && *end != 'i' &&
-            *end != 'l' && *end != 'f' && *end != 'e' && *end != 'g')
-        {
-            ++end;
-        }
         fmt_size = atoi(start);
         fmt_size = fmt_size < 0 ? (-fmt_size) : fmt_size;
         return fmt_p;
@@ -413,12 +401,73 @@ const char* SolverSyntaxInfos::GetFormatSize(const char* fmt_p, bool is_free_siz
         else if (fmt == fmt_base_s)
         {
             fmt_size = long_cell_width;
-            return fmt_base_s.c_str();
+            return fmt_long_s.c_str();
         }
         else if (fmt == fmt_base_s_l)
         {
             fmt_size = long_cell_width;
-            return fmt_base_s_l.c_str();
+            return fmt_long_s_l.c_str();
+        }
+        else if (fmt == "%9s" && base_cell_width == 10)
+        {
+            fmt_size = 19;
+            return fmt_19_base_s.c_str();
+        }
+        else if (fmt == "%-9s" && base_cell_width == 10)
+        {
+            fmt_size = 19;
+            return fmt_19_base_s_l.c_str();
+        }
+        else
+        {
+            const char* start = fmt_p + 1;
+            const char* end = start;
+            while (*end && ((*end == '-') || (*end =='.' ) || (isdigit(*end))))
+            {
+                ++end;
+            }
+            fmt_size = atoi(start);
+            int rem = fmt_size % base_cell_width;
+            if (rem == 0 && fmt_size != 0)
+            {
+                if (fmt_size < 0)
+                {
+                    int abs_v = -1 * 2* fmt_size;
+                    fmt_size = abs_v;
+
+                    int rem = abs_v % 100;
+                    int unit_p = rem / 10;
+                    int ten_p = rem % 10;
+                    if (abs_v >= 100)
+                    {
+                        static const string fmt_base_l = "%-1" + to_string(unit_p) + to_string(ten_p) + string(end);
+                        return fmt_base_l.c_str();
+                    }
+                    else
+                    {
+                        static const string fmt_base_l = "%-" + to_string(unit_p) + to_string(ten_p) + string(end);
+                        return fmt_base_l.c_str();
+                    }
+                }
+                else
+                {
+                    fmt_size = 2 * fmt_size;
+
+                    int rem = fmt_size % 100;
+                    int unit_p = rem / 10;
+                    int ten_p = rem % 10;
+                    if (fmt_size >= 100)
+                    {
+                        static const string fmt_base = "%1" + to_string(unit_p) + to_string(ten_p) + string(end);
+                        return fmt_base.c_str();
+                    }
+                    else
+                    {
+                        static const string fmt_base = "%" + to_string(unit_p) + to_string(ten_p) + string(end);
+                        return fmt_base.c_str();
+                    }
+                }
+            }
         }
     }
     break;

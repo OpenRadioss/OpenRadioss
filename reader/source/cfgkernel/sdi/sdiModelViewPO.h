@@ -2333,7 +2333,9 @@ bool ModelViewPO::GetValueFromPreObject(const IMECPreObject            *pObj,
     bool*                           pParameterIsNegated) const
 {
     if(!pObj) return false;
-    if(identifier.GetNameKey() == "unitid")
+    if(identifier.GetNameKey() == "unitid" &&
+       // hack for special case: //SUBMODEL store unitid as attribute:
+       strncmp(pObj->GetInputFullType(), "//SUBMODEL", 10) != 0)
     {
         unsigned int UnitId = (unsigned int) pObj->GetUnitId();
         value.SetValue(
