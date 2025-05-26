@@ -96,6 +96,7 @@
 !||    sigeps119c                ../engine/source/materials/mat/mat119/sigeps119c.F
 !||    sigeps121c                ../engine/source/materials/mat/mat121/sigeps121c.F
 !||    sigeps122c                ../engine/source/materials/mat/mat122/sigeps122c.F
+!||    sigeps123c                ../engine/source/materials/mat/mat123/sigeps123c.F90
 !||    sigeps125c                ../engine/source/materials/mat/mat125/sigeps125c.F90
 !||    sigeps127c                ../engine/source/materials/mat/mat127/sigeps127c.F90
 !||    sigeps128c                ../engine/source/materials/mat/mat128/sigeps128c.F90
@@ -161,6 +162,7 @@
 !||    sensor_mod                ../common_source/modules/sensor_mod.F90
 !||    shell_offset_wm_ini_mod   ../engine/source/elements/shell/shell_offset_wm_ini.F90
 !||    sigeps106c_mod            ../engine/source/materials/mat/mat106/sigeps106c.F90
+!||    sigeps123c_mod            ../engine/source/materials/mat/mat123/sigeps123c.F90
 !||    sigeps125c_mod            ../engine/source/materials/mat/mat125/sigeps125c.F90
 !||    sigeps127c_mod            ../engine/source/materials/mat/mat127/sigeps127c.F90
 !||    sigeps128c_mod            ../engine/source/materials/mat/mat128/sigeps128c.F90
@@ -210,6 +212,7 @@
           use sigeps87c_mod
           use sigeps88c_mod
           use sigeps106c_mod
+          use sigeps123c_mod
           use sigeps125c_mod
           use sigeps127c_mod
           use sigeps128c_mod
@@ -689,6 +692,7 @@
               uvarv => bufly%visc(ir,is,it)%var
               vartmp=> bufly%mat(ir,is,it)%vartmp
               dirdmg => lbuf%dmg(1:l_dmg*nel)
+              offl => lbuf%off
               if(idrape > 0) jdir = 1 + (ipt - 1)*jlt*2
 !
               ! -> make sure the non-local increment is positive
@@ -1818,7 +1822,18 @@
                   epsd_pg  ,nfunc    ,ifunc    ,npf      ,tf       ,   &
                   nvartmp  ,vartmp   ,ioff_duct)
                 lbuf%epsd(1:nel) = epsd_pg(1:nel)
-!
+              elseif (ilaw == 123) then 
+               call sigeps123c( &                     
+              &jlt      ,matparam   ,nuvar    ,nvartmp ,  uvar   , &
+              &vartmp   ,rho        ,thkn     ,thklyl   , shf    , &
+              & area    ,epsd_pg    ,npg      ,tt       ,npttot  , &
+              &epsxx    ,epsyy      ,epsxy    ,epsyz    ,epszx   , &
+              &depsxx   ,depsyy     ,depsxy   ,sigoxx   ,sigoyy  , &
+              &sigoxy   , &
+              &signxx   ,signyy     ,signxy   ,signzx   ,signyz  , &
+              &off      ,offl       ,sigy       ,etse     ,ssp   , &
+              &lbuf%dmg ,gbuf%dmg   ,ioff_duct)
+               lbuf%epsd(1:nel) = epsd_pg(1:nel)
               elseif (ilaw == 125) then
                 call sigeps125c(&
                   jlt      ,matparam   ,nuvar    ,uvar      ,&
