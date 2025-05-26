@@ -115,6 +115,13 @@ bool eraseLastNumericParts(std::string& header, char del)
         }
     }
     // Return the modified string
+    // remove after space
+    pos = header.find(' ');
+    if (pos != std::string::npos)
+    {
+        std::string lastPart = header.substr(pos + 1);
+        header.erase(pos, lastPart.length() + 1);
+    }
     return found;
 }
 
@@ -667,7 +674,7 @@ const char* SolverInputInfo::GetNormalizedKeyword(const char* keyword) const {
 bool SolverInputInfo::IsEofKeyword(const char *keyword) const {
 
     size_t sz = myendkeyword.size();
-    int len = strlen(keyword);
+    int len = (int)strlen(keyword);
     if (sz <= 0 || sz < len)
         return false;
 

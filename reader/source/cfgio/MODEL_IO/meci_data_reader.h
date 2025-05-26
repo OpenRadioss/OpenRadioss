@@ -143,7 +143,8 @@ public:
                                 const PseudoDescriptor_t     *descr_p,
                                 int                           ind=-1,
                                 unsigned int                  offset=0,
-                                bool                         *do_continue_p=NULL);
+                                bool                         *do_continue_p=NULL,
+                                bool                          is_next_card_cell_list=false);
     /// Reading Comment card
     virtual bool readCommentCard(const PseudoFileFormatCard_t* card_format_p,
                                  IMECPreObject* object_p,
@@ -260,7 +261,12 @@ public:
                                  const PseudoDescriptor_t      *descr_p,
                                  int                            ind=-1,
                                  bool                           is_free_size_format=false,
-                                 int                            card_type = -1);
+                                 int                            card_type = -1,
+                                 bool                           no_end_flag = false,
+                                 bool                           has_offset = false,
+                                 const char                    *offset_fmt = NULL,
+                                 const char                    *offset_val = NULL,
+                                 bool                           is_next_card_cell_list = false);
     /// Reading a CELL_VALUE-type cell. If an ikeyword is given, method can be used to read other values than CELL_IKEYWORD.
     virtual const char *readCell_VALUE(const char                   *cell,
                                        const PseudoFileFormatCell_t *cell_format_p,
@@ -269,7 +275,12 @@ public:
                                        const PseudoDescriptor_t     *descr_p,
                                        int                           ind=-1,
                                        bool                          is_free_size_format=false, 
-                                       int                           ikeyword=END_ARGS);
+                                       int                           ikeyword=END_ARGS,
+                                       bool                          no_end_flag = false,
+                                       bool                          has_offset = false,
+                                       const char*                   offset_fmt = NULL,
+                                       const char*                   offset_val = NULL,
+                                       bool                          is_next_card_cell_list = false);
 
     virtual const char *readCell_ID(const char                   *cell,
                                        const PseudoFileFormatCell_t *cell_format_p,

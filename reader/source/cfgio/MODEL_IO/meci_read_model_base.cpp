@@ -41,6 +41,7 @@
 #include "meci_read_model_base.h"
 #include "mec_component.h"
 #include "mec_subdeck.h"
+#include "mec_read_file_factory_t.h"
 #define MAIN_COMPONENT_TITLE "Main" 
 
 typedef vector<MECReadFile *>     LocFileVect_t;       
@@ -58,7 +59,7 @@ typedef enum ReadingBlockStatus_s
    READ_STATER_BLOCK = 0,
    READ_ENGINE_BLOCK = 1
 } ReadingBlockStatus_e;
-
+void SplitArrayToSingleObjects(const IDescriptor* descrp, std::vector<IMECPreObject*>& preobj_lst);
 /* --------- Constructors & destructor --------- */
 
 MECIReadModelBase::MECIReadModelBase(const char *full_name,int buffer_nb_chars,int line_nb_chars,
@@ -391,6 +392,10 @@ void MECIReadModelBase::ManageReadKeyWord( MECIModelFactory* model_p, const char
     {
         sprintf(subtype, "%s/%s", "/CARD", begin_proc_key);
     }
+    // split array to single objects for parameter
+    if (headerdata)
+    {
+        SplitArrayToSingleObjects(headerdata->pdescrp, preobj_lst);
     for (int i = 0; i < preobj_lst.size(); i++)
     {
         if (i == 0)
@@ -416,7 +421,7 @@ void MECIReadModelBase::ManageReadKeyWord( MECIModelFactory* model_p, const char
 
         if (headerdata->obj_type == HCDI_OBJ_TYPE_CARDS)
         {
-            if (strcmp(preobj_lst[i]->GetKernelFullType(), subtype) == 0)
+                if (strncmp(preobj_lst[i]->GetKernelFullType(), subtype, strlen(subtype)) == 0)
             {
                 string type_skey = GetAttribNameFromDrawable(headerdata->pdescrp, cdr::g_AttribFormatType);
                 int ikw = headerdata->pdescrp->getIKeyword(type_skey);
@@ -447,7 +452,7 @@ void MECIReadModelBase::ManageReadKeyWord( MECIModelFactory* model_p, const char
             }
         }
     }
-
+    }
     if (a_preobj && headerdata && headerdata->obj_type == HCDI_OBJ_TYPE_ENCRYPTIONS)
     {
         //need to get keyid, ndata, data from DRAWABLES
@@ -1176,7 +1181,29 @@ char* MECIReadModelBase::ReadBuffer(bool do_check_eof, int nb_chars, bool skip_c
                     PushFileIndex(a_find_index);
                 }
                 //set include file version if not present then set the original version
-                a_cur_file_p->SetVersion(getVersion());//
+                MECReadFile* file = GetCurrentFilePtr();
+                MvFileFormat_e fformat = FF_UNKNOWN;
+                if (file)
+                {
+                    int indx = file->GetParentIndex();
+
+                    MECSubdeck *subdeck = MECSubdeck::mySubdeckVector[indx];
+                    object_type_e atype = subdeck->GetSubtype();
+
+                    if (atype == HCDI_OBJ_TYPE_SOLVERSUBMODELS)
+                    {
+                        MECReadFile* parent = GetFile(0);
+                        if(parent)
+                            fformat = parent->GetVersion();
+                    }
+                    else
+                    {
+                        MECReadFile* parent = GetFile(indx);
+                        if (parent)
+                            fformat = parent->GetVersion();
+                    }
+                }
+                a_cur_file_p->SetVersion(fformat);//
                 myfree(a_full_name);
                 myfree(a_relative_name);
                 //RAR#MGEN_DEV_2006_171#24_09_2006 (END)
@@ -1372,4 +1399,178 @@ void MECIReadModelBase::displayCurrentLocation(MyMsgType_e msg_type) const {
   _HC_LONG  a_cur_line      = getCurrentLine();     
     //
     displayMessage(msg_type,getMsg(0),a_cur_line,a_cur_full_name);
+}
+
+void SplitArrayToSingleObjects(const IDescriptor* descrp, std::vector<IMECPreObject*>& preobj_lst)
+{
+    if (descrp == NULL)
+        return;
+    MvIKeywordSet_t def_ikeywords = descrp->getDefinition(DOM_COMMON, cdr::g_AttribSplitArrayToSingle);
+    MvIKeywordSet_t::const_iterator it;
+    for (it = def_ikeywords.begin(); it != def_ikeywords.end(); ++it)
+    {
+        int ikeyword_size = *it;
+        MvIKeywordSet_t a_array_ikws;
+        descrp->getSizeConnectedIKeywords(ikeyword_size, &a_array_ikws);
+        string size_skey = descrp->getSKeyword(ikeyword_size);
+        int nb_preobjs = (int)preobj_lst.size();
+        for (int j = 0; j < nb_preobjs; j++)
+        {
+            int count = preobj_lst[j]->GetIntValue(size_skey.c_str());
+            MvIKeywordSet_t::iterator a_aikw_it_begin = a_array_ikws.begin();
+            MvIKeywordSet_t::iterator a_aikw_it_end = a_array_ikws.end();
+            MvIKeywordSet_t::iterator a_aikw_it;
+            MvIKeywordList_t a_ikeywords;
+            descrp->getIKeywords(DOM_COMMON, ATYPE_VALUE, &a_ikeywords);
+            for (int i = 0; i < count; i++)
+            {
+                IMECPreObject* set_obj = NULL;
+                if (i == 0)
+                    set_obj = preobj_lst[j];
+                else
+                {
+                    const char* i_fulltype = preobj_lst[j]->GetInputFullType();
+                    const char* k_fulltype = preobj_lst[j]->GetKernelFullType();
+                    const char* title = preobj_lst[j]->GetTitle();
+                    int unit_id = preobj_lst[j]->GetUnitId();
+                    int id = preobj_lst[j]->GetId() + i;
+                    set_obj = HCDI_GetPreObjectHandle(k_fulltype, i_fulltype, title, id, unit_id);
+                    preobj_lst.push_back(set_obj);
+                }
+                for (a_aikw_it = a_aikw_it_begin; a_aikw_it != a_aikw_it_end; ++a_aikw_it)
+                {
+                    int a_arr_ikw = (*a_aikw_it);
+                    value_type_e vtype = descrp->getValueType(a_arr_ikw);
+                    string skeyword_arr = descrp->getSKeyword(a_arr_ikw);
+                    string comment = descrp->getComment(a_arr_ikw);
+
+                    MvIKeywordList_t::iterator list_it_b = a_ikeywords.begin();
+                    MvIKeywordList_t::iterator list_it_e = a_ikeywords.end();
+                    MvIKeywordList_t::iterator list_it;
+
+                    for (list_it = list_it_b; list_it != list_it_e; ++list_it)
+                    {
+                        int search_ikw = *list_it;
+                        value_type_e search_vtype = descrp->getValueType(search_ikw);
+                        string search_comment = descrp->getComment(search_ikw);
+                        string search_skw = descrp->getSKeyword(search_ikw);
+                        if (search_vtype == vtype && search_comment == comment)
+                        {
+                            if (vtype == VTYPE_INT)
+                            {
+                                int a_attrib_index = preobj_lst[j]->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_INT, skeyword_arr.c_str());
+                                if (a_attrib_index >= 0)
+                                {
+                                    int val = preobj_lst[j]->GetIntValue(a_attrib_index, i);
+                                    int single_ind = set_obj->GetIndex(IMECPreObject::ATY_SINGLE, IMECPreObject::VTY_INT, search_skw.c_str());
+                                    if (single_ind >= 0)
+                                    {
+                                        set_obj->SetIntValue(single_ind, val);
+                                    }
+                                    else
+                                    {
+                                        set_obj->AddIntValue(search_skw.c_str(), val);
+                                    }
+                                }
+                            }
+                            else if (vtype == VTYPE_UINT)
+                            {
+                                int a_attrib_index = preobj_lst[j]->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_UINT, skeyword_arr.c_str());
+                                if (a_attrib_index >= 0)
+                                {
+                                    unsigned int val = preobj_lst[j]->GetUIntValue(a_attrib_index, i);
+                                    int single_ind = set_obj->GetIndex(IMECPreObject::ATY_SINGLE, IMECPreObject::VTY_UINT, search_skw.c_str());
+                                    if (single_ind >= 0)
+                                    {
+                                        set_obj->SetUIntValue(single_ind, val);
+                                    }
+                                    else
+                                    {
+                                        set_obj->AddUIntValue(search_skw.c_str(), val);
+                                    }
+                                }
+                            }
+                            else if (vtype == VTYPE_FLOAT)
+                            {
+                                int a_attrib_index = preobj_lst[j]->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_FLOAT, skeyword_arr.c_str());
+                                if (a_attrib_index >= 0)
+                                {
+                                    double val = preobj_lst[j]->GetFloatValue(a_attrib_index, i);
+                                    int single_ind = set_obj->GetIndex(IMECPreObject::ATY_SINGLE, IMECPreObject::VTY_FLOAT, search_skw.c_str());
+                                    if (single_ind >= 0)
+                                    {
+                                        set_obj->SetFloatValue(single_ind, val);
+                                    }
+                                    else
+                                    {
+                                        set_obj->AddFloatValue(search_skw.c_str(), val);
+                                    }
+                                }
+                            }
+                            else if (vtype == VTYPE_STRING)
+                            {
+                                int a_attrib_index = preobj_lst[j]->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_STRING, skeyword_arr.c_str());
+                                if (a_attrib_index >= 0)
+                                {
+                                    const char* val = preobj_lst[j]->GetStringValue(a_attrib_index, i);
+                                    int single_ind = set_obj->GetIndex(IMECPreObject::ATY_SINGLE, IMECPreObject::VTY_STRING, search_skw.c_str());
+                                    if (single_ind >= 0)
+                                    {
+                                        set_obj->SetStringValue(single_ind, val);
+                                    }
+                                    else
+                                    {
+                                        set_obj->AddStringValue(search_skw.c_str(), val);
+                                    }
+                                }
+                            }
+                            else if (vtype == VTYPE_BOOL)
+                            {
+                                int a_attrib_index = preobj_lst[j]->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_BOOL, skeyword_arr.c_str());
+                                if (a_attrib_index >= 0)
+                                {
+                                    bool val = preobj_lst[j]->GetBoolValue(a_attrib_index, i);
+                                    int single_ind = set_obj->GetIndex(IMECPreObject::ATY_SINGLE, IMECPreObject::VTY_BOOL, search_skw.c_str());
+                                    if (single_ind >= 0)
+                                    {
+                                        set_obj->SetBoolValue(single_ind, val);
+                                    }
+                                    else
+                                    {
+                                        set_obj->AddBoolValue(search_skw.c_str(), val);
+                                    }
+                                }
+                            }
+                            else if (vtype == VTYPE_OBJECT)
+                            {
+                                int a_attrib_index = preobj_lst[j]->GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_OBJECT, skeyword_arr.c_str());
+                                if (a_attrib_index >= 0)
+                                {
+                                    MYOBJ_INT val = preobj_lst[j]->GetObjectId(a_attrib_index, i);
+                                    string val_str = preobj_lst[j]->GetObjectName(a_attrib_index, i);
+                                    const char* otype = preobj_lst[j]->GetObjectType(a_attrib_index, i);
+                                    int single_ind = set_obj->GetIndex(IMECPreObject::ATY_SINGLE, IMECPreObject::VTY_OBJECT, search_skw.c_str());
+                                    if (single_ind >= 0)
+                                    {
+                                        if (val_str != "")
+                                            set_obj->SetObjectValue(single_ind, otype, val_str.c_str());
+                                        else
+                                            set_obj->SetObjectValue(single_ind, otype, val);
+                                    }
+                                    else
+                                    {
+                                        if (val_str != "")
+                                            set_obj->AddObjectValue(search_skw.c_str(), otype, val_str.c_str());
+                                        else
+                                            set_obj->AddObjectValue(search_skw.c_str(), otype, val);
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

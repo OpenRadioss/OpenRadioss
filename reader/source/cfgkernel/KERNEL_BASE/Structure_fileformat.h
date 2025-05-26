@@ -216,6 +216,8 @@ typedef struct ff_single_card_s {
   int              nb_cells;
   ff_cell_t      **cell_array;
   int              is_free;    
+  char            *offset_fmt;
+  char            *offset_value;
 } ff_single_card_t;
 
 
@@ -230,8 +232,6 @@ typedef struct ff_cell_list_card_s {
   ff_single_card_t single_card_part;
   int              size;
   int        length_max;  
-  char       *offset_fmt;
-  char       *offset_value;
   
             
   
@@ -312,7 +312,9 @@ typedef enum assign_operator_s
     ASSIGN_COMBINE,
     ASSIGN_ERASE,
     ASSIGN_FIND,
-    ASSIGN_EXPRESSION
+    ASSIGN_EXPRESSION,
+    ASSIGN_STOI,
+    ASSIGN_STOF
 } assign_operator_e;
 
 

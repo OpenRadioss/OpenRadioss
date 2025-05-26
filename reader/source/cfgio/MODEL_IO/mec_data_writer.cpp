@@ -831,13 +831,18 @@ bool MECDataWriter::WriteCard(const PseudoFileFormatCard_t *card_p,
        }
        else
        {
-           a_do_continue = WriteSingleCard(card_p, pre_object, descr_p, ind);
+           ff_card_type_e a_next_card_type = CARD_UNKNOWN;
+           bool is_next_card_cell_list = false;
             if (next_card_p)
             {
                 const ff_card_t *a_next_card_p = (const ff_card_t *)next_card_p;
-                ff_card_type_e a_next_card_type = CARD_UNKNOWN;
                 MCDS_get_ff_card_attributes(a_next_card_p, CARD_TYPE, &a_next_card_type, END_ARGS);
+               is_next_card_cell_list = (a_next_card_type == CARD_CELL_LIST) ? true : false;
                 assert(a_next_card_type == CARD_CELL_LIST);
+           }
+           a_do_continue = WriteSingleCard(card_p, pre_object, descr_p, ind, 0, is_next_card_cell_list);
+            if (next_card_p)
+            {
                 if (a_next_card_type == CARD_CELL_LIST)
                     WriteCellList(next_card_p, pre_object, descr_p, ind, card_p);
                 else
@@ -1266,6 +1271,8 @@ void MECDataWriter::Assign(const PseudoFileFormatCard_t *card_p,
         return;
     }
     case ASSIGN_ATTRIB:
+    case ASSIGN_STOI:
+    case ASSIGN_STOF:
     {
         const ff_card_assign_Copy_t      *a_assign_Copy_card_format_p = (const ff_card_assign_Copy_t *)card_p;
         int ikeyword = a_assign_Copy_card_format_p->ikeyword;
@@ -1275,10 +1282,11 @@ void MECDataWriter::Assign(const PseudoFileFormatCard_t *card_p,
         int last_index_ikey = a_assign_Copy_card_format_p->last_index_ikey;
         int index = -1, last_index = -1;
         int a_size = 0;
+        value_type_e ikey_des_vtype = a_descr_p->getValueType(ikeyword);
+        value_type_e assign_attrib_vtype = a_descr_p->getValueType(assign_card_attrib_ikey);
         //Getting the size of the array attributes
         if (a_attrib_atype == ATYPE_DYNAMIC_ARRAY || a_attrib_atype == ATYPE_STATIC_ARRAY)
         {
-            value_type_e ikey_des_vtype = a_descr_p->getValueType(ikeyword);
             IMECPreObject::MyValueType_e ikey_pre_obj_Vtype = HCDIGetPVTypeFromDVType(ikey_des_vtype);
 
             string a_skeyword = a_descr_p->getSKeyword(ikeyword);
@@ -1302,7 +1310,7 @@ void MECDataWriter::Assign(const PseudoFileFormatCard_t *card_p,
                 double last_index_val = 0.0;
                 pre_object.GetExpressionValue(a_descr_p, last_index_ikey, -1, last_index_val, index_val_str);// Getting the value of the last_index_att from its ikeyword.
                 last_index = (int)last_index_val;
-                if (last_index < 0 || last_index <= index)
+                if (last_index < 0 || ((ikey_des_vtype != VTYPE_STRING && assign_attrib_vtype != VTYPE_STRING) && (last_index <= index)))
                     return;
             }
         }
@@ -1321,9 +1329,22 @@ void MECDataWriter::Assign(const PseudoFileFormatCard_t *card_p,
             pre_object.GetExpressionValue(a_descr_p, ikeyword, index, value, value_str);
             if (assign_attrib_atype == ATYPE_SIZE)
                 HCDI_UpdatePreObjectConnectedSizeIkeywords(pre_object, descr_p, ikeyword);
+            if (ikey_des_vtype == VTYPE_STRING && assign_attrib_vtype == VTYPE_STRING)
+            {
+                // copy the length last_index, from the string at index
+                int a_str_size = (int)value_str.size();
+                if (last_index > a_str_size || last_index == -1)
+                    last_index = a_str_size;
+                value_str = value_str.substr(0, last_index);
+            }
         }
         else if (assign_attrib_atype == ATYPE_DYNAMIC_ARRAY || assign_attrib_atype == ATYPE_STATIC_ARRAY) // copying Array_Att to Array_Att
         {
+            if (index_ikey == -1)
+            {
+                if (ind < 0) index = 0;
+                else index = ind;
+            }
             if (index < 0 || index >= a_size || last_index >= a_size)
                 return;
 
@@ -1354,11 +1375,29 @@ void MECDataWriter::Assign(const PseudoFileFormatCard_t *card_p,
                     end_ind_value = start_ind_value + size;
                 }
             }
+            if (ikey_des_vtype == VTYPE_STRING && assign_attrib_vtype == VTYPE_STRING)
+            {
+                // copy the length end_ind_value, from the string at start_ind_value
+                std::string a_value_str = "";
+                pre_object.GetExpressionValue(a_descr_p, ikeyword, start_ind_value, value, a_value_str);
+                int a_str_size = (int)a_value_str.size();
+                if (end_ind_value > a_str_size || end_ind_value == -1)
+                    end_ind_value = a_str_size;
+                a_value_str = a_value_str.substr(0, end_ind_value);
+                HCDI_UpdatePreObjectValue(pre_object, descr_p, assign_card_attrib_ikey, value, a_value_str, start_ind_value);
+            }
+            else
+            {
             for (int i = start_ind_value; i < end_ind_value; i++)
             {
                 std::string a_value_str = "";
                 pre_object.GetExpressionValue(a_descr_p, ikeyword, i, value, a_value_str);
+                    if (atype == ASSIGN_STOI)
+                        value = std::stoi(a_value_str.c_str());
+                    else if (atype == ASSIGN_STOF)
+                        value = std::stof(a_value_str.c_str());
                 HCDI_UpdatePreObjectValue(pre_object, descr_p, assign_card_attrib_ikey, value, a_value_str, i);
+            }
             }
             return;
         }
@@ -1485,11 +1524,22 @@ void MECDataWriter::Assign(const PseudoFileFormatCard_t *card_p,
             std::string final_str = "";
             final_str.append(first_str);
             final_str.append(second_str);
+            if (ind < 0)
+            {
             int a_skey_ind = pre_object.GetIndex(IMECPreObject::ATY_SINGLE, IMECPreObject::VTY_STRING, skeyword.c_str());
             if (a_skey_ind >= 0)
                 pre_object.SetStringValue(a_skey_ind, final_str.c_str());
             else
                 pre_object.AddStringValue(skeyword.c_str(), final_str.c_str());
+        }
+            else
+            {
+                int a_skey_ind = pre_object.GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_STRING, skeyword.c_str());
+                if (a_skey_ind >= 0)
+                    pre_object.SetStringValue(a_skey_ind, ind, final_str.c_str());
+                else
+                    pre_object.AddStringValue(skeyword.c_str(), ind, final_str.c_str());
+            }
         }
         else if (atype == ASSIGN_FIND)
         {
@@ -1508,11 +1558,22 @@ void MECDataWriter::Assign(const PseudoFileFormatCard_t *card_p,
             size_t pos = first_str.find(second_str);
             if (pos != std::string::npos)
                 first_str.erase(pos, second_str.length());
+            if (ind < 0)
+            {
             int a_skey_ind = pre_object.GetIndex(IMECPreObject::ATY_SINGLE, IMECPreObject::VTY_STRING, skeyword.c_str());
             if (a_skey_ind >= 0)
                 pre_object.SetStringValue(a_skey_ind, first_str.c_str());
             else
                 pre_object.AddStringValue(skeyword.c_str(), first_str.c_str());
+        }
+            else
+            {
+                int a_skey_ind = pre_object.GetIndex(IMECPreObject::ATY_ARRAY, IMECPreObject::VTY_STRING, skeyword.c_str());
+                if (a_skey_ind >= 0)
+                    pre_object.SetStringValue(a_skey_ind, ind, first_str.c_str());
+                else
+                    pre_object.AddStringValue(skeyword.c_str(), ind, first_str.c_str());
+            }
         }
         return;
     }
@@ -1681,7 +1742,8 @@ bool MECDataWriter::WriteSingleCard(const PseudoFileFormatCard_t *card_p,
                                     const IMECPreObject       &pre_object,
                                     const PseudoDescriptor_t *descr_p,
                                     int                       ind,
-                                    int                       cell_ind0)
+                                    int                       cell_ind0,
+                                    bool                      is_next_card_cell_list)
 {
   const ff_card_t *a_card_p=(const ff_card_t *)card_p;
   const MvDescriptor_t *a_descr_p = (const MvDescriptor_t *)descr_p; 
@@ -1707,9 +1769,18 @@ bool MECDataWriter::WriteSingleCard(const PseudoFileFormatCard_t *card_p,
   
   int flag = 0;
   bool no_end_flag = false;
+  const char* a_offset_fmt = NULL;
+  const char* a_offset_val = NULL;
+  bool has_offset = false;
   MCDS_get_ff_card_attributes(a_card_p, CARD_FLAGS, &flag, END_ARGS);
   if (flag)
+  {
       no_end_flag = (flag & CARD_FLAG_NO_END) ? true : false;
+      has_offset = (flag & CARD_FLAG_OFFSET) ? true : false;
+  }
+  if (has_offset)
+      MCDS_get_ff_card_attributes(a_card_p, CARD_CELL_LIST_OFFSET_FORMAT, &a_offset_fmt, CARD_CELL_LIST_OFFSET_VALUE, &a_offset_val, END_ARGS);
+
   int a_nb_cells = 0;
   int a_cell_length = 0;
   MCDS_get_ff_card_attributes(a_card_p,CARD_NB_CELLS,&a_nb_cells,END_ARGS);
@@ -1721,7 +1792,7 @@ bool MECDataWriter::WriteSingleCard(const PseudoFileFormatCard_t *card_p,
       MCDS_get_ff_card_tab(a_card_p, CARD_CELL, j, (void*)(&a_cell_p));
       if (myWriteFreeFormat == true && j == a_nb_cells - 1 && !no_end_flag)
           myIsLastCell = true;
-      WriteCell((const PseudoFileFormatCell_t*)a_cell_p, pre_object, descr_p, ind);
+      WriteCell((const PseudoFileFormatCell_t*)a_cell_p, pre_object, descr_p, ind, (j == a_nb_cells - 1)? no_end_flag:false, has_offset, a_offset_fmt, a_offset_val, is_next_card_cell_list);
   }
   myIsLastCell = false; // Always set this flag as false after exiting from the nb_cells loop.
   //
@@ -3325,7 +3396,12 @@ void MECDataWriter::WriteCellArrayList(const PseudoFileFormatCell_t* cell_p,
 void MECDataWriter::WriteCell(const PseudoFileFormatCell_t *cell_p,
                               const IMECPreObject       &pre_object,
                               const PseudoDescriptor_t *descr_p,
-                              int                       ind)
+                              int                       ind,
+                              bool                      no_end_flag,
+                              bool                      has_offset,
+                              const char               *offset_fmt,
+                              const char               *offset_val,
+                              bool                      is_next_card_cell_list)
 {
   const MvDescriptor_t *a_descr_p = (const MvDescriptor_t *)descr_p;
   ff_cell_t            *a_cell_p  = (ff_cell_t *)cell_p;
@@ -3349,7 +3425,7 @@ void MECDataWriter::WriteCell(const PseudoFileFormatCell_t *cell_p,
     
   case CELL_VALUE:
     {
-      WriteCell_VALUE (cell_p, pre_object, descr_p, ind);
+      WriteCell_VALUE (cell_p, pre_object, descr_p, ind, END_ARGS, no_end_flag, has_offset, offset_fmt, offset_val, is_next_card_cell_list);
     }
     break;
   case CELL_ID: /*Writes the id of an object because in FORMAT block it is defined as _ID*/
@@ -4220,7 +4296,12 @@ void MECDataWriter::WriteCell_VALUE(const PseudoFileFormatCell_t *cell_p,
                                     const IMECPreObject       &pre_object,
                                     const PseudoDescriptor_t *descr_p,
                                     int                       ind,
-                                    int                       ikeyword)
+                                    int                       ikeyword,
+                                    bool                      no_end_flag,
+                                    bool                      has_offset,
+                                    const char               *offset_fmt,
+                                    const char               *offset_val,
+                                    bool                      is_next_card_cell_list)
 {
     const IDescriptor* a_descr_p = (const IDescriptor*)descr_p;
     ff_cell_t* a_cell_p = (ff_cell_t*)cell_p;
@@ -4612,10 +4693,86 @@ void MECDataWriter::WriteCell_VALUE(const PseudoFileFormatCell_t *cell_p,
                     a_value = a_value_d.c_str();
                 }
             }
+            if (no_end_flag && !is_next_card_cell_list)
+            {
+                string portion = a_value;
+                portion = portion.substr(0, fmt_size);
+
+                if (myWriteFreeFormat == true)
+                    myWriteContext_p->WriteFile("%s", portion.c_str());
+                else
+                    myWriteContext_p->WriteFile(a_cell_fmt, portion.c_str());
+                myWriteContext_p->WriteFile("\n");
+                portion = a_value;
+                int size = (int)portion.size();
+                if (size > fmt_size)
+                {
+                    portion = portion.substr(fmt_size, size);
+                    int pend_size = (int)portion.size();
+                    int off_fmt_size = 0;
+                    if (has_offset)
+                    {
+                        offset_fmt = GetFormatSize(offset_fmt, off_fmt_size);
+                    }
+                    int nb_rows = pend_size / (myLineLength - off_fmt_size);
+                    int rem = pend_size % (myLineLength - off_fmt_size);
+                    const string lineformat = "%-" + to_string(myLineLength - off_fmt_size) + "s";
+
+                    int i = 0;
+                    for (i = 0; i < nb_rows; i++)
+                    {
+                        if (has_offset)
+                        {
+                            if (myWriteFreeFormat == false)
+                            {
+                                myWriteContext_p->WriteFile(offset_fmt, offset_val);
+                            }
+                            else
+                            {
+                                myWriteContext_p->WriteFile("%s", offset_val);
+                                string str(mydelimiter);
+                                myWriteContext_p->WriteFile(str.c_str());
+                            }
+                        }
+                        string line = portion.substr((myLineLength- off_fmt_size) * i, (myLineLength - off_fmt_size));
+
+                        if (myWriteFreeFormat == true)
+                            myWriteContext_p->WriteFile("%s", line.c_str());
+                        else
+                            myWriteContext_p->WriteFile(lineformat.c_str(), line.c_str());
+                        myWriteContext_p->WriteFile("\n");
+                    }
+                    if (rem != 0)
+                    {
+                        if (has_offset)
+                        {
+                            if (myWriteFreeFormat == false)
+                            {
+                                myWriteContext_p->WriteFile(offset_fmt, offset_val);
+                            }
+                            else
+                            {
+                                myWriteContext_p->WriteFile("%s", offset_val);
+                                string str(mydelimiter);
+                                myWriteContext_p->WriteFile(str.c_str());
+                            }
+                        }
+                        string line = portion.substr((myLineLength - off_fmt_size) * i, rem);
+                        if (myWriteFreeFormat == true)
+                            myWriteContext_p->WriteFile("%s", line.c_str());
+                        else
+                            myWriteContext_p->WriteFile(lineformat.c_str(), line.c_str());
+                        myWriteContext_p->WriteFile("\n");
+                    }
+                }
+            }
+            else
+            {
             if (myWriteFreeFormat == true)
                 myWriteContext_p->WriteFile("%s", a_value);
             else
                 myWriteContext_p->WriteFile(a_cell_fmt, a_value);
+            }
         }
     }
     break;

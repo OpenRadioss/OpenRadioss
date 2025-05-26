@@ -673,6 +673,8 @@ int MCDS_new_ff_card(ff_card_t **card_pfp,ff_card_type_e card_type) {
   case CARD_FREE_FORMAT:	
   case CARD_PREREAD:  
 	  *card_pfp=(ff_card_t *)my_malloc(1,sizeof(ff_single_card_t));    
+      ((ff_single_card_t*)*card_pfp)->offset_fmt = my_strcpy(((ff_single_card_t*)*card_pfp)->offset_fmt, "");
+      ((ff_single_card_t*)*card_pfp)->offset_value = my_strcpy(((ff_single_card_t*)*card_pfp)->offset_value, "");
 	  break;
 
   
@@ -680,8 +682,8 @@ int MCDS_new_ff_card(ff_card_t **card_pfp,ff_card_type_e card_type) {
   
   case CARD_CELL_LIST: 
       *card_pfp=(ff_card_t *)my_malloc(1,sizeof(ff_cell_list_card_t));
-      ((ff_cell_list_card_t *)*card_pfp)->offset_fmt = my_strcpy(((ff_cell_list_card_t *)*card_pfp)->offset_fmt, "");
-      ((ff_cell_list_card_t *)*card_pfp)->offset_value = my_strcpy(((ff_cell_list_card_t *)*card_pfp)->offset_value, "");
+      ((ff_single_card_t *)*card_pfp)->offset_fmt = my_strcpy(((ff_single_card_t*)*card_pfp)->offset_fmt, "");
+      ((ff_single_card_t*)*card_pfp)->offset_value = my_strcpy(((ff_single_card_t*)*card_pfp)->offset_value, "");
       break;
   case CARD_CARD_LIST: *card_pfp=(ff_card_t *)my_malloc(1,sizeof(ff_card_list_card_t)); break;
   
@@ -716,7 +718,7 @@ int MCDS_new_ff_assign_card(ff_card_t **card_pfp, assign_operator_e assign_mode)
     *card_pfp = NULL;
     if (assign_mode == ASSIGN_ADD || assign_mode == ASSIGN_SUB || assign_mode == ASSIGN_MUL || assign_mode == ASSIGN_DIV)
         *card_pfp = (ff_card_t *)my_malloc(1, sizeof(ff_card_assign_basic_operations_t));
-    else if (assign_mode == ASSIGN_ATTRIB)
+    else if (assign_mode == ASSIGN_ATTRIB || assign_mode == ASSIGN_STOI || assign_mode == ASSIGN_STOF)
         *card_pfp = (ff_card_t *)my_malloc(1, sizeof(ff_card_assign_Copy_t));
     else if (assign_mode == ASSIGN_GET_ENTITY_VALUE || assign_mode == ASSIGN_GET_CURRENT_ENTITY)
         *card_pfp = (ff_card_t *)my_malloc(1, sizeof(ff_card_assign_entity_value_t));
@@ -879,12 +881,16 @@ int MCDS_get_ff_card_attributes(const ff_card_t *card_p,...) {
 	  GET_ATTRIB_FMOR(arglist, int, card_p, flag);
 	  break;
   case CARD_CELL_LIST_OFFSET_FORMAT:
-      if (card_p->type != CARD_CELL_LIST) { va_end(arglist); return 2; }
-      GET_ATTRIB_FMOR(arglist, char *, ((ff_cell_list_card_t *)card_p), offset_fmt);
+      if (card_p->type != CARD_CELL_LIST && card_p->type != CARD_SINGLE &&
+          card_p->type != CARD_HEADER && card_p->type != CARD_FREE_FORMAT &&
+          card_p->type != CARD_PREREAD) { va_end(arglist); return 2; }
+      GET_ATTRIB_FMOR(arglist, char *, ((ff_single_card_t *)card_p), offset_fmt);
       break;
   case CARD_CELL_LIST_OFFSET_VALUE:
-      if (card_p->type != CARD_CELL_LIST) { va_end(arglist); return 2; }
-      GET_ATTRIB_FMOR(arglist, char *, ((ff_cell_list_card_t *)card_p), offset_value);
+      if (card_p->type != CARD_CELL_LIST && card_p->type != CARD_SINGLE &&
+          card_p->type != CARD_HEADER && card_p->type != CARD_FREE_FORMAT &&
+          card_p->type != CARD_PREREAD) { va_end(arglist); return 2; }
+      GET_ATTRIB_FMOR(arglist, char *, ((ff_single_card_t *)card_p), offset_value);
       break;
   case CARD_SUBOBJ_PARENT_LNK_ATT:
       if (card_p->type != CARD_SUBOBJECTS) { va_end(arglist); return 2; }
@@ -1081,16 +1087,20 @@ int MCDS_set_ff_card_attributes(ff_card_t *card_p,...) {
 	  break;
   case CARD_CELL_LIST_OFFSET_FORMAT:
   {
-      char *offset_format = ((ff_cell_list_card_t *)card_p)->offset_fmt;
-      if (card_p->type != CARD_CELL_LIST) { va_end(arglist); return 2; }
-      ((ff_cell_list_card_t *)card_p)->offset_fmt = my_strcpy(offset_format, va_arg(arglist, char *));
+      char *offset_format = ((ff_single_card_t *)card_p)->offset_fmt;
+      if (card_p->type != CARD_CELL_LIST && card_p->type != CARD_SINGLE &&
+          card_p->type != CARD_HEADER && card_p->type != CARD_FREE_FORMAT &&
+          card_p->type != CARD_PREREAD) { va_end(arglist); return 2; }
+      ((ff_single_card_t*)card_p)->offset_fmt = my_strcpy(offset_format, va_arg(arglist, char *));
   }
   break;
   case CARD_CELL_LIST_OFFSET_VALUE:
   {
-      char *offset_value = ((ff_cell_list_card_t *)card_p)->offset_value;
-      if (card_p->type != CARD_CELL_LIST) { va_end(arglist); return 2; }
-      ((ff_cell_list_card_t *)card_p)->offset_value = my_strcpy(offset_value, va_arg(arglist, char *));
+      char *offset_value = ((ff_single_card_t *)card_p)->offset_value;
+      if (card_p->type != CARD_CELL_LIST && card_p->type != CARD_SINGLE &&
+          card_p->type != CARD_HEADER && card_p->type != CARD_FREE_FORMAT &&
+          card_p->type != CARD_PREREAD) { va_end(arglist); return 2; }
+      ((ff_single_card_t *)card_p)->offset_value = my_strcpy(offset_value, va_arg(arglist, char *));
   }
   break;
   case CARD_SUBOBJ_PARENT_LNK_ATT:
@@ -1276,18 +1286,30 @@ int MCDS_delete_ff_card(ff_card_t *card_p) {
       
     }
     my_free(((ff_single_card_t *)card_p)->cell_array);
+    if (card_p->type != CARD_OBJECT_LIST)
+    {
+        if (((ff_single_card_t*)card_p)->offset_fmt)
+            my_free(((ff_single_card_t*)card_p)->offset_fmt);
+        if (((ff_single_card_t*)card_p)->offset_value)
+            my_free(((ff_single_card_t*)card_p)->offset_value);
+    }
     break;
   case CARD_CELL_LIST:
       for (i = 0; i < ((ff_single_card_t *)card_p)->nb_cells; i++) {
           
           ff_cell_t *a_cell_pf = ((ff_single_card_t *)card_p)->cell_array[i];
+          ff_cell_type_e cell_type = a_cell_pf->type;
           MCDS_delete_ff_cell(a_cell_pf);
+          if (cell_type != CELL_APPEND_OPTIONS)
+          {
+              /*already freed in corresponding delete in MCDS_free_app_opt*/
           my_free(a_cell_pf);
+          }
           
       }
       my_free(((ff_single_card_t *)card_p)->cell_array);
-      my_free(((ff_cell_list_card_t *)card_p)->offset_fmt);
-      my_free(((ff_cell_list_card_t *)card_p)->offset_value);
+      my_free(((ff_single_card_t *)card_p)->offset_fmt);
+      my_free(((ff_single_card_t *)card_p)->offset_value);
       break;
   case CARD_CARD_LIST: 
     for(i=0;i<((ff_card_list_card_t *)card_p)->nb_cards;i++) {

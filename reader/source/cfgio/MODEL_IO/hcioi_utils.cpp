@@ -580,7 +580,15 @@ void CalculateCumulativeOffset(std::vector<IMECPreObject*>* p_preobjlst, const c
                 }
             }
             parent_obj = p_preobjlst[HCDI_OBJ_TYPE_INCLUDEFILES][index];
-            index = parent_obj->GetFileIndex();
+
+            int index1 = parent_obj->GetFileIndex();
+            if (index == index1) /*can't have file referencing to iteself*/
+            {
+                assert(0);
+                index--;
+            }
+            else
+                index = index1;
         }
     }
 }
