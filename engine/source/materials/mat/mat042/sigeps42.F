@@ -239,7 +239,7 @@ c
       ENDIF
 c--- avoid buckling
       P_FAC(1:NEL) = ONE
-      IF (RBULK > 90*GMAX) THEN
+      IF (RBULK > 24*GMAX) THEN
         NU_1 = FOURTY*(HALF-(3*RBULK-GMAX)/(6*RBULK+GMAX))
         DO I=1,NEL
           AMIN = MIN(EV(I,1),EV(I,2),EV(I,3))
