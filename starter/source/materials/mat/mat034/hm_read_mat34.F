@@ -141,10 +141,6 @@ C-----------------------------------------------
       PARMAT(1) = BULK
 !      PARMAT(1) = TWO*GI
       PARMAT(2) = YOUNG
-      NU = HALF*YOUNG/G0 -ONE
-      NU = MAX(ZERO,NU)
-      NU = MIN(HALF,NU)
-      PARMAT(3) = NU
 C     Formulation for solid elements time step computation.
       PARMAT(16) = 2
       PARMAT(17) = TWO*G0/(BULK + FOUR_OVER_3*G0) 
