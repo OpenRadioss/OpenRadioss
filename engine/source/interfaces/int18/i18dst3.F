@@ -20,6 +20,8 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      MODULE I18DST3_MOD
+      CONTAINS
       !||====================================================================
       !||    i18dst3                ../engine/source/interfaces/int18/i18dst3.F
       !||--- called by ------------------------------------------------------
@@ -31,20 +33,20 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    tri7box                ../engine/share/modules/tri7box.F
       !||====================================================================
       SUBROUTINE I18DST3(
-     1                  JLT    ,CAND_N   , CAND_E ,CN_LOC ,CE_LOC        ,
-     2                  X1     ,X2       , X3     ,X4     ,Y1            ,
-     3                  Y2     ,Y3       , Y4     ,Z1     ,Z2            ,
-     4                  Z3     ,Z4       , XI     ,YI     ,ZI            ,
-     5                  NX1    ,NX2      , NX3    ,NX4    ,NY1           ,
-     6                  NY2    ,NY3      , NY4    ,NZ1    ,NZ2           ,
-     7                  NZ3    ,NZ4      , LB1    ,LB2    ,LB3           ,
-     8                  LB4    ,LC1      , LC2    ,LC3    ,LC4           ,
-     9                  P1     ,P2       , P3     ,P4     ,IX1           ,
-     A                  IX2    ,IX3      , IX4    ,NSVG   ,STIF          ,
-     B                  JLT_NEW,GAPV     , INACTI ,CAND_P ,ALE_NE_CONNECT,
-     C                  INDEX  ,VXI      , VYI    ,ITAB   ,XCELL         ,
-     D                  VZI    ,MSI      , KINI   ,SURF   ,IBAG          ,
-     E                  IGAP   ,MULTI_FVM,S_XCELL_REMOTE,XCELL_REMOTE)
+     1                  JLT     ,CAND_N    ,CAND_E         ,CN_LOC         ,CE_LOC        ,
+     2                  X1      ,X2        ,X3             ,X4             ,Y1            ,
+     3                  Y2      ,Y3        ,Y4             ,Z1             ,Z2            ,
+     4                  Z3      ,Z4        ,XI             ,YI             ,ZI            ,
+     5                  NX1     ,NX2       ,NX3            ,NX4            ,NY1           ,
+     6                  NY2     ,NY3       ,NY4            ,NZ1            ,NZ2           ,
+     7                  NZ3     ,NZ4       ,LB1            ,LB2            ,LB3           ,
+     8                  LB4     ,LC1       ,LC2            ,LC3            ,LC4           ,
+     9                  P1      ,P2        ,P3             ,P4             ,IX1           ,
+     A                  IX2     ,IX3       ,IX4            ,NSVG           ,STIF          ,
+     B                  JLT_NEW ,GAPV      ,CAND_P         ,ALE_NE_CONNECT ,
+     C                  INDEX   ,VXI       ,VYI            ,ITAB           ,XCELL         ,
+     D                  VZI     ,MSI       ,KINI           ,
+     E                  IGAP    ,MULTI_FVM ,S_XCELL_REMOTE ,XCELL_REMOTE)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -70,10 +72,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JLT, JLT_NEW,INACTI, CAND_N(*),CN_LOC(MVSIZ),
+      INTEGER JLT, JLT_NEW, CAND_N(*),CN_LOC(MVSIZ),
      .        CAND_E(*),CE_LOC(MVSIZ), NSVG(MVSIZ), KINI(*),ICURV
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
-     .        INDEX(MVSIZ),IBAG
+     .        INDEX(MVSIZ)
       INTEGER, INTENT(IN) :: ITAB(NUMNOD),IGAP
       INTEGER, INTENT(in) :: S_XCELL_REMOTE
       my_real
@@ -91,7 +93,7 @@ C-----------------------------------------------
      .     P1(MVSIZ), P2(MVSIZ), P3(MVSIZ), P4(MVSIZ), 
      .     GAPV(MVSIZ), CAND_P(*),
      .     VXI(MVSIZ), VYI(MVSIZ), VZI(MVSIZ), MSI(MVSIZ),
-     .     SURF(3,*),XCELL(3,SXCELL)
+     .     XCELL(3,SXCELL)
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM      
       TYPE(t_connectivity), INTENT(IN) :: ALE_NE_CONNECT
       my_real, DIMENSION(S_XCELL_REMOTE), INTENT(in) :: XCELL_REMOTE
@@ -309,16 +311,6 @@ C-----------------------------------------------
          ENDDO
        ENDIF             
 
-       IF (IBAG/=0) THEN
-#include "lockon.inc"
-        DO I=1,JLT
-          SURF(1,CAND_E(I))= NNX1(I) + NNX2(I) + NNX3(I) + NNX4(I)
-          SURF(2,CAND_E(I))= NNY1(I) + NNY2(I) + NNY3(I) + NNY4(I)
-          SURF(3,CAND_E(I))= NNZ1(I) + NNZ2(I) + NNZ3(I) + NNZ4(I)
-        ENDDO
-#include "lockoff.inc"
-       ENDIF
-
        DO I=1,JLT
         AAA    = ONE/MAX(EM30,X01(I)*X01(I)+Y01(I)*Y01(I)+Z01(I)*Z01(I))
         HLC1(I)= LC1(I)*ABS(LC1(I))*AAA
@@ -522,5 +514,6 @@ C-----------------------------------------------
        ENDDO
 C---------------------
       RETURN
-      END
+      END SUBROUTINE I18DST3
 C===============================================================================
+      END MODULE I18DST3_MOD
