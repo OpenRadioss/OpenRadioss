@@ -127,7 +127,6 @@ C------------------------------------------------------------
       CALL HM_GET_INTV('mainentityids', ISU2, IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('ALEelemsEntityids', GRBRIC_ID, IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('Igap', IGAP, IS_AVAILABLE, LSUBMODEL)
-      CALL HM_GET_INTV('Ipres', IBAG, IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('Idel', IDEL7N, IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('Iauto', ISTIFF, IS_AVAILABLE, LSUBMODEL)
 C------------------------------------------------------------
@@ -241,7 +240,6 @@ c          ENDIF
       ENDIF
       
 !===DEFAULT
-        IF(IBAG <= -1 .OR. IBAG >= 4)IBAG=1
         IF(IDEL7N <= -1 .OR. IDEL7N >= 3)IDEL7N=0
         IF(STFAC == ZERO)STFAC=ONE
         STFAC=-STFAC 
@@ -284,7 +282,7 @@ c          ENDIF
         IPARI(29) = ISTIFF
         IPARI(30) = 0       !MFROT
         IPARI(31) = 0       !IFQ
-        IPARI(32) = IBAG
+        IPARI(32) = 0       !IBAG
         IPARI(34) = 0       !ILAGM   
         IPARI(39) = 0       !ICURV
         IPARI(40) = 0       !NA1
@@ -307,7 +305,7 @@ C------------------------------------------------------------
         ENDIF
         WRITE(IOUT,6003) ISU2_user   !MAIN side from surf_id     
 
-        WRITE(IOUT,3018)IGAP0,ISTIFF,IBAG 
+        WRITE(IOUT,3018)IGAP0,ISTIFF
                 
         !stiffness output
         ! USER          INTERNAL
@@ -369,8 +367,7 @@ C------------
  3017 FORMAT('    TYPE == 18 ALE-LAGRANGE COUPLING' /)
  3018 FORMAT(
      .    '    IGAP FLAG FORMULATION . . . . . . . . . . . ',I10/,
-     .    '    ISTF FLAG FORMULATION . . . . . . . . . . . ',I10/,
-     .    '    PRESSURE CORRECTION FLAG . . . . . . . . . .',I10/)
+     .    '    ISTF FLAG FORMULATION . . . . . . . . . . . ',I10/)
           
  3020 FORMAT(
      .    '    SCALE FACTOR. . . . . . . . . . . . . . . . ',1PG20.13) 

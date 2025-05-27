@@ -130,7 +130,6 @@ C-----------------------------------------------
      .        IPARG(NPARG,*),INOD_PXFEM(*),TAGNCONT(NLOADP_HYD_INTER,*)
 
       INTEGER, TARGET  :: FR_I18(NSPMD+2,*)
-      INTEGER, POINTER :: ptr_FR_I18
       INTEGER, TARGET :: KINET(*)
       INTEGER IAD_ELEM(2,*),FR_ELEM(*), NISKYFIE(*)
       INTEGER NUM_IMP(*),NS_IMP(*),NE_IMP(*),IND_IMP(*),NT_IMP
@@ -293,9 +292,7 @@ C
             PTR_KINET => KINET(1:NUMNOD)
           ENDIF
 
-          IF(IMPL_S/=1)THEN
-           NULLIFY(ptr_FR_I18)
-           IF(NI18>0) ptr_FR_I18 => FR_I18(1,NI18) 
+          IF(IMPL_S /= 1)THEN
            CALL I7MAINF(TIMERS,
      1  IPARI          ,PTR_X          ,A                ,ALE_CONNECTIVITY,XCELL       ,
      2  ICODT          ,FSAV(1,NTH)    ,PTR_V            ,PTR_MS          ,DT2T        ,
@@ -305,7 +302,7 @@ C
      6  NISKYFI(N)     ,NEWFRONT(N)    ,NSTRF            ,SECFCUM         ,IGROUPS     ,
      7  ICONTACT       ,VISCN          ,IDUM             ,
      9  IDUM           ,IDUM           ,IDUM             ,FSAV(1,NN1)     ,NRTMDIM     ,
-     A  FSAV(1,NN2)    ,ptr_FR_I18     ,IGRBRIC          ,
+     A  IGRBRIC        ,
      B  EMINX          ,IXS            ,IXS16            ,IXS20           ,FNCONT      ,
      C  FTCONT         ,IAD_ELEM       ,FR_ELEM          ,RCONTACT        ,ACONTACT    ,
      D  PCONTACT       ,TEMP           ,FTHE             ,FTHESKYI        ,
@@ -318,23 +315,21 @@ C
      K  TAGNCONT       ,KLOADPINTER    ,LOADPINTER       ,LOADP_HYD_INTER ,DGAPLOADINT ,
      L  S_LOADPINTER   ,INTEREFRIC     ,XCELL_REMOTE(N)%SIZE_MY_REAL_ARRAY_1D,XCELL_REMOTE(N)%MY_REAL_ARRAY_1D)
           ELSE
-           NULLIFY(ptr_FR_I18)
-           IF(NI18>0) ptr_FR_I18 => FR_I18(1,NI18)           
            CALL I7MAINF(TIMERS,
-     1  IPARI      ,PTR_X         ,A                ,ALE_CONNECTIVITY,XCELL       ,                                            
-     2  ICODT      ,FSAV(1,NTH)   ,PTR_V            ,PTR_MS          ,DT2T        ,              
-     3  NELTST    ,ITYPTST        ,ITAB             ,STIFN           ,FSKYI       ,
-     4  ISKY       ,FCONT         ,N                ,LINDMAX         ,PTR_KINET   ,          
-     5  JTASK      ,NB_JLT(JTASK) ,NB_JLT_NEW(JTASK),NB_STOK_N(JTASK),ELBUF_TAB   ,   
-     6  NISKYFI(N) ,NEWFRONT(N)   ,NSTRF            ,SECFCUM         ,IGROUPS     ,                           
-     7  ICONTACT   ,VISCN         ,NUM_IMP(N)       ,                                            
-     9  NS_IMP(IAD),NE_IMP(IAD)   ,IND_IMP(IAD)     ,FSAV(1,NN1)     ,NRTMDIM     ,
-     A  FSAV(1,NN2),ptr_FR_I18    ,IGRBRIC          ,                                            
-     B  EMINX     ,IXS            ,IXS16            ,IXS20           ,FNCONT      ,
-     C  FTCONT    ,IAD_ELEM       ,FR_ELEM          ,RCONTACT        ,ACONTACT    ,
-     D  PCONTACT  ,TEMP           ,FTHE             ,FTHESKYI        ,
-     E  PM        ,IPARG          ,IAD17            ,MSKYI_SMS       ,ISKYI_SMS   ,
-     F  NODNX_SMS ,MS0            ,QFRICINT         ,NPC             ,TF          ,
+     1  IPARI      ,PTR_X         ,A                 ,ALE_CONNECTIVITY,XCELL       ,
+     2  ICODT      ,FSAV(1,NTH)   ,PTR_V             ,PTR_MS          ,DT2T        ,
+     3  NELTST     ,ITYPTST       ,ITAB              ,STIFN           ,FSKYI       ,
+     4  ISKY       ,FCONT         ,N                 ,LINDMAX         ,PTR_KINET   ,
+     5  JTASK      ,NB_JLT(JTASK) ,NB_JLT_NEW(JTASK) ,NB_STOK_N(JTASK),ELBUF_TAB   ,
+     6  NISKYFI(N) ,NEWFRONT(N)   ,NSTRF             ,SECFCUM         ,IGROUPS     ,
+     7  ICONTACT   ,VISCN         ,NUM_IMP(N)        ,
+     9  NS_IMP(IAD),NE_IMP(IAD)   ,IND_IMP(IAD)      ,FSAV(1,NN1)     ,NRTMDIM     ,
+     A  IGRBRIC    ,
+     B  EMINX      ,IXS            ,IXS16            ,IXS20           ,FNCONT      ,
+     C  FTCONT     ,IAD_ELEM       ,FR_ELEM          ,RCONTACT        ,ACONTACT    ,
+     D  PCONTACT   ,TEMP           ,FTHE             ,FTHESKYI        ,
+     E  PM         ,IPARG          ,IAD17            ,MSKYI_SMS       ,ISKYI_SMS   ,
+     F  NODNX_SMS  ,MS0            ,QFRICINT         ,NPC             ,TF          ,
      G  CONDN      ,CONDNSKYI     ,INTERFACES%INTBUF_TAB(N),NODADT_THERM,THEACCFACT ,
      H  FBSAV6     ,ISENSINT(1,N) ,SFBSAV6            ,IXIG3D          ,              
      I  KXIG3D     ,WIGE          ,KNOT             ,IGEO            ,MULTI_FVM,     
