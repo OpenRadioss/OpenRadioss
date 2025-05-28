@@ -185,7 +185,8 @@ c
         ENDIF
 
          !initialize %EOS member for current material
-        MAT_PARAM(IMAT)%EOS%TITLE = TITR
+        MAT_PARAM(IMAT)%EOS%TITLE = ''        
+        MAT_PARAM(IMAT)%EOS%TITLE(1:LEN_TRIM(TITR)) = TITR(1:LEN_TRIM(TITR))
         MAT_PARAM(IMAT)%EOS%NUPARAM = 0
         MAT_PARAM(IMAT)%EOS%NIPARAM = 0
         MAT_PARAM(IMAT)%EOS%NFUNC = 0

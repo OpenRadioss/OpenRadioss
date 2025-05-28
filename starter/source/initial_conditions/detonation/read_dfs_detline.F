@@ -207,10 +207,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   O u t p u t   F o r m a t
 C-----------------------------------------------      
- 1001 FORMAT(///'DETONATION LINE           ',I10,/5X,
+ 1001 FORMAT(///5X,
+     &          'DETONATION LINE           ',I10,/5X,
      &          '---------------           ',/5X,
      &          'CONFIDENTIAL DATA')    
- 1500 FORMAT(///'DETONATION LINE            ',I10,/5X,
+ 1500 FORMAT(///5X,
+     &          'DETONATION LINE            ',I10,/5X,
      &          '---------------            ',/5X,
      &          'X-COORDINATE FIRST POINT  =',1PG20.13,/5X,
      &          'Y-COORDINATE FIRST POINT  =',1PG20.13,/5X,
@@ -220,7 +222,8 @@ C-----------------------------------------------
      &          'Z-COORDINATE SECOND POINT =',1PG20.13,/5X,
      &          'LIGHTING TIME             =',1PG20.13,/5X,
      &          'EXPLOSIVE MATERIAL NUMBER =',I10 )
- 1501 FORMAT(///'DETONATION LINE            ',I10,/5X,
+ 1501 FORMAT(///5X,
+     &          'DETONATION LINE            ',I10,/5X,
      &          '---------------            ',/5X,
      &          'FIRST NODE ID             =',I10     ,/5X,     
      &          ' X-COORDINATE FIRST POINT =',1PG20.13,/5X,

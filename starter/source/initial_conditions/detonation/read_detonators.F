@@ -95,6 +95,7 @@ C-----------------------------------------------
 C   P r e - C o n d i t i o n
 C-----------------------------------------------
       NDET = DETONATORS%N_DET
+      DETONATORS%IS_SHADOWING_REQUIRED = .FALSE.
       IF (NDET <= 0) RETURN
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -104,7 +105,6 @@ C-----------------------------------------------
       CALL HM_OPTION_COUNT('/DFS', NDFS)
       CALL HM_OPTION_START('/DFS')
       WRITE(IOUT,1000)
-      DETONATORS%IS_SHADOWING_REQUIRED = .FALSE.
       DO K=1,NDFS
         CALL HM_OPTION_READ_KEY(LSUBMODEL,OPTION_ID=DET_ID, UNIT_ID=UID,KEYWORD2=KEY,KEYWORD3=KEY2)
         IF (LEN_TRIM(KEY) > 0) KEY = KEY(1:7)
