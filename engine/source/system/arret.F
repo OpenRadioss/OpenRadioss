@@ -648,6 +648,8 @@ C
               WRITE(IOUT,1100)
               WRITE(ISTDO,1150)
 
+              IF(ISPMD == 0 .AND. IOUT/= 0)  CLOSE(UNIT=IOUT)
+
               CALL SPMD_KILL(2)
               CALL MY_EXIT(2)
 
