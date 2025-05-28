@@ -413,11 +413,14 @@ MvPreDatasHierarchy_t *MvDataCfgParser_t::getDatasHierarchyPtr(CFGKernel& cfgker
           a_user_name_list.push_back(a_user_name);
           if (un_rep_char != '\0')
           {
-              auto pos = a_user_name.find('_');
+              auto pos = a_user_name.find('/');
+              if (pos == std::string::npos) {
+                  pos = a_user_name.find('_');
               if (pos != std::string::npos) {
                   std::replace(a_user_name.begin(), a_user_name.end(), '_', un_rep_char);
                   // Add the modified string to the vector
                   a_user_name_list.push_back(a_user_name);
+                  }
               }
           }
           a_char = getNextChar();

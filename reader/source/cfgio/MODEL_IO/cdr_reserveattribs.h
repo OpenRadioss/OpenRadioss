@@ -38,6 +38,7 @@ namespace cdr
     const std::string g_AttribFullFileName =         "_FULLFILENAME";
     const std::string g_AttribFormatType =           "_FORMATTYPE";
     const std::string g_AttribFileVersion =          "_FILEVERSION";
+    const std::string g_AttribSplitArrayToSingle =   "_SPLIT_ARRAY_TO_SINGLE";
 };
 
 

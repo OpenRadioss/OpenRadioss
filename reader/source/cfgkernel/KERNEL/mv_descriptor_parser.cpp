@@ -4071,6 +4071,8 @@ void MvDescriptorParser_t::readCard(const MvDescriptor_t* descr_p, PseudoCardLis
     if (getNextChar() != ')') throwError(getMsg(13), ")");
     int flag = 0;
     char a_char = getNextChar();
+    string a_offset_fmt_str = "";
+    string a_offset_val_str = "";
     if (a_char == '{')
     {
         while (a_char != '}')
@@ -4082,6 +4084,36 @@ void MvDescriptorParser_t::readCard(const MvDescriptor_t* descr_p, PseudoCardLis
                 flag = flag | CARD_FLAG_NO_FREE_FORMAT;
             else if (a_feature == "NO_END")
                 flag = flag | CARD_FLAG_NO_END;
+            else if (a_feature == "OFFSET")
+            {
+                flag = flag | CARD_FLAG_OFFSET;
+                a_char = getNextChar();
+                if (a_char != '(') throwError(getMsg(13), "(");
+                a_offset_fmt_str = getNextQuotedString();
+                int a_nb_chars = (int)(a_offset_fmt_str.size());
+                if (a_nb_chars <= 0) throwError(getMsg(13), "offset_format");
+                int i = 0, a_nb_format_specifiers = 0;
+                while (i < a_nb_chars)
+                {
+                    a_nb_format_specifiers++;
+                    if (a_nb_format_specifiers > 1)
+                        throwError(getMsg(38), "Cell_list offset format More than one format specifier mentioned");
+                    char c = a_offset_fmt_str[i];
+                    if (c == '%')
+                    {
+                        while (c != 'f' && c != 'g' && c != 'd' && c != 'i' && c != 's' && c != 'u' && c != 'e' && c != 'E' && i < a_nb_chars) c = a_offset_fmt_str[++i];
+                        if (c != 's') throwError(getMsg(58), "Offset Format specifier");
+                        if (i >= a_nb_chars) throwError(getMsg(38), "Cell_list offset format");
+                    }
+                    else throwError(getMsg(38), "Cell_list offset format");
+                    i++;
+                }
+                a_char = getNextChar();
+                if (a_char != ',') throwError(getMsg(13), ",");
+                a_offset_val_str = getNextQuotedString();
+                a_char = getNextChar();
+                if (a_char != ')') throwError(getMsg(13), ")");
+            }
             else throwError(getMsg(22), a_feature.c_str());
             a_char = getNextChar();
             if (!(a_char == ',' || a_char == ';')) throwError(getMsg(13), "Expected , or ;");
@@ -4107,6 +4139,8 @@ void MvDescriptorParser_t::readCard(const MvDescriptor_t* descr_p, PseudoCardLis
 
     MCDS_set_ff_card_attributes(a_card_p, CARD_IS_FREE, a_free_ikw, END_ARGS);
     MCDS_set_ff_card_attributes(a_card_p, CARD_FLAGS, flag, END_ARGS);
+    MCDS_set_ff_card_attributes(a_card_p, CARD_CELL_LIST_OFFSET_FORMAT, a_offset_fmt_str.c_str(),
+        CARD_CELL_LIST_OFFSET_VALUE, a_offset_val_str.c_str(), END_ARGS);
     // Adding the card
     ((LocCardList_t*)card_list_p)->push_back(a_card_p);
 
@@ -4299,9 +4333,13 @@ void MvDescriptorParser_t::readCardAssignData(const MvDescriptor_t* descr_p, ff_
         else if (sikeyword <= 0 && isSValue == true)
             a_basic_opera_assign_card_p->secondVal = atof(secondAtt.c_str());
     }
-    else if (firstWord == "_ATTRIB")
+    else if (firstWord == "_ATTRIB" || firstWord == "_STOI" || firstWord == "_STOF")
     {
         assign_card_mode = ASSIGN_ATTRIB;
+        if (firstWord == "_STOI")
+            assign_card_mode = ASSIGN_STOI;
+        else if (firstWord == "_STOF")
+            assign_card_mode = ASSIGN_STOF;
         string firstAtt = "", secondAtt = "", thirdAtt = "";
         int fikeyword = 0, sikeyword = 0, tikeyword = 0;
         int comma = 0;
@@ -4333,17 +4371,25 @@ void MvDescriptorParser_t::readCardAssignData(const MvDescriptor_t* descr_p, ff_
         if (fikeyword > 0)
         {
             value_type_e f_attrib_vtype = descr_p->getValueType(fikeyword);
+            if (assign_card_mode == ASSIGN_ATTRIB)
+            {
             // allowing UINT assign to a size attribute(INT type), throw error, when FLOAT, STRING assign to a INT, UINT, size attribute
             if (((f_attrib_vtype != assigned_valtype) && (assigned_attrib_atype != ATYPE_SIZE)) ||
                 ((assigned_attrib_atype == ATYPE_SIZE) && ((f_attrib_vtype == VTYPE_FLOAT) || (f_attrib_vtype == VTYPE_STRING)) && ((assigned_valtype == VTYPE_INT) || (assigned_valtype == VTYPE_UINT))))
-                throwError(getMsg(13), "Value types are different");
+                    throwError(getMsg(94));
+            }
+            else
+            {
+                if (f_attrib_vtype != VTYPE_STRING)
+                    throwError(getMsg(93));
+            }
             attribute_type_e f_attrib_atype = descr_p->getAttributeType(fikeyword);
             if (f_attrib_atype == ATYPE_SIZE || f_attrib_atype == ATYPE_VALUE)
             {
                 if (assigned_attrib_atype == ATYPE_STATIC_ARRAY || assigned_attrib_atype == ATYPE_DYNAMIC_ARRAY)
-                    throwError(getMsg(13), "Cannot Assign Single Attribute to Array Attribute");
+                    throwError(getMsg(95));
                 else if (secondAtt != "")
-                    throwError(getMsg(13), "No Index required for Attribute of Type Single");
+                    throwError(getMsg(96));
             }
             a_copy_assign_card_p->ikeyword = fikeyword;
         }
@@ -4359,7 +4405,7 @@ void MvDescriptorParser_t::readCardAssignData(const MvDescriptor_t* descr_p, ff_
             {
                 value_type_e s_attrib_vtype = descr_p->getValueType(sikeyword);
                 if (!(s_attrib_vtype == VTYPE_INT || s_attrib_vtype == VTYPE_UINT))
-                    throwError(getMsg(13), "Expected Integer or Unsigned Integer");
+                    throwError(getMsg(97));
             }
             else
                 throwError(getMsg(13), "Undefined Second attribute");
@@ -4369,8 +4415,6 @@ void MvDescriptorParser_t::readCardAssignData(const MvDescriptor_t* descr_p, ff_
             tikeyword = -1;
         else
         {
-            if (assigned_attrib_atype == ATYPE_SIZE || assigned_attrib_atype == ATYPE_VALUE)
-                throwError(getMsg(13), "Values are expected to be copied to Array Attribute");
             tikeyword = descr_p->getIKeyword(thirdAtt);
             if (tikeyword > 0)
             {
@@ -4378,10 +4422,10 @@ void MvDescriptorParser_t::readCardAssignData(const MvDescriptor_t* descr_p, ff_
                 {
                     value_type_e t_attrib_vtype = descr_p->getValueType(tikeyword);
                     if (!(t_attrib_vtype == VTYPE_INT || t_attrib_vtype == VTYPE_UINT))
-                        throwError(getMsg(13), "Expected Integer or Unsigned Integer");
+                        throwError(getMsg(97));
                 }
                 else
-                    throwError(getMsg(13), "Third argument cannot be defined with out second argument");
+                    throwError(getMsg(98));
             }
             else
                 throwError(getMsg(13), "Undefined third argument");
@@ -4590,7 +4634,7 @@ void MvDescriptorParser_t::readCardAssignData(const MvDescriptor_t* descr_p, ff_
             MCDS_new_ff_assign_card(card_p, assign_card_mode);
             attribute_type_e assigned_attr_type = descr_p->getAttributeType(ikeyword);
             if (assigned_attr_type != ATYPE_DYNAMIC_ARRAY)
-                throwError(getMsg(13), "Assign_card attribute has to be of type Dynamic Array");
+                throwError(getMsg(99));
             value_type_e   f_att_valtype = descr_p->getValueType(fikeyword);
 
             if (assigned_valtype != VTYPE_STRING)
@@ -4598,20 +4642,20 @@ void MvDescriptorParser_t::readCardAssignData(const MvDescriptor_t* descr_p, ff_
                 if (assigned_valtype == VTYPE_FLOAT)
                 {
                     if (f_att_valtype == VTYPE_STRING)
-                        throwError(getMsg(13), "String attributes cannot be pushed to Float array");
+                        throwError(getMsg(100));
                 }
                 else if (assigned_valtype == VTYPE_UINT)
                 {
                     if (!(f_att_valtype == VTYPE_UINT || f_att_valtype == VTYPE_OBJECT || f_att_valtype == VTYPE_BOOL))
-                        throwError(getMsg(13), "Unsigned Integer attributes has to be pushed to Unsigned integer array");
+                        throwError(getMsg(101));
                 }
                 else if (assigned_valtype == VTYPE_INT)
                 {
                     if (!(f_att_valtype == VTYPE_INT || f_att_valtype == VTYPE_BOOL))
-                        throwError(getMsg(13), "Integer attributes has to be pushed to Integer array");
+                        throwError(getMsg(102));
                 }
                 else
-                    throwError(getMsg(13), "Array has to be of type STRING or INTEGER or UNSIGNED INT or FLOAT");
+                    throwError(getMsg(103));
             }
             ff_card_assign_push_t* a_assign_card_push_p = (ff_card_assign_push_t *)(*card_p);
             a_assign_card_push_p->att_ikey = fikeyword;
@@ -4639,9 +4683,6 @@ void MvDescriptorParser_t::readCardAssignData(const MvDescriptor_t* descr_p, ff_
     }
     else if (firstWord == "_COMBINE" || firstWord == "_ERASE" || firstWord == "_FIND")
     {
-        attribute_type_e assigned_attrib_atype = descr_p->getAttributeType(ikeyword);
-        if (assigned_attrib_atype != ATYPE_VALUE)
-            throwError(getMsg(38), "Only non array attributes are allowed");
         if (firstWord == "_COMBINE" || firstWord == "_ERASE")
         {
             if (assigned_valtype != VTYPE_STRING)
@@ -4709,11 +4750,11 @@ void MvDescriptorParser_t::readCardAssignData(const MvDescriptor_t* descr_p, ff_
         else
         {
             if (firstAtt[0] != '"')
-                throwError(getMsg(13), "First argument has to be an attribute of type string or it should be in quotes");
+                throwError(getMsg(104));
             string att_to_be_copied;
             size_t len = firstAtt.length();
             if (firstAtt[len - 1] != '"')
-                throwError(getMsg(13), "First argument has to be an attribute of type string or it should be in quotes");
+                throwError(getMsg(104));
             for (size_t j = 1; j < len - 1; ++j)
                 att_to_be_copied += firstAtt[j];
             a_assign_string_card_p->value_str = my_strcpy(a_assign_string_card_p->value_str, att_to_be_copied.c_str());
@@ -4732,13 +4773,13 @@ void MvDescriptorParser_t::readCardAssignData(const MvDescriptor_t* descr_p, ff_
         else
         {
             if (secondAtt[0] != '"')
-                throwError(getMsg(13), "Second argument has to be an attribute of type string or it should be in quotes");
+                throwError(getMsg(105));
             else if (is_string_filled)
-                throwError(getMsg(13), "Both are defined as string literals and it is not allowed");
+                throwError(getMsg(106));
             string att_to_be_copied;
             size_t len = secondAtt.length();
             if (secondAtt[len - 1] != '"')
-                throwError(getMsg(13), "Second argument has to be an attribute of type string or it should be in quotes");
+                throwError(getMsg(105));
             for (size_t j = 1; j < len - 1; ++j)
                 att_to_be_copied += secondAtt[j];
             a_assign_string_card_p->value_str = my_strcpy(a_assign_string_card_p->value_str, att_to_be_copied.c_str());
