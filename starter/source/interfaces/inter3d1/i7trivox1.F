@@ -44,7 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      8      ID     ,TITR    ,DRAD     ,INDEX   ,
      9      IREMNODE,FLAGREMNODE,KREMNODE,REMNODE,
      1      DGAPLOAD,ipari,intbuf_tab,
-     2      iix,iiy,iiz,local_next_nod,nrtm )
+     2      iix,iiy,iiz,local_next_nod,nrtm,IS_USED_WITH_LAW151 )
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -128,13 +128,13 @@ C-----------------------------------------------
       integer, dimension(npari), intent(inout) :: ipari !< interface data
       type(intbuf_struct_), intent(inout) :: intbuf_tab !< interface data
       INTEGER,  dimension(nsn), intent(inout) :: iix,iiy,iiz,local_next_nod
+      LOGICAL,INTENT(IN) :: IS_USED_WITH_LAW151
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NB_NCN,NB_NCN1,NB_ECN,I,J,DIR,NB_NC,NB_EC,
      .        N1,N2,N3,N4,NN,NE,K,L,NCAND_PROV,II,JJ,KK,
      .        NSNF, NSNL, I_BID,DELNOD
-C     REAL
       my_real
      .   DX,DY,DZ,XS,YS,ZS,XX,SX,SY,SZ,S2,
      .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, TZ, GAPSMX, GAPL,
@@ -149,8 +149,6 @@ C     REAL
      .   XMINB,YMINB,ZMINB,XMAXB,YMAXB,ZMAXB,
      .   XMINE,YMINE,ZMINE,XMAXE,YMAXE,ZMAXE,AAA,TSTART,TSTOP
       my_real , INTENT(IN) :: DGAPLOAD
-c      my_ream
-c     .   maxaaa
       INTEGER FIRST,NEW,LAST,M
       INTEGER, DIMENSION(MVSIZ) :: IX11,IX12,IX13,IX14,NSVG
       my_real, DIMENSION(MVSIZ) :: X1,X2,X3,X4
@@ -186,6 +184,7 @@ c     .   maxaaa
       integer, dimension(:), allocatable :: my_index
       integer, dimension(:,:), allocatable :: sort_array,save_array
       integer, dimension(70000) :: work
+      integer stagnod
 C-----------------------------------------------
       ! allocation of local arrays 
       itask = omp_get_thread_num()
@@ -292,8 +291,10 @@ C 3   recherche des boites concernant chaque facette
 C     et creation des candidats
 C=======================================================================
 
-      ALLOCATE(TAGNOD(NUMNOD+NUMFAKENODIGEO))
-      TAGNOD(1:NUMNOD+NUMFAKENODIGEO) = 0
+      STAGNOD = NUMNOD+NUMFAKENODIGEO
+      IF(IS_USED_WITH_LAW151) STAGNOD = STAGNOD + NUMELS
+      ALLOCATE(TAGNOD(STAGNOD)) ; TAGNOD(1:STAGNOD) = 0
+
       local_i_stok = 0
       j_stok = 0
 !$OMP DO SCHEDULE(guided)
@@ -312,8 +313,7 @@ C=======================================================================
         IF(IGAP == 0)THEN
           AAA = TZINF+CURV_MAX(NE)
         ELSE
-          AAA = MARGE+CURV_MAX(NE)+
-     .      MAX(MIN(GAPMAX,MAX(GAPMIN,BGAPSMX+GAP_M(NE)))+DGAPLOAD,DRAD)
+          AAA = MARGE+CURV_MAX(NE)+MAX(MIN(GAPMAX,MAX(GAPMIN,BGAPSMX+GAP_M(NE)))+DGAPLOAD,DRAD)
         ENDIF
 
         M1 = IRECT(1,NE)
@@ -400,7 +400,6 @@ c        indice des voxels occupes par la facette
               DO WHILE(JJ /= 0)
 
                 NN=NSV(JJ)
-
                 IF(TAGNOD(NN) == 1 ) GOTO 300
                 IF(NN == M1)GOTO 300
                 IF(NN == M2)GOTO 300
@@ -411,8 +410,7 @@ c        indice des voxels occupes par la facette
                 YS = X(2,NN)
                 ZS = X(3,NN)
                 IF(IGAP /= 0)THEN
-                  AAA = MARGE+CURV_MAX(NE)+MAX(MIN(GAPMAX,MAX(GAPMIN,
-     .              GAP_S(JJ)+GAP_M(NE)))+DGAPLOAD,DRAD)
+                  AAA = MARGE+CURV_MAX(NE)+MAX(MIN(GAPMAX,MAX(GAPMIN,GAP_S(JJ)+GAP_M(NE)))+DGAPLOAD,DRAD)
                 ENDIF
                 IF(XS<=XMINE-AAA)GOTO 300
                 IF(XS>=XMAXE+AAA)GOTO 300
@@ -463,8 +461,7 @@ c    sousestimation de la distance**2 pour elimination de candidats
      2                 NY2  ,NZ2 ,NX3,NY3,NZ3,
      3                 NX4  ,NY4 ,NZ4,P1 ,P2 ,
      4                 P3   ,P4,J_STOK)
-                  call inter_save_candidate( local_i_stok,j_stok,prov_n,prov_e,
-     .                                       pene,local_cand_n,local_cand_e )
+                  call inter_save_candidate( local_i_stok,j_stok,prov_n,prov_e,pene,local_cand_n,local_cand_e )
                   J_STOK = 0
                 ENDIF
 
@@ -511,8 +508,7 @@ c    sousestimation de la distance**2 pour elimination de candidats
      2              NY2  ,NZ2 ,NX3,NY3,NZ3,
      3              NX4  ,NY4 ,NZ4,P1 ,P2 ,
      4              P3   ,P4,J_STOK)
-        call inter_save_candidate( local_i_stok,j_stok,prov_n,prov_e,
-     .                             pene,local_cand_n,local_cand_e )
+        call inter_save_candidate( local_i_stok,j_stok,prov_n,prov_e,pene,local_cand_n,local_cand_e )
         J_STOK = 0
       ENDIF
 
