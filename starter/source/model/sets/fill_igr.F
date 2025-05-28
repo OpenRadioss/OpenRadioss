@@ -121,7 +121,7 @@ C
             IF (IO_ERR2 == 0) THEN
       ! Process the line stored in KEYA here if needed
               IF(KEYA(1:14) == '/DT/NODA/CST/1' .OR. KEYA(1:8) == '/DYREL/1' .OR. KEYA(1:8) == '/KEREL/1' .OR.
-     .           KEYA(1:14) == '/INIV/AXIS/X/2' .OR. KEYA(1:14) == '/INIV/AXIS/X/2' .OR.
+     .           KEYA(1:14) == '/INIV/AXIS/X/2' .OR. KEYA(1:14) == '/INIV/AXIS/Y/2' .OR.
      .           KEYA(1:14) == '/INIV/AXIS/Z/2')  THEN
                 NB_GRNODE = NB_GRNODE + 1
               ELSE IF(KEYA(1:6) == '/BEGIN') THEN
@@ -153,23 +153,60 @@ C
       ! Process the line stored in KEYA here if needed
               IF(KEYA(1:14) == '/DT/NODA/CST/1') THEN
                 NB_GRNODE = NB_GRNODE + 1
+                
+                DO WHILE (CARTE(1:1) == '#' .AND. IO_ERR2 == 0)
+                  READ(UNIT=tmp_engine, FMT='(A)', IOSTAT=IO_ERR2) CARTE
+                END DO
                 READ(UNIT=tmp_engine, FMT='(A)', IOSTAT=IO_ERR2) CARTE
+                DO WHILE (CARTE(1:1) == '#' .AND. IO_ERR2 == 0)
+                  READ(UNIT=tmp_engine, FMT='(A)', IOSTAT=IO_ERR2) CARTE
+                END DO
                 READ(UNIT=tmp_engine, FMT='(A)', IOSTAT=IO_ERR2) CARTE
+                DO WHILE (CARTE(1:1) == '#' .AND. IO_ERR2 == 0)
+                  READ(UNIT=tmp_engine, FMT='(A)', IOSTAT=IO_ERR2) CARTE
+                END DO
                 READ(CARTE, FMT=*) GRNODE(NB_GRNODE)
               ELSEIF(KEYA(1:8) == '/DYREL/1') THEN
                 NB_GRNODE = NB_GRNODE + 1
+
+                DO WHILE (CARTE(1:1) == '#' .AND. IO_ERR2 == 0)
+                  READ(UNIT=tmp_engine, FMT='(A)', IOSTAT=IO_ERR2) CARTE
+                END DO
                 READ(UNIT=tmp_engine, FMT='(A)', IOSTAT=IO_ERR2) CARTE
+                DO WHILE (CARTE(1:1) == '#' .AND. IO_ERR2 == 0)
+                  READ(UNIT=tmp_engine, FMT='(A)', IOSTAT=IO_ERR2) CARTE
+                END DO
                 READ(CARTE, FMT=*) GRNODE(NB_GRNODE)
               ELSEIF(KEYA(1:8) == '/KEREL/1') THEN
                 NB_GRNODE = NB_GRNODE + 1
+
+                DO WHILE (CARTE(1:1) == '#' .AND. IO_ERR2 == 0)
+                  READ(UNIT=tmp_engine, FMT='(A)', IOSTAT=IO_ERR2) CARTE
+                END DO
                 READ(UNIT=tmp_engine, FMT='(A)', IOSTAT=IO_ERR2) CARTE
+                DO WHILE (CARTE(1:1) == '#' .AND. IO_ERR2 == 0)
+                  READ(UNIT=tmp_engine, FMT='(A)', IOSTAT=IO_ERR2) CARTE
+                END DO
                 READ(CARTE, FMT=*) GRNODE(NB_GRNODE)
               ELSEIF(KEYA(1:14) == '/INIV/AXIS/X/2' .OR. KEYA(1:14) == '/INIV/AXIS/Y/2' .OR. 
      .               KEYA(1:14) == '/INIV/AXIS/Z/2') THEN
                 NB_GRNODE = NB_GRNODE + 1
+                
+                DO WHILE (CARTE(1:1) == '#' .AND. IO_ERR2 == 0)
+                  READ(UNIT=tmp_engine, FMT='(A)', IOSTAT=IO_ERR2) CARTE
+                END DO
                 READ(UNIT=tmp_engine, FMT='(A)', IOSTAT=IO_ERR2) CARTE
+                DO WHILE (CARTE(1:1) == '#' .AND. IO_ERR2 == 0)
+                  READ(UNIT=tmp_engine, FMT='(A)', IOSTAT=IO_ERR2) CARTE
+                END DO
                 READ(UNIT=tmp_engine, FMT='(A)', IOSTAT=IO_ERR2) CARTE
+                DO WHILE (CARTE(1:1) == '#' .AND. IO_ERR2 == 0)
+                  READ(UNIT=tmp_engine, FMT='(A)', IOSTAT=IO_ERR2) CARTE
+                END DO
                 READ(UNIT=tmp_engine, FMT='(A)', IOSTAT=IO_ERR2) CARTE
+                DO WHILE (CARTE(1:1) == '#' .AND. IO_ERR2 == 0)
+                  READ(UNIT=tmp_engine, FMT='(A)', IOSTAT=IO_ERR2) CARTE
+                END DO
                 READ(CARTE, FMT=*) GRNODE(NB_GRNODE)
               ELSE IF(KEYA(1:6) == '/BEGIN') THEN
                 IO_ERR2 = 1
