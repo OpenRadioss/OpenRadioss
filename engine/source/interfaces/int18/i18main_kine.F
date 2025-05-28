@@ -42,11 +42,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    multi_fvm_mod                ../common_source/modules/ale/multi_fvm_mod.F90
       !||    tri7box                      ../engine/share/modules/tri7box.F
       !||====================================================================
-      SUBROUTINE I18MAIN_KINE_1(IPARI,INTBUF_TAB,X      ,V       ,
-     2                   A      ,ISKEW   ,SKEW     ,LCOD          ,WA      ,
-     3                   MS     ,ITAB    ,JTASK    ,KINET         ,STIFN   ,
-     4                   MTF    ,CAND_SAV,INT18ADD ,IAD_ELEM      ,FR_ELEM ,
-     5                   TAGPENE,H3D_DATA,MULTI_FVM,ALE_NE_CONNECT,XCELL,XCELL_REMOTE)
+      SUBROUTINE I18MAIN_KINE_1(IPARI   ,INTBUF_TAB ,X        ,V             ,
+     2                          A       ,ISKEW      ,SKEW     ,LCOD          ,WA      ,
+     3                          MS      ,ITAB       ,JTASK    ,KINET         ,STIFN   ,
+     4                          MTF     ,CAND_SAV   ,INT18ADD ,IAD_ELEM      ,FR_ELEM ,
+     5                          TAGPENE ,H3D_DATA   ,MULTI_FVM,ALE_NE_CONNECT,XCELL,XCELL_REMOTE)
 C-----------------------------------------------
 C   D e s c r i p t i o n 
 C-----------------------------------------------
@@ -522,7 +522,8 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
       USE MULTI_FVM_MOD 
-      USE ALE_CONNECTIVITY_MOD           
+      USE ALE_CONNECTIVITY_MOD
+      USE I18DST3_MOD , ONLY : I18DST3
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-------------------------------------------------------------------------------
@@ -602,7 +603,7 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       INACTI=IPARI(22)
-      IF(INACTI/=7.or.IPARI(34)==0)RETURN
+      IF(INACTI /= 7 .or. IPARI(34) == 0)RETURN
 C
 C -------------------
       CALL MY_BARRIER
@@ -698,25 +699,24 @@ C cand_n et cand_e replaced with cand_n_n et cand_e_n
    
           JLT_NEW = 0
           CALL I18DST3(
-     1        JLT          ,CAND_N_N ,CAND_E_N ,CN_LOC           ,CE_LOC ,
-     2        X1           ,X2       ,X3       ,X4               ,Y1     ,
-     3        Y2           ,Y3       ,Y4       ,Z1               ,Z2     ,
-     4        Z3           ,Z4       ,XI       ,YI               ,ZI     ,
-     5        NX1          ,NX2      ,NX3      ,NX4              ,NY1    ,
-     6        NY2          ,NY3      ,NY4      ,NZ1              ,NZ2    ,
-     7        NZ3          ,NZ4      ,LB1      ,LB2              ,LB3    ,
-     8        LB4          ,LC1      ,LC2      ,LC3              ,LC4    ,
-     9        P1           ,P2       ,P3       ,P4               ,IX1    ,
-     A        IX2          ,IX3      ,IX4      ,NSVG             ,STIF   ,
-     B        JLT_NEW      ,GAPV     ,INACTI   ,INTBUF_TAB%CAND_P,ALE_NE_CONNECT,
-     C        INDEX2(NFT+1),VXI      ,VYI      ,ITAB             ,XCELL  ,
-     D        VZI          ,MSI      ,KINI     ,SURF             ,IBAG    ,
-     E        IGAP         ,MULTI_FVM,S_XCELL_REMOTE,XCELL_REMOTE)
+     1        JLT           ,CAND_N_N  ,CAND_E_N          ,CN_LOC           ,CE_LOC ,
+     2        X1            ,X2        ,X3                ,X4               ,Y1     ,
+     3        Y2            ,Y3        ,Y4                ,Z1               ,Z2     ,
+     4        Z3            ,Z4        ,XI                ,YI               ,ZI     ,
+     5        NX1           ,NX2       ,NX3               ,NX4              ,NY1    ,
+     6        NY2           ,NY3       ,NY4               ,NZ1              ,NZ2    ,
+     7        NZ3           ,NZ4       ,LB1               ,LB2              ,LB3    ,
+     8        LB4           ,LC1       ,LC2               ,LC3              ,LC4    ,
+     9        P1            ,P2        ,P3                ,P4               ,IX1    ,
+     A        IX2           ,IX3       ,IX4               ,NSVG             ,STIF   ,
+     B        JLT_NEW       ,GAPV      ,INTBUF_TAB%CAND_P ,ALE_NE_CONNECT,
+     C        INDEX2(NFT+1) ,VXI       ,VYI               ,ITAB             ,XCELL  ,
+     D        VZI           ,MSI       ,KINI              ,
+     E        IGAP          ,MULTI_FVM ,S_XCELL_REMOTE    ,XCELL_REMOTE)
           JLT = JLT_NEW
           IF(JLT_NEW /= 0) THEN
             IPARI(29) = 1
-            IF (DEBUG(3) >= 1)
-     .        NB_JLT_NEW = NB_JLT_NEW + JLT_NEW
+            IF (DEBUG(3) >= 1) NB_JLT_NEW = NB_JLT_NEW + JLT_NEW
             CALL I18KINE_I(
      1                      JLT          ,A         ,V            ,
      2                      GAP          ,MS        ,NOINT        ,INTBUF_TAB%STFNS  ,ITAB ,

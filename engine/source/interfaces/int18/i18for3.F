@@ -20,6 +20,8 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      MODULE I18FOR3_MOD
+      CONTAINS
       !||====================================================================
       !||    i18for3                ../engine/source/interfaces/int18/i18for3.F
       !||--- called by ------------------------------------------------------
@@ -49,15 +51,15 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      A                  P1        ,P2         ,P3        ,P4        ,FCONT         ,
      B                  IX1       ,IX2        ,IX3       ,IX4       ,NSVG          ,
      C                  IVIS2     ,NELTST     ,ITYPTST   ,DT2T      ,IXS           ,
-     D                  GAPV      ,INACTI     ,CAND_P    ,INDEX     ,NISKYFI       ,
+     D                  GAPV      ,CAND_P     ,INDEX     ,NISKYFI   ,
      E                  KINET     ,NEWFRONT   ,ISECIN    ,NSTRF     ,SECFCUM       ,
      F                  X         ,IRECT      ,CE_LOC    ,MFROT     ,IFQ           ,
-     G                  FROT_P    ,CAND_FX    ,CAND_FY   ,CAND_FZ   ,ALPHA0        ,
-     H                  IFPEN     ,IPRES      ,ICONTACT  ,IGROUPS   ,IPARG         ,
+     G                  FROT_P    ,CAND_FX    ,CAND_FY   ,CAND_FZ   ,
+     H                  IFPEN     ,ICONTACT   ,IGROUPS   ,IPARG     ,
      J                  VISCN     ,VXI        ,VYI       ,VZI       ,MSI           ,
      K                  KINI      ,NIN        ,NISUB     ,LISUB     ,ADDSUBS       ,
      L                  ADDSUBM   ,LISUBS     ,LISUBM    ,FSAVSUB   ,CAND_N        ,
-     M                  ILAGM     ,ICURV      ,PRES      ,FNCONT    ,MS0           ,
+     M                  ILAGM     ,ICURV      ,FNCONT    ,MS0           ,
      N                  JTASK     ,ISENSINT   ,FSAVPARIT ,NFT       ,MULTI_FVM     ,
      O                  H3D_DATA  ,ELBUF_TAB  ,IDIR      )
 C-----------------------------------------------
@@ -108,7 +110,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: IDIR
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
-      INTEGER NELTST,ITYPTST,JLT,IBCC,IVIS2,INACTI,IPRES,NIN,
+      INTEGER NELTST,ITYPTST,JLT,IBCC,IVIS2,NIN,
      .        ICODT(*), ITAB(*), ISKY(*), KINET(*),
      .        MFROT, IFQ, NOINT,NEWFRONT,ISECIN, NSTRF(*),
      .        IRECT(4,*),IFPEN(*) ,ICONTACT(*), CAND_N(*),
@@ -121,7 +123,7 @@ C-----------------------------------------------
       my_real
      .   STFVAL,CAND_P(*),FROT_P(*), X(3,*),MS0(*),
      .   A(3,*), MS(*), V(3,*), FSAV(*),FCONT(3,*),
-     .   CAND_FX(*),CAND_FY(*),CAND_FZ(*),ALPHA0,
+     .   CAND_FX(*),CAND_FY(*),CAND_FZ(*),
      .   GAP, FRIC,VISC,VISCF,VIS,DT2T,STFN(*),STIFN(*),
      .   FSKYI(LSKYI,NFSKYI),FSAVSUB(NTHVKI,*),FNCONT(3,*),
      .   FSAVPARIT(NISUB+1,11,*)
@@ -136,7 +138,7 @@ C-----------------------------------------------
      .     SECFCUM(7,NUMNOD,NSECT), TMP(MVSIZ),
      .     STIFSAV(MVSIZ), VISCN(*),
      .     VXI(MVSIZ),VYI(MVSIZ),VZI(MVSIZ),MSI(2*MVSIZ),
-     .     PRES(*), RSTIF  
+     .     RSTIF
       TYPE(MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM
       TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
@@ -373,13 +375,6 @@ C-----------------------------------------------
        FSAV10=FSAV10+ABS(IMPZ)
        FSAV11=FSAV11+FNI(I)*DT12
       ENDDO
-      IF (IPRES /= 0)THEN
-#include "lockon.inc"
-        DO I=1,JLT
-          PRES(CE_LOC(I)) = PRES(CE_LOC(I)) + FNI(I)
-        ENDDO
-#include "lockoff.inc"
-      END IF
 #include "lockon.inc"
         FSAV(1)=FSAV(1)+FSAV1
         FSAV(2)=FSAV(2)+FSAV2
@@ -785,7 +780,7 @@ C---------------------------------
              DO I=1,JLT                                                               
               JG = NSVG(I)                                                              
               IF(JG > 0) THEN                                                          
-                ! en SPMD : traitement a refaire apres reception noeud remote si JG < 0 
+                ! SPMD : reprocess required after receiving a remote node if JG < 0
                 FCONT(1,JG)=FCONT(1,JG)- FXI(I)                                         
                 FCONT(2,JG)=FCONT(2,JG)- FYI(I)                                         
                 FCONT(3,JG)=FCONT(3,JG)- FZI(I)
@@ -827,8 +822,8 @@ C-----------------------------------------------------
                IF(ISECUT /= 0)THEN
 #include "lockon.inc"
                  DO K=1,JLT
-                   ! attention aux signes pour le cumul des efforts
-                   ! a rendre conforme avec CFORC3
+                   ! Be careful with sign conventions during force accumulation
+                   ! Ensure consistency with CFORC3 implementation
                    IF(SECFCUM(4,IX1(K),I) == ONE)THEN
                     SECFCUM(1,IX1(K),I)=SECFCUM(1,IX1(K),I)-FX1(K)
                     SECFCUM(2,IX1(K),I)=SECFCUM(2,IX1(K),I)-FY1(K)
@@ -851,7 +846,7 @@ C-----------------------------------------------------
                    ENDIF
                    JG = NSVG(K)
                    IF(JG > 0) THEN
-                     ! en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+                     ! SPMD : reprocess required after receiving a remote node if JG < 0
                      IF(SECFCUM(4,JG,I) == 1.)THEN
                        SECFCUM(1,JG,I)=SECFCUM(1,JG,I)+FXI(K)
                        SECFCUM(2,JG,I)=SECFCUM(2,JG,I)+FYI(K)
@@ -870,4 +865,6 @@ C-----------------------------------------------------
       ENDIF!(ISECIN > 0)
 C-----------------------------------------------------
       RETURN
-      END
+      END SUBROUTINE I18FOR3
+C-----------------------------------------------------
+      END MODULE I18FOR3_MOD
