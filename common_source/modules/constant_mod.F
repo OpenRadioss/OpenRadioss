@@ -136,6 +136,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    iniphase                                 ../starter/source/initial_conditions/inivol/iniphase.F
       !||    init_inivol                              ../starter/source/initial_conditions/inivol/init_inivol.F90
       !||    init_inivol_2d_polygons                  ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
+      !||    initemp_shell                            ../starter/source/materials/therm/initemp_shell.F90
       !||    inivel_dt2                               ../engine/source/loads/general/inivel/inivel_dt2.F90
       !||    inivel_start                             ../engine/source/loads/general/inivel/inivel_start.F90
       !||    inivol_set                               ../starter/source/initial_conditions/inivol/inivol_set.F
@@ -193,6 +194,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    redef3                                   ../engine/source/elements/spring/redef3.F90
       !||    retractor_table_inv                      ../engine/source/tools/seatbelts/retractor_table_inv.F90
       !||    retractor_table_inv2                     ../engine/source/tools/seatbelts/retractor_table_inv2.F90
+      !||    s20temp                                  ../starter/source/elements/solid/solide20/s20temp.F90
       !||    s6chour_ctl                              ../engine/source/elements/thickshell/solide6c/s6chour_ctl.F90
       !||    s6for_distor                             ../engine/source/elements/thickshell/solide6c/s6for_distor.F90
       !||    sdistor_ini                              ../engine/source/elements/solid/solide/sdistror_ini.F90

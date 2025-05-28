@@ -51,11 +51,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    fail_windshield_init      ../starter/source/materials/fail/windshield_alter/fail_windshield_init.F
       !||    fractal_dmg_init          ../starter/source/materials/fail/fractal/fractal_dmg_init.F90
       !||    fretitl2                  ../starter/source/starter/freform.F
+      !||    initemp_shell             ../starter/source/materials/therm/initemp_shell.F90
       !||    layini1                   ../starter/source/elements/shell/coqueba/layini1.F
       !||    thickini                  ../starter/source/elements/shell/coqueba/thickini.F
       !||--- uses       -----------------------------------------------------
       !||    drape_mod                 ../starter/share/modules1/drape_mod.F
       !||    fractal_dmg_init_mod      ../starter/source/materials/fail/fractal/fractal_dmg_init.F90
+      !||    initemp_shell_mod         ../starter/source/materials/therm/initemp_shell.F90
       !||    message_mod               ../starter/share/message_module/message_mod.F
       !||    stack_mod                 ../starter/share/modules1/stack_mod.F
       !||====================================================================

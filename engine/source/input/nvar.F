@@ -26,7 +26,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    a22conv3                  ../engine/source/ale/alefvm/cut_cells/a22conv3.F
       !||    aconv3                    ../engine/source/ale/ale3d/aconv3.F
       !||    aconve                    ../engine/source/ale/aconve.F
-      !||    aleconve                  ../engine/source/ale/porous/aleconv.F
       !||    aleflow                   ../engine/source/ale/porous/aleflow.F
       !||    alefvm_init               ../engine/source/ale/alefvm/alefvm_init.F
       !||    alethe                    ../engine/source/ale/alethe.F
@@ -78,7 +77,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    frenois                   ../engine/source/input/frenois.F
       !||    freoutp                   ../engine/source/input/freoutp.F
       !||    frestat                   ../engine/source/input/frestat.F
-      !||    get_u_mnu                 ../engine/source/user_interface/upidmid.F
       !||    get_u_pnu                 ../engine/source/user_interface/upidmid.F
       !||    h3d_fld_tsh               ../engine/source/output/h3d/h3d_results/h3d_fld_tsh.F
       !||    h3d_read                  ../engine/source/output/h3d/h3d_build_fortran/h3d_read.F

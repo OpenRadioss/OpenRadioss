@@ -343,6 +343,7 @@
       !||    init_inivol_2d_polygons             ../starter/source/initial_conditions/inivol/init_inivol_2D_polygons.F90
       !||    init_th                             ../engine/source/output/th/init_th.F
       !||    init_th0                            ../engine/source/output/th/init_th0.F
+      !||    initemp_shell                       ../starter/source/materials/therm/initemp_shell.F90
       !||    initia                              ../starter/source/elements/initia/initia.F
       !||    initvars_auto                       ../starter/source/elements/elbuf_init/initvars_auto.F
       !||    inivel_start                        ../engine/source/loads/general/inivel/inivel_start.F90

@@ -20,18 +20,36 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    inter1_seg_utils_mod         ../starter/source/interfaces/int01/inter1_seg_utils.F90
+      !||--- called by ------------------------------------------------------
+      !||    inter1_check_ale_lag_sides   ../starter/source/interfaces/int01/inter1_check_ale_lag_sides.F90
+      !||====================================================================
       module inter1_seg_utils_mod
       contains
 ! ======================================================================================================================
 !                                                   FUNCTION
 ! ======================================================================================================================
 !! \brief Returns true if the input is a triangle (N4 is zero or equal to N3)
+      !||====================================================================
+      !||    is_triangle       ../starter/source/interfaces/int01/inter1_seg_utils.F90
+      !||--- called by ------------------------------------------------------
+      !||    normalize_shape   ../starter/source/interfaces/int01/inter1_seg_utils.F90
+      !||    sort_shape        ../starter/source/interfaces/int01/inter1_seg_utils.F90
+      !||====================================================================
       logical function is_triangle(q)
         integer, intent(in) :: q(4)
         is_triangle = (q(4) == 0) .or. (q(4) == q(3))
       end function is_triangle
 
       ! Sorts the 4 nodes of a quadrilateral or triangle (with triangle normalized as N4 = N3)
+      !||====================================================================
+      !||    sort_shape                   ../starter/source/interfaces/int01/inter1_seg_utils.F90
+      !||--- called by ------------------------------------------------------
+      !||    inter1_check_ale_lag_sides   ../starter/source/interfaces/int01/inter1_check_ale_lag_sides.F90
+      !||--- calls      -----------------------------------------------------
+      !||    is_triangle                  ../starter/source/interfaces/int01/inter1_seg_utils.F90
+      !||====================================================================
       subroutine sort_shape(q, sorted)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
@@ -72,6 +90,14 @@
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !! \brief Returns the canonical representation of a shape (quad or triangle)
+      !||====================================================================
+      !||    normalize_shape              ../starter/source/interfaces/int01/inter1_seg_utils.F90
+      !||--- called by ------------------------------------------------------
+      !||    inter1_check_ale_lag_sides   ../starter/source/interfaces/int01/inter1_check_ale_lag_sides.F90
+      !||--- calls      -----------------------------------------------------
+      !||    is_triangle                  ../starter/source/interfaces/int01/inter1_seg_utils.F90
+      !||    lex_less                     ../starter/source/interfaces/int01/inter1_seg_utils.F90
+      !||====================================================================
       subroutine normalize_shape(q, norm)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
@@ -136,6 +162,11 @@
 !                                                   FUNCTION
 ! ======================================================================================================================
 !! \brief Lexicographical comparison: returns true if a < b
+      !||====================================================================
+      !||    lex_less          ../starter/source/interfaces/int01/inter1_seg_utils.F90
+      !||--- called by ------------------------------------------------------
+      !||    normalize_shape   ../starter/source/interfaces/int01/inter1_seg_utils.F90
+      !||====================================================================
       logical function lex_less(a, b)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none

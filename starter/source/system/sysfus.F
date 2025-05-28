@@ -51,7 +51,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_inject2                ../starter/source/properties/injector/hm_read_inject2.F
       !||    hm_read_inter_lagdt_type07     ../starter/source/interfaces/int07/hm_read_inter_lagdt_type07.F
       !||    hm_read_inter_type12           ../starter/source/interfaces/int12/hm_read_inter_type12.F
-      !||    hm_read_inter_type22           ../starter/source/interfaces/int22/hm_read_inter_type22.F
       !||    hm_read_interfaces             ../starter/source/interfaces/reader/hm_read_interfaces.F
       !||    hm_read_lines                  ../starter/source/groups/hm_read_lines.F
       !||    hm_read_link                   ../starter/source/constraints/rigidlink/hm_read_rlink.F
@@ -66,7 +65,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_read_nbcs                   ../starter/source/constraints/general/bcs/hm_read_nbcs.F
       !||    hm_read_pblast                 ../starter/source/loads/pblast/hm_read_pblast.F
       !||    hm_read_pload                  ../starter/source/loads/general/pload/hm_read_pload.F
-      !||    hm_read_preload                ../starter/source/loads/general/preload/hm_read_preload.F
       !||    hm_read_prop15                 ../starter/source/properties/solid/hm_read_prop15.F
       !||    hm_read_properties             ../starter/source/properties/hm_read_properties.F
       !||    hm_read_quad                   ../starter/source/elements/reader/hm_read_quad.F

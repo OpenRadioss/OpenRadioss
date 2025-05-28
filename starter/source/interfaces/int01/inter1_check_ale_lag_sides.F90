@@ -32,7 +32,10 @@
       !||    lecint                       ../starter/source/interfaces/interf1/lecint.F
       !||--- calls      -----------------------------------------------------
       !||    ancmsg                       ../starter/source/output/message/message.F
+      !||    normalize_shape              ../starter/source/interfaces/int01/inter1_seg_utils.F90
+      !||    sort_shape                   ../starter/source/interfaces/int01/inter1_seg_utils.F90
       !||--- uses       -----------------------------------------------------
+      !||    inter1_seg_utils_mod         ../starter/source/interfaces/int01/inter1_seg_utils.F90
       !||    message_mod                  ../starter/share/message_module/message_mod.F
       !||====================================================================
         subroutine inter1_check_ale_lag_sides(n2d, surf_uid1,surf_uid2, inter_uid, title,  &

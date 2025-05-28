@@ -249,7 +249,6 @@ C
       !||    xforc31          ../engine/source/elements/xelem/xforc31.F
       !||--- calls      -----------------------------------------------------
       !||    get_var_user_i   ../engine/source/user_interface/eng_callback_c.c
-      !||    nvar             ../engine/source/input/nvar.F
       !||====================================================================
       INTEGER FUNCTION GET_U_MNU(IVAR,IM,K)
 C-----------------------------------------------

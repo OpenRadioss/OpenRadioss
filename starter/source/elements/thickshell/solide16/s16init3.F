@@ -36,11 +36,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    s16mass3               ../starter/source/elements/thickshell/solide16/s16mass3.F
       !||    s16rst                 ../starter/source/elements/thickshell/solide16/s16deri3.F
       !||    s20msi                 ../starter/source/elements/solid/solide20/s20mass3.F
+      !||    s20temp                ../starter/source/elements/solid/solide20/s20temp.F90
       !||    sbulk3                 ../starter/source/elements/solid/solide/sbulk3.F
       !||    sigin20b               ../starter/source/elements/solid/solide20/s20mass3.F
       !||--- uses       -----------------------------------------------------
       !||    detonators_mod         ../starter/share/modules1/detonators_mod.F
       !||    message_mod            ../starter/share/message_module/message_mod.F
+      !||    s20temp_mod            ../starter/source/elements/solid/solide20/s20temp.F90
       !||====================================================================
       SUBROUTINE S16INIT3(
      1      ELBUF_STR ,MAS     ,IXS     ,PM      ,X        ,

@@ -29,7 +29,10 @@
       !||====================================================================
       !||    initemp_shell_mod   ../starter/source/materials/therm/initemp_shell.F90
       !||--- called by ------------------------------------------------------
-      !||    read_material_models       ../starter/source/materials/read_material_models.F
+      !||    c3init3             ../starter/source/elements/sh3n/coque3n/c3init3.F
+      !||    cbainit3            ../starter/source/elements/shell/coqueba/cbainit3.F
+      !||    cdkinit3            ../starter/source/elements/sh3n/coquedk/cdkinit3.F
+      !||    cinit3              ../starter/source/elements/shell/coque/cinit3.F
       !||====================================================================
       module initemp_shell_mod
       contains
@@ -37,7 +40,10 @@
       !||====================================================================
       !||    initemp_shell   ../starter/source/materials/therm/initemp_shell.F90
       !||--- called by ------------------------------------------------------
-      !||--- calls      -----------------------------------------------------
+      !||    c3init3         ../starter/source/elements/sh3n/coque3n/c3init3.F
+      !||    cbainit3        ../starter/source/elements/shell/coqueba/cbainit3.F
+      !||    cdkinit3        ../starter/source/elements/sh3n/coquedk/cdkinit3.F
+      !||    cinit3          ../starter/source/elements/shell/coque/cinit3.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================
       subroutine initemp_shell(                                                     &
