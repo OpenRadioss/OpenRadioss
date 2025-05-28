@@ -204,6 +204,7 @@ C-----------------------------------------------
       use write_ale_grid_mod , only : write_ale_grid
       use write_bcs_wall_mod , only : write_bcs_wall
       use rbe3_mod
+      use restart_rbe3pen_mod, only : write_rrbe3pen
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1193,6 +1194,8 @@ C--------------------------------------
          CALL WRITE_DB(FBVEL,SFBVEL)
 
          CALL WRITE_DB(RBE3%FRBE3,RBE3%frbe3_sz)
+
+         CALL write_rrbe3pen(RBE3%PEN)
 
          CALL WRITE_DB(FACTIV,LRACTIV*NACTIV)
 

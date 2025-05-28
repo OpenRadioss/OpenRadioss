@@ -671,7 +671,7 @@ C-----------------------------------------------
      .        EIGIPM_L(NEIPM,NEIG), LEIBUF_L, EIGIBUF_L(LEIBUF),
      .        IFLOW_L(LIFLOW), DD_LAGF(3,NSPMD+1),MY_ILEN,MY_RLEN,
      .        SKIPPON_L,LLRBE3_L,NSKYRBE3_L,
-     .        NRBE3_L,NBDDRBE3M,NSLARBM_L,NSKYRBMK,
+     .        NRBE3_L,NBDDRBE3M,NSLARBM_L,NSKYRBMK,NRBE3PEN_L,
      .        NRBYMKIN_L ,NBDDNRBYM,NSKTRBMK_L,NRBYMK_L,
      .        NSKYRBMK_L, LAG_SEC,
      .        NRBE2_L,LLRBE2_L,NBDDRBE2,NUMELCPXFE_L,NUMNODPXFE_L,
@@ -1323,9 +1323,10 @@ C--------------------------------------
       LLRBE3_L=0
       NBDDRBE3M = 0
       NSKYRBE3_L = 0
+      NRBE3PEN_L=0
       IF (NRBE3>0)
      .   CALL C_IRBE3(IRBE3,LRBE3,NSKYRBE3_L,P-1,
-     .                NRBE3_L,LLRBE3_L ,NBDDRBE3M)
+     .                NRBE3_L,LLRBE3_L ,NBDDRBE3M,NRBE3PEN_L)
 C--------------------------------------
 C counts MPC
 C--------------------------------------
@@ -2996,7 +2997,7 @@ C RBE3
 C--------------------------------------------
       IF(NRBE3>0)
      .  CALL W_FRBE3(IRBE3   ,LRBE3  ,P-1    ,LLRBE3_L,
-     .               FRBE3   ,FRBE3(3*SLRBE3+1),LEN_AM  )
+     .               FRBE3   ,FRBE3(3*SLRBE3+1),LEN_AM,NRBE3PEN_L )
 C--------------------------------------
 C NACTIV
 C--------------------------------------

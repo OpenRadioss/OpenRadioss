@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    nlocal    ../starter/source/spmd/node/ddtools.F
       !||====================================================================
       SUBROUTINE C_IRBE3(IRBE3,LRBE3,NSKYRBE3_L,PROC  ,
-     .                   NRBE3_L,SLMN_L ,NBDDRBE3M)
+     .                   NRBE3_L,SLMN_L ,NBDDRBE3M,NRBE3PEN_L)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,6 +45,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER PROC, NSKYRBE3_L,NRBE3_L,SLMN_L,NBDDRBE3M,
      .        IRBE3(NRBE3L,*), LRBE3(*)
+      INTEGER, INTENT(INOUT) :: NRBE3PEN_L
 C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
@@ -53,7 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, NSN, ILP, N,P,M
+      INTEGER I, J, K, NSN, ILP, N,P,M,IPEN
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGI
 C-----------------------------------------------
 !     allocate 1d array
@@ -61,10 +62,12 @@ C-----------------------------------------------
 ! ----------------------------
 C
       SLMN_L = 0
+      NRBE3PEN_L =0
       DO I = 1, NRBE3
         NSN = IRBE3(5,I)
         K = IRBE3(1,I)
         M = IRBE3(3,I)
+        IPEN = IRBE3(9,I)
        ILP = 0
        DO J = 1, NSN
           N = LRBE3(K+J)
@@ -75,6 +78,7 @@ C
 C--------------pour exchange,meme sans node secnd----
        IF (NLOCAL(M,PROC+1)==1.OR.ILP>0)THEN
         NRBE3_L = NRBE3_L+1
+        IF (IPEN>0) NRBE3PEN_L = NRBE3PEN_L+1
        END IF
        SLMN_L = SLMN_L + ILP
       ENDDO
