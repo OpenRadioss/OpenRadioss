@@ -43,7 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      8   NCONT ,ICURV ,BGAPSMX,ID, TITR,
      9   DRAD  ,INTERCEP,NIN,
      1   IREMNODE,FLAGREMNODE,KREMNODE,REMNODE,
-     2   DGAPLOAD,npari,ipari,intbuf_tab)
+     2   DGAPLOAD,npari,ipari,intbuf_tab,IS_USED_WITH_LAW151)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -86,7 +86,8 @@ C-----------------------------------------------
       TYPE(INTERSURFP) :: INTERCEP(3,NINTER)
       integer, intent(in) :: npari
       integer, dimension(npari), intent(inout) :: ipari !< interface data
-      type(intbuf_struct_), intent(inout) :: intbuf_tab !< interface data 
+      type(intbuf_struct_), intent(inout) :: intbuf_tab !< interface data
+      LOGICAL,INTENT(IN) :: IS_USED_WITH_LAW151
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -454,7 +455,7 @@ C------------------
      8   ID       ,TITR    ,DRAD     ,INDEX   ,
      9   IREMNODE,FLAGREMNODE,KREMNODE,REMNODE,
      1   DGAPLOAD,ipari,intbuf_tab,
-     2   iix,iiy,iiz,local_next_nod,nrtm )
+     2   iix,iiy,iiz,local_next_nod,nrtm,IS_USED_WITH_LAW151 )
 !$OMP END PARALLEL
 C------------------
 

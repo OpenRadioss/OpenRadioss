@@ -291,16 +291,21 @@ C------------------------------------
            IF (IGTYP==12) WA(IXR(4,I))=MAX(WA(IXR(4,I)),DX)
         END IF
        ENDDO
-       DO I=1,NSN
-         GAP_S(I)=GAPSCALE * WA(NSV(I))
-         IF(IGAP == 3 .AND. GAP_S_L_TMP(NSV(I)) /= ZERO)GAP_S_L(I)=MIN(GAP_S_L(I),GAP_S_L_TMP(NSV(I)))
-         IF(IGAP /= 3) THEN
-           GAPS_MX=MAX(GAPS_MX,GAP_S(I))
-         ELSE
-           GAPS_MX = MAX(GAPS_MX,GAP_S(I))
-           GAPS_L_MX = MAX(GAPS_L_MX,GAP_S_L(I))
-         END IF
-       ENDDO
+       IF(TYPE18)THEN
+         GAPS_MX = ZERO
+         GAP_S(1:NSN) = ZERO
+       ELSE
+         DO I=1,NSN
+           GAP_S(I)=GAPSCALE * WA(NSV(I))
+           IF(IGAP == 3)THEN
+             IF(GAP_S_L_TMP(NSV(I)) /= ZERO)GAP_S_L(I)=MIN(GAP_S_L(I),GAP_S_L_TMP(NSV(I)))
+             GAPS_MX = MAX(GAPS_MX,GAP_S(I))
+             GAPS_L_MX = MAX(GAPS_L_MX,GAP_S_L(I))
+           ELSE
+             GAPS_MX=MAX(GAPS_MX,GAP_S(I))
+           END IF
+         ENDDO
+        ENDIF
       ENDIF
 C
 C SECONDARY SIDE - SURFACE ---

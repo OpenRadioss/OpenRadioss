@@ -77,6 +77,7 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE INTER_CAND_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      USE INT18_LAW151_NSV_SHIFT_MOD , ONLY : INT18_LAW151_NSV_SHIFT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -337,7 +338,9 @@ C---     Initial dimension of REMNODE arrays
             NIN25 = LIST_NIN25(NIN)
 
             IF(N2D == 0)THEN
-
+              IF( MULTI_FVM%IS_INT18_LAW151 ) THEN
+                CALL INT18_LAW151_NSV_SHIFT('+',0,1,MULTI_FVM,IPARI,INTBUF_TAB,npari,ninter,numnod,OPT_INT_ID=N)
+              ENDIF
               CALL ININT3(
      .               INSCR(N)%WA             , X                     , IXS                   , IXC            , PM               ,
      1               GEO                     , IPARI                 , NIN                   , ITAB           , MS               ,
@@ -358,7 +361,10 @@ C---     Initial dimension of REMNODE arrays
      G               T2_CONNEC               , NOM_OPT               , ICODE                 , ISKEW          , IREMNODE_EDG     ,
      H               MULTI_FVM%S_APPEND_ARRAY, MULTI_FVM%X_APPEND    , MULTI_FVM%MASS_APPEND , N2D            , FLAG_REMOVED_NODE,
      I               NSPMD                   ,INTER_TYPE2_NUMBER     , ELEM_LINKED_TO_SEGMENT, INSCR(N)%SINSCR, SICODE           ,
-     J               SITAB                   ,NIN25                  , FLAG_ELEM_INTER25      )
+     J               SITAB                   ,NIN25                  , FLAG_ELEM_INTER25     , MULTI_FVM )
+              IF( MULTI_FVM%IS_INT18_LAW151 ) THEN
+                CALL INT18_LAW151_NSV_SHIFT('-',0,1,MULTI_FVM,IPARI,INTBUF_TAB,npari,ninter,numnod,OPT_INT_ID=N)
+              ENDIF
 
               IF (I_MEM /= 0) GOTO 200
             ELSE

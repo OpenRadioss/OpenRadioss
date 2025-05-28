@@ -140,7 +140,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      G                  T2_CONNEC     ,NOM_OPT             ,ICODE                 ,ISKEW        ,IREMNODE_EDG,
      H                  S_APPEND_ARRAY,X_APPEND            ,MASS_APPEND           ,N2D          ,FLAG_REMOVED_NODE,
      I                  NSPMD         ,INTER_TYPE2_NUMBER  ,ELEM_LINKED_TO_SEGMENT,SINSCR       ,SICODE  ,
-     J                  SITAB         ,NIN25               ,FLAG_ELEM_INTER25     )
+     J                  SITAB         ,NIN25               ,FLAG_ELEM_INTER25     ,MULTI_FVM)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -158,6 +158,7 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE INTER_CAND_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE
+      USE MULTI_FVM_MOD , ONLY : MULTI_FVM_STRUCT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -179,6 +180,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(MULTI_FVM_STRUCT),INTENT(IN) :: MULTI_FVM
       INTEGER,INTENT(IN) :: SITAB !< array sizes
       INTEGER,INTENT(IN) :: SICODE !< array size ICODE
       INTEGER,INTENT(IN) :: ICODE(SICODE) !< boundary condition code for each node
@@ -290,6 +292,8 @@ C-----------------------------------------------
       INTEGER :: FLAG_OUTPUT
       INTEGER, DIMENSION(NINTER) :: NREMN
       LOGICAL :: LOCAL_FLAG_REMOVED_NODE
+      INTEGER :: NN, NNI
+      LOGICAL :: IS_USED_WITH_LAW151
 C=======================================================================
       INPENE   = 0
       IWPENE   = 0
@@ -724,6 +728,9 @@ C
 C----------------
 C      VOXEL SORT
 C----------------
+      IS_USED_WITH_LAW151 = .FALSE.
+      IF(MULTI_FVM%IS_INTER_USED_WITH_LAW151(NIN) == 1)IS_USED_WITH_LAW151 = .TRUE.
+
       CALL I7BUC_VOX1(
      1 PTR_X    ,INTBUF_TAB(NIN)%IRECTM  ,INTBUF_TAB(NIN)%NSV,INTBUF_TAB(NIN)%VARIABLES(4),NSEG  ,
      2 NMN      ,NRTM      ,MWA     ,NSN        ,
@@ -735,7 +742,7 @@ C----------------
      8 NCONT     ,ICURV ,INTBUF_TAB(NIN)%VARIABLES(7), ID           ,  TITR    ,
      9 DRAD      ,INTERCEP, NIN,
      1 IREMNODE  ,IPARI(63,NIN),INTBUF_TAB(NIN)%KREMNODE,INTBUF_TAB(NIN)%REMNODE,
-     2 INTBUF_TAB(NIN)%VARIABLES(46),npari,ipari(1,nin),intbuf_tab(nin))
+     2 INTBUF_TAB(NIN)%VARIABLES(46),npari,ipari(1,nin),intbuf_tab(nin), IS_USED_WITH_LAW151)
 C I_STOK updated for searching optimization
          I_STOK=INTBUF_TAB(NIN)%I_STOK(1)
          
