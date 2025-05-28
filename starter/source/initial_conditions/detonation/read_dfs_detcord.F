@@ -197,17 +197,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   O u t p u t   F o r m a t
 C-----------------------------------------------      
- 1001 FORMAT(///'DETONATING CORD           ',I10,/5X,
+ 1001 FORMAT(///5X,
+     &          'DETONATING CORD           ',I10,/5X,
      &          '---------------           ',/5X,
      &          'CONFIDENTIAL DATA')    
- 1700 FORMAT(///'DETONATING CORD            ',I10,/5X,
+ 1700 FORMAT(///5X,
+     &          'DETONATING CORD            ',I10,/5X,
      &          '----------------           ',/5X,
      &          'NODE GROUP IDENTIFIER     =',I10     ,/5X,
      &          'NUMBER OF POINTS(CORD)    =',I10     ,/5X,         
      &          'LIGHTING TIME             =',1PG20.13,/5X,
      &          'EXPLOSIVE MATERIAL NUMBER =',I10     ,/5X,
      &          'CORD DEFINITION :          ')     
- 1701 FORMAT(///'DETONATING CORD            ',I10,/5X,
+ 1701 FORMAT(///5X,
+     &          'DETONATING CORD            ',I10,/5X,
      &          '----------------           ',/5X,
      &          'NODE GROUP IDENTIFIER     =',I10     ,/5X,
      &          'NUMBER OF POINTS(CORD)    =',I10     ,/5X,         
