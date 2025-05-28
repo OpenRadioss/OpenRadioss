@@ -70,7 +70,7 @@ C-----------------------------------------------
      .        IK(10), RBWARN, RB2WARN, KRB, NSLRB,
      .        MARQUEUR(8192),
      .        MARQUEURDOUBLE(13),J1,FLAG_IKCOND,MARQ2,MARQM2,
-     .        NS,NM,M,IAD,NUN,JJ,NIKRW
+     .        NS,NM,M,IAD,NUN,JJ,NIKRW,IPEN
       INTEGER, DIMENSION(:), ALLOCATABLE :: NKINDOUBLE,NKIN,IKRW
       INTEGER ID
       CHARACTER(LEN=NCHARTITLE) :: TITR
@@ -136,32 +136,37 @@ c      CALL ANCHECK(71)
 C----------------------------------------------------------
 C - no-autorised hierarchy :Check des noeuds mains des RBE3 sont SECONDARY de RBE2,or INT2
 C----------------------------------------------------------
+! look at compatibility w/ BCS,RBODY and compute nrbe3_gp, ini penealty
       NUN=0
       DO I=1,NRBE3
         IAD = IRBE3(1,I)
+        IPEN= IRBE3(9,I)
+        IF (IPEN>0) CYCLE 
         NM = IRBE3(5,I)
         DO J =1,NM
         M = LRBE3(IAD+J)
         ID=NOM_OPT(1,PTR_NOPT_RBE3+I)
         CALL FRETITL2(TITR,
      .                NOM_OPT(LNOPT1-LTITR+1,PTR_NOPT_RBE3+I),LTITR)
-          IF (IKRBE2(IKINE(M))==1) THEN
-           CALL ANCMSG(MSGID=805,
-     .                 MSGTYPE=MSGERROR,
+          IF (IKRBE2(IKINE(M))==1) THEN  !switch to penalty
+           CALL ANCMSG(MSGID=3100,
+     .                 MSGTYPE=MSGWARNING,
      .                 ANMODE=ANINFO_BLIND_1,
      .                 I1=ID,
      .                 C1=TITR,
      .                 I2=ITAB(M))
-           RETURN
+            IRBE3(9,I) = 1
+!           RETURN
           ENDIF
           IF (ITF(IKINE(M))==1) THEN
-           CALL ANCMSG(MSGID=1035,
-     .                 MSGTYPE=MSGERROR,
+           CALL ANCMSG(MSGID=3096,
+     .                 MSGTYPE=MSGWARNING,
      .                 ANMODE=ANINFO_BLIND_1,
      .                 I1=ID,
      .                 C1=TITR,
      .                 I2=ITAB(M))
-           RETURN
+            IRBE3(9,I) = 1
+!           RETURN
           ENDIF
         ENDDO
       ENDDO
@@ -306,7 +311,7 @@ C-------  RBE2
           ENDDO
         END IF 
 C-------  RBE3      
-        IF (IKRBE3(IKINE(I))/=0 ) THEN
+        IF (IKRBE3(IKINE(I))/=0 ) THEN ! will be looked after
           DO N=1,NRBE3
             NSL= IRBE3(3,N)
             ID = IRBE3(2,N)
@@ -1094,6 +1099,15 @@ C
           ENDDO
         ENDIF
       ENDDO
+!
+      NUN=0
+      DO I=1,NRBE3
+        IPEN = IRBE3(9,I)  ! add warning for added mass+pen
+        IF (IPEN>0) NUN = NUN + 1
+      END DO
+      IF (NUN>0) THEN
+        WRITE(IOUT,'(/I8,X,A)')NUN,'OF RBE3 HAVE BEEN SWITCHED TO PENALTY METHOD'
+      ENDIF
 C---------------------------------------------------------------
       DO I=1,NUMNOD
 C reset flag impact / wall

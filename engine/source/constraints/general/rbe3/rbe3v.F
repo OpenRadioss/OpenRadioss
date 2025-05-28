@@ -59,7 +59,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, M, NS ,NML, IAD,JJ,IROT,IADS,MAX_M,IROTG,
-     .        JT(3,NRBE3),JR(3,NRBE3),NM,NN,K
+     .        JT(3,NRBE3),JR(3,NRBE3),NM,NN,K,IPEN
 C     REAL
       my_real 
      .        VS(3),VRS(3),AS(3),ARS(3)
@@ -75,7 +75,8 @@ C======================================================================|
         IAD = RBE3%IRBE3(1,N)
         NS  = RBE3%IRBE3(3,N)
         NML = RBE3%IRBE3(5,N)
-        IF (NS==0) CYCLE
+        IPEN= RBE3%IRBE3(9,N)
+        IF (NS==0.OR.IPEN>0) CYCLE
         IROT =MIN(RBE3%IRBE3(6,N),IRODDL)
         CALL RBE3CL(RBE3%LRBE3(IAD+1),RBE3%LRBE3(IADS+IAD+1),NS     ,NODES%X ,
      .              RBE3%FRBE3(6*IAD+1),SKEW    ,NML     ,IROT   ,FDSTNB ,

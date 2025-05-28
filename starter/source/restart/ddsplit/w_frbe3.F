@@ -29,7 +29,7 @@ C
       !||    nlocal     ../starter/source/spmd/node/ddtools.F
       !||====================================================================
       SUBROUTINE W_FRBE3(IRBE3   ,LRBE3  ,PROC    ,LLRBE3_L,
-     .                   FRBE3   ,FRBE3AD,LEN_IA  )
+     .                   FRBE3   ,FRBE3AD,LEN_IA  ,NRBE3PEN_L)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,6 +45,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER PROC, LLRBE3_L, LEN_IA,
      .        IRBE3(NRBE3L,*), LRBE3(*)
+      INTEGER, INTENT(IN) :: NRBE3PEN_L
       my_real
      .        FRBE3(6,*),FRBE3AD(*)
 C-----------------------------------------------
@@ -57,7 +58,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, KL, NSNL, NSN, ILP, NN, M, N,IAD,IADS
       my_real
-     .        FBTMP1(6,LLRBE3_L),FBTMP2(2*LLRBE3_L)
+     .        FBTMP1(6,LLRBE3_L),FBTMP2(2*LLRBE3_L),FBTMP3(10*NRBE3PEN_L)
 C
       NSNL = 0
       IADS=SLRBE3/2
@@ -79,7 +80,11 @@ C
 C
       CALL WRITE_DB(FBTMP1,LLRBE3_L*6)
       CALL WRITE_DB(FBTMP2,LLRBE3_L*2)
-      LEN_IA = LEN_IA + LLRBE3_L*8
+      IF (NRBE3PEN_L>0) THEN 
+        FBTMP3 =ZERO
+        CALL WRITE_DB(FBTMP3,10*NRBE3PEN_L)
+      END IF
+      LEN_IA = LEN_IA + LLRBE3_L*8 + NRBE3PEN_L*10
 C
       RETURN
       END

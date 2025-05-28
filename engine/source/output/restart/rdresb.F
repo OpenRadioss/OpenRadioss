@@ -191,6 +191,7 @@ C-----------------------------------------------
       use read_ale_grid_mod, only : read_ale_grid
       use read_bcs_wall_mod, only : read_bcs_wall
       use rbe3_mod
+      use restart_rbe3pen_mod, only : get_nrbe3pen_l,read_rrbe3pen
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -280,7 +281,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: BUFFER
       INTEGER :: SKEW_LEN
       LOGICAL :: IS_EBCS_PARALLEL
-      INTEGER :: NPT
+      INTEGER :: NPT,NRBE3PEN_L
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -573,6 +574,8 @@ C
         CALL READ_I_C(LRBE2,SLRBE2)
 
         CALL READ_I_C(RBE3%IRBE3,RBE3%nrbe3*irbe3_variables)
+
+        CALL GET_NRBE3PEN_L(RBE3%nrbe3,irbe3_variables,RBE3%IRBE3,NRBE3PEN_L)  
 
         CALL READ_I_C(RBE3%LRBE3,RBE3%lrbe3_sz)
 
@@ -1121,6 +1124,8 @@ C--------------------------------------
         CALL READ_DB(FBVEL,SFBVEL)
 
         CALL READ_DB(RBE3%FRBE3,RBE3%frbe3_sz)
+
+        CALL READ_RRBE3PEN(RBE3%PEN,NRBE3PEN_L)
 
         CALL READ_DB(FACTIV,LRACTIV*NACTIV)
 

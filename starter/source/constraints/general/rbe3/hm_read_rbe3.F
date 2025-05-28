@@ -118,10 +118,15 @@ C     IRBE3(4,I) : REF_DOF
 C     IRBE3(5,I) : NUMBER MAIN NODE
 C     IRBE3(6,I) : IROT        =0 no rotational dependent
 C     IRBE3(7,I) : SENSOR NUMBER - not used yet
-C     IRBE3(8,I) :  not used yet,used temporaire for Imodif
-C     IRBE3(9,I) :  not used yet
+C     IRBE3(8,I) : Imodif ! 4 : switch to penalty formulation (for testing)
+C     IRBE3(9,I) :  if penalty formulation : 0=kinematic, 1=penalty
 C     IRBE3(10,I) :  Numero interne du IRBE3 (necessaire pour Modif/SPMD)
 C=======================================================================
+! complete case of switching to penalty formulation; free nodes w/ spc?
+! 1) hierachy level>1
+! 2) incompatibility kin
+! 3) avoid too much added mass : 2 conditions 1)Is>0 2)rR>?
+! rbe3_mod is used from engine, ini is done in resol_init,internal arrays of pen are added in restart 
       CALL MY_ALLOC(IKINE1,3*NUMNOD)
       CALL MY_ALLOC(ISKEW0,SLRBE3/2)
       CALL MY_ALLOC(WI,6,NUMNOD)
@@ -177,6 +182,7 @@ C
         NUSER = ID
 C
         IF (IMODIF==0) IMODIF =1
+        IF (IMODIF==4) IRBE3(9,I) =1
         IRBE3(8,I) = IMODIF
         NS = USR2SYS(NSL,ITABM1,MESS,NUSER)
         IC1=J6(1)*4 +J6(2)*2 +J6(3)
@@ -402,7 +408,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N, K, NSL,NM, NI, NMT,M,IROT,IMO,ICR,
      .        J, P,IAD,NS,NN,J6(6),JJ,II,IADS,IERR1,NP,IC,ICT
-      INTEGER ID
+      INTEGER ID,IPEN
       CHARACTER(LEN=NCHARTITLE)::TITR
 C
       my_real W,WMIN,IN_T
@@ -422,10 +428,12 @@ C----- re-ordering by hierrrchy (only 1 level)
        NM = IRBE3(5,I)
        IROT =IRBE3(6,I)
        IMO = IRBE3(8,I)
+       IPEN = IRBE3(9,I)
         
         ID=NOM_OPT(1,I)
         CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
-C------ check if solid node for all independent        
+C------ check if solid node for all independent
+        IF (IN(NS)>EM20.AND.IPEN==0) IPEN = 2 ! will be switch to pen if arm>0       
         IF (IROT>0) THEN
           IN_T = ZERO
           DO J=1,NM
@@ -444,8 +452,25 @@ C------ check if solid node for all independent
          END IF !(IROT>0) THEN
         CALL RBE3CHK(LRBE3(IAD+1),LRBE3(NMT+IAD+1) ,NS     ,X      ,
      .               FRBE3(6*IAD+1),SKEW    ,NM   ,IROT  ,IMO, WMIN,
-     .               IERR1 )
-        IF (IERR1>0) THEN
+     .               IPEN, IERR1 )
+        IF (IPEN==-2) THEN
+          IRBE3(9,I) = 0 ! small arm keep kinematic
+        ELSEIF (IPEN==2) THEN
+          IRBE3(9,I) = 1 ! add message
+          CALL ANCMSG(MSGID=3097,
+     .                   MSGTYPE=MSGWARNING,
+     .                   ANMODE=ANINFO_BLIND_1,
+     .                   I1=ID,
+     .                   C1=TITR)
+        END IF
+        IF (IERR1==400) THEN
+             ID= IRBE3(2,I)
+             CALL ANCMSG(MSGID=3098,
+     .                   MSGTYPE=MSGERROR,
+     .                   ANMODE=ANINFO,
+     .                   I1=ID,
+     .                   C1=TITR)
+        ELSEIF (IERR1>0) THEN
              ID= IRBE3(2,I)
              CALL ANCMSG(MSGID=706,
      .                   MSGTYPE=MSGERROR,
@@ -505,7 +530,7 @@ C
       !||====================================================================
       SUBROUTINE RBE3CHK(INRBE3  ,ILRBE3  ,NS     ,XYZ    ,FRBE3   ,
      .                   SKEW    ,NG      ,IROT   ,IMODIF ,WMIN    ,
-     .                   IERR   )
+     .                   IPEN    ,IERR   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -517,7 +542,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER INRBE3(*),ILRBE3(*),NG, NS,IROT,IMODIF,IERR
+      INTEGER INRBE3(*),ILRBE3(*),NG, NS,IROT,IMODIF,IERR,IPEN
 C     REAL
       my_real
      .   XYZ(3,*), FRBE3(6,*), SKEW(LSKEW,*),WMIN
@@ -547,7 +572,8 @@ C     REAL
      *                 TMUFX(3), TMUFY(3), TMUFZ(3),
      *                 TFUMX(3), TFUMY(3), TFUMZ(3),
      *                 TMUMX(3), TMUMY(3), TMUMZ(3),
-     *                 A(6,6), C(6,6), T(3,3),SMIN,SMAX,MMAX,TMAX
+     *                 A(6,6), C(6,6), T(3,3),SMIN,SMAX,MMAX,TMAX,
+     *                 XBAR(3),RN(3),GAMMA(9),WI(NG),GAMMA_MAX,RNDOTRN,DET,ARM
 C
 C     INITIALIZATION
 C
@@ -645,7 +671,7 @@ C
          AVEREF = AVEREF/NG
          IF (AVEREF == ZERO) AVEREF = 1.0D0
 C--- IMODIF=4: normalized TW;       
-       IF (IMODIF==4) THEN
+       IF (IMODIF==4.OR.IPEN>0) THEN
          DO K = 1, NG
            FRBE3(1,K) =  FRBE3(1,K)/DENFX
            FRBE3(2,K) =  FRBE3(2,K)/DENFY
@@ -655,6 +681,51 @@ C--- IMODIF=4: normalized TW;
            FRBE3(6,K) =  FRBE3(6,K)/DENFZ
          ENDDO
        END IF
+      IF (IPEN > 0) THEN
+        XBAR(1:3) = ZERO
+        DO K = 1, NG
+          KG = INRBE3(K)
+          WI(K) = FRBE3(1,K)
+          XBAR(1:3) = XBAR(1:3) + WI(K)*XYZ(1:3,KG)
+        ENDDO
+!       keep kinematic if very small arm
+        RN(1:3) = REFPT(1:3)-XBAR(1:3)
+        ARM = RN(1)*RN(1)+RN(2)*RN(2)+RN(3)*RN(3)
+        RNDOTRN = ZERO
+        DO K = 1, NG
+            KG = INRBE3(K)
+            RN(1:3) = XYZ(1:3,KG)-XBAR(1:3)
+            RNDOTRN = MAX(RNDOTRN,RN(1)*RN(1)+RN(2)*RN(2)+RN(3)*RN(3))
+        END DO
+        IF (ARM/RNDOTRN < EM06) IPEN =-2
+C--- CHECK for penalty colinear case w/ irot=0       
+        IF (IROT==0) THEN
+          GAMMA(1:9) = ZERO
+          DO K = 1, NG
+            KG = INRBE3(K)
+            RN(1:3) = XYZ(1:3,KG)-XBAR(1:3)
+            RNDOTRN = RN(1)*RN(1)+RN(2)*RN(2)+RN(3)*RN(3)
+!  
+            GAMMA(1) = GAMMA(1)+WI(K)*(RNDOTRN-RN(1)*RN(1))
+            GAMMA(2) = GAMMA(2)+WI(K)*(       -RN(2)*RN(1))
+            GAMMA(3) = GAMMA(3)+WI(K)*(       -RN(3)*RN(1))
+            GAMMA(4) = GAMMA(4)+WI(K)*(       -RN(1)*RN(2))
+            GAMMA(5) = GAMMA(5)+WI(K)*(RNDOTRN-RN(2)*RN(2))
+            GAMMA(6) = GAMMA(6)+WI(K)*(       -RN(3)*RN(2))
+            GAMMA(7) = GAMMA(7)+WI(K)*(       -RN(1)*RN(3))
+            GAMMA(8) = GAMMA(8)+WI(K)*(       -RN(2)*RN(3))
+            GAMMA(9) = GAMMA(9)+WI(K)*(RNDOTRN-RN(3)*RN(3))
+          ENDDO       
+          DET = (GAMMA(1)*(GAMMA(5)*GAMMA(9)-GAMMA(6)*GAMMA(8))-       
+     *           GAMMA(2)*(GAMMA(4)*GAMMA(9)-GAMMA(6)*GAMMA(7))+       
+     *           GAMMA(3)*(GAMMA(4)*GAMMA(8)-GAMMA(5)*GAMMA(7)))
+!  
+          GAMMA_MAX = MAX(EM20,GAMMA(1),GAMMA(5),GAMMA(9))
+          IF(ABS(DET/(GAMMA_MAX*GAMMA_MAX*GAMMA_MAX)) < EM6) IERR = 400
+        END IF
+      END IF
+      IF (IERR > 0) GOTO 999
+!
 C
 C     CALCULATE 3 CENTERS OF GRAVITY (CGMX, CGMY AND CGMZ) AND
 C     DENOMINATORS FOR DISTRIBUTING MOMENTS (DENMX, DENMY AND DENMZ)
@@ -1520,7 +1591,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, J,K, NS,NM, NI, NMT,M,NFT,JLT,IAD,II,M2,III
+      INTEGER I, N, J,K, NS,NM, NI, NMT,M,NFT,JLT,IAD,II,M2,III,IPEN
 C
       INTEGER ID, INDEX(NRBE3),NZ,IAD1,IADS,
      .        LCOPY(SLRBE3),ICOPY(NRBE3L,NRBE3)
@@ -1539,51 +1610,89 @@ C-----only one level of hierarchy is allowed
       NZ = 0
       DO I=1,NRBE3
        IAD = IRBE3(1,I)
+       IPEN= IRBE3(9,I)
+       IF (IPEN>0) CYCLE 
        NM = IRBE3(5,I)
        DO J =1,NM
         M = LRBE3(IAD+J)
         IF (ITAG(M)>0) THEN
-         NZ = NZ +1
-C----- exchange INDEX(I) , NZ        
-         IF (INDEX(I) > NZ) THEN
-          NI = INDEX(I)
-          INDEX(I) = NZ
-          INDEX(NZ) = NI
+         IPEN= IRBE3(9,ITAG(M))
+         IF (IPEN==0) THEN
+           NZ = NZ + 1
+           CYCLE
          END IF
-         CYCLE
         ENDIF
        ENDDO
       ENDDO
       IF (NZ >0 ) THEN
-C-----error out if >1 level      
-        DO I=1,NRBE3
+!-----swtch to penalty  if >1 level      
+        DO I=NRBE3,1,-1
          IAD = IRBE3(1,I)
+         IPEN= IRBE3(9,I)
+         IF (IPEN>0) CYCLE 
          NM = IRBE3(5,I)
+         II = 0
          DO J =1,NM
           M = LRBE3(IAD+J)
           IF (ITAG(M)>0) THEN
+            IPEN= IRBE3(9,ITAG(M))
+            IF (IPEN>0) CYCLE 
             II = ITAG(M)
             NMT = IRBE3(5,II)
+            NFT = IRBE3(1,II)
+            III = 0
             DO K =1,NMT
-              NFT = IRBE3(1,II)
               M2 = LRBE3(NFT+K)
               IF (ITAG(M2)>0) THEN
-               III = ITAG(M2)
-               ID=NOM_OPT(1,III)
-               CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,III),LTITR)
-               CALL ANCMSG(MSGID=1887,
-     .                     MSGTYPE=MSGERROR,
+                IPEN= IRBE3(9,ITAG(M2))
+                IF (IPEN==0) THEN 
+                  III = ITAG(M2)
+                  CYCLE 
+                END IF
+              END IF
+            ENDDO
+            IF (III>0) CYCLE 
+          ENDIF
+         ENDDO
+         IF (II >0 .AND. III>0) THEN
+               ID=NOM_OPT(1,I)
+               CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
+               IRBE3(9,I) = 1
+               CALL ANCMSG(MSGID=3099,
+     .                     MSGTYPE=MSGWARNING,
      .                     ANMODE=ANINFO,
      .                     I1=ID,
      .                     C1=TITR,
-     .                     I2=NOM_OPT(1,I),
-     .                     I3=NOM_OPT(1,II))
-              END IF
-            ENDDO
-          ENDIF
-         ENDDO
+     .                     I2=NOM_OPT(1,II),
+     .                     I3=NOM_OPT(1,III))
+         END IF 
         ENDDO
+      END IF
 C----- re-ordering
+      NZ = 0
+      DO I=1,NRBE3
+       IAD = IRBE3(1,I)
+       IPEN= IRBE3(9,I)
+       IF (IPEN>0) CYCLE 
+       NM = IRBE3(5,I)
+       DO J =1,NM
+        M = LRBE3(IAD+J)
+        IF (ITAG(M)>0) THEN
+         IPEN= IRBE3(9,ITAG(M))
+         IF (IPEN==0) THEN
+           NZ = NZ +1
+!----- exchange INDEX(I) , NZ        
+           IF (INDEX(I) > NZ) THEN
+             NI = INDEX(I)
+             INDEX(I) = NZ
+             INDEX(NZ) = NI
+           END IF
+           CYCLE
+         END IF !(IPEN==0) THEN
+        ENDIF
+       ENDDO
+      ENDDO
+      IF (NZ >0 ) THEN
         IADS = SLRBE3/2
         LCOPY(1:SLRBE3) = LRBE3(1:SLRBE3)       
         ICOPY(1:NRBE3L,1:NRBE3) = IRBE3(1:NRBE3L,1:NRBE3)
