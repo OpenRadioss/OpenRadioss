@@ -60,6 +60,7 @@ C-----------------------------------------------
         INTEGER :: N,II,MY_SIZE
         INTEGER :: NTY,INACTI
         INTEGER, DIMENSION(NINTER) :: INT18_LIST
+        INTEGER, DIMENSION(NINTER) :: IS_INTER_USED_WITH_LAW151
 C-----------------------------------------------
         !   check if int18 + law151 is used in the model
         !   and create a list of int18 + law151
@@ -69,6 +70,7 @@ C-----------------------------------------------
         ! -------------------------------
         IF(MULTI_FVM%IS_USED) THEN
             DO N=1,NINTER
+                IS_INTER_USED_WITH_LAW151(N) = 0
                 NTY   =IPARI(7,N)
                 INACTI = IPARI(22,N)           
                 !   int18 = int7 + inacti=7 (7+7=18) 
@@ -77,6 +79,7 @@ C-----------------------------------------------
                     MY_SIZE = NUMNOD + NUMELS
                     II = II + 1
                     INT18_LIST(II) = N  !   list of interface int18
+                    IS_INTER_USED_WITH_LAW151(N) = 1
                 ENDIF
             ENDDO
         ENDIF     
@@ -84,7 +87,8 @@ C-----------------------------------------------
         MULTI_FVM%S_APPEND_ARRAY = MY_SIZE
         ! number & list of interface 18 
         MULTI_FVM%NUMBER_INT18 = II
-        ALLOCATE( MULTI_FVM%INT18_LIST(MULTI_FVM%NUMBER_INT18) )
+        ALLOCATE( MULTI_FVM%INT18_LIST(MULTI_FVM%NUMBER_INT18) ) ; MULTI_FVM%INT18_LIST(:) = 0
+        ALLOCATE( MULTI_FVM%IS_INTER_USED_WITH_LAW151(NINTER) ) ;  MULTI_FVM%IS_INTER_USED_WITH_LAW151(:) = 0
         ! allocation of X/V/MASS extended to NUMNOD+NUMELS
         ! 1:NUMNOD --> classical x/v/mass
         ! NUMNOD+1:NUMNOD+NUMELS --> x/v/mass of phantom nodes (located to the center of 
@@ -99,6 +103,7 @@ C-----------------------------------------------
 
         IF( MULTI_FVM%IS_INT18_LAW151 ) THEN
             MULTI_FVM%INT18_LIST(1:MULTI_FVM%NUMBER_INT18) = INT18_LIST(1:MULTI_FVM%NUMBER_INT18)
+            MULTI_FVM%IS_INTER_USED_WITH_LAW151(1:NINTER) = IS_INTER_USED_WITH_LAW151(1:NINTER)
         ENDIF
 
         RETURN

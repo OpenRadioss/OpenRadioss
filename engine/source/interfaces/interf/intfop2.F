@@ -96,6 +96,7 @@ C-----------------------------------------------
       USE OUTPUTS_MOD
       USE INTERFACES_MOD
       USE ARRAY_MOD 
+      USE INT18_LAW151_NSV_SHIFT_MOD , ONLY : INT18_LAW151_NSV_SHIFT      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -206,7 +207,7 @@ C
       IAD17 = 1
       ! If law151+int18 : shift NSV array
       IF( MULTI_FVM%IS_INT18_LAW151 ) THEN
-        CALL INT18_LAW151_NSV_SHIFT('+',JTASK-1,MULTI_FVM,IPARI,INTERFACES%INTBUF_TAB)
+        CALL INT18_LAW151_NSV_SHIFT('+',JTASK-1,NTHREAD,MULTI_FVM,IPARI,INTERFACES%INTBUF_TAB,npari,ninter,numnod)
         CALL MY_BARRIER()
       ENDIF
 C
@@ -645,7 +646,7 @@ C
       ! If law151+int18 : shift NSV array
       IF( MULTI_FVM%IS_INT18_LAW151 ) THEN
         CALL MY_BARRIER()
-        CALL INT18_LAW151_NSV_SHIFT('-',JTASK-1,MULTI_FVM,IPARI,INTERFACES%INTBUF_TAB)
+        CALL INT18_LAW151_NSV_SHIFT('-',JTASK-1,NTHREAD,MULTI_FVM,IPARI,INTERFACES%INTBUF_TAB,npari,ninter,numnod)
       ENDIF
 C
       IF (DEBUG(3)>=1) THEN

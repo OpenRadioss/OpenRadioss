@@ -299,12 +299,14 @@
           ! is_int18_law151 : boolean, true if /int18 + law 151
           ! number_int18 : integer, number of interface /int18
           ! int18_list : integer, dimension = number_int18, list of interface 18
+          ! int18_list : integer, dimension = ninter, 1 if interface 18 used with law151, 0 otherwise
           ! int18_global_list : boolean, dimension=ninter, true if /int18 + law151 for the nin interface
           !                     used for the mpi comm spmd_i7fcom_poff/pon
           ! s_append_array : integer, size of x_append,v_append,mass_append and kinet_append arrays
           logical :: is_int18_law151
           integer :: number_int18
           integer, dimension(:), allocatable :: int18_list
+          integer, dimension(:), allocatable :: is_inter_used_with_law151
           logical, dimension(:), allocatable :: int18_global_list
 
           integer :: s_append_array ! size of x_append,v_append,mass_append and kinet_append arrays
