@@ -210,10 +210,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   O u t p u t   F o r m a t
 C-----------------------------------------------      
- 1001 FORMAT(///'PLANAR DETONATION         ',I10,/5X,
+ 1001 FORMAT(///5X,
+     &          'PLANAR DETONATION         ',I10,/5X,
      &          '-----------------         ',/5X,
      &          'CONFIDENTIAL DATA')    
- 1600 FORMAT(///'PLANAR DETONATION          ',I10,/5X,
+ 1600 FORMAT(///5X,
+     &          'PLANAR DETONATION          ',I10,/5X,
      &          '----------------           ',/5X,
      &          ' X-COORDINATE             =',1PG20.13,/5X,
      &          ' Y-COORDINATE             =',1PG20.13,/5X,
@@ -223,7 +225,8 @@ C-----------------------------------------------
      &          'NZ-COORDINATE             =',1PG20.13,/5X, 
      &          'LIGHTING TIME             =',1PG20.13,/5X,
      &          'EXPLOSIVE MATERIAL NUMBER =',I10  )
- 1601 FORMAT(///'PLANAR DETONATION          ',I10,/5X,
+ 1601 FORMAT(///5X,
+     &          'PLANAR DETONATION          ',I10,/5X,
      &          '----------------           ',/5X,
      &          'BASIS NODE ID             =',I10     ,/5X,     
      &          ' X-COORDINATE             =',1PG20.13,/5X,

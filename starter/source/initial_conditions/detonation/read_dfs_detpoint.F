@@ -91,6 +91,7 @@ C-----------------------------------------------
       LOGICAL              :: IS_NODE_DEFINED,IS_GRNOD_DEFINED
       INTEGER              :: I_SHADOW
       INTEGER              :: MLW
+      INTEGER              :: IMAT, MLW_SUBMAT, SUBMAT_UID, NBMAT, KK
       CHARACTER(LEN=NCHARKEY) :: KEY, KEY2
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -175,7 +176,34 @@ C-----------------------------------------------
             !enable flag for all compatible material laws
             DO I=1,NUMMAT
               MLW = IPM(2,I)
-              IF(MATERIAL_IS_HIGH_EXPLOSIVE(MLW))PM(96,I)=1 !SHADOW FLAG SET ON
+
+              !========= LAW151 :  check if at least one submaterial is a high explosive
+              IF(MLW == 151)THEN
+                NBMAT = IPM(20,I)
+                DO IMAT=1,NBMAT
+                    SUBMAT_UID = IPM(20+IMAT,I)   !Internal ID not yet defined (later in fsdcod.F)
+                    MLW_SUBMAT = 0
+                    DO KK=1,NUMMAT
+                      IF(IPM(1,KK)==SUBMAT_UID)THEN
+                        ! KK is internal identifier
+                        MLW_SUBMAT = IPM(2,KK) ! material law type
+                        EXIT
+                      ENDIF
+                    ENDDO
+                    IF(MLW_SUBMAT > 0)THEN
+                      IF(MATERIAL_IS_HIGH_EXPLOSIVE(MLW_SUBMAT))THEN
+                        PM(96,I)=1 !SHADOW FLAG SET ON
+                        EXIT
+                      ENDIF
+                    ENDIF
+                ENDDO
+
+              ELSE
+                !========= OTHER LAWS :  direct check
+                IF(MATERIAL_IS_HIGH_EXPLOSIVE(MLW))PM(96,I)=1 !SHADOW FLAG SET ON
+
+              ENDIF
+
             ENDDO
            ENDIF
         ENDIF
@@ -269,17 +297,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   O u t p u t   F o r m a t
 C-----------------------------------------------
- 1001 FORMAT(///'DETONATION POINT           ',I10,/5X,
+ 1001 FORMAT(///5X,
+     &          'DETONATION POINT           ',I10,/5X,
      &          '----------------           ',/5X,
      &          'CONFIDENTIAL DATA')
- 1400 FORMAT(///'DETONATION POINT           ',I10,/5X,
+ 1400 FORMAT(///5X,
+     &          'DETONATION POINT           ',I10,/5X,
      &          '----------------           ',/5X,
      &          'X-COORDINATE              =',1PG20.13,/5X,
      &          'Y-COORDINATE              =',1PG20.13,/5X,
      &          'Z-COORDINATE              =',1PG20.13,/5X,
      &          'DETONATION TIME           =',1PG20.13,/5X,
      &          'EXPLOSIVE MATERIAL NUMBER =',I10 )
- 1401 FORMAT(///'DETONATION POINT (NODE)    ',I10,/5X,
+ 1401 FORMAT(///5X
+     &          'DETONATION POINT (NODE)    ',I10,/5X,
      &          '----------------           ',/5X,
      &          'SHADOWING FLAG            =',I10     ,/5X,
      &          'NODE ID                   =',I10     ,/5X,
@@ -288,7 +319,8 @@ C-----------------------------------------------
      &          ' Z-COORDINATE             =',1PG20.13,/5X,
      &          'DETONATION TIME           =',1PG20.13,/5X,
      &          'EXPLOSIVE MATERIAL NUMBER =',I10 )
- 1402 FORMAT(///'DETONATION POINT (SET)     ',I10,/5X,
+ 1402 FORMAT(///5X,
+     &          'DETONATION POINT (SET)     ',I10,/5X,
      &          '----------------           ',/5X,
      &          'SHADOWING FLAG            =',I10     ,/5X,
      &          'SET ID                    =',I10     ,/5X,
