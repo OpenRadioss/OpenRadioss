@@ -101,7 +101,6 @@
         subroutine construct_eos_param(this)
           implicit none
           class(eos_param_) ,intent(inout) :: this
-          call destruct_eos_param(this)
           if(.not. allocated(this%uparam) .and.  this%nuparam >= 0) allocate(this%uparam(this%nuparam))
           if(.not. allocated(this%iparam) .and.  this%niparam >= 0) allocate(this%iparam(this%niparam))
           if(.not. allocated(this%func) .and.  this%nfunc >= 0)   allocate(this%func(this%nfunc))
