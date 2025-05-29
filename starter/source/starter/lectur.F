@@ -489,6 +489,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    inigrav                             ../starter/share/modules1/inigrav_mod.F
       !||    inimap1d_mod                        ../starter/share/modules1/inimap1d_mod.F
       !||    inimap2d_mod                        ../starter/share/modules1/inimap2d_mod.F
+      !||    init_monvol_mod                     ../starter/source/airbag/init_monvol.F
       !||    inivol_def_mod                      ../starter/share/modules1/inivol_mod.F
       !||    intbufmod                           ../starter/share/modules1/restart_mod.F
       !||    intbufscratch_mod                   ../starter/source/interfaces/interf1/intbufscratch_mod.F

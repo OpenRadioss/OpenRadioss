@@ -24,7 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    monvol_struct_mod                ../starter/share/modules1/monvol_struct_mod.F
       !||--- called by ------------------------------------------------------
       !||    aleno                            ../starter/source/airbag/fvmbag1.F
-      !||    aletg                            ../starter/source/airbag/fvmbag1.F
       !||    applysort2fvm                    ../starter/source/airbag/fvmesh0.F
       !||    ddsplit                          ../starter/source/restart/ddsplit/ddsplit.F
       !||    deallocate_igrsurf_split         ../starter/source/spmd/deallocate_igrsurf_split.F
@@ -36,7 +35,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    fvdim                            ../starter/source/airbag/fvmesh.F
       !||    fvmesh0                          ../starter/source/airbag/fvmesh0.F
       !||    fvnodi                           ../starter/source/airbag/fvmbag1.F
-      !||    fvtgi                            ../starter/source/airbag/fvmbag1.F
       !||    hm_read_monvol_type1             ../starter/source/airbag/hm_read_monvol_type1.F
       !||    hm_read_monvol_type10            ../starter/source/airbag/hm_read_monvol_type10.F
       !||    hm_read_monvol_type11            ../starter/source/airbag/hm_read_monvol_type11.F

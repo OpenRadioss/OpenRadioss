@@ -43,6 +43,10 @@ C             dans les routines identiques dans l'engine
       !||    fvvolu                   ../starter/source/airbag/fvvolu.F
       !||--- uses       -----------------------------------------------------
       !||    fvbag_mod                ../starter/share/modules1/fvbag_mod.F
+      !||    fvelinte_mod             ../starter/source/airbag/fvelinte.F
+      !||    fvinjnormal_mod          ../starter/source/airbag/fvinjnormal.F
+      !||    fvlength_mod             ../starter/source/airbag/fvlength.F
+      !||    fvvolu_mod               ../starter/source/airbag/fvvolu.F
       !||    message_mod              ../starter/share/message_module/message_mod.F
       !||    monvol_struct_mod        ../starter/share/modules1/monvol_struct_mod.F
       !||    reorder_mod              ../starter/share/modules1/reorder_mod.F

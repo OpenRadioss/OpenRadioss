@@ -430,7 +430,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    hm_set                          ../starter/source/model/sets/hm_set.F
       !||    hm_set_floatv                   ../starter/source/devtools/hm_reader/hm_set_floatv.F
       !||    hm_yctrl                        ../starter/source/elements/initia/hm_yctrl.F
-      !||    init_monvol                     ../starter/source/airbag/init_monvol.F
       !||    inivel                          ../starter/source/initial_conditions/general/inivel/inivel.F
       !||    lcgeo19                         ../starter/source/elements/shell/coque/lcgeo19.F
       !||    lec_dof_jnt                     ../starter/source/properties/spring/hm_read_prop45.F

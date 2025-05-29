@@ -29,8 +29,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    c_tricall              ../starter/stub/fvmbags_stub.F
       !||    coorloc                ../starter/source/airbag/fvmesh.F
       !||    facepoly               ../starter/source/airbag/facepoly.F
+      !||    fvbag_gpolcut          ../starter/source/airbag/gpolcut.F
       !||    fvnormal               ../starter/source/airbag/fvmbag1.F
-      !||    gpolcut                ../starter/source/airbag/gpolcut.F
       !||    horiedge               ../starter/source/airbag/horipoly.F
       !||    horipoly               ../starter/source/airbag/horipoly.F
       !||    itribox                ../starter/source/airbag/itribox.F
@@ -40,6 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    tribox3                ../starter/stub/fvmbags_stub.F
       !||    tritri3                ../starter/stub/fvmbags_stub.F
       !||--- uses       -----------------------------------------------------
+      !||    fvbag_gpolcut_mod      ../starter/source/airbag/gpolcut.F
       !||    fvbag_mod              ../starter/share/modules1/fvbag_mod.F
       !||    message_mod            ../starter/share/message_module/message_mod.F
       !||    reorder_mod            ../starter/share/modules1/reorder_mod.F
