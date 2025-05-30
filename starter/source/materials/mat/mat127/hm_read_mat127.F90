@@ -443,11 +443,11 @@
      ! number of output mod
       matparam%nmod = 5
       allocate(matparam%mode(matparam%nmod))
-      matparam%mode(1) = "tension fiber damage "
-      matparam%mode(2) = "compressive fiber damage "
-      matparam%mode(3) = "tension transverse matrix damage"
-      matparam%mode(4) = "compressive transverse matrix damage"
-      matparam%mode(5) = "shear matrix damage"
+      matparam%mode(1) = "Tension fiber damage "
+      matparam%mode(2) = "Compressive fiber damage "
+      matparam%mode(3) = "Tension transverse matrix damage"
+      matparam%mode(4) = "Compressive transverse matrix damage"
+      matparam%mode(5) = "Shear matrix damage"
 !
       call init_mat_keyword(matparam ,"ELASTO_PLASTIC")
       call init_mat_keyword(matparam ,"incremental"   )

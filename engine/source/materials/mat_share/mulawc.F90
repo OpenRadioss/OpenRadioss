@@ -1340,19 +1340,19 @@
                 &inloc  ,varnl(1,it),lbuf%off)
               elseif (ilaw == 52) then
                 call sigeps52c(&
-                &jlt    ,nuparam0,nuvar   ,nfunc   ,ifunc   ,&
-                &npf    ,npt    ,ipt  ,iflag   ,&
-                &tf     ,tt     ,dt1c    ,bufmat  ,rho,&
-                &area   ,eint   ,thklyl  ,&
-                &epspxx ,epspyy ,epspxy  ,epspyz   ,epspzx ,&
-                &depsxx ,depsyy ,depsxy  ,depsyz   ,depszx ,&
-                &epsxx  ,epsyy  ,epsxy   ,epsyz    ,epszx  ,&
-                &sigoxx,sigoyy,sigoxy,sigoyz,sigozx,&
-                &signxx ,signyy ,signxy  ,signyz   ,signzx ,&
-                &sigvxx ,sigvyy ,sigvxy  ,sigvyz   ,sigvzx ,&
-                &ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar   ,&
-                &off    ,ngl    ,ipm     ,matly(jmly),etse ,&
-                &gs     , sigy , epspl   ,table)
+                &jlt    ,nuparam0,nuvar  ,nfunc    ,ifunc   ,&
+                &npf    ,npt    ,ipt     ,iflag    ,&
+                &tf     ,tt     ,dt1c    ,bufmat   ,rho,&
+                &area   ,eint   ,thklyl  ,l_dmg    ,lbuf%dmg,&
+                &epspxx ,epspyy ,epspxy  ,epspyz   ,epspzx  ,&
+                &depsxx ,depsyy ,depsxy  ,depsyz   ,depszx  ,&
+                &epsxx  ,epsyy  ,epsxy   ,epsyz    ,epszx   ,&
+                &sigoxx ,sigoyy ,sigoxy  ,sigoyz   ,sigozx  ,&
+                &signxx ,signyy ,signxy  ,signyz   ,signzx  ,&
+                &sigvxx ,sigvyy ,sigvxy  ,sigvyz   ,sigvzx  ,&
+                &ssp    ,viscmx ,thkn    ,lbuf%pla ,uvar    ,&
+                &off    ,ngl    ,ipm     ,matly(jmly),etse  ,&
+                &gs     ,sigy   ,epspl   ,table    ,lbuf%epsd)
               elseif (ilaw == 55) then
                 call sigeps55c(&
                 &jlt    ,nuparam0,nuvar   ,nfunc   ,ifunc   ,&

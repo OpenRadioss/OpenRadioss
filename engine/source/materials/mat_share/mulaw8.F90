@@ -825,7 +825,7 @@
               call sigeps52(&
               &llt      ,npar     ,nuvar    ,nfunc    ,ifunc    ,&
               &npf      ,tf       ,tt       ,dt1      ,bufmat,&
-              &rho0     ,rho      ,voln     ,eint     ,&
+              &rho0     ,rho      ,voln     ,eint     ,bufly%l_dmg,lbuf%dmg,&
               &ep1      ,ep2      ,ep3      ,ep4      ,ep5      ,ep6   ,&
               &de1      ,de2      ,de3      ,de4      ,de5      ,de6   ,&
               &es1      ,es2      ,es3      ,es4      ,es5      ,es6   ,&
