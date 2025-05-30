@@ -434,7 +434,8 @@ C--------------------------
      5   EHOU,     BID,      BID,      BID,
      6   BID,      GRESAV,   GRTH,     IGRTH,
      7   IBID,     BID,      ITASK,    NEL,
-     8   JTUR,     JCVT,     IGRE,     SENSORS)
+     8   JTUR,     JCVT,     IGRE,     SENSORS,
+     9   GBUF%G_WPLA,GBUF%WPLA)
 C
 C--------------------
 C     INTERNAL FORCES
@@ -652,7 +653,8 @@ c
      5   EHOU,     BID,      BID,      BID,
      6   BID,      GRESAV,   GRTH,     IGRTH,
      7   IBID,     BID,      ITASK,    NEL,
-     8   JTUR,     JCVT,     IGRE,     SENSORS)
+     8   JTUR,     JCVT,     IGRE,     SENSORS,
+     9   GBUF%G_WPLA,GBUF%WPLA)
 C--------------------
 C       INTERNAL FORCES
 C--------------------

@@ -289,7 +289,7 @@ c
             ALLOCATE(LBUF%EPSQ  (NEL*BUFLY%L_EPSQ)  ,STAT=ERR)                           
             ALLOCATE(LBUF%EPSF  (NEL*BUFLY%L_EPSF)  ,STAT=ERR)                           
             ALLOCATE(LBUF%PLA   (NEL*BUFLY%L_PLA)   ,STAT=ERR)      
-            ALLOCATE(LBUF%WPLA  (NEL*BUFLY%L_WPLA)   ,STAT=ERR)                                       
+            ALLOCATE(LBUF%WPLA  (NEL*BUFLY%L_WPLA)  ,STAT=ERR)                                       
             ALLOCATE(LBUF%TEMP(NEL*BUFLY%L_TEMP), STAT=ERR)                              
             ALLOCATE(LBUF%TB(NEL*BUFLY%L_TB), STAT=ERR)                                  
             ALLOCATE(LBUF%RK(NEL*BUFLY%L_RK), STAT=ERR)                                  
@@ -644,7 +644,8 @@ c
         ALLOCATE (ELBUF_IMP(NG)%GBUF%MAXEPS(NEL*GBUF%G_MAXEPS)   ,STAT=ERR)      
         ALLOCATE (ELBUF_IMP(NG)%GBUF%BETAORTH(NEL*GBUF%G_BETAORTH) ,STAT=ERR)
         ALLOCATE (ELBUF_IMP(NG)%GBUF%AMU(NEL*GBUF%G_AMU)         ,STAT=ERR)                          
-        ALLOCATE (ELBUF_IMP(NG)%GBUF%FOR_G(NEL*GBUF%G_FOR_G)     ,STAT=ERR)                          
+        ALLOCATE (ELBUF_IMP(NG)%GBUF%FOR_G(NEL*GBUF%G_FOR_G)     ,STAT=ERR)  
+        ALLOCATE (ELBUF_IMP(NG)%GBUF%WPLA(NEL*GBUF%G_WPLA)       ,STAT=ERR)                                           
 c
         IF (NPTTOT /= 1) THEN
           ALLOCATE (ELBUF_IMP(NG)%GBUF%BFRAC(NEL*GBUF%G_BFRAC)   ,STAT=ERR)                  
@@ -658,7 +659,6 @@ c
           ALLOCATE (ELBUF_IMP(NG)%GBUF%EPSD(NEL*GBUF%G_EPSD)     ,STAT=ERR)                       
           ALLOCATE (ELBUF_IMP(NG)%GBUF%EPSQ(NEL*GBUF%G_EPSQ)     ,STAT=ERR) 
           ALLOCATE (ELBUF_IMP(NG)%GBUF%PLA (NEL*GBUF%G_PLA)      ,STAT=ERR)   
-          ALLOCATE (ELBUF_IMP(NG)%GBUF%WPLA (NEL*GBUF%G_WPLA)    ,STAT=ERR)                                
           ALLOCATE (ELBUF_IMP(NG)%GBUF%TEMP(NEL*GBUF%G_TEMP)     ,STAT=ERR)                       
           ALLOCATE (ELBUF_IMP(NG)%GBUF%TB(NEL*GBUF%G_TB)         ,STAT=ERR)                           
           ALLOCATE (ELBUF_IMP(NG)%GBUF%RK(NEL*GBUF%G_RK)         ,STAT=ERR)                           

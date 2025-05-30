@@ -105,11 +105,9 @@ c---------------------
           IF (GBUF%G_DELTAX == 0) GBUF%G_DELTAX = MTAG%G_DELTAX            
           IF (GBUF%G_EPSD   == 0) GBUF%G_EPSD   = MTAG%G_EPSD              
           IF (GBUF%G_EPSQ   == 0) GBUF%G_EPSQ   = MTAG%G_EPSQ
-          IF (GBUF%G_PLA    == 0) GBUF%G_PLA    = MTAG%G_PLA          
-          IF (GBUF%G_PLA    == 1) THEN
-            GBUF%G_WPLA   = 1
-          ELSE 
-            GBUF%G_WPLA   = 0
+          IF (GBUF%G_PLA    == 0) GBUF%G_PLA    = MTAG%G_PLA        
+          IF ((GBUF%G_WPLA  == 0).AND.(GBUF%G_PLA > 0)) THEN
+            GBUF%G_WPLA = 1
           ENDIF       
           IF (GBUF%G_RK     == 0) GBUF%G_RK     = MTAG%G_RK                
           IF (GBUF%G_RE     == 0) GBUF%G_RE     = MTAG%G_RE                
@@ -145,12 +143,10 @@ c---------------------
             IF (GBUF%G_DELTAX == 0) GBUF%G_DELTAX = MTAG%G_DELTAX              
             IF (GBUF%G_EPSD   == 0) GBUF%G_EPSD   = MTAG%G_EPSD                
             IF (GBUF%G_EPSQ   == 0) GBUF%G_EPSQ   = MTAG%G_EPSQ
-            IF (GBUF%G_PLA    == 0) GBUF%G_PLA    = MTAG%G_PLA          
-            IF (GBUF%G_PLA    == 1) THEN
-              GBUF%G_WPLA   = 1
-            ELSE 
-              GBUF%G_WPLA   = 0
-            ENDIF         
+            IF (GBUF%G_PLA    == 0) GBUF%G_PLA    = MTAG%G_PLA      
+            IF ((GBUF%G_WPLA  == 0).AND.(GBUF%G_PLA > 0)) THEN
+              GBUF%G_WPLA = 1
+            ENDIF           
             IF (GBUF%G_RK     == 0) GBUF%G_RK     = MTAG%G_RK                  
             IF (GBUF%G_RE     == 0) GBUF%G_RE     = MTAG%G_RE                  
             IF (GBUF%G_TB     == 0) GBUF%G_TB     = MTAG%G_TB                  
@@ -181,7 +177,10 @@ c---------------------
           IF (GBUF%G_DELTAX == 0) GBUF%G_DELTAX = MTAG%G_DELTAX              
           IF (GBUF%G_EPSD   == 0) GBUF%G_EPSD   = MTAG%G_EPSD                
           IF (GBUF%G_EPSQ   == 0) GBUF%G_EPSQ   = MTAG%G_EPSQ
-          IF (GBUF%G_PLA    == 0) GBUF%G_PLA    = MTAG%G_PLA                 
+          IF (GBUF%G_PLA    == 0) GBUF%G_PLA    = MTAG%G_PLA  
+          IF ((GBUF%G_WPLA  == 0).AND.(GBUF%G_PLA > 0)) THEN
+            GBUF%G_WPLA = 1
+          ENDIF                 
           IF (GBUF%G_RK     == 0) GBUF%G_RK     = MTAG%G_RK                  
           IF (GBUF%G_RE     == 0) GBUF%G_RE     = MTAG%G_RE                  
           IF (GBUF%G_TB     == 0) GBUF%G_TB     = MTAG%G_TB                  
@@ -389,10 +388,8 @@ c         local material variables
           IF (BUFLY%L_DP_DRHO== 0) BUFLY%L_DP_DRHO= MTAG%L_DP_DRHO
           IF (BUFLY%L_DELTAX == 0) BUFLY%L_DELTAX = MTAG%L_DELTAX
           IF (BUFLY%L_PLA    == 0) BUFLY%L_PLA    = MTAG%L_PLA
-          IF (BUFLY%L_PLA    == 1) THEN
-              BUFLY%L_WPLA   = 1
-          ELSE
-              BUFLY%L_WPLA   = 0
+          IF ((BUFLY%L_WPLA  == 0).AND.(BUFLY%L_PLA > 0)) THEN
+            BUFLY%L_WPLA  = 1
           ENDIF
           IF (BUFLY%L_TB     == 0) BUFLY%L_TB     = MTAG%L_TB
           IF (BUFLY%L_RK     == 0) BUFLY%L_RK     = MTAG%L_RK

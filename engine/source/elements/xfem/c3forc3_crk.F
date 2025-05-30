@@ -508,7 +508,8 @@ c        IFLAG = MOD(NCYCLE,NCPRI)
      5   GRTH,     IGRTH,    OFF,      IXFEM2,
      6   ILEV,     IEL_CRK,  IADTG_CRK,NFT,
      7   IEXPAN,   EINTTH,   ITASK,    MAT,
-     8   GBUF%VOL, ACTIFXFEM,IGRE,SENSORS)
+     8   GBUF%VOL, ACTIFXFEM,IGRE,SENSORS,
+     9   NEL,      GBUF%G_WPLA,GBUF%WPLA)
 C----------------------------
 C     FORCES INTERNES
 C----------------------------
