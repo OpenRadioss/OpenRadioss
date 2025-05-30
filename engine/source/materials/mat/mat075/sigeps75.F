@@ -399,8 +399,8 @@ C-----------------
         DO I=1,NEL
             IF(IPLA(I)/=1)CYCLE
             DFDA=DPDM(I)*(ONE+MU(I))/ALPHAE + DPDE(I)*EINT(I)/VOL0(I)
-            DGDA=-XI*UNSURN*(ALPHA(I)-ONE)**(UNSURN-ONE)
-            PNEWG(I)=PS-XI*(ALPHA(I)-ONE)**UNSURN
+            DGDA=-XI*UNSURN*(MAX(ALPHA(I)-ONE,EM20))**(UNSURN-ONE)
+            PNEWG(I)=PS-XI*(MAX(ALPHA(I)-ONE,EM20))**UNSURN
 C
             IF(IFLAG1 == 1) THEN
               DALPHA=(PNEW(I)-PNEWG(I))/(DFDA-DGDA)
