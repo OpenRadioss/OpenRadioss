@@ -36,7 +36,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE SIGEPS52(
      1     NEL    ,NUPARAM,NUVAR   ,MFUNC   ,KFUNC   ,NPF    ,
      2     TF     ,TIME   ,TIMESTEP,UPARAM  ,RHO0    ,RHO    ,
-     3     VOLUME ,EINT   ,
+     3     VOLUME ,EINT   ,L_DMG   ,DMG     ,
      4     EPSPXX ,EPSPYY ,EPSPZZ  ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
      5     DEPSXX ,DEPSYY ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
      6     EPSXX  ,EPSYY  ,EPSZZ   ,EPSXY   ,EPSYZ   ,EPSZX  ,
@@ -122,6 +122,7 @@ C
      .   EPSP(NEL)
 C     
        TYPE(TTABLE) TABLE(*)
+       INTEGER, INTENT(IN) :: L_DMG
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -136,6 +137,7 @@ C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
       my_real 
      .        UVAR(NEL,NUVAR), OFF(NEL)
+      my_real, DIMENSION(NEL,L_DMG), INTENT(INOUT) :: DMG
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------
@@ -155,7 +157,7 @@ C-----------------------------------------------
      .        IPFLAG,IPARAM,NPAR,IYEILD_TAB,IADBUF,
      ,        ITAB(100),NTABLE,NXH,NDIM,IPOS,NXK
       my_real
-     .        F(MVSIZ), SIGM(MVSIZ), EPSM(MVSIZ), EPSP1(MVSIZ),
+     .        F(MVSIZ), SIGM(MVSIZ), EPSP1(MVSIZ),
      .        LAMDA(MVSIZ), FSTAR(MVSIZ),P0(MVSIZ),PN(MVSIZ),
      .        ET,YEILD0(MVSIZ),CSD, 
      .        VISP(MVSIZ),  Q1, Q2, Q3, 
@@ -171,7 +173,7 @@ C-----------------------------------------------
      .        DP11,DP22,DP33,DP12,DP13,DP23,A1,A2,
      .        D11,D22,D33,D12,D13,D23,DCRF,DCRM, DSEPP,DCD,LAM1,
      .       C1(MVSIZ),C2(MVSIZ) ,G(MVSIZ),DF,COH,SIH,VA,CRIT,CONV,
-     .        FG,FN1,YLD,C11,P1, VAR, DTINV, SQR22,
+     .        FG(MVSIZ),FN1(MVSIZ),YLD,C11,P1, VAR, DTINV, SQR22,
      .       SXX,SYY,SZZ, SIGM1, SIGM2, VA1, VM1, VA11,A21,YP1,YP2,
      .       DF1, DF2, XFAC,YFAC,DX2,XX(2),DFT,YY
 C-----------------------------------------------
@@ -221,14 +223,12 @@ C
       IF(TIME==0.0)THEN
         DO I=1,NEL
           EPSP1(I)=ZERO
-          EPSM(I)=ZERO
-          IF(N<ONE)EPSM(I)=EM20        
-          UVAR(I,1)=EPSM(I)
-          UVAR(I,2)=FI
-          UVAR(I,3)=YEILD0(I)
-          UVAR(I,4)=FI
-          UVAR(I,5)= ZERO
-          SIGY(I) = YEILD0(I)  
+          DEFP(I)=ZERO
+          IF(N<ONE)DEFP(I)=EM20        
+          DMG(I,4)  = FI
+          DMG(I,5)  = FI
+          UVAR(I,1) = YEILD0(I)
+          SIGY(I)   = YEILD0(I)  
         ENDDO
 C  
         IF(IYEILD_TAB > 0) THEN
@@ -237,7 +237,7 @@ C
               XX(2)=ZERO 
               CALL TABLE_INTERP (TABLE(ITAB(1)),XX,YY) 
               YEILD0(I)  = YY *YFAC
-              UVAR(I,3) = YEILD0(I)
+              UVAR(I,1) = YEILD0(I)
               SIGY(I)   = YEILD0(I)
             ENDDO
         ENDIF        
@@ -248,10 +248,12 @@ C
 C-----------------------------------------------
 C
       DO I=1,NEL
-         EPSM(I) = UVAR(I,1)
-         FSTAR(I)= UVAR(I,2)
-         SIGM(I) = UVAR(I,3)
-         F(I)    = UVAR(I,4)
+C
+         FG(I)    = DMG(I,2)
+         FN1(I)   = DMG(I,3)
+         F(I)     = DMG(I,4)
+         FSTAR(I) = DMG(I,5)
+         SIGM(I)  = UVAR(I,1)
          EPSP1(I)= ZERO
 C
          SIGNXX(I)=SIGOXX(I) +  C1(I)*DEPSXX(I)
@@ -330,7 +332,7 @@ C
           ELSE             
            A21 =  SIGM1 /(ONE - F(I))     
           ENDIF
-          A1 = FN*EXP(-HALF*((EPSM(I)-EPSN)/SN)**2)/SN
+          A1 = FN*EXP(-HALF*((DEFP(I)-EPSN)/SN)**2)/SN
           A1 = A1*SQR22 
           DO ITER=1,5                           
            VM1 = ONE/MAX(VM,EM20)
@@ -355,7 +357,7 @@ C
            IF(N==1)THEN
             DSEPP = ET*(ONE+ ( EPSP(I)*CSD)**VISP(I))
            ELSE
-            DSEPP = ET * N * EPSM(I) ** (N - 1)*
+            DSEPP = ET * N * DEFP(I) ** (N - 1)*
      .      (ONE + ( EPSP(I)*CSD)**VISP(I))    
            ENDIF                   
 C
@@ -403,14 +405,14 @@ C....... AMISSIBLE PLASTIC DEFORMATION.
 C           IF(CONV<1E-3)GO TO 100
           ENDDO ! ITER
 C 
-          FG      = (ONE -F(I))*(DP11+DP22+DP33) 
+          FG(I)  = FG(I)  + (ONE - F(I)) * (DP11 + DP22 +DP33)
+          FN1(I) = FN1(I) + A1 * EPSP1(I) 
           SIGY(I) = YLD 
-          FN1     = A1*EPSP1(I) 
-          EPSM(I) = EPSM(I) + EPSP1(I)         
-          F(I)    = F(I) + FG + FN1                    
+          DEFP(I) = DEFP(I) + EPSP1(I)         
+          F(I)   = FG(I)  + FN1(I)
           IF(Q1==ZERO.and.Q2==ZERO.and.Q3==ZERO)F(I)=ZERO
           IF(F(I)<ZERO) F(I)=ZERO
-          SIGM(I) = (YEILD0(I) + ET * EPSM(I) ** N)*
+          SIGM(I) = (YEILD0(I) + ET * DEFP(I) ** N)*
      .             (ONE+ (EPSP(I)*CSD) ** VISP(I))           
 C....COMPUTE F*.....
           IF(F(I)<=FC)THEN
@@ -422,11 +424,12 @@ C....COMPUTE F*.....
             FSTAR(I) = FC+ (FU-FC)/(FF-FC)*(F(I)-FC)
            ENDIF
           ENDIF
-          UVAR(I,1) = EPSM(I)
-          UVAR(I,2) = FSTAR(I)
-          UVAR(I,3) = SIGM(I)
-          UVAR(I,4) = F(I)
-          UVAR(I,5) = EPSP(I)          
+          DMG(I,1)  = F(I)/FF
+          DMG(I,2)  = FG(I)
+          DMG(I,3)  = FN1(I)
+          DMG(I,4)  = F(I)
+          DMG(I,5)  = FSTAR(I)
+          UVAR(I,1) = SIGM(I)
          ENDIF 
          IF(OFF(I)==ONE.AND.FSTAR(I)>=FF)THEN
           OFF(I)=FOUR_OVER_5
@@ -493,7 +496,7 @@ C
           ELSE             
            A21 =  SIGM1 /(ONE - F(I))     
           ENDIF
-          A1 = FN*EXP(-HALF*((EPSM(I)-EPSN)/SN)**2)/SN
+          A1 = FN*EXP(-HALF*((DEFP(I)-EPSN)/SN)**2)/SN
           A1 = A1*SQR22 
           DP11 = ZERO
           DP22 = ZERo
@@ -530,7 +533,7 @@ C
            IF(N==1)THEN
            DSEPP = ET*(ONE+ ( EPSP(I)*CSD)**VISP(I))
            ELSE
-            DSEPP = ET * N * EPSM(I) ** (N - 1)*
+            DSEPP = ET * N * DEFP(I) ** (N - 1)*
      .      (ONE+ ( EPSP(I)*CSD)**VISP(I))
            ENDIF
            DCD   = C1(I) * (D11**2 + D22**2 + D33**2) + 
@@ -581,13 +584,14 @@ C
 C
            YLD  = VA
           ENDDO ! ITER
-          FG      = (ONE-F(I))*(DP11 + DP22 + DP33)
+C
+          FG(I)  = FG(I)  + (ONE - F(I)) * (DP11 + DP22 +DP33)
           SIGY(I) = SIGM(I)*SQRT(MAX(ZERO,VA))
-          FN1     = A1 * EPSP1(I) 
-          EPSM(I) = EPSM(I) + EPSP1(I)         
-          F(I)    = F(I) + FG + FN1                    
+          FN1(I) = FN1(I) + A1 * EPSP1(I) 
+          DEFP(I) = DEFP(I) + EPSP1(I)         
+          F(I)   = FG(I)  + FN1(I)
           IF(F(I)<ZERO) F(I)=ZERO
-          SIGM(I)= (YEILD0(I) + ET * EPSM(I)**N)*(ONE + 
+          SIGM(I)= (YEILD0(I) + ET * DEFP(I)**N)*(ONE + 
      .            (EPSP(I)*CSD)**VISP(I))     
 C....COMPUTE F*.....
           IF(F(I)<=FC)THEN
@@ -600,7 +604,6 @@ C....COMPUTE F*.....
            ENDIF
           ENDIF
 C
-          UVAR(I , 1) = EPSM(I)
           UVAR(I , 2) = FSTAR(I)
           UVAR(I , 3) = SIGM(I)
           UVAR(I , 4) = F(I)
@@ -670,7 +673,7 @@ C
           ELSE             
            A21 =  SIGM1 /(ONE - F(I))     
           ENDIF
-          A1 = FN*EXP(-HALF*((EPSM(I)-EPSN)/SN)**2)/SN
+          A1 = FN*EXP(-HALF*((DEFP(I)-EPSN)/SN)**2)/SN
           A1 = A1*SQR22 
 C 
           DP11 = ZERO
@@ -709,7 +712,7 @@ C
            IF(N==1)THEN
             DSEPP = ET*(ONE + ( EPSP(I)*CSD)**VISP(I))
            ELSE
-            DSEPP = ET * N * EPSM(I) ** (N - ONE)*
+            DSEPP = ET * N * DEFP(I) ** (N - ONE)*
      .       (ONE + ( EPSP(I)*CSD)**VISP(I))
            ENDIF
            DCD   = C1(I) * (D11**2 + D22**2 + D33**2) + 
@@ -761,15 +764,16 @@ C
 C
            YLD  = VA
           ENDDO ! ITER  
-          FG      = (ONE -F(I))*(DP11 + DP22 + DP33)
+C
+          FG(I)  = FG(I)  + (ONE - F(I)) * (DP11 + DP22 +DP33)
           SIGY(I) = SIGM(I)*SQRT(MAX(ZERO,VA))
-          FN1 = ZERO
+          FN1(I)  = ZERO 
           PN(I)= (SIGNXX(I)+SIGNYY(I)+SIGNZZ(I))*THIRD
-          IF(PN(I)>=ZERO)FN1= A1 * EPSP1(I)          
-          EPSM(I) = EPSM(I) + EPSP1(I)         
-          F(I)    = F(I) + FG + FN1                    
+          IF(PN(I)>=ZERO) FN1(I) = FN1(I) + A1 * EPSP1(I) 
+          DEFP(I) = DEFP(I) + EPSP1(I)         
+          F(I)    = FG(I)   + FN1(I)
           IF(F(I)<ZERO) F(I)=ZERO
-          SIGM(I)= (YEILD0(I) + ET * EPSM(I)**N)*(ONE+ 
+          SIGM(I)= (YEILD0(I) + ET * DEFP(I)**N)*(ONE+ 
      .            (EPSP(I)*CSD)**VISP(I))
 C....COMPUTE F*.....
           IF(F(I)<=FC)THEN
@@ -782,7 +786,6 @@ C....COMPUTE F*.....
            ENDIF
           ENDIF
 C
-          UVAR(I , 1) = EPSM(I)
           UVAR(I , 2) = FSTAR(I)
           UVAR(I , 3) = SIGM(I)
           UVAR(I , 4) = F(I)
@@ -859,7 +862,7 @@ C
           ELSE             
            A21 =  SIGM1 /(ONE - F(I))     
           ENDIF
-          A1 = FN*EXP(-HALF*((EPSM(I)-EPSN)/SN)**2)/SN
+          A1 = FN*EXP(-HALF*((DEFP(I)-EPSN)/SN)**2)/SN
           A1 = A1*SQR22 
 c                                   
           DO ITER=1,5                           
@@ -885,7 +888,7 @@ C
            IF(N==1)THEN
             DSEPP = ET*(ONE + ( EPSP(I)*CSD)**VISP(I))
            ELSE
-            DSEPP = ET * N * EPSM(I) ** (N - ONE)*
+            DSEPP = ET * N * DEFP(I) ** (N - ONE)*
      .      (ONE + ( EPSP(I)*CSD)**VISP(I)) 
            ENDIF                   
            DCD = C1(I)*(D11**2 + D22**2 + D33**2) + 
@@ -930,17 +933,17 @@ C....... AMISSIBLE PLASTIC DEFORMATION.
            YLD  = SIGM(I) * VA
           ENDDO ! ITER
 C
-          FG      = (ONE-F(I))*(DP11+DP22+DP33)
+          FG(I)  = FG(I)  + (ONE - F(I)) * (DP11 + DP22 +DP33)
           PN(I) = (SIGXX(I) + SIGYY(I) + SIGZZ(I))*THIRD
           SIGY(I) = YLD 
-          FN1     = ZERO
-          IF(PN(I)>=ZERO) FN1 = A1*EPSP1(I) 
-           EPSM(I) = EPSM(I) + EPSP1(I)         
-           F(I)    = F(I) + FG + FN1                    
+          FN1(I)  = ZERO 
+          IF(PN(I)>=ZERO) FN1(I) = FN1(I) + A1 * EPSP1(I) 
+          DEFP(I) = DEFP(I) + EPSP1(I)         
+          F(I)    = FG(I)   + FN1(I)
           IF(Q1==ZERO.and.
      .     Q2==ZERO.and.Q3==ZERO) F(I)= ZERO
           IF(F(I)<ZERO) F(I)=ZERO
-          SIGM(I) = (YEILD0(I) + ET * EPSM(I) ** N)*
+          SIGM(I) = (YEILD0(I) + ET * DEFP(I) ** N)*
      .             (ONE + (EPSP(I)*CSD) ** VISP(I))          
 C....COMPUTE F*.....
           IF(F(I)<=FC)THEN
@@ -952,11 +955,12 @@ C....COMPUTE F*.....
             FSTAR(I) = FC+ (FU-FC)/(FF-FC)*(F(I)-FC)
            ENDIF
           ENDIF
-          UVAR(I,1) = EPSM(I)
-          UVAR(I,2) = FSTAR(I)
-          UVAR(I,3) = SIGM(I)
-          UVAR(I,4) = F(I)
-          UVAR(I,5) = EPSP(I)          
+          DMG(I,1)  = F(I)/FF
+          DMG(I,2)  = FG(I)
+          DMG(I,3)  = FN1(I)
+          DMG(I,4)  = F(I)
+          DMG(I,5)  = FSTAR(I)
+          UVAR(I,1) = SIGM(I)
          ENDIF
          IF(OFF(I)==ONE.AND.FSTAR(I)>=FF)THEN
           OFF(I)=FOUR_OVER_5
@@ -969,9 +973,6 @@ C....COMPUTE F*.....
         ENDIF
        ENDDO
       ENDIF 
-      DO I=1,NEL
-        DEFP(I)=UVAR(I,1)
-      ENDDO
 C
 C tabulated law
        IF(IYEILD_TAB > 0) THEN
@@ -996,11 +997,12 @@ C tabulated law
                    R = ONE
             ENDIF ! NDIM
 C   interpolation on  the curve ---
-           XX(1) = EPSM(I)  
+           XX(1) = DEFP(I)  
            XX(2) = EPSP(I)*XFAC
            CALL TABLE_INTERP_LAW76(TABLE(ITAB(1)),IPOS,XX,
      .                     R,DFT,YY) 
-            UVAR(I,3)= YFAC*YY
+           UVAR(I,1) = YFAC*YY
+           SIGY(I)   = YFAC*YY
          ENDDO ! NEL0
        ENDIF ! IYEILD_TAB
 C ---------------------------------------------------------------------
