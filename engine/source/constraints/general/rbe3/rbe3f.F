@@ -43,13 +43,14 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE RBE3T1(RBE3  ,NODES    ,SKEW ,
      *                  DMAST ,ADM      ,DINERT,
-     *                  ADI   ,H3D_DATA )
+     *                  ADI   ,H3D_DATA , DT1,TT )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE H3D_MOD
       USE rbe3_mod
       use nodal_arrays_mod
+      use rbe3pen_init_mod, only: RBE3PEN_INIT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,7 +70,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
       my_real SKEW(*)   !< Skew Array
-      my_real DMAST
+      my_real DMAST,DT1,TT
       my_real ADM(*)
       my_real DINERT
       my_real ADI(*)    !< Animation buffer
@@ -82,7 +83,7 @@ C-----------------------------------------------
       INTEGER I, J, N, MAX_M,JT(3,NRBE3),JR(3,NRBE3),IERR,NMT,
      .        IADA,IADMS,IADFN,IADAR,IADIN,IADFR,IADM0,IADI0,IADL,
      .        IPA,IPMS,IPFN,IPAR,IPIN,IPFR,NMP,IADLP,NS,NML,ICOM,
-     .        IADLP1,IADM1,IADI1,NMT0,IADMP(SLRBE3/2),IML(SLRBE3/2)
+     .        IADLP1,IADM1,IADI1,NMT0,IADMP(SLRBE3/2),IML(SLRBE3/2),IPEN
       INTEGER IROTG_LOC   !< Local Max of IROT Flags keep for compatibility
 C======================================================================|
       I7KGLO = 1
@@ -92,6 +93,7 @@ C======================================================================|
       ICOM = RBE3%mpi%IAD_RBE3(NSPMD+1)-RBE3%mpi%IAD_RBE3(1)   !< Flag for SPMD communication
       
       IF (NMT0>0) THEN
+       IF (TT==ZERO) CALL RBE3PEN_INIT(NODES%X,NODES%MS,NODES%IN,NODES%STIFN ,NODES%STIFR,NUMNOD,RBE3)
        CALL PRERBE3P(RBE3%IRBE3 ,RBE3%LRBE3 ,IADMP ,IML   , NMT   )
        IADA=1
        IADMS=IADA+3*NMT
@@ -113,7 +115,7 @@ C       ALLOCATE(RSUM(IADL),STAT=IERR)
      2           NODES%STIFN ,NODES%STIFR ,JT   ,JR    ,RBE3%IROTG ,
      3           MAX_M ,RBE3%RRBE3(IADA),RBE3%RRBE3(IADAR) ,RBE3%RRBE3(IADMS),
      4           RBE3%RRBE3(IADIN),RBE3%RRBE3(IADFN),RBE3%RRBE3(IADFR),NMT0  ,
-     5           IADMP )
+     5           IADMP ,RBE3%pen,NODES%V,NODES%VR,NMT ,DT1 ,IRODDL,ncycle)
 C
        IF (NSPMD>1.AND.IPARIT==0) THEN
             CALL RBE3POFF(RBE3%IRBE3 ,RBE3%LRBE3 ,NODES%A ,NODES%MS ,NODES%WEIGHT,
@@ -184,7 +186,8 @@ C
 C---  reset of secnd nodes forces is necessary w/AMS
       DO N=1,NRBE3
         NS  = RBE3%IRBE3(3,N)
-        IF(NS/=0) THEN
+        IPEN= RBE3%IRBE3(9,N)
+        IF(NS/=0.AND.IPEN==0) THEN
           IF (NODES%WEIGHT(NS)/=0) THEN
             DO J = 1,3
               IF(JT(J,N)/=0)NODES%A(J,NS)=ZERO
@@ -265,7 +268,13 @@ C-----------
      1                 MS    ,IN    ,FRBE3,SKEW  ,WEIGHT,
      2                 STIFN ,STIFR ,JT   ,JR    ,IROTG ,
      3                 MAX_M ,AM    ,ARM  ,MSM   ,INM   ,
-     4                 STIFNM,STIFRM,NMT0 ,IADMP )
+     4                 STIFNM,STIFRM,NMT0 ,IADMP ,PEN   ,
+     5                 V     ,VR    ,NMT  ,DT1   ,IRODDL,ncycle)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE rbe3_mod
+      USE rbe3f_pen_mod, only : RBE3F_PEN
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -280,15 +289,20 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRBE3(NRBE3L,*),LRBE3(*),WEIGHT(*)
       INTEGER MAX_M,IROTG,JT(3,*),JR(3,*),NMT0,IADMP(*)
+      INTEGER, INTENT(IN) :: NMT ! dimension of AM,STIFNM...
+      INTEGER, INTENT(IN) :: IRODDL,ncycle
 C     REAL
       my_real
      .   X(3,*), A(3,*), AR(3,*), MS(*), IN(*), FRBE3(*),SKEW(*),
      .   STIFN(*) ,STIFR(*), AM(3,*), ARM(3,*), MSM(*), INM(*),
-     .   STIFNM(*) ,STIFRM(*)
+     .   STIFNM(*) ,STIFRM(*), V(3,*), VR(3,*)
+      my_real, INTENT(IN) :: DT1
+      TYPE (RBE3_pen), INTENT(INOUT) :: PEN
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, NS ,NML, IAD,JJ,IROT,IADS,NM,NN,K,IMOD,IADF
+      INTEGER I, J, N, NS ,NML, IAD,JJ,IROT,IADS,NM,NN,K,IMOD,IADF,
+     .        IPEN,N_P,ipr
 C     REAL
       my_real
      .     FNS(3),MNS(3),MSS(3),INS(3),STN(3),STR(3),FSUM,MSUM,
@@ -298,15 +312,18 @@ C     REAL
 
 C======================================================================|
       IADS = NMT0
-      ALLOCATE(FDSTNB(3,6,MAX_M))
-      IF (IROTG>0) ALLOCATE(MDSTNB(3,6,MAX_M))
+      IF (MAX_M>0) THEN
+        ALLOCATE(FDSTNB(3,6,MAX_M))
+        IF (IROTG>0) ALLOCATE(MDSTNB(3,6,MAX_M))
+      END IF
       DO N=1,NRBE3
         IAD = IRBE3(1,N)
         NS  = IRBE3(3,N)
         NML = IRBE3(5,N)
         IROT =IRBE3(6,N)
         IMOD =IRBE3(8,N)
-       IF (NS>0) THEN
+        IPEN =IRBE3(9,N)
+       IF (NS==0.OR.IPEN>0) CYCLE
        IF (WEIGHT(NS)==1) THEN
         CALL RBE3CL(LRBE3(IAD+1),LRBE3(IADS+IAD+1),NS     ,X      ,
      .              FRBE3(6*IAD+1),SKEW    ,NML     ,IROT   ,FDSTNB ,
@@ -436,7 +453,33 @@ C  MS(NS) = ZERO
           STIFN(NS) = EM20
         IF ((JR(1,N)+JR(2,N)+JR(3,N))>0) STIFR(NS) = EM20
        ENDIF
-       END IF ! IF (NS>0) THEN
+!       END IF ! IF (NS>0) THEN
+      ENDDO
+!     penalty formulation
+      N_P = 0
+      DO N=1,NRBE3
+        IAD = IRBE3(1,N)
+        NS  = IRBE3(3,N)
+        NML = IRBE3(5,N)
+        IROT =IRBE3(6,N)
+        IMOD =IRBE3(8,N)
+        IPEN =IRBE3(9,N)
+        IF (NS==0.OR.IPEN==0) CYCLE
+        IF (WEIGHT(NS)==1) THEN !STIFNM(k),STIFN(NS),AM(1:3,k)
+          N_P = N_P +1 
+          ipr = 0
+          if (IRBE3(2,N)==1.and.ncycle<=1000.and.mod(ncycle,10)==0)ipr = 1
+          CALL RBE3F_PEN(                                       
+     .          NS      ,NMT0        ,NUMNOD      ,NMT         ,         
+     .          NML     ,LRBE3(IAD+1),LRBE3(IADS+IAD+1),IADMP(IAD+1),        
+     .          A       ,AR          ,AM          ,ARM         ,         
+     .          STIFN   ,STIFR       ,STIFNM      ,STIFRM      ,         
+     .          V       ,VR          ,FRBE3(6*IAD+1),X         ,         
+     .         LSKEW    ,NUMSKW      ,SKEW          ,
+     .         PEN%RRBE3PEN_D(1,N_P) ,PEN%RRBE3PEN_STF(1,N_P) ,         
+     .         PEN%RRBE3PEN_FAC(N_P) ,PEN%RRBE3PEN_VI(N_P)    ,
+     .         PEN%RRBE3PEN_M(1,N_P) ,DT1           ,IRODDL,ipr )
+        ENDIF
       ENDDO
 C
       DEALLOCATE(FDSTNB)
@@ -474,7 +517,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, NS ,NML, IAD,JJ,IROT,M
+      INTEGER I, J, N, NS ,NML, IAD,JJ,IROT,M,IPEN
 C     REAL
 C======================================================================|
 #include    "vectorize.inc"
@@ -502,8 +545,9 @@ C
         IAD = IRBE3(1,N)
         NS  = IRBE3(3,N)
         NML = IRBE3(5,N)
-          IROT =IRBE3(6,N)
-        IF (NS==0.OR.WEIGHT(NS)==0) CYCLE
+        IROT= IRBE3(6,N)
+        IPEN= IRBE3(9,N)
+        IF (NS==0.OR.WEIGHT(NS)==0.OR.IPEN>0) CYCLE
         DO I=IAD+1,IAD+NML
          M = LRBE3(I)
            A(1,M) = A(1,M) + DA(1,I)
@@ -809,7 +853,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J ,M,N,NS,NML,IAD,K,IROT
+      INTEGER I, J ,M,N,NS,NML,IAD,K,IROT,IPEN
 C     REAL
       my_real
      .   MNS,DMAS0
@@ -821,7 +865,8 @@ C----accumulated secnd masses---
         IAD = IRBE3(1,N)
         NS  = IRBE3(3,N)
         NML = IRBE3(5,N)
-        IF (NS>0) THEN
+        IPEN= IRBE3(9,N)
+        IF (NS>0.AND.IPEN==0) THEN
           IF (WEIGHT(NS)==1) THEN
             IF (NML>0) MNS= MNS+MS(NS)*WEIGHT(NS)
 c         DO J = 1,NML
@@ -855,7 +900,8 @@ C-------output only when real added mass happened: debug usage
         IAD = IRBE3(1,N)
         NS  = IRBE3(3,N)
         NML = IRBE3(5,N)
-        IF (NS>0) THEN
+        IPEN= IRBE3(9,N)
+        IF (NS>0.AND.IPEN==0) THEN
           IF (WEIGHT(NS)==1) THEN
              DO J = 1,NML
                M = LRBE3(IAD+J)
@@ -872,8 +918,9 @@ C-------output only when real added mass happened: debug usage
         IAD = IRBE3(1,N)
         NS  = IRBE3(3,N)
         NML = IRBE3(5,N)
-          IROT =IRBE3(6,N)
-        IF (NS>0.AND.IROT>0.AND.WEIGHT(NS)==1) THEN
+        IROT= IRBE3(6,N)
+        IPEN= IRBE3(9,N)
+        IF (NS>0.AND.IROT>0.AND.WEIGHT(NS)==1.AND.IPEN==0) THEN
          DO J = 1,NML
           M = LRBE3(IAD+J)
           K = IADMP(IAD+J)
@@ -926,7 +973,7 @@ C======================================================================|
       DO N=1,NRBE3
               NML = IRBE3(5,N)
               IROT =IRBE3(6,N)
-        MAX_M=MAX(MAX_M,NML)
+        MAX_M=MAX(MAX_M,NML) ! add if (ipen==0)
         IROTG=MAX(IROTG,IROT)
               IC=IRBE3(4,N)
         ICT=IC/512
