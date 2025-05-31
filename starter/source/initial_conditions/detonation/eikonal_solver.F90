@@ -125,7 +125,7 @@
             Mat_det = detonators%point(idet)%mat
             if(.not. is_printed_title55)then
               write(istdo, '(a)') title55
-              is_printed_title55 =.false.
+              is_printed_title55 =.true.
             end if
 
             ! FAST MARCHING METHOD

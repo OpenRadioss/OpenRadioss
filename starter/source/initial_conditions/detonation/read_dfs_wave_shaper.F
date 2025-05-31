@@ -176,18 +176,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   O u t p u t   F o r m a t
 C-----------------------------------------------
- 1001 FORMAT(///'SHADOW LINE DETONATION    ',I10,/5X,
+ 1001 FORMAT(///5X,
+     &          'SHADOW LINE DETONATION    ',I10,/5X,
      &          '----------------------    ',/5X,
      &          'CONFIDENTIAL DATA')    
- 1550 FORMAT(///'SHADOW LINE DETONATION    =',I10,/5X,
+ 1550 FORMAT(///5X,
+     &          'SHADOW LINE DETONATION    =',I10,/5X,
      &          '----------------------     ',/5X,
      &          'OPTIONAL VELOCITY         =',1PG20.13,/5X,
      &          'Y-COORDINATE              =',1PG20.13,/5X,
      &          'Z-COORDINATE              =',1PG20.13,/5X,
      &          'LIGHTING TIME             =',1PG20.13,/5X,
-     &          'EXPLOSIVE MATERIAL NUMBER =',I10/
-     &          'SHADOW LINE NODE GROUP ID =',I10/
-     &          'NUMBER OF POINTS(SHADOW)  =',I10/
+     &          'EXPLOSIVE MATERIAL NUMBER =',I10,/5X,
+     &          'SHADOW LINE NODE GROUP ID =',I10,/5X,
+     &          'NUMBER OF POINTS(SHADOW)  =',I10,/5X,
      &          'SHADOW LINE DEFINITION :   ')
 
 C-----------------------------------------------

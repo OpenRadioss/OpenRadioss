@@ -63,7 +63,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           material_is_high_explosive = .false.
           
-          if(mlw == 5 .or. mlw == 97)then !jwl and jwlb
+          if(mlw == 5 .or. mlw == 97 .or. mlw == 51)then !jwl and jwlb
             material_is_high_explosive = .true.
           endif
 
