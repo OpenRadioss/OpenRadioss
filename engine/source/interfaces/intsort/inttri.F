@@ -149,6 +149,7 @@ C-----------------------------------------------
       USE OUTPUTS_MOD
       USE INTERFACES_MOD
       USE GLOB_THERM_MOD
+      USE INT18_LAW151_NSV_SHIFT_MOD , ONLY : INT18_LAW151_NSV_SHIFT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -401,7 +402,7 @@ C end of single region
 
       ! If law151+int18 : shift NSV array
       IF( MULTI_FVM%IS_INT18_LAW151 ) THEN
-        CALL INT18_LAW151_NSV_SHIFT('+',ITASK,MULTI_FVM,IPARI,INTBUF_TAB)
+        CALL INT18_LAW151_NSV_SHIFT('+',ITASK,NTHREAD,MULTI_FVM,IPARI,INTBUF_TAB,npari,ninter,numnod)
         CALL MY_BARRIER()
       ENDIF
 
@@ -1557,7 +1558,7 @@ C
       ! If law151+int18 : shift NSV array
       IF( MULTI_FVM%IS_INT18_LAW151 ) THEN
         CALL MY_BARRIER()
-        CALL INT18_LAW151_NSV_SHIFT('-',ITASK,MULTI_FVM,IPARI,INTBUF_TAB)
+        CALL INT18_LAW151_NSV_SHIFT('-',ITASK,NTHREAD,MULTI_FVM,IPARI,INTBUF_TAB,npari,ninter,numnod)
       ENDIF   
 C
 C=======================================================================
