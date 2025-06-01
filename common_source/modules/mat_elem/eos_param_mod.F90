@@ -80,9 +80,7 @@
       contains
 
       !||====================================================================
-      !||    destruct_eos_param    ../common_source/modules/mat_elem/eos_param_mod.F90
-      !||--- called by ------------------------------------------------------
-      !||    construct_eos_param   ../common_source/modules/mat_elem/eos_param_mod.F90
+      !||    destruct_eos_param   ../common_source/modules/mat_elem/eos_param_mod.F90
       !||====================================================================
         subroutine destruct_eos_param(this)
           implicit none
@@ -95,8 +93,6 @@
 
       !||====================================================================
       !||    construct_eos_param   ../common_source/modules/mat_elem/eos_param_mod.F90
-      !||--- calls      -----------------------------------------------------
-      !||    destruct_eos_param    ../common_source/modules/mat_elem/eos_param_mod.F90
       !||====================================================================
         subroutine construct_eos_param(this)
           implicit none
