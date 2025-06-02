@@ -130,7 +130,7 @@ C-----------------------------------------------
       INTEGER I, J1, J , K0,NBINTER,K1S,K, NI, IL, IE, IG, PP, PPL
       INTEGER NISKYL,NISKYL1,ISIGN
       INTEGER JSUB,KSUB,NSUB,JJ,KK,ISS1,ISS2,IMS1,IMS2,ITYPSUB,
-     .   TAGIP(MVSIZ)
+     .   TAGIP(4*MVSIZ)
       my_real
      .    VX(4*MVSIZ),  VY(4*MVSIZ),  VZ(4*MVSIZ),  VN(4*MVSIZ),
      .   FXI(4*MVSIZ), FYI(4*MVSIZ), FZI(4*MVSIZ), FNI(4*MVSIZ),
