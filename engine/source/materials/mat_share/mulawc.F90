@@ -523,6 +523,7 @@
           mom(jft:jlt,2)  = zero
           mom(jft:jlt,3)  = zero
           yld(jft:jlt)    = zero
+          sigy(jft:jlt)   = zero
           if(flag_zcfac .and. mtn /= 22) zcfac(jft:jlt,1)= zero
           zcfac(jft:jlt,2)= zero
           if(flag_zcfac) zcfac(jft:jlt,2)= one
@@ -553,7 +554,6 @@
           do i=jft,jlt
             dt_inv(i) = dt1c(i)/max(dt1c(i)**2,em20)
           enddo
-          if (flag_law25 .or. flag_law2) sigy(jft:jlt) = zero
 !-----------------------------------------------------------
 !     equivalent strain rate (au sens energetique)
 !-----------------------------------------------------------
