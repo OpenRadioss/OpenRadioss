@@ -43,14 +43,14 @@
       !||    table4d_mod             ../common_source/modules/table4d_mod.F
       !||    table_mat_vinterp_mod   ../engine/source/materials/tools/table_mat_vinterp.F
       !||====================================================================
-      subroutine sigeps128c(mat_param   ,                                           &
-           nel      ,nuvar    ,nvartmp  ,uvar     ,vartmp   ,timestep ,             &
-           depsxx   ,depsyy   ,depsxy   ,depsyz   ,depszx   ,                       &
-           sigoxx   ,sigoyy   ,sigoxy   ,sigoyz   ,sigozx   ,                       &
-           signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,                       &
-           soundsp  ,thk      ,pla      ,dpla     ,epsd     ,                       &
-           off      ,et       ,thkly    ,shf      ,yld      ,                       &
-           hardm    ,sighl    ,l_sigb   ,sigb     )
+      subroutine sigeps128c(                                                 &
+                 mat_param,nel      ,nvartmp  ,vartmp   ,timestep ,          &
+                 depsxx   ,depsyy   ,depsxy   ,depsyz   ,depszx   ,          &
+                 sigoxx   ,sigoyy   ,sigoxy   ,sigoyz   ,sigozx   ,          &
+                 signxx   ,signyy   ,signxy   ,signyz   ,signzx   ,          &
+                 soundsp  ,thk      ,pla      ,dpla     ,epsd     ,          &
+                 off      ,et       ,thkly    ,shf      ,yld      ,          &
+                 hardm    ,sighl    ,l_sigb   ,sigb     )
 !
 ! =================================================================================
 ! \brief orthotropic hill material with plastic strain rate dependency for shells
@@ -67,16 +67,10 @@
       use precision_mod, only : WP
 ! ---------------------------------------------------------------------------------
           implicit none
-! ---------------------------------------------------------------------------------
-!     included files
-! ---------------------------------------------------------------------------------
-
-
 !-----------------------------------------------
 !   d u m m y   a r g u m e n t s
 !-----------------------------------------------
       integer ,intent(in) :: nel                           !< element group size
-      integer ,intent(in) :: nuvar                         !< number of state variables
       integer ,intent(in) :: nvartmp                       !< number of temporary internal variables
       integer ,intent(in) :: l_sigb                        !< size of backstress tensor
       real(kind=WP) ,intent(in) :: timestep                      !< time step
@@ -105,10 +99,9 @@
       real(kind=WP) ,dimension(nel)     ,intent(out)   :: sighl  !< hill equivalent stress 
       real(kind=WP) ,dimension(nel)     ,intent(out)   :: soundsp!< sound speed
       real(kind=WP) ,dimension(nel)     ,intent(out)   :: hardm  !< tangent module
-      real(kind=WP) ,dimension(nel)     ,intent(out)   :: epsd   !< plastic strain rate
+      real(kind=WP) ,dimension(nel)     ,intent(out)   :: epsd   !< local plastic strain rate
       real(kind=WP) ,dimension(nel)     ,intent(out)   :: et     !< hourglass stiness factor
       real(kind=WP) ,dimension(nel,l_sigb)  ,intent(inout) :: sigb      !< backstress tensor
-      real(kind=WP) ,dimension(nel,nuvar)   ,intent(inout) :: uvar      !< state variables
       integer ,dimension(nel,nvartmp) ,intent(inout) :: vartmp    !< temporary internal variables
       type (matparam_struct_) ,intent(in) :: mat_param !< material parameter structure
 !-----------------------------------------------
@@ -171,7 +164,6 @@
       dpzz(1:nel)   = zero
       et(1:nel)     = one
       yld0(1:nel)   = sigy
-      epsd(1:nel)   = uvar(1:nel,1)  ! filtered plastic strain rate from previous time step
       soundsp(1:nel)= sqrt(a11/rho0)
 !---------------------------------------------------------------------
       !< element deletion condition
@@ -421,8 +413,8 @@
         thk(i) = thk(i) + dezz*thkly(i)*off(i)  
         ! plastic strain-rate filtering
         dpdt    = dpla(i) / dtime
-        epsd(i) = asrate * dpdt + (one - asrate) * uvar(i,1)
-        uvar(i,1) = max(cc, epsd(i))  ! strain rate effect below static limit is ignored
+        epsd(i) = asrate * dpdt + (one - asrate) * epsd(i)
+        epsd(i) = max(cc, epsd(i))  ! strain rate effect below static limit is ignored
       enddo 
 !-----------
       return 

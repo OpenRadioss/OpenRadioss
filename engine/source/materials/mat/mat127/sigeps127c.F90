@@ -43,15 +43,15 @@
       !||    precision_mod      ../common_source/modules/precision_mod.F90
       !||====================================================================
          SUBROUTINE sigeps127c(                                   &
-           nel     ,mat_param  , nuvar   ,uvar    ,               &
-           rho     ,thk       ,thkly     ,shf     ,  ncycle ,     &
-           nfunc   ,ifunc     ,npf       ,tf      ,  snpc   ,     &
-           stf     , epsp     ,nply_max  ,                        &
-           depsxx  ,depsyy     ,depsxy   ,depsyz   ,depszx ,      &   
-           epsxx  ,epsyy       ,epsxy    ,epsyz   ,epszx  ,      &   
-           sigoxx  ,sigoyy     ,sigoxy  ,sigozx ,sigoyz ,         &
-           signxx  ,signyy     ,signxy  ,signzx   ,signyz  ,      &
-           off     ,sigy       ,etse    ,ssp      ,dmg     ,      &
+           nel     ,mat_param ,nuvar    ,uvar    ,               &
+           rho     ,thk       ,thkly    ,shf     ,  ncycle ,     &
+           nfunc   ,ifunc     ,npf      ,tf      ,  snpc   ,     &
+           stf     ,epsp      ,nply_max ,                        &
+           depsxx  ,depsyy    ,depsxy   ,depsyz   ,depszx ,      &   
+           epsxx   ,epsyy     ,epsxy    ,epsyz    ,epszx  ,      &   
+           sigoxx  ,sigoyy    ,sigoxy   ,sigozx   ,sigoyz ,         &
+           signxx  ,signyy    ,signxy   ,signzx   ,signyz  ,      &
+           off     ,sigy      ,etse     ,ssp      ,dmg     ,      &
            dmg_g   ,offply   ) 
 !---------------------------------------------- -
 !   M o d u l e s
@@ -84,7 +84,7 @@
           real(kind=WP), dimension(nel), intent(in)    :: thkly !< ply thickness  
           real(kind=WP), dimension(nel), intent(inout)    :: thk !< element thickness  
           real(kind=WP), dimension(stf), intent(in) :: tf
-          real(kind=WP), dimension(nel), intent(in) :: epsp !<  equiv. strain rate
+          real(kind=WP), dimension(nel), intent(in) :: epsp   !<  global element strain rate
           real(kind=WP), dimension(nel), intent(inout) :: etse !< ratio of rigidity  
           real(kind=WP), dimension(nel), intent(in) :: depsxx !< incr strain xx 
           real(kind=WP), dimension(nel), intent(in) :: depsyy !< incr strain yy

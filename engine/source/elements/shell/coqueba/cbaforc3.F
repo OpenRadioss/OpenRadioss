@@ -290,6 +290,8 @@ C-----------------------------------------------
        my_real , DIMENSION(NEL) ::  ZOFFSET
 !     variables for heat transfer
       my_real, dimension(mvsiz) :: fheat
+      my_real, dimension(mvsiz) :: epsd_pg,epsd_glob
+      my_real :: dtinv,asrate,eps_m2,eps_k2
 !
 C-----------------------------------------------
       INTEGER, DIMENSION(NEL) :: OFFLY
@@ -562,8 +564,6 @@ C
      .   CALL CBADEFSH_PLY(JFT,JLT,NPT,NPLAT,IPLAT,X13,X24,Y13,Y24,
      .                   PLY_VXYZ,DT1C ,PLY_EXY)        
 C-----------------------------------------------
-C     BOUCLE SUR POINTS D INTEGRATION DE GAUSS
-C-----------------------------------------------
       LENF = NEL*GBUF%G_FORPG/NPG
       LENM = NEL*GBUF%G_MOMPG/NPG
 C
@@ -577,7 +577,9 @@ C
 C
       LENS = NEL*GBUF%G_STRPG/NPG
       LENW = NEL*GBUF%G_STRWPG/NPG
+!-------------------------------------------------------------------
       IF (ISMSTR == 10 ) THEN
+!
         CALL CBACOORT(ELBUF_STR,JFT,JLT,X,V,
      .            VR,DR,IXC,PM,GBUF%OFF,AREAT,
      1            UXYZ, AXYZ,VCORET,JACT,HXT,
@@ -585,52 +587,57 @@ C
      3            X13T  ,X24T  ,Y13T,Y24T,NPTTOT ,
      4            GBUF%SMSTR ,  IDRIL ,XLCORE,ZL,VQN,NEL)
 C  
-       IF (IDRIL > 0) THEN
-        CALL CBADERIRZ(JFT  ,JLT  ,AREAT,X13T,X24T  ,
+        IF (IDRIL > 0) THEN
+          CALL CBADERIRZ(JFT  ,JLT  ,AREAT,X13T,X24T  ,
      2                 Y13T ,Y24T ,BM0RZT,BMKRZT,BMERZT,
      3                 VCORET,NPLATT,IPLATT,ISMSTR)
-C------assumed membrane shear strain---(no assumed shear for Ismstr=10-
-       END IF !(IDRIL > 0) THEN
-       DO IS = 1,NPTS
-       DO IR = 1,NPTR
-        NG = NPTR*(IS-1) + IR
-        PTF = (NG-1)*LENF+1
-        PTM = (NG-1)*LENM+1
-        PTS = (NG-1)*LENS+1
+C------    assumed membrane shear strain---(no assumed shear for Ismstr=10-
+        END IF !(IDRIL > 0)
+!
+!       Gauss points
+        DO IS = 1,NPTS
+          DO IR = 1,NPTR
+           NG = NPTR*(IS-1) + IR
+           PTF = (NG-1)*LENF+1
+           PTM = (NG-1)*LENM+1
+           PTS = (NG-1)*LENS+1
 c
-         DO I=JFT,JLT
-          CDET(I) = JACT(I,NG)
-          VOL0(I) = THK0(I)*CDET(I)
-         ENDDO
+            DO I=JFT,JLT
+             CDET(I) = JACT(I,NG)
+             VOL0(I) = THK0(I)*CDET(I)
+            ENDDO
 C-----------------------------------------------
-C       DEFORMATIONS, MATRICE [B]
+C           DEFORMATIONS, MATRICE [B]
 C-----------------------------------------------
-        IF (IDRIL > 0) THEN
-         CALL CBADERIRZT(JFT,JLT,NG,BM0RZT,BMKRZT,BMERZT,BMRZT)
-        END IF !(IDRIL > 0) THEN
-C-------no warped element w/ NPT=1              
-        IF (NPTTOT == 1) THEN
-         CALL CBADEFT1(JFT,JLT,NG,VCORET,UXYZ,F_DEF(1,1,NG),
-     1                 HXT,HYT,BMT,NPLATT,IPLATT,IDRIL,
-     2                 BMRZT,AXYZ,WXY )
-        ELSE
-         CALL CBADERIT1(JFT,JLT,NG,VCORET,VQGT,VJFIT,
-     2                  HXT,HYT,VETA,VKSI,BMT,NPLATT,IPLATT,
-     3                  IDRIL)
-         CALL CBADEFT(JFT,JLT,UXYZ,AXYZ,F_DEF(1,1,NG),
-     2                BMT,NPLATT,IPLATT,IDRIL,BMRZT )
-        END IF ! NPT == 1
+            IF (IDRIL > 0) THEN
+             CALL CBADERIRZT(JFT,JLT,NG,BM0RZT,BMKRZT,BMERZT,BMRZT)
+            END IF !(IDRIL > 0) THEN
+C-------    no warped element w/ NPT=1              
+            IF (NPTTOT == 1) THEN
+             CALL CBADEFT1(JFT,JLT,NG,VCORET,UXYZ,F_DEF(1,1,NG),
+     1                     HXT,HYT,BMT,NPLATT,IPLATT,IDRIL,
+     2                     BMRZT,AXYZ,WXY )
+            ELSE
+             CALL CBADERIT1(JFT,JLT,NG,VCORET,VQGT,VJFIT,
+     2                      HXT,HYT,VETA,VKSI,BMT,NPLATT,IPLATT,
+     3                      IDRIL)
+             CALL CBADEFT(JFT,JLT,UXYZ,AXYZ,F_DEF(1,1,NG),
+     2                    BMT,NPLATT,IPLATT,IDRIL,BMRZT )
+            END IF ! NPT == 1
 C  
-       ENDDO  ! NPTR
-      ENDDO  ! NPTS
-      END IF
-C      
-      IF (NPTTOT == 1.AND.MTN==58) THEN
+          ENDDO  ! NPTR
+        ENDDO    ! NPTS
+      END IF     ! ISMSTR == 10
+C-----------------------------------------------
+      IF (NPTTOT == 1 .AND. MTN==58) THEN
         ZLA(JFT:JLT)= ZL(JFT:JLT)*ZL(JFT:JLT)/AREA(JFT:JLT)
-        CALL CBAL58WARP(ELBUF_STR,NEL,
-     1                  X,IXC,R13 ,R23 ,R33  ,GBUF%OFF ,ZLA )
+        CALL CBAL58WARP(ELBUF_STR,NEL,X,IXC,R13,R23,R33,GBUF%OFF,ZLA )
       END IF
-c      IT  = 1
+!---------------------------------------------------------------------
+      ! Loop over Gauss points
+!---------------------------------------------------------------------
+      epsd_glob(1:nel) = zero
+      
       DO IS = 1,NPTS
        DO IR = 1,NPTR
         NG = NPTR*(IS-1) + IR
@@ -700,6 +707,7 @@ C
           CALL CBAENER(GBUF%FORPG(PTF),GBUF%EINT,JFT  ,JLT    ,OFF   ,
      .                 VOL0           ,EXY      ,NEL  )
         ENDIF 
+!
         IF (ISHPLYXFEM > 0 ) THEN 
           DO J=1,NPT                                          
             JG = (NG - 1)*3                                  
@@ -734,8 +742,24 @@ C
      7                       GBUF%EPGPINCHZZ(PTEPZZ)  )
 C
         ENDIF 
-C
-C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
+!-------------------------------------------------------------------------------
+!       global element strain rate (shell energy equivalent) - by Gauss points
+!-----------------------------------------------------------
+!       e = 1/t integ[1/2 e (eps_m + k z)^2 dz ]
+!       e = 1/2 e eps_eq^2
+!       eps_eq = sqrt[ eps_m^2 + 1/12 k^2t^2 ]
+!-------------------------------------------------------------------------------
+        dtinv = dt1 / max(dt1**2,em20)  ! inverse of dt
+#include "vectorize.inc"
+        do i = 1,nel
+          eps_k2 = (kxx(i)*kxx(i)+kyy(i)*kyy(i)+kxx(i)*kyy(i)              
+     &           + fourth*one_over_9*kxy(i)*kxy(i)) * gbuf%thk(i)**2
+          eps_m2 = four_over_3*(exx(i)*exx(i)+eyy(i)*eyy(i)+exx(i)*eyy(i)  
+     &           + fourth*exy(i)*exy(i))
+          epsd_pg(i) = sqrt(eps_k2 + eps_m2)*dtinv
+          epsd_glob(i) = epsd_glob(i) + epsd_pg(i) / npg
+        end do
+!-------------------------------------------------------------------------------
         IF (JTHE > 0 ) THEN
            CALL CBATEMPEL(JFT ,JLT   ,NG  ,IXC   ,TEMP ,TEMPEL)
         ENDIF
@@ -762,7 +786,7 @@ C-----------------
      8    GBUF%FORPG(PTF),GBUF%MOMPG(PTM) ,GBUF%STRPG(PTS),FAILWAVE,FWAVE_EL,
      9    GBUF%THK  ,GBUF%EINT ,IOFC      ,
      A    G         ,A11       ,A12       ,VOL0      ,INDXOF    ,
-     B    NGL       ,ZCFAC     ,SHF       ,GS        ,GBUF%EPSD ,
+     B    NGL       ,ZCFAC     ,SHF       ,GS        ,epsd_pg   ,
      C    KFTS      ,IHBE      ,ALPE      ,
      D    DIR_A     ,DIR_B     ,IGEO      ,
      E    IPM       ,IFAILURE  ,NPG       ,
@@ -791,7 +815,7 @@ C-----------------
      8    GBUF%FORPG(PTF),GBUF%MOMPG(PTM) ,GBUF%STRPG(PTS),FAILWAVE,FWAVE_EL,
      9    GBUF%THK  ,GBUF%EINT ,IOFC      ,
      A    G         ,A11       ,A12       ,VOL0      ,INDXOF    ,
-     B    NGL       ,ZCFAC     ,SHF       ,GS        ,GBUF%EPSD ,
+     B    NGL       ,ZCFAC     ,SHF       ,GS        ,epsd_pg   ,
      C    KFTS      ,IHBE      ,ALPE      ,
      D    DIR_A     ,DIR_B     ,IGEO      ,
      E    IPM       ,IFAILURE  ,NPG       ,FHEAT     ,
@@ -899,11 +923,15 @@ c--------------------------
      7   NFT)
          ENDIF 
        ENDDO  ! NPTR
-      ENDDO  ! NPTS
-    
+      ENDDO  ! NPTS    
 C---------------------------------------
 C-----FIN DE BOUCLE DE 4 POINTS DE GAUSS
-C---------------------------------------
+!-------------------------------------------------------------------------------
+!     global element strain rate filtering for output
+
+      asrate = one   ! to be changed for default value
+      gbuf%epsd(1:nel) = asrate * epsd_glob(1:nel) + (one - asrate) * gbuf%epsd(1:nel)      
+!-------------------------------------------------------------------------------
 C
       IF (NPINCH > 0) THEN
         CALL CBAPINCHTHK(

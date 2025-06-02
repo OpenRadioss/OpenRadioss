@@ -35,7 +35,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1     NEL    ,NUPARAM  ,NUVAR   ,MFUNC   ,KFUNC  ,
      2     NPF    ,NPT0     ,IPT     ,IFLAG   ,
      2     TF     ,TIME     ,TIMESTEP,UPARAM  ,RHO0   ,
-     3     AREA   ,EINT     ,THKLY   ,
+     3     AREA   ,EINT     ,THKLY   ,ISRATE  ,ASRATE ,
      4     EPSPXX ,EPSPYY   ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
      5     DEPSXX ,DEPSYY   ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
      6     EPSXX  ,EPSYY    ,EPSXY   ,EPSYZ   ,EPSZX  ,
@@ -44,7 +44,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      9     SIGVXX ,SIGVYY   ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
      A     SOUNDSP,VISCMAX  ,THK     ,PLA     ,UVAR   ,
      B     OFF    ,NGL      ,IPM     ,MAT     ,ETSE   ,
-     C     GS     ,YLD      ,EPSP    ,ISRATE  ,INLOC  ,
+     C     GS     ,YLD      ,EPSD_PG ,EPSP    ,INLOC  ,
      D     DPLANL ,MAT_PARAM,NUVARV  ,UVARV   ,LOFF   )
 C-----------------------------------------------
 C   M o d u l e s
@@ -113,6 +113,9 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NUVARV
       INTEGER NEL, NUPARAM, NUVAR, NPT0, IPT,IFLAG(*),
      .   NGL(NEL),MAT(NEL),ISRATE,IPM(NPROPMI,*),INLOC
+      my_real ,INTENT(IN) :: ASRATE
+      my_real ,DIMENSION(NEL) ,INTENT(IN)    :: EPSD_PG !< global element strain rate in Gauss pt
+      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: EPSP    !< local strain rate used in equations
       my_real
      .   TIME,TIMESTEP(NEL),UPARAM(*),
      .   AREA(NEL),RHO0(NEL),EINT(NEL,2),
@@ -125,7 +128,7 @@ C-----------------------------------------------
      .   EPSXY(NEL) ,EPSYZ(NEL) ,EPSZX(NEL) ,
      .   SIGOXX(NEL),SIGOYY(NEL),
      .   SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL),
-     .   GS(*),EPSP(NEL),DPLANL(NEL)
+     .   GS(*),DPLANL(NEL)
       TYPE(MATPARAM_STRUCT_) ,INTENT(IN) :: MAT_PARAM
       my_real, DIMENSION(NEL), INTENT(IN) :: LOFF
 C-----------------------------------------------
@@ -293,10 +296,13 @@ C
 C-------------------
 C     STRAIN RATE
 C-------------------
-        IF (ISRATE == 0) EPSP(I) = 
-     .     HALF*( ABS(EPSPXX(I)+EPSPYY(I))
-     .   + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
-     .                 + EPSPXY(I)*EPSPXY(I) ) )
+        IF (ISRATE == 0) THEN
+          EPSP(I) = HALF*( ABS(EPSPXX(I)+EPSPYY(I))
+     .            + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
+     .            + EPSPXY(I)*EPSPXY(I) ) )
+         ELSE
+           EPSP(I) = ASRATE*EPSD_PG(I) + (ONE-ASRATE)*EPSP(I)
+         ENDIF
           JJC(I) = 1
           JJT(I) = NCC + 1
        ENDDO

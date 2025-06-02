@@ -63,7 +63,7 @@ c       global variables - scalars
         MTAG%G_EINS   = 0 
         MTAG%G_RHO    = 0   ! G_RHO > 0 only for solids   
         MTAG%G_DELTAX = 0 
-        MTAG%G_EPSD   = 0 
+        MTAG%G_EPSD   = 1 
         MTAG%G_EPSQ   = 0
         MTAG%G_PLA    = 0 
         MTAG%G_TEMP   = 0 

@@ -2376,16 +2376,9 @@ c
                   EVAR(I) = VALUE 
                 ENDDO  
 
-              ELSEIF(IFUNC == 26) THEN
-                IF (GBUF%G_EPSD > 0) THEN
-                   DO I=LFT,LLT
-                     EVAR(I) = GBUF%EPSD(I)
-                   ENDDO
-                 ELSE
-                   DO I=LFT,LLT
-                     EVAR(I) = ZERO
-                   ENDDO
-                 ENDIF 
+              ELSEIF (IFUNC == 26) THEN             ! element strain rate
+                EVAR(LFT:LLT) = GBUF%EPSD(LFT:LLT)
+!
               ELSE
                   DO I=LFT,LLT
                       N = I + NFT

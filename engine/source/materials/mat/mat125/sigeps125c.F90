@@ -82,7 +82,7 @@
           real(kind=WP), dimension(nel), intent(inout) :: thk !< shell thikness 
           real(kind=WP), dimension(nel), intent(in)    :: thkly !< ply thikness  
           real(kind=WP), dimension(stf), intent(in) :: tf
-          real(kind=WP), dimension(nel), intent(in) :: epsp !<  equiv. strain rate
+          real(kind=WP), dimension(nel), intent(in) :: epsp   !<  global equiv. strain rate
           real(kind=WP), dimension(nel), intent(inout) :: etse !< ratio of rigidity  
           real(kind=WP), dimension(nel), intent(in) :: sigoxx !< old stress xx 
           real(kind=WP), dimension(nel), intent(in) :: sigoyy !< old stress yy

@@ -39,8 +39,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2                    DIR      ,THLY    ,TIME     ,TIMESTEP,SHF     ,
      3                    NGL      ,THK0    ,EXX      ,OFF_OLD ,
      4                    EYY      ,EXY     ,EXZ      ,EYZ     ,KXX     ,
-     5                    KYY      ,KXY     ,ZZ       ,EPSPL   ,RHO0    ,
-     6                    SOUNDSP  ,UPARAM  ,OFFL     ,
+     5                    KYY      ,KXY     ,ZZ       ,EPSD_PG ,RHO0    ,
+     6                    SOUNDSP  ,UPARAM  ,OFFL     ,EPSD    ,ASRATE  ,
      7                    SIGY     ,ZCFAC   ,NPTT     ,ILAY    ,
      8                    NFIS1    ,NFIS2   ,NFIS3    ,WPLAR   ,
      9                    NPTTOT   ,IGTYP   ,SIGV     ,SIGPLY  ,
@@ -83,12 +83,15 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NEL) ,INTENT(INOUT) :: NFIS1,NFIS2,NFIS3
       my_real ,INTENT(IN) :: TIME
       my_real ,INTENT(IN) :: TIMESTEP
+      my_real ,INTENT(IN) :: ASRATE
+      my_real ,DIMENSION(NEL)   ,INTENT(IN)    :: EPSD_PG
+      my_real ,DIMENSION(NEL)   ,INTENT(INOUT) :: EPSD
       my_real ,DIMENSION(NEL)   ,INTENT(INOUT) :: WPLAR
       my_real :: 
      .   PM(NPROPM),OFF(*),OFF_OLD(*),GSTR(NEL,8),DIR(*),
      .   THLY(*),SHF(*),THK0(MVSIZ),EXX(MVSIZ),EYY(MVSIZ),
      .   EXY(MVSIZ),EXZ(MVSIZ),EYZ(MVSIZ),KXX(MVSIZ),KYY(MVSIZ),
-     .   KXY(MVSIZ),ZZ(*),EPSPL(*),RHO0(*),SOUNDSP(*),UPARAM(*),
+     .   KXY(MVSIZ),ZZ(*),RHO0(*),SOUNDSP(*),UPARAM(*),
      .   SIGY(*),ZCFAC(MVSIZ,2),SIGNXX(MVSIZ),
      .   SIGNYY(MVSIZ),SIGNXY(MVSIZ),SIGNYZ(MVSIZ),SIGNZX(MVSIZ),
      .   SIGVXX(MVSIZ),SIGVYY(MVSIZ),SIGVXY(MVSIZ),SIGVYZ(MVSIZ),
@@ -192,8 +195,8 @@ C-----------------------
      3                      NFIS1    ,NFIS2   ,NFIS3   ,ILAY    ,SHF   ,
      4                      NGL      ,EPS     ,IGTYP   ,WPLAR   ,STRN1 ,
      5                      STRN2    ,STRN3   ,STRP1   ,STRP2   ,SIGE  ,
-     6                      EPSPL    ,ISRATE  ,OFFL    ,YLD     ,ETSE  ,
-     7                      ISHPLYXFEM,PLY_EXX(1,IPT),PLY_EYY(1,IPT),
+     6                      EPSD_PG  ,EPSD    ,ISRATE  ,ASRATE  ,OFFL    ,
+     7                      YLD      ,ETSE,ISHPLYXFEM,PLY_EXX(1,IPT),PLY_EYY(1,IPT),
      8                      PLY_EXY(1,IPT),SIGPLY,SIGPE,PLY_ID ,
      9                      SIGNXX   ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX,
      A                      IPG      ,TSAIWU  ,IPLYXFEM,TIME    ,TIMESTEP,
@@ -207,8 +210,8 @@ C-----------------------
      3                       NFIS1    ,NFIS2   ,NFIS3   ,ILAY    ,SHF   ,
      4                       NGL      ,EPS     ,WPLAR   ,STRN1 ,
      5                       STRN2    ,STRN3   ,STRP1   ,STRP2   ,SIGE  ,
-     6                       EPSPL    ,ISRATE  ,OFFL    ,YLD     ,ETSE  ,
-     7                       IERR     ,ISHPLYXFEM,PLY_EXX(1,IPT),PLY_EYY(1,IPT),
+     6                       EPSD_PG  ,EPSD    ,ISRATE  ,ASRATE  ,OFFL    ,
+     7                       YLD      ,ETSE    ,IERR,ISHPLYXFEM,PLY_EXX(1,IPT),PLY_EYY(1,IPT),
      8                       PLY_EXY(1,IPT),SIGPLY,SIGPE,PLY_ID ,
      9                       SIGNXX   ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX,
      A                       IPG      ,TSAIWU  ,IPLYXFEM,TIME    ,TIMESTEP,

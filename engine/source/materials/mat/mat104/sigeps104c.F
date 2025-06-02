@@ -37,7 +37,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       SUBROUTINE SIGEPS104C(
      1     NEL     ,NGL     ,IPG     ,ILAY    ,IPT     ,NUPARAM ,NUVAR   ,
      2     TIMESTEP,TIME    ,UPARAM  ,UVAR    ,JTHE    ,RHO     ,TEMPEL  ,
-     3     PLA     ,DPLA    ,SOUNDSP ,OFFL    ,EPSD    ,EPSPL   ,GS      ,
+     3     PLA     ,DPLA    ,SOUNDSP ,OFFL    ,EPSD    ,GS      ,
      4     DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,THKLY   ,OFF     ,
      5     SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      6     SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,THK     ,SIGY    ,
@@ -82,7 +82,7 @@ c
       my_real ,DIMENSION(NEL) :: 
      .   SIGY,ET
       my_real ,DIMENSION(NEL), INTENT(INOUT) :: 
-     .   PLA,EPSD,OFFL,THK,OFF,VARNL,TEMP,SEQ,DPLA,EPSPL
+     .   PLA,EPSD,OFFL,THK,OFF,VARNL,TEMP,SEQ,DPLA
       my_real ,DIMENSION(NEL*L_DMG), INTENT(INOUT) :: 
      .   DMG
       my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) :: 
@@ -177,9 +177,6 @@ c
      8         TEMP    ,SEQ     ,PLA_NL  ,PLAP_NL )
           ENDIF      
       END SELECT        
-c    
-      ! Save the strain rate value for failure criterion
-      EPSPL(1:NEL) = EPSD(1:NEL)
 c
       ! Ductile failure activation
       IOFF_DUCT(1:NEL) = 1

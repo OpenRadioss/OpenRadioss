@@ -52,8 +52,8 @@
           nfis1   ,nfis2   ,nfis3   ,ilayer  ,shf   ,         &
           ngl     ,eps     ,igtyp   ,wplar   ,strn1 ,         &
           strn2   ,strn3   ,strp1   ,strp2   ,sige  ,         &
-          epsp    ,israte  ,offply  ,sigy    ,etse  ,         &
-          ishplyxfem,ly_exx,ly_eyy,                           &
+          epsd_pg ,epsd    ,israte  ,asrate  ,offply  ,       &
+          sigy    ,etse    ,ishplyxfem,ly_exx,ly_eyy  ,       &
           ly_exy  ,sigply  ,sigpe   ,ply_id  ,                &
           signxx  ,signyy  ,signxy  ,signyz  ,signzx,         &
           ipg     ,tsaiwu  ,iplyxfem,time    ,timestep,       &
@@ -83,8 +83,9 @@
           integer ,intent(in) :: ishplyxfem                !< ply Xfem flag
           integer ,intent(in) :: iplyxfem                  !< ply Xfem flag
           integer ,intent(in) :: ngl(mvsiz)                !< element ID table
-          real(kind=WP) ,intent(in) :: time                      !< current time
-          real(kind=WP) ,intent(in) :: timestep                  !< current time step
+          real(kind=WP) ,intent(in) :: time                !< current time
+          real(kind=WP) ,intent(in) :: timestep            !< current time step
+          real(kind=WP) ,intent(in) :: asrate              !< strain rate filtering coefficient
           integer ,intent(in) :: l_dmg                     !< second dimension of damage table
           integer ,dimension(nel) ,intent(inout) :: nfis1  !< failure counter in 1st direction
           integer ,dimension(nel) ,intent(inout) :: nfis2  !< failure counter in 2nd direction
@@ -95,7 +96,8 @@
           real(kind=WP) :: dir(nel,2)                            !< orthotropy directions
           real(kind=WP) :: crak(nel,2)                           !< ply Xfem failure criterion
           real(kind=WP) :: shf(nel)                              !< transverse shear factor
-          real(kind=WP) :: epsp(nel)                             !< equivalent strain rate
+          real(kind=WP) :: epsd_pg(nel)                          !< global strain rate in Gauss point
+          real(kind=WP) :: epsd(nel)                             !< local strain rate (lbuf%epsd)
           real(kind=WP) :: eps(mvsiz,5)                          !< total strain tensor
           real(kind=WP) :: wplar(mvsiz)                          !< reference plastic work
           real(kind=WP) :: strp1(mvsiz)                          !< strain in 1st orthotropic direction
@@ -135,6 +137,7 @@
           real(kind=WP) ,dimension(nel) :: dmax,cc,epdr,fyld,wplaref,wplamx
           real(kind=WP) ,dimension(nel) :: f1,f2,f12,f11,f22,f33
           real(kind=WP) ,dimension(nel) :: so1,so2,so3,s1,s2,s3,s4,s5
+          real(kind=WP) ,dimension(nel) :: epspfac
           real(kind=WP) ,dimension(mvsiz,5) :: epsply
           real(kind=WP) ,dimension(mvsiz,3) :: eply
 !=======================================================================
@@ -439,29 +442,33 @@
 !     strain rate
 !-------------------------------------------------------------------
           do i=1,nel
-            if (israte==0) epsp(i) = max(                          &
+            if (israte==0) then
+              epsd(i) = max(                          &
               abs(eps(i,1)),abs(eps(i,2)),abs(eps(i,3)),           &
               abs(eps(i,4)),abs(eps(i,5))) / max(timestep,em20)
-            if (epsp(i)>epdr(i)) then
-              epsp(i)=log(epsp(i)/epdr(i))
             else
-              epsp(i)=zero
+              epsd(i) = asrate*epsd_pg(i) + (one-asrate)*epsd(i) 
+            end if
+            if (epsd(i) > epdr(i)) then
+              epspfac(i) = log(epsd(i)/epdr(i))
+            else
+              epspfac(i)=zero
             endif
             coef(i)=zero
           enddo
 !-------------------------------------------------------------------
           do i=1,nel
-            epsp(i)=one + cc(i) * epsp(i)
+            epspfac(i)=one + cc(i) * epspfac(i)
             if (wpla(i)/=zero) then
-              fyld(i)=(one+cb(i)*exp(cn(i)*log(wpla(i))))*epsp(i)
+              fyld(i)=(one+cb(i)*exp(cn(i)*log(wpla(i))))*epspfac(i)
             else
-              fyld(i)=epsp(i)
+              fyld(i)=epspfac(i)
             endif
             if (icc==1.or.icc==3) then
-              fmax(i) = fmax(i)*epsp(i)
+              fmax(i) = fmax(i)*epspfac(i)
             endif
             if (icc==3.or.icc==4) then
-              wplamx(i) = wplamx(i)*epsp(i)
+              wplamx(i) = wplamx(i)*epspfac(i)
             endif
             fyld(i) = min(fmax(i),fyld(i))
           enddo
@@ -479,7 +486,7 @@
             if (wvec(i)>fyld(i).and.off(i)==one) coef(i)=one
             cnn=cn(i)-one
             wvec(i)=zero
-            if (wpla(i)>zero.and.fyld(i)<fmax(i))  wvec(i)=epsp(i)*exp(cnn*log(wpla(i)))
+            if (wpla(i)>zero.and.fyld(i)<fmax(i))  wvec(i)=epspfac(i)*exp(cnn*log(wpla(i)))
           enddo
 !
           do i=1,nel
@@ -680,7 +687,7 @@
               if (wvec(i)>fyld(i).and.off(i)==one) coef(i)=one
               cnn=cn(i)-one
               wvec(i)=zero
-              if (wpla(i)>zero.and.fyld(i)<fmax(i)) wvec(i)=epsp(i)*exp(cnn*log(wpla(i)))
+              if (wpla(i)>zero.and.fyld(i)<fmax(i)) wvec(i)=epspfac(i)*exp(cnn*log(wpla(i)))
             enddo
 !
             do i=1,nel

@@ -39,7 +39,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      4     DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      5     SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      6     SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     7     SOUNDSP ,THK     ,THKLY   ,PLA     ,EPSP    ,
+     7     SOUNDSP ,THK     ,THKLY   ,PLA     ,EPSD    ,
      8     ETSE    ,GS      ,YLD     ,INLOC   ,L_PLANL ,
      9     PLANL   ,DPLANL  ,DMG     ,
      A     NVARTMP ,VARTMP  ,LOFF    )
@@ -72,7 +72,7 @@ C-----------------------------------------------
      .   SIGOXX,SIGOYY,SIGOXY,SIGOYZ,SIGOZX,DPLANL
       my_real, DIMENSION(L_PLANL*NEL), INTENT(IN) :: PLANL
       my_real, DIMENSION(NEL), INTENT(INOUT) :: 
-     .   EPSP,PLA,SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX,SOUNDSP,
+     .   EPSD,PLA,SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX,SOUNDSP,
      .   ETSE,OFF,YLD,THK,DMG
       my_real, DIMENSION(NEL,NUVAR), INTENT(INOUT) :: UVAR
       TYPE(MATPARAM_STRUCT_), INTENT(IN), TARGET :: MATPARAM
@@ -136,7 +136,7 @@ c
      .       DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      .       SIG0XX  ,SIG0YY  ,SIG0XY  ,SIG0YZ  ,SIG0ZX  ,
      .       SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     .       PLA     ,DPLA    ,EPSP    ,OFF     ,GS      ,
+     .       PLA     ,DPLA    ,EPSD    ,OFF     ,GS      ,
      .       YLD     ,SOUNDSP ,DEZZ    ,INLOC   ,DPLANL  ,
      .       NVARTMP ,VARTMP  ,LOFF    )
 c
@@ -149,7 +149,7 @@ c
      .       DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      .       SIG0XX  ,SIG0YY  ,SIG0XY  ,SIG0YZ  ,SIG0ZX  ,
      .       SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     .       PLA     ,DPLA    ,EPSP    ,OFF     ,GS      ,
+     .       PLA     ,DPLA    ,EPSD    ,OFF     ,GS      ,
      .       YLD     ,SOUNDSP ,DEZZ    ,INLOC   ,DPLANL  ,
      .       NVARTMP ,VARTMP  ,LOFF    )
         ELSE                 ! Non-quadratic yield criterion
@@ -160,7 +160,7 @@ c
      .       DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      .       SIG0XX  ,SIG0YY  ,SIG0XY  ,SIG0YZ  ,SIG0ZX  ,
      .       SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
-     .       PLA     ,DPLA    ,EPSP    ,OFF     ,GS      ,
+     .       PLA     ,DPLA    ,EPSD    ,OFF     ,GS      ,
      .       YLD     ,SOUNDSP ,DEZZ    ,INLOC   ,DPLANL  ,
      .       NVARTMP ,VARTMP  ,LOFF    )
         ENDIF

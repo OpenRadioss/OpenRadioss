@@ -352,11 +352,11 @@
          jale    = 0
          jthe    = 0
 !---------------------------------------------------
-         israte  = -1
-!           strain rate flag :
-!               israte =-1 => no strain rate computation (default)
-!               israte = 0 => strain rate computation (for output only), no filtering
+!        local material strain rate flag :
+!               israte =-1 => no strain rate computation
+!               israte = 0 => strain rate computation, no filtering (default)
 !               israte > 0 => strain rate filtering using fcut and exponential average
+         israte  = 0              ! default value
 !---------------------------------------------------
          imatvis = 0
          nfunc   = 0
@@ -1269,8 +1269,6 @@
             pm(9,i) = ep20
             mtag%g_temp = 1
             mtag%l_temp = 1
-            mtag%g_epsd = 1
-            mtag%l_epsd = 1
             mtag%g_pla  = 1
             mtag%l_pla  = 1
             call hm_read_mat29_31(ilaw,key,&
@@ -1287,8 +1285,6 @@
             pm(9,i) = ep20
             mtag%g_temp = 1
             mtag%l_temp = 1
-            mtag%g_epsd = 1
-            mtag%l_epsd = 1
             mtag%g_pla  = 1
             mtag%l_pla  = 1
             call hm_read_mat29_31(ilaw,key,&
@@ -1305,8 +1301,6 @@
             pm(9,i) = ep20
             mtag%g_temp = 1
             mtag%l_temp = 1
-            mtag%g_epsd = 1
-            mtag%l_epsd = 1
             mtag%g_pla  = 1
             mtag%l_pla  = 1
             call hm_read_mat29_31(ilaw,key,&
@@ -1350,8 +1344,6 @@
             &pm(1,i),matparam)
             mtag%g_temp = 1
             mtag%l_temp = 1
-            mtag%g_epsd = 1
-            mtag%l_epsd = 1
             mtag%g_pla  = 1
             mtag%l_pla  = 1
 !-------
@@ -1362,8 +1354,6 @@
 !!            israte = 1
             mtag%g_temp = 1
             mtag%l_temp = 1
-            mtag%g_epsd = 1
-            mtag%l_epsd = 1
             mtag%g_pla  = 1
             mtag%l_pla  = 1
             call init_mat_keyword(matparam,"ORTHOTROPIC")
@@ -1392,8 +1382,7 @@
          endif
 !--------------------------------------------
          israte = max(israte, nint(parmat(4)))  ! just in case ...
-         if(ilaw/=2)asrate = parmat(5)*two*pi             ! asrate = 2*pi*fcut
-!!        if (asrate == zero) asrate = ep20
+         asrate = two*pi*parmat(5)              ! asrate = 2*pi*fcut
 !--------------------------------------------
          matparam%ilaw   = ilaw
          matparam%mat_id = mat_id
@@ -1476,7 +1465,7 @@
          ipm(2,i)   = ilaw
          ipm(3,i)   = israte
 !
-         if (pm(9,i) == zero.and.ilaw /=2 ) pm(9,i) = asrate    ! old mat laws fill it directly
+         if (pm(9,i) == zero) pm(9,i) = asrate    ! old mat laws fill it directly
          pm(19,i)   = ilaw + em01     ! double stockage - a nettoyer
          pm(70,i)   = jtur + em01
          pm(71,i)   = jthe + em01
@@ -1530,13 +1519,12 @@
          endif
 !---------------------------------------------------------
 !
-         if (israte >= 0) then
-            if (mtag%g_epsd == 0) mtag%g_epsd = 1
-            if (mtag%l_epsd == 0) mtag%l_epsd = 1
-         endif
+         ! force calculating strain rate for all 
+         mtag%g_epsd = 1                       ! global element strain rate, always calculated for output
+         if (mtag%l_epsd == 0) mtag%l_epsd = 1 ! local strain rate (might depend on mat / fail model)  
+!!!!         if (israte >= 0) mtag%l_epsd = 1  
 
-         !sound speed
-         if(mtag%l_ssp == 0)mtag%l_ssp = 1
+         mtag%l_ssp = 1                         ! sound speed, always allocated
 
 !---------------------------------------------------------
 ! for qeph (shell formulation)
