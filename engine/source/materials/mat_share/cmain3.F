@@ -65,7 +65,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      8           FOR       ,MOM       ,GSTR      ,FAILWAVE  ,FWAVE_EL   ,
      9           THK       ,EINT      ,IOFC      ,
      A           G         ,A11       ,A12       ,VOL0      ,INDXDEL    ,
-     B           NGL       ,ZCFAC     ,SHF       ,GS        ,EPSP       ,
+     B           NGL       ,ZCFAC     ,SHF       ,GS        ,EPSD_PG  ,
      C           KFTS      ,JHBE      ,ALPE      ,
      D           DIR_A     ,DIR_B     ,IGEO      ,  
      E           IPM       ,IFAILURE  ,NPG       ,FHEAT     ,
@@ -139,9 +139,9 @@ C-----------------------------------------------
       INTEGER , DIMENSION(SEDRAPE) :: INDX_DRAPE
       INTEGER, INTENT(IN) :: IDT_THERM
       my_real ,intent(in) :: THEACCFACT
-      my_real
-     .   PM(NPROPM,*), GEO(NPROPG,*),TF(*),THK(*),EINT(JLT,*),FOR(NEL,5), 
-     .   MOM(NEL,3),EPSP(*),GSTR(NEL,8),BUFMAT(*),G(*),A11(*),A12(*),VOL0(*),
+      my_real ,dimension(mvsiz) ,intent(in) :: EPSD_PG
+      my_real PM(NPROPM,*), GEO(NPROPG,*),TF(*),THK(*),EINT(JLT,*),FOR(NEL,5), 
+     .   MOM(NEL,3),GSTR(NEL,8),BUFMAT(*),G(*),A11(*),A12(*),VOL0(*),
      .   SHF(*),GS(*),SIGY(MVSIZ),RHO(MVSIZ),SSP(MVSIZ),VISCMX(MVSIZ),
      .   OFF(MVSIZ) ,THK0(MVSIZ) ,NU(MVSIZ),DT1C(MVSIZ),
      .   EXX(MVSIZ), EYY(MVSIZ), EXY(MVSIZ), EXZ(MVSIZ), EYZ(MVSIZ),
@@ -260,7 +260,7 @@ c
      5       PID     ,TF      ,NPF     ,MTN     ,DT1C    ,A11     ,
      6       BUFMAT  ,SSP     ,RHO     ,VISCMX  ,IOFC    ,A12     ,
      7       INDXDEL ,NGL     ,ZCFAC   ,GS      ,SIGY    ,G       ,
-     8       THK0    ,EPSP    ,IPLA    ,IGEO    ,IPM     ,TABLE   ,
+     8       THK0    ,EPSD_PG,IPLA    ,IGEO    ,IPM     ,TABLE   ,
      9       IR      ,IS      ,F_DEF   ,ISMSTR  ,NU      ,VOL0    ,
      A       KFTS    ,ZSHIFT  ,IDAMP_FREQ_RANGE,MAT_ELEM,DAMP_BUF ,
      B       FOR_G )
@@ -282,7 +282,7 @@ c
      5       PID     ,TF      ,NPF     ,MTN     ,DT1C    ,DM      ,
      6       BUFMAT  ,SSP     ,RHO     ,VISCMX  ,IPLA    ,IOFC    ,
      7       INDXDEL ,NGL     ,THKLY   ,MATLY   ,ZCFAC   ,NG      ,
-     8       SHF     ,GS      ,SIGY    ,THK0    ,EPSP    ,
+     8       SHF     ,GS      ,SIGY    ,THK0    ,EPSD_PG,
      9       POSLY   ,IGEO    ,IPM     ,FAILWAVE,FWAVE_EL,
      A       IFAILURE,ALDT    ,TEMPEL  ,DIE     ,
      B       E1X     ,E1Y     ,E1Z     ,E2X     ,E2Y     ,E2Z     ,
@@ -313,7 +313,7 @@ c
      5       PID     ,TF      ,NPF     ,MTN     ,DT1C    ,DM      ,
      6       BUFMAT  ,SSP     ,RHO     ,VISCMX  ,IPLA    ,IOFC    ,
      7       INDXDEL ,NGL     ,THKLY   ,MATLY   ,ZCFAC   ,MAT_ELEM,
-     8       SHF     ,GS      ,SIGY    ,THK0    ,EPSP    ,
+     8       SHF     ,GS      ,SIGY    ,THK0    ,EPSD_PG,
      9       POSLY   ,IGEO    ,IPM     ,FAILWAVE,FWAVE_EL,
      A       IFAILURE,ALDT    ,TEMPEL  ,DIE     ,FHEAT   ,
      B       TABLE   ,IXFEM   ,ELCRKINI,

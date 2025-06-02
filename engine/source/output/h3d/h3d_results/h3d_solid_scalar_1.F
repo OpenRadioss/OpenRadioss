@@ -774,12 +774,8 @@ C--------------------------------------------------
 C--------------------------------------------------
               ELSEIF(KEYWORD == 'EPSD') THEN
 C--------------------------------------------------
-                IF (GBUF%G_EPSD > 0) THEN
-                  DO I=1,NEL
-                    VALUE(I) = GBUF%EPSD(I)
-                    IS_WRITTEN_VALUE(I) = 1
-                  ENDDO
-                ENDIF
+                VALUE(1:NEL) = GBUF%EPSD(1:NEL)
+                IS_WRITTEN_VALUE(1:NEL) = 1
 C--------------------------------------------------
               ELSEIF(KEYWORD == 'WPLA' .AND. MLW == 25) THEN
 C--------------------------------------------------

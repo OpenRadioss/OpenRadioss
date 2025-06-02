@@ -32,7 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      1     NEL0    ,NUPARAM,NUVAR   ,MFUNC   ,KFUNC  ,
      2     NPF    ,NPT0    ,IPT     ,IFLAG   ,
      2     TF     ,TIME   ,TIMESTEP,UPARAM  ,RHO0   ,
-     3     AREA   ,EINT   ,THKLY   ,
+     3     AREA   ,EINT   ,THKLY   ,ISRATE  ,ASRATE ,
      4     EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
      5     DEPSXX ,DEPSYY ,DEPSXY  ,DEPSYZ  ,DEPSZX ,
      6     EPSXX  ,EPSYY  ,EPSXY   ,EPSYZ   ,EPSZX  ,
@@ -41,7 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      9     SIGVXX ,SIGVYY ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
      A     SOUNDSP,VISCMAX,THK     ,PLA     ,UVAR   ,
      B     OFF    ,NGL    ,IPM     ,MAT     ,ETSE   ,
-     C     GS     ,YLD    ,EPSP    ,DPLA_I  ,ISRATE )
+     C     GS     ,YLD    ,EPSD_PG ,EPSP    ,DPLA_I  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -118,6 +118,9 @@ C-----------------------------------------------
 C
       INTEGER NEL0, NUPARAM, NUVAR, NPT0,ISRATE, IPT,IFLAG(*),
      .   IPM(NPROPMI,*),NGL(NEL0),MAT(NEL0)
+      my_real ,INTENT(IN) :: ASRATE
+      my_real ,DIMENSION(NEL0) ,INTENT(IN)    :: EPSD_PG
+      my_real ,DIMENSION(NEL0) ,INTENT(INOUT) :: EPSP
       my_real TIME,TIMESTEP,UPARAM(*),
      .   AREA(NEL0),RHO0(NEL0),EINT(NEL0,2),
      .   THKLY(NEL0),PLA(NEL0),
@@ -128,8 +131,7 @@ C
      .   EPSXX(NEL0) ,EPSYY(NEL0) ,
      .   EPSXY(NEL0) ,EPSYZ(NEL0) ,EPSZX(NEL0) ,
      .   SIGOXX(NEL0),SIGOYY(NEL0),
-     .   SIGOXY(NEL0),SIGOYZ(NEL0),SIGOZX(NEL0),
-     .   GS(*)       ,EPSP(NEL0)
+     .   SIGOXY(NEL0),SIGOYZ(NEL0),SIGOZX(NEL0),GS(*)
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -256,13 +258,8 @@ C
        ENDIF
        ENDIF
 C------------------------------------------
-C     ECROUISSAGE CINE
-C------------------------------------------
        DO I=1,NEL0
-!           SIGOXX(I) = SIGOXX(I) - UVAR(I,2)
-!           SIGOYY(I) = SIGOYY(I) - UVAR(I,3)
-!           SIGOXY(I) = SIGOXY(I) - UVAR(I,4)
-           DPLA_I(I) =ZERO           
+         DPLA_I(I) =ZERO           
        ENDDO
 C-----------------------------------------------
 C
@@ -283,10 +280,13 @@ C
 C-------------------
 C     STRAIN RATE
 C-------------------
-         IF (ISRATE==0) EPSP(I) = 
-     .     HALF*( ABS(EPSPXX(I)+EPSPYY(I))
-     .   + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
-     .                 + EPSPXY(I)*EPSPXY(I) ) )
+         IF (ISRATE==0) THEN
+           EPSP(I) = HALF*( ABS(EPSPXX(I)+EPSPYY(I))
+     .             + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
+     .             + EPSPXY(I)*EPSPXY(I) ) )
+         ELSE
+           EPSP(I) = ASRATE*EPSD_PG(I) + (ONE-ASRATE)*EPSP(I)
+         ENDIF
 C-------------------
 C     STRAIN 
 C-------------------

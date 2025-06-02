@@ -30,8 +30,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE SIGEPS15C(
      1                 JFT    ,JLT    ,PM     ,DAMT   ,
-     3                 IMAT   ,SHF    ,NGL    ,EPSPL  ,DMG_FLAG,
-     7                 ILAYER ,NEL    ,ISRATE ,PLA    ,SIGDMG  ,
+     3                 IMAT   ,SHF    ,NGL    ,DMG_FLAG,
+     7                 ILAYER ,NEL    ,PLA    ,SIGDMG ,
+     .                 ISRATE ,ASRATE ,EPSD_PG,EPSD   ,
      A                 DEPSXX ,DEPSYY ,DEPSXY ,DEPSYZ ,DEPSZX  ,
      7                 SIGOXX ,SIGOYY ,SIGOXY ,SIGOYZ ,SIGOZX  ,
      8                 SIGNXX ,SIGNYY ,SIGNXY ,SIGNYZ ,SIGNZX  ,
@@ -53,14 +54,16 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ILAYER,JFT,JLT,IMAT,NEL,DMG_FLAG,ISRATE
       INTEGER NGL(MVSIZ)
-C     REAL
       my_real
-     .   PM(NPROPM,*),SHF(*),EPSPL(*),SIGDMG(MVSIZ,5)
+     .   PM(NPROPM,*),SHF(*),SIGDMG(MVSIZ,5)
       my_real
      .   DEPSXX(MVSIZ),DEPSYY(MVSIZ),DEPSXY(MVSIZ),DEPSYZ(MVSIZ),
      .   DEPSZX(MVSIZ),PLA(NEL),SIGOXX(NEL),SIGOYY(NEL),SIGOXY(NEL),
      .   SIGOYZ(NEL),SIGOZX(NEL),SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),
      .   SIGNYZ(NEL),SIGNZX(NEL),SIGR(NEL,6),DAMT(NEL,2),TSAIWU(NEL)
+      my_real, DIMENSION(NEL), INTENT(IN)    :: EPSD_PG  ! global element strain rate
+      my_real, DIMENSION(NEL), INTENT(INOUT) :: EPSD     ! lbuf%epsd
+      my_real, INTENT(IN)    :: ASRATE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -75,12 +78,12 @@ C     PLASTICITE AUX POINTS D'INTEGRATION
 C-----------------------
 C     CONTRAINTES PLASTIQUEMENT ADMISSIBLES
 C-----------------------
-      CALL M15CPLRC(JFT    ,JLT    ,PM     ,PLA    ,
+      CALL M15CPLRC(NEL    ,PM     ,PLA    ,
      2              IMAT   ,DAMT   ,SHF    ,NGL    ,SIGE  ,
      3              DEPSXX ,DEPSYY ,DEPSXY ,DEPSYZ ,DEPSZX,
      4              SIGOXX ,SIGOYY ,SIGOXY ,SIGOYZ ,SIGOZX,
      5              SIGNXX ,SIGNYY ,SIGNXY ,SIGNYZ ,SIGNZX,
-     6              EPSPL  ,ISRATE ,NEL    ,TSAIWU )
+     6              EPSD_PG,EPSD   ,ISRATE ,ASRATE ,TSAIWU )
 !
       DMG_FLAG = 2
 !

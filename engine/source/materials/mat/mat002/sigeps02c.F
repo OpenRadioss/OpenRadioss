@@ -29,9 +29,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE SIGEPS02C(
      1                  JFT      ,JLT      ,PM       ,EINT     ,THK      ,
-     2                  OFF      ,SIGY     ,DT1C     ,IPLA     ,NEL      ,
+     2                  OFF      ,SIGY     ,DT1      ,IPLA     ,NEL      ,
      3                  VOL      ,GS       ,ISRATE   ,THKLYL   ,ETSE     ,
-     4                  NGL      ,EPSPDT   ,G_IMP    ,SIGKSI   ,IOFF_DUCT,
+     4                  NGL      ,EPSD_PG  ,G_IMP    ,SIGKSI   ,IOFF_DUCT,
      5                  DPLA     ,TSTAR    ,JTHE     ,HARDM    ,EPCHK    ,
      6                  IMAT     ,IPT      ,NPTT     ,PLA      ,OFF_OLD  ,
      7                  SIGOXX   ,SIGOYY   ,SIGOXY   ,SIGOYZ   ,SIGOZX   ,
@@ -61,10 +61,12 @@ C-----------------------------------------------
       INTEGER NGL(MVSIZ),IOFF_DUCT(*),INLOC
       INTEGER, INTENT(IN) :: VP
       my_real ,DIMENSION(NEL),INTENT(IN) :: EPSPXX,EPSPYY,EPSPXY,EPSPYZ,EPSPZX
+      my_real ,DIMENSION(NEL),INTENT(IN) :: EPSD_PG
       my_real ,INTENT(IN) :: ASRATE
+      my_real ,INTENT(IN) :: DT1
       my_real, DIMENSION(NEL), INTENT(IN) :: LOFF
       my_real PM(NPROPM,*),EINT(NEL,2),
-     .        OFF(*),SIGY(*),DT1C(*),VOL(*),GS(*),THK(*),
+     .        OFF(*),SIGY(*),VOL(*),GS(*),THK(*),
      .        TSTAR(*),DPLA(*),SIGKSI(MVSIZ,5),ETSE(MVSIZ),
      .        DEPSXX(MVSIZ),DEPSYY(MVSIZ),DEPSXY(MVSIZ),DEPSYZ(MVSIZ),
      .        DEPSZX(MVSIZ),PLA(NEL),
@@ -75,7 +77,7 @@ C-----------------------------------------------
       my_real SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),
      .        SIGNYZ(NEL),SIGNZX(NEL),EPCHK(MVSIZ),G_IMP(MVSIZ)
 !
-      my_real HARDM(MVSIZ),EPSPDT(MVSIZ),EZZ(MVSIZ)
+      my_real HARDM(MVSIZ),EZZ(MVSIZ)
       my_real, DIMENSION(NEL)  , INTENT(INOUT) :: TEMPEL
       my_real, DIMENSION(NEL)  , INTENT(INOUT) :: FHEAT
       my_real, DIMENSION(NEL)  , INTENT(INOUT) :: EPSD
@@ -112,7 +114,7 @@ C-----------------------------------------------
 !
       ! Recover internal variables
       DO I=JFT,JLT              
-        EPDR(I) = MAX(EM20,PM(44,IMAT)*DT1C(I))            
+        EPDR(I) = MAX(EM20,PM(44,IMAT)*DT1)            
       ENDDO
 !
       IF (IRTY == 1) THEN       ! Zerilli
@@ -139,13 +141,13 @@ C-----------------------------------------------
 !
       IF (VP == 1) THEN 
         DO I=JFT,JLT
-          EPSDOT(I) = EPSD(I)*DT1C(I) 
+          EPSDOT(I) = EPSD(I)*DT1 
         ENDDO
       ! -> Total strain rate
       ELSEIF (VP == 2) THEN
-        DO I=JFT,JLT  
-          EPSDOT(I) = EPSPDT(I) 
-          EPSD(I) = EPSPDT(I)/MAX(DT1C(I),EM20)
+        DO I=JFT,JLT
+          EPSD(I)   = ASRATE*EPSD_PG(I) + (ONE-ASRATE)*EPSD(I)
+          EPSDOT(I) = EPSD(I) * DT1
         ENDDO   
       ! -> Deviatoric strain rate    
       ELSEIF (VP == 3) THEN
@@ -160,8 +162,8 @@ C-----------------------------------------------
           IF (ISRATE > 0) THEN 
             EPSDOT(I) = ASRATE*EPSDOT(I) + (ONE - ASRATE)*EPSD(I)
           ENDIF
-          EPSD(I) = EPSDOT(I)
-          EPSDOT(I) = EPSDOT(I)*DT1C(I)
+          EPSD(I)   = EPSDOT(I)
+          EPSDOT(I) = EPSDOT(I)*DT1
         ENDDO 
       ENDIF
 !----------------------------
@@ -185,7 +187,7 @@ C-----------------------------------------------
 !--------------------------------------------
       IF (VP == 1) THEN
         DO I=JFT,JLT
-          EPSDOT(I) = DPLA(I)/MAX(EM20,DT1C(I))
+          EPSDOT(I) = DPLA(I)/MAX(EM20,DT1)
           EPSD(I)   = ASRATE*EPSDOT(I) + (ONE - ASRATE)*EPSD(I)
         ENDDO
       ENDIF

@@ -47,7 +47,7 @@
           sigoxx  ,sigoyy  ,sigoxy  ,sigoyz  ,sigozx  ,                          &
           signxx  ,signyy  ,signxy  ,signyz  ,signzx  ,                          &
           off     ,etse    ,yld     ,seq     ,israte  ,asrate  ,                 &
-          epsp    ,epsd    ,inloc   ,dplanl  ,loff    ,nvartmp ,                 &
+          epsd_pg ,epsd    ,inloc   ,dplanl  ,loff    ,nvartmp ,                 &
           vartmp  ,shf     ,sigb    ,l_dmg   ,dmg     ,                          &
           l_planl ,planl   )
 !-------------------------------------------------------------------------------
@@ -101,10 +101,10 @@
           real(kind=WP), dimension(nel), intent(inout)         :: etse     !< Hourglass control coefficient
           real(kind=WP), dimension(nel), intent(inout)         :: yld      !< Yield stress
           real(kind=WP), dimension(nel), intent(inout)         :: seq      !< Equivalent stress
-          integer, intent(in)                            :: israte   !< Strain rate filtering flag
+          integer, intent(in)                                  :: israte   !< Strain rate filtering flag
           real(kind=WP), intent(in)                            :: asrate   !< Strain rate filtering coefficient
-          real(kind=WP), dimension(nel), intent(inout)         :: epsp     !< Equivalent strain rate (total or plastic)
-          real(kind=WP), dimension(nel), intent(inout)         :: epsd     !< Strain rate used in output & equations
+          real(kind=WP), dimension(nel), intent(in)            :: epsd_pg  !< global strain rate in Gauss pt
+          real(kind=WP), dimension(nel), intent(inout)         :: epsd     !< local strain rate used equations
           integer, intent(in)                            :: inloc    !< Non-local thickness variation flag
           real(kind=WP), dimension(nel), intent(inout)         :: dplanl   !< Non-local plastic strain increment
           real(kind=WP), dimension(nel), intent(in)            :: loff     !< Gauss point deletion status
@@ -169,13 +169,12 @@
           if (vp == 0) then
             if (israte == 0) then
               do i = 1,nel
-                epsd(i) = half*(abs(epspxx(i)+epspyy(i))                          &
+                epsd(i) = half*(abs(epspxx(i)+epspyy(i))                &
                   + sqrt((epspxx(i)-epspyy(i))*(epspxx(i)-epspyy(i))    &
                   + epspxy(i)*epspxy(i)))
-                epsp(i) = epsd(i)
               enddo
             else
-              epsd(1:nel) = epsp(1:nel)
+              epsd(1:nel) = asrate*epsd_pg(1:nel) + (one-asrate)*epsd(1:nel)
             endif
           endif
 !
@@ -517,7 +516,6 @@
             do i = 1,nel
               dpdt    = dpla(i)/max(timestep,em20)
               epsd(i) = asrate*dpdt + (one - asrate)*epsd(i)
-              epsp(i) = epsd(i)
             enddo
           endif
 !

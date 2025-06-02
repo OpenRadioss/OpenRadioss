@@ -42,7 +42,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      9     SIGVXX ,SIGVYY ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
      A     SOUNDSP,VISCMAX,THK     ,PLA     ,UVAR   ,
      B     OFF    ,NGL    ,IPM     ,MAT     ,ETSE   ,
-     C     GS     ,YLD    ,EPSP    ,ISRATE  ,DPLA_I )
+     C     GS     ,YLD    ,EPSP    ,DPLA_I )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -104,7 +104,8 @@ C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL, NUPARAM, NUVAR, NPT0, IPT,IFLAG(*),
-     .   NGL(NEL),MAT(NEL),ISRATE,IPM(NPROPMI,*)
+     .   NGL(NEL),MAT(NEL),IPM(NPROPMI,*)
+      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: EPSP    !< local strain rate used in equations
       my_real TIME,TIMESTEP,UPARAM(*),
      .   AREA(NEL),RHO0(NEL),EINT(NEL,2),
      .   THKLY(NEL),PLA(NEL),
@@ -116,7 +117,7 @@ C-----------------------------------------------
      .   EPSXY(NEL) ,EPSYZ(NEL) ,EPSZX(NEL) ,
      .   SIGOXX(NEL),SIGOYY(NEL),
      .   SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL),
-     .   GS(*)       ,EPSP(NEL)
+     .   GS(*)       
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -264,8 +265,7 @@ C-------------------
 C     STRAIN RATE - NON FILTERED
 C-------------------
       DO I=1,NEL
-        IF (ISRATE == 0)
-     .  EPSP(I) = HALF*(ABS(EPSPXX(I)+EPSPYY(I))
+        EPSP(I) = HALF*(ABS(EPSPXX(I)+EPSPYY(I))
      .          + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
      .          + EPSPXY(I)*EPSPXY(I) ) )
       ENDDO                                                           

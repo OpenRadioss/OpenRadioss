@@ -30,7 +30,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||====================================================================
       SUBROUTINE SIGEPS55C(
      1     NEL0    ,NUPARAM,NUVAR   ,MFUNC   ,KFUNC  ,
-     2     NPF    ,NPT0    ,IPT     ,IFLAG   ,
+     2     NPF    ,NPT0    ,IPT     ,IFLAG   ,ASRATE ,
      2     TF     ,TIME   ,TIMESTEP,UPARAM  ,RHO0   ,
      3     AREA   ,EINT   ,THKLY   ,
      4     EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
@@ -41,7 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      9     SIGVXX ,SIGVYY ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
      A     SOUNDSP,VISCMAX,THK     ,PLA     ,UVAR   ,
      B     OFF    ,NGL    ,IPM     ,MAT     ,ETSE   ,
-     C     GS     ,YLD    ,EPSP    ,ISRATE  )
+     C     GS     ,YLD    ,EPSD_PG ,EPSP    ,ISRATE  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -109,6 +109,9 @@ C-----------------------------------------------
 C
       INTEGER NEL0, NUPARAM, NUVAR, NPT0,ISRATE, IPT,IFLAG(*),
      .   NGL(NEL0),MAT(NEL0),IPM(NPROPMI,*)
+      my_real ,INTENT(IN) :: ASRATE
+      my_real ,DIMENSION(NEL0) ,INTENT(IN)    :: EPSD_PG
+      my_real ,DIMENSION(NEL0) ,INTENT(INOUT) :: EPSP
       my_real TIME,TIMESTEP(NEL0),UPARAM(*),
      .   AREA(NEL0),RHO0(NEL0),EINT(NEL0,2),
      .   THKLY(NEL0),PLA(NEL0),
@@ -119,8 +122,7 @@ C
      .   EPSXX(NEL0) ,EPSYY(NEL0) ,
      .   EPSXY(NEL0) ,EPSYZ(NEL0) ,EPSZX(NEL0) ,
      .   SIGOXX(NEL0),SIGOYY(NEL0),
-     .   SIGOXY(NEL0),SIGOYZ(NEL0),SIGOZX(NEL0),
-     .   GS(*)       ,EPSP(NEL0)
+     .   SIGOXY(NEL0),SIGOYZ(NEL0),SIGOZX(NEL0),GS(*)
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -270,10 +272,13 @@ C a verefier cette formule
 C-------------------
 C     STRAIN RATE
 C-------------------
-         IF (ISRATE == 0) EPSP(I) = 
-     .     HALF*(EPSPXX(I)+EPSPYY(I)
-     .   + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
-     .                 + EPSPXY(I)*EPSPXY(I) ) )
+         IF (ISRATE == 0) THEN
+           EPSP(I) = HALF*(EPSPXX(I)+EPSPYY(I)
+     .             + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
+     .             + EPSPXY(I)*EPSPXY(I) ) )
+         ELSE
+           EPSP(I) = ASRATE*EPSD_PG(I) + (ONE-ASRATE)*EPSP(I)
+         END IF
 C-------------------
 C     STRAIN 
 C-------------------

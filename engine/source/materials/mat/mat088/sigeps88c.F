@@ -32,7 +32,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      2      NPT0   , ILAYER , NGL   , OFF   , ISMSTR, GS   , 
      2      TF     , TIME   , TIMESTEP, UPARAM, RHO0  ,
      3      AREA   , EINT   , THKLYL,
-     4      EPSPXX , EPSPYY , EPSPXY, EPSPYZ, EPSPZX,
      5      DEPSXX , DEPSYY , DEPSXY, DEPSYZ, DEPSZX,
      6      EPSXX  , EPSYY  , EPSXY , EPSYZ , EPSZX ,
      7      SIGOXX , SIGOYY , SIGOXY, SIGOYZ, SIGOZX,
@@ -58,7 +57,6 @@ C----------------------------------------------------------------
      .   TIME,TIMESTEP
       my_real, DIMENSION(NEL) :: 
      .  THKN,THKLYL, RHO0,AREA,GS,
-     .  EPSPXX,EPSPYY,EPSPXY,EPSPYZ,EPSPZX,
      .  DEPSXX,DEPSYY,DEPSXY,DEPSYZ,DEPSZX,
      .  EPSXX ,EPSYY ,EPSXY ,EPSYZ ,EPSZX ,
      .  SIGOXX,SIGOYY,SIGOXY,SIGOYZ,SIGOZX

@@ -168,6 +168,8 @@ c  indx utilise localement contrairement aux coques 4n
       INTEGER, DIMENSION(NEL) :: OFFLY
       PARAMETER (NPG = 3)
       PARAMETER (NNOD = 3)
+      my_real, dimension(mvsiz) :: epsd_pg,epsd_glob
+      my_real :: dtinv,asrate,eps_m2,eps_k2
       my_real 
      .   STI(MVSIZ),STIR(MVSIZ),RHO(MVSIZ),
      .   SSP(MVSIZ),VISCMX(MVSIZ),AREA(MVSIZ),AREA2(MVSIZ),
@@ -220,24 +222,6 @@ C-----------------------------------------------
       DATA A_HAMMER / 
      1 0.166666666666667,0.666666666666667,0.166666666666667,             
      2 0.166666666666667,0.166666666666667,0.666666666666667/
-C=======================================================================
-C GENERALIZED STRAINS ARE SAVED AT NB8 (GENERALIZED FOR ALL MATERIALS)
-C
-C     NB1    |5*JLT    | FORCES  
-C     NB2    |3*JLT    | MOMENTS
-C     NB3    |JLT      | THK0
-C     NB4    |5*JLT    | UNUSED : ONLY FOR FINDING OFF
-C     NB5    |2*JLT    | ENERGIES
-C     NB6    |JLT      | OFF
-C     NB8    |8*JLT    | DEFORMATIONS
-C     NB10   |5*NPT*JLT         | Contraintes moyennes->post  
-C     NB11   |max(1,npt)*JLT    | def plastique moyennes->post
-C     NB12   |8*NPG*JLT         | contraintes generalisees 
-C     NB13   |8*NPG*JLT         | def generalise
-C     NB14   |max(1,npt)*NPG*JLT| def plastique
-C     NB15   |5*NPG*NPT*JLT     | contraintes pour laws et npt >0
-C     NB16   |2*NPT*JLT         | axe I  d'orthotropie/anisotropie
-C     NB16A  |2*NPT*JLT         | axe II d'anisotropie
 C=======================================================================
       GBUF   => ELBUF_STR%GBUF
       IDRAPE = ELBUF_STR%IDRAPE
@@ -375,6 +359,7 @@ C-----------------------------------------------
       LENM = NEL*GBUF%G_MOMPG/NPG
       LENS = NEL*GBUF%G_STRPG/NPG
       IT   = 1
+      epsd_glob(1:nel) = zero      
 c
       DO NG =1,NPG
         IR = NG
@@ -420,6 +405,24 @@ c-------------------------------------------
            ENDDO
          ENDDO
        ENDIF
+!-------------------------------------------------------------------------------
+!       global element strain rate (shell energy equivalent) - by Gauss points
+!-----------------------------------------------------------
+!       e = 1/t integ[1/2 e (eps_m + k z)^2 dz ]
+!       e = 1/2 e eps_eq^2
+!       eps_eq = sqrt[ eps_m^2 + 1/12 k^2t^2 ]
+!-------------------------------------------------------------------------------
+        dt1 = dt1c(1)
+        dtinv = dt1 / max(dt1**2,em20)  ! inverse of dt
+#include "vectorize.inc"
+        do i = 1,nel
+          eps_k2 = (kxx(i)*kxx(i)+kyy(i)*kyy(i)+kxx(i)*kyy(i)              
+     &           + fourth*one_over_9*kxy(i)*kxy(i)) * gbuf%thk(i)**2
+          eps_m2 = four_over_3*(exx(i)*exx(i)+eyy(i)*eyy(i)+exx(i)*eyy(i)  
+     &           + fourth*exy(i)*exy(i))
+          epsd_pg(i) = sqrt(eps_k2 + eps_m2)*dtinv
+          epsd_glob(i) = epsd_glob(i) + epsd_pg(i) / npg
+        end do
 C----------------------------------------------------------------------------
        CALL CMAIN3(TIMERS,
      1     ELBUF_STR ,JFT       ,JLT       ,NFT       ,IPARG      ,
@@ -432,7 +435,7 @@ C----------------------------------------------------------------------------
      8     GBUF%FORPG(PTF),GBUF%MOMPG(PTM) ,GBUF%STRPG(PTS),FAILWAVE,FWAVE_EL,
      9     GBUF%THK  ,GBUF%EINT ,IOFC      ,
      A     G         ,A11       ,A12       ,VOL0      ,INDX      ,
-     B     NGL       ,ZCFAC     ,SHF       ,GS        ,GBUF%EPSD ,
+     B     NGL       ,ZCFAC     ,SHF       ,GS        ,EPSD_PG   ,
      C     KFTS      ,IHBE      ,ALPE      ,
      D     DIR_A     ,DIR_B     ,IGEO      ,
      E     IPM       ,IFAILURE  ,NPG       ,FHEAT     ,
@@ -496,6 +499,11 @@ C----
 C----------------------------------------------------------------------------
 C     FIN DE BOUCLE DE 3 POINTS DE INTEGRATION------------
 C----------------------------------------------------------------------------
+!     global element strain rate filtering for output
+
+      asrate = one   ! to be changed for default value
+      gbuf%epsd(1:nel) = asrate * epsd_glob(1:nel) + (one - asrate) * gbuf%epsd(1:nel)      
+!-------------------------------------------------------------------------------
 C     POST-TRAITEMENT - valeurs moyennes
 C----------------------------
 C---

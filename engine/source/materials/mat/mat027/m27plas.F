@@ -26,10 +26,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    sigeps27c   ../engine/source/materials/mat/mat027/sigeps27c.F
       !||====================================================================
       SUBROUTINE M27PLAS(JFT    ,JLT    ,PM     ,OFF    ,SIG   ,
-     2                   EPSEQ  ,IMAT   ,DT1C   ,IPLA   ,EZZ   ,
-     3                   EPSP   ,ISRATE ,YLD    ,ETSE   ,DPLA  ,
+     2                   PLA    ,IMAT   ,DT1    ,IPLA   ,EZZ   ,
+     3                   EPSD_PG,ISRATE ,YLD    ,ETSE   ,DPLA  ,
      4                   DEPSXX ,DEPSYY ,DEPSXY ,DEPSYZ ,DEPSZX,
-     5                   NEL    )
+     5                   NEL    ,EPSD   ,ASRATE )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -47,20 +47,22 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT,IPLA,IMAT,ISRATE,NEL
 C     REAL
+      my_real, INTENT(IN) :: ASRATE
+      my_real, INTENT(IN) :: DT1
       my_real, INTENT(INOUT) :: SIG(NEL,5)
       my_real
-     .   PM(NPROPM,*),OFF(*),EPSEQ(*),DT1C(*),EZZ(*),
-     .   EPSP(*),DPLA(*),
+     .   PM(NPROPM,*),OFF(*),PLA(*),EZZ(*),DPLA(*),
      .   DEPSXX(MVSIZ),DEPSYY(MVSIZ),DEPSXY(MVSIZ),DEPSYZ(MVSIZ),
      .   DEPSZX(MVSIZ)
       my_real
      .   YLD(*),ETSE(*)
+      my_real, DIMENSION(NEL) ,INTENT(IN)    :: EPSD_PG
+      my_real, DIMENSION(NEL) ,INTENT(INOUT) :: EPSD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ICC(MVSIZ)
       INTEGER I,J,N,NINDX,INDEX(MVSIZ),NMAX
-C     REAL
       my_real
      .   CA(MVSIZ),CB(MVSIZ),CN(MVSIZ),YMAX(MVSIZ),
      .   CC(MVSIZ),EPDR(MVSIZ),SVM(MVSIZ),A(MVSIZ),B(MVSIZ),
@@ -69,6 +71,7 @@ C     REAL
      .   YOUNG(MVSIZ),G(MVSIZ),ERR,F,DF,PLA_I,P2,Q2,R,S1,S2,S3,
      .   YLD_I,NNU1,NNU2,NU3,NU4,NU5,NU6,SIGZ,PP,AA,BB,C,S11,
      .   S22,S12,S1S2,S122,UMR,VM2,QQ,SMALL
+      my_real, DIMENSION(NEL) :: EPSP
       DATA NMAX/3/
 C-----------------------------------------------
       SMALL = EM7     
@@ -83,7 +86,7 @@ C
         CN(I)   = PM(40,IMAT)
         YMAX(I) = PM(42,IMAT)
         CC(I)   = PM(43,IMAT)
-        EPDR(I) = MAX(EM20,PM(44,IMAT)*DT1C(I))
+        EPDR(I) = MAX(EM20,PM(44,IMAT)*DT1)
         ICC(I)  = NINT(PM(49,IMAT))
         ETSE(I) = ONE
       ENDDO
@@ -91,8 +94,12 @@ C-----------------------------------
 C     VITESSE DE DEFORMATION & YIELD
 C-----------------------------------
       DO I=JFT,JLT
-        IF (ISRATE == 0)
-     .  EPSP(I) = MAX(ABS(DEPSXX(I)),ABS(DEPSYY(I)),HALF*ABS(DEPSXY(I)))
+        IF (ISRATE == 0) THEN
+          EPSP(I) = MAX(ABS(DEPSXX(I)),ABS(DEPSYY(I)),HALF*ABS(DEPSXY(I)))
+        ELSE
+          EPSD(I) = ASRATE*EPSD_PG(I) + (ONE-ASRATE)*EPSD(I)
+          EPSP(I) = EPSD(I) * DT1
+        END IF
         EPSP(I) = MAX(EPSP(I),EPDR(I))
         Q(I) = (ONE + CC(I) * LOG(EPSP(I)/EPDR(I)))
       ENDDO
@@ -103,7 +110,7 @@ C
 C
       DO I=JFT,JLT
         DPLA(I) = ZERO      
-        YLD(I) = (CA(I)+CB(I)*EPSEQ(I)**CN(I)) * Q(I)
+        YLD(I) = (CA(I)+CB(I)*PLA(I)**CN(I)) * Q(I)
         YLD(I) = MIN(YLD(I),YMAX(I))
         CA(I) = CA(I)*Q(I)
         CB(I) = CB(I)*Q(I)
@@ -131,12 +138,12 @@ C
           SIG(I,2) = SIG(I,2)*R
           SIG(I,3) = SIG(I,3)*R
           DPLA(I)  = OFF(I) * MAX(ZERO,(SVM(I)-YLD(I))/YOUNG(I))
-          H(I) = CN(I)*CB(I)*EXP((CN(I)-ONE)*LOG(EPSEQ(I)+SMALL))
+          H(I) = CN(I)*CB(I)*EXP((CN(I)-ONE)*LOG(PLA(I)+SMALL))
           IF (YLD(I) >= YMAX(I)) H(I) = ZERO
           ETSE(I)= H(I)/(H(I)+YOUNG(I))
           S1 = HALF*(SIG(I,1)+SIG(I,2))
           EZZ(I) = DPLA(I) * S1 /YLD(I)
-          EPSEQ(I) = EPSEQ(I) + DPLA(I)          
+          PLA(I) = PLA(I) + DPLA(I)          
         ENDDO
 C-------------------------
       ELSEIF (IPLA == 1) THEN
@@ -170,7 +177,7 @@ C---------------------------
           I = INDEX(J)
           NU1(I) = ONE/(ONE-NU(I))
           NU2(I) = ONE/(ONE+NU(I))
-          H(I) = CN(I)*CB(I)*EXP((CN(I)-ONE)*LOG(EPSEQ(I)+SMALL))
+          H(I) = CN(I)*CB(I)*EXP((CN(I)-ONE)*LOG(PLA(I)+SMALL))
           IF (YLD(I) >= YMAX(I)) H(I) = ZERO
           DPLA_J(I) = (SVM(I)-YLD(I))/(THREE*G(I)+H(I))
           ETSE(I) = H(I)/(H(I)+YOUNG(I))
@@ -182,7 +189,7 @@ C
             I = INDEX(J)
             DPLA_I(I) = DPLA_J(I)
             DPLA(I)   = DPLA_I(I)       
-            PLA_I = EPSEQ(I)+DPLA_I(I)
+            PLA_I = PLA(I)+DPLA_I(I)
             YLD_I = MIN(YMAX(I),CA(I)+CB(I)*PLA_I**CN(I))
             DR(I) = HALF*YOUNG(I)*DPLA_I(I)/YLD_I
             P(I)  = ONE/(ONE+DR(I)*NU1(I))
@@ -206,7 +213,7 @@ C------------------------------------------
 #include "vectorize.inc" 
         DO J=1,NINDX
           I = INDEX(J)
-          EPSEQ(I) = EPSEQ(I) + DPLA_I(I)
+          PLA(I) = PLA(I) + DPLA_I(I)
           S1 = (SIG(I,1)+SIG(I,2))*P(I)
           S2 = (SIG(I,1)-SIG(I,2))*Q(I)
           SIG(I,1) = HALF*(S1+S2)
@@ -246,12 +253,12 @@ C
           SIG(I,2) = SIG(I,2)*R - QQ
           SIG(I,3) = S12*R
           DPLA(I) = OFF(I)*SQRT(VM2)*UMR/(THREE*G(I))
-          H(I) = CN(I)*CB(I)*EXP((CN(I)-ONE)*LOG(EPSEQ(I)+SMALL))
+          H(I) = CN(I)*CB(I)*EXP((CN(I)-ONE)*LOG(PLA(I)+SMALL))
           IF (YLD(I) >= YMAX(I)) H(I) = ZERO
           ETSE(I) = H(I)/(H(I)+YOUNG(I))
           S1 = HALF*(SIG(I,1)+SIG(I,2))
           EZZ(I) = DPLA(I) * S1 / YLD(I)
-          EPSEQ(I) = EPSEQ(I) + DPLA(I)          
+          PLA(I) = PLA(I) + DPLA(I)          
         ENDDO
       ENDIF
 C

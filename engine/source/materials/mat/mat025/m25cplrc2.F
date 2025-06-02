@@ -30,10 +30,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      3                     WWPLA  ,SHF    ,FMAX   ,CB     ,CN     ,NEL    ,
      4                     DEGMB  ,F1     ,F2     ,F12    ,F11    ,F22    ,
      5                     F33    ,E11    ,E22    ,NU12   ,NU21   ,G12    ,
-     6                     G23    ,G31    ,DE     ,EPSP   ,ISRATE ,SIGY   ,
+     6                     G23    ,G31    ,DE     ,EPSD   ,ISRATE ,SIGY   ,
      7                     DEPSXX ,DEPSYY ,DEPSXY ,DEPSYZ ,DEPSZX ,SIGOXX ,
      8                     SIGOYY ,SIGOXY ,SIGOYZ ,SIGOZX ,SIGNXX ,SIGNYY ,
-     9                     SIGNXY ,SIGNYZ ,SIGNZX ,TSAIWU )
+     9                     SIGNXY ,SIGNYZ ,SIGNZX ,TSAIWU ,ASRATE ,EPSD_PG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -51,6 +51,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT, NPT,ICC(*), ISRATE,NEL
 C     REAL
+      my_real ,INTENT(IN) :: ASRATE
+      my_real ,DIMENSION(NEL) ,INTENT(IN)    :: EPSD_PG
+      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: EPSD
       my_real
      .   THK(*), OFF(*), WPLA(*), DIR(*),CC(*),
      .   EPDR(*),WWPLA(*),SHF(*),FMAX(MVSIZ),
@@ -58,7 +61,7 @@ C     REAL
      .   E11(MVSIZ), E22(MVSIZ), NU12(MVSIZ), NU21(MVSIZ),
      .   G12(MVSIZ), G23(MVSIZ), G31(MVSIZ),
      .   F1(MVSIZ), F2(MVSIZ), F12(MVSIZ), F11(MVSIZ), F22(MVSIZ), 
-     .   F33(MVSIZ), EPSP(*), WPLAREF(MVSIZ),SIGY(*),ETSE(*),
+     .   F33(MVSIZ), WPLAREF(MVSIZ),SIGY(*),ETSE(*),
      .   DEPSXX(MVSIZ),DEPSYY(MVSIZ),DEPSXY(MVSIZ),DEPSYZ(MVSIZ),
      .   DEPSZX(MVSIZ),SIGOXX(NEL),SIGOYY(NEL),SIGOXY(NEL),
      .   SIGOYZ(NEL),SIGOZX(NEL),SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),
@@ -74,7 +77,7 @@ C     REAL
      .   S1(MVSIZ), S2(MVSIZ), S3(MVSIZ), S4(MVSIZ), S5(MVSIZ),
      .   DS1(MVSIZ), DS2(MVSIZ), DS3(MVSIZ), DE(MVSIZ),
      .   DE1(MVSIZ), DE2(MVSIZ), WVEC(MVSIZ), T1(MVSIZ),
-     .   T2(MVSIZ), T3(MVSIZ), 
+     .   T2(MVSIZ), T3(MVSIZ), EPSPFAC(MVSIZ), 
      .   A11(MVSIZ), A12(MVSIZ), A22(MVSIZ),
      .   SO1(MVSIZ), SO2(MVSIZ), SO3(MVSIZ), 
      .   SCALE, FYLD, CNN,HT,YLD(MVSIZ),SIG(NEL,5)
@@ -182,31 +185,34 @@ C
       ENDDO
 C
       DO I=JFT,JLT
-        IF (ISRATE == 0) EPSP(I) =
-     .                MAX(ABS(DEPSXX(I)),ABS(DEPSYY(I)),ABS(DEPSXY(I)),
-     .                ABS(DEPSYZ(I)),ABS(DEPSZX(I)))/MAX(DT1,EM30)
-        IF (EPSP(I) > EPDR(I) .AND. CC(I) /= ZERO) THEN
-        EPSP(I)=ONE + CC(I) * LOG(EPSP(I)/EPDR(I))
-       ELSE
-        EPSP(I)=ONE
-       ENDIF
-       COEF(I)=ZERO
-       FYLD= (ONE +CB(I)*WPLA(I)**CN(I))*EPSP(I)
+        IF (ISRATE == 0) THEN
+          EPSD(I) = MAX(ABS(DEPSXX(I)),ABS(DEPSYY(I)),ABS(DEPSXY(I)),
+     .                  ABS(DEPSYZ(I)),ABS(DEPSZX(I)))/MAX(DT1,EM20)
+        ELSE
+          epsd(i) = asrate*epsd_pg(i) + (one-asrate)*epsd(i) 
+        END IF
+        IF (EPSD(I) > EPDR(I) .AND. CC(I) /= ZERO) THEN
+          EPSPFAC(I)=ONE + CC(I) * LOG(EPSD(I)/EPDR(I))
+        ELSE
+          EPSPFAC(I)=ONE
+        ENDIF
+        COEF(I)=ZERO
+        FYLD= (ONE +CB(I)*WPLA(I)**CN(I))*EPSPFAC(I)
         IF(ICC(I) == 1 .OR. ICC(I) == 3) THEN
-        FMAX(I) = FMAX(I)*EPSP(I)
-       ENDIF
+          FMAX(I) = FMAX(I)*EPSPFAC(I)
+        ENDIF
         IF (ICC(I) == 2 .OR. ICC(I) == 4) THEN
-        WWPLA(I) = EPSP(I)
-       ELSE
-        WWPLA(I) = ONE
-       ENDIF
-       FYLD= MIN(FMAX(I),FYLD)
+          WWPLA(I) = EPSPFAC(I)
+        ELSE
+          WWPLA(I) = ONE
+        ENDIF
+        FYLD= MIN(FMAX(I),FYLD)
         IF (WVEC(I) > FYLD .AND. OFF(I) == ONE) COEF(I) = ONE
-       WVEC(I)=ONE
-       CNN=CN(I)-ONE
-       IF(WPLA(I)>ZERO) WVEC(I)=EPSP(I)*WPLA(I)**CNN
-       YLD(I) = FYLD
-       TSAIWU(I) = MAX(MIN(WVEC(I)/FYLD,ONE),TSAIWU(I))
+        WVEC(I)=ONE
+        CNN=CN(I)-ONE
+        IF(WPLA(I)>ZERO) WVEC(I)=EPSPFAC(I)*WPLA(I)**CNN
+        YLD(I) = FYLD
+        TSAIWU(I) = MAX(MIN(WVEC(I)/FYLD,ONE),TSAIWU(I))
       ENDDO
 C
       DO I=JFT,JLT

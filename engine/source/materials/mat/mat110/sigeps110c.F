@@ -43,7 +43,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      6     SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,THKLY   ,
      7     THK     ,SIGY    ,ET      ,TEMPEL  ,TEMP    ,SEQ     ,
      8     TF      ,NUMTABL ,ITABLE  ,TABLE   ,NVARTMP ,VARTMP  ,
-     9     SIGA    ,INLOC   ,DPLANL  ,EPSPL   ,LOFF    ,IOFF_DUCT)
+     9     SIGA    ,INLOC   ,DPLANL  ,LOFF    ,IOFF_DUCT)
       !=======================================================================
       !      Modules
       !=======================================================================
@@ -80,7 +80,7 @@ c
      .   SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX
 c
       my_real ,DIMENSION(NEL), INTENT(INOUT)       :: 
-     .   PLA,DPLA,OFF,THK,TEMP,SEQ,EPSPL
+     .   PLA,DPLA,OFF,THK,TEMP,SEQ
       my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) :: 
      .   UVAR
       my_real ,DIMENSION(NEL,3)     ,INTENT(INOUT) :: 
@@ -167,11 +167,7 @@ c--------------------------
      A           SIGA    ,INLOC   ,DPLANL  ,LOFF    )
           END SELECT    
         END SELECT
-
-        ! Copy the strain rate for failure criteria
-        EPSPL(1:NEL) = EPSP(1:NEL)
         ! Ductile failure activation
         IOFF_DUCT(1:NEL) = 1
 c--------------------------
-c-----------
       END
