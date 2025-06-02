@@ -228,7 +228,7 @@ c
             ILENP(J) = NPF(IFUNC(1)+1) / 2 -IADP(J) - IPOS(J)
             TAB_LOC(J) = EMIN(I)
           ENDDO
-          CALL VINTER(TF,IADP,IPOS,ILENP,NINDX,TAB_LOC,DYDX_LOC,Y_LOC)
+          CALL VINTER2(TF,IADP,IPOS,ILENP,NINDX,TAB_LOC,DYDX_LOC,Y_LOC)
 #include "vectorize.inc"
           DO J = 1,NINDX
             I = INDX(J)
@@ -247,7 +247,7 @@ c
             ILENP(J) = NPF(IFUNC(1)+1) / 2 -IADP(J) - IPOS(J)
             TAB_LOC(J) = BETA(I)
           ENDDO
-          CALL VINTER(TF,IADP,IPOS,ILENP,NINDX,TAB_LOC,DYDX_LOC,Y_LOC)
+          CALL VINTER2(TF,IADP,IPOS,ILENP,NINDX,TAB_LOC,DYDX_LOC,Y_LOC)
 #include "vectorize.inc"
           DO J = 1,NINDX
             I = INDX(J)
