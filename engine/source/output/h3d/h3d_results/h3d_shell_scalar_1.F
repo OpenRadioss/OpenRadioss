@@ -121,7 +121,7 @@ C-----------------------------------------------
      .          IMAT,IU(4),NFRAC,IPOS,ITRIMAT,NS,IAD2,IDRAPE,NLAY_FAIL,ILAY0,SUBMATLAW,
      .          TAG, MLW_LAY
         INTEGER PID(MVSIZ),MAT(MVSIZ),MATLY(MVSIZ*100),FAILG(100,MVSIZ),
-     .          IPLY,
+     .          IPLY,NLAY_COUNT,
      .          IOK_PART(MVSIZ),JJ(5),NPTG,IUVAR,
      .          IS_WRITTEN_VALUE(MVSIZ),IV,KFACE,NB_FACE,IADBUF,NUPARAM,ISUBMAT,IS_EULER,IS_ALE,
      .          IPINCH,IPG,USER_OK,IALEL,IMODE,NMOD,MAT_ID,MID,IERR,MT
@@ -2901,8 +2901,8 @@ c
 C--------------------------------------------------
             ELSE IF (KEYWORD == 'DAMA') THEN
 C--------------------------------------------------
-              IF(MLW == 25 .AND. (IGTYP == 10 .OR. IGTYP == 11 .OR.
-     .           IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 )) THEN
+              IF( IGTYP == 10 .OR. IGTYP == 11 .OR.
+     .            IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 ) THEN
                 IF(ITY == 3)THEN
                   DO I=1,NEL
                     MAT(I)=IXC(1,NFT+I)
@@ -2987,55 +2987,60 @@ c IPLY=NULL ILAYER=NULL NPT=NULL
                     ENDDO     !  I=1,NEL
                   ENDIF
                 ENDIF
-                IF(MLW == 25 .AND. (IGTYP == 10 .OR. IGTYP == 11 .OR.
-     .            IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 )) THEN
+                IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 17 .OR.
+     .              IGTYP == 51 .OR. IGTYP == 52 ) THEN
 C
                   DO I=1,NEL
                     VE(1:5) = ZERO
+                    NLAY_COUNT = 0
                     DO IL=1,NLAY
                       NPTT = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
                       BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
                       IADR = (IL-1)*NEL
                       J = IADR + I
-                      VLY(1:5) = ZERO
-                      DO IT=1,NPTT
-                        VG(1:5)= ZERO
-                        DO IR=1,NPTR
-                          DO IS=1,NPTS
-                            LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
-                            DMAX(I) = ONE/PM(64,MATLY(J))
-                            WPMAX(I)= ONE/PM(41,MATLY(J))
-                            EPST1(I)= PM(60,MATLY(J))
-                            EPST2(I)= PM(61,MATLY(J))
-                            EPSF1(I)= ONE/PM(98,MATLY(J))
-                            EPSF2(I)= ONE/PM(99,MATLY(J))
+                      MLW_LAY = MATPARAM(MATLY(J))%ILAW
+                      IF (MLW_LAY == 25) THEN 
+                        NLAY_COUNT = NLAY_COUNT + 1
+                        VLY(1:5) = ZERO
+                        DO IT=1,NPTT
+                          VG(1:5)= ZERO
+                          DO IR=1,NPTR
+                            DO IS=1,NPTS
+                              LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
+                              DMAX(I) = ONE/PM(64,MATLY(J))
+                              WPMAX(I)= ONE/PM(41,MATLY(J))
+                              EPST1(I)= PM(60,MATLY(J))
+                              EPST2(I)= PM(61,MATLY(J))
+                              EPSF1(I)= ONE/PM(98,MATLY(J))
+                              EPSF2(I)= ONE/PM(99,MATLY(J))
 C
-                            VG(1) = MAX(VG(1),LBUF%DMG(JJ(1)+I)*DMAX(I))
-                            VG(2) = MAX(VG(2),LBUF%DMG(JJ(2)+I)*DMAX(I))
-                            VG(3)=MAX(VG(3),ABS(LBUF%PLA(I))*WPMAX(I))
-                            IF(LBUF%CRAK(JJ(1)+I) > ZERO) VG(4)=  MAX(VG(4),
-     .                                  (LBUF%CRAK(JJ(1)+I)+EPST1(I))*EPSF1(I))
-                            IF(LBUF%CRAK(JJ(2)+I) > ZERO )VG(5) = MAX(VG(5),
-     .                                  (LBUF%CRAK(JJ(2)+I)+EPST2(I))*EPSF2(I))
+                              VG(1) = MAX(VG(1),LBUF%DMG(JJ(1)+I)*DMAX(I))
+                              VG(2) = MAX(VG(2),LBUF%DMG(JJ(2)+I)*DMAX(I))
+                              VG(3)=MAX(VG(3),ABS(LBUF%PLA(I))*WPMAX(I))
+                              IF(LBUF%CRAK(JJ(1)+I) > ZERO) VG(4)=  MAX(VG(4),
+     .                                    (LBUF%CRAK(JJ(1)+I)+EPST1(I))*EPSF1(I))
+                              IF(LBUF%CRAK(JJ(2)+I) > ZERO )VG(5) = MAX(VG(5),
+     .                                    (LBUF%CRAK(JJ(2)+I)+EPST2(I))*EPSF2(I))
+                            ENDDO
                           ENDDO
-                        ENDDO
-                        VLY(1) = VLY(1) + VG(1)
-                        VLY(2) = VLY(2) + VG(2)
-                        VLY(3) = VLY(3) + VG(3)
-                        VLY(4) = VLY(4) + VG(4)
-                        VLY(5) = VLY(5) + VG(5)
-                      ENDDO ! NPTT
-                      VE(1)  = VE(1) + VLY(1)/NPTT
-                      VE(2)  = VE(2) + VLY(2)/NPTT
-                      VE(3)  = VE(3) + VLY(3)/NPTT
-                      VE(4)  = VE(4) + VLY(4)/NPTT
-                      VE(5)  = VE(5) + VLY(5)/NPTT
+                          VLY(1) = VLY(1) + VG(1)
+                          VLY(2) = VLY(2) + VG(2)
+                          VLY(3) = VLY(3) + VG(3)
+                          VLY(4) = VLY(4) + VG(4)
+                          VLY(5) = VLY(5) + VG(5)
+                        ENDDO ! NPTT
+                        VE(1)  = VE(1) + VLY(1)/NPTT
+                        VE(2)  = VE(2) + VLY(2)/NPTT
+                        VE(3)  = VE(3) + VLY(3)/NPTT
+                        VE(4)  = VE(4) + VLY(4)/NPTT
+                        VE(5)  = VE(5) + VLY(5)/NPTT
+                      ENDIF
                     ENDDO  !   DO IL=1,NLAY
-                    VE(1) = VE(1)/NLAY
-                    VE(2) = VE(2)/NLAY
-                    VE(3) = VE(3)/NLAY
-                    VE(4) = VE(4)/NLAY
-                    VE(5) = VE(5)/NLAY
+                    VE(1) = VE(1)/NLAY_COUNT
+                    VE(2) = VE(2)/NLAY_COUNT
+                    VE(3) = VE(3)/NLAY_COUNT
+                    VE(4) = VE(4)/NLAY_COUNT
+                    VE(5) = VE(5)/NLAY_COUNT
                     VALUE(I) = MAX(VALUE(I),VE(1),VE(2),VE(3),
      .                    VE(4),VE(5))
                     IS_WRITTEN_VALUE(I) = 1
@@ -3070,7 +3075,7 @@ c PLY=IPLY NPT=IPT
                   ENDDO
                 ENDIF
 c
-                IF(MLW == 25 .AND. (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52)) THEN
+                IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
                   DO J=1,NLAY
                     ID_PLY = 0
                     IF (IGTYP == 17 .OR. IGTYP == 51) THEN
@@ -3084,35 +3089,42 @@ c
                       DO I=1,NEL
                         NPTT = ELBUF_TAB(NG)%BUFLY(J)%NPTT
                         IADR = (J - 1)*NEL
-                        VLY(1:5) = ZERO
-                        VG(1:5)= ZERO
-                        DO IR=1,NPTR
-                          DO IS=1,NPTS
-                            LBUF=> ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
-                            DMAX(I) = ONE/PM(64,MATLY(IADR + I))
-                            WPMAX(I)= ONE/PM(41,MATLY(IADR + I))
-                            EPST1(I)= PM(60,MATLY(IADR + I))
-                            EPST2(I)= PM(61,MATLY(IADR + I))
-                            EPSF1(I)= ONE/PM(98,MATLY(IADR + I))
-                            EPSF2(I)= ONE/PM(99,MATLY(IADR + I))
-C
-                            VG(1) = MAX(VG(1),LBUF%DMG(JJ(1)+I)*DMAX(I))
-                            VG(2) = MAX(VG(2),LBUF%DMG(JJ(2)+I)*DMAX(I))
-                            VG(3)= MAX(VG(3),ABS(LBUF%PLA(I))*WPMAX(I))
-                            IF(LBUF%CRAK(JJ(1)+I) > ZERO) VG(4)=  MAX(VG(4),
-     .                      (LBUF%CRAK(JJ(1)+I)+EPST1(I))*EPSF1(I))
-                            IF(LBUF%CRAK(JJ(2)+I) > ZERO )VG(5) = MAX(VG(5),
-     .                      (LBUF%CRAK(JJ(2)+I)+EPST2(I))*EPSF2(I))
+                        MLW_LAY = MATPARAM(MATLY(IADR + I))%ILAW
+                        IF (MLW_LAY == 25) THEN 
+                          VLY(1:5) = ZERO
+                          VG(1:5)= ZERO
+                          DO IR=1,NPTR
+                            DO IS=1,NPTS
+                              LBUF=> ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
+                              DMAX(I) = ONE/PM(64,MATLY(IADR + I))
+                              WPMAX(I)= ONE/PM(41,MATLY(IADR + I))
+                              EPST1(I)= PM(60,MATLY(IADR + I))
+                              EPST2(I)= PM(61,MATLY(IADR + I))
+                              EPSF1(I)= ONE/PM(98,MATLY(IADR + I))
+                              EPSF2(I)= ONE/PM(99,MATLY(IADR + I))
+
+                              WRITE(*,*) "MLW = ", MLW
+                              WRITE(*,*) "TEST = ", MATPARAM(MATLY(IADR + I))%UPARAM(18), PM(64,MATLY(IADR + I))
+                              PAUSE
+C  
+                              VG(1) = MAX(VG(1),LBUF%DMG(JJ(1)+I)*DMAX(I))
+                              VG(2) = MAX(VG(2),LBUF%DMG(JJ(2)+I)*DMAX(I))
+                              VG(3)= MAX(VG(3),ABS(LBUF%PLA(I))*WPMAX(I))
+                              IF(LBUF%CRAK(JJ(1)+I) > ZERO) VG(4)=  MAX(VG(4),
+     .                        (LBUF%CRAK(JJ(1)+I)+EPST1(I))*EPSF1(I))
+                              IF(LBUF%CRAK(JJ(2)+I) > ZERO )VG(5) = MAX(VG(5),
+     .                        (LBUF%CRAK(JJ(2)+I)+EPST2(I))*EPSF2(I))
+                            ENDDO
                           ENDDO
-                        ENDDO
-                        VLY(1) =VG(1)
-                        VLY(2) =VG(2)
-                        VLY(3) =VG(3)
-                        VLY(4) =VG(4)
-                        VLY(5) =VG(5)
+                          VLY(1) =VG(1)
+                          VLY(2) =VG(2)
+                          VLY(3) =VG(3)
+                          VLY(4) =VG(4)
+                          VLY(5) =VG(5)
 C
-                        VALUE(I) = MAX(VALUE(I),VLY(1),VLY(2),VLY(3),VLY(4),VLY(5))
-                        IS_WRITTEN_VALUE(I) = 1
+                          VALUE(I) = MAX(VALUE(I),VLY(1),VLY(2),VLY(3),VLY(4),VLY(5))
+                          IS_WRITTEN_VALUE(I) = 1
+                        ENDIF
                       ENDDO  ! I=1,JLT
 
                     ENDIF
@@ -3147,7 +3159,7 @@ c PLY=IPLY NPT=-1
                   ENDDO
                 ENDIF
 c
-                IF(MLW == 25 .AND. (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52)) THEN
+                IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
                   DO J=1,NLAY
                     ID_PLY = 0
                     IF (IGTYP == 17 .OR. IGTYP == 51) THEN
@@ -3161,39 +3173,41 @@ c
                       DO I=1,NEL
                         NPTT = ELBUF_TAB(NG)%BUFLY(J)%NPTT
                         IADR = (J - 1)*NEL
-                        VLY(1:5) = ZERO
-                        VG(1:5)= ZERO
-                        DO IR=1,NPTR
-                          DO IS=1,NPTS
-                            DO IT=1,NPTT
-                              LBUF=> ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT)
-                              DMAX(I) = ONE/PM(64,MATLY(IADR + I))
-                              WPMAX(I)= ONE/PM(41,MATLY(IADR + I))
-                              EPST1(I)= PM(60,MATLY(IADR + I))
-                              EPST2(I)= PM(61,MATLY(IADR + I))
-                              EPSF1(I)= ONE/PM(98,MATLY(IADR + I))
-                              EPSF2(I)= ONE/PM(99,MATLY(IADR + I))
-C
-                              VG(1) = MAX(VG(1),LBUF%DMG(JJ(1)+I)*DMAX(I))
-                              VG(2) = MAX(VG(2),LBUF%DMG(JJ(2)+I)*DMAX(I))
-                              VG(3)= MAX(VG(3),ABS(LBUF%PLA(I))*WPMAX(I))
-                              IF(LBUF%CRAK(JJ(1)+I) > ZERO) VG(4)=  MAX(VG(4),
-     .                             (LBUF%CRAK(JJ(1)+I)+EPST1(I))*EPSF1(I))
-                              IF(LBUF%CRAK(JJ(2)+I) > ZERO )VG(5) = MAX(VG(5),
-     .                             (LBUF%CRAK(JJ(2)+I)+EPST2(I))*EPSF2(I))
+                        MLW_LAY = MATPARAM(MATLY(IADR + I))%ILAW
+                        IF (MLW_LAY == 25) THEN
+                          VLY(1:5) = ZERO
+                          VG(1:5)= ZERO
+                          DO IR=1,NPTR
+                            DO IS=1,NPTS
+                              DO IT=1,NPTT
+                                LBUF=> ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT)
+                                DMAX(I) = ONE/PM(64,MATLY(IADR + I))
+                                WPMAX(I)= ONE/PM(41,MATLY(IADR + I))
+                                EPST1(I)= PM(60,MATLY(IADR + I))
+                                EPST2(I)= PM(61,MATLY(IADR + I))
+                                EPSF1(I)= ONE/PM(98,MATLY(IADR + I))
+                                EPSF2(I)= ONE/PM(99,MATLY(IADR + I))
+C  
+                                VG(1) = MAX(VG(1),LBUF%DMG(JJ(1)+I)*DMAX(I))
+                                VG(2) = MAX(VG(2),LBUF%DMG(JJ(2)+I)*DMAX(I))
+                                VG(3)= MAX(VG(3),ABS(LBUF%PLA(I))*WPMAX(I))
+                                IF(LBUF%CRAK(JJ(1)+I) > ZERO) VG(4)=  MAX(VG(4),
+     .                               (LBUF%CRAK(JJ(1)+I)+EPST1(I))*EPSF1(I))
+                                IF(LBUF%CRAK(JJ(2)+I) > ZERO )VG(5) = MAX(VG(5),
+     .                               (LBUF%CRAK(JJ(2)+I)+EPST2(I))*EPSF2(I))
+                              ENDDO
                             ENDDO
                           ENDDO
-                        ENDDO
-                        VLY(1) =VG(1)
-                        VLY(2) =VG(2)
-                        VLY(3) =VG(3)
-                        VLY(4) =VG(4)
-                        VLY(5) =VG(5)
+                          VLY(1) =VG(1)
+                          VLY(2) =VG(2)
+                          VLY(3) =VG(3)
+                          VLY(4) =VG(4)
+                          VLY(5) =VG(5)
 C
-                        VALUE(I) = MAX(VALUE(I),VLY(1),VLY(2),VLY(3),VLY(4),VLY(5))
-                        IS_WRITTEN_VALUE(I) = 1
+                          VALUE(I) = MAX(VALUE(I),VLY(1),VLY(2),VLY(3),VLY(4),VLY(5))
+                          IS_WRITTEN_VALUE(I) = 1
+                        ENDIF
                       ENDDO  ! I=1,JLT
-
                     ENDIF
                   ENDDO
                 ENDIF
@@ -3214,14 +3228,16 @@ c ILAYER=ILAY NPT=IPT
                     ENDDO
                     VALUE(I) = VALUE(I) + DMGMX
                   ENDDO     !  I=1,NEL
-                  IF(MLW == 25) THEN
-                    DO I=1,NEL
-                      K1 = 2*I-1
-                      K2 = 2*I
-                      NPTT = ELBUF_TAB(NG)%BUFLY(ILAY)%NPTT
-                      BUFLY => ELBUF_TAB(NG)%BUFLY(ILAY)
-                      IADR = (IPT - 1)*NEL
-                      J = IADR + I
+                  !< Check damage for law 25
+                  DO I=1,NEL
+                    K1 = 2*I-1
+                    K2 = 2*I
+                    NPTT = ELBUF_TAB(NG)%BUFLY(ILAY)%NPTT
+                    BUFLY => ELBUF_TAB(NG)%BUFLY(ILAY)
+                    IADR = (IPT - 1)*NEL
+                    J = IADR + I
+                    MLW_LAY = MATPARAM(MATLY(IADR + I))%ILAW
+                    IF (MLW_LAY == 25) THEN
                       VLY(1:5) = ZERO
                       VG(1:5)= ZERO
                       DO IR=1,NPTR
@@ -3251,8 +3267,8 @@ C
 C
                       VALUE(I) = MAX(VALUE(I),VLY(1),VLY(2),VLY(3),VLY(4),VLY(5))
                       IS_WRITTEN_VALUE(I) = 1
-                    ENDDO  ! I=1,JLT
-                  ENDIF
+                    ENDIF
+                  ENDDO  ! I=1,JLT
                 ENDIF
 c ILAYER=IL NPT=NULL
               ELSEIF ( ILAY <= NLAY .AND. ILAY > 0) THEN
@@ -3271,13 +3287,15 @@ c ILAYER=IL NPT=NULL
                     ENDDO
                     VALUE(I) = VALUE(I) + DMGMX
                   ENDDO     !  I=1,NEL
-                  IF(MLW == 25) THEN
-                    DO I=1,NEL
-                      K1 = 2*I-1
-                      K2 = 2*I
-                      BUFLY => ELBUF_TAB(NG)%BUFLY(ILAY)
-                      IADR = (IPT - 1)*NEL
-                      J = IADR + I
+                  !< Check damage for law 25
+                  DO I=1,NEL
+                    K1 = 2*I-1
+                    K2 = 2*I
+                    BUFLY => ELBUF_TAB(NG)%BUFLY(ILAY)
+                    IADR = (IPT - 1)*NEL
+                    J = IADR + I
+                    MLW_LAY = MATPARAM(MATLY(J))%ILAW
+                    IF (MLW_LAY == 25) THEN
                       VLY(1:5) = ZERO
                       VG(1:5)= ZERO
                       DO IR=1,NPTR
@@ -3313,8 +3331,8 @@ C
                       VALUE(I) = MAX(VALUE(I),VLY(1),VLY(2),VLY(3),
      .                                 VLY(4),VLY(5))
                       IS_WRITTEN_VALUE(I) = 1
-                    ENDDO  ! I=1,JLT
-                  ENDIF
+                    ENDIF
+                  ENDDO  ! I=1,JLT
 
                 ELSEIF (IGTYP == 51 .OR. IGTYP == 52) THEN
                   NPTT = ELBUF_TAB(NG)%BUFLY(ILAY)%NPTT
@@ -3334,14 +3352,16 @@ C
                     ENDDO  !  DO IT = 1,NPTT
                     VALUE(I) = VALUE(I) / NPTT
                   ENDDO     !  I=1,NEL
-                  IF(MLW == 25) THEN
-                    DO I=1,NEL
-                      K1 = 2*I-1
-                      K2 = 2*I
-                      NPTT = ELBUF_TAB(NG)%BUFLY(ILAY)%NPTT
-                      BUFLY => ELBUF_TAB(NG)%BUFLY(ILAY)
-                      IADR = (IPT - 1)*NEL
-                      J = IADR + I
+                  !< Check damage for law 25
+                  DO I=1,NEL
+                    K1 = 2*I-1
+                    K2 = 2*I
+                    NPTT = ELBUF_TAB(NG)%BUFLY(ILAY)%NPTT
+                    BUFLY => ELBUF_TAB(NG)%BUFLY(ILAY)
+                    IADR = (IPT - 1)*NEL
+                    J = IADR + I
+                    MLW_LAY = MATPARAM(MATLY(J))%ILAW
+                    IF (MLW_LAY == 25) THEN
                       VLY(1:5) = ZERO
                       DO IT=1,NPTT
                         VG(1:5)= ZERO
@@ -3379,8 +3399,8 @@ C
                       VALUE(I) = MAX(VALUE(I),VLY(1),VLY(2),VLY(3),
      .                                 VLY(4),VLY(5))
                       IS_WRITTEN_VALUE(I) = 1
-                    ENDDO  ! I=1,JLT
-                  ENDIF
+                    ENDIF
+                  ENDDO  ! I=1,JLT
                 ENDIF
 c NPT=IPT
               ELSEIF ( IPT <= NPT .AND. IPT > 0) THEN
@@ -3398,13 +3418,15 @@ c NPT=IPT
                     ENDDO
                     VALUE(I) = VALUE(I) + DMGMX
                   ENDDO     !  I=1,NEL
-                  IF(MLW == 25) THEN
-                    DO I=1,NEL
-                      K1 = 2*I-1
-                      K2 = 2*I
-                      BUFLY => ELBUF_TAB(NG)%BUFLY(1)
-                      IADR = (IPT - 1)*NEL
-                      J = IADR + I
+                  !< Check damage for law 25
+                  DO I=1,NEL
+                    K1 = 2*I-1
+                    K2 = 2*I
+                    BUFLY => ELBUF_TAB(NG)%BUFLY(1)
+                    IADR = (IPT - 1)*NEL
+                    J = IADR + I
+                    MLW_LAY = MATPARAM(MATLY(J))%ILAW
+                    IF (MLW_LAY == 25) THEN
                       VLY(1:5) = ZERO
                       VG(1:5)= ZERO
                       DO IR=1,NPTR
@@ -3440,8 +3462,8 @@ C
                       VALUE(I) = MAX(VALUE(I),VLY(1),VLY(2),VLY(3),
      .                                 VLY(4),VLY(5))
                       IS_WRITTEN_VALUE(I) = 1
-                    ENDDO  ! I=1,JLT
-                  ENDIF
+                    ENDIF
+                  ENDDO  ! I=1,JLT
                 ENDIF
               ENDIF
 C--------------------------------------------------
@@ -3485,8 +3507,8 @@ c
 C
 C for outp of dam inside law25
 CMATLY
-              IF(MLW == 25 .AND. (IGTYP == 10 .OR. IGTYP == 11 .OR.
-     .           IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 )) THEN
+              IF (IGTYP == 10 .OR. IGTYP == 11 .OR.
+     .           IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 ) THEN
                 IF(ITY == 3)THEN
                   DO I=1,NEL
                     MAT(I)=IXC(1,NFT+I)
@@ -3535,42 +3557,45 @@ C
                     BUFLY => ELBUF_TAB(NG)%BUFLY(IPT)
                     IADR = (IPT - 1)*NEL
                     J = IADR + I
-                    VLY(1:5) = ZERO
-                    DO IT=1,NPTT
-                      VG(1:5)= ZERO
-                      DO IR=1,NPTR
-                        DO IS=1,NPTS
-                          LBUF => ELBUF_TAB(NG)%BUFLY(IPT)%LBUF(IR,IS,IT)
-                          DMAX(I) = ONE/PM(64,MATLY(J))
-                          WPMAX(I)= ONE/PM(41,MATLY(J))
-                          EPST1(I)= PM(60,MATLY(J))
-                          EPST2(I)= PM(61,MATLY(J))
-                          EPSF1(I)= ONE/PM(98,MATLY(J))
-                          EPSF2(I)= ONE/PM(99,MATLY(J))
-C
-                          VG(1) = MAX(VG(1),LBUF%DMG(JJ(1)+I)*DMAX(I))
-                          VG(2) = MAX(VG(2),LBUF%DMG(JJ(2)+I)*DMAX(I))
-                          VG(3)= MAX(VG(3),ABS(LBUF%PLA(I))*WPMAX(I))
-                          IF(LBUF%CRAK(JJ(1)+I) > ZERO) VG(4)=  MAX(VG(4),
-     .                              (LBUF%CRAK(JJ(1)+I)+EPST1(I))*EPSF1(I))
-                          IF(LBUF%CRAK(JJ(2)+I) > ZERO )VG(5) = MAX(VG(5),
-     .                              (LBUF%CRAK(JJ(2)+I)+EPST2(I))*EPSF2(I))
+                    MLW_LAY = MATPARAM(MATLY(J))%ILAW
+                    IF (MLW_LAY == 25) THEN
+                      VLY(1:5) = ZERO
+                      DO IT=1,NPTT
+                        VG(1:5)= ZERO
+                        DO IR=1,NPTR
+                          DO IS=1,NPTS
+                            LBUF => ELBUF_TAB(NG)%BUFLY(IPT)%LBUF(IR,IS,IT)
+                            DMAX(I) = ONE/PM(64,MATLY(J))
+                            WPMAX(I)= ONE/PM(41,MATLY(J))
+                            EPST1(I)= PM(60,MATLY(J))
+                            EPST2(I)= PM(61,MATLY(J))
+                            EPSF1(I)= ONE/PM(98,MATLY(J))
+                            EPSF2(I)= ONE/PM(99,MATLY(J))
+C  
+                            VG(1) = MAX(VG(1),LBUF%DMG(JJ(1)+I)*DMAX(I))
+                            VG(2) = MAX(VG(2),LBUF%DMG(JJ(2)+I)*DMAX(I))
+                            VG(3)= MAX(VG(3),ABS(LBUF%PLA(I))*WPMAX(I))
+                            IF(LBUF%CRAK(JJ(1)+I) > ZERO) VG(4)=  MAX(VG(4),
+     .                                (LBUF%CRAK(JJ(1)+I)+EPST1(I))*EPSF1(I))
+                            IF(LBUF%CRAK(JJ(2)+I) > ZERO )VG(5) = MAX(VG(5),
+     .                                (LBUF%CRAK(JJ(2)+I)+EPST2(I))*EPSF2(I))
+                          ENDDO
                         ENDDO
-                      ENDDO
-                      VLY(1) =VLY(1) + VG(1)
-                      VLY(2) =VLY(2) + VG(2)
-                      VLY(3) =VLY(3) + VG(3)
-                      VLY(4) =VLY(4) + VG(4)
-                      VLY(5) =VLY(5) + VG(5)
-                    ENDDO ! NPTT
-                    VLY(1) =VLY(1)/NPTT
-                    VLY(2) =VLY(2)/NPTT
-                    VLY(3) =VLY(3)/NPTT
-                    VLY(4) =VLY(4)/NPTT
-                    VLY(5) =VLY(5)/NPTT
+                        VLY(1) =VLY(1) + VG(1)
+                        VLY(2) =VLY(2) + VG(2)
+                        VLY(3) =VLY(3) + VG(3)
+                        VLY(4) =VLY(4) + VG(4)
+                        VLY(5) =VLY(5) + VG(5)
+                      ENDDO ! NPTT
+                      VLY(1) =VLY(1)/NPTT
+                      VLY(2) =VLY(2)/NPTT
+                      VLY(3) =VLY(3)/NPTT
+                      VLY(4) =VLY(4)/NPTT
+                      VLY(5) =VLY(5)/NPTT
 C
-                    VALUE(I) = MAX(VALUE(I),VLY(1),VLY(2),VLY(3),VLY(4),VLY(5))
-                    IS_WRITTEN_VALUE(I) = 1
+                      VALUE(I) = MAX(VALUE(I),VLY(1),VLY(2),VLY(3),VLY(4),VLY(5))
+                      IS_WRITTEN_VALUE(I) = 1
+                    ENDIF
                   ENDDO  ! I=1,JLT
                 ENDIF
               ENDIF ! law 25  + SHell Composite  PID
