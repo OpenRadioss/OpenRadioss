@@ -107,7 +107,7 @@
           tref,eta,cp,am,bm,cm,dm,ppm,qm,e0mart,vm0,ckh(4),akh(4),fscale0,     &
           fscale45,fscale90,epsd0,epsd45,epsd90,expa,x2vect(maxfunc),          &
           x3vect(maxfunc),x4vect(maxfunc),fscale(maxfunc),x1scale,x2scale,     &
-          x3scale,x4scale,yld0
+          x3scale,x4scale,yld0,lam_Lp,lam_Lpp
         logical :: is_available,is_encrypted
 !-----------------------------------------------
 !   S o u r c e   L i n e s
@@ -394,6 +394,48 @@
           if (epsd90 == zero) then
             call hm_get_floatv_dim('EPSD90',epsd90,is_available,lsubmodel,     &
               unitab)
+          endif
+        endif
+!
+!-------------------------------------------------------------
+!     Check yield surface convexity
+!-------------------------------------------------------------
+        !< Check first linear transformation matrix principal values 
+        ! (must be positive to ensure convexity)
+        if (flag_fit == 0) then
+          lam_Lp  = (al1 + al3)/two - sqrt(((al1 - al3)/2)**2 + al2**2)
+          if (lam_Lp <= zero) then 
+            call ancmsg(msgid=3095,                                            &                  
+                        msgtype=msgwarning,                                    &
+                        anmode=aninfo_blind_1,                                 &
+                        i1=mat_id,                                             &
+                        c1=titr)
+            al2 = em02 * floor(sqrt(al1*al3) / em02)
+          endif
+          if (al4 <= zero) then
+            call ancmsg(msgid=3096,                                            &                  
+                        msgtype=msgerror,                                      &
+                        anmode=aninfo_blind_1,                                 &
+                        i1=mat_id,                                             &
+                        c1=titr)
+          endif
+          !< Check second linear transformation matrix principal values 
+          ! (must be positive to ensure convexity)
+          lam_Lpp = (al5 + al7)/two - sqrt(((al5 - al7)/2)**2 + al6**2)
+          if (lam_Lpp <= zero) then 
+            call ancmsg(msgid=3097,                                            &                  
+                        msgtype=msgwarning,                                    &
+                        anmode=aninfo_blind_1,                                 &
+                        i1=mat_id,                                             &
+                        c1=titr)
+            al6 = em02 * floor(sqrt(al5*al7) / em02)
+          endif
+          if (al8 <= zero) then
+            call ancmsg(msgid=3098,                                            &                  
+                        msgtype=msgerror,                                      &
+                        anmode=aninfo_blind_1,                                 &
+                        i1=mat_id,                                             &
+                        c1=titr)
           endif
         endif
 !

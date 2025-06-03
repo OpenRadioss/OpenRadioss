@@ -89,7 +89,7 @@
             residu,g(2),dal(8),dg(2,2),al(8),f(8),df(6,6),         &
             dfinv(6,6),dginv(2,2),dyld_dp(1),  &
             xvec(1,2),yld(1),expa,expam2,k1,k2,ahs,bhs,mhs,eps0hs,nhs,hmart,   &
-            temp0,expo,aexp,atemp,vm0
+            temp0,expo,aexp,atemp,vm0,lam_Lp,lam_Lpp
 !      
         logical  is_encrypted
 !=======================================================================
@@ -324,6 +324,44 @@
               exit
             endif
           enddo
+        endif
+!
+        !< Check yield surface convexity
+        !< Check first linear transformation matrix principal values 
+        ! (must be positive to ensure convexity)
+        lam_Lp  = (al(1) + al(3))/two - sqrt(((al(1) - al(3))/2)**2 + al(2)**2)
+        if (lam_Lp <= zero) then 
+          call ancmsg(msgid=3095,                                              &                  
+                      msgtype=msgwarning,                                      &
+                      anmode=aninfo_blind_1,                                   &
+                      i1=mat_id,                                               &
+                      c1=titr)
+          al(2) = em02 * floor(sqrt(al(1)*al(3)) / em02)
+        endif
+        if (al(4) <= zero) then
+          call ancmsg(msgid=3096,                                              &                  
+                      msgtype=msgerror,                                        &
+                      anmode=aninfo_blind_1,                                   &
+                      i1=mat_id,                                               &
+                      c1=titr)
+        endif
+        !< Check second linear transformation matrix principal values 
+        ! (must be positive to ensure convexity)
+        lam_Lpp = (al(5) + al(7))/two - sqrt(((al(5) - al(7))/2)**2 + al(6)**2)
+        if (lam_Lpp <= zero) then 
+          call ancmsg(msgid=3097,                                              &                  
+                      msgtype=msgwarning,                                      &
+                      anmode=aninfo_blind_1,                                   &
+                      i1=mat_id,                                               &
+                      c1=titr)
+          al(6) = em02 * floor(sqrt(al(5)*al(7)) / em02)
+        endif
+        if (al(8) <= zero) then
+          call ancmsg(msgid=3098,                                              &                  
+                      msgtype=msgerror,                                        &
+                      anmode=aninfo_blind_1,                                   &
+                      i1=mat_id,                                               &
+                      c1=titr)
         endif
 !
         !< Update the material parameters
