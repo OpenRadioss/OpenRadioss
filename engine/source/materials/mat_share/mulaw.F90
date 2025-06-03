@@ -248,11 +248,14 @@
       use sigeps163_mod
       use fail_spalling_s_mod
       use fail_lemaitre_s_mod
+      use fail_composite_s_mod
       use prop_param_mod
       use dt_mod
       use glob_therm_mod
       use sigeps51_mod , only : sigeps51
       use output_mod , only : wfext
+      use matparam_def_mod
+      use fail_param_mod
       use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
@@ -507,6 +510,7 @@
           type(g_bufel_)  ,pointer         :: gbuf
           type(buf_eos_)  ,pointer         :: ebuf
           type(matparam_struct_) , pointer :: matparam
+          type(fail_param_) , pointer :: failparam
           logical :: logical_userl_avail
           real(kind=WP) :: user_uelr(mvsiz)
           integer, dimension(:) ,pointer   :: fld_idx,foff,ifunc,itable,itabl_fail,iparf,iparam
@@ -2210,6 +2214,7 @@
               dam    => fbuf%floc(ir)%dam
               lf_dammx = fbuf%floc(ir)%lf_dammx
 !
+              failparam => matparam%fail(ir)
               nparf  =  matparam%fail(ir)%nuparam
               niparf =  matparam%fail(ir)%niparam
               uparf=> matparam%fail(ir)%uparam(1:nparf)
@@ -2549,6 +2554,14 @@
                 &s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,&
                 &dpla     ,el_pla   ,lbuf%off ,off      ,dfmax    ,tdel     ,&
                 &niparf   ,iparf    ,lbuf%dmgscl,gbuf%noff,npg    )
+!
+              elseif (irupt == 51) then
+!---- Composite failure model
+                call fail_composite_s(&
+                &nel      ,failparam,nvarf    ,uvarf    ,tt       ,ngl      ,& 
+                &ipg      ,ilay     ,npg      ,tdel     ,off      ,lbuf%off ,&             
+                &s1       ,s2       ,s3       ,s4       ,s5       ,s6       ,&
+                &lbuf%dmgscl,lf_dammx,dfmax   ,gbuf%noff)  
 !
               endif
             enddo ! ir = 1,nfail

@@ -207,7 +207,10 @@
           use file_descriptor_mod
           use constant_mod
           use damping_range_shell_mod
+          use matparam_def_mod
+          use fail_param_mod
           use fail_lemaitre_c_mod
+          use fail_composite_c_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -405,6 +408,7 @@
           &dfmax,tdel ,offl,uvarv,uparam,uparam0,uparamf,&
           &dirdmg,dir_orth,damini
           type(matparam_struct_) , pointer :: matparam
+          type(fail_param_) , pointer :: fail_param
 !----
           logical :: logical_userl_avail
           logical :: flag_eps,flag_epsp,flag_zcfac,flag_etimp
@@ -2051,6 +2055,7 @@
                   fld_idx=> fbuf%floc(ifl)%indx
                   foff   => fbuf%floc(ifl)%off
                   lf_dammx   = fbuf%floc(ifl)%lf_dammx
+                  fail_param => mat_elem%mat_param(imat)%fail(ifl)
                   nupar      =  mat_elem%mat_param(imat)%fail(ifl)%nuparam
                   nipar      =  mat_elem%mat_param(imat)%fail(ifl)%niparam
                   nfunc_fail =  mat_elem%mat_param(imat)%fail(ifl)%nfunc
@@ -2547,6 +2552,14 @@
                     &foff      ,off       ,dfmax     ,tdel      ,dmg_flag ,&
                     &dmg_loc_scale,ipg    ,ply_id    ,ilayer    ,it       ,&
                     &ngl       ,tt        ,igtyp     )
+!
+                   case (51)     !    Composite failure model
+!
+                    call fail_composite_c(&
+                    &nel       ,fail_param,nuvar     ,uvarf    ,tt        ,&
+                    &ngl       ,ipg       ,ilayer    ,it       ,ply_id    ,&
+                    &igtyp     ,tdel      ,signxx    ,signyy    ,signxy   ,&
+                    &foff      ,dmg_flag  ,dmg_loc_scale,lf_dammx,dfmax   )
 !
 !-------------
                   end select

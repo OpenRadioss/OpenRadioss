@@ -214,6 +214,8 @@
           use timer_mod
           use table_mod
           use mat_elem_mod
+          use matparam_def_mod
+          use fail_param_mod
           use nlocal_reg_mod
           use ale_connectivity_mod
           use message_mod
@@ -225,6 +227,7 @@
           use glob_therm_mod
           use fail_lemaitre_s_mod
           use fail_spalling_s_mod
+          use fail_composite_s_mod
           use eosmain_mod , only : eosmain
           use precision_mod, only : WP
           use mvsiz_mod, only : mvsiz
@@ -444,6 +447,7 @@
           type(buf_visc_) ,pointer :: vbuf
           type(buf_eos_)  ,pointer :: ebuf
           type(buf_damp_range_)  ,pointer :: damp_buf
+          type(fail_param_) ,pointer :: failparam
           real(kind=WP),&
           &dimension(:), pointer  :: uvarf,uparamf,dfmax,tdel,damini
           real(kind=WP) ,dimension(:), pointer  :: el_temp
@@ -2364,6 +2368,7 @@
               damini=> fbuf%floc(ir)%damini
               tdel  => fbuf%floc(ir)%tdel
               lf_dammx = fbuf%floc(ir)%lf_dammx
+              failparam => mat_elem%mat_param(imat)%fail(ir)
               nparam  = mat_elem%mat_param(imat)%fail(ir)%nuparam
               niparam = mat_elem%mat_param(imat)%fail(ir)%niparam
               uparamf=>mat_elem%mat_param(imat)%fail(ir)%uparam(1:nparam)
@@ -2711,6 +2716,14 @@
                 &ss1      ,ss2      ,ss3      ,ss4      ,ss5      ,ss6      ,&
                 &dpla     ,el_pla   ,lbuf%off ,off      ,dfmax    ,tdel     ,&
                 &niparam  ,iparamf  ,lbuf%dmgscl,gbuf%noff,npg    )
+!
+              elseif (irupt == 51) then
+!---- Composite failure model
+                call fail_composite_s(&
+                &llt      ,failparam,nvarf    ,uvarf    ,tt       ,ngl      ,& 
+                &ipg      ,ilay     ,npg      ,tdel     ,off      ,lbuf%off ,&             
+                &ss1      ,ss2      ,ss3      ,ss4      ,ss5      ,ss6      ,&
+                &lbuf%dmgscl,lf_dammx,dfmax   ,gbuf%noff)  
 !---------
               endif ! irupt
 !
