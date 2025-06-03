@@ -140,6 +140,10 @@ C--------------------------------------------------
       DO N=1,NUMBRICK
         I = I + 1
         IF(IXS(6,I)+IXS(7,I)+IXS(8,I)+IXS(9,I)==0)THEN
+          DO J=2,5  
+            IXS(J,I)=USR2SYS(IXS(J,I),ITABM1,MESS,IXS(11,I))
+            CALL ANODSET(IXS(J,I), CHECK_VOLU)
+          ENDDO  
           IXS(9,I)=IXS(5,I)
           IXS(8,I)=IXS(4,I)
           IXS(7,I)=IXS(4,I)
@@ -157,6 +161,10 @@ C--------------------------------------------------
             IXS(9,I)=IC4
           END IF
         ELSEIF(IXS(8,I)+IXS(9,I)==0)THEN
+          DO J=2,7  
+            IXS(J,I)=USR2SYS(IXS(J,I),ITABM1,MESS,IXS(11,I))
+            CALL ANODSET(IXS(J,I), CHECK_VOLU)
+          ENDDO  
           IXS(9,I)=IXS(5,I)
           IXS(8,I)=IXS(7,I)
           IXS(7,I)=IXS(6,I)
@@ -164,6 +172,10 @@ C--------------------------------------------------
           IXS(5,I)=IXS(2,I)
           ISOLNOD(I)=6
         ELSE
+          DO J=2,9  
+            IXS(J,I)=USR2SYS(IXS(J,I),ITABM1,MESS,IXS(11,I))
+            CALL ANODSET(IXS(J,I), CHECK_VOLU)
+          ENDDO  
           ISOLNOD(I)=8
         ENDIF
 C--------------------------------------------------
@@ -188,11 +200,6 @@ C--------------------------------------------------
         IPID=IPART(2,INDEX_PART)               
         IXS(1,I)=MT                                
         IXS(10,I)=IPID 
-C--------------------------------------------------
-        DO J=2,9  
-          IXS(J,I)=USR2SYS(IXS(J,I),ITABM1,MESS,IXS(11,I))
-          CALL ANODSET(IXS(J,I), CHECK_VOLU)
-        ENDDO  
       ENDDO            
 C--------------------------------------------------
 C      READING TETRA4 INPUTS IN HM STRUCTURE
