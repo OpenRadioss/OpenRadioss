@@ -1187,7 +1187,7 @@ C-----------------------
         NINIVELTG = LOADS%NINIVELT
         IF (NSPMD>1) CALL SPMD_MAX_I(NINIVELTG)
         LOADS%NINIVELT_G = NINIVELTG
-        IF (LOADS%NINIVELT > 0) THEN
+        IF (TT == ZERO .AND. LOADS%NINIVELT > 0) THEN
           CALL INIVEL_INIT(                                               
      .                    NGRNOD,  NGRBRIC,    NGRQUAD,       NGRSH3N,           
      .                    IGRNOD,  IGRBRIC,    IGRQUAD,       IGRSH3N,          
