@@ -711,6 +711,8 @@ C-----------------------------------------------
         INTEGER, DIMENSION(3, 2), TARGET :: TRI_FACE
         INTEGER, DIMENSION(:, :), POINTER :: ELEM_FACE, ELEM_FACE2
         INTEGER :: KFACE, KFACE2, NFACE, NFACE_NODE, NFACE2, NFACE_NODE2
+        INTEGER NN(4)
+        LOGICAL SKIP_FACE
 C-----------------------------------------------
 C     B e g i n n i n g   o f   S u b r o u t i n e
 C-----------------------------------------------
@@ -1084,21 +1086,40 @@ C-----------------------------------------------
                COUNT = 4
                ELEM_FACE => HEXA_FACE
               ENDIF
+
               DO KFACE = 1, NFACE
                CALL INTVECTOR_CLEAR(VEC_PTR1)
-               DO INODE = 1, NFACE_NODE
-                  IF (ELEM_FACE(KFACE, INODE) < 0) CYCLE
-                  NODE_ID = IXS(1 + ELEM_FACE(KFACE, INODE), II)
-                  ITAG(NODE_ID) = 1
-                  DO IAD = IAD_CONNECT(NODE_ID), IAD_CONNECT(NODE_ID + 1) - 1
-                     IF (CONNECTED(IAD) /= II) THEN
-                        CALL INTVECTOR_PUSH_BACK(VEC_PTR1, CONNECTED(IAD))
-                     ENDIF
-                  ENDDO
-               ENDDO
+
+               !skip hexa degenerated face (penta)
+               SKIP_FACE = .FALSE.
+               IF(NFACE_NODE == 4)THEN
+                 DO KK=1,4
+                   NN(KK) =  IXS(1 + ELEM_FACE(KFACE, KK), II)
+                 ENDDO
+                 IF(NN(1)==NN(2) .AND. NN(3)==NN(4)) THEN
+                    SKIP_FACE = .TRUE.
+                 ELSEIF(NN(2)==NN(3) .AND. NN(1)==NN(4)) THEN
+                    SKIP_FACE = .TRUE.
+                 ENDIF
+               ENDIF
+
+               IF(.NOT. SKIP_FACE)THEN
+                 DO INODE = 1, NFACE_NODE
+                    IF (ELEM_FACE(KFACE, INODE) < 0) CYCLE
+                    NODE_ID = IXS(1 + ELEM_FACE(KFACE, INODE), II)
+                    ITAG(NODE_ID) = 1
+                    DO IAD = IAD_CONNECT(NODE_ID), IAD_CONNECT(NODE_ID + 1) - 1
+                       IF (CONNECTED(IAD) /= II) THEN
+                          CALL INTVECTOR_PUSH_BACK(VEC_PTR1, CONNECTED(IAD))
+                       ENDIF
+                    ENDDO
+                 ENDDO
+               ENDIF
+
 !              get the redundant element number
                CALL INTVECTOR_GET_REDUNDANT(VEC_PTR1, JJ, ITMP, COUNT)
                IAD1 = THIS%EE_CONNECT%IAD_CONNECT(II)
+               IF(SKIP_FACE) JJ = 0   !no connected face (degenerated)
                THIS%EE_CONNECT%CONNECTED(IAD1 + KFACE - 1) = JJ
                IF (JJ > 0) THEN
                   IF (IXS(2, JJ) == IXS(3, JJ) .AND. IXS(4, JJ) == IXS(5, JJ) .AND. 
