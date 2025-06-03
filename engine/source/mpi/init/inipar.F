@@ -59,11 +59,12 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR,ICODE
       INTEGER MYRANK, JRANK, I, J, NTHREAD1, LOCAL, RLEN
-      CHARACTER (LEN=255) :: STR
-      CHARACTER (LEN=MPI_MAX_PROCESSOR_NAME) :: HOSTNAME(NSPMD),
-     *     HSTNAM,HOST
-      INTEGER PERM(NSPMD),HOST_NUMBERS(NSPMD),HOST_NUMBER
-      INTEGER BUFFER(NSPMD*2),NSPMDx2
+      CHARACTER (LEN=255) :: STR      
+      CHARACTER (LEN=MPI_MAX_PROCESSOR_NAME) :: HSTNAM,HOST
+      character(len=MPI_MAX_PROCESSOR_NAME), dimension(:), allocatable :: hostname
+      integer, dimension(:), allocatable :: perm,host_numbers,buffer
+      INTEGER HOST_NUMBER
+      INTEGER NSPMDx2
       INTEGER :: COLOUR
       INTEGER :: VALID
 #if defined(_OPENMP)
@@ -254,12 +255,16 @@ C
 C
 C Init local SPMD numbering on a node (L_SPMD)
 C
+        allocate(hostname(nspmd))
         CALL MPI_GET_PROCESSOR_NAME(HSTNAM,RLEN,IERROR)
         CALL MPI_GATHER(
      .     HSTNAM,MPI_MAX_PROCESSOR_NAME,MPI_CHARACTER,
      .     HOSTNAME   ,MPI_MAX_PROCESSOR_NAME,MPI_CHARACTER,
      .     IT_SPMD(1),SPMD_COMM_WORLD,IERROR)
-
+        
+        allocate(perm(nspmd))
+        allocate(host_numbers(nspmd))
+        allocate(buffer(2*nspmd))     
         IF(ISPMD==0)THEN
 C permutations during sort are saved
           DO I = 1,NSPMD
@@ -296,6 +301,7 @@ C         Local rank in the node
           BUFFER(1:NSPMD) = L_SPMD(1:NSPMD) 
 C         host numbers
           BUFFER(NSPMD+1:2*NSPMD) = HOST_NUMBERS(1:NSPMD)
+          deallocate(perm)
         ENDIF
         NSPMDx2 = NSPMD*2
         CALL MPI_BCAST(BUFFER,NSPMDx2,MPI_INTEGER,IT_SPMD(1),
@@ -312,6 +318,9 @@ C       Count the number of SPMD on the local host
           ENDIF
         END DO  
 
+        deallocate(hostname)
+        deallocate(host_numbers)
+        deallocate(buffer)
 
       ELSE IF(ICAS==2) THEN
 C
