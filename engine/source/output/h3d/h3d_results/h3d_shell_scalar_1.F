@@ -152,7 +152,7 @@ C-----------------------------------------------
      2                MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,
      3                NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTURB   ,
      4                JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
-     5                NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     5                MID     ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
      6                IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7                ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
 
@@ -3421,19 +3421,18 @@ c NPT=IPT
                     BUFLY => ELBUF_TAB(NG)%BUFLY(1)
                     IADR = (IPT - 1)*NEL
                     J = IADR + I
-                    MLW_LAY = MATPARAM(MATLY(J))%ILAW
-                    IF (MLW_LAY == 25) THEN
+                    IF (MLW == 25) THEN
                       VLY(1:5) = ZERO
                       VG(1:5)= ZERO
                       DO IR=1,NPTR
                         DO IS=1,NPTS
                           LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IPT)
-                          DMAX(I) = ONE/PM(64,MATLY(J))
-                          WPMAX(I)= ONE/PM(41,MATLY(J))
-                          EPST1(I)= PM(60,MATLY(J))
-                          EPST2(I)= PM(61,MATLY(J))
-                          EPSF1(I)= ONE/PM(98,MATLY(J))
-                          EPSF2(I)= ONE/PM(99,MATLY(J))
+                          DMAX(I) = ONE/PM(64,MID)
+                          WPMAX(I)= ONE/PM(41,MID)
+                          EPST1(I)= PM(60,MID)
+                          EPST2(I)= PM(61,MID)
+                          EPSF1(I)= ONE/PM(98,MID)
+                          EPSF2(I)= ONE/PM(99,MID)
 C
                           VG(1) = MAX(VG(1),LBUF%DMG(JJ(1)+I)*DMAX(I))
                           VG(2) = MAX(VG(2),LBUF%DMG(JJ(2)+I)*DMAX(I))
