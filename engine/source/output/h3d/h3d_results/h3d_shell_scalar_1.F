@@ -3102,10 +3102,6 @@ c
                               EPST2(I)= PM(61,MATLY(IADR + I))
                               EPSF1(I)= ONE/PM(98,MATLY(IADR + I))
                               EPSF2(I)= ONE/PM(99,MATLY(IADR + I))
-
-                              WRITE(*,*) "MLW = ", MLW
-                              WRITE(*,*) "TEST = ", MATPARAM(MATLY(IADR + I))%UPARAM(18), PM(64,MATLY(IADR + I))
-                              PAUSE
 C  
                               VG(1) = MAX(VG(1),LBUF%DMG(JJ(1)+I)*DMAX(I))
                               VG(2) = MAX(VG(2),LBUF%DMG(JJ(2)+I)*DMAX(I))
