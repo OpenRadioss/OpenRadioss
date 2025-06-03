@@ -21,10 +21,13 @@
 #include "gimple-pretty-print.h"
 #include "gimple-iterator.h"
 #include "gimple-walk.h"
+#include "diagnostic.h"  // Added for error reporting
 
 // We must assert that this plugin is GPL compatible
 int plugin_is_GPL_compatible;
-static struct plugin_info my_gcc_plugin_info = { "1.0", "Fortran Signature Extractor" };
+static struct plugin_info my_gcc_plugin_info = { "1.0", "Fortran Signature Extractor with PAUSE Detection" };
+
+// ... [Keep all your existing struct definitions and getTypeName function] ...
 
 // Structures to hold function info
 struct ArgumentInfo {
@@ -55,226 +58,167 @@ struct CallInfo {
 std::vector<SubroutineInfo> allSubroutines;
 std::vector<CallInfo> allCalls;
 
+// Flag to track if we found PAUSE statements
+static bool found_pause_statement = false;
 
 std::string getTypeName(tree type) {
-    if (!type)
-        return "unknown";
-        
-    enum tree_code code = TREE_CODE(type);
-    
-    // Handle arrays - recursively check dimensions
-    if (code == ARRAY_TYPE) {
-        // Get element type (potentially multi-dimensional)
-        tree element_type = type;
-        int dimensions = 0;
-        
-        // Count dimensions by traversing through nested ARRAY_TYPEs
-        while (TREE_CODE(element_type) == ARRAY_TYPE) {
-            dimensions++;
-            element_type = TREE_TYPE(element_type);
-        }
-        
-        // Get the base type name
-        std::string base_type;
-        
-        // Special handling for CHARACTER arrays
-        if (TREE_CODE(element_type) == INTEGER_TYPE && TYPE_STRING_FLAG(element_type)) {
-            base_type = "CHARACTER";
-        } else {
-            // Recursive call for the element type, but without the array part
-            base_type = getTypeName(element_type);
-        }
-        
-        // Format with Fortran-style array dimensions
-        std::string array_suffix = "(";
-        for (int i = 0; i < dimensions; i++) {
-            array_suffix += ":";
-            if (i < dimensions - 1) {
-                array_suffix += ",";
-            }
-        }
-        array_suffix += ")";
-        
-        return base_type + array_suffix;
-    }
-    
-    // Check for CHARACTER type
-    if (code == INTEGER_TYPE && TYPE_STRING_FLAG(type)) {
-        return "CHARACTER";
-    }
-    
-    // Handle numeric types with KIND information
-    switch (code) {
-        case INTEGER_TYPE: {
-            // Get precision in bits
-            int precision = TYPE_PRECISION(type);
-            int kind = precision / 8;  // Convert bits to bytes for Fortran KIND
-            if (kind > 0) {
-                return "INTEGER(KIND=" + std::to_string(kind) + ")";
-            }
-            return "INTEGER";
-        }
-        
-        case REAL_TYPE: {
-            // Get precision for REAL types
-            int precision = TYPE_PRECISION(type);
-            
-            // Map precision to Fortran KIND
-            int kind = 0;
-            if (precision <= 32) kind = 4;       // Single precision
-            else if (precision <= 64) kind = 8;  // Double precision
-            else kind = 16;                      // Extended precision
-            
-            return "REAL(KIND=" + std::to_string(kind) + ")";
-        }
-        
-        case COMPLEX_TYPE: {
-            // Get precision of the component type
-            tree component = TREE_TYPE(type);  // COMPLEX is made of two REALs
-            int precision = TYPE_PRECISION(component);
-            
-            // Map precision to Fortran KIND
-            int kind = 0;
-            if (precision <= 32) kind = 4;
-            else if (precision <= 64) kind = 8;
-            else kind = 16;
-            
-            return "COMPLEX(KIND=" + std::to_string(kind) + ")";
-        }
-        
-        case BOOLEAN_TYPE: return "LOGICAL";
-        
-        case POINTER_TYPE: {
-            std::string pointed_type = getTypeName(TREE_TYPE(type));
-            return pointed_type + ", POINTER";
-        }
-        
-        case RECORD_TYPE: {
-            // Enhanced handling for derived types
-            tree name = TYPE_NAME(type);
-            if (name) {
-                if (TREE_CODE(name) == TYPE_DECL) {
-                    if (DECL_NAME(name)) {
-                        return "TYPE(" + std::string(IDENTIFIER_POINTER(DECL_NAME(name))) + ")";
-                    }
-                } else if (TREE_CODE(name) == IDENTIFIER_NODE) {
-                    return "TYPE(" + std::string(IDENTIFIER_POINTER(name)) + ")";
-                }
-            }
-            
-            if (TYPE_IDENTIFIER(type)) {
-                return "TYPE(" + std::string(IDENTIFIER_POINTER(TYPE_IDENTIFIER(type))) + ")";
-            }
-            
-            return "DERIVED_TYPE";
-        }
-        
-        case VOID_TYPE:
-            return "VOID";
-            
-        case FUNCTION_TYPE:
-            return "PROCEDURE";
-            
-        case REFERENCE_TYPE: {
-            std::string ref_type = getTypeName(TREE_TYPE(type));
-            return ref_type;
-        }
-        
-        default: 
-            // For any types we haven't explicitly handled, include the tree code name
-            return std::string(get_tree_code_name(code));
-    }
+	if (!type)
+		return "unknown";
+
+	enum tree_code code = TREE_CODE(type);
+
+	// Handle arrays - recursively check dimensions
+	if (code == ARRAY_TYPE) {
+		// Get element type (potentially multi-dimensional)
+		tree element_type = type;
+		int dimensions = 0;
+
+		// Count dimensions by traversing through nested ARRAY_TYPEs
+		while (TREE_CODE(element_type) == ARRAY_TYPE) {
+			dimensions++;
+			element_type = TREE_TYPE(element_type);
+		}
+
+		// Get the base type name
+		std::string base_type;
+
+		// Special handling for CHARACTER arrays
+		if (TREE_CODE(element_type) == INTEGER_TYPE && TYPE_STRING_FLAG(element_type)) {
+			base_type = "CHARACTER";
+		} else {
+			// Recursive call for the element type, but without the array part
+			base_type = getTypeName(element_type);
+		}
+
+		// Format with Fortran-style array dimensions
+		std::string array_suffix = "(";
+		for (int i = 0; i < dimensions; i++) {
+			array_suffix += ":";
+			if (i < dimensions - 1) {
+				array_suffix += ",";
+			}
+		}
+		array_suffix += ")";
+
+		return base_type + array_suffix;
+	}
+
+	// Check for CHARACTER type
+	if (code == INTEGER_TYPE && TYPE_STRING_FLAG(type)) {
+		return "CHARACTER";
+	}
+
+	// Handle numeric types with KIND information
+	switch (code) {
+		case INTEGER_TYPE: {
+					   // Get precision in bits
+					   int precision = TYPE_PRECISION(type);
+					   int kind = precision / 8;  // Convert bits to bytes for Fortran KIND
+					   if (kind > 0) {
+						   return "INTEGER(KIND=" + std::to_string(kind) + ")";
+					   }
+					   return "INTEGER";
+				   }
+
+		case REAL_TYPE: {
+					// Get precision for REAL types
+					int precision = TYPE_PRECISION(type);
+
+					// Map precision to Fortran KIND
+					int kind = 0;
+					if (precision <= 32) kind = 4;       // Single precision
+					else if (precision <= 64) kind = 8;  // Double precision
+					else kind = 16;                      // Extended precision
+
+					return "REAL(KIND=" + std::to_string(kind) + ")";
+				}
+
+		case COMPLEX_TYPE: {
+					   // Get precision of the component type
+					   tree component = TREE_TYPE(type);  // COMPLEX is made of two REALs
+					   int precision = TYPE_PRECISION(component);
+
+					   // Map precision to Fortran KIND
+					   int kind = 0;
+					   if (precision <= 32) kind = 4;
+					   else if (precision <= 64) kind = 8;
+					   else kind = 16;
+
+					   return "COMPLEX(KIND=" + std::to_string(kind) + ")";
+				   }
+
+		case BOOLEAN_TYPE: return "LOGICAL";
+
+		case POINTER_TYPE: {
+					   std::string pointed_type = getTypeName(TREE_TYPE(type));
+					   return pointed_type + ", POINTER";
+				   }
+
+		case RECORD_TYPE: {
+					  // Enhanced handling for derived types
+					  tree name = TYPE_NAME(type);
+					  if (name) {
+						  if (TREE_CODE(name) == TYPE_DECL) {
+							  if (DECL_NAME(name)) {
+								  return "TYPE(" + std::string(IDENTIFIER_POINTER(DECL_NAME(name))) + ")";
+							  }
+						  } else if (TREE_CODE(name) == IDENTIFIER_NODE) {
+							  return "TYPE(" + std::string(IDENTIFIER_POINTER(name)) + ")";
+						  }
+					  }
+
+					  if (TYPE_IDENTIFIER(type)) {
+						  return "TYPE(" + std::string(IDENTIFIER_POINTER(TYPE_IDENTIFIER(type))) + ")";
+					  }
+
+					  return "DERIVED_TYPE";
+				  }
+
+		case VOID_TYPE:
+				  return "VOID";
+
+		case FUNCTION_TYPE:
+				  return "PROCEDURE";
+
+		case REFERENCE_TYPE: {
+					     std::string ref_type = getTypeName(TREE_TYPE(type));
+					     return ref_type;
+				     }
+
+		default: 
+				     // For any types we haven't explicitly handled, include the tree code name
+				     return std::string(get_tree_code_name(code));
+	}
 }
 
-/*std::string getTypeName(tree type) {
-    if (!type)
-        return "unknown";
-        
-    enum tree_code code = TREE_CODE(type);
-    
-    // Handle arrays - recursively check dimensions
-    if (code == ARRAY_TYPE) {
-        // Get element type (potentially multi-dimensional)
-        tree element_type = type;
-        int dimensions = 0;
-        
-        // Count dimensions by traversing through nested ARRAY_TYPEs
-        while (TREE_CODE(element_type) == ARRAY_TYPE) {
-            dimensions++;
-            element_type = TREE_TYPE(element_type);
-        }
-        
-        // Get the base type name
-        std::string base_type;
-        
-        // Special handling for CHARACTER arrays
-        if (TREE_CODE(element_type) == INTEGER_TYPE && TYPE_STRING_FLAG(element_type)) {
-            base_type = "CHARACTER";
-        } else {
-            // Recursive call for the element type, but without the array part
-            base_type = getTypeName(element_type);
-        }
-        
-        // Format with Fortran-style array dimensions
-        std::string array_suffix = "(";
-        for (int i = 0; i < dimensions; i++) {
-            array_suffix += ":";
-            if (i < dimensions - 1) {
-                array_suffix += ",";
-            }
-        }
-        array_suffix += ")";
-        
-        return base_type + array_suffix;
-    }
-    
-    // Check for CHARACTER type
-    if (code == INTEGER_TYPE && TYPE_STRING_FLAG(type)) {
-        return "CHARACTER";
-    }
-    
-    // Handle other types
-    switch (code) {
-        case INTEGER_TYPE: return "INTEGER";
-        case REAL_TYPE: return "REAL";
-        case COMPLEX_TYPE: return "COMPLEX";
-        case BOOLEAN_TYPE: return "LOGICAL";
-        case POINTER_TYPE: {
-            std::string pointed_type = getTypeName(TREE_TYPE(type));
-            return pointed_type + ", POINTER";
-        }
-        case RECORD_TYPE: {
-            // Enhanced handling for derived types
-            tree name = TYPE_NAME(type);
-            if (name) {
-                if (TREE_CODE(name) == TYPE_DECL) {
-                    if (DECL_NAME(name)) {
-                        return "TYPE(" + std::string(IDENTIFIER_POINTER(DECL_NAME(name))) + ")";
-                    }
-                } else if (TREE_CODE(name) == IDENTIFIER_NODE) {
-                    return "TYPE(" + std::string(IDENTIFIER_POINTER(name)) + ")";
-                }
-            }
-            
-            if (TYPE_IDENTIFIER(type)) {
-                return "TYPE(" + std::string(IDENTIFIER_POINTER(TYPE_IDENTIFIER(type))) + ")";
-            }
-            
-            return "DERIVED_TYPE";
-        }
-        case VOID_TYPE:
-            return "VOID";
-        case FUNCTION_TYPE:
-            return "PROCEDURE";
-        case REFERENCE_TYPE: {
-            std::string ref_type = getTypeName(TREE_TYPE(type));
-            return ref_type;
-        }
-        default: 
-            // For any types we haven't explicitly handled, include the tree code name
-            return std::string(get_tree_code_name(code));
-    }
-} */
+// Function to check if a call is to a PAUSE statement
+bool is_pause_call(gimple* stmt) {
+	if (!is_gimple_call(stmt))
+		return false;
+
+	tree callee = gimple_call_fn(stmt);
+	if (!callee)
+		return false;
+
+	// Check for direct function call
+	if (TREE_CODE(callee) == ADDR_EXPR) {
+		tree fndecl = TREE_OPERAND(callee, 0);
+		if (fndecl && TREE_CODE(fndecl) == FUNCTION_DECL && DECL_NAME(fndecl)) {
+			const char* func_name = IDENTIFIER_POINTER(DECL_NAME(fndecl));
+
+			// Check for various representations of PAUSE in gfortran's internal calls
+			// gfortran typically converts PAUSE to internal library calls
+			if (strcmp(func_name, "_gfortran_pause_numeric") == 0 ||
+					strcmp(func_name, "_gfortran_pause_string") == 0 ||
+					strcmp(func_name, "pause") == 0 ||
+					strstr(func_name, "pause") != NULL) {
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
 
 namespace
 {
@@ -329,15 +273,9 @@ namespace
 					arg.name = "unnamed";
 
 				arg.type = getTypeName(TREE_TYPE(param));
-
-				// Check for Fortran-specific attributes in the TREE_TYPE
-				// Note: This is a simplified approach - full intent extraction
-				// may require examining additional Fortran-specific structures
 				arg.intent = "unknown";  // Default
 				arg.isOptional = false;  // Default
 
-				// Simplified intent detection
-				// This would need refinement for accurate Fortran intent matching
 				if (TREE_READONLY(param))
 					arg.intent = "IN";
 
@@ -346,11 +284,11 @@ namespace
 
 			allSubroutines.push_back(subroutine);
 
-			// Extract call information
+			// Extract call information AND check for PAUSE
 			gimple_seq gimple_body = fun->gimple_body;
 			struct walk_stmt_info walk_stmt_info;
 			memset(&walk_stmt_info, 0, sizeof(walk_stmt_info));
-			walk_stmt_info.info = fun;  // Store current function for callback use
+			walk_stmt_info.info = fun;
 
 			walk_gimple_seq(gimple_body, callback_stmt, callback_op, &walk_stmt_info);
 
@@ -371,7 +309,22 @@ namespace
 			location_t loc = gimple_location(stmt);
 			function *current_fun = (function *)wi->info;
 
-			// Check for call statements
+			// Check for PAUSE statements FIRST
+			if (is_pause_call(stmt)) {
+				found_pause_statement = true;
+
+				// Emit a compilation error
+				error_at(loc, "PAUSE statement is not allowed");
+				inform(loc, "Remove the pause statement");
+
+				// You can also add more detailed error information
+				const char* func_name = IDENTIFIER_POINTER(DECL_NAME(current_fun->decl));
+				error_at(loc, "PAUSE statement found in function %qs", func_name);
+
+				return NULL; // Continue processing to find all PAUSE statements
+			}
+
+			// Check for call statements (keep existing call extraction logic)
 			if (is_gimple_call(stmt)) {
 				CallInfo call;
 
@@ -633,57 +586,57 @@ void writeToJson(const std::string& filename) {
 
 // Modify the plugin_init function:
 int plugin_init(struct plugin_name_args *plugin_info,
-               struct plugin_gcc_version *version)
+		struct plugin_gcc_version *version)
 {
-    // Check version compatibility
-    if (!plugin_default_version_check(version, &gcc_version)) {
-        std::cerr << "This GCC plugin is for version " << GCCPLUGIN_VERSION_MAJOR << "." << GCCPLUGIN_VERSION_MINOR << "\n";
-        return 1;
-    }
-    
-    // We'll decide the output filename at the end of compilation
-    // based on the file being processed
-    
-    register_callback(plugin_info->base_name,
-            PLUGIN_INFO,
-            NULL, 
-            &my_gcc_plugin_info);
-    
-    // Register our pass
-    struct register_pass_info pass_info;
-    pass_info.pass = new signature_extractor_pass(g);
-    pass_info.reference_pass_name = "cfg";
-    pass_info.ref_pass_instance_number = 1;
-    pass_info.pos_op = PASS_POS_INSERT_BEFORE;
-    
-    register_callback(plugin_info->base_name, 
-                     PLUGIN_PASS_MANAGER_SETUP, 
-                     NULL, 
-                     &pass_info);
-    
-    // Register finish callback to write output file
-    register_callback(plugin_info->base_name,
-                     PLUGIN_FINISH,
-                     [](void *gcc_data, void *user_data) {
-                         // Get the main input filename
-                         const char* input_filename = main_input_filename;
-                         if (!input_filename || strlen(input_filename) == 0) {
-                             // Fallback if main_input_filename is not available
-                             writeToJson("fortran_signatures.json");
-                             std::cout << "Wrote " << allSubroutines.size() << " subroutines and " 
-                                      << allCalls.size() << " calls to fortran_signatures.json" << std::endl;
-                             return;
-                         }
-                         
-                         // Create output filename by adding .json extension
-                         std::string output_file = std::string(input_filename) + ".json";
-                         
-                         // Write the output
-                         writeToJson(output_file);
-                         std::cout << "Wrote " << allSubroutines.size() << " subroutines and " 
-                                  << allCalls.size() << " calls to " << output_file << std::endl;
-                     },
-                     NULL);
-    
-    return 0;
+	// Check version compatibility
+	if (!plugin_default_version_check(version, &gcc_version)) {
+		std::cerr << "This GCC plugin is for version " << GCCPLUGIN_VERSION_MAJOR << "." << GCCPLUGIN_VERSION_MINOR << "\n";
+		return 1;
+	}
+
+	// We'll decide the output filename at the end of compilation
+	// based on the file being processed
+
+	register_callback(plugin_info->base_name,
+			PLUGIN_INFO,
+			NULL, 
+			&my_gcc_plugin_info);
+
+	// Register our pass
+	struct register_pass_info pass_info;
+	pass_info.pass = new signature_extractor_pass(g);
+	pass_info.reference_pass_name = "cfg";
+	pass_info.ref_pass_instance_number = 1;
+	pass_info.pos_op = PASS_POS_INSERT_BEFORE;
+
+	register_callback(plugin_info->base_name, 
+			PLUGIN_PASS_MANAGER_SETUP, 
+			NULL, 
+			&pass_info);
+
+	// Register finish callback to write output file
+	register_callback(plugin_info->base_name,
+			PLUGIN_FINISH,
+			[](void *gcc_data, void *user_data) {
+			// Get the main input filename
+			const char* input_filename = main_input_filename;
+			if (!input_filename || strlen(input_filename) == 0) {
+			// Fallback if main_input_filename is not available
+			writeToJson("fortran_signatures.json");
+			std::cout << "Wrote " << allSubroutines.size() << " subroutines and " 
+			<< allCalls.size() << " calls to fortran_signatures.json" << std::endl;
+			return;
+			}
+
+			// Create output filename by adding .json extension
+			std::string output_file = std::string(input_filename) + ".json";
+
+			// Write the output
+			writeToJson(output_file);
+			std::cout << "Wrote " << allSubroutines.size() << " subroutines and " 
+			<< allCalls.size() << " calls to " << output_file << std::endl;
+			},
+			NULL);
+
+	return 0;
 }
