@@ -509,7 +509,10 @@
 !
           if (flag_law25 .and. igtyp == 9 .and. npt == 1) then
             degmb(jft:jlt) = zero
-            degfx(jft:jlt) = zero
+            degfx(jft:jlt) = zero 
+          else
+            degmb(jft:jlt) = degmb(jft:jlt)*off(jft:jlt)
+            degfx(jft:jlt) = degfx(jft:jlt)*off(jft:jlt)
           endif
 !
           vol0(jft:jlt)   = area(jft:jlt)*thk0(jft:jlt)
