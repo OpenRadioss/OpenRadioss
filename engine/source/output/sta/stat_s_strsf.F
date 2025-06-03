@@ -698,7 +698,7 @@ c
      .        '# IF (NPT /= 0) REPEAT K=1,NPT : REPEAT I=1,NPG :'
                IF ((ISOLNOD == 8 .AND. 
      .         (JHBE==1.OR.JHBE==2.OR.JHBE==12.OR.JHBE==24.OR.JHBE==17 .OR. JHBE == 18)
-     .         .AND.IGTYP /= 43).OR. (ISOLNOD == 4 .AND. ISROT == 0)) THEN
+     .         .AND.IGTYP /= 43).OR. (ISOLNOD == 4 .AND. ISROT == 0).OR.JHBE==5) THEN
                  WRITE(IUGEO,'(A)') '#  EINT, RHO'
 c----------------------------------------------------------------------
                WRITE(IUGEO,'(A/A)') '#    S1,  S2,  S3',
@@ -743,7 +743,7 @@ c----------------------------------------------------------------------
               CALL STRS_TXT50(LINE,100)
               IF ((ISOLNOD == 8 .AND. 
      .         (JHBE==1.OR.JHBE==2.OR.JHBE==12.OR.JHBE==24.OR.JHBE==17 .OR. JHBE == 18)
-     .         .AND.IGTYP /= 43).OR. (ISOLNOD == 4 .AND. ISROT == 0)) THEN
+     .         .AND.IGTYP /= 43).OR. (ISOLNOD == 4 .AND. ISROT == 0).OR.JHBE==5) THEN
                 WRITE(LINE,'(A)') '#  EINT, RHO'
                 CALL STRS_TXT50(LINE,100) 
                 IF (IGLOB == 1)THEN 
@@ -828,7 +828,7 @@ c-------------------
           IF ((ISOLNOD == 8 .AND. 
      .         (JHBE==1.OR.JHBE==2.OR.JHBE==12.OR.JHBE==24.OR.JHBE==17 .OR. JHBE == 18)
      .         .AND.IGTYP /= 43).OR. (ISOLNOD == 4 .AND. ISROT == 0)
-     .         .OR.(ISOLNOD == 4 .AND. ISROT == 3)) THEN
+     .         .OR.(ISOLNOD == 4 .AND. ISROT == 3).OR.JHBE==5) THEN
             DO IPT = 1, NPTG
               IF (IZIPSTRS == 0) THEN
                 WRITE(IUGEO,'(1P2E20.13)')(WAP0(J + K),K=8,9) ! EINT,RHO

@@ -540,7 +540,7 @@ C---------
 !---------not have to distinquate 2 groupes, can be cleaned later
                   IF ( (ISOLNOD == 8 .AND. (JJHBE==1.OR.JJHBE==2.OR.JJHBE==12.OR.JJHBE==24) 
      .            .AND. IGTYP /= 43) .OR.(ISOLNOD == 4 .AND. ISROT == 0)
-     .            .OR.(ISOLNOD == 4 .AND. ISROT == 3)) THEN
+     .            .OR.(ISOLNOD == 4 .AND. ISROT == 3).OR.JJHBE==5) THEN
 !           -----------First Group of solids : 4 lines to be read-----------------
                     IF(ISOLNOD == 8 .AND. JJHBE == 12) THEN
                       SIGSP(2,I) = NPT
@@ -922,7 +922,7 @@ C---------
                   STRSGLOB(IE) = 0
                   IF ( (ISOLNOD == 8 .AND. (JJHBE==1.OR.JJHBE==2.OR.JJHBE==12.OR.JJHBE==24) 
      .            .AND. IGTYP /= 43) .OR.(ISOLNOD == 4 .AND. ISROT == 0)
-     .            .OR.(ISOLNOD == 4 .AND. ISROT == 3)) THEN
+     .            .OR.(ISOLNOD == 4 .AND. ISROT == 3).OR.JJHBE==5) THEN
 !           -----------First Group of solids : 4 lines to be read-----------------
                     IF(ISOLNOD == 8 .AND. JJHBE == 12) THEN
                       SIGSP(2,I) = NPT
