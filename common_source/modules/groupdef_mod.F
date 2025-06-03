@@ -394,7 +394,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    int18_alloc                       ../engine/source/interfaces/int18/int18_alloc.F
       !||    int18_law151_alloc                ../starter/source/interfaces/int18/int18_law151_alloc.F
       !||    int18_law151_init                 ../engine/source/interfaces/int18/int18_law151_init.F
-      !||    int18_law151_nsv_shift            ../engine/source/interfaces/int18/int18_law151_nsv_shift.F
+      !||    int18_law151_nsv_shift            ../common_source/interf/int18_law151_nsv_shift.F
       !||    int18_law151_update               ../engine/source/interfaces/int18/int18_law151_update.F
       !||    inter_offset_itag                 ../starter/source/elements/shell/shell_offset/inter_offset_itag.F90
       !||    intfop1                           ../engine/source/interfaces/interf/intfop1.F

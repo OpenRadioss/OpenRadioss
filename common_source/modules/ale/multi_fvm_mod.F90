@@ -115,6 +115,7 @@
       !||    ini_inimap2d                     ../starter/stub/ini_inimap2d.F
       !||    inifill                          ../starter/source/initial_conditions/inivol/inifill.F
       !||    inigrav_load                     ../starter/source/initial_conditions/inigrav/inigrav_load.F
+      !||    inint3                           ../starter/source/interfaces/inter3d1/inint3.F
       !||    inintr                           ../starter/source/interfaces/interf1/inintr.F
       !||    iniphase                         ../starter/source/initial_conditions/inivol/iniphase.F
       !||    init_bcs_wall                    ../starter/source/boundary_conditions/init_bcs_wall.F90
@@ -127,7 +128,7 @@
       !||    int18_alloc                      ../engine/source/interfaces/int18/int18_alloc.F
       !||    int18_law151_alloc               ../starter/source/interfaces/int18/int18_law151_alloc.F
       !||    int18_law151_init                ../engine/source/interfaces/int18/int18_law151_init.F
-      !||    int18_law151_nsv_shift           ../engine/source/interfaces/int18/int18_law151_nsv_shift.F
+      !||    int18_law151_nsv_shift           ../common_source/interf/int18_law151_nsv_shift.F
       !||    int18_law151_omp_accumulation    ../engine/source/interfaces/int18/int18_law151_omp_accumulation.F
       !||    int18_law151_update              ../engine/source/interfaces/int18/int18_law151_update.F
       !||    inter_color_voxel                ../engine/source/interfaces/generic/inter_color_voxel.F
