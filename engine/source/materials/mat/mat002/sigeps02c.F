@@ -40,7 +40,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      A                  EPSPXX   ,EPSPYY   ,EPSPXY   ,EPSPYZ   ,EPSPZX   ,
      B                  SIGBAKXX ,SIGBAKYY ,SIGBAKXY ,INLOC    ,DPLANL   ,
      C                  VP       ,ASRATE   ,LOFF     ,EPSD     ,
-     D                  TEMPEL   ,FHEAT    ,JLAG)
+     D                  TEMPEL   ,FHEAT    )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,7 +60,6 @@ C-----------------------------------------------
       INTEGER JFT,JLT,IPLA,NEL,IOFC,JTHE,IPT,NPTT,IMAT,ISRATE
       INTEGER NGL(MVSIZ),IOFF_DUCT(*),INLOC
       INTEGER, INTENT(IN) :: VP
-      INTEGER,INTENT(IN) :: JLAG
       my_real ,DIMENSION(NEL),INTENT(IN) :: EPSPXX,EPSPYY,EPSPXY,EPSPYZ,EPSPZX
       my_real ,INTENT(IN) :: ASRATE
       my_real, DIMENSION(NEL), INTENT(IN) :: LOFF
@@ -225,7 +224,7 @@ c------------------------------------
 C-----------------
 C     TEMPERATURE
 C-----------------
-      IF (JTHE /= 0 .AND. JLAG /= 0) THEN
+      IF (JTHE /= 0) THEN
         ! heat increment due to plastic work for /heat/mat
         DO I=1,NEL
           FHEAT(I) = FHEAT(I) + SIGY(I)*DPLA(I)*VOL(I)
