@@ -27,7 +27,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    ani_pcont                                    ../engine/source/output/anim/generate/ani_pcont.F
       !||    ani_pcont21                                  ../engine/source/output/anim/generate/ani_pcont.F
       !||    arret                                        ../engine/source/system/arret.F
-      !||    ass18                                        ../engine/source/interfaces/int18/ass18.F
       !||    clusterf                                     ../engine/source/output/cluster/clusterf.F
       !||    create_h3d_1d_scalar                         ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_scalar.F
       !||    create_h3d_1d_tensor                         ../engine/source/output/h3d/h3d_build_fortran/create_h3d_1d_tensor.F

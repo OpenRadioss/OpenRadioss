@@ -22,8 +22,6 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
       !||    i18tri      ../engine/source/interfaces/int18/i18tri.F
-      !||--- called by ------------------------------------------------------
-      !||    i7mainf     ../engine/source/interfaces/int07/i7mainf.F
       !||--- calls      -----------------------------------------------------
       !||    my_orders   ../common_source/tools/sort/my_orders.c
       !||--- uses       -----------------------------------------------------

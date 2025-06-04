@@ -26,7 +26,6 @@ C
       !||--- called by ------------------------------------------------------
       !||    airbagb           ../engine/source/airbag/airbag2.F
       !||    airbagb1          ../engine/source/airbag/airbagb1.F
-      !||    ass18             ../engine/source/interfaces/int18/ass18.F
       !||    damping_vref      ../engine/source/assembly/damping_vref.F
       !||    get_volume_area   ../engine/source/airbag/get_volume_area.F90
       !||    poro              ../engine/source/ale/porous/poro.F

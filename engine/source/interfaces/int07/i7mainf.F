@@ -32,7 +32,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    i17main_pena                ../engine/source/interfaces/int17/i17main_pena.F
       !||    i18dst3                     ../engine/source/interfaces/int18/i18dst3.F
       !||    i18for3                     ../engine/source/interfaces/int18/i18for3.F
-      !||    i18tri                      ../engine/source/interfaces/int18/i18tri.F
       !||    i7ass33                     ../engine/source/interfaces/int07/i7ass3.F
       !||    i7cdcor3                    ../engine/source/interfaces/int07/i7cdcor3.F
       !||    i7cor3                      ../engine/source/interfaces/int07/i7cor3.F
@@ -57,6 +56,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    elbufdef_mod                ../common_source/modules/mat_elem/elbufdef_mod.F90
       !||    groupdef_mod                ../common_source/modules/groupdef_mod.F
       !||    h3d_mod                     ../engine/share/modules/h3d_mod.F
+      !||    i18dst3_mod                 ../engine/source/interfaces/int18/i18dst3.F
+      !||    i18for3_mod                 ../engine/source/interfaces/int18/i18for3.F
       !||    intbuf_fric_mod             ../common_source/modules/interfaces/intbuf_fric_mod.F90
       !||    message_mod                 ../engine/share/message_module/message_mod.F
       !||    multi_fvm_mod               ../common_source/modules/ale/multi_fvm_mod.F90

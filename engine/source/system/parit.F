@@ -25,7 +25,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- called by ------------------------------------------------------
       !||    airbagb                 ../engine/source/airbag/airbag2.F
       !||    airbagb1                ../engine/source/airbag/airbagb1.F
-      !||    ass18                   ../engine/source/interfaces/int18/ass18.F
       !||    damping_vref_sum6_rby   ../engine/source/assembly/damping_vref_sum6_rby.F90
       !||    dampvref_sum6           ../engine/source/assembly/dampvref_sum6.F
       !||    get_volume_area         ../engine/source/airbag/get_volume_area.F90

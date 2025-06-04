@@ -28,7 +28,6 @@ C COMMON BLOCK are no longer maintened
       !||    anim_mod                     ../common_source/modules/output/anim_mod.F
       !||--- called by ------------------------------------------------------
       !||    anim_set2zero_struct         ../engine/source/output/anim/reader/anim_set2zero_struct.F
-      !||    ass18                        ../engine/source/interfaces/int18/ass18.F
       !||    contrl                       ../starter/source/starter/contrl.F
       !||    cutcnt                       ../engine/source/tools/sect/cutcnt.F
       !||    ecrit                        ../engine/source/output/ecrit.F

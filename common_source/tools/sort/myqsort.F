@@ -24,7 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    myqsort                           ../common_source/tools/sort/myqsort.F
       !||--- called by ------------------------------------------------------
       !||    add_mass_stat                     ../starter/source/tools/admas/add_mass_stat.F
-      !||    ass18                             ../engine/source/interfaces/int18/ass18.F
       !||    find_dt_engine                    ../starter/source/coupling/rad2rad/r2r_speedup.F
       !||    find_dt_for_targeted_added_mass   ../engine/source/time_step/find_dt_for_targeted_added_mass.F
       !||    hm_read_mat70                     ../starter/source/materials/mat/mat070/hm_read_mat70.F
