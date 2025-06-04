@@ -1,0 +1,53 @@
+name: Label Dangerous PRs
+
+on:
+  pull_request:
+    types:[opened, synchronize, reopened]
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v4
+
+    - name: Label PR if dangerous files are modified
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const dangerousPaths = [
+            'starter/source/system/arret.F',
+            'starter/source/output/analyse/analyse_aret.F',
+            'engine/source/system/arret.F',
+            'starter/source/starter/execargcheck.F',
+            'engine/source/engine/execargcheck.F',
+            'engine/source/engine/radioss2.F',
+            'engine/source/mpi/init/inipar.F',
+            'engine/source/output/restart/wrrestp.F'
+          ];
+
+          const prNumber = context.payload.pull_request.number;
+
+          const files = await github.paginate(
+            github.rest.pulls.listFiles,
+            {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber,
+            }
+          );
+
+          const micromatch = require('micromatch');
+          const touchedFiles = files.map(f => f.filename);
+          const isDangerous = micromatch.some(touchedFiles, dangerousPaths);
+
+          if (isDangerous) {
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+              labels: ['dangerous']
+            });
+          }
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+ 
