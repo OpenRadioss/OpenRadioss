@@ -309,9 +309,9 @@ C-----------------------------------------------
      &          'Z-COORDINATE              =',1PG20.13,/5X,
      &          'DETONATION TIME           =',1PG20.13,/5X,
      &          'EXPLOSIVE MATERIAL NUMBER =',I10 )
- 1401 FORMAT(///5X
+ 1401 FORMAT(///5X,
      &          'DETONATION POINT (NODE)    ',I10,/5X,
-     &          '----------------           ',/5X,
+     &          '-----------------------    ',/5X,
      &          'SHADOWING FLAG            =',I10     ,/5X,
      &          'NODE ID                   =',I10     ,/5X,
      &          ' X-COORDINATE             =',1PG20.13,/5X,
@@ -321,7 +321,7 @@ C-----------------------------------------------
      &          'EXPLOSIVE MATERIAL NUMBER =',I10 )
  1402 FORMAT(///5X,
      &          'DETONATION POINT (SET)     ',I10,/5X,
-     &          '----------------           ',/5X,
+     &          '----------------------     ',/5X,
      &          'SHADOWING FLAG            =',I10     ,/5X,
      &          'SET ID                    =',I10     ,/5X,
      &          ' NUMBER OF NODES          =',I10,/5X,
