@@ -430,7 +430,7 @@
           igtyp = igeo(11,pid(1))
           igmat = igeo(98,pid(1))
           inloc = iparg(78)
-          jlag = iparg(14)                     ! flag for non-local regularization
+ !         jlag = iparg(14)        ! not initialized for shells, but should be always = 1
           nsensor = sensors%nsensor
 !
           idrape = elbuf_str%idrape
@@ -1119,7 +1119,7 @@
                 &epspxx     ,epspyy    ,epspxy   ,epspyz   ,epspzx ,&
                 &lbuf%sigb(ij1),lbuf%sigb(ij2),lbuf%sigb(ij3),inloc  ,varnl(1,it),&
                 &vp         ,asrate    ,lbuf%off ,lbuf%epsd  ,&
-                &el_temp   ,fheat      ,jlag)
+                &el_temp   ,fheat      )
 !
               elseif (ilaw == 15) then
                 call sigeps15c(&
