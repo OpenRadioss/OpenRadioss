@@ -204,6 +204,7 @@ C=======================================================================
       IF (IMPL_S>0) DM = ZERO
       IDAMP_FREQ_RANGE = IPARG(93)
       DAMP_BUF => ELBUF_STR%DAMP_RANGE
+      ZCFAC(1:MVSIZ,1:2) = ZERO
 C--------------------------------------------------
 C     add source terme for law not user
       IF (JTHE > 0 .AND. (MTN < 28 .OR. MTN == 32)) THEN
