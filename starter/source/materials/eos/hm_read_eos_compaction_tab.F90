@@ -63,7 +63,7 @@
       use unitab_mod , only : unit_type_
       use submodel_mod , only : nsubmod, submodel_data
       use elbuftag_mod , only : eos_tag_
-      use constant_mod , only : zero, em20, em12, em10, half, two_third, one, two, three, three100, ep10, ep20
+      use constant_mod , only : zero, em20, em12, em10, em03, half, two_third, one, two, three, three100, ep10, ep20
       use eos_param_mod , only : eos_param_
       use table_mod , only : ttable
       use eos_table_copy_mod , only : eos_table_copy
@@ -228,7 +228,7 @@
       ! GAMMA(RHO_TMD) -> 0 ?
       gamma_tmd = zero
       if(G_FUNC_ID > 0 .and. gscale /= zero)then
-         xvec1(1:1,1) = rho_tmd
+         xvec1(1:1,1) = (one+em03)*rho_tmd
          call table_mat_vinterp(eos_param%table(3),1,1,vartmp(1,3),xvec1,yy,slope)
          gamma_tmd = yy(1)
          if(gamma_tmd > em10)then
@@ -302,6 +302,7 @@
         df = slope(1) - c_solid**2
         rho_ = rho_ - ff/df
         residu = abs(ff/df)
+        iter = iter + 1
       END DO
       rhomax_plastic = rho_ ! intersection point
 

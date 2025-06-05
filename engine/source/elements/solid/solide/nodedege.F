@@ -26,33 +26,31 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    deges4v    ../engine/source/elements/solid/solide/deges4v.F
       !||====================================================================
       SUBROUTINE NODEDEGE(X,Y,Z,XYZ,NN)
-C----6---------------------------------------------------------------7---------8
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------------------------
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NN
-      my_real
-     .   XYZ(3,*),X,Y,Z
+      INTEGER :: NN
+      my_real :: XYZ(3,*),X,Y,Z
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J
-      my_real
-     .   XIJ,YIJ,ZIJ
-C----6---------------------------------------------------------------7---------8
+      INTEGER :: J
+      my_real :: XIJ,YIJ,ZIJ
+C-----------------------------------------------
        DO J=1,NN
-              XIJ=XYZ(1,J)-X
-              YIJ=XYZ(2,J)-Y
-              ZIJ=XYZ(3,J)-Z
-        IF (XIJ==ZERO.AND.YIJ==ZERO.AND.ZIJ==ZERO) RETURN
+         XIJ=XYZ(1,J)-X
+         YIJ=XYZ(2,J)-Y
+         ZIJ=XYZ(3,J)-Z
+         IF (XIJ == ZERO .AND. YIJ == ZERO .AND. ZIJ == ZERO) RETURN
        END DO !J=1,NN
-               NN = NN + 1
-               XYZ(1,NN)=X
-               XYZ(2,NN)=Y
-               XYZ(3,NN)=Z
-C
+       NN = NN + 1
+       XYZ(1,NN)=X
+       XYZ(2,NN)=Y
+       XYZ(3,NN)=Z
+C-----------------------------------------------
       RETURN
       END

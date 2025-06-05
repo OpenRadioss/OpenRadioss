@@ -63,7 +63,7 @@ C-----------------------------------------------
       my_real
      .   XWL, YWL, ZWL, VXW, VYW, VZW, TFXTN, FACT,
      .   TFXT, XL1, YL1, ZL1, XL2, YL2, ZL2, SX12, SY12, SZ12, S12,
-     .   VX, VY, VZ, XC, YC, ZC, DP, DN, XCP, YCP, ZCP,
+     .   VX, VY, VZ, XC, YC, ZC, DP, XCP, YCP, ZCP,
      .   SX1M, SY1M, SZ1M, PS, SM1, SXM2, SYM2, SZM2, SM2, DV, DA, DVT,
      .   FNXN, FNYN, FNZN, FNXT, FNYT, FNZT, FNDFN, FTDFT, FRIC, FRIC2,
      .   FCOE,AX,
