@@ -44,6 +44,11 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                         UNITAB ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
      .                         PM     ,MATPARAM ,NVARTMP  )
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      use simple_checksum_mod
+      use myqsort_d_mod
+C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 C   READ MAT LAW70 WITH HM READER ( TO BE COMPLETED )
@@ -94,10 +99,16 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NRATEN,J,I,NRATEP,IUNLOAD,ITENS,IETANG,NL,ISORT
-      my_real E,NU,G,C1,VISC, VISCV,EXPO,HYS,
+      integer :: i1,i2,sizeh,ierror,ifun
+      my_real E,NU,G,C1,VISC, VISCV,EXPO,HYS,YFAC_UNIT,
      .        RHO0,RHOR,E0,EMAX,EPSMAX,FCUT,A1,A2,AA
-      INTEGER ,DIMENSION(MAXFUNC) :: PERM
-      my_real ,DIMENSION(MAXFUNC) :: RATE,YFAC,YFAC_UNIT,RTMP,YTMP
+      INTEGER ,DIMENSION(MAXFUNC) :: FID,PERM
+      my_real ,DIMENSION(MAXFUNC) :: RATE,YFAC,SCALE,EPSP,RTMP,YTMP
+      double precision :: h1,h2
+      double precision :: chksum
+      double precision :: hasht(3)
+      double precision ,dimension(:) ,allocatable :: hash
+      integer          ,dimension(:) ,allocatable :: perml
       LOGICAL IS_AVAILABLE,IS_ENCRYPTED         
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -126,82 +137,92 @@ C-----------------------------------------------
       CALL HM_GET_INTV('MAT_Iflag'   ,IUNLOAD  ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_FLOATV('MAT_SHAPE' ,EXPO     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_HYST'  ,HYS      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-
+!-------------------------------------------------------------------------------
       IF(RHOR==ZERO)RHOR=RHO0
       PM(1) =RHOR
       PM(89)=RHO0
 
+!-------------------------------------------------------------------------------
+      ! Loading functions
+!-------------------------------------------------------------------------------
       IF(NRATEP == 0) THEN
           CALL ANCMSG(MSGID=866,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND,
      .                I1=MAT_ID,
      .                C1=TITR)
       ENDIF 
-      !--loading function     
+      CALL HM_GET_FLOATV('SCALE_LOAD'  ,YFAC_UNIT  ,IS_AVAILABLE, LSUBMODEL, UNITAB)         
+      !--loading function
       DO I=1,NRATEP
-        CALL HM_GET_INT_ARRAY_INDEX('FUN_LOAD'           ,IFUNC(I)    ,I,IS_AVAILABLE, LSUBMODEL)
-        CALL HM_GET_FLOAT_ARRAY_INDEX('STRAINRATE_LOAD'  ,RATE(I)     ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_FLOAT_ARRAY_INDEX('SCALE_LOAD'       ,YFAC(I)     ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_INT_ARRAY_INDEX('FUN_LOAD'           ,FID(I)      ,I,IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_FLOAT_ARRAY_INDEX('STRAINRATE_LOAD'  ,EPSP(I)     ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOAT_ARRAY_INDEX('SCALE_LOAD'       ,SCALE(I)    ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)
         !units
-        CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('SCALE_LOAD'  ,YFAC_UNIT(I) ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)         
-        IF(YFAC(I) == ZERO) YFAC(I) = ONE * YFAC_UNIT(I)         
+        IF (SCALE(I) == ZERO) SCALE(I) = ONE * YFAC_UNIT
       ENDDO  
-                         
-      !--unloading function
-      IF (NRATEN > 0 ) THEN
-        DO I=NRATEP+1,NRATEP+NRATEN
-          CALL HM_GET_INT_ARRAY_INDEX('FUN_UNLOAD'            ,IFUNC(I)    ,I-NRATEP,IS_AVAILABLE, LSUBMODEL)
-          CALL HM_GET_FLOAT_ARRAY_INDEX('STRAINRATE_UNLOAD'   ,RATE(I)     ,I-NRATEP,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          CALL HM_GET_FLOAT_ARRAY_INDEX('SCALE_UNLOAD'        ,YFAC(I)     ,I-NRATEP,IS_AVAILABLE, LSUBMODEL, UNITAB)   
-          !units
-          CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('SCALE_UNLOAD'    ,YFAC_UNIT(I),I-NRATEP,IS_AVAILABLE, LSUBMODEL, UNITAB)         
-          IF(YFAC(I) == ZERO) YFAC(I) = ONE * YFAC_UNIT(I)         
-        ENDDO 
-      ELSE 
-        IF (NRATEN == 0 .AND. IUNLOAD <= 2) THEN
-             NRATEN = 1
-             IFUNC(NRATEP+1) = IFUNC(1)
-             YFAC (NRATEP+1) = YFAC(1)
-             RATE (NRATEP+1) = RATE(1)
-             IUNLOAD = 0
-C             
-             CALL ANCMSG(MSGID=1226, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
-     .                   I1=MAT_ID,
-     .                   C1=TITR)
-         ENDIF
-      ENDIF                     
 c---------------------------------------------------------------------------
-c     check if loading functions are defined in increasing strain rate order
+c     check if there are no input errors in function and strain rate definitions
+c---------------------------------------------------------------------------
+      if (nratep > 1) then
+        allocate (perml(nratep))
+        allocate (hash (nratep))
+        ! create a checksum value for each function input line
+        sizeh = 3
+        do i=1,nratep
+          hasht(1) = fid(i)
+          hasht(2) = epsp(i)
+          hasht(3) = scale(i)
+          call simple_checksum(hasht,sizeh,chksum)
+          hash(i) = chksum
+        end do
+!
+        ! check duplicated input lines
+!
+        call myqsort_d(nratep,hash,perml,ierror)
+        h1 = hash(1)
+        ifun = 1
+        i1 = perml(1)
+        ifunc(1) = fid(i1)
+        rate(1)  = epsp(i1)
+        yfac(1)  = scale(i1)
+        do i = 2,nratep
+          h2 = hash(i)
+          i1 = perml(i-1)
+          i2 = perml(i)
+          if (h1 == h2) then  ! skip double function line
+            call ancmsg(MSGID=3101, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
+     .                  I1=mat_id,C1=titr, I2=ifunc(i1))
+          else
+            ifun = ifun+1
+            ifunc(ifun) = fid(i2)
+            rate(ifun)  = epsp(i2)
+            yfac(ifun)  = scale(i2)
+          end if
+          h1 = h2
+        end do
+        nratep = ifun
+      else
+        ifunc(1) = fid(1)
+        rate(1)  = epsp(1)
+        yfac(1)  = scale(1)
+      end if
+c---------------------------------------------------------------------------
+c     sort loading functions in increasing strain rate order
 c---------------------------------------------------------------------------
       IF (NRATEP > 1) THEN
-        IERR  = 0
-        ISORT = 0
-        DO I=1,NRATEP-1
-          IF (RATE(I) == RATE(I+1) ) THEN
-            IERR  = 1
-          ELSE IF (RATE(I) > RATE(I+1)) THEN
-            ISORT = 1
-          END IF
-        ENDDO
-        IF (IERR == 1) THEN
-          CALL ANCMSG(MSGID=478,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND,
-     .                I1=MAT_ID,
-     .                C1=TITR)
-        END IF
-c
-        IF (ISORT == 1) THEN  ! sort functions in correct order
-          DO I=1,NRATEP
-            RTMP(I) = RATE(I)
-            YTMP(I)   = YFAC(I)
-          ENDDO  
-      
-          CALL MYQSORT(NRATEP, RTMP, PERM, IERR)
+        DO I=1,NRATEP
+          FID(I)  = IFUNC(I)
+          RTMP(I) = RATE(I)
+          YTMP(I) = YFAC(I)
+        ENDDO  
+        PERML(:) = 0
+        CALL MYQSORT(NRATEP, RTMP, PERML, IERR)
 
-          DO I=1,NRATEP
-            J = PERM(I)
-            RATE(I) = RTMP(J)
-            YFAC(I) = YTMP(J)
-          ENDDO  
-        END IF
+        DO I=1,NRATEP
+          J = PERML(I)
+          IFUNC(I) = FID(J)
+          RATE(I)  = RTMP(I)
+          YFAC(I)  = YTMP(J)
+        ENDDO  
 c
         IF (RATE(1) /=  ZERO) THEN   ! static strain rate must be equal to 0
           RATE(1) = ZERO     
@@ -209,7 +230,32 @@ c
      .                I1=MAT_ID,
      .                C1=TITR)       
         ENDIF 
-      END IF
+      END IF                       
+      if (allocated(perml)) deallocate (perml)
+      if (allocated(hash))  deallocate (hash )
+!-------------------------------------------------------------------------------
+      ! Unloading functions
+!-------------------------------------------------------------------------------
+      IF (NRATEN > 0 ) THEN
+        DO I=1,NRATEN
+          CALL HM_GET_INT_ARRAY_INDEX('FUN_UNLOAD'          ,FID(I)   ,I,IS_AVAILABLE, LSUBMODEL)
+          CALL HM_GET_FLOAT_ARRAY_INDEX('STRAINRATE_UNLOAD' ,EPSP(I)  ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)
+          CALL HM_GET_FLOAT_ARRAY_INDEX('SCALE_UNLOAD'      ,SCALE(I) ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)   
+          !units
+          IF (SCALE(I) == ZERO) SCALE(I) = ONE * YFAC_UNIT         
+        ENDDO 
+      ELSE 
+        IF (NRATEN == 0 .AND. IUNLOAD <= 2) THEN
+             NRATEN = 1
+             IFUNC(NRATEP+1) = IFUNC(1)
+             RATE (NRATEP+1) = YFAC(1)
+             YFAC (NRATEP+1) = RATE(1)
+             IUNLOAD = 0
+C             
+             CALL ANCMSG(MSGID=1226, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
+     .                   I1=MAT_ID, C1=TITR)
+         ENDIF
+      ENDIF                     
 c---------------------------------------------------------------------------
 c     check if unloading functions are defined in increasing strain rate order
 c---------------------------------------------------------------------------
@@ -217,10 +263,9 @@ c---------------------------------------------------------------------------
         IERR  = 0
         ISORT = 0
         DO I=1,NRATEN-1
-          J = I + NRATEP
-          IF (RATE(J) == RATE(J+1)) THEN
+          IF (EPSP(I) == EPSP(I+1)) THEN
             IERR  = 1
-          ELSE IF (RATE(J) > RATE(J+1)) THEN
+          ELSE IF (EPSP(I) > EPSP(I+1)) THEN
             ISORT = 1
           END IF
         ENDDO
@@ -231,18 +276,13 @@ c---------------------------------------------------------------------------
         END IF
 c
         IF (ISORT == 1) THEN  ! sort functions in correct order
-          DO I=1,NRATEN
-            J = I + NRATEP
-            RTMP(I) = RATE(J)
-            YTMP(I) = YFAC(J)
-          ENDDO  
-      
-          CALL MYQSORT(NRATEN, RTMP, PERM, IERR)
+          CALL MYQSORT(NRATEN, EPSP, PERM, IERR)
 
           DO I=1,NRATEN
             J = PERM(I)
-            RATE(I + NRATEP) = RTMP(J)
-            YFAC(I + NRATEP) = YTMP(J)
+            IFUNC(I + NRATEP) = FID(J)
+            RATE (I + NRATEP) = EPSP(I)
+            YFAC (I + NRATEP) = YTMP(J)
           ENDDO  
         END IF
 c
@@ -252,6 +292,10 @@ c
      .                I1=MAT_ID,
      .                C1=TITR)       
         ENDIF 
+      else if (nraten == 1) then
+        ifunc(nratep+1) = fid(1)
+        rate (nratep+1) = epsp(1)
+        yfac (nratep+1) = scale(1)
       END IF
 c---------------------------------------------------------------------------
 c
