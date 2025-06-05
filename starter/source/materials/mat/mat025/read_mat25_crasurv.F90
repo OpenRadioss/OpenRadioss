@@ -33,6 +33,7 @@
       !||    hm_read_mat25            ../starter/source/materials/mat/mat025/hm_read_mat25.F
       !||====================================================================
       module read_mat25_crasurv_mod
+        implicit none
       contains
 
 ! ======================================================================================================================
@@ -41,20 +42,20 @@
 
 ! ======================================================================================================================
 
-      !||====================================================================
-      !||    read_mat25_crasurv       ../starter/source/materials/mat/mat025/read_mat25_crasurv.F90
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_mat25            ../starter/source/materials/mat/mat025/hm_read_mat25.F
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                   ../starter/source/output/message/message.F
-      !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
-      !||    hm_get_floatv_dim        ../starter/source/devtools/hm_reader/hm_get_floatv_dim.F
-      !||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
-      !||--- uses       -----------------------------------------------------
-      !||    message_mod              ../starter/share/message_module/message_mod.F
-      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
-      !||====================================================================
+        !||====================================================================
+        !||    read_mat25_crasurv       ../starter/source/materials/mat/mat025/read_mat25_crasurv.F90
+        !||--- called by ------------------------------------------------------
+        !||    hm_read_mat25            ../starter/source/materials/mat/mat025/hm_read_mat25.F
+        !||--- calls      -----------------------------------------------------
+        !||    ancmsg                   ../starter/source/output/message/message.F
+        !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
+        !||    hm_get_floatv_dim        ../starter/source/devtools/hm_reader/hm_get_floatv_dim.F
+        !||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
+        !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+        !||--- uses       -----------------------------------------------------
+        !||    message_mod              ../starter/share/message_module/message_mod.F
+        !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+        !||====================================================================
         subroutine read_mat25_crasurv(                           &
           mat_param ,parmat   ,unitab   ,lsubmodel,      &
           mat_id    ,titr     ,pm       ,israte   ,      &
@@ -68,14 +69,9 @@
           use submodel_mod
           use constant_mod ,only : half,one,zero,two,four,pi,em3,em20,ep20
           use constant_mod ,only : onep1,onep2,zep999,four,six_over_5,five_over_6
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-! ----------------------------------------------------------------------------------------------------------------------
-!     included files
-! ----------------------------------------------------------------------------------------------------------------------
-
-#include "my_real.inc"
-
 !-----------------------------------------------
 !     d u m m y   a r g u m e n t s
 !-----------------------------------------------
@@ -87,15 +83,15 @@
           character(len=nchartitle)              ,intent(in)    :: titr      !< material law title
 !
           integer                                ,intent(inout) :: israte    !< strain rate flag
-          my_real, dimension(100)                ,intent(inout) :: parmat    !< temporary material parameter table
-          my_real, dimension(npropm)             ,intent(inout) :: pm        !< material parameter table
+          real(kind=WP), dimension(100)                ,intent(inout) :: parmat    !< temporary material parameter table
+          real(kind=WP), dimension(npropm)             ,intent(inout) :: pm        !< material parameter table
           type(matparam_struct_)                 ,intent(inout) :: mat_param !< material parameter structure
 !-----------------------------------------------
 !     l o c a l   v a r i a b l e s
 !-----------------------------------------------
           logical :: is_available,is_encrypted
           integer :: ioff,icc,iflag,imodwp
-          my_real :: rho0,rhor,e11,e22,e33,g12,g23,g31,n12,n21,           &
+          real(kind=WP) :: rho0,rhor,e11,e22,e33,g12,g23,g31,n12,n21,           &
             epst1,epst2,asrate,nu,young,gmax,                             &
             sigyt1,sigyt2,sigyc1,sigyc2,sigyt12,sigyc12,                  &
             c1,ssp,f1,f2,f11,f22,f33,f12,ft1,wplamx,                      &

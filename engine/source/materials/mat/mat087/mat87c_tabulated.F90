@@ -55,11 +55,11 @@
       use matparam_def_mod
       use constant_mod
       use table_mat_vinterp_mod
+      use precision_mod, only : WP
 !-------------------------------------------------------------------------------
 !   I m p l i c i t   T y p e s
 !-------------------------------------------------------------------------------
       implicit none
-#include  "my_real.inc"
 !-----------------------------------------------
 !   D u m m y  A r g u m e n t s
 !-----------------------------------------------
@@ -67,53 +67,53 @@
       type(matparam_struct_), intent(in)             :: matparam !< Material parameters
       integer, intent(in)                            :: nvartmp  !< Number of temporary variables
       integer, dimension(nel,nvartmp), intent(inout) :: vartmp   !< Temporary variables
-      my_real, intent(in)                            :: timestep !< Time step
-      my_real, dimension(nel), intent(in)            :: rho0     !< Density
-      my_real, dimension(nel), intent(in)            :: thkly    !< Layer thickness
-      my_real, dimension(nel), intent(inout)         :: thk      !< Thickness
-      my_real, dimension(nel), intent(inout)         :: epsp     !< Equivalent and filtered total strain rate
-      my_real, dimension(nel), intent(in)            :: epspxx   !< Strain rate component xx
-      my_real, dimension(nel), intent(in)            :: epspyy   !< Strain rate component yy
-      my_real, dimension(nel), intent(in)            :: epspxy   !< Strain rate component xy
-      my_real, dimension(nel), intent(in)            :: depsxx   !< Strain increment component xx
-      my_real, dimension(nel), intent(in)            :: depsyy   !< Strain increment component yy
-      my_real, dimension(nel), intent(in)            :: depsxy   !< Strain increment component xy
-      my_real, dimension(nel), intent(in)            :: depsyz   !< Strain increment component yz
-      my_real, dimension(nel), intent(in)            :: depszx   !< Strain increment component zx
-      my_real, dimension(nel), intent(in)            :: sigoxx   !< Old stress component xx
-      my_real, dimension(nel), intent(in)            :: sigoyy   !< Old stress component yy
-      my_real, dimension(nel), intent(in)            :: sigoxy   !< Old stress component xy
-      my_real, dimension(nel), intent(in)            :: sigoyz   !< Old stress component yz
-      my_real, dimension(nel), intent(in)            :: sigozx   !< Old stress component zx
-      my_real, dimension(nel), intent(inout)         :: signxx   !< New stress component xx
-      my_real, dimension(nel), intent(inout)         :: signyy   !< New stress component yy
-      my_real, dimension(nel), intent(inout)         :: signxy   !< New stress component xy
-      my_real, dimension(nel), intent(inout)         :: signyz   !< New stress component yz
-      my_real, dimension(nel), intent(inout)         :: signzx   !< New stress component zx
-      my_real, dimension(nel), intent(inout)         :: soundsp  !< Sound speed
-      my_real, dimension(nel), intent(inout)         :: pla      !< Plastic strain
-      my_real, dimension(nel), intent(inout)         :: dpla     !< Plastic strain increment
-      my_real, dimension(nel), intent(inout)         :: epsd     !< Output strain rate
-      my_real, dimension(nel), intent(inout)         :: yld      !< Yield stress
-      my_real, dimension(nel), intent(inout)         :: etse     !< Coefficient for hourglass control
-      my_real, dimension(nel), intent(in)            :: gs       !< Transverse shear modulus
+      real(kind=WP), intent(in)                            :: timestep !< Time step
+      real(kind=WP), dimension(nel), intent(in)            :: rho0     !< Density
+      real(kind=WP), dimension(nel), intent(in)            :: thkly    !< Layer thickness
+      real(kind=WP), dimension(nel), intent(inout)         :: thk      !< Thickness
+      real(kind=WP), dimension(nel), intent(inout)         :: epsp     !< Equivalent and filtered total strain rate
+      real(kind=WP), dimension(nel), intent(in)            :: epspxx   !< Strain rate component xx
+      real(kind=WP), dimension(nel), intent(in)            :: epspyy   !< Strain rate component yy
+      real(kind=WP), dimension(nel), intent(in)            :: epspxy   !< Strain rate component xy
+      real(kind=WP), dimension(nel), intent(in)            :: depsxx   !< Strain increment component xx
+      real(kind=WP), dimension(nel), intent(in)            :: depsyy   !< Strain increment component yy
+      real(kind=WP), dimension(nel), intent(in)            :: depsxy   !< Strain increment component xy
+      real(kind=WP), dimension(nel), intent(in)            :: depsyz   !< Strain increment component yz
+      real(kind=WP), dimension(nel), intent(in)            :: depszx   !< Strain increment component zx
+      real(kind=WP), dimension(nel), intent(in)            :: sigoxx   !< Old stress component xx
+      real(kind=WP), dimension(nel), intent(in)            :: sigoyy   !< Old stress component yy
+      real(kind=WP), dimension(nel), intent(in)            :: sigoxy   !< Old stress component xy
+      real(kind=WP), dimension(nel), intent(in)            :: sigoyz   !< Old stress component yz
+      real(kind=WP), dimension(nel), intent(in)            :: sigozx   !< Old stress component zx
+      real(kind=WP), dimension(nel), intent(inout)         :: signxx   !< New stress component xx
+      real(kind=WP), dimension(nel), intent(inout)         :: signyy   !< New stress component yy
+      real(kind=WP), dimension(nel), intent(inout)         :: signxy   !< New stress component xy
+      real(kind=WP), dimension(nel), intent(inout)         :: signyz   !< New stress component yz
+      real(kind=WP), dimension(nel), intent(inout)         :: signzx   !< New stress component zx
+      real(kind=WP), dimension(nel), intent(inout)         :: soundsp  !< Sound speed
+      real(kind=WP), dimension(nel), intent(inout)         :: pla      !< Plastic strain
+      real(kind=WP), dimension(nel), intent(inout)         :: dpla     !< Plastic strain increment
+      real(kind=WP), dimension(nel), intent(inout)         :: epsd     !< Output strain rate
+      real(kind=WP), dimension(nel), intent(inout)         :: yld      !< Yield stress
+      real(kind=WP), dimension(nel), intent(inout)         :: etse     !< Coefficient for hourglass control
+      real(kind=WP), dimension(nel), intent(in)            :: gs       !< Transverse shear modulus
       integer, intent(in)                            :: israte   !< Flag for strain rate filtering
-      my_real, intent(in)                            :: asrate   !< Coefficient for strain rate filtering
-      my_real, dimension(nel), intent(in)            :: off      !< Flag for element deletion status
+      real(kind=WP), intent(in)                            :: asrate   !< Coefficient for strain rate filtering
+      real(kind=WP), dimension(nel), intent(in)            :: off      !< Flag for element deletion status
       integer, intent(in)                            :: l_sigb   !< Size of the backstress tensor
-      my_real, dimension(nel,l_sigb), intent(inout)  :: sigb     !< Backstress tensor
+      real(kind=WP), dimension(nel,l_sigb), intent(inout)  :: sigb     !< Backstress tensor
       integer, intent(in)                            :: inloc    !< Flag for non-local regularisation
-      my_real, dimension(nel), intent(in)            :: dplanl   !< Non-local plastic strain increment
-      my_real, dimension(nel), intent(inout)         :: seq      !< Equivalent stress
-      my_real, dimension(nel), intent(in)            :: loff     !< Flag for layer deletion status
+      real(kind=WP), dimension(nel), intent(in)            :: dplanl   !< Non-local plastic strain increment
+      real(kind=WP), dimension(nel), intent(inout)         :: seq      !< Equivalent stress
+      real(kind=WP), dimension(nel), intent(in)            :: loff     !< Flag for layer deletion status
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
       integer i,ii,j,k,nindx,indx(nel),iter,iflagsr,ipos(nel,2),ikin
-      my_real ::                                                               &
+      real(kind=WP) ::                                                               &
         young,nu,a1,a2,g,al1,al2,al3,al4,al5,al6,al7,al8,fisokin,expa,ckh(4),  &
         akh(4),lp11,lp12,lp21,lp22,lp66,lpp11,lpp12,lpp21,lpp22,lpp66,akck
-      my_real ::                                                               &
+      real(kind=WP) ::                                                               &
         mohr_radius,mohr_center,dxp1dxpxx,dxp2dxpxx,dxp1dxpyy,                 &
         dxp2dxpyy,dxp1dxpxy,dxp2dxpxy,dxpp1dxppxx,dxpp2dxppxx,dxpp1dxppyy,     &
         dxpp2dxppyy,dxpp1dxppxy,dxpp2dxppxy,dxp1dsigxx,dxp1dsigyy,dxp1dsigxy,  &
@@ -125,7 +125,7 @@
         dphidsig_dsigdlam,dphidpla,sig_dphidsig,dphidlam,dlam,                 &
         ddep,dpladlam,dphidyld,dphidseq,sig1,sig2,dpdt,alpha,                  &
         dphidsigb_dsigbdlam,dsigbxxdlam,dsigbyydlam,dsigbxydlam
-      my_real ::                                                               &
+      real(kind=WP) ::                                                               &
         deplzz(nel),sigbxx(nel),sigbyy(nel),sigbxy(nel),normsig(nel),          &
         xp1(nel),xp2(nel),xpp1(nel),xpp2(nel),phip(nel),phipp(nel),phi(nel),   &
         xvec(nel,2),deelzz(nel),dylddp(nel),hardr(nel),xpxx(nel),              &

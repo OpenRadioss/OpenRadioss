@@ -50,6 +50,7 @@
       use ale_ebcs_mod
       use ebcs_mod
       use matparam_def_mod, only : matparam_struct_
+      use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -57,7 +58,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include      "my_real.inc"
 #include      "elements.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
@@ -71,8 +71,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      INTEGER II !< loop
-      INTEGER TYP,ISU !< ebcs data
+      INTEGER :: II !< loop
+      INTEGER :: TYP,ISU !< ebcs data
       CLASS (T_EBCS), POINTER :: EBCS
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
@@ -117,6 +117,7 @@
       use names_and_titles_mod , only : nchartitle
       use constant_mod , only : em06, zero
       use array_reindex_mod, only : real_array_reindex
+      use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -124,7 +125,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include      "my_real.inc"
 #include      "elements.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
@@ -139,10 +139,10 @@
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
       integer :: EOSid, imat, mlw    !< material & eos data
-      integer kk, icell              !< loop
-      my_real :: T_combust           !< parameter for combustion model
-      my_real :: Cv0,Cv              !< Specific Heat parameter (Cv0 : first segment)
-      my_real,allocatable,dimension(:) :: tmp  !< Cv parameters for each segment
+      integer :: kk, icell              !< loop
+      real(kind=WP) :: T_combust           !< parameter for combustion model
+      real(kind=WP) :: Cv0,Cv              !< Specific Heat parameter (Cv0 : first segment)
+      real(kind=WP),allocatable,dimension(:) :: tmp  !< Cv parameters for each segment
       integer,allocatable,dimension(:) :: indx !< array for sorting algorithm
       logical :: MULTIPLE_CV_DETECTED
 ! ----------------------------------------------------------------------------------------------------------------------

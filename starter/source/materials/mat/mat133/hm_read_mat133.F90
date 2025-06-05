@@ -26,37 +26,38 @@
       !||    hm_read_mat          ../starter/source/materials/mat/hm_read_mat.F90
       !||====================================================================
       module hm_read_mat133_mod
+        implicit none
       contains
 ! ======================================================================================================================
 ! \brief Reading material parameters of /MAT/LAW133
 ! \details
 ! ======================================================================================================================
-      !||====================================================================
-      !||    hm_read_mat133           ../starter/source/materials/mat/mat133/hm_read_mat133.F90
-      !||--- called by ------------------------------------------------------
-      !||    hm_read_mat              ../starter/source/materials/mat/hm_read_mat.F90
-      !||--- calls      -----------------------------------------------------
-      !||    ancmsg                   ../starter/source/output/message/message.F
-      !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
-      !||    hm_get_floatv_dim        ../starter/source/devtools/hm_reader/hm_get_floatv_dim.F
-      !||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
-      !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
-      !||    init_mat_keyword         ../starter/source/materials/mat/init_mat_keyword.F
-      !||    mat_table_copy           ../starter/source/materials/tools/mat_table_copy.F90
-      !||    table_mat_vinterp        ../starter/source/materials/tools/table_mat_vinterp.F
-      !||--- uses       -----------------------------------------------------
-      !||    elbuftag_mod             ../starter/share/modules1/elbuftag_mod.F
-      !||    mat_table_copy_mod       ../starter/source/materials/tools/mat_table_copy.F90
-      !||    message_mod              ../starter/share/message_module/message_mod.F
-      !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
-      !||    table_mat_vinterp_mod    ../starter/source/materials/tools/table_mat_vinterp.F
-      !||    table_mod                ../starter/share/modules1/table_mod.F
-      !||====================================================================
+        !||====================================================================
+        !||    hm_read_mat133           ../starter/source/materials/mat/mat133/hm_read_mat133.F90
+        !||--- called by ------------------------------------------------------
+        !||    hm_read_mat              ../starter/source/materials/mat/hm_read_mat.F90
+        !||--- calls      -----------------------------------------------------
+        !||    ancmsg                   ../starter/source/output/message/message.F
+        !||    hm_get_floatv            ../starter/source/devtools/hm_reader/hm_get_floatv.F
+        !||    hm_get_floatv_dim        ../starter/source/devtools/hm_reader/hm_get_floatv_dim.F
+        !||    hm_get_intv              ../starter/source/devtools/hm_reader/hm_get_intv.F
+        !||    hm_option_is_encrypted   ../starter/source/devtools/hm_reader/hm_option_is_encrypted.F
+        !||    init_mat_keyword         ../starter/source/materials/mat/init_mat_keyword.F
+        !||    mat_table_copy           ../starter/source/materials/tools/mat_table_copy.F90
+        !||    table_mat_vinterp        ../starter/source/materials/tools/table_mat_vinterp.F
+        !||--- uses       -----------------------------------------------------
+        !||    elbuftag_mod             ../starter/share/modules1/elbuftag_mod.F
+        !||    mat_table_copy_mod       ../starter/source/materials/tools/mat_table_copy.F90
+        !||    message_mod              ../starter/share/message_module/message_mod.F
+        !||    submodel_mod             ../starter/share/modules1/submodel_mod.F
+        !||    table_mat_vinterp_mod    ../starter/source/materials/tools/table_mat_vinterp.F
+        !||    table_mod                ../starter/share/modules1/table_mod.F
+        !||====================================================================
         subroutine hm_read_mat133(                             &
-           nuvar    ,mtag     , matparam ,iout     ,parmat   , &
-           unitab   ,lsubmodel, mat_uid  ,titr     ,nvartmp  , &
-           ntable   ,table    , npropm   ,npropmi  , &
-           pm       , ipm)
+          nuvar    ,mtag     , matparam ,iout     ,parmat   , &
+          unitab   ,lsubmodel, mat_uid  ,titr     ,nvartmp  , &
+          ntable   ,table    , npropm   ,npropmi  , &
+          pm       , ipm)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -70,17 +71,17 @@
           use table_mod , only : ttable
           use mat_table_copy_mod , only : mat_table_copy
           use table_mat_vinterp_mod , only : table_mat_vinterp
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-          implicit none 
-#include  "my_real.inc"
+          implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent(inout)                            :: nuvar        !< number of material law user variables
           type(mlaw_tag_),intent(inout)                     :: mtag         !< material tag for internal variables in element buffer
-          my_real,intent(inout)                             :: parmat(100)  !< material parameter global table 1
+          real(kind=WP),intent(inout)                       :: parmat(100)  !< material parameter global table 1
           type(unit_type_),intent(in)                       :: unitab       !< units table
           type(submodel_data),dimension(nsubmod),intent(in) :: lsubmodel    !< submodel data structure
           integer,intent(in)                                :: mat_uid      !< material law user ID
@@ -92,24 +93,24 @@
           integer,intent(inout)                             :: nvartmp      !< number of temporary variables
           integer,intent(in)                                :: npropm,npropmi ! array size
           integer,intent(inout)                             :: ipm(npropmi) !< material parameter (integer)
-          my_real,intent(inout)                             :: pm(npropm)   !< material parameter (real)
+          real(kind=WP),intent(inout)                             :: pm(npropm)   !< material parameter (real)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: fctID_g, fctID_y
           integer :: ierror
           integer :: ipos1(1,1)
-          my_real :: xvec1(1,1)
-          my_real :: g(1)
-          my_real :: fscale_g, fscale_y
-          my_real :: rho0, nu, pmin, shear, bulk, young
-          my_real :: x1scale, x2scale, x3scale, x4scale
-          my_real :: x2vect(2),x3vect(2),x4vect(2)
-          my_real :: fscale(2)
-          my_real :: slope(1)
-          my_real :: density_unit, pressure_unit
+          real(kind=WP) :: xvec1(1,1)
+          real(kind=WP) :: g(1)
+          real(kind=WP) :: fscale_g, fscale_y
+          real(kind=WP) :: rho0, nu, pmin, shear, bulk, young
+          real(kind=WP) :: x1scale, x2scale, x3scale, x4scale
+          real(kind=WP) :: x2vect(2),x3vect(2),x4vect(2)
+          real(kind=WP) :: fscale(2)
+          real(kind=WP) :: slope(1)
+          real(kind=WP) :: density_unit, pressure_unit
           logical :: is_encrypted, is_available
-          character*32 :: mtl_msg
+          character(len=32) :: mtl_msg
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -185,8 +186,8 @@
           fscale(1) = Fscale_g
           fscale(2) = Fscale_y
           call mat_table_copy(matparam ,x2vect   ,x3vect   ,x4vect   ,         &
-                    x1scale  ,x2scale  ,x3scale  ,x4scale  ,fscale   ,         &
-                    ntable   ,table    ,ierror   )
+            x1scale  ,x2scale  ,x3scale  ,x4scale  ,fscale   ,         &
+            ntable   ,table    ,ierror   )
 
           xvec1(1,1) = rho0
           ipos1 = 1
@@ -216,12 +217,12 @@
           mtag%g_pla = 1
           mtag%l_pla = 1
 
-          !< Properties compatibility  
+          !< Properties compatibility
           call init_mat_keyword(matparam,"SOLID_ISOTROPIC")
           call init_mat_keyword(matparam ,"COMPRESSIBLE")
           call init_mat_keyword(matparam ,"INCREMENTAL")
           call init_mat_keyword(matparam ,"LARGE_STRAIN")
-          call init_mat_keyword(matparam ,"HYDRO_EOS") 
+          call init_mat_keyword(matparam ,"HYDRO_EOS")
           call init_mat_keyword(matparam ,"ISOTROPIC")
           call init_mat_keyword(matparam,"SPH")
           call init_mat_keyword(matparam ,"EOS")
@@ -242,26 +243,26 @@
           endif
 
 !-----------------------------------------------------------------------
-  100 format(/                                                        &
-        5X,A,/,                                                       &
-        5X,'MATERIAL NUMBER. . . . . . . . . . . . . . .=',I10/,      &
-        5X,'MATERIAL LAW . . . . . . . . . . . . . . . .=',I10/)
-  200 format(/                                                        &
-        5X,'-------------------------',/         &
-        5X,'MATERIAL MODEL:  GRANULAR',/,        &
-        5X,'-------------------------',/)
-  300 format(/                                                        &
-        5X,'INITIAL DENSITY. . . . . . . . . . . . . .  =',1PG20.13/)
-  400 format(/                                                        &
-        5X,'POISSON''S RATIO  . . . . . . . . . . . . .  =',1PG20.13/, &
-        5X,'INITIAL YOUNG MODULUS E (COMPUTED) . . . .  =',1PG20.13/, &
-        5X,"MINIMUM PRESSURE (FRACTURE). . . . . . . .  =",1PG20.13/)
-  500 format(/                                                        &
-        5X,'SHEAR MODULUS FUNCTION ID - G(RHO) . . . .  =',I10/,      &
-        5X,'YIELD FUNCTION ID - Y(P) . . . . . . . . .  =',I10/ )
-  600 format(/                                                        &
-        5X,'SHEAR SCALE FACTOR (FSCALE_G)  . . . . . .  =',1PG20.13/, &
-        5X,'YIELD SCALE FACTOR (FSCALE_Y)  . . . . . .  =',1PG20.13/ )
+100       format(/                                                        &
+            5X,A,/,                                                       &
+            5X,'MATERIAL NUMBER. . . . . . . . . . . . . . .=',I10/,      &
+            5X,'MATERIAL LAW . . . . . . . . . . . . . . . .=',I10/)
+200       format(/                                                        &
+            5X,'-------------------------',/         &
+            5X,'MATERIAL MODEL:  GRANULAR',/,        &
+            5X,'-------------------------',/)
+300       format(/                                                        &
+            5X,'INITIAL DENSITY. . . . . . . . . . . . . .  =',1PG20.13/)
+400       format(/                                                        &
+            5X,'POISSON''S RATIO  . . . . . . . . . . . . .  =',1PG20.13/, &
+            5X,'INITIAL YOUNG MODULUS E (COMPUTED) . . . .  =',1PG20.13/, &
+            5X,"MINIMUM PRESSURE (FRACTURE). . . . . . . .  =",1PG20.13/)
+500       format(/                                                        &
+            5X,'SHEAR MODULUS FUNCTION ID - G(RHO) . . . .  =',I10/,      &
+            5X,'YIELD FUNCTION ID - Y(P) . . . . . . . . .  =',I10/ )
+600       format(/                                                        &
+            5X,'SHEAR SCALE FACTOR (FSCALE_G)  . . . . . .  =',1PG20.13/, &
+            5X,'YIELD SCALE FACTOR (FSCALE_Y)  . . . . . .  =',1PG20.13/ )
 !
         end subroutine hm_read_mat133
 !-------------------

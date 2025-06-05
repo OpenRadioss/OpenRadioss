@@ -30,8 +30,8 @@
       !||    sms_pcg            ../engine/source/ams/sms_pcg.F
       !||====================================================================
         module ams_work_mod
+            use precision_mod , only: WP
             implicit none
-#include      "my_real.inc"
             type ams_check_                                  !< replace module name in sms_fsa_inv (sms_check routine)
                   integer, dimension(:), allocatable :: iadm
                   integer, dimension(:), allocatable :: jadm
@@ -41,10 +41,10 @@
                   integer, dimension(:), allocatable :: isortnd
                   integer, dimension(:), allocatable :: invnd
 
-                  my_real, dimension(:), allocatable :: diag_m
-                  my_real, dimension(:), allocatable :: lt_m
-                  my_real, dimension(:), allocatable :: lt_m2
-                  my_real, dimension(:), allocatable :: diag_inv
+                  real(kind=WP), dimension(:), allocatable :: diag_m
+                  real(kind=WP), dimension(:), allocatable :: lt_m
+                  real(kind=WP), dimension(:), allocatable :: lt_m2
+                  real(kind=WP), dimension(:), allocatable :: diag_inv
                   integer nndft0
                   integer nndft1
                   integer nnzm

@@ -62,7 +62,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -71,19 +70,19 @@
           integer, intent (in   )                         :: snpc,stf     !< array dimension
           integer, intent (in   ) ,dimension(snpc)        :: npc          !< index pointer of function
           type (sensors_) ,intent(in)                     :: sensors      !< sensor module
-          my_real, intent (in  )  ,dimension(stf)         :: tf           !< (x,y) of function
-          my_real, intent (in  )                          :: time         !< time
-          my_real, intent (inout)                         :: preload1     !< y-value of preload function
-          my_real, intent (inout)                         :: stf_f        !< stiffness restoring factor
+          real(kind=WP), intent (in  )  ,dimension(stf)         :: tf           !< (x,y) of function
+          real(kind=WP), intent (in  )                          :: time         !< time
+          real(kind=WP), intent (inout)                         :: preload1     !< y-value of preload function
+          real(kind=WP), intent (inout)                         :: stf_f        !< stiffness restoring factor
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer i,j,nld,isens
-          my_real t_start,t_stop,t_shift,deri,tt,t_stif
+          real(kind=WP) t_start,t_stop,t_shift,deri,tt,t_stif
 ! ----------------------------------------------------------------------------------------------------------------------
 !           e x t e r n a l   f u n c t i o n s
 ! ----------------------------------------------------------------------------------------------------------------------
-          my_real finter
+          real(kind=WP) finter
           external finter
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
@@ -130,21 +129,20 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent (in   )                       :: nel          !< element number
-          my_real, intent (in   ) , dimension(nel,2)    :: bpreload     !< preload parameters
-          my_real, intent (in   )                       :: preload1     !< preload function value
-          my_real, intent (in   ) , dimension(nel)      :: v12          !< axial velocity
-          my_real, intent (inout) , dimension(nel)      :: f1           !< axial preload force
-          my_real, intent (in   )                       :: stf_f        !< stiffness restoring factor
+          real(kind=WP), intent (in   ) , dimension(nel,2)    :: bpreload     !< preload parameters
+          real(kind=WP), intent (in   )                       :: preload1     !< preload function value
+          real(kind=WP), intent (in   ) , dimension(nel)      :: v12          !< axial velocity
+          real(kind=WP), intent (inout) , dimension(nel)      :: f1           !< axial preload force
+          real(kind=WP), intent (in   )                       :: stf_f        !< stiffness restoring factor
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer i
-          my_real y_scal,damp
+          real(kind=WP) y_scal,damp
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------

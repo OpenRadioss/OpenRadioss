@@ -71,11 +71,11 @@
           use names_and_titles_mod , only : nchartitle, ncharkey, ncharline
           use file_descriptor_mod
           use constant_mod
+          use precision_mod, only: WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -84,7 +84,7 @@
           type (surf_), dimension(nsurf+nsets)   :: igrsurf
           type (inivol_struct_), intent(inout), dimension(:), allocatable  :: inivol
           type(submodel_data),intent(in) :: lsubmodel(nsubmod)
-          my_real, dimension(:), allocatable, intent(inout) :: kvol
+          real(kind=WP), dimension(:), allocatable, intent(inout) :: kvol
           type (unit_type_),intent(in) :: unitab
           integer,intent(inout) :: nbsubmat
           integer,intent(in) :: sipart         !< length of ipart
@@ -102,25 +102,25 @@
           integer,intent(in) :: nsubdom       !< number of subdomains (rad2rad)
           integer,intent(in) :: ipart(sipart) !< part data
           integer,intent(in) :: ngrnod        !< number of group (array igrnod)
-          my_real,intent(in),target :: bufmat(sbufmat) !< buffer for material data
+          real(kind=WP),intent(in),target :: bufmat(sbufmat) !< buffer for material data
           type (group_), dimension(ngrnod) :: igrnod !< data structure for groups of nodes  (ininvol compatible with ordered list of nodes in 2d)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer j,ip,id,part_id,igs,part_user_id,idset
-          integer submat_id,ireversed,nlin,isu,nseg,nintmax,ityp,numel_tot
-          integer surf_type,grnsorted,nb_compat_surf,icumu,imat,iadbuf,nuparam,stat,kk,n_r2r
-          integer nbmat_max
-          my_real vfrac,ilaw
-          my_real, dimension(:),pointer :: uparam
+          integer :: j,ip,id,part_id,igs,part_user_id,idset
+          integer :: submat_id,ireversed,nlin,isu,nseg,nintmax,ityp,numel_tot
+          integer :: surf_type,grnsorted,nb_compat_surf,icumu,imat,iadbuf,nuparam,stat,kk,n_r2r
+          integer :: nbmat_max
+          real(kind=WP) :: vfrac,ilaw
+          real(kind=WP), dimension(:),pointer :: uparam
           character(len=nchartitle) :: titr
-          character mess*40
-          character(len=ncharline) err_msg
+          character :: mess*40
+          character(len=ncharline) :: err_msg
           data mess/'INITIAL VOLUME FRACTION                 '/
           character(len=ncharline) :: outp_msg
-          logical is_encrypted,is_available
-          logical detected_error
-          logical isSURF, isGRNOD
+          logical :: is_encrypted,is_available
+          logical :: detected_error
+          logical :: isSURF, isGRNOD
 !-----------------------------------------------
 !   c o m m e n t s
 !-----------------------------------------------
@@ -391,6 +391,6 @@
           &5X,'PART IDENTIFIER. . . . . . . . . . . .=',I10)
 
           return
-        end
+        end subroutine hm_read_inivol
       end module hm_read_inivol_mod
 

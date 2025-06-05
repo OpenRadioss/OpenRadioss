@@ -50,34 +50,34 @@
 !-----------------------------------------------
           use matparam_def_mod 
           use constant_mod      
+          use precision_mod, only : WP
 !-----------------------------------------------
 !   I m p l i c i t   T y p e s
 !-----------------------------------------------
           implicit none 
-#include  "my_real.inc"
 #include  "units_c.inc"
 !-----------------------------------------------
 !   D u m m y   A r g u m e n t s
 !-----------------------------------------------
           integer, intent(in) :: nel !< number of elements in the group
           integer, intent(in) :: nuvar !< number of user variables
-          my_real, dimension(nel,nuvar), intent(inout) :: uvar !< user variables
+          real(kind=WP), dimension(nel,nuvar), intent(inout) :: uvar !< user variables
           type(matparam_struct_), intent(in) :: matparam !< material parameters data
-          my_real, dimension(nel), intent(in) :: rho0 !< material density
-          my_real, dimension(nel), intent(in) :: epsxx !< total strain  xx 
-          my_real, dimension(nel), intent(in) :: epsyy !< total strain  yy
-          my_real, dimension(nel), intent(in) :: epszz !< total strain  zz 
-          my_real, dimension(nel), intent(in) :: epsxy !< total strain  xy 
-          my_real, dimension(nel), intent(in) :: epsyz !< total strain  yz 
-          my_real, dimension(nel), intent(in) :: epszx !< total strain  zx 
+          real(kind=WP), dimension(nel), intent(in) :: rho0 !< material density
+          real(kind=WP), dimension(nel), intent(in) :: epsxx !< total strain  xx 
+          real(kind=WP), dimension(nel), intent(in) :: epsyy !< total strain  yy
+          real(kind=WP), dimension(nel), intent(in) :: epszz !< total strain  zz 
+          real(kind=WP), dimension(nel), intent(in) :: epsxy !< total strain  xy 
+          real(kind=WP), dimension(nel), intent(in) :: epsyz !< total strain  yz 
+          real(kind=WP), dimension(nel), intent(in) :: epszx !< total strain  zx 
           
-          my_real, dimension(nel), intent(out) :: signxx !< new stress xx 
-          my_real, dimension(nel), intent(out) :: signyy !< new stress yy
-          my_real, dimension(nel), intent(out) :: signzz !< new stress zz 
-          my_real, dimension(nel), intent(out) :: signxy !< new stress xy 
-          my_real, dimension(nel), intent(out) :: signyz !< new stress yz 
-          my_real, dimension(nel), intent(out) :: signzx !< new stress zx 
-          my_real, dimension(nel), intent(inout) :: ssp !< sound speed
+          real(kind=WP), dimension(nel), intent(out) :: signxx !< new stress xx 
+          real(kind=WP), dimension(nel), intent(out) :: signyy !< new stress yy
+          real(kind=WP), dimension(nel), intent(out) :: signzz !< new stress zz 
+          real(kind=WP), dimension(nel), intent(out) :: signxy !< new stress xy 
+          real(kind=WP), dimension(nel), intent(out) :: signyz !< new stress yz 
+          real(kind=WP), dimension(nel), intent(out) :: signzx !< new stress zx 
+          real(kind=WP), dimension(nel), intent(inout) :: ssp !< sound speed
 !-----------------------------------------------
 !  L o c a l   V a r i a b l e s
 !-----------------------------------------------
@@ -85,7 +85,7 @@
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
       integer fs, i,damage,updat,updat1,updat2
-      my_real                                                       &
+      real(kind=WP)                                                       &
        e1,e2,nu12,nu21,em11t,xt,slimt1,em11c,xc,slimc1,             &
        em22t,yt,slimt2,em22c,yc,slimc2,gamma,tau,ems,sc,            &
        slims,gammaf,gammar, tsdm, erods,tsize,ef11t,ef11c,          &
@@ -97,7 +97,7 @@
        tau2, gamma2, tauyz,c11,c12,c13,c21,c22,c23,c31,c32,c33,     &
        e3, ef33c,ef33t, efs13,efs23, em33c,em33t, ems13,ems23,      &
        sc13,sc23,zc,zt, slims13,slims23
-      my_real , dimension(nel) ::  dezz,check
+      real(kind=WP) , dimension(nel) ::  dezz,check
 !!======================================================================
 !
        FS = 0 ! type of failure yield surface method

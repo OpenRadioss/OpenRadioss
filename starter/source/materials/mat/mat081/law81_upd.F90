@@ -25,8 +25,9 @@
       !||--- called by ------------------------------------------------------
       !||    updmat          ../starter/source/materials/updmat.F
       !||====================================================================
-     module law81_upd_mod
-       contains
+      module law81_upd_mod
+        implicit none
+      contains
 ! \brief Update material law 81 to take into account tabulated stiffness
       !||====================================================================
       !||    law81_upd          ../starter/source/materials/mat/mat081/law81_upd.F90
@@ -36,100 +37,100 @@
       !||    finter             ../starter/source/tools/curve/finter.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================
-       subroutine law81_upd(                                                   &
-         matparam,nfunc   ,ifunc   ,npc     ,snpc    ,pld     ,stf     ,       &
-         pm      ,npropm  ,iout    ,mat_id  ,titr    )
+        subroutine law81_upd(                                                   &
+          matparam,nfunc   ,ifunc   ,npc     ,snpc    ,pld     ,stf     ,       &
+          pm      ,npropm  ,iout    ,mat_id  ,titr    )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-         use constant_mod
-         use matparam_def_mod
+          use constant_mod
+          use matparam_def_mod
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-         implicit none
-#include "my_real.inc"
+          implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-         type(matparam_struct_), intent(inout)     :: matparam
-         integer, intent(in)                       :: nfunc
-         integer, dimension(nfunc), intent(in)     :: ifunc
-         integer, intent(in)                       :: snpc
-         integer, dimension(snpc), intent(in)      :: npc
-         integer, intent(in)                       :: stf
-         my_real, dimension(stf), intent(in)       :: pld
-         my_real, dimension(npropm), intent(inout) :: pm
-         integer, intent(in)                       :: npropm
-         integer, intent(in)                       :: iout
-         integer, intent(in)                       :: mat_id
-         character(len=nchartitle), intent(in)     :: titr
-         my_real :: finter
-         external finter
+          type(matparam_struct_), intent(inout)     :: matparam
+          integer, intent(in)                       :: nfunc
+          integer, dimension(nfunc), intent(in)     :: ifunc
+          integer, intent(in)                       :: snpc
+          integer, dimension(snpc), intent(in)      :: npc
+          integer, intent(in)                       :: stf
+          real(kind=WP), dimension(stf), intent(in)       :: pld
+          real(kind=WP), dimension(npropm), intent(inout) :: pm
+          integer, intent(in)                       :: npropm
+          integer, intent(in)                       :: iout
+          integer, intent(in)                       :: mat_id
+          character(len=nchartitle), intent(in)     :: titr
+          real(kind=WP) :: finter
+          external finter
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-         my_real :: deri,kini,kscale,gini,gscale
+          real(kind=WP) :: deri,kini,kscale,gini,gscale
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
 !
-         !< Bulk modulus function (if exists)
-         if (ifunc(1) > 0) then 
-           !< Initial bulk modulus (or scale factor)
-           kscale = matparam%uparam(1)
-           !< Update accounting for the tabulated bulk modulus function
-           kini = kscale*finter(ifunc(1),zero,npc,pld,deri)
-           !< Save the new value of the bulk modulus
-           matparam%bulk = kini
-           !< Update PM table
-           pm(32)  = matparam%bulk
-           pm(100) = matparam%bulk
-           pm(107) = two*pm(32)
-         endif
+          !< Bulk modulus function (if exists)
+          if (ifunc(1) > 0) then
+            !< Initial bulk modulus (or scale factor)
+            kscale = matparam%uparam(1)
+            !< Update accounting for the tabulated bulk modulus function
+            kini = kscale*finter(ifunc(1),zero,npc,pld,deri)
+            !< Save the new value of the bulk modulus
+            matparam%bulk = kini
+            !< Update PM table
+            pm(32)  = matparam%bulk
+            pm(100) = matparam%bulk
+            pm(107) = two*pm(32)
+          endif
 !
-         !< Shear modulus function (if exists)
-         if (ifunc(2) > 0) then
-           !< Initial shear modulus (or scale factor)
-           gscale = matparam%uparam(2)
-           !< Update accounting for the tabulated bulk modulus function
-           gini = gscale*finter(ifunc(2),zero,npc,pld,deri)
-           !< Save the new value of the bulk modulus
-           matparam%shear = gini
-           !< Update PM table
-           pm(22) = matparam%shear
-         endif
+          !< Shear modulus function (if exists)
+          if (ifunc(2) > 0) then
+            !< Initial shear modulus (or scale factor)
+            gscale = matparam%uparam(2)
+            !< Update accounting for the tabulated bulk modulus function
+            gini = gscale*finter(ifunc(2),zero,npc,pld,deri)
+            !< Save the new value of the bulk modulus
+            matparam%shear = gini
+            !< Update PM table
+            pm(22) = matparam%shear
+          endif
 !
-         !< Update elastic parameters in the material parameters structures
-         if ((ifunc(1) > 0).or.(ifunc(2) > 0)) then
-           kini = matparam%bulk
-           gini = matparam%shear
-           matparam%young = nine*kini*gini/(three*kini + gini)
-           matparam%nu = (three*kini - two*gini)/(six*kini + two*gini)
-           pm(20) = matparam%young
-           pm(21) = matparam%nu
-           pm(24) = matparam%young/(one - (matparam%nu)**2)
-         endif
+          !< Update elastic parameters in the material parameters structures
+          if ((ifunc(1) > 0).or.(ifunc(2) > 0)) then
+            kini = matparam%bulk
+            gini = matparam%shear
+            matparam%young = nine*kini*gini/(three*kini + gini)
+            matparam%nu = (three*kini - two*gini)/(six*kini + two*gini)
+            pm(20) = matparam%young
+            pm(21) = matparam%nu
+            pm(24) = matparam%young/(one - (matparam%nu)**2)
+          endif
 !
-         !< Print the updated material parameters
-         write(iout,1000) titr,mat_id,81
-         write(iout,1100)
-         write(iout,1200) matparam%bulk,matparam%shear,matparam%young,matparam%nu
+          !< Print the updated material parameters
+          write(iout,1000) titr,mat_id,81
+          write(iout,1100)
+          write(iout,1200) matparam%bulk,matparam%shear,matparam%young,matparam%nu
 !
- 1000 format(/                                                                 &
-       5X,A,/,                                                                 &
-       5X,'MATERIAL NUMBER. . . . . . . . . . . . . . .=',I10/,                &
-       5X,'MATERIAL LAW . . . . . . . . . . . . . . . .=',I10/)
- 1100 format(/                                                                 &
-       5X,'-----------------------------------------------------',/,           &
-       5X,'  ADDITIONAL DATA DRUCKER-PRAGER WITH CAP HARDENING  ',/,           &
-       5X,'-----------------------------------------------------',/)
- 1200 FORMAT(/                                                                 &
-       5X,'INITIAL BULK MODULUS. . . . . . . . . . . . =',1PG20.13/            &
-       5X,'INITIAL SHEAR MODULUS . . . . . . . . . . . =',1PG20.13/            &
-       5X,'INITIAL YOUNG MODULUS (COMPUTED). . . . . . =',1PG20.13/            &
-       5X,'INITIAL POISSON RATIO (COMPUTED). . . . . . =',1PG20.13/)
+1000      format(/                                                                 &
+            5X,A,/,                                                                 &
+            5X,'MATERIAL NUMBER. . . . . . . . . . . . . . .=',I10/,                &
+            5X,'MATERIAL LAW . . . . . . . . . . . . . . . .=',I10/)
+1100      format(/                                                                 &
+            5X,'-----------------------------------------------------',/,           &
+            5X,'  ADDITIONAL DATA DRUCKER-PRAGER WITH CAP HARDENING  ',/,           &
+            5X,'-----------------------------------------------------',/)
+1200      FORMAT(/                                                                 &
+            5X,'INITIAL BULK MODULUS. . . . . . . . . . . . =',1PG20.13/            &
+            5X,'INITIAL SHEAR MODULUS . . . . . . . . . . . =',1PG20.13/            &
+            5X,'INITIAL YOUNG MODULUS (COMPUTED). . . . . . =',1PG20.13/            &
+            5X,'INITIAL POISSON RATIO (COMPUTED). . . . . . =',1PG20.13/)
 !
-       end subroutine law81_upd
-     end module law81_upd_mod
+        end subroutine law81_upd
+      end module law81_upd_mod
 

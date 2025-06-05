@@ -52,11 +52,11 @@
       !||    sh_offset_setn_mod        ../starter/source/elements/shell/shell_offset/sh_offset_setn.F90
       !||====================================================================
         subroutine shell_offsetp(                                              &
-                       ngroup,    nparg,      iparg,        npropg,            &
-                       numgeo,      geo,     numelc,          nixc,            &
-                       ixc,     numeltg,      nixtg,          ixtg,            &
-                       numnod,        x,        thk,        itagsh,            &
-                       defaults_shell)
+          ngroup,    nparg,      iparg,        npropg,            &
+          numgeo,      geo,     numelc,          nixc,            &
+          ixc,     numeltg,      nixtg,          ixtg,            &
+          numnod,        x,        thk,        itagsh,            &
+          defaults_shell)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -66,12 +66,9 @@
           use sh_offset_setn_mod, only:sh_offset_setn
           use sh_offset_jonct_chk_mod, only:sh_offset_jonct_chk
           use dim_shell_offsetp_mod, only: dim_shell_offsetp
+          use precision_mod, only: WP
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Included files
-! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -87,19 +84,19 @@
           integer, intent (in   ) ,dimension(nparg,ngroup) :: iparg            !< elem group array
           integer, intent (in   ) ,dimension(nixc,numelc)  :: ixc              !< shell 4n connectivity
           integer, intent (in   ),dimension(nixtg,numeltg) :: ixtg             !< shell 3n connectivity
-          my_real, intent (in   ),dimension(npropg,numgeo) :: geo              !< property array
-          my_real, intent (in  ),dimension(numelc+numeltg) :: thk              !< shell thickness
-          my_real, intent (inout),dimension(3,numnod)      :: x                !< node coordinates
+          real(kind=WP), intent (in   ),dimension(npropg,numgeo) :: geo              !< property array
+          real(kind=WP), intent (in  ),dimension(numelc+numeltg) :: thk              !< shell thickness
+          real(kind=WP), intent (inout),dimension(3,numnod)      :: x                !< node coordinates
           integer, intent (inout),dimension(numelc+numeltg):: itagsh           !< shell w/ offset
           type(shell_defaults_), intent(inout)             :: defaults_shell   !< /DEF_SHELL variables
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer i,j,n,nel,nft,nn,ie,igtyp,ity,nnode,pid,ng,nshel,nneoset_g,ix(4)
+          integer :: i,j,n,nel,nft,nn,ie,igtyp,ity,nnode,pid,ng,nshel,nneoset_g,ix(4)
           integer, dimension(:), allocatable   :: intag,idnneoset
           integer, dimension(:,:), allocatable :: ixnneoset
-          my_real, dimension(:), allocatable   :: shoset_n,sh_oset,thk_g
-          my_real shelloff
+          real(kind=WP), dimension(:), allocatable   :: shoset_n,sh_oset,thk_g
+          real(kind=WP) :: shelloff
 !
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
@@ -107,10 +104,10 @@
           allocate(intag(numnod))
 !
           call dim_shell_offsetp(                                              &
-                ngroup,    nparg,      iparg,        npropg,                   &
-                numgeo,      geo,     numelc,          nixc,                   &
-                   ixc,  numeltg,      nixtg,          ixtg,                   &
-                numnod,    intag,      nshel)
+            ngroup,    nparg,      iparg,        npropg,                   &
+            numgeo,      geo,     numelc,          nixc,                   &
+            ixc,  numeltg,      nixtg,          ixtg,                   &
+            numnod,    intag,      nshel)
 !
           nneoset_g = nshel
           allocate(idnneoset(nneoset_g))
@@ -149,7 +146,7 @@
                   idnneoset(nshel) = ie
                   ixnneoset(1:nnode,nshel) = ix(1:nnode)
                   sh_oset(nshel) = shelloff
-                  if (thk(ie)>zero) then 
+                  if (thk(ie)>zero) then
                     thk_g(nshel) = thk(ie)
                   else
                     thk_g(nshel) = geo(1,pid)
@@ -171,7 +168,7 @@
                   idnneoset(nshel) = ie + numelc  ! same than thke
                   ixnneoset(1:nnode,nshel) = ix(1:nnode)
                   sh_oset(nshel) = shelloff
-                  if (thk(ie+numelc)>zero) then 
+                  if (thk(ie+numelc)>zero) then
                     thk_g(nshel) = thk(ie+numelc)
                   else
                     thk_g(nshel) = geo(1,pid)
@@ -183,7 +180,7 @@
           end do
 !--- check jnuctions- tag elements not used in nodal normal,thk compute
           call sh_offset_jonct_chk(nshel    ,ixnneoset   ,x     ,numnod ,          &
-                                  idnneoset ,sh_oset )
+            idnneoset ,sh_oset )
 ! reduce again dim nshel after junction check
           nshel = 0
           do i = 1,nneoset_g

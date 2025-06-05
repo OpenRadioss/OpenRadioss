@@ -20,13 +20,6 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!Chd|====================================================================
-!Chd|  ply_param_mod                 modules/mat_elem/ply_param_mod.f
-!Chd|-- called by -----------
-!Chd|        prop_param_mod                common_source/modules/mat_elem/prop_param_mod.F
-!Chd|-- calls ---------------
-!Chd|====================================================================
-
       !||====================================================================
       !||    ply_param_mod    ../common_source/modules/mat_elem/ply_param_mod.F90
       !||--- called by ------------------------------------------------------
@@ -37,23 +30,20 @@
 !=======================================================================================      
 !! \brief  module to define composite ply data structure
 !! \details 
-!----------------------------------------------------------------------- 
-!     included files
-!----------------------------------------------------------------------- 
+      use precision_mod, only : WP
 
       implicit none
 !
-#include "my_real.inc"
 
 !=======================================================================      
 
       type ply_param_                    
-        my_real :: alpha                
-        my_real :: phi
-        my_real :: thick
-        my_real :: pos
-        my_real :: p_thkly
-        my_real :: p_weight
+        real(kind=WP) :: alpha                
+        real(kind=WP) :: phi
+        real(kind=WP) :: thick
+        real(kind=WP) :: pos
+        real(kind=WP) :: p_thkly
+        real(kind=WP) :: p_weight
         integer :: pid
         integer :: mid_ply
         integer :: mid_intply

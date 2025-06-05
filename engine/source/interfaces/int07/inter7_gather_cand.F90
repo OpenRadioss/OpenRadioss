@@ -33,6 +33,7 @@
       !||    inter7_filter_cand   ../engine/source/interfaces/intsort/inter7_filter_cand.F90
       !||--- uses       -----------------------------------------------------
       !||    collision_mod        ../engine/source/interfaces/intsort/collision_mod.F
+      !||    precision_mod        ../common_source/modules/precision_mod.F90
       !||====================================================================
         subroutine inter7_gather_cand(jlt     ,x     ,irect ,nsv   ,cand_e ,&
         &cand_n  ,igap  ,gap   ,x1    ,x2     ,&
@@ -45,12 +46,11 @@
         &drad    ,dgapload, nsnr,&
         &s_xrem, xrem, nrtm,mulnsn,numnod)
           USE COLLISION_MOD ,  ONLY : GROUP_SIZE
+          USE PRECISION_MOD, ONLY : WP
 !-----------------------------------------------
 !   i m p l i c i t   t y p e s
 !-----------------------------------------------
           implicit none
-! defines my_real as DOUBLE PRECISION or REAL
-#include "my_real.inc"
 !-----------------------------------------------
 !   D u m m y   A r g u m e n t s
 !-----------------------------------------------
@@ -67,38 +67,38 @@
           integer, intent(inout) :: cand_n(mulnsn)  !< cand_n(i) contains the id of the secondary node of the i-th pair of collision candidates
           integer, intent(in), value :: igap       !< flag for gap formulation
 
-          my_real, intent(in) :: x(3,numnod)     !< x(1:3,i) contains the coordinates of the i-th node
-          my_real, intent(inout) :: gapv(nsn) !< gap per secondary node, may be variable depending on the gap formulation
-          my_real, intent(in) :: gap_s(nsn)   !< gap of the secondary nodes
-          my_real, intent(in) :: gap_m(nrtm) !< gap of the main segments
-          my_real, intent(in) :: curv_max(nrtm) !< maximum curvature of the main segments
-          my_real, intent(in), value :: gap !< initial gap
-          my_real, intent(in), value :: gapmax !< maximum gap
-          my_real, intent(in), value :: gapmin !< minimum gap
+          real(kind=WP), intent(in) :: x(3,numnod)     !< x(1:3,i) contains the coordinates of the i-th node
+          real(kind=WP), intent(inout) :: gapv(nsn) !< gap per secondary node, may be variable depending on the gap formulation
+          real(kind=WP), intent(in) :: gap_s(nsn)   !< gap of the secondary nodes
+          real(kind=WP), intent(in) :: gap_m(nrtm) !< gap of the main segments
+          real(kind=WP), intent(in) :: curv_max(nrtm) !< maximum curvature of the main segments
+          real(kind=WP), intent(in), value :: gap !< initial gap
+          real(kind=WP), intent(in), value :: gapmax !< maximum gap
+          real(kind=WP), intent(in), value :: gapmin !< minimum gap
 
-          my_real, intent(in), value :: dgapload !< ??
-          my_real, intent(in), value :: drad !< radiation gap
+          real(kind=WP), intent(in), value :: dgapload !< ??
+          real(kind=WP), intent(in), value :: drad !< radiation gap
 
-          my_real, intent(inout) :: x1(GROUP_SIZE)    !<x coordinate of the first node of the main segment
-          my_real, intent(inout) :: x2(GROUP_SIZE)    !<x coordinate of the second node of the main segment
-          my_real, intent(inout) :: x3(GROUP_SIZE)    !<x coordinate of the third node of the main segment
-          my_real, intent(inout) :: x4(GROUP_SIZE)    !<x coordinate of the fourth node of the main segment
-          my_real, intent(inout) :: y1(GROUP_SIZE)    !<y coordinate of the first node of the main segment
-          my_real, intent(inout) :: y2(GROUP_SIZE)    !<y coordinate of the second node of the main segment
-          my_real, intent(inout) :: y3(GROUP_SIZE)    !<y coordinate of the third node of the main segment
-          my_real, intent(inout) :: y4(GROUP_SIZE)    !<y coordinate of the fourth node of the main segment
-          my_real, intent(inout) :: z1(GROUP_SIZE)    !<z coordinate of the first node of the main segment
-          my_real, intent(inout) :: z2(GROUP_SIZE)    !<z coordinate of the second node of the main segment
-          my_real, intent(inout) :: z3(GROUP_SIZE)    !<z coordinate of the third node of the main segment
-          my_real, intent(inout) :: z4(GROUP_SIZE)    !<z coordinate of the fourth node of the main segment
-          my_real, intent(inout) :: xi(GROUP_SIZE) !<x coordinate of the i-th secondary node
-          my_real, intent(inout) :: yi(GROUP_SIZE) !<y coordinate of the i-th secondary node
-          my_real, intent(inout) :: zi(GROUP_SIZE) !<z coordinate of the i-th secondary node
-          my_real, intent(in) :: gap_s_l(nsn) !< ???
-          my_real, intent(in) :: gap_m_l(nrtm) !< ???
+          real(kind=WP), intent(inout) :: x1(GROUP_SIZE)    !<x coordinate of the first node of the main segment
+          real(kind=WP), intent(inout) :: x2(GROUP_SIZE)    !<x coordinate of the second node of the main segment
+          real(kind=WP), intent(inout) :: x3(GROUP_SIZE)    !<x coordinate of the third node of the main segment
+          real(kind=WP), intent(inout) :: x4(GROUP_SIZE)    !<x coordinate of the fourth node of the main segment
+          real(kind=WP), intent(inout) :: y1(GROUP_SIZE)    !<y coordinate of the first node of the main segment
+          real(kind=WP), intent(inout) :: y2(GROUP_SIZE)    !<y coordinate of the second node of the main segment
+          real(kind=WP), intent(inout) :: y3(GROUP_SIZE)    !<y coordinate of the third node of the main segment
+          real(kind=WP), intent(inout) :: y4(GROUP_SIZE)    !<y coordinate of the fourth node of the main segment
+          real(kind=WP), intent(inout) :: z1(GROUP_SIZE)    !<z coordinate of the first node of the main segment
+          real(kind=WP), intent(inout) :: z2(GROUP_SIZE)    !<z coordinate of the second node of the main segment
+          real(kind=WP), intent(inout) :: z3(GROUP_SIZE)    !<z coordinate of the third node of the main segment
+          real(kind=WP), intent(inout) :: z4(GROUP_SIZE)    !<z coordinate of the fourth node of the main segment
+          real(kind=WP), intent(inout) :: xi(GROUP_SIZE) !<x coordinate of the i-th secondary node
+          real(kind=WP), intent(inout) :: yi(GROUP_SIZE) !<y coordinate of the i-th secondary node
+          real(kind=WP), intent(inout) :: zi(GROUP_SIZE) !<z coordinate of the i-th secondary node
+          real(kind=WP), intent(in) :: gap_s_l(nsn) !< ???
+          real(kind=WP), intent(in) :: gap_m_l(nrtm) !< ???
           integer, intent(in), value :: s_xrem              !< size of xrem
           integer, intent(in), value :: nsnr                !< number of remote (spmd) secondary nodes
-          my_real, intent(in) :: xrem(s_xrem, nsnr)  !< Remote (spmd) secondary data (coordinates etc.)
+          real(kind=WP), intent(in) :: xrem(s_xrem, nsnr)  !< Remote (spmd) secondary data (coordinates etc.)
           integer,intent(inout) :: ix1(GROUP_SIZE) !< list of first node of the main segments
           integer,intent(inout) :: ix2(GROUP_SIZE) !< list of second node of the main segments
           integer,intent(inout) :: ix3(GROUP_SIZE) !< list of third node of the main segments
@@ -190,6 +190,6 @@
           endif
 !
           return
-        end
-      end module
+        end subroutine inter7_gather_cand
+      end module INTER7_GATHER_CAND_MOD
 

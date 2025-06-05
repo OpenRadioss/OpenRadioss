@@ -20,11 +20,6 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!|====================================================================
-!|  random_walk_dmg
-!|-- called by -----------
-!|-- calls ---------------
-!|====================================================================
       !||====================================================================
       !||    random_walk_dmg_mod   ../starter/source/materials/fail/fractal/random_walk_dmg.F90
       !||--- called by ------------------------------------------------------
@@ -64,13 +59,13 @@
           use fractal_element_neighbor_mod
           use stack_mod
           use constant_mod ,only : zero,one
+          use precision_mod, only : WP
 ! ---------------------------------------------------------------------------------------------
           implicit none
 ! ---------------------------------------------------------------------------------------------
 !     included files
 ! ---------------------------------------------------------------------------------------------
 
-#include "my_real.inc"
 
 !-----------------------------------------------
 !   D u m m y   a r g u m e n t s
@@ -106,8 +101,8 @@
       integer ,dimension(5) :: nxtk3
       integer ,dimension(:) ,allocatable :: start_group
       integer ,dimension(:) ,allocatable :: a_seed
-      my_real :: dmg,probability
-      my_real :: random_value
+      real(kind=WP) :: dmg,probability
+      real(kind=WP) :: random_value
       logical :: random_start,random_target
       integer :: debug
       integer ,external :: ngr2usrn
@@ -328,6 +323,6 @@
       if (allocated(start_group)) deallocate (start_group)
 !-----------
       return
-      end
+      end subroutine random_walk_dmg
 !-----------
       end module random_walk_dmg_mod

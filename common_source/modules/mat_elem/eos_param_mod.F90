@@ -47,10 +47,10 @@
 
       use table4d_mod
       use names_and_titles_mod
+      use precision_mod, only : WP
 
       implicit none
 !
-#include "my_real.inc"
 !
 !=======================================================================      
       
@@ -62,10 +62,10 @@
         integer :: nfunc                         !< number of local functions in material
         integer :: ntable                        !< number of local function tables
         integer :: isfluid                      !< indicated if EoS is designed for fluid
-        my_real :: cv                            !< specific heat capacity (constant volume)
-        my_real :: cp                            !< specific heat capacity (constant pressure)
+        real(kind=WP) :: cv                            !< specific heat capacity (constant volume)
+        real(kind=WP) :: cp                            !< specific heat capacity (constant pressure)
 
-        my_real        ,dimension(:) ,allocatable :: uparam  !< real value eos parameter table
+        real(kind=WP)        ,dimension(:) ,allocatable :: uparam  !< real value eos parameter table
         integer        ,dimension(:) ,allocatable :: iparam  !< int  value eos parameter table
         integer        ,dimension(:) ,allocatable :: func    !< function table in eos models
         type(table_4d_),dimension(:) ,allocatable :: table   !< local function tables

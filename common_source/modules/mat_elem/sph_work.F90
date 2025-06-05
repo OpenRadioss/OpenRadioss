@@ -31,19 +31,19 @@
       !||    sponfv           ../engine/source/elements/sph/sponfv.F
       !||====================================================================
       module sph_work_mod
+        use precision_mod, only : WP
 !=======================================================================================      
 !! \brief  module to define type for buffers use in SPHPREP and SPHINT
 !! \details 
-#include "my_real.inc"
 
          type sph_work_voxel_
            integer, dimension(:,:,:), allocatable :: nnod         ! sphprep
-           my_real, dimension(:,:,:), allocatable :: dxmin        ! sphprep
-           my_real, dimension(:,:,:), allocatable :: dymin        ! sphprep
-           my_real, dimension(:,:,:), allocatable :: dzmin        ! sphprep
-           my_real, dimension(:,:,:), allocatable :: dxmax        ! sphprep
-           my_real, dimension(:,:,:), allocatable :: dymax        ! sphprep
-           my_real, dimension(:,:,:), allocatable :: dzmax        ! sphprep
+           real(kind=WP), dimension(:,:,:), allocatable :: dxmin        ! sphprep
+           real(kind=WP), dimension(:,:,:), allocatable :: dymin        ! sphprep
+           real(kind=WP), dimension(:,:,:), allocatable :: dzmin        ! sphprep
+           real(kind=WP), dimension(:,:,:), allocatable :: dxmax        ! sphprep
+           real(kind=WP), dimension(:,:,:), allocatable :: dymax        ! sphprep
+           real(kind=WP), dimension(:,:,:), allocatable :: dzmax        ! sphprep
          end type sph_work_voxel_
 
          type sph_work_
@@ -54,21 +54,21 @@
             integer, dimension(:), allocatable ::  itag              ! splissv
             double precision, dimension(:,:,:), allocatable :: as6   ! splissv
             double precision, dimension(:,:,:), allocatable ::  a6   ! splissv
-            my_real, dimension(:,:), allocatable :: as               ! splissv
-            my_real, dimension(:,:), allocatable :: asphr            ! splissv
+            real(kind=WP), dimension(:,:), allocatable :: as               ! splissv
+            real(kind=WP), dimension(:,:), allocatable :: asphr            ! splissv
             !
-            my_real, dimension(:), allocatable :: wt                 ! forintp
-            my_real, dimension(:), allocatable :: wgradt             ! forintp
-            my_real, dimension(:), allocatable :: wlaplt             ! forintp
-            my_real, dimension(:), allocatable :: lambda             ! forintp
-            my_real, dimension(:), allocatable :: wgradtsm           ! forintp
-            my_real, dimension(:), allocatable :: wtr                ! forintp
-            my_real, dimension(:), allocatable :: lambdr             ! forintp
-            my_real, dimension(:), allocatable :: wasigsm            ! forintp
-            my_real, dimension(:,:), allocatable :: war              ! forintp
-            my_real, dimension(:,:), allocatable :: wgr              ! forintp
-            my_real, dimension(:,:), allocatable :: war2             ! forintp
-            my_real, dimension(:,:), allocatable :: stab             ! forintp
+            real(kind=WP), dimension(:), allocatable :: wt                 ! forintp
+            real(kind=WP), dimension(:), allocatable :: wgradt             ! forintp
+            real(kind=WP), dimension(:), allocatable :: wlaplt             ! forintp
+            real(kind=WP), dimension(:), allocatable :: lambda             ! forintp
+            real(kind=WP), dimension(:), allocatable :: wgradtsm           ! forintp
+            real(kind=WP), dimension(:), allocatable :: wtr                ! forintp
+            real(kind=WP), dimension(:), allocatable :: lambdr             ! forintp
+            real(kind=WP), dimension(:), allocatable :: wasigsm            ! forintp
+            real(kind=WP), dimension(:,:), allocatable :: war              ! forintp
+            real(kind=WP), dimension(:,:), allocatable :: wgr              ! forintp
+            real(kind=WP), dimension(:,:), allocatable :: war2             ! forintp
+            real(kind=WP), dimension(:,:), allocatable :: stab             ! forintp
          end type sph_work_
 
       contains 
@@ -98,7 +98,6 @@
 !-----------------------------------------------
 !   g l o b a l   p a r a m e t e r s
 !-----------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------

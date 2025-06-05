@@ -49,13 +49,13 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-      use constant_mod,          only : one,two,zero,zep05,em20,third,fourth,ten,em6,em12
+          use constant_mod,          only : one,two,zero,zep05,em20,third,fourth,ten,em6,em12
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 !-----------------------------------------------
 !   d u m m y   a r g u m e n t s
 !-----------------------------------------------
@@ -70,36 +70,36 @@
           integer, dimension(nml),     intent(in   )         :: iml             !< independent node list
           integer, dimension(nml),     intent(in   )         :: ilsk            !< local skew id of independent node
           integer, dimension(nmt0),    intent(in   )         :: iadmp           !< maping to local ind nodes
-          my_real, dimension(3,numnod),intent(in   )         :: x               !< coordinates
-          my_real, dimension(3,numnod),intent(in   )         :: v               !< velocity
-          my_real, dimension(3,numnod),intent(in   )         :: vr              !< rotational velocity
-          my_real, dimension(6,nml),   intent(in)            :: frbe3           !< normalized weight 
-          my_real, dimension(3),       intent(in   )         :: rrbe3pen_d      !< initial displacement
-          my_real, dimension(2),       intent(in   )         :: rrbe3pen_stf    !< stiffness
-          my_real,                     intent(in   )         :: dt1             !< time step
-          my_real,                     intent(in   )         :: rrbe3pen_fac    !< stiffness factor
-          my_real,                     intent(in   )         :: rrbe3pen_vi     !< damping coefficient
-          my_real, dimension(3),       intent(inout)         :: rrbe3pen_m      !< moment
-          my_real, dimension(3,numnod),intent(inout)         :: a               !< nodal internal force
-          my_real, dimension(3,numnod),intent(inout)         :: ar              !< rotational internal force
-          my_real, dimension(3,nmt),   intent(inout)         :: am              !< local nodal internal force of ind
-          my_real, dimension(3,nmt),   intent(inout)         :: arm             !< local internal moment of ind
-          my_real, dimension(numnod),  intent(inout)         :: stifn           !< nodal stifness
-          my_real, dimension(numnod),  intent(inout)         :: stifr           !< nodal rotational stifness
-          my_real, dimension(nmt),     intent(inout)         :: stifnm          !< local stifness of ind
-          my_real, dimension(nmt),     intent(inout)         :: stifrm          !< local rotational stifness of ind
-          my_real, dimension(lskew,numskw),intent(in)        :: skew            !< local skew 
+          real(kind=WP), dimension(3,numnod),intent(in   )         :: x               !< coordinates
+          real(kind=WP), dimension(3,numnod),intent(in   )         :: v               !< velocity
+          real(kind=WP), dimension(3,numnod),intent(in   )         :: vr              !< rotational velocity
+          real(kind=WP), dimension(6,nml),   intent(in)            :: frbe3           !< normalized weight 
+          real(kind=WP), dimension(3),       intent(in   )         :: rrbe3pen_d      !< initial displacement
+          real(kind=WP), dimension(2),       intent(in   )         :: rrbe3pen_stf    !< stiffness
+          real(kind=WP),                     intent(in   )         :: dt1             !< time step
+          real(kind=WP),                     intent(in   )         :: rrbe3pen_fac    !< stiffness factor
+          real(kind=WP),                     intent(in   )         :: rrbe3pen_vi     !< damping coefficient
+          real(kind=WP), dimension(3),       intent(inout)         :: rrbe3pen_m      !< moment
+          real(kind=WP), dimension(3,numnod),intent(inout)         :: a               !< nodal internal force
+          real(kind=WP), dimension(3,numnod),intent(inout)         :: ar              !< rotational internal force
+          real(kind=WP), dimension(3,nmt),   intent(inout)         :: am              !< local nodal internal force of ind
+          real(kind=WP), dimension(3,nmt),   intent(inout)         :: arm             !< local internal moment of ind
+          real(kind=WP), dimension(numnod),  intent(inout)         :: stifn           !< nodal stifness
+          real(kind=WP), dimension(numnod),  intent(inout)         :: stifr           !< nodal rotational stifness
+          real(kind=WP), dimension(nmt),     intent(inout)         :: stifnm          !< local stifness of ind
+          real(kind=WP), dimension(nmt),     intent(inout)         :: stifrm          !< local rotational stifness of ind
+          real(kind=WP), dimension(lskew,numskw),intent(in)        :: skew            !< local skew 
 !
 !-----------------------------------------------
 !   l o c a l   v a r i a b l e s
 !-----------------------------------------------
           integer :: i,j,k,m,icoline,iel,el(3,3,nml)
-          my_real, dimension(3) :: xbar,vts,wrv,dwrv,omgRb,tmrn,vit,disp,          &
+          real(kind=WP), dimension(3) :: xbar,vts,wrv,dwrv,omgRb,tmrn,vit,disp,          &
                                    for,mom,drot,rR,rn,vl,vrl,gminvmR,              &
                                    frefb,mrefb,mrefr,mrefbr,mref0,fn,vrg
-          my_real :: wi(nml),rndotrn,det,gamma(9),gminv(9),gamma_max,jgamma,wmax
-          my_real :: wri(3,nml),stfn,stfr,facn,facr,fac_vi,fac_ref,rdummy,lms2 
-          my_real :: srR(3,3),srRT(3,3),srn(3,3),omgsrn(3,3),aa(3,3),aar(3,3)
+          real(kind=WP) :: wi(nml),rndotrn,det,gamma(9),gminv(9),gamma_max,jgamma,wmax
+          real(kind=WP) :: wri(3,nml),stfn,stfr,facn,facr,fac_vi,fac_ref,rdummy,lms2 
+          real(kind=WP) :: srR(3,3),srRT(3,3),srn(3,3),omgsrn(3,3),aa(3,3),aar(3,3)
           double precision :: disdp(3)
 !=======================================================================
 !! specifications for penalty method :

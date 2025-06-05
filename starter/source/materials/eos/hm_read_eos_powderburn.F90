@@ -54,6 +54,7 @@
       use matparam_def_mod , only : matparam_struct_
       use constant_mod , only : zero, one, three100
       use elbuftag_mod , only : mlaw_tag_, eos_tag_, maxeos
+      use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -61,14 +62,13 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Include Files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
       integer,intent(in) :: ieos !< EoS internal identifier
       integer,intent(in) :: npropm, npropmi !< array sizes
       type (unit_type_),intent(in) ::unitab !< units data structure
-      my_real,intent(inout) :: pm(npropm)   !< material (old) buffer (real)
+      real(kind=WP),intent(inout) :: pm(npropm)   !< material (old) buffer (real)
       integer,intent(inout) :: ipm(npropmi) !< material (old) buffer (int)
       type(submodel_data), dimension(nsubmod), intent(in) :: lsubmodel !< submodeling data structure
       integer,intent(in) :: imideos !< eos/mat identifier
@@ -79,9 +79,9 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      my_real  bulk, p0, psh, dd, eg, gr, cc, alpha, c1, c2, scale_b, scale_p, scale_gam, scale_rho
-      my_real rhor, rhoi, e0
-      integer func_b, func_gam
+      real(kind=WP)  :: bulk, p0, psh, dd, eg, gr, cc, alpha, c1, c2, scale_b, scale_p, scale_gam, scale_rho
+      real(kind=WP) :: rhor, rhoi, e0
+      integer :: func_b, func_gam
       logical :: is_encrypted, is_available, is_available_rho0
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body

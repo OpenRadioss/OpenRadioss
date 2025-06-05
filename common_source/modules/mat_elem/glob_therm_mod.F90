@@ -103,6 +103,7 @@
       !||    mqviscb                  ../engine/source/materials/mat_share/mqviscb.F
       !||    mulaw                    ../engine/source/materials/mat_share/mulaw.F90
       !||    multifluid_init3         ../starter/source/multifluid/multifluid_init3.F
+      !||    pblast_write_starter     ../common_source/modules/loads/pblast_mod.F90
       !||    pinit3                   ../starter/source/elements/beam/pinit3.F
       !||    q4forc2                  ../engine/source/elements/solid_2d/quad4/q4forc2.F
       !||    qforc2                   ../engine/source/elements/solid_2d/quad/qforc2.F
@@ -167,13 +168,9 @@
 !! \brief module to define data structure for global thermal model parameters and flags
 !! \details 
 
-!----------------------------------------------------------------------- 
-!     included files
-!----------------------------------------------------------------------- 
-
+      use precision_mod, only : WP
       implicit none
 !
-#include "my_real.inc"
 !
 !=======================================================================      
       
@@ -203,24 +200,24 @@
         integer     :: nodadt_therm  !< nodal thermal time step flag
         integer     :: idt_therm     !< thermal time step flag
 !
-        my_real     :: dt_therm      !< thermal time step value
-        my_real     :: theaccfact    !< thermal model acceleration factor
-        my_real     :: dtfactherm    !< thermal time step reduction factor
+        real(kind=WP)     :: dt_therm      !< thermal time step value
+        real(kind=WP)     :: theaccfact    !< thermal model acceleration factor
+        real(kind=WP)     :: dtfactherm    !< thermal time step reduction factor
 !
-        my_real     :: heat_meca     !< cumulated mechanical heat flux
-        my_real     :: heat_conv     !< cumulated convection heat flux
-        my_real     :: heat_radia    !< cumulated radiation heat flux
-        my_real     :: heat_fflux    !< cumulated fixed heat flux      
-        my_real     :: heat_stored   !< cumulated total heat flux
+        real(kind=WP)     :: heat_meca     !< cumulated mechanical heat flux
+        real(kind=WP)     :: heat_conv     !< cumulated convection heat flux
+        real(kind=WP)     :: heat_radia    !< cumulated radiation heat flux
+        real(kind=WP)     :: heat_fflux    !< cumulated fixed heat flux      
+        real(kind=WP)     :: heat_stored   !< cumulated total heat flux
 !
-!         my_real, dimension(:), allocatable :: FTHE
-!         my_real, dimension(:), allocatable :: FTHESKYI
-!         my_real, dimension(:), allocatable :: FTHESKY
-!         my_real, dimension(:), allocatable :: TEMP_FTHESKYI
-!         my_real, dimension(:), allocatable :: CONDN
-!         my_real, dimension(:), allocatable :: CONDNSKY 
-!         my_real, dimension(:), allocatable :: CONDNSKYI
-!         my_real, dimension(:), allocatable :: TEMP_CONDNSKYI
+!         real(kind=WP), dimension(:), allocatable :: FTHE
+!         real(kind=WP), dimension(:), allocatable :: FTHESKYI
+!         real(kind=WP), dimension(:), allocatable :: FTHESKY
+!         real(kind=WP), dimension(:), allocatable :: TEMP_FTHESKYI
+!         real(kind=WP), dimension(:), allocatable :: CONDN
+!         real(kind=WP), dimension(:), allocatable :: CONDNSKY 
+!         real(kind=WP), dimension(:), allocatable :: CONDNSKYI
+!         real(kind=WP), dimension(:), allocatable :: TEMP_CONDNSKYI
 
       end type glob_therm_   
 !

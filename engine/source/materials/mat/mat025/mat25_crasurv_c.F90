@@ -20,11 +20,6 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!chd|====================================================================
-!chd|  mat25_crasurv_c                 source/materials/mat/mat025/mat25_crasurv_c.F90
-!chd|-- called by -----------
-!chd|-- calls ---------------
-!chd|====================================================================
 
       !||====================================================================
       !||    mat25_crasurv_c_mod   ../engine/source/materials/mat/mat025/mat25_crasurv_c.F90
@@ -71,14 +66,9 @@
           use message_mod
           use constant_mod ,only : zero,half,one,two,four,four_over_5,three
           use constant_mod ,only : em10,em15,em20,ep20
+          use precision_mod , only : WP
 ! ------------------------------------------------------------------------------------------
           implicit none
-! ------------------------------------------------------------------------------------------
-!     included files
-! ------------------------------------------------------------------------------------------
-
-#include "my_real.inc"
-
 !-----------------------------------------------
 !   D u m m y   A r g u m e n t s
 !-----------------------------------------------
@@ -93,43 +83,43 @@
           integer ,intent(in) :: ishplyxfem                !< ply Xfem flag
           integer ,intent(in) :: iplyxfem                  !< ply Xfem flag
           integer ,intent(in) :: ngl(mvsiz)                !< element ID table
-          my_real ,intent(in) :: time                      !< current time
-          my_real ,intent(in) :: timestep                  !< current time step
+          real(kind=WP) ,intent(in) :: time                      !< current time
+          real(kind=WP) ,intent(in) :: timestep                  !< current time step
           integer ,intent(in) :: l_dmg                     !< second dimension of damage table
           integer ,dimension(nel) ,intent(inout) :: outv   !< failure flag
           integer ,dimension(nel) ,intent(inout) :: nfis1  !< failure counter in 1st direction
           integer ,dimension(nel) ,intent(inout) :: nfis2  !< failure counter in 2nd direction
           integer ,dimension(nel) ,intent(inout) :: nfis3  !< failure counter in 3rd direction
-          my_real :: off(nel)                              !< element activation coefficient
-          my_real :: sig(nel,5)                            !< output stress tensor
-          my_real :: wpla(nel)                             !< plastic work
-          my_real :: dir(nel,2)                            !< orthotropy directions
-          my_real :: crak(nel,2)                           !< ply Xfem failure criterion
-          my_real :: shf(nel)                              !< transverse shear factor
-          my_real :: epsp(nel)                             !< equivalent strain rate
-          my_real :: eps(mvsiz,5)                          !< total strain tensor
-          my_real :: wplar(mvsiz)                          !< reference plastic work
-          my_real :: strp1(mvsiz)                          !< strain in 1st orthotropic direction
-          my_real :: strp2(mvsiz)                          !< strain in 2nd orthotropic direction
-          my_real :: strn1(mvsiz)                          !< strain in 1st direction
-          my_real :: strn2(mvsiz)                          !< strain in 2nd direction
-          my_real :: strn3(mvsiz)                          !< strain in 3rd direction
-          my_real :: sige(mvsiz,5)                         !< stress in local element coord system
-          my_real :: offply(nel)                           !< ply activation coefficient
-          my_real :: sigy(nel)                             !< yield stress
-          my_real :: etse(nel)                             !< tangent stiffness
-          my_real :: ly_exx(nel)                           !< layer sliding deformation xx
-          my_real :: ly_eyy(nel)                           !< layer sliding deformation yy
-          my_real :: ly_exy(nel)                           !< layer sliding deformation xy
-          my_real :: sigply(nel,3)                         !< layer stress
-          my_real :: sigpe(mvsiz,5)                        !< layer stress
-          my_real :: signxx(mvsiz)                         !< stress component
-          my_real :: signyy(mvsiz)                         !< stress component
-          my_real :: signxy(mvsiz)                         !< stress component
-          my_real :: signyz(mvsiz)                         !< stress component
-          my_real :: signzx(mvsiz)                         !< stress component)
-          my_real :: tsaiwu(mvsiz)                         !< Tsai-Wu criterion
-          my_real, intent(inout) :: dmg(nel,l_dmg)         !< damage related variables
+          real(kind=WP) :: off(nel)                              !< element activation coefficient
+          real(kind=WP) :: sig(nel,5)                            !< output stress tensor
+          real(kind=WP) :: wpla(nel)                             !< plastic work
+          real(kind=WP) :: dir(nel,2)                            !< orthotropy directions
+          real(kind=WP) :: crak(nel,2)                           !< ply Xfem failure criterion
+          real(kind=WP) :: shf(nel)                              !< transverse shear factor
+          real(kind=WP) :: epsp(nel)                             !< equivalent strain rate
+          real(kind=WP) :: eps(mvsiz,5)                          !< total strain tensor
+          real(kind=WP) :: wplar(mvsiz)                          !< reference plastic work
+          real(kind=WP) :: strp1(mvsiz)                          !< strain in 1st orthotropic direction
+          real(kind=WP) :: strp2(mvsiz)                          !< strain in 2nd orthotropic direction
+          real(kind=WP) :: strn1(mvsiz)                          !< strain in 1st direction
+          real(kind=WP) :: strn2(mvsiz)                          !< strain in 2nd direction
+          real(kind=WP) :: strn3(mvsiz)                          !< strain in 3rd direction
+          real(kind=WP) :: sige(mvsiz,5)                         !< stress in local element coord system
+          real(kind=WP) :: offply(nel)                           !< ply activation coefficient
+          real(kind=WP) :: sigy(nel)                             !< yield stress
+          real(kind=WP) :: etse(nel)                             !< tangent stiffness
+          real(kind=WP) :: ly_exx(nel)                           !< layer sliding deformation xx
+          real(kind=WP) :: ly_eyy(nel)                           !< layer sliding deformation yy
+          real(kind=WP) :: ly_exy(nel)                           !< layer sliding deformation xy
+          real(kind=WP) :: sigply(nel,3)                         !< layer stress
+          real(kind=WP) :: sigpe(mvsiz,5)                        !< layer stress
+          real(kind=WP) :: signxx(mvsiz)                         !< stress component
+          real(kind=WP) :: signyy(mvsiz)                         !< stress component
+          real(kind=WP) :: signxy(mvsiz)                         !< stress component
+          real(kind=WP) :: signyz(mvsiz)                         !< stress component
+          real(kind=WP) :: signzx(mvsiz)                         !< stress component)
+          real(kind=WP) :: tsaiwu(mvsiz)                         !< Tsai-Wu criterion
+          real(kind=WP), intent(inout) :: dmg(nel,l_dmg)         !< damage related variables
           type (matparam_struct_) ,intent(in) :: mat_param !< material parameter structure
 !-----------------------------------------------
 !   l o c a l   v a r i a b l e s
@@ -137,31 +127,31 @@
           integer :: i,j,fail,ioff,icc,imodwp,nindx,id,ifail0
           integer ,dimension(nel) :: index,icas,isoft
           integer ,dimension(nel) :: fail_old
-          my_real :: scale,scale1,scale2,dam1,dam2,alpha
-          my_real :: strp12,coefa,coefb,delta,dwpla
-          my_real :: wpla1,wpla2,wpla3,norm1,norm2,norm3,ht
-          my_real :: e11,e22,g12,g23,g31,nu12,nu21
-          my_real :: epst1,epst2,eps1t12,eps2t12,epsm1,epsm2
-          my_real :: eps1t1,eps1t2,eps1c1,eps1c2,epsf1
-          my_real :: eps2t1,eps2t2,eps2c1,eps2c2,epsf2
-          my_real :: sigrst1,sigrst2,sigrsc1,sigrsc2,sigrst12
-          my_real :: sigmxt1,sigmxt2,sigmxc1,sigmxc2,sigmxt12
-          my_real :: sigyt1,sigyt2,sigyc1,sigyc2,sigyt12
-          my_real :: sigy0_t1,sigy0_t2,sigy0_c1,sigy0_c2,sigy0_t12
-          my_real :: wplaref,cc,epdr,dmax
-          my_real :: cn_t1,cn_t2,cn_c1,cn_c2,cn_t12,cb_t1,cb_t2,cb_c1,cb_c2,cb_t12
-          my_real :: cc_t1,cc_t2,cc_c1,cc_c2,cc_t12
-          my_real :: log_wpla,b1,b2
-          my_real ,dimension(3)   :: soft
-          my_real ,dimension(nel) :: dp1,dp2,dp3,de1,de2,ds1,ds2,ds3
-          my_real ,dimension(nel) :: wvec,t1,t2, t3,lamda,coef,a11,a12,a22
-          my_real ,dimension(nel) :: beta
-          my_real ,dimension(nel) :: f1,f2,f12,f11,f22,f33
-          my_real ,dimension(nel) :: so1,so2,so3,s1,s2,s3,s4,s5
-          my_real ,dimension(nel) :: wplamx,wplamxt1,wplamxt2
-          my_real ,dimension(nel) :: wplamxc1,wplamxc2,wplamxt12
-          my_real ,dimension(mvsiz,5) :: epsply
-          my_real ,dimension(mvsiz,3) :: eply
+          real(kind=WP) :: scale,scale1,scale2,dam1,dam2,alpha
+          real(kind=WP) :: strp12,coefa,coefb,delta,dwpla
+          real(kind=WP) :: wpla1,wpla2,wpla3,norm1,norm2,norm3,ht
+          real(kind=WP) :: e11,e22,g12,g23,g31,nu12,nu21
+          real(kind=WP) :: epst1,epst2,eps1t12,eps2t12,epsm1,epsm2
+          real(kind=WP) :: eps1t1,eps1t2,eps1c1,eps1c2,epsf1
+          real(kind=WP) :: eps2t1,eps2t2,eps2c1,eps2c2,epsf2
+          real(kind=WP) :: sigrst1,sigrst2,sigrsc1,sigrsc2,sigrst12
+          real(kind=WP) :: sigmxt1,sigmxt2,sigmxc1,sigmxc2,sigmxt12
+          real(kind=WP) :: sigyt1,sigyt2,sigyc1,sigyc2,sigyt12
+          real(kind=WP) :: sigy0_t1,sigy0_t2,sigy0_c1,sigy0_c2,sigy0_t12
+          real(kind=WP) :: wplaref,cc,epdr,dmax
+          real(kind=WP) :: cn_t1,cn_t2,cn_c1,cn_c2,cn_t12,cb_t1,cb_t2,cb_c1,cb_c2,cb_t12
+          real(kind=WP) :: cc_t1,cc_t2,cc_c1,cc_c2,cc_t12
+          real(kind=WP) :: log_wpla,b1,b2
+          real(kind=WP) ,dimension(3)   :: soft
+          real(kind=WP) ,dimension(nel) :: dp1,dp2,dp3,de1,de2,ds1,ds2,ds3
+          real(kind=WP) ,dimension(nel) :: wvec,t1,t2, t3,lamda,coef,a11,a12,a22
+          real(kind=WP) ,dimension(nel) :: beta
+          real(kind=WP) ,dimension(nel) :: f1,f2,f12,f11,f22,f33
+          real(kind=WP) ,dimension(nel) :: so1,so2,so3,s1,s2,s3,s4,s5
+          real(kind=WP) ,dimension(nel) :: wplamx,wplamxt1,wplamxt2
+          real(kind=WP) ,dimension(nel) :: wplamxc1,wplamxc2,wplamxt12
+          real(kind=WP) ,dimension(mvsiz,5) :: epsply
+          real(kind=WP) ,dimension(mvsiz,3) :: eply
 !=======================================================================
           if (time == zero) then
             offply(1:nel) = one

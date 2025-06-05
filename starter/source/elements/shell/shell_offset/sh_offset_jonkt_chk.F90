@@ -46,16 +46,14 @@
       !||    same_shellori_mod     ../starter/source/elements/shell/shell_offset/same_shellori.F90
       !||====================================================================
         subroutine sh_offset_jonct_chk(nshel    ,irect   ,xyz     ,numnod ,          &
-                                      ichange   ,sh_offset )
+          ichange   ,sh_offset )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use constant_mod, only : zero,one
           use same_shellori_mod, only:same_shellori
-!
+          use precision_mod, only : WP
           implicit none
-!
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -63,18 +61,18 @@
           integer,  intent(in   )                           :: numnod        !< number of node
           integer,  intent(in   ),dimension(4,nshel)        :: irect        !< connectivity of segment
           integer,  intent(inout),dimension(nshel)          :: ichange      !< if tagged
-          my_real,  intent(in   ),dimension(3,numnod)       :: xyz          !< coordinate of node
-          my_real,  intent(in   ),dimension(nshel)          :: sh_offset    !< offset value
+          real(kind=WP),  intent(in   ),dimension(3,numnod)       :: xyz          !< coordinate of node
+          real(kind=WP),  intent(in   ),dimension(nshel)          :: sh_offset    !< offset value
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer j,k,l,ll,i1,i2,i1m,i2m,nl,li,ie,iem
-          integer nextk(4),iwork(70000),ix(4),i1n,i2n,ien,nl_max,mode
-          integer is_im,is_in,is_mn
+          integer :: j,k,l,ll,i1,i2,i1m,i2m,nl,li,ie,iem
+          integer :: nextk(4),iwork(70000),ix(4),i1n,i2n,ien,nl_max,mode
+          integer :: is_im,is_in,is_mn
           integer, dimension(:,:), allocatable :: lineix
           integer, dimension(:), allocatable   :: index
 !
-          my_real  n_m(3),n_n(3),n_i(3),a_mn,a_mi,a_ni,a_max,a_min,area
+          real(kind=WP)  :: n_m(3),n_n(3),n_i(3),a_mn,a_mi,a_ni,a_max,a_min,area
 
           data nextk/2,3,4,1/
 ! ----------------------------------------------------------------------------------------------------------------------

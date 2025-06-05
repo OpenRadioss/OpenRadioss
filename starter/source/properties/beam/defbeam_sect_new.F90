@@ -46,6 +46,7 @@
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use constant_mod ,only : half,one,zero,two,three,fourth,pi
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -53,7 +54,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -63,16 +63,16 @@
           integer,                                intent(inout) :: nip                         !< number of integration points
           integer,                                intent(inout) :: nb_dim                      !< number of needed dimensions
           integer,                                   intent(in) :: npropg                      !< size of array geo
-          my_real,                                intent(inout) :: geo(npropg)                 !< main array for properties
-          my_real,                                   intent(in) :: l(6)                        !< section dimensions
-          my_real,                                intent(inout) :: area                        !< section area
+          real(kind=WP),                                intent(inout) :: geo(npropg)                 !< main array for properties
+          real(kind=WP),                                   intent(in) :: l(6)                        !< section dimensions
+          real(kind=WP),                                intent(inout) :: area                        !< section area
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer i,j,ip,ipy,ipz,ipa
-          my_real area1_i,area2_i,area3_i,area4_i,dy1,dy2,dz1,dz2,y1_0,z1_0
-          my_real y2_0,z2_0,fac,fac2,fac3,fac4,dl,dh,l_sup,l_inf
-          my_real r_sup,r_inf,dr,phi_0,phi,dphi
+          integer :: i,j,ip,ipy,ipz,ipa
+          real(kind=WP) :: area1_i,area2_i,area3_i,area4_i,dy1,dy2,dz1,dz2,y1_0,z1_0
+          real(kind=WP) :: y2_0,z2_0,fac,fac2,fac3,fac4,dl,dh,l_sup,l_inf
+          real(kind=WP) :: r_sup,r_inf,dr,phi_0,phi,dphi
 ! ----------------------------------------------------------------------------------------------------------------------
 !
 ! ----------------------------------------------------------------------------------------------------------------------

@@ -30,7 +30,8 @@
       !||    resol_init            ../engine/source/engine/resol_init.F
       !||====================================================================
       module inter_sh_offset_mod
-#include "my_real.inc"
+        use precision_mod, only : WP
+        implicit none
         type sh_offset_
           integer ::  nsh_oset                                 ! number of offset shell to be projected
           integer ::  nnsh_oset                                ! number of nodal offset 
@@ -39,8 +40,8 @@
           integer, dimension(:)  ,  allocatable :: indexg      ! (nnsh_oset) to global node number
           integer, dimension(:,:),  allocatable :: iad_offset  ! (2,nspmd+1) comm work array
           integer, dimension(:)  ,  allocatable :: fr_offset   ! comm work array
-          my_real, dimension(:)  ,  allocatable :: offset_n    ! (nnsh_oset) nodal offset
-          my_real, dimension(:,:) , allocatable :: norm_n      ! (3,nnsh_oset) nodal normal
+          real(kind=WP), dimension(:)  ,  allocatable :: offset_n    ! (nnsh_oset) nodal offset
+          real(kind=WP), dimension(:,:) , allocatable :: norm_n      ! (3,nnsh_oset) nodal normal
           double precision,dimension(:,:,:), allocatable :: norm_n6 ! (6,3,nnsh_oset) nodal normal P/ON
         end type  sh_offset_
       end module inter_sh_offset_mod

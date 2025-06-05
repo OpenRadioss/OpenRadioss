@@ -56,6 +56,7 @@ module eosexponential_mod
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
       use constant_mod , only : three100, half, zero
+      use precision_mod , only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -63,7 +64,6 @@ module eosexponential_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -71,21 +71,21 @@ module eosexponential_mod
       integer,intent(in) :: mat(nel)                 !< material identifiers for elems 1 to nel
       integer,intent(in) :: IFLAG                    !< flag mentioning what needs to be computed
       integer,intent(in) :: NEL                      !< number of elems in group (current group size)
-      my_real, intent(in) :: time                    !< simulation current time
-      my_real, intent(in) :: pm(npropm,nummat)       !< parameters of all materials
-      my_real, intent(in) :: vnew(nel)               !< current volume of elems
-      my_real, intent(in) :: off(nel)                !< state of elems (0.0 if deleted)
-      my_real, intent(in) :: dvol(nel)               !< volume change of elems
-      my_real, intent(inout) :: pnew(nel)            !< pressure     
-      my_real, intent(inout) :: dpdm(nel)            !< total derivative : mu = rho/rho0-1
-      my_real, intent(inout) :: dpdE(nel)            !< partial derivative : E=rho0.e
-      my_real, intent(inout) :: psh(nel)             !< pressure shift
-      my_real, intent(inout) :: eint(nel)            !< internal energy
+      real(kind=WP), intent(in) :: time                    !< simulation current time
+      real(kind=WP), intent(in) :: pm(npropm,nummat)       !< parameters of all materials
+      real(kind=WP), intent(in) :: vnew(nel)               !< current volume of elems
+      real(kind=WP), intent(in) :: off(nel)                !< state of elems (0.0 if deleted)
+      real(kind=WP), intent(in) :: dvol(nel)               !< volume change of elems
+      real(kind=WP), intent(inout) :: pnew(nel)            !< pressure     
+      real(kind=WP), intent(inout) :: dpdm(nel)            !< total derivative : mu = rho/rho0-1
+      real(kind=WP), intent(inout) :: dpdE(nel)            !< partial derivative : E=rho0.e
+      real(kind=WP), intent(inout) :: psh(nel)             !< pressure shift
+      real(kind=WP), intent(inout) :: eint(nel)            !< internal energy
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
       integer :: i, mx
-      my_real :: p0,alpha
+      real(kind=WP) :: p0,alpha
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------

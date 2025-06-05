@@ -49,12 +49,12 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           use constant_mod,             only: zero,em20,one
           use intbufdef_mod   
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -77,15 +77,15 @@
           integer, intent (in   ) ,dimension(6,numels10)   :: ixs10            !< tet10 connectivity supp
           integer, intent (in   ) ,dimension(8,numels16)   :: ixs16            !< s16 connectivity supp
           integer, intent (in   ) ,dimension(12,numels20)  :: ixs20            !< s20 connectivity supp
-          my_real, intent (in   ) ,dimension(npropm,nummat):: pm               !< material data array 
-          my_real, intent (inout) ,dimension(numnod)       :: stifint          !< nodal stiffness for interface
+          real(kind=WP), intent (in   ) ,dimension(npropm,nummat):: pm               !< material data array 
+          real(kind=WP), intent (inout) ,dimension(numnod)       :: stifint          !< nodal stiffness for interface
           type(intbuf_struct_),  dimension(ninter)         :: intbuf_tab       !< interface structure
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-        integer i,j,n,ii,mid,pid,icontr,nty,igsti,nsn,ns
+        integer :: i,j,n,ii,mid,pid,icontr,nty,igsti,nsn,ns
         integer, dimension(:)  ,  allocatable :: itag    
-        my_real sfac,sfac_max
+        real(kind=WP) :: sfac,sfac_max
 !
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body

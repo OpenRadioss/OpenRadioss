@@ -83,7 +83,6 @@
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   External functions
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -117,20 +116,20 @@
           integer, intent(in) :: npc(snpc)                     !< NPC option
           integer, intent(in) :: nodreac(numnod)               !< Node ID for REAC option
           integer, intent(in) :: ib(nibcld,nconld)             !< Concentrated loads buffer
-          my_real, intent(in) :: fac(lfaccld,nconld)           !< array for concentrated loads
-          my_real, intent(in) :: tf(stf)                       !< Tabulated function array
-          my_real, intent(in) :: dpl0cld(6,nconld)             !< condition loads displacements
-          my_real, intent(in) :: vel0cld(6,nconld)             !< condition loads velocity
+          real(kind=WP), intent(in) :: fac(lfaccld,nconld)           !< array for concentrated loads
+          real(kind=WP), intent(in) :: tf(stf)                       !< Tabulated function array
+          real(kind=WP), intent(in) :: dpl0cld(6,nconld)             !< condition loads displacements
+          real(kind=WP), intent(in) :: vel0cld(6,nconld)             !< condition loads velocity
           integer, intent(in) :: iadc(4,nconld)                !< condition loads nodes
-          my_real, intent(in) :: x(3,numnod)                   !< node position
-          my_real, intent(in) :: v(3,numnod)                   !< node velocity
-          my_real, intent(in) :: vr(3,numnod)                  !< node rotational velocity
-          my_real, intent(in) :: d(3,numnod)                   !< displacement
-          my_real, intent(in) :: dr(3,numnod)                  !< rotational displacement
+          real(kind=WP), intent(in) :: x(3,numnod)                   !< node position
+          real(kind=WP), intent(in) :: v(3,numnod)                   !< node velocity
+          real(kind=WP), intent(in) :: vr(3,numnod)                  !< node rotational velocity
+          real(kind=WP), intent(in) :: d(3,numnod)                   !< displacement
+          real(kind=WP), intent(in) :: dr(3,numnod)                  !< rotational displacement
           integer, intent(in) :: anim_v(80000)                 !< animation vector options
           integer, intent(in) :: outp_v(140)                   !< outp vector options
-          my_real, intent(in) :: tt                            !< current time
-          my_real, intent(in) :: dt1                           !< current time step
+          real(kind=WP), intent(in) :: tt                            !< current time
+          real(kind=WP), intent(in) :: dt1                           !< current time step
           type (sensor_str_) ,dimension(nsensor),intent(in) :: sensor_tab !< Sensors type
           type(python_), intent(in), optional :: python        !< Python functions structures
           type(nodal_arrays_), intent(in),optional :: nodes              !< nodal arrays
@@ -138,13 +137,13 @@
           type (th_surf_) , intent(inout) :: th_surf           !< Time history / surface
           ! Inout / output
           type(skew_), intent(inout) :: skews                  !< Skews structure
-          my_real, intent(inout) :: fsky(8,lsky)               !< skyline vector : Store forces for PARITH/ON
-          my_real, intent(inout) :: a(3,numnod)                !< node accelerations
-          my_real, intent(inout) :: ar(3,numnod)               !< node rotational accelerations
-          my_real, intent(inout) :: fext(3,numnod)             !< nodal external work
+          real(kind=WP), intent(inout) :: fsky(8,lsky)               !< skyline vector : Store forces for PARITH/ON
+          real(kind=WP), intent(inout) :: a(3,numnod)                !< node accelerations
+          real(kind=WP), intent(inout) :: ar(3,numnod)               !< node rotational accelerations
+          real(kind=WP), intent(inout) :: fext(3,numnod)             !< nodal external work
           double precision, intent(inout) :: wfext             !< external work - Care : double precision
-          my_real, intent(inout) :: wfexc                      !< external work
-          my_real, intent(inout) :: fthreac(6,cptreac)         !< TH forces
+          real(kind=WP), intent(inout) :: wfexc                      !< external work
+          real(kind=WP), intent(inout) :: fthreac(6,cptreac)         !< TH forces
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -153,10 +152,10 @@
           &ismooth,idel,ksurf,ns,nsegpl
           integer :: up_bound
           integer :: fid ! id of the python function
-          my_real nx, ny, nz, axi, aa, a0, vv, fx, fy, fz, ax, dydx, ts,&
+          real(kind=WP) nx, ny, nz, axi, aa, a0, vv, fx, fy, fz, ax, dydx, ts,&
           &sixth,wfextt,x_old, f1, f2,xsens,fcx,fcy,area,&
           &disp,disp_old,vel,vel_old
-          my_real finter, finter_smooth
+          real(kind=WP) finter, finter_smooth
           external finter,finter_smooth
 ! ----------------------------------------------------------------------------------------------------------------------
           nx = -huge(nx)

@@ -109,7 +109,6 @@
 ! ======================================================================================================================
 !                                                   Included Files
 ! ======================================================================================================================
-#include "my_real.inc"
 ! ======================================================================================================================
 !                                                   Local Variables
 ! ======================================================================================================================
@@ -121,13 +120,13 @@
               ix(nix,numel), ilay, ng,iparg(n_var_iparg, ngroup),&
               ipm(n_var_ipm,nummat),nv46
 
-      my_real,intent(in) :: time,timestep,uparam(nuparam),pm(n_var_pm,nummat),&
+      real(kind=WP),intent(in) :: time,timestep,uparam(nuparam),pm(n_var_pm,nummat),&
                             volume(nel),bufvois(*),&
                             epspxx(nel),epspyy(nel),epspzz(nel),&
                             w(3,numnod),x(3,numnod), bufmat(*),&
                             vd2(nel)
 
-       my_real,intent(inout) :: eint(nel),&
+       real(kind=WP),intent(inout) :: eint(nel),&
                                 sigoxx(nel),sigoyy(nel),sigozz(nel),&
                                 sigoxy(nel),sigoyz(nel),sigozx(nel),&
                                 vdx(nel),vdy(nel),vdz(nel),&
@@ -137,16 +136,16 @@
       type(elbuf_struct_), target, dimension(ngroup) :: elbuf_tab
       type(t_ale_connectivity), intent(in) :: ale_connect
 
-      my_real, intent(inout) :: signxx(nel),signyy(nel),signzz(nel),&
+      real(kind=WP), intent(inout) :: signxx(nel),signyy(nel),signzz(nel),&
                                 signxy(nel),signyz(nel),signzx(nel),&
                                 soundsp(nel),viscmax(nel)
 
-      my_real,INTENT(INOUT) :: UVAR(NEL,NUVAR)
+      real(kind=WP),INTENT(INOUT) :: UVAR(NEL,NUVAR)
 ! ======================================================================================================================
 !                                                   External
 ! ======================================================================================================================
       INTEGER NPF(*), NFUNC, IFUNC(NFUNC)
-      my_real FINTER ,TF(*)
+      real(kind=WP) FINTER ,TF(*)
       EXTERNAL FINTER
 !        Y = FINTER(IFUNC(J),X,NPF,TF,DYDX)
 !        Y       : y = f(x)
@@ -162,7 +161,7 @@
 
       INTEGER I,J,K,KK,II
 
-      my_real P,PEXT,WFEXTT,P0_NRF,P0_NRFv(nel),DP0,&
+      real(kind=WP) P,PEXT,WFEXTT,P0_NRF,P0_NRFv(nel),DP0,&
               C11,C12,C13,C21,C22,C23,C31,C32,C33,C41,C42,C43,C51,C52,C53,&
               AV1(nel),AV2(nel),AV3(nel),AV4(nel),RHO10,RHO20,RHO30,RHO40,RHO1,RHO2,RHO3,RHO4,&
               P1,P2,P3,&
@@ -179,7 +178,7 @@
               VN,X0,Y0,Z0,VX,VY,VZ,NX,NY,NZ,RHO1A,P1A,E01A,RHO2A,P2A,E02A,&
               RHO3A,P3A,E03A,FAC
 
-      my_real VEL_N(nel),VEL_O(nel), VEL(nel),&
+      real(kind=WP) VEL_N(nel),VEL_O(nel), VEL(nel),&
               EIV(0:4,nel), RHOV(0:4,nel), PV(0:4,nel), TV(0:4,nel),RHO0V(0:4,nel),&
               AVV(0:4,nel), SSPv(0:4,nel),EPSPv(0:4,nel),&
               RHOC2(4),RHOC20,ROC,&
@@ -187,13 +186,13 @@
               MACH,&
               E01f,E02f,E03f,RHO1f,RHO2f,RHO3f
         
-      my_real :: VEL_IN, MOM
+      real(kind=WP) :: VEL_IN, MOM
       INTEGER :: IVEL
       INTEGER IFLG,IAV1,IAV2,IAV3,IRHO1,IRHO2,IRHO3,IE1,IE2,IE3,IEXP,&
               IOPT, IPLA, IPLA1, IPLA2, IPLA3,&
               K1,K2,K3,K4, ISUPERSONIC, IVOI,ML,IFORM,IADBUF
       INTEGER :: IX1,IX2,IX3,IX4
-      my_real :: X13, Y13, Z13, X24, Y24, Z24, XN, YN, ZN
+      real(kind=WP) :: X13, Y13, Z13, X24, Y24, Z24, XN, YN, ZN
       INTEGER ICF3D(4,6), ICF2D(2,4), IAD2
       TYPE(G_BUFEL_)  ,POINTER :: GBUF
       TYPE(L_BUFEL_)  ,POINTER :: LBUF

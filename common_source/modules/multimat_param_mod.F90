@@ -80,8 +80,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-!  [ the module names in use must be in uppercase for now, it will change latter]
-!  [ ONLY is mandatory, note the space before the ,]      
+          use precision_mod , only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -90,8 +89,6 @@
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
 ! [ no comment on the same line as #include #define #ifdef, #endif ]
-! [ my_real.inc must be included, it was included in "implicit_f.inc"]
-#include "my_real.inc"      
         INTEGER, PARAMETER :: M51_N0PHAS = 04
         INTEGER, PARAMETER :: M51_NVPHAS = 23
         INTEGER, PARAMETER :: M51_IFLG6_SIZE = 37
@@ -101,7 +98,7 @@
         TYPE MULTIMAT_PARAM_                                 !< data structure for MAT_PARAM buffer
           integer :: nb = 0                                  !< number of submaterial
           integer,allocatable,dimension(:) :: mid            !< material internal identifier for each submaterial
-          my_real,allocatable,dimension(:) :: vfrac          !< volume fraction for each submaterial
+          real(kind=WP),allocatable,dimension(:) :: vfrac          !< volume fraction for each submaterial
 
           contains
             procedure :: destruct => destruct_multimat_param
@@ -109,7 +106,7 @@
         END TYPE MULTIMAT_PARAM_
      
         logical :: M20_DISCRETE_FILL = .false.               !< LAW20 global parameters
-        my_real :: M51_SSP0MAX, M51_LC0MAX, M51_TCP_REF      !< LAW51 global parameters
+        real(kind=WP) :: M51_SSP0MAX, M51_LC0MAX, M51_TCP_REF      !< LAW51 global parameters
         INTEGER :: M51_IFLG6 = 0                             !< LAW51 global parameters
         INTEGER :: M51_lSET_IFLG6 = 0                        !< LAW51 global parameters
         INTEGER :: M51_ILOOP_NRF = 0                         !< LAW51 global parameters

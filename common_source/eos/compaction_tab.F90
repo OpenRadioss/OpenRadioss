@@ -88,6 +88,7 @@
        use constant_mod , only : zero, em10, em06, half, one, two, ep03, ep20
        use eos_param_mod , only : eos_param_
        use table_mat_vinterp_mod , only : table_mat_vinterp
+       use precision_mod , only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -95,23 +96,22 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
       integer,intent(in) :: nvareos
-      my_real,intent(inout) :: vareos(nel,nvareos)
+      real(kind=WP),intent(inout) :: vareos(nel,nvareos)
       integer,intent(in) :: nel !< number of element in the currenbt group
       integer,intent(in) :: npropm, nummat !< array sizes
       integer,intent(in) :: mat(nel), iflag
-      my_real,intent(inout) :: pm(npropm,nummat) !< material data (real parameters)
-      my_real,intent(inout) :: off(nel),eint(nel),dvol(nel)
-      my_real,intent(inout) :: pnew(nel),dpdm(nel),dpde(nel)
+      real(kind=WP),intent(inout) :: pm(npropm,nummat) !< material data (real parameters)
+      real(kind=WP),intent(inout) :: off(nel),eint(nel),dvol(nel)
+      real(kind=WP),intent(inout) :: pnew(nel),dpdm(nel),dpde(nel)
       type(eos_param_),intent(in) :: eos_param !< data structure for EoS parameters
-      my_real,intent(inout) :: rho_bak(nel) !< backup of mu for unloading
-      my_real,intent(in) :: dt1 !< time step
-      my_real,intent(in) :: rho(nel)  !< current density
-      my_real,intent(in) :: rho0(nel) !< initial density
+      real(kind=WP),intent(inout) :: rho_bak(nel) !< backup of mu for unloading
+      real(kind=WP),intent(in) :: dt1 !< time step
+      real(kind=WP),intent(in) :: rho(nel)  !< current density
+      real(kind=WP),intent(in) :: rho0(nel) !< initial density
       integer ,intent(in) :: nvartmp                       !< size for vartmp
       integer ,dimension(nel,nvartmp) ,intent(inout) :: vartmp    !< vartmp is the history of index position on the user curve (optimization in order not to loop from first point at each cycle)
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -120,23 +120,23 @@
       integer i,mx,iter,niter
       integer :: iform
       integer :: plasexp
-      my_real :: residu, ff, df
-      my_real :: p0,psh(nel)
-      my_real :: p(nel)
-      my_real :: rho_tmd
-      my_real :: gamma_tmd
-      my_real :: c_solid
-      my_real :: lambda
-      my_real :: tol
-      my_real :: pmin
-      my_real :: rhomax_plastic
-      my_real :: cunl(nel), c_prime(nel)
-      my_real :: Pc(nel)
-      my_real :: dpdr(nel)
-      my_real :: gamma(nel), gl, rhol, rhol_, c2
-      my_real :: b(nel)
-      my_real :: tmp1,tmp2, xx
-      my_real, dimension(nel,1) :: xvec1 !<temporary array for table interpolation
+      real(kind=WP) :: residu, ff, df
+      real(kind=WP) :: p0,psh(nel)
+      real(kind=WP) :: p(nel)
+      real(kind=WP) :: rho_tmd
+      real(kind=WP) :: gamma_tmd
+      real(kind=WP) :: c_solid
+      real(kind=WP) :: lambda
+      real(kind=WP) :: tol
+      real(kind=WP) :: pmin
+      real(kind=WP) :: rhomax_plastic
+      real(kind=WP) :: cunl(nel), c_prime(nel)
+      real(kind=WP) :: Pc(nel)
+      real(kind=WP) :: dpdr(nel)
+      real(kind=WP) :: gamma(nel), gl, rhol, rhol_, c2
+      real(kind=WP) :: b(nel)
+      real(kind=WP) :: tmp1,tmp2, xx
+      real(kind=WP), dimension(nel,1) :: xvec1 !<temporary array for table interpolation
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -311,6 +311,7 @@
        use constant_mod , only : zero, em10, half, one, two, ep20
        use eos_param_mod , only : eos_param_
        use table_mat_vinterp_mod , only : table_mat_vinterp
+       use precision_mod , only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -318,23 +319,22 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
       integer,intent(in) :: nvareos
-      my_real,intent(inout) :: vareos(nel,nvareos)
+      real(kind=WP),intent(inout) :: vareos(nel,nvareos)
       integer,intent(in) :: nel !< number of element in the currenbt group
       integer ,intent(in) :: nvartmp                       !< size for vartmp
       integer ,dimension(nel,nvartmp) ,intent(inout) :: vartmp    !< vartmp is the history of index position on the user curve (optimization in order not to loop from first point at each cycle)
       type(eos_param_),intent(in) :: eos_param !< data structure for EoS parameters
-      my_real,intent(in) :: rho(nel),rho_tmd
+      real(kind=WP),intent(in) :: rho(nel),rho_tmd
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variable
 ! ----------------------------------------------------------------------------------------------------------------------
-      my_real :: Pc(nel),dPdr(nel),Cunl(nel),slope(nel)
-      my_real :: residu,lambda,ff,df,tol
-      my_real, dimension(nel,1) :: xvec1 !<temporary array for table interpolation
+      real(kind=WP) :: Pc(nel),dPdr(nel),Cunl(nel),slope(nel)
+      real(kind=WP) :: residu,lambda,ff,df,tol
+      real(kind=WP), dimension(nel,1) :: xvec1 !<temporary array for table interpolation
       integer :: i, iter,niter
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body

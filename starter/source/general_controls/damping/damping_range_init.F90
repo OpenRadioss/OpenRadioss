@@ -47,6 +47,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           use constant_mod ,only : zero,one,four,eight,two,em02,half,pi
           use elbufdef_mod ,only : elbuf_struct_
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -54,7 +55,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -63,7 +63,7 @@
           integer,                                intent(in   ) :: ngroup                 !< number of groups
           integer,                                intent(in   ) :: nparg                  !< number of groups          
           integer,                                intent(in   ) :: iparg(nparg,ngroup)    !< structure of integer per group
-          my_real,                                intent(in   ) :: dampr(nrdamp,ndamp)    !< structure of damping parameters           
+          real(kind=WP),                                intent(in   ) :: dampr(nrdamp,ndamp)    !< structure of damping parameters           
           type (elbuf_struct_), target, dimension(ngroup), intent(inout) :: elbuf_tab     !< structure of group buffer
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables

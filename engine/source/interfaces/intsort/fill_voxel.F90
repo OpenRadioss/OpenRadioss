@@ -38,6 +38,7 @@
       !||--- uses       -----------------------------------------------------
       !||    constant_mod       ../common_source/modules/constant_mod.F
       !||    extend_array_mod   ../common_source/tools/memory/extend_array.F90
+      !||    precision_mod      ../common_source/modules/precision_mod.F90
       !||====================================================================
         SUBROUTINE FILL_VOXEL_LOCAL(&
         &  istart,&
@@ -58,11 +59,11 @@
         & x,&
         & stfn,&
         & box_limit_main)
+          USE PRECISION_MOD, ONLY : WP
           USE CONSTANT_MOD
           USE EXTEND_ARRAY_MOD, ONLY : extend_array
 !-----------------------------------------------
           implicit none
-#include "my_real.inc"
 !-----------------------------------------------
 !   D u m m y   A r g u m e n t s
 !-----------------------------------------------
@@ -80,17 +81,17 @@
           integer, intent(inout) :: size_nod !< size of the nod arrays
           integer, intent(inout) :: nb_voxel_on !< number of voxels with nodes
           integer, dimension(:), allocatable, intent(inout) :: list_nb_voxel_on !< list of voxels with nodes
-          my_real, intent(in) :: x(3,numnod) !< global node coordinates
-          my_real, intent(in) :: stfn(nsn) !< secondary node stiffness
-          my_real, intent(in) :: box_limit_main(12) !< bounding box of the main segments 
+          real(kind=WP), intent(in) :: x(3,numnod) !< global node coordinates
+          real(kind=WP), intent(in) :: stfn(nsn) !< secondary node stiffness
+          real(kind=WP), intent(in) :: box_limit_main(12) !< bounding box of the main segments 
           integer, dimension(:), allocatable, intent(inout) :: last_nod
 
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
           integer :: i,j
-          my_real :: xmin, xmax, ymin, ymax, zmin, zmax
-          my_real :: xminb, xmaxb, yminb, ymaxb, zminb, zmaxb
+          real(kind=WP) :: xmin, xmax, ymin, ymax, zmin, zmax
+          real(kind=WP) :: xminb, xmaxb, yminb, ymaxb, zminb, zmaxb
           integer :: ix, iy, iz
           integer :: first, last
           integer :: cellid
@@ -172,7 +173,7 @@
                 endif
               enddo
           endif !< nrtm
-        END SUBROUTINE
+        end subroutine FILL_VOXEL_LOCAL
  
       !||====================================================================
       !||    fill_voxel_local_partial   ../engine/source/interfaces/intsort/fill_voxel.F90
@@ -184,6 +185,7 @@
       !||    constant_mod               ../common_source/modules/constant_mod.F
       !||    extend_array_mod           ../common_source/tools/memory/extend_array.F90
       !||    inter_struct_mod           ../engine/share/modules/inter_struct_mod.F
+      !||    precision_mod              ../common_source/modules/precision_mod.F90
       !||====================================================================
        SUBROUTINE FILL_VOXEL_LOCAL_PARTIAL(&
         & nsn,&
@@ -196,12 +198,12 @@
         & s, &
         & requests, &
         & nrequests)
+          USE PRECISION_MOD, ONLY : WP
           USE INTER_STRUCT_MOD
           USE CONSTANT_MOD
           USE EXTEND_ARRAY_MOD, ONLY : extend_array
 !-----------------------------------------------
           implicit none
-#include "my_real.inc"
 #include "spmd.inc"
 !-----------------------------------------------
 !   D u m m y   A r g u m e n t s
@@ -211,8 +213,8 @@
           integer, intent(in), value :: nsnr !< number of remote secondary nodes
           integer, intent(in), value :: nrtm !< number of segments (rectangles) 
           integer, intent(in), value :: numnod !< total number of nodes
-          my_real, intent(in) :: x(3,numnod) !< global node coordinates
-          my_real, intent(in) :: stfn(nsn) !< secondary node stiffness
+          real(kind=WP), intent(in) :: x(3,numnod) !< global node coordinates
+          real(kind=WP), intent(in) :: stfn(nsn) !< secondary node stiffness
           TYPE(inter_struct_type), intent(inout) :: s !< structure for interface sorting comm
           integer, intent(in), value :: nrequests !< number of requests
           integer, intent(inout) :: requests(nrequests) !< MPI request
@@ -221,8 +223,8 @@
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
           integer :: i,j
-          my_real :: xmin, xmax, ymin, ymax, zmin, zmax
-          my_real :: xminb, xmaxb, yminb, ymaxb, zminb, zmaxb
+          real(kind=WP) :: xmin, xmax, ymin, ymax, zmin, zmax
+          real(kind=WP) :: xminb, xmaxb, yminb, ymaxb, zminb, zmaxb
           integer :: ix, iy, iz
           integer :: first, last
           integer :: cellid
@@ -341,7 +343,7 @@
                 endif !< flag
             enddo
           endif !< nrtm
-        END SUBROUTINE
+        end subroutine FILL_VOXEL_LOCAL_PARTIAL
 
       !||====================================================================
       !||    fill_voxel_remote    ../engine/source/interfaces/intsort/fill_voxel.F90
@@ -351,6 +353,7 @@
       !||--- uses       -----------------------------------------------------
       !||    constant_mod         ../common_source/modules/constant_mod.F
       !||    extend_array_mod     ../common_source/tools/memory/extend_array.F90
+      !||    precision_mod        ../common_source/modules/precision_mod.F90
       !||====================================================================
         SUBROUTINE FILL_VOXEL_REMOTE( &
         & istart,&
@@ -369,11 +372,11 @@
         & last_nod, &
         & xrem,&
         & box_limit_main)
+          USE PRECISION_MOD, ONLY : WP
           USE CONSTANT_MOD
           USE EXTEND_ARRAY_MOD, ONLY : extend_array
 !-----------------------------------------------
           implicit none
-#include "my_real.inc"
 !-----------------------------------------------
 !   D u m m y   A r g u m e n t s
 !-----------------------------------------------
@@ -390,15 +393,15 @@
           integer, intent(inout) :: size_nod !< size of the nod arrays
           integer, intent(inout) :: nb_voxel_on !< number of voxels with nodes
           integer, dimension(:), allocatable, intent(inout) :: list_nb_voxel_on !< list of voxels with nodes
-          my_real, intent(in) :: xrem(s_xrem,nsnr) !< remote node data
-          my_real, intent(in) :: box_limit_main(12) !< bounding box of the main segments 
+          real(kind=WP), intent(in) :: xrem(s_xrem,nsnr) !< remote node data
+          real(kind=WP), intent(in) :: box_limit_main(12) !< bounding box of the main segments 
           integer, dimension(:), allocatable, intent(inout) :: last_nod
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
           integer :: i,j
-          my_real :: xmin, xmax, ymin, ymax, zmin, zmax
-          my_real :: xminb, xmaxb, yminb, ymaxb, zminb, zmaxb
+          real(kind=WP) :: xmin, xmax, ymin, ymax, zmin, zmax
+          real(kind=WP) :: xminb, xmaxb, yminb, ymaxb, zminb, zmaxb
           integer :: ix, iy, iz
           integer :: first, last
           integer :: cellid

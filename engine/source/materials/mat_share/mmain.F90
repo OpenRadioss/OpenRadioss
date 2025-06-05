@@ -231,7 +231,6 @@
 !-----------------------------------------------
 !   g l o b a l   p a r a m e t e r s
 !-----------------------------------------------
-#include "my_real.inc"
 #include "mvsiz_p.inc"
 #include "elements.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -239,8 +238,8 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           type(timer_), intent(inout) :: timers !< timers for /MON option
           integer, optional, intent(in) :: opt_mtn, opt_jcvt, opt_isorth,  opt_isorthg
-          my_real, intent(in) :: dt1
-          my_real, intent(in) :: tt
+          real(kind=WP), intent(in) :: dt1
+          real(kind=WP), intent(in) :: tt
           integer,dimension(102) :: idtmin
           integer, intent(inout) :: idel7nok
           integer, intent(in) :: maxfunc
@@ -288,87 +287,87 @@
           integer,intent(in) :: offset
           integer,dimension(n_var_iparg),intent(in) :: iparg1
           !
-          my_real,intent(in) :: dt2t
-          my_real, dimension(mvsiz,6), intent(inout)  :: svis
-          my_real, dimension(n_var_geo,numgeo), intent(inout) :: geo
-          my_real, dimension(n_var_pm,nummat), intent(inout) :: pm
-          my_real, dimension(3,numnod), intent(inout) :: v
-          my_real, dimension(3,numnod), intent(in) :: x
-          my_real, dimension(3,numnod), intent(in) :: w
-          my_real, dimension(numels), intent(inout) :: mssa
-          my_real, dimension(numels), intent(inout) :: dmels
-          my_real, dimension(stf), intent(inout) :: tf
-          my_real, dimension(sz_bufvois), intent(inout) :: bufvois
-          my_real,dimension(sbufmat),target,intent(inout) ::bufmat
+          real(kind=WP),intent(in) :: dt2t
+          real(kind=WP), dimension(mvsiz,6), intent(inout)  :: svis
+          real(kind=WP), dimension(n_var_geo,numgeo), intent(inout) :: geo
+          real(kind=WP), dimension(n_var_pm,nummat), intent(inout) :: pm
+          real(kind=WP), dimension(3,numnod), intent(inout) :: v
+          real(kind=WP), dimension(3,numnod), intent(in) :: x
+          real(kind=WP), dimension(3,numnod), intent(in) :: w
+          real(kind=WP), dimension(numels), intent(inout) :: mssa
+          real(kind=WP), dimension(numels), intent(inout) :: dmels
+          real(kind=WP), dimension(stf), intent(inout) :: tf
+          real(kind=WP), dimension(sz_bufvois), intent(inout) :: bufvois
+          real(kind=WP),dimension(sbufmat),target,intent(inout) ::bufmat
 
-          my_real, dimension(nel), intent(inout) :: varnl
-          my_real, dimension(nel), intent(inout) :: defp
+          real(kind=WP), dimension(nel), intent(inout) :: varnl
+          real(kind=WP), dimension(nel), intent(inout) :: defp
 
-          my_real, dimension(mvsiz), intent(inout) :: sigy
-          my_real, dimension(mvsiz), intent(inout) :: et
-          my_real, dimension(mvsiz), intent(inout) :: off
-          my_real, dimension(mvsiz), intent(inout) :: stifn
-          my_real, dimension(mvsiz,6), intent(inout) :: gama
-          my_real, dimension(mvsiz), intent(inout) :: vd2
-          my_real, dimension(mvsiz), intent(inout) :: deltax
-          my_real, dimension(mvsiz), intent(inout) :: vis
-          my_real, dimension(mvsiz), intent(inout) :: wxx
-          my_real, dimension(mvsiz), intent(inout) :: wyy
-          my_real, dimension(mvsiz), intent(inout) :: wzz
-          my_real, dimension(mvsiz), intent(inout) :: vdx
-          my_real, dimension(mvsiz), intent(inout) :: vdy
-          my_real, dimension(mvsiz), intent(inout) :: vdz
-          my_real, dimension(mvsiz), intent(inout) :: mumax
-          my_real, dimension(mvsiz), intent(inout) :: ssp_eq
-          my_real, dimension(mvsiz), intent(inout) :: aire
-          my_real, dimension(mvsiz), intent(inout) :: cxx
-          my_real, dimension(mvsiz), intent(inout) :: voln
-          my_real, dimension(mvsiz), intent(inout) :: fr_wav
-          my_real, dimension(mvsiz), intent(inout) :: fqvis
-          my_real, dimension(mvsiz), intent(inout) :: fvd2
-          my_real, dimension(mvsiz), intent(inout) :: fssp
-          my_real, dimension(mvsiz), intent(inout) :: fdeltax
-          my_real, dimension(mvsiz), intent(inout) :: conde
-          my_real, dimension(mvsiz), intent(inout) :: s1
-          my_real, dimension(mvsiz), intent(inout) :: s2
-          my_real, dimension(mvsiz), intent(inout) :: s3
-          my_real, dimension(mvsiz), intent(inout) :: s4
-          my_real, dimension(mvsiz), intent(inout) :: s5
-          my_real, dimension(mvsiz), intent(inout) :: s6
-          my_real, dimension(mvsiz), intent(inout) :: d4
-          my_real, dimension(mvsiz), intent(inout) :: d5
-          my_real, dimension(mvsiz), intent(inout) :: d6
-          my_real, dimension(mvsiz), intent(inout) :: dvol
-          my_real, dimension(mvsiz), intent(inout) :: qvis
-          my_real, dimension(mvsiz), intent(inout) :: dxx
-          my_real, dimension(mvsiz), intent(inout) :: dyy
-          my_real, dimension(mvsiz), intent(inout) :: dzz
-          my_real, dimension(mvsiz), intent(inout) :: rx
-          my_real, dimension(mvsiz), intent(inout) :: ry
-          my_real, dimension(mvsiz), intent(inout) :: rz
-          my_real, dimension(mvsiz), intent(inout) :: sx
-          my_real, dimension(mvsiz), intent(inout) :: sy
-          my_real, dimension(mvsiz), intent(inout) :: sz
-          my_real, dimension(mvsiz), intent(inout) :: dxy
-          my_real, dimension(mvsiz), intent(inout) :: dyx
-          my_real, dimension(mvsiz), intent(inout) :: dyz
-          my_real, dimension(mvsiz), intent(inout) :: dzy
-          my_real, dimension(mvsiz), intent(inout) :: dzx
-          my_real, dimension(mvsiz), intent(inout) :: dxz
-          my_real, dimension(mvsiz), intent(inout) :: mfxx
-          my_real, dimension(mvsiz), intent(inout) :: mfxy
-          my_real, dimension(mvsiz), intent(inout) :: mfxz
-          my_real, dimension(mvsiz), intent(inout) :: mfyx
-          my_real, dimension(mvsiz), intent(inout) :: mfyy
-          my_real, dimension(mvsiz), intent(inout) :: mfyz
-          my_real, dimension(mvsiz), intent(inout) :: mfzx
-          my_real, dimension(mvsiz), intent(inout) :: mfzy
-          my_real, dimension(mvsiz), intent(inout) :: mfzz
-          my_real, dimension(mvsiz), intent(inout) :: tempel
-          my_real, dimension(mvsiz), intent(inout) :: die
-          my_real, dimension(mvsiz), intent(inout) :: r3_dam
-          my_real, dimension(mvsiz), intent(inout) :: r4_amu
-          my_real, dimension(mvsiz), intent(inout) :: fheat
+          real(kind=WP), dimension(mvsiz), intent(inout) :: sigy
+          real(kind=WP), dimension(mvsiz), intent(inout) :: et
+          real(kind=WP), dimension(mvsiz), intent(inout) :: off
+          real(kind=WP), dimension(mvsiz), intent(inout) :: stifn
+          real(kind=WP), dimension(mvsiz,6), intent(inout) :: gama
+          real(kind=WP), dimension(mvsiz), intent(inout) :: vd2
+          real(kind=WP), dimension(mvsiz), intent(inout) :: deltax
+          real(kind=WP), dimension(mvsiz), intent(inout) :: vis
+          real(kind=WP), dimension(mvsiz), intent(inout) :: wxx
+          real(kind=WP), dimension(mvsiz), intent(inout) :: wyy
+          real(kind=WP), dimension(mvsiz), intent(inout) :: wzz
+          real(kind=WP), dimension(mvsiz), intent(inout) :: vdx
+          real(kind=WP), dimension(mvsiz), intent(inout) :: vdy
+          real(kind=WP), dimension(mvsiz), intent(inout) :: vdz
+          real(kind=WP), dimension(mvsiz), intent(inout) :: mumax
+          real(kind=WP), dimension(mvsiz), intent(inout) :: ssp_eq
+          real(kind=WP), dimension(mvsiz), intent(inout) :: aire
+          real(kind=WP), dimension(mvsiz), intent(inout) :: cxx
+          real(kind=WP), dimension(mvsiz), intent(inout) :: voln
+          real(kind=WP), dimension(mvsiz), intent(inout) :: fr_wav
+          real(kind=WP), dimension(mvsiz), intent(inout) :: fqvis
+          real(kind=WP), dimension(mvsiz), intent(inout) :: fvd2
+          real(kind=WP), dimension(mvsiz), intent(inout) :: fssp
+          real(kind=WP), dimension(mvsiz), intent(inout) :: fdeltax
+          real(kind=WP), dimension(mvsiz), intent(inout) :: conde
+          real(kind=WP), dimension(mvsiz), intent(inout) :: s1
+          real(kind=WP), dimension(mvsiz), intent(inout) :: s2
+          real(kind=WP), dimension(mvsiz), intent(inout) :: s3
+          real(kind=WP), dimension(mvsiz), intent(inout) :: s4
+          real(kind=WP), dimension(mvsiz), intent(inout) :: s5
+          real(kind=WP), dimension(mvsiz), intent(inout) :: s6
+          real(kind=WP), dimension(mvsiz), intent(inout) :: d4
+          real(kind=WP), dimension(mvsiz), intent(inout) :: d5
+          real(kind=WP), dimension(mvsiz), intent(inout) :: d6
+          real(kind=WP), dimension(mvsiz), intent(inout) :: dvol
+          real(kind=WP), dimension(mvsiz), intent(inout) :: qvis
+          real(kind=WP), dimension(mvsiz), intent(inout) :: dxx
+          real(kind=WP), dimension(mvsiz), intent(inout) :: dyy
+          real(kind=WP), dimension(mvsiz), intent(inout) :: dzz
+          real(kind=WP), dimension(mvsiz), intent(inout) :: rx
+          real(kind=WP), dimension(mvsiz), intent(inout) :: ry
+          real(kind=WP), dimension(mvsiz), intent(inout) :: rz
+          real(kind=WP), dimension(mvsiz), intent(inout) :: sx
+          real(kind=WP), dimension(mvsiz), intent(inout) :: sy
+          real(kind=WP), dimension(mvsiz), intent(inout) :: sz
+          real(kind=WP), dimension(mvsiz), intent(inout) :: dxy
+          real(kind=WP), dimension(mvsiz), intent(inout) :: dyx
+          real(kind=WP), dimension(mvsiz), intent(inout) :: dyz
+          real(kind=WP), dimension(mvsiz), intent(inout) :: dzy
+          real(kind=WP), dimension(mvsiz), intent(inout) :: dzx
+          real(kind=WP), dimension(mvsiz), intent(inout) :: dxz
+          real(kind=WP), dimension(mvsiz), intent(inout) :: mfxx
+          real(kind=WP), dimension(mvsiz), intent(inout) :: mfxy
+          real(kind=WP), dimension(mvsiz), intent(inout) :: mfxz
+          real(kind=WP), dimension(mvsiz), intent(inout) :: mfyx
+          real(kind=WP), dimension(mvsiz), intent(inout) :: mfyy
+          real(kind=WP), dimension(mvsiz), intent(inout) :: mfyz
+          real(kind=WP), dimension(mvsiz), intent(inout) :: mfzx
+          real(kind=WP), dimension(mvsiz), intent(inout) :: mfzy
+          real(kind=WP), dimension(mvsiz), intent(inout) :: mfzz
+          real(kind=WP), dimension(mvsiz), intent(inout) :: tempel
+          real(kind=WP), dimension(mvsiz), intent(inout) :: die
+          real(kind=WP), dimension(mvsiz), intent(inout) :: r3_dam
+          real(kind=WP), dimension(mvsiz), intent(inout) :: r4_amu
+          real(kind=WP), dimension(mvsiz), intent(inout) :: fheat
           target :: varnl,defp,tempel
 
           type(ttable) table(*)
@@ -390,50 +389,50 @@
           integer nvartmp_eos
 
           ! Float/Double
-          my_real facq0,e1,e2,e3,e4,e5,e6,alpha,tref,tmelt
-          my_real pnew(mvsiz)
-          my_real psh(mvsiz)
-          my_real p0(mvsiz)
-          my_real off_old(mvsiz),amu(mvsiz), amu2(mvsiz), c1(mvsiz), c2(mvsiz), &
+          real(kind=WP) facq0,e1,e2,e3,e4,e5,e6,alpha,tref,tmelt
+          real(kind=WP) pnew(mvsiz)
+          real(kind=WP) psh(mvsiz)
+          real(kind=WP) p0(mvsiz)
+          real(kind=WP) off_old(mvsiz),amu(mvsiz), amu2(mvsiz), c1(mvsiz), c2(mvsiz), &
           &       c3(mvsiz), c4(mvsiz), c5(mvsiz),c6(mvsiz),                    &
           &       einc(mvsiz), rho0(mvsiz),vol_avg(mvsiz),                      &
           &       df(mvsiz), pc(mvsiz),espe(mvsiz),tmu(mvsiz),                  &
           &       tx(mvsiz)    ,ty(mvsiz)    ,tz(mvsiz) 
 
-          my_real ss1(mvsiz),ss2(mvsiz), ss3(mvsiz),ss4(mvsiz),ss5(mvsiz),ss6(mvsiz)
-          my_real r11(mvsiz),r12(mvsiz),r13(mvsiz),r21(mvsiz),r22(mvsiz),r23(mvsiz),r31(mvsiz),r32(mvsiz),r33(mvsiz)
-          my_real dpla(mvsiz),tstar(mvsiz),epsp(mvsiz),xk(mvsiz),vm(nel),vm0(nel), &
+          real(kind=WP) ss1(mvsiz),ss2(mvsiz), ss3(mvsiz),ss4(mvsiz),ss5(mvsiz),ss6(mvsiz)
+          real(kind=WP) r11(mvsiz),r12(mvsiz),r13(mvsiz),r21(mvsiz),r22(mvsiz),r23(mvsiz),r31(mvsiz),r32(mvsiz),r33(mvsiz)
+          real(kind=WP) dpla(mvsiz),tstar(mvsiz),epsp(mvsiz),xk(mvsiz),vm(nel),vm0(nel), &
           &       tempel0(mvsiz), fscal_alpha , sigl(mvsiz,6)
-          my_real es1(mvsiz), es2(mvsiz),  es3(mvsiz),  es4(mvsiz),  es5(mvsiz),   &
+          real(kind=WP) es1(mvsiz), es2(mvsiz),  es3(mvsiz),  es4(mvsiz),  es5(mvsiz),   &
           &       es6(mvsiz), eint(mvsiz), dpdm(mvsiz), dpde(mvsiz),ecold(mvsiz),  &
           &       vol(mvsiz),al_imp(mvsiz),signor(mvsiz,6)
 
-          my_real ep1(mvsiz),ep2(mvsiz),ep3(mvsiz),ep4(mvsiz),ep5(mvsiz),ep6(mvsiz)
-          my_real sv1(mvsiz),sv2(mvsiz),sv3(mvsiz),sv4(mvsiz),sv5(mvsiz),sv6(mvsiz)
-          my_real svo1(mvsiz),svo2(mvsiz),svo3(mvsiz),svo4(mvsiz),svo5(mvsiz),svo6(mvsiz)
+          real(kind=WP) ep1(mvsiz),ep2(mvsiz),ep3(mvsiz),ep4(mvsiz),ep5(mvsiz),ep6(mvsiz)
+          real(kind=WP) sv1(mvsiz),sv2(mvsiz),sv3(mvsiz),sv4(mvsiz),sv5(mvsiz),sv6(mvsiz)
+          real(kind=WP) svo1(mvsiz),svo2(mvsiz),svo3(mvsiz),svo4(mvsiz),svo5(mvsiz),svo6(mvsiz)
 
-          my_real bidon1,bidon5,bid1(mvsiz), bid2(mvsiz),eth(mvsiz),        &
+          real(kind=WP) bidon1,bidon5,bid1(mvsiz), bid2(mvsiz),eth(mvsiz),        &
           &       stor1, stor2, stor3, stor4, stor5, stor6,&
           &       sigkk(mvsiz), epsth(mvsiz), rhoref(mvsiz), rhosp(mvsiz),user_uelr(mvsiz)
-          my_real alogey(mvsiz), pold(mvsiz),                                      &
+          real(kind=WP) alogey(mvsiz), pold(mvsiz),                                      &
           &       p01(mvsiz), p02(mvsiz), e01(mvsiz), e02(mvsiz),                  &
           &       er1v(mvsiz), er2v(mvsiz), wdr1v(mvsiz), wdr2v(mvsiz),w1(mvsiz),  &
           &       heat_meca_l,volg(mvsiz),de1(nel),de2(nel),de3(nel),de4(nel),     &
           &       de5(nel),de6(nel),vecnul(nel)
 
-          my_real q1,q2,q3,str1,str2,str3,str4,str5,str6,wxxf,wyyf,wzzf
+          real(kind=WP) q1,q2,q3,str1,str2,str3,str4,str5,str6,wxxf,wyyf,wzzf
 
-          my_real, dimension(nel), target :: le_max
+          real(kind=WP), dimension(nel), target :: le_max
           integer, dimension(:) ,pointer  :: itabl_fail
-          my_real, dimension(:) ,pointer  :: strd1,strd2,el_len,el_pla
-          my_real :: Pturb(nel)
+          real(kind=WP), dimension(:) ,pointer  :: strd1,strd2,el_len,el_pla
+          real(kind=WP) :: Pturb(nel)
           logical :: logical_userl_avail, l_mulaw_called, l_eos_called
 !
           character option*256
           integer length
           target :: deltax,vecnul
 !--------------------------------------------
-          my_real, external :: finter
+          real(kind=WP), external :: finter
 !--------------------------------------------
           type(l_bufel_)  ,pointer :: lbuf
           type(g_bufel_)  ,pointer :: gbuf
@@ -442,12 +441,12 @@
           type(buf_visc_) ,pointer :: vbuf
           type(buf_eos_)  ,pointer :: ebuf
           type(buf_damp_range_)  ,pointer :: damp_buf
-          my_real,&
+          real(kind=WP),&
           &dimension(:), pointer  :: uvarf,uparamf,dfmax,tdel,damini
-          my_real ,dimension(:), pointer  :: el_temp
+          real(kind=WP) ,dimension(:), pointer  :: el_temp
 !     bolt preloading
           integer iboltp, nbpreld
-          my_real,&
+          real(kind=WP),&
           &dimension(:), pointer  :: bpreld
           integer                  :: dmg_flag
           integer :: lft,mtn,llt,nft,iad,ity,npt,jale,ismstr,&
@@ -455,11 +454,11 @@
           &irep,iint,igtyp,jcvt,isrot,israt,isorth,isorthg,icsen,ifailure,&
           &jsms, ihet, ipartsph,lf_dammx,niparam
           integer, dimension(:) ,pointer  :: iparamf
-          my_real :: cv,cp     !< specific heat capacity (J/K)
-          my_real :: mcv       !< mass.Cv (J/K)
-          my_real :: qheat     !< HEat due to pseudo-viscosity
-          my_real :: dtemp     !< temperature increment
-          my_real :: qold(nel) !< pseudo viscosity terms from previous cycle
+          real(kind=WP) :: cv,cp     !< specific heat capacity (J/K)
+          real(kind=WP) :: mcv       !< mass.Cv (J/K)
+          real(kind=WP) :: qheat     !< HEat due to pseudo-viscosity
+          real(kind=WP) :: dtemp     !< temperature increment
+          real(kind=WP) :: qold(nel) !< pseudo viscosity terms from previous cycle
 !-----------------------------------------------
 !   s o u r c e   l i n e s
 !-----------------------------------------------

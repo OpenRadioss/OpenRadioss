@@ -19,7 +19,7 @@
 !Copyright>
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
-!Copyright>    !ommercial version may interest you: https://www.altair.com/radioss/.
+!Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
       !||    visc_plas_mod   ../engine/source/materials/visc/visc_plas.F90
       !||--- called by ------------------------------------------------------
@@ -52,6 +52,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           use constant_mod , only: four_over_3, half, two, three,third
           USE visc_param_mod, ONLY: visc_param_
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -59,37 +60,36 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer,                                   intent(in)    :: nel                      !< number of elements
-          my_real, dimension(nel) ,                  intent(in)    :: depspxx                   !< incremetal strain xx
-          my_real, dimension(nel) ,                  intent(in)    :: depspyy                   !< incremenatal strain yy
-          my_real, dimension(nel) ,                  intent(in)    :: depspzz                   !< strain zz
-          my_real, dimension(nel) ,                  intent(in)    :: depspxy                   !< strain xy
-          my_real, dimension(nel) ,                  intent(in)    :: depspyz                   !< strain yz
-          my_real, dimension(nel) ,                  intent(in)    :: depspzx                   !< strain zx
-          my_real, dimension(nel) ,                  intent(in) :: sigvoxx                      !< old damp stress xx
-          my_real, dimension(nel) ,                  intent(in) :: sigvoyy                      !< old damp stress yy
-          my_real, dimension(nel) ,                  intent(in) :: sigvozz                      !< old damp stress zz
-          my_real, dimension(nel) ,                  intent(in) :: sigvoxy                      !< old damp stress xy
-          my_real, dimension(nel) ,                  intent(in) :: sigvoyz                      !< old damp stress yz
-          my_real, dimension(nel) ,                  intent(in) :: sigvozx                      !< old damp stress zx 
-          my_real, dimension(nel) ,                  intent(out) :: sigvxx                      !< damp stress xx
-          my_real, dimension(nel) ,                  intent(out) :: sigvyy                      !< damp stress yy
-          my_real, dimension(nel) ,                  intent(out) :: sigvzz                      !< damp stress zz
-          my_real, dimension(nel) ,                  intent(out) :: sigvxy                      !< damp stress xy
-          my_real, dimension(nel) ,                  intent(out) :: sigvyz                      !< damp stress yz
-          my_real, dimension(nel) ,                  intent(out) :: sigvzx                      !< damp stress zx   
-          my_real, dimension(nel) ,                  intent(inout) :: soundsp                   !< sound speed   
-          my_real, dimension(nel) ,                  intent(in) :: rho                          !< density
+          real(kind=WP), dimension(nel) ,                  intent(in)    :: depspxx                   !< incremetal strain xx
+          real(kind=WP), dimension(nel) ,                  intent(in)    :: depspyy                   !< incremenatal strain yy
+          real(kind=WP), dimension(nel) ,                  intent(in)    :: depspzz                   !< strain zz
+          real(kind=WP), dimension(nel) ,                  intent(in)    :: depspxy                   !< strain xy
+          real(kind=WP), dimension(nel) ,                  intent(in)    :: depspyz                   !< strain yz
+          real(kind=WP), dimension(nel) ,                  intent(in)    :: depspzx                   !< strain zx
+          real(kind=WP), dimension(nel) ,                  intent(in) :: sigvoxx                      !< old damp stress xx
+          real(kind=WP), dimension(nel) ,                  intent(in) :: sigvoyy                      !< old damp stress yy
+          real(kind=WP), dimension(nel) ,                  intent(in) :: sigvozz                      !< old damp stress zz
+          real(kind=WP), dimension(nel) ,                  intent(in) :: sigvoxy                      !< old damp stress xy
+          real(kind=WP), dimension(nel) ,                  intent(in) :: sigvoyz                      !< old damp stress yz
+          real(kind=WP), dimension(nel) ,                  intent(in) :: sigvozx                      !< old damp stress zx 
+          real(kind=WP), dimension(nel) ,                  intent(out) :: sigvxx                      !< damp stress xx
+          real(kind=WP), dimension(nel) ,                  intent(out) :: sigvyy                      !< damp stress yy
+          real(kind=WP), dimension(nel) ,                  intent(out) :: sigvzz                      !< damp stress zz
+          real(kind=WP), dimension(nel) ,                  intent(out) :: sigvxy                      !< damp stress xy
+          real(kind=WP), dimension(nel) ,                  intent(out) :: sigvyz                      !< damp stress yz
+          real(kind=WP), dimension(nel) ,                  intent(out) :: sigvzx                      !< damp stress zx   
+          real(kind=WP), dimension(nel) ,                  intent(inout) :: soundsp                   !< sound speed   
+          real(kind=WP), dimension(nel) ,                  intent(in) :: rho                          !< density
           type(visc_param_) ,                         intent(in) :: VISC 
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i
-          my_real :: g,sigy, depxx, depyy, depzz, dav, sigvmises, scale,twog,trace
+          real(kind=WP) :: g,sigy, depxx, depyy, depzz, dav, sigvmises, scale,twog,trace
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------

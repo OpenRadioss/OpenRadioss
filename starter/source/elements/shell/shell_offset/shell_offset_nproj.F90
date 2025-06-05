@@ -48,10 +48,8 @@
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use constant_mod, only : zero,one,em20
-!
+          use precision_mod, only : WP
           implicit none
-!
-#include "my_real.inc"
 ! ------------------------------------------------------------------------------
 ! Arguments
 ! ------------------------------------------------------------------------------
@@ -60,15 +58,15 @@
           integer, intent(in   ),dimension(numnod)    :: itagn      !< itag work array
           integer, intent(in   )                      :: nshoset    !< number of offset shell
           integer, intent(in   ),dimension(4,nshoset) :: ix_offset  !< shell connectivity
-          my_real, intent(in   ),dimension(numnod)    :: shoset_n   !< nodal offset
-          my_real, intent(inout),dimension(3,numnod)  :: xyz        !< node coordinates
+          real(kind=WP), intent(in   ),dimension(numnod)    :: shoset_n   !< nodal offset
+          real(kind=WP), intent(inout),dimension(3,numnod)  :: xyz        !< node coordinates
 !-----------------------------------------------
 !   l o c a l   v a r i a b l e s
 !-----------------------------------------------
-          integer i,j,k,n,nnod
-          my_real r(3),s(3),t(3),xv(3,4),norm2
-          double precision  dx(3)
-          my_real, dimension(:,:), allocatable   :: norm_nod
+          integer :: i,j,k,n,nnod
+          real(kind=WP) :: r(3),s(3),t(3),xv(3,4),norm2
+          double precision  :: dx(3)
+          real(kind=WP), dimension(:,:), allocatable   :: norm_nod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------

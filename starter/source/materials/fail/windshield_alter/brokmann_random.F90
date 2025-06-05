@@ -56,13 +56,13 @@
       use fail_param_mod
       use stack_mod
       use constant_mod ,only : zero,half,one,two,pi,em6,ep06
+      use precision_mod, only : WP
 ! ---------------------------------------------------------------------------------------------
           implicit none
 ! ---------------------------------------------------------------------------------------------
 !     included files
 ! ---------------------------------------------------------------------------------------------
 
-#include "my_real.inc"
 
 !-----------------------------------------------
 !    D u m m y   A r g u m e n t s
@@ -87,7 +87,7 @@
       integer :: seed,i_seed
       integer :: nshell,nshell_3n,nshell_4n,nix
       integer :: imat,pid,pidlay,ippid
-      my_real :: randp
+      real(kind=WP) :: randp
       integer ,dimension(:) ,allocatable :: nixel,elmat
       integer ,dimension(:) ,allocatable :: a_seed
 !=======================================================================

@@ -20,15 +20,6 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!Chd|====================================================================
-!Chd|  matparam_def_mod              modules/mat_elem/matparam_def_mod.F90
-!Chd|-- called by -----------
-!Chd|-- calls ---------------
-!Chd|        fail_param_mod                modules/mat_elem/fail_param_mod.F90
-!Chd|        names_and_titles_mod          modules/names_and_titles_mod.F90
-!Chd|        table4d_mod                   modules/table4d_mod.F90         
-!Chd|        visc_param_mod                modules/mat_elem/visc_param_mod.F90
-!Chd|====================================================================
       !||====================================================================
       !||    matparam_def_mod                    ../common_source/modules/mat_elem/matparam_def_mod.F90
       !||--- called by ------------------------------------------------------
@@ -343,12 +334,13 @@
       use names_and_titles_mod
       use multimat_param_mod
       use eos_param_mod
-! ----------------------------------------------------------------------------------------------------------------------
+!----------------------------------------------------------------------------------------------------------------------
 !     included files
 !----------------------------------------------------------------------- 
       implicit none
 
-#include "my_real.inc"
+      private :: WP
+      
 
 !=======================================================================      
   !! \brief module to define data structure for all material model parameters 
@@ -397,17 +389,17 @@
         ! --------------------------------- !<
         integer     :: nmod                 !< number of rupture/damage modes
         ! --------------------------------- !
-        my_real     :: rho                  !< reference density
-        my_real     :: rho0                 !< initial density        
-        my_real     :: young                !< Young modulus        
-        my_real     :: bulk                 !< bulk modulus      
-        my_real     :: shear                !< shear modulus 
-        my_real     :: nu                   !< Poisson's ratio     
-        my_real     :: stiff_contact        !< initial contact stiffness 
-        my_real     :: stiff_hglass         !< initial hourglass stiffness      
-        my_real     :: stiff_tstep          !< initial stiffness for time step stability
+        real(kind=WP)     :: rho                  !< reference density
+        real(kind=WP)     :: rho0                 !< initial density        
+        real(kind=WP)     :: young                !< Young modulus        
+        real(kind=WP)     :: bulk                 !< bulk modulus      
+        real(kind=WP)     :: shear                !< shear modulus 
+        real(kind=WP)     :: nu                   !< Poisson's ratio     
+        real(kind=WP)     :: stiff_contact        !< initial contact stiffness 
+        real(kind=WP)     :: stiff_hglass         !< initial hourglass stiffness      
+        real(kind=WP)     :: stiff_tstep          !< initial stiffness for time step stability
 !
-        my_real                   ,dimension(:) ,allocatable :: uparam !< real value material parameter table (nuparam)
+        real(kind=WP)                   ,dimension(:) ,allocatable :: uparam !< real value material parameter table (nuparam)
         integer                   ,dimension(:) ,allocatable :: iparam !< integer value material parameter table (niparam)
         type (table_4d_)          ,dimension(:) ,allocatable :: table  !< local function tables
         character(len=nchartitle) ,dimension(:) ,allocatable :: mode   !< damage mode keywords

@@ -59,14 +59,11 @@
           use GROUPDEF_MOD , only: GROUP_
           use constant_mod , only: pi,one,zero,two,half,em20
           use damping_vref_sum6_rby_mod
+          use precision_mod , only: WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Included files
-! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -87,16 +84,16 @@
           integer,                                   intent(in) :: numskw                      !< number of skews
           integer,                                   intent(in) :: dim                         !< first dimension of array damp
           integer,                                   intent(in) :: size_rby6_c                 !< dimension of array rby6c
-          my_real,                                   intent(in) :: v(3,numnod)                 !< nodal velocity
-          my_real,                                   intent(in) :: vr(3,numnod)                !< nodal rotational velocity
-          my_real,                                intent(inout) :: a(3,numnod)                 !< nodal force
-          my_real,                                   intent(in) :: x(3,numnod)                 !< node position
-          my_real,                                   intent(in) :: ms(numnod)                  !< nodal mass
-          my_real,                                intent(inout) :: dampr(nrdamp,ndamp)         !< main structure for option /DAMP
-          my_real,                                   intent(in) :: dt1                         !< time step
-          my_real,                                   intent(in) :: tt                          !< current time
-          my_real,                                intent(inout) :: damp(dim,numnod)            !< damping force at previous time step
-          my_real,                                   intent(in) :: skew(lskew,numskw)          !< main structure for skews
+          real(kind=WP),                                   intent(in) :: v(3,numnod)                 !< nodal velocity
+          real(kind=WP),                                   intent(in) :: vr(3,numnod)                !< nodal rotational velocity
+          real(kind=WP),                                intent(inout) :: a(3,numnod)                 !< nodal force
+          real(kind=WP),                                   intent(in) :: x(3,numnod)                 !< node position
+          real(kind=WP),                                   intent(in) :: ms(numnod)                  !< nodal mass
+          real(kind=WP),                                intent(inout) :: dampr(nrdamp,ndamp)         !< main structure for option /DAMP
+          real(kind=WP),                                   intent(in) :: dt1                         !< time step
+          real(kind=WP),                                   intent(in) :: tt                          !< current time
+          real(kind=WP),                                intent(inout) :: damp(dim,numnod)            !< damping force at previous time step
+          real(kind=WP),                                   intent(in) :: skew(lskew,numskw)          !< main structure for skews
           double precision,                       intent(inout) :: wfext                       !< external forces work
           double precision,                       intent(inout) :: rby6(8,6,nrbykin)           !< working array for rigid body assembly
           double precision,                       intent(inout) :: rby6_c(2,6,size_rby6_c)     !< working array for rigid body damping assembly
@@ -104,7 +101,7 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: nd,id,igr,isk,id_rby,id_func,im,nsn
-          my_real :: freq,damp_a(3),damp_a2(3),fact,get_u_func,dxdy,dtini,t_start,t_stop
+          real(kind=WP) :: freq,damp_a(3),damp_a2(3),fact,get_u_func,dxdy,dtini,t_start,t_stop
           double precision :: dw
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   External functions

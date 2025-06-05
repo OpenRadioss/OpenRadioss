@@ -46,10 +46,9 @@
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use constant_mod, only : zero
+          use precision_mod, only : WP
 !
           implicit none
-!
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -58,12 +57,12 @@
           integer, intent(in   )                      :: numnod         !< number of node
           integer, intent(in   ),dimension(4,nshell)  :: ix_offset        !< shell connectivity
           integer, intent(inout),dimension(numnod)     :: itagn         !< itag work array
-          my_real, intent(in   ),dimension(nshell)    :: sh_oset       !< elementary offset
-          my_real, intent(inout),dimension(numnod)     :: oset_n        !< nodal offset
+          real(kind=WP), intent(in   ),dimension(nshell)    :: sh_oset       !< elementary offset
+          real(kind=WP), intent(inout),dimension(numnod)     :: oset_n        !< nodal offset
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer i,k,n,nnod
+          integer :: i,k,n,nnod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------

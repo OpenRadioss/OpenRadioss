@@ -44,8 +44,9 @@
       !||    wrrestp          ../engine/source/output/restart/wrrestp.F
       !||====================================================================
       module rbe3_mod
+         use precision_mod, only: WP
+         implicit none
          ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
          
                   integer, parameter :: irbe3_variables = 10      !< first dimension of irbe3
                   integer, parameter :: rrpen_variables = 10      !< dimension of all rrbe3pen_* variables
@@ -58,16 +59,16 @@
                      integer fr_rbe3_sz
                      integer, DIMENSION(:), ALLOCATABLE :: iad_rbe3  !< #entities to communicate / points to fr_rbe3
                      integer, DIMENSION(:), ALLOCATABLE :: fr_rbe3   !< entities to communicate
-                     my_real ,dimension(:), allocatable :: fr_rbe3mp !< entities to communicate
+                     real(kind=WP) ,dimension(:), allocatable :: fr_rbe3mp !< entities to communicate
 
                   end type rbe3_mpi
                   type rbe3_pen
                     integer nrbe3_lp                                        !< number of RBE3 of penalty formulation (local)                           
-                    my_real , dimension(:)   , allocatable ::  rrbe3pen_vi  !< damp(nrbe3_lp)
-                    my_real , dimension(:,:) , allocatable ::  rrbe3pen_d   !< disp(3*nrbe3_lp)
-                    my_real , dimension(:,:) , allocatable ::  rrbe3pen_m   !< mom(3*nrbe3_lp)
-                    my_real , dimension(:,:) , allocatable ::  rrbe3pen_stf !< stif(2*nrbe3_lp)
-                    my_real , dimension(:)   , allocatable ::  rrbe3pen_fac !< stif_fac(nrbe3_lp) stif factor stability
+                    real(kind=WP) , dimension(:)   , allocatable ::  rrbe3pen_vi  !< damp(nrbe3_lp)
+                    real(kind=WP) , dimension(:,:) , allocatable ::  rrbe3pen_d   !< disp(3*nrbe3_lp)
+                    real(kind=WP) , dimension(:,:) , allocatable ::  rrbe3pen_m   !< mom(3*nrbe3_lp)
+                    real(kind=WP) , dimension(:,:) , allocatable ::  rrbe3pen_stf !< stif(2*nrbe3_lp)
+                    real(kind=WP) , dimension(:)   , allocatable ::  rrbe3pen_fac !< stif_fac(nrbe3_lp) stif factor stability
 
                   end type rbe3_pen
          
@@ -78,13 +79,13 @@
 !                    integer nrbe3_gp                               !< number of RBE3 of penalty formulation (global)
                     integer,dimension(:,:),allocatable ::  irbe3   !< irbe3(irbe3_variables,nrbe3)  IRBE3 main array
                     integer,dimension(:),allocatable   ::  lrbe3   !< lrbe3 array IRBE3 main array
-                    my_real ,dimension(:), allocatable ::  frbe3   !< RBE3 Float variables
+                    real(kind=WP) ,dimension(:), allocatable ::  frbe3   !< RBE3 Float variables
                     integer :: irotg                               !< Global Rotational flag, >0 if one RBE3 has rot option, 0 else.
                     integer :: irotg_sz                            !< Number of values to communicate : if irotg==0 -> 5,  else -> 10.
                     ! Buffers for RBE3
                     integer nmt                                    !< Number of unique main nodes
                     integer :: rrbe3_sz
-                    my_real, dimension(:), allocatable :: rrbe3
+                    real(kind=WP), dimension(:), allocatable :: rrbe3
                     integer :: rrbe3_pon_sz
                     double precision, dimension(:), allocatable :: rrbe3_pon
 !

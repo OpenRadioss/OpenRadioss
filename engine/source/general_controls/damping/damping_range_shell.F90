@@ -19,7 +19,7 @@
 !Copyright>
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
-!Copyright>    !ommercial version may interest you: https://www.altair.com/radioss/.
+!Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
       !||    damping_range_shell_mod   ../engine/source/general_controls/damping/damping_range_shell.F90
       !||--- called by ------------------------------------------------------
@@ -55,6 +55,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           use constant_mod , only: one,zero, third, four_over_3, half, two,em20,three,two_third
           use elbufdef_mod , only: buf_damp_range_
+          use precision_mod , only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -62,7 +63,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -70,33 +70,33 @@
           integer,                                   intent(in)    :: nuvarv                   !< number of variables in buf_visc
           integer,                                   intent(in)    :: nvar_damp                !< number of variables in buf_visc used for damping        
           integer,                                   intent(in)    :: flag_incr                !< flag for viscous stress increment
-          my_real, dimension(nel,nuvarv) ,           intent(inout) :: uvarv                    !< buffer for viscous variables
-          my_real,                                   intent(in)    :: timestep                 !< time step
-          my_real,                                   intent(in)    :: young                    !< young modulus
-          my_real,                                   intent(in)    :: shear_mod                !< shear modulus
-          my_real, dimension(nel) ,                  intent(in)    :: epspxx                   !< strain xx
-          my_real, dimension(nel) ,                  intent(in)    :: epspyy                   !< strain yy
-          my_real, dimension(nel) ,                  intent(in)    :: epspxy                   !< strain xy
-          my_real, dimension(nel) ,                  intent(in)    :: epspyz                   !< strain yz
-          my_real, dimension(nel) ,                  intent(in)    :: epspzx                   !< strain zx
-          my_real, dimension(nel) ,                  intent(inout) :: sigvxx                   !< damp stress xx
-          my_real, dimension(nel) ,                  intent(inout) :: sigvyy                   !< damp stress yy
-          my_real, dimension(nel) ,                  intent(inout) :: sigvxy                   !< damp stress zz
-          my_real, dimension(nel) ,                  intent(inout) :: sigvyz                   !< damp stress xy
-          my_real, dimension(nel) ,                  intent(inout) :: sigvzx                   !< damp stress yz 
-          my_real, dimension(nel) ,                  intent(in)    :: rho0                     !< density
-          my_real, dimension(nel) ,                  intent(inout) :: soundsp                  !< sound speed    
-          my_real, dimension(nel) ,                  intent(in)    :: off                      !< off flag
-          my_real, dimension(nel) ,                  intent(in)    :: etse                     !< tangent young modulus coefficient
+          real(kind=WP), dimension(nel,nuvarv) ,           intent(inout) :: uvarv                    !< buffer for viscous variables
+          real(kind=WP),                                   intent(in)    :: timestep                 !< time step
+          real(kind=WP),                                   intent(in)    :: young                    !< young modulus
+          real(kind=WP),                                   intent(in)    :: shear_mod                !< shear modulus
+          real(kind=WP), dimension(nel) ,                  intent(in)    :: epspxx                   !< strain xx
+          real(kind=WP), dimension(nel) ,                  intent(in)    :: epspyy                   !< strain yy
+          real(kind=WP), dimension(nel) ,                  intent(in)    :: epspxy                   !< strain xy
+          real(kind=WP), dimension(nel) ,                  intent(in)    :: epspyz                   !< strain yz
+          real(kind=WP), dimension(nel) ,                  intent(in)    :: epspzx                   !< strain zx
+          real(kind=WP), dimension(nel) ,                  intent(inout) :: sigvxx                   !< damp stress xx
+          real(kind=WP), dimension(nel) ,                  intent(inout) :: sigvyy                   !< damp stress yy
+          real(kind=WP), dimension(nel) ,                  intent(inout) :: sigvxy                   !< damp stress zz
+          real(kind=WP), dimension(nel) ,                  intent(inout) :: sigvyz                   !< damp stress xy
+          real(kind=WP), dimension(nel) ,                  intent(inout) :: sigvzx                   !< damp stress yz 
+          real(kind=WP), dimension(nel) ,                  intent(in)    :: rho0                     !< density
+          real(kind=WP), dimension(nel) ,                  intent(inout) :: soundsp                  !< sound speed    
+          real(kind=WP), dimension(nel) ,                  intent(in)    :: off                      !< off flag
+          real(kind=WP), dimension(nel) ,                  intent(in)    :: etse                     !< tangent young modulus coefficient
           type(buf_damp_range_)   ,                  intent(in)    :: damp_buf                 !< damping frequency range buffer
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i, j, ii, offset
-          my_real :: g, rbulk,h0(6),h(6,3),hp0,dav,fac,epxx, epyy, epzz,p,p_old
-          my_real, dimension(nel) :: a1,a2,a3,epspzz,et
-          my_real, dimension(3)   :: aa, bb, gv, kv, beta, aak, bbk, betak, hp
-          my_real, dimension(6)   :: s,s_old
+          real(kind=WP) :: g, rbulk,h0(6),h(6,3),hp0,dav,fac,epxx, epyy, epzz,p,p_old
+          real(kind=WP), dimension(nel) :: a1,a2,a3,epspzz,et
+          real(kind=WP), dimension(3)   :: aa, bb, gv, kv, beta, aak, bbk, betak, hp
+          real(kind=WP), dimension(6)   :: s,s_old
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------

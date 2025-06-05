@@ -305,10 +305,10 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
 #ifdef _OPENMP
-          real(kind=8) omp_get_wtime
+          real(kind=8) :: omp_get_wtime
           external omp_get_wtime
 #endif
-          integer j
+          integer :: j
 ! ----------------------------------------------------------------------------------------------------------------------
           allocate(T%timer(4,max_nb_timer))
           allocate(T%cputime(max_nb_timer))
@@ -331,7 +331,7 @@
           t%omp_starting_time = omp_get_wtime( )
 #endif
           RETURN
-        END
+        end subroutine initime
 ! ======================================================================================================================
       !||====================================================================
       !||    startime                ../engine/source/system/timer_mod.F90
@@ -421,7 +421,7 @@
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
 #ifdef _OPENMP
-          real(kind=8) OMP_GET_WTIME
+          real(kind=8) :: OMP_GET_WTIME
           external OMP_GET_WTIME
 #endif
           call my_etime(t%timer(1,event))
@@ -432,7 +432,7 @@
           if(t%clockini(event)< 0 ) call system_clock(t%clockini(event))
 #endif
           return
-        end
+        end subroutine startime
 
 ! ======================================================================================================================
       !||====================================================================
@@ -517,15 +517,15 @@
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           type(timer_) :: t
-          integer event
+          integer :: event
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer clock1, clockrate, nbmax
-          double precision  secs
+          integer :: clock1, clockrate, nbmax
+          double precision  :: secs
           real(kind=8) :: omp_ending_time
 #ifdef _OPENMP
-          real(kind=8) omp_get_wtime
+          real(kind=8) :: omp_get_wtime
           external omp_get_wtime
 #endif
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -548,7 +548,7 @@
 #endif
           t%realtime(event)=t%realtime(event)+secs
           return
-        end
+        end subroutine stoptime
 
 
       end module timer_mod

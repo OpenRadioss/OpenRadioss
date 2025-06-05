@@ -55,13 +55,13 @@
 !   M o d u l e s
 !-----------------------------------------------
       use constant_mod ,only : zero,one,two,pi
+      use precision_mod ,only : WP
 ! ---------------------------------------------------------------------------------------------
           implicit none
 ! ---------------------------------------------------------------------------------------------
 !     included files
 ! ---------------------------------------------------------------------------------------------
 
-#include "my_real.inc"
 
 !-----------------------------------------------
 !    D u m m y   A r g u m e n t s
@@ -71,18 +71,18 @@
       integer ,intent(in)  :: npt                             !< number of integration points in thickness
       integer ,intent(in)  :: nuparam                         !< number of failure model parameters
       integer ,intent(in)  :: nuvar                           !< number of state variables
-      my_real ,dimension(nuparam)   ,intent(in)    :: uparam  !< failure model parameter table
-      my_real ,dimension(nel,nuvar) ,intent(inout) :: uvar    !< state variables of failure model
-      my_real ,dimension(nel)       ,intent(in)    :: dfmax   !< initial damage
-      my_real ,dimension(nel)       ,intent(inout) :: dadv    !< reduction factor for crack propagation
+      real(kind=WP) ,dimension(nuparam)   ,intent(in)    :: uparam  !< failure model parameter table
+      real(kind=WP) ,dimension(nel,nuvar) ,intent(inout) :: uvar    !< state variables of failure model
+      real(kind=WP) ,dimension(nel)       ,intent(in)    :: dfmax   !< initial damage
+      real(kind=WP) ,dimension(nel)       ,intent(inout) :: dadv    !< reduction factor for crack propagation
 !-----------------------------------------------
 !    L o c a l   v a r i a b l e s
 !-----------------------------------------------
       integer :: i,iedge
-      my_real :: aa,bb,ai,formf
-      my_real :: cr_foil,cr_air,cr_core,cr_edge
-      my_real :: k_ic,k_th,v0,exp_n,exp_m
-      my_real :: sigp_akt,sigp_min,sigp_max
+      real(kind=WP) :: aa,bb,ai,formf
+      real(kind=WP) :: cr_foil,cr_air,cr_core,cr_edge
+      real(kind=WP) :: k_ic,k_th,v0,exp_n,exp_m
+      real(kind=WP) :: sigp_akt,sigp_min,sigp_max
 !=======================================================================
       cr_foil  = uparam(2)
       cr_air   = uparam(3)

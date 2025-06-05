@@ -55,11 +55,11 @@
       use hm_option_read_mod 
       use elbuftag_mod
       use constant_mod
+      use precision_mod, only : WP
 !-----------------------------------------------
 !   I m p l i c i t   T y p e s
 !-----------------------------------------------
       implicit none 
-#include  "my_real.inc"
 !-----------------------------------------------
 !   D u m m y   A r g u m e n t s
 !-----------------------------------------------
@@ -75,7 +75,7 @@
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
       integer :: isolid
-      my_real :: d1,d2,d3,d4,d5,epsp0,pmin
+      real(kind=WP) :: d1,d2,d3,d4,d5,epsp0,pmin
       logical :: is_available,is_encrypted
 !-----------------------------------------------
 !   S o u r c e   L i n e s

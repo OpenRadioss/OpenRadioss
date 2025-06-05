@@ -61,6 +61,7 @@
           use ale_connectivity_mod , only : t_ale_connectivity
           use constant_mod , only : zero
           use detonators_mod , only : detonators_struct_
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -68,7 +69,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 #include "units_c.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
@@ -86,9 +86,9 @@
           integer,intent(in),target :: ixs(nixs,numels) !< quad connectivities
           integer,intent(in) :: nparg !< array size
           integer,intent(in) :: iparg(nparg,ngroup)
-          my_real,intent(in) :: x(3,numnod) !< node coordinates
+          real(kind=WP),intent(in) :: x(3,numnod) !< node coordinates
           integer,intent(in) :: npropm, nummat
-          my_real,intent(in) :: pm(npropm,nummat)
+          real(kind=WP),intent(in) :: pm(npropm,nummat)
           type (elbuf_struct_), target, dimension(ngroup) :: elbuf_tab
           type (t_ale_connectivity), intent(inout) :: ale_connectivity
           integer,intent(in) :: n2d
@@ -101,7 +101,7 @@
           integer,intent(in) :: knod2els(numnod+1)
           integer,intent(in) :: npropmi
           integer,intent(in) :: ipm(npropmi, nummat)
-          character*89,intent(in) :: title55
+          character(len=89),intent(in) :: title55
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------

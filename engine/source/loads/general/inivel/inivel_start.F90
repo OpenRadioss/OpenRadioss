@@ -72,7 +72,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -102,18 +101,18 @@
       type (sensors_) ,intent(in  )                    :: sensors   !< sensor structure
       TYPE(MULTI_FVM_STRUCT), INTENT(INOUT)            :: multi_fvm !< multi_fvm structure
       type(elbuf_struct_), target, dimension(ngroup)   :: elbuf_tab !< element buffer data
-      my_real, intent(in) ,dimension(lskew,numskw+1)   :: skew      !< local skew data
-      my_real, intent(in) ,dimension(nxframe,numfram+1):: xframe    !< frame data
-      my_real, intent(in) ,dimension(numnod)           :: ms        !< nodal mass
-      my_real, intent(in) ,dimension(numnod)           :: in        !< nodal inertia
-      my_real, intent(in) ,dimension(3,numnod)         :: x         !< coordinate array
-      my_real, intent(inout) ,dimension(3,numnod)      :: v         !< velocity
-      my_real, intent(inout) ,dimension(3,numnod)      :: vr        !< rotational velocity
-      my_real, intent(inout) ,dimension(3,numnod)      :: vflow     !< velocity for int22
-      my_real, intent(inout) ,dimension(3,numnod)      :: wflow     !< velocity for int22 (ale)
-      my_real, intent(inout) ,dimension(3,numnod)      :: w         !< velocity for ALE
-      my_real, intent(in   )                           :: time      !< time
-      my_real, intent(inout)                           :: t_kin     !< kinematic energy of inivel
+      real(kind=WP), intent(in) ,dimension(lskew,numskw+1)   :: skew      !< local skew data
+      real(kind=WP), intent(in) ,dimension(nxframe,numfram+1):: xframe    !< frame data
+      real(kind=WP), intent(in) ,dimension(numnod)           :: ms        !< nodal mass
+      real(kind=WP), intent(in) ,dimension(numnod)           :: in        !< nodal inertia
+      real(kind=WP), intent(in) ,dimension(3,numnod)         :: x         !< coordinate array
+      real(kind=WP), intent(inout) ,dimension(3,numnod)      :: v         !< velocity
+      real(kind=WP), intent(inout) ,dimension(3,numnod)      :: vr        !< rotational velocity
+      real(kind=WP), intent(inout) ,dimension(3,numnod)      :: vflow     !< velocity for int22
+      real(kind=WP), intent(inout) ,dimension(3,numnod)      :: wflow     !< velocity for int22 (ale)
+      real(kind=WP), intent(inout) ,dimension(3,numnod)      :: w         !< velocity for ALE
+      real(kind=WP), intent(in   )                           :: time      !< time
+      real(kind=WP), intent(inout)                           :: t_kin     !< kinematic energy of inivel
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -121,8 +120,8 @@
       integer  :: igrs,igbric,igqd,igtria,isk,ifra,idir,ifm,k1,k2,k3
       integer  :: mtn,nel,nft,ii,n_ini
       integer , dimension(:) , allocatable :: itagvel
-      my_real  :: tstart,tstart_s,tstart1,vx,vy,vz,vl(3), nixj(6),vlt(3),mas
-      my_real :: vra, ox, oy, oz
+      real(kind=WP)  :: tstart,tstart_s,tstart1,vx,vy,vz,vl(3), nixj(6),vlt(3),mas
+      real(kind=WP) :: vra, ox, oy, oz
       type(g_bufel_), pointer :: gbuf
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body

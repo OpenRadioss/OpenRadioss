@@ -54,7 +54,6 @@ module anim_nodal_ssp_elems_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -70,8 +69,8 @@ module anim_nodal_ssp_elems_mod
         integer :: ng,i,j,jj, mlw, nnod, nel, nft, ityp
         type(g_bufel_)  ,pointer :: gbuf
         type(l_bufel_)  ,pointer :: lbuf
-        my_real, allocatable, dimension(:) :: sum_weight
-        my_real :: weight, ssp
+        real(kind=WP), allocatable, dimension(:) :: sum_weight
+        real(kind=WP) :: weight, ssp
         type (multi_fvm_struct), intent(in) :: multi_fvm
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body

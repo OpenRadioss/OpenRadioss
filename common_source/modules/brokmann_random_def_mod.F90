@@ -37,20 +37,19 @@
       !||    updfail                   ../starter/source/materials/updfail.F90
       !||====================================================================
       module brokmann_random_def_mod
-
+        use precision_mod, only: WP
 ! ======================================================================================================================
 !! \brief data structure for random walk algorithm used in fractal damage initialization
 !! \details
 ! ======================================================================================================================
         implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
       type brokmann_elem_
         integer :: id                    ! element id
         integer :: elnum                 ! element number
         integer :: nix                   ! number of shell nodes (3/4)
-        my_real :: random(6)             ! generated random numbers
+        real(kind=WP) :: random(6)             ! generated random numbers
       end type brokmann_elem_
 
       type brokmann_

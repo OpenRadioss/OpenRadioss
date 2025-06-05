@@ -21,123 +21,123 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 ! ======================================================================================================================
-module spmd_exch_flow_tracking_data4_mod
-  contains
+      module spmd_exch_flow_tracking_data4_mod
+      contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !! \brief SPMD exchange necessary for option /ALE/GRID/MASS-WEIGHTED-VEL
 !! \details  gathering  domain boundaries X_MIN_MAX (for main flow) and X_MIN_MAX_GRID (for ALE grid points)
 !
-      !||====================================================================
-      !||    spmd_exch_flow_tracking_data4   ../engine/source/ale/grid/spmd_exch_flow_tracking_data4.F90
-      !||--- called by ------------------------------------------------------
-      !||    alew7                           ../engine/source/ale/grid/alew7.F
-      !||--- calls      -----------------------------------------------------
-      !||    spmd_wait                       ../engine/source/mpi/spmd_mod.F90
-      !||--- uses       -----------------------------------------------------
-      !||    ale_mod                         ../common_source/modules/ale/ale_mod.F
-      !||    constant_mod                    ../common_source/modules/constant_mod.F
-      !||    spmd_mod                        ../engine/source/mpi/spmd_mod.F90
-      !||====================================================================
-      subroutine spmd_exch_flow_tracking_data4( domain_data, nspmd )
+        !||====================================================================
+        !||    spmd_exch_flow_tracking_data4   ../engine/source/ale/grid/spmd_exch_flow_tracking_data4.F90
+        !||--- called by ------------------------------------------------------
+        !||    alew7                           ../engine/source/ale/grid/alew7.F
+        !||--- calls      -----------------------------------------------------
+        !||    spmd_wait                       ../engine/source/mpi/spmd_mod.F90
+        !||--- uses       -----------------------------------------------------
+        !||    ale_mod                         ../common_source/modules/ale/ale_mod.F
+        !||    constant_mod                    ../common_source/modules/constant_mod.F
+        !||    spmd_mod                        ../engine/source/mpi/spmd_mod.F90
+        !||====================================================================
+        subroutine spmd_exch_flow_tracking_data4( domain_data, nspmd )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-        use spmd_mod
-        use ale_mod , only : flow_tracking_data_
-        use constant_mod , only: zero,ep20
+          use spmd_mod
+          use ale_mod , only : flow_tracking_data_
+          use constant_mod , only: zero,ep20
+          use precision_mod ,  only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included file
 ! ----------------------------------------------------------------------------------------------------------------------
-        implicit none
-#include "my_real.inc"
+          implicit none
 #include "task_c.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-        type(flow_tracking_data_),intent(inout)::domain_data !< intent(in) ale mass weighted velolcity data buffer for given domain
-        integer,intent(in)::nspmd                       !< number of SPMD domains
+          type(flow_tracking_data_),intent(inout)::domain_data !< intent(in) ale mass weighted velolcity data buffer for given domain
+          integer,intent(in)::nspmd                       !< number of SPMD domains
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-        integer :: msgtyp, msgoff, p, nbirecv
-        integer :: req_sb(nspmd),irindexi(nspmd)
-        integer :: loc_proc, isize
-        my_real :: rbuf(12,nspmd)
-        data msgoff/2205/
+          integer :: msgtyp, msgoff, p, nbirecv
+          integer :: req_sb(nspmd),irindexi(nspmd)
+          integer :: loc_proc, isize
+          real(kind=WP) :: rbuf(12,nspmd)
+          data msgoff/2205/
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Preconditions
 ! ----------------------------------------------------------------------------------------------------------------------
-        if(nspmd == 1)return
+          if(nspmd == 1)return
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
 
-        loc_proc=ispmd+1
-        rbuf(1:3,1:nspmd)=ep20
-        rbuf(4:6,1:nspmd)=-ep20
-        rbuf(7:9,1:nspmd)=ep20
-        rbuf(10:12,1:nspmd)=-ep20
-        rbuf(1:6,loc_proc) = domain_data%x_min_max(1:6)
-        rbuf(7:12,loc_proc) = domain_data%x_min_max_grid(1:6)
-        isize=12
-        !-------------------------------------------!
-        ! SENDING %X_MIN_MAX(1:6) & X_MIN_MAX(1:6)  !
-        !-------------------------------------------!
-        do p = 1, nspmd
-          if(p /= loc_proc) then
-            msgtyp = msgoff
-            call spmd_isend(rbuf(1,loc_proc),isize,it_spmd(p),msgtyp,req_sb(p))
-          endif
-        enddo
-        !-------------------------------------------!
-        ! RECEIVING %X_MIN_MAX(1:6) & X_MIN_MAX(1:6)!
-        !-------------------------------------------!
-        nbirecv=0
-        do p = 1, nspmd
-          if(loc_proc /= p) then
-            nbirecv=nbirecv+1
-            irindexi(nbirecv)=p
-            msgtyp = msgoff
-            call spmd_recv(rbuf(1,p), isize, it_spmd(p), msgtyp)
-          endif
-        enddo
-        !-------------------------------------------!
-        !     MPI_WAITING                           !
-        !-------------------------------------------!
-        do p = 1, nspmd
-          if(p /= loc_proc) then
-            call spmd_wait(req_sb(p))
-          endif
-        enddo
+          loc_proc=ispmd+1
+          rbuf(1:3,1:nspmd)=ep20
+          rbuf(4:6,1:nspmd)=-ep20
+          rbuf(7:9,1:nspmd)=ep20
+          rbuf(10:12,1:nspmd)=-ep20
+          rbuf(1:6,loc_proc) = domain_data%x_min_max(1:6)
+          rbuf(7:12,loc_proc) = domain_data%x_min_max_grid(1:6)
+          isize=12
+          !-------------------------------------------!
+          ! SENDING %X_MIN_MAX(1:6) & X_MIN_MAX(1:6)  !
+          !-------------------------------------------!
+          do p = 1, nspmd
+            if(p /= loc_proc) then
+              msgtyp = msgoff
+              call spmd_isend(rbuf(1,loc_proc),isize,it_spmd(p),msgtyp,req_sb(p))
+            endif
+          enddo
+          !-------------------------------------------!
+          ! RECEIVING %X_MIN_MAX(1:6) & X_MIN_MAX(1:6)!
+          !-------------------------------------------!
+          nbirecv=0
+          do p = 1, nspmd
+            if(loc_proc /= p) then
+              nbirecv=nbirecv+1
+              irindexi(nbirecv)=p
+              msgtyp = msgoff
+              call spmd_recv(rbuf(1,p), isize, it_spmd(p), msgtyp)
+            endif
+          enddo
+          !-------------------------------------------!
+          !     MPI_WAITING                           !
+          !-------------------------------------------!
+          do p = 1, nspmd
+            if(p /= loc_proc) then
+              call spmd_wait(req_sb(p))
+            endif
+          enddo
 
-        !-------------------------------------------!
-        ! COMPUTE AVERAGE ON CURRENT DOMAIN         !
-        !-------------------------------------------!
-        domain_data%x_min_max(1:3)=ep20
-        domain_data%x_min_max(4:6)=-ep20
-        domain_data%x_min_max_grid(1:3)=ep20
-        domain_data%x_min_max_grid(4:6)=-ep20
+          !-------------------------------------------!
+          ! COMPUTE AVERAGE ON CURRENT DOMAIN         !
+          !-------------------------------------------!
+          domain_data%x_min_max(1:3)=ep20
+          domain_data%x_min_max(4:6)=-ep20
+          domain_data%x_min_max_grid(1:3)=ep20
+          domain_data%x_min_max_grid(4:6)=-ep20
 
-        do p=1,nspmd
-          domain_data%x_min_max(1) = min(domain_data%x_min_max(1), rbuf(1,p))
-          domain_data%x_min_max(2) = min(domain_data%x_min_max(2), rbuf(2,p))
-          domain_data%x_min_max(3) = min(domain_data%x_min_max(3), rbuf(3,p))
-          domain_data%x_min_max(4) = max(domain_data%x_min_max(4), rbuf(4,p))
-          domain_data%x_min_max(5) = max(domain_data%x_min_max(5), rbuf(5,p))
-          domain_data%x_min_max(6) = max(domain_data%x_min_max(6), rbuf(6,p))
-          !
-          domain_data%x_min_max_grid(1) = min(domain_data%x_min_max_grid(1), rbuf(7,p))
-          domain_data%x_min_max_grid(2) = min(domain_data%x_min_max_grid(2), rbuf(8,p))
-          domain_data%x_min_max_grid(3) = min(domain_data%x_min_max_grid(3), rbuf(9,p))
-          domain_data%x_min_max_grid(4) = max(domain_data%x_min_max_grid(4), rbuf(10,p))
-          domain_data%x_min_max_grid(5) = max(domain_data%x_min_max_grid(5), rbuf(11,p))
-          domain_data%x_min_max_grid(6) = max(domain_data%x_min_max_grid(6), rbuf(12,p))
-        enddo
+          do p=1,nspmd
+            domain_data%x_min_max(1) = min(domain_data%x_min_max(1), rbuf(1,p))
+            domain_data%x_min_max(2) = min(domain_data%x_min_max(2), rbuf(2,p))
+            domain_data%x_min_max(3) = min(domain_data%x_min_max(3), rbuf(3,p))
+            domain_data%x_min_max(4) = max(domain_data%x_min_max(4), rbuf(4,p))
+            domain_data%x_min_max(5) = max(domain_data%x_min_max(5), rbuf(5,p))
+            domain_data%x_min_max(6) = max(domain_data%x_min_max(6), rbuf(6,p))
+            !
+            domain_data%x_min_max_grid(1) = min(domain_data%x_min_max_grid(1), rbuf(7,p))
+            domain_data%x_min_max_grid(2) = min(domain_data%x_min_max_grid(2), rbuf(8,p))
+            domain_data%x_min_max_grid(3) = min(domain_data%x_min_max_grid(3), rbuf(9,p))
+            domain_data%x_min_max_grid(4) = max(domain_data%x_min_max_grid(4), rbuf(10,p))
+            domain_data%x_min_max_grid(5) = max(domain_data%x_min_max_grid(5), rbuf(11,p))
+            domain_data%x_min_max_grid(6) = max(domain_data%x_min_max_grid(6), rbuf(12,p))
+          enddo
 
 
 !-----------------------------------------------
-        return
-      end subroutine spmd_exch_flow_tracking_data4
-end module spmd_exch_flow_tracking_data4_mod
+          return
+        end subroutine spmd_exch_flow_tracking_data4
+      end module spmd_exch_flow_tracking_data4_mod

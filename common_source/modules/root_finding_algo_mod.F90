@@ -43,6 +43,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
+          use precision_mod, only : WP
           use constant_mod, only : zero,half,one,two,three
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
@@ -51,25 +52,24 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          my_real, intent(in) :: a !< lower bound of the interval
-          my_real, intent(in) :: b !< upper bound of the interval
-          my_real, intent(in) :: tolerance !< tolerance
-          my_real, external :: funct !< function
+          real(kind=WP), intent(in) :: a !< lower bound of the interval
+          real(kind=WP), intent(in) :: b !< upper bound of the interval
+          real(kind=WP), intent(in) :: tolerance !< tolerance
+          real(kind=WP), external :: funct !< function
           integer, intent(in) :: funct_parameter_size !< size of funct_parameter array
-          my_real, dimension(funct_parameter_size), intent(inout) :: funct_parameter !< parameter of the function funct
-          my_real :: brent_algo !< root value
+          real(kind=WP), dimension(funct_parameter_size), intent(inout) :: funct_parameter !< parameter of the function funct
+          real(kind=WP) :: brent_algo !< root value
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           logical :: condition
-          my_real :: save_a,save_b,c,delta,d,s,length
-          my_real :: f_a,f_b,f_c
-          my_real :: r1,r2,r3
-          my_real :: new_tol
+          real(kind=WP) :: save_a,save_b,c,delta,d,s,length
+          real(kind=WP) :: f_a,f_b,f_c
+          real(kind=WP) :: r1,r2,r3
+          real(kind=WP) :: new_tol
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   External functions
 ! ----------------------------------------------------------------------------------------------------------------------

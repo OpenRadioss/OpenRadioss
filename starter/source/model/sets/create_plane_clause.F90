@@ -26,6 +26,7 @@
       !||    hm_set                    ../starter/source/model/sets/hm_set.F
       !||====================================================================
       module create_plane_clause_mod
+        implicit none
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -58,14 +59,11 @@
           use UNITAB_MOD
           use NAMES_AND_TITLES_MOD
           use CONSTANT_MOD
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Included files
-! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -75,17 +73,17 @@
           integer,                                   intent(in) :: ntransf                           !< first dimension of transformation array
           integer,                                   intent(in) :: nrtrans                           !< second dimension of transformation array
           character(len=nchartitle),                 intent(in) :: title                             !< set title
-          my_real,                                   intent(in) :: rtrans(ntransf,nrtrans)           !< transformation storage array
+          real(kind=WP),                                   intent(in) :: rtrans(ntransf,nrtrans)           !< transformation storage array
           type(SET_),                                intent(inout) :: clause                         !< clause of set
           type(UNIT_TYPE_),                          intent(in) :: unitab                            !< unit table
           type(SUBMODEL_DATA),                       intent(in) :: lsubmodel(nsubmod)              !< submodel storage array
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          my_real :: xm,ym,zm                 !< coordinates of end of the normal vector to planar surface
-          my_real :: xm1,ym1,zm1              !< coordinates of head of the normal vector to planar surface
-          my_real :: vectx, vecty,vectz       !< components of normal vestor to planar surface
-          my_real :: vect                     !< normal to the planar surface
+          real(kind=WP) :: xm,ym,zm                 !< coordinates of end of the normal vector to planar surface
+          real(kind=WP) :: xm1,ym1,zm1              !< coordinates of head of the normal vector to planar surface
+          real(kind=WP) :: vectx, vecty,vectz       !< components of normal vestor to planar surface
+          real(kind=WP) :: vect                     !< normal to the planar surface
           logical :: is_available             !< logical syntax to check the available option
 !
 ! ----------------------------------------------------------------------------------------------------------------------

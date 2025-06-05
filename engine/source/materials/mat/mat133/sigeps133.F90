@@ -57,66 +57,66 @@
           use matparam_def_mod , only : matparam_struct_
           use constant_mod , only : zero, em20, third, half, one, four_over_3, two, three
           use table_mat_vinterp_mod , only : table_mat_vinterp
-          use debug_mod
+          !use debug_mod
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none 
-#include  "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent(in) :: nel !< number of elements in the group
           !integer, intent(in) :: nuvar !< number of user variables
-          !my_real, dimension(nel,nuvar), intent(inout) :: uvar !< user variables
+          !real(kind=WP), dimension(nel,nuvar), intent(inout) :: uvar !< user variables
           type(matparam_struct_), intent(in) :: matparam !< material parameters data
-          my_real, dimension(nel), intent(inout) :: et ! Coefficient for hourglass
-          my_real, dimension(nel), intent(in) :: rho !< mass density
-          my_real, dimension(nel), intent(in) :: rho0 !< mass density
-          my_real, dimension(nel), intent(inout) :: sigy !< yield stress
-          my_real, dimension(nel), intent(inout) :: dpla !< cumulated plastic strain increment 
-          my_real, dimension(nel), intent(inout) :: defp !< cumulated plastic strain
-          my_real, dimension(nel), intent(in) :: depsxx !< strain increment xx
-          my_real, dimension(nel), intent(in) :: depsyy !< strain increment yy
-          my_real, dimension(nel), intent(in) :: depszz !< strain increment zz 
-          my_real, dimension(nel), intent(in) :: depsxy !< strain increment xy 
-          my_real, dimension(nel), intent(in) :: depsyz !< strain increment yz 
-          my_real, dimension(nel), intent(in) :: depszx !< strain increment zx 
-          my_real, dimension(nel), intent(in) :: sigoxx !< initial stress xx 
-          my_real, dimension(nel), intent(in) :: sigoyy !< initial stress yy
-          my_real, dimension(nel), intent(in) :: sigozz !< initial stress zz 
-          my_real, dimension(nel), intent(in) :: sigoxy !< initial stress xy 
-          my_real, dimension(nel), intent(in) :: sigoyz !< initial stress yz 
-          my_real, dimension(nel), intent(in) :: sigozx !< initial stress zx 
-          my_real, dimension(nel), intent(out) :: signxx !< new stress xx 
-          my_real, dimension(nel), intent(out) :: signyy !< new stress yy
-          my_real, dimension(nel), intent(out) :: signzz !< new stress zz 
-          my_real, dimension(nel), intent(out) :: signxy !< new stress xy 
-          my_real, dimension(nel), intent(out) :: signyz !< new stress yz 
-          my_real, dimension(nel), intent(out) :: signzx !< new stress zx
-          my_real, dimension(nel), intent(inout) :: ssp !< sound speed
-          my_real, dimension(nel), intent(inout) :: off !< element deletion flag
-          my_real, dimension(nel), intent(inout) :: dpdm !< pressure total derivative
-          my_real, dimension(nel), intent(in) :: pnew !< current pressure from mmain > eosmain
+          real(kind=WP), dimension(nel), intent(inout) :: et ! Coefficient for hourglass
+          real(kind=WP), dimension(nel), intent(in) :: rho !< mass density
+          real(kind=WP), dimension(nel), intent(in) :: rho0 !< mass density
+          real(kind=WP), dimension(nel), intent(inout) :: sigy !< yield stress
+          real(kind=WP), dimension(nel), intent(inout) :: dpla !< cumulated plastic strain increment 
+          real(kind=WP), dimension(nel), intent(inout) :: defp !< cumulated plastic strain
+          real(kind=WP), dimension(nel), intent(in) :: depsxx !< strain increment xx
+          real(kind=WP), dimension(nel), intent(in) :: depsyy !< strain increment yy
+          real(kind=WP), dimension(nel), intent(in) :: depszz !< strain increment zz 
+          real(kind=WP), dimension(nel), intent(in) :: depsxy !< strain increment xy 
+          real(kind=WP), dimension(nel), intent(in) :: depsyz !< strain increment yz 
+          real(kind=WP), dimension(nel), intent(in) :: depszx !< strain increment zx 
+          real(kind=WP), dimension(nel), intent(in) :: sigoxx !< initial stress xx 
+          real(kind=WP), dimension(nel), intent(in) :: sigoyy !< initial stress yy
+          real(kind=WP), dimension(nel), intent(in) :: sigozz !< initial stress zz 
+          real(kind=WP), dimension(nel), intent(in) :: sigoxy !< initial stress xy 
+          real(kind=WP), dimension(nel), intent(in) :: sigoyz !< initial stress yz 
+          real(kind=WP), dimension(nel), intent(in) :: sigozx !< initial stress zx 
+          real(kind=WP), dimension(nel), intent(out) :: signxx !< new stress xx 
+          real(kind=WP), dimension(nel), intent(out) :: signyy !< new stress yy
+          real(kind=WP), dimension(nel), intent(out) :: signzz !< new stress zz 
+          real(kind=WP), dimension(nel), intent(out) :: signxy !< new stress xy 
+          real(kind=WP), dimension(nel), intent(out) :: signyz !< new stress yz 
+          real(kind=WP), dimension(nel), intent(out) :: signzx !< new stress zx
+          real(kind=WP), dimension(nel), intent(inout) :: ssp !< sound speed
+          real(kind=WP), dimension(nel), intent(inout) :: off !< element deletion flag
+          real(kind=WP), dimension(nel), intent(inout) :: dpdm !< pressure total derivative
+          real(kind=WP), dimension(nel), intent(in) :: pnew !< current pressure from mmain > eosmain
           integer ,intent(in) :: nvartmp                       !< number of temporary internal variables
           integer ,dimension(nel,nvartmp) ,intent(inout) :: vartmp    !< temporary internal variables
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          my_real :: pold(nel) !< old pressure
-          my_real :: pmin  !< minimum pressure (or fracture pressure)
-          my_real :: nu    !< Poisson's ratio
+          real(kind=WP) :: pold(nel) !< old pressure
+          real(kind=WP) :: pmin  !< minimum pressure (or fracture pressure)
+          real(kind=WP) :: nu    !< Poisson's ratio
           integer :: i !< loop index
-          my_real, dimension(nel,1) :: xvec1 !<temporary array for table interpolation
-          my_real :: shear(nel) !< Shear modulus G
-          my_real :: slope(nel,1) !<required for table interpolation
-          my_real :: G2(nel)  !< G2 = 2*G
-          my_real :: j2, vm(nel), g0, yield2, ratio  !< variables for yield function projection
-          my_real :: dav
+          real(kind=WP), dimension(nel,1) :: xvec1 !<temporary array for table interpolation
+          real(kind=WP) :: shear(nel) !< Shear modulus G
+          real(kind=WP) :: slope(nel,1) !<required for table interpolation
+          real(kind=WP) :: G2(nel)  !< G2 = 2*G
+          real(kind=WP) :: j2, vm(nel), g0, yield2, ratio  !< variables for yield function projection
+          real(kind=WP) :: dav
           logical, parameter :: opt_extrapolate = .false.
 
-          integer nc
-          NC = nc_debug  !debug_mod
+!         integer nc
+!         NC = nc_debug  !debug_mod
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------

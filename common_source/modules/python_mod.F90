@@ -82,6 +82,7 @@
       !||    read_sensors                   ../engine/source/output/restart/read_sensors.F
       !||    redef3                         ../engine/source/elements/spring/redef3.F90
       !||    redef3_law113                  ../engine/source/elements/spring/redef3_law113.F
+      !||    redef_seatbelt                 ../engine/source/tools/seatbelts/redef_seatbelt.F90
       !||    resol                          ../engine/source/engine/resol.F
       !||    resol_head                     ../engine/source/engine/resol_head.F
       !||    rforc3                         ../engine/source/elements/spring/rforc3.F
@@ -99,6 +100,7 @@
       !||====================================================================
       module python_funct_mod
         use iso_c_binding
+        use precision_mod, only : WP
         use python_element_mod
         integer, parameter :: max_line_length = 500 !< the maximum length of a line of code of python function
         integer, parameter :: max_num_lines = 1000 !< the maximum number of lines of python function
@@ -171,7 +173,7 @@
 #endif
           end subroutine python_update_time
 
-          !interface for    void cpp_python_update_nodal_entities(char *name, int len_name, my_real *values)
+          !interface for    void cpp_python_update_nodal_entities(char *name, int len_name, real(kind=WP) *values)
           subroutine python_set_node_values(numnod, name_len, name, val) bind(c, name="cpp_python_update_nodal_entity")
             use iso_c_binding
             integer(kind=c_int), value, intent(in) :: numnod
@@ -621,7 +623,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -729,22 +730,23 @@
 
       !||====================================================================
       !||    python_solve              ../common_source/modules/python_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    redef_seatbelt            ../engine/source/tools/seatbelts/redef_seatbelt.F90
       !||--- calls      -----------------------------------------------------
       !||    python_call_funct1d_dp    ../common_source/modules/python_mod.F90
       !||    python_deriv_funct1d_dp   ../common_source/modules/python_mod.F90
       !||====================================================================
         subroutine python_solve(py, funct_id, root, rhs, tol_f, tol_x, max_iter)
           implicit none
-# include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           type(python_),               intent(in) :: py        !< The Fortran structure that holds the Python function
           integer,                     intent(in) :: funct_id  !< The ID of the Python function
-          my_real, intent(inout) :: root                       !< Computed root
-          my_real, intent(in) :: rhs                           !< Right-hand side of the equation f(x) = rhs
-          my_real, intent(in), optional :: tol_f               !< Function value tolerance
-          my_real, intent(in), optional :: tol_x               !< Solution tolerance
+          real(kind=WP), intent(inout) :: root                       !< Computed root
+          real(kind=WP), intent(in) :: rhs                           !< Right-hand side of the equation f(x) = rhs
+          real(kind=WP), intent(in), optional :: tol_f               !< Function value tolerance
+          real(kind=WP), intent(in), optional :: tol_x               !< Solution tolerance
           integer, intent(in), optional :: max_iter            !< Maximum number of iterations
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
@@ -833,14 +835,13 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer,                                     intent(in) :: numnod !< the number of nodes
           integer,                                     intent(in) :: name_len !< the length of the name
           character(kind=c_char), dimension(name_len), intent(in) :: name      !< the name of the variable
-          my_real, dimension(3,numnod),                intent(in) :: val !< the values
+          real(kind=WP), dimension(3,numnod),                intent(in) :: val !< the values
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -874,18 +875,17 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer,                                 intent(in) :: numnod !< the number of nodes
-          my_real, optional,  dimension(3,numnod), intent(in) :: X !< the coordinates
-          my_real, optional,  dimension(3,numnod), intent(in) :: A !< the acceleration
-          my_real, optional,  dimension(3,numnod), intent(in) :: D !< the displacement
-          my_real, optional,  dimension(3,numnod), intent(in) :: DR !< the rotational? relative? displacement
-          my_real, optional,  dimension(3,numnod), intent(in) :: V !< the velocity
-          my_real, optional,  dimension(3,numnod), intent(in) :: VR !< the rotational? relative? velocity
-          my_real, optional,  dimension(3,numnod), intent(in) :: AR !< the acceleration
+          real(kind=WP), optional,  dimension(3,numnod), intent(in) :: X !< the coordinates
+          real(kind=WP), optional,  dimension(3,numnod), intent(in) :: A !< the acceleration
+          real(kind=WP), optional,  dimension(3,numnod), intent(in) :: D !< the displacement
+          real(kind=WP), optional,  dimension(3,numnod), intent(in) :: DR !< the rotational? relative? displacement
+          real(kind=WP), optional,  dimension(3,numnod), intent(in) :: V !< the velocity
+          real(kind=WP), optional,  dimension(3,numnod), intent(in) :: VR !< the rotational? relative? velocity
+          real(kind=WP), optional,  dimension(3,numnod), intent(in) :: AR !< the acceleration
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------

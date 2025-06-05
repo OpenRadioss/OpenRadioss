@@ -22,6 +22,14 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !! \brief duplicates nodes used by python functions to all processors
       !||====================================================================
+      !||    python_duplicate_nodes_mod   ../starter/source/spmd/domain_decomposition/python_duplicate_nodes.F90
+      !||--- called by ------------------------------------------------------
+      !||    lectur                       ../starter/source/starter/lectur.F
+      !||====================================================================
+      module python_duplicate_nodes_mod
+         implicit none
+         contains
+      !||====================================================================
       !||    python_duplicate_nodes       ../starter/source/spmd/domain_decomposition/python_duplicate_nodes.F90
       !||--- called by ------------------------------------------------------
       !||    lectur                       ../starter/source/starter/lectur.F
@@ -29,7 +37,7 @@
       !||    ifrontplus                   ../starter/source/spmd/node/frontplus.F
       !||--- uses       -----------------------------------------------------
       !||====================================================================
-      subroutine python_duplicate_nodes(itab, numnod, nspmd)
+     subroutine python_duplicate_nodes(itab, numnod, nspmd)
 
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Modules
@@ -69,4 +77,5 @@
             endif
           enddo
         end do
-      end subroutine
+      end subroutine python_duplicate_nodes
+      end module python_duplicate_nodes_mod

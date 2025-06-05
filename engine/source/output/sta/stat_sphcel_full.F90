@@ -51,6 +51,7 @@
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use ELBUFDEF_MOD, only: elbuf_struct_
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -58,7 +59,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 #include "task_c.inc"
 #include "units_c.inc"
 #include "mvsiz_p.inc"
@@ -88,7 +88,7 @@
           type(elbuf_struct_),                       intent(in) :: elbuf_tab(ngroup)           !<element buffer structure
           double precision,                          intent(inout) :: wa(sizloc)               !< work array
           double precision,                          intent(inout) :: wap0(sizp0)              !< work array
-          my_real,                                   intent(in) :: spbuf(nspbuf,numsph)        !< sphcel buffer
+          real(kind=WP),                                   intent(in) :: spbuf(nspbuf,numsph)        !< sphcel buffer
           integer,                                   intent(in) :: itab(numnod)                !< array for user nodes Ids
           integer,                                   intent(in) :: ipm(npropmi,nummat)         !< array for properties
           integer,                                   intent(in) :: idel                        !< is not activated sphcel to be written in sta file

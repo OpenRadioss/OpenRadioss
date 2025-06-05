@@ -42,6 +42,7 @@
       use unitab_mod
       use submodel_mod
       use constant_mod , only : three100, em20, zero
+      use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -49,19 +50,18 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
       integer,intent(in) :: npropm                                     !< size for pm array
       integer,intent(in) :: iout                                       !< file unit of starter listing
       type (unit_type_),intent(in) :: unitab                           !< data structure for unit systems required by reader subroutines
-      my_real, intent(inout) :: pm(npropm)                             !< material parameters
+      real(kind=WP), intent(inout) :: pm(npropm)                             !< material parameters
       type(submodel_data), dimension(nsubmod), intent(in) :: lsubmodel !< submodel data structure required for reader subroutines
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-      my_real :: p0, alpha, psh,ssp0
+      real(kind=WP) :: p0, alpha, psh,ssp0
       logical :: is_encrypted, is_available
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body

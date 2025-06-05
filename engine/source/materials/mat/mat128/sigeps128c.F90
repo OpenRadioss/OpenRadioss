@@ -63,13 +63,13 @@
       use constant_mod ,only : em01,em10,em15,em20,ep20
       use table4d_mod
       use table_mat_vinterp_mod
+      use precision_mod, only : WP
 ! ---------------------------------------------------------------------------------
           implicit none
 ! ---------------------------------------------------------------------------------
 !     included files
 ! ---------------------------------------------------------------------------------
 
-#include "my_real.inc"
 
 !-----------------------------------------------
 !   d u m m y   a r g u m e n t s
@@ -78,36 +78,36 @@
       integer ,intent(in) :: nuvar                         !< number of state variables
       integer ,intent(in) :: nvartmp                       !< number of temporary internal variables
       integer ,intent(in) :: l_sigb                        !< size of backstress tensor
-      my_real ,intent(in) :: timestep                      !< time step
-      my_real ,dimension(nel)     ,intent(in)    :: depsxx !< deformation increment component
-      my_real ,dimension(nel)     ,intent(in)    :: depsyy !< deformation increment component
-      my_real ,dimension(nel)     ,intent(in)    :: depsxy !< deformation increment component
-      my_real ,dimension(nel)     ,intent(in)    :: depsyz !< deformation increment component
-      my_real ,dimension(nel)     ,intent(in)    :: depszx !< deformation increment component
-      my_real ,dimension(nel)     ,intent(in)    :: sigoxx !< input  stress component
-      my_real ,dimension(nel)     ,intent(in)    :: sigoyy !< input  stress component
-      my_real ,dimension(nel)     ,intent(in)    :: sigoxy !< input  stress component
-      my_real ,dimension(nel)     ,intent(in)    :: sigoyz !< input  stress component
-      my_real ,dimension(nel)     ,intent(in)    :: sigozx !< input  stress component
-      my_real ,dimension(nel)     ,intent(in)    :: thkly  !< relative layer thickness
-      my_real ,dimension(nel)     ,intent(in)    :: shf    !< transverse shear factor for shells
-      my_real ,dimension(nel)     ,intent(inout) :: off    !< element activation coefficient
-      my_real ,dimension(nel)     ,intent(inout) :: pla    !< plastic strain
-      my_real ,dimension(nel)     ,intent(inout) :: thk    !< element thickness
-      my_real ,dimension(nel)     ,intent(inout) :: yld    !< yield stress 
-      my_real ,dimension(nel)     ,intent(out)   :: signxx !< output stress component
-      my_real ,dimension(nel)     ,intent(out)   :: signyy !< output stress component
-      my_real ,dimension(nel)     ,intent(out)   :: signxy !< output stress component
-      my_real ,dimension(nel)     ,intent(out)   :: signyz !< output stress component
-      my_real ,dimension(nel)     ,intent(out)   :: signzx !< output stress component
-      my_real ,dimension(nel)     ,intent(out)   :: dpla   !< plastic strain increment
-      my_real ,dimension(nel)     ,intent(out)   :: sighl  !< hill equivalent stress 
-      my_real ,dimension(nel)     ,intent(out)   :: soundsp!< sound speed
-      my_real ,dimension(nel)     ,intent(out)   :: hardm  !< tangent module
-      my_real ,dimension(nel)     ,intent(out)   :: epsd   !< plastic strain rate
-      my_real ,dimension(nel)     ,intent(out)   :: et     !< hourglass stiness factor
-      my_real ,dimension(nel,l_sigb)  ,intent(inout) :: sigb      !< backstress tensor
-      my_real ,dimension(nel,nuvar)   ,intent(inout) :: uvar      !< state variables
+      real(kind=WP) ,intent(in) :: timestep                      !< time step
+      real(kind=WP) ,dimension(nel)     ,intent(in)    :: depsxx !< deformation increment component
+      real(kind=WP) ,dimension(nel)     ,intent(in)    :: depsyy !< deformation increment component
+      real(kind=WP) ,dimension(nel)     ,intent(in)    :: depsxy !< deformation increment component
+      real(kind=WP) ,dimension(nel)     ,intent(in)    :: depsyz !< deformation increment component
+      real(kind=WP) ,dimension(nel)     ,intent(in)    :: depszx !< deformation increment component
+      real(kind=WP) ,dimension(nel)     ,intent(in)    :: sigoxx !< input  stress component
+      real(kind=WP) ,dimension(nel)     ,intent(in)    :: sigoyy !< input  stress component
+      real(kind=WP) ,dimension(nel)     ,intent(in)    :: sigoxy !< input  stress component
+      real(kind=WP) ,dimension(nel)     ,intent(in)    :: sigoyz !< input  stress component
+      real(kind=WP) ,dimension(nel)     ,intent(in)    :: sigozx !< input  stress component
+      real(kind=WP) ,dimension(nel)     ,intent(in)    :: thkly  !< relative layer thickness
+      real(kind=WP) ,dimension(nel)     ,intent(in)    :: shf    !< transverse shear factor for shells
+      real(kind=WP) ,dimension(nel)     ,intent(inout) :: off    !< element activation coefficient
+      real(kind=WP) ,dimension(nel)     ,intent(inout) :: pla    !< plastic strain
+      real(kind=WP) ,dimension(nel)     ,intent(inout) :: thk    !< element thickness
+      real(kind=WP) ,dimension(nel)     ,intent(inout) :: yld    !< yield stress 
+      real(kind=WP) ,dimension(nel)     ,intent(out)   :: signxx !< output stress component
+      real(kind=WP) ,dimension(nel)     ,intent(out)   :: signyy !< output stress component
+      real(kind=WP) ,dimension(nel)     ,intent(out)   :: signxy !< output stress component
+      real(kind=WP) ,dimension(nel)     ,intent(out)   :: signyz !< output stress component
+      real(kind=WP) ,dimension(nel)     ,intent(out)   :: signzx !< output stress component
+      real(kind=WP) ,dimension(nel)     ,intent(out)   :: dpla   !< plastic strain increment
+      real(kind=WP) ,dimension(nel)     ,intent(out)   :: sighl  !< hill equivalent stress 
+      real(kind=WP) ,dimension(nel)     ,intent(out)   :: soundsp!< sound speed
+      real(kind=WP) ,dimension(nel)     ,intent(out)   :: hardm  !< tangent module
+      real(kind=WP) ,dimension(nel)     ,intent(out)   :: epsd   !< plastic strain rate
+      real(kind=WP) ,dimension(nel)     ,intent(out)   :: et     !< hourglass stiness factor
+      real(kind=WP) ,dimension(nel,l_sigb)  ,intent(inout) :: sigb      !< backstress tensor
+      real(kind=WP) ,dimension(nel,nuvar)   ,intent(inout) :: uvar      !< state variables
       integer ,dimension(nel,nvartmp) ,intent(inout) :: vartmp    !< temporary internal variables
       type (matparam_struct_) ,intent(in) :: mat_param !< material parameter structure
 !-----------------------------------------------
@@ -115,22 +115,22 @@
 !-----------------------------------------------
       integer :: i,ii,iter,niter,nindx,ifunc,ndim
       integer ,dimension(nel) :: indx
-      my_real :: sigy,young,shear,bulk,nu,a11,a12,rho0
-      my_real :: dlam,ddep,sig_dfdsig,dfdsig2,dpdt,seq                                 
-      my_real :: normxx,normyy,normzz,normxy,normyz,normzx
-      my_real :: dsigbxx_dlam,dsigbyy_dlam,dsigbzz_dlam,dsigbxy_dlam,dsigbyz_dlam,dsigbzx_dlam
-      my_real :: cc,cp,asrate,fisokin,beta,dtime       
-      my_real :: qr1,qr2,qx1,qx2,cr1,cr2,cx1,cx2
-      my_real :: ff,gg,hh,nn
-      my_real :: dezz,deelzz
-      my_real ,dimension(nel)   :: cowp              !< Cowper-Symonds strain rate factor
-      my_real ,dimension(nel)   :: h,h0,hk           !< hardening tangent stiffness
-      my_real ,dimension(nel)   :: phi               !< plastic yield criterion
-      my_real ,dimension(nel)   :: yld0              !< initial yield stress
-      my_real ,dimension(nel)   :: dphi_dlam,dpla_dlam
-      my_real ,dimension(nel)   :: dpxx,dpyy,dpzz,dpxy,dpyz,dpzx
-      my_real ,dimension(nel,1) :: xvec1
-      my_real ,dimension(nel,2) :: xvec2
+      real(kind=WP) :: sigy,young,shear,bulk,nu,a11,a12,rho0
+      real(kind=WP) :: dlam,ddep,sig_dfdsig,dfdsig2,dpdt,seq                                 
+      real(kind=WP) :: normxx,normyy,normzz,normxy,normyz,normzx
+      real(kind=WP) :: dsigbxx_dlam,dsigbyy_dlam,dsigbzz_dlam,dsigbxy_dlam,dsigbyz_dlam,dsigbzx_dlam
+      real(kind=WP) :: cc,cp,asrate,fisokin,beta,dtime       
+      real(kind=WP) :: qr1,qr2,qx1,qx2,cr1,cr2,cx1,cx2
+      real(kind=WP) :: ff,gg,hh,nn
+      real(kind=WP) :: dezz,deelzz
+      real(kind=WP) ,dimension(nel)   :: cowp              !< Cowper-Symonds strain rate factor
+      real(kind=WP) ,dimension(nel)   :: h,h0,hk           !< hardening tangent stiffness
+      real(kind=WP) ,dimension(nel)   :: phi               !< plastic yield criterion
+      real(kind=WP) ,dimension(nel)   :: yld0              !< initial yield stress
+      real(kind=WP) ,dimension(nel)   :: dphi_dlam,dpla_dlam
+      real(kind=WP) ,dimension(nel)   :: dpxx,dpyy,dpzz,dpxy,dpyz,dpzx
+      real(kind=WP) ,dimension(nel,1) :: xvec1
+      real(kind=WP) ,dimension(nel,2) :: xvec2
 !===============================================================================    
       niter  = 3   ! max number of newton iterations
       dtime  = max(timestep, em20)

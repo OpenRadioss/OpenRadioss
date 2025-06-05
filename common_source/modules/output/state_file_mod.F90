@@ -35,8 +35,8 @@
          implicit none
 
          type state_
-            integer  stat_numelsph,stat_numelsph_g
-            logical is_stat_sph
+            integer  :: stat_numelsph,stat_numelsph_g
+            logical :: is_stat_sph
 
             integer, dimension(:), allocatable :: stat_sph
          end type state_

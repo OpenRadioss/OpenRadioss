@@ -53,13 +53,13 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-      use constant_mod,          only : zero,one,em20,ep02,three
+          use constant_mod,          only : zero,one,em20,ep02,three
+          use precision_mod,       only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 #include "mvsiz_p.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
@@ -68,14 +68,14 @@
           integer, dimension(mvsiz), intent(in)                        :: ifc1      !< first criterion to check self-contact
           integer, dimension(mvsiz), intent(in)                        :: itgsub    !< sub tria value
           integer, intent (inout)                                      :: ifctl     !< number of self-contact pairs
-          my_real, dimension(mvsiz), intent(in)                        :: stif0     !< initial nodal stiffness 
-          my_real, dimension(mvsiz), intent(in)                        :: penmin    !< minimum penetration 
-          my_real, dimension(mvsiz), intent(in)                        :: penref    !< reference penetration for quadratic stiffness 
-          my_real, intent(in)                                          :: fqmax     !< quadratic stiffness limite of self-contact
-          my_real, intent(in)                                          :: dt1       !< time step
-          my_real, dimension(mvsiz), intent(inout)                     :: stif      !< nodal stiffness to be updated
-          my_real, dimension(nel),   intent(inout)                     :: e_distor  ! distortion energy
-          my_real, dimension(mvsiz), intent(in   )                     ::       &        
+          real(kind=WP), dimension(mvsiz), intent(in)                        :: stif0     !< initial nodal stiffness 
+          real(kind=WP), dimension(mvsiz), intent(in)                        :: penmin    !< minimum penetration 
+          real(kind=WP), dimension(mvsiz), intent(in)                        :: penref    !< reference penetration for quadratic stiffness 
+          real(kind=WP), intent(in)                                          :: fqmax     !< quadratic stiffness limite of self-contact
+          real(kind=WP), intent(in)                                          :: dt1       !< time step
+          real(kind=WP), dimension(mvsiz), intent(inout)                     :: stif      !< nodal stiffness to be updated
+          real(kind=WP), dimension(nel),   intent(inout)                     :: e_distor  ! distortion energy
+          real(kind=WP), dimension(mvsiz), intent(in   )                     ::       &        
                               xi,      yi,     zi,                              &
                              vxi,     vyi,    vzi,                              &                               
                               x1,      x2,     x3,     x4,                      &
@@ -84,15 +84,15 @@
                              vx1,     vx2,    vx3,    vx4,                      &
                              vy1,     vy2,    vy3,    vy4,                      &
                              vz1,     vz2,    vz3,    vz4                           !< main quad segment nodal x,v array
-          my_real, dimension(mvsiz,3), intent (inout) ::                        &
+          real(kind=WP), dimension(mvsiz,3), intent (inout) ::                        &
                            for_t1, for_t2, for_t3, for_t4                           !< main quad segment force array
-          my_real, dimension(mvsiz,3), intent (inout) :: for_i                      !< 2nd node force array
+          real(kind=WP), dimension(mvsiz,3), intent (inout) :: for_i                      !< 2nd node force array
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
       integer i
 !                                                                    
-      my_real :: rx,ry,rz,sx,sy,sz,nx(mvsiz),ny(mvsiz),nz(mvsiz),               &
+      real(kind=WP) :: rx,ry,rz,sx,sy,sz,nx(mvsiz),ny(mvsiz),nz(mvsiz),               &
                  pene(mvsiz),xa(mvsiz),ya(mvsiz),za(mvsiz),hj(mvsiz,4),         &
                  xb(mvsiz),yb(mvsiz),zb(mvsiz),fn(mvsiz),                       &
                  xc(mvsiz),yc(mvsiz),zc(mvsiz),                                 &

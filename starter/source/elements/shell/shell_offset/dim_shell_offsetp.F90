@@ -26,7 +26,7 @@
       !||    shell_offsetp           ../starter/source/elements/shell/shell_offset/shell_offsetp.F90
       !||====================================================================
       module dim_shell_offsetp_mod
-
+       
       contains
 ! ======================================================================================================================
 !                                                   PROCEDURES
@@ -42,20 +42,17 @@
       !||--- uses       -----------------------------------------------------
       !||====================================================================
         subroutine dim_shell_offsetp(                                          &
-                       ngroup,    nparg,      iparg,        npropg,            &
-                       numgeo,      geo,     numelc,          nixc,            &
-                          ixc,  numeltg,      nixtg,          ixtg,            &
-                       numnod,    intag,    nsh_oset   )
+          ngroup,    nparg,      iparg,        npropg,            &
+          numgeo,      geo,     numelc,          nixc,            &
+          ixc,  numeltg,      nixtg,          ixtg,            &
+          numnod,    intag,    nsh_oset   )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use constant_mod, only : zero,half
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Included files
-! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -73,12 +70,12 @@
           integer, intent (in   ),dimension(nixtg,numeltg):: ixtg             !< shell 3n connectivity
           integer, intent (inout) ,dimension(numnod)      :: intag            !< itag working array
           integer, intent (inout)                         :: nsh_oset         !< number offset shell for projection
-          my_real, intent (in   ),dimension(npropg,numgeo):: geo              !< property array
+          real(kind=WP), intent (in   ),dimension(npropg,numgeo):: geo              !< property array
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer i,j,n,nel,nft,nn,ie,igtyp,ity,nnode,pid,nshel,ng
-          my_real shelloff
+          integer :: i,j,n,nel,nft,nn,ie,igtyp,ity,nnode,pid,nshel,ng
+          real(kind=WP) :: shelloff
 !
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body

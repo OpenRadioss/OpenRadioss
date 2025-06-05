@@ -46,6 +46,7 @@
 !  input : eta, tmp
 !  output : p, en, dedv, bth, dpdT (JWL derivative)
 !
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -53,27 +54,26 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          my_real, intent(in) :: a  !< a
-          my_real, intent(in) :: b !< b
-          my_real, intent(in) :: r1 !< r1
-          my_real, intent(in) :: r2 !< r2
-          my_real, intent(in) :: r3 !< r3
-          my_real, intent(in) :: cv !< volume heat capacity (cte)
-          my_real, intent(in) :: eta !< rho/rho0 = V0/V = 1/v  (v relative volume)
-          my_real, intent(in) :: tmp !< tmp
-          my_real, intent(out) :: dedv !< dedv
-          my_real, intent(out) :: p !< p
-          my_real, intent(out) :: bth !< bth
-          my_real, intent(out) :: dpdt !< dpdt
-          my_real, intent(out) :: en !< en
+          real(kind=WP), intent(in) :: a  !< a
+          real(kind=WP), intent(in) :: b !< b
+          real(kind=WP), intent(in) :: r1 !< r1
+          real(kind=WP), intent(in) :: r2 !< r2
+          real(kind=WP), intent(in) :: r3 !< r3
+          real(kind=WP), intent(in) :: cv !< volume heat capacity (cte)
+          real(kind=WP), intent(in) :: eta !< rho/rho0 = V0/V = 1/v  (v relative volume)
+          real(kind=WP), intent(in) :: tmp !< tmp
+          real(kind=WP), intent(out) :: dedv !< dedv
+          real(kind=WP), intent(out) :: p !< p
+          real(kind=WP), intent(out) :: bth !< bth
+          real(kind=WP), intent(out) :: dpdt !< dpdt
+          real(kind=WP), intent(out) :: en !< en
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          my_real :: trans1,trans2
+          real(kind=WP) :: trans1,trans2
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -104,6 +104,7 @@
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use constant_mod, only : ONE
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -111,20 +112,19 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-          my_real, intent(in) :: beta !< argument
-          my_real, dimension(25), intent(inout) :: funct_parameter !< function parameters
-          my_real :: jwl_eos_delta !< return value
+          real(kind=WP), intent(in) :: beta !< argument
+          real(kind=WP), dimension(25), intent(inout) :: funct_parameter !< function parameters
+          real(kind=WP) :: jwl_eos_delta !< return value
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          my_real :: tmp
-          my_real :: ar,br,r1r,r2r,r3r,cvr,dedvr,preac,bthr,dpdtr,enr
-          my_real :: ap,bp,r1p,r2p,r3p,cvp,dedvp,pprod,bthp,dpdtp,enp
-          my_real :: etac,fc,fc1,etar,etap
+          real(kind=WP) :: tmp
+          real(kind=WP) :: ar,br,r1r,r2r,r3r,cvr,dedvr,preac,bthr,dpdtr,enr
+          real(kind=WP) :: ap,bp,r1p,r2p,r3p,cvp,dedvp,pprod,bthp,dpdtp,enp
+          real(kind=WP) :: etac,fc,fc1,etar,etap
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------

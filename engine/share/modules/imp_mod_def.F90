@@ -20,65 +20,67 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-module imp_intbufdef
+      module imp_intbufdef
+        use precision_mod, only : WP
+        implicit none
+        private :: WP
 !-----------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !! \brief Common Module Implicit interfaces
 ! ----------------------------------------------------------------------------------------------------------------------
-type imp_intbuf_struct_
+        type imp_intbuf_struct_
 !=================================================
 ! define typeintbuf_struct_ for interface buffer imp_intbuf_tab
 !=======================================================================
 ! define sizes (integers arrays)
 !=======================================================================
-      integer ::   s_i_stok     !  replace num_imp (after)
-      integer ::   s_cand_n     !  replace ns_imp (after)
-      integer ::   s_cand_e     !  replace ne_imp (after)
-      integer ::   s_indsubt    !  replace ind_imp (after)
+          integer ::   s_i_stok     !  replace num_imp (after)
+          integer ::   s_cand_n     !  replace ns_imp (after)
+          integer ::   s_cand_e     !  replace ne_imp (after)
+          integer ::   s_indsubt    !  replace ind_imp (after)
 !=======================================================================
 ! define sizes (float arrays)
 !=======================================================================
-      integer ::   s_hj           !  (4,s_i_stok)
-      integer ::   s_nj           !  (3,s_i_stok)       normal
-      integer ::   s_stif         !  (3,s_i_stok)       n
+          integer ::   s_hj           !  (4,s_i_stok)
+          integer ::   s_nj           !  (3,s_i_stok)       normal
+          integer ::   s_stif         !  (3,s_i_stok)       n
 !=======================================================================
 ! define arrays (integers arrays)
 !=======================================================================
-      integer, dimension(:) , pointer ::  i_stok
-      integer, dimension(:) , pointer ::  cand_n
-      integer, dimension(:) , pointer ::  cand_e
-      integer, dimension(:) , pointer ::  indsubt
+          integer, dimension(:) , pointer ::  i_stok
+          integer, dimension(:) , pointer ::  cand_n
+          integer, dimension(:) , pointer ::  cand_e
+          integer, dimension(:) , pointer ::  indsubt
 !type24
 !=======================================================================
 ! define arrays (float arrays)
 !=======================================================================
-      my_real, dimension(:) , pointer ::   hj
-      my_real, dimension(:) , pointer ::   nj
-      my_real, dimension(:) , pointer ::   stif
+          real(kind=WP), dimension(:) , pointer ::   hj
+          real(kind=WP), dimension(:) , pointer ::   nj
+          real(kind=WP), dimension(:) , pointer ::   stif
 !=======================================================================
-   end type imp_intbuf_struct_
+        end type imp_intbuf_struct_
 !=======================================================================
-end module imp_intbufdef
+      end module imp_intbufdef
 
 
-module imp_intbuf
+      module imp_intbuf
 ! ----------------------------------------------------------------------------------------------------------------------
 !! \brief Common Module Implicit interfaces
 ! ----------------------------------------------------------------------------------------------------------------------
-   use intbufdef_mod
-   use imp_intbufdef
-   type(intbuf_struct_),dimension(:),allocatable :: intbuf_tab_cp
-   type(imp_intbuf_struct_),dimension(:),allocatable :: intbuf_tab_imp
-end module imp_intbuf
+        use intbufdef_mod
+        use imp_intbufdef
+        type(intbuf_struct_),dimension(:),allocatable :: intbuf_tab_cp
+        type(imp_intbuf_struct_),dimension(:),allocatable :: intbuf_tab_imp
+      end module imp_intbuf
 
 
-module imp_inttd
+      module imp_inttd
 ! ----------------------------------------------------------------------------------------------------------------------
 !! \brief Common Module for penetration detection
 ! ----------------------------------------------------------------------------------------------------------------------
-   integer, dimension(:),allocatable :: ns_imp1,iad1_nin
-   integer, dimension(:),allocatable :: ne_imp1,ind_imp1
+        integer, dimension(:),allocatable :: ns_imp1,iad1_nin
+        integer, dimension(:),allocatable :: ne_imp1,ind_imp1
 !
-end module imp_inttd
+      end module imp_inttd
 

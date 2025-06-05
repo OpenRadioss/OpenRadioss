@@ -40,6 +40,7 @@
       !||    collision_mod                ../engine/source/interfaces/intsort/collision_mod.F
       !||    constant_mod                 ../common_source/modules/constant_mod.F
       !||    inter7_filter_cand_mod       ../engine/source/interfaces/intsort/inter7_filter_cand.F90
+      !||    precision_mod                ../common_source/modules/precision_mod.F90
       !||====================================================================
         SUBROUTINE INTER7_CANDIDATE_PAIRS(&
      &                                    nsn          ,&
@@ -96,12 +97,12 @@
      &                                    irem         ,&
      &                                    s_irem       ,&
      &                                    next_nod      )
+          USE PRECISION_MOD, ONLY : WP
           USE COLLISION_MOD , ONLY : GROUP_SIZE
           USE INTER7_FILTER_CAND_MOD
           USE CONSTANT_MOD
 !-----------------------------------------------
           implicit none
-#include "my_real.inc"
 !-----------------------------------------------
 !   D u m m y   A r g u m e n t s
 !-----------------------------------------------
@@ -143,40 +144,40 @@
           integer, intent(inout) :: voxel((nbx+2)*(nby+2)*(nbz+2)) !< contain the first node of each voxel
           integer, intent(inout) :: next_nod(nsn+nsnr) !< next node in the same voxel
 
-          my_real, intent(in), value :: gap !< gap (???)
-          my_real, intent(in), value :: gapmin !< minimum gap
-          my_real, intent(in), value :: gapmax !< maximum gap
-          my_real, intent(in), value :: bgapsmx!< overestimation of gap_s
-          my_real, intent(in), value :: marge !< margin
-          my_real, intent(in), value :: tzinf !< some kind of length for "zone of influence" ?
-          my_real, intent(in), value :: drad !< radiation distance (thermal analysis)
-          my_real, intent(in), value :: dgapload !< gap load (???)
-          my_real, intent(in) :: x(3,numnod) !< coordinates of nodes all
-          my_real, intent(in) :: gap_s(nsn) !< gap for secondary nodes
-          my_real, intent(in) :: gap_m(nrtm) !< gap for main nodes
-          my_real, intent(in) :: gap_s_l(nsn) !< gap for secondary nodes (???)
-          my_real, intent(in) :: gap_m_l(nrtm) !< gap for main nodes (???)
-          my_real, intent(in) :: curv_max(nrtm) !< maximum curvature
-          my_real, intent(in) :: xyzm(12) !< bounding box
+          real(kind=WP), intent(in), value :: gap !< gap (???)
+          real(kind=WP), intent(in), value :: gapmin !< minimum gap
+          real(kind=WP), intent(in), value :: gapmax !< maximum gap
+          real(kind=WP), intent(in), value :: bgapsmx!< overestimation of gap_s
+          real(kind=WP), intent(in), value :: marge !< margin
+          real(kind=WP), intent(in), value :: tzinf !< some kind of length for "zone of influence" ?
+          real(kind=WP), intent(in), value :: drad !< radiation distance (thermal analysis)
+          real(kind=WP), intent(in), value :: dgapload !< gap load (???)
+          real(kind=WP), intent(in) :: x(3,numnod) !< coordinates of nodes all
+          real(kind=WP), intent(in) :: gap_s(nsn) !< gap for secondary nodes
+          real(kind=WP), intent(in) :: gap_m(nrtm) !< gap for main nodes
+          real(kind=WP), intent(in) :: gap_s_l(nsn) !< gap for secondary nodes (???)
+          real(kind=WP), intent(in) :: gap_m_l(nrtm) !< gap for main nodes (???)
+          real(kind=WP), intent(in) :: curv_max(nrtm) !< maximum curvature
+          real(kind=WP), intent(in) :: xyzm(12) !< bounding box
 
-          my_real, intent(inout) :: cand_p(mulnsn) !< penetration (???)
-          my_real, intent(inout) :: cand_f(8*mulnsn) !< related to tied contact, cand force (???)
-          my_real, intent(in) :: stf(nrtm) !< stiffness of segments (quadrangles or triangles)
-          my_real, intent(inout) :: xrem(s_xrem,nsnr) !< remote (spmd) real data
+          real(kind=WP), intent(inout) :: cand_p(mulnsn) !< penetration (???)
+          real(kind=WP), intent(inout) :: cand_f(8*mulnsn) !< related to tied contact, cand force (???)
+          real(kind=WP), intent(in) :: stf(nrtm) !< stiffness of segments (quadrangles or triangles)
+          real(kind=WP), intent(inout) :: xrem(s_xrem,nsnr) !< remote (spmd) real data
 
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
           integer :: i,j, nn, ne, k, l, j_stok, jj, delnod, m
           integer, dimension(:), allocatable :: tagremnode
-          my_real :: xs, ys, zs, sx, sy, sz, s2
-          my_real :: xmin, xmax, ymin, ymax, zmin, zmax
-          my_real :: xx1, xx2, xx3, xx4, yy1, yy2, yy3, yy4, zz1, zz2, zz3, zz4
-          my_real :: d1x, d1y, d1z, d2x, d2y, d2z, dd1, dd2, d2, a2
+          real(kind=WP) :: xs, ys, zs, sx, sy, sz, s2
+          real(kind=WP) :: xmin, xmax, ymin, ymax, zmin, zmax
+          real(kind=WP) :: xx1, xx2, xx3, xx4, yy1, yy2, yy3, yy4, zz1, zz2, zz3, zz4
+          real(kind=WP) :: d1x, d1y, d1z, d2x, d2y, d2z, dd1, dd2, d2, a2
           integer, dimension(:), allocatable :: last_nod
           integer :: ix, iy, iz, m1, m2, m3, m4, ix1, iy1, iz1, ix2, iy2, iz2
           integer :: iix, iiy, iiz
-          my_real :: xminb, yminb, zminb, xmaxb, ymaxb, zmaxb, xmine, ymine, zmine, xmaxe, ymaxe, zmaxe, aaa
+          real(kind=WP) :: xminb, yminb, zminb, xmaxb, ymaxb, zmaxb, xmine, ymine, zmine, xmaxe, ymaxe, zmaxe, aaa
           integer :: first, last
           integer, dimension(GROUP_SIZE) :: prov_n, prov_e !< temporary list of candidates
           integer :: cellid
@@ -494,12 +495,14 @@
 !#endif
 
           return
-        end
+        end subroutine INTER7_CANDIDATE_PAIRS
 
 !! \brief write the data to a file
       !||====================================================================
       !||    inter7_serialize   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
       !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    precision_mod      ../common_source/modules/precision_mod.F90
       !||====================================================================
         SUBROUTINE INTER7_SERIALIZE(      filename     ,& 
      &                                    nsn          ,&
@@ -547,8 +550,8 @@
      &                                    s_cand_a     ,&
      &                                    total_nb_nrtm,&
      &                                    numnod       )
+          USE PRECISION_MOD, ONLY : WP
           implicit none
-#include "my_real.inc"
 !-----------------------------------------------
 !   D u m m y   A r g u m e n t s
 !-----------------------------------------------
@@ -586,23 +589,23 @@
           integer, intent(in) :: cand_n(mulnsn) !< list of candidates (secondary)
           integer, intent(in) :: cand_e(mulnsn) !< list of candidates (main)
 
-          my_real, intent(in), value :: gap !< gap (???)
-          my_real, intent(in), value :: gapmin !< minimum gap
-          my_real, intent(in), value :: gapmax !< maximum gap
-          my_real, intent(in), value :: bgapsmx!< overestimation of gap_s
-          my_real, intent(in), value :: marge !< margin
-          my_real, intent(in), value :: tzinf !< some kind of length for "zone of influence" ?
-          my_real, intent(in), value :: drad !< radiation distance (thermal analysis)
-          my_real, intent(in), value :: dgapload !< gap load (???)
-          my_real, intent(in) :: x(3,numnod) !< coordinates of nodes all
-          my_real, intent(in) :: gap_s(nsn) !< gap for secondary nodes
-          my_real, intent(in) :: gap_m(nrtm) !< gap for main nodes
-          my_real, intent(in) :: gap_s_l(nsn) !< gap for secondary nodes (???)
-          my_real, intent(in) :: gap_m_l(nrtm) !< gap for main nodes (???)
-          my_real, intent(in) :: curv_max(nrtm) !< maximum curvature
-          my_real, intent(in) :: xyzm(12) !< bounding box
-          my_real, intent(in) :: stf(nrtm) !< stiffness of segments (quadrangles or triangles)
-          my_real, intent(in) :: stfn(nsn) !< stiffness secondary nodes
+          real(kind=WP), intent(in), value :: gap !< gap (???)
+          real(kind=WP), intent(in), value :: gapmin !< minimum gap
+          real(kind=WP), intent(in), value :: gapmax !< maximum gap
+          real(kind=WP), intent(in), value :: bgapsmx!< overestimation of gap_s
+          real(kind=WP), intent(in), value :: marge !< margin
+          real(kind=WP), intent(in), value :: tzinf !< some kind of length for "zone of influence" ?
+          real(kind=WP), intent(in), value :: drad !< radiation distance (thermal analysis)
+          real(kind=WP), intent(in), value :: dgapload !< gap load (???)
+          real(kind=WP), intent(in) :: x(3,numnod) !< coordinates of nodes all
+          real(kind=WP), intent(in) :: gap_s(nsn) !< gap for secondary nodes
+          real(kind=WP), intent(in) :: gap_m(nrtm) !< gap for main nodes
+          real(kind=WP), intent(in) :: gap_s_l(nsn) !< gap for secondary nodes (???)
+          real(kind=WP), intent(in) :: gap_m_l(nrtm) !< gap for main nodes (???)
+          real(kind=WP), intent(in) :: curv_max(nrtm) !< maximum curvature
+          real(kind=WP), intent(in) :: xyzm(12) !< bounding box
+          real(kind=WP), intent(in) :: stf(nrtm) !< stiffness of segments (quadrangles or triangles)
+          real(kind=WP), intent(in) :: stfn(nsn) !< stiffness secondary nodes
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
@@ -695,10 +698,12 @@
 
           call flush(unitNum)
           close(unitNum)
-        end subroutine
+        end subroutine INTER7_SERIALIZE
 !! \brief write the data to a file
       !||====================================================================
       !||    inter7_deserialize   ../engine/source/interfaces/intsort/inter7_candidate_pairs.F90
+      !||--- uses       -----------------------------------------------------
+      !||    precision_mod        ../common_source/modules/precision_mod.F90
       !||====================================================================
         SUBROUTINE INTER7_DESERIALIZE(    filename     ,& 
      &                                    nsn          ,&
@@ -746,8 +751,8 @@
      &                                    s_cand_a     ,&
      &                                    total_nb_nrtm,&
      &                                    numnod       )
+          USE PRECISION_MOD, ONLY : WP
           implicit none
-#include "my_real.inc"
 !-----------------------------------------------
 !   D u m m y   A r g u m e n t s
 !-----------------------------------------------
@@ -784,24 +789,24 @@
           integer, intent(out), dimension(:), allocatable :: cand_n !< list of candidates (secondary)
           integer, intent(out), dimension(:), allocatable :: cand_e !< list of candidates (main)
 
-          my_real, intent(out) :: gap !< gap (???)
-          my_real, intent(out) :: gapmin !< minimum gap
-          my_real, intent(out) :: gapmax !< maximum gap
-          my_real, intent(out) :: bgapsmx!< overestimation of gap_s
-          my_real, intent(out) :: marge !< margin
-          my_real, intent(out) :: tzinf !< some kind of length for "zone of influence" ?
-          my_real, intent(out) :: drad !< radiation distance (thermal analysis)
-          my_real, intent(out) :: dgapload !< gap load (???)
+          real(kind=WP), intent(out) :: gap !< gap (???)
+          real(kind=WP), intent(out) :: gapmin !< minimum gap
+          real(kind=WP), intent(out) :: gapmax !< maximum gap
+          real(kind=WP), intent(out) :: bgapsmx!< overestimation of gap_s
+          real(kind=WP), intent(out) :: marge !< margin
+          real(kind=WP), intent(out) :: tzinf !< some kind of length for "zone of influence" ?
+          real(kind=WP), intent(out) :: drad !< radiation distance (thermal analysis)
+          real(kind=WP), intent(out) :: dgapload !< gap load (???)
 
-          my_real, intent(out), dimension(:,:), allocatable :: x !< coordinates of nodes all
-          my_real, intent(out), dimension(:), allocatable :: gap_s !< gap for secondary nodes
-          my_real, intent(out), dimension(:), allocatable :: gap_m !< gap for main nodes
-          my_real, intent(out), dimension(:), allocatable :: gap_s_l !< gap for secondary nodes (???)
-          my_real, intent(out), dimension(:), allocatable :: gap_m_l !< gap for main nodes (???)
-          my_real, intent(out), dimension(:), allocatable :: curv_max !< maximum curvature
-          my_real, intent(out), dimension(:), allocatable :: stf !< stiffness of segments (quadrangles or triangles)
-          my_real, intent(out), dimension(:), allocatable :: stfn !< stiffness secondary nodes
-          my_real, intent(out) :: xyzm(12) !< bounding box
+          real(kind=WP), intent(out), dimension(:,:), allocatable :: x !< coordinates of nodes all
+          real(kind=WP), intent(out), dimension(:), allocatable :: gap_s !< gap for secondary nodes
+          real(kind=WP), intent(out), dimension(:), allocatable :: gap_m !< gap for main nodes
+          real(kind=WP), intent(out), dimension(:), allocatable :: gap_s_l !< gap for secondary nodes (???)
+          real(kind=WP), intent(out), dimension(:), allocatable :: gap_m_l !< gap for main nodes (???)
+          real(kind=WP), intent(out), dimension(:), allocatable :: curv_max !< maximum curvature
+          real(kind=WP), intent(out), dimension(:), allocatable :: stf !< stiffness of segments (quadrangles or triangles)
+          real(kind=WP), intent(out), dimension(:), allocatable :: stfn !< stiffness secondary nodes
+          real(kind=WP), intent(out) :: xyzm(12) !< bounding box
 
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
@@ -913,7 +918,7 @@
           read(unitNum) cand_e(1:ii_stok) !< list of candidates (main)
           close(unitNum)
           write(6,*)  "ii_stok_ref   ",ii_stok                         
-        end subroutine
+        end subroutine INTER7_DESERIALIZE
 
 
 !        !!\brief compare the couple cand_n(i) cand_e(i) with the couple cand_n_ref/cand_e_ref
@@ -938,7 +943,6 @@
 !              integer(c_int), intent(in), value :: ii_stok_ref, ii_stok
 !          end subroutine compare_cand
 !          end interface
-!#include "my_real.inc"
 !!-----------------------------------------------
 !!   D u m m y   A r g u m e n t s
 !!-----------------------------------------------
@@ -974,35 +978,35 @@
 !          integer, dimension(:), allocatable :: cand_a !< (???)
 !          integer, dimension(:), allocatable :: cand_n, cand_n_ref !< list of candidates (secondary)
 !          integer, dimension(:), allocatable :: cand_e, cand_e_ref !< list of candidates (main)
-!          my_real :: gap !< gap (???)
-!          my_real :: gapmin !< minimum gap
-!          my_real :: gapmax !< maximum gap
-!          my_real :: bgapsmx!< overestimation of gap_s
-!          my_real :: marge !< margin
-!          my_real :: tzinf !< some kind of length for "zone of influence" ?
-!          my_real :: drad !< radiation distance (thermal analysis)
-!          my_real :: dgapload !< gap load (???)
-!          my_real, dimension(:,:), allocatable :: x !< coordinates of nodes all
-!          my_real, dimension(:), allocatable :: gap_s !< gap for secondary nodes
-!          my_real, dimension(:), allocatable :: gap_m !< gap for main nodes
-!          my_real, dimension(:), allocatable :: gap_s_l !< gap for secondary nodes (???)
-!          my_real, dimension(:), allocatable :: gap_m_l !< gap for main nodes (???)
-!          my_real, dimension(:), allocatable :: curv_max !< maximum curvature
-!          my_real, dimension(:), allocatable :: stf !< stiffness of segments (quadrangles or triangles)
-!          my_real, dimension(:), allocatable :: stfn !< stiffness secondary nodes
-!          my_real, dimension(:), allocatable :: cand_f,cand_p
+!          real(kind=WP) :: gap !< gap (???)
+!          real(kind=WP) :: gapmin !< minimum gap
+!          real(kind=WP) :: gapmax !< maximum gap
+!          real(kind=WP) :: bgapsmx!< overestimation of gap_s
+!          real(kind=WP) :: marge !< margin
+!          real(kind=WP) :: tzinf !< some kind of length for "zone of influence" ?
+!          real(kind=WP) :: drad !< radiation distance (thermal analysis)
+!          real(kind=WP) :: dgapload !< gap load (???)
+!          real(kind=WP), dimension(:,:), allocatable :: x !< coordinates of nodes all
+!          real(kind=WP), dimension(:), allocatable :: gap_s !< gap for secondary nodes
+!          real(kind=WP), dimension(:), allocatable :: gap_m !< gap for main nodes
+!          real(kind=WP), dimension(:), allocatable :: gap_s_l !< gap for secondary nodes (???)
+!          real(kind=WP), dimension(:), allocatable :: gap_m_l !< gap for main nodes (???)
+!          real(kind=WP), dimension(:), allocatable :: curv_max !< maximum curvature
+!          real(kind=WP), dimension(:), allocatable :: stf !< stiffness of segments (quadrangles or triangles)
+!          real(kind=WP), dimension(:), allocatable :: stfn !< stiffness secondary nodes
+!          real(kind=WP), dimension(:), allocatable :: cand_f,cand_p
 !          integer :: nb_voxel_on
 !          integer, dimension(:), allocatable :: list_nb_voxel_on
 !
 !          integer OMP_GET_THREAD_NUM, OMP_GET_NUM_THREADS
 !          external OMP_GET_THREAD_NUM, OMP_GET_NUM_THREADS
 !
-!          my_real ::  xyzm(12) !< bounding box
+!          real(kind=WP) ::  xyzm(12) !< bounding box
 !!         integer :: voxel(8000000)
 !          integer, dimension(:), allocatable :: voxel
 !          integer, dimension(:), allocatable :: next_nod,ifpen
 !          integer :: eshift,i_mem,i, itask, s_irem, s_xrem 
-!          my_real, dimension(:,:), allocatable :: xrem
+!          real(kind=WP), dimension(:,:), allocatable :: xrem
 !          integer, dimension(:,:), allocatable :: irem
 !          double precision :: start_time, end_time, elapsed_time
 !          double precision OMP_GET_WTIME
@@ -1160,7 +1164,7 @@
 !        end subroutine
 
 
-      END MODULE
+      end module INTER7_CANDIDATE_PAIRS_MOD
 
 
 

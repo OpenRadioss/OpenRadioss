@@ -1,3 +1,25 @@
+!Copyright>        OpenRadioss
+!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>
+!Copyright>        This program is free software: you can redistribute it and/or modify
+!Copyright>        it under the terms of the GNU Affero General Public License as published by
+!Copyright>        the Free Software Foundation, either version 3 of the License, or
+!Copyright>        (at your option) any later version.
+!Copyright>
+!Copyright>        This program is distributed in the hope that it will be useful,
+!Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+!Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+!Copyright>        GNU Affero General Public License for more details.
+!Copyright>
+!Copyright>        You should have received a copy of the GNU Affero General Public License
+!Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+!Copyright>
+!Copyright>
+!Copyright>        Commercial Alternative: Altair Radioss Software
+!Copyright>
+!Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
+!Copyright>        software under a commercial license.  Contact Altair to discuss further if the
+!Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
       !||    multi_solve_eint_mod   ../starter/source/initial_conditions/inimap/multi_solve_eint.F90
       !||--- called by ------------------------------------------------------
@@ -21,6 +43,7 @@
       USE MATPARAM_DEF_MOD
       USE CONSTANT_MOD , ONLY : EP20, EM06, ZERO, ONE
       USE EOSMAIN_MOD , ONLY : EOSMAIN
+      USE PRECISION_MOD, ONLY : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit None
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -28,17 +51,16 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included Files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include      "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
       INTEGER, INTENT(IN) :: MATID, NFT, NEL, IFIRST, ILAST, ELEM_LIST(*), IPM(NPROPMI, NUMMAT), MLW, NVAREOS
       INTEGER, INTENT(IN) :: SNPC,STF,NUMMAT,NPROPMI,NPROPM !< array sizes
-      my_real, INTENT(IN) :: PM(NPROPM, NUMMAT), BUFMAT(*), RHO(NEL), PRESIN(NEL)
-      my_real, INTENT(OUT) :: EINT(NEL)
-      my_real, INTENT(INOUT) :: THETA(NEL), VAREOS(NVAREOS*NEL)
+      real(kind=WP), INTENT(IN) :: PM(NPROPM, NUMMAT), BUFMAT(*), RHO(NEL), PRESIN(NEL)
+      real(kind=WP), INTENT(OUT) :: EINT(NEL)
+      real(kind=WP), INTENT(INOUT) :: THETA(NEL), VAREOS(NVAREOS*NEL)
       INTEGER,INTENT(IN)::NPC(SNPC)
-      my_real,INTENT(IN)::TF(STF)
+      real(kind=WP),INTENT(IN)::TF(STF)
       TYPE(MATPARAM_STRUCT_) ,INTENT(IN) :: MAT_PARAM
       INTEGER,INTENT(IN) :: NVARTMP
       INTEGER,INTENT(INOUT) :: VARTMP(NEL,NVARTMP)
@@ -47,11 +69,11 @@
 ! ----------------------------------------------------------------------------------------------------------------------
       INTEGER :: II, ELEMID, EOSTYPE,LOCALID, REMAINING_ELTS, ITER, MAX_ITER
       INTEGER :: MAT(NEL)
-      my_real :: BID(NEL) ! bfrac not used in this context
-      my_real :: VOL(NEL), ERROR(NEL), TOL, OFF(NEL), RHOZERO(NEL), RHO0
-      my_real :: MU(NEL), DF(NEL), MU2(NEL), ESPE(NEL), DVOL(NEL), PSH(NEL)
-      my_real :: SSP(NEL), DPDE(NEL), ECOLD(NEL), PRES(NEL), POLD(NEL)
-      my_real :: FUNC, DFUNC, INCR,SIG(NEL,6),MUOLD(NEL)
+      real(kind=WP) :: BID(NEL) ! bfrac not used in this context
+      real(kind=WP) :: VOL(NEL), ERROR(NEL), TOL, OFF(NEL), RHOZERO(NEL), RHO0
+      real(kind=WP) :: MU(NEL), DF(NEL), MU2(NEL), ESPE(NEL), DVOL(NEL), PSH(NEL)
+      real(kind=WP) :: SSP(NEL), DPDE(NEL), ECOLD(NEL), PRES(NEL), POLD(NEL)
+      real(kind=WP) :: FUNC, DFUNC, INCR,SIG(NEL,6),MUOLD(NEL)
       LOGICAL :: CONVERGED(NEL)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   PreCondition

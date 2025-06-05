@@ -22,105 +22,105 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 
 
- module insertion_sort_mod
+      module insertion_sort_mod
 
-    ! insertion sort for real and integer arrays
-    !    index array allows to determine the bijection between unsorted and sorted arrays
+        ! insertion sort for real and integer arrays
+        !    index array allows to determine the bijection between unsorted and sorted arrays
 
-   contains
-
-! ======================================================================================================================
-!                                                   PROCEDURES
-! ======================================================================================================================
-!! \brief This subroutine is sorting array of size n with insertion sorting algorithm
-!! \details resulting index are provided
-      !||====================================================================
-      !||    real_insertion_sort_with_index   ../common_source/tools/sort/insertion_sort.F90
-      !||--- called by ------------------------------------------------------
-      !||    clipping_weiler_atherton         ../common_source/tools/clipping/polygon_clipping_mod.F90
-      !||    eikonal_sort_narrow_band         ../starter/source/initial_conditions/detonation/eikonal_sort_narrow_band.F90
-      !||====================================================================
-          subroutine real_insertion_sort_with_index(array, index, n)
-            implicit none
-#include "my_real.inc"
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Arguments
-! ----------------------------------------------------------------------------------------------------------------------
-            my_real, intent(inout) :: array(:)
-            integer, intent(out) :: index(:)
-            integer, intent(in) :: n
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Local Variables
-! ----------------------------------------------------------------------------------------------------------------------
-            integer :: ii, jj, temp_index
-            my_real :: key
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Body
-! ----------------------------------------------------------------------------------------------------------------------
-            do ii=1,n
-              index(ii)=ii
-            end do
-            do ii = 2, n
-              key = array(ii)
-              temp_index = index(ii)
-              jj = ii - 1
-              ! move (+1) elems from array(1:j) which are greater than key
-              do while (array(jj) > key)
-                array(jj + 1) = array(jj)
-                index(jj + 1) = index(jj)
-                jj = jj - 1
-                if (jj == 0)exit
-              end do
-              array(jj + 1) = key
-              index(jj + 1) = temp_index
-            end do
-          end subroutine real_insertion_sort_with_index
-
-
+      contains
 
 ! ======================================================================================================================
 !                                                   PROCEDURES
 ! ======================================================================================================================
 !! \brief This subroutine is sorting array of size n with insertion sorting algorithm
 !! \details resulting index are provided
-      !||====================================================================
-      !||    integer_insertion_sort_with_index   ../common_source/tools/sort/insertion_sort.F90
-      !||====================================================================
-          subroutine integer_insertion_sort_with_index(array, index, n)
-            implicit none
+        !||====================================================================
+        !||    real_insertion_sort_with_index   ../common_source/tools/sort/insertion_sort.F90
+        !||--- called by ------------------------------------------------------
+        !||    clipping_weiler_atherton         ../common_source/tools/clipping/polygon_clipping_mod.F90
+        !||    eikonal_sort_narrow_band         ../starter/source/initial_conditions/detonation/eikonal_sort_narrow_band.F90
+        !||====================================================================
+        subroutine real_insertion_sort_with_index(array, index, n)
+          use precision_mod , only : WP
+          implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
-            integer, intent(inout) :: array(:)
-            integer, intent(out) :: index(:)
-            integer, intent(in) :: n
+          real(kind=WP), intent(inout) :: array(:)
+          integer, intent(out) :: index(:)
+          integer, intent(in) :: n
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
-            integer :: ii, jj, temp_index
-            integer :: key
+          integer :: ii, jj, temp_index
+          real(kind=WP) :: key
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------
-            do ii=1,n
-              index(ii)=ii
+          do ii=1,n
+            index(ii)=ii
+          end do
+          do ii = 2, n
+            key = array(ii)
+            temp_index = index(ii)
+            jj = ii - 1
+            ! move (+1) elems from array(1:j) which are greater than key
+            do while (array(jj) > key)
+              array(jj + 1) = array(jj)
+              index(jj + 1) = index(jj)
+              jj = jj - 1
+              if (jj == 0)exit
             end do
-            do ii = 2, n
-              key = array(ii)
-              temp_index = index(ii)
-              jj = ii - 1
-              ! move (+1) elems from array(1:j) which are greater than key
-              do while (array(jj) > key)
-                array(jj + 1) = array(jj)
-                index(jj + 1) = index(jj)
-                jj = jj - 1
-                if (jj == 0)exit
-              end do
-              array(jj + 1) = key
-              index(jj + 1) = temp_index
+            array(jj + 1) = key
+            index(jj + 1) = temp_index
+          end do
+        end subroutine real_insertion_sort_with_index
+
+
+
+! ======================================================================================================================
+!                                                   PROCEDURES
+! ======================================================================================================================
+!! \brief This subroutine is sorting array of size n with insertion sorting algorithm
+!! \details resulting index are provided
+        !||====================================================================
+        !||    integer_insertion_sort_with_index   ../common_source/tools/sort/insertion_sort.F90
+        !||====================================================================
+        subroutine integer_insertion_sort_with_index(array, index, n)
+          implicit none
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Arguments
+! ----------------------------------------------------------------------------------------------------------------------
+          integer, intent(inout) :: array(:)
+          integer, intent(out) :: index(:)
+          integer, intent(in) :: n
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Local Variables
+! ----------------------------------------------------------------------------------------------------------------------
+          integer :: ii, jj, temp_index
+          integer :: key
+! ----------------------------------------------------------------------------------------------------------------------
+!                                                   Body
+! ----------------------------------------------------------------------------------------------------------------------
+          do ii=1,n
+            index(ii)=ii
+          end do
+          do ii = 2, n
+            key = array(ii)
+            temp_index = index(ii)
+            jj = ii - 1
+            ! move (+1) elems from array(1:j) which are greater than key
+            do while (array(jj) > key)
+              array(jj + 1) = array(jj)
+              index(jj + 1) = index(jj)
+              jj = jj - 1
+              if (jj == 0)exit
             end do
-          end subroutine integer_insertion_sort_with_index
+            array(jj + 1) = key
+            index(jj + 1) = temp_index
+          end do
+        end subroutine integer_insertion_sort_with_index
 
 
 
-end module insertion_sort_mod
+      end module insertion_sort_mod

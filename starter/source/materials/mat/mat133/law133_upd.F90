@@ -26,17 +26,18 @@
       !||    updmat           ../starter/source/materials/updmat.F
       !||====================================================================
       module law133_upd_mod
+        implicit none
       contains
 !! \brief update material law 190
-      !||====================================================================
-      !||    law133_upd              ../starter/source/materials/mat/mat133/law133_upd.F90
-      !||--- called by ------------------------------------------------------
-      !||    updmat                  ../starter/source/materials/updmat.F
-      !||--- calls      -----------------------------------------------------
-      !||    table_mat_vinterp       ../starter/source/materials/tools/table_mat_vinterp.F
-      !||--- uses       -----------------------------------------------------
-      !||    table_mat_vinterp_mod   ../starter/source/materials/tools/table_mat_vinterp.F
-      !||====================================================================
+        !||====================================================================
+        !||    law133_upd              ../starter/source/materials/mat/mat133/law133_upd.F90
+        !||--- called by ------------------------------------------------------
+        !||    updmat                  ../starter/source/materials/updmat.F
+        !||--- calls      -----------------------------------------------------
+        !||    table_mat_vinterp       ../starter/source/materials/tools/table_mat_vinterp.F
+        !||--- uses       -----------------------------------------------------
+        !||    table_mat_vinterp_mod   ../starter/source/materials/tools/table_mat_vinterp.F
+        !||====================================================================
         subroutine law133_upd(  matparam ,pm , npropm   )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -44,17 +45,17 @@
           use constant_mod , only : one, two, zero, three
           use matparam_def_mod
           use table_mat_vinterp_mod , only : table_mat_vinterp
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           type(matparam_struct_), target :: matparam
           integer, intent(in) :: npropm
-          my_real, dimension(npropm), intent(inout) :: pm
+          real(kind=WP), dimension(npropm), intent(inout) :: pm
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -62,9 +63,9 @@
           integer :: npt                                  !< number of integration points / max number of integration points
           integer :: i,j                                  !< index loops
           integer :: ieos
-          my_real :: shear_max, young_max, nu, bulk_max, rho_tmd, rho0
-          my_real :: mu_max
-          my_real :: xvec1(1,1), yy(1), dydx(1)
+          real(kind=WP) :: shear_max, young_max, nu, bulk_max, rho_tmd, rho0
+          real(kind=WP) :: mu_max
+          real(kind=WP) :: xvec1(1,1), yy(1), dydx(1)
           integer :: vartmp(1,1)
           type(table_4d_), dimension(:) ,pointer :: table_mat
           logical :: is_compaction

@@ -48,6 +48,7 @@
           use constant_mod, only : zero, ep21
           use detonators_mod , only : detonators_struct_
           use ale_connectivity_mod , only : t_ale_connectivity
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -55,14 +56,13 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer,intent(inout) :: nstart
           integer,intent(in) :: numel, numnod !< array size
           integer,allocatable,dimension(:),intent(out) :: start_elem_list
-          my_real,allocatable,dimension(:),intent(out) :: start_elem_tdet
+          real(kind=WP),allocatable,dimension(:),intent(out) :: start_elem_tdet
           type (detonators_struct_),intent(in) :: detonators
           integer,intent(in) :: nvois !< max number of adjacent elems
           integer,intent(in) :: nod2el(nvois*numel) !< connectivity node->quad
@@ -70,12 +70,12 @@
           type (t_ale_connectivity), intent(inout) :: ale_connectivity
           integer,intent(in) :: elem_list_bij(numel)
           integer,intent(in) :: neldet
-          my_real,intent(in) :: xel(3,neldet)
-          my_real,intent(in) :: x(3,numnod)
+          real(kind=WP),intent(in) :: xel(3,neldet)
+          real(kind=WP),intent(in) :: x(3,numnod)
           integer,intent(in) :: nix
           integer,intent(in) :: ix(nix,numel)
           integer,intent(in) :: mat_det
-          my_real,intent(in) :: vel(neldet)
+          real(kind=WP),intent(in) :: vel(neldet)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -85,12 +85,12 @@
           integer :: inod, nnod, nod_id
           integer :: num_adj, adjacent_elem(64) ! Maximum number of elements in diagonal neighborhood
           integer,allocatable,dimension(:) :: itag_elem
-          integer iad1,lgth !< variable for ale_connectivity elem-elem buffer
+          integer :: iad1,lgth !< variable for ale_connectivity elem-elem buffer
           integer :: iev, iel, ie
-          my_real :: dx,dy,dz,dl,tdet,dcj
-          my_real :: xdet, ydet,zdet
+          real(kind=WP) :: dx,dy,dz,dl,tdet,dcj
+          real(kind=WP) :: xdet, ydet,zdet
 
-          my_real,allocatable,dimension(:) :: tmp_tdet
+          real(kind=WP),allocatable,dimension(:) :: tmp_tdet
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------

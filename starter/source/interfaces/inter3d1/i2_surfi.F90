@@ -65,6 +65,7 @@
           use message_mod
           use constant_mod,     only : nine,ep20
           use connectivity_size_mod, only : nixs,nixc,nixtg
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -72,7 +73,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -97,13 +97,13 @@
           integer,                                   intent(in) :: iout                !< outfile unit  
           integer,                                   intent(in) :: numels              !< number of solid elements
           integer,    dimension(numnod),             intent(in) :: itab                !< number user_id
-          my_real,                                   intent(in) :: dsearch             !< search distance
-          my_real,    dimension(3,numnod),           intent(in) :: x                   !< coordinates of the nodes
+          real(kind=WP),                                   intent(in) :: dsearch             !< search distance
+          real(kind=WP),    dimension(3,numnod),           intent(in) :: x                   !< coordinates of the nodes
           integer,    dimension(nixs,numels),        intent(in) :: ixs                 !< solid connectivity
           integer,                                   intent(in) :: noint               !< user_id of interfaces
           integer,    dimension(nsn),             intent(inout) :: irtl                !< interface node array irtlm
-          my_real,    dimension(2,nsn),           intent(inout) :: st                  !< interface node work array csts
-          my_real,    dimension(nsn),             intent(inout) :: dmin                !< interface node work array dpara
+          real(kind=WP),    dimension(2,nsn),           intent(inout) :: st                  !< interface node work array csts
+          real(kind=WP),    dimension(nsn),             intent(inout) :: dmin                !< interface node work array dpara
           integer,    dimension(nixc,numelc),        intent(in) :: ixc                 !< shell 4n connectivity
           integer,    dimension(nixtg,numeltg),      intent(in) :: ixtg                !< shell 3n connectivity
           integer,    dimension(6,numels10)      ,intent(in)    :: ixs10               !< solid tet10 connectivity
@@ -124,7 +124,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,j,l,k,n,ns,isu1,isu2,nsu1,nsu2,l1,l2,id,inrt, nels, nelc, neltg,nint,iad,ii,ix(4),seg_n
           integer,  dimension(:), allocatable :: itags1,itags2,itagn,igrelem
-          my_real :: rem,area
+          real(kind=WP) :: rem,area
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   External functions
 ! ----------------------------------------------------------------------------------------------------------------------

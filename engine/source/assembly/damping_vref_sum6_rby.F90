@@ -56,6 +56,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           use GROUPDEF_MOD , only: GROUP_
           use constant_mod , only: pi,one,zero,two,half,em20,four
+          use precision_mod , only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -63,7 +64,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -83,28 +83,28 @@
           integer,                                   intent(in) :: numskw                      !< number of skews
           integer,                                   intent(in) :: dim                         !< first dimension of array damp
           integer,                                   intent(in) :: size_rby6_c                 !< dimension of array rby6c
-          my_real,                                   intent(in) :: damp_a(3)                   !< damping coefficient in 3 directions
-          my_real,                                   intent(in) :: v(3,numnod)                 !< nodal velocity
-          my_real,                                   intent(in) :: vr(3,numnod)                !< nodal rotational velocity
-          my_real,                                intent(inout) :: a(3,numnod)                 !< nodal force
-          my_real,                                   intent(in) :: x(3,numnod)                 !< node position
-          my_real,                                   intent(in) :: ms(numnod)                  !< nodal mass
-          my_real,                                   intent(in) :: skew(lskew,numskw)          !< main structure for skews
-          my_real,                                intent(inout) :: damp(dim,numnod)            !< damping force at previous time step
+          real(kind=WP),                                   intent(in) :: damp_a(3)                   !< damping coefficient in 3 directions
+          real(kind=WP),                                   intent(in) :: v(3,numnod)                 !< nodal velocity
+          real(kind=WP),                                   intent(in) :: vr(3,numnod)                !< nodal rotational velocity
+          real(kind=WP),                                intent(inout) :: a(3,numnod)                 !< nodal force
+          real(kind=WP),                                   intent(in) :: x(3,numnod)                 !< node position
+          real(kind=WP),                                   intent(in) :: ms(numnod)                  !< nodal mass
+          real(kind=WP),                                   intent(in) :: skew(lskew,numskw)          !< main structure for skews
+          real(kind=WP),                                intent(inout) :: damp(dim,numnod)            !< damping force at previous time step
           double precision,                       intent(inout) :: dw                          !< increment of external forces work
-          my_real,                                   intent(in) :: dt1                         !< time step
-          my_real,                                   intent(in) :: damp_a2(3)                  !< quadratic damping coefficient in 3 directions
+          real(kind=WP),                                   intent(in) :: dt1                         !< time step
+          real(kind=WP),                                   intent(in) :: damp_a2(3)                  !< quadratic damping coefficient in 3 directions
           double precision,                       intent(inout) :: rby6(8,6,nrbykin)           !< working array for rigid body assembly
           double precision,                       intent(inout) :: rby6_c(2,6,size_rby6_c)         !< working array for rigid body damping assembly
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: i,n
-          my_real :: v_refmx,v_refmy,v_refmz,fdamp_x,fdamp_y,fdamp_z
-          my_real :: fdamp_x_old,fdamp_y_old,fdamp_z_old
-          my_real :: dvskw_x,dvskw_y,dvskw_z,fskw_x,fskw_y,fskw_z,dv_x,dv_y,dv_z
-          my_real :: dist2,cc
-          my_real :: f1(nsn),f2(nsn),f3(nsn),f4(nsn),f5(nsn),f6(nsn),f7(nsn),f8(nsn),f9(nsn),f10(nsn)
+          real(kind=WP) :: v_refmx,v_refmy,v_refmz,fdamp_x,fdamp_y,fdamp_z
+          real(kind=WP) :: fdamp_x_old,fdamp_y_old,fdamp_z_old
+          real(kind=WP) :: dvskw_x,dvskw_y,dvskw_z,fskw_x,fskw_y,fskw_z,dv_x,dv_y,dv_z
+          real(kind=WP) :: dist2,cc
+          real(kind=WP) :: f1(nsn),f2(nsn),f3(nsn),f4(nsn),f5(nsn),f6(nsn),f7(nsn),f8(nsn),f9(nsn),f10(nsn)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------

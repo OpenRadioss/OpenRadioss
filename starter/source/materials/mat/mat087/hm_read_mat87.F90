@@ -73,17 +73,17 @@
         use table_mod 
         use func_table_copy_mod
         use mat_table_copy_mod
+        use precision_mod, only : WP
 !-----------------------------------------------
 !   I m p l i c i t   T y p e s
 !-----------------------------------------------
         implicit none 
-#include  "my_real.inc"
 !-----------------------------------------------
 !   D u m m y   A r g u m e n t s
 !-----------------------------------------------
         type(matparam_struct_),intent(inout)              :: matparam  !< Material parameters structure
         integer, intent(inout)                            :: nuvar     !< Number of user variables
-        my_real, dimension(100),intent(inout)             :: parmat    !< Material parameter local reading table
+        real(kind=WP), dimension(100),intent(inout)             :: parmat    !< Material parameter local reading table
         integer, intent(in)                               :: mat_id    !< Material identifier
         character(len=nchartitle) ,intent(in)             :: titr      !< Material title
         type(unit_type_),intent(in)                       :: unitab    !< Units table
@@ -100,7 +100,7 @@
 !-----------------------------------------------
         integer :: i,iflagsr,iflag,flag_fit,ilaw,nrate,offset,         &
           ierr2,ifunc(maxfunc),itable(3),ikin
-        my_real :: e,nu,g,bulk,fcut,al1,al2,al3,al4,al5,al6,al7,al8,           &
+        real(kind=WP) :: e,nu,g,bulk,fcut,al1,al2,al3,al4,al5,al6,al7,al8,           &
           fisokin,invp,invc,unspt,unsct,aswift,epso,qvoce,beta,           &
           ko,alpha,nexp,unsp,unsc,rho0,rhor,rate(maxfunc),yfac(maxfunc),       &
           yfac_unit(maxfunc),k1,k2,ahs,bhs,mhs,eps0hs,nhs,hmart,temp0,         &
@@ -655,7 +655,7 @@
           endif
         endif
 !
- 1000 format(/                                                                 &                                                                                            
+ 1000 format(/                                                                 & 
        5X,'-------------------------------------------------------',/          &     
        5X,'           MATERIAL MODEL: BARLAT YLD2000              ',/,         & 
        5X,'-------------------------------------------------------',/)

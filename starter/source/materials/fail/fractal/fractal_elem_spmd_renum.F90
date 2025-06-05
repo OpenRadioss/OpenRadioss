@@ -51,13 +51,13 @@
       use random_walk_def_mod
       use constant_mod ,only : zero,one
       use reorder_mod
+      use precision_mod, only : WP
 ! ---------------------------------------------------------------------------------------------
           implicit none
 ! ---------------------------------------------------------------------------------------------
 !     included files
 ! ---------------------------------------------------------------------------------------------
 
-#include "my_real.inc"
 
 !-----------------------------------------------
 !   D u m m y   A r g u m e n t s
@@ -73,7 +73,7 @@
       integer ,dimension(:) ,allocatable :: tag_elem
       integer ,dimension(:) ,allocatable :: tag_id
       integer ,dimension(:) ,allocatable :: tag_nix
-      my_real ,dimension(:) ,allocatable :: tag_dmg
+      real(kind=WP) ,dimension(:) ,allocatable :: tag_dmg
 !=======================================================================
       do ifract = 1,fail_fractal%nfail
         nelem = fail_fractal%fractal(ifract)%nelem

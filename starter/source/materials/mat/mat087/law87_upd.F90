@@ -54,6 +54,7 @@
 !-----------------------------------------------
 !   M o d u l e s
 !-----------------------------------------------
+        use precision_mod, only : WP
         use matparam_def_mod
         use constant_mod
         use message_mod
@@ -63,7 +64,6 @@
 !   I m p l i c i t   T y p e s
 !-----------------------------------------------
         implicit none
-#include     "my_real.inc"
 !-----------------------------------------------
 !   D u m m y   A r g u m e n t s
 !-----------------------------------------------
@@ -74,13 +74,13 @@
 !-----------------------------------------------
 !   F u n c t i o n s
 !-----------------------------------------------
-        my_real :: finter
+        real(kind=WP) :: finter
         external finter
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
         integer :: k,error,iflag,niter,iok,ipos(1,2)
-        my_real ::                                                             &
+        real(kind=WP) ::                                                             &
             gamma,delta,fct,yield,dx,dy,g1,g2,g3,g13,g23,g33,g15,g25,g35,&
             df1,df2,df3,df13,df23,df33,df15,df25,df35,f1,f2,  &
             dv1a7,dv11a8,dw11a8,r00,r45,r90,rb,s00,s45,s90,sb,&
@@ -91,7 +91,7 @@
             xvec(1,2),yld(1),expa,expam2,k1,k2,ahs,bhs,mhs,eps0hs,nhs,hmart,   &
             temp0,expo,aexp,atemp,vm0,lam_Lp,lam_Lpp
 !      
-        logical  is_encrypted
+        logical  :: is_encrypted
 !=======================================================================
         is_encrypted = .false.
         call hm_option_is_encrypted(is_encrypted)
@@ -290,7 +290,7 @@
           dw11a8 =  (expa*(expa-one)*al(8) /tal8 ) *  abs(tf4a8 ) **(expa-2)
   
           dg(1,1) = (expa * abs(tal7)**(expa-1)) * al(7)/tal7  
-          dg(1,2) = expa *( al(8) /tal8) * ( tf4a8 * abs (tf4a8)**(expa-2) - conjtf4a8 *abs (conjtf4a8)**(expa-2)  )                               
+          dg(1,2) = expa *( al(8) /tal8) * ( tf4a8 * abs (tf4a8)**(expa-2) - conjtf4a8 *abs (conjtf4a8)**(expa-2)  ) 
           dg(2,1) = dv1a7 *  x2**2 /(two*tal7) - four * v1 * al(7) * x2**2  / sqrt(max(zero,x2**2  + four * al(7)**2) )**3
           dg(2,2) = three_half*x11 * (dv11a8 + dw11a8) + half * (x22**2/tal8) * (dw11a8- dv11a8) - (w11 - v11)*al(8)*x22**2/tal8**3
 
@@ -421,19 +421,19 @@
 !-----------------------------------------------
         use message_mod
         use constant_mod
+        use precision_mod, only : WP
 !-----------------------------------------------
 !   I m p l i c i t   T y p e s
 !-----------------------------------------------
         implicit none
-#include     "my_real.inc"
 !-----------------------------------------------
 !     A r g u m e n t s
 !-----------------------------------------------
-        my_real,  intent(in)               :: aa
-        my_real,  dimension(8), intent(in) :: al 
-        my_real , intent(in)               :: g
-        my_real , intent(in)               :: d
-        my_real , intent(out)              :: f
+        real(kind=WP),  intent(in)               :: aa
+        real(kind=WP),  dimension(8), intent(in) :: al 
+        real(kind=WP) , intent(in)               :: g
+        real(kind=WP) , intent(in)               :: d
+        real(kind=WP) , intent(out)              :: f
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
@@ -456,20 +456,20 @@
 !-----------------------------------------------
         use message_mod
         use constant_mod
+        use precision_mod, only : WP
 !-----------------------------------------------
 !   I m p l i c i t   T y p e s
 !-----------------------------------------------
         implicit none
-#include     "my_real.inc"
 !-----------------------------------------------
 !     A r g u m e n t s
 !-----------------------------------------------
-        my_real, intent(in)               :: a
-        my_real, dimension(8), intent(in) :: al 
-        my_real, intent(in)               :: gamma
-        my_real, intent(in)               :: delta
-        my_real, intent(out)              :: dx
-        my_real, intent(out)              :: dy
+        real(kind=WP), intent(in)               :: a
+        real(kind=WP), dimension(8), intent(in) :: al 
+        real(kind=WP), intent(in)               :: gamma
+        real(kind=WP), intent(in)               :: delta
+        real(kind=WP), intent(out)              :: dx
+        real(kind=WP), intent(out)              :: dy
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
@@ -495,22 +495,22 @@
 !-----------------------------------------------
         use message_mod
         use constant_mod
+        use precision_mod, only : WP
 !-----------------------------------------------
 !   I m p l i c i t   T y p e s
 !-----------------------------------------------
         implicit none
-#include     "my_real.inc"
 !-----------------------------------------------
 !     A r g u m e n t s
 !-----------------------------------------------
         integer, intent(in)                    :: n
-        my_real, dimension(n,n), intent(in)    :: a
-        my_real, dimension(n,n), intent(in)    :: b
-        my_real, dimension(n,n), intent(inout) :: c
+        real(kind=WP), dimension(n,n), intent(in)    :: a
+        real(kind=WP), dimension(n,n), intent(in)    :: b
+        real(kind=WP), dimension(n,n), intent(inout) :: c
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-        integer i, j, k
+        integer :: i, j, k
 !=======================================================================
 !
         do i = 1, n
@@ -541,22 +541,22 @@
 !-----------------------------------------------
         use message_mod
         use constant_mod
+        use precision_mod, only : WP
 !-----------------------------------------------
 !   I m p l i c i t   T y p e s
 !-----------------------------------------------
         implicit none
-#include     "my_real.inc"
 !-----------------------------------------------
 !     A r g u m e n t s
 !-----------------------------------------------
         integer, intent(in)                    :: n
-        my_real, dimension(n,n), intent(in)    :: a
-        my_real, dimension(n),   intent(in)    :: b
-        my_real, dimension(n),   intent(inout) :: c
+        real(kind=WP), dimension(n,n), intent(in)    :: a
+        real(kind=WP), dimension(n),   intent(in)    :: b
+        real(kind=WP), dimension(n),   intent(inout) :: c
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
-        integer i, j
+        integer :: i, j
 !=======================================================================
 !
         do i = 1, n

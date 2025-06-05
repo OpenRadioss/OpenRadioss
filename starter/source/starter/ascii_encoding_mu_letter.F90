@@ -60,7 +60,7 @@
           character(len=ncharkey), pointer :: pkey                 !< pointer on list_key (key1 -> key6)
           character(len=ncharkey),dimension(6),target :: list_key  !< list of all keys : key1,key2,...key6
           character(len=1),dimension(6) :: list_MLT                !< MLT codes : (m,g,s)
-          integer ii
+          integer :: ii
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------

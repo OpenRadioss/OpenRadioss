@@ -22,15 +22,16 @@
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !----s---1----+----2----+----3----+----4----+----5----+----6----+----7--
       !||====================================================================
-      !||    redef3_mod    ../engine/source/elements/spring/redef3.F90
+      !||    redef3_mod       ../engine/source/elements/spring/redef3.F90
       !||--- called by ------------------------------------------------------
-      !||    r1def3        ../engine/source/elements/spring/r1def3.F
-      !||    r23l108def3   ../engine/source/elements/spring/r23l108def3.F
-      !||    r23l114def3   ../engine/source/elements/spring/r23l114def3.F
-      !||    r2def3        ../engine/source/elements/spring/r2def3.F
-      !||    r3def3        ../engine/source/elements/spring/r3def3.F
-      !||    r4def3        ../engine/source/elements/spring/r4def3.F
-      !||    r6def3        ../engine/source/elements/spring/r6def3.F
+      !||    r1def3           ../engine/source/elements/spring/r1def3.F
+      !||    r23l108def3      ../engine/source/elements/spring/r23l108def3.F
+      !||    r23l114def3      ../engine/source/elements/spring/r23l114def3.F
+      !||    r2def3           ../engine/source/elements/spring/r2def3.F
+      !||    r3def3           ../engine/source/elements/spring/r3def3.F
+      !||    r4def3           ../engine/source/elements/spring/r4def3.F
+      !||    r6def3           ../engine/source/elements/spring/r6def3.F
+      !||    redef_seatbelt   ../engine/source/tools/seatbelts/redef_seatbelt.F90
       !||====================================================================
       module redef3_mod
       contains
@@ -103,7 +104,6 @@
 !                                                   implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-#include "my_real.inc"
 #include "mvsiz_p.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   arguments
@@ -132,37 +132,37 @@
           integer, dimension(mvsiz),intent(inout) ::  ifunc2
           integer, dimension(mvsiz),intent(in) ::  ifv
 
-          ! my_real arrays
-          my_real,intent(in) ::  dt1                                        !< time step
-          my_real, dimension(stf),intent(inout) :: tf                       !< functions
-          my_real, dimension(sanin),intent(inout) :: anim                   !< animation
-          my_real, dimension(5,nel),intent(inout) :: pos                    !< gbuf%posx
-          my_real, dimension(nel),intent(inout) :: fx                       !< gbuf%for
-          my_real, dimension(nel),intent(inout) :: dx                       !< gbuf%totdepl
-          my_real, dimension(nel),intent(inout) :: fxep                     !< gbuf%forep
-          my_real, dimension(nel),intent(inout) :: dpx                      !< gbuf%dep_in_tens
-          my_real, dimension(nel),intent(inout) :: e                        !< gbuf%eint (internal energy)
-          my_real, dimension(nel),intent(inout) :: dpx2                     !< gbuf%dep_in_comp
-          my_real, dimension(nel),intent(inout) :: yield                    !< gbuf%yield(ii(1))
-          my_real, dimension(nel),intent(inout) :: xx_old                   !< uvar(1,1:nel)
-          my_real, dimension(mvsiz),intent(inout) :: xk
-          my_real, dimension(mvsiz),intent(inout) :: dxold                  !< previous dx
-          my_real, dimension(mvsiz),intent(inout) :: xc                     !<
-          my_real, dimension(mvsiz),intent(inout) :: off                    !< element activated/deactivated (local buffer)
-          my_real, dimension(mvsiz),intent(inout) :: xl0                    !< length
-          my_real, dimension(mvsiz),intent(inout) :: dmn                    !< geo(15,mgn(i))
-          my_real, dimension(mvsiz),intent(inout) :: dmx                    !< geo(16,mgn(i))
-          my_real, dimension(mvsiz),intent(inout) :: dvx                    !< working array
-          my_real, dimension(mvsiz),intent(inout) :: ff                     !< geo(18 ,mgn(i))
-          my_real, dimension(mvsiz),intent(inout) :: lscale                 !< geo(39 ,mgn(i))
-          my_real, dimension(mvsiz),intent(inout) :: ee                     !< geo(40 ,mgn(i))
-          my_real, dimension(mvsiz),intent(inout) :: ak                     !<
-          my_real, dimension(mvsiz),intent(inout) :: b                      !<
-          my_real, dimension(mvsiz),intent(inout) :: d                      !<
-          my_real, dimension(mvsiz),intent(inout) :: epla                   !<
-          my_real, dimension(mvsiz),intent(inout), optional :: max_slope    !<
-          my_real, dimension(mvsiz),intent(inout), optional :: fx_max       !<
-          my_real, dimension(mvsiz),intent(inout), optional :: xkc          !<
+          ! real(kind=WP) arrays
+          real(kind=WP),intent(in) ::  dt1                                        !< time step
+          real(kind=WP), dimension(stf),intent(inout) :: tf                       !< functions
+          real(kind=WP), dimension(sanin),intent(inout) :: anim                   !< animation
+          real(kind=WP), dimension(5,nel),intent(inout) :: pos                    !< gbuf%posx
+          real(kind=WP), dimension(nel),intent(inout) :: fx                       !< gbuf%for
+          real(kind=WP), dimension(nel),intent(inout) :: dx                       !< gbuf%totdepl
+          real(kind=WP), dimension(nel),intent(inout) :: fxep                     !< gbuf%forep
+          real(kind=WP), dimension(nel),intent(inout) :: dpx                      !< gbuf%dep_in_tens
+          real(kind=WP), dimension(nel),intent(inout) :: e                        !< gbuf%eint (internal energy)
+          real(kind=WP), dimension(nel),intent(inout) :: dpx2                     !< gbuf%dep_in_comp
+          real(kind=WP), dimension(nel),intent(inout) :: yield                    !< gbuf%yield(ii(1))
+          real(kind=WP), dimension(nel),intent(inout) :: xx_old                   !< uvar(1,1:nel)
+          real(kind=WP), dimension(mvsiz),intent(inout) :: xk
+          real(kind=WP), dimension(mvsiz),intent(inout) :: dxold                  !< previous dx
+          real(kind=WP), dimension(mvsiz),intent(inout) :: xc                     !<
+          real(kind=WP), dimension(mvsiz),intent(inout) :: off                    !< element activated/deactivated (local buffer)
+          real(kind=WP), dimension(mvsiz),intent(inout) :: xl0                    !< length
+          real(kind=WP), dimension(mvsiz),intent(inout) :: dmn                    !< geo(15,mgn(i))
+          real(kind=WP), dimension(mvsiz),intent(inout) :: dmx                    !< geo(16,mgn(i))
+          real(kind=WP), dimension(mvsiz),intent(inout) :: dvx                    !< working array
+          real(kind=WP), dimension(mvsiz),intent(inout) :: ff                     !< geo(18 ,mgn(i))
+          real(kind=WP), dimension(mvsiz),intent(inout) :: lscale                 !< geo(39 ,mgn(i))
+          real(kind=WP), dimension(mvsiz),intent(inout) :: ee                     !< geo(40 ,mgn(i))
+          real(kind=WP), dimension(mvsiz),intent(inout) :: ak                     !<
+          real(kind=WP), dimension(mvsiz),intent(inout) :: b                      !<
+          real(kind=WP), dimension(mvsiz),intent(inout) :: d                      !<
+          real(kind=WP), dimension(mvsiz),intent(inout) :: epla                   !<
+          real(kind=WP), dimension(mvsiz),intent(inout), optional :: max_slope    !<
+          real(kind=WP), dimension(mvsiz),intent(inout), optional :: fx_max       !<
+          real(kind=WP), dimension(mvsiz),intent(inout), optional :: xkc          !<
           double precision, dimension(mvsiz),intent(inout) :: aldp          !<
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
@@ -195,44 +195,44 @@
           integer j2ad(mvsiz)
           integer j2func
 !     real ou real*8
-          my_real b1
-          my_real ddx(mvsiz)
-          my_real fold(mvsiz)
-          my_real gx(mvsiz)
-          my_real dxela(mvsiz)
-          my_real dydx(mvsiz)
-          my_real xx(mvsiz)
-          my_real xx2(mvsiz)
-          my_real xx3(mvsiz)
-          my_real yy(mvsiz)
-          my_real yy2(mvsiz)
-          my_real yy3(mvsiz)
-          my_real dydx2(mvsiz)
-          my_real dydx3(mvsiz)
-          my_real dydxv(mvsiz)
-          my_real dperm(mvsiz)
-          my_real dvv
-          my_real dfac
-          my_real dt11
-          my_real damp
-          my_real damm
-          my_real fmax(mvsiz)
-          my_real dvxs(mvsiz)
-          my_real gf3(mvsiz)
-          my_real dydxv2(mvsiz)
-          my_real fmin(mvsiz)
-          my_real gx2(mvsiz)
-          my_real xi1
-          my_real xi2
-          my_real yi1
-          my_real yi2
-          my_real x1
-          my_real x2
-          my_real y1
-          my_real y2
-          my_real an3y0(mvsiz)
-          my_real ddxt
-          my_real ddxc
+          real(kind=WP) b1
+          real(kind=WP) ddx(mvsiz)
+          real(kind=WP) fold(mvsiz)
+          real(kind=WP) gx(mvsiz)
+          real(kind=WP) dxela(mvsiz)
+          real(kind=WP) dydx(mvsiz)
+          real(kind=WP) xx(mvsiz)
+          real(kind=WP) xx2(mvsiz)
+          real(kind=WP) xx3(mvsiz)
+          real(kind=WP) yy(mvsiz)
+          real(kind=WP) yy2(mvsiz)
+          real(kind=WP) yy3(mvsiz)
+          real(kind=WP) dydx2(mvsiz)
+          real(kind=WP) dydx3(mvsiz)
+          real(kind=WP) dydxv(mvsiz)
+          real(kind=WP) dperm(mvsiz)
+          real(kind=WP) dvv
+          real(kind=WP) dfac
+          real(kind=WP) dt11
+          real(kind=WP) damp
+          real(kind=WP) damm
+          real(kind=WP) fmax(mvsiz)
+          real(kind=WP) dvxs(mvsiz)
+          real(kind=WP) gf3(mvsiz)
+          real(kind=WP) dydxv2(mvsiz)
+          real(kind=WP) fmin(mvsiz)
+          real(kind=WP) gx2(mvsiz)
+          real(kind=WP) xi1
+          real(kind=WP) xi2
+          real(kind=WP) yi1
+          real(kind=WP) yi2
+          real(kind=WP) x1
+          real(kind=WP) x2
+          real(kind=WP) y1
+          real(kind=WP) y2
+          real(kind=WP) an3y0(mvsiz)
+          real(kind=WP) ddxt
+          real(kind=WP) ddxc
 
           integer :: nfunct !< total number of functions
           integer :: pyid1, pyid2 !< python function id

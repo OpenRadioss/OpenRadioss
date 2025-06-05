@@ -1,3 +1,25 @@
+!Copyright>        OpenRadioss
+!Copyright>        Copyright (C) 1986-2025 Altair Engineering Inc.
+!Copyright>
+!Copyright>        This program is free software: you can redistribute it and/or modify
+!Copyright>        it under the terms of the GNU Affero General Public License as published by
+!Copyright>        the Free Software Foundation, either version 3 of the License, or
+!Copyright>        (at your option) any later version.
+!Copyright>
+!Copyright>        This program is distributed in the hope that it will be useful,
+!Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+!Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+!Copyright>        GNU Affero General Public License for more details.
+!Copyright>
+!Copyright>        You should have received a copy of the GNU Affero General Public License
+!Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+!Copyright>
+!Copyright>
+!Copyright>        Commercial Alternative: Altair Radioss Software
+!Copyright>
+!Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
+!Copyright>        software under a commercial license.  Contact Altair to discuss further if the
+!Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 !copyright>        openradioss
 !copyright>        copyright (c) 1986-2025 altair engineering inc.
 !copyright>
@@ -65,7 +87,6 @@
 !c   i m p l i c i t   t y p e 
 !c-----------------------------------------------    
       implicit none
-#include      "my_real.inc" 
 #include      "units_c.inc" 
 
 !c-----------------------------------------------
@@ -78,21 +99,21 @@
       integer                     ,intent(in)     :: ntablf   ! number of table functions
       integer, dimension(ntablf)  ,intent(in)     :: itablf   ! table function identifiers
 
-      my_real                     ,intent(in)     :: time     ! current time
-      my_real, dimension(nuparam) ,intent(in)     :: uparam   ! user parameters
-      my_real, dimension(nel)     ,intent(in)     :: aldt     ! time increment
-      my_real, dimension(nel)     ,intent(in)     :: dpla     ! plastic strain
-      my_real, dimension(nel)     ,intent(in)     :: epsp     ! strain rate
-      my_real, dimension(nel)     ,intent(in)     :: temp     ! temperature
+      real(kind=WP)                     ,intent(in)     :: time     ! current time
+      real(kind=WP), dimension(nuparam) ,intent(in)     :: uparam   ! user parameters
+      real(kind=WP), dimension(nel)     ,intent(in)     :: aldt     ! time increment
+      real(kind=WP), dimension(nel)     ,intent(in)     :: dpla     ! plastic strain
+      real(kind=WP), dimension(nel)     ,intent(in)     :: epsp     ! strain rate
+      real(kind=WP), dimension(nel)     ,intent(in)     :: temp     ! temperature
 
-      my_real ,dimension(nel)     ,intent(inout)    :: f1        ! force in local x direction
-      my_real                     ,intent(in)    :: area       !< cross section area
-      my_real, dimension(nel, nuvar), intent(inout) :: uvar   ! user variables
-      my_real, dimension(nel)     ,intent(inout)  :: dfmax    ! maximum damage
-      my_real, dimension(nel)     ,intent(inout)  :: dmgscl
-      my_real, dimension(nel)     ,intent(inout)  :: tdele    ! element deletion time
+      real(kind=WP) ,dimension(nel)     ,intent(inout)    :: f1        ! force in local x direction
+      real(kind=WP)                     ,intent(in)    :: area       !< cross section area
+      real(kind=WP), dimension(nel, nuvar), intent(inout) :: uvar   ! user variables
+      real(kind=WP), dimension(nel)     ,intent(inout)  :: dfmax    ! maximum damage
+      real(kind=WP), dimension(nel)     ,intent(inout)  :: dmgscl
+      real(kind=WP), dimension(nel)     ,intent(inout)  :: tdele    ! element deletion time
 
-      my_real, dimension(nel)     ,intent(inout)  :: off      ! offset
+      real(kind=WP), dimension(nel)     ,intent(inout)  :: off      ! offset
 
       type(ttable), dimension(ntable), intent(in) :: table    ! table data
       integer ,intent(in) :: snpc
@@ -102,8 +123,8 @@
 !c   variables for function interpolation 
 !c-----------------------------------------------
       integer, dimension(snpc), intent(in) :: npf
-      my_real, dimension(stf), intent(in) :: tf
-      my_real, external :: finter
+      real(kind=WP), dimension(stf), intent(in) :: tf
+      real(kind=WP), external :: finter
       integer                     ,intent(in)     :: nfunc    ! number of functions
       integer, dimension(nfunc)   ,intent(in)     :: ifunc    ! function identifiers
 
@@ -115,15 +136,15 @@
              log_scale1, log_scale2
       integer, dimension(nel) :: indx, ipos2, iad, ilen
       integer, dimension(nel, 3) :: ipos
-      my_real :: fcrit, dn, dcrit, ecrit, exp_ref, expo, el_ref, &
+      real(kind=WP) :: fcrit, dn, dcrit, ecrit, exp_ref, expo, el_ref, &
              sr_ref1, fscale_el, shrf, biaxf, sr_ref2, &
              fscale_sr, cjc, fscale_dlim, temp_ref, fscale_temp
-      my_real :: lambda, fac, df, dpl_def, cos3theta, det, p, svm, &
+      real(kind=WP) :: lambda, fac, df, dpl_def, cos3theta, det, p, svm, &
              sxx, syy, szz
-      my_real, dimension(nel) :: inst, dc, l0, triax, xi, epsf, epsl, &
+      real(kind=WP), dimension(nel) :: inst, dc, l0, triax, xi, epsf, epsl, &
                  depsf, depsl, sizefac, ratefac, dsize, &
                  softexp, dlim, tempfac, tempfac2, dft, var
-      my_real, dimension(nel, 3) :: xvec
+      real(kind=WP), dimension(nel, 3) :: xvec
 
 !c=======================================================================
 !c=======================================================================

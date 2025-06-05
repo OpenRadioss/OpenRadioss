@@ -156,8 +156,8 @@ module interfaces_mod
    type interfaces_
       type(intbuf_struct_),dimension(:),allocatable :: intbuf_tab
       type(intbuf_fric_struct_),dimension(:),allocatable :: intbuf_fric_tab
-      type (parameters_) parameters
-      type (spmd_arrays_) spmd_arrays
+      type (parameters_) :: parameters
+      type (spmd_arrays_) :: spmd_arrays
       integer :: ninter, npari
       type(interface_pon_) :: pon
    end type interfaces_

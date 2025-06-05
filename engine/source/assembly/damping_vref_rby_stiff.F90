@@ -48,14 +48,11 @@
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
           use constant_mod , only: one,two,em20
+          use precision_mod , only: WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Included files
-! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -66,16 +63,16 @@
           integer,                                   intent(in) :: npby(nnpby,nrbykin)         !< main structure for rigid bodies
           integer,                                   intent(in) :: size_rby6_c                 !< dimension of array rby6c
           integer,                                   intent(in) :: irbkin_l(nrbykin)           !< local global id of rigid_body
-          my_real,                                   intent(in) :: ms(numnod)                  !< nodal mass
-          my_real,                                   intent(in) :: in(numnod)                  !< nodal inertia
-          my_real,                                intent(inout) :: stifn(numnod)               !< nodal stiffness
-          my_real,                                intent(inout) :: stifr(numnod)               !< nodal rotational stiffness
+          real(kind=WP),                                   intent(in) :: ms(numnod)                  !< nodal mass
+          real(kind=WP),                                   intent(in) :: in(numnod)                  !< nodal inertia
+          real(kind=WP),                                intent(inout) :: stifn(numnod)               !< nodal stiffness
+          real(kind=WP),                                intent(inout) :: stifr(numnod)               !< nodal rotational stiffness
           double precision,                          intent(in) :: rby6_c(2,6,size_rby6_c)         !< working array for rigid body damping assembly
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           integer :: nd,m,n
-          my_real :: c_tot,cr_tot,dd,fac
+          real(kind=WP) :: c_tot,cr_tot,dd,fac
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------

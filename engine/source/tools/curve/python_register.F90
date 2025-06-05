@@ -175,6 +175,6 @@
           deallocate(user_id)
           deallocate(local_id)
           deallocate(group_id)
-        end subroutine
+        end subroutine python_register
 
-      end module
+      end module python_register_mod

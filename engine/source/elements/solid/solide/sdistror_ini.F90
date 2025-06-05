@@ -62,13 +62,13 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
 ! ----------------------------------------------------------------------------------------------------------------------
-      use constant_mod, only : one,zero,two,zep05,onep333,em03,ep02,em02,third,fourth,hundred80,ten,three,half,em20
+          use constant_mod, only : one,zero,two,zep05,onep333,em03,ep02,em02,third,fourth,hundred80,ten,three,half,em20
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 #include "mvsiz_p.inc"
 !-----------------------------------------------
 !   d u m m y   a r g u m e n t s
@@ -79,23 +79,23 @@
           integer, intent(in)                              :: ismstr          !< small strain flag
           integer, dimension(mvsiz), intent(in   )         :: imat            !< material id
           integer, dimension(mvsiz), intent(inout)         :: istab           !< buckling criterion flag
-          my_real, dimension(npropm,nummat) ,intent(in)    :: pm              !< material data
-          my_real, dimension(nel,6), intent(in   )         :: sig             !< stress tensor for buckling check
-          my_real, dimension(nel),   intent(in   )         :: rho             !< density
-          my_real, dimension(mvsiz), intent(in   )         :: cxx             !< speed sound 
-          my_real, dimension(mvsiz), intent(in   )         :: off             !< off value 
-          my_real, dimension(mvsiz), intent(in   )         :: vol             !< volume 
-          my_real, dimension(nel),   intent(in   )         :: offg            !< offg value 
-          my_real, dimension(mvsiz), intent(inout)         :: ll              !< charactistic length
-          my_real, dimension(mvsiz), intent(inout)         :: fld             !< damping charactistic 
-          my_real, dimension(mvsiz), intent(inout)         :: sti_c           !< nodal stiffness
-          my_real, intent(inout)                           :: mu              !< damping coefficient
-          my_real, intent(inout)                           :: fqmax           !< quadratic stiffness limit for contact
+          real(kind=WP), dimension(npropm,nummat) ,intent(in)    :: pm              !< material data
+          real(kind=WP), dimension(nel,6), intent(in   )         :: sig             !< stress tensor for buckling check
+          real(kind=WP), dimension(nel),   intent(in   )         :: rho             !< density
+          real(kind=WP), dimension(mvsiz), intent(in   )         :: cxx             !< speed sound 
+          real(kind=WP), dimension(mvsiz), intent(in   )         :: off             !< off value 
+          real(kind=WP), dimension(mvsiz), intent(in   )         :: vol             !< volume 
+          real(kind=WP), dimension(nel),   intent(in   )         :: offg            !< offg value 
+          real(kind=WP), dimension(mvsiz), intent(inout)         :: ll              !< charactistic length
+          real(kind=WP), dimension(mvsiz), intent(inout)         :: fld             !< damping charactistic 
+          real(kind=WP), dimension(mvsiz), intent(inout)         :: sti_c           !< nodal stiffness
+          real(kind=WP), intent(inout)                           :: mu              !< damping coefficient
+          real(kind=WP), intent(inout)                           :: fqmax           !< quadratic stiffness limit for contact
 !-----------------------------------------------
 !   l o c a l   v a r i a b l e s
 !-----------------------------------------------
           integer :: i,mx
-          my_real :: nu,f_nu,c1,caq,c2,es,f_es,aj2,f_min
+          real(kind=WP) :: nu,f_nu,c1,caq,c2,es,f_es,aj2,f_min
 !=======================================================================
 !
          mu=zep05

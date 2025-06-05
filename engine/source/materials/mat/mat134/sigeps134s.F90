@@ -55,54 +55,49 @@
       use matparam_def_mod
       use constant_mod ,only : pi,zero,one,half,third,two,three,four,em20
       use constant_mod ,only : four_over_3,four_over_5,em10
+      use precision_mod, only : WP
 ! ---------------------------------------------------------------------------------
           implicit none
-! ---------------------------------------------------------------------------------
-!     included files
-! ---------------------------------------------------------------------------------
-
-#include "my_real.inc"
-
 !-----------------------------------------------
 !   d u m m y   a r g u m e n t s
 !-----------------------------------------------
       integer ,intent(in) :: nel                           !< element group size
       integer ,intent(in) :: nuvar                         !< number of state variables
-      my_real ,intent(in) :: timestep                      !< time step
-      ! my_real ,dimension(nel)     ,intent(in)    :: rho0  !< reference density
-      my_real ,dimension(nel)     ,intent(in)    :: rho   !< density 
-      my_real ,dimension(nel)     ,intent(in)    :: depsxx !<  strain increment component in direction xx 
-      my_real ,dimension(nel)     ,intent(in)    :: depsyy !< strain increment component in direction yy
-      my_real ,dimension(nel)     ,intent(in)    :: depszz !< strain increment component in direction zz
-      my_real ,dimension(nel)     ,intent(in)    :: depsxy !< strain increment component  in xy direction
-      my_real ,dimension(nel)     ,intent(in)    :: depsyz !<   
-      my_real ,dimension(nel)     ,intent(in)    :: depszx !< strain rate component  in zx direction
-      my_real ,dimension(nel)     ,intent(in)    :: sigoxx !< output stress component
-      my_real ,dimension(nel)     ,intent(in)    :: sigoyy !< output stress component
-      my_real ,dimension(nel)     ,intent(in)    :: sigozz !< output stress component
-      my_real ,dimension(nel)     ,intent(in)    :: sigoxy !< output stress component
-      my_real ,dimension(nel)     ,intent(in)    :: sigoyz !< output stress component
-      my_real ,dimension(nel)     ,intent(in)    :: sigozx !< output stress component
-      my_real ,dimension(nel)     ,intent(out)   :: signxx !< output stress component
-      my_real ,dimension(nel)     ,intent(out)   :: signyy !< output stress component
-      my_real ,dimension(nel)     ,intent(out)   :: signzz !< output stress component
-      my_real ,dimension(nel)     ,intent(out)   :: signxy !< output stress component
-      my_real ,dimension(nel)     ,intent(out)   :: signyz !< output stress component
-      my_real ,dimension(nel)     ,intent(out)   :: signzx !< output stress component
+      real(kind=WP) ,intent(in) :: timestep                      !< time step
+      ! real(kind=WP) ,dimension(nel)     ,intent(in)    :: rho0  !< reference density
+      real(kind=WP) ,dimension(nel)     ,intent(in)    :: rho   !< density 
+      real(kind=WP) ,dimension(nel)     ,intent(in)    :: depsxx !<  strain increment component in direction xx 
+      real(kind=WP) ,dimension(nel)     ,intent(in)    :: depsyy !< strain increment component in direction yy
+      real(kind=WP) ,dimension(nel)     ,intent(in)    :: depszz !< strain increment component in direction zz
+      real(kind=WP) ,dimension(nel)     ,intent(in)    :: depsxy !< strain increment component  in xy direction
+      real(kind=WP) ,dimension(nel)     ,intent(in)    :: depsyz !<   
+      real(kind=WP) ,dimension(nel)     ,intent(in)    :: depszx !< strain rate component  in zx direction
+      real(kind=WP) ,dimension(nel)     ,intent(in)    :: sigoxx !< output stress component
+      real(kind=WP) ,dimension(nel)     ,intent(in)    :: sigoyy !< output stress component
+      real(kind=WP) ,dimension(nel)     ,intent(in)    :: sigozz !< output stress component
+      real(kind=WP) ,dimension(nel)     ,intent(in)    :: sigoxy !< output stress component
+      real(kind=WP) ,dimension(nel)     ,intent(in)    :: sigoyz !< output stress component
+      real(kind=WP) ,dimension(nel)     ,intent(in)    :: sigozx !< output stress component
+      real(kind=WP) ,dimension(nel)     ,intent(out)   :: signxx !< output stress component
+      real(kind=WP) ,dimension(nel)     ,intent(out)   :: signyy !< output stress component
+      real(kind=WP) ,dimension(nel)     ,intent(out)   :: signzz !< output stress component
+      real(kind=WP) ,dimension(nel)     ,intent(out)   :: signxy !< output stress component
+      real(kind=WP) ,dimension(nel)     ,intent(out)   :: signyz !< output stress component
+      real(kind=WP) ,dimension(nel)     ,intent(out)   :: signzx !< output stress component
       !
       !
-      my_real ,dimension(nel)     ,intent(inout) :: off    !< element activation coefficient
-      my_real ,dimension(nel)     ,intent(out)   :: soundsp!< sound speed
-      my_real ,dimension(nel,nuvar)   ,intent(inout) :: uvar      !< state variables
+      real(kind=WP) ,dimension(nel)     ,intent(inout) :: off    !< element activation coefficient
+      real(kind=WP) ,dimension(nel)     ,intent(out)   :: soundsp!< sound speed
+      real(kind=WP) ,dimension(nel,nuvar)   ,intent(inout) :: uvar      !< state variables
       type (matparam_struct_)         ,intent(in)    :: mat_param !< material parameter structure
       target :: mat_param
 !-----------------------------------------------
 !   l o c a l   v a r i a b l e s
 !-----------------------------------------------
       integer :: i
-      my_real ,dimension(nel) :: aa,bb,e1t,v2t
-      my_real ,dimension(6) :: sigv_old,sigv,dsig,dsige
-      my_real ::       &
+      real(kind=WP) ,dimension(nel) :: aa,bb,e1t,v2t
+      real(kind=WP) ,dimension(6) :: sigv_old,sigv,dsig,dsige
+      real(kind=WP) ::       &
         young, shear, bulk, nu, rho0, nu_shear, e1, n1, e2, v2, n2,   &
         r, dtime, nu_c  ,beta, cc      
 !===============================================================================    

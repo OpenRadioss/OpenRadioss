@@ -73,14 +73,11 @@
           use get_segment_edge_mod , only : get_segment_edge
           use array_mod , only : array_type,alloc_my_real_1d_array,dealloc_my_real_1d_array
           use nodal_arrays_mod, only : get_local_node_id, nodal_arrays_
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   included files
-! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -94,8 +91,8 @@
           integer, dimension(3,nspmd), intent(inout) :: s_buffer_2_size !< size of s_buffer_2
 !         integer, dimension(numnod), intent(in) :: itabm1 !< global to local node id
           type(nodal_arrays_), intent(in) :: nodes !< nodal arrays
-          my_real, dimension(size_r_buffer) :: r_buffer !< mpi buffer (rcv)
-          my_real, dimension(3,numnod), intent(in) :: x !< nodal position
+          real(kind=WP), dimension(size_r_buffer) :: r_buffer !< mpi buffer (rcv)
+          real(kind=WP), dimension(3,numnod), intent(in) :: x !< nodal position
           type(intbuf_struct_), dimension(ninter), intent(inout) :: intbuf_tab    !< interface data 
           type(shooting_node_type), intent(inout) :: shoot_struct !< structure for shooting node algo
           type(array_type), dimension(nspmd), intent(inout) :: s_buffer_2 !< mpi buffer (send)
@@ -121,10 +118,10 @@
           integer, dimension(:), allocatable ::  intersect_1,intersect_2
           integer, dimension(:), allocatable :: n_iedge 
           integer, dimension(:,:), allocatable :: my_reduced_list,my_reduced_neighbour
-          my_real :: my_real_variable      
-          my_real, dimension(3) :: segment_position ! coordinates of the segment barycentre
-          my_real, dimension(:), allocatable :: my_real_tmp_array
-          my_real, dimension(:,:), allocatable :: n_normal, n_vconvexity
+          real(kind=WP) :: my_real_variable      
+          real(kind=WP), dimension(3) :: segment_position ! coordinates of the segment barycentre
+          real(kind=WP), dimension(:), allocatable :: my_real_tmp_array
+          real(kind=WP), dimension(:,:), allocatable :: n_normal, n_vconvexity
 #ifdef MYREAL8
           integer(kind=8) :: my_integer
           integer(kind=8) :: my_int_variable   

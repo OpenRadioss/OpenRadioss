@@ -147,14 +147,10 @@
 
       use table4d_mod
       use names_and_titles_mod
-
-!----------------------------------------------------------------------- 
-!     included files
-!----------------------------------------------------------------------- 
+      use precision_mod , only : WP
 
       implicit none
 !
-#include "my_real.inc"
 !=======================================================================      
       
       type fail_param_
@@ -168,10 +164,10 @@
         integer     :: ntable                 !< number of local function tables
         integer     :: nmod                   !< number of rupture/damage modes
         integer     :: fail_ip                !< ruputure criterion (integration point based)              
-        my_real     :: pthk                   !< ruputure criterion (layer thickness based)  
+        real(kind=WP)     :: pthk                   !< ruputure criterion (layer thickness based)  
         
         character(len=nchartitle) ,dimension(:) ,allocatable :: mode   !< damage mode table
-        my_real ,dimension(:) ,allocatable :: uparam  !< real value failure parameter table
+        real(kind=WP) ,dimension(:) ,allocatable :: uparam  !< real value failure parameter table
         integer ,dimension(:) ,allocatable :: iparam  !< int  value failure parameter table
         integer ,dimension(:) ,allocatable :: ifunc   !< function table in failure models
         integer ,dimension(:) ,allocatable :: table   !< local function tables

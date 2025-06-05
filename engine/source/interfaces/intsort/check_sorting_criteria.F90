@@ -57,6 +57,7 @@
       !||    i20xsinir                ../engine/source/interfaces/intsort/i20main_tri.F
       !||--- uses       -----------------------------------------------------
       !||    constant_mod             ../common_source/modules/constant_mod.F
+      !||    precision_mod            ../common_source/modules/precision_mod.F90
       !||====================================================================
         subroutine check_sorting_criteria( need_computation,interface_id,nipari,nspmd,task_id,ipari,time,intbuf_tab )
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -64,6 +65,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           use intbufdef_mod
           use constant_mod , only : zero
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -71,7 +73,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 #include "macro.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   arguments
@@ -82,14 +83,14 @@
           integer, intent(in) :: nspmd !< number of processor
           integer, intent(in) :: task_id !< task id
           integer, dimension(nipari), intent(inout) :: ipari !< interface data
-          my_real, intent(in) :: time !< current time
+          real(kind=WP), intent(in) :: time !< current time
           type(intbuf_struct_), intent(inout) :: intbuf_tab !< interface data structure
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
           logical :: my_bool,t_start_condition,t_stop_condition,distance_condition
           integer :: interface_type,sensor_id
-          my_real :: t_start,t_stop,distance
+          real(kind=WP) :: t_start,t_stop,distance
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   external functions
 ! ----------------------------------------------------------------------------------------------------------------------

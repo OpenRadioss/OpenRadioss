@@ -48,6 +48,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           use constant_mod , only : zero,em20,fourth,third
           use intbufdef_mod , only : intbuf_struct_
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -55,17 +56,16 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer, intent(in) :: segment_id  !< id of the segment
           integer, intent(in) :: numnod !< number of node
           integer, dimension(4),intent(inout) :: segment_node_id
-          my_real, dimension(3), intent(inout) :: segment_position !< coordinates of the segment barycentre
-          my_real, dimension(3), intent(inout) :: normal !< normal of the segment
+          real(kind=WP), dimension(3), intent(inout) :: segment_position !< coordinates of the segment barycentre
+          real(kind=WP), dimension(3), intent(inout) :: normal !< normal of the segment
           type(intbuf_struct_), intent(in) :: intbuf_tab    !< interface data 
-          my_real, dimension(3,numnod), intent(in) :: x !< nodal position
+          real(kind=WP), dimension(3,numnod), intent(in) :: x !< nodal position
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -73,12 +73,12 @@
           integer :: node_id,elem_id
           integer :: node_id_3,node_id_4
           integer :: node_number
-          my_real :: xx13,yy13,zz13,xx24,yy24,zz24
-          my_real :: nor1,nor2,nor3
-          my_real :: area,dds
-          my_real :: xc,yc,zc
-          my_real :: ratio
-          my_real, dimension(4) :: xx1,xx2,xx3
+          real(kind=WP) :: xx13,yy13,zz13,xx24,yy24,zz24
+          real(kind=WP) :: nor1,nor2,nor3
+          real(kind=WP) :: area,dds
+          real(kind=WP) :: xc,yc,zc
+          real(kind=WP) :: ratio
+          real(kind=WP), dimension(4) :: xx1,xx2,xx3
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   external functions
 ! ----------------------------------------------------------------------------------------------------------------------

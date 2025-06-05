@@ -70,6 +70,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
        use constant_mod , only : zero, half, one, two, three, three100
        use eos_param_mod , only : eos_param_
+       use precision_mod , only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -77,23 +78,22 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
       integer,intent(in) :: nel !< number of element in the currenbt group
       integer,intent(in) :: npropm, nummat !< array sizes
       integer,intent(in) :: mat(nel), iflag
-      my_real,intent(inout) :: pm(npropm,nummat),off(nel),eint(nel),mu(nel),mu2(nel),dvol(nel)
-      my_real,intent(inout) :: pnew(nel),dpdm(nel),dpde(nel),mu_bak(nel)
+      real(kind=WP),intent(inout) :: pm(npropm,nummat),off(nel),eint(nel),mu(nel),mu2(nel),dvol(nel)
+      real(kind=WP),intent(inout) :: pnew(nel),dpdm(nel),dpde(nel),mu_bak(nel)
       type(eos_param_),intent(in) :: eos_param !< data structure for EoS parameters
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local Variables
 ! ----------------------------------------------------------------------------------------------------------------------
       integer i, mx, iform
-      my_real :: p0,psh(nel),e0,sph, b(nel),pne1,pfrac
-      my_real :: c0,c1,c2,c3,bunl,p(nel),p_
-      my_real :: alpha,mu_min,mu_max
+      real(kind=WP) :: p0,psh(nel),e0,sph, b(nel),pne1,pfrac
+      real(kind=WP) :: c0,c1,c2,c3,bunl,p(nel),p_
+      real(kind=WP) :: alpha,mu_min,mu_max
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------

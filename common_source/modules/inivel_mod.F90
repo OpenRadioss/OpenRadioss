@@ -33,10 +33,8 @@
       !||    write_inivel     ../engine/source/output/restart/write_inivel.F90
       !||====================================================================
       module inivel_mod
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Included files
-! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
+        use precision_mod, only: WP
+        implicit none
   ! ======================================================================================================================
   !                                                   TYPES
   ! ======================================================================================================================
@@ -49,8 +47,8 @@
           integer ::  skew_id    !< skew_id
           integer ::  grnd_id    !< grnd_id
           integer ::  sensor_id  !< sensor_id
-          my_real ::  VX,VY,VZ   !< VX,VY,VZ
-          my_real ::  tstart     !< t_start
+          real(kind=WP) ::  VX,VY,VZ   !< VX,VY,VZ
+          real(kind=WP) ::  tstart     !< t_start
         end type  general_inivel_
 
         ! type for /INIVEL/AXIS
@@ -60,9 +58,9 @@
           integer ::  frame_id   !< frame_id
           integer ::  grnd_id    !< grnd_id
           integer ::  sensor_id  !< sensor_id
-          my_real ::  VX,VY,VZ   !< VX,VY,VZ
-          my_real ::  VR         !< VR rotational
-          my_real ::  tstart     !< t_start
+          real(kind=WP) ::  VX,VY,VZ   !< VX,VY,VZ
+          real(kind=WP) ::  VR         !< VR rotational
+          real(kind=WP) ::  tstart     !< t_start
         end type  axis_inivel_
 
         ! type for /INIVEL/FVM
@@ -73,8 +71,8 @@
           integer ::  grqd_id    !< grqd_id
           integer ::  grtria_id  !< grtria_id
           integer ::  sensor_id  !< sensor_id
-          my_real ::  VX,VY,VZ   !< VX,VY,VZ
-          my_real ::  tstart     !< t_start
+          real(kind=WP) ::  VX,VY,VZ   !< VX,VY,VZ
+          real(kind=WP) ::  tstart     !< t_start
         end type  fvm_inivel_
 
         ! not available for /INIVEL/NODE 

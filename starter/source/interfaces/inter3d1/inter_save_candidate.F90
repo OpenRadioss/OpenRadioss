@@ -46,6 +46,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
           use constant_mod
           use array_mod 
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -54,7 +55,6 @@
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
 
-#include "my_real.inc"
 #include "mvsiz_p.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
@@ -63,7 +63,7 @@
           integer, intent(in) :: j_stok !< number of pairs S node/segment of the current group
           integer, dimension(mvsiz), intent(in) :: prov_n !< list of potential S node
           integer, dimension(mvsiz), intent(in) :: prov_e !< list of potential segment
-          my_real, dimension(mvsiz), intent(in) :: pene !< penetration
+          real(kind=WP), dimension(mvsiz), intent(in) :: pene !< penetration
           type(array_type_int_1d), intent(inout) :: local_cand_n !< list of S node (local to a !$omp thread)
           type(array_type_int_1d), intent(inout) :: local_cand_e !< list of segment (local to a !$omp thread)
 ! ----------------------------------------------------------------------------------------------------------------------

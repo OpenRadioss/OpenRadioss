@@ -53,12 +53,12 @@
 !-----------------------------------------------
       use elbufdef_mod
       use constant_mod, only : zero
+      use precision_mod, only : WP
 !============================================================================
       implicit none
 ! ----------------------------------------------------------------------------------------
 !     Included files
 ! ----------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------
 !   D u m m y   A r g u m e n t s
 !-----------------------------------------------
@@ -68,7 +68,7 @@
       integer ,intent(in) :: nix
       integer ,intent(in) :: numsh
       integer ,dimension(nix,numsh) ,intent(in)    :: ix   
-      my_real ,dimension(numnod)    ,intent(in)    :: temp
+      real(kind=WP) ,dimension(numnod)    ,intent(in)    :: temp
       type(elbuf_struct_)           ,intent(inout) :: elbuf_str
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s

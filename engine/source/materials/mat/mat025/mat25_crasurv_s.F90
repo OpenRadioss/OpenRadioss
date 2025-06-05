@@ -20,12 +20,6 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
-!Chd|====================================================================
-!Chd|  mat25_crasurv_s
-!Chd|-- called by -----------
-!Chd|-- calls ---------------
-!Chd|====================================================================
-
       !||====================================================================
       !||    mat25_crasurv_s_mod   ../engine/source/materials/mat/mat025/mat25_crasurv_s.F90
       !||--- called by ------------------------------------------------------
@@ -66,14 +60,9 @@
           use message_mod
           use constant_mod ,only : zero,half,one,two,four,four_over_5
           use constant_mod ,only : em10,em15,em20,ep20
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
           implicit none
-! ----------------------------------------------------------------------------------------------------------------------
-!     included files
-! ----------------------------------------------------------------------------------------------------------------------
-
-#include "my_real.inc"
-
 !-----------------------------------------------
 !   d u m m y   a r g u m e n t s
 !-----------------------------------------------
@@ -89,28 +78,28 @@
           integer ,dimension(nel) ,intent(inout) :: nfis2  !< failure counter in 2nd direction
           integer ,dimension(nel) ,intent(inout) :: nfis3  !< failure counter in 3rd direction
           integer ,dimension(nel) ,intent(inout) :: outv   !< outp counter
-          my_real ,intent(in)    :: time                   !< current time
-          my_real ,intent(inout) :: off(mvsiz)             !< element activation coefficient
-          my_real ,intent(inout) :: wpla(mvsiz)            !< plastic work
-          my_real ,intent(inout) :: epsp(mvsiz)            !< equivalent strain rate
-          my_real ,intent(inout) :: epst(nel,6)            !< total strain tensor
-          my_real ,intent(inout) :: wplar(mvsiz)           !< reference plastic work
-          my_real ,intent(inout) :: s1(mvsiz)              !< stress component
-          my_real ,intent(inout) :: s2(mvsiz)              !< stress component
-          my_real ,intent(inout) :: s3(mvsiz)              !< stress component
-          my_real ,intent(inout) :: s4(mvsiz)              !< stress component
-          my_real ,intent(inout) :: s5(mvsiz)              !< stress component
-          my_real ,intent(inout) :: s6(mvsiz)              !< stress component
-          my_real ,intent(inout) :: d1(mvsiz)              !< strain increment
-          my_real ,intent(inout) :: d2(mvsiz)              !< strain increment
-          my_real ,intent(inout) :: d3(mvsiz)              !< strain increment
-          my_real ,intent(inout) :: d4(mvsiz)              !< strain increment
-          my_real ,intent(inout) :: d5(mvsiz)              !< strain increment
-          my_real ,intent(inout) :: d6(mvsiz)              !< strain increment
-          my_real ,intent(inout) :: sigl(mvsiz,6)          !< output stress tensor
-          my_real ,intent(inout) :: flay(mvsiz)            !< layer failure coefficient
-          my_real ,intent(inout) :: tsaiwu(nel)            !< Tsai-Wu criterion
-          my_real ,intent(inout) :: dmg(nel,l_dmg)         !< damage related variables
+          real(kind=WP) ,intent(in)    :: time                   !< current time
+          real(kind=WP) ,intent(inout) :: off(mvsiz)             !< element activation coefficient
+          real(kind=WP) ,intent(inout) :: wpla(mvsiz)            !< plastic work
+          real(kind=WP) ,intent(inout) :: epsp(mvsiz)            !< equivalent strain rate
+          real(kind=WP) ,intent(inout) :: epst(nel,6)            !< total strain tensor
+          real(kind=WP) ,intent(inout) :: wplar(mvsiz)           !< reference plastic work
+          real(kind=WP) ,intent(inout) :: s1(mvsiz)              !< stress component
+          real(kind=WP) ,intent(inout) :: s2(mvsiz)              !< stress component
+          real(kind=WP) ,intent(inout) :: s3(mvsiz)              !< stress component
+          real(kind=WP) ,intent(inout) :: s4(mvsiz)              !< stress component
+          real(kind=WP) ,intent(inout) :: s5(mvsiz)              !< stress component
+          real(kind=WP) ,intent(inout) :: s6(mvsiz)              !< stress component
+          real(kind=WP) ,intent(inout) :: d1(mvsiz)              !< strain increment
+          real(kind=WP) ,intent(inout) :: d2(mvsiz)              !< strain increment
+          real(kind=WP) ,intent(inout) :: d3(mvsiz)              !< strain increment
+          real(kind=WP) ,intent(inout) :: d4(mvsiz)              !< strain increment
+          real(kind=WP) ,intent(inout) :: d5(mvsiz)              !< strain increment
+          real(kind=WP) ,intent(inout) :: d6(mvsiz)              !< strain increment
+          real(kind=WP) ,intent(inout) :: sigl(mvsiz,6)          !< output stress tensor
+          real(kind=WP) ,intent(inout) :: flay(mvsiz)            !< layer failure coefficient
+          real(kind=WP) ,intent(inout) :: tsaiwu(nel)            !< Tsai-Wu criterion
+          real(kind=WP) ,intent(inout) :: dmg(nel,l_dmg)         !< damage related variables
           type (matparam_struct_) ,intent(in) :: mat_param !< material parameter structure
 !-----------------------------------------------
 !   l o c a l   v a r i a b l e s
@@ -119,23 +108,23 @@
           integer fail_old(mvsiz)
           integer nindx,index(mvsiz),j,icas(mvsiz)
           integer isoft(mvsiz)
-          my_real :: e11,e22,e33,nu12,nu21,g12,g23,g31,wplaref,cc,epdr
-          my_real :: e1,e2,e3,e4,e5,e6,alpha,strp12,coefa,coefb,delta,dwpla
-          my_real :: log_wpla,b1,b2,wpla1,wpla2,wpla3
-          my_real ::  scale,scale1,scale2,dam1,dam2
-          my_real :: sigyt1,sigyt2,sigyc1,sigyc2,sigyt12
-          my_real :: sigy0_t1,sigy0_t2,sigy0_c1,sigy0_c2,sigy0_t12
-          my_real :: sigmxt1,sigmxt2,sigmxc1,sigmxc2,sigmxt12
-          my_real :: cn_t1,cn_t2,cn_c1,cn_c2,cn_t12,cb_t1,cb_t2,cb_c1,cb_c2,cb_t12
-          my_real :: cc_t1,cc_t2,cc_c1,cc_c2,cc_t12
-          my_real ::                                                           &
+          real(kind=WP) :: e11,e22,e33,nu12,nu21,g12,g23,g31,wplaref,cc,epdr
+          real(kind=WP) :: e1,e2,e3,e4,e5,e6,alpha,strp12,coefa,coefb,delta,dwpla
+          real(kind=WP) :: log_wpla,b1,b2,wpla1,wpla2,wpla3
+          real(kind=WP) ::  scale,scale1,scale2,dam1,dam2
+          real(kind=WP) :: sigyt1,sigyt2,sigyc1,sigyc2,sigyt12
+          real(kind=WP) :: sigy0_t1,sigy0_t2,sigy0_c1,sigy0_c2,sigy0_t12
+          real(kind=WP) :: sigmxt1,sigmxt2,sigmxc1,sigmxc2,sigmxt12
+          real(kind=WP) :: cn_t1,cn_t2,cn_c1,cn_c2,cn_t12,cb_t1,cb_t2,cb_c1,cb_c2,cb_t12
+          real(kind=WP) :: cc_t1,cc_t2,cc_c1,cc_c2,cc_t12
+          real(kind=WP) ::                                                           &
             epst1(mvsiz),epst2(mvsiz),epsm1(mvsiz),epsm2(mvsiz),               &
             eps1t1(mvsiz), eps2t1(mvsiz), sigrst1(mvsiz),                      &
             eps1t2(mvsiz), eps2t2(mvsiz), sigrst2(mvsiz),                      &
             eps1c1(mvsiz), eps2c1(mvsiz), sigrsc1(mvsiz),                      &
             eps1c2(mvsiz), eps2c2(mvsiz), sigrsc2(mvsiz),                      &
             eps1t12(mvsiz), eps2t12(mvsiz), sigrst12(mvsiz),dmax(mvsiz)
-          my_real ::                                                           &
+          real(kind=WP) ::                                                           &
             dp1(mvsiz), dp2(mvsiz), dp3(mvsiz),cb(mvsiz),cn(mvsiz),            &
             ds1(mvsiz), ds2(mvsiz), ds3(mvsiz),                                &
             de1(mvsiz), de2(mvsiz), wvec(mvsiz), t1(mvsiz),                    &

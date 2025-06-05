@@ -60,6 +60,7 @@
           use monvol_struct_mod , only : monvol_struct_
           use constant_mod
           use groupdef_mod , only : surf_
+          use precision_mod , only : WP 
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -67,7 +68,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -87,11 +87,11 @@
           integer, dimension(nspmd+2,nvolu), intent(in) :: fr_mv !< mpi frontier per monitored volume
           integer, dimension(nspmd+2), intent(in) :: frontier_global_mv !< global mpi frontier 
           integer, dimension(nvolu*nimv), intent(in) :: monvol !< monitored volume data
-          my_real, dimension(3,numnod), intent(in) :: x !< position array
-          my_real, dimension(nvolu*nrvolu), intent(inout) :: rvolu !< monitored volume data (real)
-          my_real, dimension(sporo), intent(inout) :: poro !<
-          my_real, dimension(nvolu), intent(inout) :: vol !< volume of airbag
-          my_real, dimension(3,numnod+numelc+numeltg), intent(inout) :: normal !< normal of node
+          real(kind=WP), dimension(3,numnod), intent(in) :: x !< position array
+          real(kind=WP), dimension(nvolu*nrvolu), intent(inout) :: rvolu !< monitored volume data (real)
+          real(kind=WP), dimension(sporo), intent(inout) :: poro !<
+          real(kind=WP), dimension(nvolu), intent(inout) :: vol !< volume of airbag
+          real(kind=WP), dimension(3,numnod+numelc+numeltg), intent(inout) :: normal !< normal of node
           type(monvol_struct_), dimension(nvolu), intent(inout) :: t_monvoln !< monvol structure
           type(surf_), dimension(nsurf), intent(in) :: igrsurf !< surface structure
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -102,9 +102,9 @@
           integer :: number_entity
           integer :: monvol_address,rvolu_address
           integer :: i,ijk,ii,nod1,nod2,nod3,nod4
-          my_real :: area,xx,yy,zz,x13,y13,z13,x24,y24,z24
-          my_real :: nx, ny, nz
-          my_real, dimension(:), allocatable :: f1, f2
+          real(kind=WP) :: area,xx,yy,zz,x13,y13,z13,x24,y24,z24
+          real(kind=WP) :: nx, ny, nz
+          real(kind=WP), dimension(:), allocatable :: f1, f2
           double precision, dimension(2,6,nvolu) :: frmv6
           double precision, dimension(2,6) :: frmv6_l
           integer :: first,last,nthread,itask

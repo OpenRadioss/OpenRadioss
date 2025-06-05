@@ -26,6 +26,7 @@
       !||    lectur                  ../starter/source/starter/lectur.F
       !||====================================================================
       module read_funct_python_mod
+      implicit none
       contains
       !||====================================================================
       !||    array_to_string        ../starter/source/tools/curve/hm_read_funct_python.F90
@@ -65,7 +66,6 @@
       !||====================================================================
         subroutine hm_read_funct_python(python,npc,snpc,total_nb_funct,&
         &lsubmodel,nbsubmod, pld, npts, table, ntable)
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                      modules
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -74,6 +74,7 @@
           USE SUBMODEL_MOD
           USE HM_OPTION_READ_MOD
           USE PYTHON_FUNCT_MOD
+          USE PRECISION_MOD, only : WP
           USE NAMES_AND_TITLES_MOD, only : ncharline, nchartitle
           use iso_c_binding , only : c_char, c_null_char
           implicit none
@@ -87,7 +88,7 @@
           integer, intent(inout) :: npc(snpc) !< array containing the id the /FUNCT , /TABLE and so on...
           integer, intent(inout) :: total_nb_funct !< number of /FUNCT already read
           integer, intent(in)   ::  npts !< number of points in pld
-          my_real, dimension(npts), intent(inout) :: pld !< data points
+          real(kind=WP), dimension(npts), intent(inout) :: pld !< data points
           integer, intent(in) :: ntable !< number of tables
           type(Ttable), dimension(ntable), intent(inout) :: table
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -204,6 +205,6 @@
           deallocate(code)
           return
 
-        end
+        end subroutine hm_read_funct_python
 ! end the module
       end module read_funct_python_mod

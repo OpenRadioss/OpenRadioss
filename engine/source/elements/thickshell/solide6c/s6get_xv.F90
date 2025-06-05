@@ -53,11 +53,11 @@
                               x,      xdp,        v,                       &
                          numnod,   ismstr,     nel )
 ! ----------------------------------------------------------------------------------------------------------------------
+          use precision_mod, only : WP
           implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 #include "mvsiz_p.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
@@ -67,10 +67,10 @@
           integer, intent(in)                              :: ismstr          !< small strain falg
           integer, dimension(mvsiz), intent(in   )         ::             &            
                                     nc1,nc2,nc3,nc4,nc5,nc6                   !< connectivity
-          my_real, dimension(3,numnod),intent(in   )       :: x               !< coordinate array 
-          my_real, dimension(3,numnod),intent(in   )       :: v               !< velocity 
+          real(kind=WP), dimension(3,numnod),intent(in   )       :: x               !< coordinate array 
+          real(kind=WP), dimension(3,numnod),intent(in   )       :: v               !< velocity 
           double precision, dimension(3,numnod),intent(in) :: xdp             !< coordinate array in DP
-          my_real, dimension(mvsiz), intent(inout)         ::             &        
+          real(kind=WP), dimension(mvsiz), intent(inout)         ::             &        
                                        x1,x2,x3,x4,x5,x6,                 &
                                        y1,y2,y3,y4,y5,y6,                 &
                                        z1,z2,z3,z4,z5,z6,                 &

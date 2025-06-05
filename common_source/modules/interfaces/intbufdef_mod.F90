@@ -511,19 +511,20 @@
 !hd|        int8_mod                      modules/interfaces/int8_mod.f
 !hd|        metric_mod                    modules/metric_mod.f
 !hd|====================================================================
-module intbufdef_mod
+      module intbufdef_mod
 !-----------------------------------------------------------------------
 !-----------------------------------------------
 !   m o d u l e s
 !-----------------------------------------------
-   use int8_mod
-   use metric_mod
+        use int8_mod
+        use metric_mod
+        use precision_mod, only : WP
+        implicit none
 
 
-#include "my_real.inc"
 !
 !=======================================================================
-   type intbuf_struct_
+        type intbuf_struct_
 !=================================================
 ! define typeintbuf_struct_ for new interface buffer intbuf_tab
 ! module is organized as following :
@@ -535,671 +536,671 @@ module intbufdef_mod
 !=======================================================================
 ! define sizes (integers arrays)
 !=======================================================================
-      integer ::   s_irects     !  4*nrts     :irects:connectivites faces seconds     :1,2,3,4
-      integer ::   s_irectm     !  4*nrtm_fe+4*9*nrtm_ige :irectm:connectivites faces main  :1,2,3,4,5,6,7,8,20,24
-      integer ::   s_nsv        !  nsn        :nsv   :noeuds seconds                  :1,2,3,4,  7
-      integer ::   s_msr        !  nmn+16*nrtm_ige  :msr   :noeuds mains                   :1,2,3,4
-      integer ::   s_irtlm      !  nsn        :face main la plus proche    :1,2,3,4
-      integer ::   s_irupt      !  nsn        :irupt :flag rupture                     :2
-      integer ::   s_inorm      !  nsn        :inorm  :main orientation flag: type2 avec rupture
-      integer ::   s_ielec      !  (type20)
-      integer ::   s_ieles      !  nrts       :ieles :element secnd                    :              9
-      integer ::   s_lisub      !  nisub      :lisub :liste des sous-interfaces        :     7
-      integer ::   s_typsub     !  nisub      :typsub :type of subinterfaces           :     25
-      integer ::   s_addsubs    !  nsn+1      :addsubs:adresse ds zone de ss interf. cote second. :     7, 10, 24, 25
-      integer ::   s_addsubm    !  nrtm+1     :addsubm:adresse ds zone de ss interf. cote main  :     7, 10, 24, 25
-      integer ::   s_lisubs     !  nisubs     :lisubs :zone des ss interf. cote second.           :     7, 10, 24, 25
-      integer ::   s_lisubm     !  nisubm     :lisubm :zone des ss interf. cote main            :     7, 10, 24, 25
-      integer ::   s_inflg_subs !  nisubs     :inflg_subs: zone d appartenance a s1/s2 des ss interf. cote second. : 25
-      integer ::   s_inflg_subm !  nisubs     :inflg_subs: zone d appartenance a s1/s2 des ss interf.cote main   : 25
-      integer ::   s_msegtyp    !  nrtm       :msegtyp: element type                   :      2,3,5,7,10,21,23; used only in starter
-      integer ::   s_cand_e     !  multimp*nsn:cand_e:facettes candidates              :7,10,11,20
-      integer ::   s_cand_n     !  multimp*nsn:cand_n:noeuds candidats                 :7,10,11,20
-      integer ::   s_i_stok     !             : ii_stok                                : 7    10,11,20,24
-      integer ::   s_i_stok_e   !             : ii_stok_e                              : 7    10,11,20,24
-      integer ::   s_ifpen      !  multimp*nsn:ifpen :flag penetr. (filtr frottement)  :           7
-      integer ::   s_kremnode   !  nrtm+1     :kremnode:adress nodes removed from contact in remnode array :      7
-      integer ::   s_remnode    !  nremnode   :remnode: nodes removed from contact     :      7
-      integer ::   s_adccm      !  nrtm       :addcm :adresse dans chaine du 1er main:                  11
-      integer ::   s_chain      !  2*multimp*nsn:chaine(1,adds) : bord second.     :                  11
+          integer ::   s_irects     !  4*nrts     :irects:connectivites faces seconds     :1,2,3,4
+          integer ::   s_irectm     !  4*nrtm_fe+4*9*nrtm_ige :irectm:connectivites faces main  :1,2,3,4,5,6,7,8,20,24
+          integer ::   s_nsv        !  nsn        :nsv   :noeuds seconds                  :1,2,3,4,  7
+          integer ::   s_msr        !  nmn+16*nrtm_ige  :msr   :noeuds mains                   :1,2,3,4
+          integer ::   s_irtlm      !  nsn        :face main la plus proche    :1,2,3,4
+          integer ::   s_irupt      !  nsn        :irupt :flag rupture                     :2
+          integer ::   s_inorm      !  nsn        :inorm  :main orientation flag: type2 avec rupture
+          integer ::   s_ielec      !  (type20)
+          integer ::   s_ieles      !  nrts       :ieles :element secnd                    :              9
+          integer ::   s_lisub      !  nisub      :lisub :liste des sous-interfaces        :     7
+          integer ::   s_typsub     !  nisub      :typsub :type of subinterfaces           :     25
+          integer ::   s_addsubs    !  nsn+1      :addsubs:adresse ds zone de ss interf. cote second. :     7, 10, 24, 25
+          integer ::   s_addsubm    !  nrtm+1     :addsubm:adresse ds zone de ss interf. cote main  :     7, 10, 24, 25
+          integer ::   s_lisubs     !  nisubs     :lisubs :zone des ss interf. cote second.           :     7, 10, 24, 25
+          integer ::   s_lisubm     !  nisubm     :lisubm :zone des ss interf. cote main            :     7, 10, 24, 25
+          integer ::   s_inflg_subs !  nisubs     :inflg_subs: zone d appartenance a s1/s2 des ss interf. cote second. : 25
+          integer ::   s_inflg_subm !  nisubs     :inflg_subs: zone d appartenance a s1/s2 des ss interf.cote main   : 25
+          integer ::   s_msegtyp    !  nrtm       :msegtyp: element type                   :      2,3,5,7,10,21,23; used only in starter
+          integer ::   s_cand_e     !  multimp*nsn:cand_e:facettes candidates              :7,10,11,20
+          integer ::   s_cand_n     !  multimp*nsn:cand_n:noeuds candidats                 :7,10,11,20
+          integer ::   s_i_stok     !             : ii_stok                                : 7    10,11,20,24
+          integer ::   s_i_stok_e   !             : ii_stok_e                              : 7    10,11,20,24
+          integer ::   s_ifpen      !  multimp*nsn:ifpen :flag penetr. (filtr frottement)  :           7
+          integer ::   s_kremnode   !  nrtm+1     :kremnode:adress nodes removed from contact in remnode array :      7
+          integer ::   s_remnode    !  nremnode   :remnode: nodes removed from contact     :      7
+          integer ::   s_adccm      !  nrtm       :addcm :adresse dans chaine du 1er main:                  11
+          integer ::   s_chain      !  2*multimp*nsn:chaine(1,adds) : bord second.     :                  11
 !type20
-      integer ::   s_daanc6     !  18*2*nln   :daanc6:contient 18*nln double precision : 20
-      integer ::   s_nbinflg    !  nbinflg    :nln    :flags binaire noeuds            nbin:      20, 24, 25
-      integer ::   s_mbinflg    !  mbinflg    :nrtm  :flag multiusage facettes        :      20, 24, 25
-      integer ::   s_ebinflg    !  ebinflg    :nedge :flag multiusage edges           :      25
-      integer ::   s_nlg        !  nln        :nlg   :local to global node             :      20
-      integer ::   s_islins     !  2*nlins    :islins:surface second. et cote          :      20
-      integer ::   s_islinm     !  2*nlinm    :islinm:surface main et cote           :      20
-      integer ::   s_ixlins     !  2*nlins    :ixlins:connectivites bords seconds     :      20
-      integer ::   s_ixlinm     !  2*nlinm    :ixlinm:connectivites bords mains      :      20
-      integer ::   s_nsvl       !  nsne       :nsvl  :noeuds seconds des lignes       :      20
-      integer ::   s_msrl       !  nmne       :msrl  :noeuds mains                   :      20
-      integer ::   s_lcand_n    !  multimp*nmne:lcand_n:lignes mains candidates      :      20
-      integer ::   s_lcand_s    !  multimp*nsne:lcand_n:lignes seconds candidates     :      20
-      integer ::   s_adccm20    !  nlinm      :addcm :adresse dans chaine du 1er main:      20
-      integer ::   s_chain20    !  2*multimp*nsne:chaine(1,adds) : bord second.        :      20            11                                  !                       :chaine(2,adds) : adresse suivante       :      20
+          integer ::   s_daanc6     !  18*2*nln   :daanc6:contient 18*nln double precision : 20
+          integer ::   s_nbinflg    !  nbinflg    :nln    :flags binaire noeuds            nbin:      20, 24, 25
+          integer ::   s_mbinflg    !  mbinflg    :nrtm  :flag multiusage facettes        :      20, 24, 25
+          integer ::   s_ebinflg    !  ebinflg    :nedge :flag multiusage edges           :      25
+          integer ::   s_nlg        !  nln        :nlg   :local to global node             :      20
+          integer ::   s_islins     !  2*nlins    :islins:surface second. et cote          :      20
+          integer ::   s_islinm     !  2*nlinm    :islinm:surface main et cote           :      20
+          integer ::   s_ixlins     !  2*nlins    :ixlins:connectivites bords seconds     :      20
+          integer ::   s_ixlinm     !  2*nlinm    :ixlinm:connectivites bords mains      :      20
+          integer ::   s_nsvl       !  nsne       :nsvl  :noeuds seconds des lignes       :      20
+          integer ::   s_msrl       !  nmne       :msrl  :noeuds mains                   :      20
+          integer ::   s_lcand_n    !  multimp*nmne:lcand_n:lignes mains candidates      :      20
+          integer ::   s_lcand_s    !  multimp*nsne:lcand_n:lignes seconds candidates     :      20
+          integer ::   s_adccm20    !  nlinm      :addcm :adresse dans chaine du 1er main:      20
+          integer ::   s_chain20    !  2*multimp*nsne:chaine(1,adds) : bord second.        :      20            11                                  !                       :chaine(2,adds) : adresse suivante       :      20
 !type1
-      integer ::   s_ilocs      !  nsn        :ilocs :noeud main le plus proche      :1, ,3,4
-      integer ::   s_nsegm      !  1+nmn      :nsegm :adresse du vecteur lmsr (main) :1, ,3,4,5
-      integer ::   s_nrt        !  nrt        :lmsr  :faces connectees au noeud main :1, ,3,4,5
+          integer ::   s_ilocs      !  nsn        :ilocs :noeud main le plus proche      :1, ,3,4
+          integer ::   s_nsegm      !  1+nmn      :nsegm :adresse du vecteur lmsr (main) :1, ,3,4,5
+          integer ::   s_nrt        !  nrt        :lmsr  :faces connectees au noeud main :1, ,3,4,5
 !type2
-      integer ::   s_msegtyp2   !  :nrtm      :msegtyp: main segment type sol/shell  :2
-      integer ::   s_csts_bis   !  :nrtm      :msegtyp: main segment type sol/shell  :2
+          integer ::   s_msegtyp2   !  :nrtm      :msegtyp: main segment type sol/shell  :2
+          integer ::   s_csts_bis   !  :nrtm      :msegtyp: main segment type sol/shell  :2
 !type3
-      integer ::   s_irtls      !  nmn        :irtls :face second. la plus proche      :    3,4
-      integer ::   s_ilocm      !  nmn        :ilocm :noeud second. le plus proche     :    3,4
-      integer ::   s_irtlom     !  nsn        :irtlom:anc. face main. la plus proche  :    3,4
-      integer ::   s_irtlos     !  nmn        :irtlos:anc. face secnd. la plus proche  :    3,4
-      integer ::   s_nsegs      !  1+nsn      :nsegs :adresse du vecteur lnsv (second):    3,4,5
-      integer ::   s_lnsv       !  nrt        :lmsr  :faces connectees au noeud main :1, ,3,4,5
-      integer ::   s_lmsr       !  nrt        :lmsr  :faces connectees au noeud main :1, ,3,4,5
+          integer ::   s_irtls      !  nmn        :irtls :face second. la plus proche      :    3,4
+          integer ::   s_ilocm      !  nmn        :ilocm :noeud second. le plus proche     :    3,4
+          integer ::   s_irtlom     !  nsn        :irtlom:anc. face main. la plus proche  :    3,4
+          integer ::   s_irtlos     !  nmn        :irtlos:anc. face secnd. la plus proche  :    3,4
+          integer ::   s_nsegs      !  1+nsn      :nsegs :adresse du vecteur lnsv (second):    3,4,5
+          integer ::   s_lnsv       !  nrt        :lmsr  :faces connectees au noeud main :1, ,3,4,5
+          integer ::   s_lmsr       !  nrt        :lmsr  :faces connectees au noeud main :1, ,3,4,5
 !type4
-      integer ::   s_ielem      !  nrtm       :ielem :element main                   :              9
+          integer ::   s_ielem      !  nrtm       :ielem :element main                   :              9
 !type12
-      integer ::   s_fcount     !  nsn: 12
+          integer ::   s_fcount     !  nsn: 12
 !type14
-      integer ::   s_ksurf      !
-      integer ::   s_impact     !  nsn
+          integer ::   s_ksurf      !
+          integer ::   s_impact     !  nsn
 !type21
-      integer ::   s_msr21      !  nmng    :msr21: msr global     :      21
-      integer ::   s_mndd
-      integer ::   s_msr_l
+          integer ::   s_msr21      !  nmng    :msr21: msr global     :      21
+          integer ::   s_mndd
+          integer ::   s_msr_l
 !type24
-      integer ::   s_mvoisin    !  4*nrtm     :mvoisin: facettes mains voisines:(at least two commun nodes) : 24
-      integer ::   s_nvoisin    !  2*4*nrtm   :nvoisin: noeuds mains voisines      :24
-      integer ::   s_mseglo     !  nrtm       :mseglo: global segment number (spmd)    :24, 25
-      integer ::   s_msegtyp24  !  nrtm       :msegtyp: shell segment type             :24
+          integer ::   s_mvoisin    !  4*nrtm     :mvoisin: facettes mains voisines:(at least two commun nodes) : 24
+          integer ::   s_nvoisin    !  2*4*nrtm   :nvoisin: noeuds mains voisines      :24
+          integer ::   s_mseglo     !  nrtm       :mseglo: global segment number (spmd)    :24, 25
+          integer ::   s_msegtyp24  !  nrtm       :msegtyp: shell segment type             :24
 !type25
-      integer ::   s_evoisin    !  4*nrtm            :evoisin: no edge voisine
-      integer ::   s_admsr      !  4*nrtm            :admsr  : adresse des normales aux noeuds mains : 25
-      integer ::   s_ledge      !  4*nedge           :ledge  : description des edges : 25
-      integer ::   s_lbound     !  nadmsr            :lbound : index des sommets sur les aretes libres : 25
-      integer ::   s_actnor     !  nadmsr            :actnor : tag des normales actives (0/1) : 25
-      integer ::   s_farm       !  4*multimp*nsn     :farm   :flag in/out wrt 4 sub-triangles : 25
-      integer ::   s_adskyn     !  4*nrtm+1          :adskyn : skyline pour assemblage parith/on des normales : 25
-      integer ::   s_iadnor     !  4*nrtm            :iadnor : skyline pour assemblage parith/on des normales : 25
-      integer ::   s_islide     !  4*nsn             :islide : sommets (0  4) sur lesquels le noeud secnd glisse : 25
-      integer ::   s_knor2msr   !  nadmsr+1          :knor2msr: adress of connected segments to normals in nor2msr : 25
-      integer ::   s_nor2msr    !  ...               :nor2msr : connected segments to normals in nor2msr : 25
-      integer ::   s_cand_opt_n !  multimp*nsn       :cand_opt_n : candidats apres optimisation <=> nd second. (i25optcd.f)
-      integer ::   s_cand_opt_e !  multimp*nsn       :cand_opt_e : candidats apres optimisation <=> segment main (i25optcd.f)
-      integer ::   s_if_adh     !  nsn               :if_adh: if adhesion spring exists (1) or not (0)  :  25
-      integer ::   s_candm_e2e  !  multimp*nconte    :candm_e2e : main line : aretes candidates mains (shell & beams))
-      integer ::   s_cands_e2e  !  multimp*nconte    :cands_e2e : secnd line : aretes candidates secnds
-      integer ::   s_candm_e2s  !  multimp*nconte    :candm_e2s : main segment : facettes candidates mains (solid edges)
-      integer ::   s_cands_e2s  !  multimp*nconte    :cands_e2s : secnd line : aretes candidates secnds
-      integer ::   s_candl_max
-      integer ::   s_cands_max
-      integer ::   s_addsube    !  nedge+1     :addsubes:adresse ds zone edges de ss interf. cote second.             : 25
-      integer ::   s_lisube     !  nisube      :lisube  :zone edges des ss interf. cote second.                       : 25
-      integer ::   s_inflg_sube !  nisube      :inflg_sube :: zone d appartenance a s1/s2 des ss interf.cote main   : 25
+          integer ::   s_evoisin    !  4*nrtm            :evoisin: no edge voisine
+          integer ::   s_admsr      !  4*nrtm            :admsr  : adresse des normales aux noeuds mains : 25
+          integer ::   s_ledge      !  4*nedge           :ledge  : description des edges : 25
+          integer ::   s_lbound     !  nadmsr            :lbound : index des sommets sur les aretes libres : 25
+          integer ::   s_actnor     !  nadmsr            :actnor : tag des normales actives (0/1) : 25
+          integer ::   s_farm       !  4*multimp*nsn     :farm   :flag in/out wrt 4 sub-triangles : 25
+          integer ::   s_adskyn     !  4*nrtm+1          :adskyn : skyline pour assemblage parith/on des normales : 25
+          integer ::   s_iadnor     !  4*nrtm            :iadnor : skyline pour assemblage parith/on des normales : 25
+          integer ::   s_islide     !  4*nsn             :islide : sommets (0  4) sur lesquels le noeud secnd glisse : 25
+          integer ::   s_knor2msr   !  nadmsr+1          :knor2msr: adress of connected segments to normals in nor2msr : 25
+          integer ::   s_nor2msr    !  ...               :nor2msr : connected segments to normals in nor2msr : 25
+          integer ::   s_cand_opt_n !  multimp*nsn       :cand_opt_n : candidats apres optimisation <=> nd second. (i25optcd.f)
+          integer ::   s_cand_opt_e !  multimp*nsn       :cand_opt_e : candidats apres optimisation <=> segment main (i25optcd.f)
+          integer ::   s_if_adh     !  nsn               :if_adh: if adhesion spring exists (1) or not (0)  :  25
+          integer ::   s_candm_e2e  !  multimp*nconte    :candm_e2e : main line : aretes candidates mains (shell & beams))
+          integer ::   s_cands_e2e  !  multimp*nconte    :cands_e2e : secnd line : aretes candidates secnds
+          integer ::   s_candm_e2s  !  multimp*nconte    :candm_e2s : main segment : facettes candidates mains (solid edges)
+          integer ::   s_cands_e2s  !  multimp*nconte    :cands_e2s : secnd line : aretes candidates secnds
+          integer ::   s_candl_max
+          integer ::   s_cands_max
+          integer ::   s_addsube    !  nedge+1     :addsubes:adresse ds zone edges de ss interf. cote second.             : 25
+          integer ::   s_lisube     !  nisube      :lisube  :zone edges des ss interf. cote second.                       : 25
+          integer ::   s_inflg_sube !  nisube      :inflg_sube :: zone d appartenance a s1/s2 des ss interf.cote main   : 25
 !-------s_iseadd,s_isedge,s_cand_t will be cleaned after, for the moment with size 0
-      integer ::   s_iseadd     !  iseadd     :secnd edge address                      :      24
-      integer ::   s_isedge     !  l24add     :isedge:secnd edges nodes and flags      :      24
-      integer ::   s_cand_t     !  multimp*nsn:cand_t:candidate type                   :      24
+          integer ::   s_iseadd     !  iseadd     :secnd edge address                      :      24
+          integer ::   s_isedge     !  l24add     :isedge:secnd edges nodes and flags      :      24
+          integer ::   s_cand_t     !  multimp*nsn:cand_t:candidate type                   :      24
 !            ! =0 node to surface candidate
 !            ! =1 node or edge to surface candidate
 !            ! =2 edge to surface candidate
-      integer ::   s_iseg_pxfem !  iseg_pxfem:       :      24
-      integer ::   s_iseg_ply   !  iseg_ply          :      24
+          integer ::   s_iseg_pxfem !  iseg_pxfem:       :      24
+          integer ::   s_iseg_ply   !  iseg_ply          :      24
 
-      integer ::   s_icont_i    !  nsn not detected pene_ini <0 :   24, 25
-      integer ::   s_ielem_m    !  2*nrtm element connected to main segment :   25
-      integer ::   s_proc_mvoisin!  4*nrtm proc of neighbhoor segment :   25
+          integer ::   s_icont_i    !  nsn not detected pene_ini <0 :   24, 25
+          integer ::   s_ielem_m    !  2*nrtm element connected to main segment :   25
+          integer ::   s_proc_mvoisin!  4*nrtm proc of neighbhoor segment :   25
 
 !---- edge
-      integer ::   s_irtse      !  (5,nrtse)
-      integer ::   s_is2se      !  (2,nsne)
-      integer ::   s_is2pt      !  (nsne)
-      integer ::   s_ispt2      !  (nsn) - tag for irtlm on fictive node
-      integer ::   s_isegpt     !  (nsn)
-      integer ::   s_is2id      !  (nsne)
-      integer ::   s_ifpen_e    !  (multimpe*nconte) : filter candidat friction       :25
-      integer ::   s_ifpen_e2s  !  (multimpe*nconte) : filter candidat friction       :25
+          integer ::   s_irtse      !  (5,nrtse)
+          integer ::   s_is2se      !  (2,nsne)
+          integer ::   s_is2pt      !  (nsne)
+          integer ::   s_ispt2      !  (nsn) - tag for irtlm on fictive node
+          integer ::   s_isegpt     !  (nsn)
+          integer ::   s_is2id      !  (nsne)
+          integer ::   s_ifpen_e    !  (multimpe*nconte) : filter candidat friction       :25
+          integer ::   s_ifpen_e2s  !  (multimpe*nconte) : filter candidat friction       :25
 !---- ige
-      integer ::   s_nige
+          integer ::   s_nige
 !---- inter friction parts
-      integer ::   s_ipartfrics!  nsn       :ipartfrics : number of part of secnd nodes
-      integer ::   s_ipartfricm!  nrtm      :ipartfricm : number of part of main segments
-      integer ::   s_ipartfric_e!  nedge    :ipartfric_e : number of part of edge int25
+          integer ::   s_ipartfrics!  nsn       :ipartfrics : number of part of secnd nodes
+          integer ::   s_ipartfricm!  nrtm      :ipartfricm : number of part of main segments
+          integer ::   s_ipartfric_e!  nedge    :ipartfric_e : number of part of edge int25
 !       orthotropic friction
-      integer ::   s_irep_fricm !  nrtm      :irep_fric : orthotropic system formulation flag for reference vector for friction (same as iorth/irep for prop)
+          integer ::   s_irep_fricm !  nrtm      :irep_fric : orthotropic system formulation flag for reference vector for friction (same as iorth/irep for prop)
 !---- irem gap option for inter type25
-      integer ::   s_kremnor!  nsn+1    :kremnor : skyline tab for main segment adress in remnor tab
-      integer ::   s_remnor!   remnode  :remnor  : tab for main segment forbidden for each secnd node
-      integer ::   s_kremnode_edg   !  nedge+1    :kremnode_edg:adress lines removed from contact in remnode array :      25
-      integer ::   s_remnode_edg    !  nremnode_edg   :remnode_edg: lines removed from contact     :      25
-      integer ::   s_kremnode_e2s   !  nrtm+1    :kremnode_edg:adress lines removed from contact in remnode array :      25
-      integer ::   s_remnode_e2s    !  nremnode_e2s   :remnode_edg: lines removed from contact     :      25
+          integer ::   s_kremnor!  nsn+1    :kremnor : skyline tab for main segment adress in remnor tab
+          integer ::   s_remnor!   remnode  :remnor  : tab for main segment forbidden for each secnd node
+          integer ::   s_kremnode_edg   !  nedge+1    :kremnode_edg:adress lines removed from contact in remnode array :      25
+          integer ::   s_remnode_edg    !  nremnode_edg   :remnode_edg: lines removed from contact     :      25
+          integer ::   s_kremnode_e2s   !  nrtm+1    :kremnode_edg:adress lines removed from contact in remnode array :      25
+          integer ::   s_remnode_e2s    !  nremnode_e2s   :remnode_edg: lines removed from contact     :      25
 !----nitsche method
-      integer ::   s_ielnrts!  nrts      :ielnrts : number of secnd element
-      integer ::   s_adrects!  4*nrts    :adrects : adress of each secnd node of the segment in ixs/ixs10/ixs20/ixs16
-      integer ::   s_facnrts!  nrts      :facnrts : corresponding facet in element ielnrts
-      integer ::   s_e2s_actnor!
+          integer ::   s_ielnrts!  nrts      :ielnrts : number of secnd element
+          integer ::   s_adrects!  4*nrts    :adrects : adress of each secnd node of the segment in ixs/ixs10/ixs20/ixs16
+          integer ::   s_facnrts!  nrts      :facnrts : corresponding facet in element ielnrts
+          integer ::   s_e2s_actnor!
 !=======================================================================
 ! define sizes (float arrays)
 !=======================================================================
-      integer ::   s_stfac        !  1          :stfac :facteur de rigidite d'interface(manager)
-      integer ::   s_variables    !   +1, ...
-      integer ::   s_csts         !  2*nsn      :csts  :s et t des noeuds seconds       :   ,3,4,
-      integer ::   s_dpara        !  7*nsn      :dpara :det,b1,b2,b3,c1,c2,c3            :  2
-      integer ::   s_nmas         !  nmn        :mmas  :masse noeuds mains             :  2
-      integer ::   s_smas         !  nsn      :smas : masse et inertie des noeuds secnd :   2
-      integer ::   s_siner        !  nsn      :siner : masse et inertie des noeuds secnd :   2
-      integer ::   s_areas2       !  nsn       area       : secnd area                  :  int2 with rupture
-      integer ::   s_uvar         !  nsn*nuvar uvar       : user buffer for secnds      :  int2 with rupture
-      integer ::   s_xm0          !  nsn*3     xm0(x,y,z) : secnd-main initial distance: int2 with rupture
-      integer ::   s_spenalty     !  nsn      :
-      integer ::   s_stfr_penalty !  nsn      :s
-      integer ::   s_skew         !  ilev=25  : nsn*3     xm0(x,y,z) : secnd-main initial distance: int2 with rupture
-      integer ::   s_dsm          !  nsn*3     dsm(x,y,z) : secnd-main displacement    :  int2 with rupture
-      integer ::   s_fsm          !  nsn*3     fsm(x,y,z) : secnd-main force           :  int2 with rupture
-      integer ::   s_rupt         !  6         rupt       : penality/rupture parameters  :  int2 with rupture
-      integer ::   s_fini         !  ilev=25   :3*nsn  :  int2 with rupture
-      integer ::   s_stfns        !  nsn        :stfns :rigidite noeuds seconds         :   ,3,4,    7
-      integer ::   s_stfm         !  nrtm       :stfm  :rigidite faces main        :   ,3,4,    7  10,11
-      integer ::   s_stfs         !  nrts       :stfs  :rigidite faces seconds          :   ,3,4          11
-      integer ::   s_penim        !  2*nrtm     :penim :pene initiale max / main       :     20           11
-      integer ::   s_penis        !  2*nrts     :penis :pene initiale max / secnd        :                  11
-      integer ::   s_gap_m        !  nrtm       :gap_m :gap faces main             :(7)10,11,24
-      integer ::   s_gap_s        !  nsn        :gap_s :gap noeuds seconds              :(7)10,20
-      integer ::   s_xsav         !  3*min(numnod,nsn+nmn):crit  :x(xyz)                   :            7
-      integer ::   s_crit         !  12         :crit  :min et max deplacement (spmd)    :            7 (10,11)
-      integer ::   s_fric_p       !  10         :fric_p:friction parameters              :        5,  7     24
-      integer ::   s_xfiltr       !  1          :xfiltr:coeff filtrage frottement     )  :        5,  7     24
-      integer ::   s_areas        !  nsn       area       : secnd area                  :  7
-      integer ::   s_aream        !  nrtm      area       : main area                  :  11
-      integer ::   s_gap_sl       !  nsn        :gap_s_l :
-      integer ::   s_gap_ml       !  nrtm       :gap_m_l :
-      integer ::   s_cand_p       !  multimp*nsn:cand_p:penetration initiale             :           (7)
-      integer ::   s_ftsavx       !  multimp*nsn:ftsavx :    sauvegarde filtrage         :            7, 8  24
-      integer ::   s_ftsavy       !  multimp*nsn:ftsavy :    sauvegarde filtrage         :            7, 8  24
-      integer ::   s_ftsavz       !  multimp*nsn:ftsavz :    sauvegarde filtrage         :            7, 8  24
-      integer ::   s_ftsavx_e   !  multimp*nconte    :ftsavx_e : friction for saving     :            25
-      integer ::   s_ftsavy_e   !  multimp*nconte    :ftsavx_e : friction for saving     :            25
-      integer ::   s_ftsavz_e   !  multimp*nconte    :ftsavx_e : friction for saving     :            25
-      integer ::   s_ftsavx_e2s !  multimp*nconte    :ftsavx_e2s : friction for saving   :            25
-      integer ::   s_ftsavy_e2s !  multimp*nconte    :ftsavx_e2s : friction for saving   :            25
-      integer ::   s_ftsavz_e2s !  multimp*nconte    :ftsavx_e2s : friction for saving   :            25
+          integer ::   s_stfac        !  1          :stfac :facteur de rigidite d'interface(manager)
+          integer ::   s_variables    !   +1, ...
+          integer ::   s_csts         !  2*nsn      :csts  :s et t des noeuds seconds       :   ,3,4,
+          integer ::   s_dpara        !  7*nsn      :dpara :det,b1,b2,b3,c1,c2,c3            :  2
+          integer ::   s_nmas         !  nmn        :mmas  :masse noeuds mains             :  2
+          integer ::   s_smas         !  nsn      :smas : masse et inertie des noeuds secnd :   2
+          integer ::   s_siner        !  nsn      :siner : masse et inertie des noeuds secnd :   2
+          integer ::   s_areas2       !  nsn       area       : secnd area                  :  int2 with rupture
+          integer ::   s_uvar         !  nsn*nuvar uvar       : user buffer for secnds      :  int2 with rupture
+          integer ::   s_xm0          !  nsn*3     xm0(x,y,z) : secnd-main initial distance: int2 with rupture
+          integer ::   s_spenalty     !  nsn      :
+          integer ::   s_stfr_penalty !  nsn      :s
+          integer ::   s_skew         !  ilev=25  : nsn*3     xm0(x,y,z) : secnd-main initial distance: int2 with rupture
+          integer ::   s_dsm          !  nsn*3     dsm(x,y,z) : secnd-main displacement    :  int2 with rupture
+          integer ::   s_fsm          !  nsn*3     fsm(x,y,z) : secnd-main force           :  int2 with rupture
+          integer ::   s_rupt         !  6         rupt       : penality/rupture parameters  :  int2 with rupture
+          integer ::   s_fini         !  ilev=25   :3*nsn  :  int2 with rupture
+          integer ::   s_stfns        !  nsn        :stfns :rigidite noeuds seconds         :   ,3,4,    7
+          integer ::   s_stfm         !  nrtm       :stfm  :rigidite faces main        :   ,3,4,    7  10,11
+          integer ::   s_stfs         !  nrts       :stfs  :rigidite faces seconds          :   ,3,4          11
+          integer ::   s_penim        !  2*nrtm     :penim :pene initiale max / main       :     20           11
+          integer ::   s_penis        !  2*nrts     :penis :pene initiale max / secnd        :                  11
+          integer ::   s_gap_m        !  nrtm       :gap_m :gap faces main             :(7)10,11,24
+          integer ::   s_gap_s        !  nsn        :gap_s :gap noeuds seconds              :(7)10,20
+          integer ::   s_xsav         !  3*min(numnod,nsn+nmn):crit  :x(xyz)                   :            7
+          integer ::   s_crit         !  12         :crit  :min et max deplacement (spmd)    :            7 (10,11)
+          integer ::   s_fric_p       !  10         :fric_p:friction parameters              :        5,  7     24
+          integer ::   s_xfiltr       !  1          :xfiltr:coeff filtrage frottement     )  :        5,  7     24
+          integer ::   s_areas        !  nsn       area       : secnd area                  :  7
+          integer ::   s_aream        !  nrtm      area       : main area                  :  11
+          integer ::   s_gap_sl       !  nsn        :gap_s_l :
+          integer ::   s_gap_ml       !  nrtm       :gap_m_l :
+          integer ::   s_cand_p       !  multimp*nsn:cand_p:penetration initiale             :           (7)
+          integer ::   s_ftsavx       !  multimp*nsn:ftsavx :    sauvegarde filtrage         :            7, 8  24
+          integer ::   s_ftsavy       !  multimp*nsn:ftsavy :    sauvegarde filtrage         :            7, 8  24
+          integer ::   s_ftsavz       !  multimp*nsn:ftsavz :    sauvegarde filtrage         :            7, 8  24
+          integer ::   s_ftsavx_e   !  multimp*nconte    :ftsavx_e : friction for saving     :            25
+          integer ::   s_ftsavy_e   !  multimp*nconte    :ftsavx_e : friction for saving     :            25
+          integer ::   s_ftsavz_e   !  multimp*nconte    :ftsavx_e : friction for saving     :            25
+          integer ::   s_ftsavx_e2s !  multimp*nconte    :ftsavx_e2s : friction for saving   :            25
+          integer ::   s_ftsavy_e2s !  multimp*nconte    :ftsavx_e2s : friction for saving   :            25
+          integer ::   s_ftsavz_e2s !  multimp*nconte    :ftsavx_e2s : friction for saving   :            25
 !---- ige
-      integer ::   s_rige
-      integer ::   s_xige
-      integer ::   s_vige
-      integer ::   s_massige
+          integer ::   s_rige
+          integer ::   s_xige
+          integer ::   s_vige
+          integer ::   s_massige
 !type10
-      integer ::   s_cand_f       !  6*4*nsn    :cand_f:ancienne forces locales +h1 a h3 :               10
+          integer ::   s_cand_f       !  6*4*nsn    :cand_f:ancienne forces locales +h1 a h3 :               10
 !type11
-      integer ::   s_cand_max
+          integer ::   s_cand_max
 !type20
-      integer ::   s_cand_fx      !
-      integer ::   s_cand_fy      !
-      integer ::   s_cand_fz      !
-      integer ::   s_xa           !  3*nsn;3*nln:xa    :xa des noeuds                    :       20
-      integer ::   s_va           !  3*nsn;3*nln:va    :va des noeuds                    :       2
-      integer ::   s_stfa         !
-      integer ::   s_penia        !  5*nln      :penia :pene initiale points d'ancrages  :     20
-      integer ::   s_alphak       !  3*nln      :alphak:reduction de rigidite d'ancrages :     20
-      integer ::   s_gap_sh       !  nrtm       :gap_sh:shift de gap pour gap nul solides:     20
-      integer ::   s_avx_ancr     !  9*nln :a-v-x-ancr :accel vit deplacement point d'ancrage: 20
-      integer ::   s_critx        !
-      integer ::   s_gap_me       !
-      integer ::   s_stf          !  nlinm      :stfm  :rigidite faces main        :       20
-      integer ::   s_penime       !  2*nlinm    :penime:pene initiale max / edge main       :       20
-      integer ::   s_gap_se       !
-      integer ::   s_penise       !  2*nlins    :penise:pene initiale max / edge secnd   :       20
-      integer ::   s_stfne        !  nsne       :stfne :rigidite noeuds seconds         :       20
+          integer ::   s_cand_fx      !
+          integer ::   s_cand_fy      !
+          integer ::   s_cand_fz      !
+          integer ::   s_xa           !  3*nsn;3*nln:xa    :xa des noeuds                    :       20
+          integer ::   s_va           !  3*nsn;3*nln:va    :va des noeuds                    :       2
+          integer ::   s_stfa         !
+          integer ::   s_penia        !  5*nln      :penia :pene initiale points d'ancrages  :     20
+          integer ::   s_alphak       !  3*nln      :alphak:reduction de rigidite d'ancrages :     20
+          integer ::   s_gap_sh       !  nrtm       :gap_sh:shift de gap pour gap nul solides:     20
+          integer ::   s_avx_ancr     !  9*nln :a-v-x-ancr :accel vit deplacement point d'ancrage: 20
+          integer ::   s_critx        !
+          integer ::   s_gap_me       !
+          integer ::   s_stf          !  nlinm      :stfm  :rigidite faces main        :       20
+          integer ::   s_penime       !  2*nlinm    :penime:pene initiale max / edge main       :       20
+          integer ::   s_gap_se       !
+          integer ::   s_penise       !  2*nlins    :penise:pene initiale max / edge secnd   :       20
+          integer ::   s_stfne        !  nsne       :stfne :rigidite noeuds seconds         :       20
 !type1
-      integer ::   s_n            !  3*nsn      :n     :normale                          :1,
+          integer ::   s_n            !  3*nsn      :n     :normale                          :1,
 !type3,4,5,9
-      integer ::   s_cstm         !  2*nmn      :cstm  :s et t des noeuds mains        :   ,3,4,
-      integer ::   s_stfnm        !  nmn        :stfnm :rigidite noeuds mains          :   ,3,4
-      integer ::   s_fricos       !  3*nsn      :fricos:force de friction(second)       :   ,3,4,
-      integer ::   s_fricom       !  3*nmn      :fricom:force de friction(main)        :   ,3,4,
-      integer ::   s_ftsav        !  3*nsn      :ftsav :     sauvegarde filtrage         :        5
+          integer ::   s_cstm         !  2*nmn      :cstm  :s et t des noeuds mains        :   ,3,4,
+          integer ::   s_stfnm        !  nmn        :stfnm :rigidite noeuds mains          :   ,3,4
+          integer ::   s_fricos       !  3*nsn      :fricos:force de friction(second)       :   ,3,4,
+          integer ::   s_fricom       !  3*nmn      :fricom:force de friction(main)        :   ,3,4,
+          integer ::   s_ftsav        !  3*nsn      :ftsav :     sauvegarde filtrage         :        5
 !type6
-      integer ::   s_fcont        !  1          :fcont :                                 :          6
-      integer ::   s_fs           !  3*nsn      :fs    :sauvegarde de la penetration     :          6
-      integer ::   s_fm           !  3*nsn      :fm    :sauvegarde de la penetration     :          6
-      integer ::   s_rmas         !  2          :rmas  :masse des rigid body             :          6
-      integer ::   s_ansmx0
+          integer ::   s_fcont        !  1          :fcont :                                 :          6
+          integer ::   s_fs           !  3*nsn      :fs    :sauvegarde de la penetration     :          6
+          integer ::   s_fm           !  3*nsn      :fm    :sauvegarde de la penetration     :          6
+          integer ::   s_rmas         !  2          :rmas  :masse des rigid body             :          6
+          integer ::   s_ansmx0
 !type 8
-      integer ::   s_t8          !   size of t8 structure  (1 if type8, 0 elsewhere)            :          8
-      integer ::   s_gapn         !   nrtm
-      integer ::   s_stf8         !   nrtm
+          integer ::   s_t8          !   size of t8 structure  (1 if type8, 0 elsewhere)            :          8
+          integer ::   s_gapn         !   nrtm
+          integer ::   s_stf8         !   nrtm
 
 !type 9
-      integer ::   s_ee           !  ee    :energie de frottement            : 9
+          integer ::   s_ee           !  ee    :energie de frottement            : 9
 
 !type14
-      integer ::   s_cimp         !  3*nsn    :
-      integer ::   s_nimp         !  3*nsn    :
+          integer ::   s_cimp         !  3*nsn    :
+          integer ::   s_nimp         !  3*nsn    :
 !type15
-      integer ::   s_iold         !
-      integer ::   s_hold         !
-      integer ::   s_nold         !
-      integer ::   s_dold         !
+          integer ::   s_iold         !
+          integer ::   s_hold         !
+          integer ::   s_nold         !
+          integer ::   s_dold         !
 !type17
-      integer ::   s_ks           !
-      integer ::   s_km           !
-      integer ::   s_frots        !
-      integer ::   s_frotm        !
+          integer ::   s_ks           !
+          integer ::   s_km           !
+          integer ::   s_frots        !
+          integer ::   s_frotm        !
 !type21
-      integer ::   s_nod_normal   !
-      integer ::   s_rcurv        !
-      integer ::   s_anglm        !
-      integer ::   s_frot_p       !
-      integer ::   s_alpha0       !
-      integer ::   s_as           !
-      integer ::   s_bs           !
-      integer ::   s_thknod0      !
+          integer ::   s_nod_normal   !
+          integer ::   s_rcurv        !
+          integer ::   s_anglm        !
+          integer ::   s_frot_p       !
+          integer ::   s_alpha0       !
+          integer ::   s_as           !
+          integer ::   s_bs           !
+          integer ::   s_thknod0      !
 !type22
 !type23
 !type24
-      integer ::   s_gapn_m       !  nmn        :gapn_m:nodal main gap                 :  24, 25
-      integer ::   s_secnd_fr      !  6*nsn      :secnd_fr:new(1:3) and old(4:6) friction f:  24
-      integer ::   s_pene_old     !  nsn*5      :pene_old:old penetration,pen_ini(inacti=5):       24
-      integer ::   s_stif_old     !  nsn*2      :stif_old:old stifness                   :       24
-      integer ::   s_time_s       !  nsn        :time_s :   impact time                  :  24
-      integer ::   s_gap_nm       !  12*nrtm
+          integer ::   s_gapn_m       !  nmn        :gapn_m:nodal main gap                 :  24, 25
+          integer ::   s_secnd_fr      !  6*nsn      :secnd_fr:new(1:3) and old(4:6) friction f:  24
+          integer ::   s_pene_old     !  nsn*5      :pene_old:old penetration,pen_ini(inacti=5):       24
+          integer ::   s_stif_old     !  nsn*2      :stif_old:old stifness                   :       24
+          integer ::   s_time_s       !  nsn        :time_s :   impact time                  :  24
+          integer ::   s_gap_nm       !  12*nrtm
 !---------to be cleaned later
-      integer ::   s_edge8l2      !  nsn        :edge8l2: max half edge length on secnd node: 24
-      integer ::   s_nod_2ry_lgth !  nsn        :nodal secnd length (to cal. kg)         :     24
-      integer ::   s_nod_mas_lgth !  nmn        :nodal main length (to cal. kg)        :     24
-      integer ::   s_gap_n0       !  12*nrtm        :
-      integer ::   s_dgap_nm      !  4*nrtm        :
-      integer ::   s_dgap_m       !  nrtm        :
-      integer ::   s_delta_pmax_dgap !  1        :i
-      integer ::   s_xfic         !  3*nsne
-      integer ::   s_vfic         !  3*nsne
-      integer ::   s_msfic        !  nsne
+          integer ::   s_edge8l2      !  nsn        :edge8l2: max half edge length on secnd node: 24
+          integer ::   s_nod_2ry_lgth !  nsn        :nodal secnd length (to cal. kg)         :     24
+          integer ::   s_nod_mas_lgth !  nmn        :nodal main length (to cal. kg)        :     24
+          integer ::   s_gap_n0       !  12*nrtm        :
+          integer ::   s_dgap_nm      !  4*nrtm        :
+          integer ::   s_dgap_m       !  nrtm        :
+          integer ::   s_delta_pmax_dgap !  1        :i
+          integer ::   s_xfic         !  3*nsne
+          integer ::   s_vfic         !  3*nsne
+          integer ::   s_msfic        !  nsne
 
 !type25
-      integer ::   s_edge_bisector       !  3*4*nrtm
-      integer ::   s_penm         !  4*multimp*nsn      :penm:penetrations wrt 4 sub-triangles :  25
-      integer ::   s_distm        !  multimp*nsn        :distm:true distance to segment        :  25
-      integer ::   s_lbm          !  multimp*nsn        :lbm:coordinate lb wrt 4 triangles     :  25
-      integer ::   s_lcm          !  multimp*nsn        :lcm:coordinate lc wrt 4 triangles     :  25
-      integer ::   s_vtx_bisector !  3*2*nadmsr         :                                      :  25
-      integer ::   s_cand_ps      !  4*multimps*nconte:cand_ps:penetration initiale vs solid main edges: 25
-      integer ::   s_gape         !  nedge
-      integer ::   s_gap_e_l      !  nedge
-      integer ::   s_stfe         !  nedge
-      integer ::   s_gapmsav      ! nrtm
-      integer ::   s_e2s_nod_normal ! 3*nadmsr
+          integer ::   s_edge_bisector       !  3*4*nrtm
+          integer ::   s_penm         !  4*multimp*nsn      :penm:penetrations wrt 4 sub-triangles :  25
+          integer ::   s_distm        !  multimp*nsn        :distm:true distance to segment        :  25
+          integer ::   s_lbm          !  multimp*nsn        :lbm:coordinate lb wrt 4 triangles     :  25
+          integer ::   s_lcm          !  multimp*nsn        :lcm:coordinate lc wrt 4 triangles     :  25
+          integer ::   s_vtx_bisector !  3*2*nadmsr         :                                      :  25
+          integer ::   s_cand_ps      !  4*multimps*nconte:cand_ps:penetration initiale vs solid main edges: 25
+          integer ::   s_gape         !  nedge
+          integer ::   s_gap_e_l      !  nedge
+          integer ::   s_stfe         !  nedge
+          integer ::   s_gapmsav      ! nrtm
+          integer ::   s_e2s_nod_normal ! 3*nadmsr
 
-      integer :: number_edge_type1
-      integer :: number_edge_type1_0
+          integer :: number_edge_type1
+          integer :: number_edge_type1_0
 !       orthotropic friction
-      integer ::   s_dir_fricm !  2*nrtm         : orhotropic directions for friction
+          integer ::   s_dir_fricm !  2*nrtm         : orhotropic directions for friction
 !   stiffness based on mass and time step
-      integer ::   s_stifmsdt_s       ! nsn : nodal mass on secondary node *stfacm
-      integer ::   s_stifmsdt_m       ! nrtm : main mass *stfacm
-      integer ::   s_stifmsdt_edg     ! nedge : edge mass *stfacm
+          integer ::   s_stifmsdt_s       ! nsn : nodal mass on secondary node *stfacm
+          integer ::   s_stifmsdt_m       ! nrtm : main mass *stfacm
+          integer ::   s_stifmsdt_edg     ! nedge : edge mass *stfacm
 !
 !=======================================================================
 ! define arrays (integers arrays)
 !=======================================================================
-      integer, dimension(:) , allocatable ::  irects
-      integer, dimension(:) , allocatable ::  irectm
-      integer, dimension(:) , allocatable ::  nsv
-      integer, dimension(:) , allocatable ::  msr
-      integer, dimension(:) , allocatable ::  irtlm
-      integer, dimension(:) , allocatable ::  irupt
-      integer, dimension(:) , allocatable ::  inorm
-      integer, dimension(:) , allocatable ::  ielec
-      integer, dimension(:) , allocatable ::  ieles
-      integer, dimension(:) , allocatable ::  lisub
-      integer, dimension(:) , allocatable ::  typsub
-      integer, dimension(:) , allocatable ::  addsubs
-      integer, dimension(:) , allocatable ::  addsubm
-      integer, dimension(:) , allocatable ::  lisubs
-      integer, dimension(:) , allocatable ::  lisubm
-      integer, dimension(:) , allocatable ::  inflg_subs
-      integer, dimension(:) , allocatable ::  inflg_subm
-      integer, dimension(:) , allocatable ::  addsube
-      integer, dimension(:) , allocatable ::  lisube
-      integer, dimension(:) , allocatable ::  inflg_sube
-      integer, dimension(:) , allocatable ::  msegtyp
-      integer, dimension(:) , allocatable ::  cand_e
-      integer, dimension(:) , allocatable ::  cand_n
-      integer, dimension(:) , allocatable ::  i_stok
-      integer, dimension(:) , allocatable ::  i_stok_e
-      integer, dimension(:) , allocatable ::  ifpen
-      integer, dimension(:) , allocatable ::  kremnode
-      integer, dimension(:) , allocatable ::  remnode
-      integer, dimension(:) , allocatable ::  adccm
-      integer, dimension(:) , allocatable ::  chain
-      integer, dimension(:) , allocatable ::  nige
+          integer, dimension(:) , allocatable ::  irects
+          integer, dimension(:) , allocatable ::  irectm
+          integer, dimension(:) , allocatable ::  nsv
+          integer, dimension(:) , allocatable ::  msr
+          integer, dimension(:) , allocatable ::  irtlm
+          integer, dimension(:) , allocatable ::  irupt
+          integer, dimension(:) , allocatable ::  inorm
+          integer, dimension(:) , allocatable ::  ielec
+          integer, dimension(:) , allocatable ::  ieles
+          integer, dimension(:) , allocatable ::  lisub
+          integer, dimension(:) , allocatable ::  typsub
+          integer, dimension(:) , allocatable ::  addsubs
+          integer, dimension(:) , allocatable ::  addsubm
+          integer, dimension(:) , allocatable ::  lisubs
+          integer, dimension(:) , allocatable ::  lisubm
+          integer, dimension(:) , allocatable ::  inflg_subs
+          integer, dimension(:) , allocatable ::  inflg_subm
+          integer, dimension(:) , allocatable ::  addsube
+          integer, dimension(:) , allocatable ::  lisube
+          integer, dimension(:) , allocatable ::  inflg_sube
+          integer, dimension(:) , allocatable ::  msegtyp
+          integer, dimension(:) , allocatable ::  cand_e
+          integer, dimension(:) , allocatable ::  cand_n
+          integer, dimension(:) , allocatable ::  i_stok
+          integer, dimension(:) , allocatable ::  i_stok_e
+          integer, dimension(:) , allocatable ::  ifpen
+          integer, dimension(:) , allocatable ::  kremnode
+          integer, dimension(:) , allocatable ::  remnode
+          integer, dimension(:) , allocatable ::  adccm
+          integer, dimension(:) , allocatable ::  chain
+          integer, dimension(:) , allocatable ::  nige
 !type20
-      integer, dimension(:) , allocatable ::  nbinflg
-      integer, dimension(:) , allocatable ::  mbinflg
-      integer, dimension(:) , allocatable ::  ebinflg
-      integer, dimension(:) , allocatable ::  nlg
-      integer, dimension(:) , allocatable ::  daanc6
-      integer, dimension(:) , allocatable ::  islins
-      integer, dimension(:) , allocatable ::  islinm
-      integer, dimension(:) , allocatable ::  ixlins
-      integer, dimension(:) , allocatable ::  ixlinm
-      integer, dimension(:) , allocatable ::  nsvl
-      integer, dimension(:) , allocatable ::  msrl
-      integer, dimension(:) , allocatable ::  lcand_n
-      integer, dimension(:) , allocatable ::  lcand_s
-      integer, dimension(:) , allocatable ::  adccm20
-      integer, dimension(:) , allocatable ::  chain20
+          integer, dimension(:) , allocatable ::  nbinflg
+          integer, dimension(:) , allocatable ::  mbinflg
+          integer, dimension(:) , allocatable ::  ebinflg
+          integer, dimension(:) , allocatable ::  nlg
+          integer, dimension(:) , allocatable ::  daanc6
+          integer, dimension(:) , allocatable ::  islins
+          integer, dimension(:) , allocatable ::  islinm
+          integer, dimension(:) , allocatable ::  ixlins
+          integer, dimension(:) , allocatable ::  ixlinm
+          integer, dimension(:) , allocatable ::  nsvl
+          integer, dimension(:) , allocatable ::  msrl
+          integer, dimension(:) , allocatable ::  lcand_n
+          integer, dimension(:) , allocatable ::  lcand_s
+          integer, dimension(:) , allocatable ::  adccm20
+          integer, dimension(:) , allocatable ::  chain20
 !type1
-      integer, dimension(:) , allocatable ::  ilocs
-      integer, dimension(:) , allocatable ::  nsegm
-      integer, dimension(:) , allocatable ::  nrt
+          integer, dimension(:) , allocatable ::  ilocs
+          integer, dimension(:) , allocatable ::  nsegm
+          integer, dimension(:) , allocatable ::  nrt
 !type2
-      integer, dimension(:) , allocatable ::  msegtyp2
+          integer, dimension(:) , allocatable ::  msegtyp2
 !type3
-      integer, dimension(:) , allocatable ::  irtls
-      integer, dimension(:) , allocatable ::  ilocm
-      integer, dimension(:) , allocatable ::  irtlom
-      integer, dimension(:) , allocatable ::  irtlos
-      integer, dimension(:) , allocatable ::  nsegs
-      integer, dimension(:) , allocatable ::  lnsv
-      integer, dimension(:) , allocatable ::  lmsr
+          integer, dimension(:) , allocatable ::  irtls
+          integer, dimension(:) , allocatable ::  ilocm
+          integer, dimension(:) , allocatable ::  irtlom
+          integer, dimension(:) , allocatable ::  irtlos
+          integer, dimension(:) , allocatable ::  nsegs
+          integer, dimension(:) , allocatable ::  lnsv
+          integer, dimension(:) , allocatable ::  lmsr
 !type4
-      integer, dimension(:) , allocatable ::  ielem
+          integer, dimension(:) , allocatable ::  ielem
 !type12
-      integer, dimension(:) , allocatable ::  fcount
+          integer, dimension(:) , allocatable ::  fcount
 !type14
-      integer, dimension(:) , allocatable ::  ksurf
-      integer, dimension(:) , allocatable ::  impact
+          integer, dimension(:) , allocatable ::  ksurf
+          integer, dimension(:) , allocatable ::  impact
 
 !type21
-      integer, dimension(:) , allocatable ::  msr21
-      integer, dimension(:) , allocatable ::  mndd
-      integer, dimension(:) , allocatable ::  msr_l
+          integer, dimension(:) , allocatable ::  msr21
+          integer, dimension(:) , allocatable ::  mndd
+          integer, dimension(:) , allocatable ::  msr_l
 !type24
-      integer, dimension(:) , allocatable ::  mvoisin
-      integer, dimension(:) , allocatable ::  nvoisin
-      integer, dimension(:) , allocatable ::  mseglo
-      integer, dimension(:) , allocatable ::  msegtyp24
+          integer, dimension(:) , allocatable ::  mvoisin
+          integer, dimension(:) , allocatable ::  nvoisin
+          integer, dimension(:) , allocatable ::  mseglo
+          integer, dimension(:) , allocatable ::  msegtyp24
 !--------to be cleaned later
-      integer, dimension(:) , allocatable ::  iseadd
-      integer, dimension(:) , allocatable ::  isedge
-      integer, dimension(:) , allocatable ::  cand_t
-      integer, dimension(:) , allocatable ::  iseg_pxfem
-      integer, dimension(:) , allocatable ::  iseg_ply
-      integer, dimension(:) , allocatable ::  icont_i
-      integer, dimension(:) , allocatable ::  irtse
-      integer, dimension(:) , allocatable ::  is2se
-      integer, dimension(:) , allocatable ::  is2pt
-      integer, dimension(:) , allocatable ::  ispt2
-      integer, dimension(:) , allocatable ::  isegpt
-      integer, dimension(:) , allocatable ::  is2id      ! global id fictive nodes
+          integer, dimension(:) , allocatable ::  iseadd
+          integer, dimension(:) , allocatable ::  isedge
+          integer, dimension(:) , allocatable ::  cand_t
+          integer, dimension(:) , allocatable ::  iseg_pxfem
+          integer, dimension(:) , allocatable ::  iseg_ply
+          integer, dimension(:) , allocatable ::  icont_i
+          integer, dimension(:) , allocatable ::  irtse
+          integer, dimension(:) , allocatable ::  is2se
+          integer, dimension(:) , allocatable ::  is2pt
+          integer, dimension(:) , allocatable ::  ispt2
+          integer, dimension(:) , allocatable ::  isegpt
+          integer, dimension(:) , allocatable ::  is2id      ! global id fictive nodes
 !type25
-      integer, dimension(:) , allocatable ::  nsv_on_pmain     !
-      integer, dimension(:) , allocatable ::  evoisin   !
-      integer, dimension(:) , allocatable ::  admsr     !
-      integer, dimension(:) , allocatable ::  ledge     !
-      integer, dimension(:) , allocatable ::  lbound    !
-      integer, dimension(:) , allocatable ::  free_irect_id!
-      integer, dimension(:) , allocatable ::  actnor    !
-      integer, dimension(:) , allocatable ::  farm      !
-      integer, dimension(:) , allocatable ::  adskyn    !
-      integer, dimension(:) , allocatable ::  iadnor    !
-      integer, dimension(:) , allocatable ::  islide    !
-      integer, dimension(:) , allocatable ::  knor2msr  !
-      integer, dimension(:) , allocatable ::  nor2msr   !
-      integer, dimension(:) , allocatable ::  cand_opt_n!
-      integer, dimension(:) , allocatable ::  cand_opt_e!
-      integer, dimension(:) , allocatable ::  if_adh    ! type25 and interface adhesion
-      integer, dimension(:) , allocatable ::  candm_e2e
-      integer, dimension(:) , allocatable ::  cands_e2e
-      integer, dimension(:) , allocatable ::  candm_e2s
-      integer, dimension(:) , allocatable ::  cands_e2s
-      integer, dimension(:) , allocatable ::  ifpen_e
+          integer, dimension(:) , allocatable ::  nsv_on_pmain     !
+          integer, dimension(:) , allocatable ::  evoisin   !
+          integer, dimension(:) , allocatable ::  admsr     !
+          integer, dimension(:) , allocatable ::  ledge     !
+          integer, dimension(:) , allocatable ::  lbound    !
+          integer, dimension(:) , allocatable ::  free_irect_id!
+          integer, dimension(:) , allocatable ::  actnor    !
+          integer, dimension(:) , allocatable ::  farm      !
+          integer, dimension(:) , allocatable ::  adskyn    !
+          integer, dimension(:) , allocatable ::  iadnor    !
+          integer, dimension(:) , allocatable ::  islide    !
+          integer, dimension(:) , allocatable ::  knor2msr  !
+          integer, dimension(:) , allocatable ::  nor2msr   !
+          integer, dimension(:) , allocatable ::  cand_opt_n!
+          integer, dimension(:) , allocatable ::  cand_opt_e!
+          integer, dimension(:) , allocatable ::  if_adh    ! type25 and interface adhesion
+          integer, dimension(:) , allocatable ::  candm_e2e
+          integer, dimension(:) , allocatable ::  cands_e2e
+          integer, dimension(:) , allocatable ::  candm_e2s
+          integer, dimension(:) , allocatable ::  cands_e2s
+          integer, dimension(:) , allocatable ::  ifpen_e
 
-      integer, dimension(:) , allocatable ::  ifpen_e2s
-      integer, dimension(:), allocatable :: edge_type1
-      integer, dimension(:), allocatable :: edge_type1_0
-      integer, dimension(:) , allocatable ::  ielem_m
-      integer, dimension(:) , allocatable ::  proc_mvoisin
-      
+          integer, dimension(:) , allocatable ::  ifpen_e2s
+          integer, dimension(:), allocatable :: edge_type1
+          integer, dimension(:), allocatable :: edge_type1_0
+          integer, dimension(:) , allocatable ::  ielem_m
+          integer, dimension(:) , allocatable ::  proc_mvoisin
+
 !---- inter friction parts
-      integer, dimension(:) , allocatable ::  ipartfrics
-      integer, dimension(:) , allocatable ::  ipartfricm
-      integer, dimension(:) , allocatable ::  ipartfric_e
+          integer, dimension(:) , allocatable ::  ipartfrics
+          integer, dimension(:) , allocatable ::  ipartfricm
+          integer, dimension(:) , allocatable ::  ipartfric_e
 !      orthotropic friction
-      integer, dimension(:) , allocatable ::  irep_fricm
+          integer, dimension(:) , allocatable ::  irep_fricm
 !---- irem gap option for interface type 25
-      integer, dimension(:) , allocatable ::  kremnor
-      integer, dimension(:) , allocatable ::  remnor
-      integer, dimension(:) , allocatable ::  kremnode_edg
-      integer, dimension(:) , allocatable ::  remnode_edg
-      integer, dimension(:) , allocatable ::  kremnode_e2s
-      integer, dimension(:) , allocatable ::  remnode_e2s
+          integer, dimension(:) , allocatable ::  kremnor
+          integer, dimension(:) , allocatable ::  remnor
+          integer, dimension(:) , allocatable ::  kremnode_edg
+          integer, dimension(:) , allocatable ::  remnode_edg
+          integer, dimension(:) , allocatable ::  kremnode_e2s
+          integer, dimension(:) , allocatable ::  remnode_e2s
 !----nitsche method
-      integer, dimension(:) , allocatable ::  ielnrts
-      integer, dimension(:) , allocatable ::  adrects
-      integer, dimension(:) , allocatable ::  facnrts
+          integer, dimension(:) , allocatable ::  ielnrts
+          integer, dimension(:) , allocatable ::  adrects
+          integer, dimension(:) , allocatable ::  facnrts
 
-      integer, dimension(:) , allocatable ::  e2s_actnor
+          integer, dimension(:) , allocatable ::  e2s_actnor
 
 !----t25 sorting buffers
-      integer, dimension(:) , allocatable ::  i25_cand_a
-      integer, dimension(:) , allocatable ::  i25_cand_b
+          integer, dimension(:) , allocatable ::  i25_cand_a
+          integer, dimension(:) , allocatable ::  i25_cand_b
 !=======================================================================
 ! define arrays float arrays
 !=======================================================================
-      my_real, dimension(:) , allocatable ::   stfac
-      my_real, dimension(:) , allocatable ::   variables
-      my_real, dimension(:) , allocatable ::   csts
-      my_real, dimension(:) , allocatable ::   dpara
-      my_real, dimension(:) , allocatable ::   nmas
-      my_real, dimension(:) , allocatable ::   smas
-      my_real, dimension(:) , allocatable ::   siner
-      my_real, dimension(:) , allocatable ::   areas2
-      my_real, dimension(:) , allocatable ::   uvar
-      my_real, dimension(:) , allocatable ::   xm0
-      my_real, dimension(:) , allocatable ::   spenalty
-      my_real, dimension(:) , allocatable ::   stfr_penalty
-      my_real, dimension(:) , allocatable ::   skew
-      my_real, dimension(:) , allocatable ::   dsm
-      my_real, dimension(:) , allocatable ::   fsm
-      my_real, dimension(:) , allocatable ::   rupt
-      my_real, dimension(:) , allocatable ::   fini
-      my_real, dimension(:) , allocatable ::   stfns
-      my_real, dimension(:) , allocatable ::   stfm
-      my_real, dimension(:) , allocatable ::   stfs
-      my_real, dimension(:) , allocatable ::   penim
-      my_real, dimension(:) , allocatable ::   penis
-      my_real, dimension(:) , allocatable ::   gap_m
-      my_real, dimension(:) , allocatable ::   gap_s    ! GAP_S is associate in Starter / Pointer is need
-      my_real, dimension(:) , allocatable ::   xsav
-      my_real, dimension(:) , allocatable ::   crit
-      my_real, dimension(:) , allocatable ::   fric_p
-      my_real, dimension(:) , allocatable ::   xfiltr
-      my_real, dimension(:) , allocatable ::   areas
-      my_real, dimension(:) , allocatable ::   aream
-      my_real, dimension(:) , allocatable ::   gap_sl
-      my_real, dimension(:) , allocatable ::   gap_ml
-      my_real, dimension(:) , allocatable ::   cand_p
-      my_real, dimension(:) , allocatable ::   ftsavx
-      my_real, dimension(:) , allocatable ::   ftsavy
-      my_real, dimension(:) , allocatable ::   ftsavz
-      my_real, dimension(:) , allocatable ::   ftsavx_e
-      my_real, dimension(:) , allocatable ::   ftsavy_e
-      my_real, dimension(:) , allocatable ::   ftsavz_e
-      my_real, dimension(:) , allocatable ::   ftsavx_e2s
-      my_real, dimension(:) , allocatable ::   ftsavy_e2s
-      my_real, dimension(:) , allocatable ::   ftsavz_e2s
+          real(kind=WP), dimension(:) , allocatable ::   stfac
+          real(kind=WP), dimension(:) , allocatable ::   variables
+          real(kind=WP), dimension(:) , allocatable ::   csts
+          real(kind=WP), dimension(:) , allocatable ::   dpara
+          real(kind=WP), dimension(:) , allocatable ::   nmas
+          real(kind=WP), dimension(:) , allocatable ::   smas
+          real(kind=WP), dimension(:) , allocatable ::   siner
+          real(kind=WP), dimension(:) , allocatable ::   areas2
+          real(kind=WP), dimension(:) , allocatable ::   uvar
+          real(kind=WP), dimension(:) , allocatable ::   xm0
+          real(kind=WP), dimension(:) , allocatable ::   spenalty
+          real(kind=WP), dimension(:) , allocatable ::   stfr_penalty
+          real(kind=WP), dimension(:) , allocatable ::   skew
+          real(kind=WP), dimension(:) , allocatable ::   dsm
+          real(kind=WP), dimension(:) , allocatable ::   fsm
+          real(kind=WP), dimension(:) , allocatable ::   rupt
+          real(kind=WP), dimension(:) , allocatable ::   fini
+          real(kind=WP), dimension(:) , allocatable ::   stfns
+          real(kind=WP), dimension(:) , allocatable ::   stfm
+          real(kind=WP), dimension(:) , allocatable ::   stfs
+          real(kind=WP), dimension(:) , allocatable ::   penim
+          real(kind=WP), dimension(:) , allocatable ::   penis
+          real(kind=WP), dimension(:) , allocatable ::   gap_m
+          real(kind=WP), dimension(:) , allocatable ::   gap_s    ! GAP_S is associate in Starter / Pointer is need
+          real(kind=WP), dimension(:) , allocatable ::   xsav
+          real(kind=WP), dimension(:) , allocatable ::   crit
+          real(kind=WP), dimension(:) , allocatable ::   fric_p
+          real(kind=WP), dimension(:) , allocatable ::   xfiltr
+          real(kind=WP), dimension(:) , allocatable ::   areas
+          real(kind=WP), dimension(:) , allocatable ::   aream
+          real(kind=WP), dimension(:) , allocatable ::   gap_sl
+          real(kind=WP), dimension(:) , allocatable ::   gap_ml
+          real(kind=WP), dimension(:) , allocatable ::   cand_p
+          real(kind=WP), dimension(:) , allocatable ::   ftsavx
+          real(kind=WP), dimension(:) , allocatable ::   ftsavy
+          real(kind=WP), dimension(:) , allocatable ::   ftsavz
+          real(kind=WP), dimension(:) , allocatable ::   ftsavx_e
+          real(kind=WP), dimension(:) , allocatable ::   ftsavy_e
+          real(kind=WP), dimension(:) , allocatable ::   ftsavz_e
+          real(kind=WP), dimension(:) , allocatable ::   ftsavx_e2s
+          real(kind=WP), dimension(:) , allocatable ::   ftsavy_e2s
+          real(kind=WP), dimension(:) , allocatable ::   ftsavz_e2s
 !---- ige
-      my_real, dimension(:) , allocatable ::   rige
-      my_real, dimension(:) , allocatable ::   xige
-      my_real, dimension(:) , allocatable ::   vige
-      my_real, dimension(:) , allocatable ::   massige
+          real(kind=WP), dimension(:) , allocatable ::   rige
+          real(kind=WP), dimension(:) , allocatable ::   xige
+          real(kind=WP), dimension(:) , allocatable ::   vige
+          real(kind=WP), dimension(:) , allocatable ::   massige
 !type10
-      my_real, dimension(:) , allocatable ::   cand_f
+          real(kind=WP), dimension(:) , allocatable ::   cand_f
 !type20
-      my_real, dimension(:) , allocatable ::   cand_fx
-      my_real, dimension(:) , allocatable ::   cand_fy
-      my_real, dimension(:) , allocatable ::   cand_fz
-      my_real, dimension(:) , allocatable ::   xa
-      my_real, dimension(:) , allocatable ::   va
-      my_real, dimension(:) , allocatable ::   stfa
-      my_real, dimension(:) , allocatable ::   penia
-      my_real, dimension(:) , allocatable ::   alphak
-      my_real, dimension(:) , allocatable ::   gap_sh
-      my_real, dimension(:) , allocatable ::   avx_ancr
-      my_real, dimension(:) , allocatable ::   critx
-      my_real, dimension(:) , allocatable ::   gap_me
-      my_real, dimension(:) , allocatable ::   stf
-      my_real, dimension(:) , allocatable ::   penime
-      my_real, dimension(:) , allocatable ::   gap_se
-      my_real, dimension(:) , allocatable ::   penise
-      my_real, dimension(:) , allocatable ::   stfne
+          real(kind=WP), dimension(:) , allocatable ::   cand_fx
+          real(kind=WP), dimension(:) , allocatable ::   cand_fy
+          real(kind=WP), dimension(:) , allocatable ::   cand_fz
+          real(kind=WP), dimension(:) , allocatable ::   xa
+          real(kind=WP), dimension(:) , allocatable ::   va
+          real(kind=WP), dimension(:) , allocatable ::   stfa
+          real(kind=WP), dimension(:) , allocatable ::   penia
+          real(kind=WP), dimension(:) , allocatable ::   alphak
+          real(kind=WP), dimension(:) , allocatable ::   gap_sh
+          real(kind=WP), dimension(:) , allocatable ::   avx_ancr
+          real(kind=WP), dimension(:) , allocatable ::   critx
+          real(kind=WP), dimension(:) , allocatable ::   gap_me
+          real(kind=WP), dimension(:) , allocatable ::   stf
+          real(kind=WP), dimension(:) , allocatable ::   penime
+          real(kind=WP), dimension(:) , allocatable ::   gap_se
+          real(kind=WP), dimension(:) , allocatable ::   penise
+          real(kind=WP), dimension(:) , allocatable ::   stfne
 !type1
-      my_real, dimension(:) , allocatable ::   n
+          real(kind=WP), dimension(:) , allocatable ::   n
 !type3,4,9
-      my_real, dimension(:) , allocatable ::   cstm
-      my_real, dimension(:) , allocatable ::   stfnm
-      my_real, dimension(:) , allocatable ::   fricos
-      my_real, dimension(:) , allocatable ::   fricom
-      my_real, dimension(:) , allocatable ::   ftsav
+          real(kind=WP), dimension(:) , allocatable ::   cstm
+          real(kind=WP), dimension(:) , allocatable ::   stfnm
+          real(kind=WP), dimension(:) , allocatable ::   fricos
+          real(kind=WP), dimension(:) , allocatable ::   fricom
+          real(kind=WP), dimension(:) , allocatable ::   ftsav
 !type6
-      my_real, dimension(:) , allocatable ::   fcont
-      my_real, dimension(:) , allocatable ::   fs
-      my_real, dimension(:) , allocatable ::   fm
-      my_real, dimension(:) , allocatable ::   rmas
-      my_real, dimension(:) , allocatable ::   ansmx0
+          real(kind=WP), dimension(:) , allocatable ::   fcont
+          real(kind=WP), dimension(:) , allocatable ::   fs
+          real(kind=WP), dimension(:) , allocatable ::   fm
+          real(kind=WP), dimension(:) , allocatable ::   rmas
+          real(kind=WP), dimension(:) , allocatable ::   ansmx0
 !type 8
-      my_real, dimension(:) , allocatable ::   gapn
-      my_real, dimension(:) , allocatable ::   stf8
-      my_real, dimension(:) , allocatable ::   ee
+          real(kind=WP), dimension(:) , allocatable ::   gapn
+          real(kind=WP), dimension(:) , allocatable ::   stf8
+          real(kind=WP), dimension(:) , allocatable ::   ee
 !type14
-      my_real, dimension(:) , allocatable ::   cimp
-      my_real, dimension(:) , allocatable ::   nimp
+          real(kind=WP), dimension(:) , allocatable ::   cimp
+          real(kind=WP), dimension(:) , allocatable ::   nimp
 
 !type15
-      my_real, dimension(:) , allocatable ::   iold
-      my_real, dimension(:) , allocatable ::   hold
-      my_real, dimension(:) , allocatable ::   nold
-      my_real, dimension(:) , allocatable ::   dold
+          real(kind=WP), dimension(:) , allocatable ::   iold
+          real(kind=WP), dimension(:) , allocatable ::   hold
+          real(kind=WP), dimension(:) , allocatable ::   nold
+          real(kind=WP), dimension(:) , allocatable ::   dold
 !type16 + type17
-      my_real :: XSLVG(7)
-      my_real :: XMSRG(7)
+          real(kind=WP) :: XSLVG(7)
+          real(kind=WP) :: XMSRG(7)
 !type17
-      my_real, dimension(:) , allocatable ::   ks
-      my_real, dimension(:) , allocatable ::   km
-      my_real, dimension(:) , allocatable ::   frots
-      my_real, dimension(:) , allocatable ::   frotm
+          real(kind=WP), dimension(:) , allocatable ::   ks
+          real(kind=WP), dimension(:) , allocatable ::   km
+          real(kind=WP), dimension(:) , allocatable ::   frots
+          real(kind=WP), dimension(:) , allocatable ::   frotm
 
 !type21
-      my_real, dimension(:) , allocatable ::   nod_normal
-      my_real, dimension(:) , allocatable ::   rcurv
-      my_real, dimension(:) , allocatable ::   anglm
-      my_real, dimension(:) , allocatable ::   frot_p
-      my_real, dimension(:) , allocatable ::   alpha0
-      my_real, dimension(:) , allocatable ::   as
-      my_real, dimension(:) , allocatable ::   bs
-      my_real, dimension(:) , allocatable ::   thknod0
+          real(kind=WP), dimension(:) , allocatable ::   nod_normal
+          real(kind=WP), dimension(:) , allocatable ::   rcurv
+          real(kind=WP), dimension(:) , allocatable ::   anglm
+          real(kind=WP), dimension(:) , allocatable ::   frot_p
+          real(kind=WP), dimension(:) , allocatable ::   alpha0
+          real(kind=WP), dimension(:) , allocatable ::   as
+          real(kind=WP), dimension(:) , allocatable ::   bs
+          real(kind=WP), dimension(:) , allocatable ::   thknod0
 
 !type24
-      my_real, dimension(:) , allocatable ::   gapn_m
-      my_real, dimension(:) , allocatable ::   secnd_fr
-      my_real, dimension(:) , allocatable ::   pene_old
-      my_real, dimension(:) , allocatable ::   stif_old
-      my_real, dimension(:) , allocatable ::   time_s
-      my_real, dimension(:) , allocatable ::   gap_nm
+          real(kind=WP), dimension(:) , allocatable ::   gapn_m
+          real(kind=WP), dimension(:) , allocatable ::   secnd_fr
+          real(kind=WP), dimension(:) , allocatable ::   pene_old
+          real(kind=WP), dimension(:) , allocatable ::   stif_old
+          real(kind=WP), dimension(:) , allocatable ::   time_s
+          real(kind=WP), dimension(:) , allocatable ::   gap_nm
 !-------to be cleaned later
-      my_real, dimension(:) , allocatable ::   edge8l2
-      my_real, dimension(:) , allocatable ::   nod_2ry_lgth
-      my_real, dimension(:) , allocatable ::   nod_mas_lgth
-      my_real, dimension(:) , allocatable ::   gap_n0
-      my_real, dimension(:) , allocatable ::   dgap_nm
-      my_real, dimension(:) , allocatable ::   dgap_m
-      my_real, dimension(:) , allocatable ::   delta_pmax_dgap
-      my_real, dimension(:) , allocatable ::   xfic
-      my_real, dimension(:) , allocatable ::   vfic
-      my_real, dimension(:) , allocatable ::   msfic
+          real(kind=WP), dimension(:) , allocatable ::   edge8l2
+          real(kind=WP), dimension(:) , allocatable ::   nod_2ry_lgth
+          real(kind=WP), dimension(:) , allocatable ::   nod_mas_lgth
+          real(kind=WP), dimension(:) , allocatable ::   gap_n0
+          real(kind=WP), dimension(:) , allocatable ::   dgap_nm
+          real(kind=WP), dimension(:) , allocatable ::   dgap_m
+          real(kind=WP), dimension(:) , allocatable ::   delta_pmax_dgap
+          real(kind=WP), dimension(:) , allocatable ::   xfic
+          real(kind=WP), dimension(:) , allocatable ::   vfic
+          real(kind=WP), dimension(:) , allocatable ::   msfic
 !type25
-      real(4), dimension(:) , allocatable ::   edge_bisector  !
-      my_real, dimension(:) , allocatable ::   penm    !
-      my_real, dimension(:) , allocatable ::   distm   !
-      my_real, dimension(:) , allocatable ::   lbm     !
-      my_real, dimension(:) , allocatable ::   lcm     !
-      real(4), dimension(:) , allocatable ::   vtx_bisector !
-      my_real, dimension(:) , allocatable ::   cand_ps
-      my_real, dimension(:) , allocatable ::   gape
-      my_real, dimension(:) , allocatable ::   gap_e_l
-      my_real, dimension(:) , allocatable ::   stfe
-      my_real, dimension(:) , allocatable ::   gapmsav
-      real(4), dimension(:) , allocatable ::   e2s_nod_normal  !
+          real(4), dimension(:) , allocatable ::   edge_bisector  !
+          real(kind=WP), dimension(:) , allocatable ::   penm    !
+          real(kind=WP), dimension(:) , allocatable ::   distm   !
+          real(kind=WP), dimension(:) , allocatable ::   lbm     !
+          real(kind=WP), dimension(:) , allocatable ::   lcm     !
+          real(4), dimension(:) , allocatable ::   vtx_bisector !
+          real(kind=WP), dimension(:) , allocatable ::   cand_ps
+          real(kind=WP), dimension(:) , allocatable ::   gape
+          real(kind=WP), dimension(:) , allocatable ::   gap_e_l
+          real(kind=WP), dimension(:) , allocatable ::   stfe
+          real(kind=WP), dimension(:) , allocatable ::   gapmsav
+          real(4), dimension(:) , allocatable ::   e2s_nod_normal  !
 
-      my_real, dimension(:) , allocatable ::   stifmsdt_s
-      my_real, dimension(:) , allocatable ::   stifmsdt_m
-      my_real, dimension(:) , allocatable ::   stifmsdt_edg
-      integer :: nrtm_free
+          real(kind=WP), dimension(:) , allocatable ::   stifmsdt_s
+          real(kind=WP), dimension(:) , allocatable ::   stifmsdt_m
+          real(kind=WP), dimension(:) , allocatable ::   stifmsdt_edg
+          integer :: nrtm_free
 
 ! mpi communicators
-      integer :: mpi_comm
-      integer :: rank
-      integer :: nspmd
+          integer :: mpi_comm
+          integer :: rank
+          integer :: nspmd
 !
-      integer :: nb_internal_edges        ! number of edges internal to the domain
-      integer :: nb_boundary_edges_local  ! boundary edges treated by current domain
-      integer :: nb_boundary_edges_remote ! boundary edges treated by the other domain
+          integer :: nb_internal_edges        ! number of edges internal to the domain
+          integer :: nb_boundary_edges_local  ! boundary edges treated by current domain
+          integer :: nb_boundary_edges_remote ! boundary edges treated by the other domain
 
 
 !type2
-      my_real, dimension(:) , allocatable ::   csts_bis
+          real(kind=WP), dimension(:) , allocatable ::   csts_bis
 !      orthotropic friction
-      my_real, dimension(:) , allocatable ::   dir_fricm
+          real(kind=WP), dimension(:) , allocatable ::   dir_fricm
 !
-      type(int8_struct_)             ::   t8
-      type(metric_struct_)           ::   metric
+          type(int8_struct_)             ::   t8
+          type(metric_struct_)           ::   metric
 
-      ! nodnorm
-      INTEGER, DIMENSION(:,:), ALLOCATABLE :: SOLIDN_NORMAL
-       my_real, DIMENSION(:,:), ALLOCATABLE :: NODNORM_NORMAL
-       INTEGER, DIMENSION(:,:), ALLOCATABLE :: SOLIDN_NORMAL_F
-       INTEGER, DIMENSION(:,:), ALLOCATABLE :: SOLIDN_NORMAL_FE
+          ! nodnorm
+          INTEGER, DIMENSION(:,:), ALLOCATABLE :: SOLIDN_NORMAL
+          real(kind=WP), DIMENSION(:,:), ALLOCATABLE :: NODNORM_NORMAL
+          INTEGER, DIMENSION(:,:), ALLOCATABLE :: SOLIDN_NORMAL_F
+          INTEGER, DIMENSION(:,:), ALLOCATABLE :: SOLIDN_NORMAL_FE
 
-       ! rcurv arrays
-       my_real, DIMENSION(:), ALLOCATABLE :: MODRCURV
-       my_real, DIMENSION(:), ALLOCATABLE :: MODANGLM
+          ! rcurv arrays
+          real(kind=WP), DIMENSION(:), ALLOCATABLE :: MODRCURV
+          real(kind=WP), DIMENSION(:), ALLOCATABLE :: MODANGLM
 
-       !Type25 / I25Norm
-       REAL (KIND=4), DIMENSION(:,:,:), ALLOCATABLE :: WNOD_NORMAL
-       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGNOD
-       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGE
-       INTEGER, DIMENSION(:,:), ALLOCATABLE :: TAGSEG
-       INTEGER:: NB_TAGSEG
+          !Type25 / I25Norm
+          REAL (KIND=4), DIMENSION(:,:,:), ALLOCATABLE :: WNOD_NORMAL
+          INTEGER, DIMENSION(:), ALLOCATABLE :: TAGNOD
+          INTEGER, DIMENSION(:), ALLOCATABLE :: TAGE
+          INTEGER, DIMENSION(:,:), ALLOCATABLE :: TAGSEG
+          INTEGER:: NB_TAGSEG
 
-       ! Implicit
-       my_real, DIMENSION(6) :: BMINMA_IMP
+          ! Implicit
+          real(kind=WP), DIMENSION(6) :: BMINMA_IMP
 !=======================================================================
-   end type intbuf_struct_
+        end type intbuf_struct_
 !=======================================================================
 
 ! intbuf_size array maximum length defined as parameter
 ! (maximum number of different arrays composing intbuf_tab structure)
-   integer, parameter :: l_intbuf_size_max = 516
-   integer inter_ithknod !flag to fill thknod array  (enabled with ithick parameter from interface type 25 or 21)
+        integer, parameter :: l_intbuf_size_max = 516
+        integer :: inter_ithknod !flag to fill thknod array  (enabled with ithick parameter from interface type 25 or 21)
 
-   ! -------------------------
-   ! index of intbuf_tab%variables
-   ! -------------------------
-   integer, parameter :: gap_index = 2 !< index for gap
-   integer, parameter :: t_start_index = 3 ! index for start time
-   integer, parameter :: distance_index = 5 !< index for dist
-   integer, parameter :: bgapsmx_index = 7 !< index for bgapsmx
-   integer, parameter :: tzinf_index = 8 !< index for tzinf
-   integer, parameter :: maxbox_index = 9 !< index for maxbox
-   integer, parameter :: t_stop_index = 11   ! index for stop time
-   integer, parameter :: minbox_index = 12 !< index for minbox
-   integer, parameter :: gapmin_index = 13 !< index for gapmin
-   integer, parameter :: gapmax_index = 16 !< index for gapmax
-   integer, parameter :: pmax_index = 23 !< index for pmax
-   integer, parameter :: vmaxdt_index = 24 !< index for vmaxdt
-   integer, parameter :: marge_index = 25 !< index for marge
-   integer, parameter :: drad_index = 32 !< index for drad
-   integer, parameter :: bgapemx_index = 40 !< index for bgapemx
-   integer, parameter :: dgapload_index = 46 !< index for dgapload
+        ! -------------------------
+        ! index of intbuf_tab%variables
+        ! -------------------------
+        integer, parameter :: gap_index = 2 !< index for gap
+        integer, parameter :: t_start_index = 3 ! index for start time
+        integer, parameter :: distance_index = 5 !< index for dist
+        integer, parameter :: bgapsmx_index = 7 !< index for bgapsmx
+        integer, parameter :: tzinf_index = 8 !< index for tzinf
+        integer, parameter :: maxbox_index = 9 !< index for maxbox
+        integer, parameter :: t_stop_index = 11   ! index for stop time
+        integer, parameter :: minbox_index = 12 !< index for minbox
+        integer, parameter :: gapmin_index = 13 !< index for gapmin
+        integer, parameter :: gapmax_index = 16 !< index for gapmax
+        integer, parameter :: pmax_index = 23 !< index for pmax
+        integer, parameter :: vmaxdt_index = 24 !< index for vmaxdt
+        integer, parameter :: marge_index = 25 !< index for marge
+        integer, parameter :: drad_index = 32 !< index for drad
+        integer, parameter :: bgapemx_index = 40 !< index for bgapemx
+        integer, parameter :: dgapload_index = 46 !< index for dgapload
 !
 !---------------
-end module intbufdef_mod
+      end module intbufdef_mod

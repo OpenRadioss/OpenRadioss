@@ -36,23 +36,20 @@
       !||    double_to_my_real   ../common_source/modules/cast_mod.F90
       !||====================================================================
         pure function double_to_my_real(x,nan_replacement, max_value) result(res)
+          use precision_mod, only: WP
           implicit none
-! ----------------------------------------------------------------------------------------------------------------------
-!                                                   Included files
-! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           double precision, intent(in) :: x !< Input value
-          my_real :: res !< result
-          my_real, intent(in), optional :: nan_replacement !< replacement value for NaN
-          my_real, intent(in), optional :: max_value !< replacement value for values greater than max_value
+          real(kind=WP) :: res !< result
+          real(kind=WP), intent(in), optional :: nan_replacement !< replacement value for NaN
+          real(kind=WP), intent(in), optional :: max_value !< replacement value for values greater than max_value
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          my_real :: nan_replacement_local
-          my_real :: max_value_local
+          real(kind=WP) :: nan_replacement_local
+          real(kind=WP) :: max_value_local
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------

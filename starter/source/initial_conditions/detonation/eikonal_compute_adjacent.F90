@@ -54,6 +54,7 @@
           use constant_mod , only : ep21,one,zero
           use eikonal_godunov_operator_2d_mod, only : eikonal_godunov_operator_2d
           use eikonal_godunov_operator_3d_mod, only : eikonal_godunov_operator_3d
+          use precision_mod, only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -61,22 +62,21 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Included files
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
           integer,intent(in) :: ie
           type (t_ale_connectivity), intent(inout) :: ale_connectivity
           integer,intent(in) :: neldet
-          my_real,intent(inout) :: tdet_adj(6)
-          my_real,intent(inout) :: xel_adj(3,6)
-          my_real,intent(inout) :: vel_adj(6)
+          real(kind=WP),intent(inout) :: tdet_adj(6)
+          real(kind=WP),intent(inout) :: xel_adj(3,6)
+          real(kind=WP),intent(inout) :: vel_adj(6)
           integer,intent(in) :: numel
           integer, intent(in) :: elem_list_bij(numel)  ! size
           integer,intent(inout) :: updown(neldet)
           integer,intent(inout) :: num_new_activated, list_new_activated(6)
-          my_real,intent(in) :: vel(neldet),xel(3,neldet)
-          my_real,intent(inout) :: tdet(neldet)
+          real(kind=WP),intent(in) :: vel(neldet),xel(3,neldet)
+          real(kind=WP),intent(inout) :: tdet(neldet)
           integer,intent(in) :: mat_det
           integer,intent(in) :: nix !size for ix array
           integer,intent(in) :: ix(nix,numel)

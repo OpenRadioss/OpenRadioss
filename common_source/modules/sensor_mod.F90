@@ -345,7 +345,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Include
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Parameters
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -368,23 +367,23 @@
                                !          = 0   : deactivated
                                !          = 1   : activated at tstart
         character(len = nchartitle) :: title
-        my_real :: tcrit       !<   time when activation criterion is met
-        my_real :: tmin        !<   time duration of crit value before activation
-        my_real :: tdelay      !<   time delay before activation (after tmin)
-        my_real :: tstart      !<   time when sensor is finally activated (for output)
-        my_real :: value       !<   actual sensor value
+        real(kind=WP) :: tcrit       !<   time when activation criterion is met
+        real(kind=WP) :: tmin        !<   time duration of crit value before activation
+        real(kind=WP) :: tdelay      !<   time delay before activation (after tmin)
+        real(kind=WP) :: tstart      !<   time when sensor is finally activated (for output)
+        real(kind=WP) :: value       !<   actual sensor value
         integer :: npari       !<   number of constant integer parameters
         integer :: nparr       !<   number of constant real value parameters
         integer :: nvar        !<   number of internal variables
         integer ,dimension(:) ,allocatable :: iparam  !<  integer parameter array
-        my_real ,dimension(:) ,allocatable :: rparam  !<  real parameter array
-        my_real ,dimension(:) ,allocatable :: var     !<  internal variables array
+        real(kind=WP) ,dimension(:) ,allocatable :: rparam  !<  real parameter array
+        real(kind=WP) ,dimension(:) ,allocatable :: var     !<  internal variables array
         ! user sensor buffers
         integer ,dimension(:) ,allocatable :: integer_userbuf    !<  buffer to store integer variables
-        my_real ,dimension(:) ,allocatable :: float_userbuf      !<  buffer to store user variables.
+        real(kind=WP) ,dimension(:) ,allocatable :: float_userbuf      !<  buffer to store user variables.
         integer ,dimension(:) ,allocatable :: integer_userparam  !<  buffer to store integer variables
-        my_real ,dimension(:) ,allocatable :: float_userparam    !<  buffer to store user variables.
-        my_real, dimension(sensor_result_size) :: results
+        real(kind=WP) ,dimension(:) ,allocatable :: float_userparam    !<  buffer to store user variables.
+        real(kind=WP), dimension(sensor_result_size) :: results
         integer :: python_function_id !< the python functions, if type = sensor_type_python (40)
         type(python_function)  :: python_function !< the python functions, if type = sensor_type_python (40)
       end type sensor_str_
@@ -469,7 +468,7 @@
         integer :: stop_nsoutp    !< /stop/lsensor - write state file   
         integer :: stop_nsh3d     !< /stop/lsensor - write h3d state
         integer :: stop_nsabf     !< /stop/lsensor - write abf file
-        my_real :: anim_dt
+        real(kind=WP) :: anim_dt
 
         type (sensor_str_) ,dimension(:) ,allocatable :: sensor_tab
 

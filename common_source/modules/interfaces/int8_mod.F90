@@ -78,6 +78,6 @@ module int8_mod
       integer :: is_activated
       type(buft8), dimension(:) , pointer :: buffer
       type(front8), dimension(:) , pointer :: spmd_comm_pattern
-   end type
+   end type int8_struct_
 
-end module
+end module int8_mod

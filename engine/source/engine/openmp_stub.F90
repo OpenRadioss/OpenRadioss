@@ -21,36 +21,36 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 #ifndef _OPENMP
-        ! Provide a stub for omp_get_wtime, returning a simple system time
-        real(8) function omp_get_wtime()
-            implicit none
-            call cpu_time(omp_get_wtime)
-        end function omp_get_wtime
-    
-        ! Provide a stub for omp_get_max_threads, returning 1 (single-threaded)
+      ! Provide a stub for omp_get_wtime, returning a simple system time
+      real(8) function omp_get_wtime()
+        implicit none
+        call cpu_time(omp_get_wtime)
+      end function omp_get_wtime
+
+      ! Provide a stub for omp_get_max_threads, returning 1 (single-threaded)
       !||====================================================================
       !||    omp_get_max_threads   ../engine/source/engine/openmp_stub.F90
       !||--- called by ------------------------------------------------------
       !||    inipar                ../engine/source/mpi/init/inipar.F
       !||====================================================================
-        integer function omp_get_max_threads()
-            implicit none
-            omp_get_max_threads = 1
-        end function omp_get_max_threads
-    
-        ! Provide a stub for omp_get_num_threads, returning 1 (single-threaded)
+      integer function omp_get_max_threads()
+        implicit none
+        omp_get_max_threads = 1
+      end function omp_get_max_threads
+
+      ! Provide a stub for omp_get_num_threads, returning 1 (single-threaded)
       !||====================================================================
       !||    omp_get_num_threads   ../engine/source/engine/openmp_stub.F90
       !||--- called by ------------------------------------------------------
       !||    get_volume_area       ../engine/source/airbag/get_volume_area.F90
       !||    imp_pcgh              ../engine/source/implicit/imp_pcg.F
       !||====================================================================
-        integer function omp_get_num_threads()
-            implicit none
-            omp_get_num_threads = 1
-        end function omp_get_num_threads
-    
-        ! Provide a stub for omp_get_thread_num, returning 0 (only one thread)
+      integer function omp_get_num_threads()
+        implicit none
+        omp_get_num_threads = 1
+      end function omp_get_num_threads
+
+      ! Provide a stub for omp_get_thread_num, returning 0 (only one thread)
       !||====================================================================
       !||    omp_get_thread_num      ../engine/source/engine/openmp_stub.F90
       !||--- called by ------------------------------------------------------
@@ -76,23 +76,23 @@
       !||    smp_init                ../engine/source/engine/resol_init.F
       !||    write_cut_cell_buffer   ../engine/source/interfaces/int22/write_cut_cell_buffer.F
       !||====================================================================
-        integer function omp_get_thread_num()
-            implicit none
-            omp_get_thread_num = 0
-        end function omp_get_thread_num
-    
-        ! Provide a stub for omp_set_num_threads, does nothing
+      integer function omp_get_thread_num()
+        implicit none
+        omp_get_thread_num = 0
+      end function omp_get_thread_num
+
+      ! Provide a stub for omp_set_num_threads, does nothing
       !||====================================================================
       !||    omp_set_num_threads   ../engine/source/engine/openmp_stub.F90
       !||--- called by ------------------------------------------------------
       !||    inipar                ../engine/source/mpi/init/inipar.F
       !||    resol                 ../engine/source/engine/resol.F
       !||====================================================================
-        subroutine omp_set_num_threads(num_threads)
-            implicit none
-            integer, intent(inout) :: num_threads
-            num_threads = 1
-        end subroutine omp_set_num_threads
-    
+      subroutine omp_set_num_threads(num_threads)
+        implicit none
+        integer, intent(inout) :: num_threads
+        num_threads = 1
+      end subroutine omp_set_num_threads
+
 #endif
-    
+

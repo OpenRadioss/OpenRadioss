@@ -74,6 +74,7 @@
           use alefvm_mod , only:alefvm_param
           use names_and_titles_mod, only: ncharline100
           use matparam_def_mod , only : matparam_struct_
+          use precision_mod , only : WP
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -81,7 +82,6 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     include
 ! ----------------------------------------------------------------------------------------------------------------------
-#include "my_real.inc"
 #include "mvsiz_p.inc"
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Arguments
@@ -103,12 +103,12 @@
           integer, intent(in) :: id !< used for failure?
           integer, intent(in) :: quad_scalar_size !< size of the quad_scalar array
           integer, intent(in) :: npart
-          my_real, intent(inout) :: quad_scalar(quad_scalar_size) !< results array containing the scalar values
-          my_real, intent(inout) :: x(3, numnod) !< coordinates of the nodes
-          my_real, intent(inout) :: v(3, numnod) !< velocity of the nodes
-          my_real, intent(inout) :: w(3, numnod) !< angular velocity of the nodes
-          my_real, intent(inout) :: ehour(numelq) !< ?
-          my_real, intent(inout) :: pm(npropm, nummat) !< material properties
+          real(kind=WP), intent(inout) :: quad_scalar(quad_scalar_size) !< results array containing the scalar values
+          real(kind=WP), intent(inout) :: x(3, numnod) !< coordinates of the nodes
+          real(kind=WP), intent(inout) :: v(3, numnod) !< velocity of the nodes
+          real(kind=WP), intent(inout) :: w(3, numnod) !< angular velocity of the nodes
+          real(kind=WP), intent(inout) :: ehour(numelq) !< ?
+          real(kind=WP), intent(inout) :: pm(npropm, nummat) !< material properties
           integer, intent(inout) :: iparg(nparg, ngroup) !< integer values for the groups
           integer, intent(inout) :: ixq(nixq, numelq) !< quad connectivity
           integer, intent(inout) :: ipm(npropmi, nummat) !< material properties
@@ -122,48 +122,48 @@
           character(len=ncharline100) :: keyword !< animation keyword for the requested scalar values
           type(multi_fvm_struct), intent(in) :: multi_fvm !< Finite volume method data
           type(t_ale_connectivity), intent(in) :: ale_connect !< ALE connectivity data
-          my_real, target :: bufmat(*) !< additional buffer for material law (old buffer. new one is mat_param)
+          real(kind=WP), target :: bufmat(*) !< additional buffer for material law (old buffer. new one is mat_param)
           type (matparam_struct_) ,dimension(nummat) ,intent(in) :: mat_param !< material buffer data structure
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     Local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          my_real :: evar(mvsiz)
-          my_real :: value(mvsiz)
-          my_real :: ff0
-          my_real :: gg0
-          my_real :: hh0
-          my_real :: ll0
-          my_real :: mm0
-          my_real :: nn0
-          my_real :: mass(mvsiz)
-          my_real :: pres(mvsiz)
-          my_real :: off
-          my_real :: p
-          my_real :: vonm2
-          my_real :: s1
-          my_real :: s2
-          my_real :: s3
-          my_real :: fac
-          my_real :: vfrac(mvsiz, 1:21)
-          my_real :: s11
-          my_real :: s22
-          my_real :: s33
-          my_real :: s4
-          my_real :: s5
-          my_real :: s6
-          my_real :: crit
-          my_real :: vel(0:3)
-          my_real :: tmp(3, 4)
-          my_real :: nx
-          my_real :: ny
-          my_real :: nz
-          my_real :: cumul(3)
-          my_real :: surf
-          my_real :: vx
-          my_real :: vy
-          my_real :: vz
-          my_real :: vol
-          my_real :: mass0
+          real(kind=WP) :: evar(mvsiz)
+          real(kind=WP) :: value(mvsiz)
+          real(kind=WP) :: ff0
+          real(kind=WP) :: gg0
+          real(kind=WP) :: hh0
+          real(kind=WP) :: ll0
+          real(kind=WP) :: mm0
+          real(kind=WP) :: nn0
+          real(kind=WP) :: mass(mvsiz)
+          real(kind=WP) :: pres(mvsiz)
+          real(kind=WP) :: off
+          real(kind=WP) :: p
+          real(kind=WP) :: vonm2
+          real(kind=WP) :: s1
+          real(kind=WP) :: s2
+          real(kind=WP) :: s3
+          real(kind=WP) :: fac
+          real(kind=WP) :: vfrac(mvsiz, 1:21)
+          real(kind=WP) :: s11
+          real(kind=WP) :: s22
+          real(kind=WP) :: s33
+          real(kind=WP) :: s4
+          real(kind=WP) :: s5
+          real(kind=WP) :: s6
+          real(kind=WP) :: crit
+          real(kind=WP) :: vel(0:3)
+          real(kind=WP) :: tmp(3, 4)
+          real(kind=WP) :: nx
+          real(kind=WP) :: ny
+          real(kind=WP) :: nz
+          real(kind=WP) :: cumul(3)
+          real(kind=WP) :: surf
+          real(kind=WP) :: vx
+          real(kind=WP) :: vy
+          real(kind=WP) :: vz
+          real(kind=WP) :: vol
+          real(kind=WP) :: mass0
 
           integer :: i
           integer :: ii
@@ -249,17 +249,17 @@
           type(L_BUFEL_), pointer :: lbuf2
           type(BUF_FAIL_), pointer :: fbuf
           type(BUF_EOS_), pointer :: ebuf
-          my_real, dimension(:), pointer :: uvar
+          real(kind=WP), dimension(:), pointer :: uvar
           type(BUF_MAT_), pointer :: mbuf
-          my_real, dimension(:), pointer :: uparam
+          real(kind=WP), dimension(:), pointer :: uparam
           logical :: detected
-          my_real, parameter :: pi_ = 3.141592653589793238462643
-          my_real :: vi(21) !< submaterial volumes at reference densities (max submat : 21)
-          my_real :: v0i(21) !< submaterial volumes at reference densities (max submat : 21)
-          my_real :: v0g !< global volume at reference density (mixture)
-          my_real :: RHO0i(21) !< submaterial initial mass densities (max submat : 21)
-          my_real :: RHOi(21) !< submaterial  mass densities (max submat : 21)
-          my_real :: RHO0g !< global initial mass density (mixture)
+          real(kind=WP), parameter :: pi_ = 3.141592653589793238462643
+          real(kind=WP) :: vi(21) !< submaterial volumes at reference densities (max submat : 21)
+          real(kind=WP) :: v0i(21) !< submaterial volumes at reference densities (max submat : 21)
+          real(kind=WP) :: v0g !< global volume at reference density (mixture)
+          real(kind=WP) :: RHO0i(21) !< submaterial initial mass densities (max submat : 21)
+          real(kind=WP) :: RHOi(21) !< submaterial  mass densities (max submat : 21)
+          real(kind=WP) :: RHO0g !< global initial mass density (mixture)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                     body
 ! ----------------------------------------------------------------------------------------------------------------------

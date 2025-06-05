@@ -54,11 +54,11 @@
 !-----------------------------------------------
           use matparam_def_mod 
           use constant_mod      
+          use precision_mod, only : WP
 !-----------------------------------------------
 !   I m p l i c i t   T y p e s
 !-----------------------------------------------
           implicit none 
-#include  "my_real.inc"
 #include  "units_c.inc"
 #include   "comlock.inc"
 !-----------------------------------------------
@@ -73,53 +73,53 @@
           integer, intent(in) :: npf(snpc)  !<  ! number of points in the function
           integer, dimension(nel), intent(in) :: ngl   ! Id of element
           !
-          my_real, dimension(nel,nuvar), intent(inout) :: uvar !< user variables
+          real(kind=WP), dimension(nel,nuvar), intent(inout) :: uvar !< user variables
           type(matparam_struct_), intent(in) :: mat_param !< material parameters data
-          my_real, dimension(nel), intent(in) :: rho0 !< material density
-          my_real, dimension(stf), intent(in) :: tf !< time function
-          my_real, dimension(nel), intent(in) :: epsp !<  equiv. strain rate
-          my_real, dimension(nel), intent(in) :: depsxx !< incr strain xx 
-          my_real, dimension(nel), intent(in) :: depsyy !< incr strain yy
-          my_real, dimension(nel), intent(in) :: depszz !< incr strain zz
-          my_real, dimension(nel), intent(in) :: depsxy !< incr strain xy
-          my_real, dimension(nel), intent(in) :: depsyz !< incr strain yz 
-          my_real, dimension(nel), intent(in) :: depszx !< incr strain zx 
-          my_real, dimension(nel), intent(in) :: epsxx !< total strain xx 
-          my_real, dimension(nel), intent(in) :: epsyy !< total strain yy
-          my_real, dimension(nel), intent(in) :: epszz !< total strain zz
-          my_real, dimension(nel), intent(in) :: epsxy !< total strain xy 
-          my_real, dimension(nel), intent(in) :: epsyz !< incr strain yz 
-          my_real, dimension(nel), intent(in) :: epszx !< incr strain zx 
-          my_real, dimension(nel), intent(in) :: sigoxx !< old stress xx 
-          my_real, dimension(nel), intent(in) :: sigoyy !< old stress yy
-          my_real, dimension(nel), intent(in) :: sigozz !< old stress zz 
-          my_real, dimension(nel), intent(in) :: sigoxy !< old stress xy 
-          my_real, dimension(nel), intent(in) :: sigoyz !< old stress yz 
-          my_real, dimension(nel), intent(in) :: sigozx !< old stress zx 
-          my_real, dimension(nel), intent(out) :: signxx !< new stress xx 
-          my_real, dimension(nel), intent(out) :: signyy !< new stress yy
-          my_real, dimension(nel), intent(out) :: signzz !< new stress zz
-          my_real, dimension(nel), intent(out) :: signxy !< new stress xy 
-          my_real, dimension(nel), intent(out) :: signyz !< new stress yz 
-          my_real, dimension(nel), intent(out) :: signzx !< new stress zx 
-          my_real, dimension(nel), intent(inout) :: ssp !< sound speed
-          my_real, dimension(nel), intent(inout) :: off !< element deletion flag
-          my_real, dimension(nel,8), intent(inout) ::  dmg 
+          real(kind=WP), dimension(nel), intent(in) :: rho0 !< material density
+          real(kind=WP), dimension(stf), intent(in) :: tf !< time function
+          real(kind=WP), dimension(nel), intent(in) :: epsp !<  equiv. strain rate
+          real(kind=WP), dimension(nel), intent(in) :: depsxx !< incr strain xx 
+          real(kind=WP), dimension(nel), intent(in) :: depsyy !< incr strain yy
+          real(kind=WP), dimension(nel), intent(in) :: depszz !< incr strain zz
+          real(kind=WP), dimension(nel), intent(in) :: depsxy !< incr strain xy
+          real(kind=WP), dimension(nel), intent(in) :: depsyz !< incr strain yz 
+          real(kind=WP), dimension(nel), intent(in) :: depszx !< incr strain zx 
+          real(kind=WP), dimension(nel), intent(in) :: epsxx !< total strain xx 
+          real(kind=WP), dimension(nel), intent(in) :: epsyy !< total strain yy
+          real(kind=WP), dimension(nel), intent(in) :: epszz !< total strain zz
+          real(kind=WP), dimension(nel), intent(in) :: epsxy !< total strain xy 
+          real(kind=WP), dimension(nel), intent(in) :: epsyz !< incr strain yz 
+          real(kind=WP), dimension(nel), intent(in) :: epszx !< incr strain zx 
+          real(kind=WP), dimension(nel), intent(in) :: sigoxx !< old stress xx 
+          real(kind=WP), dimension(nel), intent(in) :: sigoyy !< old stress yy
+          real(kind=WP), dimension(nel), intent(in) :: sigozz !< old stress zz 
+          real(kind=WP), dimension(nel), intent(in) :: sigoxy !< old stress xy 
+          real(kind=WP), dimension(nel), intent(in) :: sigoyz !< old stress yz 
+          real(kind=WP), dimension(nel), intent(in) :: sigozx !< old stress zx 
+          real(kind=WP), dimension(nel), intent(out) :: signxx !< new stress xx 
+          real(kind=WP), dimension(nel), intent(out) :: signyy !< new stress yy
+          real(kind=WP), dimension(nel), intent(out) :: signzz !< new stress zz
+          real(kind=WP), dimension(nel), intent(out) :: signxy !< new stress xy 
+          real(kind=WP), dimension(nel), intent(out) :: signyz !< new stress yz 
+          real(kind=WP), dimension(nel), intent(out) :: signzx !< new stress zx 
+          real(kind=WP), dimension(nel), intent(inout) :: ssp !< sound speed
+          real(kind=WP), dimension(nel), intent(inout) :: off !< element deletion flag
+          real(kind=WP), dimension(nel,8), intent(inout) ::  dmg 
 
-          my_real,  intent(in) :: time
+          real(kind=WP),  intent(in) :: time
 !-----------------------------------------------
 !   L o c a l   V a r i a b l e s
 !-----------------------------------------------
       integer ::  i,ncyred, n,ndex,twoway,ndx_fail,ti
       integer , dimension(nel) :: index,iad,ipos,ilen,indx_fail
-      my_real                                                             &
+      real(kind=WP)                                                             &
         e1, e2, nu12, nu21, xt0, slimt1, xc0, slimc1, yt0, slimt2,        &
         yc0, sc0, slims, slimc2, alpha, beta, dfailt, dfailc, g12,        & 
         limit_sig, a11, g13, g23, ycfac, dfailm, dfails,efs, epsf,        &
         epsr, fbrt, tsmd, yc_over_sc, yfac_xt, yfac_xc, yfac_yc, dam,     &
         yfac_yt, yfac_sc, eft, efc, emt, emc,scale,eps_ef,tau2,sc2,       &
         tau_bar, d11,d22,d33, d12,d13,d23,e3,nu13,nu31,nu23,nu32,red      
-      my_real, dimension(nel) ::  xc, xt, yc, yt, sc, dydx
+      real(kind=WP), dimension(nel) ::  xc, xt, yc, yt, sc, dydx
 !!======================================================================
       e1    = mat_param%uparam(1)   ! Young's modulus in the longitudinal direction (1-direction)
       e2    = mat_param%uparam(2)   ! Young's modulus in the transverse direction (2-direction)
