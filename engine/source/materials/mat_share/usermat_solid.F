@@ -131,15 +131,18 @@ C-----------------------------------------------
       USE NAMES_AND_TITLES_MOD, ONLY: NCHARLINE100
       USE LAW_USERSO
       USE TABLE_MOD
-      USE MAT_ELEM_MOD            
+      USE MAT_ELEM_MOD   
+      USE MATPARAM_DEF_MOD
+      USE FAIL_PARAM_MOD         
       USE MESSAGE_MOD
       USE NLOCAL_REG_MOD
       USE ELBUFDEF_MOD
       USE DT_MOD
-      use glob_therm_mod
+      use GLOB_THERM_MOD
       USE TIMER_MOD
       USE FAIL_LEMAITRE_S_MOD
       USE FAIL_SPALLING_S_MOD
+      USE FAIL_COMPOSITE_S_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -207,8 +210,8 @@ C
       TYPE (NLOCAL_STR_) :: NLOC_DMG 
       TYPE (MAT_ELEM_)  ,INTENT(INOUT) :: MAT_ELEM
       TYPE (DT_), INTENT(IN) :: DT
-      type (glob_therm_) ,intent(inout) :: glob_therm
-      type (buf_damp_range_) ,intent(in):: damp_buf
+      TYPE (GLOB_THERM_) ,INTENT(INOUT) :: GLOB_THERM
+      TYPE (BUF_DAMP_RANGE_) ,INTENT(IN):: DAMP_BUF
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -251,7 +254,8 @@ C----
       INTEGER :: SIZBFRAC,SIZTB
       TYPE(ULAWINTBUF)                :: USERBUF
       TYPE(L_BUFEL_)  ,POINTER        :: LBUF, LBUF1, LBUF2    
-      TYPE(G_BUFEL_)  ,POINTER        :: GBUF      
+      TYPE(G_BUFEL_)  ,POINTER        :: GBUF     
+      TYPE (FAIL_PARAM_), POINTER     :: FAILPARAM
       LOGICAL :: LOGICAL_USERL_AVAIL
       my_real  USER_UELR(MVSIZ)
       INTEGER, DIMENSION(:) ,POINTER  :: ITABL_FAIL,IPARAMF
@@ -1164,6 +1168,7 @@ c----
           DAM     => FBUF%FLOC(IR)%DAM
           LF_DAMMX = FBUF%FLOC(IR)%LF_DAMMX
 c
+          FAILPARAM => MAT_ELEM%MAT_PARAM(MX)%FAIL(IR)
           NPAR    =  MAT_ELEM%MAT_PARAM(MX)%FAIL(IR)%NUPARAM 
           NIPAR   =  MAT_ELEM%MAT_PARAM(MX)%FAIL(IR)%NIPARAM
           UPARAMF => MAT_ELEM%MAT_PARAM(MX)%FAIL(IR)%UPARAM(1:NPAR) 
@@ -1534,6 +1539,14 @@ c---- Lemaitre damage model
      3          DPLA     ,EL_PLA   ,LBUF%OFF ,OFF      ,DFMAX    ,TDEL     ,
      4          NIPAR    ,IPARAMF  ,LBUF%DMGSCL,GBUF%NOFF,NPG    )
 c         
+          ELSEIF (IRUPT == 51) THEN
+c---- Composite failure model
+              CALL FAIL_COMPOSITE_S(
+     1          NEL      ,FAILPARAM,NVARF    ,UVARF    ,TT       ,NGL      ,
+     2          IPG      ,ILAY     ,NPG      ,TDEL     ,OFF      ,LBUF%OFF ,            
+     3          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,   
+     4          LBUF%DMGSCL,LF_DAMMX,DFMAX   ,GBUF%NOFF)  
+c
           ENDIF
         ENDDO ! IR = 1,NFAIL
       ENDIF   ! NFAIL

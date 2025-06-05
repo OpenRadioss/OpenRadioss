@@ -119,6 +119,7 @@ C-----------------------------------------------
       USE LAW_USERSH
       USE TABLE_MOD
       USE MAT_ELEM_MOD
+      USE FAIL_PARAM_MOD
       USE STACK_MOD
       USE FAILWAVE_MOD
       USE MESSAGE_MOD
@@ -126,6 +127,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE DT_MOD
       USE FAIL_LEMAITRE_C_MOD
+      USE FAIL_COMPOSITE_C_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -241,6 +243,7 @@ c----
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(BUF_FAIL_),POINTER :: FBUF
+      TYPE(FAIL_PARAM_),POINTER :: FAIL_PARAM
 c----
       INTEGER, DIMENSION(:) ,POINTER  :: FLD_IDX,FOFF,OFFLY,ITABLE,IFUNC_FAIL,
      .                                   ITABL_FAIL,VARTMP,IPARAMF
@@ -1294,6 +1297,7 @@ c---
               FLD_IDX=> FBUF%FLOC(IFL)%INDX
               FOFF   => FBUF%FLOC(IFL)%OFF
               LF_DAMMX   = FBUF%FLOC(IFL)%LF_DAMMX
+              FAIL_PARAM => MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IFL)
               NUPAR      =  MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IFL)%NUPARAM
               NIPAR      =  MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IFL)%NIPARAM
               NFUNC_FAIL =  MAT_ELEM%MAT_PARAM(IMAT)%FAIL(IFL)%NFUNC
@@ -1814,6 +1818,14 @@ c
      3            FOFF      ,OFF       ,DFMAX     ,TDEL      ,DMG_FLAG ,
      4            DMG_LOC_SCALE,IPG    ,PLY_ID    ,ILAYER    ,IT       ,
      5            NGL       ,TT        ,IGTYP     )
+c
+              CASE (51)     !    Composite failure model
+c
+                CALL FAIL_COMPOSITE_C(
+     1            NEL       ,FAIL_PARAM,NVARF     ,UVARF    ,TT        ,
+     2            NGL       ,IPG       ,ILAYER    ,IT       ,PLY_ID    ,
+     3            IGTYP     ,TDEL      ,SIGNXX    ,SIGNYY   ,SIGNXY    ,
+     4            FOFF      ,DMG_FLAG  ,DMG_LOC_SCALE,LF_DAMMX,DFMAX   )
 c 
 c-------------
               END SELECT

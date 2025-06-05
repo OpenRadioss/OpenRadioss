@@ -102,6 +102,7 @@ C-----------------------------------------------
       USE HM_READ_FAIL_SPALLING_MOD
       USE HM_READ_FRACTAL_DMG_MOD
       USE HM_READ_FAIL_LEMAITRE_MOD
+      USE HM_READ_FAIL_COMPOSITE_MOD
       USE NAMES_AND_TITLES_MOD , ONLY : NCHARTITLE, NCHARLINE, NCHARKEY
 C============================================================================
 C   I m p l i c i t   T y p e s
@@ -551,6 +552,11 @@ c
               CALL HM_READ_FAIL_LEMAITRE(MAT_PARAM(IMAT)%FAIL(IFL),
      .             FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB ,IOUT     )
 c
+            ELSEIF (KEY(1:9) == 'COMPOSITE') THEN
+              IRUPT = 51
+              CALL HM_READ_FAIL_COMPOSITE(MAT_PARAM(IMAT)%FAIL(IFL),
+     .             FAIL_ID  ,IRUPT    ,LSUBMODEL,UNITAB ,FAIL_TAG(IRUPT),
+     .             IOUT)
             ENDIF
 c-------  --
 c                   
