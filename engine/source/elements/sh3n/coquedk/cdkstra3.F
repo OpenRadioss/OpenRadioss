@@ -38,17 +38,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT,NFT,ISTRAIN,NEL
-      my_real
-     .   GSTR(NEL,8), EXX(*), EYY(*), EXY(*),KXX(*), KYY(*), KXY(*),
-     .   EPSDOT(6,*),DT1,GSTRPG(NEL,8)
+      INTEGER :: JFT, JLT,NFT,ISTRAIN,NEL
+      my_real :: GSTR(NEL,8), EXX(*), EYY(*), EXY(*),KXX(*), KYY(*), KXY(*),EPSDOT(6,*),DT1,GSTRPG(NEL,8)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
-      my_real ONE_OVER_3
 C-----------------------------------------------
-      IF(IEPSDOT/=0)THEN
+      IF(IEPSDOT /= 0)THEN
        DO I=JFT,JLT
         J = I + NFT
         EPSDOT(4,J)=KXX(I)
@@ -56,19 +53,18 @@ C-----------------------------------------------
         EPSDOT(6,J)=KXY(I)
        ENDDO
       ENDIF
-C
+
       DO I=JFT,JLT
        KXX(I)=KXX(I)*DT1
        KYY(I)=KYY(I)*DT1
        KXY(I)=KXY(I)*DT1
       ENDDO
-C
-      IF(ISTRAIN/=0)THEN
+
+      IF(ISTRAIN /= 0)THEN
         DO I=JFT,JLT
          GSTR(I,6)=GSTR(I,6)+KXX(I)*THIRD
          GSTR(I,7)=GSTR(I,7)+KYY(I)*THIRD
-         GSTR(I,8)=GSTR(I,8)+KXY(I)*THIRD   
-C
+         GSTR(I,8)=GSTR(I,8)+KXY(I)*THIRD
          GSTRPG(I,1)=GSTRPG(I,1)+EXX(I)
          GSTRPG(I,2)=GSTRPG(I,2)+EYY(I)
          GSTRPG(I,3)=GSTRPG(I,3)+EXY(I)
@@ -77,6 +73,6 @@ C
          GSTRPG(I,8)=GSTRPG(I,8)+KXY(I)
         ENDDO
       ENDIF
-C
+
       RETURN
       END

@@ -165,7 +165,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K, K1, N, ISK, I,IC,ICR, IPOL, KIND(NLINK)
+      INTEGER K, K1, N, ISK, I, IPOL, KIND(NLINK)
 C-----------------------------------------------
 C
 C Pre calcul index
@@ -276,7 +276,6 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, IC, ICR, IFLAG
       INTEGER NOD(*),WEIGHT(*)
-C     REAL
       my_real
      .   MS(*), IN(*), X(3,*), A(3,*), AR(3,*), V(3,*), VR(3,*),
      .   XFRAME(*)
@@ -284,13 +283,11 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IC1, ICC, IC2, IC3, I, N, K
-C     REAL
-      my_real
-     .   MASS, INER, AX, AY, AZ, VX, VY, VZ, DAX, DAY, DAZ, AAX, AAY,
-     .   AAZ, DVX, DVY, DVZ, VVX, VVY, VVZ, RX, RY, RZ, SX, SY, SZ,
-     .   TX, TY, TZ, OX, OY, OZ, AA, MR2,VTMR2,ATMR2,RX0, RY0, RZ0,R,
-     .   F1(NSN), F2(NSN), F3(NSN), F4(NSN), F5(NSN), F6(NSN), F7(NSN)
+      INTEGER :: IC1, ICC, IC2, IC3, I, N, K
+      my_real :: MASS, INER, AX, AY, AZ, VX, VY, VZ,
+     .           RX, RY, RZ, SX, SY, SZ,
+     .           TX, TY, TZ, OX, OY, OZ, AA, MR2,VTMR2,ATMR2,RX0, RY0, RZ0,R,
+     .           F1(NSN), F2(NSN), F3(NSN), F4(NSN), F5(NSN), F6(NSN), F7(NSN)
 C-----------------------------------------------
 C
       IF(IFLAG == 1)THEN

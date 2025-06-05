@@ -298,43 +298,37 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real
-     .   FXBRPM(*), FXBVIT(*), S(*), R12(*), DT2
+      my_real :: FXBRPM(*), FXBVIT(*), S(*), R12(*), DT2
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real
-     .   SL(3),DDEP(12),DT05
-      my_real
-     .   RT(3,3),RP(3,3),OM(3,3)
-      INTEGER I,J,K
-C
+      my_real SL(3),DDEP(12),DT05
+      INTEGER I,J
       DT05=HALF*DT2
       DO I=1,12
          DDEP(I)=DT05*FXBVIT(I)
       ENDDO
       DO I=1,3
          DO J=1,3
-            R12(3*(I-1)+J)=FXBRPM(1+3*(I-1)+J)
-     .                     +DDEP(3*(J-1)+I)-DDEP(9+I)
+            R12(3*(I-1)+J)=FXBRPM(1+3*(I-1)+J)+DDEP(3*(J-1)+I)-DDEP(9+I)
          ENDDO
       ENDDO
-C
+
       SL(1)=-R12(2)*(FXBVIT(7)-FXBVIT(10))
      .      -R12(5)*(FXBVIT(8)-FXBVIT(11))
      .      -R12(8)*(FXBVIT(9)-FXBVIT(12))
-C
+
       SL(2)=R12(1)*(FXBVIT(7)-FXBVIT(10))
      .     +R12(4)*(FXBVIT(8)-FXBVIT(11))
      .     +R12(7)*(FXBVIT(9)-FXBVIT(12))
-C
+
       SL(3)=-R12(1)*(FXBVIT(4)-FXBVIT(10))
      .      -R12(4)*(FXBVIT(5)-FXBVIT(11))
      .      -R12(7)*(FXBVIT(6)-FXBVIT(12))
-C
+
       S(1)=R12(1)*SL(1)+R12(2)*SL(2)+R12(3)*SL(3)
       S(2)=R12(4)*SL(1)+R12(5)*SL(2)+R12(6)*SL(3)
       S(3)=R12(7)*SL(1)+R12(8)*SL(2)+R12(9)*SL(3)
-C      
+
       RETURN
       END

@@ -107,7 +107,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: NEED_TO_COMPUTE
-      INTEGER  I,J,K,L,M,N,I1,I2,J1,J2,K1,K2,L1,L2,NDIM
+      INTEGER  I,J,K,M,N,I1,I2,J1,J2,K1,K2,L1,L2,NDIM
       INTEGER :: NINDX_1,NINDX_2
       INTEGER, DIMENSION(NEL) :: INDX_1,INDX_2
       INTEGER, DIMENSION(4)   :: LDIM

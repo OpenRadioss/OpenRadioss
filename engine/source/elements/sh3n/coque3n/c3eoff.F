@@ -36,14 +36,13 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT, IXTG(NIXTG,*), ETAG(*)
-      my_real
-     .        OFF(*)
+      INTEGER :: JFT, JLT, IXTG(NIXTG,*), ETAG(*)
+      my_real :: OFF(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IEL, I, N1, N2, N3, NALL  
-C
+      INTEGER IEL, N1, N2, N3, NALL
+
       DO IEL=JFT,JLT
          N1=IXTG(2,IEL)
          N2=IXTG(3,IEL)
@@ -51,7 +50,7 @@ C
          NALL=ETAG(N1)*ETAG(N2)*ETAG(N3)
          OFF(IEL)=MIN(NALL,1)
       ENDDO
-C
+
       RETURN
       END
       

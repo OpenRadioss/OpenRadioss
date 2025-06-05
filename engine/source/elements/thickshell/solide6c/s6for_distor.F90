@@ -116,10 +116,10 @@
                  vc(mvsiz,3),forc_n(mvsiz,3),for_t1(mvsiz,3),                    &
                  for_t2(mvsiz,3),for_t3(mvsiz,3),for_t4(mvsiz,3),                &
                  for_t5(mvsiz,3),for_t6(mvsiz,3),                                &
-                 fcx,fcy,fcz,fac,gap_max,gap_min,                                &
+                 fcx,fcy,fcz,gap_max,gap_min,                                    &
                  penmin(mvsiz),penref(mvsiz),marge(mvsiz),                       &
-                 tol_t,tol_c,tol_v
-      integer i,j,nctl,ifctl,ifc1(mvsiz)
+                 tol_c,tol_v
+      integer i,nctl,ifctl,ifc1(mvsiz)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Body
 ! ----------------------------------------------------------------------------------------------------------------------

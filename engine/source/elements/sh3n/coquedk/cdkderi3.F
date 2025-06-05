@@ -48,13 +48,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J
-C     REAL
-      my_real
-     .     AREAI(MVSIZ),
-     .     AL1, AL2, AL3, ALMAX,ALMIN,FAC
-      MY_REAL
-     .   X32(MVSIZ), Y32(MVSIZ),AL4, AL5, AL6      
+      INTEGER :: I
+      my_real :: AREAI(MVSIZ),AL1, AL2, AL3, ALMAX,ALMIN,FAC
+      MY_REAL :: X32(MVSIZ), Y32(MVSIZ),AL4, AL5, AL6
 C-----------------------------------------------
       DO I=JFT,JLT
        AREAI(I)=ONE/AREA2(I)
@@ -62,8 +58,6 @@ C-----------------------------------------------
        PY2(I)=-X3(I)*AREAI(I)
        PX3(I)=-Y2(I)*AREAI(I)
        PY3(I)=X2(I)*AREAI(I)
-C         PX1(I)=-PX3(I)-PX2(I)
-C         PY1(I)=-PY2(I)-PY3(I)
        X32(I) =X3(I)-X2(I)
        Y32(I) =Y3(I)-Y2(I)
       ENDDO
@@ -131,10 +125,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J
-      MY_REAL
-     .   XR1,XR2,XR3,YR1,YR2,YR3,XS1,XS2,XS3,YS1,YS2,YS3,
-     .   X2Y,Y2X,X6,Y6,XY6,RXY1(3),RXY2(3)
+      INTEGER I
+      MY_REAL :: XR1,XR2,XR3,YR1,YR2,YR3,XS1,XS2,XS3,YS1,YS2,YS3,X2Y,Y2X,X6,Y6,XY6,RXY1(3),RXY2(3)
 C-----------------------------------------------
       X2Y =ONE-TWO*KSI-ETA
       Y2X =ONE-TWO*ETA-KSI
