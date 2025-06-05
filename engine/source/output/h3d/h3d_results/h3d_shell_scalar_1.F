@@ -2916,7 +2916,7 @@ C--------------------------------------------------
                 END IF
                 IF (IGTYP == 11) THEN
                   IPMAT = 100
-                  DO N=1,NPT
+                  DO N=1,NLAY
                     IADR = (N-1)*NEL
                     DO I=1,NEL
                       J = IADR+I
@@ -3036,11 +3036,13 @@ C
                         VE(5)  = VE(5) + VLY(5)/NPTT
                       ENDIF
                     ENDDO  !   DO IL=1,NLAY
-                    VE(1) = VE(1)/NLAY_COUNT
-                    VE(2) = VE(2)/NLAY_COUNT
-                    VE(3) = VE(3)/NLAY_COUNT
-                    VE(4) = VE(4)/NLAY_COUNT
-                    VE(5) = VE(5)/NLAY_COUNT
+                    IF (NLAY_COUNT > 0) THEN
+                      VE(1) = VE(1)/NLAY_COUNT
+                      VE(2) = VE(2)/NLAY_COUNT
+                      VE(3) = VE(3)/NLAY_COUNT
+                      VE(4) = VE(4)/NLAY_COUNT
+                      VE(5) = VE(5)/NLAY_COUNT
+                    ENDIF
                     VALUE(I) = MAX(VALUE(I),VE(1),VE(2),VE(3),
      .                    VE(4),VE(5))
                     IS_WRITTEN_VALUE(I) = 1
