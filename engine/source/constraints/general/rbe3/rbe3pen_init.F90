@@ -20,11 +20,25 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    rbe3pen_init_mod   ../engine/source/constraints/general/rbe3/rbe3pen_init.F90
+      !||--- called by ------------------------------------------------------
+      !||    rbe3t1             ../engine/source/constraints/general/rbe3/rbe3f.F
+      !||====================================================================
       module rbe3pen_init_mod
       contains
 ! ======================================================================================================================
 ! \brief rbe3 penalty formulation initialization
 ! ======================================================================================================================
+      !||====================================================================
+      !||    rbe3pen_init     ../engine/source/constraints/general/rbe3/rbe3pen_init.F90
+      !||--- called by ------------------------------------------------------
+      !||    rbe3t1           ../engine/source/constraints/general/rbe3/rbe3f.F
+      !||--- calls      -----------------------------------------------------
+      !||    rbe3fpen_ininp   ../engine/source/constraints/general/rbe3/rbe3pen_init.F90
+      !||--- uses       -----------------------------------------------------
+      !||    rbe3_mod         ../common_source/modules/constraints/rbe3_mod.F90
+      !||====================================================================
         subroutine rbe3pen_init(                                        &
                 x       ,ms          ,in         ,stifn       ,         &
                 stifr   ,numnod      ,rbe3)
@@ -81,6 +95,13 @@
 ! ======================================================================================================================
 ! \brief rbe3 penalty force, stiffness update
 ! ======================================================================================================================
+      !||====================================================================
+      !||    rbe3fpen_ininp   ../engine/source/constraints/general/rbe3/rbe3pen_init.F90
+      !||--- called by ------------------------------------------------------
+      !||    rbe3pen_init     ../engine/source/constraints/general/rbe3/rbe3pen_init.F90
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod     ../common_source/modules/constant_mod.F
+      !||====================================================================
         subroutine rbe3fpen_ininp(                                      &
                 ns      ,irot        ,numnod     ,nml         ,         &
                 ms      ,in          ,stifn      ,stifr       ,         &

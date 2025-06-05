@@ -32,6 +32,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    prerbe3              ../engine/source/constraints/general/rbe3/rbe3f.F
       !||    prerbe3p             ../engine/source/constraints/general/rbe3/rbe3f.F
       !||    rbe3f                ../engine/source/constraints/general/rbe3/rbe3f.F
+      !||    rbe3pen_init         ../engine/source/constraints/general/rbe3/rbe3pen_init.F90
       !||    rbe3poff             ../engine/source/constraints/general/rbe3/rbe3f.F
       !||    spmd_exch_rbe3       ../engine/source/mpi/kinematic_conditions/spmd_exch_rbe3.F
       !||    spmd_exch_rbe3_pon   ../engine/source/mpi/kinematic_conditions/spmd_exch_rbe3_pon.F
@@ -40,6 +41,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    h3d_mod              ../engine/share/modules/h3d_mod.F
       !||    nodal_arrays_mod     ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||    rbe3_mod             ../common_source/modules/constraints/rbe3_mod.F90
+      !||    rbe3pen_init_mod     ../engine/source/constraints/general/rbe3/rbe3pen_init.F90
       !||====================================================================
       SUBROUTINE RBE3T1(RBE3  ,NODES    ,SKEW ,
      *                  DMAST ,ADM      ,DINERT,
@@ -257,12 +259,16 @@ C-----------
       END
 
       !||====================================================================
-      !||    rbe3f       ../engine/source/constraints/general/rbe3/rbe3f.F
+      !||    rbe3f           ../engine/source/constraints/general/rbe3/rbe3f.F
       !||--- called by ------------------------------------------------------
-      !||    rbe3t1      ../engine/source/constraints/general/rbe3/rbe3f.F
+      !||    rbe3t1          ../engine/source/constraints/general/rbe3/rbe3f.F
       !||--- calls      -----------------------------------------------------
-      !||    mfac_rbe3   ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||    rbe3cl      ../engine/source/constraints/general/rbe3/rbe3f.F
+      !||    mfac_rbe3       ../engine/source/constraints/general/rbe3/rbe3f.F
+      !||    rbe3cl          ../engine/source/constraints/general/rbe3/rbe3f.F
+      !||    rbe3f_pen       ../engine/source/constraints/general/rbe3/rbe3f_pen.F90
+      !||--- uses       -----------------------------------------------------
+      !||    rbe3_mod        ../common_source/modules/constraints/rbe3_mod.F90
+      !||    rbe3f_pen_mod   ../engine/source/constraints/general/rbe3/rbe3f_pen.F90
       !||====================================================================
       SUBROUTINE RBE3F(IRBE3 ,LRBE3 ,X    ,A     ,AR    ,
      1                 MS    ,IN    ,FRBE3,SKEW  ,WEIGHT,

@@ -20,11 +20,23 @@
 !Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+      !||====================================================================
+      !||    rbe3f_pen_mod   ../engine/source/constraints/general/rbe3/rbe3f_pen.F90
+      !||--- called by ------------------------------------------------------
+      !||    rbe3f           ../engine/source/constraints/general/rbe3/rbe3f.F
+      !||====================================================================
       module rbe3f_pen_mod
       contains
 ! ======================================================================================================================
 ! \brief rbe3 penalty force, stiffness update
 ! ======================================================================================================================
+      !||====================================================================
+      !||    rbe3f_pen      ../engine/source/constraints/general/rbe3/rbe3f_pen.F90
+      !||--- called by ------------------------------------------------------
+      !||    rbe3f          ../engine/source/constraints/general/rbe3/rbe3f.F
+      !||--- uses       -----------------------------------------------------
+      !||    constant_mod   ../common_source/modules/constant_mod.F
+      !||====================================================================
         subroutine rbe3f_pen(                                           &
                 ns      ,nmt0        ,numnod     ,nmt         ,         &
                 nml     ,iml         ,ilsk       ,iadmp       ,         &

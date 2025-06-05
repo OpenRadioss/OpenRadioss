@@ -188,6 +188,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    puff                                     ../common_source/eos/puff.F
       !||    r_yld2000                                ../starter/source/materials/mat/mat087/law87_upd.F90
       !||    random_walk_dmg                          ../starter/source/materials/fail/fractal/random_walk_dmg.F90
+      !||    rbe3f_pen                                ../engine/source/constraints/general/rbe3/rbe3f_pen.F90
+      !||    rbe3fpen_ininp                           ../engine/source/constraints/general/rbe3/rbe3pen_init.F90
       !||    read_mat25_crasurv                       ../starter/source/materials/mat/mat025/read_mat25_crasurv.F90
       !||    read_mat25_tsaiwu                        ../starter/source/materials/mat/mat025/read_mat25_tsaiwu.F90
       !||    read_sensor_python                       ../starter/source/tools/sensor/hm_read_sensor_python.F90

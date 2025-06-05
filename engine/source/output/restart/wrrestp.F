@@ -90,6 +90,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    write_matparam         ../engine/source/output/restart/write_matparam.F
       !||    write_nloc_struct      ../engine/source/output/restart/write_nloc_struct.F
       !||    write_pcyl             ../engine/source/output/restart/write_pcyl.F
+      !||    write_rrbe3pen         ../engine/source/output/restart/restart_rbe3pen.F90
       !||    write_sensors          ../engine/source/output/restart/write_sensors.F
       !||    write_th_restart       ../engine/source/output/th/write_th_restart.F
       !||    write_units            ../common_source/comm/write_units.F
@@ -124,6 +125,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||    pinchtype_mod          ../common_source/modules/pinchtype_mod.F
       !||    python_funct_mod       ../common_source/modules/python_mod.F90
       !||    rbe3_mod               ../common_source/modules/constraints/rbe3_mod.F90
+      !||    restart_rbe3pen_mod    ../engine/source/output/restart/restart_rbe3pen.F90
       !||    restmod                ../engine/share/modules/restart_mod.F
       !||    seatbelt_mod           ../common_source/modules/seatbelt_mod.F
       !||    sensor_mod             ../common_source/modules/sensor_mod.F90

@@ -30,6 +30,7 @@
       !||    admregul                           ../engine/source/model/remesh/admregul.F
       !||    allocate_nodal_arrays              ../engine/source/engine/node_spliting/nodal_arrays.F90
       !||    allocate_rbe3                      ../common_source/modules/constraints/rbe3_mod.F90
+      !||    allocate_rbe3pen                   ../common_source/modules/constraints/rbe3_mod.F90
       !||    allocate_sph_work                  ../common_source/modules/mat_elem/sph_work.F90
       !||    allocbuf_auto                      ../engine/source/elements/elbuf/allocbuf_auto.F
       !||    anioff0                            ../engine/source/output/anim/generate/anioff0.F

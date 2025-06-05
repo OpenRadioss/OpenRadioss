@@ -28,7 +28,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       !||--- calls      -----------------------------------------------------
       !||    finter          ../engine/source/tools/curve/finter.F
       !||    finterfld       ../engine/source/materials/fail/fld/fail_fld_c.F
-      !||    vinter          ../engine/source/tools/curve/vinter.F
+      !||    vinter2         ../engine/source/tools/curve/vinter.F
       !||====================================================================
       SUBROUTINE FAIL_FLD_C(
      1     NEL      ,NUPARAM  ,NFUNC    ,IFUNC    ,

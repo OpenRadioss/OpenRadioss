@@ -23,20 +23,25 @@
 !===================================================================================================
 
       !||====================================================================
-      !||    rbe3_mod     ../common_source/modules/constraints/rbe3_mod.F90
+      !||    rbe3_mod         ../common_source/modules/constraints/rbe3_mod.F90
       !||--- called by ------------------------------------------------------
-      !||    prerbe3p0    ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||    radioss2     ../engine/source/engine/radioss2.F
-      !||    rbe3t1       ../engine/source/constraints/general/rbe3/rbe3f.F
-      !||    rbe3v        ../engine/source/constraints/general/rbe3/rbe3v.F
-      !||    rdcomi       ../engine/source/output/restart/rdcomm.F
-      !||    rdresa       ../engine/source/output/restart/rdresa.F
-      !||    rdresb       ../engine/source/output/restart/rdresb.F
-      !||    resol        ../engine/source/engine/resol.F
-      !||    resol_head   ../engine/source/engine/resol_head.F
-      !||    resol_init   ../engine/source/engine/resol_init.F
-      !||    restalloc    ../engine/source/output/restart/arralloc.F
-      !||    wrrestp      ../engine/source/output/restart/wrrestp.F
+      !||    get_nrbe3pen_l   ../engine/source/output/restart/restart_rbe3pen.F90
+      !||    prerbe3p0        ../engine/source/constraints/general/rbe3/rbe3f.F
+      !||    radioss2         ../engine/source/engine/radioss2.F
+      !||    rbe3f            ../engine/source/constraints/general/rbe3/rbe3f.F
+      !||    rbe3pen_init     ../engine/source/constraints/general/rbe3/rbe3pen_init.F90
+      !||    rbe3t1           ../engine/source/constraints/general/rbe3/rbe3f.F
+      !||    rbe3v            ../engine/source/constraints/general/rbe3/rbe3v.F
+      !||    rdcomi           ../engine/source/output/restart/rdcomm.F
+      !||    rdresa           ../engine/source/output/restart/rdresa.F
+      !||    rdresb           ../engine/source/output/restart/rdresb.F
+      !||    read_rrbe3pen    ../engine/source/output/restart/restart_rbe3pen.F90
+      !||    resol            ../engine/source/engine/resol.F
+      !||    resol_head       ../engine/source/engine/resol_head.F
+      !||    resol_init       ../engine/source/engine/resol_init.F
+      !||    restalloc        ../engine/source/output/restart/arralloc.F
+      !||    write_rrbe3pen   ../engine/source/output/restart/restart_rbe3pen.F90
+      !||    wrrestp          ../engine/source/output/restart/wrrestp.F
       !||====================================================================
       module rbe3_mod
          ! ----------------------------------------------------------------------------------------------------------------------
@@ -119,6 +124,13 @@
                end subroutine allocate_rbe3
 !
                !! \brief allocate rbe3%pen type
+      !||====================================================================
+      !||    allocate_rbe3pen   ../common_source/modules/constraints/rbe3_mod.F90
+      !||--- called by ------------------------------------------------------
+      !||    read_rrbe3pen      ../engine/source/output/restart/restart_rbe3pen.F90
+      !||--- calls      -----------------------------------------------------
+      !||--- uses       -----------------------------------------------------
+      !||    my_alloc_mod       ../common_source/tools/memory/my_alloc.F90
       !||====================================================================
                subroutine allocate_rbe3pen(rbe3pen)
                   use my_alloc_mod

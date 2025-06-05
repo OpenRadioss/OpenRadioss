@@ -21,10 +21,22 @@
 !Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 !Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
       !||====================================================================
+      !||    restart_rbe3pen_mod   ../engine/source/output/restart/restart_rbe3pen.F90
+      !||--- called by ------------------------------------------------------
+      !||    rdresb                ../engine/source/output/restart/rdresb.F
+      !||    wrrestp               ../engine/source/output/restart/wrrestp.F
+      !||====================================================================
       module restart_rbe3pen_mod        
        contains
 ! ----------------------------------------------------------------------------------------------------------------------
   !! \brief get the number of penalty formulation of RBE3
+      !||====================================================================
+      !||    get_nrbe3pen_l   ../engine/source/output/restart/restart_rbe3pen.F90
+      !||--- called by ------------------------------------------------------
+      !||    rdresb           ../engine/source/output/restart/rdresb.F
+      !||--- uses       -----------------------------------------------------
+      !||    rbe3_mod         ../common_source/modules/constraints/rbe3_mod.F90
+      !||====================================================================
         subroutine get_nrbe3pen_l(nrbe3,nrbe3l,irbe3,nrbe3pen_l)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -61,6 +73,16 @@
        end subroutine get_nrbe3pen_l
 ! ----------------------------------------------------------------------------------------------------------------------
   !! \brief read internal arrays used for rbe3 penalty
+      !||====================================================================
+      !||    read_rrbe3pen      ../engine/source/output/restart/restart_rbe3pen.F90
+      !||--- called by ------------------------------------------------------
+      !||    rdresb             ../engine/source/output/restart/rdresb.F
+      !||--- calls      -----------------------------------------------------
+      !||    allocate_rbe3pen   ../common_source/modules/constraints/rbe3_mod.F90
+      !||    read_db            ../common_source/tools/input_output/read_db.F
+      !||--- uses       -----------------------------------------------------
+      !||    rbe3_mod           ../common_source/modules/constraints/rbe3_mod.F90
+      !||====================================================================
         subroutine read_rrbe3pen(rbe3pen,nrbe3pen_l)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -97,6 +119,15 @@
        end subroutine read_rrbe3pen
 ! ----------------------------------------------------------------------------------------------------------------------
   !! \brief write internal arrays used for rbe3 penalty
+      !||====================================================================
+      !||    write_rrbe3pen   ../engine/source/output/restart/restart_rbe3pen.F90
+      !||--- called by ------------------------------------------------------
+      !||    wrrestp          ../engine/source/output/restart/wrrestp.F
+      !||--- calls      -----------------------------------------------------
+      !||    write_db         ../common_source/tools/input_output/write_db.F
+      !||--- uses       -----------------------------------------------------
+      !||    rbe3_mod         ../common_source/modules/constraints/rbe3_mod.F90
+      !||====================================================================
         subroutine write_rrbe3pen(rbe3pen)
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
