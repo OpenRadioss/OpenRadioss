@@ -245,25 +245,23 @@
                  xvec1(1:1,1) = lambda
                  call table_mat_vinterp(eos_param%table(3),1,1,vartmp(1,3),xvec1,gamma,c_prime) ! gamma(lambda)
                  vareos(i,4) = gamma(1)
-                 if(iform==2)then
-                   ! update pc value
-                   !intersection line to find new Pc value
-                   !  Pc is used to determine variable rhol which is required to build the unloading path
-                   !  (This may be optimized by building a function Pc(lambda) during starter with the union on sets x->Pc(x) and x->c_unl(x)
-                   iter = 0
-                   residu = ep20
-                   xx = lambda
-                   do while(iter <= niter .and. residu > tol)
-                     xvec1(1:1,1) = xx
-                     call table_mat_vinterp(eos_param%table(1),1,1,vartmp(1,1),xvec1,Pc,dPdr) ! provides cunl=c(x) and c_prime=c'(x)
-                     FF = Pc(1) - cunl(1)*cunl(1)*(xx-lambda)
-                     DF = dPdr(1) - cunl(1)*cunl(1)
-                     xx = xx - FF / DF
-                     residu = abs(FF)/RHO_TMD
-                     iter = iter + 1
-                   enddo
-                   vareos(i,5) = Pc(1)
-                 endif
+                 ! update pc value
+                 !intersection line to find new Pc value
+                 !  Pc is used to determine variable rhol which is required to build the unloading path
+                 !  (This may be optimized by building a function Pc(lambda) during starter with the union on sets x->Pc(x) and x->c_unl(x)
+                 iter = 0
+                 residu = ep20
+                 xx=lambda
+                 do while(iter <= niter .and. residu > tol)
+                   xvec1(1:1,1) = xx
+                   call table_mat_vinterp(eos_param%table(1),1,1,vartmp(1,1),xvec1,Pc,dPdr) ! provides cunl=c(x) and c_prime=c'(x)
+                   FF = Pc(1) - cunl(1)*cunl(1)*(xx-lambda)
+                   DF = dPdr(1) - cunl(1)*cunl(1)
+                   xx = xx - FF / DF
+                   residu = abs(FF)/RHO_TMD
+                   iter = iter + 1
+                 enddo
+                 vareos(i,5) = Pc(1)
                  rho_bak(i) = xx
                end if
 

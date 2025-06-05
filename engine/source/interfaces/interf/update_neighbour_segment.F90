@@ -88,7 +88,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   local variables
 ! ----------------------------------------------------------------------------------------------------------------------
-          integer :: i,j,k,ijk,kji
+          integer :: i,j,k,ijk
           integer :: nin
           integer :: nb_new_segment,total_nb_segment,local_nb_new_segment
           integer :: next_segment
@@ -102,12 +102,12 @@
 
 
           integer :: segment_id,segment_id_2,local_segment_id,n_segment_id,local_n_segment_id
-          integer :: my_iedge,my_iedge_2,n_iedge_id,previous_iedge_id,n_segment_id_nin
+          integer :: my_iedge,my_iedge_2,n_iedge_id
           integer :: my_id
-          integer :: seg_id,n_seg_id,previous_n_seg_id
+          integer :: seg_id,n_seg_id
           integer :: address,r_address
           integer :: already_a_neighbour
-          my_real :: my_criteria,my_angle,convexity
+          my_real :: my_criteria,convexity
 
           my_real, dimension(3) :: normal,n_normal,v_convexity,n_vconvexity
 

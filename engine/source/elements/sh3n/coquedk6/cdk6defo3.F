@@ -46,9 +46,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J
-      my_real
-     .   A5,A6,A4
+      INTEGER I
+      my_real A5,A6,A4
 C-----------------------------------------------
 C
       DO I=JFT,JLT
@@ -56,8 +55,8 @@ C
        VDEF(I,2)=PY2(I)*VLY(I,1)+PY3(I)*VLY(I,2)
        VDEF(I,3)=PX2(I)*VLY(I,1)+PX3(I)*VLY(I,2)
      .          +PY2(I)*VLX(I,1)+PY3(I)*VLX(I,2)
-       VDEF(I,4)=0.
-       VDEF(I,5)=0.
+       VDEF(I,4)=ZERO
+       VDEF(I,5)=ZERO
       ENDDO
 C
       DO I=JFT,JLT

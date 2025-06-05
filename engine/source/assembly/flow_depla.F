@@ -39,18 +39,13 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NODFT, NODLT, NDDIM, NALE(*)
-C     REAL
-      my_real
-     .  D(3,*) ,V(3,*) 
-cc      DOUBLE PRECISION
-C     .   XDP(3,*)
+      INTEGER NODFT, NODLT, NALE(*)
+      my_real D(3,*) ,V(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I,K,N,J
-      my_real
-     .   VDT
+      INTEGER  :: N
+      my_real :: VDT
       DOUBLE PRECISION VDT2
 C-------------------------------------------------------------
 C         CALCUL DES  DEPLACEMENTS TRANSLATIONS PUIS ROTATIONS

@@ -49,7 +49,7 @@
           depsxx   ,depsyy   ,depszz   ,depsxy   ,depsyz   ,depszx   , &
           sigoxx   ,sigoyy   ,sigozz   ,sigoxy   ,sigoyz   ,sigozx   , &
           signxx   ,signyy   ,signzz   ,signxy   ,signyz   ,signzx   , &
-          ssp      ,off      ,pnew     , &
+          ssp      ,pnew     , &
           dpdm     ,rho      ,rho0     ,nvartmp  ,vartmp )
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Modules
@@ -62,7 +62,7 @@
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
-          implicit none 
+          implicit none
 ! ----------------------------------------------------------------------------------------------------------------------
 !                                                   Arguments
 ! ----------------------------------------------------------------------------------------------------------------------
@@ -74,28 +74,27 @@
           real(kind=WP), dimension(nel), intent(in) :: rho !< mass density
           real(kind=WP), dimension(nel), intent(in) :: rho0 !< mass density
           real(kind=WP), dimension(nel), intent(inout) :: sigy !< yield stress
-          real(kind=WP), dimension(nel), intent(inout) :: dpla !< cumulated plastic strain increment 
+          real(kind=WP), dimension(nel), intent(inout) :: dpla !< cumulated plastic strain increment
           real(kind=WP), dimension(nel), intent(inout) :: defp !< cumulated plastic strain
           real(kind=WP), dimension(nel), intent(in) :: depsxx !< strain increment xx
           real(kind=WP), dimension(nel), intent(in) :: depsyy !< strain increment yy
-          real(kind=WP), dimension(nel), intent(in) :: depszz !< strain increment zz 
-          real(kind=WP), dimension(nel), intent(in) :: depsxy !< strain increment xy 
-          real(kind=WP), dimension(nel), intent(in) :: depsyz !< strain increment yz 
-          real(kind=WP), dimension(nel), intent(in) :: depszx !< strain increment zx 
-          real(kind=WP), dimension(nel), intent(in) :: sigoxx !< initial stress xx 
+          real(kind=WP), dimension(nel), intent(in) :: depszz !< strain increment zz
+          real(kind=WP), dimension(nel), intent(in) :: depsxy !< strain increment xy
+          real(kind=WP), dimension(nel), intent(in) :: depsyz !< strain increment yz
+          real(kind=WP), dimension(nel), intent(in) :: depszx !< strain increment zx
+          real(kind=WP), dimension(nel), intent(in) :: sigoxx !< initial stress xx
           real(kind=WP), dimension(nel), intent(in) :: sigoyy !< initial stress yy
-          real(kind=WP), dimension(nel), intent(in) :: sigozz !< initial stress zz 
-          real(kind=WP), dimension(nel), intent(in) :: sigoxy !< initial stress xy 
-          real(kind=WP), dimension(nel), intent(in) :: sigoyz !< initial stress yz 
-          real(kind=WP), dimension(nel), intent(in) :: sigozx !< initial stress zx 
-          real(kind=WP), dimension(nel), intent(out) :: signxx !< new stress xx 
+          real(kind=WP), dimension(nel), intent(in) :: sigozz !< initial stress zz
+          real(kind=WP), dimension(nel), intent(in) :: sigoxy !< initial stress xy
+          real(kind=WP), dimension(nel), intent(in) :: sigoyz !< initial stress yz
+          real(kind=WP), dimension(nel), intent(in) :: sigozx !< initial stress zx
+          real(kind=WP), dimension(nel), intent(out) :: signxx !< new stress xx
           real(kind=WP), dimension(nel), intent(out) :: signyy !< new stress yy
-          real(kind=WP), dimension(nel), intent(out) :: signzz !< new stress zz 
-          real(kind=WP), dimension(nel), intent(out) :: signxy !< new stress xy 
-          real(kind=WP), dimension(nel), intent(out) :: signyz !< new stress yz 
+          real(kind=WP), dimension(nel), intent(out) :: signzz !< new stress zz
+          real(kind=WP), dimension(nel), intent(out) :: signxy !< new stress xy
+          real(kind=WP), dimension(nel), intent(out) :: signyz !< new stress yz
           real(kind=WP), dimension(nel), intent(out) :: signzx !< new stress zx
           real(kind=WP), dimension(nel), intent(inout) :: ssp !< sound speed
-          real(kind=WP), dimension(nel), intent(inout) :: off !< element deletion flag
           real(kind=WP), dimension(nel), intent(inout) :: dpdm !< pressure total derivative
           real(kind=WP), dimension(nel), intent(in) :: pnew !< current pressure from mmain > eosmain
           integer ,intent(in) :: nvartmp                       !< number of temporary internal variables
@@ -111,7 +110,7 @@
           real(kind=WP) :: shear(nel) !< Shear modulus G
           real(kind=WP) :: slope(nel,1) !<required for table interpolation
           real(kind=WP) :: G2(nel)  !< G2 = 2*G
-          real(kind=WP) :: j2, vm(nel), g0, yield2, ratio  !< variables for yield function projection
+          real(kind=WP) :: j2, vm(nel), g0, ratio  !< variables for yield function projection
           real(kind=WP) :: dav
           logical, parameter :: opt_extrapolate = .false.
 
@@ -161,13 +160,13 @@
           !< Solid sound speed
           !========================================================================
           do i=1,nel
-            ssp(i) = sqrt(  (dpdm(i) + four_over_3*shear(i)) / rho0(i) )
+            ssp(i) = sqrt( (dpdm(i) + four_over_3*shear(i)) / rho0(i) )
           end do
 
           !========================================================================
           !< Recovering Yield function for each element : sigy=Y(P)
           !========================================================================
-          xvec1(1:nel,1) = pold(1:nel)
+          xvec1(1:nel,1) = pnew(1:nel)
           call table_mat_vinterp(matparam%table(2),nel,nel,vartmp(1,2),xvec1,sigy,slope,opt_extrapolate)
 
           !========================================================================
@@ -185,12 +184,12 @@
               dpla(i) = (one-ratio)*vm(i) / max(em20,three*shear(i))
               defp(i) = defp(i) + dpla(i)
             endif
-            signxx(i) = ratio*signxx(i)*off(i) - pnew(i)
-            signyy(i) = ratio*signyy(i)*off(i) - pnew(i)
-            signzz(i) = ratio*signzz(i)*off(i) - pnew(i)
-            signxy(i) = ratio*signxy(i)*off(i)
-            signyz(i) = ratio*signyz(i)*off(i)
-            signzx(i) = ratio*signzx(i)*off(i)
+            signxx(i) = ratio*signxx(i) - pnew(i)
+            signyy(i) = ratio*signyy(i) - pnew(i)
+            signzz(i) = ratio*signzz(i) - pnew(i)
+            signxy(i) = ratio*signxy(i)
+            signyz(i) = ratio*signyz(i)
+            signzx(i) = ratio*signzx(i)
           end do
 
           !========================================================================
